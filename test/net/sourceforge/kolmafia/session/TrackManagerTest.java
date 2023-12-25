@@ -413,7 +413,189 @@ class TrackManagerTest {
 
     @Nested
     class Legacy {
-      // TODO
+      @Test
+      void olfactedMonster() {
+        var cleanups =
+            new Cleanups(withProperty("banishedMonsters"), withProperty("olfactedMonster"));
+
+        try (cleanups) {
+          TrackManager.trackMonster(SPOOKY_MUMMY, Tracker.OLFACTION);
+
+          assertTrue(isTracked("spooky mummy"));
+          assertThat("olfactedMonster", isSetTo("spooky mummy"));
+        }
+      }
+
+      @Test
+      void nosyNoseMonster() {
+        var cleanups =
+            new Cleanups(
+                withProperty("banishedMonsters"), withNosyNose(), withProperty("nosyNoseMonster"));
+
+        try (cleanups) {
+          TrackManager.trackMonster(SPOOKY_MUMMY, Tracker.NOSY_NOSE);
+
+          assertTrue(isTracked("spooky mummy"));
+          assertThat("nosyNoseMonster", isSetTo("spooky mummy"));
+        }
+      }
+
+      @Test
+      void gallapagosMonster() {
+        var cleanups =
+            new Cleanups(withProperty("banishedMonsters"), withProperty("_gallapagosMonster"));
+
+        try (cleanups) {
+          TrackManager.trackMonster(SPOOKY_MUMMY, Tracker.GALLAPAGOS);
+
+          assertTrue(isTracked("spooky mummy"));
+          assertThat("_gallapagosMonster", isSetTo("spooky mummy"));
+        }
+      }
+
+      @Test
+      void latteMonster() {
+        var cleanups =
+            new Cleanups(withProperty("banishedMonsters"), withProperty("_latteMonster"));
+
+        try (cleanups) {
+          TrackManager.trackMonster(SPOOKY_MUMMY, Tracker.LATTE);
+
+          assertTrue(isTracked("spooky mummy"));
+          assertThat("_latteMonster", isSetTo("spooky mummy"));
+        }
+      }
+
+      @Test
+      void superficiallyInterestedMonster() {
+        var cleanups =
+            new Cleanups(
+                withProperty("banishedMonsters"), withProperty("superficiallyInterestedMonster"));
+
+        try (cleanups) {
+          TrackManager.trackMonster(SPOOKY_MUMMY, Tracker.SUPERFICIAL);
+
+          assertTrue(isTracked("spooky mummy"));
+          assertThat("superficiallyInterestedMonster", isSetTo("spooky mummy"));
+        }
+      }
+
+      @Test
+      void jiggleCreamedMonster() {
+        var cleanups =
+            new Cleanups(withProperty("banishedMonsters"), withProperty("_jiggleCreamedMonster"));
+
+        try (cleanups) {
+          TrackManager.trackMonster(SPOOKY_MUMMY, Tracker.CREAM_JIGGLE);
+
+          assertTrue(isTracked("spooky mummy"));
+          assertThat("_jiggleCreamedMonster", isSetTo("spooky mummy"));
+        }
+      }
+
+      @Test
+      void makeFriendsMonster() {
+        var cleanups =
+            new Cleanups(withProperty("banishedMonsters"), withProperty("makeFriendsMonster"));
+
+        try (cleanups) {
+          TrackManager.trackMonster(SPOOKY_MUMMY, Tracker.MAKE_FRIENDS);
+
+          assertTrue(isTracked("spooky mummy"));
+          assertThat("makeFriendsMonster", isSetTo("spooky mummy"));
+        }
+      }
+
+      @Test
+      void stenchCursedMonster() {
+        var cleanups =
+            new Cleanups(withProperty("banishedMonsters"), withProperty("stenchCursedMonster"));
+
+        try (cleanups) {
+          TrackManager.trackMonster(SPOOKY_MUMMY, Tracker.CURSE_OF_STENCH);
+
+          assertTrue(isTracked("spooky mummy"));
+          assertThat("stenchCursedMonster", isSetTo("spooky mummy"));
+        }
+      }
+
+      @Test
+      void longConMonster() {
+        var cleanups =
+            new Cleanups(withProperty("banishedMonsters"), withProperty("longConMonster"));
+
+        try (cleanups) {
+          TrackManager.trackMonster(SPOOKY_MUMMY, Tracker.LONG_CON);
+
+          assertTrue(isTracked("spooky mummy"));
+          assertThat("longConMonster", isSetTo("spooky mummy"));
+        }
+      }
+
+      @Test
+      void motifMonster() {
+        var cleanups = new Cleanups(withProperty("banishedMonsters"), withProperty("motifMonster"));
+
+        try (cleanups) {
+          TrackManager.trackMonster(SPOOKY_MUMMY, Tracker.MOTIF);
+
+          assertTrue(isTracked("spooky mummy"));
+          assertThat("motifMonster", isSetTo("spooky mummy"));
+        }
+      }
+
+      @Test
+      void monkeyPointMonster() {
+        var cleanups =
+            new Cleanups(withProperty("banishedMonsters"), withProperty("monkeyPointMonster"));
+
+        try (cleanups) {
+          TrackManager.trackMonster(SPOOKY_MUMMY, Tracker.MONKEY_POINT);
+
+          assertTrue(isTracked("spooky mummy"));
+          assertThat("monkeyPointMonster", isSetTo("spooky mummy"));
+        }
+      }
+
+      @Test
+      void prankCardMonster() {
+        var cleanups =
+            new Cleanups(withProperty("banishedMonsters"), withProperty("_prankCardMonster"));
+
+        try (cleanups) {
+          TrackManager.trackMonster(SPOOKY_MUMMY, Tracker.PRANK_CARD);
+
+          assertTrue(isTracked("spooky mummy"));
+          assertThat("_prankCardMonster", isSetTo("spooky mummy"));
+        }
+      }
+
+      @Test
+      void trickCoinMonster() {
+        var cleanups =
+            new Cleanups(withProperty("banishedMonsters"), withProperty("_trickCoinMonster"));
+
+        try (cleanups) {
+          TrackManager.trackMonster(SPOOKY_MUMMY, Tracker.TRICK_COIN);
+
+          assertTrue(isTracked("spooky mummy"));
+          assertThat("_trickCoinMonster", isSetTo("spooky mummy"));
+        }
+      }
+
+      @Test
+      void redSnapperPhylum() {
+        var cleanups =
+            new Cleanups(
+                withProperty("banishedPhyla"), withSnapper(), withProperty("redSnapperPhylum"));
+
+        try (cleanups) {
+          TrackManager.trackMonster(SPOOKY_MUMMY, Tracker.RED_SNAPPER);
+
+          assertTrue(isTracked("spooky mummy"));
+          assertThat("redSnapperPhylum", isSetTo("undead"));
+        }
+      }
     }
   }
 }
