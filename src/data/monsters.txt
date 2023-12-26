@@ -1271,6 +1271,7 @@ Source Agent	1945	sourceagent.gif	NOWISH Atk: [30+30*pref(sourceAgentsDefeated)+
 One Thousand Source Agents	1944	sourceagents.gif	NOCOPY Atk: 500 Def: 500 HP: 700 Init: -10000 P: construct EA: cold EA: hot EA: sleaze EA: spooky EA: stench Article: a
 
 # License to Adventure (May 2017)
+Blofeld	2027	bond_villain5.gif	NOCOPY NOMANUEL Atk: 125 Def: 10 HP: 7 Init: 0 P: dude
 "Blofeld"	2028	bond_villain5.gif	NOCOPY Atk: 100 Def: 100 HP: 100 Init: 10 P: dude
 Villainous Minion	2024	bond_minion1.gif,bond_minion2.gif,bond_minion3.gif,bond_minion4.gif	NOWISH Scale: -2 Cap: ? Floor: ? Init: 50 P: dude Article: A
 Villainous Henchperson	2025	bond_sidekick1.gif,bond_sidekick2.gif,bond_sidekick3.gif,bond_sidekick4.gif,bond_sidekick5.gif,bond_sidekick6.gif,bond_sidekick7.gif,bond_sidekick8.gif,bond_sidekick9.gif	NOCOPY Scale: 10 Cap: ? Floor: ? Init: -10000 P: dude Article: The
@@ -2421,6 +2422,14 @@ Sleepy, the Reindeer	325	reindeer.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast
 Sneezy, the Reindeer	330	reindeer.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast
 Zeppo, the Reindeer	331	reindeer.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast
 
+# April Fools Day (April 2006)
+fake Baiowulf	343	baiowulf.gif	NOCOPY NOMANUEL Atk: 15 Def: 13 HP: 20 Init: 10000 P: dude Manuel: "Baiowulf"
+fake infinite meat bug	344	meatbug.gif	NOCOPY NOMANUEL Atk: 45 Def: 40 HP: 30 Init: 10000 Meat: 10000 P: bug Manuel: "infinite meat bug"
+fake Hypnotist of Hey Deze	345	hypnotist.gif	NOCOPY NOMANUEL Atk: 85 Def: 115 HP: 85 Init: 10000 P: dude Manuel: "Hypnotist of Hey Deze"
+fake crazy bastard	346	bastard.gif	NOCOPY NOMANUEL Atk: 20 Def: 18 HP: 25 P: dude Manuel: "crazy bastard"
+fake hockey elemental	347	hockeyelem.gif	NOCOPY NOMANUEL Atk: 55 Def: 49 HP: 80 Init: 100 P: elemental Manuel: "hockey elemental"
+fake Count Bakula	349	bakula.gif	NOCOPY NOMANUEL Atk: 80 Def: 72 HP: 80 Init: 10000 P: dude Manuel: "Count Bakula"
+
 # The Grim Grimacite Site (June 2006)
 Mob Penguin Smasher	600	pengsmasher.gif	NOCOPY NOMANUEL P: penguin	chunk of depleted Grimacite (0)	kneecapping stick (0)	penguin skin (0)
 Mob Penguin Smith	599	hazmatpeng.gif	NOCOPY NOMANUEL P: penguin EA: hot	chunk of depleted Grimacite (0)	iron pasta spoon (0)	scroll of pasta summoning (0)
@@ -2486,6 +2495,7 @@ mutant cookie-baking elf	749	elfblob.gif	Scale: 6 Floor: ? Init: 75 P: elf EA: h
 mutant doll-dressing elf	748	elflimbs.gif	Scale: 6 Floor: ? Init: 75 P: elf Article: a	cheap elven gloves (3)
 mutant gift-wrapping elf	747	elfclaw.gif	Scale: 6 Floor: ? Init: 75 P: elf Article: a	elven socks (3)
 mutant whistle-carving elf	750	elfhulk.gif	Scale: 7 Floor: ? Init: 100 P: elf Article: a	elven <i>limbos</i> gingerbread (10)	elven whittling knife (c1)
+The Crimbomination	760	crimbomination.gif	NOCOPY NOMANUEL Atk: 530 Def: 450 HP: 1000000 Init: 0 Wiki: "The Crimbomination (2008)"	throbbing rage gland (c0)	pulsing flesh (c0)	rigid carapace (c0)	twitching claw (c0)	unstable DNA (c0)
 
 # Unexplained Tremors (August 2009)
 Crys-Rock	854	crys_rock.gif	NOCOPY NOMANUEL Atk: [min(300,MOX+10)] Def: [min(300,MUS+10)] HP: [min(240,HP*2/3)] Exp: [(min(300,STAT+10))/4] Init: 50 Phys: 50 Elem: 50 EA: cold EA: hot	crystallized memory (100)	control crystal (100)	floaty inverse geode (100)
@@ -2543,6 +2553,7 @@ five skeleton invaders	1005	bigskeleton5.gif	Atk: 150 Def: 135 HP: 150 Init: 50 
 ten skeletons	1006	skel10.gif	Atk: 300 Def: 270 HP: 300 Init: 50 P: undead	bag of bones (100)
 25 skeletons	1007	skel25.gif	NOCOPY NOMANUEL Atk: 700 Def: 630 HP: 700	2 bag of bones (m100)
 100 skeletons	1008	skel100.gif	NOCOPY NOMANUEL Atk: 1500 Def: 1350 HP: 1500	4-6 bag of bones (m100)
+Rene C. Corman (The Cannon Museum)	1009	reneccorman.gif	NOCOPY NOMANUEL Atk: 500 Def: 500 HP: 500 Manuel: "Rene C. Corman" Wiki: "Rene C. Corman (The Cannon Museum)"	Stabonic scroll (n100)
 
 # CRIMBCO cubicles (Crimbo 2010)
 disorganized files	1037	c10files.gif	NOCOPY NOMANUEL Scale: 0 Init: 100	10 CRIMBCO scrip (m100)
@@ -2560,6 +2571,10 @@ Best Game Ever	1046	c10bge.gif	NOCOPY NOMANUEL Scale: 0 Init: 100	BGE merchandis
 
 # CRIMBCO WC (Crimbo 2010)
 Elf Hobo	1050	elfhobo1.gif,elfhobo2.gif,elfhobo3.gif,elfhobo4.gif,elfhobo5.gif,elfhobo6.gif,elfhobo7.gif,elfhobo8.gif	Atk: 30 Def: 27 HP: 40 Init: 50 P: hobo EA: hot EA: sleaze Manuel: "Hobelf" Wiki: "Hobelf (WC)"	bindlestocking (0)	bottle of rum (15)	bottle of tequila (15)	bottle of whiskey (15)	candy cane (15)	Crimbo candied pecan (15)	Crimbo fudge (15)	Crimbo peppermint bark (15)	eggnog (15)	Mad Train wine (15)	sleeping stocking (0)	Tales of a Kansas Toymaker (0)	The Joy of Wassailing (0)	white lightning (15)	Wint-O-Fresh mint (15)
+
+# Mr. Mination's Office (Crimbo 2010)
+Mr. Mination	1051	mrmination.gif	NOCOPY NOMANUEL Atk: 50 Def: 50 HP: 250 Init: 100 EA: hot	jingle bell (n100)
+Uncle Crimbo (2010)	1052	unclehobo.gif	NOCOPY NOMANUEL Atk: 50 Def: 50 HP: 250 Init: 100 EA: sleaze Manuel: "Uncle Crimbo" Wiki: "Uncle Crimbo (2010)"	coal paperweight (n100)
 
 # Elf Alley (Crimbo 2010)
 Hobelf	1031	elfhobo1.gif,elfhobo2.gif,elfhobo3.gif,elfhobo4.gif,elfhobo5.gif,elfhobo6.gif,elfhobo7.gif,elfhobo8.gif	NOCOPY Atk: 350 Def: 315 HP: 500 Init: 100 P: hobo EA: hot EA: sleaze Wiki: "Hobelf (Elf Alley)"	bindlestocking (0)	hobo nickel (c15)	sleeping stocking (0)	Tales of a Kansas Toymaker (0)	The Joy of Wassailing (0)
@@ -2592,6 +2607,9 @@ sexy sorority skeleton	1103	sororeton1.gif,sororeton2.gif,sororeton3.gif	NOWISH 
 sexy sorority vampire	1104	sororpire1.gif,sororpire2.gif,sororpire3.gif	NOWISH Atk: 50 Def: 45 HP: 100 Init: 50 P: undead	Haunted Sorority House staff guide (1)	bite-me-red lipstick (5)	Blood Light (c1)	Nightstalker perfume (c1)	Mesmereyes&trade; contact lenses (c1)
 sexy sorority werewolf	1106	sororwolf1.gif,sororwolf2.gif,sororwolf3.gif	NOWISH Atk: 50 Def: 45 HP: 100 Init: 50 P: dude Phys: 50 Elem: 50 EA: spooky	Haunted Sorority House staff guide (1)	whisker pencil (5)	Silver Bullet beer (c1)	drum of pomade (c1)	cursed scrunchie (c1)
 sexy sorority zombie	1105	sororbie1.gif,sororbie2.gif,sororbie3.gif	NOWISH Atk: 50 Def: 45 HP: 100 Init: 50 P: undead EA: spooky	Haunted Sorority House staff guide (1)	necrotizing body spray (5)	Bartles and BRAAAINS wine cooler (c1)	sorority brain (c1)	BRAINS shorts (c1)
+The Necbromancer (1)	1107	necbromancer.gif	NOCOPY NOMANUEL Atk: 350 Def: 350 HP: 5000 EA: cold EA: spooky Manuel: "The Necbromancer" Wiki: "The Necbromancer (1)"
+The Necbromancer's horde	1108	fratskeletons.gif	NOCOPY NOMANUEL Atk: 1000 Def: 1000 HP: 100000 EA: sleaze EA: spooky Group: 3
+The Necbromancer (2)	1109	necbromancer2.gif	NOCOPY NOMANUEL Atk: 1000 Def: 1000 HP: 1020 EA: sleaze EA: spooky Manuel: "The Necbromancer" Wiki: "The Necbromancer (2)"	The Cooler Out of Space (m100)	The Necbromancer's Hat (c0)	The Necbromancer's Shorts (c0)	The Necbromancer's Stein (c0)	The Necbromancer's Wizard Staff (f35)	The Necbronomicon (c0)
 
 # Lollipop Forest (Crimbo 2011)
 lollicat	1112	lollicat.gif	Atk: 20 Def: 18 HP: 30 Init: 50 P: beast Article: a	lollipop stick (10)	pearidot (c1)
@@ -2601,6 +2619,7 @@ lolliphaunt	1114	lolliphaunt.gif	Atk: 40 Def: 36 HP: 50 Init: 50 P: beast Articl
 lolrus	1115	lollirus2.gif	Atk: 60 Def: 54 HP: 70 Init: 50 P: beast EA: spooky Article: a	lollipop stick (20)	lollipop stick (20)	strawberyl (c1)
 trollipop	1121	trollipop.gif	NOCOPY NOMANUEL Atk: 90 Def: 90 HP: 150 Init: 50	grape troll doll (c100)	cinnamon troll doll (c100)	blue raspberry troll doll (c100)
 The Colollilossus	1147	colollilossus.gif	NOCOPY NOMANUEL Atk: 400 Def: 400 HP: 600 Init: 0	all-year sucker (100)
+Big Candy	1148	biggus_candius.gif	NOCOPY NOMANUEL Atk: 400 Def: 400 HP: 1000 Init: 50 EA: sleaze	Big Candy's tophat (n100)
 
 # Fudge Mountain (Crimbo 2011)
 fudge monkey	1117	fudgemonkey2.gif	Atk: 80 Def: 72 HP: 100 Init: 50 P: beast Article: a	5-6 fudgecule (m100)
@@ -2620,6 +2639,7 @@ brushfire	1208	brushfire.gif	NOCOPY NOMANUEL EA: hot
 blazing bat	1210	firebat.gif	Atk: 200 Def: 180 HP: 500 Init: 50 P: beast Phys: 100 E: hot Article: a	fiery wing (5)
 snakefire in the grassfire	1209	firesnake.gif	NOCOPY NOMANUEL P: beast SNAKE EA: hot	smoking grass (10)	hot egg (c0.1)
 Servant of Lord Flameface	1211	fireservant1.gif,fireservant2.gif,fireservant3.gif,fireservant4.gif,fireservant5.gif	Atk: 100 Def: 90 HP: 150 Init: 50 P: demon Phys: 100 E: hot Wiki: "Servant of Lord Flameface (monster)"	molten brick (c5)
+Lord Flameface	1212	lordflameface.gif	NOCOPY NOMANUEL Atk: 250 Def: 75 HP: 2000 Init: 0 P: goblin Phys: 100 E: hot	blank note (n100)	3 forbidden sausage (m100)	Lord Flameface's cloak (n100)
 
 # Crimbo Town Toy Factory (Crimbo 2012)
 sign-twirling Crimbo elf	1261	tacoelf_sign.gif	Scale: 0 Cap: 150 Init: -10000 P: elf Article: a	Taco Dan's Taco Stand Chillacious Churro (0)	Taco Dan's Taco Stand Flier (0)
@@ -2667,6 +2687,7 @@ Chef Boy, R&amp;D	1466	chefboy.gif	NOCOPY NOMANUEL WANDERER Scale: 5 Init: -1000
 Warbear Foot Soldier	1459	warbear11.gif,warbear12.gif,warbear13.gif	NOWISH Scale: -3 Floor: 20 Init: -10000 P: beast EA: supercold	warbear whosit (n100)
 Warbear Officer	1467	warbear21.gif,warbear22.gif,warbear23.gif	NOWISH Scale: ? Cap: ? Floor: ? Init: 50 P: beast EA: supercold	2 warbear whosit (m100)	warbear requisition box (f0)	warbear badge (f0)
 High-Ranking Warbear Officer	1468	warbear31.gif,warbear32.gif,warbear33.gif	NOWISH Scale: ? Cap: ? Floor: ? Init: 100 P: beast EA: supercold	3 warbear whosit (m100)	warbear officer requisition box (f0)
+Warbear General Björn Björnsonsvensentagdotterström	1469	warbearboss.gif	NOCOPY NOMANUEL Scale: ? Cap: ? Floor: ? Init: 500 P: beast	warbear requisition box (n100)	warbear requisition box (n100)	warbear requisition box (n100)	warbear requisition box (n100)	warbear officer requisition box (n100)	warbear officer requisition box (n100)
 
 # Halloween 2014
 giant pumpkin-head	1653	headpumpkin.gif	NOCOPY NOMANUEL Scale: 0 Cap: 1000 Floor: 5 Init: -10000 P: horror EA: spooky	Big Punk (n100)	mimeplasm (c100)
