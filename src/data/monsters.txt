@@ -1270,7 +1270,7 @@ Source Agent	1945	sourceagent.gif	NOWISH Atk: [30+30*pref(sourceAgentsDefeated)+
 One Thousand Source Agents	1944	sourceagents.gif	NOCOPY Atk: 500 Def: 500 HP: 700 Init: -10000 P: construct EA: cold EA: hot EA: sleaze EA: spooky EA: stench Article: a
 
 # License to Adventure (May 2017)
-Blofeld	2027	bond_villain5.gif	NOCOPY NOMANUEL Atk: 125 Def: 10 HP: 7 Init: 0 P: dude
+Blofeld	2027	bond_villain5.gif	NOCOPY NOMANUEL Atk: 125 Def: 10 HP: 7 Init: 0 P: dude	License to Chill (n100)
 "Blofeld"	2028	bond_villain5.gif	NOCOPY Atk: 100 Def: 100 HP: 100 Init: 10 P: dude
 Villainous Minion	2024	bond_minion1.gif,bond_minion2.gif,bond_minion3.gif,bond_minion4.gif	NOWISH Scale: -2 Cap: ? Floor: ? Init: 50 P: dude Article: A
 Villainous Henchperson	2025	bond_sidekick1.gif,bond_sidekick2.gif,bond_sidekick3.gif,bond_sidekick4.gif,bond_sidekick5.gif,bond_sidekick6.gif,bond_sidekick7.gif,bond_sidekick8.gif,bond_sidekick9.gif	NOCOPY Scale: 10 Cap: ? Floor: ? Init: -10000 P: dude Article: The
