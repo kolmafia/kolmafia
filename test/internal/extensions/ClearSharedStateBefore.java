@@ -74,7 +74,7 @@ public class ClearSharedStateBefore implements BeforeAllCallback {
     File root = KoLConstants.ROOT_LOCATION;
     String[] contents = root.list();
     for (String content : contents) {
-      if (!keepersList.contains(content)) {
+      if (!keepersList.contains(content) && !(content.toLowerCase().startsWith("debug"))) {
         Path pathToBeDeleted = new File(root, content).toPath();
         try {
           Files.walk(pathToBeDeleted)

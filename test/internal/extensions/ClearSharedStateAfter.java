@@ -36,7 +36,7 @@ public class ClearSharedStateAfter implements AfterAllCallback {
     String[] contents = root.list();
     if (contents != null) {
       for (String content : contents) {
-        if (!keepersList.contains(content)) {
+        if (!keepersList.contains(content) && !(content.toLowerCase().startsWith("debug"))) {
           Path pathToBeDeleted = new File(root, content).toPath();
           try {
             Files.walk(pathToBeDeleted)
