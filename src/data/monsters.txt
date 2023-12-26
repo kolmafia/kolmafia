@@ -702,9 +702,9 @@ The Unknown Pastamancer	1777	unknownghost.gif	BOSS NOCOPY Atk: 25 Def: 25 HP: 15
 The Unknown Sauceror	1778	unknownghost.gif	BOSS NOCOPY Atk: 25 Def: 25 HP: 15 Init: -10000 P: undead GHOST ED: spooky EA: hot	5-Alarm Saucepan (100)
 The Unknown Disco Bandit	1779	unknownghost.gif	BOSS NOCOPY Atk: 25 Def: 25 HP: 15 Init: -10000 P: undead GHOST ED: spooky	Disco Banjo (100)
 The Unknown Accordion Thief	1780	unknownghost.gif	BOSS NOCOPY Atk: 25 Def: 25 HP: 15 Init: -10000 P: undead GHOST ED: spooky	Rock and Roll Legend (100)
-Thinknerd Moving Robot	1537	tnbot1.gif,tnbot2.gif,tnbot3.gif	Scale: 1 Cap: 69 Floor: 4 Init: 50 P: construct Article: a	robot grease (15)	returned Thinknerd package (c0)
-Thinknerd Packing Robot	1538	tnbot1.gif,tnbot2.gif,tnbot3.gif	Scale: 1 Cap: 69 Floor: 4 Init: -10000 P: construct Article: a	robot grease (15)	returned Thinknerd package (c0)
-Thinknerd Sorting Robot	1536	tnbot1.gif,tnbot2.gif,tnbot3.gif	Scale: 1 Cap: 69 Floor: 4 Init: -10000 P: construct EA: sleaze Article: a	robot grease (15)	returned Thinknerd package (c0)
+Thinknerd Moving Robot	1537	tnbot2.gif	Scale: 1 Cap: 69 Floor: 4 Init: 50 P: construct Article: a	robot grease (15)	returned Thinknerd package (c0)
+Thinknerd Packing Robot	1538	tnbot3.gif	Scale: 1 Cap: 69 Floor: 4 Init: -10000 P: construct Article: a	robot grease (15)	returned Thinknerd package (c0)
+Thinknerd Sorting Robot	1536	tnbot1.gif	Scale: 1 Cap: 69 Floor: 4 Init: -10000 P: construct EA: sleaze Article: a	robot grease (15)	returned Thinknerd package (c0)
 tiny barrel mimic	177	mimic1.gif	Atk: 15 Def: 13 HP: 25 Init: 90 P: weird Article: a
 tipsy pirate	618	tipsypirate.gif	Atk: 80 Def: 72 HP: 70 Init: 50 Meat: 45 P: pirate Article: a	bottle of rum (20)	bottle of rum (15)	cocktail napkin (10)	rum barrel charrrm (5)	tip jar (5)
 toilet papergeist	390	tpgeist.gif	Atk: 55 Def: 47 HP: 60 Init: -10000 P: undead ED: spooky Article: a	cardboard wakizashi (5)	roll of toilet paper (50)
