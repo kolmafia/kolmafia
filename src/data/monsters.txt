@@ -2263,7 +2263,7 @@ Government agent	1585	gov_agent.gif	Scale: -5 Init: 25 Meat: 75 P: dude Article:
 perimeter defense sphere	1586	defense_sphere.gif	Scale: -3 Init: 100 P: construct Article: a	space junk (10)	space junk (c15)
 illegal alien	1587	illegal_alien.gif	Scale: -3 Init: 75 Meat: 65 P: humanoid Article: an	alien drugs (15)	weird space book (c25)	alien hologram projector (c0)
 space beast	1588	spacebeast1.gif,spacebeast2.gif,spacebeast3.gif	NOWISH Scale: 5 Init: 50 Meat: 200 P: beast Article: a	space beast fur (100)
-space beast matriarch	1589	spacebeast3.gif	BOSS NOCOPY NOMANUEL Scale: 15 Init: 0 P: beast	twitching space egg (n100)
+space beast matriarch	1589	spaceboss.gif	BOSS NOCOPY NOMANUEL Scale: 15 Init: 0 P: beast	twitching space egg (n100)
 
 # Twitch 2 - The Cave Before Time (June 2014)
 droll	1594	droll.gif	Scale: 5 Cap: 500 Floor: 5 Init: -10000 P: humanoid Article: a	D roll (20)	droll monocle (2)
