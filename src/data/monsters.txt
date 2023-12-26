@@ -2422,12 +2422,12 @@ Sneezy, the Reindeer	330	reindeer.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast
 Zeppo, the Reindeer	331	reindeer.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: beast
 
 # April Fools Day (April 2006)
-fake Baiowulf	343	baiowulf.gif	NOCOPY NOMANUEL Atk: 15 Def: 13 HP: 20 Init: 10000 P: dude Manuel: "Baiowulf"
-fake infinite meat bug	344	meatbug.gif	NOCOPY NOMANUEL Atk: 45 Def: 40 HP: 30 Init: 10000 Meat: 10000 P: bug Manuel: "infinite meat bug"
-fake Hypnotist of Hey Deze	345	hypnotist.gif	NOCOPY NOMANUEL Atk: 85 Def: 115 HP: 85 Init: 10000 P: dude Manuel: "Hypnotist of Hey Deze"
-fake crazy bastard	346	bastard.gif	NOCOPY NOMANUEL Atk: 20 Def: 18 HP: 25 P: dude Manuel: "crazy bastard"
-fake hockey elemental	347	hockeyelem.gif	NOCOPY NOMANUEL Atk: 55 Def: 49 HP: 80 Init: 100 P: elemental Manuel: "hockey elemental"
-fake Count Bakula	349	bakula.gif	NOCOPY NOMANUEL Atk: 80 Def: 72 HP: 80 Init: 10000 P: dude Manuel: "Count Bakula"
+fake Baiowulf	343	baiowulf.gif	NOCOPY Atk: 15 Def: 13 HP: 20 Init: 10000 P: dude
+fake infinite meat bug	344	meatbug.gif	NOCOPY Atk: 45 Def: 40 HP: 30 Init: 10000 Meat: 10000 P: bug
+fake Hypnotist of Hey Deze	345	hypnotist.gif	NOCOPY Atk: 85 Def: 115 HP: 85 Init: 10000 P: dude
+fake crazy bastard	346	bastard.gif	NOCOPY Atk: 20 Def: 18 HP: 25 P: dude
+fake hockey elemental	347	hockeyelem.gif	NOCOPY Atk: 55 Def: 49 HP: 80 Init: 100 P: elemental
+fake Count Bakula	349	bakula.gif	NOCOPY Atk: 80 Def: 72 HP: 80 Init: 10000 P: dude
 
 # The Grim Grimacite Site (June 2006)
 Mob Penguin Smasher	600	pengsmasher.gif	NOCOPY NOMANUEL P: penguin	chunk of depleted Grimacite (0)	kneecapping stick (0)	penguin skin (0)
