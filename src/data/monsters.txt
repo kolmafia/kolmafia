@@ -2573,7 +2573,7 @@ Elf Hobo	1050	elfhobo1.gif,elfhobo2.gif,elfhobo3.gif,elfhobo4.gif,elfhobo5.gif,e
 
 # Mr. Mination's Office (Crimbo 2010)
 Mr. Mination	1051	mrmination.gif	NOCOPY NOMANUEL Atk: 50 Def: 50 HP: 250 Init: 100 EA: hot	jingle bell (n100)
-Uncle Crimbo (2010)	1052	unclehobo.gif	NOCOPY NOMANUEL Atk: 50 Def: 50 HP: 250 Init: 100 EA: sleaze Manuel: "Uncle Crimbo" Wiki: "Uncle Crimbo (2010)"	coal paperweight (n100)
+Uncle Crimbo	1052	unclehobo.gif	NOCOPY NOMANUEL Atk: 50 Def: 50 HP: 250 Init: 100 EA: sleaze Wiki: "Uncle Crimbo (2010)"	coal paperweight (n100)
 
 # Elf Alley (Crimbo 2010)
 Hobelf	1031	elfhobo1.gif,elfhobo2.gif,elfhobo3.gif,elfhobo4.gif,elfhobo5.gif,elfhobo6.gif,elfhobo7.gif,elfhobo8.gif	NOCOPY Atk: 350 Def: 315 HP: 500 Init: 100 P: hobo EA: hot EA: sleaze Wiki: "Hobelf (Elf Alley)"	bindlestocking (0)	hobo nickel (c15)	sleeping stocking (0)	Tales of a Kansas Toymaker (0)	The Joy of Wassailing (0)
