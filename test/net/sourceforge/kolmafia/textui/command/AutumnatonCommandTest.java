@@ -6,13 +6,17 @@ import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withNextResponse;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withTurnsPlayed;
+import static internal.helpers.Utilities.verboseDelete;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.not;
 
 import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
+import java.io.File;
+import java.util.Date;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ChoiceManager;
@@ -71,6 +75,14 @@ public class AutumnatonCommandTest extends AbstractCommandTestBase {
 
     @Test
     void noLocation() {
+      /*
+      This test is expected to generate a debug log.  If the log exists when this test is started then the log
+      should be preserved because some other test generated it.  But otherwise this test should delete the log
+      after running.
+       */
+      String debugLogName = "DEBUG_" + KoLConstants.DAILY_FORMAT.format(new Date()) + ".txt";
+      File debugFile = new File(KoLConstants.ROOT_LOCATION, debugLogName);
+      boolean debugFileExistsAtStart = debugFile.exists();
       var cleanups =
           new Cleanups(
               hasAutumnaton(),
@@ -81,10 +93,21 @@ public class AutumnatonCommandTest extends AbstractCommandTestBase {
         String output = execute("");
         assertThat(output, containsString("Your autumn-aton is ready to be sent somewhere."));
       }
+      if (!debugFileExistsAtStart) {
+        verboseDelete(debugFile);
+      }
     }
 
     @Test
     void noLocationUpgradesAvailable() {
+      /*
+      This test is expected to generate a debug log.  If the log exists when this test is started then the log
+      should be preserved because some other test generated it.  But otherwise this test should delete the log
+      after running.
+       */
+      String debugLogName = "DEBUG_" + KoLConstants.DAILY_FORMAT.format(new Date()) + ".txt";
+      File debugFile = new File(KoLConstants.ROOT_LOCATION, debugLogName);
+      boolean debugFileExistsAtStart = debugFile.exists();
       var cleanups =
           new Cleanups(
               hasAutumnaton(),
@@ -97,6 +120,9 @@ public class AutumnatonCommandTest extends AbstractCommandTestBase {
         String output = execute("");
         assertThat(output, containsString("Your autumn-aton is ready to be sent somewhere."));
         assertThat(output, containsString("Your autumn-aton has upgrades available: dual exhaust"));
+      }
+      if (!debugFileExistsAtStart) {
+        verboseDelete(debugFile);
       }
     }
 
