@@ -98,6 +98,8 @@ import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.RufusManager;
 import net.sourceforge.kolmafia.session.SpadingManager;
 import net.sourceforge.kolmafia.session.StillSuitManager;
+import net.sourceforge.kolmafia.session.TrackManager;
+import net.sourceforge.kolmafia.session.TrackManager.Tracker;
 import net.sourceforge.kolmafia.session.TrainsetManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.UnusualConstructManager;
@@ -9124,7 +9126,7 @@ public class FightRequest extends GenericRequest {
           // Your mind fills with it essence. You... know it. With a capital K.
           if (responseText.contains("Your mind fills") || jiggleSuccess) {
             Preferences.increment("_jiggleCream", 1);
-            Preferences.setString("_jiggleCreamedMonster", monsterName);
+            TrackManager.trackCurrentMonster(Tracker.CREAM_JIGGLE);
           }
           break;
       }
@@ -9338,19 +9340,19 @@ public class FightRequest extends GenericRequest {
 
       case SkillPool.GET_A_GOOD_WHIFF:
         if (responseText.contains("floats over your opponent") || familiarSkillSuccess) {
-          Preferences.setString("nosyNoseMonster", monsterName);
+          TrackManager.trackMonster(monster, Tracker.NOSY_NOSE);
         }
         break;
 
       case SkillPool.MATING_CALL:
         if (responseText.contains("bellow the eerie mating call") || skillSuccess) {
-          Preferences.setString("_gallapagosMonster", monsterName);
+          TrackManager.trackMonster(monster, Tracker.GALLAPAGOS);
         }
         break;
 
       case SkillPool.MAKE_FRIENDS:
         if (responseText.contains("you become fast friends") || skillSuccess) {
-          Preferences.setString("makeFriendsMonster", monsterName);
+          TrackManager.trackMonster(monster, Tracker.MAKE_FRIENDS);
         }
         break;
 
@@ -9379,7 +9381,7 @@ public class FightRequest extends GenericRequest {
       case SkillPool.OLFACTION:
         if (responseText.contains("fill your entire being") || skillSuccess) {
           skillSuccess = true;
-          Preferences.setString("olfactedMonster", monsterName);
+          TrackManager.trackMonster(monster, Tracker.OLFACTION);
           Preferences.setString("autoOlfact", "");
           singleCastsThisFight.add(skillId);
         }
@@ -9387,21 +9389,28 @@ public class FightRequest extends GenericRequest {
 
       case SkillPool.LONG_CON:
         if (responseText.contains("memorize some important details") || skillSuccess) {
-          Preferences.setString("longConMonster", monsterName);
+          TrackManager.trackMonster(monster, Tracker.LONG_CON);
+          skillSuccess = true;
+        }
+        break;
+
+      case SkillPool.PERCEIVE_SOUL:
+        if (responseText.contains("It would almost be intimate")) {
+          TrackManager.trackMonster(monster, Tracker.PERCEIVE_SOUL);
           skillSuccess = true;
         }
         break;
 
       case SkillPool.MOTIF:
         if (responseText.contains("You whip out an instrument and play a quick motif")) {
-          Preferences.setString("motifMonster", monsterName);
+          TrackManager.trackMonster(monster, Tracker.MOTIF);
           skillSuccess = true;
         }
         break;
 
       case SkillPool.MONKEY_POINT:
         if (responseText.contains("Your monkey paw points at your opponent")) {
-          Preferences.setString("monkeyPointMonster", monsterName);
+          TrackManager.trackMonster(monster, Tracker.MONKEY_POINT);
           skillSuccess = true;
         }
         break;
@@ -9610,7 +9619,7 @@ public class FightRequest extends GenericRequest {
         if (responseText.contains("friends start following you") || skillSuccess) {
           TurnCounter.stopCounting("Latte Monster");
           TurnCounter.startCounting(30, "Latte Monster loc=*", "snout.gif");
-          Preferences.setString("_latteMonster", monsterName);
+          TrackManager.trackMonster(monster, Tracker.LATTE);
           skillSuccess = true;
         }
         break;
@@ -9721,7 +9730,7 @@ public class FightRequest extends GenericRequest {
 
       case SkillPool.CURSE_OF_STENCH:
         if (responseText.contains("cat peed in a box of rotten eggs") || skillSuccess) {
-          Preferences.setString("stenchCursedMonster", monsterName);
+          TrackManager.trackMonster(monster, Tracker.CURSE_OF_STENCH);
         }
         break;
 
@@ -10569,8 +10578,7 @@ public class FightRequest extends GenericRequest {
         break;
       case ItemPool.AFFIRMATION_SUPERFICIALLY_INTERESTED:
         if (responseText.contains("are feeling really, really interested") || itemSuccess) {
-          MonsterData monster = MonsterStatusTracker.getLastMonster();
-          Preferences.setString("superficiallyInterestedMonster", monster.getName());
+          TrackManager.trackCurrentMonster(Tracker.SUPERFICIAL);
           TurnCounter.stopCounting("Superficially Interested Monster");
           TurnCounter.startCounting(80, "Superficially Interested Monster loc=*", "snout.gif");
         }
@@ -10736,7 +10744,7 @@ public class FightRequest extends GenericRequest {
         if (responseText.contains("You hand the Crimbo card to the elf")) {
           TurnCounter.stopCounting("Prank Card Monster");
           TurnCounter.startCounting(100, "Prank Card Monster loc=*", "snout.gif");
-          Preferences.setString("_prankCardMonster", MonsterStatusTracker.getLastMonsterName());
+          TrackManager.trackCurrentMonster(Tracker.PRANK_CARD);
         }
         break;
 
@@ -10744,7 +10752,7 @@ public class FightRequest extends GenericRequest {
         if (responseText.contains("You show the coin to your opponent")) {
           TurnCounter.stopCounting("Trick Coin Monster");
           TurnCounter.startCounting(100, "Trick Coin Monster loc=*", "snout.gif");
-          Preferences.setString("_trickCoinMonster", MonsterStatusTracker.getLastMonsterName());
+          TrackManager.trackCurrentMonster(Tracker.TRICK_COIN);
         }
         break;
     }
@@ -11243,7 +11251,7 @@ public class FightRequest extends GenericRequest {
             item = ItemDatabase.getItemName(itemId);
             if (item != null) {
               if (item.equalsIgnoreCase("odor extractor")) {
-                Preferences.setString("olfactedMonster", monsterName);
+                TrackManager.trackMonster(monster, Tracker.OLFACTION);
                 Preferences.setString("autoOlfact", "");
               }
 

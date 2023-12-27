@@ -84,6 +84,7 @@ import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.session.LocketManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.StoreManager;
+import net.sourceforge.kolmafia.session.TrackManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.VioletFogManager;
 import net.sourceforge.kolmafia.session.VolcanoMazeManager;
@@ -2018,6 +2019,7 @@ public abstract class KoLCharacter {
     KoLCharacter.currentRun = currentRun;
     if (changed) {
       BanishManager.recalculate();
+      TrackManager.recalculate();
     }
   }
 
