@@ -1190,7 +1190,7 @@ rag-tag band of survivors	1225	hunter13.gif	NOCOPY WANDERER Atk: 169 Def: 171 HP
 The Free Man	1227	hunter15.gif	NOCOPY WANDERER Atk: 230 Def: 234 HP: 360 Init: 150 P: dude EA: hot	hunter brain (n100)
 Wesley J. "Wes" Campbell	1226	hunter14.gif	NOCOPY WANDERER Atk: 197 Def: 207 HP: 280 Init: 140 P: dude	hunter brain (n100)	good ash (c0)
 zombie-huntin' feller	1213	hunter1.gif	NOCOPY WANDERER Atk: 10 Def: 9 HP: 15 Init: 20 P: dude Article: a	hunter brain (n100)
-Rene C. Corman	1229	reneccorman.gif	NOCOPY Atk: 222 Def: 199 HP: 1000 Init: 200 P: dude Wiki: "Rene C. Corman (Zombie Slayer)"	Thwaitgold maggot statuette (n100)
+Rene C. Corman (Zombie Slayer)	1229	reneccorman.gif	NOCOPY Atk: 222 Def: 199 HP: 1000 Init: 200 P: dude Manuel: "Rene C. Corman" Wiki: "Rene C. Corman (Zombie Slayer)"	Thwaitgold maggot statuette (n100)
 
 # Avatar of Jarlsberg
 Clancy	1338	clancy.gif	NOCOPY Atk: 150 Def: 165 HP: 500 Init: 90 P: dude Phys: 25 Elem: 25 Wiki: "Clancy (monster)"
@@ -2552,7 +2552,7 @@ five skeleton invaders	1005	bigskeleton5.gif	Atk: 150 Def: 135 HP: 150 Init: 50 
 ten skeletons	1006	skel10.gif	Atk: 300 Def: 270 HP: 300 Init: 50 P: undead	bag of bones (100)
 25 skeletons	1007	skel25.gif	NOCOPY NOMANUEL Atk: 700 Def: 630 HP: 700	2 bag of bones (m100)
 100 skeletons	1008	skel100.gif	NOCOPY NOMANUEL Atk: 1500 Def: 1350 HP: 1500	4-6 bag of bones (m100)
-Rene C. Corman (The Cannon Museum)	1009	reneccorman.gif	NOCOPY NOMANUEL Atk: 500 Def: 500 HP: 500 Manuel: "Rene C. Corman" Wiki: "Rene C. Corman (The Cannon Museum)"	Stabonic scroll (n100)
+Rene C. Corman (Skeleton Invasion)	1009	reneccorman.gif	NOCOPY NOMANUEL Atk: 500 Def: 500 HP: 500 Manuel: "Rene C. Corman" Wiki: "Rene C. Corman (The Cannon Museum)"	Stabonic scroll (n100)
 
 # CRIMBCO cubicles (Crimbo 2010)
 disorganized files	1037	c10files.gif	NOCOPY NOMANUEL Scale: 0 Init: 100	10 CRIMBCO scrip (m100)
