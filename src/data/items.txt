@@ -11498,7 +11498,7 @@
 11470	flask of egggrog	536421114	flask.gif	drink	t	0	flasks of egggrog
 11471
 11472
-11473
+11473	pirate encryption key (complete)	789944018	piratekey.gif	usable		0	pirate encryption keys (complete)
 11474	yule grog	857711662	tankard.gif	drink, mix	t	0	tankards of yule grog
 11475	wet tack	458308953	wettack.gif	food	t	0	pieces of wet tack
 11476	whalecake	119486089	whalecake.gif	food	t,d	0
