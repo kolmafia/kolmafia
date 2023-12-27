@@ -2608,7 +2608,7 @@ sexy sorority werewolf	1106	sororwolf1.gif,sororwolf2.gif,sororwolf3.gif	NOWISH 
 sexy sorority zombie	1105	sororbie1.gif,sororbie2.gif,sororbie3.gif	NOWISH Atk: 50 Def: 45 HP: 100 Init: 50 P: undead EA: spooky	Haunted Sorority House staff guide (1)	necrotizing body spray (5)	Bartles and BRAAAINS wine cooler (c1)	sorority brain (c1)	BRAINS shorts (c1)
 The Necbromancer (1)	1107	necbromancer.gif	NOCOPY NOMANUEL Atk: 350 Def: 350 HP: 5000 EA: cold EA: spooky Manuel: "The Necbromancer" Wiki: "The Necbromancer (1)"
 The Necbromancer's horde	1108	fratskeletons.gif	NOCOPY NOMANUEL Atk: 1000 Def: 1000 HP: 100000 EA: sleaze EA: spooky Group: 3
-The Necbromancer (2)	1109	necbromancer2.gif	NOCOPY NOMANUEL Atk: 1000 Def: 1000 HP: 1020 EA: sleaze EA: spooky Manuel: "The Necbromancer" Wiki: "The Necbromancer (2)"	The Cooler Out of Space (m100)	The Necbromancer's Hat (c0)	The Necbromancer's Shorts (c0)	The Necbromancer's Stein (c0)	The Necbromancer's Wizard Staff (f35)	The Necbronomicon (c0)
+The Necbromancer (2)	1109	necbromancer2.gif	NOCOPY NOMANUEL Atk: 1000 Def: 1000 HP: 1020 EA: sleaze EA: spooky Manuel: "The Necbromancer" Wiki: "The Necbromancer (2)"	1-100 The Cooler Out of Space (m100)	The Necbromancer's Hat (c0)	The Necbromancer's Shorts (c0)	The Necbromancer's Stein (c0)	The Necbromancer's Wizard Staff (f35)	The Necbronomicon (c0)
 
 # Lollipop Forest (Crimbo 2011)
 lollicat	1112	lollicat.gif	Atk: 20 Def: 18 HP: 30 Init: 50 P: beast Article: a	lollipop stick (10)	pearidot (c1)
