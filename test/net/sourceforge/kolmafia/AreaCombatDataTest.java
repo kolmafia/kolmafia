@@ -1,11 +1,15 @@
 package net.sourceforge.kolmafia;
 
+import static internal.helpers.Player.withBanishedMonsters;
+import static internal.helpers.Player.withBanishedPhyla;
 import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withCurrentRun;
 import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withTrackedMonsters;
+import static internal.helpers.Player.withTrackedPhyla;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.aMapWithSize;
 import static org.hamcrest.Matchers.allOf;
@@ -32,7 +36,6 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.session.BanishManager;
 import net.sourceforge.kolmafia.session.CrystalBallManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import org.junit.jupiter.api.AfterAll;
@@ -212,23 +215,51 @@ public class AreaCombatDataTest {
 
   @Test
   public void olfaction() {
-    AdventureQueueDatabase.resetQueue();
-    KoLConstants.activeEffects.add(EffectPool.get(EffectPool.ON_THE_TRAIL));
-    Preferences.setString("olfactedMonster", "smut orc pipelayer");
+    var cleanups =
+        new Cleanups(
+            withCurrentRun(30),
+            withEffect(EffectPool.ON_THE_TRAIL),
+            withTrackedMonsters("smut orc pipelayer:Transcendent Olfaction:26"));
 
-    Map<MonsterData, Double> appearanceRates = SMUT_ORC_CAMP.getMonsterData(true);
+    try (cleanups) {
+      Map<MonsterData, Double> appearanceRates = SMUT_ORC_CAMP.getMonsterData(true);
 
-    assertThat(
-        appearanceRates,
-        allOf(
-            aMapWithSize(7),
-            hasEntry(JACKER, 400 / 28.0),
-            hasEntry(NAILER, 400 / 28.0),
-            hasEntry(PIPELAYER, 1600 / 28.0),
-            hasEntry(SCREWER, 400 / 28.0),
-            hasEntry(PERVERT, 0.0),
-            hasEntry(SNAKE, 0.0),
-            hasEntry(GHOST, 0.0)));
+      assertThat(
+          appearanceRates,
+          allOf(
+              aMapWithSize(7),
+              hasEntry(JACKER, 400 / 28.0),
+              hasEntry(NAILER, 400 / 28.0),
+              hasEntry(PIPELAYER, 1600 / 28.0),
+              hasEntry(SCREWER, 400 / 28.0),
+              hasEntry(PERVERT, 0.0),
+              hasEntry(SNAKE, 0.0),
+              hasEntry(GHOST, 0.0)));
+    }
+  }
+
+  @Nested
+  class NosyNose {
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
+    public void onlyAppliesIfNosyNoseActive(boolean active) {
+      var cleanups =
+          new Cleanups(
+              withCurrentRun(30),
+              withFamiliar(active ? FamiliarPool.NOSY_NOSE : FamiliarPool.MOSQUITO),
+              withTrackedMonsters("swamp duck:Nosy Nose:26"));
+
+      try (cleanups) {
+        var bog = AdventureDatabase.getAreaCombatData("McMillicancuddy's Bog");
+        Map<MonsterData, Double> appearanceRates = bog.getMonsterData(true);
+
+        assertThat(
+            appearanceRates,
+            allOf(
+                aMapWithSize(2),
+                hasEntry(MonsterDatabase.findMonster("swamp duck"), active ? 200 / 3.0 : 50.0)));
+      }
+    }
   }
 
   @Test
@@ -801,7 +832,7 @@ public class AreaCombatDataTest {
               withProperty("rwbLocation", "The Smut Orc Logging Camp"),
               withProperty("rwbMonster", "smut orc jacker"),
               withProperty("rwbMonsterCount", 2),
-              withProperty("_gallapagosMonster", "smut orc nailer"));
+              withTrackedMonsters("smut orc nailer:Gallapagosian Mating Call:1"));
 
       try (cleanups) {
         Map<MonsterData, Double> appearanceRates = SMUT_ORC_CAMP.getMonsterData(true);
@@ -824,13 +855,11 @@ public class AreaCombatDataTest {
       var cleanups =
           new Cleanups(
               withCurrentRun(30),
-              withProperty("banishedPhyla", "dude:Patriotic Screech:25"),
-              withProperty("banishedMonsters", "bearpig topiary animal:snokebomb:26"),
+              withBanishedPhyla("dude:Patriotic Screech:25"),
+              withBanishedMonsters("bearpig topiary animal:snokebomb:26"),
               withEffect(EffectPool.TAUNT_OF_HORUS));
 
       try (cleanups) {
-        BanishManager.loadBanished();
-
         var twinPeak = AdventureDatabase.getAreaCombatData("Twin Peak");
         Map<MonsterData, Double> appearanceRates = twinPeak.getMonsterData(true);
 
@@ -846,6 +875,37 @@ public class AreaCombatDataTest {
                 hasEntry(MonsterDatabase.findMonster("Creepy Ginger Twin"), -3.0),
                 hasEntry(MonsterDatabase.findMonster("Mismatched Twins"), -3.0),
                 hasEntry(MonsterDatabase.findMonster("Troll Twins"), -3.0)));
+      }
+    }
+  }
+
+  @Nested
+  class PhylumTrack {
+    @Test
+    public void trackedPhylaStackWithTrackedMonsters() {
+      var cleanups =
+          new Cleanups(
+              withCurrentRun(30),
+              withEffect(EffectPool.A_BEASTLY_ODOR),
+              withEffect(EffectPool.EW_THE_HUMANITY),
+              withTrackedPhyla("dude:Ew, The Humanity:25:beast:A Beastly Odor:25"),
+              withTrackedMonsters("eagle:Gallapagosian Mating Call:26"),
+              withEffect(EffectPool.TAUNT_OF_HORUS));
+
+      try (cleanups) {
+        var zone = AdventureDatabase.getAreaCombatData("A Mob of Zeppelin Protesters");
+        Map<MonsterData, Double> appearanceRates = zone.getMonsterData(true);
+
+        assertThat(appearanceRates, aMapWithSize(6));
+        assertThat(
+            appearanceRates,
+            allOf(
+                hasEntry(MonsterDatabase.findMonster("Blue Oyster cultist"), 300.0 / 16.0),
+                hasEntry(MonsterDatabase.findMonster("eagle"), 400.0 / 16.0),
+                hasEntry(MonsterDatabase.findMonster("fleet woodsman"), 300.0 / 16.0),
+                hasEntry(MonsterDatabase.findMonster("Jefferson pilot"), 300.0 / 16.0),
+                hasEntry(MonsterDatabase.findMonster("lynyrd skinner"), 300.0 / 16.0),
+                hasEntry(MonsterDatabase.findMonster("The Nuge"), -3.0)));
       }
     }
   }

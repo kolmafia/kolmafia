@@ -29,14 +29,13 @@ import net.sourceforge.kolmafia.persistence.MonsterDrop.DropFlag;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.session.BanishManager;
 import net.sourceforge.kolmafia.session.CrystalBallManager;
 import net.sourceforge.kolmafia.session.EncounterManager;
 import net.sourceforge.kolmafia.session.EncounterManager.EncounterType;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.TurnCounter;
+import net.sourceforge.kolmafia.session.TrackManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class AreaCombatData {
@@ -109,82 +108,12 @@ public class AreaCombatData {
       baseWeighting = baseWeighting >> WEIGHT_SHIFT;
 
       String monsterName = monster.getName();
-      Phylum monsterPhylum = monster.getPhylum();
 
       baseWeighting = AreaCombatData.adjustConditionalWeighting(zone, monsterName, baseWeighting);
       int currentWeighting = baseWeighting;
 
-      // If olfacted, add three to encounter pool
-      if (Preferences.getString("olfactedMonster").equals(monsterName)
-          && KoLConstants.activeEffects.contains(FightRequest.ONTHETRAIL)) {
-        currentWeighting += 3 * baseWeighting;
-      }
-      // If Nosy Nose sniffed, and is current familiar, add one to encounter pool
-      if (Preferences.getString("nosyNoseMonster").equals(monsterName)
-          && KoLCharacter.getFamiliar().getId() == FamiliarPool.NOSY_NOSE) {
-        currentWeighting += baseWeighting;
-      }
-      // If Red Snapper tracks its phylum, and is current familiar, add two to encounter pool
-      if (Preferences.getString("redSnapperPhylum").equals(monsterPhylum.toString())
-          && KoLCharacter.getFamiliar().getId() == FamiliarPool.RED_SNAPPER) {
-        currentWeighting += 2 * baseWeighting;
-      }
-      // If any relevant Daily Candle familiar-tracking potions are active, add two to the
-      // encounter pool
-      if ((monsterPhylum == Phylum.HUMANOID && KoLConstants.activeEffects.contains(EW_THE_HUMANITY))
-          || (monsterPhylum == Phylum.BEAST
-              && KoLConstants.activeEffects.contains(A_BEASTLY_ODOR))) {
-        currentWeighting += 2 * baseWeighting;
-      }
-      // If Gallapagosian Mating Call used, add one to encounter pool
-      if (Preferences.getString("_gallapagosMonster").equals(monsterName)) {
-        currentWeighting += baseWeighting;
-      }
-      // If Offer Latte to Opponent used, add two to encounter pool
-      if (Preferences.getString("_latteMonster").equals(monsterName)
-          && TurnCounter.isCounting("Latte Monster")) {
-        currentWeighting += 2 * baseWeighting;
-      }
-      // If Superficially Interested used, add three to encounter pool
-      if (Preferences.getString("superficiallyInterestedMonster").equals(monsterName)
-          && TurnCounter.isCounting("Superficially Interested Monster")) {
-        currentWeighting += 3 * baseWeighting;
-      }
-      // If Staff of the Cream of the Cream jiggle, add two to encounter pool
-      if (Preferences.getString("_jiggleCreamedMonster").equals(monsterName)) {
-        currentWeighting += 2 * baseWeighting;
-      }
-      // If Make Friends used, add three to encounter pool
-      if (Preferences.getString("makeFriendsMonster").equals(monsterName)) {
-        currentWeighting += 3 * baseWeighting;
-      }
-      // If Curse of Stench used, add three to encounter pool
-      if (Preferences.getString("stenchCursedMonster").equals(monsterName)) {
-        currentWeighting += 3 * baseWeighting;
-      }
-      // If Long Con used, add three to encounter pool
-      if (Preferences.getString("longConMonster").equals(monsterName)) {
-        currentWeighting += 3 * baseWeighting;
-      }
-      // If Motif used, add two to encounter pool
-      if (Preferences.getString("motifMonster").equals(monsterName)) {
-        currentWeighting += 2 * baseWeighting;
-      }
-      // If Monkey Point used, add two to encounter pool
-      if (Preferences.getString("monkeyPointMonster").equals(monsterName)) {
-        currentWeighting += 2 * baseWeighting;
-      }
-      // If prank Crimbo card used, add three to encounter pool
-      if (Preferences.getString("_prankCardMonster").equals(monsterName)
-          && TurnCounter.isCounting("Prank Card Monster")) {
-        currentWeighting += 3 * baseWeighting;
-      }
-
-      // If trick coin used, add three to encounter pool
-      if (Preferences.getString("_trickCoinMonster").equals(monsterName)
-          && TurnCounter.isCounting("Trick Coin Monster")) {
-        currentWeighting += 3 * baseWeighting;
-      }
+      var copies = (int) TrackManager.countCopies(monsterName);
+      currentWeighting += copies * baseWeighting;
 
       if (BanishManager.isBanished(monsterName)
           || (rwbRelevant && !Preferences.getString("rwbMonster").equals(monsterName))) {

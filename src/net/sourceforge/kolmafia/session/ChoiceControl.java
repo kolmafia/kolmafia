@@ -77,6 +77,7 @@ import net.sourceforge.kolmafia.request.TavernRequest;
 import net.sourceforge.kolmafia.request.UmbrellaRequest;
 import net.sourceforge.kolmafia.request.WildfireCampRequest;
 import net.sourceforge.kolmafia.session.ChoiceAdventures.Spoilers;
+import net.sourceforge.kolmafia.session.TrackManager.Tracker;
 import net.sourceforge.kolmafia.textui.command.EdPieceCommand;
 import net.sourceforge.kolmafia.textui.command.JurassicParkaCommand;
 import net.sourceforge.kolmafia.textui.command.SnowsuitCommand;
@@ -4283,7 +4284,7 @@ public abstract class ChoiceControl {
           if (matcher.find()) {
             String phylum = matcher.group(1);
             String fixed = phylum.equals("merkin") ? "mer-kin" : phylum;
-            Preferences.setString("redSnapperPhylum", fixed);
+            TrackManager.track(fixed, Tracker.RED_SNAPPER);
             Preferences.setInteger("redSnapperProgress", 0);
           }
         }
@@ -8253,7 +8254,7 @@ public abstract class ChoiceControl {
           if (matcher.find()) {
             Phylum phylum = Phylum.find(matcher.group(1));
             int progress = StringUtilities.parseInt(matcher.group(2));
-            Preferences.setString("redSnapperPhylum", phylum.toString());
+            TrackManager.track(phylum.toString(), Tracker.RED_SNAPPER);
             Preferences.setInteger("redSnapperProgress", progress);
           }
           break;
