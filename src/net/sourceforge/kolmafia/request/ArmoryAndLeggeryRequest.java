@@ -113,12 +113,13 @@ public class ArmoryAndLeggeryRequest extends CoinMasterRequest {
     Matcher matcher = ITEM_PATTERN.matcher(responseText);
     while (matcher.find()) {
       CoinmasterItem reward = parseCoinmasterItem(matcher);
-
-      AdventureResult item = ItemPool.get(reward.itemId, PurchaseRequest.MAX_QUANTITY);
-      items.add(item);
-      AdventureResult cost = ItemPool.get(reward.currency, reward.price);
-      costs.put(reward.itemId, cost);
-      rows.put(reward.itemId, reward.row);
+      if (reward != null) {
+        AdventureResult item = ItemPool.get(reward.itemId, PurchaseRequest.MAX_QUANTITY);
+        items.add(item);
+        AdventureResult cost = ItemPool.get(reward.currency, reward.price);
+        costs.put(reward.itemId, cost);
+        rows.put(reward.itemId, reward.row);
+      }
     }
 
     data.getRows().clear();
