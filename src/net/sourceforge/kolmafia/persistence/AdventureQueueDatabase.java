@@ -21,10 +21,9 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.session.CrystalBallManager;
 import net.sourceforge.kolmafia.session.EncounterManager;
+import net.sourceforge.kolmafia.session.TrackManager;
 import net.sourceforge.kolmafia.utilities.RollingLinkedList;
 
 /*
@@ -282,23 +281,16 @@ public class AdventureQueueDatabase implements Serializable {
     int queueWeight = 0;
     for (String mon : zoneSet) {
       MonsterData queueMonster = MonsterDatabase.findMonster(mon);
-      boolean olfacted =
-          queueMonster != null
-              && ((Preferences.getString("olfactedMonster").equals(queueMonster.getName())
-                      && KoLConstants.activeEffects.contains(FightRequest.ONTHETRAIL))
-                  || Preferences.getString("longConMonster").equals(queueMonster.getName())
-                  || Preferences.getString("motifMonster").equals(queueMonster.getName())
-                  || Preferences.getString("_prankCardMonster").equals(queueMonster.getName())
-                  || Preferences.getString("_trickCoinMonster").equals(queueMonster.getName()));
-      if (queueMonster != null && data.getWeighting(queueMonster) > 0 && !olfacted) {
+      if (queueMonster == null) {
+        continue;
+      }
+      boolean olfacted = TrackManager.isQueueIgnored(queueMonster.getName());
+      if (data.getWeighting(queueMonster) > 0 && !olfacted) {
         queueWeight += data.getWeighting(queueMonster);
       }
     }
 
-    boolean olfacted =
-        (Preferences.getString("olfactedMonster").equals(monster.getName())
-                && KoLConstants.activeEffects.contains(FightRequest.ONTHETRAIL))
-            || Preferences.getString("longConMonster").equals(monster.getName());
+    boolean olfacted = TrackManager.isQueueIgnored(monster.getName());
     double newNumerator = numerator * (zoneQueue.contains(monster.getName()) && !olfacted ? 1 : 4);
     double newDenominator = (4 * denominator - 3 * queueWeight);
 
