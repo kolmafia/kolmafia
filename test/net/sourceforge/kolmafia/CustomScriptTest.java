@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia;
 
+import static internal.helpers.Utilities.verboseDelete;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.startsWith;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -10,6 +11,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.file.Files;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ContactManager;
@@ -139,8 +141,17 @@ class CustomScriptTest {
 
   @Nested
   class DeprecationWarnings {
+
     @Test
     void deprecationWarnings() {
+      /*
+      This test is expected to generate a debug log.  If the log exists when this test is started then the log
+      should be preserved because some other test generated it.  But otherwise this test should delete the log
+      after running.
+       */
+      String debugLogName = "DEBUG_" + KoLConstants.DAILY_FORMAT.format(new Date()) + ".txt";
+      File debugFile = new File(KoLConstants.ROOT_LOCATION, debugLogName);
+      boolean debugFileExistsAtStart = debugFile.exists();
       ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
       var newFunction =
@@ -165,6 +176,9 @@ class CustomScriptTest {
       }
 
       RuntimeLibrary.functions.remove(newFunction);
+      if (!debugFileExistsAtStart) {
+        verboseDelete(debugFile);
+      }
     }
   }
 
