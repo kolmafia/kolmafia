@@ -2647,8 +2647,8 @@
 2644	Glowing Blue	fwrocket2.gif	4e85d7600d7ac1d1b3e299377282f284	good	nohookah
 2645	Ready to Eat	fwrocket1.gif	4110df36689c215141ad56b77e117d07	good	nohookah
 2646	Fire cracked	firecrackers.gif	61f05396edb5cb3002bdc2b2dbc3092b	good	nohookah	eat 1 fire cracker
-2647	Ew, The Humanity	candlechuman.gif	44fe32a18d4991f688c2048b30953951	neutral	none	use 1 Scent of a Human&trade; candle
-2648	A Beastly Odor	candlecbeast.gif	e049838a0fd139161a874f6630ad44d5	neutral	none	use 1 The Beast Within&trade; candle
+2647	Ew, The Humanity	candlechuman.gif	44fe32a18d4991f688c2048b30953951	neutral	nohookah	use 1 Scent of a Human&trade; candle
+2648	A Beastly Odor	candlecbeast.gif	e049838a0fd139161a874f6630ad44d5	neutral	nohookah	use 1 The Beast Within&trade; candle
 2649	El Aroma de Salsa	candlecsalsa.gif	225ee467a104d7807d192e8f8631abf6	neutral	none	use 1 Salsa Caliente&trade; candle
 2650	Good Things Are Coming, You Can Smell It	candlecclover.gif	1c59b451423c6f6cc9a4562b422983a7	neutral	none	use 1 Smoldering Clover&trade; candle
 2651	Scorched Earth	candlecnapalm.gif	5c30f6397482274d3122b79f75f1fe2e	neutral	none	use 1 Napalm In The Morning&trade; candle

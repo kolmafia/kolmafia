@@ -50,6 +50,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.GenericRequest.TopMenuStyle;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
+import net.sourceforge.kolmafia.session.BanishManager;
 import net.sourceforge.kolmafia.session.ChoiceControl;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ClanManager;
@@ -57,6 +58,7 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EquipmentRequirement;
 import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.session.TrackManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.utilities.HttpUtilities;
 import net.sourceforge.kolmafia.utilities.Statics;
@@ -2414,5 +2416,53 @@ public class Player {
         () -> {
           KoLCharacter.setUserId(oldId);
         });
+  }
+
+  /**
+   * Sets the "banishedMonsters" property
+   *
+   * @param contents The user id
+   * @return Returns value to previous value
+   */
+  public static Cleanups withBanishedMonsters(String contents) {
+    var preference = withProperty("banishedMonsters", contents);
+    BanishManager.loadBanished();
+    return preference;
+  }
+
+  /**
+   * Sets the "banishedPhyla" property
+   *
+   * @param contents The user id
+   * @return Returns value to previous value
+   */
+  public static Cleanups withBanishedPhyla(String contents) {
+    var preference = withProperty("banishedPhyla", contents);
+    BanishManager.loadBanished();
+    return preference;
+  }
+
+  /**
+   * Sets the "trackedMonsters" property
+   *
+   * @param contents The user id
+   * @return Returns value to previous value
+   */
+  public static Cleanups withTrackedMonsters(String contents) {
+    var preference = withProperty("trackedMonsters", contents);
+    TrackManager.loadTracked();
+    return preference;
+  }
+
+  /**
+   * Sets the "trackedPhyla" property
+   *
+   * @param contents The user id
+   * @return Returns value to previous value
+   */
+  public static Cleanups withTrackedPhyla(String contents) {
+    var preference = withProperty("trackedPhyla", contents);
+    TrackManager.loadTracked();
+    return preference;
   }
 }

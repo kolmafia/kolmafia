@@ -10,10 +10,12 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.StandardRequest;
@@ -34,6 +36,7 @@ public class BanishManager {
     TURN_RESET,
     TURN_ROLLOVER_RESET,
     ROLLOVER_RESET,
+    EFFECT_RESET,
     AVATAR_RESET,
     NEVER_RESET,
     COSMIC_BOWLING_BALL_RESET;
@@ -102,7 +105,7 @@ public class BanishManager {
     PULLED_INDIGO_TAFFY("pulled indigo taffy", 40, 1, true, Reset.TURN_RESET),
     PUNT("Punt", -1, 1, false, Reset.ROLLOVER_RESET),
     REFLEX_HAMMER("Reflex Hammer", 30, 1, true, Reset.TURN_ROLLOVER_RESET),
-    ROAR_LIKE_A_LION("Roar like a Lion", -1, 1, false, Reset.ROLLOVER_RESET),
+    ROAR_LIKE_A_LION("Roar like a Lion", -1, 1, false, Reset.EFFECT_RESET),
     PATRIOTIC_SCREECH("Patriotic Screech", 100, 1, false, Reset.TURN_RESET, BanishType.PHYLUM),
     SABER_FORCE("Saber Force", 30, 1, true, Reset.TURN_ROLLOVER_RESET),
     SHOW_YOUR_BORING_FAMILIAR_PICTURES(
@@ -198,7 +201,7 @@ public class BanishManager {
   }
 
   private record Banished(String banished, Banisher banisher, int turnBanished) {
-    public Integer turnsLeft() {
+    private Integer turnsLeft() {
       return (turnBanished + banisher.getDuration()) - KoLCharacter.getCurrentRun();
     }
 
@@ -207,6 +210,8 @@ public class BanishManager {
         case TURN_RESET, TURN_ROLLOVER_RESET -> turnsLeft() > 0;
         case COSMIC_BOWLING_BALL_RESET -> Preferences.getInteger("cosmicBowlingBallReturnCombats")
             > 0;
+        case EFFECT_RESET -> KoLConstants.activeEffects.contains(
+            EffectPool.get(EffectPool.HEAR_ME_ROAR));
         default -> true;
       };
     }
@@ -216,6 +221,7 @@ public class BanishManager {
         case TURN_RESET -> turnsLeft().toString();
         case ROLLOVER_RESET -> "Until Rollover";
         case TURN_ROLLOVER_RESET -> turnsLeft() + " or Until Rollover";
+        case EFFECT_RESET -> "Until Hear Me Roar expires";
         case AVATAR_RESET -> "Until Prism Break";
         case NEVER_RESET -> "Until Ice House opened";
         case COSMIC_BOWLING_BALL_RESET -> "Until Ball returns ("
@@ -242,11 +248,11 @@ public class BanishManager {
     BanishManager.loadBanishedPhyla();
   }
 
-  public static void loadBanishedMonsters() {
+  static void loadBanishedMonsters() {
     loadBanishedX("banishedMonsters", BanishManager.banishedMonsters);
   }
 
-  public static void loadBanishedPhyla() {
+  static void loadBanishedPhyla() {
     loadBanishedX("banishedPhyla", BanishManager.banishedPhyla);
   }
 
