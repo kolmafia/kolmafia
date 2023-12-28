@@ -6144,6 +6144,9 @@ public class UseItemRequest extends GenericRequest {
       case ItemPool.WARDROBE_O_MATIC:
         InventoryManager.checkFuturistic();
         return;
+      case ItemPool.LIL_SNOWBALL_FACTORY:
+        Preferences.setBoolean("_snowballFactoryUsed", true);
+        break;
     }
 
     if (CampgroundRequest.isWorkshedItem(itemId)) {
