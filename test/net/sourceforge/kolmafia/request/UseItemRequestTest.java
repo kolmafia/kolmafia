@@ -427,6 +427,24 @@ class UseItemRequestTest {
     }
   }
 
+  @ParameterizedTest
+  @ValueSource(strings = {"success", "failure"})
+  void setsSnowballFactoryPreference(String htmlSource) {
+    var path = "request/test_use_snowball_factory_" + htmlSource + ".html";
+    var cleanups =
+        new Cleanups(
+            withItem(ItemPool.LIL_SNOWBALL_FACTORY),
+            withProperty("_snowballFactoryUsed", false),
+            withNextResponse(200, html(path)));
+
+    try (cleanups) {
+      var req = UseItemRequest.getInstance(ItemPool.LIL_SNOWBALL_FACTORY);
+      req.run();
+
+      assertThat("_snowballFactoryUsed", isSetTo(true));
+    }
+  }
+
   @Test
   void detectsBastilleLoanerVoucherUse() {
     var cleanups =
