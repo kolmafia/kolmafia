@@ -408,15 +408,28 @@ public class FightRequest extends GenericRequest {
 
   private static final Set<String> GNOME_ADV_ACTIVATION =
       Set.of(
-          "scrubs the mildew out of your grout",
+          "alphabetizes your recycling",
           "bundles your recycling for you",
-          "teaches you how to power-nap instead of sleeping all day",
-          "sharpens all your pencils and lines them up in a neat row",
+          "changes the litter in your Familiar-Gro Terrarium",
+          "cleans your gutters",
+          "clears your browser history",
+          "does all that tedious campsite cleaning you were going to do today",
+          "dusts all your knick-knacks and trophies",
           "folds all your clean laundry",
-          "shows you how to shave a full minute off of your teeth brushing routine",
-          "organizes your sock drawer and alphabetizes your spice rack",
           "hauls all of your scrap lumber to the dump",
-          "does all that tedious campsite cleaning you were going to do today");
+          "mows your campground",
+          "organizes your sock drawer and alphabetizes your spice rack",
+          "polishes your silverware",
+          "punches fresh holes in your doilies",
+          "repaints your ice cube trays",
+          "rotates your tires",
+          "scrubs the mildew out of your grout",
+          "shakes the farts out of your couch cushions",
+          "sharpens all your pencils and lines them up in a neat row",
+          "shows you how to shave a full minute off of your teeth brushing routine",
+          "teaches you how to power-nap instead of sleeping all day",
+          "vacuums your front yard",
+          "waxes your drapes");
 
   private static final String[][] EVIL_ZONES = {
     {
