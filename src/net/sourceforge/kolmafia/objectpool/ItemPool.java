@@ -3717,6 +3717,7 @@ public class ItemPool {
   public static final int PEPPERMINT_BOMB = 11426;
   public static final int PUNCHING_MIRROR = 11451;
   public static final int TRICK_COIN = 11480;
+  public static final int LIL_SNOWBALL_FACTORY = 11485;
   public static final int PRANK_CRIMBO_CARD = 11487;
 
   private ItemPool() {}
