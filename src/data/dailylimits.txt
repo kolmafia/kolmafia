@@ -325,6 +325,7 @@ Use	jar of psychoses (The Old Man)	_psychoJarUsed
 Use	jar of psychoses (The Pretentious Artist)	_psychoJarUsed
 Use	jar of psychoses (The Suspicious-Looking Guy)	_psychoJarUsed
 Use	jingle bell	_jingleBellUsed
+Use	Lil' Snowball Factory	_snowballFactoryUsed
 Use	lodestone	_lodestoneUsed
 Use	lupine appetite hormones	_lupineHormonesUsed
 Use	meatball machine	_meatballMachineUsed
