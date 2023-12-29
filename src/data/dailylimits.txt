@@ -245,6 +245,7 @@ Use	Jerks' Health&trade; Magazine	_jerksHealthMagazinesUsed	5
 Use	KoL Con Six Pack	_kolConSixPackUsed
 Use	LOV Extraterrestrial Chocolate	_loveChocolatesUsed	3
 Use	License to Chill	_licenseToChillUsed
+Use	Lil' Snowball Factory	_snowballFactoryUsed
 Use	M-242	_fireworkUsed
 Use	Manual of Dexterity	_guildManualUsed
 Use	Manual of Labor	_guildManualUsed
