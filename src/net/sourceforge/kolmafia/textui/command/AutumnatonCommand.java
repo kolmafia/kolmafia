@@ -50,7 +50,7 @@ public class AutumnatonCommand extends AbstractCommand {
 
   public void status() {
     var autumnLocation = Preferences.getString("autumnatonQuestLocation");
-    if (autumnLocation.equals("")) {
+    if (autumnLocation.isEmpty()) {
       if (!InventoryManager.hasItem(ItemPool.AUTUMNATON)) {
         RequestLogger.printLine("Your autumn-aton is in an unknown location.");
       } else {
@@ -77,7 +77,7 @@ public class AutumnatonCommand extends AbstractCommand {
     }
 
     String parameter;
-    if (params.length < 2 || (parameter = params[1].trim()).equals("")) {
+    if (params.length < 2 || (parameter = params[1].trim()).isEmpty()) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "Where do you want to send the little guy?");
       return;
     }
