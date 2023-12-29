@@ -10,7 +10,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
-import net.sourceforge.kolmafia.*;
+import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.KoLmafiaCLI;
+import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.FightRequest;
@@ -64,7 +68,7 @@ public class ClearSharedStateBefore implements BeforeAllCallback {
     ChoiceManager.reset();
   }
 
-  public void deleteDirectoriesAndContents() {
+  public static void deleteDirectoriesAndContents() {
     // These are the directories and files in test\root that are under git control.  Everything
     // else is fair game for deletion after testing.  Keep relay as well since at least one test
     // assumes relay had content created when mafia starts up.
@@ -74,7 +78,7 @@ public class ClearSharedStateBefore implements BeforeAllCallback {
     File root = KoLConstants.ROOT_LOCATION;
     String[] contents = root.list();
     for (String content : contents) {
-      if (!keepersList.contains(content)) {
+      if (!keepersList.contains(content) && !(content.toLowerCase().startsWith("debug"))) {
         Path pathToBeDeleted = new File(root, content).toPath();
         try {
           Files.walk(pathToBeDeleted)
