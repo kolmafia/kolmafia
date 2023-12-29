@@ -2214,6 +2214,7 @@ Item	Crimbo stogie-scented room odorizer	Stench Spell Damage: +10
 Item	Crimbo tree flocker	Cold Damage: +10
 # Crimbuccaneer lantern: Increases Item Drops on Crimbo Battlefields
 Item	Crimbuccaneer lantern	Hat Drop: +50, Weapon Drop: +50, Accessory Drop: +50
+Item	Crimbuccaneer war standard	Pirate Warfare Effectiveness: +50, Initiative: +25
 Item	crumbling rabbit's foot	Meat Drop: +30
 Item	cuddly teddy bear	Monster Level: +10
 Item	cup of infinite pencils	Meat Drop: +15, Damage Aura: 1
@@ -2252,6 +2253,7 @@ Item	easter egg balloon	Muscle: +5, Mysticality: +5, Moxie: +5
 Item	eelskin shield	Maximum HP: +55, Maximum MP: +55, Damage Reduction: 13, Thorns: [env(underwater)]
 # Elf Guard clipboard: Increases Item Drops on Crimbo Battlefields
 Item	Elf Guard clipboard	Food Drop: +25, Booze Drop: +25, Meat Drop: +25
+Item	Elf Guard war standard	Elf Warfare Effectiveness: +50, MP Regen Min: 4, MP Regen Max: 8
 Item	Elizabeth's Dollie	Cold Resistance: +4, Spooky Spell Damage: +25
 Item	Ellsbury's skull	Meat Drop: +10, Item Drop: +10
 Item	enchanted brass knuckles	Critical Hit Percent: +5

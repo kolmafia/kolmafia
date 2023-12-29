@@ -1896,6 +1896,7 @@ Crimbo smile	50	none
 Crimbo stogie-scented room odorizer	20	none
 Crimbo tree flocker	20	none
 Crimbuccaneer lantern	100	none
+Crimbuccaneer war standard	50	none
 crumbling rabbit's foot	50	none
 crumbling skull	0	none
 cuddly teddy bear	125	Mys: 47
@@ -1931,6 +1932,7 @@ easter egg balloon	100	Mys: 35
 eelskin shield	200	Mus: 85	shield
 Elf Guard clipboard	100	none
 Elf Guard safety bear	10	none
+Elf Guard war standard	50	none
 Elizabeth's Dollie	120	Mys: 45
 Ellsbury's skull	100	Mys: 35
 enchanted brass knuckles	50	Mys: 10
