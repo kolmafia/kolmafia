@@ -11529,3 +11529,44 @@
 11501	Elf Guard Field Manual: Wilderness Sleeping (used)	838155166	book.gif	usable		0	copies of Elf Guard Field Manual: Wilderness Sleep
 11502	military candy cane	132951284	pep_bigcane.gif	potion, usable	t,d	5
 11503	groggipop	933817198	neutronpop.gif	potion, usable	t,d	5
+11504
+11505
+11506
+11507
+11508
+11509
+11510
+11511
+11512
+11513
+11514
+11515
+11516
+11517
+11518
+11519
+11520
+11521
+11522
+11523
+11524
+11525
+11526
+11527
+11528
+11529
+11530
+11531
+11532
+11533
+11534
+11535
+11536
+11537
+11538
+11539
+11540
+11541
+11542
+11543	Crimbuccaneer war standard	823960598	c23_pirateflag.gif	offhand		0
+11544	Elf Guard war standard	679660460	c23_elfflag.gif	offhand		0
