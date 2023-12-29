@@ -7479,41 +7479,41 @@ public abstract class ChoiceAdventures {
         haveNostril = (InventoryManager.getCount(ItemPool.NOSTRIL_OF_THE_SERPENT) > 0);
         boolean buttonsUnconfused =
             (Preferences.getInteger("lastTempleButtonsUnlock") == KoLCharacter.getAscensions());
-
-        if (ChoiceManager.lastResponseText.contains("door_stone.gif")) {
-          result[0] = new ChoiceOption("muscle substats");
-          result[1] =
-              new ChoiceOption(
-                  buttonsUnconfused || haveNostril
-                      ? "choose Hidden Heart adventure"
-                      : "randomise Hidden Heart adventure");
-          result[2] = new ChoiceOption("moxie substats and 5 turns of Somewhat poisoned");
-        } else if (ChoiceManager.lastResponseText.contains("door_sun.gif")) {
-          result[0] = new ChoiceOption("gain ancient calendar fragment");
-          result[1] =
-              new ChoiceOption(
-                  buttonsUnconfused || haveNostril
-                      ? "choose Hidden Heart adventure"
-                      : "randomise Hidden Heart adventure");
-          result[2] = new ChoiceOption("moxie substats and 5 turns of Somewhat poisoned");
-        } else if (ChoiceManager.lastResponseText.contains("door_gargoyle.gif")) {
-          result[0] = new ChoiceOption("gain mana");
-          result[1] =
-              new ChoiceOption(
-                  buttonsUnconfused || haveNostril
-                      ? "choose Hidden Heart adventure"
-                      : "randomise Hidden Heart adventure");
-          result[2] = new ChoiceOption("moxie substats and 5 turns of Somewhat poisoned");
-        } else if (ChoiceManager.lastResponseText.contains("door_pikachu.gif")) {
-          result[0] = new ChoiceOption("unlock Hidden City");
-          result[1] =
-              new ChoiceOption(
-                  buttonsUnconfused || haveNostril
-                      ? "choose Hidden Heart adventure"
-                      : "randomise Hidden Heart adventure");
-          result[2] = new ChoiceOption("moxie substats and 5 turns of Somewhat poisoned");
+        if (ChoiceManager.lastResponseText != null) {
+          if (ChoiceManager.lastResponseText.contains("door_stone.gif")) {
+            result[0] = new ChoiceOption("muscle substats");
+            result[1] =
+                new ChoiceOption(
+                    buttonsUnconfused || haveNostril
+                        ? "choose Hidden Heart adventure"
+                        : "randomise Hidden Heart adventure");
+            result[2] = new ChoiceOption("moxie substats and 5 turns of Somewhat poisoned");
+          } else if (ChoiceManager.lastResponseText.contains("door_sun.gif")) {
+            result[0] = new ChoiceOption("gain ancient calendar fragment");
+            result[1] =
+                new ChoiceOption(
+                    buttonsUnconfused || haveNostril
+                        ? "choose Hidden Heart adventure"
+                        : "randomise Hidden Heart adventure");
+            result[2] = new ChoiceOption("moxie substats and 5 turns of Somewhat poisoned");
+          } else if (ChoiceManager.lastResponseText.contains("door_gargoyle.gif")) {
+            result[0] = new ChoiceOption("gain mana");
+            result[1] =
+                new ChoiceOption(
+                    buttonsUnconfused || haveNostril
+                        ? "choose Hidden Heart adventure"
+                        : "randomise Hidden Heart adventure");
+            result[2] = new ChoiceOption("moxie substats and 5 turns of Somewhat poisoned");
+          } else if (ChoiceManager.lastResponseText.contains("door_pikachu.gif")) {
+            result[0] = new ChoiceOption("unlock Hidden City");
+            result[1] =
+                new ChoiceOption(
+                    buttonsUnconfused || haveNostril
+                        ? "choose Hidden Heart adventure"
+                        : "randomise Hidden Heart adventure");
+            result[2] = new ChoiceOption("moxie substats and 5 turns of Somewhat poisoned");
+          }
         }
-
         return result;
 
       case 581:

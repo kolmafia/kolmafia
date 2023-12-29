@@ -7,7 +7,6 @@ import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withPasswordHash;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withQuestProgress;
-import static internal.helpers.Utilities.verboseDelete;
 import static internal.matchers.Quest.isStep;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -16,15 +15,12 @@ import static org.hamcrest.Matchers.hasSize;
 
 import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
-import java.io.File;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import net.sourceforge.kolmafia.AscensionPath;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -222,14 +218,6 @@ public class RelayAutomationTest {
       @ParameterizedTest
       @ValueSource(strings = {"None", "Quantum Terrarium"})
       public void canAutomateHiddenTemplePuzzleChain(String pathName) {
-        /*
-        This test is expected to generate a debug log.  If the log exists when this test is started then the log
-        should be preserved because some other test generated it.  But otherwise this test should delete the log
-        after running.
-         */
-        String debugLogName = "DEBUG_" + KoLConstants.DAILY_FORMAT.format(new Date()) + ".txt";
-        File debugFile = new File(KoLConstants.ROOT_LOCATION, debugLogName);
-        boolean debugFileExistsAtStart = debugFile.exists();
         var builder = new FakeHttpClientBuilder();
         var client = builder.client;
         var path = AscensionPath.nameToPath(pathName);
@@ -282,9 +270,6 @@ public class RelayAutomationTest {
           if (path == Path.QUANTUM) {
             assertGetRequest(requests.get(i++), "/qterrarium.php", null);
           }
-        }
-        if (!debugFileExistsAtStart) {
-          verboseDelete(debugFile);
         }
       }
     }
