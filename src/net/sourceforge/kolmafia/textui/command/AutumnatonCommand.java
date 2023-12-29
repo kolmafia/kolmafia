@@ -56,9 +56,12 @@ public class AutumnatonCommand extends AbstractCommand {
       } else {
         RequestLogger.printLine("Your autumn-aton is ready to be sent somewhere.");
         String response = useAutumnaton();
-        var upgrades = UPGRADE_PATTERN.matcher(response);
-        if (upgrades.find()) {
-          RequestLogger.printLine("Your autumn-aton has upgrades available: " + upgrades.group(1));
+        if (response != null) {
+          var upgrades = UPGRADE_PATTERN.matcher(response);
+          if (upgrades.find()) {
+            RequestLogger.printLine(
+                "Your autumn-aton has upgrades available: " + upgrades.group(1));
+          }
         }
       }
     } else {
