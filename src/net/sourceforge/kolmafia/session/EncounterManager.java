@@ -555,7 +555,7 @@ public abstract class EncounterManager {
 
     @Override
     public String toString() {
-      return this.stringform + " (" + this.encounterCount + ")";
+      return this.stringform + " (" + KoLConstants.COMMA_FORMAT.format(this.encounterCount) + ")";
     }
 
     public void increment() {
