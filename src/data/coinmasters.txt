@@ -1164,6 +1164,10 @@ Mr. Store 2002	buy	1	Crimbo cookie sheet	ROW1390
 
 # Crimbo 2023
 
+Crimbuccaneer Grub Hall	buy	5	candied lime	ROW1402
+Crimbuccaneer Grub Hall	buy	10	fruit-stuffed rumcake	ROW1404
+Crimbuccaneer Grub Hall	buy	20	gingerbread pirate	ROW1403
+
 Crimbuccaneer Bar	buy	5	hot wine	ROW1408
 Crimbuccaneer Bar	buy	20	Jamaican coffee	ROW1409
 Crimbuccaneer Bar	buy	10	flask of egggrog	ROW1410
