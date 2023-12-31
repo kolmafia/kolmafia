@@ -870,6 +870,10 @@ public class NPCPurchaseRequest extends PurchaseRequest {
       Crimbo23PirateBarRequest.parseResponse(urlString, responseText);
     }
 
+    if (shopId.startsWith("crimbo23_pirate_cafe")) {
+      Crimbo23PirateCafeRequest.parseResponse(urlString, responseText);
+    }
+
     if (shopId.startsWith("crimbo23_pirate_factory")) {
       Crimbo23PirateFactoryRequest.parseResponse(urlString, responseText);
     }
@@ -1350,6 +1354,10 @@ public class NPCPurchaseRequest extends PurchaseRequest {
 
       if (shopId.startsWith("crimbo23_pirate_bar")) {
         Crimbo23PirateBarRequest.registerRequest(urlString);
+      }
+
+      if (shopId.startsWith("crimbo23_pirate_cafe")) {
+        Crimbo23PirateCafeRequest.registerRequest(urlString);
       }
 
       if (shopId.startsWith("crimbo23_pirate_factory")) {
