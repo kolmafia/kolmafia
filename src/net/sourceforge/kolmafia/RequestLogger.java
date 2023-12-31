@@ -987,6 +987,12 @@ public class RequestLogger extends NullStream {
       return;
     }
 
+    if ((isExternal || request instanceof Crimbo23PirateCafeRequest)
+        && Crimbo23PirateCafeRequest.registerRequest(urlString)) {
+      RequestLogger.wasLastRequestSimple = false;
+      return;
+    }
+
     if ((isExternal || request instanceof Crimbo23PirateFactoryRequest)
         && Crimbo23PirateFactoryRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
