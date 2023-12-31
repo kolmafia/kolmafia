@@ -40,14 +40,16 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 class LimitModeTest {
 
+  private static final String TESTUSERNAME = "LimitModeTestUser";
+
   @BeforeAll
   public static void beforeAll() {
-    KoLCharacter.reset("LimitMode");
+    KoLCharacter.reset(TESTUSERNAME);
   }
 
   @BeforeEach
   public void beforeEach() {
-    Preferences.reset("LimitMode");
+    Preferences.reset(TESTUSERNAME);
   }
 
   @Test
