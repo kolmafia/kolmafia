@@ -31,14 +31,17 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 public class DailyDeedsPanelTest {
+
+  private static final String TESTUSERNAME = "DaileDeedsPanelTestUser";
+
   @BeforeAll
   public static void beforeAll() {
-    KoLCharacter.reset("fakeUserName");
+    KoLCharacter.reset(TESTUSERNAME);
   }
 
   @BeforeEach
   public void beforeEach() {
-    Preferences.reset("fakeUsername");
+    Preferences.reset(TESTUSERNAME);
   }
 
   @Nested
