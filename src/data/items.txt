@@ -11565,8 +11565,8 @@
 11537
 11538
 11539
-11540
-11541
-11542
+11540	baby chest mimic	584086799	mimicbaby.gif	grow	t	0
+11541	googly chest eyes	343119773	eyes.gif	familiar	t	0
+11542	mimic egg	646626465	mimicegg.gif	usable	q	0
 11543	Crimbuccaneer war standard	823960598	c23_pirateflag.gif	offhand		0
 11544	Elf Guard war standard	679660460	c23_elfflag.gif	offhand		0
