@@ -11052,6 +11052,7 @@ Item	autumn leaf	Effect: "Crunching Leaves", Effect Duration: 20
 Item	autumn years wisdom	Effect: "Wisdom of the Autumn Years", Effect Duration: 30
 Item	avatar of the Unconscious Collective	Free Pull
 Item	baby camelCalf	Free Pull
+Item	baby chest mimic	Free Pull
 Item	bad penguin egg	Free Pull
 # bag of airline peanuts: Deals 6-10 Physical Damage
 # bag of gross foreign snacks: Deals <font color=green>Stench Damage</font> every round to every monster you fight today in the zone where you used it
@@ -11575,6 +11576,7 @@ Item	golden monkey statuette	Free Pull
 # golden ring: Weakens enemies a lot
 # goodberry: Restores all of your HP
 # Goodfella contract: Make your Goodfella an offer he can't refuse
+Item	googly chest eyes	Familiar Weight: +5
 # GOTO: Lets you escape from combat without spending an Adventure
 # GOTO: (Maybe)
 # government booze shipment: Send 50 donated booze to another player (limit 1 per recipient per day)
