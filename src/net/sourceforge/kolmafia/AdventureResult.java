@@ -640,10 +640,11 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
   }
 
   public static AdventureResult parseItem(final String s, final boolean pseudoAllowed) {
-    // Certain items fountain parentheses. Appending (COUNT) to such is problematic.
+    // Certain items contain parentheses. Appending (COUNT) to such is problematic.
     // For now, if we have an exact match for an item name, use it with a count of 1.
     int itemId = ItemDatabase.getItemId(s.trim(), 1, false);
-    if (itemId != -1) {
+    // Ignore any bracketed items as they include item ID in the name
+    if (itemId != -1 && !s.trim().matches("^\\[\\d+].*")) {
       AdventureResult item = new AdventureResult(Priority.NONE, s.trim());
       item.priority = Priority.ITEM;
       item.id = itemId;

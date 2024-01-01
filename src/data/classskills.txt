@@ -1048,6 +1048,10 @@
 7488	Surprisingly Sweet Slash	ccsword_slash.gif	5	0	0
 7489	Surprisingly Sweet Stab	ccsword_sharp.gif	5	0	0
 7490	The Old One-Two (Kick)	crimbucboots.gif	5	0	0
+7491
+7492
+7493	Shoot, Gunwale Whalegun, Shoot!	whalegungun.gif	5	0	0
+7494	%fn, lay an egg	mimicegg.gif	5	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.
