@@ -325,5 +325,7 @@
 293	Patriotic Eagle	pateagle.gif	combat0,stat1,mp0	sleeping patriotic eagle	claw-held flag	0	0	0	0
 294	Jill-of-All-Trades	darkjill2f.gif	stat0,stat1,item0,meat0,combat0,drop,block,delevel,hp0,meat1,hp1,mp1,variable	Dark Jill-of-All-Trades	LED candle	1	2	3	3	organic,sentient,orb,haseyes,object,vegetable,food,edible,evil,spooky,hot,bite
 295	Flaming Leafcutter Ant	al_ant.gif	hp1,mp1,combat1	smoldering leafcutter ant egg		0	0	0	0	insect,haseyes,animal,bite,hot
-296	Rigging Snake	rigsnake.gif		baby rigging snake		0	0	0	0
-297	Pet Anchor	anchor.gif		pet anchor		0	0	0	0
+296	Rigging Snake	rigsnake.gif	combat0,delevel	baby rigging snake	rigging knot	0	0	0	0
+297	Pet Anchor	anchor.gif	none	pet anchor		0	0	0	0
+298
+299	Chest Mimic	mimicchest.gif	item0,meat0	baby chest mimic	googly chest eyes	0	0	0	0
