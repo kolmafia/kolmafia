@@ -161,9 +161,7 @@ public class GlobalMenuBar extends JMenuBar {
 
     questsMenu.add(
         new InvocationMenuItem(
-            "Witchess Daily Puzzles",
-            WitchessManager.class,
-            "solveDailyPuzzles"));
+            "Witchess Daily Puzzles", WitchessManager.class, "solveDailyPuzzles"));
 
     // Add script and bookmark menus, which use the
     // listener-driven static final lists.

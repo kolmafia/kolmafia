@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia.request;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
@@ -7,15 +9,10 @@ import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+public class WitchessRequest extends GenericRequest {
+  private static final Pattern SOLVED_PATTERN = Pattern.compile("Solved Today");
 
-public class WitchessRequest extends  GenericRequest {
-  private static final Pattern SOLVED_PATTERN =
-          Pattern.compile("Solved Today");
-
-  private static final Pattern PUZZLE_NUMBER_PATTERN =
-          Pattern.compile("Witchess Puzzle #(\\d+)");
+  private static final Pattern PUZZLE_NUMBER_PATTERN = Pattern.compile("Witchess Puzzle #(\\d+)");
 
   private final String num;
   private int thisPuzzle;
@@ -35,8 +32,8 @@ public class WitchessRequest extends  GenericRequest {
   }
 
   /**
-   * Constructs a new <code>WitchessRequest</code> which retrieves the daily puzzle
-   * as specified by the given num
+   * Constructs a new <code>WitchessRequest</code> which retrieves the daily puzzle as specified by
+   * the given num
    *
    * @param num Which daily Witchess puzzle to retrieve
    */
@@ -49,11 +46,17 @@ public class WitchessRequest extends  GenericRequest {
     this.isSolved = false;
   }
 
-  public String getNum() { return this.num; }
+  public String getNum() {
+    return this.num;
+  }
 
-  public int getThisPuzzle() { return this.thisPuzzle; }
+  public int getThisPuzzle() {
+    return this.thisPuzzle;
+  }
 
-  public boolean getIsSolved() { return this.isSolved; }
+  public boolean getIsSolved() {
+    return this.isSolved;
+  }
 
   @Override
   public void run() {
@@ -83,7 +86,7 @@ public class WitchessRequest extends  GenericRequest {
     }
     if (Preferences.getInteger("puzzleChampBonus") != 20) {
       KoLmafia.updateDisplay(
-              "You cannot automatically get a Witchess buff until all puzzles are solved.");
+          "You cannot automatically get a Witchess buff until all puzzles are solved.");
       return;
     }
     RequestThread.postRequest(new GenericRequest("campground.php?action=witchess"));
@@ -93,8 +96,7 @@ public class WitchessRequest extends  GenericRequest {
 
   private void runGetPuzzle() {
     if (Preferences.getInteger("puzzleChampBonus") == 20) {
-      KoLmafia.updateDisplay(
-              "You have already solved all of the Witchess puzzles.");
+      KoLmafia.updateDisplay("You have already solved all of the Witchess puzzles.");
       return;
     }
     if (Preferences.getBoolean("_witchessBuff")) {
@@ -126,7 +128,7 @@ public class WitchessRequest extends  GenericRequest {
   private void parsePuzzleResponse() {
     Matcher puzzleNumberMatcher = PUZZLE_NUMBER_PATTERN.matcher(this.responseText);
     if (puzzleNumberMatcher.find()) {
-		this.thisPuzzle = StringUtilities.parseInt(puzzleNumberMatcher.group(1));
+      this.thisPuzzle = StringUtilities.parseInt(puzzleNumberMatcher.group(1));
     }
 
     Matcher isSolvedMatcher = SOLVED_PATTERN.matcher(this.responseText);
