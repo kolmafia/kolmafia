@@ -32,7 +32,7 @@ import org.junit.jupiter.api.Test;
 
 public class DailyDeedsPanelTest {
 
-  private static final String TESTUSERNAME = "DaileDeedsPanelTestUser";
+  private static final String TESTUSERNAME = "DailyDeedsPanelTestUser";
 
   @BeforeAll
   public static void beforeAll() {
