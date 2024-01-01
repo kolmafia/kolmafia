@@ -14,8 +14,6 @@ import java.util.*;
 public class WitchessSolutionDatabase {
 	private static final Map<Integer, WitchessSolution> witchessSolutions = new HashMap<>();
 
-	private static final Map<Integer, String> solutionUrlById = new HashMap<>();
-
 	private static final Map<Character, int[]> moveDict = new HashMap<>();
 
 	private WitchessSolutionDatabase() {}
@@ -51,12 +49,20 @@ public class WitchessSolutionDatabase {
 	public static class WitchessSolution {
 		protected final int puzzleId;
 		protected final Character[] moves;
-		protected final String url;
+		protected final String coords;
 
-		public WitchessSolution(int puzzleId, Character[] moves, String url) {
+		public WitchessSolution(int puzzleId, Character[] moves, String coords) {
 			this.puzzleId = puzzleId;
 			this.moves = moves;
-			this.url = url;
+			this.coords = coords;
+		}
+
+		public int getId() {
+			return this.puzzleId;
+		}
+
+		public String getCoords() {
+			return this.coords;
 		}
 	}
 
@@ -67,8 +73,8 @@ public class WitchessSolutionDatabase {
 			solution[i] = solutionSteps[i].charAt(0);
 		}
 
-		var url = prepareUrl(puzzleId, solution);
-		return new WitchessSolution(puzzleId, solution, url);
+		var coords = solvePath(solution);
+		return new WitchessSolution(puzzleId, solution, coords);
 	}
 
 	private static int[] calculateMidpoint(int[] start, int[] end) {
@@ -119,24 +125,7 @@ public class WitchessSolutionDatabase {
 		return String.join("|", sortedPath);
 	}
 
-	private static String prepareUrl(Integer puzzleId, Character[] moves) {
-		var solutionCoords = solvePath(moves);
-
-		// URL Encode the result string
-		var route = "witchess.php" +
-					"?sol=" + URLEncoder.encode(solutionCoords, StandardCharsets.UTF_8) +
-					"&ajax=1" +
-					"&number=" + puzzleId;
-
-		WitchessSolutionDatabase.solutionUrlById.put(puzzleId, route);
-		return route;
-	}
-
 	public static WitchessSolution getWitchessSolution(final Integer puzzleId) {
 		return WitchessSolutionDatabase.witchessSolutions.get(puzzleId);
-	}
-
-	public static String getSolutionUrlById(final Integer puzzleId) {
-		return WitchessSolutionDatabase.solutionUrlById.get(puzzleId);
 	}
 }
