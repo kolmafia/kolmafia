@@ -2,10 +2,8 @@ package net.sourceforge.kolmafia.request;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.RestrictedItemType;
+
+import net.sourceforge.kolmafia.*;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -17,6 +15,7 @@ public class WitchessRequest extends GenericRequest {
   private final String num;
   private int thisPuzzle;
   private boolean isSolved;
+  private boolean errorOnNoRun;
 
   /**
    * Constructs a new <code>WitchessRequest</code> which acquires the Puzzle Champ buff if possible
@@ -29,6 +28,7 @@ public class WitchessRequest extends GenericRequest {
     this.num = null;
     this.thisPuzzle = -1;
     this.isSolved = false;
+    this.errorOnNoRun = false;
   }
 
   /**
@@ -44,6 +44,17 @@ public class WitchessRequest extends GenericRequest {
     this.num = num;
     this.thisPuzzle = -1;
     this.isSolved = false;
+    this.errorOnNoRun = false;
+  }
+
+  public WitchessRequest(String num, boolean errorOnNoRun) {
+    super("witchess.php");
+    this.addFormField("num", num);
+
+    this.num = num;
+    this.thisPuzzle = -1;
+    this.isSolved = false;
+    this.errorOnNoRun = errorOnNoRun;
   }
 
   public String getNum() {
@@ -60,14 +71,15 @@ public class WitchessRequest extends GenericRequest {
 
   @Override
   public void run() {
+    var state = errorOnNoRun ? KoLConstants.MafiaState.ERROR : KoLConstants.MafiaState.CONTINUE;
     if (KoLCharacter.inLegacyOfLoathing()) {
       if (!Preferences.getBoolean("replicaWitchessSetAvailable")) {
-        KoLmafia.updateDisplay("You need to use a replica Witchess Set first.");
+        KoLmafia.updateDisplay(state, "You need to use a replica Witchess Set first.");
         return;
       }
     } else {
       if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Witchess Set")) {
-        KoLmafia.updateDisplay("Witchess is too old to use in your current path.");
+        KoLmafia.updateDisplay(state, "Witchess is too old to use in your current path.");
         return;
       }
     }
@@ -95,12 +107,14 @@ public class WitchessRequest extends GenericRequest {
   }
 
   private void runGetPuzzle() {
+    var state = errorOnNoRun ? KoLConstants.MafiaState.ERROR : KoLConstants.MafiaState.CONTINUE;
+
     if (Preferences.getInteger("puzzleChampBonus") == 20) {
-      KoLmafia.updateDisplay("You have already solved all of the Witchess puzzles.");
+      KoLmafia.updateDisplay(state, "You have already solved all of the Witchess puzzles.");
       return;
     }
     if (Preferences.getBoolean("_witchessBuff")) {
-      KoLmafia.updateDisplay("You already solved today's Witchess puzzles.");
+      KoLmafia.updateDisplay(state, "You already solved today's Witchess puzzles.");
       return;
     }
     super.run();

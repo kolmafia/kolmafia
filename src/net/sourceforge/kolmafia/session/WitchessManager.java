@@ -1,6 +1,8 @@
 package net.sourceforge.kolmafia.session;
 
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.persistence.WitchessSolutionDatabase;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -17,10 +19,13 @@ public abstract class WitchessManager {
       return;
     }
 
+    // Still confirming, but it seems as though `witchess.php?num=1` might fail to load if we haven't manually navigated to the witchess set this session.
+    RequestThread.postRequest(new GenericRequest("campground.php?action=witchess"));
+    RequestThread.postRequest(new GenericRequest("choice.php?whichchoice=1181&option=3"));
     String[] solvedPuzzles = new String[5];
 
     for (int i = 1; i <= 5; i++) {
-      WitchessRequest request = new WitchessRequest(String.valueOf(i));
+      WitchessRequest request = new WitchessRequest(String.valueOf(i), true);
       request.run();
       int puzzleId = request.getThisPuzzle();
 
@@ -31,10 +36,12 @@ public abstract class WitchessManager {
       }
 
       if (request.getIsSolved()) {
+        KoLmafia.updateDisplay("Already solved Witchess Puzzle #" + puzzleId + ".");
         solvedPuzzles[i - 1] = String.valueOf(puzzleId);
         continue;
       }
 
+      KoLmafia.updateDisplay("Attempting to solve Witchess Puzzle #" + puzzleId + "...");
       var solution = WitchessSolutionDatabase.getWitchessSolution(puzzleId);
 
       var solRequest = new GenericRequest("witchess.php");
@@ -44,9 +51,11 @@ public abstract class WitchessManager {
       solRequest.run();
 
       if (solRequest.responseText.startsWith("[true")) {
+        KoLmafia.updateDisplay("Solved!");
         solvedPuzzles[i - 1] = String.valueOf(puzzleId);
       } else {
-        // The puzzle wasn't solved, we need to handle an abort here?
+        KoLmafia.updateDisplay(KoLConstants.MafiaState.ABORT, "Failed to solve the Witchess Puzzle for some reason. If this happens again, please file a bug report.");
+        return;
       }
     }
 
