@@ -22,6 +22,7 @@ public abstract class WitchessManager {
     // Still confirming, but it seems as though `witchess.php?num=1` might fail to load if we haven't manually navigated to the witchess set this session.
     RequestThread.postRequest(new GenericRequest("campground.php?action=witchess"));
     RequestThread.postRequest(new GenericRequest("choice.php?whichchoice=1181&option=3"));
+    RequestThread.postRequest(new GenericRequest("choice.php?whichchoice=1183&option=2"));
     String[] solvedPuzzles = new String[5];
 
     for (int i = 1; i <= 5; i++) {
