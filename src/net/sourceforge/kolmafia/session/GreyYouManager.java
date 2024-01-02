@@ -528,11 +528,10 @@ public abstract class GreyYouManager {
 
       this.skillId = skillId;
       this.name = SkillDatabase.getSkillName(skillId);
-      var tags = SkillDatabase.getSkillTags(skillId);
       this.skillType =
-          tags.contains(SkillTag.COMBAT)
-              ? SkillTag.COMBAT
-              : tags.contains(SkillTag.NONCOMBAT) ? SkillTag.NONCOMBAT : SkillTag.PASSIVE;
+          SkillDatabase.isNonCombat(skillId)
+              ? SkillTag.NONCOMBAT
+              : SkillDatabase.isCombat(skillId) ? SkillTag.COMBAT : SkillTag.PASSIVE;
       this.skillTypeName = SkillDatabase.getSkillTypeName(skillId);
       this.passiveEffect = passiveEffect;
       this.level = level;
