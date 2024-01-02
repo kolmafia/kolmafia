@@ -5617,8 +5617,8 @@ public class FightRequest extends GenericRequest {
       // If we are in Grey You and thus can absorb monsters
       this.greyYou = KoLCharacter.inGreyYou();
 
-      // If you are carrying a carnivorous potted plant
-      this.carnivorous = KoLCharacter.hasEquipped(ItemPool.CARNIVOROUS_POTTED_PLANT, Slot.OFFHAND);
+      // If you or your left-hand man are carrying a carnivorous potted plant
+      this.carnivorous = KoLCharacter.hasEquipped(ItemPool.CARNIVOROUS_POTTED_PLANT);
 
       // If you have lovebugs
       this.lovebugs = Preferences.getBoolean("lovebugsUnlocked");
