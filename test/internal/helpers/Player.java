@@ -2427,7 +2427,7 @@ public class Player {
   public static Cleanups withBanishedMonsters(String contents) {
     var preference = withProperty("banishedMonsters", contents);
     BanishManager.loadBanished();
-    return preference;
+    return new Cleanups(preference, new Cleanups(BanishManager::loadBanished));
   }
 
   /**
@@ -2439,7 +2439,7 @@ public class Player {
   public static Cleanups withBanishedPhyla(String contents) {
     var preference = withProperty("banishedPhyla", contents);
     BanishManager.loadBanished();
-    return preference;
+    return new Cleanups(preference, new Cleanups(BanishManager::loadBanished));
   }
 
   /**
@@ -2451,7 +2451,7 @@ public class Player {
   public static Cleanups withTrackedMonsters(String contents) {
     var preference = withProperty("trackedMonsters", contents);
     TrackManager.loadTracked();
-    return preference;
+    return new Cleanups(preference, new Cleanups(TrackManager::loadTracked));
   }
 
   /**
@@ -2463,6 +2463,6 @@ public class Player {
   public static Cleanups withTrackedPhyla(String contents) {
     var preference = withProperty("trackedPhyla", contents);
     TrackManager.loadTracked();
-    return preference;
+    return new Cleanups(preference, new Cleanups(TrackManager::loadTracked));
   }
 }
