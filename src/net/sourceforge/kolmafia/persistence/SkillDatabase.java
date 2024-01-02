@@ -1,7 +1,5 @@
 package net.sourceforge.kolmafia.persistence;
 
-import static net.sourceforge.kolmafia.persistence.SkillDatabase.SkillType.*;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.*;
@@ -21,49 +19,6 @@ import net.sourceforge.kolmafia.utilities.LockableListFactory;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class SkillDatabase {
-  public enum SkillType {
-    // possible types in data/classskills.txt
-    UNKNOWN("unknown", -1),
-    PASSIVE("passive", 0),
-    SUMMON("summon", 1),
-    REMEDY("remedy", 2),
-    SELF_ONLY("self-only", 3),
-    BUFF("buff", 4),
-    COMBAT("combat", 5),
-    SONG("song", 6),
-    COMBAT_NONCOMBAT_REMEDY("combat/noncombat remedy", 7),
-    COMBAT_PASSIVE("combat/passive", 8),
-    EXPRESSION("expression", 9),
-    WALK("walk", 10),
-    REMEDY_PASSIVE("noncombat remedy/passive", 11);
-
-    public final String name;
-    public final int number;
-    private static final Map<String, SkillType> skillTypeByName = new HashMap<>();
-    private static final Map<Integer, SkillType> skillTypeByNumber = new HashMap<>();
-
-    SkillType(String name, int number) {
-      this.name = name;
-      this.number = number;
-    }
-
-    public static SkillType byName(String name) {
-      var lookup = skillTypeByName.get(name);
-      if (lookup != null) return lookup;
-      var search = Arrays.stream(SkillType.values()).filter(x -> x.name.equals(name)).findAny();
-      search.ifPresent(x -> skillTypeByName.put(name, x));
-      return search.orElse(SkillType.UNKNOWN);
-    }
-
-    public static SkillType byNumber(int number) {
-      var lookup = skillTypeByNumber.get(number);
-      if (lookup != null) return lookup;
-      var search = Arrays.stream(SkillType.values()).filter(x -> x.number == number).findAny();
-      search.ifPresent(x -> skillTypeByNumber.put(number, x));
-      return search.orElse(SkillType.UNKNOWN);
-    }
-  }
-
   public enum SkillTag {
     // possible tags in data/classskills.txt
     PASSIVE("passive"),
@@ -212,10 +167,6 @@ public class SkillDatabase {
   }
 
   private SkillDatabase() {}
-
-  public static final SkillType skillTypeNameToType(final String typeName) {
-    return SkillType.byName(typeName);
-  }
 
   public static void reset() {
     for (var category : Category.VALUES) {
