@@ -463,7 +463,7 @@ public class DataTypes {
       return DataTypes.SKILL_INIT;
     }
 
-    int skillId = SkillDatabase.getSkillId(name, type);
+    int skillId = SkillDatabase.getSkillId(name, typeName);
 
     if (skillId == -1) {
       return returnDefault ? DataTypes.SKILL_INIT : null;

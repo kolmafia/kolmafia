@@ -3763,130 +3763,115 @@ public abstract class KoLCharacter {
     PreferenceListenerRegistry.firePreferenceChanged("(skill)");
     Modifiers.availableSkillsChanged();
 
-    switch (SkillDatabase.getSkillType(skillId)) {
-      case PASSIVE -> {
-        switch (skillId) {
-          case SkillPool.FLAVOUR_OF_MAGIC:
-            // Flavour of Magic gives you access to five other
-            // castable skills
-            KoLCharacter.addAvailableSkill(SkillPool.SPIRIT_CAYENNE);
-            KoLCharacter.addAvailableSkill(SkillPool.SPIRIT_PEPPERMINT);
-            KoLCharacter.addAvailableSkill(SkillPool.SPIRIT_GARLIC);
-            KoLCharacter.addAvailableSkill(SkillPool.SPIRIT_WORMWOOD);
-            KoLCharacter.addAvailableSkill(SkillPool.SPIRIT_BACON);
-            KoLCharacter.addAvailableSkill(SkillPool.SPIRIT_NOTHING);
-            break;
+    // passives that grant other skills
 
-          case SkillPool.SOUL_SAUCERY:
-            // Soul Saucery gives you access to six other skills if a Sauceror
-            if (isSauceror()) {
-              KoLCharacter.addAvailableSkill(SkillPool.SOUL_BUBBLE);
-              KoLCharacter.addAvailableSkill(SkillPool.SOUL_FINGER);
-              KoLCharacter.addAvailableSkill(SkillPool.SOUL_BLAZE);
-              KoLCharacter.addAvailableSkill(SkillPool.SOUL_FOOD);
-              KoLCharacter.addAvailableSkill(SkillPool.SOUL_ROTATION);
-              KoLCharacter.addAvailableSkill(SkillPool.SOUL_FUNK);
-            }
-            break;
+    switch (skillId) {
+      case SkillPool.FLAVOUR_OF_MAGIC:
+        // Flavour of Magic gives you access to five other
+        // castable skills
+        KoLCharacter.addAvailableSkill(SkillPool.SPIRIT_CAYENNE);
+        KoLCharacter.addAvailableSkill(SkillPool.SPIRIT_PEPPERMINT);
+        KoLCharacter.addAvailableSkill(SkillPool.SPIRIT_GARLIC);
+        KoLCharacter.addAvailableSkill(SkillPool.SPIRIT_WORMWOOD);
+        KoLCharacter.addAvailableSkill(SkillPool.SPIRIT_BACON);
+        KoLCharacter.addAvailableSkill(SkillPool.SPIRIT_NOTHING);
+        break;
 
-            // Plumber passive skills that grant Plumber
-            // combat skills with the same name
-          case SkillPool.HAMMER_THROW:
-            KoLCharacter.addAvailableCombatSkill(SkillPool.HAMMER_THROW_COMBAT);
-            KoLCharacter.addCombatSkill(skill.getSkillName());
-            break;
-          case SkillPool.ULTRA_SMASH:
-            KoLCharacter.addAvailableCombatSkill(SkillPool.ULTRA_SMASH_COMBAT);
-            KoLCharacter.addCombatSkill(skill.getSkillName());
-            break;
-          case SkillPool.JUGGLE_FIREBALLS:
-            KoLCharacter.addAvailableCombatSkill(SkillPool.JUGGLE_FIREBALLS_COMBAT);
-            KoLCharacter.addCombatSkill(skill.getSkillName());
-            break;
-          case SkillPool.FIREBALL_BARRAGE:
-            KoLCharacter.addAvailableCombatSkill(SkillPool.FIREBALL_BARRAGE_COMBAT);
-            KoLCharacter.addCombatSkill(skill.getSkillName());
-            break;
-          case SkillPool.SPIN_JUMP:
-            KoLCharacter.addAvailableCombatSkill(SkillPool.SPIN_JUMP_COMBAT);
-            KoLCharacter.addCombatSkill(skill.getSkillName());
-            break;
-          case SkillPool.MULTI_BOUNCE:
-            KoLCharacter.addAvailableCombatSkill(SkillPool.MULTI_BOUNCE_COMBAT);
-            KoLCharacter.addCombatSkill(skill.getSkillName());
-            break;
-
-            // Comprehensive Cartography grants Map the Monsters
-          case SkillPool.COMPREHENSIVE_CARTOGRAPHY:
-            KoLCharacter.addAvailableSkill(SkillPool.MAP_THE_MONSTERS);
-            break;
-
-          case SkillPool.EMOTIONALLY_CHIPPED:
-          case SkillPool.REPLICA_EMOTIONALLY_CHIPPED:
-            KoLCharacter.addAvailableSkill(SkillPool.FEEL_DISAPPOINTED);
-            KoLCharacter.addAvailableSkill(SkillPool.FEEL_ENVY);
-            KoLCharacter.addAvailableSkill(SkillPool.FEEL_EXCITEMENT);
-            KoLCharacter.addAvailableSkill(SkillPool.FEEL_HATRED);
-            KoLCharacter.addAvailableSkill(SkillPool.FEEL_LONELY);
-            KoLCharacter.addAvailableSkill(SkillPool.FEEL_LOST);
-            KoLCharacter.addAvailableSkill(SkillPool.FEEL_NERVOUS);
-            KoLCharacter.addAvailableSkill(SkillPool.FEEL_NOSTALGIC);
-            KoLCharacter.addAvailableSkill(SkillPool.FEEL_PEACEFUL);
-            KoLCharacter.addAvailableSkill(SkillPool.FEEL_PRIDE);
-            KoLCharacter.addAvailableSkill(SkillPool.FEEL_SUPERIOR);
-            break;
+      case SkillPool.SOUL_SAUCERY:
+        // Soul Saucery gives you access to six other skills if a Sauceror
+        if (isSauceror()) {
+          KoLCharacter.addAvailableSkill(SkillPool.SOUL_BUBBLE);
+          KoLCharacter.addAvailableSkill(SkillPool.SOUL_FINGER);
+          KoLCharacter.addAvailableSkill(SkillPool.SOUL_BLAZE);
+          KoLCharacter.addAvailableSkill(SkillPool.SOUL_FOOD);
+          KoLCharacter.addAvailableSkill(SkillPool.SOUL_ROTATION);
+          KoLCharacter.addAvailableSkill(SkillPool.SOUL_FUNK);
         }
-      }
-      case SUMMON -> {
-        KoLConstants.usableSkills.add(skill);
-        LockableListFactory.sort(KoLConstants.usableSkills);
-        KoLConstants.summoningSkills.add(skill);
-        LockableListFactory.sort(KoLConstants.summoningSkills);
-      }
-      case REMEDY, REMEDY_PASSIVE -> {
-        KoLConstants.usableSkills.add(skill);
-        LockableListFactory.sort(KoLConstants.usableSkills);
-        KoLConstants.remedySkills.add(skill);
-        LockableListFactory.sort(KoLConstants.remedySkills);
-      }
-      case SELF_ONLY -> {
-        KoLConstants.usableSkills.add(skill);
-        LockableListFactory.sort(KoLConstants.usableSkills);
-        KoLConstants.selfOnlySkills.add(skill);
-        LockableListFactory.sort(KoLConstants.selfOnlySkills);
-      }
-      case BUFF -> {
-        KoLConstants.usableSkills.add(skill);
-        LockableListFactory.sort(KoLConstants.usableSkills);
-        KoLConstants.buffSkills.add(skill);
-        LockableListFactory.sort(KoLConstants.buffSkills);
-      }
-      case SONG -> {
-        KoLConstants.usableSkills.add(skill);
-        LockableListFactory.sort(KoLConstants.usableSkills);
-        KoLConstants.songSkills.add(skill);
-        LockableListFactory.sort(KoLConstants.songSkills);
-      }
-      case COMBAT, COMBAT_PASSIVE -> KoLCharacter.addCombatSkill(skill.getSkillName());
-      case COMBAT_NONCOMBAT_REMEDY -> {
-        KoLConstants.usableSkills.add(skill);
-        LockableListFactory.sort(KoLConstants.usableSkills);
-        KoLConstants.remedySkills.add(skill);
-        LockableListFactory.sort(KoLConstants.remedySkills);
+        break;
+
+        // Plumber passive skills that grant Plumber
+        // combat skills with the same name
+      case SkillPool.HAMMER_THROW:
+        KoLCharacter.addAvailableCombatSkill(SkillPool.HAMMER_THROW_COMBAT);
         KoLCharacter.addCombatSkill(skill.getSkillName());
-      }
-      case EXPRESSION -> {
-        KoLConstants.usableSkills.add(skill);
-        LockableListFactory.sort(KoLConstants.usableSkills);
-        KoLConstants.expressionSkills.add(skill);
-        LockableListFactory.sort(KoLConstants.expressionSkills);
-      }
-      case WALK -> {
-        KoLConstants.usableSkills.add(skill);
-        LockableListFactory.sort(KoLConstants.usableSkills);
-        KoLConstants.walkSkills.add(skill);
-        LockableListFactory.sort(KoLConstants.walkSkills);
-      }
+        break;
+      case SkillPool.ULTRA_SMASH:
+        KoLCharacter.addAvailableCombatSkill(SkillPool.ULTRA_SMASH_COMBAT);
+        KoLCharacter.addCombatSkill(skill.getSkillName());
+        break;
+      case SkillPool.JUGGLE_FIREBALLS:
+        KoLCharacter.addAvailableCombatSkill(SkillPool.JUGGLE_FIREBALLS_COMBAT);
+        KoLCharacter.addCombatSkill(skill.getSkillName());
+        break;
+      case SkillPool.FIREBALL_BARRAGE:
+        KoLCharacter.addAvailableCombatSkill(SkillPool.FIREBALL_BARRAGE_COMBAT);
+        KoLCharacter.addCombatSkill(skill.getSkillName());
+        break;
+      case SkillPool.SPIN_JUMP:
+        KoLCharacter.addAvailableCombatSkill(SkillPool.SPIN_JUMP_COMBAT);
+        KoLCharacter.addCombatSkill(skill.getSkillName());
+        break;
+      case SkillPool.MULTI_BOUNCE:
+        KoLCharacter.addAvailableCombatSkill(SkillPool.MULTI_BOUNCE_COMBAT);
+        KoLCharacter.addCombatSkill(skill.getSkillName());
+        break;
+
+        // Comprehensive Cartography grants Map the Monsters
+      case SkillPool.COMPREHENSIVE_CARTOGRAPHY:
+        KoLCharacter.addAvailableSkill(SkillPool.MAP_THE_MONSTERS);
+        break;
+
+      case SkillPool.EMOTIONALLY_CHIPPED:
+      case SkillPool.REPLICA_EMOTIONALLY_CHIPPED:
+        KoLCharacter.addAvailableSkill(SkillPool.FEEL_DISAPPOINTED);
+        KoLCharacter.addAvailableSkill(SkillPool.FEEL_ENVY);
+        KoLCharacter.addAvailableSkill(SkillPool.FEEL_EXCITEMENT);
+        KoLCharacter.addAvailableSkill(SkillPool.FEEL_HATRED);
+        KoLCharacter.addAvailableSkill(SkillPool.FEEL_LONELY);
+        KoLCharacter.addAvailableSkill(SkillPool.FEEL_LOST);
+        KoLCharacter.addAvailableSkill(SkillPool.FEEL_NERVOUS);
+        KoLCharacter.addAvailableSkill(SkillPool.FEEL_NOSTALGIC);
+        KoLCharacter.addAvailableSkill(SkillPool.FEEL_PEACEFUL);
+        KoLCharacter.addAvailableSkill(SkillPool.FEEL_PRIDE);
+        KoLCharacter.addAvailableSkill(SkillPool.FEEL_SUPERIOR);
+        break;
+    }
+
+    if (SkillDatabase.isCombat(skillId)) {
+      KoLCharacter.addCombatSkill(skill.getSkillName());
+    }
+
+    if (SkillDatabase.isNonCombat(skillId)) {
+      KoLConstants.usableSkills.add(skill);
+      LockableListFactory.sort(KoLConstants.usableSkills);
+    }
+
+    if (SkillDatabase.isSummon(skillId)) {
+      KoLConstants.summoningSkills.add(skill);
+      LockableListFactory.sort(KoLConstants.summoningSkills);
+    }
+
+    if (SkillDatabase.isRemedy(skillId)) {
+      KoLConstants.remedySkills.add(skill);
+      LockableListFactory.sort(KoLConstants.remedySkills);
+    }
+
+    // effects: not shared
+    if (SkillDatabase.isSong(skillId)) {
+      KoLConstants.songSkills.add(skill);
+      LockableListFactory.sort(KoLConstants.songSkills);
+    } else if (SkillDatabase.isExpression(skillId)) {
+      KoLConstants.expressionSkills.add(skill);
+      LockableListFactory.sort(KoLConstants.expressionSkills);
+    } else if (SkillDatabase.isWalk(skillId)) {
+      KoLConstants.walkSkills.add(skill);
+      LockableListFactory.sort(KoLConstants.walkSkills);
+    } else if (SkillDatabase.isSelfOnly(skillId)) {
+      KoLConstants.selfOnlySkills.add(skill);
+      LockableListFactory.sort(KoLConstants.selfOnlySkills);
+    } else if (SkillDatabase.isBuff(skillId)) {
+      KoLConstants.buffSkills.add(skill);
+      LockableListFactory.sort(KoLConstants.buffSkills);
     }
   }
 
