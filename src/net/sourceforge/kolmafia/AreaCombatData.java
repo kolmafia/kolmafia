@@ -112,17 +112,13 @@ public class AreaCombatData {
       baseWeighting = AreaCombatData.adjustConditionalWeighting(zone, monsterName, baseWeighting);
       int currentWeighting = baseWeighting;
 
-      var copies = (int) TrackManager.countCopies(monsterName);
-      currentWeighting += copies * baseWeighting;
-
       if (BanishManager.isBanished(monsterName)
           || (rwbRelevant && !Preferences.getString("rwbMonster").equals(monsterName))) {
-        // Banishing reduces number of copies
-        currentWeighting -= baseWeighting;
-        // If this takes it to zero chance, it's properly banished
-        if (currentWeighting == 0) {
-          currentWeighting = -3;
-        }
+        // Banishing reduces copies to 0
+        currentWeighting = -3;
+      } else {
+        var copies = (int) TrackManager.countCopies(monsterName);
+        currentWeighting += copies * baseWeighting;
       }
 
       // Not available in current
