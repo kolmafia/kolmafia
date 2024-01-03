@@ -19,7 +19,8 @@ public abstract class WitchessManager {
       return;
     }
 
-    // Still confirming, but it seems as though `witchess.php?num=1` might fail to load if we haven't manually navigated to the witchess set this session.
+    // Still confirming, but it seems as though `witchess.php?num=1` might fail to load if we
+    // haven't manually navigated to the witchess set this session.
     RequestThread.postRequest(new GenericRequest("campground.php?action=witchess"));
     RequestThread.postRequest(new GenericRequest("choice.php?whichchoice=1181&option=3"));
     RequestThread.postRequest(new GenericRequest("choice.php?whichchoice=1183&option=2"));
@@ -55,7 +56,9 @@ public abstract class WitchessManager {
         KoLmafia.updateDisplay("Solved!");
         solvedPuzzles[i - 1] = String.valueOf(puzzleId);
       } else {
-        KoLmafia.updateDisplay(KoLConstants.MafiaState.ABORT, "Failed to solve the Witchess Puzzle for some reason. If this happens again, please file a bug report.");
+        KoLmafia.updateDisplay(
+            KoLConstants.MafiaState.ABORT,
+            "Failed to solve the Witchess Puzzle for some reason. If this happens again, please file a bug report.");
         return;
       }
     }
