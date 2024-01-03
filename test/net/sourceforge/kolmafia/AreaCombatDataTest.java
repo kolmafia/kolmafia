@@ -263,6 +263,27 @@ public class AreaCombatDataTest {
   }
 
   @Test
+  public void banishOverridesTrack() {
+    var cleanups =
+        new Cleanups(
+            withTrackedMonsters(
+                "smut orc nailer:Gallapagosian Mating Call:1:smut orc pipelayer:Transcendent Olfaction:2"),
+            withBanishedMonsters("smut orc pipelayer:snokebomb:2"));
+
+    try (cleanups) {
+      Map<MonsterData, Double> appearanceRates = SMUT_ORC_CAMP.getMonsterData(true);
+
+      assertThat(
+          appearanceRates,
+          allOf(
+              hasEntry(JACKER, 25.0),
+              hasEntry(NAILER, 50.0),
+              hasEntry(PIPELAYER, -3.0),
+              hasEntry(SCREWER, 25.0)));
+    }
+  }
+
+  @Test
   public void battlefieldHippyUniform() {
     AdventureQueueDatabase.resetQueue();
 
@@ -826,7 +847,7 @@ public class AreaCombatDataTest {
     }
 
     @Test
-    public void blastDoesNotForceIfOtherCopies() {
+    public void blastForcesWithOtherCopies() {
       var cleanups =
           new Cleanups(
               withProperty("rwbLocation", "The Smut Orc Logging Camp"),
@@ -840,8 +861,8 @@ public class AreaCombatDataTest {
         assertThat(
             appearanceRates,
             allOf(
-                hasEntry(JACKER, 50.0),
-                hasEntry(NAILER, 50.0),
+                hasEntry(JACKER, 100.0),
+                hasEntry(NAILER, -3.0),
                 hasEntry(PIPELAYER, -3.0),
                 hasEntry(SCREWER, -3.0)));
       }
