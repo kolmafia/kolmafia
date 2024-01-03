@@ -916,6 +916,9 @@ public class EatItemRequest extends UseItemRequest {
         KoLCharacter.setSpleenUse(KoLCharacter.getSpleenUse() - 5 * item.getCount());
         KoLCharacter.updateStatus();
       }
+      case ItemPool.TIN_CUP_OF_MULLIGAN_STEW -> {
+        Preferences.setBoolean("_mulliganStewEaten", true);
+      }
       case ItemPool.SPAGHETTI_BREAKFAST -> Preferences.setBoolean("_spaghettiBreakfastEaten", true);
       case ItemPool.SMORE -> {
         Preferences.increment("smoresEaten", 1);

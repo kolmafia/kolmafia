@@ -2016,6 +2016,7 @@ user	_hipsterAdv	0
 user	_hoardedCandyDropsCrown	0
 user	_hobbyHorseUsed	false
 user	_hoboUnderlingSummons	0
+user	_hodgmansBlanketDrunk	false
 user	_holidayFunUsed	false
 user	_holoWristCrystal	false
 user	_holoWristDrops	0
@@ -2178,6 +2179,7 @@ user	_monsterHabitatsRecalled	0
 user	_monstersMapped	0
 user	_mrBurnsgerEaten	false
 user	_muffinOrderedToday	false
+user	_mulliganStewEaten	false
 user	_mummeryMods
 user	_mummeryUses
 user	_mushroomGardenVisited	false
