@@ -29,12 +29,32 @@ public class WitchessRequestTest {
 			  Arguments.of(23, false),
 			  Arguments.of(56, true),
 			  Arguments.of(56, false),
+			  Arguments.of(63, true),
+			  Arguments.of(63, false),
+			  Arguments.of(66, true),
+			  Arguments.of(66, false),
 			  Arguments.of(67, true),
 			  Arguments.of(67, false),
 			  Arguments.of(68, true),
 			  Arguments.of(68, false),
+			  Arguments.of(70, true),
+			  Arguments.of(70, false),
 			  Arguments.of(71, true),
-			  Arguments.of(71, false)
+			  Arguments.of(71, false),
+			  Arguments.of(78, true),
+			  Arguments.of(78, false),
+			  Arguments.of(79, true),
+			  Arguments.of(79, false),
+			  Arguments.of(82, true),
+			  Arguments.of(82, false),
+			  Arguments.of(84, true),
+			  Arguments.of(84, false),
+			  Arguments.of(87, true),
+			  Arguments.of(87, false),
+			  Arguments.of(89, true),
+			  Arguments.of(89, false),
+			  Arguments.of(93, true),
+			  Arguments.of(93, false)
 	  );
   }
 
@@ -55,18 +75,7 @@ public class WitchessRequestTest {
   }
 
   @ParameterizedTest
-  @CsvSource({
-    "23, true",
-    "23, false",
-    "56, true",
-    "56, false",
-    "67, true",
-    "67, false",
-    "68, true",
-    "68, false",
-    "71, true",
-    "71, false"
-  })
+  @MethodSource("generateTests")
   void alreadyHasBuffRequest(int puzzleId, boolean isSolved) {
     var solvedPart = isSolved ? "solved" : "unsolved";
     var path = "request/witchess/" + solvedPart + "/puzzle_" + puzzleId + ".html";
