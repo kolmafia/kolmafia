@@ -185,6 +185,7 @@ Drink	cup of "tea"	_speakeasyDrinksDrunk	3
 Drink	Doc Clock's thyme cocktail	_docClocksThymeCocktailDrunk
 Drink	Flivver	_speakeasyDrinksDrunk	3
 Drink	Frosty's frosty mug	_frostyMugUsed
+Drink	Hodgman's blanket	_hodgmansBlanketDrunk
 Drink	Hot Socks	_speakeasyDrinksDrunk	3
 Drink	Ish Kabibble	_speakeasyDrinksDrunk	3
 Drink	Lucky Lindy	_speakeasyDrinksDrunk	3
@@ -225,6 +226,7 @@ Eat	savage macho dog	_fancyHotDogEaten
 Eat	sleeping dog	_fancyHotDogEaten
 Eat	sly dog	_fancyHotDogEaten
 Eat	spaghetti breakfast	_spaghettiBreakfastEaten
+Eat	tin cup of mulligan stew	_mulliganStewEaten
 Eat	video games hot dog	_fancyHotDogEaten
 Eat	wet dog	_fancyHotDogEaten
 Tome	Summon Clip Art	_clipartSummons	3
