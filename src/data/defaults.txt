@@ -1906,8 +1906,8 @@ user	_etchedHourglassUsed	false
 user	_eternalCarBatteryUsed	false
 user	_everfullGlassUsed	false
 user	_expertCornerCutterUsed	0
-user	_extraTimeUsed	0
 user	_extraGreasySliderEaten	false
+user	_extraTimeUsed	0
 user	_eyeAndATwistUsed	false
 user	_fancyChessSetUsed	false
 user	_falloutShelterSpaUsed	false
