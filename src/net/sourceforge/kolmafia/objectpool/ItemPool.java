@@ -1005,6 +1005,7 @@ public class ItemPool {
   public static final int SCRATCHS_FORK = 3323;
   public static final int FROSTYS_MUG = 3324;
   public static final int FERMENTED_PICKLE_JUICE = 3325;
+  public static final int VOODOO_SNUFF = 3326;
   public static final int EXTRA_GREASY_SLIDER = 3327;
   public static final int CRUMPLED_FELT_FEDORA = 3328;
   public static final int DOUBLE_SIDED_TAPE = 3336;

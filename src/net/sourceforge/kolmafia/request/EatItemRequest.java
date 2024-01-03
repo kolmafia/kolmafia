@@ -788,6 +788,8 @@ public class EatItemRequest extends UseItemRequest {
 
           if (!responseText.contains("The salad fork cools")) {
             success = false;
+          } else {
+            Preferences.setBoolean("_saladForkUsed", true);
           }
           break;
 
@@ -910,6 +912,7 @@ public class EatItemRequest extends UseItemRequest {
         Preferences.increment("drippyJuice", 5);
       }
       case ItemPool.EXTRA_GREASY_SLIDER -> {
+        Preferences.setBoolean("_extraGreasySliderEaten", true);
         KoLCharacter.setSpleenUse(KoLCharacter.getSpleenUse() - 5 * item.getCount());
         KoLCharacter.updateStatus();
       }
