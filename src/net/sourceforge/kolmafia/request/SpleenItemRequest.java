@@ -252,6 +252,10 @@ public class SpleenItemRequest extends UseItemRequest {
         }
         break;
 
+      case ItemPool.VOODOO_SNUFF:
+        Preferences.setBoolean("_voodooSnuffUsed", true);
+        break;
+
       case ItemPool.TURKEY_BLASTER:
         if (responseText.contains("can't handle")) {
           Preferences.setInteger("_turkeyBlastersUsed", 3);
