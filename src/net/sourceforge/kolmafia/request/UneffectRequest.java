@@ -123,6 +123,7 @@ public class UneffectRequest extends GenericRequest {
           EffectPool.EVERYTHING_LOOKS_YELLOW,
           EffectPool.EVERYTHING_LOOKS_BLUE,
           EffectPool.EVERYTHING_LOOKS_RED,
+          EffectPool.EVERYTHING_LOOKS_GREEN,
           EffectPool.DEEP_TAINTED_MIND,
           EffectPool.SPIRIT_PARIAH,
           EffectPool.BORED_WITH_EXPLOSIONS,
