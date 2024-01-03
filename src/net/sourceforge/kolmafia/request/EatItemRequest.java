@@ -786,10 +786,14 @@ public class EatItemRequest extends UseItemRequest {
           // sizzlicious! The salad fork cools, and you
           // discard it."
 
-          if (!responseText.contains("The salad fork cools")) {
-            success = false;
-          } else {
+          if (responseText.contains("The salad fork cools")) {
             Preferences.setBoolean("_saladForkUsed", true);
+          } else {
+            success = false;
+            // Only special failure case to care about
+            if (responseText.contains("You may only use one of those per day.")) {
+              Preferences.setBoolean("_saladForkUsed", true);
+            }
           }
           break;
 
@@ -915,6 +919,9 @@ public class EatItemRequest extends UseItemRequest {
         Preferences.setBoolean("_extraGreasySliderEaten", true);
         KoLCharacter.setSpleenUse(KoLCharacter.getSpleenUse() - 5 * item.getCount());
         KoLCharacter.updateStatus();
+      }
+      case ItemPool.TIN_CUP_OF_MULLIGAN_STEW -> {
+        Preferences.setBoolean("_mulliganStewEaten", true);
       }
       case ItemPool.SPAGHETTI_BREAKFAST -> Preferences.setBoolean("_spaghettiBreakfastEaten", true);
       case ItemPool.SMORE -> {

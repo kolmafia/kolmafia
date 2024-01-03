@@ -156,7 +156,8 @@ public class DrinkItemRequest extends UseItemRequest {
     var dailyLimit = DailyLimitDatabase.DailyLimitType.DRINK.getDailyLimit(itemId);
     if (dailyLimit != null) {
       var remaining = dailyLimit.getUsesRemaining();
-      if (remaining == 0) {
+      // Drinking only this we can't get ourselves overdrunk before we hit our daily cap
+      if (remaining * inebriety <= inebrietyLeft) {
         UseItemRequest.limiter = dailyLimit.getLimitReason();
         return remaining;
       }
@@ -735,10 +736,14 @@ public class DrinkItemRequest extends UseItemRequest {
           // <drink> and discard the no-longer-frosty
           // mug."
 
-          if (!responseText.contains("discard the no-longer-frosty")) {
-            success = false;
-          } else {
+          if (responseText.contains("discard the no-longer-frosty")) {
             Preferences.setBoolean("_frostyMugUsed", true);
+          } else {
+            success = false;
+            // Only failure case to care about
+            if (responseText.contains("You may only use one of those per day.")) {
+              Preferences.setBoolean("_frostyMugUsed", true);
+            }
           }
           break;
       }
@@ -851,6 +856,9 @@ public class DrinkItemRequest extends UseItemRequest {
         Preferences.setBoolean("_pickleJuiceDrunk", true);
         KoLCharacter.setSpleenUse(KoLCharacter.getSpleenUse() - 5 * item.getCount());
         KoLCharacter.updateStatus();
+      }
+      case ItemPool.HODGMANS_BLANKET -> {
+        Preferences.setBoolean("_hodgmansBlanketDrunk", true);
       }
       case ItemPool.MINI_MARTINI -> Preferences.increment("miniMartinisDrunk", item.getCount());
       case ItemPool.GETS_YOU_DRUNK -> Preferences.setInteger("getsYouDrunkTurnsLeft", 4);

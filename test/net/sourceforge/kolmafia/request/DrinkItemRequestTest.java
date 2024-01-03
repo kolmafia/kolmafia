@@ -116,6 +116,32 @@ class DrinkItemRequestTest {
   }
 
   @Test
+  public void setsDailyLimitOnSuccessfulConsumption() {
+    var cleanups =
+        new Cleanups(
+            withProperty("_pickleJuiceDrunk", false), withItem(ItemPool.FERMENTED_PICKLE_JUICE));
+    try (cleanups) {
+      var req = new DrinkItemRequest(ItemPool.get(ItemPool.FERMENTED_PICKLE_JUICE));
+      req.responseText = html("request/test_drink_pickle_juice_success.html");
+      req.processResults();
+      assertThat("_pickleJuiceDrunk", isSetTo(true));
+    }
+  }
+
+  @Test
+  public void setsDailyLimitOnFailedConsumption() {
+    var cleanups =
+        new Cleanups(
+            withProperty("_pickleJuiceDrunk", false), withItem(ItemPool.FERMENTED_PICKLE_JUICE));
+    try (cleanups) {
+      var req = new DrinkItemRequest(ItemPool.get(ItemPool.FERMENTED_PICKLE_JUICE));
+      req.responseText = html("request/test_drink_pickle_juice_limit_failure.html");
+      req.processResults();
+      assertThat("_pickleJuiceDrunk", isSetTo(true));
+    }
+  }
+
+  @Test
   public void trackUseOfCinchoSaltAndLime() {
     var cleanups =
         new Cleanups(withProperty("cinchoSaltAndLime", 2), withItem(ItemPool.VODKA_MARTINI));
@@ -235,6 +261,18 @@ class DrinkItemRequestTest {
               withItem(ItemPool.VIP_LOUNGE_KEY))) {
         var max = DrinkItemRequest.maximumUses(ItemPool.BEES_KNEES, "Bee's Knees", 2, false);
         assertThat(max, is(0));
+        assertThat(DrinkItemRequest.limiter, is("daily limit"));
+      }
+    }
+
+    @Test
+    void correctlyIdentifyWhenDailyLimitIsCausingLimitForMultiUse() {
+      try (var cleanups =
+          new Cleanups(withInebriety(0), withProperty("_pickleJuiceDrunk", false))) {
+        var max =
+            DrinkItemRequest.maximumUses(
+                ItemPool.FERMENTED_PICKLE_JUICE, "fermented pickle juice", 2, false);
+        assertThat(max, is(1));
         assertThat(DrinkItemRequest.limiter, is("daily limit"));
       }
     }
