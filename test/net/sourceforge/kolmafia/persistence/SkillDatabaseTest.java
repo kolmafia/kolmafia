@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.persistence;
 
 import static internal.helpers.Player.withClass;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -123,6 +124,78 @@ public class SkillDatabaseTest {
     @Test
     void someSkillsOver7000AreWhitelisted() {
       assertThat(SkillDatabase.isPermable(7254), is(true));
+    }
+  }
+
+  @Nested
+  class SkillTypes {
+    @Test
+    void unknown() {
+      assertThat(SkillDatabase.getSkillTypeName(-1), equalTo("unknown"));
+    }
+
+    @Test
+    void passive() {
+      assertThat(SkillDatabase.getSkillTypeName(SkillPool.LUST), equalTo("passive"));
+    }
+
+    @Test
+    void summon() {
+      assertThat(SkillDatabase.getSkillTypeName(SkillPool.PASTAMASTERY), equalTo("summon"));
+    }
+
+    @Test
+    void remedy() {
+      assertThat(SkillDatabase.getSkillTypeName(SkillPool.COCOON), equalTo("remedy"));
+    }
+
+    @Test
+    void self() {
+      assertThat(SkillDatabase.getSkillTypeName(SkillPool.DISCO_FEVER), equalTo("self-only"));
+    }
+
+    @Test
+    void buff() {
+      assertThat(SkillDatabase.getSkillTypeName(SkillPool.EMPATHY_OF_THE_NEWT), equalTo("buff"));
+    }
+
+    @Test
+    void combat() {
+      assertThat(SkillDatabase.getSkillTypeName(SkillPool.TANGO_OF_TERROR), equalTo("combat"));
+    }
+
+    @Test
+    void song() {
+      assertThat(SkillDatabase.getSkillTypeName(SkillPool.SONG_OF_SAUCE), equalTo("song"));
+    }
+
+    @Test
+    void comNoncomRemedy() {
+      assertThat(
+          SkillDatabase.getSkillTypeName(SkillPool.DEVOUR_MINIONS),
+          equalTo("combat/noncombat remedy"));
+    }
+
+    @Test
+    void comPassive() {
+      assertThat(
+          SkillDatabase.getSkillTypeName(SkillPool.RAVENOUS_POUNCE), equalTo("combat/passive"));
+    }
+
+    @Test
+    void expression() {
+      assertThat(SkillDatabase.getSkillTypeName(SkillPool.INSCRUTABLE_GAZE), equalTo("expression"));
+    }
+
+    @Test
+    void walk() {
+      assertThat(SkillDatabase.getSkillTypeName(SkillPool.WALK_LEISURELY_AMBLE), equalTo("walk"));
+    }
+
+    @Test
+    void remedyPassive() {
+      assertThat(
+          SkillDatabase.getSkillTypeName(SkillPool.DISCO_NAP), equalTo("noncombat remedy/passive"));
     }
   }
 }
