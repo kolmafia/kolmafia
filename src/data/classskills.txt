@@ -1,7 +1,7 @@
 6
 # Syntax is:
 # id	Name	image	Tags	MP Cost	Duration[	Attributes]
-# Type are a comma separated list of:
+# Tags are a comma separated list of:
 #     passive
 #     combat
 #     nc (noncombat)
