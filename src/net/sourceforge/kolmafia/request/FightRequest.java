@@ -411,6 +411,7 @@ public class FightRequest extends GenericRequest {
           "alphabetizes your recycling",
           "bundles your recycling for you",
           "changes the litter in your Familiar-Gro Terrarium",
+          "cleans all your unfolded laundry",
           "cleans your gutters",
           "clears your browser history",
           "does all that tedious campsite cleaning you were going to do today",
