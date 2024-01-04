@@ -919,6 +919,7 @@ public class ItemPool {
   public static final int SANDCASTLE = 3127;
   public static final int MARSHMALLOW = 3128;
   public static final int ROASTED_MARSHMALLOW = 3129;
+  public static final int TIN_CUP_OF_MULLIGAN_STEW = 3131;
   public static final int TORN_PAPER_STRIP = 3144;
   public static final int PUNCHCARD_ATTACK = 3146;
   public static final int PUNCHCARD_REPAIR = 3147;
@@ -1005,6 +1006,7 @@ public class ItemPool {
   public static final int SCRATCHS_FORK = 3323;
   public static final int FROSTYS_MUG = 3324;
   public static final int FERMENTED_PICKLE_JUICE = 3325;
+  public static final int VOODOO_SNUFF = 3326;
   public static final int EXTRA_GREASY_SLIDER = 3327;
   public static final int CRUMPLED_FELT_FEDORA = 3328;
   public static final int DOUBLE_SIDED_TAPE = 3336;
@@ -1036,6 +1038,7 @@ public class ItemPool {
   public static final int HODGMANS_PORKPIE_HAT = 3395;
   public static final int HODGMANS_LOBSTERSKIN_PANTS = 3396;
   public static final int HODGMANS_BOW_TIE = 3397;
+  public static final int HODGMANS_BLANKET = 3398;
   public static final int SQUEEZE = 3399;
   public static final int FISHYSOISSE = 3400;
   public static final int LAMP_SHADE = 3401;

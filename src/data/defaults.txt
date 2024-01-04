@@ -1907,6 +1907,7 @@ user	_eternalCarBatteryUsed	false
 user	_everfullGlassUsed	false
 user	_expertCornerCutterUsed	0
 user	_extraTimeUsed	0
+user	_extraGreasySliderEaten	false
 user	_eyeAndATwistUsed	false
 user	_fancyChessSetUsed	false
 user	_falloutShelterSpaUsed	false
@@ -1955,6 +1956,7 @@ user	_frButtonsPressed	0
 user	_frHoursLeft
 user	_frMonstersKilled
 user	_frToday	false
+user	_frostyMugUsed	false
 user	_fudgeSporkUsed	false
 user	_fudgeWaspFights	0
 user	_futuristicCollarModifier
@@ -2014,6 +2016,7 @@ user	_hipsterAdv	0
 user	_hoardedCandyDropsCrown	0
 user	_hobbyHorseUsed	false
 user	_hoboUnderlingSummons	0
+user	_hodgmansBlanketDrunk	false
 user	_holidayFunUsed	false
 user	_holoWristCrystal	false
 user	_holoWristDrops	0
@@ -2176,6 +2179,7 @@ user	_monsterHabitatsRecalled	0
 user	_monstersMapped	0
 user	_mrBurnsgerEaten	false
 user	_muffinOrderedToday	false
+user	_mulliganStewEaten	false
 user	_mummeryMods
 user	_mummeryUses
 user	_mushroomGardenVisited	false
@@ -2222,6 +2226,7 @@ user	_petePeeledOut	0
 user	_peteRiotIncited	false
 user	_photocopyUsed	false
 user	_pickyTweezersUsed	false
+user	_pickleJuiceDrunk	false
 user	_pieDrops	0
 user	_piePartsCount	0
 user	_pingPongGame	false
@@ -2281,6 +2286,7 @@ user	_saberForceMonster
 user	_saberForceMonsterCount	0
 user	_saberForceUses	0
 user	_saberMod	0
+user	_saladForkUsed	false
 user	_saltGrainsConsumed	0
 user	_sandwormCharge	0
 user	_saplingsPlanted	0
@@ -2452,6 +2458,7 @@ user	_volcanoItemCount3	0
 user	_voraciTeaUsed	false
 user	_volcanoItemRedeemed	false
 user	_volcanoSuperduperheatedMetal	false
+user	_voodooSnuffUsed	false
 user	_voteFreeFights	0
 user	_voteLocal1	
 user	_voteLocal2	
