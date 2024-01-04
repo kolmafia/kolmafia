@@ -60,6 +60,7 @@ public class SkillPool {
   public static final int GRAB_A_COLD_ONE = 95;
   public static final int SPAGHETTI_BREAKFAST = 101;
   public static final int SHADOW_NOODLES = 102;
+  public static final int SONG_OF_SAUCE = 105;
   public static final int SUMMON_ANNOYANCE = 107;
   public static final int SHRAP = 110;
   public static final int PSYCHOKINETIC_HUG = 111;
@@ -210,6 +211,7 @@ public class SkillPool {
   public static final int DISCO_DANCE_OF_DOOM = 5005;
   public static final int DISCO_NAP = 5007;
   public static final int DISCO_DANCE_II_ELECTRIC_BOOGALOO = 5008;
+  public static final int DISCO_FEVER = 5009;
   public static final int ADVENTURER_OF_LEISURE = 5011;
   public static final int DISCO_FACE_STAB = 5012;
   public static final int ADVANCED_COCKTAIL = 5014;
@@ -677,6 +679,7 @@ public class SkillPool {
   public static final int PATENT_MEDICINE = 20004;
   public static final int LONG_CON = 20007;
   public static final int TOLERANT_CONSTITUTION = 20008;
+  public static final int WALK_LEISURELY_AMBLE = 20009;
   public static final int OVERCLOCKED = 21001;
   public static final int BOILING_TEAR_DUCTS = 22012;
   public static final int THROAT_REFRIDGERANT = 22013;

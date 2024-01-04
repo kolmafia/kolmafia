@@ -3,7 +3,7 @@ package net.sourceforge.kolmafia.textui.command;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.persistence.SkillDatabase.SkillType;
+import net.sourceforge.kolmafia.persistence.SkillDatabase.SkillTag;
 import net.sourceforge.kolmafia.session.GreyYouManager;
 import net.sourceforge.kolmafia.session.GreyYouManager.GooSkill;
 
@@ -78,7 +78,7 @@ public class GooSkillsCommand extends AbstractCommand {
       output.append("</td>");
       output.append("<td>");
       output.append(skill.getSkillTypeName());
-      if (skill.getSkillType() != SkillType.PASSIVE) {
+      if (skill.getSkillType() != SkillTag.PASSIVE) {
         output.append(" (");
         output.append(String.valueOf(skill.getMPCost()));
         output.append(" MP)");

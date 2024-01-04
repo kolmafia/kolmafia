@@ -6495,7 +6495,7 @@ public abstract class RuntimeLibrary {
 
       // If we are not in combat, bail if the skill can't be cast
 
-      if (!SkillDatabase.isNormal(skillId)) {
+      if (!SkillDatabase.isNonCombat(skillId)) {
         return DataTypes.FALSE_VALUE;
       }
     }
@@ -6553,7 +6553,7 @@ public abstract class RuntimeLibrary {
 
       // If we are not in combat, bail if the skill can't be cast
 
-      if (!SkillDatabase.isNormal(skillId)) {
+      if (!SkillDatabase.isNonCombat(skillId)) {
         return DataTypes.FALSE_VALUE;
       }
     }

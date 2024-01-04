@@ -32,36 +32,36 @@
 
 1	Mosquito	familiar1.gif	combat0,hp0	mosquito larva	hypodermic needle	2	1	3	0	animal,insect,haseyes,haswings,fast,bite,flies
 2	Leprechaun	familiar2.gif	meat0	leprechaun hatchling	Meat detector	1	3	0	2	hashands,wearsclothes,haseyes
-3	Levitating Potato	familiar3.gif	block	potato sprout	many-eyed glasses	0	1	2	3	haseyes
+3	Levitating Potato	familiar3.gif	block	potato sprout	many-eyed glasses	0	1	2	3	organic,vegetable,haseyes,hovers,edible,food
 4	Angry Goat	familiar4.gif	combat0,combat1	goat	prosthetic forehead	3	0	2	1	animal,haseyes,fast,bite
-5	Sabre-Toothed Lime	familiar5.gif	combat0	sabre-toothed lime cub	tiny shaker of salt	3	0	2	1	bite
-6	Fuzzy Dice	familiar6.gif	combat0,delevel,meat1,mp0,hp0	fuzzy dice	meatcar model	2	2	2	2
+5	Sabre-Toothed Lime	familiar5.gif	combat0	sabre-toothed lime cub	tiny shaker of salt	3	0	2	1	organic,sentient,cute,vegetable,food,bite
+6	Fuzzy Dice	familiar6.gif	combat0,delevel,meat1,mp0,hp0	fuzzy dice	meatcar model	2	2	2	2	mineral,polygonal,object
 7	Spooky Pirate Skeleton	familiar7.gif	combat1,delevel	spooky pirate skeleton	blundarrrbus	2	3	1	0	hashands,haseyes,undead,cantalk
 8	Barrrnacle	familiar8.gif	delevel,underwater	barrrnacle	sucky decal	0	2	1	3	animal
 9	Howling Balloon Monkey	familiar9.gif	combat0,mp0	balloon monkey	tiny balloon knife	1	3	2	0	animal
 10	Stab Bat	familiar10.gif	combat0	rewinged stab bat	shock collar	3	2	1	0	animal,haseyes,haswings,evil,fast,flies
 11	Grue	familiar11.gif	combat1	grue egg	moonglasses	2	0	1	3	animal,haseyes,evil,bite,flies
-12	Blood-Faced Volleyball	familiar12.gif	stat0	blood-faced volleyball	palm-frond toupee	0	1	3	2	haseyes
+12	Blood-Faced Volleyball	familiar12.gif	stat0	blood-faced volleyball	palm-frond toupee	0	1	3	2	mineral,orb,haseyes,object,spooky,hovers
 13
 14	Ghuol Whelp	familiar14.gif	hp1,mp1	fertilized ghuol egg	tiny knife and fork	1	2	0	3	hashands,haseyes,undead,evil,bite
 15	Baby Gravy Fairy	familiar15.gif	item0	pregnant mushroom	eye-pod	0	3	1	2	haseyes,haswings
 16	Cocoabo	familiar16.gif	combat0,delevel,hp0,mp0,meat1	cocoa egg	chocolate spurs	2	3	0	1	animal,haseyes,haswings
-17	Star Starfish	familiar17.gif	combat0,mp0	star starfish	magnifying glass	2	1	3	0	animal,sleaze,flies
-18	Hovering Sombrero	hat2.gif	stat1	hovering sombrero	tiny maracas	0	3	2	1	undead
-19	Ghost Pickle on a Stick	familiar19.gif	combat0,delevel	ghost pickle on a stick	skewer-mounted razor blade	3	1	0	2	phallic,object,food,vegetable,hovers,undead,stench
+17	Star Starfish	familiar17.gif	combat0,mp0	star starfish	magnifying glass	2	1	3	0	animal,sleaze,flies,sentient,aquatic,swims
+18	Hovering Sombrero	hat2.gif	stat1	hovering sombrero	tiny maracas	0	3	2	1	mineral,object,isclothes,hovers,undead
+19	Ghost Pickle on a Stick	familiar19.gif	combat0,delevel	ghost pickle on a stick	skewer-mounted razor blade	3	1	0	2	phallic,object,food,vegetable,hovers,undead,stench,edible
 20	Killer Bee	familiar20.gif	combat0,stat2	baby killer bee	brass stinger	3	1	2	0	haswings,animal,evil,flies
-21	Whirling Maple Leaf	familiar21.gif	combat0,mp1	maple leaf	tiny Mountie hat	3	1	2	0
+21	Whirling Maple Leaf	familiar21.gif	combat0,mp1	maple leaf	tiny Mountie hat	3	1	2	0	fast,vegetable,hovers,organic
 22	Coffee Pixie	familiar22.gif	item0,meat0	coffee sprite	miniature espresso maker	1	1	3	2	hashands,haseyes,haswings,fast,flies
 23	Cheshire Bat	familiar23.gif	stat0,meat0	Cheshire Bitten	smile-sharpening stone	1	2	3	1	animal,haseyes,haswings,fast,flies
 24	Jill-O-Lantern	familiar24.gif	combat0,combat1,stat0	Dark Jill-O-Lantern	100-Watt bulb	3	1	2	1	haseyes,hot,bite
-25	Hand Turkey	familiar25.gif	combat0,meat0	hand turkey outline	candied yam pinky ring	3	2	1	1	haswings,animal,haseyes
+25	Hand Turkey	familiar25.gif	combat0,meat0	hand turkey outline	candied yam pinky ring	3	2	1	1	haswings,animal,haseyes,hasbeak,object,haslegs
 26	Crimbo Elf	familiar26.gif	combat0,item0	crimbo elfling	dental pliers	1	2	1	3	hashands,wearsclothes,haseyes
 27	Hanukkimbo Dreidl	familiar27.gif	combat0,block,mp0,meat1	Hanukkimbo dreidl	menorette	2	1	3	1
 28	Baby Yeti	familiar28.gif	combat1,mp0	orphan baby yeti	penguin-smacking club	3	1	1	2	hashands,wearsclothes,animal,haseyes,bite
-29	Feather Boa Constrictor	familiar29.gif	combat1,block,meat1	silk garter snake	velvet choker	2	3	1	1	animal,haseyes,sleaze
+29	Feather Boa Constrictor	familiar29.gif	combat1,block,meat1	silk garter snake	velvet choker	2	3	1	1	animal,haseyes,sleaze,isclothes,phallic,sentient
 30	Emo Squid	familiar30.gif	block,delevel,underwater	emo roe	gazing shoes	1	3	1	2	animal,haseyes
-31	Personal Raincloud	familiar31.gif	combat0,delevel,hp0,mp0,hp1,mp1,stat3	personal raindrop	rainbow tie	2	1	3	1
-32	Clockwork Grapefruit	familiar32.gif	combat0	unwound clockwork grapefruit	false eyelashes	3	2	0	1	technological,robot
+31	Personal Raincloud	familiar31.gif	combat0,delevel,hp0,mp0,hp1,mp1,stat3	personal raindrop	rainbow tie	2	1	3	1	object,hovers
+32	Clockwork Grapefruit	familiar32.gif	combat0	unwound clockwork grapefruit	false eyelashes	3	2	0	1	organic,robot,technological,orb,object,haslegs,food,edible,vegetable,evil
 33	MagiMechTech MicroMechaMech	familiar33.gif	combat0,combat1	deactivated MicroMechaMech	targeting chip	3	0	1	2	technological,robot
 34	Flaming Gravy Fairy	familiar34.gif	combat1,item0	pregnant flaming mushroom	flaming glowsticks	2	3	1	2	haseyes,haswings,hot
 35	Frozen Gravy Fairy	familiar35.gif	combat1,item0	pregnant frozen mushroom	iced-out bling	2	3	1	2	haseyes,haswings,flies
@@ -72,7 +72,7 @@
 40	Doppelshifter	familiar40.gif	variable	doppelshifter egg	tiny makeup kit	3	3	3	3	haseyes
 41	Attention-Deficit Demon	familiar41.gif	item0,meat0	calm attention-deficit demon	attention spanner	1	1	3	2	hashands,haseyes,haswings,fast,evil,hot,flies
 42	Cymbal-Playing Monkey	familiar42.gif	stat0,meat0	unwound cymbal-playing monkey	funky brass fez	1	2	3	1	hashands,wearsclothes,technological,animal,haseyes,robot
-43	Temporal Riftlet	familiar43.gif	block,delevel,other1	miniscule temporal rip	1.21 jigawatts	1	3	1	2
+43	Temporal Riftlet	familiar43.gif	block,delevel,other1	miniscule temporal rip	1.21 jigawatts	1	3	1	2	object,hovers
 44	Sweet Nutcracker	familiar44.gif	combat0,other0	sweet nutcracker	metal mandible	2	3	0	2	wearsclothes,haseyes,robot
 45	Pet Rock	familiar45.gif	none	pet rock	pet rock &quot;Snooty&quot; disguise	0	0	0	0	mineral,object,haseyes,polygonal
 46	Snowy Owl	familiar46.gif	combat0	sleeping snowy owl	Pretty Predator Clawicure Kit	3	3	3	3	animal,haseyes,haswings,bite
@@ -80,7 +80,7 @@
 48	Ninja Pirate Zombie Robot	npzr.gif	combat0,block,delevel,hp0,mp0,meat1,other0	ninja pirate zombie robot	rhesus monkey	3	3	3	3	technological,wearsclothes,haseyes,robot,undead,evil,fast,cantalk
 49	Sleazy Gravy Fairy	slgfairy.gif	combat1,item0	pregnant oily golden mushroom	hot pink lipstick	3	3	2	1	sleaze,haseyes,haswings,flies
 50	Wild Hare	hare.gif	item0,meat0,stat0,hp1,mp1,other1	March hat	miniature dormouse	1	3	2	0	animal,haseyes,fast
-51	Wind-up Chattering Teeth	chatteeth.gif	combat0	wind-up chattering teeth	diamond-studded fronts	3	0	2	1	robot,bite
+51	Wind-up Chattering Teeth	chatteeth.gif	combat0	wind-up chattering teeth	diamond-studded fronts	3	0	2	1	robot,mineral,object,spooky,bite,hard
 52	Spirit Hobo	ghobo.gif	combat0,mp0,stat0	homeless hobo spirit	weegee sqouija	2	1	3	0	hashands,haseyes,undead
 53	Astral Badger	badger.gif	combat0,drop	astral badger	badger badge	3	0	2	3	animal,hashands,haseyes
 54	Comma Chameleon	commacha.gif	variable	Comma Chameleon egg		0	0	0	2	hashands,animal,haseyes
@@ -89,8 +89,8 @@
 57	Jitterbug	jitterbug.gif	item0,meat0	jitterbug larva	bottle of perfume	1	3	2	2	animal,haseyes,fast
 58	Nervous Tick	tick.gif	stat0,meat0	nervous tick egg	spoon!	0	3	2	2	animal,haseyes,fast,bite
 59	Reassembled Blackbird	blackbird2.gif	other1	reassembled blackbird	tiny bust of Pallas	0	0	0	0	haswings,animal,haseyes,undead,flies
-60	Origami Towel Crane	crane1.gif	block,other0	makeshift crane	can of starch	3	1	0	2	haswings
-61	Ninja Snowflake	snowflake.gif	combat1	frigid mote	icicle katana	3	0	3	3
+60	Origami Towel Crane	crane1.gif	block,other0	makeshift crane	can of starch	3	1	0	2	animal,haswings,hasbeak,flies,object
+61	Ninja Snowflake	snowflake.gif	combat1	frigid mote	icicle katana	3	0	3	3	cold,hovers,object
 62	Evil Teddy Bear	teddybear.gif	combat0,block	evil teddy bear	evil teddy bear sewing kit	3	2	0	1	haseyes,evil,bite
 63	Toothsome Rock	pettoothrock.gif	none	toothsome rock	pet rock &quot;Groucho&quot; disguise	0	0	0	0	mineral,object,haseyes,bite,hard
 64
@@ -114,14 +114,14 @@
 82	Mad Hatrack	hatrack.gif	variable	sane hatrack		3	0	1	2	wearsclothes,haseyes
 83	Adorable Seal Larva	seallarva.gif	combat0,hp0,variable	adorable seal larva	pretty pink bow	3	2	1	2	animal,haseyes,bite
 84	Untamed Turtle	untamed.gif	block,variable	untamable turtle	smiley-face sticker	0	0	0	3	animal,haseyes,bite
-85	Animated Macaroni Duck	macaroniduck.gif	combat0,mp0,variable	macaroni duck	farfalle bow tie	2	2	2	2	haswings,animal,haseyes,flies
+85	Animated Macaroni Duck	macaroniduck.gif	combat0,mp0,variable	macaroni duck	farfalle bow tie	2	2	2	2	hasbones,sentient,haseyes,haslegs,food,edible,vegetable,animal,haswings,flies,hasbeak,hard,object
 86	Pet Cheezling	cheezblob.gif	hp1,mp1,variable	friendly cheez blob	jalape&ntilde;o slices	2	2	0	2	haseyes,sleaze,hot
 87	Autonomous Disco Ball	discoball.gif	combat0,delevel,variable	unusual disco ball	stick-on mini solar panels	3	2	1	0	robot
 88	Mariachi Chihuahua	chihuahua.gif	combat0,variable	stray chihuahua	tiny sombrero	3	2	1	0	animal,haseyes,evil
 89	Hobo Monkey	hobomonkey.gif	meat0,meat1	hobo monkey	tiny bindle	0	3	3	3	hashands,wearsclothes,animal,haseyes
 90	Llama Lama	llama.gif	stat0,delevel,drop	llama lama cria	zen motorcycle	1	2	3	2	animal,haseyes
 91	Cotton Candy Carnie	cccarnie.gif	block,hp1,mp1,drop	cotton candy cocoon	cotton candy cordial	0	2	2	3	haseyes
-92	Disembodied Hand	dishand.gif	combat0,variable	spooky rattling cigar box		3	2	0	2	hashands,undead
+92	Disembodied Hand	dishand.gif	combat0,variable	spooky rattling cigar box		3	2	0	2	organic,hasbones,hashands,undead,spooky
 93	Black Cat	blackcat.gif	none	black kitten		0	0	0	0	animal,haseyes,evil,bite
 94	Uniclops	uniclops.gif	stat0,meat0	uniclops egg	eye 'n' horn shampoo	2	1	2	3	animal,haseyes,fast
 95	Psychedelic Bear	dancebear.gif	item0,meat0	passed-out psychedelic bear	psychedelic bubble wand	1	3	2	1	animal,haseyes
@@ -149,7 +149,7 @@
 117	Squamous Gibberer	gibberer.gif	block,hp1,mp1,other1,underwater	squamous polyp	unspeakable lozenges	1	2	2	3	spooky,evil,reallyevil,cantalk
 118	Dancing Frog	dancfrog.gif	item0,meat0	perfectly ordinary frog	miniature tophat	1	2	2	3	wearsclothes,hashands,animal,haseyes
 119	Chauvinist Pig	chauvpig.gif	stat0,meat0	hungover chauvinist pig	bottle of Cochon Noir	0	3	2	1	animal,haseyes,sleaze
-120	Stocking Mimic	smimic.gif	combat0,delevel,hp0,mp0,other0,meat1,drop	suspicious stocking	bag of many confections	0	0	0	0	phallic,haseyes,object,isclothes
+120	Stocking Mimic	smimic.gif	combat0,delevel,hp0,mp0,other0,meat1,drop	suspicious stocking	bag of many confections	0	0	0	0	haseyes,object,isclothes,phallic
 121	Snow Angel	snowangel.gif	combat1,mp0	pile of loose snow	snow halo	2	1	3	2	haswings,bite
 122	Jack-in-the-Box	jackinthebox.gif	stat0,item0,other1	Jack-in-the-box	brass crank handle	0	0	0	0	technological,haseyes,fast
 123	BRICKO chick	brickochick.gif	combat0,drop	BRICKO egg	extra-heavy BRICKO brick	1	2	2	1	haswings,animal,haseyes
@@ -163,7 +163,7 @@
 131	Worm Doctor	larva.gif	none			0	0	0	0
 132	Snowhitman	snowhitman.gif	none			0	0	0	0
 133	Plastic Grocery Bag	grocbag.gif	none			0	0	0	0
-134	Underworld Bonsai	uwbonsai.gif	combat1,mp0	Underworld sapling	miniature pruning shears	3	1	2	0	haseyes,evil
+134	Underworld Bonsai	uwbonsai.gif	combat1,mp0	Underworld sapling	miniature pruning shears	3	1	2	0	haseyes,evil,phallic,vegetable,organic
 135	Rogue Program	tronguy.gif	combat0,mp0,drop	glowing frisbee	portable motorcycle	3	2	2	0	haseyes,technological,wearsclothes,fast,cantalk
 136	Mini-Hipster	minihipster.gif	combat0,delevel,stat2,hp0,mp0,meat1,other1,variable	Schmalz's First Prize Beer	ironic moustache	0	3	2	1	hashands,wearsclothes,haseyes,cantalk
 137	Pottery Barn Owl	sp_owl.gif	combat1,hp1,mp1,drop	pottery barn owl figurine	affordable teak perch	3	1	2	0	haswings,animal,haseyes,flies
@@ -173,7 +173,7 @@
 141	Dramatic Hedgehog	dramahog.gif	stat0,meat0	rehearsing dramatic hedgehog	tiny prop sword	2	3	0	2	animal,haseyes
 142	Smiling Rat	smilerat.gif	stat0	smiling rat	rat tooth polish	1	3	1	0	hashands,animal,haseyes,bite
 143	Robot Reindeer	roboreindeer.gif	combat0,hp0,drop,variable	hibernating robot reindeer	S.L.E.I.G.H.B.E.L.L.S.	3	3	3	3	technological,robot,haseyes
-144	Holiday Log	holidaylog.gif	none	holiday log		0	0	0	0	hot
+144	Holiday Log	holidaylog.gif	none	holiday log		0	0	0	0	phallic,good,object,vegetable,hot,hard
 145
 146	Obtuse Angel	obtuseangel.gif	other0,item0,drop	a cute angel	quake of arrows	2	0	3	1	hashands,haswings,haseyes
 147	Reconstituted Crow	blackbird1.gif	other1	reconstituted crow		0	0	0	0	haswings,animal,haseyes,undead,flies
@@ -181,7 +181,7 @@
 149	Dataspider	dataspider.gif	combat0,mp0	squirming egg sac	solid state loom	2	1	2	3	technological,animal,haseyes,robot,fast
 150	Pair of Stomping Boots	stompboots.gif	combat0,item0,drop	fairy-worn boots	stomp box	3	0	2	2	object,haseyes,isclothes
 151	Feral Kobold	kobold.gif	combat0	newborn kobold	slightly thicker filthy rags	3	1	1	1	hashands,haseyes,evil
-152	Fancypants Scarecrow	pantscrow2.gif	variable	stuffed-shirt scarecrow		0	0	0	0	wearsclothes,haseyes,cantalk
+152	Fancypants Scarecrow	pantscrow2.gif	variable	stuffed-shirt scarecrow		0	0	0	0	sentient,cantalk,person,humanoid,haseyes,haslegs,object,wearsclothes
 153
 154	Bloovian Groose	groose.gif	stat0,meat0,drop	The Groose in the Hoose	spruce juice	2	2	1	3	sleaze,animal,haseyes
 155	Blavious Kloop	kloop.gif	item0,meat0,drop	The Kloop in the Coop	miniscule beatbox	0	3	2	1	hashands,haseyes,evil
@@ -200,22 +200,22 @@
 168	Oily Woim	woim.gif	passive	woim	woimbook	2	1	3	1	animal,sleaze
 169	Homemade Robot	homemadebot.gif	none	homemade robot	homemade robot gear	0	0	0	0	technological,robot,hashands,haseyes,fast
 170	MiniMechaElf	mechaelf.gif	combat0	Deactivated MiniMechaElf	MiniMechaElf Laser Punch Missile Launcher	3	2	0	1	technological,robot,hashands,haseyes
-171	Gelatinous Cubeling	gcube.gif	delevel,item0,drop	dried gelatinous cube	pile of dungeon junk	2	3	0	1	object,haseyes,polygonal
+171	Gelatinous Cubeling	gcube.gif	delevel,item0,drop	dried gelatinous cube	pile of dungeon junk	2	3	0	1	haseyes,object,polygonal
 172	Adorable Space Buddy	starbuddy.gif	combat1,hp1,mp1,underwater	Star Spawn	cute bow from beyond the stars	1	2	3	3
-173	Nosy Nose	nosynose.gif	delevel,other0	wriggling severed nose	nosy nose ringy ring	1	3	1	2
+173	Nosy Nose	nosynose.gif	delevel,other0	wriggling severed nose	nosy nose ringy ring	1	3	1	2	stench,hasbones,organic,object
 174	Mini-Adventurer	miniadv0.gif	variable	adventurer clone egg	mini-Mr. Accessory	2	2	2	2	hashands,wearsclothes,haseyes,cantalk
 175	Mechanical Songbird	mechbird.gif	item0	unwound mechanical songbird	shiny brass tailfeathers	1	2	2	0	haswings,technological,animal,haseyes,robot,fast,flies
 176	Reanimated Reanimator	reanimator.gif	stat0,other0,variable	deanimated reanimator's coffin	flask of embalming fluid	2	3	2	0	hashands,wearsclothes,haseyes,undead,cantalk
 177	Warbear Drone	wbdronefam.gif	combat0,combat1	warbear drone assembler	warbear drone codes	3	2	2	0	technological,robot,fast,evil
-178	Grimstone Golem	grimgolem.gif	item0,meat0,drop	hibernating Grimstone Golem	grimstone galoshes	0	2	3	3	haseyes,evil
+178	Grimstone Golem	grimgolem.gif	item0,meat0,drop	hibernating Grimstone Golem	grimstone galoshes	0	2	3	3	mineral,animatedart,person,haseyes,haslegs,object,evil,hard
 179	Grim Brother	grimbrother.gif	stat0,meat0,drop	praying Grim Brother	Grim Brothers' story book	3	2	0	3	hashands,wearsclothes,haseyes,cantalk
 180	Miniature Sword & Martini Guy	smguy.gif	combat0,stat0,drop	Anniversary Miniature Sword & Martini Guy	really tiny cocktail shaker	3	3	2	2	wearsclothes
-181	Putty Buddy	puttybuddy.gif	combat1,hp0	deactivated putty buddy	putty coat	3	1	2	1	haseyes,sleaze
+181	Putty Buddy	puttybuddy.gif	combat1,hp0	deactivated putty buddy	putty coat	3	1	2	1	mineral,robot,cute,haseyes,object,sleaze
 182	Twitching Space Critter	spacebeastlet.gif	combat1,mp0	twitching space egg	ramekin of space nuts	3	1	1	1	animal,haseyes,fast
 183	Galloping Grill	galgrill.gif	combat1,mp0,stat1,drop	still grill	box of hickory chips	3	1	2	0	haseyes,hot,fast,cantalk
 184
 185	Helix Fossil	foss_amm.gif	delevel,combat0,hp1,mp1	strange helix fossil	S.S. Ticket	0	0	0	3
-186	Xiblaxian Holo-Companion	holobuddy.gif	block,passive	Xiblaxian holo-buddy simcode	Xiblaxian holo-bowtie	1	2	1	2	haseyes,technological
+186	Xiblaxian Holo-Companion	holobuddy.gif	block,passive	Xiblaxian holo-buddy simcode	Xiblaxian holo-bowtie	1	2	1	2	haseyes,technological,hovers
 187	Baby Z-Rex	babyzrex.gif	combat1,stat0	zombie dinosaur egg	french-fry grabber	3	0	0	0	hashands,animal,haseyes,undead,bite
 188	Fist Turkey	fistturkey.gif	combat0,item0,meat1,stat2,drop	fist turkey outline	brass turkey knuckles	3	2	2	3	haswings,animal,haseyes,evil
 189	Crimbo Shrub	crimboshrub.gif	combat1,stat0,other1,variable	Crimbo sapling	even more tinsel	1	3	2	0	haseyes,cantalk
@@ -227,23 +227,23 @@
 195	Baby Mayonnaise Wasp	mayowasp.gif	combat1	newly-hatched mayonnaise wasp	mayo pump	2	2	3	1	sleaze,haswings,animal,haseyes,fast
 196	Puck Man	puckman.gif	block,hp1,mp1,other1,drop	yellow puck	orange boxing gloves	1	2	2	3	bite
 197	Ms. Puck Man	mspuckman.gif	block,hp1,mp1,other1,drop	yellow puck with a bow on it	blue pumps	1	2	2	3	wearsclothes,bite
-198	Lil' Barrel Mimic	barrelmimic.gif	stat0,hp1,mp1,drop	tiny barrel	brass bung spigot	1	2	1	3	haseyes
+198	Lil' Barrel Mimic	barrelmimic.gif	stat0,hp1,mp1,drop	tiny barrel	brass bung spigot	1	2	1	3	mineral,cute,haseyes,object,hard
 199	Machine Elf	machelf.gif	other0,stat3,drop	machine elf capsule	self-dribbling basketball	1	2	3	1	hashands,haseyes,technological,fast
 200	Choctopus	choctopus.gif	hp1,mp1,item0	Gratitude chocolate (octopus-filled)	chocolate bowtie	1	3	3	3	animal,haseyes
 201	Rockin' Robin	rockinrobin.gif	stat0,item0,drop	basking robin	tiny domino mask	3	3	3	3	haswings,animal,haseyes
-202	Restless Cow Skull	cowskull.gif	combat1,block	shuddering cow skull	rhinestone cowhorn	3	1	1	1	haseyes,undead,evil,hot,bite
+202	Restless Cow Skull	cowskull.gif	combat1,block	shuddering cow skull	rhinestone cowhorn	3	1	1	1	hasbones,organic,mineral,haseyes,hovers,undead,evil,hot,bite,hard
 203	Intergnat	intergnat.gif	item0,combat0,other0,mp1,drop	disconnected intergnat	high-speed upgrade	1	3	2	2	haswings,animal,haseyes,bite,insect,flies,cantalk
 204	Software Bug	softwarebug.gif	none	software bug	missing semicolon	0	0	0	0	technological,haseyes,bite
 205	Bark Scorpion	barkscorp.gif	combat0	baby bark scorpion	tiny baby scorpion	3	1	2	3	animal,haseyes
 206	Trick-or-Treating Tot	tottot.gif	hp1,mp1	li'l orphan tot	li'l knight costume	1	3	2	3	hashands,wearsclothes,haseyes,cantalk
 207	Chocolate Lab	chocolab.gif	item0	chocolate puppy	chocolate leash	1	1	1	1	animal,haseyes,bite
-208	Bad Vibe	lilbadvibe.gif	none	pet bad vibe	black gallstone	0	0	0	0	haseyes,object,spooky,evil,cantalk
+208	Bad Vibe	lilbadvibe.gif	none	pet bad vibe	black gallstone	0	0	0	0	haseyes,haslegs,evil,reallyevil,cantalk
 209	Space Jellyfish	spacejelly.gif	underwater,delevel,drop	space planula	space jellybicycle	3	3	2	3	animal,flies,evil
 210	Optimistic Candle	opticandle.gif	stat0,item0,drop	hopeful candle	pewter candlestick	2	3	3	3	haseyes,hot,cantalk
 211	Robortender	robotender.gif	meat0,drop	unpowered Robortender	toggle switch (Bartend)	3	3	1	1	hashands,haseyes,technological,robot,cantalk
 212	Cute Meteor	cutemeteor.gif	passive,combat1	cute meteoroid	meteor shower cap	1	1	1	1	haseyes,hot
 213	XO Skeleton	xoskeleton.gif	item0,hp1,mp1,drop	xo-skeleton-in-a-box	exo-xo-skeleton-skeleton	1	3	2	2	hashands,haseyes,undead
-214	Garbage Fire	dumpsterfire.gif	item0,hp1,mp1,drop	kerosene-soaked skip	fireproof skip lid	1	2	1	1	hot
+214	Garbage Fire	dumpsterfire.gif	item0,hp1,mp1,drop	kerosene-soaked skip	fireproof skip lid	1	2	1	1	hot,animatedart,hard,object
 215	Globmule	pokefam1.gif	none	Globmule		0	0	0	0	pokefam
 216	Bluzzard	pokefam2.gif	none	Bluzzard		0	0	0	0	pokefam
 217	Faux	pokefam3.gif	none	Faux		0	0	0	0	pokefam
@@ -305,22 +305,22 @@
 273	Pet Coral	petcoral.gif	none,underwater	piece of coral		0	0	0	0	mineral,object,haseyes,polygonal
 274	Pocket Professor	lilprofessoron.gif	item0,mp1	packaged Pocket Professor	Pocket Professor memory chip	0	2	2	3	technological,robot
 275	Red-Nosed Snapper	redsnapper.gif	item0,underwater	red-spotted snapper roe	tinsel fin	3	3	3	3	animal,haseyes
-276	Antique Nutcracker	nutcfigure.gif	stat0,drop	antique nutcracker figurine	nutcracking pliers	1	2	3	2	wearsclothes,bite
+276	Antique Nutcracker	nutcfigure.gif	stat0,drop	antique nutcracker figurine	nutcracking pliers	1	2	3	2	humanoid,haseyes,haslegs,object,wearsclothes,bite,hard
 277	Piranha Plant	piranhaplant.gif	combat,stat0	pristine piranha seed	plastic piranha pot	3	3	3	3	bite
-278	Left-Hand Man	lhmlarva.gif	none	sinistral homunculus		1	1	1	1	hashands
+278	Left-Hand Man	lhmlarva.gif	none	sinistral homunculus		1	1	1	1	hasbones,hashands,humanoid,haslegs
 279	Melodramedary	camelcalf.gif	stat0,hp1,mp1	baby camelCalf	dromedary drinking helmet	3	3	0	0	animal,bite,haseyes
 280	Ghost of Crimbo Carols	cghost_carols.gif	item0,other0	gregarious ghostling		0	0	0	0	haseyes,undead
 281	Ghost of Crimbo Cheer	cghost_cheer.gif	stat0,other1	grinning ghostling		0	0	0	0	haseyes,undead
 282	Ghost of Crimbo Commerce	cghost_commerce.gif	meat0,other0	greedy ghostling		0	0	0	0	haseyes,undead
 283	Shorter-Order Cook	shortchef.gif	combat0,combat1,delevel,drop	shortest-order cook	blue plate	3	3	1	1	animal,wearsclothes,haseyes,hot,hashands
-284	Vampire Vintner	vampvint.gif	item2,combat0,hp0,drop	bottled Vampire Vintner	French-Transylvanian Dictionary	2	3	2	3	undead
+284	Vampire Vintner	vampvint.gif	item2,combat0,hp0,drop	bottled Vampire Vintner	French-Transylvanian Dictionary	2	3	2	3	cantalk,sentient,person,haseyes,undead,spooky,bite
 285	Arachnelf	arachnelf.gif	none	festive egg sac	Site Alpha ID badge	3	1	3	1
 286	Synthetic Rock	synthrock.gif	none	synthetic rock		0	0	0	0	mineral,object,hard
 287	Grey Goose	greygoose.gif	item0	grey gosling	grey down vest	1	2	3	3
 288	Cookbookbat	bbat_fam.gif	item1,drop	mummified entombed cookbookbat	cookbookbat book	0	3	2	3
 289	Mini-Trainbot	tbot_on.gif	combat1,hp1,mp1	deactivated mini-Trainbot	overloaded Yule battery	3	2	3	1	hashands
 290	Hobo in Sheep's Clothing	hobosheep.gif	stat0,item0,drop	unoccupied sheep suit	half-height cigar	1	3	3	2
-291	Pixel Rock	pixelrock.gif	none	pixel rock		0	0	0	0
+291	Pixel Rock	pixelrock.gif	none	pixel rock		0	0	0	0	mineral,cute,haseyes,hard
 292
 293	Patriotic Eagle	pateagle.gif	combat0,stat1,mp0	sleeping patriotic eagle	claw-held flag	0	0	0	0
 294	Jill-of-All-Trades	darkjill2f.gif	stat0,stat1,item0,meat0,combat0,drop,block,delevel,hp0,meat1,hp1,mp1,variable	Dark Jill-of-All-Trades	LED candle	1	2	3	3	organic,sentient,orb,haseyes,object,vegetable,food,edible,evil,spooky,hot,bite
