@@ -1063,12 +1063,10 @@ public class SkillDatabase {
   /** Utility method used to determine if the given skill is of the appropriate type. */
   private static boolean isType(final int skillId, final SkillTag type) {
     var tags = SkillDatabase.skillTagsById.get(skillId);
+    if (tags == null) {
+      return false;
+    }
     return tags.stream().anyMatch(t -> t == type);
-  }
-
-  private static boolean isType(final int skillId, final EnumSet<SkillTag> types) {
-    var tags = SkillDatabase.skillTagsById.get(skillId);
-    return tags.stream().anyMatch(types::contains);
   }
 
   public static final boolean isSoulsauceSkill(final int skillId) {

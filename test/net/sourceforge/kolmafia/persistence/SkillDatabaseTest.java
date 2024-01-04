@@ -130,6 +130,11 @@ public class SkillDatabaseTest {
   @Nested
   class SkillTypes {
     @Test
+    void unknown() {
+      assertThat(SkillDatabase.getSkillTypeName(-1), equalTo("unknown"));
+    }
+
+    @Test
     void passive() {
       assertThat(SkillDatabase.getSkillTypeName(SkillPool.LUST), equalTo("passive"));
     }
