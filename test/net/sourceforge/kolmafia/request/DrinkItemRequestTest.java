@@ -116,6 +116,32 @@ class DrinkItemRequestTest {
   }
 
   @Test
+  public void setsDailyLimitOnSuccessfulConsumption() {
+    var cleanups =
+        new Cleanups(
+            withProperty("_pickleJuiceDrunk", false), withItem(ItemPool.FERMENTED_PICKLE_JUICE));
+    try (cleanups) {
+      var req = new DrinkItemRequest(ItemPool.get(ItemPool.FERMENTED_PICKLE_JUICE));
+      req.responseText = html("request/test_drink_pickle_juice_success.html");
+      req.processResults();
+      assertThat("_pickleJuiceDrunk", isSetTo(true));
+    }
+  }
+
+  @Test
+  public void setsDailyLimitOnFailedConsumption() {
+    var cleanups =
+        new Cleanups(
+            withProperty("_pickleJuiceDrunk", false), withItem(ItemPool.FERMENTED_PICKLE_JUICE));
+    try (cleanups) {
+      var req = new DrinkItemRequest(ItemPool.get(ItemPool.FERMENTED_PICKLE_JUICE));
+      req.responseText = html("request/test_drink_pickle_juice_limit_failure.html");
+      req.processResults();
+      assertThat("_pickleJuiceDrunk", isSetTo(true));
+    }
+  }
+
+  @Test
   public void trackUseOfCinchoSaltAndLime() {
     var cleanups =
         new Cleanups(withProperty("cinchoSaltAndLime", 2), withItem(ItemPool.VODKA_MARTINI));
