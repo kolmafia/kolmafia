@@ -735,10 +735,14 @@ public class DrinkItemRequest extends UseItemRequest {
           // <drink> and discard the no-longer-frosty
           // mug."
 
-          if (!responseText.contains("discard the no-longer-frosty")) {
-            success = false;
-          } else {
+          if (responseText.contains("discard the no-longer-frosty")) {
             Preferences.setBoolean("_frostyMugUsed", true);
+          } else {
+            success = false;
+            // Only failure case to care about, since it lets us fix the preference
+            if (responseText.contains("You may only use one of those per day.")) {
+              Preferences.setBoolean("_frostyMugUsed", true);
+            }
           }
           break;
       }
