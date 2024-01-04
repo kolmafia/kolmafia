@@ -23,7 +23,7 @@ import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
-import net.sourceforge.kolmafia.persistence.SkillDatabase.SkillType;
+import net.sourceforge.kolmafia.persistence.SkillDatabase.SkillTag;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -498,7 +498,7 @@ public abstract class GreyYouManager {
     private final int skillId;
 
     private final String name;
-    private final SkillType skillType;
+    private final SkillTag skillType;
     private final String skillTypeName;
     private final long mpCost;
     private final PassiveEffect passiveEffect;
@@ -528,13 +528,16 @@ public abstract class GreyYouManager {
 
       this.skillId = skillId;
       this.name = SkillDatabase.getSkillName(skillId);
-      this.skillType = SkillDatabase.getSkillType(skillId);
+      this.skillType =
+          SkillDatabase.isNonCombat(skillId)
+              ? SkillTag.NONCOMBAT
+              : SkillDatabase.isCombat(skillId) ? SkillTag.COMBAT : SkillTag.PASSIVE;
       this.skillTypeName = SkillDatabase.getSkillTypeName(skillId);
       this.passiveEffect = passiveEffect;
       this.level = level;
 
       Modifiers mods = null;
-      if (this.skillType == SkillType.PASSIVE) {
+      if (this.skillType == SkillTag.PASSIVE) {
         mods = ModifierDatabase.getModifiers(ModifierType.SKILL, this.name);
         if (mods != null) {
           this.enchantments = mods.getString(StringModifier.MODIFIERS);
@@ -568,7 +571,7 @@ public abstract class GreyYouManager {
       return this.name;
     }
 
-    public SkillType getSkillType() {
+    public SkillTag getSkillType() {
       return this.skillType;
     }
 
@@ -788,11 +791,11 @@ public abstract class GreyYouManager {
         throw new NullPointerException();
       }
 
-      SkillType skillType1 = o1.getSkillType();
-      SkillType skillType2 = o2.getSkillType();
+      SkillTag skillType1 = o1.getSkillType();
+      SkillTag skillType2 = o2.getSkillType();
 
       if (skillType1 == skillType2) {
-        if (skillType1 == SkillType.PASSIVE) {
+        if (skillType1 == SkillTag.PASSIVE) {
           PassiveEffect passiveEffect1 = o1.getPassiveEffect();
           PassiveEffect passiveEffect2 = o2.getPassiveEffect();
           if (passiveEffect1 != passiveEffect2) {
@@ -807,13 +810,13 @@ public abstract class GreyYouManager {
         return super.compare(o1, o2);
       }
 
-      return (skillType1 == SkillType.COMBAT)
+      return (skillType1 == SkillTag.COMBAT)
           ? -1
-          : (skillType2 == SkillType.COMBAT)
+          : (skillType2 == SkillTag.COMBAT)
               ? 1
-              : (skillType1 == SkillType.SELF_ONLY)
+              : (skillType1 == SkillTag.NONCOMBAT)
                   ? -1
-                  : (skillType2 == SkillType.SELF_ONLY)
+                  : (skillType2 == SkillTag.NONCOMBAT)
                       ? 1
                       :
                       // This should not happen
