@@ -2366,7 +2366,7 @@ Crimbuccaneer retiree	2429	cbretiree.gif	NOWISH Scale: ? Init: -10000 P: pirate 
 Crimbuccaneer freebooter	2430	cbboots.gif	NOWISH Scale: ? Init: -10000 P: pirate Article: a	1-2 Crimbuccaneer piece of 12 (m100)	cannonbomb (f5)	free boots (f0.5)
 Crimbuccaneer scrimshander	2431	cbscrimshander.gif	NOWISH Scale: ? Init: -10000 P: pirate Article: a	1-2 Crimbuccaneer piece of 12 (m100)	whale cerebrospinal fluid (f5)	Crimbuccaneer runebone (f0.5)
 Crimbuccaneer carpenter	2432	cbcarpenter.gif	NOWISH Scale: ? Init: -10000 P: pirate Article: a	1-2 Crimbuccaneer piece of 12 (m100)	shipwright's hammer (f5)	gunwale (f0.5)
-Elf Guard arctic seal	2433	egseal.gif	NOWISH Scale: ? Init: -10000 P: elf Article: an	1-2 Elf Guard MPC (m100)	Elf guard mouthknife (f5)	Elf Guard SCUBA tank (f0.5)
+Elf Guard arctic seal	2433	egseal.gif	NOWISH Scale: ? Init: -10000 P: elf Article: an	1-2 Elf Guard MPC (m100)	Elf Guard mouthknife (f5)	Elf Guard SCUBA tank (f0.5)
 Elf Guard armorer	2434	egarmorer.gif	NOWISH Scale: ? Init: -10000 P: elf Article: an	1-2 Elf Guard MPC (m100)	Kelflar vest (f5)	Elvish underarmor (f0.5)
 Elf Guard Red and White Beret	2435	egberet.gif	NOWISH Scale: ? Init: -10000 P: elf Article: an	1-2 Elf Guard MPC (m100)	red and white claret (f5)	Elf Guard red and white beret (f0.5)
 Crimbuccaneer privateer	2436	cbprivateer.gif	NOWISH Scale: ? Init: -10000 P: pirate Article: a	1-2 Crimbuccaneer piece of 12 (m100)	Crimbuccaneer fledges (mint) (c0)
