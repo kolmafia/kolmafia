@@ -5633,6 +5633,7 @@ Effect	Cinco Elementos	Cold Damage: [min(2500,5*T)], Hot Damage: [min(2500,5*T)]
 Effect	Cinnamon Challenger	Moxie: [ceil(min(T,50)/2)], Experience (Moxie): [ceil(min(T,50)/10)]
 Effect	Cinnamouth	Hot Damage: +11
 Effect	Citronella Armpits	Monster Level: +30
+Effect	Clay-Coated Teeth	Damage Reduction: 5
 Effect	Clean to the Bone	Avatar: "skullery maid"
 Effect	Clean-Shaven	Moxie: +5
 Effect	Clear Ears, Can't Lose	Initiative: +100
@@ -9717,6 +9718,7 @@ Item	8-bit banana	Effect: "Banono", Effect Duration: 20
 Item	37x37x37 puzzle cube	Effect: "Puzzle Fury", Effect Duration: 10
 Item	abominable blubber	Effect: "Abominably Slippery", Effect Duration: 10
 Item	adder bladder	Effect: "Deadly Flashing Blade", Effect Duration: 10
+Item	adobe brittle	Effect: "Clay-Coated Teeth", Effect Duration: 20
 Item	Aerheads	Effect: "Aerated", Effect Duration: 20
 Item	airborne mutagen	Effect: "Heightened Senses", Effect Duration: 20
 Item	alien drugs	Effect: "Space Cowboy", Effect Duration: 15
