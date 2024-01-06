@@ -76,6 +76,8 @@ Item	4-dimensional fez	Maximum Hooch: +4, Familiar Effect: "atk, 1xLep, cap 12"
 Item	8-billed baseball cap	Muscle Percent: +15, Initiative: +30, Spooky Damage: +5, Stench Damage: +5, Hot Damage: +5, Cold Damage: +5, Sleaze Damage: +5, Familiar Effect: "1xVolley, 1xBarrr, cap 12"
 # Admiral's hat: +50 Skeleton Anger
 Item	Admiral's hat	Adventures: +5, Moxie Percent: +30, Familiar Effect: "atk"
+# adobe ayam: Subscribe for access to Premium Enchantments&trade;
+Item	adobe ayam	Experience (Mysticality): +3, Meat Drop: +20
 Item	aerated diving helmet	Stench Resistance: +3, Item Drop: -25, Initiative: -50, Adventure Underwater, Familiar Effect: "0.5xPotato"
 # aerogel akubra: Lets you use Spirit Snap multiple times per fight
 Item	aerogel akubra	Muscle: +10, Meat Drop: +10
@@ -580,6 +582,8 @@ Item	Zombo's skullcap	Muscle Percent: +20, Familiar Weight: +10, Class: "Turtle 
 # Pants section of modifiers.txt
 
 Item	1337 7r0uZ0RZ	Muscle: +6, Moxie: -3, Familiar Effect: "2xPotato, cap 27"
+# adobe arsecover: Subscribe for access to Premium Enchantments&trade;
+Item	adobe arsecover	Muscle Percent: +20, Item Drop: +10
 Item	alpha-mail pants	Familiar Effect: "atk, 1xBarrr, cap 35"
 Item	Angelhair Culottes	Mysticality: +11, Spell Damage: +15, Class: "Pastamancer", Familiar Effect: "1.5xPotato, 2xGhoul, cap 31"
 Item	antique greaves	Initiative: -10, Breakable, Familiar Effect: "1xBarrr"
@@ -934,6 +938,8 @@ Item	Zombo's grievous greaves	Cold Resistance: +3, Sleaze Resistance: +3, Class:
 
 Item	&quot;Humorous&quot; T-shirt	Muscle: +4, Mysticality: +4, Moxie: +4, Fumble: 2
 Item	&quot;Remember the Trees&quot; Shirt	Monster Level: +10, Stench Damage: +10, Combat Rate: +5
+# adobe abaya: Subscribe for access to Premium Enchantments&trade;
+Item	adobe abaya	Experience (Moxie): +3, Weapon Damage: +20
 Item	anniversary safety glass vest	Muscle: +1, Mysticality: +1, Moxie: +1
 Item	antique nutcracker waistcoat	PvP Fights: +3, Muscle Percent: +15
 Item	asbestos apron	Hot Resistance: +3
@@ -1113,6 +1119,8 @@ Item	accordion file	MP Regen Min: [2*(1+skill(Accordion Appreciation))], MP Rege
 Item	Accordion of Jordion	Item Drop: [5*(1+skill(Accordion Appreciation))], Meat Drop: [10*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 14
 Item	accordionoid rocca	Damage Reduction: [10*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 18
 Item	acoustic guitarrr	Meat Drop: +8
+# adobe adze: Subscribe for access to Premium Enchantments&trade;
+Item	adobe adze	Experience (Muscle): +3, Familiar Weight: +5, Single Equip
 # aerogel accordion: Only takes up one hand!
 Item	aerogel accordion	Moxie: [10*(1+skill(Accordion Appreciation))], Maximum HP: [20*(1+skill(Accordion Appreciation))], Song Duration: 10
 # airblaster gun: Blasts Air (Duh.)
@@ -2106,6 +2114,8 @@ Item	Abracandalabra	Spell Damage Percent: +100, MP Regen Min: 5, MP Regen Max: 1
 # Abuela Crimbo's special magnet: Get more items from Trainbots
 Item	Abyssal ember	Hot Damage: +20, Weapon Drop: +25, Class: "Seal Clubber"
 Item	adhesive tape dolly	Moxie: +5
+# adobe abacus: Subscribe for access to Premium Enchantments&trade;
+Item	adobe abacus	Mysticality Percent: +20, Spell Damage: +20
 Item	Adventurer bobblehead	Muscle Percent: [pref(nuclearAutumnPoints)], Mysticality Percent: [pref(nuclearAutumnPoints)], Moxie Percent: [pref(nuclearAutumnPoints)]
 # aerogel attache case: Produce random cocktailcrafting ingredients as you adventure
 Item	aerogel attache case	Pickpocket Chance: +10, Stench Damage: +10, Drops Items
@@ -2739,6 +2749,8 @@ Item	acid-squirting flower	Single Equip, Thorns: 1
 # actual reality goggles: Reveals peoples' true nature
 Item	actual reality goggles	Single Equip, Free Pull
 Item	actual skeleton key	Damage Absorption: +100, Damage Reduction: 10
+# adobe ascot: Subscribe for access to Premium Enchantments&trade;
+Item	adobe ascot	Moxie Percent: +20, Initiative: +30, Single Equip
 # aerogel anvil: Gives a chance of generating extra Fury
 Item	aerogel anvil	Weapon Damage Percent: +25, Never Fumble, Single Equip
 # aerogel apron: Weapon of the Pastalord can be even messier
@@ -5621,6 +5633,7 @@ Effect	Cinco Elementos	Cold Damage: [min(2500,5*T)], Hot Damage: [min(2500,5*T)]
 Effect	Cinnamon Challenger	Moxie: [ceil(min(T,50)/2)], Experience (Moxie): [ceil(min(T,50)/10)]
 Effect	Cinnamouth	Hot Damage: +11
 Effect	Citronella Armpits	Monster Level: +30
+Effect	Clay-Coated Teeth	Damage Reduction: 5
 Effect	Clean to the Bone	Avatar: "skullery maid"
 Effect	Clean-Shaven	Moxie: +5
 Effect	Clear Ears, Can't Lose	Initiative: +100
@@ -8593,6 +8606,7 @@ Skill	Zombie Maestro	Mana Cost: -1
 # Outfits section of modifiers.txt
 
 Outfit	8-Bit Finery	Initiative: +25
+Outfit	Adobe Armor	Damage Reduction: 10
 Outfit	Aeroutfit	Meat Drop: +40
 Outfit	Animelf Apparel	HP Regen Min: 4, HP Regen Max: 6, MP Regen Min: 2, MP Regen Max: 3
 Outfit	Antique Arms and Armor	Damage Reduction: 5, Muscle: +15, Initiative: -10
@@ -9704,6 +9718,7 @@ Item	8-bit banana	Effect: "Banono", Effect Duration: 20
 Item	37x37x37 puzzle cube	Effect: "Puzzle Fury", Effect Duration: 10
 Item	abominable blubber	Effect: "Abominably Slippery", Effect Duration: 10
 Item	adder bladder	Effect: "Deadly Flashing Blade", Effect Duration: 10
+Item	adobe brittle	Effect: "Clay-Coated Teeth", Effect Duration: 20
 Item	Aerheads	Effect: "Aerated", Effect Duration: 20
 Item	airborne mutagen	Effect: "Heightened Senses", Effect Duration: 20
 Item	alien drugs	Effect: "Space Cowboy", Effect Duration: 15

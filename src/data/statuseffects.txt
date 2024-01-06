@@ -2878,7 +2878,7 @@
 2875	Militarily Minted	pep_bigcane.gif	7e223c4883f683168e9d293e3663af88	neutral	none	use 1 military candy cane
 2876	Groggipopped	neutronpop.gif	477dbdf51c06ae7c5460c3c1b7438607	neutral	none	use 1 groggipop
 2877
-2878
+2878	Clay-Coated Teeth	adobebrittle.gif	ed7b103d89c53316f0e6f2970c51a6e0	neutral	none	use 1 adobe brittle
 2879
 2880
 2881	Everything Looks Green	eyes.gif	baf449fcc4f46537a491d4355129581f	neutral	noremove	# use green smoke bomb
