@@ -17,6 +17,7 @@ import org.junit.jupiter.api.Test;
 public class ForbiddenManagerTest {
 
   private static final String TESTUSERNAME = "ForbiddenManager";
+
   @BeforeAll
   public static void beforeAll() {
     KoLCharacter.reset(TESTUSERNAME);
