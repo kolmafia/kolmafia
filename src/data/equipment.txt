@@ -4,6 +4,7 @@
 4-dimensional fez	50	none
 8-billed baseball cap	200	Mox: 85
 Admiral's hat	200	Mox: 85
+adobe ayam	120	Mys: 40
 aerated diving helmet	200	Mox: 85
 aerogel akubra	50	none
 All-Hallow's Steve's fright wig	100	Mox: 35
@@ -448,6 +449,7 @@ Zombo's skullcap	200	Mus: 200
 # Pants section of equipment.txt
 
 1337 7r0uZ0RZ	110	Mox: 40
+adobe arsecover	120	Mus: 40
 alpha-mail pants	140	Mox: 55
 Angelhair Culottes	125	Mys: 30
 antique greaves	150	Mus: 60
@@ -763,6 +765,7 @@ Zombo's grievous greaves	200	Mus: 200
 
 &quot;Humorous&quot; T-shirt	100	Mus: 35
 &quot;Remember the Trees&quot; Shirt	30	Mus: 10
+adobe abaya	120	Mox: 40
 anniversary safety glass vest	10	none
 antique nutcracker waistcoat	150	Mus: 30
 asbestos apron	170	Mus: 70
@@ -930,6 +933,7 @@ accordion file	60	Mox: 15	2-handed accordion
 Accordion of Jordion	105	Mox: 37	2-handed accordion
 accordionoid rocca	160	Mox: 65	2-handed accordion
 acoustic guitarrr	140	Mox: 55	2-handed guitar
+adobe adze	120	Mus: 40	1-handed club
 aerogel accordion	50	Mox: 0	1-handed accordion
 airblaster gun	10	Mox: 0	1-handed pistol
 alarm accordion	180	Mox: 75	2-handed accordion
@@ -1801,6 +1805,7 @@ Abuela Crimbo's special magnet	0	none
 Abuela Crimbo's special magnet	10	none
 Abyssal ember	100	Mus: 35
 adhesive tape dolly	0	none
+adobe abacus	0	Mys: 40
 Adventurer bobblehead	100	none
 aerogel attache case	50	none
 ancient calendar	70	Mus: 20	shield
@@ -2360,6 +2365,7 @@ zoological sample kit	10	none
 acid-squirting flower	50	Mys: 10
 actual reality goggles	10	none
 actual skeleton key	10	none
+adobe ascot	0	Mox: 40
 aerogel anvil	50	none
 aerogel apron	50	none
 aerogel ascot	50	none

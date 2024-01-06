@@ -172,3 +172,5 @@
 165	Dental Drip	dentaltat.gif	tooth cap, cat o' nine teeth, toothy trousers	sampler size toothpaste
 166	Elf Guard Fatigues	elfguardtat1.gif	Elf Guard patrol cap, Elf Guard hotpants	military candy cane
 167	Crimbuccaneer rigging	crimbuctat1.gif	Crimbuccaneer tricorn, Crimbuccaneer breeches	groggipop
+168
+169	Adobe Armor	adobetat.gif	adobe ayam, adobe adze, adobe abacus, adobe abaya, adobe arsecover, adobe ascot	adobe brittle
