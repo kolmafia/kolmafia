@@ -851,7 +851,7 @@ turtle trapper	685	turtletrapper.gif	NOCOPY WANDERER Atk: 95 Def: 85 HP: 120 Ini
 Safari Jack, Small-Game Hunter	702	safarijack.gif	NOCOPY WANDERER Atk: 115 Def: 103 HP: 150 Init: 60 P: dude	secret tropical island volcano lair map (100)	Safari Jack's moustache (100)	untamable turtle (100)
 guard turtle	782	guardturtle1.gif,guardturtle2.gif,guardturtle3.gif,guardturtle4.gif	NOBANISH NOCOPY Atk: 140 Def: 126 HP: 140 Init: 140 P: beast Article: a	guard turtle shell (0)	guard turtle collar (0)
 french guard turtle	783	frenchturtle.gif	NOCOPY Atk: 140 Def: 126 HP: 140 Init: 140 P: beast Article: a Manuel: "guard turtle" Wiki: "guard turtle (french)"	guard turtle shell (0)	guard turtle collar (0)
-warehouse worker	867	warehouseguy.gif	Atk: 160 Def: 144 HP: 210 Init: 75 P: dude Article: a	crowbar (0)
+warehouse worker	867	warehouseguy.gif	Atk: 160 Def: 144 HP: 210 Init: 75 P: dude Article: a	crowbar (20)
 Stella, the Turtle Poacher (Inner Sanctum)	22	2_1.gif	BOSS NOCOPY Atk: 27 Def: 24 HP: 30 Init: 60 Meat: 35 P: dude Manuel: "Stella, the Turtle Poacher"	Elder Turtle Shell (100)
 Stella, the Turtle Poacher (The Nemesis' Lair)	873	2_2.gif	BOSS NOCOPY Atk: 170 Def: 153 HP: 220 Init: 80 P: dude Manuel: "Stella, the Turtle Poacher"	Galapagosian Cuisses (100)
 Stella, the Turtle Poacher (Volcanic Cave)	883	2_3.gif	BOSS NOCOPY Atk: 185 Def: 166 HP: 260 Init: 90 P: dude Phys: 25 Elem: 25 Manuel: "Stella, the Turtle Poacher"
@@ -1154,19 +1154,19 @@ The Luter	1152	theluter.gif	NOCOPY Atk: 75 Def: 67 HP: 100 Init: 50 P: undead Ph
 
 # Bugbear Invasion
 scavenger bugbear	1165	bb_scav.gif	Atk: 5 Def: 4 HP: 5 Init: 150 P: beast EA: stench Article: a	BURT (100)
-creepy eye-stalk tentacle monster	1174	dianoga.gif	NOWISH Atk: 8 Def: 5 HP: 6 Init: 100 P: horror ED: stench EA: sleaze EA: stench Article: a	handful of juicy garbage (0)
-grouchy furry monster	1175	grouchewie.gif	NOWISH Atk: 6 Def: 6 HP: 8 Init: 50 P: beast EA: stench Article: a	handful of juicy garbage (0)	Osk'r Chow (c0)
+creepy eye-stalk tentacle monster	1174	dianoga.gif	NOWISH Atk: 8 Def: 5 HP: 6 Init: 100 P: horror ED: stench EA: sleaze EA: stench Article: a	handful of juicy garbage (30)
+grouchy furry monster	1175	grouchewie.gif	NOWISH Atk: 6 Def: 6 HP: 8 Init: 50 P: beast EA: stench Article: a	handful of juicy garbage (20)	Osk'r Chow (c0)
 hypodermic bugbear	1166	bb_vamp.gif	Atk: 8 Def: 7 HP: 8 Init: 100 P: beast Article: a	BURT (100)
 anesthesiologist bugbear	1176	bb_doctor.gif	NOWISH Atk: 12 Def: 7 HP: 10 Init: 50 P: beast Article: an	BURT (100)
 bugbear robo-surgeon	1177	robosurgeon.gif	NOCOPY Atk: 15 Def: 22 HP: 20 Init: 50 P: construct EA: hot Article: a
 batbugbear	1167	bb_bat.gif	Atk: 25 Def: 22 HP: 25 Init: 100 P: beast Article: a	BURT (100)
 bugbear scientist	1168	bb_science.gif	Atk: 45 Def: 40 HP: 50 Init: 50 P: beast EA: cold Article: a	BURT (100)
-spiderbugbear	1178	bb_spider.gif	Atk: 55 Def: 49 HP: 50 Init: 75 P: beast Article: a	quantum nanopolymer spider web (0)
+spiderbugbear	1178	bb_spider.gif	Atk: 55 Def: 49 HP: 50 Init: 75 P: beast Article: a	quantum nanopolymer spider web (30)
 bugaboo	1169	bb_ghost.gif	Atk: 60 Def: 54 HP: 70 Init: 50 P: undead ED: spooky EA: sleaze EA: spooky Article: a	BURT (100)
 bugbear mortician	1179	bb_mortician.gif	Atk: 65 Def: 76 HP: 60 Init: 25 P: beast EA: spooky Article: a	bugbear autopsy tweezers (100)
 Black Ops Bugbear	1170	bb_ninja.gif	Atk: 90 Def: 81 HP: 100 Init: 75 P: beast Phys: 25 Elem: 25 Article: a	BURT (100)
 Battlesuit Bugbear Type	1171	bb_mech.gif	Atk: 125 Def: 112 HP: 150 Init: 50 P: beast Phys: 50 Elem: 50 Article: a	BURT (100)
-bugbear drone	1180	bb_drone.gif	Atk: 135 Def: 121 HP: 150 Init: 75 P: construct Phys: 50 Elem: 50 EA: cold Article: a	drone self-destruct chip (0)
+bugbear drone	1180	bb_drone.gif	Atk: 135 Def: 121 HP: 150 Init: 75 P: construct Phys: 50 Elem: 50 EA: cold Article: a	drone self-destruct chip (50)
 liquid metal bugbear	1181	bb_liquidmetal.gif	Atk: 140 Def: 162 HP: 175 Init: 150 P: construct Phys: 50 Elem: 50 Article: a
 ancient unspeakable bugbear	1172	bb_horror.gif	Atk: 140 Def: 126 HP: 150 Init: 50 P: beast ED: spooky Article: an	BURT (100)
 N-space Virtual Assistant	1184	bb_vassist.gif	NOWISH Atk: 175 Def: 157 HP: 180 Init: 100 P: construct Phys: 60 Elem: 60 EA: sleaze Article: an
