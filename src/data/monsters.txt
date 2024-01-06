@@ -900,10 +900,10 @@ Demon of New Wave	892	5_4a.gif	BOSS NOCOPY Atk: 200 Def: 180 HP: 500 Init: 100 P
 
 mariachi bandolero	700	bandolero.gif	NOCOPY WANDERER Atk: 95 Def: 85 HP: 120 Init: 50 Meat: 50 P: dude EA: hot Article: a
 The Mariachi With No Name	706	darkmariachi.gif	NOCOPY WANDERER Atk: 115 Def: 103 HP: 150 Init: 60 Meat: 50 P: dude	secret tropical island volcano lair map (100)	The Mariachi's guitar case (100)	stray chihuahua (100)
-sleepy mariachi	858	mar_sleepy.gif	NOBANISH Atk: 120 Def: 108 HP: 110 Init: 125 P: dude Article: a	spangly mariachi pants (10)	spangly mariachi vest (5)	spangly sombrero (10)
-surprised mariachi	859	mar_surprised.gif	NOBANISH Atk: 130 Def: 117 HP: 125 Init: 150 P: dude Article: a	spangly mariachi pants (10)	spangly mariachi vest (10)	spangly sombrero (5)
-alert mariachi	860	mar_alert.gif	NOBANISH Atk: 200 Def: 180 HP: 250 Init: 300 P: dude Article: an	spangly mariachi pants (10)	spangly mariachi vest (5)	spangly sombrero (10)	alarm accordion (a100)
-mariachi bruiser	871	mar_bruiser.gif	Atk: 160 Def: 144 HP: 210 Init: 75 P: dude Article: a	spangly mariachi pants (0)	spangly mariachi vest (0)	spangly sombrero (0)
+sleepy mariachi	858	mar_sleepy.gif	NOBANISH Atk: 120 Def: 108 HP: 110 Init: 125 P: dude Article: a	spangly mariachi pants (10)	spangly mariachi vest (c5)	spangly sombrero (10)
+surprised mariachi	859	mar_surprised.gif	NOBANISH Atk: 130 Def: 117 HP: 125 Init: 150 P: dude Article: a	spangly mariachi pants (10)	spangly mariachi vest (c10)	spangly sombrero (5)
+alert mariachi	860	mar_alert.gif	NOBANISH Atk: 200 Def: 180 HP: 250 Init: 300 P: dude Article: an	spangly mariachi pants (10)	spangly mariachi vest (c5)	spangly sombrero (10)	alarm accordion (a100)
+mariachi bruiser	871	mar_bruiser.gif	Atk: 160 Def: 144 HP: 210 Init: 75 P: dude Article: a	spangly mariachi pants (10)	spangly mariachi vest (c7)	spangly sombrero (10)
 Somerset Lopez, Dread Mariachi (Inner Sanctum)	26	6_1.gif	BOSS NOCOPY Atk: 27 Def: 24 HP: 30 Init: 60 Meat: 35 P: dude EA: sleaze Manuel: "Somerset Lopez, Dread Mariachi"	El Sombrero De Lopez (100)
 Somerset Lopez, Dread Mariachi (The Nemesis' Lair)	877	6_2.gif	BOSS NOCOPY Atk: 170 Def: 153 HP: 220 Init: 80 P: dude Manuel: "Somerset Lopez, Dread Mariachi"	Lederhosen of the Night (100)
 Somerset Lopez, Dread Mariachi (Volcanic Cave)	887	6_3.gif	BOSS NOCOPY Atk: 185 Def: 166 HP: 260 Init: 90 P: dude Phys: 25 Elem: 25 Manuel: "Somerset Lopez, Dread Mariachi"
@@ -1253,9 +1253,9 @@ warehouse janitor	1741	warehousejanitor.gif	NOWISH Atk: 230 Def: 230 HP: 230 Ini
 warehouse clerk	1742	warehouseclerk.gif	NOWISH Atk: 220 Def: 240 HP: 210 Init: 200 Meat: 75 P: dude Article: a	warehouse inventory page (10)	warehouse clerk's glasses (c15)
 
 # Avatar of West of Loathing
-furious cow	1926	awolcow1.gif	WANDERER Scale: 0 Cap: 30 Floor: ? Init: -10000 P: demon EA: hot EA: sleaze Article: a	corrupted marrow (0)
-furious giant cow	1929	awolcow2.gif	WANDERER Scale: 20 Cap: 150 Floor: ? Init: -10000 P: demon Article: a	corrupted marrow (0)
-ungulith	1932	awolcow3.gif	WANDERER Scale: 40 Cap: 350 Floor: ? Init: -10000 P: demon EA: cold EA: hot EA: sleaze EA: stench Article: an	corrupted marrow (0)
+furious cow	1926	awolcow1.gif	WANDERER Scale: 0 Cap: 30 Floor: ? Init: -10000 P: demon EA: hot EA: sleaze Article: a	corrupted marrow (100)
+furious giant cow	1929	awolcow2.gif	WANDERER Scale: 20 Cap: 150 Floor: ? Init: -10000 P: demon Article: a	corrupted marrow (100)
+ungulith	1932	awolcow3.gif	WANDERER Scale: 40 Cap: 350 Floor: ? Init: -10000 P: demon EA: cold EA: hot EA: sleaze EA: stench Article: an	corrupted marrow (100)
 
 emaciated rodeo clown	1927	awolclown1.gif	WANDERER Scale: 0 Cap: 30 Floor: ? Init: -10000 P: horror EA: spooky Article: an	rodeo whiskey (0)
 menacing rodeo clown	1930	awolclown2.gif	WANDERER Scale: 20 Cap: 150 Floor: ? Init: -10000 P: horror EA: spooky Article: a	rodeo whiskey (0)	Mixed Garbanzos and Chickpeas (c0)	Tesla's Electroplated Beans (c0)	Heimz Fortified Kidney Beans (c0)
@@ -2198,9 +2198,9 @@ orcish juvenile delinquent	954	lilfratboy.gif	Atk: 35 Def: 40 HP: 80 Init: 50 Me
 totally trashed orquette	959	orquette3.gif	Atk: 48 Def: 54 HP: 90 Init: 20 Meat: 20 P: orc ED: sleaze EA: stench Article: a	orquette's phone number (c100)
 
 # Vanya's Castle (antique 8-bit Power magazine June-July 2010)
-fleaman	951	cvfleaman.gif	Atk: 85 Def: 67 HP: 80 Init: 10000 P: dude Article: a	black pixel (0)	brown pixel (0)	brown pixel (0)
+fleaman	951	cvfleaman.gif	Atk: 85 Def: 67 HP: 80 Init: 10000 P: dude Article: a	black pixel (80)	brown pixel (50)	brown pixel (20)
 ghost	950	cvghost.gif	Atk: 75 Def: 67 HP: 80 Init: 50 P: undead GHOST Article: a	white pixel (80)	white pixel (70)	white pixel (60)	white pixel (50)	white pixel (40)
-medusa	952	cvmedusa.gif	Atk: 75 Def: 76 HP: 80 Init: 80 P: horror Article: a	blue pixel (0)	white pixel (0)	white pixel (0)
+medusa	952	cvmedusa.gif	Atk: 75 Def: 76 HP: 80 Init: 80 P: horror Article: a	blue pixel (80)	white pixel (70)	white pixel (60)
 Vanya's Creature	953	cvcreature.gif	BOSS NOCOPY Atk: 1000 Def: 900 HP: 3000 Init: -10000 Meat: 1500 P: construct Phys: 50 ED: spooky EA: hot	pixel orb (n100)
 
 # Magic Commune (antique souvenir drawing July-August 2010)
