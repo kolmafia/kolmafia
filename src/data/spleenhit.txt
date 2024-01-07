@@ -16,6 +16,7 @@ abstraction: perception	1	1	decent	0	0	0	0	50 Perception (+25% mox experience)
 abstraction: purpose	1	1	decent	0	0	0	0	50 Purpose (+25% mus experience)
 abstraction: sensation	1	1	decent	0	0	0	0	50 Sensation (+100% mox)
 abstraction: thought	1	1	decent	0	0	0	0	50 Thought (+100% mys)
+adobe assortment	3	12		0	0	0	0	Unspaded
 aerosolized aerogel	2	12	good	0	0	0	0	Unspaded
 agua de vida	4	4	good	5-10	0	0	0	empty agua de vida bottle
 alien animal goo	1	1	crappy	0	0	0	0	40 Celestial Body (+100% weapon damage, +20% critical hit chance)

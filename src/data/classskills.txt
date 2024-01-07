@@ -1047,8 +1047,8 @@
 7488	Surprisingly Sweet Slash	ccsword_slash.gif	combat	0	0
 7489	Surprisingly Sweet Stab	ccsword_sharp.gif	combat	0	0
 7490	The Old One-Two (Kick)	crimbucboots.gif	combat	0	0
-7491
-7492
+7491	Peppermint Squirt	elfsquirtgun.gif	combat	0	0
+7492	Whale Oil Splat	crimbucsquirt.gif	combat	0	0
 7493	Shoot, Gunwale Whalegun, Shoot!	whalegungun.gif	combat	0	0
 7494	%fn, lay an egg	mimicegg.gif	combat	0	0
 
