@@ -582,8 +582,7 @@ Item	Zombo's skullcap	Muscle Percent: +20, Familiar Weight: +10, Class: "Turtle 
 # Pants section of modifiers.txt
 
 Item	1337 7r0uZ0RZ	Muscle: +6, Moxie: -3, Familiar Effect: "2xPotato, cap 27"
-# adobe arsecover: Subscribe for access to Premium Enchantments&trade;
-Item	adobe arsecover	Muscle Percent: +20, Item Drop: +10
+Item	adobe arsecover	Muscle Percent: [20+20*min(1,effect(Adobe Arsecover Subscription))], Item Drop: [10+10*min(1,effect(Adobe Arsecover Subscription))]
 Item	alpha-mail pants	Familiar Effect: "atk, 1xBarrr, cap 35"
 Item	Angelhair Culottes	Mysticality: +11, Spell Damage: +15, Class: "Pastamancer", Familiar Effect: "1.5xPotato, 2xGhoul, cap 31"
 Item	antique greaves	Initiative: -10, Breakable, Familiar Effect: "1xBarrr"
