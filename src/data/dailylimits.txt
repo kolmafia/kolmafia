@@ -159,6 +159,8 @@ Cast	Summon Holiday Fun!	_holidayFunUsed
 Cast	Summon Kokomo Resort Pass	_summonResortPassUsed
 Cast	Summon Mayfly Swarm	_mayflySummons	30
 Cast	Summon Tasteful Items	grimoire2Summons
+Cast	Surprisingly Sweet Slash	_surprisinglySweetSlashUsed	11
+Cast	Surprisingly Sweet Stab	_surprisinglySweetStabUsed	11
 Cast	Sweat Out Some Booze	_sweatOutSomeBoozeUsed	3
 Cast	Talk About Politics	_pantsgivingBanish	5
 Cast	That's Not a Knife	_discoKnife

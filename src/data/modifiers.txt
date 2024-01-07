@@ -1245,7 +1245,7 @@ Item	can of maces	Weapon Damage: +2, Sleaze Resistance: +1
 Item	can opener	Weakens Monster, Hat Drop: +50
 # can-you-dig-it?: + ???
 Item	candlestick	Experience (Mysticality): +2, Mysticality Percent: +100, Lasts Until Rollover
-Item	candy cane sword cane	Weapon Damage Percent: +50, Never Fumble, Rollover Effect: "Sugar Rush", Rollover Effect Duration: 250, Weapon Damage: +5, Muscle: +10, Mysticality: +10, Moxie: +10
+Item	candy cane sword cane	Weapon Damage Percent: +50, Never Fumble, Rollover Effect: "Sugar Rush", Rollover Effect Duration: 250, Weapon Damage: [5+5*pref(_surprisinglySweetStabUsed)+5*pref(_surprisinglySweetSlashUsed)], Muscle: +10, Mysticality: +10, Moxie: +10
 Item	candy crowbar	Weapon Damage Percent: +100, Lasts Until Rollover
 # candy knife
 Item	candy knuckles	Weapon Damage: +25
