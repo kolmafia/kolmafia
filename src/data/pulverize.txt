@@ -634,6 +634,16 @@ ceramic centurion shield	ceramic scree
 ceramic cerecloth belt	ceramic scree
 ceramic cestus	ceramic scree
 
+# Moss items (2024 Standard)
+
+# Adobe items (2024 Standard Hardcore)
+adobe arsecover	adobe assortment
+adobe adze	adobe assortment
+adobe abacus	adobe assortment
+adobe ayam	adobe assortment
+adobe ascot	adobe assortment
+adobe abaya	adobe assortment
+
 # Dice items
 dice ring	powdered dice
 dice belt buckle	powdered dice
