@@ -2536,12 +2536,12 @@ Undercover Penguin	910	pengundercover.gif	NOWISH Scale: 1 Init: -10000 P: pengui
 Don Crimbo	913	doncrimbo.gif	NOCOPY NOMANUEL Atk: 99999 Def: 89999 HP: 1000000 Init: 100 Phys: 100
 
 # Bigg's Diggg (September 2010)
-reanimated baboon skeleton	988	foss_baboon.gif	Atk: 150 Def: 135 HP: 150 Init: -10000 P: undead Phys: 100 EA: stench Article: a	fossilized necklace (c100)
-reanimated bat skeleton	986	foss_bat.gif	Atk: 50 Def: 45 HP: 50 Init: -10000 P: undead Phys: 100 Article: a	fossilized necklace (c100)
-reanimated demon skeleton	990	foss_demon.gif	Atk: 250 Def: 225 HP: 250 Init: 50 P: undead Phys: 100 EA: hot Article: a	fossilized necklace (c100)
-reanimated giant spider skeleton	991	foss_spider.gif	Atk: 300 Def: 270 HP: 300 Init: 50 P: undead Phys: 100 EA: spooky Article: a	fossilized necklace (c100)
-reanimated serpent skeleton	987	foss_serpent.gif	Atk: 100 Def: 90 HP: 100 Init: -10000 P: undead Phys: 100 Article: a	fossilized necklace (c100)
-reanimated wyrm skeleton	989	foss_wyrm.gif	Atk: 200 Def: 180 HP: 200 Init: -10000 P: undead Phys: 100 EA: hot Article: a	fossilized necklace (c100)
+reanimated baboon skeleton	988	foss_baboon.gif	NOWISH Atk: 150 Def: 135 HP: 150 Init: -10000 P: undead Phys: 100 EA: stench Article: a	fossilized necklace (c100)
+reanimated bat skeleton	986	foss_bat.gif	NOWISH Atk: 50 Def: 45 HP: 50 Init: -10000 P: undead Phys: 100 Article: a	fossilized necklace (c100)
+reanimated demon skeleton	990	foss_demon.gif	NOWISH Atk: 250 Def: 225 HP: 250 Init: 50 P: undead Phys: 100 EA: hot Article: a	fossilized necklace (c100)
+reanimated giant spider skeleton	991	foss_spider.gif	NOWISH Atk: 300 Def: 270 HP: 300 Init: 50 P: undead Phys: 100 EA: spooky Article: a	fossilized necklace (c100)
+reanimated serpent skeleton	987	foss_serpent.gif	NOWISH Atk: 100 Def: 90 HP: 100 Init: -10000 P: undead Phys: 100 Article: a	fossilized necklace (c100)
+reanimated wyrm skeleton	989	foss_wyrm.gif	NOWISH Atk: 200 Def: 180 HP: 200 Init: -10000 P: undead Phys: 100 EA: hot Article: a	fossilized necklace (c100)
 
 # A Skeleton Invasion (October 2010)
 skeleton invader	1001	bigskeleton.gif	Atk: 10 Def: 9 HP: 10 Init: 50 P: undead Article: a	bone chips (30)
@@ -2651,9 +2651,9 @@ tiny-screwing animelf	1252	animelf1.gif	Scale: 0 Init: -10000 P: elf	electrical 
 toy assembling animelf	1260	animelf5.gif	Scale: 0 Init: -10000 P: elf	plastic ingot (50)	electrical thingamabob (10)
 
 # Abyssal Portals (September 2013)
-scout seal	1440	scoutseal.gif	Atk: 30 Def: 35 HP: 50 Init: 300 P: demon Article: a	foetid seal tear (c30)	crystalline seal eye (c0)
-bulwark bull seal	1441	bullseal.gif	Atk: 50 Def: 55 HP: 100 Init: -10000 P: demon Article: a	cold seal sweat (c30)	studded sealhide shield (c0)	abyssal battle plans (c0)
-official seal	1442	officialseal.gif	Atk: 110 Def: 110 HP: 300 Init: 70 P: demon EA: hot EA: sleaze Article: an	boiling seal blood (c30)	scabrous seal epaulets (c0)	abyssal battle plans (c0)
+scout seal	1440	scoutseal.gif	NOWISH Atk: 30 Def: 35 HP: 50 Init: 300 P: demon Article: a	foetid seal tear (c30)	crystalline seal eye (c0)
+bulwark bull seal	1441	bullseal.gif	NOWISH Atk: 50 Def: 55 HP: 100 Init: -10000 P: demon Article: a	cold seal sweat (c30)	studded sealhide shield (c0)	abyssal battle plans (c0)
+official seal	1442	officialseal.gif	NOWISH Atk: 110 Def: 110 HP: 300 Init: 70 P: demon EA: hot EA: sleaze Article: an	boiling seal blood (c30)	scabrous seal epaulets (c0)	abyssal battle plans (c0)
 general seal	1443	generalseal.gif	NOCOPY NOMANUEL Atk: 300 Def: 300 HP: 1000 Init: -10000 P: demon EA: hot EA: stench Wiki: "Infernal Officer"	seal medal (c100)
 
 # The Space Odyssey Discotheque (October 2013)
