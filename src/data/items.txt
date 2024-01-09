@@ -11529,12 +11529,12 @@
 11501	Elf Guard Field Manual: Wilderness Sleeping (used)	838155166	book.gif	reusable		0	copies of Elf Guard Field Manual: Wilderness Sleep
 11502	military candy cane	132951284	pep_bigcane.gif	potion, usable	t,d	5
 11503	groggipop	933817198	neutronpop.gif	potion, usable	t,d	5
-11504
-11505
-11506
-11507
-11508
-11509
+11504	moss mace	809294211	mossmace.gif	weapon		0
+11505	moss megaphone	498480961	mossmegaphone.gif	offhand		0
+11506	moss medal	624276315	mossmedal.gif	accessory		0
+11507	moss mitre	134042130	mossmitre.gif	hat		0
+11508	moss mantle	218473880	mossmantle.gif	container		0
+11509	moss marlinspike	467015084	mossmarlin.gif	accessory		0
 11510
 11511
 11512	adobe arsecover	957760779	adobepants.gif	pants		0

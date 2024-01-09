@@ -262,6 +262,7 @@ Mohawk wig	140	Mox: 55
 moist sailor's cap	200	Mox: 85
 Moonthril Circlet	100	Mox: 40
 moose antlers	110	Mox: 40
+moss mitre	50	none
 Mu cap	0	none
 muddy pirate hat	125	Mox: 47
 mullet wig	40	Mox: 5
@@ -1400,6 +1401,7 @@ miracle whip	10	Mus: 0	2-handed whip
 Mjolnir Jr.	200	Mys: 85	1-handed utensil
 Moonthril Flamberge	100	Mus: 40	2-handed sword
 Moonthril Longbow	100	Mox: 40	2-handed bow
+moss mace	50	Mus: 0	1-handed club
 mother's necklace	100	none
 muculent machete	60	Mus: 15	1-handed sword
 murderbot plasma rifle	150	Mox: 30	2-handed rifle
@@ -2106,6 +2108,7 @@ misfit hobby horse	0	none
 misfit teddy bear	0	none
 Mixed Garbanzos and Chickpeas	40	Mys: 5	can of beans
 mole skin notebook	40	none
+moss megaphone	0	none
 moxie magnet	30	none
 Mr. Balloon	20	none
 Mr. Haggis	10	none
@@ -2862,6 +2865,8 @@ monster bait	10	none
 monstrous monocle	160	Mus: 65
 mood ring	10	none
 moon-amber necklace	250	Mys: 200
+moss marlinspike	0	none
+moss medal	0	none
 moustache sock	100	Mus: 10
 Mr. Accessaturday	0	none
 Mr. Accessory	0	none
@@ -3604,6 +3609,7 @@ Mayor Ghost's cloak	300	Mys: 250
 Misty Cape	130	Mox: 75
 Misty Cloak	130	Mus: 75
 Misty Robe	130	Mys: 75
+moss mantle	0	none
 Mr. Container	0	none
 Newbiesport&trade; backpack	0	Mys: 75
 octolus-skin cloak	200	Mox: 50
