@@ -2883,3 +2883,9 @@
 2880
 2881	Everything Looks Green	eyes.gif	baf449fcc4f46537a491d4355129581f	neutral	noremove	# use green smoke bomb
 2882	Adobe Arsecover Subscription	adobepants.gif	46f7853d4dfeb10ea2dddbf6054f0be0	neutral	none
+2883
+2884
+2885
+2886
+2887
+2888	Impressed Pasta Thralls	mossmedal.gif	43bd2ecf4dff41def0201f94143879b6	neutral	none	cast 1 Brandish Moss Medal

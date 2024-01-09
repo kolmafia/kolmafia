@@ -369,6 +369,8 @@ Item	Mohawk wig	Weapon Damage: +10, Familiar Effect: "1xPotato, 1xGhuol, cap 35"
 Item	moist sailor's cap	Muscle Percent: +10, Stench Damage: +20, Hot Resistance: +4, Familiar Effect: "stench atk"
 Item	Moonthril Circlet	Mysticality Percent: [15*G], Familiar Effect: "2xVolley, cap 25"
 Item	moose antlers	Critical Hit Percent: +5, Familiar Effect: "atk, 1xLep, cap 27"
+# moss mitre: Lets you spend Soulsauce to heal
+Item	moss mitre	Mysticality: +10, Stench Resistance: +2
 Item	Mu cap	Spooky Resistance: +4, Stench Resistance: +4, Hot Resistance: +4, Cold Resistance: +4, Sleaze Resistance: +4
 Item	muddy pirate hat	Item Drop: +5, Initiative: +20, Familiar Effect: "1xFairy, cap 31"
 Item	mullet wig	Sleaze Damage: +2, Familiar Effect: "3xPotato, 2xGhuol, cap 10"
@@ -1649,6 +1651,8 @@ Item	miracle whip	Initiative: +50, Weapon Damage: +50, Item Drop: +50, Meat Drop
 # Mjolnir Jr.
 Item	Moonthril Flamberge	Muscle Percent: [15*G]
 Item	Moonthril Longbow	Moxie Percent: [15*G]
+# moss mace: Lets you mug a foe
+Item	moss mace	Experience (Muscle): +2, Hot Resistance: +2
 Item	muculent machete	Muscle: +2, Meat Drop: +5
 # murderbot plasma rifle: Can be used to instantly kill Spants
 Item	murderbot plasma rifle	Hot Damage: +25, Reduce Enemy Defense: 10
@@ -2452,6 +2456,8 @@ Item	misfit hobby horse	Muscle: +5, Stench Damage: +5
 Item	misfit teddy bear	Mysticality: +5, Hot Damage: +5
 Item	Mixed Garbanzos and Chickpeas	Maximum HP: [5*(1+skill(Beanweaver))], Maximum MP: [5*(1+skill(Beanweaver))], Spell Damage: [10*(1+skill(Beanweaver))], HP Regen Min: [(1+skill(Beanweaver))], HP Regen Max: [3*(1+skill(Beanweaver))], MP Regen Min: [(1+skill(Beanweaver))], MP Regen Max: [3*(1+skill(Beanweaver))]
 Item	mole skin notebook	Moxie: +1
+# moss megaphone: Whisper with the voice of the Great Turtle Spirits
+Item	moss megaphone	Muscle: +10, Cold Resistance: +2
 Item	moxie magnet	Moxie Controls MP
 Item	Mr. Balloon	Muscle: +3, Mysticality: +3, Moxie: +3
 # Mr. Haggis: Haggis!
@@ -3354,6 +3360,11 @@ Item	monster bait	Combat Rate: +5, Single Equip
 Item	monstrous monocle	Spooky Resistance: +1, Item Drop: +5, Synergetic
 # mood ring
 Item	moon-amber necklace	Spell Damage Percent: +50, Maximum MP: +200, Mysticality Percent: [5*G], Single Equip
+# moss marlinspike: 75% Chance of Preventing Negative Status Attacks
+# moss marlinspike: Gives you an additional Pickpocketing attempt
+Item	moss marlinspike	Moxie: +10, Single Equip
+# moss medal: Lets you impress your pasta thrall
+Item	moss medal	Experience (Mysticality): +2, Spooky Resistance: +2, Single Equip
 Item	mother's necklace	Adventures: +3, Never Fumble
 Item	moustache sock	Moxie: +20, Muscle: -5, Mysticality: -5, Initiative: +20, Single Equip
 Item	Mr. Accessaturday	Muscle: [1+104*event(Saturday)], Mysticality: [1+104*event(Saturday)], Moxie: [1+104*event(Saturday)]
@@ -4202,6 +4213,8 @@ Item	Mayor Ghost's cloak	PvP Fights: +5, Weapon Drop: +20, Food Drop: +20, Class
 Item	Misty Cape	Moxie: +5, HP Regen Min: 2, HP Regen Max: 4, MP Regen Min: 1, MP Regen Max: 2
 Item	Misty Cloak	Muscle: +5, HP Regen Min: 4, HP Regen Max: 8
 Item	Misty Robe	Mysticality: +5, MP Regen Min: 2, MP Regen Max: 4
+# moss mantle: Lets you delevel and stun a foe
+Item	moss mantle	Experience (Moxie): +2, Sleaze Resistance: +2
 Item	Mr. Container	Item Drop: +3
 Item	Newbiesport&trade; backpack	Item Drop: +1
 Item	octolus-skin cloak	Adventures: +2, PvP Fights: +4, Rollover Effect: "Octolus Gift", Rollover Effect Duration: 30
@@ -6442,6 +6455,7 @@ Effect	Impeccable Coiffure	Moxie Percent: +50
 Effect	Imported Strength	Weapon Damage Percent: +50, Spell Damage Percent: +50
 Effect	Impregnabili Tea	Damage Reduction: 30
 Effect	Impregnably Delicious	Damage Reduction: 30
+# Impressed Pasta Thralls: +1 Pasta Thrall Experience
 Effect	Improprie Tea	Sleaze Damage: +30
 Effect	Improved Candy Vision	Candy Drop: +25
 Effect	In a Lather	Hot Damage: +20, Cold Damage: +20, Stench Damage: +20, Spooky Damage: +20, Sleaze Damage: +20, Hot Spell Damage: +40, Cold Spell Damage: +40, Stench Spell Damage: +40, Spooky Spell Damage: +40, Sleaze Spell Damage: +40, Ranged Damage: +20, Weapon Damage: +20, Weapon Damage Percent: +50, Spell Damage: +40, Spell Damage Percent: +50
@@ -8704,6 +8718,7 @@ Outfit	Mer-kin Scholar's Vestments	Spell Critical Percent: +10
 Outfit	Meteor Masquerade	Meat Drop: +50
 Outfit	Miming Paraphernalia	Damage Reduction: 50, Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Outfit	Mining Gear	Meat Drop: +5
+Outfit	Moss Mufti	Maximum HP Percent: +25
 Outfit	Mushroom Masquerade	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25, Maximum HP: +25, Maximum MP: +25, Initiative: +50, Experience: +5, Familiar Weight: +10, Hot Resistance: +3, Cold Resistance: +3, Stench Resistance: +3, Spooky Resistance: +3, Sleaze Resistance: +3
 # Mutant Couture: Release Your Inner Mutant
 Outfit	Mutant Parts Apparel	Muscle Percent: +100, Monster Level: +50
