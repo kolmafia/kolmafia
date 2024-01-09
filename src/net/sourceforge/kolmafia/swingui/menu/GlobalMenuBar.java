@@ -5,7 +5,14 @@ import javax.swing.JMenuBar;
 import javax.swing.JSeparator;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.session.*;
+import net.sourceforge.kolmafia.session.GuildUnlockManager;
+import net.sourceforge.kolmafia.session.LeafletManager;
+import net.sourceforge.kolmafia.session.LogoutManager;
+import net.sourceforge.kolmafia.session.SorceressLairManager;
+import net.sourceforge.kolmafia.session.TavernManager;
+import net.sourceforge.kolmafia.session.TowerDoorManager;
+import net.sourceforge.kolmafia.session.WitchessManager;
+import net.sourceforge.kolmafia.session.WumpusManager;
 import net.sourceforge.kolmafia.swingui.listener.LicenseDisplayListener;
 
 public class GlobalMenuBar extends JMenuBar {
