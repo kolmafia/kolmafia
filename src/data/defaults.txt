@@ -2382,6 +2382,8 @@ user	_sugarSummons	0
 user	_summonAnnoyanceUsed	false
 user	_summonCarrotUsed	false
 user	_summonResortPassUsed	false
+user	_surprisinglySweetSlashUsed	0
+user	_surprisinglySweetStabUsed	0
 user	_sweatOutSomeBoozeUsed	0
 user	_sweetToothUsed	false
 user	_syntheticDogHairPillUsed	false

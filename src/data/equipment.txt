@@ -4,6 +4,7 @@
 4-dimensional fez	50	none
 8-billed baseball cap	200	Mox: 85
 Admiral's hat	200	Mox: 85
+adobe ayam	120	Mys: 40
 aerated diving helmet	200	Mox: 85
 aerogel akubra	50	none
 All-Hallow's Steve's fright wig	100	Mox: 35
@@ -261,6 +262,7 @@ Mohawk wig	140	Mox: 55
 moist sailor's cap	200	Mox: 85
 Moonthril Circlet	100	Mox: 40
 moose antlers	110	Mox: 40
+moss mitre	50	none
 Mu cap	0	none
 muddy pirate hat	125	Mox: 47
 mullet wig	40	Mox: 5
@@ -448,6 +450,7 @@ Zombo's skullcap	200	Mus: 200
 # Pants section of equipment.txt
 
 1337 7r0uZ0RZ	110	Mox: 40
+adobe arsecover	120	Mus: 40
 alpha-mail pants	140	Mox: 55
 Angelhair Culottes	125	Mys: 30
 antique greaves	150	Mus: 60
@@ -763,6 +766,7 @@ Zombo's grievous greaves	200	Mus: 200
 
 &quot;Humorous&quot; T-shirt	100	Mus: 35
 &quot;Remember the Trees&quot; Shirt	30	Mus: 10
+adobe abaya	120	Mox: 40
 anniversary safety glass vest	10	none
 antique nutcracker waistcoat	150	Mus: 30
 asbestos apron	170	Mus: 70
@@ -930,6 +934,7 @@ accordion file	60	Mox: 15	2-handed accordion
 Accordion of Jordion	105	Mox: 37	2-handed accordion
 accordionoid rocca	160	Mox: 65	2-handed accordion
 acoustic guitarrr	140	Mox: 55	2-handed guitar
+adobe adze	120	Mus: 40	1-handed club
 aerogel accordion	50	Mox: 0	1-handed accordion
 airblaster gun	10	Mox: 0	1-handed pistol
 alarm accordion	180	Mox: 75	2-handed accordion
@@ -1396,6 +1401,7 @@ miracle whip	10	Mus: 0	2-handed whip
 Mjolnir Jr.	200	Mys: 85	1-handed utensil
 Moonthril Flamberge	100	Mus: 40	2-handed sword
 Moonthril Longbow	100	Mox: 40	2-handed bow
+moss mace	50	Mus: 0	1-handed club
 mother's necklace	100	none
 muculent machete	60	Mus: 15	1-handed sword
 murderbot plasma rifle	150	Mox: 30	2-handed rifle
@@ -1801,6 +1807,7 @@ Abuela Crimbo's special magnet	0	none
 Abuela Crimbo's special magnet	10	none
 Abyssal ember	100	Mus: 35
 adhesive tape dolly	0	none
+adobe abacus	0	Mys: 40
 Adventurer bobblehead	100	none
 aerogel attache case	50	none
 ancient calendar	70	Mus: 20	shield
@@ -2101,6 +2108,7 @@ misfit hobby horse	0	none
 misfit teddy bear	0	none
 Mixed Garbanzos and Chickpeas	40	Mys: 5	can of beans
 mole skin notebook	40	none
+moss megaphone	0	none
 moxie magnet	30	none
 Mr. Balloon	20	none
 Mr. Haggis	10	none
@@ -2360,6 +2368,7 @@ zoological sample kit	10	none
 acid-squirting flower	50	Mys: 10
 actual reality goggles	10	none
 actual skeleton key	10	none
+adobe ascot	0	Mox: 40
 aerogel anvil	50	none
 aerogel apron	50	none
 aerogel ascot	50	none
@@ -2856,6 +2865,8 @@ monster bait	10	none
 monstrous monocle	160	Mus: 65
 mood ring	10	none
 moon-amber necklace	250	Mys: 200
+moss marlinspike	0	none
+moss medal	0	none
 moustache sock	100	Mus: 10
 Mr. Accessaturday	0	none
 Mr. Accessory	0	none
@@ -3598,6 +3609,7 @@ Mayor Ghost's cloak	300	Mys: 250
 Misty Cape	130	Mox: 75
 Misty Cloak	130	Mus: 75
 Misty Robe	130	Mys: 75
+moss mantle	0	none
 Mr. Container	0	none
 Newbiesport&trade; backpack	0	Mys: 75
 octolus-skin cloak	200	Mox: 50

@@ -851,7 +851,7 @@ turtle trapper	685	turtletrapper.gif	NOCOPY WANDERER Atk: 95 Def: 85 HP: 120 Ini
 Safari Jack, Small-Game Hunter	702	safarijack.gif	NOCOPY WANDERER Atk: 115 Def: 103 HP: 150 Init: 60 P: dude	secret tropical island volcano lair map (100)	Safari Jack's moustache (100)	untamable turtle (100)
 guard turtle	782	guardturtle1.gif,guardturtle2.gif,guardturtle3.gif,guardturtle4.gif	NOBANISH NOCOPY Atk: 140 Def: 126 HP: 140 Init: 140 P: beast Article: a	guard turtle shell (0)	guard turtle collar (0)
 french guard turtle	783	frenchturtle.gif	NOCOPY Atk: 140 Def: 126 HP: 140 Init: 140 P: beast Article: a Manuel: "guard turtle" Wiki: "guard turtle (french)"	guard turtle shell (0)	guard turtle collar (0)
-warehouse worker	867	warehouseguy.gif	Atk: 160 Def: 144 HP: 210 Init: 75 P: dude Article: a	crowbar (0)
+warehouse worker	867	warehouseguy.gif	Atk: 160 Def: 144 HP: 210 Init: 75 P: dude Article: a	crowbar (20)
 Stella, the Turtle Poacher (Inner Sanctum)	22	2_1.gif	BOSS NOCOPY Atk: 27 Def: 24 HP: 30 Init: 60 Meat: 35 P: dude Manuel: "Stella, the Turtle Poacher"	Elder Turtle Shell (100)
 Stella, the Turtle Poacher (The Nemesis' Lair)	873	2_2.gif	BOSS NOCOPY Atk: 170 Def: 153 HP: 220 Init: 80 P: dude Manuel: "Stella, the Turtle Poacher"	Galapagosian Cuisses (100)
 Stella, the Turtle Poacher (Volcanic Cave)	883	2_3.gif	BOSS NOCOPY Atk: 185 Def: 166 HP: 260 Init: 90 P: dude Phys: 25 Elem: 25 Manuel: "Stella, the Turtle Poacher"
@@ -900,10 +900,10 @@ Demon of New Wave	892	5_4a.gif	BOSS NOCOPY Atk: 200 Def: 180 HP: 500 Init: 100 P
 
 mariachi bandolero	700	bandolero.gif	NOCOPY WANDERER Atk: 95 Def: 85 HP: 120 Init: 50 Meat: 50 P: dude EA: hot Article: a
 The Mariachi With No Name	706	darkmariachi.gif	NOCOPY WANDERER Atk: 115 Def: 103 HP: 150 Init: 60 Meat: 50 P: dude	secret tropical island volcano lair map (100)	The Mariachi's guitar case (100)	stray chihuahua (100)
-sleepy mariachi	858	mar_sleepy.gif	NOBANISH Atk: 120 Def: 108 HP: 110 Init: 125 P: dude Article: a	spangly mariachi pants (10)	spangly mariachi vest (5)	spangly sombrero (10)
-surprised mariachi	859	mar_surprised.gif	NOBANISH Atk: 130 Def: 117 HP: 125 Init: 150 P: dude Article: a	spangly mariachi pants (10)	spangly mariachi vest (10)	spangly sombrero (5)
-alert mariachi	860	mar_alert.gif	NOBANISH Atk: 200 Def: 180 HP: 250 Init: 300 P: dude Article: an	spangly mariachi pants (10)	spangly mariachi vest (5)	spangly sombrero (10)	alarm accordion (a100)
-mariachi bruiser	871	mar_bruiser.gif	Atk: 160 Def: 144 HP: 210 Init: 75 P: dude Article: a	spangly mariachi pants (0)	spangly mariachi vest (0)	spangly sombrero (0)
+sleepy mariachi	858	mar_sleepy.gif	NOBANISH Atk: 120 Def: 108 HP: 110 Init: 125 P: dude Article: a	spangly mariachi pants (10)	spangly mariachi vest (c5)	spangly sombrero (10)
+surprised mariachi	859	mar_surprised.gif	NOBANISH Atk: 130 Def: 117 HP: 125 Init: 150 P: dude Article: a	spangly mariachi pants (10)	spangly mariachi vest (c10)	spangly sombrero (5)
+alert mariachi	860	mar_alert.gif	NOBANISH Atk: 200 Def: 180 HP: 250 Init: 300 P: dude Article: an	spangly mariachi pants (10)	spangly mariachi vest (c5)	spangly sombrero (10)	alarm accordion (a100)
+mariachi bruiser	871	mar_bruiser.gif	Atk: 160 Def: 144 HP: 210 Init: 75 P: dude Article: a	spangly mariachi pants (10)	spangly mariachi vest (c7)	spangly sombrero (10)
 Somerset Lopez, Dread Mariachi (Inner Sanctum)	26	6_1.gif	BOSS NOCOPY Atk: 27 Def: 24 HP: 30 Init: 60 Meat: 35 P: dude EA: sleaze Manuel: "Somerset Lopez, Dread Mariachi"	El Sombrero De Lopez (100)
 Somerset Lopez, Dread Mariachi (The Nemesis' Lair)	877	6_2.gif	BOSS NOCOPY Atk: 170 Def: 153 HP: 220 Init: 80 P: dude Manuel: "Somerset Lopez, Dread Mariachi"	Lederhosen of the Night (100)
 Somerset Lopez, Dread Mariachi (Volcanic Cave)	887	6_3.gif	BOSS NOCOPY Atk: 185 Def: 166 HP: 260 Init: 90 P: dude Phys: 25 Elem: 25 Manuel: "Somerset Lopez, Dread Mariachi"
@@ -1154,19 +1154,19 @@ The Luter	1152	theluter.gif	NOCOPY Atk: 75 Def: 67 HP: 100 Init: 50 P: undead Ph
 
 # Bugbear Invasion
 scavenger bugbear	1165	bb_scav.gif	Atk: 5 Def: 4 HP: 5 Init: 150 P: beast EA: stench Article: a	BURT (100)
-creepy eye-stalk tentacle monster	1174	dianoga.gif	NOWISH Atk: 8 Def: 5 HP: 6 Init: 100 P: horror ED: stench EA: sleaze EA: stench Article: a	handful of juicy garbage (0)
-grouchy furry monster	1175	grouchewie.gif	NOWISH Atk: 6 Def: 6 HP: 8 Init: 50 P: beast EA: stench Article: a	handful of juicy garbage (0)	Osk'r Chow (c0)
+creepy eye-stalk tentacle monster	1174	dianoga.gif	NOWISH Atk: 8 Def: 5 HP: 6 Init: 100 P: horror ED: stench EA: sleaze EA: stench Article: a	handful of juicy garbage (30)
+grouchy furry monster	1175	grouchewie.gif	NOWISH Atk: 6 Def: 6 HP: 8 Init: 50 P: beast EA: stench Article: a	handful of juicy garbage (20)	Osk'r Chow (c0)
 hypodermic bugbear	1166	bb_vamp.gif	Atk: 8 Def: 7 HP: 8 Init: 100 P: beast Article: a	BURT (100)
 anesthesiologist bugbear	1176	bb_doctor.gif	NOWISH Atk: 12 Def: 7 HP: 10 Init: 50 P: beast Article: an	BURT (100)
 bugbear robo-surgeon	1177	robosurgeon.gif	NOCOPY Atk: 15 Def: 22 HP: 20 Init: 50 P: construct EA: hot Article: a
 batbugbear	1167	bb_bat.gif	Atk: 25 Def: 22 HP: 25 Init: 100 P: beast Article: a	BURT (100)
 bugbear scientist	1168	bb_science.gif	Atk: 45 Def: 40 HP: 50 Init: 50 P: beast EA: cold Article: a	BURT (100)
-spiderbugbear	1178	bb_spider.gif	Atk: 55 Def: 49 HP: 50 Init: 75 P: beast Article: a	quantum nanopolymer spider web (0)
+spiderbugbear	1178	bb_spider.gif	Atk: 55 Def: 49 HP: 50 Init: 75 P: beast Article: a	quantum nanopolymer spider web (30)
 bugaboo	1169	bb_ghost.gif	Atk: 60 Def: 54 HP: 70 Init: 50 P: undead ED: spooky EA: sleaze EA: spooky Article: a	BURT (100)
 bugbear mortician	1179	bb_mortician.gif	Atk: 65 Def: 76 HP: 60 Init: 25 P: beast EA: spooky Article: a	bugbear autopsy tweezers (100)
 Black Ops Bugbear	1170	bb_ninja.gif	Atk: 90 Def: 81 HP: 100 Init: 75 P: beast Phys: 25 Elem: 25 Article: a	BURT (100)
 Battlesuit Bugbear Type	1171	bb_mech.gif	Atk: 125 Def: 112 HP: 150 Init: 50 P: beast Phys: 50 Elem: 50 Article: a	BURT (100)
-bugbear drone	1180	bb_drone.gif	Atk: 135 Def: 121 HP: 150 Init: 75 P: construct Phys: 50 Elem: 50 EA: cold Article: a	drone self-destruct chip (0)
+bugbear drone	1180	bb_drone.gif	Atk: 135 Def: 121 HP: 150 Init: 75 P: construct Phys: 50 Elem: 50 EA: cold Article: a	drone self-destruct chip (50)
 liquid metal bugbear	1181	bb_liquidmetal.gif	Atk: 140 Def: 162 HP: 175 Init: 150 P: construct Phys: 50 Elem: 50 Article: a
 ancient unspeakable bugbear	1172	bb_horror.gif	Atk: 140 Def: 126 HP: 150 Init: 50 P: beast ED: spooky Article: an	BURT (100)
 N-space Virtual Assistant	1184	bb_vassist.gif	NOWISH Atk: 175 Def: 157 HP: 180 Init: 100 P: construct Phys: 60 Elem: 60 EA: sleaze Article: an
@@ -1253,13 +1253,13 @@ warehouse janitor	1741	warehousejanitor.gif	NOWISH Atk: 230 Def: 230 HP: 230 Ini
 warehouse clerk	1742	warehouseclerk.gif	NOWISH Atk: 220 Def: 240 HP: 210 Init: 200 Meat: 75 P: dude Article: a	warehouse inventory page (10)	warehouse clerk's glasses (c15)
 
 # Avatar of West of Loathing
-furious cow	1926	awolcow1.gif	WANDERER Scale: 0 Cap: 30 Floor: ? Init: -10000 P: demon EA: hot EA: sleaze Article: a	corrupted marrow (0)
-furious giant cow	1929	awolcow2.gif	WANDERER Scale: 20 Cap: 150 Floor: ? Init: -10000 P: demon Article: a	corrupted marrow (0)
-ungulith	1932	awolcow3.gif	WANDERER Scale: 40 Cap: 350 Floor: ? Init: -10000 P: demon EA: cold EA: hot EA: sleaze EA: stench Article: an	corrupted marrow (0)
+furious cow	1926	awolcow1.gif	WANDERER Scale: 0 Cap: 30 Floor: ? Init: -10000 P: demon EA: hot EA: sleaze Article: a	corrupted marrow (100)
+furious giant cow	1929	awolcow2.gif	WANDERER Scale: 20 Cap: 150 Floor: ? Init: -10000 P: demon Article: a	corrupted marrow (100)
+ungulith	1932	awolcow3.gif	WANDERER Scale: 40 Cap: 350 Floor: ? Init: -10000 P: demon EA: cold EA: hot EA: sleaze EA: stench Article: an	corrupted marrow (100)
 
-emaciated rodeo clown	1927	awolclown1.gif	WANDERER Scale: 0 Cap: 30 Floor: ? Init: -10000 P: horror EA: spooky Article: an	rodeo whiskey (0)
-menacing rodeo clown	1930	awolclown2.gif	WANDERER Scale: 20 Cap: 150 Floor: ? Init: -10000 P: horror EA: spooky Article: a	rodeo whiskey (0)	Mixed Garbanzos and Chickpeas (c0)	Tesla's Electroplated Beans (c0)	Heimz Fortified Kidney Beans (c0)
-grizzled rodeo clown	1933	awolclown3.gif	WANDERER Scale: 40 Cap: 350 Floor: ? Init: -10000 P: horror EA: spooky EA: stench Article: a	rodeo whiskey (0)	Frigid Northern Beans (c0)	Hellfire Spicy Beans (c0)	Pork 'n' Pork 'n' Pork 'n' Beans (c0)	Trader Olaf's Exotic Stinkbeans (c0)	World's Blackest-Eyed Peas (c0)
+emaciated rodeo clown	1927	awolclown1.gif	WANDERER Scale: 0 Cap: 30 Floor: ? Init: -10000 P: horror EA: spooky Article: an	rodeo whiskey (100)
+menacing rodeo clown	1930	awolclown2.gif	WANDERER Scale: 20 Cap: 150 Floor: ? Init: -10000 P: horror EA: spooky Article: a	rodeo whiskey (100)	Mixed Garbanzos and Chickpeas (c100)	Tesla's Electroplated Beans (c100)	Heimz Fortified Kidney Beans (c100)
+grizzled rodeo clown	1933	awolclown3.gif	WANDERER Scale: 40 Cap: 350 Floor: ? Init: -10000 P: horror EA: spooky EA: stench Article: a	rodeo whiskey (100)	Frigid Northern Beans (c100)	Hellfire Spicy Beans (c100)	Pork 'n' Pork 'n' Pork 'n' Beans (c100)	Trader Olaf's Exotic Stinkbeans (c100)	World's Blackest-Eyed Peas (c100)
 
 aggressive grass snake	1928	awolsnake1.gif	WANDERER Scale: 0 Cap: 30 Floor: ? Init: -10000 P: beast SNAKE Article: an
 prince snake	1931	awolsnake2.gif	WANDERER Scale: 20 Cap: 150 Floor: ? Init: -10000 P: beast SNAKE ED: sleaze Article: a	2 snake oil (m100)
@@ -2198,9 +2198,9 @@ orcish juvenile delinquent	954	lilfratboy.gif	Atk: 35 Def: 40 HP: 80 Init: 50 Me
 totally trashed orquette	959	orquette3.gif	Atk: 48 Def: 54 HP: 90 Init: 20 Meat: 20 P: orc ED: sleaze EA: stench Article: a	orquette's phone number (c100)
 
 # Vanya's Castle (antique 8-bit Power magazine June-July 2010)
-fleaman	951	cvfleaman.gif	Atk: 85 Def: 67 HP: 80 Init: 10000 P: dude Article: a	black pixel (0)	brown pixel (0)	brown pixel (0)
+fleaman	951	cvfleaman.gif	Atk: 85 Def: 67 HP: 80 Init: 10000 P: dude Article: a	black pixel (80)	brown pixel (50)	brown pixel (20)
 ghost	950	cvghost.gif	Atk: 75 Def: 67 HP: 80 Init: 50 P: undead GHOST Article: a	white pixel (80)	white pixel (70)	white pixel (60)	white pixel (50)	white pixel (40)
-medusa	952	cvmedusa.gif	Atk: 75 Def: 76 HP: 80 Init: 80 P: horror Article: a	blue pixel (0)	white pixel (0)	white pixel (0)
+medusa	952	cvmedusa.gif	Atk: 75 Def: 76 HP: 80 Init: 80 P: horror Article: a	blue pixel (80)	white pixel (70)	white pixel (60)
 Vanya's Creature	953	cvcreature.gif	BOSS NOCOPY Atk: 1000 Def: 900 HP: 3000 Init: -10000 Meat: 1500 P: construct Phys: 50 ED: spooky EA: hot	pixel orb (n100)
 
 # Magic Commune (antique souvenir drawing July-August 2010)
@@ -2366,7 +2366,7 @@ Crimbuccaneer retiree	2429	cbretiree.gif	NOWISH Scale: ? Init: -10000 P: pirate 
 Crimbuccaneer freebooter	2430	cbboots.gif	NOWISH Scale: ? Init: -10000 P: pirate Article: a	1-2 Crimbuccaneer piece of 12 (m100)	cannonbomb (f5)	free boots (f0.5)
 Crimbuccaneer scrimshander	2431	cbscrimshander.gif	NOWISH Scale: ? Init: -10000 P: pirate Article: a	1-2 Crimbuccaneer piece of 12 (m100)	whale cerebrospinal fluid (f5)	Crimbuccaneer runebone (f0.5)
 Crimbuccaneer carpenter	2432	cbcarpenter.gif	NOWISH Scale: ? Init: -10000 P: pirate Article: a	1-2 Crimbuccaneer piece of 12 (m100)	shipwright's hammer (f5)	gunwale (f0.5)
-Elf Guard arctic seal	2433	egseal.gif	NOWISH Scale: ? Init: -10000 P: elf Article: an	1-2 Elf Guard MPC (m100)	Elf guard mouthknife (f5)	Elf Guard SCUBA tank (f0.5)
+Elf Guard arctic seal	2433	egseal.gif	NOWISH Scale: ? Init: -10000 P: elf Article: an	1-2 Elf Guard MPC (m100)	Elf Guard mouthknife (f5)	Elf Guard SCUBA tank (f0.5)
 Elf Guard armorer	2434	egarmorer.gif	NOWISH Scale: ? Init: -10000 P: elf Article: an	1-2 Elf Guard MPC (m100)	Kelflar vest (f5)	Elvish underarmor (f0.5)
 Elf Guard Red and White Beret	2435	egberet.gif	NOWISH Scale: ? Init: -10000 P: elf Article: an	1-2 Elf Guard MPC (m100)	red and white claret (f5)	Elf Guard red and white beret (f0.5)
 Crimbuccaneer privateer	2436	cbprivateer.gif	NOWISH Scale: ? Init: -10000 P: pirate Article: a	1-2 Crimbuccaneer piece of 12 (m100)	Crimbuccaneer fledges (mint) (c0)
@@ -2536,12 +2536,12 @@ Undercover Penguin	910	pengundercover.gif	NOWISH Scale: 1 Init: -10000 P: pengui
 Don Crimbo	913	doncrimbo.gif	NOCOPY NOMANUEL Atk: 99999 Def: 89999 HP: 1000000 Init: 100 Phys: 100
 
 # Bigg's Diggg (September 2010)
-reanimated baboon skeleton	988	foss_baboon.gif	Atk: 150 Def: 135 HP: 150 Init: -10000 P: undead Phys: 100 EA: stench Article: a	fossilized necklace (c100)
-reanimated bat skeleton	986	foss_bat.gif	Atk: 50 Def: 45 HP: 50 Init: -10000 P: undead Phys: 100 Article: a	fossilized necklace (c100)
-reanimated demon skeleton	990	foss_demon.gif	Atk: 250 Def: 225 HP: 250 Init: 50 P: undead Phys: 100 EA: hot Article: a	fossilized necklace (c100)
-reanimated giant spider skeleton	991	foss_spider.gif	Atk: 300 Def: 270 HP: 300 Init: 50 P: undead Phys: 100 EA: spooky Article: a	fossilized necklace (c100)
-reanimated serpent skeleton	987	foss_serpent.gif	Atk: 100 Def: 90 HP: 100 Init: -10000 P: undead Phys: 100 Article: a	fossilized necklace (c100)
-reanimated wyrm skeleton	989	foss_wyrm.gif	Atk: 200 Def: 180 HP: 200 Init: -10000 P: undead Phys: 100 EA: hot Article: a	fossilized necklace (c100)
+reanimated baboon skeleton	988	foss_baboon.gif	NOWISH Atk: 150 Def: 135 HP: 150 Init: -10000 P: undead Phys: 100 EA: stench Article: a	fossilized necklace (c100)
+reanimated bat skeleton	986	foss_bat.gif	NOWISH Atk: 50 Def: 45 HP: 50 Init: -10000 P: undead Phys: 100 Article: a	fossilized necklace (c100)
+reanimated demon skeleton	990	foss_demon.gif	NOWISH Atk: 250 Def: 225 HP: 250 Init: 50 P: undead Phys: 100 EA: hot Article: a	fossilized necklace (c100)
+reanimated giant spider skeleton	991	foss_spider.gif	NOWISH Atk: 300 Def: 270 HP: 300 Init: 50 P: undead Phys: 100 EA: spooky Article: a	fossilized necklace (c100)
+reanimated serpent skeleton	987	foss_serpent.gif	NOWISH Atk: 100 Def: 90 HP: 100 Init: -10000 P: undead Phys: 100 Article: a	fossilized necklace (c100)
+reanimated wyrm skeleton	989	foss_wyrm.gif	NOWISH Atk: 200 Def: 180 HP: 200 Init: -10000 P: undead Phys: 100 EA: hot Article: a	fossilized necklace (c100)
 
 # A Skeleton Invasion (October 2010)
 skeleton invader	1001	bigskeleton.gif	Atk: 10 Def: 9 HP: 10 Init: 50 P: undead Article: a	bone chips (30)
@@ -2651,9 +2651,9 @@ tiny-screwing animelf	1252	animelf1.gif	Scale: 0 Init: -10000 P: elf	electrical 
 toy assembling animelf	1260	animelf5.gif	Scale: 0 Init: -10000 P: elf	plastic ingot (50)	electrical thingamabob (10)
 
 # Abyssal Portals (September 2013)
-scout seal	1440	scoutseal.gif	Atk: 30 Def: 35 HP: 50 Init: 300 P: demon Article: a	foetid seal tear (c30)	crystalline seal eye (c0)
-bulwark bull seal	1441	bullseal.gif	Atk: 50 Def: 55 HP: 100 Init: -10000 P: demon Article: a	cold seal sweat (c30)	studded sealhide shield (c0)	abyssal battle plans (c0)
-official seal	1442	officialseal.gif	Atk: 110 Def: 110 HP: 300 Init: 70 P: demon EA: hot EA: sleaze Article: an	boiling seal blood (c30)	scabrous seal epaulets (c0)	abyssal battle plans (c0)
+scout seal	1440	scoutseal.gif	NOWISH Atk: 30 Def: 35 HP: 50 Init: 300 P: demon Article: a	foetid seal tear (c30)	crystalline seal eye (c0)
+bulwark bull seal	1441	bullseal.gif	NOWISH Atk: 50 Def: 55 HP: 100 Init: -10000 P: demon Article: a	cold seal sweat (c30)	studded sealhide shield (c0)	abyssal battle plans (c0)
+official seal	1442	officialseal.gif	NOWISH Atk: 110 Def: 110 HP: 300 Init: 70 P: demon EA: hot EA: sleaze Article: an	boiling seal blood (c30)	scabrous seal epaulets (c0)	abyssal battle plans (c0)
 general seal	1443	generalseal.gif	NOCOPY NOMANUEL Atk: 300 Def: 300 HP: 1000 Init: -10000 P: demon EA: hot EA: stench Wiki: "Infernal Officer"	seal medal (c100)
 
 # The Space Odyssey Discotheque (October 2013)
