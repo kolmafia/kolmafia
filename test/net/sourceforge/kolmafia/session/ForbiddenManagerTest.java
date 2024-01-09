@@ -27,6 +27,7 @@ public class ForbiddenManagerTest {
   @BeforeEach
   public void beforeEach() {
     Preferences.reset(TESTUSERNAME);
+    MallPurchaseRequest.reset();
   }
 
   @AfterEach
