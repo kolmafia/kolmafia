@@ -1567,6 +1567,12 @@ public abstract class RuntimeLibrary {
         new LibraryFunction(
             "my_effects", new AggregateType(DataTypes.INT_TYPE, DataTypes.EFFECT_TYPE), params));
 
+    params = new Type[] {DataTypes.EFFECT_TYPE};
+    functions.add(new LibraryFunction("is_shruggable", DataTypes.BOOLEAN_TYPE, params));
+
+    params = new Type[] {DataTypes.EFFECT_TYPE};
+    functions.add(new LibraryFunction("is_removable", DataTypes.BOOLEAN_TYPE, params));
+
     params = new Type[] {DataTypes.SKILL_TYPE, DataTypes.INT_TYPE};
     functions.add(new LibraryFunction("use_skill", DataTypes.BOOLEAN_TYPE, params));
 
@@ -6463,6 +6469,16 @@ public abstract class RuntimeLibrary {
     }
 
     return value;
+  }
+
+  public static Value is_shruggable(ScriptRuntime controller, final Value arg) {
+    int effectId = (int) arg.intValue();
+    return new Value(UneffectRequest.isShruggable(effectId));
+  }
+
+  public static Value is_removable(ScriptRuntime controller, final Value arg) {
+    int effectId = (int) arg.intValue();
+    return new Value(UneffectRequest.isRemovable(effectId));
   }
 
   public static Value use_skill(ScriptRuntime controller, final Value arg1, final Value arg2) {
