@@ -786,10 +786,14 @@ public class EatItemRequest extends UseItemRequest {
           // sizzlicious! The salad fork cools, and you
           // discard it."
 
-          if (!responseText.contains("The salad fork cools")) {
-            success = false;
-          } else {
+          if (responseText.contains("The salad fork cools")) {
             Preferences.setBoolean("_saladForkUsed", true);
+          } else {
+            success = false;
+            // Only special failure case to care about, since it lets us fix the preference
+            if (responseText.contains("You may only use one of those per day.")) {
+              Preferences.setBoolean("_saladForkUsed", true);
+            }
           }
           break;
 

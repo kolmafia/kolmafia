@@ -30,7 +30,6 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
-import net.sourceforge.kolmafia.persistence.SkillDatabase.SkillType;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
@@ -457,13 +456,7 @@ public class DataTypes {
       return DataTypes.SKILL_INIT;
     }
 
-    SkillType type = SkillDatabase.skillTypeNameToType(typeName);
-
-    if (type == SkillType.UNKNOWN) {
-      return DataTypes.SKILL_INIT;
-    }
-
-    int skillId = SkillDatabase.getSkillId(name, type);
+    int skillId = SkillDatabase.getSkillId(name, typeName);
 
     if (skillId == -1) {
       return returnDefault ? DataTypes.SKILL_INIT : null;
