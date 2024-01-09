@@ -11543,7 +11543,7 @@
 11515	adobe ayam	984761563	adobehat.gif	hat		0
 11516	adobe ascot	757035735	adobeascot.gif	accessory		0
 11517	adobe abaya	768488079	adobeabaya.gif	shirt		0
-11518
+11518	adobe assortment	469007963	adobebits.gif	spleen, usable		0
 11519	adobe brittle	493931168	adobebrittle.gif	potion, usable	t,d	15
 11520
 11521

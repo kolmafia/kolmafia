@@ -2882,3 +2882,4 @@
 2879
 2880
 2881	Everything Looks Green	eyes.gif	baf449fcc4f46537a491d4355129581f	neutral	noremove	# use green smoke bomb
+2882	Adobe Arsecover Subscription	adobepants.gif	46f7853d4dfeb10ea2dddbf6054f0be0	neutral	none
