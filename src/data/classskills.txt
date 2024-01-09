@@ -1051,6 +1051,11 @@
 7492	Whale Oil Splat	crimbucsquirt.gif	combat	0	0
 7493	Shoot, Gunwale Whalegun, Shoot!	whalegungun.gif	combat	0	0
 7494	%fn, lay an egg	mimicegg.gif	combat	0	0
+7495	Moss Mugging	mossmace.gif	combat	0	0
+7496	Megaphone Whisper	mossmegaphone.gif	combat	0	0
+7497	Soul Genuflection	cardheart.gif	combat	0	0
+7498	Drop Mantle	mossmantle.gif	combat	10	0
+7499	Brandish Moss Medal	mossmedal.gif	nc,self	10	100
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.

@@ -579,6 +579,8 @@ public class SkillPool {
   public static final int RECALL_FACTS_MONSTER_HABITATS = 7485;
   public static final int RECALL_FACTS_CIRCADIAN_RHYTHMS = 7486;
   public static final int TOAST_YOUR_ENEMY = 7487;
+  public static final int SURPRISINGLY_SWEET_SLASH = 7488;
+  public static final int SURPRISINGLY_SWEET_STAB = 7489;
   public static final int GOOD_SINGING_VOICE = 11016;
   public static final int BANISHING_SHOUT = 11020;
   public static final int DEMAND_SANDWICH = 11021;

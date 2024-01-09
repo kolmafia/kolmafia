@@ -313,15 +313,19 @@ public class JavascriptRuntime extends AbstractRuntime {
     promiseScope.put("promise", promiseScope, promise);
     cx.evaluateString(
         promiseScope,
-        "promise.then((ret) => promiseReturnValue = ret, (err) => promiseError = err)",
+        "promise.then((ret) => promiseReturnValue = ret, (err) => promiseRejectedValue = err)",
         "promise resolver",
         0,
         null);
-    if (promiseScope.has("promiseError", promiseScope)) {
-      Object promiseError = promiseScope.get("promiseError", promiseScope);
-      throw new JavaScriptException(promiseError, null, 0);
+    if (promiseScope.has("promiseRejectedValue", promiseScope)) {
+      Object promiseRejectedValue = promiseScope.get("promiseRejectedValue", promiseScope);
+      throw new JavaScriptException(promiseRejectedValue, null, 0);
     }
-    return promiseScope.get("promiseReturnValue", promiseScope);
+    if (promiseScope.has("promiseReturnValue", promiseScope)) {
+      return promiseScope.get("promiseReturnValue", promiseScope);
+    }
+    // without an event loop, there is no way that this promise might resolve in the future
+    throw new JavaScriptException("Promise did not resolve or reject", null, 0);
   }
 
   private Value executeRun(
