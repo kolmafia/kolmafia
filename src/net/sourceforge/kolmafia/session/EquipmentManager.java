@@ -769,6 +769,10 @@ public class EquipmentManager {
       case ItemPool.FRANKEN_STEIN:
         KoLCharacter.removeAvailableSkill(SkillPool.TOAST_YOUR_ENEMY);
         break;
+      case ItemPool.CANDY_CANE_SWORD:
+        KoLCharacter.removeAvailableSkill(SkillPool.SURPRISINGLY_SWEET_STAB);
+        KoLCharacter.removeAvailableSkill(SkillPool.SURPRISINGLY_SWEET_SLASH);
+        break;
     }
   }
 
@@ -1132,6 +1136,10 @@ public class EquipmentManager {
         break;
       case ItemPool.FRANKEN_STEIN:
         KoLCharacter.addAvailableSkill(SkillPool.TOAST_YOUR_ENEMY);
+        break;
+      case ItemPool.CANDY_CANE_SWORD:
+        KoLCharacter.addAvailableSkill(SkillPool.SURPRISINGLY_SWEET_STAB);
+        KoLCharacter.addAvailableSkill(SkillPool.SURPRISINGLY_SWEET_SLASH);
         break;
     }
   }
