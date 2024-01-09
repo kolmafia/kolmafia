@@ -411,6 +411,7 @@ public class FightRequest extends GenericRequest {
           "alphabetizes your recycling",
           "bundles your recycling for you",
           "changes the litter in your Familiar-Gro Terrarium",
+          "cleans all your unfolded laundry",
           "cleans your gutters",
           "clears your browser history",
           "does all that tedious campsite cleaning you were going to do today",
@@ -10424,6 +10425,18 @@ public class FightRequest extends GenericRequest {
           Phylum phylum = monster != null ? monster.getPhylum() : Phylum.NONE;
           Preferences.setString("_circadianRhythmsPhylum", phylum.toString());
           Preferences.increment("_circadianRhythmsAdventures", 1, 11, false);
+          skillSuccess = true;
+        }
+        break;
+
+      case SkillPool.SURPRISINGLY_SWEET_SLASH:
+        if (responseText.contains("quickly draw the candy cane sword") || skillSuccess) {
+          skillSuccess = true;
+        }
+        break;
+
+      case SkillPool.SURPRISINGLY_SWEET_STAB:
+        if (responseText.contains("lithely draw the sword from your cane") || skillSuccess) {
           skillSuccess = true;
         }
         break;

@@ -40,6 +40,7 @@ import org.mozilla.javascript.Function;
 import org.mozilla.javascript.JavaScriptException;
 import org.mozilla.javascript.NativeJavaObject;
 import org.mozilla.javascript.NativeObject;
+import org.mozilla.javascript.NativePromise;
 import org.mozilla.javascript.ScriptRuntime;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
@@ -209,6 +210,7 @@ public class JavascriptRuntime extends AbstractRuntime {
 
     cx.setLanguageVersion(Context.VERSION_ES6);
     cx.setOptimizationLevel(1);
+    cx.setTrackUnhandledPromiseRejections(true);
     runningRuntimes.add(this);
 
     // TODO: Use a shared parent scope and initialize this with that as a prototype.
@@ -250,6 +252,11 @@ public class JavascriptRuntime extends AbstractRuntime {
 
     try {
       returnValue = callback.get();
+      cx.processMicrotasks();
+      if (returnValue instanceof NativePromise promise) {
+        returnValue = null;
+        returnValue = resolvePromise(cx, promise);
+      }
     } catch (WrappedException e) {
       Throwable unwrapped = e.getWrappedException();
       if (unwrapped instanceof ScriptException) {
@@ -289,7 +296,36 @@ public class JavascriptRuntime extends AbstractRuntime {
       setState(State.EXIT);
     }
 
+    cx.getUnhandledPromiseTracker()
+        .process(
+            o -> {
+              String escapedMessage =
+                  escapeHtmlInMessage("Unhandled rejected Promise: " + o.toString());
+              KoLmafia.updateDisplay(KoLConstants.MafiaState.ERROR, escapedMessage);
+            });
+
     return new ValueConverter(cx, scope).fromJava(returnValue);
+  }
+
+  private static Object resolvePromise(Context cx, NativePromise promise) {
+    // there is no good way to access promise.getResult, so let the engine store it in a variable
+    Scriptable promiseScope = cx.initSafeStandardObjects();
+    promiseScope.put("promise", promiseScope, promise);
+    cx.evaluateString(
+        promiseScope,
+        "promise.then((ret) => promiseReturnValue = ret, (err) => promiseRejectedValue = err)",
+        "promise resolver",
+        0,
+        null);
+    if (promiseScope.has("promiseRejectedValue", promiseScope)) {
+      Object promiseRejectedValue = promiseScope.get("promiseRejectedValue", promiseScope);
+      throw new JavaScriptException(promiseRejectedValue, null, 0);
+    }
+    if (promiseScope.has("promiseReturnValue", promiseScope)) {
+      return promiseScope.get("promiseReturnValue", promiseScope);
+    }
+    // without an event loop, there is no way that this promise might resolve in the future
+    throw new JavaScriptException("Promise did not resolve or reject", null, 0);
   }
 
   private Value executeRun(
