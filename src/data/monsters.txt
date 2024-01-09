@@ -1257,9 +1257,9 @@ furious cow	1926	awolcow1.gif	WANDERER Scale: 0 Cap: 30 Floor: ? Init: -10000 P:
 furious giant cow	1929	awolcow2.gif	WANDERER Scale: 20 Cap: 150 Floor: ? Init: -10000 P: demon Article: a	corrupted marrow (100)
 ungulith	1932	awolcow3.gif	WANDERER Scale: 40 Cap: 350 Floor: ? Init: -10000 P: demon EA: cold EA: hot EA: sleaze EA: stench Article: an	corrupted marrow (100)
 
-emaciated rodeo clown	1927	awolclown1.gif	WANDERER Scale: 0 Cap: 30 Floor: ? Init: -10000 P: horror EA: spooky Article: an	rodeo whiskey (0)
-menacing rodeo clown	1930	awolclown2.gif	WANDERER Scale: 20 Cap: 150 Floor: ? Init: -10000 P: horror EA: spooky Article: a	rodeo whiskey (0)	Mixed Garbanzos and Chickpeas (c0)	Tesla's Electroplated Beans (c0)	Heimz Fortified Kidney Beans (c0)
-grizzled rodeo clown	1933	awolclown3.gif	WANDERER Scale: 40 Cap: 350 Floor: ? Init: -10000 P: horror EA: spooky EA: stench Article: a	rodeo whiskey (0)	Frigid Northern Beans (c0)	Hellfire Spicy Beans (c0)	Pork 'n' Pork 'n' Pork 'n' Beans (c0)	Trader Olaf's Exotic Stinkbeans (c0)	World's Blackest-Eyed Peas (c0)
+emaciated rodeo clown	1927	awolclown1.gif	WANDERER Scale: 0 Cap: 30 Floor: ? Init: -10000 P: horror EA: spooky Article: an	rodeo whiskey (100)
+menacing rodeo clown	1930	awolclown2.gif	WANDERER Scale: 20 Cap: 150 Floor: ? Init: -10000 P: horror EA: spooky Article: a	rodeo whiskey (100)	Mixed Garbanzos and Chickpeas (c100)	Tesla's Electroplated Beans (c100)	Heimz Fortified Kidney Beans (c100)
+grizzled rodeo clown	1933	awolclown3.gif	WANDERER Scale: 40 Cap: 350 Floor: ? Init: -10000 P: horror EA: spooky EA: stench Article: a	rodeo whiskey (100)	Frigid Northern Beans (c100)	Hellfire Spicy Beans (c100)	Pork 'n' Pork 'n' Pork 'n' Beans (c100)	Trader Olaf's Exotic Stinkbeans (c100)	World's Blackest-Eyed Peas (c100)
 
 aggressive grass snake	1928	awolsnake1.gif	WANDERER Scale: 0 Cap: 30 Floor: ? Init: -10000 P: beast SNAKE Article: an
 prince snake	1931	awolsnake2.gif	WANDERER Scale: 20 Cap: 150 Floor: ? Init: -10000 P: beast SNAKE ED: sleaze Article: a	2 snake oil (m100)
