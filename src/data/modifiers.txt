@@ -76,8 +76,7 @@ Item	4-dimensional fez	Maximum Hooch: +4, Familiar Effect: "atk, 1xLep, cap 12"
 Item	8-billed baseball cap	Muscle Percent: +15, Initiative: +30, Spooky Damage: +5, Stench Damage: +5, Hot Damage: +5, Cold Damage: +5, Sleaze Damage: +5, Familiar Effect: "1xVolley, 1xBarrr, cap 12"
 # Admiral's hat: +50 Skeleton Anger
 Item	Admiral's hat	Adventures: +5, Moxie Percent: +30, Familiar Effect: "atk"
-# adobe ayam: Subscribe for access to Premium Enchantments&trade;
-Item	adobe ayam	Experience (Mysticality): +3, Meat Drop: +20
+Item	adobe ayam	Experience (Mysticality): [3+3*min(1,effect(Adobe Ayam Subscription))], Meat Drop: [20+20*min(1,effect(Adobe Ayam Subscription))]
 Item	aerated diving helmet	Stench Resistance: +3, Item Drop: -25, Initiative: -50, Adventure Underwater, Familiar Effect: "0.5xPotato"
 # aerogel akubra: Lets you use Spirit Snap multiple times per fight
 Item	aerogel akubra	Muscle: +10, Meat Drop: +10
@@ -939,8 +938,7 @@ Item	Zombo's grievous greaves	Cold Resistance: +3, Sleaze Resistance: +3, Class:
 
 Item	&quot;Humorous&quot; T-shirt	Muscle: +4, Mysticality: +4, Moxie: +4, Fumble: 2
 Item	&quot;Remember the Trees&quot; Shirt	Monster Level: +10, Stench Damage: +10, Combat Rate: +5
-# adobe abaya: Subscribe for access to Premium Enchantments&trade;
-Item	adobe abaya	Experience (Moxie): +3, Weapon Damage: +20
+Item	adobe abaya	Experience (Moxie): [3+3*min(1,effect(Adobe Abaya Subscription))], Weapon Damage: [20+20*min(1,effect(Adobe Abaya Subscription))]
 Item	anniversary safety glass vest	Muscle: +1, Mysticality: +1, Moxie: +1
 Item	antique nutcracker waistcoat	PvP Fights: +3, Muscle Percent: +15
 Item	asbestos apron	Hot Resistance: +3
@@ -1120,8 +1118,7 @@ Item	accordion file	MP Regen Min: [2*(1+skill(Accordion Appreciation))], MP Rege
 Item	Accordion of Jordion	Item Drop: [5*(1+skill(Accordion Appreciation))], Meat Drop: [10*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 14
 Item	accordionoid rocca	Damage Reduction: [10*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 18
 Item	acoustic guitarrr	Meat Drop: +8
-# adobe adze: Subscribe for access to Premium Enchantments&trade;
-Item	adobe adze	Experience (Muscle): +3, Familiar Weight: +5, Single Equip
+Item	adobe adze	Experience (Muscle): [3+3*min(1,effect(Adobe Adze Subscription))], Familiar Weight: [5+5*min(1,effect(Adobe Adze Subscription))], Single Equip
 # aerogel accordion: Only takes up one hand!
 Item	aerogel accordion	Moxie: [10*(1+skill(Accordion Appreciation))], Maximum HP: [20*(1+skill(Accordion Appreciation))], Song Duration: 10
 # airblaster gun: Blasts Air (Duh.)
@@ -2117,8 +2114,7 @@ Item	Abracandalabra	Spell Damage Percent: +100, MP Regen Min: 5, MP Regen Max: 1
 # Abuela Crimbo's special magnet: Get more items from Trainbots
 Item	Abyssal ember	Hot Damage: +20, Weapon Drop: +25, Class: "Seal Clubber"
 Item	adhesive tape dolly	Moxie: +5
-# adobe abacus: Subscribe for access to Premium Enchantments&trade;
-Item	adobe abacus	Mysticality Percent: +20, Spell Damage: +20
+Item	adobe abacus	Mysticality Percent: [20+20*min(1,effect(Adobe Abacus Subscription))], Spell Damage: [20+20*min(1,effect(Adobe Abacus Subscription))]
 Item	Adventurer bobblehead	Muscle Percent: [pref(nuclearAutumnPoints)], Mysticality Percent: [pref(nuclearAutumnPoints)], Moxie Percent: [pref(nuclearAutumnPoints)]
 # aerogel attache case: Produce random cocktailcrafting ingredients as you adventure
 Item	aerogel attache case	Pickpocket Chance: +10, Stench Damage: +10, Drops Items
@@ -2754,8 +2750,7 @@ Item	acid-squirting flower	Single Equip, Thorns: 1
 # actual reality goggles: Reveals peoples' true nature
 Item	actual reality goggles	Single Equip, Free Pull
 Item	actual skeleton key	Damage Absorption: +100, Damage Reduction: 10
-# adobe ascot: Subscribe for access to Premium Enchantments&trade;
-Item	adobe ascot	Moxie Percent: +20, Initiative: +30, Single Equip
+Item	adobe ascot	Moxie Percent: [20+20*min(1,effect(Adobe Ascot Subscription))], Initiative: [30+30*min(1,effect(Adobe Ascot Subscription))], Single Equip
 # aerogel anvil: Gives a chance of generating extra Fury
 Item	aerogel anvil	Weapon Damage Percent: +25, Never Fumble, Single Equip
 # aerogel apron: Weapon of the Pastalord can be even messier
@@ -6120,6 +6115,7 @@ Effect	Flexibili Tea	Experience (Moxie): +3
 # Float Like a Butterfly, Smell Like a Bee: Bzzzzzz
 Effect	Flop Sweat	Sleaze Resistance: +7
 Effect	Florid Cheeks	MP Regen Min: 25, MP Regen Max: 30
+Effect	Flossed Blood	HP Regen Min: 3, HP Regen Max: 5
 Effect	Floundering	Fishing Skill: +5
 Effect	Flower Power	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20
 Effect	Fly for a White Guy	Avatar: "Gnollish Flyslayer"
@@ -10350,6 +10346,7 @@ Item	monkey barf	Effect: "Barfpits", Effect Duration: 1
 Item	Moonds	Effect: "Moon-Eyed", Effect Duration: 50
 Item	moose thought	Effect: "Moose Wisdom", Effect Duration: 10
 Item	Mortimer's nostrum	Effect: "Limber as Mortimer", Effect Duration: 10
+Item	moss floss	Effect: "Flossed Blood", Effect Duration: 20
 Item	mostly-broken sunglasses	Effect: "Almost Cool", Effect Duration: 15
 Item	mother's little helper	Effect: "Tranquilized Mind", Effect Duration: 10
 Item	motivational poster	Effect: "Loco Motives", Effect Duration: 10
