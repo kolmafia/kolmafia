@@ -11,6 +11,7 @@ import net.sourceforge.kolmafia.session.LogoutManager;
 import net.sourceforge.kolmafia.session.SorceressLairManager;
 import net.sourceforge.kolmafia.session.TavernManager;
 import net.sourceforge.kolmafia.session.TowerDoorManager;
+import net.sourceforge.kolmafia.session.WitchessManager;
 import net.sourceforge.kolmafia.session.WumpusManager;
 import net.sourceforge.kolmafia.swingui.listener.LicenseDisplayListener;
 
@@ -160,6 +161,14 @@ public class GlobalMenuBar extends JMenuBar {
         new InvocationMenuItem(
             "Hedge Maze (Nugglets)", SorceressLairManager.class, "hedgeMazeNuggletsScript"));
     questsMenu.add(new InvocationMenuItem("Tower Door", TowerDoorManager.class, "towerDoorScript"));
+
+    // IotM Scripts follow
+
+    questsMenu.add(new JSeparator());
+
+    questsMenu.add(
+        new InvocationMenuItem(
+            "Witchess Daily Puzzles", WitchessManager.class, "solveDailyPuzzles"));
 
     // Add script and bookmark menus, which use the
     // listener-driven static final lists.
