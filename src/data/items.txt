@@ -11536,7 +11536,7 @@
 11508	moss mantle	218473880	mossmantle.gif	container		0
 11509	moss marlinspike	467015084	mossmarlin.gif	accessory		0
 11510
-11511
+11511	moss floss	472410646	mossfloss.gif	potion, usable	t,d	15
 11512	adobe arsecover	957760779	adobepants.gif	pants		0
 11513	adobe adze	939817089	adobeadze.gif	weapon		0	adobe adzez
 11514	adobe abacus	393976686	adobeabacus.gif	offhand		0	adobe abaci

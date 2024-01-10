@@ -2877,15 +2877,15 @@
 2874	Abuela's Navy	crimbucfledge.gif	ca682ec8794fd8a04297fcbffcf6440d	neutral	none
 2875	Militarily Minted	pep_bigcane.gif	7e223c4883f683168e9d293e3663af88	neutral	none	use 1 military candy cane
 2876	Groggipopped	neutronpop.gif	477dbdf51c06ae7c5460c3c1b7438607	neutral	none	use 1 groggipop
-2877
+2877	Flossed Blood	mossfloss.gif	e7c32f6a77e64426d5e3e8b5bdd8a8bc	neutral	none	use 1 moss floss
 2878	Clay-Coated Teeth	adobebrittle.gif	ed7b103d89c53316f0e6f2970c51a6e0	neutral	none	use 1 adobe brittle
 2879
 2880
 2881	Everything Looks Green	eyes.gif	baf449fcc4f46537a491d4355129581f	neutral	noremove	# use green smoke bomb
 2882	Adobe Arsecover Subscription	adobepants.gif	46f7853d4dfeb10ea2dddbf6054f0be0	neutral	none
-2883
-2884
-2885
-2886
-2887
+2883	Adobe Adze Subscription	adobeadze.gif	e7a7b5461155ebf282e8af64613154f2	neutral	none
+2884	Adobe Abacus Subscription	adobeabacus.gif	26e5b84bc5e2c274e5f673a248798c14	neutral	none
+2885	Adobe Ayam Subscription	adobehat.gif	1e6e80b4402b748f61acab95bfb6775a	neutral	none
+2886	Adobe Ascot Subscription	adobeascot.gif	18af9d087db8679d9c8fe83bd6fcc04b	neutral	none
+2887	Adobe Abaya Subscription	adobeabaya.gif	08ca831bc2e8370f05dc11a9d6f8b18c	neutral	none
 2888	Impressed Pasta Thralls	mossmedal.gif	43bd2ecf4dff41def0201f94143879b6	neutral	none	cast 1 Brandish Moss Medal
