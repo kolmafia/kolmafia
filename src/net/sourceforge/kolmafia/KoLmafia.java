@@ -287,6 +287,9 @@ public abstract class KoLmafia {
       }
     }
 
+    // Start background process to detect and report deadlocks.
+    DeadlockDetector.registerDeadlockDetector();
+
     // Reload your settings and determine all the different users which
     // are present in your save state list.
 
