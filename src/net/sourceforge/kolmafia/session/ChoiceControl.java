@@ -4758,6 +4758,17 @@ public abstract class ChoiceControl {
           Preferences.increment("_automatedFutureManufactures", 1, 11, false);
         }
         break;
+      case 1517:
+        // Mimic DNA Bank
+        if (ChoiceManager.lastDecision == 1 && text.contains("You donate your egg to science.")) {
+          ResultProcessor.processItem(ItemPool.MIMIC_EGG, -1);
+          Preferences.increment("_mimicEggsDonated", 1, 3, false);
+        }
+        if (ChoiceManager.lastDecision == 2 && text.contains("pops into a backroom")) {
+          Preferences.increment("_mimicEggsObtained", 1, 11, false);
+          KoLCharacter.getFamiliar().addNonCombatExperience(-100);
+        }
+        break;
     }
   }
 
@@ -8566,6 +8577,20 @@ public abstract class ChoiceControl {
           Preferences.setInteger("_automatedFutureManufactures", 11);
         }
         break;
+
+      case 1517:
+        Matcher eggsSpawned = Pattern.compile("(\\d+)/11 eggs spawned today").matcher(text);
+        if (eggsSpawned.find()) {
+          int spawned = Integer.parseInt(eggsSpawned.group(1));
+          Preferences.setInteger("_mimicEggsObtained", spawned);
+        }
+        Matcher eggsDonated = Pattern.compile("(\\d+)/3 donations made for the day").matcher(text);
+        if (eggsDonated.find()) {
+          int donated = Integer.parseInt(eggsDonated.group(1));
+          Preferences.setInteger("_mimicEggsDonated", donated);
+        }
+
+        break;
     }
   }
 
@@ -9684,6 +9709,7 @@ public abstract class ChoiceControl {
       case 1501: // Make a Wish
       case 1509: // Adjust Jill-of-All-Trades Lighting
       case 1510: // Burning Leaves
+      case 1517: // Mimic DNA Bank
         return true;
 
       default:
