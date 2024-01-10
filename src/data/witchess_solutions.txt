@@ -1,0 +1,152 @@
+1
+# Puzzle Number	Solution
+1	u u u u r r d d d d r r u u u u
+2	r r r u u l d l l u r u r r u r
+3	r u u r r d d r u u u l l l l u r r r r
+4	r u u u u r r d d r u u
+5	r u u r d d r r u u u u
+6	u r r r d r r u l u r u l l d l l l u r r u u r d r u r
+7	r r r r u l l l l u u u r d d r r u u r
+8	u r r u l u u r d r d r u u
+9	r r r r u l u u l u r r
+10	u u u u r r d l d d r d r r u u u u
+11	u r r u l u u r d r d d r u u u
+12	r r r u l u u u l d d l u u u r r r d d d r d d r u u u l u u r
+13	r r u r r u u l d l l u l u r r r r
+14	r r r u u u l d d l u u u r r r
+15	u u r u u r d d d d r r u l u u r u
+16	u u u u r d r d d l d r r u r u u l u r
+17	r r u l u u r d r u u r
+18	r r u l u l u r r r d d d r u u u u
+19	r u u r u r d d l d r r u u u u
+20	r r r u l u l l u r r u r d d r u u
+21	r r u u r r u u
+22	r r r r u l l u l l u r r r d r u u
+23	u r r u l u l u r r d r r d d r u u u l l u r r
+24	u r r u r r d l d r r u u u l l l l d l u u u r r d r u r d r u
+25	u u u u r r d d d d r r r u l l u u u u r r
+26	u r r u l u u r r d d r u u
+27	r u u u u r d r d l d r d r u u u u
+28	r u u r d d r u r u l u l l l u r r r r
+29	r u r r u r u l l d l l u u r r r r
+30	u u u u r r d l d d d r u u r r u u
+31	r u l u r r d d r r u u u l l l l u r r u r d r u r
+32	u u u u u r r d l d d r u r u u r d d d l d l d r r u r u u u u
+33	r r r u l l u l u r r d r r d d r u u r u l l l u l u u r d r r d r u u
+34	r r r r u u r u r u u u l l l l d d d d d l u u u u u u r r r r r r
+35	r u r d r r u u u l d l u u r r
+36	r u u u l u r r d d d d r r u l u u u r
+37	r r r u l l u u r r d r u u
+38	r u r u u l d l u u r u r d r u r d d l d r d l d r r u u u u
+39	r u r r u r u u l l d d l l u u u r r r r r
+40	u r d r r r u r u u l d l d l u l u l u r u r d d r u u r d r u
+41	r r u u u r d d r d r u u u l u l l l d d d l u u u u r r r r r
+42	r u u u u l u r r r d l d d d d r u u u r d d r u u u u
+43	u u r u l u r u r d d d d r u u u u r d d d d r u u u u
+44	r u u r r u l l u r r r d d d l l d r r r u u u u u
+45	u u u r r u l u r r d r d r d d l l u l d d r r r r u u u u u l u r
+46	u u u u u u r r d l d d d d r d r u u u u u u r r d d d l d d d r u u r u u u u
+47	r r u r r r d r u r u l u l l d l u l l u r u u r r d r r d r u u l l u r r
+48	u r r d r u u l l l u u u r d d r r r d d d r u u u u l l l u r r r
+49	r r r u l l u u u r u r d d r r u u
+50	r r u u r r d d r r u u u u l d l l l l l u u u r d r d r u u r r r
+51	r r u u l l u u r r u u r d d d d d d r u u r r u u l l u u r r
+52	u u r r d r u u u u l d l l u u r r r r d d d d d d r u u r u u l u u r
+53	r u l u r u l u r u l u r u r d r u r d d d r d d l l u u u l d d d d r d r u r d r u r u l u r u l u r u u
+54	u u u u u u u r r r r r d l l d r r d l l d l u u u l d d d d d r d r r r r u r u l u u u u u r
+55	u u u u r d d d d r r r r r r u l u r u u u l l d l d d l d l u u u r u l l u r r r r r r u
+56	u u u u r d d r r d r d r r u u l l u l l u u l u u r r d d r d r r d r d r u u u u l d l u l l u u r r r r
+57	u u u r u l u r r d d d r d d r r u l u u l u r r d r r r u l l u l l l u l l l u u r r r d r u r d d r r r u u
+58	u u r d r r u u l u u u l u u u u r u u r d d d l d d r r d l d d r d d d r u u u u u u u u u l u r u u
+59	u u u r d d r r u u u l l l u r r r u u l d l l u u r r r r d r r d d l d d l d d d r r r r u u l l u r u u r u l u u r
+60	u u u r r u r r r d d l u l d d l d r r r r u r u u u l u l u u l d l l u u r r r r d r d d r u u u
+61	r r r u u l u l d l u u r r r d r u
+62	u u r d r r u u l l u r r r u
+63	u u u u r d d r r d d r r u u l u l u u l l l u r r r r r r
+64	r r u u u r d d r d r u u l u u l l u r r r
+65	r r u u l l u r r r d r d d r r r r u u l l d l u u r r r u u l d l u l d l u l d l u l d l u u u r d r r u u r d r u r d d r r u u
+66	r r r u u l l u u r r r r u
+67	r u u u r u u r r r d l d l d d l d r r r u l u r u r u u u
+68	r r u l u u u r d d r d d r u u u u
+69	r r u r u r r u l l l l d d l u u u r r r r r u
+70	r u u u u u l u r r r d l d d d d d r u u r u u u u r d d d d d d r u u u u u u
+71	u u u u u u r d d d d d d r u u u u u u r r r r d d d d l l l d r r d r u r u r u l u u r u l u l l l l l u r r r r r r
+72	u u r d d r u r d r u r u l u l d l u l l u r u r d r u r d r u
+73	u r r u u r d d r r u l u r u l l l l d d l u u u r r r r r
+74	u u u u u u u r r r r r r d d d d d d l l l l u u u u r r d l d d r r u u u u l l l l d d d d d d r r r r r r u u u u u u u
+75	u r u u u u r r d d l d d r d r r u r u u u u u
+76	r r r r r r u l l l u u u l l d r d l l u u u u r r d r r d d d r r u u l u u r
+77	r r r r r u u u l l d l d l u u r u u l l u r r u u u u l u r r d d r u u r r d d d r r d d l l d r r d d d l l d d r r r r r u u u u u u l l u u u u l d l u u r r r d r u
+78	r u u r r d d r u u u l l l l u r r r r r d d d d r u u r r d r d r u r u l u l l u r r r u l l l l d l u u u r r r u r r u l l l l d l l l d r d l l l u l d l u u r r u r u u r d d r u u r r r d r u r d r u
+79	r r r r u u u u l d l d r d l l l u u r u u l u u r r d r r u l u r u u l l l l u u u u u r r d l d d r r r u u u r u l l u l l l u r r u r d r r u l u l l l u u r r r d r u u
+80	r r r r r r u u u u u u l d d d d d l l l l u r u l l u r u l u r r d r d d d r u u u u l u u u u u l d d l d r d l l u u u r u u r r r d d d d d r u u r u l u u u r
+81	u u u r r r d d d r u u u u l l l l u u r u l u r u l u r r r d d d r d d r u u u u u r d r d l d r r d d d l l l d d d d r r u l u u r r r u u u u u u u
+82	u u u u r d d d d r u u u u u l u r u u r d d d d d r r d d r r r u u r u u u u u l d d d d l d d l u u u u l d l u u u u l l l d d l u u u r r r r r d d d r r u u u r r
+83	u u u r d d r u r r d d r u u r r u l l u r r u u l u r
+84	r r r u l l u l u r r d r r r u u u l u u r d r d d r u u u
+85	r u r u l u r u r d d r d d r u u u u u l u l l l u u u u u r d d d r r d r r u l u r u l l d l u u u r r u u u u u l d d l d d l d l u l u r r u u l l u r r u l u u u u u r d d d d r d r u u r r u u l l d l u u r r r
+86	u u u u u u u r r r d r r d l l d l l d d d r d r r u u l u r r r u u r u l u r
+87	u u u u u u u r r r d d d l l d d r d l d r r r u u u r u u u l u r r r
+88	r r r r r r u u u l d d l l l l l u r r r r u l l l l u r r u u r r r u r d d l l l d r r r r u u u
+89	u u u u u u u u r r r r d l l d d l d r d d l d r d r r r r u l l l u r r r r r u l l l l u u u r u u r d r d l d l d r r r u u u u
+90	u u u u u u u u r d d d d d d r r r u l l u r u l u u u u r r d d l d r d r d d d d d r u u u r d d d r u u u u u u u u l l d r d l l u u u r r r r
+91	u u u u u r d d d d d r u u u r d d r u u u u l u l l u r u u r r
+92	u u u u u r d d d d d r u u u r r r u l u r u l l l l l u u u r r u u r d d d r u u u r
+93	r r u u u r r d l d d r u r u u u l l l l d d d l u u u u r r r r r
+94	u u r u u u u r d r d d d l d l d r r u r u r r u l u u u r
+95	u u u r u u r r d d r d l d l d r r u r u u u u
+96	u u r d d r r r r r r r r u u u u u l d d d d l l l l l l u r r r r r u l l l l u r r r r u l l l l l u u l d d d d l u u u u u r r r d d r u u r d d r u u r u u r d d d d r u u u u u l l l l l d r r d l l l u l u l d d l u u u r r r r r r r u l l l l l l l u r r r r r r r r d d r u u
+97	u r d r r r u u l l l u l u r r r d r u u u u l d l u l l u u r r d r r u r d d d d d d d d d r r u l u r u u r d r u u l l l u u u u r r d l d d r u r u u
+98	r r u u u u l u l u r r r r d d d d l d d r r r u u u l u u r u
+99	u u r d d r r r u l l u r u l l l u u r d r r r d d r r u u u r d d r d l d l l d r r r u r u u u l u r
+100	u u u r r d l d d r r r u r d r r u r u l l l l l u u l l l u r r r r r r d d r r u l u r u u l d l l l l l l l u u r r r r r r r r
+101	u u u u u u r r r d l l d d d d r r r r u u l l u r r u u r
+102	r u u r u l l u r r r u r r d l d d l d d r u r u u r u u u
+103	u u u r d d d r r u l u u r d r r u l u l l u r r r
+104	u u r d r r d r u u l u r r u l l l d l u u r u u u u r d d d r d r r u r d d l d d r r d d r u u u u u l u u l l u u r r r
+105	u r r u u r u u r d d d r u u u
+106	u u u u r r r d d l d r r r u u u u
+107	u u u u r u r d d l d d d r u u r u r d d l d r r u u u u l l u r r
+108	r u u r d r d r r u r u l u r u l l d d l u u l d l u l u r u r d r r u r d r u
+109	u u u u r r d d d d r r r r u l l u u u r u l l u r r r
+110	u r r u l l u u u r d r r u r d d l d d d r r u u u u u
+111	u u u u u u u u u r r r d d d l l d d d r d r r d d r r u r r u r u l l l l l l u l u r r u r d d r u r r u u l l u r r u r
+112	u u u u r u u r d d d d d r r r r r u l u l l u r r r r u l l l u l u l l l u r r r r r d r d r u u
+113	r u u u u u u u u r d r d l d r d d l d d d r u u r r r d l l d r r r r u u l u l l u u r d r r u l u r u l l l d l u u r r r r
+114	r r r u u l l d l u u u u r d r u u l u u r r r r d d l u l d d d d r r d d d r u r u l u r r u u l d l l l u r r u u u r d d r u u
+115	r u r r r r u l l l u l d l u u r u r d r u r d d r u u
+116	r r u u l l u r u l u r u r r r r d d l l d d d r r u r u u u u
+117	r r r r r u u r u l l l d r d l l l u l u r r u l u l u r r r r d l d r r r u u
+118	r u r u l l u r u l u r r d r u r d d l d r d r u u u u
+119	u u r r r d l l d r r r r u r d r u u l l l u l l u l l u r r r d r r r d r u u l l l u l u l l l u u r d r u r d r d r r r u l l u r r
+120	u r r r r r u u l l d l u l d l u u u r r r r r
+121	u r r u l l u u u u u u r r r d r d l l l d d d r r d d r r d r r r u u l l l u u l l l u r r r u u r r r r u u
+122	u u r r r d l l d r r r r u u u l l l l u u u u u l u u u u u u r d d d r d l d r d d d d d r u r r u u l l u u u u r r u u l u r
+123	r r u l u u l u r r r d d r d l d r r r u u u u
+124	u r u u r d d d r u u u r d d r d r r u l u r u u
+125	r u u r u l u r r d d r r u u r d d d l l l d r r r r r u u u l u r
+126	u u u u r r d l d d d r u u r r r d r r d r u u u l l l l u u l l u l d l u u r u u r d d r d r u r d d r u u u l l u r r r d d d d r u u u u
+127	u r r d r u u u l u r r
+128	u r r u u l l u u r r r d d d d r u u u r u
+129	u u u u u u r d d d r d d d r u u r r r u l l l u u r u r r
+130	u r r r u u l d l l u u r r u u l l u r r r d r u r d d l d d d d d r u u r r u l u u r u u
+131	r r r r r u l l l l u u u r r r d l l d r r r u u u l l u r r r
+132	r r u l u u r u u r r d d d r r u u l u r
+133	r r u l l u u r d r r d d r r u u u u u
+134	r r r u l l l u r u l u r r d r d r r d r u r u l l u r r
+135	r u l u r u l u u r d r u r d d l d d d r u u r d d r u u u l u u r
+136	u u u u u u u r r d l d r r u u u u l u r r d r r r d d d r r r u l l u u r d r u u
+137	u r r r d r r u r r r u u u l l u l l l l l l u u u r r d r u r r d r u r r
+138	u u r d r u u r r d d l d r r u u u u l l l l l u u u r d d r r r u l l u r r r
+139	u u u u r d d d r r d r r r r u l l l u l l u u u u l l u r r r d d d d r r d r r u u l l l u u u r r r
+140	u r r r u u r u l l d d l l u u r u r r r r d d d l d d r r u u u u r u r d d d d l d r r u u u u u r
+141	u u r u u r d d d d r u u u u r r d d d d r u u u r r r u l l l u l l l l l l u r r r r u u u r d d d r r r r u u u
+142	u u u r d d r r r u u r u u
+143	r u u u r r d d r r u l u u r u u u l l u l u u r r r u l u u u r u l u l d d l d d l d d d d d r d r r d l d l l l u r u l u u u u u u u r u l u r r u u r r r
+144	r r r u u l d l u u r r r d r d d r u u u u l l l u u r r r
+145	u u u u r r d d d l d r r u r u u u r r r d l l d r d l d r r r u u u u r
+146	u u u u u r r r d l l d d d r d r r u u l u r r r d d r u u u u
+147	r r r u l l l u r r r r u u l d l l u u r u r r d r d d d d l d r r u u u u u u r d d r u u
+148	r r u u l d l u u r u l u r r d r d d d d r u r r r r r u u l d l l l u u l u r r d r r u r
+149	u r r u r d d r r r u u u l u l d l l l d l u u r r u l l u r r r d r r r u
+150	u u u u u u r r d d d d r r r r r u u u u r r d d d l d r r r u l u u u r r r d d d d r u u u u r r d d d d r r r u l l u u u r r r d d d d r u u r d d r u u u u r d d d d r r r u l l u r u l u r r r d d r r d l l d r r r u u u l l u r r r d d r r d l l d r r r u u u l l u r r u l l l l l l l l l l l l l d d l u u l l l l l l l l l l l l l l l d d d d l u l d l u u u u l l l u u r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r r
