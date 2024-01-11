@@ -1,6 +1,7 @@
 1
 # Limiter: daily limit
 # Type	Item name	Tracking property	[Max = 1]
+Cast	%fn, lay an egg	_mimicEggsObtained	11
 Cast	Acquire Rhinestones	_rhinestonesAcquired
 Cast	Advanced Cocktailcrafting	cocktailSummons
 Cast	Advanced Saucecrafting	reagentSummons

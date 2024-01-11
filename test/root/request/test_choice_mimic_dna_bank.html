@@ -1,0 +1,706 @@
+<html><head>
+<script language=Javascript>
+<!--
+if (parent.frames.length == 0) location.href="game.php";
+//-->
+</script>
+<script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/jquery-1.5.1.js"></script>
+<script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/keybinds.min.2.js"></script>
+<script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/window.20111231.js"></script>
+<script language="javascript">function chatFocus(){if(top.chatpane.document.chatform.graf) top.chatpane.document.chatform.graf.focus();}
+if (typeof defaultBind != 'undefined') { defaultBind(47, 2, chatFocus); defaultBind(190, 2, chatFocus);defaultBind(191, 2, chatFocus); defaultBind(47, 8, chatFocus);defaultBind(190, 8, chatFocus); defaultBind(191, 8, chatFocus); }</script><script>
+function switchFocus()
+{
+	if (top.chatpane.document.chatform.graf.focus) 
+		top.chatpane.document.chatform.graf.focus(); 
+	return false;
+}
+function repeat()
+{
+	var linx = document.getElementsByTagName("A");
+	for (var i = 0; i < linx.length; i++)
+	{
+		if (typeof timersfunc != 'undefined') {
+			if (!timersfunc()) { 
+				return; 
+			}
+			timersfunc = null;
+		}
+		var link = linx[i];
+		if (link.innerHTML.match(/Adventure Again/) || link.innerHTML.match(/Do it again/))
+			location.href = link.href;
+	}
+}
+
+defaultBind(47, CTRL, switchFocus);
+defaultBind(191, CTRL, switchFocus);
+defaultBind(47, META, switchFocus);
+defaultBind(191, META, switchFocus);
+defaultBind(192, NONE, repeat);
+defaultBind(220, NONE, repeat);
+</script><script language="javascript">
+	function updateParseItem(iid, field, info) {
+		var tbl = $('#ic'+iid);
+		var data = parseItem(tbl);
+		if (!data) return;
+		data[field] = info;
+		var out = [];
+		for (i in data) {
+			if (!data.hasOwnProperty(i)) continue;
+			out.push(i+'='+data[i]);
+		}
+		tbl.attr('rel', out.join('&'));
+	}
+	function parseItem(tbl) {
+		tbl = $(tbl);
+		var rel = tbl.attr('rel');
+		var data = {};
+		if (!rel) return data;
+		var parts = rel.split('&');
+		for (i in parts) {
+			if (!parts.hasOwnProperty(i)) continue;
+			var kv = parts[i].split('=');
+			tbl.data(kv[0], kv[1]);
+			data[kv[0]] = kv[1];
+		}
+		return data;
+	}
+</script><script type="text/javascript" src="https://d2uyhvukfffg5a.cloudfront.net/scripts/pop_query.20230713.js"></script>
+<script type="text/javascript" src="https://d2uyhvukfffg5a.cloudfront.net/scripts/ircm.20230626.js"></script>
+<script type="text/javascript">
+var tp = top;
+function pop_ircm_contents(i, some) {
+	var contents = '',
+		shown = 0,
+		da = '&nbsp;<a href="#" rel="?" class="small dojaxy">[some]</a>&nbsp;<a href="#" rel="',
+		db = '" class="small dojaxy">[all]</a>',
+		dc = '<div style="width:100%; padding-bottom: 3px;" rel="',
+		dd = '<a href="#" rel="1" class="small dojaxy">[';
+	one = 'one'; ss=some;
+if (i.d==1 && i.s>0) { shown++; 
+contents += dc + 'sellstuff.php?action=sell&ajax=1&type=quant&whichitem%5B%5D=IID&howmany=NUM&pwd=88dedf3985314bf97064556133cb9732" id="pircm_'+i.id+'"><b>Auto-Sell ('+i.s+' meat):</b> '+dd+one+']</a>';
+if (ss) { contents += da + i.n + db;}
+contents += '</div>';
+}
+one = 'one'; ss=some;
+if (i.u && i.u != "." && !i.ac) { shown++; 
+contents += dc + 'inv_'+(i.u=="a"?"redir":(lab=(i.u=="u"?"use":(i.u=="e"?"eat":(i.u=="b"?"booze":(i.u=="s"?"spleen":"equip"))))))+'.php?ajax=1&whichitem=IID&itemquantity=NUM&quantity=NUM'+(i.u=="q"?"&action=equip":"")+'&pwd=88dedf3985314bf97064556133cb9732" id="pircm_'+i.id+'"><b>'+ucfirst(unescape(i.ou ? i.ou.replace(/\+/g," ") : (lab=="booze"?"drink":lab)))+':</b> '+dd+one+']</a>';
+if (ss && i.u != 'q' && !(i.u=='u' && i.m==0)) { contents += da + i.n + db;}
+contents += '</div>';
+}
+one = 'one'; ss=some;
+if (i.u && i.u != "." && i.ac) { shown++; 
+contents += dc + 'inv_equip.php?slot=1&ajax=1&whichitem=IID&action=equip&pwd=88dedf3985314bf97064556133cb9732" id="pircm_'+i.id+'"><b>Equip (slot 1):</b> '+dd+one+']</a>';
+if (ss && i.u != 'q' && !(i.u=='u' && i.m==0)) { contents += da + i.n + db;}
+contents += '</div>';
+}
+one = 'one'; ss=some;
+if (i.u && i.u != "." && i.ac) { shown++; 
+contents += dc + 'inv_equip.php?slot=2&ajax=1&whichitem=IID&action=equip&pwd=88dedf3985314bf97064556133cb9732" id="pircm_'+i.id+'"><b>Equip (slot 2):</b> '+dd+one+']</a>';
+if (ss && i.u != 'q' && !(i.u=='u' && i.m==0)) { contents += da + i.n + db;}
+contents += '</div>';
+}
+one = 'one'; ss=some;
+if (i.u && i.u != "." && i.ac) { shown++; 
+contents += dc + 'inv_equip.php?slot=3&ajax=1&whichitem=IID&action=equip&pwd=88dedf3985314bf97064556133cb9732" id="pircm_'+i.id+'"><b>Equip (slot 3):</b> '+dd+one+']</a>';
+if (ss && i.u != 'q' && !(i.u=='u' && i.m==0)) { contents += da + i.n + db;}
+contents += '</div>';
+}
+
+	return [contents, shown];
+}
+tp=top
+var todo = [];
+function nextAction() {
+	var next_todo = todo.shift();
+	if (next_todo) {
+		eval(next_todo);
+	}
+}
+function dojax(dourl, afterFunc, hoverCaller, failureFunc, method, params) {
+	$.ajax({
+		type: method || 'GET', url: dourl, cache: false,
+		data: params || null,
+		global: false,
+		success: function (out) {
+			nextAction();
+			if (out.match(/no\|/)) {
+				var parts = out.split(/\|/);
+				if (failureFunc) failureFunc(parts[1]);
+				else if (window.dojaxFailure) window.dojaxFailure(parts[1]);
+				else if (tp.chatpane.handleMessage) tp.chatpane.handleMessage({type: 'event', msg: 'Oops!  Sorry, Dave, you appear to be ' + parts[1]});
+				else  $('#ChatWindow').append('<font color="green">Oops!  Sorry, Dave, you appear to be ' + parts[1] + '.</font><br />' + "\n");
+				return;
+			}
+
+			if (hoverCaller)  {
+				float_results(hoverCaller, out);
+				if (afterFunc) { afterFunc(out); }
+				return;
+			}
+$(tp.mainpane.document).find("#effdiv").remove(); if(!window.dontscroll || (window.dontscroll && dontscroll==0)) { window.scroll(0,0);}
+			var $eff = $(tp.mainpane.document).find('#effdiv');
+			if ($eff.length == 0) {
+				var d = tp.mainpane.document.createElement('DIV');
+				d.id = 'effdiv';
+				var b = tp.mainpane.document.body;
+				if ($('#content_').length > 0) {
+					b = $('#content_ div:first')[0];
+				}
+				b.insertBefore(d, b.firstChild);
+				$eff = $(d);
+			}
+			$eff.find('a[name="effdivtop"]').remove().end()
+				.prepend('<a name="effdivtop"></a><center>' + out + '</center>').css('display','block');
+			if (!window.dontscroll || (window.dontscroll && dontscroll==0)) {
+				tp.mainpane.document.location = tp.mainpane.document.location + "#effdivtop";
+			}
+			if (afterFunc) { afterFunc(out); }
+		}
+	});
+}
+</script><script>
+
+var currentkey = 49;
+$(document).ready(function () {
+	$('form').each(function () {
+		var form = this;
+		defaultBind(currentkey++, NONE, function () { form.submit(); });
+		return currentkey < 58;
+	});
+});
+
+</script>	<link rel="stylesheet" type="text/css" href="https://d2uyhvukfffg5a.cloudfront.net/styles.20230117d.css">
+<style type='text/css'>
+.faded {
+	zoom: 1;
+	filter: alpha(opacity=35);
+	opacity: 0.35;
+	-khtml-opacity: 0.35; 
+    -moz-opacity: 0.35;
+}
+</style>
+
+</head>
+
+<body>
+<Center><table  width=95%  cellspacing=0 cellpadding=0><tr><td style="color: white;" align=center bgcolor=blue><b>Mimic DNA Bank</b></td></tr><tr><td style="padding: 5px; border: 1px solid blue;"><center><table><tr><td><table border=0 width="100%">
+  <tr> 
+    <td><img src="https://d2uyhvukfffg5a.cloudfront.net/adventureimages/mimicdoctor.gif" height=100 width=100 /></td>
+    <td>
+                       <p>
+         It looks like your familiar has enough experience (100 xp) to extract from the bank. (Up to 11 total eggs per day)
+         <form method="post" action="choice.php">
+           Extract an egg containing the dna of <select name="mid">
+               <option value="">-- select a monster --</option>
+                                <option value="823" disabled>a "Handyman" Jay Android (87 samples required)</option>
+                                <option value="2090" disabled>a "plain" girl (95 samples required)</option>
+                                <option value="141" disabled>a 1335 HaXx0r (99 samples required)</option>
+                                <option value="825" disabled>a 7-Foot Dwarf Replicant (99 samples required)</option>
+                                <option value="554" disabled>an A.M.C. gremlin (97 samples required)</option>
+                                <option value="1600" disabled>an alley catfish (99 samples required)</option>
+                                <option value="176" disabled>an Alphabet Giant (99 samples required)</option>
+                                <option value="716" disabled>an amateur ninja (94 samples required)</option>
+                                <option value="1650" disabled>an ambulatory robo-minecart (99 samples required)</option>
+                                <option value="534" disabled>an ancient insane monk (99 samples required)</option>
+                                <option value="766" disabled>an Anemone combatant (99 samples required)</option>
+                                <option value="269" disabled>an angry pi&ntilde;ata (37 samples required)</option>
+                                <option value="1758" disabled>an angry tourist (93 samples required)</option>
+                                <option value="407" disabled>an animated nightstand (76 samples required)</option>
+                                <option value="1542" disabled>an animated ornate nightstand (94 samples required)</option>
+                                <option value="139" disabled>an Anime Smiley (99 samples required)</option>
+                                <option value="1857" disabled>an Arctic Octolus (98 samples required)</option>
+                                <option value="1971" disabled>an Arizona bark scorpion (93 samples required)</option>
+                                <option value="354" disabled>The Astronomer (90 samples required)</option>
+                                <option value="184" disabled>The Astronomer (32 samples required)</option>
+                                <option value="1445" disabled>an awkward disco dancer (99 samples required)</option>
+                                <option value="1163" > Baa'baa'bu'ran </option>
+                                <option value="1160" disabled>a baa-relief sheep (93 samples required)</option>
+                                <option value="426" disabled>Some Bad ASCII Art (99 samples required)</option>
+                                <option value="576" disabled>a Bailey's Beetle (99 samples required)</option>
+                                <option value="388" disabled>a banshee librarian (95 samples required)</option>
+                                <option value="202" disabled>a bar (96 samples required)</option>
+                                <option value="87" disabled>a BASIC Elemental (97 samples required)</option>
+                                <option value="2153" disabled>a basic lihc (95 samples required)</option>
+                                <option value="1257" disabled>a Battlie Knight Ghost (99 samples required)</option>
+                                <option value="48" disabled>a beanbat (57 samples required)</option>
+                                <option value="1246" disabled>a bearpig topiary animal (87 samples required)</option>
+                                <option value="539" disabled>The Beaver (98 samples required)</option>
+                                <option value="571" disabled>a beefy bodyguard bat (97 samples required)</option>
+                                <option value="156" disabled>a big creepy spider (99 samples required)</option>
+                                <option value="1638" disabled> bigface (85 samples required)</option>
+                                <option value="2089" disabled>a biker (95 samples required)</option>
+                                <option value="980" disabled>a BL Imp (99 samples required)</option>
+                                <option value="1191" disabled>a Black Crayon Beetle (99 samples required)</option>
+                                <option value="1201" disabled>a Black Crayon Crimbo Elf (66 samples required)</option>
+                                <option value="1194" disabled>a Black Crayon Demon (99 samples required)</option>
+                                <option value="1205" disabled>a Black Crayon Elemental (98 samples required)</option>
+                                <option value="1196" disabled>a Black Crayon Fish (97 samples required)</option>
+                                <option value="1199" disabled>a Black Crayon Flower (99 samples required)</option>
+                                <option value="1193" disabled>a Black Crayon Frat Orc (94 samples required)</option>
+                                <option value="1188" disabled>a Black Crayon Golem (99 samples required)</option>
+                                <option value="1186" disabled>a Black Crayon Man (99 samples required)</option>
+                                <option value="1202" disabled>a Black Crayon Mer-kin (98 samples required)</option>
+                                <option value="1198" disabled>a Black Crayon Pirate (95 samples required)</option>
+                                <option value="418" disabled>a blackberry bush (99 samples required)</option>
+                                <option value="2122" disabled>a blind snake (99 samples required)</option>
+                                <option value="1528" disabled>a Blue Oyster cultist (97 samples required)</option>
+                                <option value="460" disabled>a blur (72 samples required)</option>
+                                <option value="132" disabled> Bob Racecar (84 samples required)</option>
+                                <option value="387" disabled>a bookbat (95 samples required)</option>
+                                <option value="535" disabled>The Box (98 samples required)</option>
+                                <option value="1464" disabled>a Box of Crafty Dinner (99 samples required)</option>
+                                <option value="34" disabled>a Brainsweeper (98 samples required)</option>
+                                <option value="1559" disabled> Bram the Stoker (96 samples required)</option>
+                                <option value="35" disabled>a Bread Golem (99 samples required)</option>
+                                <option value="918" disabled>a BRICKO ooze (98 samples required)</option>
+                                <option value="46" disabled>a briefcase bat (99 samples required)</option>
+                                <option value="1363" disabled>a Bunsen burner and beaker (99 samples required)</option>
+                                <option value="166" disabled>a Burly Sidekick (97 samples required)</option>
+                                <option value="2093" disabled>a burnout (95 samples required)</option>
+                                <option value="1907" disabled>a buzzard (99 samples required)</option>
+                                <option value="715" disabled>a C. H. U. M. chieftain (99 samples required)</option>
+                                <option value="1766" disabled> C<i>bzzt</i>er the Grisly Bear (98 samples required)</option>
+                                <option value="1561" disabled>the cabinet of Dr. Limpieza (95 samples required)</option>
+                                <option value="541" disabled>The Camel's Toe (96 samples required)</option>
+                                <option value="452" disabled>a caveman sorority girl (99 samples required)</option>
+                                <option value="383" disabled>a chalkdust wraith (93 samples required)</option>
+                                <option value="2048" disabled>a cheerless mime executive (75 samples required)</option>
+                                <option value="2045" disabled>a cheerless mime scientist (97 samples required)</option>
+                                <option value="2046" disabled>a cheerless mime soldier (93 samples required)</option>
+                                <option value="2047" disabled>a cheerless mime vizier (98 samples required)</option>
+                                <option value="1254" disabled>a Claybender Sorcerer Ghost (99 samples required)</option>
+                                <option value="627" disabled>a clingy pirate (99 samples required)</option>
+                                <option value="847" disabled>a clod hopper (88 samples required)</option>
+                                <option value="226" disabled>a cloud of disembodied whiskers (99 samples required)</option>
+                                <option value="1558" disabled>a coaltergeist (99 samples required)</option>
+                                <option value="1572" disabled>a cocktail shrimp (82 samples required)</option>
+                                <option value="690" disabled> Cold hobo (97 samples required)</option>
+                                <option value="1510" disabled> Copperhead Club bartender (98 samples required)</option>
+                                <option value="196" disabled>a corpulent zobmie (99 samples required)</option>
+                                <option value="1902" disabled>a cow cultist (98 samples required)</option>
+                                <option value="1161" disabled>a craven carven raven (99 samples required)</option>
+                                <option value="1747" disabled>a crêep (99 samples required)</option>
+                                <option value="1635" disabled>a creepy little girl (98 samples required)</option>
+                                <option value="2420" disabled>a Crimbuccaneer bar brawler (75 samples required)</option>
+                                <option value="2418" disabled>a Crimbuccaneer barrrback (81 samples required)</option>
+                                <option value="2413" disabled>a Crimbuccaneer bombjack (76 samples required)</option>
+                                <option value="2432" disabled>a Crimbuccaneer carpenter (49 samples required)</option>
+                                <option value="2430" disabled>a Crimbuccaneer freebooter (49 samples required)</option>
+                                <option value="2427" >a Crimbuccaneer fruit plunderer </option>
+                                <option value="2419" disabled>a Crimbuccaneer grognard (39 samples required)</option>
+                                <option value="2412" disabled>a Crimbuccaneer lamplighter (54 samples required)</option>
+                                <option value="2405" disabled>a Crimbuccaneer military school dropout (82 samples required)</option>
+                                <option value="2407" >a Crimbuccaneer mudlark </option>
+                                <option value="2406" disabled>a Crimbuccaneer navigator (59 samples required)</option>
+                                <option value="2395" disabled>a Crimbuccaneer new recruit (90 samples required)</option>
+                                <option value="2436" disabled>a Crimbuccaneer privateer (88 samples required)</option>
+                                <option value="2429" disabled>a Crimbuccaneer retiree (20 samples required)</option>
+                                <option value="2414" disabled>a Crimbuccaneer rigging rigger (20 samples required)</option>
+                                <option value="2431" disabled>a Crimbuccaneer scrimshander (44 samples required)</option>
+                                <option value="2408" >a Crimbuccaneer vice-captain </option>
+                                <option value="2428" >a Crimbuccaneer whalehunter </option>
+                                <option value="2148" disabled>a Crimbylow (97 samples required)</option>
+                                <option value="940" disabled>a cruel dust mote (99 samples required)</option>
+                                <option value="393" disabled>a cubist bull (99 samples required)</option>
+                                <option value="623" disabled>a curmudgeonly pirate (97 samples required)</option>
+                                <option value="83" disabled>a dairy goat (36 samples required)</option>
+                                <option value="864" disabled>a deadwood tree (99 samples required)</option>
+                                <option value="735" disabled>a decent white shark (99 samples required)</option>
+                                <option value="373" disabled>a demonic icebox (99 samples required)</option>
+                                <option value="126" disabled>a Demoninja (99 samples required)</option>
+                                <option value="1749" disabled>a dinner troll (99 samples required)</option>
+                                <option value="56" disabled>a dirty hippy Vegan chef (99 samples required)</option>
+                                <option value="1071" disabled>a dirty old lihc (77 samples required)</option>
+                                <option value="1093" disabled>a dogcat (94 samples required)</option>
+                                <option value="130" disabled>a Drab Bard (99 samples required)</option>
+                                <option value="2257" disabled>a Drink-Delivery Trainbot (99 samples required)</option>
+                                <option value="998" disabled>a drunken 7-foot dwarf (99 samples required)</option>
+                                <option value="158" disabled>a drunken half-orc hobo (99 samples required)</option>
+                                <option value="51" disabled>a drunken rat (99 samples required)</option>
+                                <option value="1772" disabled>a Drunken Tropical Vacationer (96 samples required)</option>
+                                <option value="296" disabled>a drunken zombie half-orc hobo (99 samples required)</option>
+                                <option value="1255" disabled>a Dusken Raider Ghost (98 samples required)</option>
+                                <option value="1974" disabled>an Eldritch Tentacle (10 samples required)</option>
+                                <option value="1247" disabled>an elephant (meatcar?) topiary animal (98 samples required)</option>
+                                <option value="2433" disabled>an Elf Guard arctic seal (16 samples required)</option>
+                                <option value="2434" disabled>an Elf Guard armorer (60 samples required)</option>
+                                <option value="2422" disabled>an Elf Guard chemist (63 samples required)</option>
+                                <option value="2392" disabled>an Elf Guard conscript (90 samples required)</option>
+                                <option value="2393" disabled>an Elf Guard convict (80 samples required)</option>
+                                <option value="2424" disabled>an Elf Guard desserter (22 samples required)</option>
+                                <option value="2417" disabled>an Elf Guard engineer (33 samples required)</option>
+                                <option value="2415" >an Elf Guard fuel courier </option>
+                                <option value="2411" >an Elf Guard general </option>
+                                <option value="2416" >an Elf Guard ordnance packer </option>
+                                <option value="2394" disabled>an Elf Guard private (90 samples required)</option>
+                                <option value="2425" >an Elf Guard provisioner </option>
+                                <option value="2435" disabled>an Elf Guard Red and White Beret (22 samples required)</option>
+                                <option value="2410" >an Elf Guard requisitions officer </option>
+                                <option value="2421" disabled>an Elf Guard sanitation officer (64 samples required)</option>
+                                <option value="2423" disabled>an Elf Guard shore leave specialist (43 samples required)</option>
+                                <option value="2426" disabled>an Elf Guard steward (66 samples required)</option>
+                                <option value="2409" disabled>an Elf Guard strategist (24 samples required)</option>
+                                <option value="395" disabled>an empty suit of armor (96 samples required)</option>
+                                <option value="547" disabled>an erudite gremlin (99 samples required)</option>
+                                <option value="970" disabled>an evil ex-girlfriend (99 samples required)</option>
+                                <option value="1155" disabled>an eXtreme Orcish snowboarder (99 samples required)</option>
+                                <option value="1373" disabled>an eye in the darkness (99 samples required)</option>
+                                <option value="1790" disabled>a factory overseer (99 samples required)</option>
+                                <option value="1789" disabled>a factory worker (98 samples required)</option>
+                                <option value="1836" disabled>a Falcoer (45 samples required)</option>
+                                <option value="127" disabled>a Fallen Archfiend (91 samples required)</option>
+                                <option value="180" disabled>The Family Jewels (99 samples required)</option>
+                                <option value="2060" >a fantasy bandit </option>
+                                <option value="146" disabled>a fiendish can of asparagus (91 samples required)</option>
+                                <option value="557" disabled>a figure-skating duck (99 samples required)</option>
+                                <option value="1761" disabled>a filthy pirate (99 samples required)</option>
+                                <option value="559" disabled>a fire-breathing duck (99 samples required)</option>
+                                <option value="1763" disabled>a fishy pirate (99 samples required)</option>
+                                <option value="142" disabled>a Flaming Troll (99 samples required)</option>
+                                <option value="1527" disabled>a fleet woodsman (96 samples required)</option>
+                                <option value="133" disabled>a Flock of Stab-bats (99 samples required)</option>
+                                <option value="313" disabled>a fluffy bunny (96 samples required)</option>
+                                <option value="228" disabled>a forest spirit (79 samples required)</option>
+                                <option value="1164" disabled>a four-shadowed mime (95 samples required)</option>
+                                <option value="1801" disabled>a freaked-out mushroom guy (99 samples required)</option>
+                                <option value="556" disabled>a frozen duck (98 samples required)</option>
+                                <option value="942" disabled>a funk particle (98 samples required)</option>
+                                <option value="719" disabled>a funk sole brother (98 samples required)</option>
+                                <option value="1762" disabled>a funky pirate (98 samples required)</option>
+                                <option value="172" disabled>a Furry Giant (97 samples required)</option>
+                                <option value="125" disabled>a G imp (97 samples required)</option>
+                                <option value="2250" disabled>a gangster's moll (94 samples required)</option>
+                                <option value="1760" disabled>a garbage tourist (91 samples required)</option>
+                                <option value="2249" disabled>a gator-human hybrid (97 samples required)</option>
+                                <option value="190" disabled>a gaunt ghuol (99 samples required)</option>
+                                <option value="370" disabled>a ghost miner (98 samples required)</option>
+                                <option value="763" disabled>a giant squid (94 samples required)</option>
+                                <option value="1074" disabled>a giant swarm of ghuol whelps (52 samples required)</option>
+                                <option value="1750" disabled>a gingerbread murderer (95 samples required)</option>
+                                <option value="189" disabled>a gluttonous ghuol (98 samples required)</option>
+                                <option value="248" disabled>a gnasty gnome (99 samples required)</option>
+                                <option value="12" disabled>a Gnollish Gearhead (97 samples required)</option>
+                                <option value="251" disabled> Gnomester Blomester (99 samples required)</option>
+                                <option value="250" disabled>a gnu jack gnome (98 samples required)</option>
+                                <option value="2252" disabled> goblin flapper (91 samples required)</option>
+                                <option value="644" disabled>a goose a-laying (93 samples required)</option>
+                                <option value="174" disabled>a Goth Giant (95 samples required)</option>
+                                <option value="1598" disabled>a gourmet gourami (99 samples required)</option>
+                                <option value="1585" disabled>a Government agent (99 samples required)</option>
+                                <option value="1633" disabled>a government scientist (97 samples required)</option>
+                                <option value="90" disabled>a Grass Elemental (99 samples required)</option>
+                                <option value="61" disabled>a grave rober (99 samples required)</option>
+                                <option value="195" disabled>a grave rober zmobie (95 samples required)</option>
+                                <option value="492" disabled>a Green Ops Soldier (44 samples required)</option>
+                                <option value="328" disabled> Grumpy, the Reindeer (98 samples required)</option>
+                                <option value="1788" disabled>a healing crystal golem (99 samples required)</option>
+                                <option value="128" disabled>a Hellion (99 samples required)</option>
+                                <option value="1468" disabled> High-Ranking Warbear Officer (99 samples required)</option>
+                                <option value="1903" disabled>a hired gun (97 samples required)</option>
+                                <option value="1050" disabled> Hobelf (98 samples required)</option>
+                                <option value="1759" disabled>a horrible tourist family (95 samples required)</option>
+                                <option value="689" disabled> Hot hobo (96 samples required)</option>
+                                <option value="1850" disabled>an ice bartender (86 samples required)</option>
+                                <option value="1854" disabled>an ice clerk (97 samples required)</option>
+                                <option value="1852" disabled>an ice concierge (89 samples required)</option>
+                                <option value="1853" disabled>an ice housekeeper (99 samples required)</option>
+                                <option value="1851" disabled>an ice porter (99 samples required)</option>
+                                <option value="572" disabled> Iiti Kitty (98 samples required)</option>
+                                <option value="167" disabled>an Irritating Series of Random Encounters (99 samples required)</option>
+                                <option value="1546" disabled>a Jacob's adder (99 samples required)</option>
+                                <option value="1530" disabled>a Jefferson pilot (98 samples required)</option>
+                                <option value="2091" disabled>a jock (94 samples required)</option>
+                                <option value="1275" disabled>a judgmental eye (99 samples required)</option>
+                                <option value="947" disabled>a jungle scabie (99 samples required)</option>
+                                <option value="1437" disabled>a junksprite bender (99 samples required)</option>
+                                <option value="1438" disabled>a junksprite melter (96 samples required)</option>
+                                <option value="1436" disabled>a junksprite sharpener (97 samples required)</option>
+                                <option value="1449" disabled>a kid who is too old to be Trick-or-Treating (99 samples required)</option>
+                                <option value="68" disabled>a Knight in White Satin (98 samples required)</option>
+                                <option value="153" disabled>a Knob Goblin Assistant Chef (99 samples required)</option>
+                                <option value="155" disabled>a Knob Goblin Barbecue Team (98 samples required)</option>
+                                <option value="80" disabled>a Knob Goblin Bean Counter (98 samples required)</option>
+                                <option value="300" disabled>a Knob Goblin Elite Zombie (99 samples required)</option>
+                                <option value="530" >a Knob Goblin Embezzler </option>
+                                <option value="78" disabled>a Knob Goblin Harem Girl (96 samples required)</option>
+                                <option value="1062" disabled>a Knob Goblin Madam (99 samples required)</option>
+                                <option value="88" disabled>a Knob Goblin Mutant (99 samples required)</option>
+                                <option value="533" disabled>a Knob Goblin poseur (99 samples required)</option>
+                                <option value="1964" disabled> Krakrox the Barbarian (99 samples required)</option>
+                                <option value="1634" disabled>a lab monkey (95 samples required)</option>
+                                <option value="224" disabled>a large kobold (97 samples required)</option>
+                                <option value="1793" disabled>a lava golem (99 samples required)</option>
+                                <option value="109" disabled>a lemon-in-the-box (98 samples required)</option>
+                                <option value="284" disabled>a Lesser Fruit Golem (99 samples required)</option>
+                                <option value="824" disabled>a liquid metal robot (98 samples required)</option>
+                                <option value="1453" disabled>a lively Cajun accordionist (97 samples required)</option>
+                                <option value="529" >a lobsterfrogman </option>
+                                <option value="668" disabled>a lonely construct (99 samples required)</option>
+                                <option value="1771" disabled>some Lovestruck Tropical Honeymooners (99 samples required)</option>
+                                <option value="934" disabled>a lowercase B (97 samples required)</option>
+                                <option value="936" disabled>a lowercase H (94 samples required)</option>
+                                <option value="938" disabled>a lowercase K (99 samples required)</option>
+                                <option value="1304" disabled>a lucky cat statue (98 samples required)</option>
+                                <option value="1533" disabled>a lynyrd (92 samples required)</option>
+                                <option value="1526" disabled>a lynyrd skinner (99 samples required)</option>
+                                <option value="1563" disabled>a mad wino (99 samples required)</option>
+                                <option value="2156" disabled>a magical fruit bat (98 samples required)</option>
+                                <option value="175" disabled>a MagiMechTech MechaMech (98 samples required)</option>
+                                <option value="941" disabled>a malevolent magnetic field (98 samples required)</option>
+                                <option value="272" disabled>a mariachi calavera (99 samples required)</option>
+                                <option value="1509" disabled>a Medieval mug apprentice (99 samples required)</option>
+                                <option value="1506" disabled>a Medieval potter (99 samples required)</option>
+                                <option value="288" disabled>a medium-sized barrel mimic (99 samples required)</option>
+                                <option value="761" disabled>a Mer-kin diver (97 samples required)</option>
+                                <option value="1640" disabled>a Mercenary of Fortune (96 samples required)</option>
+                                <option value="1242" disabled>some Mismatched Twins (99 samples required)</option>
+                                <option value="753" disabled>a Mob Penguin goon (96 samples required)</option>
+                                <option value="1070" disabled>a modern zmobie (67 samples required)</option>
+                                <option value="1556" disabled>a monstrous boiler (94 samples required)</option>
+                                <option value="1357" disabled>a motorhead (99 samples required)</option>
+                                <option value="1908" disabled>a mountain lion (99 samples required)</option>
+                                <option value="1153" >a mountain man </option>
+                                <option value="2043" disabled>a mouthless murmur (94 samples required)</option>
+                                <option value="2155" disabled>a musical fruit bat (99 samples required)</option>
+                                <option value="751" disabled>a mutant circuit-soldering elf (99 samples required)</option>
+                                <option value="1333" disabled>a Neckbeard Giant (98 samples required)</option>
+                                <option value="740" disabled>a Neptune flytrap (95 samples required)</option>
+                                <option value="1512" disabled>a ninja dressed as a waiter (99 samples required)</option>
+                                <option value="137" disabled>a Ninja Snowman (96 samples required)</option>
+                                <option value="338" disabled>a Ninja Snowman (98 samples required)</option>
+                                <option value="100" disabled>a Ninja Snowman (98 samples required)</option>
+                                <option value="1185" >a ninja snowman assassin </option>
+                                <option value="339" disabled>a Ninja Snowman Janitor (93 samples required)</option>
+                                <option value="340" disabled>a Ninja Snowman Weaponmaster (94 samples required)</option>
+                                <option value="651" disabled> Normal hobo (77 samples required)</option>
+                                <option value="1746" disabled>a novelty tropical skeleton (99 samples required)</option>
+                                <option value="769" disabled>a nurse shark (99 samples required)</option>
+                                <option value="459" disabled>an oasis monster (99 samples required)</option>
+                                <option value="738" disabled>an octopus gardener (98 samples required)</option>
+                                <option value="117" disabled>an Octorok (99 samples required)</option>
+                                <option value="1237" disabled>an oil baron (98 samples required)</option>
+                                <option value="1238" disabled>an oil cartel (96 samples required)</option>
+                                <option value="123" disabled>a P imp (83 samples required)</option>
+                                <option value="421" disabled>a Panty Raider Frat Boy (99 samples required)</option>
+                                <option value="2092" disabled>a party girl (96 samples required)</option>
+                                <option value="2154" disabled>a party skelteon (99 samples required)</option>
+                                <option value="1586" disabled>a perimeter defense sphere (89 samples required)</option>
+                                <option value="149" disabled>a pine bat (98 samples required)</option>
+                                <option value="2119" disabled>a plastic pirate (99 samples required)</option>
+                                <option value="386" disabled>a pooltergeist (97 samples required)</option>
+                                <option value="856" disabled>a pop-and-lock raver (99 samples required)</option>
+                                <option value="1465" disabled>a Possessed Can of Creepy Pasta (99 samples required)</option>
+                                <option value="1463" disabled>a Possessed Jar of Alphredo™ (89 samples required)</option>
+                                <option value="713" disabled>a possessed wine rack (93 samples required)</option>
+                                <option value="454" disabled>a possessed wine rack (97 samples required)</option>
+                                <option value="171" disabled>a Possibility Giant (97 samples required)</option>
+                                <option value="979" disabled>a Pr Imp (97 samples required)</option>
+                                <option value="170" disabled>a Procrastination Giant (98 samples required)</option>
+                                <option value="160" disabled>a Protagonist (97 samples required)</option>
+                                <option value="718" disabled>a pumped-up bass (98 samples required)</option>
+                                <option value="1432" disabled>a pygmy bowler (87 samples required)</option>
+                                <option value="1427" disabled>a pygmy janitor (93 samples required)</option>
+                                <option value="1435" disabled>some pygmy orderlies (93 samples required)</option>
+                                <option value="1428" disabled>a pygmy shaman (98 samples required)</option>
+                                <option value="1430" disabled>a pygmy witch accountant (93 samples required)</option>
+                                <option value="1434" disabled>a pygmy witch lawyer (99 samples required)</option>
+                                <option value="1429" disabled>a pygmy witch surgeon (98 samples required)</option>
+                                <option value="161" disabled>a Quiet Healer (91 samples required)</option>
+                                <option value="131" disabled> Racecar Bob (89 samples required)</option>
+                                <option value="1265" disabled>a rage flame (97 samples required)</option>
+                                <option value="570" disabled>a rampaging adding machine (85 samples required)</option>
+                                <option value="151" disabled>a ratbat (96 samples required)</option>
+                                <option value="986" disabled>a reanimated bat skeleton (90 samples required)</option>
+                                <option value="1522" disabled>a red butler (83 samples required)</option>
+                                <option value="1525" disabled>The Red Fox (85 samples required)</option>
+                                <option value="1521" disabled>a red skeleton (99 samples required)</option>
+                                <option value="1745" disabled>a remaindered skeleton (99 samples required)</option>
+                                <option value="1773" disabled>a Resort Waiter (99 samples required)</option>
+                                <option value="1906" disabled>a restless ghost (98 samples required)</option>
+                                <option value="2396" disabled>a robot maid (94 samples required)</option>
+                                <option value="463" disabled>a rock scorpion (99 samples required)</option>
+                                <option value="848" disabled>a rockfish (99 samples required)</option>
+                                <option value="561" disabled>a rotund duck (99 samples required)</option>
+                                <option value="857" disabled>a running man (99 samples required)</option>
+                                <option value="159" disabled>a rushing bum (79 samples required)</option>
+                                <option value="895" disabled>a saboteur elf (98 samples required)</option>
+                                <option value="474" disabled>a sabre-toothed ferret (97 samples required)</option>
+                                <option value="84" disabled>a sabre-toothed goat (99 samples required)</option>
+                                <option value="1290" disabled>a salaminder (97 samples required)</option>
+                                <option value="2104" >a sausage goblin </option>
+                                <option value="111" disabled>a scary clown (99 samples required)</option>
+                                <option value="717" disabled>a school of wizardfish (97 samples required)</option>
+                                <option value="723" disabled>a scimitarfish (98 samples required)</option>
+                                <option value="1010" disabled>a screambat (94 samples required)</option>
+                                <option value="775" disabled>a sea cow (99 samples required)</option>
+                                <option value="776" disabled>a sea cowboy (98 samples required)</option>
+                                <option value="192" disabled>a senile lihc (99 samples required)</option>
+                                <option value="982" disabled>a serialbus (91 samples required)</option>
+                                <option value="1102" disabled> sexy sorority ghost (92 samples required)</option>
+                                <option value="1103" disabled> sexy sorority skeleton (98 samples required)</option>
+                                <option value="1104" disabled> sexy sorority vampire (78 samples required)</option>
+                                <option value="1106" disabled> sexy sorority werewolf (87 samples required)</option>
+                                <option value="1105" disabled> sexy sorority zombie (92 samples required)</option>
+                                <option value="2271" disabled>a shadow bat (97 samples required)</option>
+                                <option value="2272" disabled>a shadow cow (95 samples required)</option>
+                                <option value="2273" disabled>a shadow devil (89 samples required)</option>
+                                <option value="2274" disabled>a shadow guy (94 samples required)</option>
+                                <option value="2275" disabled>a shadow hexagon (94 samples required)</option>
+                                <option value="2276" disabled>a shadow orb (99 samples required)</option>
+                                <option value="2277" disabled>a shadow prism (99 samples required)</option>
+                                <option value="2278" disabled>a shadow slab (54 samples required)</option>
+                                <option value="2279" disabled>a shadow snake (99 samples required)</option>
+                                <option value="2280" disabled>a shadow spider (96 samples required)</option>
+                                <option value="2281" disabled>a shadow stalk (96 samples required)</option>
+                                <option value="2282" disabled>a shadow tree (97 samples required)</option>
+                                <option value="107" disabled>a shady pirate (99 samples required)</option>
+                                <option value="1261" disabled>a sign-twirling Crimbo elf (99 samples required)</option>
+                                <option value="2042" disabled>a silent scream (96 samples required)</option>
+                                <option value="1767" disabled> Skeezy the Jug Rat (96 samples required)</option>
+                                <option value="379" disabled>a skeletal cat (99 samples required)</option>
+                                <option value="375" disabled>a skeletal hamster (99 samples required)</option>
+                                <option value="380" disabled>a skeletal monkey (99 samples required)</option>
+                                <option value="353" disabled>The Skinflute (80 samples required)</option>
+                                <option value="29" disabled>a skleleton (99 samples required)</option>
+                                <option value="377" disabled>a skullery maid (99 samples required)</option>
+                                <option value="693" disabled> Sleaze hobo (95 samples required)</option>
+                                <option value="152" disabled>a sleeping Knob Goblin Guard (99 samples required)</option>
+                                <option value="193" disabled>a slick lihc (99 samples required)</option>
+                                <option value="791" disabled>a Slime Tube monster (90 samples required)</option>
+                                <option value="1566" disabled> Sloppy Seconds Burger (84 samples required)</option>
+                                <option value="1567" disabled> Sloppy Seconds Cocktail (96 samples required)</option>
+                                <option value="1568" disabled> Sloppy Seconds Sundae (81 samples required)</option>
+                                <option value="40" disabled>a Smart Skelton (99 samples required)</option>
+                                <option value="1639" disabled>a smoke monster (95 samples required)</option>
+                                <option value="1796" disabled>a SMOOCH general (99 samples required)</option>
+                                <option value="1794" disabled>a SMOOCH private (98 samples required)</option>
+                                <option value="1795" disabled>a SMOOCH sergeant (99 samples required)</option>
+                                <option value="1230" disabled>a smut orc jacker (99 samples required)</option>
+                                <option value="1232" disabled>a smut orc nailer (96 samples required)</option>
+                                <option value="1231" disabled>a smut orc pipelayer (98 samples required)</option>
+                                <option value="1233" disabled>a smut orc screwer (99 samples required)</option>
+                                <option value="143" disabled>a Spam Witch (99 samples required)</option>
+                                <option value="1245" disabled>a spider (duck?) topiary animal (93 samples required)</option>
+                                <option value="553" disabled>a spider gremlin (99 samples required)</option>
+                                <option value="552" disabled>a spider gremlin (85 samples required)</option>
+                                <option value="1915" disabled>a spidercow (98 samples required)</option>
+                                <option value="185" disabled>a spiny skelelton (99 samples required)</option>
+                                <option value="739" disabled>a sponge (99 samples required)</option>
+                                <option value="692" disabled> Spooky hobo (89 samples required)</option>
+                                <option value="201" disabled>a spooky mummy (98 samples required)</option>
+                                <option value="1" >a spooky vampire </option>
+                                <option value="944" disabled> Spookyraven Manor (99 samples required)</option>
+                                <option value="1356" disabled>a sporto (99 samples required)</option>
+                                <option value="165" disabled>a Spunky Princess (98 samples required)</option>
+                                <option value="1557" disabled>a steam elemental (99 samples required)</option>
+                                <option value="691" disabled> Stench hobo (96 samples required)</option>
+                                <option value="433" disabled>a stocking-stuffing zombie (97 samples required)</option>
+                                <option value="1159" disabled>a stone temple pirate (98 samples required)</option>
+                                <option value="154" disabled>a Sub-Assistant Knob Mad Scientist (99 samples required)</option>
+                                <option value="1450" disabled> suburban security civilian (99 samples required)</option>
+                                <option value="977" disabled>a suckubus (98 samples required)</option>
+                                <option value="1636" disabled>a super-sized Cola Wars soldier (97 samples required)</option>
+                                <option value="593" disabled>a swamp beaver warrior (98 samples required)</option>
+                                <option value="596" disabled>a swamp entity (99 samples required)</option>
+                                <option value="645" disabled>a swarm a-swarming (96 samples required)</option>
+                                <option value="1144" disabled>a swarm of fudgewasps (85 samples required)</option>
+                                <option value="1072" disabled>a swarm of ghuol whelps (98 samples required)</option>
+                                <option value="221" disabled>a swarm of killer bees (99 samples required)</option>
+                                <option value="456" disabled>a swarm of scarab beatles (94 samples required)</option>
+                                <option value="1743" disabled>a swarm of skulls (99 samples required)</option>
+                                <option value="2262" disabled>a Table-Bussing Trainbot (99 samples required)</option>
+                                <option value="2269" disabled>a Tackle Fire (99 samples required)</option>
+                                <option value="1660" disabled>a tetched prospector (99 samples required)</option>
+                                <option value="1998" disabled> the most embarrassing moment in your entire life (99 samples required)</option>
+                                <option value="1631" disabled>a They (99 samples required)</option>
+                                <option value="1538" disabled>a Thinknerd Packing Robot (99 samples required)</option>
+                                <option value="2259" disabled>a Ticket-Checking Trainbot (99 samples required)</option>
+                                <option value="2127" disabled>a tiki idol (99 samples required)</option>
+                                <option value="177" disabled>a tiny barrel mimic (98 samples required)</option>
+                                <option value="1252" disabled> tiny-screwing animelf (97 samples required)</option>
+                                <option value="575" disabled>a tomb bat (99 samples required)</option>
+                                <option value="467" disabled>a tomb rat (95 samples required)</option>
+                                <option value="468" disabled>a tomb servant (98 samples required)</option>
+                                <option value="2336" disabled>a Tooth Golem (97 samples required)</option>
+                                <option value="584" disabled>a toothless mastiff bitch (99 samples required)</option>
+                                <option value="667" disabled>a towering construct (97 samples required)</option>
+                                <option value="2255" disabled>a Track-Switching Trainbot (97 samples required)</option>
+                                <option value="2251" disabled>a traveling hobo (89 samples required)</option>
+                                <option value="342" disabled>a triffid (99 samples required)</option>
+                                <option value="2253" disabled>an undercover prohibition agent (94 samples required)</option>
+                                <option value="1000" disabled>an unemployed knob goblin (96 samples required)</option>
+                                <option value="1932" disabled>an ungulith (97 samples required)</option>
+                                <option value="937" disabled>an uppercase Q (97 samples required)</option>
+                                <option value="1448" disabled> vandal kid (92 samples required)</option>
+                                <option value="551" disabled>a vegetable gremlin (98 samples required)</option>
+                                <option value="805" disabled>a vendor slime (99 samples required)</option>
+                                <option value="1637" disabled>a Venus mantrap (99 samples required)</option>
+                                <option value="247" disabled>a vicious gnauga (99 samples required)</option>
+                                <option value="2229" disabled> void guy (92 samples required)</option>
+                                <option value="2227" disabled>a void slab (94 samples required)</option>
+                                <option value="2228" disabled>a void spider (94 samples required)</option>
+                                <option value="122" disabled>a W imp (97 samples required)</option>
+                                <option value="1807" disabled>a wailing mushroom guy (98 samples required)</option>
+                                <option value="1513" disabled>a waiter dressed as a ninja (99 samples required)</option>
+                                <option value="499" disabled>a War Frat 151st Captain (99 samples required)</option>
+                                <option value="423" disabled>a War Frat 151st Infantryman (90 samples required)</option>
+                                <option value="500" disabled>a War Frat Elite 500th Captain (98 samples required)</option>
+                                <option value="420" disabled>a War Frat Kegrider (99 samples required)</option>
+                                <option value="577" disabled>a War Frat Mobile Grill Unit (99 samples required)</option>
+                                <option value="503" disabled>a War Frat Senior Grill Sergeant (99 samples required)</option>
+                                <option value="485" disabled>a War Hippy F.R.O.G. (99 samples required)</option>
+                                <option value="486" disabled>a War Hippy Green Gourmet (99 samples required)</option>
+                                <option value="490" disabled>a War Hippy Homeopath (99 samples required)</option>
+                                <option value="411" disabled>a War Hippy Infantryman (99 samples required)</option>
+                                <option value="527" disabled>a War Pledge (99 samples required)</option>
+                                <option value="632" disabled>a warty pirate (99 samples required)</option>
+                                <option value="199" disabled>a warwelf (99 samples required)</option>
+                                <option value="631" disabled>a wealthy pirate (98 samples required)</option>
+                                <option value="993" disabled>a werecougar (99 samples required)</option>
+                                <option value="37" disabled>a Weretaco (98 samples required)</option>
+                                <option value="66" disabled>a white lion (93 samples required)</option>
+                                <option value="65" disabled>a whitesnake (78 samples required)</option>
+                                <option value="1942" disabled>a Witchess Bishop (8 samples required)</option>
+                                <option value="1940" disabled>a Witchess King (97 samples required)</option>
+                                <option value="1936" >a Witchess Knight </option>
+                                <option value="1937" disabled>a Witchess Ox (96 samples required)</option>
+                                <option value="1935" disabled>a Witchess Pawn (98 samples required)</option>
+                                <option value="1939" disabled>a Witchess Queen (70 samples required)</option>
+                                <option value="1938" disabled>a Witchess Rook (93 samples required)</option>
+                                <option value="1941" disabled>a Witchess Witch (94 samples required)</option>
+                                <option value="1360" disabled>the X-fingered Shop Teacher (96 samples required)</option>
+                                <option value="36" disabled>a Yeast Beast (98 samples required)</option>
+                                <option value="2151" disabled>The Yuleviathan (98 samples required)</option>
+                                <option value="31" disabled>a zmobie (99 samples required)</option>
+                                <option value="120" disabled>a Zol (99 samples required)</option>
+                                <option value="304" disabled>a zombie yeast beast (99 samples required)</option>
+                            </select>
+              <input type="hidden" name="pwd" value="88dedf3985314bf97064556133cb9732" />
+              <input type="hidden" name="whichchoice" value="1517" />
+              <input type="hidden" name="option" value="2" />
+              <input type="submit" value="Extract" class="button" />
+              <br><i><small>(6/11 eggs spawned today)</small></i>
+
+            </form>
+                              <p>
+         <form method="post" action="choice.php">
+           Donate the egg of <select name="mid">
+               <option value="">-- select a monster --</option>
+                                <option value="1533">a lynyrd</option>
+                                <option value="2409">an Elf Guard strategist</option>
+                                <option value="2417">an Elf Guard engineer</option>
+                                <option value="2429">a Crimbuccaneer retiree</option>
+                            </select>
+              <input type="hidden" name="pwd" value="88dedf3985314bf97064556133cb9732" />
+              <input type="hidden" name="whichchoice" value="1517" />
+              <input type="hidden" name="option" value="1" />
+              <input type="submit" value="Donate" class="button" />
+              <br><i><small>(1/3 donations made for the day)</small></i>
+            </form>
+           </td>
+  </tr>
+</table>
+<p><p>
+<center><a href="place.php?whichplace=town_right">Back to the Right Side of the Tracks</a></center>
+</td></tr></table></center></td></tr><tr><td height=4></td></tr></table><!--faaaaaaart--></body></html>
