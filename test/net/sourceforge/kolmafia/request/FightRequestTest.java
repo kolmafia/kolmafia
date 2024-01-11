@@ -2602,4 +2602,17 @@ public class FightRequestTest {
       }
     }
   }
+
+  @Test
+  public void canTrackMimicEggLay() {
+    var cleanups = new Cleanups(withProperty("_mimicEggsObtained", 0), withFight());
+
+    try (cleanups) {
+      String urlString = "fight.php?action=skill&whichskill=7494";
+      String html = html("request/test_fight_lay_mimic_egg_success.html");
+      FightRequest.registerRequest(true, urlString);
+      FightRequest.updateCombatData(null, null, html);
+      assertThat("_mimicEggsObtained", isSetTo(1));
+    }
+  }
 }
