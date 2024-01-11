@@ -1556,7 +1556,7 @@ public class QuestManager {
 
   private static void setDesertExploration(final int current, final int increment) {
     // If we've already registered complete desert exploration, we're done
-    if (current == 100) {
+    if (current == 100 && increment >= 0) {
       return;
     }
 
