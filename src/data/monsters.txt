@@ -839,7 +839,7 @@ hunting seal	684	huntingseal.gif	NOCOPY WANDERER Atk: 95 Def: 85 HP: 120 Init: 5
 Argarggagarg the Dire Hellseal	701	2headseal.gif	NOCOPY WANDERER Atk: 115 Def: 103 HP: 150 Init: 60 P: demon	secret tropical island volcano lair map (100)	Argarggagarg's fang (100)	adorable seal larva (100)
 hellseal pup	779	sealpup.gif	NOBANISH Atk: 85 Def: 76 HP: 85 Init: 85 P: demon Article: a	hellseal whisker (0)	hellseal claw (0)
 mother hellseal	780	motherseal.gif	NOBANISH NOCOPY SUPERLIKELY Atk: [150*1.385^pref(_sealScreeches)] Def: [150*1.385^pref(_sealScreeches)] HP: 150 Exp: [150*1.385^pref(_sealScreeches)/4] Init: [150*1.385^pref(_sealScreeches)] P: demon Article: a	burst hellseal brain (c0)	shredded hellseal hide (c0)	torn hellseal sinew (c0)	hellseal brain (c0)	hellseal hide (c0)	hellseal sinew (c0)	hellseal whisker (c0)	hellseal claw (c0)
-hellseal guardian	781	sealguard.gif	Atk: 160 Def: 144 HP: 210 Init: 75 P: demon Article: a	hellseal whisker (0)	hellseal whisker (0)	hellseal claw (0)	hellseal claw (0)
+hellseal guardian	781	sealguard.gif	Atk: 160 Def: 144 HP: 210 Init: 75 P: demon Article: a	hellseal whisker (50)	hellseal whisker (50)	hellseal claw (50)	hellseal claw (50)
 Gorgolok, the Infernal Seal (Inner Sanctum)	21	1_1.gif	BOSS NOCOPY Atk: 27 Def: 24 HP: 30 Init: 60 Meat: 35 P: demon Manuel: "Gorgolok, the Infernal Seal"	Scalp of Gorgolok (100)
 Gorgolok, the Infernal Seal (The Nemesis' Lair)	872	1_2.gif	BOSS NOCOPY Atk: 170 Def: 153 HP: 220 Init: 80 P: demon Manuel: "Gorgolok, the Infernal Seal"	Krakrox's Loincloth (100)
 Gorgolok, the Infernal Seal (Volcanic Cave)	882	1_3.gif	BOSS NOCOPY Atk: 185 Def: 166 HP: 260 Init: 90 P: demon Phys: 25 Elem: 25 Manuel: "Gorgolok, the Infernal Seal"
