@@ -17,11 +17,9 @@ public class HeistManagerTest {
 
   HeistManager manager;
 
-  private static final String TESTUSERNAME = "HeistManagerTestUser";
-
   @BeforeEach
   public void beforeEach() {
-    KoLCharacter.reset(TESTUSERNAME);
+    KoLCharacter.reset("fakeUserName");
     manager = new FakeHeistManager();
   }
 
