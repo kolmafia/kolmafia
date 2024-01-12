@@ -37,7 +37,7 @@
 35	r u r d r r u u u l d l u u r r
 36	r u u u l u r r d d d d r r u l u u u r
 37	r r r u l l u u r r d r u u
-38	r u r u u l d l u u r u r d r u r d d l d r d l d r r u u u u
+38	r u r u u l d l u u r u r d r u r d d l d r d l d r r u u u u u
 39	r u r r u r u u l l d d l l u u u r r r r r
 40	u r d r r r u r u u l d l d l u l u l u r u r d d r u u r d r u
 41	r r u u u r d d r d r u u u l u l l l d d d l u u u u r r r r r
