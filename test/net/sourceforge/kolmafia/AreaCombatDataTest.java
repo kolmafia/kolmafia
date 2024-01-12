@@ -87,17 +87,15 @@ public class AreaCombatDataTest {
           Map.entry(MonsterDatabase.findMonster("Danglin' Chad"), 801),
           Map.entry(MonsterDatabase.findMonster("War Frat Streaker"), 901));
 
-  private static final String TESTUSERNAME = "AreaCombatDataTestUser";
-
   @BeforeEach
   public void beforeEach() {
-    KoLCharacter.reset(TESTUSERNAME);
-    Preferences.reset(TESTUSERNAME);
+    KoLCharacter.reset("fakeUserName");
+    Preferences.reset("fakeUsername");
   }
 
   @AfterAll
   public static void deleteQueueFile() {
-    File queueF = new File(KoLConstants.DATA_LOCATION, TESTUSERNAME + "_queue.ser");
+    File queueF = new File(KoLConstants.DATA_LOCATION, "fakeusername_queue.ser");
     if (queueF.exists()) {
       queueF.delete();
     }
