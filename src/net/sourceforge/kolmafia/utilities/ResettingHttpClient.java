@@ -1,13 +1,11 @@
 package net.sourceforge.kolmafia.utilities;
 
 import java.io.IOException;
-import java.lang.reflect.Method;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
-import net.sourceforge.kolmafia.StaticEntity;
 
 public class ResettingHttpClient {
 
@@ -29,34 +27,16 @@ public class ResettingHttpClient {
   }
 
   public void resetClient() {
-    closeClient(client);
-
     this.client = createClient.get();
     clientRequestsSent.set(0);
   }
 
   public <T> HttpResponse<T> send(HttpRequest req, HttpResponse.BodyHandler<T> handler)
       throws IOException, InterruptedException {
+    var resp = this.client.send(req, handler);
     if (clientRequestsSent.incrementAndGet() >= HTTP_CLIENT_REQUEST_LIMIT) {
       resetClient();
     }
-
-    return this.client.send(req, handler);
-  }
-
-  private void closeClient(HttpClient httpClient) {
-    // Closing the client is a new java feature
-    if (Runtime.version().feature() < 21) {
-      return;
-    }
-
-    // As we compile against an older jdk, we must use reflection to access the method
-    try {
-      Method method = Class.forName("java.net.http.HttpClient").getMethod("close");
-      method.invoke(httpClient);
-    } catch (Exception ex) {
-      // If this does error, we should log it as this means something has changed in java internals
-      StaticEntity.printStackTrace(ex);
-    }
+    return resp;
   }
 }
