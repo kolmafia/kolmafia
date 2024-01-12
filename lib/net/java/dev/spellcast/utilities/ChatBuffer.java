@@ -38,6 +38,8 @@
 
 package net.java.dev.spellcast.utilities;
 
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -118,6 +120,19 @@ public class ChatBuffer
 
 		displayPane.setContentType( "text/html" );
 		displayPane.setEditable( false );
+		displayPane.addFocusListener(new FocusListener() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				// In java 21, a change was made to always render the caret's position despite text being uneditable
+				// This isn't as useful for us as we automatically scroll to bottom
+				// https://bugs.openjdk.org/browse/JDK-4512626
+				displayPane.getCaret().setVisible(false);
+			}
+
+			@Override
+			public void focusLost(FocusEvent e) {
+			}
+		});
 
 		displayPane.setText( this.getHTMLContent() );
 
