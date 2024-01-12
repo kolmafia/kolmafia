@@ -806,6 +806,23 @@ public class QuestManagerTest {
         assertThat("oasisAvailable", isSetTo(true));
       }
     }
+
+    @Test
+    void willDowngradeDesertExplorationOnVisit() {
+      var cleanups =
+          new Cleanups(
+              withProperty("desertExploration", 100), withProperty("oasisAvailable", true));
+      try (cleanups) {
+        var URL = "place.php?whichplace=desertbeach";
+        var responseText = html("request/test_visit_beach_desert_98.html");
+        var request = new GenericRequest(URL);
+        request.responseText = responseText;
+        QuestManager.handleQuestChange(request);
+
+        assertThat("desertExploration", isSetTo(98));
+        assertThat("oasisAvailable", isSetTo(true));
+      }
+    }
   }
 
   /*
