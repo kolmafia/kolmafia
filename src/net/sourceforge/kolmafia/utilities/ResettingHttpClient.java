@@ -15,10 +15,8 @@ public class ResettingHttpClient {
   /**
    * At 10k client requests, the server will send a GOAWAY exception. We recreate the HttpClient
    * before that to avoid the problem.
-   *
-   * <p>The limit is set at 7k as the server may not acknowledge the new connection immediately
    */
-  private static final int HTTP_CLIENT_REQUEST_LIMIT = 7000;
+  private static final int HTTP_CLIENT_REQUEST_LIMIT = 9900;
 
   private final Supplier<HttpClient> createClient;
   private HttpClient client;
