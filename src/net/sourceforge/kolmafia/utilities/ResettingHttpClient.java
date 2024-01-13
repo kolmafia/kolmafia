@@ -33,10 +33,10 @@ public class ResettingHttpClient {
 
   public <T> HttpResponse<T> send(HttpRequest req, HttpResponse.BodyHandler<T> handler)
       throws IOException, InterruptedException {
-    var resp = this.client.send(req, handler);
     if (clientRequestsSent.incrementAndGet() >= HTTP_CLIENT_REQUEST_LIMIT) {
       resetClient();
     }
-    return resp;
+
+    return this.client.send(req, handler);
   }
 }
