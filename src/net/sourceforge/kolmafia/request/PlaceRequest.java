@@ -173,11 +173,75 @@ public class PlaceRequest extends GenericRequest {
         }
       }
       case "crimbo23" -> {
-        Preferences.setBoolean("crimbo23ArmoryAtWar", responseText.contains("armory_war.gif"));
-        Preferences.setBoolean("crimbo23BarAtWar", responseText.contains("bar_war.gif"));
-        Preferences.setBoolean("crimbo23CafeAtWar", responseText.contains("cafe_war.gif"));
-        Preferences.setBoolean("crimbo23CottageAtWar", responseText.contains("abuela_war.gif"));
-        Preferences.setBoolean("crimbo23FoundryAtWar", responseText.contains("factory_war.gif"));
+        if (responseText.contains("armory_war.gif")) {
+          Preferences.setBoolean("crimbo23ArmoryAtWar", true);
+          Preferences.setString("crimbo23ArmoryControl", "contested");
+        } else {
+          Preferences.setBoolean("crimbo23ArmoryAtWar", false);
+          if (responseText.contains("armory_elf.gif")) {
+            Preferences.setString("crimbo23ArmoryControl", "elf");
+          } else if (responseText.contains("armory_pirate.gif")) {
+            Preferences.setString("crimbo23ArmoryControl", "pirate");
+          } else {
+            Preferences.setString("crimbo23ArmoryControl", "none");
+          }
+        }
+
+        if (responseText.contains("bar_war.gif")) {
+          Preferences.setBoolean("crimbo23BarAtWar", true);
+          Preferences.setString("crimbo23BarControl", "contested");
+        } else {
+          Preferences.setBoolean("crimbo23BarAtWar", false);
+          if (responseText.contains("bar_elf.gif")) {
+            Preferences.setString("crimbo23BarControl", "elf");
+          } else if (responseText.contains("bar_pirate.gif")) {
+            Preferences.setString("crimbo23BarControl", "pirate");
+          } else {
+            Preferences.setString("crimbo23BarControl", "none");
+          }
+        }
+
+        if (responseText.contains("cafe_war.gif")) {
+          Preferences.setBoolean("crimbo23CafeAtWar", true);
+          Preferences.setString("crimbo23CafeControl", "contested");
+        } else {
+          Preferences.setBoolean("crimbo23CafeAtWar", false);
+          if (responseText.contains("cafe_elf.gif")) {
+            Preferences.setString("crimbo23CafeControl", "elf");
+          } else if (responseText.contains("cafe_pirate.gif")) {
+            Preferences.setString("crimbo23CafeControl", "pirate");
+          } else {
+            Preferences.setString("crimbo23CafeControl", "none");
+          }
+        }
+
+        if (responseText.contains("abuela_war.gif")) {
+          Preferences.setBoolean("crimbo23CottageAtWar", true);
+          Preferences.setString("crimbo23CottageControl", "contested");
+        } else {
+          Preferences.setBoolean("crimbo23CottageAtWar", false);
+          if (responseText.contains("abuela_elf.gif")) {
+            Preferences.setString("crimbo23CottageControl", "elf");
+          } else if (responseText.contains("abuela_pirate.gif")) {
+            Preferences.setString("crimbo23CottageControl", "pirate");
+          } else {
+            Preferences.setString("crimbo23CottageControl", "none");
+          }
+        }
+
+        if (responseText.contains("factory_war.gif")) {
+          Preferences.setBoolean("crimbo23FoundryAtWar", true);
+          Preferences.setString("crimbo23FoundryControl", "contested");
+        } else {
+          Preferences.setBoolean("crimbo23FoundryAtWar", false);
+          if (responseText.contains("factory_elf.gif")) {
+            Preferences.setString("crimbo23FoundryControl", "elf");
+          } else if (responseText.contains("factory_pirate.gif")) {
+            Preferences.setString("crimbo23FoundryControl", "pirate");
+          } else {
+            Preferences.setString("crimbo23FoundryControl", "none");
+          }
+        }
       }
       case "desertbeach" -> {
         if ("db_nukehouse".equals(action)) {
