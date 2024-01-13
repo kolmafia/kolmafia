@@ -509,10 +509,15 @@ user	crimbo16NoseChakraCleanliness	0
 user	crimbo16ReindeerChakraCleanliness	0
 user	crimbo16SackChakraCleanliness	0
 user	crimbo23ArmoryAtWar	false
+user	crimbo23ArmoryControl	none
 user	crimbo23BarAtWar	false
+user	crimbo23BarControl	none
 user	crimbo23CafeAtWar	false
+user	crimbo23CafeControl	none
 user	crimbo23CottageAtWar	false
+user	crimbo23CottageControl	none
 user	crimbo23FoundryAtWar	false
+user	crimbo23FoundryControl	none
 user	crimboTrainingSkill	0
 user	crimboTreeDays	7
 user	crimbotChassis	
