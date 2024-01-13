@@ -17,7 +17,6 @@ plugins {
 	id 'org.ajoberstar.grgit' version '5.2.1'
 	id 'org.panteleyev.jpackageplugin' version '1.4.1'
 }
-mainClassName = 'net.sourceforge.kolmafia.KoLmafia'
 
 sourceSets {
 	main {
@@ -178,10 +177,6 @@ jacocoTestReport {
 	}
 }
 
-configurations {
-	implementation.canBeResolved = true
-}
-
 jar {
 	manifest {
 		attributes(
@@ -298,7 +293,7 @@ tasks.jpackage {
 	dependsOn shadowJar, cleanJpackage
 	input = 'dist'
 	destination = 'build/releases'
-	mainClass = mainClassName
+	mainClass = 'net.sourceforge.kolmafia.KoLmafia'
 	appName = 'KoLmafia'
 	appVersion = new Date().format('yy.MM')
 	linux {
