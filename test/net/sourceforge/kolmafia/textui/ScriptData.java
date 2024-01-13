@@ -125,9 +125,9 @@ public abstract class ScriptData {
       super(
           description,
           new Parser(
-              /*scriptFile=*/ null,
-              /*stream=*/ new ByteArrayInputStream(script.getBytes(StandardCharsets.UTF_8)),
-              /*imports=*/ null));
+              /* scriptFile= */ null,
+              /* stream= */ new ByteArrayInputStream(script.getBytes(StandardCharsets.UTF_8)),
+              /* imports= */ null));
     }
   }
 

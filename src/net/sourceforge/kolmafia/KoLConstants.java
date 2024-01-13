@@ -350,6 +350,7 @@ public interface KoLConstants extends UtilityConstants {
     GRIMOIRE,
     LIBRAM
   }
+
   // for maximizer these are things we can filer on...
   enum filterType {
     EQUIP,
