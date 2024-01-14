@@ -255,10 +255,15 @@ class PlaceRequestTest {
           new Cleanups(
               withHttpClientBuilder(builder),
               withProperty("crimbo23ArmoryAtWar", false),
+              withProperty("crimbo23ArmoryControl", "none"),
               withProperty("crimbo23BarAtWar", false),
+              withProperty("crimbo23BarControl", "none"),
               withProperty("crimbo23CafeAtWar", false),
+              withProperty("crimbo23CafeControl", "none"),
               withProperty("crimbo23CottageAtWar", false),
-              withProperty("crimbo23FoundryAtWar", false));
+              withProperty("crimbo23CottageControl", "none"),
+              withProperty("crimbo23FoundryAtWar", false),
+              withProperty("crimbo23FoundryControl", "none"));
       try (cleanups) {
         builder.client.addResponse(200, html("request/test_place_crimbo23_1.html"));
 
@@ -266,10 +271,50 @@ class PlaceRequestTest {
         request.run();
 
         assertThat("crimbo23ArmoryAtWar", isSetTo(false));
+        assertThat("crimbo23ArmoryControl", isSetTo("elf"));
         assertThat("crimbo23BarAtWar", isSetTo(true));
+        assertThat("crimbo23BarControl", isSetTo("contested"));
         assertThat("crimbo23CafeAtWar", isSetTo(false));
+        assertThat("crimbo23CafeControl", isSetTo("elf"));
         assertThat("crimbo23CottageAtWar", isSetTo(true));
+        assertThat("crimbo23CottageControl", isSetTo("contested"));
         assertThat("crimbo23FoundryAtWar", isSetTo(false));
+        assertThat("crimbo23FoundryControl", isSetTo("pirate"));
+      }
+    }
+
+    @Test
+    void parsesTotalWarState() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withProperty("crimbo23ArmoryAtWar", false),
+              withProperty("crimbo23ArmoryControl", "none"),
+              withProperty("crimbo23BarAtWar", false),
+              withProperty("crimbo23BarControl", "none"),
+              withProperty("crimbo23CafeAtWar", false),
+              withProperty("crimbo23CafeControl", "none"),
+              withProperty("crimbo23CottageAtWar", false),
+              withProperty("crimbo23CottageControl", "none"),
+              withProperty("crimbo23FoundryAtWar", false),
+              withProperty("crimbo23FoundryControl", "none"));
+      try (cleanups) {
+        builder.client.addResponse(200, html("request/test_place_crimbo23_2.html"));
+
+        var request = new PlaceRequest("crimbo23");
+        request.run();
+
+        assertThat("crimbo23ArmoryAtWar", isSetTo(true));
+        assertThat("crimbo23ArmoryControl", isSetTo("contested"));
+        assertThat("crimbo23BarAtWar", isSetTo(true));
+        assertThat("crimbo23BarControl", isSetTo("contested"));
+        assertThat("crimbo23CafeAtWar", isSetTo(true));
+        assertThat("crimbo23CafeControl", isSetTo("contested"));
+        assertThat("crimbo23CottageAtWar", isSetTo(true));
+        assertThat("crimbo23CottageControl", isSetTo("contested"));
+        assertThat("crimbo23FoundryAtWar", isSetTo(true));
+        assertThat("crimbo23FoundryControl", isSetTo("contested"));
       }
     }
   }
