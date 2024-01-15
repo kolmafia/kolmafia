@@ -1,6 +1,8 @@
 package net.sourceforge.kolmafia.swingui.widget;
 
 import java.awt.*;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.io.StringWriter;
 import java.util.Enumeration;
 import javax.swing.*;
@@ -106,6 +108,20 @@ public class RequestPane extends JEditorPane {
     this.setEditorKit(new WrappedHtmlEditorKit());
     this.setContentType("text/html");
     this.setEditable(false);
+    this.addFocusListener(
+        new FocusListener() {
+          @Override
+          public void focusGained(FocusEvent e) {
+            // In java 21, a change was made to always render the caret's position despite text
+            // being uneditable
+            // This isn't as useful for us as we automatically scroll to bottom
+            // https://bugs.openjdk.org/browse/JDK-4512626
+            getCaret().setVisible(false);
+          }
+
+          @Override
+          public void focusLost(FocusEvent e) {}
+        });
 
     // No need to unregister the component as this only registers variables on this component, not
     // on the shared instance.

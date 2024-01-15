@@ -1807,7 +1807,7 @@ Abuela Crimbo's special magnet	0	none
 Abuela Crimbo's special magnet	10	none
 Abyssal ember	100	Mus: 35
 adhesive tape dolly	0	none
-adobe abacus	0	Mys: 40
+adobe abacus	120	Mys: 40
 Adventurer bobblehead	100	none
 aerogel attache case	50	none
 ancient calendar	70	Mus: 20	shield
@@ -1999,7 +1999,7 @@ green LavaCo Lamp&trade;	100	Mox: 35
 green peawee marble	201	Mys: 85
 Grey Guanon	60	Mys: 15
 grisly shield	200	Mus: 150	shield
-gunwale	0	none	shield
+gunwale	150	none	shield
 Guzzlr souvenir stein	100	none
 Half a Purse	100	none
 hand of Mr. Cards	10	none
@@ -2368,7 +2368,7 @@ zoological sample kit	10	none
 acid-squirting flower	50	Mys: 10
 actual reality goggles	10	none
 actual skeleton key	10	none
-adobe ascot	0	Mox: 40
+adobe ascot	120	Mox: 40
 aerogel anvil	50	none
 aerogel apron	50	none
 aerogel ascot	50	none
@@ -3237,7 +3237,7 @@ tiny plastic 7-foot dwarf	10	none
 tiny plastic 11 Dealer	0	none
 tiny plastic abominable fudgeman	0	none
 tiny plastic Abuela Crimbo	25	none
-tiny plastic Abuela's cottage	0	none
+tiny plastic Abuela's cottage	10	none
 tiny plastic accordion thief	20	none
 tiny plastic ambulatory robo-minecart	10	none
 tiny plastic Ancient Unspeakable Bugbear	10	none
@@ -3282,7 +3282,7 @@ tiny plastic Bugbear Captain	50	Mys: 10
 tiny plastic buzzerker	10	none
 tiny plastic caboose	10	none
 tiny plastic Caf&eacute; Elf	10	none
-tiny plastic Cafe	0	none
+tiny plastic Cafe	10	none
 tiny plastic Captain Kerkard	10	none
 tiny plastic cavebugbear	10	none
 tiny plastic Charity the Zombie Hunter	10	none
@@ -3323,7 +3323,7 @@ tiny plastic Duke Starkiller	10	none
 tiny plastic Ed the Undying	50	Mys: 10
 tiny plastic Elf Guard Armory	10	none
 tiny plastic exo-suited miner	10	none
-tiny plastic Factory	0	none
+tiny plastic Factory	10	none
 tiny plastic fat stack of cash	0	none
 tiny plastic Father McGruber	10	none
 tiny plastic fax machine	0	none

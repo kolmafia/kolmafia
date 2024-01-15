@@ -324,6 +324,7 @@ class UseItemRequestTest {
         assertThat(UseItemRequest.maximumUses("astral energy drink"), is(Integer.MAX_VALUE));
       }
     }
+
     /**
      * The list ot tested items was derived from items with zero fullness in fullness.txt at the
      * time the test was written. Magical sausage 10060 has zero fullness but it is not tested here

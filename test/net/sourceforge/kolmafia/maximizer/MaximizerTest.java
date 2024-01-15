@@ -65,6 +65,7 @@ public class MaximizerTest {
     KoLCharacter.reset("MaximizerTest");
     Preferences.reset("MaximizerTest");
   }
+
   // basic
 
   @Test
