@@ -152,6 +152,7 @@ public class Evaluator {
   static final Slot OFFHAND_RANGED = Slot.ACCESSORY3;
   static final Slot WATCHES = Slot.STICKER2;
   static final Slot WEAPON_1H = Slot.STICKER3;
+
   // Slots starting with EquipmentSlot.ALL_SLOTS are equipment
   // for other familiars being considered.
 

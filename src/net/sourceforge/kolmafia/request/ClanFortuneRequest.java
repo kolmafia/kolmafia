@@ -80,6 +80,7 @@ public class ClanFortuneRequest extends GenericRequest {
     this.addFormField("q2", word2);
     this.addFormField("q3", word3);
   }
+
   // choice.php?whichchoice=1278&which=1&whichid=cheesefax&q1=food&q2=batman&q3=thick
   // choice.php?pwd&whichchoice=1278&option=1&which=1&whichid=cheesefax&q1=food&q2=batman&q3=thick
 

@@ -11,11 +11,11 @@ plugins {
 	id 'jacoco'
 	id 'java'
 
-	id 'com.diffplug.spotless' version '6.12.0'
+	id 'com.diffplug.spotless' version '6.23.3'
 	id 'com.github.johnrengelman.shadow' version '8.1.1'
 	id 'net.nemerosa.versioning' version '3.0.0'
 	id 'org.ajoberstar.grgit' version '5.2.1'
-	id 'org.panteleyev.jpackageplugin' version '1.4.1'
+	id 'org.panteleyev.jpackageplugin' version '1.6.0'
 }
 
 sourceSets {
@@ -181,7 +181,11 @@ jar {
 	manifest {
 		attributes(
 				'Main-Class'      : 'net.sourceforge.kolmafia.KoLmafia',
-				'Build-Revision'  : new Object() { String toString() { project.getVersion() } },
+				'Build-Revision'  : new Object() {
+					String toString() {
+						project.getVersion()
+					}
+				},
 				'Build-Branch'    : versioning.info.branchId,
 				'Build-Build'     : versioning.info.build,
 				'Build-Dirty'     : isDirty(),
@@ -190,7 +194,11 @@ jar {
 				)
 	}
 
-	from { configurations.implementation.collect { it.isDirectory() ? it : zipTree(it) } } {
+	from {
+		configurations.implementation.collect {
+			it.isDirectory() ? it : zipTree(it)
+		}
+	} {
 		exclude 'META-INF/*.RSA', 'META-INF/*.SF', 'META-INF/*.DSA'
 	}
 	duplicatesStrategy = 'exclude'
@@ -302,7 +310,6 @@ tasks.jpackage {
 	mac {
 		type = 'dmg'
 		icon = 'util/macosx/limeglass.icns'
-
 	}
 	windows {
 		type = 'exe'

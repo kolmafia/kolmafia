@@ -50,11 +50,14 @@ public class EquipmentManager {
   /** A list of all possible accessories. Is an interior list of equipmentLists for acc1, 2, 3 */
   private static final List<AdventureResult> accessories =
       LockableListFactory.getInstance(AdventureResult.class);
+
   // these three all use HAT through BOOTSPUR (i.e. all slots)
   /** A list indexed by Slot of current equipment */
   private static final Map<Slot, AdventureResult> equipment = new EnumMap<>(Slot.class);
+
   /** A list indexed by Slot of possible equipment. Interior list is used in GearChangeFrame */
   private static final Map<Slot, List<AdventureResult>> equipmentLists = new EnumMap<>(Slot.class);
+
   /** A list indexed by Slot of equipment we have previously equipped, in order */
   private static final Map<Slot, List<AdventureResult>> historyLists = new EnumMap<>(Slot.class);
 

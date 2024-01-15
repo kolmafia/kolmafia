@@ -635,14 +635,20 @@ ceramic cerecloth belt	ceramic scree
 ceramic cestus	ceramic scree
 
 # Moss items (2024 Standard)
+moss mace	moss mulch
+moss mantle	moss mulch
+moss marlinspike	moss mulch
+moss medal	moss mulch
+moss megaphone	moss mulch
+moss mitre	moss mulch
 
 # Adobe items (2024 Standard Hardcore)
-adobe arsecover	adobe assortment
-adobe adze	adobe assortment
 adobe abacus	adobe assortment
-adobe ayam	adobe assortment
-adobe ascot	adobe assortment
 adobe abaya	adobe assortment
+adobe adze	adobe assortment
+adobe arsecover	adobe assortment
+adobe ascot	adobe assortment
+adobe ayam	adobe assortment
 
 # Dice items
 dice ring	powdered dice
