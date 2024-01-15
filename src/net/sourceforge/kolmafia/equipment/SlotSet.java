@@ -9,6 +9,7 @@ public class SlotSet {
 
   /** "Normal" slots visible on equipment page: HAT to FAMILIAR. */
   public static final EnumSet<Slot> SLOTS = EnumSet.range(Slot.HAT, Slot.FAMILIAR);
+
   /** Player slots visible on equipment page: HAT to ACCESSORY3. SLOTS without FAMILIAR. */
   public static final EnumSet<Slot> CORE_EQUIP_SLOTS = EnumSet.range(Slot.HAT, Slot.ACCESSORY3);
 

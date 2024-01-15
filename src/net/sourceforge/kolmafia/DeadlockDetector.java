@@ -19,7 +19,7 @@ class DeadlockDetector {
       return;
     }
     ThreadInfo[] infos =
-        bean.getThreadInfo(threads, /*lockedMonitors=*/ true, /*lockedSynchronizers=*/ true);
+        bean.getThreadInfo(threads, /* lockedMonitors= */ true, /* lockedSynchronizers= */ true);
     RequestLogger.openDebugLog();
     for (ThreadInfo info : infos) {
       RequestLogger.updateDebugLog(info);
