@@ -11496,8 +11496,8 @@
 11468	hot wine	319954775	icewine.gif	drink	t	0	glasses of hot wine
 11469	Jamaican coffee	804218824	coffeecup.gif	drink	t	0	mugs of Jamaican coffee
 11470	flask of egggrog	536421114	flask.gif	drink	t	0	flasks of egggrog
-11471
-11472
+11471	Black and White Apron Enrollment Form	881024729	apronform.gif	usable	t	0
+11472	Black and White Apron Meal Kit	531598068	apronbox.gif	usable	t	0
 11473	pirate encryption key (complete)	789944018	piratekey.gif	usable		0	pirate encryption keys (complete)
 11474	yule grog	857711662	tankard.gif	drink, mix	t	0	tankards of yule grog
 11475	wet tack	458308953	wettack.gif	food	t	0	pieces of wet tack

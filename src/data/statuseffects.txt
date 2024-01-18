@@ -2889,3 +2889,10 @@
 2886	Adobe Ascot Subscription	adobeascot.gif	18af9d087db8679d9c8fe83bd6fcc04b	neutral	none
 2887	Adobe Abaya Subscription	adobeabaya.gif	08ca831bc2e8370f05dc11a9d6f8b18c	neutral	none
 2888	Impressed Pasta Thralls	mossmedal.gif	43bd2ecf4dff41def0201f94143879b6	neutral	none	cast 1 Brandish Moss Medal
+2889	Beefy Heart	jarl_steak.gif	ab90edccf92f9c43c0820320fe4b5ff7	neutral	none
+2890
+2891
+2892
+2893
+2894
+2895	Bubbly	orb.gif	900f6bfb97055c5040a2e86766a8ebee	neutral	none
