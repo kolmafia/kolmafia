@@ -70,7 +70,7 @@ public class SkillPool {
   public static final int HOLIDAY_FUN = 121;
   public static final int RAPID_PROTOTYPING = 125;
   public static final int SUMMON_CARROT = 128;
-  public static final int BEAR_ESSENCE = 135;
+  public static final int BEAR_ESSENCE = 134;
   public static final int SUMMON_KOKOMO_RESORT_PASS = 135;
   public static final int HEALING_SALVE = 136;
   public static final int DARK_RITUAL = 137;
