@@ -9710,6 +9710,7 @@ public abstract class ChoiceControl {
       case 1509: // Adjust Jill-of-All-Trades Lighting
       case 1510: // Burning Leaves
       case 1517: // Mimic DNA Bank
+      case 1518: // Prepare your Meal
         return true;
 
       default:

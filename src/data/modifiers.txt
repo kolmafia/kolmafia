@@ -5340,6 +5340,7 @@ Effect	Become Intensely interested	Combat Rate: +5
 Effect	Become Superficially interested	Combat Rate: -5
 Effect	Bedraggled Dragoon	Avatar: "drowned sailor"
 Effect	Beefy	Damage Reduction: 10, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Stench Resistance: +1, Spooky Resistance: +1
+Effect	Beefy Heart	Familiar Weight: +10
 # Beer Barrel Polka: Makes booze more effective!
 Effect	Beer Barrel Polka	Booze Drop: +45
 # Beer in Your Shoes: More likely to fumble
@@ -5518,6 +5519,7 @@ Effect	Bubble Vision	Item Drop: [max(0,101-T)]
 Effect	Bubble, Bubble	Moxie: -5, Muscle: +5
 Effect	Bubbles, Tiny Bubbles	Avatar: "Drunken Tropical Vacationer"
 Effect	Bubblin' Rage	Initiative: +20, Weapon Damage: +20, Weapon Damage Percent: +20
+Effect	Bubbly	MP Regen Min: 10, MP Regen Max: 20
 Effect	Buff as a Baobab	Experience Percent (Muscle): +20
 Effect	Bugbear in Tooth and Claw	Weapon Damage: +40, Spell Damage: +40
 # Buggy Flavor: 25% chance of poisoning opponent
@@ -11109,6 +11111,7 @@ Item	Biddy Cracker's Old-Fashioned Cookbook	Skill: "Eggsplosion"
 # Bird-a-Day calendar: Receive a blessing from a different bird each day
 Item	birthday candle	Effect: "Light!", Effect Duration: 3
 # bitchin' meatcar: <b>Allows Travel to Desert Beach</b>
+Item	Black and White Apron Enrollment Form	Free Pull
 Item	Black Bart's Booty	Skill: "Pirate Bellow"
 # black BRICKO brick: Stuns your opponent for a few rounds
 # black BRICKO brick: (more effective against BRICKO monsters)
