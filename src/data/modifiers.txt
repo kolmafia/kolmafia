@@ -11109,6 +11109,7 @@ Item	Biddy Cracker's Old-Fashioned Cookbook	Skill: "Eggsplosion"
 # Bird-a-Day calendar: Receive a blessing from a different bird each day
 Item	birthday candle	Effect: "Light!", Effect Duration: 3
 # bitchin' meatcar: <b>Allows Travel to Desert Beach</b>
+Item	Black and White Apron Enrollment Form	Free Pull
 Item	Black Bart's Booty	Skill: "Pirate Bellow"
 # black BRICKO brick: Stuns your opponent for a few rounds
 # black BRICKO brick: (more effective against BRICKO monsters)
