@@ -2832,6 +2832,7 @@ public class UseItemRequest extends GenericRequest {
               && !responseText.contains("larynx become even more pirate")
               && !responseText.contains("become even more of an expert")
               && !responseText.contains("reread the tale and really remember")
+              && !responseText.contains("spirit of Kokomo to sink")
               && !responseText.contains("Beleven")
               && !responseText.contains("absorb the residual paste into your soul")) {
             UseItemRequest.lastUpdate = "You can't learn that skill.";

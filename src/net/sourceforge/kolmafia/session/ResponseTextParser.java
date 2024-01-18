@@ -939,7 +939,8 @@ public class ResponseTextParser {
           SkillPool.SUMMON_CARROT,
           SkillPool.BEAR_ESSENCE,
           SkillPool.CALCULATE_THE_UNIVERSE,
-          SkillPool.EXPERIENCE_SAFARI -> Preferences.increment(levelPref);
+          SkillPool.EXPERIENCE_SAFARI,
+          SkillPool.SUMMON_KOKOMO_RESORT_PASS -> Preferences.increment(levelPref);
       default -> {
         var maxLevel = SkillDatabase.getMaxLevel(skillId);
         if (maxLevel > 0) {
