@@ -97,7 +97,7 @@ public class AreaCombatDataTest {
 
   @AfterAll
   public static void deleteQueueFile() {
-    File queueF = new File(KoLConstants.DATA_LOCATION, TESTUSERNAME + "_queue.ser");
+    File queueF = new File(KoLConstants.DATA_LOCATION, TESTUSERNAME.toLowerCase() + "_queue.ser");
     if (queueF.exists()) {
       queueF.delete();
     }
