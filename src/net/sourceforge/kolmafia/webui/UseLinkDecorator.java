@@ -1034,6 +1034,7 @@ public abstract class UseLinkDecorator {
           case ItemPool.AMORPHOUS_BLOB:
           case ItemPool.GIANT_AMORPHOUS_BLOB:
           case ItemPool.AUTUMNATON:
+          case ItemPool.BLACK_AND_WHITE_APRON_MEAL_KIT:
 
             // Not inline, since the redirection to a fight
             // doesn't work ajaxified.

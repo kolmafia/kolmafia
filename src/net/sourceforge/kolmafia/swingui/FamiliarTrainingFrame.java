@@ -1879,11 +1879,22 @@ public class FamiliarTrainingFrame extends GenericFrame {
       //
       // Therefore, we can simply equip the new item.
 
-      if (next != null) {
+      if (next != null && next.getItemId() != -1) {
         FamiliarTrainingFrame.results.append("Putting on " + next.getName() + "<br>");
         RequestThread.postRequest(new EquipmentRequest(next, slot));
         this.setItem(slot, next);
-      } else if (current != null) {
+        return;
+      }
+
+      // Sanity check
+      if (next != null) {
+        // Internal error: non-null item but itemId == -1
+        // Treat it like removing the current item
+        System.out.println("Internal error: itemId = -1 in slot " + slot);
+        StaticEntity.printStackTrace();
+      }
+
+      if (current != null) {
         FamiliarTrainingFrame.results.append("Taking off " + current.getName() + "<br>");
         RequestThread.postRequest(new EquipmentRequest(EquipmentRequest.UNEQUIP, slot));
         this.setItem(slot, null);
@@ -1980,7 +1991,13 @@ public class FamiliarTrainingFrame extends GenericFrame {
     }
 
     private void getAccessoryGearSets(
-        final int weight, final AdventureResult item, final AdventureResult hat) {
+        final int weight, AdventureResult item, final AdventureResult hat) {
+      if (item != null && item.getItemId() == -1) {
+        System.out.println("Internal error: familiar item has itemId = -1");
+        StaticEntity.printStackTrace();
+        item = null;
+      }
+
       // No matter how many Tiny Plastic Objects we have, a
       // configuration with none equipped is legal
       this.addGearSet(weight, null, null, null, item, hat);
