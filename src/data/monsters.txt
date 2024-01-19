@@ -2552,7 +2552,7 @@ five skeleton invaders	1005	bigskeleton5.gif	Atk: 150 Def: 135 HP: 150 Init: 50 
 ten skeletons	1006	skel10.gif	Atk: 300 Def: 270 HP: 300 Init: 50 P: undead	bag of bones (100)
 25 skeletons	1007	skel25.gif	NOCOPY NOMANUEL Atk: 700 Def: 630 HP: 700	2 bag of bones (m100)
 100 skeletons	1008	skel100.gif	NOCOPY NOMANUEL Atk: 1500 Def: 1350 HP: 1500	4-6 bag of bones (m100)
-Rene C. Corman (Skeleton Invasion)	1009	reneccorman.gif	NOCOPY NOMANUEL Atk: 500 Def: 500 HP: 500 Manuel: "Rene C. Corman" Wiki: "Rene C. Corman (The Cannon Museum)"	Stabonic scroll (n100)
+Rene C. Corman (Skeleton Invasion)	1009	reneccorman.gif	NOCOPY NOMANUEL Atk: 500 Def: 500 HP: 500 Wiki: "Rene C. Corman (The Cannon Museum)"	Stabonic scroll (n100)
 
 # CRIMBCO cubicles (Crimbo 2010)
 disorganized files	1037	c10files.gif	NOCOPY NOMANUEL Scale: 0 Init: 100	10 CRIMBCO scrip (m100)
