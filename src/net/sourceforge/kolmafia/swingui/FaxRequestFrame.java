@@ -313,9 +313,11 @@ public class FaxRequestFrame extends GenericFrame {
 
     // Sorry, it appears you requested an invalid monster.
     // I couldn't find that monster. Try sending "list" for a list of monster names.
+    // I do not recognize that monster
     if (response.contains("I do not understand your request")
         || response.contains("you requested an invalid monster")
-        || response.contains("I couldn't find that monster")) {
+        || response.contains("I couldn't find that monster")
+        || response.contains("I do not recognize that monster")) {
       FaxRequestFrame.statusMessage = "Configuration error: unknown command sent to " + botName;
       return false;
     }
@@ -323,9 +325,11 @@ public class FaxRequestFrame extends GenericFrame {
     // I am unable to whitelist to clan 'xxx', please verify faustbot (#2504770) is whitelisted.
     // Thank you.
     // I couldn't get into your clan
+    // I am not whitelisted
     if (response.contains("could not whitelist")
         || response.contains("unable to whitelist")
-        || response.contains("I couldn't get into your clan")) {
+        || response.contains("I couldn't get into your clan")
+        || response.contains("I am not whitelisted")) {
       FaxRequestFrame.statusMessage = botName + " is not on your clan's whitelist";
       return false;
     }
