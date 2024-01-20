@@ -72,7 +72,9 @@ public class ClearSharedStateBefore implements BeforeAllCallback {
     // These are the directories and files in test\root that are under git control.  Everything
     // else is fair game for deletion after testing.  Keep relay as well since at least one test
     // assumes relay had content created when mafia starts up.
-    String[] keepersArray = {"ccs", "data", "expected", "request", "relay", "scripts", "README"};
+    String[] keepersArray = {
+      "ccs", "data", "expected", "request", "relay", "scripts", "sessions", "README"
+    };
     List<String> keepersList = new ArrayList<>(Arrays.asList(keepersArray));
     // Get list of things in test\root and iterate, deleting as appropriate
     File root = KoLConstants.ROOT_LOCATION;
