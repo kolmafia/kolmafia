@@ -94,6 +94,7 @@ dependencies {
 	implementation 'org.tmatesoft.svnkit:svnkit:1.10.7'
 	implementation 'com.jgoodies:jgoodies-binding:2.13.0'
 	implementation 'org.eclipse.jgit:org.eclipse.jgit:6.3.0.202209071007-r'
+	implementation 'org.eclipse.jgit:org.eclipse.jgit.ssh.apache:6.3.0.202209071007-r'
 }
 
 application {
