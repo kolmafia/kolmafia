@@ -15,15 +15,18 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class ForbiddenManagerTest {
+
+  private static final String TESTUSERNAME = "ForbiddenManager";
+
   @BeforeAll
   public static void beforeAll() {
-    KoLCharacter.reset("ForbiddenManager");
+    KoLCharacter.reset(TESTUSERNAME);
     MallPurchaseRequest.reset();
   }
 
   @BeforeEach
   public void beforeEach() {
-    Preferences.reset("ForbiddenManager");
+    Preferences.reset(TESTUSERNAME);
   }
 
   @AfterEach
