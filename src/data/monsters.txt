@@ -1155,7 +1155,7 @@ The Luter	1152	theluter.gif	NOCOPY Atk: 75 Def: 67 HP: 100 Init: 50 P: undead Ph
 # Bugbear Invasion
 scavenger bugbear	1165	bb_scav.gif	Atk: 5 Def: 4 HP: 5 Init: 150 P: beast EA: stench Article: a	BURT (100)
 creepy eye-stalk tentacle monster	1174	dianoga.gif	NOWISH Atk: 8 Def: 5 HP: 6 Init: 100 P: horror ED: stench EA: sleaze EA: stench Article: a	handful of juicy garbage (30)
-grouchy furry monster	1175	grouchewie.gif	NOWISH Atk: 6 Def: 6 HP: 8 Init: 50 P: beast EA: stench Article: a	handful of juicy garbage (20)	Osk'r Chow (c0)
+grouchy furry monster	1175	grouchewie.gif	NOWISH Atk: 6 Def: 6 HP: 8 Init: 50 P: beast EA: stench Article: a	handful of juicy garbage (20)	Osk'r Chow (c50)
 hypodermic bugbear	1166	bb_vamp.gif	Atk: 8 Def: 7 HP: 8 Init: 100 P: beast Article: a	BURT (100)
 anesthesiologist bugbear	1176	bb_doctor.gif	NOWISH Atk: 12 Def: 7 HP: 10 Init: 50 P: beast Article: an	BURT (100)
 bugbear robo-surgeon	1177	robosurgeon.gif	NOCOPY Atk: 15 Def: 22 HP: 20 Init: 50 P: construct EA: hot Article: a

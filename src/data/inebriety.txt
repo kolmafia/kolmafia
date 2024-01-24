@@ -143,7 +143,7 @@ can of the cheapest beer	1	1	decent	2	3	2	2	KOLHS, BEER, CANNED
 Candicaine	2	8	awesome	8-9	0	0	30-40	15 Holiday Bliss (+20 Item Drop, +20 Meat Drop)
 Candy Alexander	2	4	awesome	6-7	0	0	20-30	10 Holiday Bliss (+20 Item Drop, +20 Meat Drop)
 candycaine	4	1	decent	7-10	0	0	0	10 Sugar Rush
-canteen of eggnog	5	1	awesome	0	0	0	0	Unspaded, 100 All Liquored Up For War (+10 Elf Warfare Effectiveness)
+canteen of eggnog	5	1	awesome	21	0	0	0	100 All Liquored Up For War (+10 Elf Warfare Effectiveness)
 canteen of wine	3	5	good	7-10	22-40	22-40	22-40	20 In Vino Vires (+50% all), WINE
 carrot claret	3	3	decent	7-8	3-4	3-4	3-4	10 Pla-see-bo (+10 Item Drop), WINE
 Cement Mixer	2	1	good	4-5	10-20	0	0	5 Mortarfied (+100 DA)
@@ -184,8 +184,8 @@ Crimbo Saketini	3	1	decent	3-6	0	0	0
 Crimbojito	2	2	EPIC	10-13	10-20	25-50	10-20
 Crimboku Drop	4	1	decent	6-10	0	0	0
 Crimbosmopolitan	3	11	EPIC	23	80-12	80-12	80-12
-Crimbow Rainbo	4	1	EPIC	44	0	0	0
-Crimbuccaneer mologrog cocktail	2	1	EPIC	14	0	0	0	Lose 10 HP (hot damage)
+Crimbow Rainbo	4	1	awesome	15	0	0	0
+Crimbuccaneer mologrog cocktail	2	1	awesome	9	0	0	0	Lose 10 HP (hot damage)
 cruelty-free wine	1	10	good	2-4	0	10-15	0	5 Compensatory Cruelness (+5 weapon dmg), WINE
 crystal skeleton vodka	3	3	EPIC	15-17	15-35	15-35	15-35	20 Aykrophobia (+25% Item Drop, +20 spooky dmg, +15 ML)
 CSA cheerfulness ration	1	6	awesome	4	40-50	40-50	40-50	BEER, CANNED
@@ -294,7 +294,7 @@ Flaming Mohobo	2	8	awesome	8-9	15-20	15-20	15-20	15 Mo' Hobo (+10 Hobo power)
 flaming mushroom wine	3	6	awesome	10-14	12-15	0	0	WINE
 Flaming Sazerorc	2	8	awesome	8-9	30-40	0	0	15 Orc Chops (+50 Muscle)
 flask of Amontillado	4	4	awesome	10-15	10-30	15-30	10-30
-flask of egggrog	5	1	awesome	25	0	0	0	100 Grogged For Battle (+5 Pirate Warfare Effectiveness)
+flask of egggrog	5	1	awesome	20	0	0	0	100 Grogged For Battle (+5 Pirate Warfare Effectiveness)
 flask of moonshine	2	1	awesome	9-11	50-70	50-70	50-70
 flask of peppermint schnapps	1	1	decent	1	0	0	0
 flask of port	2	1	awesome	6-8	20-30	5-10	5-10	WINE
@@ -380,7 +380,7 @@ hot mint schnocolate	1	1	good	2-4	5-10	5-10	5-10	25 Alpine Mintiness (+25 HP/MP,
 Hot Socks	3	1	awesome	10-14	0	0	0	50 Hip to the Jive (+2 Familiar experience, +10 Familiar Weight, +20 Familiar Damage)
 hot toady	4	4	decent	6-10	7-8	7-8	7-8
 hot watered rum	3	1	good	9-10	0	0	0
-hot wine	4	1	awesome	20	0	0	0	50 In a Stealin' Mood (more MPCs from Elf Guards)
+hot wine	4	1	awesome	14	0	0	0	50 In a Stealin' Mood (more MPCs from Elf Guards)
 Humanitini	2	1	good	4-5	5-10	5-10	5-10	Restores HP, MARTINI
 Hundred Headed IPA	2	13	awesome	9-11	15-30	15-30	15-30	20 Hoppyness (+100% Initiative)
 Ice Island Long Tea	4	1	EPIC	18-22	15-30	15-30	15-30
@@ -476,7 +476,7 @@ mulled berry wine	5	7	awesome	18-22	0	30-50	0	30 Sweet Nostalgia (+20 Candy Drop
 mulled blood	1	1	EPIC	14	10-15	10-15	10-15	Vampyre
 mulled cider	3	5	awesome	8-12	25-40	25-40	25-40
 mulled hobo wine	1	1	awesome	4-5	5-15	5-15	5-15	20 Burnt 'n' Turnt (+100% MP)
-mulled wine	4	1	awesome	0	0	0	0	Unspaded, 50 Mullin' for Bullion (more pieces of 12)
+mulled wine	4	1	awesome	13	0	0	0	50 Mullin' for Bullion (more pieces of 12)
 Murderer's Punch	3	6	good	8-10	10-20	0	0	40 Punchy, Murdery (+50% Weapon Damage)
 Muschat	1	4	awesome	3-5	0	0	25-50	20 L'instinct F&eacute;lin (+30 mox, better sleeper), WINE
 mushroom whiskey	1	1	awesome	3-5	5-20	5-20	5-20	
@@ -497,12 +497,12 @@ Nog-on-the-Cob	3	1	awesome	12	15-30	15-30	15-30	20 Sulfurous Sinuses (+3 Stench 
 non-aged vinegar	2	4	awesome	6-7	5-10	5-10	5-10	40 Sour Grapes (+40% Item Drop)
 nothingtini	1	1	good	2-4	0	0	0	40 Nothing Happened (+20 Monster Level), MARTINI
 ocean motion	4	4	good	10-14	25-27	8-10	0
-officer's nog	2	1	EPIC	14	0	0	0
+officer's nog	2	1	awesome	10	0	0	0
 Oh, the Humanitini	2	8	awesome	8-9	15-20	15-20	15-20	Restores HP, MARTINI
 Oil Nog	4	5	decent	7-9	0	0	0
 oily mushroom wine	3	7	awesome	12-17	14-15	12-15	12-15	WINE
 old-fashioned	3	3	good	5-10	0	8-10	0
-old-school pirate grog	2	1	awesome	10	0	0	0
+old-school pirate grog	2	1	awesome	9	0	0	0
 Oopsie IPA	1	1	EPIC	5-7	10-25	10-25	10-25
 oozenog	3	1	good	5-10	10-20	10-20	10-20	10 Festive Radiation (+5% all stats)
 open sauce	4	7	good	11-13	15-25	15-25	15-25
@@ -560,13 +560,13 @@ Radberry Rip wine cooler	2	1	good	6	7-8	0	0
 Ralph IX cognac	6	15	EPIC	55-59	228-300	228-300	228-300
 Ram's Face Lager	1	2	decent	2	8-10	0	0	4-8 MP, BEER
 red ale	2	1	good	5-7	0	0	10-20	40 Putting the Pro in Proletariat (+50% Moxie, +25 ranged damage), BEER
-red and white claret	2	1	awesome	10	0	0	0
+red and white claret	2	1	awesome	8	0	0	0
 red drunki-bear	4	6	EPIC	22-26	200-240	0	0	4 Fullness 80 Gummiheart (+100 Muscle)
 Red Dwarf	2	1	good	4-5	0	10-20	0	5 World's Shortest Giant (+2 Prismatic Res)
 red red wine	2	4	decent	3-5	0	0	10-20	10-20 HP, WINE
 red rum	3	3	decent	4	0	0	0	20-30 HP
 Red Russian	1	1	EPIC	17	15-20	15-20	15-20	Vampyre
-red white and blue claret	3	1	EPIC	27	0	0	0
+red white and blue claret	3	1	EPIC	19	0	0	0
 red-headed corpse	3	1	good	6-10	0	31-35	0
 red-hot boilermaker	4	9	good	11-13	25-30	10-14	10-14	50 Boilermade (+5 Cold/Spooky Res)
 redrum	3	1	decent	5-6	0	15-30	0
@@ -756,7 +756,7 @@ Xiblaxian space-whiskey	4	7	EPIC	19-22	50	50	50
 Ye Olde Meade	5	7	good	14-16	20-30	20-30	20-30	WINE
 yellow brick road	4	6	awesome	14-18	0	40-47	0
 yellow drunki-bear	4	6	EPIC	22-26	0	0	200-240	4 Fullness 80 Gummskin (+100 Mox)
-yule grog	3	1	EPIC	27	0	0	0
+yule grog	3	1	awesome	15	0	0	0
 zmobie	3	3	good	5-10	0	16-20	0
 zombie	2	1	EPIC	10-12	0	10-20	0
 Zoodriver	2	1	good	4-5	10-20	0	0	5 Rampage! (+50% Weapon Dam)

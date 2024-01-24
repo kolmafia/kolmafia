@@ -6071,6 +6071,7 @@ Effect	Fish-Eye View	Item Drop: [30*env(underwater)]
 Effect	Fishbreath	Stench Damage: +15
 Effect	Fishily Speeding	Initiative: +50
 Effect	Fishing For Knowledge	Fishing Skill: +5
+Effect	Fishing for Meat	Meat Drop: +100
 Effect	Fishtacular Vernacular	Fishing Skill: +10
 # Fishy: -1 Adventure cost underwater
 Effect	Fishy Fortification	Maximum HP: +50, Muscle Percent: +10
@@ -6606,6 +6607,7 @@ Effect	Less Pervious	Damage Reduction: 3
 Effect	Less Vincible	HP Regen Min: 2, HP Regen Max: 5
 Effect	Let It Snow/Boil/Stink/Frighten/Grease	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Effect	Let's Go Shopping!	Mysticality Percent: -300, Item Drop: +75, Meat Drop: +150
+Effect	Lettuce Go!	Initiative: +100
 Effect	Libra Rising	Experience (Muscle): +1, Experience (Mysticality): +1, Experience (Moxie): +1
 Effect	License to Punch	Muscle Percent: +100
 Effect	Lifted Spirits	Initiative: +25, Experience: +5
@@ -7013,6 +7015,7 @@ Effect	Pop-eyed	Weapon Damage: +30
 Effect	Poppy Performance	Initiative: +100, Moxie Percent: +50
 Effect	Pork Barrel	Item Drop: +90
 Effect	Pork Power	Muscle: +10
+Effect	Porked Up	Hot Resistance: +3, Cold Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, Sleaze Resistance: +3
 Effect	Porkpocketed	Avatar: "Porkpocket"
 Effect	Possessive Pressure	Item Drop: [30*env(underwater)]
 Effect	Potpourri Committed	Stench Resistance: +5
@@ -7479,6 +7482,7 @@ Effect	Spring Training	Initiative: +100
 Effect	Springy Fusilli	Initiative: +40
 Effect	Sprinkle in Your Eye	Sprinkle Drop: +25
 Effect	Sprinkle Sense	Sprinkle Drop: +50
+Effect	Spudly	Experience: +3
 Effect	Square Jaw And Everything Else	Avatar: "Scott the Miner"
 Effect	Square to be Hip	Moxie Percent: +10
 Effect	Squatting and Thrusting	Experience (Muscle): +3
@@ -7930,6 +7934,7 @@ Effect	Weepy, Creepy	Item Drop: +5
 Effect	Weird Vibrations	Initiative: +25
 Effect	Weirdly Scientific	Avatar: "Sub-Assistant Knob Mad Scientist"
 Effect	Well Excuuuuse Me!	Avatar: "wacky pirate"
+Effect	Well Fed	Maximum HP: [+3*T]
 Effect	Well Owl Be!	Mysticality: +10, Spell Damage: +10
 Effect	Well-Lubed	Weapon Damage Percent: +10
 Effect	Well-Oiled	Damage Absorption: +30, Damage Reduction: 10, Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1
@@ -7971,6 +7976,7 @@ Effect	Wine-Hot	Hot Damage: [pref(vintnerWineLevel)*3], Hot Resistance: [pref(vi
 Effect	Wings of the Dragonfly	Initiative: +100
 Effect	Wings of the Grasshopper	Initiative: +50
 Effect	Winklered	Meat Drop: +40
+Effect	Winner, Winner, Chicken!	Item Drop: +50
 Effect	Winning Smile	Experience: +3
 Effect	Wintergreen Warmongery	Muscle: +30
 Effect	Wintry Breath	Cold Damage: +10
