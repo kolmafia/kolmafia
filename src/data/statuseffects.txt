@@ -2890,9 +2890,10 @@
 2887	Adobe Abaya Subscription	adobeabaya.gif	08ca831bc2e8370f05dc11a9d6f8b18c	neutral	none
 2888	Impressed Pasta Thralls	mossmedal.gif	43bd2ecf4dff41def0201f94143879b6	neutral	none	cast 1 Brandish Moss Medal
 2889	Beefy Heart	jarl_steak.gif	ab90edccf92f9c43c0820320fe4b5ff7	neutral	none
-2890
-2891
-2892
-2893
-2894
+2890	Winner, Winner, Chicken!	roastchicken.gif	ab14ce23c80285130a229285a1191470	neutral	none
+2891	Spudly	familiar3.gif	e6f35d736aa049cce86ddce7996d6e3f	neutral	none
+2892	Lettuce Go!	icelettuce.gif	18c6ee5c04148f24f95e3caa6ee00aac	neutral	none
+2893	Porked Up	bacon.gif	12a85a90c2f2bd2968a309029cab602b	neutral	none
+2894	Fishing for Meat	fish.gif	e4d466137ef5993f2c987f4e50090204	neutral	none
 2895	Bubbly	orb.gif	900f6bfb97055c5040a2e86766a8ebee	neutral	none
+2896	Well Fed	apronbox.gif	d8ccf1611c0556c0bb623b83146dfa36	neutral	none
