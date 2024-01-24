@@ -171,7 +171,7 @@ public class CustomCombatLookup extends DefaultMutableTreeNode {
         indent.setLength(0);
 
         // Skip malformed lines
-        int close = line.indexOf("]");
+        int close = line.lastIndexOf("]");
         if (close == -1) {
           KoLmafia.updateDisplay("Malformed encounter key in CCS at line " + lineNumber);
           encounterKey = "ignore";
