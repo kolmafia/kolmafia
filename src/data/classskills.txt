@@ -816,7 +816,7 @@
 7251	Fire Sewage Pistol	sewagepistol.gif	combat	0	0
 7252	Propose To Your Opponent	fatrock.gif	combat	0	0
 7253	Spit Fireballs	saltongue.gif	combat	0	0
-7254	Toggle Optimality	bigredbutton.gif	nc,effect,self	0	0	Permable: true, Max Level: 3
+7254	Toggle Optimality	bigredbutton.gif	nc,effect,self	0	0	Max Level: 3
 7255	Bat-Punch	krakfist.gif	combat	0	0
 7256	Bat-Kick	oldboot.gif	combat	0	0
 7257	Bat-oomerang	batarang.gif	combat	0	0

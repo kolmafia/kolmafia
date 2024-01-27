@@ -123,7 +123,7 @@ public class SkillDatabaseTest {
 
     @Test
     void someSkillsOver7000AreWhitelisted() {
-      assertThat(SkillDatabase.isPermable(7254), is(true));
+      assertThat(SkillDatabase.isPermable(17047), is(true));
     }
   }
 
