@@ -375,7 +375,7 @@ frozen banquet	6	15	EPIC	42-48	100-289	100-289	100-289
 frozen danish	1	4	awesome	3-5	0	0	45-75	30 Danish Cunning (+25% pickpocket)
 frozen mushroom	3	2	decent	3-9	0	0	0	lose 3 HP
 frozen tofu pop	1	1	EPIC	5-6	0	0	0
-fruit-stuffed rumcake	5	1	awesome	25	0	0	0	100 Fruit-Based Animosity (+5 Pirate Warfare Effectiveness)
+fruit-stuffed rumcake	5	1	awesome	20	0	0	0	100 Fruit-Based Animosity (+5 Pirate Warfare Effectiveness)
 fruitcake	3	1	decent	3-6	17-23	17-23	17-23
 fudge bunny	10	8	EPIC	60-66	50-90	50-90	50-90
 fudgesicle	1	1	decent	2	0	0	0	30 Fudge Headache (+75% Fudge Finding)
@@ -776,7 +776,7 @@ root beer	1	1	awesome	4	5-10	5-10	5-10	BEVERAGE, 20-30 MP
 rotting beefsteak	3	1	awesome	9-10	0	0	0	30 Cowrruption (+200% weapon dmg, +200% spell dmg, muscle limited to 30, moxie limited to 30)
 royal jelly	1	1	crappy	1	10-15	0	0
 royal jelly taco	1	1	decent	2	4-20	0	0
-rum-soaked fruitcake	5	1	awesome	25	0	0	0	100 Rum of Darkness (+5 Elf Warfare Effectiveness)
+rum-soaked fruitcake	5	1	awesome	20	0	0	0	100 Rum of Darkness (+5 Elf Warfare Effectiveness)
 S.T.L.T.	4	4	awesome	10-15	10-30	10-30	13-27
 s'more	1	1	crappy	1	0	0	0
 salacious crumbs	3	1	decent	5-7	0	0	15-20
@@ -908,7 +908,7 @@ sublime nachos	6	1	awesome	22-26	10-20	40-50	10-20
 sublime stew	6	1	awesome	22-26	0	40-50	20-30
 succulent marrow	3	1	decent	5-7	25-30	0	0
 suddenly salad!	5	1	EPIC	60-80	0	220-400	0
-sugarplum ration	5	1	awesome	23	0	0	0	50 Sugarplum Visions (more pieces of 12 from Crimbuccaneers)
+sugarplum ration	5	1	awesome	17	0	0	0	50 Sugarplum Visions (more pieces of 12 from Crimbuccaneers)
 suggestive strozzapreti	5	7	awesome	16-19	0	0	20-30
 sun-dried tofu	2	3	crappy	2-4	0	0	0	gain Deadened Palate or lose Oversaturated Palate
 sundae ration	2	1	awesome	10	0	0	0

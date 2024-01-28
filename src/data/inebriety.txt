@@ -403,7 +403,7 @@ Island Thunderstorm	4	1	awesome	14-16	0	30-60	0	20 Tiki Thoughtfulness (+100% My
 Isotope Nog	4	5	decent	6-11	0	0	0
 Jack-O-Lantern beer	2	1	awesome	7-9	0	0	10-20	30 Toothy Grin (+5 familiar weight)
 Jackhammer	2	4	awesome	6-7	20-30	0	0	10 Mortarfied (+100 DA)
-Jamaican coffee	3	1	awesome	12	0	0	0	50 Jamaican' Me Acquisitive (increase drops on Crimbo battlefields)
+Jamaican coffee	3	1	awesome	10	0	0	0	50 Jamaican' Me Acquisitive (increase drops on Crimbo battlefields)
 jar of fermented pickle juice	5	13	EPIC	29-34	80-100	80-100	80-100	-5 spleen
 jar of squeeze	7	8	awesome	25-30	25-45	25-45	25-45
 Jeppson's Malort	3	1	EPIC	22-26	10-20	10-20	10-20
@@ -678,7 +678,7 @@ Suffering Sinner	2	1	good	4-5	10-20	0	0	5 Heart Aflame (+50 Hot Dam)
 super-size brogurt	3	8	awesome	12-13	50-100	0	50-100
 Supernova Champagne	3	8	good	7-11	8-12	8-12	8-12	15-20 MP, WINE
 Suppurating Sinner	2	4	awesome	6-7	20-30	0	0	10 Heart Aflame (+50 Hot Dam)
-Swedish coffee	3	1	EPIC	18	0	0	0	50 Swedish Courage (-50 ML)
+Swedish coffee	3	1	awesome	12	0	0	0	50 Swedish Courage (-50 ML)
 swirling mushroom wine	4	3	EPIC	22-26	0	0	50-100	80 Tremella Tremens (+40 Item Drop), WINE
 Taco Dan's Taco Stand Chimichangarita	1	4	good	2-3	0	0	15-30	5 Margaritish (+moxie)
 tangarita	4	6	awesome	14-18	0	16-20	25-27
