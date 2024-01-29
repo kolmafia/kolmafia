@@ -76,7 +76,7 @@ public class MushroomFieldCommand extends AbstractCommand {
               + MushroomManager.getForecastedPlot(false)
               + "</code>"
               + KoLConstants.LINE_BREAK;
-      RequestLogger.printLine(plotDetails);
+      RequestLogger.printHtml(plotDetails);
     }
   }
 }

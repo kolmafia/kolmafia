@@ -104,7 +104,7 @@ public class SummoningChamberRequest extends GenericRequest {
                 + " in clan "
                 + ClanManager.getClanName(false)
                 + ".";
-        RequestLogger.printLine("<font color=\"blue\">" + message + "</font>");
+        RequestLogger.printHtml("<font color=\"blue\">" + message + "</font>");
         RequestLogger.updateSessionLog(message);
       }
 

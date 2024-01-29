@@ -3197,19 +3197,6 @@ public abstract class RuntimeLibrary {
     return parameters;
   }
 
-  private static String addColorDecoration(final String string, final Value color) {
-    String colorString = color.toString();
-
-    if (colorString.isEmpty()) {
-      return string;
-    }
-
-    colorString = StringUtilities.globalStringDelete(colorString, "\"");
-    colorString = StringUtilities.globalStringDelete(colorString, "<");
-
-    return "<font color=\"" + colorString + "\">" + string + "</font>";
-  }
-
   public static Value logprint(ScriptRuntime controller, final Value string) {
     String parameters = RuntimeLibrary.cleanString(string);
     RequestLogger.getSessionStream().println("> " + parameters);
@@ -3251,10 +3238,15 @@ public abstract class RuntimeLibrary {
 
     RequestLogger.getSessionStream().println("> " + parameters);
 
-    parameters = StringUtilities.globalStringReplace(parameters, "<", "&lt;");
-    parameters = RuntimeLibrary.addColorDecoration(parameters, color);
+    String colorString = color.toString();
 
-    RequestLogger.printLine(parameters);
+    if (colorString.isEmpty()) {
+      RequestLogger.printLine(parameters);
+    } else {
+      parameters = StringUtilities.getEntityEncode(parameters, false);
+      parameters = "<font color=\"" + colorString + "\">" + parameters + "</font>";
+      RequestLogger.printHtml(parameters);
+    }
 
     return DataTypes.VOID_VALUE;
   }
@@ -3272,12 +3264,12 @@ public abstract class RuntimeLibrary {
       }
     }
 
-    RequestLogger.printLine(string.toString());
+    RequestLogger.printHtml(string.toString());
     return DataTypes.VOID_VALUE;
   }
 
   public static Value print_html(ScriptRuntime controller, final Value string) {
-    RequestLogger.printLine(string.toString());
+    RequestLogger.printHtml(string.toString());
     return DataTypes.VOID_VALUE;
   }
 

@@ -70,7 +70,7 @@ public class TowerDoorCommand extends AbstractCommand {
 
     output.append("</table>");
 
-    RequestLogger.printLine(output.toString());
+    RequestLogger.printHtml(output.toString());
     RequestLogger.printLine();
   }
 }

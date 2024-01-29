@@ -33,7 +33,7 @@ public class SpeculateCommand extends AbstractCommand {
     }
     String table = SpeculateCommand.getHTML(mods, "");
     if (table != null) {
-      RequestLogger.printLine(table + "<br>");
+      RequestLogger.printHtml(table + "<br>");
     } else {
       RequestLogger.printLine("No modifiers changed.");
     }

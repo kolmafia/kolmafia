@@ -19,6 +19,6 @@ public class ColorEchoCommand extends AbstractCommand {
 
     parameters = parameters.substring(spaceIndex + 1);
     StringUtilities.globalStringReplace(parameters, "<", "&lt;");
-    RequestLogger.printLine("<font color=\"" + color + "\">" + parameters + "</font>");
+    RequestLogger.printHtml("<font color=\"" + color + "\">" + parameters + "</font>");
   }
 }

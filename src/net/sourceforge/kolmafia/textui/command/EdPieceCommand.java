@@ -116,7 +116,7 @@ public class EdPieceCommand extends AbstractCommand implements ModeCommand {
 
       output.append("</table>");
 
-      RequestLogger.printLine(output.toString());
+      RequestLogger.printHtml(output.toString());
       RequestLogger.printLine();
 
       parameters = "";

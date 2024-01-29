@@ -107,7 +107,7 @@ public class EventManager {
     if (!LoginRequest.isInstanceRunning()) {
       // Print everything to the default shell; this way, the
       // graphical CLI is also notified of events.
-      if (!autopull) RequestLogger.printLine(eventHtml);
+      if (!autopull) RequestLogger.printHtml(eventHtml);
 
       // Balloon messages for whenever the person does not have
       // focus on KoLmafia.
