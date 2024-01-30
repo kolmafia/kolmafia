@@ -71,7 +71,7 @@ public class CommandDisplayFrame extends GenericFrame {
 
       if (!KoLmafia.isAdventuring()) {
         RequestLogger.printHtml(
-            " &lt; <b>CURRENT</b>"
+            " &gt; <b>CURRENT</b>"
                 + StringUtilities.getEntityEncode(": " + handler.command, false));
       }
 
@@ -80,12 +80,12 @@ public class CommandDisplayFrame extends GenericFrame {
       int i;
       for (i = 1; commandIterator.hasNext(); ++i) {
         RequestLogger.printHtml(
-            " &lt; <b>QUEUED</b>"
+            " &gt; <b>QUEUED</b>"
                 + StringUtilities.getEntityEncode(": " + commandIterator.next(), false));
       }
 
       RequestLogger.printHtml(
-          " &lt; <b>QUEUED " + i + "</b>: " + StringUtilities.getEntityEncode(command, false));
+          " &gt; <b>QUEUED " + i + "</b>: " + StringUtilities.getEntityEncode(command, false));
       RequestLogger.printLine();
     }
 
@@ -129,7 +129,7 @@ public class CommandDisplayFrame extends GenericFrame {
         }
 
         RequestLogger.printLine();
-        RequestLogger.printLine(" &lt; " + StringUtilities.getEntityEncode(this.command, false));
+        RequestLogger.printLine(" &gt; " + StringUtilities.getEntityEncode(this.command, false));
         RequestLogger.printLine();
 
         try {
