@@ -80,7 +80,9 @@ public class CommandDisplayFrame extends GenericFrame {
       int i;
       for (i = 1; commandIterator.hasNext(); ++i) {
         RequestLogger.printHtml(
-            " &gt; <b>QUEUED</b>"
+            " &gt; <b>QUEUED "
+                + i
+                + "</b>"
                 + StringUtilities.getEntityEncode(": " + commandIterator.next(), false));
       }
 
