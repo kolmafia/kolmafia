@@ -137,11 +137,7 @@ public class MallSearchRequest extends GenericRequest {
       return dataName;
     }
 
-    dataName = StringUtilities.globalStringReplace(dataName, "&lt;", "<");
-    dataName = StringUtilities.globalStringReplace(dataName, "&gt;", ">");
-    dataName = StringUtilities.globalStringReplace(dataName, "&amp;", "&");
-
-    return dataName;
+    return StringUtilities.getEntityDecode(dataName, false);
   }
 
   public List<PurchaseRequest> getResults() {

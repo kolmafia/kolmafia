@@ -8059,8 +8059,7 @@ public abstract class RuntimeLibrary {
 
   public static Value chat_notify(
       ScriptRuntime controller, final Value messageValue, final Value colorValue) {
-    String messageString =
-        StringUtilities.globalStringReplace(messageValue.toString(), "<", "&lt;");
+    String messageString = StringUtilities.getEntityEncode(messageValue.toString(), false);
 
     String colorString = StringUtilities.globalStringDelete(colorValue.toString(), "\"");
     colorString = "\"" + colorString + "\"";
