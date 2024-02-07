@@ -2046,135 +2046,73 @@ public class MaximizerTest {
     }
   }
 
-  /**
-   * autoscend has observed instances where the Maximizer does not actually equip the weapon it
-   * recommends. This is a test attempting to replicate that using conditions that generated a
-   * failure. This is supposed to be a failing test and this comment should probably be removed when
-   * the test passes.
-   */
-  @Test
-  public void itActuallyEquipsWeapon() {
-    String maxStr =
-        "5item,meat,0.5initiative,0.1da 1000max,dr,0.5all res,1.5mainstat,-fumble,mox,0.4hp,0.2mp 1000max,3mp regen,1.5weapon damage,0.75weapon damage percent,1.5elemental damage,2familiar weight,5familiar exp,10exp,5Muscle experience percent,effective";
-    var cleanups =
-        new Cleanups(
-            withEquippableItem("seal-skull helmet"),
-            withEquippableItem("astral shirt"),
-            withEquippableItem("old sweatpants"),
-            withEquippableItem("seal-clubbing club"));
-    try (cleanups) {
-      assertTrue(maximize(maxStr));
-      recommends("seal-clubbing club");
-      recommendedSlotIs(Slot.WEAPON, "seal-clubbing club");
-    }
-  }
-
-  @Test
-  public void itActuallyEquipsWeaponWhenSimplified() {
-    String maxStr = "1.5weapon damage,0.75weapon damage percent";
-    var cleanups =
-        new Cleanups(
-            withEquippableItem("seal-skull helmet"),
-            withEquippableItem("astral shirt"),
-            withEquippableItem("old sweatpants"),
-            withEquippableItem("seal-clubbing club"));
-    try (cleanups) {
-      assertTrue(maximize(maxStr));
-      recommends("seal-clubbing club");
-      recommendedSlotIs(Slot.WEAPON, "seal-clubbing club");
-    }
-  }
-
-  @Test
-  public void itShouldHandleEffective() {
-    String maxStr = "effective";
-    var cleanups =
-        new Cleanups(
-            withEquippableItem("seal-skull helmet"),
-            withEquippableItem("astral shirt"),
-            withEquippableItem("old sweatpants"),
-            withEquippableItem("seal-clubbing club"));
-    try (cleanups) {
-      assertTrue(maximize(maxStr));
-      recommends("seal-clubbing club");
-      recommendedSlotIs(Slot.WEAPON, "seal-clubbing club");
-    }
-  }
-
-  @Test
-  public void itShouldHandleEffectiveWithStatsOne() {
-    String maxStr = "effective";
-    var cleanups =
-        new Cleanups(
-            withStats(10, 5, 5),
-            withEquippableItem("seal-skull helmet"),
-            withEquippableItem("astral shirt"),
-            withEquippableItem("old sweatpants"),
-            withEquippableItem("seal-clubbing club"));
-    try (cleanups) {
-      assertTrue(maximize(maxStr));
-      recommends("seal-clubbing club");
-      recommendedSlotIs(Slot.WEAPON, "seal-clubbing club");
-    }
-  }
-
-  @Test
-  public void itShouldHandleEffectiveWithStatsTwo() {
-    String maxStr = "effective";
-    var cleanups =
-        new Cleanups(
-            withStats(5, 5, 10),
-            withEquippableItem("seal-skull helmet"),
-            withEquippableItem("astral shirt"),
-            withEquippableItem("old sweatpants"),
-            withEquippableItem("seal-clubbing club"));
-    try (cleanups) {
-      assertTrue(maximize(maxStr));
-      recommends("seal-clubbing club");
-      recommendedSlotIs(Slot.WEAPON, "seal-clubbing club");
-    }
-  }
-
-  @Test
-  public void itShouldHandleEffectiveWithStatsThree() {
-    String maxStr = "effective";
-    var cleanups =
-        new Cleanups(
-            withStats(10, 5, 10),
-            withEquippableItem("seal-skull helmet"),
-            withEquippableItem("astral shirt"),
-            withEquippableItem("old sweatpants"),
-            withEquippableItem("seal-clubbing club"));
-    try (cleanups) {
-      assertTrue(maximize(maxStr));
-      recommends("seal-clubbing club");
-      recommendedSlotIs(Slot.WEAPON, "seal-clubbing club");
-    }
-  }
-
-  @Test
-  public void iterateForKeyword() {
-    String bigStr =
-        "5item,meat,0.5initiative,0.1da 1000max,dr,0.5all res,1.5mainstat,-fumble,mox,0.4hp,0.2mp 1000max,3mp regen,1.5weapon damage,0.75weapon damage percent,1.5elemental damage,2familiar weight,5familiar exp,10exp,5Muscle experience percent,effective";
-    String[] components = bigStr.split(",");
-    String maxStr = "";
-    for (int i = 0; i < components.length; i++) {
-      if (i == 0) {
-        maxStr = components[0];
-      } else {
-        maxStr = maxStr + "," + components[i];
-      }
-      // System.out.println(maxStr);
+  @Nested
+  public class Weapons {
+    @Test
+    public void effectiveEquipsAvailableMelee() {
+      String maxStr = "effective";
       var cleanups =
           new Cleanups(
+              withStats(10, 5, 5),
+              withEquippableItem("seal-skull helmet"),
+              withEquippableItem("astral shirt"),
+              withEquippableItem("old sweatpants"),
+              withEquippableItem("sewer snake"),
+              withEquippableItem("seal-clubbing club"));
+      try (cleanups) {
+        assertTrue(maximize(maxStr));
+        recommends("seal-clubbing club");
+        recommendedSlotIs(Slot.WEAPON, "seal-clubbing club");
+      }
+    }
+
+    @Test
+    public void effectiveDoesNotEquipRanged() {
+      String maxStr = "effective";
+      var cleanups =
+          new Cleanups(
+              withStats(10, 5, 5),
+              withEquippableItem("seal-skull helmet"),
+              withEquippableItem("astral shirt"),
+              withEquippableItem("old sweatpants"),
+              withEquippableItem("sewer snake"));
+      try (cleanups) {
+        assertTrue(maximize(maxStr));
+        assertFalse(getSlot(Slot.WEAPON).isPresent());
+      }
+    }
+
+    @Test
+    public void effectiveEquipAvailableRanged() {
+      String maxStr = "effective";
+      var cleanups =
+          new Cleanups(
+              withStats(5, 5, 10),
+              withEquippableItem("seal-skull helmet"),
+              withEquippableItem("astral shirt"),
+              withEquippableItem("old sweatpants"),
+              withEquippableItem("sewer snake"),
+              withEquippableItem("seal-clubbing club"));
+      try (cleanups) {
+        assertTrue(maximize(maxStr));
+        recommends("sewer snake");
+        recommendedSlotIs(Slot.WEAPON, "sewer snake");
+      }
+    }
+
+    @Test
+    public void effectiveDoesNotEquipMelee() {
+      String maxStr = "effective";
+      var cleanups =
+          new Cleanups(
+              withStats(5, 5, 10),
               withEquippableItem("seal-skull helmet"),
               withEquippableItem("astral shirt"),
               withEquippableItem("old sweatpants"),
               withEquippableItem("seal-clubbing club"));
       try (cleanups) {
         assertTrue(maximize(maxStr));
-        recommends("seal-clubbing club");
-        recommendedSlotIs(Slot.WEAPON, "seal-clubbing club");
+        assertFalse(getSlot(Slot.WEAPON).isPresent());
       }
     }
   }
