@@ -2049,7 +2049,7 @@ public class MaximizerTest {
   @Nested
   public class Weapons {
     @Test
-    public void effectiveEquipsAvailableMelee() {
+    public void muscleEffectiveEquipsMelee() {
       String maxStr = "effective";
       var cleanups =
           new Cleanups(
@@ -2067,7 +2067,7 @@ public class MaximizerTest {
     }
 
     @Test
-    public void effectiveDoesNotEquipRanged() {
+    public void muscleEffectiveDoesNotEquipRanged() {
       String maxStr = "effective";
       var cleanups =
           new Cleanups(
@@ -2083,7 +2083,7 @@ public class MaximizerTest {
     }
 
     @Test
-    public void effectiveEquipAvailableRanged() {
+    public void moxieEffectiveEquipsRanged() {
       String maxStr = "effective";
       var cleanups =
           new Cleanups(
@@ -2101,7 +2101,7 @@ public class MaximizerTest {
     }
 
     @Test
-    public void effectiveDoesNotEquipMelee() {
+    public void moxieEffectiveDoesNotEquipMelee() {
       String maxStr = "effective";
       var cleanups =
           new Cleanups(
