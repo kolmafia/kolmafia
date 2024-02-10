@@ -2115,5 +2115,33 @@ public class MaximizerTest {
         assertFalse(getSlot(Slot.WEAPON).isPresent());
       }
     }
+    @Test
+    public void willEquipKnife() {
+      String maxStr = "mainstat";
+      var cleanups =
+              new Cleanups(
+                      withStats(5, 5, 10),
+                      withSkill(SkillPool.TRICKY_KNIFEWORK),
+                      withEquippableItem("boot knife"));
+      try (cleanups) {
+        assertTrue(maximize(maxStr));
+        recommends("boot knife");
+        recommendedSlotIs(Slot.WEAPON, "boot knife");
+      }
+    }
+    @Test
+    public void willStillEquipKnife() {
+      String maxStr = "effective";
+      var cleanups =
+              new Cleanups(
+                      withStats(5, 5, 10),
+                      withSkill(SkillPool.TRICKY_KNIFEWORK),
+                      withEquippableItem("boot knife"));
+      try (cleanups) {
+        assertTrue(maximize(maxStr));
+        recommends("boot knife");
+        recommendedSlotIs(Slot.WEAPON, "boot knife");
+      }
+    }
   }
 }
