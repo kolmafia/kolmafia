@@ -3685,6 +3685,8 @@ Item	spiky turtle shoulderpads	Damage Absorption: +75, Single Equip, Thorns: 2
 Item	spirit bell	Muscle: +5, Mysticality: +5, Maximum HP: +10, Maximum MP: +10, Class: "Turtle Tamer"
 Item	spooky glove	Never Fumble, Moxie: +5, Spooky Damage: +5
 Item	Spookyraven signet	Spooky Resistance: +2, Stench Damage: +15, Stench Spell Damage: +15, Single Equip
+# spring shoes: Nature springs up after each step
+Item	spring shoes	Initiative: +100, Moxie Percent: +20, Critical Hit Percent: +50
 Item	stained glass spectacles	Experience (Mysticality): +3, Spooky Resistance: +3, Spooky Damage: +5, Single Equip
 Item	stained glass suspenders	Muscle Percent: +20, Hot Resistance: +3, Hot Damage: +5, Single Equip
 Item	stainless steel scarf	Spell Damage: +20, Monster Level: +20, Mysticality Percent: +15, Single Equip
@@ -5731,6 +5733,7 @@ Effect	Crotchety, Pining	Muscle Percent: +100
 Effect	Crud&eacute;	Sleaze Damage: +5
 Effect	Cruisin' for a Bruisin'	Weapon Damage Percent: +100
 Effect	Crunching Leaves	Combat Rate: +5, Item Drop: +25
+Effect	Crunchy Steps	Combat Rate: +5
 Effect	Crusty Head	Damage Reduction: 10
 Effect	Crying, Dying	Item Drop: +60
 Effect	Crystalleyesd	Avatar: "The Plumber"
@@ -7843,6 +7846,7 @@ Effect	Twinkly Weapon	Weapon Damage: +3
 Effect	Twist and an Eye	Maximum MP: +50
 Effect	Two Car Bar Rag	Avatar: "craggy bartender"
 Effect	Two Left Feet	Moxie: -5
+Effect	Ultra-Soft Steps	Combat Rate: -5
 # Ultrahydrated: Glug, Glug
 Effect	Unbarking Dogs	Familiar Weight: +10
 Effect	Uncaged Power	Maximum MP: +50, MP Regen Min: 5, MP Regen Max: 8
@@ -9912,6 +9916,7 @@ Item	Crimbo fudge	Effect: "Busy Bein' Delicious", Effect Duration: 5
 Item	Crimbo peppermint bark	Effect: "Peppermint Bite", Effect Duration: 5
 Item	Crimbot battery	Effect: "Batteries Included", Effect Duration: 50
 Item	crude crudit&eacute;s	Effect: "Crud&eacute;", Effect Duration: 10
+Item	crunchy brush	Effect: "Crunchy Steps", Effect Duration: 5
 Item	CSA bravery badge	Effect: "Standard Issue Bravery", Effect Duration: 20
 Item	cube of billiard chalk	Effect: "Chalked Weapon", Effect Duration: 10
 Item	cuppa Alacri tea	Effect: "Alacri Tea", Effect Duration: 30
@@ -10718,6 +10723,7 @@ Item	turtle pheromones	Effect: "Eau de Tortue", Effect Duration: 30
 Item	turtle voicebox	Effect: "Song of the Southern Turtle", Effect Duration: 15
 Item	twinkly nuggets	Effect: "Twinkly Weapon", Effect Duration: 5
 Item	twinkly powder	Effect: "Twinklebritches", Effect Duration: 5
+Item	ultra-soft ferns	Effect: "Ultra-Soft Steps", Effect Duration: 5
 Item	Ultrasoldier Serum	Effect: "Army of One", Effect Duration: 50
 Item	Uncle Greenspan's Bathroom Finance Guide	Effect: "Buy!  Sell!  Buy!  Sell!", Effect Duration: 100
 Item	unfinished pleasure	Effect: "Pleasant Forecast", Effect Duration: 20
@@ -11715,6 +11721,7 @@ Item	imbued seal-blubber candle	Class: "Seal Clubber"
 # incriminating evidence: Take it downtown to Gotpork P. D.
 Item	infant sandworm	Free Pull
 # infinite BACON machine: Generate 100 BACON per day
+Item	in-the-box spring shoes	Free Pull
 # ingot turtle: Deals 90-110 <font color=red>Hot Damage</font> and changes your opponent's element to Hot
 Item	Inigo's Incantation of Inspiration	Class: "Accordion Thief", Skill: "Inigo's Incantation of Inspiration"
 Item	Inigo's Incantation of Inspiration (crumpled)	Class: "Accordion Thief", Skill: "Inigo's Incantation of Inspiration"

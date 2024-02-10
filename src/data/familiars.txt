@@ -306,7 +306,7 @@
 274	Pocket Professor	lilprofessoron.gif	item0,mp1	packaged Pocket Professor	Pocket Professor memory chip	0	2	2	3	technological,robot
 275	Red-Nosed Snapper	redsnapper.gif	item0,underwater	red-spotted snapper roe	tinsel fin	3	3	3	3	animal,haseyes
 276	Antique Nutcracker	nutcfigure.gif	stat0,drop	antique nutcracker figurine	nutcracking pliers	1	2	3	2	humanoid,haseyes,haslegs,object,wearsclothes,bite,hard
-277	Piranha Plant	piranhaplant.gif	combat,stat0	pristine piranha seed	plastic piranha pot	3	3	3	3	bite
+277	Piranha Plant	piranhaplant.gif	combat0,stat0	pristine piranha seed	plastic piranha pot	3	3	3	3	bite
 278	Left-Hand Man	lhmlarva.gif	none	sinistral homunculus		1	1	1	1	hasbones,hashands,humanoid,haslegs
 279	Melodramedary	camelcalf.gif	stat0,hp1,mp1	baby camelCalf	dromedary drinking helmet	3	3	0	0	animal,bite,haseyes
 280	Ghost of Crimbo Carols	cghost_carols.gif	item0,other0	gregarious ghostling		0	0	0	0	haseyes,undead
