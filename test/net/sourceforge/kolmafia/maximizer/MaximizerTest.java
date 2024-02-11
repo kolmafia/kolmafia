@@ -2088,11 +2088,26 @@ public class MaximizerTest {
     }
     @Test
     public void willEquipKnife() {
-      String maxStr = "mainstat";
+      String maxStr = "mainstat effective";
+      var cleanups = new Cleanups(
+                      withStats(10, 5, 5),
+                      withSkill(SkillPool.TRICKY_KNIFEWORK),
+                      withEquippableItem("seal-clubbing club"),
+                      withEquippableItem("boot knife"));
+      try (cleanups) {
+        assertTrue(maximize(maxStr));
+        recommends("boot knife");
+        recommendedSlotIs(Slot.WEAPON, "boot knife");
+      }
+    }
+    @Test
+    public void willEquipKnifeAlso() {
+      String maxStr = "mainstat effective";
       var cleanups =
               new Cleanups(
                       withStats(5, 5, 10),
                       withSkill(SkillPool.TRICKY_KNIFEWORK),
+                      withEquippableItem("seal-clubbing club"),
                       withEquippableItem("boot knife"));
       try (cleanups) {
         assertTrue(maximize(maxStr));
@@ -2102,11 +2117,27 @@ public class MaximizerTest {
     }
     @Test
     public void willStillEquipKnife() {
-      String maxStr = "effective";
+      String maxStr = "mainstat";
+      var cleanups =
+              new Cleanups(
+                      withStats(10, 5, 5),
+                      withSkill(SkillPool.TRICKY_KNIFEWORK),
+                      withEquippableItem("seal-clubbing club"),
+                      withEquippableItem("boot knife"));
+      try (cleanups) {
+        assertTrue(maximize(maxStr));
+        recommends("boot knife");
+        recommendedSlotIs(Slot.WEAPON, "boot knife");
+      }
+    }
+    @Test
+    public void willStillEquipKnifeAlso() {
+      String maxStr = "mainstat";
       var cleanups =
               new Cleanups(
                       withStats(5, 5, 10),
                       withSkill(SkillPool.TRICKY_KNIFEWORK),
+                      withEquippableItem("seal-clubbing club"),
                       withEquippableItem("boot knife"));
       try (cleanups) {
         assertTrue(maximize(maxStr));
