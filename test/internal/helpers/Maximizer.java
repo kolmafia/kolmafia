@@ -27,6 +27,11 @@ public class Maximizer {
         maximizerString, 0, PriceLevel.DONT_CHECK, true);
   }
 
+  public static boolean maximizeNoSpec(String maximizerString) {
+    return net.sourceforge.kolmafia.maximizer.Maximizer.maximize(
+        maximizerString, 0, PriceLevel.DONT_CHECK, false);
+  }
+
   public static void maximizeCreatable(String maximizerString) {
     MaximizerFrame.expressionSelect.setSelectedItem(maximizerString);
     net.sourceforge.kolmafia.maximizer.Maximizer.maximize(

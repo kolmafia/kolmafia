@@ -5,7 +5,7 @@ import static internal.helpers.Maximizer.doesNotRecommend;
 import static internal.helpers.Maximizer.getBoosts;
 import static internal.helpers.Maximizer.getSlot;
 import static internal.helpers.Maximizer.maximize;
-import static internal.helpers.Maximizer.maximizeAny;
+import static internal.helpers.Maximizer.maximizeNoSpec;
 import static internal.helpers.Maximizer.modFor;
 import static internal.helpers.Maximizer.recommendedSlotIs;
 import static internal.helpers.Maximizer.recommendedSlotIsUnchanged;
@@ -38,6 +38,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
 import java.time.Month;
+import java.util.List;
 import java.util.Optional;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
@@ -2115,63 +2116,97 @@ public class MaximizerTest {
         assertFalse(getSlot(Slot.WEAPON).isPresent());
       }
     }
+
     @Test
     public void willEquipKnife() {
       String maxStr = "mainstat effective";
-      var cleanups = new Cleanups(
-                      withStats(10, 5, 5),
-                      withSkill(SkillPool.TRICKY_KNIFEWORK),
-                      withEquippableItem("seal-clubbing club"),
-                      withEquippableItem("boot knife"));
+      var cleanups =
+          new Cleanups(
+              withStats(10, 5, 5),
+              withSkill(SkillPool.TRICKY_KNIFEWORK),
+              withEquippableItem("seal-clubbing club"),
+              withEquippableItem("boot knife"));
       try (cleanups) {
         assertTrue(maximize(maxStr));
         recommends("boot knife");
         recommendedSlotIs(Slot.WEAPON, "boot knife");
       }
     }
+
     @Test
     public void willEquipKnifeAlso() {
       String maxStr = "mainstat effective";
       var cleanups =
-              new Cleanups(
-                      withStats(5, 5, 10),
-                      withSkill(SkillPool.TRICKY_KNIFEWORK),
-                      withEquippableItem("seal-clubbing club"),
-                      withEquippableItem("boot knife"));
+          new Cleanups(
+              withStats(5, 5, 10),
+              withSkill(SkillPool.TRICKY_KNIFEWORK),
+              withEquippableItem("seal-clubbing club"),
+              withEquippableItem("boot knife"));
       try (cleanups) {
         assertTrue(maximize(maxStr));
         recommends("boot knife");
         recommendedSlotIs(Slot.WEAPON, "boot knife");
       }
     }
+
     @Test
     public void willStillEquipKnife() {
       String maxStr = "mainstat";
       var cleanups =
-              new Cleanups(
-                      withStats(10, 5, 5),
-                      withSkill(SkillPool.TRICKY_KNIFEWORK),
-                      withEquippableItem("seal-clubbing club"),
-                      withEquippableItem("boot knife"));
+          new Cleanups(
+              withStats(10, 5, 5),
+              withSkill(SkillPool.TRICKY_KNIFEWORK),
+              withEquippableItem("seal-clubbing club"),
+              withEquippableItem("boot knife"));
       try (cleanups) {
         assertTrue(maximize(maxStr));
         recommends("boot knife");
         recommendedSlotIs(Slot.WEAPON, "boot knife");
       }
     }
+
     @Test
     public void willStillEquipKnifeAlso() {
       String maxStr = "mainstat";
       var cleanups =
-              new Cleanups(
-                      withStats(5, 5, 10),
-                      withSkill(SkillPool.TRICKY_KNIFEWORK),
-                      withEquippableItem("seal-clubbing club"),
-                      withEquippableItem("boot knife"));
+          new Cleanups(
+              withStats(5, 5, 10),
+              withSkill(SkillPool.TRICKY_KNIFEWORK),
+              withEquippableItem("seal-clubbing club"),
+              withEquippableItem("boot knife"));
       try (cleanups) {
         assertTrue(maximize(maxStr));
         recommends("boot knife");
         recommendedSlotIs(Slot.WEAPON, "boot knife");
+      }
+    }
+
+    @Test
+    public void ziz() {
+      String maxStr =
+          "5item,meat,0.5initiative,0.1da 1000max,dr,0.5all res,1.5mainstat,-fumble,mox,0.4hp,0.2mp 1000max,3mp regen,0.25spell damage,1.75spell damage percent,2familiar weight,5familiar exp,10exp,5Mysticality experience percent,200combat 20max,+200bonus mafia thumb ring";
+      var cleanups =
+          new Cleanups(
+              withEquippableItem("candy cane sword cane"),
+              withEquippableItem("pasta spoon"),
+              withEquippableItem("Rain-Doh violet bo"),
+              withEquippableItem("Rain-Doh yellow laser gun"),
+              withEquippableItem("saucepan"),
+              withEquippableItem("toy accordion"),
+              withEquippableItem("turtle totem"),
+              withEquippableItem("psychic's crystal ball"),
+              withEquippableItem("Rain-Doh green lantern"),
+              withEquippableItem("stuffed baby gravy fairy"),
+              withEquippableItem("stuffed key"),
+              withEquippableItem("unbreakable umbrella (broken)"),
+              withStats(2, 27, 1),
+              withSkill(SkillPool.MASTER_OF_THE_SURPRISING_FIST));
+      try (cleanups) {
+        assertTrue(maximizeNoSpec(maxStr));
+        List<Boost> xyzzy = getBoosts();
+        recommends("candy cane sword cane");
+        recommendedSlotIs(Slot.WEAPON, "candy cane sword cane");
+        assertTrue(KoLCharacter.hasEquipped(ItemPool.CANDY_CANE_SWORD));
       }
     }
   }
