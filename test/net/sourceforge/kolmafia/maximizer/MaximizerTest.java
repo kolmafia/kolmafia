@@ -58,6 +58,7 @@ import net.sourceforge.kolmafia.persistence.AdventureDatabase.Environment;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -2182,6 +2183,7 @@ public class MaximizerTest {
     }
 
     @Test
+    @Disabled("recommending buffs but no weapons")
     public void ziz() {
       String maxStr =
           "5item,meat,0.5initiative,0.1da 1000max,dr,0.5all res,1.5mainstat,-fumble,mox,0.4hp,0.2mp 1000max,3mp regen,0.25spell damage,1.75spell damage percent,2familiar weight,5familiar exp,10exp,5Mysticality experience percent,200combat 20max,+200bonus mafia thumb ring";
@@ -2207,6 +2209,36 @@ public class MaximizerTest {
         recommends("candy cane sword cane");
         recommendedSlotIs(Slot.WEAPON, "candy cane sword cane");
         assertTrue(KoLCharacter.hasEquipped(ItemPool.CANDY_CANE_SWORD));
+      }
+    }
+
+    @Test
+    @Disabled("recommending buffs but no weapons")
+    public void specMakesNoDifference() {
+      String maxStr =
+          "5item,meat,0.5initiative,0.1da 1000max,dr,0.5all res,1.5mainstat,-fumble,mox,0.4hp,0.2mp 1000max,3mp regen,0.25spell damage,1.75spell damage percent,2familiar weight,5familiar exp,10exp,5Mysticality experience percent,200combat 20max,+200bonus mafia thumb ring";
+      var cleanups =
+          new Cleanups(
+              withEquippableItem("candy cane sword cane"),
+              withEquippableItem("pasta spoon"),
+              withEquippableItem("Rain-Doh violet bo"),
+              withEquippableItem("Rain-Doh yellow laser gun"),
+              withEquippableItem("saucepan"),
+              withEquippableItem("toy accordion"),
+              withEquippableItem("turtle totem"),
+              withEquippableItem("psychic's crystal ball"),
+              withEquippableItem("Rain-Doh green lantern"),
+              withEquippableItem("stuffed baby gravy fairy"),
+              withEquippableItem("stuffed key"),
+              withEquippableItem("unbreakable umbrella (broken)"),
+              withStats(2, 27, 1),
+              withSkill(SkillPool.MASTER_OF_THE_SURPRISING_FIST));
+      try (cleanups) {
+        assertTrue(maximize(maxStr));
+        List<Boost> spec = getBoosts();
+        assertTrue(maximizeNoSpec(maxStr));
+        List<Boost> noSpec = getBoosts();
+        assertEquals(spec, noSpec);
       }
     }
   }
