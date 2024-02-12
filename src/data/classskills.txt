@@ -1056,6 +1056,9 @@
 7497	Soul Genuflection	cardheart.gif	combat	0	0
 7498	Drop Mantle	mossmantle.gif	combat	10	0
 7499	Brandish Moss Medal	mossmedal.gif	nc,self	10	100
+7500	Spring Away	springjump.gif	combat	0	0
+7501	Spring Kick	springkick.gif	combat	0	0
+7502	Spring Growth Spurt	springplant.gif	combat	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.
