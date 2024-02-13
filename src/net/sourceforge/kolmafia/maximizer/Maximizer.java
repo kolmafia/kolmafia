@@ -125,8 +125,10 @@ public class Maximizer {
     KoLmafia.forceContinue();
     RequestLogger.printLine("5 parameter maximize called.");
     RequestLogger.updateSessionLog("5 parameter maximize called.");
-    RequestLogger.printLine(equipScope + " " + maxPrice + " " + priceLevel + " " + includeAll + " " + filter.size());
-    RequestLogger.updateSessionLog(equipScope + " " + maxPrice + " " + priceLevel + " " + includeAll + " " + filter.size());
+    RequestLogger.printLine(
+        equipScope + " " + maxPrice + " " + priceLevel + " " + includeAll + " " + filter.size());
+    RequestLogger.updateSessionLog(
+        equipScope + " " + maxPrice + " " + priceLevel + " " + includeAll + " " + filter.size());
     String maxMe = (String) MaximizerFrame.expressionSelect.getSelectedItem();
     RequestLogger.printLine("Maximizer: " + maxMe);
     RequestLogger.updateSessionLog("Maximizer: " + maxMe);
