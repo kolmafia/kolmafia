@@ -19,6 +19,8 @@ import static internal.helpers.Player.withNextMonster;
 import static internal.helpers.Player.withNextResponse;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withSkill;
+import static internal.helpers.Player.withStats;
 import static internal.helpers.Player.withTrackedMonsters;
 import static internal.helpers.Player.withTrackedPhyla;
 import static internal.helpers.Player.withTurnsPlayed;
@@ -29,6 +31,8 @@ import static org.hamcrest.Matchers.endsWith;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.startsWith;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
@@ -48,6 +52,7 @@ import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
@@ -1392,4 +1397,36 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       }
     }
   }
+  @Test
+  public void replaceholder() {
+    String maxStr =
+            "5item,meat,0.5initiative,0.1da 1000max,dr,0.5all res,1.5mainstat,-fumble,mox,0.4hp,0.2mp 1000max,3mp regen,0.25spell damage,1.75spell damage percent,2familiar weight,5familiar exp,10exp,5Mysticality experience percent,200combat 20max,+200bonus mafia thumb ring";
+    var cleanups =
+            new Cleanups(
+                    withEquippableItem("candy cane sword cane"),
+                    withEquippableItem("pasta spoon"),
+                    withEquippableItem("Rain-Doh violet bo"),
+                    withEquippableItem("Rain-Doh yellow laser gun"),
+                    withEquippableItem("saucepan"),
+                    withEquippableItem("toy accordion"),
+                    withEquippableItem("turtle totem"),
+                    withEquippableItem("psychic's crystal ball"),
+                    withEquippableItem("Rain-Doh green lantern"),
+                    withEquippableItem("stuffed baby gravy fairy"),
+                    withEquippableItem("stuffed key"),
+                    withEquippableItem("unbreakable umbrella (broken)"),
+                    withStats(2, 27, 1),
+                    withSkill(SkillPool.MASTER_OF_THE_SURPRISING_FIST));
+    String out;
+    String cmd;
+    cmd = "maximize(\"" + maxStr + "\", false)";
+    try (cleanups) {
+      out = execute(cmd);
+    }
+    assertFalse(out.isEmpty());
+    assertTrue(out.contains("Wielding candy cane sword cane..."));
+    assertTrue(out.contains("Folding umbrella"));
+    assertTrue(out.contains("Holding unbreakable umbrella..."));
+  }
+
 }
