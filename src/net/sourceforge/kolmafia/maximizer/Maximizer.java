@@ -90,6 +90,10 @@ public class Maximizer {
 
   public static boolean maximize(
       String maximizerString, int maxPrice, PriceLevel priceLevel, boolean isSpeculationOnly) {
+    if (isSpeculationOnly) {
+      RequestLogger.printLine("4 parameter maximize called with speculation.");
+      RequestLogger.updateSessionLog("4 parameter maximize called with speculation.");
+    }
     MaximizerFrame.expressionSelect.setSelectedItem(maximizerString);
     EquipScope equipScope =
         isSpeculationOnly ? EquipScope.SPECULATE_INVENTORY : EquipScope.EQUIP_NOW;
@@ -119,6 +123,10 @@ public class Maximizer {
       boolean includeAll,
       Set<filterType> filter) {
     KoLmafia.forceContinue();
+    RequestLogger.printLine("5 parameter maximize called.");
+    RequestLogger.updateSessionLog("5 parameter maximize called.");
+    RequestLogger.printLine(equipScope + " " + maxPrice + " " + priceLevel + " " + includeAll + " " + filter.size());
+    RequestLogger.updateSessionLog(equipScope + " " + maxPrice + " " + priceLevel + " " + includeAll + " " + filter.size());
     String maxMe = (String) MaximizerFrame.expressionSelect.getSelectedItem();
     RequestLogger.printLine("Maximizer: " + maxMe);
     RequestLogger.updateSessionLog("Maximizer: " + maxMe);
