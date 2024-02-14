@@ -587,6 +587,7 @@ public class UseItemRequest extends GenericRequest {
       case ItemPool.MAID:
       case ItemPool.CLOCKWORK_MAID:
       case ItemPool.MEAT_BUTLER:
+      case ItemPool.PORTABLE_HOUSEKEEPING_ROBOT:
       case ItemPool.SCARECROW:
       case ItemPool.MEAT_GOLEM:
       case ItemPool.MEAT_GLOBE:
@@ -3691,6 +3692,8 @@ public class UseItemRequest extends GenericRequest {
 
         CampgroundRequest.removeCampgroundItem(ItemPool.get(ItemPool.MEAT_BUTLER, 1));
         CampgroundRequest.removeCampgroundItem(ItemPool.get(ItemPool.CLOCKWORK_MAID, 1));
+        CampgroundRequest.removeCampgroundItem(
+            ItemPool.get(ItemPool.PORTABLE_HOUSEKEEPING_ROBOT, 1));
         CampgroundRequest.setCampgroundItem(ItemPool.MAID, 1);
         break;
 
@@ -3701,6 +3704,8 @@ public class UseItemRequest extends GenericRequest {
 
         CampgroundRequest.removeCampgroundItem(ItemPool.get(ItemPool.MEAT_BUTLER, 1));
         CampgroundRequest.removeCampgroundItem(ItemPool.get(ItemPool.MAID, 1));
+        CampgroundRequest.removeCampgroundItem(
+            ItemPool.get(ItemPool.PORTABLE_HOUSEKEEPING_ROBOT, 1));
         CampgroundRequest.setCampgroundItem(ItemPool.CLOCKWORK_MAID, 1);
         break;
 
@@ -3711,7 +3716,20 @@ public class UseItemRequest extends GenericRequest {
 
         CampgroundRequest.removeCampgroundItem(ItemPool.get(ItemPool.MAID, 1));
         CampgroundRequest.removeCampgroundItem(ItemPool.get(ItemPool.CLOCKWORK_MAID, 1));
+        CampgroundRequest.removeCampgroundItem(
+            ItemPool.get(ItemPool.PORTABLE_HOUSEKEEPING_ROBOT, 1));
         CampgroundRequest.setCampgroundItem(ItemPool.MEAT_BUTLER, 1);
+        break;
+
+      case ItemPool.PORTABLE_HOUSEKEEPING_ROBOT:
+        if (responseText.contains("You've already got")) {
+          return;
+        }
+
+        CampgroundRequest.removeCampgroundItem(ItemPool.get(ItemPool.MAID, 1));
+        CampgroundRequest.removeCampgroundItem(ItemPool.get(ItemPool.CLOCKWORK_MAID, 1));
+        CampgroundRequest.removeCampgroundItem(ItemPool.get(ItemPool.MEAT_BUTLER, 1));
+        CampgroundRequest.setCampgroundItem(ItemPool.PORTABLE_HOUSEKEEPING_ROBOT, 1);
         break;
 
       case ItemPool.MILKY_POTION:
