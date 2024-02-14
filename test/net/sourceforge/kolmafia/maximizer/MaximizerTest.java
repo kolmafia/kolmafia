@@ -2068,25 +2068,25 @@ public class MaximizerTest {
         recommendedSlotIs(Slot.WEAPON, "seal-clubbing club");
       }
     }
+
     @Test
     public void muscleEffectiveEquipsMelee() {
       String maxStr = "effective";
       var cleanups =
-              new Cleanups(
-                      withStats(10, 5, 5),
-                      withEquippableItem("seal-skull helmet"),
-                      withEquippableItem("astral shirt"),
-                      withEquippableItem("old sweatpants"),
-                      withEquippableItem("sewer snake"),
-                      withEquippableItem("seal-clubbing club"));
+          new Cleanups(
+              withStats(10, 5, 5),
+              withEquippableItem("seal-skull helmet"),
+              withEquippableItem("astral shirt"),
+              withEquippableItem("old sweatpants"),
+              withEquippableItem("sewer snake"),
+              withEquippableItem("seal-clubbing club"));
       try (cleanups) {
         assertTrue(maximize(maxStr));
-        //assertTrue(maximizeNoSpec(maxStr));
+        // assertTrue(maximizeNoSpec(maxStr));
         List<Boost> xyzzy = getBoosts();
         assertTrue(KoLCharacter.hasEquipped(ItemPool.SEAL_CLUB));
       }
     }
-
 
     @Test
     public void muscleEffectiveDoesNotEquipRanged() {
@@ -2260,23 +2260,69 @@ public class MaximizerTest {
         assertEquals(spec, noSpec);
       }
     }
+
     @Test
     public void specAlsoMakesNoDifference() {
       String maxStr = "effective";
       var cleanups =
-              new Cleanups(
-                      withStats(10, 5, 5),
-                      withEquippableItem("seal-skull helmet"),
-                      withEquippableItem("astral shirt"),
-                      withEquippableItem("old sweatpants"),
-                      withEquippableItem("sewer snake"),
-                      withEquippableItem("seal-clubbing club"));
+          new Cleanups(
+              withStats(10, 5, 5),
+              withEquippableItem("seal-skull helmet"),
+              withEquippableItem("astral shirt"),
+              withEquippableItem("old sweatpants"),
+              withEquippableItem("sewer snake"),
+              withEquippableItem("seal-clubbing club"));
       try (cleanups) {
         assertTrue(maximize(maxStr));
         List<Boost> spec = getBoosts();
         assertTrue(maximizeNoSpec(maxStr));
         List<Boost> noSpec = getBoosts();
         assertEquals(spec, noSpec);
+      }
+    }
+  }
+
+  @Nested
+  public class noWeapons {
+    @Test
+    public void noWeaponIsTheRightAnswer() {
+      String maxStr =
+          "5item,meat,0.5initiative,0.1da 1000max,dr,0.5all res,1.5mainstat,-fumble,mox,0.4hp,0.2mp 1000max,3mp regen,0.25spell damage,1.75spell damage percent,2familiar weight,5familiar exp,10exp,5Mysticality experience percent";
+      var cleanups =
+          new Cleanups(
+              withSkill(SkillPool.TRICKY_KNIFEWORK),
+              withSkill(SkillPool.MASTER_OF_THE_SURPRISING_FIST),
+              withStats(2, 12, 1),
+              withEquippableItem("toy accordion"),
+              withEquippableItem("turtle totem"),
+              withEquippableItem("saucepan"),
+              withEquippableItem("stolen accordion"),
+              withEquippableItem("seal-clubbing club"));
+      try (cleanups) {
+        assertTrue(maximize(maxStr));
+        List<Boost> spec = getBoosts();
+        assertFalse(getSlot(Slot.WEAPON).isPresent());
+      }
+    }
+
+    @Test
+    public void noWeaponIsTheRightAnswerEvenWithEffective() {
+      String maxStr =
+          "5item,meat,0.5initiative,0.1da 1000max,dr,0.5all res,1.5mainstat,-fumble,mox,0.4hp,0.2mp 1000max,3mp regen,0.25spell damage,1.75spell damage percent,2familiar weight,5familiar exp,10exp,5Mysticality experience percent,effective";
+      var cleanups =
+          new Cleanups(
+              withSkill(SkillPool.TRICKY_KNIFEWORK),
+              withSkill(SkillPool.MASTER_OF_THE_SURPRISING_FIST),
+              withStats(2, 12, 1),
+              withEquippableItem("toy accordion"),
+              withEquippableItem("turtle totem"),
+              withEquippableItem("saucepan"),
+              withEquippableItem("stolen accordion"),
+              withEquippableItem("seal-clubbing club"));
+      try (cleanups) {
+        assertTrue(maximize(maxStr));
+        List<Boost> spec = getBoosts();
+        assertFalse(getSlot(Slot.WEAPON).isPresent());
       }
     }
   }
