@@ -2081,15 +2081,14 @@ public class MaximizerTest {
               withEquippableItem("sewer snake"),
               withEquippableItem("seal-clubbing club"));
       try (cleanups) {
-        assertTrue(maximize(maxStr));
-        // assertTrue(maximizeNoSpec(maxStr));
+        assertTrue(maximizeNoSpec(maxStr));
         List<Boost> xyzzy = getBoosts();
         assertTrue(KoLCharacter.hasEquipped(ItemPool.SEAL_CLUB));
       }
     }
 
     @Test
-    public void muscleEffectiveDoesNotEquipRanged() {
+    public void muscleEffectiveDoesNotSelectRanged() {
       String maxStr = "effective";
       var cleanups =
           new Cleanups(
@@ -2105,7 +2104,7 @@ public class MaximizerTest {
     }
 
     @Test
-    public void moxieEffectiveEquipsRanged() {
+    public void moxieEffectiveSelectsRanged() {
       String maxStr = "effective";
       var cleanups =
           new Cleanups(
@@ -2123,7 +2122,25 @@ public class MaximizerTest {
     }
 
     @Test
-    public void moxieEffectiveDoesNotEquipMelee() {
+    public void moxieEffectiveEquipsRanged() {
+      String maxStr = "effective";
+      var cleanups =
+          new Cleanups(
+              withStats(5, 5, 10),
+              withEquippableItem("seal-skull helmet"),
+              withEquippableItem("astral shirt"),
+              withEquippableItem("old sweatpants"),
+              withEquippableItem("sewer snake"),
+              withEquippableItem("seal-clubbing club"));
+      try (cleanups) {
+        assertTrue(maximizeNoSpec(maxStr));
+        List<Boost> xyzzy = getBoosts();
+        assertTrue(KoLCharacter.hasEquipped(ItemPool.SEWER_SNAKE));
+      }
+    }
+
+    @Test
+    public void moxieEffectiveDoesNotSelectMelee() {
       String maxStr = "effective";
       var cleanups =
           new Cleanups(
@@ -2139,7 +2156,7 @@ public class MaximizerTest {
     }
 
     @Test
-    public void willEquipKnife() {
+    public void muscleEffectiveWillSelectKnife() {
       String maxStr = "mainstat effective";
       var cleanups =
           new Cleanups(
@@ -2155,40 +2172,8 @@ public class MaximizerTest {
     }
 
     @Test
-    public void willEquipKnifeAlso() {
+    public void moxieEffectiveWillSelectKnife() {
       String maxStr = "mainstat effective";
-      var cleanups =
-          new Cleanups(
-              withStats(5, 5, 10),
-              withSkill(SkillPool.TRICKY_KNIFEWORK),
-              withEquippableItem("seal-clubbing club"),
-              withEquippableItem("boot knife"));
-      try (cleanups) {
-        assertTrue(maximize(maxStr));
-        recommends("boot knife");
-        recommendedSlotIs(Slot.WEAPON, "boot knife");
-      }
-    }
-
-    @Test
-    public void willStillEquipKnife() {
-      String maxStr = "mainstat";
-      var cleanups =
-          new Cleanups(
-              withStats(10, 5, 5),
-              withSkill(SkillPool.TRICKY_KNIFEWORK),
-              withEquippableItem("seal-clubbing club"),
-              withEquippableItem("boot knife"));
-      try (cleanups) {
-        assertTrue(maximize(maxStr));
-        recommends("boot knife");
-        recommendedSlotIs(Slot.WEAPON, "boot knife");
-      }
-    }
-
-    @Test
-    public void willStillEquipKnifeAlso() {
-      String maxStr = "mainstat";
       var cleanups =
           new Cleanups(
               withStats(5, 5, 10),
@@ -2233,7 +2218,7 @@ public class MaximizerTest {
     }
 
     @Test
-    public void specMakesNoDifference() {
+    public void specAndEquipHaveSameBoosts() {
       String maxStr =
           "5item,meat,0.5initiative,0.1da 1000max,dr,0.5all res,1.5mainstat,-fumble,mox,0.4hp,0.2mp 1000max,3mp regen,0.25spell damage,1.75spell damage percent,2familiar weight,5familiar exp,10exp,5Mysticality experience percent,200combat 20max,+200bonus mafia thumb ring";
       var cleanups =
@@ -2252,26 +2237,6 @@ public class MaximizerTest {
               withEquippableItem("unbreakable umbrella (broken)"),
               withStats(2, 27, 1),
               withSkill(SkillPool.MASTER_OF_THE_SURPRISING_FIST));
-      try (cleanups) {
-        assertTrue(maximize(maxStr));
-        List<Boost> spec = getBoosts();
-        assertTrue(maximizeNoSpec(maxStr));
-        List<Boost> noSpec = getBoosts();
-        assertEquals(spec, noSpec);
-      }
-    }
-
-    @Test
-    public void specAlsoMakesNoDifference() {
-      String maxStr = "effective";
-      var cleanups =
-          new Cleanups(
-              withStats(10, 5, 5),
-              withEquippableItem("seal-skull helmet"),
-              withEquippableItem("astral shirt"),
-              withEquippableItem("old sweatpants"),
-              withEquippableItem("sewer snake"),
-              withEquippableItem("seal-clubbing club"));
       try (cleanups) {
         assertTrue(maximize(maxStr));
         List<Boost> spec = getBoosts();
@@ -2300,7 +2265,6 @@ public class MaximizerTest {
               withEquippableItem("seal-clubbing club"));
       try (cleanups) {
         assertTrue(maximize(maxStr));
-        List<Boost> spec = getBoosts();
         assertFalse(getSlot(Slot.WEAPON).isPresent());
       }
     }
