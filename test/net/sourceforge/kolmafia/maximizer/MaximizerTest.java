@@ -2051,7 +2051,7 @@ public class MaximizerTest {
   @Nested
   public class Weapons {
     @Test
-    public void muscleEffectiveEquipsMelee() {
+    public void muscleEffectiveSelectsMelee() {
       String maxStr = "effective";
       var cleanups =
           new Cleanups(
@@ -2063,10 +2063,30 @@ public class MaximizerTest {
               withEquippableItem("seal-clubbing club"));
       try (cleanups) {
         assertTrue(maximize(maxStr));
+        List<Boost> xyzzy = getBoosts();
         recommends("seal-clubbing club");
         recommendedSlotIs(Slot.WEAPON, "seal-clubbing club");
       }
     }
+    @Test
+    public void muscleEffectiveEquipsMelee() {
+      String maxStr = "effective";
+      var cleanups =
+              new Cleanups(
+                      withStats(10, 5, 5),
+                      withEquippableItem("seal-skull helmet"),
+                      withEquippableItem("astral shirt"),
+                      withEquippableItem("old sweatpants"),
+                      withEquippableItem("sewer snake"),
+                      withEquippableItem("seal-clubbing club"));
+      try (cleanups) {
+        assertTrue(maximize(maxStr));
+        //assertTrue(maximizeNoSpec(maxStr));
+        List<Boost> xyzzy = getBoosts();
+        assertTrue(KoLCharacter.hasEquipped(ItemPool.SEAL_CLUB));
+      }
+    }
+
 
     @Test
     public void muscleEffectiveDoesNotEquipRanged() {
@@ -2213,7 +2233,6 @@ public class MaximizerTest {
     }
 
     @Test
-    @Disabled("recommending buffs but no weapons")
     public void specMakesNoDifference() {
       String maxStr =
           "5item,meat,0.5initiative,0.1da 1000max,dr,0.5all res,1.5mainstat,-fumble,mox,0.4hp,0.2mp 1000max,3mp regen,0.25spell damage,1.75spell damage percent,2familiar weight,5familiar exp,10exp,5Mysticality experience percent,200combat 20max,+200bonus mafia thumb ring";
@@ -2233,6 +2252,25 @@ public class MaximizerTest {
               withEquippableItem("unbreakable umbrella (broken)"),
               withStats(2, 27, 1),
               withSkill(SkillPool.MASTER_OF_THE_SURPRISING_FIST));
+      try (cleanups) {
+        assertTrue(maximize(maxStr));
+        List<Boost> spec = getBoosts();
+        assertTrue(maximizeNoSpec(maxStr));
+        List<Boost> noSpec = getBoosts();
+        assertEquals(spec, noSpec);
+      }
+    }
+    @Test
+    public void specAlsoMakesNoDifference() {
+      String maxStr = "effective";
+      var cleanups =
+              new Cleanups(
+                      withStats(10, 5, 5),
+                      withEquippableItem("seal-skull helmet"),
+                      withEquippableItem("astral shirt"),
+                      withEquippableItem("old sweatpants"),
+                      withEquippableItem("sewer snake"),
+                      withEquippableItem("seal-clubbing club"));
       try (cleanups) {
         assertTrue(maximize(maxStr));
         List<Boost> spec = getBoosts();
