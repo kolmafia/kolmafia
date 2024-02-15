@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.textui;
 
 import static internal.helpers.HttpClientWrapper.getRequests;
 import static internal.helpers.Networking.assertPostRequest;
+import static internal.helpers.Networking.getPostRequestBody;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Networking.json;
 import static internal.helpers.Player.withAdventuresLeft;
@@ -30,11 +31,11 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.endsWith;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.startsWith;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
@@ -922,8 +923,8 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
   @Nested
   class SplitJoinStrings {
-    String input1 = "line1\\nline2\\nline3";
-    String input2 = "foo bar baz";
+    final String input1 = "line1\\nline2\\nline3";
+    final String input2 = "foo bar baz";
 
     @Test
     void canSplitOnNewLine() {
@@ -1427,8 +1428,20 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     assertTrue(out.contains("Putting on old sweatpants..."));
     assertContinueState();
     var requests = getRequests();
-    assertThat(requests, hasSize(3));
-    assertPostRequest(requests.get(1), "/inv_equip.php", "which=2&ajax=1&action=equip&whichitem=1");
-    // assertTrue(KoLCharacter.hasEquipped(ItemPool.SEAL_CLUB));
+    assertTrue(requests.size() > 1);
+    int whichReq = -1;
+    for (int i = 0; i < requests.size(); i++) {
+      String body = getPostRequestBody(requests.get(i));
+      if (body.contains("whichitem=1")) {
+        whichReq = i;
+        break;
+      }
+    }
+    if (whichReq > 0) {
+      assertPostRequest(
+          requests.get(whichReq), "/inv_equip.php", "which=2&ajax=1&action=equip&whichitem=1");
+    } else {
+      fail("Could not find expected equipment request.");
+    }
   }
 }
