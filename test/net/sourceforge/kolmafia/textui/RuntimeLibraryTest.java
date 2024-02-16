@@ -1,5 +1,8 @@
 package net.sourceforge.kolmafia.textui;
 
+import static internal.helpers.HttpClientWrapper.getRequests;
+import static internal.helpers.Networking.assertPostRequest;
+import static internal.helpers.Networking.getPostRequestBody;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Networking.json;
 import static internal.helpers.Player.withAdventuresLeft;
@@ -19,6 +22,7 @@ import static internal.helpers.Player.withNextMonster;
 import static internal.helpers.Player.withNextResponse;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withStats;
 import static internal.helpers.Player.withTrackedMonsters;
 import static internal.helpers.Player.withTrackedPhyla;
 import static internal.helpers.Player.withTurnsPlayed;
@@ -29,6 +33,9 @@ import static org.hamcrest.Matchers.endsWith;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.startsWith;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
@@ -271,13 +278,13 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
             output,
             equalTo(
                 """
-                    Returned: aggregate item [string]
-                    booze => Doc's Fortifying Wine
-                    equipment => frozen jeans
-                    food => frozen tofu pop
-                    pill => Breathitin&trade;
-                    potion => anti-odor cream
-                    """));
+                                Returned: aggregate item [string]
+                                booze => Doc's Fortifying Wine
+                                equipment => frozen jeans
+                                food => frozen tofu pop
+                                pill => Breathitin&trade;
+                                potion => anti-odor cream
+                                """));
       }
     }
 
@@ -295,14 +302,14 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
             output,
             equalTo(
                 """
-                    Could not parse cabinet.
-                    Returned: aggregate item [string]
-                    booze => none
-                    equipment => none
-                    food => none
-                    pill => none
-                    potion => none
-                    """));
+                                Could not parse cabinet.
+                                Returned: aggregate item [string]
+                                booze => none
+                                equipment => none
+                                food => none
+                                pill => none
+                                potion => none
+                                """));
       }
     }
 
@@ -317,13 +324,13 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
             output,
             equalTo(
                 """
-                    Returned: aggregate item [string]
-                    booze => Doc's Medical-Grade Wine
-                    equipment => ice crown
-                    food => none
-                    pill => Extrovermectin&trade;
-                    potion => none
-                    """));
+                                Returned: aggregate item [string]
+                                booze => Doc's Medical-Grade Wine
+                                equipment => ice crown
+                                food => none
+                                pill => Extrovermectin&trade;
+                                potion => none
+                                """));
       }
     }
 
@@ -338,13 +345,13 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
             output,
             equalTo(
                 """
-                    Returned: aggregate item [string]
-                    booze => Doc's Medical-Grade Wine
-                    equipment => ice crown
-                    food => none
-                    pill => none
-                    potion => none
-                    """));
+                                Returned: aggregate item [string]
+                                booze => Doc's Medical-Grade Wine
+                                equipment => ice crown
+                                food => none
+                                pill => none
+                                potion => none
+                                """));
       }
     }
   }
@@ -368,10 +375,10 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
           output,
           equalTo(
               """
-                Returned: aggregate boolean [monster]
-                warwelf => true
-                oil baron => true
-                """));
+                              Returned: aggregate boolean [monster]
+                              warwelf => true
+                              oil baron => true
+                              """));
     }
   }
 
@@ -674,6 +681,12 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       assertContinueState();
 
       assertThat(output, is("Returned: 7302\n"));
+
+      /*
+       ApiRequest.parseStatus sets a password hash which persists to other tests and causes them to pass or fail
+       based upon whether this test was run first, or not.  Explicitly clear the hash when this test ends.
+      */
+      ApiRequest.setPasswordHash("");
     }
   }
 
@@ -768,11 +781,11 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
             output,
             is(
                 """
-                      Returned: aggregate float [item]
-                      Freddy Kruegerand => 5.0
-                      muddy skirt => 0.1
-                      Dreadsylvanian Almanac page => 1.0
-                      """));
+                                Returned: aggregate float [item]
+                                Freddy Kruegerand => 5.0
+                                muddy skirt => 0.1
+                                Dreadsylvanian Almanac page => 1.0
+                                """));
       }
     }
 
@@ -783,11 +796,11 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
           output,
           is(
               """
-                    Returned: aggregate float [item]
-                    Freddy Kruegerand => 5.0
-                    grandfather watch => 0.1
-                    Dreadsylvanian Almanac page => 1.0
-                    """));
+                              Returned: aggregate float [item]
+                              Freddy Kruegerand => 5.0
+                              grandfather watch => 0.1
+                              Dreadsylvanian Almanac page => 1.0
+                              """));
     }
 
     @Test
@@ -800,20 +813,20 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
             output,
             is(
                 """
-                      Returned: aggregate {item drop; float rate; string type;} [3]
-                      0 => record {item drop; float rate; string type;}
-                        drop => Dreadsylvanian Almanac page
-                        rate => 1.0
-                        type => f
-                      1 => record {item drop; float rate; string type;}
-                        drop => Freddy Kruegerand
-                        rate => 5.0
-                        type => f
-                      2 => record {item drop; float rate; string type;}
-                        drop => muddy skirt
-                        rate => 0.1
-                        type => c
-                      """));
+                                Returned: aggregate {item drop; float rate; string type;} [3]
+                                0 => record {item drop; float rate; string type;}
+                                  drop => Dreadsylvanian Almanac page
+                                  rate => 1.0
+                                  type => f
+                                1 => record {item drop; float rate; string type;}
+                                  drop => Freddy Kruegerand
+                                  rate => 5.0
+                                  type => f
+                                2 => record {item drop; float rate; string type;}
+                                  drop => muddy skirt
+                                  rate => 0.1
+                                  type => c
+                                """));
       }
     }
 
@@ -824,20 +837,20 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
           output,
           is(
               """
-                    Returned: aggregate {item drop; float rate; string type;} [3]
-                    0 => record {item drop; float rate; string type;}
-                      drop => Dreadsylvanian Almanac page
-                      rate => 1.0
-                      type => f
-                    1 => record {item drop; float rate; string type;}
-                      drop => Freddy Kruegerand
-                      rate => 5.0
-                      type => f
-                    2 => record {item drop; float rate; string type;}
-                      drop => grandfather watch
-                      rate => 0.1
-                      type => c
-                    """));
+                              Returned: aggregate {item drop; float rate; string type;} [3]
+                              0 => record {item drop; float rate; string type;}
+                                drop => Dreadsylvanian Almanac page
+                                rate => 1.0
+                                type => f
+                              1 => record {item drop; float rate; string type;}
+                                drop => Freddy Kruegerand
+                                rate => 5.0
+                                type => f
+                              2 => record {item drop; float rate; string type;}
+                                drop => grandfather watch
+                                rate => 0.1
+                                type => c
+                              """));
     }
   }
 
@@ -916,8 +929,8 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
   @Nested
   class SplitJoinStrings {
-    String input1 = "line1\\nline2\\nline3";
-    String input2 = "foo bar baz";
+    final String input1 = "line1\\nline2\\nline3";
+    final String input2 = "foo bar baz";
 
     @Test
     void canSplitOnNewLine() {
@@ -927,11 +940,11 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
           output,
           is(
               """
-              Returned: aggregate string [3]
-              0 => line1
-              1 => line2
-              2 => line3
-              """));
+                              Returned: aggregate string [3]
+                              0 => line1
+                              1 => line2
+                              2 => line3
+                              """));
     }
 
     @Test
@@ -942,11 +955,11 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
           output,
           is(
               """
-              Returned: aggregate string [3]
-              0 => foo
-              1 => bar
-              2 => baz
-              """));
+                              Returned: aggregate string [3]
+                              0 => foo
+                              1 => bar
+                              2 => baz
+                              """));
     }
 
     @Test
@@ -957,10 +970,10 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
           output,
           is(
               """
-              Returned: line1
-              line2
-              line3
-              """));
+                              Returned: line1
+                              line2
+                              line3
+                              """));
     }
 
     @Test
@@ -984,8 +997,8 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
           output,
           is(
               """
-          Returned: Item Drop: 30, Spooky Damage: 10, Spooky Spell Damage: 10, Muscle: 10
-          """));
+                              Returned: Item Drop: 30, Spooky Damage: 10, Spooky Spell Damage: 10, Muscle: 10
+                              """));
     }
 
     @Test
@@ -996,8 +1009,8 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
           output,
           is(
               """
-          Returned: Initiative: 50, Hot Damage: 10, Hot Spell Damage: 10, MP Regen Min: 10, MP Regen Max: 15, Moxie Percent: 10
-          """));
+                              Returned: Initiative: 50, Hot Damage: 10, Hot Spell Damage: 10, MP Regen Min: 10, MP Regen Max: 15, Moxie Percent: 10
+                              """));
     }
 
     @Test
@@ -1008,8 +1021,8 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
           output,
           is(
               """
-          Returned: Meat Drop: 25, Hot Resistance: 2, Cold Resistance: 2, Spooky Resistance: 2, Stench Resistance: 2, Sleaze Resistance: 2, Cold Damage: 10, Cold Spell Damage: 10
-          """));
+                              Returned: Meat Drop: 25, Hot Resistance: 2, Cold Resistance: 2, Spooky Resistance: 2, Stench Resistance: 2, Sleaze Resistance: 2, Cold Damage: 10, Cold Spell Damage: 10
+                              """));
     }
   }
 
@@ -1052,10 +1065,10 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
           output,
           is(
               """
-                 Returned: Meat Drop
-                 name => Meat Drop
-                 type => numeric
-                 """));
+                              Returned: Meat Drop
+                              name => Meat Drop
+                              type => numeric
+                              """));
     }
 
     @Test
@@ -1071,8 +1084,8 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       String input = "numeric_modifier($item[ring of the Skeleton Lord], $modifier[Meat Drop])";
       String output = execute(input);
       assertThat(output, is("""
-                 Returned: 50.0
-                 """));
+              Returned: 50.0
+              """));
     }
 
     @Test
@@ -1087,8 +1100,8 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       String input = "boolean_modifier($item[Brimstone Beret], $modifier[Four Songs])";
       String output = execute(input);
       assertThat(output, is("""
-                 Returned: true
-                 """));
+              Returned: true
+              """));
     }
 
     @Test
@@ -1106,8 +1119,8 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
           output,
           is(
               """
-                 Returned: Experience Percent (Moxie): +10, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
-                 """));
+                              Returned: Experience Percent (Moxie): +10, Cold Resistance: +1, Hot Resistance: +1, Sleaze Resistance: +1, Spooky Resistance: +1, Stench Resistance: +1
+                              """));
     }
 
     @Test
@@ -1164,8 +1177,8 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       String input = "stat_modifier($effect[Stabilizing Oiliness], $modifier[Equalize])";
       String output = execute(input);
       assertThat(output, is("""
-                 Returned: Muscle
-                 """));
+              Returned: Muscle
+              """));
     }
 
     @Test
@@ -1198,14 +1211,14 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
           output,
           is(
               """
-                 Returned: aggregate string [modifier]
-                 Cold Damage => 10
-                 Cold Resistance => 2
-                 Cold Spell Damage => 10
-                 Hot Resistance => 2
-                 Meat Drop => 25
-                 Unarmed =>
-                 """));
+                              Returned: aggregate string [modifier]
+                              Cold Damage => 10
+                              Cold Resistance => 2
+                              Cold Spell Damage => 10
+                              Hot Resistance => 2
+                              Meat Drop => 25
+                              Unarmed =>
+                              """));
     }
   }
 
@@ -1222,16 +1235,16 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
             output,
             is(
                 """
-              Returned: record {string page; int count; int low; int high; int total; int bytes; int average; int bps;}
-              page => api
-              count => 10
-              low => 26
-              high => 31
-              total => 283
-              bytes => 19620
-              average => 28
-              bps => 69329
-              """));
+                                Returned: record {string page; int count; int low; int high; int total; int bytes; int average; int bps;}
+                                page => api
+                                count => 10
+                                low => 26
+                                high => 31
+                                total => 283
+                                bytes => 19620
+                                average => 28
+                                bps => 69329
+                                """));
       }
     }
   }
@@ -1384,12 +1397,57 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
             actual,
             equalTo(
                 """
-            Returned: aggregate string [3]
-            0 => Transcendent Olfaction
-            1 => Gallapagosian Mating Call
-            2 => Red-Nosed Snapper
-            """));
+                                Returned: aggregate string [3]
+                                0 => Transcendent Olfaction
+                                1 => Gallapagosian Mating Call
+                                2 => Red-Nosed Snapper
+                                """));
       }
+    }
+  }
+
+  /**
+   * This test is intended to test running the maximizer from a command or script (not the GUI),
+   * show that the maximizer chooses a weapon and then emits the commands to equip that weapon.
+   */
+  @Test
+  public void itShouldMaximizeAndEquipSelectedWeapon() {
+    String maxStr = "effective";
+    HttpClientWrapper.setupFakeClient();
+    var cleanups =
+        new Cleanups(
+            withStats(10, 5, 5),
+            withEquippableItem("seal-skull helmet"),
+            withEquippableItem("astral shirt"),
+            withEquippableItem("old sweatpants"),
+            withEquippableItem("sewer snake"),
+            withEquippableItem("seal-clubbing club"));
+    String out;
+    String cmd;
+    cmd = "maximize(\"" + maxStr + "\", false)";
+    try (cleanups) {
+      out = execute(cmd);
+    }
+    assertFalse(out.isEmpty());
+    assertTrue(out.contains("Putting on seal-skull helmet..."));
+    assertTrue(out.contains("Wielding seal-clubbing club..."));
+    assertTrue(out.contains("Putting on old sweatpants..."));
+    assertContinueState();
+    var requests = getRequests();
+    assertTrue(requests.size() > 1);
+    int whichReq = -1;
+    for (int i = 0; i < requests.size(); i++) {
+      String body = getPostRequestBody(requests.get(i));
+      if (body.contains("whichitem=1")) {
+        whichReq = i;
+        break;
+      }
+    }
+    if (whichReq > 0) {
+      assertPostRequest(
+          requests.get(whichReq), "/inv_equip.php", "which=2&ajax=1&action=equip&whichitem=1");
+    } else {
+      fail("Could not find expected equipment request.");
     }
   }
 }
