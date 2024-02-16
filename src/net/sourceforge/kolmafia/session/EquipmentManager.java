@@ -50,11 +50,14 @@ public class EquipmentManager {
   /** A list of all possible accessories. Is an interior list of equipmentLists for acc1, 2, 3 */
   private static final List<AdventureResult> accessories =
       LockableListFactory.getInstance(AdventureResult.class);
+
   // these three all use HAT through BOOTSPUR (i.e. all slots)
   /** A list indexed by Slot of current equipment */
   private static final Map<Slot, AdventureResult> equipment = new EnumMap<>(Slot.class);
+
   /** A list indexed by Slot of possible equipment. Interior list is used in GearChangeFrame */
   private static final Map<Slot, List<AdventureResult>> equipmentLists = new EnumMap<>(Slot.class);
+
   /** A list indexed by Slot of equipment we have previously equipped, in order */
   private static final Map<Slot, List<AdventureResult>> historyLists = new EnumMap<>(Slot.class);
 
@@ -769,6 +772,10 @@ public class EquipmentManager {
       case ItemPool.FRANKEN_STEIN:
         KoLCharacter.removeAvailableSkill(SkillPool.TOAST_YOUR_ENEMY);
         break;
+      case ItemPool.CANDY_CANE_SWORD:
+        KoLCharacter.removeAvailableSkill(SkillPool.SURPRISINGLY_SWEET_STAB);
+        KoLCharacter.removeAvailableSkill(SkillPool.SURPRISINGLY_SWEET_SLASH);
+        break;
     }
   }
 
@@ -1132,6 +1139,10 @@ public class EquipmentManager {
         break;
       case ItemPool.FRANKEN_STEIN:
         KoLCharacter.addAvailableSkill(SkillPool.TOAST_YOUR_ENEMY);
+        break;
+      case ItemPool.CANDY_CANE_SWORD:
+        KoLCharacter.addAvailableSkill(SkillPool.SURPRISINGLY_SWEET_STAB);
+        KoLCharacter.addAvailableSkill(SkillPool.SURPRISINGLY_SWEET_SLASH);
         break;
     }
   }

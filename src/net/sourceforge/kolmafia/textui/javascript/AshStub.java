@@ -46,8 +46,8 @@ public abstract class AshStub extends BaseFunction {
     for (MatchType matchType : matchTypes) {
       for (Function testFunction : libraryFunctions) {
         // Check for match with no vararg, then match with vararg.
-        if (testFunction.paramsMatch(ashArgs, matchType, /* vararg = */ false)
-            || testFunction.paramsMatch(ashArgs, matchType, /* vararg = */ true)) {
+        if (testFunction.paramsMatch(ashArgs, matchType, /* vararg= */ false)
+            || testFunction.paramsMatch(ashArgs, matchType, /* vararg= */ true)) {
           function = testFunction;
           break;
         }

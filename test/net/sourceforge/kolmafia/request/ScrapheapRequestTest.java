@@ -19,9 +19,11 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 public class ScrapheapRequestTest {
 
+  private static final String TESTUSERNAME = "ScrapHeapTestUser";
+
   @BeforeEach
   protected void initEach() {
-    KoLCharacter.reset("fakeUserName");
+    KoLCharacter.reset(TESTUSERNAME);
   }
 
   @AfterAll

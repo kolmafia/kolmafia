@@ -10428,6 +10428,25 @@ public class FightRequest extends GenericRequest {
           skillSuccess = true;
         }
         break;
+
+      case SkillPool.SURPRISINGLY_SWEET_SLASH:
+        if (responseText.contains("quickly draw the candy cane sword") || skillSuccess) {
+          skillSuccess = true;
+        }
+        break;
+
+      case SkillPool.SURPRISINGLY_SWEET_STAB:
+        if (responseText.contains("lithely draw the sword from your cane") || skillSuccess) {
+          skillSuccess = true;
+        }
+        break;
+
+      case SkillPool.LAY_AN_EGG:
+        if (responseText.contains("shudders and lays an egg") || skillSuccess) {
+          skillSuccess = true;
+          KoLCharacter.getFamiliar().addNonCombatExperience(-50);
+        }
+        break;
     }
 
     if (skillSuccess || skillRunawaySuccess || familiarSkillSuccess) {

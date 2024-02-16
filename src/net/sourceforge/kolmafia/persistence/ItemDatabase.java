@@ -1742,6 +1742,7 @@ public class ItemDatabase {
     }
     return itemName;
   }
+
   /**
    * Returns the name for an item, given its description id number.
    *

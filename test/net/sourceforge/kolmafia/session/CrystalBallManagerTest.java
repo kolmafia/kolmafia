@@ -42,10 +42,12 @@ public class CrystalBallManagerTest {
   static final MonsterData SKELELTON = MonsterDatabase.findMonster("spiny skelelton");
   static final MonsterData SKELTEON = MonsterDatabase.findMonster("party skelteon");
 
+  private static final String TESTUSERNAME = "CrystalBallManagerTestUser";
+
   @BeforeEach
   public void beforeEach() {
-    KoLCharacter.reset("fakeUserName");
-    Preferences.reset("fakeUsername");
+    KoLCharacter.reset(TESTUSERNAME);
+    Preferences.reset(TESTUSERNAME);
     Preferences.setString(
         "crystalBallPredictions",
         "0:The Smut Orc Logging Camp:smut orc nailer|0:The Defiled Nook:party skelteon");

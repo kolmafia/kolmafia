@@ -112,6 +112,7 @@ class StringUtilitiesTest {
     }
     return retVal.toString();
   }
+
   /*
   This inserts a break into a string
    */

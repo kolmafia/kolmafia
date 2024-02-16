@@ -70,7 +70,7 @@ public class SkillPool {
   public static final int HOLIDAY_FUN = 121;
   public static final int RAPID_PROTOTYPING = 125;
   public static final int SUMMON_CARROT = 128;
-  public static final int BEAR_ESSENCE = 135;
+  public static final int BEAR_ESSENCE = 134;
   public static final int SUMMON_KOKOMO_RESORT_PASS = 135;
   public static final int HEALING_SALVE = 136;
   public static final int DARK_RITUAL = 137;
@@ -579,6 +579,9 @@ public class SkillPool {
   public static final int RECALL_FACTS_MONSTER_HABITATS = 7485;
   public static final int RECALL_FACTS_CIRCADIAN_RHYTHMS = 7486;
   public static final int TOAST_YOUR_ENEMY = 7487;
+  public static final int SURPRISINGLY_SWEET_SLASH = 7488;
+  public static final int SURPRISINGLY_SWEET_STAB = 7489;
+  public static final int LAY_AN_EGG = 7494;
   public static final int GOOD_SINGING_VOICE = 11016;
   public static final int BANISHING_SHOUT = 11020;
   public static final int DEMAND_SANDWICH = 11021;

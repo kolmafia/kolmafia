@@ -65,7 +65,18 @@ public enum BooleanModifier implements Modifier {
   BREAKABLE("Breakable", Pattern.compile("Breakable")),
   DROPS_ITEMS("Drops Items", Pattern.compile("Drops Items")),
   DROPS_MEAT("Drops Meat", Pattern.compile("Drops Meat")),
-  VOLLEYBALL_OR_SOMBRERO("Volleyball or Sombrero", Pattern.compile("Volleyball or Sombrero"));
+  VOLLEYBALL_OR_SOMBRERO("Volleyball or Sombrero", Pattern.compile("Volleyball or Sombrero")),
+  EXTRA_PICKPOCKET(
+      "Extra Pickpocket",
+      new Pattern[] {
+        Pattern.compile("Gives you an additional Pickpocketing attempt"),
+        Pattern.compile("1 Additional Pickpocket Attempt")
+      },
+      Pattern.compile("Extra Pickpocket")),
+  NEGATIVE_STATUS_RESIST(
+      "Negative Status Resist",
+      Pattern.compile("75% Chance of Preventing Negative Status Attacks"),
+      Pattern.compile("Negative Status Resist"));
   private final String name;
   private final Pattern[] descPatterns;
   private final Pattern tagPattern;

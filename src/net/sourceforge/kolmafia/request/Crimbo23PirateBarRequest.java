@@ -4,6 +4,7 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.preferences.Preferences;
 
 public class Crimbo23PirateBarRequest extends CoinMasterRequest {
   public static final String master = "Crimbuccaneer Bar";
@@ -47,6 +48,10 @@ public class Crimbo23PirateBarRequest extends CoinMasterRequest {
       return;
     }
 
+    if (responseText.contains("War has consumed this area.")) {
+      return;
+    }
+
     CoinmasterData data = DATA;
 
     String action = GenericRequest.getAction(location);
@@ -60,7 +65,13 @@ public class Crimbo23PirateBarRequest extends CoinMasterRequest {
   }
 
   public static String accessible() {
-    return null;
+    return switch (Preferences.getString("crimbo23BarControl")) {
+      case "none" -> "CrimboTown 2023 is closed";
+      case "elf" -> "The elves control the bar";
+      case "pirate" -> null;
+      case "contested" -> "The elves and pirates are fighting for control of the bar";
+      default -> null;
+    };
   }
 
   public static final boolean registerRequest(final String urlString) {

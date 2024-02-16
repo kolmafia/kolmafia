@@ -12,7 +12,8 @@ public class EudoraCommand extends AbstractCommand {
     GAME(2, "GameInformPowerDailyPro Magazine", "GameInformPowerDailyPro subscription card"),
     XI(3, "Xi Receiver Unit", "Xi Receiver Unit"),
     NEWYOU(4, "New-You Club", "New-You Club Membership Form"),
-    CANDLE(5, "Our Daily Candles", "Our Daily Candles™ order form");
+    CANDLE(5, "Our Daily Candles", "Our Daily Candles™ order form"),
+    APRON(6, "Black & White Apron", "Black and White Apron Enrollment Form");
 
     private final int id;
     private final String name;
@@ -75,7 +76,7 @@ public class EudoraCommand extends AbstractCommand {
   }
 
   public EudoraCommand() {
-    this.usage = " penpal|game|xi|newyou|candle - switch to the specified correspondent";
+    this.usage = " penpal|game|xi|newyou|candle|apron - switch to the specified correspondent";
   }
 
   public static boolean switchTo(final Correspondent correspondent) {

@@ -66,6 +66,7 @@ public class ModifierDatabase {
 
   /** Map of synergetic item name to bitmap mask of all items in set */
   private static final Map<String, Integer> synergies = new HashMap<>();
+
   /** List of slash-separated members of a mutex */
   private static final List<String> mutexes = new ArrayList<>();
 

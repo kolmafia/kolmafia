@@ -2573,4 +2573,46 @@ public class FightRequestTest {
       assertThat("_trickCoinMonster", isSetTo("Crimbuccaneer mudlark"));
     }
   }
+
+  @Nested
+  class CandyCaneSkills {
+    @Test
+    public void canTrackSurprisinglySweetSlash() {
+      var cleanups = new Cleanups(withProperty("_surprisinglySweetSlashUsed", 0), withFight());
+
+      try (cleanups) {
+        String urlString = "fight.php?action=skill&whichskill=7488";
+        String html = html("request/test_fight_surprisingly_sweet_slash.html");
+        FightRequest.registerRequest(true, urlString);
+        FightRequest.updateCombatData(null, null, html);
+        assertThat("_surprisinglySweetSlashUsed", isSetTo(1));
+      }
+    }
+
+    @Test
+    public void canTrackSurprisinglySweetStab() {
+      var cleanups = new Cleanups(withProperty("_surprisinglySweetStabUsed", 0), withFight());
+
+      try (cleanups) {
+        String urlString = "fight.php?action=skill&whichskill=7489";
+        String html = html("request/test_fight_surprisingly_sweet_stab.html");
+        FightRequest.registerRequest(true, urlString);
+        FightRequest.updateCombatData(null, null, html);
+        assertThat("_surprisinglySweetStabUsed", isSetTo(1));
+      }
+    }
+  }
+
+  @Test
+  public void canTrackMimicEggLay() {
+    var cleanups = new Cleanups(withProperty("_mimicEggsObtained", 0), withFight());
+
+    try (cleanups) {
+      String urlString = "fight.php?action=skill&whichskill=7494";
+      String html = html("request/test_fight_lay_mimic_egg_success.html");
+      FightRequest.registerRequest(true, urlString);
+      FightRequest.updateCombatData(null, null, html);
+      assertThat("_mimicEggsObtained", isSetTo(1));
+    }
+  }
 }

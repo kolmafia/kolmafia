@@ -40,6 +40,7 @@ public abstract class TowerDoorManager {
     final KoLAdventure location; // Where to find the kay
     final String encounter; // The Encounter that grants the key
     final boolean special; // True if normal retrieve_item will not work
+
     // to get the key in Kingdom of Exploathing
 
     // Doorknobs and locks with "retrievable" keys

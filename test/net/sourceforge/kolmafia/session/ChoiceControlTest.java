@@ -461,4 +461,47 @@ class ChoiceControlTest {
       assertThat("zeppelinProtestors", isSetTo(78));
     }
   }
+
+  @Nested
+  class MimicDnaBank {
+    @Test
+    void updatesEggsObtainedAndDonatedIfPresent() {
+      var cleanups =
+          new Cleanups(withProperty("_mimicEggsDonated", 0), withProperty("_mimicEggsObtained", 0));
+
+      try (cleanups) {
+        var urlString = "choice.php?forceoption=0";
+        var responseText = html("request/test_choice_mimic_dna_bank.html");
+        var request = new GenericRequest(urlString);
+        request.responseText = responseText;
+        ChoiceManager.preChoice(request);
+        request.processResponse();
+
+        assertThat("_mimicEggsObtained", isSetTo(6));
+        assertThat("_mimicEggsDonated", isSetTo(1));
+      }
+    }
+
+    @Test
+    void handlesDonating() {
+      var cleanups =
+          new Cleanups(
+              withProperty("_mimicEggsDonated", 1),
+              withPostChoice1(1517, 1, html("request/test_choice_mimic_dna_bank_donate.html")));
+      try (cleanups) {
+        assertThat("_mimicEggsDonated", isSetTo(2));
+      }
+    }
+
+    @Test
+    void handlesExtracting() {
+      var cleanups =
+          new Cleanups(
+              withProperty("_mimicEggsObtained", 6),
+              withPostChoice1(1517, 2, html("request/test_choice_mimic_dna_bank_extract.html")));
+      try (cleanups) {
+        assertThat("_mimicEggsObtained", isSetTo(7));
+      }
+    }
+  }
 }
