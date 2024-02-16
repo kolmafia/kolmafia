@@ -681,6 +681,12 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       assertContinueState();
 
       assertThat(output, is("Returned: 7302\n"));
+
+      /*
+       ApiRequest.parseStatus sets a password hash which persists to other tests and causes them to pass or fail
+       based upon whether this test was run first, or not.  Explicitly clear the hash when this test ends.
+      */
+      ApiRequest.setPasswordHash("");
     }
   }
 
