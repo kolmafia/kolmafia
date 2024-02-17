@@ -2267,6 +2267,9 @@ public class MaximizerTest {
         List<Boost> spec = getBoosts();
         assertTrue(maximizeNoSpec(maxStr));
         List<Boost> noSpec = getBoosts();
+        assertEquals(spec.size(), noSpec.size());
+        // This is not the right test because we need to compare the contents of the boosts and not that they
+        // are the same object
         assertTrue(spec.equals(noSpec));
       }
     }

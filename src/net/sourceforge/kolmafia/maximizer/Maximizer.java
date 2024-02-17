@@ -1772,15 +1772,15 @@ public class Maximizer {
     }
 
     Boost boost = new Boost(cmd, text, slot, item, delta, enthroned, bjorned, modeables);
-    if (equipScope == EquipScope.EQUIP_NOW) { // called from CLI
-      boost.execute(true);
-      if (!KoLmafia.permitsContinue()) {
-        equipScope = EquipScope.SPECULATE_INVENTORY;
-        Maximizer.boosts.add(boost);
-      }
-    } else {
+    //if (equipScope == EquipScope.EQUIP_NOW) { // called from CLI
+      //boost.execute(true);
+      //if (!KoLmafia.permitsContinue()) {
+        //equipScope = EquipScope.SPECULATE_INVENTORY;
+        //Maximizer.boosts.add(boost);
+      //}
+    //} else {
       Maximizer.boosts.add(boost);
-    }
+    //}
     return equipScope;
   }
 
