@@ -1429,7 +1429,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     assertTrue(out.contains("Putting on old sweatpants..."));
     assertContinueState();
     var requests = getRequests();
-    assertTrue(!requests.isEmpty());
+    assertFalse(requests.isEmpty());
     var checkMe = requests.stream().filter(x -> getPostRequestBody(x).contains("whichitem=1")).findAny();
     if (checkMe.isPresent()) {
       assertPostRequest(
