@@ -1438,4 +1438,37 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       fail("Could not find expected equipment request.");
     }
   }
+  @Test
+  public void itShouldMaximizeAndEquipSelectedWeapon4Parameter() {
+    String maxStr = "effective";
+    HttpClientWrapper.setupFakeClient();
+    var cleanups =
+            new Cleanups(
+                    withStats(10, 5, 5),
+                    withEquippableItem("seal-skull helmet"),
+                    withEquippableItem("astral shirt"),
+                    withEquippableItem("old sweatpants"),
+                    withEquippableItem("sewer snake"),
+                    withEquippableItem("seal-clubbing club"));
+    String out;
+    String cmd = "maximize(\"" + maxStr + "\", 2500, 0, false)";
+    try (cleanups) {
+      out = execute(cmd);
+    }
+    assertFalse(out.isEmpty());
+    assertTrue(out.contains("Putting on seal-skull helmet..."));
+    assertTrue(out.contains("Wielding seal-clubbing club..."));
+    assertTrue(out.contains("Putting on old sweatpants..."));
+    assertContinueState();
+    var requests = getRequests();
+    assertFalse(requests.isEmpty());
+    var checkMe =
+            requests.stream().filter(x -> getPostRequestBody(x).contains("whichitem=1")).findFirst();
+    if (checkMe.isPresent()) {
+      assertPostRequest(checkMe.get(), "/inv_equip.php", "which=2&ajax=1&action=equip&whichitem=1");
+    } else {
+      fail("Could not find expected equipment request.");
+    }
+  }
+
 }
