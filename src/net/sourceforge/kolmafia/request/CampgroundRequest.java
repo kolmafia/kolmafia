@@ -95,6 +95,7 @@ public class CampgroundRequest extends GenericRequest {
           ItemPool.MAID,
           ItemPool.CLOCKWORK_MAID,
           ItemPool.MEAT_BUTLER,
+          ItemPool.PORTABLE_HOUSEKEEPING_ROBOT,
 
           // Inside dwelling: miscellaneous
           // (Certificate of Participation)
@@ -1567,9 +1568,10 @@ public class CampgroundRequest extends GenericRequest {
       var relevantResponse = responseText.substring(startIndex, endIndex);
 
       // Three mutually exclusive dwelling servants
-      if (findImage(relevantResponse, "maid.gif", ItemPool.MAID)
-          || findImage(relevantResponse, "maid2.gif", ItemPool.CLOCKWORK_MAID)
-          || findImage(relevantResponse, "butler.gif", ItemPool.MEAT_BUTLER)) {}
+      if (findImage(relevantResponse, "/maid.gif", ItemPool.MAID)
+          || findImage(relevantResponse, "/maid2.gif", ItemPool.CLOCKWORK_MAID)
+          || findImage(relevantResponse, "/butler.gif", ItemPool.MEAT_BUTLER)
+          || findImage(relevantResponse, "/jetmaid.gif", ItemPool.PORTABLE_HOUSEKEEPING_ROBOT)) {}
 
       Matcher m = FURNISHING_PATTERN.matcher(relevantResponse);
       while (m.find()) {
