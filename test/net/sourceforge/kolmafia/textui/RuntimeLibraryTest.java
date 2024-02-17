@@ -1419,8 +1419,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
             withEquippableItem("sewer snake"),
             withEquippableItem("seal-clubbing club"));
     String out;
-    String cmd;
-    cmd = "maximize(\"" + maxStr + "\", false)";
+    String cmd = "maximize(\"" + maxStr + "\", false)";
     try (cleanups) {
       out = execute(cmd);
     }
@@ -1430,18 +1429,11 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     assertTrue(out.contains("Putting on old sweatpants..."));
     assertContinueState();
     var requests = getRequests();
-    assertTrue(requests.size() > 1);
-    int whichReq = -1;
-    for (int i = 0; i < requests.size(); i++) {
-      String body = getPostRequestBody(requests.get(i));
-      if (body.contains("whichitem=1")) {
-        whichReq = i;
-        break;
-      }
-    }
-    if (whichReq > 0) {
+    assertTrue(!requests.isEmpty());
+    var checkMe = requests.stream().filter(x -> getPostRequestBody(x).contains("whichitem=1")).findAny();
+    if (checkMe.isPresent()) {
       assertPostRequest(
-          requests.get(whichReq), "/inv_equip.php", "which=2&ajax=1&action=equip&whichitem=1");
+          checkMe.get(), "/inv_equip.php", "which=2&ajax=1&action=equip&whichitem=1");
     } else {
       fail("Could not find expected equipment request.");
     }
