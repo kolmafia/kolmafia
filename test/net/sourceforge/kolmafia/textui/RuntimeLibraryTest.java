@@ -673,15 +673,11 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     try (cleanups) {
       String text = html("request/test_status.json");
       JSONObject JSON = json(text);
-
       ApiRequest.parseStatus(JSON);
-
       String output = execute("daycount()");
-
       assertContinueState();
-
       assertThat(output, is("Returned: 7302\n"));
-
+    } finally {
       /*
        ApiRequest.parseStatus sets a password hash which persists to other tests and causes them to pass or fail
        based upon whether this test was run first, or not.  Explicitly clear the hash when this test ends.
