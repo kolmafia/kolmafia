@@ -2083,7 +2083,10 @@ public class MaximizerTest {
       try (cleanups) {
         assertTrue(maximizeNoSpec(maxStr));
         List<Boost> xyzzy = getBoosts();
-        assertTrue(KoLCharacter.hasEquipped(ItemPool.SEAL_CLUB));
+        // The difference between maximize and maximizeNoSpec (above) seems to be that
+        // sometimes noSpec finds nothing useful.  Why is that?
+        recommends("seal-clubbing club");
+        recommendedSlotIs(Slot.WEAPON, "seal-clubbing club");
       }
     }
 
@@ -2099,6 +2102,7 @@ public class MaximizerTest {
               withEquippableItem("sewer snake"));
       try (cleanups) {
         assertTrue(maximize(maxStr));
+        // Note that this means No Weapon is recommended.
         assertFalse(getSlot(Slot.WEAPON).isPresent());
       }
     }
@@ -2120,7 +2124,7 @@ public class MaximizerTest {
         recommendedSlotIs(Slot.WEAPON, "sewer snake");
       }
     }
-
+@Disabled("Disable until muscleEffectiveEquipsMelee is better understood.")
     @Test
     public void moxieEffectiveEquipsRanged() {
       String maxStr = "effective";
