@@ -1432,6 +1432,19 @@ daddy shortlegs	2332	daddyshort.gif	Atk: 40 Def: 40 HP: 40 Init: -10000 P: bug A
 birdybug	2333	birdybug.gif	Atk: 35 Def: 40 HP: 60 Init: -10000 P: bug Article: a	birdybug antenna (50)	haemolymphnode (30)
 kilopede	2334	killipede.gif	Atk: 47 Def: 37 HP: 30 Init: 50 P: bug Article: a	kilopede skull (50)	haemolymphnode (30)
 
+# WereProfessor
+
+Boss Beast	2437	werebossbat.gif	BOSS NOCOPY Atk: 33 Def: 29 HP: 40 Init: 60 P: beast Article: The	batskin belt (100)	dense meat stack (100)	Boss Bat britches (c100)	Boss Bat bling (c100)
+Knob Goblin Beast	2438	weregoblinking.gif	BOSS NOCOPY Atk: 53 Def: 47 HP: 50 Init: 100 P: goblin Article: The	2 dense meat stack (m100)	Crown of the Goblin King (c100)	Glass Balls of the Goblin King (c100)	Codpiece of the Goblin King (c100)	Cobb's Knob lab key (c100)
+Curséd Bonerdagon	2439	wereboner.gif	BOSS NOCOPY Atk: 90 Def: 81 HP: 120 Init: 90 P: undead ED: spooky Article: The	skull of the Bonerdagon (n100)	chest of the Bonerdagon (n100)
+Were-Dr. Awkwarder, ew	2440	wereawkward.gif	BOSS NOCOPY Atk: 175 Def: 157 HP: 200 Init: -10000 P: dude	Drowsy Sword (n100)	[2268]Staff of Fats (n100)
+Lord Beastlyraven	2441	wereraven.gif	BOSS NOCOPY Atk: 165 Def: 148 HP: 200 Init: 10000 P: undead ED: spooky	[2286]Eye of Ed (n100)	Lord Spookyraven's ear trumpet (n100)
+Protector Beast	2442	protspect.gif	BOSS NOCOPY Atk: 164 Def: 151 HP: 100 Init: 30 P: undead Article: a	[2180]ancient amulet (n100)	spectre scepter (n100)
+Just Groar	2443	wingedyeti.gif	BOSS NOCOPY Atk: 120 Def: 108 HP: 250 Init: 50 P: beast ED: cold	Groar's fur (100)	5 dense meat stack (m100)
+The Beast Wisniewski	2444	werenewski.gif	BOSS NOCOPY Atk: 250 Def: 225 HP: 2000 Init: 60 P: hippy ED: stench	solid gold bowling ball (100)
+#The Beast Man	2445	wereman.gif	BOSS NOCOPY Atk: 250 Def: 225 HP: 2000 Init: 60 P: dude ED: sleaze EA: hot EA: cold	really dense meat stack (100)
+The Naughty Wolferess	2446	weresorceress.gif	BOSS NOCOPY Atk: 300 Def: 300 HP: 1000 Init: 100 P: horror	Instant Karma (c100)	Thwaitgold wolf spider statuette (n100)
+
 # Items of the Month
 
 # Bad Trip (Astral Badger June 2006)
