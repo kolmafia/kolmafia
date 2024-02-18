@@ -1,7 +1,9 @@
 package net.sourceforge.kolmafia;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import net.sourceforge.kolmafia.request.AWOLQuartermasterRequest;
 import net.sourceforge.kolmafia.request.AltarOfBonesRequest;
 import net.sourceforge.kolmafia.request.AppleStoreRequest;
@@ -251,5 +253,20 @@ public abstract class CoinmasterRegistry {
         .filter(data -> data.canBuyItem(itemId))
         .findAny()
         .orElse(null);
+  }
+
+  // *** For testing
+  private static final Set<CoinmasterData> disabled = new HashSet<>();
+
+  public static void disableCoinmaster(CoinmasterData master) {
+    disabled.add(master);
+  }
+
+  public static void enableCoinmaster(CoinmasterData master) {
+    disabled.remove(master);
+  }
+
+  public static boolean coinmasterIsDisabled(CoinmasterData master) {
+    return disabled.contains(master);
   }
 }

@@ -1078,4 +1078,9 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   }
 
   private void purchasedItemInternal(AdventureResult item, boolean storage) {}
+
+  // *** For testing
+  public boolean isDisabled() {
+    return CoinmasterRegistry.coinmasterIsDisabled(this);
+  }
 }
