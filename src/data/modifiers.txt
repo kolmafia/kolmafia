@@ -3789,6 +3789,7 @@ Item	tiny plastic 7-foot dwarf	Monster Level: +1
 Item	tiny plastic 11 Dealer	Meat Drop: +4
 Item	tiny plastic abominable fudgeman	Weapon Damage: +10
 Item	tiny plastic Abuela Crimbo	Spooky Resistance: +1
+Item	tiny plastic Abuela's Cottage	Muscle: +3, Mysticality: +3, Moxie: +3
 Item	tiny plastic accordion thief	Moxie: +2, Mysticality: +1
 Item	tiny plastic ambulatory robo-minecart	Moxie: +1
 Item	tiny plastic Ancient Unspeakable Bugbear	Monster Level: +1
@@ -3800,10 +3801,12 @@ Item	tiny plastic angry vikings	Weapon Damage: +10
 Item	tiny plastic anime smiley	Monster Level: +1
 Item	tiny plastic animelf	Initiative: +5
 Item	tiny plastic apathetic lizardman	Monster Level: +1
+Item	tiny plastic Armory	Weapon Damage: +3
 Item	tiny plastic astronomer	Monster Level: +1
 Item	tiny plastic Axe Wound	Monster Level: +1
 Item	tiny plastic baby gravy fairy	Familiar Weight: +1
 Item	tiny plastic bad vibe	Monster Level: +2
+Item	tiny plastic Bar	Booze Drop: +3
 Item	tiny plastic Baron von Ratsworth	Meat Drop: +3
 Item	tiny plastic barrrnacle	Familiar Weight: +1
 Item	tiny plastic batbugbear	Monster Level: +1
@@ -3831,6 +3834,7 @@ Item	tiny plastic bugaboo	Monster Level: +1
 Item	tiny plastic Bugbear Captain	Maximum HP: +20, Maximum MP: +20, HP Regen Min: 2, HP Regen Max: 4, MP Regen Min: 2, MP Regen Max: 4, Single Equip
 Item	tiny plastic buzzerker	Monster Level: +1
 Item	tiny plastic caboose	Damage Reduction: 3
+Item	tiny plastic Cafe	Food Drop: +3
 Item	tiny plastic Caf&eacute; Elf	Hot Resistance: +1
 Item	tiny plastic Captain Kerkard	Monster Level: +1
 Item	tiny plastic cavebugbear	Monster Level: +1
@@ -3871,6 +3875,7 @@ Item	tiny plastic drunk goat	Monster Level: +1
 Item	tiny plastic Duke Starkiller	Monster Level: +1
 Item	tiny plastic Ed the Undying	Maximum HP: +30, Damage Absorption: +30
 Item	tiny plastic exo-suited miner	Muscle: +1
+Item	tiny plastic Factory	Initiative: +3
 Item	tiny plastic fat stack of cash	Meat Drop: +3
 Item	tiny plastic Father McGruber	Monster Level: +1
 Item	tiny plastic fax machine	Spooky Damage: +2, Stench Damage: +2, Hot Damage: +2, Cold Damage: +2, Sleaze Damage: +2
