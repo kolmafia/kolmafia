@@ -85,8 +85,8 @@
 10125	2021	hard	SA	ROW1276	stained glass spectacles
 10126	2021	hard	DB	ROW1277	stained glass shiv
 10127	2021	hard	AT	ROW1278	stained glass serape
-10130	2022	norm	SC	ROW1295	loofah lumberjack's hat
-10131	2022	norm	TT	ROW1296	loofah lei
+10130	2022	norm	SC	ROW1446	loofah lumberjack's hat
+10131	2022	norm	TT	ROW1447	loofah lei
 10132	2022	norm	PA	ROW1297	loofah lederhosen
 10133	2022	norm	SA	ROW1298	loofah ladle
 10134	2022	norm	DB	ROW1299	loofah legwarmers
@@ -97,15 +97,28 @@
 10141	2022	hard	SA	ROW1304	flagstone fez
 10142	2022	hard	DB	ROW1305	flagstone fleece
 10143	2022	hard	AT	ROW1306	flagstone fringe
-11028	2023	norm	SC	UNKNOWN	chiffon chevrons
-11029	2023	norm	TT	UNKNOWN	chiffon chapeau
-11030	2023	norm	PA	UNKNOWN	chiffon chamberpot
-11031	2023	norm	SA	UNKNOWN	chiffon chemise
-11032	2023	norm	DB	UNKNOWN	chiffon chakram
-11033	2023	norm	AT	UNKNOWN	chiffon chaps
-11020	2023	hard	SC	UNKNOWN	ceramic cestus
-11021	2023	hard	TT	UNKNOWN	ceramic centurion shield
-11022	2023	hard	PA	UNKNOWN	ceramic celery grater
-11023	2023	hard	SA	UNKNOWN	ceramic celsiturometer
-11024	2023	hard	DB	UNKNOWN	ceramic cerecloth belt
-11025	2023	hard	AT	UNKNOWN	ceramic cenobite's robe
+11028	2023	norm	SC	ROW1296	chiffon chevrons
+11029	2023	norm	TT	ROW1295	chiffon chapeau
+11030	2023	norm	PA	ROW1442	chiffon chamberpot
+11031	2023	norm	SA	ROW1443	chiffon chemise
+11032	2023	norm	DB	ROW1444	chiffon chakram
+11033	2023	norm	AT	ROW1445	chiffon chaps
+11020	2023	hard	SC	ROW1448	ceramic cestus
+11021	2023	hard	TT	ROW1449	ceramic centurion shield
+11022	2023	hard	PA	ROW1450	ceramic celery grater
+11023	2023	hard	SA	ROW1451	ceramic celsiturometer
+11024	2023	hard	DB	ROW1452	ceramic cerecloth belt
+11025	2023	hard	AT	ROW1453	ceramic cenobite's robe
+11504	2024	norm	SC	UNKNOWN	moss mace
+11505	2024	norm	TT	UNKNOWN	moss megaphone
+11506	2024	norm	PA	UNKNOWN	moss medal
+11507	2024	norm	SA	UNKNOWN	moss mitre
+11508	2024	norm	DB	UNKNOWN	moss mantle
+11509	2024	norm	AT	UNKNOWN	moss marlinspike
+11512	2024	hard	SC	UNKNOWN	adobe arsecover
+11513	2024	hard	TT	UNKNOWN	adobe adze
+11514	2024	hard	PA	UNKNOWN	adobe abacus
+11515	2024	hard	SA	UNKNOWN	adobe ayam
+11516	2024	hard	DB	UNKNOWN	adobe ascot
+11517	2024	hard	AT	UNKNOWN	adobe abaya
+
