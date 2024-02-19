@@ -3708,6 +3708,7 @@ public class ItemPool {
   public static final int ELF_GUARD_HOTPANTS = 11366;
   public static final int CRIMBUCCANEER_TRICORN = 11367;
   public static final int CRIMBUCCANEER_BREECHES = 11368;
+  public static final int PORTABLE_HOUSEKEEPING_ROBOT = 11377;
   public static final int WARDROBE_O_MATIC = 11390;
   public static final int FUTURISTIC_SHIRT = 11391;
   public static final int FUTURISTIC_HAT = 11392;
