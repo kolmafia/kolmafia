@@ -110,30 +110,6 @@ public class Crimbo23PirateArmoryRequest extends CoinMasterRequest {
       return false;
     }
 
-    int itemId = CoinMasterRequest.extractItemId(DATA, urlString);
-    if (itemId == -1) {
-      return true;
-    }
-
-    int count = CoinMasterRequest.extractCount(DATA, urlString);
-    if (count == 0) {
-      count = 1;
-    }
-
-    AdventureResult item = new AdventureResult(itemId, count, false);
-    boolean buying = DATA.getBuyItems().contains(item);
-    boolean selling = DATA.getSellItems().contains(item);
-
-    if (buying) {
-      CoinMasterRequest.buyStuff(DATA, itemId, count, false);
-      return true;
-    }
-
-    if (selling) {
-      CoinMasterRequest.sellStuff(DATA, itemId, count);
-      return true;
-    }
-
-    return false;
+    return CoinMasterRequest.registerRequest(DATA, urlString, true);
   }
 }
