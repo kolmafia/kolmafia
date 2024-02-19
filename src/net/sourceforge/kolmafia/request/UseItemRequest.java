@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
 import net.sourceforge.kolmafia.FamiliarData;
@@ -587,6 +588,7 @@ public class UseItemRequest extends GenericRequest {
       case ItemPool.MAID:
       case ItemPool.CLOCKWORK_MAID:
       case ItemPool.MEAT_BUTLER:
+      case ItemPool.PORTABLE_HOUSEKEEPING_ROBOT:
       case ItemPool.SCARECROW:
       case ItemPool.MEAT_GOLEM:
       case ItemPool.MEAT_GLOBE:
@@ -3685,33 +3687,21 @@ public class UseItemRequest extends GenericRequest {
         break;
 
       case ItemPool.MAID:
-        if (responseText.contains("You've already got")) {
-          return;
-        }
-
-        CampgroundRequest.removeCampgroundItem(ItemPool.get(ItemPool.MEAT_BUTLER, 1));
-        CampgroundRequest.removeCampgroundItem(ItemPool.get(ItemPool.CLOCKWORK_MAID, 1));
-        CampgroundRequest.setCampgroundItem(ItemPool.MAID, 1);
-        break;
-
-      case ItemPool.CLOCKWORK_MAID:
-        if (responseText.contains("You've already got")) {
-          return;
-        }
-
-        CampgroundRequest.removeCampgroundItem(ItemPool.get(ItemPool.MEAT_BUTLER, 1));
-        CampgroundRequest.removeCampgroundItem(ItemPool.get(ItemPool.MAID, 1));
-        CampgroundRequest.setCampgroundItem(ItemPool.CLOCKWORK_MAID, 1);
-        break;
-
       case ItemPool.MEAT_BUTLER:
+      case ItemPool.CLOCKWORK_MAID:
+      case ItemPool.PORTABLE_HOUSEKEEPING_ROBOT:
         if (responseText.contains("You've already got")) {
           return;
         }
 
-        CampgroundRequest.removeCampgroundItem(ItemPool.get(ItemPool.MAID, 1));
-        CampgroundRequest.removeCampgroundItem(ItemPool.get(ItemPool.CLOCKWORK_MAID, 1));
-        CampgroundRequest.setCampgroundItem(ItemPool.MEAT_BUTLER, 1);
+        Stream.of(
+                ItemPool.MAID,
+                ItemPool.MEAT_BUTLER,
+                ItemPool.CLOCKWORK_MAID,
+                ItemPool.PORTABLE_HOUSEKEEPING_ROBOT)
+            .map(id -> ItemPool.get(id, 1))
+            .forEach(CampgroundRequest::removeCampgroundItem);
+        CampgroundRequest.setCampgroundItem(itemId, 1);
         break;
 
       case ItemPool.MILKY_POTION:

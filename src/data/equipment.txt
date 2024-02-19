@@ -3152,6 +3152,7 @@ spirit bell	0	none
 spooky glove	60	Mys: 15
 Spookyraven signet	100	Mys: 10
 spring boots	0	none
+spring shoes	0	none
 Spring Bros. ID badge	0	none
 stained glass spectacles	120	Mys: 40
 stained glass suspenders	120	Mus: 40

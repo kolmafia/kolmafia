@@ -11570,3 +11570,7 @@
 11542	mimic egg	646626465	mimicegg.gif	usable	q	0
 11543	Crimbuccaneer war standard	823960598	c23_pirateflag.gif	offhand		0
 11544	Elf Guard war standard	679660460	c23_elfflag.gif	offhand		0
+11545	in-the-box spring shoes	809348020	springshoes_box.gif	usable	t	0
+11546	spring shoes	533142596	springshoes.gif	accessory		0
+11547	ultra-soft ferns	979781148	softfern.gif	potion	t,d	10
+11548	crunchy brush	865877671	drybrush.gif	potion	t,d	10

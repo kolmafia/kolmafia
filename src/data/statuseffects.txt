@@ -2897,3 +2897,7 @@
 2894	Fishing for Meat	fish.gif	e4d466137ef5993f2c987f4e50090204	neutral	none
 2895	Bubbly	orb.gif	900f6bfb97055c5040a2e86766a8ebee	neutral	none
 2896	Well Fed	apronbox.gif	d8ccf1611c0556c0bb623b83146dfa36	neutral	none
+2897
+2898
+2899	Ultra-Soft Steps	softfern.gif	ea08a91c456c3dead7a11092f0bb1213	neutral	none	use 1 ultra-soft ferns
+2900	Crunchy Steps	drybrush.gif	b32c6ab90bda5197d973908ac94fbde4	neutral	none	use 1 crunchy brush

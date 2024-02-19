@@ -1,5 +1,8 @@
 package net.sourceforge.kolmafia.textui;
 
+import static internal.helpers.HttpClientWrapper.getRequests;
+import static internal.helpers.Networking.assertPostRequest;
+import static internal.helpers.Networking.getPostRequestBody;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Networking.json;
 import static internal.helpers.Player.withAdventuresLeft;
@@ -19,6 +22,7 @@ import static internal.helpers.Player.withNextMonster;
 import static internal.helpers.Player.withNextResponse;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withStats;
 import static internal.helpers.Player.withTrackedMonsters;
 import static internal.helpers.Player.withTrackedPhyla;
 import static internal.helpers.Player.withTurnsPlayed;
@@ -29,6 +33,9 @@ import static org.hamcrest.Matchers.endsWith;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.startsWith;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
@@ -666,14 +673,16 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     try (cleanups) {
       String text = html("request/test_status.json");
       JSONObject JSON = json(text);
-
       ApiRequest.parseStatus(JSON);
-
       String output = execute("daycount()");
-
       assertContinueState();
-
       assertThat(output, is("Returned: 7302\n"));
+    } finally {
+      /*
+       ApiRequest.parseStatus sets a password hash which persists to other tests and causes them to pass or fail
+       based upon whether this test was run first, or not.  Explicitly clear the hash when this test ends.
+      */
+      ApiRequest.setPasswordHash("");
     }
   }
 
@@ -916,8 +925,8 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
   @Nested
   class SplitJoinStrings {
-    String input1 = "line1\\nline2\\nline3";
-    String input2 = "foo bar baz";
+    final String input1 = "line1\\nline2\\nline3";
+    final String input2 = "foo bar baz";
 
     @Test
     void canSplitOnNewLine() {
@@ -1390,6 +1399,43 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
             2 => Red-Nosed Snapper
             """));
       }
+    }
+  }
+
+  /**
+   * This test is intended to test running the maximizer from a command or script (not the GUI),
+   * show that the maximizer chooses a weapon and then emits the commands to equip that weapon.
+   */
+  @Test
+  public void itShouldMaximizeAndEquipSelectedWeapon() {
+    String maxStr = "effective";
+    HttpClientWrapper.setupFakeClient();
+    var cleanups =
+        new Cleanups(
+            withStats(10, 5, 5),
+            withEquippableItem("seal-skull helmet"),
+            withEquippableItem("astral shirt"),
+            withEquippableItem("old sweatpants"),
+            withEquippableItem("sewer snake"),
+            withEquippableItem("seal-clubbing club"));
+    String out;
+    String cmd = "maximize(\"" + maxStr + "\", false)";
+    try (cleanups) {
+      out = execute(cmd);
+    }
+    assertFalse(out.isEmpty());
+    assertTrue(out.contains("Putting on seal-skull helmet..."));
+    assertTrue(out.contains("Wielding seal-clubbing club..."));
+    assertTrue(out.contains("Putting on old sweatpants..."));
+    assertContinueState();
+    var requests = getRequests();
+    assertFalse(requests.isEmpty());
+    var checkMe =
+        requests.stream().filter(x -> getPostRequestBody(x).contains("whichitem=1")).findFirst();
+    if (checkMe.isPresent()) {
+      assertPostRequest(checkMe.get(), "/inv_equip.php", "which=2&ajax=1&action=equip&whichitem=1");
+    } else {
+      fail("Could not find expected equipment request.");
     }
   }
 }
