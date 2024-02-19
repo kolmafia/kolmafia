@@ -109,6 +109,7 @@ Item	big bad voodoo mask	Mysticality: +7, Spell Damage: +15, Familiar Effect: "1
 Item	Big Candy's tophat	Candy Drop: +25, Damage Reduction: 5, Familiar Effect: "1xGhoul, 1xFairy, cap 25"
 Item	biker's hat	Moxie Percent: +40, Booze Drop: +40, Pickpocket Chance: +20, Familiar Effect: "atk"
 Item	biomechanical crimborg helmet	Hot Damage: +5, Stench Damage: +5, Familiar Effect: "atk, 1xFairy, cap 37"
+# biphasic molecular oculus: Allows advanced monster research
 # birdseed hat: Attracts chickens
 Item	black cowboy hat	Muscle: +8, Weapon Damage: +8, Familiar Effect: "1xBarrr, 1xLep, cap 41"
 Item	black helmet	Maximum HP: +30, Familiar Effect: "1xFairy, cap 40"
@@ -521,6 +522,7 @@ Item	toy Crimbot mega face	Item Drop: +10, Crimbot Outfit Power: +1, Familiar Ef
 # toy space helmet: Provides Mostly Accurate Battle Statistics During Fights
 Item	toy space helmet	Stench Resistance: +3, Spooky Resistance: +3, Familiar Effect: "0.5xPotato, 1xFairy, cap 43"
 Item	training helmet	Initiative: -50, Item Drop: +25, Moxie Percent: +25, Familiar Effect: "atk, cap 25"
+# triphasic molecular oculus: Allows improved advanced monster research
 Item	Tropical Crimbo Hat	Spooky Resistance: +1, Familiar Effect: "1xLep, 1.5xFairy, cap 25"
 Item	turtle wax helmet	Hot Resistance: +1, Familiar Effect: "0.5xPotato, 0.5xFairy, cap 10"
 Item	turtlemail coif	Muscle: +5, Damage Reduction: 4, Familiar Effect: "1xPotato, cap 20"
@@ -628,11 +630,11 @@ Item	cane-mail pants	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percen
 Item	Cargo Cultist Shorts	Muscle: +6, Mysticality: +6, Moxie: +6, Monster Level: +6, Initiative: +66, Food Drop: +66, Maximum HP Percent: +66, Maximum MP Percent: +66
 Item	Cerebral Culottes	Mysticality: +10, Familiar Effect: "3xBarrr, 1xGhoul, cap 22"
 Item	chain-mail monokini	Familiar Effect: "sleaze atk, 4xBarrr, cap 7"
-Item	chiffon chaps	Experience (Moxie): +2, Hot Damage: +10, Hot Spell Damage: +10, Damage Aura: 1
 # chalk chinos: Weakens enemies who hit you
 Item	chalk chinos	Experience (Mysticality): +2, Initiative: +20
 Item	cheerful pajama pants	Cold Resistance: +2, Moxie: -15
 Item	Chester's cutoffs	Hot Resistance: +3, Stench Resistance: +3, Class: "Disco Bandit", Familiar Effect: "sleaze atk, 1.5xGhuol"
+Item	chiffon chaps	Experience (Moxie): +2, Hot Damage: +10, Hot Spell Damage: +10, Damage Aura: 1
 Item	clingfilm trousers	Mysticality: +9, Familiar Effect: "sleaze atk, 1xPotato, cap 37"
 Item	Cloaca-Cola fatigues	Mysticality: +3, Familiar Effect: "4xPotato, 1.5x Ghoul, cap 7"
 Item	clockwork pants	Initiative: +10, Familiar Effect: "3xPotato, 1.5xGhuol, cap 20"
@@ -647,9 +649,9 @@ Item	cursed breeches	Moxie: +15, Familiar Effect: "stench atk, 1xPotato"
 Item	Daisy's unclean bloomers	Stench Damage: +30, Stench Spell Damage: +30, Monster Level: +15, Familiar Effect: "2xBArrr, 1xGhuol, cap 37"
 Item	Danglin' Chad's loincloth	Sleaze Damage: +25, Moxie: -10, Familiar Effect: "stench atk, 0.5xVolley"
 Item	demonskin trousers	Hot Resistance: +2, Familiar Effect: "hot atk, 3xPotato, cap 17"
+Item	depleted Grimacite shinguards	Muscle Percent: [5*G], PvP Fights: [G], Familiar Effect: "atk, 3xBarrr, cap 25"
 # designer sweatpants: oh, and also a 5% discount at NPC stores
 Item	designer sweatpants	Muscle: [5+(2*floor(sqrt(pref(sweat))))], Mysticality: [5+(2*floor(sqrt(pref(sweat))))], Moxie: [5+(2*floor(sqrt(pref(sweat))))], Damage Reduction: [5+(1*floor(sqrt(pref(sweat))))], Hot Resistance: [1+(0.5*floor(sqrt(pref(sweat))))], Sleaze Damage: [10+(5*floor(sqrt(pref(sweat))))], Sleaze Spell Damage: [10+(5*floor(sqrt(pref(sweat))))]
-Item	depleted Grimacite shinguards	Muscle Percent: [5*G], PvP Fights: [G], Familiar Effect: "atk, 3xBarrr, cap 25"
 Item	dice-print pajama pants	Random Monster Modifiers: +1
 # Dinsey's pants: Disco Bandit Combat Skills weaken enemies by an additional 50%
 Item	Dinsey's pants	DB Combat Damage: +15
@@ -716,6 +718,7 @@ Item	grubby wool trousers	Initiative: +25, Damage Reduction: 5, Familiar Weight:
 Item	gym shorts	PvP Fights: +2, Initiative: +20, Familiar Effect: "sleaze atk, 1xGhuol, cap 25"
 Item	hardened slime pants	Spooky Resistance: +3, Stench Resistance: +3, Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3, Never Fumble, Moxie Percent: +20, Familiar Effect: "atk, 1xPotato"
 Item	hep waders	Maximum Hooch: +3, Familiar Effect: "1xPotato, 1xVolley, cap 12"
+# high-tension exoskeleton: Avoid the first attack in each combat
 Item	hippopotamus kilt	Maximum HP: +25, Familiar Effect: "atk, 1xFairy, cap 32"
 Item	hippopotamus pants	Maximum HP: +25, Familiar Effect: "1xPotato, 2xGhuol, cap 32"
 Item	hippopotamus skirt	Maximum HP: +25, Familiar Effect: "1xBarrr, 1xFairy, cap 32"
@@ -724,6 +727,7 @@ Item	Hodgman's lobsterskin pants	Muscle Percent: +20, Mysticality Percent: +20, 
 Item	honeybritches	Muscle Percent: +5, Critical Hit Percent: +5, Weapon Damage: +15, Familiar Effect: "sleaze atk, 2xGhuol, cap 43"
 Item	hot daub stand	Hot Damage: +9, Hot Spell Damage: +9, Familiar Effect: "hot atk, cap 21"
 Item	ironic jogging shorts	Initiative: +10, Damage Absorption: +20, Moxie: -5, Familiar Effect: "1xBarrr, 6xGhuol, cap 10"
+# irresponsible-tension exoskeleton: Avoid the first three attacks in each combat
 Item	Jeans of Loathing	HP Regen Min: 20, HP Regen Max: 30, MP Regen Min: 20, MP Regen Max: 30, Maximum HP: +500, Maximum MP: +500, Stench Resistance: +5, Cloathing, Familiar Effect: "stench atk, 1xPotato"
 # Jodhpurs of Violence: Allows moshing
 Item	Jodhpurs of Violence	PvP Fights: +4, Critical Hit Percent: +5, Weapon Damage Percent: +30, Familiar Effect: "atk, 1xPotato"
@@ -816,11 +820,11 @@ Item	pygmy briefs	Stench Damage: +5, Sleaze Damage: +5, Familiar Effect: "atk, 1
 Item	Radio Free Pants	Mysticality: +20, Familiar Effect: "1xVolley, 1xGhoul, 1xLep, cap 37"
 Item	ratskin pajama pants	PvP Fights: +2, Adventures: +4, Rollover Effect: "Pajama Party", Rollover Effect Duration: 40
 Item	red silk skirt	Experience (Moxie): +1, Hat Drop: +30, Familiar Effect: "atk, 1xFairy, cap 38"
+Item	repaid diaper	Familiar Weight: +15
 # replica Cargo Cultist Shorts: 666 Pockets to Explore
 Item	replica Cargo Cultist Shorts	Muscle: +6, Mysticality: +6, Moxie: +6, Monster Level: +6, Initiative: +66, Food Drop: +66, Maximum HP Percent: +66, Maximum MP Percent: +66
 # replica designer sweatpants: oh, and also a 5% discount at NPC stores
 Item	replica designer sweatpants	Muscle: [5+(2*floor(sqrt(pref(sweat))))], Mysticality: [5+(2*floor(sqrt(pref(sweat))))], Moxie: [5+(2*floor(sqrt(pref(sweat))))], Damage Reduction: [5+(1*floor(sqrt(pref(sweat))))], Hot Resistance: [1+(0.5*floor(sqrt(pref(sweat))))], Sleaze Damage: [10+(5*floor(sqrt(pref(sweat))))], Sleaze Spell Damage: [10+(5*floor(sqrt(pref(sweat))))]
-Item	repaid diaper	Familiar Weight: +15
 # replica Greatest American Pants: Amazing Super Powers
 Item	replica Greatest American Pants	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Weapon Damage Percent: +50
 Item	rusty metal greaves	Initiative: -10, Familiar Effect: "1xBarrr, cap 37"
@@ -889,6 +893,7 @@ Item	troutpiece	Familiar Effect: "1xVolley, 1xBarrr, cap 27"
 Item	troutsers	Moxie Percent: +50, Pickpocket Chance: +50, Spooky Damage: +11, Stench Damage: +11, Hot Damage: +11, Cold Damage: +11, Sleaze Damage: +11, Spooky Resistance: +5, Stench Resistance: +5, Hot Resistance: +5, Cold Resistance: +5, Sleaze Resistance: +5, Lasts Until Rollover, Familiar Effect: "sleaze atk, 0.5xPotato"
 Item	turtle wax greaves	Muscle: +2, Familiar Effect: "atk, 3xBarrr, cap 10"
 Item	turtlemail breeches	Maximum HP: +30, Sleaze Resistance: +2, Familiar Effect: "3xBarrr, 1.5xFairy, cap 20"
+# ultra-high-tension exoskeleton: Avoid the first two attacks in each combat
 Item	Uncle Hobo's gift baggy pants	Moxie Percent: +20, Critical Hit Percent: +5, Familiar Effect: "1xPotato, 1xGhuol"
 Item	union scalemail pants	Familiar Effect: "2xBarrr, cap 12"
 Item	Unkillable Skeleton's shinguards	Sleaze Damage: +50, Hot Resistance: +5, Stench Resistance: +1, Class: "Turtle Tamer", Familiar Effect: "1xVolley, 1xBarrr"
@@ -1426,6 +1431,8 @@ Item	fleetwood chain	Weapon Damage: +5
 Item	fluorescent lightbulb	Maximum MP: +30
 Item	flypaper staff	Mysticality: +3, Weapon Damage: +3, Spooky Damage: +3
 Item	foam pistol	Critical Hit Percent: +5, Experience Percent (Mysticality): +5
+# focused magnetron pistol: Lets you attempt to steal an item from an enemy
+Item	focused magnetron pistol	Single Equip
 Item	foot-long hot daub	Hot Damage: +9, Hot Spell Damage: +9
 Item	fouet de tortue-dressage	Familiar Weight: +10, Familiar Damage: +10
 Item	Fourth of May Cosplay Saber	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20, Spooky Damage: +4, Stench Damage: +4, Hot Damage: +4, Cold Damage: +4, Sleaze Damage: +4, Spooky Resistance: [1+3*pref(_saberMod,3)], Stench Resistance: [1+3*pref(_saberMod,3)], Hot Resistance: [1+3*pref(_saberMod,3)], Cold Resistance: [1+3*pref(_saberMod,3)], Sleaze Resistance: [1+3*pref(_saberMod,3)], MP Regen Min: [10*pref(_saberMod,1)], MP Regen Max: [15*pref(_saberMod,1)], Monster Level: [20*pref(_saberMod,2)], Familiar Weight: [10*pref(_saberMod,4)]
@@ -3350,6 +3357,7 @@ Item	moss marlinspike	Moxie: +10, Negative Status Resist, Extra Pickpocket, Sing
 # moss medal: Lets you impress your pasta thrall
 Item	moss medal	Experience (Mysticality): +2, Spooky Resistance: +2, Single Equip
 Item	mother's necklace	Adventures: +3, Never Fumble
+Item	motion sensor	Initiative: +100, Single Equip
 Item	moustache sock	Moxie: +20, Muscle: -5, Mysticality: -5, Initiative: +20, Single Equip
 Item	Mr. Accessaturday	Muscle: [1+104*event(Saturday)], Mysticality: [1+104*event(Saturday)], Moxie: [1+104*event(Saturday)]
 Item	Mr. Accessory	Muscle: +15, Mysticality: +15, Moxie: +15, Softcore Only
@@ -3502,6 +3510,12 @@ Item	purple glowstick	Maximum MP: +5, Moxie: -3, Raveosity: +1
 Item	Purple Horseshoe of Honor	Muscle: +6, Mysticality: +6, Moxie: +6, Item Drop: +10, Single Equip
 Item	Putrid Pendant	Muscle: +3, Mysticality: +3, Moxie: +3, Stench Spell Damage: +40, Single Equip
 Item	pygmy nose-bone	Moxie: +7, Single Equip
+# quick-release belt pouch: The first combat item you use each fight is a Quick Action
+Item	quick-release belt pouch	Single Equip
+# quick-release fannypack: The first two combat items you use each fight are Quick Actions
+Item	quick-release fannypack	Single Equip
+# quick-release utility belt: The first three combat items you use each fight are Quick Actions
+Item	quick-release utility belt	Single Equip
 Item	quicksilver ring	Initiative: +40, Single Equip
 Item	Quiets-Your-Steps	Combat Rate: -5, Pickpocket Chance: +50, Initiative: -50, Single Equip
 Item	rabbit's foot key	Muscle: +10, Mysticality: +10, Moxie: +10
@@ -3749,10 +3763,10 @@ Item	Time Bandit Badge of Courage	Muscle Limit: 50, Mysticality Limit: 50, Moxie
 Item	time halo	Adventures: +5, Unarmed, Single Equip
 # Time Lord Badge of Honor: Proves your worth to the Time Lords
 Item	Time Lord Badge of Honor	Muscle Limit: 50, Mysticality Limit: 50, Moxie Limit: 50
-# time-twitching toolbelt	Muscle: +15, Mysticality: +15, Moxie: +15, Single Equip, Item Drop: [60*zone(Twitch)], Free Pull: [pref(timeTowerAvailable,true)]
 # time-twitching toolbelt: +60% Item Drops in the Time-Twitching Tower
 # time-twitching toolbelt: Reveals various Time-Forgotten Secrets
 # time-twitching toolbelt: (also in the Time-Twitching Tower)
+# time-twitching toolbelt	Muscle: +15, Mysticality: +15, Moxie: +15, Single Equip, Item Drop: [60*zone(Twitch)], Free Pull: [pref(timeTowerAvailable,true)]
 Item	time-twitching toolbelt	Muscle: +15, Mysticality: +15, Moxie: +15, Single Equip, Item Drop: [60*zone(Twitch)], Variable
 Item	tin star	Monster Level: +5, Moxie: +3
 Item	tiny die-cast arc-welding Elfborg	Meat Drop: +10
@@ -3789,6 +3803,7 @@ Item	tiny plastic 7-foot dwarf	Monster Level: +1
 Item	tiny plastic 11 Dealer	Meat Drop: +4
 Item	tiny plastic abominable fudgeman	Weapon Damage: +10
 Item	tiny plastic Abuela Crimbo	Spooky Resistance: +1
+Item	tiny plastic Abuela's Cottage	Muscle: +3, Mysticality: +3, Moxie: +3
 Item	tiny plastic accordion thief	Moxie: +2, Mysticality: +1
 Item	tiny plastic ambulatory robo-minecart	Moxie: +1
 Item	tiny plastic Ancient Unspeakable Bugbear	Monster Level: +1
@@ -3800,10 +3815,12 @@ Item	tiny plastic angry vikings	Weapon Damage: +10
 Item	tiny plastic anime smiley	Monster Level: +1
 Item	tiny plastic animelf	Initiative: +5
 Item	tiny plastic apathetic lizardman	Monster Level: +1
+Item	tiny plastic Armory	Weapon Damage: +3
 Item	tiny plastic astronomer	Monster Level: +1
 Item	tiny plastic Axe Wound	Monster Level: +1
 Item	tiny plastic baby gravy fairy	Familiar Weight: +1
 Item	tiny plastic bad vibe	Monster Level: +2
+Item	tiny plastic Bar	Booze Drop: +3
 Item	tiny plastic Baron von Ratsworth	Meat Drop: +3
 Item	tiny plastic barrrnacle	Familiar Weight: +1
 Item	tiny plastic batbugbear	Monster Level: +1
@@ -3831,6 +3848,7 @@ Item	tiny plastic bugaboo	Monster Level: +1
 Item	tiny plastic Bugbear Captain	Maximum HP: +20, Maximum MP: +20, HP Regen Min: 2, HP Regen Max: 4, MP Regen Min: 2, MP Regen Max: 4, Single Equip
 Item	tiny plastic buzzerker	Monster Level: +1
 Item	tiny plastic caboose	Damage Reduction: 3
+Item	tiny plastic Cafe	Food Drop: +3
 Item	tiny plastic Caf&eacute; Elf	Hot Resistance: +1
 Item	tiny plastic Captain Kerkard	Monster Level: +1
 Item	tiny plastic cavebugbear	Monster Level: +1
@@ -3871,6 +3889,7 @@ Item	tiny plastic drunk goat	Monster Level: +1
 Item	tiny plastic Duke Starkiller	Monster Level: +1
 Item	tiny plastic Ed the Undying	Maximum HP: +30, Damage Absorption: +30
 Item	tiny plastic exo-suited miner	Muscle: +1
+Item	tiny plastic Factory	Initiative: +3
 Item	tiny plastic fat stack of cash	Meat Drop: +3
 Item	tiny plastic Father McGruber	Monster Level: +1
 Item	tiny plastic fax machine	Spooky Damage: +2, Stench Damage: +2, Hot Damage: +2, Cold Damage: +2, Sleaze Damage: +2
@@ -6727,6 +6746,10 @@ Effect	Metal Speed	Initiative: +20
 Effect	Meteor Showered	Weapon Damage Percent: +200, Spell Damage Percent: +200, Familiar Weight: +20
 Effect	Midgetized	Damage Reduction: 4, Weapon Damage: -8
 Effect	Mighty Shout	Muscle Percent: +100, Moxie Percent: +100
+# Mild-Mannered Professor: Max HP Limited to 1
+# Mild-Mannered Professor: You may not attack normally
+# Mild-Mannered Professor: Running away is always successful
+Effect	Mild-Mannered Professor	Combat Rate: -25, Muscle Limit: 1, Mysticality Limit: 5, Moxie Limit: 1
 Effect	Mild Lycanthropy	Muscle Percent: [+1*M], Moxie Percent: [+1*M]
 Effect	Militarily Minted	Damage Reduction: 3
 Effect	Milk is Blood is Milk	Muscle: [-5*T], Mysticality: [-5*T], Moxie: [-5*T], Muscle Percent: [-50*T], Mysticality Percent: [-50*T], Moxie Percent: [-50*T]
@@ -7198,6 +7221,8 @@ Effect	Saucemastery	Maximum HP: +3, Mysticality: +1
 Effect	Sauna-Fresh	Muscle: +100, Mysticality: +100, Moxie: +100, Cold Resistance: +5
 # Sausage Festive: Regenerate 5-10 HP/MP per Adventure
 Effect	Sausage Festive	HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10
+# Savage Beast: You cannot run away from combat
+Effect	Savage Beast	Combat Rate: +25, HP Regen Min: 1, HP Regen Max: 1
 Effect	Savage Beast Inside	Muscle: +20
 # Scared Stiff: Extra-Vulnerable to Cold and Spooky
 Effect	Scared Stiff	Sleaze Resistance: +2, Cold Vulnerability, Spooky Vulnerability

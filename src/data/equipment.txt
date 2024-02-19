@@ -35,6 +35,7 @@ big bad voodoo mask	160	Mox: 65
 Big Candy's tophat	100	none
 biker's hat	200	Mox: 85
 biomechanical crimborg helmet	150	Mox: 60
+biphasic molecular oculus	50	none
 birdseed hat	100	none
 black cowboy hat	165	Mox: 67
 black helmet	160	Mus: 65
@@ -397,6 +398,7 @@ tope&eacute;	50	none
 toy Crimbot mega face	50	none
 toy space helmet	175	Mox: 72
 training helmet	100	Mox: 10
+triphasic molecular oculus	100	none
 Tropical Crimbo Hat	100	Mox: 35
 turtle wax helmet	40	Mox: 5
 turtlemail coif	80	Mox: 25
@@ -573,6 +575,7 @@ Guzzlr pants	100	none
 gym shorts	100	Mox: 35
 hardened slime pants	200	Mox: 200
 hep waders	50	none
+high-tension exoskeleton	50	none
 hippopotamus kilt	130	Mox: 50
 hippopotamus pants	130	Mox: 50
 hippopotamus skirt	130	Mox: 50
@@ -581,6 +584,7 @@ Hodgman's lobsterskin pants	200	Mox: 200
 honeybritches	175	Mox: 72
 hot daub stand	85	Mox: 27
 ironic jogging shorts	40	Mox: 5
+irresponsible-tension exoskeleton	150	none
 Jeans of Loathing	200	Mox: 150
 Jodhpurs of Violence	200	Mox: 125
 junk trunks	60	Mox: 15
@@ -725,6 +729,7 @@ troutpiece	110	Mox: 40
 troutsers	200	none
 turtle wax greaves	40	Mox: 5
 turtlemail breeches	80	Mox: 25
+ultra-high-tension exoskeleton	100	none
 Uncle Hobo's gift baggy pants	200	Mox: 200
 union scalemail pants	50	Mox: 10
 Unkillable Skeleton's shinguards	300	Mus: 250
@@ -1206,6 +1211,7 @@ fleetwood chain	155	Mus: 62	1-handed flail
 fluorescent lightbulb	50	Mus: 0	1-handed club
 flypaper staff	80	Mus: 25	2-handed staff
 foam pistol	120	Mox: 0	1-handed pistol
+focused magnetron pistol	100	Mox: 0	1-handed pistol
 foot-long hot daub	85	Mus: 27	2-handed club
 fouet de tortue-dressage	20	Mus: 0	1-handed whip
 Fourth of May Cosplay Saber	100	Mus: 0	1-handed saber
@@ -1275,7 +1281,7 @@ Grimacite glaive	125	Mus: 47	2-handed polearm
 groping claw	225	Mus: 200	1-handed claw
 guancertina	50	Mox: 10	2-handed accordion
 gummi sword	120	Mus: 45	1-handed sword
-gunwale whalegun	200	Mox: 0	2-handed 
+gunwale whalegun	200	Mox: 0	2-handed machine gun
 haiku katana	100	Mus: 0	1-handed sword
 hairy staff	135	Mus: 45	2-handed staff
 half-melted spoon	115	Mys: 42	1-handed utensil
@@ -2867,6 +2873,7 @@ mood ring	10	none
 moon-amber necklace	250	Mys: 200
 moss marlinspike	0	none
 moss medal	0	none
+motion sensor	0	none
 moustache sock	100	Mus: 10
 Mr. Accessaturday	0	none
 Mr. Accessory	0	none
@@ -2996,6 +3003,9 @@ purple glowstick	20	none
 Purple Horseshoe of Honor	200	Mys: 85
 Putrid Pendant	150	Mys: 60
 pygmy nose-bone	155	Mys: 62
+quick-release belt pouch	0	none
+quick-release fannypack	0	none
+quick-release utility belt	0	none
 quicksilver ring	100	Mys: 10
 Quiets-Your-Steps	300	Mox: 100
 rabbit's foot key	10	none
@@ -3152,8 +3162,8 @@ spirit bell	0	none
 spooky glove	60	Mys: 15
 Spookyraven signet	100	Mys: 10
 spring boots	0	none
-spring shoes	0	none
 Spring Bros. ID badge	0	none
+spring shoes	0	none
 stained glass spectacles	120	Mys: 40
 stained glass suspenders	120	Mus: 40
 stainless steel scarf	90	Mys: 30
@@ -3322,7 +3332,7 @@ tiny plastic Dr. Awkward	50	Mys: 10
 tiny plastic drunk goat	10	none
 tiny plastic Duke Starkiller	10	none
 tiny plastic Ed the Undying	50	Mys: 10
-tiny plastic Elf Guard Armory	10	none
+tiny plastic Armory	10	none
 tiny plastic exo-suited miner	10	none
 tiny plastic Factory	10	none
 tiny plastic fat stack of cash	0	none
