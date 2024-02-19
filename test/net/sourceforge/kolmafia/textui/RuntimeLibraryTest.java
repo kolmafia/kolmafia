@@ -71,7 +71,6 @@ import org.json.JSONObject;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -1407,7 +1406,6 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
    * This test is intended to test running the maximizer from a command or script (not the GUI),
    * show that the maximizer chooses a weapon and then emits the commands to equip that weapon.
    */
-  @Disabled("Why doesn't this select anything?")
   @Test
   public void itShouldMaximizeAndEquipSelectedWeapon() {
     String maxStr = "effective";
@@ -1441,7 +1439,6 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     }
   }
 
-  @Disabled("Why doesn't this select anything?")
   @Test
   public void itShouldMaximizeAndEquipSelectedWeapon4Parameter() {
     String maxStr = "effective";
