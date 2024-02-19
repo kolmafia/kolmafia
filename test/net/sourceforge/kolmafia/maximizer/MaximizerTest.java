@@ -2124,7 +2124,8 @@ public class MaximizerTest {
         recommendedSlotIs(Slot.WEAPON, "sewer snake");
       }
     }
-@Disabled("Disable until muscleEffectiveEquipsMelee is better understood.")
+
+    @Disabled("Disable until muscleEffectiveEquipsMelee is better understood.")
     @Test
     public void moxieEffectiveEquipsRanged() {
       String maxStr = "effective";
@@ -2255,25 +2256,25 @@ public class MaximizerTest {
     public void specAndEquipHaveSameBoostsTwo() {
       String maxStr = "effective";
       var cleanups =
-              new Cleanups(
-                      withStats(10, 5, 5),
-                      withEquippableItem("seal-skull helmet"),
-                      withEquippableItem("astral shirt"),
-                      withEquippableItem("old sweatpants"),
-                      withEquippableItem("sewer snake"),
-                      withEquippableItem("seal-clubbing club"));
+          new Cleanups(
+              withStats(10, 5, 5),
+              withEquippableItem("seal-skull helmet"),
+              withEquippableItem("astral shirt"),
+              withEquippableItem("old sweatpants"),
+              withEquippableItem("sewer snake"),
+              withEquippableItem("seal-clubbing club"));
       try (cleanups) {
         assertTrue(maximize(maxStr));
         List<Boost> spec = getBoosts();
         assertTrue(maximizeNoSpec(maxStr));
         List<Boost> noSpec = getBoosts();
         assertEquals(spec.size(), noSpec.size());
-        // This is not the right test because we need to compare the contents of the boosts and not that they
+        // This is not the right test because we need to compare the contents of the boosts and not
+        // that they
         // are the same object
         assertTrue(spec.equals(noSpec));
       }
     }
-
   }
 
   @Nested
