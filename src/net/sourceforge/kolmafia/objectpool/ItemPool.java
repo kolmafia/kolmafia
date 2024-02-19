@@ -3725,6 +3725,7 @@ public class ItemPool {
   public static final int LIL_SNOWBALL_FACTORY = 11485;
   public static final int PRANK_CRIMBO_CARD = 11487;
   public static final int MIMIC_EGG = 11542;
+  public static final int RESEARCH_FRAGMENT = 11562;
 
   private ItemPool() {}
 

@@ -418,6 +418,21 @@ public class MonsterDatabase {
     MonsterDatabase.addMapping(lolMap, "The Big Wisniewski", "The Little Wisniewski");
     MonsterDatabase.addMapping(lolMap, "The Man", "The Boy");
     MonsterDatabase.MONSTER_PATH_MAP.put(Path.LEGACY_OF_LOATHING.getName(), lolMap);
+
+    Map<MonsterData, MonsterData> wereProfMap = new TreeMap<>();
+    MonsterDatabase.addMapping(wereProfMap, "Boss Bat", "Boss Beast");
+    MonsterDatabase.addMapping(wereProfMap, "Knob Goblin King", "Knob Goblin Beast");
+    MonsterDatabase.addMapping(wereProfMap, "Bonerdagon", "Curséd Bonerdagon");
+    MonsterDatabase.addMapping(wereProfMap, "Groar", "Just Groar");
+    MonsterDatabase.addMapping(wereProfMap, "Dr. Awkward", "Were-Dr. Awkwarder, ew");
+    MonsterDatabase.addMapping(wereProfMap, "Lord Spookyraven", "Lord Beastlyraven");
+    MonsterDatabase.addMapping(wereProfMap, "Protector Spectre", "Protector Beast");
+    MonsterDatabase.addMapping(wereProfMap, "The Big Wisniewski", "The Beast Wisniewski");
+    // MonsterDatabase.addMapping(wereProfMap, "The Man", "The Beast Man");
+    MonsterDatabase.addMapping(wereProfMap, "Naughty Sorceress", "The Naughty Wolferess");
+    MonsterDatabase.addMapping(wereProfMap, "Naughty Sorceress (2)", null);
+    MonsterDatabase.addMapping(wereProfMap, "Naughty Sorceress (3)", null);
+    MonsterDatabase.MONSTER_PATH_MAP.put(Path.WEREPROFESSOR.getName(), wereProfMap);
   }
 
   public static Map<MonsterData, MonsterData> getMonsterPathMap(final String path) {
