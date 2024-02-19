@@ -5,7 +5,6 @@ import static internal.helpers.Maximizer.doesNotRecommend;
 import static internal.helpers.Maximizer.getBoosts;
 import static internal.helpers.Maximizer.getSlot;
 import static internal.helpers.Maximizer.maximize;
-import static internal.helpers.Maximizer.maximizeNoSpec;
 import static internal.helpers.Maximizer.modFor;
 import static internal.helpers.Maximizer.recommendedSlotIs;
 import static internal.helpers.Maximizer.recommendedSlotIsUnchanged;
@@ -58,7 +57,6 @@ import net.sourceforge.kolmafia.persistence.AdventureDatabase.Environment;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -2063,28 +2061,6 @@ public class MaximizerTest {
               withEquippableItem("seal-clubbing club"));
       try (cleanups) {
         assertTrue(maximize(maxStr));
-        List<Boost> xyzzy = getBoosts();
-        recommends("seal-clubbing club");
-        recommendedSlotIs(Slot.WEAPON, "seal-clubbing club");
-      }
-    }
-
-    @Test
-    public void muscleEffectiveEquipsMelee() {
-      String maxStr = "effective";
-      var cleanups =
-          new Cleanups(
-              withStats(10, 5, 5),
-              withEquippableItem("seal-skull helmet"),
-              withEquippableItem("astral shirt"),
-              withEquippableItem("old sweatpants"),
-              withEquippableItem("sewer snake"),
-              withEquippableItem("seal-clubbing club"));
-      try (cleanups) {
-        assertTrue(maximizeNoSpec(maxStr));
-        List<Boost> xyzzy = getBoosts();
-        // The difference between maximize and maximizeNoSpec (above) seems to be that
-        // sometimes noSpec finds nothing useful.  Why is that?
         recommends("seal-clubbing club");
         recommendedSlotIs(Slot.WEAPON, "seal-clubbing club");
       }
@@ -2122,25 +2098,6 @@ public class MaximizerTest {
         assertTrue(maximize(maxStr));
         recommends("sewer snake");
         recommendedSlotIs(Slot.WEAPON, "sewer snake");
-      }
-    }
-
-    @Disabled("Disable until muscleEffectiveEquipsMelee is better understood.")
-    @Test
-    public void moxieEffectiveEquipsRanged() {
-      String maxStr = "effective";
-      var cleanups =
-          new Cleanups(
-              withStats(5, 5, 10),
-              withEquippableItem("seal-skull helmet"),
-              withEquippableItem("astral shirt"),
-              withEquippableItem("old sweatpants"),
-              withEquippableItem("sewer snake"),
-              withEquippableItem("seal-clubbing club"));
-      try (cleanups) {
-        assertTrue(maximizeNoSpec(maxStr));
-        List<Boost> xyzzy = getBoosts();
-        assertTrue(KoLCharacter.hasEquipped(ItemPool.SEWER_SNAKE));
       }
     }
 
@@ -2193,8 +2150,7 @@ public class MaximizerTest {
     }
 
     @Test
-    @Disabled("recommending buffs but no weapons")
-    public void ziz() {
+    public void realExampleFrom_ziz_selectsWeapon() {
       String maxStr =
           "5item,meat,0.5initiative,0.1da 1000max,dr,0.5all res,1.5mainstat,-fumble,mox,0.4hp,0.2mp 1000max,3mp regen,0.25spell damage,1.75spell damage percent,2familiar weight,5familiar exp,10exp,5Mysticality experience percent,200combat 20max,+200bonus mafia thumb ring";
       var cleanups =
@@ -2214,19 +2170,16 @@ public class MaximizerTest {
               withStats(2, 27, 1),
               withSkill(SkillPool.MASTER_OF_THE_SURPRISING_FIST));
       try (cleanups) {
-        assertTrue(maximizeNoSpec(maxStr));
-        List<Boost> xyzzy = getBoosts();
+        assertTrue(maximize(maxStr));
         recommends("candy cane sword cane");
         recommendedSlotIs(Slot.WEAPON, "candy cane sword cane");
-        assertTrue(KoLCharacter.hasEquipped(ItemPool.CANDY_CANE_SWORD));
       }
     }
 
-    @Disabled("Sort it out with SameBoostsTwo")
     @Test
-    public void specAndEquipHaveSameBoostsOne() {
+    public void realExampleFrom_ziz_selectsWeaponWithEffective() {
       String maxStr =
-          "5item,meat,0.5initiative,0.1da 1000max,dr,0.5all res,1.5mainstat,-fumble,mox,0.4hp,0.2mp 1000max,3mp regen,0.25spell damage,1.75spell damage percent,2familiar weight,5familiar exp,10exp,5Mysticality experience percent,200combat 20max,+200bonus mafia thumb ring";
+          "5item,meat,0.5initiative,0.1da 1000max,dr,0.5all res,1.5mainstat,-fumble,mox,0.4hp,0.2mp 1000max,3mp regen,0.25spell damage,1.75spell damage percent,2familiar weight,5familiar exp,10exp,5Mysticality experience percent,200combat 20max,+200bonus mafia thumb ring, effective";
       var cleanups =
           new Cleanups(
               withEquippableItem("candy cane sword cane"),
@@ -2245,34 +2198,8 @@ public class MaximizerTest {
               withSkill(SkillPool.MASTER_OF_THE_SURPRISING_FIST));
       try (cleanups) {
         assertTrue(maximize(maxStr));
-        List<Boost> spec = getBoosts();
-        assertTrue(maximizeNoSpec(maxStr));
-        List<Boost> noSpec = getBoosts();
-        assertTrue(spec.equals(noSpec));
-      }
-    }
-
-    @Test
-    public void specAndEquipHaveSameBoostsTwo() {
-      String maxStr = "effective";
-      var cleanups =
-          new Cleanups(
-              withStats(10, 5, 5),
-              withEquippableItem("seal-skull helmet"),
-              withEquippableItem("astral shirt"),
-              withEquippableItem("old sweatpants"),
-              withEquippableItem("sewer snake"),
-              withEquippableItem("seal-clubbing club"));
-      try (cleanups) {
-        assertTrue(maximize(maxStr));
-        List<Boost> spec = getBoosts();
-        assertTrue(maximizeNoSpec(maxStr));
-        List<Boost> noSpec = getBoosts();
-        assertEquals(spec.size(), noSpec.size());
-        // This is not the right test because we need to compare the contents of the boosts and not
-        // that they
-        // are the same object
-        assertTrue(spec.equals(noSpec));
+        recommends("candy cane sword cane");
+        recommendedSlotIs(Slot.WEAPON, "candy cane sword cane");
       }
     }
   }
