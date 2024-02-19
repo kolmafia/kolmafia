@@ -143,6 +143,7 @@ public class ModifierDatabase {
 
   private static final Map<String, String> COMBAT_RATE_DESCRIPTIONS =
       Map.ofEntries(
+          Map.entry("incredibly very much more", "+25"),
           Map.entry("<i>way</i> more", "+20"),
           Map.entry("significantly more", "+15"),
           Map.entry("much more", "+10"),
@@ -155,7 +156,8 @@ public class ModifierDatabase {
           Map.entry("very much less", "-11"),
           Map.entry("significantly less", "-15"),
           Map.entry("very very very much less", "-20"),
-          Map.entry("<i>way</i> less", "-20"));
+          Map.entry("<i>way</i> less", "-20"),
+          Map.entry("incredibly very much less", "-25"));
 
   public static final Set<ModifierType> DOUBLED_BY_SQUINT_CHAMPAGNE =
       Set.of(
