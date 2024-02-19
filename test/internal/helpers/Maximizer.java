@@ -4,11 +4,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants.filterType;
 import net.sourceforge.kolmafia.ModifierType;
@@ -26,11 +26,6 @@ public class Maximizer {
   public static boolean maximize(String maximizerString) {
     return net.sourceforge.kolmafia.maximizer.Maximizer.maximize(
         maximizerString, 0, PriceLevel.DONT_CHECK, true);
-  }
-
-  public static boolean maximizeNoSpec(String maximizerString) {
-    return net.sourceforge.kolmafia.maximizer.Maximizer.maximize(
-        maximizerString, 0, PriceLevel.DONT_CHECK, false);
   }
 
   public static void maximizeCreatable(String maximizerString) {
@@ -54,8 +49,7 @@ public class Maximizer {
   }
 
   public static List<Boost> getBoosts() {
-    return net.sourceforge.kolmafia.maximizer.Maximizer.boosts.stream()
-        .collect(Collectors.toList());
+    return new ArrayList<>(net.sourceforge.kolmafia.maximizer.Maximizer.boosts);
   }
 
   public static Optional<AdventureResult> getSlot(Slot slot) {
