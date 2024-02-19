@@ -1848,10 +1848,10 @@ Mr. Cheeng	1815	mrcheeng.gif	BOSS NOCOPY Atk: 180 Def: 220 HP: 400 Init: 100 P: 
 
 # The Velvet / Gold Mine (That 70s Volcano August 2015)
 healing crystal golem	1788	crystalgolem.gif	Atk: 70 Def: 70 HP: 150 Init: 70 P: construct Phys: 50 ED: hot Article: a	glowing New Age crystal (5)	New Age healing crystal (20)	New Age healing crystal (15)
-mine overseer (female)	1787	mineboss2.gif	Atk: 50 Def: 50 HP: 100 Init: 50 P: dude E: hot Article: a Manuel: "mine overseer"	fireproof megaphone (5)	Gold Velvet&trade; whiskey (20)
-mine overseer (male)	1785	mineboss1.gif	Atk: 50 Def: 50 HP: 100 Init: 50 P: dude E: hot Article: a Manuel: "mine overseer"	fireproof megaphone (0)	Gold Velvet&trade; whiskey (0)
+mine overseer (female)	1787	mineboss2.gif	Atk: 50 Def: 50 HP: 100 Init: 50 P: dude E: hot Article: a Manuel: "mine overseer"	fireproof megaphone (10)	Gold Velvet&trade; whiskey (25)
+mine overseer (male)	1785	mineboss1.gif	Atk: 50 Def: 50 HP: 100 Init: 50 P: dude E: hot Article: a Manuel: "mine overseer"	fireproof megaphone (5)	Gold Velvet&trade; whiskey (20)
 mine worker (female)	1784	mineworker1.gif	Atk: 50 Def: 50 HP: 100 Init: 50 P: dude E: hot Article: a Manuel: "mine worker"	broken high-temperature mining drill (15)	high-temperature mining mask (5)	mineapple (20)
-mine worker (male)	1786	mineworker2.gif	Atk: 50 Def: 50 HP: 100 Init: 50 P: dude E: hot Article: a Manuel: "mine worker"	broken high-temperature mining drill (0)	high-temperature mining mask (0)	mineapple (0)
+mine worker (male)	1786	mineworker2.gif	Atk: 50 Def: 50 HP: 100 Init: 50 P: dude E: hot Article: a Manuel: "mine worker"	broken high-temperature mining drill (15)	high-temperature mining mask (10)	mineapple (25)
 Mr. Choch	1814	mrchoch.gif	BOSS NOCOPY Atk: 200 Def: 200 HP: 400 Init: 100 P: dude	Mr. Choch's bone (n100)	labrador cookie (n100)
 
 # The Flaming Inferno Discotheque (That 70s Volcano August 2015)

@@ -11571,6 +11571,21 @@
 11543	Crimbuccaneer war standard	823960598	c23_pirateflag.gif	offhand		0
 11544	Elf Guard war standard	679660460	c23_elfflag.gif	offhand		0
 11545	in-the-box spring shoes	809348020	springshoes_box.gif	usable	t	0
-11546	spring shoes	533142596	springshoes.gif	accessory		0
-11547	ultra-soft ferns	979781148	softfern.gif	potion	t,d	10
-11548	crunchy brush	865877671	drybrush.gif	potion	t,d	10
+11546	spring shoes	533142596	springshoes.gif	accessory		0	sets of spring shoes
+11547	ultra-soft ferns	979781148	softfern.gif	potion	t,d	10	bunches of ultra-soft ferns
+11548	crunchy brush	865877671	drybrush.gif	potion	t,d	10	bunches of crunchy brush
+11549	smashed scientific equipment	523850558	brokenscience.gif	none	q	0
+11550	biphasic molecular oculus	327995300	wp_oculus1.gif	hat	q	0
+11551	triphasic molecular oculus	960532486	wp_oculus2.gif	hat	q	0
+11552	high-tension exoskeleton	589968168	wp_exo1.gif	pants	q	0
+11553	ultra-high-tension exoskeleton	123467674	wp_exo2.gif	pants	q	0
+11554	irresponsible-tension exoskeleton	291853336	wp_exo3.gif	pants	q	0
+11555	quick-release belt pouch	706414662	wp_belt1.gif	accessory	q	0
+11556	quick-release fannypack	503257041	wp_belt2.gif	accessory	q	0
+11557	quick-release utility belt	836859893	wp_belt3.gif	accessory	q	0
+11558	motion sensor	337915078	wp_sensor.gif	accessory	q	0
+11559	focused magnetron pistol	303408883	wp_gun.gif	weapon	q	0
+11560
+11561
+11562	research fragment	981562994	blueprint.gif	usable	t	0
+11563	Thwaitgold wolf spider statuette	455599612	thwaitwolf.gif	none		0
