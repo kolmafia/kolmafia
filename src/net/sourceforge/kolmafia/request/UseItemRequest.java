@@ -4882,6 +4882,11 @@ public class UseItemRequest extends GenericRequest {
         Preferences.increment("legacyPoints", count, 19, false);
         break;
 
+      case ItemPool.RESEARCH_FRAGMENT:
+        // Get success text
+        Preferences.increment("wereProfessorPoints", count, 23, false);
+        break;
+
       case ItemPool.ESSENCE_OF_ANNOYANCE:
         if (!responseText.contains("You quaff")) {
           return;

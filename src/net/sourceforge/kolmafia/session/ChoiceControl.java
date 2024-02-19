@@ -6735,6 +6735,11 @@ public abstract class ChoiceControl {
           BurningLeavesRequest.postChoice(text, leaves);
           break;
         }
+
+      case 1524:
+        // Moonlighting
+        handleAfterAvatar(ChoiceManager.lastDecision);
+        break;
     }
   }
 

@@ -1281,7 +1281,7 @@ Grimacite glaive	125	Mus: 47	2-handed polearm
 groping claw	225	Mus: 200	1-handed claw
 guancertina	50	Mox: 10	2-handed accordion
 gummi sword	120	Mus: 45	1-handed sword
-gunwale whalegun	200	Mox: 0	2-handed 
+gunwale whalegun	200	Mox: 0	2-handed machine gun
 haiku katana	100	Mus: 0	1-handed sword
 hairy staff	135	Mus: 45	2-handed staff
 half-melted spoon	115	Mys: 42	1-handed utensil
@@ -3332,7 +3332,7 @@ tiny plastic Dr. Awkward	50	Mys: 10
 tiny plastic drunk goat	10	none
 tiny plastic Duke Starkiller	10	none
 tiny plastic Ed the Undying	50	Mys: 10
-tiny plastic Elf Guard Armory	10	none
+tiny plastic Armory	10	none
 tiny plastic exo-suited miner	10	none
 tiny plastic Factory	10	none
 tiny plastic fat stack of cash	0	none
