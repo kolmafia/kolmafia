@@ -2618,10 +2618,7 @@ public class FightRequestTest {
 
   @Test
   public void canDetectSpringBoots() {
-    var cleanups =
-        new Cleanups(
-            withFight(),
-            withProperty("banishedMonsters"));
+    var cleanups = new Cleanups(withFight(), withProperty("banishedMonsters"));
 
     try (cleanups) {
       parseCombatData(
@@ -2630,5 +2627,4 @@ public class FightRequestTest {
       assertThat("banishedMonsters", hasStringValue(startsWith("fluffy bunny:Spring Kick:")));
     }
   }
-
 }
