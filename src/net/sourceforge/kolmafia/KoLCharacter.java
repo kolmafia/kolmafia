@@ -3316,6 +3316,10 @@ public abstract class KoLCharacter {
     return KoLCharacter.ascensionPath == Path.SMALL;
   }
 
+  public static final boolean inWereProfessor() {
+    return KoLCharacter.ascensionPath == Path.WEREPROFESSOR;
+  }
+
   public static final boolean isUnarmed() {
     AdventureResult weapon = EquipmentManager.getEquipment(Slot.WEAPON);
     AdventureResult offhand = EquipmentManager.getEquipment(Slot.OFFHAND);
