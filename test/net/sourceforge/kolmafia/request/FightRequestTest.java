@@ -2615,4 +2615,20 @@ public class FightRequestTest {
       assertThat("_mimicEggsObtained", isSetTo(1));
     }
   }
+
+  @Test
+  public void canDetectSpringBoots() {
+    var cleanups =
+        new Cleanups(
+            withFight(),
+            withProperty("banishedMonsters"));
+
+    try (cleanups) {
+      parseCombatData(
+          "request/test_fight_spring_boots_banish.html", "fight.php?action=skill&whichskill=7501");
+
+      assertThat("banishedMonsters", hasStringValue(startsWith("fluffy bunny:Spring Kick:")));
+    }
+  }
+
 }
