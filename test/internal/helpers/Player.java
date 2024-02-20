@@ -18,7 +18,6 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.CoinmasterData;
-import net.sourceforge.kolmafia.CoinmasterRegistry;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -2470,8 +2469,8 @@ public class Player {
   }
 
   public static Cleanups withDisabledCoinmaster(CoinmasterData data) {
-    CoinmasterRegistry.disableCoinmaster(data);
-    return new Cleanups(() -> CoinmasterRegistry.enableCoinmaster(data));
+    data.setDisabled(true);
+    return new Cleanups(() -> data.setDisabled(false));
   }
 
   public static Cleanups withoutCoinmasterBuyItem(CoinmasterData data, AdventureResult item) {
