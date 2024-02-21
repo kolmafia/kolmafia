@@ -2298,6 +2298,11 @@ public class ConcoctionDatabase {
     return getMixingMethod(itemId) != CraftingType.NOCREATE;
   }
 
+  public static final boolean hasNonCoinmasterMixingMethod(final int itemId) {
+    CraftingType mixingMethod = getMixingMethod(itemId);
+    return mixingMethod != CraftingType.NOCREATE && mixingMethod != CraftingType.COINMASTER;
+  }
+
   public static final EnumSet<CraftingRequirements> getRequirements(final int itemId) {
     Concoction item = ConcoctionPool.get(itemId);
     return item == null ? EnumSet.noneOf(CraftingRequirements.class) : item.getRequirements();

@@ -212,6 +212,11 @@ public class CoinmastersDatabase {
       return null;
     }
 
+    // *** For testing
+    if (request.getData().isDisabled()) {
+      return null;
+    }
+
     request.setLimit(request.affordableCount());
     request.setCanPurchase();
 
@@ -225,5 +230,19 @@ public class CoinmastersDatabase {
   public static final boolean contains(final int itemId, boolean validate) {
     CoinMasterPurchaseRequest item = getPurchaseRequest(itemId);
     return item != null && (!validate || item.availableItem());
+  }
+
+  // *** For testing
+  public static final CoinMasterPurchaseRequest findPurchaseRequest(final AdventureResult item) {
+    return COINMASTER_ITEMS.get(item.getItemId());
+  }
+
+  public static final void addPurchaseRequest(
+      final AdventureResult item, final CoinMasterPurchaseRequest request) {
+    COINMASTER_ITEMS.put(item.getItemId(), request);
+  }
+
+  public static final void removePurchaseRequest(final AdventureResult item) {
+    COINMASTER_ITEMS.remove(item.getItemId());
   }
 }

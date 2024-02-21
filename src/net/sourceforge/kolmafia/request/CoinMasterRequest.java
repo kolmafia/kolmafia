@@ -260,23 +260,56 @@ public class CoinMasterRequest extends GenericRequest {
       CoinMasterRequest.parseBalance(data, responseText);
       return;
     }
-    String shopId = NPCPurchaseRequest.getShopId(urlString);
 
     String buy = data.getBuyAction();
     String sell = data.getSellAction();
-    String buyURL = data.getBuyURL();
-    String sellURL = data.getSellURL();
-    if (buy != null
-        && action.equals(buy)
-        && (buyURL == null || shopId == null || buyURL.endsWith(shopId))
-        && !responseText.contains("You don't have enough")
-        && !responseText.contains("Huh?")) {
-      CoinMasterRequest.completePurchase(data, urlString);
-    } else if (sell != null
-        && action.equals(sell)
-        && (sellURL == null || shopId == null || sellURL.endsWith(shopId))
-        && !responseText.contains("You don't have that many")) {
-      CoinMasterRequest.completeSale(data, urlString);
+
+    if (buy == null && sell == null) {
+      // You can neither buy nor sell from this Coinmaster?
+      return;
+    }
+
+    boolean shared = buy != null && sell != null && buy.equals(sell);
+
+    if (!shared) {
+      // Distinct buy and sell actions
+      String shopId = NPCPurchaseRequest.getShopId(urlString);
+
+      if (buy != null && action.equals(buy)) {
+        // We are buying from  Coinmaster
+        String buyURL = data.getBuyURL();
+        if ((buyURL == null || shopId == null || buyURL.endsWith(shopId))
+            && !responseText.contains("You don't have enough")
+            && !responseText.contains("Huh?")) {
+          CoinMasterRequest.completePurchase(data, urlString);
+        }
+      }
+
+      if (sell != null && action.equals(sell)) {
+        // We are selling to this Coinmaster
+        String sellURL = data.getSellURL();
+        if ((sellURL == null || shopId == null || sellURL.endsWith(shopId))
+            && !responseText.contains("You don't have that many")) {
+          CoinMasterRequest.completeSale(data, urlString);
+        }
+      }
+    } else {
+      int itemId = CoinMasterRequest.extractItemId(data, urlString);
+      if (itemId != -1) {
+        AdventureResult item = new AdventureResult(itemId, 1, false);
+
+        if (data.getBuyItems().contains(item)) {
+          // We are buying from  Coinmaster
+          if (!responseText.contains("You don't have enough") && !responseText.contains("Huh?")) {
+            CoinMasterRequest.completePurchase(data, urlString);
+          }
+        } else if (data.getSellItems().contains(item)) {
+          // We are selling to this Coinmaster
+          if (!responseText.contains("You don't have that many")) {
+            CoinMasterRequest.completeSale(data, urlString);
+          }
+        }
+      }
     }
 
     CoinMasterRequest.parseBalance(data, responseText);
@@ -582,23 +615,69 @@ public class CoinMasterRequest extends GenericRequest {
       return true;
     }
 
-    String shopId = NPCPurchaseRequest.getShopId(urlString);
+    String buy = data.getBuyAction();
+    String sell = data.getSellAction();
 
-    String buyAction = data.getBuyAction();
-    String buyURL = data.getBuyURL();
-    if (buyAction != null
-        && action.equals(buyAction)
-        && (buyURL == null || shopId == null || buyURL.endsWith(shopId))) {
-      CoinMasterRequest.buyStuff(data, urlString);
+    if (buy == null && sell == null) {
+      // You can neither buy nor sell from this Coinmaster?
+      return false;
+    }
+
+    boolean shared = buy != null && sell != null && buy.equals(sell);
+
+    if (!shared) {
+      // Distinct buy and sell actions
+      String shopId = NPCPurchaseRequest.getShopId(urlString);
+
+      if (buy != null && action.equals(buy)) {
+        // We are buying from  Coinmaster
+        String buyURL = data.getBuyURL();
+        if (buyURL == null || shopId == null || buyURL.endsWith(shopId)) {
+          CoinMasterRequest.buyStuff(data, urlString);
+          return true;
+        }
+        return false;
+      }
+
+      if (sell != null && action.equals(sell)) {
+        // We are selling to this Coinmaster
+        String sellURL = data.getSellURL();
+        if (sellURL == null || shopId == null || sellURL.endsWith(shopId)) {
+          CoinMasterRequest.sellStuff(data, urlString);
+          return true;
+        }
+        return false;
+      }
+
+      // We are neither buying nor selling
+      return false;
+    }
+
+    // The buy and sell actions are identical
+    if (!action.equals(buy)) {
+      // We are doing neither. Log the URL
+      return false;
+    }
+
+    int itemId = CoinMasterRequest.extractItemId(data, urlString);
+    if (itemId == -1) {
       return true;
     }
 
-    String sellAction = data.getSellAction();
-    String sellURL = data.getSellURL();
-    if (sellAction != null
-        && action.equals(sellAction)
-        && (sellURL == null || shopId == null || sellURL.endsWith(shopId))) {
-      CoinMasterRequest.sellStuff(data, urlString);
+    int count = CoinMasterRequest.extractCount(data, urlString);
+    if (count == 0) {
+      count = 1;
+    }
+
+    AdventureResult item = new AdventureResult(itemId, count, false);
+
+    if (data.getBuyItems().contains(item)) {
+      CoinMasterRequest.buyStuff(data, itemId, count, false);
+      return true;
+    }
+
+    if (data.getSellItems().contains(item)) {
+      CoinMasterRequest.sellStuff(data, itemId, count);
       return true;
     }
 

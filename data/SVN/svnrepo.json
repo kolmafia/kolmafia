@@ -40,7 +40,6 @@
  {
    "repo": "https://github.com/Ezandora/Detective-Solver",
    "type": "git",
-   "branch": "Release",
    "author": "Ezandora",
    "name": "Detective Solver",
    "forumThread": "https://kolmafia.us/showthread.php?20406",
@@ -79,7 +78,6 @@
  {
    "repo": "https://github.com/Ezandora/Far-Future",
    "type": "git",
-   "branch": "Release",
    "author": "Ezandora",
    "name": "Far Future",
    "forumThread": "https://kolmafia.us/showthread.php?20575",
@@ -99,7 +97,6 @@
  {
    "repo": "https://github.com/Ezandora/Briefcase",
    "type": "git",
-   "branch": "Release",
    "author": "Ezandora",
    "name": "KGBriefcase",
    "forumThread": "https://kolmafia.us/showthread.php?21892",
@@ -175,7 +172,6 @@
  {
    "repo": "https://github.com/Ezandora/Sweet-Synthesis",
    "type": "git",
-   "branch": "Release",
    "author": "Ezandora",
    "name": "Sweet Synthesis",
    "forumThread": "https://kolmafia.us/showthread.php?21174",
@@ -315,7 +311,8 @@
    "longDesc": "This script automatically does softcore ascension runs with moxie classes. <b>Features include:</b> <ol><li>Ascends Moxie characters in 4-5 days.</li><li>Requires no skills permed.</li><li>Handles all pulls using ~100k meat.</li><li>Very customizable if desired.</li><li>Reports how many adventures were spent doing quest related things and saves the info.</ol> More classes may be officially supported in the future."
  },
  {
-   "repo": "https://github.com/Ezandora/FantasyRealm/branches/Release/",
+   "repo": "https://github.com/Ezandora/FantasyRealm",
+   "type": "git",
    "author": "Ezandora",
    "name": "FantasyRealm",
    "forumThread": "https://kolmafia.us/showthread.php?22722",
@@ -360,7 +357,8 @@
    "longDesc": "This will find the various items needed to complete the quest in Pandamonium, solve the puzzles (perhaps changing your gear to maximize success), and finish by using the steel organ item if possible."
  },
  {
-   "repo": "https://github.com/Ezandora/PirateRealm/trunk/Release/",
+   "repo": "https://github.com/Ezandora/PirateRealm",
+   "type": "git",
    "author": "Ezandora",
    "name": "PirateRealm",
    "forumThread": "https://kolmafia.us/showthread.php?24030",
@@ -407,7 +405,6 @@
  {
    "repo": "https://github.com/Ezandora/Spacegate",
    "type": "git",
-   "branch": "Release",
    "author": "Ezandora",
    "name": "Spacegate",
    "forumThread": "https://kolmafia.us/showthread.php?21685",
@@ -585,7 +582,6 @@
  {
    "repo": "https://github.com/Ezandora/Guide",
    "type": "git",
-   "branch": "Release",
    "author": "Ezandora",
    "name": "Guide",
    "forumThread": "https://kolmafia.us/showthread.php?14784-Guide",
@@ -714,7 +710,6 @@
  {
    "repo": "https://github.com/Ezandora/Choice-Override",
    "type": "git",
-   "branch": "Release",
    "author": "Ezandora",
    "name": "Choice Override",
    "forumThread": "https://kolmafia.us/showthread.php?22722",
@@ -743,7 +738,6 @@
  {
    "repo": "https://github.com/Ezandora/Gain",
    "type": "git",
-   "branch": "Release",
    "author": "Ezandora",
    "name": "Gain",
    "forumThread": "",
@@ -771,7 +765,8 @@
    "longDesc": "Functions to find the most profitable food, booze, and spleen items based on adventure yield and expected MPA.<p style='text-align:center;font-style:italic'>This library script will not work by itself and may be automatically installed by other scripts.</p>"
  },
  {
-   "repo": "https://github.com/Ezandora/Voting-Booth/trunk/Release/",
+   "repo": "https://github.com/Ezandora/Voting-Booth",
+   "type": "git",
    "author": "Ezandora",
    "name": "VotingBooth",
    "forumThread": "",
@@ -847,7 +842,6 @@
  {
    "repo": "https://github.com/Ezandora/Asdon-Martin-GUI",
    "type": "git",
-   "branch": "Release",
    "author": "Ezandora",
    "name": "Asdon Martin GUI",
    "forumThread": "https://kolmafia.us/showthread.php?22188",
@@ -892,7 +886,8 @@
    "longDesc": "<ul><li>Adds a clan whitelist drop-down. Click on the name of any clan in your whitelist to go there!</li><li>Adds an image of the Florist Friar's Cottage. Seeing the image helps me remember to use him.</li><li>Adds an image of a Hobo Fort to link directly to the clan raid logs.</li><li>The moons link to the Noblesse Oblige calendar.</li><li>It adds a few helpful links like \"bean\" for over the beanstalk and \"manor\" for Spookyraven Manor.</li><li>It tries to be intelligent about only adding links as they become relevant.</li><li>Does a few of these things for drop-down style menus also</li></ul>"
  },
  {
-   "repo": "https://github.com/Ezandora/Bastille/branches/Release/",
+   "repo": "https://github.com/Ezandora/Bastille",
+   "type": "git",
    "author": "Ezandora",
    "name": "Bastille",
    "forumThread": "https://kolmafia.us/showthread.php?22957",
@@ -985,7 +980,8 @@
    "longDesc": "I kept getting annoyed when I wouldn't get the fax I wanted. So I wrote this relay script which displays what just arrived in the fax machine."
  },
  {
-   "repo": "https://github.com/Ezandora/Genie/branches/Release/",
+   "repo": "https://github.com/Ezandora/Genie",
+   "type": "git",
    "author": "Ezandora",
    "name": "Genie",
    "forumThread": "https://kolmafia.us/showthread.php?22077",
@@ -996,7 +992,6 @@
  {
    "repo": "https://github.com/Ezandora/Helix-Fossil",
    "type": "git",
-   "branch": "Release",
    "author": "Ezandora",
    "name": "Helix Fossil",
    "forumThread": "https://kolmafia.us/showthread.php?22521",
@@ -1088,7 +1083,8 @@
    "longDesc": "Provides information about Snojo training modes. This including number of turns trained today, number of turns trained in each mode and how many turns until each possible prize."
  },
  {
-   "repo": "https://github.com/Ezandora/Source-Terminal-GUI/branches/Release/",
+   "repo": "https://github.com/Ezandora/Source-Terminal-GUI",
+   "type": "git",
    "author": "Ezandora",
    "name": "Source Terminal GUI",
    "forumThread": "https://kolmafia.us/showthread.php?21329",

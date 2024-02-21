@@ -1,9 +1,12 @@
 package net.sourceforge.kolmafia.request;
 
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.CoinmasterData;
+import net.sourceforge.kolmafia.CoinmasterRegistry;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
@@ -450,13 +453,59 @@ public class NPCPurchaseRequest extends PurchaseRequest {
   }
 
   public static final void learnCoinmasterItem(
-      final String shopName, final AdventureResult item, final String cost, final String row) {
+      final String shopName,
+      final AdventureResult item,
+      final AdventureResult price,
+      final String row) {
+    // See if this is a known Coinmaster
+    CoinmasterData data = CoinmasterRegistry.findCoinmaster(shopName);
+    String type;
+    if (data != null && !data.isDisabled()) {
+      // It is.
+      Set<AdventureResult> currencies = data.currencies();
+      if (currencies.contains(price)) {
+        // If the price is a currency, this is a "buy" request.
+        // Punt if item is a known buy item.
+        if (data.getBuyItems().contains(item)) {
+          return;
+        }
+        type = "buy";
+      } else if (currencies.contains(item)) {
+        // If the item is a currency, this is a "sell" request.
+        // Punt if price is a known sell item.
+        if (data.getSellItems().contains(price)) {
+          return;
+        }
+        type = "sell";
+      } else {
+        // Neither price nor item is a currency.  This shop must use
+        // mixed currencies. We don't support that in the datafiles, but
+        // Coinmaster request classes can be coded to handle it. This is
+        // an unknown request type and coding will be needed.
+        type = "unknown";
+      }
+    } else {
+      // This is an unknown Coinmaster. Since we don't know what currencies it uses,
+      // this is an unknown request type.
+      type = "unknown";
+    }
+
     String printMe;
     // Print what goes in coinmasters.txt
     printMe = "--------------------";
     RequestLogger.printLine(printMe);
     RequestLogger.updateSessionLog(printMe);
-    printMe = shopName + "\tbuy\t" + cost + "\t" + item + "\tROW" + row;
+    switch (type) {
+      case "buy" -> {
+        printMe = shopName + "\tbuy\t" + price.getCount() + "\t" + item + "\tROW" + row;
+      }
+      case "sell" -> {
+        printMe = shopName + "\tsell\t" + item.getCount() + "\t" + price + "\tROW" + row;
+      }
+      default -> {
+        printMe = shopName + "\tunknown\t" + item + "\t" + price + "\tROW" + row;
+      }
+    }
     RequestLogger.printLine(printMe);
     RequestLogger.updateSessionLog(printMe);
     printMe = "--------------------";
@@ -522,23 +571,19 @@ public class NPCPurchaseRequest extends PurchaseRequest {
         ItemDatabase.registerItem(id, name, desc);
       }
 
-      String currency = matcher.group(6);
-      boolean takesMeat = currency.equals("Meat");
-
-      if ((takesMeat
-              && NPCStoreDatabase.getPurchaseRequest(id) == null
-              && CoinmastersDatabase.getPurchaseRequest(id) == null)
-          || (
-          // Doesnt take meat...
-          !takesMeat
-              // ...and not in coinmasters
-              && CoinmastersDatabase.getPurchaseRequest(id) == null
-              // ...and doesn't use mixed currency (we can't store this currently in our data files)
-              && !usesMixedCurrency(shopId)
-              // ...and doesn't have a mixing method (sometimes things are stored as concoctions
-              // instead of NPC items)
-              && !ConcoctionDatabase.hasMixingMethod(id))) {
+      // If there is no purchase request for this item, learn new NPCStore or CoinMaster item
+      if (NPCStoreDatabase.getPurchaseRequest(id) == null
+          // Not registered as a NPCStorePurchase
+          && CoinmastersDatabase.getPurchaseRequest(id) == null
+          // ... and not registered as a CoinMasterPurchaseRequest
+          && !usesMixedCurrency(shopId)
+          // ...and doesn't use mixed currency (we can't store this currently in our data files)
+          && !ConcoctionDatabase.hasNonCoinmasterMixingMethod(id)
+      // ...and doesn't have a mixing method (sometimes things are stored as concoctions
+      // instead of NPC items)
+      ) {
         // Didn't know this was buyable
+        String currency = matcher.group(6);
         String cost = matcher.group(7).replaceAll(",", "");
         String row = matcher.group(8);
         String shopName = "";
@@ -549,10 +594,14 @@ public class NPCPurchaseRequest extends PurchaseRequest {
         if (shopName.equals("Results:") && nameMatcher.find()) {
           shopName = nameMatcher.group(1);
         }
-        if (takesMeat) {
+        AdventureResult price = new AdventureResult(currency, StringUtilities.parseInt(cost));
+
+        if (currency.equals("Meat")) {
+          // If the currency is Meat, assume this is an NPC Store
           NPCPurchaseRequest.learnNPCStoreItem(shopName, shopId, item, cost, row);
         } else {
-          NPCPurchaseRequest.learnCoinmasterItem(shopName, item, cost, row);
+          // Otherwise, it is a Coinmaster
+          NPCPurchaseRequest.learnCoinmasterItem(shopName, item, price, row);
         }
       }
     }

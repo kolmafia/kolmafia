@@ -13,6 +13,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 public enum AscensionClass {
+  UNKNOWN("Unknown", -2),
   ASTRAL_SPIRIT("Astral Spirit", -1),
   SEAL_CLUBBER("Seal Clubber", 1, "club", 0, Path.NONE, "Club Foot"),
   TURTLE_TAMER("Turtle Tamer", 2, "turtle", 0, Path.NONE, "Shell Up"),
@@ -101,18 +102,18 @@ public enum AscensionClass {
   }
 
   public static AscensionClass find(final String name) {
-    if (name == null || name.equals("")) return null;
+    if (name == null || name.equals("")) return UNKNOWN;
 
     String lowerCaseName = name.toLowerCase();
 
     return Arrays.stream(values())
         .filter(a -> a.getName().toLowerCase().contains(lowerCaseName))
         .findFirst()
-        .orElse(null);
+        .orElse(UNKNOWN);
   }
 
   public static AscensionClass find(int id) {
-    return Arrays.stream(values()).filter(a -> a.getId() == id).findAny().orElse(null);
+    return Arrays.stream(values()).filter(a -> a.getId() == id).findAny().orElse(UNKNOWN);
   }
 
   AscensionClass(

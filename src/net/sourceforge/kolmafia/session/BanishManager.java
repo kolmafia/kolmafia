@@ -113,6 +113,7 @@ public class BanishManager {
     SMOKE_GRENADE("smoke grenade", 20, 1, false, Reset.TURN_RESET),
     SNOKEBOMB("snokebomb", 30, 1, true, Reset.TURN_ROLLOVER_RESET),
     SPOOKY_MUSIC_BOX_MECHANISM("spooky music box mechanism", -1, 1, false, Reset.ROLLOVER_RESET),
+    SPRING_KICK("Spring Kick", -1, 1, true, Reset.ROLLOVER_RESET),
     SPRING_LOADED_FRONT_BUMPER(
         "Spring-Loaded Front Bumper", 30, 1, true, Reset.TURN_ROLLOVER_RESET),
     STAFF_OF_THE_STANDALONE_CHEESE(

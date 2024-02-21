@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
+import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -43,6 +44,7 @@ import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.ChateauRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
+import net.sourceforge.kolmafia.request.CoinMasterPurchaseRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.FloristRequest;
@@ -2464,5 +2466,54 @@ public class Player {
     var preference = withProperty("trackedPhyla", contents);
     TrackManager.loadTracked();
     return new Cleanups(preference, new Cleanups(TrackManager::loadTracked));
+  }
+
+  public static Cleanups withDisabledCoinmaster(CoinmasterData data) {
+    data.setDisabled(true);
+    return new Cleanups(() -> data.setDisabled(false));
+  }
+
+  public static Cleanups withoutCoinmasterBuyItem(CoinmasterData data, AdventureResult item) {
+    List<AdventureResult> buyItems = data.getBuyItems();
+    if (!buyItems.contains(item)) {
+      return new Cleanups();
+    }
+
+    List<AdventureResult> newBuyItems = CoinmastersDatabase.getNewList();
+    newBuyItems.addAll(buyItems);
+    newBuyItems.remove(item);
+    data.withBuyItems(newBuyItems);
+
+    CoinMasterPurchaseRequest request = CoinmastersDatabase.findPurchaseRequest(item);
+    if (request != null) {
+      CoinmastersDatabase.removePurchaseRequest(item);
+    }
+
+    return new Cleanups(
+        () -> {
+          // Restore original list
+          data.withBuyItems(buyItems);
+          if (request != null) {
+            CoinmastersDatabase.addPurchaseRequest(item, request);
+          }
+        });
+  }
+
+  public static Cleanups withoutCoinmasterSellItem(CoinmasterData data, AdventureResult item) {
+    List<AdventureResult> sellItems = data.getSellItems();
+    if (!sellItems.contains(item)) {
+      return new Cleanups();
+    }
+
+    List<AdventureResult> newSellItems = CoinmastersDatabase.getNewList();
+    newSellItems.addAll(sellItems);
+    newSellItems.remove(item);
+    data.withSellItems(newSellItems);
+
+    return new Cleanups(
+        () -> {
+          // Restore original list
+          data.withSellItems(sellItems);
+        });
   }
 }

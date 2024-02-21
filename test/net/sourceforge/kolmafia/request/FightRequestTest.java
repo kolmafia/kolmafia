@@ -2,6 +2,8 @@ package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withAnapest;
+import static internal.helpers.Player.withBanishedMonsters;
+import static internal.helpers.Player.withBanishedPhyla;
 import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withCounter;
 import static internal.helpers.Player.withCurrentRun;
@@ -2238,7 +2240,7 @@ public class FightRequestTest {
     var cleanups =
         new Cleanups(
             withFight(),
-            withProperty("banishedPhyla"),
+            withBanishedPhyla(""),
             withProperty("screechCombats"),
             withFamiliar(FamiliarPool.PATRIOTIC_EAGLE));
 
@@ -2613,6 +2615,18 @@ public class FightRequestTest {
       FightRequest.registerRequest(true, urlString);
       FightRequest.updateCombatData(null, null, html);
       assertThat("_mimicEggsObtained", isSetTo(1));
+    }
+  }
+
+  @Test
+  public void canDetectSpringBoots() {
+    var cleanups = new Cleanups(withFight(), withBanishedMonsters(""));
+
+    try (cleanups) {
+      parseCombatData(
+          "request/test_fight_spring_boots_banish.html", "fight.php?action=skill&whichskill=7501");
+
+      assertThat("banishedMonsters", hasStringValue(startsWith("fluffy bunny:Spring Kick:")));
     }
   }
 }

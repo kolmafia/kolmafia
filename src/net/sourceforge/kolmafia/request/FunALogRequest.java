@@ -111,7 +111,10 @@ public class FunALogRequest extends CoinMasterRequest {
 
         // Print a coinmasters.txt line for it
         NPCPurchaseRequest.learnCoinmasterItem(
-            master, new AdventureResult(itemName, 1), String.valueOf(price), String.valueOf(row));
+            master,
+            new AdventureResult(itemName, 1),
+            new AdventureResult("FunPoint", price),
+            String.valueOf(row));
       }
     }
 
