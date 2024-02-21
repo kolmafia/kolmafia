@@ -48,11 +48,11 @@ class AscensionClassTest {
 
   @ParameterizedTest
   @CsvSource({
-    ",",
-    "\"\",",
+    ", UNKNOWN",
+    "\"\", UNKNOWN",
     "AvAtAr Of BoRiS, AVATAR_OF_BORIS",
     "Avatar of Boris, AVATAR_OF_BORIS",
-    "Smavatar of Shmoris,",
+    "Smavatar of Shmoris, UNKNOWN",
   })
   void canFindByName(final String name, final AscensionClass clazz) {
     assertThat(AscensionClass.find(name), equalTo(clazz));
@@ -61,7 +61,7 @@ class AscensionClassTest {
   @ParameterizedTest
   @CsvSource({
     "2, TURTLE_TAMER",
-    "69696969,",
+    "69696969, UNKNOWN",
   })
   void canFindById(final int id, final AscensionClass clazz) {
     assertThat(AscensionClass.find(id), equalTo(clazz));
