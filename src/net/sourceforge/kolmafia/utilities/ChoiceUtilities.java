@@ -551,19 +551,23 @@ public class ChoiceUtilities {
     Map<Integer, Set<String>> texts = ChoiceUtilities.parseTextInputs(responseText);
     for (Map.Entry<Integer, String> choice : choices.entrySet()) {
       Integer choiceKey = choice.getKey();
-      RequestLogger.printLine("<b>choice " + choiceKey + "</b>: " + choice.getValue());
+      RequestLogger.printHtml(
+          "<b>choice "
+              + choiceKey
+              + "</b>: "
+              + StringUtilities.getEntityEncode(choice.getValue(), false));
       Map<String, Map<String, String>> choiceSelects = selects.get(choiceKey);
       if (choiceSelects != null) {
         for (Map.Entry<String, Map<String, String>> select : choiceSelects.entrySet()) {
           Map<String, String> options = select.getValue();
-          RequestLogger.printLine(
+          RequestLogger.printHtml(
               "\u00A0\u00A0select = <b>"
                   + select.getKey()
                   + "</b> ("
                   + options.size()
                   + " options)");
           for (Map.Entry<String, String> option : options.entrySet()) {
-            RequestLogger.printLine(
+            RequestLogger.printHtml(
                 "\u00A0\u00A0\u00A0\u00A0" + option.getKey() + " => " + option.getValue());
           }
         }
@@ -571,7 +575,7 @@ public class ChoiceUtilities {
       Set<String> choiceTexts = texts.get(choiceKey);
       if (choiceTexts != null) {
         for (String name : choiceTexts) {
-          RequestLogger.printLine("\u00A0\u00A0text = <b>" + name + "</b>");
+          RequestLogger.printHtml("\u00A0\u00A0text = <b>" + name + "</b>");
         }
       }
     }

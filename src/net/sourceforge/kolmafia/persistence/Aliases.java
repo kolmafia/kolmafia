@@ -156,6 +156,6 @@ public class Aliases {
       buffer.append(CharacterEntities.escape(aliasCommand));
     }
 
-    RequestLogger.printLine(buffer.toString());
+    RequestLogger.printHtml(buffer.toString());
   }
 }

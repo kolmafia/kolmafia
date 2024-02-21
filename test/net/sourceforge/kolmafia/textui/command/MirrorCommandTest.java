@@ -63,7 +63,7 @@ public class MirrorCommandTest extends AbstractCommandTestBase {
     execute("");
     String mirrorOutput = getMirrorLog("test_writes_html.txt");
     assertEquals(
-        " <font color=olive>> Wassup?</font><br>\n" + "Raw Line<br>",
+        " <font color=olive>&gt; Wassup?</font><br>\n" + "Raw Line<br>",
         mirrorOutput,
         "Unexpected content in mirror.");
   }

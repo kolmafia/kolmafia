@@ -300,7 +300,7 @@ public class SVNManager extends ScriptManager {
             new ISVNLogEntryHandler() {
               @Override
               public void handleLogEntry(SVNLogEntry logEntry) {
-                RequestLogger.printLine("Commit <b>r" + logEntry.getRevision() + "<b>:");
+                RequestLogger.printHtml("Commit <b>r" + logEntry.getRevision() + "<b>:");
                 RequestLogger.printLine("Author: " + logEntry.getAuthor());
                 RequestLogger.printLine();
                 RequestLogger.printLine(logEntry.getMessage());
@@ -379,7 +379,7 @@ public class SVNManager extends ScriptManager {
         continue;
       }
 
-      RequestLogger.printLine("Update log for <b>" + f.getName() + "</b>:");
+      RequestLogger.printHtml("Update log for <b>" + f.getName() + "</b>:");
       RequestLogger.printLine("------");
       try {
         SVN_LOCK.lock();

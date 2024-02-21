@@ -99,6 +99,27 @@ public class RequestLogger extends NullStream {
   }
 
   public static void printLine(final MafiaState state, String message, boolean addToBuffer) {
+    printLine(state, message, addToBuffer, false);
+  }
+
+  public static void printHtml(final String message) {
+    RequestLogger.printHtml(MafiaState.CONTINUE, message, true);
+  }
+
+  public static void printHtml(final String message, final boolean addToBuffer) {
+    RequestLogger.printHtml(MafiaState.CONTINUE, message, addToBuffer);
+  }
+
+  public static void printHtml(final MafiaState state, final String message) {
+    RequestLogger.printHtml(state, message, true);
+  }
+
+  public static void printHtml(final MafiaState state, String message, boolean addToBuffer) {
+    printLine(state, message, addToBuffer, true);
+  }
+
+  private static void printLine(
+      final MafiaState state, String message, boolean addToBuffer, boolean isHtml) {
     if (message == null) {
       return;
     }
@@ -116,6 +137,11 @@ public class RequestLogger extends NullStream {
 
     if (StaticEntity.backtraceTrigger != null && message.contains(StaticEntity.backtraceTrigger)) {
       StaticEntity.printStackTrace("Backtrace triggered by message");
+    }
+
+    // If message isn't explicitly html, entity encode it
+    if (!isHtml) {
+      message = StringUtilities.getEntityEncode(message, false);
     }
 
     if (!addToBuffer) {
@@ -138,17 +164,17 @@ public class RequestLogger extends NullStream {
       if (state == MafiaState.ERROR || state == MafiaState.ABORT) {
         addedColor = true;
         colorBuffer.append("<font color=red>");
-      } else if (message.startsWith("> QUEUED")) {
+      } else if (message.startsWith("&gt; QUEUED")) {
         addedColor = true;
         colorBuffer.append(" <font color=olive><b>");
-      } else if (message.startsWith("> ")) {
+      } else if (message.startsWith("&gt; ")) {
         addedColor = true;
         colorBuffer.append(" <font color=olive>");
       }
 
       colorBuffer.append(StringUtilities.globalStringReplace(message, "\n", "<br>"));
 
-      if (message.startsWith("> QUEUED")) {
+      if (message.startsWith("&gt; QUEUED")) {
         colorBuffer.append("</b>");
       }
 

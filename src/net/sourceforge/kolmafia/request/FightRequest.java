@@ -2885,7 +2885,7 @@ public class FightRequest extends GenericRequest {
                 + " in clan "
                 + ClanManager.getClanName(false)
                 + ".";
-        RequestLogger.printLine("<font color=\"blue\">" + message + "</font>");
+        RequestLogger.printHtml("<font color=\"blue\">" + message + "</font>");
         RequestLogger.updateSessionLog(message);
       }
     }
@@ -2902,7 +2902,7 @@ public class FightRequest extends GenericRequest {
                 + " in clan "
                 + ClanManager.getClanName(false)
                 + ".";
-        RequestLogger.printLine("<font color=\"blue\">" + message + "</font>");
+        RequestLogger.printHtml("<font color=\"blue\">" + message + "</font>");
         RequestLogger.updateSessionLog(message);
       }
     }

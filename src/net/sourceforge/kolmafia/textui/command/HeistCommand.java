@@ -57,7 +57,7 @@ public class HeistCommand extends AbstractCommand {
       output.append("</ul>");
     }
 
-    RequestLogger.printLine(output.toString());
+    RequestLogger.printHtml(output.toString());
   }
 
   private void heistItem(String parameter) {

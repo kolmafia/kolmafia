@@ -64,7 +64,7 @@ class EdPieceCommandTest extends AbstractCommandTestBase {
   public void showWithNoAnimal() {
     String output = execute("");
 
-    assertThat(output, containsString("&lt;nothing&gt;"));
+    assertThat(output, containsString("<nothing>"));
   }
 
   @Test

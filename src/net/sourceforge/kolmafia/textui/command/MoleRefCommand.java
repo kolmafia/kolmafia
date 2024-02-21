@@ -9,7 +9,7 @@ public class MoleRefCommand extends AbstractCommand {
 
   @Override
   public void run(final String cmd, final String parameters) {
-    RequestLogger.printLine(
+    RequestLogger.printHtml(
         "<table border=2>"
             + "<tr><td>9</td><td rowspan=6></td><td rowspan=3></td><td>+30% all stats</td></tr>"
             + "<tr><td>8</td><td rowspan=5>+10 fam weight</td></tr>"
