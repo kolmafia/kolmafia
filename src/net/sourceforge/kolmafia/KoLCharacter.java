@@ -176,7 +176,7 @@ public abstract class KoLCharacter {
   // Things which can change over the course of playing
 
   private static List<String> avatar = Collections.emptyList();
-  private static AscensionClass ascensionClass = null;
+  private static AscensionClass ascensionClass = AscensionClass.UNKNOWN;
   private static Gender gender = Gender.UNKNOWN;
   public static int AWOLtattoo = 0;
 
@@ -346,7 +346,7 @@ public abstract class KoLCharacter {
   }
 
   public static final void reset(boolean newCharacter) {
-    KoLCharacter.ascensionClass = null;
+    KoLCharacter.ascensionClass = AscensionClass.UNKNOWN;
 
     KoLCharacter.gender = Gender.UNKNOWN;
     KoLCharacter.currentLevel = 1;
@@ -795,7 +795,7 @@ public abstract class KoLCharacter {
    * @return The index of the prime stat
    */
   public static final int getPrimeIndex() {
-    return ascensionClass == null ? 0 : ascensionClass.getPrimeStatIndex();
+    return ascensionClass == AscensionClass.UNKNOWN ? 0 : ascensionClass.getPrimeStatIndex();
   }
 
   /**
@@ -3314,6 +3314,10 @@ public abstract class KoLCharacter {
 
   public static final boolean inSmallcore() {
     return KoLCharacter.ascensionPath == Path.SMALL;
+  }
+
+  public static final boolean inWereProfessor() {
+    return KoLCharacter.ascensionPath == Path.WEREPROFESSOR;
   }
 
   public static final boolean isUnarmed() {

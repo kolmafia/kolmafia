@@ -3718,13 +3718,19 @@ public class ItemPool {
   public static final int CRIMBUCCANEER_FLOTSAM = 11405;
   public static final int ELF_GUARD_MPC = 11408;
   public static final int CRIMBUCCANEER_PIECE_OF_12 = 11409;
+  public static final int ELF_GUARD_COMMANDEERING_GLOVES = 11410;
+  public static final int ELF_GUARD_HONOR_PRESENT = 11413;
+  public static final int ELF_GUARD_OFFICERS_SIDEARM = 11414;
   public static final int PEPPERMINT_BOMB = 11426;
+  public static final int KELFLAR_VEST = 11440;
+  public static final int ELF_GUARD_MOUTHKNIFE = 11444;
   public static final int PUNCHING_MIRROR = 11451;
   public static final int BLACK_AND_WHITE_APRON_MEAL_KIT = 11472;
   public static final int TRICK_COIN = 11480;
   public static final int LIL_SNOWBALL_FACTORY = 11485;
   public static final int PRANK_CRIMBO_CARD = 11487;
   public static final int MIMIC_EGG = 11542;
+  public static final int RESEARCH_FRAGMENT = 11562;
 
   private ItemPool() {}
 

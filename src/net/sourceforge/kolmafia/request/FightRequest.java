@@ -9494,6 +9494,12 @@ public class FightRequest extends GenericRequest {
         }
         break;
 
+      case SkillPool.SPRING_KICK:
+        if (responseText.contains("the spring of your shoes") || skillSuccess) {
+          BanishManager.banishMonster(monster, Banisher.SPRING_KICK);
+        }
+        break;
+
       case SkillPool.TALK_ABOUT_POLITICS:
         if (responseText.contains("won't be seeing") || skillSuccess) {
           skillSuccess = true;

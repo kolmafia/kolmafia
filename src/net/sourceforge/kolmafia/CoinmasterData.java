@@ -36,6 +36,9 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
         }
       };
 
+  // *** For testing
+  private boolean disabled = false;
+
   // Mandatory fields
   private final String master;
   private final String nickname;
@@ -1078,4 +1081,13 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   }
 
   private void purchasedItemInternal(AdventureResult item, boolean storage) {}
+
+  // *** For testing
+  public void setDisabled(boolean isDisabled) {
+    this.disabled = isDisabled;
+  }
+
+  public boolean isDisabled() {
+    return this.disabled;
+  }
 }

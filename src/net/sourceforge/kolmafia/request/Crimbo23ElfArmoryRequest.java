@@ -58,39 +58,13 @@ public class Crimbo23ElfArmoryRequest extends CoinMasterRequest {
       return;
     }
 
-    CoinmasterData data = DATA;
-
     String action = GenericRequest.getAction(location);
-    if (action == null) {
-      // Parse current coin balances
-      CoinMasterRequest.parseBalance(data, responseText);
+    if (action != null) {
+      CoinMasterRequest.parseResponse(DATA, location, responseText);
       return;
     }
 
-    // This shop uses "buyitem" for both buying and selling
-    if (!action.equals("buyitem")) {
-      return;
-    }
-
-    int itemId = CoinMasterRequest.extractItemId(DATA, location);
-    if (itemId == -1) {
-      return;
-    }
-
-    AdventureResult item = new AdventureResult(itemId, 1, false);
-    boolean buying = DATA.getBuyItems().contains(item);
-    boolean selling = DATA.getSellItems().contains(item);
-
-    if (buying
-        && !responseText.contains("You don't have enough")
-        && !responseText.contains("Huh?")) {
-      CoinMasterRequest.completePurchase(DATA, location);
-    }
-
-    if (selling && !responseText.contains("You don't have that many")) {
-      CoinMasterRequest.completeSale(DATA, location);
-    }
-
+    // Parse current coin balances
     CoinMasterRequest.parseBalance(DATA, responseText);
   }
 
@@ -110,30 +84,6 @@ public class Crimbo23ElfArmoryRequest extends CoinMasterRequest {
       return false;
     }
 
-    int itemId = CoinMasterRequest.extractItemId(DATA, urlString);
-    if (itemId == -1) {
-      return true;
-    }
-
-    int count = CoinMasterRequest.extractCount(DATA, urlString);
-    if (count == 0) {
-      count = 1;
-    }
-
-    AdventureResult item = new AdventureResult(itemId, count, false);
-    boolean buying = DATA.getBuyItems().contains(item);
-    boolean selling = DATA.getSellItems().contains(item);
-
-    if (buying) {
-      CoinMasterRequest.buyStuff(DATA, itemId, count, false);
-      return true;
-    }
-
-    if (selling) {
-      CoinMasterRequest.sellStuff(DATA, itemId, count);
-      return true;
-    }
-
-    return false;
+    return CoinMasterRequest.registerRequest(DATA, urlString, true);
   }
 }
