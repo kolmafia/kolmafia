@@ -11406,7 +11406,7 @@
 11378	pickled bread	675408908	saltbread.gif	food	t,d	5	slices of pickled bread
 11379	salted mutton	657514472	saltmutton.gif	food	t,d	5	chunks of salted mutton
 11380	corned beet	163378662	saltbet.gif	food	t,d	5
-11381	tiny plastic Elf Guard Armory	897987307	tp23_armory.gif	accessory	t	0
+11381	tiny plastic Armory	897987307	tp23_armory.gif	accessory	t	0
 11382	tiny plastic Bar	360984319	tp23_bar.gif	accessory	t	0
 11383	tiny plastic Cafe	344789071	tp23_cafe.gif	accessory	t	0
 11384	tiny plastic Factory	213979399	tp23_factory.gif	accessory	t	0
@@ -11571,6 +11571,21 @@
 11543	Crimbuccaneer war standard	823960598	c23_pirateflag.gif	offhand		0
 11544	Elf Guard war standard	679660460	c23_elfflag.gif	offhand		0
 11545	in-the-box spring shoes	809348020	springshoes_box.gif	usable	t	0
-11546	spring shoes	533142596	springshoes.gif	accessory		0
-11547	ultra-soft ferns	979781148	softfern.gif	potion	t,d	10
-11548	crunchy brush	865877671	drybrush.gif	potion	t,d	10
+11546	spring shoes	533142596	springshoes.gif	accessory		0	sets of spring shoes
+11547	ultra-soft ferns	979781148	softfern.gif	potion	t,d	10	bunches of ultra-soft ferns
+11548	crunchy brush	865877671	drybrush.gif	potion	t,d	10	bunches of crunchy brush
+11549	smashed scientific equipment	523850558	brokenscience.gif	none	q	0
+11550	biphasic molecular oculus	327995300	wp_oculus1.gif	hat	q	0
+11551	triphasic molecular oculus	960532486	wp_oculus2.gif	hat	q	0
+11552	high-tension exoskeleton	589968168	wp_exo1.gif	pants	q	0
+11553	ultra-high-tension exoskeleton	123467674	wp_exo2.gif	pants	q	0
+11554	irresponsible-tension exoskeleton	291853336	wp_exo3.gif	pants	q	0
+11555	quick-release belt pouch	706414662	wp_belt1.gif	accessory	q	0
+11556	quick-release fannypack	503257041	wp_belt2.gif	accessory	q	0
+11557	quick-release utility belt	836859893	wp_belt3.gif	accessory	q	0
+11558	motion sensor	337915078	wp_sensor.gif	accessory	q	0
+11559	focused magnetron pistol	303408883	wp_gun.gif	weapon	q	0
+11560
+11561
+11562	research fragment	981562994	blueprint.gif	usable	t	0
+11563	Thwaitgold wolf spider statuette	455599612	thwaitwolf.gif	none		0
