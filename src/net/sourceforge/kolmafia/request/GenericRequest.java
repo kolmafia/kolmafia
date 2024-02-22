@@ -2891,6 +2891,10 @@ public class GenericRequest implements Runnable {
     String name;
 
     switch (choice) {
+      case 970:
+        name = "Rain Man";
+        break;
+
       case 1201:
         name = "Dr. Gordon Stuart's Science Tent";
         Preferences.setBoolean("_eldritchTentacleFought", true);
@@ -2912,6 +2916,10 @@ public class GenericRequest implements Runnable {
       case 1510:
         name = "Burning Leaves";
         BurningLeavesRequest.registerLeafFight(location);
+        break;
+
+      case 1516:
+        name = "mimic egg";
         break;
 
       default:
