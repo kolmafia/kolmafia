@@ -5739,7 +5739,10 @@ public abstract class ChoiceControl {
                     + " in clan "
                     + ClanManager.getClanName(false)
                     + ".";
-            RequestLogger.printLine("<font color=\"blue\">" + message + "</font>");
+            RequestLogger.printHtml(
+                "<font color=\"blue\">"
+                    + StringUtilities.getEntityEncode(message, false)
+                    + "</font>");
             RequestLogger.updateSessionLog(message);
           }
           break;

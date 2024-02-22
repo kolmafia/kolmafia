@@ -910,7 +910,7 @@ public class TestCommand extends AbstractCommand {
       if (result.length == 0) RequestLogger.printLine("no matches.");
 
       for (int i = 0; i < result.length; i++) {
-        RequestLogger.printLine("<b>" + (i + 1) + ":</b> " + result[i]);
+        RequestLogger.printHtml("<b>" + (i + 1) + ":</b> " + result[i]);
       }
       // RequestLogger.printList( Arrays.asList( result ) );
 
