@@ -1637,7 +1637,13 @@ user	warehouseProgress	0
 user	watchedPreferences
 user	waxMonster
 user	welcomeBackAdv	0
+user	wereLiver1	false
+user	wereLiver2	false
+user	wereLiver3	false
 user	wereProfessorPoints	0
+user	wereStomach1	false
+user	wereStomach2	false
+user	wereStomach3	false
 user	whetstonesUsed	0
 user	wildfireBarrelCaulked	false
 user	wildfireDusted	false

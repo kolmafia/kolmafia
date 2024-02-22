@@ -8599,6 +8599,50 @@ public abstract class ChoiceControl {
         }
 
         break;
+
+      case 1523: // WereProfessor Research Bench
+        boolean wereLiver1 = true,
+            wereLiver2 = true,
+            wereLiver3 = true,
+            wereStomach1 = true,
+            wereStomach2 = true,
+            wereStomach3 = true;
+
+        if (text.contains("Osteocalcin injection")
+            || text.contains("Somatostatin catalyst")
+            || text.contains("Endothelin suspension")
+            || text.contains("Synthetic prostaglandin")
+            || text.contains("Leukotriene elixir")
+            || text.contains("Thromboxane inhibitor")
+            || text.contains("Triiodothyronine accelerator")) {
+          wereStomach1 = wereStomach2 = wereStomach3 = false;
+        } else if (text.contains("Thyroxine supplements")) {
+          wereStomach2 = wereStomach3 = false;
+        } else if (text.contains("Amyloid polypeptide mixture")) {
+          wereStomach3 = false;
+        }
+
+        if (text.contains("Dopamine slurry")
+            || text.contains("Relaxin Balm")
+            || text.contains("Melatonin suppositories")
+            || text.contains("Adrenal decoction")
+            || text.contains("Adrenal distillate")
+            || text.contains("Concentrated adrenaline extract")
+            || text.contains("Glicagon condensate")) {
+          wereLiver1 = wereLiver2 = wereLiver3 = false;
+        } else if (text.contains("Secretin agonist")) {
+          wereLiver2 = wereLiver3 = false;
+        } else if (text.contains("Synthetic aldosterone ")) {
+          wereLiver3 = false;
+        }
+
+        Preferences.setBoolean("wereLiver1", wereLiver1);
+        Preferences.setBoolean("wereLiver2", wereLiver2);
+        Preferences.setBoolean("wereLiver3", wereLiver3);
+        Preferences.setBoolean("wereStomach1", wereStomach1);
+        Preferences.setBoolean("wereStomach2", wereStomach2);
+        Preferences.setBoolean("wereStomach3", wereStomach3);
+        break;
     }
   }
 
