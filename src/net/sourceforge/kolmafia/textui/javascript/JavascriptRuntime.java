@@ -32,6 +32,7 @@ import net.sourceforge.kolmafia.textui.parsetree.Symbol;
 import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
 import net.sourceforge.kolmafia.textui.parsetree.VariableReference;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ContextFactory;
 import org.mozilla.javascript.EcmaError;
@@ -421,6 +422,6 @@ public class JavascriptRuntime extends AbstractRuntime {
    * @return Escaped string
    */
   private static String escapeHtmlInMessage(final String message) {
-    return message.replaceAll("&", "&amp;").replaceAll("<", "&lt;");
+    return StringUtilities.getEntityEncode(message, false);
   }
 }

@@ -22,6 +22,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.scripts.ScriptManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.RebaseCommand.Operation;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -298,11 +299,14 @@ public class GitManager extends ScriptManager {
       var date = formatCommitDate(datetime);
       var message = commit.getFullMessage();
 
-      RequestLogger.printLine("<b>commit " + ObjectId.toString(commit) + "</b>");
-      RequestLogger.printLine("Author: " + getAuthor(author).replace("<", "&lt;"));
+      RequestLogger.printHtml("<b>commit " + ObjectId.toString(commit) + "</b>");
+      RequestLogger.printLine("Author: " + getAuthor(author));
       RequestLogger.printLine("Date:   " + date);
-      RequestLogger.printLine("<p style=\"text-indent:2em\">" + message + "</p>");
-      RequestLogger.printLine("<br>");
+      RequestLogger.printHtml(
+          "<p style=\"text-indent:2em\">"
+              + StringUtilities.getEntityEncode(message, false)
+              + "</p>");
+      RequestLogger.printHtml("<br>");
     }
   }
 
