@@ -904,7 +904,7 @@ public abstract class RabbitHoleManager {
 
     StringBuffer buffer = new StringBuffer();
     board.appendHTML(buffer);
-    RequestLogger.printLine(buffer.toString());
+    RequestLogger.printHtml(buffer.toString());
     RequestLogger.printLine();
   }
 
@@ -1347,7 +1347,7 @@ public abstract class RabbitHoleManager {
 
     output.append("</table>");
 
-    RequestLogger.printLine(output.toString());
+    RequestLogger.printHtml(output.toString());
     RequestLogger.printLine();
   }
 

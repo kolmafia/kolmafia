@@ -879,7 +879,7 @@ public abstract class VolcanoMazeManager {
       buffer.append("</tr>");
     }
     buffer.append("</table>");
-    RequestLogger.printLine(buffer.toString());
+    RequestLogger.printHtml(buffer.toString());
     RequestLogger.printLine();
   }
 
@@ -1306,7 +1306,7 @@ public abstract class VolcanoMazeManager {
         buffer.append("</tr>");
       }
       buffer.append("</table>");
-      RequestLogger.printLine(buffer.toString());
+      RequestLogger.printHtml(buffer.toString());
       RequestLogger.printLine();
     }
   }

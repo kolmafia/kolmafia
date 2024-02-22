@@ -2053,7 +2053,7 @@ public class UseItemRequest extends GenericRequest {
                   + " in clan "
                   + ClanManager.getClanName(false)
                   + ".";
-          RequestLogger.printLine("<font color=\"blue\">" + message + "</font>");
+          RequestLogger.printHtml("<font color=\"blue\">" + message + "</font>");
           RequestLogger.updateSessionLog(message);
         }
 
@@ -6204,7 +6204,7 @@ public class UseItemRequest extends GenericRequest {
         String name = item.getName();
         String giftFrom = giftFromMatcher.group(2);
         String message = "Opening " + name + " from " + giftFrom;
-        RequestLogger.printLine("<font color=\"green\">" + message + "</font>");
+        RequestLogger.printHtml("<font color=\"green\">" + message + "</font>");
         RequestLogger.updateSessionLog(message);
       }
     }

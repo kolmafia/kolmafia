@@ -80,7 +80,7 @@ public class ChibiBuddyCommand extends AbstractCommand {
           default -> daysSinceLastVisit + " days ago";
         };
 
-    RequestLogger.printLine(
+    RequestLogger.printHtml(
         "Your ChibiBuddy&trade; <b>"
             + Preferences.getString("chibiName")
             + "</b> is "

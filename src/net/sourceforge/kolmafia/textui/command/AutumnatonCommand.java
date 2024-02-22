@@ -177,7 +177,7 @@ public class AutumnatonCommand extends AbstractCommand {
     addEnvironmentLocations(output, locMapping, Environment.INDOOR);
     addEnvironmentLocations(output, locMapping, Environment.UNDERGROUND);
 
-    RequestLogger.printLine(output.toString());
+    RequestLogger.printHtml(output.toString());
   }
 
   private void addEnvironmentLocations(

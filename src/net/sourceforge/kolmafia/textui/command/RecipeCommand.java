@@ -42,7 +42,7 @@ public class RecipeCommand extends AbstractCommand {
       }
 
       if (ConcoctionDatabase.getMixingMethod(itemId) == CraftingType.NOCREATE) {
-        RequestLogger.printLine(startNumber + "This item cannot be created: <b>" + name + "</b>");
+        RequestLogger.printHtml(startNumber + "This item cannot be created: <b>" + name + "</b>");
         continue;
       }
 

@@ -96,7 +96,7 @@ public class DebugModifiers extends Modifiers {
   public static void finish() {
     DebugModifiers.flushRow();
     DebugModifiers.buffer.append("</table><br>");
-    RequestLogger.printLine(DebugModifiers.buffer.toString());
+    RequestLogger.printHtml(DebugModifiers.buffer.toString());
     RequestLogger.printLine();
     DebugModifiers.buffer = null;
   }
@@ -145,7 +145,7 @@ public class DebugModifiers extends Modifiers {
     }
 
     DebugModifiers.buffer.append("</table><br>");
-    RequestLogger.printLine(DebugModifiers.buffer.toString());
+    RequestLogger.printHtml(DebugModifiers.buffer.toString());
     DebugModifiers.buffer = null;
   }
 

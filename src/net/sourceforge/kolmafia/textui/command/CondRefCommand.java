@@ -9,7 +9,7 @@ public class CondRefCommand extends AbstractCommand {
 
   @Override
   public void run(final String cmd, final String parameters) {
-    RequestLogger.printLine(
+    RequestLogger.printHtml(
         "<table border=2>"
             + "<tr><td colspan=3>today | tomorrow is mus | mys | mox day</td></tr>"
             + "<tr><td colspan=3>class is [not] sauceror | <i>etc.</i></td></tr>"

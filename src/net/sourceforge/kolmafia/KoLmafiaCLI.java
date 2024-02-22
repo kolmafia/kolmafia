@@ -900,7 +900,7 @@ public class KoLmafiaCLI {
 
     displayText = displayText.replaceAll("\n\n\n+", "\n\n");
 
-    RequestLogger.printLine(displayText.trim());
+    RequestLogger.printHtml(displayText.trim());
   }
 
   // we return ALL matches, let callers decide whether to error if there is no unique match. (they

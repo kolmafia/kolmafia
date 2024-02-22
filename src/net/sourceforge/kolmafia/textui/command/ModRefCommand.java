@@ -85,7 +85,7 @@ public class ModRefCommand extends AbstractCommand {
           Modifiers::getString);
     }
     buf.append("</table><br>");
-    RequestLogger.printLine(buf.toString());
+    RequestLogger.printHtml(buf.toString());
   }
 
   private <T extends Modifier> void addModRow(

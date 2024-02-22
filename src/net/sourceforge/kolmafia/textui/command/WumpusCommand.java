@@ -107,7 +107,7 @@ public class WumpusCommand extends AbstractCommand {
                   + "\">"
                   + "&lt;click here&gt;"
                   + "</a>";
-          RequestLogger.printLine(buffer);
+          RequestLogger.printHtml(buffer);
         }
       }
     }

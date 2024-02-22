@@ -61,7 +61,7 @@ public class BountyCommand extends AbstractCommand {
       return;
     }
 
-    RequestLogger.printLine(output.toString());
+    RequestLogger.printHtml(output.toString());
     RequestLogger.printLine();
   }
 

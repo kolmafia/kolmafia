@@ -17,7 +17,6 @@ public class EchoCommand extends AbstractCommand {
 
     parameters = StringUtilities.globalStringDelete(parameters, "\r");
     parameters = StringUtilities.globalStringDelete(parameters, "\n");
-    parameters = StringUtilities.globalStringReplace(parameters, "<", "&lt;");
 
     RequestLogger.printLine(parameters);
     RequestLogger.getSessionStream().println(" > " + parameters);

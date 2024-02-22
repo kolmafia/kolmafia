@@ -1069,7 +1069,7 @@ public class DwarfFactoryRequest extends GenericRequest {
             + "</td>"
             + "</tr>"
             + "</table>";
-    RequestLogger.printLine(output);
+    RequestLogger.printHtml(output);
     RequestLogger.printLine();
   }
 

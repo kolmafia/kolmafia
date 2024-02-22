@@ -79,7 +79,7 @@ public class UpdateEventHandler implements ISVNEventHandler {
          * received from the repository during an update, overlap with
          * local changes the user has in his working copy.
          */
-        RequestLogger.printLine(
+        RequestLogger.printHtml(
             "<font color=\"red\">There are unresolved conflicts for "
                 + event.getFile().getName()
                 + "</font>");

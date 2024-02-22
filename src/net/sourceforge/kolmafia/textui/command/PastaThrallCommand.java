@@ -66,7 +66,7 @@ public class PastaThrallCommand extends AbstractCommand {
 
     output.append("</table>");
 
-    RequestLogger.printLine(output.toString());
+    RequestLogger.printHtml(output.toString());
     RequestLogger.printLine();
 
     output.setLength(0);
@@ -83,7 +83,7 @@ public class PastaThrallCommand extends AbstractCommand {
       }
     }
 
-    RequestLogger.printLine(output.toString());
+    RequestLogger.printHtml(output.toString());
     RequestLogger.printLine();
   }
 }

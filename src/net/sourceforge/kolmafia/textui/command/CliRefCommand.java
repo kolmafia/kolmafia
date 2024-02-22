@@ -35,7 +35,7 @@ public class CliRefCommand extends AbstractCommand {
           "An ellipsis ... after an element means that it  "
               + "can be repeated as many times as needed.");
       RequestLogger.printLine();
-      RequestLogger.printLine(
+      RequestLogger.printHtml(
           "Elements in <i>italics</i> are placeholders -  "
               + "replace them with an actual name you want the command to operate on.");
       RequestLogger.printLine();
@@ -95,7 +95,7 @@ public class CliRefCommand extends AbstractCommand {
         name += "*";
       }
       if (KoLmafiaCLI.isExecutingCheckOnlyCommand) {
-        RequestLogger.printLine(
+        RequestLogger.printHtml(
             DataUtilities.convertToHTML(name) + " @ " + handler.getClass().getName());
         anymatches = true;
         continue;
@@ -115,7 +115,7 @@ public class CliRefCommand extends AbstractCommand {
                 .matcher(usage)
                 .replaceAll("<i>$1</i>");
       }
-      RequestLogger.printLine(DataUtilities.convertToHTML(name) + usage);
+      RequestLogger.printHtml(DataUtilities.convertToHTML(name) + usage);
     }
     if (!anymatches) {
       KoLmafia.updateDisplay("No matching commands found!");
