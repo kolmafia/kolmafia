@@ -504,4 +504,43 @@ class ChoiceControlTest {
       }
     }
   }
+
+  @Nested
+  class WereProfessorResearch {
+    @ParameterizedTest
+    @CsvSource({"true, true, false, test_choice_wereprofessor_no_liver_two_stomach.html"})
+    void stomachTracking(
+        boolean wereStomach1, boolean wereStomach2, boolean wereStomach3, String fileName) {
+      var cleanups = new Cleanups(withPostChoice1(0, 0));
+
+      try (cleanups) {
+        var req = new GenericRequest("choice.php?whichchoice=1523");
+        req.responseText = html("request/" + fileName);
+
+        ChoiceManager.visitChoice(req);
+
+        assertThat("wereStomach1", isSetTo(wereStomach1));
+        assertThat("wereStomach2", isSetTo(wereStomach2));
+        assertThat("wereStomach3", isSetTo(wereStomach3));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({"false, false, false, test_choice_wereprofessor_no_liver_two_stomach.html"})
+    void liverTracking(
+        boolean wereLiver1, boolean wereLiver2, boolean wereLiver3, String fileName) {
+      var cleanups = new Cleanups(withPostChoice1(0, 0));
+
+      try (cleanups) {
+        var req = new GenericRequest("choice.php?whichchoice=1523");
+        req.responseText = html("request/" + fileName);
+
+        ChoiceManager.visitChoice(req);
+
+        assertThat("wereLiver1", isSetTo(wereLiver1));
+        assertThat("wereLiver2", isSetTo(wereLiver2));
+        assertThat("wereLiver3", isSetTo(wereLiver3));
+      }
+    }
+  }
 }

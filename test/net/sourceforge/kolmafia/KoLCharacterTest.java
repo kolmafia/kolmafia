@@ -398,6 +398,34 @@ public class KoLCharacterTest {
         assertThat(KoLCharacter.getStomachCapacity(), is(hasStomach ? 6 : 0));
       }
     }
+
+    @ParameterizedTest
+    @CsvSource({
+      "false, false, false, 5",
+      "true, false, false, 8",
+      "true, true, false, 11",
+      "true, true, true, 14"
+    })
+    void wereProfessorStomach(
+        final boolean triiodothyronineAccelerator,
+        final boolean thyroxineSupplements,
+        final boolean amyloidPolypeptideMixture,
+        final int stomachCapacity) {
+      var cleanups =
+          new Cleanups(
+              withClass(AscensionClass.UNKNOWN),
+              withPath(Path.WEREPROFESSOR),
+              withAdjustmentsRecalculated());
+
+      if (triiodothyronineAccelerator) cleanups.add(withProperty("wereStomach1", true));
+      if (thyroxineSupplements) cleanups.add(withProperty("wereStomach2", true));
+      if (amyloidPolypeptideMixture) cleanups.add(withProperty("wereStomach3", true));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments();
+        assertThat(KoLCharacter.getStomachCapacity(), is(stomachCapacity));
+      }
+    }
   }
 
   @Nested
@@ -461,6 +489,34 @@ public class KoLCharacterTest {
 
       if (beltImplantedStill) cleanups.add(withProperty("bondDrunk1", true));
       if (sobernessInjectionPen) cleanups.add(withProperty("bondDrunk2", true));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments();
+        assertThat(KoLCharacter.getLiverCapacity(), is(liverCapacity));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "false, false, false, 4",
+      "true, false, false, 7",
+      "true, true, false, 10",
+      "true, true, true, 13"
+    })
+    void wereProfessorLiver(
+        final boolean glicagonCondensate,
+        final boolean secretinAgonist,
+        final boolean syntheticAldosterone,
+        final int liverCapacity) {
+      var cleanups =
+          new Cleanups(
+              withClass(AscensionClass.UNKNOWN),
+              withPath(Path.WEREPROFESSOR),
+              withAdjustmentsRecalculated());
+
+      if (glicagonCondensate) cleanups.add(withProperty("wereLiver1", true));
+      if (secretinAgonist) cleanups.add(withProperty("wereLiver2", true));
+      if (syntheticAldosterone) cleanups.add(withProperty("wereLiver3", true));
 
       try (cleanups) {
         KoLCharacter.recalculateAdjustments();
