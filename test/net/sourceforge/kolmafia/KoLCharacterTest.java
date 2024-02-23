@@ -400,26 +400,15 @@ public class KoLCharacterTest {
     }
 
     @ParameterizedTest
-    @CsvSource({
-      "false, false, false, 5",
-      "true, false, false, 8",
-      "true, true, false, 11",
-      "true, true, true, 14"
-    })
-    void wereProfessorStomach(
-        final boolean triiodothyronineAccelerator,
-        final boolean thyroxineSupplements,
-        final boolean amyloidPolypeptideMixture,
-        final int stomachCapacity) {
+    @CsvSource({"0, 5", "1, 8", "2, 11", "3, 14"})
+    void wereProfessorStomach(final int wereStomach, final int stomachCapacity) {
       var cleanups =
           new Cleanups(
               withClass(AscensionClass.UNKNOWN),
               withPath(Path.WEREPROFESSOR),
               withAdjustmentsRecalculated());
 
-      if (triiodothyronineAccelerator) cleanups.add(withProperty("wereStomach1", true));
-      if (thyroxineSupplements) cleanups.add(withProperty("wereStomach2", true));
-      if (amyloidPolypeptideMixture) cleanups.add(withProperty("wereStomach3", true));
+      cleanups.add(withProperty("wereStomach", wereStomach));
 
       try (cleanups) {
         KoLCharacter.recalculateAdjustments();
@@ -497,26 +486,15 @@ public class KoLCharacterTest {
     }
 
     @ParameterizedTest
-    @CsvSource({
-      "false, false, false, 4",
-      "true, false, false, 7",
-      "true, true, false, 10",
-      "true, true, true, 13"
-    })
-    void wereProfessorLiver(
-        final boolean glicagonCondensate,
-        final boolean secretinAgonist,
-        final boolean syntheticAldosterone,
-        final int liverCapacity) {
+    @CsvSource({"0, 4", "1, 7", "2, 10", "3, 13"})
+    void wereProfessorLiver(final int wereLiver, final int liverCapacity) {
       var cleanups =
           new Cleanups(
               withClass(AscensionClass.UNKNOWN),
               withPath(Path.WEREPROFESSOR),
               withAdjustmentsRecalculated());
 
-      if (glicagonCondensate) cleanups.add(withProperty("wereLiver1", true));
-      if (secretinAgonist) cleanups.add(withProperty("wereLiver2", true));
-      if (syntheticAldosterone) cleanups.add(withProperty("wereLiver3", true));
+      cleanups.add(withProperty("wereLiver", wereLiver));
 
       try (cleanups) {
         KoLCharacter.recalculateAdjustments();
