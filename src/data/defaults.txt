@@ -1637,13 +1637,20 @@ user	warehouseProgress	0
 user	watchedPreferences
 user	waxMonster
 user	welcomeBackAdv	0
-user	wereLiver1	false
-user	wereLiver2	false
-user	wereLiver3	false
+user	wereProfessorMus	0
+user	wereProfessorHP	0
+user	wereProfessorDR	0
+user	wereProfessorStomach	0
+user	wereProfessorMox	0
+user	wereProfessorInit	0
+user	wereProfessorMeat	0
+user	wereProfessorStats	0
+user	wereProfessorLiver	0
+user	wereProfessorMys	0
+user	wereProfessorRes	0
+user	wereProfessorItem	0
+user	wereProfessorML	0
 user	wereProfessorPoints	0
-user	wereStomach1	false
-user	wereStomach2	false
-user	wereStomach3	false
 user	whetstonesUsed	0
 user	wildfireBarrelCaulked	false
 user	wildfireDusted	false

@@ -6749,7 +6749,8 @@ Effect	Mighty Shout	Muscle Percent: +100, Moxie Percent: +100
 # Mild-Mannered Professor: Max HP Limited to 1
 # Mild-Mannered Professor: You may not attack normally
 # Mild-Mannered Professor: Running away is always successful
-Effect	Mild-Mannered Professor	Combat Rate: -25, Muscle Limit: 1, Mysticality Limit: 5, Moxie Limit: 1
+# Effect	Mild-Mannered Professor	Combat Rate: -25, Muscle Limit: 1, Mysticality Limit: 5, Moxie Limit: 1
+Effect	Mild-Mannered Professor	Combat Rate: +25
 Effect	Mild Lycanthropy	Muscle Percent: [+1*M], Moxie Percent: [+1*M]
 Effect	Militarily Minted	Damage Reduction: 3
 Effect	Milk is Blood is Milk	Muscle: [-5*T], Mysticality: [-5*T], Moxie: [-5*T], Muscle Percent: [-50*T], Mysticality Percent: [-50*T], Moxie Percent: [-50*T]
@@ -7222,7 +7223,7 @@ Effect	Sauna-Fresh	Muscle: +100, Mysticality: +100, Moxie: +100, Cold Resistance
 # Sausage Festive: Regenerate 5-10 HP/MP per Adventure
 Effect	Sausage Festive	HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10
 # Savage Beast: You cannot run away from combat
-Effect	Savage Beast	Combat Rate: +25, HP Regen Min: 1, HP Regen Max: 1
+Effect	Savage Beast	Combat Rate: +25, Muscle Percent: [pref(wereProfessorMus)], Moxie Percent: [pref(wereProfessorMox)], Mysticality Percent: [pref(wereProfessorMys)], Maximum HP Percent: [pref(wereProfessorHP)], Damage Reduction: [pref(wereProfessorDR)], Initiative: [pref(wereProfessorInit)], Meat Drop: [pref(wereProfessorMeat)], Experience: [pref(wereProfessorStats)], Cold Resistance: [pref(wereProfessorRes)], Hot Resistance: [pref(wereProfessorRes)], Sleaze Resistance: [pref(wereProfessorRes)], Spooky Resistance: [pref(wereProfessorRes)], Stench Resistance: [pref(wereProfessorRes)], Item Drop: [pref(wereProfessorItem)], Monster Level: [pref(wereProfessorML)]
 Effect	Savage Beast Inside	Muscle: +20
 # Scared Stiff: Extra-Vulnerable to Cold and Spooky
 Effect	Scared Stiff	Sleaze Resistance: +2, Cold Vulnerability, Spooky Vulnerability
@@ -12727,7 +12728,7 @@ Path	License to Adventure	Weapon Damage Percent: [50*pref(bondWpn)], Initiative:
 Path	One Crazy Random Summer	Random Monster Modifiers: +1
 Path	Quantum Terrarium	Familiar Weight: [min(2*L,20)]
 Path	You, Robot	Energy: +1
-Path	WereProfessor	Liver Capacity: [(3*pref(wereLiver1))+(3*pref(wereLiver2))+(3*pref(wereLiver3))], Stomach Capacity: [(3*pref(wereStomach1))+(3*pref(wereStomach2))+(3*pref(wereStomach3))]
+Path	WereProfessor	Liver Capacity: [3*(pref(wereLiver1)+pref(wereLiver2)+pref(wereLiver3))], Stomach Capacity: [3*(pref(wereStomach1)+pref(wereStomach2)+pref(wereStomach3))]
 
 # Horsery
 Horsery	normal horse	Initiative: +10, HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10
