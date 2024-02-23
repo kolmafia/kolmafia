@@ -408,7 +408,7 @@ public class KoLCharacterTest {
               withPath(Path.WEREPROFESSOR),
               withAdjustmentsRecalculated());
 
-      cleanups.add(withProperty("wereStomach", wereStomach));
+      cleanups.add(withProperty("wereProfessorStomach", wereStomach));
 
       try (cleanups) {
         KoLCharacter.recalculateAdjustments();
@@ -494,7 +494,7 @@ public class KoLCharacterTest {
               withPath(Path.WEREPROFESSOR),
               withAdjustmentsRecalculated());
 
-      cleanups.add(withProperty("wereLiver", wereLiver));
+      cleanups.add(withProperty("wereProfessorLiver", wereLiver));
 
       try (cleanups) {
         KoLCharacter.recalculateAdjustments();
