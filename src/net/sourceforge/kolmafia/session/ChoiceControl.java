@@ -8625,7 +8625,7 @@ public abstract class ChoiceControl {
             && !text.contains("Concentrated adrenaline extract")) {
           wereLiver += !text.contains("Glicagon condensate") ? 1 : 0;
           wereLiver += wereLiver == 1 && !text.contains("Secretin agonist") ? 1 : 0;
-          wereLiver += wereLiver == 1 && !text.contains("Synthetic aldosterone") ? 1 : 0;
+          wereLiver += wereLiver == 2 && !text.contains("Synthetic aldosterone") ? 1 : 0;
         }
         Preferences.setInteger("wereProfessorLiver", wereLiver);
         break;
