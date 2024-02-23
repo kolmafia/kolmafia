@@ -518,7 +518,7 @@ class ChoiceControlTest {
 
         ChoiceManager.visitChoice(req);
 
-        assertThat("wereStomach", isSetTo(wereStomach));
+        assertThat("wereProfessorStomach", isSetTo(wereStomach));
       }
     }
 
@@ -533,7 +533,7 @@ class ChoiceControlTest {
 
         ChoiceManager.visitChoice(req);
 
-        assertThat("wereLiver", isSetTo(wereLiver));
+        assertThat("wereProfessorLiver", isSetTo(wereLiver));
       }
     }
   }
