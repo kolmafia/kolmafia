@@ -1637,19 +1637,8 @@ user	warehouseProgress	0
 user	watchedPreferences
 user	waxMonster
 user	welcomeBackAdv	0
-user	wereProfessorMus	0
-user	wereProfessorHP	0
-user	wereProfessorDR	0
 user	wereProfessorStomach	0
-user	wereProfessorMox	0
-user	wereProfessorInit	0
-user	wereProfessorMeat	0
-user	wereProfessorStats	0
 user	wereProfessorLiver	0
-user	wereProfessorMys	0
-user	wereProfessorRes	0
-user	wereProfessorItem	0
-user	wereProfessorML	0
 user	wereProfessorPoints	0
 user	whetstonesUsed	0
 user	wildfireBarrelCaulked	false

@@ -8601,78 +8601,33 @@ public abstract class ChoiceControl {
         break;
 
       case 1523: // WereProfessor Research Bench
-        // muscle skill tree
-        int wereMus = !text.contains("Osteocalcin injection") ? 20 : 0;
-        wereMus += wereMus == 20 && !text.contains("Somatostatin catalyst") ? 30 : 0;
-        wereMus += wereMus == 50 && !text.contains("Endothelin suspension") ? 50 : 0;
-        Preferences.setInteger("wereProfessorMus", wereMus);
-
-        int wereHP = wereMus == 100 && !text.contains("Synthetic prostaglandin") ? 20 : 0;
-        wereHP += wereHP == 20 && !text.contains("Leukotriene elixir") ? 30 : 0;
-        wereHP += wereHP == 50 && !text.contains("Thromboxane inhibitor") ? 50 : 0;
-        Preferences.setInteger("wereProfessorHP", wereHP);
-
-        int wereDR = wereHP == 100 && !text.contains("Calcitonin powder") ? 5 : 0;
-        wereDR += wereDR == 5 && !text.contains("Enkephalin activator") ? 10 : 0;
-        wereDR += wereDR == 15 && !text.contains("Oxytocin inversion") ? 15 : 0;
-        Preferences.setInteger("wereProfessorDR", wereDR);
-
-        // Preferences.setBoolean("wereProfessorHPRegen", wereDR == 15 && !text.contains("Hemostatic
-        // accelerant"));
-
-        int wereStomach = wereHP == 100 && !text.contains("Triiodothyronine accelerator") ? 1 : 0;
-        wereStomach += wereStomach == 1 && !text.contains("Thyroxine supplements") ? 1 : 0;
-        wereStomach += wereStomach == 2 && !text.contains("Amyloid polypeptide mixture") ? 1 : 0;
+        // calculate stomach
+        int wereStomach = 0;
+        if (!text.contains("Osteocalcin injection")
+            && !text.contains("Somatostatin catalyst")
+            && !text.contains("Endothelin suspension")
+            && !text.contains("Synthetic prostaglandin")
+            && !text.contains("Leukotriene elixir")
+            && !text.contains("Thromboxane inhibitor")) {
+          wereStomach += !text.contains("Triiodothyronine accelerator") ? 1 : 0;
+          wereStomach += wereStomach == 1 && !text.contains("Thyroxine supplements") ? 1 : 0;
+          wereStomach += wereStomach == 2 && !text.contains("Amyloid polypeptide mixture") ? 1 : 0;
+        }
         Preferences.setInteger("wereProfessorStomach", wereStomach);
 
-        // moxie skill tree
-        int wereMox = !text.contains("Dopamineslurry") ? 20 : 0;
-        wereMox += wereMox == 20 && !text.contains("Relaxin Balm") ? 30 : 0;
-        wereMox += wereMox == 50 && !text.contains("Melatonin suppositories") ? 50 : 0;
-        Preferences.setInteger("wereProfessorMox", wereMox);
-
-        int wereInit = wereMox == 100 && !text.contains("Adrenal decoction") ? 50 : 0;
-        wereInit += wereInit == 50 && !text.contains("Adrenal distillate") ? 50 : 0;
-        wereInit += wereInit == 100 && !text.contains("Concentrated adrenaline extract") ? 100 : 0;
-        Preferences.setInteger("wereProfessorInit", wereInit);
-
-        int wereMeat = wereInit == 200 && !text.contains("Leptin modulator") ? 25 : 0;
-        wereMeat += wereMeat == 25 && !text.contains("Carnal dehydrogrnase infusion") ? 50 : 0;
-        wereMeat +=
-            wereMeat == 75 && !text.contains("Dihydrobenzophenanthridine injection") ? 75 : 0;
-        Preferences.setInteger("wereProfessorMeat", wereMeat);
-
-        Preferences.setInteger(
-            "wereProfessorStats",
-            wereMeat == 150 && !text.contains("Janus kinase blockers") ? 5 : 0);
-
-        int wereLiver = wereInit == 200 && !text.contains("Glicagon condensate") ? 1 : 0;
-        wereLiver += wereLiver == 1 && !text.contains("Secretin agonist") ? 1 : 0;
-        wereLiver += wereLiver == 1 && !text.contains("Synthetic aldosterone") ? 1 : 0;
+        // calculate liver
+        int wereLiver = 0;
+        if (text.contains("Dopamineslurry")
+            && !text.contains("Relaxin Balm")
+            && !text.contains("Melatonin suppositories")
+            && !text.contains("Adrenal decoction")
+            && !text.contains("Adrenal distillate")
+            && !text.contains("Concentrated adrenaline extract")) {
+          wereLiver += !text.contains("Glicagon condensate") ? 1 : 0;
+          wereLiver += wereLiver == 1 && !text.contains("Secretin agonist") ? 1 : 0;
+          wereLiver += wereLiver == 1 && !text.contains("Synthetic aldosterone") ? 1 : 0;
+        }
         Preferences.setInteger("wereProfessorLiver", wereLiver);
-
-        // mysticality skill tree
-        int wereMys = !text.contains("Galanin precipitate") ? 20 : 0;
-        wereMys += wereMys == 20 && !text.contains("Cortistatin blocker") ? 30 : 0;
-        wereMys += wereMys == 50 && !text.contains("Prolactin inhibitor") ? 50 : 0;
-        Preferences.setInteger("wereProfessorMys", wereMys);
-
-        int wereRes = wereMys == 100 && !text.contains("Omega-3 megadose") ? 2 : 0;
-        wereRes += wereRes == 2 && !text.contains("Omega-6 hyperdose") ? 2 : 0;
-        wereRes += wereRes == 4 && !text.contains("Omega-9 omegadose") ? 2 : 0;
-        Preferences.setInteger("wereProfessorRes", wereRes);
-
-        int wereItem = wereRes == 6 && !text.contains("Diphenhydramine eyedrops") ? 25 : 0;
-        wereItem += wereItem == 25 && !text.contains("Carbinoxamine eye wash") ? 25 : 0;
-        wereItem +=
-            wereItem == 50 && !text.contains("Intraocular cyproheptadine injections") ? 25 : 0;
-        Preferences.setInteger("wereProfessorItem", wereItem);
-
-        int wereML = wereItem == 75 && !text.contains("Anabolic megatestosterone") ? 10 : 0;
-        wereML += wereML == 10 && !text.contains("Hyperadrenal Pheremones") ? 15 : 0;
-        wereML += wereML == 25 && !text.contains("Synthetic rhabdovirus") ? 25 : 0;
-        Preferences.setInteger("wereProfessorML", wereML);
-
         break;
     }
   }
