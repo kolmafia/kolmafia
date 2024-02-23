@@ -6749,8 +6749,7 @@ Effect	Mighty Shout	Muscle Percent: +100, Moxie Percent: +100
 # Mild-Mannered Professor: Max HP Limited to 1
 # Mild-Mannered Professor: You may not attack normally
 # Mild-Mannered Professor: Running away is always successful
-# Effect	Mild-Mannered Professor	Combat Rate: -25, Muscle Limit: 1, Mysticality Limit: 5, Moxie Limit: 1
-Effect	Mild-Mannered Professor	Combat Rate: +25
+Effect	Mild-Mannered Professor	Combat Rate: -25, Muscle Limit: 1, Mysticality Limit: 5, Moxie Limit: 1
 Effect	Mild Lycanthropy	Muscle Percent: [+1*M], Moxie Percent: [+1*M]
 Effect	Militarily Minted	Damage Reduction: 3
 Effect	Milk is Blood is Milk	Muscle: [-5*T], Mysticality: [-5*T], Moxie: [-5*T], Muscle Percent: [-50*T], Mysticality Percent: [-50*T], Moxie Percent: [-50*T]
@@ -7223,7 +7222,7 @@ Effect	Sauna-Fresh	Muscle: +100, Mysticality: +100, Moxie: +100, Cold Resistance
 # Sausage Festive: Regenerate 5-10 HP/MP per Adventure
 Effect	Sausage Festive	HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10
 # Savage Beast: You cannot run away from combat
-Effect	Savage Beast	Combat Rate: +25
+Effect	Savage Beast	Combat Rate: +25, HP Regen Min: 1, HP Regen Max: 1
 Effect	Savage Beast Inside	Muscle: +20
 # Scared Stiff: Extra-Vulnerable to Cold and Spooky
 Effect	Scared Stiff	Sleaze Resistance: +2, Cold Vulnerability, Spooky Vulnerability
