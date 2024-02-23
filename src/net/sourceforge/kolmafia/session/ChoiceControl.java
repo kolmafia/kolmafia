@@ -8617,7 +8617,7 @@ public abstract class ChoiceControl {
 
         // calculate liver
         int wereLiver = 0;
-        if (text.contains("Dopamineslurry")
+        if (!text.contains("Dopamine slurry")
             && !text.contains("Relaxin Balm")
             && !text.contains("Melatonin suppositories")
             && !text.contains("Adrenal decoction")
