@@ -482,7 +482,7 @@ public class AscensionHistoryRequest extends GenericRequest
     private AscensionFilter typeId = AscensionFilter.NO_FILTER;
     private int dayCount, turnCount;
     private Path path;
-    private AscensionClass ascensionClass;
+    private AscensionClass ascensionClass = AscensionClass.UNKNOWN;
 
     public AscensionDataField(
         final String playerName, final String playerId, final String rowData) {
