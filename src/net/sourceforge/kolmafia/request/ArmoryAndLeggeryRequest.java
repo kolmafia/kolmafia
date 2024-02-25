@@ -149,39 +149,6 @@ public class ArmoryAndLeggeryRequest extends CoinMasterRequest {
 
     CoinmasterData data = ARMORY_AND_LEGGERY;
 
-    // Learn new items by simply visiting the Armory & Leggery
-
-    /*
-    // Refresh the Coin Master inventory every time we visit.
-
-    List<AdventureResult> items = new ArrayList<>();
-    Map<Integer, AdventureResult> costs = new TreeMap<>();
-    Map<Integer, Integer> rows = new TreeMap<>();
-
-    Matcher matcher = ITEM_PATTERN.matcher(responseText);
-    while (matcher.find()) {
-      CoinmasterItem reward = parseCoinmasterItem(matcher);
-      if (reward != null) {
-        AdventureResult item = ItemPool.get(reward.itemId, PurchaseRequest.MAX_QUANTITY);
-        items.add(item);
-        AdventureResult cost = ItemPool.get(reward.currency, reward.price);
-        costs.put(reward.itemId, cost);
-        rows.put(reward.itemId, reward.row);
-      }
-    }
-
-    data.getRows().clear();
-    data.getRows().putAll(rows);
-    data.getBuyItems().clear();
-    data.getBuyItems().addAll(items);
-    buyCosts.clear();
-    buyCosts.putAll(costs);
-
-    // Register the purchase requests, now that we know what is available
-    data.registerPurchaseRequests();
-    NamedListenerRegistry.fireChange("(coinmaster)");
-    */
-
     int itemId = CoinMasterRequest.extractItemId(data, location);
 
     if (itemId == -1) {
@@ -190,6 +157,7 @@ public class ArmoryAndLeggeryRequest extends CoinMasterRequest {
       return;
     }
 
+    // Learn new items by simply visiting the Armory & Leggery
     CoinMasterRequest.parseResponse(data, location, responseText);
   }
 
