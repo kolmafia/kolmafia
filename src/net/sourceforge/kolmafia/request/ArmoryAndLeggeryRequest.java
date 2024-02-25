@@ -78,7 +78,7 @@ public class ArmoryAndLeggeryRequest extends CoinMasterRequest {
 
   private static Boolean canBuyItem(final Integer itemId) {
     AdventureResult cost = itemBuyPrice(itemId);
-    return InventoryManager.getCount(cost.getItemId()) > 0;
+    return cost != null && InventoryManager.getCount(cost.getItemId()) > 0;
   }
 
   public ArmoryAndLeggeryRequest() {
