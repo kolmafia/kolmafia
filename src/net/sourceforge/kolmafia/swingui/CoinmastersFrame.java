@@ -730,6 +730,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
   public class ArmoryAndLeggeryPanel extends CoinmasterPanel {
     public ArmoryAndLeggeryPanel() {
       super(ArmoryAndLeggeryRequest.ARMORY_AND_LEGGERY);
+      NamedListenerRegistry.registerNamedListener("(armoryandleggery)", this);
     }
 
     @Override
