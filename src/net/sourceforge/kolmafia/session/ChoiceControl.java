@@ -8625,7 +8625,7 @@ public abstract class ChoiceControl {
             && !text.contains("Adrenal decoction (20 rp)")
             && !text.contains("Adrenal distillate (30 rp)")
             && !text.contains("Concentrated adrenaline extract (40 rp)")) {
-          wereLiver += !text.contains("Glicagon condensate (40 rp)") ? 1 : 0;
+          wereLiver += !text.contains("Glucagon condensate (40 rp)") ? 1 : 0;
           wereLiver += wereLiver == 1 && !text.contains("Secretin agonist (50 rp)") ? 1 : 0;
           wereLiver += wereLiver == 2 && !text.contains("Synthetic aldosterone (60 rp)") ? 1 : 0;
         }

@@ -509,6 +509,8 @@ class ChoiceControlTest {
   class WereProfessorResearch {
     @ParameterizedTest
     @CsvSource({
+      "0, test_choice_wereprofessor_no_upgrades.html",
+      "0, test_choice_wereprofessor_upgrades_before_organs.html",
       "1, test_choice_wereprofessor_one_of_each_organ.html",
       "2, test_choice_wereprofessor_two_of_each_organ.html",
       "3, test_choice_wereprofessor_three_of_each_organ.html"
@@ -528,6 +530,8 @@ class ChoiceControlTest {
 
     @ParameterizedTest
     @CsvSource({
+      "0, test_choice_wereprofessor_no_upgrades.html",
+      "0, test_choice_wereprofessor_upgrades_before_organs.html",
       "1, test_choice_wereprofessor_one_of_each_organ.html",
       "2, test_choice_wereprofessor_two_of_each_organ.html",
       "3, test_choice_wereprofessor_three_of_each_organ.html"
