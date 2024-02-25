@@ -32,6 +32,10 @@ public class StandardRewardDatabase {
     StandardRewardDatabase.reset();
   }
 
+  public static Map<Integer, StandardReward> allStandardRewards() {
+    return rewardByItemid;
+  }
+
   public static void reset() {
     StandardRewardDatabase.readEquipment();
     StandardRewardDatabase.readPulverized();
