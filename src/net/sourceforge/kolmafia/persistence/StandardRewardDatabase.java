@@ -15,23 +15,31 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class StandardRewardDatabase {
 
   // id	year	type	class	row	name
-  public static record StandardEquipment(
+  public static record StandardReward(
       int itemId, int year, boolean type, AscensionClass cl, String row, String itemName) {}
 
   // id	year	type	name
   public static record StandardPulverized(int itemId, int year, boolean type, String itemName) {}
 
-  public static Map<Integer, StandardEquipment> rewardByItemid = new HashMap<>();
-
+  public static Map<Integer, StandardReward> rewardByItemid = new HashMap<>();
   public static Map<Integer, StandardPulverized> pulverizedByItemid = new HashMap<>();
+
+  // Map from year -> map from type -> StandardPulverized
+  public static Map<Integer, Map<Boolean, StandardPulverized>> pulverizedByYearAndType =
+      new HashMap<>();
 
   static {
     StandardRewardDatabase.reset();
   }
 
+  public static Map<Integer, StandardReward> allStandardRewards() {
+    return rewardByItemid;
+  }
+
   public static void reset() {
     StandardRewardDatabase.readEquipment();
     StandardRewardDatabase.readPulverized();
+    StandardRewardDatabase.createPulverizedMap();
   }
 
   private static void readEquipment() {
@@ -99,7 +107,7 @@ public class StandardRewardDatabase {
         // Defined by itemId, so, for human use only
         String name = data[5];
 
-        rewardByItemid.put(itemId, new StandardEquipment(itemId, year, type, cl, row, name));
+        rewardByItemid.put(itemId, new StandardReward(itemId, year, type, cl, row, name));
       }
     } catch (IOException e) {
       StaticEntity.printStackTrace(e);
@@ -154,6 +162,52 @@ public class StandardRewardDatabase {
     // reward equipment");
   }
 
+  private static void createPulverizedMap() {
+    for (var entry : pulverizedByItemid.entrySet()) {
+      int itemId = entry.getKey();
+      var pulverized = entry.getValue();
+      int year = pulverized.year;
+      boolean type = pulverized.type;
+      Map<Boolean, StandardPulverized> map = pulverizedByYearAndType.get(year);
+      if (map == null) {
+        map = new HashMap<>();
+        pulverizedByYearAndType.put(year, map);
+      }
+      map.put(type, pulverized);
+    }
+  }
+
+  public static int findPulverization(StandardReward item) {
+    return findPulverization(item.year, item.type);
+  }
+
+  public static int findPulverization(int year, boolean type) {
+    var yearMap = pulverizedByYearAndType.get(year);
+    if (yearMap == null) {
+      return -1;
+    }
+    var pulverized = yearMap.get(type);
+    if (pulverized == null) {
+      return -1;
+    }
+    return pulverized.itemId;
+  }
+
+  // For ResultProcessor
+  public static boolean isPulverizedStandardReward(int itemId) {
+    return pulverizedByItemid.get(itemId) != null;
+  }
+
+  // For EquipmentDatabase
+  public static void derivePulverization() {
+    for (var reward : rewardByItemid.entrySet()) {
+      int itemId = reward.getKey();
+      StandardReward item = reward.getValue();
+      int result = findPulverization(item);
+      EquipmentDatabase.addPulverization(itemId, result);
+    }
+  }
+
   public static String coinmasterString(CoinmasterItem reward) {
     if (reward == null) {
       return null;
@@ -171,7 +225,7 @@ public class StandardRewardDatabase {
     String itemName = reward.itemName();
     int year = pulverized.year() - 1;
     boolean type = pulverized.type();
-    StandardEquipment current = rewardByItemid.get(itemId);
+    StandardReward current = rewardByItemid.get(itemId);
     AscensionClass cl = current == null ? null : current.cl();
     String row = "ROW" + reward.row();
 
