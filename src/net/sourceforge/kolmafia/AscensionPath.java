@@ -67,7 +67,17 @@ public class AscensionPath {
     LEGACY_OF_LOATHING("Legacy of Loathing", 48, false, "xx", "a", "legacyPoints", 19, true),
     SMALL("A Shrunken Adventurer am I", 49, false, "kiloskull", "an", null, 0, false, 2, 1, 15),
     WEREPROFESSOR(
-        "WereProfessor", 50, true, "intrinsic_beast", "a", "wereProfessorPoints", 23, true),
+        "WereProfessor",
+        50,
+        true,
+        "intrinsic_beast",
+        "a",
+        "wereProfessorPoints",
+        23,
+        true,
+        5,
+        4,
+        15),
     // A "sign" rather than a "path" for some reason
     BAD_MOON("Bad Moon", 999, false, "badmoon", null),
     ;
