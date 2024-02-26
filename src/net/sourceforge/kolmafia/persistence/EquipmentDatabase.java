@@ -235,11 +235,18 @@ public class EquipmentDatabase {
                             ? EquipmentDatabase.deriveCluster(spec)
                             : ItemDatabase.getItemId(spec);
 
-        EquipmentDatabase.pulverize.put(itemId, result);
+        EquipmentDatabase.addPulverization(itemId, result);
       }
     } catch (IOException e) {
       StaticEntity.printStackTrace(e);
     }
+
+    // Derive pulverization for all Standard Rewards.
+    StandardRewardDatabase.derivePulverization();
+  }
+
+  public static void addPulverization(int itemId, int result) {
+    EquipmentDatabase.pulverize.put(itemId, result);
   }
 
   public static void writeEquipment(final File output) {
