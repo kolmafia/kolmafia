@@ -504,4 +504,49 @@ class ChoiceControlTest {
       }
     }
   }
+
+  @Nested
+  class WereProfessorResearch {
+    @ParameterizedTest
+    @CsvSource({
+      "0, test_choice_wereprofessor_no_upgrades.html",
+      "0, test_choice_wereprofessor_upgrades_before_organs.html",
+      "1, test_choice_wereprofessor_one_of_each_organ.html",
+      "2, test_choice_wereprofessor_two_of_each_organ.html",
+      "3, test_choice_wereprofessor_three_of_each_organ.html"
+    })
+    void stomachTracking(int wereStomach, String fileName) {
+      var cleanups = new Cleanups(withPostChoice1(0, 0));
+
+      try (cleanups) {
+        var req = new GenericRequest("choice.php?whichchoice=1523");
+        req.responseText = html("request/" + fileName);
+
+        ChoiceManager.visitChoice(req);
+
+        assertThat("wereProfessorStomach", isSetTo(wereStomach));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "0, test_choice_wereprofessor_no_upgrades.html",
+      "0, test_choice_wereprofessor_upgrades_before_organs.html",
+      "1, test_choice_wereprofessor_one_of_each_organ.html",
+      "2, test_choice_wereprofessor_two_of_each_organ.html",
+      "3, test_choice_wereprofessor_three_of_each_organ.html"
+    })
+    void liverTracking(int wereLiver, String fileName) {
+      var cleanups = new Cleanups(withPostChoice1(0, 0));
+
+      try (cleanups) {
+        var req = new GenericRequest("choice.php?whichchoice=1523");
+        req.responseText = html("request/" + fileName);
+
+        ChoiceManager.visitChoice(req);
+
+        assertThat("wereProfessorLiver", isSetTo(wereLiver));
+      }
+    }
+  }
 }

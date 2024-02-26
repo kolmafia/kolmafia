@@ -398,6 +398,23 @@ public class KoLCharacterTest {
         assertThat(KoLCharacter.getStomachCapacity(), is(hasStomach ? 6 : 0));
       }
     }
+
+    @ParameterizedTest
+    @CsvSource({"0, 5", "1, 8", "2, 11", "3, 14"})
+    void wereProfessorStomach(final int wereStomach, final int stomachCapacity) {
+      var cleanups =
+          new Cleanups(
+              withClass(AscensionClass.UNKNOWN),
+              withPath(Path.WEREPROFESSOR),
+              withAdjustmentsRecalculated());
+
+      cleanups.add(withProperty("wereProfessorStomach", wereStomach));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments();
+        assertThat(KoLCharacter.getStomachCapacity(), is(stomachCapacity));
+      }
+    }
   }
 
   @Nested
@@ -461,6 +478,23 @@ public class KoLCharacterTest {
 
       if (beltImplantedStill) cleanups.add(withProperty("bondDrunk1", true));
       if (sobernessInjectionPen) cleanups.add(withProperty("bondDrunk2", true));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments();
+        assertThat(KoLCharacter.getLiverCapacity(), is(liverCapacity));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({"0, 4", "1, 7", "2, 10", "3, 13"})
+    void wereProfessorLiver(final int wereLiver, final int liverCapacity) {
+      var cleanups =
+          new Cleanups(
+              withClass(AscensionClass.UNKNOWN),
+              withPath(Path.WEREPROFESSOR),
+              withAdjustmentsRecalculated());
+
+      cleanups.add(withProperty("wereProfessorLiver", wereLiver));
 
       try (cleanups) {
         KoLCharacter.recalculateAdjustments();
