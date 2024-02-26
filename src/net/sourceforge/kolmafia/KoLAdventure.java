@@ -2575,7 +2575,6 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     // acquire one then try to equip it.
 
     if (this.zone.equals("The 8-Bit Realm")
-        || this.zone.equals("Vanya's Castle")
         || rift == ShadowRift.REALM) {
       // You don't need a transfunctioner to go to the Shadow Rift in
       // The 8-bit Realm if that is the current ingress.
