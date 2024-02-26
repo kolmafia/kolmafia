@@ -157,9 +157,9 @@ public class ConsequenceManagerTest {
 
       ConsequenceManager.parseEffectDesc(descId, responseText);
       assertThat(
-              Preferences.getString("_savageBeastMods"),
-              equalTo(
-                      "Combat Rate: +25, Muscle Percent: 100, Maximum HP Percent: 100, Mysticality Percent: 100, Hot Resistance: 6, Cold Resistance: 6, Stench Resistance: 6, Sleaze Resistance: 6, Spooky Resistance: 6, Item Drop: 75, Monster Level: 50, Moxie Percent: 100, Initiative: 200, Meat Drop: 150, HP Regen Min: 1, HP Regen Max: 1"));
+          Preferences.getString("_savageBeastMods"),
+          equalTo(
+              "Combat Rate: +25, Muscle Percent: 100, Maximum HP Percent: 100, Mysticality Percent: 100, Hot Resistance: 6, Cold Resistance: 6, Stench Resistance: 6, Sleaze Resistance: 6, Spooky Resistance: 6, Item Drop: 75, Monster Level: 50, Moxie Percent: 100, Initiative: 200, Meat Drop: 150, HP Regen Min: 1, HP Regen Max: 1"));
     }
   }
 }
