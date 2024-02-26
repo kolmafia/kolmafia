@@ -1,17 +1,17 @@
 package net.sourceforge.kolmafia.request;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
-import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.StandardRewardDatabase;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ArmoryAndLeggeryRequest extends CoinMasterRequest {
@@ -19,20 +19,66 @@ public class ArmoryAndLeggeryRequest extends CoinMasterRequest {
 
   private static final Pattern TOKEN_PATTERN = Pattern.compile("<td>([\\d,]+) FDKOL commendation");
 
-  // Since there are multiple, we need to have a map from itemId to
-  // item/count of currency; an AdventureResult.
-  private static final Map<Integer, AdventureResult> buyCosts = new TreeMap<>();
-
   public static final CoinmasterData ARMORY_AND_LEGGERY =
       new CoinmasterData(master, "armory", ArmoryAndLeggeryRequest.class)
           .withShopRowFields(master, "armory")
-          .withItemRows(CoinmastersDatabase.getOrMakeRows(master))
+          .withItemRows()
           .withBuyItems()
           .withBuyPrices()
+          .withCanBuyItem(ArmoryAndLeggeryRequest::canBuyItem)
           .withItemBuyPrice(ArmoryAndLeggeryRequest::itemBuyPrice);
+
+  // Since there are multiple currencies, we need to have a map from
+  // itemId to item/count of currency; an AdventureResult.
+  private static final Map<Integer, AdventureResult> buyCosts = new HashMap<>();
+
+  static {
+    ArmoryAndLeggeryRequest.initializeCoinMasterInventory();
+  }
+
+  private static void initializeCoinMasterInventory() {
+    CoinmasterData data = ARMORY_AND_LEGGERY;
+
+    List<AdventureResult> items = new ArrayList<>();
+    Map<Integer, AdventureResult> costs = new HashMap<>();
+    Map<Integer, Integer> rows = new HashMap<>();
+
+    for (var entry : StandardRewardDatabase.allStandardRewards().entrySet()) {
+      // The item we wish to buy
+      int itemId = entry.getKey();
+      var reward = entry.getValue();
+      // The pulverized item from the next year
+      int currency = StandardRewardDatabase.findPulverization(reward.year() + 1, reward.type());
+      if (currency == -1) {
+        // You can't buy the current year's Standard rewards
+        continue;
+      }
+
+      AdventureResult item = ItemPool.get(itemId, PurchaseRequest.MAX_QUANTITY);
+      items.add(item);
+
+      AdventureResult cost = ItemPool.get(currency, 1);
+      costs.put(itemId, cost);
+
+      int row = reward.row().equals("UNKNOWN") ? 0 : StringUtilities.parseInt(reward.row());
+      rows.put(itemId, row);
+    }
+
+    data.getBuyItems().clear();
+    data.getBuyItems().addAll(items);
+    buyCosts.clear();
+    buyCosts.putAll(costs);
+    data.getRows().clear();
+    data.getRows().putAll(rows);
+  }
 
   private static AdventureResult itemBuyPrice(final int itemId) {
     return buyCosts.get(itemId);
+  }
+
+  private static Boolean canBuyItem(final Integer itemId) {
+    AdventureResult cost = itemBuyPrice(itemId);
+    return cost != null && InventoryManager.getCount(cost.getItemId()) > 0;
   }
 
   public ArmoryAndLeggeryRequest() {
@@ -101,37 +147,7 @@ public class ArmoryAndLeggeryRequest extends CoinMasterRequest {
       return;
     }
 
-    // Learn new items by simply visiting the Armory & Leggery
-    // Refresh the Coin Master inventory every time we visit.
-
     CoinmasterData data = ARMORY_AND_LEGGERY;
-
-    List<AdventureResult> items = new ArrayList<>();
-    Map<Integer, AdventureResult> costs = new TreeMap<>();
-    Map<Integer, Integer> rows = new TreeMap<>();
-
-    Matcher matcher = ITEM_PATTERN.matcher(responseText);
-    while (matcher.find()) {
-      CoinmasterItem reward = parseCoinmasterItem(matcher);
-      if (reward != null) {
-        AdventureResult item = ItemPool.get(reward.itemId, PurchaseRequest.MAX_QUANTITY);
-        items.add(item);
-        AdventureResult cost = ItemPool.get(reward.currency, reward.price);
-        costs.put(reward.itemId, cost);
-        rows.put(reward.itemId, reward.row);
-      }
-    }
-
-    data.getRows().clear();
-    data.getRows().putAll(rows);
-    data.getBuyItems().clear();
-    data.getBuyItems().addAll(items);
-    buyCosts.clear();
-    buyCosts.putAll(costs);
-
-    // Register the purchase requests, now that we know what is available
-    data.registerPurchaseRequests();
-    NamedListenerRegistry.fireChange("(coinmaster)");
 
     int itemId = CoinMasterRequest.extractItemId(data, location);
 
@@ -141,6 +157,7 @@ public class ArmoryAndLeggeryRequest extends CoinMasterRequest {
       return;
     }
 
+    // Learn new items by simply visiting the Armory & Leggery
     CoinMasterRequest.parseResponse(data, location, responseText);
   }
 

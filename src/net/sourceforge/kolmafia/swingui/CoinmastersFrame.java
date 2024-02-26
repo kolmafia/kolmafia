@@ -730,17 +730,23 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
   public class ArmoryAndLeggeryPanel extends CoinmasterPanel {
     public ArmoryAndLeggeryPanel() {
       super(ArmoryAndLeggeryRequest.ARMORY_AND_LEGGERY);
+      NamedListenerRegistry.registerNamedListener("(armoryandleggery)", this);
     }
 
     @Override
     public void setTitle(final StringBuffer buffer) {
       this.standardTitle(buffer);
       for (AdventureResult currency : this.data.currencies()) {
-        buffer.append(" (");
-        buffer.append(InventoryManager.getCount(currency));
-        buffer.append(" ");
-        buffer.append(currency.getName());
-        buffer.append(")");
+        // There are two currencies for every year of Standard equipment.
+        // That is far too many to show all of them in the title.
+        // Show only the ones you have in inventory right now.
+        if (InventoryManager.getCount(currency.getItemId()) > 0) {
+          buffer.append(" (");
+          buffer.append(InventoryManager.getCount(currency));
+          buffer.append(" ");
+          buffer.append(currency.getName());
+          buffer.append(")");
+        }
       }
     }
   }

@@ -283,9 +283,7 @@ public class CoinMasterRequest extends GenericRequest {
             && !responseText.contains("Huh?")) {
           CoinMasterRequest.completePurchase(data, urlString);
         }
-      }
-
-      if (sell != null && action.equals(sell)) {
+      } else if (sell != null && action.equals(sell)) {
         // We are selling to this Coinmaster
         String sellURL = data.getSellURL();
         if ((sellURL == null || shopId == null || sellURL.endsWith(shopId))
@@ -299,7 +297,7 @@ public class CoinMasterRequest extends GenericRequest {
         AdventureResult item = new AdventureResult(itemId, 1, false);
 
         if (data.getBuyItems().contains(item)) {
-          // We are buying from  Coinmaster
+          // We are buying from this Coinmaster
           if (!responseText.contains("You don't have enough") && !responseText.contains("Huh?")) {
             CoinMasterRequest.completePurchase(data, urlString);
           }

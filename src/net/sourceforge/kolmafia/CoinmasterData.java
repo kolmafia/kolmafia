@@ -236,6 +236,16 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   }
 
   /**
+   * Provides an empty <code>Map</code> from <code>itemId</code>s of the items that you can buy from
+   * this coinmaster to the <code>row</code> that you need to purchase it.
+   *
+   * @return this - Allows fluid chaining of fields
+   */
+  public CoinmasterData withItemRows() {
+    return withItemRows(CoinmastersDatabase.getNewMap());
+  }
+
+  /**
    * Provides the "rows" of this <code>shop.php</code> coinmaster when they are not (all) specified
    * in <code>coinmasters.txt</code>.
    *
