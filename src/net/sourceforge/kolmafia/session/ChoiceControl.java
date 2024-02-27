@@ -8599,6 +8599,38 @@ public abstract class ChoiceControl {
         }
 
         break;
+
+      case 1523: // WereProfessor Research Bench
+        // calculate stomach
+        int wereStomach = 0;
+        if (!text.contains("Osteocalcin injection (10 rp)")
+            && !text.contains("Somatostatin catalyst (20 rp)")
+            && !text.contains("Endothelin suspension (30 rp)")
+            && !text.contains("Synthetic prostaglandin (20 rp)")
+            && !text.contains("Leukotriene elixir (30 rp)")
+            && !text.contains("Thromboxane inhibitor (40 rp)")) {
+          wereStomach += !text.contains("Triiodothyronine accelerator (40 rp)") ? 1 : 0;
+          wereStomach +=
+              wereStomach == 1 && !text.contains("Thyroxine supplements (50 rp)") ? 1 : 0;
+          wereStomach +=
+              wereStomach == 2 && !text.contains("Amyloid polypeptide mixture (60 rp)") ? 1 : 0;
+        }
+        Preferences.setInteger("wereProfessorStomach", wereStomach);
+
+        // calculate liver
+        int wereLiver = 0;
+        if (!text.contains("Dopamine slurry (10 rp)")
+            && !text.contains("Relaxin Balm (20 rp)")
+            && !text.contains("Melatonin suppositories (30 rp)")
+            && !text.contains("Adrenal decoction (20 rp)")
+            && !text.contains("Adrenal distillate (30 rp)")
+            && !text.contains("Concentrated adrenaline extract (40 rp)")) {
+          wereLiver += !text.contains("Glucagon condensate (40 rp)") ? 1 : 0;
+          wereLiver += wereLiver == 1 && !text.contains("Secretin agonist (50 rp)") ? 1 : 0;
+          wereLiver += wereLiver == 2 && !text.contains("Synthetic aldosterone (60 rp)") ? 1 : 0;
+        }
+        Preferences.setInteger("wereProfessorLiver", wereLiver);
+        break;
     }
   }
 

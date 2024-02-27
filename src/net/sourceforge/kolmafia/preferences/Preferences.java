@@ -540,6 +540,8 @@ public class Preferences {
         "vintnerWineType",
         "violetFogLayout",
         "waxMonster",
+        "wereProfessorLiver",
+        "wereProfessorStomach",
         "whetstonesUsed",
         "wildfireBarrelCaulked",
         "wildfireDusted",

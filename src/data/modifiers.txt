@@ -12727,6 +12727,7 @@ Path	License to Adventure	Weapon Damage Percent: [50*pref(bondWpn)], Initiative:
 Path	One Crazy Random Summer	Random Monster Modifiers: +1
 Path	Quantum Terrarium	Familiar Weight: [min(2*L,20)]
 Path	You, Robot	Energy: +1
+Path	WereProfessor	Liver Capacity: [3*(pref(wereProfessorLiver))], Stomach Capacity: [3*(pref(wereProfessorStomach))]
 
 # Horsery
 Horsery	normal horse	Initiative: +10, HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10
