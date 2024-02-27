@@ -374,6 +374,7 @@ public class EffectPool {
   public static final int SERENDIPITY = 2833;
   public static final int RECALLING_CIRCADIAN_RHYTHMS = 2846;
   public static final int EVERYTHING_LOOKS_GREEN = 2881;
+  public static final int SAVAGE_BEAST = 2898;
 
   public static final AdventureResult CURSE1_EFFECT = EffectPool.get(EffectPool.ONCE_CURSED);
   public static final AdventureResult CURSE2_EFFECT = EffectPool.get(EffectPool.TWICE_CURSED);
