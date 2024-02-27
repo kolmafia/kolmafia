@@ -1506,6 +1506,8 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
                     withEquippableItem("seal clubbing club"),
                     withEquippableItem("pasta spoon"),
                     withEquippableItem("saucepan"),
+                    withEquippableItem("turtle totem"),
+                    withEquippableItem("stolen accordion"),
                     withEquippableItem("toy accordion"));
     String out;
     String cmd = "maximize(\"" + maxStr + "\", 2500, 0, false)";
