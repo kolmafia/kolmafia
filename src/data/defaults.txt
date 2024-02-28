@@ -2304,6 +2304,7 @@ user	_saplingsPlanted	0
 user	_sausageFights	0
 user	_sausagesEaten	0
 user	_sausagesMade	0
+user	_savageBeastMods
 user	_seaJellyHarvested	false
 user	_sealFigurineUses	0
 user	_sealScreeches	0
