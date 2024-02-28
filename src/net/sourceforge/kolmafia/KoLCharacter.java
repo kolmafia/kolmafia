@@ -4320,6 +4320,7 @@ public abstract class KoLCharacter {
             || ascensionClass == AscensionClass.AVATAR_OF_SNEAKY_PETE
             || ascensionClass == AscensionClass.GELATINOUS_NOOB
             || KoLCharacter.getLimitMode() == LimitMode.BIRD
+            || KoLCharacter.hasEquipped(ItemPool.FOCUSED_MAGNETRON_PISTOL, Slot.WEAPON)
             || KoLCharacter.hasEquipped(ItemPool.TINY_BLACK_HOLE, Slot.OFFHAND)
             || KoLCharacter.hasEquipped(ItemPool.MIME_ARMY_INFILTRATION_GLOVE));
   }

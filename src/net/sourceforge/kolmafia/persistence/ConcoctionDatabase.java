@@ -2020,6 +2020,9 @@ public class ConcoctionDatabase {
           "You need to have a Pile of Burning Leaves in your campsite to make that.");
     }
 
+    // Making stuff at the Tinkering Bench is allowed if you are in the
+    // WereProfessor path and are in Professor form.
+
     // Other creatability flags
 
     if (KoLCharacter.isTorsoAware()) {
