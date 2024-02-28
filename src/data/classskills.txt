@@ -1797,6 +1797,3 @@
 30019	Grit Teeth	gritteeth.gif	combat	5	0	Level: 9
 30020	Soothing Flute	flute.gif	nc,effect,self	15	10	Level: 10
 30021	Motif	motif.gif	combat	50	0	Level: 11
-
-# ???
-31000	Insectologist	sitfly.gif	passive	0	0	Permable: false
