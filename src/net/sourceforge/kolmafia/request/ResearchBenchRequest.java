@@ -7,6 +7,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 
 public class ResearchBenchRequest extends GenericRequest {
@@ -31,6 +32,24 @@ public class ResearchBenchRequest extends GenericRequest {
   private static void registerResearch(String name, String field, int cost, String effect) {
     registerResearch(name, field, cost, effect, null);
   }
+
+  // Skill trees
+  //
+  // mus1 mus2 mus3
+  //                rend1 rend2 rend3 unknown1
+  //                hp1 hp2 hp3
+  //                            skin1 skin2 skin3 unknown2
+  //                            stomach1 stomach2 stomach3 feed
+  // myst1 myst2 myst3
+  //                bite1 bite2 bite3 howl
+  //                res1 res2 res3
+  //                            items1 items2 items3 hunt
+  //                            ml1 ml2 ml3 feasting
+  // mox1 mox2 mox3
+  //                kick1 kick2 kick3 punt
+  //                init1 init2 init3
+  //                            meat1 meat2 meat3 unknown3
+  //                            liver1 liver2 liver3 unknown4
 
   static {
     // *** Muscle Skill Tree
@@ -177,6 +196,37 @@ public class ResearchBenchRequest extends GenericRequest {
     this.addFormField("option", "1");
     String rfield = research.startsWith("wereprof_") ? research : "wereprof_" + research;
     this.addFormField("r", rfield);
+  }
+
+  public static void visitChoice(final String text) {
+    // calculate stomach
+    int wereStomach = 0;
+    if (!text.contains("Osteocalcin injection (10 rp)")
+        && !text.contains("Somatostatin catalyst (20 rp)")
+        && !text.contains("Endothelin suspension (30 rp)")
+        && !text.contains("Synthetic prostaglandin (20 rp)")
+        && !text.contains("Leukotriene elixir (30 rp)")
+        && !text.contains("Thromboxane inhibitor (40 rp)")) {
+      wereStomach += !text.contains("Triiodothyronine accelerator (40 rp)") ? 1 : 0;
+      wereStomach += wereStomach == 1 && !text.contains("Thyroxine supplements (50 rp)") ? 1 : 0;
+      wereStomach +=
+          wereStomach == 2 && !text.contains("Amyloid polypeptide mixture (60 rp)") ? 1 : 0;
+    }
+    Preferences.setInteger("wereProfessorStomach", wereStomach);
+
+    // calculate liver
+    int wereLiver = 0;
+    if (!text.contains("Dopamine slurry (10 rp)")
+        && !text.contains("Relaxin Balm (20 rp)")
+        && !text.contains("Melatonin suppositories (30 rp)")
+        && !text.contains("Adrenal decoction (20 rp)")
+        && !text.contains("Adrenal distillate (30 rp)")
+        && !text.contains("Concentrated adrenaline extract (40 rp)")) {
+      wereLiver += !text.contains("Glucagon condensate (40 rp)") ? 1 : 0;
+      wereLiver += wereLiver == 1 && !text.contains("Secretin agonist (50 rp)") ? 1 : 0;
+      wereLiver += wereLiver == 2 && !text.contains("Synthetic aldosterone (60 rp)") ? 1 : 0;
+    }
+    Preferences.setInteger("wereProfessorLiver", wereLiver);
   }
 
   private static final Pattern RESEARCH_PATTERN = Pattern.compile("[?&]r=([^&]+)");
