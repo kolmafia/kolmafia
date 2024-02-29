@@ -69,6 +69,7 @@ import net.sourceforge.kolmafia.request.MummeryRequest;
 import net.sourceforge.kolmafia.request.PantogramRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
+import net.sourceforge.kolmafia.request.ResearchBenchRequest;
 import net.sourceforge.kolmafia.request.SaberRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
 import net.sourceforge.kolmafia.request.SpelunkyRequest;
@@ -9480,6 +9481,9 @@ public abstract class ChoiceControl {
 
         case 1483: // Direct Autumn-Aton
           return AutumnatonManager.registerRequest(urlString);
+
+        case 1523: // Research Bench
+          return ResearchBenchRequest.registerRequest(urlString);
       }
 
       if (decision != 0) {
