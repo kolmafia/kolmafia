@@ -3320,6 +3320,14 @@ public abstract class KoLCharacter {
     return KoLCharacter.ascensionPath == Path.WEREPROFESSOR;
   }
 
+  public static final boolean isMildManneredProfessor() {
+    return KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.MILD_MANNERED_PROFESSOR));
+  }
+
+  public static final boolean isSavageBeast() {
+    return KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.SAVAGE_BEAST));
+  }
+
   public static final boolean isUnarmed() {
     AdventureResult weapon = EquipmentManager.getEquipment(Slot.WEAPON);
     AdventureResult offhand = EquipmentManager.getEquipment(Slot.OFFHAND);

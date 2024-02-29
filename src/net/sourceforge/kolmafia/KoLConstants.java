@@ -520,7 +520,7 @@ public interface KoLConstants extends UtilityConstants {
     SHADOW_FORGE, // Items made at The Shadow Forge
     FIXODENT, // Items made from fixodent
     BURNING_LEAVES, // Items made at the Pile of Burning Leaves
-    TINKER, // Items made at the Tinkering Bench
+    TINKERING_BENCH, // Items made at the Tinkering Bench
   }
 
   enum CraftingRequirements {
