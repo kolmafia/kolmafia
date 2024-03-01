@@ -1411,7 +1411,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
    */
   @Test
   public void itShouldMaximizeAndEquipSelectedWeapon() {
-    String maxStr = "effective";
+    String maxStr = "effective, 2 dump";
     HttpClientWrapper.setupFakeClient();
     var cleanups =
         new Cleanups(
