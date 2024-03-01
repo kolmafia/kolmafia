@@ -3047,6 +3047,8 @@ Item	enormous hoop earring	Moxie: +5
 # ert grey goo ring: Definitely Safe
 Item	ert grey goo ring	Maximum HP: +10, Maximum MP: +10
 # ESP suppression collar
+# Everfull Dart Holster: Throw Darts in Battle
+Item	Everfull Dart Holster	Initiative: +50, Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Single Equip
 Item	evil flaming eyeball pendant	Initiative: +15, Meat Drop: +15, Single Equip, Softcore Only
 Item	exclusive ultra-rare item	Muscle: +15, Mysticality: +15, Moxie: +15
 Item	expensive camera	Initiative: +20, Reduce Enemy Defense: 10, Single Equip
@@ -3848,8 +3850,8 @@ Item	tiny plastic bugaboo	Monster Level: +1
 Item	tiny plastic Bugbear Captain	Maximum HP: +20, Maximum MP: +20, HP Regen Min: 2, HP Regen Max: 4, MP Regen Min: 2, MP Regen Max: 4, Single Equip
 Item	tiny plastic buzzerker	Monster Level: +1
 Item	tiny plastic caboose	Damage Reduction: 3
-Item	tiny plastic Cafe	Food Drop: +3
 Item	tiny plastic Caf&eacute; Elf	Hot Resistance: +1
+Item	tiny plastic Cafe	Food Drop: +3
 Item	tiny plastic Captain Kerkard	Monster Level: +1
 Item	tiny plastic cavebugbear	Monster Level: +1
 Item	tiny plastic Charity the Zombie Hunter	Monster Level: +1
@@ -11744,10 +11746,10 @@ Item	imbued seal-blubber candle	Class: "Seal Clubber"
 # imitation crab meat: Deals 150-250 Physical Damage
 # imitation crab meat: (will backfire if used on land)
 # imp air: Deals 35-40 <font color=red>Hot Damage</font>
+Item	in-the-box spring shoes	Free Pull
 # incriminating evidence: Take it downtown to Gotpork P. D.
 Item	infant sandworm	Free Pull
 # infinite BACON machine: Generate 100 BACON per day
-Item	in-the-box spring shoes	Free Pull
 # ingot turtle: Deals 90-110 <font color=red>Hot Damage</font> and changes your opponent's element to Hot
 Item	Inigo's Incantation of Inspiration	Class: "Accordion Thief", Skill: "Inigo's Incantation of Inspiration"
 Item	Inigo's Incantation of Inspiration (crumpled)	Class: "Accordion Thief", Skill: "Inigo's Incantation of Inspiration"
@@ -12022,6 +12024,7 @@ Item	Pack of Every Card	Free Pull
 Item	packaged backup camera	Free Pull
 Item	packaged cold medicine cabinet	Free Pull
 Item	packaged Daylight Shavings Helmet	Free Pull
+Item	packaged Everfull Dart Holster	Free Pull
 Item	packaged familiar scrapbook	Free Pull
 Item	packaged industrial fire extinguisher	Free Pull
 Item	packaged June cleaver	Free Pull
