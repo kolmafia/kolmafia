@@ -104,6 +104,7 @@ public class ResearchBenchRequest extends GenericRequest {
     registerResearch("Prolactin inhibitor", "myst3", 30, "Mysticality +50%", "myst2");
 
     // Bite
+
     registerResearch("Fluoride rinse", "bite1", 20, "Unlock Bite", "myst3");
     registerResearch(
         "Proton pump eliminator",
@@ -217,7 +218,7 @@ public class ResearchBenchRequest extends GenericRequest {
     // calculate liver
     int wereLiver = 0;
     if (!text.contains("Dopamine slurry (10 rp)")
-        && !text.contains("Relaxin Balm (20 rp)")
+        && !text.contains("Relaxin balm (20 rp)")
         && !text.contains("Melatonin suppositories (30 rp)")
         && !text.contains("Adrenal decoction (20 rp)")
         && !text.contains("Adrenal distillate (30 rp)")
