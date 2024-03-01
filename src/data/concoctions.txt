@@ -3302,3 +3302,16 @@ whalecake	COOK	military-grade peppermint oil	whalesteak
 yule grog	MIX	military-grade peppermint oil	old-school pirate grog
 red white and blue claret	MIX	Crimbuccaneer whale oil	red and white claret
 Crimbow Rainbo	MIX	yule grog	red white and blue claret
+
+# WereProfessor - Tinkering Bench
+
+biphasic molecular oculus	TINKERING_BENCH, ROW1467	smashed scientific equipment
+triphasic molecular oculus	TINKERING_BENCH, ROW1468	biphasic molecular oculus	smashed scientific equipment
+focused magnetron pistol	TINKERING_BENCH, ROW1476	smashed scientific equipment
+motion sensor	TINKERING_BENCH, ROW1475	smashed scientific equipment
+quick-release belt pouch	TINKERING_BENCH, ROW1472	smashed scientific equipment
+quick-release fannypack	TINKERING_BENCH, ROW1473	quick-release belt pouch	smashed scientific equipment
+quick-release utility belt	TINKERING_BENCH, ROW1474	quick-release fannypack	smashed scientific equipment
+high-tension exoskeleton	TINKERING_BENCH, ROW1469	smashed scientific equipment
+ultra-high-tension exoskeleton	TINKERING_BENCH, ROW1470	high-tension exoskeleton	smashed scientific equipment
+irresponsible-tension exoskeleton	TINKERING_BENCH, ROW1471	ultra-high-tension exoskeleton	smashed scientific equipment

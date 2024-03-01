@@ -777,7 +777,7 @@ public class FightRequest extends GenericRequest {
 
   private static final Pattern CAN_STEAL_PATTERN =
       Pattern.compile(
-          "value=\"(Pick (?:His|Her|Their|Its) Pocket(?: Again)?|Look for Shiny Objects)\"");
+          "value=\"(Pick (?:His|Her|Their|Its) Pocket(?: Again)?|Look for Shiny Objects|Steal \\(for research\\))\"");
 
   public static final boolean canStillSteal() {
     // Return true if you can still steal during this battle.
