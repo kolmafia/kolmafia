@@ -528,6 +528,7 @@ public class NPCPurchaseRequest extends PurchaseRequest {
         || shopId.equals("snowgarden")
         || shopId.equals("spant")
         || shopId.equals("starchart")
+        || shopId.equals("wereprofessor_tinker")
         || shopId.equals("xo");
   }
 
@@ -1208,6 +1209,7 @@ public class NPCPurchaseRequest extends PurchaseRequest {
           || shopId.equals("shadowforge")
           || shopId.equals("snowgarden")
           || shopId.equals("spant")
+          || shopId.equals("wereprofessor_tinker")
           || shopId.equals("xo")) {
         return NPCPurchaseRequest.registerShopRowRequest(urlString);
       }
