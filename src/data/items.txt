@@ -11585,7 +11585,7 @@
 11557	quick-release utility belt	836859893	wp_belt3.gif	accessory	q	0
 11558	motion sensor	337915078	wp_sensor.gif	accessory	q	0
 11559	focused magnetron pistol	303408883	wp_gun.gif	weapon	q	0
-11560
-11561
+11560	packaged Everfull Dart Holster	839379198	dartholster_box.gif	usable	t	0
+11561	Everfull Dart Holster	129400771	dartholster.gif	accessory		0
 11562	research fragment	981562994	blueprint.gif	usable	t	0
 11563	Thwaitgold wolf spider statuette	455599612	thwaitwolf.gif	none		0

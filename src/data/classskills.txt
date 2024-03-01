@@ -1059,6 +1059,25 @@
 7500	Spring Away	springjump.gif	combat	0	0
 7501	Spring Kick	springkick.gif	combat	0	0
 7502	Spring Growth Spurt	springplant.gif	combat	0	0
+7503	Rend	3clawsbig.gif	combat	0	0
+7504	Slaughter	beast_rend.gif	combat	0	0
+7505	Bite	beast_bite.gif	combat	0	0
+7506	Kick	beast_kick.gif	combat	0	0
+7507
+7508
+7509	Hunt	footprints.gif	combat	0	0
+7510	Punt	springjump.gif	combat	0	0
+7511	Howl	echo.gif	combat	0	0
+7512	Advanced Research	testtube.gif	combat	0	0
+7513	Darts: Throw at %part1	nicedart.gif	combat	0	0
+7514	Darts: Throw at %part2	nicedart.gif	combat	0	0
+7515	Darts: Throw at %part3	nicedart.gif	combat	0	0
+7516	Darts: Throw at %part4	nicedart.gif	combat	0	0
+7517	Darts: Throw at %part5	nicedart.gif	combat	0	0
+7518	Darts: Throw at %part6	nicedart.gif	combat	0	0
+7519	Darts: Throw at %part7	nicedart.gif	combat	0	0
+7520	Darts: Throw at %part8	nicedart.gif	combat	0	0
+7521	Darts: Aim for the Bullseye	nicedart.gif	combat	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.

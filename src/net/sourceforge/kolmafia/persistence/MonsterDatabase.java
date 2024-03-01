@@ -428,7 +428,7 @@ public class MonsterDatabase {
     MonsterDatabase.addMapping(wereProfMap, "Lord Spookyraven", "Lord Beastlyraven");
     MonsterDatabase.addMapping(wereProfMap, "Protector Spectre", "Protector Beast");
     MonsterDatabase.addMapping(wereProfMap, "The Big Wisniewski", "The Beast Wisniewski");
-    // MonsterDatabase.addMapping(wereProfMap, "The Man", "The Beast Man");
+    MonsterDatabase.addMapping(wereProfMap, "The Man", "The Beastman");
     MonsterDatabase.addMapping(wereProfMap, "Naughty Sorceress", "The Naughty Wolferess");
     MonsterDatabase.addMapping(wereProfMap, "Naughty Sorceress (2)", null);
     MonsterDatabase.addMapping(wereProfMap, "Naughty Sorceress (3)", null);

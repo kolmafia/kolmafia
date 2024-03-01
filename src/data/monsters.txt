@@ -1442,7 +1442,7 @@ Lord Beastlyraven	2441	wereraven.gif	BOSS NOCOPY Atk: 165 Def: 148 HP: 200 Init:
 Protector Beast	2442	protspect.gif	BOSS NOCOPY Atk: 164 Def: 151 HP: 100 Init: 30 P: undead Article: a	[2180]ancient amulet (n100)	spectre scepter (n100)
 Just Groar	2443	wingedyeti.gif	BOSS NOCOPY Atk: 120 Def: 108 HP: 250 Init: 50 P: beast ED: cold	Groar's fur (100)	5 dense meat stack (m100)
 The Beast Wisniewski	2444	werenewski.gif	BOSS NOCOPY Atk: 250 Def: 225 HP: 2000 Init: 60 P: hippy ED: stench	solid gold bowling ball (100)
-#The Beast Man	2445	wereman.gif	BOSS NOCOPY Atk: 250 Def: 225 HP: 2000 Init: 60 P: dude ED: sleaze EA: hot EA: cold	really dense meat stack (100)
+The Beastman	2445	wereman.gif	BOSS NOCOPY Atk: 250 Def: 225 HP: 2000 Init: 60 P: dude ED: sleaze	really dense meat stack (100)
 The Naughty Wolferess	2446	weresorceress.gif	BOSS NOCOPY Atk: 300 Def: 300 HP: 1000 Init: 100 P: horror	Instant Karma (c100)	Thwaitgold wolf spider statuette (n100)
 
 # Items of the Month

@@ -8620,7 +8620,7 @@ public abstract class ChoiceControl {
         // calculate liver
         int wereLiver = 0;
         if (!text.contains("Dopamine slurry (10 rp)")
-            && !text.contains("Relaxin Balm (20 rp)")
+            && !text.contains("Relaxin balm (20 rp)")
             && !text.contains("Melatonin suppositories (30 rp)")
             && !text.contains("Adrenal decoction (20 rp)")
             && !text.contains("Adrenal distillate (30 rp)")
