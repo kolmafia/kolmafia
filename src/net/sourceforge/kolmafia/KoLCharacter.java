@@ -3320,6 +3320,14 @@ public abstract class KoLCharacter {
     return KoLCharacter.ascensionPath == Path.WEREPROFESSOR;
   }
 
+  public static final boolean isMildManneredProfessor() {
+    return KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.MILD_MANNERED_PROFESSOR));
+  }
+
+  public static final boolean isSavageBeast() {
+    return KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.SAVAGE_BEAST));
+  }
+
   public static final boolean isUnarmed() {
     AdventureResult weapon = EquipmentManager.getEquipment(Slot.WEAPON);
     AdventureResult offhand = EquipmentManager.getEquipment(Slot.OFFHAND);
@@ -4320,6 +4328,7 @@ public abstract class KoLCharacter {
             || ascensionClass == AscensionClass.AVATAR_OF_SNEAKY_PETE
             || ascensionClass == AscensionClass.GELATINOUS_NOOB
             || KoLCharacter.getLimitMode() == LimitMode.BIRD
+            || KoLCharacter.hasEquipped(ItemPool.FOCUSED_MAGNETRON_PISTOL, Slot.WEAPON)
             || KoLCharacter.hasEquipped(ItemPool.TINY_BLACK_HOLE, Slot.OFFHAND)
             || KoLCharacter.hasEquipped(ItemPool.MIME_ARMY_INFILTRATION_GLOVE));
   }
