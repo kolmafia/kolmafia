@@ -23,8 +23,10 @@ public class ResearchBenchRequest extends GenericRequest {
   //
   // I'd like to include that in this record.
 
-  record Research(Integer key, String field, int cost, String parent, String name, String effect) {
-    public int compareTo(final Research o) {
+  record Research(Integer key, String field, int cost, String parent, String name, String effect)
+      implements Comparable<Research> {
+    @Override
+    public int compareTo(Research o) {
       return o == null ? -1 : this.key.compareTo(o.key);
     }
   }

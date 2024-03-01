@@ -6,14 +6,14 @@
 4	rend1	20	mus3	Ultraprogesterone potion	Unlock Rend
 5	rend2	30	rend1	Lactide blocker	Increase damage of Rend
 6	rend3	40	rend2	Haemostatic membrane treatment	Rend restores some HP
-7	unk1	100	rend3	Norepinephrine transfusion	Unlocks a devastating and instantaneous physical attack
+7	slaughter	100	rend3	Norepinephrine transfusion	Unlocks a devastating and instantaneous physical attack
 8	hp1	20	mus3	Synthetic prostaglandin	Maximum HP +20%
 9	hp2	30	hp1	Leukotriene elixir	Maximum HP +30%
 10	hp3	40	hp2	Thromboxane inhibitor	Maximum HP +50%
 11	skin1	40	hp3	Calcitonin powder	Damage Reduction: 5
 12	skin2	50	skin1	Enkephalin activator	Damage Reduction: 10
 13	skin3	60	skin2	Oxytocin inversion	Damage Reduction: 15
-14	unk2	100	skin3	Hemostatic accelerant	Regenerate 8-10 HP per Adventure
+14	skinheal	100	skin3	Hemostatic accelerant	Regenerate 8-10 HP per Adventure
 15	stomach1	40	hp3	Triiodothyronine accelerator	Increase stomach capacity by 3
 16	stomach2	50	stomach1	Thyroxine supplements	Increase stomach capacity by 3
 17	stomach3	60	stomach2	Amyloid polypeptide mixture	Increase stomach capacity by 3
@@ -53,8 +53,8 @@
 47	meat1	40	init3	Leptin modulator	+25% Meat from Monsters
 48	meat2	50	meat1	Carnal dehydrogenase infusion	+50% Meat from Monsters
 49	meat3	60	meat2	Dihydrobenzophenanthridine injection	+75% Meat from Monsters
-50	unk3	100	meat3	Janus kinase blockers	+5 Stats Per Fight
+50	perfecthair	100	meat3	Janus kinase blockers	+5 Stats Per Fight
 51	liver1	40	init3	Glucagon condensate	Increase liver capacity by 3
 52	liver2	50	liver1	Secretin agonist	Increase liver capacity by 3
 53	liver3	60	liver2	Synthetic aldosterone	Increase liver capacity by 3
-54	unk4	100	liver3	Synthroid-parathormone cocktail	Everything will Look Red for less time
+54	pureblood	100	liver3	Synthroid-parathormone cocktail	Everything will Look Red for less time
