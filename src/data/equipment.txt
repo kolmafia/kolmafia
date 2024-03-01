@@ -2621,6 +2621,7 @@ energy drink IV	180	Mys: 75
 enormous hoop earring	120	Mys: 45
 ert grey goo ring	0	none
 ESP suppression collar	0	none
+Everfull Dart Holster	100	none
 evil flaming eyeball pendant	0	none
 exclusive ultra-rare item	0	none
 expensive camera	100	Mys: 30
@@ -3260,6 +3261,7 @@ tiny plastic angry vikings	10	none
 tiny plastic anime smiley	10	none
 tiny plastic animelf	0	none
 tiny plastic apathetic lizardman	10	none
+tiny plastic Armory	10	none
 tiny plastic astronomer	10	none
 tiny plastic Axe Wound	10	none
 tiny plastic baby gravy fairy	10	none
@@ -3332,7 +3334,6 @@ tiny plastic Dr. Awkward	50	Mys: 10
 tiny plastic drunk goat	10	none
 tiny plastic Duke Starkiller	10	none
 tiny plastic Ed the Undying	50	Mys: 10
-tiny plastic Armory	10	none
 tiny plastic exo-suited miner	10	none
 tiny plastic Factory	10	none
 tiny plastic fat stack of cash	0	none

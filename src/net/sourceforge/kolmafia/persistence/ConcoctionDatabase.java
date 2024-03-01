@@ -2020,6 +2020,18 @@ public class ConcoctionDatabase {
           "You need to have a Pile of Burning Leaves in your campsite to make that.");
     }
 
+    // Making stuff at the Tinkering Bench is allowed if you are in the
+    // WereProfessor path and are in Professor form.
+
+    boolean tinker = KoLCharacter.isMildManneredProfessor();
+    if (tinker) {
+      permitNoCost(CraftingType.TINKERING_BENCH);
+    } else {
+      ConcoctionDatabase.EXCUSE.put(
+          CraftingType.TINKERING_BENCH,
+          "Only a mild-mannered professor can work at their Tinkering Bench.");
+    }
+
     // Other creatability flags
 
     if (KoLCharacter.isTorsoAware()) {
@@ -2382,6 +2394,7 @@ public class ConcoctionDatabase {
       case SHADOW_FORGE -> result.append("The Shadow Forge");
       case FIXODENT -> result.append("Craft with Teeth");
       case BURNING_LEAVES -> result.append("Pile of Burning Leaves");
+      case TINKERING_BENCH -> result.append("Tinkering Bench");
     }
     if (result.isEmpty()) {
       result.append("[unknown method of creation]");
@@ -2816,6 +2829,7 @@ public class ConcoctionDatabase {
       case "SHADOW_FORGE" -> ConcoctionDatabase.mixingMethod = CraftingType.SHADOW_FORGE;
       case "FIXODENT" -> ConcoctionDatabase.mixingMethod = CraftingType.FIXODENT;
       case "BURNING_LEAVES" -> ConcoctionDatabase.mixingMethod = CraftingType.BURNING_LEAVES;
+      case "TINKERING_BENCH" -> ConcoctionDatabase.mixingMethod = CraftingType.TINKERING_BENCH;
       default -> {
         if (mix.startsWith("ROW")) {
           ConcoctionDatabase.row = StringUtilities.parseInt(mix.substring(3));
