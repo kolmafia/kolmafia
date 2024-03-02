@@ -3730,6 +3730,16 @@ public class ItemPool {
   public static final int LIL_SNOWBALL_FACTORY = 11485;
   public static final int PRANK_CRIMBO_CARD = 11487;
   public static final int MIMIC_EGG = 11542;
+  public static final int SMASHED_SCIENTIFIC_EQUIPMENT = 11549;
+  public static final int BIPHASIC_MOLECULAR_OCULUS = 11550;
+  public static final int TRIPHASIC_MOLECULAR_OCULUS = 11551;
+  public static final int HIGH_TENSION_EXOSKELETON = 11552;
+  public static final int ULTRA_HIGH_TENSION_EXOSKELETON = 11553;
+  public static final int IRRESPONSIBLE_TENSION_EXOSKELETON = 11554;
+  public static final int QUICK_RELEASE_BELT_POUCH = 11555;
+  public static final int QUICK_RELEASE_FANNYPACK = 11556;
+  public static final int QUICK_RELEASE_UTILITY_BELT = 11557;
+  public static final int MOTION_SENSOR = 11558;
   public static final int FOCUSED_MAGNETRON_PISTOL = 11559;
   public static final int RESEARCH_FRAGMENT = 11562;
 
