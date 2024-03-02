@@ -97,7 +97,7 @@ public class ResearchBenchRequest extends GenericRequest {
     //         entire tree is known
     //      else
     //         everything before current "available" is known
-    
+
     Set<Research> known = new HashSet<>();
 
     for (Research terminal : terminalResearch) {
@@ -116,7 +116,7 @@ public class ResearchBenchRequest extends GenericRequest {
       while (top != null) {
         known.add(top);
         String parent = top.parent();
-        top = parent.equals("none")? null : fieldToResearch.get(parent);
+        top = parent.equals("none") ? null : fieldToResearch.get(parent);
       }
     }
 
@@ -170,7 +170,8 @@ public class ResearchBenchRequest extends GenericRequest {
   public static void visitChoice(final String text) {
     Set<Research> availableResearch = parseAvailableResearch(text);
     String availableResearchString = researchSetToString(availableResearch);
-    // System.out.println("Available (" + availableResearch.size() + "): " + availableResearchString);
+    // System.out.println("Available (" + availableResearch.size() + "): " +
+    // availableResearchString);
     saveResearch(AVAILABLE_RESEARCH, availableResearch);
 
     Set<Research> knownResearch = deriveKnownResearch(availableResearch);
