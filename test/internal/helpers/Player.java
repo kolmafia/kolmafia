@@ -936,6 +936,16 @@ public class Player {
   }
 
   /**
+   * Gives player (effectively) infinite turns of an effect
+   *
+   * @param effectId Effect to add intrinsicly
+   * @return Removes effect
+   */
+  public static Cleanups withIntrinsicEffect(final int effectId) {
+    return withEffect(effectId, Integer.MAX_VALUE);
+  }
+
+  /**
    * Gives player a skill
    *
    * @param skillName Skill to add
