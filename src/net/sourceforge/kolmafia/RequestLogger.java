@@ -1604,6 +1604,12 @@ public class RequestLogger extends NullStream {
       return;
     }
 
+    if ((isExternal || request instanceof TinkeringBenchRequest)
+        && TinkeringBenchRequest.registerRequest(urlString)) {
+      RequestLogger.wasLastRequestSimple = false;
+      return;
+    }
+
     if ((isExternal || request instanceof ToxicChemistryRequest)
         && ToxicChemistryRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
