@@ -129,7 +129,7 @@ public class ResearchBenchRequest extends GenericRequest {
     if (research == null) {
       message = "Took choice 1523/1: r=" + field;
     } else {
-      message = "Took choice 1523/1: " + research.name() + "(" + research.cost + ")";
+      message = "Took choice 1523/1: " + research.name() + " (" + research.cost + " rp)";
     }
 
     RequestLogger.updateSessionLog();

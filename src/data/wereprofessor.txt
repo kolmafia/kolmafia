@@ -6,7 +6,7 @@
 4	rend1	20	mus3	Ultraprogesterone potion	Unlock Rend
 5	rend2	30	rend1	Lactide blocker	Increase damage of Rend
 6	rend3	40	rend2	Haemostatic membrane treatment	Rend restores some HP
-7	slaughter	100	rend3	Norepinephrine transfusion	Unlocks a devastating and instantaneous physical attack
+7	slaughter	100	rend3	Norepinephrine transfusion	Unlock Slaughter
 8	hp1	20	mus3	Synthetic prostaglandin	Maximum HP +20%
 9	hp2	30	hp1	Leukotriene elixir	Maximum HP +30%
 10	hp3	40	hp2	Thromboxane inhibitor	Maximum HP +50%
