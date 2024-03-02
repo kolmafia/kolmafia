@@ -2,12 +2,16 @@ package net.sourceforge.kolmafia.request;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -33,12 +37,17 @@ public class ResearchBenchRequest extends GenericRequest {
 
   private static Set<Research> allResearch = new TreeSet<>();
   private static Map<String, Research> fieldToResearch = new HashMap<>();
+  private static Set<Research> terminalResearch = new HashSet<>();
 
   private static void registerResearch(
       Integer index, String field, int cost, String parent, String name, String effect) {
     Research research = new Research(index, field, cost, parent, name, effect);
     allResearch.add(research);
+    fieldToResearch.put(field, research);
     fieldToResearch.put("wereprof_" + field, research);
+    if (cost == 100) {
+      terminalResearch.add(research);
+    }
   }
 
   static {
@@ -73,34 +82,114 @@ public class ResearchBenchRequest extends GenericRequest {
     this.addFormField("r", rfield);
   }
 
+  // *** Skill derivation ***
+  //
+  // Given a set of Research on sale at the Research Bench,
+  // derive which Research you already have researched.
+
+  public static Set<Research> deriveKnownResearch(Set<Research> available) {
+    // For each "terminal" research
+    //   if it is "available"
+    //     everything before it is known
+    //   else
+    //      walk up tree discovering current "available"
+    //      if none
+    //         entire tree is known
+    //      else
+    //         everything before current "available" is known
+    
+    Set<Research> known = new HashSet<>();
+
+    for (Research terminal : terminalResearch) {
+      Research research = terminal;
+
+      // Walk up the tree finding top unknown node
+      while (research != null) {
+        if (available.contains(research)) {
+          break;
+        }
+        String parent = research.parent();
+        research = parent.equals("none") ? null : fieldToResearch.get(parent);
+      }
+
+      Research top = research != null ? fieldToResearch.get(research.parent()) : terminal;
+      while (top != null) {
+        known.add(top);
+        String parent = top.parent();
+        top = parent.equals("none")? null : fieldToResearch.get(parent);
+      }
+    }
+
+    return known;
+  }
+
+  // *** Properties ***
+
+  static final String KNOWN_RESEARCH = "beastSkillsKnown";
+  static final String AVAILABLE_RESEARCH = "beastSkillsAvailable";
+
+  private static Set<Research> stringToResearchSet(String value) {
+    return Arrays.stream(value.split(","))
+        .map(f -> fieldToResearch.get(f))
+        .filter(Objects::nonNull)
+        .collect(Collectors.toSet());
+  }
+
+  private static String researchSetToString(Set<Research> research) {
+    return research.stream().sorted().map(Research::field).collect(Collectors.joining(","));
+  }
+
+  private static Set<Research> loadResearch(String property) {
+    String value = Preferences.getString(property);
+    return stringToResearchSet(value);
+  }
+
+  private static void saveResearch(final String property, final Set<Research> research) {
+    String value = researchSetToString(research);
+    Preferences.setString(property, value);
+  }
+
+  // *** Research Bench ***
+
+  // <input type="hidden" name="r" value="wereprof_rend2" />
+  private static final Pattern AVAILABLE_RESEARCH_PATTERN =
+      Pattern.compile("name=\"r\" value=\"([^\"]+)\"");
+
+  private static Set<Research> parseAvailableResearch(final String text) {
+    Matcher matcher = AVAILABLE_RESEARCH_PATTERN.matcher(text);
+    Set<Research> result = new HashSet<>();
+    while (matcher.find()) {
+      Research research = fieldToResearch.get(matcher.group(1));
+      if (research != null) {
+        result.add(research);
+      }
+    }
+    return result;
+  }
+
   public static void visitChoice(final String text) {
+    Set<Research> availableResearch = parseAvailableResearch(text);
+    String availableResearchString = researchSetToString(availableResearch);
+    // System.out.println("Available (" + availableResearch.size() + "): " + availableResearchString);
+    saveResearch(AVAILABLE_RESEARCH, availableResearch);
+
+    Set<Research> knownResearch = deriveKnownResearch(availableResearch);
+    String knownResearchString = researchSetToString(knownResearch);
+    // System.out.println("Known (" + knownResearch.size() + "): " + knownResearchString);
+    saveResearch(KNOWN_RESEARCH, knownResearch);
+
     // calculate stomach
     int wereStomach = 0;
-    if (!text.contains("Osteocalcin injection (10 rp)")
-        && !text.contains("Somatostatin catalyst (20 rp)")
-        && !text.contains("Endothelin suspension (30 rp)")
-        && !text.contains("Synthetic prostaglandin (20 rp)")
-        && !text.contains("Leukotriene elixir (30 rp)")
-        && !text.contains("Thromboxane inhibitor (40 rp)")) {
-      wereStomach += !text.contains("Triiodothyronine accelerator (40 rp)") ? 1 : 0;
-      wereStomach += wereStomach == 1 && !text.contains("Thyroxine supplements (50 rp)") ? 1 : 0;
-      wereStomach +=
-          wereStomach == 2 && !text.contains("Amyloid polypeptide mixture (60 rp)") ? 1 : 0;
-    }
+    wereStomach += knownResearchString.contains("stomach1") ? 1 : 0;
+    wereStomach += knownResearchString.contains("stomach2") ? 1 : 0;
+    wereStomach += knownResearchString.contains("stomach3") ? 1 : 0;
     Preferences.setInteger("wereProfessorStomach", wereStomach);
 
     // calculate liver
     int wereLiver = 0;
-    if (!text.contains("Dopamine slurry (10 rp)")
-        && !text.contains("Relaxin balm (20 rp)")
-        && !text.contains("Melatonin suppositories (30 rp)")
-        && !text.contains("Adrenal decoction (20 rp)")
-        && !text.contains("Adrenal distillate (30 rp)")
-        && !text.contains("Concentrated adrenaline extract (40 rp)")) {
-      wereLiver += !text.contains("Glucagon condensate (40 rp)") ? 1 : 0;
-      wereLiver += wereLiver == 1 && !text.contains("Secretin agonist (50 rp)") ? 1 : 0;
-      wereLiver += wereLiver == 2 && !text.contains("Synthetic aldosterone (60 rp)") ? 1 : 0;
-    }
+    wereLiver += knownResearchString.contains("liver1") ? 1 : 0;
+    wereLiver += knownResearchString.contains("liver2") ? 1 : 0;
+    wereLiver += knownResearchString.contains("liver3") ? 1 : 0;
     Preferences.setInteger("wereProfessorLiver", wereLiver);
   }
 
