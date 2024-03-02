@@ -28,6 +28,7 @@ import net.sourceforge.kolmafia.request.CombineMeatRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.StillSuitRequest;
+import net.sourceforge.kolmafia.request.TinkeringBenchRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 /**
@@ -1085,6 +1086,8 @@ public class Concoction implements Comparable<Concoction> {
         return StillSuitRequest.canMake() ? 1 : 0;
       case BURNING_LEAVES:
         return BurningLeavesRequest.canMake(this);
+      case TINKERING_BENCH:
+        return TinkeringBenchRequest.canMake(this) ? 1 : 0;
     }
 
     if (needToMake <= 0) { // Have enough on hand already.

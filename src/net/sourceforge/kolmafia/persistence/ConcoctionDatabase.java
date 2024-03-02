@@ -2224,6 +2224,7 @@ public class ConcoctionDatabase {
     ConcoctionDatabase.PERMIT_METHOD.add(craft);
     ConcoctionDatabase.CREATION_COST.put(craft, 0);
     ConcoctionDatabase.ADVENTURE_USAGE.put(craft, 0);
+    ConcoctionDatabase.EXCUSE.remove(craft);
   }
 
   public static int getAdventureUsage(CraftingType method) {
