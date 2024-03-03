@@ -77,21 +77,30 @@ public class ResearchBenchRequest extends GenericRequest {
     }
   }
 
-  private Research skillToResearch = null;
+  private final boolean visiting;
+  private final Research skillToResearch;
 
   public ResearchBenchRequest() {
-    super("place.php");
-    this.addFormField("whichplace", "wereprof_cottage");
-    this.addFormField("action", "wereprof_researchbench");
+    super("");
+    this.visiting = true;
+    this.skillToResearch = null;
   }
 
   public ResearchBenchRequest(final String research) {
     super("choice.php");
     this.addFormField("whichchoice", "1523");
     this.addFormField("option", "1");
+
+    this.visiting = false;
     this.skillToResearch = fieldToResearch.get(research);
+
+    if (this.skillToResearch == null) {
+      KoLmafia.updateDisplay(MafiaState.ERROR, "Unknown research '" + research + "'.");
+      return;
+    }
+
     String rfield = research.startsWith("wereprof_") ? research : "wereprof_" + research;
-    this.addFormField("r", rfield);
+    this.addFormField("r", "wereprof_" + this.skillToResearch.field());
   }
 
   @Override
@@ -116,7 +125,7 @@ public class ResearchBenchRequest extends GenericRequest {
     visitRequest.run();
 
     // If only requesting a visit, we're done here
-    if (this.skillToResearch == null) {
+    if (visiting) {
       return;
     }
 
@@ -215,6 +224,13 @@ public class ResearchBenchRequest extends GenericRequest {
     return result;
   }
 
+  private static final Pattern RESEARCH_PATTERN = Pattern.compile("[?&]r=([^&]+)");
+
+  private static Research getResearch(final String urlString) {
+    Matcher matcher = RESEARCH_PATTERN.matcher(urlString);
+    return matcher.find() ? fieldToResearch.get(matcher.group(1)) : null;
+  }
+
   // <p>You have 108 research points (rp).
   private static final Pattern RESEARCH_POINTS_PATTERN =
       Pattern.compile("<p>You have (\\d+) research points \\(rp\\)");
@@ -270,7 +286,51 @@ public class ResearchBenchRequest extends GenericRequest {
     Preferences.setInteger("wereProfessorRend", wereRend);
   }
 
-  private static final Pattern RESEARCH_PATTERN = Pattern.compile("[?&]r=([^&]+)");
+  public static void postChoice0(final String urlString, final String text) {
+    // Called before registering the request
+    Research research = getResearch(urlString);
+    if (research == null) {
+      return;
+    }
+
+    String message =
+        "Researching "
+            + research.name()
+            + " ("
+            + research.field()
+            + ") for "
+            + research.cost()
+            + " rp.";
+    RequestLogger.updateSessionLog(message);
+  }
+
+  // You successfully research Janus kinase blockers.
+  private static final Pattern DO_RESEARCH_PATTERN =
+      Pattern.compile("You successfully research ([^.]+)\\.");
+
+  public static void postChoice2(final String urlString, final String text) {
+    // Called after registering the request and processing results.
+    // ChoiceManager.handlingChoice will be true if we are still in a choice
+
+    Research research = getResearch(urlString);
+    if (research == null) {
+      // Just visiting
+      return;
+    }
+
+    // You successfully research Janus kinase blockers.
+    Matcher matcher = DO_RESEARCH_PATTERN.matcher(text);
+    if (!matcher.find()) {
+      // *** Message for unavailable skill
+      // *** Message for not enough rp
+      String message = "You failed to research " + research.name() + ".";
+      RequestLogger.updateSessionLog(message);
+      return;
+    }
+
+    String message = "You spent " + research.cost() + " rp to research " + research.name() + ".";
+    RequestLogger.updateSessionLog(message);
+  }
 
   public static boolean registerRequest(final String urlString) {
     if (!urlString.startsWith("choice.php")) {
@@ -283,20 +343,12 @@ public class ResearchBenchRequest extends GenericRequest {
       return false;
     }
 
-    Matcher matcher = RESEARCH_PATTERN.matcher(urlString);
-    if (!matcher.find()) {
-      // Just visiting
+    Research research = fieldToResearch.get(urlString);
+    if (research == null) {
       return false;
     }
 
-    String field = matcher.group(1);
-    Research research = fieldToResearch.get(field);
-    String message;
-    if (research == null) {
-      message = "Took choice 1523/1: r=" + field;
-    } else {
-      message = "Took choice 1523/1: " + research.name() + " (" + research.cost + " rp)";
-    }
+    String message = "Took choice 1523/1: " + research.name() + " (" + research.cost + " rp)";
 
     RequestLogger.updateSessionLog();
     RequestLogger.updateSessionLog(message);

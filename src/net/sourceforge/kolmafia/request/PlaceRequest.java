@@ -868,7 +868,7 @@ public class PlaceRequest extends GenericRequest {
             message = "Read";
             turns = true;
           }
-          case "wereprof_researchbench" -> message = "Concoct";
+          case "wereprof_researchbench" -> message = "Visiting the Research Bench";
           case "wereprof_sleepfree" -> message = "Sleep";
           case "wereprof_sleep" -> message = "Sleep";
         }

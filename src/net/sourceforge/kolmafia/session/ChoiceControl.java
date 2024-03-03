@@ -433,6 +433,10 @@ public abstract class ChoiceControl {
           Preferences.setBoolean("wildfireDusted", true);
         }
         break;
+      case 1523:
+        // Research Bench
+        ResearchBenchRequest.postChoice0(urlString, text);
+        break;
     }
   }
 
@@ -6740,6 +6744,11 @@ public abstract class ChoiceControl {
           break;
         }
 
+      case 1523:
+        // Research Bench
+        ResearchBenchRequest.postChoice2(urlString, text);
+        break;
+
       case 1524:
         // Moonlighting
         handleAfterAvatar(ChoiceManager.lastDecision);
@@ -8601,7 +8610,7 @@ public abstract class ChoiceControl {
 
         break;
 
-      case 1523: // WereProfessor Research Bench
+      case 1523: // Research Bench
         ResearchBenchRequest.visitChoice(text);
         break;
     }
@@ -9727,6 +9736,7 @@ public abstract class ChoiceControl {
       case 1510: // Burning Leaves
       case 1517: // Mimic DNA Bank
       case 1518: // Prepare your Meal
+      case 1523: // Research Bench
         return true;
 
       default:
