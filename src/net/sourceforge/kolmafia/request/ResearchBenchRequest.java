@@ -167,7 +167,19 @@ public class ResearchBenchRequest extends GenericRequest {
     return result;
   }
 
+  // <p>You have 108 research points (rp).
+  private static final Pattern RESEARCH_POINTS_PATTERN =
+      Pattern.compile("<p>You have (\\d+) research points \\(rp\\)");
+
+  private static int parseResearchPoints(final String text) {
+    Matcher matcher = RESEARCH_POINTS_PATTERN.matcher(text);
+    return matcher.find() ? StringUtilities.parseInt(matcher.group(1)) : 0;
+  }
+
   public static void visitChoice(final String text) {
+    int rp = parseResearchPoints(text);
+    Preferences.setInteger("wereProfessorResearchPoints", rp);
+
     Set<Research> availableResearch = parseAvailableResearch(text);
     String availableResearchString = researchSetToString(availableResearch);
     // System.out.println("Available (" + availableResearch.size() + "): " +

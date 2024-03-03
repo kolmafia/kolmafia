@@ -542,6 +542,7 @@ public class Preferences {
         "wereProfessorKick",
         "wereProfessorLiver",
         "wereProfessorRend",
+        "wereProfessorResearchPoints",
         "wereProfessorStomach",
         "whetstonesUsed",
         "wildfireBarrelCaulked",
