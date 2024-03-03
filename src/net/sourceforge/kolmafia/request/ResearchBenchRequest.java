@@ -330,6 +330,15 @@ public class ResearchBenchRequest extends GenericRequest {
 
     String message = "You spent " + research.cost() + " rp to research " + research.name() + ".";
     RequestLogger.updateSessionLog(message);
+
+    // Normally, ChoiceManager will follow this up with a visitChoice to process the responseText.
+    // However, if this was the final skill researched, there is not a reference to choice.php,
+    // and that call will not be made.
+
+    // Do it ourself to update properties.
+    if (!text.contains("choice.php")) {
+      visitChoice(text);
+    }
   }
 
   public static boolean registerRequest(final String urlString) {

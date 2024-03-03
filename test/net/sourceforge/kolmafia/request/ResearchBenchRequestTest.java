@@ -198,6 +198,66 @@ public class ResearchBenchRequestTest {
         assertGetRequest(requests.get(1), "/choice.php", "forceoption=0");
       }
     }
+
+    @Test
+    void canVisitEmptyResearchBenchAndSetAllSkills() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      SessionLoggerOutput.startStream();
+
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withHandlingChoice(false),
+              withContinuationState(),
+              withPath(Path.WEREPROFESSOR),
+              withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR),
+              withProperty("beastSkillsAvailable", ""),
+              withProperty("beastSkillsKnown", ""),
+              withProperty("wereProfessorBite", 0),
+              withProperty("wereProfessorKick", 0),
+              withProperty("wereProfessorLiver", 0),
+              withProperty("wereProfessorRend", 0),
+              withProperty("wereProfessorResearchPoints", 0),
+              withProperty("wereProfessorStomach", 0));
+
+      try (cleanups) {
+        builder.client.addResponse(
+            302, Map.of("location", List.of("choice.php?forceoption=0")), "");
+        builder.client.addResponse(200, html("request/test_research_bench_visit_empty.html"));
+
+        var request = new ResearchBenchRequest();
+        request.run();
+
+        assertThat(StaticEntity.getContinuationState(), equalTo(MafiaState.CONTINUE));
+        assertFalse(ChoiceManager.handlingChoice);
+
+        assertThat("beastSkillsAvailable", isSetTo(""));
+        assertThat(
+            "beastSkillsKnown",
+            isSetTo(
+                "mus1,mus2,mus3,rend1,rend2,rend3,slaughter,hp1,hp2,hp3,skin1,skin2,skin3,skinheal,stomach1,stomach2,stomach3,feed,myst1,myst2,myst3,bite1,bite2,bite3,howl,res1,res2,res3,items1,items2,items3,hunt,ml1,ml2,ml3,feasting,mox1,mox2,mox3,kick1,kick2,kick3,punt,init1,init2,init3,meat1,meat2,meat3,perfecthair,liver1,liver2,liver3,pureblood"));
+
+        assertThat("wereProfessorBite", isSetTo(3));
+        assertThat("wereProfessorKick", isSetTo(3));
+        assertThat("wereProfessorRend", isSetTo(3));
+        assertThat("wereProfessorLiver", isSetTo(3));
+        assertThat("wereProfessorStomach", isSetTo(3));
+        assertThat("wereProfessorResearchPoints", isSetTo(74));
+
+        var text = SessionLoggerOutput.stopStream();
+        assertTrue(text.contains("Visiting the Research Bench"));
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(2));
+
+        assertPostRequest(
+            requests.get(0),
+            "/place.php",
+            "whichplace=wereprof_cottage&action=wereprof_researchbench");
+        assertGetRequest(requests.get(1), "/choice.php", "forceoption=0");
+      }
+    }
   }
 
   @Nested
@@ -254,6 +314,62 @@ public class ResearchBenchRequestTest {
         assertGetRequest(requests.get(1), "/choice.php", "forceoption=0");
         assertPostRequest(
             requests.get(2), "/choice.php", "whichchoice=1523&option=1&r=wereprof_perfecthair");
+        assertPostRequest(requests.get(3), "/api.php", "what=status&for=KoLmafia");
+      }
+    }
+
+    @Test
+    void canResearchFinalSkillAndSetProperties() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      SessionLoggerOutput.startStream();
+
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withHandlingChoice(false),
+              withContinuationState(),
+              withPath(Path.WEREPROFESSOR),
+              withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR),
+              withProperty("beastSkillsAvailable", ""),
+              withProperty("beastSkillsKnown", ""),
+              withProperty("wereProfessorResearchPoints", 0));
+
+      try (cleanups) {
+        builder.client.addResponse(
+            302, Map.of("location", List.of("choice.php?forceoption=0")), "");
+        builder.client.addResponse(200, html("request/test_research_bench_visit.html"));
+        builder.client.addResponse(200, html("request/test_research_bench_research_final.html"));
+        builder.client.addResponse(200, "");
+
+        var request = new ResearchBenchRequest("feed");
+        request.run();
+
+        assertThat(StaticEntity.getContinuationState(), equalTo(MafiaState.CONTINUE));
+        assertFalse(ChoiceManager.handlingChoice);
+
+        assertThat("beastSkillsAvailable", isSetTo(""));
+        assertThat(
+            "beastSkillsKnown",
+            isSetTo(
+                "mus1,mus2,mus3,rend1,rend2,rend3,slaughter,hp1,hp2,hp3,skin1,skin2,skin3,skinheal,stomach1,stomach2,stomach3,feed,myst1,myst2,myst3,bite1,bite2,bite3,howl,res1,res2,res3,items1,items2,items3,hunt,ml1,ml2,ml3,feasting,mox1,mox2,mox3,kick1,kick2,kick3,punt,init1,init2,init3,meat1,meat2,meat3,perfecthair,liver1,liver2,liver3,pureblood"));
+        assertThat("wereProfessorResearchPoints", isSetTo(74));
+
+        var text = SessionLoggerOutput.stopStream();
+        assertTrue(text.contains("Visiting the Research Bench"));
+        assertTrue(text.contains("Researching Cholecystokinin antagonist (feed) for 100 rp."));
+        assertTrue(text.contains("You spent 100 rp to research Cholecystokinin antagonist."));
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(4));
+
+        assertPostRequest(
+            requests.get(0),
+            "/place.php",
+            "whichplace=wereprof_cottage&action=wereprof_researchbench");
+        assertGetRequest(requests.get(1), "/choice.php", "forceoption=0");
+        assertPostRequest(
+            requests.get(2), "/choice.php", "whichchoice=1523&option=1&r=wereprof_feed");
         assertPostRequest(requests.get(3), "/api.php", "what=status&for=KoLmafia");
       }
     }
