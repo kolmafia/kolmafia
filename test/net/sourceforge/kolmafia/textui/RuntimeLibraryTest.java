@@ -1,9 +1,6 @@
 package net.sourceforge.kolmafia.textui;
 
 import static internal.helpers.HttpClientWrapper.getRequests;
-import static internal.helpers.Maximizer.getBoosts;
-import static internal.helpers.Maximizer.recommendedSlotIs;
-import static internal.helpers.Maximizer.recommends;
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.getPostRequestBody;
 import static internal.helpers.Networking.html;
@@ -1478,37 +1475,39 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       fail("Could not find expected equipment request.");
     }
   }
+
   @Test
   public void itShouldMaximizeAndEquipSelectedWeaponToo() {
-    String maxStr = "5item,meat,0.5initiative,0.1da 1000max,dr,0.5all res,1.5mainstat,-fumble,0.4hp,0.2mp 1000max,3mp regen,1.5weapon damage,0.75weapon damage percent,1.5elemental damage,2familiar weight,5familiar exp,10exp,5Moxie experience percent,effective";
+    String maxStr =
+        "5item,meat,0.5initiative,0.1da 1000max,dr,0.5all res,1.5mainstat,-fumble,0.4hp,0.2mp 1000max,3mp regen,1.5weapon damage,0.75weapon damage percent,1.5elemental damage,2familiar weight,5familiar exp,10exp,5Moxie experience percent,effective";
     HttpClientWrapper.setupFakeClient();
     var cleanups =
-            new Cleanups(
-                    withStats(1, 1, 1),
-                    withClass(AscensionClass.DISCO_BANDIT),
-                    Player.withSign(ZodiacSign.VOLE),
-                    withSkill(SkillPool.TORSO),
-                    withSkill(SkillPool.MASTER_OF_THE_SURPRISING_FIST),
-                    withEquippableItem("ravioli hat"),
-                    withEquippableItem("Hollandaise helmet"),
-                    withEquippableItem("helmet turtle"),
-                    withEquippableItem("seal-skull helmet"),
-                    withEquippableItem("disco mask"),
-                    withEquippableItem("mariachi hat"),
-                    withEquippableItem("Jurassic Parka (kachungasaur mode)"),
-                    withEquippableItem("hobo code binder"),
-                    withEquippableItem("unbreakable umbrella"),
-                    withEquippableItem("old sweatpants"),
-                    withEquippableItem("combat lover's locket"),
-                    withEquippableItem("cursed monkey's paw"),
-                    withEquippableItem("astral belt"),
-                    withEquippableItem("disco ball"),
-                    withEquippableItem("seal clubbing club"),
-                    withEquippableItem("pasta spoon"),
-                    withEquippableItem("saucepan"),
-                    withEquippableItem("turtle totem"),
-                    withEquippableItem("stolen accordion"),
-                    withEquippableItem("toy accordion"));
+        new Cleanups(
+            withStats(1, 1, 1),
+            withClass(AscensionClass.DISCO_BANDIT),
+            Player.withSign(ZodiacSign.VOLE),
+            withSkill(SkillPool.TORSO),
+            withSkill(SkillPool.MASTER_OF_THE_SURPRISING_FIST),
+            withEquippableItem("ravioli hat"),
+            withEquippableItem("Hollandaise helmet"),
+            withEquippableItem("helmet turtle"),
+            withEquippableItem("seal-skull helmet"),
+            withEquippableItem("disco mask"),
+            withEquippableItem("mariachi hat"),
+            withEquippableItem("Jurassic Parka (kachungasaur mode)"),
+            withEquippableItem("hobo code binder"),
+            withEquippableItem("unbreakable umbrella"),
+            withEquippableItem("old sweatpants"),
+            withEquippableItem("combat lover's locket"),
+            withEquippableItem("cursed monkey's paw"),
+            withEquippableItem("astral belt"),
+            withEquippableItem("disco ball"),
+            withEquippableItem("seal clubbing club"),
+            withEquippableItem("pasta spoon"),
+            withEquippableItem("saucepan"),
+            withEquippableItem("turtle totem"),
+            withEquippableItem("stolen accordion"),
+            withEquippableItem("toy accordion"));
     String out;
     String cmd = "maximize(\"" + maxStr + "\", 2500, 0, false)";
     try (cleanups) {
@@ -1522,9 +1521,10 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     var requests = getRequests();
     assertFalse(requests.isEmpty());
     var checkMe =
-            requests.stream().filter(x -> getPostRequestBody(x).contains("whichitem=10")).findFirst();
+        requests.stream().filter(x -> getPostRequestBody(x).contains("whichitem=10")).findFirst();
     if (checkMe.isPresent()) {
-      assertPostRequest(checkMe.get(), "/inv_equip.php", "which=2&ajax=1&action=equip&whichitem=10");
+      assertPostRequest(
+          checkMe.get(), "/inv_equip.php", "which=2&ajax=1&action=equip&whichitem=10");
     } else {
       fail("Could not find expected equipment request.");
     }
