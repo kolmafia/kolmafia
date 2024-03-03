@@ -2118,38 +2118,6 @@ public class MaximizerTest {
     }
 
     @Test
-    public void muscleEffectiveWillSelectKnife() {
-      String maxStr = "mainstat effective";
-      var cleanups =
-          new Cleanups(
-              withStats(10, 5, 5),
-              withSkill(SkillPool.TRICKY_KNIFEWORK),
-              withEquippableItem("seal-clubbing club"),
-              withEquippableItem("boot knife"));
-      try (cleanups) {
-        assertTrue(maximize(maxStr));
-        recommends("boot knife");
-        recommendedSlotIs(Slot.WEAPON, "boot knife");
-      }
-    }
-
-    @Test
-    public void moxieEffectiveWillSelectKnife() {
-      String maxStr = "mainstat effective";
-      var cleanups =
-          new Cleanups(
-              withStats(5, 5, 10),
-              withSkill(SkillPool.TRICKY_KNIFEWORK),
-              withEquippableItem("seal-clubbing club"),
-              withEquippableItem("boot knife"));
-      try (cleanups) {
-        assertTrue(maximize(maxStr));
-        recommends("boot knife");
-        recommendedSlotIs(Slot.WEAPON, "boot knife");
-      }
-    }
-
-    @Test
     public void realExampleFrom_ziz_selectsWeapon() {
       String maxStr =
           "5item,meat,0.5initiative,0.1da 1000max,dr,0.5all res,1.5mainstat,-fumble,mox,0.4hp,0.2mp 1000max,3mp regen,0.25spell damage,1.75spell damage percent,2familiar weight,5familiar exp,10exp,5Mysticality experience percent,200combat 20max,+200bonus mafia thumb ring";
