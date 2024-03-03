@@ -2123,12 +2123,6 @@ public class Evaluator {
     for (var entry : ranked.entries()) {
       List<CheckedItem> checkedItemList = ranked.get(entry);
       var automaticEntry = automatic.get(entry);
-      int saveDump = this.dump;
-      if (entry.isSlot() && (entry.slot() == Slot.WEAPON)) {
-        this.dump = 2;
-        RequestLogger.printLine("JAA Dump Starts here.");
-      }
-
       if (this.dump > 0) {
         RequestLogger.printLine(
             "SLOT " + (entry.isSlot() ? entry.slot() : "BONUS FAMILIAR #" + entry.famIndex()));
@@ -2259,10 +2253,6 @@ public class Evaluator {
 
       if (this.dump > 0) {
         RequestLogger.printLine(automaticEntry.toString());
-      }
-      if (saveDump != this.dump) {
-        RequestLogger.printLine("JAA Dump ends");
-        this.dump = saveDump;
       }
     }
 
