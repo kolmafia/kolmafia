@@ -352,8 +352,7 @@ public class ResearchBenchRequest extends GenericRequest {
     // You successfully research Janus kinase blockers.
     Matcher matcher = DO_RESEARCH_PATTERN.matcher(text);
     if (!matcher.find()) {
-      // *** Message for unavailable skill
-      // *** Message for not enough rp
+      // "You have to pick an available thing to research."
       String message = "You failed to research " + research.name() + ".";
       RequestLogger.updateSessionLog(message);
       return;
