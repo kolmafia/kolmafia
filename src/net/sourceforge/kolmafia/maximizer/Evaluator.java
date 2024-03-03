@@ -2123,6 +2123,7 @@ public class Evaluator {
     for (var entry : ranked.entries()) {
       List<CheckedItem> checkedItemList = ranked.get(entry);
       var automaticEntry = automatic.get(entry);
+      
       if (this.dump > 0) {
         RequestLogger.printLine(
             "SLOT " + (entry.isSlot() ? entry.slot() : "BONUS FAMILIAR #" + entry.famIndex()));
