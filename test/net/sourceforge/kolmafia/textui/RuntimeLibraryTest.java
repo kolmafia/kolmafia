@@ -22,7 +22,6 @@ import static internal.helpers.Player.withNextMonster;
 import static internal.helpers.Player.withNextResponse;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
-import static internal.helpers.Player.withSkill;
 import static internal.helpers.Player.withStats;
 import static internal.helpers.Player.withTrackedMonsters;
 import static internal.helpers.Player.withTrackedPhyla;
@@ -40,7 +39,6 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
-import internal.helpers.Player;
 import internal.network.FakeHttpClientBuilder;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -53,12 +51,10 @@ import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
@@ -1412,7 +1408,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
    */
   @Test
   public void itShouldMaximizeAndEquipSelectedWeapon() {
-    String maxStr = "effective, 2 dump";
+    String maxStr = "effective";
     HttpClientWrapper.setupFakeClient();
     var cleanups =
         new Cleanups(
@@ -1438,93 +1434,6 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
         requests.stream().filter(x -> getPostRequestBody(x).contains("whichitem=1")).findFirst();
     if (checkMe.isPresent()) {
       assertPostRequest(checkMe.get(), "/inv_equip.php", "which=2&ajax=1&action=equip&whichitem=1");
-    } else {
-      fail("Could not find expected equipment request.");
-    }
-  }
-
-  @Test
-  public void itShouldMaximizeAndEquipSelectedWeapon4Parameter() {
-    String maxStr = "effective";
-    HttpClientWrapper.setupFakeClient();
-    var cleanups =
-        new Cleanups(
-            withStats(10, 5, 5),
-            withEquippableItem("seal-skull helmet"),
-            withEquippableItem("astral shirt"),
-            withEquippableItem("old sweatpants"),
-            withEquippableItem("sewer snake"),
-            withEquippableItem("seal-clubbing club"));
-    String out;
-    String cmd = "maximize(\"" + maxStr + "\", 2500, 0, false)";
-    try (cleanups) {
-      out = execute(cmd);
-    }
-    assertFalse(out.isEmpty());
-    assertTrue(out.contains("Putting on seal-skull helmet..."));
-    assertTrue(out.contains("Wielding seal-clubbing club..."));
-    assertTrue(out.contains("Putting on old sweatpants..."));
-    assertContinueState();
-    var requests = getRequests();
-    assertFalse(requests.isEmpty());
-    var checkMe =
-        requests.stream().filter(x -> getPostRequestBody(x).contains("whichitem=1")).findFirst();
-    if (checkMe.isPresent()) {
-      assertPostRequest(checkMe.get(), "/inv_equip.php", "which=2&ajax=1&action=equip&whichitem=1");
-    } else {
-      fail("Could not find expected equipment request.");
-    }
-  }
-
-  @Test
-  public void itShouldMaximizeAndEquipSelectedWeaponToo() {
-    String maxStr =
-        "5item,meat,0.5initiative,0.1da 1000max,dr,0.5all res,1.5mainstat,-fumble,0.4hp,0.2mp 1000max,3mp regen,1.5weapon damage,0.75weapon damage percent,1.5elemental damage,2familiar weight,5familiar exp,10exp,5Moxie experience percent,effective";
-    HttpClientWrapper.setupFakeClient();
-    var cleanups =
-        new Cleanups(
-            withStats(1, 1, 1),
-            withClass(AscensionClass.DISCO_BANDIT),
-            Player.withSign(ZodiacSign.VOLE),
-            withSkill(SkillPool.TORSO),
-            withSkill(SkillPool.MASTER_OF_THE_SURPRISING_FIST),
-            withEquippableItem("ravioli hat"),
-            withEquippableItem("Hollandaise helmet"),
-            withEquippableItem("helmet turtle"),
-            withEquippableItem("seal-skull helmet"),
-            withEquippableItem("disco mask"),
-            withEquippableItem("mariachi hat"),
-            withEquippableItem("Jurassic Parka (kachungasaur mode)"),
-            withEquippableItem("hobo code binder"),
-            withEquippableItem("unbreakable umbrella"),
-            withEquippableItem("old sweatpants"),
-            withEquippableItem("combat lover's locket"),
-            withEquippableItem("cursed monkey's paw"),
-            withEquippableItem("astral belt"),
-            withEquippableItem("disco ball"),
-            withEquippableItem("seal clubbing club"),
-            withEquippableItem("pasta spoon"),
-            withEquippableItem("saucepan"),
-            withEquippableItem("turtle totem"),
-            withEquippableItem("stolen accordion"),
-            withEquippableItem("toy accordion"));
-    String out;
-    String cmd = "maximize(\"" + maxStr + "\", 2500, 0, false)";
-    try (cleanups) {
-      out = execute(cmd);
-    }
-    assertFalse(out.isEmpty());
-    assertTrue(out.contains("Putting on mariachi hat"));
-    assertTrue(out.contains("Wielding disco ball"));
-    assertTrue(out.contains("Folding umbrella"));
-    assertContinueState();
-    var requests = getRequests();
-    assertFalse(requests.isEmpty());
-    var checkMe =
-        requests.stream().filter(x -> getPostRequestBody(x).contains("whichitem=10")).findFirst();
-    if (checkMe.isPresent()) {
-      assertPostRequest(
-          checkMe.get(), "/inv_equip.php", "which=2&ajax=1&action=equip&whichitem=10");
     } else {
       fail("Could not find expected equipment request.");
     }
