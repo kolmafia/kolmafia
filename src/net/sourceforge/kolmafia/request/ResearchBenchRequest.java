@@ -179,19 +179,35 @@ public class ResearchBenchRequest extends GenericRequest {
     // System.out.println("Known (" + knownResearch.size() + "): " + knownResearchString);
     saveResearch(KNOWN_RESEARCH, knownResearch);
 
-    // calculate stomach
     int wereStomach = 0;
     wereStomach += knownResearchString.contains("stomach1") ? 1 : 0;
     wereStomach += knownResearchString.contains("stomach2") ? 1 : 0;
     wereStomach += knownResearchString.contains("stomach3") ? 1 : 0;
     Preferences.setInteger("wereProfessorStomach", wereStomach);
 
-    // calculate liver
     int wereLiver = 0;
     wereLiver += knownResearchString.contains("liver1") ? 1 : 0;
     wereLiver += knownResearchString.contains("liver2") ? 1 : 0;
     wereLiver += knownResearchString.contains("liver3") ? 1 : 0;
     Preferences.setInteger("wereProfessorLiver", wereLiver);
+
+    int wereBite = 0;
+    wereBite += knownResearchString.contains("bite1") ? 1 : 0;
+    wereBite += knownResearchString.contains("bite2") ? 1 : 0;
+    wereBite += knownResearchString.contains("bite3") ? 1 : 0;
+    Preferences.setInteger("wereProfessorBite", wereBite);
+
+    int wereKick = 0;
+    wereKick += knownResearchString.contains("kick1") ? 1 : 0;
+    wereKick += knownResearchString.contains("kick2") ? 1 : 0;
+    wereKick += knownResearchString.contains("kick3") ? 1 : 0;
+    Preferences.setInteger("wereProfessorKick", wereKick);
+
+    int wereRend = 0;
+    wereRend += knownResearchString.contains("rend1") ? 1 : 0;
+    wereRend += knownResearchString.contains("rend2") ? 1 : 0;
+    wereRend += knownResearchString.contains("rend3") ? 1 : 0;
+    Preferences.setInteger("wereProfessorRend", wereRend);
   }
 
   private static final Pattern RESEARCH_PATTERN = Pattern.compile("[?&]r=([^&]+)");

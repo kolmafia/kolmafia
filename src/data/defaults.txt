@@ -1639,8 +1639,11 @@ user	warehouseProgress	0
 user	watchedPreferences
 user	waxMonster
 user	welcomeBackAdv	0
-user	wereProfessorPoints	0
+user	wereProfessorBite	0
+user	wereProfessorKick	0
 user	wereProfessorLiver	0
+user	wereProfessorPoints	0
+user	wereProfessorRend	0
 user	wereProfessorStomach	0
 user	whetstonesUsed	0
 user	wildfireBarrelCaulked	false
