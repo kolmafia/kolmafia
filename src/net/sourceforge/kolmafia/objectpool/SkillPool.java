@@ -583,6 +583,15 @@ public class SkillPool {
   public static final int SURPRISINGLY_SWEET_STAB = 7489;
   public static final int LAY_AN_EGG = 7494;
   public static final int SPRING_KICK = 7501;
+  public static final int DART_PART1 = 7513;
+  public static final int DART_PART2 = 7514;
+  public static final int DART_PART3 = 7515;
+  public static final int DART_PART4 = 7516;
+  public static final int DART_PART5 = 7517;
+  public static final int DART_PART6 = 7518;
+  public static final int DART_PART7 = 7519;
+  public static final int DART_PART8 = 7520;
+  public static final int DART_BULLSEYE = 7521;
   public static final int GOOD_SINGING_VOICE = 11016;
   public static final int BANISHING_SHOUT = 11020;
   public static final int DEMAND_SANDWICH = 11021;

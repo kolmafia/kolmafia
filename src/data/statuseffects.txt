@@ -1613,7 +1613,7 @@
 1610	Swordholder	swords.gif	d8cd2af4589547387589ba03454d442a	good	none	# choosing Oath of the Horatii at The Haunted Gallery
 1611	Is This Your Card?	carddeck.gif	96279d2043979e41a7fa0cfde64f4c9a	good	none	# choosing Witches' Sabbath at The Haunted Gallery
 1612	Sleight of Mind	sleightshroom.gif	a58bb0f5431e4b3a83ac5fcbe74b8959	neutral	none	use 1 sleight-of-hand mushroom
-1613	Mush-Mouth	spore.gif	9df2ff0a38fec33a032a9d5026f19d96	bad	none	use 1 Fun-Guy spore
+1613	Mush-Mouth	spore.gif	9df2ff0a38fec33a032a9d5026f19d96	bad	nopvp	use 1 Fun-Guy spore
 1614	Boletus Swoletus	broshroom.gif	4087fb39a65bef9b2d7aa78b02228809	good	none	use 1 Boletus Broletus mushroom
 1615	Omphalotus Omnipresence	eyeshroom.gif	66d3387487898d086a28011842b3c334	good	none	use 1 Omphalotus Omphaloskepsis mushroom
 1616	Gyromitra Gymnastics	moxshroom.gif	1e0ff0db0821cf7f5d912f9eb68b35eb	good	none	use 1 Gyromitra Dynomita mushroom
