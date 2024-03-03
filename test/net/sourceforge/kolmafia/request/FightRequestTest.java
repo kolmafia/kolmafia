@@ -26,6 +26,7 @@ import static internal.helpers.Player.withWorkshedItem;
 import static internal.helpers.Player.withoutCounters;
 import static internal.helpers.Player.withoutSkill;
 import static internal.matchers.Item.isInInventory;
+import static internal.matchers.Preference.hasIntegerValue;
 import static internal.matchers.Preference.hasStringValue;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -2627,6 +2628,17 @@ public class FightRequestTest {
           "request/test_fight_spring_boots_banish.html", "fight.php?action=skill&whichskill=7501");
 
       assertThat("banishedMonsters", hasStringValue(startsWith("fluffy bunny:Spring Kick:")));
+    }
+  }
+
+  @Test
+  public void canDetectDarts() {
+    var cleanups = new Cleanups(withFight(), withProperty("dartsThrown", 16));
+
+    try (cleanups) {
+      parseCombatData("request/test_fight_dart.html", "fight.php?action=skill&whichskill=7516");
+
+      assertThat("dartsThrown", hasIntegerValue(equalTo(17)));
     }
   }
 }

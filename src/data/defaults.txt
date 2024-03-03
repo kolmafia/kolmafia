@@ -557,6 +557,7 @@ user	cyrusAdjectives
 user	dailyDungeonDone	false
 user	dampOldBootPurchased	false
 user	darkGyfftePoints	0
+user	dartsThrown	0
 user	daycareEquipment	0
 user	daycareInstructors	0
 user	daycareLastScavenge	0
