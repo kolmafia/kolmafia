@@ -110,7 +110,6 @@ public class ResearchBenchRequestTest {
     void cannotVisitWithResearchBenchRequestAsSavageBeast() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      SessionLoggerOutput.startStream();
 
       var cleanups =
           new Cleanups(
@@ -440,6 +439,197 @@ public class ResearchBenchRequestTest {
         assertPostRequest(
             requests.get(2), "/choice.php", "whichchoice=1523&option=1&r=wereprof_perfecthair");
         assertPostRequest(requests.get(3), "/api.php", "what=status&for=KoLmafia");
+      }
+    }
+  }
+
+  @Nested
+  class ResearchBenchRequestFailures {
+    @Test
+    void mustSpecifyValidResearch() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withContinuationState(),
+              withHandlingChoice(false),
+              withPath(Path.WEREPROFESSOR),
+              withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR));
+
+      try (cleanups) {
+        RequestLoggerOutput.startStream();
+        var request = new ResearchBenchRequest("bogus");
+        var output1 = RequestLoggerOutput.stopStream();
+        assertTrue(output1.contains("Research 'bogus' is not valid"));
+        assertThat(StaticEntity.getContinuationState(), equalTo(MafiaState.ERROR));
+
+        // If you ignore that and attempt to run the request, same error
+        RequestLoggerOutput.startStream();
+        request.run();
+        var output2 = RequestLoggerOutput.stopStream();
+        assertTrue(output2.contains("Research 'bogus' is not valid"));
+        assertThat(StaticEntity.getContinuationState(), equalTo(MafiaState.ERROR));
+        assertFalse(ChoiceManager.handlingChoice);
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(0));
+      }
+    }
+
+    @Test
+    void mustBeAMildManneredProfessor() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withContinuationState(),
+              withHandlingChoice(false),
+              withPath(Path.WEREPROFESSOR),
+              withIntrinsicEffect(EffectPool.SAVAGE_BEAST));
+
+      try (cleanups) {
+        RequestLoggerOutput.startStream();
+
+        var request = new ResearchBenchRequest("hunt");
+        request.run();
+
+        var output = RequestLoggerOutput.stopStream();
+        assertTrue(
+            output.contains("Only Mild-Mannered Professors can research at their Research Bench."));
+
+        assertThat(StaticEntity.getContinuationState(), equalTo(MafiaState.ERROR));
+        assertFalse(ChoiceManager.handlingChoice);
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(0));
+      }
+    }
+
+    @Test
+    void mustBeUnknownResearch() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withContinuationState(),
+              withHandlingChoice(false),
+              withPath(Path.WEREPROFESSOR),
+              withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR),
+              withProperty("beastSkillsKnown", "hunt"));
+
+      try (cleanups) {
+        builder.client.addResponse(
+            302, Map.of("location", List.of("choice.php?forceoption=0")), "");
+        builder.client.addResponse(200, html("request/test_research_bench_visit.html"));
+
+        RequestLoggerOutput.startStream();
+
+        var request = new ResearchBenchRequest("hunt");
+        request.run();
+
+        var output = RequestLoggerOutput.stopStream();
+        assertTrue(output.contains("You have already researched 'hunt'."));
+
+        assertThat(StaticEntity.getContinuationState(), equalTo(MafiaState.ERROR));
+        assertTrue(ChoiceManager.handlingChoice);
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(2));
+
+        assertPostRequest(
+            requests.get(0),
+            "/place.php",
+            "whichplace=wereprof_cottage&action=wereprof_researchbench");
+        assertGetRequest(requests.get(1), "/choice.php", "forceoption=0");
+      }
+    }
+
+    @Test
+    void mustBeAvailableResearch() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withContinuationState(),
+              withHandlingChoice(false),
+              withPath(Path.WEREPROFESSOR),
+              withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR),
+              withProperty("beastSkillsKnown", "hunt"));
+
+      try (cleanups) {
+        builder.client.addResponse(
+            302, Map.of("location", List.of("choice.php?forceoption=0")), "");
+        builder.client.addResponse(
+            200, html("request/test_choice_wereprofessor_three_of_each_organ.html"));
+
+        RequestLoggerOutput.startStream();
+
+        var request = new ResearchBenchRequest("hunt");
+        request.run();
+
+        var output = RequestLoggerOutput.stopStream();
+        assertTrue(output.contains("You cannot research 'hunt' at this time."));
+
+        assertThat(StaticEntity.getContinuationState(), equalTo(MafiaState.ERROR));
+        assertTrue(ChoiceManager.handlingChoice);
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(2));
+
+        assertPostRequest(
+            requests.get(0),
+            "/place.php",
+            "whichplace=wereprof_cottage&action=wereprof_researchbench");
+        assertGetRequest(requests.get(1), "/choice.php", "forceoption=0");
+      }
+    }
+
+    @Test
+    void mustHaveEnoughResearchPointsAvailable() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withContinuationState(),
+              withHandlingChoice(false),
+              withPath(Path.WEREPROFESSOR),
+              withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR));
+
+      try (cleanups) {
+        builder.client.addResponse(
+            302, Map.of("location", List.of("choice.php?forceoption=0")), "");
+        builder.client.addResponse(200, html("request/test_research_bench_research_known.html"));
+
+        RequestLoggerOutput.startStream();
+
+        var request = new ResearchBenchRequest("feasting");
+        request.run();
+
+        var output = RequestLoggerOutput.stopStream();
+        assertTrue(output.contains("You don't have enough rp to research 'feasting'."));
+
+        assertThat(StaticEntity.getContinuationState(), equalTo(MafiaState.ERROR));
+        assertTrue(ChoiceManager.handlingChoice);
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(3));
+
+        assertPostRequest(
+            requests.get(0),
+            "/place.php",
+            "whichplace=wereprof_cottage&action=wereprof_researchbench");
+        assertGetRequest(requests.get(1), "/choice.php", "forceoption=0");
+        assertPostRequest(requests.get(2), "/api.php", "what=status&for=KoLmafia");
       }
     }
   }

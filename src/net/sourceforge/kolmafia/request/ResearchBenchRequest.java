@@ -19,6 +19,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -78,11 +79,13 @@ public class ResearchBenchRequest extends GenericRequest {
   }
 
   private final boolean visiting;
+  public final String research;
   private final Research skillToResearch;
 
   public ResearchBenchRequest() {
     super("");
     this.visiting = true;
+    this.research = null;
     this.skillToResearch = null;
   }
 
@@ -92,10 +95,11 @@ public class ResearchBenchRequest extends GenericRequest {
     this.addFormField("option", "1");
 
     this.visiting = false;
+    this.research = research;
     this.skillToResearch = fieldToResearch.get(research);
 
     if (this.skillToResearch == null) {
-      KoLmafia.updateDisplay(MafiaState.ERROR, "Unknown research '" + research + "'.");
+      KoLmafia.updateDisplay(MafiaState.ERROR, "Research '" + this.research + "' is not valid.");
       return;
     }
 
@@ -110,19 +114,29 @@ public class ResearchBenchRequest extends GenericRequest {
 
   @Override
   public void run() {
+    if (this.skillToResearch == null && !visiting) {
+      KoLmafia.updateDisplay(MafiaState.ERROR, "Research '" + this.research + "' is not valid.");
+      return;
+    }
+
     if (!KoLCharacter.isMildManneredProfessor()) {
       KoLmafia.updateDisplay(
           MafiaState.ERROR, "Only Mild-Mannered Professors can research at their Research Bench.");
       return;
     }
 
+    // You can walk away from choice 1523, so this won't abort if we are
+    // already there.
     if (GenericRequest.abortIfInFightOrChoice()) {
       return;
     }
 
-    PlaceRequest visitRequest =
-        new PlaceRequest("wereprof_cottage", "wereprof_researchbench", true);
-    visitRequest.run();
+    // If we are already handling choice 1523, no need to visit the Research Bench
+    if (!ChoiceManager.handlingChoice || ChoiceManager.lastChoice != 1523) {
+      PlaceRequest visitRequest =
+          new PlaceRequest("wereprof_cottage", "wereprof_researchbench", true);
+      visitRequest.run();
+    }
 
     // If only requesting a visit, we're done here
     if (visiting) {
@@ -130,13 +144,30 @@ public class ResearchBenchRequest extends GenericRequest {
     }
 
     // Now that we have visited the Research Bench, we know which
-    // skills are available to research
-    //
-    // *** Verify that the skill is available and we have enough rp to research it
+    // skills are available to research and which are already known
+
+    Set<Research> knownResearch = loadResearch(KNOWN_RESEARCH);
+    if (knownResearch.contains(this.skillToResearch)) {
+      KoLmafia.updateDisplay(
+          MafiaState.ERROR, "You have already researched '" + this.research + "'.");
+      return;
+    }
+
+    Set<Research> availableResearch = loadResearch(AVAILABLE_RESEARCH);
+    if (!availableResearch.contains(this.skillToResearch)) {
+      KoLmafia.updateDisplay(
+          MafiaState.ERROR, "You cannot research '" + this.research + "' at this time.");
+      return;
+    }
+
+    int rp = Preferences.getInteger("wereProfessorResearchPoints");
+    if (this.skillToResearch.cost() > rp) {
+      KoLmafia.updateDisplay(
+          MafiaState.ERROR, "You don't have enough rp to research '" + this.research + "'.");
+      return;
+    }
 
     super.run();
-
-    // *** Check and log success/failure
   }
 
   // *** Skill derivation ***
