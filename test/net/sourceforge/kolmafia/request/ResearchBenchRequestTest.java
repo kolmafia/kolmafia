@@ -479,6 +479,55 @@ public class ResearchBenchRequestTest {
     }
 
     @Test
+    void canDetectInvalidResearchResponse() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      SessionLoggerOutput.startStream();
+
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withContinuationState(),
+              withHandlingChoice(false),
+              withPath(Path.WEREPROFESSOR),
+              withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR));
+
+      try (cleanups) {
+        builder.client.addResponse(
+            302, Map.of("location", List.of("choice.php?forceoption=0")), "");
+        builder.client.addResponse(200, html("request/test_choice_wereprofessor_no_upgrades.html"));
+        builder.client.addResponse(
+            200, html("request/test_research_bench_research_unavailable.html"));
+
+        var visit =
+            new GenericRequest(
+                "place.php?whichplace=wereprof_cottage&action=wereprof_researchbench");
+        var research = new GenericRequest("choice.php?whichchoice=1523&option=1&r=wereprof_hunt");
+
+        visit.run();
+        research.run();
+
+        var output = SessionLoggerOutput.stopStream();
+        assertTrue(output.contains("Visiting the Research Bench"));
+        assertTrue(output.contains("Researching Phantosmic tincture (hunt) for 100 rp."));
+        assertTrue(output.contains("You failed to research Phantosmic tincture."));
+
+        assertFalse(ChoiceManager.handlingChoice);
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(3));
+
+        assertPostRequest(
+            requests.get(0),
+            "/place.php",
+            "whichplace=wereprof_cottage&action=wereprof_researchbench");
+        assertGetRequest(requests.get(1), "/choice.php", "forceoption=0");
+        assertPostRequest(
+            requests.get(2), "/choice.php", "whichchoice=1523&option=1&r=wereprof_hunt");
+      }
+    }
+
+    @Test
     void mustBeAMildManneredProfessor() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
