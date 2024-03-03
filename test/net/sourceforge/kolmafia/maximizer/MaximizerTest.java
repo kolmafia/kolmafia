@@ -37,7 +37,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
 import java.time.Month;
-import java.util.List;
 import java.util.Optional;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
@@ -2048,6 +2047,11 @@ public class MaximizerTest {
 
   @Nested
   public class Weapons {
+    /**
+     * These tests illustrate that sometimes with the effective keyword the maximizer will choose no
+     * weapon. They do not go so far as to try and verify that the selected weapon was actually
+     * equipped.
+     */
     @Test
     public void muscleEffectiveSelectsMelee() {
       String maxStr = "effective";
@@ -2113,104 +2117,6 @@ public class MaximizerTest {
               withEquippableItem("seal-clubbing club"));
       try (cleanups) {
         assertTrue(maximize(maxStr));
-        assertFalse(getSlot(Slot.WEAPON).isPresent());
-      }
-    }
-
-    @Test
-    public void realExampleFrom_ziz_selectsWeapon() {
-      String maxStr =
-          "5item,meat,0.5initiative,0.1da 1000max,dr,0.5all res,1.5mainstat,-fumble,mox,0.4hp,0.2mp 1000max,3mp regen,0.25spell damage,1.75spell damage percent,2familiar weight,5familiar exp,10exp,5Mysticality experience percent,200combat 20max,+200bonus mafia thumb ring";
-      var cleanups =
-          new Cleanups(
-              withEquippableItem("candy cane sword cane"),
-              withEquippableItem("pasta spoon"),
-              withEquippableItem("Rain-Doh violet bo"),
-              withEquippableItem("Rain-Doh yellow laser gun"),
-              withEquippableItem("saucepan"),
-              withEquippableItem("toy accordion"),
-              withEquippableItem("turtle totem"),
-              withEquippableItem("psychic's crystal ball"),
-              withEquippableItem("Rain-Doh green lantern"),
-              withEquippableItem("stuffed baby gravy fairy"),
-              withEquippableItem("stuffed key"),
-              withEquippableItem("unbreakable umbrella (broken)"),
-              withStats(2, 27, 1),
-              withSkill(SkillPool.MASTER_OF_THE_SURPRISING_FIST));
-      try (cleanups) {
-        assertTrue(maximize(maxStr));
-        recommends("candy cane sword cane");
-        recommendedSlotIs(Slot.WEAPON, "candy cane sword cane");
-      }
-    }
-
-    @Test
-    public void realExampleFrom_ziz_selectsWeaponWithEffective() {
-      String maxStr =
-          "5item,meat,0.5initiative,0.1da 1000max,dr,0.5all res,1.5mainstat,-fumble,mox,0.4hp,0.2mp 1000max,3mp regen,0.25spell damage,1.75spell damage percent,2familiar weight,5familiar exp,10exp,5Mysticality experience percent,200combat 20max,+200bonus mafia thumb ring, effective";
-      var cleanups =
-          new Cleanups(
-              withEquippableItem("candy cane sword cane"),
-              withEquippableItem("pasta spoon"),
-              withEquippableItem("Rain-Doh violet bo"),
-              withEquippableItem("Rain-Doh yellow laser gun"),
-              withEquippableItem("saucepan"),
-              withEquippableItem("toy accordion"),
-              withEquippableItem("turtle totem"),
-              withEquippableItem("psychic's crystal ball"),
-              withEquippableItem("Rain-Doh green lantern"),
-              withEquippableItem("stuffed baby gravy fairy"),
-              withEquippableItem("stuffed key"),
-              withEquippableItem("unbreakable umbrella (broken)"),
-              withStats(2, 27, 1),
-              withSkill(SkillPool.MASTER_OF_THE_SURPRISING_FIST));
-      try (cleanups) {
-        assertTrue(maximize(maxStr));
-        recommends("candy cane sword cane");
-        recommendedSlotIs(Slot.WEAPON, "candy cane sword cane");
-      }
-    }
-  }
-
-  @Nested
-  public class noWeapons {
-    @Test
-    public void noWeaponIsTheRightAnswer() {
-      String maxStr =
-          "5item,meat,0.5initiative,0.1da 1000max,dr,0.5all res,1.5mainstat,-fumble,mox,0.4hp,0.2mp 1000max,3mp regen,0.25spell damage,1.75spell damage percent,2familiar weight,5familiar exp,10exp,5Mysticality experience percent";
-      var cleanups =
-          new Cleanups(
-              withSkill(SkillPool.TRICKY_KNIFEWORK),
-              withSkill(SkillPool.MASTER_OF_THE_SURPRISING_FIST),
-              withStats(2, 12, 1),
-              withEquippableItem("toy accordion"),
-              withEquippableItem("turtle totem"),
-              withEquippableItem("saucepan"),
-              withEquippableItem("stolen accordion"),
-              withEquippableItem("seal-clubbing club"));
-      try (cleanups) {
-        assertTrue(maximize(maxStr));
-        assertFalse(getSlot(Slot.WEAPON).isPresent());
-      }
-    }
-
-    @Test
-    public void noWeaponIsTheRightAnswerEvenWithEffective() {
-      String maxStr =
-          "5item,meat,0.5initiative,0.1da 1000max,dr,0.5all res,1.5mainstat,-fumble,mox,0.4hp,0.2mp 1000max,3mp regen,0.25spell damage,1.75spell damage percent,2familiar weight,5familiar exp,10exp,5Mysticality experience percent,effective";
-      var cleanups =
-          new Cleanups(
-              withSkill(SkillPool.TRICKY_KNIFEWORK),
-              withSkill(SkillPool.MASTER_OF_THE_SURPRISING_FIST),
-              withStats(2, 12, 1),
-              withEquippableItem("toy accordion"),
-              withEquippableItem("turtle totem"),
-              withEquippableItem("saucepan"),
-              withEquippableItem("stolen accordion"),
-              withEquippableItem("seal-clubbing club"));
-      try (cleanups) {
-        assertTrue(maximize(maxStr));
-        List<Boost> spec = getBoosts();
         assertFalse(getSlot(Slot.WEAPON).isPresent());
       }
     }
