@@ -10453,6 +10453,20 @@ public class FightRequest extends GenericRequest {
           KoLCharacter.getFamiliar().addNonCombatExperience(-50);
         }
         break;
+
+      case SkillPool.DART_PART1:
+      case SkillPool.DART_PART2:
+      case SkillPool.DART_PART3:
+      case SkillPool.DART_PART4:
+      case SkillPool.DART_PART5:
+      case SkillPool.DART_PART6:
+      case SkillPool.DART_PART7:
+      case SkillPool.DART_PART8:
+      case SkillPool.DART_BULLSEYE:
+        if (responseText.contains("throw a dart") || skillSuccess) {
+          Preferences.increment("dartsThrown");
+        }
+        break;
     }
 
     if (skillSuccess || skillRunawaySuccess || familiarSkillSuccess) {

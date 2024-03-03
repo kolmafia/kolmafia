@@ -241,6 +241,7 @@ public class Preferences {
         "cursedMagnifyingGlassCount",
         "cyrusAdjectives",
         "dampOldBootPurchased",
+        "dartsThrown",
         "daycareEquipment",
         "daycareInstructors",
         "daycareToddlers",
