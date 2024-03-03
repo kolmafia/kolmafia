@@ -12,7 +12,10 @@ import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.MafiaState;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -74,12 +77,57 @@ public class ResearchBenchRequest extends GenericRequest {
     }
   }
 
+  private Research skillToResearch = null;
+
+  public ResearchBenchRequest() {
+    super("place.php");
+    this.addFormField("whichplace", "wereprof_cottage");
+    this.addFormField("action", "wereprof_researchbench");
+  }
+
   public ResearchBenchRequest(final String research) {
     super("choice.php");
     this.addFormField("whichchoice", "1523");
     this.addFormField("option", "1");
+    this.skillToResearch = fieldToResearch.get(research);
     String rfield = research.startsWith("wereprof_") ? research : "wereprof_" + research;
     this.addFormField("r", rfield);
+  }
+
+  @Override
+  protected boolean shouldFollowRedirect() {
+    return true;
+  }
+
+  @Override
+  public void run() {
+    if (!KoLCharacter.isMildManneredProfessor()) {
+      KoLmafia.updateDisplay(
+          MafiaState.ERROR, "Only Mild-Mannered Professors can research at their Research Bench.");
+      return;
+    }
+
+    if (GenericRequest.abortIfInFightOrChoice()) {
+      return;
+    }
+
+    PlaceRequest visitRequest =
+        new PlaceRequest("wereprof_cottage", "wereprof_researchbench", true);
+    visitRequest.run();
+
+    // If only requesting a visit, we're done here
+    if (this.skillToResearch == null) {
+      return;
+    }
+
+    // Now that we have visited the Research Bench, we know which
+    // skills are available to research
+    //
+    // *** Verify that the skill is available and we have enough rp to research it
+
+    super.run();
+
+    // *** Check and log success/failure
   }
 
   // *** Skill derivation ***
