@@ -3702,7 +3702,7 @@ Item	spirit bell	Muscle: +5, Mysticality: +5, Maximum HP: +10, Maximum MP: +10, 
 Item	spooky glove	Never Fumble, Moxie: +5, Spooky Damage: +5
 Item	Spookyraven signet	Spooky Resistance: +2, Stench Damage: +15, Stench Spell Damage: +15, Single Equip
 # spring shoes: Nature springs up after each step
-Item	spring shoes	Initiative: +100, Moxie Percent: +20, Critical Hit Percent: +50
+Item	spring shoes	Initiative: +100, Moxie Percent: +20, Critical Hit Percent: +50, Drops Items
 Item	stained glass spectacles	Experience (Mysticality): +3, Spooky Resistance: +3, Spooky Damage: +5, Single Equip
 Item	stained glass suspenders	Muscle Percent: +20, Hot Resistance: +3, Hot Damage: +5, Single Equip
 Item	stainless steel scarf	Spell Damage: +20, Monster Level: +20, Mysticality Percent: +15, Single Equip
