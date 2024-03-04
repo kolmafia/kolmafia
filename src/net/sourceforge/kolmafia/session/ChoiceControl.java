@@ -69,6 +69,7 @@ import net.sourceforge.kolmafia.request.MummeryRequest;
 import net.sourceforge.kolmafia.request.PantogramRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
+import net.sourceforge.kolmafia.request.ResearchBenchRequest;
 import net.sourceforge.kolmafia.request.SaberRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
 import net.sourceforge.kolmafia.request.SpelunkyRequest;
@@ -431,6 +432,10 @@ public abstract class ChoiceControl {
         if (text.contains("Thanks for helping out.")) {
           Preferences.setBoolean("wildfireDusted", true);
         }
+        break;
+      case 1523:
+        // Research Bench
+        ResearchBenchRequest.postChoice0(urlString, text);
         break;
     }
   }
@@ -6739,6 +6744,11 @@ public abstract class ChoiceControl {
           break;
         }
 
+      case 1523:
+        // Research Bench
+        ResearchBenchRequest.postChoice2(urlString, text);
+        break;
+
       case 1524:
         // Moonlighting
         handleAfterAvatar(ChoiceManager.lastDecision);
@@ -8600,36 +8610,8 @@ public abstract class ChoiceControl {
 
         break;
 
-      case 1523: // WereProfessor Research Bench
-        // calculate stomach
-        int wereStomach = 0;
-        if (!text.contains("Osteocalcin injection (10 rp)")
-            && !text.contains("Somatostatin catalyst (20 rp)")
-            && !text.contains("Endothelin suspension (30 rp)")
-            && !text.contains("Synthetic prostaglandin (20 rp)")
-            && !text.contains("Leukotriene elixir (30 rp)")
-            && !text.contains("Thromboxane inhibitor (40 rp)")) {
-          wereStomach += !text.contains("Triiodothyronine accelerator (40 rp)") ? 1 : 0;
-          wereStomach +=
-              wereStomach == 1 && !text.contains("Thyroxine supplements (50 rp)") ? 1 : 0;
-          wereStomach +=
-              wereStomach == 2 && !text.contains("Amyloid polypeptide mixture (60 rp)") ? 1 : 0;
-        }
-        Preferences.setInteger("wereProfessorStomach", wereStomach);
-
-        // calculate liver
-        int wereLiver = 0;
-        if (!text.contains("Dopamine slurry (10 rp)")
-            && !text.contains("Relaxin balm (20 rp)")
-            && !text.contains("Melatonin suppositories (30 rp)")
-            && !text.contains("Adrenal decoction (20 rp)")
-            && !text.contains("Adrenal distillate (30 rp)")
-            && !text.contains("Concentrated adrenaline extract (40 rp)")) {
-          wereLiver += !text.contains("Glucagon condensate (40 rp)") ? 1 : 0;
-          wereLiver += wereLiver == 1 && !text.contains("Secretin agonist (50 rp)") ? 1 : 0;
-          wereLiver += wereLiver == 2 && !text.contains("Synthetic aldosterone (60 rp)") ? 1 : 0;
-        }
-        Preferences.setInteger("wereProfessorLiver", wereLiver);
+      case 1523: // Research Bench
+        ResearchBenchRequest.visitChoice(text);
         break;
     }
   }
@@ -9480,6 +9462,9 @@ public abstract class ChoiceControl {
 
         case 1483: // Direct Autumn-Aton
           return AutumnatonManager.registerRequest(urlString);
+
+        case 1523: // Research Bench
+          return ResearchBenchRequest.registerRequest(urlString);
       }
 
       if (decision != 0) {
@@ -9751,6 +9736,7 @@ public abstract class ChoiceControl {
       case 1510: // Burning Leaves
       case 1517: // Mimic DNA Bank
       case 1518: // Prepare your Meal
+      case 1523: // Research Bench
         return true;
 
       default:

@@ -321,6 +321,8 @@ user	batmanUpgrades
 user	battleAction	attack with weapon
 user	beachHeadsUnlocked
 user	bearSwagger	0
+user	beastSkillsAvailable
+user	beastSkillsKnown
 user	beeCounter	0
 user	beforePVPScript
 user	betweenBattleScript
@@ -1638,9 +1640,13 @@ user	warehouseProgress	0
 user	watchedPreferences
 user	waxMonster
 user	welcomeBackAdv	0
-user	wereProfessorStomach	0
+user	wereProfessorBite	0
+user	wereProfessorKick	0
 user	wereProfessorLiver	0
 user	wereProfessorPoints	0
+user	wereProfessorRend	0
+user	wereProfessorResearchPoints	0
+user	wereProfessorStomach	0
 user	whetstonesUsed	0
 user	wildfireBarrelCaulked	false
 user	wildfireDusted	false

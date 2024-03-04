@@ -1,0 +1,135 @@
+<html><head>
+<link rel="stylesheet" type="text/css" href="https://d2uyhvukfffg5a.cloudfront.net/styles.20230117d.css">
+<style type="text/css">
+	#nudges div { position: relative; padding: 0px; }
+	#nudges div .close { position: absolute; top: -2px; right: -10px; border: 1px solid #000; }
+    .blur1 {color: transparent; text-shadow:0 0 1px #000, 1px 0 1px #000; }
+    .blur2 {color: transparent; text-shadow:0 0 1px #000, 2px 0 2px #000, 0 1px 1px #000; }
+    .blur3 {color: transparent; text-shadow:0 0 3px #000, 1px 0 1px #000,-2px -1px 1px #000; }
+    .blur4 {color: transparent; text-shadow:1px 0 3px #000, 1px 0 2px #000,-2px -1px 1px #000; }
+    .blur5 {color: transparent; text-shadow:   0 0 3px #000, 1px 0 1px #000,-3px -1px 1px #000; }
+	 @media screen and (min-width:0\0) and (min-resolution: +72dpi) {
+    	.blur1,.blur2,.blur3,.blur4,.blur5 {color:#000;}
+  	}
+</style>
+<!--[if IE]>
+<style>.blur1,.blur2,.blur3,.blur4,.blur5 {color:#000;}</style>
+<![endif]-->
+</head>
+<script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/keybinds.min.2.js"></script>
+<script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/window.20111231.js"></script>
+<script language="javascript">function chatFocus(){if(top.chatpane.document.chatform.graf) top.chatpane.document.chatform.graf.focus();}
+if (typeof defaultBind != 'undefined') { defaultBind(47, 2, chatFocus); defaultBind(190, 2, chatFocus);defaultBind(191, 2, chatFocus); defaultBind(47, 8, chatFocus);defaultBind(190, 8, chatFocus); defaultBind(191, 8, chatFocus); }</script><script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/jquery-1.3.1.min.js"></script>
+<script type="text/javascript" src="https://d2uyhvukfffg5a.cloudfront.net/scripts/pop_query.20230713.js"></script>
+<script type="text/javascript">
+
+	var CURFAM = 289;
+	var FAMILIARFAVES = [["Chef Bookicus","Cookbookbat","bbat_fam",288],["Elvis Grrl","Jumpsuited Hound Dog","hounddog",69],["Hobo Grrl","Hobo Monkey","hobomonkey",89],["Hasemary","Trick-or-Treating Tot","tottot",206],["SnickClackClaackSnackClack","God Lobster","godlob",266],["Ignominious Uncguary","Golden Monkey","goldmonkey",192],["Draco Hamon","Vampire Vintner","vampvint",284],["Texas McCarty","Adventurous Spelunker","spelunker",193],["Bodolph","Mu","pokefam8675309",265],["Nanite Configuration 2569510","Grey Goose","greygoose",287],["Gogarth","Melodramedary","camnopic",279],["Trubastian Grrl","Emo Squid","familiar30",30],["Trobrina","Jill-of-All-Trades","darkjill2f",294],["Manny Frashins","Left-Hand Man","lhmlarva",278],["Troncent","Chest Mimic","mimicchest",299],["Stealin\' Kitty Grrl","Cat Burglar","catburglar",267] ];
+	var IMAGES = "https:\/\/d2uyhvukfffg5a.cloudfront.net\/";
+</script>
+	<script type="text/javascript" src="https://d2uyhvukfffg5a.cloudfront.net/scripts/familiarfaves.20201210.js"></script>
+	<script type="text/javascript">
+tp=top
+var todo = [];
+function nextAction() {
+	var next_todo = todo.shift();
+	if (next_todo) {
+		eval(next_todo);
+	}
+}
+function dojax(dourl, afterFunc, hoverCaller, failureFunc, method, params) {
+	$.ajax({
+		type: method || 'GET', url: dourl, cache: false,
+		data: params || null,
+		global: false,
+		success: function (out) {
+			nextAction();
+			if (out.match(/no\|/)) {
+				var parts = out.split(/\|/);
+				if (failureFunc) failureFunc(parts[1]);
+				else if (window.dojaxFailure) window.dojaxFailure(parts[1]);
+				else if (tp.chatpane.handleMessage) tp.chatpane.handleMessage({type: 'event', msg: 'Oops!  Sorry, Dave, you appear to be ' + parts[1]});
+				else  $('#ChatWindow').append('<font color="green">Oops!  Sorry, Dave, you appear to be ' + parts[1] + '.</font><br />' + "\n");
+				return;
+			}
+
+			if (hoverCaller)  {
+				float_results(hoverCaller, out);
+				if (afterFunc) { afterFunc(out); }
+				return;
+			}			var $eff = $(tp.mainpane.document).find('#effdiv');
+			if ($eff.length == 0) {
+				var d = tp.mainpane.document.createElement('DIV');
+				d.id = 'effdiv';
+				var b = tp.mainpane.document.body;
+				if ($('#content_').length > 0) {
+					b = $('#content_ div:first')[0];
+				}
+				b.insertBefore(d, b.firstChild);
+				$eff = $(d);
+			}
+			$eff.find('a[name="effdivtop"]').remove().end()
+				.prepend('<a name="effdivtop"></a><center>' + out + '</center>').css('display','block');
+			if (!window.dontscroll || (window.dontscroll && dontscroll==0)) {
+				tp.mainpane.document.location = tp.mainpane.document.location + "#effdivtop";
+			}
+			if (afterFunc) { afterFunc(out); }
+		}
+	});
+}
+	var turnsplayed = 2188880;
+var turnsthisrun = 976;
+var rollover = 1709523003;
+var rightnow = 1709453567;
+var playerid = 121572;
+var pwdhash = "be1fb00d2fef4c7dcdab6a5b6285cd5c";
+var hide_nudges = true;
+$(document).ready(function () {
+	var multi = function  (e) {
+		e.preventDefault();
+		var link = this;
+		pop_query($(this), 'How many times?', 'Do It!', function (res) {
+			dojax(($(link).attr('href')+'&ajax=1').replace('qty=1', 'qty='+res));
+		});
+	};
+	$('.upeffect').click(function (e) {
+		e.preventDefault();
+		if (e.shiftKey) multi.apply(this, [e]);
+		else dojax($(this).attr('href')+'&ajax=1');
+	});
+	$('.upeffect').bind('contextmenu', multi);
+
+	function add_close(el) {
+		if (!hide_nudges) return;
+		if ($(el).find('.close').length > 0) return;
+		var ht = '<a href="#" class="close"><img alt="Hide" title="Hide"  src="https://d2uyhvukfffg5a.cloudfront.net/closebutton.gif" style="float: right;"/></a>';
+		var c = $(ht);
+		$(el).append(c);
+		c.click(function () {
+			var key = $(this).parents('tr:first').attr('rel');
+			var nxt = $(this).parents('tr');
+			if (nxt.next()) {
+				add_close(nxt.next().find('td div'));
+			}
+			$(this).parents('tr:first').remove();
+			$.get('charpane.php?hide='+escape(key)+'&pwd='+pwdhash);
+			$('.showall').show();
+		});
+	}
+
+	if (hide_nudges) $('#nudges td div').hover(
+		function () {
+			if (!hide_nudges) return;
+			add_close(this);
+		},
+		function () {
+			if (!hide_nudges) return;
+			$(this).find('.close').remove();
+		}
+	);
+});
+</script>
+	<script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/charpane.20130711.js"></script>
+	<script type="text/javascript" src="https://d2uyhvukfffg5a.cloudfront.net/scripts/cookie.20121112.js"></script>
+<body bgcolor=white text=black link=black alink=black vlink=black onload='startup();'>
+<center id='rollover' class=tiny style='color: red; cursor: pointer;' onClick='doc("maintenance");'></center><center><table align=center><tr><td><a class='nounder ' target=mainpane href="charsheet.php"><div style="position: relative; height: 100px; width: 60px"><img  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/wereprofavatar_f.gif" width=60 height=100 border=0></div></div></a></td><td valign=center><center><a class=nounder target=mainpane href="charsheet.php"><b>Veracity</b></a><br>Unseelie Sidhe<br>(Level 12)<table title='21 / 23' cellpadding=0 cellspacing=0 style='border: 1px solid #5A5A5A'><tr><td height=5 width=91 bgcolor=#5A5A5A></td><td width=9 bgcolor=white></td></tr></table></td></tr></table><table align=center><tr><td align=right>Muscle:</td><td align=left><b><font color=blue>2</font>&nbsp;(1)</b><table title='21,600 / 3' cellpadding=0 cellspacing=0 style='border: 1px solid #5A5A5A'><tr><td height=3 width=50 bgcolor=#5A5A5A></td><td width=0 bgcolor=white></td></tr></table></td></tr><tr><td align=right>Mysticality:</td><td align=left><b><font color=blue>22</font>&nbsp;(5)</b><table title='12,165 / 11' cellpadding=0 cellspacing=0 style='border: 1px solid #5A5A5A'><tr><td height=3 width=50 bgcolor=#5A5A5A></td><td width=0 bgcolor=white></td></tr></table></td></tr><tr><td align=right>Moxie:</td><td align=left><b><font color=blue>4</font>&nbsp;(1)</b><table title='11,779 / 3' cellpadding=0 cellspacing=0 style='border: 1px solid #5A5A5A'><tr><td height=3 width=50 bgcolor=#5A5A5A></td><td width=0 bgcolor=white></td></tr></table></td></tr><tr><td align=right>Until Transform:</td><td align=left><b>25</b></font></td></tr><tr><td align=right>Research Points:</td><td align=left><b>74</b></font></td></tr></table><table cellpadding=3 align=center><tr><td align=center><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/hp.gif" class=hand onclick='doc("hp");' title="Hit Points" alt="Hit Points"><br><span class=red>1&nbsp;/&nbsp;1</span></td><td align=center><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/mp.gif" class=hand onclick='doc("mp");' title="Mana Points" alt="Mana Points"><br><span class=black>47&nbsp;/&nbsp;47</span></td></tr><tr><td align=center><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/meat.gif" class=hand onclick='doc("meat");' title="Meat" alt="Meat"><br><span class=black>65,730</span></td><td align=center><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/hourglass.gif" class=hand onclick='doc("adventures");' title="Adventures Remaining" alt="Adventures Remaining"><br><span class=black>65</span></td></tr></table><font size=2><b>Hardcore</b></font><br><br><font size=2><a target=mainpane href="inv_use.php?pwd=be1fb00d2fef4c7dcdab6a5b6285cd5c&whichitem=2682">Detuned Radio</a>: <b>10</b></font><br><br><center id="nudgeblock"><font size=2><a class=nounder href=questlog.php target=mainpane><b>Current Quest:</b></a></font><br><a style="display: inline" href="charpane.php?showall=1&pwd=be1fb00d2fef4c7dcdab6a5b6285cd5c" class="showall"><font size="1">[show all]</font><br/></a><table id="nudges" width="100%"><tr rel="pyramid"><td class="tiny" colspan="2"><div>Solve the mystery of the Lower Chambers of the <a class=nounder target=mainpane href=place.php?whichplace=pyramid><b>Ancient Buried Pyramid</b></a>.</div></td></tr></table><p></center><center><font size=2><b><a onclick='if (top.mainpane.focus) top.mainpane.focus();' class=nounder href="place.php?whichplace=beanstalk" target=mainpane>Last Adventure:</a></b></font><br><table cellspacing=0 cellpadding=0><tr><td><font size=2><a onclick='if (top.mainpane.focus) top.mainpane.focus();' target=mainpane href="adventure.php?snarfblat=83">The Hole in the Sky</a><br></font></td></tr></table></center><p><table width=90%><tr><td colspan=2 align=center><font size=2><b>Familiar:</b></font></td></tr><tr><td align=center valign=center><a target=mainpane href="familiar.php" class="familiarpick"><img  src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/tbot_on.gif" width=30 height=30 border=0></a></td><td valign=center align=left><a target=mainpane href="familiar.php" class="familiarpick"><b><font size=2>NOEL-ENGINE-38</a></b>, the  <b>30</b> pound Mini-Trainbot</font></td></tr></table></center><center><p><b><font size=2>Effects:</font></b><br><table><tr><td></td><td valign='middle' align=right><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/chinsweat.gif" width=30 height=30  onClick='eff("d64eab33f648e1a77da23ae516353fb2");' oncontextmenu='return hardshrug(2720, "Buzzed on Distillate");'></td><td valign=center><font size=2>Buzzed on Distillate (56)</font><br></td></tr><tr><td></td><td valign='middle' align=right><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/bbat_casserole.gif" width=30 height=30  onClick='eff("9f03022717f7b13fef44b5dab8289bba");' oncontextmenu='return hardshrug(2739, "Pretty Delicious");'></td><td valign=center><font size=2>Pretty Delicious (91)</font><br></td></tr></table><center><b><font size=2>Intrinsics:</font></b></center><center><table><tr><td><img height=30 width=30 src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/intrinsic_prof.gif" onClick='eff("20b1a36dbe190dd1dd1dc7841ba2c7ab");'></td><td valign=center><font size=2>Mild-Mannered Professor (&infin;)</font><br></td></tr></table></center></body></html>

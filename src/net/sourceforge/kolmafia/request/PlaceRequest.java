@@ -862,6 +862,17 @@ public class PlaceRequest extends GenericRequest {
             case "twitch_boat3" -> "Visiting The Santa Claus";
             default -> null;
           };
+      case "wereprof_cottage" -> {
+        switch (action) {
+          case "wereprof_bookshelf" -> {
+            message = "Read";
+            turns = true;
+          }
+          case "wereprof_researchbench" -> message = "Visiting the Research Bench";
+          case "wereprof_sleepfree" -> message = "Sleep";
+          case "wereprof_sleep" -> message = "Sleep";
+        }
+      }
       case "woods" -> {
         switch (action) {
           case "woods_emptybm" -> {
