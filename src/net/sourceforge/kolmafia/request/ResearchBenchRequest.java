@@ -31,7 +31,8 @@ public class ResearchBenchRequest extends GenericRequest {
   //
   // I'd like to include that in this record.
 
-  record Research(Integer key, String field, int cost, String parent, String name, String effect)
+  public record Research(
+      Integer key, String field, int cost, String parent, String name, String effect)
       implements Comparable<Research> {
     @Override
     public int compareTo(Research o) {
@@ -42,6 +43,14 @@ public class ResearchBenchRequest extends GenericRequest {
   private static Set<Research> allResearch = new TreeSet<>();
   private static Map<String, Research> fieldToResearch = new HashMap<>();
   private static Set<Research> terminalResearch = new HashSet<>();
+
+  public static Set<Research> allResearch() {
+    return allResearch;
+  }
+
+  public static Research findResearch(final String field) {
+    return fieldToResearch.get(field);
+  }
 
   private static void registerResearch(
       Integer index, String field, int cost, String parent, String name, String effect) {
@@ -227,7 +236,7 @@ public class ResearchBenchRequest extends GenericRequest {
     return research.stream().sorted().map(Research::field).collect(Collectors.joining(","));
   }
 
-  private static Set<Research> loadResearch(String property) {
+  public static Set<Research> loadResearch(String property) {
     String value = Preferences.getString(property);
     return stringToResearchSet(value);
   }
@@ -332,6 +341,7 @@ public class ResearchBenchRequest extends GenericRequest {
             + ") for "
             + research.cost()
             + " rp.";
+    RequestLogger.printLine(message);
     RequestLogger.updateSessionLog(message);
   }
 
@@ -359,6 +369,7 @@ public class ResearchBenchRequest extends GenericRequest {
     }
 
     String message = "You spent " + research.cost() + " rp to research " + research.name() + ".";
+    RequestLogger.printLine(message);
     RequestLogger.updateSessionLog(message);
 
     // Normally, ChoiceManager will follow this up with a visitChoice to process the responseText.
