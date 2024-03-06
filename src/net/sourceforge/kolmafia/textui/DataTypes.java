@@ -75,6 +75,7 @@ public class DataTypes {
     STRICT_STRING,
     AGGREGATE,
     RECORD,
+    FUNCTION,
     TYPEDEF,
   }
 

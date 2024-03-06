@@ -29,6 +29,8 @@ import net.sourceforge.kolmafia.textui.DataTypes.TypeSpec;
 import net.sourceforge.kolmafia.textui.Line.Token;
 import net.sourceforge.kolmafia.textui.parsetree.AggregateType;
 import net.sourceforge.kolmafia.textui.parsetree.ArrayLiteral;
+import net.sourceforge.kolmafia.textui.parsetree.ArrowFunction;
+import net.sourceforge.kolmafia.textui.parsetree.ArrowScope;
 import net.sourceforge.kolmafia.textui.parsetree.Assignment;
 import net.sourceforge.kolmafia.textui.parsetree.BasicScope;
 import net.sourceforge.kolmafia.textui.parsetree.BasicScript;
@@ -49,6 +51,9 @@ import net.sourceforge.kolmafia.textui.parsetree.Function.MatchType;
 import net.sourceforge.kolmafia.textui.parsetree.FunctionCall;
 import net.sourceforge.kolmafia.textui.parsetree.FunctionInvocation;
 import net.sourceforge.kolmafia.textui.parsetree.FunctionReturn;
+import net.sourceforge.kolmafia.textui.parsetree.FunctionType;
+import net.sourceforge.kolmafia.textui.parsetree.FunctionType.BadFunctionType;
+import net.sourceforge.kolmafia.textui.parsetree.FunctionValue;
 import net.sourceforge.kolmafia.textui.parsetree.If;
 import net.sourceforge.kolmafia.textui.parsetree.IncDec;
 import net.sourceforge.kolmafia.textui.parsetree.JavaForLoop;
@@ -290,6 +295,7 @@ public class Parser {
     multiCharTokens.add(">>=");
     multiCharTokens.add(">>>=");
     multiCharTokens.add("...");
+    multiCharTokens.add("->");
 
     // Constants
     reservedWords.add("true");
@@ -334,6 +340,7 @@ public class Parser {
     reservedWords.add("buffer");
     reservedWords.add("matcher");
     reservedWords.add("aggregate");
+    reservedWords.add("function");
 
     reservedWords.add("item");
     reservedWords.add("location");
@@ -772,6 +779,357 @@ public class Parser {
     return rec;
   }
 
+  private Type parseFunctionType(final BasicScope scope) throws InterruptedException {
+    if (!this.currentToken().equalsIgnoreCase("function")) {
+      return null;
+    }
+
+    final ErrorManager functionErrors = new ErrorManager();
+    Token functionStartToken = this.currentToken();
+
+    this.readToken(); // read function
+
+    Type returnType = this.parseType(scope, false);
+    if (returnType == null) {
+      functionErrors.submitError(this.error(this.currentToken(), "Function return type expected"));
+      return new BadFunctionType(this.makeLocation(functionStartToken));
+    }
+
+    if (!this.currentToken().equals("(")) {
+      functionErrors.submitSyntaxError(this.error(this.currentToken(), "Record name expected"));
+      return new BadFunctionType(this.makeLocation(functionStartToken));
+    }
+
+    this.readToken(); // read (
+
+    List<Type> parameterTypes = new ArrayList<>();
+    boolean vararg = false;
+
+    Position previousPosition = null;
+    while (this.madeProgress(previousPosition, previousPosition = this.getCurrentPosition())) {
+      if (this.atEndOfFile()) {
+        functionErrors.submitSyntaxError(this.unexpectedTokenError(")", this.currentToken()));
+        break;
+      }
+
+      if (this.currentToken().equals(")")) {
+        this.readToken(); // read )
+        break;
+      }
+
+      final ErrorManager parameterErrors = functionErrors.makeChild();
+
+      Type paramType = this.parseType(scope, false);
+      if (paramType == null) {
+        parameterErrors.submitSyntaxError(this.unexpectedTokenError(")", this.currentToken()));
+        break;
+      }
+
+      if (this.currentToken().equals("...")) {
+        // Make a vararg type out of the previously parsed type.
+        paramType =
+            new VarArgType(paramType)
+                .reference(Parser.makeLocation(paramType.getLocation(), this.currentToken()));
+
+        this.readToken(); // read ...
+      }
+
+      if (vararg) {
+        if (paramType instanceof VarArgType) {
+          // We can only have a single vararg parameter
+          parameterErrors.submitError(
+              this.error(paramType.getLocation(), "Only one vararg parameter is allowed"));
+        } else {
+          // The single vararg parameter must be the last one
+          parameterErrors.submitError(
+              this.error(paramType.getLocation(), "The vararg parameter must be the last one"));
+        }
+      } else {
+        parameterTypes.add(paramType);
+      }
+
+      if (paramType instanceof VarArgType) {
+        // Only one vararg is allowed
+        vararg = true;
+      }
+
+      if (!this.currentToken().equals(")")) {
+        if (this.currentToken().equals(",")) {
+          this.readToken(); // read comma
+        } else {
+          parameterErrors.submitSyntaxError(this.unexpectedTokenError(",", this.currentToken()));
+        }
+      }
+    }
+
+    Location functionLocation = this.makeLocation(functionStartToken, this.peekLastToken());
+    return new FunctionType(returnType, parameterTypes.toArray(new Type[0]), functionLocation);
+  }
+
+  private Evaluable parseFunctionValue(final FunctionType functionType, final BasicScope scope)
+      throws InterruptedException {
+    if (this.currentToken().equals(";")) {
+      return null;
+    }
+
+    Token startToken = this.currentToken();
+
+    final ErrorManager valueErrors = new ErrorManager();
+    Evaluable result = null;
+    Function function = null;
+
+    String name = this.parseIdentifier(startToken.content) ? startToken.content : null;
+
+    if ((function = this.parseArrowFunction(functionType, scope)) != null) {
+    } else if (name != null && (function = scope.findFunction(name, functionType)) != null) {
+      this.readToken(); // name
+    } else if ((result = this.parseExpression(scope)) != null) {
+    }
+
+    if (function != null) {
+      Value value = new FunctionValue(function);
+      result = Value.locate(this.makeLocation(startToken), value);
+    }
+
+    if (result != null && !functionType.equals(result.getType())) {
+      valueErrors.submitError(
+          this.error(
+              result.getLocation(),
+              "Expected function type " + functionType + " but found " + result.getType()));
+      return null;
+    }
+
+    return result;
+  }
+
+  private Function parseArrowFunction(final FunctionType functionType, final BasicScope parentScope)
+      throws InterruptedException {
+
+    // We are in a context where we expect a FunctionValue.
+    // We know the FunctionType
+
+    final ErrorManager functionErrors = new ErrorManager();
+    Token functionStartToken = this.currentToken();
+
+    Type returnType = functionType.getReturnType();
+    Type[] parameterTypes = functionType.getParameterTypes();
+    int expectedParams = parameterTypes.length;
+    int currentParam = 0;
+
+    // The script gets to define the variable names.
+    // There must be as many as the FunctionType requires.
+    // The types are defined by the FunctionType
+    VariableList paramList = new VariableList();
+    List<VariableReference> variableReferences = new ArrayList<>();
+
+    // *** Looking for:
+    // () ->
+    // (x [, y]*) ->
+    // x ->
+
+    String variableName = this.currentToken().content;
+    // If there is a single parameter, you can omit the ().
+    if (this.parseIdentifier(variableName)) {
+      // Parentheses can be omitted only there is a single parameter
+      if (expectedParams != 1) {
+        return null;
+      }
+      // If it is not an arrow function, it is not a parameter name
+      // It could be a function name or expression
+      if (!"->".equals(this.nextToken())) {
+        return null;
+      }
+      // The name of the first (single) parameter is in variableName
+      // We need to make a Variable and a VariableReference, but
+      // parenthesis are not involved
+    } else if (!"(".equals(this.nextToken())) {
+      // It's not the start of an arrow function.
+      // It could be the start of an expression
+      return null;
+    }
+
+    Position previousPosition = null;
+    while (this.madeProgress(previousPosition, previousPosition = this.getCurrentPosition())) {
+      if (this.atEndOfFile()) {
+        String expected = variableName != null ? "->" : ")";
+        functionErrors.submitSyntaxError(this.unexpectedTokenError(expected, this.currentToken()));
+        break;
+      }
+
+      if (this.currentToken().equals(")")) {
+        if (variableName != null) {
+          // Single parameter with no parentheses;
+          functionErrors.submitSyntaxError(this.unexpectedTokenError(")", this.currentToken()));
+          continue;
+        }
+
+        this.readToken(); // read )
+        break;
+      }
+
+      final ErrorManager parameterErrors = functionErrors.makeChild();
+
+      Type paramType = parameterTypes[currentParam++];
+      Variable param = this.parseVariable(paramType, null);
+      if (param == null) {
+        parameterErrors.submitSyntaxError(
+            this.unexpectedTokenError("identifier", this.currentToken()));
+        continue;
+      }
+
+      if (!paramList.add(param)) {
+        parameterErrors.submitError(
+            this.error(
+                param.getLocation(), "Parameter " + param.getName() + " is already defined"));
+      } else {
+        variableReferences.add(new VariableReference(param.getLocation(), param));
+      }
+
+      if (this.currentToken().equals("=")) {
+        parameterErrors.submitError(
+            this.error(this.currentToken(), "Cannot initialize parameter " + param.getName()));
+      }
+
+      // If we have found all the parameter this FunctionType needs, time to finish up
+      if (currentParam == expectedParams) {
+        if (this.currentToken().equals(")")) {
+          if (variableName != null) {
+            // No parentheses
+            parameterErrors.submitSyntaxError(this.unexpectedTokenError("->", this.currentToken()));
+          } else {
+            this.readToken(); // read )
+          }
+        }
+        break;
+      } else if (this.currentToken().equals(",")) {
+        if (variableName != null) {
+          // No commas
+          parameterErrors.submitSyntaxError(this.unexpectedTokenError(",", this.currentToken()));
+        } else {
+          this.readToken(); // read ,
+        }
+      } else {
+        parameterErrors.submitSyntaxError(this.unexpectedTokenError(",", this.currentToken()));
+      }
+    }
+
+    if (!this.currentToken().equals("->")) {
+      functionErrors.submitError(this.error(this.currentToken(), "-> expected"));
+    }
+    this.readToken(); // read ->
+
+    // Make an ArrowFunction before we parse the scope so it has access to the variable references
+
+    Location functionLocation = this.makeLocation(functionStartToken, this.peekLastToken());
+    ArrowFunction f = new ArrowFunction(functionType, variableReferences, functionLocation);
+    Scope scope = this.parseArrowScope(functionType, paramList, parentScope);
+    ArrowFunction result = f;
+
+    result.setScope(scope);
+    if (!scope.assertBarrier() && !returnType.equals(TypeSpec.VOID)) {
+      functionErrors.submitError(this.error(functionLocation, "Missing return value"));
+    }
+
+    return result;
+  }
+
+  private ArrowScope parseArrowScope(
+      final FunctionType functionType, final VariableList variables, final BasicScope parentScope)
+      throws InterruptedException {
+    Type returnType = functionType.getReturnType();
+    ArrowScope scope = parseArrowBlock(returnType, variables, parentScope);
+    if (scope != null) {
+      return scope;
+    }
+    return this.parseArrowCommand(returnType, variables, parentScope);
+  }
+
+  private ArrowScope parseArrowBlock(
+      final Type returnType, final VariableList variables, final BasicScope parentScope)
+      throws InterruptedException {
+
+    if (!this.currentToken().equals("{")) {
+      return null;
+    }
+
+    final ErrorManager blockErrors = new ErrorManager();
+    Token blockStartToken = this.currentToken();
+    this.readToken(); // {
+
+    ArrowScope result = new ArrowScope(variables, parentScope);
+    Scope scope = this.parseScope(result, returnType, parentScope, false, false, false);
+
+    if (this.currentToken().equals("}")) {
+      this.readToken(); // read }
+    } else {
+      blockErrors.submitSyntaxError(this.unexpectedTokenError("}", this.currentToken()));
+    }
+
+    Location blockLocation = this.makeLocation(blockStartToken, this.peekPreviousToken());
+    scope.setScopeLocation(blockLocation);
+
+    return result;
+  }
+
+  private ArrowScope parseArrowCommand(
+      final Type returnType, final VariableList variables, final BasicScope parentScope)
+      throws InterruptedException {
+    final ErrorManager singleCommandScopeErrors = new ErrorManager();
+
+    Token scopeStartToken = this.currentToken();
+    ArrowScope scope = new ArrowScope(variables, parentScope);
+
+    Command command = this.parseCommand(returnType, scope, false, false, false);
+    if (command == null) {
+      if (returnType.equals(TypeSpec.VOID)) {
+        if (this.currentToken().equals(";")) {
+          this.readToken(); // ;
+        } else {
+          singleCommandScopeErrors.submitSyntaxError(
+              this.unexpectedTokenError(";", this.currentToken()));
+        }
+        // This is allowed.
+      } else {
+        singleCommandScopeErrors.submitError(this.error("Missing return value"));
+      }
+    }
+
+    if (returnType.equals(TypeSpec.VOID)) {
+      // Any command will do.
+      scope.addCommand(command, this);
+    } else if (command instanceof FunctionReturn fr) {
+      Type commandType = fr.getType();
+      if (Operator.validCoercion(returnType, commandType, "return")) {
+        scope.addCommand(command, this);
+      } else {
+        singleCommandScopeErrors.submitError(
+            this.error(
+                command.getLocation(),
+                "Cannot return " + commandType + " value from " + returnType + " function"));
+      }
+    } else if (command instanceof Evaluable ev) {
+      Type commandType = ev.getType();
+      // No explicit "return" command. Create one.
+      if (Operator.validCoercion(returnType, commandType, "return")) {
+        Location returnLocation = this.makeLocation(scopeStartToken, this.peekPreviousToken());
+        FunctionReturn returnCommnd = new FunctionReturn(returnLocation, ev, returnType);
+        scope.addCommand(returnCommnd, this);
+      } else {
+        singleCommandScopeErrors.submitError(
+            this.error(
+                command.getLocation(),
+                "Cannot return " + commandType + " value from " + returnType + " function"));
+      }
+    } else {
+      singleCommandScopeErrors.submitError(this.error("Missing return value"));
+    }
+
+    Location scopeLocation = this.makeLocation(scopeStartToken, this.peekPreviousToken());
+    scope.setScopeLocation(scopeLocation);
+
+    return scope;
+  }
+
   /**
    * Parses the content of a record literal, e.g., `{name:"Judy", age:40, married:false}`.
    *
@@ -892,7 +1250,7 @@ public class Parser {
     return Value.locate(recordLiteralLocation, result);
   }
 
-  private Function parseFunction(final Type functionType, final Scope parentScope)
+  private Function parseFunction(final Type returnType, final Scope parentScope)
       throws InterruptedException {
     if (!this.parseIdentifier(this.currentToken().content)) {
       return null;
@@ -1000,7 +1358,7 @@ public class Parser {
 
     UserDefinedFunction f =
         new UserDefinedFunction(
-            functionName.content, functionType, variableReferences, functionLocation);
+            functionName.content, returnType, variableReferences, functionLocation);
 
     if (f.overridesLibraryFunction()) {
       String buffer = "Function '" + f.getSignature() + "' overrides a library function.";
@@ -1035,10 +1393,10 @@ public class Parser {
     }
 
     Scope scope =
-        this.parseBlockOrSingleCommand(functionType, paramList, parentScope, false, false, false);
+        this.parseBlockOrSingleCommand(returnType, paramList, parentScope, false, false, false);
 
     result.setScope(scope);
-    if (!scope.assertBarrier() && !functionType.equals(TypeSpec.VOID)) {
+    if (!scope.assertBarrier() && !returnType.equals(TypeSpec.VOID)) {
       functionErrors.submitError(this.error(functionLocation, "Missing return value"));
     }
 
@@ -1139,6 +1497,8 @@ public class Parser {
 
         result = this.parseCompositeLiteral(scope, badAggregateType());
       }
+    } else if (ltype instanceof FunctionType ft) {
+      result = parseFunctionValue(ft, scope);
     } else {
       result = this.parseExpression(scope);
 
@@ -1321,7 +1681,7 @@ public class Parser {
   }
 
   private Command parseCommand(
-      final Type functionType,
+      final Type returnType,
       final BasicScope scope,
       final boolean noElse,
       final boolean allowBreak,
@@ -1356,44 +1716,44 @@ public class Parser {
     } else if (this.currentToken().equalsIgnoreCase("exit")) {
       result = new ScriptExit(this.makeLocation(this.currentToken()));
       this.readToken(); // exit
-    } else if ((result = this.parseReturn(functionType, scope)) != null) {
+    } else if ((result = this.parseReturn(returnType, scope)) != null) {
     } else if ((result = this.parseBasicScript()) != null) {
       // basic_script doesn't have a ; token
       return result;
-    } else if ((result = this.parseWhile(functionType, scope)) != null) {
+    } else if ((result = this.parseWhile(returnType, scope)) != null) {
       // while doesn't have a ; token
       return result;
-    } else if ((result = this.parseForeach(functionType, scope)) != null) {
+    } else if ((result = this.parseForeach(returnType, scope)) != null) {
       // foreach doesn't have a ; token
       return result;
-    } else if ((result = this.parseJavaFor(functionType, scope)) != null) {
+    } else if ((result = this.parseJavaFor(returnType, scope)) != null) {
       // for doesn't have a ; token
       return result;
-    } else if ((result = this.parseFor(functionType, scope)) != null) {
+    } else if ((result = this.parseFor(returnType, scope)) != null) {
       // for doesn't have a ; token
       return result;
-    } else if ((result = this.parseRepeat(functionType, scope)) != null) {
-    } else if ((result = this.parseSwitch(functionType, scope, allowContinue)) != null) {
+    } else if ((result = this.parseRepeat(returnType, scope)) != null) {
+    } else if ((result = this.parseSwitch(returnType, scope, allowContinue)) != null) {
       // switch doesn't have a ; token
       return result;
     } else if ((result =
-            this.parseConditional(functionType, scope, noElse, allowBreak, allowContinue))
+            this.parseConditional(returnType, scope, noElse, allowBreak, allowContinue))
         != null) {
       // loop doesn't have a ; token
       return result;
-    } else if ((result = this.parseTry(functionType, scope, allowBreak, allowContinue)) != null) {
+    } else if ((result = this.parseTry(returnType, scope, allowBreak, allowContinue)) != null) {
       // try doesn't have a ; token
       return result;
-    } else if ((result = this.parseCatch(functionType, scope, allowBreak, allowContinue)) != null) {
+    } else if ((result = this.parseCatch(returnType, scope, allowBreak, allowContinue)) != null) {
       // standalone catch doesn't have a ; token
       return result;
-    } else if ((result = this.parseStatic(functionType, scope)) != null) {
+    } else if ((result = this.parseStatic(returnType, scope)) != null) {
       // static doesn't have a ; token
       return result;
     } else if ((result = this.parseSort(scope)) != null) {
     } else if ((result = this.parseRemove(scope)) != null) {
     } else if ((result =
-            this.parseBlock(functionType, null, scope, noElse, allowBreak, allowContinue))
+            this.parseBlock(returnType, null, scope, noElse, allowBreak, allowContinue))
         != null) {
       // {} doesn't have a ; token
       return result;
@@ -1426,6 +1786,8 @@ public class Parser {
         typeErrors.submitError(
             this.error(valType.getLocation(), "Existing type expected for function parameter"));
       }
+    } else if ((valType = this.parseFunctionType(scope)) != null) {
+      return valType;
     } else if ((valType = scope.findType(this.currentToken().content)) != null) {
       valType = valType.reference(this.makeLocation(this.currentToken()));
       this.readToken();
@@ -1619,6 +1981,8 @@ public class Parser {
 
           rhs = this.parseCompositeLiteral(scope, badAggregateType());
         }
+      } else if (dataType instanceof FunctionType ft) {
+        rhs = parseFunctionValue(ft, scope);
       } else {
         rhs = this.parseExpression(scope);
       }
@@ -1864,7 +2228,7 @@ public class Parser {
   }
 
   private Scope parseSingleCommandScope(
-      final Type functionType,
+      final Type returnType,
       final BasicScope parentScope,
       final boolean noElse,
       final boolean allowBreak,
@@ -1875,8 +2239,7 @@ public class Parser {
     Token scopeStartToken = this.currentToken();
     Scope result = new Scope(parentScope);
 
-    Command command =
-        this.parseCommand(functionType, parentScope, noElse, allowBreak, allowContinue);
+    Command command = this.parseCommand(returnType, parentScope, noElse, allowBreak, allowContinue);
     if (command != null) {
       result.addCommand(command, this);
     } else {
@@ -1895,7 +2258,7 @@ public class Parser {
   }
 
   private Scope parseBlockOrSingleCommand(
-      final Type functionType,
+      final Type returnType,
       final VariableList variables,
       final BasicScope parentScope,
       final boolean noElse,
@@ -1903,16 +2266,15 @@ public class Parser {
       final boolean allowContinue)
       throws InterruptedException {
     Scope scope =
-        this.parseBlock(functionType, variables, parentScope, noElse, allowBreak, allowContinue);
+        this.parseBlock(returnType, variables, parentScope, noElse, allowBreak, allowContinue);
     if (scope != null) {
       return scope;
     }
-    return this.parseSingleCommandScope(
-        functionType, parentScope, noElse, allowBreak, allowContinue);
+    return this.parseSingleCommandScope(returnType, parentScope, noElse, allowBreak, allowContinue);
   }
 
   private Scope parseBlock(
-      final Type functionType,
+      final Type returnType,
       final VariableList variables,
       final BasicScope parentScope,
       final boolean noElse,
@@ -1929,7 +2291,7 @@ public class Parser {
 
     this.readToken(); // {
 
-    Scope scope = this.parseScope(functionType, variables, parentScope, allowBreak, allowContinue);
+    Scope scope = this.parseScope(returnType, variables, parentScope, allowBreak, allowContinue);
 
     if (this.currentToken().equals("}")) {
       this.readToken(); // read }
@@ -1944,7 +2306,7 @@ public class Parser {
   }
 
   private Conditional parseConditional(
-      final Type functionType,
+      final Type returnType,
       final BasicScope parentScope,
       final boolean noElse,
       final boolean allowBreak,
@@ -2000,7 +2362,7 @@ public class Parser {
 
       Scope scope =
           parseBlockOrSingleCommand(
-              functionType, null, parentScope, !elseFound, allowBreak, allowContinue);
+              returnType, null, parentScope, !elseFound, allowBreak, allowContinue);
 
       Location conditionalLocation =
           this.makeLocation(conditionalStartToken, this.peekPreviousToken());
@@ -2127,7 +2489,7 @@ public class Parser {
     return new BasicScript(basicScriptLocation, ostream);
   }
 
-  private Loop parseWhile(final Type functionType, final BasicScope parentScope)
+  private Loop parseWhile(final Type returnType, final BasicScope parentScope)
       throws InterruptedException {
     if (!this.currentToken().equalsIgnoreCase("while")) {
       return null;
@@ -2170,13 +2532,13 @@ public class Parser {
       condition = Value.locate(errorLocation, Value.BAD_VALUE);
     }
 
-    Scope scope = this.parseLoopScope(functionType, null, parentScope);
+    Scope scope = this.parseLoopScope(returnType, null, parentScope);
 
     Location whileLocation = this.makeLocation(whileStartToken, this.peekPreviousToken());
     return new WhileLoop(whileLocation, scope, condition);
   }
 
-  private Loop parseRepeat(final Type functionType, final BasicScope parentScope)
+  private Loop parseRepeat(final Type returnType, final BasicScope parentScope)
       throws InterruptedException {
     if (!this.currentToken().equalsIgnoreCase("repeat")) {
       return null;
@@ -2188,7 +2550,7 @@ public class Parser {
 
     this.readToken(); // repeat
 
-    Scope scope = this.parseLoopScope(functionType, null, parentScope);
+    Scope scope = this.parseLoopScope(returnType, null, parentScope);
 
     if (this.currentToken().equalsIgnoreCase("until")) {
       this.readToken(); // until
@@ -2232,7 +2594,7 @@ public class Parser {
   }
 
   private Switch parseSwitch(
-      final Type functionType, final BasicScope parentScope, final boolean allowContinue)
+      final Type returnType, final BasicScope parentScope, final boolean allowContinue)
       throws InterruptedException {
     if (!this.currentToken().equalsIgnoreCase("switch")) {
       return null;
@@ -2377,7 +2739,7 @@ public class Parser {
       // If there is no data type, it's a command of some sort
       if (t == null) {
         // See if it's a regular command
-        Command c = this.parseCommand(functionType, scope, false, true, allowContinue);
+        Command c = this.parseCommand(returnType, scope, false, true, allowContinue);
         if (c != null) {
           scope.addCommand(c, this);
           currentIndex = scope.commandCount();
@@ -2429,7 +2791,7 @@ public class Parser {
   }
 
   private Try parseTry(
-      final Type functionType,
+      final Type returnType,
       final BasicScope parentScope,
       final boolean allowBreak,
       final boolean allowContinue)
@@ -2446,7 +2808,7 @@ public class Parser {
 
     Scope body =
         this.parseBlockOrSingleCommand(
-            functionType, null, parentScope, false, allowBreak, allowContinue);
+            returnType, null, parentScope, false, allowBreak, allowContinue);
 
     // catch clauses would be parsed here
 
@@ -2456,8 +2818,7 @@ public class Parser {
       this.readToken(); // finally
 
       finalClause =
-          this.parseBlockOrSingleCommand(
-              functionType, null, body, false, allowBreak, allowContinue);
+          this.parseBlockOrSingleCommand(returnType, null, body, false, allowBreak, allowContinue);
     } else {
       // this would not be an error if at least one catch was present
       tryErrors.submitError(
@@ -2472,7 +2833,7 @@ public class Parser {
   }
 
   private Catch parseCatch(
-      final Type functionType,
+      final Type returnType,
       final BasicScope parentScope,
       final boolean allowBreak,
       final boolean allowContinue)
@@ -2487,7 +2848,7 @@ public class Parser {
 
     Scope body =
         this.parseBlockOrSingleCommand(
-            functionType, null, parentScope, false, allowBreak, allowContinue);
+            returnType, null, parentScope, false, allowBreak, allowContinue);
 
     return new Catch(this.makeLocation(catchStartToken, this.peekPreviousToken()), body);
   }
@@ -2521,7 +2882,7 @@ public class Parser {
     return new Catch(this.makeLocation(catchStartToken, this.peekPreviousToken()), body);
   }
 
-  private Scope parseStatic(final Type functionType, final BasicScope parentScope)
+  private Scope parseStatic(final Type returnType, final BasicScope parentScope)
       throws InterruptedException {
     if (!this.currentToken().equalsIgnoreCase("static")) {
       return null;
@@ -2538,7 +2899,7 @@ public class Parser {
     if (this.currentToken().equals("{")) {
       this.readToken(); // read {
 
-      this.parseScope(result, functionType, parentScope, false, false, false);
+      this.parseScope(result, returnType, parentScope, false, false, false);
 
       if (this.currentToken().equals("}")) {
         this.readToken(); // read }
@@ -2546,7 +2907,7 @@ public class Parser {
         staticErrors.submitSyntaxError(this.unexpectedTokenError("}", this.currentToken()));
       }
     } else { // body is a single call
-      this.parseCommandOrDeclaration(result, functionType);
+      this.parseCommandOrDeclaration(result, returnType);
     }
 
     Location staticLocation = this.makeLocation(staticStartToken, this.peekPreviousToken());
@@ -2629,7 +2990,7 @@ public class Parser {
     return new SortBy(sortLocation, (VariableReference) aggregate, indexvar, valuevar, expr, this);
   }
 
-  private Loop parseForeach(final Type functionType, final BasicScope parentScope)
+  private Loop parseForeach(final Type returnType, final BasicScope parentScope)
       throws InterruptedException {
     // foreach key [, key ... ] in aggregate { scope }
 
@@ -2756,14 +3117,14 @@ public class Parser {
     }
 
     // Parse the scope with the list of keyVars
-    Scope scope = this.parseLoopScope(functionType, varList, parentScope);
+    Scope scope = this.parseLoopScope(returnType, varList, parentScope);
 
     // Add the foreach node with the list of varRefs
     Location foreachLocation = this.makeLocation(foreachStartToken, this.peekPreviousToken());
     return new ForEachLoop(foreachLocation, scope, variableReferences, aggregate, this);
   }
 
-  private Loop parseFor(final Type functionType, final BasicScope parentScope)
+  private Loop parseFor(final Type returnType, final BasicScope parentScope)
       throws InterruptedException {
     // for identifier from X [upto|downto|to|] Y [by Z]? {scope }
 
@@ -2863,7 +3224,7 @@ public class Parser {
     VariableList varList = new VariableList();
     varList.add(indexvar);
 
-    Scope scope = this.parseLoopScope(functionType, varList, parentScope);
+    Scope scope = this.parseLoopScope(returnType, varList, parentScope);
 
     Location forLocation = this.makeLocation(forStartToken, this.peekPreviousToken());
     return new ForLoop(
@@ -2877,7 +3238,7 @@ public class Parser {
         this);
   }
 
-  private Loop parseJavaFor(final Type functionType, final BasicScope parentScope)
+  private Loop parseJavaFor(final Type returnType, final BasicScope parentScope)
       throws InterruptedException {
     if (!this.currentToken().equalsIgnoreCase("for")) {
       return null;
@@ -3092,20 +3453,20 @@ public class Parser {
     }
 
     // Parse scope body
-    this.parseLoopScope(scope, functionType, parentScope);
+    this.parseLoopScope(scope, returnType, parentScope);
 
     Location javaForLocation = this.makeLocation(javaForStartToken, this.peekPreviousToken());
     return new JavaForLoop(javaForLocation, scope, initializers, condition, incrementers);
   }
 
   private Scope parseLoopScope(
-      final Type functionType, final VariableList varList, final BasicScope parentScope)
+      final Type returnType, final VariableList varList, final BasicScope parentScope)
       throws InterruptedException {
-    return this.parseLoopScope(new Scope(varList, parentScope), functionType, parentScope);
+    return this.parseLoopScope(new Scope(varList, parentScope), returnType, parentScope);
   }
 
   private Scope parseLoopScope(
-      final Scope result, final Type functionType, final BasicScope parentScope)
+      final Scope result, final Type returnType, final BasicScope parentScope)
       throws InterruptedException {
     final ErrorManager loopScopeErrors = new ErrorManager();
 
@@ -3116,7 +3477,7 @@ public class Parser {
 
       this.readToken(); // {
 
-      this.parseScope(result, functionType, parentScope, false, true, true);
+      this.parseScope(result, returnType, parentScope, false, true, true);
 
       if (this.currentToken().equals("}")) {
         this.readToken(); // }
@@ -3125,7 +3486,7 @@ public class Parser {
       }
     } else {
       // Scope is a single command
-      Command command = this.parseCommand(functionType, result, false, true, true);
+      Command command = this.parseCommand(returnType, result, false, true, true);
       if (command == null) {
         if (this.currentToken().equals(";")) {
           this.readToken(); // ;
@@ -3288,6 +3649,70 @@ public class Parser {
     return Value.locate(newRecordLocation, target.initialValueExpression(params));
   }
 
+  private Evaluable parseFunctionValueCall(final BasicScope scope) throws InterruptedException {
+    if (!"(".equals(this.nextToken())) {
+      return null;
+    }
+
+    if (!this.parseScopedIdentifier(this.currentToken().content)) {
+      return null;
+    }
+
+    Token name = this.currentToken();
+    Variable v = scope.findVariable(name.content, true);
+    if (v != null && v.getBaseType() instanceof FunctionType ft) {
+      var nameStart = this.getCurrentPosition();
+      this.readToken(); // name
+
+      return parseFunctionValueCall(ft, scope);
+    }
+
+    return null;
+  }
+
+  private Evaluable parseFunctionValueCall(final FunctionType ft, final BasicScope scope)
+      throws InterruptedException {
+    final ErrorManager callErrors = new ErrorManager();
+
+    List<Evaluable> params = this.parseParameters(scope, null);
+
+    /*
+    Location functionCallLocation = this.makeLocation(name, this.peekPreviousToken());
+
+    Function target = scope.findFunction(name.content, params);
+
+
+    if (target != null) {
+      params = this.autoCoerceParameters(target, params, scope);
+    } else {
+      // Don't make an error if the function couldn't be found
+      // because the user messed up one of the parameters
+      // (since that means we already made one earlier)
+      boolean alreadyErrored =
+          params.stream().anyMatch(param -> param != null && param.getType().isBad());
+
+      if (!alreadyErrored) {
+        callErrors.submitError(this.undefinedFunctionError(name, params));
+      }
+
+      target = new BadFunction(name.content);
+    }
+
+    if (target instanceof LibraryFunction lf) {
+      var deprecationWarning = lf.deprecationWarning;
+      if (deprecationWarning.length > 0) {
+        var location = this.makeLocation(nameStart, this.getCurrentPosition());
+        this.warning(location, "Function \"" + name + "\" is deprecated", deprecationWarning);
+      }
+    }
+
+    FunctionCall call = new FunctionCall(functionCallLocation, target, params, this);
+    return this.parsePostCall(scope, call);
+    */
+
+    return null;
+  }
+
   private Evaluable parseCall(final BasicScope scope) throws InterruptedException {
     return this.parseCall(scope, null);
   }
@@ -3333,8 +3758,8 @@ public class Parser {
       target = new BadFunction(name.content);
     }
 
-    if (target instanceof LibraryFunction) {
-      var deprecationWarning = ((LibraryFunction) target).deprecationWarning;
+    if (target instanceof LibraryFunction lf) {
+      var deprecationWarning = lf.deprecationWarning;
       if (deprecationWarning.length > 0) {
         var location = this.makeLocation(nameStart, this.getCurrentPosition());
         this.warning(location, "Function \"" + name + "\" is deprecated", deprecationWarning);
@@ -3944,21 +4369,23 @@ public class Parser {
     } else if ((result = this.parseCall(scope)) != null) {
     } else {
       Token anchor = this.currentToken();
-
       Type baseType = this.parseType(scope, false);
-      if (baseType != null && baseType.getBaseType() instanceof AggregateType) {
+
+      if (baseType != null && baseType.getBaseType() instanceof AggregateType at) {
         if (this.currentToken().equals("{")) {
-          result = this.parseAggregateLiteral(scope, (AggregateType) baseType.getBaseType());
+          result = this.parseAggregateLiteral(scope, at);
         } else {
           evaluableErrors.submitSyntaxError(this.unexpectedTokenError("{", this.currentToken()));
           // don't parse. We don't know if they just didn't put anything.
-
           result = Value.locate(this.makeZeroWidthLocation(), Value.BAD_VALUE);
         }
+      } else if (baseType != null && baseType.getBaseType() instanceof FunctionType ft) {
+        result = parseFunctionValue(ft, scope);
       } else {
         if (baseType != null) {
           this.rewindBackTo(anchor);
         }
+
         if ((result = this.parseVariableReference(scope)) != null) {}
       }
     }
