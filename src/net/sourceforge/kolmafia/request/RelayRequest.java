@@ -146,7 +146,8 @@ public class RelayRequest extends PasswordHashRequest {
     RALPH,
     RALPH1,
     RALPH2,
-    DESERT_WEAPON;
+    DESERT_WEAPON,
+    SPRING_SHOES;
 
     @Override
     public String toString() {
@@ -817,7 +818,6 @@ public class RelayRequest extends PasswordHashRequest {
         || !urlString.contains("action=ns_11_prism")) {
       return false;
     }
-
     // We are about to free King Ralph
 
     // In Kingdom of Exploathing, you will lose access to Cosmic
@@ -1762,6 +1762,52 @@ public class RelayRequest extends PasswordHashRequest {
 
     buf.append(ok1);
     this.sendGeneralWarning("hand.gif", buf.toString(), Confirm.MOHAWK_WIG);
+
+    return true;
+  }
+
+  public boolean sendSpringShoesWarning() {
+    // place.php?whichplace=plains&action=garbage_grounds
+    String urlString = this.getURLString();
+    if (!urlString.startsWith("place.php")
+        || !urlString.contains("whichplace=plains")
+        || !urlString.contains("garbage_grounds")) {
+      return false;
+    }
+
+    // If it's already confirmed, then proceed
+    if (this.getFormField(Confirm.SPRING_SHOES) != null) {
+      return false;
+    }
+
+    // If they are already wearing spring shoes, no problem
+    if (KoLCharacter.hasEquipped(ItemPool.SPRING_SHOES)) {
+      return false;
+    }
+
+    // If they don't have spring shoes, no problem
+    if (!InventoryManager.hasItem(ItemPool.SPRING_SHOES)) {
+      return false;
+    }
+
+    StringBuilder buf = new StringBuilder();
+    buf.append("You are about to plant an enchanted bean without wearing your spring shoes.");
+    buf.append(
+        " If you are sure you wish to plant without it, click the icon on the left to do so.");
+    buf.append(" If you want to put the shoes on first, click the icon on the right.");
+
+    this.sendOptionalWarning(
+        Confirm.SPRING_SHOES,
+        buf.toString(),
+        "hand.gif",
+        "springshoes.gif",
+        "\"#\" onClick=\"singleUse('inv_equip.php','which=2&action=equip&slot=3&whichitem="
+            + ItemPool.SPRING_SHOES
+            + "&pwd="
+            + GenericRequest.passwordHash
+            + "&ajax=1');void(0);\"",
+        null,
+        null);
 
     return true;
   }
@@ -3710,6 +3756,10 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     if (this.sendMohawkWigWarning()) {
+      return true;
+    }
+
+    if (this.sendSpringShoesWarning()) {
       return true;
     }
 

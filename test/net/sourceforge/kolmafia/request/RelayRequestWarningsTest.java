@@ -470,6 +470,75 @@ public class RelayRequestWarningsTest {
   }
 
   @Nested
+  class SpringShoes {
+    private static final Confirm confirmation = Confirm.SPRING_SHOES;
+    private static final AdventureResult SPRING_SHOES = ItemPool.get(ItemPool.SPRING_SHOES);
+    private static final String GARBAGE_GROUNDS =
+        "place.php?whichplace=plains&action=garbage_grounds";
+    private static final String GARBAGE_GROUNDS_CONFIRMED =
+        GARBAGE_GROUNDS + "&" + confirmation + "=ok";
+
+    @Test
+    public void noWarningIfNotPlantingEnchantedBean() {
+      var cleanups = new Cleanups();
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString("place.php?whichplace=plains", false);
+        // No warning needed if you are not planting an enchanted bean
+        assertFalse(request.sendSpringShoesWarning());
+      }
+    }
+
+    @Test
+    public void noWarningWithNoSpringShoesInInventory() {
+      var cleanups = new Cleanups();
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(GARBAGE_GROUNDS, false);
+        // With no spring shoes in Inventory, no warning
+        assertFalse(request.sendSpringShoesWarning());
+      }
+    }
+
+    @Test
+    public void noWarningIfConfirmed() {
+      var cleanups = new Cleanups(withEquippableItem(ItemPool.SPRING_SHOES));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(GARBAGE_GROUNDS_CONFIRMED, false);
+        // No warning needed if this a resubmission with confirmation
+        assertFalse(request.sendSpringShoesWarning());
+      }
+    }
+
+    @Test
+    public void noWarningIfSpringShoesgEquipped() {
+      var cleanups = new Cleanups(withEquipped(Slot.ACCESSORY3, SPRING_SHOES));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(GARBAGE_GROUNDS, false);
+        // No warning needed if spring shoes already equipped
+        assertFalse(request.sendSpringShoesWarning());
+      }
+    }
+
+    @Test
+    public void warningIfEquippableSpringShoes() {
+      var cleanups = new Cleanups(withEquippableItem(SPRING_SHOES));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(GARBAGE_GROUNDS, false);
+        assertTrue(request.sendSpringShoesWarning());
+        String expected =
+            "You are about to plant an enchanted bean without wearing your spring shoes."
+                + " If you are sure you wish to plant without it, click the icon on the left to do so."
+                + " If you want to put the shoes on first, click the icon on the right.";
+        assertEquals(expected, request.lastWarning);
+      }
+    }
+  }
+
+  @Nested
   class SurvivalKnife {
     private static final KoLAdventure A_BOO_PEAK =
         AdventureDatabase.getAdventureByName("A-Boo Peak");
