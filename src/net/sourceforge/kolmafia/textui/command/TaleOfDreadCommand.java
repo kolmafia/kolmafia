@@ -98,6 +98,6 @@ public class TaleOfDreadCommand extends AbstractCommand {
     request.constructURLString(storyURL);
     RequestThread.postRequest(request);
 
-    RequestLogger.printLine(TaleOfDreadCommand.extractTale(request.responseText));
+    RequestLogger.printHtml(TaleOfDreadCommand.extractTale(request.responseText));
   }
 }
