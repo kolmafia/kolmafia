@@ -2137,7 +2137,7 @@ public class Player {
    * @return Restores previous value
    */
   public static Cleanups withHandlingChoice(final int whichChoice) {
-    ChoiceManager.handlingChoice = true;
+    ChoiceManager.handlingChoice = whichChoice != 0;
     ChoiceManager.lastChoice = whichChoice;
     return new Cleanups(
         () -> {

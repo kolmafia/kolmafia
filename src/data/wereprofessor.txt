@@ -1,60 +1,60 @@
 1
 # Muscle Skill Tree
-1	mus1	10	none	Osteocalcin injection	Muscle +20%
-2	mus2	20	mus1	Somatostatin catalyst	Muscle +30%
-3	mus3	30	mus2	Endothelin suspension	Muscle +50%
-4	rend1	20	mus3	Ultraprogesterone potion	Unlock Rend (Physical attack)
-5	rend2	30	rend1	Lactide blocker	Increase damage of Rend
-6	rend3	40	rend2	Haemostatic membrane treatment	Rend restores some HP
-7	slaughter	100	rend3	Norepinephrine transfusion	Unlock Slaughter (Instant attack)
-8	hp1	20	mus3	Synthetic prostaglandin	Maximum HP +20%
-9	hp2	30	hp1	Leukotriene elixir	Maximum HP +30%
-10	hp3	40	hp2	Thromboxane inhibitor	Maximum HP +50%
-11	skin1	40	hp3	Calcitonin powder	Damage Reduction: 5
-12	skin2	50	skin1	Enkephalin activator	Damage Reduction: 10
-13	skin3	60	skin2	Oxytocin inversion	Damage Reduction: 15
-14	skinheal	100	skin3	Hemostatic accelerant	Regenerate 8-10 HP per Adventure
-15	stomach1	40	hp3	Triiodothyronine accelerator	Increase stomach capacity by 3
-16	stomach2	50	stomach1	Thyroxine supplements	Increase stomach capacity by 3
-17	stomach3	60	stomach2	Amyloid polypeptide mixture	Increase stomach capacity by 3
-18	feed	100	stomach3	Cholecystokinin antagonist	will do something after combat
+1	mus1	10	none	Osteocalcin injection	Mus +20%
+2	mus2	20	mus1	Somatostatin catalyst	Mus +30%
+3	mus3	30	mus2	Endothelin suspension	Mus +50%
+4	rend1	20	mus3	Ultraprogesterone potion	Rend (Phys)
+5	rend2	30	rend1	Lactide blocker	Increase damage
+6	rend3	40	rend2	Haemostatic membrane treatment	Restores HP
+7	slaughter	100	rend3	Norepinephrine transfusion	Slaughter (Instant)
+8	hp1	20	mus3	Synthetic prostaglandin	Max HP +20%
+9	hp2	30	hp1	Leukotriene elixir	Max HP +30%
+10	hp3	40	hp2	Thromboxane inhibitor	Max HP +50%
+11	skin1	40	hp3	Calcitonin powder	DR 5
+12	skin2	50	skin1	Enkephalin activator	DR 10
+13	skin3	60	skin2	Oxytocin inversion	DR 15
+14	skinheal	100	skin3	Hemostatic accelerant	Regen 8-10 HP
+15	stomach1	40	hp3	Triiodothyronine accelerator	Stomach +3
+16	stomach2	50	stomach1	Thyroxine supplements	Stomach +3
+17	stomach3	60	stomach2	Amyloid polypeptide mixture	Stomach +3
+18	feed	100	stomach3	Cholecystokinin antagonist	(Unimplemented)
 
 # Mysticality Skill Tree
-19	myst1	10	none	Galanin precipitate	Mysticality +20%
-20	myst2	20	myst1	Cortistatin blocker	Mysticality +30%
-21	myst3	30	myst2	Prolactin inhibitor	Mysticality +50%
-22	bite1	20	myst3	Fluoride rinse	Unlock Bite (Elemental attack)
-23	bite2	30	bite1	Proton pump eliminator	Adds second element to Bite
-24	bite3	40	bite2	Bisphosphonate drip	Increase damage of the Bite
-25	howl	100	bite3	Albuterol innundation	Unlock Howl (Stun)
-26	res1	20	myst3	Omega-3 megadose	All Resistance +20%
-27	res2	30	res1	Omega-6 hyperdose	All Resistance +20%
-28	res3	40	res2	Omega-9 omegadose	All Resistance +20%
-29	items1	40	res3	Diphenhydramine eyedrops	+25% Item Drops from Monsters
-30	items2	50	items1	Carbinoxamine eye wash	+25% Item Drops from Monsters
-31	items3	60	items2	Intraocular cyproheptadine injections	+25% Item Drops from Monsters
-32	hunt	100	items3	Phantosmic tincture	Unlock Hunt (Olfaction)
-33	ml1	40	res3	Anabolic megatestosterone	+10 to Monster Level
-34	ml2	50	ml1	Hyperadrenal Pheremones	+15 to Monster Level
-35	ml3	60	ml2	Synthetic Rhabdovirus	+25 to Monster Level
-36	feasting	100	ml3	Peptide catalyst	Regain more HP from eating other animals
+19	myst1	10	none	Galanin precipitate	Myst +20%
+20	myst2	20	myst1	Cortistatin blocker	Myst +30%
+21	myst3	30	myst2	Prolactin inhibitor	Myst +50%
+22	bite1	20	myst3	Fluoride rinse	Bite (Elem)
+23	bite2	30	bite1	Proton pump eliminator	Second Element
+24	bite3	40	bite2	Bisphosphonate drip	Increase damage
+25	howl	100	bite3	Albuterol innundation	Howl (Stun)
+26	res1	20	myst3	Omega-3 megadose	Resist All +20%
+27	res2	30	res1	Omega-6 hyperdose	Resist All +20%
+28	res3	40	res2	Omega-9 omegadose	Resist All +20%
+29	items1	40	res3	Diphenhydramine eyedrops	Item Drop 25%
+30	items2	50	items1	Carbinoxamine eye wash	Item Drop +25%
+31	items3	60	items2	Intraocular cyproheptadine injections	Item Drop +25%
+32	hunt	100	items3	Phantosmic tincture	Hunt (Olfaction)
+33	ml1	40	res3	Anabolic megatestosterone	ML +10
+34	ml2	50	ml1	Hyperadrenal Pheremones	ML +15
+35	ml3	60	ml2	Synthetic Rhabdovirus	ML +25
+36	feasting	100	ml3	Peptide catalyst	Regain more HP
 
 # Moxie Skill Tree
-37	mox1	10	none	Dopamine slurry	Moxie +20%
-38	mox2	20	mox1	Relaxin balm	Moxie +30%
-39	mox3	30	mox2	Melatonin suppositories	Moxie +50%
-40	kick1	20	mox3	Hamstring-tightening solution	Unlock Kick (Delevel)
-41	kick2	30	kick1	Gluteal 4-Androstenediol inection	Increase the effectiveness of the Beast's kick
-42	kick3	40	kick2	Subcutaneous dimethandrolone implant	The Beast's kick will briefly stun opponents
-43	punt	100	kick3	Novel catecholamine synthesis	Unlocks Punt (Banish)
-44	init1	20	mox3	Adrenal decoction	+50% Combat Initiative
-45	init2	30	init1	Adrenal distillate	+50% Combat Initiative
-46	init3	40	init2	Concentrated adrenaline extract	+100% Combat Initiative
-47	meat1	40	init3	Leptin modulator	+25% Meat from Monsters
-48	meat2	50	meat1	Carnal dehydrogenase infusion	+50% Meat from Monsters
-49	meat3	60	meat2	Dihydrobenzophenanthridine injection	+75% Meat from Monsters
-50	perfecthair	100	meat3	Janus kinase blockers	+5 Stats Per Fight
-51	liver1	40	init3	Glucagon condensate	Increase liver capacity by 3
-52	liver2	50	liver1	Secretin agonist	Increase liver capacity by 3
-53	liver3	60	liver2	Synthetic aldosterone	Increase liver capacity by 3
-54	pureblood	100	liver3	Synthroid-parathormone cocktail	Everything will Look Red for less time
+37	mox1	10	none	Dopamine slurry	Mox +20% 
+38	mox2	20	mox1	Relaxin balm	Mox +30%
+39	mox3	30	mox2	Melatonin suppositories	Mox +50%
+40	kick1	20	mox3	Hamstring-tightening solution	Kick (Delevel)
+41	kick2	30	kick1	Gluteal 4-Androstenediol inection	Improve Kick
+42	kick3	40	kick2	Subcutaneous dimethandrolone implant	Kick (Stun)
+43	punt	100	kick3	Novel catecholamine synthesis	Punt (Banish)
+44	init1	20	mox3	Adrenal decoction	Init +50%
+45	init2	30	init1	Adrenal distillate	Init +50%
+46	init3	40	init2	Concentrated adrenaline extract	Init +100%
+47	meat1	40	init3	Leptin modulator	Meat Drop +25%
+48	meat2	50	meat1	Carnal dehydrogenase infusion	Meat Drop +50%
+49	meat3	60	meat2	Dihydrobenzophenanthridine injection	Meat Drop +75%
+50	perfecthair	100	meat3	Janus kinase blockers	+5 Stats/Fight
+51	liver1	40	init3	Glucagon condensate	Liver +3
+52	liver2	50	liver1	Secretin agonist	Liver +3
+53	liver3	60	liver2	Synthetic aldosterone	Liver +3
+54	pureblood	100	liver3	Synthroid-parathormone cocktail	Shorten ELR
