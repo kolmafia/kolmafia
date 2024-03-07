@@ -20,7 +20,7 @@ acoustic electric eel	736	electriceel.gif	NOWISH Atk: 400 Def: 360 HP: 500 Init:
 albino bat	41	whitebat.gif	Atk: 12 Def: 12 HP: 8 Init: 60 Meat: 20 P: beast Article: an	batgut (10)	bat guano (10)
 Alphabet Giant	176	giant_alphabet.gif	Atk: 145 Def: 130 HP: 150 Init: 80 Meat: 150 P: humanoid Article: an	heavy D (40)	original G (40)
 amateur ninja	716	ninja.gif	Atk: 4 Def: 5 HP: 5 Init: 75 Meat: 20 P: dude Article: an	bargain flash powder (20)	cheap plastic blowgun (10)	third-hand nunchaku (10)
-amok putty	1539	amokputty.gif	Scale: 1 Cap: 89 Floor: 6 Init: 100 P: slime Article: an	amok pudding (0)	amok putter (0)	deactivated putty buddy (0)
+amok putty	1539	amokputty.gif	Scale: 1 Cap: 89 Floor: 6 Init: 100 P: slime Article: an	amok pudding (30)	amok putter (10)	deactivated putty buddy (0)
 ancestral Spookyraven portrait	1554	srpainting1.gif,srpainting2.gif	Atk: 81 Def: 82 HP: 75 Init: 25 P: construct Article: a	painting of a glass of wine (15)	ornate picture frame (15)	ancient oil painting of yourself (5)
 ancient insane monk	534	pebbleman.gif	Atk: 4 Def: 3 HP: 6 Init: 50 P: dude Article: an	Bash-&#332;s cereal (15)	bottle of sake (25)	haiku challenge map (c0)	little round pebble (p55)	Fu Manchu Wax (c0)
 ancient protector spirit	0	protspirit.gif	Atk: 158 Def: 145 HP: 80 Init: 10 P: undead GHOST Phys: 100 EA: spooky

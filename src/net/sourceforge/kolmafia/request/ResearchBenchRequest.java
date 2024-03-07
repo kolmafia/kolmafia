@@ -26,12 +26,8 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ResearchBenchRequest extends GenericRequest {
 
-  // There are hidden skill trees involved. For example, you cannot
-  // research "rend1" until you have researched "mus3",
-  //
-  // I'd like to include that in this record.
-
-  record Research(Integer key, String field, int cost, String parent, String name, String effect)
+  public record Research(
+      Integer key, String field, int cost, String parent, String name, String effect)
       implements Comparable<Research> {
     @Override
     public int compareTo(Research o) {
@@ -42,6 +38,14 @@ public class ResearchBenchRequest extends GenericRequest {
   private static Set<Research> allResearch = new TreeSet<>();
   private static Map<String, Research> fieldToResearch = new HashMap<>();
   private static Set<Research> terminalResearch = new HashSet<>();
+
+  public static Set<Research> allResearch() {
+    return allResearch;
+  }
+
+  public static Research findResearch(final String field) {
+    return fieldToResearch.get(field);
+  }
 
   private static void registerResearch(
       Integer index, String field, int cost, String parent, String name, String effect) {
@@ -227,7 +231,7 @@ public class ResearchBenchRequest extends GenericRequest {
     return research.stream().sorted().map(Research::field).collect(Collectors.joining(","));
   }
 
-  private static Set<Research> loadResearch(String property) {
+  public static Set<Research> loadResearch(String property) {
     String value = Preferences.getString(property);
     return stringToResearchSet(value);
   }
@@ -264,7 +268,7 @@ public class ResearchBenchRequest extends GenericRequest {
 
   // <p>You have 108 research points (rp).
   private static final Pattern RESEARCH_POINTS_PATTERN =
-      Pattern.compile("<p>You have (\\d+) research points \\(rp\\)");
+      Pattern.compile("<p>You have (\\d+) research points? \\(rp\\)");
 
   private static int parseResearchPoints(final String text) {
     Matcher matcher = RESEARCH_POINTS_PATTERN.matcher(text);
@@ -332,6 +336,7 @@ public class ResearchBenchRequest extends GenericRequest {
             + ") for "
             + research.cost()
             + " rp.";
+    RequestLogger.printLine(message);
     RequestLogger.updateSessionLog(message);
   }
 
@@ -359,6 +364,7 @@ public class ResearchBenchRequest extends GenericRequest {
     }
 
     String message = "You spent " + research.cost() + " rp to research " + research.name() + ".";
+    RequestLogger.printLine(message);
     RequestLogger.updateSessionLog(message);
 
     // Normally, ChoiceManager will follow this up with a visitChoice to process the responseText.
