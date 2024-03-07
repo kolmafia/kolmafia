@@ -26,11 +26,6 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ResearchBenchRequest extends GenericRequest {
 
-  // There are hidden skill trees involved. For example, you cannot
-  // research "rend1" until you have researched "mus3",
-  //
-  // I'd like to include that in this record.
-
   public record Research(
       Integer key, String field, int cost, String parent, String name, String effect)
       implements Comparable<Research> {
@@ -273,7 +268,7 @@ public class ResearchBenchRequest extends GenericRequest {
 
   // <p>You have 108 research points (rp).
   private static final Pattern RESEARCH_POINTS_PATTERN =
-      Pattern.compile("<p>You have (\\d+) research points \\(rp\\)");
+      Pattern.compile("<p>You have (\\d+) research points? \\(rp\\)");
 
   private static int parseResearchPoints(final String text) {
     Matcher matcher = RESEARCH_POINTS_PATTERN.matcher(text);
