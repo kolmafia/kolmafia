@@ -841,6 +841,7 @@ public class KoLmafiaCLI {
         .registerSubstring(".php");
     new VolcanoCommand().register("volcano");
     new WaitCommand().register("wait").register("waitq").register("pause");
+    new WereProfessorCommand().register("wereprofessor");
     new WhileStatement().register("while");
     new WikiLookupCommand().register("lookup");
     new WikiMafiaSearchCommand().register("ashwiki");
