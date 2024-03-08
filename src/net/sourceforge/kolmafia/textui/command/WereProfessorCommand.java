@@ -87,6 +87,8 @@ public class WereProfessorCommand extends AbstractCommand {
       }
 
       new ResearchBenchRequest(research.field()).run();
+      rp = Preferences.getInteger("wereProfessorResearchPoints");
+      RequestLogger.printLine("You have " + rp + " Research Points available.");
     }
   }
 

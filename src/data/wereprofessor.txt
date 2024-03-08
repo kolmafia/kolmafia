@@ -23,8 +23,8 @@
 19	myst1	10	none	Galanin precipitate	Myst +20%
 20	myst2	20	myst1	Cortistatin blocker	Myst +30%
 21	myst3	30	myst2	Prolactin inhibitor	Myst +50%
-22	bite1	20	myst3	Fluoride rinse	Bite (Elem)
-23	bite2	30	bite1	Proton pump eliminator	Second Element
+22	bite1	20	myst3	Fluoride rinse	Bite (Stench)
+23	bite2	30	bite1	Proton pump eliminator	Add (Sleaze)
 24	bite3	40	bite2	Bisphosphonate drip	Increase damage
 25	howl	100	bite3	Albuterol innundation	Howl (Stun)
 26	res1	20	myst3	Omega-3 megadose	Resist All +20%
