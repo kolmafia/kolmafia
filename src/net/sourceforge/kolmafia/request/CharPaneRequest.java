@@ -1521,10 +1521,11 @@ public class CharPaneRequest extends GenericRequest {
   }
 
   // <td align=right>Research Points:</td><td align=left><b>74</b></font></td>
+  // <td align=right>Research:</td><td align=left><b>15</b></font></td>
 
   private static final Pattern RP =
       Pattern.compile(
-          "<td align=right>Research Points:</td><td align=left><b>([^<]+)</b></font></td>");
+          "<td align=right>Research(?: Points)?:</td><td align=left><b>([^<]+)</b></font></td>");
 
   public static void checkResearchPoints(final String responseText) {
     if (!KoLCharacter.inWereProfessor()) {

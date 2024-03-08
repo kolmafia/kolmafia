@@ -297,5 +297,16 @@ class CharPaneRequestTest {
         assertThat("wereProfessorResearchPoints", isSetTo(74));
       }
     }
+
+    @Test
+    void canTrackCompactResearchPoints() {
+      var cleanups =
+          new Cleanups(
+              withPath(Path.WEREPROFESSOR), withProperty("wereProfessorResearchPoints", 11));
+      try (cleanups) {
+        CharPaneRequest.processResults(html("request/test_charpane_compact_research.html"));
+        assertThat("wereProfessorResearchPoints", isSetTo(15));
+      }
+    }
   }
 }
