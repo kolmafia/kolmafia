@@ -54,7 +54,7 @@ public class FaxRequestFrame extends GenericFrame {
       panel.add(botPanel);
       this.selectorPanel.addPanel(bot.getName(), panel);
     }
-    this.selectorPanel.setSelectedIndex(0);
+    this.selectorPanel.setSelectedIndex(Preferences.getInteger("faxbots"));
     this.setCenterComponent(this.selectorPanel);
     this.add(new StatusPanel(), BorderLayout.SOUTH);
   }
