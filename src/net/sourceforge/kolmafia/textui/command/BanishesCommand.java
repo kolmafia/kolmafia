@@ -61,7 +61,7 @@ public class BanishesCommand extends AbstractCommand {
       output.append("No current banishes");
     }
 
-    RequestLogger.printLine(output.toString());
+    RequestLogger.printHtml(output.toString());
     RequestLogger.printLine();
   }
 }
