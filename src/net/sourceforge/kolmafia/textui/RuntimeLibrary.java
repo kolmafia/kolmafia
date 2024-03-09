@@ -5196,7 +5196,13 @@ public abstract class RuntimeLibrary {
 
     FaxBotDatabase.configure();
 
-    for (FaxBot bot : FaxBotDatabase.faxbots) {
+    // Get the faxbot the user last looked at
+    int preferedBot = Math.max(Preferences.getInteger("faxbots"), 0);
+
+    // Iterate from 0
+    for (int i = 0; i < FaxBotDatabase.faxbots.size(); i++) {
+      FaxBot bot = FaxBotDatabase.getFaxbot(i + preferedBot);
+
       if (bot == null) {
         continue;
       }
@@ -5207,6 +5213,7 @@ public abstract class RuntimeLibrary {
         return DataTypes.TRUE_VALUE;
       }
     }
+
     return DataTypes.FALSE_VALUE;
   }
 
