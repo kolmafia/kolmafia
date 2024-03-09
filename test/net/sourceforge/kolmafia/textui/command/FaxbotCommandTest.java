@@ -16,6 +16,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class FaxbotCommandTest extends AbstractCommandTestBase {
+  public FaxbotCommandTest() {
+    this.command = "faxbot";
+  }
+
   @BeforeAll
   public static void beforeAll() {
     KoLCharacter.reset("testUser");
@@ -32,10 +36,6 @@ public class FaxbotCommandTest extends AbstractCommandTestBase {
   public void initEach() {
     HttpClientWrapper.setupFakeClient();
     ChoiceManager.handlingChoice = false;
-  }
-
-  public FaxbotCommandTest() {
-    this.command = "faxbot";
   }
 
   @Test
