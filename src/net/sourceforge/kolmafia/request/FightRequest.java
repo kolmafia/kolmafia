@@ -5545,6 +5545,7 @@ public class FightRequest extends GenericRequest {
     public boolean armtowel;
     public boolean pebble;
     public boolean serendipity;
+    public boolean mildManneredProfessor;
 
     public TagStatus() {
       FamiliarData current = KoLCharacter.getFamiliar();
@@ -5637,6 +5638,8 @@ public class FightRequest extends GenericRequest {
 
       this.serendipity =
           KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.SERENDIPITY));
+
+      this.mildManneredProfessor = KoLCharacter.isMildManneredProfessor();
 
       this.ghost = null;
 
@@ -6426,6 +6429,11 @@ public class FightRequest extends GenericRequest {
         }
       }
 
+      // Research Points
+      if (status.mildManneredProfessor) {
+        FightRequest.checkResearchPoints(str, status);
+      }
+
       // Retrospecs
       if (str.contains("notice an item you missed earlier")) {
         FightRequest.logText(str, status);
@@ -6627,6 +6635,10 @@ public class FightRequest extends GenericRequest {
 
     if (inode == null) {
       FightRequest.handleRaver(str, status);
+
+      if (status.mildManneredProfessor) {
+        FightRequest.checkResearchPoints(str, status);
+      }
 
       boolean VYKEAaction = status.VYKEACompanion != null && str.contains(status.VYKEACompanion);
       if (VYKEAaction && status.logFamiliar) {
@@ -7378,6 +7390,34 @@ public class FightRequest extends GenericRequest {
     if (str.contains("crackle")) {
       FightRequest.logText(str);
       VillainLairDecorator.parseColorClue(str);
+      return;
+    }
+  }
+
+  private static void checkResearchPoints(String str, TagStatus status) {
+    // If we had a property that stored monsters we've done Advanced
+    // Research on, we could update it here.
+
+    // You jot down some notes quickly, before the fight starts.
+    if (str.equals("You jot down some notes quickly, before the fight starts.")) {
+      FightRequest.logText("(You gain 1 research point)", status);
+      Preferences.increment("wereProfessorResearchPoints");
+      return;
+    }
+    // Using your fancy oculus, you study you enemy and jot down everything you can about this
+    // particular species.
+    if (str.contains("(You gain 5 research points)")) {
+      FightRequest.logText("(You gain 5 research points)", status);
+      Preferences.increment("wereProfessorResearchPoints", 5);
+      return;
+    }
+    if (str.contains("(You gain 10 research points)")) {
+      FightRequest.logText("(You gain 10 research points)", status);
+      Preferences.increment("wereProfessorResearchPoints", 10);
+      return;
+    }
+    // "You've already researched this particular species in an advanced way."
+    if (str.equals("You've already researched this particular species in an advanced way.")) {
       return;
     }
   }

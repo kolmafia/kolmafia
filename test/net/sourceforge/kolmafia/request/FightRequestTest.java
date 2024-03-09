@@ -15,6 +15,7 @@ import static internal.helpers.Player.withFight;
 import static internal.helpers.Player.withHP;
 import static internal.helpers.Player.withHippyStoneBroken;
 import static internal.helpers.Player.withHttpClientBuilder;
+import static internal.helpers.Player.withIntrinsicEffect;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withLastLocation;
 import static internal.helpers.Player.withNextMonster;
@@ -2639,6 +2640,60 @@ public class FightRequestTest {
       parseCombatData("request/test_fight_dart.html", "fight.php?action=skill&whichskill=7516");
 
       assertThat("dartsThrown", hasIntegerValue(equalTo(17)));
+    }
+  }
+
+  @Nested
+  class ResearchPoints {
+    @Test
+    public void initialResearchIsDetected() {
+      var cleanups =
+          new Cleanups(
+              withPath(Path.WEREPROFESSOR),
+              withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR),
+              withProperty("wereProfessorResearchPoints", 11),
+              withFight(0));
+      try (cleanups) {
+        String html = html("request/test_fight_research_initial.html");
+        String url = "fight.php?ireallymeanit=1709453567";
+        FightRequest.registerRequest(true, url);
+        FightRequest.processResults(null, null, html);
+        assertThat("wereProfessorResearchPoints", isSetTo(12));
+      }
+    }
+
+    @Test
+    public void advancedResearchSuccessIsDetected() {
+      var cleanups =
+          new Cleanups(
+              withPath(Path.WEREPROFESSOR),
+              withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR),
+              withProperty("wereProfessorResearchPoints", 11),
+              withFight(1));
+      try (cleanups) {
+        String html = html("request/test_fight_research_advanced_success.html");
+        String url = "fight.php?whichskill=7512&action=skill";
+        FightRequest.registerRequest(true, url);
+        FightRequest.processResults(null, null, html);
+        assertThat("wereProfessorResearchPoints", isSetTo(21));
+      }
+    }
+
+    @Test
+    public void advancedResearchFailureIsDetected() {
+      var cleanups =
+          new Cleanups(
+              withPath(Path.WEREPROFESSOR),
+              withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR),
+              withProperty("wereProfessorResearchPoints", 11),
+              withFight(1));
+      try (cleanups) {
+        String html = html("request/test_fight_research_advanced_failed.html");
+        String url = "fight.php?whichskill=7512&action=skill";
+        FightRequest.registerRequest(true, url);
+        FightRequest.processResults(null, null, html);
+        assertThat("wereProfessorResearchPoints", isSetTo(11));
+      }
     }
   }
 }

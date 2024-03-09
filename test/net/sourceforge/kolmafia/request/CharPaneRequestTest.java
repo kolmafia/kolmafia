@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.AscensionClass;
-import net.sourceforge.kolmafia.AscensionPath;
+import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.equipment.Slot;
@@ -52,7 +52,7 @@ class CharPaneRequestTest {
   }
 
   @Test
-  void canFindAvatarWithouyCrossorigin() {
+  void canFindAvatarWithoutCrossorigin() {
     KoLCharacter.setAvatar("");
     CharPaneRequest.processResults(html("request/test_charpane_snowsuit.html"));
     var snowCharacterAvatar = KoLCharacter.getAvatar();
@@ -275,12 +275,37 @@ class CharPaneRequestTest {
       var cleanups =
           new Cleanups(
               withClass(AscensionClass.GELATINOUS_NOOB),
-              withPath(AscensionPath.Path.GELATINOUS_NOOB),
+              withPath(Path.GELATINOUS_NOOB),
               withInebriety(0));
 
       try (cleanups) {
         CharPaneRequest.processResults(html("request/test_charpane_drunk_in_gelnoob.html"));
         assertThat(KoLCharacter.getInebriety(), is(1));
+      }
+    }
+  }
+
+  @Nested
+  class ResearchPoints {
+    @Test
+    void canTrackResearchPoints() {
+      var cleanups =
+          new Cleanups(
+              withPath(Path.WEREPROFESSOR), withProperty("wereProfessorResearchPoints", 11));
+      try (cleanups) {
+        CharPaneRequest.processResults(html("request/test_charpane_research.html"));
+        assertThat("wereProfessorResearchPoints", isSetTo(74));
+      }
+    }
+
+    @Test
+    void canTrackCompactResearchPoints() {
+      var cleanups =
+          new Cleanups(
+              withPath(Path.WEREPROFESSOR), withProperty("wereProfessorResearchPoints", 11));
+      try (cleanups) {
+        CharPaneRequest.processResults(html("request/test_charpane_compact_research.html"));
+        assertThat("wereProfessorResearchPoints", isSetTo(15));
       }
     }
   }
