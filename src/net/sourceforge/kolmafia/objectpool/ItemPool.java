@@ -3742,6 +3742,7 @@ public class ItemPool {
   public static final int QUICK_RELEASE_UTILITY_BELT = 11557;
   public static final int MOTION_SENSOR = 11558;
   public static final int FOCUSED_MAGNETRON_PISTOL = 11559;
+  public static final int EVERFULL_DART_HOLSTER = 11561;
   public static final int RESEARCH_FRAGMENT = 11562;
 
   private ItemPool() {}

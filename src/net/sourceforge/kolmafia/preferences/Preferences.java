@@ -274,6 +274,7 @@ public class Preferences {
         "ensorceleeLevel",
         "entauntaunedColdRes",
         "envyfishMonster",
+        "everfullDartPerks",
         "falloutShelterChronoUsed",
         "falloutShelterCoolingTankUsed",
         "familiarSweat",
