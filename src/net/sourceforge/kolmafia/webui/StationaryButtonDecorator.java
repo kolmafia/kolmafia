@@ -474,6 +474,10 @@ public class StationaryButtonDecorator {
       StationaryButtonDecorator.addFightButton(actionBuffer, "steal", FightRequest.canStillSteal());
     }
 
+    if (FightRequest.canPerformAdvancedResearch()) {
+      StationaryButtonDecorator.addFightButton(actionBuffer, "7512", true);
+    }
+
     if (KoLCharacter.isAccordionThief() && buffer.indexOf("Steal Accordion") != -1) {
       StationaryButtonDecorator.addFightButton(actionBuffer, "steal accordion", true);
     }
@@ -716,6 +720,10 @@ public class StationaryButtonDecorator {
               !KoLConstants.activeEffects.contains(EVERYTHING_LOOKS_YELLOW);
           case SkillPool.MOTIF -> isEnabled =
               !KoLConstants.activeEffects.contains(EVERYTHING_LOOKS_BLUE);
+          case SkillPool.ADVANCED_RESEARCH -> {
+            var monster = MonsterStatusTracker.getLastMonster();
+            isEnabled = monster != null && !FightRequest.hasResearchedMonster(monster.getId());
+          }
         }
       }
     }

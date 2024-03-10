@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.webui;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLAdventure;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
@@ -107,6 +108,10 @@ public class FightDecorator {
     if (FightRequest.isSourceAgent(monster)) {
       FightDecorator.decorateSourceAgent(buffer);
       return;
+    }
+
+    if (KoLCharacter.isMildManneredProfessor()) {
+      FightDecorator.decorateAdvancedResearch(monster, buffer);
     }
   }
 
@@ -269,6 +274,33 @@ public class FightDecorator {
         StringUtilities.singleStringDelete(buffer, option.group(0));
       }
     }
+  }
+
+  // <form name=useitem action=fight.php method=post style='display: inline; margin: 0 0.5em 0
+  // 0.5em'><input type=hidden name=whichskill value=7512d><input type=hidden name=action
+  // value="skill"><input class=button type=submit onclick="return killforms(this);" value="Advanced
+  // Research"></form>
+
+  // <form name=useitem action=fight.php method=post style='color=graydisplay: inline; margin: 0
+  // 0.5em 0 0.5em'><input type=hidden name=whichskill value=7512d><input type=hidden name=action
+  // value="skill"><input class=button type=submit onclick="return killforms(this);" value="Advanced
+  // Research"></form>
+
+  private static final Pattern ADVANCED_RESEARCH_BUTTON =
+      Pattern.compile("<form name=useitem.*?value=\"Advanced Research\"></form>", Pattern.DOTALL);
+
+  private static void decorateAdvancedResearch(
+      final MonsterData monster, final StringBuffer buffer) {
+    // Extract the "skill" form from the buffer
+    Matcher matcher = ADVANCED_RESEARCH_BUTTON.matcher(buffer);
+    if (!matcher.find()) {
+      return;
+    }
+    // If we have previously researched this monster, disable the Advanced Research button
+    if (!FightRequest.hasResearchedMonster(monster.getId())) {
+      return;
+    }
+    buffer.delete(matcher.start(), matcher.end());
   }
 
   private static void decorateHauntedKitchen(final StringBuffer buffer) {

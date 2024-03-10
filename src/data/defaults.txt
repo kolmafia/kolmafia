@@ -1640,6 +1640,7 @@ user	warehouseProgress	0
 user	watchedPreferences
 user	waxMonster
 user	welcomeBackAdv	0
+user	wereProfessorAdvancedResearch
 user	wereProfessorBite	0
 user	wereProfessorKick	0
 user	wereProfessorLiver	0

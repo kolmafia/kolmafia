@@ -2652,6 +2652,7 @@ public class FightRequestTest {
               withPath(Path.WEREPROFESSOR),
               withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR),
               withProperty("wereProfessorResearchPoints", 11),
+              withProperty("wereProfessorAdvancedResearch", "1000,10,30,20"),
               withFight(0));
       try (cleanups) {
         String html = html("request/test_fight_research_initial.html");
@@ -2659,6 +2660,7 @@ public class FightRequestTest {
         FightRequest.registerRequest(true, url);
         FightRequest.processResults(null, null, html);
         assertThat("wereProfessorResearchPoints", isSetTo(12));
+        assertThat("wereProfessorAdvancedResearch", isSetTo("1000,10,30,20"));
       }
     }
 
@@ -2669,6 +2671,7 @@ public class FightRequestTest {
               withPath(Path.WEREPROFESSOR),
               withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR),
               withProperty("wereProfessorResearchPoints", 11),
+              withProperty("wereProfessorAdvancedResearch", "1000,10,30,20"),
               withFight(1));
       try (cleanups) {
         String html = html("request/test_fight_research_advanced_success.html");
@@ -2676,6 +2679,7 @@ public class FightRequestTest {
         FightRequest.registerRequest(true, url);
         FightRequest.processResults(null, null, html);
         assertThat("wereProfessorResearchPoints", isSetTo(21));
+        assertThat("wereProfessorAdvancedResearch", isSetTo("10,20,30,539,1000"));
       }
     }
 
@@ -2686,6 +2690,7 @@ public class FightRequestTest {
               withPath(Path.WEREPROFESSOR),
               withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR),
               withProperty("wereProfessorResearchPoints", 11),
+              withProperty("wereProfessorAdvancedResearch", "1000,10,30,20"),
               withFight(1));
       try (cleanups) {
         String html = html("request/test_fight_research_advanced_failed.html");
@@ -2693,6 +2698,7 @@ public class FightRequestTest {
         FightRequest.registerRequest(true, url);
         FightRequest.processResults(null, null, html);
         assertThat("wereProfessorResearchPoints", isSetTo(11));
+        assertThat("wereProfessorAdvancedResearch", isSetTo("10,20,30,539,1000"));
       }
     }
   }
