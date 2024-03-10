@@ -7409,7 +7409,7 @@ public class FightRequest extends GenericRequest {
             .filter(s -> s != null && !s.isEmpty())
             .map(Integer::valueOf)
             .filter(i -> i != 0)
-            .collect(Collectors.toCollection(TreeSet::new));
+            .collect(Collectors.toSet());
     return monsterIds;
   }
 

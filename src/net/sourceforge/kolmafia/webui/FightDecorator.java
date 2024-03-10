@@ -300,11 +300,7 @@ public class FightDecorator {
     if (!FightRequest.hasResearchedMonster(monster.getId())) {
       return;
     }
-    String form = matcher.group(0);
-    String replacement =
-        StringUtilities.singleStringReplace(
-            form, "class=button", " disabled style='color=gray' class=button");
-    buffer.replace(matcher.start(), matcher.end(), replacement);
+    buffer.delete(matcher.start(), matcher.end());
   }
 
   private static void decorateHauntedKitchen(final StringBuffer buffer) {
