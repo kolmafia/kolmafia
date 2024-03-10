@@ -6753,6 +6753,11 @@ public abstract class ChoiceControl {
         // Moonlighting
         handleAfterAvatar(ChoiceManager.lastDecision);
         break;
+
+      case 1525:
+        // Dart Perks
+        InventoryManager.checkDartPerks();
+        break;
     }
   }
 

@@ -16,6 +16,7 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import javax.swing.ImageIcon;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -50,8 +51,12 @@ import net.sourceforge.kolmafia.session.ElVibratoManager;
 import net.sourceforge.kolmafia.session.ElVibratoManager.Punchcard;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.HTMLParserUtils;
 import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+import org.htmlcleaner.HtmlCleaner;
+import org.htmlcleaner.TagNode;
+import org.htmlcleaner.XPatherException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -2342,6 +2347,27 @@ public class ItemDatabase {
           KoLCharacter.addAvailableSkill(SkillPool.PRECISION_SHOT);
         }
         break;
+    }
+  }
+
+  public static void parseDartPerks(final String desc) {
+    if (!desc.contains("Active Perks")) {
+      Preferences.setString("everfullDartPerks", "");
+    } else {
+      HtmlCleaner cleaner = HTMLParserUtils.configureDefaultParser();
+      TagNode doc = cleaner.clean(desc);
+      String xpath = "//ul/li/text()";
+
+      Object[] result;
+      try {
+        result = doc.evaluateXPath(xpath);
+      } catch (XPatherException ex) {
+        // do nothing
+        return;
+      }
+
+      var perks = Arrays.stream(result).map(Object::toString).collect(Collectors.joining(","));
+      Preferences.setString("everfullDartPerks", perks);
     }
   }
 
