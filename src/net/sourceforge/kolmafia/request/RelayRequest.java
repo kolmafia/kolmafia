@@ -44,6 +44,8 @@ import net.sourceforge.kolmafia.modifiers.ModifierList;
 import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
+import net.sourceforge.kolmafia.objectpool.Concoction;
+import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -135,6 +137,7 @@ public class RelayRequest extends PasswordHashRequest {
     MOHAWK_WIG,
     CELLAR,
     BOILER,
+    BOILER2,
     DIARY,
     BORING_DOORS,
     SPELUNKY,
@@ -2119,8 +2122,8 @@ public class RelayRequest extends PasswordHashRequest {
     return true;
   }
 
-  private boolean sendBoilerWarning() {
-    // If it's already confirmed, then track that for the session
+  public boolean sendBoilerWarning() {
+    // If it's already confirmed, then allow it this time.
     if (this.getFormField(Confirm.BOILER) != null) {
       return false;
     }
@@ -2156,12 +2159,70 @@ public class RelayRequest extends PasswordHashRequest {
       return false;
     }
 
-    String message;
+    if (!InventoryManager.hasItem(ItemPool.UNSTABLE_FULMINATE)) {
+      // They don't have it, but perhaps they can make it.
 
-    message =
-        "You are about to adventure in the Haunted Boiler Room, but do not have Unstable Fulminate equipped. If you are sure you want to do this, click on the image to proceed.";
+      // If they don't have the ingredients for unstable fulminate, it's a
+      // problem, but there's nothing we can do about it.
+      Concoction recipe = ConcoctionPool.get(ItemPool.UNSTABLE_FULMINATE);
+      if (!recipe.hasIngredients()) {
+        return false;
+      }
 
-    this.sendGeneralWarning("wine2.gif", message, Confirm.BOILER);
+      // Since unstable fulminate is a fancy concoction, in addition to
+      // the ingredients, they need a dramatic range to create it.
+      if (!KoLCharacter.hasRange()) {
+        return false;
+      }
+
+      // It is possible to make the fulminate, although it will probably
+      // take a turn to do so. Calling InventoryManager.retrieveItem()
+      // will create it and will prompt you that it will take a turn
+
+      StringBuilder buf = new StringBuilder();
+      buf.append(
+          "You are about to adventure in the Haunted Boiler Room, but do not have unstable fulminate equipped.");
+      buf.append(" You don't have that item, but you have the ingredients and could make it.");
+      buf.append(" If you don't want to bother doing this, click the icon on the left to proceed.");
+      buf.append(" If you want to make the fulminate now, click the icon on the right.");
+
+      this.sendOptionalWarning(
+          Confirm.BOILER2,
+          buf.toString(),
+          "hand.gif",
+          "wine2.gif",
+          "\"#\" onClick=\"singleUse('craft.php','action=craft&mode=cook&a="
+              + ItemPool.BOTTLE_OF_CHATEAU_DE_VINEGAR
+              + "&b="
+              + ItemPool.BLASTING_SODA
+              + "&qty=1&pwd="
+              + GenericRequest.passwordHash
+              + "&ajax=1');void(0);\"",
+          null,
+          null);
+
+      return true;
+    }
+
+    // If we get here, unstable fulminate is in inventory.
+    StringBuilder buf = new StringBuilder();
+    buf.append(
+        "You are about to adventure in the Haunted Boiler Room, but do not have unstable fulminate equipped.");
+    buf.append(" If you are sure you want to do this, click the icon on the left to proceed.");
+    buf.append(" If you want to equip the fulminate first, click the icon on the right.");
+
+    this.sendOptionalWarning(
+        Confirm.BOILER,
+        buf.toString(),
+        "hand.gif",
+        "wine2.gif",
+        "\"#\" onClick=\"singleUse('inv_equip.php','which=2&action=equip&whichitem="
+            + ItemPool.UNSTABLE_FULMINATE
+            + "&pwd="
+            + GenericRequest.passwordHash
+            + "&ajax=1');void(0);\"",
+        null,
+        null);
 
     return true;
   }

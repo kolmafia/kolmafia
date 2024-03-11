@@ -831,7 +831,8 @@ public abstract class KoLmafia {
     if (!KoLCharacter.getLimitMode().limitCampground()
         && !KoLCharacter.isEd()
         && !KoLCharacter.inNuclearAutumn()
-        && !KoLCharacter.inRobocore()) {
+        && !KoLCharacter.inRobocore()
+        && !KoLCharacter.inWereProfessor()) {
       KoLmafia.updateDisplay("Retrieving campground data...");
       if (!KoLCharacter.isVampyre()) {
         RequestThread.postRequest(new CampgroundRequest("inspectdwelling"));
