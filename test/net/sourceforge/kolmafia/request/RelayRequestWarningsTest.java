@@ -555,11 +555,9 @@ public class RelayRequestWarningsTest {
     private static final AdventureResult BLASTING_SODA = ItemPool.get(ItemPool.BLASTING_SODA);
     private static final AdventureResult WINE_BOMB = ItemPool.get(ItemPool.WINE_BOMB);
 
-    // xyzzy
-
     @Test
     public void noWarningIfNotInBoilerRoom() {
-      var cleanups = new Cleanups();
+      var cleanups = new Cleanups(withTurnsPlayed(3));
       try (cleanups) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(adventureURL(A_BOO_PEAK, null), false);
@@ -570,9 +568,7 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void noWarningIfSummoningChamberOpen() {
-      var cleanups =
-          new Cleanups(
-              withEquippableItem(UNSTABLE_FULMINATE), withQuestProgress(Quest.MANOR, "step3"));
+      var cleanups = new Cleanups(withTurnsPlayed(2), withQuestProgress(Quest.MANOR, "step3"));
       try (cleanups) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(adventureURL(BOILER_ROOM, null), false);
@@ -583,7 +579,7 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void noWarningIfLightsOutDue() {
-      var cleanups = new Cleanups(withProperty("lastLightsOutTurn", 37), withTurnsPlayed(74));
+      var cleanups = new Cleanups(withTurnsPlayed(74), withProperty("lastLightsOutTurn", 37));
       try (cleanups) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(adventureURL(BOILER_ROOM, null), false);
@@ -593,8 +589,19 @@ public class RelayRequestWarningsTest {
     }
 
     @Test
+    public void noWarningIfVoteMonsterDue() {
+      var cleanups = new Cleanups(withTurnsPlayed(23), withProperty("lastVoteMonsterTurn", 12));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(adventureURL(BOILER_ROOM, null), false);
+        // No warning needed if a Vote Monster is about to appear
+        assertFalse(request.sendBoilerWarning());
+      }
+    }
+
+    @Test
     public void noWarningWithWineBombInInventory() {
-      var cleanups = new Cleanups(withItem(ItemPool.WINE_BOMB));
+      var cleanups = new Cleanups(withTurnsPlayed(2), withItem(ItemPool.WINE_BOMB));
       try (cleanups) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(adventureURL(BOILER_ROOM, null), false);
@@ -605,7 +612,7 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void noWarningIfConfirmed() {
-      var cleanups = new Cleanups();
+      var cleanups = new Cleanups(withTurnsPlayed(2));
       try (cleanups) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(adventureURL(BOILER_ROOM, confirm), false);
@@ -616,7 +623,8 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void noWarningIfUnstableFulminateEquipped() {
-      var cleanups = new Cleanups(withEquipped(Slot.OFFHAND, UNSTABLE_FULMINATE));
+      var cleanups =
+          new Cleanups(withTurnsPlayed(2), withEquipped(Slot.OFFHAND, UNSTABLE_FULMINATE));
       try (cleanups) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(adventureURL(BOILER_ROOM, null), false);
@@ -627,7 +635,7 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void noWarningIfNoFulminateAndMissingIngredients() {
-      var cleanups = new Cleanups();
+      var cleanups = new Cleanups(withTurnsPlayed(2));
       try (cleanups) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(adventureURL(BOILER_ROOM, null), false);
@@ -638,7 +646,9 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void noWarningIfNoFulminateAndNoRange() {
-      var cleanups = new Cleanups(withItem(BOTTLE_OF_CHATEAU_DE_VINEGAR), withItem(BLASTING_SODA));
+      var cleanups =
+          new Cleanups(
+              withTurnsPlayed(2), withItem(BOTTLE_OF_CHATEAU_DE_VINEGAR), withItem(BLASTING_SODA));
       try (cleanups) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(adventureURL(BOILER_ROOM, null), false);
@@ -651,7 +661,10 @@ public class RelayRequestWarningsTest {
     public void warningIfCanMakeFulminate() {
       var cleanups =
           new Cleanups(
-              withRange(), withItem(BOTTLE_OF_CHATEAU_DE_VINEGAR), withItem(BLASTING_SODA));
+              withTurnsPlayed(2),
+              withRange(),
+              withItem(BOTTLE_OF_CHATEAU_DE_VINEGAR),
+              withItem(BLASTING_SODA));
       try (cleanups) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(adventureURL(BOILER_ROOM, null), false);
@@ -667,7 +680,7 @@ public class RelayRequestWarningsTest {
 
     @Test
     public void warningIfEquippableUnstableFulminate() {
-      var cleanups = new Cleanups(withEquippableItem(UNSTABLE_FULMINATE));
+      var cleanups = new Cleanups(withTurnsPlayed(2), withEquippableItem(UNSTABLE_FULMINATE));
       try (cleanups) {
         RelayRequest request = new RelayRequest(false);
         request.constructURLString(adventureURL(BOILER_ROOM, null), false);
