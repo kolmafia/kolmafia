@@ -83,7 +83,8 @@ public class LocketManagerTest {
     assertTrue(buffer.indexOf("<option value=\"553\" >spider gremlin</option>") != -1);
     assertTrue(buffer.indexOf("<option value=\"551\" >vegetable gremlin</option>") != -1);
 
-    LocketManager.decorateMonsterDropdown(buffer);
+    // Ultimately calls LocketManager.decorateMonsterDropdown(buffer);
+    ChoiceAdventures.decorateChoice(1463, buffer, true);
 
     assertTrue(buffer.indexOf("<option value=\"549\" >batwinged gremlin (tool)</option>") != -1);
     assertTrue(buffer.indexOf("<option value=\"547\" >erudite gremlin (tool)</option>") != -1);

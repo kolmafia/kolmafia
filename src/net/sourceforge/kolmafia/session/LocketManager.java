@@ -186,9 +186,11 @@ public class LocketManager {
       int monsterId = Integer.valueOf(matcher.group(1));
       String name = matcher.group(2);
       MonsterData monster = MonsterDatabase.findMonsterById(monsterId);
-      String monsterName = monster.getName();
-      if (monster != null && !name.equals(monsterName)) {
-        buffer.replace(matcher.start(2), matcher.end(2), monsterName);
+      if (monster != null) {
+        String monsterName = monster.getName();
+        if (!name.equals(monsterName)) {
+          buffer.replace(matcher.start(2), matcher.end(2), monsterName);
+        }
       }
     }
   }
