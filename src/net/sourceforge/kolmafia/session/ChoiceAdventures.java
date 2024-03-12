@@ -6521,6 +6521,10 @@ public abstract class ChoiceAdventures {
         // Leading Yourself Right to Them
         ChoiceAdventures.decorateMonsterMap(buffer);
         break;
+      case 1463:
+        // Reminiscing About Those Monsters You Fought
+        LocketManager.decorateMonsterDropdown(buffer);
+        break;
     }
   }
 
