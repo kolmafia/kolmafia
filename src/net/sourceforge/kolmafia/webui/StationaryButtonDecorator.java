@@ -932,6 +932,21 @@ public class StationaryButtonDecorator {
       case 5012: // Disco Face Stab
         name = "facestab";
         break;
+
+      case SkillPool.DART_PART1:
+      case SkillPool.DART_PART2:
+      case SkillPool.DART_PART3:
+      case SkillPool.DART_PART4:
+      case SkillPool.DART_PART5:
+      case SkillPool.DART_PART6:
+      case SkillPool.DART_PART7:
+      case SkillPool.DART_PART8:
+        // Darts: Throw at %part1
+        String part = FightRequest.dartSkillToPart.get(skillId);
+        if (part != null) {
+          name = "darts: throw at " + part;
+        }
+        break;
     }
 
     return name;
