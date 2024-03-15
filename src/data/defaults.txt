@@ -1877,6 +1877,7 @@ user	_dailyDungeonMalwareUsed	false
 user	_dailySpecial
 user	_dailySpecialPrice	0
 user	_darkChocolateHeart	false
+user	_dartsLeft	0
 user	_daycareFights	false
 user	_daycareGymScavenges	0
 user	_daycareNap	false

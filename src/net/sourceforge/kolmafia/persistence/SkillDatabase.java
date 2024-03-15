@@ -708,6 +708,21 @@ public class SkillDatabase {
     };
   }
 
+  public static final boolean isDartSkill(final int skillId) {
+    return switch (skillId) {
+      case SkillPool.DART_PART1,
+          SkillPool.DART_PART2,
+          SkillPool.DART_PART3,
+          SkillPool.DART_PART4,
+          SkillPool.DART_PART5,
+          SkillPool.DART_PART6,
+          SkillPool.DART_PART7,
+          SkillPool.DART_PART8,
+          SkillPool.DART_BULLSEYE -> true;
+      default -> false;
+    };
+  }
+
   /**
    * Determines the cost for next casting of a libram skill
    *
