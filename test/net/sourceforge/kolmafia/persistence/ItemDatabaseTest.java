@@ -1,13 +1,20 @@
 package net.sourceforge.kolmafia.persistence;
 
+import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withProperty;
+import static internal.matchers.Preference.hasStringValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.emptyString;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
 import java.util.EnumSet;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase.Attribute;
+import net.sourceforge.kolmafia.preferences.Preferences;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -93,5 +100,40 @@ public class ItemDatabaseTest {
     assertThat(ItemDatabase.isGiftItem(ItemPool.SEAL_CLUB), is(false));
     assertThat(ItemDatabase.isPasteable(ItemPool.SEAL_CLUB), is(true));
     assertThat(ItemDatabase.isChocolateItem(ItemPool.SEAL_CLUB), is(false));
+  }
+
+  @Nested
+  class EverfullDartPerks {
+    @BeforeEach
+    public void beforeEach() {
+      KoLCharacter.reset("EverfullDartPerks");
+      Preferences.reset("EverfullDartPerks");
+    }
+
+    @Test
+    public void parsesNoPerks() {
+      var cleanups = withProperty("everfullDartPerks", "Throw a second dart quickly");
+
+      try (cleanups) {
+        var response = html("request/test_desc_item_everfull_dart_holster_no_perks.html");
+        ItemDatabase.parseDartPerks(response);
+        assertThat("everfullDartPerks", hasStringValue(equalTo("")));
+      }
+    }
+
+    @Test
+    public void parsesPerks() {
+      var cleanups = withProperty("everfullDartPerks", "");
+
+      try (cleanups) {
+        var response = html("request/test_desc_item_everfull_dart_holster_perks.html");
+        ItemDatabase.parseDartPerks(response);
+        assertThat(
+            "everfullDartPerks",
+            hasStringValue(
+                equalTo(
+                    "Deal 25-50% more damage,You are less impressed by bullseyes,25% Better bullseye targeting,Extra stats from stats targets,Butt awareness,Add Sleaze Damage")));
+      }
+    }
   }
 }

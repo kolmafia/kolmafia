@@ -12,9 +12,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TimeZone;
+import java.util.TreeSet;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
 import net.sourceforge.kolmafia.AreaCombatData;
@@ -846,6 +848,12 @@ public class FightRequest extends GenericRequest {
         && !IslandManager.isBattlefieldMonster()
         && !QuestDatabase.isQuestFinished(QuestDatabase.Quest.ISLAND_WAR)
         && !KoLCharacter.inGLover();
+  }
+
+  public static final boolean canPerformAdvancedResearch() {
+    return KoLCharacter.isMildManneredProfessor()
+        && (KoLCharacter.hasEquipped(ItemPool.BIPHASIC_MOLECULAR_OCULUS)
+            || KoLCharacter.hasEquipped(ItemPool.TRIPHASIC_MOLECULAR_OCULUS));
   }
 
   public static void initializeAfterFight() {
@@ -5545,6 +5553,7 @@ public class FightRequest extends GenericRequest {
     public boolean armtowel;
     public boolean pebble;
     public boolean serendipity;
+    public boolean mildManneredProfessor;
 
     public TagStatus() {
       FamiliarData current = KoLCharacter.getFamiliar();
@@ -5637,6 +5646,8 @@ public class FightRequest extends GenericRequest {
 
       this.serendipity =
           KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.SERENDIPITY));
+
+      this.mildManneredProfessor = KoLCharacter.isMildManneredProfessor();
 
       this.ghost = null;
 
@@ -6426,6 +6437,11 @@ public class FightRequest extends GenericRequest {
         }
       }
 
+      // Research Points
+      if (status.mildManneredProfessor) {
+        FightRequest.checkResearchPoints(str, status);
+      }
+
       // Retrospecs
       if (str.contains("notice an item you missed earlier")) {
         FightRequest.logText(str, status);
@@ -6627,6 +6643,10 @@ public class FightRequest extends GenericRequest {
 
     if (inode == null) {
       FightRequest.handleRaver(str, status);
+
+      if (status.mildManneredProfessor) {
+        FightRequest.checkResearchPoints(str, status);
+      }
 
       boolean VYKEAaction = status.VYKEACompanion != null && str.contains(status.VYKEACompanion);
       if (VYKEAaction && status.logFamiliar) {
@@ -7380,6 +7400,59 @@ public class FightRequest extends GenericRequest {
       VillainLairDecorator.parseColorClue(str);
       return;
     }
+  }
+
+  private static Set<Integer> getAdvancedResearchedMonsters() {
+    String value = Preferences.getString("wereProfessorAdvancedResearch");
+    Set<Integer> monsterIds =
+        Arrays.stream(value.split("\\s*,\\s*"))
+            .filter(s -> s != null && !s.isEmpty())
+            .map(Integer::valueOf)
+            .filter(i -> i != 0)
+            .collect(Collectors.toSet());
+    return monsterIds;
+  }
+
+  public static boolean hasResearchedMonster(int monsterId) {
+    var monsterIds = getAdvancedResearchedMonsters();
+    return monsterIds.contains(monsterId);
+  }
+
+  private static void saveResearchedMonster(Set<Integer> monsterIds, int monsterId) {
+    if (!monsterIds.contains(monsterId)) {
+      monsterIds.add(monsterId);
+      String value =
+          new TreeSet<Integer>(monsterIds)
+              .stream().map(Object::toString).collect(Collectors.joining(","));
+      Preferences.setString("wereProfessorAdvancedResearch", value);
+    }
+  }
+
+  private static void checkResearchPoints(String str, TagStatus status) {
+    // If we had a property that stored monsters we've done Advanced
+    // Research on, we could update it here.
+
+    // You jot down some notes quickly, before the fight starts.
+    if (str.equals("You jot down some notes quickly, before the fight starts.")) {
+      FightRequest.logText("(You gain 1 research point)", status);
+      Preferences.increment("wereProfessorResearchPoints");
+      return;
+    }
+    // Using your fancy oculus, you study you enemy and jot down everything you can about this
+    // particular species.
+    if (str.contains("(You gain 5 research points)")) {
+      FightRequest.logText("(You gain 5 research points)", status);
+      Preferences.increment("wereProfessorResearchPoints", 5);
+    } else if (str.contains("(You gain 10 research points)")) {
+      FightRequest.logText("(You gain 10 research points)", status);
+      Preferences.increment("wereProfessorResearchPoints", 10);
+    }
+    // "You've already researched this particular species in an advanced way."
+    else if (!str.equals("You've already researched this particular species in an advanced way.")) {
+      return;
+    }
+    // We attempted - and maybe succeeded at doing - Advanced Research on this monster
+    saveResearchedMonster(getAdvancedResearchedMonsters(), status.monsterId);
   }
 
   private static void handleLuckyGoldRing(String str, TagStatus status) {

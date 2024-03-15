@@ -654,6 +654,7 @@ user	essenceOfAnnoyanceCost	5000
 user	essenceOfBearAvailable	true
 user	essenceOfBearCost	1000
 user	EVEDirections	LLRLR0
+user	everfullDartPerks
 user	expressCardUsed	false
 user	extraCosmeticModifiers	
 user	extraRolloverAdventures	0
@@ -1640,6 +1641,7 @@ user	warehouseProgress	0
 user	watchedPreferences
 user	waxMonster
 user	welcomeBackAdv	0
+user	wereProfessorAdvancedResearch
 user	wereProfessorBite	0
 user	wereProfessorKick	0
 user	wereProfessorLiver	0

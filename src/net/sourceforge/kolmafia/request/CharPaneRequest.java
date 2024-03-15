@@ -267,6 +267,8 @@ public class CharPaneRequest extends GenericRequest {
 
     CharPaneRequest.checkNoncombatForcers(responseText);
 
+    CharPaneRequest.checkResearchPoints(responseText);
+
     // Mana cost adjustment may have changed
 
     LockableListFactory.sort(KoLConstants.summoningSkills);
@@ -1515,6 +1517,26 @@ public class CharPaneRequest extends GenericRequest {
         Preferences.setString("8BitColor", matcher.group(1));
         Preferences.resetToDefault("8BitBonusTurns");
       }
+    }
+  }
+
+  // <td align=right>Research Points:</td><td align=left><b>74</b></font></td>
+  // <td align=right>Research:</td><td align=left><b>15</b></font></td>
+
+  private static final Pattern RP =
+      Pattern.compile(
+          "<td align=right>Research(?: Points)?:</td><td align=left><b>([^<]+)</b></font></td>");
+
+  public static void checkResearchPoints(final String responseText) {
+    if (!KoLCharacter.inWereProfessor()) {
+      return;
+    }
+
+    Matcher matcher = RP.matcher(responseText);
+
+    if (matcher.find()) {
+      Preferences.setInteger(
+          "wereProfessorResearchPoints", StringUtilities.parseInt(matcher.group(1)));
     }
   }
 
