@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TimeZone;
+import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.function.Function;
 import java.util.regex.Matcher;
@@ -4590,11 +4591,17 @@ public class FightRequest extends GenericRequest {
           "<div class=\"ed_part.*?name=\"whichskill\" value=\"(\\d+)\".*?<button>([^<]+)</button>",
           Pattern.DOTALL);
 
-  public static Map<Integer, String> dartSkillToPart = new HashMap<>();
+  // <small>Click to throw<br>5 darts left</td>
+  private static final Pattern DARTS_LEFT_PATTERN =
+      Pattern.compile("<small>Click to throw<br>(\\d+) darts? left</td>");
+
+  public static Map<Integer, String> dartSkillToPart = new TreeMap<>();
+  public static int dartsLeft = 0;
 
   private static void parseDartboard(final String responseText) {
     // Assume no dart skills are available
     dartSkillToPart.clear();
+    dartsLeft = 0;
 
     if (!responseText.contains("dboard")) {
       return;
@@ -4618,6 +4625,10 @@ public class FightRequest extends GenericRequest {
             .sorted()
             .collect(Collectors.joining(","));
     Preferences.setString("_currentDartboard", value);
+
+    Matcher dartsLeftMatcher = FightRequest.DARTS_LEFT_PATTERN.matcher(responseText);
+    dartsLeft = dartsLeftMatcher.find() ? Integer.valueOf(dartsLeftMatcher.group(1)) : 0;
+    Preferences.setInteger("_dartsLeft", dartsLeft);
   }
 
   public static final void parseCombatItems(String responseText) {
