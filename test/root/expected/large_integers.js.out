@@ -8,5 +8,5 @@
 
 {"value":9007199254740992,"isSafeInteger":false,"asString":"9007199254740992","asKolmafiaString":"9007199254740992.0","stringsEqual":false}
 {"value":11.5,"isSafeInteger":false,"asString":"11.5","asKolmafiaString":"11.5","stringsEqual":true}
-{"value":1.1,"isSafeInteger":false,"asString":"1.1","asKolmafiaString":"1.100000023841858","stringsEqual":false}
-{"value":2147483648.5,"isSafeInteger":false,"asString":"2147483648.5","asKolmafiaString":"2147483648.0","stringsEqual":false}
+{"value":1.1,"isSafeInteger":false,"asString":"1.1","asKolmafiaString":"1.1","stringsEqual":true}
+{"value":2147483648.5,"isSafeInteger":false,"asString":"2147483648.5","asKolmafiaString":"2147483648.5","stringsEqual":true}

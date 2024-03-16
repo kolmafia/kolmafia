@@ -25,10 +25,10 @@ const {print, toString: kolmafiaToString} = require("kolmafia");
 print("");
 
 [
-  9007199254740992, // JavaScript Number.MAX_SAFE_INTEGER + 1, this will not be converted to a long, but to a float
-  11.5, // this will be a float and can be represented
-  1.1, // this will be a float, but is not a real number, so will be weird string in java
-  2147483648.5, // this will be a float but is too large to be represented accurately
+  9007199254740992, // JavaScript Number.MAX_SAFE_INTEGER + 1, this will not be converted to a long, but to a double
+  11.5, // this will be a double
+  1.1, // this will be a double
+  2147483648.5, // this will be a double
 ].forEach((value) => {
   const asString = String(value);
   const asKolmafiaString = kolmafiaToString(value);
