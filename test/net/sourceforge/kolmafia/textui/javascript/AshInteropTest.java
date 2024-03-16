@@ -77,7 +77,7 @@ public class AshInteropTest {
     String testDate = "2023-03-03 00:00:00 -0600";
     String dateFormat = "yyyy-MM-dd HH:mm:ss Z";
     long timeStamp = 1677823200000L;
-    double approx = 1677823180800.0;
+    double approx = 1677823200000.0;
     var js =
         new JavascriptRuntime("dateToTimestamp(\"" + dateFormat + "\" , \"" + testDate + "\")");
     assertNotNull(js, "JavascriptRuntime returned null.");

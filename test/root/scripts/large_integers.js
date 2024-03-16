@@ -11,12 +11,14 @@ const {print, toString: kolmafiaToString} = require("kolmafia");
 ].forEach((value) => {
   const asString = String(value);
   const asKolmafiaString = kolmafiaToString(value);
+  const delimitedString = kolmafiaToString(value, "%,d");
   print(JSON.stringify({
     value,
     isSafeInteger: Number.isSafeInteger(value),
     asString,
     asKolmafiaString,
     stringsEqual: asString === asKolmafiaString,
+    delimitedString,
   }));
 });
 
