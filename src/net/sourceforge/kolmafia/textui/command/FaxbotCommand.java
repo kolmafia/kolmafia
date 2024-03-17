@@ -7,7 +7,6 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.persistence.FaxBotDatabase;
 import net.sourceforge.kolmafia.persistence.FaxBotDatabase.FaxBot;
 import net.sourceforge.kolmafia.persistence.FaxBotDatabase.Monster;
-import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.swingui.FaxRequestFrame;
 
 public class FaxbotCommand extends AbstractCommand {
@@ -21,12 +20,7 @@ public class FaxbotCommand extends AbstractCommand {
 
     boolean tried = false;
 
-    // Get the faxbot the user last looked at
-    int preferedBot = Math.max(Preferences.getInteger("faxbots"), 0);
-
-    // Iterate from 0
-    for (int i = 0; i < FaxBotDatabase.faxbots.size(); i++) {
-      FaxBot bot = FaxBotDatabase.getFaxbot(i + preferedBot);
+    for (FaxBot bot : FaxBotDatabase.getSortedFaxbots()) {
       if (bot == null) {
         continue;
       }

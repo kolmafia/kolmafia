@@ -14,6 +14,8 @@ import net.sourceforge.kolmafia.session.ChoiceManager;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 public class FaxbotCommandTest extends AbstractCommandTestBase {
   public FaxbotCommandTest() {
@@ -39,9 +41,8 @@ public class FaxbotCommandTest extends AbstractCommandTestBase {
   }
 
   @Test
-  void usesPreferedFaxbot() {
-    // Set property to use 2nd registered faxbot
-    var cleanups = new Cleanups(withProperty("faxbots", 1));
+  void doesntErrorUnknownFaxbot() {
+    var cleanups = new Cleanups(withProperty("preferredFaxbot", "$FaxBot$"));
 
     try (cleanups) {
       // Start the process of faxing in a Knob Goblin Embezzler
@@ -49,12 +50,28 @@ public class FaxbotCommandTest extends AbstractCommandTestBase {
 
       var requests = getRequests();
 
-      // The name of the 2nd registered faxbot
-      String expectedFaxbot = FaxBotDatabase.getFaxbot(1).getName();
+      // Assert that the first faxbot we try is a known faxbot
+      assertGetRequest(
+          requests.get(0),
+          "/submitnewchat.php",
+          "pwd=&playerid=0&graf=/whois+" + FaxBotDatabase.getFaxbot(0).getName());
+    }
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = {"CheeseFax", "OnlyFax", "Easyfax"})
+  void usesPreferedFaxbot(String preferredFaxbot) {
+    var cleanups = new Cleanups(withProperty("preferredFaxbot", preferredFaxbot));
+
+    try (cleanups) {
+      // Start the process of faxing in a Knob Goblin Embezzler
+      execute("embezzler");
+
+      var requests = getRequests();
 
       // Assert that the first faxbot we try, is the faxbot that we prefer
       assertGetRequest(
-          requests.get(0), "/submitnewchat.php", "pwd=&playerid=0&graf=/whois+" + expectedFaxbot);
+          requests.get(0), "/submitnewchat.php", "pwd=&playerid=0&graf=/whois+" + preferredFaxbot);
     }
   }
 }

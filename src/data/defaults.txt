@@ -662,6 +662,7 @@ user	falloutShelterCoolingTankUsed	false
 user	falloutShelterLevel	0
 user	familiarScript
 user	familiarSweat	0
+user	faxbots	0
 user	fingernailsClipped	0
 user	fireExtinguisherBatHoleUsed	false
 user	fireExtinguisherChasmUsed	false
@@ -1217,6 +1218,7 @@ user	prayedForGlamour	false
 user	prayedForProtection	false
 user	prayedForVigor	false
 user	preAscensionScript
+user	preferredFaxbot
 user	primaryLabGooIntensity	10
 user	primaryLabCheerCoreGrabbed	false
 user	prismaticSummons	0
