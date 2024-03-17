@@ -105,10 +105,8 @@ public class FaxBotDatabase {
     }
   }
 
-  public static final FaxBot getFaxbot(int i) {
-    i = i % faxbots.size();
-
-    return (i < 0 || i >= faxbots.size()) ? null : FaxBotDatabase.faxbots.get(i);
+  public static final FaxBot getFaxbot(final int i) {
+    return FaxBotDatabase.faxbots.get(Math.max(0, i % faxbots.size()));
   }
 
   public static final FaxBot getFaxbot(final String botName) {
