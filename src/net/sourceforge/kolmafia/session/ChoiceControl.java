@@ -6766,10 +6766,8 @@ public abstract class ChoiceControl {
         // In either case, access to the Tinkering Bench changes
         ConcoctionDatabase.refreshConcoctions();
         // Savage Beast modifiers might have changes
-        if (KoLCharacter.isSavageBeast()) {
-          DebugDatabase.effectDescriptionText(EffectPool.SAVAGE_BEAST);
-        }
-        // In either case, current modifiers have changed.
+        ResultProcessor.updateSavageBeast();
+        // In either direction, current modifiers have changed.
         KoLCharacter.recalculateAdjustments();
         KoLCharacter.updateStatus();
         break;
