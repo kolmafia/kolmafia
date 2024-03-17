@@ -1,12 +1,17 @@
 package net.sourceforge.kolmafia.session;
 
+import static internal.helpers.Networking.assertGetRequest;
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withAscensions;
 import static internal.helpers.Player.withChoice;
 import static internal.helpers.Player.withFamiliar;
+import static internal.helpers.Player.withHandlingChoice;
 import static internal.helpers.Player.withHttpClientBuilder;
+import static internal.helpers.Player.withIntrinsicEffect;
 import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withNoEffects;
+import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withPostChoice1;
 import static internal.helpers.Player.withPostChoice2;
 import static internal.helpers.Player.withProperty;
@@ -19,12 +24,18 @@ import static org.hamcrest.Matchers.is;
 import internal.helpers.Cleanups;
 import internal.helpers.RequestLoggerOutput;
 import internal.network.FakeHttpClientBuilder;
+import java.util.List;
+import java.util.Map;
+import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.PlaceRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -35,7 +46,7 @@ class ChoiceControlTest {
   @BeforeEach
   public void beforeEach() {
     KoLCharacter.reset("ChoiceControlTest");
-    KoLCharacter.reset(true);
+    Preferences.reset("ChoiceControlTest");
   }
 
   @Nested
@@ -546,6 +557,113 @@ class ChoiceControlTest {
         ChoiceManager.visitChoice(req);
 
         assertThat("wereProfessorLiver", isSetTo(wereLiver));
+      }
+    }
+  }
+
+  @Nested
+  class SavageBeast {
+    @Test
+    void canDetectSavageBeastTransformation() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withPath(Path.WEREPROFESSOR),
+              withNoEffects(),
+              withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR),
+              withHandlingChoice(0),
+              withProperty("_savageBeastMods", ""));
+
+      try (cleanups) {
+        client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
+        client.addResponse(200, html("request/test_wereprofessor_contest_booth.html"));
+        client.addResponse(200, "");
+        client.addResponse(200, html("request/test_mild_mannered_professor_contest_booth.html"));
+        client.addResponse(200, html("request/test_savage_beast_effect.html"));
+        client.addResponse(200, "");
+
+        var boothRequest = new PlaceRequest("nstower", "ns_01_contestbooth", true);
+        boothRequest.run();
+
+        assertThat(ChoiceManager.handlingChoice, is(true));
+        assertThat(ChoiceManager.lastChoice, is(1003));
+        assertThat(KoLCharacter.isMildManneredProfessor(), is(true));
+        assertThat(KoLCharacter.isSavageBeast(), is(false));
+
+        var moonRequest = new GenericRequest("choice.php?whichchoice=1003&option=5", true);
+        moonRequest.run();
+
+        assertThat(ChoiceManager.handlingChoice, is(false));
+        assertThat(KoLCharacter.isMildManneredProfessor(), is(false));
+        assertThat(KoLCharacter.isSavageBeast(), is(true));
+        assertThat(
+            "_savageBeastMods",
+            isSetTo(
+                "Combat Rate: +25, Muscle Percent: 100, Maximum HP Percent: 100, Damage Reduction: 90, Mysticality Percent: 100, Hot Resistance: 6, Cold Resistance: 6, Stench Resistance: 6, Sleaze Resistance: 6, Spooky Resistance: 6, Item Drop: 75, Monster Level: 50, Moxie Percent: 100, Initiative: 200, Meat Drop: 150, Experience: +5, HP Regen Min: 9, HP Regen Max: 11"));
+
+        var requests = client.getRequests();
+
+        assertThat(requests, hasSize(6));
+
+        assertPostRequest(
+            requests.get(0), "/place.php", "whichplace=nstower&action=ns_01_contestbooth");
+        assertGetRequest(requests.get(1), "/choice.php", "forceoption=0");
+        assertPostRequest(requests.get(2), "/api.php", "what=status&for=KoLmafia");
+        assertPostRequest(requests.get(3), "/choice.php", "whichchoice=1003&option=5");
+        assertPostRequest(
+            requests.get(4), "/desc_effect.php", "whicheffect=d9cb5591b2638f856456d356f5c4fb0e");
+        assertPostRequest(requests.get(5), "/api.php", "what=status&for=KoLmafia");
+      }
+    }
+
+    @Test
+    void canDetectAlreadySavageBeast() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withPath(Path.WEREPROFESSOR),
+              withNoEffects(),
+              withIntrinsicEffect(EffectPool.SAVAGE_BEAST),
+              withHandlingChoice(0),
+              withProperty(
+                  "_savageBeastMods",
+                  "Combat Rate: +25, Muscle Percent: 100, Maximum HP Percent: 100, Damage Reduction: 90, Mysticality Percent: 100, Hot Resistance: 6, Cold Resistance: 6, Stench Resistance: 6, Sleaze Resistance: 6, Spooky Resistance: 6, Item Drop: 75, Monster Level: 50, Moxie Percent: 100, Initiative: 200, Meat Drop: 150, Experience: +5, HP Regen Min: 9, HP Regen Max: 11"));
+
+      try (cleanups) {
+        client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
+        client.addResponse(200, html("request/test_wereprofessor_contest_booth.html"));
+        client.addResponse(200, "");
+        client.addResponse(200, html("request/test_savage_beast_contest_booth.html"));
+
+        var boothRequest = new PlaceRequest("nstower", "ns_01_contestbooth", true);
+        boothRequest.run();
+
+        assertThat(ChoiceManager.handlingChoice, is(true));
+        assertThat(ChoiceManager.lastChoice, is(1003));
+        assertThat(KoLCharacter.isMildManneredProfessor(), is(false));
+        assertThat(KoLCharacter.isSavageBeast(), is(true));
+
+        var moonRequest = new GenericRequest("choice.php?whichchoice=1003&option=5", true);
+        moonRequest.run();
+
+        assertThat(ChoiceManager.handlingChoice, is(false));
+        assertThat(KoLCharacter.isMildManneredProfessor(), is(false));
+        assertThat(KoLCharacter.isSavageBeast(), is(true));
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(4));
+
+        assertPostRequest(
+            requests.get(0), "/place.php", "whichplace=nstower&action=ns_01_contestbooth");
+        assertGetRequest(requests.get(1), "/choice.php", "forceoption=0");
+        assertPostRequest(requests.get(2), "/api.php", "what=status&for=KoLmafia");
+        assertPostRequest(requests.get(3), "/choice.php", "whichchoice=1003&option=5");
       }
     }
   }

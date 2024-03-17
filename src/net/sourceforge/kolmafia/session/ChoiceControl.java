@@ -6753,7 +6753,7 @@ public abstract class ChoiceControl {
         // You notice the moon shining brightly over the cusp of the
         // tower and feel even farther from your professorial self.
         // Garh, no!
-        if (ChoiceManager.lastDecision != 5 || !KoLCharacter.isMildManneredProfessor()) {
+        if (ChoiceManager.lastDecision != 5) {
           break;
         }
         // Fall through
