@@ -45,9 +45,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import internal.helpers.Cleanups;
 import internal.helpers.RequestLoggerOutput;
 import internal.network.FakeHttpClientBuilder;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLAdventure;
@@ -2652,6 +2655,7 @@ public class FightRequestTest {
               withPath(Path.WEREPROFESSOR),
               withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR),
               withProperty("wereProfessorResearchPoints", 11),
+              withProperty("wereProfessorAdvancedResearch", "1000,10,30,20"),
               withFight(0));
       try (cleanups) {
         String html = html("request/test_fight_research_initial.html");
@@ -2659,6 +2663,7 @@ public class FightRequestTest {
         FightRequest.registerRequest(true, url);
         FightRequest.processResults(null, null, html);
         assertThat("wereProfessorResearchPoints", isSetTo(12));
+        assertThat("wereProfessorAdvancedResearch", isSetTo("1000,10,30,20"));
       }
     }
 
@@ -2669,6 +2674,7 @@ public class FightRequestTest {
               withPath(Path.WEREPROFESSOR),
               withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR),
               withProperty("wereProfessorResearchPoints", 11),
+              withProperty("wereProfessorAdvancedResearch", "1000,10,30,20"),
               withFight(1));
       try (cleanups) {
         String html = html("request/test_fight_research_advanced_success.html");
@@ -2676,6 +2682,7 @@ public class FightRequestTest {
         FightRequest.registerRequest(true, url);
         FightRequest.processResults(null, null, html);
         assertThat("wereProfessorResearchPoints", isSetTo(21));
+        assertThat("wereProfessorAdvancedResearch", isSetTo("10,20,30,539,1000"));
       }
     }
 
@@ -2686,6 +2693,7 @@ public class FightRequestTest {
               withPath(Path.WEREPROFESSOR),
               withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR),
               withProperty("wereProfessorResearchPoints", 11),
+              withProperty("wereProfessorAdvancedResearch", "1000,10,30,20"),
               withFight(1));
       try (cleanups) {
         String html = html("request/test_fight_research_advanced_failed.html");
@@ -2693,6 +2701,56 @@ public class FightRequestTest {
         FightRequest.registerRequest(true, url);
         FightRequest.processResults(null, null, html);
         assertThat("wereProfessorResearchPoints", isSetTo(11));
+        assertThat("wereProfessorAdvancedResearch", isSetTo("10,20,30,539,1000"));
+      }
+    }
+  }
+
+  @Nested
+  class DartHolster {
+    @ParameterizedTest
+    @CsvSource({
+      "six_no_duplicates, junksprite hubcap bender, arm;wing;leg;head;butt;torso",
+      "six_with_duplicates, fruit golem, watermelon;butt;grapes;grapefruit;banana;watermelon",
+      "four_no_duplicates, skullbat, head;wing;butt;torso",
+      "four_with_duplicates, spectral jellyfish, tentacle;head;butt;tentacle"
+    })
+    public void canParseDartboard(String file, String monsterName, String partNames) {
+      var cleanups = new Cleanups(withProperty("_currentDartboard", ""), withFight(0));
+      try (cleanups) {
+        String html = html("request/test_fight_darts_" + file + ".html");
+
+        // Derive expected skills
+
+        // These are the partnames as they are presented in the
+        // particular responseText. KoL seems to start counting them
+        // with skill 7513, although duplicate part names will be
+        // assigned the same (earlier assigned) skill number.
+
+        String[] parts = partNames.split("\\s*;\\s*");
+
+        Map<String, Integer> partMap = new HashMap<>();
+        // Assume/require that the property is sorted by skill ID
+        Map<Integer, String> skillMap = new TreeMap<>();
+        int skillId = 7513;
+
+        for (String part : parts) {
+          if (!partMap.containsKey(part)) {
+            partMap.put(part, skillId);
+            skillMap.put(skillId++, part);
+          }
+        }
+
+        String expected =
+            skillMap.entrySet().stream()
+                .map(e -> String.valueOf(e.getKey()) + ":" + e.getValue())
+                .collect(Collectors.joining(","));
+
+        String url = "fight.php?ireallymeanit=1710016436";
+        FightRequest.registerRequest(true, url);
+        FightRequest.processResults(null, null, html);
+
+        assertThat("_currentDartboard", isSetTo(expected));
       }
     }
   }

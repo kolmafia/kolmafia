@@ -2391,6 +2391,7 @@ public class ItemPool {
   public static final int DETARTRATED_ANHYDROUS_SUBLICALC = 7489;
   public static final int TRIATOMACEOUS_DUST = 7490;
   public static final int BOTTLE_OF_CHATEAU_DE_VINEGAR = 7491;
+  public static final int BLASTING_SODA = 7492;
   public static final int UNSTABLE_FULMINATE = 7493;
   public static final int WINE_BOMB = 7494;
   public static final int MORTAR_DISSOLVING_RECIPE = 7495;
@@ -3742,6 +3743,7 @@ public class ItemPool {
   public static final int QUICK_RELEASE_UTILITY_BELT = 11557;
   public static final int MOTION_SENSOR = 11558;
   public static final int FOCUSED_MAGNETRON_PISTOL = 11559;
+  public static final int EVERFULL_DART_HOLSTER = 11561;
   public static final int RESEARCH_FRAGMENT = 11562;
 
   private ItemPool() {}

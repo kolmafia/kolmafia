@@ -831,7 +831,8 @@ public abstract class KoLmafia {
     if (!KoLCharacter.getLimitMode().limitCampground()
         && !KoLCharacter.isEd()
         && !KoLCharacter.inNuclearAutumn()
-        && !KoLCharacter.inRobocore()) {
+        && !KoLCharacter.inRobocore()
+        && !KoLCharacter.inWereProfessor()) {
       KoLmafia.updateDisplay("Retrieving campground data...");
       if (!KoLCharacter.isVampyre()) {
         RequestThread.postRequest(new CampgroundRequest("inspectdwelling"));
@@ -889,6 +890,9 @@ public abstract class KoLmafia {
 
     // Items that conditionally grant skills
     InventoryManager.checkSkillGrantingEquipment();
+
+    // check dart perks on logon
+    InventoryManager.checkDartPerks();
 
     // Check Horsery if we haven't today
     if (Preferences.getBoolean("horseryAvailable")
