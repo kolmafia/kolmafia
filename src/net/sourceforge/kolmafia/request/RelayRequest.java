@@ -2124,7 +2124,7 @@ public class RelayRequest extends PasswordHashRequest {
   }
 
   public boolean sendBoilerWarning() {
-    // If it's already confirmed, then allow it this time.
+    // If already confirmed, then allow it this time.
     if (this.getFormField(Confirm.BOILER) != null) {
       return false;
     }
@@ -2185,6 +2185,12 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     // They don't have it, but perhaps they can make it.
+
+    // If already confirmed, then allow it this time.
+    if (this.getFormField(Confirm.BOILER2) != null) {
+      return false;
+    }
+
     Concoction recipe = ConcoctionPool.get(ItemPool.UNSTABLE_FULMINATE);
     if (!recipe.hasIngredients()) {
       // If they don't have the ingredients for unstable fulminate, it's a
@@ -2223,6 +2229,12 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     // They don't have a range installed, but perhaps they own one.
+
+    // If already confirmed, then allow it this time.
+    if (this.getFormField(Confirm.BOILER3) != null) {
+      return false;
+    }
+
     if (InventoryManager.getCount(ItemPool.RANGE) > 0) {
       // They have a range in inventory but forgot to install it.
       // We can fix that.

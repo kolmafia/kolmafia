@@ -547,7 +547,6 @@ public class RelayRequestWarningsTest {
     private static final KoLAdventure BOILER_ROOM =
         AdventureDatabase.getAdventureByName("The Haunted Boiler Room");
 
-    private static final Confirm confirm = Confirm.BOILER;
     private static final AdventureResult UNSTABLE_FULMINATE =
         ItemPool.get(ItemPool.UNSTABLE_FULMINATE);
     private static final AdventureResult BOTTLE_OF_CHATEAU_DE_VINEGAR =
@@ -615,7 +614,7 @@ public class RelayRequestWarningsTest {
       var cleanups = new Cleanups(withTurnsPlayed(2));
       try (cleanups) {
         RelayRequest request = new RelayRequest(false);
-        request.constructURLString(adventureURL(BOILER_ROOM, confirm), false);
+        request.constructURLString(adventureURL(BOILER_ROOM, Confirm.BOILER), false);
         // No warning needed if this a resubmission with confirmation
         assertFalse(request.sendBoilerWarning());
       }
@@ -658,6 +657,22 @@ public class RelayRequestWarningsTest {
     }
 
     @Test
+    public void noWarningIfNoMakeConfirmed() {
+      var cleanups =
+          new Cleanups(
+              withTurnsPlayed(2),
+              withRange(),
+              withItem(BOTTLE_OF_CHATEAU_DE_VINEGAR),
+              withItem(BLASTING_SODA));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(adventureURL(BOILER_ROOM, Confirm.BOILER2), false);
+        // No warning needed if this a resubmission with confirmation
+        assertFalse(request.sendBoilerWarning());
+      }
+    }
+
+    @Test
     public void warningIfCanMakeFulminate() {
       var cleanups =
           new Cleanups(
@@ -675,6 +690,22 @@ public class RelayRequestWarningsTest {
                 + " If you don't want to bother doing this, click the icon on the left to proceed."
                 + " If you want to make the fulminate now, click the icon on the right.";
         assertEquals(expected, request.lastWarning);
+      }
+    }
+
+    @Test
+    public void noWarningIfNoInstallConfirmed() {
+      var cleanups =
+          new Cleanups(
+              withTurnsPlayed(2),
+              withItem(ItemPool.RANGE),
+              withItem(BOTTLE_OF_CHATEAU_DE_VINEGAR),
+              withItem(BLASTING_SODA));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(adventureURL(BOILER_ROOM, Confirm.BOILER3), false);
+        // No warning needed if this a resubmission with confirmation
+        assertFalse(request.sendBoilerWarning());
       }
     }
 
