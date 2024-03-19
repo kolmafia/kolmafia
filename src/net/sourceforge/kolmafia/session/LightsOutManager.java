@@ -28,7 +28,9 @@ public class LightsOutManager {
 
   public static boolean lightsOutNow() {
     int totalTurns = KoLCharacter.getTurnsPlayed();
-    return totalTurns % 37 == 0 && Preferences.getInteger("lastLightsOutTurn") != totalTurns;
+    return totalTurns > 0
+        && totalTurns % 37 == 0
+        && Preferences.getInteger("lastLightsOutTurn") != totalTurns;
   }
 
   public static void report() {

@@ -6744,6 +6744,16 @@ public abstract class ChoiceControl {
           break;
         }
 
+      case 1520:
+        // Well, come on
+        // -> Lose Savage Beast and gain Mild-Mannered Professor
+      case 1521:
+        // Turn and face the strange
+        // -> Lose Mild-Mannered Professor and gain Savage Beast
+        // In either case, access to the Tinkering Bench changes
+        ConcoctionDatabase.refreshConcoctions();
+        break;
+
       case 1523:
         // Research Bench
         ResearchBenchRequest.postChoice2(urlString, text);
@@ -6752,6 +6762,11 @@ public abstract class ChoiceControl {
       case 1524:
         // Moonlighting
         handleAfterAvatar(ChoiceManager.lastDecision);
+        break;
+
+      case 1525:
+        // Dart Perks
+        InventoryManager.checkDartPerks();
         break;
     }
   }
