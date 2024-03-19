@@ -1318,4 +1318,106 @@ public class RelayRequestWarningsTest {
       }
     }
   }
+
+  @Nested
+  class WereProfessor {
+    private static final KoLAdventure HIDDEN_HOSPITAL =
+        AdventureDatabase.getAdventureByName("The Hidden Hospital");
+
+    @Test
+    public void noWarningIfAlreadyConfirmed() {
+      var cleanups =
+          new Cleanups(
+              withPath(Path.WEREPROFESSOR),
+              withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR));
+      try (cleanups) {
+        String URL = adventureURL(HIDDEN_HOSPITAL, Confirm.TRANSFORM);
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(URL);
+        assertFalse(request.sendTransformWarning());
+      }
+    }
+
+    @Test
+    public void noWarningIfNotMildManneredProfessor() {
+      var cleanups =
+          new Cleanups(withPath(Path.WEREPROFESSOR), withIntrinsicEffect(EffectPool.SAVAGE_BEAST));
+      try (cleanups) {
+        String URL = adventureURL(HIDDEN_HOSPITAL, null);
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(URL);
+        assertFalse(request.sendTransformWarning());
+      }
+    }
+
+    @Test
+    public void noWarningIfNotAboutToTransform() {
+      var cleanups =
+          new Cleanups(
+              withPath(Path.WEREPROFESSOR),
+              withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR),
+              withProperty("wereProfessorTransformTurns", 2));
+      try (cleanups) {
+        String URL = adventureURL(HIDDEN_HOSPITAL, null);
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(URL);
+        assertFalse(request.sendTransformWarning());
+      }
+    }
+
+    @Test
+    public void noWarningIfNotAdventuring() {
+      var cleanups =
+          new Cleanups(
+              withPath(Path.WEREPROFESSOR),
+              withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR),
+              withProperty("wereProfessorTransformTurns", 1));
+      try (cleanups) {
+        String URL = "shop.php?whichshop=generalstore";
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(URL);
+        assertFalse(request.sendTransformWarning());
+      }
+    }
+
+    @Test
+    public void noWarningIfInsufficientResearchPoints() {
+      var cleanups =
+          new Cleanups(
+              withPath(Path.WEREPROFESSOR),
+              withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR),
+              withProperty("wereProfessorTransformTurns", 1),
+              withProperty("wereProfessorResearchPoints", 50),
+              withProperty("beastSkillsAvailable", "slaughter,howl,hunt,punt"));
+      try (cleanups) {
+        String URL = adventureURL(HIDDEN_HOSPITAL, null);
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(URL);
+        assertFalse(request.sendTransformWarning());
+      }
+    }
+
+    @Test
+    public void warningIfCanResearch() {
+      var cleanups =
+          new Cleanups(
+              withPath(Path.WEREPROFESSOR),
+              withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR),
+              withProperty("wereProfessorTransformTurns", 1),
+              withProperty("wereProfessorResearchPoints", 50),
+              withProperty("beastSkillsAvailable", "rend1,hp3,items3,meat2,pureblood"));
+      try (cleanups) {
+        String URL = adventureURL(HIDDEN_HOSPITAL, null);
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(URL);
+        assertTrue(request.sendTransformWarning());
+        String expected =
+            "You are due to transform into a Savage Beast, but have enough Research Points to learn the following beast skills:"
+                + " rend1, hp3, meat2."
+                + " If you are sure you want to do this, click the icon on the left to proceed."
+                + " If you want to visit your Research Bench, click the icon on the right.";
+        assertEquals(expected, request.lastWarning);
+      }
+    }
+  }
 }

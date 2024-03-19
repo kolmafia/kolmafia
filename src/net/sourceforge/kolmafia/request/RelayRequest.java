@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.DataUtilities;
@@ -63,6 +64,7 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase.Category;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.ResearchBenchRequest.Research;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EquipmentRequirement;
@@ -151,7 +153,8 @@ public class RelayRequest extends PasswordHashRequest {
     RALPH1,
     RALPH2,
     DESERT_WEAPON,
-    SPRING_SHOES;
+    SPRING_SHOES,
+    TRANSFORM;
 
     @Override
     public String toString() {
@@ -2267,6 +2270,66 @@ public class RelayRequest extends PasswordHashRequest {
     return false;
   }
 
+  public boolean sendTransformWarning() {
+    // If already confirmed, then allow it this time.
+    if (this.getFormField(Confirm.TRANSFORM) != null) {
+      return false;
+    }
+
+    // If they are not a Mild-Mannered Professor, no problem
+    if (!KoLCharacter.isMildManneredProfessor()) {
+      return false;
+    }
+
+    // Unless they are about to turn into a Savage Beast, no problem
+    if (Preferences.getInteger("wereProfessorTransformTurns") != 1) {
+      return false;
+    }
+
+    // If they aren't about to adventure, no problem
+    int location = StringUtilities.parseInt(this.getFormField("snarfblat"));
+    if (location == 0) {
+      return false;
+    }
+
+    int rp = Preferences.getInteger("wereProfessorResearchPoints");
+    Set<Research> available = ResearchBenchRequest.loadResearch("beastSkillsAvailable");
+    Set<Research> researchable = new TreeSet<>();
+    for (var research : available) {
+      if (research.cost() <= rp) {
+        researchable.add(research);
+      }
+    }
+
+    // If can't afford to research anything, no problem
+    if (researchable.size() == 0) {
+      return false;
+    }
+
+    StringBuilder buf = new StringBuilder();
+    buf.append(
+        "You are due to transform into a Savage Beast, but have enough Research Points to learn the following beast skills: ");
+    String comma = "";
+    for (var research : researchable) {
+      buf.append(comma);
+      comma = ", ";
+      buf.append(research.field());
+    }
+    buf.append(". If you are sure you want to do this, click the icon on the left to proceed.");
+    buf.append(" If you want to visit your Research Bench, click the icon on the right.");
+
+    this.sendOptionalWarning(
+        Confirm.TRANSFORM,
+        buf.toString(),
+        "hand.gif",
+        "testtube.gif",
+        "\"place.php?whichplace=wereprof_cottage&action=wereprof_researchbench\"",
+        null,
+        null);
+
+    return true;
+  }
+
   private boolean sendDiaryWarning() {
     // If it's already confirmed, then track that for the session
     if (this.getFormField(Confirm.DIARY) != null) {
@@ -3893,6 +3956,10 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     if (this.sendHardcorePVPWarning(urlString)) {
+      return true;
+    }
+
+    if (this.sendTransformWarning()) {
       return true;
     }
 
