@@ -474,8 +474,24 @@ public class StationaryButtonDecorator {
       StationaryButtonDecorator.addFightButton(actionBuffer, "steal", FightRequest.canStillSteal());
     }
 
-    if (FightRequest.canPerformAdvancedResearch()) {
-      StationaryButtonDecorator.addFightButton(actionBuffer, "7512", true);
+    if (KoLCharacter.isMildManneredProfessor()) {
+      if (FightRequest.canPerformAdvancedResearch()) {
+        StationaryButtonDecorator.addFightButton(actionBuffer, "7512", true);
+      }
+
+      if (FightRequest.dartsLeft > 0) {
+        // Mild-Mannered Professors cannot use skills, but they can use
+        // darts.  The darts skills do not appear in availableCombatSkills,
+        // so add the buttons here.
+
+        // Darts: Aim for the Bullseye
+        addFightButton(actionBuffer, "7521", true);
+        for (int skill : FightRequest.dartSkillToPart.keySet()) {
+          addFightButton(actionBuffer, String.valueOf(skill), true);
+        }
+      }
+
+      return;
     }
 
     if (KoLCharacter.isAccordionThief() && buffer.indexOf("Steal Accordion") != -1) {
@@ -708,7 +724,13 @@ public class StationaryButtonDecorator {
       default -> {
         actionBuffer.append("skill&whichskill=").append(action);
         int skillID = StringUtilities.parseInt(action);
-        isEnabled &= KoLCharacter.hasCombatSkill(skillID);
+        // Throwing a dart is a combat skill, but is available to
+        // characters who can't use combat skills
+        if (KoLCharacter.isMildManneredProfessor()) {
+          isEnabled = SkillDatabase.isDartSkill(skillID);
+        } else {
+          isEnabled &= KoLCharacter.hasCombatSkill(skillID);
+        }
         // Some skills cannot be used but KoL does not remove them
         switch (skillID) {
           case SkillPool.LASH_OF_COBRA -> isEnabled = !Preferences.getBoolean("edUsedLash");
@@ -931,6 +953,21 @@ public class StationaryButtonDecorator {
 
       case 5012: // Disco Face Stab
         name = "facestab";
+        break;
+
+      case SkillPool.DART_PART1:
+      case SkillPool.DART_PART2:
+      case SkillPool.DART_PART3:
+      case SkillPool.DART_PART4:
+      case SkillPool.DART_PART5:
+      case SkillPool.DART_PART6:
+      case SkillPool.DART_PART7:
+      case SkillPool.DART_PART8:
+        // Darts: Throw at %part1
+        String part = FightRequest.dartSkillToPart.get(skillId);
+        if (part != null) {
+          name = "darts: throw at " + part;
+        }
         break;
     }
 

@@ -286,26 +286,32 @@ class CharPaneRequestTest {
   }
 
   @Nested
-  class ResearchPoints {
+  class WereProfessor {
     @Test
-    void canTrackResearchPoints() {
+    void canTrackWereProfessorStats() {
       var cleanups =
           new Cleanups(
-              withPath(Path.WEREPROFESSOR), withProperty("wereProfessorResearchPoints", 11));
+              withPath(Path.WEREPROFESSOR),
+              withProperty("wereProfessorResearchPoints", 11),
+              withProperty("wereProfessorTransformTurns", 5));
       try (cleanups) {
         CharPaneRequest.processResults(html("request/test_charpane_research.html"));
         assertThat("wereProfessorResearchPoints", isSetTo(74));
+        assertThat("wereProfessorTransformTurns", isSetTo(25));
       }
     }
 
     @Test
-    void canTrackCompactResearchPoints() {
+    void canTrackCompactWereProfessorStats() {
       var cleanups =
           new Cleanups(
-              withPath(Path.WEREPROFESSOR), withProperty("wereProfessorResearchPoints", 11));
+              withPath(Path.WEREPROFESSOR),
+              withProperty("wereProfessorResearchPoints", 11),
+              withProperty("wereProfessorTransformTurns", 5));
       try (cleanups) {
         CharPaneRequest.processResults(html("request/test_charpane_compact_research.html"));
         assertThat("wereProfessorResearchPoints", isSetTo(15));
+        assertThat("wereProfessorTransformTurns", isSetTo(11));
       }
     }
   }

@@ -551,6 +551,7 @@ public class Preferences {
         "wereProfessorRend",
         "wereProfessorResearchPoints",
         "wereProfessorStomach",
+        "wereProfessorTransformTurns",
         "whetstonesUsed",
         "wildfireBarrelCaulked",
         "wildfireDusted",

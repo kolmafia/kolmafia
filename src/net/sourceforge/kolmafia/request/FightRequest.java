@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TimeZone;
+import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.function.Function;
 import java.util.regex.Matcher;
@@ -1813,6 +1814,7 @@ public class FightRequest extends GenericRequest {
     FightRequest.updateCombatData(urlString, encounter, responseText);
     FightRequest.parseCombatItems(responseText);
     FightRequest.parseAvailableCombatSkills(responseText);
+    FightRequest.parseDartboard(responseText);
 
     // Now that we have processed the page, generated the decorated HTML
     FightRequest.lastDecoratedResponseText =
@@ -4574,6 +4576,59 @@ public class FightRequest extends GenericRequest {
     if (matcher.find()) {
       Preferences.setString("lassoTraining", matcher.group(1));
     }
+  }
+
+  // <div id="dboard" style="position: relative; width: 138px; height: 148px">...</div><small>Click
+  // to throw
+  private static final Pattern DARTBOARD_PATTERN =
+      Pattern.compile("<div id=\"dboard\".*?>(.*?)</div><small>Click to throw", Pattern.DOTALL);
+
+  // <div class="ed_part ed_6_1"><form action="fight.php" method="post"><input type="hidden"
+  // name="action" value="skill"/><input type="hidden" name="whichskill"
+  // value="7513"/><button>watermelon</button></form></div>
+  private static final Pattern DART_PATTERN =
+      Pattern.compile(
+          "<div class=\"ed_part.*?name=\"whichskill\" value=\"(\\d+)\".*?<button>([^<]+)</button>",
+          Pattern.DOTALL);
+
+  // <small>Click to throw<br>5 darts left</td>
+  private static final Pattern DARTS_LEFT_PATTERN =
+      Pattern.compile("<small>Click to throw<br>(\\d+) darts? left</td>");
+
+  public static Map<Integer, String> dartSkillToPart = new TreeMap<>();
+  public static int dartsLeft = 0;
+
+  private static void parseDartboard(final String responseText) {
+    // Assume no dart skills are available
+    dartSkillToPart.clear();
+    dartsLeft = 0;
+
+    if (!responseText.contains("dboard")) {
+      return;
+    }
+
+    Matcher dartboardMatcher = FightRequest.DARTBOARD_PATTERN.matcher(responseText);
+    if (!dartboardMatcher.find()) {
+      return;
+    }
+
+    Matcher dartMatcher = FightRequest.DART_PATTERN.matcher(dartboardMatcher.group(1));
+    while (dartMatcher.find()) {
+      Integer skill = Integer.valueOf(dartMatcher.group(1));
+      String part = dartMatcher.group(2);
+      dartSkillToPart.put(skill, part);
+    }
+
+    String value =
+        dartSkillToPart.entrySet().stream()
+            .map(e -> String.valueOf(e.getKey()) + ":" + e.getValue())
+            .sorted()
+            .collect(Collectors.joining(","));
+    Preferences.setString("_currentDartboard", value);
+
+    Matcher dartsLeftMatcher = FightRequest.DARTS_LEFT_PATTERN.matcher(responseText);
+    dartsLeft = dartsLeftMatcher.find() ? Integer.valueOf(dartsLeftMatcher.group(1)) : 0;
+    Preferences.setInteger("_dartsLeft", dartsLeft);
   }
 
   public static final void parseCombatItems(String responseText) {
