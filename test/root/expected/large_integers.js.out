@@ -1,0 +1,12 @@
+{"value":11,"isSafeInteger":true,"asString":"11","asKolmafiaString":"11","stringsEqual":true,"delimitedString":"11"}
+{"value":11,"isSafeInteger":true,"asString":"11","asKolmafiaString":"11","stringsEqual":true,"delimitedString":"11"}
+{"value":2147483647,"isSafeInteger":true,"asString":"2147483647","asKolmafiaString":"2147483647","stringsEqual":true,"delimitedString":"2,147,483,647"}
+{"value":2147483648,"isSafeInteger":true,"asString":"2147483648","asKolmafiaString":"2147483648","stringsEqual":true,"delimitedString":"2,147,483,648"}
+{"value":2147483648,"isSafeInteger":true,"asString":"2147483648","asKolmafiaString":"2147483648","stringsEqual":true,"delimitedString":"2,147,483,648"}
+{"value":11111111111,"isSafeInteger":true,"asString":"11111111111","asKolmafiaString":"11111111111","stringsEqual":true,"delimitedString":"11,111,111,111"}
+{"value":9007199254740991,"isSafeInteger":true,"asString":"9007199254740991","asKolmafiaString":"9007199254740991","stringsEqual":true,"delimitedString":"9,007,199,254,740,991"}
+
+{"value":9007199254740992,"isSafeInteger":false,"asString":"9007199254740992","asKolmafiaString":"9007199254740992.0","stringsEqual":false}
+{"value":11.5,"isSafeInteger":false,"asString":"11.5","asKolmafiaString":"11.5","stringsEqual":true}
+{"value":1.1,"isSafeInteger":false,"asString":"1.1","asKolmafiaString":"1.1","stringsEqual":true}
+{"value":2147483648.5,"isSafeInteger":false,"asString":"2147483648.5","asKolmafiaString":"2147483648.5","stringsEqual":true}
