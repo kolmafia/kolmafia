@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.DataUtilities;
@@ -63,6 +64,7 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase.Category;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.ResearchBenchRequest.Research;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EquipmentRequirement;
@@ -138,6 +140,7 @@ public class RelayRequest extends PasswordHashRequest {
     CELLAR,
     BOILER,
     BOILER2,
+    BOILER3,
     DIARY,
     BORING_DOORS,
     SPELUNKY,
@@ -150,7 +153,8 @@ public class RelayRequest extends PasswordHashRequest {
     RALPH1,
     RALPH2,
     DESERT_WEAPON,
-    SPRING_SHOES;
+    SPRING_SHOES,
+    TRANSFORM;
 
     @Override
     public String toString() {
@@ -2123,7 +2127,7 @@ public class RelayRequest extends PasswordHashRequest {
   }
 
   public boolean sendBoilerWarning() {
-    // If it's already confirmed, then allow it this time.
+    // If already confirmed, then allow it this time.
     if (this.getFormField(Confirm.BOILER) != null) {
       return false;
     }
@@ -2159,25 +2163,48 @@ public class RelayRequest extends PasswordHashRequest {
       return false;
     }
 
-    if (!InventoryManager.hasItem(ItemPool.UNSTABLE_FULMINATE)) {
-      // They don't have it, but perhaps they can make it.
+    if (InventoryManager.hasItem(ItemPool.UNSTABLE_FULMINATE)) {
+      // They have it, but it is not equipped
+      StringBuilder buf = new StringBuilder();
+      buf.append(
+          "You are about to adventure in the Haunted Boiler Room, but do not have unstable fulminate equipped.");
+      buf.append(" If you are sure you want to do this, click the icon on the left to proceed.");
+      buf.append(" If you want to equip the fulminate first, click the icon on the right.");
 
+      this.sendOptionalWarning(
+          Confirm.BOILER,
+          buf.toString(),
+          "hand.gif",
+          "wine2.gif",
+          "\"#\" onClick=\"singleUse('inv_equip.php','which=2&action=equip&whichitem="
+              + ItemPool.UNSTABLE_FULMINATE
+              + "&pwd="
+              + GenericRequest.passwordHash
+              + "&ajax=1');void(0);\"",
+          null,
+          null);
+
+      return true;
+    }
+
+    // They don't have it, but perhaps they can make it.
+
+    // If already confirmed, then allow it this time.
+    if (this.getFormField(Confirm.BOILER2) != null) {
+      return false;
+    }
+
+    Concoction recipe = ConcoctionPool.get(ItemPool.UNSTABLE_FULMINATE);
+    if (!recipe.hasIngredients()) {
       // If they don't have the ingredients for unstable fulminate, it's a
       // problem, but there's nothing we can do about it.
-      Concoction recipe = ConcoctionPool.get(ItemPool.UNSTABLE_FULMINATE);
-      if (!recipe.hasIngredients()) {
-        return false;
-      }
+      return false;
+    }
 
-      // Since unstable fulminate is a fancy concoction, in addition to
-      // the ingredients, they need a dramatic range to create it.
-      if (!KoLCharacter.hasRange()) {
-        return false;
-      }
-
-      // It is possible to make the fulminate, although it will probably
-      // take a turn to do so. Calling InventoryManager.retrieveItem()
-      // will create it and will prompt you that it will take a turn
+    // They have the ingredients, but do they have a range?
+    if (KoLCharacter.hasRange()) {
+      // They have a range installed and can to make the fulminate
+      // Since it's a fancy recipe, it might take a turn to do so.
 
       StringBuilder buf = new StringBuilder();
       buf.append(
@@ -2204,23 +2231,99 @@ public class RelayRequest extends PasswordHashRequest {
       return true;
     }
 
-    // If we get here, unstable fulminate is in inventory.
+    // They don't have a range installed, but perhaps they own one.
+
+    // If already confirmed, then allow it this time.
+    if (this.getFormField(Confirm.BOILER3) != null) {
+      return false;
+    }
+
+    if (InventoryManager.getCount(ItemPool.RANGE) > 0) {
+      // They have a range in inventory but forgot to install it.
+      // We can fix that.
+
+      StringBuilder buf = new StringBuilder();
+      buf.append(
+          "You are about to adventure in the Haunted Boiler Room, but do not have unstable fulminate equipped.");
+      buf.append(" You don't have that item, but you have the ingredients and could make it.");
+      buf.append(" It requires a Dramatic range, and you own onee, but it is not installed.");
+      buf.append(" If you don't want to bother doing this, click the icon on the left to proceed.");
+      buf.append(
+          " If you want to install the Dramatic range in your kitchen, click the icon on the right.");
+
+      this.sendOptionalWarning(
+          Confirm.BOILER3,
+          buf.toString(),
+          "hand.gif",
+          "oven.gif",
+          "\"#\" onClick=\"singleUse('inv_use.php','which=3&whichitem="
+              + ItemPool.RANGE
+              + "&pwd="
+              + GenericRequest.passwordHash
+              + "&ajax=1');void(0);\"",
+          null,
+          null);
+
+      return true;
+    }
+
+    return false;
+  }
+
+  public boolean sendTransformWarning() {
+    // If already confirmed, then allow it this time.
+    if (this.getFormField(Confirm.TRANSFORM) != null) {
+      return false;
+    }
+
+    // If they are not a Mild-Mannered Professor, no problem
+    if (!KoLCharacter.isMildManneredProfessor()) {
+      return false;
+    }
+
+    // Unless they are about to turn into a Savage Beast, no problem
+    if (Preferences.getInteger("wereProfessorTransformTurns") != 1) {
+      return false;
+    }
+
+    // If they aren't about to adventure, no problem
+    int location = StringUtilities.parseInt(this.getFormField("snarfblat"));
+    if (location == 0) {
+      return false;
+    }
+
+    int rp = Preferences.getInteger("wereProfessorResearchPoints");
+    Set<Research> available = ResearchBenchRequest.loadResearch("beastSkillsAvailable");
+    Set<Research> researchable = new TreeSet<>();
+    for (var research : available) {
+      if (research.cost() <= rp) {
+        researchable.add(research);
+      }
+    }
+
+    // If can't afford to research anything, no problem
+    if (researchable.size() == 0) {
+      return false;
+    }
+
     StringBuilder buf = new StringBuilder();
     buf.append(
-        "You are about to adventure in the Haunted Boiler Room, but do not have unstable fulminate equipped.");
-    buf.append(" If you are sure you want to do this, click the icon on the left to proceed.");
-    buf.append(" If you want to equip the fulminate first, click the icon on the right.");
+        "You are due to transform into a Savage Beast, but have enough Research Points to learn the following beast skills: ");
+    String comma = "";
+    for (var research : researchable) {
+      buf.append(comma);
+      comma = ", ";
+      buf.append(research.field());
+    }
+    buf.append(". If you are sure you want to do this, click the icon on the left to proceed.");
+    buf.append(" If you want to visit your Research Bench, click the icon on the right.");
 
     this.sendOptionalWarning(
-        Confirm.BOILER,
+        Confirm.TRANSFORM,
         buf.toString(),
         "hand.gif",
-        "wine2.gif",
-        "\"#\" onClick=\"singleUse('inv_equip.php','which=2&action=equip&whichitem="
-            + ItemPool.UNSTABLE_FULMINATE
-            + "&pwd="
-            + GenericRequest.passwordHash
-            + "&ajax=1');void(0);\"",
+        "testtube.gif",
+        "\"place.php?whichplace=wereprof_cottage&action=wereprof_researchbench\"",
         null,
         null);
 
@@ -3853,6 +3956,10 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     if (this.sendHardcorePVPWarning(urlString)) {
+      return true;
+    }
+
+    if (this.sendTransformWarning()) {
       return true;
     }
 
