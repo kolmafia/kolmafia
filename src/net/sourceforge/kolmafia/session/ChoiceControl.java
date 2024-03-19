@@ -6744,6 +6744,19 @@ public abstract class ChoiceControl {
           break;
         }
 
+      case 1003:
+        // Test Your Might And Also Test Other Things
+        // If you are in WereProfessor, option 5 is "Look to the Moon".
+        // If you select this as a Mild-Mannered Professor, you change form.
+        // If you are already a Savage Beast:
+        //
+        // You notice the moon shining brightly over the cusp of the
+        // tower and feel even farther from your professorial self.
+        // Garh, no!
+        if (ChoiceManager.lastDecision != 5) {
+          break;
+        }
+        // Fall through
       case 1520:
         // Well, come on
         // -> Lose Savage Beast and gain Mild-Mannered Professor
@@ -6752,6 +6765,11 @@ public abstract class ChoiceControl {
         // -> Lose Mild-Mannered Professor and gain Savage Beast
         // In either case, access to the Tinkering Bench changes
         ConcoctionDatabase.refreshConcoctions();
+        // Savage Beast modifiers might have changes
+        ResultProcessor.updateSavageBeast();
+        // In either direction, current modifiers have changed.
+        KoLCharacter.recalculateAdjustments();
+        KoLCharacter.updateStatus();
         break;
 
       case 1523:

@@ -877,6 +877,7 @@ public abstract class KoLmafia {
     InventoryManager.checkVampireVintnerWine();
     InventoryManager.checkBirdOfTheDay();
     ResultProcessor.updateEntauntauned();
+    ResultProcessor.updateSavageBeast();
     CargoCultistShortsRequest.loadPockets();
 
     // This needs to be checked once, to set the property.
