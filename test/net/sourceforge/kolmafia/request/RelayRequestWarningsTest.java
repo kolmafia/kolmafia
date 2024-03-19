@@ -679,6 +679,28 @@ public class RelayRequestWarningsTest {
     }
 
     @Test
+    public void warningIfCanInstallRange() {
+      var cleanups =
+          new Cleanups(
+              withTurnsPlayed(2),
+              withItem(ItemPool.RANGE),
+              withItem(BOTTLE_OF_CHATEAU_DE_VINEGAR),
+              withItem(BLASTING_SODA));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(adventureURL(BOILER_ROOM, null), false);
+        assertTrue(request.sendBoilerWarning());
+        String expected =
+            "You are about to adventure in the Haunted Boiler Room, but do not have unstable fulminate equipped."
+                + " You don't have that item, but you have the ingredients and could make it."
+                + " It requires a Dramatic range, and you own onee, but it is not installed."
+                + " If you don't want to bother doing this, click the icon on the left to proceed."
+                + " If you want to install the Dramatic range in your kitchen, click the icon on the right.";
+        assertEquals(expected, request.lastWarning);
+      }
+    }
+
+    @Test
     public void warningIfEquippableUnstableFulminate() {
       var cleanups = new Cleanups(withTurnsPlayed(2), withEquippableItem(UNSTABLE_FULMINATE));
       try (cleanups) {

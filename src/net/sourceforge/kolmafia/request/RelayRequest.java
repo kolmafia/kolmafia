@@ -138,6 +138,7 @@ public class RelayRequest extends PasswordHashRequest {
     CELLAR,
     BOILER,
     BOILER2,
+    BOILER3,
     DIARY,
     BORING_DOORS,
     SPELUNKY,
@@ -2159,25 +2160,42 @@ public class RelayRequest extends PasswordHashRequest {
       return false;
     }
 
-    if (!InventoryManager.hasItem(ItemPool.UNSTABLE_FULMINATE)) {
-      // They don't have it, but perhaps they can make it.
+    if (InventoryManager.hasItem(ItemPool.UNSTABLE_FULMINATE)) {
+      // They have it, but it is not equipped
+      StringBuilder buf = new StringBuilder();
+      buf.append(
+          "You are about to adventure in the Haunted Boiler Room, but do not have unstable fulminate equipped.");
+      buf.append(" If you are sure you want to do this, click the icon on the left to proceed.");
+      buf.append(" If you want to equip the fulminate first, click the icon on the right.");
 
+      this.sendOptionalWarning(
+          Confirm.BOILER,
+          buf.toString(),
+          "hand.gif",
+          "wine2.gif",
+          "\"#\" onClick=\"singleUse('inv_equip.php','which=2&action=equip&whichitem="
+              + ItemPool.UNSTABLE_FULMINATE
+              + "&pwd="
+              + GenericRequest.passwordHash
+              + "&ajax=1');void(0);\"",
+          null,
+          null);
+
+      return true;
+    }
+
+    // They don't have it, but perhaps they can make it.
+    Concoction recipe = ConcoctionPool.get(ItemPool.UNSTABLE_FULMINATE);
+    if (!recipe.hasIngredients()) {
       // If they don't have the ingredients for unstable fulminate, it's a
       // problem, but there's nothing we can do about it.
-      Concoction recipe = ConcoctionPool.get(ItemPool.UNSTABLE_FULMINATE);
-      if (!recipe.hasIngredients()) {
-        return false;
-      }
+      return false;
+    }
 
-      // Since unstable fulminate is a fancy concoction, in addition to
-      // the ingredients, they need a dramatic range to create it.
-      if (!KoLCharacter.hasRange()) {
-        return false;
-      }
-
-      // It is possible to make the fulminate, although it will probably
-      // take a turn to do so. Calling InventoryManager.retrieveItem()
-      // will create it and will prompt you that it will take a turn
+    // They have the ingredients, but do they have a range?
+    if (KoLCharacter.hasRange()) {
+      // They have a range installed and can to make the fulminate
+      // Since it's a fancy recipe, it might take a turn to do so.
 
       StringBuilder buf = new StringBuilder();
       buf.append(
@@ -2204,27 +2222,37 @@ public class RelayRequest extends PasswordHashRequest {
       return true;
     }
 
-    // If we get here, unstable fulminate is in inventory.
-    StringBuilder buf = new StringBuilder();
-    buf.append(
-        "You are about to adventure in the Haunted Boiler Room, but do not have unstable fulminate equipped.");
-    buf.append(" If you are sure you want to do this, click the icon on the left to proceed.");
-    buf.append(" If you want to equip the fulminate first, click the icon on the right.");
+    // They don't have a range installed, but perhaps they own one.
+    if (InventoryManager.getCount(ItemPool.RANGE) > 0) {
+      // They have a range in inventory but forgot to install it.
+      // We can fix that.
 
-    this.sendOptionalWarning(
-        Confirm.BOILER,
-        buf.toString(),
-        "hand.gif",
-        "wine2.gif",
-        "\"#\" onClick=\"singleUse('inv_equip.php','which=2&action=equip&whichitem="
-            + ItemPool.UNSTABLE_FULMINATE
-            + "&pwd="
-            + GenericRequest.passwordHash
-            + "&ajax=1');void(0);\"",
-        null,
-        null);
+      StringBuilder buf = new StringBuilder();
+      buf.append(
+          "You are about to adventure in the Haunted Boiler Room, but do not have unstable fulminate equipped.");
+      buf.append(" You don't have that item, but you have the ingredients and could make it.");
+      buf.append(" It requires a Dramatic range, and you own onee, but it is not installed.");
+      buf.append(" If you don't want to bother doing this, click the icon on the left to proceed.");
+      buf.append(
+          " If you want to install the Dramatic range in your kitchen, click the icon on the right.");
 
-    return true;
+      this.sendOptionalWarning(
+          Confirm.BOILER3,
+          buf.toString(),
+          "hand.gif",
+          "oven.gif",
+          "\"#\" onClick=\"singleUse('inv_use.php','which=3&whichitem="
+              + ItemPool.RANGE
+              + "&pwd="
+              + GenericRequest.passwordHash
+              + "&ajax=1');void(0);\"",
+          null,
+          null);
+
+      return true;
+    }
+
+    return false;
   }
 
   private boolean sendDiaryWarning() {
