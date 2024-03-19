@@ -1651,6 +1651,7 @@ user	wereProfessorPoints	0
 user	wereProfessorRend	0
 user	wereProfessorResearchPoints	0
 user	wereProfessorStomach	0
+user	wereProfessorTransformTurns	0
 user	whetstonesUsed	0
 user	wildfireBarrelCaulked	false
 user	wildfireDusted	false
