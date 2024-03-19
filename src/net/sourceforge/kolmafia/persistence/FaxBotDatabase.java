@@ -124,7 +124,7 @@ public class FaxBotDatabase {
 
   public static final List<FaxBot> getSortedFaxbots() {
     // Get preferred faxbot or null
-    FaxBot preferred = getFaxbot(Preferences.getString("preferredFaxbot"));
+    FaxBot preferred = getFaxbot(Preferences.getString("lastSuccessfulFaxbot"));
     // Use original list
     List<FaxBot> list = faxbots;
 

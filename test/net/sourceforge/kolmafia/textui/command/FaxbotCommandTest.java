@@ -42,7 +42,7 @@ public class FaxbotCommandTest extends AbstractCommandTestBase {
 
   @Test
   void doesntErrorUnknownFaxbot() {
-    var cleanups = new Cleanups(withProperty("preferredFaxbot", "$FaxBot$"));
+    var cleanups = new Cleanups(withProperty("lastSuccessfulFaxbot", "$FaxBot$"));
 
     try (cleanups) {
       // Start the process of faxing in a Knob Goblin Embezzler
@@ -60,8 +60,8 @@ public class FaxbotCommandTest extends AbstractCommandTestBase {
 
   @ParameterizedTest
   @ValueSource(strings = {"CheeseFax", "OnlyFax", "Easyfax"})
-  void usesPreferedFaxbot(String preferredFaxbot) {
-    var cleanups = new Cleanups(withProperty("preferredFaxbot", preferredFaxbot));
+  void usesLastSuccessfulFaxbot(String lastFaxbot) {
+    var cleanups = new Cleanups(withProperty("lastSuccessfulFaxbot", lastFaxbot));
 
     try (cleanups) {
       // Start the process of faxing in a Knob Goblin Embezzler
@@ -71,7 +71,7 @@ public class FaxbotCommandTest extends AbstractCommandTestBase {
 
       // Assert that the first faxbot we try, is the faxbot that we prefer
       assertGetRequest(
-          requests.get(0), "/submitnewchat.php", "pwd=&playerid=0&graf=/whois+" + preferredFaxbot);
+          requests.get(0), "/submitnewchat.php", "pwd=&playerid=0&graf=/whois+" + lastFaxbot);
     }
   }
 }
