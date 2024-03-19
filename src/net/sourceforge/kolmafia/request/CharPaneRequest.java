@@ -267,6 +267,8 @@ public class CharPaneRequest extends GenericRequest {
 
     CharPaneRequest.checkNoncombatForcers(responseText);
 
+    CharPaneRequest.checkWereProfessor(responseText);
+
     // Mana cost adjustment may have changed
 
     LockableListFactory.sort(KoLConstants.summoningSkills);
@@ -1515,6 +1517,38 @@ public class CharPaneRequest extends GenericRequest {
         Preferences.setString("8BitColor", matcher.group(1));
         Preferences.resetToDefault("8BitBonusTurns");
       }
+    }
+  }
+
+  // <td align=right>Research Points:</td><td align=left><b>74</b></font></td>
+  // <td align=right>Research:</td><td align=left><b>15</b></font></td>
+
+  private static final Pattern RP =
+      Pattern.compile(
+          "<td align=right>Research(?: Points)?:</td><td align=left><b>([^<]+)</b></font></td>");
+
+  // <td align=right>Until Transform:</td><td align=left><b>25</b></font></td>
+  // <td align=right>Tranform:</td><td align=left><b>11</b></font></td>
+
+  private static final Pattern TRANSFORM =
+      Pattern.compile(
+          "<td align=right>(?:Until )?Trans?form:</td><td align=left><b>([^<]+)</b></font></td>");
+
+  public static void checkWereProfessor(final String responseText) {
+    if (!KoLCharacter.inWereProfessor()) {
+      return;
+    }
+
+    Matcher rmatcher = RP.matcher(responseText);
+    if (rmatcher.find()) {
+      Preferences.setInteger(
+          "wereProfessorResearchPoints", StringUtilities.parseInt(rmatcher.group(1)));
+    }
+
+    Matcher tmatcher = TRANSFORM.matcher(responseText);
+    if (tmatcher.find()) {
+      Preferences.setInteger(
+          "wereProfessorTransformTurns", StringUtilities.parseInt(tmatcher.group(1)));
     }
   }
 

@@ -4,6 +4,7 @@ import java.util.Arrays;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -95,6 +96,15 @@ public class TinkeringBenchRequest extends CreateItemRequest {
     // Attempt to retrieve the ingredients
     if (!this.makeIngredients()) {
       return;
+    }
+
+    // CreateItemRequest makes an outfit Checkpoint in its item creation
+    // loop. If we were wearing an item which we are upgrading, we don't
+    // want it to try to equip it, find it is gone, and try to make
+    // another one. It won't be possible, but its wasted effort and
+    // obfuscates the logging.
+    for (AdventureResult item : this.concoction.getIngredients()) {
+      SpecialOutfit.forgetEquipment(item);
     }
 
     KoLmafia.updateDisplay("Creating 1 " + this.getName() + "...");

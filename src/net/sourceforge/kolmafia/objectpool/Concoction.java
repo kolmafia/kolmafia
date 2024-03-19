@@ -29,6 +29,7 @@ import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.StillSuitRequest;
 import net.sourceforge.kolmafia.request.TinkeringBenchRequest;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 /**
@@ -628,6 +629,15 @@ public class Concoction implements Comparable<Concoction> {
 
   public void setPurchaseRequest(final PurchaseRequest purchaseRequest) {
     this.purchaseRequest = purchaseRequest;
+  }
+
+  public boolean hasIngredients() {
+    for (AdventureResult ingredient : this.ingredientArray) {
+      if (InventoryManager.getCount(ingredient) == 0) {
+        return false;
+      }
+    }
+    return true;
   }
 
   public boolean hasIngredients(final AdventureResult[] ingredients) {

@@ -34,6 +34,8 @@ import net.sourceforge.kolmafia.KoLmafiaGUI;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
+import net.sourceforge.kolmafia.listener.CharacterListener;
+import net.sourceforge.kolmafia.listener.CharacterListenerRegistry;
 import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.modifiers.BitmapModifier;
@@ -94,6 +96,8 @@ public class CompactSidePane extends JPanel implements Runnable {
 
   public CompactSidePane() {
     super(new BorderLayout());
+
+    CharacterListenerRegistry.addCharacterListener(new CharacterListener(this));
 
     JPanel labelPanel, valuePanel, adjustedValuePanel, baseValuePanel;
 

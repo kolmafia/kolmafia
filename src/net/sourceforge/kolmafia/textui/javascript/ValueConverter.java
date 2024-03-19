@@ -193,13 +193,14 @@ public class ValueConverter {
     if (object == null) return null;
     else if (object instanceof Boolean) {
       return DataTypes.makeBooleanValue((Boolean) object);
-    } else if (object instanceof Float || object instanceof Double) {
-      return DataTypes.makeFloatValue(((Number) object).floatValue());
     } else if (object instanceof Byte
         || object instanceof Short
         || object instanceof Integer
-        || object instanceof Long) {
+        || object instanceof Long
+        || object instanceof Double d && JavascriptNumbers.isDoubleSafeInteger(d)) {
       return DataTypes.makeIntValue(((Number) object).longValue());
+    } else if (object instanceof Float || object instanceof Double) {
+      return DataTypes.makeFloatValue(((Number) object).doubleValue());
     } else if (object instanceof String) {
       return DataTypes.makeStringValue((String) object);
     } else if (object instanceof StringBuffer || object instanceof ConsString) {

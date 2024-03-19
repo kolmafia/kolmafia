@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.function.Predicate;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -18,6 +19,7 @@ import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.DebugDatabase;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.LocketRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -169,5 +171,27 @@ public class LocketManager {
     }
 
     RequestThread.postRequest(new LocketRequest());
+  }
+
+  // <option value="552" >spider gremlin</option>
+  // <option value="553" >spider gremlin</option>
+  private static final Pattern MONSTER_PATTERN =
+      Pattern.compile("<option value=\"(\\d+)\".*?>([^<]+)</option>");
+
+  public static void decorateMonsterDropdown(final StringBuffer buffer) {
+    // Called when we have reminisced.
+    // Disambiguate certain monsters
+    Matcher matcher = MONSTER_PATTERN.matcher(buffer);
+    while (matcher.find()) {
+      int monsterId = Integer.valueOf(matcher.group(1));
+      String name = matcher.group(2);
+      MonsterData monster = MonsterDatabase.findMonsterById(monsterId);
+      if (monster != null) {
+        String monsterName = monster.getName();
+        if (!name.equals(monsterName)) {
+          buffer.replace(matcher.start(2), matcher.end(2), monsterName);
+        }
+      }
+    }
   }
 }

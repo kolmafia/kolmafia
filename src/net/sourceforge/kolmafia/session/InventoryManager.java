@@ -1822,6 +1822,15 @@ public abstract class InventoryManager {
     checkItemDescription(id);
   }
 
+  public static void checkDartPerks() {
+    var dartHolster = ItemPool.EVERFULL_DART_HOLSTER;
+    if (!InventoryManager.equippedOrInInventory(ItemPool.get(dartHolster, 1))) {
+      return;
+    }
+
+    checkItemDescription(dartHolster);
+  }
+
   private static final AdventureResult GOLDEN_MR_ACCESSORY =
       ItemPool.get(ItemPool.GOLDEN_MR_ACCESSORY, 1);
 

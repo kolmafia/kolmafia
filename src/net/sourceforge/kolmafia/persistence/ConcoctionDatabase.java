@@ -1680,7 +1680,7 @@ public class ConcoctionDatabase {
     // Cooking is permitted, so long as the person has an oven or a
     // range installed in their kitchen
 
-    if (KoLCharacter.hasOven() || KoLCharacter.hasRange()) {
+    if (KoLCharacter.hasOven() || KoLCharacter.hasRange() || KoLCharacter.inWereProfessor()) {
       permitNoCost(CraftingType.COOK);
     }
     ConcoctionDatabase.EXCUSE.put(CraftingType.COOK, "You cannot cook without an oven or a range.");
@@ -1763,7 +1763,9 @@ public class ConcoctionDatabase {
     // Mixing is permitted, so long as the person has a shaker or a
     // cocktailcrafting kit installed in their kitchen
 
-    if (KoLCharacter.hasShaker() || KoLCharacter.hasCocktailKit()) {
+    if (KoLCharacter.hasShaker()
+        || KoLCharacter.hasCocktailKit()
+        || KoLCharacter.inWereProfessor()) {
       permitNoCost(CraftingType.MIX);
     }
     ConcoctionDatabase.EXCUSE.put(

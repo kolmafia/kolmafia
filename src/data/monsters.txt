@@ -1397,7 +1397,7 @@ shadowboner shadowdagon	2285	aosol_dagon.gif	BOSS NOCOPY Atk: 100 Def: 100 HP: 1
 W. Odah's Shadow	2286	aosol_drawkward.gif	BOSS NOCOPY Atk: 202 Def: 212 HP: 191 Init: 303 P: horror Phys: 80	[2268]Staff of Fats (n100)	cursed stats (100)
 shadow Lord Spookyraven	2287	aosol_lords.gif	BOSS NOCOPY Atk: 180 Def: 180 HP: 200 Init: 1000 P: horror Phys: 80 Article: the	[2286]Eye of Ed (n100)	cursed arcane orb (100)
 corruptor shadow	2288	aosol_spectre.gif	BOSS NOCOPY Atk: 200 Def: 200 HP: 100 Init: 300 P: horror Phys: 100 Article: a	[2180]ancient amulet (n100)	cursed machete (100)
-shadow of groar	2289	aosol_groar.gif	BOSS NOCOPY Atk: 200 Def: 200 HP: 200 Init: 200 P: horror Phys: 100 Article: the	Groar's fur (n100)	cursed blanket (100)
+shadow of Groar	2289	aosol_groar.gif	BOSS NOCOPY Atk: 200 Def: 200 HP: 200 Init: 200 P: horror Phys: 100 Article: the	Groar's fur (n100)	cursed blanket (100)
 shadow of the 1960s	2290	aosol_dude.gif	BOSS NOCOPY Atk: 250 Def: 250 HP: 1000 Init: -10000 P: horror Phys: 100 Article: the	cursed medallion (100)
 shadow of the 1980s	2291	aosol_man.gif	BOSS NOCOPY Atk: 250 Def: 250 HP: 1000 Init: -10000 P: horror Phys: 100 Article: the	cursed medallion (100)
 General Bruise	2292	aosol_bruise.gif	BOSS NOCOPY Atk: 150 Def: 150 HP: 200 Init: 100 P: horror

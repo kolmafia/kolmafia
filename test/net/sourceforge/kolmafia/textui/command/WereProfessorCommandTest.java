@@ -178,6 +178,7 @@ public class WereProfessorCommandTest extends AbstractCommandTestBase {
               output,
               containsString("Researching Janus kinase blockers (perfecthair) for 100 rp."));
           assertThat(output, containsString("You spent 100 rp to research Janus kinase blockers."));
+          assertThat(output, containsString("You have 73 Research Points available."));
 
           assertThat("beastSkillsAvailable", isSetTo("feed,feasting"));
 

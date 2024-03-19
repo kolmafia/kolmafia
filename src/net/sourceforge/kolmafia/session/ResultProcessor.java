@@ -327,6 +327,14 @@ public class ResultProcessor {
     DebugDatabase.readEffectDescriptionText(EffectPool.ENTAUNTAUNED);
   }
 
+  public static void updateSavageBeast() {
+    // Don't bother unless we are currently a Savage Beast.
+    // We'll do this again if we transform into one
+    if (KoLCharacter.isSavageBeast()) {
+      DebugDatabase.effectDescriptionText(EffectPool.SAVAGE_BEAST);
+    }
+  }
+
   public static Pattern EFFECT_TABLE_PATTERN =
       Pattern.compile(
           "<table><tr><td><img[^>]*eff\\(\"(.*?)\"\\)[^>]*>.*?class=effect>(.*?)<b>(.*?)</b>(?:<br>| )?(?:\\((?:duration: )?(\\d+) Adventures?\\))?</td></tr></table>");

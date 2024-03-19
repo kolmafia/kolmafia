@@ -514,15 +514,22 @@ public abstract class SorceressLairManager {
 
     switch (choice) {
       case 1003: // Test Your Might And Also Test Other Things
-        if (option >= 1 && option <= 3) {
-          int challenge = option - 1;
-          String test = challenge == 0 ? "" : Preferences.getString("nsChallenge" + challenge);
-          String description = SorceressLairManager.getChallengeDescription(challenge, test);
-          message = "Registering for the " + description + " Contest";
-        } else if (option == 4) {
-          message = "Claiming your prize";
-        } else {
-          return true;
+        switch (option) {
+          case 1, 2, 3 -> {
+            int challenge = option - 1;
+            String test = challenge == 0 ? "" : Preferences.getString("nsChallenge" + challenge);
+            String description = SorceressLairManager.getChallengeDescription(challenge, test);
+            message = "Registering for the " + description + " Contest";
+          }
+          case 4 -> {
+            message = "Claiming your prize";
+          }
+          case 5 -> {
+            message = "Looking at the Moon";
+          }
+          default -> {
+            return true;
+          }
         }
         RequestLogger.printLine(message);
         RequestLogger.updateSessionLog(message);
