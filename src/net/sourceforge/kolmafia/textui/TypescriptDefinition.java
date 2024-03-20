@@ -22,6 +22,7 @@ import net.sourceforge.kolmafia.textui.parsetree.Function;
 import net.sourceforge.kolmafia.textui.parsetree.LibraryFunction;
 import net.sourceforge.kolmafia.textui.parsetree.RecordType;
 import net.sourceforge.kolmafia.textui.parsetree.Type;
+import net.sourceforge.kolmafia.textui.parsetree.VarArgType;
 import net.sourceforge.kolmafia.textui.parsetree.VariableReference;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -85,6 +86,13 @@ public class TypescriptDefinition {
           DataTypes.SLOT_TYPE,
           DataTypes.THRALL_TYPE);
 
+  private static List<Boolean> getVariadicParams(Function f) {
+    return f.getVariableReferences().stream()
+        .map(VariableReference::getRawType)
+        .map(type -> type instanceof VarArgType)
+        .collect(Collectors.toList());
+  }
+
   private static List<String> getParamTypes(Function f) {
     var paramTypes =
         f.getVariableReferences().stream()
@@ -128,10 +136,15 @@ public class TypescriptDefinition {
     var paramTypes = getParamTypes(f);
     var overrideKey = String.format("%s[%s]", name, String.join(",", paramTypes));
     var paramNames = descriptiveParamNames.getOrDefault(overrideKey, f.getParameterNames());
+    var variadicParams = getVariadicParams(f);
 
     var params =
         IntStream.range(0, paramNames.size())
-            .mapToObj(i -> String.format("%s: %s", paramNames.get(i), paramTypes.get(i)))
+            .mapToObj(
+                i ->
+                    variadicParams.get(i)
+                        ? String.format("...%s: %s", paramNames.get(i), paramTypes.get(i))
+                        : String.format("%s: %s", paramNames.get(i), paramTypes.get(i)))
             .collect(Collectors.joining(", "));
 
     var deprecationWarning =

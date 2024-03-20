@@ -2181,7 +2181,7 @@ public class EquipmentManager {
   }
 
   public static final boolean meetsStatRequirements(final int itemId) {
-    if (KoLCharacter.inSmallcore()) {
+    if (KoLCharacter.inSmallcore() || KoLCharacter.isMildManneredProfessor()) {
       // stat requirements are ignored
       return true;
     }
