@@ -5204,7 +5204,8 @@ public abstract class RuntimeLibrary {
 
     FaxBotDatabase.configure();
 
-    for (FaxBot bot : FaxBotDatabase.faxbots) {
+    for (FaxBot bot : FaxBotDatabase.getSortedFaxbots()) {
+
       if (bot == null) {
         continue;
       }
@@ -5215,6 +5216,7 @@ public abstract class RuntimeLibrary {
         return DataTypes.TRUE_VALUE;
       }
     }
+
     return DataTypes.FALSE_VALUE;
   }
 
