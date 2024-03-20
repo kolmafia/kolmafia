@@ -6,6 +6,7 @@ import static internal.helpers.Player.withProperty;
 
 import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
+import java.util.stream.Stream;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.persistence.FaxBotDatabase;
@@ -15,7 +16,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.jupiter.params.provider.MethodSource;
 
 public class FaxbotCommandTest extends AbstractCommandTestBase {
   public FaxbotCommandTest() {
@@ -58,8 +59,12 @@ public class FaxbotCommandTest extends AbstractCommandTestBase {
     }
   }
 
+  static Stream<String> provideFaxbotNames() {
+    return FaxBotDatabase.faxbots.stream().map(FaxBotDatabase.FaxBot::getName);
+  }
+
   @ParameterizedTest
-  @ValueSource(strings = {"CheeseFax", "OnlyFax", "Easyfax"})
+  @MethodSource("provideFaxbotNames")
   void usesLastSuccessfulFaxbot(String lastFaxbot) {
     var cleanups = new Cleanups(withProperty("lastSuccessfulFaxbot", lastFaxbot));
 
@@ -69,7 +74,7 @@ public class FaxbotCommandTest extends AbstractCommandTestBase {
 
       var requests = getRequests();
 
-      // Assert that the first faxbot we try, is the faxbot that we prefer
+      // Assert that the first faxbot we try, is the faxbot that was last successful
       assertGetRequest(
           requests.get(0), "/submitnewchat.php", "pwd=&playerid=0&graf=/whois+" + lastFaxbot);
     }
