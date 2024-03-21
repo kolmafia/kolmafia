@@ -2996,6 +2996,14 @@ public abstract class RuntimeLibrary {
 
     params = new Type[] {DataTypes.MONSTER_TYPE};
     functions.add(new LibraryFunction("string_fact", DataTypes.STRING_TYPE, params));
+
+    params = new Type[] {};
+    functions.add(
+        new LibraryFunction("dart_parts_to_skills", DataTypes.STRING_TO_SKILL_TYPE, params));
+
+    params = new Type[] {};
+    functions.add(
+        new LibraryFunction("dart_skills_to_parts", DataTypes.SKILL_TO_STRING_TYPE, params));
   }
 
   public static Method findMethod(final String name, final Class<?>[] args)
@@ -5196,7 +5204,8 @@ public abstract class RuntimeLibrary {
 
     FaxBotDatabase.configure();
 
-    for (FaxBot bot : FaxBotDatabase.faxbots) {
+    for (FaxBot bot : FaxBotDatabase.getSortedFaxbots()) {
+
       if (bot == null) {
         continue;
       }
@@ -5207,6 +5216,7 @@ public abstract class RuntimeLibrary {
         return DataTypes.TRUE_VALUE;
       }
     }
+
     return DataTypes.FALSE_VALUE;
   }
 
@@ -10555,5 +10565,39 @@ public abstract class RuntimeLibrary {
         DataTypes.makeClassValue(KoLCharacter.getAscensionClass(), true),
         DataTypes.makePathValue(KoLCharacter.getPath()),
         monster);
+  }
+
+  public static Value dart_parts_to_skills(ScriptRuntime controller) {
+    MapValue value = new MapValue(DataTypes.STRING_TO_SKILL_TYPE);
+
+    String[] darts = Preferences.getString("_currentDartboard").split("\\s*,\\s*");
+    for (String dart : darts) {
+      int colon = dart.indexOf(":");
+      if (colon != -1) {
+        int skillId = StringUtilities.parseInt(dart.substring(0, colon));
+        Value skill = DataTypes.makeSkillValue(skillId, true);
+        Value part = new Value(dart.substring(colon + 1));
+        value.aset(part, skill);
+      }
+    }
+
+    return value;
+  }
+
+  public static Value dart_skills_to_parts(ScriptRuntime controller) {
+    MapValue value = new MapValue(DataTypes.SKILL_TO_STRING_TYPE);
+
+    String[] darts = Preferences.getString("_currentDartboard").split("\\s*,\\s*");
+    for (String dart : darts) {
+      int colon = dart.indexOf(":");
+      if (colon != -1) {
+        int skillId = StringUtilities.parseInt(dart.substring(0, colon));
+        Value skill = DataTypes.makeSkillValue(skillId, true);
+        Value part = new Value(dart.substring(colon + 1));
+        value.aset(skill, part);
+      }
+    }
+
+    return value;
   }
 }

@@ -474,26 +474,6 @@ public class StationaryButtonDecorator {
       StationaryButtonDecorator.addFightButton(actionBuffer, "steal", FightRequest.canStillSteal());
     }
 
-    if (KoLCharacter.isMildManneredProfessor()) {
-      if (FightRequest.canPerformAdvancedResearch()) {
-        StationaryButtonDecorator.addFightButton(actionBuffer, "7512", true);
-      }
-
-      if (FightRequest.dartsLeft > 0) {
-        // Mild-Mannered Professors cannot use skills, but they can use
-        // darts.  The darts skills do not appear in availableCombatSkills,
-        // so add the buttons here.
-
-        // Darts: Aim for the Bullseye
-        addFightButton(actionBuffer, "7521", true);
-        for (int skill : FightRequest.dartSkillToPart.keySet()) {
-          addFightButton(actionBuffer, String.valueOf(skill), true);
-        }
-      }
-
-      return;
-    }
-
     if (KoLCharacter.isAccordionThief() && buffer.indexOf("Steal Accordion") != -1) {
       StationaryButtonDecorator.addFightButton(actionBuffer, "steal accordion", true);
     }
@@ -550,6 +530,26 @@ public class StationaryButtonDecorator {
     if (!inBirdForm && FightRequest.canRockFlyer()) {
       boolean enabled = FightRequest.getCurrentRound() > 0;
       StationaryButtonDecorator.addFightButton(actionBuffer, "rock flyer", enabled);
+    }
+
+    if (KoLCharacter.isMildManneredProfessor()) {
+      if (FightRequest.canPerformAdvancedResearch()) {
+        StationaryButtonDecorator.addFightButton(actionBuffer, "7512", true);
+      }
+
+      if (FightRequest.dartsLeft > 0) {
+        // Mild-Mannered Professors cannot use skills, but they can use
+        // darts.  The darts skills do not appear in availableCombatSkills,
+        // so add the buttons here.
+
+        // Darts: Aim for the Bullseye
+        addFightButton(actionBuffer, "7521", true);
+        for (int skill : FightRequest.dartSkillToPart.keySet()) {
+          addFightButton(actionBuffer, String.valueOf(skill), true);
+        }
+      }
+
+      return;
     }
 
     int buttons = Preferences.getInteger("relaySkillButtonCount");

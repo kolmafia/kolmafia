@@ -21,6 +21,7 @@ import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.swingui.FaxRequestFrame;
 import net.sourceforge.kolmafia.utilities.CharacterEntities;
@@ -105,7 +106,7 @@ public class FaxBotDatabase {
   }
 
   public static final FaxBot getFaxbot(final int i) {
-    return (i < 0 || i >= faxbots.size()) ? null : FaxBotDatabase.faxbots.get(i);
+    return FaxBotDatabase.faxbots.get(Math.max(0, i % faxbots.size()));
   }
 
   public static final FaxBot getFaxbot(final String botName) {
@@ -121,9 +122,23 @@ public class FaxBotDatabase {
     return null;
   }
 
-  public static final String botName(final int i) {
-    FaxBot bot = FaxBotDatabase.getFaxbot(i);
-    return bot == null ? null : bot.name;
+  public static final List<FaxBot> getSortedFaxbots() {
+    // Get preferred faxbot or null
+    FaxBot preferred = getFaxbot(Preferences.getString("lastSuccessfulFaxbot"));
+    // Use original list
+    List<FaxBot> list = faxbots;
+
+    // If faxbot is in the list and isn't the first entry
+    if (faxbots.indexOf(preferred) > 0) {
+      // Clone list to maintain original faxbot order
+      list = new ArrayList<>(faxbots);
+
+      // Re-add at first index of list
+      list.remove(preferred);
+      list.add(0, preferred);
+    }
+
+    return list;
   }
 
   public static class BotData {
