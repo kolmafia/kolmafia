@@ -1,0 +1,4845 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faxbot>
+<botdata>
+<name>CheeseFax</name>
+<playerid>3038166</playerid>
+</botdata>
+<monsterlist>
+<monsterdata>
+<name>Mob Penguin hitpenguin</name>
+<actual_name>Mob Penguin hitpenguin</actual_name>
+<command>Mob Penguin hitpenguin</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Mob Penguin psychopath</name>
+<actual_name>Mob Penguin psychopath</actual_name>
+<command>Mob Penguin psychopath</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Striking Pencil-Pusher Elf</name>
+<actual_name>Striking Pencil-Pusher Elf</actual_name>
+<command>Striking Pencil-Pusher Elf</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>hunter-gatherer cave elf</name>
+<actual_name>hunter-gatherer cave elf</actual_name>
+<command>hunter-gatherer cave elf</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Mob Penguin enforcer</name>
+<actual_name>Mob Penguin enforcer</actual_name>
+<command>Mob Penguin enforcer</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>rock-banging cave elf</name>
+<actual_name>rock-banging cave elf</actual_name>
+<command>rock-banging cave elf</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Zombie Clown</name>
+<actual_name>Zombie Clown</actual_name>
+<command>Zombie Clown</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>stomper stomping</name>
+<actual_name>stomper stomping</actual_name>
+<command>stomper stomping</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Striking Middle-Management Elf</name>
+<actual_name>Striking Middle-Management Elf</actual_name>
+<command>Striking Middle-Management Elf</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Mob Penguin goon</name>
+<actual_name>Mob Penguin goon</actual_name>
+<command>Mob Penguin goon</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Striking Stocking-Stuffer Elf</name>
+<actual_name>Striking Stocking-Stuffer Elf</actual_name>
+<command>Striking Stocking-Stuffer Elf</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Striking Gift-Wrapper Elf</name>
+<actual_name>Striking Gift-Wrapper Elf</actual_name>
+<command>Striking Gift-Wrapper Elf</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Decal-Applying Elfborg</name>
+<actual_name>Decal-Applying Elfborg</actual_name>
+<command>Decal-Applying Elfborg</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Rudolph the Red</name>
+<actual_name>Rudolph the Red</actual_name>
+<command>Rudolph the Red</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Arc-Welding Elfborg</name>
+<actual_name>Arc-Welding Elfborg</actual_name>
+<command>Arc-Welding Elfborg</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Striking Factory-Worker Elf</name>
+<actual_name>Striking Factory-Worker Elf</actual_name>
+<command>Striking Factory-Worker Elf</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Zeppo, the Reindeer</name>
+<actual_name>Zeppo, the Reindeer</actual_name>
+<command>Zeppo, the Reindeer</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>laser lancing</name>
+<actual_name>laser lancing</actual_name>
+<command>laser lancing</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Gnollish Sorceress</name>
+<actual_name>Gnollish Sorceress</actual_name>
+<command>Gnollish Sorceress</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>sinew-stretching cave elf</name>
+<actual_name>sinew-stretching cave elf</actual_name>
+<command>sinew-stretching cave elf</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>mutant whistle-carving elf</name>
+<actual_name>mutant whistle-carving elf</actual_name>
+<command>mutant whistle-carving elf</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>gift-wrapping vampire</name>
+<actual_name>gift-wrapping vampire</actual_name>
+<command>gift-wrapping vampire</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>swarm a-swarming</name>
+<actual_name>swarm a-swarming</actual_name>
+<command>swarm a-swarming</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>War Frat Mobile Grill Unit</name>
+<actual_name>War Frat Mobile Grill Unit</actual_name>
+<command>War Frat Mobile Grill Unit</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>zombie hippy</name>
+<actual_name>zombie hippy</actual_name>
+<command>zombie hippy</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Cookie-baking Thing from Beyond Time</name>
+<actual_name>Cookie-baking Thing from Beyond Time</actual_name>
+<command>Cookie-baking Thing from Beyond Time</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>depressing French accordionist</name>
+<actual_name>depressing French accordionist</actual_name>
+<command>depressing French accordionist</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Sneezy, the Reindeer</name>
+<actual_name>Sneezy, the Reindeer</actual_name>
+<command>Sneezy, the Reindeer</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>lively Cajun accordionist</name>
+<actual_name>lively Cajun accordionist</actual_name>
+<command>lively Cajun accordionist</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>fantasy bandit</name>
+<actual_name>fantasy bandit</actual_name>
+<command>fantasy bandit</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Grumpy, the Reindeer</name>
+<actual_name>Grumpy, the Reindeer</actual_name>
+<command>Grumpy, the Reindeer</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Red Fox</name>
+<actual_name>Red Fox</actual_name>
+<command>Red Fox</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>strangler strangling</name>
+<actual_name>strangler strangling</actual_name>
+<command>strangler strangling</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>sausage goblin</name>
+<actual_name>sausage goblin</actual_name>
+<command>sausage goblin</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Green Ops Soldier</name>
+<actual_name>Green Ops Soldier</actual_name>
+<command>Green Ops Soldier</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>toothless mastiff bitch</name>
+<actual_name>toothless mastiff bitch</actual_name>
+<command>toothless mastiff bitch</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Zombie N00b</name>
+<actual_name>Zombie N00b</actual_name>
+<command>Zombie N00b</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Adventurer echo</name>
+<actual_name>Adventurer echo</actual_name>
+<command>Adventurer echo</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>death ray in a pear tree</name>
+<actual_name>death ray in a pear tree</actual_name>
+<command>death ray in a pear tree</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Mob Penguin enforcer</name>
+<actual_name>Mob Penguin enforcer</actual_name>
+<command>Mob Penguin enforcer</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>borg a-beeping</name>
+<actual_name>borg a-beeping</actual_name>
+<command>borg a-beeping</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>bow-making mummy</name>
+<actual_name>bow-making mummy</actual_name>
+<command>bow-making mummy</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>decent lumberjack</name>
+<actual_name>decent lumberjack</actual_name>
+<command>decent lumberjack</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Witchess Knight</name>
+<actual_name>Witchess Knight</actual_name>
+<command>Witchess Knight</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Happy, the Reindeer</name>
+<actual_name>Happy, the Reindeer</actual_name>
+<command>Happy, the Reindeer</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>drunken zombie half-orc hobo</name>
+<actual_name>drunken zombie half-orc hobo</actual_name>
+<command>drunken zombie half-orc hobo</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>hangman's tree</name>
+<actual_name>hangman's tree</actual_name>
+<command>hangman's tree</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>deadwood tree</name>
+<actual_name>deadwood tree</actual_name>
+<command>deadwood tree</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>fur tree</name>
+<actual_name>fur tree</actual_name>
+<command>fur tree</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>zombie apathetic lizardman</name>
+<actual_name>zombie apathetic lizardman</actual_name>
+<command>zombie apathetic lizardman</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Witchess Knight</name>
+<actual_name>Witchess Knight</actual_name>
+<command>Witchess Knight</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>swarm of fudgewasps</name>
+<actual_name>swarm of fudgewasps</actual_name>
+<command>swarm of fudgewasps</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>François Verte, Art Teacher</name>
+<actual_name>François Verte, Art Teacher</actual_name>
+<command>François Verte, Art Teacher</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Rudolphus of Crimborg</name>
+<actual_name>Rudolphus of Crimborg</actual_name>
+<command>Rudolphus of Crimborg</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Box of Crafty Dinner</name>
+<actual_name>Box of Crafty Dinner</actual_name>
+<command>Box of Crafty Dinner</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Possessed Can of Creepy Pasta</name>
+<actual_name>Possessed Can of Creepy Pasta</actual_name>
+<command>Possessed Can of Creepy Pasta</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Possessed Can of Linguine-Os</name>
+<actual_name>Possessed Can of Linguine-Os</actual_name>
+<command>Possessed Can of Linguine-Os</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Possessed Jar of Alphredo™</name>
+<actual_name>Possessed Jar of Alphredo™</actual_name>
+<command>Possessed Jar of Alphredo™</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>grizzled rodeo clown</name>
+<actual_name>grizzled rodeo clown</actual_name>
+<command>grizzled rodeo clown</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>zombie zmobie</name>
+<actual_name>zombie zmobie</actual_name>
+<command>zombie zmobie</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Zombie eXtreme Snowboarding Orc</name>
+<actual_name>Zombie eXtreme Snowboarding Orc</actual_name>
+<command>Zombie eXtreme Snowboarding Orc</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Ribbon-Cutting Elfborg</name>
+<actual_name>Ribbon-Cutting Elfborg</actual_name>
+<command>Ribbon-Cutting Elfborg</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>pumpkin tree</name>
+<actual_name>pumpkin tree</actual_name>
+<command>pumpkin tree</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Zombie Quiet Healer</name>
+<actual_name>Zombie Quiet Healer</actual_name>
+<command>Zombie Quiet Healer</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>fiendish zombie can of asparagus</name>
+<actual_name>fiendish zombie can of asparagus</actual_name>
+<command>fiendish zombie can of asparagus</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>rockfish</name>
+<actual_name>rockfish</actual_name>
+<command>rockfish</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Weapons-Assembly Elfborg</name>
+<actual_name>Weapons-Assembly Elfborg</actual_name>
+<command>Weapons-Assembly Elfborg</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>ten skeletons</name>
+<actual_name>ten skeletons</actual_name>
+<command>ten skeletons</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>three skeleton invaders</name>
+<actual_name>three skeleton invaders</actual_name>
+<command>three skeleton invaders</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Bashful, the Reindeer</name>
+<actual_name>Bashful, the Reindeer</actual_name>
+<command>Bashful, the Reindeer</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>skeleton invader</name>
+<actual_name>skeleton invader</actual_name>
+<command>skeleton invader</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>sexy sorority werewolf</name>
+<actual_name>sexy sorority werewolf</actual_name>
+<command>sexy sorority werewolf</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>cheerless mime vizier</name>
+<actual_name>cheerless mime vizier</actual_name>
+<command>cheerless mime vizier</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Black Crayon Penguin</name>
+<actual_name>Black Crayon Penguin</actual_name>
+<command>Black Crayon Penguin</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>sleepy mariachi</name>
+<actual_name>sleepy mariachi</actual_name>
+<command>sleepy mariachi</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>lobsterfrogman</name>
+<actual_name>lobsterfrogman</actual_name>
+<command>lobsterfrogman</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>two skeleton invaders</name>
+<actual_name>two skeleton invaders</actual_name>
+<command>two skeleton invaders</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Witchess Knight</name>
+<actual_name>Witchess Knight</actual_name>
+<command>Witchess Knight</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>cocktail shrimp</name>
+<actual_name>cocktail shrimp</actual_name>
+<command>cocktail shrimp</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>antique database server</name>
+<actual_name>antique database server</actual_name>
+<command>antique database server</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Witchess Knight</name>
+<actual_name>Witchess Knight</actual_name>
+<command>Witchess Knight</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>trendy bugbear chef</name>
+<actual_name>trendy bugbear chef</actual_name>
+<command>trendy bugbear chef</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>clod hopper</name>
+<actual_name>clod hopper</actual_name>
+<command>clod hopper</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Booze Giant</name>
+<actual_name>Booze Giant</actual_name>
+<command>Booze Giant</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>clod hopper</name>
+<actual_name>clod hopper</actual_name>
+<command>clod hopper</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>ninja snowman assassin</name>
+<actual_name>ninja snowman assassin</actual_name>
+<command>ninja snowman assassin</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Mob Penguin Soprano</name>
+<actual_name>Mob Penguin Soprano</actual_name>
+<command>Mob Penguin Soprano</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>killing bird</name>
+<actual_name>killing bird</actual_name>
+<command>killing bird</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>lobsterfrogman</name>
+<actual_name>lobsterfrogman</actual_name>
+<command>lobsterfrogman</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Cement Cobbler Penguin</name>
+<actual_name>Cement Cobbler Penguin</actual_name>
+<command>Cement Cobbler Penguin</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>ninja snowman assassin</name>
+<actual_name>ninja snowman assassin</actual_name>
+<command>ninja snowman assassin</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Orcish Frat Boy Spy</name>
+<actual_name>Orcish Frat Boy Spy</actual_name>
+<command>Orcish Frat Boy Spy</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>sexy sorority werewolf</name>
+<actual_name>sexy sorority werewolf</actual_name>
+<command>sexy sorority werewolf</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Elite Zombie</name>
+<actual_name>Knob Goblin Elite Zombie</actual_name>
+<command>Knob Goblin Elite Zombie</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>War Frat Mobile Grill Unit</name>
+<actual_name>War Frat Mobile Grill Unit</actual_name>
+<command>War Frat Mobile Grill Unit</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>ninja snowman assassin</name>
+<actual_name>ninja snowman assassin</actual_name>
+<command>ninja snowman assassin</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>ungulith</name>
+<actual_name>ungulith</actual_name>
+<command>ungulith</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>failed</name>
+<actual_name>failed</actual_name>
+<command>failed</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>unstable nuclear Crimbot</name>
+<actual_name>unstable nuclear Crimbot</actual_name>
+<command>unstable nuclear Crimbot</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>ninja snowman assassin</name>
+<actual_name>ninja snowman assassin</actual_name>
+<command>ninja snowman assassin</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>stocking-stuffing zombie</name>
+<actual_name>stocking-stuffing zombie</actual_name>
+<command>stocking-stuffing zombie</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>the Crimborg</name>
+<actual_name>the Crimborg</actual_name>
+<command>the Crimborg</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>High-Ranking Warbear Officer</name>
+<actual_name>High-Ranking Warbear Officer</actual_name>
+<command>High-Ranking Warbear Officer</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Servant of Lord Flameface</name>
+<actual_name>Servant of Lord Flameface</actual_name>
+<command>Servant of Lord Flameface</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>blazing bat</name>
+<actual_name>blazing bat</actual_name>
+<command>blazing bat</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>damned dirty ape</name>
+<actual_name>damned dirty ape</actual_name>
+<command>damned dirty ape</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>zombie yeast beast</name>
+<actual_name>zombie yeast beast</actual_name>
+<command>zombie yeast beast</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Swiss hen</name>
+<actual_name>Swiss hen</actual_name>
+<command>Swiss hen</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>ice bartender</name>
+<actual_name>ice bartender</actual_name>
+<command>ice bartender</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>golden ring</name>
+<actual_name>golden ring</actual_name>
+<command>golden ring</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Witchess Bishop</name>
+<actual_name>Witchess Bishop</actual_name>
+<command>Witchess Bishop</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>claw-foot bathtub</name>
+<actual_name>claw-foot bathtub</actual_name>
+<command>claw-foot bathtub</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>smoke monster</name>
+<actual_name>smoke monster</actual_name>
+<command>smoke monster</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>ninja snowman assassin</name>
+<actual_name>ninja snowman assassin</actual_name>
+<command>ninja snowman assassin</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>towering construct</name>
+<actual_name>towering construct</actual_name>
+<command>towering construct</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>lobsterfrogman</name>
+<actual_name>lobsterfrogman</actual_name>
+<command>lobsterfrogman</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>ninja snowman assassin</name>
+<actual_name>ninja snowman assassin</actual_name>
+<command>ninja snowman assassin</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>four-shadowed mime</name>
+<actual_name>four-shadowed mime</actual_name>
+<command>four-shadowed mime</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>four-shadowed mime</name>
+<actual_name>four-shadowed mime</actual_name>
+<command>four-shadowed mime</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>ungulith</name>
+<actual_name>ungulith</actual_name>
+<command>ungulith</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>four-shadowed mime</name>
+<actual_name>four-shadowed mime</actual_name>
+<command>four-shadowed mime</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>dairy goat</name>
+<actual_name>dairy goat</actual_name>
+<command>dairy goat</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>mutant gila monster</name>
+<actual_name>mutant gila monster</actual_name>
+<command>mutant gila monster</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>cheerless mime vizier</name>
+<actual_name>cheerless mime vizier</actual_name>
+<command>cheerless mime vizier</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>factory worker</name>
+<actual_name>factory worker</actual_name>
+<command>factory worker</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>lobsterfrogman</name>
+<actual_name>lobsterfrogman</actual_name>
+<command>lobsterfrogman</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Weapons-Assembly Elfborg</name>
+<actual_name>Weapons-Assembly Elfborg</actual_name>
+<command>Weapons-Assembly Elfborg</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>C. H. U. M. chieftain</name>
+<actual_name>C. H. U. M. chieftain</actual_name>
+<command>C. H. U. M. chieftain</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Zombie Goth Giant</name>
+<actual_name>Zombie Goth Giant</actual_name>
+<command>Zombie Goth Giant</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>dairy goat</name>
+<actual_name>dairy goat</actual_name>
+<command>dairy goat</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>factory overseer</name>
+<actual_name>factory overseer</actual_name>
+<command>factory overseer</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Arizona bark scorpion</name>
+<actual_name>Arizona bark scorpion</actual_name>
+<command>Arizona bark scorpion</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Witchess Knight</name>
+<actual_name>Witchess Knight</actual_name>
+<command>Witchess Knight</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Neptune flytrap</name>
+<actual_name>Neptune flytrap</actual_name>
+<command>Neptune flytrap</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>C. H. U. M. chieftain</name>
+<actual_name>C. H. U. M. chieftain</actual_name>
+<command>C. H. U. M. chieftain</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>swarm of fudgewasps</name>
+<actual_name>swarm of fudgewasps</actual_name>
+<command>swarm of fudgewasps</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>ungulith</name>
+<actual_name>ungulith</actual_name>
+<command>ungulith</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>cheerless mime executive</name>
+<actual_name>cheerless mime executive</actual_name>
+<command>cheerless mime executive</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Black Crayon Crimbo Elf</name>
+<actual_name>Black Crayon Crimbo Elf</actual_name>
+<command>Black Crayon Crimbo Elf</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>sk8 gnome</name>
+<actual_name>sk8 gnome</actual_name>
+<command>sk8 gnome</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Bram the Stoker</name>
+<actual_name>Bram the Stoker</actual_name>
+<command>Bram the Stoker</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>pewter torsohunter</name>
+<actual_name>pewter torsohunter</actual_name>
+<command>pewter torsohunter</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>swarm of fudgewasps</name>
+<actual_name>swarm of fudgewasps</actual_name>
+<command>swarm of fudgewasps</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>ninja snowman assassin</name>
+<actual_name>ninja snowman assassin</actual_name>
+<command>ninja snowman assassin</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>clod hopper</name>
+<actual_name>clod hopper</actual_name>
+<command>clod hopper</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>school of wizardfish</name>
+<actual_name>school of wizardfish</actual_name>
+<command>school of wizardfish</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>cheerless mime executive</name>
+<actual_name>cheerless mime executive</actual_name>
+<command>cheerless mime executive</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>armored Crimbot</name>
+<actual_name>armored Crimbot</actual_name>
+<command>armored Crimbot</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Perceiver of Sensations</name>
+<actual_name>Perceiver of Sensations</actual_name>
+<command>Perceiver of Sensations</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Thinker of Thoughts</name>
+<actual_name>Thinker of Thoughts</actual_name>
+<command>Thinker of Thoughts</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Witchess Pawn</name>
+<actual_name>Witchess Pawn</actual_name>
+<command>Witchess Pawn</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Witchess Knight</name>
+<actual_name>Witchess Knight</actual_name>
+<command>Witchess Knight</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Witchess Bishop</name>
+<actual_name>Witchess Bishop</actual_name>
+<command>Witchess Bishop</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Witchess Queen</name>
+<actual_name>Witchess Queen</actual_name>
+<command>Witchess Queen</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>failed</name>
+<actual_name>failed</actual_name>
+<command>failed</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Eldritch Tentacle</name>
+<actual_name>Eldritch Tentacle</actual_name>
+<command>Eldritch Tentacle</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Performer of Actions</name>
+<actual_name>Performer of Actions</actual_name>
+<command>Performer of Actions</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Ninja Snowman Janitor</name>
+<actual_name>Ninja Snowman Janitor</actual_name>
+<command>Ninja Snowman Janitor</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>ungulith</name>
+<actual_name>ungulith</actual_name>
+<command>ungulith</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>ice skate</name>
+<actual_name>ice skate</actual_name>
+<command>ice skate</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>official seal</name>
+<actual_name>official seal</actual_name>
+<command>official seal</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>modern zmobie</name>
+<actual_name>modern zmobie</actual_name>
+<command>modern zmobie</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>swarm of fudgewasps</name>
+<actual_name>swarm of fudgewasps</actual_name>
+<command>swarm of fudgewasps</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>failed</name>
+<actual_name>failed</actual_name>
+<command>failed</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>flexible disco dancer</name>
+<actual_name>flexible disco dancer</actual_name>
+<command>flexible disco dancer</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>lobsterfrogman</name>
+<actual_name>lobsterfrogman</actual_name>
+<command>lobsterfrogman</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Arizona bark scorpion</name>
+<actual_name>Arizona bark scorpion</actual_name>
+<command>Arizona bark scorpion</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>failed</name>
+<actual_name>failed</actual_name>
+<command>failed</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>failed</name>
+<actual_name>failed</actual_name>
+<command>failed</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>failed</name>
+<actual_name>failed</actual_name>
+<command>failed</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>failed</name>
+<actual_name>failed</actual_name>
+<command>failed</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>shadow slab</name>
+<actual_name>shadow slab</actual_name>
+<command>shadow slab</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Witchess Knight</name>
+<actual_name>Witchess Knight</actual_name>
+<command>Witchess Knight</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>towering construct</name>
+<actual_name>towering construct</actual_name>
+<command>towering construct</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Witchess Knight</name>
+<actual_name>Witchess Knight</actual_name>
+<command>Witchess Knight</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>ninja snowman assassin</name>
+<actual_name>ninja snowman assassin</actual_name>
+<command>ninja snowman assassin</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Hobelf</name>
+<actual_name>Hobelf</actual_name>
+<command>Hobelf</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>swamp troll</name>
+<actual_name>swamp troll</actual_name>
+<command>swamp troll</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>mad wino</name>
+<actual_name>mad wino</actual_name>
+<command>mad wino</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>furious giant cow</name>
+<actual_name>furious giant cow</actual_name>
+<command>furious giant cow</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>flint-scraping cave elf</name>
+<actual_name>flint-scraping cave elf</actual_name>
+<command>flint-scraping cave elf</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>lobsterfrogman</name>
+<actual_name>lobsterfrogman</actual_name>
+<command>lobsterfrogman</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Witchess Knight</name>
+<actual_name>Witchess Knight</actual_name>
+<command>Witchess Knight</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Slime Tube monster</name>
+<actual_name>Slime Tube monster</actual_name>
+<command>Slime Tube monster</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>failed</name>
+<actual_name>failed</actual_name>
+<command>failed</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>lobsterfrogman</name>
+<actual_name>lobsterfrogman</actual_name>
+<command>lobsterfrogman</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>failed</name>
+<actual_name>failed</actual_name>
+<command>failed</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>fantasy bandit</name>
+<actual_name>fantasy bandit</actual_name>
+<command>fantasy bandit</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>stumbling-drunk congoer (male)</name>
+<actual_name>stumbling-drunk congoer (male)</actual_name>
+<command>stumbling-drunk congoer (male)</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>dairy goat</name>
+<actual_name>dairy goat</actual_name>
+<command>dairy goat</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>swarm of fudgewasps</name>
+<actual_name>swarm of fudgewasps</actual_name>
+<command>swarm of fudgewasps</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>rampaging adding machine</name>
+<actual_name>rampaging adding machine</actual_name>
+<command>rampaging adding machine</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Possibility Giant</name>
+<actual_name>Possibility Giant</actual_name>
+<command>Possibility Giant</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>ghost</name>
+<actual_name>ghost</actual_name>
+<command>ghost</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>jock</name>
+<actual_name>jock</actual_name>
+<command>jock</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>jamfish</name>
+<actual_name>jamfish</actual_name>
+<command>jamfish</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>sinew-stretching cave elf</name>
+<actual_name>sinew-stretching cave elf</actual_name>
+<command>sinew-stretching cave elf</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>sausage goblin</name>
+<actual_name>sausage goblin</actual_name>
+<command>sausage goblin</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>sausage goblin</name>
+<actual_name>sausage goblin</actual_name>
+<command>sausage goblin</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Black Crayon Hobo</name>
+<actual_name>Black Crayon Hobo</actual_name>
+<command>Black Crayon Hobo</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Mob Penguin psychopath</name>
+<actual_name>Mob Penguin psychopath</actual_name>
+<command>Mob Penguin psychopath</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>dairy goat</name>
+<actual_name>dairy goat</actual_name>
+<command>dairy goat</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>mountain man</name>
+<actual_name>mountain man</actual_name>
+<command>mountain man</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Blooper</name>
+<actual_name>Blooper</actual_name>
+<command>Blooper</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>lobsterfrogman</name>
+<actual_name>lobsterfrogman</actual_name>
+<command>lobsterfrogman</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Brainsweeper</name>
+<actual_name>Brainsweeper</actual_name>
+<command>Brainsweeper</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Harem Girl</name>
+<actual_name>Knob Goblin Harem Girl</actual_name>
+<command>Knob Goblin Harem Girl</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>unemployed knob goblin</name>
+<actual_name>unemployed knob goblin</actual_name>
+<command>unemployed knob goblin</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Elite Guard Captain</name>
+<actual_name>Knob Goblin Elite Guard Captain</actual_name>
+<command>Knob Goblin Elite Guard Captain</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>giant swarm of ghuol whelps</name>
+<actual_name>giant swarm of ghuol whelps</actual_name>
+<command>giant swarm of ghuol whelps</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>rampaging adding machine</name>
+<actual_name>rampaging adding machine</actual_name>
+<command>rampaging adding machine</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>swarm of scarab beatles</name>
+<actual_name>swarm of scarab beatles</actual_name>
+<command>swarm of scarab beatles</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Mer-kin miner</name>
+<actual_name>Mer-kin miner</actual_name>
+<command>Mer-kin miner</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>failed</name>
+<actual_name>failed</actual_name>
+<command>failed</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>lobsterfrogman</name>
+<actual_name>lobsterfrogman</actual_name>
+<command>lobsterfrogman</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>ambulatory pirate</name>
+<actual_name>ambulatory pirate</actual_name>
+<command>ambulatory pirate</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>ungulith</name>
+<actual_name>ungulith</actual_name>
+<command>ungulith</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>dairy goat</name>
+<actual_name>dairy goat</actual_name>
+<command>dairy goat</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>lobsterfrogman</name>
+<actual_name>lobsterfrogman</actual_name>
+<command>lobsterfrogman</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>swarm of fudgewasps</name>
+<actual_name>swarm of fudgewasps</actual_name>
+<command>swarm of fudgewasps</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Arizona bark scorpion</name>
+<actual_name>Arizona bark scorpion</actual_name>
+<command>Arizona bark scorpion</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Arizona bark scorpion</name>
+<actual_name>Arizona bark scorpion</actual_name>
+<command>Arizona bark scorpion</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Witchess Knight</name>
+<actual_name>Witchess Knight</actual_name>
+<command>Witchess Knight</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>failed</name>
+<actual_name>failed</actual_name>
+<command>failed</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>ninja snowman assassin</name>
+<actual_name>ninja snowman assassin</actual_name>
+<command>ninja snowman assassin</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>blur</name>
+<actual_name>blur</actual_name>
+<command>blur</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Bob Racecar</name>
+<actual_name>Bob Racecar</actual_name>
+<command>Bob Racecar</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Astronomer</name>
+<actual_name>Astronomer</actual_name>
+<command>Astronomer</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>baseball bat</name>
+<actual_name>baseball bat</actual_name>
+<command>baseball bat</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Booze Giant</name>
+<actual_name>Booze Giant</actual_name>
+<command>Booze Giant</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>reanimated baboon skeleton</name>
+<actual_name>reanimated baboon skeleton</actual_name>
+<command>reanimated baboon skeleton</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>reanimated bat skeleton</name>
+<actual_name>reanimated bat skeleton</actual_name>
+<command>reanimated bat skeleton</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>C. H. U. M. chieftain</name>
+<actual_name>C. H. U. M. chieftain</actual_name>
+<command>C. H. U. M. chieftain</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>cleanly pirate</name>
+<actual_name>cleanly pirate</actual_name>
+<command>cleanly pirate</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>clod hopper</name>
+<actual_name>clod hopper</actual_name>
+<command>clod hopper</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>creamy pirate</name>
+<actual_name>creamy pirate</actual_name>
+<command>creamy pirate</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>curmudgeonly pirate</name>
+<actual_name>curmudgeonly pirate</actual_name>
+<command>curmudgeonly pirate</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>dairy goat</name>
+<actual_name>dairy goat</actual_name>
+<command>dairy goat</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>reanimated demon skeleton</name>
+<actual_name>reanimated demon skeleton</actual_name>
+<command>reanimated demon skeleton</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>demonic icebox</name>
+<actual_name>demonic icebox</actual_name>
+<command>demonic icebox</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Sub-Assistant Knob Mad Scientist</name>
+<actual_name>Sub-Assistant Knob Mad Scientist</actual_name>
+<command>Sub-Assistant Knob Mad Scientist</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Furry Giant</name>
+<actual_name>Furry Giant</actual_name>
+<command>Furry Giant</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>gaudy pirate</name>
+<actual_name>gaudy pirate</actual_name>
+<command>gaudy pirate</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Goth Giant</name>
+<actual_name>Goth Giant</actual_name>
+<command>Goth Giant</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>grungy pirate</name>
+<actual_name>grungy pirate</actual_name>
+<command>grungy pirate</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>handsome mariachi</name>
+<actual_name>handsome mariachi</actual_name>
+<command>handsome mariachi</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>irate mariachi</name>
+<actual_name>irate mariachi</actual_name>
+<command>irate mariachi</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>failed</name>
+<actual_name>failed</actual_name>
+<command>failed</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>scary pirate</name>
+<actual_name>scary pirate</actual_name>
+<command>scary pirate</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>reanimated giant spider skeleton</name>
+<actual_name>reanimated giant spider skeleton</actual_name>
+<command>reanimated giant spider skeleton</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>remains of a jilted mistress</name>
+<actual_name>remains of a jilted mistress</actual_name>
+<command>remains of a jilted mistress</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>lemon-in-the-box</name>
+<actual_name>lemon-in-the-box</actual_name>
+<command>lemon-in-the-box</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>MagiMechTech MechaMech</name>
+<actual_name>MagiMechTech MechaMech</actual_name>
+<command>MagiMechTech MechaMech</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>mariachi calavera</name>
+<actual_name>mariachi calavera</actual_name>
+<command>mariachi calavera</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>plaque of locusts</name>
+<actual_name>plaque of locusts</actual_name>
+<command>plaque of locusts</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Quantum Mechanic</name>
+<actual_name>Quantum Mechanic</actual_name>
+<command>Quantum Mechanic</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Quiet Healer</name>
+<actual_name>Quiet Healer</actual_name>
+<command>Quiet Healer</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>knight</name>
+<actual_name>knight</actual_name>
+<command>knight</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>white lion</name>
+<actual_name>white lion</actual_name>
+<command>white lion</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>failed</name>
+<actual_name>failed</actual_name>
+<command>failed</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>ungulith</name>
+<actual_name>ungulith</actual_name>
+<command>ungulith</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>pygmy witch lawyer</name>
+<actual_name>pygmy witch lawyer</actual_name>
+<command>pygmy witch lawyer</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>factory worker</name>
+<actual_name>factory worker</actual_name>
+<command>factory worker</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>pygmy witch lawyer</name>
+<actual_name>pygmy witch lawyer</actual_name>
+<command>pygmy witch lawyer</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>four-shadowed mime</name>
+<actual_name>four-shadowed mime</actual_name>
+<command>four-shadowed mime</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>sk8 gnome</name>
+<actual_name>sk8 gnome</actual_name>
+<command>sk8 gnome</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>ninja snowman assassin</name>
+<actual_name>ninja snowman assassin</actual_name>
+<command>ninja snowman assassin</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Witchess Knight</name>
+<actual_name>Witchess Knight</actual_name>
+<command>Witchess Knight</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Witchess Knight</name>
+<actual_name>Witchess Knight</actual_name>
+<command>Witchess Knight</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Government agent</name>
+<actual_name>Government agent</actual_name>
+<command>Government agent</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Gnollish Gearhead</name>
+<actual_name>Gnollish Gearhead</actual_name>
+<command>Gnollish Gearhead</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>large kobold</name>
+<actual_name>large kobold</actual_name>
+<command>large kobold</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>gang of hobo muggers</name>
+<actual_name>gang of hobo muggers</actual_name>
+<command>gang of hobo muggers</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Neptune flytrap</name>
+<actual_name>Neptune flytrap</actual_name>
+<command>Neptune flytrap</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>plastic pirate</name>
+<actual_name>plastic pirate</actual_name>
+<command>plastic pirate</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>illegal alien</name>
+<actual_name>illegal alien</actual_name>
+<command>illegal alien</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Black Crayon Fish</name>
+<actual_name>Black Crayon Fish</actual_name>
+<command>Black Crayon Fish</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>fantasy bandit</name>
+<actual_name>fantasy bandit</actual_name>
+<command>fantasy bandit</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>perimeter defense sphere</name>
+<actual_name>perimeter defense sphere</actual_name>
+<command>perimeter defense sphere</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Green Ops Soldier</name>
+<actual_name>Green Ops Soldier</actual_name>
+<command>Green Ops Soldier</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Witchess Bishop</name>
+<actual_name>Witchess Bishop</actual_name>
+<command>Witchess Bishop</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>lobsterfrogman</name>
+<actual_name>lobsterfrogman</actual_name>
+<command>lobsterfrogman</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>War Frat Mobile Grill Unit</name>
+<actual_name>War Frat Mobile Grill Unit</actual_name>
+<command>War Frat Mobile Grill Unit</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Slime Tube monster</name>
+<actual_name>Slime Tube monster</actual_name>
+<command>Slime Tube monster</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>failed</name>
+<actual_name>failed</actual_name>
+<command>failed</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>sabre-toothed kiwi</name>
+<actual_name>sabre-toothed kiwi</actual_name>
+<command>sabre-toothed kiwi</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>droll</name>
+<actual_name>droll</actual_name>
+<command>droll</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Adventurer echo</name>
+<actual_name>Adventurer echo</actual_name>
+<command>Adventurer echo</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Black Crayon Crimbo Elf</name>
+<actual_name>Black Crayon Crimbo Elf</actual_name>
+<command>Black Crayon Crimbo Elf</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>novelty tropical skeleton</name>
+<actual_name>novelty tropical skeleton</actual_name>
+<command>novelty tropical skeleton</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Black Crayon Hobo</name>
+<actual_name>Black Crayon Hobo</actual_name>
+<command>Black Crayon Hobo</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>deadly venomtrout</name>
+<actual_name>deadly venomtrout</actual_name>
+<command>deadly venomtrout</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>water spider</name>
+<actual_name>water spider</actual_name>
+<command>water spider</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>zombie apathetic lizardman</name>
+<actual_name>zombie apathetic lizardman</actual_name>
+<command>zombie apathetic lizardman</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>clod hopper</name>
+<actual_name>clod hopper</actual_name>
+<command>clod hopper</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>factory worker</name>
+<actual_name>factory worker</actual_name>
+<command>factory worker</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>white zombie</name>
+<actual_name>white zombie</actual_name>
+<command>white zombie</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Black Crayon Penguin</name>
+<actual_name>Black Crayon Penguin</actual_name>
+<command>Black Crayon Penguin</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Hobelf</name>
+<actual_name>Hobelf</actual_name>
+<command>Hobelf</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Witchess Knight</name>
+<actual_name>Witchess Knight</actual_name>
+<command>Witchess Knight</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>jungle baboon</name>
+<actual_name>jungle baboon</actual_name>
+<command>jungle baboon</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>failed</name>
+<actual_name>failed</actual_name>
+<command>failed</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>butt</name>
+<actual_name>butt</actual_name>
+<command>butt</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Arizona bark scorpion</name>
+<actual_name>Arizona bark scorpion</actual_name>
+<command>Arizona bark scorpion</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Mesmerizing Penguin</name>
+<actual_name>Mesmerizing Penguin</actual_name>
+<command>Mesmerizing Penguin</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Angels of Avalon</name>
+<actual_name>Angels of Avalon</actual_name>
+<command>Angels of Avalon</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>ninja snowman assassin</name>
+<actual_name>ninja snowman assassin</actual_name>
+<command>ninja snowman assassin</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>failed</name>
+<actual_name>failed</actual_name>
+<command>failed</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>animated spittoon</name>
+<actual_name>animated spittoon</actual_name>
+<command>animated spittoon</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>salaminder</name>
+<actual_name>salaminder</actual_name>
+<command>salaminder</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>four skeleton invaders</name>
+<actual_name>four skeleton invaders</actual_name>
+<command>four skeleton invaders</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Copperhead Club bartender</name>
+<actual_name>Copperhead Club bartender</actual_name>
+<command>Copperhead Club bartender</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>failed</name>
+<actual_name>failed</actual_name>
+<command>failed</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>velvet underground dweller</name>
+<actual_name>velvet underground dweller</actual_name>
+<command>velvet underground dweller</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>rage flame</name>
+<actual_name>rage flame</actual_name>
+<command>rage flame</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>ninja snowman assassin</name>
+<actual_name>ninja snowman assassin</actual_name>
+<command>ninja snowman assassin</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>mining grobold</name>
+<actual_name>mining grobold</actual_name>
+<command>mining grobold</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>failed</name>
+<actual_name>failed</actual_name>
+<command>failed</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>cowskeleton</name>
+<actual_name>cowskeleton</actual_name>
+<command>cowskeleton</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Swarm of Country Bats</name>
+<actual_name>Swarm of Country Bats</actual_name>
+<command>Swarm of Country Bats</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>butt</name>
+<actual_name>butt</actual_name>
+<command>butt</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>grizzled survivor</name>
+<actual_name>grizzled survivor</actual_name>
+<command>grizzled survivor</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Mob Penguin Demolitionist</name>
+<actual_name>Mob Penguin Demolitionist</actual_name>
+<command>Mob Penguin Demolitionist</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Witchess Bishop</name>
+<actual_name>Witchess Bishop</actual_name>
+<command>Witchess Bishop</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>random scenester</name>
+<actual_name>random scenester</actual_name>
+<command>random scenester</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Witchess Knight</name>
+<actual_name>Witchess Knight</actual_name>
+<command>Witchess Knight</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>batwinged gremlin</name>
+<actual_name>batwinged gremlin</actual_name>
+<command>batwinged gremlin</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>angry bassist</name>
+<actual_name>angry bassist</actual_name>
+<command>angry bassist</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>blue-haired girl</name>
+<actual_name>blue-haired girl</actual_name>
+<command>blue-haired girl</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Ninja Snowman Janitor</name>
+<actual_name>Ninja Snowman Janitor</actual_name>
+<command>Ninja Snowman Janitor</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>lobsterfrogman</name>
+<actual_name>lobsterfrogman</actual_name>
+<command>lobsterfrogman</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Cement Cobbler Penguin</name>
+<actual_name>Cement Cobbler Penguin</actual_name>
+<command>Cement Cobbler Penguin</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>evil ex-girlfriend</name>
+<actual_name>evil ex-girlfriend</actual_name>
+<command>evil ex-girlfriend</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>failed</name>
+<actual_name>failed</actual_name>
+<command>failed</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Astronomer</name>
+<actual_name>Astronomer</actual_name>
+<command>Astronomer</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>mountain man</name>
+<actual_name>mountain man</actual_name>
+<command>mountain man</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>cheerless mime executive</name>
+<actual_name>cheerless mime executive</actual_name>
+<command>cheerless mime executive</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Black Crayon Beetle</name>
+<actual_name>Black Crayon Beetle</actual_name>
+<command>Black Crayon Beetle</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Slime Tube monster</name>
+<actual_name>Slime Tube monster</actual_name>
+<command>Slime Tube monster</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>ancient temple guardian</name>
+<actual_name>ancient temple guardian</actual_name>
+<command>ancient temple guardian</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Frozen Bag of Tortellini</name>
+<actual_name>Frozen Bag of Tortellini</actual_name>
+<command>Frozen Bag of Tortellini</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>four-shadowed mime</name>
+<actual_name>four-shadowed mime</actual_name>
+<command>four-shadowed mime</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Witchess Knight</name>
+<actual_name>Witchess Knight</actual_name>
+<command>Witchess Knight</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>butt</name>
+<actual_name>butt</actual_name>
+<command>butt</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>rampaging adding machine</name>
+<actual_name>rampaging adding machine</actual_name>
+<command>rampaging adding machine</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>War Hippy Spy</name>
+<actual_name>War Hippy Spy</actual_name>
+<command>War Hippy Spy</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Orcish Frat Boy Spy</name>
+<actual_name>Orcish Frat Boy Spy</actual_name>
+<command>Orcish Frat Boy Spy</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>cheerless mime executive</name>
+<actual_name>cheerless mime executive</actual_name>
+<command>cheerless mime executive</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Ribbon-Cutting Elfborg</name>
+<actual_name>Ribbon-Cutting Elfborg</actual_name>
+<command>Ribbon-Cutting Elfborg</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Bram the Stoker</name>
+<actual_name>Bram the Stoker</actual_name>
+<command>Bram the Stoker</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Black Knight</name>
+<actual_name>Black Knight</actual_name>
+<command>Black Knight</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>animated nightstand</name>
+<actual_name>animated nightstand</actual_name>
+<command>animated nightstand</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Witchess Knight</name>
+<actual_name>Witchess Knight</actual_name>
+<command>Witchess Knight</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>hellseal pup</name>
+<actual_name>hellseal pup</actual_name>
+<command>hellseal pup</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>hung-over half-orc hobo</name>
+<actual_name>hung-over half-orc hobo</actual_name>
+<command>hung-over half-orc hobo</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Witchess Knight</name>
+<actual_name>Witchess Knight</actual_name>
+<command>Witchess Knight</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Black Crayon Spiraling Shape</name>
+<actual_name>Black Crayon Spiraling Shape</actual_name>
+<command>Black Crayon Spiraling Shape</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Black Crayon Elemental</name>
+<actual_name>Black Crayon Elemental</actual_name>
+<command>Black Crayon Elemental</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Black Crayon Golem</name>
+<actual_name>Black Crayon Golem</actual_name>
+<command>Black Crayon Golem</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>failed</name>
+<actual_name>failed</actual_name>
+<command>failed</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Black Crayon Slime</name>
+<actual_name>Black Crayon Slime</actual_name>
+<command>Black Crayon Slime</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Black Crayon Man</name>
+<actual_name>Black Crayon Man</actual_name>
+<command>Black Crayon Man</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>circuit-soldering animelf</name>
+<actual_name>circuit-soldering animelf</actual_name>
+<command>circuit-soldering animelf</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Black Crayon Flower</name>
+<actual_name>Black Crayon Flower</actual_name>
+<command>Black Crayon Flower</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Black Crayon Manloid</name>
+<actual_name>Black Crayon Manloid</actual_name>
+<command>Black Crayon Manloid</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>clod hopper</name>
+<actual_name>clod hopper</actual_name>
+<command>clod hopper</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Yuleviathan</name>
+<actual_name>Yuleviathan</actual_name>
+<command>Yuleviathan</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>nerd rapper</name>
+<actual_name>nerd rapper</actual_name>
+<command>nerd rapper</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Black Crayon Hippy</name>
+<actual_name>Black Crayon Hippy</actual_name>
+<command>Black Crayon Hippy</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Black Crayon Demon</name>
+<actual_name>Black Crayon Demon</actual_name>
+<command>Black Crayon Demon</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>ungulith</name>
+<actual_name>ungulith</actual_name>
+<command>ungulith</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Black Crayon Undead Thing</name>
+<actual_name>Black Crayon Undead Thing</actual_name>
+<command>Black Crayon Undead Thing</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>failed</name>
+<actual_name>failed</actual_name>
+<command>failed</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Black Crayon Mer-kin</name>
+<actual_name>Black Crayon Mer-kin</actual_name>
+<command>Black Crayon Mer-kin</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Black Crayon Pirate</name>
+<actual_name>Black Crayon Pirate</actual_name>
+<command>Black Crayon Pirate</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Black Crayon Frat Orc</name>
+<actual_name>Black Crayon Frat Orc</actual_name>
+<command>Black Crayon Frat Orc</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>hep cat</name>
+<actual_name>hep cat</actual_name>
+<command>hep cat</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Adventurer echo</name>
+<actual_name>Adventurer echo</actual_name>
+<command>Adventurer echo</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Mob Penguin entrepreneur</name>
+<actual_name>Mob Penguin entrepreneur</actual_name>
+<command>Mob Penguin entrepreneur</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>banjoccultist</name>
+<actual_name>banjoccultist</actual_name>
+<command>banjoccultist</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Taco Cat</name>
+<actual_name>Taco Cat</actual_name>
+<command>Taco Cat</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>pygmy witch lawyer</name>
+<actual_name>pygmy witch lawyer</actual_name>
+<command>pygmy witch lawyer</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>pygmy assault squad</name>
+<actual_name>pygmy assault squad</actual_name>
+<command>pygmy assault squad</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Black Crayon Crimbo Elf</name>
+<actual_name>Black Crayon Crimbo Elf</actual_name>
+<command>Black Crayon Crimbo Elf</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>reanimated bat skeleton</name>
+<actual_name>reanimated bat skeleton</actual_name>
+<command>reanimated bat skeleton</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Moonshriner</name>
+<actual_name>Moonshriner</actual_name>
+<command>Moonshriner</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>unstill</name>
+<actual_name>unstill</actual_name>
+<command>unstill</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>morbid skull</name>
+<actual_name>morbid skull</actual_name>
+<command>morbid skull</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>emaciated Knott Yeti</name>
+<actual_name>emaciated Knott Yeti</actual_name>
+<command>emaciated Knott Yeti</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>roller-skating Muse</name>
+<actual_name>roller-skating Muse</actual_name>
+<command>roller-skating Muse</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>XXX pr0n</name>
+<actual_name>XXX pr0n</actual_name>
+<command>XXX pr0n</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>ninja snowman assassin</name>
+<actual_name>ninja snowman assassin</actual_name>
+<command>ninja snowman assassin</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Mercenary of Fortune</name>
+<actual_name>Mercenary of Fortune</actual_name>
+<command>Mercenary of Fortune</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>mutant cookie-baking elf</name>
+<actual_name>mutant cookie-baking elf</actual_name>
+<command>mutant cookie-baking elf</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>eXtreme Sports Orcs</name>
+<actual_name>eXtreme Sports Orcs</actual_name>
+<command>eXtreme Sports Orcs</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>angry raccoon puppet</name>
+<actual_name>angry raccoon puppet</actual_name>
+<command>angry raccoon puppet</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>ninja snowman assassin</name>
+<actual_name>ninja snowman assassin</actual_name>
+<command>ninja snowman assassin</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>zombie Gnollish crossdresser</name>
+<actual_name>zombie Gnollish crossdresser</actual_name>
+<command>zombie Gnollish crossdresser</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>mutant saguaro</name>
+<actual_name>mutant saguaro</actual_name>
+<command>mutant saguaro</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>fudge oyster</name>
+<actual_name>fudge oyster</actual_name>
+<command>fudge oyster</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>craggy bartender</name>
+<actual_name>craggy bartender</actual_name>
+<command>craggy bartender</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Mob Penguin Goon</name>
+<actual_name>Mob Penguin Goon</actual_name>
+<command>Mob Penguin Goon</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>mutant rattlesnake</name>
+<actual_name>mutant rattlesnake</actual_name>
+<command>mutant rattlesnake</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>auteur elf</name>
+<actual_name>auteur elf</actual_name>
+<command>auteur elf</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>outlaw behind an table</name>
+<actual_name>outlaw behind an table</actual_name>
+<command>outlaw behind an table</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>High-Ranking Warbear Officer</name>
+<actual_name>High-Ranking Warbear Officer</actual_name>
+<command>High-Ranking Warbear Officer</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>goose a-laying</name>
+<actual_name>goose a-laying</actual_name>
+<command>goose a-laying</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>amok putty</name>
+<actual_name>amok putty</actual_name>
+<command>amok putty</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>nest of rattlers</name>
+<actual_name>nest of rattlers</actual_name>
+<command>nest of rattlers</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>failed</name>
+<actual_name>failed</actual_name>
+<command>failed</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>factory worker</name>
+<actual_name>factory worker</actual_name>
+<command>factory worker</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>scary pirate</name>
+<actual_name>scary pirate</actual_name>
+<command>scary pirate</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>rampaging adding machine</name>
+<actual_name>rampaging adding machine</actual_name>
+<command>rampaging adding machine</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Mob Penguin Demolitionist</name>
+<actual_name>Mob Penguin Demolitionist</actual_name>
+<command>Mob Penguin Demolitionist</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>clod hopper</name>
+<actual_name>clod hopper</actual_name>
+<command>clod hopper</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Witchess Bishop</name>
+<actual_name>Witchess Bishop</actual_name>
+<command>Witchess Bishop</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>lobsterfrogman</name>
+<actual_name>lobsterfrogman</actual_name>
+<command>lobsterfrogman</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>fantasy bandit</name>
+<actual_name>fantasy bandit</actual_name>
+<command>fantasy bandit</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Bailey's Beetle</name>
+<actual_name>Bailey's Beetle</actual_name>
+<command>Bailey's Beetle</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Witchess Knight</name>
+<actual_name>Witchess Knight</actual_name>
+<command>Witchess Knight</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Elite Beer Bongadier</name>
+<actual_name>Elite Beer Bongadier</actual_name>
+<command>Elite Beer Bongadier</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>monkey wrenchin' elf</name>
+<actual_name>monkey wrenchin' elf</actual_name>
+<command>monkey wrenchin' elf</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>bolt-cuttin' elf</name>
+<actual_name>bolt-cuttin' elf</actual_name>
+<command>bolt-cuttin' elf</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Neptune flytrap</name>
+<actual_name>Neptune flytrap</actual_name>
+<command>Neptune flytrap</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Radiator</name>
+<actual_name>Radiator</actual_name>
+<command>Radiator</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Sadiator</name>
+<actual_name>Sadiator</actual_name>
+<command>Sadiator</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Madiator</name>
+<actual_name>Madiator</actual_name>
+<command>Madiator</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Gladiator</name>
+<actual_name>Gladiator</actual_name>
+<command>Gladiator</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>cheap strix</name>
+<actual_name>cheap strix</actual_name>
+<command>cheap strix</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>hypocritical medicus</name>
+<actual_name>hypocritical medicus</actual_name>
+<command>hypocritical medicus</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>superdupervirus</name>
+<actual_name>superdupervirus</actual_name>
+<command>superdupervirus</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>failed</name>
+<actual_name>failed</actual_name>
+<command>failed</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>War Hippy Spy</name>
+<actual_name>War Hippy Spy</actual_name>
+<command>War Hippy Spy</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>factory overseer</name>
+<actual_name>factory overseer</actual_name>
+<command>factory overseer</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Fruit Golem</name>
+<actual_name>Fruit Golem</actual_name>
+<command>Fruit Golem</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>cheerless mime executive</name>
+<actual_name>cheerless mime executive</actual_name>
+<command>cheerless mime executive</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>rubber bat</name>
+<actual_name>rubber bat</actual_name>
+<command>rubber bat</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Neptune flytrap</name>
+<actual_name>Neptune flytrap</actual_name>
+<command>Neptune flytrap</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>ninja snowman assassin</name>
+<actual_name>ninja snowman assassin</actual_name>
+<command>ninja snowman assassin</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>five skeleton invaders</name>
+<actual_name>five skeleton invaders</actual_name>
+<command>five skeleton invaders</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>imagining how your life would be better if you'd made different decisions</name>
+<actual_name>imagining how your life would be better if you'd made different decisions</actual_name>
+<command>imagining how your life would be better if you'd made different decisions</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Bailey's Beetle</name>
+<actual_name>Bailey's Beetle</actual_name>
+<command>Bailey's Beetle</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>failed</name>
+<actual_name>failed</actual_name>
+<command>failed</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>1335 HaXx0r</name>
+<actual_name>1335 HaXx0r</actual_name>
+<command>1335 HaXx0r</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Green Ops Soldier</name>
+<actual_name>Green Ops Soldier</actual_name>
+<command>Green Ops Soldier</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>red skeleton</name>
+<actual_name>red skeleton</actual_name>
+<command>red skeleton</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Witchess Knight</name>
+<actual_name>Witchess Knight</actual_name>
+<command>Witchess Knight</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Box of Crafty Dinner</name>
+<actual_name>Box of Crafty Dinner</actual_name>
+<command>Box of Crafty Dinner</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>lobsterfrogman</name>
+<actual_name>lobsterfrogman</actual_name>
+<command>lobsterfrogman</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>ninja snowman assassin</name>
+<actual_name>ninja snowman assassin</actual_name>
+<command>ninja snowman assassin</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Red Fox</name>
+<actual_name>Red Fox</actual_name>
+<command>Red Fox</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Witchess Knight</name>
+<actual_name>Witchess Knight</actual_name>
+<command>Witchess Knight</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>butt</name>
+<actual_name>butt</actual_name>
+<command>butt</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Z-Rex</name>
+<actual_name>Z-Rex</actual_name>
+<command>Z-Rex</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>swarm of fudgewasps</name>
+<actual_name>swarm of fudgewasps</actual_name>
+<command>swarm of fudgewasps</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>ungulith</name>
+<actual_name>ungulith</actual_name>
+<command>ungulith</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>swarm of fudgewasps</name>
+<actual_name>swarm of fudgewasps</actual_name>
+<command>swarm of fudgewasps</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>cheerless mime executive</name>
+<actual_name>cheerless mime executive</actual_name>
+<command>cheerless mime executive</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>animated nightstand</name>
+<actual_name>animated nightstand</actual_name>
+<command>animated nightstand 391</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>animated nightstand</name>
+<actual_name>animated nightstand</actual_name>
+<command>animated nightstand</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>animated nightstand</name>
+<actual_name>animated nightstand</actual_name>
+<command>animated nightstand 406</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>animated nightstand</name>
+<actual_name>animated nightstand</actual_name>
+<command>animated nightstand 407</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>swarm of fudgewasps</name>
+<actual_name>swarm of fudgewasps</actual_name>
+<command>swarm of fudgewasps</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>space beast</name>
+<actual_name>space beast</actual_name>
+<command>space beast</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Slime Tube monster</name>
+<actual_name>Slime Tube monster</actual_name>
+<command>Slime Tube monster</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>lolliphaunt</name>
+<actual_name>lolliphaunt</actual_name>
+<command>lolliphaunt</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>fudge weasel</name>
+<actual_name>fudge weasel</actual_name>
+<command>fudge weasel</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Baa'baa'bu'ran</name>
+<actual_name>Baa'baa'bu'ran</actual_name>
+<command>Baa'baa'bu'ran</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>lucky cat statue</name>
+<actual_name>lucky cat statue</actual_name>
+<command>lucky cat statue</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>ninja snowman assassin</name>
+<actual_name>ninja snowman assassin</actual_name>
+<command>ninja snowman assassin</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Bad ASCII Art</name>
+<actual_name>Bad ASCII Art</actual_name>
+<command>Bad ASCII Art</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>board games elemental</name>
+<actual_name>board games elemental</actual_name>
+<command>board games elemental</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>government scientist</name>
+<actual_name>government scientist</actual_name>
+<command>government scientist</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>peeved roommate</name>
+<actual_name>peeved roommate</actual_name>
+<command>peeved roommate</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Cinco de Mayo reveler</name>
+<actual_name>Cinco de Mayo reveler</actual_name>
+<command>Cinco de Mayo reveler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>tetched prospector</name>
+<actual_name>tetched prospector</actual_name>
+<command>tetched prospector</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>sk8 gnome</name>
+<actual_name>sk8 gnome</actual_name>
+<command>sk8 gnome</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>actual orcish frat boy</name>
+<actual_name>actual orcish frat boy</actual_name>
+<command>actual orcish frat boy</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>gamblin' man</name>
+<actual_name>gamblin' man</actual_name>
+<command>gamblin' man</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Neptune flytrap</name>
+<actual_name>Neptune flytrap</actual_name>
+<command>Neptune flytrap</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>gang of hobo muggers</name>
+<actual_name>gang of hobo muggers</actual_name>
+<command>gang of hobo muggers</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Quiet Healer</name>
+<actual_name>Quiet Healer</actual_name>
+<command>Quiet Healer</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>factory worker</name>
+<actual_name>factory worker</actual_name>
+<command>factory worker</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Alphabet Giant</name>
+<actual_name>Alphabet Giant</actual_name>
+<command>Alphabet Giant</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Quiet Healer</name>
+<actual_name>Quiet Healer</actual_name>
+<command>Quiet Healer</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>dairy goat</name>
+<actual_name>dairy goat</actual_name>
+<command>dairy goat</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>lollicat</name>
+<actual_name>lollicat</actual_name>
+<command>lollicat</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>grungy pirate</name>
+<actual_name>grungy pirate</actual_name>
+<command>grungy pirate</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>lolligator</name>
+<actual_name>lolligator</actual_name>
+<command>lolligator</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>lollipede</name>
+<actual_name>lollipede</actual_name>
+<command>lollipede</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>lolliphaunt</name>
+<actual_name>lolliphaunt</actual_name>
+<command>lolliphaunt</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>lolrus</name>
+<actual_name>lolrus</actual_name>
+<command>lolrus</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>smooth jazz scabie</name>
+<actual_name>smooth jazz scabie</actual_name>
+<command>smooth jazz scabie</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>evil spaghetti cult middle-manager</name>
+<actual_name>evil spaghetti cult middle-manager</actual_name>
+<command>evil spaghetti cult middle-manager</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Master Chef</name>
+<actual_name>Knob Goblin Master Chef</actual_name>
+<command>Knob Goblin Master Chef</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>blade a-spinning</name>
+<actual_name>blade a-spinning</actual_name>
+<command>blade a-spinning</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Gnollish Crossdresser</name>
+<actual_name>Gnollish Crossdresser</actual_name>
+<command>Gnollish Crossdresser</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>ambulatory robo-minecart</name>
+<actual_name>ambulatory robo-minecart</actual_name>
+<command>ambulatory robo-minecart</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>semi-autonomous drill unit</name>
+<actual_name>semi-autonomous drill unit</actual_name>
+<command>semi-autonomous drill unit</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>exo-suited miner</name>
+<actual_name>exo-suited miner</actual_name>
+<command>exo-suited miner</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Elite Guardsman</name>
+<actual_name>Knob Goblin Elite Guardsman</actual_name>
+<command>Knob Goblin Elite Guardsman</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>failed</name>
+<actual_name>failed</actual_name>
+<command>failed</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Witchess King</name>
+<actual_name>Witchess King</actual_name>
+<command>Witchess King</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Witchess Ox</name>
+<actual_name>Witchess Ox</actual_name>
+<command>Witchess Ox</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>ice bartender</name>
+<actual_name>ice bartender</actual_name>
+<command>ice bartender</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Witchess Rook</name>
+<actual_name>Witchess Rook</actual_name>
+<command>Witchess Rook</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Arizona bark scorpion</name>
+<actual_name>Arizona bark scorpion</actual_name>
+<command>Arizona bark scorpion</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>failed</name>
+<actual_name>failed</actual_name>
+<command>failed</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>swarm of fudgewasps</name>
+<actual_name>swarm of fudgewasps</actual_name>
+<command>swarm of fudgewasps</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>lobsterfrogman</name>
+<actual_name>lobsterfrogman</actual_name>
+<command>lobsterfrogman</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Mercenary of Fortune</name>
+<actual_name>Mercenary of Fortune</actual_name>
+<command>Mercenary of Fortune</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>dairy goat</name>
+<actual_name>dairy goat</actual_name>
+<command>dairy goat</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>rage flame</name>
+<actual_name>rage flame</actual_name>
+<command>rage flame</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>towering construct</name>
+<actual_name>towering construct</actual_name>
+<command>towering construct</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Baa'baa'bu'ran</name>
+<actual_name>Baa'baa'bu'ran</actual_name>
+<command>Baa'baa'bu'ran</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>failed</name>
+<actual_name>failed</actual_name>
+<command>failed</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>disease-in-the-box</name>
+<actual_name>disease-in-the-box</actual_name>
+<command>disease-in-the-box</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>toy-making creature from the Gray Lagoon</name>
+<actual_name>toy-making creature from the Gray Lagoon</actual_name>
+<command>toy-making creature from the Gray Lagoon</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>cheerless mime executive</name>
+<actual_name>cheerless mime executive</actual_name>
+<command>cheerless mime executive</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>lobsterfrogman</name>
+<actual_name>lobsterfrogman</actual_name>
+<command>lobsterfrogman</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>swarm of fudgewasps</name>
+<actual_name>swarm of fudgewasps</actual_name>
+<command>swarm of fudgewasps</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>swarm of fudgewasps</name>
+<actual_name>swarm of fudgewasps</actual_name>
+<command>swarm of fudgewasps</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>pygmy witch lawyer</name>
+<actual_name>pygmy witch lawyer</actual_name>
+<command>pygmy witch lawyer</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>failed</name>
+<actual_name>failed</actual_name>
+<command>failed</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Astronomer</name>
+<actual_name>Astronomer</actual_name>
+<command>Astronomer</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>ninja snowman assassin</name>
+<actual_name>ninja snowman assassin</actual_name>
+<command>ninja snowman assassin</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>A.M.C. gremlin</name>
+<actual_name>A.M.C. gremlin</actual_name>
+<command>A.M.C. gremlin</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Mob Penguin Caporegime</name>
+<actual_name>Mob Penguin Caporegime</actual_name>
+<command>Mob Penguin Caporegime</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>provocateur elf</name>
+<actual_name>provocateur elf</actual_name>
+<command>provocateur elf</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>orcish juvenile delinquent</name>
+<actual_name>orcish juvenile delinquent</actual_name>
+<command>orcish juvenile delinquent</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>totally trashed orquette</name>
+<actual_name>totally trashed orquette</actual_name>
+<command>totally trashed orquette</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>orcish frat wannaboy</name>
+<actual_name>orcish frat wannaboy</actual_name>
+<command>orcish frat wannaboy</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>jailbait orquette</name>
+<actual_name>jailbait orquette</actual_name>
+<command>jailbait orquette</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>rampaging adding machine</name>
+<actual_name>rampaging adding machine</actual_name>
+<command>rampaging adding machine</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>juvenile delinquent orquette</name>
+<actual_name>juvenile delinquent orquette</actual_name>
+<command>juvenile delinquent orquette</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>peripatetic pirate</name>
+<actual_name>peripatetic pirate</actual_name>
+<command>peripatetic pirate</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>skeletal sommelier</name>
+<actual_name>skeletal sommelier</actual_name>
+<command>skeletal sommelier</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>tiny barrel mimic</name>
+<actual_name>tiny barrel mimic</actual_name>
+<command>tiny barrel mimic</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>possessed wine rack</name>
+<actual_name>possessed wine rack</actual_name>
+<command>possessed wine rack</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>tacobuilding elf</name>
+<actual_name>tacobuilding elf</actual_name>
+<command>tacobuilding elf</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>They</name>
+<actual_name>They</actual_name>
+<command>They</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>migratory pirate</name>
+<actual_name>migratory pirate</actual_name>
+<command>migratory pirate</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>rock homunculus</name>
+<actual_name>rock homunculus</actual_name>
+<command>rock homunculus</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>pygmy witch lawyer</name>
+<actual_name>pygmy witch lawyer</actual_name>
+<command>pygmy witch lawyer</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>mountain man</name>
+<actual_name>mountain man</actual_name>
+<command>mountain man</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>ungulith</name>
+<actual_name>ungulith</actual_name>
+<command>ungulith</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>me4t begZ0r</name>
+<actual_name>me4t begZ0r</actual_name>
+<command>me4t begZ0r</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>ninja snowman assassin</name>
+<actual_name>ninja snowman assassin</actual_name>
+<command>ninja snowman assassin</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Mer-kin diver</name>
+<actual_name>Mer-kin diver</actual_name>
+<command>Mer-kin diver</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Witchess Knight</name>
+<actual_name>Witchess Knight</actual_name>
+<command>Witchess Knight</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>ninja snowman assassin</name>
+<actual_name>ninja snowman assassin</actual_name>
+<command>ninja snowman assassin</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Mob Penguin psychopath</name>
+<actual_name>Mob Penguin psychopath</actual_name>
+<command>Mob Penguin psychopath</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>ungulith</name>
+<actual_name>ungulith</actual_name>
+<command>ungulith</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>sausage goblin</name>
+<actual_name>sausage goblin</actual_name>
+<command>sausage goblin</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>salaminder</name>
+<actual_name>salaminder</actual_name>
+<command>salaminder</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>cheerless mime executive</name>
+<actual_name>cheerless mime executive</actual_name>
+<command>cheerless mime executive</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>swarm of fudgewasps</name>
+<actual_name>swarm of fudgewasps</actual_name>
+<command>swarm of fudgewasps</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>C. H. U. M. chieftain</name>
+<actual_name>C. H. U. M. chieftain</actual_name>
+<command>C. H. U. M. chieftain</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>raconteur elf</name>
+<actual_name>raconteur elf</actual_name>
+<command>raconteur elf</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>blazing bat</name>
+<actual_name>blazing bat</actual_name>
+<command>blazing bat</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Spam Witch</name>
+<actual_name>Spam Witch</actual_name>
+<command>Spam Witch</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>lobsterfrogman</name>
+<actual_name>lobsterfrogman</actual_name>
+<command>lobsterfrogman</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>animated nightstand</name>
+<actual_name>animated nightstand</actual_name>
+<command>animated nightstand</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>dairy goat</name>
+<actual_name>dairy goat</actual_name>
+<command>dairy goat</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>animated nightstand</name>
+<actual_name>animated nightstand</actual_name>
+<command>animated nightstand</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>sparking Crimbot</name>
+<actual_name>sparking Crimbot</actual_name>
+<command>sparking Crimbot</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>filthy hippy Vegan chef</name>
+<actual_name>filthy hippy Vegan chef</actual_name>
+<command>filthy hippy Vegan chef</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>failed</name>
+<actual_name>failed</actual_name>
+<command>failed</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>animated nightstand</name>
+<actual_name>animated nightstand</actual_name>
+<command>animated nightstand</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Astronomer</name>
+<actual_name>Astronomer</actual_name>
+<command>Astronomer</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>dairy goat</name>
+<actual_name>dairy goat</actual_name>
+<command>dairy goat</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>clod hopper</name>
+<actual_name>clod hopper</actual_name>
+<command>clod hopper</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>ninja snowman assassin</name>
+<actual_name>ninja snowman assassin</actual_name>
+<command>ninja snowman assassin</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>lobsterfrogman</name>
+<actual_name>lobsterfrogman</actual_name>
+<command>lobsterfrogman</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>pterodactyl</name>
+<actual_name>pterodactyl</actual_name>
+<command>pterodactyl</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>ghost</name>
+<actual_name>ghost</actual_name>
+<command>ghost</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>G imp</name>
+<actual_name>G imp</actual_name>
+<command>G imp</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>saboteur elf</name>
+<actual_name>saboteur elf</actual_name>
+<command>saboteur elf</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Black Crayon Shambling Monstrosity</name>
+<actual_name>Black Crayon Shambling Monstrosity</actual_name>
+<command>Black Crayon Shambling Monstrosity</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>official seal</name>
+<actual_name>official seal</actual_name>
+<command>official seal</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Witchess Bishop</name>
+<actual_name>Witchess Bishop</actual_name>
+<command>Witchess Bishop</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Mer-kin tippler</name>
+<actual_name>Mer-kin tippler</actual_name>
+<command>Mer-kin tippler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>shadow slab</name>
+<actual_name>shadow slab</actual_name>
+<command>shadow slab</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>lobsterfrogman</name>
+<actual_name>lobsterfrogman</actual_name>
+<command>lobsterfrogman</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Mob Penguin Kneecapper</name>
+<actual_name>Mob Penguin Kneecapper</actual_name>
+<command>Mob Penguin Kneecapper</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Hobelf</name>
+<actual_name>Hobelf</actual_name>
+<command>Hobelf</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Skinflute</name>
+<actual_name>Skinflute</actual_name>
+<command>Skinflute</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>failed</name>
+<actual_name>failed</actual_name>
+<command>failed</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Black Crayon Beetle</name>
+<actual_name>Black Crayon Beetle</actual_name>
+<command>Black Crayon Beetle</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>nerd rapper</name>
+<actual_name>nerd rapper</actual_name>
+<command>nerd rapper</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Warbear Foot Soldier</name>
+<actual_name>Warbear Foot Soldier</actual_name>
+<command>Warbear Foot Soldier</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>lava golem</name>
+<actual_name>lava golem</actual_name>
+<command>lava golem</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Adventurer echo</name>
+<actual_name>Adventurer echo</actual_name>
+<command>Adventurer echo</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>failed</name>
+<actual_name>failed</actual_name>
+<command>failed</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Mer-kin tippler</name>
+<actual_name>Mer-kin tippler</actual_name>
+<command>Mer-kin tippler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>gnarly gnome</name>
+<actual_name>gnarly gnome</actual_name>
+<command>gnarly gnome</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>mountain man</name>
+<actual_name>mountain man</actual_name>
+<command>mountain man</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>smoke monster</name>
+<actual_name>smoke monster</actual_name>
+<command>smoke monster</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Mer-kin tippler</name>
+<actual_name>Mer-kin tippler</actual_name>
+<command>Mer-kin tippler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Black Crayon Crimbo Elf</name>
+<actual_name>Black Crayon Crimbo Elf</actual_name>
+<command>Black Crayon Crimbo Elf</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Bullet Bill</name>
+<actual_name>Bullet Bill</actual_name>
+<command>Bullet Bill</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>fudge poodle</name>
+<actual_name>fudge poodle</actual_name>
+<command>fudge poodle</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>lobsterfrogman</name>
+<actual_name>lobsterfrogman</actual_name>
+<command>lobsterfrogman</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Black Crayon Crimbo Elf</name>
+<actual_name>Black Crayon Crimbo Elf</actual_name>
+<command>Black Crayon Crimbo Elf</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>X-fingered Shop Teacher</name>
+<actual_name>X-fingered Shop Teacher</actual_name>
+<command>X-fingered Shop Teacher</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>François Verte, Art Teacher</name>
+<actual_name>François Verte, Art Teacher</actual_name>
+<command>François Verte, Art Teacher</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Mrs. K, the Chemistry Teacher</name>
+<actual_name>Mrs. K, the Chemistry Teacher</actual_name>
+<command>Mrs. K, the Chemistry Teacher</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>failed</name>
+<actual_name>failed</actual_name>
+<command>failed</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>ninja snowman assassin</name>
+<actual_name>ninja snowman assassin</actual_name>
+<command>ninja snowman assassin</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Black Crayon Beast</name>
+<actual_name>Black Crayon Beast</actual_name>
+<command>Black Crayon Beast</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Neptune flytrap</name>
+<actual_name>Neptune flytrap</actual_name>
+<command>Neptune flytrap</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>four-shadowed mime</name>
+<actual_name>four-shadowed mime</actual_name>
+<command>four-shadowed mime</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>clod hopper</name>
+<actual_name>clod hopper</actual_name>
+<command>clod hopper</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Black Crayon Constellation</name>
+<actual_name>Black Crayon Constellation</actual_name>
+<command>Black Crayon Constellation</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>scary pirate</name>
+<actual_name>scary pirate</actual_name>
+<command>scary pirate</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Mer-kin baker</name>
+<actual_name>Mer-kin baker</actual_name>
+<command>Mer-kin baker</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>failed</name>
+<actual_name>failed</actual_name>
+<command>failed</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Slime Tube monster</name>
+<actual_name>Slime Tube monster</actual_name>
+<command>Slime Tube monster</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>cloud of disembodied whiskers</name>
+<actual_name>cloud of disembodied whiskers</actual_name>
+<command>cloud of disembodied whiskers</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Sorrowful Hickory</name>
+<actual_name>Sorrowful Hickory</actual_name>
+<command>Sorrowful Hickory</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Black Crayon Goblin</name>
+<actual_name>Black Crayon Goblin</actual_name>
+<command>Black Crayon Goblin</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>mutant saguaro</name>
+<actual_name>mutant saguaro</actual_name>
+<command>mutant saguaro</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>scary pirate</name>
+<actual_name>scary pirate</actual_name>
+<command>scary pirate</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Slime Tube monster</name>
+<actual_name>Slime Tube monster</actual_name>
+<command>Slime Tube monster</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>failed</name>
+<actual_name>failed</actual_name>
+<command>failed</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>angry raccoon puppet</name>
+<actual_name>angry raccoon puppet</actual_name>
+<command>angry raccoon puppet</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Bad ASCII Art</name>
+<actual_name>Bad ASCII Art</actual_name>
+<command>Bad ASCII Art</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>swarm of fudgewasps</name>
+<actual_name>swarm of fudgewasps</actual_name>
+<command>swarm of fudgewasps</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>cheerless mime executive</name>
+<actual_name>cheerless mime executive</actual_name>
+<command>cheerless mime executive</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>swarm of fudgewasps</name>
+<actual_name>swarm of fudgewasps</actual_name>
+<command>swarm of fudgewasps</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Astronomer</name>
+<actual_name>Astronomer</actual_name>
+<command>Astronomer</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>cigarette girl</name>
+<actual_name>cigarette girl</actual_name>
+<command>cigarette girl</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Witchess Queen</name>
+<actual_name>Witchess Queen</actual_name>
+<command>Witchess Queen</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>bulwark bull seal</name>
+<actual_name>bulwark bull seal</actual_name>
+<command>bulwark bull seal</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>morbid skull</name>
+<actual_name>morbid skull</actual_name>
+<command>morbid skull</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>flexible disco dancer</name>
+<actual_name>flexible disco dancer</actual_name>
+<command>flexible disco dancer</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Arizona bark scorpion</name>
+<actual_name>Arizona bark scorpion</actual_name>
+<command>Arizona bark scorpion</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>flint-scraping cave elf</name>
+<actual_name>flint-scraping cave elf</actual_name>
+<command>flint-scraping cave elf</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>awkward disco dancer</name>
+<actual_name>awkward disco dancer</actual_name>
+<command>awkward disco dancer</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>amateur elf</name>
+<actual_name>amateur elf</actual_name>
+<command>amateur elf</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>swarm of mutant fire ants</name>
+<actual_name>swarm of mutant fire ants</actual_name>
+<command>swarm of mutant fire ants</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>erudite gremlin</name>
+<actual_name>erudite gremlin</actual_name>
+<command>erudite gremlin</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>dairy goat</name>
+<actual_name>dairy goat</actual_name>
+<command>dairy goat</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>dairy goat</name>
+<actual_name>dairy goat</actual_name>
+<command>dairy goat</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>lobsterfrogman</name>
+<actual_name>lobsterfrogman</actual_name>
+<command>lobsterfrogman</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Mob Penguin racketeer</name>
+<actual_name>Mob Penguin racketeer</actual_name>
+<command>Mob Penguin racketeer</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>mutant circuit-soldering elf</name>
+<actual_name>mutant circuit-soldering elf</actual_name>
+<command>mutant circuit-soldering elf</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Warbear Officer</name>
+<actual_name>Warbear Officer</actual_name>
+<command>Warbear Officer</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Witchess Bishop</name>
+<actual_name>Witchess Bishop</actual_name>
+<command>Witchess Bishop</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>dairy goat</name>
+<actual_name>dairy goat</actual_name>
+<command>dairy goat</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>ferrelf</name>
+<actual_name>ferrelf</actual_name>
+<command>ferrelf</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>ungulith</name>
+<actual_name>ungulith</actual_name>
+<command>ungulith</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>emaciated Knott Yeti</name>
+<actual_name>emaciated Knott Yeti</actual_name>
+<command>emaciated Knott Yeti</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Mob Penguin Thug</name>
+<actual_name>Mob Penguin Thug</actual_name>
+<command>Mob Penguin Thug</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>blur</name>
+<actual_name>blur</actual_name>
+<command>blur</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>mutant doll-dressing elf</name>
+<actual_name>mutant doll-dressing elf</actual_name>
+<command>mutant doll-dressing elf</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>zombie frat boy</name>
+<actual_name>zombie frat boy</actual_name>
+<command>zombie frat boy</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>turtle mech</name>
+<actual_name>turtle mech</actual_name>
+<command>turtle mech</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>mutant gift-wrapping elf</name>
+<actual_name>mutant gift-wrapping elf</actual_name>
+<command>mutant gift-wrapping elf</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>giant pair of tweezers</name>
+<actual_name>giant pair of tweezers</actual_name>
+<command>giant pair of tweezers</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Mob Penguin Pasta Chef</name>
+<actual_name>Mob Penguin Pasta Chef</actual_name>
+<command>Mob Penguin Pasta Chef</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Mob Penguin Soprano</name>
+<actual_name>Mob Penguin Soprano</actual_name>
+<command>Mob Penguin Soprano</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Castle in the Clouds in the Sky</name>
+<actual_name>Castle in the Clouds in the Sky</actual_name>
+<command>Castle in the Clouds in the Sky</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>white zombie</name>
+<actual_name>white zombie</actual_name>
+<command>white zombie</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>flint-scraping cave elf</name>
+<actual_name>flint-scraping cave elf</actual_name>
+<command>flint-scraping cave elf</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Embezzler</name>
+<actual_name>Knob Goblin Embezzler</actual_name>
+<command>Knob Goblin Embezzler</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>failed</name>
+<actual_name>failed</actual_name>
+<command>failed</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Sleepy, the Reindeer</name>
+<actual_name>Sleepy, the Reindeer</actual_name>
+<command>Sleepy, the Reindeer</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>failed</name>
+<actual_name>failed</actual_name>
+<command>failed</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Knob Goblin Elite Zombie</name>
+<actual_name>Knob Goblin Elite Zombie</actual_name>
+<command>Knob Goblin Elite Zombie</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Doc, the Reindeer</name>
+<actual_name>Doc, the Reindeer</actual_name>
+<command>Doc, the Reindeer</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Zombie Knob Goblin Assistant Chef</name>
+<actual_name>Zombie Knob Goblin Assistant Chef</actual_name>
+<command>Zombie Knob Goblin Assistant Chef</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Dopey, the Reindeer</name>
+<actual_name>Dopey, the Reindeer</actual_name>
+<command>Dopey, the Reindeer</command>
+<category>None</category>
+</monsterdata>
+<monsterdata>
+<name>Rudolphus of Crimborg</name>
+<actual_name>Rudolphus of Crimborg</actual_name>
+<command>Rudolphus of Crimborg</command>
+<category>None</category>
+</monsterdata>
+</monsterlist>
+</faxbot>

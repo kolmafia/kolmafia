@@ -109,13 +109,9 @@ public class DataTypes {
   public static final Type STRICT_STRING_TYPE = new Type("strict_string", TypeSpec.STRICT_STRING);
   public static final Type AGGREGATE_TYPE = new Type("aggregate", TypeSpec.AGGREGATE);
 
-  // Map from ITEM -> INT
-  public static final AggregateType ITEM_TO_INT_TYPE =
-      new AggregateType(DataTypes.INT_TYPE, DataTypes.ITEM_TYPE);
-
-  // Map from ITEM -> FLOAT
-  public static final AggregateType ITEM_TO_FLOAT_TYPE =
-      new AggregateType(DataTypes.FLOAT_TYPE, DataTypes.ITEM_TYPE);
+  // Map from INT -> STRING
+  public static final AggregateType INT_TO_STRING_TYPE =
+      new AggregateType(DataTypes.STRING_TYPE, DataTypes.INT_TYPE);
 
   // Map from INT -> ITEM
   public static final AggregateType INT_TO_ITEM_TYPE =
@@ -129,21 +125,33 @@ public class DataTypes {
   public static final AggregateType STRING_TO_INT_TYPE =
       new AggregateType(DataTypes.INT_TYPE, DataTypes.STRING_TYPE);
 
-  // Map from STRING -> ITEM
-  public static final AggregateType STRING_TO_ITEM_TYPE =
-      new AggregateType(DataTypes.ITEM_TYPE, DataTypes.STRING_TYPE);
-
-  // Map from INT -> STRING
-  public static final AggregateType INT_TO_STRING_TYPE =
-      new AggregateType(DataTypes.STRING_TYPE, DataTypes.INT_TYPE);
-
   // Map from STRING -> STRING
   public static final AggregateType STRING_TO_STRING_TYPE =
       new AggregateType(DataTypes.STRING_TYPE, DataTypes.STRING_TYPE);
 
+  // Map from STRING -> ITEM
+  public static final AggregateType STRING_TO_ITEM_TYPE =
+      new AggregateType(DataTypes.ITEM_TYPE, DataTypes.STRING_TYPE);
+
   // Map from STRING -> LOCATION
   public static final AggregateType STRING_TO_LOCATION_TYPE =
       new AggregateType(DataTypes.LOCATION_TYPE, DataTypes.STRING_TYPE);
+
+  // Map from STRING -> SKILL
+  public static final AggregateType STRING_TO_SKILL_TYPE =
+      new AggregateType(DataTypes.SKILL_TYPE, DataTypes.STRING_TYPE);
+
+  // Map from ITEM -> INT
+  public static final AggregateType ITEM_TO_INT_TYPE =
+      new AggregateType(DataTypes.INT_TYPE, DataTypes.ITEM_TYPE);
+
+  // Map from ITEM -> FLOAT
+  public static final AggregateType ITEM_TO_FLOAT_TYPE =
+      new AggregateType(DataTypes.FLOAT_TYPE, DataTypes.ITEM_TYPE);
+
+  // Map from SKILL -> STRING
+  public static final AggregateType SKILL_TO_STRING_TYPE =
+      new AggregateType(DataTypes.STRING_TYPE, DataTypes.SKILL_TYPE);
 
   public static final AggregateType REGEX_GROUP_TYPE =
       new AggregateType(

@@ -64,6 +64,10 @@ public class CardLayoutSelectorPanel extends JPanel {
     this.panelList.setSelectedIndex(selectedIndex);
   }
 
+  public int getSelectedIndex() {
+    return this.panelList.getSelectedIndex();
+  }
+
   public void addPanel(final String name, final JComponent panel) {
     this.addPanel(name, panel, false);
   }

@@ -1,0 +1,1113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faxbot>
+	<botdata>
+		<name>OnlyFax</name>
+		<playerid>3690803</playerid>
+	</botdata>
+	<monsterlist>
+		<monsterdata>
+			<name>anesthesiologist bugbear</name>
+			<actual_name>anesthesiologist bugbear</actual_name>
+			<command>[1176]anesthesiologist bugbear</command>
+			<category>Unwishable</category>
+		</monsterdata>
+		<monsterdata>
+			<name>angry cavebugbear</name>
+			<actual_name>angry cavebugbear</actual_name>
+			<command>[1183]angry cavebugbear</command>
+			<category>Unwishable</category>
+		</monsterdata>
+		<monsterdata>
+			<name>animated nightstand (mahogany combat)</name>
+			<actual_name>animated nightstand (mahogany combat)</actual_name>
+			<command>[399]animated nightstand (mahogany combat)</command>
+			<category>Ambiguous</category>
+		</monsterdata>
+		<monsterdata>
+			<name>animated nightstand (mahogany noncombat)</name>
+			<actual_name>animated nightstand (mahogany noncombat)</actual_name>
+			<command>[407]animated nightstand (mahogany noncombat)</command>
+			<category>Ambiguous</category>
+		</monsterdata>
+		<monsterdata>
+			<name>animated nightstand (white combat)</name>
+			<actual_name>animated nightstand (white combat)</actual_name>
+			<command>[391]animated nightstand (white combat)</command>
+			<category>Ambiguous</category>
+		</monsterdata>
+		<monsterdata>
+			<name>animated nightstand (white noncombat)</name>
+			<actual_name>animated nightstand (white noncombat)</actual_name>
+			<command>[406]animated nightstand (white noncombat)</command>
+			<category>Ambiguous</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Astronomer</name>
+			<actual_name>Astronomer</actual_name>
+			<command>[184]Astronomer</command>
+			<category>Ambiguous</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Astronomer (obsolete)</name>
+			<actual_name>Astronomer (obsolete)</actual_name>
+			<command>[354]Astronomer (obsolete)</command>
+			<category>Ambiguous</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Baa&apos;baa&apos;bu&apos;ran</name>
+			<actual_name>Baa&apos;baa&apos;bu&apos;ran</actual_name>
+			<command>[1163]Baa&apos;baa&apos;bu&apos;ran</command>
+			<category>Standard</category>
+		</monsterdata>
+		<monsterdata>
+			<name>basic lihc</name>
+			<actual_name>basic lihc</actual_name>
+			<command>[2153]basic lihc</command>
+			<category>Standard</category>
+		</monsterdata>
+		<monsterdata>
+			<name>batwinged gremlin</name>
+			<actual_name>batwinged gremlin</actual_name>
+			<command>[548]batwinged gremlin</command>
+			<category>Ambiguous</category>
+		</monsterdata>
+		<monsterdata>
+			<name>batwinged gremlin (tool)</name>
+			<actual_name>batwinged gremlin (tool)</actual_name>
+			<command>[549]batwinged gremlin (tool)</command>
+			<category>Ambiguous</category>
+		</monsterdata>
+		<monsterdata>
+			<name>big swarm of ghuol whelps</name>
+			<actual_name>big swarm of ghuol whelps</actual_name>
+			<command>[1073]big swarm of ghuol whelps</command>
+			<category>Standard</category>
+		</monsterdata>
+		<monsterdata>
+			<name>bizarre construct</name>
+			<actual_name>bizarre construct</actual_name>
+			<command>[665]bizarre construct</command>
+			<category>Ambiguous</category>
+		</monsterdata>
+		<monsterdata>
+			<name>bizarre construct (translated)</name>
+			<actual_name>bizarre construct (translated)</actual_name>
+			<command>[671]bizarre construct (translated)</command>
+			<category>Ambiguous</category>
+		</monsterdata>
+		<monsterdata>
+			<name>board games elemental</name>
+			<actual_name>board games elemental</actual_name>
+			<command>[1967]board games elemental</command>
+			<category>Twitch Tower</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Brake-Operating Trainbot</name>
+			<actual_name>Brake-Operating Trainbot</actual_name>
+			<command>[2254]Brake-Operating Trainbot</command>
+			<category>Crimbo22</category>
+		</monsterdata>
+		<monsterdata>
+			<name>buzzard</name>
+			<actual_name>buzzard</actual_name>
+			<command>[1907]buzzard</command>
+			<category>LT&amp;T Office</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Camel&apos;s Toe</name>
+			<actual_name>Camel&apos;s Toe</actual_name>
+			<command>[541]Camel&apos;s Toe</command>
+			<category>Other</category>
+		</monsterdata>
+		<monsterdata>
+			<name>camp cook</name>
+			<actual_name>camp cook</actual_name>
+			<command>[1904]camp cook</command>
+			<category>LT&amp;T Office</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Cannonfire40&apos;s butt</name>
+			<actual_name>somebody else&apos;s butt</actual_name>
+			<command>[1049]Cannonfire40&apos;s butt</command>
+			<category>Noteworthy</category>
+		</monsterdata>
+		<monsterdata>
+			<name>caugr</name>
+			<actual_name>caugr</actual_name>
+			<command>[1913]caugr</command>
+			<category>LT&amp;T Office</category>
+		</monsterdata>
+		<monsterdata>
+			<name>cheerless mime executive</name>
+			<actual_name>cheerless mime executive</actual_name>
+			<command>[2048]cheerless mime executive</command>
+			<category>Crimbo17</category>
+		</monsterdata>
+		<monsterdata>
+			<name>cheerless mime functionary</name>
+			<actual_name>cheerless mime functionary</actual_name>
+			<command>[2044]cheerless mime functionary</command>
+			<category>Crimbo17</category>
+		</monsterdata>
+		<monsterdata>
+			<name>cheerless mime scientist</name>
+			<actual_name>cheerless mime scientist</actual_name>
+			<command>[2045]cheerless mime scientist</command>
+			<category>Crimbo17</category>
+		</monsterdata>
+		<monsterdata>
+			<name>cheerless mime soldier</name>
+			<actual_name>cheerless mime soldier</actual_name>
+			<command>[2046]cheerless mime soldier</command>
+			<category>Crimbo17</category>
+		</monsterdata>
+		<monsterdata>
+			<name>cheerless mime vizier</name>
+			<actual_name>cheerless mime vizier</actual_name>
+			<command>[2047]cheerless mime vizier</command>
+			<category>Crimbo17</category>
+		</monsterdata>
+		<monsterdata>
+			<name>clingy pirate (female)</name>
+			<actual_name>clingy pirate (female)</actual_name>
+			<command>[626]clingy pirate (female)</command>
+			<category>Ambiguous</category>
+		</monsterdata>
+		<monsterdata>
+			<name>clingy pirate (male)</name>
+			<actual_name>clingy pirate (male)</actual_name>
+			<command>[627]clingy pirate (male)</command>
+			<category>Ambiguous</category>
+		</monsterdata>
+		<monsterdata>
+			<name>coal snake</name>
+			<actual_name>coal snake</actual_name>
+			<command>[1911]coal snake</command>
+			<category>LT&amp;T Office</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Coal-Shoveling Trainbot</name>
+			<actual_name>Coal-Shoveling Trainbot</actual_name>
+			<command>[2263]Coal-Shoveling Trainbot</command>
+			<category>Crimbo22</category>
+		</monsterdata>
+		<monsterdata>
+			<name>cow cultist</name>
+			<actual_name>cow cultist</actual_name>
+			<command>[1902]cow cultist</command>
+			<category>LT&amp;T Office</category>
+		</monsterdata>
+		<monsterdata>
+			<name>creepy eye-stalk tentacle monster</name>
+			<actual_name>creepy eye-stalk tentacle monster</actual_name>
+			<command>[1174]creepy eye-stalk tentacle monster</command>
+			<category>Unwishable</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Crimbuccaneer bar brawler</name>
+			<actual_name>Crimbuccaneer bar brawler</actual_name>
+			<command>[2420]Crimbuccaneer bar brawler</command>
+			<category>Crimbo23</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Crimbuccaneer barrrback</name>
+			<actual_name>Crimbuccaneer barrrback</actual_name>
+			<command>[2418]Crimbuccaneer barrrback</command>
+			<category>Crimbo23</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Crimbuccaneer bombjack</name>
+			<actual_name>Crimbuccaneer bombjack</actual_name>
+			<command>[2413]Crimbuccaneer bombjack</command>
+			<category>Crimbo23</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Crimbuccaneer carpenter</name>
+			<actual_name>Crimbuccaneer carpenter</actual_name>
+			<command>[2432]Crimbuccaneer carpenter</command>
+			<category>Crimbo23</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Crimbuccaneer freebooter</name>
+			<actual_name>Crimbuccaneer freebooter</actual_name>
+			<command>[2430]Crimbuccaneer freebooter</command>
+			<category>Crimbo23</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Crimbuccaneer fruit plunderer</name>
+			<actual_name>Crimbuccaneer fruit plunderer</actual_name>
+			<command>[2427]Crimbuccaneer fruit plunderer</command>
+			<category>Crimbo23</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Crimbuccaneer grognard</name>
+			<actual_name>Crimbuccaneer grognard</actual_name>
+			<command>[2419]Crimbuccaneer grognard</command>
+			<category>Crimbo23</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Crimbuccaneer lamplighter</name>
+			<actual_name>Crimbuccaneer lamplighter</actual_name>
+			<command>[2412]Crimbuccaneer lamplighter</command>
+			<category>Crimbo23</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Crimbuccaneer military school dropout</name>
+			<actual_name>Crimbuccaneer military school dropout</actual_name>
+			<command>[2405]Crimbuccaneer military school dropout</command>
+			<category>Crimbo23</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Crimbuccaneer mudlark</name>
+			<actual_name>Crimbuccaneer mudlark</actual_name>
+			<command>[2407]Crimbuccaneer mudlark</command>
+			<category>Crimbo23</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Crimbuccaneer navigator</name>
+			<actual_name>Crimbuccaneer navigator</actual_name>
+			<command>[2406]Crimbuccaneer navigator</command>
+			<category>Crimbo23</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Crimbuccaneer new recruit</name>
+			<actual_name>Crimbuccaneer new recruit</actual_name>
+			<command>[2395]Crimbuccaneer new recruit</command>
+			<category>Crimbo23</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Crimbuccaneer privateer</name>
+			<actual_name>Crimbuccaneer privateer</actual_name>
+			<command>[2436]Crimbuccaneer privateer</command>
+			<category>Crimbo23</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Crimbuccaneer retiree</name>
+			<actual_name>Crimbuccaneer retiree</actual_name>
+			<command>[2429]Crimbuccaneer retiree</command>
+			<category>Crimbo23</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Crimbuccaneer rigging rigger</name>
+			<actual_name>Crimbuccaneer rigging rigger</actual_name>
+			<command>[2414]Crimbuccaneer rigging rigger</command>
+			<category>Crimbo23</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Crimbuccaneer scrimshander</name>
+			<actual_name>Crimbuccaneer scrimshander</actual_name>
+			<command>[2431]Crimbuccaneer scrimshander</command>
+			<category>Crimbo23</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Crimbuccaneer vice-captain</name>
+			<actual_name>Crimbuccaneer vice-captain</actual_name>
+			<command>[2408]Crimbuccaneer vice-captain</command>
+			<category>Crimbo23</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Crimbuccaneer whalehunter</name>
+			<actual_name>Crimbuccaneer whalehunter</actual_name>
+			<command>[2428]Crimbuccaneer whalehunter</command>
+			<category>Crimbo23</category>
+		</monsterdata>
+		<monsterdata>
+			<name>crypt creeper</name>
+			<actual_name>crypt creeper</actual_name>
+			<command>[2076]crypt creeper</command>
+			<category>FantasyRealm</category>
+		</monsterdata>
+		<monsterdata>
+			<name>cursed villager</name>
+			<actual_name>cursed villager</actual_name>
+			<command>[2064]cursed villager</command>
+			<category>FantasyRealm</category>
+		</monsterdata>
+		<monsterdata>
+			<name>diamondback rattler</name>
+			<actual_name>diamondback rattler</actual_name>
+			<command>[1910]diamondback rattler</command>
+			<category>LT&amp;T Office</category>
+		</monsterdata>
+		<monsterdata>
+			<name>dirty old lihc</name>
+			<actual_name>dirty old lihc</actual_name>
+			<command>[1071]dirty old lihc</command>
+			<category>Standard</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Drink-Delivery Trainbot</name>
+			<actual_name>Drink-Delivery Trainbot</actual_name>
+			<command>[2257]Drink-Delivery Trainbot</command>
+			<category>Crimbo22</category>
+		</monsterdata>
+		<monsterdata>
+			<name>druid plants</name>
+			<actual_name>druid plants</actual_name>
+			<command>[2070]druid plants</command>
+			<category>FantasyRealm</category>
+		</monsterdata>
+		<monsterdata>
+			<name>drunk cowpoke</name>
+			<actual_name>drunk cowpoke</actual_name>
+			<command>[1899]drunk cowpoke</command>
+			<category>LT&amp;T Office</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Elf Guard arctic seal</name>
+			<actual_name>Elf Guard arctic seal</actual_name>
+			<command>[2433]Elf Guard arctic seal</command>
+			<category>Crimbo23</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Elf Guard armorer</name>
+			<actual_name>Elf Guard armorer</actual_name>
+			<command>[2434]Elf Guard armorer</command>
+			<category>Crimbo23</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Elf Guard chemist</name>
+			<actual_name>Elf Guard chemist</actual_name>
+			<command>[2422]Elf Guard chemist</command>
+			<category>Crimbo23</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Elf Guard conscript</name>
+			<actual_name>Elf Guard conscript</actual_name>
+			<command>[2392]Elf Guard conscript</command>
+			<category>Crimbo23</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Elf Guard convict</name>
+			<actual_name>Elf Guard convict</actual_name>
+			<command>[2393]Elf Guard convict</command>
+			<category>Crimbo23</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Elf Guard desserter</name>
+			<actual_name>Elf Guard desserter</actual_name>
+			<command>[2424]Elf Guard desserter</command>
+			<category>Crimbo23</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Elf Guard engineer</name>
+			<actual_name>Elf Guard engineer</actual_name>
+			<command>[2417]Elf Guard engineer</command>
+			<category>Crimbo23</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Elf Guard fuel courier</name>
+			<actual_name>Elf Guard fuel courier</actual_name>
+			<command>[2415]Elf Guard fuel courier</command>
+			<category>Crimbo23</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Elf Guard general</name>
+			<actual_name>Elf Guard general</actual_name>
+			<command>[2411]Elf Guard general</command>
+			<category>Crimbo23</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Elf Guard ordnance packer</name>
+			<actual_name>Elf Guard ordnance packer</actual_name>
+			<command>[2416]Elf Guard ordnance packer</command>
+			<category>Crimbo23</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Elf Guard private</name>
+			<actual_name>Elf Guard private</actual_name>
+			<command>[2394]Elf Guard private</command>
+			<category>Crimbo23</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Elf Guard provisioner</name>
+			<actual_name>Elf Guard provisioner</actual_name>
+			<command>[2425]Elf Guard provisioner</command>
+			<category>Crimbo23</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Elf Guard Red and White Beret</name>
+			<actual_name>Elf Guard Red and White Beret</actual_name>
+			<command>[2435]Elf Guard Red and White Beret</command>
+			<category>Crimbo23</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Elf Guard requisitions officer</name>
+			<actual_name>Elf Guard requisitions officer</actual_name>
+			<command>[2410]Elf Guard requisitions officer</command>
+			<category>Crimbo23</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Elf Guard sanitation officer</name>
+			<actual_name>Elf Guard sanitation officer</actual_name>
+			<command>[2421]Elf Guard sanitation officer</command>
+			<category>Crimbo23</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Elf Guard shore leave specialist</name>
+			<actual_name>Elf Guard shore leave specialist</actual_name>
+			<command>[2423]Elf Guard shore leave specialist</command>
+			<category>Crimbo23</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Elf Guard steward</name>
+			<actual_name>Elf Guard steward</actual_name>
+			<command>[2426]Elf Guard steward</command>
+			<category>Crimbo23</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Elf Guard strategist</name>
+			<actual_name>Elf Guard strategist</actual_name>
+			<command>[2409]Elf Guard strategist</command>
+			<category>Crimbo23</category>
+		</monsterdata>
+		<monsterdata>
+			<name>erudite gremlin</name>
+			<actual_name>erudite gremlin</actual_name>
+			<command>[546]erudite gremlin</command>
+			<category>Ambiguous</category>
+		</monsterdata>
+		<monsterdata>
+			<name>erudite gremlin (tool)</name>
+			<actual_name>erudite gremlin (tool)</actual_name>
+			<command>[547]erudite gremlin (tool)</command>
+			<category>Ambiguous</category>
+		</monsterdata>
+		<monsterdata>
+			<name>factory overseer (female)</name>
+			<actual_name>factory overseer (female)</actual_name>
+			<command>[1791]factory overseer (female)</command>
+			<category>Ambiguous</category>
+		</monsterdata>
+		<monsterdata>
+			<name>factory overseer (male)</name>
+			<actual_name>factory overseer (male)</actual_name>
+			<command>[1790]factory overseer (male)</command>
+			<category>Ambiguous</category>
+		</monsterdata>
+		<monsterdata>
+			<name>factory worker (female)</name>
+			<actual_name>factory worker (female)</actual_name>
+			<command>[1789]factory worker (female)</command>
+			<category>Ambiguous</category>
+		</monsterdata>
+		<monsterdata>
+			<name>factory worker (male)</name>
+			<actual_name>factory worker (male)</actual_name>
+			<command>[1792]factory worker (male)</command>
+			<category>Ambiguous</category>
+		</monsterdata>
+		<monsterdata>
+			<name>fantasy bandit</name>
+			<actual_name>fantasy bandit</actual_name>
+			<command>[2060]fantasy bandit</command>
+			<category>FantasyRealm</category>
+		</monsterdata>
+		<monsterdata>
+			<name>fantasy forest faerie</name>
+			<actual_name>fantasy forest faerie</actual_name>
+			<command>[2062]fantasy forest faerie</command>
+			<category>FantasyRealm</category>
+		</monsterdata>
+		<monsterdata>
+			<name>fantasy ourk</name>
+			<actual_name>fantasy ourk</actual_name>
+			<command>[2061]fantasy ourk</command>
+			<category>FantasyRealm</category>
+		</monsterdata>
+		<monsterdata>
+			<name>flock of every birds</name>
+			<actual_name>flock of every birds</actual_name>
+			<command>[2071]flock of every birds</command>
+			<category>FantasyRealm</category>
+		</monsterdata>
+		<monsterdata>
+			<name>frontwinder</name>
+			<actual_name>frontwinder</actual_name>
+			<command>[1912]frontwinder</command>
+			<category>LT&amp;T Office</category>
+		</monsterdata>
+		<monsterdata>
+			<name>giant swarm of ghuol whelps</name>
+			<actual_name>giant swarm of ghuol whelps</actual_name>
+			<command>[1074]giant swarm of ghuol whelps</command>
+			<category>Standard</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Green Ops Soldier</name>
+			<actual_name>Green Ops Soldier</actual_name>
+			<command>[492]Green Ops Soldier</command>
+			<category>Standard</category>
+		</monsterdata>
+		<monsterdata>
+			<name>grizzled bear</name>
+			<actual_name>grizzled bear</actual_name>
+			<command>[1909]grizzled bear</command>
+			<category>LT&amp;T Office</category>
+		</monsterdata>
+		<monsterdata>
+			<name>grouchy furry monster</name>
+			<actual_name>grouchy furry monster</actual_name>
+			<command>[1175]grouchy furry monster</command>
+			<category>Unwishable</category>
+		</monsterdata>
+		<monsterdata>
+			<name>hired gun</name>
+			<actual_name>hired gun</actual_name>
+			<command>[1903]hired gun</command>
+			<category>LT&amp;T Office</category>
+		</monsterdata>
+		<monsterdata>
+			<name>hulking construct</name>
+			<actual_name>hulking construct</actual_name>
+			<command>[669]hulking construct</command>
+			<category>Ambiguous</category>
+		</monsterdata>
+		<monsterdata>
+			<name>hulking construct (translated)</name>
+			<actual_name>hulking construct (translated)</actual_name>
+			<command>[675]hulking construct (translated)</command>
+			<category>Ambiguous</category>
+		</monsterdata>
+		<monsterdata>
+			<name>industrious construct</name>
+			<actual_name>industrious construct</actual_name>
+			<command>[666]industrious construct</command>
+			<category>Ambiguous</category>
+		</monsterdata>
+		<monsterdata>
+			<name>industrious construct (translated)</name>
+			<actual_name>industrious construct (translated)</actual_name>
+			<command>[672]industrious construct (translated)</command>
+			<category>Ambiguous</category>
+		</monsterdata>
+		<monsterdata>
+			<name>knight (Snake)</name>
+			<actual_name>knight (Snake)</actual_name>
+			<command>[398]knight (Snake)</command>
+			<category>Ambiguous</category>
+		</monsterdata>
+		<monsterdata>
+			<name>knight (Wolf)</name>
+			<actual_name>knight (Wolf)</actual_name>
+			<command>[397]knight (Wolf)</command>
+			<category>Ambiguous</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Knob Goblin Embezzler</name>
+			<actual_name>Knob Goblin Embezzler</actual_name>
+			<command>[530]Knob Goblin Embezzler</command>
+			<category>Standard</category>
+		</monsterdata>
+		<monsterdata>
+			<name>lobsterfrogman</name>
+			<actual_name>lobsterfrogman</actual_name>
+			<command>[529]lobsterfrogman</command>
+			<category>Standard</category>
+		</monsterdata>
+		<monsterdata>
+			<name>lonely construct</name>
+			<actual_name>lonely construct</actual_name>
+			<command>[668]lonely construct</command>
+			<category>Ambiguous</category>
+		</monsterdata>
+		<monsterdata>
+			<name>lonely construct (translated)</name>
+			<actual_name>lonely construct (translated)</actual_name>
+			<command>[674]lonely construct (translated)</command>
+			<category>Ambiguous</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Luggage-Handling Trainbot</name>
+			<actual_name>Luggage-Handling Trainbot</actual_name>
+			<command>[2258]Luggage-Handling Trainbot</command>
+			<category>Crimbo22</category>
+		</monsterdata>
+		<monsterdata>
+			<name>menacing construct</name>
+			<actual_name>menacing construct</actual_name>
+			<command>[664]menacing construct</command>
+			<category>Ambiguous</category>
+		</monsterdata>
+		<monsterdata>
+			<name>menacing construct (translated)</name>
+			<actual_name>menacing construct (translated)</actual_name>
+			<command>[670]menacing construct (translated)</command>
+			<category>Ambiguous</category>
+		</monsterdata>
+		<monsterdata>
+			<name>mine overseer (female)</name>
+			<actual_name>mine overseer (female)</actual_name>
+			<command>[1787]mine overseer (female)</command>
+			<category>Ambiguous</category>
+		</monsterdata>
+		<monsterdata>
+			<name>mine overseer (male)</name>
+			<actual_name>mine overseer (male)</actual_name>
+			<command>[1785]mine overseer (male)</command>
+			<category>Ambiguous</category>
+		</monsterdata>
+		<monsterdata>
+			<name>mine worker (female)</name>
+			<actual_name>mine worker (female)</actual_name>
+			<command>[1784]mine worker (female)</command>
+			<category>Ambiguous</category>
+		</monsterdata>
+		<monsterdata>
+			<name>mine worker (male)</name>
+			<actual_name>mine worker (male)</actual_name>
+			<command>[1786]mine worker (male)</command>
+			<category>Ambiguous</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Mob Penguin goon (2008)</name>
+			<actual_name>Mob Penguin goon (2008)</actual_name>
+			<command>[753]Mob Penguin goon (2008)</command>
+			<category>Ambiguous</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Mob Penguin Goon (2009)</name>
+			<actual_name>Mob Penguin Goon (2009)</actual_name>
+			<command>[906]Mob Penguin Goon (2009)</command>
+			<category>Ambiguous</category>
+		</monsterdata>
+		<monsterdata>
+			<name>modern zmobie</name>
+			<actual_name>modern zmobie</actual_name>
+			<command>[1070]modern zmobie</command>
+			<category>Standard</category>
+		</monsterdata>
+		<monsterdata>
+			<name>moomy</name>
+			<actual_name>moomy</actual_name>
+			<command>[1916]moomy</command>
+			<category>LT&amp;T Office</category>
+		</monsterdata>
+		<monsterdata>
+			<name>mountain lion</name>
+			<actual_name>mountain lion</actual_name>
+			<command>[1908]mountain lion</command>
+			<category>LT&amp;T Office</category>
+		</monsterdata>
+		<monsterdata>
+			<name>mouthless murmur</name>
+			<actual_name>mouthless murmur</actual_name>
+			<command>[2043]mouthless murmur</command>
+			<category>Crimbo17</category>
+		</monsterdata>
+		<monsterdata>
+			<name>N-space Virtual Assistant</name>
+			<actual_name>N-space Virtual Assistant</actual_name>
+			<command>[1184]N-space Virtual Assistant</command>
+			<category>Unwishable</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Ninja Snowman (Chopsticks)</name>
+			<actual_name>Ninja Snowman (Chopsticks)</actual_name>
+			<command>[338]Ninja Snowman (Chopsticks)</command>
+			<category>Ambiguous</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Ninja Snowman (Hilt)</name>
+			<actual_name>Ninja Snowman (Hilt)</actual_name>
+			<command>[137]Ninja Snowman (Hilt)</command>
+			<category>Ambiguous</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Ninja Snowman (Mask)</name>
+			<actual_name>Ninja Snowman (Mask)</actual_name>
+			<command>[100]Ninja Snowman (Mask)</command>
+			<category>Ambiguous</category>
+		</monsterdata>
+		<monsterdata>
+			<name>ninja snowman assassin</name>
+			<actual_name>ninja snowman assassin</actual_name>
+			<command>[1185]ninja snowman assassin</command>
+			<category>Standard</category>
+		</monsterdata>
+		<monsterdata>
+			<name>official seal</name>
+			<actual_name>official seal</actual_name>
+			<command>[1442]official seal</command>
+			<category>Unwishable</category>
+		</monsterdata>
+		<monsterdata>
+			<name>oil baron</name>
+			<actual_name>oil baron</actual_name>
+			<command>[1237]oil baron</command>
+			<category>Unwishable</category>
+		</monsterdata>
+		<monsterdata>
+			<name>oil cartel</name>
+			<actual_name>oil cartel</actual_name>
+			<command>[1238]oil cartel</command>
+			<category>Unwishable</category>
+		</monsterdata>
+		<monsterdata>
+			<name>oil slick</name>
+			<actual_name>oil slick</actual_name>
+			<command>[1235]oil slick</command>
+			<category>Unwishable</category>
+		</monsterdata>
+		<monsterdata>
+			<name>oil tycoon</name>
+			<actual_name>oil tycoon</actual_name>
+			<command>[1236]oil tycoon</command>
+			<category>Unwishable</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Orcish Frat Boy (Music Lover)</name>
+			<actual_name>Orcish Frat Boy (Music Lover)</actual_name>
+			<command>[62]Orcish Frat Boy (Music Lover)</command>
+			<category>Ambiguous</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Orcish Frat Boy (Paddler)</name>
+			<actual_name>Orcish Frat Boy (Paddler)</actual_name>
+			<command>[63]Orcish Frat Boy (Paddler)</command>
+			<category>Ambiguous</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Orcish Frat Boy (Pledge)</name>
+			<actual_name>Orcish Frat Boy (Pledge)</actual_name>
+			<command>[64]Orcish Frat Boy (Pledge)</command>
+			<category>Ambiguous</category>
+		</monsterdata>
+		<monsterdata>
+			<name>party skelteon</name>
+			<actual_name>party skelteon</actual_name>
+			<command>[2154]party skelteon</command>
+			<category>Standard</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Ping-Pong-Playing Trainbot</name>
+			<actual_name>Ping-Pong-Playing Trainbot</actual_name>
+			<command>[2256]Ping-Pong-Playing Trainbot</command>
+			<category>Crimbo22</category>
+		</monsterdata>
+		<monsterdata>
+			<name>possessed wine rack</name>
+			<actual_name>possessed wine rack</actual_name>
+			<command>[713]possessed wine rack</command>
+			<category>Ambiguous</category>
+		</monsterdata>
+		<monsterdata>
+			<name>possessed wine rack (obsolete)</name>
+			<actual_name>possessed wine rack (obsolete)</actual_name>
+			<command>[454]possessed wine rack (obsolete)</command>
+			<category>Ambiguous</category>
+		</monsterdata>
+		<monsterdata>
+			<name>pterodactyl</name>
+			<actual_name>pterodactyl</actual_name>
+			<command>[1592]pterodactyl</command>
+			<category>Other</category>
+		</monsterdata>
+		<monsterdata>
+			<name>pygmy witch lawyer</name>
+			<actual_name>pygmy witch lawyer</actual_name>
+			<command>[1434]pygmy witch lawyer</command>
+			<category>Standard</category>
+		</monsterdata>
+		<monsterdata>
+			<name>pyrobove</name>
+			<actual_name>pyrobove</actual_name>
+			<command>[1914]pyrobove</command>
+			<category>LT&amp;T Office</category>
+		</monsterdata>
+		<monsterdata>
+			<name>regular thief</name>
+			<actual_name>regular thief</actual_name>
+			<command>[2074]regular thief</command>
+			<category>FantasyRealm</category>
+		</monsterdata>
+		<monsterdata>
+			<name>restless ghost</name>
+			<actual_name>restless ghost</actual_name>
+			<command>[1906]restless ghost</command>
+			<category>LT&amp;T Office</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Richard X</name>
+			<actual_name>Richard X</actual_name>
+			<command>[1841]Richard X</command>
+			<category>Twitch Tower</category>
+		</monsterdata>
+		<monsterdata>
+			<name>screambat</name>
+			<actual_name>screambat</actual_name>
+			<command>[1010]screambat</command>
+			<category>Standard</category>
+		</monsterdata>
+		<monsterdata>
+			<name>silent scream</name>
+			<actual_name>silent scream</actual_name>
+			<command>[2042]silent scream</command>
+			<category>Crimbo17</category>
+		</monsterdata>
+		<monsterdata>
+			<name>skeletal gunslinger</name>
+			<actual_name>skeletal gunslinger</actual_name>
+			<command>[1905]skeletal gunslinger</command>
+			<category>LT&amp;T Office</category>
+		</monsterdata>
+		<monsterdata>
+			<name>skeletal sommelier</name>
+			<actual_name>skeletal sommelier</actual_name>
+			<command>[714]skeletal sommelier</command>
+			<category>Ambiguous</category>
+		</monsterdata>
+		<monsterdata>
+			<name>skeletal sommelier (obsolete)</name>
+			<actual_name>skeletal sommelier (obsolete)</actual_name>
+			<command>[455]skeletal sommelier (obsolete)</command>
+			<category>Ambiguous</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Skinflute</name>
+			<actual_name>Skinflute</actual_name>
+			<command>[353]Skinflute</command>
+			<category>Standard</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Slag-Processing Trainbot</name>
+			<actual_name>Slag-Processing Trainbot</actual_name>
+			<command>[2264]Slag-Processing Trainbot</command>
+			<category>Crimbo22</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Slime Tube monster</name>
+			<actual_name>Slime Tube monster</actual_name>
+			<command>[791]Slime Tube monster</command>
+			<category>Twitch Tower</category>
+		</monsterdata>
+		<monsterdata>
+			<name>space beast</name>
+			<actual_name>space beast</actual_name>
+			<command>[1588]space beast</command>
+			<category>Unwishable</category>
+		</monsterdata>
+		<monsterdata>
+			<name>spider gremlin</name>
+			<actual_name>spider gremlin</actual_name>
+			<command>[552]spider gremlin</command>
+			<category>Ambiguous</category>
+		</monsterdata>
+		<monsterdata>
+			<name>spider gremlin (tool)</name>
+			<actual_name>spider gremlin (tool)</actual_name>
+			<command>[553]spider gremlin (tool)</command>
+			<category>Ambiguous</category>
+		</monsterdata>
+		<monsterdata>
+			<name>spidercow</name>
+			<actual_name>spidercow</actual_name>
+			<command>[1915]spidercow</command>
+			<category>LT&amp;T Office</category>
+		</monsterdata>
+		<monsterdata>
+			<name>spirit bedbug</name>
+			<actual_name>spirit bedbug</actual_name>
+			<command>[1456]spirit bedbug</command>
+			<category>Class Revamp</category>
+		</monsterdata>
+		<monsterdata>
+			<name>spirit faucet</name>
+			<actual_name>spirit faucet</actual_name>
+			<command>[1458]spirit faucet</command>
+			<category>Class Revamp</category>
+		</monsterdata>
+		<monsterdata>
+			<name>spirit pea</name>
+			<actual_name>spirit pea</actual_name>
+			<command>[1457]spirit pea</command>
+			<category>Class Revamp</category>
+		</monsterdata>
+		<monsterdata>
+			<name>spooky ghost</name>
+			<actual_name>spooky ghost</actual_name>
+			<command>[2065]spooky ghost</command>
+			<category>FantasyRealm</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Steam-Routing Trainbot</name>
+			<actual_name>Steam-Routing Trainbot</actual_name>
+			<command>[2265]Steam-Routing Trainbot</command>
+			<category>Crimbo22</category>
+		</monsterdata>
+		<monsterdata>
+			<name>surly gambler</name>
+			<actual_name>surly gambler</actual_name>
+			<command>[1900]surly gambler</command>
+			<category>LT&amp;T Office</category>
+		</monsterdata>
+		<monsterdata>
+			<name>swamp monster</name>
+			<actual_name>swamp monster</actual_name>
+			<command>[2063]swamp monster</command>
+			<category>FantasyRealm</category>
+		</monsterdata>
+		<monsterdata>
+			<name>swarm of ghuol whelps</name>
+			<actual_name>swarm of ghuol whelps</actual_name>
+			<command>[1072]swarm of ghuol whelps</command>
+			<category>Twitch Tower</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Table-Bussing Trainbot</name>
+			<actual_name>Table-Bussing Trainbot</actual_name>
+			<command>[2262]Table-Bussing Trainbot</command>
+			<category>Crimbo22</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Table-Waiting Trainbot</name>
+			<actual_name>Table-Waiting Trainbot</actual_name>
+			<command>[2260]Table-Waiting Trainbot</command>
+			<category>Crimbo22</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Ticket-Checking Trainbot</name>
+			<actual_name>Ticket-Checking Trainbot</actual_name>
+			<command>[2259]Ticket-Checking Trainbot</command>
+			<category>Crimbo22</category>
+		</monsterdata>
+		<monsterdata>
+			<name>toothless mastiff bitch</name>
+			<actual_name>toothless mastiff bitch</actual_name>
+			<command>[584]toothless mastiff bitch</command>
+			<category>Other</category>
+		</monsterdata>
+		<monsterdata>
+			<name>toothy sklelton</name>
+			<actual_name>toothy sklelton</actual_name>
+			<command>[186]toothy sklelton</command>
+			<category>Standard</category>
+		</monsterdata>
+		<monsterdata>
+			<name>towering construct</name>
+			<actual_name>towering construct</actual_name>
+			<command>[667]towering construct</command>
+			<category>Ambiguous</category>
+		</monsterdata>
+		<monsterdata>
+			<name>towering construct (translated)</name>
+			<actual_name>towering construct (translated)</actual_name>
+			<command>[673]towering construct (translated)</command>
+			<category>Ambiguous</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Track-Switching Trainbot</name>
+			<actual_name>Track-Switching Trainbot</actual_name>
+			<command>[2255]Track-Switching Trainbot</command>
+			<category>Crimbo22</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Trippy Floating Head (Casey Kasem)</name>
+			<actual_name>Trippy Floating Head (Casey Kasem)</actual_name>
+			<command>[356]Trippy Floating Head (Casey Kasem)</command>
+			<category>Ambiguous</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Trippy Floating Head (Grand Moff Tarkin)</name>
+			<actual_name>Trippy Floating Head (Grand Moff Tarkin)</actual_name>
+			<command>[357]Trippy Floating Head (Grand Moff Tarkin)</command>
+			<category>Ambiguous</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Trippy Floating Head (Mona Lisa)</name>
+			<actual_name>Trippy Floating Head (Mona Lisa)</actual_name>
+			<command>[355]Trippy Floating Head (Mona Lisa)</command>
+			<category>Ambiguous</category>
+		</monsterdata>
+		<monsterdata>
+			<name>ungulith</name>
+			<actual_name>ungulith</actual_name>
+			<command>[1932]ungulith</command>
+			<category>Other</category>
+		</monsterdata>
+		<monsterdata>
+			<name>vegetable gremlin</name>
+			<actual_name>vegetable gremlin</actual_name>
+			<command>[550]vegetable gremlin</command>
+			<category>Ambiguous</category>
+		</monsterdata>
+		<monsterdata>
+			<name>vegetable gremlin (tool)</name>
+			<actual_name>vegetable gremlin (tool)</actual_name>
+			<command>[551]vegetable gremlin (tool)</command>
+			<category>Ambiguous</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Villainous Minion</name>
+			<actual_name>Villainous Minion</actual_name>
+			<command>[2024]Villainous Minion</command>
+			<category>Unwishable</category>
+		</monsterdata>
+		<monsterdata>
+			<name>voiceless whisper</name>
+			<actual_name>voiceless whisper</actual_name>
+			<command>[2041]voiceless whisper</command>
+			<category>Crimbo17</category>
+		</monsterdata>
+		<monsterdata>
+			<name>wannabe gunslinger</name>
+			<actual_name>wannabe gunslinger</actual_name>
+			<command>[1901]wannabe gunslinger</command>
+			<category>LT&amp;T Office</category>
+		</monsterdata>
+		<monsterdata>
+			<name>War Frat Mobile Grill Unit</name>
+			<actual_name>War Frat Mobile Grill Unit</actual_name>
+			<command>[577]War Frat Mobile Grill Unit</command>
+			<category>Standard</category>
+		</monsterdata>
+		<monsterdata>
+			<name>War Hippy Airborne Commander</name>
+			<actual_name>War Hippy Airborne Commander</actual_name>
+			<command>[489]War Hippy Airborne Commander</command>
+			<category>Other</category>
+		</monsterdata>
+		<monsterdata>
+			<name>wardrobe robot</name>
+			<actual_name>wardrobe robot</actual_name>
+			<command>[2397]wardrobe robot</command>
+			<category>Twitch Tower</category>
+		</monsterdata>
+		<monsterdata>
+			<name>warehouse clerk</name>
+			<actual_name>warehouse clerk</actual_name>
+			<command>[1742]warehouse clerk</command>
+			<category>Unwishable</category>
+		</monsterdata>
+		<monsterdata>
+			<name>warehouse guard</name>
+			<actual_name>warehouse guard</actual_name>
+			<command>[1740]warehouse guard</command>
+			<category>Unwishable</category>
+		</monsterdata>
+		<monsterdata>
+			<name>warehouse janitor</name>
+			<actual_name>warehouse janitor</actual_name>
+			<command>[1741]warehouse janitor</command>
+			<category>Unwishable</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Wine-Pairing Trainbot</name>
+			<actual_name>Wine-Pairing Trainbot</actual_name>
+			<command>[2261]Wine-Pairing Trainbot</command>
+			<category>Crimbo22</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Witchess Knight</name>
+			<actual_name>Witchess Knight</actual_name>
+			<command>[1936]Witchess Knight</command>
+			<category>Other</category>
+		</monsterdata>
+		<monsterdata>
+			<name>Witchess Witch</name>
+			<actual_name>Witchess Witch</actual_name>
+			<command>[1941]Witchess Witch</command>
+			<category>Other</category>
+		</monsterdata>
+	</monsterlist>
+</faxbot>

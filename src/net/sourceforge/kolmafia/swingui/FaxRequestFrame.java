@@ -9,6 +9,8 @@ import java.util.List;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -33,7 +35,7 @@ import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 
-public class FaxRequestFrame extends GenericFrame {
+public class FaxRequestFrame extends GenericFrame implements ChangeListener {
   private static final int ROWS = 15;
   private static final int LIMIT = 60;
   private static final int DELAY = 200;
@@ -47,16 +49,30 @@ public class FaxRequestFrame extends GenericFrame {
 
   public FaxRequestFrame() {
     super("Request a Fax");
-    this.selectorPanel = new CardLayoutSelectorPanel("faxbots", "MMMMMMMMMMMM");
+    this.selectorPanel = new CardLayoutSelectorPanel(null, "MMMMMMMMMMMM");
     for (FaxBot bot : FaxBotDatabase.faxbots) {
       JPanel panel = new JPanel(new BorderLayout());
       FaxRequestPanel botPanel = new FaxRequestPanel(bot);
       panel.add(botPanel);
       this.selectorPanel.addPanel(bot.getName(), panel);
     }
-    this.selectorPanel.setSelectedIndex(0);
+    // Gets the index of the last faxbot selected in gui
+    int lastFaxbot =
+        this.selectorPanel.panelNames.indexOf(Preferences.getString("lastSelectedFaxbot"));
+    // If not found, defaults to -1. Set selected index to 0 or higher
+    this.selectorPanel.setSelectedIndex(Math.max(0, lastFaxbot));
+    this.selectorPanel.addChangeListener(this);
     this.setCenterComponent(this.selectorPanel);
     this.add(new StatusPanel(), BorderLayout.SOUTH);
+  }
+
+  @Override
+  public void stateChanged(ChangeEvent e) {
+    Object panelName = this.selectorPanel.panelNames.get(this.selectorPanel.getSelectedIndex());
+
+    if (!(panelName instanceof String)) return;
+
+    Preferences.setString("lastSelectedFaxbot", (String) panelName);
   }
 
   private class FaxRequestPanel extends GenericPanel {
@@ -241,6 +257,8 @@ public class FaxRequestFrame extends GenericFrame {
         new ClanLoungeRequest(Action.FAX_MACHINE, ClanLoungeRequest.RECEIVE_FAX);
     RequestThread.postRequest(request);
     KoLmafia.enableDisplay();
+    // Set the last faxbot the user successfully used
+    Preferences.setString("lastSuccessfulFaxbot", botName);
     return true;
   }
 

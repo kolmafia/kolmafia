@@ -1438,4 +1438,47 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       fail("Could not find expected equipment request.");
     }
   }
+
+  @Nested
+  class Darts {
+    @Test
+    void canCalculateSkillsToParts() {
+      final var cleanups =
+          withProperty("_currentDartboard", "7513:torso,7514:head,7515:butt,7516:arm,7517:leg");
+
+      try (cleanups) {
+        String actual = execute("dart_skills_to_parts()");
+        String expected =
+            """
+            Returned: aggregate string [skill]
+            Darts: Throw at %part1 => torso
+            Darts: Throw at %part2 => head
+            Darts: Throw at %part3 => butt
+            Darts: Throw at %part4 => arm
+            Darts: Throw at %part5 => leg
+            """;
+        assertThat(actual, equalTo(expected));
+      }
+    }
+
+    @Test
+    void canCalculatePartsToSkills() {
+      final var cleanups =
+          withProperty("_currentDartboard", "7513:torso,7514:head,7515:butt,7516:arm,7517:leg");
+
+      try (cleanups) {
+        String actual = execute("dart_parts_to_skills()");
+        String expected =
+            """
+            Returned: aggregate skill [string]
+            arm => Darts: Throw at %part4
+            butt => Darts: Throw at %part3
+            head => Darts: Throw at %part2
+            leg => Darts: Throw at %part5
+            torso => Darts: Throw at %part1
+            """;
+        assertThat(actual, equalTo(expected));
+      }
+    }
+  }
 }

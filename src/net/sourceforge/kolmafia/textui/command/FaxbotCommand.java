@@ -20,7 +20,7 @@ public class FaxbotCommand extends AbstractCommand {
 
     boolean tried = false;
 
-    for (FaxBot bot : FaxBotDatabase.faxbots) {
+    for (FaxBot bot : FaxBotDatabase.getSortedFaxbots()) {
       if (bot == null) {
         continue;
       }
