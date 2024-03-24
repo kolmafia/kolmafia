@@ -473,7 +473,7 @@
 5004	Nimble Fingers	glove.gif	passive	0	0	Level: 6
 5005	Disco Dance of Doom	dance1.gif	combat	3	0	Level: 2
 5006	Mad Looting Skillz	chest.gif	passive	0	0	Level: 8
-5007	Disco Nap	sleepy.gif	passive,nc,heal	8	0	Level: 3
+5007	Disco Nap	sleepy.gif	nc,heal	8	0	Level: 3
 5008	Disco Dance II: Electric Boogaloo	dance2.gif	combat	4	0	Level: 4
 5009	Disco Fever	discomask.gif	nc,effect,self	10	10	Level: 13
 5010	Overdeveloped Sense of Self Preservation	numberone.gif	passive	0	0	Level: 2
