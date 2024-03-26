@@ -6639,9 +6639,12 @@ public abstract class ChoiceControl {
         }
         break;
 
-      case 1483: // Direct Autumn-Aton
-        int location = StringUtilities.parseInt(request.getFormField("heythereprogrammer"));
-        AutumnatonManager.postChoice(ChoiceManager.lastDecision, text, location);
+      case 1483:
+        // Direct Autumn-Aton
+        {
+          int location = StringUtilities.parseInt(request.getFormField("heythereprogrammer"));
+          AutumnatonManager.postChoice(ChoiceManager.lastDecision, text, location);
+        }
         break;
 
       case 1484: // Conspicuous Plaque
@@ -6770,6 +6773,22 @@ public abstract class ChoiceControl {
         // In either direction, current modifiers have changed.
         KoLCharacter.recalculateAdjustments();
         KoLCharacter.updateStatus();
+        break;
+
+      case 1522:
+        // The Antiscientific Method
+        {
+          var location = KoLAdventure.lastVisitedLocation;
+          if (location != null && text.contains("smashed scientific equipment")) {
+            String value = Preferences.getString("antiScientificMethod").trim();
+            String name = location.getAdventureName();
+            if (!value.equals("")) {
+              value += ",";
+            }
+            value += name;
+            Preferences.setString("antiScientificMethod", value);
+          }
+        }
         break;
 
       case 1523:
