@@ -983,6 +983,13 @@ public abstract class ChoiceControl {
         // Death Rattlin'
         if (ChoiceManager.lastDecision == 5) {
           Preferences.setBoolean("candyCaneSwordDefiledCranny", true);
+          // You jam your candy cane sword into the hole and flick it around.  You hear moans and
+          // groans and grunts.  Seems like you easily defeated some tiny horrors.
+          //
+          // Your Evilometer beeps 11 times.
+          if (text.contains("Your Evilometer beeps 11 times.")) {
+            Preferences.decrement("cyrptCrannyEvilness", 11);
+          }
         }
         break;
 
