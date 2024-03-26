@@ -691,7 +691,7 @@ class ChoiceControlTest {
       request.run();
 
       assertThat(ChoiceManager.handlingChoice, is(false));
-      assertThat("antiScientificMethod", isSetTo(prev + "," + location));
+      assertThat("antiScientificMethod", isSetTo(prev + "|" + location));
 
       var requests = client.getRequests();
       assertThat(requests, hasSize(1));

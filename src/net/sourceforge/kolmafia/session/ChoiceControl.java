@@ -6783,7 +6783,7 @@ public abstract class ChoiceControl {
             String value = Preferences.getString("antiScientificMethod").trim();
             String name = location.getAdventureName();
             if (!value.equals("")) {
-              value += ",";
+              value += "|";
             }
             value += name;
             Preferences.setString("antiScientificMethod", value);
