@@ -5,6 +5,7 @@ import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withAscensions;
 import static internal.helpers.Player.withChoice;
+import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withHandlingChoice;
 import static internal.helpers.Player.withHttpClientBuilder;
@@ -29,6 +30,7 @@ import java.util.List;
 import java.util.Map;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -697,6 +699,47 @@ class ChoiceControlTest {
       assertThat(requests, hasSize(1));
 
       assertPostRequest(requests.get(0), "/choice.php", "whichchoice=1522&option=1");
+    }
+  }
+
+  @Test
+  void canUseCandyCaneSwordToClearEvil() {
+    var builder = new FakeHttpClientBuilder();
+    var client = builder.client;
+    String location = "The Defiled Cranny";
+
+    var cleanups =
+        new Cleanups(
+            withHttpClientBuilder(builder),
+            withEquipped(Slot.WEAPON, ItemPool.CANDY_CANE_SWORD),
+            withLastLocation("The Defiled Cranny"),
+            withProperty("cyrptCrannyEvilness", 50));
+
+    try (cleanups) {
+      client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
+      client.addResponse(200, html("request/test_defiled_cranny_choice.html"));
+      client.addResponse(200, html("request/test_defiled_cranny_choice_candy_sword.html"));
+      client.addResponse(200, "");
+
+      var request = new GenericRequest("adventure.php?snarfblat=262", true);
+      request.run();
+
+      assertThat(ChoiceManager.handlingChoice, is(true));
+      assertThat(ChoiceManager.lastChoice, is(523));
+
+      var choice = new GenericRequest("choice.php?whichchoice=523&option=5", true);
+      choice.run();
+
+      assertThat(ChoiceManager.handlingChoice, is(false));
+      assertThat("cyrptCrannyEvilness", isSetTo(39));
+
+      var requests = client.getRequests();
+      assertThat(requests, hasSize(4));
+
+      assertPostRequest(requests.get(0), "/adventure.php", "snarfblat=262");
+      assertGetRequest(requests.get(1), "/choice.php", "forceoption=0");
+      assertPostRequest(requests.get(2), "/choice.php", "whichchoice=523&option=5");
+      assertPostRequest(requests.get(3), "/api.php", "what=status&for=KoLmafia");
     }
   }
 }
