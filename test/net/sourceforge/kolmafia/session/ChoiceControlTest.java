@@ -10,6 +10,7 @@ import static internal.helpers.Player.withHandlingChoice;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withIntrinsicEffect;
 import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withLastLocation;
 import static internal.helpers.Player.withNoEffects;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withPostChoice1;
@@ -665,6 +666,37 @@ class ChoiceControlTest {
         assertPostRequest(requests.get(2), "/api.php", "what=status&for=KoLmafia");
         assertPostRequest(requests.get(3), "/choice.php", "whichchoice=1003&option=5");
       }
+    }
+  }
+
+  @Test
+  void canDetectSmashedScientificEquipment() {
+    var builder = new FakeHttpClientBuilder();
+    var client = builder.client;
+    String prev = "Cobb's Knob Laboratory";
+    String location = "Cobb's Knob Menagerie, Level 1";
+
+    var cleanups =
+        new Cleanups(
+            withHttpClientBuilder(builder),
+            withLastLocation(location),
+            withProperty("antiScientificMethod", prev),
+            withHandlingChoice(1522));
+
+    try (cleanups) {
+      client.addResponse(200, html("request/test_smashed_scientific_equipment.html"));
+
+      // choice.php?pwd&whichchoice=1522&option=1
+      var request = new GenericRequest("choice.php?whichchoice=1522&option=1", true);
+      request.run();
+
+      assertThat(ChoiceManager.handlingChoice, is(false));
+      assertThat("antiScientificMethod", isSetTo(prev + "|" + location));
+
+      var requests = client.getRequests();
+      assertThat(requests, hasSize(1));
+
+      assertPostRequest(requests.get(0), "/choice.php", "whichchoice=1522&option=1");
     }
   }
 }
