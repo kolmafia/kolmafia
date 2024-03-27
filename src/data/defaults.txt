@@ -200,6 +200,7 @@ user	afterAdventureScript
 user	aminoAcidsUsed	0
 user	antagonisticSnowmanKitAvailable	true
 user	antagonisticSnowmanKitCost	1000
+user	antiScientificMethod	
 user	arcadeGameHints	false
 user	armoryUnlocked	false
 user	ascensionsToday	0

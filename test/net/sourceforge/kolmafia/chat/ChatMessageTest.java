@@ -39,7 +39,7 @@ public class ChatMessageTest {
     assertNotNull(jso);
     String ep1 =
         "{\"msg\":\"content\",\"for\":{\"color\":\"black\",\"name\":\"recipient\",\"id\":\"recipient\"},\"time\":";
-    String ep2 = Long.toString(testMessage.getDate().getTime());
+    String ep2 = Long.toString(testMessage.getDate().getTime() / 1000);
     String ep3 =
         ",\"type\":\"private\",\"who\":{\"color\":\"black\",\"name\":\"sender\",\"id\":\"sender\"}}";
     assertEquals(jso.toString(), ep1 + ep2 + ep3);

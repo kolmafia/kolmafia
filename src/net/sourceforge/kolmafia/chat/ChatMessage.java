@@ -96,7 +96,7 @@ public class ChatMessage {
         forTag.put("color", "black");
         object.put("for", forTag);
         object.put("msg", this.content);
-        object.put("time", this.date.getTime());
+        object.put("time", this.date.getTime() / 1000);
         return object;
       } catch (JSONException e) {
         return null;

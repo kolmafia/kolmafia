@@ -307,6 +307,7 @@ public abstract class ChatManager {
     }
 
     String content = message.getContent();
+    String destination = recipient;
 
     if (recipient == null) {
       ChatManager.processCommand(sender, content, recipient);
@@ -320,15 +321,13 @@ public abstract class ChatManager {
     } else if (recipient.equals("/talkie")) {
       // Allow chatbot scripts to process talkie messages
       ChatManager.processCommand(sender, content, recipient);
-    } else if (Preferences.getBoolean("chatBeep")
-        && (StringUtilities.globalStringReplace(KoLCharacter.getUserName(), " ", "_")
-            .equalsIgnoreCase(recipient))) {
-      Toolkit.getDefaultToolkit().beep();
-    }
+    } else if (StringUtilities.globalStringReplace(KoLCharacter.getUserName(), " ", "_")
+        .equalsIgnoreCase(recipient)) {
 
-    String destination = recipient;
+      if (Preferences.getBoolean("chatBeep")) {
+        Toolkit.getDefaultToolkit().beep();
+      }
 
-    if (KoLCharacter.getUserName().equals(recipient)) {
       if (ChatManager.triviaGameActive) {
         if (!ChatManager.triviaGameContacts.contains(message.getSender())) {
           ChatManager.triviaGameContacts.add(message.getSender());
