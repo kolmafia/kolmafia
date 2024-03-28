@@ -406,7 +406,7 @@ public class ResponseTextParser {
           Matcher m = ResponseTextParser.DESCITEM_PATTERN.matcher(location);
           if (m.find()) {
             String descid = m.group(1);
-            ConsequenceManager.parseItemDesc(descid, responseText);
+            var hasConsequence = ConsequenceManager.parseItemDesc(descid, responseText);
             int itemId = ItemDatabase.getItemIdFromDescription(descid);
 
             if (itemId == -1) {
@@ -436,7 +436,7 @@ public class ResponseTextParser {
               case ItemPool.RING -> ItemDatabase.parseRing(responseText);
               case ItemPool.LATTE_MUG -> LatteRequest.parseDescription(responseText);
               case ItemPool.EVERFULL_DART_HOLSTER -> ItemDatabase.parseDartPerks(responseText);
-              default -> changesFromTimeToTime = false;
+              default -> changesFromTimeToTime = hasConsequence;
             }
 
             if (changesFromTimeToTime) {
