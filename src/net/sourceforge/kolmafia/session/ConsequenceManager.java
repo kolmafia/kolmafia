@@ -127,11 +127,11 @@ public abstract class ConsequenceManager {
     }
   }
 
-  public static void parseItemDesc(String id, String responseText) {
+  public static boolean parseItemDesc(String id, String responseText) {
     Consequence cons = ConsequenceManager.itemDescs.get(id);
-    if (cons != null) {
-      cons.test(responseText);
-    }
+    if (cons == null) return false;
+    cons.test(responseText);
+    return true;
   }
 
   public static void parseEffectDesc(String id, String responseText) {

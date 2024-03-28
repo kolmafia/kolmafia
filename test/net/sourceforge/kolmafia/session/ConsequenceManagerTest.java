@@ -5,6 +5,7 @@ import static internal.helpers.Player.withProperty;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -30,7 +31,7 @@ public class ConsequenceManagerTest {
   @Nested
   class IntegerPreferences {
     @Test
-    public void canParseDescItemIntegerPreference() {
+    void canParseDescItemIntegerPreference() {
       var cleanups = new Cleanups(withProperty("boneAbacusVictories", "0"));
 
       try (cleanups) {
@@ -38,9 +39,17 @@ public class ConsequenceManagerTest {
         var responseText = html("request/test_consequences_bone_abacus.html");
 
         // You have defeated 1,000 opponents while holding this abacus.
-        ConsequenceManager.parseItemDesc(descid, responseText);
+        var has = ConsequenceManager.parseItemDesc(descid, responseText);
+        assertThat(has, is(true));
         assertThat("boneAbacusVictories", isSetTo("1000"));
       }
+    }
+
+    @Test
+    void canParseDescItemNoConsequence() {
+      var descid = ItemDatabase.getDescriptionId(ItemPool.SEAL_CLUB);
+      var has = ConsequenceManager.parseItemDesc(descid, "");
+      assertThat(has, is(false));
     }
 
     @Test
