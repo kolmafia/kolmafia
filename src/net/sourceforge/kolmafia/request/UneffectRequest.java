@@ -117,6 +117,8 @@ public class UneffectRequest extends GenericRequest {
           EffectPool.SHAPE_OF_MOLE,
           EffectPool.FORM_OF_BIRD,
           // Known to be unremovable
+          EffectPool.MILD_MANNERED_PROFESSOR,
+          EffectPool.SAVAGE_BEAST,
           EffectPool.GOOFBALL_WITHDRAWAL,
           EffectPool.SOUL_CRUSHING_HEADACHE,
           EffectPool.COATED_IN_SLIME,
