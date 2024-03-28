@@ -117,6 +117,7 @@ public class Preferences {
         "8BitScore",
         "affirmationCookiesEaten",
         "aminoAcidsUsed",
+        "antiScientificMethod",
         "asolDeferredPoints",
         "autumnatonQuestLocation",
         "autumnatonQuestTurn",

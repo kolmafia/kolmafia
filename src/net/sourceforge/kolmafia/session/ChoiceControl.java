@@ -983,6 +983,13 @@ public abstract class ChoiceControl {
         // Death Rattlin'
         if (ChoiceManager.lastDecision == 5) {
           Preferences.setBoolean("candyCaneSwordDefiledCranny", true);
+          // You jam your candy cane sword into the hole and flick it around.  You hear moans and
+          // groans and grunts.  Seems like you easily defeated some tiny horrors.
+          //
+          // Your Evilometer beeps 11 times.
+          if (text.contains("Your Evilometer beeps 11 times.")) {
+            Preferences.decrement("cyrptCrannyEvilness", 11);
+          }
         }
         break;
 
@@ -6639,9 +6646,12 @@ public abstract class ChoiceControl {
         }
         break;
 
-      case 1483: // Direct Autumn-Aton
-        int location = StringUtilities.parseInt(request.getFormField("heythereprogrammer"));
-        AutumnatonManager.postChoice(ChoiceManager.lastDecision, text, location);
+      case 1483:
+        // Direct Autumn-Aton
+        {
+          int location = StringUtilities.parseInt(request.getFormField("heythereprogrammer"));
+          AutumnatonManager.postChoice(ChoiceManager.lastDecision, text, location);
+        }
         break;
 
       case 1484: // Conspicuous Plaque
@@ -6770,6 +6780,22 @@ public abstract class ChoiceControl {
         // In either direction, current modifiers have changed.
         KoLCharacter.recalculateAdjustments();
         KoLCharacter.updateStatus();
+        break;
+
+      case 1522:
+        // The Antiscientific Method
+        {
+          var location = KoLAdventure.lastVisitedLocation;
+          if (location != null && text.contains("smashed scientific equipment")) {
+            String value = Preferences.getString("antiScientificMethod").trim();
+            String name = location.getAdventureName();
+            if (!value.equals("")) {
+              value += "|";
+            }
+            value += name;
+            Preferences.setString("antiScientificMethod", value);
+          }
+        }
         break;
 
       case 1523:
