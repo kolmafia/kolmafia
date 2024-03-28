@@ -6,6 +6,7 @@ import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withEquippableItem;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withInteractivity;
+import static internal.helpers.Player.withIntrinsicEffect;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withMeat;
 import static internal.helpers.Player.withNPCStoreReset;
@@ -16,16 +17,21 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
 import net.sourceforge.kolmafia.AscensionPath;
+import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.session.MallPriceManager;
 import org.junit.jupiter.api.BeforeAll;
@@ -210,6 +216,37 @@ class NPCPurchaseRequestTest {
 
       // Assert that the ticket has been removed from available purchase targets
       assertEquals(0, results.size());
+    }
+  }
+
+  @Nested
+  class WereProfessor {
+    @Test
+    public void mildManneredProfessorCanUseNPCs() {
+      var cleanups =
+          new Cleanups(
+              withPath(Path.WEREPROFESSOR),
+              withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR),
+              withMeat(100));
+      try (cleanups) {
+        var req = NPCStoreDatabase.getPurchaseRequest(ItemPool.CHEWING_GUM);
+        assertNotNull(req);
+        assertTrue(req.canPurchase());
+      }
+    }
+
+    @Test
+    public void savageBeastCannotUseNPCs() {
+      var cleanups =
+          new Cleanups(
+              withPath(Path.WEREPROFESSOR),
+              withIntrinsicEffect(EffectPool.SAVAGE_BEAST),
+              withMeat(100));
+      try (cleanups) {
+        var req = NPCStoreDatabase.getPurchaseRequest(ItemPool.CHEWING_GUM);
+        assertNotNull(req);
+        assertFalse(req.canPurchase());
+      }
     }
   }
 }
