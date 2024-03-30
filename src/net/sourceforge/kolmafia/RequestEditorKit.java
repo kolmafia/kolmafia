@@ -456,6 +456,8 @@ public class RequestEditorKit extends HTMLEditorKit {
       }
     } else if (location.startsWith("tiles.php")) {
       DvorakManager.decorate(buffer);
+    } else if (location.contains("volcanoisland.php")) {
+      RequestEditorKit.fixNemesisLair(buffer);
     } else if (location.contains("volcanomaze.php")) {
       VolcanoMazeManager.decorate(location, buffer);
     } else if (location.startsWith("wand.php") && !location.contains("notrim=1")) {
@@ -2244,6 +2246,47 @@ public class RequestEditorKit extends HTMLEditorKit {
         buffer, url, "Go back to The Mysterious Island of Mystery");
   }
 
+  private static void fixNemesisLair(final StringBuffer buffer) {
+    // volcanoisland.php?action=tniat&pwd=db6ab413419b2f872fbf78ce26d9ff00
+
+    // <td>A niggling voice in the back of your head (that's me) reminds
+    // you that you're heading toward what is likely to be the Final
+    // Battle against your Nemesis, and therefore you should probably
+    // equip that Legendary Epic Weapon of yours first. Just
+    // sayin'.<p></td>
+
+    if (buffer.indexOf("Legendary Epic Weapon") == -1) {
+      return;
+    }
+
+    int itemId =
+        switch (KoLCharacter.getAscensionClass()) {
+          case SEAL_CLUBBER -> ItemPool.HAMMER_OF_SMITING;
+          case TURTLE_TAMER -> ItemPool.CHELONIAN_MORNINGSTAR;
+          case PASTAMANCER -> ItemPool.GREEK_PASTA_OF_PERIL;
+          case SAUCEROR -> ItemPool.SEVENTEEN_ALARM_SAUCEPAN;
+          case DISCO_BANDIT -> ItemPool.SHAGADELIC_DISCO_BANJO;
+          case ACCORDION_THIEF -> ItemPool.SQUEEZEBOX_OF_THE_AGES;
+          default -> -1;
+        };
+
+    // This is not possible
+    if (itemId == -1) {
+      return;
+    }
+
+    String item = ItemDatabase.getItemName(itemId);
+    String url =
+        "javascript:singleUse('inv_equip.php','which=2&action=equip&whichitem="
+            + itemId
+            + "&pwd="
+            + GenericRequest.passwordHash
+            + "&ajax=1');void(0);";
+
+    StringUtilities.singleStringReplace(buffer, "Just sayin'.<p>", "Just sayin'.");
+    RequestEditorKit.addAdventureAgainSection(buffer, url, "Equip your " + item);
+  }
+
   private static void fixPortal(final StringBuffer buffer) {
     // Your El Vibrato portal has run out of power.  You should go back to
     // <a href="campground.php">your campsite</a> and charge it back up.
@@ -2331,8 +2374,6 @@ public class RequestEditorKit extends HTMLEditorKit {
   private static void fixGovernmentLab(final StringBuffer buffer) {
     // Things that go AFTER Stationary Buttons have been generated
 
-    String link = null;
-
     String test = "without wearing a Personal Ventilation Unit.";
     int index = buffer.indexOf(test);
 
@@ -2341,16 +2382,6 @@ public class RequestEditorKit extends HTMLEditorKit {
     }
 
     // Give player a link to equip the PVU
-    link =
-        " <a href=\"javascript:singleUse('inv_equip.php',which=2&action=equip&slot=1&whichitem=7770&pwd="
-            + GenericRequest.passwordHash
-            + "');void();\">[acc1]</a>"
-            + "<a href=\"javascript:singleUse('inv_equip.php',which=2&action=equip&slot=2&whichitem=7770&pwd="
-            + GenericRequest.passwordHash
-            + "');void();\">[acc2]</a>"
-            + "<a href=\"javascript:singleUse('inv_equip.php',which=2&action=equip&slot=3&whichitem=7770&pwd="
-            + GenericRequest.passwordHash
-            + "');void();\">[acc3]</a>";
     UseLink link1 =
         new UseLink(
             ItemPool.VENTILATION_UNIT,
