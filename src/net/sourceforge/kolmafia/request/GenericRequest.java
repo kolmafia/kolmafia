@@ -1728,7 +1728,8 @@ public class GenericRequest implements Runnable {
     boolean shouldStop;
 
     try {
-      if (this.responseCode == 200) {
+      // 2XX request success
+      if (this.responseCode >= 200 && this.responseCode < 300) {
         shouldStop = this.retrieveServerReply(istream);
         istream.close();
       } else {
