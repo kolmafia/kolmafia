@@ -70,6 +70,7 @@
    "type": "git",
    "author": "gausie",
    "name": "Excavator",
+   "branch": "release",
    "forumThread": "https://kolmafia.us/showthread.php?25076",
    "shortDesc": "Collect spading data and send to Spading Central",
    "category": "action",
