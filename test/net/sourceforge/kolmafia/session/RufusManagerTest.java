@@ -1061,4 +1061,54 @@ public class RufusManagerTest {
       }
     }
   }
+
+  @Nested
+  class SaladFoolsSalad {
+    @Test
+    void noExceptionIfSaladSalad() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withProperty("rufusDesiredArtifact"),
+              withProperty("rufusDesiredEntity"),
+              withProperty("rufusDesiredItems"),
+              withQuestProgress(Quest.RUFUS, QuestDatabase.UNSTARTED),
+              withProperty("rufusQuestTarget"),
+              withProperty("rufusQuestType"));
+      try (cleanups) {
+        client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
+        client.addResponse(200, html("request/test_call_rufus_salad.html"));
+        client.addResponse(200, ""); // api.php
+        client.addResponse(200, html("request/test_hang_up_on_rufus.html"));
+
+        var useItemURL =
+            "inv_use.php?which=3&whichitem=" + ItemPool.CLOSED_CIRCUIT_PAY_PHONE + "&ajax=1";
+        var useRequest = new GenericRequest(useItemURL);
+        useRequest.run();
+
+        // He told us what he needs
+        assertThat("rufusDesiredArtifact", isSetTo("shadow bucket"));
+        assertThat("rufusDesiredEntity", isSetTo("shadow tongue"));
+        // Right now, 3 salad salad would be valuable
+        assertThat("rufusDesiredItems", isSetTo(""));
+
+        // We are in a choice that you cannot walk away from.
+        assertTrue(ChoiceManager.handlingChoice);
+        assertEquals(1497, ChoiceManager.lastChoice);
+
+        // Choose option 6 - Hang up
+        var choiceURL = "choice.php?pwd&whichchoice=1497&option=6";
+        var choiceRequest = new GenericRequest(choiceURL);
+        choiceRequest.run();
+
+        // We are no longer in a choice
+        assertFalse(ChoiceManager.handlingChoice);
+
+        // We did not start the quest
+        assertThat(Quest.RUFUS, isUnstarted());
+      }
+    }
+  }
 }
