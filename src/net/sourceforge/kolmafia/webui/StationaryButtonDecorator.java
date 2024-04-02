@@ -64,7 +64,7 @@ public class StationaryButtonDecorator {
     };
   }
 
-  public static final void addSkillButton(final String skillId) {
+  public static void addSkillButton(final String skillId) {
     if (skillId == null || skillId.equals("none")) {
       return;
     }
@@ -97,7 +97,7 @@ public class StationaryButtonDecorator {
       }
 
       // Choose first unused button.
-      else if (old.equals("") || old.equals("none")) {
+      else if (old.isEmpty() || old.equals("none")) {
         insertIndex = i;
       }
       ++i;
@@ -119,7 +119,7 @@ public class StationaryButtonDecorator {
     }
   }
 
-  public static final void removeBuiltInSkills() {
+  public static void removeBuiltInSkills() {
     int buttons = Preferences.getInteger("relaySkillButtonCount");
     int maximumIndex = buttons + 1;
 
@@ -136,7 +136,7 @@ public class StationaryButtonDecorator {
     }
   }
 
-  public static final void decorate(final String urlString, final StringBuffer buffer) {
+  public static void decorate(final String urlString, final StringBuffer buffer) {
     if (Preferences.getBoolean("hideServerDebugText")) {
       int beginDebug = buffer.indexOf("<div style='max-height");
       int endDebug = buffer.indexOf("</div>", beginDebug) + 6;
@@ -290,7 +290,7 @@ public class StationaryButtonDecorator {
         CAB.append("<div style='overflow: visible;'>");
 
         insertIndex = buffer.indexOf("<body>") + 6;
-        buffer.insert(insertIndex, CAB.toString());
+        buffer.insert(insertIndex, CAB);
 
         insertIndex = buffer.indexOf("</body>");
         if (insertIndex > -1) {
@@ -398,7 +398,7 @@ public class StationaryButtonDecorator {
     // *** Start of 'extra' div
     actionBuffer.append("<div>");
 
-    buffer.insert(insertionPoint, actionBuffer.toString());
+    buffer.insert(insertionPoint, actionBuffer);
 
     StringUtilities.insertBefore(buffer, "</body>", "</div>");
     // *** End of 'extra' div
@@ -419,7 +419,7 @@ public class StationaryButtonDecorator {
     }
   }
 
-  public static final void addCombatButtons(
+  public static void addCombatButtons(
       final String urlString, final StringBuffer buffer, final StringBuffer actionBuffer) {
     // If we fighting a source agent, create buttons for exactly
     // those skills which are usable against them.
@@ -555,7 +555,7 @@ public class StationaryButtonDecorator {
     int buttons = Preferences.getInteger("relaySkillButtonCount");
     for (int i = 1; i <= buttons; ++i) {
       String action = Preferences.getString("stationaryButton" + i);
-      if (action.equals("") || action.equals("none")) {
+      if (action.isEmpty() || action.equals("none")) {
         continue;
       }
 
@@ -619,8 +619,7 @@ public class StationaryButtonDecorator {
     }
   }
 
-  public static final void addBatButton(
-      final StringBuffer actionBuffer, String skillName, int itemId) {
+  public static void addBatButton(final StringBuffer actionBuffer, String skillName, int itemId) {
     if (itemId != 0 && InventoryManager.getCount(itemId) == 0) {
       return;
     }
@@ -630,7 +629,7 @@ public class StationaryButtonDecorator {
     }
   }
 
-  public static final void addChoiceButtons(final StringBuffer buffer) {
+  public static void addChoiceButtons(final StringBuffer buffer) {
     int choice = ChoiceManager.currentChoice();
 
     // Certain choices require extra parameters
@@ -663,8 +662,7 @@ public class StationaryButtonDecorator {
     }
   }
 
-  public static final void addNonCombatButtons(
-      final StringBuffer response, final StringBuffer buffer) {
+  public static void addNonCombatButtons(final StringBuffer response, final StringBuffer buffer) {
     String name = "again";
     String action = getAdventureAgainLocation(response);
     boolean isEnabled = !action.equals("main.php");
@@ -738,6 +736,8 @@ public class StationaryButtonDecorator {
               !Preferences.getBoolean("_gingerbreadMobHitUsed");
           case SkillPool.FREE_FOR_ALL -> isEnabled =
               !KoLConstants.activeEffects.contains(EVERYTHING_LOOKS_RED);
+          case SkillPool.DART_BULLSEYE -> isEnabled =
+              !KoLConstants.activeEffects.contains(EVERYTHING_LOOKS_RED);
           case SkillPool.FONDELUGE -> isEnabled =
               !KoLConstants.activeEffects.contains(EVERYTHING_LOOKS_YELLOW);
           case SkillPool.MOTIF -> isEnabled =
@@ -781,7 +781,7 @@ public class StationaryButtonDecorator {
   private static final Pattern LOCATION_PATTERN =
       Pattern.compile("<[aA] (id=\"againlink\" )?href=[\"']?([^\"'>]*)", Pattern.DOTALL);
 
-  public static final String getAdventureAgainLocation(StringBuffer response) {
+  public static String getAdventureAgainLocation(StringBuffer response) {
     // Get the "adventure again" link from the page.
     // Search only in the body of the page
 
@@ -974,7 +974,7 @@ public class StationaryButtonDecorator {
     return name;
   }
 
-  public static final void reloadCombatHotkeyMap() {
+  public static void reloadCombatHotkeyMap() {
     StationaryButtonDecorator.combatHotkeys.clear();
 
     for (int i = 0; i <= 9; ++i) {
