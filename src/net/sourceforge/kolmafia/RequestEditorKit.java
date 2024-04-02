@@ -2095,7 +2095,8 @@ public class RequestEditorKit extends HTMLEditorKit {
   }
 
   private static void decorateCrypt(final StringBuffer buffer) {
-    if (Preferences.getInteger("cyrptTotalEvilness") == 0) {
+    int evilness = Preferences.getInteger("cyrptTotalEvilness");
+    if (evilness == 0 || evilness == 999) {
       return;
     }
 
@@ -2178,8 +2179,10 @@ public class RequestEditorKit extends HTMLEditorKit {
     // <A href=place.php?whichplace=plains>Back to the Misspelled Cemetary</a>
     // I expect that will change to "whichplace=cemetery" eventually.
     index = buffer.indexOf("</tr></table><p><center><A href=place.php");
-    evilometer.insert(0, "</table><td>");
-    buffer.insert(index + 5, evilometer.toString());
+    // If all that is left is the Bonerdagon, the table of corners is absent.
+    if (index != -1) {
+      buffer.insert(index + 5, evilometer.toString());
+    }
   }
 
   private static void addBugReportWarning(final StringBuffer buffer) {

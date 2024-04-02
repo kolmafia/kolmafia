@@ -1211,4 +1211,30 @@ class UseItemRequestTest {
       }
     }
   }
+
+  @Nested
+  class Evilometer {
+    @Test
+    void detectsFullyEvilCyrpt() {
+      var cleanups =
+          new Cleanups(
+              withItem(ItemPool.EVILOMETER),
+              withProperty("cyrptTotalEvilness", 200),
+              withProperty("cyrptAlcoveEvilness", 50),
+              withProperty("cyrptCrannyEvilness", 50),
+              withProperty("cyrptNicheEvilness", 50),
+              withProperty("cyrptNookEvilness", 50),
+              withNextResponse(
+                  new FakeHttpResponse<>(200, html("request/test_evilometer_999.html"))));
+
+      try (cleanups) {
+        UseItemRequest.getInstance(ItemPool.EVILOMETER).run();
+        assertThat("cyrptTotalEvilness", isSetTo(999));
+        assertThat("cyrptAlcoveEvilness", isSetTo(0));
+        assertThat("cyrptCrannyEvilness", isSetTo(0));
+        assertThat("cyrptNicheEvilness", isSetTo(0));
+        assertThat("cyrptNookEvilness", isSetTo(0));
+      }
+    }
+  }
 }

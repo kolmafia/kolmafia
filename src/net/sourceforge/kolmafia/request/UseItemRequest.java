@@ -104,12 +104,6 @@ public class UseItemRequest extends GenericRequest {
   // Mssr. Johnny Simon.
   private static final Pattern QA_PATTERN = Pattern.compile("(Question|Answer): *(.*?[\\.\\?])<");
 
-  // <center>Total evil: <b>200</b><p>Alcove: <b>50</b><br>Cranny: <b>50</b><br>Niche:
-  // <b>50</b><br>Nook: <b>50</b></center>
-  private static final Pattern EVILOMETER_PATTERN =
-      Pattern.compile(
-          "<center>Total evil: <b>(\\d+)</b><p>Alcove: <b>(\\d+)</b><br>Cranny: <b>(\\d+)</b><br>Niche: <b>(\\d+)</b><br>Nook: <b>(\\d+)</b></center>");
-
   private static final Pattern KEYOTRON_PATTERN =
       Pattern.compile(
           "Medbay:</td><td><b>(\\d)/3</b> bio-data segments collected</td></tr>"
@@ -6228,6 +6222,18 @@ public class UseItemRequest extends GenericRequest {
     return recipeName.equals("") ? null : recipeName;
   }
 
+  // <center>Total evil: <b>200</b><p>Alcove: <b>50</b><br>Cranny: <b>50</b><br>Niche:
+  // <b>50</b><br>Nook: <b>50</b></center>
+
+  // <center>Total evil: <b>999</b><p>Haert: <b>999</b></center>
+
+  private static final Pattern EVILOMETER_PATTERN1 =
+      Pattern.compile("<center>Total evil: <b>(\\d+)</b>");
+
+  private static final Pattern EVILOMETER_PATTERN2 =
+      Pattern.compile(
+          "<p>Alcove: <b>(\\d+)</b><br>Cranny: <b>(\\d+)</b><br>Niche: <b>(\\d+)</b><br>Nook: <b>(\\d+)</b>");
+
   private static void getEvilLevels(final String responseText) {
     int total = 0;
     int alcove = 0;
@@ -6235,13 +6241,17 @@ public class UseItemRequest extends GenericRequest {
     int niche = 0;
     int nook = 0;
 
-    Matcher matcher = EVILOMETER_PATTERN.matcher(responseText);
-    if (matcher.find()) {
-      total = StringUtilities.parseInt(matcher.group(1));
-      alcove = StringUtilities.parseInt(matcher.group(2));
-      cranny = StringUtilities.parseInt(matcher.group(3));
-      niche = StringUtilities.parseInt(matcher.group(4));
-      nook = StringUtilities.parseInt(matcher.group(5));
+    Matcher matcher1 = EVILOMETER_PATTERN1.matcher(responseText);
+    if (matcher1.find()) {
+      total = StringUtilities.parseInt(matcher1.group(1));
+    }
+
+    Matcher matcher2 = EVILOMETER_PATTERN2.matcher(responseText);
+    if (matcher2.find()) {
+      alcove = StringUtilities.parseInt(matcher2.group(1));
+      cranny = StringUtilities.parseInt(matcher2.group(2));
+      niche = StringUtilities.parseInt(matcher2.group(3));
+      nook = StringUtilities.parseInt(matcher2.group(4));
     }
 
     Preferences.setInteger("cyrptTotalEvilness", total);
