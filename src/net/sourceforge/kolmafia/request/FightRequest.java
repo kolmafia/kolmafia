@@ -4221,9 +4221,9 @@ public class FightRequest extends GenericRequest {
         Preferences.setInteger("guzzlrDeliveryProgress", 0);
         QuestDatabase.setQuestProgress(Quest.GUZZLR, QuestDatabase.UNSTARTED);
       }
-
-      if (responseText.contains(
-          "The outdoors is so refreshing, that adventure just flew right by!")) {
+      if (responseText.contains("The outdoors is so refreshing, that adventure just flew right by!")
+          // charges are spent even if another reason caused the fight to be free
+          || (free && location != null && location.getEnvironment() == Environment.OUTDOOR)) {
         Preferences.decrement("breathitinCharges", 1, 0);
       }
 
