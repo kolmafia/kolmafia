@@ -16,6 +16,7 @@ import static internal.helpers.Player.withStats;
 import static internal.helpers.Player.withTurnsPlayed;
 import static internal.helpers.Player.withUnequipped;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junitpioneer.jupiter.cartesian.CartesianTest.Values;
 
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -46,6 +47,8 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
+import org.junit.jupiter.params.provider.ValueSource;
+import org.junitpioneer.jupiter.cartesian.CartesianTest;
 
 public class RelayRequestWarningsTest {
 
@@ -541,6 +544,199 @@ public class RelayRequestWarningsTest {
   }
 
   @Nested
+  class MortarRecipe {
+    private static final KoLAdventure BOILER_ROOM =
+        AdventureDatabase.getAdventureByName("The Haunted Boiler Room");
+    private static final KoLAdventure WINE_CELLAR =
+        AdventureDatabase.getAdventureByName("The Haunted Wine Cellar");
+    private static final KoLAdventure LAUNDRY_ROOM =
+        AdventureDatabase.getAdventureByName("The Haunted Laundry Room");
+
+    @Test
+    public void noWarningIfConfirmed() {
+      var cleanups = new Cleanups(withTurnsPlayed(2));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(adventureURL(WINE_CELLAR, Confirm.CELLAR), false);
+        // No warning needed if this a resubmission with confirmation
+        assertFalse(request.sendCellarWarning());
+      }
+    }
+
+    @Test
+    public void noWarningIfNotInQuestRoom() {
+      var cleanups = new Cleanups(withTurnsPlayed(3));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(adventureURL(BOILER_ROOM, null), false);
+        // No warning needed if you are not in the Haunted Wine Cellar or Haunted Laundry Room
+        assertFalse(request.sendCellarWarning());
+      }
+    }
+
+    @Test
+    public void noWarningIfLightsOutDue() {
+      var cleanups = new Cleanups(withTurnsPlayed(74), withProperty("lastLightsOutTurn", 37));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(adventureURL(WINE_CELLAR, null), false);
+        // No warning needed if Lights Out is about to trigger
+        assertFalse(request.sendCellarWarning());
+      }
+    }
+
+    @Test
+    public void noWarningIfVoteMonsterDue() {
+      var cleanups = new Cleanups(withTurnsPlayed(23), withProperty("lastVoteMonsterTurn", 12));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(adventureURL(WINE_CELLAR, null), false);
+        // No warning needed if a Vote Monster is about to appear
+        assertFalse(request.sendCellarWarning());
+      }
+    }
+
+    @Test
+    public void noWarningIfSummoningChamberOpen() {
+      var cleanups = new Cleanups(withTurnsPlayed(2), withQuestProgress(Quest.MANOR, "step3"));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(adventureURL(WINE_CELLAR, null), false);
+        // No warning needed if Summoning Chamber already open
+        assertFalse(request.sendCellarWarning());
+      }
+    }
+
+    @Test
+    public void noWarningWithMortarRecipeKnown() {
+      var cleanups =
+          new Cleanups(withTurnsPlayed(2), withProperty("spookyravenRecipeUsed", "with_glasses"));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(adventureURL(WINE_CELLAR, null), false);
+        // If already made a wine bomb, no warning
+        assertFalse(request.sendCellarWarning());
+      }
+    }
+
+    @Test
+    public void noWarningWithoutSpectacles() {
+      var cleanups =
+          new Cleanups(withTurnsPlayed(2), withProperty("spookyravenRecipeUsed", "no_glasses"));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(adventureURL(WINE_CELLAR, null), false);
+        // No warning needed if this a resubmission with confirmation
+        assertFalse(request.sendCellarWarning());
+      }
+    }
+
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
+    public void warningIfMortarRecipeNotFound(boolean autoQuest) {
+      var cleanups =
+          new Cleanups(
+              withTurnsPlayed(2),
+              withProperty("spookyravenRecipeUsed", "none"),
+              withProperty("autoQuest", autoQuest),
+              withItem(ItemPool.SPOOKYRAVEN_SPECTACLES));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(adventureURL(WINE_CELLAR, null), false);
+        assertTrue(request.sendCellarWarning());
+        String read = autoQuest ? " and read" : "";
+        String expected =
+            "You are about to adventure without having found the recipe for the mortar-dissolving solution."
+                + " If you are sure you want to do this, click on the icon on the left to proceed."
+                + " If you want to obtain"
+                + read
+                + " the recipe, click the icon on the right.";
+        assertEquals(expected, request.lastWarning);
+      }
+    }
+
+    @Test
+    public void noWarningIfConfirmedSpectacles() {
+      var cleanups =
+          new Cleanups(
+              withTurnsPlayed(2),
+              withItem(ItemPool.MORTAR_DISSOLVING_RECIPE),
+              withProperty("autoQuest", true),
+              withProperty("spookyravenRecipeUsed", "none"),
+              withEquipped(Slot.ACCESSORY3, ItemPool.SPOOKYRAVEN_SPECTACLES));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(adventureURL(WINE_CELLAR, Confirm.CELLAR2), false);
+        // No warning needed if this a resubmission with confirmation
+        assertFalse(request.sendCellarWarning());
+      }
+    }
+
+    @Test
+    public void warningIfSpectaclesWorn() {
+      var cleanups =
+          new Cleanups(
+              withTurnsPlayed(2),
+              withItem(ItemPool.MORTAR_DISSOLVING_RECIPE),
+              withProperty("autoQuest", true),
+              withProperty("spookyravenRecipeUsed", "none"),
+              withEquipped(Slot.ACCESSORY3, ItemPool.SPOOKYRAVEN_SPECTACLES));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(adventureURL(WINE_CELLAR, null), false);
+        assertTrue(request.sendCellarWarning());
+        String expected =
+            "You are about to adventure without reading the recipe for the mortar-dissolving solution with glasses equipped."
+                + " If you are sure you want to do this, click on the icon on the left to proceed."
+                + " Since you have the glasses equipped, if you want to read the recipe, click the icon on the right.";
+        assertEquals(expected, request.lastWarning);
+      }
+    }
+
+    @Test
+    public void noWarningIfNoEquipSpectaclesConfirmed() {
+      var cleanups =
+          new Cleanups(
+              withTurnsPlayed(2),
+              withItem(ItemPool.MORTAR_DISSOLVING_RECIPE),
+              withProperty("autoQuest", true),
+              withProperty("spookyravenRecipeUsed", "none"),
+              withItem(ItemPool.SPOOKYRAVEN_SPECTACLES));
+      try (cleanups) {
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(adventureURL(WINE_CELLAR, Confirm.CELLAR3), false);
+        // No warning needed if this a resubmission with confirmation
+        assertFalse(request.sendCellarWarning());
+      }
+    }
+
+    @CartesianTest
+    public void warningIfMustEquipSpectacles(
+        @Values(strings = {"The Haunted Wine Cellar", "The Haunted Laundry Room"})
+            final String name,
+        @Values(strings = {"none", "no_glasses"}) final String property) {
+      var cleanups =
+          new Cleanups(
+              withTurnsPlayed(2),
+              withItem(ItemPool.MORTAR_DISSOLVING_RECIPE),
+              withProperty("autoQuest", true),
+              withProperty("spookyravenRecipeUsed", property),
+              withItem(ItemPool.SPOOKYRAVEN_SPECTACLES));
+      try (cleanups) {
+        var location = AdventureDatabase.getAdventureByName(name);
+        RelayRequest request = new RelayRequest(false);
+        request.constructURLString(adventureURL(location, null), false);
+        assertTrue(request.sendCellarWarning());
+        String expected =
+            "You are about to adventure without reading the recipe for the mortar-dissolving solution with glasses equipped."
+                + " If you are sure you want to do this, click on the icon on the left to proceed."
+                + " If you want to equip the glasses before reading the recipe, click the icon on the right.";
+        assertEquals(expected, request.lastWarning);
+      }
+    }
+  }
+
+  @Nested
   class UnstableFulminate {
     private static final KoLAdventure A_BOO_PEAK =
         AdventureDatabase.getAdventureByName("A-Boo Peak");
@@ -724,7 +920,7 @@ public class RelayRequestWarningsTest {
         String expected =
             "You are about to adventure in the Haunted Boiler Room, but do not have unstable fulminate equipped."
                 + " You don't have that item, but you have the ingredients and could make it."
-                + " It requires a Dramatic range, and you own onee, but it is not installed."
+                + " It requires a Dramatic range, and you own one, but it is not installed."
                 + " If you don't want to bother doing this, click the icon on the left to proceed."
                 + " If you want to install the Dramatic range in your kitchen, click the icon on the right.";
         assertEquals(expected, request.lastWarning);

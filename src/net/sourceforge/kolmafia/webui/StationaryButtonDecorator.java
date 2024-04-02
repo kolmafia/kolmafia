@@ -451,8 +451,8 @@ public class StationaryButtonDecorator {
       return;
     }
 
-    if (KoLCharacter.isPlumber()) {
-      // No "attack" button for plumbers
+    if (KoLCharacter.isPlumber() || KoLCharacter.isMildManneredProfessor()) {
+      // No "attack" button for plumbers or mild-mannered professors
       StationaryButtonDecorator.addScriptButton(urlString, actionBuffer, true);
     } else if (Preferences.getBoolean("relayScriptButtonFirst")) {
       StationaryButtonDecorator.addScriptButton(urlString, actionBuffer, true);

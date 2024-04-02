@@ -138,6 +138,8 @@ public class RelayRequest extends PasswordHashRequest {
     DESERT_UNHYDRATED,
     MOHAWK_WIG,
     CELLAR,
+    CELLAR2,
+    CELLAR3,
     BOILER,
     BOILER2,
     BOILER3,
@@ -2039,7 +2041,7 @@ public class RelayRequest extends PasswordHashRequest {
     return true;
   }
 
-  private boolean sendCellarWarning() {
+  boolean sendCellarWarning() {
     // If it's already confirmed, then track that for the session
     if (this.getFormField(Confirm.CELLAR) != null) {
       return false;
@@ -2072,13 +2074,79 @@ public class RelayRequest extends PasswordHashRequest {
       return false;
     }
 
-    String message;
+    // If they don't have Lord Spookyraven's spectacles, there is nothing we can do.
+    if (!InventoryManager.hasItem(ItemPool.SPOOKYRAVEN_SPECTACLES)) {
+      return false;
+    }
 
-    message =
-        "You are about to adventure without reading the Mortar dissolving recipe with glasses equipped. "
-            + " If you are sure you want to do this, click on the image to proceed.";
+    // If they don't have the recipe, offer to get it.
+    // If autoQuest is true, ResultProcessor will read it with glasses equipped.
+    // If autoQuest is false, we'll offer to equip the glasses and then read it
+    if (!InventoryManager.hasItem(ItemPool.MORTAR_DISSOLVING_RECIPE)) {
+      String read = Preferences.getBoolean("autoQuest") ? " and read" : "";
+      String warning =
+          "You are about to adventure without having found the recipe for the mortar-dissolving solution."
+              + " If you are sure you want to do this, click on the icon on the left to proceed."
+              + " If you want to obtain"
+              + read
+              + " the recipe, click the icon on the right.";
 
-    this.sendGeneralWarning("burgerrecipe.gif", message, Confirm.CELLAR);
+      this.sendOptionalWarning(
+          Confirm.CELLAR,
+          warning,
+          "hand.gif",
+          "burgerrecipe.gif",
+          "/place.php?whichplace=manor4&action=manor4_chamberwall",
+          null,
+          null);
+
+      return true;
+    }
+
+    // If already confirmed, then allow it this time.
+    if (this.getFormField(Confirm.CELLAR2) != null) {
+      return false;
+    }
+
+    // They have the recipe and have not read it. If they have glasses equipped, offer to read it.
+    if (KoLCharacter.hasEquipped(ItemPool.SPOOKYRAVEN_SPECTACLES)) {
+      String warning =
+          "You are about to adventure without reading the recipe for the mortar-dissolving solution with glasses equipped."
+              + " If you are sure you want to do this, click on the icon on the left to proceed."
+              + " Since you have the glasses equipped, if you want to read the recipe, click the icon on the right.";
+
+      String action =
+          "\"#\" onClick=\"singleUse('inv_use.php','which=3&whichitem="
+              + ItemPool.MORTAR_DISSOLVING_RECIPE
+              + "&pwd="
+              + GenericRequest.passwordHash
+              + "&ajax=1');void(0);\"";
+
+      this.sendOptionalWarning(
+          Confirm.CELLAR2, warning, "hand.gif", "burgerrecipe.gif", action, null, null);
+
+      return true;
+    }
+
+    // If already confirmed, then allow it this time.
+    if (this.getFormField(Confirm.CELLAR3) != null) {
+      return false;
+    }
+
+    String warning =
+        "You are about to adventure without reading the recipe for the mortar-dissolving solution with glasses equipped."
+            + " If you are sure you want to do this, click on the icon on the left to proceed."
+            + " If you want to equip the glasses before reading the recipe, click the icon on the right.";
+
+    String action =
+        "\"#\" onClick=\"singleUse('inv_equip.php','which=2&action=equip&slot=3&whichitem="
+            + ItemPool.SPOOKYRAVEN_SPECTACLES
+            + "&pwd="
+            + GenericRequest.passwordHash
+            + "&ajax=1');void(0);\"";
+
+    this.sendOptionalWarning(
+        Confirm.CELLAR3, warning, "hand.gif", "burgerrecipe.gif", action, null, null);
 
     return true;
   }
@@ -2246,7 +2314,7 @@ public class RelayRequest extends PasswordHashRequest {
       buf.append(
           "You are about to adventure in the Haunted Boiler Room, but do not have unstable fulminate equipped.");
       buf.append(" You don't have that item, but you have the ingredients and could make it.");
-      buf.append(" It requires a Dramatic range, and you own onee, but it is not installed.");
+      buf.append(" It requires a Dramatic range, and you own one, but it is not installed.");
       buf.append(" If you don't want to bother doing this, click the icon on the left to proceed.");
       buf.append(
           " If you want to install the Dramatic range in your kitchen, click the icon on the right.");
