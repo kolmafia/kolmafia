@@ -213,6 +213,7 @@ public interface KoLConstants extends UtilityConstants {
   int ITEMS_VERSION = 1;
   int MODIFIERS_VERSION = 3;
   int MONSTERS_VERSION = 8;
+  int MONSTER_PARTS_VERSION = 1;
   int NONFILLING_VERSION = 1;
   int NPCSTORES_VERSION = 2;
   int OUTFITS_VERSION = 3;
