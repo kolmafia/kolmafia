@@ -515,12 +515,13 @@ public class MonsterDatabase {
       String[] data;
 
       while ((data = FileUtilities.readData(reader)) != null) {
-        if (data.length < 2) {
+        if (data.length < 3) {
           continue;
         }
 
         var id = StringUtilities.parseInt(data[0]);
-        var parts = Arrays.asList(data).subList(1, data.length);
+        // Skip the monster name, just there for developer experience
+        var parts = Arrays.asList(data).subList(2, data.length);
         MONSTER_PARTS.put(id, parts);
       }
     } catch (IOException e) {
