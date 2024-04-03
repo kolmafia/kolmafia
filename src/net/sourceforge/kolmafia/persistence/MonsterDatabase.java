@@ -37,6 +37,7 @@ public class MonsterDatabase {
   private static final Set<MonsterData> ALL_MONSTER_DATA = new TreeSet<>();
   private static final Map<String, MonsterData> MONSTER_DATA = new TreeMap<>();
   private static final Map<Integer, MonsterData> MONSTER_IDS = new TreeMap<>();
+  private static final Map<Integer, List<String>> MONSTER_PARTS = new TreeMap<>();
   private static final Map<String, MonsterData> OLD_MONSTER_DATA = new TreeMap<>();
   private static final Map<String, MonsterData> LEET_MONSTER_DATA = new TreeMap<>();
   private static final Set<String> MONSTER_ALIASES = new HashSet<>();
@@ -256,6 +257,7 @@ public class MonsterDatabase {
 
   static {
     MonsterDatabase.refreshMonsterTable();
+    MonsterDatabase.readMonsterParts();
 
     Map<MonsterData, MonsterData> youRobotMap = new TreeMap<>();
     MonsterDatabase.addMapping(youRobotMap, "Boss Bat", "Boss Bot");
@@ -505,6 +507,26 @@ public class MonsterDatabase {
 
     // Save canonical names for substring lookup
     MonsterDatabase.saveCanonicalNames();
+  }
+
+  private static void readMonsterParts() {
+    try (BufferedReader reader =
+        FileUtilities.getVersionedReader("monsterparts.txt", KoLConstants.MONSTER_PARTS_VERSION)) {
+      String[] data;
+
+      while ((data = FileUtilities.readData(reader)) != null) {
+        if (data.length < 3) {
+          continue;
+        }
+
+        var id = StringUtilities.parseInt(data[0]);
+        // Skip the monster name, just there for developer experience
+        var parts = Arrays.asList(data).subList(2, data.length);
+        MONSTER_PARTS.put(id, parts);
+      }
+    } catch (IOException e) {
+      StaticEntity.printStackTrace(e);
+    }
   }
 
   private static void addMonsterToName(MonsterData monster) {
@@ -808,6 +830,10 @@ public class MonsterDatabase {
   public static final String getMonsterName(final int id) {
     MonsterData monster = MonsterDatabase.MONSTER_IDS.get(id);
     return monster == null ? "" : monster.getName();
+  }
+
+  public static List<String> getMonsterParts(final int id) {
+    return MONSTER_PARTS.getOrDefault(id, List.of());
   }
 
   public static final String translateLeetMonsterName(final String leetName) {
