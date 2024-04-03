@@ -6813,6 +6813,15 @@ public abstract class ChoiceControl {
         // Dart Perks
         InventoryManager.checkDartPerks();
         break;
+
+      case 1526:
+        // Conduct the Band
+        switch (ChoiceManager.lastDecision) {
+          case 1, 2, 3 -> Preferences.setInteger(
+              "nextAprilBandTurn", KoLCharacter.getTurnsPlayed() + 11);
+          case 4, 5, 6, 7, 8 -> Preferences.increment("_aprilBandInstruments", 1, 2, false);
+        }
+        break;
     }
   }
 

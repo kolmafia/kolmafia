@@ -1137,6 +1137,7 @@ user	munchiesPillsUsed	0
 user	mushroomGardenCropLevel	1
 user	neverendingPartyAlways	false
 user	nextAdventure
+user	nextAprilBandTurn	0
 user	nextDistillateMods
 user	nextParanormalActivity	1
 user	nextSpookyravenElizabethRoom	The Haunted Storage Room

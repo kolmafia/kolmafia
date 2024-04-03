@@ -422,6 +422,7 @@ public class Preferences {
         "motifMonster",
         "monkeyPointMonster",
         "mushroomGardenCropLevel",
+        "nextAprilBandTurn",
         "nextDistillateMods",
         "nextParanormalActivity",
         "nextQuantumFamiliar",
