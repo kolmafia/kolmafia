@@ -9797,6 +9797,7 @@ public abstract class ChoiceControl {
       case 1517: // Mimic DNA Bank
       case 1518: // Prepare your Meal
       case 1523: // Research Bench
+      case 1526: // Conduct the Band
         return true;
 
       default:
