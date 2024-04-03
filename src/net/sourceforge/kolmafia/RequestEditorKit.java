@@ -2104,7 +2104,7 @@ public class RequestEditorKit extends HTMLEditorKit {
     // I expect that will change to "whichplace=cemetery" eventually.
     int table = buffer.indexOf("</tr></table><p><center><A href=place.php");
     if (table == -1) {
-      // There is table of corners and hence no need for the Evilometer
+      // There is no table of corners and hence no need for the Evilometer
       return;
     }
 
