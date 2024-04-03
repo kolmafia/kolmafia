@@ -1,0 +1,2269 @@
+1
+# Monster id	part 1	part 2	...
+1	arm	head	leg	torso
+3	head	leg	torso
+5	arm	head	leg	tail	torso
+9	arm	head	leg	torso
+11	arm	head	leg	torso
+12	arm	head	leg	torso
+13	arm	head	leg	torso
+17	arm	head	leg	torso
+18	arm	head	leg	torso
+19	arm	head	leg	torso
+20	arm	head	leg	torso
+21	flipper	head	tail	torso
+22	arm	head	leg	torso
+23	head	noodle
+24	pseudopod
+25	arm	boombox	head	leg	torso
+26	arm	head	leg	torso
+27	arm	head	leg	torso
+28	arm	head	leg	tail	torso
+29	arm	head	leg	torso
+30	arm	head	leg	tail	torso
+31	arm	head	leg	torso
+32	head	tentacle
+33	arm	head	leg	torso
+34	broom	head
+35	arm	head	leg	torso
+36	head	torso
+37	head
+38	leg
+39	arm	head	leg	torso
+40	arm	head	leg	torso
+41	head	torso	wing
+42	head	torso	wing
+43	head	torso	wing
+44	head	torso	wing
+45	head	torso	wing
+46	head	torso	wing
+47	head	torso	wing
+48	torso	wing
+49	head	torso	wing
+51	head	leg	tail	torso
+52	arm	head	leg	torso
+53	arm	head	leg	torso
+54	arm	head	leg	torso
+55	arm	head	leg	torso
+56	arm	head	leg	torso
+57	arm	head	leg	torso
+58	arm	head	leg	torso
+59	arm	head	leg	torso
+60	arm	head	leg	torso
+61	arm	head	leg	torso
+62	arm	head	leg	torso
+63	arm	head	leg	torso
+64	arm	head	leg	torso
+65	head	tail
+66	head	leg	tail	torso
+67	arm	head	leg	torso
+68	arm	head	leg	torso
+69	head	pseudopod
+70	head
+71	arm	head	torso
+72	head	leg	thorax	wing
+73	head	thorax	wing
+74	vortex
+75	fang	shell
+76	arm	head	leg	torso
+77	arm	head	leg	torso
+78	arm	head	leg	torso
+79	arm	head	leg	torso
+80	arm	head	leg	torso
+81	arm	head	leg	torso
+82	head	leg	tail	torso
+83	head	leg	tail	torso
+84	head	leg	tail	torso
+85	arm	head	leg	torso
+86	arm	head	leg	torso
+87	arm	head	leg	subroutine	torso
+88	arm	head	leg	torso
+89	banana	grapefruit	grapes	watermelon
+90	head
+91	antlers	arm	head	leg	torso
+92	head	stem	vine
+93	head	tentacle
+94	arm	flab	head	leg	torso
+95	arm	head	leg	torso
+96
+97
+98	arm	head	leg	torso
+99	arm	head	leg	torso
+100	arm	head	torso
+104	arm	head	leg	torso
+105	arm	head	leg	torso
+106	arm	head	leg	torso
+107	arm	head	leg	torso
+108	box	head	spring
+109	box	lemon	spring
+110	box	pathogen	spring
+111	arm	head	leg	torso
+112	arm	head	leg	torso
+113	head	leg	stem
+114	head	leg
+116	head	leg
+117	head	leg
+118	head	tentacle
+119	head	wing
+120	head	part of it that isn't the head
+121	arm	head
+122	arm	head	leg	torso	wing
+123	arm	head	leg	torso	wing
+124	arm	head	leg	torso	wing
+125	arm	head	leg	torso	wing
+126	arm	head	leg	torso	wing
+127	arm	eyebrow	head	leg	torso
+128	electron	nucleus
+129	arm	head	leg	torso
+130	arm	head	leg	torso
+131	arm	head	leg	torso
+132	arm	head	leg	torso
+133	head	torso	wing
+134	head	taco shell	tail
+135	head	wing
+136	pimento
+137	arm	head	torso
+138	head	leg	tail	torso
+139	caret	underscore
+140	arm	head	leg	torso
+141	arm	head	leg	torso
+142	arm	head	leg	torso
+143	arm	head	leg	torso
+144	arm	head	leg	torso
+145	arm	can	leg
+146	arm	can	leg
+147	arm	elbow	head	leg	torso
+148	pseudopod
+149	head	wing
+150	head	wing
+151	head	leg	torso	wing
+152	arm	head	leg	torso
+153	arm	head	leg	torso
+154	arm	head	leg	torso
+155	arm	grill	head	leg	torso
+156	head	leg
+157	head	leg
+158	arm	head	leg	torso
+159	arm	head	leg	torso
+160	arm	hair	head	leg	torso
+161	arm	head	leg	torso
+165	arm	head	leg	torso
+166	arm	head	leg	torso
+167	whatever
+170	arm	head	leg	torso
+171	arm	head	leg	torso
+172	arm	head	leg	tail	torso
+173	arm	head	leg	torso
+174	arm	head	leg	torso
+175	arm	head	leg	torso
+176	arm	head	leg	torso
+177	barrel
+178	eye	head	star
+179	head	star	tail
+180	facet	star
+181	hull	mast	star
+182	blade	hilt	star
+183	arm	head	leg	star	torso
+184	arm	head	leg	star	torso
+185	arm	head	leg	torso
+186	arm	head	leg	torso
+187	arm	head	leg	torso
+189	arm	head	leg	tail	torso
+190	arm	head	leg	tail	torso
+191	arm	head	leg	tail	torso
+192	head	tentacle
+193	head	tentacle
+194	head
+195	arm	head	leg	torso
+196	arm	head	leg	torso
+197	arm	head	leg	torso
+198	head	tail	torso	wing
+199	arm	head	leg	tail	torso
+200	arm	head	leg	tail	torso
+201	arm	head	leg	torso
+202	head	leg	tail	torso
+203	arm	head	leg	torso
+204	arm	head	leg	torso
+205	arm	head	leg	torso
+206	arm	head	leg	torso
+207	corner	side
+208	arm	head	leg	torso
+209	arm	head	leg	torso
+210	arm	head	leg	torso
+211	arm	head	leg	torso
+213	fin	head	tail
+214	arm	head	leg	torso
+215	branch	head	stem
+216	head	leg	torso	wing
+217	head	leg	torso	wing
+218	head	leg	torso	wing
+219	arm	head	leg	torso
+220	pseudopod	puddle
+221	bees
+222	arm	head	leg	torso
+223	arm	head	leg	torso
+224	arm	head	leg	torso
+225	curds	french fry	head
+226	bristles
+227	handle
+228	arm	head	leg	torso
+229
+230
+231
+232
+233	arm	head	leg	torso
+234	arm	head	leg	torso
+235	arm	head	leg	torso
+236	arm	head	leg	torso
+237	head	tail
+238	arm	head	leg	torso
+239	eye
+240	ear
+241	head	leg	shelf	torso
+242	arm	head	leg	torso
+243	arm	head	leg	torso
+244	head	tentacle
+245	sausage
+247	head	leg	torso
+248	arm	head	leg
+249	arm	head	leg
+250	arm	head	leg
+251	arm	head	leg
+252	arm	head	leg
+254	arm	head	leg	tail	torso
+255	arm	head	leg	tail	torso
+256	arm	head	leg	tail	torso
+257	arm	head	leg	tail	torso
+258	arm	head	leg	tail	torso
+259	arm	head	stem
+260	arm	head	stem
+261	arm	head	stem
+262	arm	head	stem
+263	arm	head	leg	torso
+266	arm	head	stem	torso
+268	arm	head	leg	torso
+269	head	leg	tail
+270	arm	head	leg	torso
+271	arm	head	leg	torso
+272	arm	leg	skull	torso
+273	head	leg
+274
+275	arm	back	head	torso
+276	arm	back	head	torso
+277	arm	head	leg	torso
+278	arm	head	leg	torso
+279	continent	island	ocean	stand
+280	hull	periscope	porthole	propeller
+281	arm	head	leg	torso
+282	pseudopod
+283	leg
+284	arm	leg	torso
+285	arm	head	leg	torso
+286	arm	head	leg	tail	torso
+287	barrel
+288	barrel
+289	barrel
+290	arm	head	leg	torso
+291	arm	head	leg	torso
+292	arm	head	leg	torso
+293	arm	head	leg	torso
+294	arm	head	leg	torso
+295	arm	head	leg	torso
+296	arm	head	leg	torso
+297	arm	head	leg	torso
+298	arm	head	leg	torso
+299	arm	head	leg	torso
+300	arm	head	leg	torso
+301	arm	head	leg	torso
+302	arm	head	leg	torso
+303	arm	head	leg	torso
+304	arm	head	leg	torso
+305	arm	head	leg	torso
+306	arm	head	leg	torso
+307	arm	head	leg	torso
+308	arm	head	leg	torso
+309	arm	head	leg	torso
+310	arm	head	leg	torso
+311	arm	head	leg	torso
+312	arm	head	leg	torso
+313	head	leg	tail	torso
+314	head	leg
+315	arm	head	leg
+316	arm	can	leg
+317	arm	head	leg	marshmallow	torso
+318	arm	head	leg	torso
+319	arm	head	leg	torso
+320	arm	head	leg	torso
+321	arm	head	leg	torso
+322	arm	head	leg	torso
+323	arm	head	leg	torso
+324	arm	head	leg	torso
+325	arm	head	leg	torso
+326	arm	head	leg	torso
+327	arm	head	leg	torso
+328	arm	head	leg	torso
+329	arm	head	leg	torso
+330	arm	head	leg	torso
+331	arm	head	leg	torso
+332	head	leg	torso
+333	head	leg	tail	torso
+334	head	leg	tail	torso
+335	arm	head	leg	torso
+336	arm	head	leg	torso
+337	head	leg	tail	torso
+338	arm	head	torso
+339	arm	head	torso
+340	something
+342	head	leaf	vine
+343
+344
+345
+346
+347
+348
+349
+350	head	torso	wing
+351	leg	star
+352	berry	star	twig
+353	finger-hole	mouthpiece	star
+354	arm	head	leg	star	torso
+355	chin	ear	eye	hair	head	nose
+356	chin	ear	eye	head	nose
+357	chin	ear	head	nose	widow's peak
+358	arm	head	leg	torso
+359	head	wing
+360	compulsion
+361	swirl	wavy line	zig-zag
+362	quarter note	time signature	treble clef
+363	distress	paranoia	persecution
+364	illusion of security	tantalizing softness
+365	arm	head	leg	torso	wing
+366	bustle	hedgerow
+367	arm	head	leg	torso	wing
+368	head	tail
+369	arm	head	leg	torso
+370	arm	head	leg	torso
+371
+372	knob
+373	door	hinges
+374	towel
+375	head	leg	tail	torso
+376	arm	head	leg	torso
+377	arm	head	leg	torso
+378	arm	head	leg	torso
+379	arm	head	leg	tail	torso
+380	arm	head	leg	tail	torso
+381	meat	tendril
+382	mouth	stalk
+383	dust
+384	head	leg	tail	torso
+385	crown	snow
+386	balls
+387	cover	page	spine
+388	arm	head	torso
+389	arm	head	torso
+390	arm	head	leg	torso
+391	drawer	handle	leg	top
+392
+393	head	leg	torso
+394	arm	head	leg	torso
+395	arm	head	leg	torso
+396	arm	head	leg	torso
+397	arm	head	leg	torso
+398	arm	head	leg	torso
+399	drawer	handle	leg	top
+400	leg
+401	arm	head	leg	torso
+402	arm	head	leg	torso
+403	arm	head	leg	torso
+404	tray
+405	drawer	handle	leg	top
+406	drawer	handle	leg	top
+407	drawer	handle	leg	top
+408	arm	head	leg	torso
+409	arm	head	leg	torso
+410	arm	head	leg	torso
+411	arm	head	leg	torso
+412	arm	head	leg	torso
+413	arm	head	leg	torso
+414	head	tail
+415	head	leg
+416	head	leg	tail	torso
+417	arm	head	leg	torso
+418	berries	stalk
+419	arm	head	leg	torso
+420	arm	head	leg	torso
+421	arm	head	leg	torso
+422	arm	head	leg	torso
+423	arm	head	leg	torso
+424	bees
+425	balls
+426	head	wing
+427	arm	head	leg	torso
+428	arm	head	leg	torso
+429	arm	head	leg	torso
+430	arm	head	leg	torso
+431	head	leg	tail	torso
+432	arm	head	leg	torso
+433	arm	head	leg	torso
+434	arm	head	leg	torso
+435	arm	head	leg	tail	torso	wing
+436	arm	head	leg	torso
+437	arm	head	leg	torso
+438	arm	head	leg	torso
+439	arm	head	leg	torso
+440	arm	head	leg	torso
+441	head	leg	tail	torso
+442	...wing?	arm	head	leg	torso
+443	...wing?	arm	head	leg	torso
+444	...wing?	arm	head	leg	torso
+445	...wing?	arm	head	leg	torso
+446
+447	arm	head	leg	torso
+448	arm	head	leg	torso
+449	arm	head	leg	torso
+450	...wing?	arm	head	leg	torso
+451	arm	head	leg	torso
+452	arm	head	leg	torso
+453	arm	head	leg
+454	leg	shelf
+455	arm	head	leg	torso
+456	head	leg
+457	torso	wing
+458	head	tail
+459	whirl	wind
+460	arm	head	leg	torso
+461	ant
+462	head	leg
+463	arm	head	leg	tail
+464	arm	head	leg	torso
+465	arm	head	leg	torso
+467	head	leg	tail	torso
+468	arm	head	leg	torso
+469	head	tail
+470	arm	head	leg	torso
+471	arm	head	leg	torso
+472	arm	head	leg	torso
+473	arm	head	leg	torso
+474	arm	head	leg	tail	torso
+475	arm	head	leg	torso
+476	glob	pseudopod
+477	head	tail
+478	head	tail
+479	head	tail
+480	head	tail	torso
+481	arm	head	leg	torso
+482	arm	head	leg	torso
+483	arm	head	leg	torso
+484	arm	head	leg	torso
+485	arm	head	leg	torso
+486	arm	head	leg	torso
+487	arm	head	leg	torso
+488	hull	wheel
+489	arm	head	leg	torso
+490	arm	head	leg	torso
+491	arm	head	leg	torso
+492	arm	head	leg	torso
+493	arm	head	leg	torso
+494	arm	head	leg	torso
+495	arm	head	leg	torso
+496	arm	head	leg	torso
+497	arm	head	leg	torso
+498	arm	head	leg	torso
+499	arm	head	leg	torso
+500	arm	head	leg	torso
+501	arm	head	leg	torso
+502	arm	head	leg	torso
+503	arm	head	leg	torso
+504	hull	tread
+505	arm	head	leg	torso
+506	arm	head	leg	torso
+507	arm	head	leg	torso
+508	arm	head	leg	torso
+509	arm	head	leg	torso
+510	arm	head	leg	torso
+511	arm	head	leg	torso
+512	arm	head	leg	torso
+513	arm	head	leg	torso
+514	arm	head	leg	torso
+515	arm	head	leg	torso
+516	arm	head	leg	torso
+517	arm	head	leg	torso
+518	arm	head	leg	torso
+519	arm	head	leg	torso
+520	arm	head	leg	torso
+527	arm	head	leg	torso
+528	arm	head	leg	torso
+529	arm	head	leg	tail	torso
+530	arm	head	leg	torso
+531	arm	head	leg	tail	torso
+532	corner	side
+533	arm	head	leg	torso
+534	arm	head	leg	torso
+535	corner	edge	face	star
+536	aperture	body	star
+537	berry	leaf	star	twig
+538	aperture	face	star
+539	head	leg	star	tail
+540	star
+541	foot	leg	star	toe
+542	pestle	pot	star
+543	bloody bits	fleshy bits	star
+544	head	leg	tail	torso	wing
+545	arm	head	leg	torso
+546	arm	head	leg	torso
+547	arm	head	leg	torso
+548	arm	head	leg	torso	wing
+549	arm	head	leg	torso	wing
+550	arm	head	leg	torso
+551	arm	head	leg	torso
+552	arm	head	leg	torso
+553	arm	head	leg	torso
+554	arm	head	leg	torso	wheels
+555	arm	head	leg	torso
+556	head	leg	tail	torso	wing
+557	head	leg	tail	torso	wing
+558	head	leg	tail	torso	wing
+559	head	leg	tail	torso	wing
+560	head	leg	tail	torso	wing
+561	head	leg	tail	torso	wing
+562	head	leg	tail	torso	wing
+563	head	leg	tail	torso	wing
+564	head	leg	tail	torso	wing
+565	head	leg	tail	torso	wing
+566	head	leg	tail	torso	wing
+567	head	leg	torso	wing
+568	head	leg	tail	torso
+569	arm	head	leg	torso
+570	arm	leg	paper
+571	head	wing
+572	arm	head	leg	torso
+573	arm	head	leg	tail	torso
+574	face
+575	head	wing
+576	door	driver	hood	tire
+577	door	grill	hood	wheel
+578	arm	head	leg	torso
+579	head	leg	torso	wing
+580	arm	head	leg	torso
+581	arm	head	leg	torso
+582	arm	head	leg	torso
+583	arm	head	leg	torso
+584	head	leg	paw	tail
+585	arm	head	leg	torso
+586	arm	head	leg	torso
+587	arm	head	leg	torso
+588	arm	head	leg	torso
+589	arm	head	leg	torso
+590	arm	head	leg	strings
+591	arm	head	leg	torso
+592	blob
+593	arm	head	leg	tail	torso
+594	arm	head	leg	tail	torso
+595	foot	head	leg	tail
+596	arm	head	leg	torso
+597	arm	head	leg	torso
+598
+599
+600
+601	arm	head	leg	torso
+602	arm	head	leg	torso
+603	grain	stalk
+604	arm	head	leg	torso
+605	body	neck	strings
+606	yolk
+607	keyboard	pipes
+608	darkness
+609	head	leg	tail	torso
+610	body	eyestalk
+611	arm	head	leg	torso
+612	head	leg	thorax	wing
+613	arm	head	leg	torso
+614	arm	head	leg	torso
+615	arm	head	leg	torso
+616	arm	head	leg	torso
+617
+618	arm	head	leg	torso
+619	arm	head	leg	torso
+620	arm	head	leg	torso
+621	arm	head	leg	torso
+622	arm	head	leg	torso
+623	arm	head	leg	torso
+624	arm	head	leg	torso
+625	arm	head	leg	torso
+626	arm	head	leg	torso
+627	arm	head	leg	torso
+628	arm	head	leg	torso
+629	arm	head	leg	torso
+630	arm	head	leg	torso
+631	arm	head	leg	torso
+632	arm	head	leg	torso
+633	arm	head	leg	torso
+634	head	leg	torso
+635	arm	head	leg	torso
+636	arm	head	leg	torso
+637	arm	head	leg	torso
+638	arm	head	leg	torso
+639	pear	trunk
+640	arm	head	leg	shell
+641	head	leg	torso	wing
+642	head	leg	torso	wing
+643	ring
+644	head	leg	torso	wing
+645	tiny robot
+646	wheel
+647	barrel	hinge	leg
+648	arm	head	leg	torso
+649	arm	head	leg	torso
+650	arm	head	leg	torso
+651	arm	head	leg	torso
+652	head	tail
+653	flipper	head	leg	tail
+654	head	leg	shell
+655	ladle	tureen
+656	arm	head	leg	torso
+657	arm	head	leg	torso
+658	pseudopod
+659	pseudopod
+660	head
+661	arm	leg	paw	tail
+662	arm	head	leg	torso
+663	arm	head	leg	torso
+664	dome	rectangle
+665	hexagon	rectangle	triangle
+666	trapezoid	triangle
+667	square	trapezoid	triangle
+668	curved bit	square
+669	dome	trapezoid	triangle
+670	dome	rectangle
+671	hexagon	rectangle	triangle
+672	trapezoid	triangle
+673	square	trapezoid	triangle
+674	curved bit	square
+675	dome	trapezoid	triangle
+679	head	leg	tail
+680	arm	head	leg	torso
+681	head	tail
+682	arm	head	leg	tail	torso
+683	head	leg	torso	wing
+684	flipper	head	tail
+685	arm	head	leg	torso
+686	arm	head	leg	torso
+687	arm	head	leg	torso
+688
+689	arm	head	leg	torso
+690	arm	head	leg	torso
+691	arm	head	leg	torso
+692	arm	head	leg	torso
+693	arm	head	leg	torso
+694
+695
+696
+697
+698
+699	head	leg	torso	wing
+700	arm	head	leg	torso
+701	flipper	head	tail
+702	arm	head	leg	torso
+703	arm	head	leg	torso
+704	arm	head	leg	torso
+705	arm	head	leg	torso
+706	arm	head	leg	torso
+707	arm	head	leg	torso
+708	arm	head	leg	torso
+709	arm	head	leg	torso
+710	arm	head	leg	torso
+711	arm	head	leg	torso
+712	arm	head	leg
+713	leg	shelf
+714	arm	head	leg	torso
+715	arm	head	leg	tail	torso
+716	arm	head	leg	torso
+717	fin	head	tail
+718	biceps	fin	pecs	tail
+719	fin	head	tail
+720	arm	head	leg	torso
+721	arm	head	leg	torso
+722	arm	head	leg	torso
+723	head	tail
+724	head	tail
+725	fin	head	tail
+726	head	tail
+727	arm	head	trunk
+728	arm	head	leg	tail
+729	head	leg	thorax
+730	fin	head	tail
+731	fin	head	tail
+732	fin	head	tail
+733	foot	head	spine
+734	fin	head	tail
+735	head	tail
+736	head	tail
+737	head	tail
+738	arm	head
+739	head
+740	head
+741	frond
+742	arm	head	tail	torso
+743	head	leg	torso
+744	arm	head	leg	torso
+745	arm	head	leg	torso
+746	head	leg	torso
+747	arm	head	leg	torso
+748	arm	head	leg	torso
+749	arm	head	leg	torso
+750	arm	head	leg	torso
+751	arm	head	leg	torso
+752	beak	head	torso	wing
+753	beak	head	torso	wing
+754	beak	head	torso	wing
+755	beak	head	torso	wing
+756	beak	head	torso	wing
+757	fin	head	tail
+758	fin	head	tail
+759	head
+760
+761	arm	head	tail	torso
+762	arm	head	leg	torso
+763	head	tail
+764	head	tail
+765	arm	head	tail	torso
+766	body	spine
+767	head	tail
+768	arm	head	tail	torso
+769	fin	head	tail
+770	fin	head	tail
+771	arm	head	tail	torso
+772	arm	head	tail	torso
+773	arm	head	tail	torso
+774	fin	head	tail
+775	head	leg	tail
+776	fin	head	tail
+777	arm	head	tail	torso
+778	head	tail
+779	flipper	head	tail
+780	flipper	head	tail
+781	flipper	head	tail
+782	head	leg	shell
+783	head	leg	shell
+791	blob	pseudopod
+792	blob	eyestalk	mouth	pseudopod
+793	head	tail	torso
+794	head	tail	torso
+795	head	tail	torso
+796	head	tail	torso
+797	head	tail	torso
+798	head	tail	torso
+799	head	tail	torso
+800	head	tail	torso
+801	head	tail	torso
+802	head	tail	torso
+803	slime
+804	slime
+805	slime
+806	arm	head	leg	torso
+807	arm	head	leg	torso
+808	arm	head	leg	torso
+809	arm	head	leg	torso
+810	head	tail
+811	head	tail	torso
+812	fungus
+813	pseudopod
+814	bacterium
+815	body	tendril
+816	strand
+817	beak	head	tentacle
+818	head	leg	torso	wing
+819	head	tail
+820	head	leg	thorax
+821	head	leg
+822	arm	head	leg	torso
+823	arm	attachments	head	leg	torso
+824	arm	head	leg	torso
+825	arm	head	leg	torso
+826	arm	head	leg	torso
+827	arm	head	leg	torso
+828	arm	head	leg	torso
+829	arm	head	leg	torso
+830	arm	head	leg	torso
+831	arm	head	leg	torso
+832	arm	head	leg	torso
+833	arm	head	leg	torso
+834	arm	head	leg	torso
+835	arm	head	leg	torso
+836	arm	head	tread	wheel
+838	arm	head	tail	torso
+839	arm	head	tail	torso
+840	arm	head	tail	torso
+841	arm	head	tail	torso
+842	arm	head	tail	torso
+843	arm	head	tail	torso
+844	arm	head	tail	torso
+845
+846	arm	head	leg	torso
+847	arm	head	leg	torso
+848	head	tail
+849	arm	head	tail	torso
+850	arm	head	tail	torso
+851	arm	head	tail	torso
+852	arm	head	tail	torso
+853	arm	head	tail	torso
+854
+855	arm	head	leg	torso
+856	arm	head	leg	torso
+857	arm	head	leg	torso
+858	arm	head	leg	torso
+859	arm	head	leg	torso
+860	arm	head	leg	torso
+861	leaf	limb	trunk
+862	leaf	limb	trunk
+863	leaf	limb	trunk
+864	limb	trunk	twig
+865	limb	noose	trunk	twig
+866
+867	arm	head	leg	torso
+868	arm	head	leg	torso
+869	slime
+870	arm	head	leg	torso
+871	arm	head	leg	torso
+872	flipper	head	tail	torso
+873	arm	head	leg	torso
+874	head	noodle
+875	pseudopod	slime
+876	arm	head	leg	torso	turntable
+877	arm	head	leg	torso
+879	arm	fin	head	torso
+880	arm	fin	head	torso
+881	arm	fin	head	torso
+882	flipper	head	tail	torso
+883	arm	head	leg	torso
+884	head	noodle
+885	pseudopod	slime
+886	arm	head	leg	torso	turntable
+887	arm	head	leg	torso
+888	flipper	head	tail	tentacle	torso
+889	arm	head	leg	torso	wing
+890	head	noodle
+891	pseudopod	slime
+892	arm	head	leg	torso
+893	arm	head	leg	sombrero	torso
+894	arm	head	leg	torso
+895	arm	head	leg	torso
+896	arm	head	leg	torso
+897	arm	head	leg	torso
+898	arm	head	leg	torso
+899	arm	head	leg	torso
+900	arm	head	leg	torso
+901	arm	head	leg	torso
+902
+903
+904	body	flipper	foot	head
+905	body	flipper	foot	head
+906	arm	fin	head	torso
+907	body	flipper	foot	head
+908	body	flipper	foot	head
+909	body	flipper	foot	head
+910	body	flipper	foot	head
+911	body	flipper	foot	head
+912	body	flipper	foot	head
+913
+914	arm	head	leg
+915	arm	head	leg
+916	arm	head	leg	mower
+917	arm	head	leg	torso
+918	brick	eye
+919	brick	eye	wing
+920	brick	eye	shell
+921	eye	head	leg	shell
+922	brick	ear	eye	head	leg	trunk
+923	beak	brick	eye	head	tentacle
+924	brick	eye	fang	head	tail
+925	bag	fan	wheel
+926	brick	mast	propellor	sail
+927	brick	buttress	eye	gargoyle	nave	rectory	transept
+928	beak	brick	eye	foot	head
+929	arm	head	leg	torso
+930	petal	pistil	stem
+931	head	stinger	thorax	wing
+932	body	head	leg	stinger	trunk	wing
+933	head	petal	stem
+934	ascender	bowl	counter
+935	bowl	counter	instroke
+936	ascender	stem
+937	counter	tail
+938	ascender	leg
+939	arm	head	leg	torso
+940	particle
+941	field
+942	glob
+943	buttress	cloud	turret
+944	dormer	shingle
+945	goat	snowman	yeti
+946	tentacle
+947	abdomen	head	leg	thorax
+948	abdomen	head	leg	thorax
+949	island	tower	town
+950	head
+951	arm	head	leg	torso
+952	head
+953	arm	head	leg	torso
+954	arm	head	leg	torso
+955	arm	head	leg	torso
+956	arm	head	leg	torso
+957	arm	head	leg	torso
+958	arm	head	leg	torso
+959	arm	head	leg	torso
+960	arm	head	leg	torso	wing
+961	arm	bun	head	leg	patty
+962	head	leg	paw	tail
+963	beak	head	thigh	wing
+964	arm	bun	head	leg	patty
+965	head	leg	paw	tail
+966	cube
+967	drop	pseudopod	sauce
+968	arm	ear	head	leg	torso
+969	arm	bass	head	legs
+970	arm	head	legs	torso
+971	arm	head	leg	torso
+972	arm	hair	head	legs	torso
+973	arm	head	leg	torso
+974	head
+975	head	leg
+976	eye	mouth	tentacle
+977	arm	head	horn	leg	tail	torso	wing
+978	arm	head	horn	leg	tail	torso	wing
+979	arm	head	leg	torso	wing
+980	arm	head	leg	torso	wing
+981	arm	head	leg	torso	wing
+982	arm	head	horn	leg	tail	torso	wing
+983	ear	head	leg	paw	tail
+984	arm	head	leg	tail	torso
+985	arm	carbuncle	head	leg
+986	head	wing
+987	head	tail
+988	arm	head	leg	torso
+989	head	leg	tail	torso	wing
+990	arm	head	leg	torso	wing
+991	head	leg	torso
+992	crate
+993	arm	head	leg	torso
+994	arm	head	leg	torso
+995	head	leg	tail	torso
+996	head	leg	tail	torso
+997	head	leg	tail	torso
+998	arm	head	leg	torso
+999	armbone	head	legbone	rib	torso
+1000	arm	head	leg	torso
+1001	arm	head	leg	torso
+1002	arm	head	leg	torso
+1003	arm	head	leg	torso
+1004	arm	head	leg	torso
+1005	arm	head	leg	torso
+1006	arm	head	leg	torso
+1007
+1008
+1009
+1010	head	wing
+1031	arm	head	leg	torso
+1032
+1035
+1036
+1037
+1038
+1039
+1040
+1041
+1042
+1043
+1044
+1045
+1046
+1048	cheek	crack
+1049	cheek	crack
+1050	arm	head	leg	torso
+1051
+1052
+1057	arm	head	leg	torso
+1058	arm	head	leg	torso
+1059	louse
+1060	arm	burner	door	leg
+1061	arm	head	leg	torso
+1062	arm	head	leg	torso
+1063	arm	head	leg	torso
+1064	arm	head	leg	torso
+1065	arm	head	leg	torso
+1066
+1067
+1068
+1069
+1070	arm	head	leg	torso
+1071	head
+1072	arm	head	leg	torso
+1073	arm	head	leg	torso
+1074	arm	head	leg	torso
+1075	abdomen	head	thorax	wing
+1076	abdomen	head	thorax	wing
+1077	abdomen	head	thorax	wing
+1078	abdomen	head	thorax	wing
+1079	bee
+1080	bee
+1081	abdomen	head	thorax	wing
+1082	abdomen	head	thorax	wing
+1083	abdomen	head	thorax	wing
+1084	arm	head	leg	torso
+1085	arm	head	leg	torso
+1086	arm	head	leg	torso
+1087	arm	head	leg	torso
+1088	arm	head	leg	torso
+1089	arm	head	leg	torso
+1090	claw	head	paw	tail
+1091	claw	head	paw	tail
+1092	arm	double jaw	head	leg
+1093	claw	head	paw
+1094	body	leg	paw	tentacle
+1095	arm	head	leg	torso
+1096	body	leg	paw	tentacle
+1097	arm	head	leg	ovipositor
+1098	ear leg	head	tail	trunk
+1099	chassis	drive	power supply
+1100	arm	head	leg	torso
+1101	arm	head	leg	torso
+1102	arm	head	leg	torso
+1103	arm	head	leg	torso
+1104	arm	head	leg	torso
+1105	arm	head	leg	torso
+1106	arm	head	leg	torso
+1107
+1108
+1109
+1110	branches	stem
+1111	head	tail
+1112	head	legs	tail	torso
+1113	head	leg	tail	torso
+1114	head	leg	tail	torso	trunk
+1115	arm	head	tail	torso	tusks
+1116	claw	head	paw	tail
+1117	arm	head	leg	torso
+1118	beak	head	talon	wing
+1119	shell	slime
+1120	arm	body	head	leg	tail
+1121
+1122	branch	leaf	roots	trunk
+1123	branch	leaf	root	trunk
+1124	branch	leaf	root	trunk
+1125	branch	leaf	root	trunk
+1126	branch	leaf	root	trunk
+1127	arm	hand	torso
+1128	head	leg	wing
+1129	arm	head	leg	torso
+1130	arm	head	leg	torso
+1131	arm	head	leg	torso
+1132	arm	head	leg	torso
+1133	arm	head	leg	torso
+1134	arm	head	legs	torso
+1135	arm	head	leg	torso
+1136	arm	head	torso
+1137	arm	head	torso
+1138	arm	head	torso
+1139	arm	head	torso
+1140	arm	head	torso
+1141	Head	arm	beak	leg	tail
+1142	head	leg	tail	torso	trunk
+1143	arm	head	leg	torso
+1144	head	leg	stinger	torso	wing
+1145
+1146
+1147
+1148
+1149	arm	head	leg	torso
+1150	arm	head	leg	torso
+1151	arm	head	leg	torso
+1152	arm	head	leg	torso
+1153	arm	head	leg	torso
+1154	arm	dreadlock	head	leg	torso
+1155	arm	head	leg	torso
+1156	arm	head	leg
+1157	arm	head	leg	torso	wing
+1158	arm	head	leg	torso
+1159	head
+1160	head	leg	tail	torso
+1161	head	leg	torso	wing
+1162	head	leg	tail	torso
+1163	head	wing
+1164	arm	head	leg	torso
+1165	arm	head	leg	tail	torso
+1166	arm	head	tail	torso
+1167	arm	head	leg	tail	torso
+1168	arm	head	leg	tail	torso
+1169	ectoplasm	slime
+1170	arm	head	leg	tail	torso
+1171	arm	cannon	head	laser	leg
+1172	arm	head	leg	tail	tentacle	torso
+1173	arm	body	head	leg	tail	torso
+1174	head
+1175	arm	head	torso
+1176	arm	head	leg	torso
+1177
+1178	arm	head	leg	torso
+1179	arm	head	tail	torso
+1180	arm	head	leg	torso
+1181	arm	head	leg	torso
+1182	arm	head	leg	tail	torso
+1183	arm	head	leg	tail	torso
+1184	one	zero
+1185	arm	head	torso
+1186	arm	head	leg	torso
+1187	body	head	leg	tail
+1188	arm	head	leg	torso
+1189	arm	head	leg	torso
+1190	arm	head	leg	torso
+1191	abdomen	head	thorax	wing
+1192	arm	dreadlocks	head	leg	torso
+1193	arm	head	leg	torso
+1194	arm	head	horn	leg	wing
+1195	eye	tentacle
+1196	fin	head	tail
+1197	arm	head	leg	torso
+1198	arm	head	hook	leg	torso
+1199	petal	pistil	stamen	stem
+1200	line	spiral
+1201	arm	ear	head	leg	torso
+1202	arm	fin	head	tail
+1203	eye	slime
+1204	beak	foot	head	wing
+1205	elements	eyes
+1206	line	star
+1207	arm	bindle	head	leg	torso
+1208
+1209
+1210	head	wing
+1211	arm	head	leg	torso
+1212
+1213
+1214	arm	head	leg	torso
+1215	bulb	eye	leaf	stem
+1216	arm	head	leg	torso
+1217	arm	head	leg	torso
+1218	arm	head	leg	torso
+1219	arm	head	leg	torso
+1220	arm	head	leg	torso
+1221	arm	head	leg	torso
+1222	arm	head	leg	torso
+1223
+1224	arm	head	leg	torso
+1225	arm	head	leg	torso
+1226
+1227	arm	head	leg	torso
+1228	arm	head	leg	torso
+1229	arm	head	leg	torso
+1230	arm	head	leg	torso
+1231	arm	head	leg	torso
+1232	arm	head	leg	torso
+1233	arm	head	leg	torso
+1234	arm	head	leg	torso
+1235	oil
+1236	oil	pseudopod
+1237	crown	oil	pseudopod
+1238	oil	pseudopod
+1239	blade	bone	head	tread
+1240	arm	head	leg	torso
+1241	arm	head	leg	torso
+1242	arm	head	leg	torso
+1243	arm	head	leg	torso
+1244	arm	hair	head	leg
+1245	beak	leg	mandible
+1246	head	leg	snout	tail	torso
+1247	head	trunk	wheels
+1248	goo
+1249	goo
+1250	goo
+1251	arm	head	leg	torso
+1252	arm	head	leg	torso
+1253	arm	head	leg	torso
+1254	arm	head	leg	torso
+1255	arm	head	leg	torso
+1256	arm	head	leg	torso
+1257	arm	head	leg	torso
+1258	arm	head	leg	torso
+1259	arm	head	leg	torso
+1260	arm	head	leg	torso
+1261	arm	head	leg	torso
+1262	arm	head	leg	torso
+1263	arm	head	leg	torso
+1264	arm	head	leg	torso
+1265	head
+1266	head
+1267	arm	head	leg	torso
+1268	arm	head	leg	torso
+1269	head
+1270	pixel
+1271	head	leg	torso
+1272	arm	head	leg	torso
+1273	head	leg
+1274	head
+1275	head
+1276	arm	head	leg	torso
+1277	head
+1278	arm	head	tail
+1279	arm	head	torso
+1280	abdomen	head	leg	thorax
+1281	arm	head	leg	torso
+1282	arm	label	leg	lid
+1283	arm	head	label	leg
+1284	abdomen	head	leg	thorax
+1285	abdomen	arm	head	leg	thorax
+1286	arm	head	leg	thorax
+1287	body	mouth
+1288	head	torso	wing
+1289	body	eye
+1290	head	leg	tail	torso
+1291	arm	head	leg	torso
+1292	head	tail	torso
+1293	handle
+1294	handle
+1295	handle
+1296	handle
+1297	flame	handle
+1298	carton	egg
+1299	bread	crust
+1300	bag	potato
+1301	meat	wrapper
+1302	batter	box
+1303	arm	head	leg	torso
+1304	head	leg	paw	torso
+1305	eye	head	mouth
+1306	arm	head	leg	torso
+1307	arm	head	leg	tail	torso
+1308	body	leg	tongue
+1309	arm	head	leg	torso
+1310	arm	head	leg	torso
+1311	arm	head	leg	torso
+1312	arm	head	leg	torso
+1313	arm	head	torso	tread
+1314	arm	head	leg	torso
+1315	arm	head	leg	torso
+1316	arm	head	leg	torso
+1317	arm	head	leg	torso
+1318	rack	tentacle
+1319	arm	ribcage	skull	wing
+1320	head	tentacle
+1321	fin	head	tail
+1322	beak	foot	head	wing
+1323	arm	head	leg	torso
+1324	arm	head	tentacle
+1325	bubbles	head	tentacles
+1326	head	leg	tail
+1327	body
+1328	body
+1329	body
+1330	head	leg	torso
+1331	arm	head	leg	torso
+1332	arm	head	leg	torso
+1333	arm	head	leg	torso
+1334	arm	head	leg	torso
+1335	arm	head	leg	torso
+1336	arm	head	leg	torso
+1337	arm	head	leg	torso
+1338	arm	head	leg	torso
+1339	arm	head	leg	torso
+1341	abdomen	head	leg	thorax	wing
+1342	head	leg	torso
+1343	wisp
+1344	arm	head	leg	torso
+1345	body	mouth
+1346	arm	leg	ribcage	skull
+1347	candle	skull
+1348	arm	head	leg	torso
+1349	arm	head	leg	tail	torso
+1350	head	leg	torso	wing
+1351	arm	head	leg	shell	torso
+1352	arm	head	leg	torso
+1353	arm	head	leg	torso
+1354	arm	glass "sculpture"	head	leg
+1355	arm	head	inhaler	leg	torso	wedgied butt
+1356	adam's apple	arm	head	leg	torso
+1357	arm	head	leg	pompadour	torso
+1358	blade	motor	murderband
+1359	clamp	lever	pads
+1360	arm	five o'clock shadow	head	leg	torso
+1361	lag bolt	phillips screw	screw	straight screw
+1362	blade	body	motor	traps
+1363	beaker	burner	flame	tube
+1364	pseudopod	puddle	wubwubWUB
+1365	arm	head	leg	sodium	torso
+1366	eyebleach	faucet	pipes
+1367	metal edge	ruler	spirit
+1368	arm	dreidel	head	leg	torso
+1369	flopsweat	line	paper	pencil
+1370	pointy bit	weld	wire
+1371	nacre	shell	slimy bit
+1372	arm	gills	head	tail	tailfin	torso
+1373	eye
+1374	thing
+1375	carapace	tentacle	underbelly
+1376	arm	cane	hat	leg	monocle
+1377	arm	eye	head	leg	torso
+1378	mouth	tongue
+1379	cable	tank	window
+1386	arm	knee	tail	torso
+1387	head	leg	tail	torso
+1388	arm	head	leg	torso
+1389
+1390	arm	head	leg	torso
+1391
+1392	arm	head	leg	torso
+1393	arm	head	leg	torso
+1394	arm	head	leg	torso
+1395	arm	head	leg	torso
+1396	arm	head	leg	torso
+1397	arm	head	leg	torso
+1398	arm	head	leg	torso
+1399	arm	head	leg	torso
+1400	arm	head	leg	torso
+1401	arm	head	leg	torso
+1402	arm	head	leg	torso
+1403	arm	head	leg	torso
+1404	arm	head	leg	torso
+1405	arm	head	leg	torso
+1406	arm	head	leg	torso
+1407	arm	head	leg	torso
+1408	arm	head	leg	torso
+1409	arm	head	leg	torso
+1410	arm	head	leg	torso
+1411	arm	head	leg	torso
+1412	arm	head	leg	torso
+1413	arm	head	leg	torso
+1414	arm	head	leg	torso
+1415	arm	head	leg	torso
+1416	arm	head	leg	torso
+1417	arm	head	leg	torso
+1418	arm	head	leg	torso
+1419	arm	head	leg	torso
+1420	arm	head	leg	torso
+1421	arm	head	leg	torso
+1422	arm	head	leg	torso
+1423	arm	head	leg	torso
+1424	arm	head	leg	torso
+1425
+1426	leaf	vine
+1427	arm	head	leg	torso
+1428	arm	head	leg	torso
+1429	arm	head	leg	torso
+1430	arm	head	leg	torso
+1431	arm	head	leg	torso
+1432	arm	head	leg	torso
+1433	arm	head	leg	torso
+1434	arm	head	leg	torso
+1435	arm	head	leg	torso
+1436	arm	head	torso	wing
+1437	arm	head	leg	torso	wing
+1438	arm	head	leg	torso	wing
+1439	arm	head	leg	torso	wing
+1440	eye	eye	head	torso	wing
+1441	head	tail	torso
+1442	head	torso
+1443
+1444	arm	head	leg	torso
+1445	arm	head	leg	torso
+1446	arm	head	leg	torso
+1447
+1448	arm	head	leg	torso
+1449	arm	head	leg	torso
+1450	arm	head	leg	torso
+1451	arm	head	leg	torso
+1452	arm	head	leg	torso
+1453	arm	head	leg	torso
+1454	arm	head	leg	torso
+1455
+1456	head	leg	torso
+1457	pea
+1458	handle	spigot	tap
+1459	arm	head	leg	tail	torso
+1460
+1461	arm	can	leg
+1462	arm	bag	leg	tortellini
+1463	arm	jar	leg	lid
+1464	arm	box	leg	noodles	powder
+1465	arm	can	leg	lid
+1466
+1467	arm	head	leg	tail	torso
+1468	arm	head	leg	tail	torso
+1469
+1470	door	hinges	pig	wall	window
+1471	door	hinges	pig	wall	window
+1472	door	hinges	pig	wall	window
+1473	door	hinges	pig	wall	window
+1474	door	hinge	pig	wall	window
+1475	door	hinge	pig	wall	window
+1476	door	hinge	pig	wall	window
+1477	door	hinges	pig	wall	window
+1478	door	hinges	pig	wall	window
+1479	door	hinges	pig	wall	window
+1480	door	hinges	pig	wall	window
+1481	door	hinges	pig	wall	window
+1482	door	hinges	pig	wall	window
+1483	door	hinges	pig	wall	window
+1484	door	hinges	pig	wall	window
+1485	handle	treadmill
+1486	bar	dumbbell	weight
+1487	chicken	cork	pulley	rope	spring	weight
+1488	handle	lever	riser	tread
+1489	chain	handle	pedal	seat
+1490	fin	head	tail
+1491	head	leg	neck	torso
+1492	fin	head	tail
+1493	head	leg	tail	torso
+1494	ear	head	leg	tail	torso
+1495	head	leg	tail	torso
+1496	limb	nuts	trunk
+1497	head	tail
+1498	arm	head	leg	torso	wing
+1499	antenna	body	fender	ladder	wheel
+1500	body	fender	ladder	wheel
+1501	antenna	body	fender	ladder	wheel
+1502	body	door	fender	mirror	wheel
+1503	creeper	door	tire	windshield
+1504	arm	head	leg	torso
+1505	arm	head	leg	torso
+1506	arm	head	leg	torso
+1507	arm	head	leg	torso
+1508	arm	head	leg	torso
+1509	arm	head	leg	torso
+1510	arm	head	leg	torso
+1511	beak	flipper	foot	head
+1512	arm	head	leg	torso
+1513	arm	head	leg	torso
+1514	head	tail
+1515	head	tail
+1516	head	tail
+1517	claw	head	tail	wing
+1518	flame	head	tail
+1519	head	rib	spine
+1520	arm	buttons	head	leg	torso
+1521	arm	head	leg	torso
+1522	arm	head	leg	torso
+1523	arm	head	leg	torso
+1524	arm	head	leg	torso
+1525	arm	head	leg	torso
+1526	arm	head	leg	torso
+1527	arm	head	leg	torso
+1528	arm	head	leg	torso
+1529	head	tail	torso	wing
+1530	arm	head	leg	torso
+1531	arm	head	leg	torso
+1532	arm	head	leg	torso
+1533	head	torso
+1534	arm	head	leg	torso
+1535	arm	head	leg	torso
+1536	camera	hose	mouth
+1537	arm	beak	head	leg	torso
+1538	arm	head	hoverskirt
+1539	pseudopod
+1540	drawer	legs	top
+1541	drawer	leg	top
+1542	drawer	leg	top
+1543	drawer	leg	top
+1544	drawer	leg	top
+1545	cloud	face
+1546	antenna
+1547	arm	gallows	head	leg	torso
+1548	tendril
+1549	arm	head	leg	torso
+1550	bear	box	hinge	top
+1551	ballerina	hinge	key	top
+1552	antler	nose	plaque
+1553	frame	glass
+1554	canvas	frame
+1555	ectoplasm	sheet	torso
+1556	exhaust	gauge	leg	pipe
+1557	cloud	face	mouth
+1558	dust	nugget
+1559	arm	head	leg	torso
+1560	ectoplasm	head	sheet	torso
+1561	bottle	door	hinge	shelf	wall
+1562	engine	roller	steam
+1563	arm	head	leg	torso
+1564	ectoplasm	head	torso
+1565	arm	head	leg	torso
+1566	bun	cheese	meat
+1567	garnish	glass
+1568	cherry	dish	face
+1569	cap	stalk
+1570	arm	head	leg	torso
+1571	head	tentacle
+1572	head	legs	tail
+1573	head	shell	tail
+1574	arm	head	leg	torso
+1575	arm	head	leg	torso
+1576	arm	head	leg	torso
+1577	arm	head	leg	torso
+1578	arm	head	leg	torso
+1579	arm	head	leg	torso
+1580	door	leg	thatch	window
+1581	arm	head	leg	torso
+1582	body	head	mouth
+1583	arm	head	leg	torso
+1584	abdomen	head	thorax
+1585	arm	head	leg	torso
+1586	eye	orb
+1587	arm	head	leg	torso
+1588	eye	leg	torso
+1589
+1590	head	leg	tail	torso	trunk
+1591	butt	head	leg	torso
+1592	eye	head	wing
+1593	body	stem	tooth
+1594	ear	ear	eye	nose	tiny leg
+1595	arm	head	leg	torso
+1596	arm	head	leg	torso
+1597	head	leg	tail
+1598	fin	head	tail
+1599	fin	head	tail
+1600	fin	head	tail
+1601	fin	head	tail
+1602	head	hoof	leg	tail
+1603	head	tail
+1604	head	leg	tail
+1605	body	head	leg	wing
+1606	arm	head	leg
+1607	head
+1608	arm	body	head	leg
+1609	arm	body	head	leg
+1610	body	head
+1611	arm	body	head	leg	wing
+1612	arm	body	head	leg
+1613	arm	body	head	leg
+1614	arm	body	head	leg
+1615	beak	head	leg	torso	wing
+1616	arm	head	leg	tail
+1617	arm	head	leg	torso
+1618	arm	car	head	torso
+1619	bracket	jar	tube
+1620	arm	bridge	frets	head	leg	neck	torso
+1621	arm	head	leg	torso
+1622	head	leg	torso
+1623	arm	head	leg	torso
+1624	arm	head	leg	torso
+1625	arm	head	leg	torso
+1626	arm	head	leg	torso
+1627	beak	torso	wing
+1628	arm	head	leg	torso
+1629	bomb	gun	tank
+1630	eyes	mouth	nose
+1631	arm	head	leg	torso
+1632	head	tail	torso
+1633	arm	head	leg	torso
+1634	arm	head	leg	tail
+1635	arm	head	leg	torso
+1636	arm	head	leg	torso
+1637	leaf	pod	stem
+1638	arm	face	leg
+1639	arm	body	cigarette	head
+1640	arm	head	leg	torso
+1641	arm	head	leg	torso
+1642	arm	head	leg	torso
+1643	arm	head	leg	torso
+1644	head	leg	tail	tiny arm	torso
+1645	capsid	nucleic acid
+1646	camera	keypad	monitor
+1647	arm	body	head	leg
+1648	arm	head	leg	torso
+1649	head
+1650	leg
+1651	head
+1652	arm	nards	tail
+1653	arm	head	torso
+1655	arm	chassis	circuits	head	leg
+1656	arm	head	leg	torso
+1657	bucket	rim
+1658	arm	head	leg	table
+1659	arm	head	leg	torso	towel
+1660	arm	head	leg	torso
+1661	femur	hat	skull	spine
+1662	body	head	tail
+1663	arm	head	leg	torso
+1664	head	rope	torso	wing
+1665	arm	head	leg	torso
+1666	head	tail	torso	wing
+1667	arm	head	leg	wing
+1668	arm	head	leg	torso	towel
+1669	arm	head	leg	torso
+1670	arm	head	leg	tail	torso
+1671	arm	head	leg	torso
+1672	arm	head	leg	torso
+1673	arm	head	leg	torso
+1674	arm	head	leg	torso
+1675	arm	head	leg	torso
+1676	arm	head	leg	torso
+1677	arm	head	leg	torso
+1678	arm	ear	torso
+1679	arm	head	leg	torso
+1680	arm	head	leg	torso
+1681	arm	head	leg	torso
+1682	arm	head	leg	torso
+1683	arm	head	leg	torso
+1684	arm	head	leg	torso
+1685	arm	head	leg	torso
+1686	arm	head	leg	torso
+1687	arm	head	leg	torso
+1688	arm	head	leg	torso
+1689	arm	head	leg	torso
+1690	arm	head	leg	torso
+1691	arm	head	leg	torso
+1692	arm	head	leg	torso
+1693	arm	head	leg	torso
+1694	arm	head	leg	torso
+1695	arm	head	leg	torso
+1696	arm	head	leg	torso
+1697	arm	head	leg	torso
+1698	arm	head	leg	torso
+1699	arm	head	leg	torso
+1700	arm	cape	head	leg	torso
+1701	arm	head	leg	torso
+1702	arm	head	leg	torso
+1703	arm	head	leg	torso
+1704	arm	head	leg	torso
+1705	arm	head	leg	torso
+1706	flank	rump
+1707	dermis	epidermis	skin	wart
+1708	bone	clavicle	femur	radius	scapula	tibia	ulna
+1710	head	leg	tail	torso
+1711	bill	head	torso	wing
+1712	head	tail	torso
+1713	head
+1714
+1715
+1716
+1717
+1718
+1719
+1720
+1721
+1722
+1723
+1724
+1725
+1726
+1727
+1728
+1729
+1730
+1731
+1732
+1733
+1734
+1735
+1736
+1737
+1738
+1740	arm	head	leg	torso
+1741	arm	head	leg	torso
+1742	arm	head	leg	torso
+1743	skull
+1744	crooked femur	oversized bone	undersized bone	weird bone	weird skull
+1745	armbone	legbone	pelvis	rib cage
+1746	arm	fruit hat	leg	rib cage	skull
+1747	face
+1748	baguette	head	loaf	torso
+1749	arm	head	leg	nose
+1750	arm	head	leg	torso
+1751	head	tail
+1752	head	tail
+1753	head	torso	wing
+1754	bottle	bottle	bottle	head	torso
+1755	arm	leg	rib cage	skull
+1756	arm	cake	leg	torso
+1757	face	garbage bag
+1758	arm	head	leg	torso
+1759	arm	child	father	head	leg	mother	torso
+1760	arm	garbage bag	head	leg	torso
+1761	arrrrm	head	leg	pegleg	torso
+1762	arrrrm	head	leg	torso
+1763	arrrrm	head	leg	torso
+1764	arm	exposed circuity	head	leg	torso
+1765	ooze-part	pseudopod	slime-bit
+1766	arm	banjo	head	leg	torso
+1767	arm	head	leg	torso
+1768	arm	head	leg	shell
+1769	arm	head	leg	tail	torso
+1770	brain	buzzsaw	globe	legs	radar dish
+1771	arm	head	leg	torso
+1772	arm	head	leg	torso
+1773	arm	head	legs	torso
+1774	arm	head	leg	torso
+1775	arm	head	leg	torso
+1776	arm	head	leg	torso
+1777	arm	head	leg	torso
+1778	arm	head	leg	torso
+1779	arm	head	leg	torso
+1780	arm	head	leg	torso
+1781	arm	beard	head	leg	torso
+1782	arm	head	leg	torso
+1783	arm	gleebnort	head	leg	torso
+1784	arm	head	leg	torso
+1785	arm	head	leg	torso
+1786	arm	head	leg	torso
+1787	arm	head	leg	torso
+1788	arm	head	leg	torso
+1789	arm	head	leg	torso
+1790	arm	head	leg	torso
+1791	arm	head	leg	torso
+1792	arm	head	leg	torso
+1793	arm	head	leg	torso
+1794	arm	head	leg	torso
+1795	arm	head	leg	torso
+1796	arm	head	leg	torso
+1797	mouth	tail
+1798	arm	head	leg	powdered wig	torso
+1799	body	head	leg	tail
+1800	head	leg	torso
+1801	head	leg	torso
+1802	head	leg	torso
+1803	head	leg	torso
+1804	head	leg	torso
+1805	head	leg	torso
+1806	head	leg	torso
+1807	head	leg	torso
+1814	arm	head	leg	torso
+1815	arm	head	leg	torso
+1816	John Travolta
+1817	arm	head	huge tongue	leg	torso
+1818	arm	head	leg	star	torso
+1819	arm	head	leg	torso	whiskers
+1820	arm	head	leg	moon boots	torso
+1821	mouth
+1836	Falco	arm	head	leg	torso
+1840	barrel
+1841	arm	head	leg	torso
+1842	arm	head	leg	torso
+1843	arm	head	leg	torso
+1844	arm	head	leg	torso
+1845	arm	head	leg	torso
+1846	arm	head	leg	torso
+1847	arm	head	leg	torso
+1848	arm	head	leg	torso
+1849	arm	head	leg	torso
+1850	arm	head	leg	torso
+1851	arm	head	leg	torso
+1852	arm	head	leg	torso
+1853	arm	head	leg	torso
+1854	arm	head	leg	torso
+1855	lid	tin
+1856	body	flipper	head	tusk
+1857	eye	head	tentacle
+1858	arm	head	torso
+1859	feel	shape	size	taste
+1860	idea	inkling	notion	thought
+1861	color	smell	sound	taste
+1862	motor	sensor	servo
+1863	arm	cable	motor	sensor
+1864	arm	grill	leg
+1865
+1866
+1867
+1868
+1869
+1870
+1871
+1872
+1873
+1874
+1875
+1876
+1877
+1878
+1879
+1880
+1881
+1882
+1883
+1884
+1885
+1886
+1887
+1888
+1889
+1890
+1891
+1892
+1893
+1894
+1895
+1896
+1897
+1898
+1899	arm	head	leg	torso
+1900	arm	head	leg	torso
+1901	arm	head	leg	torso
+1902	arm	head	leg	torso
+1903	arm	head	leg	torso
+1904	arm	head	leg	torso
+1905	arm	leg	skull	torso
+1906	ectoplasm
+1907	head	leg	tail	torso	wing
+1908	head	leg	tail	torso
+1909	arm	head	leg	tail	torso
+1910	head	tail
+1911	head	tail
+1912	head	tail
+1913	head	horns	leg	tail	torso
+1914	fire	skull
+1915	head	leg
+1916	head	leg	tail	torso
+1917	arm	head	leg	torso
+1918	arm	head	leg	torso
+1919	arm	head	leg	torso
+1920	head	leg	tail	torso
+1921	arm	head	leg	torso
+1922	arm	head	leg	torso
+1923	dome	trapezoid	triangle
+1924	head	leg	tail	torso
+1925	Gatling gun	arm	head	leg	torso	wheelchair
+1926	head	horn	leg	tail	torso
+1927	arm	head	leg	torso
+1928	fang	head	tail
+1929	head	horn	leg	tail	torso
+1930	head	leg	torso
+1931	fang	head	tail	tongue
+1932	face	horn	plinth
+1933	arm	head	leg	torso
+1934	fang	tail	tongue
+1935	arm	head	leg	torso
+1936	arm	head	leg	torso
+1937	body	foreleg	head	leg
+1938	brick	wheel
+1939	arm	head	leg	torso
+1940	arm	head	leg	torso
+1941	arm	head	leg	torso
+1942	arm	head	leg	torso
+1943	arm	head	leg	torso
+1944
+1945	arm	head	leg	torso
+1946	arm	head	leg	torso
+1947	blob
+1948	arm	head	leg	torso
+1949	arm	horse	leg	torso
+1950	arm	head	leg	torso
+1951	arm	head	leg	torso
+1952	arm	head	leg	torso
+1953
+1954	arm	head	leg	torso
+1955	arm	head	leg	torso
+1956	arm	head
+1957	arm	head	leg	torso
+1958	arm	head
+1959	head	leg	tail	tiny arm	torso
+1960	arm	head	leg	register	torso
+1961	arm	head	leg	torso
+1962	arm	head	leg	skin	torso
+1963	head	leg	wing
+1964	arm	head	leg	torso
+1966
+1967	board	card	pawn	token
+1968	arm	head	leg	torso
+1969	arm	head	leg	torso
+1970	"water"
+1971	claws	head	leg	stinger	tail
+1972	arm	head	leg	torso
+1973	casserole	cranberry sauce	gravy	mashed potatoes	mince pie	stuffing	sweet potatoes	turkey
+1974	tentacle
+1975	beak	head	torso	wing
+1976	head	leg	tail	torso
+1977	arm	head	leg	torso
+1978	head	leg	tail	torso
+1979	arm	head	leg	torso
+1980	arm	head	leg	torso
+1981	head	leg	tail	torso
+1982	arm	head	leg	torso
+1983	arm	head	leg	torso
+1984	arm	claw	joint
+1985	arm	head	leg	torso
+1986	arm	beard	head	leg	torso
+1987	arm	head	leg	torso
+1988	arm	head	leg	torso
+1989	arm	head	leg	torso
+1990	arm	head	leg	torso
+1991	arm	head	leg	torso
+1992	arm	claw	joint
+1993	eyebrow	goop	tentacle
+1994	eyebrow	goop	tentacle
+1995	eyebrow	goop	tentacle
+1996	eyebrow	goop	tentacle
+1997	eyebrow	goop	tentacle
+1998	eyebrow	goop	tentacle
+1999	eyebrow	goop	tentacle
+2000	icicle	snow
+2001	empty wallet	hunger
+2002	arm	head	leg	sweet helmet	torso
+2003	bottle	whiskey
+2004	arm	head	leg	robot parts	torso
+2005	bowtie	head	leg	torso	wing
+2006	arm	bindle	head	leg	torso
+2007	cerebellum	cerebrum	corpus callosum
+2008	body	head	horn	tail
+2009	arm	head	leg	torso
+2010	arm	head	leg	torso
+2011	arm	head	leg	torso
+2012	eye	sucker	tentacle
+2013	leaf	pod	stalk	stem
+2014	leaf	pod	stalk	stem	trunk
+2015	pod	stalk	stem	trunk
+2016	abdomen	arm	head	leg	tentacle	thorax	wing
+2017	abdomen	eyestalk	head	leg	pseudopod	tentacle	thorax	wing
+2018	abdomen	eyestalk	head	leg	tentacle	thorax	wing
+2019	abdomen	head	leg	thorax
+2020	abdomen	head	leg	thorax
+2021	head	propellor
+2022	arm	head	leg	torso
+2023	arm	head	leg	torso
+2024	arm	head	leg	torso
+2025	arm	head	loyalty
+2026	arm	ego	foot	head	leg
+2027	arm	cat	face	hand
+2028	arm	cat	face	hand
+2029	arm	cloud	head	torso
+2031	beak	head	torso	wing
+2032	O	X
+2033	giant O	giant X
+2034	beak	head	torso	wing
+2035	beak	head	torso	wing
+2036	beak	head	torso	wing
+2037	beak	head	torso	wing
+2038
+2039
+2040
+2041	lower lip	upper lip
+2042	teeth	tongue	uvula
+2043	silence
+2044	arms	head	legs	torso
+2045	arms	head	legs	torso
+2046	arms	head	legs	torso
+2047	arms	head	legs	torso
+2048	arms	head	legs	torso
+2049	eye	head
+2050
+2051
+2052
+2053
+2054
+2055
+2056
+2057
+2058
+2059
+2060	arm	head	leg	torso
+2061	arm	head	leg	torso
+2062	arm	head	leg	torso	wing
+2063	arm	head	leg	torso
+2064	arm	head	leg	torso
+2065	arm	head	sheet
+2066	arm	butt	empathy	leg	spirit
+2067	head	mecanism	speaker
+2068	body	head	wing
+2069	cardboard	motor	propellor
+2070	branch	pot	vine
+2071	head	leg	wing
+2072	hand	head	plywood	robe
+2073	blackness	darkness	scariness	spookiness
+2074	arm	head	leg	torso
+2075	arm	head	leg	torso
+2076	arm	coffin	head	lef
+2077	nozzle	pipes
+2078	head	spout	wing
+2079	head	torso
+2080	abdomen	mandibles	thorax
+2081	arm	head	leg	torso
+2082	energy
+2083	arm	head	leg	torso
+2084	arm	brow	head	leg	torso
+2085	arm	head	leg	torso
+2086	arm	butt	heart	leg
+2087	armbone	legbone	rib cage	skull
+2088	claw	tail	tentacle	thorax
+2089	arm	head	leg	torso
+2090	arm	glasses	head	leg	ponytail	torso
+2091	arm	bicep	glutes	head	leg	torso
+2092	arm	head	leg	torso
+2093	arm	bloodshot eye	head	leg	torso
+2094	body	ectoplasm
+2095	arm	body	head	leg
+2096	arm	body	head	leg
+2097	blob	ooze	slime
+2098	head	middle	tail
+2099	belly	fin	head	tail	tusk
+2100	lemming
+2101	antler	head	leg	tail	torso
+2102	head	leg	tail	torso
+2103	head	leg	tail	torso
+2104	arm	body	head	leg
+2105	arm	body	head	leg
+2106	arm	body	head	leg
+2107	arm	body	head	leg
+2108	arm	body	head	leg
+2109	arm	body	head	leg
+2110	arm	body	head	leg
+2111	arm	body	head	leg
+2112	arm	body	head	leg
+2113
+2114	arm	body	head	leg
+2115	absence	missingness	nothereness
+2116	claw	eyestalk	head	leg
+2117	arm	head	leg	torso
+2118	arm	leg	skull	torso
+2119	arm	head	hook	pegleg	torso
+2120	head	tail
+2121	claw	head	leg	torso
+2122	head	tail
+2123	head	tail	torso
+2124	antenna	head	leg	torso	wing
+2125	cloud
+2126	amplitude	frequency	wavelength
+2127	rim
+2128	arm	head	leg
+2129	pistil	stamen	stem
+2130	gale
+2131	arm	head	leg	torso
+2132	antenna	dial	speaker
+2133	face	stick
+2134	arm	leg	torso
+2135	arm	head	leg	torso
+2136	arm	head	leg	torso
+2137	pixel
+2138	arm	head	leg
+2140	%bit%	%thing%
+2141	eye	mouth	nose
+2142	spine
+2143	tendril
+2144	arm	head	tail	torso
+2145	fin	head	torso
+2146	head	leg	tail	torso
+2147	arm	head	leg	torso
+2148	arm	head	leg	tail
+2149	arm	head	leg	torso
+2150	head	tail
+2151	head	tail	torso
+2152	head	tail
+2153	head	tendril
+2154	arm	head	leg	ribcage	skull	torso
+2155	orange	wing
+2156	orange	wing
+2162	leaves	limb	trunk
+2163
+2164
+2165	head	leg	shell	wing
+2166	arm	head	leg	shell
+2167	bone	shell	skull
+2168	arm	head	leg	tail	torso
+2169	body	crown	face	tail	tongue
+2170	arm	head	torso
+2171	coronoa	eye	flare	mouth	nose
+2172	arm	head	leg	shell
+2173	arm	head	leg	shell
+2174	arm	head	leg	torso
+2175	jaw	leaf	stem	tooth
+2176
+2177	sphere
+2178	ring
+2179	face	vertex
+2180	face	vertex
+2181	face	vertex
+2182	horizontal part	vertical part
+2183	left ventricle	right ventricle
+2184	bottom part	top part
+2185	face	vertex
+2186	bottom curve	top curve
+2187	face	point
+2188	hair	head	tooth
+2189	head	torso
+2190	head	wing
+2191	leaf	stalk
+2192	left side	right side
+2193	facet
+2194	bone	marrow
+2195	cube
+2196	arm	flame	leg	torso
+2197	arm	head	leg	torso	trumpet
+2198	tentacle
+2199	arm	glob	leg	torso
+2200	line	star
+2201	head	leg	torso	wing
+2202	arm	head	leg	torso
+2203	leg	wing
+2204	arm	head	leg	torso
+2205	arm	leg	tank
+2206	arm	leg	slab
+2207	head	leg	torso	wing
+2208	arm	head	leg	shirt
+2209
+2210	Arm	Head	Leg	Torso
+2211	fire	head	torso	wing
+2212	arm	fire	head	leg	torso
+2213	fire	head	tail	torso	wing
+2214	arm	fire	head	leg	torso
+2215	arm	head	leg	torso
+2216	...wing?	arm	head	leg	torso
+2217	arm	fire	head	leg	wing
+2218	arm	fire	head	leg	torso
+2219	arm	head	leg	torso
+2220	arm	head	leg	torso
+2221	arm	head	leg	torso
+2222	head	leg	tail	torso
+2223	blossom	leaf	root	stem
+2224	canopy	root	trunk
+2225	slab
+2226	goo
+2227	emptiness	nothing	void
+2228	emptiness	nothing	void
+2229	emptiness	nothing	void
+2230	arm	head	leg	tail	torso
+2231	arm	flaps	head	leg	tail	torso
+2232	head	leg	torso	wing
+2233	head	leg	shell	tail
+2234	arm	head	leg	tail	torso
+2235	head	leg	spike	tail	torso
+2236	vapor
+2237	head	torso
+2238	beak	head	torso	wing
+2239	body	head	leg	wing
+2240	head	leg	tail	torso
+2241	head	leg	tail	tiny arm	torso
+2242	arm	head	leg	tail	torso
+2243	arm	head	leg	tail	torso
+2244	head	leg	tail	torso
+2245	arm	head	leg	tail	wing
+2246	arm	head	leg	tail	torso
+2247	arm	head	leg	tail	torso
+2248	arm	head	leg	tail	torso
+2249	arm	head	leg	torso
+2250	arm	head	leg	torso
+2251	arm	head	leg	torso
+2252	arms	head	leg	torso
+2253	arms	head	leg	torso
+2254	abdomen	brake line	claw	head
+2255	chassis	eye	flag	lever
+2256	camera	chassis	net	paddle
+2257	chassis	servo	tray	wheel
+2258	arm	chassis	face	rack
+2259	chassis	claw	scanner
+2260	housing	tray	wheels
+2261	arm	housing	leg
+2262	chassis	servo-actuator	wheel
+2263	arm	pedestal	shovel
+2264	crucible	slagspout
+2265	chassis	tube	vent
+2266
+2267	arm	butt	claw	leg	snout
+2268	foot	helmet
+2269	flame
+2270	head	propeller
+2271	ear	head	wing
+2272	horn	maw	skull
+2273	arm	head	leg	tail	torso
+2274	arm	head	leg	torso
+2275	facet
+2276	sphere
+2277	facet
+2278	slab
+2279	head	tail
+2280	head	leg	thorax
+2281	stem	tip
+2282	branch	canopy	trunk
+2283	abyss	darkness	nothingness	shadow	void
+2284	abyss	darkness	nothingness	shadow	void
+2285	abyss	darkness	nothingness	shadow	void
+2286	abyss	darkness	nothingness	shadow	void
+2287	abyss	darkness	nothingness	shadow	void
+2288	abyss	darkness	nothingness	shadow	void
+2289	abyss	darkness	nothingness	shadow	void
+2290	abyss	darkness	nothingness	shadow	void
+2291
+2292
+2293
+2294	arm	hat	head	leg	torso
+2295	hoof	mouth	tentacle
+2296
+2297
+2298	base	tip	void
+2299	moon	planet	ring
+2300	nothing	tastebud
+2301	blade	handle
+2302	bowl	foot	nothing	rim
+2303	grid	node	vertex
+2316	head	torso	wing
+2317	arm	head	leg	torso
+2318	head	tail	torso	wing
+2319
+2320
+2321
+2322	arm	head	leg	wing
+2323
+2324
+2325	leg	mandible	scape	thorax
+2326	carapace	eye	leg
+2327	eye	leg	proboscis	wing
+2328	eye	leg	thorax	wing
+2329	abdomen	arm	leg	thorax	wing
+2330	antenna	coxa	eye	leg	thorax	wing
+2331	leg	leg	leg	pedicel	spinnerets
+2332	eye	spinneret	tiny leg
+2333	elytra	leg	pronotum	wing
+2334	eye	head	leg	leg	leg
+2336	tooth
+2389	leaf
+2390	flames	leaf
+2391	arm	leaf	maw	torso
+2392	arm	ear	head	leg	torso
+2393	arm	ear	head	leg	torso
+2394	arm	ear	head	leg	torso
+2395	arm	head	leg	torso
+2396	circuitry	head	torso
+2397	circuitry	door	hook	panel
+2398	circuitry	lever	treadmill
+2399	circuitry	head	panel	torso
+2400	chute	circuitry	mill	panel
+2401	bucket	circuitry	head	mop	torso
+2402	arm	circuitry	head	panel	torso
+2403	circuitry	control panel	hopper	panel
+2404	circuitry	head	mitre	panel	torso
+2405	arm	head	leg	torso
+2406	arm	head	leg	torso
+2407	arm	head	leg	torso
+2408	arm	head	leg	torso
+2409	arm	ear	head	leg	torso
+2410	arm	ear	head	leg	torso
+2411	arm	ear	head	leg	torso
+2412	arm	head	leg	torso
+2413	arm	head	leg	torso
+2414	arm	head	leg	torso
+2415	arm	ear	head	leg	torso
+2416	arm	ear	head	leg	torso
+2417	arm	ear	head	leg	torso
+2418	arm	head	leg	torso
+2419	arm	head	leg	torso
+2420	arm	head	leg	torso
+2421	arm	ear	head	leg	torso
+2422	arm	ear	head	leg	torso
+2423	arm	ear	head	leg	torso
+2424	arm	ear	head	leg	torso
+2425	arm	ear	head	leg	torso
+2426	arm	ear	head	leg	torso
+2427	arm	head	leg	torso
+2428	arm	head	leg	torso
+2429	armpeg	headpeg	legpeg	torsopeg
+2430	arm	ear	head	leg	torso
+2431	arm	head	leg	torso
+2432	arm	head	leg	torso
+2433	arm	ear	head	leg	torso
+2434	arm	ear	head	leg	torso
+2435	arm	ear	head	leg	torso
+2436	circuitry	head	torso
+2437
+2438
+2439
+2440
+2441
+2442
+2443
+2444
+2445
+2446
