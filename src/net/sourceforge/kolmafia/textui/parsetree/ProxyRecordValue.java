@@ -1848,8 +1848,8 @@ public class ProxyRecordValue extends RecordValue {
       var parts =
           MonsterDatabase.getMonsterParts(id).stream()
               .map(DataTypes::makeStringValue)
-              .collect(Collectors.toList());
-      return new PluralValue(DataTypes.ELEMENT_TYPE, parts);
+              .toList();
+      return new PluralValue(DataTypes.STRING_TYPE, parts);
     }
   }
 
