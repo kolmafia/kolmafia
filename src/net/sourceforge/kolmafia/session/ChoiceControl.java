@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.session;
 
 import static net.sourceforge.kolmafia.utilities.Statics.DateTimeManager;
+import static net.sourceforge.kolmafia.utilities.StringUtilities.extractIidFromURL;
 
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -91,13 +92,6 @@ public abstract class ChoiceControl {
 
   private static final AdventureResult CANDY_CANE_SWORD =
       ItemPool.get(ItemPool.CANDY_CANE_SWORD, 1);
-
-  public static final Pattern URL_IID_PATTERN = Pattern.compile("iid=(\\d+)");
-
-  public static int extractIidFromURL(final String urlString) {
-    Matcher matcher = URL_IID_PATTERN.matcher(urlString);
-    return matcher.find() ? StringUtilities.parseInt(matcher.group(1)) : -1;
-  }
 
   public static final Pattern URL_QTY_PATTERN = Pattern.compile("qty=(\\d+)");
 
