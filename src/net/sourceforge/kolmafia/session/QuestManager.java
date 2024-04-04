@@ -252,6 +252,8 @@ public class QuestManager {
       }
     } else if (location.startsWith("council")) {
       handleCouncilChange(responseText);
+    } else if (location.startsWith("crypt")) {
+      CryptManager.visitCrypt(responseText);
     } else if (location.startsWith("da")) {
       handleDungeonsChange(responseText);
     } else if (location.startsWith("fernruin")) {

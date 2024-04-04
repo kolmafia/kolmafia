@@ -792,8 +792,9 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     // Level 7 quest boss
     if (this.formSource.equals("crypt.php")) {
+      int evilness = Preferences.getInteger("cyrptTotalEvilness");
       return QuestDatabase.isQuestStep(Quest.CYRPT, QuestDatabase.STARTED)
-          && Preferences.getInteger("cyrptTotalEvilness") == 0;
+          && (evilness == 999 || evilness == 0);
     }
 
     // Level 8 quest boss
