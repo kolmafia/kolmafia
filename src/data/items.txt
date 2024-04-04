@@ -11589,7 +11589,7 @@
 11561	Everfull Dart Holster	129400771	dartholster.gif	accessory		0
 11562	research fragment	981562994	blueprint.gif	usable	t	0
 11563	Thwaitgold wolf spider statuette	455599612	thwaitwolf.gif	none		0
-11564	boxed Apriling band helmet	244348744	aprilinghat_box.gif	usable	t	0
+11564	boxed Apriling band helmet	244348744	aprilinghat_box.gif	usable	t	0	Apriling band helmets in a boxes
 11565	Apriling band helmet	861863392	aprilinghat.gif	hat		0
 11566	Apriling band saxophone	410507605	saxophone.gif	weapon	q	0
 11567	Apriling band quad tom	726993691	drums_april.gif	weapon	q	0
