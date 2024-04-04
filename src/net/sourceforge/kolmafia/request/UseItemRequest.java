@@ -1632,11 +1632,17 @@ public class UseItemRequest extends GenericRequest {
       Preferences.setBoolean("noncombatForcerActive", true);
     }
 
-    // Your familiar doesn't seem interested in playing.
-    if (itemId != ItemPool.APRIL_BAND_PICCOLO
-        || !responseText.contains("doesn't seem interested")) {
-      Preferences.increment(preference, 1, 3, false);
+    // You already seem lucky enough, maybe play a sexy sax solo later.
+    if (itemId == ItemPool.APRIL_BAND_SAXOPHONE && responseText.contains("already seem lucky")) {
+      return;
     }
+
+    // Your familiar doesn't seem interested in playing.
+    if (itemId == ItemPool.APRIL_BAND_PICCOLO && responseText.contains("doesn't seem interested")) {
+      return;
+    }
+
+    Preferences.increment(preference, 1, 3, false);
   }
 
   private static final Pattern HEWN_SPOON_PATTERN = Pattern.compile("whichsign=(\\d+)");
