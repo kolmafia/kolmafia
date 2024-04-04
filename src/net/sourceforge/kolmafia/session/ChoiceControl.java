@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.session;
 
 import static net.sourceforge.kolmafia.utilities.Statics.DateTimeManager;
+import static net.sourceforge.kolmafia.utilities.StringUtilities.extractIidFromURL;
 
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -91,13 +92,6 @@ public abstract class ChoiceControl {
 
   private static final AdventureResult CANDY_CANE_SWORD =
       ItemPool.get(ItemPool.CANDY_CANE_SWORD, 1);
-
-  public static final Pattern URL_IID_PATTERN = Pattern.compile("iid=(\\d+)");
-
-  public static int extractIidFromURL(final String urlString) {
-    Matcher matcher = URL_IID_PATTERN.matcher(urlString);
-    return matcher.find() ? StringUtilities.parseInt(matcher.group(1)) : -1;
-  }
 
   public static final Pattern URL_QTY_PATTERN = Pattern.compile("qty=(\\d+)");
 
@@ -6813,6 +6807,15 @@ public abstract class ChoiceControl {
         // Dart Perks
         InventoryManager.checkDartPerks();
         break;
+
+      case 1526:
+        // Conduct the Band
+        switch (ChoiceManager.lastDecision) {
+          case 1, 2, 3 -> Preferences.setInteger(
+              "nextAprilBandTurn", KoLCharacter.getTurnsPlayed() + 11);
+          case 4, 5, 6, 7, 8 -> Preferences.increment("_aprilBandInstruments", 1, 2, false);
+        }
+        break;
     }
   }
 
@@ -9797,6 +9800,7 @@ public abstract class ChoiceControl {
       case 1517: // Mimic DNA Bank
       case 1518: // Prepare your Meal
       case 1523: // Research Bench
+      case 1526: // Conduct the Band
         return true;
 
       default:

@@ -17,6 +17,7 @@ import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withPostChoice1;
 import static internal.helpers.Player.withPostChoice2;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withTurnsPlayed;
 import static internal.matchers.Preference.isSetTo;
 import static internal.matchers.Quest.isStep;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -740,6 +741,28 @@ class ChoiceControlTest {
       assertGetRequest(requests.get(1), "/choice.php", "forceoption=0");
       assertPostRequest(requests.get(2), "/choice.php", "whichchoice=523&option=5");
       assertPostRequest(requests.get(3), "/api.php", "what=status&for=KoLmafia");
+    }
+  }
+
+  @Nested
+  class AprilConduct {
+    @Test
+    void choosingAConductSetsPreference() {
+      var cleanups =
+          new Cleanups(
+              withTurnsPlayed(6), withProperty("nextAprilBandTurn", 0), withPostChoice2(1526, 2));
+      try (cleanups) {
+        assertThat("nextAprilBandTurn", isSetTo(17));
+      }
+    }
+
+    @Test
+    void choosingAnInstrumentSetsPreference() {
+      var cleanups =
+          new Cleanups(withProperty("_aprilBandInstruments", 0), withPostChoice2(1526, 7));
+      try (cleanups) {
+        assertThat("_aprilBandInstruments", isSetTo(1));
+      }
     }
   }
 }

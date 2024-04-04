@@ -981,4 +981,11 @@ public class StringUtilities {
     }
     return true;
   }
+
+  public static final Pattern URL_IID_PATTERN = Pattern.compile("iid=(\\d+)");
+
+  public static int extractIidFromURL(final String urlString) {
+    Matcher matcher = URL_IID_PATTERN.matcher(urlString);
+    return matcher.find() ? StringUtilities.parseInt(matcher.group(1)) : -1;
+  }
 }
