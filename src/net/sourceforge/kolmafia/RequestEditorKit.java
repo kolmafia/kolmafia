@@ -2100,6 +2100,14 @@ public class RequestEditorKit extends HTMLEditorKit {
       return;
     }
 
+    // <A href=place.php?whichplace=plains>Back to the Misspelled Cemetary</a>
+    // I expect that will change to "whichplace=cemetery" eventually.
+    int table = buffer.indexOf("</tr></table><p><center><A href=place.php");
+    if (table == -1) {
+      // There is no table of corners and hence no need for the Evilometer
+      return;
+    }
+
     int nookEvil = Preferences.getInteger("cyrptNookEvilness");
     int nicheEvil = Preferences.getInteger("cyrptNicheEvilness");
     int crannyEvil = Preferences.getInteger("cyrptCrannyEvilness");
@@ -2115,6 +2123,7 @@ public class RequestEditorKit extends HTMLEditorKit {
     String alcoveHint = alcoveEvil > 13 ? "Initiative" : "<b>BOSS</b>";
 
     StringBuilder evilometer = new StringBuilder();
+    evilometer.append("</table><td>");
 
     evilometer.append("<table cellpadding=0 cellspacing=0><tr><td colspan=3>");
     evilometer.append("<img src=\"");
@@ -2171,18 +2180,11 @@ public class RequestEditorKit extends HTMLEditorKit {
     evilometer.append("<img src=\"");
     evilometer.append(KoLmafia.imageServerPath());
     evilometer.append("otherimages/cyrpt/eo_bottom.gif\"></table>");
+    buffer.insert(table + 5, evilometer.toString());
 
     String selector = "</map><table";
     int index = buffer.indexOf(selector);
     buffer.insert(index + selector.length(), "><tr><td><table");
-
-    // <A href=place.php?whichplace=plains>Back to the Misspelled Cemetary</a>
-    // I expect that will change to "whichplace=cemetery" eventually.
-    index = buffer.indexOf("</tr></table><p><center><A href=place.php");
-    // If all that is left is the Bonerdagon, the table of corners is absent.
-    if (index != -1) {
-      buffer.insert(index + 5, evilometer.toString());
-    }
   }
 
   private static void addBugReportWarning(final StringBuffer buffer) {
