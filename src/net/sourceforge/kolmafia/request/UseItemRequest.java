@@ -1606,6 +1606,45 @@ public class UseItemRequest extends GenericRequest {
     return true;
   }
 
+  public static void parseAprilPlay(final String urlString, final String responseText) {
+    // inventory.php?iid=11567&action=aprilplay
+    var itemId = StringUtilities.extractIidFromURL(urlString);
+    // each item can be used three times per day, and getting additional copies doesn't help
+    String preference;
+    switch (itemId) {
+      case ItemPool.APRIL_BAND_SAXOPHONE -> preference = "_aprilBandSaxophoneUses";
+      case ItemPool.APRIL_BAND_TOM -> preference = "_aprilBandTomUses";
+      case ItemPool.APRIL_BAND_TUBA -> preference = "_aprilBandTubaUses";
+      case ItemPool.APRIL_BAND_STAFF -> preference = "_aprilBandStaffUses";
+      case ItemPool.APRIL_BAND_PICCOLO -> preference = "_aprilBandPiccoloUses";
+      default -> preference = null;
+    }
+
+    if (preference == null) return;
+
+    // You've already played this instrument enough for one day.
+    if (responseText.contains("enough for one day")) {
+      Preferences.setInteger(preference, 3);
+      return;
+    }
+
+    if (itemId == ItemPool.APRIL_BAND_TUBA) {
+      Preferences.setBoolean("noncombatForcerActive", true);
+    }
+
+    // You already seem lucky enough, maybe play a sexy sax solo later.
+    if (itemId == ItemPool.APRIL_BAND_SAXOPHONE && responseText.contains("already seem lucky")) {
+      return;
+    }
+
+    // Your familiar doesn't seem interested in playing.
+    if (itemId == ItemPool.APRIL_BAND_PICCOLO && responseText.contains("doesn't seem interested")) {
+      return;
+    }
+
+    Preferences.increment(preference, 1, 3, false);
+  }
+
   private static final Pattern HEWN_SPOON_PATTERN = Pattern.compile("whichsign=(\\d+)");
 
   private static ZodiacSign parseAscensionSign(String urlString) {

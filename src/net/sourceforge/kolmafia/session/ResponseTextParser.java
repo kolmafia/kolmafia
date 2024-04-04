@@ -568,6 +568,11 @@ public class ResponseTextParser {
         else if (location.contains("action=pullall")) {
           StorageRequest.parseTransfer(location, responseText);
         }
+
+        // If there is an aprilplay message, parse it
+        else if (location.contains("action=aprilplay")) {
+          UseItemRequest.parseAprilPlay(location, responseText);
+        }
       }
       case "inv_equip.php" -> {
         if (location.contains("ajax=1")) {
