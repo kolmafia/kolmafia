@@ -49,7 +49,7 @@ public class DebugModifiersTest {
 
   @BeforeAll
   public static void beforeAll() {
-    Preferences.reset("DebugModifiersTest");
+    KoLCharacter.reset("DebugModifiersTest");
   }
 
   private ByteArrayOutputStream outputStream;
@@ -57,6 +57,7 @@ public class DebugModifiersTest {
 
   @BeforeEach
   public void beforeEach() {
+    Preferences.reset("DebugModifiersTest");
     this.outputStream = new ByteArrayOutputStream();
     this.cliCleanups = withCliOutput(this.outputStream);
   }
