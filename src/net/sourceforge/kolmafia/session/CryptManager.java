@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.session;
 
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -10,28 +11,43 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-public class CryptManager {
+public abstract class CryptManager {
+
+  private CryptManager() {}
 
   // CYRPT("questL07Cyrptic")	unstarted -> started -> step1 -> finished
 
-  // cyrptAlcoveEvilness	0 -> 50 -> 0
-  // cyrptCrannyEvilness	0 -> 50 -> 0
-  // cyrptNicheEvilness		0 -> 50 -> 0
-  // cyrptNookEvilness		0 -> 50 -> 0
-  // cyrptTotalEvilness		0 -> 200 -> 999 -> 0
+  // cyrptAlcoveEvilness 0 -> 50 -> 0
+  // cyrptCrannyEvilness 0 -> 50 -> 0
+  // cyrptNicheEvilness	 0 -> 50 -> 0
+  // cyrptNookEvilness	 0 -> 50 -> 0
+  // cyrptTotalEvilness	 0 -> 200 -> 999 -> 0
+
+  private static Map<Integer, String> zoneToProperty =
+      Map.ofEntries(
+          Map.entry(AdventurePool.DEFILED_ALCOVE, "cyrptAlcoveEvilness"),
+          Map.entry(AdventurePool.DEFILED_CRANNY, "cyrptCrannyEvilness"),
+          Map.entry(AdventurePool.DEFILED_NICHE, "cyrptNicheEvilness"),
+          Map.entry(AdventurePool.DEFILED_NOOK, "cyrptNookEvilness"));
 
   public static String evilZoneProperty(final int zone) {
-    return switch (zone) {
-      case AdventurePool.DEFILED_ALCOVE -> "cyrptAlcoveEvilness";
-      case AdventurePool.DEFILED_CRANNY -> "cyrptCrannyEvilness";
-      case AdventurePool.DEFILED_NICHE -> "cyrptNicheEvilness";
-      case AdventurePool.DEFILED_NOOK -> "cyrptNookEvilness";
-      default -> null;
-    };
+    return zoneToProperty.get(zone);
   }
 
-  public static void clearEvilness(final int zone) {
-    setEvilness(zone, 0);
+  private static Map<String, Integer> bossToZone =
+      Map.ofEntries(
+          Map.entry("conjoined zmombie", AdventurePool.DEFILED_ALCOVE),
+          Map.entry("huge ghuol", AdventurePool.DEFILED_CRANNY),
+          Map.entry("gargantulihc", AdventurePool.DEFILED_NICHE),
+          Map.entry("giant skeelton", AdventurePool.DEFILED_NOOK));
+
+  public static int bossZone(String monsterName) {
+    return bossToZone.get(monsterName);
+  }
+
+  public static String bossProperty(String monsterName) {
+    Integer zone = bossZone(monsterName);
+    return zone == null ? null : evilZoneProperty(zone);
   }
 
   public static void setEvilness(final int zone, final int value) {
@@ -61,24 +77,25 @@ public class CryptManager {
     }
   }
 
+  public static void encounterBoss(final String monsterName) {
+    String property = bossProperty(monsterName);
+    if (property != null) {
+      // Correct Crypt Evilness if encountering boss when we think we're at more than 13 evil
+      if (Preferences.getInteger(property) > 13) {
+        CryptManager.setEvilness(property, 13);
+      }
+    }
+  }
+
   public static void defeatBoss(final String monsterName) {
-    switch (monsterName) {
-      case "conjoined zmombie" -> {
-        setEvilness("cyrptAlcoveEvilness", 0);
-      }
-      case "huge ghuol" -> {
-        setEvilness("cyrptCrannyEvilness", 0);
-      }
-      case "gargantulihc" -> {
-        setEvilness("cyrptNicheEvilness", 0);
-      }
-      case "giant skeelton" -> {
-        setEvilness("cyrptNookEvilness", 0);
-      }
-      case "Bonerdagon" -> {
-        QuestDatabase.setQuestProgress(Quest.CYRPT, "step1");
-        Preferences.setInteger("cyrptTotalEvilness", 0);
-      }
+    if (monsterName.equals("Bonerdagon")) {
+      QuestDatabase.setQuestProgress(Quest.CYRPT, "step1");
+      Preferences.setInteger("cyrptTotalEvilness", 0);
+      return;
+    }
+    String property = bossProperty(monsterName);
+    if (property != null) {
+      setEvilness(property, 0);
     }
   }
 

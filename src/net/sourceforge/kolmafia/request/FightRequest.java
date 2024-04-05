@@ -454,17 +454,13 @@ public class FightRequest extends GenericRequest {
   public enum SpecialMonster {
     // Individual monsters
     ANCIENT_PROTECTOR_SPIRIT("Ancient Protector Spirit"),
-    CONJOINED_ZMOMBIE("conjoined zmombie"),
     CYRUS_THE_VIRUS("Cyrus the Virus"),
     DAD_SEA_MONKEE("Dad Sea Monkee"),
     DRIPPY_BAT("drippy bat"),
     DRIPPY_REVELER("drippy reveler"),
     FAMILY_OF_KOBOLDS("family of kobolds"),
-    GARGANTULIHC("gargantulihc"),
     GIANT_OCTOPUS("giant octopus"),
-    GIANT_SKEELTON("giant skeelton"),
     GLITCH_MONSTER("%monster%"),
-    HUGE_GHUOL("huge ghoul"),
     PIRANHA_PLANT("piranha plant"),
     PYGMY_JANITOR("pygmy janitor"),
     PYGMY_WITCH_LAWYER("pygmy witch lawyer"),
@@ -474,6 +470,7 @@ public class FightRequest extends GenericRequest {
 
     // Categories of monsters
     BEE("bee"),
+    CYRPT("Cyrpt Boss"),
     DMT("Deep Machine Tunnels"),
     EVENT("event monster"),
     GINGERBREAD("Gingerbread City"),
@@ -526,16 +523,12 @@ public class FightRequest extends GenericRequest {
     FightRequest.specialMonsters.put("%monster%", SpecialMonster.GLITCH_MONSTER);
     FightRequest.specialMonsters.put(
         "Ancient Protector Spirit", SpecialMonster.ANCIENT_PROTECTOR_SPIRIT);
-    FightRequest.specialMonsters.put("conjoined zmombie", SpecialMonster.CONJOINED_ZMOMBIE);
     FightRequest.specialMonsters.put("Cyrus the Virus", SpecialMonster.CYRUS_THE_VIRUS);
     FightRequest.specialMonsters.put("Dad Sea Monkee", SpecialMonster.DAD_SEA_MONKEE);
     FightRequest.specialMonsters.put("drippy bat", SpecialMonster.DRIPPY_BAT);
     FightRequest.specialMonsters.put("drippy reveler", SpecialMonster.DRIPPY_REVELER);
     FightRequest.specialMonsters.put("family of kobolds", SpecialMonster.FAMILY_OF_KOBOLDS);
-    FightRequest.specialMonsters.put("gargantulihc", SpecialMonster.GARGANTULIHC);
     FightRequest.specialMonsters.put("giant octopus", SpecialMonster.GIANT_OCTOPUS);
-    FightRequest.specialMonsters.put("giant skeelton", SpecialMonster.GIANT_SKEELTON);
-    FightRequest.specialMonsters.put("huge ghoul", SpecialMonster.HUGE_GHUOL);
     FightRequest.specialMonsters.put("piranha plant", SpecialMonster.PIRANHA_PLANT);
     FightRequest.specialMonsters.put("pygmy janitor", SpecialMonster.PYGMY_JANITOR);
     FightRequest.specialMonsters.put("pygmy witch lawyer", SpecialMonster.PYGMY_WITCH_LAWYER);
@@ -589,6 +582,11 @@ public class FightRequest extends GenericRequest {
     FightRequest.specialMonsters.put("Beebee King", SpecialMonster.BEE);
     FightRequest.specialMonsters.put("bee thoven", SpecialMonster.BEE);
     FightRequest.specialMonsters.put("Queen Bee", SpecialMonster.BEE);
+
+    FightRequest.specialMonsters.put("conjoined zmombie", SpecialMonster.CYRPT);
+    FightRequest.specialMonsters.put("gargantulihc", SpecialMonster.CYRPT);
+    FightRequest.specialMonsters.put("giant skeelton", SpecialMonster.CYRPT);
+    FightRequest.specialMonsters.put("huge ghoul", SpecialMonster.CYRPT);
 
     FightRequest.specialMonsters.put("Performer of Actions", SpecialMonster.DMT);
     FightRequest.specialMonsters.put("Thinker of Thoughts", SpecialMonster.DMT);
@@ -2336,26 +2334,8 @@ public class FightRequest extends GenericRequest {
             }
             break;
 
-            // Correct Crypt Evilness if encountering boss when we think we're at more than 13 evil
-          case CONJOINED_ZMOMBIE:
-            if (Preferences.getInteger("cyrptAlcoveEvilness") > 13) {
-              CryptManager.setEvilness("cyrptAlcoveEvilness", 13);
-            }
-            break;
-          case HUGE_GHUOL:
-            if (Preferences.getInteger("cyrptCrannyEvilness") > 13) {
-              CryptManager.setEvilness("cyrptCrannyEvilness", 13);
-            }
-            break;
-          case GARGANTULIHC:
-            if (Preferences.getInteger("cyrptNicheEvilness") > 13) {
-              CryptManager.setEvilness("cyrptNicheEvilness", 13);
-            }
-            break;
-          case GIANT_SKEELTON:
-            if (Preferences.getInteger("cyrptNookEvilness") > 13) {
-              CryptManager.setEvilness("cyrptNookEvilness", 13);
-            }
+          case CYRPT:
+            CryptManager.encounterBoss(monsterName);
             break;
 
           case CYRUS_THE_VIRUS:
