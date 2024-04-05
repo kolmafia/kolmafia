@@ -470,7 +470,7 @@ public class FightRequest extends GenericRequest {
 
     // Categories of monsters
     BEE("bee"),
-    CYRPT("Cyrpt Boss"),
+    CYRPT("Cyrpt"),
     DMT("Deep Machine Tunnels"),
     EVENT("event monster"),
     GINGERBREAD("Gingerbread City"),
@@ -586,7 +586,7 @@ public class FightRequest extends GenericRequest {
     FightRequest.specialMonsters.put("conjoined zmombie", SpecialMonster.CYRPT);
     FightRequest.specialMonsters.put("gargantulihc", SpecialMonster.CYRPT);
     FightRequest.specialMonsters.put("giant skeelton", SpecialMonster.CYRPT);
-    FightRequest.specialMonsters.put("huge ghoul", SpecialMonster.CYRPT);
+    FightRequest.specialMonsters.put("huge ghuol", SpecialMonster.CYRPT);
 
     FightRequest.specialMonsters.put("Performer of Actions", SpecialMonster.DMT);
     FightRequest.specialMonsters.put("Thinker of Thoughts", SpecialMonster.DMT);

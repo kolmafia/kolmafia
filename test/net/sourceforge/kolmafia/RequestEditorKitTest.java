@@ -403,8 +403,6 @@ public class RequestEditorKitTest {
               withProperty("cyrptTotalEvilness", 11));
       try (cleanups) {
         var html = html("request/test_cyrpt_haert.html");
-        CryptManager.visitCrypt(html);
-
         var buffer = new StringBuffer(html);
         RequestEditorKit.getFeatureRichHTML("crypt.php", buffer, true);
 
