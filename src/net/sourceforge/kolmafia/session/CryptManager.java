@@ -30,8 +30,19 @@ public abstract class CryptManager {
           Map.entry(AdventurePool.DEFILED_NICHE, "cyrptNicheEvilness"),
           Map.entry(AdventurePool.DEFILED_NOOK, "cyrptNookEvilness"));
 
+  private static Map<String, String> zoneNameToProperty =
+      Map.ofEntries(
+          Map.entry("The Defiled Alcove", "cyrptAlcoveEvilness"),
+          Map.entry("The Defiled Cranny", "cyrptCrannyEvilness"),
+          Map.entry("The Defiled Niche", "cyrptNicheEvilness"),
+          Map.entry("The Defiled Nook", "cyrptNookEvilness"));
+
   public static String evilZoneProperty(final int zone) {
     return zoneToProperty.get(zone);
+  }
+
+  public static String evilZoneProperty(final String zoneName) {
+    return zoneNameToProperty.get(zoneName);
   }
 
   private static Map<String, Integer> bossToZone =
