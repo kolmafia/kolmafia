@@ -2088,7 +2088,7 @@
 2200	Astrologer of Shub-Jigguwatt	line	star
 2201	Boss Bot	head	leg	torso	wing
 2202	Gobot King	arm	head	leg	torso
-2203	Robonerdagon	leg	wing
+2203	Robonerdagon	head  leg  tail	wing
 2204	Tobias J. Saibot	arm	head	leg	torso
 2205	Lord Cyberraven	arm	leg	tank
 2206	Protector S. P. E. C. T. R. E.	arm	leg	slab
