@@ -24,7 +24,6 @@ import net.sourceforge.kolmafia.request.FloristRequest;
 import net.sourceforge.kolmafia.session.YouRobotManager;
 import org.hamcrest.Matcher;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -47,16 +46,12 @@ public class DebugModifiersTest {
             Pattern.DOTALL));
   }
 
-  @BeforeAll
-  public static void beforeAll() {
-    KoLCharacter.reset("DebugModifiersTest");
-  }
-
   private ByteArrayOutputStream outputStream;
   private Cleanups cliCleanups = null;
 
   @BeforeEach
   public void beforeEach() {
+    KoLCharacter.reset("DebugModifiersTest");
     Preferences.reset("DebugModifiersTest");
     this.outputStream = new ByteArrayOutputStream();
     this.cliCleanups = withCliOutput(this.outputStream);

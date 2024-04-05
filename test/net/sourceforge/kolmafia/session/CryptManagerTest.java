@@ -180,6 +180,12 @@ public class CryptManagerTest {
 
   @Nested
   class BossFight {
+    @BeforeEach
+    public void beforeEach() {
+      KoLConstants.availableCombatSkillsList.clear();
+      KoLConstants.availableCombatSkillsSet.clear();
+    }
+
     @Test
     void adjustsEvilnessWhenFightAndDefeatBoss() {
       var builder = new FakeHttpClientBuilder();
