@@ -252,8 +252,6 @@ public class QuestManager {
       }
     } else if (location.startsWith("council")) {
       handleCouncilChange(responseText);
-    } else if (location.startsWith("crypt")) {
-      CryptManager.visitCrypt(responseText);
     } else if (location.startsWith("da")) {
       handleDungeonsChange(responseText);
     } else if (location.startsWith("fernruin")) {
@@ -1715,7 +1713,8 @@ public class QuestManager {
 
     boolean ghostBusted = false;
 
-    switch (monsterName.trim()) {
+    monsterName = monsterName.trim();
+    switch (monsterName) {
       case "screambat" -> {
         if (!QuestDatabase.isQuestLaterThan(Quest.BAT, "step2")) {
           QuestDatabase.advanceQuest(Quest.BAT);
@@ -2112,7 +2111,10 @@ public class QuestManager {
         QuestDatabase.setQuestProgress(Quest.GOBLIN, QuestDatabase.FINISHED);
       }
       case "Jayden Belmont", "Very Dry Bones", "Robonerdagon" -> {
-        QuestDatabase.setQuestProgress(Quest.CYRPT, "step1");
+        CryptManager.defeatBoss("Bonerdagon");
+      }
+      case "conjoined zmombie", "huge ghuol", "gargantulihc", "giant skeelton" -> {
+        CryptManager.defeatBoss(monsterName);
       }
       case "Sharona", "Angry Sun", "Groarbot" -> {
         QuestDatabase.setQuestProgress(Quest.TRAPPER, "step5");

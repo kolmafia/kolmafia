@@ -7,7 +7,6 @@ import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
@@ -364,26 +363,7 @@ public class ResponseTextParser {
         CurseRequest.parseResponse(location, responseText);
       }
       case "crypt.php" -> {
-        // Check if crypt areas have unexpectedly vanished and correct if so
-        if (!responseText.contains("The Defiled Alcove")
-                && Preferences.getInteger("cyrptAlcoveEvilness") > 0
-            || !responseText.contains("The Defiled Cranny")
-                && Preferences.getInteger("cyrptCrannyEvilness") > 0
-            || !responseText.contains("The Defiled Niche")
-                && Preferences.getInteger("cyrptNicheEvilness") > 0
-            || !responseText.contains("The Defiled Nook")
-                && Preferences.getInteger("cyrptNookEvilness") > 0) {
-          if (InventoryManager.hasItem(ItemPool.EVILOMETER)) {
-            RequestThread.postRequest(UseItemRequest.getInstance(ItemPool.EVILOMETER));
-          } else {
-            // Must have completed quest and already used and lost Evilometer
-            Preferences.setInteger("cyrptAlcoveEvilness", 0);
-            Preferences.setInteger("cyrptCrannyEvilness", 0);
-            Preferences.setInteger("cyrptNicheEvilness", 0);
-            Preferences.setInteger("cyrptNookEvilness", 0);
-            Preferences.setInteger("cyrptTotalEvilness", 0);
-          }
-        }
+        CryptManager.visitCrypt(responseText);
       }
       case "da.php" -> {
         ShrineRequest.parseResponse(location, responseText);

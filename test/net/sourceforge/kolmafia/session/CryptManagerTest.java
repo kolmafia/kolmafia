@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.session.QuestManager;
+import net.sourceforge.kolmafia.session.ResponseTextParser;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -35,7 +35,7 @@ public class CryptManagerTest {
       try (cleanups) {
         var request = new GenericRequest("crypt.php", true);
         request.responseText = html("request/test_cyrpt_four_corners.html");
-        QuestManager.handleQuestChange(request);
+        ResponseTextParser.externalUpdate(request);
 
         assertThat("cyrptNookEvilness", isSetTo(50));
         assertThat("cyrptNicheEvilness", isSetTo(50));
@@ -57,7 +57,7 @@ public class CryptManagerTest {
       try (cleanups) {
         var request = new GenericRequest("crypt.php", true);
         request.responseText = html("request/test_cyrpt_three_corners.html");
-        QuestManager.handleQuestChange(request);
+        ResponseTextParser.externalUpdate(request);
 
         assertThat("cyrptNookEvilness", isSetTo(0));
         assertThat("cyrptNicheEvilness", isSetTo(50));
@@ -79,7 +79,7 @@ public class CryptManagerTest {
       try (cleanups) {
         var request = new GenericRequest("crypt.php", true);
         request.responseText = html("request/test_cyrpt_two_corners.html");
-        QuestManager.handleQuestChange(request);
+        ResponseTextParser.externalUpdate(request);
 
         assertThat("cyrptNookEvilness", isSetTo(0));
         assertThat("cyrptNicheEvilness", isSetTo(0));
@@ -101,7 +101,7 @@ public class CryptManagerTest {
       try (cleanups) {
         var request = new GenericRequest("crypt.php", true);
         request.responseText = html("request/test_cyrpt_haert.html");
-        QuestManager.handleQuestChange(request);
+        ResponseTextParser.externalUpdate(request);
 
         assertThat("cyrptNookEvilness", isSetTo(0));
         assertThat("cyrptNicheEvilness", isSetTo(0));
@@ -123,7 +123,7 @@ public class CryptManagerTest {
       try (cleanups) {
         var request = new GenericRequest("crypt.php", true);
         request.responseText = html("request/test_cyrpt_empty.html");
-        QuestManager.handleQuestChange(request);
+        ResponseTextParser.externalUpdate(request);
 
         assertThat("cyrptNookEvilness", isSetTo(0));
         assertThat("cyrptNicheEvilness", isSetTo(0));

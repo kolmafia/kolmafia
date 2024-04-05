@@ -1940,7 +1940,7 @@ public class ResultProcessor {
         break;
 
       case ItemPool.BONERDAGON_CHEST:
-        QuestDatabase.setQuestProgress(Quest.CYRPT, "step1");
+        CryptManager.defeatBoss("Bonerdagon");
         break;
 
       case ItemPool.BONERDAGON_SKULL:

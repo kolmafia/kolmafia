@@ -25,6 +25,7 @@ import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.moods.ManaBurnManager;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
+import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -4121,8 +4122,7 @@ public class UseItemRequest extends GenericRequest {
       case ItemPool.EVIL_EYE:
         if (responseText.contains("Evilometer emits three quick beeps")) {
           int evilness = Math.min(Preferences.getInteger("cyrptNookEvilness"), 3 * count);
-          Preferences.increment("cyrptNookEvilness", -evilness);
-          Preferences.increment("cyrptTotalEvilness", -evilness);
+          CryptManager.decreaseEvilness(AdventurePool.DEFILED_NOOK, evilness);
         }
         break;
 

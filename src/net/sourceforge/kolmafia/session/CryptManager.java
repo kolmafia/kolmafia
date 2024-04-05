@@ -3,8 +3,9 @@ package net.sourceforge.kolmafia.session;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.persistence.*;
+import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -18,6 +19,68 @@ public class CryptManager {
   // cyrptNicheEvilness		0 -> 50 -> 0
   // cyrptNookEvilness		0 -> 50 -> 0
   // cyrptTotalEvilness		0 -> 200 -> 999 -> 0
+
+  public static String evilZoneProperty(final int zone) {
+    return switch (zone) {
+      case AdventurePool.DEFILED_ALCOVE -> "cyrptAlcoveEvilness";
+      case AdventurePool.DEFILED_CRANNY -> "cyrptCrannyEvilness";
+      case AdventurePool.DEFILED_NICHE -> "cyrptNicheEvilness";
+      case AdventurePool.DEFILED_NOOK -> "cyrptNookEvilness";
+      default -> null;
+    };
+  }
+
+  public static void clearEvilness(final int zone) {
+    setEvilness(zone, 0);
+  }
+
+  public static void setEvilness(final int zone, final int value) {
+    String property = evilZoneProperty(zone);
+    if (property != null) {
+      setEvilness(property, value);
+    }
+  }
+
+  public static void setEvilness(final String property, final int value) {
+    int current = Preferences.getInteger(property);
+    decreaseEvilness(property, current - value);
+  }
+
+  public static void decreaseEvilness(final int zone, final int delta) {
+    String property = evilZoneProperty(zone);
+    if (property != null) {
+      decreaseEvilness(property, delta);
+    }
+  }
+
+  public static void decreaseEvilness(final String property, final int delta) {
+    Preferences.decrement(property, delta);
+    int total = Preferences.decrement("cyrptTotalEvilness", delta);
+    if (total == 0) {
+      Preferences.setInteger("cyrptTotalEvilness", 999);
+    }
+  }
+
+  public static void defeatBoss(final String monsterName) {
+    switch (monsterName) {
+      case "conjoined zmombie" -> {
+        setEvilness("cyrptAlcoveEvilness", 0);
+      }
+      case "huge ghuol" -> {
+        setEvilness("cyrptCrannyEvilness", 0);
+      }
+      case "gargantulihc" -> {
+        setEvilness("cyrptNicheEvilness", 0);
+      }
+      case "giant skeelton" -> {
+        setEvilness("cyrptNookEvilness", 0);
+      }
+      case "Bonerdagon" -> {
+        QuestDatabase.setQuestProgress(Quest.CYRPT, "step1");
+        Preferences.setInteger("cyrptTotalEvilness", 0);
+      }
+    }
+  }
 
   public static void acquireEvilometer() {
     QuestDatabase.setQuestProgress(Quest.CYRPT, QuestDatabase.STARTED);

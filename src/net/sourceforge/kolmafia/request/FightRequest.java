@@ -78,6 +78,7 @@ import net.sourceforge.kolmafia.session.BugbearManager;
 import net.sourceforge.kolmafia.session.BugbearManager.Bugbear;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.ConsequenceManager;
+import net.sourceforge.kolmafia.session.CryptManager;
 import net.sourceforge.kolmafia.session.CrystalBallManager;
 import net.sourceforge.kolmafia.session.CursedMagnifyingGlassManager;
 import net.sourceforge.kolmafia.session.DadManager;
@@ -2338,30 +2339,22 @@ public class FightRequest extends GenericRequest {
             // Correct Crypt Evilness if encountering boss when we think we're at more than 13 evil
           case CONJOINED_ZMOMBIE:
             if (Preferences.getInteger("cyrptAlcoveEvilness") > 13) {
-              Preferences.increment(
-                  "cyrptTotalEvilness", -Preferences.getInteger("cyrptAlcoveEvilness") + 13);
-              Preferences.setInteger("cyrptAlcoveEvilness", 13);
+              CryptManager.setEvilness("cyrptAlcoveEvilness", 13);
             }
             break;
           case HUGE_GHUOL:
             if (Preferences.getInteger("cyrptCrannyEvilness") > 13) {
-              Preferences.increment(
-                  "cyrptTotalEvilness", -Preferences.getInteger("cyrptCrannyEvilness") + 13);
-              Preferences.setInteger("cyrptCrannyEvilness", 13);
+              CryptManager.setEvilness("cyrptCrannyEvilness", 13);
             }
             break;
           case GARGANTULIHC:
             if (Preferences.getInteger("cyrptNicheEvilness") > 13) {
-              Preferences.increment(
-                  "cyrptTotalEvilness", -Preferences.getInteger("cyrptNicheEvilness") + 13);
-              Preferences.setInteger("cyrptNicheEvilness", 13);
+              CryptManager.setEvilness("cyrptNicheEvilness", 13);
             }
             break;
           case GIANT_SKEELTON:
             if (Preferences.getInteger("cyrptNookEvilness") > 13) {
-              Preferences.increment(
-                  "cyrptTotalEvilness", -Preferences.getInteger("cyrptNookEvilness") + 13);
-              Preferences.setInteger("cyrptNookEvilness", 13);
+              CryptManager.setEvilness("cyrptNookEvilness", 13);
             }
             break;
 
@@ -7874,8 +7867,7 @@ public class FightRequest extends GenericRequest {
       evilness = StringUtilities.parseInt(m.group(1));
     }
 
-    Preferences.decrement(setting, evilness, 0);
-    Preferences.decrement("cyrptTotalEvilness", evilness, 0);
+    CryptManager.decreaseEvilness(setting, evilness);
 
     return retval;
   }
@@ -7914,8 +7906,7 @@ public class FightRequest extends GenericRequest {
           evilness++;
         }
 
-        Preferences.decrement(setting, evilness, 0);
-        Preferences.decrement("cyrptTotalEvilness", evilness, 0);
+        CryptManager.decreaseEvilness(setting, 1);
         return true;
       }
     }
@@ -10332,8 +10323,7 @@ public class FightRequest extends GenericRequest {
                   || skillSuccess) {
                 String setting = getEvilZoneSetting();
                 if (setting != null) {
-                  Preferences.decrement(setting, 10, 0);
-                  Preferences.decrement("cyrptTotalEvilness", 10, 0);
+                  CryptManager.decreaseEvilness(setting, 10);
                 }
                 Preferences.setBoolean("fireExtinguisherCyrptUsed", true);
                 success = true;
