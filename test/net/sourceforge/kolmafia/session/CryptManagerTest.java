@@ -29,7 +29,6 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResponseTextParser;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -187,7 +186,6 @@ public class CryptManagerTest {
       KoLConstants.availableCombatSkillsSet.clear();
     }
 
-    @Disabled("Test passes, but DebugModifiersTest fails")
     @Test
     void adjustsEvilnessWhenFightAndDefeatBoss() {
       var builder = new FakeHttpClientBuilder();
@@ -232,7 +230,6 @@ public class CryptManagerTest {
       }
     }
 
-    @Disabled("Test passes, but DebugModifiersTest fails")
     @Test
     void adjustsEvilnessWhenDefeatLastBoss() {
       var builder = new FakeHttpClientBuilder();
@@ -274,7 +271,6 @@ public class CryptManagerTest {
       }
     }
 
-    @Disabled("Test passes, but DebugModifiersTest fails")
     @Test
     void adjustsEvilnessWhenDefeatBonerdagon() {
       var builder = new FakeHttpClientBuilder();

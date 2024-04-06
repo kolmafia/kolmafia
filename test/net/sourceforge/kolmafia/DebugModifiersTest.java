@@ -31,29 +31,45 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 public class DebugModifiersTest {
+
   private static Matcher<String> containsDebugRow(
       String type, String name, double value, double total) {
+
+    // The generated Pattern is incorrect.
+    //
+    // table rows are wrapped in <tr></tr>
+    // The type and name are the first two <td>...</td> in a row
+    // We are looking for a specific value/total pair in the row.
+    //
+    // The Pattern as created, will search past the </tr>
+
+    String pair =
+        "<td>"
+            + Pattern.quote(KoLConstants.ROUNDED_MODIFIER_FORMAT.format(value))
+            + "</td><td>=&nbsp;"
+            + Pattern.quote(KoLConstants.ROUNDED_MODIFIER_FORMAT.format(total))
+            + "</td>";
+
     return matchesPattern(
         Pattern.compile(
-            ".*<td>"
+            ".*<tr><td>"
                 + Pattern.quote(type)
                 + "</td><td>"
                 + Pattern.quote(name)
-                + "</td>(<td></td>)*<td>.*"
-                + Pattern.quote(KoLConstants.ROUNDED_MODIFIER_FORMAT.format(value))
-                + "</td><td>=&nbsp;"
-                + Pattern.quote(KoLConstants.ROUNDED_MODIFIER_FORMAT.format(total))
-                + "</td>.*",
+                + "</td>(<td></td>)*"
+                + ".*?"
+                + pair
+                + ".*",
             Pattern.DOTALL));
   }
-
-  private ByteArrayOutputStream outputStream;
-  private Cleanups cliCleanups = null;
 
   @BeforeAll
   public static void beforeAll() {
     KoLCharacter.reset("DebugModifiersTest");
   }
+
+  private ByteArrayOutputStream outputStream;
+  private Cleanups cliCleanups = null;
 
   @BeforeEach
   public void beforeEach() {
@@ -548,7 +564,7 @@ public class DebugModifiersTest {
     try (var cleanups =
         new Cleanups(withPath(AscensionPath.Path.HEAVY_RAINS), withLocation("Noob Cave"))) {
       evaluateDebugModifiers(DoubleModifier.EXPERIENCE);
-      assertThat(output(), containsDebugRow("Path", "Water Level*10/3", 10.58, 10.58));
+      assertThat(output(), containsDebugRow("Path", "Water Level*10/3", 16.67, 16.67));
     }
   }
 
@@ -557,6 +573,7 @@ public class DebugModifiersTest {
     try (var cleanups =
         new Cleanups(withClass(AscensionClass.SEAL_CLUBBER), withEquipped(ItemPool.SUGAR_SHIRT))) {
       evaluateDebugModifiers(DoubleModifier.MUS_EXPERIENCE);
+      if (output().indexOf("3.0") == -1) System.out.println(output());
       assertThat(output(), containsDebugRow("Class", "EXP/2", 3.0, 3.0));
       evaluateDebugModifiers(DoubleModifier.MYS_EXPERIENCE);
       assertThat(output(), containsDebugRow("Class", "EXP/4", 1.0, 1.0));
@@ -572,6 +589,7 @@ public class DebugModifiersTest {
             withClass(AscensionClass.SEAL_CLUBBER),
             withAllEquipped(ItemPool.SUGAR_SHIRT, ItemPool.MIME_ARMY_INSIGNIA_INFANTRY))) {
       evaluateDebugModifiers(DoubleModifier.MUS_EXPERIENCE);
+      if (output().indexOf("5.0") == -1) System.out.println(output());
       assertThat(output(), containsDebugRow("Class", "EXP", 5.0, 5.0));
     }
   }
