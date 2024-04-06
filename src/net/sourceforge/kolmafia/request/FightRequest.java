@@ -10614,6 +10614,7 @@ public class FightRequest extends GenericRequest {
 
     boolean itemSuccess = isItemSuccess(responseText);
     boolean itemRunawaySuccess = isItemRunawaySuccess(responseText);
+    boolean itemLimitMaxedOut = false;
 
     switch (itemId) {
       default:
@@ -10909,6 +10910,17 @@ public class FightRequest extends GenericRequest {
         }
         break;
 
+      case ItemPool.SHADOW_BRICK:
+        // Using against a monster that cannot be insta-killed will still count towards the limit
+        if (responseText.contains("It strikes a glancing blow")) {
+          itemSuccess = true;
+        }
+        if (responseText.contains(
+            "You can't bear to use any more of those horrible things today")) {
+          itemLimitMaxedOut = true;
+        }
+        break;
+
       case ItemPool.PEPPERMINT_BOMB:
         if (responseText.contains("at least until they can wash their hands")) {
           BanishManager.banishCurrentMonster(Banisher.PEPPERMINT_BOMB);
@@ -10998,11 +11010,15 @@ public class FightRequest extends GenericRequest {
       }
     }
 
-    if (itemSuccess || itemRunawaySuccess) {
+    if (itemSuccess || itemRunawaySuccess || itemLimitMaxedOut) {
       var limit = DailyLimitType.USE.getDailyLimit(itemId);
 
       if (limit != null) {
-        limit.increment();
+        if (itemLimitMaxedOut) {
+          limit.setToMax();
+        } else {
+          limit.increment();
+        }
       }
     }
 
