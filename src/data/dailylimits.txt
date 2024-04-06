@@ -281,6 +281,11 @@ Use	[glitch season reward name]	_glitchItemImplemented
 Use	alien animal milk	_alienAnimalMilkUsed
 Use	alien plant pod	_alienPlantPodUsed
 Use	all-year sucker	_allYearSucker
+Use	Apriling band piccolo	_aprilBandPiccoloUses	3
+Use	Apriling band quad tom	_aprilBandTomUses	3
+Use	Apriling band saxophone	_aprilBandSaxophoneUses	3
+Use	Apriling band staff	_aprilBandStaffUses	3
+Use	Apriling band tuba	_aprilBandTubaUses	3
 Use	ball-in-a-cup	_ballInACupUsed
 Use	ballast turtle	_ballastTurtleUsed
 Use	bass clarinet	_floundryItemUsed
