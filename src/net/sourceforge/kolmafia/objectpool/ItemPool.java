@@ -3745,6 +3745,11 @@ public class ItemPool {
   public static final int FOCUSED_MAGNETRON_PISTOL = 11559;
   public static final int EVERFULL_DART_HOLSTER = 11561;
   public static final int RESEARCH_FRAGMENT = 11562;
+  public static final int APRIL_BAND_SAXOPHONE = 11566;
+  public static final int APRIL_BAND_TOM = 11567;
+  public static final int APRIL_BAND_TUBA = 11568;
+  public static final int APRIL_BAND_STAFF = 11569;
+  public static final int APRIL_BAND_PICCOLO = 11570;
 
   private ItemPool() {}
 

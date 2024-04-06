@@ -87,6 +87,8 @@ Item	ancient turtle shell helmet	Meat Drop: +10, Familiar Effect: "hot atk, cap 
 Item	anniversary concrete fedora	Muscle: +1, Mysticality: +1, Moxie: +1, Familiar Effect: "5xVolley, 5xLep, cap 2"
 Item	antique helmet	Initiative: -10, Spooky Resistance: +2, Breakable, Familiar Effect: "0.5xPotato, 0.5xFairy"
 Item	antique nutcracker hat	Initiative: +15, Moxie Percent: +15
+# Apriling band helmet: Conduct the Band!
+Item	Apriling band helmet	Maximum HP: +25, Maximum MP: +25, Never Fumble, Negative Status Resist, Meat Drop: +40, Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 Item	asbestos helmet turtle	Hot Resistance: +2, Familiar Effect: "hot atk, 1xFairy, cap 20"
 Item	asshat	Stench Resistance: +1, Sleaze Damage: +1, Familiar Effect: "stench atk, 1xVolley, cap 7"
 Item	astral chapeau	Mysticality Percent: +25, Spell Damage: +20, MP Regen Min: 3, MP Regen Max: 5, Familiar Effect: "1xVolley, 1xLep, cap 12"
@@ -1135,6 +1137,9 @@ Item	antique accordion	Song Duration: 10
 Item	antique machete	Muscle Percent: +5
 Item	antique nutcracker sword	Weapon Damage Percent: +30, Muscle Percent: +15, Single Equip
 Item	antique spear	Initiative: -30, Weakens Monster, Breakable
+Item	Apriling band quad tom	Spooky Damage: +5, Stench Damage: +5, Hot Damage: +5, Cold Damage: +5, Sleaze Damage: +5, Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20, Muscle: +5, Mysticality: +5, Moxie: +5, Damage Reduction: 10, Lasts Until Rollover
+Item	Apriling band saxophone	Sleaze Damage: +20, Sleaze Spell Damage: +20, Stench Resistance: +2, Hot Resistance: +2, Lasts Until Rollover
+Item	Apriling band tuba	Maximum HP: +30, Muscle: +10, Muscle Percent: +20, Cold Resistance: +2, Sleaze Resistance: +2, Lasts Until Rollover
 # archaeologing shovel
 Item	armgun	Weapon Damage: +10, Critical Hit Percent: +5
 Item	arse-shooting crossbow	Muscle: +15, Mysticality: +15, Moxie: +15
@@ -2132,6 +2137,7 @@ Item	antique candy bucket	Candy Drop: +50, Lasts Until Rollover
 Item	antique nutcracker drumstick	MP Regen Min: 4, MP Regen Max: 8, Mysticality Percent: +15
 Item	antique shield	Initiative: -10, Damage Reduction: 11, Breakable
 Item	antique spyglass	Reduce Enemy Defense: 15, Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
+Item	Apriling band staff	Mysticality: +10, Mysticality Percent: +10, Spell Damage: +20, Spooky Resistance: +2, Sleaze Resistance: +2, Spell Damage Percent: +10, Lasts Until Rollover
 Item	arm buzzer	Maximum MP: +25, Damage Reduction: 6
 # arrow'd heart balloon
 Item	astral shield	Muscle Percent: +25, HP Regen Min: 5, HP Regen Max: 10, Damage Reduction: 15
@@ -5280,6 +5286,9 @@ Effect	Anytwo Five Elevenis?	Muscle: +10
 Effect	Apathy	Muscle Percent: -30, Mysticality Percent: -30, Moxie Percent: -30
 Effect	Apoplectic with Rage	Mysticality Percent: -10, Damage Aura: 1
 Effect	Appeteyes	Food Drop: +50
+Effect	Apriling Band Battle Cadence	Combat Rate: +10
+Effect	Apriling Band Celebration Bop	Booze Drop: +25, Food Drop: +50, Candy Drop: +100
+Effect	Apriling Band Patrol Beat	Combat Rate: -10
 Effect	Aquarius Rising	Spell Damage: +30
 Effect	Arabian Knighthood	Muscle Percent: +5
 Effect	Arcane in the Brain	Mana Cost (stackable): -3
@@ -11091,6 +11100,7 @@ Item	antique hand mirror	Effect: "Bad Luck", Effect Duration: 7
 # antique tacklebox: (having more than one doesn't help)
 Item	antique tacklebox	Fishing Skill: +5
 Item	Apathargic Bandersnatch	Free Pull
+Item	Apriling band piccolo	Familiar Weight: +10, Lasts Until Rollover, Generic
 Item	arrest warrant	Lasts Until Rollover
 Item	arrowgram	Free Pull
 # artificial skylight: +3 Adventures Per Day
@@ -11200,6 +11210,7 @@ Item	bottled Vampire Vintner	Free Pull
 # box of hammers: (way more effective against constructs)
 # box of old Crimbo decorations: Lets you give your Crimbo Shrub new decorations each day
 Item	box of sunshine	Free Pull
+Item	boxed Apriling band helmet	Free Pull
 Item	boxed august scepter	Free Pull
 Item	boxed autumn-aton	Free Pull
 Item	Boxing Day care package	Free Pull

@@ -14,6 +14,7 @@ ancient turtle shell helmet	35	Mox: 2
 anniversary concrete fedora	10	none
 antique helmet	150	Mus: 60
 antique nutcracker hat	150	Mox: 30
+Apriling band helmet	100	none
 asbestos helmet turtle	80	Mox: 25
 asshat	30	none
 astral chapeau	50	none
@@ -952,6 +953,9 @@ antique accordion	10	Mox: 0	2-handed accordion
 antique machete	155	Mus: 62	1-handed sword
 antique nutcracker sword	150	Mus: 30	1-handed sword
 antique spear	150	Mus: 60	1-handed polearm
+Apriling band quad tom	200	Mus: 0	2-handed drum
+Apriling band saxophone	100	Mox: 0	1-handed woodwind
+Apriling band tuba	200	Mus: 0	2-handed brass
 archaeologing shovel	10	Mus: 0	2-handed polearm
 armgun	140	Mox: 55	2-handed machine gun
 arse-shooting crossbow	160	Mox: 65	2-handed crossbow
@@ -1826,6 +1830,7 @@ antique candy bucket	0	none
 antique nutcracker drumstick	150	Mys: 30
 antique shield	180	Mus: 60	shield
 antique spyglass	225	Mys: 200
+Apriling band staff	0	none
 arm buzzer	100	Mus: 25	shield
 arrow'd heart balloon	10	none
 astral shield	50	none	shield

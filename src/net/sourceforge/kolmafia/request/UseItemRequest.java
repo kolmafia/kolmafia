@@ -104,12 +104,6 @@ public class UseItemRequest extends GenericRequest {
   // Mssr. Johnny Simon.
   private static final Pattern QA_PATTERN = Pattern.compile("(Question|Answer): *(.*?[\\.\\?])<");
 
-  // <center>Total evil: <b>200</b><p>Alcove: <b>50</b><br>Cranny: <b>50</b><br>Niche:
-  // <b>50</b><br>Nook: <b>50</b></center>
-  private static final Pattern EVILOMETER_PATTERN =
-      Pattern.compile(
-          "<center>Total evil: <b>(\\d+)</b><p>Alcove: <b>(\\d+)</b><br>Cranny: <b>(\\d+)</b><br>Niche: <b>(\\d+)</b><br>Nook: <b>(\\d+)</b></center>");
-
   private static final Pattern KEYOTRON_PATTERN =
       Pattern.compile(
           "Medbay:</td><td><b>(\\d)/3</b> bio-data segments collected</td></tr>"
@@ -1610,6 +1604,45 @@ public class UseItemRequest extends GenericRequest {
       KoLCharacter.updateStatus();
     }
     return true;
+  }
+
+  public static void parseAprilPlay(final String urlString, final String responseText) {
+    // inventory.php?iid=11567&action=aprilplay
+    var itemId = StringUtilities.extractIidFromURL(urlString);
+    // each item can be used three times per day, and getting additional copies doesn't help
+    String preference;
+    switch (itemId) {
+      case ItemPool.APRIL_BAND_SAXOPHONE -> preference = "_aprilBandSaxophoneUses";
+      case ItemPool.APRIL_BAND_TOM -> preference = "_aprilBandTomUses";
+      case ItemPool.APRIL_BAND_TUBA -> preference = "_aprilBandTubaUses";
+      case ItemPool.APRIL_BAND_STAFF -> preference = "_aprilBandStaffUses";
+      case ItemPool.APRIL_BAND_PICCOLO -> preference = "_aprilBandPiccoloUses";
+      default -> preference = null;
+    }
+
+    if (preference == null) return;
+
+    // You've already played this instrument enough for one day.
+    if (responseText.contains("enough for one day")) {
+      Preferences.setInteger(preference, 3);
+      return;
+    }
+
+    if (itemId == ItemPool.APRIL_BAND_TUBA) {
+      Preferences.setBoolean("noncombatForcerActive", true);
+    }
+
+    // You already seem lucky enough, maybe play a sexy sax solo later.
+    if (itemId == ItemPool.APRIL_BAND_SAXOPHONE && responseText.contains("already seem lucky")) {
+      return;
+    }
+
+    // Your familiar doesn't seem interested in playing.
+    if (itemId == ItemPool.APRIL_BAND_PICCOLO && responseText.contains("doesn't seem interested")) {
+      return;
+    }
+
+    Preferences.increment(preference, 1, 3, false);
   }
 
   private static final Pattern HEWN_SPOON_PATTERN = Pattern.compile("whichsign=(\\d+)");
@@ -6228,6 +6261,18 @@ public class UseItemRequest extends GenericRequest {
     return recipeName.equals("") ? null : recipeName;
   }
 
+  // <center>Total evil: <b>200</b><p>Alcove: <b>50</b><br>Cranny: <b>50</b><br>Niche:
+  // <b>50</b><br>Nook: <b>50</b></center>
+
+  // <center>Total evil: <b>999</b><p>Haert: <b>999</b></center>
+
+  private static final Pattern EVILOMETER_PATTERN1 =
+      Pattern.compile("<center>Total evil: <b>(\\d+)</b>");
+
+  private static final Pattern EVILOMETER_PATTERN2 =
+      Pattern.compile(
+          "<p>Alcove: <b>(\\d+)</b><br>Cranny: <b>(\\d+)</b><br>Niche: <b>(\\d+)</b><br>Nook: <b>(\\d+)</b>");
+
   private static void getEvilLevels(final String responseText) {
     int total = 0;
     int alcove = 0;
@@ -6235,13 +6280,17 @@ public class UseItemRequest extends GenericRequest {
     int niche = 0;
     int nook = 0;
 
-    Matcher matcher = EVILOMETER_PATTERN.matcher(responseText);
-    if (matcher.find()) {
-      total = StringUtilities.parseInt(matcher.group(1));
-      alcove = StringUtilities.parseInt(matcher.group(2));
-      cranny = StringUtilities.parseInt(matcher.group(3));
-      niche = StringUtilities.parseInt(matcher.group(4));
-      nook = StringUtilities.parseInt(matcher.group(5));
+    Matcher matcher1 = EVILOMETER_PATTERN1.matcher(responseText);
+    if (matcher1.find()) {
+      total = StringUtilities.parseInt(matcher1.group(1));
+    }
+
+    Matcher matcher2 = EVILOMETER_PATTERN2.matcher(responseText);
+    if (matcher2.find()) {
+      alcove = StringUtilities.parseInt(matcher2.group(1));
+      cranny = StringUtilities.parseInt(matcher2.group(2));
+      niche = StringUtilities.parseInt(matcher2.group(3));
+      nook = StringUtilities.parseInt(matcher2.group(4));
     }
 
     Preferences.setInteger("cyrptTotalEvilness", total);

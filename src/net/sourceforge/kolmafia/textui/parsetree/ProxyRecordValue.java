@@ -1640,6 +1640,7 @@ public class ProxyRecordValue extends RecordValue {
             .add("attributes", DataTypes.STRING_TYPE)
             .add("fact_type", DataTypes.STRING_TYPE)
             .add("fact", DataTypes.STRING_TYPE)
+            .add("parts", new PluralValueType(DataTypes.STRING_TYPE))
             .finish("monster proxy");
 
     public MonsterProxy(Value obj) {
@@ -1837,6 +1838,16 @@ public class ProxyRecordValue extends RecordValue {
       if (this.content == null) return "";
       var fact = FactDatabase.getFact((MonsterData) this.content);
       return fact.toString();
+    }
+
+    public Value get_parts() {
+      if (this.content == null) {
+        return new PluralValue(DataTypes.STRING_TYPE, new ArrayList<>());
+      }
+      var id = (int) this.contentLong;
+      var parts =
+          MonsterDatabase.getMonsterParts(id).stream().map(DataTypes::makeStringValue).toList();
+      return new PluralValue(DataTypes.STRING_TYPE, parts);
     }
   }
 
