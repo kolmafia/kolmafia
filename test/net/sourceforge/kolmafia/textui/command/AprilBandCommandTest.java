@@ -1,12 +1,14 @@
 package net.sourceforge.kolmafia.textui.command;
 
 import static internal.helpers.HttpClientWrapper.getRequests;
+import static internal.helpers.Networking.assertGetRequest;
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withTurnsPlayed;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 
 import internal.helpers.Cleanups;
@@ -191,8 +193,10 @@ public class AprilBandCommandTest extends AbstractCommandTestBase {
 
         assertThat(requests, hasSize(1));
 
-        assertPostRequest(
-            requests.get(0), "/inventory.php", containsString("iid=" + id + "&action=aprilplay"));
+        assertGetRequest(
+            requests.get(0),
+            equalTo("/inventory.php"),
+            containsString("action=aprilplay&iid=" + id));
         assertContinueState();
       }
     }

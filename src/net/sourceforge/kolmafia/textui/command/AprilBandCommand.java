@@ -147,10 +147,13 @@ public class AprilBandCommand extends AbstractCommand {
 
     KoLmafia.updateDisplay("Playing " + item.getName());
 
-    var request = new GenericRequest("inventory.php");
-    request.addFormField("pwd", GenericRequest.passwordHash);
-    request.addFormField("iid", Integer.toString(instrument));
-    request.addFormField("action", "aprilplay");
+    var request =
+        new GenericRequest(
+            "inventory.php?action=aprilplay&iid="
+                + instrument
+                + "&pwd="
+                + GenericRequest.passwordHash,
+            false);
     RequestThread.postRequest(request);
 
     KoLCharacter.updateStatus();
