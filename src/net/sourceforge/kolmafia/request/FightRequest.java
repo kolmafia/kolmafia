@@ -78,6 +78,7 @@ import net.sourceforge.kolmafia.session.BugbearManager;
 import net.sourceforge.kolmafia.session.BugbearManager.Bugbear;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.ConsequenceManager;
+import net.sourceforge.kolmafia.session.CryptManager;
 import net.sourceforge.kolmafia.session.CrystalBallManager;
 import net.sourceforge.kolmafia.session.CursedMagnifyingGlassManager;
 import net.sourceforge.kolmafia.session.DadManager;
@@ -453,17 +454,13 @@ public class FightRequest extends GenericRequest {
   public enum SpecialMonster {
     // Individual monsters
     ANCIENT_PROTECTOR_SPIRIT("Ancient Protector Spirit"),
-    CONJOINED_ZMOMBIE("conjoined zmombie"),
     CYRUS_THE_VIRUS("Cyrus the Virus"),
     DAD_SEA_MONKEE("Dad Sea Monkee"),
     DRIPPY_BAT("drippy bat"),
     DRIPPY_REVELER("drippy reveler"),
     FAMILY_OF_KOBOLDS("family of kobolds"),
-    GARGANTULIHC("gargantulihc"),
     GIANT_OCTOPUS("giant octopus"),
-    GIANT_SKEELTON("giant skeelton"),
     GLITCH_MONSTER("%monster%"),
-    HUGE_GHUOL("huge ghoul"),
     PIRANHA_PLANT("piranha plant"),
     PYGMY_JANITOR("pygmy janitor"),
     PYGMY_WITCH_LAWYER("pygmy witch lawyer"),
@@ -473,6 +470,7 @@ public class FightRequest extends GenericRequest {
 
     // Categories of monsters
     BEE("bee"),
+    CYRPT("Cyrpt"),
     DMT("Deep Machine Tunnels"),
     EVENT("event monster"),
     GINGERBREAD("Gingerbread City"),
@@ -525,16 +523,12 @@ public class FightRequest extends GenericRequest {
     FightRequest.specialMonsters.put("%monster%", SpecialMonster.GLITCH_MONSTER);
     FightRequest.specialMonsters.put(
         "Ancient Protector Spirit", SpecialMonster.ANCIENT_PROTECTOR_SPIRIT);
-    FightRequest.specialMonsters.put("conjoined zmombie", SpecialMonster.CONJOINED_ZMOMBIE);
     FightRequest.specialMonsters.put("Cyrus the Virus", SpecialMonster.CYRUS_THE_VIRUS);
     FightRequest.specialMonsters.put("Dad Sea Monkee", SpecialMonster.DAD_SEA_MONKEE);
     FightRequest.specialMonsters.put("drippy bat", SpecialMonster.DRIPPY_BAT);
     FightRequest.specialMonsters.put("drippy reveler", SpecialMonster.DRIPPY_REVELER);
     FightRequest.specialMonsters.put("family of kobolds", SpecialMonster.FAMILY_OF_KOBOLDS);
-    FightRequest.specialMonsters.put("gargantulihc", SpecialMonster.GARGANTULIHC);
     FightRequest.specialMonsters.put("giant octopus", SpecialMonster.GIANT_OCTOPUS);
-    FightRequest.specialMonsters.put("giant skeelton", SpecialMonster.GIANT_SKEELTON);
-    FightRequest.specialMonsters.put("huge ghoul", SpecialMonster.HUGE_GHUOL);
     FightRequest.specialMonsters.put("piranha plant", SpecialMonster.PIRANHA_PLANT);
     FightRequest.specialMonsters.put("pygmy janitor", SpecialMonster.PYGMY_JANITOR);
     FightRequest.specialMonsters.put("pygmy witch lawyer", SpecialMonster.PYGMY_WITCH_LAWYER);
@@ -588,6 +582,11 @@ public class FightRequest extends GenericRequest {
     FightRequest.specialMonsters.put("Beebee King", SpecialMonster.BEE);
     FightRequest.specialMonsters.put("bee thoven", SpecialMonster.BEE);
     FightRequest.specialMonsters.put("Queen Bee", SpecialMonster.BEE);
+
+    FightRequest.specialMonsters.put("conjoined zmombie", SpecialMonster.CYRPT);
+    FightRequest.specialMonsters.put("gargantulihc", SpecialMonster.CYRPT);
+    FightRequest.specialMonsters.put("giant skeelton", SpecialMonster.CYRPT);
+    FightRequest.specialMonsters.put("huge ghuol", SpecialMonster.CYRPT);
 
     FightRequest.specialMonsters.put("Performer of Actions", SpecialMonster.DMT);
     FightRequest.specialMonsters.put("Thinker of Thoughts", SpecialMonster.DMT);
@@ -2335,34 +2334,8 @@ public class FightRequest extends GenericRequest {
             }
             break;
 
-            // Correct Crypt Evilness if encountering boss when we think we're at more than 13 evil
-          case CONJOINED_ZMOMBIE:
-            if (Preferences.getInteger("cyrptAlcoveEvilness") > 13) {
-              Preferences.increment(
-                  "cyrptTotalEvilness", -Preferences.getInteger("cyrptAlcoveEvilness") + 13);
-              Preferences.setInteger("cyrptAlcoveEvilness", 13);
-            }
-            break;
-          case HUGE_GHUOL:
-            if (Preferences.getInteger("cyrptCrannyEvilness") > 13) {
-              Preferences.increment(
-                  "cyrptTotalEvilness", -Preferences.getInteger("cyrptCrannyEvilness") + 13);
-              Preferences.setInteger("cyrptCrannyEvilness", 13);
-            }
-            break;
-          case GARGANTULIHC:
-            if (Preferences.getInteger("cyrptNicheEvilness") > 13) {
-              Preferences.increment(
-                  "cyrptTotalEvilness", -Preferences.getInteger("cyrptNicheEvilness") + 13);
-              Preferences.setInteger("cyrptNicheEvilness", 13);
-            }
-            break;
-          case GIANT_SKEELTON:
-            if (Preferences.getInteger("cyrptNookEvilness") > 13) {
-              Preferences.increment(
-                  "cyrptTotalEvilness", -Preferences.getInteger("cyrptNookEvilness") + 13);
-              Preferences.setInteger("cyrptNookEvilness", 13);
-            }
+          case CYRPT:
+            CryptManager.encounterBoss(monsterName);
             break;
 
           case CYRUS_THE_VIRUS:
@@ -7874,8 +7847,7 @@ public class FightRequest extends GenericRequest {
       evilness = StringUtilities.parseInt(m.group(1));
     }
 
-    Preferences.decrement(setting, evilness, 0);
-    Preferences.decrement("cyrptTotalEvilness", evilness, 0);
+    CryptManager.decreaseEvilness(setting, evilness);
 
     return retval;
   }
@@ -7914,8 +7886,7 @@ public class FightRequest extends GenericRequest {
           evilness++;
         }
 
-        Preferences.decrement(setting, evilness, 0);
-        Preferences.decrement("cyrptTotalEvilness", evilness, 0);
+        CryptManager.decreaseEvilness(setting, 1);
         return true;
       }
     }
@@ -10332,8 +10303,7 @@ public class FightRequest extends GenericRequest {
                   || skillSuccess) {
                 String setting = getEvilZoneSetting();
                 if (setting != null) {
-                  Preferences.decrement(setting, 10, 0);
-                  Preferences.decrement("cyrptTotalEvilness", 10, 0);
+                  CryptManager.decreaseEvilness(setting, 10);
                 }
                 Preferences.setBoolean("fireExtinguisherCyrptUsed", true);
                 success = true;
