@@ -3,9 +3,8 @@ package net.sourceforge.kolmafia;
 import static internal.helpers.Networking.assertGetRequest;
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
-import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withHttpClientBuilder;
-import static internal.helpers.Player.withLastLocation;
+import static internal.helpers.Player.withLocation;
 import static internal.helpers.Player.withNoItems;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withQuestProgress;
@@ -19,7 +18,6 @@ import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
 import java.util.List;
 import java.util.Map;
-import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
@@ -29,7 +27,6 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResponseTextParser;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -181,13 +178,6 @@ public class CryptManagerTest {
 
   @Nested
   class BossFight {
-    @BeforeEach
-    public void beforeEach() {
-      KoLConstants.availableCombatSkillsList.clear();
-      KoLConstants.availableCombatSkillsSet.clear();
-    }
-
-    @Disabled("Test passes, but DebugModifiersTest fails")
     @Test
     void adjustsEvilnessWhenFightAndDefeatBoss() {
       var builder = new FakeHttpClientBuilder();
@@ -195,8 +185,7 @@ public class CryptManagerTest {
       var cleanups =
           new Cleanups(
               withHttpClientBuilder(builder),
-              withLastLocation("None"),
-              withEquipped(Slot.ACCESSORY1, ItemPool.EVERFULL_DART_HOLSTER),
+              withLocation("The Defiled Cranny"),
               withProperty("cyrptNookEvilness", 0),
               withProperty("cyrptNicheEvilness", 0),
               withProperty("cyrptCrannyEvilness", 50),
@@ -215,7 +204,7 @@ public class CryptManagerTest {
         assertThat("cyrptCrannyEvilness", isSetTo(13));
         assertThat("cyrptTotalEvilness", isSetTo(63));
 
-        var fight = new GenericRequest("fight.php?action=skill&whichskill=7513", true);
+        var fight = new GenericRequest("fight.php?action=attack", true);
         fight.run();
 
         assertThat("cyrptCrannyEvilness", isSetTo(0));
@@ -227,12 +216,11 @@ public class CryptManagerTest {
         assertPostRequest(requests.get(0), "/adventure.php", "snarfblat=262");
         assertGetRequest(requests.get(1), "/fight.php", null);
         assertPostRequest(requests.get(2), "/api.php", "what=status&for=KoLmafia");
-        assertPostRequest(requests.get(3), "/fight.php", "action=skill&whichskill=7513");
+        assertPostRequest(requests.get(3), "/fight.php", "action=attack");
         assertPostRequest(requests.get(4), "/api.php", "what=status&for=KoLmafia");
       }
     }
 
-    @Disabled("Test passes, but DebugModifiersTest fails")
     @Test
     void adjustsEvilnessWhenDefeatLastBoss() {
       var builder = new FakeHttpClientBuilder();
@@ -240,8 +228,7 @@ public class CryptManagerTest {
       var cleanups =
           new Cleanups(
               withHttpClientBuilder(builder),
-              withLastLocation("None"),
-              withEquipped(Slot.ACCESSORY1, ItemPool.EVERFULL_DART_HOLSTER),
+              withLocation("The Defiled Cranny"),
               withProperty("cyrptNookEvilness", 0),
               withProperty("cyrptNicheEvilness", 0),
               withProperty("cyrptCrannyEvilness", 13),
@@ -257,7 +244,7 @@ public class CryptManagerTest {
         var request = new GenericRequest("adventure.php?snarfblat=262", true);
         request.run();
 
-        var fight = new GenericRequest("fight.php?action=skill&whichskill=7513", true);
+        var fight = new GenericRequest("fight.php?action=attack", true);
         fight.run();
 
         assertThat("cyrptCrannyEvilness", isSetTo(0));
@@ -269,12 +256,11 @@ public class CryptManagerTest {
         assertPostRequest(requests.get(0), "/adventure.php", "snarfblat=262");
         assertGetRequest(requests.get(1), "/fight.php", null);
         assertPostRequest(requests.get(2), "/api.php", "what=status&for=KoLmafia");
-        assertPostRequest(requests.get(3), "/fight.php", "action=skill&whichskill=7513");
+        assertPostRequest(requests.get(3), "/fight.php", "action=attack");
         assertPostRequest(requests.get(4), "/api.php", "what=status&for=KoLmafia");
       }
     }
 
-    @Disabled("Test passes, but DebugModifiersTest fails")
     @Test
     void adjustsEvilnessWhenDefeatBonerdagon() {
       var builder = new FakeHttpClientBuilder();
@@ -283,8 +269,7 @@ public class CryptManagerTest {
           new Cleanups(
               withHttpClientBuilder(builder),
               withNoItems(),
-              withLastLocation("None"),
-              withEquipped(Slot.ACCESSORY1, ItemPool.EVERFULL_DART_HOLSTER),
+              withLocation("Haert of the Cyrpt"),
               withProperty("cyrptTotalEvilness", 999),
               withQuestProgress(Quest.CYRPT, QuestDatabase.STARTED));
       try (cleanups) {
@@ -299,7 +284,7 @@ public class CryptManagerTest {
         var request = new GenericRequest("crypt.php?action=heart", true);
         request.run();
 
-        var fight = new GenericRequest("fight.php?action=skill&whichskill=7513", true);
+        var fight = new GenericRequest("fight.php?action=attack", true);
         fight.run();
 
         assertThat(Quest.CYRPT, isStep(1));
@@ -313,7 +298,7 @@ public class CryptManagerTest {
         assertPostRequest(requests.get(0), "/crypt.php", "action=heart");
         assertGetRequest(requests.get(1), "/fight.php", null);
         assertPostRequest(requests.get(2), "/api.php", "what=status&for=KoLmafia");
-        assertPostRequest(requests.get(3), "/fight.php", "action=skill&whichskill=7513");
+        assertPostRequest(requests.get(3), "/fight.php", "action=attack");
         assertPostRequest(requests.get(4), "/api.php", "what=status&for=KoLmafia");
       }
     }

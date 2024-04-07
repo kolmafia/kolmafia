@@ -571,9 +571,11 @@ public class DebugModifiersTest {
   @Test
   void listsStatExpNormal() {
     try (var cleanups =
-        new Cleanups(withClass(AscensionClass.SEAL_CLUBBER), withEquipped(ItemPool.SUGAR_SHIRT))) {
+        new Cleanups(
+            withLocation("Noob Cave"),
+            withClass(AscensionClass.SEAL_CLUBBER),
+            withEquipped(ItemPool.SUGAR_SHIRT))) {
       evaluateDebugModifiers(DoubleModifier.MUS_EXPERIENCE);
-      if (output().indexOf("3.0") == -1) System.out.println(output());
       assertThat(output(), containsDebugRow("Class", "EXP/2", 3.0, 3.0));
       evaluateDebugModifiers(DoubleModifier.MYS_EXPERIENCE);
       assertThat(output(), containsDebugRow("Class", "EXP/4", 1.0, 1.0));
@@ -586,10 +588,10 @@ public class DebugModifiersTest {
   void listsStatExpTuned() {
     try (var cleanups =
         new Cleanups(
+            withLocation("Noob Cave"),
             withClass(AscensionClass.SEAL_CLUBBER),
             withAllEquipped(ItemPool.SUGAR_SHIRT, ItemPool.MIME_ARMY_INSIGNIA_INFANTRY))) {
       evaluateDebugModifiers(DoubleModifier.MUS_EXPERIENCE);
-      if (output().indexOf("5.0") == -1) System.out.println(output());
       assertThat(output(), containsDebugRow("Class", "EXP", 5.0, 5.0));
     }
   }
