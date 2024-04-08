@@ -2,8 +2,8 @@
   "name": "kolmafia",
   "version": "{{version}}",
   "description": "Typings for the KoLmafia JS standard library",
-  "main": "index",
-  "types": "index",
+  "main": "index.js",
+  "types": "index.d.ts",
   "repository": "https://github.com/kolmafia/kolmafia",
   "author": "KoLmafia Team",
   "license": "MIT",
@@ -12,7 +12,7 @@
     "index.d.ts"
   ],
   "devDependencies": {
-    "typescript": "^4.8.4"
+    "typescript": "^5.4.4"
   },
   "scripts": {
     "validate": "tsc ./index.d.ts"
