@@ -55,6 +55,7 @@ import net.sourceforge.kolmafia.session.ChoiceAdventures;
 import net.sourceforge.kolmafia.session.ChoiceAdventures.Spoilers;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ChoiceOption;
+import net.sourceforge.kolmafia.session.CryptManager;
 import net.sourceforge.kolmafia.session.DvorakManager;
 import net.sourceforge.kolmafia.session.ElVibratoManager;
 import net.sourceforge.kolmafia.session.ElVibratoManager.Punchcard;
@@ -349,7 +350,7 @@ public class RequestEditorKit extends HTMLEditorKit {
     } else if (location.startsWith("council.php")) {
       RequestEditorKit.decorateCouncil(buffer);
     } else if (location.startsWith("crypt.php")) {
-      RequestEditorKit.decorateCrypt(buffer);
+      CryptManager.decorateCrypt(buffer);
     } else if (location.startsWith("dwarffactory.php")) {
       DwarfFactoryRequest.decorate(location, buffer);
     } else if (location.startsWith("fight.php")) {
@@ -2092,99 +2093,6 @@ public class RequestEditorKit extends HTMLEditorKit {
           index + 3,
           "<center><a href=\"da.php?place=gate1\">Bask in the Glory of Boris</a></center><br>");
     }
-  }
-
-  private static void decorateCrypt(final StringBuffer buffer) {
-    int evilness = Preferences.getInteger("cyrptTotalEvilness");
-    if (evilness == 0 || evilness == 999) {
-      return;
-    }
-
-    // <A href=place.php?whichplace=plains>Back to the Misspelled Cemetary</a>
-    // I expect that will change to "whichplace=cemetery" eventually.
-    int table = buffer.indexOf("</tr></table><p><center><A href=place.php");
-    if (table == -1) {
-      // There is no table of corners and hence no need for the Evilometer
-      return;
-    }
-
-    int nookEvil = Preferences.getInteger("cyrptNookEvilness");
-    int nicheEvil = Preferences.getInteger("cyrptNicheEvilness");
-    int crannyEvil = Preferences.getInteger("cyrptCrannyEvilness");
-    int alcoveEvil = Preferences.getInteger("cyrptAlcoveEvilness");
-
-    String nookColor = nookEvil > 13 ? "000000" : "FF0000";
-    String nookHint = nookEvil > 13 ? "Item Drop" : "<b>BOSS</b>";
-    String nicheColor = nicheEvil > 13 ? "000000" : "FF0000";
-    String nicheHint = nicheEvil > 13 ? "Sniff Dirty Lihc" : "<b>BOSS</b>";
-    String crannyColor = crannyEvil > 13 ? "000000" : "FF0000";
-    String crannyHint = crannyEvil > 13 ? "ML & Noncombat" : "<b>BOSS</b>";
-    String alcoveColor = alcoveEvil > 13 ? "000000" : "FF0000";
-    String alcoveHint = alcoveEvil > 13 ? "Initiative" : "<b>BOSS</b>";
-
-    StringBuilder evilometer = new StringBuilder();
-    evilometer.append("</table><td>");
-
-    evilometer.append("<table cellpadding=0 cellspacing=0><tr><td colspan=3>");
-    evilometer.append("<img src=\"");
-    evilometer.append(KoLmafia.imageServerPath());
-    evilometer.append("otherimages/cyrpt/eo_top.gif\">");
-    evilometer.append("<tr><td><img src=\"");
-    evilometer.append(KoLmafia.imageServerPath());
-    evilometer.append("otherimages/cyrpt/eo_left.gif\">");
-    evilometer.append("<td width=150><center>");
-
-    if (nookEvil > 0) {
-      evilometer.append("<font size=2 color=\"#");
-      evilometer.append(nookColor);
-      evilometer.append("\"><b>Nook</b> - ");
-      evilometer.append(nookEvil);
-      evilometer.append("<br><font size=1>");
-      evilometer.append(nookHint);
-      evilometer.append("<br></font></font>");
-    }
-
-    if (nicheEvil > 0) {
-      evilometer.append("<font size=2 color=\"#");
-      evilometer.append(nicheColor);
-      evilometer.append("\"><b>Niche</b> - ");
-      evilometer.append(nicheEvil);
-      evilometer.append("<br><font size=1>");
-      evilometer.append(nicheHint);
-      evilometer.append("<br></font></font>");
-    }
-
-    if (crannyEvil > 0) {
-      evilometer.append("<font size=2 color=\"#");
-      evilometer.append(crannyColor);
-      evilometer.append("\"><b>Cranny</b> - ");
-      evilometer.append(crannyEvil);
-      evilometer.append("<br><font size=1>");
-      evilometer.append(crannyHint);
-      evilometer.append("<br></font></font>");
-    }
-
-    if (alcoveEvil > 0) {
-      evilometer.append("<font size=2 color=\"#");
-      evilometer.append(alcoveColor);
-      evilometer.append("\"><b>Alcove</b> - ");
-      evilometer.append(alcoveEvil);
-      evilometer.append("<br><font size=1>");
-      evilometer.append(alcoveHint);
-      evilometer.append("<br></font></font>");
-    }
-
-    evilometer.append("<td><img src=\"");
-    evilometer.append(KoLmafia.imageServerPath());
-    evilometer.append("otherimages/cyrpt/eo_right.gif\"><tr><td colspan=3>");
-    evilometer.append("<img src=\"");
-    evilometer.append(KoLmafia.imageServerPath());
-    evilometer.append("otherimages/cyrpt/eo_bottom.gif\"></table>");
-    buffer.insert(table + 5, evilometer.toString());
-
-    String selector = "</map><table";
-    int index = buffer.indexOf(selector);
-    buffer.insert(index + selector.length(), "><tr><td><table");
   }
 
   private static void addBugReportWarning(final StringBuffer buffer) {

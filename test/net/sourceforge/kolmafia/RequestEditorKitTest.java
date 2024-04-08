@@ -16,6 +16,7 @@ import java.util.stream.Stream;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.session.CryptManager;
 import net.sourceforge.kolmafia.session.EventManager;
 import net.sourceforge.kolmafia.session.VioletFogManager;
 import org.junit.jupiter.api.BeforeAll;
@@ -258,6 +259,8 @@ public class RequestEditorKitTest {
               withProperty("cyrptTotalEvilness", 200));
       try (cleanups) {
         var html = html("request/test_cyrpt_four_corners.html");
+        CryptManager.visitCrypt(html);
+
         var buffer = new StringBuffer(html);
         RequestEditorKit.getFeatureRichHTML("crypt.php", buffer, true);
 
@@ -270,24 +273,50 @@ public class RequestEditorKitTest {
     }
 
     @Test
-    void doesNotDecorateBogusEvilnessCyrpt() {
+    void decoratesThreeCornerCyrpt() {
       var cleanups =
           new Cleanups(
-              withProperty("cyrptNookEvilness", 0),
-              withProperty("cyrptNicheEvilness", 0),
-              withProperty("cyrptCrannyEvilness", 11),
-              withProperty("cyrptAlcoveEvilness", 0),
-              withProperty("cyrptTotalEvilness", 11));
+              withProperty("cyrptNookEvilness", 50),
+              withProperty("cyrptNicheEvilness", 50),
+              withProperty("cyrptCrannyEvilness", 50),
+              withProperty("cyrptAlcoveEvilness", 50),
+              withProperty("cyrptTotalEvilness", 200));
       try (cleanups) {
-        var html = html("request/test_cyrpt_haert.html");
+        var html = html("request/test_cyrpt_three_corners.html");
+        CryptManager.visitCrypt(html);
+
+        var buffer = new StringBuffer(html);
+        RequestEditorKit.getFeatureRichHTML("crypt.php", buffer, true);
+
+        String decorated = buffer.toString();
+        assertThat(decorated, not(containsString("<b>Nook</b>")));
+        assertThat(decorated, containsString("<b>Niche</b> - 50"));
+        assertThat(decorated, containsString("<b>Cranny</b> - 50"));
+        assertThat(decorated, containsString("<b>Alcove</b> - 50"));
+      }
+    }
+
+    @Test
+    void decoratesTwoCornerCyrpt() {
+      var cleanups =
+          new Cleanups(
+              withProperty("cyrptNookEvilness", 50),
+              withProperty("cyrptNicheEvilness", 50),
+              withProperty("cyrptCrannyEvilness", 50),
+              withProperty("cyrptAlcoveEvilness", 50),
+              withProperty("cyrptTotalEvilness", 200));
+      try (cleanups) {
+        var html = html("request/test_cyrpt_two_corners.html");
+        CryptManager.visitCrypt(html);
+
         var buffer = new StringBuffer(html);
         RequestEditorKit.getFeatureRichHTML("crypt.php", buffer, true);
 
         String decorated = buffer.toString();
         assertThat(decorated, not(containsString("<b>Nook</b>")));
         assertThat(decorated, not(containsString("<b>Niche</b>")));
-        assertThat(decorated, not(containsString("<b>Cranny</b>")));
-        assertThat(decorated, not(containsString("<b>Alcove</b>")));
+        assertThat(decorated, containsString("<b>Cranny</b> - 50"));
+        assertThat(decorated, containsString("<b>Alcove</b> - 50"));
       }
     }
 
@@ -302,6 +331,8 @@ public class RequestEditorKitTest {
               withProperty("cyrptTotalEvilness", 0));
       try (cleanups) {
         var html = html("request/test_cyrpt_haert.html");
+        CryptManager.visitCrypt(html);
+
         var buffer = new StringBuffer(html);
         RequestEditorKit.getFeatureRichHTML("crypt.php", buffer, true);
 
@@ -324,6 +355,8 @@ public class RequestEditorKitTest {
               withProperty("cyrptTotalEvilness", 999));
       try (cleanups) {
         var html = html("request/test_cyrpt_haert.html");
+        CryptManager.visitCrypt(html);
+
         var buffer = new StringBuffer(html);
 
         String decorated = buffer.toString();
@@ -346,6 +379,30 @@ public class RequestEditorKitTest {
               withProperty("cyrptTotalEvilness", 0));
       try (cleanups) {
         var html = html("request/test_cyrpt_empty.html");
+        CryptManager.visitCrypt(html);
+
+        var buffer = new StringBuffer(html);
+        RequestEditorKit.getFeatureRichHTML("crypt.php", buffer, true);
+
+        String decorated = buffer.toString();
+        assertThat(decorated, not(containsString("<b>Nook</b>")));
+        assertThat(decorated, not(containsString("<b>Niche</b>")));
+        assertThat(decorated, not(containsString("<b>Cranny</b>")));
+        assertThat(decorated, not(containsString("<b>Alcove</b>")));
+      }
+    }
+
+    @Test
+    void doesNotDecorateBogusEvilnessCyrpt() {
+      var cleanups =
+          new Cleanups(
+              withProperty("cyrptNookEvilness", 0),
+              withProperty("cyrptNicheEvilness", 0),
+              withProperty("cyrptCrannyEvilness", 11),
+              withProperty("cyrptAlcoveEvilness", 0),
+              withProperty("cyrptTotalEvilness", 11));
+      try (cleanups) {
+        var html = html("request/test_cyrpt_haert.html");
         var buffer = new StringBuffer(html);
         RequestEditorKit.getFeatureRichHTML("crypt.php", buffer, true);
 

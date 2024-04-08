@@ -25,6 +25,7 @@ import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.moods.ManaBurnManager;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
+import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -52,6 +53,7 @@ import net.sourceforge.kolmafia.session.BugbearManager.Bugbear;
 import net.sourceforge.kolmafia.session.ChoiceControl;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ClanManager;
+import net.sourceforge.kolmafia.session.CryptManager;
 import net.sourceforge.kolmafia.session.DreadScrollManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -4113,16 +4115,14 @@ public class UseItemRequest extends GenericRequest {
         return;
 
       case ItemPool.EVILOMETER:
-
         // Parse the result and save current state
-        UseItemRequest.getEvilLevels(responseText);
+        CryptManager.examineEvilometer(responseText);
         return;
 
       case ItemPool.EVIL_EYE:
         if (responseText.contains("Evilometer emits three quick beeps")) {
           int evilness = Math.min(Preferences.getInteger("cyrptNookEvilness"), 3 * count);
-          Preferences.increment("cyrptNookEvilness", -evilness);
-          Preferences.increment("cyrptTotalEvilness", -evilness);
+          CryptManager.decreaseEvilness(AdventurePool.DEFILED_NOOK, evilness);
         }
         break;
 
@@ -6259,49 +6259,6 @@ public class UseItemRequest extends GenericRequest {
     String recipeName =
         ModifierDatabase.getStringModifier(ModifierType.ITEM, itemId, StringModifier.RECIPE);
     return recipeName.equals("") ? null : recipeName;
-  }
-
-  // <center>Total evil: <b>200</b><p>Alcove: <b>50</b><br>Cranny: <b>50</b><br>Niche:
-  // <b>50</b><br>Nook: <b>50</b></center>
-
-  // <center>Total evil: <b>999</b><p>Haert: <b>999</b></center>
-
-  private static final Pattern EVILOMETER_PATTERN1 =
-      Pattern.compile("<center>Total evil: <b>(\\d+)</b>");
-
-  private static final Pattern EVILOMETER_PATTERN2 =
-      Pattern.compile(
-          "<p>Alcove: <b>(\\d+)</b><br>Cranny: <b>(\\d+)</b><br>Niche: <b>(\\d+)</b><br>Nook: <b>(\\d+)</b>");
-
-  private static void getEvilLevels(final String responseText) {
-    int total = 0;
-    int alcove = 0;
-    int cranny = 0;
-    int niche = 0;
-    int nook = 0;
-
-    Matcher matcher1 = EVILOMETER_PATTERN1.matcher(responseText);
-    if (matcher1.find()) {
-      total = StringUtilities.parseInt(matcher1.group(1));
-    }
-
-    Matcher matcher2 = EVILOMETER_PATTERN2.matcher(responseText);
-    if (matcher2.find()) {
-      alcove = StringUtilities.parseInt(matcher2.group(1));
-      cranny = StringUtilities.parseInt(matcher2.group(2));
-      niche = StringUtilities.parseInt(matcher2.group(3));
-      nook = StringUtilities.parseInt(matcher2.group(4));
-    }
-
-    Preferences.setInteger("cyrptTotalEvilness", total);
-    Preferences.setInteger("cyrptAlcoveEvilness", alcove);
-    Preferences.setInteger("cyrptCrannyEvilness", cranny);
-    Preferences.setInteger("cyrptNicheEvilness", niche);
-    Preferences.setInteger("cyrptNookEvilness", nook);
-
-    if (responseText.contains("give it a proper burial")) {
-      ResultProcessor.removeItem(ItemPool.EVILOMETER);
-    }
   }
 
   private static void getBugbearBiodataLevels(String responseText) {
