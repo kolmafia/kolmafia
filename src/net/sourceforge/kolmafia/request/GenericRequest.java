@@ -1201,7 +1201,8 @@ public class GenericRequest implements Runnable {
             && !this.redirectLocation.equals("place.php?whichplace=monorail")
             && !this.redirectLocation.equals("place.php?whichplace=edunder")
             && !this.redirectLocation.equals("place.php?whichplace=ioty2014_cindy")
-            && !this.redirectLocation.equals("/shop.php?whichshop=fwshop")) {
+            && !this.redirectLocation.equals("/shop.php?whichshop=fwshop")
+            && !this.redirectLocation.equals("inventory.php")) {
           // Informational debug message
           KoLmafia.updateDisplay("Unhandled redirect to " + this.redirectLocation);
         }
