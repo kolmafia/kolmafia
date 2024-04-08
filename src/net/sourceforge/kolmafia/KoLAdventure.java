@@ -53,6 +53,7 @@ import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.session.BatManager;
 import net.sourceforge.kolmafia.session.ChoiceManager;
+import net.sourceforge.kolmafia.session.CryptManager;
 import net.sourceforge.kolmafia.session.EncounterManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -792,8 +793,9 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     // Level 7 quest boss
     if (this.formSource.equals("crypt.php")) {
+      int evilness = Preferences.getInteger("cyrptTotalEvilness");
       return QuestDatabase.isQuestStep(Quest.CYRPT, QuestDatabase.STARTED)
-          && Preferences.getInteger("cyrptTotalEvilness") == 0;
+          && (evilness == 999 || evilness == 0);
     }
 
     // Level 8 quest boss
@@ -1351,13 +1353,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       if (!QuestDatabase.isQuestStarted(Quest.CYRPT)) {
         return false;
       }
-      return switch (this.adventureNumber) {
-        case AdventurePool.DEFILED_ALCOVE -> Preferences.getInteger("cyrptAlcoveEvilness") > 0;
-        case AdventurePool.DEFILED_CRANNY -> Preferences.getInteger("cyrptCrannyEvilness") > 0;
-        case AdventurePool.DEFILED_NICHE -> Preferences.getInteger("cyrptNicheEvilness") > 0;
-        case AdventurePool.DEFILED_NOOK -> Preferences.getInteger("cyrptNookEvilness") > 0;
-        default -> false;
-      };
+      String property = CryptManager.evilZoneProperty(this.adventureNumber);
+      return property != null ? Preferences.getInteger(property) > 0 : false;
     }
 
     // Level 8 quest

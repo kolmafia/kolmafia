@@ -1940,7 +1940,7 @@ public class ResultProcessor {
         break;
 
       case ItemPool.BONERDAGON_CHEST:
-        QuestDatabase.setQuestProgress(Quest.CYRPT, "step1");
+        CryptManager.defeatBoss("Bonerdagon");
         break;
 
       case ItemPool.BONERDAGON_SKULL:
@@ -2535,11 +2535,7 @@ public class ResultProcessor {
         break;
 
       case ItemPool.EVILOMETER:
-        Preferences.setInteger("cyrptTotalEvilness", 200);
-        Preferences.setInteger("cyrptAlcoveEvilness", 50);
-        Preferences.setInteger("cyrptCrannyEvilness", 50);
-        Preferences.setInteger("cyrptNicheEvilness", 50);
-        Preferences.setInteger("cyrptNookEvilness", 50);
+        CryptManager.acquireEvilometer();
         break;
 
       case ItemPool.TEACHINGS_OF_THE_FIST:

@@ -30,6 +30,7 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.BanishManager;
+import net.sourceforge.kolmafia.session.CryptManager;
 import net.sourceforge.kolmafia.session.CrystalBallManager;
 import net.sourceforge.kolmafia.session.EncounterManager;
 import net.sourceforge.kolmafia.session.EncounterManager.EncounterType;
@@ -752,23 +753,12 @@ public class AreaCombatData {
 
       // Some areas have fixed non-combats, if we're tracking this, handle them here.
       switch (zone) {
-        case "The Defiled Alcove" -> {
-          if (Preferences.getInteger("cyrptAlcoveEvilness") <= 13) {
-            return 100;
-          }
-        }
-        case "The Defiled Cranny" -> {
-          if (Preferences.getInteger("cyrptCrannyEvilness") <= 13) {
-            return 100;
-          }
-        }
-        case "The Defiled Niche" -> {
-          if (Preferences.getInteger("cyrptNicheEvilness") <= 13) {
-            return 100;
-          }
-        }
-        case "The Defiled Nook" -> {
-          if (Preferences.getInteger("cyrptNookEvilness") <= 13) {
+        case "The Defiled Alcove",
+            "The Defiled Cranny",
+            "The Defiled Niche",
+            "The Defiled Nook" -> {
+          String property = CryptManager.evilZoneProperty(zone);
+          if (Preferences.getInteger(property) <= 13) {
             return 100;
           }
         }

@@ -3747,7 +3747,7 @@ public class KoLAdventureValidationTest {
     }
 
     @Test
-    public void canVisitHaertWhenCyrptClear() {
+    public void canVisitHaertWhenCyrptEvilness0() {
       var cleanups =
           new Cleanups(
               withQuestProgress(Quest.CYRPT, QuestDatabase.STARTED),
@@ -3756,6 +3756,25 @@ public class KoLAdventureValidationTest {
               withProperty("cyrptNicheEvilness", 0),
               withProperty("cyrptNookEvilness", 0),
               withProperty("cyrptTotalEvilness", 0));
+      try (cleanups) {
+        assertFalse(DEFILED_ALCOVE.canAdventure());
+        assertFalse(DEFILED_CRANNY.canAdventure());
+        assertFalse(DEFILED_NICHE.canAdventure());
+        assertFalse(DEFILED_NOOK.canAdventure());
+        assertTrue(HAERT.canAdventure());
+      }
+    }
+
+    @Test
+    public void canVisitHaertWhenCyrptEvilness999() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.CYRPT, QuestDatabase.STARTED),
+              withProperty("cyrptAlcoveEvilness", 0),
+              withProperty("cyrptCrannyEvilness", 0),
+              withProperty("cyrptNicheEvilness", 0),
+              withProperty("cyrptNookEvilness", 0),
+              withProperty("cyrptTotalEvilness", 999));
       try (cleanups) {
         assertFalse(DEFILED_ALCOVE.canAdventure());
         assertFalse(DEFILED_CRANNY.canAdventure());
