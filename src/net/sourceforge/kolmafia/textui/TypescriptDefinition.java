@@ -171,7 +171,7 @@ public class TypescriptDefinition {
     return getFunctions()
         .map(Symbol::getName)
         .distinct()
-        .map(f -> String.format("export const %s = warn;", JavascriptRuntime.toCamelCase(f)))
+        .map(f -> String.format("module.exports.%s = warn;", JavascriptRuntime.toCamelCase(f)))
         .toList();
   }
 
@@ -220,7 +220,7 @@ public class TypescriptDefinition {
             ? Arrays.stream(t.allValues().keys()).map(v -> v.contentString).toList()
             : List.of();
 
-    var unionType = values.size() > 0 ? name + "Type" : null;
+    var unionType = values.isEmpty() ? null : name + "Type";
 
     // Prepare the field names
     var proxy = (RecordType) t.asProxy();
@@ -267,7 +267,11 @@ public class TypescriptDefinition {
   private static List<String> getMafiaClassHeaders() {
     return DataTypes.enumeratedTypes.stream()
         .map(t -> StringUtilities.capitalize(t.getName()))
-        .map(t -> String.format("export class %s {}", t))
+        .map(
+            t ->
+                String.format(
+                    "module.export.%s = class %<s { static get = (v) => Array.isArray(v) ? v.map(() => new %<s()) : new %<s(); static all = () => []; static none = new %<s(); }",
+                    t))
         .toList();
   }
 
@@ -388,7 +392,7 @@ public class TypescriptDefinition {
     return Stream.of(
             List.of(
                 "const warn = () => { throw new Error(`Cannot access the KoLmafia standard library from a normal JavaScript context.`); }",
-                "export const sessionStorage = {};"),
+                "module.exports.sessionStorage = {};"),
             getFunctionHeaders(),
             getMafiaClassHeaders())
         .flatMap(Collection::stream)
