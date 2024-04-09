@@ -82,6 +82,6 @@ public class TypescriptDefinitionTest {
   @Test
   void headerFile() {
     var contents = TypescriptDefinition.getHeaderFileContents();
-    assertThat(contents, containsString("export const visitUrl = "));
+    assertThat(contents, containsString("module.exports.visitUrl = "));
   }
 }
