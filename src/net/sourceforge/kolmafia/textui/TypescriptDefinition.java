@@ -270,7 +270,7 @@ public class TypescriptDefinition {
         .map(
             t ->
                 String.format(
-                    "module.export.%s = class %<s { static get = (v) => Array.isArray(v) ? v.map(() => new %<s()) : new %<s(); static all = () => []; static none = new %<s(); }",
+                    "module.exports.%s = class %<s { static get = (v) => Array.isArray(v) ? v.map(() => new %<s()) : new %<s(); static all = () => []; static none = new %<s(); }",
                     t))
         .toList();
   }
