@@ -7008,21 +7008,19 @@ public abstract class ChoiceControl {
         }
         break;
 
-        /* TODO: fill this in once we know the choice options
-        case 143:
-          // Catching Some Zetas
-          if (KoLCharacter.hasEquipped(CANDY_CANE_SWORD) && !text.contains("candy cane sword")) {
-            Preferences.setBoolean("candyCaneSwordWarFratZetas", true);
-          }
-          break;
+      case 143:
+        // Catching Some Zetas
+        if (KoLCharacter.hasEquipped(CANDY_CANE_SWORD) && !text.contains("candy cane sword")) {
+          Preferences.setBoolean("candyCaneSwordWarFratZetas", true);
+        }
+        break;
 
-        case 144:
-          // One Less Room Than In That Movie
-          if (KoLCharacter.hasEquipped(CANDY_CANE_SWORD) && !text.contains("candy cane sword")) {
-            Preferences.setBoolean("candyCaneSwordWarFratRoom", true);
-          }
-          break;
-        */
+      case 144:
+        // One Less Room Than In That Movie
+        if (KoLCharacter.hasEquipped(CANDY_CANE_SWORD) && !text.contains("Pry open the hatch")) {
+          Preferences.setBoolean("candyCaneSwordWarFratRoom", true);
+        }
+        break;
 
       case 151:
         // Adventurer, $1.99
