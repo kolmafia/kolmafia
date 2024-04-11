@@ -180,7 +180,7 @@ public class TypescriptDefinition {
         "    static get<T extends MafiaClass>(this: { new (): T; }, name: (string | number)): T;",
         "    static get<T extends MafiaClass>(this: { new (): T; }, names: readonly (string | number)[]): T[];",
         "    static all<T extends MafiaClass>(this: { new (): T; }): T[];",
-        "    static none: MafiaClass");
+        "    static none: MafiaClass;");
   }
 
   private static List<String> getAbstractMafiaClass() {
