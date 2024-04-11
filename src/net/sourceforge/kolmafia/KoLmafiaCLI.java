@@ -514,6 +514,7 @@ public class KoLmafiaCLI {
     new AcquireCommand().register("acquire").register("find").register("retrieve");
     new AdventureCommand().register("adv").register("adventure");
     new AliasCommand().register("alias");
+    new AprilBandCommand().register("aprilband");
     new AreaSummaryCommand().register("safe");
     new AsdonMartinCommand().register("asdonmartin");
     new AshMultiLineCommand().register("<inline-ash-script>");

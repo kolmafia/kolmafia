@@ -982,8 +982,7 @@ public abstract class ChoiceControl {
           //
           // Your Evilometer beeps 11 times.
           if (text.contains("Your Evilometer beeps 11 times.")) {
-            Preferences.decrement("cyrptCrannyEvilness", 11);
-            Preferences.decrement("cyrptTotalEvilness", 11);
+            CryptManager.decreaseEvilness(AdventurePool.DEFILED_CRANNY, 11);
           }
         }
         break;

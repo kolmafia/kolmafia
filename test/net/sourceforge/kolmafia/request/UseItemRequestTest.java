@@ -1215,6 +1215,29 @@ class UseItemRequestTest {
   @Nested
   class Evilometer {
     @Test
+    void detectsPartiallyEvilCyrpt() {
+      var cleanups =
+          new Cleanups(
+              withItem(ItemPool.EVILOMETER),
+              withProperty("cyrptTotalEvilness", 200),
+              withProperty("cyrptAlcoveEvilness", 50),
+              withProperty("cyrptCrannyEvilness", 50),
+              withProperty("cyrptNicheEvilness", 50),
+              withProperty("cyrptNookEvilness", 50),
+              withNextResponse(
+                  new FakeHttpResponse<>(200, html("request/test_evilometer_partial.html"))));
+
+      try (cleanups) {
+        UseItemRequest.getInstance(ItemPool.EVILOMETER).run();
+        assertThat("cyrptTotalEvilness", isSetTo(89));
+        assertThat("cyrptAlcoveEvilness", isSetTo(50));
+        assertThat("cyrptCrannyEvilness", isSetTo(39));
+        assertThat("cyrptNicheEvilness", isSetTo(0));
+        assertThat("cyrptNookEvilness", isSetTo(0));
+      }
+    }
+
+    @Test
     void detectsFullyEvilCyrpt() {
       var cleanups =
           new Cleanups(
@@ -1234,6 +1257,30 @@ class UseItemRequestTest {
         assertThat("cyrptCrannyEvilness", isSetTo(0));
         assertThat("cyrptNicheEvilness", isSetTo(0));
         assertThat("cyrptNookEvilness", isSetTo(0));
+      }
+    }
+
+    @Test
+    void detectsUndefiledCyrpt() {
+      var cleanups =
+          new Cleanups(
+              withItem(ItemPool.EVILOMETER),
+              withProperty("cyrptTotalEvilness", 200),
+              withProperty("cyrptAlcoveEvilness", 50),
+              withProperty("cyrptCrannyEvilness", 50),
+              withProperty("cyrptNicheEvilness", 50),
+              withProperty("cyrptNookEvilness", 50),
+              withNextResponse(
+                  new FakeHttpResponse<>(200, html("request/test_evilometer_finished.html"))));
+
+      try (cleanups) {
+        UseItemRequest.getInstance(ItemPool.EVILOMETER).run();
+        assertThat("cyrptTotalEvilness", isSetTo(0));
+        assertThat("cyrptAlcoveEvilness", isSetTo(0));
+        assertThat("cyrptCrannyEvilness", isSetTo(0));
+        assertThat("cyrptNicheEvilness", isSetTo(0));
+        assertThat("cyrptNookEvilness", isSetTo(0));
+        assertFalse(InventoryManager.hasItem(ItemPool.EVILOMETER));
       }
     }
   }

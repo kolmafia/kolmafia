@@ -75,4 +75,12 @@ public class Networking {
     assertThat(uri.getPath(), equalTo(path));
     assertThat(getPostRequestBody(request), equalTo(body));
   }
+
+  public static void assertPostRequest(
+      HttpRequest request, String path, Matcher<String> bodyMatcher) {
+    assertThat(request.method(), equalTo("POST"));
+    var uri = request.uri();
+    assertThat(uri.getPath(), equalTo(path));
+    assertThat(getPostRequestBody(request), bodyMatcher);
+  }
 }

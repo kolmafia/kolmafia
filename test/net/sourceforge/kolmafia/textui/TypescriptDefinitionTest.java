@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.textui;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
@@ -28,7 +29,7 @@ public class TypescriptDefinitionTest {
 
   @Test
   void producesAnyOutput() {
-    assertThat(TypescriptDefinition.getContents(), hasLength(greaterThan(0)));
+    assertThat(TypescriptDefinition.getTypeDefContents(), hasLength(greaterThan(0)));
   }
 
   private static Stream<Arguments> provideStringsForFormatFunction() {
@@ -67,7 +68,7 @@ public class TypescriptDefinitionTest {
   void firstLineContainsValidVersionNumber() {
     // We get the version number with `PACKAGE_VERSION=$(head -n 1 index.d.ts | cut -c 5-)`
     // As such, here we test that this produces a valid version number
-    var contents = TypescriptDefinition.getContents();
+    var contents = TypescriptDefinition.getTypeDefContents();
     var firstLine = contents.substring(0, contents.indexOf("\n"));
     var version = firstLine.substring(4);
     assertThat(version, matchesPattern("^\\d+\\.\\d+\\.\\d+$"));
@@ -76,5 +77,11 @@ public class TypescriptDefinitionTest {
   @Test
   void containsEnvironmentUnion() {
     assertThat(TypescriptDefinition.getEnvironmentUnion(), startsWith("\"indoor\""));
+  }
+
+  @Test
+  void headerFile() {
+    var contents = TypescriptDefinition.getHeaderFileContents();
+    assertThat(contents, containsString("module.exports.visitUrl = "));
   }
 }
