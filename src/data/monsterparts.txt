@@ -1308,9 +1308,9 @@
 1386	Falls-From-Sky	arm	knee	tail	torso
 1387	Great Wolf of the Air	head	leg	tail	torso
 1388	Zombie Homeowners' Association	arm	head	leg	torso
-1389	Mayor Ghost
+1389	Mayor Ghost	arm	ectoplasm	head	leg	torso
 1390	Count Drunkula	arm	head	leg	torso
-1391	The Unkillable Skeleton
+1391	The Unkillable Skeleton	arm	head	leg	torso
 1392	hot bugbear	arm	head	leg	torso
 1393	cold bugbear	arm	head	leg	torso
 1394	spooky bugbear	arm	head	leg	torso
@@ -2088,14 +2088,14 @@
 2200	Astrologer of Shub-Jigguwatt	line	star
 2201	Boss Bot	head	leg	torso	wing
 2202	Gobot King	arm	head	leg	torso
-2203	Robonerdagon	head  leg  tail	wing
+2203	Robonerdagon	head	leg	tail	wing
 2204	Tobias J. Saibot	arm	head	leg	torso
 2205	Lord Cyberraven	arm	leg	tank
 2206	Protector S. P. E. C. T. R. E.	arm	leg	slab
 2207	Groarbot	head	leg	torso	wing
 2208	The Artificial Wisniewski	arm	head	leg	shirt
-2209	The Android
-2210	Nautomatic Sorceress	Arm	Head	Leg	Torso
+2209	The Android	arm	eye	frame	hatch
+2210	Nautomatic Sorceress	arm	head	leg	torso
 2211	Blaze Bat	fire	head	torso	wing
 2212	fired-up Knob Goblin King	arm	fire	head	leg	torso
 2213	Burnerdagon	fire	head	tail	torso	wing
@@ -2193,7 +2193,7 @@
 2317	Weirdly Scrawny Knob Goblin King	arm	head	leg	torso
 2318	Orignial Bonerdagon	head	tail	torso	wing
 2319	Jr. Awkwarj
-2320	Little Lord Spookyraven
+2320	Little Lord Spookyraven	arm	head	leg	torso
 2321	Protector Spectre Candidate
 2322	Flock of Groars?	arm	head	leg	wing
 2323	The Little Wisniewski
