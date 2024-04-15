@@ -61,12 +61,6 @@ public class LoginManager {
     // Optionally run a ping test and check connection speed.
     // Return true if the connection is acceptable.
 
-    // Reset pingDefaultTestPings if it's set to a bad "api.php" value
-    // TODO: Temporary fix, remove after Jan 2024
-    if (Preferences.getString("pingDefaultTestPage").equals("api.php")) {
-      Preferences.resetToDefault("pingDefaultTestPage");
-    }
-
     // If user does not want to measure ping speed, good enough
     if (!Preferences.getBoolean("pingLogin")) {
       return true;

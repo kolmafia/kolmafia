@@ -175,24 +175,18 @@ public class TypescriptDefinition {
         .toList();
   }
 
-  private static List<String> formatMafiaClassMethods(final String type, final String argType) {
-    boolean isAbstract = (type == null);
+  private static List<String> formatMafiaClassMethods() {
     return List.of(
-        String.format(
-            "    static get%s(name: %s): %s;",
-            isAbstract ? "<T extends MafiaClass>" : "", argType, isAbstract ? "T" : type),
-        String.format(
-            "    static get%s(names: readonly %s[]): %s[];",
-            isAbstract ? "<T extends MafiaClass>" : "", argType, isAbstract ? "T" : type),
-        String.format(
-            "    static all<T %s>(): T[];", isAbstract ? "extends MafiaClass" : "= " + type),
-        String.format("    static none: %s;", isAbstract ? "MafiaClass" : type));
+        "    static get<T extends MafiaClass>(this: { new (): T; }, name: (string | number)): T;",
+        "    static get<T extends MafiaClass>(this: { new (): T; }, names: readonly (string | number)[]): T[];",
+        "    static all<T extends MafiaClass>(this: { new (): T; }): T[];",
+        "    static none: MafiaClass;");
   }
 
   private static List<String> getAbstractMafiaClass() {
     var abstractClass = new ArrayList<String>();
     abstractClass.add("declare abstract class MafiaClass {");
-    abstractClass.addAll(formatMafiaClassMethods(null, "(string | number)"));
+    abstractClass.addAll(formatMafiaClassMethods());
     abstractClass.add("}");
     return abstractClass;
   }
@@ -236,7 +230,7 @@ public class TypescriptDefinition {
     // Prepare the methods
     var argType = unionType != null ? unionType : "string";
     if (typesWithNumbers.contains(t)) argType = String.format("(%s | number)", argType);
-    var methods = formatMafiaClassMethods(name, argType);
+    var methods = List.of(String.format("    static none: %s;", name));
 
     var result = new ArrayList<String>();
 
