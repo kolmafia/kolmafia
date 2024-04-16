@@ -35,7 +35,6 @@ class PreferencesTest {
   @BeforeEach
   public void initializeCharPrefs() {
     KoLCharacter.reset(USER_NAME);
-    KoLCharacter.reset(true);
   }
 
   @AfterEach
@@ -671,7 +670,7 @@ class PreferencesTest {
     }
   }
 
-  public class resetDailiesThread extends Thread {
+  public static class resetDailiesThread extends Thread {
     public resetDailiesThread(String s) {
       super(s);
     }
