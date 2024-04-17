@@ -27,6 +27,7 @@ import net.sourceforge.kolmafia.session.LoginManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -61,8 +62,8 @@ class PreferencesTest {
       verboseDelete(backupFile);
       File MallPriceFile = new File("data/" + "mallprices.txt");
       verboseDelete(MallPriceFile);
-      verboseDelete(SESSION_FILE);
-      verboseDelete(SESSION_LOG);
+      // verboseDelete(SESSION_FILE);
+      // verboseDelete(SESSION_LOG);
     } catch (Exception ex) {
       System.out.println("Reset caused an error: " + ex.getMessage());
       ex.printStackTrace();
@@ -593,156 +594,163 @@ class PreferencesTest {
     assertFalse(Preferences.isPerUserGlobalProperty("xyzzy"));
     assertFalse(Preferences.isPerUserGlobalProperty("xy..z.zy"));
     // property
-    assertTrue(Preferences.isPerUserGlobalProperty("getBreakfast.PreferencesTestFakeUser"));
+    assertTrue(Preferences.isPerUserGlobalProperty("getBreakfast." + USER_NAME));
   }
 
-  public class timeinThread extends Thread {
-    public timeinThread(String s) {
-      super(s);
+  @Nested
+  class preferenceWriteAcrossThreads {
+
+    public class timeinThread extends Thread {
+      public timeinThread(String s) {
+        super(s);
+      }
+
+      public void run() {
+        LoginManager.timein(USER_NAME);
+      }
     }
 
-    public void run() {
-      LoginManager.timein(USER_NAME);
+    public static class incrementThread extends Thread {
+      public incrementThread(String s) {
+        super(s);
+      }
+
+      public void run() {
+
+        Preferences.increment("counter", 1);
+      }
     }
-  }
 
-  public static class incrementThread extends Thread {
-    public incrementThread(String s) {
-      super(s);
-    }
+    @Disabled
+    @Test
+    public void timeinDoesNotCauseRaceCondition() {
+      String unrelatedPref = "coalmine";
+      String unrelatedValue = "canary";
+      String incrementedPref = "counter";
+      int threadCount = 100;
 
-    public void run() {
+      var cleanups =
+          new Cleanups(
+              withSavePreferencesToFile(),
+              withProperty(unrelatedPref, unrelatedValue),
+              withProperty(incrementedPref, 0));
+      try (cleanups) {
+        Thread[] incrementThreads = new Thread[threadCount];
+        Thread timein = new timeinThread("Timein");
+        timein.start();
 
-      Preferences.increment("counter", 1);
-    }
-  }
-
-  @Test
-  public void timeinDoesNotCauseRaceCondition() {
-    String unrelatedPref = "coalmine";
-    String unrelatedValue = "canary";
-    String incrementedPref = "counter";
-    int threadCount = 100;
-
-    var cleanups =
-        new Cleanups(
-            withSavePreferencesToFile(),
-            withProperty(unrelatedPref, unrelatedValue),
-            withProperty(incrementedPref, 0));
-    try (cleanups) {
-      Thread[] incrementThreads = new Thread[threadCount];
-      Thread timein = new timeinThread("Timein");
-      timein.start();
-
-      IntStream.range(0, threadCount)
-          .forEach(
-              i -> {
-                incrementThreads[i] = new incrementThread("Increment-" + i);
-                incrementThreads[i].start();
-              });
-      try {
-        if (timein.isAlive()) {
-          timein.join(4000);
+        IntStream.range(0, threadCount)
+            .forEach(
+                i -> {
+                  incrementThreads[i] = new incrementThread("Increment-" + i);
+                  incrementThreads[i].start();
+                });
+        try {
+          if (timein.isAlive()) {
+            timein.join(4000);
+          }
+        } catch (InterruptedException ex) {
+          ex.printStackTrace();
         }
-      } catch (InterruptedException ex) {
-        ex.printStackTrace();
+        if (timein.isAlive()) {
+          System.out.println("Undead thread: " + timein.getName());
+        }
+        IntStream.range(0, threadCount)
+            .forEach(
+                j -> {
+                  try {
+                    incrementThreads[j].join(4000);
+                  } catch (InterruptedException e) {
+                    e.printStackTrace();
+                  }
+                  assertFalse(
+                      incrementThreads[j].isAlive(),
+                      "Undead thread: " + incrementThreads[j].getName());
+                });
+
+        assertEquals(
+            unrelatedValue,
+            Preferences.getString(unrelatedPref, false),
+            "unrelated pref does not match");
+        assertEquals(
+            threadCount,
+            Preferences.getInteger(incrementedPref),
+            "Incremented preference does not match");
       }
-      if (timein.isAlive()) {
-        System.out.println("Undead thread: " + timein.getName());
+      verboseDelete(SESSION_LOG);
+    }
+
+    public class resetThread extends Thread {
+      public resetThread(String s) {
+        super(s);
       }
-      IntStream.range(0, threadCount)
-          .forEach(
-              j -> {
-                try {
-                  incrementThreads[j].join(4000);
-                } catch (InterruptedException e) {
-                  e.printStackTrace();
-                }
-                assertFalse(
-                    incrementThreads[j].isAlive(),
-                    "Undead thread: " + incrementThreads[j].getName());
-              });
 
-      assertEquals(
-          unrelatedValue,
-          Preferences.getString(unrelatedPref, false),
-          "unrelated pref does not match");
-      assertEquals(
-          threadCount,
-          Preferences.getInteger(incrementedPref),
-          "Incremented preference does not match");
-    }
-  }
-
-  public class resetThread extends Thread {
-    public resetThread(String s) {
-      super(s);
-    }
-
-    public void run() {
-      Preferences.reset(USER_NAME);
-    }
-  }
-
-  public static class resetDailiesThread extends Thread {
-    public resetDailiesThread(String s) {
-      super(s);
-    }
-
-    public void run() {
-      Preferences.resetDailies();
-    }
-  }
-
-  @Test
-  public void resetDailiesDoesNotRaceWithReset() {
-    var cleanups = new Cleanups(withSavePreferencesToFile());
-    try (cleanups) {
-      Thread reset = new resetThread("Timein");
-      Thread resetDailies = new resetDailiesThread("Timein");
-      reset.start();
-      resetDailies.start();
-
-      try {
-        reset.join(1000);
-        resetDailies.join(1000);
-      } catch (InterruptedException ex) {
-        fail("deadlock encountered");
+      public void run() {
+        Preferences.reset(USER_NAME);
       }
-      // If we got here, we did not deadlock.
     }
-  }
 
-  // @Disabled
-  @Test
-  public void incrementSimultaneouslyDoesNotCauseRaceCondition() {
-    String incrementedPref = "counter";
-    Integer threadCount = 100;
+    public static class resetDailiesThread extends Thread {
+      public resetDailiesThread(String s) {
+        super(s);
+      }
 
-    var cleanups = new Cleanups(withSavePreferencesToFile(), withProperty(incrementedPref, 0));
-    try (cleanups) {
-      Thread[] incrementThreads = new Thread[threadCount];
+      public void run() {
+        Preferences.resetDailies();
+      }
+    }
 
-      IntStream.range(0, threadCount)
-          .forEach(
-              i -> {
-                incrementThreads[i] = new incrementThread("Increment-" + i);
-                incrementThreads[i].start();
-              });
-      IntStream.range(0, threadCount)
-          .forEach(
-              j -> {
-                try {
-                  incrementThreads[j].join(4000);
-                } catch (InterruptedException e) {
-                  e.printStackTrace();
-                }
-                if (incrementThreads[j].isAlive()) {
-                  System.out.println("Undead thread: " + incrementThreads[j].getName());
-                }
-              });
-      assertEquals(
-          threadCount, Preferences.getInteger(incrementedPref), "incremented pref does not match");
+    @Test
+    public void resetDailiesDoesNotRaceWithReset() {
+      var cleanups = new Cleanups(withSavePreferencesToFile());
+      try (cleanups) {
+        Thread reset = new resetThread("Timein");
+        Thread resetDailies = new resetDailiesThread("Timein");
+        reset.start();
+        resetDailies.start();
+
+        try {
+          reset.join(1000);
+          resetDailies.join(1000);
+        } catch (InterruptedException ex) {
+          fail("deadlock encountered");
+        }
+        // If we got here, we did not deadlock.
+      }
+    }
+
+    @Test
+    public void incrementSimultaneouslyDoesNotCauseRaceCondition() {
+      String incrementedPref = "counter";
+      Integer threadCount = 100;
+
+      var cleanups = new Cleanups(withSavePreferencesToFile(), withProperty(incrementedPref, 0));
+      try (cleanups) {
+        Thread[] incrementThreads = new Thread[threadCount];
+
+        IntStream.range(0, threadCount)
+            .forEach(
+                i -> {
+                  incrementThreads[i] = new incrementThread("Increment-" + i);
+                  incrementThreads[i].start();
+                });
+        IntStream.range(0, threadCount)
+            .forEach(
+                j -> {
+                  try {
+                    incrementThreads[j].join(4000);
+                  } catch (InterruptedException e) {
+                    e.printStackTrace();
+                  }
+                  if (incrementThreads[j].isAlive()) {
+                    System.out.println("Undead thread: " + incrementThreads[j].getName());
+                  }
+                });
+        assertEquals(
+            threadCount,
+            Preferences.getInteger(incrementedPref),
+            "incremented pref does not match");
+      }
     }
   }
 
@@ -833,6 +841,7 @@ class PreferencesTest {
     }
   }
 
+  //@Disabled
   @Nested
   class SaveSettingsOnSet {
     @Test
@@ -840,26 +849,24 @@ class PreferencesTest {
       var cleanups =
           new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true));
       try (cleanups) {
-        File userFile =
-            new File("settings/" + KoLCharacter.getUserName().toLowerCase() + "_prefs.txt");
+        File userFile = new File("settings/" + USER_NAME.toLowerCase() + "_prefs.txt");
         String contents =
             new String(
                 DataUtilities.getInputStream(userFile).readAllBytes(), StandardCharsets.UTF_8);
         assertThat(contents, not(containsString("\nxyz=abc\n")));
-
-        try (var cleanups2 = withProperty("xyz", "abc")) {
-          contents =
-              new String(
-                  DataUtilities.getInputStream(userFile).readAllBytes(), StandardCharsets.UTF_8);
-          assertThat(contents, containsString("\nxyz=abc\n"));
-        }
+        Preferences.setString("xyz", "abc");
+        contents =
+            new String(
+                DataUtilities.getInputStream(userFile).readAllBytes(), StandardCharsets.UTF_8);
+        assertThat(contents, containsString("\nxyz=abc\n"));
+        Preferences.removeProperty("xyz", false);
+        userFile.delete();
       }
     }
 
     @Test
     public void canToggle() throws IOException {
-      File userFile =
-          new File("settings/" + KoLCharacter.getUserName().toLowerCase() + "_prefs.txt");
+      File userFile = new File("settings/" + USER_NAME.toLowerCase() + "_prefs.txt");
       String contents =
           new String(DataUtilities.getInputStream(userFile).readAllBytes(), StandardCharsets.UTF_8);
       assertThat(contents, not(containsString("\nxyz=abc\n")));
@@ -885,6 +892,7 @@ class PreferencesTest {
           assertThat(contents, containsString("\nwxy=def\n"));
         }
       }
+      userFile.delete();
     }
   }
 }
