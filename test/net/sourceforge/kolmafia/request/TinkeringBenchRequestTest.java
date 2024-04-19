@@ -48,29 +48,17 @@ public class TinkeringBenchRequestTest {
       return item.getQuantityPossible();
     }
 
-    @Test
-    void mildManneredProcessorCanCreate() {
-      var cleanups =
-          new Cleanups(
-              withPath(Path.WEREPROFESSOR),
-              withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR),
-              withItem(ItemPool.SMASHED_SCIENTIFIC_EQUIPMENT, 2),
-              withItem(ItemPool.TRIPHASIC_MOLECULAR_OCULUS),
-              withItem(ItemPool.MOTION_SENSOR),
-              withEquipped(Slot.ACCESSORY1, ItemPool.QUICK_RELEASE_FANNYPACK));
-      try (cleanups) {
-        assertEquals(0, creatableAmount(ItemPool.BIPHASIC_MOLECULAR_OCULUS));
-        assertEquals(0, creatableAmount(ItemPool.TRIPHASIC_MOLECULAR_OCULUS));
-        assertEquals(1, creatableAmount(ItemPool.HIGH_TENSION_EXOSKELETON));
-        assertEquals(1, creatableAmount(ItemPool.ULTRA_HIGH_TENSION_EXOSKELETON));
-        // *** The following should require 3 smashed scientific equipment
-        assertEquals(1, creatableAmount(ItemPool.IRRESPONSIBLE_TENSION_EXOSKELETON));
-        assertEquals(0, creatableAmount(ItemPool.QUICK_RELEASE_BELT_POUCH));
-        assertEquals(0, creatableAmount(ItemPool.QUICK_RELEASE_FANNYPACK));
-        assertEquals(1, creatableAmount(ItemPool.QUICK_RELEASE_UTILITY_BELT));
-        assertEquals(0, creatableAmount(ItemPool.MOTION_SENSOR));
-        assertEquals(1, creatableAmount(ItemPool.FOCUSED_MAGNETRON_PISTOL));
-      }
+    private void printCreatableAmounts() {
+      System.out.println(creatableAmount(ItemPool.BIPHASIC_MOLECULAR_OCULUS));
+      System.out.println(creatableAmount(ItemPool.TRIPHASIC_MOLECULAR_OCULUS));
+      System.out.println(creatableAmount(ItemPool.HIGH_TENSION_EXOSKELETON));
+      System.out.println(creatableAmount(ItemPool.ULTRA_HIGH_TENSION_EXOSKELETON));
+      System.out.println(creatableAmount(ItemPool.IRRESPONSIBLE_TENSION_EXOSKELETON));
+      System.out.println(creatableAmount(ItemPool.QUICK_RELEASE_BELT_POUCH));
+      System.out.println(creatableAmount(ItemPool.QUICK_RELEASE_FANNYPACK));
+      System.out.println(creatableAmount(ItemPool.QUICK_RELEASE_UTILITY_BELT));
+      System.out.println(creatableAmount(ItemPool.MOTION_SENSOR));
+      System.out.println(creatableAmount(ItemPool.FOCUSED_MAGNETRON_PISTOL));
     }
 
     @Test
@@ -79,10 +67,7 @@ public class TinkeringBenchRequestTest {
           new Cleanups(
               withPath(Path.WEREPROFESSOR),
               withIntrinsicEffect(EffectPool.SAVAGE_BEAST),
-              withItem(ItemPool.SMASHED_SCIENTIFIC_EQUIPMENT, 2),
-              withItem(ItemPool.TRIPHASIC_MOLECULAR_OCULUS),
-              withItem(ItemPool.MOTION_SENSOR),
-              withEquipped(Slot.ACCESSORY1, ItemPool.QUICK_RELEASE_FANNYPACK));
+              withItem(ItemPool.SMASHED_SCIENTIFIC_EQUIPMENT, 10));
       try (cleanups) {
         assertEquals(0, creatableAmount(ItemPool.BIPHASIC_MOLECULAR_OCULUS));
         assertEquals(0, creatableAmount(ItemPool.TRIPHASIC_MOLECULAR_OCULUS));
@@ -92,6 +77,122 @@ public class TinkeringBenchRequestTest {
         assertEquals(0, creatableAmount(ItemPool.QUICK_RELEASE_BELT_POUCH));
         assertEquals(0, creatableAmount(ItemPool.QUICK_RELEASE_FANNYPACK));
         assertEquals(0, creatableAmount(ItemPool.QUICK_RELEASE_UTILITY_BELT));
+        assertEquals(0, creatableAmount(ItemPool.MOTION_SENSOR));
+        assertEquals(0, creatableAmount(ItemPool.FOCUSED_MAGNETRON_PISTOL));
+      }
+    }
+
+    @Test
+    void mildManneredProcessorCanCreateOne() {
+      var cleanups =
+          new Cleanups(
+              withPath(Path.WEREPROFESSOR),
+              withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR),
+              withItem(ItemPool.SMASHED_SCIENTIFIC_EQUIPMENT, 1));
+      try (cleanups) {
+        assertEquals(1, creatableAmount(ItemPool.BIPHASIC_MOLECULAR_OCULUS));
+        assertEquals(0, creatableAmount(ItemPool.TRIPHASIC_MOLECULAR_OCULUS));
+        assertEquals(1, creatableAmount(ItemPool.HIGH_TENSION_EXOSKELETON));
+        assertEquals(0, creatableAmount(ItemPool.ULTRA_HIGH_TENSION_EXOSKELETON));
+        assertEquals(0, creatableAmount(ItemPool.IRRESPONSIBLE_TENSION_EXOSKELETON));
+        assertEquals(1, creatableAmount(ItemPool.QUICK_RELEASE_BELT_POUCH));
+        assertEquals(0, creatableAmount(ItemPool.QUICK_RELEASE_FANNYPACK));
+        assertEquals(0, creatableAmount(ItemPool.QUICK_RELEASE_UTILITY_BELT));
+        assertEquals(1, creatableAmount(ItemPool.MOTION_SENSOR));
+        assertEquals(1, creatableAmount(ItemPool.FOCUSED_MAGNETRON_PISTOL));
+      }
+    }
+
+    @Test
+    void mildManneredProcessorCanCreateTwo() {
+      var cleanups =
+          new Cleanups(
+              withPath(Path.WEREPROFESSOR),
+              withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR),
+              withItem(ItemPool.SMASHED_SCIENTIFIC_EQUIPMENT, 2));
+      try (cleanups) {
+        assertEquals(1, creatableAmount(ItemPool.BIPHASIC_MOLECULAR_OCULUS));
+        assertEquals(1, creatableAmount(ItemPool.TRIPHASIC_MOLECULAR_OCULUS));
+        assertEquals(1, creatableAmount(ItemPool.HIGH_TENSION_EXOSKELETON));
+        assertEquals(1, creatableAmount(ItemPool.ULTRA_HIGH_TENSION_EXOSKELETON));
+        assertEquals(0, creatableAmount(ItemPool.IRRESPONSIBLE_TENSION_EXOSKELETON));
+        assertEquals(1, creatableAmount(ItemPool.QUICK_RELEASE_BELT_POUCH));
+        assertEquals(1, creatableAmount(ItemPool.QUICK_RELEASE_FANNYPACK));
+        assertEquals(0, creatableAmount(ItemPool.QUICK_RELEASE_UTILITY_BELT));
+        assertEquals(1, creatableAmount(ItemPool.MOTION_SENSOR));
+        assertEquals(1, creatableAmount(ItemPool.FOCUSED_MAGNETRON_PISTOL));
+      }
+    }
+
+    @Test
+    void mildManneredProcessorCanCreateThree() {
+      var cleanups =
+          new Cleanups(
+              withPath(Path.WEREPROFESSOR),
+              withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR),
+              withItem(ItemPool.SMASHED_SCIENTIFIC_EQUIPMENT, 3));
+      try (cleanups) {
+        assertEquals(1, creatableAmount(ItemPool.BIPHASIC_MOLECULAR_OCULUS));
+        assertEquals(1, creatableAmount(ItemPool.TRIPHASIC_MOLECULAR_OCULUS));
+        assertEquals(1, creatableAmount(ItemPool.HIGH_TENSION_EXOSKELETON));
+        assertEquals(1, creatableAmount(ItemPool.ULTRA_HIGH_TENSION_EXOSKELETON));
+        assertEquals(1, creatableAmount(ItemPool.IRRESPONSIBLE_TENSION_EXOSKELETON));
+        assertEquals(1, creatableAmount(ItemPool.QUICK_RELEASE_BELT_POUCH));
+        assertEquals(1, creatableAmount(ItemPool.QUICK_RELEASE_FANNYPACK));
+        assertEquals(1, creatableAmount(ItemPool.QUICK_RELEASE_UTILITY_BELT));
+        assertEquals(1, creatableAmount(ItemPool.MOTION_SENSOR));
+        assertEquals(1, creatableAmount(ItemPool.FOCUSED_MAGNETRON_PISTOL));
+      }
+    }
+
+    @Test
+    void cannotCreateDuplicateItems() {
+      var cleanups =
+          new Cleanups(
+              withPath(Path.WEREPROFESSOR),
+              withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR),
+              withItem(ItemPool.BIPHASIC_MOLECULAR_OCULUS),
+              withItem(ItemPool.HIGH_TENSION_EXOSKELETON),
+              withItem(ItemPool.QUICK_RELEASE_BELT_POUCH),
+              withItem(ItemPool.MOTION_SENSOR),
+              withItem(ItemPool.FOCUSED_MAGNETRON_PISTOL),
+              withItem(ItemPool.SMASHED_SCIENTIFIC_EQUIPMENT, 3));
+      try (cleanups) {
+        assertEquals(0, creatableAmount(ItemPool.BIPHASIC_MOLECULAR_OCULUS));
+        assertEquals(1, creatableAmount(ItemPool.TRIPHASIC_MOLECULAR_OCULUS));
+        assertEquals(0, creatableAmount(ItemPool.HIGH_TENSION_EXOSKELETON));
+        assertEquals(1, creatableAmount(ItemPool.ULTRA_HIGH_TENSION_EXOSKELETON));
+        assertEquals(1, creatableAmount(ItemPool.IRRESPONSIBLE_TENSION_EXOSKELETON));
+        assertEquals(0, creatableAmount(ItemPool.QUICK_RELEASE_BELT_POUCH));
+        assertEquals(1, creatableAmount(ItemPool.QUICK_RELEASE_FANNYPACK));
+        assertEquals(1, creatableAmount(ItemPool.QUICK_RELEASE_UTILITY_BELT));
+        assertEquals(0, creatableAmount(ItemPool.MOTION_SENSOR));
+        assertEquals(0, creatableAmount(ItemPool.FOCUSED_MAGNETRON_PISTOL));
+      }
+    }
+
+    @Test
+    void canUpgradeEquippedItems() {
+      var cleanups =
+          new Cleanups(
+              withPath(Path.WEREPROFESSOR),
+              withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR),
+              withEquipped(Slot.HAT, ItemPool.BIPHASIC_MOLECULAR_OCULUS),
+              withEquipped(Slot.PANTS, ItemPool.HIGH_TENSION_EXOSKELETON),
+              withEquipped(Slot.ACCESSORY1, ItemPool.QUICK_RELEASE_BELT_POUCH),
+              withEquipped(Slot.ACCESSORY2, ItemPool.MOTION_SENSOR),
+              withEquipped(Slot.WEAPON, ItemPool.FOCUSED_MAGNETRON_PISTOL),
+              withItem(ItemPool.SMASHED_SCIENTIFIC_EQUIPMENT, 3));
+      try (cleanups) {
+        // printCreatableAmounts();
+        assertEquals(0, creatableAmount(ItemPool.BIPHASIC_MOLECULAR_OCULUS));
+        assertEquals(1, creatableAmount(ItemPool.TRIPHASIC_MOLECULAR_OCULUS));
+        assertEquals(0, creatableAmount(ItemPool.HIGH_TENSION_EXOSKELETON));
+        assertEquals(1, creatableAmount(ItemPool.ULTRA_HIGH_TENSION_EXOSKELETON));
+        assertEquals(1, creatableAmount(ItemPool.IRRESPONSIBLE_TENSION_EXOSKELETON));
+        assertEquals(0, creatableAmount(ItemPool.QUICK_RELEASE_BELT_POUCH));
+        assertEquals(1, creatableAmount(ItemPool.QUICK_RELEASE_FANNYPACK));
+        assertEquals(1, creatableAmount(ItemPool.QUICK_RELEASE_UTILITY_BELT));
         assertEquals(0, creatableAmount(ItemPool.MOTION_SENSOR));
         assertEquals(0, creatableAmount(ItemPool.FOCUSED_MAGNETRON_PISTOL));
       }
