@@ -1013,9 +1013,9 @@ public class AreaCombatData {
       int itemId = drop.item().getItemId();
       double itemBonus = 0.0;
 
-      if (ItemDatabase.isFood(itemId)) {
+      if (ItemDatabase.isFood(itemId) || ItemDatabase.isCookable(itemId)) {
         itemBonus += KoLCharacter.currentNumericModifier(DoubleModifier.FOODDROP) / 100.0;
-      } else if (ItemDatabase.isBooze(itemId)) {
+      } else if (ItemDatabase.isBooze(itemId) || ItemDatabase.isMixable(itemId)) {
         itemBonus += KoLCharacter.currentNumericModifier(DoubleModifier.BOOZEDROP) / 100.0;
       } else if (ItemDatabase.isCandyItem(itemId)) {
         itemBonus += KoLCharacter.currentNumericModifier(DoubleModifier.CANDYDROP) / 100.0;
