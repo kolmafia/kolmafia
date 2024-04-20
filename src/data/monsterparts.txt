@@ -650,16 +650,16 @@
 685	turtle trapper	arm	head	leg	torso
 686	evil spaghetti cult assassin	arm	head	leg	torso
 687	b&eacute;arnaise zombie	arm	head	leg	torso
-688	Hodgman, The Hoboverlord
+688	Hodgman, The Hoboverlord	arm	head	leg	torso
 689	Hot hobo	arm	head	leg	torso
 690	Cold hobo	arm	head	leg	torso
 691	Stench hobo	arm	head	leg	torso
 692	Spooky hobo	arm	head	leg	torso
 693	Sleaze hobo	arm	head	leg	torso
-694	Ol' Scratch
-695	Frosty
-696	Oscus
-697	Zombo
+694	Ol' Scratch	arm	head	leg	tail	torso
+695	Frosty	arm	head	leg	torso
+696	Oscus	arm	head	leg	torso
+697	Zombo	arm	head	leg	torso
 698	Chester
 699	flock of seagulls	head	leg	torso	wing
 700	mariachi bandolero	arm	head	leg	torso
@@ -1474,13 +1474,13 @@
 1552	stuffed moose head	antler	nose	plaque
 1553	full-length mirror	frame	glass
 1554	ancestral Spookyraven portrait	canvas	frame
-1555	sheet ghost	ectoplasm	sheet	torso
+1555	sheet ghost	ectoplasm	head	sheet	torso
 1556	monstrous boiler	exhaust	gauge	leg	pipe
 1557	steam elemental	cloud	face	mouth
 1558	coaltergeist	dust	nugget
 1559	Bram the Stoker	arm	head	leg	torso
 1560	plaid ghost	ectoplasm	head	sheet	torso
-1561	cabinet of Dr. Limpieza	bottle	door	hinge	shelf	wall
+1561	cabinet of Dr. Limpieza	bottle	door	hinge	leg	shelf	wall
 1562	possessed laundry press	engine	roller	steam
 1563	mad wino	arm	head	leg	torso
 1564	ghost of Elizabeth Spookyraven	ectoplasm	head	torso
@@ -1835,7 +1835,7 @@
 1939	Witchess Queen	arm	head	leg	torso
 1940	Witchess King	arm	head	leg	torso
 1941	Witchess Witch	arm	head	leg	torso
-1942	Witchess Bishop	arm	head	leg	torso
+1942	Witchess Bishop	arm	head	leg	mitre	torso
 1943	Cinco de Mayo reveler	arm	head	leg	torso
 1944	One Thousand Source Agents
 1945	Source Agent	arm	head	leg	torso
