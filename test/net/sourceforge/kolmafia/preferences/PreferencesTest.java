@@ -621,7 +621,7 @@ class PreferencesTest {
       }
     }
 
-    @Disabled
+    // this is causing the file writes
     @Test
     public void timeinDoesNotCauseRaceCondition() {
       String unrelatedPref = "coalmine";
@@ -677,7 +677,6 @@ class PreferencesTest {
             Preferences.getInteger(incrementedPref),
             "Incremented preference does not match");
       }
-      verboseDelete(SESSION_LOG);
     }
 
     public class resetThread extends Thread {
@@ -841,7 +840,7 @@ class PreferencesTest {
     }
   }
 
-  //@Disabled
+  @Disabled
   @Nested
   class SaveSettingsOnSet {
     @Test
