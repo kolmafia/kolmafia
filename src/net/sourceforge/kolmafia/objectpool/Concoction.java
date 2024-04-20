@@ -1001,6 +1001,10 @@ public class Concoction implements Comparable<Concoction> {
       this.visited = true;
     }
 
+    if (this.mixingMethod == CraftingType.TINKERING_BENCH && TinkeringBenchRequest.haveItem(this)) {
+      this.initial = 1;
+    }
+
     int alreadyHave = this.initial - this.allocated;
     if (alreadyHave < 0
         || requested <= 0) { // Already overspent this ingredient - either due to it being
@@ -1096,8 +1100,6 @@ public class Concoction implements Comparable<Concoction> {
         return StillSuitRequest.canMake() ? 1 : 0;
       case BURNING_LEAVES:
         return BurningLeavesRequest.canMake(this);
-      case TINKERING_BENCH:
-        return TinkeringBenchRequest.canMake(this) ? 1 : 0;
     }
 
     if (needToMake <= 0) { // Have enough on hand already.
@@ -1207,65 +1209,74 @@ public class Concoction implements Comparable<Concoction> {
       }
     }
 
-    // Still uses are also considered an ingredient.
-
-    if (minMake > 0 && this.mixingMethod == CraftingType.STILL) {
-      Concoction c = ConcoctionDatabase.stillsLimit;
-      minMake = Math.min(minMake, c.canMake(needToMake, visited, turnFreeOnly));
-      if (Concoction.debug) {
-        RequestLogger.printLine(
-            "- "
-                + this.name
-                + (lastMinMake == minMake ? " not limited" : " limited to " + minMake)
-                + " by stills");
-        lastMinMake = minMake;
-      }
-    }
-
-    // Tome summons are also considered an ingredient.
-
-    if (minMake > 0 && (this.mixingMethod == CraftingType.CLIPART)) {
-      Concoction c = ConcoctionDatabase.clipArtLimit;
-      minMake = Math.min(minMake, c.canMake(needToMake, visited, turnFreeOnly));
-      if (Concoction.debug) {
-        RequestLogger.printLine(
-            "- "
-                + this.name
-                + (lastMinMake == minMake ? " not limited" : " limited to " + minMake)
-                + " by tome summons");
-        lastMinMake = minMake;
-      }
-    }
-
-    // Terminal extrudes are also considered an ingredient.
-
-    if (minMake > 0 && (this.mixingMethod == CraftingType.TERMINAL)) {
-      Concoction c = ConcoctionDatabase.extrudeLimit;
-      minMake = Math.min(minMake, c.canMake(needToMake, visited, turnFreeOnly));
-      if (Concoction.debug) {
-        RequestLogger.printLine(
-            "- "
-                + this.name
-                + (lastMinMake == minMake ? " not limited" : " limited to " + minMake)
-                + " by terminal extrudes");
-      }
-    }
-
-    if (minMake > 0 && (this.mixingMethod == CraftingType.JARLS)) {
-      if (this.name.contains("Staff")) {
-        if (KoLConstants.inventory.contains(this.concoction)
-            || KoLCharacter.hasEquipped(this.concoction)) {
-          return alreadyHave;
-        } else {
-          return 1;
+    if (minMake > 0) {
+      switch (this.mixingMethod) {
+        case STILL -> {
+          // Still uses are also considered an ingredient.
+          Concoction c = ConcoctionDatabase.stillsLimit;
+          minMake = Math.min(minMake, c.canMake(needToMake, visited, turnFreeOnly));
+          if (Concoction.debug) {
+            RequestLogger.printLine(
+                "- "
+                    + this.name
+                    + (lastMinMake == minMake ? " not limited" : " limited to " + minMake)
+                    + " by stills");
+            lastMinMake = minMake;
+          }
         }
-      }
+        case CLIPART -> {
+          // Tome summons are also considered an ingredient.
+          Concoction c = ConcoctionDatabase.clipArtLimit;
+          minMake = Math.min(minMake, c.canMake(needToMake, visited, turnFreeOnly));
+          if (Concoction.debug) {
+            RequestLogger.printLine(
+                "- "
+                    + this.name
+                    + (lastMinMake == minMake ? " not limited" : " limited to " + minMake)
+                    + " by tome summons");
+            lastMinMake = minMake;
+          }
+        }
+        case TERMINAL -> {
+          // Terminal extrudes are also considered an ingredient.
+          Concoction c = ConcoctionDatabase.extrudeLimit;
+          minMake = Math.min(minMake, c.canMake(needToMake, visited, turnFreeOnly));
+          if (Concoction.debug) {
+            RequestLogger.printLine(
+                "- "
+                    + this.name
+                    + (lastMinMake == minMake ? " not limited" : " limited to " + minMake)
+                    + " by terminal extrudes");
+          }
+        }
+        case JARLS -> {
+          if (this.name.contains("Staff")) {
+            if (KoLConstants.inventory.contains(this.concoction)
+                || KoLCharacter.hasEquipped(this.concoction)) {
+              return alreadyHave;
+            }
+            return 1;
+          }
 
-      if (this.concoction.equals(ItemPool.get(ItemPool.COSMIC_SIX_PACK, 1))) {
-        if (Preferences.getBoolean("_cosmicSixPackConjured")) {
-          return alreadyHave;
-        } else {
-          return alreadyHave + 1;
+          if (this.concoction.equals(ItemPool.get(ItemPool.COSMIC_SIX_PACK, 1))) {
+            if (Preferences.getBoolean("_cosmicSixPackConjured")) {
+              return alreadyHave;
+            }
+            return alreadyHave + 1;
+          }
+        }
+        case TINKERING_BENCH -> {
+          // If we currently have the item, 1 is available
+          if (KoLConstants.inventory.contains(this.concoction)
+              || KoLCharacter.hasEquipped(this.concoction)) {
+            return 1;
+          }
+          // If already used to make something, can't make another.
+          if (!TinkeringBenchRequest.canMake(this)) {
+            return 0;
+          }
+          // Otherwise, regardless of ingredients, can only make 1
+          return 1;
         }
       }
     }

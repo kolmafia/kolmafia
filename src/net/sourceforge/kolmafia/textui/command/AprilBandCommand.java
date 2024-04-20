@@ -13,7 +13,7 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 public class AprilBandCommand extends AbstractCommand {
   public AprilBandCommand() {
     this.usage =
-        "effect [nc|c|drop] | item [instrument] | play [instrument] - participate in the apriling band";
+        " effect [nc|c|drop] | item [instrument] | play [instrument] - participate in the apriling band";
   }
 
   private boolean lacksHelmet() {
