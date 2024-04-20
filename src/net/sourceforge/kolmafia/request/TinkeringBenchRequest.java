@@ -41,7 +41,7 @@ public class TinkeringBenchRequest extends CreateItemRequest {
       this(itemId, 0);
     }
 
-    private boolean haveItem() {
+    public boolean haveItem() {
       return InventoryManager.getAccessibleCount(this.item) > 0;
     }
 
@@ -77,6 +77,10 @@ public class TinkeringBenchRequest extends CreateItemRequest {
 
   public static boolean canMake(final Concoction conc) {
     return TinkeredItem.find(conc).canMake();
+  }
+
+  public static boolean haveItem(final Concoction conc) {
+    return TinkeredItem.find(conc).haveItem();
   }
 
   public TinkeringBenchRequest(final Concoction conc) {

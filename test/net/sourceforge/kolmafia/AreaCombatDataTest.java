@@ -823,6 +823,30 @@ public class AreaCombatDataTest {
         assertThat(data, containsString("empty greasepaint tube (bounty)"));
       }
     }
+
+    @Test
+    void cookingIngredientsAreAffectedByFoodDrops() {
+      var cleanups = withEffect(EffectPool.WHET_APPETITE);
+
+      try (cleanups) {
+        var lab = AdventureDatabase.getAreaCombatData("Cobb's Knob Laboratory");
+
+        var data = lab.toString(true);
+        assertThat(data, containsString("scrumptious reagent 50%"));
+      }
+    }
+
+    @Test
+    void mixingIngredientsAreAffectedByBoozeDrops() {
+      var cleanups = withEffect(EffectPool.INFERNAL_THIRST);
+
+      try (cleanups) {
+        var iceHotel = AdventureDatabase.getAreaCombatData("The Ice Hotel");
+
+        var data = iceHotel.toString(true);
+        assertThat(data, containsString("perfect ice cube 90%"));
+      }
+    }
   }
 
   @Nested

@@ -271,6 +271,7 @@ public class EffectPool {
   public static final int MUFFLED = 1546;
   public static final int BORED_WITH_EXPLOSIONS = 1557;
   public static final int SOME_PIGS = 1640;
+  public static final int INFERNAL_THIRST = 1702;
   public static final int CONFIDENCE = 1791;
   public static final int PURR_OF_THE_FELINE = 1800;
   public static final int TAUNT_OF_HORUS = 1812;
@@ -363,6 +364,7 @@ public class EffectPool {
   public static final int LUCKY = 2693;
   public static final int ON_THE_TRAIL = 2694;
   public static final int BUZZED_ON_DISTILLATE = 2720;
+  public static final int WHET_APPETITE = 2724;
   public static final int PING_PONG_PROWESS = 2768;
   public static final int PING_PONG_PERSISTENCE = 2769;
   public static final int SHADOW_AFFINITY = 2802;
