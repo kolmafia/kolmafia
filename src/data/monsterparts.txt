@@ -1089,7 +1089,7 @@
 1160	baa-relief sheep	head	leg	tail	torso
 1161	craven carven raven	head	leg	torso	wing
 1162	clan of cave bars	head	leg	tail	torso
-1163	Baa'baa'bu'ran	head	wing
+1163	Baa'baa'bu'ran	head	tail	wing
 1164	four-shadowed mime	arm	head	leg	torso
 1165	scavenger bugbear	arm	head	leg	tail	torso
 1166	hypodermic bugbear	arm	head	tail	torso
@@ -1256,7 +1256,7 @@
 1327	Video Game Minion (weak)	body
 1328	Video Game Minion (moderate)	body
 1329	Video Game Minion (strong)	body
-1330	Video Game Miniboss	head	leg	torso
+1330	Video Game Miniboss	arm	head	leg	torso
 1331	Video Game Boss	arm	head	leg	torso
 1332	Fitness Giant	arm	head	leg	torso
 1333	Neckbeard Giant	arm	head	leg	torso
@@ -2165,7 +2165,7 @@
 2277	shadow prism	facet
 2278	shadow slab	slab
 2279	shadow snake	head	tail
-2280	shadow spider	head	leg	thorax
+2280	shadow spider	head	leg	leg	leg	leg	leg	leg	thorax
 2281	shadow stalk	stem	tip
 2282	shadow tree	branch	canopy	trunk
 2283	two-headed shadow bat	abyss	darkness	nothingness	shadow	void
