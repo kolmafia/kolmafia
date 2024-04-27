@@ -1680,7 +1680,7 @@
 1761	filthy pirate	arm	arrrrm	head	leg	pegleg	torso
 1762	funky pirate	arm	arrrrm	head	leg	torso
 1763	fishy pirate	arm	arrrrm	head	leg	torso
-1764	flashy pirate	arm	exposed circuity	head	leg	torso
+1764	flashy pirate	arm	exposed circuitry	head	leg	torso
 1765	toxic beastie	ooze-part	pseudopod	slime-bit
 1766	C<i>bzzt</i>er the Grisly Bear	arm	banjo	head	leg	torso
 1767	Skeezy the Jug Rat	arm	head	leg	torso
