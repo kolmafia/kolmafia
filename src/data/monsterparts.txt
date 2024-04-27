@@ -1686,7 +1686,7 @@
 1767	Skeezy the Jug Rat	arm	head	leg	torso
 1768	Gurgle the Turgle	arm	head	leg	shell
 1769	nasty bear	arm	head	leg	tail	torso
-1770	Wart Dinsey	brain	buzzsaw	globe	legs	radar dish
+1770	Wart Dinsey	brain	buzzsaw	glove	legs	oculus	radar dish
 1771	Lovestruck Tropical Honeymooners	arm	head	leg	torso
 1772	Drunken Tropical Vacationer	arm	head	leg	torso
 1773	Resort Waiter	arm	head	legs	torso
