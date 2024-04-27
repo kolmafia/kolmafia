@@ -1676,7 +1676,7 @@
 1757	Lot's Wife	face	garbage bag
 1758	angry tourist	arm	head	leg	torso
 1759	horrible tourist family	arm	child	father	head	leg	mother	torso
-1760	garbage tourist	arm	garbage bag	head	leg	torso
+1760	garbage tourist	arm	garbage bag	garbage bag	garbage bag	head	leg	torso
 1761	filthy pirate	arm	arrrrm	head	leg	pegleg	torso
 1762	funky pirate	arm	arrrrm	head	leg	torso
 1763	fishy pirate	arm	arrrrm	head	leg	torso
