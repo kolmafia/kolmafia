@@ -1667,7 +1667,7 @@
 1748	baguette lady	baguette	head	loaf	torso
 1749	dinner troll	arm	head	leg	nose
 1750	gingerbread murderer	arm	head	leg	torso
-1751	cooler wino	head	tail
+1751	cooler wino	arm	head	leg	torso
 1752	sewer snake with a sewer snake in it	head	tail
 1753	dire pigeon	head	torso	wing
 1754	malt liquor golem	bottle	bottle	bottle	head	torso
