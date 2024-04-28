@@ -25,6 +25,10 @@ public class Scope extends BasicScope {
     this.commands = new ArrayList<>();
   }
 
+  public void addCommand(final Command c) {
+    this.commands.add(c);
+  }
+
   @Override
   public void addCommand(final Command c, final Parser p) {
     if (c == null) {
@@ -33,7 +37,7 @@ public class Scope extends BasicScope {
       return;
     }
 
-    this.commands.add(c);
+    this.addCommand(c);
 
     if (this.barrier == BasicScope.BARRIER_NONE && c.assertBarrier()) {
       this.barrier = BasicScope.BARRIER_SEEN;

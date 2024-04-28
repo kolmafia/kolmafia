@@ -128,6 +128,43 @@ public abstract class BasicScope extends Command {
     return this.functions.remove(f);
   }
 
+  public final Function findFunction(final String name, FunctionType functionType) {
+    Function[] functions = this.functions.findFunctions(name);
+    return this.findFunction(functions, name, functionType);
+  }
+
+  private Function findFunction(
+      final Function[] functions, final String name, final FunctionType functionType) {
+    // Search the function list for a match
+    for (Function function : functions) {
+      if (functionType.equals(function.getFunctionType())) {
+        return function;
+      }
+    }
+
+    // Search the parent scope.
+    BasicScope parent = this.getParentScope();
+    if (parent != null) {
+      Function[] parentFunctions = parent.functions.findFunctions(name);
+      return parent.findFunction(parentFunctions, name, functionType);
+    }
+
+    return null;
+  }
+
+  public final FunctionValue findFunctionValue(final String name, final List<Evaluable> params) {
+    /*
+    // See if there is a Function variable with a matching name
+    Variable var = findVariable(name);
+    if (var != null && var.getType() instanceof FunctionType ft) {
+      if (ft.paramsMatch(params, match, vararg)) {
+        // *** return what?
+      }
+    }
+    */
+    return null;
+  }
+
   public final Function findFunction(final String name, final List<Evaluable> params) {
     return this.findFunction(name, params, MatchType.ANY);
   }
