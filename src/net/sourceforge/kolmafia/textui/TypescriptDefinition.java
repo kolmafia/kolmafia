@@ -24,7 +24,6 @@ import net.sourceforge.kolmafia.textui.parsetree.RecordType;
 import net.sourceforge.kolmafia.textui.parsetree.Symbol;
 import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.VarArgType;
-import net.sourceforge.kolmafia.textui.parsetree.VariableReference;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class TypescriptDefinition {
@@ -72,72 +71,105 @@ public class TypescriptDefinition {
           DataTypes.SLOT_TYPE,
           DataTypes.THRALL_TYPE);
 
-  private static List<Boolean> getVariadicParams(Function f) {
-    return f.getVariableReferences().stream()
-        .map(VariableReference::getRawType)
-        .map(type -> type instanceof VarArgType)
-        .collect(Collectors.toList());
-  }
+  private record TypescriptFunction(
+      String name,
+      String returnType,
+      TypescriptFunctionParameter[] params,
+      String[] deprecationWarning) {
 
-  private static List<String> getParamTypes(Function f) {
-    var paramTypes =
-        f.getVariableReferences().stream()
-            .map(VariableReference::getRawType)
-            .map(TypescriptDefinition::getType)
-            .collect(Collectors.toList());
+    public static TypescriptFunction fromFunction(LibraryFunction f) {
+      var functionName = JavascriptRuntime.toCamelCase(f.getName());
+      var returnType = getReturnType(f);
+      var params = getParamTypes(f);
 
-    switch (f.getName()) {
-      case "adv1", "adventure" -> {
-        if (paramTypes.size() >= 3) {
-          paramTypes.set(2, combatFilterType);
-        }
-      }
-      case "run_combat" -> {
-        if (paramTypes.size() >= 1) {
-          paramTypes.set(0, combatFilterType);
-        }
-      }
+      var deprecationWarning = f.deprecationWarning;
+      return new TypescriptFunction(functionName, returnType, params, deprecationWarning);
     }
 
-    return paramTypes;
+    private static String getReturnType(Function f) {
+      return switch (f.getName()) {
+        case "abort" -> "never";
+        case "fact_type" -> Arrays.stream(FactDatabase.FactType.values())
+            .map(v -> "\"" + v.toString() + "\"")
+            .collect(Collectors.joining(" | "));
+        default -> getType(f.getType());
+      };
+    }
+
+    private static TypescriptFunctionParameter[] getParamTypes(LibraryFunction f) {
+      int paramCount = f.getVariableReferences().size();
+      var params = new TypescriptFunctionParameter[paramCount];
+
+      for (int i = 0; i < paramCount; i++) {
+        params[i] = TypescriptFunctionParameter.fromFunctionParam(f, i);
+      }
+
+      return params;
+    }
+
+    public String format() {
+      var params =
+          Arrays.stream(this.params)
+              .map(TypescriptFunctionParameter::format)
+              .collect(Collectors.joining(", "));
+      var deprecationWarning =
+          (this.deprecationWarning.length > 0)
+              ? "/** @deprecated " + String.join("<br>", this.deprecationWarning) + " */\n"
+              : "";
+      return String.format(
+          "%sexport function %s(%s): %s;", deprecationWarning, this.name, params, this.returnType);
+    }
+  }
+
+  private static class TypescriptFunctionParameter {
+    public String name;
+    public String type;
+    public boolean isVariadic;
+    public boolean isOptional = false;
+
+    public TypescriptFunctionParameter(String name, String type, boolean isVariadic) {
+      this.name = name;
+      this.type = type;
+      this.isVariadic = isVariadic;
+    }
+
+    static TypescriptFunctionParameter fromFunctionParam(LibraryFunction f, int paramIndex) {
+      var ref = f.getVariableReferences().get(paramIndex);
+
+      var type = ref.getRawType();
+      var paramName = ref.getName();
+      var isVariadic = type instanceof VarArgType;
+      var tsType = getType(type);
+
+      switch (f.getName()) {
+        case "adv1", "adventure" -> {
+          if (paramIndex == 2) {
+            tsType = combatFilterType;
+          }
+        }
+        case "run_combat" -> {
+          if (paramIndex == 0) {
+            tsType = combatFilterType;
+          }
+        }
+      }
+
+      return new TypescriptFunctionParameter(paramName, tsType, isVariadic);
+    }
+
+    public String format() {
+      if (isVariadic) return String.format("...%s: %s", name, type);
+      if (isOptional) return String.format("%s?: %s", name, type);
+      return String.format("%s: %s", name, type);
+    }
   }
 
   private static String getType(Type t) {
     return INSTANCE.toJavascriptTypeName(t);
   }
 
-  private static String getReturnType(Function f) {
-    return switch (f.getName()) {
-      case "abort" -> "never";
-      case "fact_type" -> Arrays.stream(FactDatabase.FactType.values())
-          .map(v -> "\"" + v.toString() + "\"")
-          .collect(Collectors.joining(" | "));
-      default -> getType(f.getType());
-    };
-  }
-
   public static String formatFunction(LibraryFunction f) {
-    var name = JavascriptRuntime.toCamelCase(f.getName());
-    var type = getReturnType(f);
-    var paramTypes = getParamTypes(f);
-    var paramNames = f.getParameterNames();
-    var variadicParams = getVariadicParams(f);
-
-    var params =
-        IntStream.range(0, paramNames.size())
-            .mapToObj(
-                i ->
-                    variadicParams.get(i)
-                        ? String.format("...%s: %s", paramNames.get(i), paramTypes.get(i))
-                        : String.format("%s: %s", paramNames.get(i), paramTypes.get(i)))
-            .collect(Collectors.joining(", "));
-
-    var deprecationWarning =
-        (f.deprecationWarning.length > 0)
-            ? "/** @deprecated " + String.join("<br>", f.deprecationWarning) + " */\n"
-            : "";
-
-    return String.format("%sexport function %s(%s): %s;", deprecationWarning, name, params, type);
+    return TypescriptFunction.fromFunction(f).format();
   }
 
   private static Stream<LibraryFunction> getFunctions() {
