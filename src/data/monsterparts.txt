@@ -1667,7 +1667,7 @@
 1748	baguette lady	baguette	head	loaf	torso
 1749	dinner troll	arm	head	leg	nose
 1750	gingerbread murderer	arm	head	leg	torso
-1751	cooler wino	head	tail
+1751	cooler wino	arm	head	leg	torso
 1752	sewer snake with a sewer snake in it	head	tail
 1753	dire pigeon	head	torso	wing
 1754	malt liquor golem	bottle	bottle	bottle	head	torso
@@ -1676,17 +1676,17 @@
 1757	Lot's Wife	face	garbage bag
 1758	angry tourist	arm	head	leg	torso
 1759	horrible tourist family	arm	child	father	head	leg	mother	torso
-1760	garbage tourist	arm	garbage bag	head	leg	torso
-1761	filthy pirate	arrrrm	head	leg	pegleg	torso
-1762	funky pirate	arrrrm	head	leg	torso
-1763	fishy pirate	arrrrm	head	leg	torso
-1764	flashy pirate	arm	exposed circuity	head	leg	torso
+1760	garbage tourist	arm	garbage bag	garbage bag	garbage bag	head	leg	torso
+1761	filthy pirate	arm	arrrrm	head	leg	pegleg	torso
+1762	funky pirate	arm	arrrrm	head	leg	torso
+1763	fishy pirate	arm	arrrrm	head	leg	torso
+1764	flashy pirate	arm	exposed circuitry	head	leg	torso
 1765	toxic beastie	ooze-part	pseudopod	slime-bit
 1766	C<i>bzzt</i>er the Grisly Bear	arm	banjo	head	leg	torso
 1767	Skeezy the Jug Rat	arm	head	leg	torso
 1768	Gurgle the Turgle	arm	head	leg	shell
 1769	nasty bear	arm	head	leg	tail	torso
-1770	Wart Dinsey	brain	buzzsaw	globe	legs	radar dish
+1770	Wart Dinsey	brain	buzzsaw	glove	legs	oculus	radar dish
 1771	Lovestruck Tropical Honeymooners	arm	head	leg	torso
 1772	Drunken Tropical Vacationer	arm	head	leg	torso
 1773	Resort Waiter	arm	head	legs	torso
@@ -1726,7 +1726,7 @@
 1807	wailing mushroom guy	head	leg	torso
 1814	Mr. Choch	arm	head	leg	torso
 1815	Mr. Cheeng	arm	head	leg	torso
-1816	Travoltron	John Travolta
+1816	Travoltron	John Travolta	John Travolta	John Travolta	John Travolta	John Travolta
 1817	Geve Smimmons	arm	head	huge tongue	leg	torso
 1818	Raul Stamley	arm	head	leg	star	torso
 1819	Pener Crisp	arm	head	leg	torso	whiskers
