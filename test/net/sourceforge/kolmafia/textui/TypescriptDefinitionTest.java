@@ -10,6 +10,7 @@ import static org.hamcrest.Matchers.startsWith;
 import static org.hamcrest.text.CharSequenceLength.hasLength;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.textui.parsetree.LibraryFunction;
 import org.junit.jupiter.api.Test;
@@ -25,6 +26,16 @@ public class TypescriptDefinitionTest {
         .map(LibraryFunction.class::cast)
         .findFirst()
         .orElse(null);
+  }
+
+  private List<LibraryFunction> findFunctionOverloads(final String signaturePrefix) {
+    var name = signaturePrefix.substring(0, signaturePrefix.indexOf("("));
+
+    return Arrays.stream(RuntimeLibrary.functions.findFunctions(name))
+        .filter(f -> f.getSignature().startsWith(signaturePrefix))
+        .filter(LibraryFunction.class::isInstance)
+        .map(LibraryFunction.class::cast)
+        .toList();
   }
 
   @Test
@@ -52,6 +63,27 @@ public class TypescriptDefinitionTest {
   void canFormatFunctions(final String signature, final String formatted) {
     var fn = findFunction(signature);
     assertThat(TypescriptDefinition.formatFunction(fn), equalTo(formatted));
+  }
+
+  private static Stream<Arguments> provideStringsForMergeFunction() {
+    return Stream.of(
+        Arguments.of(
+            "adv1(location",
+            List.of(
+                "export function adv1(locationValue: Location, adventuresUsedValue?: number): boolean;",
+                "export function adv1(locationValue: Location, adventuresUsedValue: number, filterFunction?: string | ((round: number, monster: Monster, text: string) => string)): boolean;")),
+        Arguments.of(
+            "buy(item",
+            List.of(
+                "export function buy(item: Item, quantity?: number): boolean;",
+                "export function buy(item: Item, quantity: number, price: number): number;")));
+  }
+
+  @ParameterizedTest
+  @MethodSource("provideStringsForMergeFunction")
+  void mergesOverloadsToOptionalParameters(final String name, final List<String> lines) {
+    var fns = findFunctionOverloads(name);
+    assertThat(TypescriptDefinition.formatFunction(fns), equalTo(lines));
   }
 
   @Test

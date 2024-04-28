@@ -7,6 +7,9 @@ import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Comparator;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -107,6 +110,23 @@ public class TypescriptDefinition {
       return params;
     }
 
+    /*
+     * Check if the given function is equal to this one plus one additional parameter.
+     */
+    public boolean canMergeInto(TypescriptFunction other) {
+      if (other.params.length != this.params.length + 1) return false;
+
+      if (!this.name.equals(other.name)) return false;
+      if (!this.returnType.equals(other.returnType)) return false;
+      if (!Arrays.equals(this.deprecationWarning, other.deprecationWarning)) return false;
+      for (int i = 0; i < this.params.length; i++) {
+        if (!this.params[i].type.equals(other.params[i].type)) return false;
+        if (!this.params[i].name.equals(other.params[i].name)) return false;
+      }
+
+      return true;
+    }
+
     public String format() {
       var params =
           Arrays.stream(this.params)
@@ -172,6 +192,56 @@ public class TypescriptDefinition {
     return TypescriptFunction.fromFunction(f).format();
   }
 
+  /**
+   * Formats a list of function overloads into a list of TypeScript function signatures, merging
+   * compatible overloads into a single signature with the last parameter optional.
+   *
+   * @param functionOverloads a list of overloads of a single function (i.e. all with the same name)
+   * @return a list of formatted TypeScript function signatures
+   */
+  public static List<String> formatFunction(List<LibraryFunction> functionOverloads) {
+    var overloads =
+        functionOverloads.stream()
+            .map(TypescriptFunction::fromFunction)
+            // sort overloads by shortest param count first, so we can find optional params
+            .sorted(Comparator.comparingInt(a -> a.params.length))
+            .collect(Collectors.toCollection(ArrayList::new));
+
+    var result = new LinkedList<String>();
+
+    overload:
+    for (int i = 0; i < overloads.size(); i++) {
+      var f = overloads.get(i);
+
+      // try to find an overload with one additional parameter
+      for (int j = i + 1; j < overloads.size(); j++) {
+        var next = overloads.get(j);
+
+        if (!f.canMergeInto(next)) continue;
+
+        // NOTE: because TypeScript allows passing undefined for optional parameters, we can
+        //       only mark the very last one of each overloaded signature as optional
+
+        // mark other signature's last parameter as optional
+        next.params[next.params.length - 1].isOptional = true;
+
+        var hasOptionalParam = f.params.length > 0 && f.params[f.params.length - 1].isOptional;
+        if (hasOptionalParam) {
+          // this overload has an optional last parameter, so it was already used to skip
+          // a previous one, and cannot be omitted
+          break;
+        } else {
+          // this overload is fully included in the overload we just marked, so skip it
+          continue overload;
+        }
+      }
+
+      result.add(f.format());
+    }
+
+    return result;
+  }
+
   private static Stream<LibraryFunction> getFunctions() {
     return JavascriptRuntime.getFunctions().stream()
         .filter(f -> !f.getName().equals("delete"))
@@ -180,7 +250,14 @@ public class TypescriptDefinition {
   }
 
   private static List<String> getFunctionDefinitions() {
-    return getFunctions().map(TypescriptDefinition::formatFunction).toList();
+    return getFunctions()
+        .collect(
+            Collectors.groupingBy(
+                LibraryFunction::getName, LinkedHashMap::new, Collectors.toList()))
+        .values()
+        .stream()
+        .flatMap(functionOverloads -> formatFunction(functionOverloads).stream())
+        .toList();
   }
 
   private static List<String> getFunctionHeaders() {
