@@ -192,6 +192,8 @@ import net.sourceforge.kolmafia.textui.parsetree.RecordType;
 import net.sourceforge.kolmafia.textui.parsetree.RecordValue;
 import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
+import net.sourceforge.kolmafia.textui.parsetree.Variable;
+import net.sourceforge.kolmafia.textui.parsetree.VariableReference;
 import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
@@ -330,8 +332,13 @@ public abstract class RuntimeLibrary {
     return RuntimeLibrary.functions;
   }
 
+  private static VariableReference namedParam(String name, Type type) {
+    return new VariableReference(null, new Variable(name, type, null));
+  }
+
   static {
     Type[] params;
+    List<VariableReference> namedParams;
 
     // Basic utility functions which print information
     // or allow for easy testing.
@@ -820,32 +827,56 @@ public abstract class RuntimeLibrary {
     params = new Type[] {DataTypes.ITEM_TYPE};
     functions.add(new LibraryFunction("buy", DataTypes.BOOLEAN_TYPE, params));
 
-    params = new Type[] {DataTypes.ITEM_TYPE, DataTypes.INT_TYPE};
-    functions.add(new LibraryFunction("buy", DataTypes.BOOLEAN_TYPE, params));
+    namedParams =
+        List.of(
+            namedParam("item", DataTypes.ITEM_TYPE), namedParam("quantity", DataTypes.INT_TYPE));
+    functions.add(new LibraryFunction("buy", DataTypes.BOOLEAN_TYPE, namedParams));
 
-    params = new Type[] {DataTypes.ITEM_TYPE, DataTypes.INT_TYPE, DataTypes.INT_TYPE};
-    functions.add(new LibraryFunction("buy", DataTypes.INT_TYPE, params));
+    namedParams =
+        List.of(
+            namedParam("item", DataTypes.ITEM_TYPE),
+            namedParam("quantity", DataTypes.INT_TYPE),
+            namedParam("price", DataTypes.INT_TYPE));
+    functions.add(new LibraryFunction("buy", DataTypes.INT_TYPE, namedParams));
 
-    params = new Type[] {DataTypes.INT_TYPE, DataTypes.ITEM_TYPE};
-    functions.add(new LibraryFunction("buy", DataTypes.BOOLEAN_TYPE, params));
+    namedParams =
+        List.of(
+            namedParam("quantity", DataTypes.INT_TYPE), namedParam("item", DataTypes.ITEM_TYPE));
+    functions.add(new LibraryFunction("buy", DataTypes.BOOLEAN_TYPE, namedParams));
 
-    params = new Type[] {DataTypes.INT_TYPE, DataTypes.ITEM_TYPE, DataTypes.INT_TYPE};
-    functions.add(new LibraryFunction("buy", DataTypes.INT_TYPE, params));
+    namedParams =
+        List.of(
+            namedParam("quantity", DataTypes.INT_TYPE),
+            namedParam("item", DataTypes.ITEM_TYPE),
+            namedParam("price", DataTypes.INT_TYPE));
+    functions.add(new LibraryFunction("buy", DataTypes.INT_TYPE, namedParams));
 
     params = new Type[] {DataTypes.ITEM_TYPE};
     functions.add(new LibraryFunction("buy_using_storage", DataTypes.BOOLEAN_TYPE, params));
 
-    params = new Type[] {DataTypes.ITEM_TYPE, DataTypes.INT_TYPE};
-    functions.add(new LibraryFunction("buy_using_storage", DataTypes.BOOLEAN_TYPE, params));
+    namedParams =
+        List.of(
+            namedParam("item", DataTypes.ITEM_TYPE), namedParam("quantity", DataTypes.INT_TYPE));
+    functions.add(new LibraryFunction("buy_using_storage", DataTypes.BOOLEAN_TYPE, namedParams));
 
-    params = new Type[] {DataTypes.ITEM_TYPE, DataTypes.INT_TYPE, DataTypes.INT_TYPE};
-    functions.add(new LibraryFunction("buy_using_storage", DataTypes.INT_TYPE, params));
+    namedParams =
+        List.of(
+            namedParam("item", DataTypes.ITEM_TYPE),
+            namedParam("quantity", DataTypes.INT_TYPE),
+            namedParam("price", DataTypes.INT_TYPE));
+    functions.add(new LibraryFunction("buy_using_storage", DataTypes.INT_TYPE, namedParams));
 
-    params = new Type[] {DataTypes.INT_TYPE, DataTypes.ITEM_TYPE};
-    functions.add(new LibraryFunction("buy_using_storage", DataTypes.BOOLEAN_TYPE, params));
+    namedParams =
+        List.of(
+            namedParam("quantity", DataTypes.INT_TYPE), namedParam("item", DataTypes.ITEM_TYPE));
+    functions.add(new LibraryFunction("buy_using_storage", DataTypes.BOOLEAN_TYPE, namedParams));
 
-    params = new Type[] {DataTypes.INT_TYPE, DataTypes.ITEM_TYPE, DataTypes.INT_TYPE};
-    functions.add(new LibraryFunction("buy_using_storage", DataTypes.INT_TYPE, params));
+    namedParams =
+        List.of(
+            namedParam("quantity", DataTypes.INT_TYPE),
+            namedParam("item", DataTypes.ITEM_TYPE),
+            namedParam("price", DataTypes.INT_TYPE));
+    functions.add(new LibraryFunction("buy_using_storage", DataTypes.INT_TYPE, namedParams));
 
     params = new Type[] {DataTypes.COINMASTER_TYPE};
     functions.add(new LibraryFunction("is_accessible", DataTypes.BOOLEAN_TYPE, params));
@@ -856,8 +887,12 @@ public abstract class RuntimeLibrary {
     params = new Type[] {DataTypes.COINMASTER_TYPE};
     functions.add(new LibraryFunction("visit", DataTypes.BOOLEAN_TYPE, params));
 
-    params = new Type[] {DataTypes.COINMASTER_TYPE, DataTypes.INT_TYPE, DataTypes.ITEM_TYPE};
-    functions.add(new LibraryFunction("buy", DataTypes.BOOLEAN_TYPE, params));
+    namedParams =
+        List.of(
+            namedParam("coinmaster", DataTypes.COINMASTER_TYPE),
+            namedParam("quantity", DataTypes.INT_TYPE),
+            namedParam("item", DataTypes.ITEM_TYPE));
+    functions.add(new LibraryFunction("buy", DataTypes.BOOLEAN_TYPE, namedParams));
 
     params = new Type[] {DataTypes.COINMASTER_TYPE, DataTypes.INT_TYPE, DataTypes.ITEM_TYPE};
     functions.add(new LibraryFunction("sell", DataTypes.BOOLEAN_TYPE, params));
@@ -1701,11 +1736,11 @@ public abstract class RuntimeLibrary {
 
     // Equipment functions.
 
-    params = new Type[] {DataTypes.ITEM_TYPE};
-    functions.add(new LibraryFunction("can_equip", DataTypes.BOOLEAN_TYPE, params));
+    namedParams = List.of(namedParam("equipment", DataTypes.ITEM_TYPE));
+    functions.add(new LibraryFunction("can_equip", DataTypes.BOOLEAN_TYPE, namedParams));
 
-    params = new Type[] {DataTypes.FAMILIAR_TYPE};
-    functions.add(new LibraryFunction("can_equip", DataTypes.BOOLEAN_TYPE, params));
+    namedParams = List.of(namedParam("familiar", DataTypes.FAMILIAR_TYPE));
+    functions.add(new LibraryFunction("can_equip", DataTypes.BOOLEAN_TYPE, namedParams));
 
     params = new Type[] {DataTypes.FAMILIAR_TYPE, DataTypes.ITEM_TYPE};
     functions.add(new LibraryFunction("can_equip", DataTypes.BOOLEAN_TYPE, params));
