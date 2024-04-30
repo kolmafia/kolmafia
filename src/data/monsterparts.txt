@@ -434,7 +434,7 @@
 459	oasis monster	whirl	wind
 460	blur	arm	head	leg	torso
 461	swarm of fire ants	ant
-462	giant giant giant centipede	head	leg	leg	leg	leg
+462	giant giant giant centipede	head	leg	leg	leg	leg	leg
 463	rock scorpion	arm	head	leg	tail
 464	Lord Spookyraven	arm	head	leg	torso
 465	cactuary	arm	head	leg	torso
