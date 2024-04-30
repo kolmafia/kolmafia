@@ -161,7 +161,7 @@
 178	One-Eyed Willie	eye	head	star
 179	Trouser Snake	head	star	tail
 180	Family Jewels	facet	star
-181	Junk	hull	mast	star
+181	Junk	hull	mast	sail	star
 182	Pork Sword	blade	hilt	star
 183	Hooded Warrior	arm	head	leg	star	torso
 184	Astronomer	arm	head	leg	star	torso
@@ -327,9 +327,9 @@
 352	Twig and Berries	berry	star	twig
 353	Skinflute	finger-hole	mouthpiece	star
 354	Astronomer (obsolete)	arm	head	leg	star	torso
-355	Trippy Floating Head (Mona Lisa)	chin	ear	eye	hair	head	nose
+355	Trippy Floating Head (Mona Lisa)	chin	eye	hair	head	nose
 356	Trippy Floating Head (Casey Kasem)	chin	ear	eye	head	nose
-357	Trippy Floating Head (Grand Moff Tarkin)	chin	ear	head	nose	widow's peak
+357	Trippy Floating Head (Grand Moff Tarkin)	chin	ear	eye	head	nose	widow's peak
 358	Zombie Baby	arm	head	leg	torso
 359	Swarm of Country Bats	head	wing
 360	Urge to Stare at Your Hands	compulsion
@@ -434,7 +434,7 @@
 459	oasis monster	whirl	wind
 460	blur	arm	head	leg	torso
 461	swarm of fire ants	ant
-462	giant giant giant centipede	head	leg
+462	giant giant giant centipede	head	leg	leg	leg	leg	leg
 463	rock scorpion	arm	head	leg	tail
 464	Lord Spookyraven	arm	head	leg	torso
 465	cactuary	arm	head	leg	torso
@@ -1170,7 +1170,7 @@
 1241	Big Wheelin' Twins	arm	head	leg	torso
 1242	Mismatched Twins	arm	head	leg	torso
 1243	Creepy Ginger Twin	arm	head	leg	torso
-1244	Troll Twins	arm	hair	head	leg
+1244	Troll Twins	arm	hair	head	leg	torso
 1245	spider (duck?) topiary animal	beak	leg	mandible
 1246	bearpig topiary animal	head	leg	snout	tail	torso
 1247	elephant (meatcar?) topiary animal	head	trunk	wheels
@@ -1419,9 +1419,9 @@
 1497	licorice snake	head	tail
 1498	tricksy pixie	arm	head	leg	torso	wing
 1499	fire truck	antenna	body	fender	ladder	wheel
-1500	ice cream truck	body	fender	ladder	wheel
+1500	ice cream truck	antenna	body	fender	ladder	wheel
 1501	sewer tanker	antenna	body	fender	ladder	wheel
-1502	monster hearse	body	door	fender	mirror	wheel
+1502	monster hearse	body	coffin	door	fender	mirror	wheel
 1503	sketchy van	creeper	door	tire	windshield
 1504	Medieval strawman debator	arm	head	leg	torso
 1505	Medieval leather mug salesman	arm	head	leg	torso
@@ -1452,7 +1452,7 @@
 1530	Jefferson pilot	arm	head	leg	torso
 1531	Ron "The Weasel" Copperhead	arm	head	leg	torso
 1532	fan dancer	arm	head	leg	torso
-1533	lynyrd	head	torso
+1533	lynyrd	head	tail	torso
 1534	The Nuge	arm	head	leg	torso
 1535	The Avatar of Jarlsberg	arm	head	leg	torso
 1536	Thinknerd Sorting Robot	camera	hose	mouth
@@ -1689,7 +1689,7 @@
 1770	Wart Dinsey	brain	buzzsaw	glove	legs	oculus	radar dish
 1771	Lovestruck Tropical Honeymooners	arm	head	leg	torso
 1772	Drunken Tropical Vacationer	arm	head	leg	torso
-1773	Resort Waiter	arm	head	legs	torso
+1773	Resort Waiter	arm	head	leg	torso
 1774	Brick Mulligan, the Bartender	arm	head	leg	torso
 1775	The Unknown Seal Clubber	arm	head	leg	torso
 1776	The Unknown Turtle Tamer	arm	head	leg	torso
@@ -1750,7 +1750,7 @@
 1854	ice clerk	arm	head	leg	torso
 1855	Tin of Submardines	lid	tin
 1856	Norwhal	body	flipper	head	tusk
-1857	Arctic Octolus	eye	head	tentacle
+1857	Arctic Octolus	eye	eye	eye	head	tentacle
 1858	X-32-F Combat Training Snowman	arm	head	torso
 1859	Performer of Actions	feel	shape	size	taste
 1860	Thinker of Thoughts	idea	inkling	notion	thought
@@ -2192,7 +2192,7 @@
 2316	Classic Boss Bat	head	torso	wing
 2317	Weirdly Scrawny Knob Goblin King	arm	head	leg	torso
 2318	Orignial Bonerdagon	head	tail	torso	wing
-2319	Jr. Awkwarj
+2319	Jr. Awkwarj	arm	head	leg	torso
 2320	Little Lord Spookyraven	arm	head	leg	torso
 2321	Protector Spectre Candidate
 2322	Flock of Groars?	arm	head	leg	wing
