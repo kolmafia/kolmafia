@@ -155,7 +155,11 @@ public class TypescriptDefinition {
     return getFunctions()
         .map(Symbol::getName)
         .distinct()
-        .map(f -> String.format("module.exports.%s = warn;", JavascriptRuntime.toCamelCase(f)))
+        .map(
+            f ->
+                String.format(
+                    "module.exports.%1$s = function %1$s() { throw new Error(`Cannot access the KoLmafia standard library from a normal JavaScript context.`); };",
+                    JavascriptRuntime.toCamelCase(f)))
         .toList();
   }
 
@@ -368,9 +372,7 @@ public class TypescriptDefinition {
 
   public static String getHeaderFileContents() {
     return Stream.of(
-            List.of(
-                "const warn = () => { throw new Error(`Cannot access the KoLmafia standard library from a normal JavaScript context.`); }",
-                "module.exports.sessionStorage = {};"),
+            List.of("module.exports.sessionStorage = {};"),
             getFunctionHeaders(),
             getMafiaClassHeaders())
         .flatMap(Collection::stream)
