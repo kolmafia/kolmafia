@@ -12,6 +12,7 @@ import java.io.PrintStream;
 import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ContactManager;
@@ -156,7 +157,7 @@ class CustomScriptTest {
 
       var newFunction =
           new LibraryFunction(
-              "deprecated_function", DataTypes.VOID_TYPE, new Type[] {}, "Deprecation warning");
+              "deprecated_function", DataTypes.VOID_TYPE, List.of(), "Deprecation warning");
       RuntimeLibrary.functions.add(newFunction);
 
       try (PrintStream out = new PrintStream(outputStream, true)) {
