@@ -77,6 +77,14 @@ public abstract class AshStub extends BaseFunction {
   public Object call(Context cx, Scriptable scope, Scriptable thisObj, Object[] args) {
     JavascriptRuntime.checkInterrupted();
 
+    // strip trailing undefined arguments, allowing to pass undefined for optional arguments
+    // If we ever support undefined values, this will have to become a bit more elaborate, but for
+    // now every undefined value leads to an error anyway, so this is fine.
+    int definedArgs = args.length;
+    while (definedArgs > 0 && Undefined.isUndefined(args[definedArgs - 1])) {
+      definedArgs -= 1;
+    }
+
     ValueConverter coercer = new ValueConverter(cx, scope);
 
     // Find library function matching arguments, in two stages.
@@ -84,7 +92,8 @@ public abstract class AshStub extends BaseFunction {
     // as ANY_TYPE, which will be replaced in findMatchingFunction with the target type
     // to force a match. This is mainly relevant for empty arrays and records.
     List<Value> ashArgs = new ArrayList<>();
-    for (final Object original : args) {
+    for (int i = 0; i < definedArgs; i++) {
+      Object original = args[i];
       if (Undefined.isUndefined(original)) {
         throw controller.runtimeException("Passing undefined to an ASH function is not supported.");
       }
