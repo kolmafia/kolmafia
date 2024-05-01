@@ -11596,3 +11596,22 @@
 11568	Apriling band tuba	360234564	tuba.gif	weapon	q	0
 11569	Apriling band staff	295593615	staff_april.gif	offhand	q	0
 11570	Apriling band piccolo	760923456	piccolo.gif	familiar	q	0
+11571	boxed mayam calendar	633964170	nopic.gif	usable	t	0
+11572	Mayam Calendar	243774189	yamcal.gif	usable		0
+11573	yam	801960895	yam.gif	food, cook, mix	t,d	5
+11574	yam martini	451008769	martini.gif	drink, mix	t,d	65
+11575	sweet potato o' mine	971008770	martini.gif	drink, mix	t,d	115
+11576	Southern yam	987803560	fruitym.gif	drink	t,d	115
+11577	sweet potato punch	851409708	coconut.gif	drink	t,d	115
+11578
+11579	yam and swiss	444359187	hamsandwich.gif	food	t,d	50
+11580
+11581
+11582
+11583	stuffed yam stinkbomb	708760617	yambomb2.gif	none, combat	t,d	50
+11584
+11585
+11586
+11587	yam slider	593891884	burger.gif	food	t,d	11
+11588
+11589	yam burrito	855430740	burrito.gif	food	t,d	11

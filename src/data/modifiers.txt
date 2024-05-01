@@ -5401,6 +5401,7 @@ Effect	Beta Carotene Overdose	Item Drop: +50
 Effect	Better Off Bread	Avatar: "Bread Golem"
 Effect	Beyond the Pail	Avatar: "fishy pirate"
 Effect	Big	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20
+Effect	Big Eyes	Item Drop: +30
 Effect	Big Flaming Whip	Hot Damage: +20, Damage Reduction: 5
 Effect	Big Meat Big Prizes	Meat Drop: +50
 Effect	Big Ol' Glass of Rum	Moxie: +20
@@ -5503,6 +5504,7 @@ Effect	Bored Stiff	Spooky Damage: +100
 # Bored With Explosions: You're just over them
 Effect	Boschface	Hot Damage: +25, Cold Damage: +25, Stench Damage: +25, Spooky Damage: +25, Sleaze Damage: +25
 Effect	Bottle in front of Me	Spell Damage: +15
+Effect	Bottled Fortitude	Maximum HP: +100, HP Regen Min: 15, HP Regen Max: 20
 Effect	Bounty of Renenutet	Item Drop: +50
 # Bow-Legged Swagger: Your Physical Damage and Initiative bonuses are doubled
 # Bow-Legged Swagger: Need precise definition for Physical Damage.  Possibly Weapon Damage and Ranged Damage.
@@ -6757,11 +6759,11 @@ Effect	Metal Speed	Initiative: +20
 Effect	Meteor Showered	Weapon Damage Percent: +200, Spell Damage Percent: +200, Familiar Weight: +20
 Effect	Midgetized	Damage Reduction: 4, Weapon Damage: -8
 Effect	Mighty Shout	Muscle Percent: +100, Moxie Percent: +100
+Effect	Mild Lycanthropy	Muscle Percent: [+1*M], Moxie Percent: [+1*M]
 # Mild-Mannered Professor: Max HP Limited to 1
 # Mild-Mannered Professor: You may not attack normally
 # Mild-Mannered Professor: Running away is always successful
 Effect	Mild-Mannered Professor	Combat Rate: -25, Muscle Limit: 1, Mysticality Limit: 5, Moxie Limit: 1
-Effect	Mild Lycanthropy	Muscle Percent: [+1*M], Moxie Percent: [+1*M]
 Effect	Militarily Minted	Damage Reduction: 3
 Effect	Milk is Blood is Milk	Muscle: [-5*T], Mysticality: [-5*T], Moxie: [-5*T], Muscle Percent: [-50*T], Mysticality Percent: [-50*T], Moxie Percent: [-50*T]
 Effect	Milk Studly	Muscle: +15
@@ -7907,6 +7909,7 @@ Effect	Vented Spleen	Weapon Damage: +25
 Effect	Very Attractive	Combat Rate: +10
 Effect	Very Clean Guns	Ranged Damage: +20
 Effect	Very Clean Teeth	Moxie: +1
+Effect	Vessel of Magic	Maximum MP: +100, MP Regen Min: 8, MP Regen Max: 12
 Effect	Video Game Hot Dog	Item Drop: +25, Meat Drop: +25
 # Video... Games?: +5% Damage vs. Bugbears
 # Video... Games?: +5% Damage vs. Werewolves
@@ -7932,6 +7935,7 @@ Effect	WAKKA WAKKA WAKKA	Monster Level: +20
 Effect	Walberg's Dim Bulb	Initiative: +10
 Effect	Walking Carpet	Avatar: "grouchy furry monster"
 Effect	Wall Rage	Item Drop: +50
+Effect	Walled In	Damage Reduction: 10, Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Effect	Wallflowering	Damage Absorption: +100, Damage Reduction: 10
 Effect	Wandering Eye Surgery	Item Drop: +50
 # Wanged: Unable to use obnoxious abbreviations
@@ -11213,6 +11217,7 @@ Item	box of sunshine	Free Pull
 Item	boxed Apriling band helmet	Free Pull
 Item	boxed august scepter	Free Pull
 Item	boxed autumn-aton	Free Pull
+Item	boxed mayam calendar	Free Pull
 Item	Boxing Day care package	Free Pull
 # brain preservation fluid: Drink it for 5 Adventures!
 # brass abacus: Stuns your opponent for a few rounds
@@ -11872,6 +11877,7 @@ Item	March hat	Free Pull
 # Massive Manual of Marauder Mockery: Makes marauder mockery mossible
 # mauve plastic oyster egg: Deals 40-50 Physical Damage
 Item	Maxing, Relaxing	Skill: "Maximum Chill"
+Item	Mayam Calendar	Free Pull
 # MayDay&trade; contract: Survival supplies will be delivered to you each day
 Item	MayDay&trade; contract	Free Pull
 Item	MayDay&trade; supply package	Effect: "Ready to Survive", Effect Duration: 30
@@ -12411,6 +12417,7 @@ Item	still grill	Free Pull
 # stuffed alien blob: Randomly Becomes a Different Combat Item When Used
 # stuffed doppelshifter: Randomly Becomes a Different Combat Item When Used
 # stuffed gray blob: Randomly becomes a different combat item when used
+# stuffed yam stinkbomb: Banish a monster for 15 turns
 Item	stuffed-shirt scarecrow	Free Pull
 # sugar shard: Restores 10-20 HP and 5-10 MP
 Item	Summer Nights	Skill: "Grease Lightning"
