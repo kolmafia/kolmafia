@@ -17,6 +17,7 @@ import org.mozilla.javascript.BaseFunction;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.NativeJavaObject;
 import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.Undefined;
 
 public abstract class AshStub extends BaseFunction {
   private static final long serialVersionUID = 1L;
@@ -84,6 +85,9 @@ public abstract class AshStub extends BaseFunction {
     // to force a match. This is mainly relevant for empty arrays and records.
     List<Value> ashArgs = new ArrayList<>();
     for (final Object original : args) {
+      if (Undefined.isUndefined(original)) {
+        throw controller.runtimeException("Passing undefined to an ASH function is not supported.");
+      }
       Value coerced = coercer.fromJava(original);
       if (coerced == null
           || (coerced.getType() instanceof AggregateType agg
