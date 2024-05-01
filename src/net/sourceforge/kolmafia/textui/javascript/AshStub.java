@@ -6,15 +6,18 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Parser;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
+import net.sourceforge.kolmafia.textui.parsetree.AggregateType;
 import net.sourceforge.kolmafia.textui.parsetree.Function;
 import net.sourceforge.kolmafia.textui.parsetree.Function.MatchType;
 import net.sourceforge.kolmafia.textui.parsetree.FunctionList;
 import net.sourceforge.kolmafia.textui.parsetree.ProxyRecordValue;
+import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
 import org.mozilla.javascript.BaseFunction;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.NativeJavaObject;
 import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.Undefined;
 
 public abstract class AshStub extends BaseFunction {
   private static final long serialVersionUID = 1L;
@@ -38,26 +41,36 @@ public abstract class AshStub extends BaseFunction {
 
   protected abstract Value execute(Function function, List<Value> ashArgs);
 
-  private Function findMatchingFunction(List<Value> ashArgs) {
-    Function function = null;
+  private Function findMatchingFunction(List<Value> ashArgs, boolean coerceAnyType) {
     Function[] libraryFunctions = getAllFunctions().findFunctions(ashFunctionName);
+
+    if (coerceAnyType && ashArgs.stream().noneMatch(v -> v.getType() == DataTypes.ANY_TYPE)) {
+      coerceAnyType = false;
+    }
+    List<Value> coercedArgs = coerceAnyType ? new ArrayList<>(ashArgs) : ashArgs;
 
     MatchType[] matchTypes = {MatchType.EXACT, MatchType.BASE, MatchType.COERCE};
     for (MatchType matchType : matchTypes) {
       for (Function testFunction : libraryFunctions) {
-        // Check for match with no vararg, then match with vararg.
-        if (testFunction.paramsMatch(ashArgs, matchType, /* vararg= */ false)
-            || testFunction.paramsMatch(ashArgs, matchType, /* vararg= */ true)) {
-          function = testFunction;
-          break;
+        if (coerceAnyType) {
+          for (int i = 0; i < ashArgs.size(); i++) {
+            if (ashArgs.get(i).getType() == DataTypes.ANY_TYPE) {
+              Type expectedType = testFunction.getVariableReferences().get(i).getType();
+              Value coerced = new Value(expectedType);
+              coercedArgs.set(i, coerced);
+            }
+          }
         }
-      }
-      if (function != null) {
-        break;
+
+        // Check for match with no vararg, then match with vararg.
+        if (testFunction.paramsMatch(coercedArgs, matchType, /* vararg= */ false)
+            || testFunction.paramsMatch(coercedArgs, matchType, /* vararg= */ true)) {
+          return testFunction;
+        }
       }
     }
 
-    return function;
+    return null;
   }
 
   @Override
@@ -67,37 +80,51 @@ public abstract class AshStub extends BaseFunction {
     ValueConverter coercer = new ValueConverter(cx, scope);
 
     // Find library function matching arguments, in two stages.
-    // First, designate any arguments where we can't determine type from JS as ANY_TYPE.
+    // First, designate any arguments where we can't determine type (or aggregate type) from JS
+    // as ANY_TYPE, which will be replaced in findMatchingFunction with the target type
+    // to force a match. This is mainly relevant for empty arrays and records.
     List<Value> ashArgs = new ArrayList<>();
     for (final Object original : args) {
+      if (Undefined.isUndefined(original)) {
+        throw controller.runtimeException("Passing undefined to an ASH function is not supported.");
+      }
       Value coerced = coercer.fromJava(original);
-      if (coerced == null) {
+      if (coerced == null
+          || (coerced.getType() instanceof AggregateType agg
+              && agg.getDataType().equals(DataTypes.ANY_TYPE))) {
         coerced = new Value(DataTypes.ANY_TYPE);
       }
       ashArgs.add(coerced);
     }
-    Function function = findMatchingFunction(ashArgs);
+    Function function = findMatchingFunction(ashArgs, true);
 
     if (function == null) {
       throw controller.runtimeException(Parser.undefinedFunctionMessage(ashFunctionName, ashArgs));
     }
 
-    // Second, infer the type for any missing arguments from the closest function match.
+    // Second, infer the type for any ANY_TYPE arguments from the closest function match.
+    boolean argsChanged = false;
     for (int i = 0; i < ashArgs.size(); i++) {
-      Object original = args[i];
-      Value coerced = coercer.fromJava(original);
-      if (coerced == null) {
-        // Try again, this time with a type hint.
-        coerced = coercer.fromJava(original, function.getVariableReferences().get(i).getType());
-        if (coerced == null) {
-          throw controller.runtimeException("Could not coerce argument to valid ASH value.");
-        }
+      if (ashArgs.get(i).getType() != DataTypes.ANY_TYPE) {
+        continue;
       }
+      Object original = args[i];
+      // Try again, this time with a type hint.
+      Type typeHint = function.getVariableReferences().get(i).getType();
+      Value coerced = coercer.fromJava(original, typeHint);
+      if (coerced == null || coerced.getType() == DataTypes.ANY_TYPE) {
+        throw controller.runtimeException("Could not coerce argument to valid ASH value.");
+      }
+      ashArgs.set(i, coerced);
+      argsChanged = true;
     }
-    function = findMatchingFunction(ashArgs);
+    if (argsChanged) {
+      function = findMatchingFunction(ashArgs, false);
 
-    if (function == null) {
-      throw controller.runtimeException(Parser.undefinedFunctionMessage(ashFunctionName, ashArgs));
+      if (function == null) {
+        throw controller.runtimeException(
+            Parser.undefinedFunctionMessage(ashFunctionName, ashArgs));
+      }
     }
 
     Value ashReturnValue = execute(function, ashArgs);

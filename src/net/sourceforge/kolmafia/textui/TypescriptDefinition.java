@@ -36,21 +36,6 @@ public class TypescriptDefinition {
   private static final String combatFilterType =
       "string | ((round: number, monster: Monster, text: string) => string)";
 
-  private static final Map<String, List<String>> descriptiveParamNames =
-      Map.ofEntries(
-          Map.entry("canEquip[Item]", List.of("equipment")),
-          Map.entry("canEquip[Familiar]", List.of("familiar")),
-          Map.entry("canEquip[Familiar, Item]", List.of("familiar", "equipment")),
-          Map.entry("buy[Item,number]", List.of("item", "quantity")),
-          Map.entry("buy[Item,number,number]", List.of("item", "quantity", "price")),
-          Map.entry("buy[number,Item,number]", List.of("quantity", "item", "price")),
-          Map.entry("buy[number,Item]", List.of("quantity", "item")),
-          Map.entry("buy[Coinmaster,number,Item]", List.of("coinmaster", "quantity", "item")),
-          Map.entry("buyUsingStorage[Item,number]", List.of("item", "quantity")),
-          Map.entry("buyUsingStorage[Item,number,number]", List.of("item", "quantity", "price")),
-          Map.entry("buyUsingStorage[number,Item,number]", List.of("quantity", "item", "price")),
-          Map.entry("buyUsingStorage[number,Item]", List.of("quantity", "item")));
-
   private static final Map<String, String> descriptiveFieldTypes =
       Map.ofEntries(
           Map.entry("Bounty.location", "Location"),
@@ -135,8 +120,7 @@ public class TypescriptDefinition {
     var name = JavascriptRuntime.toCamelCase(f.getName());
     var type = getReturnType(f);
     var paramTypes = getParamTypes(f);
-    var overrideKey = String.format("%s[%s]", name, String.join(",", paramTypes));
-    var paramNames = descriptiveParamNames.getOrDefault(overrideKey, f.getParameterNames());
+    var paramNames = f.getParameterNames();
     var variadicParams = getVariadicParams(f);
 
     var params =
@@ -171,7 +155,11 @@ public class TypescriptDefinition {
     return getFunctions()
         .map(Symbol::getName)
         .distinct()
-        .map(f -> String.format("module.exports.%s = warn;", JavascriptRuntime.toCamelCase(f)))
+        .map(
+            f ->
+                String.format(
+                    "module.exports.%1$s = function %1$s() { throw new Error(`Cannot access the KoLmafia standard library from a normal JavaScript context.`); };",
+                    JavascriptRuntime.toCamelCase(f)))
         .toList();
   }
 
@@ -384,9 +372,7 @@ public class TypescriptDefinition {
 
   public static String getHeaderFileContents() {
     return Stream.of(
-            List.of(
-                "const warn = () => { throw new Error(`Cannot access the KoLmafia standard library from a normal JavaScript context.`); }",
-                "module.exports.sessionStorage = {};"),
+            List.of("module.exports.sessionStorage = {};"),
             getFunctionHeaders(),
             getMafiaClassHeaders())
         .flatMap(Collection::stream)

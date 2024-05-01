@@ -9798,6 +9798,7 @@ public abstract class ChoiceControl {
       case 1518: // Prepare your Meal
       case 1523: // Research Bench
       case 1526: // Conduct the Band
+      case 1527: // Consider the Calendar
         return true;
 
       default:
