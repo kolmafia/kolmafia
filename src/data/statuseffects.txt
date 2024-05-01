@@ -2904,3 +2904,8 @@
 2901	Apriling Band Patrol Beat	april_music1.gif	315f72f3d2d9f02cddf2b78dca3fbaa6	neutral	none
 2902	Apriling Band Battle Cadence	april_music2.gif	7a55b609635e7b112bfd40b437b85146	neutral	none
 2903	Apriling Band Celebration Bop	april_music3.gif	9d4971782dac388aaac6be8bf96ef5d6	neutral	none
+2904	Bottled Fortitude	yambottle.gif	a3104be510b30e74b21828e4d7e5cf80	neutral	none
+2905	Big Eyes	yameye.gif	591a425ca0ccb96788051388c5e581eb	neutral	none
+2906	Vessel of Magic	yamvessel.gif	b05746e8d34ef035bb7785fec0969265	neutral	none
+2907	Walled In	wallshield.gif	ac00a12dba132bffe22567b7c63ba2c8	neutral	none
+2908	Caught Yam-Handed	yam.gif	7804213456259ccd0588f39945748e05	neutral	none

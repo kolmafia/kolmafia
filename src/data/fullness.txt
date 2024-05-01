@@ -1080,7 +1080,12 @@ witch's bread	3	6	awesome	12-15	0	30-45	0	20 Witch Breaded (+100% Mys, +200% Spe
 wizened master roll	3	1	sushi	9-14	20-30	28-46	20-30	45/55 Fishy
 wreath-shaped Crimbo cookie	2	7	awesome	6-12	0	0	0	10/20 Wreathed in Merriment (+10% mox)
 Xiblaxian ultraburrito	4	7	EPIC	19-22	50	50	50
+yam	1	1	awesome	0	0	0	0	Unspaded
+yam and swiss	1	1	awesome	0	0	0	0	Unspaded
+yam burrito	1	1	awesome	0	0	0	0	Unspaded
 yam candy	3	1	good	5-10	0	31-34	0
+yam mayo	1	1	awesome	0	0	0	0	Unspaded
+yam slider	1	1	awesome	0	0	0	0	Unspaded
 Yeg's Motel pillow mint	1	1	good	3	80-100	80-100	80-100	10 Really Quite Poisoned (-70% all stats), 10 Temporary Blindness (-75% item, -25% mox, -30% init)
 yellow drunki-bear	4	6	EPIC	22-26	0	0	200-240	4 Fullness 80 Gummskin (+100 Mox)
 yellow matter custard	2	6	good	4-8	10-15	10-15	10-15
