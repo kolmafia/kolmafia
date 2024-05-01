@@ -504,9 +504,9 @@ public abstract class RuntimeLibrary {
 
     params =
         List.of(
-            namedParam("arg1", DataTypes.STRING_TYPE),
-            namedParam("arg2", DataTypes.BOOLEAN_TYPE),
-            namedParam("arg3", DataTypes.BOOLEAN_TYPE));
+            namedParam("string", DataTypes.STRING_TYPE),
+            namedParam("usePostMethod", DataTypes.BOOLEAN_TYPE),
+            namedParam("encoded", DataTypes.BOOLEAN_TYPE));
     functions.add(new LibraryFunction("make_url", DataTypes.STRING_TYPE, params));
 
     params = List.of(namedParam("delay", DataTypes.INT_TYPE));
@@ -609,33 +609,33 @@ public abstract class RuntimeLibrary {
     params = List.of(namedParam("value", DataTypes.STRICT_STRING_TYPE));
     functions.add(new LibraryFunction("to_stat", DataTypes.STAT_TYPE, params));
 
-    params = List.of(namedParam("value", DataTypes.STRICT_STRING_TYPE));
+    params = List.of(namedParam("name", DataTypes.STRICT_STRING_TYPE));
     functions.add(new LibraryFunction("to_skill", DataTypes.SKILL_TYPE, params));
     params =
         List.of(
-            namedParam("value1", DataTypes.STRICT_STRING_TYPE),
-            namedParam("value2", DataTypes.STRICT_STRING_TYPE));
+            namedParam("name", DataTypes.STRICT_STRING_TYPE),
+            namedParam("type", DataTypes.STRICT_STRING_TYPE));
     functions.add(new LibraryFunction("to_skill", DataTypes.SKILL_TYPE, params));
-    params = List.of(namedParam("value", DataTypes.INT_TYPE));
+    params = List.of(namedParam("id", DataTypes.INT_TYPE));
     functions.add(new LibraryFunction("to_skill", DataTypes.SKILL_TYPE, params));
-    params = List.of(namedParam("value", DataTypes.EFFECT_TYPE));
+    params = List.of(namedParam("effect", DataTypes.EFFECT_TYPE));
     functions.add(new LibraryFunction("to_skill", DataTypes.SKILL_TYPE, params));
 
-    params = List.of(namedParam("value", DataTypes.STRICT_STRING_TYPE));
+    params = List.of(namedParam("name", DataTypes.STRICT_STRING_TYPE));
     functions.add(new LibraryFunction("to_effect", DataTypes.EFFECT_TYPE, params));
-    params = List.of(namedParam("value", DataTypes.INT_TYPE));
+    params = List.of(namedParam("id", DataTypes.INT_TYPE));
     functions.add(new LibraryFunction("to_effect", DataTypes.EFFECT_TYPE, params));
-    params = List.of(namedParam("value", DataTypes.SKILL_TYPE));
+    params = List.of(namedParam("skill", DataTypes.SKILL_TYPE));
     functions.add(new LibraryFunction("to_effect", DataTypes.EFFECT_TYPE, params));
 
-    params = List.of(namedParam("value", DataTypes.STRICT_STRING_TYPE));
+    params = List.of(namedParam("name", DataTypes.STRICT_STRING_TYPE));
     functions.add(new LibraryFunction("to_familiar", DataTypes.FAMILIAR_TYPE, params));
-    params = List.of(namedParam("value", DataTypes.INT_TYPE));
+    params = List.of(namedParam("id", DataTypes.INT_TYPE));
     functions.add(new LibraryFunction("to_familiar", DataTypes.FAMILIAR_TYPE, params));
 
-    params = List.of(namedParam("value", DataTypes.STRICT_STRING_TYPE));
+    params = List.of(namedParam("name", DataTypes.STRICT_STRING_TYPE));
     functions.add(new LibraryFunction("to_monster", DataTypes.MONSTER_TYPE, params));
-    params = List.of(namedParam("value", DataTypes.INT_TYPE));
+    params = List.of(namedParam("id", DataTypes.INT_TYPE));
     functions.add(new LibraryFunction("to_monster", DataTypes.MONSTER_TYPE, params));
 
     params = List.of(namedParam("value", DataTypes.STRICT_STRING_TYPE));
@@ -803,13 +803,13 @@ public abstract class RuntimeLibrary {
 
     // Major functions related to adventuring and item management.
 
-    params = List.of(namedParam("arg", DataTypes.LOCATION_TYPE));
+    params = List.of(namedParam("location", DataTypes.LOCATION_TYPE));
     functions.add(new LibraryFunction("pre_validate_adventure", DataTypes.BOOLEAN_TYPE, params));
 
-    params = List.of(namedParam("arg", DataTypes.LOCATION_TYPE));
+    params = List.of(namedParam("location", DataTypes.LOCATION_TYPE));
     functions.add(new LibraryFunction("can_adventure", DataTypes.BOOLEAN_TYPE, params));
 
-    params = List.of(namedParam("arg", DataTypes.LOCATION_TYPE));
+    params = List.of(namedParam("location", DataTypes.LOCATION_TYPE));
     functions.add(new LibraryFunction("prepare_for_adventure", DataTypes.BOOLEAN_TYPE, params));
 
     params = List.of(namedParam("location", DataTypes.LOCATION_TYPE));
@@ -874,19 +874,19 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("can_still_steal", DataTypes.BOOLEAN_TYPE, params));
 
     params =
-        List.of(namedParam("arg1", DataTypes.INT_TYPE), namedParam("arg2", DataTypes.ITEM_TYPE));
+        List.of(namedParam("count", DataTypes.INT_TYPE), namedParam("item", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("add_item_condition", DataTypes.VOID_TYPE, params));
 
     params =
-        List.of(namedParam("arg1", DataTypes.ITEM_TYPE), namedParam("arg2", DataTypes.INT_TYPE));
+        List.of(namedParam("item", DataTypes.ITEM_TYPE), namedParam("count", DataTypes.INT_TYPE));
     functions.add(new LibraryFunction("add_item_condition", DataTypes.VOID_TYPE, params));
 
     params =
-        List.of(namedParam("arg1", DataTypes.INT_TYPE), namedParam("arg2", DataTypes.ITEM_TYPE));
+        List.of(namedParam("count", DataTypes.INT_TYPE), namedParam("item", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("remove_item_condition", DataTypes.VOID_TYPE, params));
 
     params =
-        List.of(namedParam("arg1", DataTypes.ITEM_TYPE), namedParam("arg2", DataTypes.INT_TYPE));
+        List.of(namedParam("item", DataTypes.ITEM_TYPE), namedParam("count", DataTypes.INT_TYPE));
     functions.add(new LibraryFunction("remove_item_condition", DataTypes.VOID_TYPE, params));
 
     params = List.of(namedParam("check", DataTypes.STRING_TYPE));
@@ -996,44 +996,44 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("create", DataTypes.BOOLEAN_TYPE, params));
 
     params =
-        List.of(namedParam("arg1", DataTypes.ITEM_TYPE), namedParam("arg2", DataTypes.INT_TYPE));
+        List.of(namedParam("item", DataTypes.ITEM_TYPE), namedParam("count", DataTypes.INT_TYPE));
     functions.add(new LibraryFunction("create", DataTypes.BOOLEAN_TYPE, params));
 
     params =
-        List.of(namedParam("arg1", DataTypes.INT_TYPE), namedParam("arg2", DataTypes.ITEM_TYPE));
+        List.of(namedParam("count", DataTypes.INT_TYPE), namedParam("item", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("create", DataTypes.BOOLEAN_TYPE, params));
 
     params = List.of(namedParam("item", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("use", DataTypes.BOOLEAN_TYPE, params));
 
     params =
-        List.of(namedParam("arg1", DataTypes.ITEM_TYPE), namedParam("arg2", DataTypes.INT_TYPE));
+        List.of(namedParam("item", DataTypes.ITEM_TYPE), namedParam("count", DataTypes.INT_TYPE));
     functions.add(new LibraryFunction("use", DataTypes.BOOLEAN_TYPE, params));
 
     params =
-        List.of(namedParam("arg1", DataTypes.INT_TYPE), namedParam("arg2", DataTypes.ITEM_TYPE));
+        List.of(namedParam("count", DataTypes.INT_TYPE), namedParam("item", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("use", DataTypes.BOOLEAN_TYPE, params));
 
     params = List.of(namedParam("item", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("eat", DataTypes.BOOLEAN_TYPE, params));
 
     params =
-        List.of(namedParam("arg1", DataTypes.ITEM_TYPE), namedParam("arg2", DataTypes.INT_TYPE));
+        List.of(namedParam("item", DataTypes.ITEM_TYPE), namedParam("count", DataTypes.INT_TYPE));
     functions.add(new LibraryFunction("eat", DataTypes.BOOLEAN_TYPE, params));
 
     params =
-        List.of(namedParam("arg1", DataTypes.INT_TYPE), namedParam("arg2", DataTypes.ITEM_TYPE));
+        List.of(namedParam("count", DataTypes.INT_TYPE), namedParam("item", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("eat", DataTypes.BOOLEAN_TYPE, params));
 
     params = List.of(namedParam("item", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("eatsilent", DataTypes.BOOLEAN_TYPE, params));
 
     params =
-        List.of(namedParam("arg1", DataTypes.ITEM_TYPE), namedParam("arg2", DataTypes.INT_TYPE));
+        List.of(namedParam("item", DataTypes.ITEM_TYPE), namedParam("count", DataTypes.INT_TYPE));
     functions.add(new LibraryFunction("eatsilent", DataTypes.BOOLEAN_TYPE, params));
 
     params =
-        List.of(namedParam("arg1", DataTypes.INT_TYPE), namedParam("arg2", DataTypes.ITEM_TYPE));
+        List.of(namedParam("count", DataTypes.INT_TYPE), namedParam("item", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("eatsilent", DataTypes.BOOLEAN_TYPE, params));
 
     params = List.of();
@@ -1043,33 +1043,33 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("drink", DataTypes.BOOLEAN_TYPE, params));
 
     params =
-        List.of(namedParam("arg1", DataTypes.ITEM_TYPE), namedParam("arg2", DataTypes.INT_TYPE));
+        List.of(namedParam("item", DataTypes.ITEM_TYPE), namedParam("count", DataTypes.INT_TYPE));
     functions.add(new LibraryFunction("drink", DataTypes.BOOLEAN_TYPE, params));
 
     params =
-        List.of(namedParam("arg1", DataTypes.INT_TYPE), namedParam("arg2", DataTypes.ITEM_TYPE));
+        List.of(namedParam("count", DataTypes.INT_TYPE), namedParam("item", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("drink", DataTypes.BOOLEAN_TYPE, params));
 
     params = List.of(namedParam("item", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("overdrink", DataTypes.BOOLEAN_TYPE, params));
 
     params =
-        List.of(namedParam("arg1", DataTypes.ITEM_TYPE), namedParam("arg2", DataTypes.INT_TYPE));
+        List.of(namedParam("item", DataTypes.ITEM_TYPE), namedParam("count", DataTypes.INT_TYPE));
     functions.add(new LibraryFunction("overdrink", DataTypes.BOOLEAN_TYPE, params));
 
     params =
-        List.of(namedParam("arg1", DataTypes.INT_TYPE), namedParam("arg2", DataTypes.ITEM_TYPE));
+        List.of(namedParam("count", DataTypes.INT_TYPE), namedParam("item", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("overdrink", DataTypes.BOOLEAN_TYPE, params));
 
     params = List.of(namedParam("item", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("drinksilent", DataTypes.BOOLEAN_TYPE, params));
 
     params =
-        List.of(namedParam("arg1", DataTypes.ITEM_TYPE), namedParam("arg2", DataTypes.INT_TYPE));
+        List.of(namedParam("item", DataTypes.ITEM_TYPE), namedParam("count", DataTypes.INT_TYPE));
     functions.add(new LibraryFunction("drinksilent", DataTypes.BOOLEAN_TYPE, params));
 
     params =
-        List.of(namedParam("arg1", DataTypes.INT_TYPE), namedParam("arg2", DataTypes.ITEM_TYPE));
+        List.of(namedParam("count", DataTypes.INT_TYPE), namedParam("item", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("drinksilent", DataTypes.BOOLEAN_TYPE, params));
 
     params = List.of();
@@ -1079,11 +1079,11 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("chew", DataTypes.BOOLEAN_TYPE, params));
 
     params =
-        List.of(namedParam("arg1", DataTypes.ITEM_TYPE), namedParam("arg2", DataTypes.INT_TYPE));
+        List.of(namedParam("item", DataTypes.ITEM_TYPE), namedParam("count", DataTypes.INT_TYPE));
     functions.add(new LibraryFunction("chew", DataTypes.BOOLEAN_TYPE, params));
 
     params =
-        List.of(namedParam("arg1", DataTypes.INT_TYPE), namedParam("arg2", DataTypes.ITEM_TYPE));
+        List.of(namedParam("count", DataTypes.INT_TYPE), namedParam("item", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("chew", DataTypes.BOOLEAN_TYPE, params));
 
     params = List.of();
@@ -1092,18 +1092,18 @@ public abstract class RuntimeLibrary {
     params = List.of();
     functions.add(new LibraryFunction("empty_closet", DataTypes.BOOLEAN_TYPE, params));
 
-    params = List.of(namedParam("arg1", DataTypes.INT_TYPE));
+    params = List.of(namedParam("meat", DataTypes.INT_TYPE));
     functions.add(new LibraryFunction("put_closet", DataTypes.BOOLEAN_TYPE, params));
 
-    params = List.of(namedParam("arg1", DataTypes.ITEM_TYPE));
-    functions.add(new LibraryFunction("put_closet", DataTypes.BOOLEAN_TYPE, params));
-
-    params =
-        List.of(namedParam("arg1", DataTypes.ITEM_TYPE), namedParam("arg2", DataTypes.INT_TYPE));
+    params = List.of(namedParam("item", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("put_closet", DataTypes.BOOLEAN_TYPE, params));
 
     params =
-        List.of(namedParam("arg1", DataTypes.INT_TYPE), namedParam("arg2", DataTypes.ITEM_TYPE));
+        List.of(namedParam("item", DataTypes.ITEM_TYPE), namedParam("count", DataTypes.INT_TYPE));
+    functions.add(new LibraryFunction("put_closet", DataTypes.BOOLEAN_TYPE, params));
+
+    params =
+        List.of(namedParam("count", DataTypes.INT_TYPE), namedParam("item", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("put_closet", DataTypes.BOOLEAN_TYPE, params));
 
     params =
@@ -1150,116 +1150,116 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("reprice_shop", DataTypes.BOOLEAN_TYPE, params));
 
     params =
-        List.of(namedParam("arg1", DataTypes.ITEM_TYPE), namedParam("arg2", DataTypes.INT_TYPE));
+        List.of(namedParam("item", DataTypes.ITEM_TYPE), namedParam("count", DataTypes.INT_TYPE));
     functions.add(new LibraryFunction("put_stash", DataTypes.BOOLEAN_TYPE, params));
 
     params =
-        List.of(namedParam("arg1", DataTypes.INT_TYPE), namedParam("arg2", DataTypes.ITEM_TYPE));
+        List.of(namedParam("count", DataTypes.INT_TYPE), namedParam("item", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("put_stash", DataTypes.BOOLEAN_TYPE, params));
 
     params =
-        List.of(namedParam("arg1", DataTypes.INT_TYPE), namedParam("arg2", DataTypes.ITEM_TYPE));
+        List.of(namedParam("count", DataTypes.INT_TYPE), namedParam("item", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("put_display", DataTypes.BOOLEAN_TYPE, params));
 
     params =
-        List.of(namedParam("arg1", DataTypes.ITEM_TYPE), namedParam("arg2", DataTypes.INT_TYPE));
+        List.of(namedParam("item", DataTypes.ITEM_TYPE), namedParam("count", DataTypes.INT_TYPE));
     functions.add(new LibraryFunction("put_display", DataTypes.BOOLEAN_TYPE, params));
 
-    params = List.of(namedParam("arg1", DataTypes.INT_TYPE));
+    params = List.of(namedParam("meat", DataTypes.INT_TYPE));
     functions.add(new LibraryFunction("take_closet", DataTypes.BOOLEAN_TYPE, params));
 
-    params = List.of(namedParam("arg1", DataTypes.ITEM_TYPE));
-    functions.add(new LibraryFunction("take_closet", DataTypes.BOOLEAN_TYPE, params));
-
-    params =
-        List.of(namedParam("arg1", DataTypes.ITEM_TYPE), namedParam("arg2", DataTypes.INT_TYPE));
+    params = List.of(namedParam("item", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("take_closet", DataTypes.BOOLEAN_TYPE, params));
 
     params =
-        List.of(namedParam("arg1", DataTypes.INT_TYPE), namedParam("arg2", DataTypes.ITEM_TYPE));
+        List.of(namedParam("item", DataTypes.ITEM_TYPE), namedParam("count", DataTypes.INT_TYPE));
+    functions.add(new LibraryFunction("take_closet", DataTypes.BOOLEAN_TYPE, params));
+
+    params =
+        List.of(namedParam("count", DataTypes.INT_TYPE), namedParam("item", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("take_closet", DataTypes.BOOLEAN_TYPE, params));
 
     params = List.of(namedParam("itemValue", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("take_shop", DataTypes.BOOLEAN_TYPE, params));
 
     params =
-        List.of(namedParam("arg1", DataTypes.INT_TYPE), namedParam("arg2", DataTypes.ITEM_TYPE));
+        List.of(namedParam("count", DataTypes.INT_TYPE), namedParam("item", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("take_shop", DataTypes.BOOLEAN_TYPE, params));
 
     params =
-        List.of(namedParam("arg1", DataTypes.ITEM_TYPE), namedParam("arg2", DataTypes.INT_TYPE));
+        List.of(namedParam("item", DataTypes.ITEM_TYPE), namedParam("count", DataTypes.INT_TYPE));
     functions.add(new LibraryFunction("take_storage", DataTypes.BOOLEAN_TYPE, params));
 
     params =
-        List.of(namedParam("arg1", DataTypes.INT_TYPE), namedParam("arg2", DataTypes.ITEM_TYPE));
+        List.of(namedParam("count", DataTypes.INT_TYPE), namedParam("item", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("take_storage", DataTypes.BOOLEAN_TYPE, params));
 
     params =
-        List.of(namedParam("arg1", DataTypes.ITEM_TYPE), namedParam("arg2", DataTypes.INT_TYPE));
+        List.of(namedParam("item", DataTypes.ITEM_TYPE), namedParam("count", DataTypes.INT_TYPE));
     functions.add(new LibraryFunction("take_display", DataTypes.BOOLEAN_TYPE, params));
 
     params =
-        List.of(namedParam("arg1", DataTypes.INT_TYPE), namedParam("arg2", DataTypes.ITEM_TYPE));
+        List.of(namedParam("count", DataTypes.INT_TYPE), namedParam("item", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("take_display", DataTypes.BOOLEAN_TYPE, params));
 
     params =
-        List.of(namedParam("arg1", DataTypes.ITEM_TYPE), namedParam("arg2", DataTypes.INT_TYPE));
+        List.of(namedParam("item", DataTypes.ITEM_TYPE), namedParam("count", DataTypes.INT_TYPE));
     functions.add(new LibraryFunction("take_stash", DataTypes.BOOLEAN_TYPE, params));
 
     params =
-        List.of(namedParam("arg1", DataTypes.INT_TYPE), namedParam("arg2", DataTypes.ITEM_TYPE));
+        List.of(namedParam("count", DataTypes.INT_TYPE), namedParam("item", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("take_stash", DataTypes.BOOLEAN_TYPE, params));
 
     params =
-        List.of(namedParam("arg1", DataTypes.ITEM_TYPE), namedParam("arg2", DataTypes.INT_TYPE));
+        List.of(namedParam("item", DataTypes.ITEM_TYPE), namedParam("count", DataTypes.INT_TYPE));
     functions.add(new LibraryFunction("autosell", DataTypes.BOOLEAN_TYPE, params));
 
     params =
-        List.of(namedParam("arg1", DataTypes.INT_TYPE), namedParam("arg2", DataTypes.ITEM_TYPE));
+        List.of(namedParam("count", DataTypes.INT_TYPE), namedParam("item", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("autosell", DataTypes.BOOLEAN_TYPE, params));
 
     params =
-        List.of(namedParam("arg1", DataTypes.ITEM_TYPE), namedParam("arg2", DataTypes.INT_TYPE));
+        List.of(namedParam("item", DataTypes.ITEM_TYPE), namedParam("count", DataTypes.INT_TYPE));
     functions.add(new LibraryFunction("hermit", DataTypes.BOOLEAN_TYPE, params));
 
     params =
-        List.of(namedParam("arg1", DataTypes.INT_TYPE), namedParam("arg2", DataTypes.ITEM_TYPE));
+        List.of(namedParam("count", DataTypes.INT_TYPE), namedParam("item", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("hermit", DataTypes.BOOLEAN_TYPE, params));
 
     params = List.of(namedParam("item", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("retrieve_item", DataTypes.BOOLEAN_TYPE, params));
 
     params =
-        List.of(namedParam("arg1", DataTypes.ITEM_TYPE), namedParam("arg2", DataTypes.INT_TYPE));
+        List.of(namedParam("item", DataTypes.ITEM_TYPE), namedParam("count", DataTypes.INT_TYPE));
     functions.add(new LibraryFunction("retrieve_item", DataTypes.BOOLEAN_TYPE, params));
 
     params =
-        List.of(namedParam("arg1", DataTypes.INT_TYPE), namedParam("arg2", DataTypes.ITEM_TYPE));
+        List.of(namedParam("count", DataTypes.INT_TYPE), namedParam("item", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("retrieve_item", DataTypes.BOOLEAN_TYPE, params));
 
     params = List.of(namedParam("item", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("retrieve_price", DataTypes.INT_TYPE, params));
 
     params =
-        List.of(namedParam("arg1", DataTypes.ITEM_TYPE), namedParam("arg2", DataTypes.INT_TYPE));
+        List.of(namedParam("item", DataTypes.ITEM_TYPE), namedParam("count", DataTypes.INT_TYPE));
     functions.add(new LibraryFunction("retrieve_price", DataTypes.INT_TYPE, params));
 
     params =
-        List.of(namedParam("arg1", DataTypes.INT_TYPE), namedParam("arg2", DataTypes.ITEM_TYPE));
-    functions.add(new LibraryFunction("retrieve_price", DataTypes.INT_TYPE, params));
-
-    params =
-        List.of(
-            namedParam("arg1", DataTypes.ITEM_TYPE),
-            namedParam("arg2", DataTypes.INT_TYPE),
-            namedParam("arg3", DataTypes.BOOLEAN_TYPE));
+        List.of(namedParam("count", DataTypes.INT_TYPE), namedParam("item", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("retrieve_price", DataTypes.INT_TYPE, params));
 
     params =
         List.of(
-            namedParam("arg1", DataTypes.INT_TYPE),
-            namedParam("arg2", DataTypes.ITEM_TYPE),
-            namedParam("arg3", DataTypes.BOOLEAN_TYPE));
+            namedParam("item", DataTypes.ITEM_TYPE),
+            namedParam("count", DataTypes.INT_TYPE),
+            namedParam("exact", DataTypes.BOOLEAN_TYPE));
+    functions.add(new LibraryFunction("retrieve_price", DataTypes.INT_TYPE, params));
+
+    params =
+        List.of(
+            namedParam("count", DataTypes.INT_TYPE),
+            namedParam("item", DataTypes.ITEM_TYPE),
+            namedParam("exact", DataTypes.BOOLEAN_TYPE));
     functions.add(new LibraryFunction("retrieve_price", DataTypes.INT_TYPE, params));
 
     params = List.of();
@@ -1277,12 +1277,13 @@ public abstract class RuntimeLibrary {
             namedParam("botName", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("faxbot", DataTypes.BOOLEAN_TYPE, params));
 
-    params = List.of(namedParam("arg1", DataTypes.MONSTER_TYPE));
+    params = List.of(namedParam("monster", DataTypes.MONSTER_TYPE));
     functions.add(new LibraryFunction("can_faxbot", DataTypes.BOOLEAN_TYPE, params));
 
     params =
         List.of(
-            namedParam("arg1", DataTypes.MONSTER_TYPE), namedParam("arg2", DataTypes.STRING_TYPE));
+            namedParam("monster", DataTypes.MONSTER_TYPE),
+            namedParam("faxbot", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("can_faxbot", DataTypes.BOOLEAN_TYPE, params));
 
     // Major functions which provide item-related
@@ -1380,10 +1381,10 @@ public abstract class RuntimeLibrary {
             namedParam("item", DataTypes.ITEM_TYPE), namedParam("maxAge", DataTypes.FLOAT_TYPE));
     functions.add(new LibraryFunction("mall_price", DataTypes.INT_TYPE, params));
 
-    params = List.of(namedParam("arg", RuntimeLibrary.ItemSetType));
+    params = List.of(namedParam("items", RuntimeLibrary.ItemSetType));
     functions.add(new LibraryFunction("mall_prices", DataTypes.INT_TYPE, params));
 
-    params = List.of(namedParam("arg", DataTypes.STRING_TYPE));
+    params = List.of(namedParam("category", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("mall_prices", DataTypes.INT_TYPE, params));
 
     params =
@@ -1444,24 +1445,25 @@ public abstract class RuntimeLibrary {
     params = List.of();
     functions.add(new LibraryFunction("refresh_stash", DataTypes.BOOLEAN_TYPE, params));
 
-    params = List.of(namedParam("arg", DataTypes.ITEM_TYPE));
+    params = List.of(namedParam("item", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("available_amount", DataTypes.INT_TYPE, params));
 
-    params = List.of(namedParam("arg", DataTypes.ITEM_TYPE));
+    params = List.of(namedParam("item", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("item_amount", DataTypes.INT_TYPE, params));
 
-    params = List.of(namedParam("arg", DataTypes.ITEM_TYPE));
+    params = List.of(namedParam("item", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("closet_amount", DataTypes.INT_TYPE, params));
 
-    params = List.of(namedParam("arg", DataTypes.ITEM_TYPE));
+    params = List.of(namedParam("item", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("equipped_amount", DataTypes.INT_TYPE, params));
 
     params =
         List.of(
-            namedParam("arg0", DataTypes.ITEM_TYPE), namedParam("arg1", DataTypes.BOOLEAN_TYPE));
+            namedParam("item", DataTypes.ITEM_TYPE),
+            namedParam("includeAllFamiliars", DataTypes.BOOLEAN_TYPE));
     functions.add(new LibraryFunction("equipped_amount", DataTypes.INT_TYPE, params));
 
-    params = List.of(namedParam("arg", DataTypes.ITEM_TYPE));
+    params = List.of(namedParam("item", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("creatable_amount", DataTypes.INT_TYPE, params));
 
     params = List.of(namedParam("itemId", DataTypes.ITEM_TYPE));
@@ -1478,22 +1480,22 @@ public abstract class RuntimeLibrary {
             namedParam("freeCrafting", DataTypes.BOOLEAN_TYPE));
     functions.add(new LibraryFunction("creatable_turns", DataTypes.INT_TYPE, params));
 
-    params = List.of(namedParam("arg", DataTypes.ITEM_TYPE));
+    params = List.of(namedParam("item", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("get_ingredients", DataTypes.ITEM_TO_INT_TYPE, params));
 
-    params = List.of(namedParam("arg", DataTypes.ITEM_TYPE));
+    params = List.of(namedParam("item", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("storage_amount", DataTypes.INT_TYPE, params));
 
-    params = List.of(namedParam("arg", DataTypes.ITEM_TYPE));
+    params = List.of(namedParam("item", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("display_amount", DataTypes.INT_TYPE, params));
 
-    params = List.of(namedParam("arg", DataTypes.ITEM_TYPE));
+    params = List.of(namedParam("item", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("shop_amount", DataTypes.INT_TYPE, params));
 
-    params = List.of(namedParam("arg", DataTypes.ITEM_TYPE));
+    params = List.of(namedParam("item", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("shop_limit", DataTypes.INT_TYPE, params));
 
-    params = List.of(namedParam("arg", DataTypes.ITEM_TYPE));
+    params = List.of(namedParam("item", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("stash_amount", DataTypes.INT_TYPE, params));
 
     params = List.of();
@@ -1505,7 +1507,7 @@ public abstract class RuntimeLibrary {
     params = List.of();
     functions.add(new LibraryFunction("have_mushroom_plot", DataTypes.BOOLEAN_TYPE, params));
 
-    params = List.of(namedParam("arg", DataTypes.ITEM_TYPE));
+    params = List.of(namedParam("item", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("craft_type", DataTypes.STRING_TYPE, params));
 
     // The following functions pertain to providing updated
@@ -1591,10 +1593,10 @@ public abstract class RuntimeLibrary {
     params = List.of();
     functions.add(new LibraryFunction("my_primestat", DataTypes.STAT_TYPE, params));
 
-    params = List.of(namedParam("arg", DataTypes.STAT_TYPE));
+    params = List.of(namedParam("stat", DataTypes.STAT_TYPE));
     functions.add(new LibraryFunction("my_basestat", DataTypes.INT_TYPE, params));
 
-    params = List.of(namedParam("arg", DataTypes.STAT_TYPE));
+    params = List.of(namedParam("stat", DataTypes.STAT_TYPE));
     functions.add(new LibraryFunction("my_buffedstat", DataTypes.INT_TYPE, params));
 
     params = List.of();
@@ -1750,10 +1752,10 @@ public abstract class RuntimeLibrary {
     // Basic skill and effect functions, including those used
     // in custom combat consult scripts.
 
-    params = List.of(namedParam("arg", DataTypes.SKILL_TYPE));
+    params = List.of(namedParam("skill", DataTypes.SKILL_TYPE));
     functions.add(new LibraryFunction("have_skill", DataTypes.BOOLEAN_TYPE, params));
 
-    params = List.of(namedParam("arg", DataTypes.SKILL_TYPE));
+    params = List.of(namedParam("skill", DataTypes.SKILL_TYPE));
     functions.add(new LibraryFunction("combat_skill_available", DataTypes.BOOLEAN_TYPE, params));
 
     params = List.of(namedParam("skill", DataTypes.SKILL_TYPE));
@@ -1783,7 +1785,7 @@ public abstract class RuntimeLibrary {
     params = List.of(namedParam("skill", DataTypes.SKILL_TYPE));
     functions.add(new LibraryFunction("turns_per_cast", DataTypes.INT_TYPE, params));
 
-    params = List.of(namedParam("arg", DataTypes.EFFECT_TYPE));
+    params = List.of(namedParam("effect", DataTypes.EFFECT_TYPE));
     functions.add(new LibraryFunction("have_effect", DataTypes.INT_TYPE, params));
 
     params = List.of();
@@ -1791,31 +1793,31 @@ public abstract class RuntimeLibrary {
         new LibraryFunction(
             "my_effects", new AggregateType(DataTypes.INT_TYPE, DataTypes.EFFECT_TYPE), params));
 
-    params = List.of(namedParam("arg", DataTypes.EFFECT_TYPE));
+    params = List.of(namedParam("effect", DataTypes.EFFECT_TYPE));
     functions.add(new LibraryFunction("is_shruggable", DataTypes.BOOLEAN_TYPE, params));
 
-    params = List.of(namedParam("arg", DataTypes.EFFECT_TYPE));
+    params = List.of(namedParam("effect", DataTypes.EFFECT_TYPE));
     functions.add(new LibraryFunction("is_removable", DataTypes.BOOLEAN_TYPE, params));
 
     params =
-        List.of(namedParam("arg1", DataTypes.SKILL_TYPE), namedParam("arg2", DataTypes.INT_TYPE));
+        List.of(namedParam("skill", DataTypes.SKILL_TYPE), namedParam("count", DataTypes.INT_TYPE));
     functions.add(new LibraryFunction("use_skill", DataTypes.BOOLEAN_TYPE, params));
 
     params =
-        List.of(namedParam("arg1", DataTypes.INT_TYPE), namedParam("arg2", DataTypes.SKILL_TYPE));
+        List.of(namedParam("count", DataTypes.INT_TYPE), namedParam("skill", DataTypes.SKILL_TYPE));
     functions.add(new LibraryFunction("use_skill", DataTypes.BOOLEAN_TYPE, params));
 
     params =
         List.of(
-            namedParam("arg1", DataTypes.SKILL_TYPE),
-            namedParam("arg2", DataTypes.INT_TYPE),
+            namedParam("skill", DataTypes.SKILL_TYPE),
+            namedParam("count", DataTypes.INT_TYPE),
             namedParam("target", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("use_skill", DataTypes.BOOLEAN_TYPE, params));
 
     params =
         List.of(
-            namedParam("arg1", DataTypes.INT_TYPE),
-            namedParam("arg2", DataTypes.SKILL_TYPE),
+            namedParam("count", DataTypes.INT_TYPE),
+            namedParam("skill", DataTypes.SKILL_TYPE),
             namedParam("target", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("use_skill", DataTypes.BOOLEAN_TYPE, params));
 
@@ -1965,21 +1967,23 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("equip", DataTypes.BOOLEAN_TYPE, params));
 
     params =
-        List.of(namedParam("arg1", DataTypes.ITEM_TYPE), namedParam("arg2", DataTypes.SLOT_TYPE));
+        List.of(namedParam("item", DataTypes.ITEM_TYPE), namedParam("slot", DataTypes.SLOT_TYPE));
     functions.add(new LibraryFunction("equip", DataTypes.BOOLEAN_TYPE, params));
 
     params =
-        List.of(namedParam("arg1", DataTypes.SLOT_TYPE), namedParam("arg2", DataTypes.ITEM_TYPE));
-    functions.add(new LibraryFunction("equip", DataTypes.BOOLEAN_TYPE, params));
-
-    params =
-        List.of(
-            namedParam("arg1", DataTypes.ITEM_TYPE), namedParam("arg2", DataTypes.FAMILIAR_TYPE));
+        List.of(namedParam("slot", DataTypes.SLOT_TYPE), namedParam("item", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("equip", DataTypes.BOOLEAN_TYPE, params));
 
     params =
         List.of(
-            namedParam("arg1", DataTypes.FAMILIAR_TYPE), namedParam("arg2", DataTypes.ITEM_TYPE));
+            namedParam("item", DataTypes.ITEM_TYPE),
+            namedParam("familiar", DataTypes.FAMILIAR_TYPE));
+    functions.add(new LibraryFunction("equip", DataTypes.BOOLEAN_TYPE, params));
+
+    params =
+        List.of(
+            namedParam("familiar", DataTypes.FAMILIAR_TYPE),
+            namedParam("item", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("equip", DataTypes.BOOLEAN_TYPE, params));
 
     params = List.of(namedParam("slot", DataTypes.SLOT_TYPE));
@@ -2034,7 +2038,7 @@ public abstract class RuntimeLibrary {
     params = List.of();
     functions.add(new LibraryFunction("my_enthroned_familiar", DataTypes.FAMILIAR_TYPE, params));
 
-    params = List.of(namedParam("arg", DataTypes.INT_TYPE));
+    params = List.of(namedParam("slot", DataTypes.INT_TYPE));
     functions.add(new LibraryFunction("my_poke_fam", DataTypes.FAMILIAR_TYPE, params));
 
     params = List.of();
@@ -2450,10 +2454,10 @@ public abstract class RuntimeLibrary {
     params = List.of(namedParam("expr", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("monster_eval", DataTypes.FLOAT_TYPE, params));
 
-    params = List.of(namedParam("arg", DataTypes.STRING_TYPE));
+    params = List.of(namedParam("name", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("is_online", DataTypes.BOOLEAN_TYPE, params));
 
-    params = List.of(namedParam("arg", DataTypes.ITEM_TYPE));
+    params = List.of(namedParam("item", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("slash_count", DataTypes.INT_TYPE, params));
 
     params = List.of(namedParam("macroValue", DataTypes.STRING_TYPE));
@@ -2494,10 +2498,10 @@ public abstract class RuntimeLibrary {
     params = List.of();
     functions.add(new LibraryFunction("tavern", DataTypes.INT_TYPE, params));
 
-    params = List.of(namedParam("arg", DataTypes.STRING_TYPE));
+    params = List.of(namedParam("goal", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("tavern", DataTypes.INT_TYPE, params));
 
-    params = List.of(namedParam("arg", DataTypes.STRING_TYPE));
+    params = List.of(namedParam("goal", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("hedge_maze", DataTypes.BOOLEAN_TYPE, params));
 
     params = List.of();
@@ -2505,29 +2509,29 @@ public abstract class RuntimeLibrary {
 
     // Arithmetic utility functions.
 
-    params = List.of(namedParam("arg", DataTypes.INT_TYPE));
+    params = List.of(namedParam("range", DataTypes.INT_TYPE));
     functions.add(new LibraryFunction("random", DataTypes.INT_TYPE, params));
 
-    params = List.of(namedParam("arg", DataTypes.FLOAT_TYPE));
+    params = List.of(namedParam("val", DataTypes.FLOAT_TYPE));
     functions.add(new LibraryFunction("round", DataTypes.INT_TYPE, params));
 
-    params = List.of(namedParam("arg", DataTypes.FLOAT_TYPE));
+    params = List.of(namedParam("val", DataTypes.FLOAT_TYPE));
     functions.add(new LibraryFunction("truncate", DataTypes.INT_TYPE, params));
 
-    params = List.of(namedParam("arg", DataTypes.FLOAT_TYPE));
+    params = List.of(namedParam("val", DataTypes.FLOAT_TYPE));
     functions.add(new LibraryFunction("floor", DataTypes.INT_TYPE, params));
 
-    params = List.of(namedParam("arg", DataTypes.FLOAT_TYPE));
+    params = List.of(namedParam("val", DataTypes.FLOAT_TYPE));
     functions.add(new LibraryFunction("ceil", DataTypes.INT_TYPE, params));
 
     params = List.of(namedParam("val", DataTypes.FLOAT_TYPE));
     functions.add(new LibraryFunction("square_root", DataTypes.FLOAT_TYPE, params));
 
-    params = List.of(namedParam("arg", DataTypes.FLOAT_TYPE));
+    params = List.of(namedParam("val", DataTypes.FLOAT_TYPE));
     functions.add(new LibraryFunction("log_n", DataTypes.FLOAT_TYPE, params));
 
     params =
-        List.of(namedParam("arg", DataTypes.FLOAT_TYPE), namedParam("base", DataTypes.FLOAT_TYPE));
+        List.of(namedParam("val", DataTypes.FLOAT_TYPE), namedParam("base", DataTypes.FLOAT_TYPE));
     functions.add(new LibraryFunction("log_n", DataTypes.FLOAT_TYPE, params));
 
     // Versions of min and max that return int (if both arguments
@@ -2537,38 +2541,40 @@ public abstract class RuntimeLibrary {
 
     params =
         List.of(
-            namedParam("arg1", DataTypes.FLOAT_TYPE),
-            namedParam("arg2", DataTypes.VARARG_FLOAT_TYPE));
+            namedParam("val", DataTypes.FLOAT_TYPE),
+            namedParam("otherVal", DataTypes.VARARG_FLOAT_TYPE));
     functions.add(new LibraryFunction("min", DataTypes.FLOAT_TYPE, params));
 
     params =
         List.of(
-            namedParam("arg1", DataTypes.INT_TYPE), namedParam("arg2", DataTypes.VARARG_INT_TYPE));
+            namedParam("val", DataTypes.INT_TYPE),
+            namedParam("otherVal", DataTypes.VARARG_INT_TYPE));
     functions.add(new LibraryFunction("min", DataTypes.INT_TYPE, params));
 
     params =
         List.of(
-            namedParam("arg1", DataTypes.FLOAT_TYPE),
-            namedParam("arg2", DataTypes.VARARG_FLOAT_TYPE));
+            namedParam("val", DataTypes.FLOAT_TYPE),
+            namedParam("otherVal", DataTypes.VARARG_FLOAT_TYPE));
     functions.add(new LibraryFunction("max", DataTypes.FLOAT_TYPE, params));
 
     params =
         List.of(
-            namedParam("arg1", DataTypes.INT_TYPE), namedParam("arg2", DataTypes.VARARG_INT_TYPE));
+            namedParam("val", DataTypes.INT_TYPE),
+            namedParam("otherVal", DataTypes.VARARG_INT_TYPE));
     functions.add(new LibraryFunction("max", DataTypes.INT_TYPE, params));
 
     // String encoding/decoding functions.
 
-    params = List.of(namedParam("arg", DataTypes.STRING_TYPE));
+    params = List.of(namedParam("string", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("url_encode", DataTypes.STRING_TYPE, params));
 
-    params = List.of(namedParam("arg", DataTypes.STRING_TYPE));
+    params = List.of(namedParam("string", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("url_decode", DataTypes.STRING_TYPE, params));
 
-    params = List.of(namedParam("arg", DataTypes.STRING_TYPE));
+    params = List.of(namedParam("string", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("entity_encode", DataTypes.STRING_TYPE, params));
 
-    params = List.of(namedParam("arg", DataTypes.STRING_TYPE));
+    params = List.of(namedParam("string", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("entity_decode", DataTypes.STRING_TYPE, params));
 
     // Functions to manipulate settings
@@ -2627,47 +2633,48 @@ public abstract class RuntimeLibrary {
 
     // Functions for aggregates.
 
-    params = List.of(namedParam("arg", DataTypes.AGGREGATE_TYPE));
+    params = List.of(namedParam("agg", DataTypes.AGGREGATE_TYPE));
     functions.add(new LibraryFunction("count", DataTypes.INT_TYPE, params));
 
-    params = List.of(namedParam("arg", DataTypes.AGGREGATE_TYPE));
+    params = List.of(namedParam("agg", DataTypes.AGGREGATE_TYPE));
     functions.add(new LibraryFunction("clear", DataTypes.VOID_TYPE, params));
 
     params =
         List.of(
-            namedParam("var1", DataTypes.STRING_TYPE),
-            namedParam("var2", DataTypes.AGGREGATE_TYPE));
+            namedParam("filename", DataTypes.STRING_TYPE),
+            namedParam("result", DataTypes.AGGREGATE_TYPE));
     functions.add(new LibraryFunction("file_to_map", DataTypes.BOOLEAN_TYPE, params));
 
     params =
         List.of(
-            namedParam("var1", DataTypes.STRING_TYPE),
-            namedParam("var2", DataTypes.AGGREGATE_TYPE),
-            namedParam("var3", DataTypes.BOOLEAN_TYPE));
+            namedParam("filename", DataTypes.STRING_TYPE),
+            namedParam("result", DataTypes.AGGREGATE_TYPE),
+            namedParam("compact", DataTypes.BOOLEAN_TYPE));
     functions.add(new LibraryFunction("file_to_map", DataTypes.BOOLEAN_TYPE, params));
 
     params =
         List.of(
-            namedParam("var1", DataTypes.AGGREGATE_TYPE),
-            namedParam("var2", DataTypes.STRING_TYPE));
+            namedParam("map", DataTypes.AGGREGATE_TYPE),
+            namedParam("filename", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("map_to_file", DataTypes.BOOLEAN_TYPE, params));
 
     params =
         List.of(
-            namedParam("var1", DataTypes.AGGREGATE_TYPE),
-            namedParam("var2", DataTypes.STRING_TYPE),
-            namedParam("var3", DataTypes.BOOLEAN_TYPE));
+            namedParam("map", DataTypes.AGGREGATE_TYPE),
+            namedParam("filename", DataTypes.STRING_TYPE),
+            namedParam("compact", DataTypes.BOOLEAN_TYPE));
     functions.add(new LibraryFunction("map_to_file", DataTypes.BOOLEAN_TYPE, params));
 
-    params = List.of(namedParam("var1", DataTypes.STRING_TYPE));
+    params = List.of(namedParam("filename", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("file_to_array", DataTypes.INT_TO_STRING_TYPE, params));
 
-    params = List.of(namedParam("var1", DataTypes.STRING_TYPE));
+    params = List.of(namedParam("filename", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("file_to_buffer", DataTypes.BUFFER_TYPE, params));
 
     params =
         List.of(
-            namedParam("var1", DataTypes.BUFFER_TYPE), namedParam("var2", DataTypes.STRING_TYPE));
+            namedParam("buffer", DataTypes.BUFFER_TYPE),
+            namedParam("filename", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("buffer_to_file", DataTypes.BOOLEAN_TYPE, params));
 
     params = List.of(namedParam("name", DataTypes.STRING_TYPE));
@@ -2748,7 +2755,7 @@ public abstract class RuntimeLibrary {
     params = List.of();
     functions.add(new LibraryFunction("expected_damage", DataTypes.INT_TYPE, params));
 
-    params = List.of(namedParam("arg", DataTypes.MONSTER_TYPE));
+    params = List.of(namedParam("monster", DataTypes.MONSTER_TYPE));
     functions.add(new LibraryFunction("expected_damage", DataTypes.INT_TYPE, params));
 
     params = List.of();
@@ -2772,13 +2779,13 @@ public abstract class RuntimeLibrary {
     params = List.of();
     functions.add(new LibraryFunction("damage_reduction", DataTypes.INT_TYPE, params));
 
-    params = List.of(namedParam("arg", DataTypes.ELEMENT_TYPE));
+    params = List.of(namedParam("element", DataTypes.ELEMENT_TYPE));
     functions.add(new LibraryFunction("elemental_resistance", DataTypes.FLOAT_TYPE, params));
 
     params = List.of();
     functions.add(new LibraryFunction("elemental_resistance", DataTypes.FLOAT_TYPE, params));
 
-    params = List.of(namedParam("arg", DataTypes.MONSTER_TYPE));
+    params = List.of(namedParam("monster", DataTypes.MONSTER_TYPE));
     functions.add(new LibraryFunction("elemental_resistance", DataTypes.FLOAT_TYPE, params));
 
     params = List.of();
@@ -2808,83 +2815,86 @@ public abstract class RuntimeLibrary {
     params = List.of();
     functions.add(new LibraryFunction("monster_element", DataTypes.ELEMENT_TYPE, params));
 
-    params = List.of(namedParam("arg", DataTypes.MONSTER_TYPE));
+    params = List.of(namedParam("monster", DataTypes.MONSTER_TYPE));
     functions.add(new LibraryFunction("monster_element", DataTypes.ELEMENT_TYPE, params));
 
     params = List.of();
     functions.add(new LibraryFunction("monster_attack", DataTypes.INT_TYPE, params));
 
-    params = List.of(namedParam("arg", DataTypes.MONSTER_TYPE));
+    params = List.of(namedParam("monster", DataTypes.MONSTER_TYPE));
     functions.add(new LibraryFunction("monster_attack", DataTypes.INT_TYPE, params));
 
     params = List.of();
     functions.add(new LibraryFunction("monster_defense", DataTypes.INT_TYPE, params));
 
-    params = List.of(namedParam("arg", DataTypes.MONSTER_TYPE));
+    params = List.of(namedParam("monster", DataTypes.MONSTER_TYPE));
     functions.add(new LibraryFunction("monster_defense", DataTypes.INT_TYPE, params));
 
     params = List.of();
     functions.add(new LibraryFunction("monster_initiative", DataTypes.INT_TYPE, params));
 
-    params = List.of(namedParam("arg", DataTypes.MONSTER_TYPE));
+    params = List.of(namedParam("monster", DataTypes.MONSTER_TYPE));
     functions.add(new LibraryFunction("monster_initiative", DataTypes.INT_TYPE, params));
 
     params = List.of();
     functions.add(new LibraryFunction("monster_hp", DataTypes.INT_TYPE, params));
 
-    params = List.of(namedParam("arg", DataTypes.MONSTER_TYPE));
+    params = List.of(namedParam("monster", DataTypes.MONSTER_TYPE));
     functions.add(new LibraryFunction("monster_hp", DataTypes.INT_TYPE, params));
 
     params = List.of();
     functions.add(new LibraryFunction("monster_phylum", DataTypes.PHYLUM_TYPE, params));
 
-    params = List.of(namedParam("arg", DataTypes.MONSTER_TYPE));
+    params = List.of(namedParam("monster", DataTypes.MONSTER_TYPE));
     functions.add(new LibraryFunction("monster_phylum", DataTypes.PHYLUM_TYPE, params));
 
-    params = List.of(namedParam("arg", DataTypes.MONSTER_TYPE));
+    params = List.of(namedParam("monster", DataTypes.MONSTER_TYPE));
     functions.add(new LibraryFunction("is_banished", DataTypes.BOOLEAN_TYPE, params));
 
-    params = List.of(namedParam("arg", DataTypes.MONSTER_TYPE));
+    params = List.of(namedParam("monster", DataTypes.MONSTER_TYPE));
     functions.add(
         new LibraryFunction("banished_by", new AggregateType(DataTypes.STRING_TYPE, 0), params));
 
-    params = List.of(namedParam("arg", DataTypes.MONSTER_TYPE));
+    params = List.of(namedParam("monster", DataTypes.MONSTER_TYPE));
     functions.add(new LibraryFunction("track_copy_count", DataTypes.INT_TYPE, params));
 
-    params = List.of(namedParam("arg", DataTypes.MONSTER_TYPE));
+    params = List.of(namedParam("monster", DataTypes.MONSTER_TYPE));
     functions.add(new LibraryFunction("track_ignore_queue", DataTypes.BOOLEAN_TYPE, params));
 
-    params = List.of(namedParam("arg", DataTypes.MONSTER_TYPE));
+    params = List.of(namedParam("monster", DataTypes.MONSTER_TYPE));
     functions.add(
         new LibraryFunction("tracked_by", new AggregateType(DataTypes.STRING_TYPE, 0), params));
 
     params = List.of();
     functions.add(new LibraryFunction("jump_chance", DataTypes.INT_TYPE, params));
 
-    params = List.of(namedParam("arg", DataTypes.MONSTER_TYPE));
-    functions.add(new LibraryFunction("jump_chance", DataTypes.INT_TYPE, params));
-
-    params =
-        List.of(namedParam("arg", DataTypes.MONSTER_TYPE), namedParam("init", DataTypes.INT_TYPE));
+    params = List.of(namedParam("monster", DataTypes.MONSTER_TYPE));
     functions.add(new LibraryFunction("jump_chance", DataTypes.INT_TYPE, params));
 
     params =
         List.of(
-            namedParam("arg", DataTypes.MONSTER_TYPE),
+            namedParam("monster", DataTypes.MONSTER_TYPE), namedParam("init", DataTypes.INT_TYPE));
+    functions.add(new LibraryFunction("jump_chance", DataTypes.INT_TYPE, params));
+
+    params =
+        List.of(
+            namedParam("monster", DataTypes.MONSTER_TYPE),
             namedParam("init", DataTypes.INT_TYPE),
             namedParam("ml", DataTypes.INT_TYPE));
     functions.add(new LibraryFunction("jump_chance", DataTypes.INT_TYPE, params));
 
-    params = List.of(namedParam("arg", DataTypes.LOCATION_TYPE));
-    functions.add(new LibraryFunction("jump_chance", DataTypes.INT_TYPE, params));
-
-    params =
-        List.of(namedParam("arg", DataTypes.LOCATION_TYPE), namedParam("init", DataTypes.INT_TYPE));
+    params = List.of(namedParam("location", DataTypes.LOCATION_TYPE));
     functions.add(new LibraryFunction("jump_chance", DataTypes.INT_TYPE, params));
 
     params =
         List.of(
-            namedParam("arg", DataTypes.LOCATION_TYPE),
+            namedParam("location", DataTypes.LOCATION_TYPE),
+            namedParam("init", DataTypes.INT_TYPE));
+    functions.add(new LibraryFunction("jump_chance", DataTypes.INT_TYPE, params));
+
+    params =
+        List.of(
+            namedParam("location", DataTypes.LOCATION_TYPE),
             namedParam("init", DataTypes.INT_TYPE),
             namedParam("ml", DataTypes.INT_TYPE));
     functions.add(new LibraryFunction("jump_chance", DataTypes.INT_TYPE, params));
@@ -2892,7 +2902,7 @@ public abstract class RuntimeLibrary {
     params = List.of();
     functions.add(new LibraryFunction("item_drops", DataTypes.ITEM_TO_FLOAT_TYPE, params));
 
-    params = List.of(namedParam("arg", DataTypes.MONSTER_TYPE));
+    params = List.of(namedParam("monster", DataTypes.MONSTER_TYPE));
     functions.add(new LibraryFunction("item_drops", DataTypes.ITEM_TO_FLOAT_TYPE, params));
 
     Type itemDropRecArray = new AggregateType(itemDropRec, 0);
@@ -2900,13 +2910,13 @@ public abstract class RuntimeLibrary {
     params = List.of();
     functions.add(new LibraryFunction("item_drops_array", itemDropRecArray, params));
 
-    params = List.of(namedParam("arg", DataTypes.MONSTER_TYPE));
+    params = List.of(namedParam("monster", DataTypes.MONSTER_TYPE));
     functions.add(new LibraryFunction("item_drops_array", itemDropRecArray, params));
 
     params = List.of();
     functions.add(new LibraryFunction("meat_drop", DataTypes.INT_TYPE, params));
 
-    params = List.of(namedParam("arg", DataTypes.MONSTER_TYPE));
+    params = List.of(namedParam("monster", DataTypes.MONSTER_TYPE));
     functions.add(new LibraryFunction("meat_drop", DataTypes.INT_TYPE, params));
 
     params = List.of();
@@ -2915,7 +2925,7 @@ public abstract class RuntimeLibrary {
     params = List.of();
     functions.add(new LibraryFunction("will_usually_dodge", DataTypes.BOOLEAN_TYPE, params));
 
-    params = List.of(namedParam("arg", DataTypes.INT_TYPE));
+    params = List.of(namedParam("round", DataTypes.INT_TYPE));
     functions.add(new LibraryFunction("dad_sea_monkee_weakness", DataTypes.ELEMENT_TYPE, params));
 
     params = List.of();
@@ -2925,12 +2935,13 @@ public abstract class RuntimeLibrary {
     functions.add(
         new LibraryFunction("flush_monster_manuel_cache", DataTypes.BOOLEAN_TYPE, params));
 
-    params = List.of(namedParam("arg", DataTypes.MONSTER_TYPE));
+    params = List.of(namedParam("monster", DataTypes.MONSTER_TYPE));
     functions.add(new LibraryFunction("monster_manuel_text", DataTypes.STRING_TYPE, params));
 
     params =
         List.of(
-            namedParam("arg1", DataTypes.MONSTER_TYPE), namedParam("arg2", DataTypes.BOOLEAN_TYPE));
+            namedParam("monster", DataTypes.MONSTER_TYPE),
+            namedParam("cachedOnly", DataTypes.BOOLEAN_TYPE));
     functions.add(new LibraryFunction("monster_factoids_available", DataTypes.INT_TYPE, params));
 
     params = List.of();
@@ -2950,47 +2961,48 @@ public abstract class RuntimeLibrary {
 
     params =
         List.of(
-            namedParam("arg", DataTypes.STRING_TYPE),
+            namedParam("type", DataTypes.STRING_TYPE),
             namedParam("modifier", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("numeric_modifier", DataTypes.FLOAT_TYPE, params));
 
     params =
         List.of(
-            namedParam("arg", DataTypes.STRING_TYPE),
+            namedParam("type", DataTypes.STRING_TYPE),
             namedParam("modifier", DataTypes.MODIFIER_TYPE));
     functions.add(new LibraryFunction("numeric_modifier", DataTypes.FLOAT_TYPE, params));
 
     params =
         List.of(
-            namedParam("arg", DataTypes.ITEM_TYPE), namedParam("modifier", DataTypes.STRING_TYPE));
+            namedParam("item", DataTypes.ITEM_TYPE), namedParam("modifier", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("numeric_modifier", DataTypes.FLOAT_TYPE, params));
 
     params =
         List.of(
-            namedParam("arg", DataTypes.ITEM_TYPE),
+            namedParam("item", DataTypes.ITEM_TYPE),
             namedParam("modifier", DataTypes.MODIFIER_TYPE));
     functions.add(new LibraryFunction("numeric_modifier", DataTypes.FLOAT_TYPE, params));
 
     params =
         List.of(
-            namedParam("arg", DataTypes.EFFECT_TYPE),
+            namedParam("effect", DataTypes.EFFECT_TYPE),
             namedParam("modifier", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("numeric_modifier", DataTypes.FLOAT_TYPE, params));
 
     params =
         List.of(
-            namedParam("arg", DataTypes.EFFECT_TYPE),
+            namedParam("effect", DataTypes.EFFECT_TYPE),
             namedParam("modifier", DataTypes.MODIFIER_TYPE));
     functions.add(new LibraryFunction("numeric_modifier", DataTypes.FLOAT_TYPE, params));
 
     params =
         List.of(
-            namedParam("arg", DataTypes.SKILL_TYPE), namedParam("modifier", DataTypes.STRING_TYPE));
+            namedParam("skill", DataTypes.SKILL_TYPE),
+            namedParam("modifier", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("numeric_modifier", DataTypes.FLOAT_TYPE, params));
 
     params =
         List.of(
-            namedParam("arg", DataTypes.SKILL_TYPE),
+            namedParam("skill", DataTypes.SKILL_TYPE),
             namedParam("modifier", DataTypes.MODIFIER_TYPE));
     functions.add(new LibraryFunction("numeric_modifier", DataTypes.FLOAT_TYPE, params));
 
@@ -3004,13 +3016,13 @@ public abstract class RuntimeLibrary {
 
     params =
         List.of(
-            namedParam("arg", DataTypes.THRALL_TYPE),
+            namedParam("thrall", DataTypes.THRALL_TYPE),
             namedParam("modifier", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("numeric_modifier", DataTypes.FLOAT_TYPE, params));
 
     params =
         List.of(
-            namedParam("arg", DataTypes.THRALL_TYPE),
+            namedParam("thrall", DataTypes.THRALL_TYPE),
             namedParam("modifier", DataTypes.MODIFIER_TYPE));
     functions.add(new LibraryFunction("numeric_modifier", DataTypes.FLOAT_TYPE, params));
 
@@ -3022,36 +3034,36 @@ public abstract class RuntimeLibrary {
 
     params =
         List.of(
-            namedParam("arg", DataTypes.STRING_TYPE),
+            namedParam("type", DataTypes.STRING_TYPE),
             namedParam("modifier", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("boolean_modifier", DataTypes.BOOLEAN_TYPE, params));
 
     params =
         List.of(
-            namedParam("arg", DataTypes.STRING_TYPE),
+            namedParam("type", DataTypes.STRING_TYPE),
             namedParam("modifier", DataTypes.MODIFIER_TYPE));
     functions.add(new LibraryFunction("boolean_modifier", DataTypes.BOOLEAN_TYPE, params));
 
     params =
         List.of(
-            namedParam("arg", DataTypes.ITEM_TYPE), namedParam("modifier", DataTypes.STRING_TYPE));
+            namedParam("item", DataTypes.ITEM_TYPE), namedParam("modifier", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("boolean_modifier", DataTypes.BOOLEAN_TYPE, params));
 
     params =
         List.of(
-            namedParam("arg", DataTypes.ITEM_TYPE),
+            namedParam("item", DataTypes.ITEM_TYPE),
             namedParam("modifier", DataTypes.MODIFIER_TYPE));
     functions.add(new LibraryFunction("boolean_modifier", DataTypes.BOOLEAN_TYPE, params));
 
     params =
         List.of(
-            namedParam("arg", DataTypes.EFFECT_TYPE),
+            namedParam("effect", DataTypes.EFFECT_TYPE),
             namedParam("modifier", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("boolean_modifier", DataTypes.BOOLEAN_TYPE, params));
 
     params =
         List.of(
-            namedParam("arg", DataTypes.EFFECT_TYPE),
+            namedParam("effect", DataTypes.EFFECT_TYPE),
             namedParam("modifier", DataTypes.MODIFIER_TYPE));
     functions.add(new LibraryFunction("boolean_modifier", DataTypes.BOOLEAN_TYPE, params));
 
@@ -3063,133 +3075,133 @@ public abstract class RuntimeLibrary {
 
     params =
         List.of(
-            namedParam("arg", DataTypes.STRING_TYPE),
+            namedParam("type", DataTypes.STRING_TYPE),
             namedParam("modifier", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("string_modifier", DataTypes.STRING_TYPE, params));
 
     params =
         List.of(
-            namedParam("arg", DataTypes.STRING_TYPE),
+            namedParam("type", DataTypes.STRING_TYPE),
             namedParam("modifier", DataTypes.MODIFIER_TYPE));
     functions.add(new LibraryFunction("string_modifier", DataTypes.STRING_TYPE, params));
 
     params =
         List.of(
-            namedParam("arg", DataTypes.ITEM_TYPE), namedParam("modifier", DataTypes.STRING_TYPE));
+            namedParam("item", DataTypes.ITEM_TYPE), namedParam("modifier", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("string_modifier", DataTypes.STRING_TYPE, params));
 
     params =
         List.of(
-            namedParam("arg", DataTypes.ITEM_TYPE),
+            namedParam("item", DataTypes.ITEM_TYPE),
             namedParam("modifier", DataTypes.MODIFIER_TYPE));
     functions.add(new LibraryFunction("string_modifier", DataTypes.STRING_TYPE, params));
 
     params =
         List.of(
-            namedParam("arg", DataTypes.EFFECT_TYPE),
+            namedParam("effect", DataTypes.EFFECT_TYPE),
             namedParam("modifier", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("string_modifier", DataTypes.STRING_TYPE, params));
 
     params =
         List.of(
-            namedParam("arg", DataTypes.EFFECT_TYPE),
+            namedParam("effect", DataTypes.EFFECT_TYPE),
             namedParam("modifier", DataTypes.MODIFIER_TYPE));
     functions.add(new LibraryFunction("string_modifier", DataTypes.STRING_TYPE, params));
 
     params =
         List.of(
-            namedParam("arg", DataTypes.STRING_TYPE),
+            namedParam("type", DataTypes.STRING_TYPE),
             namedParam("modifier", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("effect_modifier", DataTypes.EFFECT_TYPE, params));
 
     params =
         List.of(
-            namedParam("arg", DataTypes.STRING_TYPE),
+            namedParam("type", DataTypes.STRING_TYPE),
             namedParam("modifier", DataTypes.MODIFIER_TYPE));
     functions.add(new LibraryFunction("effect_modifier", DataTypes.EFFECT_TYPE, params));
 
     params =
         List.of(
-            namedParam("arg", DataTypes.ITEM_TYPE), namedParam("modifier", DataTypes.STRING_TYPE));
+            namedParam("item", DataTypes.ITEM_TYPE), namedParam("modifier", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("effect_modifier", DataTypes.EFFECT_TYPE, params));
 
     params =
         List.of(
-            namedParam("arg", DataTypes.ITEM_TYPE),
+            namedParam("item", DataTypes.ITEM_TYPE),
             namedParam("modifier", DataTypes.MODIFIER_TYPE));
     functions.add(new LibraryFunction("effect_modifier", DataTypes.EFFECT_TYPE, params));
 
     params =
         List.of(
-            namedParam("arg", DataTypes.STRING_TYPE),
+            namedParam("type", DataTypes.STRING_TYPE),
             namedParam("modifier", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("class_modifier", DataTypes.CLASS_TYPE, params));
 
     params =
         List.of(
-            namedParam("arg", DataTypes.STRING_TYPE),
+            namedParam("type", DataTypes.STRING_TYPE),
             namedParam("modifier", DataTypes.MODIFIER_TYPE));
     functions.add(new LibraryFunction("class_modifier", DataTypes.CLASS_TYPE, params));
 
     params =
         List.of(
-            namedParam("arg", DataTypes.ITEM_TYPE), namedParam("modifier", DataTypes.STRING_TYPE));
+            namedParam("item", DataTypes.ITEM_TYPE), namedParam("modifier", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("class_modifier", DataTypes.CLASS_TYPE, params));
 
     params =
         List.of(
-            namedParam("arg", DataTypes.ITEM_TYPE),
+            namedParam("item", DataTypes.ITEM_TYPE),
             namedParam("modifier", DataTypes.MODIFIER_TYPE));
     functions.add(new LibraryFunction("class_modifier", DataTypes.CLASS_TYPE, params));
 
     params =
         List.of(
-            namedParam("arg", DataTypes.EFFECT_TYPE),
+            namedParam("effect", DataTypes.EFFECT_TYPE),
             namedParam("modifier", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("monster_modifier", DataTypes.MONSTER_TYPE, params));
 
     params =
         List.of(
-            namedParam("arg", DataTypes.EFFECT_TYPE),
+            namedParam("effect", DataTypes.EFFECT_TYPE),
             namedParam("modifier", DataTypes.MODIFIER_TYPE));
     functions.add(new LibraryFunction("monster_modifier", DataTypes.MONSTER_TYPE, params));
 
     params =
         List.of(
-            namedParam("arg", DataTypes.STRING_TYPE),
+            namedParam("type", DataTypes.STRING_TYPE),
             namedParam("modifier", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("skill_modifier", DataTypes.SKILL_TYPE, params));
 
     params =
         List.of(
-            namedParam("arg", DataTypes.STRING_TYPE),
+            namedParam("type", DataTypes.STRING_TYPE),
             namedParam("modifier", DataTypes.MODIFIER_TYPE));
     functions.add(new LibraryFunction("skill_modifier", DataTypes.SKILL_TYPE, params));
 
     params =
         List.of(
-            namedParam("arg", DataTypes.ITEM_TYPE), namedParam("modifier", DataTypes.STRING_TYPE));
+            namedParam("item", DataTypes.ITEM_TYPE), namedParam("modifier", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("skill_modifier", DataTypes.SKILL_TYPE, params));
 
     params =
         List.of(
-            namedParam("arg", DataTypes.ITEM_TYPE),
+            namedParam("item", DataTypes.ITEM_TYPE),
             namedParam("modifier", DataTypes.MODIFIER_TYPE));
     functions.add(new LibraryFunction("skill_modifier", DataTypes.SKILL_TYPE, params));
 
     params =
         List.of(
-            namedParam("arg", DataTypes.EFFECT_TYPE),
+            namedParam("effect", DataTypes.EFFECT_TYPE),
             namedParam("modifier", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("stat_modifier", DataTypes.STAT_TYPE, params));
 
     params =
         List.of(
-            namedParam("arg", DataTypes.EFFECT_TYPE),
+            namedParam("effect", DataTypes.EFFECT_TYPE),
             namedParam("modifier", DataTypes.MODIFIER_TYPE));
     functions.add(new LibraryFunction("stat_modifier", DataTypes.STAT_TYPE, params));
 
-    params = List.of(namedParam("arg", DataTypes.STRING_TYPE));
+    params = List.of(namedParam("modifiers", DataTypes.STRING_TYPE));
     functions.add(
         new LibraryFunction(
             "split_modifiers",
@@ -3297,26 +3309,27 @@ public abstract class RuntimeLibrary {
     params = List.of();
     functions.add(new LibraryFunction("update_candy_prices", DataTypes.VOID_TYPE, params));
 
-    params = List.of(namedParam("arg", DataTypes.INT_TYPE));
+    params = List.of(namedParam("tier", DataTypes.INT_TYPE));
     functions.add(
         new LibraryFunction("candy_for_tier", new AggregateType(DataTypes.ITEM_TYPE, 0), params));
 
     params =
-        List.of(namedParam("arg1", DataTypes.INT_TYPE), namedParam("arg2", DataTypes.INT_TYPE));
+        List.of(namedParam("tier", DataTypes.INT_TYPE), namedParam("flags", DataTypes.INT_TYPE));
     functions.add(
         new LibraryFunction("candy_for_tier", new AggregateType(DataTypes.ITEM_TYPE, 0), params));
 
     params =
-        List.of(namedParam("arg1", DataTypes.EFFECT_TYPE), namedParam("arg2", DataTypes.ITEM_TYPE));
+        List.of(
+            namedParam("effect", DataTypes.EFFECT_TYPE), namedParam("item", DataTypes.ITEM_TYPE));
     functions.add(
         new LibraryFunction(
             "sweet_synthesis_pairing", new AggregateType(DataTypes.ITEM_TYPE, 0), params));
 
     params =
         List.of(
-            namedParam("arg1", DataTypes.EFFECT_TYPE),
-            namedParam("arg2", DataTypes.ITEM_TYPE),
-            namedParam("arg3", DataTypes.INT_TYPE));
+            namedParam("effect", DataTypes.EFFECT_TYPE),
+            namedParam("item", DataTypes.ITEM_TYPE),
+            namedParam("flags", DataTypes.INT_TYPE));
     functions.add(
         new LibraryFunction(
             "sweet_synthesis_pairing", new AggregateType(DataTypes.ITEM_TYPE, 0), params));
@@ -3325,13 +3338,14 @@ public abstract class RuntimeLibrary {
         List.of(namedParam("item1", DataTypes.ITEM_TYPE), namedParam("item2", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("sweet_synthesis_result", DataTypes.EFFECT_TYPE, params));
 
-    params = List.of(namedParam("arg1", DataTypes.EFFECT_TYPE));
+    params = List.of(namedParam("effect", DataTypes.EFFECT_TYPE));
     functions.add(
         new LibraryFunction(
             "sweet_synthesis_pair", new AggregateType(DataTypes.ITEM_TYPE, 0), params));
 
     params =
-        List.of(namedParam("arg1", DataTypes.EFFECT_TYPE), namedParam("arg2", DataTypes.INT_TYPE));
+        List.of(
+            namedParam("effect", DataTypes.EFFECT_TYPE), namedParam("flags", DataTypes.INT_TYPE));
     functions.add(
         new LibraryFunction(
             "sweet_synthesis_pair", new AggregateType(DataTypes.ITEM_TYPE, 0), params));
@@ -3340,29 +3354,31 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("sweet_synthesis", DataTypes.BOOLEAN_TYPE, params));
 
     params =
-        List.of(namedParam("arg1", DataTypes.INT_TYPE), namedParam("arg2", DataTypes.EFFECT_TYPE));
-    functions.add(new LibraryFunction("sweet_synthesis", DataTypes.BOOLEAN_TYPE, params));
-
-    params =
-        List.of(namedParam("arg1", DataTypes.EFFECT_TYPE), namedParam("arg2", DataTypes.INT_TYPE));
+        List.of(
+            namedParam("count", DataTypes.INT_TYPE), namedParam("effect", DataTypes.EFFECT_TYPE));
     functions.add(new LibraryFunction("sweet_synthesis", DataTypes.BOOLEAN_TYPE, params));
 
     params =
         List.of(
-            namedParam("arg1", DataTypes.INT_TYPE),
-            namedParam("arg2", DataTypes.EFFECT_TYPE),
-            namedParam("arg3", DataTypes.INT_TYPE));
-    functions.add(new LibraryFunction("sweet_synthesis", DataTypes.BOOLEAN_TYPE, params));
-
-    params =
-        List.of(namedParam("arg1", DataTypes.ITEM_TYPE), namedParam("arg2", DataTypes.ITEM_TYPE));
+            namedParam("effect", DataTypes.EFFECT_TYPE), namedParam("count", DataTypes.INT_TYPE));
     functions.add(new LibraryFunction("sweet_synthesis", DataTypes.BOOLEAN_TYPE, params));
 
     params =
         List.of(
-            namedParam("arg1", DataTypes.INT_TYPE),
-            namedParam("arg2", DataTypes.ITEM_TYPE),
-            namedParam("arg3", DataTypes.ITEM_TYPE));
+            namedParam("count", DataTypes.INT_TYPE),
+            namedParam("effect", DataTypes.EFFECT_TYPE),
+            namedParam("flags", DataTypes.INT_TYPE));
+    functions.add(new LibraryFunction("sweet_synthesis", DataTypes.BOOLEAN_TYPE, params));
+
+    params =
+        List.of(namedParam("item1", DataTypes.ITEM_TYPE), namedParam("item2", DataTypes.ITEM_TYPE));
+    functions.add(new LibraryFunction("sweet_synthesis", DataTypes.BOOLEAN_TYPE, params));
+
+    params =
+        List.of(
+            namedParam("count", DataTypes.INT_TYPE),
+            namedParam("item1", DataTypes.ITEM_TYPE),
+            namedParam("item2", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("sweet_synthesis", DataTypes.BOOLEAN_TYPE, params));
 
     params = List.of();
@@ -3449,43 +3465,43 @@ public abstract class RuntimeLibrary {
     params = List.of(namedParam("pocket", DataTypes.INT_TYPE));
     functions.add(new LibraryFunction("pocket_joke", DataTypes.STRING_TYPE, params));
 
-    params = List.of(namedParam("arg", DataTypes.MONSTER_TYPE));
+    params = List.of(namedParam("monster", DataTypes.MONSTER_TYPE));
     functions.add(new LibraryFunction("potential_pockets", PocketListType, params));
 
-    params = List.of(namedParam("arg", DataTypes.EFFECT_TYPE));
+    params = List.of(namedParam("effect", DataTypes.EFFECT_TYPE));
     functions.add(new LibraryFunction("potential_pockets", PocketListType, params));
 
-    params = List.of(namedParam("arg", DataTypes.ITEM_TYPE));
+    params = List.of(namedParam("item", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("potential_pockets", PocketListType, params));
 
-    params = List.of(namedParam("arg", DataTypes.STAT_TYPE));
+    params = List.of(namedParam("stat", DataTypes.STAT_TYPE));
     functions.add(new LibraryFunction("potential_pockets", PocketListType, params));
 
-    params = List.of(namedParam("arg", DataTypes.MONSTER_TYPE));
+    params = List.of(namedParam("monster", DataTypes.MONSTER_TYPE));
     functions.add(new LibraryFunction("available_pocket", DataTypes.INT_TYPE, params));
 
-    params = List.of(namedParam("arg", DataTypes.EFFECT_TYPE));
+    params = List.of(namedParam("effect", DataTypes.EFFECT_TYPE));
     functions.add(new LibraryFunction("available_pocket", DataTypes.INT_TYPE, params));
 
-    params = List.of(namedParam("arg", DataTypes.ITEM_TYPE));
+    params = List.of(namedParam("item", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("available_pocket", DataTypes.INT_TYPE, params));
 
-    params = List.of(namedParam("arg", DataTypes.STAT_TYPE));
+    params = List.of(namedParam("stat", DataTypes.STAT_TYPE));
     functions.add(new LibraryFunction("available_pocket", DataTypes.INT_TYPE, params));
 
-    params = List.of(namedParam("arg", DataTypes.MONSTER_TYPE));
+    params = List.of(namedParam("monster", DataTypes.MONSTER_TYPE));
     functions.add(new LibraryFunction("pick_pocket", DataTypes.BOOLEAN_TYPE, params));
 
-    params = List.of(namedParam("arg", DataTypes.EFFECT_TYPE));
+    params = List.of(namedParam("effect", DataTypes.EFFECT_TYPE));
     functions.add(new LibraryFunction("pick_pocket", PocketEffectsType, params));
 
-    params = List.of(namedParam("arg", DataTypes.ITEM_TYPE));
+    params = List.of(namedParam("item", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("pick_pocket", PocketItemsType, params));
 
-    params = List.of(namedParam("arg", DataTypes.STAT_TYPE));
+    params = List.of(namedParam("stat", DataTypes.STAT_TYPE));
     functions.add(new LibraryFunction("pick_pocket", PocketStatsType, params));
 
-    params = List.of(namedParam("arg", DataTypes.INT_TYPE));
+    params = List.of(namedParam("pocketNumber", DataTypes.INT_TYPE));
     functions.add(new LibraryFunction("pick_pocket", DataTypes.BOOLEAN_TYPE, params));
 
     // Cold Medicine Cabinet support
@@ -3510,13 +3526,13 @@ public abstract class RuntimeLibrary {
         new LibraryFunction(
             "get_autumnaton_locations", new AggregateType(DataTypes.LOCATION_TYPE, 0), params));
 
-    params = List.of(namedParam("arg", DataTypes.ITEM_TYPE));
+    params = List.of(namedParam("item", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("monkey_paw", DataTypes.BOOLEAN_TYPE, params));
 
-    params = List.of(namedParam("arg", DataTypes.EFFECT_TYPE));
+    params = List.of(namedParam("effect", DataTypes.EFFECT_TYPE));
     functions.add(new LibraryFunction("monkey_paw", DataTypes.BOOLEAN_TYPE, params));
 
-    params = List.of(namedParam("arg", DataTypes.STRING_TYPE));
+    params = List.of(namedParam("wish", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("monkey_paw", DataTypes.BOOLEAN_TYPE, params));
 
     params = List.of();
@@ -3526,10 +3542,10 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("ping", pingTestRec, params));
 
     params =
-        List.of(namedParam("arg1", DataTypes.INT_TYPE), namedParam("arg2", DataTypes.STRING_TYPE));
+        List.of(namedParam("count", DataTypes.INT_TYPE), namedParam("page", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("ping", pingTestRec, params));
 
-    params = List.of(namedParam("arg1", DataTypes.STRING_TYPE));
+    params = List.of(namedParam("pingTest", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("ping", pingTestRec, params));
 
     params =
