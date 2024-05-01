@@ -6760,11 +6760,11 @@ Effect	Metal Speed	Initiative: +20
 Effect	Meteor Showered	Weapon Damage Percent: +200, Spell Damage Percent: +200, Familiar Weight: +20
 Effect	Midgetized	Damage Reduction: 4, Weapon Damage: -8
 Effect	Mighty Shout	Muscle Percent: +100, Moxie Percent: +100
+Effect	Mild Lycanthropy	Muscle Percent: [+1*M], Moxie Percent: [+1*M]
 # Mild-Mannered Professor: Max HP Limited to 1
 # Mild-Mannered Professor: You may not attack normally
 # Mild-Mannered Professor: Running away is always successful
 Effect	Mild-Mannered Professor	Combat Rate: -25, Muscle Limit: 1, Mysticality Limit: 5, Moxie Limit: 1
-Effect	Mild Lycanthropy	Muscle Percent: [+1*M], Moxie Percent: [+1*M]
 Effect	Militarily Minted	Damage Reduction: 3
 Effect	Milk is Blood is Milk	Muscle: [-5*T], Mysticality: [-5*T], Moxie: [-5*T], Muscle Percent: [-50*T], Mysticality Percent: [-50*T], Moxie Percent: [-50*T]
 Effect	Milk Studly	Muscle: +15
@@ -11218,7 +11218,7 @@ Item	box of sunshine	Free Pull
 Item	boxed Apriling band helmet	Free Pull
 Item	boxed august scepter	Free Pull
 Item	boxed autumn-aton	Free Pull
-Item	boxed Mayam Calendar	Free Pull
+Item	boxed mayam calendar	Free Pull
 Item	Boxing Day care package	Free Pull
 # brain preservation fluid: Drink it for 5 Adventures!
 # brass abacus: Stuns your opponent for a few rounds

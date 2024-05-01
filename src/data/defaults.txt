@@ -2184,6 +2184,7 @@ user	_managerialManipulationUsed	false
 user	_mansquitoSerumUsed	false
 user	_mapToACandyRichBlockDrops	0
 user	_mapToACandyRichBlockUsed	false
+user	_mayamSymbolsUsed
 user	_maydayDropped	false
 user	_mayflowerDrops	0
 user	_mayflySummons	0
