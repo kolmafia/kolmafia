@@ -54,7 +54,7 @@ public class MayamCommand extends AbstractCommand {
             MafiaState.ERROR,
             "You've already used the "
                 + symbol
-                + "symbol"
+                + " symbol"
                 + (isYam ? " in position " + fromTop : "")
                 + ".");
         return;
