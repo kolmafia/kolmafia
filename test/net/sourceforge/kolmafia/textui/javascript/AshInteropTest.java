@@ -6,6 +6,8 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 public class AshInteropTest {
 
@@ -96,5 +98,19 @@ public class AshInteropTest {
 
     assertTrue(result >= 0, "double should not be negative.");
     assertEquals(approx, result, "ASH function should return double value of result");
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    "'joinStrings([])', ''",
+    "'joinStrings([], \",\")', ''",
+  })
+  void infersTypeOfEmptyAggregates(String fn, String expected) {
+    var js = new JavascriptRuntime(fn);
+    assertNotNull(js, "JavascriptRuntime returned null.");
+    Value ret = js.execute(null, null, true);
+    assertNotNull(ret, "Javascript execute returns null instead of a result to be tested.");
+    String retS = ret.toString();
+    assertEquals(expected, retS);
   }
 }
