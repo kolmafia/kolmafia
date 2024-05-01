@@ -11600,10 +11600,10 @@
 11572	Mayam Calendar	243774189	yamcal.gif	usable		0
 11573	yam	801960895	yam.gif	food, cook, mix	t,d	5
 11574	yam martini	451008769	martini.gif	drink, mix	t,d	65
-11575	sweet potato o' mine	971008770	martini.gif	drink, mix	t,d	115
+11575	sweet potato o' mine	971008770	martini.gif	drink	t,d	115
 11576	Southern yam	987803560	fruitym.gif	drink	t,d	115
 11577	sweet potato punch	851409708	coconut.gif	drink	t,d	115
-11578
+11578	Mayam spinach	917311667	spinachcan.gif	food	t,d	50
 11579	yam and swiss	444359187	hamsandwich.gif	food	t,d	50
 11580
 11581

@@ -11218,7 +11218,7 @@ Item	box of sunshine	Free Pull
 Item	boxed Apriling band helmet	Free Pull
 Item	boxed august scepter	Free Pull
 Item	boxed autumn-aton	Free Pull
-Item	boxed mayam calendar	Free Pull
+Item	boxed Mayam Calendar	Free Pull
 Item	Boxing Day care package	Free Pull
 # brain preservation fluid: Drink it for 5 Adventures!
 # brass abacus: Stuns your opponent for a few rounds
@@ -11879,6 +11879,7 @@ Item	March hat	Free Pull
 # mauve plastic oyster egg: Deals 40-50 Physical Damage
 Item	Maxing, Relaxing	Skill: "Maximum Chill"
 Item	Mayam Calendar	Free Pull
+Item	Mayam spinach	Effect: "Pop-eyed", Effect Duration: 50
 # MayDay&trade; contract: Survival supplies will be delivered to you each day
 Item	MayDay&trade; contract	Free Pull
 Item	MayDay&trade; supply package	Effect: "Ready to Survive", Effect Duration: 30
