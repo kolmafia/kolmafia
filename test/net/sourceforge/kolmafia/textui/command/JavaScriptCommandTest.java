@@ -26,7 +26,7 @@ public class JavaScriptCommandTest extends AbstractCommandTestBase {
     public void printsUndefined() {
       String output = execute("undefined");
 
-      assertThat(output, startsWith("Returned: org.mozilla.javascript.Undefined"));
+      assertThat(output, startsWith("Returned: undefined"));
     }
 
     @Test
