@@ -817,25 +817,27 @@ public abstract class RuntimeLibrary {
 
     params =
         List.of(
-            namedParam("arg1", DataTypes.LOCATION_TYPE), namedParam("arg2", DataTypes.INT_TYPE));
+            namedParam("location", DataTypes.LOCATION_TYPE),
+            namedParam("count", DataTypes.INT_TYPE));
     functions.add(new LibraryFunction("adventure", DataTypes.BOOLEAN_TYPE, params));
 
     params =
         List.of(
-            namedParam("arg1", DataTypes.LOCATION_TYPE),
-            namedParam("arg2", DataTypes.INT_TYPE),
+            namedParam("location", DataTypes.LOCATION_TYPE),
+            namedParam("count", DataTypes.INT_TYPE),
             namedParam("filterFunction", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("adventure", DataTypes.BOOLEAN_TYPE, params));
 
     params =
         List.of(
-            namedParam("arg1", DataTypes.INT_TYPE), namedParam("arg2", DataTypes.LOCATION_TYPE));
+            namedParam("count", DataTypes.INT_TYPE),
+            namedParam("location", DataTypes.LOCATION_TYPE));
     functions.add(new LibraryFunction("adventure", DataTypes.BOOLEAN_TYPE, params));
 
     params =
         List.of(
-            namedParam("arg1", DataTypes.INT_TYPE),
-            namedParam("arg2", DataTypes.LOCATION_TYPE),
+            namedParam("count", DataTypes.INT_TYPE),
+            namedParam("location", DataTypes.LOCATION_TYPE),
             namedParam("filterFunction", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("adventure", DataTypes.BOOLEAN_TYPE, params));
 
