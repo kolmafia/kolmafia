@@ -5610,6 +5610,7 @@ Effect	Cat Class, Cat Style	Moxie Percent: +20
 Effect	Cat-Alyzed	Moxie: +10
 Effect	Category	Experience Percent (Mysticality): +25
 Effect	Catstermind	Avatar: "The Mastermind"
+# Caught Yam-Handed: Monsters will sometimes be distracted, trying to avoid the hot yam
 Effect	Cautious Prowl	Item Drop: +50
 Effect	Cavemanipulated	Avatar: "caveman"
 Effect	Ceaseless Snarling	Monster Level: +30

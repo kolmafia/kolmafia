@@ -1084,6 +1084,7 @@ yam	1	1	awesome	0	0	0	0	Unspaded
 yam and swiss	1	1	awesome	0	0	0	0	Unspaded
 yam burrito	1	1	awesome	0	0	0	0	Unspaded
 yam candy	3	1	good	5-10	0	31-34	0
+yam mayo	1	1	awesome	0	0	0	0	Unspaded
 yam slider	1	1	awesome	0	0	0	0	Unspaded
 Yeg's Motel pillow mint	1	1	good	3	80-100	80-100	80-100	10 Really Quite Poisoned (-70% all stats), 10 Temporary Blindness (-75% item, -25% mox, -30% init)
 yellow drunki-bear	4	6	EPIC	22-26	0	0	200-240	4 Fullness 80 Gummskin (+100 Mox)
