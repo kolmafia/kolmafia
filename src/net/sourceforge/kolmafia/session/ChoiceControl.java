@@ -4,6 +4,7 @@ import static net.sourceforge.kolmafia.utilities.Statics.DateTimeManager;
 import static net.sourceforge.kolmafia.utilities.StringUtilities.extractIidFromURL;
 
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -4824,6 +4825,26 @@ public abstract class ChoiceControl {
   private static final Pattern WALFORD_PATTERN =
       Pattern.compile("\\(Walford's bucket filled by (\\d+)%\\)");
 
+  private static final Pattern MAYAM_SYMBOLS =
+      Pattern.compile("<img data-pos=\"\\d\" class=\"(used)?\"? alt=\"(.*?)\"");
+
+  public static void parseMayamCalendar(final String text) {
+    var symbolMatcher = MAYAM_SYMBOLS.matcher(text);
+
+    var yams = 0;
+    var used = new ArrayList<String>();
+
+    while (symbolMatcher.find()) {
+      var shouldAdd = symbolMatcher.group(1) != null;
+      var symbol = symbolMatcher.group(2).toLowerCase();
+
+      if (symbol.equals("yam")) symbol += (++yams);
+      if (shouldAdd) used.add(symbol);
+    }
+
+    Preferences.setString("_mayamSymbolsUsed", String.join(",", used));
+  }
+
   public static void postChoice2(final String urlString, final GenericRequest request) {
     String text = request.responseText;
 
@@ -6815,6 +6836,11 @@ public abstract class ChoiceControl {
           case 4, 5, 6, 7, 8 -> Preferences.increment("_aprilBandInstruments", 1, 2, false);
         }
         break;
+
+      case 1527:
+        // Consider the Calendar
+        parseMayamCalendar(text);
+        break;
     }
   }
 
@@ -8673,6 +8699,11 @@ public abstract class ChoiceControl {
       case 1523: // Research Bench
         ResearchBenchRequest.visitChoice(text);
         break;
+
+      case 1527:
+        // Consider the Calendar
+        parseMayamCalendar(text);
+        break;
     }
   }
 
@@ -9798,6 +9829,7 @@ public abstract class ChoiceControl {
       case 1518: // Prepare your Meal
       case 1523: // Research Bench
       case 1526: // Conduct the Band
+      case 1527: // Consider the Calendar
         return true;
 
       default:
