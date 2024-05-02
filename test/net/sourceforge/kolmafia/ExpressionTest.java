@@ -131,8 +131,7 @@ public class ExpressionTest {
 
   @Test
   void canReportItemCountsByName() {
-    var cleanups =
-      new Cleanups(withItem(ItemPool.FILET_OF_TANGY_GNAT, 2));
+    var cleanups = new Cleanups(withItem(ItemPool.FILET_OF_TANGY_GNAT, 2));
 
     try (cleanups) {
       var exp = new Expression("haveitem(2528)", "have filet of tangy gnat");
