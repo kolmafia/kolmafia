@@ -16,6 +16,7 @@ import java.util.List;
 import net.sourceforge.kolmafia.KoLConstants.Stat;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class HolidayDatabase {
   // The epoch of the Kingdom of Loathing.
@@ -941,6 +942,12 @@ public class HolidayDatabase {
 
   private static String getRealLifeOnlyHoliday(final TemporalAccessor date) {
     var monthDay = MonthDay.from(date);
+
+    if (monthDay.equals(MonthDay.of(Month.DECEMBER, 15))) {
+      return "KoLmafia's "
+          + StringUtilities.withOrdinalSuffix(Year.from(date).getValue() - 2004)
+          + " Birthday";
+    }
 
     if (monthDay.equals(MonthDay.of(Month.FEBRUARY, 2))) {
       return "Groundhog Day";

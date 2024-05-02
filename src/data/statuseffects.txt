@@ -2909,3 +2909,4 @@
 2906	Vessel of Magic	yamvessel.gif	b05746e8d34ef035bb7785fec0969265	neutral	none
 2907	Walled In	wallshield.gif	ac00a12dba132bffe22567b7c63ba2c8	neutral	none
 2908	Caught Yam-Handed	yam.gif	7804213456259ccd0588f39945748e05	neutral	none
+2909	Memories of Cheesier Age	yamcheese.gif	69a72a96a895bef2a452fe02a5b7a0fc	neutral	none
