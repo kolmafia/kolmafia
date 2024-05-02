@@ -795,9 +795,9 @@ class ChoiceControlTest {
     @Test
     void parsesWoodNotBoard() {
       var cleanups =
-        new Cleanups(
-          withProperty("_mayamSymbolsUsed", ""),
-          withChoice(1527, html("request/test_choice_mayam_used_wood.html")));
+          new Cleanups(
+              withProperty("_mayamSymbolsUsed", ""),
+              withChoice(1527, html("request/test_choice_mayam_used_wood.html")));
 
       try (cleanups) {
         assertThat("_mayamSymbolsUsed", isSetTo("sword,wood,wall,explosion"));

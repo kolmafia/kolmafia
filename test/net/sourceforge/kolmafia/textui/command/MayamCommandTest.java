@@ -53,9 +53,7 @@ public class MayamCommandTest extends AbstractCommandTestBase {
   @ParameterizedTest
   @ValueSource(strings = {"yam yam yam", "yam yam yam yam yam"})
   void mustProvideExactlyFourSymbols(final String symbols) {
-    var cleanups =
-      new Cleanups(
-        withCalendar(), withProperty("_mayamSymbolsUsed", ""));
+    var cleanups = new Cleanups(withCalendar(), withProperty("_mayamSymbolsUsed", ""));
 
     try (cleanups) {
       String output = execute(symbols);
