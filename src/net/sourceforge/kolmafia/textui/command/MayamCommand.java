@@ -14,15 +14,21 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 public class MayamCommand extends AbstractCommand {
   private static final List<List<String>> SYMBOL_POSITIONS =
       List.of(
-          List.of("yam", "clock", "explosion"),
-          List.of("yam", "eyepatch", "cheese", "wall"),
+          List.of("yam", "sword", "vessel", "fur", "chair", "eye"),
           List.of("yam", "lightning", "bottle", "board", "meat"),
-          List.of("yam", "sword", "vessel", "fur", "chair", "eye"));
+          List.of("yam", "eyepatch", "cheese", "wall"),
+          List.of("yam", "clock", "explosion"));
+
+  private static final String SYMBOL_USAGE =
+      SYMBOL_POSITIONS.stream()
+          .map(ring -> "[" + String.join("|", ring) + "]")
+          .collect(Collectors.joining(" "));
 
   public MayamCommand() {
-    var symbols =
-        SYMBOL_POSITIONS.stream().flatMap(List::stream).distinct().collect(Collectors.joining("|"));
-    this.usage = "[" + symbols + "] - list symbols top to bottom (largest ring to smallest)";
+    this.usage =
+        " "
+            + SYMBOL_USAGE
+            + " - list exactly four symbols to consider from top to bottom (largest ring to smallest)";
   }
 
   private boolean lacksCalendar() {
@@ -35,17 +41,22 @@ public class MayamCommand extends AbstractCommand {
 
   @Override
   public void run(final String cmd, String parameters) {
+    if (lacksCalendar()) return;
+
     String[] symbols = parameters.split(" ");
 
-    if (lacksCalendar()) return;
+    if (symbols.length != 4) {
+      KoLmafia.updateDisplay(MafiaState.ERROR, "You must supply exactly four symbols.");
+      return;
+    }
 
     use();
 
     var symbolsUsed = Arrays.asList(Preferences.getString("_mayamSymbolsUsed").split(","));
 
-    int ring = 4;
+    int ring = 0;
     for (var symbol : symbols) {
-      int fromTop = (4 - --ring);
+      int fromTop = ring + 1;
 
       var isYam = symbol.equals("yam");
       var nameInPref = isYam ? symbol + fromTop : symbol;
@@ -68,7 +79,8 @@ public class MayamCommand extends AbstractCommand {
         return;
       }
 
-      spin(ring, pos);
+      spin(3 - ring, pos);
+      ring++;
     }
 
     consider();

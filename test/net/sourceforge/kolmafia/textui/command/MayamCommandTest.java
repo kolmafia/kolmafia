@@ -19,6 +19,8 @@ import net.sourceforge.kolmafia.session.ChoiceManager;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 public class MayamCommandTest extends AbstractCommandTestBase {
   @BeforeAll
@@ -46,6 +48,19 @@ public class MayamCommandTest extends AbstractCommandTestBase {
   void requiresCalendar() {
     String output = execute("yam yam yam yam");
     assertThat(output, containsString("You need a Mayam Calendar"));
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = {"yam yam yam", "yam yam yam yam yam"})
+  void mustProvideExactlyFourSymbols(final String symbols) {
+    var cleanups =
+      new Cleanups(
+        withCalendar(), withProperty("_mayamSymbolsUsed", ""));
+
+    try (cleanups) {
+      String output = execute(symbols);
+      assertThat(output, containsString("You must supply exactly four symbols."));
+    }
   }
 
   @Test
