@@ -82,6 +82,7 @@ class HolidayDatabaseTest {
       "10,22,Holatuwol's Birthday",
       "9,23,Veracity's Birthday",
       "2,17,Gausie's Birthday",
+      "12,15,KoLmafia's 18th Birthday",
       "1,2,"
     })
     void canIdentifyRealLifeHolidays(final int month, int day, final String holiday) {
