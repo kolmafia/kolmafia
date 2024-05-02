@@ -276,7 +276,7 @@ Use	The Legendary Beat	_legendaryBeat
 Use	Trivial Avocations board game	_trivialAvocationsGame
 Use	Twelve Night Energy	_twelveNightEnergyUsed
 Use	Ultra Mega Sour Ball	_ultraMegaSourBallUsed
-Use	Universal Seasoning	_universalSeasoningsUsed	[pref(universalSeasoningCost)/1000]
+Use	Universal Seasoning	_universalSeasoningsUsed	[haveitem(Universal Seasoning)]
 Use	Victor's Spoils	_victorSpoilsUsed
 Use	[glitch season reward name]	_glitchItemImplemented
 Use	alien animal milk	_alienAnimalMilkUsed
