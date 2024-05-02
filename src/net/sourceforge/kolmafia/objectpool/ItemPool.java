@@ -3755,6 +3755,10 @@ public class ItemPool {
 
   private ItemPool() {}
 
+  public static final AdventureResult get(String itemName) {
+    return ItemPool.get(itemName, 1);
+  }
+
   public static final AdventureResult get(String itemName, int count) {
     int itemId = ItemDatabase.getItemId(itemName, 1, false);
 
@@ -3770,7 +3774,7 @@ public class ItemPool {
   }
 
   public static final AdventureResult get(int itemId) {
-    return new AdventureResult(itemId, 1, false);
+    return ItemPool.get(itemId, 1);
   }
 
   // Support for various classes of items:
