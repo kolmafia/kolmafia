@@ -65,10 +65,11 @@ jobs:
           report_paths: "**/build/test-results/test/TEST-*.xml"
 
       - name: Publish Coverage Report
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
         if: always()
         with:
           env_vars: OS,JAVA
           name: coverage-${{ matrix.os }}-java-${{ matrix.java }}
           file: ./build/reports/jacoco/test/jacocoTestReport.xml
+          token: ${{secrets.CODECOV_TOKEN}}
 
