@@ -116,7 +116,7 @@ public class ExpressionTest {
   }
 
   @Test
-  void canReportItemCounts() {
+  void canReportItemCountsById() {
     var cleanups =
         new Cleanups(
             withItem(ItemPool.UNIVERSAL_SEASONING, 4),
@@ -126,6 +126,17 @@ public class ExpressionTest {
     try (cleanups) {
       var exp = new Expression("haveitem(Universal Seasoning)", "have universal seasoning");
       assertThat(exp.eval(), is(4.0));
+    }
+  }
+
+  @Test
+  void canReportItemCountsByName() {
+    var cleanups =
+      new Cleanups(withItem(ItemPool.FILET_OF_TANGY_GNAT, 2));
+
+    try (cleanups) {
+      var exp = new Expression("haveitem(2528)", "have filet of tangy gnat");
+      assertThat(exp.eval(), is(2.0));
     }
   }
 }
