@@ -3751,6 +3751,7 @@ public class ItemPool {
   public static final int APRIL_BAND_TUBA = 11568;
   public static final int APRIL_BAND_STAFF = 11569;
   public static final int APRIL_BAND_PICCOLO = 11570;
+  public static final int MAYAM_CALENDAR = 11572;
 
   private ItemPool() {}
 
