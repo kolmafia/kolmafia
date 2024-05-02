@@ -1792,6 +1792,7 @@ wrought-iron whisk	120	Mys: 40	1-handed utensil
 wumpus-hair whip	15	Mus: 0	1-handed whip
 X-37 gun	160	Mox: 65	1-handed pistol
 yak whip	20	Mus: 0	1-handed whip
+yam cannon	100	Mox: 0	1-handed cannon
 yohohoyo	160	Mox: 65	1-handed yoyo
 yule hatchet	100	Mus: 0	1-handed axe
 Zim Merman's guitar	200	Mox: 85	2-handed guitar
@@ -1984,6 +1985,7 @@ foon of fulmination	50	Mys: 10
 Franken Stein	0	none
 frankincenser	0	none
 Frigid Northern Beans	30	none	can of beans
+furry yam buckler	0	none	shield
 Gazpacho's Glacial Grimoire	30	none
 geological sample kit	10	none
 ghast iron heater shield	180	Mus: 75	shield

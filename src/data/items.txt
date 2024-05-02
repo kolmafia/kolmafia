@@ -11605,12 +11605,12 @@
 11577	sweet potato punch	851409708	coconut.gif	drink	t,d	115
 11578	Mayam spinach	917311667	spinachcan.gif	food	t,d	50
 11579	yam and swiss	444359187	hamsandwich.gif	food	t,d	50
-11580
+11580	yam cannon	881829575	yamgun.gif	weapon	q	0
 11581
-11582
+11582	yam battery	699339852	yambattery.gif	usable	d	50
 11583	stuffed yam stinkbomb	708760617	yambomb2.gif	none, combat	t,d	50
-11584
-11585
+11584	furry yam buckler	633819472	yamshield.gif	offhand	q	0
+11585	thanksgiving bomb	976934021	yambomb.gif	none, combat	t,d	50
 11586
 11587	yam slider	593891884	burger.gif	food	t,d	11
 11588	yam mayo	878600079	nutramekin.gif	food	t,d	11
