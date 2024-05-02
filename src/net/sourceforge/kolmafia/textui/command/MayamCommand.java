@@ -21,12 +21,12 @@ public class MayamCommand extends AbstractCommand {
 
   private static final String SYMBOL_USAGE =
       SYMBOL_POSITIONS.stream()
-          .map(ring -> "[" + String.join("|", ring) + "]")
+          .map(ring -> "<" + String.join("|", ring) + ">")
           .collect(Collectors.joining(" "));
 
   public MayamCommand() {
     this.usage =
-        " "
+        " rings "
             + SYMBOL_USAGE
             + " - list exactly four symbols to consider from top to bottom (largest ring to smallest)";
   }
@@ -43,6 +43,16 @@ public class MayamCommand extends AbstractCommand {
   public void run(final String cmd, String parameters) {
     if (lacksCalendar()) return;
 
+    String[] args = parameters.split(" ", 2);
+
+    switch (args[0]) {
+      case "rings" -> rings(args[1]);
+      default -> KoLmafia.updateDisplay(
+          MafiaState.ERROR, "Mayam command not recognised. Stop t'zolkin around.");
+    }
+  }
+
+  private void rings(final String parameters) {
     String[] symbols = parameters.split(" ");
 
     if (symbols.length != 4) {
