@@ -2100,6 +2100,7 @@ Item	wumpus-hair whip	Spooky Damage: +2, Stench Damage: +2, Hot Damage: +2, Cold
 # X-37 gun: Shoots Elemental Blasts
 Item	X-37 gun	Breakable
 Item	yak whip	Weakens Monster
+Item	yam cannon	Hot Damage: +50, Ranged Damage Percent: +25, Food Drop: +30, Lasts Until Rollover
 Item	yohohoyo	Critical Hit Percent: +5, Spooky Damage: +1, Stench Damage: +1, Hot Damage: +1, Cold Damage: +1, Sleaze Damage: +1
 Item	yule hatchet	Experience (familiar): +2
 Item	Zim Merman's guitar	Ranged Damage: +20
@@ -2307,6 +2308,7 @@ Item	foon of foulness	Mysticality: +3, Stench Spell Damage: +8
 Item	foon of frigidity	Mysticality: +3, Cold Spell Damage: +8
 Item	foon of fulmination	Mysticality: +3, Hot Spell Damage: +8
 Item	frankincenser	Maximum MP: +10, Experience (Mysticality): +3
+Item	furry yam buckler	Cold Resistance: +4, Damage Reduction: 14, Negative Status Resist, Lasts Until Rollover
 # Gazpacho's Glacial Grimoire: All Spells Cast Are Cold
 Item	Gazpacho's Glacial Grimoire	Spell Damage: +10
 # geological sample kit: Increases the yield of Spacegate geology operations
@@ -6743,6 +6745,7 @@ Effect	Mediocri Tea	Monster Level: +30
 Effect	Meet the Meat	Meat Drop: +100, Gear Drop: +50
 Effect	Melancholy Burden	Item Drop: +60
 Effect	Memento Moir&eacute;	Experience: +3
+Effect	Memories of Cheesier Age	Food Drop: +100, Stench Damage: +25
 Effect	Memories of Puppy Love	Moxie: +20
 Effect	Memory of Aggressiveness	Monster Level: +30
 Effect	Memory of Attractiveness	Moxie Percent: +100
@@ -9153,6 +9156,7 @@ Item	mana-fortified cranberry sauce	Effect: "Mana-Blasted", Effect Duration: 20
 Item	mana-stuffed herbal stuffing	Effect: "Mana-Blasted", Effect Duration: 20
 Item	maple syrup	Effect: "Antsy in your Pantsy", Effect Duration: 5
 Item	mashed potatoes	Effect: "Thanksgetting", Effect Duration: 20
+Item	Mayam spinach	Effect: "Pop-eyed", Effect Duration: 50
 Item	Medical Pastaco	Effect: "Helvella Health", Effect Duration: 40
 Item	meteoreo	Effect: "Superioreo", Effect Duration: 40
 Item	mince pie	Effect: "Thanksgetting", Effect Duration: 20
@@ -11879,7 +11883,6 @@ Item	March hat	Free Pull
 # mauve plastic oyster egg: Deals 40-50 Physical Damage
 Item	Maxing, Relaxing	Skill: "Maximum Chill"
 Item	Mayam Calendar	Free Pull
-Item	Mayam spinach	Effect: "Pop-eyed", Effect Duration: 50
 # MayDay&trade; contract: Survival supplies will be delivered to you each day
 Item	MayDay&trade; contract	Free Pull
 Item	MayDay&trade; supply package	Effect: "Ready to Survive", Effect Duration: 30
@@ -12459,6 +12462,7 @@ Item	Tapioc berry	Effect: "Berry Elemental", Effect Duration: 20
 # tennis ball: Banish an enemy for 30 Adventures
 # tequila grenade: Deals 75-100 Physical Damage
 # terrible poem: Deals 5-6 Physical Damage
+# thanksgiving bomb: Deals 750-1000 Physical and Hot Damage
 Item	The Art of Slapfighting	Class: "Seal Clubber", Skill: "Iron Palm Technique"
 Item	The Art of Slapfighting (used)	Class: "Seal Clubber", Skill: "Iron Palm Technique"
 Item	The Autobiography Of Dynamite Superman Jones	Class: "Disco Bandit", Skill: "Kung Fu Hustler"
@@ -12671,6 +12675,8 @@ Item	wussiness potion	Effect: "Wussiness", Effect Duration: 3
 # X-32-F snowman crate: Installs a Combat Training Snowman in the Big Mountains
 Item	X-32-F snowman crate	Free Pull
 Item	xo-skeleton-in-a-box	Free Pull
+# yam battery: Restore up to 1,000 MP
+# yam battery: Gain 3 Random Good Effects
 # Ye Olde Medieval Insult: Weakens enemies somewhat and briefly stuns them
 # Yeg's Motel disposable razor: Deals 50% of a monster's current Hit Points in Physical Damage
 # Yeg's Motel sewing kit: Restores all HP
