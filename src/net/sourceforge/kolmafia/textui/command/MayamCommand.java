@@ -15,7 +15,7 @@ public class MayamCommand extends AbstractCommand {
   private static final List<List<String>> SYMBOL_POSITIONS =
       List.of(
           List.of("yam", "sword", "vessel", "fur", "chair", "eye"),
-          List.of("yam", "lightning", "bottle", "board", "meat"),
+          List.of("yam", "lightning", "bottle", "wood", "meat"),
           List.of("yam", "eyepatch", "cheese", "wall"),
           List.of("yam", "clock", "explosion"));
 
