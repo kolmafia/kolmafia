@@ -11071,7 +11071,7 @@
 11043	tiny plastic locomotive	270326005	c22_tp1.gif	accessory	t	0
 11044	packaged model train set	494254899	modeltrain_box.gif	usable	t	0
 11045	model train set	959599372	modeltrain.gif	usable		0
-11046	Crimbo training manual	990145553	trainmanual.gif	reusable		0
+11046	Crimbo training manual	990145553	trainmanual.gif	reusable, curse		0
 11047	Abuela Crimbo's special magnet	868251665	trainmagnet.gif	offhand		0
 11048	Trainbot radar monocle	589333447	trainmonocle.gif	accessory	t	0
 11049	pile of Trainbot parts	410098387	trainparts.gif	usable	t	0	piles of Trainbot parts
