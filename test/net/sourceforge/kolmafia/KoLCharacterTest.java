@@ -624,4 +624,18 @@ public class KoLCharacterTest {
       }
     }
   }
+
+  @Nested
+  class FreeRests {
+    @Test
+    void mayamCalendarChairGivesFiveFreeRests() {
+      var cleanups =
+          new Cleanups(
+              withProperty("_mayamSymbolsUsed", "yam1,chair,yam2,meat,yam3,cheese,yam4,clock"),
+              withAdjustmentsRecalculated());
+      try (cleanups) {
+        assertThat(KoLCharacter.freeRestsAvailable(), is(5));
+      }
+    }
+  }
 }

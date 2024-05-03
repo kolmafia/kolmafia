@@ -1045,6 +1045,9 @@ public class Modifiers {
       this.addDouble(
           DoubleModifier.FREE_RESTS, 3, ModifierType.INVENTORY_ITEM, "replica Cincho de Mayo");
     }
+    if (Preferences.getString("_mayamSymbolsUsed").contains("chair")) {
+      this.addDouble(DoubleModifier.FREE_RESTS, 5, ModifierType.ITEM, ItemPool.MAYAM_CALENDAR);
+    }
   }
 
   public void applySynergies() {
