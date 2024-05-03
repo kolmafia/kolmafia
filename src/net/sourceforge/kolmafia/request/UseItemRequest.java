@@ -6176,6 +6176,18 @@ public class UseItemRequest extends GenericRequest {
       case ItemPool.LIL_SNOWBALL_FACTORY:
         Preferences.setBoolean("_snowballFactoryUsed", true);
         break;
+      case ItemPool.LAW_OF_AVERAGES:
+        var pref = "_lawOfAveragesUsed";
+        if (responseText.contains("You already feel pretty average")) {
+          Preferences.setInteger(
+              pref,
+              Math.max(
+                  Preferences.getInteger(pref),
+                  InventoryManager.getCount(ItemPool.LAW_OF_AVERAGES)));
+        } else {
+          Preferences.increment(pref);
+        }
+        return;
     }
 
     if (CampgroundRequest.isWorkshedItem(itemId)) {
