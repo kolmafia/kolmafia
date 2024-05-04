@@ -1,11 +1,19 @@
 package net.sourceforge.kolmafia;
 
+import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withItemInCloset;
+import static internal.helpers.Player.withItemInStorage;
+import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import internal.helpers.Cleanups;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -64,26 +72,35 @@ public class ExpressionTest {
     assertEquals(Double.parseDouble(expected), exp.eval());
   }
 
-  @ParameterizedTest
-  @CsvSource({
-    "true, 1",
-    "false, 0",
-    "45, 45",
-  })
-  public void canReadPrefs(String prefValue, String expected) {
-    Preferences.setString("test", prefValue);
-    var exp = new Expression("pref(test)", "pref(test) where pref = " + prefValue);
-    assertEquals(Double.parseDouble(expected), exp.eval());
-  }
+  @Nested
+  class Pref {
+    @ParameterizedTest
+    @CsvSource({
+      "true, 1",
+      "false, 0",
+      "45, 45",
+    })
+    public void canReadPrefs(String prefValue, String expected) {
+      var cleanups = withProperty("test", prefValue);
 
-  @ParameterizedTest
-  @CsvSource({
-    "abc, 1", "xyz, 0",
-  })
-  public void canComparePrefs(String prefValue, String expected) {
-    Preferences.setString("test", prefValue);
-    var exp = new Expression("pref(test,abc)", "pref(test,abc) where pref = " + prefValue);
-    assertEquals(Double.parseDouble(expected), exp.eval());
+      try (cleanups) {
+        var exp = new Expression("pref(test)", "pref(test) where pref = " + prefValue);
+        assertEquals(Double.parseDouble(expected), exp.eval());
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "abc, 1", "xyz, 0",
+    })
+    public void canComparePrefs(String prefValue, String expected) {
+      var cleanups = withProperty("test", prefValue);
+
+      try (cleanups) {
+        var exp = new Expression("pref(test,abc)", "pref(test,abc) where pref = " + prefValue);
+        assertEquals(Double.parseDouble(expected), exp.eval());
+      }
+    }
   }
 
   @Test
@@ -96,5 +113,29 @@ public class ExpressionTest {
   void canReportMultipleErrors() {
     var exp = new Expression("1+(4*path(The Source))", "nonexistent function");
     assertThat(exp.hasErrors(), equalTo(true));
+  }
+
+  @Test
+  void canReportItemCountsById() {
+    var cleanups =
+        new Cleanups(
+            withItem(ItemPool.UNIVERSAL_SEASONING, 4),
+            withItemInCloset(ItemPool.UNIVERSAL_SEASONING, 2),
+            withItemInStorage(ItemPool.UNIVERSAL_SEASONING, 1));
+
+    try (cleanups) {
+      var exp = new Expression("haveitem(Universal Seasoning)", "have universal seasoning");
+      assertThat(exp.eval(), is(4.0));
+    }
+  }
+
+  @Test
+  void canReportItemCountsByName() {
+    var cleanups = new Cleanups(withItem(ItemPool.FILET_OF_TANGY_GNAT, 2));
+
+    try (cleanups) {
+      var exp = new Expression("haveitem(2528)", "have filet of tangy gnat");
+      assertThat(exp.eval(), is(2.0));
+    }
   }
 }

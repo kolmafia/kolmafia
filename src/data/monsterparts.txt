@@ -1218,7 +1218,7 @@
 1289	groast	body	eye
 1290	salaminder	head	leg	tail	torso
 1291	cold cutter	arm	head	leg	torso
-1292	The Beefhemoth	head	tail	torso
+1292	The Beefhemoth	head	leg	tail	torso
 1293	Whisk of Misery	handle
 1294	Butterknife of Regret	handle
 1295	Spatula of Despair	handle
@@ -2048,8 +2048,8 @@
 2155	musical fruit bat	orange	wing
 2156	magical fruit bat	orange	wing
 2162	drippy tree	leaves	limb	trunk
-2163	drippy bat
-2164	The Thing in the Basement
+2163	drippy bat	head	wing
+2164	The Thing in the Basement	eye	mouth	tentacle
 2165	Koopa Paratroopa	head	leg	shell	wing
 2166	Hammer Brother	arm	head	leg	shell
 2167	Very Dry Bones	bone	shell	skull
@@ -2196,8 +2196,8 @@
 2320	Little Lord Spookyraven	arm	head	leg	torso
 2321	Protector Spectre Candidate
 2322	Flock of Groars?	arm	head	leg	wing
-2323	The Little Wisniewski
-2324	The Boy
+2323	The Little Wisniewski	arm	head	leg	torso
+2324	The Boy	arm	head	leg	torso
 2325	ncle	leg	mandible	scape	thorax
 2326	rutabaga bug	carapace	eye	leg
 2327	mesquito	eye	leg	proboscis	wing
