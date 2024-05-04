@@ -874,7 +874,7 @@ public class BreakfastManager {
     AdventureResult plant = ItemPool.get("potted power plant", 1);
 
     if (!InventoryManager.hasItem(plant)
-        || !StandardRequest.isAllowed(RestrictedItemType.ITEMS, plant.getName())
+        || !ItemDatabase.isAllowed(plant)
         || KoLCharacter.inGLover()) {
       return;
     }
@@ -914,7 +914,7 @@ public class BreakfastManager {
     AdventureResult book = ItemPool.get(ItemPool.THE_BIG_BOOK_OF_EVERY_SKILL, 1);
 
     if (!InventoryManager.hasItem(book)
-        || !StandardRequest.isAllowed(RestrictedItemType.ITEMS, book.getName())
+        || !ItemDatabase.isAllowed(book)
         || KoLCharacter.inBeecore()) {
       return;
     }

@@ -47,7 +47,6 @@ import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.RichardRequest;
 import net.sourceforge.kolmafia.request.SpelunkyRequest;
-import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
@@ -734,9 +733,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     // Some zones/areas are available via items.
     AdventureResult item = AdventureDatabase.zoneGeneratingItem(this.zone);
     // If it is from an item, Standard restrictions may apply.
-    if (item != null
-        && KoLCharacter.getRestricted()
-        && !StandardRequest.isAllowed(RestrictedItemType.ITEMS, item.getName())) {
+    if (item != null && KoLCharacter.getRestricted() && !ItemDatabase.isAllowed(item)) {
       return false;
     }
 

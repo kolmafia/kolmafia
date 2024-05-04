@@ -1332,7 +1332,7 @@ public class ConcoctionDatabase {
           && ar.getItemId() > 0
           && item.getPrice() <= 0
           && ConsumablesDatabase.meetsLevelRequirement(item.getName())
-          && StandardRequest.isAllowed(RestrictedItemType.ITEMS, ar.getName())) {
+          && ItemDatabase.isAllowed(ar)) {
         item.setPullable(
             Math.min(
                 ar.getCount(KoLConstants.storage) - item.queuedPulls,

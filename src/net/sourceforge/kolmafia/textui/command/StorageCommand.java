@@ -8,11 +8,10 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
-import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.StorageRequest.StorageRequestType;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -178,7 +177,7 @@ public class StorageCommand extends AbstractCommand {
         items[i] = item.getInstance(storageCount);
       }
 
-      if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, itemName)) {
+      if (!ItemDatabase.isAllowed(item)) {
         KoLmafia.updateDisplay(itemName + " is not allowed right now.");
         items[i] = null;
       }
