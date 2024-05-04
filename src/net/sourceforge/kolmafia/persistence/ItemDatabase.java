@@ -2428,7 +2428,8 @@ public class ItemDatabase {
   }
 
   public static boolean isAllowed(final int itemId) {
-    return StandardRequest.isAllowed(RestrictedItemType.ITEMS, ItemDatabase.getDataName(itemId));
+    return itemId < 1
+        || StandardRequest.isAllowed(RestrictedItemType.ITEMS, ItemDatabase.getDataName(itemId));
   }
 
   public static boolean isAllowedInStandard(final int itemId) {
