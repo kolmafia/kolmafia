@@ -20,7 +20,6 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.equipment.SlotSet;
@@ -53,7 +52,6 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.SewerRequest;
-import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.StorageRequest.StorageRequestType;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
@@ -195,7 +193,7 @@ public abstract class InventoryManager {
     }
 
     // If this item is restricted, ignore it entirely.
-    if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, item.getName())) {
+    if (!ItemDatabase.isAllowed(item)) {
       return 0;
     }
 
@@ -572,7 +570,7 @@ public abstract class InventoryManager {
       return item.getCount(KoLConstants.inventory) > 0 ? "" : null;
     }
 
-    boolean isRestricted = !StandardRequest.isAllowed(RestrictedItemType.ITEMS, item.getName());
+    boolean isRestricted = !ItemDatabase.isAllowed(item);
     CraftingType mixingMethod = ConcoctionDatabase.getMixingMethod(item);
     boolean coinmasterCreation = mixingMethod == CraftingType.COINMASTER;
     boolean shouldUseCoinmasters = InventoryManager.canUseCoinmasters(itemId);
@@ -1587,7 +1585,7 @@ public abstract class InventoryManager {
 
     // The Crown of Thrones is not trendy, but double check anyway
     AdventureResult item = InventoryManager.CROWN_OF_THRONES;
-    if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, item.getName())) {
+    if (!ItemDatabase.isAllowed(item)) {
       return;
     }
 
@@ -1612,7 +1610,7 @@ public abstract class InventoryManager {
 
     // Check if the Buddy Bjorn is Trendy
     AdventureResult item = InventoryManager.BUDDY_BJORN;
-    if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, item.getName())) {
+    if (!ItemDatabase.isAllowed(item)) {
       return;
     }
 

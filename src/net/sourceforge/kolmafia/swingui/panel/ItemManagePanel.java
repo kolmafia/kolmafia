@@ -19,7 +19,6 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -39,7 +38,6 @@ import net.sourceforge.kolmafia.request.DisplayCaseRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.ManageStoreRequest;
 import net.sourceforge.kolmafia.request.PulverizeRequest;
-import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -840,16 +838,16 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
         }
       }
 
-      if (isVisibleWithFilter && !StandardRequest.isAllowed(RestrictedItemType.ITEMS, name)) {
+      if (itemId < 1) {
+        return ItemManagePanel.this.filters == null && super.isVisible(element);
+      }
+
+      if (isVisibleWithFilter && !ItemDatabase.isAllowed(itemId)) {
         isVisibleWithFilter = !FilterItemField.this.instyle;
       }
 
       if (!isVisibleWithFilter) {
         return false;
-      }
-
-      if (itemId < 1) {
-        return ItemManagePanel.this.filters == null && super.isVisible(element);
       }
 
       if (!FilterItemField.this.notrade && !ItemDatabase.isTradeable(itemId)) {
