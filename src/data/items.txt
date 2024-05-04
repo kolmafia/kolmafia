@@ -11071,7 +11071,7 @@
 11043	tiny plastic locomotive	270326005	c22_tp1.gif	accessory	t	0
 11044	packaged model train set	494254899	modeltrain_box.gif	usable	t	0
 11045	model train set	959599372	modeltrain.gif	usable		0
-11046	Crimbo training manual	990145553	trainmanual.gif	reusable		0
+11046	Crimbo training manual	990145553	trainmanual.gif	reusable, curse		0
 11047	Abuela Crimbo's special magnet	868251665	trainmagnet.gif	offhand		0
 11048	Trainbot radar monocle	589333447	trainmonocle.gif	accessory	t	0
 11049	pile of Trainbot parts	410098387	trainparts.gif	usable	t	0	piles of Trainbot parts
@@ -11606,12 +11606,12 @@
 11578	Mayam spinach	917311667	spinachcan.gif	food	t,d	50	cans of Mayam spinach
 11579	yam and swiss	444359187	hamsandwich.gif	food	t,d	50	yams and swiss
 11580	yam cannon	881829575	yamgun.gif	weapon	q	0
-11581
+11581	tiny yam cannon	480014210	yamgun2.gif	familiar	q,d	50
 11582	yam battery	699339852	yambattery.gif	usable	d	50	yam batteries
 11583	stuffed yam stinkbomb	708760617	yambomb2.gif	none, combat	t,d	50
 11584	furry yam buckler	633819472	yamshield.gif	offhand	q	0
 11585	thanksgiving bomb	976934021	yambomb.gif	none, combat	t,d	50
-11586
+11586	yamtility belt	266839903	yambelt.gif	accessory	q	0
 11587	yam slider	593891884	burger.gif	food	t,d	11
 11588	yam mayo	878600079	nutramekin.gif	food	t,d	11	ramekins of yam mayo
 11589	yam burrito	855430740	burrito.gif	food	t,d	11

@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.textui.command;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -24,9 +25,24 @@ public class MayamCommand extends AbstractCommand {
           .map(ring -> "<" + String.join("|", ring) + ">")
           .collect(Collectors.joining(" "));
 
+  private static final Map<String, String> RESONANCES =
+      Map.ofEntries(
+          Map.entry("mayam spinach", "eye yam eyepatch yam"),
+          Map.entry("yam and swiss", "yam meat cheese yam"),
+          Map.entry("yam cannon", "sword yam eyepatch explosion"),
+          Map.entry("tiny yam cannon", "fur lightning eyepatch yam"),
+          Map.entry("yam battery", "yam lightning yam clock"),
+          Map.entry("stuffed yam stinkbomb", "vessel yam cheese explosion"),
+          Map.entry("furry yam buckler", "fur yam wall yam"),
+          Map.entry("thanksgiving bomb", "yam yam yam explosion"),
+          Map.entry("yamtility belt", "yam meat eyepatch yam"),
+          Map.entry("caught yam-handed", "chair yam yam clock"),
+          Map.entry("memories of cheesier age", "yam yam cheese clock"));
+
   public MayamCommand() {
     this.usage =
-        " rings "
+        " rings <symbols> | resonance <item|effect> - interact with your Mayam Calendar\n"
+            + " - valid rings: "
             + SYMBOL_USAGE
             + " - list exactly four symbols to consider from top to bottom (largest ring to smallest)";
   }
@@ -47,6 +63,7 @@ public class MayamCommand extends AbstractCommand {
 
     switch (args[0]) {
       case "rings" -> rings(args[1]);
+      case "resonance" -> resonance(args[1].toLowerCase());
       default -> KoLmafia.updateDisplay(
           MafiaState.ERROR, "Mayam command not recognised. Stop tzolk'in around.");
     }
@@ -96,6 +113,26 @@ public class MayamCommand extends AbstractCommand {
     consider();
 
     KoLmafia.updateDisplay("Calendar considered.");
+  }
+
+  private void resonance(final String parameters) {
+    String resonance;
+
+    if (RESONANCES.containsKey(parameters)) {
+      resonance = parameters;
+    } else {
+      var potentials = RESONANCES.keySet().stream().filter(x -> x.contains(parameters)).toList();
+
+      if (potentials.size() == 1) {
+        resonance = potentials.get(0);
+      } else {
+        KoLmafia.updateDisplay(
+            MafiaState.ERROR, "Too many resonance matches for " + parameters + ".");
+        return;
+      }
+    }
+
+    rings(RESONANCES.get(resonance));
   }
 
   private void use() {

@@ -1985,7 +1985,7 @@ foon of fulmination	50	Mys: 10
 Franken Stein	0	none
 frankincenser	0	none
 Frigid Northern Beans	30	none	can of beans
-furry yam buckler	0	none	shield
+furry yam buckler	50	none	shield
 Gazpacho's Glacial Grimoire	30	none
 geological sample kit	10	none
 ghast iron heater shield	180	Mus: 75	shield
@@ -3567,6 +3567,7 @@ x-ray specs	10	none
 Xiblaxian holo-wrist-puter	100	none
 Xiblaxian xeno-detection goggles	100	none
 Xlyinia's notebook	0	none
+yamtility belt	100	none
 ye olde golde frontes	40	Mox: 5
 Yearbook Club Camera	0	none
 Yeg's Motel slippers	66	none
