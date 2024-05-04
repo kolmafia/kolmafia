@@ -2423,6 +2423,10 @@ public class ItemDatabase {
     };
   }
 
+  public static boolean isAllowed(final AdventureResult ar) {
+    return ItemDatabase.isAllowed(ar.getItemId());
+  }
+
   public static boolean isAllowed(final int itemId) {
     return StandardRequest.isAllowed(RestrictedItemType.ITEMS, ItemDatabase.getDataName(itemId));
   }

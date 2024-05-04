@@ -4,7 +4,6 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -14,7 +13,6 @@ import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.MrStoreRequest;
-import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MallPriceManager;
 
@@ -101,7 +99,7 @@ public class CheckedItem extends AdventureResult {
       return;
     }
 
-    if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, itemName)) {
+    if (!ItemDatabase.isAllowed(this)) {
       // Unallowed items can't be bought or pulled, though the original code
       // just reset everything to zero
 
