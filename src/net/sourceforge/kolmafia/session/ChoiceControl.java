@@ -5330,6 +5330,8 @@ public abstract class ChoiceControl {
         if (ChoiceManager.lastDecision == 3
             && Preferences.getInteger("lastTempleAdventures") != KoLCharacter.getAscensions()) {
           Preferences.setInteger("lastTempleAdventures", KoLCharacter.getAscensions());
+          // Also resets your Mayam Calendar symbols, if you have used any.
+          Preferences.setString("_mayamSymbolsUsed", "");
         }
         break;
 
