@@ -475,4 +475,18 @@ public class CampgroundRequestTest {
       assertCampgroundItemCount(ItemPool.A_GUIDE_TO_BURNING_LEAVES, 1);
     }
   }
+
+  @Nested
+  class PsychoJar {
+    @Test
+    void canDetectJickJar() {
+      var cleanups = new Cleanups(withEmptyCampground());
+
+      try (cleanups) {
+        CampgroundRequest.parseResponse(
+            "campground.php", html("request/test_campground_jickjar.html"));
+        assertCampgroundItemCount(ItemPool.JICK_JAR, 1);
+      }
+    }
+  }
 }
