@@ -150,4 +150,42 @@ public class MayamCommandTest extends AbstractCommandTestBase {
       }
     }
   }
+
+  @Nested
+  class Resonances {
+    @Test
+    void failsWithMultipleSubstringMatch() {
+      var cleanups = new Cleanups(withCalendar());
+
+      try (cleanups) {
+        String output = execute("resonance am cannon");
+        assertErrorState();
+        assertThat(output, containsString("Too many resonance matches for am cannon."));
+      }
+    }
+
+    @Test
+    void passesWithExactMatch() {
+      var cleanups = new Cleanups(withCalendar());
+
+      try (cleanups) {
+        String output = execute("resonance yam cannon");
+
+        assertContinueState();
+        assertThat(output, equalTo("Calendar considered.\n"));
+      }
+    }
+
+    @Test
+    void passesWithUniqueSubstringMatch() {
+      var cleanups = new Cleanups(withCalendar());
+
+      try (cleanups) {
+        String output = execute("resonance battery");
+
+        assertContinueState();
+        assertThat(output, equalTo("Calendar considered.\n"));
+      }
+    }
+  }
 }
