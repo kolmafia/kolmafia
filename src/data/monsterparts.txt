@@ -1149,7 +1149,7 @@
 1220	Deputy Nick Soames & Earl	arm	head	leg	torso
 1221	Father Nikolai Ravonovich	arm	head	leg	torso
 1222	Charity the Zombie Hunter	arm	head	leg	torso
-1223	Special Agent Wallace Burke Corrigan
+1223	Special Agent Wallace Burke Corrigan	arm	head	leg	torso
 1224	Hank North, Photojournalist	arm	head	leg	torso
 1225	rag-tag band of survivors	arm	head	leg	torso
 1226	Wesley J. "Wes" Campbell
@@ -1211,8 +1211,8 @@
 1282	tin can conspirator	arm	label	leg	lid
 1283	canned goblin conspirator	arm	head	label	leg
 1284	tin spider conspirator	abdomen	head	leg	thorax
-1285	spider-goblin conspirator	abdomen	arm	head	leg	thorax
-1286	Fnord the Unspeakable	arm	head	leg	thorax
+1285	spider-goblin conspirator	arm	head	leg	thorax
+1286	Fnord the Unspeakable	abdomen	arm	head	leg	thorax
 1287	bacon snake	body	mouth
 1288	pork butterfly	head	torso	wing
 1289	groast	body	eye
