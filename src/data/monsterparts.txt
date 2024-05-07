@@ -1139,7 +1139,7 @@
 1210	blazing bat	head	wing
 1211	Servant of Lord Flameface	arm	head	leg	torso
 1212	Lord Flameface
-1213	zombie-huntin' feller
+1213	zombie-huntin' feller	arm	head	leg	torso
 1214	Norville Rogers	arm	head	leg	torso
 1215	Peacannon	bulb	eye	leaf	stem
 1216	Scott the Miner	arm	head	leg	torso
