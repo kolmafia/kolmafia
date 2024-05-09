@@ -59,6 +59,28 @@ public class MayamCommandTest extends AbstractCommandTestBase {
     }
 
     @Test
+    void showsAvailableSymbols() {
+      var cleanups =
+          new Cleanups(
+              withCalendar(),
+              withProperty("_mayamSymbolsUsed", "yam1,sword,wood,meat,yam3,wall,clock,explosion"));
+
+      try (cleanups) {
+        String output = execute("rings");
+        assertContinueState();
+        assertThat(
+            output,
+            containsString(
+                """
+            Remaining options:
+            Outer ring: vessel, fur, chair, eye
+            Second ring: yam, lightning, bottle
+            Third ring: eyepatch, cheese
+            Inner ring: yam"""));
+      }
+    }
+
+    @Test
     void requiresCalendar() {
       String output = execute("rings yam yam yam yam");
       assertErrorState();
@@ -153,6 +175,33 @@ public class MayamCommandTest extends AbstractCommandTestBase {
 
   @Nested
   class Resonances {
+    @Test
+    void showsNoResonances() {
+      var cleanups =
+          new Cleanups(withCalendar(), withProperty("_mayamSymbolsUsed", "yam1,yam2,yam4"));
+
+      try (cleanups) {
+        String output = execute("resonance");
+        assertContinueState();
+        assertThat(output, containsString("No resonances remaining"));
+      }
+    }
+
+    @Test
+    void showsAvailableResonances() {
+      var cleanups =
+          new Cleanups(
+              withCalendar(), withProperty("_mayamSymbolsUsed", "yam1,lightning,eyepatch,clock"));
+
+      try (cleanups) {
+        String output = execute("resonance");
+        assertContinueState();
+        // no guarantee as to the order
+        assertThat(output, containsString("furry yam buckler"));
+        assertThat(output, containsString("stuffed yam stinkbomb"));
+      }
+    }
+
     @Test
     void failsWithMultipleSubstringMatch() {
       var cleanups = new Cleanups(withCalendar());
