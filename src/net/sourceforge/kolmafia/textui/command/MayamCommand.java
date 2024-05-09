@@ -1,11 +1,13 @@
 package net.sourceforge.kolmafia.textui.command;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -61,15 +63,22 @@ public class MayamCommand extends AbstractCommand {
 
     String[] args = parameters.split(" ", 2);
 
+    var params = args.length == 1 ? "" : args[1].toLowerCase();
+
     switch (args[0]) {
-      case "rings" -> rings(args[1]);
-      case "resonance" -> resonance(args[1].toLowerCase());
+      case "rings" -> rings(params);
+      case "resonance" -> resonance(params);
       default -> KoLmafia.updateDisplay(
           MafiaState.ERROR, "Mayam command not recognised. Stop tzolk'in around.");
     }
   }
 
   private void rings(final String parameters) {
+    if (parameters.isEmpty()) {
+      rings();
+      return;
+    }
+
     String[] symbols = parameters.split(" ");
 
     if (symbols.length != 4) {
@@ -116,6 +125,11 @@ public class MayamCommand extends AbstractCommand {
   }
 
   private void resonance(final String parameters) {
+    if (parameters.isEmpty()) {
+      resonance();
+      return;
+    }
+
     String resonance;
 
     if (RESONANCES.containsKey(parameters)) {
@@ -133,6 +147,59 @@ public class MayamCommand extends AbstractCommand {
     }
 
     rings(RESONANCES.get(resonance));
+  }
+
+  private void rings() {
+    RequestLogger.printLine("Remaining options:\n");
+    RequestLogger.printLine("Outer ring: " + String.join(", ", unusedForRing(1)) + "\n");
+    RequestLogger.printLine("Second ring: " + String.join(", ", unusedForRing(2)) + "\n");
+    RequestLogger.printLine("Third ring: " + String.join(", ", unusedForRing(3)) + "\n");
+    RequestLogger.printLine("Inner ring: " + String.join(", ", unusedForRing(4)));
+  }
+
+  private List<String> unusedForRing(int ringNumber) {
+    var symbolsUsed = Arrays.asList(Preferences.getString("_mayamSymbolsUsed").split(","));
+    var unused = new ArrayList<String>();
+    var ring = SYMBOL_POSITIONS.get(ringNumber - 1);
+    for (var symbol : ring) {
+      var isYam = symbol.equals("yam");
+      var nameInPref = isYam ? symbol + ringNumber : symbol;
+      if (!symbolsUsed.contains(nameInPref)) {
+        unused.add(symbol);
+      }
+
+      ringNumber++;
+    }
+    return unused;
+  }
+
+  private void resonance() {
+    var resonances = availableResonances();
+    if (resonances.isEmpty()) {
+      RequestLogger.printLine("No resonances remaining!");
+    } else {
+      RequestLogger.printLine("Remaining resonances: " + String.join(", ", resonances));
+    }
+  }
+
+  private List<String> availableResonances() {
+    var available = new ArrayList<String>();
+
+    var ring1 = unusedForRing(1);
+    var ring2 = unusedForRing(2);
+    var ring3 = unusedForRing(3);
+    var ring4 = unusedForRing(4);
+
+    for (var resonance : RESONANCES.entrySet()) {
+      var rings = resonance.getValue().split(" ");
+      if (!ring1.contains(rings[0])) continue;
+      if (!ring2.contains(rings[1])) continue;
+      if (!ring3.contains(rings[2])) continue;
+      if (!ring4.contains(rings[3])) continue;
+      available.add(resonance.getKey());
+    }
+
+    return available;
   }
 
   private void use() {
