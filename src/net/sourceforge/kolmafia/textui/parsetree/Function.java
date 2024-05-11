@@ -195,10 +195,11 @@ public abstract class Function extends Symbol {
       }
     }
 
-    if (!refIterator.hasNext() && !valIterator.hasNext()) {
-      return true;
+    if (refIterator.hasNext() || valIterator.hasNext()) {
+      return false;
     }
-    return false;
+
+    return true;
   }
 
   private boolean paramsMatchVararg(final List<? extends TypedNode> params, MatchType match) {
@@ -263,11 +264,11 @@ public abstract class Function extends Symbol {
       }
     }
 
-    if (vararg != null && !refIterator.hasNext() && !valIterator.hasNext()) {
-      return true;
+    if (vararg == null || refIterator.hasNext() || valIterator.hasNext()) {
+      return false;
     }
 
-    return false;
+    return true;
   }
 
   public void printDisabledMessage(AshRuntime interpreter) {
