@@ -1152,7 +1152,7 @@
 1223	Special Agent Wallace Burke Corrigan	arm	head	leg	torso
 1224	Hank North, Photojournalist	arm	head	leg	torso
 1225	rag-tag band of survivors	arm	head	leg	torso
-1226	Wesley J. "Wes" Campbell
+1226	Wesley J. "Wes" Campbell	arm	head	leg	torso
 1227	The Free Man	arm	head	leg	torso
 1228	panicking Knott Yeti	arm	head	leg	torso
 1229	Rene C. Corman (Zombie Slayer)	arm	head	leg	torso
