@@ -13,6 +13,7 @@ public abstract class Function extends Symbol {
   protected Type type;
   protected List<VariableReference> variableReferences;
   private String signature;
+  private boolean hasVarArg;
 
   public Function(
       final String name,
@@ -21,7 +22,7 @@ public abstract class Function extends Symbol {
       final Location location) {
     super(name, location);
     this.type = type;
-    this.variableReferences = variableReferences;
+    setVariableReferences(variableReferences);
   }
 
   public Function(final String name, final Type type) {
@@ -38,6 +39,7 @@ public abstract class Function extends Symbol {
 
   public void setVariableReferences(final List<VariableReference> variableReferences) {
     this.variableReferences = variableReferences;
+    this.hasVarArg = variableReferences.stream().anyMatch(v -> v.getType() instanceof VarArgType);
   }
 
   public String getSignature() {
@@ -152,9 +154,8 @@ public abstract class Function extends Symbol {
     return false;
   }
 
-  public boolean paramsMatch(
-      final List<? extends TypedNode> params, MatchType match, boolean vararg) {
-    return (vararg)
+  public boolean paramsMatch(final List<? extends TypedNode> params, MatchType match) {
+    return (this.hasVarArg)
         ? this.paramsMatchVararg(params, match)
         : this.paramsMatchNoVararg(params, match);
   }
