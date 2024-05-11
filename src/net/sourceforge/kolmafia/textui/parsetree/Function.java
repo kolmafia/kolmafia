@@ -75,6 +75,10 @@ public abstract class Function extends Symbol {
   }
 
   public boolean paramsMatch(final Function that, final boolean base) {
+    if (this.variableReferences.size() != that.variableReferences.size()) {
+      return false;
+    }
+
     Iterator<VariableReference> it1 = this.variableReferences.iterator();
     Iterator<VariableReference> it2 = that.variableReferences.iterator();
 
@@ -147,6 +151,10 @@ public abstract class Function extends Symbol {
   }
 
   private boolean paramsMatchNoVararg(final List<? extends TypedNode> params, MatchType match) {
+    if (this.getVariableReferences().size() != params.size()) {
+      return false;
+    }
+
     Iterator<VariableReference> refIterator = this.getVariableReferences().iterator();
     Iterator<? extends TypedNode> valIterator = params.iterator();
 
@@ -194,6 +202,11 @@ public abstract class Function extends Symbol {
   }
 
   private boolean paramsMatchVararg(final List<? extends TypedNode> params, MatchType match) {
+    // on a vararg match, the last parameter can match 0 values, so we need at least X-1 values
+    if (this.getVariableReferences().size() - 1 > params.size()) {
+      return false;
+    }
+
     Iterator<VariableReference> refIterator = this.getVariableReferences().iterator();
     Iterator<? extends TypedNode> valIterator = params.iterator();
     VariableReference vararg = null;
