@@ -264,7 +264,6 @@ public abstract class Function extends Symbol {
 
       if (paramType instanceof VarArgType) {
         vararg = currentParam;
-        matched = true;
       }
     }
 

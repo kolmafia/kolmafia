@@ -383,8 +383,7 @@ public class FunctionTest {
               makeFunction(
                   "f", DataTypes.VOID_TYPE, DataTypes.INT_TYPE, vararg(DataTypes.STRING_TYPE));
           makeValues(DataTypes.STRING_TYPE);
-          // this should actually return false, but is currently behaving wrong
-          assertTrue(f.paramsMatch(values, MatchType.EXACT, true));
+          assertFalse(f.paramsMatch(values, MatchType.EXACT, true));
         }
       }
 
@@ -604,8 +603,7 @@ public class FunctionTest {
               makeFunction(
                   "f", DataTypes.VOID_TYPE, DataTypes.INT_TYPE, vararg(DataTypes.STRING_TYPE));
           makeValues(DataTypes.STRING_TYPE);
-          // this should actually return false, but is currently behaving wrong
-          assertTrue(f.paramsMatch(values, MatchType.BASE, true));
+          assertFalse(f.paramsMatch(values, MatchType.BASE, true));
         }
       }
 
@@ -824,8 +822,7 @@ public class FunctionTest {
               makeFunction(
                   "f", DataTypes.VOID_TYPE, DataTypes.INT_TYPE, vararg(DataTypes.STRING_TYPE));
           makeValues(DataTypes.STRING_TYPE);
-          // this should actually return false, but is currently behaving wrong
-          assertTrue(f.paramsMatch(values, MatchType.COERCE, true));
+          assertFalse(f.paramsMatch(values, MatchType.COERCE, true));
         }
       }
 
