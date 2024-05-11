@@ -2061,7 +2061,7 @@
 2173	Bowser	arm	head	leg	shell
 2174	Wa%playername/lowercase%	arm	head	leg	torso
 2175	piranha plant	jaw	leaf	stem	tooth
-2176	drippy reveler
+2176	drippy reveler	arm	head	leg	torso
 2177	grey goo orb	sphere
 2178	grey goo torus	ring
 2179	grey goo triangle	face	vertex
