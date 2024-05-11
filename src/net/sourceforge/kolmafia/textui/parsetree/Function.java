@@ -162,15 +162,13 @@ public abstract class Function extends Symbol {
   private boolean paramsMatchNoVararg(final List<? extends TypedNode> params, MatchType match) {
     Iterator<VariableReference> refIterator = this.getVariableReferences().iterator();
     Iterator<? extends TypedNode> valIterator = params.iterator();
-    boolean matched = true;
 
-    while (matched && refIterator.hasNext() && valIterator.hasNext()) {
+    while (refIterator.hasNext() && valIterator.hasNext()) {
       VariableReference currentParam = refIterator.next();
       Type paramType = currentParam.getType();
 
       if (paramType == null || paramType instanceof VarArgType) {
-        matched = false;
-        break;
+        return false;
       }
 
       TypedNode currentValue = valIterator.next();
@@ -179,25 +177,25 @@ public abstract class Function extends Symbol {
       switch (match) {
         case EXACT:
           if (!currentParam.getRawType().equals(currentValue.getRawType())) {
-            matched = false;
+            return false;
           }
           break;
 
         case BASE:
           if (!paramType.equals(valueType)) {
-            matched = false;
+            return false;
           }
           break;
 
         case COERCE:
           if (!Operator.validCoercion(paramType, valueType, "parameter")) {
-            matched = false;
+            return false;
           }
           break;
       }
     }
 
-    if (matched && !refIterator.hasNext() && !valIterator.hasNext()) {
+    if (!refIterator.hasNext() && !valIterator.hasNext()) {
       return true;
     }
     return false;
@@ -206,11 +204,10 @@ public abstract class Function extends Symbol {
   private boolean paramsMatchVararg(final List<? extends TypedNode> params, MatchType match) {
     Iterator<VariableReference> refIterator = this.getVariableReferences().iterator();
     Iterator<? extends TypedNode> valIterator = params.iterator();
-    boolean matched = true;
     VariableReference vararg = null;
     VarArgType varargType = null;
 
-    while (matched && (vararg != null || refIterator.hasNext()) && valIterator.hasNext()) {
+    while ((vararg != null || refIterator.hasNext()) && valIterator.hasNext()) {
       // A VarArg parameter will consume all remaining values
       VariableReference currentParam = (vararg != null) ? vararg : refIterator.next();
       Type paramType = currentParam.getType();
@@ -225,14 +222,13 @@ public abstract class Function extends Symbol {
 
       // Only one vararg is allowed. It must be at the end.
       if (vararg != null && refIterator.hasNext()) {
-        matched = false;
-        break;
+        return false;
       }
 
       switch (match) {
         case EXACT:
           if (!paramType.equals(valueType)) {
-            matched = false;
+            return false;
           }
           break;
 
@@ -241,7 +237,7 @@ public abstract class Function extends Symbol {
             paramType = varargType.getDataType();
           }
           if (!paramType.equals(valueType)) {
-            matched = false;
+            return false;
           }
           break;
 
@@ -250,7 +246,7 @@ public abstract class Function extends Symbol {
             paramType = varargType.getDataType();
           }
           if (!Operator.validCoercion(paramType, valueType, "parameter")) {
-            matched = false;
+            return false;
           }
           break;
       }
@@ -267,7 +263,7 @@ public abstract class Function extends Symbol {
       }
     }
 
-    if (matched && vararg != null && !refIterator.hasNext() && !valIterator.hasNext()) {
+    if (vararg != null && !refIterator.hasNext() && !valIterator.hasNext()) {
       return true;
     }
 
