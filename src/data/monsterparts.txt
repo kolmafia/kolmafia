@@ -1596,7 +1596,7 @@
 1675	Iron Chef	arm	head	leg	torso
 1676	Entire Shoplifter	arm	head	leg	torso
 1677	Mr. Loathing	arm	head	leg	torso
-1678	Accountant-Barbarian	arm	ear	torso
+1678	Accountant-Barbarian	arm	head	leg	torso
 1679	Metaphysical Gastronomist	arm	head	leg	torso
 1680	Kleptobrainiac	arm	head	leg	torso
 1681	The Mastermind	arm	head	leg	torso
@@ -1630,7 +1630,7 @@
 1710	topiary gopher	head	leg	tail	torso
 1711	topiary duck	bill	head	torso	wing
 1712	topiary chihuahua herd	head	tail	torso
-1713	topiary kiwi	head
+1713	topiary kiwi	beak	head	torso	wing
 1714	snake
 1715	bat
 1716	spider
