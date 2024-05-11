@@ -1092,7 +1092,7 @@
 1163	Baa'baa'bu'ran	head	tail	wing
 1164	four-shadowed mime	arm	head	leg	torso
 1165	scavenger bugbear	arm	head	leg	tail	torso
-1166	hypodermic bugbear	arm	head	tail	torso
+1166	hypodermic bugbear	arm	head	leg	tail	torso
 1167	batbugbear	arm	head	leg	tail	torso
 1168	bugbear scientist	arm	head	leg	tail	torso
 1169	bugaboo	ectoplasm	slime
@@ -1103,7 +1103,7 @@
 1174	creepy eye-stalk tentacle monster	head
 1175	grouchy furry monster	arm	head	torso
 1176	anesthesiologist bugbear	arm	head	leg	torso
-1177	bugbear robo-surgeon
+1177	bugbear robo-surgeon	arm	head	leg	torso
 1178	spiderbugbear	arm	head	leg	torso
 1179	bugbear mortician	arm	head	tail	torso
 1180	bugbear drone	arm	head	leg	torso
