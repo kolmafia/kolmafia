@@ -375,6 +375,17 @@ public class FunctionTest {
           makeValues(DataTypes.STRING_TYPE);
           assertFalse(f.paramsMatch(values, MatchType.EXACT, true));
         }
+
+        // vararg allowed, no matching args provided, args before vararg mismatch
+        @Test
+        void mismatched_value_for_param_before_vararg() {
+          Function f =
+              makeFunction(
+                  "f", DataTypes.VOID_TYPE, DataTypes.INT_TYPE, vararg(DataTypes.STRING_TYPE));
+          makeValues(DataTypes.STRING_TYPE);
+          // this should actually return false, but is currently behaving wrong
+          assertTrue(f.paramsMatch(values, MatchType.EXACT, true));
+        }
       }
 
       @Disabled("behaviour is currently wrong")
@@ -585,6 +596,17 @@ public class FunctionTest {
           makeValues(DataTypes.STRING_TYPE, DataTypes.STRING_TYPE);
           assertFalse(f.paramsMatch(values, MatchType.BASE, true));
         }
+
+        // vararg allowed, no matching args provided, args before vararg mismatch
+        @Test
+        void mismatched_value_for_param_before_vararg() {
+          Function f =
+              makeFunction(
+                  "f", DataTypes.VOID_TYPE, DataTypes.INT_TYPE, vararg(DataTypes.STRING_TYPE));
+          makeValues(DataTypes.STRING_TYPE);
+          // this should actually return false, but is currently behaving wrong
+          assertTrue(f.paramsMatch(values, MatchType.BASE, true));
+        }
       }
 
       @Disabled("behaviour is currently wrong")
@@ -793,6 +815,17 @@ public class FunctionTest {
                   "f", DataTypes.VOID_TYPE, DataTypes.STRING_TYPE, vararg(DataTypes.INT_TYPE));
           makeValues(DataTypes.STRING_TYPE, DataTypes.STRING_TYPE);
           assertFalse(f.paramsMatch(values, MatchType.COERCE, true));
+        }
+
+        // vararg allowed, no matching args provided, args before vararg mismatch
+        @Test
+        void mismatched_value_for_param_before_vararg() {
+          Function f =
+              makeFunction(
+                  "f", DataTypes.VOID_TYPE, DataTypes.INT_TYPE, vararg(DataTypes.STRING_TYPE));
+          makeValues(DataTypes.STRING_TYPE);
+          // this should actually return false, but is currently behaving wrong
+          assertTrue(f.paramsMatch(values, MatchType.COERCE, true));
         }
       }
 
