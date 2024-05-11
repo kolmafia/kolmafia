@@ -2257,13 +2257,13 @@
 2434	Elf Guard armorer	arm	ear	head	leg	torso
 2435	Elf Guard Red and White Beret	arm	ear	head	leg	torso
 2436	Crimbuccaneer privateer	circuitry	head	torso
-2437	Boss Beast
-2438	Knob Goblin Beast
-2439	Curséd Bonerdagon
+2437	Boss Beast	head	torso	wing
+2438	Knob Goblin Beast	arm	head	leg	torso
+2439	Curséd Bonerdagon	head	tail	torso	wing
 2440	Were-Dr. Awkwarder, ew
 2441	Lord Beastlyraven
 2442	Protector Beast
-2443	Just Groar
+2443	Just Groar	arm	head	leg	wing
 2444	The Beast Wisniewski
 2445	The Beastman
 2446	The Naughty Wolferess
