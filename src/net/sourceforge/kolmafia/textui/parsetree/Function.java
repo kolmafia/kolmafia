@@ -98,22 +98,17 @@ public abstract class Function extends Symbol {
   }
 
   public boolean varargsClash(final Function that) {
+    if (!this.hasVarArg || !that.hasVarArg) {
+      return false;
+    }
+
     Iterator<VariableReference> thisIterator = this.getVariableReferences().iterator();
     Iterator<VariableReference> thatIterator = that.getVariableReferences().iterator();
     VariableReference thisVararg = null;
     VariableReference thatVararg = null;
 
     while (thisIterator.hasNext() || thatIterator.hasNext()) {
-      VariableReference thisParam;
-      if (!thisIterator.hasNext()) {
-        // If this function ran out of arguments without seeing a vararg, no clash
-        if (thisVararg == null) {
-          return false;
-        }
-        thisParam = thisVararg;
-      } else {
-        thisParam = thisIterator.next();
-      }
+      VariableReference thisParam = !thisIterator.hasNext() ? thisVararg : thisIterator.next();
 
       Type thisParamType = thisParam.getType();
       if (thisParamType instanceof VarArgType vat) {
@@ -121,16 +116,7 @@ public abstract class Function extends Symbol {
         thisParamType = vat.getDataType();
       }
 
-      VariableReference thatParam;
-      if (!thatIterator.hasNext()) {
-        // If that function ran out of arguments without seeing a vararg, no clash
-        if (thatVararg == null) {
-          return false;
-        }
-        thatParam = thatVararg;
-      } else {
-        thatParam = thatIterator.next();
-      }
+      VariableReference thatParam = !thatIterator.hasNext() ? thatVararg : thatIterator.next();
 
       Type thatParamType = thatParam.getType();
       if (thatParamType instanceof VarArgType vat) {
