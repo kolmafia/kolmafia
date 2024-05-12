@@ -2260,9 +2260,9 @@
 2437	Boss Beast	head	torso	wing
 2438	Knob Goblin Beast	arm	head	leg	torso
 2439	Curséd Bonerdagon	head	tail	torso	wing
-2440	Were-Dr. Awkwarder, ew
+2440	Were-Dr. Awkwarder, ew	arm	head	leg	torso
 2441	Lord Beastlyraven	arm	head	leg	torso
-2442	Protector Beast
+2442	Protector Beast	...wing?	arm	head	leg	torso
 2443	Just Groar	arm	head	leg	wing
 2444	The Beast Wisniewski
 2445	The Beastman
