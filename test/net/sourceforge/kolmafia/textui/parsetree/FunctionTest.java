@@ -211,7 +211,7 @@ public class FunctionTest {
                 DataTypes.STRING_TYPE,
                 vararg(DataTypes.INT_TYPE),
                 vararg(DataTypes.INT_TYPE));
-        makeValues(DataTypes.STRING_TYPE);
+        makeValues(DataTypes.STRING_TYPE, DataTypes.INT_TYPE, DataTypes.INT_TYPE);
         assertFalse(f.paramsMatch(values, MatchType.EXACT, true));
       }
 
@@ -225,7 +225,7 @@ public class FunctionTest {
                 DataTypes.STRING_TYPE,
                 vararg(DataTypes.INT_TYPE),
                 DataTypes.STRING_TYPE);
-        makeValues(DataTypes.STRING_TYPE);
+        makeValues(DataTypes.STRING_TYPE, DataTypes.INT_TYPE, DataTypes.STRING_TYPE);
         assertFalse(f.paramsMatch(values, MatchType.EXACT, true));
       }
     }
