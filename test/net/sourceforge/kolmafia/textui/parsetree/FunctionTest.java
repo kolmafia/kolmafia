@@ -362,6 +362,19 @@ public class FunctionTest {
           makeValues(DataTypes.STRING_TYPE, DataTypes.STRING_TYPE);
           assertFalse(f.paramsMatch(values, MatchType.EXACT, true));
         }
+
+        @Test
+        void missing_value_for_param_before_vararg() {
+          Function f =
+              makeFunction(
+                  "f",
+                  DataTypes.VOID_TYPE,
+                  DataTypes.STRING_TYPE,
+                  DataTypes.STRING_TYPE,
+                  vararg(DataTypes.INT_TYPE));
+          makeValues(DataTypes.STRING_TYPE);
+          assertFalse(f.paramsMatch(values, MatchType.EXACT, true));
+        }
       }
 
       @Disabled("behaviour is currently wrong")
