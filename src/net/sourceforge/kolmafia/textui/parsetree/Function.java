@@ -168,8 +168,12 @@ public abstract class Function extends Symbol {
       VariableReference currentParam = refIterator.next();
       Type paramType = currentParam.getType();
 
-      if (paramType == null || paramType instanceof VarArgType) {
+      if (paramType == null) {
         return false;
+      }
+      if (paramType instanceof VarArgType) {
+        throw new IllegalStateException(
+            "VarArgType should not be present in non-vararg function. This is a bug.");
       }
 
       TypedNode currentValue = valIterator.next();
@@ -265,8 +269,13 @@ public abstract class Function extends Symbol {
       }
     }
 
-    if (vararg == null || refIterator.hasNext() || valIterator.hasNext()) {
+    if (refIterator.hasNext() || valIterator.hasNext()) {
       return false;
+    }
+
+    if (vararg == null) {
+      throw new IllegalStateException(
+          "VarArgType should be present in vararg function. This is a bug.");
     }
 
     return true;
