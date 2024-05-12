@@ -1092,7 +1092,7 @@
 1163	Baa'baa'bu'ran	head	tail	wing
 1164	four-shadowed mime	arm	head	leg	torso
 1165	scavenger bugbear	arm	head	leg	tail	torso
-1166	hypodermic bugbear	arm	head	tail	torso
+1166	hypodermic bugbear	arm	head	leg	tail	torso
 1167	batbugbear	arm	head	leg	tail	torso
 1168	bugbear scientist	arm	head	leg	tail	torso
 1169	bugaboo	ectoplasm	slime
@@ -1103,7 +1103,7 @@
 1174	creepy eye-stalk tentacle monster	head
 1175	grouchy furry monster	arm	head	torso
 1176	anesthesiologist bugbear	arm	head	leg	torso
-1177	bugbear robo-surgeon
+1177	bugbear robo-surgeon	arm	head	leg	torso
 1178	spiderbugbear	arm	head	leg	torso
 1179	bugbear mortician	arm	head	tail	torso
 1180	bugbear drone	arm	head	leg	torso
@@ -1152,7 +1152,7 @@
 1223	Special Agent Wallace Burke Corrigan	arm	head	leg	torso
 1224	Hank North, Photojournalist	arm	head	leg	torso
 1225	rag-tag band of survivors	arm	head	leg	torso
-1226	Wesley J. "Wes" Campbell
+1226	Wesley J. "Wes" Campbell	arm	head	leg	torso
 1227	The Free Man	arm	head	leg	torso
 1228	panicking Knott Yeti	arm	head	leg	torso
 1229	Rene C. Corman (Zombie Slayer)	arm	head	leg	torso
@@ -1596,7 +1596,7 @@
 1675	Iron Chef	arm	head	leg	torso
 1676	Entire Shoplifter	arm	head	leg	torso
 1677	Mr. Loathing	arm	head	leg	torso
-1678	Accountant-Barbarian	arm	ear	torso
+1678	Accountant-Barbarian	arm	head	leg	torso
 1679	Metaphysical Gastronomist	arm	head	leg	torso
 1680	Kleptobrainiac	arm	head	leg	torso
 1681	The Mastermind	arm	head	leg	torso
@@ -1630,7 +1630,7 @@
 1710	topiary gopher	head	leg	tail	torso
 1711	topiary duck	bill	head	torso	wing
 1712	topiary chihuahua herd	head	tail	torso
-1713	topiary kiwi	head
+1713	topiary kiwi	beak	head	torso	wing
 1714	snake
 1715	bat
 1716	spider
@@ -2061,7 +2061,7 @@
 2173	Bowser	arm	head	leg	shell
 2174	Wa%playername/lowercase%	arm	head	leg	torso
 2175	piranha plant	jaw	leaf	stem	tooth
-2176	drippy reveler
+2176	drippy reveler	arm	head	leg	torso
 2177	grey goo orb	sphere
 2178	grey goo torus	ring
 2179	grey goo triangle	face	vertex
@@ -2257,13 +2257,13 @@
 2434	Elf Guard armorer	arm	ear	head	leg	torso
 2435	Elf Guard Red and White Beret	arm	ear	head	leg	torso
 2436	Crimbuccaneer privateer	circuitry	head	torso
-2437	Boss Beast
-2438	Knob Goblin Beast
-2439	Curséd Bonerdagon
+2437	Boss Beast	head	torso	wing
+2438	Knob Goblin Beast	arm	head	leg	torso
+2439	Curséd Bonerdagon	head	tail	torso	wing
 2440	Were-Dr. Awkwarder, ew
-2441	Lord Beastlyraven
+2441	Lord Beastlyraven	arm	head	leg	torso
 2442	Protector Beast
-2443	Just Groar
+2443	Just Groar	arm	head	leg	wing
 2444	The Beast Wisniewski
 2445	The Beastman
 2446	The Naughty Wolferess
