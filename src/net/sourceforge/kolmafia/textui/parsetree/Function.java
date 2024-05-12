@@ -258,14 +258,18 @@ public abstract class Function extends Symbol {
       }
     }
 
-    if (refIterator.hasNext()) {
-      // If the next parameter is a vararg, this is
-      // allowed if we ran out of parameters.
+    if (vararg == null && refIterator.hasNext()) {
+      // If the next parameter is a vararg, and there was none yet,
+      // this is allowed if we ran out of parameters.
       VariableReference currentParam = refIterator.next();
       Type paramType = currentParam.getType();
 
       if (paramType instanceof VarArgType) {
         vararg = currentParam;
+      } else {
+        // we read the last parameter, but it was not a vararg and we don't
+        // have a value for it, so this is a mismatch
+        return false;
       }
     }
 
