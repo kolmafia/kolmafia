@@ -363,7 +363,7 @@
 388	banshee librarian	arm	head	torso
 389	malevolent hair clog	arm	head	torso
 390	toilet papergeist	arm	head	leg	torso
-391	animated nightstand (white combat)	drawer	handle	leg	top
+391	animated nightstand (white noncombat)	drawer	handle	leg	top
 392	The Temporal Bandit
 393	cubist bull	head	leg	torso
 394	guy with a pitchfork, and his wife	arm	head	leg	torso
@@ -371,15 +371,15 @@
 396	remains of a jilted mistress	arm	head	leg	torso
 397	knight (Wolf)	arm	head	leg	torso
 398	knight (Snake)	arm	head	leg	torso
-399	animated nightstand (mahogany combat)	drawer	handle	leg	top
+399	animated nightstand (mahogany noncombat)	drawer	handle	leg	top
 400	claw-foot bathtub	leg
 401	zombie waltzers	arm	head	leg	torso
 402	tapdancing skeleton	arm	head	leg	torso
 403	ghastly organist	arm	head	leg	torso
 404	floating platter of hors d'oeuvres	tray
 405	writing desk	drawer	handle	leg	top
-406	animated nightstand (white noncombat)	drawer	handle	leg	top
-407	animated nightstand (mahogany noncombat)	drawer	handle	leg	top
+406	animated nightstand (white combat)	drawer	handle	leg	top
+407	animated nightstand (mahogany combat)	drawer	handle	leg	top
 408	Skelter Butleton, the Butler Skeleton	arm	head	leg	torso
 409	Orcish Frat Boy Spy	arm	head	leg	torso
 410	War Hippy Dread Squad	arm	head	leg	torso
