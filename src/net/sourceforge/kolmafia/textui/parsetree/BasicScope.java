@@ -144,42 +144,24 @@ public abstract class BasicScope extends Command {
     Function result = null;
 
     if (matchType == MatchType.ANY || matchType == MatchType.EXACT) {
-      // Exact, no vararg
-      result = this.findFunction(functions, name, params, MatchType.EXACT, false);
-      if (result != null) {
-        return result;
-      }
-
-      // Exact, vararg
-      result = this.findFunction(functions, name, params, MatchType.EXACT, true);
+      // Exact
+      result = this.findFunction(functions, name, params, MatchType.EXACT);
       if (result != null) {
         return result;
       }
     }
 
     if (matchType == MatchType.ANY || matchType == MatchType.BASE) {
-      // Base, no vararg
-      result = this.findFunction(functions, name, params, MatchType.BASE, false);
-      if (result != null) {
-        return result;
-      }
-
-      // Base, vararg
-      result = this.findFunction(functions, name, params, MatchType.BASE, true);
+      // Base
+      result = this.findFunction(functions, name, params, MatchType.BASE);
       if (result != null) {
         return result;
       }
     }
 
     if (matchType == MatchType.ANY || matchType == MatchType.COERCE) {
-      // Coerce, no vararg
-      result = this.findFunction(functions, name, params, MatchType.COERCE, false);
-      if (result != null) {
-        return result;
-      }
-
-      // Coerce, vararg
-      result = this.findFunction(functions, name, params, MatchType.COERCE, true);
+      // Coerce
+      result = this.findFunction(functions, name, params, MatchType.COERCE);
       if (result != null) {
         return result;
       }
@@ -192,11 +174,10 @@ public abstract class BasicScope extends Command {
       final Function[] functions,
       final String name,
       final List<Evaluable> params,
-      final MatchType match,
-      final boolean vararg) {
+      final MatchType match) {
     // Search the function list for a match
     for (Function function : functions) {
-      if (function.paramsMatch(params, match, vararg)) {
+      if (function.paramsMatch(params, match)) {
         return function;
       }
     }
@@ -205,7 +186,7 @@ public abstract class BasicScope extends Command {
     BasicScope parent = this.getParentScope();
     if (parent != null) {
       Function[] parentFunctions = parent.functions.findFunctions(name);
-      return parent.findFunction(parentFunctions, name, params, match, vararg);
+      return parent.findFunction(parentFunctions, name, params, match);
     }
 
     return null;
