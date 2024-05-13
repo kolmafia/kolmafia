@@ -109,6 +109,7 @@ import net.sourceforge.kolmafia.persistence.FaxBotDatabase.FaxBot;
 import net.sourceforge.kolmafia.persistence.FaxBotDatabase.Monster;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase.Attribute;
 import net.sourceforge.kolmafia.persistence.ItemDatabase.FoldGroup;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
@@ -1085,6 +1086,26 @@ public abstract class RuntimeLibrary {
     params =
         List.of(namedParam("count", DataTypes.INT_TYPE), namedParam("item", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("chew", DataTypes.BOOLEAN_TYPE, params));
+
+    params =
+        List.of(
+            namedParam("itemId", DataTypes.ITEM_TYPE), namedParam("target", DataTypes.STRING_TYPE));
+    functions.add(new LibraryFunction("curse", DataTypes.BOOLEAN_TYPE, params));
+
+    params =
+        List.of(
+            namedParam("itemId", DataTypes.ITEM_TYPE),
+            namedParam("target", DataTypes.STRING_TYPE),
+            namedParam("message", DataTypes.STRING_TYPE));
+    functions.add(new LibraryFunction("curse", DataTypes.BOOLEAN_TYPE, params));
+
+    params =
+        List.of(
+            namedParam("quantity", DataTypes.INT_TYPE),
+            namedParam("itemId", DataTypes.ITEM_TYPE),
+            namedParam("target", DataTypes.STRING_TYPE),
+            namedParam("message", DataTypes.STRING_TYPE));
+    functions.add(new LibraryFunction("curse", DataTypes.BOOLEAN_TYPE, params));
 
     params = List.of();
     functions.add(new LibraryFunction("last_item_message", DataTypes.STRING_TYPE, params));
@@ -5253,6 +5274,34 @@ public abstract class RuntimeLibrary {
 
   public static Value chew(ScriptRuntime controller, final Value arg1, final Value arg2) {
     return execute_item_quantity("chew", arg1, arg2);
+  }
+
+  public static Value curse(ScriptRuntime controller, final Value itemId, final Value target) {
+    return curse(controller, itemId, target, new Value(""));
+  }
+
+  public static Value curse(
+      ScriptRuntime controller, final Value itemId, final Value target, final Value message) {
+    return curse(controller, DataTypes.ONE_VALUE, itemId, target, message);
+  }
+
+  public static Value curse(
+      ScriptRuntime controller,
+      final Value quantity,
+      final Value itemId,
+      final Value target,
+      final Value message) {
+
+    AdventureResult item = ItemPool.get((int) itemId.intValue(), (int) quantity.intValue());
+    if (!ItemDatabase.getAttribute(item.getItemId(), Attribute.CURSE)) {
+      throw controller.runtimeException("The " + item.getName() + " cannot be used for cursing.");
+    }
+
+    CurseRequest request = new CurseRequest(item, target.toString(), message.toString());
+
+    RequestThread.postRequest(request);
+
+    return RuntimeLibrary.continueValue();
   }
 
   public static Value last_item_message(ScriptRuntime controller) {
