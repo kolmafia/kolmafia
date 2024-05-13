@@ -2824,7 +2824,7 @@ Steam-Routing Trainbot	2265	trainbot_steam.gif	NOWISH Scale: 0 Cap: ? Init: -100
 The Superconductor	2266	superconductor.gif	BOSS NOCOPY NOMANUEL Scale: 30 Cap: ? HP: 300 Init: -10000 P: construct EA: hot	The Superconductor's CPU (100)
 
 # Retired Standard Monsters
-Astronomer (obsolete)	354	astronomer.gif	Atk: 168 Def: 151 HP: 150 Init: 70 P: constellation EA: hot Article: The Manuel: "Astronomer" Wiki: "Astronomer"	star chart (100)
+Astronomer (obsolete)	354	astronomer.gif	Atk: 168 Def: 151 HP: 150 Init: 70 P: constellation EA: hot Article: The Manuel: "Astronomer"	star chart (100)
 possessed wine rack (obsolete)	454	winerack.gif	Atk: 158 Def: 146 HP: 165 Init: 40 P: construct ED: spooky Article: a Manuel: "possessed wine rack" Wiki: "possessed wine rack"
 skeletal sommelier (obsolete)	455	steward.gif	Atk: 168 Def: 142 HP: 162 Init: 65 Meat: 100 P: undead ED: spooky Article: a Manuel: "skeletal sommelier" Wiki: "skeletal sommelier"
 
