@@ -248,8 +248,8 @@
 272	mariachi calavera	arm	leg	skull	torso
 273	Buzzy Beetle	head	leg
 274	hockey elemental
-275	Vicious Easel	arm	back	head	torso
-276	Big Meat Golem	arm	back	head	torso
+275	Vicious Easel	arm	head	leg	torso
+276	Big Meat Golem	arm	head	leg	torso
 277	Bowling Cricket	arm	head	leg	torso
 278	Tyrannosaurus Tex	arm	head	leg	torso
 279	Giant Desktop Globe	continent	island	ocean	stand
