@@ -211,8 +211,8 @@ public class FunctionTest {
                 DataTypes.STRING_TYPE,
                 vararg(DataTypes.INT_TYPE),
                 vararg(DataTypes.INT_TYPE));
-        makeValues(DataTypes.STRING_TYPE);
-        assertFalse(f.paramsMatch(values, MatchType.EXACT, true));
+        makeValues(DataTypes.STRING_TYPE, DataTypes.INT_TYPE, DataTypes.INT_TYPE);
+        assertFalse(f.paramsMatch(values, MatchType.EXACT));
       }
 
       // The function has a varargs followed by another parameter
@@ -225,8 +225,8 @@ public class FunctionTest {
                 DataTypes.STRING_TYPE,
                 vararg(DataTypes.INT_TYPE),
                 DataTypes.STRING_TYPE);
-        makeValues(DataTypes.STRING_TYPE);
-        assertFalse(f.paramsMatch(values, MatchType.EXACT, true));
+        makeValues(DataTypes.STRING_TYPE, DataTypes.INT_TYPE, DataTypes.STRING_TYPE);
+        assertFalse(f.paramsMatch(values, MatchType.EXACT));
       }
     }
 
@@ -241,7 +241,7 @@ public class FunctionTest {
         void int_int() {
           Function f = makeFunction("f", DataTypes.VOID_TYPE, DataTypes.INT_TYPE);
           makeValues(DataTypes.INT_TYPE);
-          assertTrue(f.paramsMatch(values, MatchType.EXACT, false));
+          assertTrue(f.paramsMatch(values, MatchType.EXACT));
         }
 
         // Two ints are required, one int is provided
@@ -250,7 +250,7 @@ public class FunctionTest {
           Function f =
               makeFunction("f", DataTypes.VOID_TYPE, DataTypes.INT_TYPE, DataTypes.INT_TYPE);
           makeValues(DataTypes.INT_TYPE);
-          assertFalse(f.paramsMatch(values, MatchType.EXACT, false));
+          assertFalse(f.paramsMatch(values, MatchType.EXACT));
         }
 
         // One int is required, two are provided
@@ -258,7 +258,7 @@ public class FunctionTest {
         void int_int2() {
           Function f = makeFunction("f", DataTypes.VOID_TYPE, DataTypes.INT_TYPE);
           makeValues(DataTypes.INT_TYPE, DataTypes.INT_TYPE);
-          assertFalse(f.paramsMatch(values, MatchType.EXACT, false));
+          assertFalse(f.paramsMatch(values, MatchType.EXACT));
         }
 
         // int is required, typedef int is provided
@@ -267,7 +267,7 @@ public class FunctionTest {
           TypeDef td = new TypeDef("td", DataTypes.INT_TYPE, null);
           Function f = makeFunction("f", DataTypes.VOID_TYPE, DataTypes.INT_TYPE);
           makeValues(td);
-          assertFalse(f.paramsMatch(values, MatchType.EXACT, false));
+          assertFalse(f.paramsMatch(values, MatchType.EXACT));
         }
 
         // float is required, int is provided
@@ -275,7 +275,7 @@ public class FunctionTest {
         void float_int() {
           Function f = makeFunction("f", DataTypes.VOID_TYPE, DataTypes.FLOAT_TYPE);
           makeValues(DataTypes.INT_TYPE);
-          assertFalse(f.paramsMatch(values, MatchType.EXACT, false));
+          assertFalse(f.paramsMatch(values, MatchType.EXACT));
         }
 
         // typedef int is required, int is provided
@@ -284,7 +284,7 @@ public class FunctionTest {
           TypeDef td = new TypeDef("td", DataTypes.INT_TYPE, null);
           Function f = makeFunction("f", DataTypes.VOID_TYPE, td);
           makeValues(DataTypes.INT_TYPE);
-          assertFalse(f.paramsMatch(values, MatchType.EXACT, false));
+          assertFalse(f.paramsMatch(values, MatchType.EXACT));
         }
 
         // typedef int is required, same typedef int is provided
@@ -293,7 +293,7 @@ public class FunctionTest {
           TypeDef td = new TypeDef("td", DataTypes.INT_TYPE, null);
           Function f = makeFunction("f", DataTypes.VOID_TYPE, td);
           makeValues(td);
-          assertTrue(f.paramsMatch(values, MatchType.EXACT, false));
+          assertTrue(f.paramsMatch(values, MatchType.EXACT));
         }
 
         // typedef int is required, different typedef int is provided
@@ -303,7 +303,7 @@ public class FunctionTest {
           TypeDef td2 = new TypeDef("td2", DataTypes.INT_TYPE, null);
           Function f = makeFunction("f", DataTypes.VOID_TYPE, td1);
           makeValues(td2);
-          assertFalse(f.paramsMatch(values, MatchType.EXACT, false));
+          assertFalse(f.paramsMatch(values, MatchType.EXACT));
         }
       }
 
@@ -322,7 +322,7 @@ public class FunctionTest {
           // We are not testing whether function argument types match,
           // but whether this function will accept these values.
           // A vararg is happy to have size zero.
-          assertTrue(f.paramsMatch(values, MatchType.EXACT, true));
+          assertTrue(f.paramsMatch(values, MatchType.EXACT));
         }
 
         // vararg allowed, one matching arg provided
@@ -332,7 +332,7 @@ public class FunctionTest {
               makeFunction(
                   "f", DataTypes.VOID_TYPE, DataTypes.STRING_TYPE, vararg(DataTypes.INT_TYPE));
           makeValues(DataTypes.STRING_TYPE, DataTypes.INT_TYPE);
-          assertFalse(f.paramsMatch(values, MatchType.EXACT, true));
+          assertFalse(f.paramsMatch(values, MatchType.EXACT));
         }
 
         // vararg allowed, typedef int is provided
@@ -341,7 +341,7 @@ public class FunctionTest {
           TypeDef td = new TypeDef("td", DataTypes.INT_TYPE, null);
           Function f = makeFunction("f", DataTypes.VOID_TYPE, DataTypes.INT_TYPE);
           makeValues(td);
-          assertFalse(f.paramsMatch(values, MatchType.EXACT, false));
+          assertFalse(f.paramsMatch(values, MatchType.EXACT));
         }
 
         // vararg allowed, two matching args provided
@@ -351,7 +351,7 @@ public class FunctionTest {
               makeFunction(
                   "f", DataTypes.VOID_TYPE, DataTypes.STRING_TYPE, vararg(DataTypes.INT_TYPE));
           makeValues(DataTypes.STRING_TYPE, DataTypes.INT_TYPE, DataTypes.INT_TYPE);
-          assertFalse(f.paramsMatch(values, MatchType.EXACT, true));
+          assertFalse(f.paramsMatch(values, MatchType.EXACT));
         }
 
         @Test
@@ -360,7 +360,30 @@ public class FunctionTest {
               makeFunction(
                   "f", DataTypes.VOID_TYPE, DataTypes.STRING_TYPE, vararg(DataTypes.INT_TYPE));
           makeValues(DataTypes.STRING_TYPE, DataTypes.STRING_TYPE);
-          assertFalse(f.paramsMatch(values, MatchType.EXACT, true));
+          assertFalse(f.paramsMatch(values, MatchType.EXACT));
+        }
+
+        @Test
+        void missing_value_for_param_before_vararg() {
+          Function f =
+              makeFunction(
+                  "f",
+                  DataTypes.VOID_TYPE,
+                  DataTypes.STRING_TYPE,
+                  DataTypes.STRING_TYPE,
+                  vararg(DataTypes.INT_TYPE));
+          makeValues(DataTypes.STRING_TYPE);
+          assertFalse(f.paramsMatch(values, MatchType.EXACT));
+        }
+
+        // vararg allowed, no matching args provided, args before vararg mismatch
+        @Test
+        void mismatched_value_for_param_before_vararg() {
+          Function f =
+              makeFunction(
+                  "f", DataTypes.VOID_TYPE, DataTypes.INT_TYPE, vararg(DataTypes.STRING_TYPE));
+          makeValues(DataTypes.STRING_TYPE);
+          assertFalse(f.paramsMatch(values, MatchType.EXACT));
         }
       }
 
@@ -377,7 +400,7 @@ public class FunctionTest {
               makeFunction(
                   "f", DataTypes.VOID_TYPE, DataTypes.STRING_TYPE, vararg(DataTypes.INT_TYPE));
           makeValues(DataTypes.STRING_TYPE, array(DataTypes.INT_TYPE));
-          assertTrue(f.paramsMatch(values, MatchType.EXACT, true));
+          assertTrue(f.paramsMatch(values, MatchType.EXACT));
         }
 
         // vararg allowed, an array of matching typedef ints is provided
@@ -388,7 +411,7 @@ public class FunctionTest {
                   "f", DataTypes.VOID_TYPE, DataTypes.STRING_TYPE, vararg(DataTypes.INT_TYPE));
           TypeDef td = new TypeDef("td", DataTypes.INT_TYPE, null);
           makeValues(DataTypes.STRING_TYPE, array(td));
-          assertFalse(f.paramsMatch(values, MatchType.EXACT, true));
+          assertFalse(f.paramsMatch(values, MatchType.EXACT));
         }
 
         // vararg allowed, a map of matching ints is provided
@@ -398,7 +421,7 @@ public class FunctionTest {
               makeFunction(
                   "f", DataTypes.VOID_TYPE, DataTypes.STRING_TYPE, vararg(DataTypes.INT_TYPE));
           makeValues(DataTypes.STRING_TYPE, aggregate(DataTypes.INT_TYPE, DataTypes.INT_TYPE));
-          assertTrue(f.paramsMatch(values, MatchType.EXACT, true));
+          assertTrue(f.paramsMatch(values, MatchType.EXACT));
         }
 
         // vararg allowed, a map of matching ints is provided
@@ -409,7 +432,7 @@ public class FunctionTest {
                   "f", DataTypes.VOID_TYPE, DataTypes.STRING_TYPE, vararg(DataTypes.INT_TYPE));
           TypeDef td = new TypeDef("td", DataTypes.INT_TYPE, null);
           makeValues(DataTypes.STRING_TYPE, aggregate(DataTypes.INT_TYPE, td));
-          assertFalse(f.paramsMatch(values, MatchType.EXACT, true));
+          assertFalse(f.paramsMatch(values, MatchType.EXACT));
         }
 
         // vararg allowed, a typedef array of matching ints is provided
@@ -422,7 +445,7 @@ public class FunctionTest {
           makeValues(DataTypes.STRING_TYPE, tda);
           // Since we are matching parameters, any aggregate that holds the
           // appropriate data type is fine.
-          assertTrue(f.paramsMatch(values, MatchType.EXACT, true));
+          assertTrue(f.paramsMatch(values, MatchType.EXACT));
         }
 
         // vararg allowed, a typedef map of matching ints is provided
@@ -435,7 +458,7 @@ public class FunctionTest {
           makeValues(DataTypes.STRING_TYPE, tdm);
           // Since we are matching parameters, any aggregate that holds the
           // appropriate data type is fine.
-          assertTrue(f.paramsMatch(values, MatchType.EXACT, true));
+          assertTrue(f.paramsMatch(values, MatchType.EXACT));
         }
       }
     }
@@ -451,7 +474,7 @@ public class FunctionTest {
         void int_int() {
           Function f = makeFunction("f", DataTypes.VOID_TYPE, DataTypes.INT_TYPE);
           makeValues(DataTypes.INT_TYPE);
-          assertTrue(f.paramsMatch(values, MatchType.BASE, false));
+          assertTrue(f.paramsMatch(values, MatchType.BASE));
         }
 
         // Two ints are required, one int is provided
@@ -460,7 +483,7 @@ public class FunctionTest {
           Function f =
               makeFunction("f", DataTypes.VOID_TYPE, DataTypes.INT_TYPE, DataTypes.INT_TYPE);
           makeValues(DataTypes.INT_TYPE);
-          assertFalse(f.paramsMatch(values, MatchType.BASE, false));
+          assertFalse(f.paramsMatch(values, MatchType.BASE));
         }
 
         // One int is required, two are provided
@@ -468,7 +491,7 @@ public class FunctionTest {
         void int_int2() {
           Function f = makeFunction("f", DataTypes.VOID_TYPE, DataTypes.INT_TYPE);
           makeValues(DataTypes.INT_TYPE, DataTypes.INT_TYPE);
-          assertFalse(f.paramsMatch(values, MatchType.BASE, false));
+          assertFalse(f.paramsMatch(values, MatchType.BASE));
         }
 
         // int is required, typedef int is provided
@@ -477,7 +500,7 @@ public class FunctionTest {
           TypeDef td = new TypeDef("td", DataTypes.INT_TYPE, null);
           Function f = makeFunction("f", DataTypes.VOID_TYPE, DataTypes.INT_TYPE);
           makeValues(td);
-          assertTrue(f.paramsMatch(values, MatchType.BASE, false));
+          assertTrue(f.paramsMatch(values, MatchType.BASE));
         }
 
         // float is required, int is provided
@@ -485,7 +508,7 @@ public class FunctionTest {
         void float_int() {
           Function f = makeFunction("f", DataTypes.VOID_TYPE, DataTypes.FLOAT_TYPE);
           makeValues(DataTypes.INT_TYPE);
-          assertFalse(f.paramsMatch(values, MatchType.BASE, false));
+          assertFalse(f.paramsMatch(values, MatchType.BASE));
         }
 
         // typedef int is required, int is provided
@@ -494,7 +517,7 @@ public class FunctionTest {
           TypeDef td = new TypeDef("td", DataTypes.INT_TYPE, null);
           Function f = makeFunction("f", DataTypes.VOID_TYPE, td);
           makeValues(DataTypes.INT_TYPE);
-          assertTrue(f.paramsMatch(values, MatchType.BASE, false));
+          assertTrue(f.paramsMatch(values, MatchType.BASE));
         }
 
         // typedef int is required, same typedef int is provided
@@ -503,7 +526,7 @@ public class FunctionTest {
           TypeDef td = new TypeDef("td", DataTypes.INT_TYPE, null);
           Function f = makeFunction("f", DataTypes.VOID_TYPE, td);
           makeValues(td);
-          assertTrue(f.paramsMatch(values, MatchType.BASE, false));
+          assertTrue(f.paramsMatch(values, MatchType.BASE));
         }
 
         // typedef int is required, different typedef int is provided
@@ -513,7 +536,7 @@ public class FunctionTest {
           TypeDef td2 = new TypeDef("td2", DataTypes.INT_TYPE, null);
           Function f = makeFunction("f", DataTypes.VOID_TYPE, td1);
           makeValues(td2);
-          assertTrue(f.paramsMatch(values, MatchType.BASE, false));
+          assertTrue(f.paramsMatch(values, MatchType.BASE));
         }
       }
 
@@ -532,7 +555,7 @@ public class FunctionTest {
           // We are not testing whether function argument types match,
           // but whether this function will accept these values.
           // A vararg is happy to have size zero.
-          assertTrue(f.paramsMatch(values, MatchType.BASE, true));
+          assertTrue(f.paramsMatch(values, MatchType.BASE));
         }
 
         // vararg allowed, one matching arg provided
@@ -542,7 +565,7 @@ public class FunctionTest {
               makeFunction(
                   "f", DataTypes.VOID_TYPE, DataTypes.STRING_TYPE, vararg(DataTypes.INT_TYPE));
           makeValues(DataTypes.STRING_TYPE, DataTypes.INT_TYPE);
-          assertTrue(f.paramsMatch(values, MatchType.BASE, true));
+          assertTrue(f.paramsMatch(values, MatchType.BASE));
         }
 
         // vararg allowed, two matching args provided
@@ -552,7 +575,7 @@ public class FunctionTest {
               makeFunction(
                   "f", DataTypes.VOID_TYPE, DataTypes.STRING_TYPE, vararg(DataTypes.INT_TYPE));
           makeValues(DataTypes.STRING_TYPE, DataTypes.INT_TYPE, DataTypes.INT_TYPE);
-          assertTrue(f.paramsMatch(values, MatchType.BASE, true));
+          assertTrue(f.paramsMatch(values, MatchType.BASE));
         }
 
         // vararg allowed, typedef int is provided
@@ -561,7 +584,7 @@ public class FunctionTest {
           TypeDef td = new TypeDef("td", DataTypes.INT_TYPE, null);
           Function f = makeFunction("f", DataTypes.VOID_TYPE, DataTypes.INT_TYPE);
           makeValues(td);
-          assertTrue(f.paramsMatch(values, MatchType.BASE, false));
+          assertTrue(f.paramsMatch(values, MatchType.BASE));
         }
 
         @Test
@@ -570,7 +593,17 @@ public class FunctionTest {
               makeFunction(
                   "f", DataTypes.VOID_TYPE, DataTypes.STRING_TYPE, vararg(DataTypes.INT_TYPE));
           makeValues(DataTypes.STRING_TYPE, DataTypes.STRING_TYPE);
-          assertFalse(f.paramsMatch(values, MatchType.BASE, true));
+          assertFalse(f.paramsMatch(values, MatchType.BASE));
+        }
+
+        // vararg allowed, no matching args provided, args before vararg mismatch
+        @Test
+        void mismatched_value_for_param_before_vararg() {
+          Function f =
+              makeFunction(
+                  "f", DataTypes.VOID_TYPE, DataTypes.INT_TYPE, vararg(DataTypes.STRING_TYPE));
+          makeValues(DataTypes.STRING_TYPE);
+          assertFalse(f.paramsMatch(values, MatchType.BASE));
         }
       }
 
@@ -585,7 +618,7 @@ public class FunctionTest {
                   "f", DataTypes.VOID_TYPE, DataTypes.STRING_TYPE, vararg(DataTypes.INT_TYPE));
           makeValues(DataTypes.STRING_TYPE, array(DataTypes.INT_TYPE));
           // *** This is EXACT. Why does BASE match not accept this?
-          assertFalse(f.paramsMatch(values, MatchType.BASE, true));
+          assertFalse(f.paramsMatch(values, MatchType.BASE));
         }
 
         // vararg allowed, an array of matching typedef ints is provided
@@ -597,7 +630,7 @@ public class FunctionTest {
           TypeDef td = new TypeDef("td", DataTypes.INT_TYPE, null);
           makeValues(DataTypes.STRING_TYPE, array(td));
           // *** Why does BASE match not accept this?
-          assertFalse(f.paramsMatch(values, MatchType.BASE, true));
+          assertFalse(f.paramsMatch(values, MatchType.BASE));
         }
 
         // vararg allowed, a map of matching ints is provided
@@ -608,7 +641,7 @@ public class FunctionTest {
                   "f", DataTypes.VOID_TYPE, DataTypes.STRING_TYPE, vararg(DataTypes.INT_TYPE));
           makeValues(DataTypes.STRING_TYPE, aggregate(DataTypes.INT_TYPE, DataTypes.INT_TYPE));
           // *** This is EXACT. Why does BASE match not accept this?
-          assertFalse(f.paramsMatch(values, MatchType.BASE, true));
+          assertFalse(f.paramsMatch(values, MatchType.BASE));
         }
 
         // vararg allowed, a map of matching ints is provided
@@ -620,7 +653,7 @@ public class FunctionTest {
           TypeDef td = new TypeDef("td", DataTypes.INT_TYPE, null);
           makeValues(DataTypes.STRING_TYPE, aggregate(DataTypes.INT_TYPE, td));
           // *** Why does BASE match not accept this?
-          assertFalse(f.paramsMatch(values, MatchType.BASE, true));
+          assertFalse(f.paramsMatch(values, MatchType.BASE));
         }
 
         // vararg allowed, a typedef array of matching ints is provided
@@ -632,7 +665,7 @@ public class FunctionTest {
           TypeDef tda = new TypeDef("tda", array(DataTypes.INT_TYPE), null);
           makeValues(DataTypes.STRING_TYPE, tda);
           // *** Why does BASE match not accept this?
-          assertFalse(f.paramsMatch(values, MatchType.BASE, true));
+          assertFalse(f.paramsMatch(values, MatchType.BASE));
         }
 
         // vararg allowed, a typedef map of matching ints is provided
@@ -644,7 +677,7 @@ public class FunctionTest {
           TypeDef tdm = new TypeDef("tdm", aggregate(DataTypes.INT_TYPE, DataTypes.INT_TYPE), null);
           makeValues(DataTypes.STRING_TYPE, tdm);
           // *** Why does BASE match not accept this?
-          assertFalse(f.paramsMatch(values, MatchType.BASE, true));
+          assertFalse(f.paramsMatch(values, MatchType.BASE));
         }
       }
     }
@@ -660,7 +693,7 @@ public class FunctionTest {
         void int_int() {
           Function f = makeFunction("f", DataTypes.VOID_TYPE, DataTypes.INT_TYPE);
           makeValues(DataTypes.INT_TYPE);
-          assertTrue(f.paramsMatch(values, MatchType.COERCE, false));
+          assertTrue(f.paramsMatch(values, MatchType.COERCE));
         }
 
         // Two ints are required, one int is provided
@@ -669,7 +702,7 @@ public class FunctionTest {
           Function f =
               makeFunction("f", DataTypes.VOID_TYPE, DataTypes.INT_TYPE, DataTypes.INT_TYPE);
           makeValues(DataTypes.INT_TYPE);
-          assertFalse(f.paramsMatch(values, MatchType.COERCE, false));
+          assertFalse(f.paramsMatch(values, MatchType.COERCE));
         }
 
         // One int is required, two are provided
@@ -677,7 +710,7 @@ public class FunctionTest {
         void int_int2() {
           Function f = makeFunction("f", DataTypes.VOID_TYPE, DataTypes.INT_TYPE);
           makeValues(DataTypes.INT_TYPE, DataTypes.INT_TYPE);
-          assertFalse(f.paramsMatch(values, MatchType.COERCE, false));
+          assertFalse(f.paramsMatch(values, MatchType.COERCE));
         }
 
         // int is required, typedef int is provided
@@ -686,7 +719,7 @@ public class FunctionTest {
           TypeDef td = new TypeDef("td", DataTypes.INT_TYPE, null);
           Function f = makeFunction("f", DataTypes.VOID_TYPE, DataTypes.INT_TYPE);
           makeValues(td);
-          assertTrue(f.paramsMatch(values, MatchType.COERCE, false));
+          assertTrue(f.paramsMatch(values, MatchType.COERCE));
         }
 
         // float is required, int is provided
@@ -694,7 +727,7 @@ public class FunctionTest {
         void float_int() {
           Function f = makeFunction("f", DataTypes.VOID_TYPE, DataTypes.FLOAT_TYPE);
           makeValues(DataTypes.INT_TYPE);
-          assertTrue(f.paramsMatch(values, MatchType.COERCE, false));
+          assertTrue(f.paramsMatch(values, MatchType.COERCE));
         }
 
         // typedef int is required, int is provided
@@ -703,7 +736,7 @@ public class FunctionTest {
           TypeDef td = new TypeDef("td", DataTypes.INT_TYPE, null);
           Function f = makeFunction("f", DataTypes.VOID_TYPE, td);
           makeValues(DataTypes.INT_TYPE);
-          assertTrue(f.paramsMatch(values, MatchType.COERCE, false));
+          assertTrue(f.paramsMatch(values, MatchType.COERCE));
         }
 
         // typedef int is required, same typedef int is provided
@@ -712,7 +745,7 @@ public class FunctionTest {
           TypeDef td = new TypeDef("td", DataTypes.INT_TYPE, null);
           Function f = makeFunction("f", DataTypes.VOID_TYPE, td);
           makeValues(td);
-          assertTrue(f.paramsMatch(values, MatchType.COERCE, false));
+          assertTrue(f.paramsMatch(values, MatchType.COERCE));
         }
 
         // typedef int is required, different typedef int is provided
@@ -722,7 +755,7 @@ public class FunctionTest {
           TypeDef td2 = new TypeDef("td2", DataTypes.INT_TYPE, null);
           Function f = makeFunction("f", DataTypes.VOID_TYPE, td1);
           makeValues(td2);
-          assertTrue(f.paramsMatch(values, MatchType.COERCE, false));
+          assertTrue(f.paramsMatch(values, MatchType.COERCE));
         }
       }
 
@@ -741,7 +774,7 @@ public class FunctionTest {
           // We are not testing whether function argument types match,
           // but whether this function will accept these values.
           // A vararg is happy to have size zero.
-          assertTrue(f.paramsMatch(values, MatchType.COERCE, true));
+          assertTrue(f.paramsMatch(values, MatchType.COERCE));
         }
 
         // vararg allowed, one matching arg provided
@@ -751,7 +784,7 @@ public class FunctionTest {
               makeFunction(
                   "f", DataTypes.VOID_TYPE, DataTypes.STRING_TYPE, vararg(DataTypes.INT_TYPE));
           makeValues(DataTypes.STRING_TYPE, DataTypes.INT_TYPE);
-          assertTrue(f.paramsMatch(values, MatchType.COERCE, true));
+          assertTrue(f.paramsMatch(values, MatchType.COERCE));
         }
 
         // vararg allowed, two matching args provided
@@ -761,7 +794,7 @@ public class FunctionTest {
               makeFunction(
                   "f", DataTypes.VOID_TYPE, DataTypes.STRING_TYPE, vararg(DataTypes.INT_TYPE));
           makeValues(DataTypes.STRING_TYPE, DataTypes.INT_TYPE, DataTypes.INT_TYPE);
-          assertTrue(f.paramsMatch(values, MatchType.COERCE, true));
+          assertTrue(f.paramsMatch(values, MatchType.COERCE));
         }
 
         // vararg allowed, typedef int is provided
@@ -770,7 +803,7 @@ public class FunctionTest {
           TypeDef td = new TypeDef("td", DataTypes.INT_TYPE, null);
           Function f = makeFunction("f", DataTypes.VOID_TYPE, DataTypes.INT_TYPE);
           makeValues(td);
-          assertTrue(f.paramsMatch(values, MatchType.BASE, false));
+          assertTrue(f.paramsMatch(values, MatchType.BASE));
         }
 
         @Test
@@ -779,7 +812,17 @@ public class FunctionTest {
               makeFunction(
                   "f", DataTypes.VOID_TYPE, DataTypes.STRING_TYPE, vararg(DataTypes.INT_TYPE));
           makeValues(DataTypes.STRING_TYPE, DataTypes.STRING_TYPE);
-          assertFalse(f.paramsMatch(values, MatchType.COERCE, true));
+          assertFalse(f.paramsMatch(values, MatchType.COERCE));
+        }
+
+        // vararg allowed, no matching args provided, args before vararg mismatch
+        @Test
+        void mismatched_value_for_param_before_vararg() {
+          Function f =
+              makeFunction(
+                  "f", DataTypes.VOID_TYPE, DataTypes.INT_TYPE, vararg(DataTypes.STRING_TYPE));
+          makeValues(DataTypes.STRING_TYPE);
+          assertFalse(f.paramsMatch(values, MatchType.COERCE));
         }
       }
 
@@ -795,7 +838,7 @@ public class FunctionTest {
                   "f", DataTypes.VOID_TYPE, DataTypes.STRING_TYPE, vararg(DataTypes.INT_TYPE));
           makeValues(DataTypes.STRING_TYPE, array(DataTypes.INT_TYPE));
           // *** aggregates are not coercable.
-          assertFalse(f.paramsMatch(values, MatchType.COERCE, false));
+          assertFalse(f.paramsMatch(values, MatchType.COERCE));
         }
 
         // vararg allowed, an array of matching typedef ints is provided
@@ -808,7 +851,7 @@ public class FunctionTest {
           makeValues(DataTypes.STRING_TYPE, array(td));
           // *** aggregates are not coercable.
           // *** Why does COERCE match not accept this?
-          assertFalse(f.paramsMatch(values, MatchType.COERCE, true));
+          assertFalse(f.paramsMatch(values, MatchType.COERCE));
         }
 
         // vararg allowed, a map of matching ints is provided
@@ -819,7 +862,7 @@ public class FunctionTest {
                   "f", DataTypes.VOID_TYPE, DataTypes.STRING_TYPE, vararg(DataTypes.INT_TYPE));
           makeValues(DataTypes.STRING_TYPE, aggregate(DataTypes.INT_TYPE, DataTypes.INT_TYPE));
           // *** aggregates are not coercable.
-          assertFalse(f.paramsMatch(values, MatchType.COERCE, true));
+          assertFalse(f.paramsMatch(values, MatchType.COERCE));
         }
 
         // vararg allowed, a map of matching ints is provided
@@ -832,7 +875,7 @@ public class FunctionTest {
           makeValues(DataTypes.STRING_TYPE, aggregate(DataTypes.INT_TYPE, td));
           // *** aggregates are not coercable.
           // *** Why does COERCE match not accept this?
-          assertFalse(f.paramsMatch(values, MatchType.COERCE, true));
+          assertFalse(f.paramsMatch(values, MatchType.COERCE));
         }
 
         // vararg allowed, a typedef array of matching ints is provided
@@ -844,7 +887,7 @@ public class FunctionTest {
           TypeDef tda = new TypeDef("tda", array(DataTypes.INT_TYPE), null);
           makeValues(DataTypes.STRING_TYPE, tda);
           // *** aggregates are not coercable.
-          assertFalse(f.paramsMatch(values, MatchType.COERCE, true));
+          assertFalse(f.paramsMatch(values, MatchType.COERCE));
         }
 
         // vararg allowed, a typedef map of matching ints is provided
@@ -856,7 +899,7 @@ public class FunctionTest {
           TypeDef tdm = new TypeDef("tdm", aggregate(DataTypes.INT_TYPE, DataTypes.INT_TYPE), null);
           makeValues(DataTypes.STRING_TYPE, tdm);
           // *** aggregates are not coercable.
-          assertFalse(f.paramsMatch(values, MatchType.COERCE, true));
+          assertFalse(f.paramsMatch(values, MatchType.COERCE));
         }
       }
     }

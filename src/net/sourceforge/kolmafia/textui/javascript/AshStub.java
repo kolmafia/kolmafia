@@ -62,9 +62,7 @@ public abstract class AshStub extends BaseFunction {
           }
         }
 
-        // Check for match with no vararg, then match with vararg.
-        if (testFunction.paramsMatch(coercedArgs, matchType, /* vararg= */ false)
-            || testFunction.paramsMatch(coercedArgs, matchType, /* vararg= */ true)) {
+        if (testFunction.paramsMatch(coercedArgs, matchType)) {
           return testFunction;
         }
       }
