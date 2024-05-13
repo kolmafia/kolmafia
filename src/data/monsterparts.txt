@@ -2265,5 +2265,5 @@
 2442	Protector Beast	...wing?	arm	head	leg	torso
 2443	Just Groar	arm	head	leg	wing
 2444	The Beast Wisniewski
-2445	The Beastman
-2446	The Naughty Wolferess
+2445	The Beastman	arm	head	leg	torso
+2446	The Naughty Wolferess	arm	head	leg	torso
