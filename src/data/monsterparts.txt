@@ -188,7 +188,7 @@
 206	Flaming Samurai	arm	head	leg	torso
 207	Ice Cube	corner	side
 208	Beer Batter	arm	head	leg	torso
-209	Enraged Cow	arm	head	leg	torso
+209	Enraged Cow	head	leg	tail	torso
 210	Your Shadow	arm	head	leg	torso
 211	Gnollish War Chef	arm	head	leg	torso
 213	vine gar	fin	head	tail
