@@ -845,7 +845,8 @@ public class Modifiers {
       Modifiers.cachedPassiveModifiers =
           new Modifiers(new Lookup(ModifierType.PASSIVES, "cachedPassives"));
       PreferenceListenerRegistry.registerPreferenceListener(
-          new String[] {"(skill)", "kingLiberated"}, () -> Modifiers.availableSkillsChanged());
+          new String[] {"(skill)", "kingLiberated", "(ronin)"},
+          () -> Modifiers.availableSkillsChanged());
     }
     if (KoLCharacter.getAvailableSkillIds().isEmpty()) {
       // We probably haven't loaded the player's skills yet. Avoid populating
