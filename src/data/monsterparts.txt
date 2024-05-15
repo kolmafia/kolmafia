@@ -242,7 +242,7 @@
 263	Knob Goblin Elite Guard Captain	arm	head	leg	torso
 266	Felonia, Queen of the Spooky Gravy Fairies	arm	head	stem	torso
 268	irate mariachi	arm	head	leg	torso
-269	angry pi&ntilde;ata	head	leg	tail
+269	angry pi&ntilde;ata	head	leg	tail	torso
 270	handsome mariachi	arm	head	leg	torso
 271	raging bull	arm	head	leg	torso
 272	mariachi calavera	arm	leg	skull	torso
@@ -532,7 +532,7 @@
 564	vampire duck	head	leg	tail	torso	wing
 565	zombie duck	head	leg	tail	torso	wing
 566	drunk duck	head	leg	tail	torso	wing
-567	mean drunk duck	head	leg	torso	wing
+567	mean drunk duck	head	leg	tail	torso	wing
 568	boaraffe	head	leg	tail	torso
 569	The Clownlord Beelzebozo	arm	head	leg	torso
 570	rampaging adding machine	arm	leg	paper
@@ -555,7 +555,7 @@
 587	can-can dancer	arm	head	leg	torso
 588	master of ceremonies	arm	head	leg	torso
 589	courtesan	arm	head	leg	torso
-590	voyeuristic artist	arm	head	leg	strings
+590	voyeuristic artist	arm	head	leg	neck	strings	torso
 591	sensitive poet-type	arm	head	leg	torso
 592	X-dimensional horror	blob
 593	swamp beaver warrior	arm	head	leg	tail	torso
