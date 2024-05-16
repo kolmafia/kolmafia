@@ -1,0 +1,3 @@
+void main() {
+  write("pass");
+}

@@ -16,6 +16,8 @@
 /test/root/relay/*
 /test/root/settings/*
 
+.DS_Store
+
 # Created by https://www.toptal.com/developers/gitignore/api/intellij
 # Edit at https://www.toptal.com/developers/gitignore?templates=intellij
 
