@@ -157,10 +157,9 @@ public abstract class KoLmafiaASH {
       relayRequest.cloneURLString(request);
 
       relayScript.initializeRelayScript(relayRequest);
+      StringBuffer serverReplyBuffer = relayScript.getServerReplyBuffer();
 
       relayScript.execute("main", null, true);
-
-      StringBuffer serverReplyBuffer = relayScript.getServerReplyBuffer();
 
       if (serverReplyBuffer.isEmpty()
           && relayRequest.responseText != null
@@ -168,14 +167,13 @@ public abstract class KoLmafiaASH {
         serverReplyBuffer.append(relayRequest.responseText);
       }
 
-      int written = serverReplyBuffer.length();
+      var written = serverReplyBuffer.length();
       if (written != 0) {
         String response = serverReplyBuffer.toString();
         request.pseudoResponse("HTTP/1.1 200 OK", response);
       }
 
       relayScript.finishRelayScript();
-
       KoLmafiaASH.logScriptExecution(
           "Finished relay script: ", toExecute.getName(), " (" + written + " bytes)", relayScript);
 
