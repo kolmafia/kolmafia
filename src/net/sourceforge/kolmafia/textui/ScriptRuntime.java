@@ -67,6 +67,8 @@ public interface ScriptRuntime {
   Value execute(
       final String functionName, final Object[] parameters, final boolean executeTopLevel);
 
+  int getNumberOfArgumentsToMain();
+
   ScriptException runtimeException(final String message);
 
   ScriptException runtimeException2(final String message1, final String message2);

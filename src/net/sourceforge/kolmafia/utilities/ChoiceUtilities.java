@@ -7,6 +7,7 @@ import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.ChoiceAdventures;
 import net.sourceforge.kolmafia.session.ChoiceAdventures.Spoilers;
 import net.sourceforge.kolmafia.session.ChoiceManager;
@@ -80,6 +81,12 @@ public class ChoiceUtilities {
     }
 
     return 0;
+  }
+
+  public static int extractChoice(GenericRequest request) {
+    var choice = extractChoiceFromURL(request.getURLString());
+    if (choice > 0) return choice;
+    return extractChoice(request.responseText);
   }
 
   public static final Pattern DECISION_BUTTON_PATTERN =

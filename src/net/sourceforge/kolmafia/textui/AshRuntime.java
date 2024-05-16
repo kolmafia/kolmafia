@@ -204,6 +204,13 @@ public class AshRuntime extends AbstractRuntime {
     return DataTypes.VOID_VALUE;
   }
 
+  @Override
+  public int getNumberOfArgumentsToMain() {
+    var main = this.parser.getMainMethod();
+    if (main == null) return -1;
+    return main.getVariableReferences().size();
+  }
+
   private Value executeScope(
       final Scope topScope,
       final String functionName,

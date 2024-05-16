@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.stream.Stream;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.textui.AshRuntime;
@@ -17,11 +18,10 @@ import net.sourceforge.kolmafia.textui.javascript.JavascriptRuntime;
 import net.sourceforge.kolmafia.textui.parsetree.Function;
 import net.sourceforge.kolmafia.textui.parsetree.FunctionList;
 import net.sourceforge.kolmafia.textui.parsetree.VariableReference;
+import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 
 public abstract class KoLmafiaASH {
-  private static final HashMap<String, File> relayScriptMap = new HashMap<>();
-
   private static final HashMap<File, Long> TIMESTAMPS = new HashMap<>();
   private static final HashMap<File, ScriptRuntime> INTERPRETERS = new HashMap<>();
 
@@ -74,6 +74,7 @@ public abstract class KoLmafiaASH {
           }
         }
       }
+      case "choice.php" -> field1 = String.valueOf(ChoiceUtilities.extractChoice(request));
     }
 
     String scriptName = script.substring(0, script.length() - 4);
@@ -85,40 +86,57 @@ public abstract class KoLmafiaASH {
         || KoLmafiaASH.getClientHTML(request, script);
   }
 
+  public static File getRelayFile(final String script) {
+    return new File(KoLConstants.RELAY_LOCATION, script);
+  }
+
   private static boolean getClientHTML(final RelayRequest request, String script) {
-    if (KoLmafiaASH.relayScriptMap.containsKey(script)) {
-      File toExecute = KoLmafiaASH.relayScriptMap.get(script);
-      return toExecute.exists() && KoLmafiaASH.getClientHTML(request, toExecute);
-    }
+    var name = script.substring(0, script.length() - 4);
 
-    for (String extension : new String[] {".ash", ".js"}) {
-      String testScript = script;
-      if (!testScript.endsWith(extension)) {
-        if (!testScript.endsWith(".php")) {
-          continue;
-        }
+    var file =
+        Stream.of("ash", "js")
+            .map(
+                extension -> {
+                  var testScript = name + "." + extension;
 
-        testScript = testScript.substring(0, testScript.length() - 4) + extension;
-      }
+                  if (FileUtilities.internalRelayScriptExists(testScript)) {
+                    FileUtilities.loadLibrary(
+                        KoLConstants.RELAY_LOCATION, KoLConstants.RELAY_DIRECTORY, script);
+                  }
 
-      if (FileUtilities.internalRelayScriptExists(testScript)) {
-        FileUtilities.loadLibrary(
-            KoLConstants.RELAY_LOCATION, KoLConstants.RELAY_DIRECTORY, script);
-      }
+                  return getRelayFile(testScript);
+                })
+            .filter(File::exists)
+            .findFirst()
+            .orElse(null);
 
-      File toExecute = new File(KoLConstants.RELAY_LOCATION, testScript);
-      if (toExecute.exists()) {
-        return KoLmafiaASH.getClientHTML(request, toExecute);
-      }
-    }
-
-    return false;
+    return file != null && KoLmafiaASH.getClientHTML(request, file);
   }
 
   private static boolean getClientHTML(final RelayRequest request, final File toExecute) {
     ScriptRuntime relayScript = KoLmafiaASH.getInterpreter(toExecute);
     if (relayScript == null) {
       return false;
+    }
+
+    // Ezandora has graciously maintained a library called Choice-Overrides which allows script
+    // maintainers to publish
+    // relay overrides of specific choices without fighting over the ownership of choice.ash. Now
+    // that we support
+    // short-circuiting straight to choice.[choicenumber].ash, scripts no longer need to use this.
+
+    // However, in order to reliably determine the choice number, Choice-Overrides has to run
+    // visit_url() and parse the
+    // page text. On a second call, visit_url() is blank, so these overrides need to be passed the
+    // page text. This means
+    // that choice.[choicenumber].ash files do not have the normal signature of a relay override
+    // script (i.e. they rely
+    // on a string parameter to main). Thus, in order to be backwards-compatible, we defer to
+    // choice.ash when a specific
+    // choice override is encountered that expects a string argument to be supplied.
+    var isChoice = request.getBasePath().equals("choice.php");
+    if (isChoice && relayScript.getNumberOfArgumentsToMain() > 0) {
+      return getClientHTML(request, new File(KoLConstants.RELAY_DIRECTORY, "choice.ash"));
     }
 
     synchronized (relayScript) {

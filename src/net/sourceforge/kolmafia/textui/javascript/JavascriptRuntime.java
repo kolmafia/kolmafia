@@ -33,6 +33,7 @@ import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
 import net.sourceforge.kolmafia.textui.parsetree.VariableReference;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+import org.mozilla.javascript.BaseFunction;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ContextFactory;
 import org.mozilla.javascript.EcmaError;
@@ -329,6 +330,30 @@ public class JavascriptRuntime extends AbstractRuntime {
     throw new JavaScriptException("Promise did not resolve or reject", null, 0);
   }
 
+  @Override
+  public int getNumberOfArgumentsToMain() {
+    Context cx = contextFactory.enterContext();
+    cx.setLanguageVersion(Context.VERSION_ES6);
+    cx.setOptimizationLevel(1);
+    Scriptable scope = cx.initSafeStandardObjects();
+
+    Require require = new SafeRequire(cx, scope, currentStdLib);
+    var exports = require.requireMain(cx, scriptFile.toURI().toString());
+    var export = getExport(exports, "main");
+    if (export == null) return -1;
+    return export.getArity();
+  }
+
+  private BaseFunction getExport(Scriptable exports, final String functionName) {
+    Object defaultExport = getValidDefaultExport(exports);
+    Object mainExport =
+        (defaultExport != Scriptable.NOT_FOUND)
+            ? defaultExport
+            : ScriptableObject.getProperty(exports, functionName);
+    if (!(mainExport instanceof BaseFunction mainFunction)) return null;
+    return mainFunction;
+  }
+
   private Value executeRun(
       final String functionName, final Object[] arguments, final boolean executeTopLevel) {
     Context cx = Context.getCurrentContext();
@@ -359,15 +384,9 @@ public class JavascriptRuntime extends AbstractRuntime {
             }
           }
           if (functionName != null && exports != null) {
-            Object defaultExport = getValidDefaultExport(exports);
-            Object mainFunction =
-                (defaultExport != Scriptable.NOT_FOUND)
-                    ? defaultExport
-                    : ScriptableObject.getProperty(exports, functionName);
-
-            if (mainFunction instanceof Function) {
-              return ((Function) mainFunction)
-                  .call(cx, scope, cx.newObject(currentTopScope), runArguments);
+            var mainExport = getExport(exports, functionName);
+            if (mainExport != null) {
+              return mainExport.call(cx, scope, cx.newObject(currentTopScope), runArguments);
             }
           }
 

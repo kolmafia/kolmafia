@@ -25,16 +25,6 @@ public abstract class AbstractRuntime implements ScriptRuntime {
   }
 
   @Override
-  public abstract Value execute(
-      final String functionName, final Object[] parameters, final boolean executeTopLevel);
-
-  @Override
-  public abstract ScriptException runtimeException(final String message);
-
-  @Override
-  public abstract ScriptException runtimeException2(final String message1, final String message2);
-
-  @Override
   public void initializeRelayScript(final RelayRequest request) {
     this.relayRequest = request;
     if (this.serverReplyBuffer == null) {
@@ -45,6 +35,11 @@ public abstract class AbstractRuntime implements ScriptRuntime {
 
     // Allow a relay script to execute regardless of error state
     KoLmafia.forceContinue();
+  }
+
+  @Override
+  public int getNumberOfArgumentsToMain() {
+    return -1;
   }
 
   @Override
