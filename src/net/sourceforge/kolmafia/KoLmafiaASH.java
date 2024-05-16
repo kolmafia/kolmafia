@@ -27,12 +27,12 @@ public abstract class KoLmafiaASH {
 
   public static final AshRuntime NAMESPACE_INTERPRETER = new NamespaceInterpreter();
 
-  public static final void logScriptExecution(
+  public static void logScriptExecution(
       final String prefix, final String scriptName, ScriptRuntime script) {
     KoLmafiaASH.logScriptExecution(prefix, scriptName, "", script);
   }
 
-  public static final void logScriptExecution(
+  public static void logScriptExecution(
       final String prefix, final String scriptName, final String postfix, ScriptRuntime script) {
     boolean isDebugging = RequestLogger.isDebugging();
     boolean isTracing = RequestLogger.isTracing();
@@ -57,7 +57,7 @@ public abstract class KoLmafiaASH {
     }
   }
 
-  public static final boolean getClientHTML(final RelayRequest request) {
+  public static boolean getClientHTML(final RelayRequest request) {
     String script = request.getBasePath();
     String field1 = null;
     String field2 = null;
@@ -68,9 +68,9 @@ public abstract class KoLmafiaASH {
       case "campground.php" -> {
         field1 = request.getFormField("action");
         if (field1 != null && field1.equals("workshed")) {
-          AdventureResult workshed_item = CampgroundRequest.getCurrentWorkshedItem();
-          if (workshed_item != null) {
-            field2 = field1 + "." + workshed_item.getItemId();
+          var workshedItem = CampgroundRequest.getCurrentWorkshedItem();
+          if (workshedItem != null) {
+            field2 = field1 + "." + workshedItem.getItemId();
           }
         }
       }
@@ -198,7 +198,7 @@ public abstract class KoLmafiaASH {
     return null;
   }
 
-  public static final ScriptRuntime getInterpreter(final File toExecute) {
+  public static ScriptRuntime getInterpreter(final File toExecute) {
     if (toExecute == null) {
       return null;
     }
@@ -235,8 +235,7 @@ public abstract class KoLmafiaASH {
         interpreter = new AshRuntime();
       }
 
-      if (interpreter instanceof AshRuntime
-          && !((AshRuntime) interpreter).validate(toExecute, null)) {
+      if (interpreter instanceof AshRuntime ashRuntime && !ashRuntime.validate(toExecute, null)) {
         return null;
       }
 
@@ -298,15 +297,15 @@ public abstract class KoLmafiaASH {
       description.append("( ");
 
       String sep = "";
-      for (VariableReference var : func.getVariableReferences()) {
+      for (VariableReference variableReference : func.getVariableReferences()) {
         description.append(sep);
         sep = ", ";
 
-        description.append(var.getRawType());
+        description.append(variableReference.getRawType());
 
-        if (var.getName() != null) {
+        if (variableReference.getName() != null) {
           description.append(" ");
-          description.append(var.getName());
+          description.append(variableReference.getName());
         }
       }
 
@@ -316,7 +315,7 @@ public abstract class KoLmafiaASH {
     }
   }
 
-  public static final void stopAllRelayInterpreters() {
+  public static void stopAllRelayInterpreters() {
     for (ScriptRuntime i : KoLmafiaASH.INTERPRETERS.values()) {
       if (i.getRelayRequest() != null) {
         i.setState(ScriptRuntime.State.EXIT);
