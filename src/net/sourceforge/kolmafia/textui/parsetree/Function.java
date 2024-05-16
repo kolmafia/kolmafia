@@ -13,6 +13,7 @@ public abstract class Function extends Symbol {
   protected Type type;
   protected List<VariableReference> variableReferences;
   private String signature;
+  private boolean hasVarArg;
 
   public Function(
       final String name,
@@ -21,7 +22,7 @@ public abstract class Function extends Symbol {
       final Location location) {
     super(name, location);
     this.type = type;
-    this.variableReferences = variableReferences;
+    setVariableReferences(variableReferences);
   }
 
   public Function(final String name, final Type type) {
@@ -38,6 +39,7 @@ public abstract class Function extends Symbol {
 
   public void setVariableReferences(final List<VariableReference> variableReferences) {
     this.variableReferences = variableReferences;
+    this.hasVarArg = variableReferences.stream().anyMatch(v -> v.getType() instanceof VarArgType);
   }
 
   public String getSignature() {
@@ -96,22 +98,17 @@ public abstract class Function extends Symbol {
   }
 
   public boolean varargsClash(final Function that) {
+    if (!this.hasVarArg || !that.hasVarArg) {
+      return false;
+    }
+
     Iterator<VariableReference> thisIterator = this.getVariableReferences().iterator();
     Iterator<VariableReference> thatIterator = that.getVariableReferences().iterator();
     VariableReference thisVararg = null;
     VariableReference thatVararg = null;
 
     while (thisIterator.hasNext() || thatIterator.hasNext()) {
-      VariableReference thisParam;
-      if (!thisIterator.hasNext()) {
-        // If this function ran out of arguments without seeing a vararg, no clash
-        if (thisVararg == null) {
-          return false;
-        }
-        thisParam = thisVararg;
-      } else {
-        thisParam = thisIterator.next();
-      }
+      VariableReference thisParam = !thisIterator.hasNext() ? thisVararg : thisIterator.next();
 
       Type thisParamType = thisParam.getType();
       if (thisParamType instanceof VarArgType vat) {
@@ -119,16 +116,7 @@ public abstract class Function extends Symbol {
         thisParamType = vat.getDataType();
       }
 
-      VariableReference thatParam;
-      if (!thatIterator.hasNext()) {
-        // If that function ran out of arguments without seeing a vararg, no clash
-        if (thatVararg == null) {
-          return false;
-        }
-        thatParam = thatVararg;
-      } else {
-        thatParam = thatIterator.next();
-      }
+      VariableReference thatParam = !thatIterator.hasNext() ? thatVararg : thatIterator.next();
 
       Type thatParamType = thatParam.getType();
       if (thatParamType instanceof VarArgType vat) {
@@ -152,9 +140,8 @@ public abstract class Function extends Symbol {
     return false;
   }
 
-  public boolean paramsMatch(
-      final List<? extends TypedNode> params, MatchType match, boolean vararg) {
-    return (vararg)
+  public boolean paramsMatch(final List<? extends TypedNode> params, MatchType match) {
+    return (this.hasVarArg)
         ? this.paramsMatchVararg(params, match)
         : this.paramsMatchNoVararg(params, match);
   }
@@ -162,15 +149,17 @@ public abstract class Function extends Symbol {
   private boolean paramsMatchNoVararg(final List<? extends TypedNode> params, MatchType match) {
     Iterator<VariableReference> refIterator = this.getVariableReferences().iterator();
     Iterator<? extends TypedNode> valIterator = params.iterator();
-    boolean matched = true;
 
-    while (matched && refIterator.hasNext() && valIterator.hasNext()) {
+    while (refIterator.hasNext() && valIterator.hasNext()) {
       VariableReference currentParam = refIterator.next();
       Type paramType = currentParam.getType();
 
-      if (paramType == null || paramType instanceof VarArgType) {
-        matched = false;
-        break;
+      if (paramType == null) {
+        return false;
+      }
+      if (paramType instanceof VarArgType) {
+        throw new IllegalStateException(
+            "VarArgType should not be present in non-vararg function. This is a bug.");
       }
 
       TypedNode currentValue = valIterator.next();
@@ -179,38 +168,38 @@ public abstract class Function extends Symbol {
       switch (match) {
         case EXACT:
           if (!currentParam.getRawType().equals(currentValue.getRawType())) {
-            matched = false;
+            return false;
           }
           break;
 
         case BASE:
           if (!paramType.equals(valueType)) {
-            matched = false;
+            return false;
           }
           break;
 
         case COERCE:
           if (!Operator.validCoercion(paramType, valueType, "parameter")) {
-            matched = false;
+            return false;
           }
           break;
       }
     }
 
-    if (matched && !refIterator.hasNext() && !valIterator.hasNext()) {
-      return true;
+    if (refIterator.hasNext() || valIterator.hasNext()) {
+      return false;
     }
-    return false;
+
+    return true;
   }
 
   private boolean paramsMatchVararg(final List<? extends TypedNode> params, MatchType match) {
     Iterator<VariableReference> refIterator = this.getVariableReferences().iterator();
     Iterator<? extends TypedNode> valIterator = params.iterator();
-    boolean matched = true;
     VariableReference vararg = null;
     VarArgType varargType = null;
 
-    while (matched && (vararg != null || refIterator.hasNext()) && valIterator.hasNext()) {
+    while ((vararg != null || refIterator.hasNext()) && valIterator.hasNext()) {
       // A VarArg parameter will consume all remaining values
       VariableReference currentParam = (vararg != null) ? vararg : refIterator.next();
       Type paramType = currentParam.getType();
@@ -225,14 +214,13 @@ public abstract class Function extends Symbol {
 
       // Only one vararg is allowed. It must be at the end.
       if (vararg != null && refIterator.hasNext()) {
-        matched = false;
-        break;
+        return false;
       }
 
       switch (match) {
         case EXACT:
           if (!paramType.equals(valueType)) {
-            matched = false;
+            return false;
           }
           break;
 
@@ -241,7 +229,7 @@ public abstract class Function extends Symbol {
             paramType = varargType.getDataType();
           }
           if (!paramType.equals(valueType)) {
-            matched = false;
+            return false;
           }
           break;
 
@@ -250,29 +238,37 @@ public abstract class Function extends Symbol {
             paramType = varargType.getDataType();
           }
           if (!Operator.validCoercion(paramType, valueType, "parameter")) {
-            matched = false;
+            return false;
           }
           break;
       }
     }
 
-    if (refIterator.hasNext()) {
-      // If the next parameter is a vararg, this is
-      // allowed if we ran out of parameters.
+    if (vararg == null && refIterator.hasNext()) {
+      // If the next parameter is a vararg, and there was none yet,
+      // this is allowed if we ran out of parameters.
       VariableReference currentParam = refIterator.next();
       Type paramType = currentParam.getType();
 
       if (paramType instanceof VarArgType) {
         vararg = currentParam;
-        matched = true;
+      } else {
+        // we read the last parameter, but it was not a vararg and we don't
+        // have a value for it, so this is a mismatch
+        return false;
       }
     }
 
-    if (matched && vararg != null && !refIterator.hasNext() && !valIterator.hasNext()) {
-      return true;
+    if (refIterator.hasNext() || valIterator.hasNext()) {
+      return false;
     }
 
-    return false;
+    if (vararg == null) {
+      throw new IllegalStateException(
+          "VarArgType should be present in vararg function. This is a bug.");
+    }
+
+    return true;
   }
 
   public void printDisabledMessage(AshRuntime interpreter) {
