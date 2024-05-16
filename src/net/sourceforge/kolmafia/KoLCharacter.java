@@ -2948,6 +2948,8 @@ public abstract class KoLCharacter {
     FloristRequest.reset();
     RequestThread.postRequest(new FloristRequest());
 
+    KoLCharacter.recalculateAdjustments();
+
     // If you have the ItemManagerFrame open, there are four panels which
     // display food, booze, spleen items, and potions. These enable buttons and
     // filter what is shown based on character state: whether your character
@@ -3038,6 +3040,7 @@ public abstract class KoLCharacter {
     if (KoLCharacter.inRonin != inRonin) {
       KoLCharacter.inRonin = inRonin;
       NamedListenerRegistry.fireChange("(ronin)");
+      KoLCharacter.recalculateAdjustments();
     }
   }
 

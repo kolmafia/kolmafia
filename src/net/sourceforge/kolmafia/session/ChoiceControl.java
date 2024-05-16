@@ -4826,7 +4826,7 @@ public abstract class ChoiceControl {
       Pattern.compile("\\(Walford's bucket filled by (\\d+)%\\)");
 
   private static final Pattern MAYAM_SYMBOLS =
-      Pattern.compile("<img data-pos=\"\\d\" class=\"(used)?\"? alt=\"(.*?)\"");
+      Pattern.compile("<img data-pos=\"\\d\" class=\"(used)?\"? alt=\"([^\\s]+)\\s");
 
   public static void parseMayamCalendar(final String text) {
     var symbolMatcher = MAYAM_SYMBOLS.matcher(text);
