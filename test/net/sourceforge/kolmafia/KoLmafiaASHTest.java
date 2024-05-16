@@ -26,13 +26,19 @@ class KoLmafiaASHTest {
       try (var kolmafiaAsh = Mockito.mockStatic(KoLmafiaASH.class, Mockito.CALLS_REAL_METHODS)) {
         kolmafiaAsh
             .when(() -> KoLmafiaASH.getRelayFile("choice.1.ash"))
-            .thenReturn(new File(KoLConstants.SCRIPT_LOCATION, "relay_scripts/" + directory + "/choice.1.ash"));
+            .thenReturn(
+                new File(
+                    KoLConstants.SCRIPT_LOCATION, "relay_scripts/" + directory + "/choice.1.ash"));
         kolmafiaAsh
             .when(() -> KoLmafiaASH.getRelayFile("choice.1.js"))
-            .thenReturn(new File(KoLConstants.SCRIPT_LOCATION, "relay_scripts/" + directory + "/choice.1.js"));
+            .thenReturn(
+                new File(
+                    KoLConstants.SCRIPT_LOCATION, "relay_scripts/" + directory + "/choice.1.js"));
         kolmafiaAsh
             .when(() -> KoLmafiaASH.getRelayFile("choice.ash"))
-            .thenReturn(new File(KoLConstants.SCRIPT_LOCATION, "relay_scripts/" + directory + "/choice.ash"));
+            .thenReturn(
+                new File(
+                    KoLConstants.SCRIPT_LOCATION, "relay_scripts/" + directory + "/choice.ash"));
 
         var request = new RelayRequest(true);
         request.constructURLString("choice.php?whichchoice=1");
