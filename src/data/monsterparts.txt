@@ -188,7 +188,7 @@
 206	Flaming Samurai	arm	head	leg	torso
 207	Ice Cube	corner	side
 208	Beer Batter	arm	head	leg	torso
-209	Enraged Cow	arm	head	leg	torso
+209	Enraged Cow	head	leg	tail	torso
 210	Your Shadow	arm	head	leg	torso
 211	Gnollish War Chef	arm	head	leg	torso
 213	vine gar	fin	head	tail
@@ -242,14 +242,14 @@
 263	Knob Goblin Elite Guard Captain	arm	head	leg	torso
 266	Felonia, Queen of the Spooky Gravy Fairies	arm	head	stem	torso
 268	irate mariachi	arm	head	leg	torso
-269	angry pi&ntilde;ata	head	leg	tail
+269	angry pi&ntilde;ata	head	leg	tail	torso
 270	handsome mariachi	arm	head	leg	torso
 271	raging bull	arm	head	leg	torso
 272	mariachi calavera	arm	leg	skull	torso
 273	Buzzy Beetle	head	leg
 274	hockey elemental
-275	Vicious Easel	arm	back	head	torso
-276	Big Meat Golem	arm	back	head	torso
+275	Vicious Easel	arm	head	leg	torso
+276	Big Meat Golem	arm	head	leg	torso
 277	Bowling Cricket	arm	head	leg	torso
 278	Tyrannosaurus Tex	arm	head	leg	torso
 279	Giant Desktop Globe	continent	island	ocean	stand
@@ -532,7 +532,7 @@
 564	vampire duck	head	leg	tail	torso	wing
 565	zombie duck	head	leg	tail	torso	wing
 566	drunk duck	head	leg	tail	torso	wing
-567	mean drunk duck	head	leg	torso	wing
+567	mean drunk duck	head	leg	tail	torso	wing
 568	boaraffe	head	leg	tail	torso
 569	The Clownlord Beelzebozo	arm	head	leg	torso
 570	rampaging adding machine	arm	leg	paper
@@ -555,7 +555,7 @@
 587	can-can dancer	arm	head	leg	torso
 588	master of ceremonies	arm	head	leg	torso
 589	courtesan	arm	head	leg	torso
-590	voyeuristic artist	arm	head	leg	strings
+590	voyeuristic artist	arm	head	leg	neck	strings	torso
 591	sensitive poet-type	arm	head	leg	torso
 592	X-dimensional horror	blob
 593	swamp beaver warrior	arm	head	leg	tail	torso
@@ -2260,10 +2260,10 @@
 2437	Boss Beast	head	torso	wing
 2438	Knob Goblin Beast	arm	head	leg	torso
 2439	Curséd Bonerdagon	head	tail	torso	wing
-2440	Were-Dr. Awkwarder, ew
+2440	Were-Dr. Awkwarder, ew	arm	head	leg	torso
 2441	Lord Beastlyraven	arm	head	leg	torso
-2442	Protector Beast
+2442	Protector Beast	...wing?	arm	head	leg	torso
 2443	Just Groar	arm	head	leg	wing
 2444	The Beast Wisniewski
-2445	The Beastman
-2446	The Naughty Wolferess
+2445	The Beastman	arm	head	leg	torso
+2446	The Naughty Wolferess	arm	head	leg	torso
