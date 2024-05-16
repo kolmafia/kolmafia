@@ -36,6 +36,8 @@ class KoLmafiaASHTest {
 
         var request = new RelayRequest(true);
         request.constructURLString("choice.php?whichchoice=1");
+        // The request response should be overwritten
+        request.responseText = "fail";
 
         var success = KoLmafiaASH.getClientHTML(request);
 
