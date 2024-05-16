@@ -1,0 +1,165 @@
+<html><head>
+<script language=Javascript>
+<!--
+if (parent.frames.length == -1) location.href="game.php";
+//-->
+</script>
+<script language=Javascript src="/images/scripts/jquery-1.5.1.js"></script>
+<script language=Javascript src="/images/scripts/keybinds.min.2.js"></script>
+<script language=Javascript src="/images/scripts/window.20111231.js"></script>
+<script language="javascript">function chatFocus(){if(top.chatpane.document.chatform.graf) top.chatpane.document.chatform.graf.focus();}
+if (typeof defaultBind != 'undefined') { defaultBind(47, 2, chatFocus); defaultBind(190, 2, chatFocus);defaultBind(191, 2, chatFocus); defaultBind(47, 8, chatFocus);defaultBind(190, 8, chatFocus); defaultBind(191, 8, chatFocus); }</script><script>
+function switchFocus()
+{
+	if (top.chatpane.document.chatform.graf.focus) 
+		top.chatpane.document.chatform.graf.focus(); 
+	return false;
+}
+function repeat()
+{
+	var linx = document.getElementsByTagName("A");
+	for (var i = 0; i < linx.length; i++)
+	{
+		if (typeof timersfunc != 'undefined') {
+			if (!timersfunc()) { 
+				return; 
+			}
+			timersfunc = null;
+		}
+		var link = linx[i];
+		if (link.innerHTML.match(/Adventure Again/) || link.innerHTML.match(/Do it again/))
+			location.href = link.href;
+	}
+}
+
+defaultBind(47, CTRL, switchFocus);
+defaultBind(191, CTRL, switchFocus);
+defaultBind(47, META, switchFocus);
+defaultBind(191, META, switchFocus);
+defaultBind(192, NONE, repeat);
+defaultBind(220, NONE, repeat);
+</script><script language="javascript">
+	function updateParseItem(iid, field, info) {
+		var tbl = $('#ic'+iid);
+		var data = parseItem(tbl);
+		if (!data) return;
+		data[field] = info;
+		var out = [];
+		for (i in data) {
+			if (!data.hasOwnProperty(i)) continue;
+			out.push(i+'='+data[i]);
+		}
+		tbl.attr('rel', out.join('&'));
+	}
+	function parseItem(tbl) {
+		tbl = $(tbl);
+		var rel = tbl.attr('rel');
+		var data = {};
+		if (!rel) return data;
+		var parts = rel.split('&');
+		for (i in parts) {
+			if (!parts.hasOwnProperty(i)) continue;
+			var kv = parts[i].split('=');
+			tbl.data(kv[0], kv[1]);
+			data[kv[0]] = kv[1];
+		}
+		return data;
+	}
+</script><script type="text/javascript" src="/images/scripts/pop_query.20230713.js"></script>
+<script type="text/javascript"> function pop_ircm(clicked) { return false; } </script><script>
+
+var currentkey = 49;
+$(document).ready(function () {
+	$('form').each(function () {
+		var form = this;
+		defaultBind(currentkey++, NONE, function () { form.submit(); });
+		return currentkey < 58;
+	});
+});
+
+</script>	<link rel="stylesheet" type="text/css" href="/images/styles.20230117d.css">
+<style type='text/css'>
+.faded {
+	zoom: 1;
+	filter: alpha(opacity=35);
+	opacity: 0.35;
+	-khtml-opacity: 0.35; 
+    -moz-opacity: 0.35;
+}
+</style>
+
+<link rel='stylesheet' type='text/css' href='/images/actionbar.6.css'><!--[if IE]><link rel='stylesheet' type='text/css' href='/images/actionbar.ie.4.css'><![endif]--><script language="Javascript" src="/basics.js"></script><link rel="stylesheet" href="/basics.1.css" /></head>
+
+<body><img src='/images/itemimages/blank.gif' id='dragged'><div id='debug'></div><div class=contextmenu id='skillmenu'></div><div class=contextmenu id='itemsmenu'></div><div id=topbar><center><table class=actionbar cellpadding=0 cellspacing=1><tbody><tr class=label><td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr class=blueback><td><a href='choice.php?action=auto'><img src='/images/itemimages/plexpock.gif'></a></td><td class=spacer></td><td><img src='/images/itemimages/blank.gif' id='skills'></td><td class=spacer></td><td><img src='/images/itemimages/blank.gif'></td><td><img src='/images/itemimages/blank.gif'></td><td><img src='/images/itemimages/blank.gif'></td><td><img src='/images/itemimages/blank.gif'></td><td><img src='/images/itemimages/blank.gif'></td><td><img src='/images/itemimages/blank.gif'></td><td><img src='/images/itemimages/blank.gif'></td><td><img src='/images/itemimages/blank.gif'></td><td><img src='/images/itemimages/blank.gif'></td><td><img src='/images/itemimages/blank.gif'></td><td><img src='/images/itemimages/blank.gif'></td><td><img src='/images/itemimages/blank.gif'></td><td class=spacer></td><td class=spacer></td><td><img src='/images/itemimages/blank.gif'></td></tr><tr class=label><td>auto</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table></center></div><div class='content' id='content_'><div id='effdiv' style='display: none;'></div><div style='overflow: visible;'>
+<Center><table  width=95%  cellspacing=0 cellpadding=0><tr><td style="color: white;" align=center bgcolor=blue><b>Consider the Calendar</b></td></tr><tr><td style="padding: 5px; border: 1px solid blue;"><center><table><tr><td>
+<div style="width: 100%; text-align: center;"><img src="/images/itemimages/downarrow.gif"/></div>
+<div id="main">
+   <div id="x4" class="ring"><img data-pos="0" class="used" alt="Yam (outer ring, used)" title="Yam (outer ring, used)" style="transform: rotate(0deg);" src="/images/otherimages/mayyam/yam.png" /><img data-pos="1" class="" alt="Sword (outer ring)" title="Sword (outer ring)" style="transform: rotate(60deg);" src="/images/otherimages/mayyam/sword.png" /><img data-pos="2" class="" alt="Vessel (outer ring)" title="Vessel (outer ring)" style="transform: rotate(120deg);" src="/images/otherimages/mayyam/vessel.png" /><img data-pos="3" class="used" alt="Fur (outer ring, used)" title="Fur (outer ring, used)" style="transform: rotate(180deg);" src="/images/otherimages/mayyam/fur.png" /><img data-pos="4" class="used" alt="Chair (outer ring, used)" title="Chair (outer ring, used)" style="transform: rotate(240deg);" src="/images/otherimages/mayyam/chair.png" /><img data-pos="5" class="" alt="Eye (outer ring)" title="Eye (outer ring)" style="transform: rotate(300deg);" src="/images/otherimages/mayyam/eye.png" /></div>
+   <div id="x3" class="ring"><img data-pos="0" class="used" alt="Yam (middle-outer ring, used)" title="Yam (middle-outer ring, used)" style="transform: rotate(0deg);" src="/images/otherimages/mayyam/yam.png" /><img data-pos="1" class="used" alt="Lightning (middle-outer ring, used)" title="Lightning (middle-outer ring, used)" style="transform: rotate(72deg);" src="/images/otherimages/mayyam/lightning.png" /><img data-pos="2" class="" alt="Bottle (middle-outer ring)" title="Bottle (middle-outer ring)" style="transform: rotate(144deg);" src="/images/otherimages/mayyam/bottle.png" /><img data-pos="3" class="" alt="Wood (middle-outer ring)" title="Wood (middle-outer ring)" style="transform: rotate(216deg);" src="/images/otherimages/mayyam/board.png" /><img data-pos="4" class="used" alt="Meat (middle-outer ring, used)" title="Meat (middle-outer ring, used)" style="transform: rotate(288deg);" src="/images/otherimages/mayyam/meat.png" /></div>
+   <div id="x2" class="ring"><img data-pos="0" class="used" alt="Yam (middle-inner ring, used)" title="Yam (middle-inner ring, used)"  style="transform: rotate(0deg);" src="/images/otherimages/mayyam/yam.png" /><img data-pos="1" class="used" alt="Eyepatch (middle-inner ring, used)" title="Eyepatch (middle-inner ring, used)"  style="transform: rotate(90deg);" src="/images/otherimages/mayyam/eyepatch.png" /><img data-pos="2" class="used" alt="Cheese (middle-inner ring, used)" title="Cheese (middle-inner ring, used)"  style="transform: rotate(180deg);" src="/images/otherimages/mayyam/cheese.png" /><img data-pos="3" class="" alt="Wall (middle-inner ring)" title="Wall (middle-inner ring)"  style="transform: rotate(270deg);" src="/images/otherimages/mayyam/wall.png" /></div>
+   <div id="x1" class="ring"><img data-pos="0" class="used" alt="Yam (inner ring, used)" title="Yam (inner ring, used)"  style="transform: rotate(0deg);" src="/images/otherimages/mayyam/yam.png" /><img data-pos="1" class="used" alt="Clock (inner ring, used)" title="Clock (inner ring, used)"  style="transform: rotate(120deg);" src="/images/otherimages/mayyam/clock.png" /><img data-pos="2" class="used" alt="Explosion (inner ring, used)" title="Explosion (inner ring, used)"  style="transform: rotate(240deg);" src="/images/otherimages/mayyam/explosion.png" /></div>
+</div>
+
+<div id="results">
+   The calendar reads: <span id="symbols"></span><p>
+   <form method="post" action="choice.php">
+      <input type="hidden" name="whichchoice" value="1527" />
+      <input type="hidden" name="pwd" value="688ff2d32d5c78a0f1bc9af36f4aab3e" />
+      <input type="hidden" name="option" value="1" />
+      <input type="submit" value="Consider the Calendar" class="button" />
+   </form>
+   <i>(Click a symbol to rotate the calendar.)</i>
+</div>
+
+<style>
+  .used { opacity: 0.3; cursor: not-allowed }
+  #results {margin-top: 3em; text-align: center; }
+  #symbols { font-weight: bold;}
+  #main { position: relative; height: 480px; width: 480 }
+  .ring { position: absolute; border-radius: 50%; border: 2px solid black;  transition-duration: 1.8s; transition-property: transform; }
+  .ring img { position: absolute; cursor: pointer; top: 10px; height: 30px; width: 30px }
+
+      #x1 { width: 120px; height: 120px; top: 180px; left: 180px;}
+    #x1 img { transform-origin: 15px 50px; left: 45px }
+      #x2 { width: 240px; height: 240px; top: 120px; left: 120px;}
+    #x2 img { transform-origin: 15px 110px; left: 105px }
+      #x3 { width: 360px; height: 360px; top: 60px; left: 60px;}
+    #x3 img { transform-origin: 15px 170px; left: 165px }
+      #x4 { width: 480px; height: 480px; top: 0px; left: 0px;}
+    #x4 img { transform-origin: 15px 230px; left: 225px }
+    #main img { image-rendering: auto };
+
+</style>
+
+
+<script>
+var rings = [{"yam":"Yam","clock":"Clock","explosion":"Explosion"},{"yam":"Yam","eyepatch":"Eyepatch","cheese":"Cheese","wall":"Wall"},{"yam":"Yam","lightning":"Lightning","bottle":"Bottle","board":"Wood","meat":"Meat"},{"yam":"Yam","sword":"Sword","vessel":"Vessel","fur":"Fur","chair":"Chair","eye":"Eye"}];
+var state = [0,1,0,3,["3,0","2,1","1,0","0,1","3,4","2,4","1,2","0,2","3,3","2,0","1,1","0,0"],"7766"];
+
+function rotate() {
+  var i, ring, pos, angle;
+  var sy = [];
+  for (i=0; i<4; i++) {
+     pos = state[i];
+     ring = 'x' + (i+1);
+     angle = pos * (360 / Object.keys(rings[i]).length) * -1;
+    // if (i % 2 == 0) angle *= -1;
+     document.getElementById(ring).style.transform = "rotate("+angle+"deg)";   
+     sy.push(rings[i][Object.keys(rings[i])[pos]]);
+  }
+  document.getElementById('symbols').innerHTML = sy.reverse().join(', ');
+}
+
+jQuery(function ($) {
+   rotate();
+
+   $('.ring img').click(function () {
+      var pos = parseInt($(this).data('pos'));
+      var ring = parseInt($(this).parents('.ring').attr('id').replace('x', ''));
+      state[ring-1] = pos;
+      rotate();
+      $.post('/choice.php', {whichchoice: 1527, pwd:"688ff2d32d5c78a0f1bc9af36f4aab3e", option: 2, r: ring-1, p: pos});
+   });
+});
+</script>
+</td></tr></table></center></td></tr><tr><td height=4></td></tr></table><!--faaaaaaart--></div></div></body><script src="/onfocus.1.js"></script></html>

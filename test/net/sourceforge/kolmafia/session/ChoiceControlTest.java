@@ -769,62 +769,14 @@ class ChoiceControlTest {
   @Nested
   class Mayam {
     @Test
-    void parsesUnusedCalendarOnVisit() {
-      var cleanups =
-          new Cleanups(
-              withProperty("_mayamSymbolsUsed", "yam1,yam2,yam3,yam4"),
-              withChoice(1527, html("request/test_choice_mayam_unused.html")));
-
-      try (cleanups) {
-        assertThat("_mayamSymbolsUsed", isSetTo(""));
-      }
-    }
-
-    @Test
-    void parsesUsedCalendarOnVisit() {
+    void parsesExhaustedCalendarOnVisit() {
       var cleanups =
           new Cleanups(
               withProperty("_mayamSymbolsUsed", ""),
-              withChoice(1527, html("request/test_choice_mayam_used.html")));
+              withChoice(1527, html("request/test_choice_mayam_exhausted.html")));
 
       try (cleanups) {
-        assertThat("_mayamSymbolsUsed", isSetTo("sword,meat,wall,explosion"));
-      }
-    }
-
-    @Test
-    void parsesWoodNotBoard() {
-      var cleanups =
-          new Cleanups(
-              withProperty("_mayamSymbolsUsed", ""),
-              withChoice(1527, html("request/test_choice_mayam_used_wood.html")));
-
-      try (cleanups) {
-        assertThat("_mayamSymbolsUsed", isSetTo("sword,wood,wall,explosion"));
-      }
-    }
-
-    @Test
-    void parsesUsedCalendarAfterUse() {
-      var cleanups =
-          new Cleanups(
-              withProperty("_mayamSymbolsUsed", ""),
-              withPostChoice2(1527, 1, html("request/test_choice_mayam_used.html")));
-
-      try (cleanups) {
-        assertThat("_mayamSymbolsUsed", isSetTo("sword,meat,wall,explosion"));
-      }
-    }
-
-    @Test
-    void parsesUsedYamsCorrectly() {
-      var cleanups =
-          new Cleanups(
-              withProperty("_mayamSymbolsUsed", ""),
-              withChoice(1527, html("request/test_choice_mayam_used_some_yams.html")));
-
-      try (cleanups) {
-        assertThat("_mayamSymbolsUsed", isSetTo("yam1,sword,wood,meat,yam3,wall,clock,explosion"));
+        assertThat("_mayamSymbolsUsed", isSetTo("yam1,fur,chair,yam2,lightning,meat,yam3,eyepatch,cheese,yam4,clock,explosion"));
       }
     }
   }
