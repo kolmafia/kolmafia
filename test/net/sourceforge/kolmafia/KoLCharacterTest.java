@@ -629,10 +629,7 @@ public class KoLCharacterTest {
   class FreeRests {
     @Test
     void mayamCalendarChairGivesFiveFreeRests() {
-      var cleanups =
-          new Cleanups(
-              withProperty("_mayamSymbolsUsed", "yam1,chair,yam2,meat,yam3,cheese,yam4,clock"),
-              withAdjustmentsRecalculated());
+      var cleanups = new Cleanups(withProperty("_mayamRests", 5), withAdjustmentsRecalculated());
       try (cleanups) {
         assertThat(KoLCharacter.freeRestsAvailable(), is(5));
       }
