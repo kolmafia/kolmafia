@@ -162,10 +162,10 @@ public abstract class KoLmafiaASH {
 
       StringBuffer serverReplyBuffer = relayScript.getServerReplyBuffer();
 
-      if (serverReplyBuffer.length() == 0) {
-        if (relayRequest.responseText != null && relayRequest.responseText.length() != 0) {
-          serverReplyBuffer.append(relayRequest.responseText);
-        }
+      if (serverReplyBuffer.isEmpty()
+          && relayRequest.responseText != null
+          && !relayRequest.responseText.isEmpty()) {
+        serverReplyBuffer.append(relayRequest.responseText);
       }
 
       int written = serverReplyBuffer.length();
