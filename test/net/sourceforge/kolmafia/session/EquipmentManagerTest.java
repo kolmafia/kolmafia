@@ -196,8 +196,8 @@ public class EquipmentManagerTest {
       var cleanups =
           new Cleanups(
               withPath(AscensionPath.Path.WEREPROFESSOR),
-              withItem(itemAR),
-              withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR));
+              withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR),
+              withItem(itemAR));
       try (cleanups) {
         assertTrue(EquipmentManager.canEquip(itemAR));
       }
