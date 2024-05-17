@@ -2910,3 +2910,12 @@
 2907	Walled In	wallshield.gif	ac00a12dba132bffe22567b7c63ba2c8	neutral	none
 2908	Caught Yam-Handed	yam.gif	7804213456259ccd0588f39945748e05	neutral	none
 2909	Memories of Cheesier Age	yamcheese.gif	69a72a96a895bef2a452fe02a5b7a0fc	neutral	none
+2910	Eye of Moxie	eye_moxie.gif	04e76c36a6a6c546028e284476108294	neutral	none
+2911	Eye of Muscle	eye_muscle.gif	7970bfd6b6333e51ef9ad1aaa55287c7	neutral	none
+2912	Eye of Mysticality	eye_mysticality.gif	b46f79af7d02565f572256eed2fd72ca	neutral	none
+2913	Eye of Items	eye_items.gif	91a45a4af4136c414eaabaeee9e2645b	neutral	none
+2914	Eye of Heat	eye_hot.gif	1de0909ef41ff6f7e30e4f155a52902f	neutral	none
+2915	Eye of Cold	eye_cold.gif	49a623b41c24845dd04195c891790360	neutral	none
+2916	Eye of Sleaze	eye_sleaze.gif	8fab7c874601648ba09185b0e0adae17	neutral	none
+2917	Eye of Fear	eye_spooky.gif	ad97eb06bbd69f2ff5747e24378ab817	neutral	none
+2918	Eye of Stench	eye_stench.gif	9665117fd2b2f156506de27fd6572a5e	neutral	none
