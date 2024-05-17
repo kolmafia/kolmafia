@@ -6,6 +6,9 @@ import static internal.helpers.Networking.html;
 import static internal.helpers.Networking.json;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
+import static internal.helpers.Player.withIntrinsicEffect;
+import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -13,8 +16,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.AscensionPath;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
@@ -23,6 +28,7 @@ import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -178,6 +184,23 @@ public class EquipmentManagerTest {
       assertItem(Slot.FOLDER3, "folder (owl)");
       assertItemUnequip(Slot.FOLDER4);
       assertItemUnequip(Slot.FOLDER5);
+    }
+  }
+
+  @Nested
+  class professor {
+    @ParameterizedTest
+    @ValueSource(strings = {"mafia thumb ring", "Treads of Loathing", "seal tooth"})
+    public void itShouldEquipWhatWasRequested(String item) {
+      AdventureResult itemAR = ItemPool.get(item);
+      var cleanups =
+          new Cleanups(
+              withPath(AscensionPath.Path.WEREPROFESSOR),
+              withItem(itemAR),
+              withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR));
+      try (cleanups) {
+        assertTrue(EquipmentManager.canEquip(itemAR));
+      }
     }
   }
 }
