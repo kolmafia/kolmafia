@@ -21,6 +21,7 @@ import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -89,6 +90,7 @@ public class EquipCommandTest extends AbstractCommandTestBase {
               withItem(itemAR));
       try (cleanups) {
         assertTrue(EquipmentManager.canEquip(itemAR));
+        assertTrue(InventoryManager.hasItem(itemAR));
         assertTrue(KoLCharacter.isMildManneredProfessor());
         execute(itemAR.getName());
         assertContinueState();
