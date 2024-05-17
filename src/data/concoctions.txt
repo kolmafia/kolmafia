@@ -3322,6 +3322,6 @@ yam burrito	COOK	flat dough	yam
 yam mayo	COOK	ghuol egg	yam
 yam slider	COOK	wad of dough	yam
 yam martini	MIX	bottle of vodka	yam
-sweet potato punch	MIX_FANCY	coconut shell	yam martini
-Southern yam	MIX_FANCY	little paper umbrella	yam martini
-sweet potato o' mine	MIX_FANCY	magical ice cube	yam martini
+sweet potato punch	ACOCK	coconut shell	yam martini
+Southern yam	ACOCK	little paper umbrella	yam martini
+sweet potato o' mine	ACOCK	magical ice cube	yam martini
