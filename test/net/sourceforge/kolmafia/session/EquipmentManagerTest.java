@@ -10,6 +10,7 @@ import static internal.helpers.Player.withIntrinsicEffect;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withStats;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.*;
@@ -197,8 +198,13 @@ public class EquipmentManagerTest {
           new Cleanups(
               withPath(AscensionPath.Path.WEREPROFESSOR),
               withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR),
+              withStats(1,5,1),
               withItem(itemAR));
       try (cleanups) {
+        assertEquals(1, KoLCharacter.getTotalMoxie());
+        //assertEquals(5, KoLCharacter.getTotalMysticality());
+        assertEquals(1, KoLCharacter.getTotalMuscle());
+        assertTrue(InventoryManager.hasItem(itemAR));
         assertTrue(EquipmentManager.canEquip(itemAR));
       }
     }
