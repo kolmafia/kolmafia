@@ -192,7 +192,7 @@ public class EquipmentManagerTest {
   class professor {
     @ParameterizedTest
     @ValueSource(strings = {"mafia thumb ring", "Treads of Loathing", "seal tooth"})
-    public void itShouldEquipWhatWasRequested(String item) {
+    public void itShouldEquipWhatWasRequestedForProf(String item) {
       AdventureResult itemAR = ItemPool.get(item);
       var cleanups =
           new Cleanups(
@@ -206,6 +206,21 @@ public class EquipmentManagerTest {
         assertEquals(1, KoLCharacter.getBaseMuscle());
         assertTrue(InventoryManager.hasItem(itemAR));
         assertTrue(EquipmentManager.canEquip(itemAR));
+      }
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"mafia thumb ring", "Treads of Loathing", "seal tooth"})
+    public void itShouldNotEquipIfNotProfProf(String item) {
+      AdventureResult itemAR = ItemPool.get(item);
+      var cleanups =
+          new Cleanups(withPath(AscensionPath.Path.STANDARD), withStats(1, 5, 1), withItem(itemAR));
+      try (cleanups) {
+        assertEquals(1, KoLCharacter.getBaseMoxie());
+        assertEquals(5, KoLCharacter.getBaseMysticality());
+        assertEquals(1, KoLCharacter.getBaseMuscle());
+        assertTrue(InventoryManager.hasItem(itemAR));
+        assertEquals(item.equals("seal tooth"), EquipmentManager.canEquip(itemAR));
       }
     }
   }
