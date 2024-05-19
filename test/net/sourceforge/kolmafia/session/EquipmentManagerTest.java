@@ -208,15 +208,13 @@ public class EquipmentManagerTest {
         assertTrue(EquipmentManager.canEquip(itemAR));
       }
     }
+
     @ParameterizedTest
     @ValueSource(strings = {"mafia thumb ring", "Treads of Loathing", "seal tooth"})
     public void itShouldNotEquipIfNotProf(String item) {
       AdventureResult itemAR = ItemPool.get(item);
       var cleanups =
-        new Cleanups(
-          withPath(AscensionPath.Path.STANDARD),
-          withStats(1, 5, 1),
-          withItem(itemAR));
+          new Cleanups(withPath(AscensionPath.Path.STANDARD), withStats(1, 5, 1), withItem(itemAR));
       try (cleanups) {
         assertEquals(1, KoLCharacter.getBaseMoxie());
         assertEquals(5, KoLCharacter.getBaseMysticality());
