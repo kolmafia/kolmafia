@@ -201,9 +201,9 @@ public class EquipmentManagerTest {
               withStats(1,5,1),
               withItem(itemAR));
       try (cleanups) {
-        assertEquals(1, KoLCharacter.getTotalMoxie());
-        //assertEquals(5, KoLCharacter.getTotalMysticality());
-        assertEquals(1, KoLCharacter.getTotalMuscle());
+        assertEquals(1, KoLCharacter.getBaseMoxie());
+        assertEquals(5, KoLCharacter.getBaseMysticality());
+        assertEquals(1, KoLCharacter.getBaseMuscle());
         assertTrue(InventoryManager.hasItem(itemAR));
         assertTrue(EquipmentManager.canEquip(itemAR));
       }
