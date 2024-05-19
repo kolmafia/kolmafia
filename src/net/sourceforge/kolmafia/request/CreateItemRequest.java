@@ -265,6 +265,7 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
       case FIXODENT -> new FixodentRequest(conc);
       case BURNING_LEAVES -> new BurningLeavesRequest(conc);
       case TINKERING_BENCH -> new TinkeringBenchRequest(conc);
+      case MAYAM -> new MayamRequest(conc);
       default -> new CreateItemRequest(conc);
     };
   }
