@@ -198,7 +198,7 @@ public class EquipmentManagerTest {
           new Cleanups(
               withPath(AscensionPath.Path.WEREPROFESSOR),
               withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR),
-              withStats(1,5,1),
+              withStats(1, 5, 1),
               withItem(itemAR));
       try (cleanups) {
         assertEquals(1, KoLCharacter.getBaseMoxie());
