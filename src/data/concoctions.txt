@@ -3325,3 +3325,13 @@ yam martini	MIX	bottle of vodka	yam
 sweet potato punch	ACOCK	coconut shell	yam martini
 Southern yam	ACOCK	little paper umbrella	yam martini
 sweet potato o' mine	ACOCK	magical ice cube	yam martini
+
+Mayam spinach	MAYAM
+yam and swiss	MAYAM
+yam cannon	MAYAM
+tiny yam cannon	MAYAM
+yam battery	MAYAM
+stuffed yam stinkbomb	MAYAM
+furry yam buckler	MAYAM
+thansgiving bomb	MAYAM
+yamtility belt	MAYAM

@@ -182,7 +182,7 @@ public class MayamCommand extends AbstractCommand {
     }
   }
 
-  private List<String> availableResonances() {
+  public List<String> availableResonances() {
     var available = new ArrayList<String>();
 
     var ring1 = unusedForRing(1);
