@@ -2267,3 +2267,4 @@
 2444	The Beast Wisniewski
 2445	The Beastman	arm	head	leg	torso
 2446	The Naughty Wolferess	arm	head	leg	torso
+2447	ewe	butt	head	leg	tail
