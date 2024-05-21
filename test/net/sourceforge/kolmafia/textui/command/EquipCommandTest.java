@@ -102,5 +102,30 @@ public class EquipCommandTest extends AbstractCommandTestBase {
             "which=2&ajax=1&slot=1&action=equip&whichitem=" + itemAR.getItemId());
       }
     }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"panhandle panhandling hat", "Helm of the Scream Emperor"})
+    public void itShouldEquipHatAsRequested(String item) {
+      HttpClientWrapper.setupFakeClient();
+      AdventureResult itemAR = ItemPool.get(item);
+      var cleanups =
+          new Cleanups(
+              withPath(AscensionPath.Path.WEREPROFESSOR),
+              withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR),
+              withItem(itemAR));
+      try (cleanups) {
+        assertTrue(EquipmentManager.canEquip(itemAR));
+        assertTrue(InventoryManager.hasItem(itemAR));
+        assertTrue(KoLCharacter.isMildManneredProfessor());
+        execute(itemAR.getName());
+        assertContinueState();
+        var requests = getRequests();
+        assertThat(requests, hasSize(1));
+        assertPostRequest(
+            requests.get(0),
+            "/inv_equip.php",
+            "which=2&ajax=1&action=equip&whichitem=" + itemAR.getItemId());
+      }
+    }
   }
 }

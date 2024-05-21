@@ -191,7 +191,13 @@ public class EquipmentManagerTest {
   @Nested
   class professor {
     @ParameterizedTest
-    @ValueSource(strings = {"mafia thumb ring", "Treads of Loathing", "seal tooth"})
+    @ValueSource(
+        strings = {
+          "mafia thumb ring",
+          "Treads of Loathing",
+          "seal tooth",
+          "panhandle panhandling hat"
+        })
     public void itShouldEquipWhatWasRequestedForProf(String item) {
       AdventureResult itemAR = ItemPool.get(item);
       var cleanups =
@@ -210,7 +216,13 @@ public class EquipmentManagerTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"mafia thumb ring", "Treads of Loathing", "seal tooth"})
+    @ValueSource(
+        strings = {
+          "mafia thumb ring",
+          "Treads of Loathing",
+          "seal tooth",
+          "panhandle panhandling hat"
+        })
     public void itShouldNotEquipIfNotProf(String item) {
       AdventureResult itemAR = ItemPool.get(item);
       var cleanups =
