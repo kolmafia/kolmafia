@@ -26,6 +26,7 @@ import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest.SpeakeasyDrink;
 import net.sourceforge.kolmafia.request.CombineMeatRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
+import net.sourceforge.kolmafia.request.MayamRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.StillSuitRequest;
 import net.sourceforge.kolmafia.request.TinkeringBenchRequest;
@@ -1100,6 +1101,8 @@ public class Concoction implements Comparable<Concoction> {
         return StillSuitRequest.canMake() ? 1 : 0;
       case BURNING_LEAVES:
         return BurningLeavesRequest.canMake(this);
+      case MAYAM:
+        return MayamRequest.canMake(this) ? 1 : 0;
     }
 
     if (needToMake <= 0) { // Have enough on hand already.
