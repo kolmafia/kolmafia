@@ -605,7 +605,7 @@ mana-stuffed herbal stuffing	4	7	awesome	15-21	0	70-75	0	20 Mana-Blasted (+50% M
 Manetwich	2	4	good	3-9	14-30	0	5-18
 maple syrup	1	1	crappy	1	0	0	0	BEVERAGE, 20-30 HP
 mashed potatoes	2	1	awesome	8-10	10-20	0	0	leftovers, 20 Thanksgetting (Variable +meat, +item, +familiar weight, +all res)
-Mayam spinach	1	1	awesome	0	0	0	0	Unspaded
+Mayam spinach	1	1	awesome	4-5	200	0	0
 meatball	1	1	awesome	4-5	5-10	5-10	5-10
 Medical Pastaco	2	3	EPIC	12-14	30-50	0	0	40 Helvella Health (+100 HP, +10-20 HP Regen)
 menudo	2	2	decent	2-7	14-18	0	0
@@ -1082,7 +1082,7 @@ wizened master roll	3	1	sushi	9-14	20-30	28-46	20-30	45/55 Fishy
 wreath-shaped Crimbo cookie	2	7	awesome	6-12	0	0	0	10/20 Wreathed in Merriment (+10% mox)
 Xiblaxian ultraburrito	4	7	EPIC	19-22	50	50	50
 yam	1	1	awesome	3-5	1-10	1-10	1-10
-yam and swiss	1	1	awesome	0	0	0	0	Unspaded
+yam and swiss	1	1	awesome	4-5	30-40	30-40	30-40	goat cheese and 100 meat
 yam burrito	1	1	awesome	3-5	5-10	5-10	40-60
 yam candy	3	1	good	5-10	0	31-34	0
 yam mayo	1	1	awesome	3-5	5-10	40-60	5-10
