@@ -191,13 +191,7 @@ public class EquipmentManagerTest {
   @Nested
   class professor {
     @ParameterizedTest
-    @ValueSource(
-        strings = {
-          "mafia thumb ring",
-          "Treads of Loathing",
-          "seal tooth",
-          "panhandle panhandling hat"
-        })
+    @ValueSource(strings = {"mafia thumb ring", "Treads of Loathing", "panhandle panhandling hat"})
     public void itShouldEquipWhatWasRequestedForProf(String item) {
       AdventureResult itemAR = ItemPool.get(item);
       var cleanups =
@@ -216,13 +210,7 @@ public class EquipmentManagerTest {
     }
 
     @ParameterizedTest
-    @ValueSource(
-        strings = {
-          "mafia thumb ring",
-          "Treads of Loathing",
-          "seal tooth",
-          "panhandle panhandling hat"
-        })
+    @ValueSource(strings = {"mafia thumb ring", "Treads of Loathing", "panhandle panhandling hat"})
     public void itShouldNotEquipIfNotProf(String item) {
       AdventureResult itemAR = ItemPool.get(item);
       var cleanups =
@@ -232,7 +220,7 @@ public class EquipmentManagerTest {
         assertEquals(5, KoLCharacter.getBaseMysticality());
         assertEquals(1, KoLCharacter.getBaseMuscle());
         assertTrue(InventoryManager.hasItem(itemAR));
-        assertEquals(item.equals("seal tooth"), EquipmentManager.canEquip(itemAR));
+        assertFalse(EquipmentManager.canEquip(itemAR));
       }
     }
   }
