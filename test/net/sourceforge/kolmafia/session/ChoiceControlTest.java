@@ -827,5 +827,16 @@ class ChoiceControlTest {
         assertThat("_mayamSymbolsUsed", isSetTo("yam1,sword,wood,meat,yam3,wall,clock,explosion"));
       }
     }
+
+    @Test
+    void choosingChairGivesFreeRests() {
+      var cleanups =
+          new Cleanups(
+              withProperty("_mayamRests", 0),
+              withPostChoice2(1527, 1, html("request/test_choice_mayam_chair.html")));
+      try (cleanups) {
+        assertThat("_mayamRests", isSetTo(5));
+      }
+    }
   }
 }

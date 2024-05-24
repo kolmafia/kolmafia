@@ -1045,6 +1045,11 @@ public class Modifiers {
       this.addDouble(
           DoubleModifier.FREE_RESTS, 3, ModifierType.INVENTORY_ITEM, "replica Cincho de Mayo");
     }
+    var yamRests = Preferences.getInteger("_mayamRests");
+    if (yamRests > 0) {
+      this.addDouble(
+          DoubleModifier.FREE_RESTS, yamRests, ModifierType.ITEM, ItemPool.MAYAM_CALENDAR);
+    }
   }
 
   public void applySynergies() {

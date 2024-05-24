@@ -72,7 +72,7 @@ big creepy spider	156	spider1.gif	Atk: 1 Def: 0 HP: 1 Init: 40 Meat: 5 P: bug Ar
 big swarm of ghuol whelps	1073	whelps2.gif	NOWISH Atk: 50 Def: 45 HP: 150 Init: 300 Group: 15 P: undead ED: spooky Article: a
 Big Wheelin' Twins	1241	twins_bigwheel.gif	Atk: 92 Def: 85 HP: 105 Init: 60 Meat: 70 Group: 2 P: dude Article: the	badge of authority (5)	vial of The Glistening (15)
 bizarre construct	665	vib2.gif	Atk: 300 Def: 270 HP: 300 Init: 30 P: construct Article: a	El Vibrato punchcard (97 holes) (15)	El Vibrato punchcard (216 holes) (15)
-bizarre construct (translated)	671	vib2.gif	Atk: 300 Def: 270 HP: 300 Init: 30 P: construct Article: a Manuel: "bizarre construct" Wiki: "bizarre construct"	El Vibrato punchcard (97 holes) (15)	El Vibrato punchcard (216 holes) (15)
+bizarre construct (translated)	671	vib2.gif	Atk: 300 Def: 270 HP: 300 Init: 30 P: construct Article: a Manuel: "bizarre construct"	El Vibrato punchcard (97 holes) (15)	El Vibrato punchcard (216 holes) (15)
 BL Imp	980	blimp.gif	Atk: 65 Def: 58 HP: 65 Init: 30 Meat: 40 P: demon ED: hot EA: stench Article: a	imp air (20)
 black adder	414	blackadder.gif	Atk: 129 Def: 114 HP: 124 Init: 50 Meat: 100 P: beast SNAKE Article: a Poison: "Really Quite Poisoned"	adder bladder (30)	black snake skin (15)	sunken eyes (c50)
 black friar	1577	blackfriar.gif	Atk: 130 Def: 111 HP: 122 Init: 75 P: dude Article: a	black label (15)	Mornington crescent roll (15)	black cloak (5)	black friar's tonsure (c15)
@@ -332,14 +332,14 @@ huge barrel mimic	289	mimic4.gif	Atk: 35 Def: 31 HP: 45 Init: 90 P: weird Articl
 huge ghuol	191	ghuol_huge.gif	NOCOPY Atk: 73 Def: 63 HP: 120 Exp: [53+ML/3] Init: 60 Meat: 300 P: undead E: spooky Article: a	ghuol ears (0)	ghuol egg (0)
 huge mosquito	1341	giantmosquito.gif	Atk: 16 Def: 14 HP: 18 Init: 20 Meat: 10 P: bug Article: a	delicious swamp muck (30)	huge mosquito proboscis (10)
 hulking construct	669	vib6.gif	Atk: 500 Def: 450 HP: 1000000 Init: -10000 P: construct Phys: 100 Elem: 100 Article: a	El Vibrato punchcard (115 holes) (c15)	El Vibrato punchcard (97 holes) (c15)	El Vibrato punchcard (129 holes) (c15)	El Vibrato punchcard (165 holes) (c15)	El Vibrato punchcard (142 holes) (c15)	El Vibrato punchcard (216 holes) (c15)	El Vibrato punchcard (88 holes) (c15)	El Vibrato punchcard (182 holes) (c15)	El Vibrato punchcard (176 holes) (c15)	El Vibrato punchcard (104 holes) (c15)
-hulking construct (translated)	675	vib6.gif	Atk: 500 Def: 450 HP: 1000000 Init: -10000 P: construct Phys: 100 Elem: 100 Article: a Manuel: "hulking construct" Wiki: "hulking construct"	El Vibrato punchcard (115 holes) (c15)	El Vibrato punchcard (97 holes) (c15)	El Vibrato punchcard (129 holes) (c15)	El Vibrato punchcard (165 holes) (c15)	El Vibrato punchcard (142 holes) (c15)	El Vibrato punchcard (216 holes) (c15)	El Vibrato punchcard (88 holes) (c15)	El Vibrato punchcard (182 holes) (c15)	El Vibrato punchcard (176 holes) (c15)	El Vibrato punchcard (104 holes) (c15)
+hulking construct (translated)	675	vib6.gif	Atk: 500 Def: 450 HP: 1000000 Init: -10000 P: construct Phys: 100 Elem: 100 Article: a Manuel: "hulking construct"	El Vibrato punchcard (115 holes) (c15)	El Vibrato punchcard (97 holes) (c15)	El Vibrato punchcard (129 holes) (c15)	El Vibrato punchcard (165 holes) (c15)	El Vibrato punchcard (142 holes) (c15)	El Vibrato punchcard (216 holes) (c15)	El Vibrato punchcard (88 holes) (c15)	El Vibrato punchcard (182 holes) (c15)	El Vibrato punchcard (176 holes) (c15)	El Vibrato punchcard (104 holes) (c15)
 hung-over half-orc hobo	281	hobo.gif	Atk: 1 Def: 0 HP: 1 Init: 40 P: hobo E: stench Article: a	dirty hobo gloves (32)	Mad Train wine (60)	moxie weed (15)	Boozehounds Anonymous token (p10)
 hustled spectre	809	poolghost.gif	LUCKY Atk: 25 Def: 22 HP: 35 Init: 100 P: undead GHOST Article: a	cube of billiard chalk (100)
 Hypnotist of Hey Deze	232	hypnotist.gif	NOCOPY NOMANUEL ULTRARARE Atk: 85 Def: 115 HP: 85 Init: 10000 P: dude	hypnodisk (100)
 ice skate	731	iceskate.gif	Atk: 400 Def: 450 HP: 600 Init: 75 Meat: 100 P: fish Article: an	collapsible baton (n4)	skate blade (n2)	skate skin (n20)	spangly unitard (n15)
 Iiti Kitty	572	mummycat.gif	Atk: 165 Def: 148 HP: 150 Init: 75 P: undead EA: spooky	leathery cat skin (30)	unidentified jerky (10)	ancient Magi-Wipes (50)	ancient vinyl coin purse (20)	mummy wrapping (20)	Iiti Kitty phone charm (10)	Iiti Kitty Gumdrop (c0)
 industrious construct	666	vib3.gif	Atk: 350 Def: 270 HP: 300 Init: 50 P: construct Article: an	El Vibrato punchcard (129 holes) (15)	El Vibrato punchcard (88 holes) (15)
-industrious construct (translated)	672	vib3.gif	Atk: 350 Def: 270 HP: 300 Init: 50 P: construct Article: an Manuel: "industrious construct" Wiki: "industrious construct"	El Vibrato punchcard (129 holes) (15)	El Vibrato punchcard (88 holes) (15)
+industrious construct (translated)	672	vib3.gif	Atk: 350 Def: 270 HP: 300 Init: 50 P: construct Article: an Manuel: "industrious construct"	El Vibrato punchcard (129 holes) (15)	El Vibrato punchcard (88 holes) (15)
 infernal seal larva	652	seal_larva.gif	NOCOPY Atk: 21 Def: 18 HP: 18 Init: 20 P: demon Article: an	a creased paper strip (30)	a crinkled paper strip (30)	a crumpled paper strip (30)	a folded paper strip (30)	a ragged paper strip (30)	a ripped paper strip (30)	a rumpled paper strip (30)	a torn paper strip (30)
 infernal seal spawn	653	seal_baby.gif	NOCOPY Atk: 24 Def: 21 HP: 21 Init: 40 P: demon Article: an	a creased paper strip (30)	a crinkled paper strip (30)	a crumpled paper strip (30)	a folded paper strip (30)	a ragged paper strip (30)	a ripped paper strip (30)	a rumpled paper strip (30)	a torn paper strip (30)	seal eyeball (0)
 infinite meat bug	230	meatbug.gif	NOCOPY NOMANUEL ULTRARARE Atk: 45 Def: 40 HP: 30 Init: 10000 Meat: 10000 P: bug	incredibly dense meat gem (100)
@@ -392,7 +392,7 @@ lihc	32	lich.gif	Atk: 20 Def: 18 HP: 11 Init: 60 Meat: 36 P: undead ED: spooky E
 Little Man in the Canoe	540	canoeman.gif	Atk: 165 Def: 148 HP: 150 Init: 70 P: constellation ED: sleaze EA: hot EA: sleaze Article: The	line (30)	star (30)	star (30)
 lobsterfrogman	529	lobsterman.gif	Atk: 171 Def: 152 HP: 190 Init: 40 Meat: 60 P: beast Article: a	barrel of gunpowder (n100)
 lonely construct	668	vib5.gif	Atk: 300 Def: 315 HP: 350 Init: 80 P: construct Article: a	El Vibrato punchcard (213 holes) (15)	El Vibrato punchcard (182 holes) (15)
-lonely construct (translated)	674	vib5.gif	Atk: 300 Def: 315 HP: 350 Init: 80 P: construct Article: a Manuel: "lonely construct" Wiki: "lonely construct"	El Vibrato punchcard (213 holes) (15)	El Vibrato punchcard (182 holes) (15)
+lonely construct (translated)	674	vib5.gif	Atk: 300 Def: 315 HP: 350 Init: 80 P: construct Article: a Manuel: "lonely construct"	El Vibrato punchcard (213 holes) (15)	El Vibrato punchcard (182 holes) (15)
 Lord Spookyraven	464	lordspooky.gif	BOSS NOCOPY Atk: 165 Def: 148 HP: 200 Exp: [120+ML/3] Init: 10000 P: undead ED: spooky EA: cold EA: hot EA: sleaze EA: spooky EA: stench	[2286]Eye of Ed (n100)	Lord Spookyraven's ear trumpet (n100)
 Lot's Wife	1757	lotswife.gif	NOCOPY Atk: 3 Def: 3 HP: 10 Init: -10000 P: beast EA: stench Article: the	The Lot's engagement ring (n100)
 lounge lizardfish	770	lizardfish.gif	Atk: 400 Def: 630 HP: 550 Init: 100 Meat: 200 P: fish EA: stench Article: a	amber aviator shades (n5)	hair of the fish (c5)	rough fish scale (n4)	slug of shochu (20)
@@ -419,7 +419,7 @@ medium-sized barrel mimic	288	mimic3.gif	Atk: 25 Def: 22 HP: 35 Init: 90 P: weir
 mean drunk duck	567	duckmeandrunk.gif	Atk: 180 Def: 157 HP: 190 Init: 50 Meat: 200 P: beast EA: sleaze Article: a	bottle of vodka (20)	bottle of tequila (20)	bottle of whiskey (20)	duct tape (5)
 mega frog	1342	megafrog.gif	Atk: 14 Def: 16 HP: 20 Init: 10 Meat: 15 P: beast EA: stench Article: a	delicious swamp muck (30)	swamp lolly (20)
 menacing construct	664	vib1.gif	Atk: 400 Def: 315 HP: 400 Init: 65 P: construct Article: a	El Vibrato punchcard (115 holes) (15)	El Vibrato punchcard (142 holes) (15)
-menacing construct (translated)	670	vib1.gif	Atk: 400 Def: 315 HP: 400 Init: 65 P: construct Article: a Manuel: "menacing construct" Wiki: "menacing construct"	El Vibrato punchcard (115 holes) (15)	El Vibrato punchcard (142 holes) (15)
+menacing construct (translated)	670	vib1.gif	Atk: 400 Def: 315 HP: 400 Init: 65 P: construct Article: a Manuel: "menacing construct"	El Vibrato punchcard (115 holes) (15)	El Vibrato punchcard (142 holes) (15)
 Mer-kin alphabetizer	850	merkinalphabet.gif	Atk: 750 Def: 800 HP: 900 Init: 100 Meat: 80 P: mer-kin Article: a	Mer-kin smartjuice (20)	Mer-kin worktea (10)
 Mer-kin balldodger	842	merkinballer.gif	NOCOPY Atk: [820+30*pref(lastColosseumRoundWon)] Def: [770+30*pref(lastColosseumRoundWon)] HP: [750+50*pref(lastColosseumRoundWon)] Init: -10000 Meat: 50 P: mer-kin Article: a
 Mer-kin bladeswitcher	844	merkinswitcher.gif	NOCOPY Atk: [820+30*pref(lastColosseumRoundWon)] Def: [770+30*pref(lastColosseumRoundWon)] HP: [750+50*pref(lastColosseumRoundWon)] Init: -10000 Meat: 50 P: mer-kin Article: a
@@ -716,7 +716,7 @@ tomb servant	468	tombguy.gif	Atk: 160 Def: 153 HP: 185 Init: 20 Meat: 50 P: unde
 toothy pirate	620	toothpirate.gif	Atk: 83 Def: 76 HP: 75 Init: 50 Meat: 45 P: pirate Article: a	bottle of rum (20)	cocktail napkin (10)	gold toothbrush (c0)
 toothy sklelton	186	toothskel.gif	NOWISH Atk: 57 Def: 52 HP: 50 Init: 50 P: undead E: spooky Article: a	loose teeth (20)	loose teeth (20)	skeleton bone (20)	bone flute (10)	evil eye (20)	bone bandoneon (a100)
 towering construct	667	vib4.gif	Atk: 350 Def: 360 HP: 450 Init: 20 P: construct Article: a	El Vibrato punchcard (165 holes) (15)	El Vibrato punchcard (176 holes) (15)
-towering construct (translated)	673	vib4.gif	Atk: 350 Def: 360 HP: 450 Init: 20 P: construct Article: a Manuel: "towering construct" Wiki: "towering construct"	El Vibrato punchcard (165 holes) (15)	El Vibrato punchcard (176 holes) (15)
+towering construct (translated)	673	vib4.gif	Atk: 350 Def: 360 HP: 450 Init: 20 P: construct Article: a Manuel: "towering construct"	El Vibrato punchcard (165 holes) (15)	El Vibrato punchcard (176 holes) (15)
 triffid	342	triffid.gif	Atk: 5 Def: 4 HP: 6 Init: 70 P: plant Article: a	moxie weed (30)	spooky stick (30)
 Troll Twins	1244	twins_troll.gif	Atk: 94 Def: 82 HP: 98 Init: 40 Meat: 75 Group: 2 P: dude EA: spooky Article: the	incredible pizza (5)	troll britches (5)
 trophyfish	774	trophyfish.gif	NOCOPY Atk: 5000 Def: 4500 HP: 15000 Init: 200 P: fish Phys: 25 Elem: 25 Article: a
@@ -1447,7 +1447,7 @@ The Naughty Wolferess	2446	weresorceress.gif	BOSS NOCOPY Atk: 300 Def: 300 HP: 1
 
 # 11 Things I Hate About U
 
-ewe	2447	ewe.gif	Scale: ? Cap: ? Floor: ? Init: -10000 P: beast Article: a
+ewe	2447	ewe.gif	Scale: ? Cap: ? Floor: ? Init: -10000 P: beast EA: spooky Article: a
 
 # Items of the Month
 
@@ -2692,11 +2692,11 @@ spirit faucet	1458	spiritfaucet.gif	NOWISH Scale: -5 Cap: 500 Floor: 20 Init: -1
 spirit pea	1457	spiritpea.gif	NOWISH Scale: -5 Cap: 500 Floor: 20 Init: -10000 P: undead EA: spooky Article: a	spirit gum (5)
 
 # Peripatetic Pasta (November 2013)
-Possessed Can of Linguine-Os	1461	mystwander1.gif	NOWISH FREE WANDERER Scale: -3 Cap: 500 Floor: 15 Init: -10000 P: weird Phys: 100 E: hot Article: a	spoonful of Linguine-Os (c0)	spoonful of Linguine-Os (c0)
-Possessed Can of Creepy Pasta	1465	mystwander2.gif	NOWISH FREE WANDERER Scale: -3 Cap: 500 Floor: 15 Init: -10000 P: weird Phys: 100 E: spooky Article: a	tangled mass of creepy pasta (c0)	tangled mass of creepy pasta (c0)
-Frozen Bag of Tortellini	1462	mystwander3.gif	NOWISH FREE WANDERER Scale: -3 Cap: 500 Floor: 15 Init: -10000 P: weird Phys: 100 E: cold Article: a	freezer-burned frost-bitten tortellini (c0)	freezer-burned frost-bitten tortellini (c0)
-Possessed Jar of Alphredo&trade;	1463	mystwander4.gif	NOWISH FREE WANDERER Scale: -3 Cap: 500 Floor: 15 Init: -10000 P: weird Phys: 100 E: stench Article: a Manuel: "Possessed Jar of Alphredo™"	blob of Alphredo&trade; (c0)	blob of Alphredo&trade; (c0)
-Box of Crafty Dinner	1464	mystwander5.gif	NOWISH FREE WANDERER Scale: -3 Cap: 500 Floor: 15 Init: -10000 P: weird Phys: 100 E: sleaze Article: a	handful of crafty noodles (c0)	handful of crafty noodles (c0)
+Possessed Can of Linguine-Os	1461	mystwander1.gif	NOWISH FREE WANDERER Scale: -3 Cap: 500 Floor: 15 Init: -10000 P: weird Phys: 100 E: hot Article: a	spoonful of Linguine-Os (c50)	spoonful of Linguine-Os (c5)	spoonful of Linguine-Os (c1)
+Possessed Can of Creepy Pasta	1465	mystwander2.gif	NOWISH FREE WANDERER Scale: -3 Cap: 500 Floor: 15 Init: -10000 P: weird Phys: 100 E: spooky Article: a	tangled mass of creepy pasta (c50)	tangled mass of creepy pasta (c5)	tangled mass of creepy pasta (c1)
+Frozen Bag of Tortellini	1462	mystwander3.gif	NOWISH FREE WANDERER Scale: -3 Cap: 500 Floor: 15 Init: -10000 P: weird Phys: 100 E: cold Article: a	freezer-burned frost-bitten tortellini (c50)	freezer-burned frost-bitten tortellini (c5)	freezer-burned frost-bitten tortellini (c1)
+Possessed Jar of Alphredo&trade;	1463	mystwander4.gif	NOWISH FREE WANDERER Scale: -3 Cap: 500 Floor: 15 Init: -10000 P: weird Phys: 100 E: stench Article: a Manuel: "Possessed Jar of Alphredo™"	blob of Alphredo&trade; (c50)	blob of Alphredo&trade; (c5)	blob of Alphredo&trade; (c1)
+Box of Crafty Dinner	1464	mystwander5.gif	NOWISH FREE WANDERER Scale: -3 Cap: 500 Floor: 15 Init: -10000 P: weird Phys: 100 E: sleaze Article: a	handful of crafty noodles (c50)	handful of crafty noodles (c5)	handful of crafty noodles (c1)
 Chef Boy, R&amp;D	1466	chefboy.gif	NOCOPY NOMANUEL WANDERER Scale: 5 Init: -10000 P: dude Phys: 100 Elem: 50 EA: hot
 
 # The WarBear Fortress (Crimbo 2013)
@@ -2828,17 +2828,17 @@ Steam-Routing Trainbot	2265	trainbot_steam.gif	NOWISH Scale: 0 Cap: ? Init: -100
 The Superconductor	2266	superconductor.gif	BOSS NOCOPY NOMANUEL Scale: 30 Cap: ? HP: 300 Init: -10000 P: construct EA: hot	The Superconductor's CPU (100)
 
 # Retired Standard Monsters
-Astronomer (obsolete)	354	astronomer.gif	Atk: 168 Def: 151 HP: 150 Init: 70 P: constellation EA: hot Article: The Manuel: "Astronomer" Wiki: "Astronomer"	star chart (100)
-possessed wine rack (obsolete)	454	winerack.gif	Atk: 158 Def: 146 HP: 165 Init: 40 P: construct ED: spooky Article: a Manuel: "possessed wine rack" Wiki: "possessed wine rack"
-skeletal sommelier (obsolete)	455	steward.gif	Atk: 168 Def: 142 HP: 162 Init: 65 Meat: 100 P: undead ED: spooky Article: a Manuel: "skeletal sommelier" Wiki: "skeletal sommelier"
+Astronomer (obsolete)	354	astronomer.gif	Atk: 168 Def: 151 HP: 150 Init: 70 P: constellation EA: hot Article: The Manuel: "Astronomer"	star chart (100)
+possessed wine rack (obsolete)	454	winerack.gif	Atk: 158 Def: 146 HP: 165 Init: 40 P: construct ED: spooky Article: a Manuel: "possessed wine rack"
+skeletal sommelier (obsolete)	455	steward.gif	Atk: 168 Def: 142 HP: 162 Init: 65 Meat: 100 P: undead ED: spooky Article: a Manuel: "skeletal sommelier"
 
 7-Foot Dwarf (Moiling)	97	miner.gif	NOCOPY NOMANUEL Atk: 53 Def: 47 HP: 40 Meat: 40 P: humanoid	miner's helmet (3)	miner's pants (3)	7-Foot Dwarven mattock (3)
 7-Foot Dwarf (Royale)	96	miner.gif	NOCOPY NOMANUEL Atk: 53 Def: 47 HP: 40 Meat: 40 P: humanoid	miner's helmet (3)	miner's pants (3)	7-Foot Dwarven mattock (3)
 angry raccoon puppet	337	raccoon.gif	Atk: 35 Def: 31 HP: 21 Init: 60 Meat: 20 P: construct Article: an	felt (2)	stuffing (2)	googly eye (2)
-animated nightstand (mahogany combat)	399	darkstand.gif	Atk: 162 Def: 149 HP: 170 Init: 30 P: construct Article: an Manuel: "animated nightstand" Wiki: "animated nightstand (Mahogany)"	old coin purse (25)	old leather wallet (25)	half of a memo (c0)
-animated nightstand (mahogany noncombat)	407	darkstand.gif	Atk: 162 Def: 149 HP: 170 Init: 30 P: construct Article: an Manuel: "animated nightstand" Wiki: "animated nightstand (Mahogany)"	old coin purse (25)	old leather wallet (25)
-animated nightstand (white combat)	391	nightstand.gif	Atk: 159 Def: 153 HP: 180 Init: 40 P: construct Article: an Manuel: "animated nightstand" Wiki: "animated nightstand (White)"	grouchy restless spirit (80)
-animated nightstand (white noncombat)	406	nightstand.gif	Atk: 159 Def: 153 HP: 180 Init: 40 P: construct Article: an Manuel: "animated nightstand" Wiki: "animated nightstand (White)"	grouchy restless spirit (80)
+animated nightstand (mahogany noncombat)	399	darkstand.gif	Atk: 162 Def: 149 HP: 170 Init: 30 P: construct Article: an Manuel: "animated nightstand"	old coin purse (25)	old leather wallet (25)	half of a memo (c0)
+animated nightstand (mahogany combat)	407	darkstand.gif	Atk: 162 Def: 149 HP: 170 Init: 30 P: construct Article: an Manuel: "animated nightstand" Wiki: "animated nightstand (Mahogany)"	old coin purse (25)	old leather wallet (25)
+animated nightstand (white noncombat)	391	nightstand.gif	Atk: 159 Def: 153 HP: 180 Init: 40 P: construct Article: an Manuel: "animated nightstand"	grouchy restless spirit (80)
+animated nightstand (white combat)	406	nightstand.gif	Atk: 159 Def: 153 HP: 180 Init: 40 P: construct Article: an Manuel: "animated nightstand" Wiki: "animated nightstand (White)"	grouchy restless spirit (80)
 Black Knight	417	blknight.gif	Atk: 123 Def: 121 HP: 135 Init: 50 Meat: 90 P: dude EA: sleaze Article: The	black greaves (15)	black helmet (15)	black shield (15)	black sword (15)
 eXtreme Sports Orcs	336	wcorcs.gif	Atk: 39 Def: 34 HP: 30 Init: 60 Meat: 30 Group: 2 P: orc E: sleaze Article: some	eXtreme mittens (4)	Mountain Stream soda (40)	Orcish baseball cap (10)	Orcish cargo shorts (10)	ultimate ultimate frisbee (10)	flask flops (4)	hang glider (c100)
 giant pair of tweezers	38	tweezers.gif	Atk: 16 Def: 14 HP: 8 Init: 60 P: construct Article: a
