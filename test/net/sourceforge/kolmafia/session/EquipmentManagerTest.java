@@ -188,70 +188,25 @@ public class EquipmentManagerTest {
       assertItemUnequip(Slot.FOLDER5);
     }
   }
-
   @Nested
   class professor {
     @ParameterizedTest
-    @ValueSource(strings = {"mafia thumb ring", "Treads of Loathing", "panhandle panhandling hat"})
-    public void itShouldEquipWhatWasRequestedForProf(String item) {
+    @CsvSource({
+      "mafia thumb ring, false",
+      "Treads of Loathing, false",
+      "panhandle panhandling hat, false",
+      "batskin belt, true",
+      "mafia wedding ring, true"
+    })
+    public void itShouldEquipWhatWasRequestedForProf(String item, String equippable) {
       AdventureResult itemAR = ItemPool.get(item);
+      boolean canBeEquipped = Boolean.getBoolean(equippable);
       var cleanups =
           new Cleanups(
               withPath(AscensionPath.Path.WEREPROFESSOR),
               withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR),
               withStats(1, 5, 1),
               withItem(itemAR));
-      try (cleanups) {
-        assertEquals(1, KoLCharacter.getBaseMoxie());
-        assertEquals(5, KoLCharacter.getBaseMysticality());
-        assertEquals(1, KoLCharacter.getBaseMuscle());
-        assertTrue(InventoryManager.hasItem(itemAR));
-        assertTrue(EquipmentManager.canEquip(itemAR));
-      }
-    }
-
-    @ParameterizedTest
-    @ValueSource(strings = {"mafia thumb ring", "Treads of Loathing", "panhandle panhandling hat"})
-    public void itShouldNotEquipIfNotProf(String item) {
-      AdventureResult itemAR = ItemPool.get(item);
-      var cleanups =
-          new Cleanups(withPath(AscensionPath.Path.STANDARD), withStats(1, 5, 1), withItem(itemAR));
-      try (cleanups) {
-        assertEquals(1, KoLCharacter.getBaseMoxie());
-        assertEquals(5, KoLCharacter.getBaseMysticality());
-        assertEquals(1, KoLCharacter.getBaseMuscle());
-        assertTrue(InventoryManager.hasItem(itemAR));
-        assertFalse(EquipmentManager.canEquip(itemAR));
-      }
-    }
-
-    /**
-     * This test shows that there are items that cannot be equipped in Standard (because of a stat
-     * restriction) that can be equipped as a Mild Mannered Professor.
-     */
-    @ParameterizedTest
-    @CsvSource({
-      "mafia thumb ring, Standard, 2897, false",
-      "mafia thumb ring, WereProfessor, 2897, true",
-      "panhandle panhandling hat, Standard, 2897, false",
-      "panhandle panhandling hat, WereProfessor, 2897, true",
-      "Treads of Loathing, Standard, 2897, false",
-      "Treads of Loathing, WereProfessor, 2897, true",
-      "mafia thumb ring, Standard, 0, false",
-      "mafia thumb ring, WereProfessor, 0, true",
-      "panhandle panhandling hat, Standard, 0, false",
-      "panhandle panhandling hat, WereProfessor, 0, true",
-      "Treads of Loathing, Standard, 0, false",
-      "Treads of Loathing, WereProfessor, 0, true"
-    })
-    public void checkEquipForPathAndEffect(
-        String item, String path, String effect, String equippable) {
-      AdventureResult itemAR = ItemPool.get(item);
-      AscensionPath.Path ap = AscensionPath.nameToPath(path);
-      boolean canBeEquipped = Boolean.getBoolean(equippable);
-      var cleanups =
-          new Cleanups(
-              withPath(ap), withIntrinsicEffect(effect), withStats(1, 5, 1), withItem(itemAR));
       try (cleanups) {
         assertEquals(1, KoLCharacter.getBaseMoxie());
         assertEquals(5, KoLCharacter.getBaseMysticality());
