@@ -6188,6 +6188,9 @@ public class UseItemRequest extends GenericRequest {
           Preferences.increment(pref);
         }
         return;
+      case ItemPool.YAM_BATTERY:
+        Preferences.setBoolean("_yamBatteryUsed", true);
+        break;
     }
 
     if (CampgroundRequest.isWorkshedItem(itemId)) {
