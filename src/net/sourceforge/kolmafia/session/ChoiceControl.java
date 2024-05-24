@@ -6842,6 +6842,9 @@ public abstract class ChoiceControl {
       case 1527:
         // Consider the Calendar
         parseMayamCalendar(text);
+        if (text.contains("times without using an adventure")) {
+          Preferences.increment("_mayamRests", 5);
+        }
         break;
     }
   }
