@@ -188,6 +188,7 @@ public class EquipmentManagerTest {
       assertItemUnequip(Slot.FOLDER5);
     }
   }
+
   @Nested
   class professor {
     @ParameterizedTest
@@ -200,7 +201,7 @@ public class EquipmentManagerTest {
     })
     public void itShouldEquipWhatWasRequestedForProf(String item, String equippable) {
       AdventureResult itemAR = ItemPool.get(item);
-      boolean canBeEquipped = Boolean.getBoolean(equippable);
+      boolean canBeEquipped = Boolean.parseBoolean(equippable);
       var cleanups =
           new Cleanups(
               withPath(AscensionPath.Path.WEREPROFESSOR),
