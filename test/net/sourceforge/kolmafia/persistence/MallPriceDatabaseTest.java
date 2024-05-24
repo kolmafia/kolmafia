@@ -24,7 +24,7 @@ public class MallPriceDatabaseTest {
   @BeforeAll
   public static void beforeEach() {
     MallPriceDatabase.savePricesToFile = false;
-    String MallPriceFileName = "data/" + "mallprices.txt";
+    String MallPriceFileName = "data/mallprices.txt";
     Utilities.verboseDelete(MallPriceFileName);
     MallPriceDatabase.updatePrices(MallPriceFileName);
   }
@@ -53,8 +53,7 @@ public class MallPriceDatabaseTest {
     assertThat(request.uri().toString(), equalTo("http://example.com"));
     var contentType = request.headers().firstValue("Content-Type");
     assertThat(
-        contentType,
-        is(optionalWithValue(equalTo("multipart/form-data; boundary=--blahblahfishcakes"))));
+        contentType, is(optionalWithValue("multipart/form-data; boundary=--blahblahfishcakes")));
 
     assertThat(request.bodyPublisher(), is(optionalWithValue()));
   }
