@@ -864,7 +864,6 @@ public class Modifiers {
                 .filter(SkillDatabase::isPassive)
                 .map(UseSkillRequest::getUnmodifiedInstance)
                 .filter(Objects::nonNull)
-                .filter(UseSkillRequest::isEffective)
                 .map(skill -> ModifierDatabase.getModifiers(ModifierType.SKILL, skill.getSkillId()))
                 .filter(Objects::nonNull)
                 .collect(
