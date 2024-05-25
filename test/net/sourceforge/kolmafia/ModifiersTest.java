@@ -169,7 +169,6 @@ public class ModifiersTest {
     var cleanups = new Cleanups(withPath(Path.GLOVER), withSkill(SkillPool.STEEL_LIVER));
     try (cleanups) {
       mods.applyPassiveModifiers(/* debug= */ true);
-
       assertEquals(5, mods.getDouble(DoubleModifier.LIVER_CAPACITY));
     }
     // Remove liver from passive skill cache.
