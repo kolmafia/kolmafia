@@ -164,14 +164,12 @@ public class ModifiersTest {
   }
 
   @Test
-  public void PassivesIgnoreGsInGLover() {
-    // Wide-reaching unit test for getModifiers
-    var cleanup = new Cleanups(withPath(Path.GLOVER), withSkill(SkillPool.STEEL_LIVER));
+  public void passivesIgnoreGsInGLover() {
     Modifiers mods = new Modifiers();
-    try (cleanup) {
+    var cleanups = new Cleanups(withPath(Path.GLOVER), withSkill(SkillPool.STEEL_LIVER));
+    try (cleanups) {
       mods.applyPassiveModifiers(/* debug= */ true);
 
-      // Always has
       assertEquals(5, mods.getDouble(DoubleModifier.LIVER_CAPACITY));
     }
     // Remove liver from passive skill cache.
