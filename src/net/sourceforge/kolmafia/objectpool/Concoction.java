@@ -598,7 +598,7 @@ public class Concoction implements Comparable<Concoction> {
   }
 
   public int getInebriety() {
-    return this.consumable != null ? this.consumable.getInebriety() : 0;
+    return this.consumable != null ? KoLCharacter.applyInebrietyModifiers(this.consumable) : 0;
   }
 
   public Integer getRawSpleenHit() {

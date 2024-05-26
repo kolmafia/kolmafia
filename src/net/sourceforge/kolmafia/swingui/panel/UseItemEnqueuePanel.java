@@ -818,6 +818,14 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
         }
       }
 
+      if (KoLCharacter.inElevenThingIHateAboutU()) {
+        if (type == ConcoctionType.FOOD
+            && item != null
+            && KoLCharacter.hasLetterUs(item.getName())) {
+          return false;
+        }
+      }
+
       // Vampyres, and only Vampyres can eat/drink bag of blood concoctions
       if (KoLCharacter.isVampyre()) {
         if ((type == ConcoctionType.FOOD || type == ConcoctionType.BOOZE)

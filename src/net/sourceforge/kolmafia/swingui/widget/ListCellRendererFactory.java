@@ -410,7 +410,12 @@ public class ListCellRendererFactory {
           Integer spleenhit = ConsumablesDatabase.getRawSpleenHit(name);
 
           if (fullness != null || inebriety != null || spleenhit != null) {
-            this.appendConsumable(stringForm, name, fullness, inebriety, spleenhit);
+            this.appendConsumable(
+                stringForm,
+                name,
+                fullness,
+                inebriety != null ? item.getInebriety() : null,
+                spleenhit);
           } else {
             this.appendPotion(stringForm, item, name);
           }
