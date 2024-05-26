@@ -163,6 +163,18 @@ public class ModifiersTest {
     assertEquals(-30, mod.getDouble(DoubleModifier.COMBAT_RATE));
   }
 
+  @Test
+  public void passivesIgnoreGsInGLover() {
+    Modifiers mods = new Modifiers();
+    var cleanups = new Cleanups(withPath(Path.GLOVER), withSkill(SkillPool.STEEL_LIVER));
+    try (cleanups) {
+      mods.applyPassiveModifiers(/* debug= */ true);
+      assertEquals(5, mods.getDouble(DoubleModifier.LIVER_CAPACITY));
+    }
+    // Remove liver from passive skill cache.
+    mods.applyPassiveModifiers(/* debug= */ true);
+  }
+
   public static Stream<Arguments> getsRightModifiersNakedHatrack() {
     return Stream.of(
         Arguments.of(FamiliarPool.HATRACK, DoubleModifier.HATDROP),
