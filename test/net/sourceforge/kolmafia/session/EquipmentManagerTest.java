@@ -199,9 +199,8 @@ public class EquipmentManagerTest {
       "batskin belt, true",
       "mafia wedding ring, true"
     })
-    public void itShouldEquipWhatWasRequestedForProf(String item, String equippable) {
+    public void itShouldEquipWhatWasRequestedForProf(String item, boolean canBeEquipped) {
       AdventureResult itemAR = ItemPool.get(item);
-      boolean canBeEquipped = Boolean.parseBoolean(equippable);
       var cleanups =
           new Cleanups(
               withPath(AscensionPath.Path.WEREPROFESSOR),
@@ -209,9 +208,6 @@ public class EquipmentManagerTest {
               withStats(1, 5, 1),
               withItem(itemAR));
       try (cleanups) {
-        assertEquals(1, KoLCharacter.getBaseMoxie());
-        assertEquals(5, KoLCharacter.getBaseMysticality());
-        assertEquals(1, KoLCharacter.getBaseMuscle());
         assertTrue(InventoryManager.hasItem(itemAR));
         assertEquals(canBeEquipped, EquipmentManager.canEquip(itemAR));
       }
