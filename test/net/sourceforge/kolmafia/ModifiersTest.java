@@ -1406,10 +1406,20 @@ public class ModifiersTest {
     // Based on data from You Hate Eyes Spading spreadsheet
     static Stream<Arguments> calculatesCorrectPositiveBonus() {
       return Stream.of(
-          Arguments.of(Slot.ACCESSORY1, 2882, DoubleModifier.MEATDROP, 60),
-          Arguments.of(Slot.ACCESSORY1, 2885, DoubleModifier.MEATDROP, 50),
-          Arguments.of(Slot.ACCESSORY1, 2903, DoubleModifier.MEATDROP, 50),
-          Arguments.of(Slot.ACCESSORY1, 2927, DoubleModifier.MEATDROP, 60),
+          Arguments.of(
+              Slot.ACCESSORY1, ItemPool.TINY_PLASTIC_WISNIEWSKI, DoubleModifier.MEATDROP, 60),
+          Arguments.of(
+              Slot.ACCESSORY1,
+              ItemPool.TINY_PLASTIC_CONSERVATIONIST_HIPPY,
+              DoubleModifier.MEATDROP,
+              50),
+          Arguments.of(
+              Slot.ACCESSORY1,
+              ItemPool.TINY_PLASTIC_KNOB_GOBLIN_MAD_SCIENTIST,
+              DoubleModifier.MEATDROP,
+              50),
+          Arguments.of(
+              Slot.ACCESSORY1, ItemPool.TINY_PLASTIC_IITI_KITTY, DoubleModifier.MEATDROP, 60),
           Arguments.of(
               Slot.ACCESSORY1,
               ItemPool.FLASH_LIQUIDIZER_ULTRA_DOUSING_ACCESSORY,
@@ -1417,12 +1427,13 @@ public class ModifiersTest {
               40),
           Arguments.of(
               Slot.ACCESSORY1, ItemPool.RING_OF_DETECT_BORING_DOORS, DoubleModifier.MEATDROP, 20),
-          Arguments.of(Slot.ACCESSORY1, 9566, DoubleModifier.MEATDROP, 40),
-          Arguments.of(Slot.ACCESSORY1, 1351, DoubleModifier.MEATDROP, 30),
+          Arguments.of(
+              Slot.ACCESSORY1, ItemPool.MAFIA_MIDDLE_FINGER_RING, DoubleModifier.MEATDROP, 40),
+          Arguments.of(Slot.ACCESSORY1, ItemPool.GIANT_PINKY_RING, DoubleModifier.MEATDROP, 30),
           Arguments.of(Slot.ACCESSORY1, ItemPool.KNOB_GOBLIN_CODPIECE, DoubleModifier.MEATDROP, 30),
-          Arguments.of(Slot.ACCESSORY1, 4666, DoubleModifier.MEATDROP, 30),
+          Arguments.of(Slot.ACCESSORY1, ItemPool.IMP_UNITY_RING, DoubleModifier.MEATDROP, 30),
           Arguments.of(Slot.ACCESSORY1, ItemPool.EXTREME_AMULET, DoubleModifier.MEATDROP, 30),
-          Arguments.of(Slot.ACCESSORY1, 11586, DoubleModifier.MEATDROP, 75),
+          Arguments.of(Slot.ACCESSORY1, ItemPool.YAMTILITY_BELT, DoubleModifier.MEATDROP, 75),
           Arguments.of(
               Slot.FAMILIAR,
               ItemPool.SOLID_SHIFTING_TIME_WEIRDNESS,
@@ -1431,26 +1442,31 @@ public class ModifiersTest {
           Arguments.of(
               Slot.FAMILIAR, ItemPool.APRIL_BAND_PICCOLO, DoubleModifier.FAMILIAR_WEIGHT, 25),
           Arguments.of(Slot.FAMILIAR, ItemPool.STILLSUIT, DoubleModifier.FAMILIAR_WEIGHT, 15),
-          Arguments.of(Slot.FAMILIAR, 11319, DoubleModifier.FAMILIAR_WEIGHT, 15),
+          Arguments.of(Slot.FAMILIAR, ItemPool.TINY_GOLD_MEDAL, DoubleModifier.FAMILIAR_WEIGHT, 15),
           Arguments.of(Slot.HAT, ItemPool.APRILING_BAND_HELMET, DoubleModifier.INITIATIVE, 50),
-          Arguments.of(Slot.HAT, 2363, DoubleModifier.INITIATIVE, 75),
-          Arguments.of(Slot.HAT, 2835, DoubleModifier.INITIATIVE, 100),
-          Arguments.of(Slot.HAT, 6287, DoubleModifier.INITIATIVE, 90),
+          Arguments.of(Slot.HAT, ItemPool.LONGHAIRED_HIPPY_WIG, DoubleModifier.INITIATIVE, 75),
+          Arguments.of(
+              Slot.HAT, ItemPool.INDIE_COMIC_HIPSTER_GLASSES, DoubleModifier.INITIATIVE, 100),
+          Arguments.of(Slot.HAT, ItemPool.MARK_III_STEAM_HAT, DoubleModifier.INITIATIVE, 90),
           Arguments.of(Slot.HAT, ItemPool.MARIACHI_HAT, DoubleModifier.INITIATIVE, 50),
           Arguments.of(Slot.HAT, ItemPool.KNOB_GOBLIN_CROWN, DoubleModifier.INITIATIVE, 50),
           Arguments.of(Slot.HAT, ItemPool.VIKING_HELMET, DoubleModifier.INITIATIVE, 50),
-          Arguments.of(Slot.HAT, 306, DoubleModifier.INITIATIVE, 50),
+          Arguments.of(Slot.HAT, ItemPool.KNOB_GOBLIN_HAREM_VEIL, DoubleModifier.INITIATIVE, 50),
           Arguments.of(Slot.HAT, ItemPool.RAVIOLI_HAT, DoubleModifier.INITIATIVE, 50),
-          Arguments.of(Slot.OFFHAND, 1548, DoubleModifier.ITEMDROP, 30),
+          Arguments.of(
+              Slot.OFFHAND, ItemPool.GAZPACHOS_GLACIAL_GRIMOIRE, DoubleModifier.ITEMDROP, 30),
           Arguments.of(Slot.OFFHAND, ItemPool.MINI_ZEPPELIN, DoubleModifier.ITEMDROP, 30),
-          Arguments.of(Slot.OFFHAND, 632, DoubleModifier.ITEMDROP, 30),
-          Arguments.of(Slot.OFFHAND, 1614, DoubleModifier.ITEMDROP, 30),
-          Arguments.of(Slot.OFFHAND, 6024, DoubleModifier.ITEMDROP, 40),
-          Arguments.of(Slot.OFFHAND, 6272, DoubleModifier.ITEMDROP, 30),
-          Arguments.of(Slot.OFFHAND, 7684, DoubleModifier.ITEMDROP, 40),
-          Arguments.of(Slot.PANTS, 1480, DoubleModifier.COLD_RESISTANCE, 4),
-          Arguments.of(Slot.PANTS, 1280, DoubleModifier.COLD_RESISTANCE, 5),
-          Arguments.of(Slot.PANTS, 1281, DoubleModifier.COLD_RESISTANCE, 5));
+          Arguments.of(Slot.OFFHAND, ItemPool.DISTURBING_FANFIC, DoubleModifier.ITEMDROP, 30),
+          Arguments.of(Slot.OFFHAND, ItemPool.WHITE_SATIN_SHIELD, DoubleModifier.ITEMDROP, 30),
+          Arguments.of(Slot.OFFHAND, ItemPool.WHATSIAN_IONIC_PLIERS, DoubleModifier.ITEMDROP, 40),
+          Arguments.of(Slot.OFFHAND, ItemPool.GIANT_PENGUIN_KEYCHAIN, DoubleModifier.ITEMDROP, 30),
+          Arguments.of(
+              Slot.OFFHAND, ItemPool.TIME_LORD_PARTICIPATION_MUG, DoubleModifier.ITEMDROP, 40),
+          Arguments.of(Slot.PANTS, ItemPool.CHAIN_MAIL_MONOKINI, DoubleModifier.COLD_RESISTANCE, 4),
+          Arguments.of(
+              Slot.PANTS, ItemPool.PENGUINSKIN_MINI_SKIRT, DoubleModifier.COLD_RESISTANCE, 5),
+          Arguments.of(
+              Slot.PANTS, ItemPool.PENGUINSKIN_MINI_KILT, DoubleModifier.COLD_RESISTANCE, 5));
     }
 
     @ParameterizedTest
@@ -1467,13 +1483,15 @@ public class ModifiersTest {
 
     static Stream<Arguments> calculatesCorrectNegativeBonus() {
       return Stream.of(
-          Arguments.of(Slot.WEAPON, 3940, DoubleModifier.FUMBLE, 44),
+          Arguments.of(
+              Slot.WEAPON, ItemPool.CORRUPT_CLUB_OF_CORRUPT_CORRUPTION, DoubleModifier.FUMBLE, 44),
           Arguments.of(
               Slot.HAT, ItemPool.BIPHASIC_MOLECULAR_OCULUS, DoubleModifier.INITIATIVE, -100),
-          Arguments.of(Slot.PANTS, 79, DoubleModifier.MEATDROP, -30),
-          Arguments.of(Slot.OFFHAND, 2074, DoubleModifier.MEATDROP, -30),
+          Arguments.of(Slot.PANTS, ItemPool.BUGBEAR_BUNGGUARD, DoubleModifier.MEATDROP, -30),
+          Arguments.of(
+              Slot.OFFHAND, ItemPool.ANNIVERSARY_CHUTNEY_SCULPTURE, DoubleModifier.MEATDROP, -30),
           Arguments.of(Slot.ACCESSORY1, ItemPool.TRANSFUNCTIONER, DoubleModifier.ITEMDROP, -30),
-          Arguments.of(Slot.FAMILIAR, 853, DoubleModifier.FAMILIAR_WEIGHT, -5));
+          Arguments.of(Slot.FAMILIAR, ItemPool.BLUNDARRRBUS, DoubleModifier.FAMILIAR_WEIGHT, -5));
     }
 
     @ParameterizedTest
@@ -1483,7 +1501,7 @@ public class ModifiersTest {
       var cleanups =
           new Cleanups(
               Player.withPath(Path.ELEVEN_THINGS),
-              Player.withFamiliar(7),
+              Player.withFamiliar(FamiliarPool.SPOOKY_PIRATE_SKELETON),
               Player.withEquipped(slot, itemId));
 
       try (cleanups) {
@@ -1511,10 +1529,10 @@ public class ModifiersTest {
 
     static Stream<Arguments> calculatesNewPotionDuration() {
       return Stream.of(
-          Arguments.of(5419, 26),
+          Arguments.of(ItemPool.KUMQUAT_SUPERSUCKER, 26),
           Arguments.of(ItemPool.POTION_OF_PULCHRITUDE, 8),
           Arguments.of(ItemPool.RECORDING_INIGO, 36),
-          Arguments.of(9280, 28));
+          Arguments.of(ItemPool.POTION_OF_SPIRITUAL_GUNKIFYING, 28));
     }
 
     @ParameterizedTest
