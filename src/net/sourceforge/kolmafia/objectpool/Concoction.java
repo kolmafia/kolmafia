@@ -472,6 +472,9 @@ public class Concoction implements Comparable<Concoction> {
     }
 
     // Sort helpers to the top next.
+    if ((this.isHelper() && (o.isHelper()))) {
+      return nameCheckCompare(o);
+    }
     if (this.isHelper()) {
       return -1;
     } else if (o.isHelper()) {

@@ -2608,8 +2608,9 @@ public class DebugDatabase {
     }
   }
 
-  // Helper method to force normalize Concoction comparisons to [-1, 0, 1] before testing
-  private static int sgn(int value) {
+  // Helper method to force normalize Concoction comparisons to [-1, 0, 1] before testing contract.
+  // Visible for unit testing
+  public static int sgn(int value) {
     return Integer.compare(value, 0);
   }
 
