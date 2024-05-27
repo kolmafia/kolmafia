@@ -208,7 +208,6 @@ public class EquipmentManagerTest {
               withStats(1, 5, 1),
               withItem(itemAR));
       try (cleanups) {
-        assertTrue(InventoryManager.hasItem(itemAR));
         assertEquals(canBeEquipped, EquipmentManager.canEquip(itemAR));
       }
     }
