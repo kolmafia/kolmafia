@@ -17,14 +17,11 @@ import internal.helpers.Cleanups;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.Date;
 import java.util.TreeMap;
 import java.util.stream.IntStream;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.session.LoginManager;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -33,15 +30,6 @@ import org.junit.jupiter.api.Test;
 
 class PreferencesTest {
   private final String USER_NAME = "PreferencesTestFakeUser";
-  private final String suffix = Preferences.baseUserName(USER_NAME);
-  private final File SESSION_FILE =
-      new File(KoLConstants.SESSIONS_LOCATION, "active_session." + suffix);
-  final String SESSION_LOG =
-      KoLConstants.SESSIONS_DIRECTORY
-          + StringUtilities.globalStringReplace(KoLCharacter.getUserName(), " ", "_")
-          + "_"
-          + KoLConstants.DAILY_FORMAT.format(new Date())
-          + ".txt";
 
   // These need to be before and after each because leakage has been observed between tests
   // in this class.
@@ -62,8 +50,6 @@ class PreferencesTest {
       verboseDelete(backupFile);
       File MallPriceFile = new File("data/" + "mallprices.txt");
       verboseDelete(MallPriceFile);
-      // verboseDelete(SESSION_FILE);
-      // verboseDelete(SESSION_LOG);
     } catch (Exception ex) {
       System.out.println("Reset caused an error: " + ex.getMessage());
       ex.printStackTrace();
