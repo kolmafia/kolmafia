@@ -1281,7 +1281,7 @@ public class Maximizer {
             continue;
           }
 
-          if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, iname)) {
+          if (!ItemDatabase.isAllowed(item)) {
             continue;
           }
 

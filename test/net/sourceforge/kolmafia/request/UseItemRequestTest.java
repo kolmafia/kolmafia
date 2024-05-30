@@ -1284,4 +1284,42 @@ class UseItemRequestTest {
       }
     }
   }
+
+  @Nested
+  class LawOfAverages {
+    @Test
+    void increments() {
+      var cleanups =
+          new Cleanups(
+              withItem(ItemPool.LAW_OF_AVERAGES),
+              withProperty("_lawOfAveragesUsed", 0),
+              withNextResponse(new FakeHttpResponse<>(200, "")));
+
+      try (cleanups) {
+        // Verify that the correct item increments the quest
+        UseItemRequest.getInstance(ItemPool.LAW_OF_AVERAGES).run();
+        assertThat("_lawOfAveragesUsed", isSetTo(1));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "0, 3",
+      // Do not reduce the number, one might be in our closet for some reason
+      "4, 4"
+    })
+    void setsToMaxIfRejected(final int startingValue, final int expectedValue) {
+      var cleanups =
+          new Cleanups(
+              withItem(ItemPool.LAW_OF_AVERAGES, 3),
+              withProperty("_lawOfAveragesUsed", startingValue),
+              withNextResponse(new FakeHttpResponse<>(200, "You already feel pretty average")));
+
+      try (cleanups) {
+        // Verify that the correct item increments the quest
+        UseItemRequest.getInstance(ItemPool.LAW_OF_AVERAGES).run();
+        assertThat("_lawOfAveragesUsed", isSetTo(expectedValue));
+      }
+    }
+  }
 }

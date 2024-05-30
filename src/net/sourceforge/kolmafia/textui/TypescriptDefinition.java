@@ -7,6 +7,9 @@ import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Comparator;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -24,7 +27,6 @@ import net.sourceforge.kolmafia.textui.parsetree.RecordType;
 import net.sourceforge.kolmafia.textui.parsetree.Symbol;
 import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.VarArgType;
-import net.sourceforge.kolmafia.textui.parsetree.VariableReference;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class TypescriptDefinition {
@@ -35,21 +37,6 @@ public class TypescriptDefinition {
 
   private static final String combatFilterType =
       "string | ((round: number, monster: Monster, text: string) => string)";
-
-  private static final Map<String, List<String>> descriptiveParamNames =
-      Map.ofEntries(
-          Map.entry("canEquip[Item]", List.of("equipment")),
-          Map.entry("canEquip[Familiar]", List.of("familiar")),
-          Map.entry("canEquip[Familiar, Item]", List.of("familiar", "equipment")),
-          Map.entry("buy[Item,number]", List.of("item", "quantity")),
-          Map.entry("buy[Item,number,number]", List.of("item", "quantity", "price")),
-          Map.entry("buy[number,Item,number]", List.of("quantity", "item", "price")),
-          Map.entry("buy[number,Item]", List.of("quantity", "item")),
-          Map.entry("buy[Coinmaster,number,Item]", List.of("coinmaster", "quantity", "item")),
-          Map.entry("buyUsingStorage[Item,number]", List.of("item", "quantity")),
-          Map.entry("buyUsingStorage[Item,number,number]", List.of("item", "quantity", "price")),
-          Map.entry("buyUsingStorage[number,Item,number]", List.of("quantity", "item", "price")),
-          Map.entry("buyUsingStorage[number,Item]", List.of("quantity", "item")));
 
   private static final Map<String, String> descriptiveFieldTypes =
       Map.ofEntries(
@@ -87,73 +74,172 @@ public class TypescriptDefinition {
           DataTypes.SLOT_TYPE,
           DataTypes.THRALL_TYPE);
 
-  private static List<Boolean> getVariadicParams(Function f) {
-    return f.getVariableReferences().stream()
-        .map(VariableReference::getRawType)
-        .map(type -> type instanceof VarArgType)
-        .collect(Collectors.toList());
-  }
+  private record TypescriptFunction(
+      String name,
+      String returnType,
+      TypescriptFunctionParameter[] params,
+      String[] deprecationWarning) {
 
-  private static List<String> getParamTypes(Function f) {
-    var paramTypes =
-        f.getVariableReferences().stream()
-            .map(VariableReference::getRawType)
-            .map(TypescriptDefinition::getType)
-            .collect(Collectors.toList());
+    public static TypescriptFunction fromFunction(LibraryFunction f) {
+      var functionName = JavascriptRuntime.toCamelCase(f.getName());
+      var returnType = getReturnType(f);
+      var params = getParamTypes(f);
 
-    switch (f.getName()) {
-      case "adv1", "adventure" -> {
-        if (paramTypes.size() >= 3) {
-          paramTypes.set(2, combatFilterType);
-        }
-      }
-      case "run_combat" -> {
-        if (paramTypes.size() >= 1) {
-          paramTypes.set(0, combatFilterType);
-        }
-      }
+      var deprecationWarning = f.deprecationWarning;
+      return new TypescriptFunction(functionName, returnType, params, deprecationWarning);
     }
 
-    return paramTypes;
+    private static String getReturnType(Function f) {
+      return switch (f.getName()) {
+        case "abort" -> "never";
+        case "fact_type" -> Arrays.stream(FactDatabase.FactType.values())
+            .map(v -> "\"" + v.toString() + "\"")
+            .collect(Collectors.joining(" | "));
+        default -> getType(f.getType());
+      };
+    }
+
+    private static TypescriptFunctionParameter[] getParamTypes(LibraryFunction f) {
+      int paramCount = f.getVariableReferences().size();
+      var params = new TypescriptFunctionParameter[paramCount];
+
+      for (int i = 0; i < paramCount; i++) {
+        params[i] = TypescriptFunctionParameter.fromFunctionParam(f, i);
+      }
+
+      return params;
+    }
+
+    /*
+     * Check if the given function is equal to this one plus one additional parameter.
+     */
+    public boolean canMergeInto(TypescriptFunction other) {
+      if (other.params.length != this.params.length + 1) return false;
+
+      if (!this.name.equals(other.name)) return false;
+      if (!this.returnType.equals(other.returnType)) return false;
+      if (!Arrays.equals(this.deprecationWarning, other.deprecationWarning)) return false;
+      for (int i = 0; i < this.params.length; i++) {
+        if (!this.params[i].type.equals(other.params[i].type)) return false;
+        if (!this.params[i].name.equals(other.params[i].name)) return false;
+      }
+
+      return true;
+    }
+
+    public String format() {
+      var params =
+          Arrays.stream(this.params)
+              .map(TypescriptFunctionParameter::format)
+              .collect(Collectors.joining(", "));
+      var deprecationWarning =
+          (this.deprecationWarning.length > 0)
+              ? "/** @deprecated " + String.join("<br>", this.deprecationWarning) + " */\n"
+              : "";
+      return String.format(
+          "%sexport function %s(%s): %s;", deprecationWarning, this.name, params, this.returnType);
+    }
+  }
+
+  private static class TypescriptFunctionParameter {
+    public String name;
+    public String type;
+    public boolean isVariadic;
+    public boolean isOptional = false;
+
+    public TypescriptFunctionParameter(String name, String type, boolean isVariadic) {
+      this.name = name;
+      this.type = type;
+      this.isVariadic = isVariadic;
+    }
+
+    static TypescriptFunctionParameter fromFunctionParam(LibraryFunction f, int paramIndex) {
+      var ref = f.getVariableReferences().get(paramIndex);
+
+      var type = ref.getRawType();
+      var paramName = ref.getName();
+      var isVariadic = type instanceof VarArgType;
+      var tsType = getType(type);
+
+      switch (f.getName()) {
+        case "adv1", "adventure" -> {
+          if (paramIndex == 2) {
+            tsType = combatFilterType;
+          }
+        }
+        case "run_combat" -> {
+          if (paramIndex == 0) {
+            tsType = combatFilterType;
+          }
+        }
+      }
+
+      return new TypescriptFunctionParameter(paramName, tsType, isVariadic);
+    }
+
+    public String format() {
+      if (isVariadic) return String.format("...%s: %s", name, type);
+      if (isOptional) return String.format("%s?: %s", name, type);
+      return String.format("%s: %s", name, type);
+    }
   }
 
   private static String getType(Type t) {
     return INSTANCE.toJavascriptTypeName(t);
   }
 
-  private static String getReturnType(Function f) {
-    return switch (f.getName()) {
-      case "abort" -> "never";
-      case "fact_type" -> Arrays.stream(FactDatabase.FactType.values())
-          .map(v -> "\"" + v.toString() + "\"")
-          .collect(Collectors.joining(" | "));
-      default -> getType(f.getType());
-    };
+  public static String formatFunction(LibraryFunction f) {
+    return TypescriptFunction.fromFunction(f).format();
   }
 
-  public static String formatFunction(LibraryFunction f) {
-    var name = JavascriptRuntime.toCamelCase(f.getName());
-    var type = getReturnType(f);
-    var paramTypes = getParamTypes(f);
-    var overrideKey = String.format("%s[%s]", name, String.join(",", paramTypes));
-    var paramNames = descriptiveParamNames.getOrDefault(overrideKey, f.getParameterNames());
-    var variadicParams = getVariadicParams(f);
+  /**
+   * Formats a list of function overloads into a list of TypeScript function signatures, merging
+   * compatible overloads into a single signature with the last parameter optional.
+   *
+   * @param functionOverloads a list of overloads of a single function (i.e. all with the same name)
+   * @return a list of formatted TypeScript function signatures
+   */
+  public static List<String> formatFunction(List<LibraryFunction> functionOverloads) {
+    var overloads =
+        functionOverloads.stream()
+            .map(TypescriptFunction::fromFunction)
+            // sort overloads by shortest param count first, so we can find optional params
+            .sorted(Comparator.comparingInt(a -> a.params.length))
+            .collect(Collectors.toCollection(ArrayList::new));
 
-    var params =
-        IntStream.range(0, paramNames.size())
-            .mapToObj(
-                i ->
-                    variadicParams.get(i)
-                        ? String.format("...%s: %s", paramNames.get(i), paramTypes.get(i))
-                        : String.format("%s: %s", paramNames.get(i), paramTypes.get(i)))
-            .collect(Collectors.joining(", "));
+    var result = new LinkedList<String>();
 
-    var deprecationWarning =
-        (f.deprecationWarning.length > 0)
-            ? "/** @deprecated " + String.join("<br>", f.deprecationWarning) + " */\n"
-            : "";
+    overload:
+    for (int i = 0; i < overloads.size(); i++) {
+      var f = overloads.get(i);
 
-    return String.format("%sexport function %s(%s): %s;", deprecationWarning, name, params, type);
+      // try to find an overload with one additional parameter
+      for (int j = i + 1; j < overloads.size(); j++) {
+        var next = overloads.get(j);
+
+        if (!f.canMergeInto(next)) continue;
+
+        // NOTE: because TypeScript allows passing undefined for optional parameters, we can
+        //       only mark the very last one of each overloaded signature as optional
+
+        // mark other signature's last parameter as optional
+        next.params[next.params.length - 1].isOptional = true;
+
+        var hasOptionalParam = f.params.length > 0 && f.params[f.params.length - 1].isOptional;
+        if (hasOptionalParam) {
+          // this overload has an optional last parameter, so it was already used to skip
+          // a previous one, and cannot be omitted
+          break;
+        } else {
+          // this overload is fully included in the overload we just marked, so skip it
+          continue overload;
+        }
+      }
+
+      result.add(f.format());
+    }
+
+    return result;
   }
 
   private static Stream<LibraryFunction> getFunctions() {
@@ -164,14 +250,25 @@ public class TypescriptDefinition {
   }
 
   private static List<String> getFunctionDefinitions() {
-    return getFunctions().map(TypescriptDefinition::formatFunction).toList();
+    return getFunctions()
+        .collect(
+            Collectors.groupingBy(
+                LibraryFunction::getName, LinkedHashMap::new, Collectors.toList()))
+        .values()
+        .stream()
+        .flatMap(functionOverloads -> formatFunction(functionOverloads).stream())
+        .toList();
   }
 
   private static List<String> getFunctionHeaders() {
     return getFunctions()
         .map(Symbol::getName)
         .distinct()
-        .map(f -> String.format("module.exports.%s = warn;", JavascriptRuntime.toCamelCase(f)))
+        .map(
+            f ->
+                String.format(
+                    "module.exports.%1$s = function %1$s() { throw new Error(`Cannot access the KoLmafia standard library from a normal JavaScript context.`); };",
+                    JavascriptRuntime.toCamelCase(f)))
         .toList();
   }
 
@@ -384,9 +481,7 @@ public class TypescriptDefinition {
 
   public static String getHeaderFileContents() {
     return Stream.of(
-            List.of(
-                "const warn = () => { throw new Error(`Cannot access the KoLmafia standard library from a normal JavaScript context.`); }",
-                "module.exports.sessionStorage = {};"),
+            List.of("module.exports.sessionStorage = {};"),
             getFunctionHeaders(),
             getMafiaClassHeaders())
         .flatMap(Collection::stream)

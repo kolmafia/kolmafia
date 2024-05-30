@@ -284,7 +284,7 @@ public class PlaceRequest extends GenericRequest {
           "junggate_4",
           "junggate_5",
           "junggate_6",
-          "junggate_7" -> UseItemRequest.parseConsumption(responseText, false);
+          "junggate_11" -> UseItemRequest.parseConsumption(responseText, false);
       case "kgb" -> KGBRequest.parseResponse(urlString, responseText);
       case "knoll_friendly" -> KnollRequest.parseResponse(urlString, responseText);
       case "manor1" -> {

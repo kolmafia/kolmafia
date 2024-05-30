@@ -3751,8 +3751,15 @@ public class ItemPool {
   public static final int APRIL_BAND_TUBA = 11568;
   public static final int APRIL_BAND_STAFF = 11569;
   public static final int APRIL_BAND_PICCOLO = 11570;
+  public static final int MAYAM_CALENDAR = 11572;
+  public static final int YAM_BATTERY = 11582;
+  public static final int STUFFED_YAM_STINKBOMB = 11583;
 
   private ItemPool() {}
+
+  public static final AdventureResult get(String itemName) {
+    return ItemPool.get(itemName, 1);
+  }
 
   public static final AdventureResult get(String itemName, int count) {
     int itemId = ItemDatabase.getItemId(itemName, 1, false);
@@ -3769,7 +3776,7 @@ public class ItemPool {
   }
 
   public static final AdventureResult get(int itemId) {
-    return new AdventureResult(itemId, 1, false);
+    return ItemPool.get(itemId, 1);
   }
 
   // Support for various classes of items:

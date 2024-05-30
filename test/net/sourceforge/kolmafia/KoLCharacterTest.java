@@ -598,5 +598,41 @@ public class KoLCharacterTest {
         assertThat(KoLCharacter.getInebriety(), is(10));
       }
     }
+
+    @Test
+    void liberatingKingEnablesStandardRestrictedSkills() {
+      try (var cleanups =
+          new Cleanups(
+              withProperty("kingLiberated"),
+              withPath(Path.STANDARD),
+              withSkill(SkillPool.DRINKING_TO_DRINK))) {
+        assertThat(KoLCharacter.getLiverCapacity(), is(14));
+        KoLCharacter.liberateKing();
+        assertThat(KoLCharacter.getLiverCapacity(), is(15));
+      }
+    }
+  }
+
+  @Nested
+  class RoninBreak {
+    @Test
+    void breakingRoninEnablesStandardRestrictedSkills() {
+      try (var cleanups = new Cleanups(withRonin(true), withSkill(SkillPool.DRINKING_TO_DRINK))) {
+        assertThat(KoLCharacter.getLiverCapacity(), is(14));
+        KoLCharacter.setRonin(false);
+        assertThat(KoLCharacter.getLiverCapacity(), is(15));
+      }
+    }
+  }
+
+  @Nested
+  class FreeRests {
+    @Test
+    void mayamCalendarChairGivesFiveFreeRests() {
+      var cleanups = new Cleanups(withProperty("_mayamRests", 5), withAdjustmentsRecalculated());
+      try (cleanups) {
+        assertThat(KoLCharacter.freeRestsAvailable(), is(5));
+      }
+    }
   }
 }

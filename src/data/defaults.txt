@@ -2184,6 +2184,8 @@ user	_managerialManipulationUsed	false
 user	_mansquitoSerumUsed	false
 user	_mapToACandyRichBlockDrops	0
 user	_mapToACandyRichBlockUsed	false
+user	_mayamSymbolsUsed
+user	_mayamRests	0
 user	_maydayDropped	false
 user	_mayflowerDrops	0
 user	_mayflySummons	0
@@ -2524,6 +2526,7 @@ user	_witchessBuff	false
 user	_witchessFights	0
 user	_workshedItemUsed	false
 user	_xoHugsUsed	0
+user	_yamBatteryUsed	false
 user	_yellowPixelDropsCrown	0
 user	_zapCount	0
 user	_zombieClover	false

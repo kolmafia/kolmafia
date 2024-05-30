@@ -18,6 +18,7 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.BasementRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class Expression {
@@ -197,6 +198,15 @@ public class Expression {
         case '≤' -> v = s[--sp] >= s[--sp] ? 1 : 0;
         case '>' -> v = s[--sp] < s[--sp] ? 1 : 0;
         case '≥' -> v = s[--sp] <= s[--sp] ? 1 : 0;
+        case 'o' -> {
+          var token = (String) this.literals.get((int) s[--sp]);
+          var item =
+              StringUtilities.isNumeric(token)
+                  ? ItemPool.get(StringUtilities.parseInt(token))
+                  : ItemPool.get(token);
+          // To replicate KoL's internal haveitem(), we only check the inventory.
+          v = InventoryManager.getCount(item);
+        }
         case 'p' -> {
           String first = (String) this.literals.get((int) s[--sp]);
           String second = null;
@@ -595,6 +605,9 @@ public class Expression {
     }
     if (this.optional("pref(")) {
       return this.literal(this.until(")"), 'p');
+    }
+    if (this.optional("haveitem(")) {
+      return this.literal(this.until(")"), 'o');
     }
 
     rv = this.function();

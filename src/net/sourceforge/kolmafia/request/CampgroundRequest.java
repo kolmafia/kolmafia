@@ -33,7 +33,7 @@ public class CampgroundRequest extends GenericRequest {
       Pattern.compile("your cincho loosens (\\d+)%");
   private static final Pattern FURNISHING_PATTERN = Pattern.compile("<b>(?:an? )?(.*?)</b>");
 
-  private static final Pattern JUNG_PATTERN = Pattern.compile("junggate_(\\d)");
+  private static final Pattern JUNG_PATTERN = Pattern.compile("junggate_(\\d+)");
   private static final Pattern DNA_PATTERN = Pattern.compile("sample of <b>(.*?)</b> DNA");
   private static final Pattern FUEL_PATTERN_1 = Pattern.compile("fuel gauge reads ([\\d,]+) litre");
   private static final Pattern FUEL_PATTERN_2 =
@@ -1239,7 +1239,7 @@ public class CampgroundRequest extends GenericRequest {
         case 4 -> CampgroundRequest.setCampgroundItem(ItemPool.OLD_MAN_JAR, 1);
         case 5 -> CampgroundRequest.setCampgroundItem(ItemPool.ARTIST_JAR, 1);
         case 6 -> CampgroundRequest.setCampgroundItem(ItemPool.MEATSMITH_JAR, 1);
-        case 7 -> CampgroundRequest.setCampgroundItem(ItemPool.JICK_JAR, 1);
+        case 11 -> CampgroundRequest.setCampgroundItem(ItemPool.JICK_JAR, 1);
       }
     } else {
       Preferences.setBoolean("_psychoJarUsed", false);

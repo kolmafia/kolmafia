@@ -988,4 +988,17 @@ public class StringUtilities {
     Matcher matcher = URL_IID_PATTERN.matcher(urlString);
     return matcher.find() ? StringUtilities.parseInt(matcher.group(1)) : -1;
   }
+
+  public static String withOrdinalSuffix(final int num) {
+    return num
+        + switch (num % 100) {
+          case 11, 12, 13 -> "th";
+          default -> switch (num % 10) {
+            case 1 -> "st";
+            case 2 -> "nd";
+            case 3 -> "rd";
+            default -> "th";
+          };
+        };
+  }
 }

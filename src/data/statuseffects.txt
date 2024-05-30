@@ -309,7 +309,7 @@
 307	Healthy Green Glow	light.gif	179ea341b15b46366812867e26705ed0	good	none	use 1 irradiated pet snacks
 308	Sinuses For Miles	pupils.gif	81577de719bc99a5780d4e0cb5ca81a5	good	none	use 1 Mick's IcyVapoHotness Inhaler
 309	One Very Clear Eye	oneeye.gif	25fcac6c285396f710bc74057f6f3ba9	good	none	use 1 cyclops eyedrops
-310	Pop-eyed	oneeye.gif	deb5f1d2384c25301d1a81839d8f8a77	good	none	use 1 can of spinach
+310	Pop-eyed	oneeye.gif	deb5f1d2384c25301d1a81839d8f8a77	good	none	use 1 can of spinach|eat 1 Mayam spinach
 311	Flamingly Floral	fire.gif	df55e784c72b808b1e00973d23ca14e6	good	none	use 1 [2426]fire flower
 312	Permafrosty	snowflake.gif	943504f00bdffe88dd982e1851707aec	good	none	use 1 freezerburned ice cube
 313	Bloody Bloody Bloody!	blooddrops.gif	f2780f015462419680ea5b12b76a34c7	good	none	use 1 fake blood
@@ -2904,3 +2904,18 @@
 2901	Apriling Band Patrol Beat	april_music1.gif	315f72f3d2d9f02cddf2b78dca3fbaa6	neutral	none
 2902	Apriling Band Battle Cadence	april_music2.gif	7a55b609635e7b112bfd40b437b85146	neutral	none
 2903	Apriling Band Celebration Bop	april_music3.gif	9d4971782dac388aaac6be8bf96ef5d6	neutral	none
+2904	Bottled Fortitude	yambottle.gif	a3104be510b30e74b21828e4d7e5cf80	neutral	none
+2905	Big Eyes	yameye.gif	591a425ca0ccb96788051388c5e581eb	neutral	none
+2906	Vessel of Magic	yamvessel.gif	b05746e8d34ef035bb7785fec0969265	neutral	none
+2907	Walled In	wallshield.gif	ac00a12dba132bffe22567b7c63ba2c8	neutral	none
+2908	Caught Yam-Handed	yam.gif	7804213456259ccd0588f39945748e05	neutral	none	mayam resonance caught yam-handed
+2909	Memories of Cheesier Age	yamcheese.gif	69a72a96a895bef2a452fe02a5b7a0fc	neutral	none	mayam resonance memories of cheesier age
+2910	Eye of Moxie	eye_moxie.gif	04e76c36a6a6c546028e284476108294	neutral	none
+2911	Eye of Muscle	eye_muscle.gif	7970bfd6b6333e51ef9ad1aaa55287c7	neutral	none
+2912	Eye of Mysticality	eye_mysticality.gif	b46f79af7d02565f572256eed2fd72ca	neutral	none
+2913	Eye of Items	eye_items.gif	91a45a4af4136c414eaabaeee9e2645b	neutral	none
+2914	Eye of Heat	eye_hot.gif	1de0909ef41ff6f7e30e4f155a52902f	neutral	none
+2915	Eye of Cold	eye_cold.gif	49a623b41c24845dd04195c891790360	neutral	none
+2916	Eye of Sleaze	eye_sleaze.gif	8fab7c874601648ba09185b0e0adae17	neutral	none
+2917	Eye of Fear	eye_spooky.gif	ad97eb06bbd69f2ff5747e24378ab817	neutral	none
+2918	Eye of Stench	eye_stench.gif	9665117fd2b2f156506de27fd6572a5e	neutral	none

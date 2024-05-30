@@ -523,6 +523,7 @@ public interface KoLConstants extends UtilityConstants {
     FIXODENT, // Items made from fixodent
     BURNING_LEAVES, // Items made at the Pile of Burning Leaves
     TINKERING_BENCH, // Items made at the Tinkering Bench
+    MAYAM, // Items made at the Mayam Calendar
   }
 
   enum CraftingRequirements {

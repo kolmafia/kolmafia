@@ -2100,6 +2100,7 @@ Item	wumpus-hair whip	Spooky Damage: +2, Stench Damage: +2, Hot Damage: +2, Cold
 # X-37 gun: Shoots Elemental Blasts
 Item	X-37 gun	Breakable
 Item	yak whip	Weakens Monster
+Item	yam cannon	Hot Damage: +50, Ranged Damage Percent: +25, Food Drop: +30, Lasts Until Rollover
 Item	yohohoyo	Critical Hit Percent: +5, Spooky Damage: +1, Stench Damage: +1, Hot Damage: +1, Cold Damage: +1, Sleaze Damage: +1
 Item	yule hatchet	Experience (familiar): +2
 Item	Zim Merman's guitar	Ranged Damage: +20
@@ -2307,6 +2308,7 @@ Item	foon of foulness	Mysticality: +3, Stench Spell Damage: +8
 Item	foon of frigidity	Mysticality: +3, Cold Spell Damage: +8
 Item	foon of fulmination	Mysticality: +3, Hot Spell Damage: +8
 Item	frankincenser	Maximum MP: +10, Experience (Mysticality): +3
+Item	furry yam buckler	Cold Resistance: +4, Damage Reduction: 14, Negative Status Resist, Lasts Until Rollover
 # Gazpacho's Glacial Grimoire: All Spells Cast Are Cold
 Item	Gazpacho's Glacial Grimoire	Spell Damage: +10
 # geological sample kit: Increases the yield of Spacegate geology operations
@@ -4150,6 +4152,7 @@ Item	Xiblaxian holo-wrist-puter	Item Drop: +10, Drops Items
 # Xiblaxian xeno-detection goggles: They Really Open Your Eyes
 Item	Xiblaxian xeno-detection goggles	Meat Drop: +15, Single Equip
 Item	Xlyinia's notebook	Muscle: +15, Mysticality: +15, Moxie: +15
+Item	yamtility belt	Meat Drop: +55, Initiative: +15, Moxie Percent: +5, Lasts Until Rollover
 Item	ye olde golde frontes	Muscle: +15, Class: "Disco Bandit", Single Equip
 Item	Yearbook Club Camera	Muscle: [5*min(pref(yearbookCameraUpgrades),1)+5*max(min(pref(yearbookCameraUpgrades)-3,1),0)+5*max(min(pref(yearbookCameraUpgrades)-6,1),0)], Mysticality: [5*max(min(pref(yearbookCameraUpgrades)-1,1),0)+5*max(min(pref(yearbookCameraUpgrades)-4,1),0)+5*max(min(pref(yearbookCameraUpgrades)-7,1),0)], Moxie: [5*max(min(pref(yearbookCameraUpgrades)-2,1),0)+5*max(min(pref(yearbookCameraUpgrades)-5,1),0)+5*max(min(pref(yearbookCameraUpgrades)-8,1),0)], Maximum HP: [20*max(min(pref(yearbookCameraUpgrades)-9,1),0)], Maximum MP: [10*max(min(pref(yearbookCameraUpgrades)-10,1),0)], HP Regen Min: [4*max(min(pref(yearbookCameraUpgrades)-11,1),0)], HP Regen Max: [5*max(min(pref(yearbookCameraUpgrades)-11,1),0)], MP Regen Min: [2*max(min(pref(yearbookCameraUpgrades)-12,1),0)], MP Regen Max: [3*max(min(pref(yearbookCameraUpgrades)-12,1),0)], Adventures: [5*max(min(pref(yearbookCameraUpgrades)-13,1),0)], PvP Fights: [5*max(min(pref(yearbookCameraUpgrades)-14,1),0)], Damage Reduction: [5*max(min(pref(yearbookCameraUpgrades)-15,1),0)], Hot Damage: [max(min(pref(yearbookCameraUpgrades)-16,1),0)], Cold Damage: [max(min(pref(yearbookCameraUpgrades)-16,1),0)], Spooky Damage: [max(min(pref(yearbookCameraUpgrades)-16,1),0)], Stench Damage: [max(min(pref(yearbookCameraUpgrades)-16,1),0)], Sleaze Damage: [max(min(pref(yearbookCameraUpgrades)-16,1),0)], Initiative: [10*max(min(pref(yearbookCameraUpgrades)-17,1),0)], Meat Drop: [20*max(min(pref(yearbookCameraUpgrades)-18,1),0)], Item Drop: [10*max(min(pref(yearbookCameraUpgrades)-19,1),0)]
 # Yeg's Motel slippers: Extremely fragile (will be destroyed if you are hit in combat)
@@ -4608,6 +4611,8 @@ Item	tiny stillsuit	Familiar Weight: +5, Experience (familiar): +1, Familiar Dam
 # tiny top hat and cane: Lets your Li'l Xenomorph dance!
 # tiny top hat and cane: (adds item0 to familiar abilities)
 Item	tiny top hat and cane	Fairy: 1.0
+# tiny yam cannon: Gives your familiar an extra attack.
+Item	tiny yam cannon	Initiative: +50, Lasts Until Rollover, Generic
 Item	Toddler-sized Dragon Costume	Familiar Weight: +5, Item Drop: +5, Softcore Only, Generic
 Item	toggle switch (Bartend)	Familiar Weight: +5
 Item	toggle switch (Bounce)	Familiar Weight: +5, Equips On: "Robortender"
@@ -5401,6 +5406,7 @@ Effect	Beta Carotene Overdose	Item Drop: +50
 Effect	Better Off Bread	Avatar: "Bread Golem"
 Effect	Beyond the Pail	Avatar: "fishy pirate"
 Effect	Big	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20
+Effect	Big Eyes	Item Drop: +30
 Effect	Big Flaming Whip	Hot Damage: +20, Damage Reduction: 5
 Effect	Big Meat Big Prizes	Meat Drop: +50
 Effect	Big Ol' Glass of Rum	Moxie: +20
@@ -5503,6 +5509,7 @@ Effect	Bored Stiff	Spooky Damage: +100
 # Bored With Explosions: You're just over them
 Effect	Boschface	Hot Damage: +25, Cold Damage: +25, Stench Damage: +25, Spooky Damage: +25, Sleaze Damage: +25
 Effect	Bottle in front of Me	Spell Damage: +15
+Effect	Bottled Fortitude	Maximum HP: +100, HP Regen Min: 15, HP Regen Max: 20
 Effect	Bounty of Renenutet	Item Drop: +50
 # Bow-Legged Swagger: Your Physical Damage and Initiative bonuses are doubled
 # Bow-Legged Swagger: Need precise definition for Physical Damage.  Possibly Weapon Damage and Ranged Damage.
@@ -5608,6 +5615,7 @@ Effect	Cat Class, Cat Style	Moxie Percent: +20
 Effect	Cat-Alyzed	Moxie: +10
 Effect	Category	Experience Percent (Mysticality): +25
 Effect	Catstermind	Avatar: "The Mastermind"
+# Caught Yam-Handed: Monsters will sometimes be distracted, trying to avoid the hot yam
 Effect	Cautious Prowl	Item Drop: +50
 Effect	Cavemanipulated	Avatar: "caveman"
 Effect	Ceaseless Snarling	Monster Level: +30
@@ -6026,6 +6034,15 @@ Effect	Extra-Thick Blood	HP Regen Min: 5, HP Regen Max: 10
 Effect	Extra-Wet	Hot Resistance: +3
 Effect	Extreme Muscle Relaxation	Initiative: -50, Muscle Percent: +25
 Effect	Extremely Poor Taste	Monster Level: +10
+Effect	Eye of Cold	Cold Damage: +11
+Effect	Eye of Fear	Spooky Damage: +11
+Effect	Eye of Heat	Hot Damage: +11
+Effect	Eye of Items	Item Drop: +11
+Effect	Eye of Moxie	Experience Percent (Moxie): +11
+Effect	Eye of Muscle	Experience Percent (Muscle): +11
+Effect	Eye of Mysticality	Experience Percent (Mysticality): +11
+Effect	Eye of Sleaze	Sleaze Damage: +11
+Effect	Eye of Stench	Stench Damage: +11
 Effect	Eye of the Lihc	Spooky Resistance: +1
 Effect	Eye of the Seal	Item Drop: +10
 Effect	Eyes All Black	Spooky Damage: +100, Spooky Spell Damage: +100
@@ -6740,6 +6757,7 @@ Effect	Mediocri Tea	Monster Level: +30
 Effect	Meet the Meat	Meat Drop: +100, Gear Drop: +50
 Effect	Melancholy Burden	Item Drop: +60
 Effect	Memento Moir&eacute;	Experience: +3
+Effect	Memories of Cheesier Age	Food Drop: +100, Stench Damage: +25
 Effect	Memories of Puppy Love	Moxie: +20
 Effect	Memory of Aggressiveness	Monster Level: +30
 Effect	Memory of Attractiveness	Moxie Percent: +100
@@ -6757,11 +6775,11 @@ Effect	Metal Speed	Initiative: +20
 Effect	Meteor Showered	Weapon Damage Percent: +200, Spell Damage Percent: +200, Familiar Weight: +20
 Effect	Midgetized	Damage Reduction: 4, Weapon Damage: -8
 Effect	Mighty Shout	Muscle Percent: +100, Moxie Percent: +100
+Effect	Mild Lycanthropy	Muscle Percent: [+1*M], Moxie Percent: [+1*M]
 # Mild-Mannered Professor: Max HP Limited to 1
 # Mild-Mannered Professor: You may not attack normally
 # Mild-Mannered Professor: Running away is always successful
 Effect	Mild-Mannered Professor	Combat Rate: -25, Muscle Limit: 1, Mysticality Limit: 5, Moxie Limit: 1
-Effect	Mild Lycanthropy	Muscle Percent: [+1*M], Moxie Percent: [+1*M]
 Effect	Militarily Minted	Damage Reduction: 3
 Effect	Milk is Blood is Milk	Muscle: [-5*T], Mysticality: [-5*T], Moxie: [-5*T], Muscle Percent: [-50*T], Mysticality Percent: [-50*T], Moxie Percent: [-50*T]
 Effect	Milk Studly	Muscle: +15
@@ -7907,6 +7925,7 @@ Effect	Vented Spleen	Weapon Damage: +25
 Effect	Very Attractive	Combat Rate: +10
 Effect	Very Clean Guns	Ranged Damage: +20
 Effect	Very Clean Teeth	Moxie: +1
+Effect	Vessel of Magic	Maximum MP: +100, MP Regen Min: 8, MP Regen Max: 12
 Effect	Video Game Hot Dog	Item Drop: +25, Meat Drop: +25
 # Video... Games?: +5% Damage vs. Bugbears
 # Video... Games?: +5% Damage vs. Werewolves
@@ -7932,6 +7951,7 @@ Effect	WAKKA WAKKA WAKKA	Monster Level: +20
 Effect	Walberg's Dim Bulb	Initiative: +10
 Effect	Walking Carpet	Avatar: "grouchy furry monster"
 Effect	Wall Rage	Item Drop: +50
+Effect	Walled In	Damage Reduction: 10, Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Effect	Wallflowering	Damage Absorption: +100, Damage Reduction: 10
 Effect	Wandering Eye Surgery	Item Drop: +50
 # Wanged: Unable to use obnoxious abbreviations
@@ -9148,6 +9168,7 @@ Item	mana-fortified cranberry sauce	Effect: "Mana-Blasted", Effect Duration: 20
 Item	mana-stuffed herbal stuffing	Effect: "Mana-Blasted", Effect Duration: 20
 Item	maple syrup	Effect: "Antsy in your Pantsy", Effect Duration: 5
 Item	mashed potatoes	Effect: "Thanksgetting", Effect Duration: 20
+Item	Mayam spinach	Effect: "Pop-eyed", Effect Duration: 50
 Item	Medical Pastaco	Effect: "Helvella Health", Effect Duration: 40
 Item	meteoreo	Effect: "Superioreo", Effect Duration: 40
 Item	mince pie	Effect: "Thanksgetting", Effect Duration: 20
@@ -11213,6 +11234,7 @@ Item	box of sunshine	Free Pull
 Item	boxed Apriling band helmet	Free Pull
 Item	boxed august scepter	Free Pull
 Item	boxed autumn-aton	Free Pull
+Item	boxed Mayam Calendar	Free Pull
 Item	Boxing Day care package	Free Pull
 # brain preservation fluid: Drink it for 5 Adventures!
 # brass abacus: Stuns your opponent for a few rounds
@@ -11872,6 +11894,7 @@ Item	March hat	Free Pull
 # Massive Manual of Marauder Mockery: Makes marauder mockery mossible
 # mauve plastic oyster egg: Deals 40-50 Physical Damage
 Item	Maxing, Relaxing	Skill: "Maximum Chill"
+Item	Mayam Calendar	Free Pull
 # MayDay&trade; contract: Survival supplies will be delivered to you each day
 Item	MayDay&trade; contract	Free Pull
 Item	MayDay&trade; supply package	Effect: "Ready to Survive", Effect Duration: 30
@@ -12411,6 +12434,7 @@ Item	still grill	Free Pull
 # stuffed alien blob: Randomly Becomes a Different Combat Item When Used
 # stuffed doppelshifter: Randomly Becomes a Different Combat Item When Used
 # stuffed gray blob: Randomly becomes a different combat item when used
+# stuffed yam stinkbomb: Banish a monster for 15 turns
 Item	stuffed-shirt scarecrow	Free Pull
 # sugar shard: Restores 10-20 HP and 5-10 MP
 Item	Summer Nights	Skill: "Grease Lightning"
@@ -12450,6 +12474,7 @@ Item	Tapioc berry	Effect: "Berry Elemental", Effect Duration: 20
 # tennis ball: Banish an enemy for 30 Adventures
 # tequila grenade: Deals 75-100 Physical Damage
 # terrible poem: Deals 5-6 Physical Damage
+# thanksgiving bomb: Deals 750-1000 Physical and Hot Damage
 Item	The Art of Slapfighting	Class: "Seal Clubber", Skill: "Iron Palm Technique"
 Item	The Art of Slapfighting (used)	Class: "Seal Clubber", Skill: "Iron Palm Technique"
 Item	The Autobiography Of Dynamite Superman Jones	Class: "Disco Bandit", Skill: "Kung Fu Hustler"
@@ -12662,6 +12687,8 @@ Item	wussiness potion	Effect: "Wussiness", Effect Duration: 3
 # X-32-F snowman crate: Installs a Combat Training Snowman in the Big Mountains
 Item	X-32-F snowman crate	Free Pull
 Item	xo-skeleton-in-a-box	Free Pull
+# yam battery: Restore up to 1,000 MP
+# yam battery: Gain 3 Random Good Effects
 # Ye Olde Medieval Insult: Weakens enemies somewhat and briefly stuns them
 # Yeg's Motel disposable razor: Deals 50% of a monster's current Hit Points in Physical Damage
 # Yeg's Motel sewing kit: Restores all HP

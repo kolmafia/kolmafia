@@ -41,7 +41,6 @@ import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FloristRequest;
 import net.sourceforge.kolmafia.request.FloristRequest.Florist;
 import net.sourceforge.kolmafia.request.StandardRequest;
-import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.session.AutumnatonManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.Indexed;
@@ -845,7 +844,8 @@ public class Modifiers {
       Modifiers.cachedPassiveModifiers =
           new Modifiers(new Lookup(ModifierType.PASSIVES, "cachedPassives"));
       PreferenceListenerRegistry.registerPreferenceListener(
-          new String[] {"(skill)", "kingLiberated"}, () -> Modifiers.availableSkillsChanged());
+          new String[] {"(skill)", "kingLiberated", "(ronin)"},
+          () -> Modifiers.availableSkillsChanged());
     }
     if (KoLCharacter.getAvailableSkillIds().isEmpty()) {
       // We probably haven't loaded the player's skills yet. Avoid populating
@@ -861,10 +861,7 @@ public class Modifiers {
         Modifiers.availablePassiveSkillModifiersByVariable.putAll(
             KoLCharacter.getAvailableSkillIds().stream()
                 .filter(SkillDatabase::isPassive)
-                .map(UseSkillRequest::getUnmodifiedInstance)
-                .filter(Objects::nonNull)
-                .filter(UseSkillRequest::isEffective)
-                .map(skill -> ModifierDatabase.getModifiers(ModifierType.SKILL, skill.getSkillId()))
+                .map(skill -> ModifierDatabase.getModifiers(ModifierType.SKILL, skill))
                 .filter(Objects::nonNull)
                 .collect(
                     Collectors.partitioningBy(
@@ -1043,6 +1040,11 @@ public class Modifiers {
     if (InventoryManager.equippedOrInInventory(ItemPool.REPLICA_CINCHO_DE_MAYO)) {
       this.addDouble(
           DoubleModifier.FREE_RESTS, 3, ModifierType.INVENTORY_ITEM, "replica Cincho de Mayo");
+    }
+    var yamRests = Preferences.getInteger("_mayamRests");
+    if (yamRests > 0) {
+      this.addDouble(
+          DoubleModifier.FREE_RESTS, yamRests, ModifierType.ITEM, ItemPool.MAYAM_CALENDAR);
     }
   }
 

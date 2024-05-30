@@ -10752,6 +10752,11 @@ public class FightRequest extends GenericRequest {
           Preferences.increment("_humanMuskUses");
         }
         break;
+      case ItemPool.STUFFED_YAM_STINKBOMB:
+        if (responseText.contains("busy getting the cheese off") || itemRunawaySuccess) {
+          BanishManager.banishCurrentMonster(Banisher.STUFFED_YAM_STINKBOMB);
+        }
+        break;
       case ItemPool.ROCK_BAND_FLYERS:
       case ItemPool.JAM_BAND_FLYERS:
         // You slap a flyer up on your opponent. It enrages it.

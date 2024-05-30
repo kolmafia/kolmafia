@@ -1,9 +1,11 @@
 package net.sourceforge.kolmafia.maximizer;
 
 import static internal.helpers.Maximizer.commandStartsWith;
+import static internal.helpers.Maximizer.doesNotRecommend;
 import static internal.helpers.Maximizer.getBoosts;
 import static internal.helpers.Maximizer.getSlot;
 import static internal.helpers.Maximizer.maximize;
+import static internal.helpers.Maximizer.maximizeAny;
 import static internal.helpers.Maximizer.modFor;
 import static internal.helpers.Maximizer.recommendedSlotIs;
 import static internal.helpers.Maximizer.recommendedSlotIsUnchanged;
@@ -18,6 +20,7 @@ import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withFamiliarInTerrarium;
 import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withItemInStorage;
 import static internal.helpers.Player.withLocation;
 import static internal.helpers.Player.withMeat;
 import static internal.helpers.Player.withNotAllowedInStandard;
@@ -1247,6 +1250,32 @@ public class MaximizerTest {
         assertTrue(maximize("meat -acc1 -acc2"));
         recommendedSlotIs(Slot.ACCESSORY3, "backup camera");
         assertTrue(someBoostIs(x -> commandStartsWith(x, "backupcamera meat")));
+      }
+    }
+
+    @Test
+    public void shouldSuggestPullableCameraIfNotRestricted() {
+      final var cleanups =
+          new Cleanups(withItemInStorage("backup camera"), withProperty("backupCameraMode", "ml"));
+      try (cleanups) {
+        maximizeAny("meat");
+        recommends(ItemPool.BACKUP_CAMERA);
+        assertTrue(someBoostIs(x -> commandStartsWith(x, "pull")));
+      }
+    }
+
+    @Test
+    public void shouldNotSuggestPullableCameraIfRestricted() {
+      final var cleanups =
+          new Cleanups(
+              withItemInStorage("backup camera"),
+              withProperty("backupCameraMode", "ml"),
+              withRestricted(true),
+              withNotAllowedInStandard(RestrictedItemType.ITEMS, "backup camera"));
+
+      try (cleanups) {
+        maximizeAny("meat");
+        doesNotRecommend(ItemPool.BACKUP_CAMERA);
       }
     }
 
