@@ -11,7 +11,6 @@ import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withRange;
 import static internal.helpers.Player.withSign;
 import static internal.helpers.Player.withSkill;
-import static net.sourceforge.kolmafia.persistence.DebugDatabase.sgn;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.comparesEqualTo;
 import static org.hamcrest.Matchers.equalTo;
@@ -136,8 +135,8 @@ public class ConcoctionTest {
     Concoction mayo = ConcoctionPool.get(ItemPool.MAYODIOL);
     assertNotNull(whet);
     assertNotNull(mayo);
-    int one = sgn(whet.compareTo(mayo));
-    int two = sgn(mayo.compareTo(whet));
+    int one = Integer.signum(whet.compareTo(mayo));
+    int two = Integer.signum(mayo.compareTo(whet));
     assertEquals(one, -two);
   }
 
