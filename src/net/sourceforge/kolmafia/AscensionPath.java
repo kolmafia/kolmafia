@@ -78,6 +78,7 @@ public class AscensionPath {
         5,
         4,
         15),
+    ELEVEN_THINGS("11 Things I Hate About U", 51, false, "ihatesu", "an"),
     // A "sign" rather than a "path" for some reason
     BAD_MOON("Bad Moon", 999, false, "badmoon", null),
     ;
