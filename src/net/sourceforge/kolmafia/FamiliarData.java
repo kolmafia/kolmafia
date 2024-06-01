@@ -1194,6 +1194,9 @@ public class FamiliarData implements Comparable<FamiliarData> {
             "maps",
             "_mapToACandyRichBlockDrops",
             -1));
+    DROP_FAMILIARS.add(
+        new DropInfo(
+            FamiliarPool.MINI_KIWI, ItemPool.MINI_KIWI, "mini kiwis", "_miniKiwiDrops", -1));
   }
 
   public static DropInfo getDropInfo(int id) {

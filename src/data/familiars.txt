@@ -329,3 +329,4 @@
 297	Pet Anchor	anchor.gif	none	pet anchor		0	0	0	0
 298
 299	Chest Mimic	mimicchest.gif	item0,meat0	baby chest mimic	googly chest eyes	1	2	2	3	haseyes
+300	Mini Kiwi	kiwi_kiwi.gif	stat0,meat0,drop	mini kiwi egg		0	0	0	0
