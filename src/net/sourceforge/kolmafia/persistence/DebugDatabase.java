@@ -2608,11 +2608,6 @@ public class DebugDatabase {
     }
   }
 
-  // Helper method to force normalize Concoction comparisons to [-1, 0, 1] before testing
-  private static int sgn(int value) {
-    return Integer.compare(value, 0);
-  }
-
   // Helper method to append item id
   private static String getIString(Concoction con) {
     return "[" + con.getItemId() + "] " + con;
@@ -2640,7 +2635,7 @@ public class DebugDatabase {
     result = new int[maxIndex][maxIndex];
     for (i = 0; i < maxIndex; ++i) {
       for (int j = 0; j < maxIndex; ++j) {
-        result[i][j] = sgn(ids[i].compareTo(ids[j]));
+        result[i][j] = Integer.signum(ids[i].compareTo(ids[j]));
       }
     }
     // sgn(x.compareTo(y)) == -sgn(y.compareTo(x)
