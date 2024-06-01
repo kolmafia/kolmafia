@@ -11616,6 +11616,20 @@
 11588	yam mayo	878600079	nutramekin.gif	food	t,d	11	ramekins of yam mayo
 11589	yam burrito	855430740	burrito.gif	food	t,d	11
 11590
-11591
-11592
+11591	mini kiwi egg	845486056	kiwi_egg.gif	grow	t	0
+11592	aviator goggles	628912777	goggles.gif	familiar	t,d	75
 11593	Thwaitgold Illinigina illinoiensis model	257510677	thwaitilli.gif	none		0
+11594	mini kiwi	940910612	kiwi_minikiwi.gif	food, paste, cook, mix	t,d	5
+11595	mini kiwi bikini	705305695	kiwi_bikini.gif	accessory	t,d	11
+11596	mini kiwitini	263511672	martini.gif	drink	t,d	11
+11597	mini kiwi invisible dirigible	718055433	kiwi_dirigible.gif	familiar	t,d	30
+11598	mini kiwi aioli	863064561	ramekin.gif	usable	t,d	11
+11599	mini kiwi silicon tiepin	701181594	kiwi_tiepin.gif	accessory	t,d	40
+11600	mini kiwi tipi	496300747	kiwi_tipi.gif	usable	t,d	11
+11601	mini kiwi digitized cookies	733008951	10101.gif	food	t,d	11
+11602	mini kiwi intoxicating spirits	774169937	beerbottle.gif	drink	t,d	11
+11603	mini kiwi antimilitaristic hippy petition	779505307	document.gif	potion, usable	t,d	11
+11604	mini kiwi illicit antibiotic	459688276	kiwi_pill.gif	potion, usable	t,d	11
+11605	mini kiwi whipping stick	128063299	kiwi_stick.gif	offhand	t,d	11
+11606	mini kiwi icepick	956877502	kiwi_icepick.gif	weapon	t,d	11
+11607	mini kiwi-flavored aspirin-injecting lipstick	406308925	kiwi_lipstick.gif	potion, usable	t,d	11
