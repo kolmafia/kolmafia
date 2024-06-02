@@ -3413,6 +3413,11 @@ public class ResultProcessor {
           Preferences.increment("_mapToACandyRichBlockDrops", 1);
         }
         break;
+      case ItemPool.MINI_KIWI:
+        if (adventureResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.MINI_KIWI) {
+          Preferences.increment("_miniKiwiDrops", 1);
+        }
+        break;
     }
 
     // Gaining items can achieve goals.
