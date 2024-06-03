@@ -11617,9 +11617,9 @@
 11589	yam burrito	855430740	burrito.gif	food	t,d	11
 11590
 11591	mini kiwi egg	845486056	kiwi_egg.gif	grow	t	0
-11592	aviator goggles	628912777	goggles.gif	familiar	t,d	75
+11592	aviator goggles	628912777	goggles.gif	familiar	t,d	75	pairs of aviator goggles
 11593	Thwaitgold Illinigina illinoiensis model	257510677	thwaitilli.gif	none		0
-11594	mini kiwi	940910612	kiwi_minikiwi.gif	food, paste, cook, mix	t,d	5
+11594	mini kiwi	940910612	kiwi_minikiwi.gif	food	t,d	5
 11595	mini kiwi bikini	705305695	kiwi_bikini.gif	accessory	t,d	11
 11596	mini kiwitini	263511672	martini.gif	drink	t,d	11
 11597	mini kiwi invisible dirigible	718055433	kiwi_dirigible.gif	familiar	t,d	30

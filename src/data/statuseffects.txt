@@ -1925,7 +1925,7 @@
 1922	Pyromania	fire.gif	ddab6cb3d61f20d9294db8f4131735f4	good	none	cast 1 Pyromania
 1923	Red Menace	lavalamp.gif	130015724843d272c093e0d86e16de80	good	nohookah	# rollover effect from red LavaCo Lamp™
 1924	Blue Eyed Devil	lavalamp.gif	a570dc794d32c68386f4139800560e3d	good	nohookah	# rollover effect from blue LavaCo Lamp™
-1925	Green Peace	lavalamp.gif	3feb074579bbf255708bf0974529d754	good	nohookah	# rollover effect from green LavaCo Lamp™
+1925	Green Peace	lavalamp.gif	3feb074579bbf255708bf0974529d754	good	nohookah	drink 1 mini kiwitini|# rollover effect from green LavaCo Lamp™
 1926	Inner Warmth	batgut.gif	78d990e758e32b3fdb6a9c7f16b20340	good	none	eat 1 very hot lunch
 1927	Sparkly!	discoball.gif	7a9db9b3298a26152440f25c8fdc6ad5	good	none	use 1 liquid rhinestones
 1928	Buttermilk Boogie	discobiscuit.gif	714ba54120d1f76e20c0ff392c944c50	good	none	eat 1 disco biscuit

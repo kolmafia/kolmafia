@@ -2202,8 +2202,8 @@ user	_mildEvilPerpetrated	0
 user	_mimeArmyShotglassUsed	false
 user	_mimicEggsDonated	0
 user	_mimicEggsObtained	0
-user	_miniMartiniDrops	0
 user	_miniKiwiDrops	0
+user	_miniMartiniDrops	0
 user	_missGravesVermouthDrunk	false
 user	_missileLauncherUsed	false
 user	_molehillMountainUsed	false
