@@ -226,7 +226,7 @@ public class DebugDatabase {
     return other;
   }
 
-  public static final void checkItems(final int itemId) {
+  public static void checkItems(final int itemId) {
     RequestLogger.printLine("Loading previous data...");
     DebugDatabase.loadScrapeData(rawItems, ITEM_HTML);
 
@@ -427,17 +427,17 @@ public class DebugDatabase {
         ItemDatabase.itemString(itemId, name, descId, image, type, attrs, access, price, plural));
   }
 
-  public static final String itemDescriptionText(final int itemId, boolean forceReload) {
+  public static String itemDescriptionText(final int itemId, boolean forceReload) {
     return DebugDatabase.itemDescriptionText(
         DebugDatabase.rawItemDescriptionText(ItemDatabase.getDescriptionId(itemId), forceReload));
   }
 
   // Public for test access.
-  public static final void cacheItemDescriptionText(final int itemId, final String html) {
+  public static void cacheItemDescriptionText(final int itemId, final String html) {
     DebugDatabase.rawItems.put(itemId, html);
   }
 
-  public static final String cafeItemDescriptionText(final String descId) {
+  public static String cafeItemDescriptionText(final String descId) {
     if (descId == null) {
       return "";
     }
@@ -449,11 +449,11 @@ public class DebugDatabase {
     return request.responseText;
   }
 
-  public static final String rawItemDescriptionText(final int itemId) {
+  public static String rawItemDescriptionText(final int itemId) {
     return DebugDatabase.rawItemDescriptionText(ItemDatabase.getDescriptionId(itemId), false);
   }
 
-  public static final String rawItemDescriptionText(final String descId, boolean forceReload) {
+  public static String rawItemDescriptionText(final String descId, boolean forceReload) {
     if (descId == null) {
       return "";
     }
@@ -462,7 +462,7 @@ public class DebugDatabase {
     if (itemId != -1) {
       previous = DebugDatabase.rawItems.get(itemId);
     }
-    if (!forceReload && previous != null && !previous.equals("")) {
+    if (!forceReload && previous != null && !previous.isEmpty()) {
       return previous;
     }
 
@@ -480,7 +480,7 @@ public class DebugDatabase {
   private static final Pattern ITEM_DATA_PATTERN =
       Pattern.compile("<div id=\"description\"[^>]*>(.*?)<script", Pattern.DOTALL);
 
-  public static final String itemDescriptionText(final String rawText) {
+  public static String itemDescriptionText(final String rawText) {
     if (rawText == null) {
       return null;
     }
@@ -492,7 +492,7 @@ public class DebugDatabase {
   // <!-- itemid: 806 -->
   private static final Pattern ITEMID_PATTERN = Pattern.compile("<!-- itemid: ([\\d]*) -->");
 
-  public static final int parseItemId(final String text) {
+  public static int parseItemId(final String text) {
     Matcher matcher = DebugDatabase.ITEMID_PATTERN.matcher(text);
     if (!matcher.find()) {
       return 0;
@@ -503,7 +503,7 @@ public class DebugDatabase {
 
   private static final Pattern NAME_PATTERN = Pattern.compile("<b>(.*?)</b>");
 
-  public static final String parseName(final String text) {
+  public static String parseName(final String text) {
     Matcher matcher = DebugDatabase.NAME_PATTERN.matcher(text);
     if (!matcher.find()) {
       return "";
@@ -515,7 +515,7 @@ public class DebugDatabase {
   private static final Pattern PRICE_PATTERN =
       Pattern.compile("Selling Price: <b>(\\d+) Meat.</b>");
 
-  public static final int parsePrice(final String text) {
+  public static int parsePrice(final String text) {
     Matcher matcher = DebugDatabase.PRICE_PATTERN.matcher(text);
     if (!matcher.find()) {
       return 0;
@@ -525,13 +525,13 @@ public class DebugDatabase {
   }
 
   private static StringBuilder appendAccessTypes(StringBuilder accessTypes, Attribute accessType) {
-    if (accessTypes.length() > 0) {
+    if (!accessTypes.isEmpty()) {
       return accessTypes.append(",").append(accessType);
     }
     return accessTypes.append(accessType);
   }
 
-  public static final String parseAccess(final String text) {
+  public static String parseAccess(final String text) {
     StringBuilder accessTypes = new StringBuilder();
 
     if (text.contains("Quest Item")
@@ -561,20 +561,20 @@ public class DebugDatabase {
 
   private static final Pattern TYPE_PATTERN = Pattern.compile("Type: <b>(.*?)</b>");
 
-  public static final String parseType(final String text) {
+  public static String parseType(final String text) {
     Matcher matcher = DebugDatabase.TYPE_PATTERN.matcher(text);
     String type = matcher.find() ? matcher.group(1) : "";
     return type.equals("back item") ? "container" : type;
   }
 
-  public static final ConsumptionType typeToPrimary(final String type, final boolean multi) {
+  public static ConsumptionType typeToPrimary(final String type, final boolean multi) {
     // Type: <b>food <font color=#999999>(crappy)</font></b>
     // Type: <b>food (decent)</b>
     // Type: <b>booze <font color=green>(good)</font></b>
     // Type: <b>food <font color=blue>(awesome)</font></b>
     // Type: <b>food <font color=blueviolet>(EPIC)</font></b>
 
-    if (type.equals("") || type.equals("crafting item")) {
+    if (type.isEmpty() || type.equals("crafting item")) {
       return ConsumptionType.NONE;
     }
     if (type.startsWith("food") || type.startsWith("beverage")) {
@@ -629,7 +629,7 @@ public class DebugDatabase {
     return ConsumptionType.NONE;
   }
 
-  public static final EnumSet<Attribute> typeToSecondary(
+  public static EnumSet<Attribute> typeToSecondary(
       final String type, final ConsumptionType primary, final String text, final boolean multi) {
     EnumSet<Attribute> attributes = EnumSet.noneOf(Attribute.class);
     boolean usable =
@@ -770,7 +770,7 @@ public class DebugDatabase {
 
   private static void checkConsumableMap(final PrintStream report, final ItemMap imap) {
     Map<String, String> map = imap.getMap();
-    if (map.size() == 0) {
+    if (map.isEmpty()) {
       return;
     }
 
@@ -825,7 +825,7 @@ public class DebugDatabase {
 
   private static final Pattern LEVEL_PATTERN = Pattern.compile("Level required: <b>(.*?)</b>");
 
-  public static final int parseLevel(final String text) {
+  public static int parseLevel(final String text) {
     Matcher matcher = DebugDatabase.LEVEL_PATTERN.matcher(text);
     if (!matcher.find()) {
       return 1;
@@ -837,7 +837,7 @@ public class DebugDatabase {
   private static final Pattern SIZE_PATTERN =
       Pattern.compile("(?:Size|Potency|Toxicity): <b>(.*?)</b>");
 
-  public static final int parseSize(final String text) {
+  public static int parseSize(final String text) {
     Matcher matcher = DebugDatabase.SIZE_PATTERN.matcher(text);
     if (!matcher.find()) {
       return 1;
@@ -846,7 +846,7 @@ public class DebugDatabase {
     return StringUtilities.parseInt(matcher.group(1));
   }
 
-  public static final int parseConsumableSize(final String text) {
+  public static int parseConsumableSize(final String text) {
     Matcher matcher = DebugDatabase.SIZE_PATTERN.matcher(text);
     return matcher.find() ? StringUtilities.parseInt(matcher.group(1)) : 0;
   }
@@ -866,7 +866,7 @@ public class DebugDatabase {
 
   private static void checkEquipmentMap(final PrintStream report, ItemMap imap) {
     Map<String, String> map = imap.getMap();
-    if (map.size() == 0) {
+    if (map.isEmpty()) {
       return;
     }
 
@@ -940,7 +940,7 @@ public class DebugDatabase {
   private static final Pattern DAMAGE_PATTERN_WEAPON =
       Pattern.compile("Damage: <b>[\\d]+ - (\\d+)</b>");
 
-  public static final int parsePower(final String text) {
+  public static int parsePower(final String text) {
     Matcher matcher = DebugDatabase.POWER_PATTERN.matcher(text);
     // This should match non-weapon power
     if (matcher.find()) {
@@ -953,14 +953,14 @@ public class DebugDatabase {
 
   private static final Pattern WEAPON_PATTERN = Pattern.compile("weapon [(](.*?)[)]");
 
-  public static final String parseWeaponType(final String text) {
+  public static String parseWeaponType(final String text) {
     Matcher matcher = DebugDatabase.WEAPON_PATTERN.matcher(text);
     return matcher.find() ? matcher.group(1) : "";
   }
 
   private static final Pattern REQ_PATTERN = Pattern.compile("(\\w+) Required: <b>(\\d+)</b>");
 
-  public static final String parseReq(final String text, final String type) {
+  public static String parseReq(final String text, final String type) {
     Matcher matcher = DebugDatabase.REQ_PATTERN.matcher(text);
     if (matcher.find()) {
       String stat = matcher.group(1);
@@ -992,28 +992,28 @@ public class DebugDatabase {
 
   private static final Pattern FULLNESS_PATTERN = Pattern.compile("Size: <b>(\\d+)</b>");
 
-  public static final Integer parseFullness(final String text) {
+  public static Integer parseFullness(final String text) {
     Matcher matcher = DebugDatabase.FULLNESS_PATTERN.matcher(text);
     return matcher.find() ? (StringUtilities.parseInt(matcher.group(1))) : null;
   }
 
   private static final Pattern INEBRIETY_PATTERN = Pattern.compile("Potency: <b>(\\d+)</b>");
 
-  public static final Integer parseInebriety(final String text) {
+  public static Integer parseInebriety(final String text) {
     Matcher matcher = DebugDatabase.INEBRIETY_PATTERN.matcher(text);
     return matcher.find() ? (StringUtilities.parseInt(matcher.group(1))) : null;
   }
 
   private static final Pattern TOXICITY_PATTERN = Pattern.compile("Toxicity: <b>(\\d+)</b>");
 
-  public static final Integer parseToxicity(final String text) {
+  public static Integer parseToxicity(final String text) {
     Matcher matcher = DebugDatabase.TOXICITY_PATTERN.matcher(text);
     return matcher.find() ? (StringUtilities.parseInt(matcher.group(1))) : null;
   }
 
   private static final Pattern FAMILIAR_PATTERN = Pattern.compile("Familiar: <b>(.*?)</b>");
 
-  public static final String parseFamiliar(final String text) {
+  public static String parseFamiliar(final String text) {
     Matcher matcher = DebugDatabase.FAMILIAR_PATTERN.matcher(text);
     return matcher.find() ? (matcher.group(1)) : "any";
   }
@@ -1053,7 +1053,7 @@ public class DebugDatabase {
   private static void checkItemModifierMap(
       final PrintStream report, final ItemMap imap, final boolean showAll) {
     Map<String, String> map = imap.getMap();
-    if (map.size() == 0) {
+    if (map.isEmpty()) {
       return;
     }
 
@@ -1089,7 +1089,7 @@ public class DebugDatabase {
     DebugDatabase.checkModifiers(ModifierType.ITEM, name, known, true, report);
 
     // Print the modifiers in the format modifiers.txt expects.
-    if (showAll || known.size() > 0 || unknown.size() > 0) {
+    if (showAll || known.size() > 0 || !unknown.isEmpty()) {
       DebugDatabase.logModifierDatum(ModifierType.ITEM, name, known, unknown, report);
     }
   }
@@ -1234,7 +1234,7 @@ public class DebugDatabase {
     }
 
     if (known.size() == 0) {
-      if (unknown.size() == 0) {
+      if (unknown.isEmpty()) {
         ModifierDatabase.writeModifierComment(report, null, name);
       }
     } else {
@@ -1247,7 +1247,7 @@ public class DebugDatabase {
           "<font color=\"?blue\"?>(?!\\(awesome\\)|<p>)(.*)(?:<br>)?</font>(?:<br />)?",
           Pattern.DOTALL);
 
-  public static final void parseItemEnchantments(
+  public static void parseItemEnchantments(
       String text,
       final ModifierList known,
       final ArrayList<String> unknown,
@@ -1301,7 +1301,7 @@ public class DebugDatabase {
       Pattern.compile("(\\d+)-(\\d+) HP and (\\d+)-(\\d+) MP");
   private static final Pattern RESTORE_UPTO_PATTERN = Pattern.compile("up to (.*?) (?:HP|MP)");
 
-  public static final void parseRestores(final String name, final String text) {
+  public static void parseRestores(final String name, final String text) {
     Matcher enchantMatcher = DebugDatabase.ITEM_ENCHANTMENT_PATTERN.matcher(text);
     if (!enchantMatcher.find()) {
       return;
@@ -1355,14 +1355,14 @@ public class DebugDatabase {
     RequestLogger.updateSessionLog(printMe);
   }
 
-  public static final String parseItemEnchantments(
+  public static String parseItemEnchantments(
       final String text, final ArrayList<String> unknown, final ConsumptionType type) {
     ModifierList known = new ModifierList();
     DebugDatabase.parseItemEnchantments(text, known, unknown, type);
     return known.toString();
   }
 
-  public static final String parseItemEnchantments(final String text, final ConsumptionType type) {
+  public static String parseItemEnchantments(final String text, final ConsumptionType type) {
     ModifierList known = new ModifierList();
     ArrayList<String> unknown = new ArrayList<>();
     DebugDatabase.parseItemEnchantments(text, known, unknown, type);
@@ -1452,7 +1452,7 @@ public class DebugDatabase {
 
     for (String s : mods) {
       String enchantment = s.trim();
-      if (enchantment.equals("")) {
+      if (enchantment.isEmpty()) {
         continue;
       }
 
@@ -1564,7 +1564,7 @@ public class DebugDatabase {
   private static final Map<Integer, String> rawOutfits = new HashMap<>();
   private static final ItemMap outfits = new ItemMap("Outfits", ConsumptionType.NONE);
 
-  public static final void checkOutfits() {
+  public static void checkOutfits() {
     RequestLogger.printLine("Loading previous data...");
     DebugDatabase.loadScrapeData(rawOutfits, OUTFIT_HTML);
 
@@ -1640,20 +1640,20 @@ public class DebugDatabase {
     DebugDatabase.outfits.put(name, text);
   }
 
-  public static final String outfitDescriptionText(final int outfitId) {
+  public static String outfitDescriptionText(final int outfitId) {
     return DebugDatabase.outfitDescriptionText(DebugDatabase.rawOutfitDescriptionText(outfitId));
   }
 
-  public static final String readOutfitDescriptionText(final int outfitId) {
+  public static String readOutfitDescriptionText(final int outfitId) {
     GenericRequest request = new GenericRequest("desc_outfit.php");
     request.addFormField("whichoutfit", String.valueOf(outfitId));
     RequestThread.postRequest(request);
     return request.responseText;
   }
 
-  public static final String rawOutfitDescriptionText(final int outfitId) {
+  public static String rawOutfitDescriptionText(final int outfitId) {
     String previous = DebugDatabase.rawOutfits.get(outfitId);
-    if (previous != null && !previous.equals("")) {
+    if (previous != null && !previous.isEmpty()) {
       return previous;
     }
 
@@ -1666,7 +1666,7 @@ public class DebugDatabase {
   private static final Pattern OUTFIT_DATA_PATTERN =
       Pattern.compile("<div id=\"description\"[^>]*>(.*?)</div>", Pattern.DOTALL);
 
-  public static final String outfitDescriptionText(final String rawText) {
+  public static String outfitDescriptionText(final String rawText) {
     if (rawText == null) {
       return null;
     }
@@ -1681,7 +1681,7 @@ public class DebugDatabase {
 
   private static void checkOutfitModifierMap(final PrintStream report) {
     Map<String, String> map = DebugDatabase.outfits.getMap();
-    if (map.size() == 0) {
+    if (map.isEmpty()) {
       return;
     }
 
@@ -1717,14 +1717,13 @@ public class DebugDatabase {
   private static final Pattern OUTFIT_ENCHANTMENT_PATTERN =
       Pattern.compile("<b><font color=blue>(.*)</font></b>", Pattern.DOTALL);
 
-  public static final void parseOutfitEnchantments(
+  public static void parseOutfitEnchantments(
       final String text, final ModifierList known, final ArrayList<String> unknown) {
     DebugDatabase.parseStandardEnchantments(
         text, known, unknown, DebugDatabase.OUTFIT_ENCHANTMENT_PATTERN);
   }
 
-  public static final String parseOutfitEnchantments(
-      final String text, final ArrayList<String> unknown) {
+  public static String parseOutfitEnchantments(final String text, final ArrayList<String> unknown) {
     ModifierList known = new ModifierList();
     DebugDatabase.parseOutfitEnchantments(text, known, unknown);
     return known.toString();
@@ -1741,7 +1740,7 @@ public class DebugDatabase {
   private static final Map<Integer, String> rawEffects = new HashMap<>();
   private static final ItemMap effects = new ItemMap("Status Effects", ConsumptionType.NONE);
 
-  public static final void checkEffects(final int effectId) {
+  public static void checkEffects(final int effectId) {
     RequestLogger.printLine("Loading previous data...");
     DebugDatabase.loadScrapeData(rawEffects, EFFECT_HTML);
 
@@ -1825,7 +1824,7 @@ public class DebugDatabase {
   // <!-- effectid: 806 -->
   private static final Pattern EFFECTID_PATTERN = Pattern.compile("<!-- effectid: ([\\d]*) -->");
 
-  public static final int parseEffectId(final String text) {
+  public static int parseEffectId(final String text) {
     Matcher matcher = DebugDatabase.EFFECTID_PATTERN.matcher(text);
     if (!matcher.find()) {
       return 0;
@@ -1840,7 +1839,7 @@ public class DebugDatabase {
   private static final Pattern IMAGE_PATTERN =
       Pattern.compile("(?:cloudfront.net|images.kingdomofloathing.com)/(.*?\\.gif)");
 
-  public static final String parseImage(final String text) {
+  public static String parseImage(final String text) {
     Matcher matcher = DebugDatabase.IMAGE_PATTERN.matcher(text);
     String path = matcher.find() ? matcher.group(1) : "";
     String prefix1 = "itemimages/";
@@ -1853,24 +1852,24 @@ public class DebugDatabase {
   // href="desc_effect.php?whicheffect=138ba5cbeccb6334a1d473710372e8d6"
   private static final Pattern EFFECT_DESCID_PATTERN = Pattern.compile("whicheffect=(.*?)\"");
 
-  public static final String parseEffectDescid(final String text) {
+  public static String parseEffectDescid(final String text) {
     Matcher matcher = DebugDatabase.EFFECT_DESCID_PATTERN.matcher(text);
     return matcher.find() ? matcher.group(1) : "";
   }
 
-  public static final String effectDescriptionText(final int effectId) {
+  public static String effectDescriptionText(final int effectId) {
     return DebugDatabase.effectDescriptionText(DebugDatabase.rawEffectDescriptionText(effectId));
   }
 
   public static String readEffectDescriptionText(final int effectId) {
     String descId = EffectDatabase.getDescriptionId(effectId);
-    if (descId == null || descId.equals("")) {
+    if (descId == null || descId.isEmpty()) {
       return null;
     }
     return DebugDatabase.readEffectDescriptionText(descId);
   }
 
-  public static final String readEffectDescriptionText(final String descId) {
+  public static String readEffectDescriptionText(final String descId) {
     GenericRequest request = new GenericRequest("desc_effect.php");
     request.addFormField("whicheffect", descId);
     RequestThread.postRequest(request);
@@ -1879,12 +1878,12 @@ public class DebugDatabase {
 
   private static String rawEffectDescriptionText(final int effectId) {
     String descId = EffectDatabase.getDescriptionId(effectId);
-    if (descId == null || descId.equals("")) {
+    if (descId == null || descId.isEmpty()) {
       return null;
     }
 
     String previous = DebugDatabase.rawEffects.get(effectId);
-    if (previous != null && !previous.equals("")) {
+    if (previous != null && !previous.isEmpty()) {
       return previous;
     }
 
@@ -1918,7 +1917,7 @@ public class DebugDatabase {
 
   private static void checkEffectModifierMap(final PrintStream report) {
     Map<String, String> map = DebugDatabase.effects.getMap();
-    if (map.size() == 0) {
+    if (map.isEmpty()) {
       return;
     }
 
@@ -1938,20 +1937,19 @@ public class DebugDatabase {
   private static final Pattern EFFECT_ENCHANTMENT_PATTERN =
       Pattern.compile("<font color=blue><b>(.*)</b></font>", Pattern.DOTALL);
 
-  public static final void parseEffectEnchantments(
+  public static void parseEffectEnchantments(
       final String text, final ModifierList known, final ArrayList<String> unknown) {
     DebugDatabase.parseStandardEnchantments(
         text, known, unknown, DebugDatabase.EFFECT_ENCHANTMENT_PATTERN);
   }
 
-  public static final String parseEffectEnchantments(
-      final String text, final ArrayList<String> unknown) {
+  public static String parseEffectEnchantments(final String text, final ArrayList<String> unknown) {
     ModifierList known = new ModifierList();
     DebugDatabase.parseEffectEnchantments(text, known, unknown);
     return known.toString();
   }
 
-  public static final String parseEffectEnchantments(final String text) {
+  public static String parseEffectEnchantments(final String text) {
     ArrayList<String> unknown = new ArrayList<>();
     return DebugDatabase.parseEffectEnchantments(text, unknown);
   }
@@ -1983,7 +1981,7 @@ public class DebugDatabase {
   private static final Map<Integer, String> rawSkills = new HashMap<>();
   private static final ItemMap passiveSkills = new ItemMap("Passive Skills", ConsumptionType.NONE);
 
-  public static final void checkSkills(final int skillId) {
+  public static void checkSkills(final int skillId) {
     RequestLogger.printLine("Loading previous data...");
     DebugDatabase.loadScrapeData(rawSkills, SKILL_HTML);
 
@@ -2054,21 +2052,21 @@ public class DebugDatabase {
   // 300)'><b>Gingerbread Mob Hit</b></a>
   private static final Pattern SKILL_ID_PATTERN = Pattern.compile("whichskill=(\\d+)");
 
-  public static final int parseSkillId(final String text) {
+  public static int parseSkillId(final String text) {
     Matcher matcher = DebugDatabase.SKILL_ID_PATTERN.matcher(text);
     return matcher.find() ? StringUtilities.parseInt(matcher.group(1)) : 0;
   }
 
   private static final Pattern SKILL_TYPE_PATTERN = Pattern.compile("<b>Type:</b> (.*?)<br>");
 
-  public static final String parseSkillType(final String text) {
+  public static String parseSkillType(final String text) {
     Matcher matcher = DebugDatabase.SKILL_TYPE_PATTERN.matcher(text);
     return matcher.find() ? matcher.group(1) : "";
   }
 
   private static final Pattern SKILL_MP_COST_PATTERN = Pattern.compile("<b>MP Cost:</b> (\\d+)");
 
-  public static final long parseSkillMPCost(final String text) {
+  public static long parseSkillMPCost(final String text) {
     Matcher matcher = DebugDatabase.SKILL_MP_COST_PATTERN.matcher(text);
     return matcher.find() ? StringUtilities.parseLong(matcher.group(1)) : 0;
   }
@@ -2078,12 +2076,12 @@ public class DebugDatabase {
   private static final Pattern SKILL_EFFECT_PATTERN =
       Pattern.compile("Gives Effect: .*?whicheffect=([^\">]*).*?>([^<]*)");
 
-  public static final String parseSkillEffectName(final String text) {
+  public static String parseSkillEffectName(final String text) {
     Matcher matcher = DebugDatabase.SKILL_EFFECT_PATTERN.matcher(text);
     return matcher.find() ? matcher.group(2) : "";
   }
 
-  public static final String parseSkillEffectId(final String text) {
+  public static String parseSkillEffectId(final String text) {
     Matcher matcher = DebugDatabase.SKILL_EFFECT_PATTERN.matcher(text);
     return matcher.find() ? matcher.group(1) : "";
   }
@@ -2091,16 +2089,16 @@ public class DebugDatabase {
   private static final Pattern SKILL_EFFECT_DURATION_PATTERN =
       Pattern.compile("\\((\\d+) Adventures?\\)");
 
-  public static final int parseSkillEffectDuration(final String text) {
+  public static int parseSkillEffectDuration(final String text) {
     Matcher matcher = DebugDatabase.SKILL_EFFECT_DURATION_PATTERN.matcher(text);
     return matcher.find() ? StringUtilities.parseInt(matcher.group(1)) : 0;
   }
 
-  public static final String skillDescriptionText(final int skillId) {
+  public static String skillDescriptionText(final int skillId) {
     return DebugDatabase.skillDescriptionText(DebugDatabase.rawSkillDescriptionText(skillId));
   }
 
-  public static final String readSkillDescriptionText(final int skillId) {
+  public static String readSkillDescriptionText(final int skillId) {
     GenericRequest request = new GenericRequest("desc_skill.php");
     request.addFormField("whichskill", String.valueOf(skillId));
     request.addFormField("self", "true");
@@ -2110,7 +2108,7 @@ public class DebugDatabase {
 
   private static String rawSkillDescriptionText(final int skillId) {
     String previous = DebugDatabase.rawSkills.get(skillId);
-    if (previous != null && !previous.equals("")) {
+    if (previous != null && !previous.isEmpty()) {
       return previous;
     }
 
@@ -2144,7 +2142,7 @@ public class DebugDatabase {
 
   private static void checkSkillModifierMap(final PrintStream report) {
     Map<String, String> map = DebugDatabase.passiveSkills.getMap();
-    if (map.size() == 0) {
+    if (map.isEmpty()) {
       return;
     }
 
@@ -2164,20 +2162,19 @@ public class DebugDatabase {
   private static final Pattern SKILL_ENCHANTMENT_PATTERN =
       Pattern.compile("<font color=blue size=2><b>(.*)</b></font>", Pattern.DOTALL);
 
-  public static final void parseSkillEnchantments(
+  public static void parseSkillEnchantments(
       final String text, final ModifierList known, final ArrayList<String> unknown) {
     DebugDatabase.parseStandardEnchantments(
         text, known, unknown, DebugDatabase.SKILL_ENCHANTMENT_PATTERN);
   }
 
-  public static final String parseSkillEnchantments(
-      final String text, final ArrayList<String> unknown) {
+  public static String parseSkillEnchantments(final String text, final ArrayList<String> unknown) {
     ModifierList known = new ModifierList();
     DebugDatabase.parseSkillEnchantments(text, known, unknown);
     return known.toString();
   }
 
-  public static final String parseSkillEnchantments(final String text) {
+  public static String parseSkillEnchantments(final String text) {
     ArrayList<String> unknown = new ArrayList<>();
     return DebugDatabase.parseSkillEnchantments(text, unknown);
   }
@@ -2195,7 +2192,7 @@ public class DebugDatabase {
     DebugDatabase.checkModifiers(ModifierType.SKILL, name, known, true, report);
 
     // Print the modifiers in the format modifiers.txt expects.
-    if (known.size() > 0 || unknown.size() > 0) {
+    if (known.size() > 0 || !unknown.isEmpty()) {
       DebugDatabase.logModifierDatum(ModifierType.SKILL, name, known, unknown, report);
     }
   }
@@ -2220,7 +2217,7 @@ public class DebugDatabase {
       try (BufferedReader reader = FileUtilities.getReader(saveData)) {
         int lines = 0;
 
-        while ((currentLine = reader.readLine()) != null && !currentLine.equals("")) {
+        while ((currentLine = reader.readLine()) != null && !currentLine.isEmpty()) {
           lines += 1;
           currentHTML.setLength(0);
           int currentId = StringUtilities.parseInt(currentLine);
@@ -2254,7 +2251,7 @@ public class DebugDatabase {
       }
 
       String description = stringMap.get(id);
-      if (description != null && !description.equals("")) {
+      if (description != null && !description.isEmpty()) {
         livedata.println(id);
         livedata.println(description);
       }
@@ -2265,7 +2262,7 @@ public class DebugDatabase {
 
   // **********************************************************
 
-  public static final void checkPlurals(final String parameters) {
+  public static void checkPlurals(final String parameters) {
     var client = HttpUtilities.getClientBuilder().build();
 
     RequestLogger.printLine("Checking plurals...");
@@ -2323,7 +2320,7 @@ public class DebugDatabase {
       plural = "";
     }
 
-    String displayPlural = StringUtilities.getDisplayName(plural.equals("") ? name + "s" : plural);
+    String displayPlural = StringUtilities.getDisplayName(plural.isEmpty() ? name + "s" : plural);
 
     // Don't bother checking quest items
     String access = ItemDatabase.getAccessById(id);
@@ -2333,11 +2330,11 @@ public class DebugDatabase {
       boolean checkApi = InventoryManager.getCount(itemId) > 1;
       if (checkApi) {
         otherPlural = DebugDatabase.readApiPlural(itemId);
-        if (otherPlural.equals("")) {
+        if (otherPlural.isEmpty()) {
           otherPlural = name + "s";
         }
         String test = plural;
-        if (test.equals("")) {
+        if (test.isEmpty()) {
           test = name + "s";
         }
         if (!test.equals(otherPlural)) {
@@ -2356,16 +2353,16 @@ public class DebugDatabase {
         Matcher matcher = DebugDatabase.WIKI_PLURAL_PATTERN.matcher(wikiData);
         otherPlural = matcher.find() ? matcher.group(1) : "";
         otherPlural = CharacterEntities.unescape(otherPlural);
-        if (otherPlural.equals("")) {
+        if (otherPlural.isEmpty()) {
           // The Wiki does not list a plural. If ours is
           // non-default, log discrepancy and keep ours.
-          if (!plural.equals("")) {
+          if (!plural.isEmpty()) {
             logit = true;
           }
         } else if (otherPlural.equalsIgnoreCase("I am a Fish")) {
           RequestLogger.printLine(
               "*** " + name + " has bogus Wiki plural: \"" + otherPlural + "\". Ignoring.");
-        } else if (plural.equals("")) {
+        } else if (plural.isEmpty()) {
           // The Wiki has a plural, but ours is the
           // default. If the Wiki's is NOT the default,
           // log it and tentatively accept it
@@ -2394,7 +2391,7 @@ public class DebugDatabase {
       }
     }
 
-    if (plural.equals("")) {
+    if (plural.isEmpty()) {
       report.println(itemId + "\t" + name);
     } else {
       report.println(itemId + "\t" + name + "\t" + plural);
@@ -2403,7 +2400,7 @@ public class DebugDatabase {
 
   // **********************************************************
 
-  public static final void checkMuseumPlurals(final String parameters) {
+  public static void checkMuseumPlurals(final String parameters) {
 
     PrintStream report =
         LogStream.openStream(new File(KoLConstants.DATA_LOCATION, "plurals.txt"), true);
@@ -2532,7 +2529,7 @@ public class DebugDatabase {
     }
   }
 
-  public static final void checkPowers(final String option) {
+  public static void checkPowers(final String option) {
     // We can check the power of any items in inventory, equipment, closet, or display case.
     // We'll assume that any item with a non-zero power is correct.
     // Off-hand items and accessories don't have visible power and
@@ -2608,11 +2605,6 @@ public class DebugDatabase {
     }
   }
 
-  // Helper method to force normalize Concoction comparisons to [-1, 0, 1] before testing
-  private static int sgn(int value) {
-    return Integer.compare(value, 0);
-  }
-
   // Helper method to append item id
   private static String getIString(Concoction con) {
     return "[" + con.getItemId() + "] " + con;
@@ -2627,9 +2619,7 @@ public class DebugDatabase {
     String msg;
     int[][] result;
     List<Concoction> usables =
-        ConcoctionDatabase.getUsables().values().stream()
-            .flatMap(l -> l.stream())
-            .collect(Collectors.toList());
+        ConcoctionDatabase.getUsables().values().stream().flatMap(Collection::stream).toList();
     // size is all elements.  getSize is visible elements.
     maxIndex = usables.size();
     ids = new Concoction[maxIndex];
@@ -2640,7 +2630,7 @@ public class DebugDatabase {
     result = new int[maxIndex][maxIndex];
     for (i = 0; i < maxIndex; ++i) {
       for (int j = 0; j < maxIndex; ++j) {
-        result[i][j] = sgn(ids[i].compareTo(ids[j]));
+        result[i][j] = Integer.signum(ids[i].compareTo(ids[j]));
       }
     }
     // sgn(x.compareTo(y)) == -sgn(y.compareTo(x)
@@ -2699,13 +2689,13 @@ public class DebugDatabase {
 
   // **********************************************************
 
-  public static final void checkShields() {
+  public static void checkShields() {
     DebugDatabase.checkShields(KoLConstants.inventory);
     DebugDatabase.checkShields(KoLConstants.closet);
     DebugDatabase.checkShields(KoLConstants.storage);
   }
 
-  public static final void checkShields(final Collection<AdventureResult> items) {
+  public static void checkShields(final Collection<AdventureResult> items) {
     for (AdventureResult item : items) {
       int itemId = item.getItemId();
       if (!EquipmentDatabase.getItemType(itemId).equals("shield")) {
@@ -2742,7 +2732,7 @@ public class DebugDatabase {
 
   // **********************************************************
 
-  public static final void checkPotions() {
+  public static void checkPotions() {
     RequestLogger.printLine("Loading previous data...");
     DebugDatabase.loadScrapeData(rawItems, ITEM_HTML);
 
@@ -2756,7 +2746,7 @@ public class DebugDatabase {
       String itemName = ItemDatabase.getItemDataName(id);
       String effectName =
           ModifierDatabase.getStringModifier(ModifierType.ITEM, itemId, StringModifier.EFFECT);
-      if (!effectName.equals("") && EffectDatabase.getEffectId(effectName, true) == -1) {
+      if (!effectName.isEmpty() && EffectDatabase.getEffectId(effectName, true) == -1) {
         String rawText = DebugDatabase.rawItemDescriptionText(itemId);
         String effectDescid = DebugDatabase.parseEffectDescid(rawText);
         EffectDatabase.registerEffect(effectName, effectDescid, "use 1 " + itemName);
@@ -2768,7 +2758,7 @@ public class DebugDatabase {
 
   private static final String CONSUMABLE_DATA = "consumables.txt";
 
-  public static final void checkConsumables() {
+  public static void checkConsumables() {
     RequestLogger.printLine("Loading previous data...");
     DebugDatabase.loadScrapeData(rawItems, ITEM_HTML);
     RequestLogger.printLine("Checking internal data...");
@@ -2800,7 +2790,7 @@ public class DebugDatabase {
 
   private static void checkConsumables(
       final PrintStream report, final Collection<Consumable> consumables, final String tag) {
-    if (consumables.size() == 0) {
+    if (consumables.isEmpty()) {
       return;
     }
 
@@ -2854,7 +2844,7 @@ public class DebugDatabase {
   private static final Pattern FAMILIAR_ROW_PATTERN =
       Pattern.compile("<tr class=\"frow ?\"([^>]*)>.*?onClick='fam\\(([\\d]+)\\)'.*?</tr>");
 
-  public static final void checkFamiliarsInTerrarium(boolean showVariable) {
+  public static void checkFamiliarsInTerrarium(boolean showVariable) {
     FamiliarRequest request = new FamiliarRequest();
     RequestThread.postRequest(request);
 
@@ -3177,7 +3167,7 @@ public class DebugDatabase {
     }
   }
 
-  public static final void checkFamiliarImages() {
+  public static void checkFamiliarImages() {
     // Get familiar images from the familiar description
     boolean changed = false;
     for (int i = 1; i <= FamiliarDatabase.maxFamiliarId; ++i) {
@@ -3218,7 +3208,7 @@ public class DebugDatabase {
 
   // **********************************************************
 
-  public static final void checkConsumptionData() {
+  public static void checkConsumptionData() {
     RequestLogger.printLine("Checking consumption data...");
 
     PrintStream writer =
@@ -3427,7 +3417,7 @@ public class DebugDatabase {
     return null;
   }
 
-  public static final void checkPulverizationData() {
+  public static void checkPulverizationData() {
     RequestLogger.printLine("Checking pulverization data...");
 
     PrintStream writer =
@@ -3645,7 +3635,7 @@ public class DebugDatabase {
       Pattern.compile("Template:ZAP .*?</a>.*?<td>.*?<td>", Pattern.DOTALL);
   private static final Pattern ZAPITEM_PATTERN = Pattern.compile(">([^<]+)</a>");
 
-  public static final void checkZapGroups() {
+  public static void checkZapGroups() {
     var client = HttpUtilities.getClientBuilder().build();
 
     RequestLogger.printLine("Checking zap groups...");
@@ -3681,7 +3671,7 @@ public class DebugDatabase {
       return;
     }
     List<String> zapGroup = ZapRequest.getZapGroup(itemId);
-    if (zapGroup.size() == 0) {
+    if (zapGroup.isEmpty()) {
       report.println("New group:");
       for (String item : items) {
         report.print(item);
@@ -3693,7 +3683,7 @@ public class DebugDatabase {
     ArrayList<String> existing = new ArrayList<>(zapGroup);
     existing.removeAll(items);
     items.removeAll(zapGroup);
-    if (items.size() == 0 && existing.size() == 0) {
+    if (items.isEmpty() && existing.isEmpty()) {
       report.println("Group OK: " + firstItem);
       return;
     }
@@ -3716,7 +3706,7 @@ public class DebugDatabase {
 
   // Check Monster Manuel
 
-  public static final void checkManuel() {
+  public static void checkManuel() {
     RequestLogger.printLine("Checking Monster Manuel...");
     DebugDatabase.checkManuelPage("a");
     DebugDatabase.checkManuelPage("b");
@@ -3755,7 +3745,7 @@ public class DebugDatabase {
 
   // Check Monster Meat from wiki
 
-  public static final void checkMeat() {
+  public static void checkMeat() {
     var client = HttpUtilities.getClientBuilder().build();
 
     for (MonsterData monster : MonsterDatabase.valueSet()) {
@@ -3789,7 +3779,7 @@ public class DebugDatabase {
 
   // check mapping between wiki monsters and mafia
 
-  public static final void checkWikiMonsters() {
+  public static void checkWikiMonsters() {
     var client = HttpUtilities.getClientBuilder().build();
 
     for (MonsterData monster : MonsterDatabase.valueSet()) {
@@ -3797,7 +3787,7 @@ public class DebugDatabase {
         break;
       }
       String wikiData = DebugDatabase.readWikiMonsterData(monster, client);
-      if (wikiData.length() == 0) {
+      if (wikiData.isEmpty()) {
         RequestLogger.printLine("Failed to read wiki page for " + monster.getName());
         continue;
       }
@@ -3822,7 +3812,7 @@ public class DebugDatabase {
     }
   }
 
-  public static final void checkWikiMonsterElementalAttacks() {
+  public static void checkWikiMonsterElementalAttacks() {
     var client = HttpUtilities.getClientBuilder().build();
 
     for (MonsterData monster : MonsterDatabase.valueSet()) {
@@ -3830,7 +3820,7 @@ public class DebugDatabase {
         break;
       }
       String wikiData = DebugDatabase.readWikiMonster(monster, client);
-      if (wikiData.length() == 0) {
+      if (wikiData.isEmpty()) {
         RequestLogger.printLine("Failed to read wiki page for " + monster.getName());
         continue;
       }

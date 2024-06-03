@@ -6,15 +6,21 @@ import static internal.helpers.Networking.html;
 import static internal.helpers.Networking.json;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
+import static internal.helpers.Player.withIntrinsicEffect;
+import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withStats;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.*;
 
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.AscensionPath;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
@@ -23,8 +29,10 @@ import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 /** Coverage driven collection of tests for FightRequest. */
@@ -178,6 +186,30 @@ public class EquipmentManagerTest {
       assertItem(Slot.FOLDER3, "folder (owl)");
       assertItemUnequip(Slot.FOLDER4);
       assertItemUnequip(Slot.FOLDER5);
+    }
+  }
+
+  @Nested
+  class professor {
+    @ParameterizedTest
+    @CsvSource({
+      "mafia thumb ring, false",
+      "Treads of Loathing, false",
+      "panhandle panhandling hat, false",
+      "batskin belt, true",
+      "mafia wedding ring, true"
+    })
+    public void itShouldEquipWhatWasRequestedForProf(String item, boolean canBeEquipped) {
+      AdventureResult itemAR = ItemPool.get(item);
+      var cleanups =
+          new Cleanups(
+              withPath(AscensionPath.Path.WEREPROFESSOR),
+              withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR),
+              withStats(1, 5, 1),
+              withItem(itemAR));
+      try (cleanups) {
+        assertEquals(canBeEquipped, EquipmentManager.canEquip(itemAR));
+      }
     }
   }
 }
