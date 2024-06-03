@@ -16,6 +16,8 @@ import static org.hamcrest.Matchers.comparesEqualTo;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import internal.helpers.Cleanups;
 import java.util.Arrays;
@@ -125,6 +127,17 @@ public class ConcoctionTest {
           isFancy,
           equalTo(hasFancyIngredient));
     }
+  }
+
+  @Test
+  public void checkCompareContractForHelpers() {
+    Concoction whet = ConcoctionPool.get(ItemPool.WHETSTONE);
+    Concoction mayo = ConcoctionPool.get(ItemPool.MAYODIOL);
+    assertNotNull(whet);
+    assertNotNull(mayo);
+    int one = Integer.signum(whet.compareTo(mayo));
+    int two = Integer.signum(mayo.compareTo(whet));
+    assertEquals(one, -two);
   }
 
   @Nested

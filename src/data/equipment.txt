@@ -1406,6 +1406,7 @@ Mer-kin switchblade	200	Mus: 85	2-handed switchblade
 mercenary pistol	50	Mox: 10	1-handed pistol
 mercenary rifle	150	Mox: 30	2-handed rifle
 Meteoid ice beam	80	Mox: 25	1-handed gun
+mini kiwi icepick	0	Mus: 0	1-handed 
 miniature deck cannon	200	Mox: 85	2-handed handcannon
 miracle whip	10	Mus: 0	2-handed whip
 Mjolnir Jr.	200	Mys: 85	1-handed utensil
@@ -2113,6 +2114,7 @@ Microplushie: Otakulone	5	none
 Microplushie: Raverdrine	5	none
 Microplushie: Sororitrate	5	none
 mime pocket probe	10	none
+mini kiwi whipping stick	0	none
 mini-zeppelin	10	none
 miniature candle	100	none
 miniature stuffed Goth Giant	10	none
@@ -2872,6 +2874,8 @@ mime army insignia (sanitation)	10	Mys: 200
 mime-proof sunglasses	10	none
 miming boots	50	none
 miming gloves	50	none
+mini kiwi bikini	0	none
+mini kiwi silicon tiepin	0	none
 mini-marshmallow dispenser	100	none
 mirrored aviator shades	50	none
 molten medallion	160	Mys: 65
