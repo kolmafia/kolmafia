@@ -24,12 +24,6 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class Expression {
   private static final Pattern NUM_PATTERN = Pattern.compile("([+-]?[\\d.]+)(.*)");
   private static final int STACK_SIZE = 128;
-  private static final char[] binaryOpcodes;
-
-  static {
-    binaryOpcodes = new char[] {'+', '-', '*', '/', '%', '^', '<', '≤', '>', '≥', 'x'};
-    Arrays.sort(binaryOpcodes);
-  }
 
   protected String name;
   protected String text;
@@ -667,8 +661,24 @@ public class Expression {
     if (this.getClass() != other.getClass()) {
       throw new IllegalArgumentException("Cannot combine expressions of different types");
     }
-    if (Arrays.binarySearch(binaryOpcodes, combiner) < 0) {
-      throw new IllegalArgumentException("Combiner must be a binary operator");
+
+    // Check if the combiner is a known binary opcode
+    switch (combiner) {
+      case '+':
+      case '-':
+      case '*':
+      case '/':
+      case '%':
+      case '^':
+      case '<':
+      case '≤':
+      case '>':
+      case '≥':
+      case 'x':
+      case 'm':
+        break;
+      default:
+        throw new IllegalArgumentException("Combiner must be a binary operator");
     }
 
     int bytecodeOffset = this.bytecode.length - 1;
