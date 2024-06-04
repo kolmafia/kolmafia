@@ -471,6 +471,10 @@ public class Concoction implements Comparable<Concoction> {
       return 1;
     }
 
+    // Sort helpers by name if more than one helper.
+    if (this.isHelper() && o.isHelper()) {
+      return nameCheckCompare(o);
+    }
     // Sort helpers to the top next.
     if (this.isHelper()) {
       return -1;
@@ -1102,7 +1106,7 @@ public class Concoction implements Comparable<Concoction> {
       case BURNING_LEAVES:
         return BurningLeavesRequest.canMake(this);
       case MAYAM:
-        return MayamRequest.canMake(this) ? 1 : 0;
+        return alreadyHave + (MayamRequest.canMake(this) ? 1 : 0);
     }
 
     if (needToMake <= 0) { // Have enough on hand already.
