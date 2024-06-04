@@ -395,6 +395,7 @@ public class ConsumablesDatabase {
         start =
             end = (int) Math.round(1.5 * KoLCharacter.getLetterIs(name) * consumable.getFullness());
       } else if (consumable.getConsumptionType() == ConsumptionType.DRINK) {
+        size = KoLCharacter.applyInebrietyModifiers(consumable);
         end += KoLCharacter.getLetterIs(name);
       }
     }
@@ -655,7 +656,11 @@ public class ConsumablesDatabase {
 
   public static final Integer getRawInebriety(final String name) {
     Consumable consumable = ConsumablesDatabase.consumableByName.get(name);
-    return consumable == null ? null : consumable.getRawInebriety();
+    return consumable == null
+        ? null
+        : consumable.getRawInebriety() == null
+            ? null
+            : KoLCharacter.applyInebrietyModifiers(consumable);
   }
 
   public static final int getInebriety(final String name) {
