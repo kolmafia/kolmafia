@@ -1447,7 +1447,7 @@ The Naughty Wolferess	2446	weresorceress.gif	BOSS NOCOPY Atk: 300 Def: 300 HP: 1
 
 # 11 Things I Hate About U
 
-ewe	2447	ewe.gif	Scale: ? Cap: ? Floor: ? Init: -10000 P: beast EA: spooky Article: a
+ewe	2447	ewe.gif	FREE Scale: 5 Cap: 10000 Init: -10000 P: beast EA: spooky Article: a
 
 # Items of the Month
 
