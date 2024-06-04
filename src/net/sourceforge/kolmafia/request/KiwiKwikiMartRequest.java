@@ -47,11 +47,16 @@ public class KiwiKwikiMartRequest extends CreateItemRequest {
       return;
     }
 
-    Preferences.setBoolean(
-        "_miniKiwiIntoxicatingSpiritsBought",
-        !responseText.contains("mini kiwi intoxicating spirits"));
-
     NPCPurchaseRequest.parseShopRowResponse(urlString, responseText);
+
+    if (!urlString.contains("ajax=1")) {
+      Preferences.setBoolean(
+          "_miniKiwiIntoxicatingSpiritsBought",
+          !responseText.contains("mini kiwi intoxicating spirits"));
+    }
+    if (responseText.contains("Kingdom regulations prevent the purchase")) {
+      Preferences.setBoolean("_miniKiwiIntoxicatingSpiritsBought", true);
+    }
   }
 
   public static final boolean registerRequest(final String urlString) {
