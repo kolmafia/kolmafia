@@ -3335,3 +3335,19 @@ stuffed yam stinkbomb	MAYAM
 furry yam buckler	MAYAM
 thanksgiving bomb	MAYAM
 yamtility belt	MAYAM
+
+# Kiwi Kwiki Mart
+mini kiwi bikini	KIWI, ROW1477	mini kiwi (2)
+mini kiwitini	KIWI, ROW1478	mini kiwi	bottle of vodka
+mini kiwitini	KIWI, ROW1479	mini kiwi	bottle of gin
+mini kiwi invisible dirigible	KIWI, ROW1480	mini kiwi (3)
+mini kiwi aioli	KIWI, ROW1481	mini kiwi (5)
+mini kiwi silicon tiepin	KIWI, ROW1482	mini kiwi (3)
+mini kiwi tipi	KIWI, ROW1483	mini kiwi
+mini kiwi intoxicating spirits	KIWI, ROW1484	mini kiwi (3)
+mini kiwi illicit antibiotic	KIWI, ROW1485	mini kiwi (3)
+mini kiwi antimilitaristic hippy petition	KIWI, ROW1486	mini kiwi (3)
+mini kiwi whipping stick	KIWI, ROW1487	mini kiwi (4)
+mini kiwi icepick	KIWI, ROW1488	mini kiwi (4)
+mini kiwi-flavored aspirin-injecting lipstick	KIWI, ROW1489	mini kiwi (3)
+mini kiwi digitized cookies	KIWI, ROW1490	mini kiwi (3)
