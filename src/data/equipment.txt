@@ -2874,7 +2874,7 @@ mime army insignia (sanitation)	10	Mys: 200
 mime-proof sunglasses	10	none
 miming boots	50	none
 miming gloves	50	none
-mini kiwi bikini	0	none
+mini kiwi bikini	100	none
 mini kiwi silicon tiepin	0	none
 mini-marshmallow dispenser	100	none
 mirrored aviator shades	50	none
