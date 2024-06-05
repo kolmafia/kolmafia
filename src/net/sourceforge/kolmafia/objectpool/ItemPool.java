@@ -3755,6 +3755,7 @@ public class ItemPool {
   public static final int YAM_BATTERY = 11582;
   public static final int STUFFED_YAM_STINKBOMB = 11583;
   public static final int MINI_KIWI = 11594;
+  public static final int MINI_KIWI_INTOXICATING_SPIRITS = 11602;
 
   private ItemPool() {}
 

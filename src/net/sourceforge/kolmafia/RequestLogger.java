@@ -1258,6 +1258,12 @@ public class RequestLogger extends NullStream {
       return;
     }
 
+    if ((isExternal || request instanceof KiwiKwikiMartRequest)
+        && KiwiKwikiMartRequest.registerRequest(urlString)) {
+      RequestLogger.wasLastRequestSimple = false;
+      return;
+    }
+
     if ((isExternal || request instanceof KnollRequest)
         && KnollRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
