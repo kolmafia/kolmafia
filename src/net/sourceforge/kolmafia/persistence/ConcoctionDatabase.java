@@ -2043,6 +2043,9 @@ public class ConcoctionDatabase {
           CraftingType.MAYAM, "You need to have a Mayam Calendar to make that.");
     }
 
+    // Making stuff with mini kiwis is always allowed
+    permitNoCost(CraftingType.KIWI);
+
     // Other creatability flags
 
     if (KoLCharacter.isTorsoAware()) {
@@ -2408,6 +2411,7 @@ public class ConcoctionDatabase {
       case BURNING_LEAVES -> result.append("Pile of Burning Leaves");
       case TINKERING_BENCH -> result.append("Tinkering Bench");
       case MAYAM -> result.append("Mayam Calendar");
+      case KIWI -> result.append("Kiwi Kwiki Mart");
     }
     if (result.isEmpty()) {
       result.append("[unknown method of creation]");
@@ -2844,6 +2848,7 @@ public class ConcoctionDatabase {
       case "BURNING_LEAVES" -> ConcoctionDatabase.mixingMethod = CraftingType.BURNING_LEAVES;
       case "TINKERING_BENCH" -> ConcoctionDatabase.mixingMethod = CraftingType.TINKERING_BENCH;
       case "MAYAM" -> ConcoctionDatabase.mixingMethod = CraftingType.MAYAM;
+      case "KIWI" -> ConcoctionDatabase.mixingMethod = CraftingType.KIWI;
       default -> {
         if (mix.startsWith("ROW")) {
           ConcoctionDatabase.row = StringUtilities.parseInt(mix.substring(3));

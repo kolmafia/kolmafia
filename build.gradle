@@ -89,7 +89,7 @@ dependencies {
 	implementation 'org.slf4j:slf4j-nop:2.0.7'
 	implementation 'org.fusesource.jansi:jansi:2.4.0'
 	implementation 'org.json:json:20220320'
-	implementation 'org.mozilla:rhino:1.7.14'
+	implementation 'org.mozilla:rhino:1.7.15'
 	implementation 'org.swinglabs:swingx:1.0'
 	implementation 'org.tmatesoft.svnkit:svnkit:1.10.7'
 	implementation 'com.jgoodies:jgoodies-binding:2.13.0'
