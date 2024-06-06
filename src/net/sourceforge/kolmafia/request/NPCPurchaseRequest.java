@@ -1067,6 +1067,11 @@ public class NPCPurchaseRequest extends PurchaseRequest {
       return;
     }
 
+    if (shopId.equals("kiwi")) {
+      KiwiKwikiMartRequest.parseResponse(urlString, responseText);
+      return;
+    }
+
     // When we purchase items from NPC stores using ajax, the
     // response tells us nothing about the contents of the store.
     if (urlString.contains("ajax=1")) {
