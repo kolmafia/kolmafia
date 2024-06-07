@@ -820,8 +820,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
 
       if (KoLCharacter.inElevenThingIHateAboutU()) {
         if (type == ConcoctionType.FOOD
-            && item != null
-            && KoLCharacter.hasLetterUs(item.getName())) {
+            && (KoLCharacter.hasLetterUs(name) || !KoLCharacter.hasLetterIs(name))) {
           return false;
         }
       }
