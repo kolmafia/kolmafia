@@ -344,7 +344,7 @@ public class ConsumablesDatabase {
     if (KoLCharacter.inElevenThingIHateAboutU()
         && consumable.getConsumptionType() == ConsumptionType.EAT) {
       int expected =
-          (int) Math.round(1.5 * KoLCharacter.getLetterIs(name) * consumable.getFullness());
+          (int) Math.round(1.5 * KoLCharacter.getEyeosity(name) * consumable.getFullness());
       return Integer.toString(expected);
     }
     return consumable.adventureRange;
@@ -393,10 +393,10 @@ public class ConsumablesDatabase {
     if (KoLCharacter.inElevenThingIHateAboutU()) {
       if (consumable.getConsumptionType() == ConsumptionType.EAT) {
         start =
-            end = (int) Math.round(1.5 * KoLCharacter.getLetterIs(name) * consumable.getFullness());
+            end = (int) Math.round(1.5 * KoLCharacter.getEyeosity(name) * consumable.getFullness());
       } else if (consumable.getConsumptionType() == ConsumptionType.DRINK) {
         size = KoLCharacter.applyInebrietyModifiers(consumable);
-        end += KoLCharacter.getLetterIs(name);
+        end += KoLCharacter.getEyeosity(name);
       }
     }
 

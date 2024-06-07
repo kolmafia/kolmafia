@@ -1449,7 +1449,7 @@ public class Modifiers {
         return;
       }
 
-      int delta = KoLCharacter.getLetterIs(name) * 2 - KoLCharacter.getLetterUs(name);
+      int delta = KoLCharacter.getEyeosity(name) * 2 - KoLCharacter.getEweosity(name);
       if (delta == 0) {
         return;
       }

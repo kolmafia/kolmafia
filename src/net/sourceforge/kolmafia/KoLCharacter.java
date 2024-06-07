@@ -2329,11 +2329,11 @@ public abstract class KoLCharacter {
 
   private static final Pattern I_PATTERN = Pattern.compile("[Ii]");
 
-  public static final int getLetterIs(String name) {
+  public static final int getEyeosity(String name) {
     return (int) KoLCharacter.I_PATTERN.matcher(name).results().count();
   }
 
-  public static final boolean hasLetterIs(String name) {
+  public static final boolean hasEyeosity(String name) {
     if (name == null) {
       return false;
     }
@@ -2342,11 +2342,11 @@ public abstract class KoLCharacter {
 
   private static final Pattern U_PATTERN = Pattern.compile("[Uu]");
 
-  public static final int getLetterUs(String name) {
+  public static final int getEweosity(String name) {
     return (int) KoLCharacter.U_PATTERN.matcher(name).results().count();
   }
 
-  public static final boolean hasLetterUs(String name) {
+  public static final boolean hasEweosity(String name) {
     if (name == null) {
       return true;
     }
@@ -5614,8 +5614,8 @@ public abstract class KoLCharacter {
 
     if (inElevenThingIHateAboutU() && item.priority == AdventureResult.Priority.ITEM) {
       Lookup source = new Lookup(ModifierType.PATH, Path.ELEVEN_THINGS.getName());
-      int eyes = getLetterIs(item.getName());
-      int ewes = getLetterUs(item.getName());
+      int eyes = getEyeosity(item.getName());
+      int ewes = getEweosity(item.getName());
       BiConsumer<DoubleModifier, Integer> applyModifierIfNotEmpty =
           (mod, value) -> {
             if (value == 0) {
@@ -5707,7 +5707,7 @@ public abstract class KoLCharacter {
 
   public static int applyInebrietyModifiers(Consumable consumable) {
     if (KoLCharacter.inElevenThingIHateAboutU()) {
-      return consumable.getInebriety() + getLetterUs(consumable.name);
+      return consumable.getInebriety() + getEweosity(consumable.name);
     }
     return consumable.getInebriety();
   }
