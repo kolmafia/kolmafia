@@ -839,4 +839,25 @@ class ChoiceControlTest {
       }
     }
   }
+
+  @Nested
+  class TrickOrTreat {
+    @ParameterizedTest
+    @CsvSource({
+      "full,DLDLLLDLLDDL",
+      "some_used,DldLLLDLLDDL",
+      "starhouse,LLLDLDLdSDDL",
+      "starhouse_used,LLLDLDLdsDDL",
+    })
+    void parsesBlockState(final String text, final String expected) {
+      var cleanups =
+          new Cleanups(
+              withProperty("_trickOrTreatBlock", ""),
+              withChoice(804, html("request/test_halloween_" + text + ".html")));
+
+      try (cleanups) {
+        assertThat("_trickOrTreatBlock", isSetTo(expected));
+      }
+    }
+  }
 }
