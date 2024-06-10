@@ -598,11 +598,14 @@ public class Concoction implements Comparable<Concoction> {
   }
 
   public Integer getRawInebriety() {
-    return this.consumable != null ? this.consumable.getRawInebriety() : null;
+    return this.consumable == null || this.consumable.getRawInebriety() == null
+        ? null
+        : KoLCharacter.applyInebrietyModifiers(this.consumable);
   }
 
   public int getInebriety() {
-    return this.consumable != null ? this.consumable.getInebriety() : 0;
+    Integer inebriety = this.getRawInebriety();
+    return inebriety == null ? 0 : inebriety;
   }
 
   public Integer getRawSpleenHit() {

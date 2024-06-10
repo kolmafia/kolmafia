@@ -20,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import internal.helpers.Cleanups;
+import internal.helpers.Player;
 import java.time.DayOfWeek;
 import java.time.Month;
 import java.util.Arrays;
@@ -1370,6 +1371,193 @@ public class ModifiersTest {
 
         assertThat(current.getDouble(DoubleModifier.EXPERIENCE), closeTo(22.5, 0.001));
       }
+    }
+  }
+
+  @Nested
+  class ElevenThings {
+    private Cleanups baseCleanups() {
+      return new Cleanups(
+          Player.withPath(Path.ELEVEN_THINGS), Player.withFamiliar(FamiliarPool.MOSQUITO));
+    }
+
+    @Test
+    void birthdaySuitAppliesNoExtraModifiers() {
+      var cleanups = baseCleanups();
+
+      try (cleanups) {
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+        assertThat(current.getDouble(DoubleModifier.INITIATIVE), closeTo(0, 0.001));
+        assertThat(current.getDouble(DoubleModifier.HP), closeTo(0, 0.001));
+        assertThat(current.getDouble(DoubleModifier.MP), closeTo(0, 0.001));
+        assertThat(current.getDouble(DoubleModifier.WEAPON_DAMAGE), closeTo(0, 0.001));
+        assertThat(current.getDouble(DoubleModifier.FUMBLE), closeTo(0, 0.001));
+        assertThat(current.getDouble(DoubleModifier.ITEMDROP), closeTo(0, 0.001));
+        assertThat(current.getDouble(DoubleModifier.MEATDROP), closeTo(0, 0.001));
+        assertThat(current.getDouble(DoubleModifier.COLD_RESISTANCE), closeTo(0, 0.001));
+        assertThat(current.getDouble(DoubleModifier.HOT_RESISTANCE), closeTo(0, 0.001));
+        assertThat(current.getDouble(DoubleModifier.SLEAZE_RESISTANCE), closeTo(0, 0.001));
+        assertThat(current.getDouble(DoubleModifier.SPOOKY_RESISTANCE), closeTo(0, 0.001));
+        assertThat(current.getDouble(DoubleModifier.STENCH_RESISTANCE), closeTo(0, 0.001));
+        assertThat(current.getDouble(DoubleModifier.FAMILIAR_WEIGHT), closeTo(0, 0.001));
+      }
+    }
+
+    // Based on data from You Hate Eyes Spading spreadsheet
+    static Stream<Arguments> calculatesCorrectPositiveBonus() {
+      return Stream.of(
+          Arguments.of(
+              Slot.ACCESSORY1, ItemPool.TINY_PLASTIC_WISNIEWSKI, DoubleModifier.MEATDROP, 60),
+          Arguments.of(
+              Slot.ACCESSORY1,
+              ItemPool.TINY_PLASTIC_CONSERVATIONIST_HIPPY,
+              DoubleModifier.MEATDROP,
+              50),
+          Arguments.of(
+              Slot.ACCESSORY1,
+              ItemPool.TINY_PLASTIC_KNOB_GOBLIN_MAD_SCIENTIST,
+              DoubleModifier.MEATDROP,
+              50),
+          Arguments.of(
+              Slot.ACCESSORY1, ItemPool.TINY_PLASTIC_IITI_KITTY, DoubleModifier.MEATDROP, 60),
+          Arguments.of(
+              Slot.ACCESSORY1,
+              ItemPool.FLASH_LIQUIDIZER_ULTRA_DOUSING_ACCESSORY,
+              DoubleModifier.MEATDROP,
+              40),
+          Arguments.of(
+              Slot.ACCESSORY1, ItemPool.RING_OF_DETECT_BORING_DOORS, DoubleModifier.MEATDROP, 20),
+          Arguments.of(
+              Slot.ACCESSORY1, ItemPool.MAFIA_MIDDLE_FINGER_RING, DoubleModifier.MEATDROP, 40),
+          Arguments.of(Slot.ACCESSORY1, ItemPool.GIANT_PINKY_RING, DoubleModifier.MEATDROP, 30),
+          Arguments.of(Slot.ACCESSORY1, ItemPool.KNOB_GOBLIN_CODPIECE, DoubleModifier.MEATDROP, 30),
+          Arguments.of(Slot.ACCESSORY1, ItemPool.IMP_UNITY_RING, DoubleModifier.MEATDROP, 30),
+          Arguments.of(Slot.ACCESSORY1, ItemPool.EXTREME_AMULET, DoubleModifier.MEATDROP, 30),
+          Arguments.of(Slot.ACCESSORY1, ItemPool.YAMTILITY_BELT, DoubleModifier.MEATDROP, 75),
+          Arguments.of(
+              Slot.FAMILIAR,
+              ItemPool.SOLID_SHIFTING_TIME_WEIRDNESS,
+              DoubleModifier.FAMILIAR_WEIGHT,
+              25),
+          Arguments.of(
+              Slot.FAMILIAR, ItemPool.APRIL_BAND_PICCOLO, DoubleModifier.FAMILIAR_WEIGHT, 25),
+          Arguments.of(Slot.FAMILIAR, ItemPool.STILLSUIT, DoubleModifier.FAMILIAR_WEIGHT, 15),
+          Arguments.of(Slot.FAMILIAR, ItemPool.TINY_GOLD_MEDAL, DoubleModifier.FAMILIAR_WEIGHT, 15),
+          Arguments.of(Slot.HAT, ItemPool.APRILING_BAND_HELMET, DoubleModifier.INITIATIVE, 50),
+          Arguments.of(Slot.HAT, ItemPool.LONGHAIRED_HIPPY_WIG, DoubleModifier.INITIATIVE, 75),
+          Arguments.of(
+              Slot.HAT, ItemPool.INDIE_COMIC_HIPSTER_GLASSES, DoubleModifier.INITIATIVE, 100),
+          Arguments.of(Slot.HAT, ItemPool.MARK_III_STEAM_HAT, DoubleModifier.INITIATIVE, 90),
+          Arguments.of(Slot.HAT, ItemPool.MARIACHI_HAT, DoubleModifier.INITIATIVE, 50),
+          Arguments.of(Slot.HAT, ItemPool.KNOB_GOBLIN_CROWN, DoubleModifier.INITIATIVE, 50),
+          Arguments.of(Slot.HAT, ItemPool.VIKING_HELMET, DoubleModifier.INITIATIVE, 50),
+          Arguments.of(Slot.HAT, ItemPool.KNOB_GOBLIN_HAREM_VEIL, DoubleModifier.INITIATIVE, 50),
+          Arguments.of(Slot.HAT, ItemPool.RAVIOLI_HAT, DoubleModifier.INITIATIVE, 50),
+          Arguments.of(
+              Slot.OFFHAND, ItemPool.GAZPACHOS_GLACIAL_GRIMOIRE, DoubleModifier.ITEMDROP, 30),
+          Arguments.of(Slot.OFFHAND, ItemPool.MINI_ZEPPELIN, DoubleModifier.ITEMDROP, 30),
+          Arguments.of(Slot.OFFHAND, ItemPool.DISTURBING_FANFIC, DoubleModifier.ITEMDROP, 30),
+          Arguments.of(Slot.OFFHAND, ItemPool.WHITE_SATIN_SHIELD, DoubleModifier.ITEMDROP, 30),
+          Arguments.of(Slot.OFFHAND, ItemPool.WHATSIAN_IONIC_PLIERS, DoubleModifier.ITEMDROP, 40),
+          Arguments.of(Slot.OFFHAND, ItemPool.GIANT_PENGUIN_KEYCHAIN, DoubleModifier.ITEMDROP, 30),
+          Arguments.of(
+              Slot.OFFHAND, ItemPool.TIME_LORD_PARTICIPATION_MUG, DoubleModifier.ITEMDROP, 40),
+          Arguments.of(Slot.PANTS, ItemPool.CHAIN_MAIL_MONOKINI, DoubleModifier.COLD_RESISTANCE, 4),
+          Arguments.of(
+              Slot.PANTS, ItemPool.PENGUINSKIN_MINI_SKIRT, DoubleModifier.COLD_RESISTANCE, 5),
+          Arguments.of(
+              Slot.PANTS, ItemPool.PENGUINSKIN_MINI_KILT, DoubleModifier.COLD_RESISTANCE, 5));
+    }
+
+    @ParameterizedTest
+    @MethodSource
+    void calculatesCorrectPositiveBonus(
+        Slot slot, int itemId, DoubleModifier modifier, double bonus) {
+      var cleanups = new Cleanups(baseCleanups(), Player.withEquipped(slot, itemId));
+
+      try (cleanups) {
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+        assertThat(current.getDouble(modifier), closeTo(bonus, 0.001));
+      }
+    }
+
+    static Stream<Arguments> calculatesCorrectNegativeBonus() {
+      return Stream.of(
+          Arguments.of(
+              Slot.WEAPON, ItemPool.CORRUPT_CLUB_OF_CORRUPT_CORRUPTION, DoubleModifier.FUMBLE, 44),
+          Arguments.of(
+              Slot.HAT, ItemPool.BIPHASIC_MOLECULAR_OCULUS, DoubleModifier.INITIATIVE, -100),
+          Arguments.of(Slot.PANTS, ItemPool.BUGBEAR_BUNGGUARD, DoubleModifier.MEATDROP, -30),
+          Arguments.of(
+              Slot.OFFHAND, ItemPool.ANNIVERSARY_CHUTNEY_SCULPTURE, DoubleModifier.MEATDROP, -30),
+          Arguments.of(Slot.ACCESSORY1, ItemPool.TRANSFUNCTIONER, DoubleModifier.ITEMDROP, -30),
+          Arguments.of(Slot.FAMILIAR, ItemPool.BLUNDARRRBUS, DoubleModifier.FAMILIAR_WEIGHT, -5));
+    }
+
+    @ParameterizedTest
+    @MethodSource
+    void calculatesCorrectNegativeBonus(
+        Slot slot, int itemId, DoubleModifier modifier, double bonus) {
+      var cleanups =
+          new Cleanups(
+              Player.withPath(Path.ELEVEN_THINGS),
+              Player.withFamiliar(FamiliarPool.SPOOKY_PIRATE_SKELETON),
+              Player.withEquipped(slot, itemId));
+
+      try (cleanups) {
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+        assertThat(current.getDouble(modifier), closeTo(bonus, 0.001));
+      }
+    }
+
+    @Test
+    void calculatesCorrectBonusForMultipleAccessories() {
+      var cleanups =
+          new Cleanups(
+              baseCleanups(),
+              Player.withEquipped(
+                  Slot.ACCESSORY1, ItemPool.FLASH_LIQUIDIZER_ULTRA_DOUSING_ACCESSORY),
+              Player.withEquipped(Slot.ACCESSORY2, ItemPool.EXTREME_AMULET),
+              Player.withEquipped(Slot.ACCESSORY3, ItemPool.RING_OF_DETECT_BORING_DOORS));
+
+      try (cleanups) {
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+        assertThat(current.getDouble(DoubleModifier.MEATDROP), closeTo(90, 0.001));
+        assertThat(current.getDouble(DoubleModifier.ITEMDROP), closeTo(-20, 0.001));
+      }
+    }
+
+    static Stream<Arguments> calculatesNewPotionDuration() {
+      return Stream.of(
+          Arguments.of(ItemPool.KUMQUAT_SUPERSUCKER, 26),
+          Arguments.of(ItemPool.POTION_OF_PULCHRITUDE, 8),
+          Arguments.of(ItemPool.RECORDING_INIGO, 36),
+          Arguments.of(ItemPool.POTION_OF_SPIRITUAL_GUNKIFYING, 28));
+    }
+
+    @ParameterizedTest
+    @MethodSource
+    void calculatesNewPotionDuration(int itemId, int duration) {
+      var cleanups = baseCleanups();
+
+      try (cleanups) {
+        Modifiers mods = ModifierDatabase.getModifiers(ModifierType.ITEM, itemId);
+        assertThat(mods.getDouble(DoubleModifier.EFFECT_DURATION), closeTo(duration, 0.001));
+      }
+    }
+
+    @Test
+    void resetsNewPotionDuration() {
+      var cleanups = baseCleanups();
+      var item = ItemPool.POTION_OF_PULCHRITUDE;
+
+      try (cleanups) {
+        Modifiers mods = ModifierDatabase.getModifiers(ModifierType.ITEM, item);
+        assertThat(mods.getDouble(DoubleModifier.EFFECT_DURATION), closeTo(8, 0.001));
+      }
+
+      Modifiers mods = ModifierDatabase.getModifiers(ModifierType.ITEM, item);
+      assertThat(mods.getDouble(DoubleModifier.EFFECT_DURATION), closeTo(5, 0.001));
     }
   }
 }

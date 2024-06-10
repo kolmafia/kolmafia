@@ -381,6 +381,7 @@ public class ModifierDatabase {
       }
 
       modifiers.variable = modifiers.override(lookup);
+      modifiers.applyPathModifiers();
 
       modifiersByName.put(type, key, modifiers);
     }
