@@ -656,4 +656,49 @@ public class Expression {
   protected String function() {
     return null;
   }
+
+  protected void combine(Expression other, char combiner) {
+    if (this.getClass() != other.getClass()) {
+      throw new IllegalArgumentException("Cannot combine expressions of different types");
+    }
+
+    // Check if the combiner is a known binary opcode
+    switch (combiner) {
+      case '+':
+      case '-':
+      case '*':
+      case '/':
+      case '%':
+      case '^':
+      case '<':
+      case '≤':
+      case '>':
+      case '≥':
+      case 'x':
+      case 'm':
+        break;
+      default:
+        throw new IllegalArgumentException("Combiner must be a binary operator");
+    }
+
+    int bytecodeOffset = this.bytecode.length - 1;
+
+    bytecode = Arrays.copyOf(this.bytecode, this.bytecode.length + other.bytecode.length);
+    System.arraycopy(other.bytecode, 0, bytecode, bytecodeOffset, other.bytecode.length);
+
+    if (this.literals == null) {
+      this.literals = other.literals;
+    } else {
+      char literalOffset = (char) this.literals.size();
+      this.literals.addAll(other.literals);
+      for (int i = bytecodeOffset; i < bytecode.length; i++) {
+        if (other.bytecode[i] > '\u00FF') {
+          bytecode[bytecodeOffset + i] += literalOffset;
+        }
+      }
+    }
+
+    this.bytecode[this.bytecode.length - 2] = combiner;
+    this.bytecode[this.bytecode.length - 1] = 'r';
+  }
 }

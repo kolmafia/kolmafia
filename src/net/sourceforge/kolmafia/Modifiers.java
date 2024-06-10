@@ -32,6 +32,7 @@ import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
@@ -833,10 +834,25 @@ public class Modifiers {
   }
 
   public void addExpression(Indexed<DoubleModifier, ModifierExpression> entry) {
+    int index = -1;
+
     if (this.expressions == null) {
       this.expressions = new ArrayList<>();
+    } else {
+      for (int i = 0; i < this.expressions.size(); i++) {
+        Indexed<DoubleModifier, ModifierExpression> e = this.expressions.get(i);
+        if (e != null && e.index == entry.index) {
+          index = i;
+          break;
+        }
+      }
     }
-    this.expressions.add(entry);
+
+    if (index < 0) {
+      this.expressions.add(entry);
+    } else {
+      this.expressions.get(index).value.combine(entry.value, '+');
+    }
   }
 
   public void applyPassiveModifiers(final boolean debug) {
@@ -1408,6 +1424,49 @@ public class Modifiers {
             ensorcelMods.getDouble(DoubleModifier.CANDYDROP) * 0.25,
             ModifierType.ITEM,
             ItemPool.VAMPYRIC_CLOAKE);
+      }
+    }
+  }
+
+  public void applyPathModifiers() {
+    if (KoLCharacter.inElevenThingIHateAboutU()) {
+      if (originalLookup == null || originalLookup.type != ModifierType.ITEM) {
+        return;
+      }
+
+      int itemId;
+      String name;
+      if (this.originalLookup.getKey().isInt()) {
+        itemId = this.originalLookup.getIntKey();
+        name = ItemDatabase.getItemName(this.originalLookup.getIntKey());
+      } else {
+        itemId = ItemDatabase.getItemId(this.originalLookup.getStringKey());
+        name = this.originalLookup.getStringKey();
+      }
+
+      if (ItemDatabase.getConsumptionType(itemId) != KoLConstants.ConsumptionType.POTION
+          || name == null) {
+        return;
+      }
+
+      int delta = KoLCharacter.getEyeosity(name) * 2 - KoLCharacter.getEweosity(name);
+      if (delta == 0) {
+        return;
+      }
+
+      if (this.variable) {
+        this.addExpression(
+            new Indexed<>(
+                DoubleModifier.EFFECT_DURATION,
+                ModifierExpression.getInstance(
+                    delta + "*path(" + AscensionPath.Path.ELEVEN_THINGS.name + ')',
+                    AscensionPath.Path.ELEVEN_THINGS.name)));
+      } else {
+        this.addDouble(
+            DoubleModifier.EFFECT_DURATION,
+            delta,
+            ModifierType.PATH,
+            AscensionPath.Path.ELEVEN_THINGS.name);
       }
     }
   }

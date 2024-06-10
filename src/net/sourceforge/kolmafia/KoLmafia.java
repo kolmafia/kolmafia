@@ -36,6 +36,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
@@ -690,6 +691,7 @@ public abstract class KoLmafia {
     IslandManager.ensureUpdatedBigIsland();
 
     KoLCharacter.recalculateAdjustments();
+    ConsumablesDatabase.calculateAllAverageAdventures();
 
     KoLmafia.setIsRefreshing(false);
   }
