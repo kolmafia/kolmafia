@@ -453,8 +453,8 @@ mid-level medieval mead	1	7	awesome	4-6	20-30	20-30	20-30	20-30 MP, WINE
 Middle of the Road&trade; brand whiskey	2	1	good	4-5	5-10	5-10	5-10
 mime army wine	4	15	EPIC	30-34	40-50	40-50	40-50
 mimosette	3	3	good	5-10	16-20	0	0
-mini kiwi intoxicating spirits	1	1	awesome	0	0	0	0	Unspaded
-mini kiwitini	1	1	good	0	0	0	0	Unspaded
+mini kiwi intoxicating spirits	1	1	awesome	3-5	0	0	0
+mini kiwitini	1	1	good	2-3	0	0	30-50	MARTINI
 mini-martini	1	11	crappy	1	0	0	0	11 It's Not Even Funny, MARTINI
 Mint Yulep	2	2	EPIC	10-13	25-50	10-20	10-20
 Miss Graves' vermouth	2	4	EPIC	15-17	10-20	10-20	10-20

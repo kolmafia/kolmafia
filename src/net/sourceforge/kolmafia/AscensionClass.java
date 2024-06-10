@@ -18,8 +18,8 @@ public enum AscensionClass {
   SEAL_CLUBBER("Seal Clubber", 1, "club", 0, Path.NONE, "Club Foot"),
   TURTLE_TAMER("Turtle Tamer", 2, "turtle", 0, Path.NONE, "Shell Up"),
   PASTAMANCER("Pastamancer", 3, "pasta", 1, Path.NONE, "Entangling Noodles"),
-  SAUCEROR("Sauceror", 4, "sauce", 1, Path.NONE, "Soul Bubble"),
-  DISCO_BANDIT("Disco Bandit", 5, "disco", 2),
+  SAUCEROR("Sauceror", 4, "saucepan", 1, Path.NONE, "Soul Bubble"),
+  DISCO_BANDIT("Disco Bandit", 5, "discoball", 2),
   ACCORDION_THIEF("Accordion Thief", 6, "accordion", 2, Path.NONE, "Accordion Bash"),
   AVATAR_OF_BORIS(
       "Avatar of Boris", 11, "trusty", 0, Path.AVATAR_OF_BORIS, "Broadside", 20, 4, null),

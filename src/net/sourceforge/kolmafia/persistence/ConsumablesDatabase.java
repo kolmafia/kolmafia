@@ -341,6 +341,12 @@ public class ConsumablesDatabase {
       // int end = dashIndex == -1 ? start : StringUtilities.parseInt( range.substring( dashIndex +
       // 1 ) );
     }
+    if (KoLCharacter.inElevenThingIHateAboutU()
+        && consumable.getConsumptionType() == ConsumptionType.EAT) {
+      int expected =
+          (int) Math.ceil(1.5 * KoLCharacter.getEyeosity(name) * consumable.getFullness());
+      return Integer.toString(expected);
+    }
     return consumable.adventureRange;
   }
 
@@ -381,6 +387,16 @@ public class ConsumablesDatabase {
           multiplier += 1;
         start *= multiplier;
         end *= multiplier;
+      }
+    }
+
+    if (KoLCharacter.inElevenThingIHateAboutU()) {
+      if (consumable.getConsumptionType() == ConsumptionType.EAT) {
+        start =
+            end = (int) Math.ceil(1.5 * KoLCharacter.getEyeosity(name) * consumable.getFullness());
+      } else if (consumable.getConsumptionType() == ConsumptionType.DRINK) {
+        size = KoLCharacter.applyInebrietyModifiers(consumable);
+        end += KoLCharacter.getEyeosity(name);
       }
     }
 
@@ -640,7 +656,11 @@ public class ConsumablesDatabase {
 
   public static final Integer getRawInebriety(final String name) {
     Consumable consumable = ConsumablesDatabase.consumableByName.get(name);
-    return consumable == null ? null : consumable.getRawInebriety();
+    return consumable == null
+        ? null
+        : consumable.getRawInebriety() == null
+            ? null
+            : KoLCharacter.applyInebrietyModifiers(consumable);
   }
 
   public static final int getInebriety(final String name) {
@@ -688,7 +708,7 @@ public class ConsumablesDatabase {
 
   private static double conditionalExtraAdventures(Consumable consumable, final boolean perUnit) {
     int fullness = consumable.getFullness();
-    int inebriety = consumable.getInebriety();
+    int inebriety = KoLCharacter.applyInebrietyModifiers(consumable);
     int start = consumable.adventureStart;
     int end = consumable.adventureEnd;
     if (KoLCharacter.inBondcore()
@@ -881,7 +901,10 @@ public class ConsumablesDatabase {
     if (!Preferences.getBoolean("showGainsPerUnit")) {
       return 1;
     }
-    int unit = consumable.getFullness() + consumable.getInebriety() + consumable.getSpleenHit();
+    int unit =
+        consumable.getFullness()
+            + KoLCharacter.applyInebrietyModifiers(consumable)
+            + consumable.getSpleenHit();
     if (unit == 0) {
       unit = 1;
     }

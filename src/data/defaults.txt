@@ -2203,6 +2203,7 @@ user	_mimeArmyShotglassUsed	false
 user	_mimicEggsDonated	0
 user	_mimicEggsObtained	0
 user	_miniKiwiDrops	0
+user	_miniKiwiIntoxicatingSpiritsBought	false
 user	_miniMartiniDrops	0
 user	_missGravesVermouthDrunk	false
 user	_missileLauncherUsed	false
@@ -3302,6 +3303,7 @@ user	choiceAdventure1489	3
 user	choiceAdventure1491	0
 user	choiceAdventure1494	0
 user	choiceAdventure1505	0
+user	choiceAdventure1528	1
 user	lockedItem4637	true
 user	lockedItem4638	true
 user	lockedItem4639	true

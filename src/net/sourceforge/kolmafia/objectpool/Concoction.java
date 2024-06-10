@@ -598,11 +598,14 @@ public class Concoction implements Comparable<Concoction> {
   }
 
   public Integer getRawInebriety() {
-    return this.consumable != null ? this.consumable.getRawInebriety() : null;
+    return this.consumable == null || this.consumable.getRawInebriety() == null
+        ? null
+        : KoLCharacter.applyInebrietyModifiers(this.consumable);
   }
 
   public int getInebriety() {
-    return this.consumable != null ? this.consumable.getInebriety() : 0;
+    Integer inebriety = this.getRawInebriety();
+    return inebriety == null ? 0 : inebriety;
   }
 
   public Integer getRawSpleenHit() {
@@ -1107,6 +1110,11 @@ public class Concoction implements Comparable<Concoction> {
         return BurningLeavesRequest.canMake(this);
       case MAYAM:
         return alreadyHave + (MayamRequest.canMake(this) ? 1 : 0);
+      case KIWI:
+        if (this.name.equals("mini kiwi intoxicating spirits")) {
+          return alreadyHave
+              + (Preferences.getBoolean("_miniKiwiIntoxicatingSpiritsBought") ? 0 : 1);
+        }
     }
 
     if (needToMake <= 0) { // Have enough on hand already.

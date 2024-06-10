@@ -22,7 +22,7 @@
 	<classpathentry kind="lib" path="src/jar/svnkit-cli-1.10.2.jar"/>
 	<classpathentry kind="lib" path="src/jar/svnkit-javahl16-1.10.2.jar"/>
 	<classpathentry kind="lib" path="src/jar/trilead-ssh2-1.0.0-build222.jar"/>
-	<classpathentry kind="lib" path="src/jar/rhino-1.7.13.jar"/>
+	<classpathentry kind="lib" path="src/jar/rhino-1.7.15.jar"/>
 	<classpathentry kind="lib" path="src/jar/svnkit-1.10.2.jar"/>
 	<classpathentry kind="output" path="bin/default"/>
 </classpath>

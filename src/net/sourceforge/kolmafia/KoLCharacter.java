@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
@@ -2326,6 +2327,32 @@ public abstract class KoLCharacter {
     return name.contains("g") || name.contains("G");
   }
 
+  private static final Pattern I_PATTERN = Pattern.compile("[Ii]");
+
+  public static final int getEyeosity(String name) {
+    return (int) KoLCharacter.I_PATTERN.matcher(name).results().count();
+  }
+
+  public static final boolean hasEyeosity(String name) {
+    if (name == null) {
+      return false;
+    }
+    return name.contains("i") || name.contains("I");
+  }
+
+  private static final Pattern U_PATTERN = Pattern.compile("[Uu]");
+
+  public static final int getEweosity(String name) {
+    return (int) KoLCharacter.U_PATTERN.matcher(name).results().count();
+  }
+
+  public static final boolean hasEweosity(String name) {
+    if (name == null) {
+      return true;
+    }
+    return name.contains("u") || name.contains("U");
+  }
+
   public static final int getRestingHP() {
     int rv = (int) KoLCharacter.currentModifiers.getDouble(DoubleModifier.BASE_RESTING_HP);
     double factor = KoLCharacter.currentModifiers.getDouble(DoubleModifier.RESTING_HP_PCT);
@@ -3329,6 +3356,10 @@ public abstract class KoLCharacter {
 
   public static final boolean isSavageBeast() {
     return KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.SAVAGE_BEAST));
+  }
+
+  public static final boolean inElevenThingIHateAboutU() {
+    return KoLCharacter.ascensionPath == Path.ELEVEN_THINGS;
   }
 
   public static final boolean isUnarmed() {
@@ -5580,6 +5611,59 @@ public abstract class KoLCharacter {
             "shirt power");
         break;
     }
+
+    if (inElevenThingIHateAboutU() && item.priority == AdventureResult.Priority.ITEM) {
+      Lookup source = new Lookup(ModifierType.PATH, Path.ELEVEN_THINGS.getName());
+      int eyes = getEyeosity(item.getName());
+      int ewes = getEweosity(item.getName());
+      BiConsumer<DoubleModifier, Integer> applyModifierIfNotEmpty =
+          (mod, value) -> {
+            if (value == 0) {
+              return;
+            }
+
+            newModifiers.addDouble(mod, value, source);
+          };
+
+      switch (slot) {
+        case HAT:
+          applyModifierIfNotEmpty.accept(DoubleModifier.INITIATIVE, eyes * 25);
+          applyModifierIfNotEmpty.accept(DoubleModifier.INITIATIVE, ewes * -50);
+          break;
+        case CONTAINER:
+          applyModifierIfNotEmpty.accept(DoubleModifier.HP, eyes * 10);
+          applyModifierIfNotEmpty.accept(DoubleModifier.MP, eyes * 5);
+          applyModifierIfNotEmpty.accept(DoubleModifier.HP, ewes * -10);
+          applyModifierIfNotEmpty.accept(DoubleModifier.MP, ewes * -5);
+          break;
+        case WEAPON:
+          applyModifierIfNotEmpty.accept(DoubleModifier.WEAPON_DAMAGE, eyes * 10);
+          applyModifierIfNotEmpty.accept(DoubleModifier.FUMBLE, ewes * 11);
+          break;
+        case OFFHAND:
+          applyModifierIfNotEmpty.accept(DoubleModifier.ITEMDROP, eyes * 10);
+          applyModifierIfNotEmpty.accept(DoubleModifier.MEATDROP, ewes * -10);
+          break;
+        case PANTS:
+          applyModifierIfNotEmpty.accept(DoubleModifier.HOT_RESISTANCE, eyes);
+          applyModifierIfNotEmpty.accept(DoubleModifier.COLD_RESISTANCE, eyes);
+          applyModifierIfNotEmpty.accept(DoubleModifier.SPOOKY_RESISTANCE, eyes);
+          applyModifierIfNotEmpty.accept(DoubleModifier.STENCH_RESISTANCE, eyes);
+          applyModifierIfNotEmpty.accept(DoubleModifier.SLEAZE_RESISTANCE, eyes);
+          applyModifierIfNotEmpty.accept(DoubleModifier.MEATDROP, ewes * -10);
+          break;
+        case ACCESSORY1:
+        case ACCESSORY2:
+        case ACCESSORY3:
+          applyModifierIfNotEmpty.accept(DoubleModifier.MEATDROP, eyes * 10);
+          applyModifierIfNotEmpty.accept(DoubleModifier.ITEMDROP, ewes * -10);
+          break;
+        case FAMILIAR:
+          applyModifierIfNotEmpty.accept(DoubleModifier.FAMILIAR_WEIGHT, eyes * 5);
+          applyModifierIfNotEmpty.accept(DoubleModifier.FAMILIAR_WEIGHT, ewes * -5);
+          break;
+      }
+    }
   }
 
   private static void addOffhandRemarkable(
@@ -5619,6 +5703,13 @@ public abstract class KoLCharacter {
     var copyMods = new Modifiers(mods);
     copyMods.setLookup(new Lookup(ModifierType.EFFECT, EffectPool.OFFHAND_REMARKABLE));
     newModifiers.add(copyMods);
+  }
+
+  public static int applyInebrietyModifiers(Consumable consumable) {
+    if (KoLCharacter.inElevenThingIHateAboutU()) {
+      return consumable.getInebriety() + getEweosity(consumable.name);
+    }
+    return consumable.getInebriety();
   }
 
   public static final double getSmithsnessModifier(
