@@ -4,8 +4,6 @@ import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withSavePreferencesToFile;
 import static internal.helpers.Utilities.verboseDelete;
 import static internal.matchers.Preference.isSetTo;
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -15,16 +13,12 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import internal.helpers.Cleanups;
 import java.io.File;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.TreeMap;
 import java.util.stream.IntStream;
-import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.session.LoginManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -823,61 +817,6 @@ class PreferencesTest {
       // Reset should save global.
       Preferences.reset("dot_is_....not_good");
       assertTrue(globalfile.exists());
-    }
-  }
-
-  @Disabled
-  @Nested
-  class SaveSettingsOnSet {
-    @Test
-    public void savesSettingsIfOn() throws IOException {
-      var cleanups =
-          new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true));
-      try (cleanups) {
-        File userFile = new File("settings/" + USER_NAME.toLowerCase() + "_prefs.txt");
-        String contents =
-            new String(
-                DataUtilities.getInputStream(userFile).readAllBytes(), StandardCharsets.UTF_8);
-        assertThat(contents, not(containsString("\nxyz=abc\n")));
-        Preferences.setString("xyz", "abc");
-        contents =
-            new String(
-                DataUtilities.getInputStream(userFile).readAllBytes(), StandardCharsets.UTF_8);
-        assertThat(contents, containsString("\nxyz=abc\n"));
-        Preferences.removeProperty("xyz", false);
-        userFile.delete();
-      }
-    }
-
-    @Test
-    public void canToggle() throws IOException {
-      File userFile = new File("settings/" + USER_NAME.toLowerCase() + "_prefs.txt");
-      String contents =
-          new String(DataUtilities.getInputStream(userFile).readAllBytes(), StandardCharsets.UTF_8);
-      assertThat(contents, not(containsString("\nxyz=abc\n")));
-
-      var cleanups =
-          new Cleanups(
-              withSavePreferencesToFile(),
-              withProperty("saveSettingsOnSet", false),
-              withProperty("xyz", "abc"));
-      try (cleanups) {
-        contents =
-            new String(
-                DataUtilities.getInputStream(userFile).readAllBytes(), StandardCharsets.UTF_8);
-        assertThat(contents, not(containsString("\nxyz=abc\n")));
-
-        var cleanups2 =
-            new Cleanups(withProperty("saveSettingsOnSet", true), withProperty("wxy", "def"));
-        try (cleanups2) {
-          contents =
-              new String(
-                  DataUtilities.getInputStream(userFile).readAllBytes(), StandardCharsets.UTF_8);
-          assertThat(contents, containsString("\nxyz=abc\n"));
-          assertThat(contents, containsString("\nwxy=def\n"));
-        }
-      }
-      userFile.delete();
     }
   }
 }
