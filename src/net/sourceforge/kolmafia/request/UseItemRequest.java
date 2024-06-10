@@ -6137,6 +6137,9 @@ public class UseItemRequest extends GenericRequest {
 
       case ItemPool.MAP_TO_A_CANDY_RICH_BLOCK:
         Preferences.setBoolean("_mapToACandyRichBlockUsed", true);
+        // Visit the NC to parse the block
+        var req = new GenericRequest("place.php?whichplace=town&action=town_trickortreat");
+        RequestThread.postRequest(req);
         break;
 
       case ItemPool.VAN_KEY:
