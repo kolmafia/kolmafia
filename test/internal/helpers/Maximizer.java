@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Optional;
@@ -48,7 +49,7 @@ public class Maximizer {
   }
 
   public static List<Boost> getBoosts() {
-    return net.sourceforge.kolmafia.maximizer.Maximizer.boosts;
+    return new ArrayList<>(net.sourceforge.kolmafia.maximizer.Maximizer.boosts);
   }
 
   public static Optional<AdventureResult> getSlot(Slot slot) {
