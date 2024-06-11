@@ -3657,6 +3657,30 @@ public class UseItemRequest extends GenericRequest {
 
         break;
 
+      case ItemPool.NEWBIESPORT_TENT,
+          ItemPool.BARSKIN_TENT,
+          ItemPool.COTTAGE,
+          ItemPool.BRICKO_PYRAMID,
+          ItemPool.HOUSE,
+          ItemPool.SANDCASTLE,
+          ItemPool.TWIG_HOUSE,
+          ItemPool.GINGERBREAD_HOUSE,
+          ItemPool.HOBO_FORTRESS,
+          ItemPool.GIANT_FARADAY_CAGE,
+          ItemPool.SNOW_FORT,
+          ItemPool.ELEVENT,
+          ItemPool.RESIDENCE_CUBE,
+          ItemPool.GIANT_PILGRIM_HAT,
+          ItemPool.HOUSE_SIZED_MUSHROOM,
+          ItemPool.MINI_KIWI_TIPI:
+        if (responseText.contains("You've already got")) {
+          return;
+        }
+
+        CampgroundRequest.destroyFurnishings();
+        CampgroundRequest.setCurrentDwelling(itemId);
+        break;
+
       case ItemPool.MILK_OF_MAGNESIUM:
 
         // You've already had some of this stuff today, and it
@@ -3681,30 +3705,6 @@ public class UseItemRequest extends GenericRequest {
         ConcoctionDatabase.getUsables().sort();
         ConcoctionDatabase.queuedFood.touch();
 
-        break;
-
-      case ItemPool.NEWBIESPORT_TENT:
-      case ItemPool.BARSKIN_TENT:
-      case ItemPool.COTTAGE:
-      case ItemPool.BRICKO_PYRAMID:
-      case ItemPool.HOUSE:
-      case ItemPool.SANDCASTLE:
-      case ItemPool.TWIG_HOUSE:
-      case ItemPool.GINGERBREAD_HOUSE:
-      case ItemPool.HOBO_FORTRESS:
-      case ItemPool.GIANT_FARADAY_CAGE:
-      case ItemPool.SNOW_FORT:
-      case ItemPool.ELEVENT:
-      case ItemPool.RESIDENCE_CUBE:
-      case ItemPool.GIANT_PILGRIM_HAT:
-      case ItemPool.HOUSE_SIZED_MUSHROOM:
-      case ItemPool.MINI_KIWI_TIPI:
-        if (responseText.contains("You've already got")) {
-          return;
-        }
-
-        CampgroundRequest.destroyFurnishings();
-        CampgroundRequest.setCurrentDwelling(itemId);
         break;
 
       case ItemPool.SCARECROW:
