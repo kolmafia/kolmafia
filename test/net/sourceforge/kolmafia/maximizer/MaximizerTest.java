@@ -281,6 +281,43 @@ public class MaximizerTest {
         recommendedSlotIs(Slot.WEAPON, "Fourth of May Cosplay Saber");
       }
     }
+
+    /**
+     * These tests illustrate that sometimes with the effective keyword the maximizer will choose no
+     * weapon. They do not go so far as to try and verify that the selected weapon was actually
+     * equipped.
+     */
+    @Test
+    public void muscleEffectiveDoesNotSelectRanged() {
+      String maxStr = "effective";
+      var cleanups =
+          new Cleanups(
+              withStats(10, 5, 5),
+              withEquippableItem("seal-skull helmet"),
+              withEquippableItem("astral shirt"),
+              withEquippableItem("old sweatpants"),
+              withEquippableItem("sewer snake"));
+      try (cleanups) {
+        assertTrue(maximize(maxStr));
+        assertFalse(getSlot(Slot.WEAPON).isPresent());
+      }
+    }
+
+    @Test
+    public void moxieEffectiveDoesNotSelectMelee() {
+      String maxStr = "effective";
+      var cleanups =
+          new Cleanups(
+              withStats(5, 5, 10),
+              withEquippableItem("seal-skull helmet"),
+              withEquippableItem("astral shirt"),
+              withEquippableItem("old sweatpants"),
+              withEquippableItem("seal-clubbing club"));
+      try (cleanups) {
+        assertTrue(maximize(maxStr));
+        assertFalse(getSlot(Slot.WEAPON).isPresent());
+      }
+    }
   }
 
   @Nested
@@ -2042,83 +2079,6 @@ public class MaximizerTest {
         assertTrue(maximize("PvP Fights"));
         recommendedSlotIs(Slot.OFFHAND, "card sleeve");
         recommendedSlotIs(Slot.CARDSLEEVE, "Alice's Army Foil Lanceman");
-      }
-    }
-  }
-
-  @Nested
-  public class Weapons {
-    /**
-     * These tests illustrate that sometimes with the effective keyword the maximizer will choose no
-     * weapon. They do not go so far as to try and verify that the selected weapon was actually
-     * equipped.
-     */
-    @Test
-    public void muscleEffectiveSelectsMelee() {
-      String maxStr = "effective";
-      var cleanups =
-          new Cleanups(
-              withStats(10, 5, 5),
-              withEquippableItem("seal-skull helmet"),
-              withEquippableItem("astral shirt"),
-              withEquippableItem("old sweatpants"),
-              withEquippableItem("sewer snake"),
-              withEquippableItem("seal-clubbing club"));
-      try (cleanups) {
-        assertTrue(maximize(maxStr));
-        recommends("seal-clubbing club");
-        recommendedSlotIs(Slot.WEAPON, "seal-clubbing club");
-      }
-    }
-
-    @Test
-    public void muscleEffectiveDoesNotSelectRanged() {
-      String maxStr = "effective";
-      var cleanups =
-          new Cleanups(
-              withStats(10, 5, 5),
-              withEquippableItem("seal-skull helmet"),
-              withEquippableItem("astral shirt"),
-              withEquippableItem("old sweatpants"),
-              withEquippableItem("sewer snake"));
-      try (cleanups) {
-        assertTrue(maximize(maxStr));
-        // Note that this means No Weapon is recommended.
-        assertFalse(getSlot(Slot.WEAPON).isPresent());
-      }
-    }
-
-    @Test
-    public void moxieEffectiveSelectsRanged() {
-      String maxStr = "effective";
-      var cleanups =
-          new Cleanups(
-              withStats(5, 5, 10),
-              withEquippableItem("seal-skull helmet"),
-              withEquippableItem("astral shirt"),
-              withEquippableItem("old sweatpants"),
-              withEquippableItem("sewer snake"),
-              withEquippableItem("seal-clubbing club"));
-      try (cleanups) {
-        assertTrue(maximize(maxStr));
-        recommends("sewer snake");
-        recommendedSlotIs(Slot.WEAPON, "sewer snake");
-      }
-    }
-
-    @Test
-    public void moxieEffectiveDoesNotSelectMelee() {
-      String maxStr = "effective";
-      var cleanups =
-          new Cleanups(
-              withStats(5, 5, 10),
-              withEquippableItem("seal-skull helmet"),
-              withEquippableItem("astral shirt"),
-              withEquippableItem("old sweatpants"),
-              withEquippableItem("seal-clubbing club"));
-      try (cleanups) {
-        assertTrue(maximize(maxStr));
-        assertFalse(getSlot(Slot.WEAPON).isPresent());
       }
     }
   }
