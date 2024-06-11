@@ -1544,6 +1544,7 @@ public class CampgroundRequest extends GenericRequest {
       case 14 -> itemId = ItemPool.RESIDENCE_CUBE;
       case 15 -> itemId = ItemPool.GIANT_PILGRIM_HAT;
       case 16 -> itemId = ItemPool.HOUSE_SIZED_MUSHROOM;
+      case 17 -> itemId = ItemPool.MINI_KIWI_TIPI;
       default -> KoLmafia.updateDisplay(
           MafiaState.ERROR,
           "Unrecognized housing type (" + CampgroundRequest.currentDwellingLevel + ")!");
