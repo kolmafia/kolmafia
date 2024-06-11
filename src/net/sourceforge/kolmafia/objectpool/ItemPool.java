@@ -2636,6 +2636,7 @@ public class ItemPool {
   public static final int MAGICAL_BAGUETTE = 8167;
   public static final int ENCHANTED_ICING = 8168;
   public static final int CARTON_OF_SNAKE_MILK = 8172;
+  public static final int SEWER_SNAKE = 8173;
   public static final int RING_OF_TELLING_SKELETONS_WHAT_TO_DO = 8179;
   public static final int MAP_TO_KOKOMO = 8182;
   public static final int CROWN_OF_ED = 8185;
