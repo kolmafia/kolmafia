@@ -3657,30 +3657,6 @@ public class UseItemRequest extends GenericRequest {
 
         break;
 
-      case ItemPool.NEWBIESPORT_TENT,
-          ItemPool.BARSKIN_TENT,
-          ItemPool.COTTAGE,
-          ItemPool.BRICKO_PYRAMID,
-          ItemPool.HOUSE,
-          ItemPool.SANDCASTLE,
-          ItemPool.TWIG_HOUSE,
-          ItemPool.GINGERBREAD_HOUSE,
-          ItemPool.HOBO_FORTRESS,
-          ItemPool.GIANT_FARADAY_CAGE,
-          ItemPool.SNOW_FORT,
-          ItemPool.ELEVENT,
-          ItemPool.RESIDENCE_CUBE,
-          ItemPool.GIANT_PILGRIM_HAT,
-          ItemPool.HOUSE_SIZED_MUSHROOM,
-          ItemPool.MINI_KIWI_TIPI:
-        if (responseText.contains("You've already got")) {
-          return;
-        }
-
-        CampgroundRequest.destroyFurnishings();
-        CampgroundRequest.setCurrentDwelling(itemId);
-        break;
-
       case ItemPool.MILK_OF_MAGNESIUM:
 
         // You've already had some of this stuff today, and it
@@ -3707,14 +3683,38 @@ public class UseItemRequest extends GenericRequest {
 
         break;
 
-      case ItemPool.SCARECROW:
-      case ItemPool.MEAT_GOLEM:
-      case ItemPool.BLACK_BLUE_LIGHT:
-      case ItemPool.LOUDMOUTH_LARRY:
-      case ItemPool.PLASMA_BALL:
-      case ItemPool.LED_CLOCK:
-      case ItemPool.BONSAI_TREE:
-      case ItemPool.MEAT_GLOBE:
+      case ItemPool.NEWBIESPORT_TENT,
+          ItemPool.BARSKIN_TENT,
+          ItemPool.COTTAGE,
+          ItemPool.BRICKO_PYRAMID,
+          ItemPool.HOUSE,
+          ItemPool.SANDCASTLE,
+          ItemPool.TWIG_HOUSE,
+          ItemPool.GINGERBREAD_HOUSE,
+          ItemPool.HOBO_FORTRESS,
+          ItemPool.GIANT_FARADAY_CAGE,
+          ItemPool.SNOW_FORT,
+          ItemPool.ELEVENT,
+          ItemPool.RESIDENCE_CUBE,
+          ItemPool.GIANT_PILGRIM_HAT,
+          ItemPool.HOUSE_SIZED_MUSHROOM,
+          ItemPool.MINI_KIWI_TIPI:
+        if (responseText.contains("You've already got")) {
+          return;
+        }
+
+        CampgroundRequest.destroyFurnishings();
+        CampgroundRequest.setCurrentDwelling(itemId);
+        break;
+
+      case ItemPool.SCARECROW,
+          ItemPool.MEAT_GOLEM,
+          ItemPool.BLACK_BLUE_LIGHT,
+          ItemPool.LOUDMOUTH_LARRY,
+          ItemPool.PLASMA_BALL,
+          ItemPool.LED_CLOCK,
+          ItemPool.BONSAI_TREE,
+          ItemPool.MEAT_GLOBE:
         if (responseText.contains("You've already got")) {
           return;
         }
@@ -3722,10 +3722,10 @@ public class UseItemRequest extends GenericRequest {
         CampgroundRequest.setCampgroundItem(itemId, 1);
         break;
 
-      case ItemPool.MAID:
-      case ItemPool.MEAT_BUTLER:
-      case ItemPool.CLOCKWORK_MAID:
-      case ItemPool.PORTABLE_HOUSEKEEPING_ROBOT:
+      case ItemPool.MAID,
+          ItemPool.MEAT_BUTLER,
+          ItemPool.CLOCKWORK_MAID,
+          ItemPool.PORTABLE_HOUSEKEEPING_ROBOT:
         if (responseText.contains("You've already got")) {
           return;
         }
@@ -3740,15 +3740,15 @@ public class UseItemRequest extends GenericRequest {
         CampgroundRequest.setCampgroundItem(itemId, 1);
         break;
 
-      case ItemPool.MILKY_POTION:
-      case ItemPool.SWIRLY_POTION:
-      case ItemPool.BUBBLY_POTION:
-      case ItemPool.SMOKY_POTION:
-      case ItemPool.CLOUDY_POTION:
-      case ItemPool.EFFERVESCENT_POTION:
-      case ItemPool.FIZZY_POTION:
-      case ItemPool.DARK_POTION:
-      case ItemPool.MURKY_POTION:
+      case ItemPool.MILKY_POTION,
+          ItemPool.SWIRLY_POTION,
+          ItemPool.BUBBLY_POTION,
+          ItemPool.SMOKY_POTION,
+          ItemPool.CLOUDY_POTION,
+          ItemPool.EFFERVESCENT_POTION,
+          ItemPool.FIZZY_POTION,
+          ItemPool.DARK_POTION,
+          ItemPool.MURKY_POTION:
         String[][] strings = ItemPool.bangPotionStrings;
 
         for (int i = 0; i < strings.length; ++i) {
@@ -3768,9 +3768,7 @@ public class UseItemRequest extends GenericRequest {
 
         break;
 
-      case ItemPool.VIAL_OF_RED_SLIME:
-      case ItemPool.VIAL_OF_YELLOW_SLIME:
-      case ItemPool.VIAL_OF_BLUE_SLIME:
+      case ItemPool.VIAL_OF_RED_SLIME, ItemPool.VIAL_OF_YELLOW_SLIME, ItemPool.VIAL_OF_BLUE_SLIME:
         strings = ItemPool.slimeVialStrings[0];
         for (int i = 0; i < strings.length; ++i) {
           if (responseText.contains(strings[i][1])) {
@@ -3789,9 +3787,9 @@ public class UseItemRequest extends GenericRequest {
         }
         break;
 
-      case ItemPool.VIAL_OF_ORANGE_SLIME:
-      case ItemPool.VIAL_OF_GREEN_SLIME:
-      case ItemPool.VIAL_OF_VIOLET_SLIME:
+      case ItemPool.VIAL_OF_ORANGE_SLIME,
+          ItemPool.VIAL_OF_GREEN_SLIME,
+          ItemPool.VIAL_OF_VIOLET_SLIME:
         strings = ItemPool.slimeVialStrings[1];
         for (int i = 0; i < strings.length; ++i) {
           if (responseText.contains(strings[i][1])) {
@@ -3810,12 +3808,12 @@ public class UseItemRequest extends GenericRequest {
         }
         break;
 
-      case ItemPool.VIAL_OF_VERMILION_SLIME:
-      case ItemPool.VIAL_OF_AMBER_SLIME:
-      case ItemPool.VIAL_OF_CHARTREUSE_SLIME:
-      case ItemPool.VIAL_OF_TEAL_SLIME:
-      case ItemPool.VIAL_OF_INDIGO_SLIME:
-      case ItemPool.VIAL_OF_PURPLE_SLIME:
+      case ItemPool.VIAL_OF_VERMILION_SLIME,
+          ItemPool.VIAL_OF_AMBER_SLIME,
+          ItemPool.VIAL_OF_CHARTREUSE_SLIME,
+          ItemPool.VIAL_OF_TEAL_SLIME,
+          ItemPool.VIAL_OF_INDIGO_SLIME,
+          ItemPool.VIAL_OF_PURPLE_SLIME:
         strings = ItemPool.slimeVialStrings[2];
         for (int i = 0; i < strings.length; ++i) {
           if (responseText.contains(strings[i][1])) {
