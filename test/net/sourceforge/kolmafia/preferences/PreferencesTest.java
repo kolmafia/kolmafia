@@ -28,12 +28,12 @@ class PreferencesTest {
   // These need to be before and after each because leakage has been observed between tests
   // in this class.
   @BeforeEach
-  public void initializeCharPrefs() {
+  public void initializeCharPreferences() {
     KoLCharacter.reset(USER_NAME);
   }
 
   @AfterEach
-  public void resetCharAndPrefs() {
+  public void resetCharAndPreferences() {
     try {
       KoLCharacter.reset("");
       KoLCharacter.reset(true);
