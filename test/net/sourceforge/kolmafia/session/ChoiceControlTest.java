@@ -859,5 +859,17 @@ class ChoiceControlTest {
         assertThat("_trickOrTreatBlock", isSetTo(expected));
       }
     }
+
+    @Test
+    void changesBlockStateOnSelection() {
+      var cleanups =
+          new Cleanups(
+              withProperty("_trickOrTreatBlock", "DLDLLLDLLDDL"),
+              withChoice((url, req) -> ChoiceControl.preChoice(req), 804, 3, "whichhouse=2", ""));
+
+      try (cleanups) {
+        assertThat("_trickOrTreatBlock", isSetTo("DLdLLLDLLDDL"));
+      }
+    }
   }
 }

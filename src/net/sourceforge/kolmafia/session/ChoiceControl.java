@@ -217,6 +217,22 @@ public abstract class ChoiceControl {
         ResultProcessor.removeItem(ItemPool.FUNKY_JUNK_KEY);
         break;
 
+      case 804: // Trick-or-Treating!
+        {
+          // Whether you win or lose the following encounter, or if there is just a non-combat,
+          // once the selection is made, the house is "used", so we can reflect that in the pref
+          // here.
+          var housePattern = Pattern.compile("whichhouse=(\\d+)");
+          var houseMatcher = housePattern.matcher(request.getURLString());
+          if (houseMatcher.find()) {
+            var house = Integer.parseInt(houseMatcher.group(1));
+            var state = Preferences.getString("_trickOrTreatBlock").toCharArray();
+            state[house] = Character.toLowerCase(state[house]);
+            Preferences.setString("_trickOrTreatBlock", String.valueOf(state));
+          }
+          break;
+        }
+
       case 931:
         // Life Ain't Nothin But Witches and Mummies
         QuestDatabase.setQuestIfBetter(Quest.CITADEL, "step6");

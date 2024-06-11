@@ -1898,7 +1898,7 @@ public class Player {
         });
   }
 
-  private static Cleanups withPostChoice(
+  public static Cleanups withChoice(
       final BiConsumer<String, GenericRequest> cb,
       final int choice,
       final int decision,
@@ -1920,6 +1920,49 @@ public class Player {
   }
 
   /**
+   * Runs postChoice0 with a given choice and decision and response
+   *
+   * @param choice Choice to set
+   * @param decision Decision to set
+   * @param extra Any extra parameters for the request
+   * @param responseText Response to fake
+   * @return Restores last choice and last decision
+   */
+  public static Cleanups withPostChoice0(
+      final int choice, final int decision, final String extra, final String responseText) {
+    return withChoice(
+        (url, req) -> ChoiceControl.postChoice0(choice, url, req),
+        choice,
+        decision,
+        extra,
+        responseText);
+  }
+
+  /**
+   * Runs postChoice0 with a given choice and decision and response
+   *
+   * @param choice Choice to set
+   * @param decision Decision to set
+   * @param responseText Response to fake
+   * @return Restores last choice and last decision
+   */
+  public static Cleanups withPostChoice0(
+      final int choice, final int decision, final String responseText) {
+    return withPostChoice0(choice, decision, null, responseText);
+  }
+
+  /**
+   * Runs postChoice0 with a given choice and decision and response
+   *
+   * @param choice Choice to set
+   * @param decision Decision to set
+   * @return Restores last choice and last decision
+   */
+  public static Cleanups withPostChoice0(final int choice, final int decision) {
+    return withPostChoice0(choice, decision, "");
+  }
+
+  /**
    * Runs postChoice1 with a given choice and decision and response
    *
    * @param choice Choice to set
@@ -1930,7 +1973,7 @@ public class Player {
    */
   public static Cleanups withPostChoice1(
       final int choice, final int decision, final String extra, final String responseText) {
-    return withPostChoice(ChoiceControl::postChoice1, choice, decision, extra, responseText);
+    return withChoice(ChoiceControl::postChoice1, choice, decision, extra, responseText);
   }
 
   /**
@@ -1968,7 +2011,7 @@ public class Player {
    */
   public static Cleanups withPostChoice2(
       final int choice, final int decision, final String extra, final String responseText) {
-    return withPostChoice(ChoiceControl::postChoice2, choice, decision, extra, responseText);
+    return withChoice(ChoiceControl::postChoice2, choice, decision, extra, responseText);
   }
 
   /**
