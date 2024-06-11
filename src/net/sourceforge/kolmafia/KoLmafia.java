@@ -41,6 +41,7 @@ import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.FlaggedItems;
+import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
@@ -771,6 +772,13 @@ public abstract class KoLmafia {
     if (QuestDatabase.isQuestStep(Quest.CYRPT, QuestDatabase.STARTED)
         && Preferences.getInteger("cyrptTotalEvilness") == 0) {
       RequestThread.postRequest(UseItemRequest.getInstance(ItemPool.EVILOMETER));
+    }
+
+    // If it's Halloween and we haven't done so, parse the current block
+    if (HolidayDatabase.getHolidays().contains("Halloween")
+        && Preferences.getString("_trickOrTreatBlock").isEmpty()) {
+      var req = new GenericRequest("place.php?whichplace=town&action=town_trickortreat");
+      RequestThread.postRequest(req);
     }
 
     // Path-related stuff

@@ -6136,6 +6136,8 @@ public class UseItemRequest extends GenericRequest {
         break;
 
       case ItemPool.MAP_TO_A_CANDY_RICH_BLOCK:
+        // If this succeeded, this is handled in GenericRequest.checkItemRedirection
+        // This is only for setting the pref on a failed second use.
         Preferences.setBoolean("_mapToACandyRichBlockUsed", true);
         break;
 

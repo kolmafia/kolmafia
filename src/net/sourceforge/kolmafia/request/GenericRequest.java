@@ -2860,6 +2860,11 @@ public class GenericRequest implements Runnable {
         consumed = true;
         EncounterManager.ignoreSpecialMonsters();
         break;
+      case ItemPool.MAP_TO_A_CANDY_RICH_BLOCK:
+        itemName = item.getName();
+        Preferences.setBoolean("_mapToACandyRichBlockUsed", true);
+        consumed = true;
+        break;
 
       default:
         return;

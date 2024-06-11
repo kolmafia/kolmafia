@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.EdServantData;
@@ -215,6 +216,22 @@ public abstract class ChoiceControl {
       case 794:
         ResultProcessor.removeItem(ItemPool.FUNKY_JUNK_KEY);
         break;
+
+      case 804: // Trick-or-Treating!
+        {
+          // Whether you win or lose the following encounter, or if there is just a non-combat,
+          // once the selection is made, the house is "used", so we can reflect that in the pref
+          // here.
+          var housePattern = Pattern.compile("whichhouse=(\\d+)");
+          var houseMatcher = housePattern.matcher(request.getURLString());
+          if (houseMatcher.find()) {
+            var house = Integer.parseInt(houseMatcher.group(1));
+            var state = Preferences.getString("_trickOrTreatBlock").toCharArray();
+            state[house] = Character.toLowerCase(state[house]);
+            Preferences.setString("_trickOrTreatBlock", String.valueOf(state));
+          }
+          break;
+        }
 
       case 931:
         // Life Ain't Nothin But Witches and Mummies
@@ -6960,6 +6977,9 @@ public abstract class ChoiceControl {
       Pattern.compile(
           "(?:Bring me|artifact known only as) <b>(.*?)</b>, hidden away for centuries");
   private static final Pattern SNOJO_CONSOLE_PATTERN = Pattern.compile("<b>(.*?) MODE</b>");
+  private static final Pattern TRICK_OR_TREAT_PATTERN =
+      Pattern.compile(
+          "<img (class='faded')? src='.*?/trickortreat/(?:house_)?(starhouse|[ld])(?:\\d+)?.gif'");
   private static final Pattern VOTE_PATTERN =
       Pattern.compile(
           "<label><input .*? value=\\\"(\\d)\\\" class=\\\"locals\\\" /> (.*?)<br /><span .*? color: blue\\\">(.*?)</span><br /></label>");
@@ -7395,6 +7415,24 @@ public abstract class ChoiceControl {
           } else {
             Preferences.setInteger("reanimatorWings", 0);
           }
+          break;
+        }
+
+      case 804:
+        {
+          var state =
+              TRICK_OR_TREAT_PATTERN
+                  .matcher(text)
+                  .results()
+                  .map(
+                      m -> {
+                        var faded = m.group(1) != null;
+                        var type = m.group(2).substring(0, 1);
+                        return faded ? type : type.toUpperCase();
+                      })
+                  .collect(Collectors.joining());
+
+          Preferences.setString("_trickOrTreatBlock", state);
           break;
         }
 
