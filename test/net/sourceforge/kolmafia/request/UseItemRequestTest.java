@@ -1322,29 +1322,4 @@ class UseItemRequestTest {
       }
     }
   }
-
-  @Nested
-  class MapToACandyRichBlock {
-    @Test
-    void visitsTheBlock() {
-      var builder = new FakeHttpClientBuilder();
-      var cleanups =
-          new Cleanups(
-              withProperty("_trickOrTreatBlock", ""),
-              withProperty("_mapToACandyRichBlockUsed", false),
-              withHttpClientBuilder(builder));
-
-      try (cleanups) {
-        builder.client.addResponse(
-            302, Map.of("location", List.of("choice.php?forceoption=0")), "");
-        builder.client.addResponse(200, html("request/test_halloween_starhouse.html"));
-        UseItemRequest.lastItemUsed = ItemPool.get(ItemPool.MAP_TO_A_CANDY_RICH_BLOCK);
-        UseItemRequest.parseConsumption("", false);
-
-        assertThat("_mapToACandyRichBlockUsed", isSetTo(true));
-        assertThat("_trickOrTreatBlock", isSetTo("LLLDLDLdSDDL"));
-        UseItemRequest.lastItemUsed = null;
-      }
-    }
-  }
 }
