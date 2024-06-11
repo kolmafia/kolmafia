@@ -18,6 +18,7 @@ import java.util.TreeMap;
 import java.util.stream.IntStream;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.session.LoginManager;
 import net.sourceforge.kolmafia.session.LogoutManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -38,21 +39,8 @@ class PreferencesTest {
 
   @AfterEach
   public void resetCharAndPreferences() {
-    try {
-      KoLCharacter.reset("");
-      KoLCharacter.reset(true);
-      KoLCharacter.setUserId(0);
-      File userFile = new File("settings/" + USER_NAME.toLowerCase() + "_prefs.txt");
-      verboseDelete(userFile);
-      File backupFile = new File("settings/" + USER_NAME.toLowerCase() + "_prefs.bak");
-      verboseDelete(backupFile);
-      File MallPriceFile = new File("data/" + "mallprices.txt");
-      verboseDelete(MallPriceFile);
-    } catch (Exception ex) {
-      System.out.println("Reset caused an error: " + ex.getMessage());
-      ex.printStackTrace();
-      // we should probably throw this error, but wtf, let's see some stack traces.
-    }
+    KoLmafia.releaseFileLock();
+    KoLCharacter.reset("");
   }
 
   @Test
@@ -607,11 +595,13 @@ class PreferencesTest {
 
     @Test
     public void timeinDoesNotCauseRaceCondition() {
-      File sessonFile = new File(KoLConstants.SESSIONS_DIRECTORY
-        + StringUtilities.globalStringReplace(KoLCharacter.getUserName(), " ", "_")
-        + "_"
-        + KoLConstants.DAILY_FORMAT.format(new Date())
-        + ".txt");
+      File sessonFile =
+          new File(
+              KoLConstants.SESSIONS_DIRECTORY
+                  + StringUtilities.globalStringReplace(KoLCharacter.getUserName(), " ", "_")
+                  + "_"
+                  + KoLConstants.DAILY_FORMAT.format(new Date())
+                  + ".txt");
 
       String unrelatedPref = "coalmine";
       String unrelatedValue = "canary";
