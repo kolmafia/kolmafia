@@ -13,6 +13,8 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import internal.helpers.Cleanups;
 import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Date;
 import java.util.TreeMap;
 import java.util.stream.IntStream;
@@ -30,8 +32,6 @@ import org.junit.jupiter.api.Test;
 class PreferencesTest {
   private final String USER_NAME = "PreferencesTestFakeUser";
 
-  // These need to be before and after each because leakage has been observed between tests
-  // in this class.
   @BeforeEach
   public void initializeCharPreferences() {
     KoLCharacter.reset(USER_NAME);
@@ -39,8 +39,17 @@ class PreferencesTest {
 
   @AfterEach
   public void resetCharAndPreferences() {
+    deleteSerFiles(USER_NAME);
     KoLmafia.releaseFileLock();
     KoLCharacter.reset("");
+  }
+
+  private static void deleteSerFiles(String username) {
+    String part = username.toLowerCase();
+    Path dest = Paths.get(KoLConstants.ROOT_LOCATION + "/data/" + part + "_queue.ser");
+    dest.toFile().delete();
+    dest = Paths.get(KoLConstants.ROOT_LOCATION + "/data/" + part + "_turns.ser");
+    dest.toFile().delete();
   }
 
   @Test
@@ -74,6 +83,7 @@ class PreferencesTest {
       assertThat("userFile Not Found: " + userFile, userFile.exists());
       assertThat("backupUserFile not found: " + backupUserFile, backupUserFile.exists());
     }
+    deleteSerFiles(EMPTY_USER);
   }
 
   @Test
