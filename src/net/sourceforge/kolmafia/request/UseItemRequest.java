@@ -3698,6 +3698,7 @@ public class UseItemRequest extends GenericRequest {
       case ItemPool.RESIDENCE_CUBE:
       case ItemPool.GIANT_PILGRIM_HAT:
       case ItemPool.HOUSE_SIZED_MUSHROOM:
+      case ItemPool.MINI_KIWI_TIPI:
         if (responseText.contains("You've already got")) {
           return;
         }
