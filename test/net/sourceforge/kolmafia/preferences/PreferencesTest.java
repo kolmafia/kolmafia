@@ -13,10 +13,14 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import internal.helpers.Cleanups;
 import java.io.File;
+import java.util.Date;
 import java.util.TreeMap;
 import java.util.stream.IntStream;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.session.LoginManager;
+import net.sourceforge.kolmafia.session.LogoutManager;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -601,9 +605,14 @@ class PreferencesTest {
       }
     }
 
-    // this is causing the file writes
     @Test
     public void timeinDoesNotCauseRaceCondition() {
+      File sessonFile = new File(KoLConstants.SESSIONS_DIRECTORY
+        + StringUtilities.globalStringReplace(KoLCharacter.getUserName(), " ", "_")
+        + "_"
+        + KoLConstants.DAILY_FORMAT.format(new Date())
+        + ".txt");
+
       String unrelatedPref = "coalmine";
       String unrelatedValue = "canary";
       String incrementedPref = "counter";
@@ -657,6 +666,8 @@ class PreferencesTest {
             Preferences.getInteger(incrementedPref),
             "Incremented preference does not match");
       }
+      LogoutManager.logout();
+      verboseDelete(sessonFile);
     }
 
     public class resetThread extends Thread {
