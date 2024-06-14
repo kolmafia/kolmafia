@@ -10,6 +10,7 @@ import java.util.stream.Stream;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter.Gender;
 import net.sourceforge.kolmafia.KoLConstants.Stat;
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -24,17 +25,18 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
 import net.sourceforge.kolmafia.persistence.MonsterDrop;
+import net.sourceforge.kolmafia.persistence.MonsterDrop.DropFlag;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.session.BanishManager;
+import net.sourceforge.kolmafia.session.CryptManager;
 import net.sourceforge.kolmafia.session.CrystalBallManager;
 import net.sourceforge.kolmafia.session.EncounterManager;
 import net.sourceforge.kolmafia.session.EncounterManager.EncounterType;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.TurnCounter;
+import net.sourceforge.kolmafia.session.TrackManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class AreaCombatData {
@@ -107,80 +109,17 @@ public class AreaCombatData {
       baseWeighting = baseWeighting >> WEIGHT_SHIFT;
 
       String monsterName = monster.getName();
-      Phylum monsterPhylum = monster.getPhylum();
 
       baseWeighting = AreaCombatData.adjustConditionalWeighting(zone, monsterName, baseWeighting);
       int currentWeighting = baseWeighting;
 
-      // If olfacted, add three to encounter pool
-      if (Preferences.getString("olfactedMonster").equals(monsterName)
-          && KoLConstants.activeEffects.contains(FightRequest.ONTHETRAIL)) {
-        currentWeighting += 3 * baseWeighting;
-      }
-      // If Nosy Nose sniffed, and is current familiar, add one to encounter pool
-      if (Preferences.getString("nosyNoseMonster").equals(monsterName)
-          && KoLCharacter.getFamiliar().getId() == FamiliarPool.NOSY_NOSE) {
-        currentWeighting += baseWeighting;
-      }
-      // If Red Snapper tracks its phylum, and is current familiar, add two to encounter pool
-      if (Preferences.getString("redSnapperPhylum").equals(monsterPhylum.toString())
-          && KoLCharacter.getFamiliar().getId() == FamiliarPool.RED_SNAPPER) {
-        currentWeighting += 2 * baseWeighting;
-      }
-      // If any relevant Daily Candle familiar-tracking potions are active, add two to the
-      // encounter pool
-      if ((monsterPhylum == Phylum.HUMANOID && KoLConstants.activeEffects.contains(EW_THE_HUMANITY))
-          || (monsterPhylum == Phylum.BEAST
-              && KoLConstants.activeEffects.contains(A_BEASTLY_ODOR))) {
-        currentWeighting += 2 * baseWeighting;
-      }
-      // If Gallapagosian Mating Call used, add one to encounter pool
-      if (Preferences.getString("_gallapagosMonster").equals(monsterName)) {
-        currentWeighting += baseWeighting;
-      }
-      // If Offer Latte to Opponent used, add two to encounter pool
-      if (Preferences.getString("_latteMonster").equals(monsterName)
-          && TurnCounter.isCounting("Latte Monster")) {
-        currentWeighting += 2 * baseWeighting;
-      }
-      // If Superficially Interested used, add three to encounter pool
-      if (Preferences.getString("superficiallyInterestedMonster").equals(monsterName)
-          && TurnCounter.isCounting("Superficially Interested Monster")) {
-        currentWeighting += 3 * baseWeighting;
-      }
-      // If Staff of the Cream of the Cream jiggle, add two to encounter pool
-      if (Preferences.getString("_jiggleCreamedMonster").equals(monsterName)) {
-        currentWeighting += 2 * baseWeighting;
-      }
-      // If Make Friends used, add three to encounter pool
-      if (Preferences.getString("makeFriendsMonster").equals(monsterName)) {
-        currentWeighting += 3 * baseWeighting;
-      }
-      // If Curse of Stench used, add three to encounter pool
-      if (Preferences.getString("stenchCursedMonster").equals(monsterName)) {
-        currentWeighting += 3 * baseWeighting;
-      }
-      // If Long Con used, add three to encounter pool
-      if (Preferences.getString("longConMonster").equals(monsterName)) {
-        currentWeighting += 3 * baseWeighting;
-      }
-      // If Motif used, add two to encounter pool
-      if (Preferences.getString("motifMonster").equals(monsterName)) {
-        currentWeighting += 2 * baseWeighting;
-      }
-      // If Monkey Point used, add two to encounter pool
-      if (Preferences.getString("monkeyPointMonster").equals(monsterName)) {
-        currentWeighting += 2 * baseWeighting;
-      }
-
       if (BanishManager.isBanished(monsterName)
           || (rwbRelevant && !Preferences.getString("rwbMonster").equals(monsterName))) {
-        // Banishing reduces number of copies
-        currentWeighting -= baseWeighting;
-        // If this takes it to zero chance, it's properly banished
-        if (currentWeighting == 0) {
-          currentWeighting = -3;
-        }
+        // Banishing reduces copies to 0
+        currentWeighting = -3;
+      } else {
+        var copies = (int) TrackManager.countCopies(monsterName);
+        currentWeighting += copies * baseWeighting;
       }
 
       // Not available in current
@@ -252,7 +191,7 @@ public class AreaCombatData {
       name = name.substring(0, colon);
       String flag = null;
 
-      if (weight.length() == 0) {
+      if (weight.isEmpty()) {
         KoLmafia.updateDisplay("Missing entry after colon for " + name + " in combats.txt.");
         return false;
       }
@@ -814,28 +753,21 @@ public class AreaCombatData {
 
       // Some areas have fixed non-combats, if we're tracking this, handle them here.
       switch (zone) {
-        case "The Defiled Alcove" -> {
-          if (Preferences.getInteger("cyrptAlcoveEvilness") <= 13) {
-            return 100;
-          }
-        }
-        case "The Defiled Cranny" -> {
-          if (Preferences.getInteger("cyrptCrannyEvilness") <= 13) {
-            return 100;
-          }
-        }
-        case "The Defiled Niche" -> {
-          if (Preferences.getInteger("cyrptNicheEvilness") <= 13) {
-            return 100;
-          }
-        }
-        case "The Defiled Nook" -> {
-          if (Preferences.getInteger("cyrptNookEvilness") <= 13) {
+        case "The Defiled Alcove",
+            "The Defiled Cranny",
+            "The Defiled Niche",
+            "The Defiled Nook" -> {
+          String property = CryptManager.evilZoneProperty(zone);
+          if (Preferences.getInteger(property) <= 13) {
             return 100;
           }
         }
         case "The Smut Orc Logging Camp" -> {
-          return Preferences.getInteger("smutOrcNoncombatProgress") < 15 ? 100 : 0;
+          // Blech House does not appear if the bridge is finished
+          return Preferences.getInteger("smutOrcNoncombatProgress") < 15
+                  || Preferences.getInteger("chasmBridgeProgress") >= 30
+              ? 100
+              : 0;
         }
         case "Barf Mountain" -> {
           return Preferences.getBoolean("dinseyRollercoasterNext") ? 0 : 100;
@@ -864,11 +796,7 @@ public class AreaCombatData {
       return this.combats;
     }
 
-    double pct = this.combats;
-
-    if (stateful) {
-      pct += KoLCharacter.getCombatRateAdjustment();
-    }
+    double pct = this.combats + KoLCharacter.getCombatRateAdjustment();
 
     return Math.max(0.0, Math.min(100.0, pct));
   }
@@ -1056,7 +984,7 @@ public class AreaCombatData {
       final List<MonsterDrop> items,
       final List<Double> pocketRates,
       boolean fullString) {
-    if (items.size() == 0) {
+    if (items.isEmpty()) {
       return;
     }
 
@@ -1085,9 +1013,9 @@ public class AreaCombatData {
       int itemId = drop.item().getItemId();
       double itemBonus = 0.0;
 
-      if (ItemDatabase.isFood(itemId)) {
+      if (ItemDatabase.isFood(itemId) || ItemDatabase.isCookable(itemId)) {
         itemBonus += KoLCharacter.currentNumericModifier(DoubleModifier.FOODDROP) / 100.0;
-      } else if (ItemDatabase.isBooze(itemId)) {
+      } else if (ItemDatabase.isBooze(itemId) || ItemDatabase.isMixable(itemId)) {
         itemBonus += KoLCharacter.currentNumericModifier(DoubleModifier.BOOZEDROP) / 100.0;
       } else if (ItemDatabase.isCandyItem(itemId)) {
         itemBonus += KoLCharacter.currentNumericModifier(DoubleModifier.CANDYDROP) / 100.0;
@@ -1117,6 +1045,9 @@ public class AreaCombatData {
       String rate1 = this.format(dropRate);
       String rate2 = this.format(effectiveDropRate);
 
+      if (drop.flag() == DropFlag.MULTI_DROP) {
+        buffer.append(drop.itemCount() + " ");
+      }
       buffer.append(drop.item().getName());
       switch (drop.flag()) {
         case UNKNOWN_RATE -> buffer.append(" (unknown drop rate)");
@@ -1155,6 +1086,7 @@ public class AreaCombatData {
           }
         }
         case STEAL_ACCORDION -> buffer.append(" (stealable accordion)");
+        case MULTI_DROP -> buffer.append(" (multidrop)");
         default -> {
           if (stealing) {
             buffer.append(" ");
@@ -1867,6 +1799,31 @@ public class AreaCombatData {
             }
             ? weighting
             : -4;
+      }
+      case "Abuela's Cottage (Contested)",
+          "The Embattled Factory",
+          "The Bar At War",
+          "A Cafe Divided",
+          "The Armory Up In Arms" -> {
+        final AdventureResult hat = EquipmentManager.getEquipment(Slot.HAT);
+        final AdventureResult pants = EquipmentManager.getEquipment(Slot.PANTS);
+        final boolean elfOutfit =
+            hat.getItemId() == ItemPool.ELF_GUARD_PATROL_CAP
+                && pants.getItemId() == ItemPool.ELF_GUARD_HOTPANTS;
+        final boolean pirateOutfit =
+            hat.getItemId() == ItemPool.CRIMBUCCANEER_TRICORN
+                && pants.getItemId() == ItemPool.CRIMBUCCANEER_BREECHES;
+        final boolean elfMonster = monster.startsWith("Elf Guard");
+        final boolean pirateMonster = monster.startsWith("Crimbuccaneer");
+        return switch (monster) {
+          case "Crimbuccaneer military school dropout",
+              "Crimbuccaneer new recruit",
+              "Crimbuccaneer privateer",
+              "Elf Guard conscript",
+              "Elf Guard convict",
+              "Elf Guard private" -> !elfOutfit && !pirateOutfit ? 1 : 0;
+          default -> (elfOutfit && pirateMonster) || (pirateOutfit && elfMonster) ? 1 : 0;
+        };
       }
     }
     return weighting;

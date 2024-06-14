@@ -1129,6 +1129,9 @@ public class Maximizer {
           duration = 20;
           usesRemaining = (15 - Preferences.getInteger("_deckCardsDrawn")) / 5;
         } else if (cmd.startsWith("grim")) {
+          if (!StandardRequest.isAllowed(RestrictedItemType.FAMILIARS, "Grim Brother")) {
+            continue;
+          }
           var fam = KoLCharacter.ownedFamiliar(FamiliarPool.GRIM_BROTHER);
           if (fam.isEmpty()) {
             if (limitMode.limitFamiliars()) {
@@ -1278,7 +1281,7 @@ public class Maximizer {
             continue;
           }
 
-          if (!StandardRequest.isAllowed(RestrictedItemType.ITEMS, iname)) {
+          if (!ItemDatabase.isAllowed(item)) {
             continue;
           }
 

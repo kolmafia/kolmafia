@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
@@ -49,7 +50,6 @@ import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest.Companion;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
-import net.sourceforge.kolmafia.request.ChateauRequest;
 import net.sourceforge.kolmafia.request.ChezSnooteeRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
@@ -85,6 +85,7 @@ import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.session.LocketManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.StoreManager;
+import net.sourceforge.kolmafia.session.TrackManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.VioletFogManager;
 import net.sourceforge.kolmafia.session.VolcanoMazeManager;
@@ -176,7 +177,7 @@ public abstract class KoLCharacter {
   // Things which can change over the course of playing
 
   private static List<String> avatar = Collections.emptyList();
-  private static AscensionClass ascensionClass = null;
+  private static AscensionClass ascensionClass = AscensionClass.UNKNOWN;
   private static Gender gender = Gender.UNKNOWN;
   public static int AWOLtattoo = 0;
 
@@ -346,7 +347,7 @@ public abstract class KoLCharacter {
   }
 
   public static final void reset(boolean newCharacter) {
-    KoLCharacter.ascensionClass = null;
+    KoLCharacter.ascensionClass = AscensionClass.UNKNOWN;
 
     KoLCharacter.gender = Gender.UNKNOWN;
     KoLCharacter.currentLevel = 1;
@@ -553,6 +554,8 @@ public abstract class KoLCharacter {
     //  so it doesn't work. If you somehow got liver or stomach of steel,
     //  those would similarly not work."
     if (isVampyre()) return false;
+    // small similarly cannot expand or reduce fullness
+    if (inSmallcore()) return false;
 
     return true;
   }
@@ -607,6 +610,8 @@ public abstract class KoLCharacter {
     //  so it doesn't work. If you somehow got liver or stomach of steel,
     //  those would similarly not work."
     if (isVampyre()) return false;
+    // small similarly cannot expand or reduce fullness
+    if (inSmallcore()) return false;
 
     return true;
   }
@@ -791,7 +796,7 @@ public abstract class KoLCharacter {
    * @return The index of the prime stat
    */
   public static final int getPrimeIndex() {
-    return ascensionClass == null ? 0 : ascensionClass.getPrimeStatIndex();
+    return ascensionClass == AscensionClass.UNKNOWN ? 0 : ascensionClass.getPrimeStatIndex();
   }
 
   /**
@@ -1576,28 +1581,7 @@ public abstract class KoLCharacter {
   }
 
   public static int freeRestsAvailable() {
-    int freerests = 0;
-    if (KoLCharacter.hasSkill(SkillPool.DISCO_NAP)) ++freerests;
-    if (KoLCharacter.hasSkill(SkillPool.ADVENTURER_OF_LEISURE)) freerests += 2;
-    if (KoLCharacter.hasSkill(SkillPool.EXECUTIVE_NARCOLEPSY)) ++freerests;
-    // Unconscious Collective contributes in G-Lover (e.g.) but not in Standard
-    if (StandardRequest.isAllowed(RestrictedItemType.FAMILIARS, "Unconscious Collective")
-        && KoLCharacter.ownedFamiliar(FamiliarPool.UNCONSCIOUS_COLLECTIVE).isPresent())
-      freerests += 3;
-    if (KoLCharacter.hasSkill(SkillPool.FOOD_COMA)) freerests += 10;
-    if (KoLCharacter.hasSkill(SkillPool.DOG_TIRED)) freerests += 5;
-    if (KoLConstants.chateau.contains(ChateauRequest.CHATEAU_FAN)) freerests += 5;
-    if (StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Distant Woods Getaway Brochure")
-        && Preferences.getBoolean("getawayCampsiteUnlocked")) ++freerests;
-    if (StandardRequest.isAllowed(RestrictedItemType.SKILLS, "Long Winter's Nap")
-        && KoLCharacter.hasSkill(SkillPool.LONG_WINTERS_NAP)) freerests += 5;
-    if (InventoryManager.getCount(ItemPool.MOTHERS_NECKLACE) > 0
-        || KoLCharacter.hasEquipped(ItemPool.MOTHERS_NECKLACE)) freerests += 5;
-    if (InventoryManager.getCount(ItemPool.CINCHO_DE_MAYO) > 0
-        || KoLCharacter.hasEquipped(ItemPool.CINCHO_DE_MAYO)) freerests += 3;
-    if (InventoryManager.getCount(ItemPool.REPLICA_CINCHO_DE_MAYO) > 0
-        || KoLCharacter.hasEquipped(ItemPool.REPLICA_CINCHO_DE_MAYO)) freerests += 3;
-    return freerests;
+    return (int) KoLCharacter.currentNumericModifier(DoubleModifier.FREE_RESTS);
   }
 
   public static int freeRestsRemaining() {
@@ -2036,6 +2020,7 @@ public abstract class KoLCharacter {
     KoLCharacter.currentRun = currentRun;
     if (changed) {
       BanishManager.recalculate();
+      TrackManager.recalculate();
     }
   }
 
@@ -2340,6 +2325,32 @@ public abstract class KoLCharacter {
       return true;
     }
     return name.contains("g") || name.contains("G");
+  }
+
+  private static final Pattern I_PATTERN = Pattern.compile("[Ii]");
+
+  public static final int getEyeosity(String name) {
+    return (int) KoLCharacter.I_PATTERN.matcher(name).results().count();
+  }
+
+  public static final boolean hasEyeosity(String name) {
+    if (name == null) {
+      return false;
+    }
+    return name.contains("i") || name.contains("I");
+  }
+
+  private static final Pattern U_PATTERN = Pattern.compile("[Uu]");
+
+  public static final int getEweosity(String name) {
+    return (int) KoLCharacter.U_PATTERN.matcher(name).results().count();
+  }
+
+  public static final boolean hasEweosity(String name) {
+    if (name == null) {
+      return true;
+    }
+    return name.contains("u") || name.contains("U");
   }
 
   public static final int getRestingHP() {
@@ -2880,6 +2891,12 @@ public abstract class KoLCharacter {
       RequestThread.postRequest(new CampgroundRequest("workshed"));
     }
 
+    // Scale up contents of our stomach and liver in Small
+    if (oldPath == Path.SMALL) {
+      KoLCharacter.setFullness(KoLCharacter.getFullness() * 10);
+      KoLCharacter.setInebriety(KoLCharacter.getInebriety() * 10);
+    }
+
     // If we were in Hardcore or a path that alters skills, automatically recall skills
     if (restricted
         || wasInHardcore
@@ -2917,8 +2934,11 @@ public abstract class KoLCharacter {
       GearChangePanel.updateFamiliars();
     }
 
-    if (restricted || oldPath == Path.NUCLEAR_AUTUMN || oldPath == Path.YOU_ROBOT) {
-      // We haven't previously seen our campground
+    // If we haven't previously seen our campground, visit it.
+    if (restricted
+        || oldPath == Path.NUCLEAR_AUTUMN
+        || oldPath == Path.YOU_ROBOT
+        || oldPath == Path.SMALL) {
       CampgroundRequest.reset();
       RequestThread.postRequest(new CampgroundRequest("inspectdwelling"));
       RequestThread.postRequest(new CampgroundRequest("inspectkitchen"));
@@ -2954,6 +2974,8 @@ public abstract class KoLCharacter {
     // Check the Florist
     FloristRequest.reset();
     RequestThread.postRequest(new FloristRequest());
+
+    KoLCharacter.recalculateAdjustments();
 
     // If you have the ItemManagerFrame open, there are four panels which
     // display food, booze, spleen items, and potions. These enable buttons and
@@ -3045,6 +3067,7 @@ public abstract class KoLCharacter {
     if (KoLCharacter.inRonin != inRonin) {
       KoLCharacter.inRonin = inRonin;
       NamedListenerRegistry.fireChange("(ronin)");
+      KoLCharacter.recalculateAdjustments();
     }
   }
 
@@ -3321,6 +3344,22 @@ public abstract class KoLCharacter {
 
   public static final boolean inSmallcore() {
     return KoLCharacter.ascensionPath == Path.SMALL;
+  }
+
+  public static final boolean inWereProfessor() {
+    return KoLCharacter.ascensionPath == Path.WEREPROFESSOR;
+  }
+
+  public static final boolean isMildManneredProfessor() {
+    return KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.MILD_MANNERED_PROFESSOR));
+  }
+
+  public static final boolean isSavageBeast() {
+    return KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.SAVAGE_BEAST));
+  }
+
+  public static final boolean inElevenThingIHateAboutU() {
+    return KoLCharacter.ascensionPath == Path.ELEVEN_THINGS;
   }
 
   public static final boolean isUnarmed() {
@@ -3636,10 +3675,6 @@ public abstract class KoLCharacter {
   }
 
   public static final boolean desertBeachAccessible() {
-    if (KoLCharacter.isKingdomOfExploathing()) {
-      return false;
-    }
-
     // Temporary code to allow Mafia to catch up with the fact that unlock is a flag
     if (Preferences.getInteger("lastDesertUnlock") != KoLCharacter.getAscensions()) {
       if (InventoryManager.getCount(ItemPool.BITCHIN_MEATCAR) > 0
@@ -3649,7 +3684,8 @@ public abstract class KoLCharacter {
           || Preferences.getString("peteMotorbikeGasTank").equals("Large Capacity Tank")
           || QuestDatabase.isQuestFinished(Quest.MEATCAR)
           || KoLCharacter.kingLiberated()
-          || KoLCharacter.isEd()) {
+          || KoLCharacter.isEd()
+          || KoLCharacter.isKingdomOfExploathing()) {
         Preferences.setInteger("lastDesertUnlock", KoLCharacter.getAscensions());
       }
     }
@@ -3771,131 +3807,117 @@ public abstract class KoLCharacter {
     KoLConstants.availableSkills.add(skill);
     KoLConstants.availableSkillsSet.add(skillId);
     PreferenceListenerRegistry.firePreferenceChanged("(skill)");
+    Modifiers.availableSkillsChanged();
 
-    switch (SkillDatabase.getSkillType(skillId)) {
-      case PASSIVE -> {
-        switch (skillId) {
-          case SkillPool.FLAVOUR_OF_MAGIC:
-            // Flavour of Magic gives you access to five other
-            // castable skills
-            KoLCharacter.addAvailableSkill(SkillPool.SPIRIT_CAYENNE);
-            KoLCharacter.addAvailableSkill(SkillPool.SPIRIT_PEPPERMINT);
-            KoLCharacter.addAvailableSkill(SkillPool.SPIRIT_GARLIC);
-            KoLCharacter.addAvailableSkill(SkillPool.SPIRIT_WORMWOOD);
-            KoLCharacter.addAvailableSkill(SkillPool.SPIRIT_BACON);
-            KoLCharacter.addAvailableSkill(SkillPool.SPIRIT_NOTHING);
-            break;
+    // passives that grant other skills
 
-          case SkillPool.SOUL_SAUCERY:
-            // Soul Saucery gives you access to six other skills if a Sauceror
-            if (isSauceror()) {
-              KoLCharacter.addAvailableSkill(SkillPool.SOUL_BUBBLE);
-              KoLCharacter.addAvailableSkill(SkillPool.SOUL_FINGER);
-              KoLCharacter.addAvailableSkill(SkillPool.SOUL_BLAZE);
-              KoLCharacter.addAvailableSkill(SkillPool.SOUL_FOOD);
-              KoLCharacter.addAvailableSkill(SkillPool.SOUL_ROTATION);
-              KoLCharacter.addAvailableSkill(SkillPool.SOUL_FUNK);
-            }
-            break;
+    switch (skillId) {
+      case SkillPool.FLAVOUR_OF_MAGIC:
+        // Flavour of Magic gives you access to five other
+        // castable skills
+        KoLCharacter.addAvailableSkill(SkillPool.SPIRIT_CAYENNE);
+        KoLCharacter.addAvailableSkill(SkillPool.SPIRIT_PEPPERMINT);
+        KoLCharacter.addAvailableSkill(SkillPool.SPIRIT_GARLIC);
+        KoLCharacter.addAvailableSkill(SkillPool.SPIRIT_WORMWOOD);
+        KoLCharacter.addAvailableSkill(SkillPool.SPIRIT_BACON);
+        KoLCharacter.addAvailableSkill(SkillPool.SPIRIT_NOTHING);
+        break;
 
-            // Plumber passive skills that grant Plumber
-            // combat skills with the same name
-          case SkillPool.HAMMER_THROW:
-            KoLCharacter.addAvailableCombatSkill(SkillPool.HAMMER_THROW_COMBAT);
-            KoLCharacter.addCombatSkill(skill.getSkillName());
-            break;
-          case SkillPool.ULTRA_SMASH:
-            KoLCharacter.addAvailableCombatSkill(SkillPool.ULTRA_SMASH_COMBAT);
-            KoLCharacter.addCombatSkill(skill.getSkillName());
-            break;
-          case SkillPool.JUGGLE_FIREBALLS:
-            KoLCharacter.addAvailableCombatSkill(SkillPool.JUGGLE_FIREBALLS_COMBAT);
-            KoLCharacter.addCombatSkill(skill.getSkillName());
-            break;
-          case SkillPool.FIREBALL_BARRAGE:
-            KoLCharacter.addAvailableCombatSkill(SkillPool.FIREBALL_BARRAGE_COMBAT);
-            KoLCharacter.addCombatSkill(skill.getSkillName());
-            break;
-          case SkillPool.SPIN_JUMP:
-            KoLCharacter.addAvailableCombatSkill(SkillPool.SPIN_JUMP_COMBAT);
-            KoLCharacter.addCombatSkill(skill.getSkillName());
-            break;
-          case SkillPool.MULTI_BOUNCE:
-            KoLCharacter.addAvailableCombatSkill(SkillPool.MULTI_BOUNCE_COMBAT);
-            KoLCharacter.addCombatSkill(skill.getSkillName());
-            break;
-
-            // Comprehensive Cartography grants Map the Monsters
-          case SkillPool.COMPREHENSIVE_CARTOGRAPHY:
-            KoLCharacter.addAvailableSkill(SkillPool.MAP_THE_MONSTERS);
-            break;
-
-          case SkillPool.EMOTIONALLY_CHIPPED:
-          case SkillPool.REPLICA_EMOTIONALLY_CHIPPED:
-            KoLCharacter.addAvailableSkill(SkillPool.FEEL_DISAPPOINTED);
-            KoLCharacter.addAvailableSkill(SkillPool.FEEL_ENVY);
-            KoLCharacter.addAvailableSkill(SkillPool.FEEL_EXCITEMENT);
-            KoLCharacter.addAvailableSkill(SkillPool.FEEL_HATRED);
-            KoLCharacter.addAvailableSkill(SkillPool.FEEL_LONELY);
-            KoLCharacter.addAvailableSkill(SkillPool.FEEL_LOST);
-            KoLCharacter.addAvailableSkill(SkillPool.FEEL_NERVOUS);
-            KoLCharacter.addAvailableSkill(SkillPool.FEEL_NOSTALGIC);
-            KoLCharacter.addAvailableSkill(SkillPool.FEEL_PEACEFUL);
-            KoLCharacter.addAvailableSkill(SkillPool.FEEL_PRIDE);
-            KoLCharacter.addAvailableSkill(SkillPool.FEEL_SUPERIOR);
-            break;
+      case SkillPool.SOUL_SAUCERY:
+        // Soul Saucery gives you access to six other skills if a Sauceror
+        if (isSauceror()) {
+          KoLCharacter.addAvailableSkill(SkillPool.SOUL_BUBBLE);
+          KoLCharacter.addAvailableSkill(SkillPool.SOUL_FINGER);
+          KoLCharacter.addAvailableSkill(SkillPool.SOUL_BLAZE);
+          KoLCharacter.addAvailableSkill(SkillPool.SOUL_FOOD);
+          KoLCharacter.addAvailableSkill(SkillPool.SOUL_ROTATION);
+          KoLCharacter.addAvailableSkill(SkillPool.SOUL_FUNK);
         }
-      }
-      case SUMMON -> {
-        KoLConstants.usableSkills.add(skill);
-        LockableListFactory.sort(KoLConstants.usableSkills);
-        KoLConstants.summoningSkills.add(skill);
-        LockableListFactory.sort(KoLConstants.summoningSkills);
-      }
-      case REMEDY -> {
-        KoLConstants.usableSkills.add(skill);
-        LockableListFactory.sort(KoLConstants.usableSkills);
-        KoLConstants.remedySkills.add(skill);
-        LockableListFactory.sort(KoLConstants.remedySkills);
-      }
-      case SELF_ONLY -> {
-        KoLConstants.usableSkills.add(skill);
-        LockableListFactory.sort(KoLConstants.usableSkills);
-        KoLConstants.selfOnlySkills.add(skill);
-        LockableListFactory.sort(KoLConstants.selfOnlySkills);
-      }
-      case BUFF -> {
-        KoLConstants.usableSkills.add(skill);
-        LockableListFactory.sort(KoLConstants.usableSkills);
-        KoLConstants.buffSkills.add(skill);
-        LockableListFactory.sort(KoLConstants.buffSkills);
-      }
-      case SONG -> {
-        KoLConstants.usableSkills.add(skill);
-        LockableListFactory.sort(KoLConstants.usableSkills);
-        KoLConstants.songSkills.add(skill);
-        LockableListFactory.sort(KoLConstants.songSkills);
-      }
-      case COMBAT, COMBAT_PASSIVE -> KoLCharacter.addCombatSkill(skill.getSkillName());
-      case COMBAT_NONCOMBAT_REMEDY -> {
-        KoLConstants.usableSkills.add(skill);
-        LockableListFactory.sort(KoLConstants.usableSkills);
-        KoLConstants.remedySkills.add(skill);
-        LockableListFactory.sort(KoLConstants.remedySkills);
+        break;
+
+        // Plumber passive skills that grant Plumber
+        // combat skills with the same name
+      case SkillPool.HAMMER_THROW:
+        KoLCharacter.addAvailableCombatSkill(SkillPool.HAMMER_THROW_COMBAT);
         KoLCharacter.addCombatSkill(skill.getSkillName());
-      }
-      case EXPRESSION -> {
-        KoLConstants.usableSkills.add(skill);
-        LockableListFactory.sort(KoLConstants.usableSkills);
-        KoLConstants.expressionSkills.add(skill);
-        LockableListFactory.sort(KoLConstants.expressionSkills);
-      }
-      case WALK -> {
-        KoLConstants.usableSkills.add(skill);
-        LockableListFactory.sort(KoLConstants.usableSkills);
-        KoLConstants.walkSkills.add(skill);
-        LockableListFactory.sort(KoLConstants.walkSkills);
-      }
+        break;
+      case SkillPool.ULTRA_SMASH:
+        KoLCharacter.addAvailableCombatSkill(SkillPool.ULTRA_SMASH_COMBAT);
+        KoLCharacter.addCombatSkill(skill.getSkillName());
+        break;
+      case SkillPool.JUGGLE_FIREBALLS:
+        KoLCharacter.addAvailableCombatSkill(SkillPool.JUGGLE_FIREBALLS_COMBAT);
+        KoLCharacter.addCombatSkill(skill.getSkillName());
+        break;
+      case SkillPool.FIREBALL_BARRAGE:
+        KoLCharacter.addAvailableCombatSkill(SkillPool.FIREBALL_BARRAGE_COMBAT);
+        KoLCharacter.addCombatSkill(skill.getSkillName());
+        break;
+      case SkillPool.SPIN_JUMP:
+        KoLCharacter.addAvailableCombatSkill(SkillPool.SPIN_JUMP_COMBAT);
+        KoLCharacter.addCombatSkill(skill.getSkillName());
+        break;
+      case SkillPool.MULTI_BOUNCE:
+        KoLCharacter.addAvailableCombatSkill(SkillPool.MULTI_BOUNCE_COMBAT);
+        KoLCharacter.addCombatSkill(skill.getSkillName());
+        break;
+
+        // Comprehensive Cartography grants Map the Monsters
+      case SkillPool.COMPREHENSIVE_CARTOGRAPHY:
+        KoLCharacter.addAvailableSkill(SkillPool.MAP_THE_MONSTERS);
+        break;
+
+      case SkillPool.EMOTIONALLY_CHIPPED:
+      case SkillPool.REPLICA_EMOTIONALLY_CHIPPED:
+        KoLCharacter.addAvailableSkill(SkillPool.FEEL_DISAPPOINTED);
+        KoLCharacter.addAvailableSkill(SkillPool.FEEL_ENVY);
+        KoLCharacter.addAvailableSkill(SkillPool.FEEL_EXCITEMENT);
+        KoLCharacter.addAvailableSkill(SkillPool.FEEL_HATRED);
+        KoLCharacter.addAvailableSkill(SkillPool.FEEL_LONELY);
+        KoLCharacter.addAvailableSkill(SkillPool.FEEL_LOST);
+        KoLCharacter.addAvailableSkill(SkillPool.FEEL_NERVOUS);
+        KoLCharacter.addAvailableSkill(SkillPool.FEEL_NOSTALGIC);
+        KoLCharacter.addAvailableSkill(SkillPool.FEEL_PEACEFUL);
+        KoLCharacter.addAvailableSkill(SkillPool.FEEL_PRIDE);
+        KoLCharacter.addAvailableSkill(SkillPool.FEEL_SUPERIOR);
+        break;
+    }
+
+    if (SkillDatabase.isCombat(skillId)) {
+      KoLCharacter.addCombatSkill(skill.getSkillName());
+    }
+
+    if (SkillDatabase.isNonCombat(skillId)) {
+      KoLConstants.usableSkills.add(skill);
+      LockableListFactory.sort(KoLConstants.usableSkills);
+    }
+
+    if (SkillDatabase.isSummon(skillId)) {
+      KoLConstants.summoningSkills.add(skill);
+      LockableListFactory.sort(KoLConstants.summoningSkills);
+    }
+
+    if (SkillDatabase.isRemedy(skillId)) {
+      KoLConstants.remedySkills.add(skill);
+      LockableListFactory.sort(KoLConstants.remedySkills);
+    }
+
+    // effects: not shared
+    if (SkillDatabase.isSong(skillId)) {
+      KoLConstants.songSkills.add(skill);
+      LockableListFactory.sort(KoLConstants.songSkills);
+    } else if (SkillDatabase.isExpression(skillId)) {
+      KoLConstants.expressionSkills.add(skill);
+      LockableListFactory.sort(KoLConstants.expressionSkills);
+    } else if (SkillDatabase.isWalk(skillId)) {
+      KoLConstants.walkSkills.add(skill);
+      LockableListFactory.sort(KoLConstants.walkSkills);
+    } else if (SkillDatabase.isSelfOnly(skillId)) {
+      KoLConstants.selfOnlySkills.add(skill);
+      LockableListFactory.sort(KoLConstants.selfOnlySkills);
+    } else if (SkillDatabase.isBuff(skillId)) {
+      KoLConstants.buffSkills.add(skill);
+      LockableListFactory.sort(KoLConstants.buffSkills);
     }
   }
 
@@ -4340,6 +4362,7 @@ public abstract class KoLCharacter {
             || ascensionClass == AscensionClass.AVATAR_OF_SNEAKY_PETE
             || ascensionClass == AscensionClass.GELATINOUS_NOOB
             || KoLCharacter.getLimitMode() == LimitMode.BIRD
+            || KoLCharacter.hasEquipped(ItemPool.FOCUSED_MAGNETRON_PISTOL, Slot.WEAPON)
             || KoLCharacter.hasEquipped(ItemPool.TINY_BLACK_HOLE, Slot.OFFHAND)
             || KoLCharacter.hasEquipped(ItemPool.MIME_ARMY_INFILTRATION_GLOVE));
   }
@@ -5235,6 +5258,9 @@ public abstract class KoLCharacter {
     newModifiers.applyAdditionalStomachCapacityModifiers();
     newModifiers.applyAdditionalSpleenCapacityModifiers();
 
+    // free rests
+    newModifiers.applyAdditionalFreeRestModifiers();
+
     // Lastly, experience adjustment also implicitly depends on
     // monster level.  Add that information.
 
@@ -5585,30 +5611,90 @@ public abstract class KoLCharacter {
             "shirt power");
         break;
     }
+
+    if (inElevenThingIHateAboutU() && item.priority == AdventureResult.Priority.ITEM) {
+      Lookup source = new Lookup(ModifierType.PATH, Path.ELEVEN_THINGS.getName());
+      int eyes = getEyeosity(item.getName());
+      int ewes = getEweosity(item.getName());
+      BiConsumer<DoubleModifier, Integer> applyModifierIfNotEmpty =
+          (mod, value) -> {
+            if (value == 0) {
+              return;
+            }
+
+            newModifiers.addDouble(mod, value, source);
+          };
+
+      switch (slot) {
+        case HAT:
+          applyModifierIfNotEmpty.accept(DoubleModifier.INITIATIVE, eyes * 25);
+          applyModifierIfNotEmpty.accept(DoubleModifier.INITIATIVE, ewes * -50);
+          break;
+        case CONTAINER:
+          applyModifierIfNotEmpty.accept(DoubleModifier.HP, eyes * 10);
+          applyModifierIfNotEmpty.accept(DoubleModifier.MP, eyes * 5);
+          applyModifierIfNotEmpty.accept(DoubleModifier.HP, ewes * -10);
+          applyModifierIfNotEmpty.accept(DoubleModifier.MP, ewes * -5);
+          break;
+        case WEAPON:
+          applyModifierIfNotEmpty.accept(DoubleModifier.WEAPON_DAMAGE, eyes * 10);
+          applyModifierIfNotEmpty.accept(DoubleModifier.FUMBLE, ewes * 11);
+          break;
+        case OFFHAND:
+          applyModifierIfNotEmpty.accept(DoubleModifier.ITEMDROP, eyes * 10);
+          applyModifierIfNotEmpty.accept(DoubleModifier.MEATDROP, ewes * -10);
+          break;
+        case PANTS:
+          applyModifierIfNotEmpty.accept(DoubleModifier.HOT_RESISTANCE, eyes);
+          applyModifierIfNotEmpty.accept(DoubleModifier.COLD_RESISTANCE, eyes);
+          applyModifierIfNotEmpty.accept(DoubleModifier.SPOOKY_RESISTANCE, eyes);
+          applyModifierIfNotEmpty.accept(DoubleModifier.STENCH_RESISTANCE, eyes);
+          applyModifierIfNotEmpty.accept(DoubleModifier.SLEAZE_RESISTANCE, eyes);
+          applyModifierIfNotEmpty.accept(DoubleModifier.MEATDROP, ewes * -10);
+          break;
+        case ACCESSORY1:
+        case ACCESSORY2:
+        case ACCESSORY3:
+          applyModifierIfNotEmpty.accept(DoubleModifier.MEATDROP, eyes * 10);
+          applyModifierIfNotEmpty.accept(DoubleModifier.ITEMDROP, ewes * -10);
+          break;
+        case FAMILIAR:
+          applyModifierIfNotEmpty.accept(DoubleModifier.FAMILIAR_WEIGHT, eyes * 5);
+          applyModifierIfNotEmpty.accept(DoubleModifier.FAMILIAR_WEIGHT, ewes * -5);
+          break;
+      }
+    }
   }
 
   private static void addOffhandRemarkable(
       Map<Slot, AdventureResult> equipment, Modifiers newModifiers) {
     var offhand = equipment.get(Slot.OFFHAND);
-    addOffhandRemarkable(offhand, newModifiers);
+    addOffhandRemarkable(equipment, offhand, newModifiers);
     // and also offhand items that are equipped on the familiar
     var famItem = equipment.get(Slot.FAMILIAR);
-    addOffhandRemarkable(famItem, newModifiers);
+    addOffhandRemarkable(equipment, famItem, newModifiers);
   }
 
-  private static void addOffhandRemarkable(AdventureResult item, Modifiers newModifiers) {
-    if (item != null
-        && item != EquipmentRequest.UNEQUIP
-        && ItemDatabase.getConsumptionType(item.id) == ConsumptionType.OFFHAND) {
-      if (item.id != ItemPool.LATTE_MUG) {
-        var mods = ModifierDatabase.getItemModifiers(item.id);
+  private static void addOffhandRemarkable(
+      Map<Slot, AdventureResult> equipment, AdventureResult item, Modifiers newModifiers) {
+    if (item == null
+        || item == EquipmentRequest.UNEQUIP
+        || ItemDatabase.getConsumptionType(item.id) != ConsumptionType.OFFHAND
+        || item.id == ItemPool.LATTE_MUG) {
+      return;
+    }
+
+    // use sleeved card as source of modifiers if applicable
+    if (item.id == ItemPool.CARD_SLEEVE) {
+      item = equipment.get(Slot.CARDSLEEVE);
+    }
+
+    var mods = ModifierDatabase.getItemModifiers(item.id);
+    addModifiersWithOffHandRemarkable(newModifiers, mods);
+    for (var modeable : Modeable.values()) {
+      if (item.id == modeable.getItemId()) {
+        mods = ModifierDatabase.getModifiers(modeable.getModifierType(), modeable.getState());
         addModifiersWithOffHandRemarkable(newModifiers, mods);
-        for (var modeable : Modeable.values()) {
-          if (item.id == modeable.getItemId()) {
-            mods = ModifierDatabase.getModifiers(modeable.getModifierType(), modeable.getState());
-            addModifiersWithOffHandRemarkable(newModifiers, mods);
-          }
-        }
       }
     }
   }
@@ -5617,6 +5703,13 @@ public abstract class KoLCharacter {
     var copyMods = new Modifiers(mods);
     copyMods.setLookup(new Lookup(ModifierType.EFFECT, EffectPool.OFFHAND_REMARKABLE));
     newModifiers.add(copyMods);
+  }
+
+  public static int applyInebrietyModifiers(Consumable consumable) {
+    if (KoLCharacter.inElevenThingIHateAboutU()) {
+      return consumable.getInebriety() + getEweosity(consumable.name);
+    }
+    return consumable.getInebriety();
   }
 
   public static final double getSmithsnessModifier(

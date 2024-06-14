@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.textui;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
@@ -9,6 +10,7 @@ import static org.hamcrest.Matchers.startsWith;
 import static org.hamcrest.text.CharSequenceLength.hasLength;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.textui.parsetree.LibraryFunction;
 import org.junit.jupiter.api.Test;
@@ -26,9 +28,19 @@ public class TypescriptDefinitionTest {
         .orElse(null);
   }
 
+  private List<LibraryFunction> findFunctionOverloads(final String signaturePrefix) {
+    var name = signaturePrefix.substring(0, signaturePrefix.indexOf("("));
+
+    return Arrays.stream(RuntimeLibrary.functions.findFunctions(name))
+        .filter(f -> f.getSignature().startsWith(signaturePrefix))
+        .filter(LibraryFunction.class::isInstance)
+        .map(LibraryFunction.class::cast)
+        .toList();
+  }
+
   @Test
   void producesAnyOutput() {
-    assertThat(TypescriptDefinition.getContents(), hasLength(greaterThan(0)));
+    assertThat(TypescriptDefinition.getTypeDefContents(), hasLength(greaterThan(0)));
   }
 
   private static Stream<Arguments> provideStringsForFormatFunction() {
@@ -40,7 +52,10 @@ public class TypescriptDefinitionTest {
             "export function adv1(locationValue: Location, adventuresUsedValue: number, filterFunction: string | ((round: number, monster: Monster, text: string) => string)): boolean;"),
         Arguments.of(
             "run_combat(string)",
-            "export function runCombat(filterFunction: string | ((round: number, monster: Monster, text: string) => string)): string;"));
+            "export function runCombat(filterFunction: string | ((round: number, monster: Monster, text: string) => string)): string;"),
+        Arguments.of(
+            "fact_type(class, path, monster)",
+            "export function factType(cls: Class, path: Path, monster: Monster): \"none\" | \"effect\" | \"item\" | \"stats\" | \"hp\" | \"mp\" | \"meat\" | \"modifier\";"));
   }
 
   @ParameterizedTest
@@ -48,6 +63,27 @@ public class TypescriptDefinitionTest {
   void canFormatFunctions(final String signature, final String formatted) {
     var fn = findFunction(signature);
     assertThat(TypescriptDefinition.formatFunction(fn), equalTo(formatted));
+  }
+
+  private static Stream<Arguments> provideStringsForMergeFunction() {
+    return Stream.of(
+        Arguments.of(
+            "adv1(location",
+            List.of(
+                "export function adv1(locationValue: Location, adventuresUsedValue?: number): boolean;",
+                "export function adv1(locationValue: Location, adventuresUsedValue: number, filterFunction?: string | ((round: number, monster: Monster, text: string) => string)): boolean;")),
+        Arguments.of(
+            "buy(item",
+            List.of(
+                "export function buy(item: Item, quantity?: number): boolean;",
+                "export function buy(item: Item, quantity: number, price: number): number;")));
+  }
+
+  @ParameterizedTest
+  @MethodSource("provideStringsForMergeFunction")
+  void mergesOverloadsToOptionalParameters(final String name, final List<String> lines) {
+    var fns = findFunctionOverloads(name);
+    assertThat(TypescriptDefinition.formatFunction(fns), equalTo(lines));
   }
 
   @Test
@@ -64,7 +100,7 @@ public class TypescriptDefinitionTest {
   void firstLineContainsValidVersionNumber() {
     // We get the version number with `PACKAGE_VERSION=$(head -n 1 index.d.ts | cut -c 5-)`
     // As such, here we test that this produces a valid version number
-    var contents = TypescriptDefinition.getContents();
+    var contents = TypescriptDefinition.getTypeDefContents();
     var firstLine = contents.substring(0, contents.indexOf("\n"));
     var version = firstLine.substring(4);
     assertThat(version, matchesPattern("^\\d+\\.\\d+\\.\\d+$"));
@@ -73,5 +109,11 @@ public class TypescriptDefinitionTest {
   @Test
   void containsEnvironmentUnion() {
     assertThat(TypescriptDefinition.getEnvironmentUnion(), startsWith("\"indoor\""));
+  }
+
+  @Test
+  void headerFile() {
+    var contents = TypescriptDefinition.getHeaderFileContents();
+    assertThat(contents, containsString("module.exports.visitUrl = "));
   }
 }

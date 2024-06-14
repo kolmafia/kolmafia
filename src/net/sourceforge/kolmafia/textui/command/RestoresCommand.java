@@ -56,7 +56,7 @@ public class RestoresCommand extends AbstractCommand {
       output.append("No restore details");
     }
 
-    RequestLogger.printLine(output.toString());
+    RequestLogger.printHtml(output.toString());
     RequestLogger.printLine();
   }
 }

@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.utilities;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.endsWith;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -112,6 +113,7 @@ class StringUtilitiesTest {
     }
     return retVal.toString();
   }
+
   /*
   This inserts a break into a string
    */
@@ -760,5 +762,22 @@ class StringUtilitiesTest {
     public void nonMatches(String str, String filter) {
       assertFalse(StringUtilities.matchesFilter(str, filter));
     }
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    "0, th",
+    "1, st",
+    "2, nd",
+    "3, rd",
+    "4, th",
+    "11, th",
+    "12, th",
+    "13, th",
+    "121, st",
+    "10000, th",
+  })
+  void withOrdinalSuffix(final int number, final String expected) {
+    assertThat(StringUtilities.withOrdinalSuffix(number), endsWith(expected));
   }
 }

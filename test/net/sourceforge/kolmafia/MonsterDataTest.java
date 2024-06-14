@@ -1,9 +1,11 @@
 package net.sourceforge.kolmafia;
 
+import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withMoxie;
 import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
@@ -12,10 +14,12 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
+import internal.helpers.Player;
 import java.util.EnumSet;
 import java.util.Map;
 import java.util.Set;
 import net.sourceforge.kolmafia.MonsterData.Attribute;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
@@ -339,6 +343,16 @@ public class MonsterDataTest {
 
   @Nested
   class ItemDrops {
+    @Test
+    void noItemDrops() {
+      var monster = MonsterDatabase.findMonster("giant amorphous blob");
+
+      var builder = new StringBuilder();
+      monster.appendItemDrops(builder);
+
+      assertThat(builder.toString(), not(containsString("Drops: ")));
+    }
+
     @ParameterizedTest
     @CsvSource({
       // Test regular drops
@@ -346,10 +360,16 @@ public class MonsterDataTest {
       "skeleton with a mop, 'beer-soaked mop (10), ice-cold Willer (30), ice-cold Willer (30)'",
       // Test mix of pp and no pp
       "Dr. Awkward, 'Drowsy Sword (100 no pp), Staff of Fats (100 no pp), fumble formula (5 pp only)'",
+      // Test mix of normal and accordion
+      "bar, 'bar skin (35), baritone accordion (stealable accordion)'",
       // Test mix of item drops and bounty drops
       "novelty tropical skeleton, 'cherry (0), cherry (0), grapefruit (0), grapefruit (0), orange (0), orange (0), strawberry (0), strawberry (0), lemon (0), lemon (0), novelty fruit hat (0 cond), cherry stem (bounty)'",
       // Test fractional drops
-      "stench zombie, 'Dreadsylvanian Almanac page (1 no mod), Freddy Kruegerand (5 no mod), muddy skirt (0.1 cond)'"
+      "stench zombie, 'Dreadsylvanian Almanac page (1 no mod), Freddy Kruegerand (5 no mod), muddy skirt (0.1 cond)'",
+      // Test multi-drops
+      "skulldozer, '20 skeleton (100), 10 skeleton bone (100), skulldozer egg (5)'",
+      // Test variable multi-drops
+      "gingerbread pigeon, '1-3 sprinkles (100)'"
     })
     void itemDropsAreRenderedProperly(final String monsterName, final String itemDropString) {
       var monster = MonsterDatabase.findMonster(monsterName);
@@ -357,7 +377,90 @@ public class MonsterDataTest {
       var builder = new StringBuilder();
       monster.appendItemDrops(builder);
 
-      assertThat(builder.toString(), equalTo("<br />Item Drops: " + itemDropString));
+      assertThat(builder.toString(), equalTo("<br />Drops: " + itemDropString));
+    }
+  }
+
+  @Nested
+  class MeatDrops {
+    @Test
+    void monsterWithoutMeatDisplaysNothing() {
+      var monster = MonsterDatabase.findMonster("giant amorphous blob");
+
+      var builder = new StringBuilder();
+      monster.appendMeat(builder);
+
+      assertThat(builder.toString(), not(containsString("Meat: ")));
+    }
+
+    @Test
+    void meatDropsAreRenderedWithoutBonuses() {
+      var monster = MonsterDatabase.findMonster("Knob Goblin Embezzler");
+
+      var builder = new StringBuilder();
+      monster.appendMeat(builder);
+
+      assertThat(builder.toString(), equalTo("<br />Meat: 800 - 1200"));
+    }
+
+    @Test
+    void statefulMeatDropsAreRenderedWithBonuses() {
+      var monster = MonsterDatabase.findMonster("Knob Goblin Embezzler");
+
+      var cleanups = Player.withEffect(EffectPool.FROSTY);
+
+      try (cleanups) {
+        var builder = new StringBuilder();
+        monster.appendMeat(builder, true);
+
+        assertThat(builder.toString(), equalTo("<br />Meat: 2400 - 3600"));
+      }
+    }
+  }
+
+  @Nested
+  class SprinkleDrops {
+    @Test
+    void monsterWithoutSprinklesDisplaysNothing() {
+      var monster = MonsterDatabase.findMonster("giant amorphous blob");
+
+      var builder = new StringBuilder();
+      monster.appendSprinkles(builder);
+
+      assertThat(builder.toString(), not(containsString("Sprinkles: ")));
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "gingerbread finance bro, '28 - 32'",
+      "Judge Fudge, '100'",
+    })
+    void sprinkleDropsAreRenderedWithoutBonuses(final String monsterName, final String dropString) {
+      var monster = MonsterDatabase.findMonster(monsterName);
+
+      var builder = new StringBuilder();
+      monster.appendSprinkles(builder);
+
+      assertThat(builder.toString(), equalTo("<br />Sprinkles: " + dropString));
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "gingerbread finance bro, '42 - 48'",
+      "Judge Fudge, '150'",
+    })
+    void statefulSprinkleDropsAreRenderedWithBonuses(
+        final String monsterName, final String dropString) {
+      var monster = MonsterDatabase.findMonster(monsterName);
+
+      var cleanups = withEffect(EffectPool.SPRINKLE_SENSE);
+
+      try (cleanups) {
+        var builder = new StringBuilder();
+        monster.appendSprinkles(builder, true);
+
+        assertThat(builder.toString(), equalTo("<br />Sprinkles: " + dropString));
+      }
     }
   }
 

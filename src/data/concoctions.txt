@@ -520,8 +520,8 @@ electric tricky dragon roll	SUSHI	slick fish meat	white rice	seaweed	sea cucumbe
 electric sneaky rabbit roll	SUSHI	slick fish meat	white rice	seaweed	sea carrot	eel sauce
 electric slippery snake roll	SUSHI	slick fish meat	white rice	seaweed	sea avocado	eel sauce
 
-tempura cucumber bento box with anemone sauce 	SUSHI	Mer-kin lunchbox	beefy fish meat	glistening fish meat	slick fish meat	white rice	seaweed	anemone sauce	tempura cucumber
-tempura carrot bento box with anemone sauce 	SUSHI	Mer-kin lunchbox	beefy fish meat	glistening fish meat	slick fish meat	white rice	seaweed	anemone sauce	tempura carrot
+tempura cucumber bento box with anemone sauce	SUSHI	Mer-kin lunchbox	beefy fish meat	glistening fish meat	slick fish meat	white rice	seaweed	anemone sauce	tempura cucumber
+tempura carrot bento box with anemone sauce	SUSHI	Mer-kin lunchbox	beefy fish meat	glistening fish meat	slick fish meat	white rice	seaweed	anemone sauce	tempura carrot
 tempura avocado bento box with anemone sauce	SUSHI	Mer-kin lunchbox	beefy fish meat	glistening fish meat	slick fish meat	white rice	seaweed	anemone sauce	tempura avocado
 tempura broccoli bento box with anemone sauce	SUSHI	Mer-kin lunchbox	beefy fish meat	glistening fish meat	slick fish meat	white rice	seaweed	anemone sauce	tempura broccoli
 tempura cauliflower bento box with anemone sauce	SUSHI	Mer-kin lunchbox	beefy fish meat	glistening fish meat	slick fish meat	white rice	seaweed	anemone sauce	tempura cauliflower
@@ -2289,15 +2289,15 @@ opium grenade	COMBINE	poppy	poppy
 # Crimboku toys.  These are items which are created at Uncle Crimboku
 # after collecting enough components.
 
-bubble-wrap simulator	CRIMBO12	plastic ingot(4)	electrical thingamabob(1)
-blind-packed capsule toy	CRIMBO12	plastic ingot(7)	electrical thingamabob(3)
-brainwave-controlled unicorn horn	CRIMBO12	plastic ingot(70)	electrical thingamabob(50)
-electronic dulcimer pants	CRIMBO12	plastic ingot(20)	electrical thingamabob(80)
-Frown Exerciser	CRIMBO12	plastic ingot(50)	electrical thingamabob(10)
-BittyCar HotCar	CRIMBO12	plastic ingot(100)	electrical thingamabob(150)
-BittyCar SoulCar	CRIMBO12	plastic ingot(200)	electrical thingamabob(300)
-BittyCar MeatCar	CRIMBO12	plastic ingot(400)	electrical thingamabob(600)
-ChibiBuddy&trade; (off)	CRIMBO12	plastic ingot(1100)	electrical thingamabob(1400)
+bubble-wrap simulator	CRIMBO12	plastic ingot (4)	electrical thingamabob (1)
+blind-packed capsule toy	CRIMBO12	plastic ingot (7)	electrical thingamabob (3)
+brainwave-controlled unicorn horn	CRIMBO12	plastic ingot (70)	electrical thingamabob (50)
+electronic dulcimer pants	CRIMBO12	plastic ingot (20)	electrical thingamabob (80)
+Frown Exerciser	CRIMBO12	plastic ingot (50)	electrical thingamabob (10)
+BittyCar HotCar	CRIMBO12	plastic ingot (100)	electrical thingamabob (150)
+BittyCar SoulCar	CRIMBO12	plastic ingot (200)	electrical thingamabob (300)
+BittyCar MeatCar	CRIMBO12	plastic ingot (400)	electrical thingamabob (600)
+ChibiBuddy&trade; (off)	CRIMBO12	plastic ingot (1100)	electrical thingamabob (1400)
 
 Super Crimboman Ultra Mega Hypersword	SUSE	Crimbo Elf creepy bobble-head	Crimbo stogie-scented room odorizer	Crimbo bottomless hot cocoa mug	Crimbo tree flocker	Crimbo light-up Rudolph doll
 Crimbo Elf creepy bobble-head	SUSE	Super Crimboman Ultra Mega Hypersword
@@ -2414,9 +2414,9 @@ scale-mail underwear	GRANDMA, ROW132	dull fish scale (25)	pristine fish scale
 # KOL High School Art Class
 giant eraser	ARTCLASS, ROW163	eraser nubbin (4)
 giant Faraday cage	ARTCLASS, ROW165	twisted piece of wire (8)	angry inch (2)	eraser nubbin (2)	Mountain Stream Code Black Alert (1)
-modeling claymore 	ARTCLASS, ROW166	lump of clay (6)	twisted piece of wire (2)	angry inch (4)	eraser nubbin (2)	illegal firecracker (2)
-quasireligious sculpture 	ARTCLASS, ROW164	lump of clay (2)	twisted piece of wire (6)	angry inch (4)	Mountain Stream Code Black Alert(1)
-sticky clay homunculus 	ARTCLASS, ROW167	lump of clay (4)	twisted piece of wire (2)	angry inch (2)	Mountain Stream Code Black Alert (1)
+modeling claymore	ARTCLASS, ROW166	lump of clay (6)	twisted piece of wire (2)	angry inch (4)	eraser nubbin (2)	illegal firecracker (2)
+quasireligious sculpture	ARTCLASS, ROW164	lump of clay (2)	twisted piece of wire (6)	angry inch (4)	Mountain Stream Code Black Alert (1)
+sticky clay homunculus	ARTCLASS, ROW167	lump of clay (4)	twisted piece of wire (2)	angry inch (2)	Mountain Stream Code Black Alert (1)
 
 # KOL High School Chemistry Class
 dirty stinkbomb	CHEMCLASS, ROW171	chlorine crystal (2)	ph balancer (2)	nugget of sodium (4)	surgical tape (1)	illegal firecracker (1)
@@ -2426,11 +2426,11 @@ superwater	CHEMCLASS, ROW172	ph balancer (6)	mysterious chemical residue (2)	Mou
 yellowcake bomb	CHEMCLASS, ROW170	chlorine crystal (4)	ph balancer (4)	mysterious chemical residue (4)	surgical tape (1)	illegal firecracker (1)
 
 # KOL High School Shop Class
-deathchucks 	SHOPCLASS, ROW162	jigsaw blade (4)	wood screw (2)	balsa plank (2)	scrap metal (1)
-miniature suspension bridge 	SHOPCLASS, ROW158	wood screw (4)	balsa plank (4)	blob of wood glue (2)	surgical tape (1)
-Staff of the Lunch Lady 	SHOPCLASS, ROW159	jigsaw blade (2)	balsa plank (6)	blob of wood glue (4)
+deathchucks	SHOPCLASS, ROW162	jigsaw blade (4)	wood screw (2)	balsa plank (2)	scrap metal (1)
+miniature suspension bridge	SHOPCLASS, ROW158	wood screw (4)	balsa plank (4)	blob of wood glue (2)	surgical tape (1)
+Staff of the Lunch Lady	SHOPCLASS, ROW159	jigsaw blade (2)	balsa plank (6)	blob of wood glue (4)
 universal key	SHOPCLASS, ROW160	jigsaw blade (4)	wood screw (4)	blob of wood glue (8)	surgical tape (1)	scrap metal (1)
-world's most dangerous birdhouse 	SHOPCLASS, ROW161	jigsaw blade (4)	wood screw (4)	balsa plank (2)	blob of wood glue (2)	illegal firecracker (2)
+world's most dangerous birdhouse	SHOPCLASS, ROW161	jigsaw blade (4)	wood screw (4)	balsa plank (2)	blob of wood glue (2)	illegal firecracker (2)
 
 # Beer Can
 tin cup	MUSE	fancy tin beer can (1)
@@ -2958,7 +2958,7 @@ murderbot live wire	COMBINE	murderbot component casing	murderbot power cell
 murderbot mask	COMBINE	murderbot component casing	murderbot component casing
 murderbot shield unit	COMBINE	murderbot power cell	murderbot power cell
 murderbot spring injector	COMBINE	murderbot component casing	murderbot monofilament
-murderbot whip 	COMBINE	murderbot monofilament	murderbot monofilament
+murderbot whip	COMBINE	murderbot monofilament	murderbot monofilament
 spant backplate	SPANT, ROW942	spant chitin (4)	spant tendon (6)
 spant shield	SPANT, ROW940	spant chitin (6)	spant tendon (4)
 spant shoulderpads	SPANT, ROW941	spant chitin (3)	spant tendon (7)
@@ -3279,3 +3279,75 @@ cat o' nine teeth	FIXODENT, ROW1393	fixodent (1)	loose teeth (9)
 
 # Short
 chitin powder paste	COOK	chitin powder	haemolymphnode
+
+# Burning Leaves
+autumnic bomb	BURNING_LEAVES	inflammable leaf (37)
+impromptu torch	BURNING_LEAVES	inflammable leaf (42)
+flaming fig leaf	BURNING_LEAVES	inflammable leaf (43)
+smoldering drape	BURNING_LEAVES	inflammable leaf (44)
+distilled resin	BURNING_LEAVES	inflammable leaf (50)
+autumnal aegis	BURNING_LEAVES	inflammable leaf (66)
+lit leaf lasso	BURNING_LEAVES	inflammable leaf (69)
+forest canopy bed	BURNING_LEAVES	inflammable leaf (74)
+autumnic balm	BURNING_LEAVES	inflammable leaf (99)
+day shortener	BURNING_LEAVES	inflammable leaf (222)
+coping juice	BURNING_LEAVES	inflammable leaf (1111)
+smoldering leafcutter ant egg	BURNING_LEAVES	inflammable leaf (6666)
+super-heated leaf	BURNING_LEAVES	inflammable leaf (11111)
+
+# Crimbo 2023
+gunwale whalegun	COMBINE	gunwale	whalegun
+wet tack	COOK	Crimbuccaneer whale oil	peppermint tack
+whalecake	COOK	military-grade peppermint oil	whalesteak
+yule grog	MIX	military-grade peppermint oil	old-school pirate grog
+red white and blue claret	MIX	Crimbuccaneer whale oil	red and white claret
+Crimbow Rainbo	MIX	yule grog	red white and blue claret
+
+# WereProfessor - Tinkering Bench
+
+biphasic molecular oculus	TINKERING_BENCH, ROW1467	smashed scientific equipment
+triphasic molecular oculus	TINKERING_BENCH, ROW1468	biphasic molecular oculus	smashed scientific equipment
+focused magnetron pistol	TINKERING_BENCH, ROW1476	smashed scientific equipment
+motion sensor	TINKERING_BENCH, ROW1475	smashed scientific equipment
+quick-release belt pouch	TINKERING_BENCH, ROW1472	smashed scientific equipment
+quick-release fannypack	TINKERING_BENCH, ROW1473	quick-release belt pouch	smashed scientific equipment
+quick-release utility belt	TINKERING_BENCH, ROW1474	quick-release fannypack	smashed scientific equipment
+high-tension exoskeleton	TINKERING_BENCH, ROW1469	smashed scientific equipment
+ultra-high-tension exoskeleton	TINKERING_BENCH, ROW1470	high-tension exoskeleton	smashed scientific equipment
+irresponsible-tension exoskeleton	TINKERING_BENCH, ROW1471	ultra-high-tension exoskeleton	smashed scientific equipment
+
+# Yams
+
+yam burrito	COOK	flat dough	yam
+yam mayo	COOK	ghuol egg	yam
+yam slider	COOK	wad of dough	yam
+yam martini	MIX	bottle of vodka	yam
+sweet potato punch	ACOCK	coconut shell	yam martini
+Southern yam	ACOCK	little paper umbrella	yam martini
+sweet potato o' mine	ACOCK	magical ice cubes	yam martini
+
+Mayam spinach	MAYAM
+yam and swiss	MAYAM
+yam cannon	MAYAM
+tiny yam cannon	MAYAM
+yam battery	MAYAM
+stuffed yam stinkbomb	MAYAM
+furry yam buckler	MAYAM
+thanksgiving bomb	MAYAM
+yamtility belt	MAYAM
+
+# Kiwi Kwiki Mart
+mini kiwi bikini	KIWI, ROW1477	mini kiwi (2)
+mini kiwitini	KIWI, ROW1478	mini kiwi	bottle of vodka
+mini kiwitini	KIWI, ROW1479	mini kiwi	bottle of gin
+mini kiwi invisible dirigible	KIWI, ROW1480	mini kiwi (3)
+mini kiwi aioli	KIWI, ROW1481	mini kiwi (5)
+mini kiwi silicon tiepin	KIWI, ROW1482	mini kiwi (3)
+mini kiwi tipi	KIWI, ROW1483	mini kiwi
+mini kiwi intoxicating spirits	KIWI, ROW1484	mini kiwi (3)
+mini kiwi illicit antibiotic	KIWI, ROW1485	mini kiwi (3)
+mini kiwi antimilitaristic hippy petition	KIWI, ROW1486	mini kiwi (3)
+mini kiwi whipping stick	KIWI, ROW1487	mini kiwi (4)
+mini kiwi icepick	KIWI, ROW1488	mini kiwi (4)
+mini kiwi-flavored aspirin-injecting lipstick	KIWI, ROW1489	mini kiwi (3)
+mini kiwi digitized cookies	KIWI, ROW1490	mini kiwi (3)

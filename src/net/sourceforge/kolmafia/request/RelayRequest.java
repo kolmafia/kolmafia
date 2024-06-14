@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.DataUtilities;
@@ -44,6 +45,8 @@ import net.sourceforge.kolmafia.modifiers.ModifierList;
 import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
+import net.sourceforge.kolmafia.objectpool.Concoction;
+import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -61,6 +64,7 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase.Category;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.ResearchBenchRequest.Research;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EquipmentRequirement;
@@ -134,7 +138,11 @@ public class RelayRequest extends PasswordHashRequest {
     DESERT_UNHYDRATED,
     MOHAWK_WIG,
     CELLAR,
+    CELLAR2,
+    CELLAR3,
     BOILER,
+    BOILER2,
+    BOILER3,
     DIARY,
     BORING_DOORS,
     SPELUNKY,
@@ -146,7 +154,9 @@ public class RelayRequest extends PasswordHashRequest {
     RALPH,
     RALPH1,
     RALPH2,
-    DESERT_WEAPON;
+    DESERT_WEAPON,
+    SPRING_SHOES,
+    TRANSFORM;
 
     @Override
     public String toString() {
@@ -817,7 +827,6 @@ public class RelayRequest extends PasswordHashRequest {
         || !urlString.contains("action=ns_11_prism")) {
       return false;
     }
-
     // We are about to free King Ralph
 
     // In Kingdom of Exploathing, you will lose access to Cosmic
@@ -1766,6 +1775,52 @@ public class RelayRequest extends PasswordHashRequest {
     return true;
   }
 
+  public boolean sendSpringShoesWarning() {
+    // place.php?whichplace=plains&action=garbage_grounds
+    String urlString = this.getURLString();
+    if (!urlString.startsWith("place.php")
+        || !urlString.contains("whichplace=plains")
+        || !urlString.contains("garbage_grounds")) {
+      return false;
+    }
+
+    // If it's already confirmed, then proceed
+    if (this.getFormField(Confirm.SPRING_SHOES) != null) {
+      return false;
+    }
+
+    // If they are already wearing spring shoes, no problem
+    if (KoLCharacter.hasEquipped(ItemPool.SPRING_SHOES)) {
+      return false;
+    }
+
+    // If they don't have spring shoes, no problem
+    if (!InventoryManager.hasItem(ItemPool.SPRING_SHOES)) {
+      return false;
+    }
+
+    StringBuilder buf = new StringBuilder();
+    buf.append("You are about to plant an enchanted bean without wearing your spring shoes.");
+    buf.append(
+        " If you are sure you wish to plant without it, click the icon on the left to do so.");
+    buf.append(" If you want to put the shoes on first, click the icon on the right.");
+
+    this.sendOptionalWarning(
+        Confirm.SPRING_SHOES,
+        buf.toString(),
+        "hand.gif",
+        "springshoes.gif",
+        "\"#\" onClick=\"singleUse('inv_equip.php','which=2&action=equip&slot=3&whichitem="
+            + ItemPool.SPRING_SHOES
+            + "&pwd="
+            + GenericRequest.passwordHash
+            + "&ajax=1');void(0);\"",
+        null,
+        null);
+
+    return true;
+  }
+
   private boolean sendBoringDoorsWarning() {
     // Only send this warning once per session
     if (RelayRequest.ignoreBoringDoorsWarning) {
@@ -1986,7 +2041,7 @@ public class RelayRequest extends PasswordHashRequest {
     return true;
   }
 
-  private boolean sendCellarWarning() {
+  boolean sendCellarWarning() {
     // If it's already confirmed, then track that for the session
     if (this.getFormField(Confirm.CELLAR) != null) {
       return false;
@@ -2019,13 +2074,79 @@ public class RelayRequest extends PasswordHashRequest {
       return false;
     }
 
-    String message;
+    // If they don't have Lord Spookyraven's spectacles, there is nothing we can do.
+    if (!InventoryManager.hasItem(ItemPool.SPOOKYRAVEN_SPECTACLES)) {
+      return false;
+    }
 
-    message =
-        "You are about to adventure without reading the Mortar dissolving recipe with glasses equipped. "
-            + " If you are sure you want to do this, click on the image to proceed.";
+    // If they don't have the recipe, offer to get it.
+    // If autoQuest is true, ResultProcessor will read it with glasses equipped.
+    // If autoQuest is false, we'll offer to equip the glasses and then read it
+    if (!InventoryManager.hasItem(ItemPool.MORTAR_DISSOLVING_RECIPE)) {
+      String read = Preferences.getBoolean("autoQuest") ? " and read" : "";
+      String warning =
+          "You are about to adventure without having found the recipe for the mortar-dissolving solution."
+              + " If you are sure you want to do this, click on the icon on the left to proceed."
+              + " If you want to obtain"
+              + read
+              + " the recipe, click the icon on the right.";
 
-    this.sendGeneralWarning("burgerrecipe.gif", message, Confirm.CELLAR);
+      this.sendOptionalWarning(
+          Confirm.CELLAR,
+          warning,
+          "hand.gif",
+          "burgerrecipe.gif",
+          "/place.php?whichplace=manor4&action=manor4_chamberwall",
+          null,
+          null);
+
+      return true;
+    }
+
+    // If already confirmed, then allow it this time.
+    if (this.getFormField(Confirm.CELLAR2) != null) {
+      return false;
+    }
+
+    // They have the recipe and have not read it. If they have glasses equipped, offer to read it.
+    if (KoLCharacter.hasEquipped(ItemPool.SPOOKYRAVEN_SPECTACLES)) {
+      String warning =
+          "You are about to adventure without reading the recipe for the mortar-dissolving solution with glasses equipped."
+              + " If you are sure you want to do this, click on the icon on the left to proceed."
+              + " Since you have the glasses equipped, if you want to read the recipe, click the icon on the right.";
+
+      String action =
+          "\"#\" onClick=\"singleUse('inv_use.php','which=3&whichitem="
+              + ItemPool.MORTAR_DISSOLVING_RECIPE
+              + "&pwd="
+              + GenericRequest.passwordHash
+              + "&ajax=1');void(0);\"";
+
+      this.sendOptionalWarning(
+          Confirm.CELLAR2, warning, "hand.gif", "burgerrecipe.gif", action, null, null);
+
+      return true;
+    }
+
+    // If already confirmed, then allow it this time.
+    if (this.getFormField(Confirm.CELLAR3) != null) {
+      return false;
+    }
+
+    String warning =
+        "You are about to adventure without reading the recipe for the mortar-dissolving solution with glasses equipped."
+            + " If you are sure you want to do this, click on the icon on the left to proceed."
+            + " If you want to equip the glasses before reading the recipe, click the icon on the right.";
+
+    String action =
+        "\"#\" onClick=\"singleUse('inv_equip.php','which=2&action=equip&slot=3&whichitem="
+            + ItemPool.SPOOKYRAVEN_SPECTACLES
+            + "&pwd="
+            + GenericRequest.passwordHash
+            + "&ajax=1');void(0);\"";
+
+    this.sendOptionalWarning(
+        Confirm.CELLAR3, warning, "hand.gif", "burgerrecipe.gif", action, null, null);
 
     return true;
   }
@@ -2073,8 +2194,8 @@ public class RelayRequest extends PasswordHashRequest {
     return true;
   }
 
-  private boolean sendBoilerWarning() {
-    // If it's already confirmed, then track that for the session
+  public boolean sendBoilerWarning() {
+    // If already confirmed, then allow it this time.
     if (this.getFormField(Confirm.BOILER) != null) {
       return false;
     }
@@ -2110,12 +2231,169 @@ public class RelayRequest extends PasswordHashRequest {
       return false;
     }
 
-    String message;
+    if (InventoryManager.hasItem(ItemPool.UNSTABLE_FULMINATE)) {
+      // They have it, but it is not equipped
+      StringBuilder buf = new StringBuilder();
+      buf.append(
+          "You are about to adventure in the Haunted Boiler Room, but do not have unstable fulminate equipped.");
+      buf.append(" If you are sure you want to do this, click the icon on the left to proceed.");
+      buf.append(" If you want to equip the fulminate first, click the icon on the right.");
 
-    message =
-        "You are about to adventure in the Haunted Boiler Room, but do not have Unstable Fulminate equipped. If you are sure you want to do this, click on the image to proceed.";
+      this.sendOptionalWarning(
+          Confirm.BOILER,
+          buf.toString(),
+          "hand.gif",
+          "wine2.gif",
+          "\"#\" onClick=\"singleUse('inv_equip.php','which=2&action=equip&whichitem="
+              + ItemPool.UNSTABLE_FULMINATE
+              + "&pwd="
+              + GenericRequest.passwordHash
+              + "&ajax=1');void(0);\"",
+          null,
+          null);
 
-    this.sendGeneralWarning("wine2.gif", message, Confirm.BOILER);
+      return true;
+    }
+
+    // They don't have it, but perhaps they can make it.
+
+    // If already confirmed, then allow it this time.
+    if (this.getFormField(Confirm.BOILER2) != null) {
+      return false;
+    }
+
+    Concoction recipe = ConcoctionPool.get(ItemPool.UNSTABLE_FULMINATE);
+    if (!recipe.hasIngredients()) {
+      // If they don't have the ingredients for unstable fulminate, it's a
+      // problem, but there's nothing we can do about it.
+      return false;
+    }
+
+    // They have the ingredients, but do they have a range?
+    if (KoLCharacter.hasRange()) {
+      // They have a range installed and can to make the fulminate
+      // Since it's a fancy recipe, it might take a turn to do so.
+
+      StringBuilder buf = new StringBuilder();
+      buf.append(
+          "You are about to adventure in the Haunted Boiler Room, but do not have unstable fulminate equipped.");
+      buf.append(" You don't have that item, but you have the ingredients and could make it.");
+      buf.append(" If you don't want to bother doing this, click the icon on the left to proceed.");
+      buf.append(" If you want to make the fulminate now, click the icon on the right.");
+
+      this.sendOptionalWarning(
+          Confirm.BOILER2,
+          buf.toString(),
+          "hand.gif",
+          "wine2.gif",
+          "\"#\" onClick=\"singleUse('craft.php','action=craft&mode=cook&a="
+              + ItemPool.BOTTLE_OF_CHATEAU_DE_VINEGAR
+              + "&b="
+              + ItemPool.BLASTING_SODA
+              + "&qty=1&pwd="
+              + GenericRequest.passwordHash
+              + "&ajax=1');void(0);\"",
+          null,
+          null);
+
+      return true;
+    }
+
+    // They don't have a range installed, but perhaps they own one.
+
+    // If already confirmed, then allow it this time.
+    if (this.getFormField(Confirm.BOILER3) != null) {
+      return false;
+    }
+
+    if (InventoryManager.getCount(ItemPool.RANGE) > 0) {
+      // They have a range in inventory but forgot to install it.
+      // We can fix that.
+
+      StringBuilder buf = new StringBuilder();
+      buf.append(
+          "You are about to adventure in the Haunted Boiler Room, but do not have unstable fulminate equipped.");
+      buf.append(" You don't have that item, but you have the ingredients and could make it.");
+      buf.append(" It requires a Dramatic range, and you own one, but it is not installed.");
+      buf.append(" If you don't want to bother doing this, click the icon on the left to proceed.");
+      buf.append(
+          " If you want to install the Dramatic range in your kitchen, click the icon on the right.");
+
+      this.sendOptionalWarning(
+          Confirm.BOILER3,
+          buf.toString(),
+          "hand.gif",
+          "oven.gif",
+          "\"#\" onClick=\"singleUse('inv_use.php','which=3&whichitem="
+              + ItemPool.RANGE
+              + "&pwd="
+              + GenericRequest.passwordHash
+              + "&ajax=1');void(0);\"",
+          null,
+          null);
+
+      return true;
+    }
+
+    return false;
+  }
+
+  public boolean sendTransformWarning() {
+    // If already confirmed, then allow it this time.
+    if (this.getFormField(Confirm.TRANSFORM) != null) {
+      return false;
+    }
+
+    // If they are not a Mild-Mannered Professor, no problem
+    if (!KoLCharacter.isMildManneredProfessor()) {
+      return false;
+    }
+
+    // Unless they are about to turn into a Savage Beast, no problem
+    if (Preferences.getInteger("wereProfessorTransformTurns") != 1) {
+      return false;
+    }
+
+    // If they aren't about to adventure, no problem
+    int location = StringUtilities.parseInt(this.getFormField("snarfblat"));
+    if (location == 0) {
+      return false;
+    }
+
+    int rp = Preferences.getInteger("wereProfessorResearchPoints");
+    Set<Research> available = ResearchBenchRequest.loadResearch("beastSkillsAvailable");
+    Set<Research> researchable = new TreeSet<>();
+    for (var research : available) {
+      if (research.cost() <= rp) {
+        researchable.add(research);
+      }
+    }
+
+    // If can't afford to research anything, no problem
+    if (researchable.size() == 0) {
+      return false;
+    }
+
+    StringBuilder buf = new StringBuilder();
+    buf.append(
+        "You are due to transform into a Savage Beast, but have enough Research Points to learn the following beast skills: ");
+    String comma = "";
+    for (var research : researchable) {
+      buf.append(comma);
+      comma = ", ";
+      buf.append(research.field());
+    }
+    buf.append(". If you are sure you want to do this, click the icon on the left to proceed.");
+    buf.append(" If you want to visit your Research Bench, click the icon on the right.");
+
+    this.sendOptionalWarning(
+        Confirm.TRANSFORM,
+        buf.toString(),
+        "hand.gif",
+        "testtube.gif",
+        "\"place.php?whichplace=wereprof_cottage&action=wereprof_researchbench\"",
+        null,
+        null);
 
     return true;
   }
@@ -2633,7 +2911,8 @@ public class RelayRequest extends PasswordHashRequest {
         || KoLCharacter.inRobocore()
         || KoLCharacter.inFirecore()
         || KoLCharacter.inDinocore()
-        || KoLCharacter.inShadowsOverLoathing()) {
+        || KoLCharacter.inShadowsOverLoathing()
+        || KoLCharacter.inWereProfessor()) {
       return false;
     }
 
@@ -3568,6 +3847,7 @@ public class RelayRequest extends PasswordHashRequest {
       RelayRequest.executeAfterAdventureScript();
     }
   }
+
   /**
    * Centralized method for sending warnings before executing a relay request. Call individual
    * warnings from here.
@@ -3711,6 +3991,10 @@ public class RelayRequest extends PasswordHashRequest {
       return true;
     }
 
+    if (this.sendSpringShoesWarning()) {
+      return true;
+    }
+
     if (this.sendBoringDoorsWarning()) {
       return true;
     }
@@ -3740,6 +4024,10 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     if (this.sendHardcorePVPWarning(urlString)) {
+      return true;
+    }
+
+    if (this.sendTransformWarning()) {
       return true;
     }
 

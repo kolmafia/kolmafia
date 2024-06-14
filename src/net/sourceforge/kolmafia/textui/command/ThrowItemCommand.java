@@ -9,6 +9,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase.Attribute;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
 import net.sourceforge.kolmafia.request.CurseRequest;
+import net.sourceforge.kolmafia.request.UseItemRequest;
 
 public class ThrowItemCommand extends AbstractCommand {
   public ThrowItemCommand() {
@@ -36,6 +37,11 @@ public class ThrowItemCommand extends AbstractCommand {
       if (!ItemDatabase.getAttribute(item.getItemId(), Attribute.CURSE)) {
         KoLmafia.updateDisplay(
             MafiaState.ERROR, "The " + item.getName() + " is not properly balanced for throwing.");
+        return;
+      }
+      if (UseItemRequest.maximumUses(item.getItemId()) < 1) {
+        KoLmafia.updateDisplay(
+            MafiaState.ERROR, "You cannot throw any more " + item.getPluralName(2) + " today.");
         return;
       }
       RequestThread.postRequest(new CurseRequest(item, target, msg));

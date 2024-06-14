@@ -2,6 +2,9 @@ package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withAnapest;
+import static internal.helpers.Player.withBanishedMonsters;
+import static internal.helpers.Player.withBanishedPhyla;
+import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withCounter;
 import static internal.helpers.Player.withCurrentRun;
 import static internal.helpers.Player.withEffect;
@@ -12,6 +15,7 @@ import static internal.helpers.Player.withFight;
 import static internal.helpers.Player.withHP;
 import static internal.helpers.Player.withHippyStoneBroken;
 import static internal.helpers.Player.withHttpClientBuilder;
+import static internal.helpers.Player.withIntrinsicEffect;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withLastLocation;
 import static internal.helpers.Player.withNextMonster;
@@ -23,6 +27,7 @@ import static internal.helpers.Player.withWorkshedItem;
 import static internal.helpers.Player.withoutCounters;
 import static internal.helpers.Player.withoutSkill;
 import static internal.matchers.Item.isInInventory;
+import static internal.matchers.Preference.hasIntegerValue;
 import static internal.matchers.Preference.hasStringValue;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -40,9 +45,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import internal.helpers.Cleanups;
 import internal.helpers.RequestLoggerOutput;
 import internal.network.FakeHttpClientBuilder;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
+import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -1117,11 +1126,15 @@ public class FightRequestTest {
   @Test
   public void canDetectPottedPlantWins() {
     RequestLoggerOutput.startStream();
-    var cleanups = new Cleanups(withEquipped(Slot.OFFHAND, "carnivorous potted plant"));
+    var cleanups =
+        new Cleanups(
+            withEquipped(Slot.OFFHAND, "carnivorous potted plant"),
+            withProperty("_carnivorousPottedPlantWins", 0));
     try (cleanups) {
       parseCombatData("request/test_fight_potted_plant.html");
       var text = RequestLoggerOutput.stopStream();
       assertThat(text, containsString("Your potted plant swallows your opponent{s} whole."));
+      assertEquals(1, Preferences.getInteger("_carnivorousPottedPlantWins"));
     }
   }
 
@@ -2232,7 +2245,7 @@ public class FightRequestTest {
     var cleanups =
         new Cleanups(
             withFight(),
-            withProperty("banishedPhyla"),
+            withBanishedPhyla(""),
             withProperty("screechCombats"),
             withFamiliar(FamiliarPool.PATRIOTIC_EAGLE));
 
@@ -2345,7 +2358,7 @@ public class FightRequestTest {
   @Nested
   class JustTheFacts {
     @Test
-    public void canDetectFactsDrops() {
+    void canDetectFactsDrops() {
       RequestLoggerOutput.startStream();
       var cleanups = new Cleanups(withSkill(SkillPool.JUST_THE_FACTS));
       try (cleanups) {
@@ -2360,7 +2373,7 @@ public class FightRequestTest {
     }
 
     @Test
-    public void doesNotLogCircadianFailures() {
+    void doesNotLogCircadianFailures() {
       RequestLoggerOutput.startStream();
       var cleanups =
           new Cleanups(
@@ -2370,6 +2383,132 @@ public class FightRequestTest {
         parseCombatData("request/test_fight_recall_circadian_wrong_monster.html");
         var text = RequestLoggerOutput.stopStream();
         assertThat(text, not(containsString("rythm")));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "true, 1, 2",
+      "false, 1, 11",
+    })
+    void tracksTatterDrop(final boolean success, final int current, final int next) {
+      var cleanups =
+          new Cleanups(
+              withClass(AscensionClass.PASTAMANCER),
+              withPath(Path.NONE),
+              withNextMonster("Sorority Nurse"),
+              withSkill(SkillPool.JUST_THE_FACTS),
+              withProperty("_bookOfFactsTatters", current),
+              withFight());
+      try (cleanups) {
+        parseCombatData(
+            "request/test_fight_book_of_facts_tatter_"
+                + (success ? "success" : "fallback")
+                + ".html");
+        assertThat("_bookOfFactsTatters", isSetTo(next));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "true, 1, 2",
+      "false, 1, 3",
+    })
+    void tracksWishDrop(final boolean success, final int current, final int next) {
+      var cleanups =
+          new Cleanups(
+              withClass(AscensionClass.SEAL_CLUBBER),
+              withPath(Path.CRAZY_RANDOM_SUMMER),
+              withNextMonster("Keese"),
+              withSkill(SkillPool.JUST_THE_FACTS),
+              withProperty("_bookOfFactsWishes", current),
+              withFight());
+      try (cleanups) {
+        parseCombatData(
+            "request/test_fight_book_of_facts_pocket_wish_"
+                + (success ? "success" : "fallback")
+                + ".html");
+        assertThat("_bookOfFactsWishes", isSetTo(next));
+      }
+    }
+
+    @Test
+    void doesNotTrackWishDropAfterMonsterReplacement() {
+      var cleanups =
+          new Cleanups(
+              withClass(AscensionClass.SAUCEROR),
+              withPath(Path.NONE),
+              withNextMonster("chalkdust wraith"),
+              withSkill(SkillPool.JUST_THE_FACTS),
+              withProperty("_bookOfFactsWishes", 0),
+              withFight(0));
+      try (cleanups) {
+        parseCombatData("request/test_fight_book_of_facts_backup.html");
+        assertThat("_bookOfFactsWishes", isSetTo(0));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "true, 3, 1",
+      "false, 1, 2",
+      "false, 3, 0",
+    })
+    void tracksGummiEffect(final boolean success, final int current, final int next) {
+      var cleanups =
+          new Cleanups(
+              withClass(AscensionClass.PASTAMANCER),
+              withPath(Path.NONE),
+              withNextMonster("fiendish can of asparagus"),
+              withSkill(SkillPool.JUST_THE_FACTS),
+              withProperty("bookOfFactsGummi", current),
+              withFight());
+      try (cleanups) {
+        parseCombatData(
+            "request/test_fight_book_of_facts_gummi_"
+                + (success ? "success" : "fallback")
+                + ".html");
+        assertThat("bookOfFactsGummi", isSetTo(next));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "true, 1, 1",
+      "true, 0, 1",
+      "false, 1, 0",
+    })
+    void tracksPinataEffect(final boolean success, final int current, final int next) {
+      var cleanups =
+          new Cleanups(
+              withClass(AscensionClass.PASTAMANCER),
+              withPath(Path.NONE),
+              withNextMonster("axe handle"),
+              withSkill(SkillPool.JUST_THE_FACTS),
+              withProperty("bookOfFactsPinata", current),
+              withFight());
+      try (cleanups) {
+        parseCombatData(
+            "request/test_fight_book_of_facts_pinata_"
+                + (success ? "success" : "fallback")
+                + ".html");
+        assertThat("bookOfFactsPinata", isSetTo(next));
+      }
+    }
+
+    @Test
+    void circadianRhythmsDoesNotBreakWishTracking() {
+      var cleanups =
+          new Cleanups(
+              withClass(AscensionClass.TURTLE_TAMER),
+              withPath(Path.NONE),
+              withNextMonster("Furry Giant"),
+              withSkill(SkillPool.JUST_THE_FACTS),
+              withProperty("_bookOfFactsWishes", 1),
+              withFight());
+      try (cleanups) {
+        parseCombatData("request/test_fight_book_of_facts_rhythms_and_wish.html");
+        assertThat("_bookOfFactsWishes", isSetTo(2));
       }
     }
   }
@@ -2387,6 +2526,231 @@ public class FightRequestTest {
       try (cleanups) {
         parseCombatData("request/test_party_yacht_fight.html");
         assertThat("encountersUntilYachtzeeChoice", isSetTo(19));
+      }
+    }
+  }
+
+  @ParameterizedTest
+  @ValueSource(booleans = {true, false})
+  public void rainmanMonstersOnlyStartCounterInPath(final boolean inRaincore) {
+    var cleanups = new Cleanups(withFight(0), withNextMonster("alley catfish"), withoutCounters());
+
+    if (inRaincore) {
+      cleanups.add(withPath(Path.HEAVY_RAINS));
+    }
+
+    try (cleanups) {
+      parseCombatData("request/test_fight_alley_catfish.html");
+      assertThat(TurnCounter.isCounting("Rain Monster window begin"), is(inRaincore));
+      assertThat(TurnCounter.isCounting("Rain Monster window end"), is(inRaincore));
+    }
+  }
+
+  @Test
+  public void crimbuccaneerScoreIsNotDamage() {
+    var cleanups = new Cleanups(withFight(0));
+    try (cleanups) {
+      assertEquals(0, InventoryManager.getAccessibleCount(ItemPool.ELF_ARMY_MACHINE_PARTS));
+      parseCombatData("request/test_fight_crimbo23.html");
+      assertEquals(3, InventoryManager.getAccessibleCount(ItemPool.ELF_ARMY_MACHINE_PARTS));
+    }
+  }
+
+  @Test
+  void canTrackSuccessfulPrankCardUse() {
+    var cleanups =
+        new Cleanups(withProperty("_prankCardMonster"), withItem(ItemPool.PRANK_CRIMBO_CARD));
+
+    try (cleanups) {
+      parseCombatData(
+          "request/test_fight_elf_crimbo_card.html",
+          "fight.php?action=useitem&whichitem=11487&whichitem2=0");
+      assertThat("_prankCardMonster", isSetTo("Elf Guard engineer"));
+    }
+  }
+
+  @Test
+  void canTrackSuccessfulTrickCoinUse() {
+    var cleanups = new Cleanups(withProperty("_trickCoinMonster"), withItem(ItemPool.TRICK_COIN));
+
+    try (cleanups) {
+      parseCombatData(
+          "request/test_fight_pirate_crimbo_coin.html",
+          "fight.php?action=useitem&whichitem=11480&whichitem2=0");
+      assertThat("_trickCoinMonster", isSetTo("Crimbuccaneer mudlark"));
+    }
+  }
+
+  @Nested
+  class CandyCaneSkills {
+    @Test
+    public void canTrackSurprisinglySweetSlash() {
+      var cleanups = new Cleanups(withProperty("_surprisinglySweetSlashUsed", 0), withFight());
+
+      try (cleanups) {
+        String urlString = "fight.php?action=skill&whichskill=7488";
+        String html = html("request/test_fight_surprisingly_sweet_slash.html");
+        FightRequest.registerRequest(true, urlString);
+        FightRequest.updateCombatData(null, null, html);
+        assertThat("_surprisinglySweetSlashUsed", isSetTo(1));
+      }
+    }
+
+    @Test
+    public void canTrackSurprisinglySweetStab() {
+      var cleanups = new Cleanups(withProperty("_surprisinglySweetStabUsed", 0), withFight());
+
+      try (cleanups) {
+        String urlString = "fight.php?action=skill&whichskill=7489";
+        String html = html("request/test_fight_surprisingly_sweet_stab.html");
+        FightRequest.registerRequest(true, urlString);
+        FightRequest.updateCombatData(null, null, html);
+        assertThat("_surprisinglySweetStabUsed", isSetTo(1));
+      }
+    }
+  }
+
+  @Test
+  public void canTrackMimicEggLay() {
+    var cleanups = new Cleanups(withProperty("_mimicEggsObtained", 0), withFight());
+
+    try (cleanups) {
+      String urlString = "fight.php?action=skill&whichskill=7494";
+      String html = html("request/test_fight_lay_mimic_egg_success.html");
+      FightRequest.registerRequest(true, urlString);
+      FightRequest.updateCombatData(null, null, html);
+      assertThat("_mimicEggsObtained", isSetTo(1));
+    }
+  }
+
+  @Test
+  public void canDetectSpringBoots() {
+    var cleanups = new Cleanups(withFight(), withBanishedMonsters(""));
+
+    try (cleanups) {
+      parseCombatData(
+          "request/test_fight_spring_boots_banish.html", "fight.php?action=skill&whichskill=7501");
+
+      assertThat("banishedMonsters", hasStringValue(startsWith("fluffy bunny:Spring Kick:")));
+    }
+  }
+
+  @Test
+  public void canDetectDarts() {
+    var cleanups = new Cleanups(withFight(), withProperty("dartsThrown", 16));
+
+    try (cleanups) {
+      parseCombatData("request/test_fight_dart.html", "fight.php?action=skill&whichskill=7516");
+
+      assertThat("dartsThrown", hasIntegerValue(equalTo(17)));
+    }
+  }
+
+  @Nested
+  class ResearchPoints {
+    @Test
+    public void initialResearchIsDetected() {
+      var cleanups =
+          new Cleanups(
+              withPath(Path.WEREPROFESSOR),
+              withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR),
+              withProperty("wereProfessorResearchPoints", 11),
+              withProperty("wereProfessorAdvancedResearch", "1000,10,30,20"),
+              withFight(0));
+      try (cleanups) {
+        String html = html("request/test_fight_research_initial.html");
+        String url = "fight.php?ireallymeanit=1709453567";
+        FightRequest.registerRequest(true, url);
+        FightRequest.processResults(null, null, html);
+        assertThat("wereProfessorResearchPoints", isSetTo(12));
+        assertThat("wereProfessorAdvancedResearch", isSetTo("1000,10,30,20"));
+      }
+    }
+
+    @Test
+    public void advancedResearchSuccessIsDetected() {
+      var cleanups =
+          new Cleanups(
+              withPath(Path.WEREPROFESSOR),
+              withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR),
+              withProperty("wereProfessorResearchPoints", 11),
+              withProperty("wereProfessorAdvancedResearch", "1000,10,30,20"),
+              withFight(1));
+      try (cleanups) {
+        String html = html("request/test_fight_research_advanced_success.html");
+        String url = "fight.php?whichskill=7512&action=skill";
+        FightRequest.registerRequest(true, url);
+        FightRequest.processResults(null, null, html);
+        assertThat("wereProfessorResearchPoints", isSetTo(21));
+        assertThat("wereProfessorAdvancedResearch", isSetTo("10,20,30,539,1000"));
+      }
+    }
+
+    @Test
+    public void advancedResearchFailureIsDetected() {
+      var cleanups =
+          new Cleanups(
+              withPath(Path.WEREPROFESSOR),
+              withIntrinsicEffect(EffectPool.MILD_MANNERED_PROFESSOR),
+              withProperty("wereProfessorResearchPoints", 11),
+              withProperty("wereProfessorAdvancedResearch", "1000,10,30,20"),
+              withFight(1));
+      try (cleanups) {
+        String html = html("request/test_fight_research_advanced_failed.html");
+        String url = "fight.php?whichskill=7512&action=skill";
+        FightRequest.registerRequest(true, url);
+        FightRequest.processResults(null, null, html);
+        assertThat("wereProfessorResearchPoints", isSetTo(11));
+        assertThat("wereProfessorAdvancedResearch", isSetTo("10,20,30,539,1000"));
+      }
+    }
+  }
+
+  @Nested
+  class DartHolster {
+    @ParameterizedTest
+    @CsvSource({
+      "six_no_duplicates, junksprite hubcap bender, arm;wing;leg;head;butt;torso",
+      "six_with_duplicates, fruit golem, watermelon;butt;grapes;grapefruit;banana;watermelon",
+      "four_no_duplicates, skullbat, head;wing;butt;torso",
+      "four_with_duplicates, spectral jellyfish, tentacle;head;butt;tentacle"
+    })
+    public void canParseDartboard(String file, String monsterName, String partNames) {
+      var cleanups = new Cleanups(withProperty("_currentDartboard", ""), withFight(0));
+      try (cleanups) {
+        String html = html("request/test_fight_darts_" + file + ".html");
+
+        // Derive expected skills
+
+        // These are the partnames as they are presented in the
+        // particular responseText. KoL seems to start counting them
+        // with skill 7513, although duplicate part names will be
+        // assigned the same (earlier assigned) skill number.
+
+        String[] parts = partNames.split("\\s*;\\s*");
+
+        Map<String, Integer> partMap = new HashMap<>();
+        // Assume/require that the property is sorted by skill ID
+        Map<Integer, String> skillMap = new TreeMap<>();
+        int skillId = 7513;
+
+        for (String part : parts) {
+          if (!partMap.containsKey(part)) {
+            partMap.put(part, skillId);
+            skillMap.put(skillId++, part);
+          }
+        }
+
+        String expected =
+            skillMap.entrySet().stream()
+                .map(e -> String.valueOf(e.getKey()) + ":" + e.getValue())
+                .collect(Collectors.joining(","));
+
+        String url = "fight.php?ireallymeanit=1710016436";
+        FightRequest.registerRequest(true, url);
+        FightRequest.processResults(null, null, html);
+
+        assertThat("_currentDartboard", isSetTo(expected));
       }
     }
   }

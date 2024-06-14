@@ -398,6 +398,23 @@ public class KoLCharacterTest {
         assertThat(KoLCharacter.getStomachCapacity(), is(hasStomach ? 6 : 0));
       }
     }
+
+    @ParameterizedTest
+    @CsvSource({"0, 5", "1, 8", "2, 11", "3, 14"})
+    void wereProfessorStomach(final int wereStomach, final int stomachCapacity) {
+      var cleanups =
+          new Cleanups(
+              withClass(AscensionClass.UNKNOWN),
+              withPath(Path.WEREPROFESSOR),
+              withAdjustmentsRecalculated());
+
+      cleanups.add(withProperty("wereProfessorStomach", wereStomach));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments();
+        assertThat(KoLCharacter.getStomachCapacity(), is(stomachCapacity));
+      }
+    }
   }
 
   @Nested
@@ -461,6 +478,23 @@ public class KoLCharacterTest {
 
       if (beltImplantedStill) cleanups.add(withProperty("bondDrunk1", true));
       if (sobernessInjectionPen) cleanups.add(withProperty("bondDrunk2", true));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments();
+        assertThat(KoLCharacter.getLiverCapacity(), is(liverCapacity));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({"0, 4", "1, 7", "2, 10", "3, 13"})
+    void wereProfessorLiver(final int wereLiver, final int liverCapacity) {
+      var cleanups =
+          new Cleanups(
+              withClass(AscensionClass.UNKNOWN),
+              withPath(Path.WEREPROFESSOR),
+              withAdjustmentsRecalculated());
+
+      cleanups.add(withProperty("wereProfessorLiver", wereLiver));
 
       try (cleanups) {
         KoLCharacter.recalculateAdjustments();
@@ -545,6 +579,59 @@ public class KoLCharacterTest {
       try (cleanups) {
         KoLCharacter.recalculateAdjustments();
         assertThat(KoLCharacter.currentNumericModifier(DoubleModifier.EXPERIENCE), is(0.0));
+      }
+    }
+  }
+
+  @Nested
+  class Liberation {
+    @Test
+    void resizesOrganContentsAfterSmallPath() {
+      try (var cleanups =
+          new Cleanups(
+              withProperty("kingLiberated"),
+              withPath(Path.SMALL),
+              withInebriety(1),
+              withFullness(2))) {
+        KoLCharacter.liberateKing();
+        assertThat(KoLCharacter.getFullness(), is(20));
+        assertThat(KoLCharacter.getInebriety(), is(10));
+      }
+    }
+
+    @Test
+    void liberatingKingEnablesStandardRestrictedSkills() {
+      try (var cleanups =
+          new Cleanups(
+              withProperty("kingLiberated"),
+              withPath(Path.STANDARD),
+              withSkill(SkillPool.DRINKING_TO_DRINK))) {
+        assertThat(KoLCharacter.getLiverCapacity(), is(14));
+        KoLCharacter.liberateKing();
+        assertThat(KoLCharacter.getLiverCapacity(), is(15));
+      }
+    }
+  }
+
+  @Nested
+  class RoninBreak {
+    @Test
+    void breakingRoninEnablesStandardRestrictedSkills() {
+      try (var cleanups = new Cleanups(withRonin(true), withSkill(SkillPool.DRINKING_TO_DRINK))) {
+        assertThat(KoLCharacter.getLiverCapacity(), is(14));
+        KoLCharacter.setRonin(false);
+        assertThat(KoLCharacter.getLiverCapacity(), is(15));
+      }
+    }
+  }
+
+  @Nested
+  class FreeRests {
+    @Test
+    void mayamCalendarChairGivesFiveFreeRests() {
+      var cleanups = new Cleanups(withProperty("_mayamRests", 5), withAdjustmentsRecalculated());
+      try (cleanups) {
+        assertThat(KoLCharacter.freeRestsAvailable(), is(5));
       }
     }
   }

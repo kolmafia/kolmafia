@@ -16,6 +16,8 @@ import static org.hamcrest.Matchers.comparesEqualTo;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import internal.helpers.Cleanups;
 import java.util.Arrays;
@@ -125,6 +127,17 @@ public class ConcoctionTest {
           isFancy,
           equalTo(hasFancyIngredient));
     }
+  }
+
+  @Test
+  public void checkCompareContractForHelpers() {
+    Concoction whet = ConcoctionPool.get(ItemPool.WHETSTONE);
+    Concoction mayo = ConcoctionPool.get(ItemPool.MAYODIOL);
+    assertNotNull(whet);
+    assertNotNull(mayo);
+    int one = Integer.signum(whet.compareTo(mayo));
+    int two = Integer.signum(mayo.compareTo(whet));
+    assertEquals(one, -two);
   }
 
   @Nested
@@ -298,6 +311,35 @@ public class ConcoctionTest {
           var con = ConcoctionPool.get(ItemPool.OVERPOWERING_MUSHROOM_WINE);
           assertThat(con.getAdventuresNeeded(10, true), is(7));
         }
+      }
+    }
+  }
+
+  @Nested
+  class Kiwi {
+    @Test
+    void cannotBuyIntoxicatingSpiritsWithoutKiwis() {
+      var cleanups = withItem(ItemPool.MINI_KIWI);
+
+      try (cleanups) {
+        var conc = ConcoctionPool.get(ItemPool.MINI_KIWI_INTOXICATING_SPIRITS);
+        conc.calculate3();
+        assertThat(conc.freeTotal, is(0));
+      }
+    }
+
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
+    void canBuyOneIntoxicatingSpirits(boolean haveBought) {
+      var cleanups =
+          new Cleanups(
+              withItem(ItemPool.MINI_KIWI, 3),
+              withProperty("_miniKiwiIntoxicatingSpiritsBought", haveBought));
+
+      try (cleanups) {
+        var conc = ConcoctionPool.get(ItemPool.MINI_KIWI_INTOXICATING_SPIRITS);
+        conc.calculate3();
+        assertThat(conc.freeTotal, is(haveBought ? 0 : 1));
       }
     }
   }

@@ -11,6 +11,9 @@ import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.AscensionClass;
@@ -20,6 +23,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.swingui.panel.DailyDeedsPanel.AdvsDaily;
 import net.sourceforge.kolmafia.swingui.panel.DailyDeedsPanel.FreeFightsDaily;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,21 +31,25 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 public class DailyDeedsPanelTest {
+
+  private static final String TESTUSERNAME = "DailyDeedsPanelTestUser";
+
   @BeforeAll
   public static void beforeAll() {
-    KoLCharacter.reset("fakeUserName");
+    KoLCharacter.reset(TESTUSERNAME);
   }
 
   @BeforeEach
   public void beforeEach() {
-    Preferences.reset("fakeUsername");
+    Preferences.reset(TESTUSERNAME);
   }
 
   @Nested
   class FreeFights {
+    private static final FreeFightsDaily ff = new FreeFightsDaily();
+
     @Test
     public void hardcoreNoItomsHasOnlyTentacle() {
-      var ff = new FreeFightsDaily();
       var cleanups = withHardcore();
       try (cleanups) {
         ff.update();
@@ -51,7 +59,6 @@ public class DailyDeedsPanelTest {
 
     @Test
     public void panelCountsFights() {
-      var ff = new FreeFightsDaily();
       ff.update();
       assertThat(ff.getText(), containsString("0/10 BRICKO"));
       Preferences.setInteger("_brickoFights", 5);
@@ -61,7 +68,6 @@ public class DailyDeedsPanelTest {
 
     @Test
     public void crossesMultipleLinesWithMoreThanFourEntries() {
-      var ff = new FreeFightsDaily();
       var cleanups =
           new Cleanups(
               withFamiliarInTerrarium(FamiliarPool.HIPSTER),
@@ -79,7 +85,6 @@ public class DailyDeedsPanelTest {
 
     @Test
     public void showsHipsterFights() {
-      var ff = new FreeFightsDaily();
       var cleanups = withFamiliarInTerrarium(FamiliarPool.HIPSTER);
       try (cleanups) {
         ff.update();
@@ -89,7 +94,6 @@ public class DailyDeedsPanelTest {
 
     @Test
     public void showsGothKidFights() {
-      var ff = new FreeFightsDaily();
       var cleanups = withFamiliarInTerrarium(FamiliarPool.ARTISTIC_GOTH_KID);
       try (cleanups) {
         ff.update();
@@ -99,7 +103,6 @@ public class DailyDeedsPanelTest {
 
     @Test
     public void showsSeals() {
-      var ff = new FreeFightsDaily();
       var cleanups = withClass(AscensionClass.SEAL_CLUBBER);
       try (cleanups) {
         ff.update();
@@ -109,7 +112,6 @@ public class DailyDeedsPanelTest {
 
     @Test
     public void summonTenSealsWithInfernalClaw() {
-      var ff = new FreeFightsDaily();
       var cleanups =
           new Cleanups(
               withClass(AscensionClass.SEAL_CLUBBER), withItem(ItemPool.INFERNAL_SEAL_CLAW));
@@ -121,7 +123,6 @@ public class DailyDeedsPanelTest {
 
     @Test
     public void showsMachineElf() {
-      var ff = new FreeFightsDaily();
       var cleanups = withFamiliarInTerrarium(FamiliarPool.MACHINE_ELF);
       try (cleanups) {
         ff.update();
@@ -131,7 +132,6 @@ public class DailyDeedsPanelTest {
 
     @Test
     public void showsSnojo() {
-      var ff = new FreeFightsDaily();
       Preferences.setBoolean("snojoAvailable", true);
       ff.update();
       assertThat(ff.getText(), containsString("0/10 snojo"));
@@ -139,7 +139,6 @@ public class DailyDeedsPanelTest {
 
     @Test
     public void showsWitchess() {
-      var ff = new FreeFightsDaily();
       var cleanups = withCampgroundItem(ItemPool.WITCHESS_SET);
       try (cleanups) {
         ff.update();
@@ -149,7 +148,6 @@ public class DailyDeedsPanelTest {
 
     @Test
     public void showsGodLobster() {
-      var ff = new FreeFightsDaily();
       var cleanups = withFamiliarInTerrarium(FamiliarPool.GOD_LOBSTER);
       try (cleanups) {
         ff.update();
@@ -159,7 +157,6 @@ public class DailyDeedsPanelTest {
 
     @Test
     public void showsParty() {
-      var ff = new FreeFightsDaily();
       Preferences.setBoolean("_neverendingPartyToday", true);
       ff.update();
       assertThat(ff.getText(), containsString("0/10 party"));
@@ -167,7 +164,6 @@ public class DailyDeedsPanelTest {
 
     @Test
     public void showsVote() {
-      var ff = new FreeFightsDaily();
       Preferences.setBoolean("_voteToday", true);
       ff.update();
       assertThat(ff.getText(), containsString("0/3 vote"));
@@ -175,7 +171,6 @@ public class DailyDeedsPanelTest {
 
     @Test
     public void showsLynyrd() {
-      var ff = new FreeFightsDaily();
       var cleanups = new Cleanups(withItem(ItemPool.LYNYRD_SNARE));
       try (cleanups) {
         ff.update();
@@ -185,7 +180,6 @@ public class DailyDeedsPanelTest {
 
     @Test
     public void showsKramco() {
-      var ff = new FreeFightsDaily();
       var cleanups = new Cleanups(withItem(ItemPool.SAUSAGE_O_MATIC));
       try (cleanups) {
         ff.update();
@@ -195,7 +189,6 @@ public class DailyDeedsPanelTest {
 
     @Test
     public void showsGlitchMonster() {
-      var ff = new FreeFightsDaily();
       var cleanups = new Cleanups(withItem(ItemPool.GLITCH_ITEM));
       try (cleanups) {
         ff.update();
@@ -205,7 +198,6 @@ public class DailyDeedsPanelTest {
 
     @Test
     public void showsMushroom() {
-      var ff = new FreeFightsDaily();
       var cleanups = withCampgroundItem(ItemPool.MUSHROOM_SPORES);
       try (cleanups) {
         ff.update();
@@ -215,7 +207,6 @@ public class DailyDeedsPanelTest {
 
     @Test
     public void showsMushroomGivingFiveFightsInPlumber() {
-      var ff = new FreeFightsDaily();
       var cleanups =
           new Cleanups(
               withCampgroundItem(ItemPool.MUSHROOM_SPORES), withPath(Path.PATH_OF_THE_PLUMBER));
@@ -227,7 +218,6 @@ public class DailyDeedsPanelTest {
 
     @Test
     public void showsVoid() {
-      var ff = new FreeFightsDaily();
       var cleanups = new Cleanups(withItem(ItemPool.CURSED_MAGNIFYING_GLASS));
       try (cleanups) {
         ff.update();
@@ -305,6 +295,46 @@ public class DailyDeedsPanelTest {
         dd.update();
         assertThat(dd.getText(), containsString("1/1 cookbookbat recipe"));
       }
+    }
+  }
+
+  @Nested
+  class AdvsGained {
+    private static final AdvsDaily advs = new AdvsDaily();
+
+    @Test
+    public void showsMafiaThumbRing() {
+      advs.update();
+      assertFalse(advs.isVisible());
+      assertThat(advs.getText(), not(containsString(" thumb ring")));
+      Preferences.setInteger("_mafiaThumbRingAdvs", 5);
+      advs.update();
+      assertThat(advs.getText(), containsString("Advs: 5 thumb ring"));
+      assertTrue(advs.isVisible());
+    }
+
+    @Test
+    public void showsPottedPlant() {
+      advs.update();
+      assertFalse(advs.isVisible());
+      assertThat(advs.getText(), not(containsString(" potted plant")));
+      Preferences.setInteger("_carnivorousPottedPlantWins", 5);
+      advs.update();
+      assertThat(advs.getText(), containsString("Advs: 5 potted plant"));
+      assertTrue(advs.isVisible());
+    }
+
+    @Test
+    public void showsTimeHelmetAndPottedPlant() {
+      advs.update();
+      assertFalse(advs.isVisible());
+      assertThat(advs.getText(), not(containsString(" time helmet")));
+      assertThat(advs.getText(), not(containsString(" potted plant")));
+      Preferences.setInteger("_carnivorousPottedPlantWins", 5);
+      Preferences.setInteger("_timeHelmetAdv", 5);
+      advs.update();
+      assertThat(advs.getText(), containsString("Advs: 5 time helmet, 5 potted plant"));
+      assertTrue(advs.isVisible());
     }
   }
 }

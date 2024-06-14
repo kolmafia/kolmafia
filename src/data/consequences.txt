@@ -50,7 +50,7 @@ DESC_ITEM	bishop cookie	\+(\d+)%	chessboardsCleared=[($1-100)/2]
 DESC_ITEM	bone abacus	defeated ([\d,]+) opponent	boneAbacusVictories=$1
 DESC_ITEM	brainwave-controlled unicorn horn	(\d+)% inflated	unicornHornInflation=$1
 DESC_ITEM	briefcase full of snakes	Venom Level: (\d+)<br>Medicine Level: (\d+)	awolVenom=$1	awolMedicine=$2
-DESC_ITEM	crude monster sculpture	crude sculpture of (a|an|something <i>totally</i> unrecognizable|)\s*(.*?)\.	crudeMonster=$2
+DESC_ITEM	crude monster sculpture	<!-- monsterid: (\d+) -->	crudeMonster=monstername
 DESC_ITEM	experimental serum G-9	\+(\d+)%	_g9Effect=$1
 DESC_ITEM	fossilized necklace	(\d+) bat	fossilB=[min(5,$1)]
 DESC_ITEM	fossilized necklace	(\d+) serpent	fossilS=[min(5,$1)]
@@ -63,12 +63,12 @@ DESC_ITEM	hair of the fish	Moxie \+(\d+)	_antihangoverBonus=$1
 DESC_ITEM	king cookie	\+(\d+)%	chessboardsCleared=[($1-100)/2]
 DESC_ITEM	knight cookie	\+(\d+)%	chessboardsCleared=[($1-100)/2]
 DESC_ITEM	Lil' Doctor&trade; bag	HP \+(\d+)<br>	doctorBagUpgrades=[$1/5-3]
-DESC_ITEM	photocopied monster	likeness of (a|an) (.*?) on it	photocopyMonster=$2
+DESC_ITEM	photocopied monster	<!-- monsterid: (\d+) -->	photocopyMonster=monstername
 DESC_ITEM	queen cookie	\+(\d+)%	chessboardsCleared=[($1-100)/2]
 DESC_ITEM	rook cookie	\+(\d+)%	chessboardsCleared=[($1-100)/2]
 DESC_ITEM	pump-up high-tops	\+(\d+)% Combat Initiative	highTopPumped=[($1-10)/5]
-DESC_ITEM	shaking 4-d camera	an angry (monster)?(.*?) or something	cameraMonster=$2
-DESC_ITEM	Spooky Putty monster	a picture of (a|an|something <i>totally</i> unrecognizable|)\s*(.*?)!	spookyPuttyMonster=$2
+DESC_ITEM	shaking 4-d camera	<!-- monsterid: (\d+) -->	cameraMonster=monstername
+DESC_ITEM	Spooky Putty monster	<!-- monsterid: (\d+) -->	spookyPuttyMonster=monstername
 DESC_ITEM	Staff of the All-Steak	(\d+) charge	_jiggleSteak=[5-$1]
 DESC_ITEM	Staff of the All-Steak	No charges	_jiggleSteak=5
 DESC_ITEM	Staff of the Cream of the Cream	(\d+) charge	_jiggleCream=[5-$1]
@@ -88,6 +88,7 @@ DESC_ITEM	Powerful Glove	The Glove's battery is (\d+)% charged.	_powerfulGloveBa
 DESC_ITEM	Crimbo training manual	all that's left is Chapter (\d+).	crimboTrainingSkill=$1
 DESC_ITEM	cursed monkey's paw	monkey's paw recently pointed at a ([^<]+).<!-- itemid	monkeyPointMonster=$1
 DESC_ITEM	Cincho de Mayo	Your belt is <b>([\d]+)% </b> cinched	_cinchUsed=[100-$1]
+DESC_ITEM	LED candle	It is currently set to (.*?) mode	ledCandleMode=$1
 
 # Item modifiers
 DESC_ITEM	no hat		_noHatModifier=mods
@@ -96,6 +97,9 @@ DESC_ITEM	pantogram pants		_pantogramModifier=mods
 DESC_ITEM	latte lovers member's mug		latteModifier=mods
 DESC_ITEM	Kremlin's Greatest Briefcase
 DESC_ITEM	fresh coat of paint		_coatOfPaintModifier=mods
+DESC_ITEM	futuristic shirt		_futuristicShirtModifier=mods
+DESC_ITEM	futuristic hat		_futuristicHatModifier=mods
+DESC_ITEM	futuristic collar		_futuristicCollarModifier=mods
 
 DESC_SKILL	Banishing Shout	currently banished:<br>([^<]+)<br>(?:([^<]+)<br>(?:([^<]+)<br>|</blockquote>)|</blockquote>)	banishingShoutMonsters=$1|$2|$3
 DESC_SKILL	Slimy Shoulders	giving you \+(\d+)	skillLevel48=[$1/2]
@@ -129,6 +133,7 @@ DESC_EFFECT	Blessing of the Bird		_birdOfTheDayMods=mods
 DESC_EFFECT	Blessing of your favorite Bird		yourFavoriteBirdMods=mods
 DESC_EFFECT	Citizen of a Zone	Citizen of ([^<]*)<	_citizenZone=$1
 DESC_EFFECT	Citizen of a Zone		_citizenZoneMods=mods
+DESC_EFFECT	Savage Beast		_savageBeastMods=mods
 
 DESC_EFFECT	Wine-Fortified	\+(\d+) .*? Damage	vintnerWineLevel=[$1/3]
 DESC_EFFECT	Wine-Hot	\+(\d+) .*? Damage	vintnerWineLevel=[$1/3]

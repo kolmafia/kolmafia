@@ -233,7 +233,7 @@ public class IslandDecorator {
   }
 
   public static final void appendMissingGremlinTool(
-      MonsterData monster, final StringBuffer buffer) {
+      MonsterData monster, final StringBuilder buffer) {
     GremlinTool tool = badGremlins.get(monster.getId());
     if (tool == null) {
       return;

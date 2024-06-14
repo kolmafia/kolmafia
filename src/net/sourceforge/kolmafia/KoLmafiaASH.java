@@ -294,7 +294,7 @@ public abstract class KoLmafiaASH {
 
       description.append(" )");
 
-      RequestLogger.printLine(description.toString());
+      RequestLogger.printHtml(description.toString());
     }
   }
 

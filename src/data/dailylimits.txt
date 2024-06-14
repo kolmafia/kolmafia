@@ -1,6 +1,7 @@
 1
 # Limiter: daily limit
 # Type	Item name	Tracking property	[Max = 1]
+Cast	%fn, lay an egg	_mimicEggsObtained	11
 Cast	Acquire Rhinestones	_rhinestonesAcquired
 Cast	Advanced Cocktailcrafting	cocktailSummons
 Cast	Advanced Saucecrafting	reagentSummons
@@ -159,6 +160,8 @@ Cast	Summon Holiday Fun!	_holidayFunUsed
 Cast	Summon Kokomo Resort Pass	_summonResortPassUsed
 Cast	Summon Mayfly Swarm	_mayflySummons	30
 Cast	Summon Tasteful Items	grimoire2Summons
+Cast	Surprisingly Sweet Slash	_surprisinglySweetSlashUsed	11
+Cast	Surprisingly Sweet Stab	_surprisinglySweetStabUsed	11
 Cast	Sweat Out Some Booze	_sweatOutSomeBoozeUsed	3
 Cast	Talk About Politics	_pantsgivingBanish	5
 Cast	That's Not a Knife	_discoKnife
@@ -179,10 +182,13 @@ Chew	The Author's ink	_authorsInkUsed
 Chew	The Inquisitor's unidentifiable object	_inquisitorsUnidentifiableObjectUsed
 Chew	mansquito serum	_mansquitoSerumUsed
 Chew	turkey blaster	_turkeyBlastersUsed	3
+Chew	voodoo snuff	_voodooSnuffUsed
 Drink	Bee's Knees	_speakeasyDrinksDrunk	3
 Drink	cup of "tea"	_speakeasyDrinksDrunk	3
 Drink	Doc Clock's thyme cocktail	_docClocksThymeCocktailDrunk
 Drink	Flivver	_speakeasyDrinksDrunk	3
+Drink	Frosty's frosty mug	_frostyMugUsed
+Drink	Hodgman's blanket	_hodgmansBlanketDrunk
 Drink	Hot Socks	_speakeasyDrinksDrunk	3
 Drink	Ish Kabibble	_speakeasyDrinksDrunk	3
 Drink	Lucky Lindy	_speakeasyDrinksDrunk	3
@@ -195,11 +201,13 @@ Drink	drippy pilsner	_drippyPilsnerUsed
 Drink	everfull glass	_everfullGlassUsed
 Drink	glass of "milk"	_speakeasyDrinksDrunk	3
 Drink	glass of drippy wine	_drippyWineUsed
+Drink	jar of fermented pickle juice	_pickleJuiceDrunk
 Drink	thermos of "whiskey"	_speakeasyDrinksDrunk	3
 Eat	Calzone of Legend	calzoneOfLegendEaten
 Eat	Deep Dish of Legend	deepDishOfLegendEaten
 Eat	Kudzu salad	_kudzuSaladEaten
 Eat	Mr. Burnsger	_mrBurnsgerEaten
+Eat	Ol' Scratch's salad fork	_saladForkUsed
 Eat	Pizza of Legend	pizzaOfLegendEaten
 Eat	The Plumber's mushroom stew	_plumbersMushroomStewEaten
 Eat	[glitch season reward name]	_glitchMonsterFights
@@ -209,6 +217,7 @@ Eat	devil dog	_fancyHotDogEaten
 Eat	drippy caviar	_drippyCaviarUsed
 Eat	drippy nugget	_drippyNuggetUsed
 Eat	drippy plum(?)	_drippyPlumUsed
+Eat	extra-greasy slider	_extraGreasySliderEaten
 Eat	fudge spork	_fudgeSporkUsed
 Eat	ghost dog	_fancyHotDogEaten
 Eat	junkyard dog	_fancyHotDogEaten
@@ -220,6 +229,7 @@ Eat	savage macho dog	_fancyHotDogEaten
 Eat	sleeping dog	_fancyHotDogEaten
 Eat	sly dog	_fancyHotDogEaten
 Eat	spaghetti breakfast	_spaghettiBreakfastEaten
+Eat	tin cup of mulligan stew	_mulliganStewEaten
 Eat	video games hot dog	_fancyHotDogEaten
 Eat	wet dog	_fancyHotDogEaten
 Tome	Summon Clip Art	_clipartSummons	3
@@ -237,20 +247,24 @@ Use	Crimbo training manual	_crimboTraining
 Use	Cuppa Sobrie tea	_sobrieTeaUsed
 Use	Cuppa Voraci tea	_voraciTeaUsed
 Use	Emblem of Ak'gyxoth	_akgyxothUsed
+Use	Frosty's frosty mug	_frostyMugUsed
 Use	Glenn's golden dice	_glennGoldenDiceUsed
 Use	Hunger&trade; Sauce	_hungerSauceUsed
 Use	Idol of Ak'gyxoth	_akgyxothUsed
 Use	Jackass Plumber home game	_jackassPlumberGame
 Use	Jerks' Health&trade; Magazine	_jerksHealthMagazinesUsed	5
 Use	KoL Con Six Pack	_kolConSixPackUsed
+Use	Law of Averages	_lawOfAveragesUsed	[haveitem(Law of Averages)]
 Use	LOV Extraterrestrial Chocolate	_loveChocolatesUsed	3
 Use	License to Chill	_licenseToChillUsed
+Use	Lil' Snowball Factory	_snowballFactoryUsed
 Use	M-242	_fireworkUsed
 Use	Manual of Dexterity	_guildManualUsed
 Use	Manual of Labor	_guildManualUsed
 Use	Manual of Transmission	_guildManualUsed
 Use	Meteorite-Ade	_meteoriteAdesUsed	3
 Use	Oscus's neverending soda	oscusSodaUsed
+Use	Ol' Scratch's salad fork	_saladForkUsed
 Use	Platinum Yendorian Express Card	expressCardUsed
 Use	STYX deodorant body spray	_styxSprayUsed
 Use	School of Hard Knocks Diploma	_hardKnocksDiplomaUsed
@@ -262,12 +276,17 @@ Use	The Legendary Beat	_legendaryBeat
 Use	Trivial Avocations board game	_trivialAvocationsGame
 Use	Twelve Night Energy	_twelveNightEnergyUsed
 Use	Ultra Mega Sour Ball	_ultraMegaSourBallUsed
-Use	Universal Seasoning	_universalSeasoningsUsed	[pref(universalSeasoningCost)/1000]
+Use	Universal Seasoning	_universalSeasoningsUsed	[haveitem(Universal Seasoning)]
 Use	Victor's Spoils	_victorSpoilsUsed
 Use	[glitch season reward name]	_glitchItemImplemented
 Use	alien animal milk	_alienAnimalMilkUsed
 Use	alien plant pod	_alienPlantPodUsed
 Use	all-year sucker	_allYearSucker
+Use	Apriling band piccolo	_aprilBandPiccoloUses	3
+Use	Apriling band quad tom	_aprilBandTomUses	3
+Use	Apriling band saxophone	_aprilBandSaxophoneUses	3
+Use	Apriling band staff	_aprilBandStaffUses	3
+Use	Apriling band tuba	_aprilBandTubaUses	3
 Use	ball-in-a-cup	_ballInACupUsed
 Use	ballast turtle	_ballastTurtleUsed
 Use	bass clarinet	_floundryItemUsed
@@ -302,6 +321,7 @@ Use	essential tofu	_essentialTofuUsed
 Use	etched hourglass	_etchedHourglassUsed
 Use	eternal car battery	_eternalCarBatteryUsed
 Use	experimental carbon fiber pasta additive	_pastaAdditive
+Use	extra time	_extraTimeUsed	3
 Use	fancy but probably evil chocolate	_chocolatesUsed	3
 Use	fancy chess set	_fancyChessSetUsed
 Use	fancy chocolate	_chocolatesUsed	3
@@ -339,6 +359,7 @@ Use	portable ping-pong table	_pingPongGame
 Use	portable steam unit	_portableSteamUnitUsed
 Use	pressurized potion of pneumaticity	_pneumaticityPotionUsed
 Use	pump-up high-tops	_highTopPumps	3
+Use	punching mirror	_punchingMirrorUsed
 Use	red and green rain stick	_rainStickUsed
 Use	redwood rain stick	_redwoodRainStickUsed
 Use	refurbished air fryer	_airFryerUsed
@@ -356,8 +377,12 @@ Use	sweet tooth	_sweetToothUsed
 Use	sweet-corn-flavored Mr. Mediocrebar	_chocolatesUsed	3
 Use	synthetic dog hair pill	_syntheticDogHairPillUsed
 Use	tempura air	_tempuraAirUsed
+Use	tied-up flaming leaflet	_tiedUpFlamingLeafletUsed
+Use	tied-up flaming monstera	_tiedUpFlamingMonsteraUsed
+Use	tied-up leaviathan	_tiedUpLeaviathanUsed
 Use	tonic djinn	_tonicDjinn
 Use	vitachoconutriment capsule	_vitachocCapsulesUsed	3
 Use	warbear breakfast machine	_warbearBreakfastMachineUsed
 Use	warbear gyrocopter	_warbearGyrocopterUsed
 Use	warbear soda machine	_warbearSodaMachineUsed
+Use	yam battery	_yamBatteryUsed

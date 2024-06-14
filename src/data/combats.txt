@@ -42,6 +42,7 @@
 2nd Floor, Shiawase-Mitsuhama Building	100	salaryninja	security robot	yakuza guard
 3rd Floor, Shiawase-Mitsuhama Building	100	salaryninja	security robot	yakuza guard
 A Barroom Brawl	100	drunken 7-foot dwarf	plastered frat orc	skeleton with a mop	unemployed knob goblin	werecougar
+A Cafe Divided	100	Crimbuccaneer military school dropout	Crimbuccaneer new recruit	Crimbuccaneer privateer	Elf Guard conscript	Elf Guard convict	Elf Guard private	Crimbuccaneer fruit plunderer	Crimbuccaneer retiree	Crimbuccaneer whalehunter	Elf Guard desserter	Elf Guard provisioner	Elf Guard steward
 A Crater Full of Space Beasts	100	space beast	space beast matriarch: 0
 A Crowd of (Element) Adventurers	100
 A Crowd of (Stat) Adventurers	100
@@ -60,6 +61,7 @@ A Stinking Abyssal Portal	100	scout seal
 A Terrifying Abyssal Portal	100	scout seal
 A Yawning Abyssal Portal	100	official seal
 A-Boo Peak	100	Battlie Knight Ghost	Claybender Sorcerer Ghost	Dusken Raider Ghost	Space Tourist Explorer Ghost	Whatsian Commando Ghost
+Abuela's Cottage (Contested)	100	Crimbuccaneer military school dropout	Crimbuccaneer new recruit	Crimbuccaneer privateer	Elf Guard conscript	Elf Guard convict	Elf Guard private	Crimbuccaneer mudlark	Crimbuccaneer navigator	Crimbuccaneer vice-captain	Elf Guard general	Elf Guard requisitions officer	Elf Guard strategist
 An Eldritch Fissure	100	Eldritch Tentacle
 An Illicit Bohemian Party	100	hep cat	cigarette girl	Mob Penguin entrepreneur
 An Incredibly Strange Place (Bad Trip)	100	Swarm of Country Bats	Trippy Floating Head (Casey Kasem)	Trippy Floating Head (Grand Moff Tarkin)	Trippy Floating Head (Mona Lisa)	Zombie Baby
@@ -82,6 +84,7 @@ Battlefield (Cloaca Uniform)	95	Dyspepsi-Cola General	Dyspepsi-Cola Knight	Dyspe
 Battlefield (Dyspepsi Uniform)	95	Cloaca-Cola Catapult Engineer	Cloaca-Cola Footsoldier	Cloaca-Cola Soldier	The Temporal Bandit: -1
 Battlefield (No Uniform)	0	The Temporal Bandit: -1
 Belowdecks	100	gaudy pirate	grassy pirate	gritty pirate	groovy pirate	grungy pirate
+Boltsmann Bearings	95	Boltsmann security robot	automated bearing foundry	clerical robot
 Burnbarrel Blvd.	-1	Hot hobo	Ol' Scratch: 0
 Camp Logging Camp	80	decent lumberjack	lumberjack supervisor	lumberjill	lumberjuan	hockey elemental: -1
 Center Park After Dark	100	common criminal
@@ -250,6 +253,7 @@ South of the Border	50	angry pi&ntilde;ata	handsome mariachi	irate mariachi	mari
 Special Ops	-1	Black Ops Bugbear
 Spookiest Adventurer Contest	100	Ghostpuncher	Plague Chef	Batburglar	Arthur Frankenstein: 0
 Spooky Fright Factory	100	bow-making mummy	Cookie-baking Thing from Beyond Time	gift-wrapping vampire	skeletal reindeer	stocking-stuffing zombie	toy-making creature from the Gray Lagoon
+Spring Bros. Solenoids	95	Spring Bros. security robot	automated solenoid press	janitor robot
 Stinkiest Adventurer Contest	100	Granola Barbarian	Cheese Wizard	Assassin	Odorous Humongous: 0
 Strongest Adventurer Contest	100	Macho Man	Iron Chef	Entire Shoplifter	Mr. Loathing: 0
 Summoning Chamber	100	Lord Spookyraven
@@ -261,8 +265,10 @@ The Ancient Burial Ground	100	skeleton	vampire
 The Ancient Hobo Burial Ground	-1	Spooky hobo	Zombo: 0
 The Archwizard's Tower	0	Archwizard: 0
 The Arid, Extra-Dry Desert	100	cactuary	giant giant giant centipede	plaque of locusts	rock scorpion	swarm of fire ants
+The Armory Up In Arms	100	Crimbuccaneer military school dropout	Crimbuccaneer new recruit	Crimbuccaneer privateer	Elf Guard conscript	Elf Guard convict	Elf Guard private	Crimbuccaneer carpenter	Crimbuccaneer freebooter	Crimbuccaneer scrimshander	Elf Guard arctic seal	Elf Guard armorer	Elf Guard Red and White Beret
 The Bandit Crossroads	100	fantasy bandit
 The Barrow Mounds	100	barrow wraith?
+The Bar At War	100	Crimbuccaneer military school dropout	Crimbuccaneer new recruit	Crimbuccaneer privateer	Elf Guard conscript	Elf Guard convict	Elf Guard private	Crimbuccaneer bar brawler	Crimbuccaneer barrrback	Crimbuccaneer grognard	Elf Guard chemist	Elf Guard sanitation officer	Elf Guard shore leave specialist
 The Bat Hole Entrance	100	albino bat	pine bat	regular old bat
 The Batrat and Ratbat Burrow	100	batrat	ratbat	screambat: 0	Batsnake: 0
 The Battlefield (Frat Uniform)	100	Bailey's Beetle	Green Ops Soldier	Mobile Armored Sweat Lodge	War Hippy Airborne Commander	War Hippy Baker	War Hippy Dread Squad	War Hippy Elder Shaman	War Hippy Elite Fire Spinner	War Hippy Elite Rigger	War Hippy Fire Spinner	War Hippy F.R.O.G.	War Hippy Green Gourmet	War Hippy Homeopath	War Hippy Infantryman	War Hippy Naturopathic Homeopath	War Hippy Rigger	War Hippy Shaman	War Hippy Sky Captain	War Hippy Windtalker	C.A.R.N.I.V.O.R.E. Operative: 0	Glass of Orange Juice: 0	Neil: 0	Slow Talkin' Elliot: 0	Zim Merman: 0	The Big Wisniewski: 0
@@ -323,19 +329,20 @@ The Druidic Campsite	100	druid plants
 The Dungeons of Doom	70	swarm of killer bees	acid blob	mind flayer	large kobold	Quantum Mechanic	mimic: 0	The Master Of Thieves: -1
 The Edge of the Swamp	-1	huge mosquito	mega frog	swamp entity
 The Electric Lemonade Acid Parade	100	Essence of Interspecies Respect	Essence of Soy	Essence of Tofu	Neptune, the Dog that Is a Respected Equal and Not a Pet	Neptune, the Dog that Is a Respected Equal and Not a Pet cast member	Susie Soyburger	Susie Soyburger cast member	Timmy Tofurkey	Timmy Tofurkey cast member
+The Embattled Factory	100	Crimbuccaneer military school dropout	Crimbuccaneer new recruit	Crimbuccaneer privateer	Elf Guard conscript	Elf Guard convict	Elf Guard private	Crimbuccaneer bombjack	Crimbuccaneer lamplighter	Crimbuccaneer rigging rigger	Elf Guard engineer	Elf Guard fuel courier	Elf Guard ordnance packer
 The Enormous Greater-Than Sign	80	swarm of lowercase As	lowercase B	lowercase H	lowercase K	uppercase Q
 The Evil Cathedral	100	plywood cultists
 The Fungus Plains	100	Blooper	Bullet Bill	Buzzy Beetle: 1e	Goomba: 1o	Koopa Troopa
 The Spectral Pickle Factory	75	carnivorous dill plant	ghostly pickle factory worker	vine gar
 
-// If you are wearing the War Frat uniform, you get all hippies.
-// If you are wearing the War Hippy uniform, you get all frat boys
-// If you are wearing neither, you get both.
-// If you are wearing either uniform, after every six combats, you will get a
-// non-combat, but you cannot influence this with +/- Combat effects or items
+# If you are wearing the War Frat uniform, you get all hippies.
+# If you are wearing the War Hippy uniform, you get all frat boys
+# If you are wearing neither, you get both.
+# If you are wearing either uniform, after every six combats, you will get a
+# non-combat, but you cannot influence this with +/- Combat effects or items
 The Exploaded Battlefield	100	Beer Bongadier	Elite Beer Bongadier	Heavy Kegtank	Naughty Sorority Nurse	Panty Raider Frat Boy	Sorority Nurse	Sorority Operator	War Frat 110th Infantryman	War Frat 151st Captain	War Frat 151st Infantryman	War Frat 500th Infantrygentleman	War Frat Elite 110th Captain	War Frat Elite 500th Captain	War Frat Elite Wartender	War Frat Grill Sergeant	War Frat Kegrider	War Frat Senior Grill Sergeant	War Frat Wartender	The Man: 0
 
-The eXtreme Slope	60	sk8 gnome	eXtreme cross-country hippy	eXtreme Orcish snowboarder
+The eXtreme Slope	95	sk8 gnome	eXtreme cross-country hippy	eXtreme Orcish snowboarder
 The F'c'le	80	chatty pirate	cleanly pirate	clingy pirate (female)	clingy pirate (male)	creamy pirate	crusty pirate	curmudgeonly pirate
 The Faerie Cyrkle	100	quadfaerie
 The Feeding Chamber	100	filthworm drone
@@ -384,6 +391,7 @@ The Hidden Park	85	boaraffe	pygmy blowgunner	pygmy assault squad	pygmy witch law
 The Hidden Temple	90	baa-relief sheep	clan of cave bars: 0	craven carven raven	stone temple pirate	Baa'baa'bu'ran: 0
 The Hippy Camp (Bombed Back to the Stone Age)	100	caveman hippy	cavewomyn hippy	sabre-toothed ferret
 The Hole in the Sky	100	Astronomer: 2r25	One-Eyed Willie: 1o	Burrowing Bishop: 1o	Family Jewels: 1o	Hooded Warrior: 1o	Junk: 1o	Pork Sword: 1o	Skinflute: 1o	Trouser Snake: 1o	Twig and Berries: 1o	Axe Wound: 1e	Beaver: 1e	Box: 1e	Bush: 1e	Camel's Toe: 1e	Flange: 1e	Honey Pot: 1e	Little Man in the Canoe: 1e	Muff: 1e	The Snake With Like Ten Heads: 0
+The Home of The Future	100	robot maid	wardrobe robot	exercise robot
 The Ice Caves	100	alien	alien UFO	caveman	yeti
 The Ice Hole	100	Norwhal	Tin of Submardines	Arctic Octolus
 The Ice Hotel	-1	ice bartender	ice clerk	ice concierge	ice housekeeper	ice porter
@@ -392,7 +400,7 @@ The Inner Wolf Gym	100	Abcrusher 4000&trade;	Escalatormaster&trade;	Legstrong&tr
 The Impenetrable Kelp-Holly Forest	100	kelpie (horse form)	kelpie (lady form)	Yuleviathan	dolphin "orphan" 
 The Island Barracks	-1	sleepy mariachi	surprised mariachi	alert mariachi
 The Jungle	100	bee	scorpion	skeleton	tikiman
-The Jungles of Ancient Loathing	30	ancient guardian statue	evil cultist	jungle baboon	tribal goblin	giant bird-creature: 0	giant jungle python: 0	giant octopus: 0	giant spider: 0	high priest of Ki'rhuss: 0	wumpus: 0
+The Jungles of Ancient Loathing	85	ancient guardian statue	evil cultist	jungle baboon	tribal goblin	giant bird-creature: 0	giant jungle python: 0	giant octopus: 0	giant spider: 0	high priest of Ki'rhuss: 0	wumpus: 0
 The Knob Shaft	85	ghost miner
 The Labyrinthine Crypt	100	crypt creeper
 The Lair of the Phoenix	0	"Phoenix": 0

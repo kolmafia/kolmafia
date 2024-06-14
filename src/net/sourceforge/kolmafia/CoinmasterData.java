@@ -36,6 +36,9 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
         }
       };
 
+  // *** For testing
+  private boolean disabled = false;
+
   // Mandatory fields
   private final String master;
   private final String nickname;
@@ -230,6 +233,16 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
    */
   public CoinmasterData withItemRows(String master) {
     return withItemRows(CoinmastersDatabase.getRows(master));
+  }
+
+  /**
+   * Provides an empty <code>Map</code> from <code>itemId</code>s of the items that you can buy from
+   * this coinmaster to the <code>row</code> that you need to purchase it.
+   *
+   * @return this - Allows fluid chaining of fields
+   */
+  public CoinmasterData withItemRows() {
+    return withItemRows(CoinmastersDatabase.getNewMap());
   }
 
   /**
@@ -1078,4 +1091,13 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   }
 
   private void purchasedItemInternal(AdventureResult item, boolean storage) {}
+
+  // *** For testing
+  public void setDisabled(boolean isDisabled) {
+    this.disabled = isDisabled;
+  }
+
+  public boolean isDisabled() {
+    return this.disabled;
+  }
 }

@@ -47,12 +47,12 @@ import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.RichardRequest;
 import net.sourceforge.kolmafia.request.SpelunkyRequest;
-import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.session.BatManager;
 import net.sourceforge.kolmafia.session.ChoiceManager;
+import net.sourceforge.kolmafia.session.CryptManager;
 import net.sourceforge.kolmafia.session.EncounterManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -733,9 +733,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     // Some zones/areas are available via items.
     AdventureResult item = AdventureDatabase.zoneGeneratingItem(this.zone);
     // If it is from an item, Standard restrictions may apply.
-    if (item != null
-        && KoLCharacter.getRestricted()
-        && !StandardRequest.isAllowed(RestrictedItemType.ITEMS, item.getName())) {
+    if (item != null && KoLCharacter.getRestricted() && !ItemDatabase.isAllowed(item)) {
       return false;
     }
 
@@ -792,8 +790,9 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
     // Level 7 quest boss
     if (this.formSource.equals("crypt.php")) {
+      int evilness = Preferences.getInteger("cyrptTotalEvilness");
       return QuestDatabase.isQuestStep(Quest.CYRPT, QuestDatabase.STARTED)
-          && Preferences.getInteger("cyrptTotalEvilness") == 0;
+          && (evilness == 999 || evilness == 0);
     }
 
     // Level 8 quest boss
@@ -884,6 +883,11 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       if (!InventoryManager.hasItem(ItemPool.CLOSED_CIRCUIT_PAY_PHONE)
           && !KoLCharacter.inShadowsOverLoathing()) {
         // need payphone in inventory or to be in ASoL
+        return false;
+      }
+
+      if (KoLCharacter.isKingdomOfExploathing()) {
+        // KoE gets no access to it regardless for some reason known only to KoL devs.
         return false;
       }
 
@@ -1346,13 +1350,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       if (!QuestDatabase.isQuestStarted(Quest.CYRPT)) {
         return false;
       }
-      return switch (this.adventureNumber) {
-        case AdventurePool.DEFILED_ALCOVE -> Preferences.getInteger("cyrptAlcoveEvilness") > 0;
-        case AdventurePool.DEFILED_CRANNY -> Preferences.getInteger("cyrptCrannyEvilness") > 0;
-        case AdventurePool.DEFILED_NICHE -> Preferences.getInteger("cyrptNicheEvilness") > 0;
-        case AdventurePool.DEFILED_NOOK -> Preferences.getInteger("cyrptNookEvilness") > 0;
-        default -> false;
-      };
+      String property = CryptManager.evilZoneProperty(this.adventureNumber);
+      return property != null ? Preferences.getInteger(property) > 0 : false;
     }
 
     // Level 8 quest
@@ -1884,6 +1883,20 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
       // Assume those zones are always available.
       return true;
+    }
+
+    if (this.zone.equals("Crimbo23")) {
+      return Preferences.getBoolean(
+          "crimbo23"
+              + switch (this.adventureNumber) {
+                case AdventurePool.CRIMBO23_ARMORY -> "Armory";
+                case AdventurePool.CRIMBO23_BAR -> "Bar";
+                case AdventurePool.CRIMBO23_CAFE -> "Cafe";
+                case AdventurePool.CRIMBO23_COTTAGE -> "Cottage";
+                case AdventurePool.CRIMBO23_FOUNDRY -> "Foundry";
+                default -> "Unknown";
+              }
+              + "AtWar");
     }
 
     // The rest of this method validates item-generated zones.
@@ -4139,6 +4152,10 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         "You've already defeated the Trainbot boss.",
         "Nothing more to do here.",
         MafiaState.PENDING),
+    new AdventureFailure(
+        "Looks like peace has broken out in this area",
+        "The balance of power has shifted, you can no longer fight here",
+        MafiaState.PENDING)
   };
 
   private static final Pattern CRIMBO21_COLD_RES =
@@ -4147,7 +4164,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   public static int findAdventureFailure(String responseText) {
     // KoL is known to sometimes simply return a blank page as a
     // failure to adventure.
-    if (responseText.length() == 0) {
+    if (responseText.isEmpty()) {
       return 0;
     }
 
@@ -4170,6 +4187,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         int required = Integer.parseInt(matcher.group(1));
         Preferences.setInteger("_crimbo21ColdResistance", required);
       }
+    } else if (responseText.contains("Looks like peace has broken out in this area.")) {
+      RequestThread.postRequest(new GenericRequest("place.php?whichplace=crimbo23"));
     }
 
     for (int i = 1; i < ADVENTURE_FAILURES.length; ++i) {

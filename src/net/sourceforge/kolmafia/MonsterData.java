@@ -53,6 +53,8 @@ public class MonsterData extends AdventureResult {
     NOBANISH("NOBANISH"),
     NOCOPY("NOCOPY"),
     NOMANUEL("NOMANUEL"),
+    NOWISH("NOWISH"),
+    WISH("WISH"),
     EA("EA:"),
     ED("ED:"),
     PHYS("Phys:"),
@@ -253,6 +255,8 @@ public class MonsterData extends AdventureResult {
               NOBANISH,
               NOCOPY,
               NOMANUEL,
+              NOWISH,
+              WISH,
               WANDERER,
               ULTRARARE,
               LUCKY,
@@ -359,6 +363,8 @@ public class MonsterData extends AdventureResult {
     saveKeywordAttribute(Attribute.NOBANISH, attributeMap, buf);
     saveKeywordAttribute(Attribute.NOCOPY, attributeMap, buf);
     saveKeywordAttribute(Attribute.NOMANUEL, attributeMap, buf);
+    saveKeywordAttribute(Attribute.NOWISH, attributeMap, buf);
+    saveKeywordAttribute(Attribute.WISH, attributeMap, buf);
 
     // Encounter Types
     saveKeywordAttribute(Attribute.WANDERER, attributeMap, buf);
@@ -608,6 +614,7 @@ public class MonsterData extends AdventureResult {
   private final boolean noBanish;
   private final boolean noCopy;
   private final boolean noManuel;
+  private final boolean noWish;
   private boolean transformed; // from CLEESH and such
   private final EnumSet<EncounterType> type;
   private final String image;
@@ -661,6 +668,10 @@ public class MonsterData extends AdventureResult {
     this.noBanish = attributes.containsKey(Attribute.NOBANISH);
     this.noCopy = attributes.containsKey(Attribute.NOCOPY);
     this.noManuel = attributes.containsKey(Attribute.NOMANUEL);
+    this.noWish =
+        attributes.containsKey(Attribute.WISH)
+            ? false
+            : (attributes.containsKey(Attribute.NOWISH) || this.boss || this.noCopy);
     this.type = type;
     this.subTypes = subTypes;
     this.manuelName = (String) attributes.get(Attribute.MANUEL_NAME);
@@ -772,6 +783,7 @@ public class MonsterData extends AdventureResult {
     this.subTypes = monster.subTypes;
     this.attributes = monster.attributes;
     this.noManuel = monster.noManuel;
+    this.noWish = monster.noWish;
     this.beeCount = monster.beeCount;
     this.items = monster.items;
     this.pocketRates = monster.pocketRates;
@@ -816,6 +828,7 @@ public class MonsterData extends AdventureResult {
           case NO_PICKPOCKET:
           case CONDITIONAL:
           case FIXED:
+          case MULTI_DROP:
             probability = 0.0;
             break;
         }
@@ -1238,20 +1251,20 @@ public class MonsterData extends AdventureResult {
   // Accessors for the various attributes of a monster,
   // ***********************************************************
 
-  private MonsterExpression compile(Object expr) {
-    return MonsterExpression.getInstance((String) expr, this.getName());
+  private MonsterExpression compile(String expr) {
+    return MonsterExpression.getInstance(expr, this.getName());
   }
 
   private int evaluate(Object obj, int value) {
     if (obj != null) {
-      if (obj instanceof Integer) {
-        return (Integer) obj;
+      if (obj instanceof Integer i) {
+        return i;
       }
-      if (obj instanceof String) {
-        obj = compile(obj);
+      if (obj instanceof String s) {
+        obj = compile(s);
       }
-      if (obj instanceof MonsterExpression) {
-        return (int) (((MonsterExpression) obj).eval());
+      if (obj instanceof MonsterExpression me) {
+        return (int) me.eval();
       }
     }
     return value;
@@ -1339,8 +1352,8 @@ public class MonsterData extends AdventureResult {
       }
       return (int) Math.floor(Math.max(1, hp + ML()) * getBeeosity());
     }
-    if (this.health instanceof String) {
-      this.health = compile(this.health);
+    if (this.health instanceof String s) {
+      this.health = compile(s);
     }
     return Math.max(1, (int) (((MonsterExpression) this.health).eval() * getBeeosity()));
   }
@@ -1396,8 +1409,8 @@ public class MonsterData extends AdventureResult {
       }
       return (int) Math.floor(Math.max(1, attack + ML()) * getBeeosity());
     }
-    if (this.attack instanceof String) {
-      this.attack = compile(this.attack);
+    if (this.attack instanceof String s) {
+      this.attack = compile(s);
     }
     return Math.max(1, (int) (((MonsterExpression) this.attack).eval() * getBeeosity()));
   }
@@ -1457,8 +1470,8 @@ public class MonsterData extends AdventureResult {
       return (int)
           Math.floor(Math.max(1, defense + ML()) * getBeeosity() * (1 - reduceMonsterDefense));
     }
-    if (this.defense instanceof String) {
-      this.defense = compile(this.defense);
+    if (this.defense instanceof String s) {
+      this.defense = compile(s);
     }
     return Math.max(
         1,
@@ -1628,6 +1641,10 @@ public class MonsterData extends AdventureResult {
     return this.noCopy;
   }
 
+  public boolean isNoWish() {
+    return this.noWish;
+  }
+
   public boolean isDrippy() {
     return this.subTypes.contains("drippy");
   }
@@ -1738,7 +1755,7 @@ public class MonsterData extends AdventureResult {
     if (drop != null) {
       return switch (drop.flag()) {
         case PICKPOCKET_ONLY -> true;
-        case NO_PICKPOCKET, CONDITIONAL, FIXED -> false;
+        case NO_PICKPOCKET, CONDITIONAL, FIXED, MULTI_DROP -> false;
         default -> drop.chance() * dropModifier < 100.0;
       };
     }
@@ -1812,7 +1829,9 @@ public class MonsterData extends AdventureResult {
                           (rawRate >= 1 || rawRate == 0)
                               ? String.valueOf((int) rawRate)
                               : String.valueOf(rawRate);
-                      return drop.item().getName()
+                      var itemCount = makeItemCount(drop);
+                      return itemCount
+                          + drop.item().getName()
                           + " ("
                           + switch (drop.flag()) {
                             case PICKPOCKET_ONLY -> rate + " pp only";
@@ -1831,8 +1850,52 @@ public class MonsterData extends AdventureResult {
       items.add(bounty + " (bounty)");
     }
 
-    if (items.size() > 0) {
-      buffer.append("<br />Item Drops: ").append(String.join(", ", items));
+    if (!items.isEmpty()) {
+      buffer.append("<br />Drops: ").append(String.join(", ", items));
+    }
+  }
+
+  private String makeItemCount(MonsterDrop drop) {
+    return drop.itemCount().isEmpty() ? "" : drop.itemCount() + " ";
+  }
+
+  void appendMeat(StringBuilder buffer) {
+    this.appendMeat(buffer, false);
+  }
+
+  public void appendMeat(StringBuilder buffer, boolean stateful) {
+    int minMeat = this.getMinMeat();
+    int maxMeat = this.getMaxMeat();
+    if (maxMeat > 0) {
+      double modifier =
+          stateful
+              ? Math.max(0.0, (KoLCharacter.getMeatDropPercentAdjustment() + 100.0) / 100.0)
+              : 1.0;
+      buffer.append("<br />Meat: ");
+      buffer.append((int) Math.floor(minMeat * modifier));
+      buffer.append(" - ");
+      buffer.append((int) Math.floor(maxMeat * modifier));
+    }
+  }
+
+  void appendSprinkles(StringBuilder buffer) {
+    this.appendSprinkles(buffer, false);
+  }
+
+  public void appendSprinkles(StringBuilder buffer, boolean stateful) {
+    int minSprinkles = this.getMinSprinkles();
+    int maxSprinkles = this.getMaxSprinkles();
+    if (maxSprinkles > 0) {
+      double modifier =
+          stateful
+              ? Math.max(0.0, (KoLCharacter.getSprinkleDropPercentAdjustment() + 100.0) / 100.0)
+              : 1.0;
+      buffer.append("<br />Sprinkles: ");
+      buffer.append((int) Math.floor(minSprinkles * modifier));
+      if (maxSprinkles != minSprinkles) {
+        buffer.append(" - ");
+        buffer.append((int) Math.ceil(maxSprinkles * modifier));
+      }
     }
   }
 
@@ -2134,7 +2197,7 @@ public class MonsterData extends AdventureResult {
       buffer.append("This is a wandering monster.");
     } else {
       List<String> zones = AdventureDatabase.getAreasWithMonster(this);
-      if (zones.size() > 0) {
+      if (!zones.isEmpty()) {
         buffer.append("This monster can be found in: ");
         boolean first = true;
         for (String zone : zones) {
@@ -2173,25 +2236,9 @@ public class MonsterData extends AdventureResult {
       buffer.append("<br />This monster is of The Drip. ");
     }
 
-    int minMeat = this.getMinMeat();
-    int maxMeat = this.getMaxMeat();
-    if (maxMeat > 0) {
-      buffer.append("<br />Meat: ");
-      buffer.append(minMeat);
-      buffer.append(" - ");
-      buffer.append(maxMeat);
-    }
+    this.appendMeat(buffer);
 
-    int minSprinkles = this.getMinSprinkles();
-    int maxSprinkles = this.getMaxSprinkles();
-    if (maxSprinkles > 0) {
-      buffer.append("<br />Sprinkles: ");
-      buffer.append(minSprinkles);
-      if (maxSprinkles != minSprinkles) {
-        buffer.append(" - ");
-        buffer.append(maxSprinkles);
-      }
-    }
+    this.appendSprinkles(buffer);
 
     stats.appendItemDrops(buffer);
 

@@ -29,7 +29,7 @@ public class DataFileMechanicsTest {
         Arguments.of("buffbots.txt", 1, 3, 3),
         Arguments.of("cafe_booze.txt", 1, 2, 2),
         Arguments.of("cafe_food.txt", 1, 2, 2),
-        Arguments.of("classskills.txt", 4, 6, 7),
+        Arguments.of("classskills.txt", 6, 6, 7),
         Arguments.of("coinmasters.txt", 2, 4, 5),
         // combats.txt too complex
         // concoctions.txt too complex
@@ -57,8 +57,8 @@ public class DataFileMechanicsTest {
         Arguments.of("questscouncil.txt", 1, 3, 5),
         // questslogs.txt is too complex
         Arguments.of("restores.txt", 2, 7, 8),
-        Arguments.of("spleenhit.txt", 1, 8, 9),
-        Arguments.of("statuseffects.txt", 1, 6, 7),
+        Arguments.of("spleenhit.txt", 3, 8, 9),
+        Arguments.of("statuseffects.txt", 4, 6, 7),
         Arguments.of("TCRS.astral_consumables.txt", 0, 4, 4),
         Arguments.of("TCRS.astral_pets.txt", 0, 4, 4),
         // zapgroups.txt is too simple

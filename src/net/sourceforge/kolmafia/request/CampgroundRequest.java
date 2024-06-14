@@ -33,7 +33,7 @@ public class CampgroundRequest extends GenericRequest {
       Pattern.compile("your cincho loosens (\\d+)%");
   private static final Pattern FURNISHING_PATTERN = Pattern.compile("<b>(?:an? )?(.*?)</b>");
 
-  private static final Pattern JUNG_PATTERN = Pattern.compile("junggate_(\\d)");
+  private static final Pattern JUNG_PATTERN = Pattern.compile("junggate_(\\d+)");
   private static final Pattern DNA_PATTERN = Pattern.compile("sample of <b>(.*?)</b> DNA");
   private static final Pattern FUEL_PATTERN_1 = Pattern.compile("fuel gauge reads ([\\d,]+) litre");
   private static final Pattern FUEL_PATTERN_2 =
@@ -95,6 +95,7 @@ public class CampgroundRequest extends GenericRequest {
           ItemPool.MAID,
           ItemPool.CLOCKWORK_MAID,
           ItemPool.MEAT_BUTLER,
+          ItemPool.PORTABLE_HOUSEKEEPING_ROBOT,
 
           // Inside dwelling: miscellaneous
           // (Certificate of Participation)
@@ -150,6 +151,7 @@ public class CampgroundRequest extends GenericRequest {
           ItemPool.SOURCE_TERMINAL,
           ItemPool.TRAPEZOID,
           ItemPool.GIANT_BLACK_MONOLITH,
+          ItemPool.A_GUIDE_TO_BURNING_LEAVES,
 
           // Special item that aids resting
           ItemPool.COMFY_BLANKET);
@@ -158,15 +160,16 @@ public class CampgroundRequest extends GenericRequest {
     // Bedding
     ItemPool.BEANBAG_CHAIR,
     ItemPool.COLD_BEDDING,
+    ItemPool.FOREST_CANOPY_BED,
     ItemPool.GAUZE_HAMMOCK,
     ItemPool.HOT_BEDDING,
     ItemPool.LAZYBONES_RECLINER,
+    ItemPool.SALTWATERBED,
     ItemPool.SLEAZE_BEDDING,
+    ItemPool.SLEEPING_STOCKING,
+    ItemPool.SPIRIT_BED,
     ItemPool.SPOOKY_BEDDING,
     ItemPool.STENCH_BEDDING,
-    ItemPool.SLEEPING_STOCKING,
-    ItemPool.SALTWATERBED,
-    ItemPool.SPIRIT_BED,
 
     // Inside dwelling: miscellaneous
     ItemPool.BONSAI_TREE,
@@ -1010,7 +1013,13 @@ public class CampgroundRequest extends GenericRequest {
     }
 
     if (action.equals("rest")) {
-      Preferences.increment("timesRested", 1);
+      // You don't need to rest right now.
+      //   this does not use a free rest charge,
+      //   and it does not cost an Adventure if out of free rests,
+      //   so it should not be counted as a rest
+      if (!responseText.contains("You don't need to rest right now.")) {
+        Preferences.increment("timesRested", 1);
+      }
 
       // Your black-and-blue light cycles wildly between
       // black and blue, then emits a shower of sparks as it
@@ -1177,6 +1186,12 @@ public class CampgroundRequest extends GenericRequest {
     findImage(responseText, "chesstable.gif", ItemPool.WITCHESS_SET);
     findImage(responseText, "campterminal.gif", ItemPool.SOURCE_TERMINAL);
     findImage(responseText, "monolith.gif", ItemPool.GIANT_BLACK_MONOLITH);
+    findImage(responseText, "campground/leaves", ItemPool.A_GUIDE_TO_BURNING_LEAVES);
+
+    // small campground has leaves as text, not icon
+    if (KoLCharacter.inSmallcore() && responseText.contains("Burn some Leaves")) {
+      CampgroundRequest.setCampgroundItem(ItemPool.A_GUIDE_TO_BURNING_LEAVES, 1);
+    }
 
     if (responseText.contains("portal1.gif")) {
       // Charged portal.
@@ -1224,7 +1239,7 @@ public class CampgroundRequest extends GenericRequest {
         case 4 -> CampgroundRequest.setCampgroundItem(ItemPool.OLD_MAN_JAR, 1);
         case 5 -> CampgroundRequest.setCampgroundItem(ItemPool.ARTIST_JAR, 1);
         case 6 -> CampgroundRequest.setCampgroundItem(ItemPool.MEATSMITH_JAR, 1);
-        case 7 -> CampgroundRequest.setCampgroundItem(ItemPool.JICK_JAR, 1);
+        case 11 -> CampgroundRequest.setCampgroundItem(ItemPool.JICK_JAR, 1);
       }
     } else {
       Preferences.setBoolean("_psychoJarUsed", false);
@@ -1529,6 +1544,7 @@ public class CampgroundRequest extends GenericRequest {
       case 14 -> itemId = ItemPool.RESIDENCE_CUBE;
       case 15 -> itemId = ItemPool.GIANT_PILGRIM_HAT;
       case 16 -> itemId = ItemPool.HOUSE_SIZED_MUSHROOM;
+      case 17 -> itemId = ItemPool.MINI_KIWI_TIPI;
       default -> KoLmafia.updateDisplay(
           MafiaState.ERROR,
           "Unrecognized housing type (" + CampgroundRequest.currentDwellingLevel + ")!");
@@ -1553,9 +1569,10 @@ public class CampgroundRequest extends GenericRequest {
       var relevantResponse = responseText.substring(startIndex, endIndex);
 
       // Three mutually exclusive dwelling servants
-      if (findImage(relevantResponse, "maid.gif", ItemPool.MAID)
-          || findImage(relevantResponse, "maid2.gif", ItemPool.CLOCKWORK_MAID)
-          || findImage(relevantResponse, "butler.gif", ItemPool.MEAT_BUTLER)) {}
+      if (findImage(relevantResponse, "/maid.gif", ItemPool.MAID)
+          || findImage(relevantResponse, "/maid2.gif", ItemPool.CLOCKWORK_MAID)
+          || findImage(relevantResponse, "/butler.gif", ItemPool.MEAT_BUTLER)
+          || findImage(relevantResponse, "/jetmaid.gif", ItemPool.PORTABLE_HOUSEKEEPING_ROBOT)) {}
 
       Matcher m = FURNISHING_PATTERN.matcher(relevantResponse);
       while (m.find()) {
@@ -1796,16 +1813,17 @@ public class CampgroundRequest extends GenericRequest {
   public static boolean isBedding(final int itemId) {
     return switch (itemId) {
       case ItemPool.BEANBAG_CHAIR,
-          ItemPool.GAUZE_HAMMOCK,
-          ItemPool.LAZYBONES_RECLINER,
-          ItemPool.SLEEPING_STOCKING,
-          ItemPool.HOT_BEDDING,
           ItemPool.COLD_BEDDING,
-          ItemPool.STENCH_BEDDING,
-          ItemPool.SPOOKY_BEDDING,
-          ItemPool.SLEAZE_BEDDING,
+          ItemPool.FOREST_CANOPY_BED,
+          ItemPool.GAUZE_HAMMOCK,
+          ItemPool.HOT_BEDDING,
+          ItemPool.LAZYBONES_RECLINER,
           ItemPool.SALTWATERBED,
-          ItemPool.SPIRIT_BED -> true;
+          ItemPool.SLEAZE_BEDDING,
+          ItemPool.SLEEPING_STOCKING,
+          ItemPool.SPIRIT_BED,
+          ItemPool.SPOOKY_BEDDING,
+          ItemPool.STENCH_BEDDING -> true;
       default -> false;
     };
   }

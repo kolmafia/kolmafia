@@ -3747,7 +3747,7 @@ public class KoLAdventureValidationTest {
     }
 
     @Test
-    public void canVisitHaertWhenCyrptClear() {
+    public void canVisitHaertWhenCyrptEvilness0() {
       var cleanups =
           new Cleanups(
               withQuestProgress(Quest.CYRPT, QuestDatabase.STARTED),
@@ -3756,6 +3756,25 @@ public class KoLAdventureValidationTest {
               withProperty("cyrptNicheEvilness", 0),
               withProperty("cyrptNookEvilness", 0),
               withProperty("cyrptTotalEvilness", 0));
+      try (cleanups) {
+        assertFalse(DEFILED_ALCOVE.canAdventure());
+        assertFalse(DEFILED_CRANNY.canAdventure());
+        assertFalse(DEFILED_NICHE.canAdventure());
+        assertFalse(DEFILED_NOOK.canAdventure());
+        assertTrue(HAERT.canAdventure());
+      }
+    }
+
+    @Test
+    public void canVisitHaertWhenCyrptEvilness999() {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.CYRPT, QuestDatabase.STARTED),
+              withProperty("cyrptAlcoveEvilness", 0),
+              withProperty("cyrptCrannyEvilness", 0),
+              withProperty("cyrptNicheEvilness", 0),
+              withProperty("cyrptNookEvilness", 0),
+              withProperty("cyrptTotalEvilness", 999));
       try (cleanups) {
         assertFalse(DEFILED_ALCOVE.canAdventure());
         assertFalse(DEFILED_CRANNY.canAdventure());
@@ -7520,6 +7539,34 @@ public class KoLAdventureValidationTest {
       try (cleanups) {
         var area = AdventureDatabase.getAdventureByName("Fight in the Dirt");
         assertThat(area.canAdventure(), is(inRun));
+      }
+    }
+  }
+
+  @Nested
+  class Crimbo23 {
+    @Test
+    void checksTownAfterWarChange() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withProperty("crimbo23ArmoryAtWar", false),
+              withProperty("crimbo23BarAtWar", false),
+              withProperty("crimbo23CafeAtWar", false),
+              withProperty("crimbo23CottageAtWar", false),
+              withProperty("crimbo23FoundryAtWar", false));
+      try (cleanups) {
+        builder.client.addResponse(200, html("request/test_place_crimbo23_1.html"));
+
+        var failure =
+            KoLAdventure.findAdventureFailure(html("request/test_adventure_crimbo23_peace.html"));
+        assertThat(failure, greaterThan(0));
+        assertThat("crimbo23ArmoryAtWar", isSetTo(false));
+        assertThat("crimbo23BarAtWar", isSetTo(true));
+        assertThat("crimbo23CafeAtWar", isSetTo(false));
+        assertThat("crimbo23CottageAtWar", isSetTo(true));
+        assertThat("crimbo23FoundryAtWar", isSetTo(false));
       }
     }
   }

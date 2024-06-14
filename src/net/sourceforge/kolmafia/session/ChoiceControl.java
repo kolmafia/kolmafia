@@ -1,12 +1,17 @@
 package net.sourceforge.kolmafia.session;
 
+import static net.sourceforge.kolmafia.utilities.Statics.DateTimeManager;
+import static net.sourceforge.kolmafia.utilities.StringUtilities.extractIidFromURL;
+
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.EdServantData;
@@ -34,7 +39,6 @@ import net.sourceforge.kolmafia.objectpool.OutfitPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
-import net.sourceforge.kolmafia.persistence.DateTimeManager;
 import net.sourceforge.kolmafia.persistence.DebugDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
@@ -48,6 +52,7 @@ import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.ArcadeRequest;
 import net.sourceforge.kolmafia.request.BeachCombRequest;
+import net.sourceforge.kolmafia.request.BurningLeavesRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest.Mushroom;
 import net.sourceforge.kolmafia.request.CargoCultistShortsRequest;
@@ -60,12 +65,14 @@ import net.sourceforge.kolmafia.request.FloristRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.GenieRequest;
 import net.sourceforge.kolmafia.request.LatteRequest;
+import net.sourceforge.kolmafia.request.LedCandleRequest;
 import net.sourceforge.kolmafia.request.LocketRequest;
 import net.sourceforge.kolmafia.request.MonkeyPawRequest;
 import net.sourceforge.kolmafia.request.MummeryRequest;
 import net.sourceforge.kolmafia.request.PantogramRequest;
 import net.sourceforge.kolmafia.request.PyramidRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
+import net.sourceforge.kolmafia.request.ResearchBenchRequest;
 import net.sourceforge.kolmafia.request.SaberRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
 import net.sourceforge.kolmafia.request.SpelunkyRequest;
@@ -74,6 +81,7 @@ import net.sourceforge.kolmafia.request.TavernRequest;
 import net.sourceforge.kolmafia.request.UmbrellaRequest;
 import net.sourceforge.kolmafia.request.WildfireCampRequest;
 import net.sourceforge.kolmafia.session.ChoiceAdventures.Spoilers;
+import net.sourceforge.kolmafia.session.TrackManager.Tracker;
 import net.sourceforge.kolmafia.textui.command.EdPieceCommand;
 import net.sourceforge.kolmafia.textui.command.JurassicParkaCommand;
 import net.sourceforge.kolmafia.textui.command.SnowsuitCommand;
@@ -84,12 +92,8 @@ public abstract class ChoiceControl {
 
   private static int abooPeakLevel = 0;
 
-  public static final Pattern URL_IID_PATTERN = Pattern.compile("iid=(\\d+)");
-
-  public static int extractIidFromURL(final String urlString) {
-    Matcher matcher = URL_IID_PATTERN.matcher(urlString);
-    return matcher.find() ? StringUtilities.parseInt(matcher.group(1)) : -1;
-  }
+  private static final AdventureResult CANDY_CANE_SWORD =
+      ItemPool.get(ItemPool.CANDY_CANE_SWORD, 1);
 
   public static final Pattern URL_QTY_PATTERN = Pattern.compile("qty=(\\d+)");
 
@@ -212,6 +216,22 @@ public abstract class ChoiceControl {
       case 794:
         ResultProcessor.removeItem(ItemPool.FUNKY_JUNK_KEY);
         break;
+
+      case 804: // Trick-or-Treating!
+        {
+          // Whether you win or lose the following encounter, or if there is just a non-combat,
+          // once the selection is made, the house is "used", so we can reflect that in the pref
+          // here.
+          var housePattern = Pattern.compile("whichhouse=(\\d+)");
+          var houseMatcher = housePattern.matcher(request.getURLString());
+          if (houseMatcher.find()) {
+            var house = Integer.parseInt(houseMatcher.group(1));
+            var state = Preferences.getString("_trickOrTreatBlock").toCharArray();
+            state[house] = Character.toLowerCase(state[house]);
+            Preferences.setString("_trickOrTreatBlock", String.valueOf(state));
+          }
+          break;
+        }
 
       case 931:
         // Life Ain't Nothin But Witches and Mummies
@@ -425,6 +445,10 @@ public abstract class ChoiceControl {
           Preferences.setBoolean("wildfireDusted", true);
         }
         break;
+      case 1523:
+        // Research Bench
+        ResearchBenchRequest.postChoice0(urlString, text);
+        break;
     }
   }
 
@@ -504,6 +528,55 @@ public abstract class ChoiceControl {
     String text = request.responseText;
 
     switch (ChoiceManager.lastChoice) {
+      case 4:
+        // Finger-Lickin'... Death.
+        if (ChoiceManager.lastDecision == 4) {
+          Preferences.setBoolean("_candyCaneSwordSouthOfTheBorder", true);
+        }
+        break;
+
+      case 109:
+        // Dumpster Diving
+        if (ChoiceManager.lastDecision == 4) {
+          Preferences.setBoolean("_candyCaneSwordBackAlley", true);
+        }
+        break;
+
+      case 127:
+        // No sir, away! A papaya war is on!
+        if (ChoiceManager.lastDecision == 4) {
+          Preferences.setBoolean("_candyCaneSwordPalindome", true);
+        }
+        break;
+
+      case 139:
+        // Bait and Switch
+        if (ChoiceManager.lastDecision == 4) {
+          Preferences.setBoolean("candyCaneSwordWarHippyBait", true);
+        }
+        break;
+
+      case 140:
+        // The Thin Tie-Dyed Line
+        if (ChoiceManager.lastDecision == 4) {
+          Preferences.setBoolean("candyCaneSwordWarHippyLine", true);
+        }
+        break;
+
+      case 143:
+        // Catching Some Zetas
+        if (ChoiceManager.lastDecision == 4) {
+          Preferences.setBoolean("candyCaneSwordWarFratZetas", true);
+        }
+        break;
+
+      case 144:
+        // One Less Room Than In That Movie
+        if (ChoiceManager.lastDecision == 4) {
+          Preferences.setBoolean("candyCaneSwordWarFratRoom", true);
+        }
+        break;
+
       case 147:
         // Cornered!
         int ducks1 =
@@ -538,6 +611,13 @@ public abstract class ChoiceControl {
             };
         Preferences.setString(
             "duckAreasSelected", Preferences.getString("duckAreasSelected") + "," + ducks3);
+        break;
+
+      case 151:
+        // Adventurer, $1.99
+        if (ChoiceManager.lastDecision == 3) {
+          Preferences.setBoolean("candyCaneSwordFunHouse", true);
+        }
         break;
 
       case 188:
@@ -904,6 +984,27 @@ public abstract class ChoiceControl {
             request, ChoiceManager.lastChoice, ChoiceManager.lastDecision);
         break;
 
+      case 502:
+        // Arboreal Respite
+        if (ChoiceManager.lastDecision == 5) {
+          Preferences.setBoolean("_candyCaneSwordSpookyForest", true);
+        }
+        break;
+
+      case 523:
+        // Death Rattlin'
+        if (ChoiceManager.lastDecision == 5) {
+          Preferences.setBoolean("candyCaneSwordDefiledCranny", true);
+          // You jam your candy cane sword into the hole and flick it around.  You hear moans and
+          // groans and grunts.  Seems like you easily defeated some tiny horrors.
+          //
+          // Your Evilometer beeps 11 times.
+          if (text.contains("Your Evilometer beeps 11 times.")) {
+            CryptManager.decreaseEvilness(AdventurePool.DEFILED_CRANNY, 11);
+          }
+        }
+        break;
+
       case 529:
       case 531:
       case 532:
@@ -1213,6 +1314,10 @@ public abstract class ChoiceControl {
           Preferences.increment("_lastDailyDungeonRoom", 3);
         } else {
           Preferences.increment("_lastDailyDungeonRoom", 1);
+        }
+        // Second Chest only
+        if (ChoiceManager.lastChoice == 691 && ChoiceManager.lastDecision == 4) {
+          Preferences.setBoolean("candyCaneSwordDailyDungeon", true);
         }
         return;
 
@@ -1595,6 +1700,8 @@ public abstract class ChoiceControl {
           }
         } else if (ChoiceManager.lastDecision == 3) {
           Preferences.setInteger("relocatePygmyLawyer", KoLCharacter.getAscensions());
+        } else if (ChoiceManager.lastDecision == 4) {
+          Preferences.setBoolean("candyCaneSwordApartmentBuilding", true);
         }
         return;
 
@@ -1634,6 +1741,8 @@ public abstract class ChoiceControl {
           Preferences.setInteger("hiddenOfficeProgress", 8);
         } else if (ChoiceManager.lastDecision == 3) {
           ResultProcessor.processResult(ItemPool.get(ItemPool.ONE_BALL, -1));
+        } else if (ChoiceManager.lastDecision == 4) {
+          Preferences.setBoolean("_candyCaneSwordOvergrownShrine", true);
         }
         return;
 
@@ -1678,11 +1787,16 @@ public abstract class ChoiceControl {
         }
         if (ChoiceManager.lastDecision == 1) {
           ResultProcessor.removeItem(ItemPool.BOWLING_BALL);
+        }
+        if (ChoiceManager.lastDecision == 1 || ChoiceManager.lastDecision == 2) {
           int bowlCount = Preferences.getInteger("hiddenBowlingAlleyProgress");
           if (bowlCount < 6) {
             Preferences.setInteger(
                 "hiddenBowlingAlleyProgress", (bowlCount < 2 ? 2 : bowlCount + 1));
           }
+        }
+        if (ChoiceManager.lastDecision == 2) {
+          Preferences.setBoolean("candyCaneSwordBowlingAlley", true);
         }
         return;
 
@@ -1692,6 +1806,13 @@ public abstract class ChoiceControl {
           Preferences.setInteger("relocatePygmyJanitor", KoLCharacter.getAscensions());
         }
         return;
+
+      case 793:
+        // Welcome to The Shore, Inc.
+        if (ChoiceManager.lastDecision == 5) {
+          Preferences.setBoolean("candyCaneSwordShore", true);
+        }
+        break;
 
       case 801:
         // A Reanimated Conversation
@@ -1813,11 +1934,25 @@ public abstract class ChoiceControl {
         }
         break;
 
+      case 876:
+        // One Simple Nightstand
+        if (ChoiceManager.lastDecision == 4) {
+          Preferences.setBoolean("_candyCaneSwordHauntedBedroom", true);
+        }
+        break;
+
       case 882:
         // Off the Rack
         if (ChoiceManager.lastDecision == 1
             && text.contains("You never know when it might come in handy.")) {
           Preferences.setInteger("lastTowelAscension", KoLCharacter.getAscensions());
+        }
+        break;
+
+      case 888:
+        // Take a Look, it's in a Book! (Rise)
+        if (ChoiceManager.lastDecision == 4) {
+          Preferences.setBoolean("_candyCaneSwordHauntedLibrary", true);
         }
         break;
 
@@ -2033,6 +2168,12 @@ public abstract class ChoiceControl {
           ResultProcessor.processItem(ItemPool.MIND_DESTROYER, -1);
         }
         break;
+
+      case 923:
+        // All Over the Map
+        if (ChoiceManager.lastDecision == 5) {
+          Preferences.setBoolean("candyCaneSwordBlackForest", true);
+        }
 
       case 930:
         // Another Errand I Mean Quest
@@ -2546,6 +2687,13 @@ public abstract class ChoiceControl {
         }
         break;
 
+      case 1062:
+        // Lots of Options
+        if (ChoiceManager.lastDecision == 6) {
+          Preferences.setBoolean("_candyCaneSwordOvergrownLot", true);
+        }
+        break;
+
       case 1064:
         // The Doctor is Out.  Of Herbs.
         if (ChoiceManager.lastDecision == 1) {
@@ -2657,6 +2805,9 @@ public abstract class ChoiceControl {
         // Bagelmat-5000
         if (text.contains("shove a wad of dough into the slot")) {
           ResultProcessor.removeItem(ItemPool.DOUGH);
+        }
+        if (ChoiceManager.lastDecision == 2) {
+          Preferences.setBoolean("_candyCaneSwordMadnessBakery", true);
         }
         break;
 
@@ -4157,7 +4308,7 @@ public abstract class ChoiceControl {
           if (matcher.find()) {
             String phylum = matcher.group(1);
             String fixed = phylum.equals("merkin") ? "mer-kin" : phylum;
-            Preferences.setString("redSnapperPhylum", fixed);
+            TrackManager.track(fixed, Tracker.RED_SNAPPER);
             Preferences.setInteger("redSnapperProgress", 0);
           }
         }
@@ -4615,6 +4766,33 @@ public abstract class ChoiceControl {
           ResultProcessor.processItem(itemId, -1);
         }
         break;
+        // Burning Leaves
+      case 1510:
+        {
+          String leaves = request.getFormField("leaves");
+          // Redirects to fight.php also run through postChoice, but those are handled elsewhere
+          // in GenericRequest.checkChoiceRedirection
+          if (leaves != null) BurningLeavesRequest.logLeavesBurned(leaves);
+          break;
+        }
+      case 1512, 1513:
+        if (ChoiceManager.lastDecision == 1 && text.contains("You press the button.")) {
+          Preferences.setString(
+              "_automatedFutureSide", ChoiceManager.lastChoice == 1512 ? "solenoids" : "bearings");
+          Preferences.increment("_automatedFutureManufactures", 1, 11, false);
+        }
+        break;
+      case 1517:
+        // Mimic DNA Bank
+        if (ChoiceManager.lastDecision == 1 && text.contains("You donate your egg to science.")) {
+          ResultProcessor.processItem(ItemPool.MIMIC_EGG, -1);
+          Preferences.increment("_mimicEggsDonated", 1, 3, false);
+        }
+        if (ChoiceManager.lastDecision == 2 && text.contains("pops into a backroom")) {
+          Preferences.increment("_mimicEggsObtained", 1, 11, false);
+          KoLCharacter.getFamiliar().addNonCombatExperience(-100);
+        }
+        break;
     }
   }
 
@@ -4641,6 +4819,8 @@ public abstract class ChoiceControl {
 
   private static final Pattern BENCH_WARRANT_PATTERN =
       Pattern.compile("creep <font color=blueviolet><b>(\\d+)</b></font> of them");
+  private static final Pattern BENCH_WARRANT_CANDY_PATTERN =
+      Pattern.compile("scare off <font color=blueviolet><b>(\\d+)</b></font> protestors");
   private static final Pattern FOG_PATTERN = Pattern.compile("<font.*?><b>(.*?)</b></font>");
   private static final Pattern LOV_EXIT_PATTERN =
       Pattern.compile("a sign above it that says <b>(.*?)</b>");
@@ -4662,6 +4842,26 @@ public abstract class ChoiceControl {
   private static final Pattern WALFORD_PATTERN =
       Pattern.compile("\\(Walford's bucket filled by (\\d+)%\\)");
 
+  private static final Pattern MAYAM_SYMBOLS =
+      Pattern.compile("<img data-pos=\"\\d\" class=\"(used)?\"? alt=\"([^\\s]+)\\s");
+
+  public static void parseMayamCalendar(final String text) {
+    var symbolMatcher = MAYAM_SYMBOLS.matcher(text);
+
+    var yams = 0;
+    var used = new ArrayList<String>();
+
+    while (symbolMatcher.find()) {
+      var shouldAdd = symbolMatcher.group(1) != null;
+      var symbol = symbolMatcher.group(2).toLowerCase();
+
+      if (symbol.equals("yam")) symbol += (++yams);
+      if (shouldAdd) used.add(symbol);
+    }
+
+    Preferences.setString("_mayamSymbolsUsed", String.join(",", used));
+  }
+
   public static void postChoice2(final String urlString, final GenericRequest request) {
     String text = request.responseText;
 
@@ -4672,6 +4872,7 @@ public abstract class ChoiceControl {
           Preferences.setInteger("lastPlusSignUnlock", KoLCharacter.getAscensions());
         }
         break;
+
       case 7:
         // How Depressing
 
@@ -5146,6 +5347,8 @@ public abstract class ChoiceControl {
         if (ChoiceManager.lastDecision == 3
             && Preferences.getInteger("lastTempleAdventures") != KoLCharacter.getAscensions()) {
           Preferences.setInteger("lastTempleAdventures", KoLCharacter.getAscensions());
+          // Also resets your Mayam Calendar symbols, if you have used any.
+          Preferences.setString("_mayamSymbolsUsed", "");
         }
         break;
 
@@ -5391,6 +5594,7 @@ public abstract class ChoiceControl {
           String hazard = Preferences.getString("copperheadClubHazard");
           switch (ChoiceManager.lastDecision) {
             case 1:
+            case 5:
               hazard = "gong";
               break;
             case 2:
@@ -5401,6 +5605,9 @@ public abstract class ChoiceControl {
               break;
           }
           Preferences.setString("copperheadClubHazard", hazard);
+          if (ChoiceManager.lastDecision == 5) {
+            Preferences.setBoolean("candyCaneSwordCopperheadClub", true);
+          }
           break;
         }
 
@@ -5424,6 +5631,13 @@ public abstract class ChoiceControl {
             int protestersCreeped = StringUtilities.parseInt(benchWarrantMatcher.group(1));
             Preferences.increment("zeppelinProtestors", protestersCreeped);
             RequestLogger.printLine("Creeped out " + protestersCreeped + " protesters");
+          } else {
+            benchWarrantMatcher = BENCH_WARRANT_CANDY_PATTERN.matcher(text);
+            if (benchWarrantMatcher.find()) {
+              int protestersCreeped = StringUtilities.parseInt(benchWarrantMatcher.group(1));
+              Preferences.increment("zeppelinProtestors", protestersCreeped);
+              RequestLogger.printLine("Scared off " + protestersCreeped + " protesters");
+            }
           }
           break;
         }
@@ -5571,7 +5785,10 @@ public abstract class ChoiceControl {
                     + " in clan "
                     + ClanManager.getClanName(false)
                     + ".";
-            RequestLogger.printLine("<font color=\"blue\">" + message + "</font>");
+            RequestLogger.printHtml(
+                "<font color=\"blue\">"
+                    + StringUtilities.getEntityEncode(message, false)
+                    + "</font>");
             RequestLogger.updateSessionLog(message);
           }
           break;
@@ -6463,9 +6680,12 @@ public abstract class ChoiceControl {
         }
         break;
 
-      case 1483: // Direct Autumn-Aton
-        int location = StringUtilities.parseInt(request.getFormField("heythereprogrammer"));
-        AutumnatonManager.postChoice(ChoiceManager.lastDecision, text, location);
+      case 1483:
+        // Direct Autumn-Aton
+        {
+          int location = StringUtilities.parseInt(request.getFormField("heythereprogrammer"));
+          AutumnatonManager.postChoice(ChoiceManager.lastDecision, text, location);
+        }
         break;
 
       case 1484: // Conspicuous Plaque
@@ -6553,6 +6773,96 @@ public abstract class ChoiceControl {
           MonkeyPawRequest.postChoice(text, wish);
           break;
         }
+
+      case 1509:
+        // Adjust Jill-of-All-Trades Lighting
+        LedCandleRequest.parseUpgrade(urlString, text);
+        break;
+
+      case 1510:
+        // Burning Leaves
+        {
+          String leavesField = request.getFormField("leaves");
+          int leaves = StringUtilities.parseInt(leavesField);
+          BurningLeavesRequest.postChoice(text, leaves);
+          break;
+        }
+
+      case 1003:
+        // Test Your Might And Also Test Other Things
+        // If you are in WereProfessor, option 5 is "Look to the Moon".
+        // If you select this as a Mild-Mannered Professor, you change form.
+        // If you are already a Savage Beast:
+        //
+        // You notice the moon shining brightly over the cusp of the
+        // tower and feel even farther from your professorial self.
+        // Garh, no!
+        if (ChoiceManager.lastDecision != 5) {
+          break;
+        }
+        // Fall through
+      case 1520:
+        // Well, come on
+        // -> Lose Savage Beast and gain Mild-Mannered Professor
+      case 1521:
+        // Turn and face the strange
+        // -> Lose Mild-Mannered Professor and gain Savage Beast
+        // In either case, access to the Tinkering Bench changes
+        ConcoctionDatabase.refreshConcoctions();
+        // Savage Beast modifiers might have changes
+        ResultProcessor.updateSavageBeast();
+        // In either direction, current modifiers have changed.
+        KoLCharacter.recalculateAdjustments();
+        KoLCharacter.updateStatus();
+        break;
+
+      case 1522:
+        // The Antiscientific Method
+        {
+          var location = KoLAdventure.lastVisitedLocation;
+          if (location != null && text.contains("smashed scientific equipment")) {
+            String value = Preferences.getString("antiScientificMethod").trim();
+            String name = location.getAdventureName();
+            if (!value.equals("")) {
+              value += "|";
+            }
+            value += name;
+            Preferences.setString("antiScientificMethod", value);
+          }
+        }
+        break;
+
+      case 1523:
+        // Research Bench
+        ResearchBenchRequest.postChoice2(urlString, text);
+        break;
+
+      case 1524:
+        // Moonlighting
+        handleAfterAvatar(ChoiceManager.lastDecision);
+        break;
+
+      case 1525:
+        // Dart Perks
+        InventoryManager.checkDartPerks();
+        break;
+
+      case 1526:
+        // Conduct the Band
+        switch (ChoiceManager.lastDecision) {
+          case 1, 2, 3 -> Preferences.setInteger(
+              "nextAprilBandTurn", KoLCharacter.getTurnsPlayed() + 11);
+          case 4, 5, 6, 7, 8 -> Preferences.increment("_aprilBandInstruments", 1, 2, false);
+        }
+        break;
+
+      case 1527:
+        // Consider the Calendar
+        parseMayamCalendar(text);
+        if (text.contains("times without using an adventure")) {
+          Preferences.increment("_mayamRests", 5);
+        }
+        break;
     }
   }
 
@@ -6667,6 +6977,9 @@ public abstract class ChoiceControl {
       Pattern.compile(
           "(?:Bring me|artifact known only as) <b>(.*?)</b>, hidden away for centuries");
   private static final Pattern SNOJO_CONSOLE_PATTERN = Pattern.compile("<b>(.*?) MODE</b>");
+  private static final Pattern TRICK_OR_TREAT_PATTERN =
+      Pattern.compile(
+          "<img (class='faded')? src='.*?/trickortreat/(?:house_)?(starhouse|[ld])(?:\\d+)?.gif'");
   private static final Pattern VOTE_PATTERN =
       Pattern.compile(
           "<label><input .*? value=\\\"(\\d)\\\" class=\\\"locals\\\" /> (.*?)<br /><span .*? color: blue\\\">(.*?)</span><br /></label>");
@@ -6711,6 +7024,62 @@ public abstract class ChoiceControl {
   public static void visitChoice(final GenericRequest request) {
     String text = request.responseText;
     switch (ChoiceManager.lastChoice) {
+      case 4:
+        // Finger-Lickin'... Death.
+        if (KoLCharacter.hasEquipped(CANDY_CANE_SWORD) && !text.contains("Teach them a lesson")) {
+          Preferences.setBoolean("_candyCaneSwordSouthOfTheBorder", true);
+        }
+        break;
+
+      case 109:
+        // Dumpster Diving
+        if (KoLCharacter.hasEquipped(CANDY_CANE_SWORD) && !text.contains("candy sword")) {
+          Preferences.setBoolean("_candyCaneSwordBackAlley", true);
+        }
+        break;
+
+      case 127:
+        // No sir, away! A papaya war is on!
+        if (KoLCharacter.hasEquipped(CANDY_CANE_SWORD) && !text.contains("candy cane sword")) {
+          Preferences.setBoolean("_candyCaneSwordPalindome", true);
+        }
+        break;
+
+      case 139:
+        // Bait and Switch
+        if (KoLCharacter.hasEquipped(CANDY_CANE_SWORD) && !text.contains("candy cane sword")) {
+          Preferences.setBoolean("candyCaneSwordWarHippyBait", true);
+        }
+        break;
+
+      case 140:
+        // The Thin Tie-Dyed Line
+        if (KoLCharacter.hasEquipped(CANDY_CANE_SWORD) && !text.contains("Threaten a passerby")) {
+          Preferences.setBoolean("candyCaneSwordWarHippyLine", true);
+        }
+        break;
+
+      case 143:
+        // Catching Some Zetas
+        if (KoLCharacter.hasEquipped(CANDY_CANE_SWORD) && !text.contains("candy cane sword")) {
+          Preferences.setBoolean("candyCaneSwordWarFratZetas", true);
+        }
+        break;
+
+      case 144:
+        // One Less Room Than In That Movie
+        if (KoLCharacter.hasEquipped(CANDY_CANE_SWORD) && !text.contains("Pry open the hatch")) {
+          Preferences.setBoolean("candyCaneSwordWarFratRoom", true);
+        }
+        break;
+
+      case 151:
+        // Adventurer, $1.99
+        if (KoLCharacter.hasEquipped(CANDY_CANE_SWORD) && !text.contains("your cane")) {
+          Preferences.setBoolean("candyCaneSwordFunHouse", true);
+        }
+        break;
+
       case 360:
         // Wumpus Hunt
         WumpusManager.visitChoice(text);
@@ -6772,6 +7141,20 @@ public abstract class ChoiceControl {
       case 1001:
         // Hot and Cold Dripping Rats
         TavernRequest.postTavernVisit(request);
+        break;
+
+      case 502:
+        // Arboreal Respite
+        if (KoLCharacter.hasEquipped(CANDY_CANE_SWORD) && !text.contains("candy cane sword")) {
+          Preferences.setBoolean("_candyCaneSwordSpookyForest", true);
+        }
+        break;
+
+      case 523:
+        // Death Rattlin'
+        if (KoLCharacter.hasEquipped(CANDY_CANE_SWORD) && !text.contains("candy cane sword")) {
+          Preferences.setBoolean("candyCaneSwordDefiledCranny", true);
+        }
         break;
 
       case 537:
@@ -6882,6 +7265,9 @@ public abstract class ChoiceControl {
       case 691:
         // Second Chest
         Preferences.setInteger("_lastDailyDungeonRoom", 9);
+        if (KoLCharacter.hasEquipped(CANDY_CANE_SWORD) && !text.contains("candy cane sword")) {
+          Preferences.setBoolean("candyCaneSwordDailyDungeon", true);
+        }
         break;
 
       case 692:
@@ -6921,6 +7307,13 @@ public abstract class ChoiceControl {
         }
         break;
 
+      case 780:
+        // Action Elevator
+        if (KoLCharacter.hasEquipped(CANDY_CANE_SWORD) && !text.contains("Climb on top")) {
+          Preferences.setBoolean("candyCaneSwordApartmentBuilding", true);
+        }
+        break;
+
       case 781:
         // Earthbound and Down
         if (!text.contains("option value=1")) {
@@ -6946,6 +7339,10 @@ public abstract class ChoiceControl {
             Preferences.setInteger("hiddenOfficeProgress", 1);
           }
         }
+        if (KoLCharacter.hasEquipped(CANDY_CANE_SWORD) && !text.contains("candy cane sword")) {
+          Preferences.setBoolean("_candyCaneSwordOvergrownShrine", true);
+        }
+
         break;
 
       case 787:
@@ -6957,9 +7354,23 @@ public abstract class ChoiceControl {
         }
         break;
 
+      case 788:
+        // Life is Like a Cherry of Bowls
+        if (KoLCharacter.hasEquipped(CANDY_CANE_SWORD) && !text.contains("candy cane sword")) {
+          Preferences.setBoolean("candyCaneSwordBowlingAlley", true);
+        }
+        break;
+
       case 791:
         // Legend of the Temple in the Hidden City
         Preferences.setInteger("zigguratLianas", 1);
+        break;
+
+      case 793:
+        // Welcome to The Shore, Inc.
+        if (KoLCharacter.hasEquipped(CANDY_CANE_SWORD) && !text.contains("Fencing Competition")) {
+          Preferences.setBoolean("candyCaneSwordShore", true);
+        }
         break;
 
       case 798:
@@ -7004,6 +7415,24 @@ public abstract class ChoiceControl {
           } else {
             Preferences.setInteger("reanimatorWings", 0);
           }
+          break;
+        }
+
+      case 804:
+        {
+          var state =
+              TRICK_OR_TREAT_PATTERN
+                  .matcher(text)
+                  .results()
+                  .map(
+                      m -> {
+                        var faded = m.group(1) != null;
+                        var type = m.group(2).substring(0, 1);
+                        return faded ? type : type.toUpperCase();
+                      })
+                  .collect(Collectors.joining());
+
+          Preferences.setString("_trickOrTreatBlock", state);
           break;
         }
 
@@ -7061,6 +7490,13 @@ public abstract class ChoiceControl {
           break;
         }
 
+      case 855:
+        // Behind the 'Stache
+        if (KoLCharacter.hasEquipped(CANDY_CANE_SWORD) && !text.contains("and knock over")) {
+          Preferences.setBoolean("candyCaneSwordCopperheadClub", true);
+        }
+        break;
+
       case 871:
         {
           // inspecting Motorbike
@@ -7096,6 +7532,20 @@ public abstract class ChoiceControl {
           break;
         }
 
+      case 876:
+        // One Simple Nightstand
+        if (KoLCharacter.hasEquipped(CANDY_CANE_SWORD) && !text.contains("candy cane sword")) {
+          Preferences.setBoolean("_candyCaneSwordHauntedBedroom", true);
+        }
+        break;
+
+      case 888:
+        // Take a Look, it's in a Book! (Rise)
+        if (KoLCharacter.hasEquipped(CANDY_CANE_SWORD) && !text.contains("Sword Canes")) {
+          Preferences.setBoolean("_candyCaneSwordHauntedLibrary", true);
+        }
+        break;
+
       case 890: // Lights Out in the Storage Room
       case 891: // Lights Out in the Laundry Room
       case 892: // Lights Out in the Bathroom
@@ -7114,6 +7564,13 @@ public abstract class ChoiceControl {
         // as soon as the next adventure is started
         TurnCounter.stopCounting("Spookyraven Lights Out");
         Preferences.setInteger("lastLightsOutTurn", KoLCharacter.getTurnsPlayed());
+        break;
+
+      case 923:
+        // All Over the Map
+        if (KoLCharacter.hasEquipped(CANDY_CANE_SWORD) && !text.contains("candy cane sword")) {
+          Preferences.setBoolean("candyCaneSwordBlackForest", true);
+        }
         break;
 
       case 930:
@@ -7278,6 +7735,13 @@ public abstract class ChoiceControl {
         EdServantData.inspectServants(text);
         break;
 
+      case 1062:
+        // Lots of Options
+        if (KoLCharacter.hasEquipped(CANDY_CANE_SWORD) && !text.contains("candy cane sword")) {
+          Preferences.setBoolean("_candyCaneSwordOvergrownLot", true);
+        }
+        break;
+
       case 1063:
         {
           // Adjust your 'Edpiece
@@ -7352,6 +7816,13 @@ public abstract class ChoiceControl {
           }
           break;
         }
+
+      case 1080:
+        // Bagelmat-5000
+        if (KoLCharacter.hasEquipped(CANDY_CANE_SWORD) && !text.contains("candy cane sword")) {
+          Preferences.setBoolean("_candyCaneSwordMadnessBakery", true);
+        }
+        break;
 
       case 1087:
         // The Dark and Dank and Sinister Cave Entrance
@@ -7760,6 +8231,9 @@ public abstract class ChoiceControl {
       case 1309:
         // We will either now, or in the past, have had Favored By Lyle
         Preferences.setBoolean("_lyleFavored", true);
+        if (KoLCharacter.hasEquipped(CANDY_CANE_SWORD)) {
+          Preferences.setBoolean("_candyCaneSwordLyle", true);
+        }
         break;
 
       case 1312:
@@ -7938,7 +8412,7 @@ public abstract class ChoiceControl {
           if (matcher.find()) {
             Phylum phylum = Phylum.find(matcher.group(1));
             int progress = StringUtilities.parseInt(matcher.group(2));
-            Preferences.setString("redSnapperPhylum", phylum.toString());
+            TrackManager.track(phylum.toString(), Tracker.RED_SNAPPER);
             Preferences.setInteger("redSnapperProgress", progress);
           }
           break;
@@ -8233,6 +8707,45 @@ public abstract class ChoiceControl {
       case 1501:
         // Make a Wish
         MonkeyPawRequest.visitChoice(text);
+        break;
+
+      case 1510:
+        // Burning Leaves
+        BurningLeavesRequest.visitChoice(text);
+        break;
+
+      case 1512, 1513:
+        if (text.contains("don't even think about pressing that button")) {
+          Preferences.setString(
+              "_automatedFutureSide", ChoiceManager.lastChoice == 1512 ? "bearings" : "solenoids");
+        } else if (text.contains("You've already pushed the button eleven times today")) {
+          Preferences.setString(
+              "_automatedFutureSide", ChoiceManager.lastChoice == 1512 ? "solenoids" : "bearings");
+          Preferences.setInteger("_automatedFutureManufactures", 11);
+        }
+        break;
+
+      case 1517:
+        Matcher eggsSpawned = Pattern.compile("(\\d+)/11 eggs spawned today").matcher(text);
+        if (eggsSpawned.find()) {
+          int spawned = Integer.parseInt(eggsSpawned.group(1));
+          Preferences.setInteger("_mimicEggsObtained", spawned);
+        }
+        Matcher eggsDonated = Pattern.compile("(\\d+)/3 donations made for the day").matcher(text);
+        if (eggsDonated.find()) {
+          int donated = Integer.parseInt(eggsDonated.group(1));
+          Preferences.setInteger("_mimicEggsDonated", donated);
+        }
+
+        break;
+
+      case 1523: // Research Bench
+        ResearchBenchRequest.visitChoice(text);
+        break;
+
+      case 1527:
+        // Consider the Calendar
+        parseMayamCalendar(text);
         break;
     }
   }
@@ -9083,6 +9596,9 @@ public abstract class ChoiceControl {
 
         case 1483: // Direct Autumn-Aton
           return AutumnatonManager.registerRequest(urlString);
+
+        case 1523: // Research Bench
+          return ResearchBenchRequest.registerRequest(urlString);
       }
 
       if (decision != 0) {
@@ -9350,6 +9866,13 @@ public abstract class ChoiceControl {
       case 1494: // Examine S.I.T. Course Certificate
       case 1495: // Get Some Training
       case 1501: // Make a Wish
+      case 1509: // Adjust Jill-of-All-Trades Lighting
+      case 1510: // Burning Leaves
+      case 1517: // Mimic DNA Bank
+      case 1518: // Prepare your Meal
+      case 1523: // Research Bench
+      case 1526: // Conduct the Band
+      case 1527: // Consider the Calendar
         return true;
 
       default:

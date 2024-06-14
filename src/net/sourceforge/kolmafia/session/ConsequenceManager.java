@@ -22,6 +22,7 @@ import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -127,11 +128,11 @@ public abstract class ConsequenceManager {
     }
   }
 
-  public static void parseItemDesc(String id, String responseText) {
+  public static boolean parseItemDesc(String id, String responseText) {
     Consequence cons = ConsequenceManager.itemDescs.get(id);
-    if (cons != null) {
-      cons.test(responseText);
-    }
+    if (cons == null) return false;
+    cons.test(responseText);
+    return true;
   }
 
   public static void parseEffectDesc(String id, String responseText) {
@@ -312,6 +313,10 @@ public abstract class ConsequenceManager {
         String value = action.substring(pos + 1).trim();
         if (value.equals("ascensions")) value = String.valueOf(KoLCharacter.getAscensions());
         if (value.equals("mods")) value = mods;
+        if (value.equals("monstername")) {
+          var id = Integer.parseInt(match.group(1));
+          value = MonsterDatabase.getMonsterName(id);
+        }
         if (StringUtilities.isNumeric(value)) {
           Preferences.setInteger(setting, StringUtilities.parseInt(value));
         } else {

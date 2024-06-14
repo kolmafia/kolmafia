@@ -234,7 +234,7 @@ public class AdventureRequestTest {
   public void devReadoutIsStripped() {
     var cleanups =
         new Cleanups(
-            withProperty("useDevProxyServer", true),
+            withProperty("useDevServer", true),
             withProperty("lastEncounter"),
             withLastLocation("The Spooky Forest"));
 

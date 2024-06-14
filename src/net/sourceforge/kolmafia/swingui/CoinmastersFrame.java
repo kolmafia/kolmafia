@@ -72,6 +72,14 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
   private CoinmasterPanel crimbo20boozePanel = null;
   private CoinmasterPanel crimbo20candyPanel = null;
   private CoinmasterPanel crimbo20foodPanel = null;
+  private CoinmasterPanel crimbo23ElfBarPanel = null;
+  private CoinmasterPanel crimbo23ElfCafePanel = null;
+  private CoinmasterPanel crimbo23ElfArmoryPanel = null;
+  private CoinmasterPanel crimbo23ElfFactoryPanel = null;
+  private CoinmasterPanel crimbo23PirateBarPanel = null;
+  private CoinmasterPanel crimbo23PirateCafePanel = null;
+  private CoinmasterPanel crimbo23PirateArmoryPanel = null;
+  private CoinmasterPanel crimbo23PirateFactoryPanel = null;
   private CoinmasterPanel crimboCartelPanel = null;
   private CoinmasterPanel dimemasterPanel = null;
   private CoinmasterPanel dinostaurPanel = null;
@@ -495,6 +503,46 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     panel.add(warbearBoxPanel);
     this.selectorPanel.addPanel(warbearBoxPanel.getPanelSelector(), panel);
 
+    panel = new JPanel(new BorderLayout());
+    crimbo23ElfBarPanel = new Crimbo23ElfBarPanel();
+    panel.add(crimbo23ElfBarPanel);
+    this.selectorPanel.addPanel(crimbo23ElfBarPanel.getPanelSelector(), panel);
+
+    panel = new JPanel(new BorderLayout());
+    crimbo23ElfCafePanel = new Crimbo23ElfCafePanel();
+    panel.add(crimbo23ElfCafePanel);
+    this.selectorPanel.addPanel(crimbo23ElfCafePanel.getPanelSelector(), panel);
+
+    panel = new JPanel(new BorderLayout());
+    crimbo23ElfArmoryPanel = new Crimbo23ElfArmoryPanel();
+    panel.add(crimbo23ElfArmoryPanel);
+    this.selectorPanel.addPanel(crimbo23ElfArmoryPanel.getPanelSelector(), panel);
+
+    panel = new JPanel(new BorderLayout());
+    crimbo23ElfFactoryPanel = new Crimbo23ElfFactoryPanel();
+    panel.add(crimbo23ElfFactoryPanel);
+    this.selectorPanel.addPanel(crimbo23ElfFactoryPanel.getPanelSelector(), panel);
+
+    panel = new JPanel(new BorderLayout());
+    crimbo23PirateBarPanel = new Crimbo23PirateBarPanel();
+    panel.add(crimbo23PirateBarPanel);
+    this.selectorPanel.addPanel(crimbo23PirateBarPanel.getPanelSelector(), panel);
+
+    panel = new JPanel(new BorderLayout());
+    crimbo23PirateCafePanel = new Crimbo23PirateCafePanel();
+    panel.add(crimbo23PirateCafePanel);
+    this.selectorPanel.addPanel(crimbo23PirateCafePanel.getPanelSelector(), panel);
+
+    panel = new JPanel(new BorderLayout());
+    crimbo23PirateArmoryPanel = new Crimbo23PirateArmoryPanel();
+    panel.add(crimbo23PirateArmoryPanel);
+    this.selectorPanel.addPanel(crimbo23PirateArmoryPanel.getPanelSelector(), panel);
+
+    panel = new JPanel(new BorderLayout());
+    crimbo23PirateFactoryPanel = new Crimbo23PirateFactoryPanel();
+    panel.add(crimbo23PirateFactoryPanel);
+    this.selectorPanel.addPanel(crimbo23PirateFactoryPanel.getPanelSelector(), panel);
+
     // Removed coinmasters
     this.selectorPanel.addSeparator();
     this.selectorPanel.addCategory("Removed");
@@ -682,17 +730,23 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
   public class ArmoryAndLeggeryPanel extends CoinmasterPanel {
     public ArmoryAndLeggeryPanel() {
       super(ArmoryAndLeggeryRequest.ARMORY_AND_LEGGERY);
+      NamedListenerRegistry.registerNamedListener("(armoryandleggery)", this);
     }
 
     @Override
     public void setTitle(final StringBuffer buffer) {
       this.standardTitle(buffer);
       for (AdventureResult currency : this.data.currencies()) {
-        buffer.append(" (");
-        buffer.append(InventoryManager.getCount(currency));
-        buffer.append(" ");
-        buffer.append(currency.getName());
-        buffer.append(")");
+        // There are two currencies for every year of Standard equipment.
+        // That is far too many to show all of them in the title.
+        // Show only the ones you have in inventory right now.
+        if (InventoryManager.getCount(currency.getItemId()) > 0) {
+          buffer.append(" (");
+          buffer.append(InventoryManager.getCount(currency));
+          buffer.append(" ");
+          buffer.append(currency.getName());
+          buffer.append(")");
+        }
       }
     }
   }
@@ -1453,6 +1507,54 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
   private class MrStore2002Panel extends CoinmasterPanel {
     public MrStore2002Panel() {
       super(MrStore2002Request.MR_STORE_2002);
+    }
+  }
+
+  private class Crimbo23ElfBarPanel extends CoinmasterPanel {
+    public Crimbo23ElfBarPanel() {
+      super(Crimbo23ElfBarRequest.DATA);
+    }
+  }
+
+  private class Crimbo23ElfCafePanel extends CoinmasterPanel {
+    public Crimbo23ElfCafePanel() {
+      super(Crimbo23ElfCafeRequest.DATA);
+    }
+  }
+
+  private class Crimbo23ElfArmoryPanel extends CoinmasterPanel {
+    public Crimbo23ElfArmoryPanel() {
+      super(Crimbo23ElfArmoryRequest.DATA);
+    }
+  }
+
+  private class Crimbo23ElfFactoryPanel extends CoinmasterPanel {
+    public Crimbo23ElfFactoryPanel() {
+      super(Crimbo23ElfFactoryRequest.DATA);
+    }
+  }
+
+  private class Crimbo23PirateBarPanel extends CoinmasterPanel {
+    public Crimbo23PirateBarPanel() {
+      super(Crimbo23PirateBarRequest.DATA);
+    }
+  }
+
+  private class Crimbo23PirateCafePanel extends CoinmasterPanel {
+    public Crimbo23PirateCafePanel() {
+      super(Crimbo23PirateCafeRequest.DATA);
+    }
+  }
+
+  private class Crimbo23PirateArmoryPanel extends CoinmasterPanel {
+    public Crimbo23PirateArmoryPanel() {
+      super(Crimbo23PirateArmoryRequest.DATA);
+    }
+  }
+
+  private class Crimbo23PirateFactoryPanel extends CoinmasterPanel {
+    public Crimbo23PirateFactoryPanel() {
+      super(Crimbo23PirateFactoryRequest.DATA);
     }
   }
 

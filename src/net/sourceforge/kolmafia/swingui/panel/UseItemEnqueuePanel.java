@@ -612,8 +612,7 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
 
       if (item != null) {
         // Apparently, Cafe items are allowed, whether or not they are in Standard
-        if (creation.getPrice() <= 0
-            && !StandardRequest.isAllowed(RestrictedItemType.ITEMS, item.getDataName())) {
+        if (creation.getPrice() <= 0 && !ItemDatabase.isAllowed(item)) {
           return false;
         }
 
@@ -815,6 +814,13 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
 
       if (KoLCharacter.isPlumber()) {
         if (type == ConcoctionType.BOOZE) {
+          return false;
+        }
+      }
+
+      if (KoLCharacter.inElevenThingIHateAboutU()) {
+        if (type == ConcoctionType.FOOD
+            && (KoLCharacter.hasEweosity(name) || !KoLCharacter.hasEyeosity(name))) {
           return false;
         }
       }

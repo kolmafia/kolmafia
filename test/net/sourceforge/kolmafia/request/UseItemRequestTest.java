@@ -3,29 +3,7 @@ package net.sourceforge.kolmafia.request;
 import static internal.helpers.Networking.assertGetRequest;
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
-import static internal.helpers.Player.withClass;
-import static internal.helpers.Player.withFamiliar;
-import static internal.helpers.Player.withFight;
-import static internal.helpers.Player.withFullness;
-import static internal.helpers.Player.withGender;
-import static internal.helpers.Player.withHP;
-import static internal.helpers.Player.withHandlingChoice;
-import static internal.helpers.Player.withHttpClientBuilder;
-import static internal.helpers.Player.withInebriety;
-import static internal.helpers.Player.withItem;
-import static internal.helpers.Player.withLevel;
-import static internal.helpers.Player.withLimitMode;
-import static internal.helpers.Player.withMP;
-import static internal.helpers.Player.withNextResponse;
-import static internal.helpers.Player.withNoEffects;
-import static internal.helpers.Player.withNoItems;
-import static internal.helpers.Player.withPasswordHash;
-import static internal.helpers.Player.withPath;
-import static internal.helpers.Player.withProperty;
-import static internal.helpers.Player.withSkill;
-import static internal.helpers.Player.withSpleenUse;
-import static internal.helpers.Player.withSubStats;
-import static internal.helpers.Player.withoutSkill;
+import static internal.helpers.Player.*;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
@@ -346,6 +324,7 @@ class UseItemRequestTest {
         assertThat(UseItemRequest.maximumUses("astral energy drink"), is(Integer.MAX_VALUE));
       }
     }
+
     /**
      * The list ot tested items was derived from items with zero fullness in fullness.txt at the
      * time the test was written. Magical sausage 10060 has zero fullness but it is not tested here
@@ -427,6 +406,43 @@ class UseItemRequestTest {
 
       assertThat("_bookOfEverySkillUsed", isSetTo(true));
       assertTrue(KoLCharacter.hasSkill(SkillPool.ANTIPHON));
+    }
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = {"success", "failure"})
+  void setsPunchingMirrorPreference(String htmlSource) {
+    var path = "request/test_use_punching_mirror_" + htmlSource + ".html";
+    var cleanups =
+        new Cleanups(
+            withItem(ItemPool.PUNCHING_MIRROR),
+            withProperty("_punchingMirrorUsed", false),
+            withHippyStoneBroken(),
+            withNextResponse(200, html(path)));
+
+    try (cleanups) {
+      var req = UseItemRequest.getInstance(ItemPool.PUNCHING_MIRROR);
+      req.run();
+
+      assertThat("_punchingMirrorUsed", isSetTo(true));
+    }
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = {"success", "failure"})
+  void setsSnowballFactoryPreference(String htmlSource) {
+    var path = "request/test_use_snowball_factory_" + htmlSource + ".html";
+    var cleanups =
+        new Cleanups(
+            withItem(ItemPool.LIL_SNOWBALL_FACTORY),
+            withProperty("_snowballFactoryUsed", false),
+            withNextResponse(200, html(path)));
+
+    try (cleanups) {
+      var req = UseItemRequest.getInstance(ItemPool.LIL_SNOWBALL_FACTORY);
+      req.run();
+
+      assertThat("_snowballFactoryUsed", isSetTo(true));
     }
   }
 
@@ -1192,6 +1208,117 @@ class UseItemRequestTest {
         // Verify that the correct item increments the quest
         UseItemRequest.getInstance(ItemPool.UNREMARKABLE_DUFFEL_BAG).run();
         assertThat("_questPartyFairItemsOpened", isSetTo(1));
+      }
+    }
+  }
+
+  @Nested
+  class Evilometer {
+    @Test
+    void detectsPartiallyEvilCyrpt() {
+      var cleanups =
+          new Cleanups(
+              withItem(ItemPool.EVILOMETER),
+              withProperty("cyrptTotalEvilness", 200),
+              withProperty("cyrptAlcoveEvilness", 50),
+              withProperty("cyrptCrannyEvilness", 50),
+              withProperty("cyrptNicheEvilness", 50),
+              withProperty("cyrptNookEvilness", 50),
+              withNextResponse(
+                  new FakeHttpResponse<>(200, html("request/test_evilometer_partial.html"))));
+
+      try (cleanups) {
+        UseItemRequest.getInstance(ItemPool.EVILOMETER).run();
+        assertThat("cyrptTotalEvilness", isSetTo(89));
+        assertThat("cyrptAlcoveEvilness", isSetTo(50));
+        assertThat("cyrptCrannyEvilness", isSetTo(39));
+        assertThat("cyrptNicheEvilness", isSetTo(0));
+        assertThat("cyrptNookEvilness", isSetTo(0));
+      }
+    }
+
+    @Test
+    void detectsFullyEvilCyrpt() {
+      var cleanups =
+          new Cleanups(
+              withItem(ItemPool.EVILOMETER),
+              withProperty("cyrptTotalEvilness", 200),
+              withProperty("cyrptAlcoveEvilness", 50),
+              withProperty("cyrptCrannyEvilness", 50),
+              withProperty("cyrptNicheEvilness", 50),
+              withProperty("cyrptNookEvilness", 50),
+              withNextResponse(
+                  new FakeHttpResponse<>(200, html("request/test_evilometer_999.html"))));
+
+      try (cleanups) {
+        UseItemRequest.getInstance(ItemPool.EVILOMETER).run();
+        assertThat("cyrptTotalEvilness", isSetTo(999));
+        assertThat("cyrptAlcoveEvilness", isSetTo(0));
+        assertThat("cyrptCrannyEvilness", isSetTo(0));
+        assertThat("cyrptNicheEvilness", isSetTo(0));
+        assertThat("cyrptNookEvilness", isSetTo(0));
+      }
+    }
+
+    @Test
+    void detectsUndefiledCyrpt() {
+      var cleanups =
+          new Cleanups(
+              withItem(ItemPool.EVILOMETER),
+              withProperty("cyrptTotalEvilness", 200),
+              withProperty("cyrptAlcoveEvilness", 50),
+              withProperty("cyrptCrannyEvilness", 50),
+              withProperty("cyrptNicheEvilness", 50),
+              withProperty("cyrptNookEvilness", 50),
+              withNextResponse(
+                  new FakeHttpResponse<>(200, html("request/test_evilometer_finished.html"))));
+
+      try (cleanups) {
+        UseItemRequest.getInstance(ItemPool.EVILOMETER).run();
+        assertThat("cyrptTotalEvilness", isSetTo(0));
+        assertThat("cyrptAlcoveEvilness", isSetTo(0));
+        assertThat("cyrptCrannyEvilness", isSetTo(0));
+        assertThat("cyrptNicheEvilness", isSetTo(0));
+        assertThat("cyrptNookEvilness", isSetTo(0));
+        assertFalse(InventoryManager.hasItem(ItemPool.EVILOMETER));
+      }
+    }
+  }
+
+  @Nested
+  class LawOfAverages {
+    @Test
+    void increments() {
+      var cleanups =
+          new Cleanups(
+              withItem(ItemPool.LAW_OF_AVERAGES),
+              withProperty("_lawOfAveragesUsed", 0),
+              withNextResponse(new FakeHttpResponse<>(200, "")));
+
+      try (cleanups) {
+        // Verify that the correct item increments the quest
+        UseItemRequest.getInstance(ItemPool.LAW_OF_AVERAGES).run();
+        assertThat("_lawOfAveragesUsed", isSetTo(1));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "0, 3",
+      // Do not reduce the number, one might be in our closet for some reason
+      "4, 4"
+    })
+    void setsToMaxIfRejected(final int startingValue, final int expectedValue) {
+      var cleanups =
+          new Cleanups(
+              withItem(ItemPool.LAW_OF_AVERAGES, 3),
+              withProperty("_lawOfAveragesUsed", startingValue),
+              withNextResponse(new FakeHttpResponse<>(200, "You already feel pretty average")));
+
+      try (cleanups) {
+        // Verify that the correct item increments the quest
+        UseItemRequest.getInstance(ItemPool.LAW_OF_AVERAGES).run();
+        assertThat("_lawOfAveragesUsed", isSetTo(expectedValue));
       }
     }
   }

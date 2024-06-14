@@ -34,7 +34,6 @@ jobs:
 
       - name: Checking generated TypeScript definitions
         run: |
-          mv index.d.ts .github/npm/index.d.ts
           cd .github/npm
           npm install
           npm run validate
@@ -43,6 +42,7 @@ jobs:
         run: |
           PACKAGE_VERSION=$(head -n 1 .github/npm/index.d.ts | cut -c 5-)
           sed -i 's/{{version}}/'$PACKAGE_VERSION'/g' .github/npm/package.json
+          sed -i 's/{{version}}/'$PACKAGE_VERSION'/g' .github/npm/package-lock.json
 
       - name: Publishing TypeScript package to npm
         run: |

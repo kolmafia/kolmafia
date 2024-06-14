@@ -18,6 +18,7 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.BasementRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class Expression {
@@ -192,6 +193,20 @@ public class Expression {
         case 'c' -> v = Math.ceil(s[--sp]);
         case 'f' -> v = Math.floor(s[--sp]);
         case 'm' -> v = Math.min(s[--sp], s[--sp]);
+          // args are read in reverse, so the operation is different from what you'd expect
+        case '<' -> v = s[--sp] > s[--sp] ? 1 : 0;
+        case '≤' -> v = s[--sp] >= s[--sp] ? 1 : 0;
+        case '>' -> v = s[--sp] < s[--sp] ? 1 : 0;
+        case '≥' -> v = s[--sp] <= s[--sp] ? 1 : 0;
+        case 'o' -> {
+          var token = (String) this.literals.get((int) s[--sp]);
+          var item =
+              StringUtilities.isNumeric(token)
+                  ? ItemPool.get(StringUtilities.parseInt(token))
+                  : ItemPool.get(token);
+          // To replicate KoL's internal haveitem(), we only check the inventory.
+          v = InventoryManager.getCount(item);
+        }
         case 'p' -> {
           String first = (String) this.literals.get((int) s[--sp]);
           String second = null;
@@ -537,6 +552,20 @@ public class Expression {
     }
   }
 
+  private String unary(char c) {
+    String rv = this.expr();
+    this.expect(")");
+    return rv + c;
+  }
+
+  private String binary(char c) {
+    String rv = this.expr();
+    this.expect(",");
+    rv = rv + this.expr() + c;
+    this.expect(")");
+    return rv;
+  }
+
   private String value() {
     String rv;
     if (this.optional("(")) {
@@ -545,41 +574,40 @@ public class Expression {
       return rv;
     }
     if (this.optional("ceil(")) {
-      rv = this.expr();
-      this.expect(")");
-      return rv + "c";
+      return unary('c');
     }
     if (this.optional("floor(")) {
-      rv = this.expr();
-      this.expect(")");
-      return rv + "f";
+      return unary('f');
     }
     if (this.optional("sqrt(")) {
-      rv = this.expr();
-      this.expect(")");
-      return rv + "s";
+      return unary('s');
     }
     if (this.optional("min(")) {
-      rv = this.expr();
-      this.expect(",");
-      rv = rv + this.expr() + "m";
-      this.expect(")");
-      return rv;
+      return binary('m');
     }
     if (this.optional("max(")) {
-      rv = this.expr();
-      this.expect(",");
-      rv = rv + this.expr() + "x";
-      this.expect(")");
-      return rv;
+      return binary('x');
+    }
+    if (this.optional("gt(")) {
+      return binary('>');
+    }
+    if (this.optional("gte(")) {
+      return binary('≥');
+    }
+    if (this.optional("lt(")) {
+      return binary('<');
+    }
+    if (this.optional("lte(")) {
+      return binary('≤');
     }
     if (this.optional("abs(")) {
-      rv = this.expr();
-      this.expect(")");
-      return rv + "a";
+      return unary('a');
     }
     if (this.optional("pref(")) {
       return this.literal(this.until(")"), 'p');
+    }
+    if (this.optional("haveitem(")) {
+      return this.literal(this.until(")"), 'o');
     }
 
     rv = this.function();
@@ -627,5 +655,50 @@ public class Expression {
 
   protected String function() {
     return null;
+  }
+
+  protected void combine(Expression other, char combiner) {
+    if (this.getClass() != other.getClass()) {
+      throw new IllegalArgumentException("Cannot combine expressions of different types");
+    }
+
+    // Check if the combiner is a known binary opcode
+    switch (combiner) {
+      case '+':
+      case '-':
+      case '*':
+      case '/':
+      case '%':
+      case '^':
+      case '<':
+      case '≤':
+      case '>':
+      case '≥':
+      case 'x':
+      case 'm':
+        break;
+      default:
+        throw new IllegalArgumentException("Combiner must be a binary operator");
+    }
+
+    int bytecodeOffset = this.bytecode.length - 1;
+
+    bytecode = Arrays.copyOf(this.bytecode, this.bytecode.length + other.bytecode.length);
+    System.arraycopy(other.bytecode, 0, bytecode, bytecodeOffset, other.bytecode.length);
+
+    if (this.literals == null) {
+      this.literals = other.literals;
+    } else {
+      char literalOffset = (char) this.literals.size();
+      this.literals.addAll(other.literals);
+      for (int i = bytecodeOffset; i < bytecode.length; i++) {
+        if (other.bytecode[i] > '\u00FF') {
+          bytecode[bytecodeOffset + i] += literalOffset;
+        }
+      }
+    }
+
+    this.bytecode[this.bytecode.length - 2] = combiner;
+    this.bytecode[this.bytecode.length - 1] = 'r';
   }
 }

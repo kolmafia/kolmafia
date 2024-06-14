@@ -23,8 +23,22 @@ import org.mozilla.javascript.NativeArray;
 import org.mozilla.javascript.NativeObject;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
+import org.mozilla.javascript.Undefined;
 
 public class ValueConverter {
+  /* This is the closest thing that we have to undefined in our Value type system. Since javascript
+   * void functions return undefined, and we currently don't support undefined values as parameters,
+   * this is good enough for now.
+   */
+  private static final Type UNDEFINED_TYPE = new Type("undefined", TypeSpec.VOID);
+  private static final Value UNDEFINED =
+      new Value(UNDEFINED_TYPE) {
+        @Override
+        public String toString() {
+          return "undefined";
+        }
+      };
+
   private final Context cx;
   private final Scriptable scope;
 
@@ -193,13 +207,14 @@ public class ValueConverter {
     if (object == null) return null;
     else if (object instanceof Boolean) {
       return DataTypes.makeBooleanValue((Boolean) object);
-    } else if (object instanceof Float || object instanceof Double) {
-      return DataTypes.makeFloatValue(((Number) object).floatValue());
     } else if (object instanceof Byte
         || object instanceof Short
         || object instanceof Integer
-        || object instanceof Long) {
+        || object instanceof Long
+        || object instanceof Double d && JavascriptNumbers.isDoubleSafeInteger(d)) {
       return DataTypes.makeIntValue(((Number) object).longValue());
+    } else if (object instanceof Float || object instanceof Double) {
+      return DataTypes.makeFloatValue(((Number) object).doubleValue());
     } else if (object instanceof String) {
       return DataTypes.makeStringValue((String) object);
     } else if (object instanceof StringBuffer || object instanceof ConsString) {
@@ -216,6 +231,8 @@ public class ValueConverter {
       return convertNativeArray((NativeArray) object, typeHint);
     } else if (object instanceof Value) {
       return (Value) object;
+    } else if (Undefined.isUndefined(object)) {
+      return UNDEFINED;
     } else {
       return DataTypes.makeStringValue(object.toString());
     }

@@ -1,0 +1,33 @@
+In KOLHS as a Sauceror, Bushes drop an item: true
+That item is a line: true
+And there are 3 of them: true
+
+In Teetotal as a Turtle Tamer, huge ghuols grant an effect: true
+That effect is Ultrahydrated: true
+And it lasts 5 turns: true
+
+In Bees Hate You as a Disco Bandit, Mob Penguin Smashers drop meat: true
+Specifically 123 meat: true
+
+In Way of the Surprising Fist as a Pastamancer, lowercase bs grant stats: true
+Specifically 3 stats: true
+To all stats, that is: true
+
+In Slow and Steady as a Sauceror, dairy oozes grant stats: true
+Specifically 3 stats: true
+To moxie, that is: true
+
+In Live. Ascend. Repeat. as a Seal Clubber, batrats grant an in-fight modifier: true
+Specifically 25% item drop bonus: true
+
+In Unrestricted as a Seal Clubber, angry mushroom guys restore HP: true
+Specifically 50% HP: true
+
+In Unrestricted as a Seal Clubber, strong winds restore MP: true
+Specifically 25% MP: true
+
+Accessing an item fact from a non-item type fact returns Item.none: true
+
+Accessing an effect fact from a non-effect type fact returns Effect.none: true
+
+Accessing a number from a non-numeric fact returns 0: true

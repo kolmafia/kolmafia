@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia.request;
 
+import static net.sourceforge.kolmafia.utilities.Statics.DateTimeManager;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,7 +35,6 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.DailyLimitDatabase.DailyLimitType;
-import net.sourceforge.kolmafia.persistence.DateTimeManager;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
@@ -2055,7 +2056,8 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
         // is this our "today" skill?
         var date = DateTimeManager.getRolloverDateTime().getDayOfMonth();
         var isTodaySkill = skillId == date - 1 + SkillPool.AUG_1ST_MOUNTAIN_CLIMBING_DAY;
-        if (isTodaySkill) {
+        // "today" skill does not apply in-run
+        if (isTodaySkill && KoLCharacter.canInteract()) {
           Preferences.setBoolean("_augTodayCast", true);
         } else {
           Preferences.increment("_augSkillsCast", 1, 5, false);

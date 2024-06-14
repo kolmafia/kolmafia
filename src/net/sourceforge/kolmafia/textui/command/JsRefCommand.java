@@ -134,7 +134,7 @@ public class JsRefCommand extends AbstractCommand {
 
       description.append(")");
 
-      RequestLogger.printLine(description.toString());
+      RequestLogger.printHtml(description.toString());
     }
   }
 }

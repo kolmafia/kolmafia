@@ -42,6 +42,7 @@ import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDrop;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
+import net.sourceforge.kolmafia.persistence.StandardRewardDatabase;
 import net.sourceforge.kolmafia.persistence.TCRSDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ChateauRequest;
@@ -50,6 +51,7 @@ import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.PlaceRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
+import net.sourceforge.kolmafia.session.TrackManager.Tracker;
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -183,6 +185,7 @@ public class ResultProcessor {
                   case STEAL_ACCORDION -> "Pickpocketed item "
                       + name
                       + " which is marked as accordion steal.";
+                  case MULTI_DROP -> "Pickpocketed item " + name + " which is marked as multidrop.";
                   default -> null;
                 };
             if (message != null) {
@@ -322,6 +325,14 @@ public class ResultProcessor {
 
   public static void updateEntauntauned() {
     DebugDatabase.readEffectDescriptionText(EffectPool.ENTAUNTAUNED);
+  }
+
+  public static void updateSavageBeast() {
+    // Don't bother unless we are currently a Savage Beast.
+    // We'll do this again if we transform into one
+    if (KoLCharacter.isSavageBeast()) {
+      DebugDatabase.effectDescriptionText(EffectPool.SAVAGE_BEAST);
+    }
   }
 
   public static Pattern EFFECT_TABLE_PATTERN =
@@ -1145,6 +1156,16 @@ public class ResultProcessor {
           if (duration <= 0) break;
           Preferences.setInteger("chilledToTheBone", (int) Math.pow(3, duration));
         }
+        case EffectPool.A_BEASTLY_ODOR -> {
+          int duration = result.getCount();
+          if (duration <= 0) break;
+          TrackManager.track("beast", Tracker.A_BEASTLY_ODOR);
+        }
+        case EffectPool.EW_THE_HUMANITY -> {
+          int duration = result.getCount();
+          if (duration <= 0) break;
+          TrackManager.track("dude", Tracker.EW_THE_HUMANITY);
+        }
       }
 
       return shouldRefresh;
@@ -1349,17 +1370,6 @@ public class ResultProcessor {
       case ItemPool.WHITE_PIXEL:
       case ItemPool.DRIPLET:
       case ItemPool.GUZZLRBUCK:
-        // Pulverized ascension rewards
-      case ItemPool.WICKERBITS: // 2016 Standard gear -> 2015 Standard gear
-      case ItemPool.BAKELITE_BITS: // 2016 Hardcore gear -> 2015 Hardcore gear
-      case ItemPool.AEROSOLIZED_AEROGEL: // 2017 Standard gear -> 2016 Standard gear
-      case ItemPool.WROUGHT_IRON_FLAKES: // 2017 Hardcore gear -> 2016 Hardcore gear
-      case ItemPool.GABARDEEN_SMITHEREENS: // 2018 Standard gear -> 2017 Standard gear
-      case ItemPool.FIBERGLASS_FIBERS: // 2018 Hardcore gear -> 2017 Hardcore gear
-      case ItemPool.CHALK_CHUNKS: // 2019 Standard gear -> 2018 Standard gear
-      case ItemPool.MARBLE_MOLECULES: // 2019 Hardcore gear -> 2018 Hardcore gear
-      case ItemPool.PARAFFIN_PIECES: // 2020 Standard gear -> 2019 Standard gear
-      case ItemPool.TERRA_COTTA_TIDBITS: // 2020 Hardcore gear -> 2019 Hardcore gear
         // BatFellow currencies
       case ItemPool.INCRIMINATING_EVIDENCE:
       case ItemPool.DANGEROUS_CHEMICALS:
@@ -1385,6 +1395,11 @@ public class ResultProcessor {
       case ItemPool.MILK_CAP:
       case ItemPool.DRINK_CHIT:
       case ItemPool.REPLICA_MR_ACCESSORY:
+        // Crimbo23 currencies
+      case ItemPool.ELF_GUARD_MPC:
+      case ItemPool.ELF_ARMY_MACHINE_PARTS:
+      case ItemPool.CRIMBUCCANEER_PIECE_OF_12:
+      case ItemPool.CRIMBUCCANEER_FLOTSAM:
         NamedListenerRegistry.fireChange("(coinmaster)");
         break;
 
@@ -1466,6 +1481,11 @@ public class ResultProcessor {
       case ItemPool.SHADOW_STICK:
         RufusManager.handleShadowItems(result.getName());
         break;
+    }
+
+    if (StandardRewardDatabase.isPulverizedStandardReward(itemId)) {
+      // These are currencies in the Armory and Leggery
+      NamedListenerRegistry.fireChange("(armoryandleggery)");
     }
 
     if (ItemDatabase.isCandyItem(itemId)) {
@@ -1920,7 +1940,7 @@ public class ResultProcessor {
         break;
 
       case ItemPool.BONERDAGON_CHEST:
-        QuestDatabase.setQuestProgress(Quest.CYRPT, "step1");
+        CryptManager.defeatBoss("Bonerdagon");
         break;
 
       case ItemPool.BONERDAGON_SKULL:
@@ -2515,11 +2535,7 @@ public class ResultProcessor {
         break;
 
       case ItemPool.EVILOMETER:
-        Preferences.setInteger("cyrptTotalEvilness", 200);
-        Preferences.setInteger("cyrptAlcoveEvilness", 50);
-        Preferences.setInteger("cyrptCrannyEvilness", 50);
-        Preferences.setInteger("cyrptNicheEvilness", 50);
-        Preferences.setInteger("cyrptNookEvilness", 50);
+        CryptManager.acquireEvilometer();
         break;
 
       case ItemPool.TEACHINGS_OF_THE_FIST:
@@ -3383,6 +3399,24 @@ public class ResultProcessor {
       case ItemPool.CINCHO_DE_MAYO:
       case ItemPool.REPLICA_CINCHO_DE_MAYO:
         InventoryManager.addCinchoDeMayoSkills();
+        break;
+
+      case ItemPool.LED_CANDLE:
+        if (adventureResults
+            && KoLCharacter.currentFamiliar.getId() == FamiliarPool.JILL_OF_ALL_TRADES) {
+          Preferences.setBoolean("ledCandleDropped", true);
+        }
+        break;
+      case ItemPool.MAP_TO_A_CANDY_RICH_BLOCK:
+        if (adventureResults
+            && KoLCharacter.currentFamiliar.getId() == FamiliarPool.JILL_OF_ALL_TRADES) {
+          Preferences.increment("_mapToACandyRichBlockDrops", 1);
+        }
+        break;
+      case ItemPool.MINI_KIWI:
+        if (adventureResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.MINI_KIWI) {
+          Preferences.increment("_miniKiwiDrops", 1);
+        }
         break;
     }
 

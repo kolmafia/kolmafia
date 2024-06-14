@@ -354,6 +354,7 @@ public class ValhallaManager {
     QuestDatabase.resetQuests();
     IslandManager.resetIsland();
     BanishManager.resetAscension();
+    TrackManager.resetAscension();
     BugbearManager.resetStatus();
 
     TurnCounter.clearCounters();

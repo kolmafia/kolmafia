@@ -13,12 +13,13 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 
 public enum AscensionClass {
+  UNKNOWN("Unknown", -2),
   ASTRAL_SPIRIT("Astral Spirit", -1),
   SEAL_CLUBBER("Seal Clubber", 1, "club", 0, Path.NONE, "Club Foot"),
   TURTLE_TAMER("Turtle Tamer", 2, "turtle", 0, Path.NONE, "Shell Up"),
   PASTAMANCER("Pastamancer", 3, "pasta", 1, Path.NONE, "Entangling Noodles"),
-  SAUCEROR("Sauceror", 4, "sauce", 1, Path.NONE, "Soul Bubble"),
-  DISCO_BANDIT("Disco Bandit", 5, "disco", 2),
+  SAUCEROR("Sauceror", 4, "saucepan", 1, Path.NONE, "Soul Bubble"),
+  DISCO_BANDIT("Disco Bandit", 5, "discoball", 2),
   ACCORDION_THIEF("Accordion Thief", 6, "accordion", 2, Path.NONE, "Accordion Bash"),
   AVATAR_OF_BORIS(
       "Avatar of Boris", 11, "trusty", 0, Path.AVATAR_OF_BORIS, "Broadside", 20, 4, null),
@@ -56,7 +57,8 @@ public enum AscensionClass {
   GREY_GOO("Grey Goo", 27, "greygooring", -1, Path.GREY_YOU, null, 0, 0, 0),
   PIG_SKINNER("Pig Skinner", 28, "football2", 0, Path.SHADOWS_OVER_LOATHING),
   CHEESE_WIZARD("Cheese Wizard", 29, "jarl_cheeseslice", 1, Path.SHADOWS_OVER_LOATHING),
-  JAZZ_AGENT("Jazz Agent", 30, "motif", 2, Path.SHADOWS_OVER_LOATHING, "Drum Roll");
+  JAZZ_AGENT("Jazz Agent", 30, "motif", 2, Path.SHADOWS_OVER_LOATHING, "Drum Roll"),
+  WEREPROFESSOR("WereProfessor", 31, "intrinsic_prof", 0, Path.WEREPROFESSOR);
 
   public static final List<AscensionClass> standardClasses =
       Arrays.asList(
@@ -101,18 +103,18 @@ public enum AscensionClass {
   }
 
   public static AscensionClass find(final String name) {
-    if (name == null || name.equals("")) return null;
+    if (name == null || name.equals("")) return UNKNOWN;
 
     String lowerCaseName = name.toLowerCase();
 
     return Arrays.stream(values())
         .filter(a -> a.getName().toLowerCase().contains(lowerCaseName))
         .findFirst()
-        .orElse(null);
+        .orElse(UNKNOWN);
   }
 
   public static AscensionClass find(int id) {
-    return Arrays.stream(values()).filter(a -> a.getId() == id).findAny().orElse(null);
+    return Arrays.stream(values()).filter(a -> a.getId() == id).findAny().orElse(UNKNOWN);
   }
 
   AscensionClass(

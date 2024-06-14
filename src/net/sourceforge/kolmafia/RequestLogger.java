@@ -99,6 +99,27 @@ public class RequestLogger extends NullStream {
   }
 
   public static void printLine(final MafiaState state, String message, boolean addToBuffer) {
+    printLine(state, message, addToBuffer, false);
+  }
+
+  public static void printHtml(final String message) {
+    RequestLogger.printHtml(MafiaState.CONTINUE, message, true);
+  }
+
+  public static void printHtml(final String message, final boolean addToBuffer) {
+    RequestLogger.printHtml(MafiaState.CONTINUE, message, addToBuffer);
+  }
+
+  public static void printHtml(final MafiaState state, final String message) {
+    RequestLogger.printHtml(state, message, true);
+  }
+
+  public static void printHtml(final MafiaState state, String message, boolean addToBuffer) {
+    printLine(state, message, addToBuffer, true);
+  }
+
+  private static void printLine(
+      final MafiaState state, String message, boolean addToBuffer, boolean isHtml) {
     if (message == null) {
       return;
     }
@@ -116,6 +137,11 @@ public class RequestLogger extends NullStream {
 
     if (StaticEntity.backtraceTrigger != null && message.contains(StaticEntity.backtraceTrigger)) {
       StaticEntity.printStackTrace("Backtrace triggered by message");
+    }
+
+    // If message isn't explicitly html, entity encode it
+    if (!isHtml) {
+      message = StringUtilities.getEntityEncode(message, false);
     }
 
     if (!addToBuffer) {
@@ -138,17 +164,17 @@ public class RequestLogger extends NullStream {
       if (state == MafiaState.ERROR || state == MafiaState.ABORT) {
         addedColor = true;
         colorBuffer.append("<font color=red>");
-      } else if (message.startsWith("> QUEUED")) {
+      } else if (message.startsWith("&gt; QUEUED")) {
         addedColor = true;
         colorBuffer.append(" <font color=olive><b>");
-      } else if (message.startsWith("> ")) {
+      } else if (message.startsWith("&gt; ")) {
         addedColor = true;
         colorBuffer.append(" <font color=olive>");
       }
 
       colorBuffer.append(StringUtilities.globalStringReplace(message, "\n", "<br>"));
 
-      if (message.startsWith("> QUEUED")) {
+      if (message.startsWith("&gt; QUEUED")) {
         colorBuffer.append("</b>");
       }
 
@@ -452,6 +478,13 @@ public class RequestLogger extends NullStream {
     // Burning Newspaper creation is an instance of choice.php
     if ((isExternal || request instanceof BurningNewspaperRequest)
         && BurningNewspaperRequest.registerRequest(urlString)) {
+      RequestLogger.wasLastRequestSimple = false;
+      return;
+    }
+
+    // Burning Leaves creation is an instance of choice.php
+    if ((isExternal || request instanceof BurningLeavesRequest)
+        && BurningLeavesRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
@@ -944,6 +977,54 @@ public class RequestLogger extends NullStream {
       return;
     }
 
+    if ((isExternal || request instanceof Crimbo23ElfArmoryRequest)
+        && Crimbo23ElfArmoryRequest.registerRequest(urlString)) {
+      RequestLogger.wasLastRequestSimple = false;
+      return;
+    }
+
+    if ((isExternal || request instanceof Crimbo23ElfBarRequest)
+        && Crimbo23ElfBarRequest.registerRequest(urlString)) {
+      RequestLogger.wasLastRequestSimple = false;
+      return;
+    }
+
+    if ((isExternal || request instanceof Crimbo23ElfCafeRequest)
+        && Crimbo23ElfCafeRequest.registerRequest(urlString)) {
+      RequestLogger.wasLastRequestSimple = false;
+      return;
+    }
+
+    if ((isExternal || request instanceof Crimbo23ElfFactoryRequest)
+        && Crimbo23ElfFactoryRequest.registerRequest(urlString)) {
+      RequestLogger.wasLastRequestSimple = false;
+      return;
+    }
+
+    if ((isExternal || request instanceof Crimbo23PirateArmoryRequest)
+        && Crimbo23PirateArmoryRequest.registerRequest(urlString)) {
+      RequestLogger.wasLastRequestSimple = false;
+      return;
+    }
+
+    if ((isExternal || request instanceof Crimbo23PirateBarRequest)
+        && Crimbo23PirateBarRequest.registerRequest(urlString)) {
+      RequestLogger.wasLastRequestSimple = false;
+      return;
+    }
+
+    if ((isExternal || request instanceof Crimbo23PirateCafeRequest)
+        && Crimbo23PirateCafeRequest.registerRequest(urlString)) {
+      RequestLogger.wasLastRequestSimple = false;
+      return;
+    }
+
+    if ((isExternal || request instanceof Crimbo23PirateFactoryRequest)
+        && Crimbo23PirateFactoryRequest.registerRequest(urlString)) {
+      RequestLogger.wasLastRequestSimple = false;
+      return;
+    }
+
     if ((isExternal || request instanceof CrimboCartelRequest)
         && CrimboCartelRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
@@ -1173,6 +1254,12 @@ public class RequestLogger extends NullStream {
 
     if ((isExternal || request instanceof JunkMagazineRequest)
         && JunkMagazineRequest.registerRequest(urlString)) {
+      RequestLogger.wasLastRequestSimple = false;
+      return;
+    }
+
+    if ((isExternal || request instanceof KiwiKwikiMartRequest)
+        && KiwiKwikiMartRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }
@@ -1519,6 +1606,12 @@ public class RequestLogger extends NullStream {
 
     if ((isExternal || request instanceof TicketCounterRequest)
         && TicketCounterRequest.registerRequest(urlString)) {
+      RequestLogger.wasLastRequestSimple = false;
+      return;
+    }
+
+    if ((isExternal || request instanceof TinkeringBenchRequest)
+        && TinkeringBenchRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.StringTokenizer;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
@@ -639,6 +640,18 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
   }
 
   public static AdventureResult parseItem(final String s, final boolean pseudoAllowed) {
+    // Certain items contain parentheses. Appending (COUNT) to such is problematic.
+    // For now, if we have an exact match for an item name, use it with a count of 1.
+    int itemId = ItemDatabase.getItemId(s.trim(), 1, false);
+    // Ignore any bracketed items as they include item ID in the name
+    if (itemId != -1 && !s.trim().matches("^\\[\\d+].*")) {
+      AdventureResult item = new AdventureResult(Priority.NONE, s.trim());
+      item.priority = Priority.ITEM;
+      item.id = itemId;
+      item.count = 1;
+      return item;
+    }
+
     StringTokenizer parsedItem = new StringTokenizer(s, "()");
 
     if (parsedItem.countTokens() == 0) {
@@ -1503,5 +1516,43 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
       }
       return null;
     }
+  }
+
+  public static AdventureResult parseEffectString(String effectString) {
+    String name = effectString;
+    int duration = 0;
+    int lparen = effectString.lastIndexOf("(");
+    int rparen = effectString.lastIndexOf(")");
+    if (lparen >= 0 && rparen >= 0) {
+      String durationString = effectString.substring(lparen + 1, rparen);
+      if (StringUtilities.isNumeric(durationString)) {
+        name = effectString.substring(0, lparen).trim();
+        duration = StringUtilities.parseInt(durationString);
+      }
+    }
+    int effectId = EffectDatabase.getEffectId(name, true);
+    if (effectId < 0) {
+      return null;
+    }
+    return EffectPool.get(effectId, duration);
+  }
+
+  public static AdventureResult parseItemString(String itemString) {
+    String name = itemString;
+    int count = 1;
+    int lparen = itemString.lastIndexOf("(");
+    int rparen = itemString.lastIndexOf(")");
+    if (lparen >= 0 && rparen >= 0) {
+      String countString = itemString.substring(lparen + 1, rparen);
+      if (StringUtilities.isNumeric(countString)) {
+        name = itemString.substring(0, lparen).trim();
+        count = StringUtilities.parseInt(countString);
+      }
+    }
+    int itemId = ItemDatabase.getItemId(name, 1, false);
+    if (itemId < 0) {
+      return null;
+    }
+    return ItemPool.get(itemId, count);
   }
 }

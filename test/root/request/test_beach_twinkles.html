@@ -1,0 +1,239 @@
+<html><head>
+<script language=Javascript>
+<!--
+if (parent.frames.length == 0) location.href="game.php";
+top.charpane.location.href="charpane.php";
+//-->
+</script>
+<script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/jquery-1.5.1.js"></script>
+<script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/keybinds.min.2.js"></script>
+<script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/window.20111231.js"></script>
+<script language="javascript">function chatFocus(){if(top.chatpane.document.chatform.graf) top.chatpane.document.chatform.graf.focus();}
+if (typeof defaultBind != 'undefined') { defaultBind(47, 2, chatFocus); defaultBind(190, 2, chatFocus);defaultBind(191, 2, chatFocus); defaultBind(47, 8, chatFocus);defaultBind(190, 8, chatFocus); defaultBind(191, 8, chatFocus); }</script><script>
+function switchFocus()
+{
+	if (top.chatpane.document.chatform.graf.focus) 
+		top.chatpane.document.chatform.graf.focus(); 
+	return false;
+}
+function repeat()
+{
+	var linx = document.getElementsByTagName("A");
+	for (var i = 0; i < linx.length; i++)
+	{
+		if (typeof timersfunc != 'undefined') {
+			if (!timersfunc()) { 
+				return; 
+			}
+			timersfunc = null;
+		}
+		var link = linx[i];
+		if (link.innerHTML.match(/Adventure Again/) || link.innerHTML.match(/Do it again/))
+			location.href = link.href;
+	}
+}
+
+defaultBind(47, CTRL, switchFocus);
+defaultBind(191, CTRL, switchFocus);
+defaultBind(47, META, switchFocus);
+defaultBind(191, META, switchFocus);
+defaultBind(192, NONE, repeat);
+defaultBind(220, NONE, repeat);
+</script><script language="javascript">
+	function updateParseItem(iid, field, info) {
+		var tbl = $('#ic'+iid);
+		var data = parseItem(tbl);
+		if (!data) return;
+		data[field] = info;
+		var out = [];
+		for (i in data) {
+			if (!data.hasOwnProperty(i)) continue;
+			out.push(i+'='+data[i]);
+		}
+		tbl.attr('rel', out.join('&'));
+	}
+	function parseItem(tbl) {
+		tbl = $(tbl);
+		var rel = tbl.attr('rel');
+		var data = {};
+		if (!rel) return data;
+		var parts = rel.split('&');
+		for (i in parts) {
+			if (!parts.hasOwnProperty(i)) continue;
+			var kv = parts[i].split('=');
+			tbl.data(kv[0], kv[1]);
+			data[kv[0]] = kv[1];
+		}
+		return data;
+	}
+</script><script type="text/javascript" src="https://d2uyhvukfffg5a.cloudfront.net/scripts/pop_query.20230713.js"></script>
+<script type="text/javascript" src="https://d2uyhvukfffg5a.cloudfront.net/scripts/ircm.20230626.js"></script>
+<script type="text/javascript">
+var tp = top;
+function pop_ircm_contents(i, some) {
+	var contents = '',
+		shown = 0,
+		da = '&nbsp;<a href="#" rel="?" class="small dojaxy">[some]</a>&nbsp;<a href="#" rel="',
+		db = '" class="small dojaxy">[all]</a>',
+		dc = '<div style="width:100%; padding-bottom: 3px;" rel="',
+		dd = '<a href="#" rel="1" class="small dojaxy">[';
+	one = 'one'; ss=some;
+if (i.d==1 && i.s>0) { shown++; 
+contents += dc + 'sellstuff.php?action=sell&ajax=1&type=quant&whichitem%5B%5D=IID&howmany=NUM&pwd=393c1369706d3c3c10fec33062dbc8f0" id="pircm_'+i.id+'"><b>Auto-Sell ('+i.s+' meat):</b> '+dd+one+']</a>';
+if (ss) { contents += da + i.n + db;}
+contents += '</div>';
+}
+one = 'one'; ss=some;
+if (i.q==0) { shown++; 
+contents += dc + 'inventory.php?action=closetpush&ajax=1&whichitem=IID&qty=NUM&pwd=393c1369706d3c3c10fec33062dbc8f0" id="pircm_'+i.id+'"><b>Closet:</b> '+dd+one+']</a>';
+if (ss) { contents += da + i.n + db;}
+contents += '</div>';
+}
+one = 'one'; ss=some;
+if (i.q==0 && i.g==0 && i.t==1) { shown++; 
+contents += dc + 'managestore.php?action=additem&qty1=NUM&item1=IID&price1=&limit1=&ajax=1&pwd=393c1369706d3c3c10fec33062dbc8f0" id="pircm_'+i.id+'"><b>Stock in Mall:</b> '+dd+one+']</a>';
+if (ss) { contents += da + i.n + db;}
+contents += '</div>';
+}
+one = 'one'; ss=some;
+if (i.u && i.u != "." && !i.ac) { shown++; 
+contents += dc + 'inv_'+(i.u=="a"?"redir":(lab=(i.u=="u"?"use":(i.u=="e"?"eat":(i.u=="b"?"booze":(i.u=="s"?"spleen":"equip"))))))+'.php?ajax=1&whichitem=IID&itemquantity=NUM&quantity=NUM'+(i.u=="q"?"&action=equip":"")+'&pwd=393c1369706d3c3c10fec33062dbc8f0" id="pircm_'+i.id+'"><b>'+ucfirst(unescape(i.ou ? i.ou.replace(/\+/g," ") : (lab=="booze"?"drink":lab)))+':</b> '+dd+one+']</a>';
+if (ss && i.u != 'q' && !(i.u=='u' && i.m==0)) { contents += da + i.n + db;}
+contents += '</div>';
+}
+one = 'one'; ss=some;
+if (i.u && i.u != "." && i.ac) { shown++; 
+contents += dc + 'inv_equip.php?slot=1&ajax=1&whichitem=IID&action=equip&pwd=393c1369706d3c3c10fec33062dbc8f0" id="pircm_'+i.id+'"><b>Equip (slot 1):</b> '+dd+one+']</a>';
+if (ss && i.u != 'q' && !(i.u=='u' && i.m==0)) { contents += da + i.n + db;}
+contents += '</div>';
+}
+one = 'one'; ss=some;
+if (i.u && i.u != "." && i.ac) { shown++; 
+contents += dc + 'inv_equip.php?slot=2&ajax=1&whichitem=IID&action=equip&pwd=393c1369706d3c3c10fec33062dbc8f0" id="pircm_'+i.id+'"><b>Equip (slot 2):</b> '+dd+one+']</a>';
+if (ss && i.u != 'q' && !(i.u=='u' && i.m==0)) { contents += da + i.n + db;}
+contents += '</div>';
+}
+one = 'one'; ss=some;
+if (i.u && i.u != "." && i.ac) { shown++; 
+contents += dc + 'inv_equip.php?slot=3&ajax=1&whichitem=IID&action=equip&pwd=393c1369706d3c3c10fec33062dbc8f0" id="pircm_'+i.id+'"><b>Equip (slot 3):</b> '+dd+one+']</a>';
+if (ss && i.u != 'q' && !(i.u=='u' && i.m==0)) { contents += da + i.n + db;}
+contents += '</div>';
+}
+
+	return [contents, shown];
+}
+tp=top
+var todo = [];
+function nextAction() {
+	var next_todo = todo.shift();
+	if (next_todo) {
+		eval(next_todo);
+	}
+}
+function dojax(dourl, afterFunc, hoverCaller, failureFunc, method, params) {
+	$.ajax({
+		type: method || 'GET', url: dourl, cache: false,
+		data: params || null,
+		global: false,
+		success: function (out) {
+			nextAction();
+			if (out.match(/no\|/)) {
+				var parts = out.split(/\|/);
+				if (failureFunc) failureFunc(parts[1]);
+				else if (window.dojaxFailure) window.dojaxFailure(parts[1]);
+				else if (tp.chatpane.handleMessage) tp.chatpane.handleMessage({type: 'event', msg: 'Oops!  Sorry, Dave, you appear to be ' + parts[1]});
+				else  $('#ChatWindow').append('<font color="green">Oops!  Sorry, Dave, you appear to be ' + parts[1] + '.</font><br />' + "\n");
+				return;
+			}
+
+			if (hoverCaller)  {
+				float_results(hoverCaller, out);
+				if (afterFunc) { afterFunc(out); }
+				return;
+			}
+$(tp.mainpane.document).find("#effdiv").remove(); if(!window.dontscroll || (window.dontscroll && dontscroll==0)) { window.scroll(0,0);}
+			var $eff = $(tp.mainpane.document).find('#effdiv');
+			if ($eff.length == 0) {
+				var d = tp.mainpane.document.createElement('DIV');
+				d.id = 'effdiv';
+				var b = tp.mainpane.document.body;
+				if ($('#content_').length > 0) {
+					b = $('#content_ div:first')[0];
+				}
+				b.insertBefore(d, b.firstChild);
+				$eff = $(d);
+			}
+			$eff.find('a[name="effdivtop"]').remove().end()
+				.prepend('<a name="effdivtop"></a><center>' + out + '</center>').css('display','block');
+			if (!window.dontscroll || (window.dontscroll && dontscroll==0)) {
+				tp.mainpane.document.location = tp.mainpane.document.location + "#effdivtop";
+			}
+			if (afterFunc) { afterFunc(out); }
+		}
+	});
+}
+</script>	<link rel="stylesheet" type="text/css" href="https://d2uyhvukfffg5a.cloudfront.net/styles.20230117d.css">
+<style type='text/css'>
+.faded {
+	zoom: 1;
+	filter: alpha(opacity=35);
+	opacity: 0.35;
+	-khtml-opacity: 0.35; 
+    -moz-opacity: 0.35;
+}
+</style>
+
+</head>
+
+<body>
+<Center><table  width=95%  cellspacing=0 cellpadding=0><tr><td style="color: white;" align=center bgcolor=blue><b>Comb the Beach (938 minutes down the beach)</b></td></tr><tr><td style="padding: 5px; border: 1px solid blue;"><center><table><tr><td><center><p>You walk for 938 minutes and find a nice stretch of beach.  Now...  Where to comb?<p>Click an area to comb, this will take <b>(0) Adventures</b>.<br /><form method="post" action="choice.php"><input name="whichchoice" value="1388" type="hidden" /><input name="pwd" value="393c1369706d3c3c10fec33062dbc8f0"  type="hidden" /><input name="option" value="4"  type="hidden" /><table cellpadding=0 cellspacing=0 border=0><tr></tr><tr><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="10,9380" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand17.png" /></button></td><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="10,9379" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand01.png" /></button></td><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="10,9378" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand04.png" /></button></td><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="10,9377" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand07.png" /></button></td><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="10,9376" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand00.png" /></button></td><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="10,9375" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand00.png" /></button></td><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="10,9374" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand13.png" /></button></td><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="10,9373" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand13.png" /></button></td><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="10,9372" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand27.png" /></button></td><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="10,9371" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand14.png" /></button></td></tr><tr><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="9,9380" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand06.png" /></button></td><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="9,9379" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand28.png" /></button></td><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="9,9378" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand00.png" /></button></td><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="9,9377" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand08.png" /></button></td><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="9,9376" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand08.png" /></button></td><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="9,9375" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand08.png" /></button></td><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="9,9374" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand06.png" /></button></td><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="9,9373" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand04.png" /></button></td><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="9,9372" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand07.png" /></button></td><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="9,9371" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand05.png" /></button></td></tr><tr><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="8,9380" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand06.png" /></button></td><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="8,9379" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand00.png" /></button></td><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="8,9378" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand13.png" /></button></td><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="8,9377" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand02.png" /></button></td><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="8,9376" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand22.png" /></button></td><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="8,9375" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand08.png" /></button></td><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="8,9374" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand09.png" /></button></td><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="8,9373" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand00.png" /></button></td><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="8,9372" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand12.png" /></button></td><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="8,9371" type="submit"><img title="rough sand with a twinkle" alt="rough sand with a twinkle"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/tsand14.gif" /></button></td></tr><tr><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="7,9380" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand21.png" /></button></td><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="7,9379" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand10.png" /></button></td><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="7,9378" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand08.png" /></button></td><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="7,9377" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand06.png" /></button></td><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="7,9376" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand07.png" /></button></td><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="7,9375" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand02.png" /></button></td><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="7,9374" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand08.png" /></button></td><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="7,9373" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand13.png" /></button></td><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="7,9372" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand05.png" /></button></td><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="7,9371" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand13.png" /></button></td></tr><tr><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="6,9380" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand10.png" /></button></td><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="6,9379" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand09.png" /></button></td><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="6,9378" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand09.png" /></button></td><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="6,9377" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand26.png" /></button></td><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="6,9376" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand04.png" /></button></td><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="6,9375" type="submit"><img title="combed sand" alt="combed sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/combedsand01.png" /></button></td><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="6,9374" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand25.png" /></button></td><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="6,9373" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand12.png" /></button></td><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="6,9372" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand07.png" /></button></td><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="6,9371" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand06.png" /></button></td></tr><tr><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="5,9380" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand02.png" /></button></td><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="5,9379" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand02.png" /></button></td><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="5,9378" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand11.png" /></button></td><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="5,9377" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand00.png" /></button></td><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="5,9376" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand09.png" /></button></td><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="5,9375" type="submit"><img title="combed sand" alt="combed sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/combedsand04.png" /></button></td><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="5,9374" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand06.png" /></button></td><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="5,9373" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand04.png" /></button></td><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="5,9372" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand01.png" /></button></td><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="5,9371" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand01.png" /></button></td></tr><tr><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="4,9380" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand02.png" /></button></td><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="4,9379" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand11.png" /></button></td><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="4,9378" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand06.png" /></button></td><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="4,9377" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand09.png" /></button></td><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="4,9376" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand04.png" /></button></td><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="4,9375" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand04.png" /></button></td><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="4,9374" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand16.png" /></button></td><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="4,9373" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand00.png" /></button></td><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="4,9372" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand24.png" /></button></td><td width="80" height="80"><button style="border: 0; background: none; padding: 0" name="coords" value="4,9371" type="submit"><img title="rough sand" alt="rough sand"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand08.png" /></button></td></tr><tr><td colspan="10"><div style="overflow: hidden; height: 140px; width: 100%; position: relative;" id="ocean"><img src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand05.png" style="position: absolute; top: 0px; left: 0px" /><img src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand03.png" style="position: absolute; top: 0px; left: 80px" /><img src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand03.png" style="position: absolute; top: 0px; left: 160px" /><img src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand06.png" style="position: absolute; top: 0px; left: 240px" /><img src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand02.png" style="position: absolute; top: 0px; left: 320px" /><img src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand07.png" style="position: absolute; top: 0px; left: 400px" /><img src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand09.png" style="position: absolute; top: 0px; left: 480px" /><img src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand01.png" style="position: absolute; top: 0px; left: 560px" /><img src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand06.png" style="position: absolute; top: 0px; left: 640px" /><img src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/sand04.png" style="position: absolute; top: 0px; left: 720px" /><div class="fadeout" style="position: absolute; top: 0px; left: 0; height: 80px; width: 800px"></div></div></td></tr></table></form><script>
+var roll = function (n) { return Math.floor(Math.random() * n) + 1; };
+var waves = function () {
+  var i, surf, wave, num = 8+roll(2);
+  for (i=0; i<num; i++) {
+     wave = $('<img />').attr('src', 'https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/waves'+roll(6)+'.png')
+        .css('position', 'absolute')
+        .css('opacity', 0)
+        .css('top', (100+roll(50))+'px')
+        .css('left', ( (i*(800/num))+ roll(50) ) + 'px');
+     $('#ocean').append(wave);
+     wave.animate({top: '10px', 'opacity': 1}, 2000, function () { 
+          //$(this).animate({top: '160px', opacity: 0}, 5000, function () { $(this).remove(); });
+          $(this).fadeOut(300, function () { $(this).remove(); });
+          if (!surf) {
+            surf = $('<img />').attr('src', 'https://d2uyhvukfffg5a.cloudfront.net/otherimages/beachcomb/surfline'+roll(4)+'.png')
+             .css('position', 'absolute')
+             .css('opacity', 0)
+             .css('top', '10px')
+             .css('left', '0px');
+            $('#ocean').append(surf);
+            surf.animate({opacity: 1}, 100, function () {
+              surf.animate({top: '160px', opacity: 0}, 5000, function () { $(this).remove(); });
+            });
+          }
+     });
+  }
+};
+setInterval(waves, 8100);
+waves();
+
+setTimeout(function () {
+  setInterval(waves, 8100);
+  waves();
+}, 3050);
+</script>
+
+<style>
+.fadeout {
+    background-image: -moz-linear-gradient(top, rgba(255,255,255,0), rgba(255,255,255,1));
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(rgba(255,255,255,0)), to(rgba(255,255,255,1)));
+    background-image: -webkit-linear-gradient(top, rgba(255,255,255,0), rgba(255,255,255,1));
+    background-image: -o-linear-gradient(top, rgba(255,255,255,0), rgba(255,255,255,1));
+    background-image: linear-gradient(to bottom, rgba(255,255,255,0),rgba(255,255,255,1));
+    background-repeat: repeat-x;
+}
+</style>
+
+
+</center></td></tr></table></center></td></tr><tr><td height=4></td></tr></table><!--faaaaaaart--><script>top.charpane.location.href="charpane.php";</script>
+</body></html>

@@ -20,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import internal.helpers.Cleanups;
+import internal.helpers.Player;
 import java.time.DayOfWeek;
 import java.time.Month;
 import java.util.Arrays;
@@ -51,6 +52,19 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 public class ModifiersTest {
+  @BeforeAll
+  static void beforeAll() {
+    KoLCharacter.reset("ModifiersTest");
+    Preferences.reset("ModifiersTest");
+  }
+
+  private Double fairyFunction(final double weight) {
+    return Math.max(Math.sqrt(55 * weight) + weight - 3, 0);
+  }
+
+  private Double lepFunction(final double weight) {
+    return 2 * fairyFunction(weight);
+  }
 
   @Test
   public void patriotShieldClassModifiers() {
@@ -117,14 +131,15 @@ public class ModifiersTest {
     }
   }
 
-  @Test
-  public void intrinsicSpicinessModifiers() {
-    KoLCharacter.setAscensionClass(AscensionClass.SAUCEROR);
-    for (int i = 1; i <= 11; i++) {
-      int myst = (i == 1) ? 0 : (i - 1) * (i - 1) + 4;
-      KoLCharacter.setStatPoints(0, 0, myst, (long) myst * myst, 0, 0);
+  @ParameterizedTest
+  @ValueSource(ints = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11})
+  public void intrinsicSpicinessModifiers(int level) {
+    int myst = (level == 1) ? 0 : (level - 1) * (level - 1) + 4;
+    var cleanups = new Cleanups(withClass(AscensionClass.SAUCEROR), withStats(0, myst, 0));
+
+    try (cleanups) {
       Modifiers mods = ModifierDatabase.getModifiers(ModifierType.SKILL, "Intrinsic Spiciness");
-      assertEquals(Math.min(i, 10), mods.getDouble(DoubleModifier.SAUCE_SPELL_DAMAGE));
+      assertEquals(Math.min(level, 10), mods.getDouble(DoubleModifier.SAUCE_SPELL_DAMAGE));
     }
   }
 
@@ -147,6 +162,18 @@ public class ModifiersTest {
     assertEquals(-28, mod.getDouble(DoubleModifier.COMBAT_RATE));
     mod.addDouble(DoubleModifier.COMBAT_RATE, -9, ModifierType.NONE, "");
     assertEquals(-30, mod.getDouble(DoubleModifier.COMBAT_RATE));
+  }
+
+  @Test
+  public void passivesIgnoreGsInGLover() {
+    Modifiers mods = new Modifiers();
+    var cleanups = new Cleanups(withPath(Path.GLOVER), withSkill(SkillPool.STEEL_LIVER));
+    try (cleanups) {
+      mods.applyPassiveModifiers(/* debug= */ true);
+      assertEquals(5, mods.getDouble(DoubleModifier.LIVER_CAPACITY));
+    }
+    // Remove liver from passive skill cache.
+    mods.applyPassiveModifiers(/* debug= */ true);
   }
 
   public static Stream<Arguments> getsRightModifiersNakedHatrack() {
@@ -1018,10 +1045,6 @@ public class ModifiersTest {
 
   @Nested
   class FairyFamiliars {
-    private Double fairyFunction(final double weight) {
-      return Math.max(Math.sqrt(55 * weight) + weight - 3, 0);
-    }
-
     private Modifiers getFamiliarMods(final int weight) {
       Modifiers familiarMods = new Modifiers();
       var fam = KoLCharacter.getFamiliar();
@@ -1147,6 +1170,22 @@ public class ModifiersTest {
         assertThat(current.getDouble(DoubleModifier.ITEMDROP), equalTo(50.0));
       }
     }
+
+    @Test
+    public void doublesSleevedCard() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(Slot.OFFHAND, ItemPool.CARD_SLEEVE),
+              withEquipped(Slot.CARDSLEEVE, "Alice's Army Foil Lanceman"),
+              withEffect(EffectPool.OFFHAND_REMARKABLE));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments(false);
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+
+        assertThat(current.getDouble(DoubleModifier.PVP_FIGHTS), equalTo(12.0));
+      }
+    }
   }
 
   @Nested
@@ -1174,6 +1213,351 @@ public class ModifiersTest {
         assertThat(current.getDouble(DoubleModifier.MOX_EXPERIENCE_PCT), equalTo(25.0));
         assertThat(current.getDouble(DoubleModifier.MANA_COST), equalTo(-3.0));
       }
+    }
+  }
+
+  @Nested
+  class Familiars {
+    @Test
+    void volleyballGivesExperience() {
+      var cleanups = withFamiliar(FamiliarPool.BLOOD_FACED_VOLLEYBALL, 100);
+
+      try (cleanups) {
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+        assertThat(current.getDouble(DoubleModifier.EXPERIENCE), equalTo(4.0));
+      }
+    }
+
+    @Test
+    void sombreroGivesExperience() {
+      var cleanups = withFamiliar(FamiliarPool.SOMBRERO, 100);
+
+      try (cleanups) {
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+        assertThat(current.getDouble(DoubleModifier.EXPERIENCE), equalTo(1.0));
+      }
+    }
+
+    @Test
+    void gravyFairyGivesItem() {
+      var cleanups = withFamiliar(FamiliarPool.BABY_GRAVY_FAIRY, 100);
+
+      try (cleanups) {
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+        assertThat(current.getDouble(DoubleModifier.ITEMDROP), closeTo(fairyFunction(10), 0.001));
+      }
+    }
+
+    @Test
+    void leprechaunGivesMeat() {
+      var cleanups = withFamiliar(FamiliarPool.LEPRECHAUN, 100);
+
+      try (cleanups) {
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+        assertThat(current.getDouble(DoubleModifier.MEATDROP), closeTo(lepFunction(10), 0.001));
+      }
+    }
+  }
+
+  @Nested
+  class JillOfAllTrades {
+    @BeforeAll
+    static void beforeAll() {
+      // clearer to set here than in every volleyball test
+      // there's a leak somewhere
+      Modifiers.setLocation(null);
+    }
+
+    private Cleanups withJill(int weight) {
+      return withFamiliar(FamiliarPool.JILL_OF_ALL_TRADES, weight * weight);
+    }
+
+    private Cleanups withJillAndCandle(int weight, String candleSetting) {
+      return new Cleanups(
+          withProperty("ledCandleMode", candleSetting),
+          withJill(weight),
+          withEquipped(Slot.FAMILIAR, ItemPool.LED_CANDLE));
+    }
+
+    @Test
+    void nakedJillIsAOneTimesFairy() {
+      var cleanups = withJill(10);
+
+      try (cleanups) {
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+
+        assertThat(current.getDouble(DoubleModifier.ITEMDROP), closeTo(fairyFunction(10), 0.001));
+      }
+    }
+
+    @Test
+    void configuredCandleMakesJillABetterFairy() {
+      // 5-lbs Jill because candle is +5 lb
+      var cleanups = withJillAndCandle(5, "disco");
+
+      try (cleanups) {
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+
+        assertThat(current.getDouble(DoubleModifier.ITEMDROP), closeTo(fairyFunction(15), 0.001));
+      }
+    }
+
+    @Test
+    void nakedJillIsAOneTimesLep() {
+      var cleanups = withJill(10);
+
+      try (cleanups) {
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+
+        assertThat(current.getDouble(DoubleModifier.MEATDROP), closeTo(lepFunction(10), 0.001));
+      }
+    }
+
+    @Test
+    void configuredCandleMakesJillABetterLep() {
+      // 5-lbs Jill because candle is +5 lb
+      var cleanups = withJillAndCandle(5, "ultraviolet");
+
+      try (cleanups) {
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+
+        assertThat(current.getDouble(DoubleModifier.MEATDROP), closeTo(lepFunction(15), 0.001));
+      }
+    }
+
+    @Test
+    void nakedJillIsAOneTimesVolley() {
+      var cleanups = withJill(10);
+
+      try (cleanups) {
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+
+        assertThat(current.getDouble(DoubleModifier.EXPERIENCE), equalTo(4.0));
+      }
+    }
+
+    @Test
+    void configuredCandleMakesJillABetterVolley() {
+      // 5-lbs Jill because candle is +5 lb
+      var cleanups = withJillAndCandle(5, "reading");
+
+      try (cleanups) {
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+
+        assertThat(current.getDouble(DoubleModifier.EXPERIENCE), closeTo(6.0, 0.001));
+      }
+    }
+
+    @Test
+    void atHighMLJillIsASombrero() {
+      var cleanups = new Cleanups(withLocation("The Briniest Deepests"), withJill(10));
+
+      try (cleanups) {
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+
+        // 400 ML
+        assertThat(current.getDouble(DoubleModifier.EXPERIENCE), closeTo(15.0, 0.001));
+      }
+    }
+
+    @Test
+    void configuredCandleMakesJillABetterSombrero() {
+      // 5-lbs Jill because candle is +5 lb
+      var cleanups =
+          new Cleanups(withLocation("The Briniest Deepests"), withJillAndCandle(5, "reading"));
+
+      try (cleanups) {
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+
+        assertThat(current.getDouble(DoubleModifier.EXPERIENCE), closeTo(22.5, 0.001));
+      }
+    }
+  }
+
+  @Nested
+  class ElevenThings {
+    private Cleanups baseCleanups() {
+      return new Cleanups(
+          Player.withPath(Path.ELEVEN_THINGS), Player.withFamiliar(FamiliarPool.MOSQUITO));
+    }
+
+    @Test
+    void birthdaySuitAppliesNoExtraModifiers() {
+      var cleanups = baseCleanups();
+
+      try (cleanups) {
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+        assertThat(current.getDouble(DoubleModifier.INITIATIVE), closeTo(0, 0.001));
+        assertThat(current.getDouble(DoubleModifier.HP), closeTo(0, 0.001));
+        assertThat(current.getDouble(DoubleModifier.MP), closeTo(0, 0.001));
+        assertThat(current.getDouble(DoubleModifier.WEAPON_DAMAGE), closeTo(0, 0.001));
+        assertThat(current.getDouble(DoubleModifier.FUMBLE), closeTo(0, 0.001));
+        assertThat(current.getDouble(DoubleModifier.ITEMDROP), closeTo(0, 0.001));
+        assertThat(current.getDouble(DoubleModifier.MEATDROP), closeTo(0, 0.001));
+        assertThat(current.getDouble(DoubleModifier.COLD_RESISTANCE), closeTo(0, 0.001));
+        assertThat(current.getDouble(DoubleModifier.HOT_RESISTANCE), closeTo(0, 0.001));
+        assertThat(current.getDouble(DoubleModifier.SLEAZE_RESISTANCE), closeTo(0, 0.001));
+        assertThat(current.getDouble(DoubleModifier.SPOOKY_RESISTANCE), closeTo(0, 0.001));
+        assertThat(current.getDouble(DoubleModifier.STENCH_RESISTANCE), closeTo(0, 0.001));
+        assertThat(current.getDouble(DoubleModifier.FAMILIAR_WEIGHT), closeTo(0, 0.001));
+      }
+    }
+
+    // Based on data from You Hate Eyes Spading spreadsheet
+    static Stream<Arguments> calculatesCorrectPositiveBonus() {
+      return Stream.of(
+          Arguments.of(
+              Slot.ACCESSORY1, ItemPool.TINY_PLASTIC_WISNIEWSKI, DoubleModifier.MEATDROP, 60),
+          Arguments.of(
+              Slot.ACCESSORY1,
+              ItemPool.TINY_PLASTIC_CONSERVATIONIST_HIPPY,
+              DoubleModifier.MEATDROP,
+              50),
+          Arguments.of(
+              Slot.ACCESSORY1,
+              ItemPool.TINY_PLASTIC_KNOB_GOBLIN_MAD_SCIENTIST,
+              DoubleModifier.MEATDROP,
+              50),
+          Arguments.of(
+              Slot.ACCESSORY1, ItemPool.TINY_PLASTIC_IITI_KITTY, DoubleModifier.MEATDROP, 60),
+          Arguments.of(
+              Slot.ACCESSORY1,
+              ItemPool.FLASH_LIQUIDIZER_ULTRA_DOUSING_ACCESSORY,
+              DoubleModifier.MEATDROP,
+              40),
+          Arguments.of(
+              Slot.ACCESSORY1, ItemPool.RING_OF_DETECT_BORING_DOORS, DoubleModifier.MEATDROP, 20),
+          Arguments.of(
+              Slot.ACCESSORY1, ItemPool.MAFIA_MIDDLE_FINGER_RING, DoubleModifier.MEATDROP, 40),
+          Arguments.of(Slot.ACCESSORY1, ItemPool.GIANT_PINKY_RING, DoubleModifier.MEATDROP, 30),
+          Arguments.of(Slot.ACCESSORY1, ItemPool.KNOB_GOBLIN_CODPIECE, DoubleModifier.MEATDROP, 30),
+          Arguments.of(Slot.ACCESSORY1, ItemPool.IMP_UNITY_RING, DoubleModifier.MEATDROP, 30),
+          Arguments.of(Slot.ACCESSORY1, ItemPool.EXTREME_AMULET, DoubleModifier.MEATDROP, 30),
+          Arguments.of(Slot.ACCESSORY1, ItemPool.YAMTILITY_BELT, DoubleModifier.MEATDROP, 75),
+          Arguments.of(
+              Slot.FAMILIAR,
+              ItemPool.SOLID_SHIFTING_TIME_WEIRDNESS,
+              DoubleModifier.FAMILIAR_WEIGHT,
+              25),
+          Arguments.of(
+              Slot.FAMILIAR, ItemPool.APRIL_BAND_PICCOLO, DoubleModifier.FAMILIAR_WEIGHT, 25),
+          Arguments.of(Slot.FAMILIAR, ItemPool.STILLSUIT, DoubleModifier.FAMILIAR_WEIGHT, 15),
+          Arguments.of(Slot.FAMILIAR, ItemPool.TINY_GOLD_MEDAL, DoubleModifier.FAMILIAR_WEIGHT, 15),
+          Arguments.of(Slot.HAT, ItemPool.APRILING_BAND_HELMET, DoubleModifier.INITIATIVE, 50),
+          Arguments.of(Slot.HAT, ItemPool.LONGHAIRED_HIPPY_WIG, DoubleModifier.INITIATIVE, 75),
+          Arguments.of(
+              Slot.HAT, ItemPool.INDIE_COMIC_HIPSTER_GLASSES, DoubleModifier.INITIATIVE, 100),
+          Arguments.of(Slot.HAT, ItemPool.MARK_III_STEAM_HAT, DoubleModifier.INITIATIVE, 90),
+          Arguments.of(Slot.HAT, ItemPool.MARIACHI_HAT, DoubleModifier.INITIATIVE, 50),
+          Arguments.of(Slot.HAT, ItemPool.KNOB_GOBLIN_CROWN, DoubleModifier.INITIATIVE, 50),
+          Arguments.of(Slot.HAT, ItemPool.VIKING_HELMET, DoubleModifier.INITIATIVE, 50),
+          Arguments.of(Slot.HAT, ItemPool.KNOB_GOBLIN_HAREM_VEIL, DoubleModifier.INITIATIVE, 50),
+          Arguments.of(Slot.HAT, ItemPool.RAVIOLI_HAT, DoubleModifier.INITIATIVE, 50),
+          Arguments.of(
+              Slot.OFFHAND, ItemPool.GAZPACHOS_GLACIAL_GRIMOIRE, DoubleModifier.ITEMDROP, 30),
+          Arguments.of(Slot.OFFHAND, ItemPool.MINI_ZEPPELIN, DoubleModifier.ITEMDROP, 30),
+          Arguments.of(Slot.OFFHAND, ItemPool.DISTURBING_FANFIC, DoubleModifier.ITEMDROP, 30),
+          Arguments.of(Slot.OFFHAND, ItemPool.WHITE_SATIN_SHIELD, DoubleModifier.ITEMDROP, 30),
+          Arguments.of(Slot.OFFHAND, ItemPool.WHATSIAN_IONIC_PLIERS, DoubleModifier.ITEMDROP, 40),
+          Arguments.of(Slot.OFFHAND, ItemPool.GIANT_PENGUIN_KEYCHAIN, DoubleModifier.ITEMDROP, 30),
+          Arguments.of(
+              Slot.OFFHAND, ItemPool.TIME_LORD_PARTICIPATION_MUG, DoubleModifier.ITEMDROP, 40),
+          Arguments.of(Slot.PANTS, ItemPool.CHAIN_MAIL_MONOKINI, DoubleModifier.COLD_RESISTANCE, 4),
+          Arguments.of(
+              Slot.PANTS, ItemPool.PENGUINSKIN_MINI_SKIRT, DoubleModifier.COLD_RESISTANCE, 5),
+          Arguments.of(
+              Slot.PANTS, ItemPool.PENGUINSKIN_MINI_KILT, DoubleModifier.COLD_RESISTANCE, 5));
+    }
+
+    @ParameterizedTest
+    @MethodSource
+    void calculatesCorrectPositiveBonus(
+        Slot slot, int itemId, DoubleModifier modifier, double bonus) {
+      var cleanups = new Cleanups(baseCleanups(), Player.withEquipped(slot, itemId));
+
+      try (cleanups) {
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+        assertThat(current.getDouble(modifier), closeTo(bonus, 0.001));
+      }
+    }
+
+    static Stream<Arguments> calculatesCorrectNegativeBonus() {
+      return Stream.of(
+          Arguments.of(
+              Slot.WEAPON, ItemPool.CORRUPT_CLUB_OF_CORRUPT_CORRUPTION, DoubleModifier.FUMBLE, 44),
+          Arguments.of(
+              Slot.HAT, ItemPool.BIPHASIC_MOLECULAR_OCULUS, DoubleModifier.INITIATIVE, -100),
+          Arguments.of(Slot.PANTS, ItemPool.BUGBEAR_BUNGGUARD, DoubleModifier.MEATDROP, -30),
+          Arguments.of(
+              Slot.OFFHAND, ItemPool.ANNIVERSARY_CHUTNEY_SCULPTURE, DoubleModifier.MEATDROP, -30),
+          Arguments.of(Slot.ACCESSORY1, ItemPool.TRANSFUNCTIONER, DoubleModifier.ITEMDROP, -30),
+          Arguments.of(Slot.FAMILIAR, ItemPool.BLUNDARRRBUS, DoubleModifier.FAMILIAR_WEIGHT, -5));
+    }
+
+    @ParameterizedTest
+    @MethodSource
+    void calculatesCorrectNegativeBonus(
+        Slot slot, int itemId, DoubleModifier modifier, double bonus) {
+      var cleanups =
+          new Cleanups(
+              Player.withPath(Path.ELEVEN_THINGS),
+              Player.withFamiliar(FamiliarPool.SPOOKY_PIRATE_SKELETON),
+              Player.withEquipped(slot, itemId));
+
+      try (cleanups) {
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+        assertThat(current.getDouble(modifier), closeTo(bonus, 0.001));
+      }
+    }
+
+    @Test
+    void calculatesCorrectBonusForMultipleAccessories() {
+      var cleanups =
+          new Cleanups(
+              baseCleanups(),
+              Player.withEquipped(
+                  Slot.ACCESSORY1, ItemPool.FLASH_LIQUIDIZER_ULTRA_DOUSING_ACCESSORY),
+              Player.withEquipped(Slot.ACCESSORY2, ItemPool.EXTREME_AMULET),
+              Player.withEquipped(Slot.ACCESSORY3, ItemPool.RING_OF_DETECT_BORING_DOORS));
+
+      try (cleanups) {
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+        assertThat(current.getDouble(DoubleModifier.MEATDROP), closeTo(90, 0.001));
+        assertThat(current.getDouble(DoubleModifier.ITEMDROP), closeTo(-20, 0.001));
+      }
+    }
+
+    static Stream<Arguments> calculatesNewPotionDuration() {
+      return Stream.of(
+          Arguments.of(ItemPool.KUMQUAT_SUPERSUCKER, 26),
+          Arguments.of(ItemPool.POTION_OF_PULCHRITUDE, 8),
+          Arguments.of(ItemPool.RECORDING_INIGO, 36),
+          Arguments.of(ItemPool.POTION_OF_SPIRITUAL_GUNKIFYING, 28));
+    }
+
+    @ParameterizedTest
+    @MethodSource
+    void calculatesNewPotionDuration(int itemId, int duration) {
+      var cleanups = baseCleanups();
+
+      try (cleanups) {
+        Modifiers mods = ModifierDatabase.getModifiers(ModifierType.ITEM, itemId);
+        assertThat(mods.getDouble(DoubleModifier.EFFECT_DURATION), closeTo(duration, 0.001));
+      }
+    }
+
+    @Test
+    void resetsNewPotionDuration() {
+      var cleanups = baseCleanups();
+      var item = ItemPool.POTION_OF_PULCHRITUDE;
+
+      try (cleanups) {
+        Modifiers mods = ModifierDatabase.getModifiers(ModifierType.ITEM, item);
+        assertThat(mods.getDouble(DoubleModifier.EFFECT_DURATION), closeTo(8, 0.001));
+      }
+
+      Modifiers mods = ModifierDatabase.getModifiers(ModifierType.ITEM, item);
+      assertThat(mods.getDouble(DoubleModifier.EFFECT_DURATION), closeTo(5, 0.001));
     }
   }
 }

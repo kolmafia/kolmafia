@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia.session;
 
+import static net.sourceforge.kolmafia.utilities.Statics.DateTimeManager;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -27,7 +29,6 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
-import net.sourceforge.kolmafia.persistence.DateTimeManager;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
@@ -152,7 +153,7 @@ public abstract class ChoiceAdventures {
         options = new ChoiceOption[0];
       }
       this.options = options;
-      this.property = "choiceAdventure" + String.valueOf(choice);
+      this.property = "choiceAdventure" + choice;
       this.spoilers = new Spoilers(choice, name, options);
       this.checkProperty();
     }
@@ -293,7 +294,7 @@ public abstract class ChoiceAdventures {
     }
   }
 
-  public static final ChoiceOption findOption(final ChoiceOption[] options, final int decision) {
+  public static ChoiceOption findOption(final ChoiceOption[] options, final int decision) {
     for (int i = 0; i < options.length; ++i) {
       ChoiceOption opt = options[i];
       if (opt != null && opt.getDecision(i + 1) == decision) {
@@ -335,7 +336,8 @@ public abstract class ChoiceAdventures {
         // Option...
         new ChoiceOption("small meat boost"),
         new ChoiceOption("try for poultrygeist", "poultrygeist"),
-        SKIP_ADVENTURE);
+        SKIP_ADVENTURE,
+        new ChoiceOption("500 Meat and 30 Animal Lover (+2 fam exp / combat)"));
     // Finger-Lickin'... Death.
     new ChoiceCost(
         4,
@@ -789,8 +791,9 @@ public abstract class ChoiceAdventures {
         "Sleazy Back Alley",
         // Option...
         new ChoiceOption("moxie substats"),
-        new ChoiceOption("meat and moxie"),
-        new ChoiceOption("random effect"),
+        new ChoiceOption("meat and moxie or lose 2 HP"),
+        new ChoiceOption("meat, moxie and Smugness or lose all HP"),
+        new ChoiceOption("more meat and moxie"),
         SKIP_ADVENTURE);
 
     // Dumpster Diving
@@ -801,7 +804,8 @@ public abstract class ChoiceAdventures {
         // Option...
         new ChoiceOption("enter combat"),
         new ChoiceOption("meat and moxie"),
-        new ChoiceOption("Mad Train wine", "Mad Train wine"));
+        new ChoiceOption("Mad Train wine", "Mad Train wine"),
+        new ChoiceOption("11-leaf clover", "11-leaf clover"));
 
     // The Entertainer
     new ChoiceAdventure(
@@ -948,7 +952,8 @@ public abstract class ChoiceAdventures {
         // Option...
         new ChoiceOption("3 papayas", "papaya"),
         new ChoiceOption("trade 3 papayas for stats"),
-        new ChoiceOption("stats"));
+        new ChoiceOption("stats"),
+        new ChoiceOption("5 papayas, then pick again", "papaya"));
     // No sir, away!  A papaya war is on!
     new ChoiceCost(127, new Cost(2, ItemPool.get(ItemPool.PAPAYA, -3)));
 
@@ -1008,7 +1013,8 @@ public abstract class ChoiceAdventures {
         // Option...
         new ChoiceOption("muscle substats"),
         new ChoiceOption("ferret bait", "ferret bait"),
-        new ChoiceOption("enter combat"));
+        new ChoiceOption("enter combat"),
+        new ChoiceOption("war start choice"));
 
     // The Thin Tie-Dyed Line
     new ChoiceAdventure(
@@ -1018,7 +1024,8 @@ public abstract class ChoiceAdventures {
         // Option...
         new ChoiceOption("water pipe bombs", "water pipe bomb"),
         new ChoiceOption("moxie substats"),
-        new ChoiceOption("enter combat"));
+        new ChoiceOption("enter combat"),
+        new ChoiceOption("war start choice"));
 
     // Blockin' Out the Scenery
     new ChoiceAdventure(
@@ -1048,7 +1055,8 @@ public abstract class ChoiceAdventures {
         // Option...
         new ChoiceOption("muscle substats"),
         new ChoiceOption("sake bombs", "sake bomb"),
-        new ChoiceOption("enter combat"));
+        new ChoiceOption("enter combat"),
+        new ChoiceOption("war start choice"));
 
     // One Less Room Than In That Movie
     new ChoiceAdventure(
@@ -1058,7 +1066,8 @@ public abstract class ChoiceAdventures {
         // Option...
         new ChoiceOption("moxie substats"),
         new ChoiceOption("beer bombs", "beer bomb"),
-        new ChoiceOption("enter combat"));
+        new ChoiceOption("enter combat"),
+        new ChoiceOption("war start choice"));
 
     // Fratacombs
     new ChoiceAdventure(
@@ -1117,7 +1126,8 @@ public abstract class ChoiceAdventures {
         "Fun House",
         // Option...
         new ChoiceOption("fight the clownlord"),
-        SKIP_ADVENTURE);
+        SKIP_ADVENTURE,
+        new ChoiceOption("add 25% clowniness, then pick again"));
 
     // Lurking at the Threshold
     new ChoiceSpoiler(
@@ -1367,9 +1377,13 @@ public abstract class ChoiceAdventures {
         new ChoiceOption("enter combat"),
         new ChoiceOption("Penultimate Fantasy chest", "Penultimate Fantasy chest"),
         new ChoiceOption("stats"),
-        new ChoiceOption("model airship and combat", "model airship"),
-        new ChoiceOption("model airship and chest", "model airship"),
-        new ChoiceOption("model airship and stats", "model airship"));
+        new ChoiceOption("model airship", "model airship"),
+        new ChoiceOption(
+            "Penultimate Fantasy chest, metallic A, SGEEA, titanium assault umbrella",
+            "Penultimate Fantasy chest",
+            "metallic A",
+            "soft green echo eyedrop antidote",
+            "titanium assault umbrella"));
 
     // That Explains All The Eyepatches
     // Dynamically calculate options based on mainstat
@@ -2875,6 +2889,7 @@ public abstract class ChoiceAdventures {
         new ChoiceOption("stats & HP & MP"),
         new ChoiceOption("can of Ghuol-B-Gone&trade;", "can of Ghuol-B-Gone&trade;"),
         new ChoiceOption("fight swarm of ghuol whelps"),
+        new ChoiceOption("-11 evil, 50 all substats"),
         SKIP_ADVENTURE);
 
     // Choice 524 is The Adventures of Lars the Cyberian
@@ -3184,7 +3199,12 @@ public abstract class ChoiceAdventures {
         new ChoiceOption("get an outfit piece"),
         new ChoiceOption("jar of frostigkraut", "jar of frostigkraut"),
         SKIP_ADVENTURE,
-        new ChoiceOption("lucky pill", "lucky pill"));
+        new ChoiceOption("lucky-ish pill", "lucky-ish pill"),
+        new ChoiceOption(
+            "lucky-ish pill, snowboarder pants, eXtreme mittens",
+            "lucky-ish pill",
+            "snowboarder pants",
+            "eXtreme mittens"));
 
     // Choice 576 is Your Minstrel Camps
     // Choice 577 is Your Minstrel Scamp
@@ -3422,7 +3442,8 @@ public abstract class ChoiceAdventures {
             "massive dumbbell"),
         new ChoiceOption("200 Mysticality substats"),
         new ChoiceOption("O'RLY manual, open sauce"),
-        new ChoiceOption("Fitness Choice"));
+        new ChoiceOption("Fitness Choice"),
+        new ChoiceOption("999 meat, ~150 all substats"));
 
     // There's No Ability Like Possibility
     new ChoiceAdventure(
@@ -3537,7 +3558,8 @@ public abstract class ChoiceAdventures {
         // Option...
         new ChoiceOption("Get item"),
         new ChoiceOption("Skip to 13th chamber, no turn spent"),
-        new ChoiceOption("Skip to 11th chamber, no turn spent"));
+        new ChoiceOption("Skip to 11th chamber, no turn spent"),
+        new ChoiceOption("fat loot token, then pick again", "fat loot token"));
 
     // Choice 692 is I Wanna Be a Door
 
@@ -3549,7 +3571,8 @@ public abstract class ChoiceAdventures {
         // Option...
         new ChoiceOption("Suffer elemental damage, get stats"),
         new ChoiceOption("Avoid trap with eleven-foot pole, no turn spent"),
-        new ChoiceOption("Leave, no turn spent"));
+        new ChoiceOption("Leave, no turn spent"),
+        new ChoiceOption("Avoid trap with candy cane sword and get stats, no turn spent"));
 
     // Choice 695 is A Drawer of Chests
 
@@ -3797,7 +3820,8 @@ public abstract class ChoiceAdventures {
         // Option...
         new ChoiceOption("Muscle Vacation"),
         new ChoiceOption("Mysticality Vacation"),
-        new ChoiceOption("Moxie Vacation"));
+        new ChoiceOption("Moxie Vacation"),
+        new ChoiceOption("2 scrip, +weapon damage effect"));
 
     // Choice 794 is Once More Unto the Junk
     new ChoiceAdventure(
@@ -4022,7 +4046,8 @@ public abstract class ChoiceAdventures {
         new ChoiceOption("don't take initial damage in fights"),
         new ChoiceOption("can get priceless diamond"),
         new ChoiceOption("can make Flamin' Whatshisname"),
-        new ChoiceOption("get 4-5 random items"));
+        new ChoiceOption("get 4-5 random items"),
+        new ChoiceOption("don't take initial damage and acquire priceless diamond"));
 
     // Choice 856 is This Looks Like a Good Bush for an Ambush
     new ChoiceAdventure(
@@ -4040,6 +4065,7 @@ public abstract class ChoiceAdventures {
         "Bench Warrant",
         // Option...
         new ChoiceOption("creep protestors (more with sleaze damage/sleaze spell damage)"),
+        new ChoiceOption("DOUBLE creep protestors (more with sleaze damage/sleaze spell damage)"),
         SKIP_ADVENTURE);
 
     // Choice 858 is Fire Up Above
@@ -4091,6 +4117,7 @@ public abstract class ChoiceAdventures {
         new ChoiceOption("old leather wallet", 1),
         new ChoiceOption("muscle substats", 2),
         new ChoiceOption("muscle substats (with ghost key)", 3),
+        new ChoiceOption("lucky-ish pill", 4),
         new ChoiceOption("skip", 6));
 
     // One Mahogany Nightstand
@@ -4160,6 +4187,7 @@ public abstract class ChoiceAdventures {
         new ChoiceOption("background history"),
         new ChoiceOption("cooking recipe"),
         new ChoiceOption("other options"),
+        new ChoiceOption("random sword + substats, then pick again"),
         SKIP_ADVENTURE);
 
     // Take a Look, it's in a Book!
@@ -4243,7 +4271,8 @@ public abstract class ChoiceAdventures {
         new ChoiceOption("fight blackberry bush, visit cobbler, or raid beehive"),
         new ChoiceOption("visit blacksmith"),
         new ChoiceOption("visit black gold mine"),
-        new ChoiceOption("visit black church"));
+        new ChoiceOption("visit black church"),
+        new ChoiceOption("increase exploration, then pick again"));
 
     // Choice 924 is You Found Your Thrill
     new ChoiceAdventure(
@@ -4753,7 +4782,8 @@ public abstract class ChoiceAdventures {
         new ChoiceOption("acquire food", 2),
         new ChoiceOption("acquire drinks", 3),
         new ChoiceOption("gain moxie stats", 4),
-        new ChoiceOption("acquire more booze with map", 5));
+        new ChoiceOption("acquire more booze with map", 5),
+        new ChoiceOption("acquire flowers and 2 grass clippings, then pick again", 6));
 
     // Choice 1063 is Adjust your 'Edpiece
     new ChoiceSpoiler(
@@ -4792,8 +4822,9 @@ public abstract class ChoiceAdventures {
         "Town",
         "Bagelmat-5000",
         // Option...
-        new ChoiceOption("make 3 plain bagels using wad of dough", 1),
-        new ChoiceOption("return to Madness Bakery", 2));
+        new ChoiceOption("make 3 plain bagels using wad of dough", 1, "plain bagel"),
+        new ChoiceOption("get peppermint donut, then pick again", 2, "pepermint donut"),
+        new ChoiceOption("return to Madness Bakery", 3));
 
     // Choice 1081 is Assault and Baguettery
     new ChoiceAdventure(
@@ -4812,7 +4843,7 @@ public abstract class ChoiceAdventures {
         "Town",
         "Popular Machine",
         // Option...
-        new ChoiceOption("make popular tart", 1),
+        new ChoiceOption("make popular tart", 1, "popular tart"),
         new ChoiceOption("return to Madness Bakery", 2));
 
     // Choice 1090 is The Towering Inferno Discotheque
@@ -6265,16 +6296,13 @@ public abstract class ChoiceAdventures {
   public static final ChoiceAdventure[] CHOICE_ADVS;
 
   static {
-    CHOICE_ADVS =
-        choiceToChoiceAdventure
-            .values()
-            .toArray(new ChoiceAdventure[choiceToChoiceAdventure.size()]);
+    CHOICE_ADVS = choiceToChoiceAdventure.values().toArray(new ChoiceAdventure[0]);
     Arrays.sort(CHOICE_ADVS);
 
     // Log errors detected during class initialization. These are programming
     // errors and the developer who inserted the bug should have seen the
     // report on stdout, but, just in case...
-    if (duplicateChoiceAdventures.size() > 0) {
+    if (!duplicateChoiceAdventures.isEmpty()) {
       RequestLogger.printLine(
           "Duplicate ChoiceAdventures: ("
               + duplicateChoiceAdventures.stream()
@@ -6282,7 +6310,7 @@ public abstract class ChoiceAdventures {
                   .collect(Collectors.joining(","))
               + ")");
     }
-    if (missingChoiceAdventureOptions.size() > 0) {
+    if (!missingChoiceAdventureOptions.isEmpty()) {
       RequestLogger.printLine(
           "Missing ChoiceAdventure Options: ("
               + missingChoiceAdventureOptions.stream()
@@ -6290,7 +6318,7 @@ public abstract class ChoiceAdventures {
                   .collect(Collectors.joining(","))
               + ")");
     }
-    if (missingChoiceAdventureDefaultProperties.size() > 0) {
+    if (!missingChoiceAdventureDefaultProperties.isEmpty()) {
       RequestLogger.printLine(
           "Missing ChoiceAdventure default peoperties: ("
               + missingChoiceAdventureDefaultProperties.stream()
@@ -6298,7 +6326,7 @@ public abstract class ChoiceAdventures {
                   .collect(Collectors.joining(","))
               + ")");
     }
-    if (duplicateChoiceSpoilers.size() > 0) {
+    if (!duplicateChoiceSpoilers.isEmpty()) {
       RequestLogger.printLine(
           "Duplicate ChoiceSpoilers: ("
               + duplicateChoiceSpoilers.stream()
@@ -6306,7 +6334,7 @@ public abstract class ChoiceAdventures {
                   .collect(Collectors.joining(","))
               + ")");
     }
-    if (duplicateChoiceCosts.size() > 0) {
+    if (!duplicateChoiceCosts.isEmpty()) {
       RequestLogger.printLine(
           "Duplicate ChoiceCosts: ("
               + duplicateChoiceCosts.stream().map(String::valueOf).collect(Collectors.joining(","))
@@ -6367,21 +6395,18 @@ public abstract class ChoiceAdventures {
   public static boolean noRelayChoice(int choice) {
     // Some choices are so clear (or non-standard) that we don't want to mark them up
     // but do want a choice in Mafia GUI
-    switch (choice) {
-      case 1223: // L.O.V. Entrance
-      case 1224: // L.O.V. Equipment Room
-      case 1225: // L.O.V. Engine Room
-      case 1226: // L.O.V. Emergency Room
-      case 1227: // L.O.V. Elbow Room
-      case 1228: // L.O.V. Emporium
-        return true;
-
-      default:
-        return false;
-    }
+    return switch (choice) { // L.O.V. Entrance
+        // L.O.V. Equipment Room
+        // L.O.V. Engine Room
+        // L.O.V. Emergency Room
+        // L.O.V. Elbow Room
+      case 1223, 1224, 1225, 1226, 1227, 1228 -> // L.O.V. Emporium
+      true;
+      default -> false;
+    };
   }
 
-  public static final void decorateChoice(
+  public static void decorateChoice(
       final int choice, final StringBuffer buffer, final boolean addComplexFeatures) {
     if (choice >= 48 && choice <= 70) {
       // Add "Go To Goal" button for the Violet Fog
@@ -6496,13 +6521,17 @@ public abstract class ChoiceAdventures {
         // Leading Yourself Right to Them
         ChoiceAdventures.decorateMonsterMap(buffer);
         break;
+      case 1463:
+        // Reminiscing About Those Monsters You Fought
+        LocketManager.decorateMonsterDropdown(buffer);
+        break;
     }
   }
 
   private static final Pattern PHOTO_PATTERN =
       Pattern.compile("<select name=\"(.*?)\".*?</select>");
 
-  public static final void decorateDrawnOnward(final StringBuffer buffer) {
+  public static void decorateDrawnOnward(final StringBuffer buffer) {
     Matcher matcher = PHOTO_PATTERN.matcher(buffer.toString());
     while (matcher.find()) {
       String photo = matcher.group(1);
@@ -6545,7 +6574,7 @@ public abstract class ChoiceAdventures {
     }
   }
 
-  public static final void decorateParanormalTestLab(final StringBuffer buffer) {
+  public static void decorateParanormalTestLab(final StringBuffer buffer) {
     String pageText = buffer.toString();
     int answer = 0;
     if (pageText.contains("ever-changing constellation")) {
@@ -6566,7 +6595,7 @@ public abstract class ChoiceAdventures {
     }
   }
 
-  public static final void decorateBackRoomSMOOCHing(final StringBuffer buffer) {
+  public static void decorateBackRoomSMOOCHing(final StringBuffer buffer) {
     int choice = Preferences.getInteger("choiceAdventure1094");
     String find = "smoochdoor" + choice + ".gif";
     String replace = "smoochdoor" + choice + ".gif style=\"border: 2px solid blue;\"";
@@ -6579,7 +6608,7 @@ public abstract class ChoiceAdventures {
     StringUtilities.globalStringReplace(buffer, "Door #4", "Deuce Freshly");
   }
 
-  public static final void decorateVote(final StringBuffer buffer) {
+  public static void decorateVote(final StringBuffer buffer) {
     Matcher matcher = ChoiceControl.VOTE_SPEECH_PATTERN.matcher(buffer.toString());
 
     int count = 1;
@@ -6588,7 +6617,7 @@ public abstract class ChoiceAdventures {
       String find = matcher.group(0);
       String monsterName = Preferences.getString("_voteMonster" + count);
 
-      if (monsterName != "") {
+      if (!monsterName.isEmpty()) {
         String replace =
             StringUtilities.singleStringReplace(
                 find,
@@ -6605,12 +6634,12 @@ public abstract class ChoiceAdventures {
       Pattern.compile(
           "(<input type=\"hidden\" name=\"heyscriptswhatsupwinkwink\" value=\"(\\d+)\" />\\s+<input type=\"submit\" class=\"button\" value=\").*?(\" />\\s+</form>)");
 
-  public static final void decorateMonsterMap(final StringBuffer buffer) {
+  public static void decorateMonsterMap(final StringBuffer buffer) {
     Matcher matcher = MAPPED_MONSTER_PATTERN.matcher(buffer.toString());
 
     while (matcher.find()) {
       String find = matcher.group(0);
-      Integer monsterId = Integer.parseInt(matcher.group(2));
+      int monsterId = Integer.parseInt(matcher.group(2));
       String monsterName = MonsterDatabase.getMonsterName(monsterId);
 
       String replace = matcher.group(1) + monsterName + matcher.group(3);
@@ -6618,7 +6647,7 @@ public abstract class ChoiceAdventures {
     }
   }
 
-  public static final Spoilers choiceSpoilers(final int choice, final StringBuffer buffer) {
+  public static Spoilers choiceSpoilers(final int choice, final StringBuffer buffer) {
     Spoilers spoilers;
 
     // See if spoilers are dynamically generated
@@ -6677,403 +6706,297 @@ public abstract class ChoiceAdventures {
   }
 
   private static Spoilers dynamicChoiceSpoilers(final int choice) {
-    switch (choice) {
-      case 5:
+    return switch (choice) {
         // How Depressing
-      case 7:
-        // Heart of Very, Very Dark Darkness
-        return dynamicChoiceSpoilers(choice, "Spooky Gravy Burrow");
-
-      case 184:
+      case 5, 7 ->
+      // Heart of Very, Very Dark Darkness
+      dynamicChoiceSpoilers(choice, "Spooky Gravy Burrow");
         // Yes, You're a Rock Starrr
-      case 185:
         // Arrr You Man Enough?
-      case 187:
-        // That Explains All The Eyepatches
-        return dynamicChoiceSpoilers(choice, "Barrrney's Barrr");
-
-      case 188:
-        // The Infiltrationist
-        return dynamicChoiceSpoilers(choice, "Orcish Frat House Blueprints");
-
-      case 272:
-        // Marketplace Entrance
-        return dynamicChoiceSpoilers(choice, "Hobo Marketplace");
-
-      case 298:
-        // In the Shade
-        return dynamicChoiceSpoilers(choice, "An Octopus's Garden");
-
-      case 304:
-        // A Vent Horizon
-        return dynamicChoiceSpoilers(choice, "The Marinara Trench");
-
-      case 305:
-        // There is Sauce at the Bottom of the Ocean
-        return dynamicChoiceSpoilers(choice, "The Marinara Trench");
-
-      case 309:
-        // Barback
-        return dynamicChoiceSpoilers(choice, "The Dive Bar");
-
-      case 360:
-        // Wumpus Hunt
-        return dynamicChoiceSpoilers(choice, "The Jungles of Ancient Loathing");
-
-      case 410:
-      case 411:
-      case 412:
-      case 413:
-      case 414:
-      case 415:
-      case 416:
-      case 417:
-      case 418:
-        // The Barracks
-        return dynamicChoiceSpoilers(choice, "The Barracks");
-
-      case 442:
-        // A Moment of Reflection
-        return dynamicChoiceSpoilers(choice, "Rabbit Hole");
-
-      case 522:
-        // Welcome to the Footlocker
-        return dynamicChoiceSpoilers(choice, "Welcome to the Footlocker");
-
-      case 502:
-        // Arboreal Respite
-        return dynamicChoiceSpoilers(choice, "Arboreal Respite");
-
-      case 579:
-        // Such Great Heights
-        return dynamicChoiceSpoilers(choice, "Such Great Heights");
-
-      case 580:
-        // The Hidden Heart of the Hidden Temple
-        return dynamicChoiceSpoilers(choice, "The Hidden Heart of the Hidden Temple");
-
-      case 581:
-        // Such Great Depths
-        return dynamicChoiceSpoilers(choice, "Such Great Depths");
-
-      case 582:
-        // Fitting In
-        return dynamicChoiceSpoilers(choice, "Fitting In");
-
-      case 606:
-        // Lost in the Great Overlook Lodge
-        return dynamicChoiceSpoilers(choice, "Lost in the Great Overlook Lodge");
-
-      case 611:
-        // The Horror...(A-Boo Peak)
-        return dynamicChoiceSpoilers(choice, "The Horror...");
-
-      case 636:
-      case 637:
-      case 638:
-      case 639:
-        // Old Man psychoses
-        return dynamicChoiceSpoilers(choice, "First Mate's Log Entry");
-
-      case 641:
-        // Stupid Pipes. (Mystic's psychoses)
-        return dynamicChoiceSpoilers(choice, "Stupid Pipes.");
-
-      case 642:
-        // You're Freaking Kidding Me (Mystic's psychoses)
-        return dynamicChoiceSpoilers(choice, "You're Freaking Kidding Me");
-
-      case 644:
-        // Snakes. (Mystic's psychoses)
-        return dynamicChoiceSpoilers(choice, "Snakes.");
-
-      case 645:
-        // So... Many... Skulls... (Mystic's psychoses)
-        return dynamicChoiceSpoilers(choice, "So... Many... Skulls...");
-
-      case 647:
-        // A Stupid Dummy. Also, a Straw Man. (Mystic's psychoses)
-        return dynamicChoiceSpoilers(choice, "A Stupid Dummy. Also, a Straw Man.");
-
-      case 648:
-        // Slings and Arrows (Mystic's psychoses)
-        return dynamicChoiceSpoilers(choice, "Slings and Arrows");
-
-      case 650:
-        // This Is Your Life. Your Horrible, Horrible Life. (Mystic's psychoses)
-        return dynamicChoiceSpoilers(choice, "This Is Your Life. Your Horrible, Horrible Life.");
-
-      case 651:
-        // The Wall of Wailing (Mystic's psychoses)
-        return dynamicChoiceSpoilers(choice, "The Wall of Wailing");
-
-      case 669:
-        // The Fast and the Furry-ous
-        return dynamicChoiceSpoilers(choice, "The Fast and the Furry-ous");
-
-      case 670:
-        // You Don't Mess Around with Gym
-        return dynamicChoiceSpoilers(choice, "You Don't Mess Around with Gym");
-
-      case 678:
-        // Yeah, You're for Me, Punk Rock Giant
-        return dynamicChoiceSpoilers(choice, "Yeah, You're for Me, Punk Rock Giant");
-
-      case 692:
-        // I Wanna Be a Door
-        return dynamicChoiceSpoilers(choice, "I Wanna Be a Door");
-
-      case 696:
-        // Stick a Fork In It
-        return dynamicChoiceSpoilers(choice, "Stick a Fork In It");
-
-      case 697:
-        // Sophie's Choice
-        return dynamicChoiceSpoilers(choice, "Sophie's Choice");
-
-      case 698:
-        // From Bad to Worst
-        return dynamicChoiceSpoilers(choice, "From Bad to Worst");
-
-      case 700:
-        // Delirium in the Cafeterium
-        return dynamicChoiceSpoilers(choice, "Delirium in the Cafeterium");
-
-      case 721:
-        // The Cabin in the Dreadsylvanian Woods
-        return dynamicChoiceSpoilers(choice, "The Cabin in the Dreadsylvanian Woods");
-
-      case 722:
-        // The Kitchen in the Woods
-        return dynamicChoiceSpoilers(choice, "The Kitchen in the Woods");
-
-      case 723:
-        // What Lies Beneath (the Cabin)
-        return dynamicChoiceSpoilers(choice, "What Lies Beneath (the Cabin)");
-
-      case 724:
-        // Where it's Attic
-        return dynamicChoiceSpoilers(choice, "Where it's Attic");
-
-      case 725:
-        // Tallest Tree in the Forest
-        return dynamicChoiceSpoilers(choice, "Tallest Tree in the Forest");
-
-      case 726:
-        // Top of the Tree, Ma!
-        return dynamicChoiceSpoilers(choice, "Top of the Tree, Ma!");
-
-      case 727:
-        // All Along the Watchtower
-        return dynamicChoiceSpoilers(choice, "All Along the Watchtower");
-
-      case 728:
-        // Treebasing
-        return dynamicChoiceSpoilers(choice, "Treebasing");
-
-      case 729:
-        // Below the Roots
-        return dynamicChoiceSpoilers(choice, "Below the Roots");
-
-      case 730:
-        // Hot Coals
-        return dynamicChoiceSpoilers(choice, "Hot Coals");
-
-      case 731:
-        // The Heart of the Matter
-        return dynamicChoiceSpoilers(choice, "The Heart of the Matter");
-
-      case 732:
-        // Once Midden, Twice Shy
-        return dynamicChoiceSpoilers(choice, "Once Midden, Twice Shy");
-
-      case 733:
-        // Dreadsylvanian Village Square
-        return dynamicChoiceSpoilers(choice, "Dreadsylvanian Village Square");
-
-      case 734:
-        // Fright School
-        return dynamicChoiceSpoilers(choice, "Fright School");
-
-      case 735:
-        // Smith, Black as Night
-        return dynamicChoiceSpoilers(choice, "Smith, Black as Night");
-
-      case 736:
-        // Gallows
-        return dynamicChoiceSpoilers(choice, "Gallows");
-
-      case 737:
-        // The Even More Dreadful Part of Town
-        return dynamicChoiceSpoilers(choice, "The Even More Dreadful Part of Town");
-
-      case 738:
-        // A Dreadful Smell
-        return dynamicChoiceSpoilers(choice, "A Dreadful Smell");
-
-      case 739:
-        // The Tinker's. Damn.
-        return dynamicChoiceSpoilers(choice, "The Tinker's. Damn.");
-
-      case 740:
-        // Eight, Nine, Tenement
-        return dynamicChoiceSpoilers(choice, "Eight, Nine, Tenement");
-
-      case 741:
-        // The Old Duke's Estate
-        return dynamicChoiceSpoilers(choice, "The Old Duke's Estate");
-
-      case 742:
-        // The Plot Thickens
-        return dynamicChoiceSpoilers(choice, "The Plot Thickens");
-
-      case 743:
-        // No Quarter
-        return dynamicChoiceSpoilers(choice, "No Quarter");
-
-      case 744:
-        // The Master Suite -- Sweet!
-        return dynamicChoiceSpoilers(choice, "The Master Suite -- Sweet!");
-
-      case 745:
-        // This Hall is Really Great
-        return dynamicChoiceSpoilers(choice, "This Hall is Really Great");
-
-      case 746:
-        // The Belle of the Ballroom
-        return dynamicChoiceSpoilers(choice, "The Belle of the Ballroom");
-
-      case 747:
-        // Cold Storage
-        return dynamicChoiceSpoilers(choice, "Cold Storage");
-
-      case 748:
-        // Dining In (the Castle)
-        return dynamicChoiceSpoilers(choice, "Dining In (the Castle)");
-
-      case 749:
-        // Tower Most Tall
-        return dynamicChoiceSpoilers(choice, "Tower Most Tall");
-
-      case 750:
-        // Working in the Lab, Late One Night
-        return dynamicChoiceSpoilers(choice, "Working in the Lab, Late One Night");
-
-      case 751:
-        // Among the Quaint and Curious Tomes.
-        return dynamicChoiceSpoilers(choice, "Among the Quaint and Curious Tomes.");
-
-      case 752:
-        // In The Boudoir
-        return dynamicChoiceSpoilers(choice, "In The Boudoir");
-
-      case 753:
-        // The Dreadsylvanian Dungeon
-        return dynamicChoiceSpoilers(choice, "The Dreadsylvanian Dungeon");
-
-      case 754:
-        // Live from Dungeon Prison
-        return dynamicChoiceSpoilers(choice, "Live from Dungeon Prison");
-
-      case 755:
-        // The Hot Bowels
-        return dynamicChoiceSpoilers(choice, "The Hot Bowels");
-
-      case 756:
-        // Among the Fungus
-        return dynamicChoiceSpoilers(choice, "Among the Fungus");
-
-      case 758:
-        // End of the Path
-        return dynamicChoiceSpoilers(choice, "End of the Path");
-
-      case 759:
-        // You're About to Fight City Hall
-        return dynamicChoiceSpoilers(choice, "You're About to Fight City Hall");
-
-      case 760:
-        // Holding Court
-        return dynamicChoiceSpoilers(choice, "Holding Court");
+      case 184, 185, 187 ->
+      // That Explains All The Eyepatches
+      dynamicChoiceSpoilers(choice, "Barrrney's Barrr");
+      case 188 ->
+      // The Infiltrationist
+      dynamicChoiceSpoilers(choice, "Orcish Frat House Blueprints");
+      case 272 ->
+      // Marketplace Entrance
+      dynamicChoiceSpoilers(choice, "Hobo Marketplace");
+      case 298 ->
+      // In the Shade
+      dynamicChoiceSpoilers(choice, "An Octopus's Garden");
+      case 304 ->
+      // A Vent Horizon
+      dynamicChoiceSpoilers(choice, "The Marinara Trench");
+      case 305 ->
+      // There is Sauce at the Bottom of the Ocean
+      dynamicChoiceSpoilers(choice, "The Marinara Trench");
+      case 309 ->
+      // Barback
+      dynamicChoiceSpoilers(choice, "The Dive Bar");
+      case 360 ->
+      // Wumpus Hunt
+      dynamicChoiceSpoilers(choice, "The Jungles of Ancient Loathing");
+      case 410, 411, 412, 413, 414, 415, 416, 417, 418 ->
+      // The Barracks
+      dynamicChoiceSpoilers(choice, "The Barracks");
+      case 442 ->
+      // A Moment of Reflection
+      dynamicChoiceSpoilers(choice, "Rabbit Hole");
+      case 522 ->
+      // Welcome to the Footlocker
+      dynamicChoiceSpoilers(choice, "Welcome to the Footlocker");
+      case 502 ->
+      // Arboreal Respite
+      dynamicChoiceSpoilers(choice, "Arboreal Respite");
+      case 579 ->
+      // Such Great Heights
+      dynamicChoiceSpoilers(choice, "Such Great Heights");
+      case 580 ->
+      // The Hidden Heart of the Hidden Temple
+      dynamicChoiceSpoilers(choice, "The Hidden Heart of the Hidden Temple");
+      case 581 ->
+      // Such Great Depths
+      dynamicChoiceSpoilers(choice, "Such Great Depths");
+      case 582 ->
+      // Fitting In
+      dynamicChoiceSpoilers(choice, "Fitting In");
+      case 606 ->
+      // Lost in the Great Overlook Lodge
+      dynamicChoiceSpoilers(choice, "Lost in the Great Overlook Lodge");
+      case 611 ->
+      // The Horror...(A-Boo Peak)
+      dynamicChoiceSpoilers(choice, "The Horror...");
+      case 636, 637, 638, 639 ->
+      // Old Man psychoses
+      dynamicChoiceSpoilers(choice, "First Mate's Log Entry");
+      case 641 ->
+      // Stupid Pipes. (Mystic's psychoses)
+      dynamicChoiceSpoilers(choice, "Stupid Pipes.");
+      case 642 ->
+      // You're Freaking Kidding Me (Mystic's psychoses)
+      dynamicChoiceSpoilers(choice, "You're Freaking Kidding Me");
+      case 644 ->
+      // Snakes. (Mystic's psychoses)
+      dynamicChoiceSpoilers(choice, "Snakes.");
+      case 645 ->
+      // So... Many... Skulls... (Mystic's psychoses)
+      dynamicChoiceSpoilers(choice, "So... Many... Skulls...");
+      case 647 ->
+      // A Stupid Dummy. Also, a Straw Man. (Mystic's psychoses)
+      dynamicChoiceSpoilers(choice, "A Stupid Dummy. Also, a Straw Man.");
+      case 648 ->
+      // Slings and Arrows (Mystic's psychoses)
+      dynamicChoiceSpoilers(choice, "Slings and Arrows");
+      case 650 ->
+      // This Is Your Life. Your Horrible, Horrible Life. (Mystic's psychoses)
+      dynamicChoiceSpoilers(choice, "This Is Your Life. Your Horrible, Horrible Life.");
+      case 651 ->
+      // The Wall of Wailing (Mystic's psychoses)
+      dynamicChoiceSpoilers(choice, "The Wall of Wailing");
+      case 669 ->
+      // The Fast and the Furry-ous
+      dynamicChoiceSpoilers(choice, "The Fast and the Furry-ous");
+      case 670 ->
+      // You Don't Mess Around with Gym
+      dynamicChoiceSpoilers(choice, "You Don't Mess Around with Gym");
+      case 678 ->
+      // Yeah, You're for Me, Punk Rock Giant
+      dynamicChoiceSpoilers(choice, "Yeah, You're for Me, Punk Rock Giant");
+      case 692 ->
+      // I Wanna Be a Door
+      dynamicChoiceSpoilers(choice, "I Wanna Be a Door");
+      case 696 ->
+      // Stick a Fork In It
+      dynamicChoiceSpoilers(choice, "Stick a Fork In It");
+      case 697 ->
+      // Sophie's Choice
+      dynamicChoiceSpoilers(choice, "Sophie's Choice");
+      case 698 ->
+      // From Bad to Worst
+      dynamicChoiceSpoilers(choice, "From Bad to Worst");
+      case 700 ->
+      // Delirium in the Cafeterium
+      dynamicChoiceSpoilers(choice, "Delirium in the Cafeterium");
+      case 721 ->
+      // The Cabin in the Dreadsylvanian Woods
+      dynamicChoiceSpoilers(choice, "The Cabin in the Dreadsylvanian Woods");
+      case 722 ->
+      // The Kitchen in the Woods
+      dynamicChoiceSpoilers(choice, "The Kitchen in the Woods");
+      case 723 ->
+      // What Lies Beneath (the Cabin)
+      dynamicChoiceSpoilers(choice, "What Lies Beneath (the Cabin)");
+      case 724 ->
+      // Where it's Attic
+      dynamicChoiceSpoilers(choice, "Where it's Attic");
+      case 725 ->
+      // Tallest Tree in the Forest
+      dynamicChoiceSpoilers(choice, "Tallest Tree in the Forest");
+      case 726 ->
+      // Top of the Tree, Ma!
+      dynamicChoiceSpoilers(choice, "Top of the Tree, Ma!");
+      case 727 ->
+      // All Along the Watchtower
+      dynamicChoiceSpoilers(choice, "All Along the Watchtower");
+      case 728 ->
+      // Treebasing
+      dynamicChoiceSpoilers(choice, "Treebasing");
+      case 729 ->
+      // Below the Roots
+      dynamicChoiceSpoilers(choice, "Below the Roots");
+      case 730 ->
+      // Hot Coals
+      dynamicChoiceSpoilers(choice, "Hot Coals");
+      case 731 ->
+      // The Heart of the Matter
+      dynamicChoiceSpoilers(choice, "The Heart of the Matter");
+      case 732 ->
+      // Once Midden, Twice Shy
+      dynamicChoiceSpoilers(choice, "Once Midden, Twice Shy");
+      case 733 ->
+      // Dreadsylvanian Village Square
+      dynamicChoiceSpoilers(choice, "Dreadsylvanian Village Square");
+      case 734 ->
+      // Fright School
+      dynamicChoiceSpoilers(choice, "Fright School");
+      case 735 ->
+      // Smith, Black as Night
+      dynamicChoiceSpoilers(choice, "Smith, Black as Night");
+      case 736 ->
+      // Gallows
+      dynamicChoiceSpoilers(choice, "Gallows");
+      case 737 ->
+      // The Even More Dreadful Part of Town
+      dynamicChoiceSpoilers(choice, "The Even More Dreadful Part of Town");
+      case 738 ->
+      // A Dreadful Smell
+      dynamicChoiceSpoilers(choice, "A Dreadful Smell");
+      case 739 ->
+      // The Tinker's. Damn.
+      dynamicChoiceSpoilers(choice, "The Tinker's. Damn.");
+      case 740 ->
+      // Eight, Nine, Tenement
+      dynamicChoiceSpoilers(choice, "Eight, Nine, Tenement");
+      case 741 ->
+      // The Old Duke's Estate
+      dynamicChoiceSpoilers(choice, "The Old Duke's Estate");
+      case 742 ->
+      // The Plot Thickens
+      dynamicChoiceSpoilers(choice, "The Plot Thickens");
+      case 743 ->
+      // No Quarter
+      dynamicChoiceSpoilers(choice, "No Quarter");
+      case 744 ->
+      // The Master Suite -- Sweet!
+      dynamicChoiceSpoilers(choice, "The Master Suite -- Sweet!");
+      case 745 ->
+      // This Hall is Really Great
+      dynamicChoiceSpoilers(choice, "This Hall is Really Great");
+      case 746 ->
+      // The Belle of the Ballroom
+      dynamicChoiceSpoilers(choice, "The Belle of the Ballroom");
+      case 747 ->
+      // Cold Storage
+      dynamicChoiceSpoilers(choice, "Cold Storage");
+      case 748 ->
+      // Dining In (the Castle)
+      dynamicChoiceSpoilers(choice, "Dining In (the Castle)");
+      case 749 ->
+      // Tower Most Tall
+      dynamicChoiceSpoilers(choice, "Tower Most Tall");
+      case 750 ->
+      // Working in the Lab, Late One Night
+      dynamicChoiceSpoilers(choice, "Working in the Lab, Late One Night");
+      case 751 ->
+      // Among the Quaint and Curious Tomes.
+      dynamicChoiceSpoilers(choice, "Among the Quaint and Curious Tomes.");
+      case 752 ->
+      // In The Boudoir
+      dynamicChoiceSpoilers(choice, "In The Boudoir");
+      case 753 ->
+      // The Dreadsylvanian Dungeon
+      dynamicChoiceSpoilers(choice, "The Dreadsylvanian Dungeon");
+      case 754 ->
+      // Live from Dungeon Prison
+      dynamicChoiceSpoilers(choice, "Live from Dungeon Prison");
+      case 755 ->
+      // The Hot Bowels
+      dynamicChoiceSpoilers(choice, "The Hot Bowels");
+      case 756 ->
+      // Among the Fungus
+      dynamicChoiceSpoilers(choice, "Among the Fungus");
+      case 758 ->
+      // End of the Path
+      dynamicChoiceSpoilers(choice, "End of the Path");
+      case 759 ->
+      // You're About to Fight City Hall
+      dynamicChoiceSpoilers(choice, "You're About to Fight City Hall");
+      case 760 ->
+      // Holding Court
+      dynamicChoiceSpoilers(choice, "Holding Court");
 
         // Choice 761 is Staring Upwards...
         // Choice 762 is Try New Extra-Strength Anvil
         // Choice 764 is The Machine
         // Choice 765 is Hello Gallows
 
-      case 772:
-        // Saved by the Bell
-        return dynamicChoiceSpoilers(choice, "Saved by the Bell");
-
-      case 780:
-        // Action Elevator
-        return dynamicChoiceSpoilers(choice, "Action Elevator");
-
-      case 781:
-        // Earthbound and Down
-        return dynamicChoiceSpoilers(choice, "Earthbound and Down");
-
-      case 783:
-        // Water You Dune
-        return dynamicChoiceSpoilers(choice, "Water You Dune");
-
-      case 784:
-        // You, M. D.
-        return dynamicChoiceSpoilers(choice, "You, M. D.");
-
-      case 785:
-        // Air Apparent
-        return dynamicChoiceSpoilers(choice, "Air Apparent");
-
-      case 786:
-        // Working Holiday
-        return dynamicChoiceSpoilers(choice, "Working Holiday");
-
-      case 787:
-        // Fire when Ready
-        return dynamicChoiceSpoilers(choice, "Fire when Ready");
-
-      case 788:
-        // Life is Like a Cherry of Bowls
-        return dynamicChoiceSpoilers(choice, "Life is Like a Cherry of Bowls");
-
-      case 789:
-        // Where Does The Lone Ranger Take His Garbagester?
-        return dynamicChoiceSpoilers(choice, "Where Does The Lone Ranger Take His Garbagester?");
-
-      case 791:
-        // Legend of the Temple in the Hidden City
-        return dynamicChoiceSpoilers(choice, "Legend of the Temple in the Hidden City");
-
-      case 801:
-        // A Reanimated Conversation
-        return dynamicChoiceSpoilers(choice, "A Reanimated Conversation");
-
-      case 918:
-        // Yachtzee!
-        return dynamicChoiceSpoilers(choice, "Yachtzee!");
-
-      case 988:
-        // The Containment Unit
-        return dynamicChoiceSpoilers(choice, "The Containment Unit");
-
-      case 1049:
-        // Tomb of the Unknown Your Class Here
-        return dynamicChoiceSpoilers(choice, "Tomb of the Unknown Your Class Here");
-
-      case 1411:
-        // The Hall in the Hall
-        return dynamicChoiceSpoilers(choice, "The Hall in the Hall");
-
-      case 1489:
-        // Slagging Off
-        return dynamicChoiceSpoilers(choice, "Slagging Off");
-
-      case 1499:
-        // A Labyrinth of Shadows
-        return dynamicChoiceSpoilers(choice, "A Labyrinth of Shadows");
-    }
-
-    return null;
+      case 772 ->
+      // Saved by the Bell
+      dynamicChoiceSpoilers(choice, "Saved by the Bell");
+      case 780 ->
+      // Action Elevator
+      dynamicChoiceSpoilers(choice, "Action Elevator");
+      case 781 ->
+      // Earthbound and Down
+      dynamicChoiceSpoilers(choice, "Earthbound and Down");
+      case 783 ->
+      // Water You Dune
+      dynamicChoiceSpoilers(choice, "Water You Dune");
+      case 784 ->
+      // You, M. D.
+      dynamicChoiceSpoilers(choice, "You, M. D.");
+      case 785 ->
+      // Air Apparent
+      dynamicChoiceSpoilers(choice, "Air Apparent");
+      case 786 ->
+      // Working Holiday
+      dynamicChoiceSpoilers(choice, "Working Holiday");
+      case 787 ->
+      // Fire when Ready
+      dynamicChoiceSpoilers(choice, "Fire when Ready");
+      case 788 ->
+      // Life is Like a Cherry of Bowls
+      dynamicChoiceSpoilers(choice, "Life is Like a Cherry of Bowls");
+      case 789 ->
+      // Where Does The Lone Ranger Take His Garbagester?
+      dynamicChoiceSpoilers(choice, "Where Does The Lone Ranger Take His Garbagester?");
+      case 791 ->
+      // Legend of the Temple in the Hidden City
+      dynamicChoiceSpoilers(choice, "Legend of the Temple in the Hidden City");
+      case 801 ->
+      // A Reanimated Conversation
+      dynamicChoiceSpoilers(choice, "A Reanimated Conversation");
+      case 918 ->
+      // Yachtzee!
+      dynamicChoiceSpoilers(choice, "Yachtzee!");
+      case 988 ->
+      // The Containment Unit
+      dynamicChoiceSpoilers(choice, "The Containment Unit");
+      case 1049 ->
+      // Tomb of the Unknown Your Class Here
+      dynamicChoiceSpoilers(choice, "Tomb of the Unknown Your Class Here");
+      case 1411 ->
+      // The Hall in the Hall
+      dynamicChoiceSpoilers(choice, "The Hall in the Hall");
+      case 1489 ->
+      // Slagging Off
+      dynamicChoiceSpoilers(choice, "Slagging Off");
+      case 1499 ->
+      // A Labyrinth of Shadows
+      dynamicChoiceSpoilers(choice, "A Labyrinth of Shadows");
+      default -> null;
+    };
   }
 
   private static Spoilers dynamicChoiceSpoilers(final int choice, final String name) {
@@ -7113,7 +7036,7 @@ public abstract class ChoiceAdventures {
 
   private static final ChoiceOption FLICKERING_PIXEL = new ChoiceOption("flickering pixel");
 
-  public static final ChoiceOption[] dynamicChoiceOptions(final int choice) {
+  public static ChoiceOption[] dynamicChoiceOptions(final int choice) {
     ChoiceOption[] result;
     switch (choice) {
       case 5:
@@ -7349,7 +7272,7 @@ public abstract class ChoiceAdventures {
 
       case 502:
         // Arboreal Respite
-        result = new ChoiceOption[3];
+        result = new ChoiceOption[5];
 
         // meet the vampire hunter, trade bar skins or gain a spooky sapling
         int stakes = InventoryManager.getCount(ItemPool.WOODEN_STAKES);
@@ -7393,6 +7316,8 @@ public abstract class ChoiceAdventures {
                     + ")"
                     + mapAction
                     + ", gain fake blood");
+
+        result[4] = new ChoiceOption("gain 3 fruits");
 
         return result;
 
@@ -7446,41 +7371,41 @@ public abstract class ChoiceAdventures {
         haveNostril = (InventoryManager.getCount(ItemPool.NOSTRIL_OF_THE_SERPENT) > 0);
         boolean buttonsUnconfused =
             (Preferences.getInteger("lastTempleButtonsUnlock") == KoLCharacter.getAscensions());
-
-        if (ChoiceManager.lastResponseText.contains("door_stone.gif")) {
-          result[0] = new ChoiceOption("muscle substats");
-          result[1] =
-              new ChoiceOption(
-                  buttonsUnconfused || haveNostril
-                      ? "choose Hidden Heart adventure"
-                      : "randomise Hidden Heart adventure");
-          result[2] = new ChoiceOption("moxie substats and 5 turns of Somewhat poisoned");
-        } else if (ChoiceManager.lastResponseText.contains("door_sun.gif")) {
-          result[0] = new ChoiceOption("gain ancient calendar fragment");
-          result[1] =
-              new ChoiceOption(
-                  buttonsUnconfused || haveNostril
-                      ? "choose Hidden Heart adventure"
-                      : "randomise Hidden Heart adventure");
-          result[2] = new ChoiceOption("moxie substats and 5 turns of Somewhat poisoned");
-        } else if (ChoiceManager.lastResponseText.contains("door_gargoyle.gif")) {
-          result[0] = new ChoiceOption("gain mana");
-          result[1] =
-              new ChoiceOption(
-                  buttonsUnconfused || haveNostril
-                      ? "choose Hidden Heart adventure"
-                      : "randomise Hidden Heart adventure");
-          result[2] = new ChoiceOption("moxie substats and 5 turns of Somewhat poisoned");
-        } else if (ChoiceManager.lastResponseText.contains("door_pikachu.gif")) {
-          result[0] = new ChoiceOption("unlock Hidden City");
-          result[1] =
-              new ChoiceOption(
-                  buttonsUnconfused || haveNostril
-                      ? "choose Hidden Heart adventure"
-                      : "randomise Hidden Heart adventure");
-          result[2] = new ChoiceOption("moxie substats and 5 turns of Somewhat poisoned");
+        if (ChoiceManager.lastResponseText != null) {
+          if (ChoiceManager.lastResponseText.contains("door_stone.gif")) {
+            result[0] = new ChoiceOption("muscle substats");
+            result[1] =
+                new ChoiceOption(
+                    buttonsUnconfused || haveNostril
+                        ? "choose Hidden Heart adventure"
+                        : "randomise Hidden Heart adventure");
+            result[2] = new ChoiceOption("moxie substats and 5 turns of Somewhat poisoned");
+          } else if (ChoiceManager.lastResponseText.contains("door_sun.gif")) {
+            result[0] = new ChoiceOption("gain ancient calendar fragment");
+            result[1] =
+                new ChoiceOption(
+                    buttonsUnconfused || haveNostril
+                        ? "choose Hidden Heart adventure"
+                        : "randomise Hidden Heart adventure");
+            result[2] = new ChoiceOption("moxie substats and 5 turns of Somewhat poisoned");
+          } else if (ChoiceManager.lastResponseText.contains("door_gargoyle.gif")) {
+            result[0] = new ChoiceOption("gain mana");
+            result[1] =
+                new ChoiceOption(
+                    buttonsUnconfused || haveNostril
+                        ? "choose Hidden Heart adventure"
+                        : "randomise Hidden Heart adventure");
+            result[2] = new ChoiceOption("moxie substats and 5 turns of Somewhat poisoned");
+          } else if (ChoiceManager.lastResponseText.contains("door_pikachu.gif")) {
+            result[0] = new ChoiceOption("unlock Hidden City");
+            result[1] =
+                new ChoiceOption(
+                    buttonsUnconfused || haveNostril
+                        ? "choose Hidden Heart adventure"
+                        : "randomise Hidden Heart adventure");
+            result[2] = new ChoiceOption("moxie substats and 5 turns of Somewhat poisoned");
+          }
         }
-
         return result;
 
       case 581:
@@ -8698,18 +8623,19 @@ public abstract class ChoiceAdventures {
                       : hasThriceCursed
                           ? "Fight ancient protector spirit"
                           : "Need Thrice-Cursed to fight ancient protector spirit"));
-          result[1] =
-              new ChoiceOption(
-                  (hasThriceCursed
-                      ? "Increase Thrice-Cursed"
-                      : hasTwiceCursed
-                          ? "Get Thrice-Cursed"
-                          : hasOnceCursed ? "Get Twice-Cursed" : "Get Once-Cursed"));
+          var cursedOption =
+              (hasThriceCursed
+                  ? "Increase Thrice-Cursed"
+                  : hasTwiceCursed
+                      ? "Get Thrice-Cursed"
+                      : hasOnceCursed ? "Get Twice-Cursed" : "Get Once-Cursed");
+          result[1] = new ChoiceOption(cursedOption);
           result[2] =
               new ChoiceOption(
                   (pygmyLawyersRelocated
                       ? "Waste adventure"
                       : "Relocate pygmy witch lawyers to Hidden Park"));
+          result[3] = new ChoiceOption(cursedOption + ", then pick again");
           result[5] = SKIP_ADVENTURE;
           return result;
         }
@@ -8745,6 +8671,7 @@ public abstract class ChoiceAdventures {
         result[0] = new ChoiceOption("Unlock Hidden Office Building");
         result[1] = new ChoiceOption("Get stone triangle");
         result[2] = new ChoiceOption("Get Blessing of Pikachutlotal");
+        result[3] = new ChoiceOption("Gain 100x level Meat, then pick again");
         result[5] = SKIP_ADVENTURE;
         return result;
 
@@ -8806,6 +8733,7 @@ public abstract class ChoiceAdventures {
                       : hiddenBowlingAlleyProgress == 6
                           ? "fight ancient protector spirit"
                           : buffer.toString()));
+          result[1] = new ChoiceOption("Increment boss counter, then pick again");
           result[5] = SKIP_ADVENTURE;
           return result;
         }
@@ -8862,7 +8790,7 @@ public abstract class ChoiceAdventures {
         var date = DateTimeManager.getArizonaDateTime();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String lastUMDDateString = Preferences.getString("umdLastObtained");
-        if (lastUMDDateString != null && !lastUMDDateString.equals("")) {
+        if (lastUMDDateString != null && !lastUMDDateString.isEmpty()) {
           try {
             var compareDate =
                 sdf.parse(lastUMDDateString)
@@ -8947,9 +8875,9 @@ public abstract class ChoiceAdventures {
             String buf =
                 (haveStaff ? "M" : "A drippy staff and m")
                     + "aybe a drippy orb (Pool Skill at "
-                    + Integer.valueOf(inebriety)
+                    + inebriety
                     + " inebriety = "
-                    + Integer.valueOf(totalPoolSkill)
+                    + totalPoolSkill
                     + ")";
             result[0] = new ChoiceOption(buf);
           }
@@ -9088,7 +9016,7 @@ public abstract class ChoiceAdventures {
     buffer.append(" key in inventory: ");
   }
 
-  public static final ChoiceOption choiceSpoiler(
+  public static ChoiceOption choiceSpoiler(
       final int choice, final int decision, final ChoiceOption[] spoilers) {
     switch (choice) {
       case 105:
@@ -9106,11 +9034,6 @@ public abstract class ChoiceAdventures {
       case 182:
         if (decision == 4) {
           return new ChoiceOption("model airship");
-        }
-        break;
-      case 793:
-        if (decision == 4) {
-          return new ChoiceOption("gift shop");
         }
         break;
     }

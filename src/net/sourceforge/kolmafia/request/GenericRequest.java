@@ -60,8 +60,8 @@ import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
-import net.sourceforge.kolmafia.persistence.MonsterDrop;
 import net.sourceforge.kolmafia.persistence.MonsterDrop.DropFlag;
+import net.sourceforge.kolmafia.persistence.MonsterDrop.SimpleMonsterDrop;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.CrystalBallManager;
@@ -127,9 +127,7 @@ public class GenericRequest implements Runnable {
 
   public static TopMenuStyle topMenuStyle = TopMenuStyle.UNKNOWN;
 
-  public static final String[] SERVERS = {
-    "devproxy.kingdomofloathing.com", "www.kingdomofloathing.com"
-  };
+  public static final String[] SERVERS = {"dev.kingdomofloathing.com", "www.kingdomofloathing.com"};
 
   public static String KOL_HOST = GenericRequest.SERVERS[1];
 
@@ -1203,7 +1201,8 @@ public class GenericRequest implements Runnable {
             && !this.redirectLocation.equals("place.php?whichplace=monorail")
             && !this.redirectLocation.equals("place.php?whichplace=edunder")
             && !this.redirectLocation.equals("place.php?whichplace=ioty2014_cindy")
-            && !this.redirectLocation.equals("/shop.php?whichshop=fwshop")) {
+            && !this.redirectLocation.equals("/shop.php?whichshop=fwshop")
+            && !this.redirectLocation.equals("inventory.php")) {
           // Informational debug message
           KoLmafia.updateDisplay("Unhandled redirect to " + this.redirectLocation);
         }
@@ -1730,7 +1729,8 @@ public class GenericRequest implements Runnable {
     boolean shouldStop;
 
     try {
-      if (this.responseCode == 200) {
+      // 2XX request success
+      if (this.responseCode >= 200 && this.responseCode < 300) {
         shouldStop = this.retrieveServerReply(istream);
         istream.close();
       } else {
@@ -1929,7 +1929,8 @@ public class GenericRequest implements Runnable {
           || this instanceof GenieRequest
           || this instanceof LocketRequest
           || this instanceof NumberologyRequest
-          || this instanceof UseSkillRequest) {
+          || this instanceof UseSkillRequest
+          || this instanceof BurningLeavesRequest) {
         this.redirectHandled = true;
         FightRequest.INSTANCE.run(this.redirectLocation);
 
@@ -2496,8 +2497,8 @@ public class GenericRequest implements Runnable {
         if (m != null) {
           m.clearItems();
           String stolen = Preferences.getString("dolphinItem");
-          if (stolen.length() > 0) {
-            m.addItem(new MonsterDrop(ItemPool.get(stolen, 1), 100, DropFlag.NO_PICKPOCKET));
+          if (!stolen.isEmpty()) {
+            m.addItem(new SimpleMonsterDrop(ItemPool.get(stolen, 1), 100, DropFlag.NO_PICKPOCKET));
           }
           m.doneWithItems();
         }
@@ -2841,6 +2842,30 @@ public class GenericRequest implements Runnable {
         Preferences.setBoolean("_molehillMountainUsed", true);
         break;
 
+      case ItemPool.TIED_UP_LEAFLET:
+        itemName = item.getName();
+        Preferences.setBoolean("_tiedUpFlamingLeafletFought", true);
+        consumed = true;
+        EncounterManager.ignoreSpecialMonsters();
+        break;
+      case ItemPool.TIED_UP_MONSTERA:
+        itemName = item.getName();
+        Preferences.setBoolean("_tiedUpFlamingMonsteraFought", true);
+        consumed = true;
+        EncounterManager.ignoreSpecialMonsters();
+        break;
+      case ItemPool.TIED_UP_LEAVIATHAN:
+        itemName = item.getName();
+        Preferences.setBoolean("_tiedUpLeaviathanFought", true);
+        consumed = true;
+        EncounterManager.ignoreSpecialMonsters();
+        break;
+      case ItemPool.MAP_TO_A_CANDY_RICH_BLOCK:
+        itemName = item.getName();
+        Preferences.setBoolean("_mapToACandyRichBlockUsed", true);
+        consumed = true;
+        break;
+
       default:
         return;
     }
@@ -2873,6 +2898,10 @@ public class GenericRequest implements Runnable {
     String name;
 
     switch (choice) {
+      case 970:
+        name = "Rain Man";
+        break;
+
       case 1201:
         name = "Dr. Gordon Stuart's Science Tent";
         Preferences.setBoolean("_eldritchTentacleFought", true);
@@ -2889,6 +2918,15 @@ public class GenericRequest implements Runnable {
 
       case 1463:
         name = "Combat Lover's Locket";
+        break;
+
+      case 1510:
+        name = "Burning Leaves";
+        BurningLeavesRequest.registerLeafFight(location);
+        break;
+
+      case 1516:
+        name = "mimic egg";
         break;
 
       default:

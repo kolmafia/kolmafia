@@ -1,9 +1,11 @@
 package net.sourceforge.kolmafia.maximizer;
 
 import static internal.helpers.Maximizer.commandStartsWith;
+import static internal.helpers.Maximizer.doesNotRecommend;
 import static internal.helpers.Maximizer.getBoosts;
 import static internal.helpers.Maximizer.getSlot;
 import static internal.helpers.Maximizer.maximize;
+import static internal.helpers.Maximizer.maximizeAny;
 import static internal.helpers.Maximizer.modFor;
 import static internal.helpers.Maximizer.recommendedSlotIs;
 import static internal.helpers.Maximizer.recommendedSlotIsUnchanged;
@@ -11,12 +13,14 @@ import static internal.helpers.Maximizer.recommends;
 import static internal.helpers.Maximizer.someBoostIs;
 import static internal.helpers.Player.withCampgroundItem;
 import static internal.helpers.Player.withClass;
+import static internal.helpers.Player.withDay;
 import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withEquippableItem;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withFamiliarInTerrarium;
 import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withItemInStorage;
 import static internal.helpers.Player.withLocation;
 import static internal.helpers.Player.withMeat;
 import static internal.helpers.Player.withNotAllowedInStandard;
@@ -33,6 +37,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
+import java.time.Month;
 import java.util.Optional;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
@@ -54,6 +59,8 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 public class MaximizerTest {
   @BeforeAll
@@ -61,6 +68,7 @@ public class MaximizerTest {
     KoLCharacter.reset("MaximizerTest");
     Preferences.reset("MaximizerTest");
   }
+
   // basic
 
   @Test
@@ -96,13 +104,45 @@ public class MaximizerTest {
   public void exactMatchFindsModifier() {
     var cleanups =
         new Cleanups(
-            withEquippableItem("hemlock helm"), withEquippableItem("government-issued slacks"));
+            withEquippableItem("hemlock helm"),
+            withEquippableItem("government-issued slacks"),
+            // Not a muscle day
+            withDay(2023, Month.SEPTEMBER, 27));
 
     try (cleanups) {
       assertTrue(maximize("Muscle Experience Percent, -tie"));
       recommendedSlotIsUnchanged(Slot.HAT);
       recommendedSlotIs(Slot.PANTS, "government-issued slacks");
       assertEquals(10, modFor(DoubleModifier.MUS_EXPERIENCE_PCT), 0.01);
+    }
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    "muscle exp perc, government-issued slacks",
+    "mus experience percent, government-issued slacks",
+    "mus experience percentage, government-issued slacks",
+    "mus exp, Pantsgiving",
+    "mus experience, Pantsgiving",
+    "muscle exp, Pantsgiving",
+    "muscle perc, sugar shorts",
+    "mus percent, sugar shorts",
+    "mus percentage, sugar shorts",
+    "mus, leg-mounted Trainbots"
+  })
+  public void findsGenericAbbreviations(String abbreviation, String expectedItem) {
+    var cleanups =
+        new Cleanups(
+            withEquippableItem("government-issued slacks"),
+            withEquippableItem("pantsgiving"),
+            withEquippableItem("sugar shorts"),
+            withEquippableItem("leg-mounted Trainbots"),
+            // Not a muscle day
+            withDay(2023, Month.SEPTEMBER, 27));
+
+    try (cleanups) {
+      assertTrue(maximize(abbreviation + ", -tie"));
+      recommendedSlotIs(Slot.PANTS, expectedItem);
     }
   }
 
@@ -239,6 +279,43 @@ public class MaximizerTest {
       try (cleanups) {
         assertTrue(maximize("weapon dmg, effective"));
         recommendedSlotIs(Slot.WEAPON, "Fourth of May Cosplay Saber");
+      }
+    }
+
+    /**
+     * These tests illustrate that sometimes with the effective keyword the maximizer will choose no
+     * weapon. They do not go so far as to try and verify that the selected weapon was actually
+     * equipped.
+     */
+    @Test
+    public void muscleEffectiveDoesNotSelectRanged() {
+      String maxStr = "effective";
+      var cleanups =
+          new Cleanups(
+              withStats(10, 5, 5),
+              withEquippableItem("seal-skull helmet"),
+              withEquippableItem("astral shirt"),
+              withEquippableItem("old sweatpants"),
+              withEquippableItem("sewer snake"));
+      try (cleanups) {
+        assertTrue(maximize(maxStr));
+        assertFalse(getSlot(Slot.WEAPON).isPresent());
+      }
+    }
+
+    @Test
+    public void moxieEffectiveDoesNotSelectMelee() {
+      String maxStr = "effective";
+      var cleanups =
+          new Cleanups(
+              withStats(5, 5, 10),
+              withEquippableItem("seal-skull helmet"),
+              withEquippableItem("astral shirt"),
+              withEquippableItem("old sweatpants"),
+              withEquippableItem("seal-clubbing club"));
+      try (cleanups) {
+        assertTrue(maximize(maxStr));
+        assertFalse(getSlot(Slot.WEAPON).isPresent());
       }
     }
   }
@@ -1214,6 +1291,32 @@ public class MaximizerTest {
     }
 
     @Test
+    public void shouldSuggestPullableCameraIfNotRestricted() {
+      final var cleanups =
+          new Cleanups(withItemInStorage("backup camera"), withProperty("backupCameraMode", "ml"));
+      try (cleanups) {
+        maximizeAny("meat");
+        recommends(ItemPool.BACKUP_CAMERA);
+        assertTrue(someBoostIs(x -> commandStartsWith(x, "pull")));
+      }
+    }
+
+    @Test
+    public void shouldNotSuggestPullableCameraIfRestricted() {
+      final var cleanups =
+          new Cleanups(
+              withItemInStorage("backup camera"),
+              withProperty("backupCameraMode", "ml"),
+              withRestricted(true),
+              withNotAllowedInStandard(RestrictedItemType.ITEMS, "backup camera"));
+
+      try (cleanups) {
+        maximizeAny("meat");
+        doesNotRecommend(ItemPool.BACKUP_CAMERA);
+      }
+    }
+
+    @Test
     public void shouldSuggestReplicaParka() {
       final var cleanups =
           new Cleanups(
@@ -1226,75 +1329,99 @@ public class MaximizerTest {
       }
     }
 
-    @Nested
-    class GarbageTote {
-      @Test
-      public void shouldSuggestEquippingGarbageToteItem1() {
-        final var cleanups =
-            new Cleanups(withItem(ItemPool.GARBAGE_TOTE), withItem(ItemPool.TINSEL_TIGHTS));
+    @Test
+    public void shouldSuggestUsingLedCandleWithJill() {
+      var cleanups =
+          new Cleanups(
+              withFamiliar(FamiliarPool.JILL_OF_ALL_TRADES, 400), withItem(ItemPool.LED_CANDLE));
 
-        try (cleanups) {
-          assertTrue(maximize("monster level"));
-          recommendedSlotIs(Slot.PANTS, "tinsel tights");
-          assertTrue(someBoostIs(x -> commandStartsWith(x, "equip pants ¶9693")));
-        }
+      try (cleanups) {
+        assertTrue(maximize("item"));
+        assertTrue(someBoostIs(x -> commandStartsWith(x, "ledcandle disco")));
       }
+    }
 
-      @Test
-      public void shouldSuggestEquippingGarbageToteItem2() {
-        final var cleanups =
-            new Cleanups(
-                withItem(ItemPool.REPLICA_GARBAGE_TOTE),
-                withItem(ItemPool.REPLICA_HAIKU_KATANA),
-                withItem(ItemPool.BROKEN_CHAMPAGNE),
-                withProperty("garbageChampagneCharge", 5),
-                withSkill("Double-Fisted Skull Smashing"));
+    @Test
+    public void shouldNotSuggestUsingLedCandleWithoutJill() {
+      var cleanups =
+          new Cleanups(
+              withFamiliar(FamiliarPool.BABY_GRAVY_FAIRY, 400), withItem(ItemPool.LED_CANDLE));
 
-        try (cleanups) {
-          assertTrue(maximize("weapon damage percent"));
-          recommendedSlotIs(Slot.OFFHAND, "broken champagne bottle");
-          assertTrue(someBoostIs(x -> commandStartsWith(x, "equip off-hand ¶9692")));
-        }
+      try (cleanups) {
+        assertTrue(maximize("item"));
+        assertFalse(someBoostIs(x -> commandStartsWith(x, "ledcandle disco")));
       }
+    }
+  }
 
-      @Test
-      public void shouldFoldUnusedChampagneBottle() {
-        final var cleanups =
-            new Cleanups(
-                withItem(ItemPool.REPLICA_GARBAGE_TOTE),
-                withItem(ItemPool.REPLICA_HAIKU_KATANA),
-                withItem(ItemPool.BROKEN_CHAMPAGNE),
-                withProperty("garbageChampagneCharge", 0),
-                withProperty("_garbageItemChanged", false),
-                withSkill("Double-Fisted Skull Smashing"));
+  @Nested
+  class GarbageTote {
+    @Test
+    public void shouldSuggestEquippingGarbageToteItem1() {
+      final var cleanups =
+          new Cleanups(withItem(ItemPool.GARBAGE_TOTE), withItem(ItemPool.TINSEL_TIGHTS));
 
-        try (cleanups) {
-          assertTrue(maximize("weapon damage percent"));
-          recommendedSlotIs(Slot.OFFHAND, "broken champagne bottle");
-          assertTrue(someBoostIs(x -> commandStartsWith(x, "fold ¶9692;equip off-hand ¶9692")));
-        }
+      try (cleanups) {
+        assertTrue(maximize("monster level"));
+        recommendedSlotIs(Slot.PANTS, "tinsel tights");
+        assertTrue(someBoostIs(x -> commandStartsWith(x, "equip pants ¶9693")));
       }
+    }
 
-      @Test
-      public void shouldSuggestFoldingGarbageToteItem() {
-        final var cleanups =
-            new Cleanups(withItem(ItemPool.GARBAGE_TOTE), withItem(ItemPool.TINSEL_TIGHTS));
+    @Test
+    public void shouldSuggestEquippingGarbageToteItem2() {
+      final var cleanups =
+          new Cleanups(
+              withItem(ItemPool.REPLICA_GARBAGE_TOTE),
+              withItem(ItemPool.REPLICA_HAIKU_KATANA),
+              withItem(ItemPool.BROKEN_CHAMPAGNE),
+              withProperty("garbageChampagneCharge", 5),
+              withSkill("Double-Fisted Skull Smashing"));
 
-        try (cleanups) {
-          assertTrue(maximize("weapon damage percent"));
-          recommendedSlotIs(Slot.WEAPON, "broken champagne bottle");
-          assertTrue(someBoostIs(x -> commandStartsWith(x, "fold ¶9692;equip weapon ¶9692")));
-        }
+      try (cleanups) {
+        assertTrue(maximize("weapon damage percent"));
+        recommendedSlotIs(Slot.OFFHAND, "broken champagne bottle");
+        assertTrue(someBoostIs(x -> commandStartsWith(x, "equip off-hand ¶9692")));
       }
+    }
 
-      @Test
-      public void shouldNotSuggestUsingGarbageToteItem() {
-        final var cleanups = new Cleanups(withItem(ItemPool.TINSEL_TIGHTS));
+    @Test
+    public void shouldFoldUnusedChampagneBottle() {
+      final var cleanups =
+          new Cleanups(
+              withItem(ItemPool.REPLICA_GARBAGE_TOTE),
+              withItem(ItemPool.REPLICA_HAIKU_KATANA),
+              withItem(ItemPool.BROKEN_CHAMPAGNE),
+              withProperty("garbageChampagneCharge", 0),
+              withProperty("_garbageItemChanged", false),
+              withSkill("Double-Fisted Skull Smashing"));
 
-        try (cleanups) {
-          assertTrue(maximize("weapon damage percent"));
-          assertFalse(someBoostIs(x -> commandStartsWith(x, "fold ¶9692;equip weapon ¶9692")));
-        }
+      try (cleanups) {
+        assertTrue(maximize("weapon damage percent"));
+        recommendedSlotIs(Slot.OFFHAND, "broken champagne bottle");
+        assertTrue(someBoostIs(x -> commandStartsWith(x, "fold ¶9692;equip off-hand ¶9692")));
+      }
+    }
+
+    @Test
+    public void shouldSuggestFoldingGarbageToteItem() {
+      final var cleanups =
+          new Cleanups(withItem(ItemPool.GARBAGE_TOTE), withItem(ItemPool.TINSEL_TIGHTS));
+
+      try (cleanups) {
+        assertTrue(maximize("weapon damage percent"));
+        recommendedSlotIs(Slot.WEAPON, "broken champagne bottle");
+        assertTrue(someBoostIs(x -> commandStartsWith(x, "fold ¶9692;equip weapon ¶9692")));
+      }
+    }
+
+    @Test
+    public void shouldNotSuggestUsingGarbageToteItem() {
+      final var cleanups = new Cleanups(withItem(ItemPool.TINSEL_TIGHTS));
+
+      try (cleanups) {
+        assertTrue(maximize("weapon damage percent"));
+        assertFalse(someBoostIs(x -> commandStartsWith(x, "fold ¶9692;equip weapon ¶9692")));
       }
     }
   }
@@ -1934,6 +2061,24 @@ public class MaximizerTest {
       try (cleanups) {
         assertTrue(maximize("hot res"));
         assertTrue(someBoostIs(b -> commandStartsWith(b, "gap structure")));
+      }
+    }
+  }
+
+  @Nested
+  class CardSleeve {
+    @Test
+    public void suggestCardSleeveSlot() {
+      var cleanups =
+          new Cleanups(
+              withEquippableItem("card sleeve"),
+              withEquippableItem("sturdy cane"),
+              withEquippableItem("Alice's Army Foil Lanceman"));
+
+      try (cleanups) {
+        assertTrue(maximize("PvP Fights"));
+        recommendedSlotIs(Slot.OFFHAND, "card sleeve");
+        recommendedSlotIs(Slot.CARDSLEEVE, "Alice's Army Foil Lanceman");
       }
     }
   }

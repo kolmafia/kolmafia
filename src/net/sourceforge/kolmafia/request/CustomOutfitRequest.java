@@ -1,9 +1,10 @@
 package net.sourceforge.kolmafia.request;
 
+import java.util.Arrays;
+import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.SortedListModel;
-import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -75,15 +76,12 @@ public class CustomOutfitRequest extends GenericRequest {
       SpecialOutfit outfit = new SpecialOutfit(-outfitId, outfitName);
 
       String[] outfitPieces = entryMatcher.group(3).split("<br>");
-      for (int i = 0; i < outfitPieces.length; ++i) {
-        String pieceName = outfitPieces[i];
-        if (pieceName.equals("")) {
-          continue;
-        }
-        int itemId = ItemDatabase.getItemId(pieceName);
-        AdventureResult piece = ItemPool.get(itemId);
-        outfit.addPiece(piece);
-      }
+
+      Arrays.stream(outfitPieces)
+          .filter(Predicate.not(String::isEmpty))
+          .map(ItemDatabase::getItemId)
+          .map(ItemPool::get)
+          .forEach(outfit::addPiece);
 
       outfits.add(outfit);
     }

@@ -179,7 +179,7 @@ public class FloristRequest extends GenericRequest {
 
     PlaceRequest forestVisit = new PlaceRequest("forestvillage", "fv_friar", true);
     RequestThread.postRequest(forestVisit);
-    FloristRequest.setHaveFlorist(
+    FloristRequest.setFloristFriarAvailable(
         forestVisit.responseText != null
             && forestVisit.responseText.contains("The Florist Friar's Cottage"));
   }
@@ -211,12 +211,9 @@ public class FloristRequest extends GenericRequest {
     return Preferences.getBoolean("floristFriarAvailable");
   }
 
-  public static void setHaveFlorist(final boolean haveFlorist) {
+  public static void setFloristFriarAvailable(final boolean floristAvailable) {
     Preferences.setBoolean("floristFriarChecked", true);
-    Preferences.setBoolean("floristFriarAvailable", haveFlorist);
-    if (haveFlorist && !KoLCharacter.inLegacyOfLoathing()) {
-      Preferences.setBoolean("ownsFloristFriar", true);
-    }
+    Preferences.setBoolean("floristFriarAvailable", floristAvailable);
   }
 
   public static final List<Florist> getPlants(String location) {
@@ -232,7 +229,7 @@ public class FloristRequest extends GenericRequest {
     }
 
     if (responseText.contains("The Florist Friar's Cottage")) {
-      FloristRequest.setHaveFlorist(true);
+      FloristRequest.setFloristFriarAvailable(true);
     }
 
     switch (FloristRequest.getOption(urlString)) {

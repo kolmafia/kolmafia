@@ -10,7 +10,6 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -34,10 +33,8 @@ import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
-import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
-import net.sourceforge.kolmafia.persistence.MonsterDrop;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -58,6 +55,7 @@ import net.sourceforge.kolmafia.session.ChoiceAdventures;
 import net.sourceforge.kolmafia.session.ChoiceAdventures.Spoilers;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ChoiceOption;
+import net.sourceforge.kolmafia.session.CryptManager;
 import net.sourceforge.kolmafia.session.DvorakManager;
 import net.sourceforge.kolmafia.session.ElVibratoManager;
 import net.sourceforge.kolmafia.session.ElVibratoManager.Punchcard;
@@ -352,7 +350,7 @@ public class RequestEditorKit extends HTMLEditorKit {
     } else if (location.startsWith("council.php")) {
       RequestEditorKit.decorateCouncil(buffer);
     } else if (location.startsWith("crypt.php")) {
-      RequestEditorKit.decorateCrypt(buffer);
+      CryptManager.decorateCrypt(buffer);
     } else if (location.startsWith("dwarffactory.php")) {
       DwarfFactoryRequest.decorate(location, buffer);
     } else if (location.startsWith("fight.php")) {
@@ -459,6 +457,8 @@ public class RequestEditorKit extends HTMLEditorKit {
       }
     } else if (location.startsWith("tiles.php")) {
       DvorakManager.decorate(buffer);
+    } else if (location.contains("volcanoisland.php")) {
+      RequestEditorKit.fixNemesisLair(buffer);
     } else if (location.contains("volcanomaze.php")) {
       VolcanoMazeManager.decorate(location, buffer);
     } else if (location.startsWith("wand.php") && !location.contains("notrim=1")) {
@@ -537,16 +537,17 @@ public class RequestEditorKit extends HTMLEditorKit {
       }
     }
 
-    Matcher eventMatcher = EventManager.eventMatcher(buffer.toString());
+    var eventMatcher = EventManager.findEventsBlock(buffer);
 
     if (EventManager.hasEvents() && (eventMatcher != null || location.equals("main.php"))) {
       int eventTableInsertIndex = 0;
 
       if (eventMatcher != null) {
         eventTableInsertIndex = eventMatcher.start();
+        var pageWithoutBlock = eventMatcher.replaceFirst("");
 
         buffer.setLength(0);
-        buffer.append(eventMatcher.replaceFirst(""));
+        buffer.append(pageWithoutBlock);
       } else {
         eventTableInsertIndex = buffer.indexOf("</div>") + 6;
       }
@@ -573,7 +574,7 @@ public class RequestEditorKit extends HTMLEditorKit {
       eventsTable.append("<tr><td height=4></td></tr>");
       eventsTable.append("</table></center>");
 
-      buffer.insert(eventTableInsertIndex, eventsTable.toString());
+      buffer.insert(eventTableInsertIndex, eventsTable);
 
       EventManager.clearEventHistory();
     }
@@ -1402,7 +1403,7 @@ public class RequestEditorKit extends HTMLEditorKit {
     }
     int insertionPointForData = combatIndex + 7;
 
-    StringBuffer monsterData = new StringBuffer("<font size=2 color=gray>");
+    StringBuilder monsterData = new StringBuilder("<font size=2 color=gray>");
     monsterData.append("<br />HP: ");
     monsterData.append(MonsterStatusTracker.getMonsterHealth());
     monsterData.append(", Atk: ");
@@ -1439,81 +1440,11 @@ public class RequestEditorKit extends HTMLEditorKit {
       monsterData.append(danceMoveStatus);
     }
 
-    List<MonsterDrop> items = monster.getItems();
-    if (!items.isEmpty()) {
-      monsterData.append("<br />Drops: ");
-      for (int i = 0; i < items.size(); ++i) {
-        if (i != 0) {
-          monsterData.append(", ");
-        }
-        MonsterDrop drop = items.get(i);
-        double rawRate = drop.chance();
-        String rate =
-            (rawRate >= 1 || rawRate == 0)
-                ? String.valueOf((int) rawRate)
-                : String.valueOf(rawRate);
-        monsterData.append(drop.item().getName());
-        switch (drop.flag()) {
-          case PICKPOCKET_ONLY -> {
-            monsterData.append(" (");
-            monsterData.append(rate);
-            monsterData.append(" pp only)");
-          }
-          case NO_PICKPOCKET -> {
-            monsterData.append(" (");
-            monsterData.append(rate);
-            monsterData.append(" no pp)");
-          }
-          case CONDITIONAL -> {
-            monsterData.append(" (");
-            monsterData.append(rate);
-            monsterData.append(" cond)");
-          }
-          case FIXED -> {
-            monsterData.append(" (");
-            monsterData.append(rate);
-            monsterData.append(" no mod)");
-          }
-          case STEAL_ACCORDION -> monsterData.append(" (stealable accordion)");
-          default -> {
-            monsterData.append(" (");
-            monsterData.append(rate);
-            monsterData.append(")");
-          }
-        }
-      }
-    }
+    monster.appendItemDrops(monsterData);
 
-    String bounty = BountyDatabase.getNameByMonster(monsterName);
-    if (bounty != null) {
-      monsterData.append(items.isEmpty() ? "<br />Drops: " : ", ");
-      monsterData.append(bounty);
-      monsterData.append(" (bounty)");
-    }
+    monster.appendMeat(monsterData, true);
 
-    int minMeat = monster.getMinMeat();
-    int maxMeat = monster.getMaxMeat();
-    if (maxMeat > 0) {
-      double modifier =
-          Math.max(0.0, (KoLCharacter.getMeatDropPercentAdjustment() + 100.0) / 100.0);
-      monsterData.append("<br />Meat: ");
-      monsterData.append((int) Math.floor(minMeat * modifier));
-      monsterData.append("-");
-      monsterData.append((int) Math.floor(maxMeat * modifier));
-    }
-
-    int minSprinkles = monster.getMinSprinkles();
-    int maxSprinkles = monster.getMaxSprinkles();
-    if (maxSprinkles > 0) {
-      double modifier =
-          Math.max(0.0, (KoLCharacter.getSprinkleDropPercentAdjustment() + 100.0) / 100.0);
-      monsterData.append("<br />Sprinkles: ");
-      monsterData.append((int) Math.floor(minSprinkles * modifier));
-      if (maxSprinkles != minSprinkles) {
-        monsterData.append("-");
-        monsterData.append((int) Math.ceil(maxSprinkles * modifier));
-      }
-    }
+    monster.appendSprinkles(monsterData, true);
 
     IslandDecorator.appendMissingGremlinTool(monster, monsterData);
 
@@ -1522,7 +1453,7 @@ public class RequestEditorKit extends HTMLEditorKit {
     }
 
     monsterData.append("</font>");
-    buffer.insert(insertionPointForData, monsterData.toString());
+    buffer.insert(insertionPointForData, monsterData);
 
     // Insert color for monster element
     MonsterDatabase.Element monsterElement = monster.getDefenseElement();
@@ -2164,94 +2095,6 @@ public class RequestEditorKit extends HTMLEditorKit {
     }
   }
 
-  private static void decorateCrypt(final StringBuffer buffer) {
-    if (Preferences.getInteger("cyrptTotalEvilness") == 0) {
-      return;
-    }
-
-    int nookEvil = Preferences.getInteger("cyrptNookEvilness");
-    int nicheEvil = Preferences.getInteger("cyrptNicheEvilness");
-    int crannyEvil = Preferences.getInteger("cyrptCrannyEvilness");
-    int alcoveEvil = Preferences.getInteger("cyrptAlcoveEvilness");
-
-    String nookColor = nookEvil > 13 ? "000000" : "FF0000";
-    String nookHint = nookEvil > 13 ? "Item Drop" : "<b>BOSS</b>";
-    String nicheColor = nicheEvil > 13 ? "000000" : "FF0000";
-    String nicheHint = nicheEvil > 13 ? "Sniff Dirty Lihc" : "<b>BOSS</b>";
-    String crannyColor = crannyEvil > 13 ? "000000" : "FF0000";
-    String crannyHint = crannyEvil > 13 ? "ML & Noncombat" : "<b>BOSS</b>";
-    String alcoveColor = alcoveEvil > 13 ? "000000" : "FF0000";
-    String alcoveHint = alcoveEvil > 13 ? "Initiative" : "<b>BOSS</b>";
-
-    StringBuilder evilometer = new StringBuilder();
-
-    evilometer.append("<table cellpadding=0 cellspacing=0><tr><td colspan=3>");
-    evilometer.append("<img src=\"");
-    evilometer.append(KoLmafia.imageServerPath());
-    evilometer.append("otherimages/cyrpt/eo_top.gif\">");
-    evilometer.append("<tr><td><img src=\"");
-    evilometer.append(KoLmafia.imageServerPath());
-    evilometer.append("otherimages/cyrpt/eo_left.gif\">");
-    evilometer.append("<td width=150><center>");
-
-    if (nookEvil > 0) {
-      evilometer.append("<font size=2 color=\"#");
-      evilometer.append(nookColor);
-      evilometer.append("\"><b>Nook</b> - ");
-      evilometer.append(nookEvil);
-      evilometer.append("<br><font size=1>");
-      evilometer.append(nookHint);
-      evilometer.append("<br></font></font>");
-    }
-
-    if (nicheEvil > 0) {
-      evilometer.append("<font size=2 color=\"#");
-      evilometer.append(nicheColor);
-      evilometer.append("\"><b>Niche</b> - ");
-      evilometer.append(nicheEvil);
-      evilometer.append("<br><font size=1>");
-      evilometer.append(nicheHint);
-      evilometer.append("<br></font></font>");
-    }
-
-    if (crannyEvil > 0) {
-      evilometer.append("<font size=2 color=\"#");
-      evilometer.append(crannyColor);
-      evilometer.append("\"><b>Cranny</b> - ");
-      evilometer.append(crannyEvil);
-      evilometer.append("<br><font size=1>");
-      evilometer.append(crannyHint);
-      evilometer.append("<br></font></font>");
-    }
-
-    if (alcoveEvil > 0) {
-      evilometer.append("<font size=2 color=\"#");
-      evilometer.append(alcoveColor);
-      evilometer.append("\"><b>Alcove</b> - ");
-      evilometer.append(alcoveEvil);
-      evilometer.append("<br><font size=1>");
-      evilometer.append(alcoveHint);
-      evilometer.append("<br></font></font>");
-    }
-
-    evilometer.append("<td><img src=\"");
-    evilometer.append(KoLmafia.imageServerPath());
-    evilometer.append("otherimages/cyrpt/eo_right.gif\"><tr><td colspan=3>");
-    evilometer.append("<img src=\"");
-    evilometer.append(KoLmafia.imageServerPath());
-    evilometer.append("otherimages/cyrpt/eo_bottom.gif\"></table>");
-
-    String selector = "</map><table";
-    int index = buffer.indexOf(selector);
-    buffer.insert(index + selector.length(), "><tr><td><table");
-
-    // <A href=place.php?whichplace=plains>Back to the Misspelled Cemetary</a>
-    // I expect that will change to "whichplace=cemetery" eventually.
-    index = buffer.indexOf("</tr></table><p><center><A href=place.php");
-    evilometer.insert(0, "</table><td>");
-    buffer.insert(index + 5, evilometer.toString());
-  }
-
   private static void addBugReportWarning(final StringBuffer buffer) {
     // <div id="type_1">
     // <table><tr><td><b>IMPORTANT:</b> If you can see this notice,
@@ -2314,6 +2157,47 @@ public class RequestEditorKit extends HTMLEditorKit {
 
     RequestEditorKit.addAdventureAgainSection(
         buffer, url, "Go back to The Mysterious Island of Mystery");
+  }
+
+  private static void fixNemesisLair(final StringBuffer buffer) {
+    // volcanoisland.php?action=tniat&pwd=db6ab413419b2f872fbf78ce26d9ff00
+
+    // <td>A niggling voice in the back of your head (that's me) reminds
+    // you that you're heading toward what is likely to be the Final
+    // Battle against your Nemesis, and therefore you should probably
+    // equip that Legendary Epic Weapon of yours first. Just
+    // sayin'.<p></td>
+
+    if (buffer.indexOf("Legendary Epic Weapon") == -1) {
+      return;
+    }
+
+    int itemId =
+        switch (KoLCharacter.getAscensionClass()) {
+          case SEAL_CLUBBER -> ItemPool.HAMMER_OF_SMITING;
+          case TURTLE_TAMER -> ItemPool.CHELONIAN_MORNINGSTAR;
+          case PASTAMANCER -> ItemPool.GREEK_PASTA_OF_PERIL;
+          case SAUCEROR -> ItemPool.SEVENTEEN_ALARM_SAUCEPAN;
+          case DISCO_BANDIT -> ItemPool.SHAGADELIC_DISCO_BANJO;
+          case ACCORDION_THIEF -> ItemPool.SQUEEZEBOX_OF_THE_AGES;
+          default -> -1;
+        };
+
+    // This is not possible
+    if (itemId == -1) {
+      return;
+    }
+
+    String item = ItemDatabase.getItemName(itemId);
+    String url =
+        "javascript:singleUse('inv_equip.php','which=2&action=equip&whichitem="
+            + itemId
+            + "&pwd="
+            + GenericRequest.passwordHash
+            + "&ajax=1');void(0);";
+
+    StringUtilities.singleStringReplace(buffer, "Just sayin'.<p>", "Just sayin'.");
+    RequestEditorKit.addAdventureAgainSection(buffer, url, "Equip your " + item);
   }
 
   private static void fixPortal(final StringBuffer buffer) {
@@ -2403,8 +2287,6 @@ public class RequestEditorKit extends HTMLEditorKit {
   private static void fixGovernmentLab(final StringBuffer buffer) {
     // Things that go AFTER Stationary Buttons have been generated
 
-    String link = null;
-
     String test = "without wearing a Personal Ventilation Unit.";
     int index = buffer.indexOf(test);
 
@@ -2413,16 +2295,6 @@ public class RequestEditorKit extends HTMLEditorKit {
     }
 
     // Give player a link to equip the PVU
-    link =
-        " <a href=\"javascript:singleUse('inv_equip.php',which=2&action=equip&slot=1&whichitem=7770&pwd="
-            + GenericRequest.passwordHash
-            + "');void();\">[acc1]</a>"
-            + "<a href=\"javascript:singleUse('inv_equip.php',which=2&action=equip&slot=2&whichitem=7770&pwd="
-            + GenericRequest.passwordHash
-            + "');void();\">[acc2]</a>"
-            + "<a href=\"javascript:singleUse('inv_equip.php',which=2&action=equip&slot=3&whichitem=7770&pwd="
-            + GenericRequest.passwordHash
-            + "');void();\">[acc3]</a>";
     UseLink link1 =
         new UseLink(
             ItemPool.VENTILATION_UNIT,

@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.textui.javascript;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URLConnection;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,6 +19,7 @@ import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 import org.mozilla.javascript.commonjs.module.Require;
+import org.mozilla.javascript.commonjs.module.provider.ParsedContentType;
 import org.mozilla.javascript.commonjs.module.provider.SoftCachingModuleScriptProvider;
 import org.mozilla.javascript.commonjs.module.provider.UrlModuleSourceProvider;
 
@@ -30,11 +32,7 @@ public class SafeRequire extends Require {
     super(
         cx,
         nativeScope,
-        new SoftCachingModuleScriptProvider(
-            new UrlModuleSourceProvider(
-                Arrays.asList(
-                    KoLConstants.ROOT_LOCATION.toURI(), KoLConstants.SCRIPT_LOCATION.toURI()),
-                null)),
+        new SoftCachingModuleScriptProvider(new KoLmafiaUrlModuleSourceProvider()),
         null,
         new MainWarningScript(),
         true);
@@ -96,6 +94,25 @@ public class SafeRequire extends Require {
     } else {
       // Require itself checks sandboxing.
       return super.call(cx, scope, thisObj, args);
+    }
+  }
+
+  private static class KoLmafiaUrlModuleSourceProvider extends UrlModuleSourceProvider {
+    public KoLmafiaUrlModuleSourceProvider() {
+      super(
+          Arrays.asList(KoLConstants.ROOT_LOCATION.toURI(), KoLConstants.SCRIPT_LOCATION.toURI()),
+          null);
+    }
+
+    // modify to not treat text/javascript files as latin-1, but always utf-8 if unknown
+    @Override
+    protected String getCharacterEncoding(URLConnection urlConnection) {
+      final ParsedContentType pct = new ParsedContentType(urlConnection.getContentType());
+      final String encoding = pct.getEncoding();
+      if (encoding != null) {
+        return encoding;
+      }
+      return "utf-8";
     }
   }
 }

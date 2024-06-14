@@ -56,6 +56,10 @@ public class DailyLimitDatabase {
     public String toString() {
       return this.tag;
     }
+
+    static {
+      DailyLimitDatabase.reset();
+    }
   }
 
   private static final Map<String, DailyLimitType> tagToDailyLimitType = new HashMap<>();
@@ -219,17 +223,14 @@ public class DailyLimitDatabase {
     }
   }
 
-  static {
-    for (var type : DailyLimitType.values()) {
-      tagToDailyLimitType.put(type.toString(), type);
+  public static void reset() {
+    if (tagToDailyLimitType.isEmpty()) {
+      for (var type : DailyLimitType.values()) {
+        tagToDailyLimitType.put(type.toString(), type);
+      }
+      tagToDailyLimitType.put("tome", DailyLimitType.CAST);
     }
 
-    tagToDailyLimitType.put("tome", DailyLimitType.CAST);
-
-    reset();
-  }
-
-  public static void reset() {
     allDailyLimits.clear();
     Arrays.stream(DailyLimitType.values()).forEach(t -> t.dailyLimits.clear());
 

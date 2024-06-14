@@ -47,7 +47,6 @@ public class JurassicParkaCommand extends AbstractCommand implements ModeCommand
     return getChoiceForParameters(normalize(parameters)) > 0;
   }
 
-  @Override
   public String normalize(String parameters) {
     parameters = parameters.trim().toLowerCase();
     return ALIASES.getOrDefault(parameters, parameters);

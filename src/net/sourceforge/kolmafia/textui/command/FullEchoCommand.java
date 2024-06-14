@@ -14,7 +14,6 @@ public class FullEchoCommand extends AbstractCommand {
   public void run(final String cmd, String parameters) {
     parameters = StringUtilities.globalStringDelete(parameters, "\r");
     parameters = StringUtilities.globalStringDelete(parameters, "\n");
-    parameters = StringUtilities.globalStringReplace(parameters, "<", "&lt;");
 
     RequestLogger.printLine(parameters);
     RequestLogger.getSessionStream().println(" > " + parameters);

@@ -15,13 +15,13 @@ public class DateTimeManager {
    *
    * @return Date and time in the Arizona time zone
    */
-  public static ZonedDateTime getArizonaDateTime() {
+  public ZonedDateTime getArizonaDateTime() {
     return ZonedDateTime.now(ARIZONA);
   }
 
-  public static ZonedDateTime getRolloverDateTime() {
+  public ZonedDateTime getRolloverDateTime() {
     return ZonedDateTime.now(ROLLOVER);
   }
 
-  private DateTimeManager() {}
+  public DateTimeManager() {}
 }

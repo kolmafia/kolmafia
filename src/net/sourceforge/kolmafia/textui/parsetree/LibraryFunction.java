@@ -2,7 +2,6 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.Parameter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,39 +14,36 @@ import net.sourceforge.kolmafia.textui.ScriptException;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 
 public class LibraryFunction extends Function {
-  private Method method;
-  public String[] deprecationWarning;
+  private final Method method;
+  public final String[] deprecationWarning;
 
   public LibraryFunction(
-      final String name, final Type type, final Type[] params, final String... deprecationWarning) {
-    super(name.toLowerCase(), type);
+      final String name,
+      final Type type,
+      final List<VariableReference> variableReferences,
+      final String... deprecationWarning) {
+    super(name.toLowerCase(), type, variableReferences, null);
 
     this.deprecationWarning = deprecationWarning;
 
-    Class<?>[] args = new Class[params.length + 1];
+    this.method = findLibraryMethod(name, variableReferences.size());
+  }
 
-    args[0] = ScriptRuntime.class;
-
-    // Make a list of VariableReferences, even though the library
-    // function will not use them, so that tracing works
-    for (int i = 1; i <= params.length; ++i) {
-      Variable variable = new Variable(params[i - 1]);
-      this.variableReferences.add(new VariableReference(null, variable));
-      args[i] = Value.class;
-    }
-
+  private static Method findLibraryMethod(String name, int paramCount) {
     try {
-      this.method = RuntimeLibrary.findMethod(name, args);
+      Class<?>[] args = new Class[paramCount + 1];
+
+      args[0] = ScriptRuntime.class;
+      Arrays.fill(args, 1, args.length, Value.class);
+
+      return RuntimeLibrary.findMethod(name, args);
     } catch (Exception e) {
       // This should not happen; it denotes a coding
       // error that must be fixed before release.
 
       StaticEntity.printStackTrace(e, "No method found for built-in function: " + name);
+      return null;
     }
-  }
-
-  public LibraryFunction(final String name, final Type type, final Type[] params) {
-    this(name, type, params, new String[] {});
   }
 
   @Override
@@ -123,9 +119,8 @@ public class LibraryFunction extends Function {
   }
 
   public List<String> getParameterNames() {
-    return Arrays.stream(this.method.getParameters())
-        .skip(1)
-        .map(Parameter::getName)
+    return this.variableReferences.stream()
+        .map(VariableReference::getName)
         .collect(Collectors.toList());
   }
 }

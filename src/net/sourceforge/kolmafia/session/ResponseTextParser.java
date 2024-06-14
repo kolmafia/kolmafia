@@ -7,8 +7,6 @@ import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
@@ -67,6 +65,7 @@ import net.sourceforge.kolmafia.request.GameShoppeRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.GnomeTinkerRequest;
 import net.sourceforge.kolmafia.request.GourdRequest;
+import net.sourceforge.kolmafia.request.GrandpaRequest;
 import net.sourceforge.kolmafia.request.GuildRequest;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.HeyDezeRequest;
@@ -364,26 +363,7 @@ public class ResponseTextParser {
         CurseRequest.parseResponse(location, responseText);
       }
       case "crypt.php" -> {
-        // Check if crypt areas have unexpectedly vanished and correct if so
-        if (!responseText.contains("The Defiled Alcove")
-                && Preferences.getInteger("cyrptAlcoveEvilness") > 0
-            || !responseText.contains("The Defiled Cranny")
-                && Preferences.getInteger("cyrptCrannyEvilness") > 0
-            || !responseText.contains("The Defiled Niche")
-                && Preferences.getInteger("cyrptNicheEvilness") > 0
-            || !responseText.contains("The Defiled Nook")
-                && Preferences.getInteger("cyrptNookEvilness") > 0) {
-          if (InventoryManager.hasItem(ItemPool.EVILOMETER)) {
-            RequestThread.postRequest(UseItemRequest.getInstance(ItemPool.EVILOMETER));
-          } else {
-            // Must have completed quest and already used and lost Evilometer
-            Preferences.setInteger("cyrptAlcoveEvilness", 0);
-            Preferences.setInteger("cyrptCrannyEvilness", 0);
-            Preferences.setInteger("cyrptNicheEvilness", 0);
-            Preferences.setInteger("cyrptNookEvilness", 0);
-            Preferences.setInteger("cyrptTotalEvilness", 0);
-          }
-        }
+        CryptManager.visitCrypt(responseText);
       }
       case "da.php" -> {
         ShrineRequest.parseResponse(location, responseText);
@@ -406,8 +386,12 @@ public class ResponseTextParser {
           Matcher m = ResponseTextParser.DESCITEM_PATTERN.matcher(location);
           if (m.find()) {
             String descid = m.group(1);
-            ConsequenceManager.parseItemDesc(descid, responseText);
+            var hasConsequence = ConsequenceManager.parseItemDesc(descid, responseText);
             int itemId = ItemDatabase.getItemIdFromDescription(descid);
+
+            if (itemId == -1) {
+              itemId = ItemDatabase.registerItem(descid, responseText);
+            }
 
             boolean changesFromTimeToTime = true;
 
@@ -431,7 +415,8 @@ public class ResponseTextParser {
                   .parsePowerfulGlove(responseText);
               case ItemPool.RING -> ItemDatabase.parseRing(responseText);
               case ItemPool.LATTE_MUG -> LatteRequest.parseDescription(responseText);
-              default -> changesFromTimeToTime = false;
+              case ItemPool.EVERFULL_DART_HOLSTER -> ItemDatabase.parseDartPerks(responseText);
+              default -> changesFromTimeToTime = hasConsequence;
             }
 
             if (changesFromTimeToTime) {
@@ -563,6 +548,11 @@ public class ResponseTextParser {
         else if (location.contains("action=pullall")) {
           StorageRequest.parseTransfer(location, responseText);
         }
+
+        // If there is an aprilplay message, parse it
+        else if (location.contains("action=aprilplay")) {
+          UseItemRequest.parseAprilPlay(location, responseText);
+        }
       }
       case "inv_equip.php" -> {
         if (location.contains("ajax=1")) {
@@ -602,6 +592,8 @@ public class ResponseTextParser {
       case "monkeycastle.php" -> {
         if (location.contains("who=2") || location.contains("action=buyitem")) {
           BigBrotherRequest.parseResponse(location, responseText);
+        } else if (location.contains("action=grandpastory")) {
+          GrandpaRequest.parseResponse(location, responseText);
         } else if (location.contains("who=4")) {
           MomRequest.parseResponse(location, responseText);
         }
@@ -924,19 +916,23 @@ public class ResponseTextParser {
           ResultProcessor.processItem(ItemPool.BIZARRE_ILLEGIBLE_SHEET_MUSIC, -1);
         }
       }
-      case SkillPool.BELCH_THE_RAINBOW, SkillPool.CHITINOUS_SOUL -> Preferences.increment(
-          levelPref, 1, 11, false);
+        // These skills are separate as we expect their max level to change from time to time
+        // We don't want to avoid incrementing the pref if they are increased before that maximum
+        // is reflected in KoLmafia data
       case SkillPool.TOGGLE_OPTIMALITY,
           SkillPool.PIRATE_BELLOW,
           SkillPool.HOLIDAY_FUN,
           SkillPool.SUMMON_CARROT,
           SkillPool.BEAR_ESSENCE,
           SkillPool.CALCULATE_THE_UNIVERSE,
-          SkillPool.EXPERIENCE_SAFARI -> Preferences.increment(levelPref);
-      case SkillPool.SLIMY_SHOULDERS,
-          SkillPool.SLIMY_SINEWS,
-          SkillPool.SLIMY_SYNAPSES -> Preferences.increment(levelPref, 1, 10, false);
-      case SkillPool.IMPLODE_UNIVERSE -> Preferences.increment(levelPref, 1, 13, false);
+          SkillPool.EXPERIENCE_SAFARI,
+          SkillPool.SUMMON_KOKOMO_RESORT_PASS -> Preferences.increment(levelPref);
+      default -> {
+        var maxLevel = SkillDatabase.getMaxLevel(skillId);
+        if (maxLevel > 0) {
+          Preferences.increment(levelPref, 1, maxLevel, false);
+        }
+      }
     }
 
     if (KoLCharacter.inNuclearAutumn()) {
@@ -991,7 +987,6 @@ public class ResponseTextParser {
     if (SkillDatabase.isBookshelfSkill(skillId)) {
       KoLCharacter.setBookshelf(true);
     }
-    PreferenceListenerRegistry.firePreferenceChanged("(skill)");
 
     if (skillId == SkillPool.POWER_PLUS) {
       KoLCharacter.recalculateAdjustments();

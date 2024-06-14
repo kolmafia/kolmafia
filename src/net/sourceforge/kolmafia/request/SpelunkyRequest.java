@@ -909,7 +909,7 @@ public class SpelunkyRequest extends GenericRequest {
     buffer.insert(index, section);
   }
 
-  public static void decorateSpelunkyMonster(final StringBuffer buffer) {
+  public static void decorateSpelunkyMonster(final StringBuilder buffer) {
     // Simplified, since Skills, Elemental Damage, and Bonus
     // Critical Hits are not applicable
 

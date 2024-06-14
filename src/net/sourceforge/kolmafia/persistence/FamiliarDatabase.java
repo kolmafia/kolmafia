@@ -301,8 +301,19 @@ public class FamiliarDatabase {
       return;
     }
 
-    RequestLogger.printLine(
-        "New familiar: \"" + familiarName + "\" (" + familiarId + ") @ " + image);
+    var larvaName = ItemDatabase.getItemName(larvaId);
+    var printMe =
+        "New familiar: \""
+            + larvaName
+            + "\" hatches into \""
+            + familiarName
+            + "\" ("
+            + familiarId
+            + ") @ "
+            + image;
+
+    RequestLogger.printLine(printMe);
+    RequestLogger.updateSessionLog(printMe);
 
     if (familiarId > FamiliarDatabase.maxFamiliarId) {
       FamiliarDatabase.maxFamiliarId = familiarId;

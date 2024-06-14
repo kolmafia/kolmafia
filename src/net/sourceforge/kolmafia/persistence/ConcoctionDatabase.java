@@ -184,12 +184,11 @@ public class ConcoctionDatabase {
     ConcoctionDatabase.usableList.sort(true);
   }
 
-  static {
+  private static void reset() {
     // This begins by opening up the data file and preparing
     // a buffered reader; once this is done, every line is
     // examined and float-referenced: once in the name-lookup,
     // and again in the Id lookup.
-
     try (BufferedReader reader =
         FileUtilities.getVersionedReader("concoctions.txt", KoLConstants.CONCOCTIONS_VERSION)) {
       String[] data;
@@ -200,6 +199,10 @@ public class ConcoctionDatabase {
     } catch (IOException e) {
       StaticEntity.printStackTrace(e);
     }
+  }
+
+  static {
+    reset();
   }
 
   private static void addConcoction(final String[] data) {
@@ -1329,7 +1332,7 @@ public class ConcoctionDatabase {
           && ar.getItemId() > 0
           && item.getPrice() <= 0
           && ConsumablesDatabase.meetsLevelRequirement(item.getName())
-          && StandardRequest.isAllowed(RestrictedItemType.ITEMS, ar.getName())) {
+          && ItemDatabase.isAllowed(ar)) {
         item.setPullable(
             Math.min(
                 ar.getCount(KoLConstants.storage) - item.queuedPulls,
@@ -1677,7 +1680,7 @@ public class ConcoctionDatabase {
     // Cooking is permitted, so long as the person has an oven or a
     // range installed in their kitchen
 
-    if (KoLCharacter.hasOven() || KoLCharacter.hasRange()) {
+    if (KoLCharacter.hasOven() || KoLCharacter.hasRange() || KoLCharacter.inWereProfessor()) {
       permitNoCost(CraftingType.COOK);
     }
     ConcoctionDatabase.EXCUSE.put(CraftingType.COOK, "You cannot cook without an oven or a range.");
@@ -1760,7 +1763,9 @@ public class ConcoctionDatabase {
     // Mixing is permitted, so long as the person has a shaker or a
     // cocktailcrafting kit installed in their kitchen
 
-    if (KoLCharacter.hasShaker() || KoLCharacter.hasCocktailKit()) {
+    if (KoLCharacter.hasShaker()
+        || KoLCharacter.hasCocktailKit()
+        || KoLCharacter.inWereProfessor()) {
       permitNoCost(CraftingType.MIX);
     }
     ConcoctionDatabase.EXCUSE.put(
@@ -1997,12 +2002,49 @@ public class ConcoctionDatabase {
     // spent any adventures since you last encountered it.
     if (Preferences.getInteger("lastShadowForgeUnlockAdventure") == KoLCharacter.getCurrentRun()) {
       permitNoCost(CraftingType.SHADOW_FORGE);
+    } else {
+      ConcoctionDatabase.EXCUSE.put(
+          CraftingType.SHADOW_FORGE, "You need to be at The Shadow Forge to make that.");
     }
-    ConcoctionDatabase.EXCUSE.put(
-        CraftingType.SHADOW_FORGE, "You need to be at The Shadow Forge to make that.");
 
     // Making stuff with fixodent is always allowed
     permitNoCost(CraftingType.FIXODENT);
+
+    // Making stuff with Burning Leaves is always allowed
+
+    boolean burningLeaves =
+        KoLConstants.campground.contains(ItemPool.get(ItemPool.A_GUIDE_TO_BURNING_LEAVES));
+    if (burningLeaves) {
+      permitNoCost(CraftingType.BURNING_LEAVES);
+    } else {
+      ConcoctionDatabase.EXCUSE.put(
+          CraftingType.BURNING_LEAVES,
+          "You need to have a Pile of Burning Leaves in your campsite to make that.");
+    }
+
+    // Making stuff at the Tinkering Bench is allowed if you are in the
+    // WereProfessor path and are in Professor form.
+
+    boolean tinker = KoLCharacter.isMildManneredProfessor();
+    if (tinker) {
+      permitNoCost(CraftingType.TINKERING_BENCH);
+    } else {
+      ConcoctionDatabase.EXCUSE.put(
+          CraftingType.TINKERING_BENCH,
+          "Only a mild-mannered professor can work at their Tinkering Bench.");
+    }
+
+    // Making stuff with the Mayam Calendar is always allowed
+
+    if (InventoryManager.hasItem(ItemPool.MAYAM_CALENDAR)) {
+      permitNoCost(CraftingType.MAYAM);
+    } else {
+      ConcoctionDatabase.EXCUSE.put(
+          CraftingType.MAYAM, "You need to have a Mayam Calendar to make that.");
+    }
+
+    // Making stuff with mini kiwis is always allowed
+    permitNoCost(CraftingType.KIWI);
 
     // Other creatability flags
 
@@ -2196,6 +2238,7 @@ public class ConcoctionDatabase {
     ConcoctionDatabase.PERMIT_METHOD.add(craft);
     ConcoctionDatabase.CREATION_COST.put(craft, 0);
     ConcoctionDatabase.ADVENTURE_USAGE.put(craft, 0);
+    ConcoctionDatabase.EXCUSE.remove(craft);
   }
 
   public static int getAdventureUsage(CraftingType method) {
@@ -2282,6 +2325,11 @@ public class ConcoctionDatabase {
     return getMixingMethod(itemId) != CraftingType.NOCREATE;
   }
 
+  public static final boolean hasNonCoinmasterMixingMethod(final int itemId) {
+    CraftingType mixingMethod = getMixingMethod(itemId);
+    return mixingMethod != CraftingType.NOCREATE && mixingMethod != CraftingType.COINMASTER;
+  }
+
   public static final EnumSet<CraftingRequirements> getRequirements(final int itemId) {
     Concoction item = ConcoctionPool.get(itemId);
     return item == null ? EnumSet.noneOf(CraftingRequirements.class) : item.getRequirements();
@@ -2360,6 +2408,10 @@ public class ConcoctionDatabase {
       case WOOL -> result.append("grubby wool");
       case SHADOW_FORGE -> result.append("The Shadow Forge");
       case FIXODENT -> result.append("Craft with Teeth");
+      case BURNING_LEAVES -> result.append("Pile of Burning Leaves");
+      case TINKERING_BENCH -> result.append("Tinkering Bench");
+      case MAYAM -> result.append("Mayam Calendar");
+      case KIWI -> result.append("Kiwi Kwiki Mart");
     }
     if (result.isEmpty()) {
       result.append("[unknown method of creation]");
@@ -2793,6 +2845,10 @@ public class ConcoctionDatabase {
       case "WOOL" -> ConcoctionDatabase.mixingMethod = CraftingType.WOOL;
       case "SHADOW_FORGE" -> ConcoctionDatabase.mixingMethod = CraftingType.SHADOW_FORGE;
       case "FIXODENT" -> ConcoctionDatabase.mixingMethod = CraftingType.FIXODENT;
+      case "BURNING_LEAVES" -> ConcoctionDatabase.mixingMethod = CraftingType.BURNING_LEAVES;
+      case "TINKERING_BENCH" -> ConcoctionDatabase.mixingMethod = CraftingType.TINKERING_BENCH;
+      case "MAYAM" -> ConcoctionDatabase.mixingMethod = CraftingType.MAYAM;
+      case "KIWI" -> ConcoctionDatabase.mixingMethod = CraftingType.KIWI;
       default -> {
         if (mix.startsWith("ROW")) {
           ConcoctionDatabase.row = StringUtilities.parseInt(mix.substring(3));

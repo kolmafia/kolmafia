@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia;
 
+import static net.sourceforge.kolmafia.utilities.Statics.DateTimeManager;
+
 import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.EnumMap;
@@ -29,8 +31,8 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
-import net.sourceforge.kolmafia.persistence.DateTimeManager;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
@@ -39,8 +41,9 @@ import net.sourceforge.kolmafia.request.CharPaneRequest.Companion;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FloristRequest;
 import net.sourceforge.kolmafia.request.FloristRequest.Florist;
-import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.session.AutumnatonManager;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.Indexed;
 import net.sourceforge.kolmafia.utilities.IntOrString;
 
@@ -827,11 +830,30 @@ public class Modifiers {
     };
   }
 
+  public static synchronized void availableSkillsChanged() {
+    availableSkillsChanged = true;
+  }
+
   public void addExpression(Indexed<DoubleModifier, ModifierExpression> entry) {
+    int index = -1;
+
     if (this.expressions == null) {
       this.expressions = new ArrayList<>();
+    } else {
+      for (int i = 0; i < this.expressions.size(); i++) {
+        Indexed<DoubleModifier, ModifierExpression> e = this.expressions.get(i);
+        if (e != null && e.index == entry.index) {
+          index = i;
+          break;
+        }
+      }
     }
-    this.expressions.add(entry);
+
+    if (index < 0) {
+      this.expressions.add(entry);
+    } else {
+      this.expressions.get(index).value.combine(entry.value, '+');
+    }
   }
 
   public void applyPassiveModifiers(final boolean debug) {
@@ -839,39 +861,44 @@ public class Modifiers {
       Modifiers.cachedPassiveModifiers =
           new Modifiers(new Lookup(ModifierType.PASSIVES, "cachedPassives"));
       PreferenceListenerRegistry.registerPreferenceListener(
-          new String[] {"(skill)", "kingLiberated"}, () -> Modifiers.availableSkillsChanged = true);
+          new String[] {"(skill)", "kingLiberated", "(ronin)"},
+          () -> Modifiers.availableSkillsChanged());
+    }
+    if (KoLCharacter.getAvailableSkillIds().isEmpty()) {
+      // We probably haven't loaded the player's skills yet. Avoid populating
+      // availablePassiveSkillModifiersByVariable with two empty lists.
+      return;
     }
 
-    if (debug
-        || Modifiers.availableSkillsChanged
-        || Modifiers.availablePassiveSkillModifiersByVariable.isEmpty()) {
-      // Collect all passive skills currently on the character.
-      Modifiers.availablePassiveSkillModifiersByVariable.putAll(
-          KoLCharacter.getAvailableSkillIds().stream()
-              .filter(SkillDatabase::isPassive)
-              .map(UseSkillRequest::getUnmodifiedInstance)
-              .filter(Objects::nonNull)
-              .filter(UseSkillRequest::isEffective)
-              .map(skill -> ModifierDatabase.getModifiers(ModifierType.SKILL, skill.getSkillId()))
-              .filter(Objects::nonNull)
-              .collect(
-                  Collectors.partitioningBy(
-                      modifiers -> modifiers.override(modifiers.getLookup()))));
+    synchronized (Modifiers.class) {
+      if (debug
+          || Modifiers.availableSkillsChanged
+          || Modifiers.availablePassiveSkillModifiersByVariable.isEmpty()) {
+        // Collect all passive skills currently on the character.
+        Modifiers.availablePassiveSkillModifiersByVariable.putAll(
+            KoLCharacter.getAvailableSkillIds().stream()
+                .filter(SkillDatabase::isPassive)
+                .map(skill -> ModifierDatabase.getModifiers(ModifierType.SKILL, skill))
+                .filter(Objects::nonNull)
+                .collect(
+                    Collectors.partitioningBy(
+                        modifiers -> modifiers.override(modifiers.getLookup()))));
 
-      // Recompute sum of cached constant passive skills.
-      Modifiers.cachedPassiveModifiers.reset();
-      Modifiers.availablePassiveSkillModifiersByVariable
-          .get(false)
-          .forEach(
-              mods -> {
-                Modifiers.cachedPassiveModifiers.add(mods);
+        // Recompute sum of cached constant passive skills.
+        Modifiers.cachedPassiveModifiers.reset();
+        Modifiers.availablePassiveSkillModifiersByVariable
+            .get(false)
+            .forEach(
+                mods -> {
+                  Modifiers.cachedPassiveModifiers.add(mods);
 
-                // If we are debugging, add them directly. Also add them to the cache though
-                if (debug) {
-                  this.add(mods);
-                }
-              });
-      Modifiers.availableSkillsChanged = false;
+                  // If we are debugging, add them directly. Also add them to the cache though
+                  if (debug) {
+                    this.add(mods);
+                  }
+                });
+        Modifiers.availableSkillsChanged = false;
+      }
     }
 
     // If we're debugging we've already added the modifiers while building the passive cache.
@@ -960,12 +987,12 @@ public class Modifiers {
     }
     var hareAdv = Preferences.getInteger("_hareAdv");
     if (hareAdv > 0) {
-      this.addDouble(DoubleModifier.ADVENTURES, hareAdv, ModifierType.FAMILIAR, FamiliarPool.HARE);
+      this.addDouble(DoubleModifier.ADVENTURES, hareAdv, ModifierType.FAMILIAR, "Wild Hare");
     }
     var gibberAdv = Preferences.getInteger("_gibbererAdv");
     if (gibberAdv > 0) {
       this.addDouble(
-          DoubleModifier.ADVENTURES, gibberAdv, ModifierType.FAMILIAR, FamiliarPool.GIBBERER);
+          DoubleModifier.ADVENTURES, gibberAdv, ModifierType.FAMILIAR, "Squamous Gibberer");
     }
     var usedBorrowedTime = Preferences.getBoolean("_borrowedTimeUsed");
     if (usedBorrowedTime) {
@@ -1006,6 +1033,35 @@ public class Modifiers {
     if (Preferences.getInteger("lastStillBeatingSpleen") == KoLCharacter.getAscensions()) {
       this.addDouble(
           DoubleModifier.SPLEEN_CAPACITY, 1, ModifierType.ITEM, ItemPool.STILL_BEATING_SPLEEN);
+    }
+  }
+
+  public final void applyAdditionalFreeRestModifiers() {
+    // Unconscious Collective contributes in G-Lover (e.g.) but not in Standard
+    if (StandardRequest.isAllowed(RestrictedItemType.FAMILIARS, "Unconscious Collective")
+        && KoLCharacter.ownedFamiliar(FamiliarPool.UNCONSCIOUS_COLLECTIVE).isPresent()) {
+      this.addDouble(
+          DoubleModifier.FREE_RESTS, 3, ModifierType.TERRARIUM_FAMILIAR, "Unconscious Collective");
+    }
+    if (StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Distant Woods Getaway Brochure")
+        && Preferences.getBoolean("getawayCampsiteUnlocked")) {
+      this.addDouble(DoubleModifier.FREE_RESTS, 1, ModifierType.ITEM, ItemPool.GETAWAY_BROCHURE);
+    }
+    if (InventoryManager.equippedOrInInventory(ItemPool.MOTHERS_NECKLACE)) {
+      this.addDouble(
+          DoubleModifier.FREE_RESTS, 5, ModifierType.INVENTORY_ITEM, "mother's necklace");
+    }
+    if (InventoryManager.equippedOrInInventory(ItemPool.CINCHO_DE_MAYO)) {
+      this.addDouble(DoubleModifier.FREE_RESTS, 3, ModifierType.INVENTORY_ITEM, "Cincho de Mayo");
+    }
+    if (InventoryManager.equippedOrInInventory(ItemPool.REPLICA_CINCHO_DE_MAYO)) {
+      this.addDouble(
+          DoubleModifier.FREE_RESTS, 3, ModifierType.INVENTORY_ITEM, "replica Cincho de Mayo");
+    }
+    var yamRests = Preferences.getInteger("_mayamRests");
+    if (yamRests > 0) {
+      this.addDouble(
+          DoubleModifier.FREE_RESTS, yamRests, ModifierType.ITEM, ItemPool.MAYAM_CALENDAR);
     }
   }
 
@@ -1068,6 +1124,9 @@ public class Modifiers {
 
     int cap = (int) this.getDouble(DoubleModifier.FAMILIAR_WEIGHT_CAP);
     int cappedWeight = (cap == 0) ? weight : Math.min(weight, cap);
+
+    double volleyFactor = 0.0;
+    double sombreroFactor = 0.0;
 
     double effective = cappedWeight * this.getDouble(DoubleModifier.VOLLEYBALL_WEIGHT);
     if (effective == 0.0 && FamiliarDatabase.isVolleyType(familiarId)) {
@@ -1134,7 +1193,7 @@ public class Modifiers {
             ModifierType.TUNED_VOLLEYBALL,
             race);
       } else {
-        this.addDouble(DoubleModifier.EXPERIENCE, factor, ModifierType.VOLLEYBALL, race);
+        volleyFactor = factor;
       }
     }
 
@@ -1148,13 +1207,25 @@ public class Modifiers {
       if (factor == 0.0) factor = 1.0;
       // currentML is always >= 4, so we don't need to check for negatives
       int maxStats = 230;
-      this.addDouble(
-          DoubleModifier.EXPERIENCE,
+      sombreroFactor =
           Math.min(
               Math.max(factor * (Modifiers.currentML / 4) * (0.1 + 0.005 * effective), 1),
-              maxStats),
-          ModifierType.FAMILIAR,
-          race);
+              maxStats);
+    }
+
+    if (this.getBoolean(BooleanModifier.VOLLEYBALL_OR_SOMBRERO)) {
+      if (volleyFactor > sombreroFactor) {
+        this.addDouble(DoubleModifier.EXPERIENCE, volleyFactor, ModifierType.VOLLEYBALL, race);
+      } else {
+        this.addDouble(DoubleModifier.EXPERIENCE, sombreroFactor, ModifierType.FAMILIAR, race);
+      }
+    } else {
+      if (volleyFactor > 0) {
+        this.addDouble(DoubleModifier.EXPERIENCE, volleyFactor, ModifierType.VOLLEYBALL, race);
+      }
+      if (sombreroFactor > 0) {
+        this.addDouble(DoubleModifier.EXPERIENCE, sombreroFactor, ModifierType.FAMILIAR, race);
+      }
     }
 
     effective = cappedWeight * this.getDouble(DoubleModifier.LEPRECHAUN_WEIGHT);
@@ -1354,6 +1425,49 @@ public class Modifiers {
             ensorcelMods.getDouble(DoubleModifier.CANDYDROP) * 0.25,
             ModifierType.ITEM,
             ItemPool.VAMPYRIC_CLOAKE);
+      }
+    }
+  }
+
+  public void applyPathModifiers() {
+    if (KoLCharacter.inElevenThingIHateAboutU()) {
+      if (originalLookup == null || originalLookup.type != ModifierType.ITEM) {
+        return;
+      }
+
+      int itemId;
+      String name;
+      if (this.originalLookup.getKey().isInt()) {
+        itemId = this.originalLookup.getIntKey();
+        name = ItemDatabase.getItemName(this.originalLookup.getIntKey());
+      } else {
+        itemId = ItemDatabase.getItemId(this.originalLookup.getStringKey());
+        name = this.originalLookup.getStringKey();
+      }
+
+      if (ItemDatabase.getConsumptionType(itemId) != KoLConstants.ConsumptionType.POTION
+          || name == null) {
+        return;
+      }
+
+      int delta = KoLCharacter.getEyeosity(name) * 2 - KoLCharacter.getEweosity(name);
+      if (delta == 0) {
+        return;
+      }
+
+      if (this.variable) {
+        this.addExpression(
+            new Indexed<>(
+                DoubleModifier.EFFECT_DURATION,
+                ModifierExpression.getInstance(
+                    delta + "*path(" + AscensionPath.Path.ELEVEN_THINGS.name + ')',
+                    AscensionPath.Path.ELEVEN_THINGS.name)));
+      } else {
+        this.addDouble(
+            DoubleModifier.EFFECT_DURATION,
+            delta,
+            ModifierType.PATH,
+            AscensionPath.Path.ELEVEN_THINGS.name);
       }
     }
   }

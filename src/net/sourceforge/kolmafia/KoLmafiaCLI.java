@@ -514,6 +514,7 @@ public class KoLmafiaCLI {
     new AcquireCommand().register("acquire").register("find").register("retrieve");
     new AdventureCommand().register("adv").register("adventure");
     new AliasCommand().register("alias");
+    new AprilBandCommand().register("aprilband");
     new AreaSummaryCommand().register("safe");
     new AsdonMartinCommand().register("asdonmartin");
     new AshMultiLineCommand().register("<inline-ash-script>");
@@ -694,6 +695,8 @@ public class KoLmafiaCLI {
     new KitchenCommand().register("kitchen").register("hellkitchen").register("hellskitchen");
     new LatteCommand().register("latte");
     new LeafletCommand().register("leaflet");
+    new LeavesCommand().register("leaves");
+    new LedCandleCommand().register("ledcandle").register("jillcandle");
     new LoathingIdolCommand().register("loathingidol");
     new LogEchoCommand().register("logecho").register("logprint");
     new LoginCommand().register("login");
@@ -702,6 +705,7 @@ public class KoLmafiaCLI {
     new MallRepriceCommand().register("reprice").register("undercut");
     new MallSellCommand().register("mallsell");
     new ManaRestoreCountCommand().register("mpitems");
+    new MayamCommand().register("mayam");
     new MayoMinderCommand().register("mayominder");
     new MayosoakCommand().register("mayosoak");
     new MemoryCleanupCommand().register("gc");
@@ -839,6 +843,7 @@ public class KoLmafiaCLI {
         .registerSubstring(".php");
     new VolcanoCommand().register("volcano");
     new WaitCommand().register("wait").register("waitq").register("pause");
+    new WereProfessorCommand().register("wereprofessor");
     new WhileStatement().register("while");
     new WikiLookupCommand().register("lookup");
     new WikiMafiaSearchCommand().register("ashwiki");
@@ -898,7 +903,7 @@ public class KoLmafiaCLI {
 
     displayText = displayText.replaceAll("\n\n\n+", "\n\n");
 
-    RequestLogger.printLine(displayText.trim());
+    RequestLogger.printHtml(displayText.trim());
   }
 
   // we return ALL matches, let callers decide whether to error if there is no unique match. (they

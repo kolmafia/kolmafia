@@ -2,10 +2,12 @@ package net.sourceforge.kolmafia.objectpool;
 
 public class FamiliarPool {
   public static final int MOSQUITO = 1;
+  public static final int LEPRECHAUN = 2;
   public static final int POTATO = 3;
   public static final int GOAT = 4;
   public static final int LIME = 5;
   public static final int DICE = 6;
+  public static final int SPOOKY_PIRATE_SKELETON = 7;
   public static final int BARRRNACLE = 8;
   public static final int STAB_BAT = 10;
   public static final int BLOOD_FACED_VOLLEYBALL = 12;
@@ -128,6 +130,8 @@ public class FamiliarPool {
   public static final int COOKBOOKBAT = 288;
   public static final int HOBO_IN_SHEEPS_CLOTHING = 290;
   public static final int PATRIOTIC_EAGLE = 293;
+  public static final int JILL_OF_ALL_TRADES = 294;
+  public static final int MINI_KIWI = 300;
 
   private FamiliarPool() {}
 }

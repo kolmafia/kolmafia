@@ -1,8 +1,10 @@
 package internal.helpers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Optional;
@@ -36,12 +38,18 @@ public class Maximizer {
         EnumSet.allOf(filterType.class));
   }
 
+  public static void maximizeAny(String maximizerString) {
+    MaximizerFrame.expressionSelect.setSelectedItem(maximizerString);
+    net.sourceforge.kolmafia.maximizer.Maximizer.maximize(
+        EquipScope.SPECULATE_ANY, 0, PriceLevel.DONT_CHECK, false, EnumSet.allOf(filterType.class));
+  }
+
   public static double modFor(Modifier modifier) {
     return ModifierDatabase.getNumericModifier(ModifierType.GENERATED, "_spec", modifier);
   }
 
   public static List<Boost> getBoosts() {
-    return net.sourceforge.kolmafia.maximizer.Maximizer.boosts;
+    return new ArrayList<>(net.sourceforge.kolmafia.maximizer.Maximizer.boosts);
   }
 
   public static Optional<AdventureResult> getSlot(Slot slot) {
@@ -80,9 +88,20 @@ public class Maximizer {
     Optional<Boost> found =
         getBoosts().stream()
             .filter(Boost::isEquipment)
+            .filter(b -> b.getItem() != null)
             .filter(b -> (itemId == b.getItem().getItemId()))
             .findAny();
     assertTrue(found.isPresent(), "Expected " + itemId + " to be recommended, but it was not");
+  }
+
+  public static void doesNotRecommend(int itemId) {
+    Optional<Boost> found =
+        getBoosts().stream()
+            .filter(Boost::isEquipment)
+            .filter(b -> b.getItem() != null)
+            .filter(b -> (itemId == b.getItem().getItemId()))
+            .findAny();
+    assertFalse(found.isPresent(), "Expected " + itemId + " to not be recommended, but it was");
   }
 
   public static boolean someBoostIs(Predicate<Boost> predicate) {

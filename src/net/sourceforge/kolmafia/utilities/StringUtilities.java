@@ -6,6 +6,7 @@ import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -204,6 +205,16 @@ public class StringUtilities {
     }
 
     return canonicalName;
+  }
+
+  /**
+   * Returns a list of all elements which contain the given substring in their name.
+   *
+   * @param names The map in which to search for the string
+   * @param searchString The substring for which to search
+   */
+  public static List<String> getMatchingNames(final Collection<String> names, String searchString) {
+    return getMatchingNames(names.toArray(new String[0]), searchString);
   }
 
   /**
@@ -969,5 +980,25 @@ public class StringUtilities {
       searchIndex = index + s.length();
     }
     return true;
+  }
+
+  public static final Pattern URL_IID_PATTERN = Pattern.compile("iid=(\\d+)");
+
+  public static int extractIidFromURL(final String urlString) {
+    Matcher matcher = URL_IID_PATTERN.matcher(urlString);
+    return matcher.find() ? StringUtilities.parseInt(matcher.group(1)) : -1;
+  }
+
+  public static String withOrdinalSuffix(final int num) {
+    return num
+        + switch (num % 100) {
+          case 11, 12, 13 -> "th";
+          default -> switch (num % 10) {
+            case 1 -> "st";
+            case 2 -> "nd";
+            case 3 -> "rd";
+            default -> "th";
+          };
+        };
   }
 }

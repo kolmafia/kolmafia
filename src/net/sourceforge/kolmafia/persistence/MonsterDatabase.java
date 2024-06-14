@@ -27,6 +27,8 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.combat.CombatActionManager;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.MonsterDrop.DropFlag;
+import net.sourceforge.kolmafia.persistence.MonsterDrop.MultiDrop;
+import net.sourceforge.kolmafia.persistence.MonsterDrop.SimpleMonsterDrop;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -35,6 +37,7 @@ public class MonsterDatabase {
   private static final Set<MonsterData> ALL_MONSTER_DATA = new TreeSet<>();
   private static final Map<String, MonsterData> MONSTER_DATA = new TreeMap<>();
   private static final Map<Integer, MonsterData> MONSTER_IDS = new TreeMap<>();
+  private static final Map<Integer, List<String>> MONSTER_PARTS = new TreeMap<>();
   private static final Map<String, MonsterData> OLD_MONSTER_DATA = new TreeMap<>();
   private static final Map<String, MonsterData> LEET_MONSTER_DATA = new TreeMap<>();
   private static final Set<String> MONSTER_ALIASES = new HashSet<>();
@@ -254,6 +257,7 @@ public class MonsterDatabase {
 
   static {
     MonsterDatabase.refreshMonsterTable();
+    MonsterDatabase.readMonsterParts();
 
     Map<MonsterData, MonsterData> youRobotMap = new TreeMap<>();
     MonsterDatabase.addMapping(youRobotMap, "Boss Bat", "Boss Bot");
@@ -416,6 +420,21 @@ public class MonsterDatabase {
     MonsterDatabase.addMapping(lolMap, "The Big Wisniewski", "The Little Wisniewski");
     MonsterDatabase.addMapping(lolMap, "The Man", "The Boy");
     MonsterDatabase.MONSTER_PATH_MAP.put(Path.LEGACY_OF_LOATHING.getName(), lolMap);
+
+    Map<MonsterData, MonsterData> wereProfMap = new TreeMap<>();
+    MonsterDatabase.addMapping(wereProfMap, "Boss Bat", "Boss Beast");
+    MonsterDatabase.addMapping(wereProfMap, "Knob Goblin King", "Knob Goblin Beast");
+    MonsterDatabase.addMapping(wereProfMap, "Bonerdagon", "Curséd Bonerdagon");
+    MonsterDatabase.addMapping(wereProfMap, "Groar", "Just Groar");
+    MonsterDatabase.addMapping(wereProfMap, "Dr. Awkward", "Were-Dr. Awkwarder, ew");
+    MonsterDatabase.addMapping(wereProfMap, "Lord Spookyraven", "Lord Beastlyraven");
+    MonsterDatabase.addMapping(wereProfMap, "Protector Spectre", "Protector Beast");
+    MonsterDatabase.addMapping(wereProfMap, "The Big Wisniewski", "The Beast Wisniewski");
+    MonsterDatabase.addMapping(wereProfMap, "The Man", "The Beastman");
+    MonsterDatabase.addMapping(wereProfMap, "Naughty Sorceress", "The Naughty Wolferess");
+    MonsterDatabase.addMapping(wereProfMap, "Naughty Sorceress (2)", null);
+    MonsterDatabase.addMapping(wereProfMap, "Naughty Sorceress (3)", null);
+    MonsterDatabase.MONSTER_PATH_MAP.put(Path.WEREPROFESSOR.getName(), wereProfMap);
   }
 
   public static Map<MonsterData, MonsterData> getMonsterPathMap(final String path) {
@@ -488,6 +507,26 @@ public class MonsterDatabase {
 
     // Save canonical names for substring lookup
     MonsterDatabase.saveCanonicalNames();
+  }
+
+  private static void readMonsterParts() {
+    try (BufferedReader reader =
+        FileUtilities.getVersionedReader("monsterparts.txt", KoLConstants.MONSTER_PARTS_VERSION)) {
+      String[] data;
+
+      while ((data = FileUtilities.readData(reader)) != null) {
+        if (data.length < 3) {
+          continue;
+        }
+
+        var id = StringUtilities.parseInt(data[0]);
+        // Skip the monster name, just there for developer experience
+        var parts = Arrays.asList(data).subList(2, data.length);
+        MONSTER_PARTS.put(id, parts);
+      }
+    } catch (IOException e) {
+      StaticEntity.printStackTrace(e);
+    }
   }
 
   private static void addMonsterToName(MonsterData monster) {
@@ -599,20 +638,23 @@ public class MonsterDatabase {
     var flag = DropFlag.fromFlag(dropMatcher.group(2));
     var chance = StringUtilities.parseDouble(dropMatcher.group(3));
 
-    AdventureResult item;
+    if (flag == DropFlag.MULTI_DROP) {
+      Matcher itemMatcher = MultiDrop.ITEM.matcher(itemName);
+      if (!itemMatcher.matches()) {
+        throw new IllegalStateException(data + " did not match expected layout");
+      }
 
-    int itemId = ItemDatabase.getItemId(itemName);
-    if (itemId == -1) {
-      item = ItemPool.get(data, 1);
+      AdventureResult item = ItemPool.get(itemMatcher.group(2), 1);
+      return new MultiDrop(itemMatcher.group(1), item, chance, flag);
     } else {
-      item = ItemPool.get(itemId);
-    }
+      AdventureResult item = ItemPool.get(itemName, 1);
 
-    if (flag == DropFlag.NONE && chance == 0) {
-      flag = DropFlag.UNKNOWN_RATE;
-    }
+      if (flag == DropFlag.NONE && chance == 0) {
+        flag = DropFlag.UNKNOWN_RATE;
+      }
 
-    return new MonsterDrop(item, chance, flag);
+      return new SimpleMonsterDrop(item, chance, flag);
+    }
   }
 
   private static synchronized void initializeMonsterStrings() {
@@ -788,6 +830,10 @@ public class MonsterDatabase {
   public static final String getMonsterName(final int id) {
     MonsterData monster = MonsterDatabase.MONSTER_IDS.get(id);
     return monster == null ? "" : monster.getName();
+  }
+
+  public static List<String> getMonsterParts(final int id) {
+    return MONSTER_PARTS.getOrDefault(id, List.of());
   }
 
   public static final String translateLeetMonsterName(final String leetName) {

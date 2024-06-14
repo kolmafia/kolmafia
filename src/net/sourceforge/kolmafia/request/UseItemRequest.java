@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
 import net.sourceforge.kolmafia.FamiliarData;
@@ -24,6 +25,7 @@ import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.moods.ManaBurnManager;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
+import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -51,6 +53,7 @@ import net.sourceforge.kolmafia.session.BugbearManager.Bugbear;
 import net.sourceforge.kolmafia.session.ChoiceControl;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ClanManager;
+import net.sourceforge.kolmafia.session.CryptManager;
 import net.sourceforge.kolmafia.session.DreadScrollManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -102,12 +105,6 @@ public class UseItemRequest extends GenericRequest {
   // <p>Question:  Who wrote the banned detective novel <u>Quest of the Witch Mints</u>?<p>Answer:
   // Mssr. Johnny Simon.
   private static final Pattern QA_PATTERN = Pattern.compile("(Question|Answer): *(.*?[\\.\\?])<");
-
-  // <center>Total evil: <b>200</b><p>Alcove: <b>50</b><br>Cranny: <b>50</b><br>Niche:
-  // <b>50</b><br>Nook: <b>50</b></center>
-  private static final Pattern EVILOMETER_PATTERN =
-      Pattern.compile(
-          "<center>Total evil: <b>(\\d+)</b><p>Alcove: <b>(\\d+)</b><br>Cranny: <b>(\\d+)</b><br>Niche: <b>(\\d+)</b><br>Nook: <b>(\\d+)</b></center>");
 
   private static final Pattern KEYOTRON_PATTERN =
       Pattern.compile(
@@ -288,6 +285,9 @@ public class UseItemRequest extends GenericRequest {
   }
 
   private static boolean needsConfirmation(final AdventureResult item) {
+    if (CampgroundRequest.isBedding(item.getItemId())) {
+      return CampgroundRequest.getCurrentBed() != null;
+    }
     return switch (item.getItemId()) {
       case ItemPool.NEWBIESPORT_TENT,
           ItemPool.BARSKIN_TENT,
@@ -306,15 +306,6 @@ public class UseItemRequest extends GenericRequest {
           ItemPool.GIANT_PILGRIM_HAT,
           ItemPool.HOUSE_SIZED_MUSHROOM -> CampgroundRequest.getCurrentDwelling()
           != CampgroundRequest.BIG_ROCK;
-      case ItemPool.HOT_BEDDING,
-          ItemPool.COLD_BEDDING,
-          ItemPool.STENCH_BEDDING,
-          ItemPool.SPOOKY_BEDDING,
-          ItemPool.SLEAZE_BEDDING,
-          ItemPool.BEANBAG_CHAIR,
-          ItemPool.GAUZE_HAMMOCK,
-          ItemPool.SALTWATERBED,
-          ItemPool.SPIRIT_BED -> CampgroundRequest.getCurrentBed() != null;
       default -> false;
     };
   }
@@ -502,6 +493,11 @@ public class UseItemRequest extends GenericRequest {
       restorationMaximum = UseItemRequest.getRestorationMaximum(itemName);
     }
 
+    if (CampgroundRequest.isBedding(itemId)) {
+      UseItemRequest.limiter = "campground regulations";
+      return 1;
+    }
+
     // Set reasonable default if the item fails to set a specific reason
     UseItemRequest.limiter = "a wizard";
 
@@ -588,19 +584,11 @@ public class UseItemRequest extends GenericRequest {
       case ItemPool.MAID:
       case ItemPool.CLOCKWORK_MAID:
       case ItemPool.MEAT_BUTLER:
+      case ItemPool.PORTABLE_HOUSEKEEPING_ROBOT:
       case ItemPool.SCARECROW:
       case ItemPool.MEAT_GOLEM:
       case ItemPool.MEAT_GLOBE:
-        // Campground equipment
-      case ItemPool.BEANBAG_CHAIR:
-      case ItemPool.GAUZE_HAMMOCK:
-      case ItemPool.HOT_BEDDING:
-      case ItemPool.COLD_BEDDING:
-      case ItemPool.STENCH_BEDDING:
-      case ItemPool.SPOOKY_BEDDING:
-      case ItemPool.SLEAZE_BEDDING:
-      case ItemPool.SALTWATERBED:
-      case ItemPool.SPIRIT_BED:
+        // Other furnishings
       case ItemPool.BLACK_BLUE_LIGHT:
       case ItemPool.LOUDMOUTH_LARRY:
       case ItemPool.PLASMA_BALL:
@@ -820,6 +808,7 @@ public class UseItemRequest extends GenericRequest {
         return InventoryManager.hasItem(ItemPool.WRIST_BOY) ? Integer.MAX_VALUE : 0;
 
       case ItemPool.SCHOOL_OF_HARD_KNOCKS_DIPLOMA:
+      case ItemPool.PUNCHING_MIRROR:
         if (!KoLCharacter.getHippyStoneBroken()) {
           UseItemRequest.limiter = "an unbroken hippy stone";
           return 0;
@@ -943,6 +932,13 @@ public class UseItemRequest extends GenericRequest {
       return;
     }
 
+    if (CampgroundRequest.isBedding(itemId)) {
+      AdventureResult bed = CampgroundRequest.getCurrentBed();
+      if (bed != null && !UseItemRequest.confirmReplacement(bed.getName())) {
+        return;
+      }
+    }
+
     switch (itemId) {
       case ItemPool.DECK_OF_EVERY_CARD, ItemPool.REPLICA_DECK_OF_EVERY_CARD -> {
         // Treat a "use" of the deck as "play random"
@@ -1006,20 +1002,6 @@ public class UseItemRequest extends GenericRequest {
         if ((oldLevel >= 7 || newLevel < oldLevel)
             && dwelling != null
             && !UseItemRequest.confirmReplacement(dwelling.getName())) {
-          return;
-        }
-      }
-      case ItemPool.HOT_BEDDING,
-          ItemPool.COLD_BEDDING,
-          ItemPool.STENCH_BEDDING,
-          ItemPool.SPOOKY_BEDDING,
-          ItemPool.SLEAZE_BEDDING,
-          ItemPool.SALTWATERBED,
-          ItemPool.SPIRIT_BED,
-          ItemPool.BEANBAG_CHAIR,
-          ItemPool.GAUZE_HAMMOCK -> {
-        AdventureResult bed = CampgroundRequest.getCurrentBed();
-        if (bed != null && !UseItemRequest.confirmReplacement(bed.getName())) {
           return;
         }
       }
@@ -1626,6 +1608,45 @@ public class UseItemRequest extends GenericRequest {
     return true;
   }
 
+  public static void parseAprilPlay(final String urlString, final String responseText) {
+    // inventory.php?iid=11567&action=aprilplay
+    var itemId = StringUtilities.extractIidFromURL(urlString);
+    // each item can be used three times per day, and getting additional copies doesn't help
+    String preference;
+    switch (itemId) {
+      case ItemPool.APRIL_BAND_SAXOPHONE -> preference = "_aprilBandSaxophoneUses";
+      case ItemPool.APRIL_BAND_TOM -> preference = "_aprilBandTomUses";
+      case ItemPool.APRIL_BAND_TUBA -> preference = "_aprilBandTubaUses";
+      case ItemPool.APRIL_BAND_STAFF -> preference = "_aprilBandStaffUses";
+      case ItemPool.APRIL_BAND_PICCOLO -> preference = "_aprilBandPiccoloUses";
+      default -> preference = null;
+    }
+
+    if (preference == null) return;
+
+    // You've already played this instrument enough for one day.
+    if (responseText.contains("enough for one day")) {
+      Preferences.setInteger(preference, 3);
+      return;
+    }
+
+    if (itemId == ItemPool.APRIL_BAND_TUBA) {
+      Preferences.setBoolean("noncombatForcerActive", true);
+    }
+
+    // You already seem lucky enough, maybe play a sexy sax solo later.
+    if (itemId == ItemPool.APRIL_BAND_SAXOPHONE && responseText.contains("already seem lucky")) {
+      return;
+    }
+
+    // Your familiar doesn't seem interested in playing.
+    if (itemId == ItemPool.APRIL_BAND_PICCOLO && responseText.contains("doesn't seem interested")) {
+      return;
+    }
+
+    Preferences.increment(preference, 1, 3, false);
+  }
+
   private static final Pattern HEWN_SPOON_PATTERN = Pattern.compile("whichsign=(\\d+)");
 
   private static ZodiacSign parseAscensionSign(String urlString) {
@@ -2067,7 +2088,7 @@ public class UseItemRequest extends GenericRequest {
                   + " in clan "
                   + ClanManager.getClanName(false)
                   + ".";
-          RequestLogger.printLine("<font color=\"blue\">" + message + "</font>");
+          RequestLogger.printHtml("<font color=\"blue\">" + message + "</font>");
           RequestLogger.updateSessionLog(message);
         }
 
@@ -2848,6 +2869,7 @@ public class UseItemRequest extends GenericRequest {
               && !responseText.contains("larynx become even more pirate")
               && !responseText.contains("become even more of an expert")
               && !responseText.contains("reread the tale and really remember")
+              && !responseText.contains("spirit of Kokomo to sink")
               && !responseText.contains("Beleven")
               && !responseText.contains("absorb the residual paste into your soul")) {
             UseItemRequest.lastUpdate = "You can't learn that skill.";
@@ -3661,21 +3683,22 @@ public class UseItemRequest extends GenericRequest {
 
         break;
 
-      case ItemPool.NEWBIESPORT_TENT:
-      case ItemPool.BARSKIN_TENT:
-      case ItemPool.COTTAGE:
-      case ItemPool.BRICKO_PYRAMID:
-      case ItemPool.HOUSE:
-      case ItemPool.SANDCASTLE:
-      case ItemPool.TWIG_HOUSE:
-      case ItemPool.GINGERBREAD_HOUSE:
-      case ItemPool.HOBO_FORTRESS:
-      case ItemPool.GIANT_FARADAY_CAGE:
-      case ItemPool.SNOW_FORT:
-      case ItemPool.ELEVENT:
-      case ItemPool.RESIDENCE_CUBE:
-      case ItemPool.GIANT_PILGRIM_HAT:
-      case ItemPool.HOUSE_SIZED_MUSHROOM:
+      case ItemPool.NEWBIESPORT_TENT,
+          ItemPool.BARSKIN_TENT,
+          ItemPool.COTTAGE,
+          ItemPool.BRICKO_PYRAMID,
+          ItemPool.HOUSE,
+          ItemPool.SANDCASTLE,
+          ItemPool.TWIG_HOUSE,
+          ItemPool.GINGERBREAD_HOUSE,
+          ItemPool.HOBO_FORTRESS,
+          ItemPool.GIANT_FARADAY_CAGE,
+          ItemPool.SNOW_FORT,
+          ItemPool.ELEVENT,
+          ItemPool.RESIDENCE_CUBE,
+          ItemPool.GIANT_PILGRIM_HAT,
+          ItemPool.HOUSE_SIZED_MUSHROOM,
+          ItemPool.MINI_KIWI_TIPI:
         if (responseText.contains("You've already got")) {
           return;
         }
@@ -3684,14 +3707,14 @@ public class UseItemRequest extends GenericRequest {
         CampgroundRequest.setCurrentDwelling(itemId);
         break;
 
-      case ItemPool.SCARECROW:
-      case ItemPool.MEAT_GOLEM:
-      case ItemPool.BLACK_BLUE_LIGHT:
-      case ItemPool.LOUDMOUTH_LARRY:
-      case ItemPool.PLASMA_BALL:
-      case ItemPool.LED_CLOCK:
-      case ItemPool.BONSAI_TREE:
-      case ItemPool.MEAT_GLOBE:
+      case ItemPool.SCARECROW,
+          ItemPool.MEAT_GOLEM,
+          ItemPool.BLACK_BLUE_LIGHT,
+          ItemPool.LOUDMOUTH_LARRY,
+          ItemPool.PLASMA_BALL,
+          ItemPool.LED_CLOCK,
+          ItemPool.BONSAI_TREE,
+          ItemPool.MEAT_GLOBE:
         if (responseText.contains("You've already got")) {
           return;
         }
@@ -3699,65 +3722,33 @@ public class UseItemRequest extends GenericRequest {
         CampgroundRequest.setCampgroundItem(itemId, 1);
         break;
 
-      case ItemPool.MAID:
+      case ItemPool.MAID,
+          ItemPool.MEAT_BUTLER,
+          ItemPool.CLOCKWORK_MAID,
+          ItemPool.PORTABLE_HOUSEKEEPING_ROBOT:
         if (responseText.contains("You've already got")) {
           return;
         }
 
-        CampgroundRequest.removeCampgroundItem(ItemPool.get(ItemPool.MEAT_BUTLER, 1));
-        CampgroundRequest.removeCampgroundItem(ItemPool.get(ItemPool.CLOCKWORK_MAID, 1));
-        CampgroundRequest.setCampgroundItem(ItemPool.MAID, 1);
-        break;
-
-      case ItemPool.CLOCKWORK_MAID:
-        if (responseText.contains("You've already got")) {
-          return;
-        }
-
-        CampgroundRequest.removeCampgroundItem(ItemPool.get(ItemPool.MEAT_BUTLER, 1));
-        CampgroundRequest.removeCampgroundItem(ItemPool.get(ItemPool.MAID, 1));
-        CampgroundRequest.setCampgroundItem(ItemPool.CLOCKWORK_MAID, 1);
-        break;
-
-      case ItemPool.MEAT_BUTLER:
-        if (responseText.contains("You've already got")) {
-          return;
-        }
-
-        CampgroundRequest.removeCampgroundItem(ItemPool.get(ItemPool.MAID, 1));
-        CampgroundRequest.removeCampgroundItem(ItemPool.get(ItemPool.CLOCKWORK_MAID, 1));
-        CampgroundRequest.setCampgroundItem(ItemPool.MEAT_BUTLER, 1);
-        break;
-
-      case ItemPool.BEANBAG_CHAIR:
-      case ItemPool.GAUZE_HAMMOCK:
-      case ItemPool.HOT_BEDDING:
-      case ItemPool.COLD_BEDDING:
-      case ItemPool.STENCH_BEDDING:
-      case ItemPool.SPOOKY_BEDDING:
-      case ItemPool.SLEAZE_BEDDING:
-      case ItemPool.SLEEPING_STOCKING:
-      case ItemPool.LAZYBONES_RECLINER:
-      case ItemPool.SALTWATERBED:
-      case ItemPool.SPIRIT_BED:
-        if (responseText.contains("You've already got")
-            || responseText.contains("You don't have")) {
-          return;
-        }
-
-        CampgroundRequest.setCurrentBed(ItemPool.get(itemId, 1));
+        Stream.of(
+                ItemPool.MAID,
+                ItemPool.MEAT_BUTLER,
+                ItemPool.CLOCKWORK_MAID,
+                ItemPool.PORTABLE_HOUSEKEEPING_ROBOT)
+            .map(id -> ItemPool.get(id, 1))
+            .forEach(CampgroundRequest::removeCampgroundItem);
         CampgroundRequest.setCampgroundItem(itemId, 1);
         break;
 
-      case ItemPool.MILKY_POTION:
-      case ItemPool.SWIRLY_POTION:
-      case ItemPool.BUBBLY_POTION:
-      case ItemPool.SMOKY_POTION:
-      case ItemPool.CLOUDY_POTION:
-      case ItemPool.EFFERVESCENT_POTION:
-      case ItemPool.FIZZY_POTION:
-      case ItemPool.DARK_POTION:
-      case ItemPool.MURKY_POTION:
+      case ItemPool.MILKY_POTION,
+          ItemPool.SWIRLY_POTION,
+          ItemPool.BUBBLY_POTION,
+          ItemPool.SMOKY_POTION,
+          ItemPool.CLOUDY_POTION,
+          ItemPool.EFFERVESCENT_POTION,
+          ItemPool.FIZZY_POTION,
+          ItemPool.DARK_POTION,
+          ItemPool.MURKY_POTION:
         String[][] strings = ItemPool.bangPotionStrings;
 
         for (int i = 0; i < strings.length; ++i) {
@@ -3777,9 +3768,7 @@ public class UseItemRequest extends GenericRequest {
 
         break;
 
-      case ItemPool.VIAL_OF_RED_SLIME:
-      case ItemPool.VIAL_OF_YELLOW_SLIME:
-      case ItemPool.VIAL_OF_BLUE_SLIME:
+      case ItemPool.VIAL_OF_RED_SLIME, ItemPool.VIAL_OF_YELLOW_SLIME, ItemPool.VIAL_OF_BLUE_SLIME:
         strings = ItemPool.slimeVialStrings[0];
         for (int i = 0; i < strings.length; ++i) {
           if (responseText.contains(strings[i][1])) {
@@ -3798,9 +3787,9 @@ public class UseItemRequest extends GenericRequest {
         }
         break;
 
-      case ItemPool.VIAL_OF_ORANGE_SLIME:
-      case ItemPool.VIAL_OF_GREEN_SLIME:
-      case ItemPool.VIAL_OF_VIOLET_SLIME:
+      case ItemPool.VIAL_OF_ORANGE_SLIME,
+          ItemPool.VIAL_OF_GREEN_SLIME,
+          ItemPool.VIAL_OF_VIOLET_SLIME:
         strings = ItemPool.slimeVialStrings[1];
         for (int i = 0; i < strings.length; ++i) {
           if (responseText.contains(strings[i][1])) {
@@ -3819,12 +3808,12 @@ public class UseItemRequest extends GenericRequest {
         }
         break;
 
-      case ItemPool.VIAL_OF_VERMILION_SLIME:
-      case ItemPool.VIAL_OF_AMBER_SLIME:
-      case ItemPool.VIAL_OF_CHARTREUSE_SLIME:
-      case ItemPool.VIAL_OF_TEAL_SLIME:
-      case ItemPool.VIAL_OF_INDIGO_SLIME:
-      case ItemPool.VIAL_OF_PURPLE_SLIME:
+      case ItemPool.VIAL_OF_VERMILION_SLIME,
+          ItemPool.VIAL_OF_AMBER_SLIME,
+          ItemPool.VIAL_OF_CHARTREUSE_SLIME,
+          ItemPool.VIAL_OF_TEAL_SLIME,
+          ItemPool.VIAL_OF_INDIGO_SLIME,
+          ItemPool.VIAL_OF_PURPLE_SLIME:
         strings = ItemPool.slimeVialStrings[2];
         for (int i = 0; i < strings.length; ++i) {
           if (responseText.contains(strings[i][1])) {
@@ -4125,16 +4114,14 @@ public class UseItemRequest extends GenericRequest {
         return;
 
       case ItemPool.EVILOMETER:
-
         // Parse the result and save current state
-        UseItemRequest.getEvilLevels(responseText);
+        CryptManager.examineEvilometer(responseText);
         return;
 
       case ItemPool.EVIL_EYE:
         if (responseText.contains("Evilometer emits three quick beeps")) {
           int evilness = Math.min(Preferences.getInteger("cyrptNookEvilness"), 3 * count);
-          Preferences.increment("cyrptNookEvilness", -evilness);
-          Preferences.increment("cyrptTotalEvilness", -evilness);
+          CryptManager.decreaseEvilness(AdventurePool.DEFILED_NOOK, evilness);
         }
         break;
 
@@ -4396,6 +4383,10 @@ public class UseItemRequest extends GenericRequest {
 
       case ItemPool.LOVE_CHOCOLATE:
         Preferences.increment("_loveChocolatesUsed");
+        break;
+
+      case ItemPool.EXTRA_TIME:
+        Preferences.increment("_extraTimeUsed");
         break;
 
       case ItemPool.CREEPY_VOODOO_DOLL:
@@ -4923,6 +4914,11 @@ public class UseItemRequest extends GenericRequest {
         Preferences.increment("legacyPoints", count, 19, false);
         break;
 
+      case ItemPool.RESEARCH_FRAGMENT:
+        // Get success text
+        Preferences.increment("wereProfessorPoints", count, 23, false);
+        break;
+
       case ItemPool.ESSENCE_OF_ANNOYANCE:
         if (!responseText.contains("You quaff")) {
           return;
@@ -5295,6 +5291,10 @@ public class UseItemRequest extends GenericRequest {
 
       case ItemPool.SCHOOL_OF_HARD_KNOCKS_DIPLOMA:
         Preferences.setBoolean("_hardKnocksDiplomaUsed", true);
+        break;
+
+      case ItemPool.PUNCHING_MIRROR:
+        Preferences.setBoolean("_punchingMirrorUsed", true);
         break;
 
       case ItemPool.SOURCE_TERMINAL_PRAM_CHIP:
@@ -6133,6 +6133,13 @@ public class UseItemRequest extends GenericRequest {
         // There's a deafening Bwoom-woob-woob-woob and then an ominous hum fills the air.
         CampgroundRequest.setCampgroundItem(ItemPool.GIANT_BLACK_MONOLITH, 1);
         break;
+
+      case ItemPool.MAP_TO_A_CANDY_RICH_BLOCK:
+        // If this succeeded, this is handled in GenericRequest.checkItemRedirection
+        // This is only for setting the pref on a failed second use.
+        Preferences.setBoolean("_mapToACandyRichBlockUsed", true);
+        break;
+
       case ItemPool.VAN_KEY:
         // When the player has a NEP Booze/Food quest active, up to 11 bags or keys can be opened
         if (Preferences.getString("_questPartyFairQuest").equals("food")
@@ -6145,6 +6152,45 @@ public class UseItemRequest extends GenericRequest {
             && !Preferences.getString("_questPartyFairProgress").isEmpty()) {
           Preferences.increment("_questPartyFairItemsOpened", 1, 11, false);
         }
+        break;
+      case ItemPool.TIED_UP_LEAFLET:
+        // If we are redirected to a fight, the item is
+        // consumed elsewhere. If we got here, it wasn't
+        // actually consumed
+        Preferences.setBoolean("_tiedUpFlamingLeafletFought", true);
+        return;
+      case ItemPool.TIED_UP_MONSTERA:
+        // If we are redirected to a fight, the item is
+        // consumed elsewhere. If we got here, it wasn't
+        // actually consumed
+        Preferences.setBoolean("_tiedUpFlamingMonsteraFought", true);
+        return;
+      case ItemPool.TIED_UP_LEAVIATHAN:
+        // If we are redirected to a fight, the item is
+        // consumed elsewhere. If we got here, it wasn't
+        // actually consumed
+        Preferences.setBoolean("_tiedUpLeaviathanFought", true);
+        return;
+      case ItemPool.WARDROBE_O_MATIC:
+        InventoryManager.checkFuturistic();
+        return;
+      case ItemPool.LIL_SNOWBALL_FACTORY:
+        Preferences.setBoolean("_snowballFactoryUsed", true);
+        break;
+      case ItemPool.LAW_OF_AVERAGES:
+        var pref = "_lawOfAveragesUsed";
+        if (responseText.contains("You already feel pretty average")) {
+          Preferences.setInteger(
+              pref,
+              Math.max(
+                  Preferences.getInteger(pref),
+                  InventoryManager.getCount(ItemPool.LAW_OF_AVERAGES)));
+        } else {
+          Preferences.increment(pref);
+        }
+        return;
+      case ItemPool.YAM_BATTERY:
+        Preferences.setBoolean("_yamBatteryUsed", true);
         break;
     }
 
@@ -6163,6 +6209,15 @@ public class UseItemRequest extends GenericRequest {
       if (itemId == ItemPool.ASDON_MARTIN) {
         RequestThread.postRequest(new CampgroundRequest("workshed"));
       }
+    }
+
+    if (CampgroundRequest.isBedding(itemId)) {
+      if (responseText.contains("You've already got") || responseText.contains("You don't have")) {
+        return;
+      }
+
+      CampgroundRequest.setCurrentBed(ItemPool.get(itemId, 1));
+      CampgroundRequest.setCampgroundItem(itemId, 1);
     }
 
     // Finally, remove the item from inventory if it was successfully used.
@@ -6198,7 +6253,7 @@ public class UseItemRequest extends GenericRequest {
         String name = item.getName();
         String giftFrom = giftFromMatcher.group(2);
         String message = "Opening " + name + " from " + giftFrom;
-        RequestLogger.printLine("<font color=\"green\">" + message + "</font>");
+        RequestLogger.printHtml("<font color=\"green\">" + message + "</font>");
         RequestLogger.updateSessionLog(message);
       }
     }
@@ -6220,33 +6275,6 @@ public class UseItemRequest extends GenericRequest {
     String recipeName =
         ModifierDatabase.getStringModifier(ModifierType.ITEM, itemId, StringModifier.RECIPE);
     return recipeName.equals("") ? null : recipeName;
-  }
-
-  private static void getEvilLevels(final String responseText) {
-    int total = 0;
-    int alcove = 0;
-    int cranny = 0;
-    int niche = 0;
-    int nook = 0;
-
-    Matcher matcher = EVILOMETER_PATTERN.matcher(responseText);
-    if (matcher.find()) {
-      total = StringUtilities.parseInt(matcher.group(1));
-      alcove = StringUtilities.parseInt(matcher.group(2));
-      cranny = StringUtilities.parseInt(matcher.group(3));
-      niche = StringUtilities.parseInt(matcher.group(4));
-      nook = StringUtilities.parseInt(matcher.group(5));
-    }
-
-    Preferences.setInteger("cyrptTotalEvilness", total);
-    Preferences.setInteger("cyrptAlcoveEvilness", alcove);
-    Preferences.setInteger("cyrptCrannyEvilness", cranny);
-    Preferences.setInteger("cyrptNicheEvilness", niche);
-    Preferences.setInteger("cyrptNookEvilness", nook);
-
-    if (responseText.contains("give it a proper burial")) {
-      ResultProcessor.removeItem(ItemPool.EVILOMETER);
-    }
   }
 
   private static void getBugbearBiodataLevels(String responseText) {
@@ -6900,6 +6928,9 @@ public class UseItemRequest extends GenericRequest {
           ItemPool.SHAKING_CRAPPY_CAMERA,
           ItemPool.SHAKING_SKULL,
           ItemPool.SPOOKY_PUTTY_MONSTER,
+          ItemPool.TIED_UP_LEAFLET,
+          ItemPool.TIED_UP_LEAVIATHAN,
+          ItemPool.TIED_UP_MONSTERA,
           ItemPool.TIME_SPINNER,
           ItemPool.WAX_BUGBEAR,
           ItemPool.WHITE_PAGE,

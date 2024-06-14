@@ -16,6 +16,7 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import javax.swing.ImageIcon;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -50,8 +51,12 @@ import net.sourceforge.kolmafia.session.ElVibratoManager;
 import net.sourceforge.kolmafia.session.ElVibratoManager.Punchcard;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.HTMLParserUtils;
 import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+import org.htmlcleaner.HtmlCleaner;
+import org.htmlcleaner.TagNode;
+import org.htmlcleaner.XPatherException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -720,14 +725,7 @@ public class ItemDatabase {
     }
   }
 
-  public static int registerItem(String descId) {
-    // Pull the itemId and itemName from the item description, which will be cached
-    String text =
-        DebugDatabase.itemDescriptionText(DebugDatabase.rawItemDescriptionText(descId, true));
-    if (text == null) {
-      return -1;
-    }
-
+  public static int registerItem(String descId, String text) {
     int itemId = DebugDatabase.parseItemId(text);
 
     // Link this itemId and descId
@@ -740,6 +738,17 @@ public class ItemDatabase {
     ItemDatabase.registerItem(itemId, itemName, descId, null, 0, false);
 
     return itemId;
+  }
+
+  public static int registerItem(String descId) {
+    // Pull the itemId and itemName from the item description, which will be cached
+    String text =
+        DebugDatabase.itemDescriptionText(DebugDatabase.rawItemDescriptionText(descId, true));
+    if (text == null) {
+      return -1;
+    }
+
+    return registerItem(descId, text);
   }
 
   public static final void registerItem(final int itemId, String itemName, String descId) {
@@ -1738,6 +1747,7 @@ public class ItemDatabase {
     }
     return itemName;
   }
+
   /**
    * Returns the name for an item, given its description id number.
    *
@@ -2340,6 +2350,27 @@ public class ItemDatabase {
     }
   }
 
+  public static void parseDartPerks(final String desc) {
+    if (!desc.contains("Active Perks")) {
+      Preferences.setString("everfullDartPerks", "");
+    } else {
+      HtmlCleaner cleaner = HTMLParserUtils.configureDefaultParser();
+      TagNode doc = cleaner.clean(desc);
+      String xpath = "//ul/li/text()";
+
+      Object[] result;
+      try {
+        result = doc.evaluateXPath(xpath);
+      } catch (XPatherException ex) {
+        // do nothing
+        return;
+      }
+
+      var perks = Arrays.stream(result).map(Object::toString).collect(Collectors.joining(","));
+      Preferences.setString("everfullDartPerks", perks);
+    }
+  }
+
   public static boolean unusableInBeecore(final int itemId) {
     return switch (itemId) {
       case
@@ -2392,8 +2423,13 @@ public class ItemDatabase {
     };
   }
 
+  public static boolean isAllowed(final AdventureResult ar) {
+    return ItemDatabase.isAllowed(ar.getItemId());
+  }
+
   public static boolean isAllowed(final int itemId) {
-    return StandardRequest.isAllowed(RestrictedItemType.ITEMS, ItemDatabase.getDataName(itemId));
+    return itemId < 1
+        || StandardRequest.isAllowed(RestrictedItemType.ITEMS, ItemDatabase.getDataName(itemId));
   }
 
   public static boolean isAllowedInStandard(final int itemId) {

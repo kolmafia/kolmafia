@@ -31,6 +31,7 @@ import internal.network.FakeHttpClientBuilder;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath;
+import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.StaticEntity;
@@ -111,6 +112,40 @@ public class CampgroundRequestTest {
       assertEquals(Preferences.getInteger("libramSummons"), 12);
       assertEquals(UseSkillRequest.lastSkillUsed, -1);
       assertEquals(UseSkillRequest.lastSkillCount, 0);
+    }
+  }
+
+  @Nested
+  class Rests {
+    @Test
+    void doesNotCountFailedRests() {
+      var cleanups =
+          new Cleanups(
+              // A rest did not get processed by the game, because it is pointless to rest
+              // (full HP, full MP, no Beaten Up)
+              withNextResponse(200, html("request/test_do_not_count_failed_rests.html")),
+              withProperty("timesRested", 137));
+
+      try (cleanups) {
+        new GenericRequest("campground.php?action=rest").run();
+        // timesRested did not increase
+        assertThat("timesRested", isSetTo(137));
+      }
+    }
+
+    @Test
+    void countsSuccessfulRests() {
+      var cleanups =
+          new Cleanups(
+              // A successful rest
+              withNextResponse(200, html("request/test_count_successful_rests.html")),
+              withProperty("timesRested", 137));
+
+      try (cleanups) {
+        new GenericRequest("campground.php?action=rest").run();
+        // timesRested did increase
+        assertThat("timesRested", isSetTo(138));
+      }
     }
   }
 
@@ -311,7 +346,7 @@ public class CampgroundRequestTest {
 
   @Nested
   class BlackMonolith {
-    private static AdventureResult OMINOUS_WISDOM = EffectPool.get(EffectPool.OMINOUS_WISDOM);
+    private static final AdventureResult OMINOUS_WISDOM = EffectPool.get(EffectPool.OMINOUS_WISDOM);
 
     @Test
     void canTrackBlackMonolithFirstUse() {
@@ -426,6 +461,31 @@ public class CampgroundRequestTest {
         assertThat(output, startsWith(expected));
         assertCampgroundItemCount(ItemPool.MEAT_BUTLER, 1);
         assertEquals(KoLCharacter.getAvailableMeat(), 917);
+      }
+    }
+  }
+
+  @Test
+  void canParseBurningLeavesInSmall() {
+    var cleanups = new Cleanups(withEmptyCampground(), withPath(Path.SMALL));
+
+    try (cleanups) {
+      String page = html("request/test_campground_small.html");
+      CampgroundRequest.parseResponse("campground.php", page);
+      assertCampgroundItemCount(ItemPool.A_GUIDE_TO_BURNING_LEAVES, 1);
+    }
+  }
+
+  @Nested
+  class PsychoJar {
+    @Test
+    void canDetectJickJar() {
+      var cleanups = new Cleanups(withEmptyCampground());
+
+      try (cleanups) {
+        CampgroundRequest.parseResponse(
+            "campground.php", html("request/test_campground_jickjar.html"));
+        assertCampgroundItemCount(ItemPool.JICK_JAR, 1);
       }
     }
   }

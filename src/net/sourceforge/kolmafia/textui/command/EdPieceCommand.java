@@ -81,7 +81,6 @@ public class EdPieceCommand extends AbstractCommand implements ModeCommand {
     return Arrays.stream(Animal.values()).anyMatch(a -> parameters.equalsIgnoreCase(a.getName()));
   }
 
-  @Override
   public String normalize(String parameters) {
     return parameters;
   }
@@ -117,7 +116,7 @@ public class EdPieceCommand extends AbstractCommand implements ModeCommand {
 
       output.append("</table>");
 
-      RequestLogger.printLine(output.toString());
+      RequestLogger.printHtml(output.toString());
       RequestLogger.printLine();
 
       parameters = "";
@@ -129,7 +128,7 @@ public class EdPieceCommand extends AbstractCommand implements ModeCommand {
 
       output.append("The current decoration on The Crown of Ed the Undying is ");
       if (currentAnimal.equals("")) {
-        output.append("&lt;nothing&gt;");
+        output.append("<nothing>");
       } else {
         output.append("a golden ");
         output.append(currentAnimal);

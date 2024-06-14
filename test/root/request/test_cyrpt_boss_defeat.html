@@ -1,0 +1,173 @@
+<html><head>
+<script language=Javascript>
+<!--
+if (parent.frames.length == 0) location.href="game.php";
+top.charpane.location.href="charpane.php";
+//-->
+</script>
+<script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/keybinds.min.2.js"></script>
+<script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/window.20111231.js"></script>
+<script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/jquery-1.3.1.min.js"></script>
+<script language="javascript" src="https://d2uyhvukfffg5a.cloudfront.net/scripts/core.js"></script><script src="https://d2uyhvukfffg5a.cloudfront.net/scripts/fight.js"></script>
+<script>
+var onturn = 2;
+
+</script>	<link rel="stylesheet" type="text/css" href="https://d2uyhvukfffg5a.cloudfront.net/styles.20230117d.css">
+<style> body * { image-rendering: auto!important;} </style><style type='text/css'>
+.faded {
+	zoom: 1;
+	filter: alpha(opacity=35);
+	opacity: 0.35;
+	-khtml-opacity: 0.35; 
+    -moz-opacity: 0.35;
+}
+</style>
+
+</head>
+
+<body>
+<center><table  width=95%  cellspacing=0 cellpadding=0><tr><td style="color: white;" align=center bgcolor=blue><b>Combat!</b></td></tr><tr><td style="padding: 5px; border: 1px solid blue;"><center><table><tr><td><center><table><tr><td><div id=monsterpic style='position: relative;'>	<img  id='monpic'   src="https://d2uyhvukfffg5a.cloudfront.net/adventureimages/ghuol_huge.gif" width=100 height=100></div><td align="center" id="dartboardtd"><style>.ed_part button  { border: 0; outline: 0; background: none!important; padding: 12px 0px 12px 0px!important; cursor: pointer; position: absolute; top: 50px; left: 82px; pointer-events: auto; } .ed_part form { display: inline; } .ed_part img { position: absolute; top: 0; left: 0} .ed_part { position: absolute; transform-origin: center; top: 0; left: 0; height: 138px; width: 138px; pointer-events: none; } .ed_6_1 button { color: white; }.ed_6_1 { transform: rotate(-90deg); } .ed_6_2 { transform: rotate(-35deg); } .ed_6_3 { transform: rotate(-146deg) } .ed_6_3 button { transform: scale(-1,-1); } .ed_6_4 { transform: rotate(146deg) } .ed_6_4 button { color: white; transform: scale(-1,-1) }.ed_6_5 { transform: rotate(28deg) ;} .ed_6_5 button { color: white; }.ed_6_6 { transform: rotate(89deg); } #dboard .ed_0 button, .nobull  { background-color: transparent!important; height: 18px; width: 18px; border-radius: 18px; position: absolute; top: 58px; left: 60px; }</style><div id="dboard" style="position: relative; width: 138px; height: 148px" ><img src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/dartboard_6.png" height="138" width="138" style="" /><div class="ed_part ed_6_1"><form action="fight.php" method="post"><input type="hidden" name="action" value="skill"/><input type="hidden" name="whichskill" value="7513"/><button>torso</button></form></div><div class="ed_part ed_6_2"><form action="fight.php" method="post"><input type="hidden" name="action" value="skill"/><input type="hidden" name="whichskill" value="7514"/><button>leg</button></form></div><div class="ed_part ed_6_3"><form action="fight.php" method="post"><input type="hidden" name="action" value="skill"/><input type="hidden" name="whichskill" value="7515"/><button>butt</button></form></div><div class="ed_part ed_6_4"><form action="fight.php" method="post"><input type="hidden" name="action" value="skill"/><input type="hidden" name="whichskill" value="7516"/><button>arm</button></form></div><div class="ed_part ed_6_5"><form action="fight.php" method="post"><input type="hidden" name="action" value="skill"/><input type="hidden" name="whichskill" value="7517"/><button>head</button></form></div><div class="ed_part ed_6_6"><form action="fight.php" method="post"><input type="hidden" name="action" value="skill"/><input type="hidden" name="whichskill" value="7518"/><button>tail</button></form></div><div class="ed_part ed_0"><form action="fight.php" method="post"><input type="hidden" name="action" value="skill"/><input type="hidden" name="whichskill" value="7521"/><button title="bullseye" alt="bullseye"></button></form></div></div><small>Click to throw<br>4 darts left</td></td><td id='fmsg' valign=center>You're fighting <span id='monname'>a huge ghuol</span></td><!-- MONSTERID: 191 --><td width=30></td><td id='fstats'><table><tr><td width=30><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/nicesword.gif width=30 height=30 alt="Enemy's Attack Power" title="Enemy's Attack Power"></td><td width=50 valign=center align=left><b><font size=+2>73</font></b></td><td><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/spookyflavor.gif alt="This monster is Undead" title="This monster is Undead"></td></tr><tr><td width=30><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/whiteshield.gif width=30 height=30 alt="Enemy's Defense" title="Enemy's Defense"></td><td width=50 valign=center align=left><b><font size=+2>63</font></b></td><td><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/skull.gif width=30 height=30 alt="This monster is Spooky.  Spooky is weak against Hot and Stench." title="This monster is Spooky.  Spooky is weak against Hot and Stench."></td></tr><tr><td width=30><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/hp.gif width=30 height=30 alt="Enemy's Hit Points" title="Enemy's Hit Points"></td><td width=50 valign=center align=left><b><font size=+2>0</font></b></td><td><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/watch.gif alt="Initiative +60%" title="Initiative +60%"></td></tr></table></td></tr></table><br><script type="text/javascript">var monsterstats = {"hp":"0","def":"63","off":"73"};</script><table><tr><Td><p><center>You throw a dart at your foe's head. You hit it! It pierces it for 103 (<font color=red><b>+98</b></font>) (<font color=blue><b>+49</b></font>) (<font color=green><b>+98</b></font>) (<font color=gray><b>+1</b></font>) (<font color=blueviolet><b>+49</b></font>) damage. Your dart managed to pierce a very important body part.<center><table><tr><td><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/nicesword.gif width=30 height=30 alt="Monster Attack" title="Monster Attack"></td><td valign=center>Monster attack power reduced by <b>60</td></tr></table></center><center><table><tr><td><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/whiteshield.gif width=30 height=30 alt="Monster Defense" title="Monster Defense"></td><td valign=center>Monster defense reduced by <b>60</td></tr></table></center><br><br>You are able to throw it before your foe even reacts.</center></td></tr></table><table><tr><Td></td></tr></table><script>var mf = document.getElementById("maskform"); if (mf) mf.style.display="none";</script><p>You catch a whiff of some horrible science stuff in The Hidden Hospital<script>document.getElementById("dartboardtd").style.display="none";</script><p><center>You win the fight!<!--WINWINWIN--><p><p>As the last breath (which, in case you were wondering, was foul-smelling and went on for a really long time) escapes the huge ghuol, your Evilometer beeps once, very loudly.<p><center><table><tr><td align=center valign=center><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/meat.gif" width=30 height=30></td><td valign=center>You gain 916 Meat</td></tr></table></center><!--familiarmessage--><center><table><tr><td align=center valign=center><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/bbat_fam.gif" width=30 height=30></td><td valign=center>Chef Bookicus flits around and points at cooking ingredients.</td></tr></table></center><center><table class="item" style="float: none" rel="id=161&s=16&q=0&d=1&g=0&t=1&n=1&m=0&p=0&u=e"><tr><td><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/egg.gif" alt="ghuol egg" title="ghuol egg" class=hand onClick='descitem(806730322)' ></td><td valign=center class=effect>You acquire an item: <b>ghuol egg</b></td></tr></table></center><p>You gain 52 Fortitude.<bR>You gain 17 Wizardliness.<bR>You gain 15 Smarm.<bR><center><table><tr><td align=center valign=center><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/stillsuit.gif" width=30 height=30 title="stillsuit" alt="stillsuit"></td><td valign=center>You sense that Black Grrl, back at your campsite, has gotten slightly sweatier.</td></tr></table></center><!--familiarmessage--><center><table><tr><td align=center valign=center><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/bbat_fam.gif" width=30 height=30></td><td valign=center>"According to my memories, a gaunt ghuol at The Defiled Cranny may have what you're looking for."</td></tr></table></center><p><center><table><tr><td align=center valign=center><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/autumnaton.gif" width=30 height=30 title="autumnaton" alt="autumnaton"></td><td valign=center>By your last adventure, you spy your autumn-aton scavenging for things and repeating its programming, &quot;WHILE TRUE; WHILE TRUE; IF (TIMELEFT); ENDWHILE; ENDWHILE&quot;. <br>It should return from The Smut Orc Logging Camp after <!-- autumnback -->2 more adventures.</td></tr></table></center><p><a name="end"></a><p>As the battle ends, your cleaver flashes bright <span style="color: gray">gray</span>.<p>The little flowers and plants that grow wherever you walk make you feel good about life, in a way that converts directly into HP somehow.<center><table><tr><td><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/hp.gif" height=30 width=30></td><td valign=center class=effect>You gain 10 hit points.</td></tr></table></center><a href="crypt.php">Go back to the Cyrpt</a><script>parent.charpane.location.href="charpane.php";</script><script language="javascript">
+	function updateParseItem(iid, field, info) {
+		var tbl = $('#ic'+iid);
+		var data = parseItem(tbl);
+		if (!data) return;
+		data[field] = info;
+		var out = [];
+		for (i in data) {
+			if (!data.hasOwnProperty(i)) continue;
+			out.push(i+'='+data[i]);
+		}
+		tbl.attr('rel', out.join('&'));
+	}
+	function parseItem(tbl) {
+		tbl = $(tbl);
+		var rel = tbl.attr('rel');
+		var data = {};
+		if (!rel) return data;
+		var parts = rel.split('&');
+		for (i in parts) {
+			if (!parts.hasOwnProperty(i)) continue;
+			var kv = parts[i].split('=');
+			tbl.data(kv[0], kv[1]);
+			data[kv[0]] = kv[1];
+		}
+		return data;
+	}
+</script><script type="text/javascript" src="https://d2uyhvukfffg5a.cloudfront.net/scripts/pop_query.20230713.js"></script>
+<script type="text/javascript" src="https://d2uyhvukfffg5a.cloudfront.net/scripts/ircm.20230626.js"></script>
+<script type="text/javascript">
+var tp = top;
+function pop_ircm_contents(i, some) {
+	var contents = '',
+		shown = 0,
+		da = '&nbsp;<a href="#" rel="?" class="small dojaxy">[some]</a>&nbsp;<a href="#" rel="',
+		db = '" class="small dojaxy">[all]</a>',
+		dc = '<div style="width:100%; padding-bottom: 3px;" rel="',
+		dd = '<a href="#" rel="1" class="small dojaxy">[';
+	one = 'one'; ss=some;
+if (i.d==1 && i.s>0) { shown++; 
+contents += dc + 'sellstuff.php?action=sell&ajax=1&type=quant&whichitem%5B%5D=IID&howmany=NUM&pwd=e23fa7d8e4630a793b28018ad6b133c8" id="pircm_'+i.id+'"><b>Auto-Sell ('+i.s+' meat):</b> '+dd+one+']</a>';
+if (ss) { contents += da + i.n + db;}
+contents += '</div>';
+}
+one = 'one'; ss=some;
+if (i.q==0) { shown++; 
+contents += dc + 'inventory.php?action=closetpush&ajax=1&whichitem=IID&qty=NUM&pwd=e23fa7d8e4630a793b28018ad6b133c8" id="pircm_'+i.id+'"><b>Closet:</b> '+dd+one+']</a>';
+if (ss) { contents += da + i.n + db;}
+contents += '</div>';
+}
+one = 'one'; ss=some;
+if (i.q==0 && i.g==0 && i.t==1) { shown++; 
+contents += dc + 'managestore.php?action=additem&qty1=NUM&item1=IID&price1=&limit1=&ajax=1&pwd=e23fa7d8e4630a793b28018ad6b133c8" id="pircm_'+i.id+'"><b>Stock in Mall:</b> '+dd+one+']</a>';
+if (ss) { contents += da + i.n + db;}
+contents += '</div>';
+}
+one = 'one'; ss=some;
+if (i.q==0) { shown++; 
+contents += dc + 'managecollection.php?action=put&ajax=1&whichitem1=IID&howmany1=NUM&pwd=e23fa7d8e4630a793b28018ad6b133c8" id="pircm_'+i.id+'"><b>Add to Display Case:</b> '+dd+one+']</a>';
+if (ss) { contents += da + i.n + db;}
+contents += '</div>';
+}
+one = 'one'; ss=some;
+if (i.q==0 && i.t==1) { shown++; 
+contents += dc + 'clan_stash.php?action=addgoodies&ajax=1&item1=IID&qty1=NUM&pwd=e23fa7d8e4630a793b28018ad6b133c8" id="pircm_'+i.id+'"><b>Contribute to Clan:</b> '+dd+one+']</a>';
+if (ss) { contents += da + i.n + db;}
+contents += '</div>';
+}
+one = 'one'; ss=some;
+if (i.u && i.u != "." && !i.ac) { shown++; 
+contents += dc + 'inv_'+(i.u=="a"?"redir":(lab=(i.u=="u"?"use":(i.u=="e"?"eat":(i.u=="b"?"booze":(i.u=="s"?"spleen":"equip"))))))+'.php?ajax=1&whichitem=IID&itemquantity=NUM&quantity=NUM'+(i.u=="q"?"&action=equip":"")+'&pwd=e23fa7d8e4630a793b28018ad6b133c8" id="pircm_'+i.id+'"><b>'+ucfirst(unescape(i.ou ? i.ou.replace(/\+/g," ") : (lab=="booze"?"drink":lab)))+':</b> '+dd+one+']</a>';
+if (ss && i.u != 'q' && !(i.u=='u' && i.m==0)) { contents += da + i.n + db;}
+contents += '</div>';
+}
+one = 'one'; ss=some;
+if (i.u && i.u != "." && i.ac) { shown++; 
+contents += dc + 'inv_equip.php?slot=1&ajax=1&whichitem=IID&action=equip&pwd=e23fa7d8e4630a793b28018ad6b133c8" id="pircm_'+i.id+'"><b>Equip (slot 1):</b> '+dd+one+']</a>';
+if (ss && i.u != 'q' && !(i.u=='u' && i.m==0)) { contents += da + i.n + db;}
+contents += '</div>';
+}
+one = 'one'; ss=some;
+if (i.u && i.u != "." && i.ac) { shown++; 
+contents += dc + 'inv_equip.php?slot=2&ajax=1&whichitem=IID&action=equip&pwd=e23fa7d8e4630a793b28018ad6b133c8" id="pircm_'+i.id+'"><b>Equip (slot 2):</b> '+dd+one+']</a>';
+if (ss && i.u != 'q' && !(i.u=='u' && i.m==0)) { contents += da + i.n + db;}
+contents += '</div>';
+}
+one = 'one'; ss=some;
+if (i.u && i.u != "." && i.ac) { shown++; 
+contents += dc + 'inv_equip.php?slot=3&ajax=1&whichitem=IID&action=equip&pwd=e23fa7d8e4630a793b28018ad6b133c8" id="pircm_'+i.id+'"><b>Equip (slot 3):</b> '+dd+one+']</a>';
+if (ss && i.u != 'q' && !(i.u=='u' && i.m==0)) { contents += da + i.n + db;}
+contents += '</div>';
+}
+
+	return [contents, shown];
+}
+tp=top
+var todo = [];
+function nextAction() {
+	var next_todo = todo.shift();
+	if (next_todo) {
+		eval(next_todo);
+	}
+}
+function dojax(dourl, afterFunc, hoverCaller, failureFunc, method, params) {
+	$.ajax({
+		type: method || 'GET', url: dourl, cache: false,
+		data: params || null,
+		global: false,
+		success: function (out) {
+			nextAction();
+			if (out.match(/no\|/)) {
+				var parts = out.split(/\|/);
+				if (failureFunc) failureFunc(parts[1]);
+				else if (window.dojaxFailure) window.dojaxFailure(parts[1]);
+				else if (tp.chatpane.handleMessage) tp.chatpane.handleMessage({type: 'event', msg: 'Oops!  Sorry, Dave, you appear to be ' + parts[1]});
+				else  $('#ChatWindow').append('<font color="green">Oops!  Sorry, Dave, you appear to be ' + parts[1] + '.</font><br />' + "\n");
+				return;
+			}
+
+			if (hoverCaller)  {
+				float_results(hoverCaller, out);
+				if (afterFunc) { afterFunc(out); }
+				return;
+			}
+$(tp.mainpane.document).find("#effdiv").remove(); if(!window.dontscroll || (window.dontscroll && dontscroll==0)) { window.scroll(0,0);}
+			var $eff = $(tp.mainpane.document).find('#effdiv');
+			if ($eff.length == 0) {
+				var d = tp.mainpane.document.createElement('DIV');
+				d.id = 'effdiv';
+				var b = tp.mainpane.document.body;
+				if ($('#content_').length > 0) {
+					b = $('#content_ div:first')[0];
+				}
+				b.insertBefore(d, b.firstChild);
+				$eff = $(d);
+			}
+			$eff.find('a[name="effdivtop"]').remove().end()
+				.prepend('<a name="effdivtop"></a><center>' + out + '</center>').css('display','block');
+			if (!window.dontscroll || (window.dontscroll && dontscroll==0)) {
+				tp.mainpane.document.location = tp.mainpane.document.location + "#effdivtop";
+			}
+			if (afterFunc) { afterFunc(out); }
+		}
+	});
+}

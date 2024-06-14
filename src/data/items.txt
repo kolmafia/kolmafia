@@ -555,7 +555,7 @@
 527	volleyball	630554300	volley.gif	usable	t,d	25
 528	blood-faced volleyball	952613923	wilson.gif	grow	t,d	35
 529	fertilized ghuol egg	266108177	egg.gif	grow	t,d	19
-530	spray paint	821779253	spraycan.gif	potion, usable	t,d	25	cans of spray paint
+530	spray paint	821779253	spraycan.gif	potion	t,d	25	cans of spray paint
 531	special sauce glove	368427432	glove.gif	accessory	t,d	2500
 532	ladle of mystery	804245262	ladle.gif	accessory	t,d	1500	ladles of mystery
 533	Gnollish toolbox	885780882	toolbox.gif	multiple	t,d	23	Gnollish toolboxes
@@ -1629,7 +1629,7 @@
 1601	mandarina colada with a fly in it	440247765	daquiri.gif	drink, message	g,d	130	mandarina coladas with flies in them
 1602	prussian cathouse with a fly in it	978043304	chamflute.gif	drink, message	g,d	130	prussian cathouses with flies in them
 1603	Mae West with a fly in it	637723210	daquiri.gif	drink, message	g,d	130	Maes West with flies in them
-1604	astronaut ice-cream	695048778	astroice.gif	spleen, usable	d	42	bricks of astronaut ice cream
+1604	astronaut ice-cream	695048778	astroice.gif	spleen, usable	d	42
 1605	delectable catalyst	513832221	beaker.gif	multiple		0
 1606	ultimate wad	873886262	ultwad.gif	spleen, usable	t	0
 1607	libation of liveliness	144480035	potion7.gif	potion	t,d	36	libations of liveliness
@@ -2466,7 +2466,7 @@
 2438	scented massage oil	530550627	vial.gif	usable, combat	t	0	vials of scented massage oil
 2439	poltergeist-in-the-jar-o	844616801	moonshine.gif	none, combat	t	0	poltergeists-in-the-jars-o
 2440	unnatural gas	180343585	moonshine.gif	none, combat	t	0	jars of unnatural gas
-2441	Knob Goblin encryption key	591787452	page.gif	none	q	0
+2441	Knob Goblin Encryption Key	591787452	page.gif	none	q	0
 2442	Cobb's Knob map	325883819	map.gif	usable	q	0
 2443	pink glowstick	199035416	glowstick.gif	accessory		0	pink glowstyx
 2444	Supernova Champagne	150158476	champagne.gif	drink	t,d	180	bottles of Supernova Champagne
@@ -2968,7 +2968,7 @@
 2940	Spooky Surprise Egg	523108373	spookyegg.gif	food	t,d	420
 2941	Steal This Candy	525080486	candy.gif	potion, candy1	t,d	25	Steal These Candies
 2942	chocolate filthy lucre	512578714	lucre.gif	potion, candy1	t,d	35
-2943	Angry Farmer's Wife Candy	802063862	rcandy.gif	potion, usable, candy2	t,d	30	Angry Farmer's Wife Candies
+2943	Angry Farmer's Wife Candy	802063862	rcandy.gif	potion, candy2	t,d	30	Angry Farmer's Wife Candies
 2944	the Jickinator	653861412	raygun.gif	none, combat reusable	t	0
 2945	party hat	340531020	partyhat.gif	hat	t,d	50
 2946	V for Vivala mask	798085688	vivala.gif	accessory	t	0
@@ -4156,7 +4156,7 @@
 4128	hardened slime pants	255854067	hardslimepants.gif	pants	d	5000	pairs of hardened slime pants
 4129	hardened slime belt	663508936	hardslimebelt.gif	accessory	d	5000
 4130	empty agua de vida bottle	917576836	emptybottle.gif	none		0
-4131
+4131	boot plant	507919648	bootplant.gif	spleen, usable	t,d	50
 4132	sham champagne	319658078	chamflute.gif	drink	t,d	133	glasses of sham champagne
 4133	tempura air	647220670	tempuraair.gif	potion, usable	d	75
 4134	pressurized potion of pneumaticity	792712954	airpotion.gif	potion, usable	d	75	pressurized potions of pneumaticity
@@ -4188,8 +4188,8 @@
 4160	pebblebr&auml;u	152129110	pebblebrau.gif	drink	t	0	bottles of pebblebr&auml;u
 4161	rocky road ice cream	243723339	rricecream.gif	food	t	0	bowls of rocky road ice cream
 4162	extra-strength rubber bands	655102853	rbands.gif	familiar	t,d	75	pairs of extra-strength rubber bands
-4163	children of the candy corn	335815719	candycorn.gif	potion, usable, candy2	t	0	niblets of children of the candy corn
-4164	Good 'n' Slimy	619354651	fishgum.gif	potion, usable, candy2	t	0	boxes of Good 'n' Slimy
+4163	children of the candy corn	335815719	candycorn.gif	potion, candy2	t	0	niblets of children of the candy corn
+4164	Good 'n' Slimy	619354651	fishgum.gif	potion, candy2	t	0	boxes of Good 'n' Slimy
 4165	Staff of the Soupbone	922295560	chefstaff21.gif	weapon	d	25
 4166	Voluminous Radio Pants	175771659	vol_pants.gif	pants	t	0	pairs of Voluminous Radio Pants
 4167	Voluminous Radio Hat	268738212	vol_hat.gif	hat	t	0
@@ -5251,7 +5251,7 @@
 5223	Tome of Clip Art	574526290	book3.gif	usable	t	0	Tomes of Clip Art
 5224	Ur-Donut	517311708	powderdonut.gif	food	t,d	30
 5225	The Bomb	779127476	bigbomb.gif	none, combat	t,d	30	Bombs
-5226	box of Familiar Jacks	197797892	famjacks.gif	usable	t,d	30	boxes of Familiar Jacks
+5226	box of Familiar Jacks	197797892	famjacks.gif	multiple	t,d	30	boxes of Familiar Jacks
 5227	bucket of wine	977325030	pail.gif	drink	t,d	30	buckets of wine
 5228	ultrafondue	599765578	fonduepot.gif	food	t,d	30
 5229	unbearable light	580600083	light.gif	none, combat	t,d	30
@@ -6100,7 +6100,7 @@
 6072	confusing LED clock	829648981	ledclock.gif	usable	t	0
 6073	haggis-infused soap	551687728	haggissoap.gif	potion	t,d	5	bars of haggis-infused soap
 6074	magicberry tablets	211306489	magicberry.gif	potion	t,d	5	packs of magicberry tablets
-6075	37x37x37 puzzle cube	197804421	37cube.gif	potion, usable	t,d	5
+6075	37x37x37 puzzle cube	197804421	37cube.gif	potion	t,d	5
 6076	McLeod's Hard Haggis-Ade	331717178	beerbottle.gif	drink	t,d	5	bottles of McLeod's Hard Haggis-Ade
 6077	haggis-wrapped haggis-stuffed haggis	798617298	bighaggis.gif	food	t,d	5	haggis-wrapped haggis-stuffed haggises
 6078	home robotics kit	269335110	robokit.gif	usable	t,d	5
@@ -6138,7 +6138,7 @@
 6110	bubble-wrap simulator (half broken)	339492599	bubblewrap2.gif	usable	t,d	25	bubble-wrap simulators (half broken)
 6111	bubble-wrap simulator (one button left)	465240155	bubblewrap1.gif	usable	t,d	25	bubble-wrap simulators (one button left)
 6112	zaibatsu lobby card	828324391	littlecard.gif	none	q	0
-6113
+6113	zaibatsu level 1 card	836582946	littlecard.gif	none	q	0
 6114	zaibatsu level 2 card	524857668	littlecard.gif	usable	q	0
 6115	zaibatsu level 3 card	942771743	littlecard.gif	usable	q	0
 6116	CEO office card	733208229	littlecard.gif	usable	q	0
@@ -6426,9 +6426,9 @@
 6398	black glass	201304219	blackglass.gif	accessory	q	0	black glasses
 6399	Boss Drops	118222611	bossdrops.gif	potion, candy2	t	0	Boss Drops
 6400	Mer-kin lunchbox	257377198	bentobox.gif	none	t,d	45	Mer-kin lunchboxes
-6401	black tear	800989357	blacktear.gif	potion, usable	t,d	42
+6401	black tear	800989357	blacktear.gif	potion	t,d	42
 6402	jagged tooth	415373394	jaggedtooth.gif	potion, usable	t,d	17	jagged teeth
-6403	grisly shell fragment	617113636	chitinplate.gif	potion, usable	t,d	23
+6403	grisly shell fragment	617113636	chitinplate.gif	potion	t,d	23
 6404	violent pastilles	610227992	sororbox.gif	potion, candy2	t,d	50	fun-size tins of violent pastilles
 6405	worst candy	208490422	confused.gif	potion, candy2	t,d	50	wads of the worst candy
 6406	fudge-shaped hole in space-time	967386285	fudgehole.gif	potion	t,d	100	fudge-shaped holes in space-time
@@ -6741,11 +6741,11 @@
 6713	adder	784906937	adder.gif	none, combat	t,d	80
 6714	short calculator	512565355	littlecalculator.gif	none, combat	t,d	115
 6715	sphygmomanometer	604339447	bpcuff.gif	accessory	t,d	137	sphygmomanomanomomemeters
-6716	bag of pygmy blood	651126112	energyiv.gif	potion, usable	t,d	95	bags of pygmy blood
+6716	bag of pygmy blood	651126112	energyiv.gif	potion	t,d	95	bags of pygmy blood
 6717	tongue depressor	133442000	popstick.gif	none, combat	t,d	105
 6718	compression stocking	266431523	compsock.gif	accessory	t,d	140
 6719	midriff scrubs	324141695	midriff.gif	shirt	t,d	130	sets of midriff scrubs
-6720	pill cup	618883795	pillcup.gif	potion, usable, cook	t,d	79
+6720	pill cup	618883795	pillcup.gif	potion, cook	t,d	79
 6721	cold water bottle	959705030	coolbag.gif	hat	t,d	175
 6722	pygmy phone number	771989532	phonenum.gif	potion, usable	t,d	86
 6723	gold Boozehounds Anonymous token	582753886	boozetoken.gif	usable	t,d	160
@@ -6929,7 +6929,7 @@
 6901	hazardous sauce dosimeter	396445866	dosimeter.gif	accessory		0
 6902	flask flops	195465765	sandals.gif	accessory	t,d	5	flasks flops
 6903	candied nuts	123175979	sack2.gif	potion, usable, candy2	t,d	15	bags of candied nuts
-6904	candied bolts	614960605	sack1.gif	potion, usable, candy2	t,d	15	bags of candied bolts
+6904	candied bolts	614960605	sack1.gif	potion, candy2	t,d	15	bags of candied bolts
 6905	gingerbread robot	419812071	c13cookie1.gif	food	t	0
 6906	petit 4.1	377234723	c13cookie2.gif	food	t	0
 6907	nut-shaped Crimbo cookie	497827794	c13cookie3.gif	food	t	0
@@ -8774,7 +8774,7 @@
 8746	Conspiracy&trade; mascara	818025844	mascara.gif	potion, usable	g,d	50
 8747	Spring Break Beach &quot;swimsuit&quot;	184221342	palette.gif	potion, usable	g,d	50
 8748	airplane tattoo	198112079	planetatkit.gif	usable	g	0
-8749	Deep Machine Tunnels snowglobe	277811366	dmtglobe.gif	potion, usable	t,d	57
+8749	Deep Machine Tunnels snowglobe	277811366	dmtglobe.gif	potion	t,d	57
 8750	hemp candy necklace	940456173	candynecklace.gif	potion	t	0
 8751	communal gobstopper	582565826	jawbreaker.gif	potion	t	0
 8752	Crimbo salad	239783949	salad.gif	food	t	0
@@ -8858,7 +8858,7 @@
 8830	battoo kit	623721699	battookit.gif	usable		0
 8831	basking robin	662653769	baskinrobin.gif	grow	t	0
 8832	tiny domino mask	832460823	robinmask.gif	familiar	t,d	75
-8833	robin's egg	666856428	jarl_egg.gif	potion, cook, mix	t,d	5	robins's's egg
+8833	robin's egg	666856428	jarl_egg.gif	potion, cook, mix, combat	t,d	5	robins's's egg
 8834	robin flan	799707876	flan.gif	food	t,d	5
 8835	robin nog	124049550	coffeecup.gif	drink	t,d	5	cups of robin nog
 8836	LT&T telegraph office deed	544828426	document.gif	usable	t	0
@@ -8899,7 +8899,7 @@
 8871	World's Blackest-Eyed Peas	201826562	beanscan.gif	offhand, usable	t,d	10	cans of World's Blackest-Eyed Peas
 8872	Trader Olaf's Exotic Stinkbeans	574029361	beanscan.gif	offhand, usable	t,d	10	cans of Trader Olaf's Exotic Stinkbeans
 8873	Pork 'n' Pork 'n' Pork 'n' Beans	488524941	beanscan.gif	offhand, usable	t,d	10	cans of Pork 'n' Pork 'n' Pork 'n' Beans
-8874
+8874	Val-U Brand Every Bean Salad	664111970	beanscan.gif	offhand	t,d	25	cans of Val-U Brand Every Bean Salad
 8875	Shrub's Premium Baked Beans	480503509	beanscan.gif	offhand, usable	d	25	cans of Shrub's Premium Baked Beans
 8876	plate of Heimz Fortified Kidney Beans	199791931	franksbeans.gif	food	t,d	5	plates of Heimz Fortified Kidney Beans
 8877	plate of Tesla's Electroplated Beans	183096346	franksbeans.gif	food	t,d	5	plates of Tesla's Electroplated Beans
@@ -9039,7 +9039,7 @@
 9011	fishin' hat	717158743	fishinhat.gif	hat	t,d	50
 9012	Trout Fishing in Loathing	339113101	book3.gif	usable	t	0	copies of Trout Fishing in Loathing
 9013	sonar fishfinder	463912431	evilometer.gif	offhand	t	0
-9014
+9014	luxury fly-tying workbench	689025155	flybench.gif	usable	t	0	luxury fly-tying workbenches
 9015	antique tacklebox	166401677	tacklebox.gif	none	t	0	antique tackleboxes
 9016	disconnected intergnat	989587076	discognat.gif	grow	t	0
 9017	viral video	473286597	viralvideo.gif	none, combat	t,d	10
@@ -9533,7 +9533,7 @@
 9505	Celsius 233 (singed)	778678345	book3.gif	reusable		0	copies of Celsius 233 (singed)
 9506	Lazenby's Life Lesson	211516162	pamphlet.gif	usable	t	0
 9507	LI-11 Motor Pool voucher	638644193	l11voucher.gif	usable	t	0
-9508	Asdon Martin keyfob	391247220	asdonfob.gif	usable		0
+9508	Asdon Martin keyfob (on ring)	391247220	asdonfob.gif	usable		0
 9509	L.I.M.P. Stock Certificate	215241552	letter.gif	none		0
 9510	Dust bunny	464964385	float_dust.gif	none	t,d	0	Dust bunnies
 9511	Pocket Meteor Guide	338822774	meteorbook.gif	usable	t	0	copies of the Pocket Meteor Guide
@@ -9590,7 +9590,7 @@
 9562	protection stick	326730441	kneestick.gif	weapon	t,d	95
 9563	roll of meat	431527543	droll.gif	potion	t,d	0	rolls of meat
 9564	mafia thumb ring	422193168	mafiaring5.gif	accessory	t	0
-9565	cocoa chondrule	829908915	chocolump.gif	potion, usable	t,d	50
+9565	cocoa chondrule	829908915	chocolump.gif	potion	t,d	50
 9566	mafia middle finger ring	146839198	mafiaring3.gif	accessory	t	0
 9567	steel drivin' hammer	147902407	sledgehammer.gif	weapon	t,d	195
 9568	little piece of steel	349631318	metalrod.gif	none, combat	t,d	100	little pieces of steel
@@ -9722,7 +9722,7 @@
 9694	wad of used tape	289222586	usedtape.gif	hat	q	0	wads of used tape
 9695	silent nightlight	719702616	silentnightlight.gif	accessory		0
 9696	sweetened reindeer fat	339262696	blankoutglob.gif	potion, usable	t,d	5
-9697	Good 'n' Quiet	628783937	bloodnplenty.gif	potion, usable	t,d	5
+9697	Good 'n' Quiet	628783937	bloodnplenty.gif	potion	t,d	5
 9698	hot button candy	923492672	hotbuttoncandy.gif	potion, usable	t,d	5
 9699	makeshift garbage shirt	183649893	garbageshirt.gif	shirt	q	0
 9700	novelty monorail ticket	876417512	zepticket.gif	offhand		0
@@ -9769,7 +9769,7 @@
 9741	Mysterious Blue Box	153708947	dreadbox.gif	usable	t	0	Mysterious Blue Boxen
 9742	Mysterious Black Box	126440301	dreadbox.gif	usable	t	0	Mysterious Black Boxen
 9743	rainbow jellybean	722559610	rainbowbean.gif	potion	t,d	1
-9744	mystery lollipop	803282805	mysterylolly.gif	potion, usable	t,d	1
+9744	mystery lollipop	803282805	mysterylolly.gif	potion	t,d	1
 9745	Love Potion #XYZ	863678027	potion9.gif	potion, usable	q	0
 9746	rhinestone	402331722	rhinestone.gif	potion	t	0
 9747	1,960 pok&eacute;dollar bill	469799521	pokedollar.gif	none	q	0
@@ -9957,9 +9957,9 @@
 9929	Brutal brogues	883092515	bbattshoes.gif	accessory	q	0
 9930	Draftsman's driving gloves	671054817	bbattgloves.gif	accessory	q	0
 9931	Nouveau nosering	937041118	bbattnosering.gif	accessory	q	0
-9932	sharkfin gumbo	633356051	potion17.gif	potion, usable	t	0	bottles of sharkfin gumbo
-9933	boiling broth	703878469	wbpotion.gif	potion, usable	t	0	bottles of boiling broth
-9934	interrogative elixir	935460784	potion15.gif	potion, usable	t	0	vials of interrogative elixir
+9932	sharkfin gumbo	633356051	potion17.gif	potion	t	0	bottles of sharkfin gumbo
+9933	boiling broth	703878469	wbpotion.gif	potion	t	0	bottles of boiling broth
+9934	interrogative elixir	935460784	potion15.gif	potion	t	0	vials of interrogative elixir
 9935	Bastille Battalion Fondue Trophy	337302694	bbatttrophy.gif	none	d	20000	Bastille Battalion Fondue Trophies
 9936	Bastille Battalion tattoo kit	596586077	bbatttatkit.gif	usable	t	0
 9937	Bastille Battalion cheese wheel	952456254	cheesewheel.gif	usable	t,d	69
@@ -9987,7 +9987,7 @@
 9959	cosmetic football	648525413	football2.gif	offhand	t,d	60
 9960	shoe ad T-shirt	977886142	shooshirt.gif	shirt	t,d	60
 9961	pump-up high-tops	740438811	hightops.gif	accessory, reusable	t	0	pairs of pump-up high-tops
-9962	runproof mascara	634650553	mascara2.gif	potion, usable	t,d	30	tubes of runproof mascara
+9962	runproof mascara	634650553	mascara2.gif	potion	t,d	30	tubes of runproof mascara
 9963	very small red dress	912594104	tinydress.gif	none, combat	t,d	30	very small red dresses
 9964	noticeable pumps	357274006	lovemepumps.gif	accessory	t,d	60	pairs of noticeable pumps
 9965	surprisingly capacious handbag	698400231	npartyhandbag.gif	offhand	t,d	60
@@ -10099,11 +10099,11 @@
 10071	Crimbeau de toilette	111575274	potion9.gif	spleen, usable	t	0	bottles of Crimbeau de toilette
 10072	Crimbo candle	957016117	crimbocandle.gif	usable	t	0
 10073	Carol of the Bulls	734149089	music.gif	usable	t	0	Carols of the Bulls
-10074
+10074	Carol of the Bulls (used)	239738731	music.gif	usable		0	Carols of the Bulls (used)
 10075	Carol of the Hells	810080798	music.gif	usable	t	0	Carols of the Hells
-10076
+10076	Carol of the Hells (used)	121221548	music.gif	usable		0	Carols of the Hells (used)
 10077	Carol of the Thrills	140051819	music.gif	usable	t	0	Carols of the Thrills
-10078
+10078	Carol of the Thrills (used)	273402568	music.gif	usable		0	Carols of the Thrills (used)
 10079	Crimbolex watch	382354277	nicewatch.gif	accessory	t	0	Crimbolex watches
 10080	Crimbo tattoo kit	478768623	c18tat.gif	usable	t	0
 10081	hand-knitted Crimbo socks	290044310	abuelasocks.gif	accessory		0
@@ -10114,7 +10114,7 @@
 10086	chalk chapeau	128828450	chalkchapeau.gif	hat		0
 10087	chalk choker	226026698	chalkchoker.gif	accessory		0
 10088	chalk chunks	467946203	chalkchunks.gif	spleen, usable		0	helpin's of chalk chunks
-10089	candy chalk	354029566	stirringstick.gif	potion, usable	t,d	15	pieces of candy chalk
+10089	candy chalk	354029566	stirringstick.gif	potion	t,d	15	pieces of candy chalk
 10090	marble maebari	463444861	marblemaebari.gif	pants		0	pairs of marble maebari
 10091	marble mantle	803846379	marblemantle.gif	container		0
 10092	marble magnet	738707903	marblemagnet.gif	accessory		0
@@ -10130,7 +10130,7 @@
 10102	paraffin palazzos	835839735	para_pants.gif	pants		0	pairs of paraffin palazzos
 10103	paraffin pseudoaccordion	219458750	para_accordion.gif	weapon		0
 10104	paraffin pieces	211908086	para_bits.gif	spleen, usable		0	handfuls of paraffin pieces
-10105	Para-Pop	249247918	para_pop.gif	potion, usable	t,d	15
+10105	Para-Pop	249247918	para_pop.gif	potion	t,d	15
 10106	terra cotta truss	597698250	tc_truss.gif	accessory		0	terra cotta trusses
 10107	terra cotta trousers	789767758	tc_pants.gif	pants		0	pairs of terra cotta trousers
 10108	terra cotta tongs	859986945	tc_tongs.gif	weapon		0	pairs of terra cotta tongs
@@ -10154,7 +10154,7 @@
 10126	stained glass shiv	946975337	sg_shiv.gif	weapon		0
 10127	stained glass serape	899600398	sg_serape.gif	container		0
 10128	stained glass shards	234921550	sg_bits.gif	spleen, usable		0	handfuls of stained glass shards
-10129	stained hard candy	337288423	sg_candy.gif	potion, usable	t,d	15	stained hard candies
+10129	stained hard candy	337288423	sg_candy.gif	potion	t,d	15	stained hard candies
 10130	loofah lumberjack's hat	498407704	loof_hat.gif	hat		0
 10131	loofah lei	215839158	loof_lei.gif	accessory		0
 10132	loofah lederhosen	182173710	loof_pants.gif	pants		0	pairs of loofah lederhosen
@@ -10162,7 +10162,7 @@
 10134	loofah legwarmers	861814172	loof_warmers.gif	accessory		0	pairs of loofah legwarmers
 10135	loofah lavalier	742480306	loof_lavalier.gif	accessory		0
 10136	loofah lumps	141391283	loof_bits.gif	spleen, usable		0	handfuls of loofah lumps
-10137	chocolate-covered loofah	476932724	loof_candy.gif	potion, usable	t,d	15
+10137	chocolate-covered loofah	476932724	loof_candy.gif	potion	t,d	15
 10138	flagstone flag	485110859	fs_flag.gif	offhand		0
 10139	flagstone flail	774649175	fs_flail.gif	weapon		0
 10140	flagstone flip-flops	790456758	fs_flipflops.gif	accessory		0	pairs of flagstone flip-flops
@@ -10170,7 +10170,7 @@
 10142	flagstone fleece	890070574	fs_fleece.gif	container		0
 10143	flagstone fringe	839701459	fs_fringe.gif	accessory		0
 10144	flagstone flagments	646585503	fs_bits.gif	spleen, usable		0	piles of flagstone flagments
-10145	Flag by the Foot&trade;	753564360	fs_candy.gif	potion, usable	t,d	15	strips of Flag by the Foot&trade
+10145	Flag by the Foot&trade;	753564360	fs_candy.gif	potion	t,d	15	strips of Flag by the Foot&trade
 10146	elf sleeper agent	896004413	elfoplarva.gif	grow	t	0
 10147	red-and-green microcamera	537719204	elfopcamera.gif	familiar	t,d	75
 10148	cobbled-together Meat detector	379535516	elfopdetector.gif	offhand	q	0
@@ -10231,7 +10231,7 @@
 10203	bottle of super-extra-dark rhum	626331997	pr_rhum.gif	drink, mix	t,d	20	bottles of super-extra-dark rhum
 10204	pirate shaving cream	529804567	pr_shavingcream.gif	potion, usable	t,d	15	cans of pirate shaving cream
 10205	conquistador's breastplate	471803689	pr_breastplate.gif	shirt		0
-10206
+10206	pirate pantaloons	149383983	pr_pants.gif	pants		0	pairs of pirate pantaloons
 10207	[glitch season reward name]	286010589	nopic.gif	food, reusable		0
 10208	signal fragment	946907321	pr_signal.gif	usable	t,d	5
 10209	windicle	704440940	pr_windicle.gif	none, combat	t,d	10
@@ -10269,7 +10269,7 @@
 10241	vampyric cloake pattern	872832745	cloakepattern.gif	usable	t	0
 10242	vampyric cloake	894240195	cloake.gif	container		0
 10243	plastic pirate hat	634762498	pr_piratehat.gif	familiar	t,d	75
-10244	one piece of bubble gum	829221842	pieceof13.gif	potion, usable	t,d	37	pieces of bubble gum
+10244	one piece of bubble gum	829221842	pieceof13.gif	potion	t,d	37	pieces of bubble gum
 10245	arcanoferric housing	399901101	sig_housing.gif	usable	t	0
 10246	intact medium-wave antenna	876023432	sig_antenna.gif	none	t	0
 10247	18-picohertz resonator crystal	319047609	sig_crystal.gif	none	t	0
@@ -10334,7 +10334,7 @@
 10306	campfire beans	941461105	franksbeans.gif	food		0	cans of campfire beans
 10307	campfire stew	652339083	soupbowl.gif	food		0	bowls of campfire stew
 10308	campfire coffee	462527854	coffeecup.gif	food		0	cups of campfire coffee
-10309	leftover chocolate bar	949825729	mediocrebar.gif	potion, usable	t,d	5
+10309	leftover chocolate bar	949825729	mediocrebar.gif	potion	t,d	5
 10310	rare Meat isotope	727769995	meatisotope.gif	none	q	0
 10311	burnt stick	865739152	burntstick.gif	usable	t,d	5
 10312	bundle of firewood	478273036	firewoodbundle.gif	usable		0	bundles of firewood
@@ -10453,7 +10453,7 @@
 10425	tempura green and red bean	689603031	tempura1.gif	food	t,d	75
 10426	salt plum sake	527189556	sakecup.gif	drink	t,d	75	cups of salt plum sake
 10427	pressurized potion of possessiveness	887222365	potion10.gif	potion, usable	t,d	150	pressurized potions of possessiveness
-10428	candied almond	693574857	candyalmond.gif	potion, usable	t,d	5
+10428	candied almond	693574857	candyalmond.gif	potion	t,d	5
 10429	tiny handful of mixed nuts	634704415	mixednuts.gif	potion	t	0	tiny handfuls of mixed nuts
 10430	nutcracking pliers	422425305	pliers.gif	familiar	t,d	75	pairs of nutcracking pliers
 10431	Retrospecs try-at-home kit	928685191	retrospecsbox.gif	usable	t	0
@@ -10678,12 +10678,12 @@
 10650	grinning ghostling	538954574	cghost2.gif	grow		0
 10651	greedy ghostling	200115865	cghost3.gif	grow		0
 10652	subscription cocoa dispenser	881887726	suscocoa.gif	reusable	t	0
-10653	fortifying hot cocoa	975233323	coffeecup.gif	potion, usable	t,d	5	cups of fortifying hot cocoa
-10654	boiling hot cocoa	447454483	coffeecup.gif	potion, usable	t,d	5	cups of boiling hot cocoa
-10655	cool hot cocoa	322680250	coffeecup.gif	potion, usable	t,d	5	cups of cool hot cocoa
-10656	overly-fancy hot cocoa	417568026	coffeecup.gif	potion, usable	t,d	10	cups of overly-fancy hot cocoa
-10657	hot cocoa au beurre	592163063	coffeecup.gif	potion, usable	t,d	10	cups of hot cocoa au beurre
-10658	hot cocoa with rainbow marshmallows	527418109	coffeecup.gif	potion, usable	t,d	10	cups of hot cocoa with rainbow marshmallows
+10653	fortifying hot cocoa	975233323	coffeecup.gif	potion	t,d	5	cups of fortifying hot cocoa
+10654	boiling hot cocoa	447454483	coffeecup.gif	potion	t,d	5	cups of boiling hot cocoa
+10655	cool hot cocoa	322680250	coffeecup.gif	potion	t,d	5	cups of cool hot cocoa
+10656	overly-fancy hot cocoa	417568026	coffeecup.gif	potion	t,d	10	cups of overly-fancy hot cocoa
+10657	hot cocoa au beurre	592163063	coffeecup.gif	potion	t,d	10	cups of hot cocoa au beurre
+10658	hot cocoa with rainbow marshmallows	527418109	coffeecup.gif	potion	t,d	10	cups of hot cocoa with rainbow marshmallows
 10659	Book of Old-Timey Carols	908927941	book3.gif	offhand		0	Books of Old-Timey Carols
 10660	Crimbo smile	485610584	beardgrin.gif	offhand		0
 10661	SalesCo sample kit	731340264	briefcase.gif	offhand		0
@@ -10752,7 +10752,7 @@
 10724	Hotwire&trade; brand candy rope	478154462	lasso.gif	potion, usable	t,d	10
 10725	bowl full of jelly	410129132	soupbowl.gif	food	t	0	bowls full of jelly
 10726	Eye and a Twist	475434554	eyemartini.gif	drink	t	0
-10727	Chubby and Plump bar	452862469	chubbybar.gif	potion, usable, candy1	t	0
+10727	Chubby and Plump bar	452862469	chubbybar.gif	potion, candy1	t	0
 10728
 10729	packaged miniature crystal ball	347350648	famballbox.gif	usable	t	0
 10730	miniature crystal ball	320248255	famball.gif	familiar		0
@@ -10811,7 +10811,7 @@
 10783	extra-wide head candle	610762802	candlechelmet.gif	hat	q	0
 10784	natural magick candle	514857943	candlecincense.gif	potion, usable	t,d	5
 10785	rainbow glitter candle	281896112	candlecglitter.gif	potion	t,d	5
-10786	banana candle	822250066	candlecbanana.gif	potion, usable	t,d	5
+10786	banana candle	822250066	candlecbanana.gif	potion	t,d	5
 10787	ear candle	159239343	candlecear.gif	potion, usable	t,d	5
 10788	votive of confidence	573165116	candlecvotive.gif	potion	t,d	5
 10789	water candle	525043319	candlecwater.gif	offhand	q	0
@@ -10980,12 +10980,12 @@
 10952	Jurassic Parka	815637689	jparka7.gif	shirt		0
 10953	boxed autumn-aton	129222297	crate.gif	usable	t	0
 10954	autumn-aton	174185886	autumnaton.gif	usable	q	0
-10955	autumn leaf	639910181	leafflavor.gif	potion, usable	t,d	10	autumn leaves
+10955	autumn leaf	639910181	leafflavor.gif	potion	t,d	10	autumn leaves
 10956	AutumnFest ale	195200911	beerbottle.gif	drink	t,d	10	bottles of AutumnFest ale
 10957	autumn sweater-weather sweater	267218508	redsweater.gif	shirt	q	0
 10958	autumn debris shield	659459391	damshield.gif	offhand	q	0
 10959	autumn-spice donut	765851813	powderdonut.gif	food	t,d	11
-10960	autumn dollar	394864972	goldcoin.gif	potion, usable	t,d	1
+10960	autumn dollar	394864972	goldcoin.gif	potion	t,d	1
 10961	autumn leaf pendant	871526580	maplependant.gif	accessory	q	0
 10962	autumn breeze	709263513	cueball.gif	spleen, usable	t,d	15
 10963	autumn years wisdom	794318555	xicrystal.gif	potion	t,d	15
@@ -11030,7 +11030,7 @@
 11002	drink chit	835138088	oliver_chit.gif	none	t	0
 11003	government per-diem	527999205	envelope.gif	usable	t	0
 11004	prohie's hat	945313978	prohiehat.gif	hat	t	0
-11005	imported taffy	544720984	oliver_taffy.gif	potion, usable	t,d	5	pieces of imported taffy
+11005	imported taffy	544720984	oliver_taffy.gif	potion	t,d	5	pieces of imported taffy
 11006	Charleston shoes	977055253	oliver_shoes.gif	accessory	t	0	pairs of Charleston shoes
 11007	booze bindle	621976996	oliver_bindle.gif	usable	t,d	30
 11008	rare oboe	775305696	oliver_oboe.gif	weapon	t	0
@@ -11060,7 +11060,7 @@
 11032	chiffon chakram	919226181	chifchakram.gif	weapon		0
 11033	chiffon chaps	614635306	chifchaps.gif	pants		0	pairs of chiffon chaps
 11034	chiffon carbage	363341238	chifbits.gif	spleen, usable		0	handfuls of chiffon carbage
-11035	chiffon lemon	794988357	chiflemon.gif	potion, usable	t,d	15
+11035	chiffon lemon	794988357	chiflemon.gif	potion	t,d	15
 11036	chocomotive	925688122	chocomotoive.gif	food	t,d	10
 11037	freightcake	930577194	freightcake.gif	food	t,d	10
 11038	cabooze	454104733	cabooze.gif	drink	t,d	10
@@ -11071,7 +11071,7 @@
 11043	tiny plastic locomotive	270326005	c22_tp1.gif	accessory	t	0
 11044	packaged model train set	494254899	modeltrain_box.gif	usable	t	0
 11045	model train set	959599372	modeltrain.gif	usable		0
-11046	Crimbo training manual	990145553	trainmanual.gif	reusable		0
+11046	Crimbo training manual	990145553	trainmanual.gif	reusable, curse		0
 11047	Abuela Crimbo's special magnet	868251665	trainmagnet.gif	offhand		0
 11048	Trainbot radar monocle	589333447	trainmonocle.gif	accessory	t	0
 11049	pile of Trainbot parts	410098387	trainparts.gif	usable	t	0	piles of Trainbot parts
@@ -11162,7 +11162,7 @@
 11134	lump of loyal latite	942515335	sitlatite.gif	potion	t,d	30	lumps of loyal latite
 11135	shadow sausage	652604537	shadowsausage.gif	food	t,d	13	handfuls of shadow sausage
 11136	shadow skin	229167773	shadowskin.gif	container	t,d	13
-11137	shadow flame	384167669	shadowflame.gif	potion, usable	t,d	13	wisps of shadow flame
+11137	shadow flame	384167669	shadowflame.gif	potion	t,d	13	wisps of shadow flame
 11138	shadow bread	459420704	shadowbread.gif	food	t,d	13	loaves of shadow bread
 11139	shadow ice	972345634	shadowice.gif	none, combat	t,d	13	cubes of shadow ice
 11140	shadow fluid	685274860	shadowfluid.gif	drink	t,d	13	blobs of shadow fluid
@@ -11294,7 +11294,7 @@
 11266	Flash Liquidizer Ultra Dousing Accessory	400486179	2002fludd.gif	accessory	t,d	100	Flash Liquidizer Ultra Dousing Accessories
 11267	Amulet of Perpetual Darkness	851661209	2002amulet.gif	accessory	t,d	50	Amulets of Perpetual Darkness
 11268	Giant black monolith	362534862	2002monolith.gif	usable	t,d	66
-11269	Crimbo cookie sheet	520625195	2002cookies.gif	usable	t,d	50
+11269	Crimbo cookie sheet	520625195	2002cookies.gif	multiple	t,d	50
 11270	Spooky VHS Tape	754348768	2002vhs.gif	none, combat	t,d	50
 11271	scroll of minor invulnerability	873755113	scroll2.gif	potion	t,d	10	scrolls of minor invulnerability
 11272	Lapis Lazuli	460775590	lapis.gif	multiple	t,d	100
@@ -11315,16 +11315,16 @@
 11287	rutabuga bag	303689533	carapace2.gif	container	t,d	5
 11288	mesquito proboscis	393226240	proboscis.gif	offhand	t,d	5	mesquito proboscises
 11289	senate fly thorax	320407123	flythorax.gif	hat	t,d	5	senate fly thoraces
-11290	bug juice	333300860	bugjuice.gif	potion, usable	t,d	5	flasks of bug juice
+11290	bug juice	333300860	bugjuice.gif	potion	t,d	5	flasks of bug juice
 11291	spider leg	884930240	spiderleg.gif	weapon	t,d	15
 11292	beetle antenna	783227324	antenna_b2.gif	offhand	t,d	15	beetle antennae
 11293	mantis skull	230118075	mantisskull.gif	hat	t,d	15
-11294	chitin powder	199412863	chitinpowder2.gif	potion, usable, cook	t,d	15	handfuls of chitin powder
+11294	chitin powder	199412863	chitinpowder2.gif	potion, cook	t,d	15	handfuls of chitin powder
 11295	daddy shortlegs leg	412213809	daddyleg.gif	weapon	t,d	10
 11296	birdybug antenna	457580338	antenna_b.gif	offhand	t,d	10
 11297	kilopede skull	887761968	kiloskull.gif	hat	t,d	10
-11298	haemolymphnode	986358063	haemonode.gif	potion, usable, cook	t,d	10
-11299	chitin powder paste	311520333	chitinpowder.gif	potion, usable	t,d	30
+11298	haemolymphnode	986358063	haemonode.gif	potion, cook	t,d	10
+11299	chitin powder paste	311520333	chitinpowder.gif	potion	t,d	30
 11300	sleeping patriotic eagle	916117380	pateagle_sleep.gif	grow	t	0
 11301	claw-held flag	498722729	flag2.gif	familiar	t,d	10
 11302	souvenir flag	557635312	flag1.gif	multiple	t,d	10
@@ -11336,7 +11336,7 @@
 11308	watermelon seed	967601198	watermelonseed.gif	none, combat	t,d	5
 11309	water balloon	825278204	waterballoon.gif	none, combat	t,d	7
 11310	thriftshop coupon	636172314	thriftcoupon.gif	none	t,d	50
-11311	waffle	693089204	waffle.gif	food, combat	t,d	11	waffles
+11311	waffle	693089204	waffle.gif	food, combat	t,d	11
 11312	fixodent	950484165	fixodent.gif	usable	t,d	11
 11313	cat o' nine teeth	512973092	nineteeth.gif	weapon	t,d	100
 11314	tooth cap	507514456	toothcap.gif	hat	t,d	100
@@ -11351,7 +11351,7 @@
 11323	Pocket Guide to Mild Evil (used)	508639228	tinybook.gif	reusable		0	Pocket Guides to Mild Evil (used)
 11324	tiny consolation ribbon	705646571	tinyribbon.gif	familiar	t	0
 11325	replica august scepter	673883740	ascepter.gif	offhand	q	0
-11326	Thwaitgold Fairyfly Statue	579008694	pebble.gif	none		0
+11326	Thwaitgold fairyfly statue	579008694	pebble.gif	none		0
 11327	residual chitin paste	835465451	chitinpowder.gif	usable		0
 11328	concentrated cooking	351580029	stimpill2.gif	spleen, usable	t,d	15
 11329	ancient meat	883952044	pillowshell.gif	spleen, usable	t,d	10
@@ -11360,3 +11360,276 @@
 11332	pool shark hair oil	972311757	bottle.gif	spleen, usable	t,d	20
 11333	book of facts	678190656	factbook.gif	usable	t	0	books of facts
 11334	book of facts (dog-eared)	397159536	factbook.gif	usable		0	books of facts (dog-eared)
+11335	Dark Jill-of-All-Trades	402938328	darkjill2.gif	grow	t	0	Dark Jills-of-all-Trades
+11336	LED candle	812890675	ledcandle.gif	familiar	t,d	100
+11337	map to a candy-rich block	860567609	warehousemap.gif	usable	t,d	11	maps to candy-rich blocks
+11338	sampler size toothpaste	549931560	tube.gif	potion, usable	t,d	10
+11339	Franken Stein	788288444	fstein0.gif	offhand		0
+11340	A Guide to Burning Leaves	822295519	al_book.gif	usable	t	0	Some Guides to Burning Leaves
+11341	inflammable leaf	169088498	al_leaf.gif	none		0	inflammable leaves
+11342	tiny rake	831675602	al_tinyrake.gif	familiar	q	0
+11343	rake	169376473	al_rake.gif	offhand	q	0
+11344	autumnic bomb	487664689	al_bomb.gif	potion, combat	t,d	100
+11345	forest canopy bed	549159252	al_bed.gif	usable	t,d	74
+11346	day shortener	235488166	al_dayshorter.gif	usable	t,d	123
+11347	extra time	172436016	al_daylonger.gif	usable	t,d	1
+11348	autumnal aegis	265811776	al_shield.gif	offhand	t,d	50	autumnal aeges
+11349	distilled resin	632409893	al_resin.gif	potion, usable	t,d	50	bottles of distilled resin
+11350	super-heated leaf	820914388	al_hotleaf.gif	usable	t	0	super-heated leaves
+11351	lit leaf lasso	551254908	al_lasso.gif	none, combat	t,d	60
+11352	tied-up flaming leaflet	173945965	al_monsterbag.gif	usable	t,d	100
+11353	tied-up flaming monstera	695238737	al_monsterbag.gif	usable	t,d	100
+11354	tied-up leaviathan	832740542	al_monsterbag.gif	usable	t,d	100
+11355	impromptu torch	380784163	al_torch.gif	weapon	q	0	impromptu torches
+11356	flaming fig leaf	332125580	al_figleaf.gif	pants	q	0	flaming fig leaves
+11357	smoldering drape	397884487	al_cape.gif	container	q	0
+11358	smoldering leafcutter ant egg	460664539	al_antegg.gif	grow	t	0
+11359	flaming leaf crown	243559095	al_crown.gif	hat		0
+11360	leafy browns	283851958	salad.gif	food	d	25	bowls of leafy browns
+11361	autumnic balm	776996939	al_balm.gif	potion, usable	t,d	100
+11362	coping juice	215559883	persmug.gif	potion, usable	t,d	100	cups of coping juice
+11363	candy cane sword cane	113452664	ccsword.gif	weapon		0
+11364	wrapped candy cane sword cane	701664395	ccsword_box.gif	usable	t	0
+11365	Elf Guard patrol cap	145186919	eghat.gif	hat	t,d	50
+11366	Elf Guard hotpants	189702223	egpants.gif	pants	t,d	50	pairs of Elf Guard hotpants
+11367	Crimbuccaneer tricorn	403795484	crimbuchat.gif	hat	t,d	50
+11368	Crimbuccaneer breeches	461075987	crimbucpants.gif	pants	t,d	50	pairs of Crimbuccaneer breeches
+11369	automa-bot parts	211028264	aparts.gif	none	t	0
+11370	security automa-core	402766321	acore_sec.gif	usable	t	0
+11371	clerical automa-core	858021651	acore_cleric.gif	usable	t	0
+11372	handful of Boltsmann bearings	555951392	bearings.gif	none, combat	t	0
+11373	Spring Bros. solenoid	902435737	solenoid2.gif	none, combat	t	0
+11374	Spring Bros. ID badge	991549415	jetbadge1.gif	accessory	t	0
+11375	Boltsmann ID badge	234426278	jetbadge2.gif	accessory	t	0
+11376	housekeeping automa-core	366637852	acore_maid.gif	usable	t	0
+11377	portable housekeeping robot	202288746	amaid.gif	usable	t,d	200
+11378	pickled bread	675408908	saltbread.gif	food	t,d	5	slices of pickled bread
+11379	salted mutton	657514472	saltmutton.gif	food	t,d	5	chunks of salted mutton
+11380	corned beet	163378662	saltbet.gif	food	t,d	5
+11381	tiny plastic Armory	897987307	tp23_armory.gif	accessory	t	0
+11382	tiny plastic Bar	360984319	tp23_bar.gif	accessory	t	0
+11383	tiny plastic Cafe	344789071	tp23_cafe.gif	accessory	t	0
+11384	tiny plastic Factory	213979399	tp23_factory.gif	accessory	t	0
+11385	tiny plastic Abuela's cottage	697445644	tp23_abuela.gif	accessory	t	0
+11386	pirate encryption key alpha	330102605	c23enc1.gif	none	t	0
+11387	pirate encryption key bravo	383639417	c23enc2.gif	none	t	0
+11388	pirate encryption key charlie	364036743	c23enc3.gif	none	t	0
+11389	pirate encryption key delta	901600524	c23enc4.gif	none	t	0
+11390	wardrobe-o-matic	282462204	jwardbot.gif	usable		0
+11391	futuristic shirt	206138657	jw_shirt1.gif	shirt	q	0
+11392	futuristic hat	807452069	jw_hat1.gif	hat	q	0
+11393	futuristic collar	147705294	jw_pet9.gif	familiar	q	0
+11394	crated wardrobe-o-matic	237057182	crate.gif	usable	t	0
+11395	peppermint donut	892693823	powderdonut.gif	food	t,d	35
+11396	Elf Guard insignia (private)	983611383	eginsignia1.gif	accessory	t,d	50	Elf Guard insignias (private)
+11397	Crimbuccaneer fledges (mint)	432740379	crimbucfledge.gif	accessory	t,d	50	sets of Crimbuccaneer fledges (mint)
+11398	military-grade peppermint oil	637054218	egoil.gif	none, cook, mix	t	0	cans of military-grade peppermint oil
+11399	Crimbuccaneer whale oil	511768498	crimbucoil.gif	none, cook, mix	t	0	mini-barrels of Crimbuccaneer whale oil
+11400	Elf Guard tinsel grenade	785482606	eggrenade.gif	none, combat	t	0
+11401	Crimbuccaneer mologrog cocktail	339591408	hurricand_f.gif	drink, combat	t	0
+11402	Elf Army machine parts	178038499	egparts.gif	none	t	0	piles of Elf Army machine parts
+11403	Crimbuccaneer rigging lasso	722561390	lasso.gif	none, combat	t	0
+11404	Crimbuccaneer lantern	413623993	lantern2.gif	offhand	t	0
+11405	Crimbuccaneer flotsam	269803558	crimbucparts.gif	none	t	0	piles of Crimbuccaneer flotsam
+11406	Crimbuccaneer invasion map	677028160	crimbucmap.gif	usable	t	0
+11407	Crimbuccaneer shirt	837813050	pirateshirt.gif	shirt	t	0
+11408	Elf Guard MPC	981842797	egmoney.gif	none		0
+11409	Crimbuccaneer piece of 12	485274010	crimbucmoney.gif	none		0	Crimbuccaneer pieces of 12
+11410	Elf Guard commandeering gloves	417746382	stickygloves.gif	accessory	t	0	pairs of Elf Guard commandeering gloves
+11411	Elf Guard eyedrops	282936845	eyedrops.gif	potion, usable	t	0	bottles of Elf Guard eyedrops
+11412	Crimbuccaneer premium booty sack	860810827	spelunksack.gif	usable	t	0
+11413	Elf Guard honor present	299773650	egpresent.gif	usable	t	0
+11414	Elf Guard officer's sidearm	439538646	autopistol.gif	weapon	t	0
+11415	Elf Guard insignia (general)	927387656	eginsignia2.gif	accessory	t	0
+11416	Crimbow Rainbo	502100880	c23cocktail.gif	drink		0
+11417	Elf Guard strategic map	650846868	egmap.gif	usable	t	0
+11418	Crimbuccaneer captain's purse	708487222	coinpurse.gif	usable	t	0
+11419	Elf Guard broom	761011803	egbroom.gif	weapon	t	0
+11420	Crimbuccaneer tavern swab	587885280	crimbucmop.gif	weapon	t	0
+11421	Elf Guard hangover cure	520317664	egcure.gif	usable	t	0
+11422	old-school pirate grog	716801313	crimbuctankard.gif	drink, mix	t	0	mugs of old-school pirate grog
+11423	grog nuts	690314926	crimbucnuts.gif	food, combat	t	0	handfuls of grog nuts
+11424	sawed-off blunderbuss	493752694	crimbucgun.gif	weapon	t	0	sawed-off blunderbusses
+11425	officer's nog	953790582	egnog.gif	drink	t	0	mugs of officer's nog
+11426	peppermint bomb	210735568	egbomb.gif	none, combat	t	0
+11427	sundae ration	204285615	sundae.gif	food	t	0
+11428	peppermint tack	302499068	egpeptack.gif	food, cook	t	0	pieces of peppermint tack
+11429	Elf Guard Field Manual: Culinary Arts	798908594	book.gif	usable	t	0	Elf Guard Field Manuals: Culinary Arts
+11430	whalesteak	273792733	grilledsteak.gif	food, cook	t	0
+11431	whalegun	574080275	whalegun.gif	weapon, paste	t	0
+11432	Cocktails of the Age of Sail	493870843	book4.gif	usable	t	0	copies of Cocktails of the Age of Sail
+11433	Elf Guard payroll bag	682179450	egmoneybag.gif	usable	t	0
+11434	Elf Guard clipboard	409196611	egclipboard.gif	offhand	t	0
+11435	pegfinger	731849980	pegfinger.gif	accessory	t	0
+11436	red and white claret	154632547	egclaret.gif	drink, mix	t	0	glasses of red and white claret
+11437	Elf Guard red and white beret	262408921	egberet.gif	hat	t	0
+11438	shipwright's hammer	927728921	crimbuchammer.gif	weapon	t	0
+11439	gunwale	235605307	gunwale.gif	offhand, paste	t	0
+11440	Kelflar vest	616560556	egvest.gif	shirt	t	0
+11441	whale cerebrospinal fluid	515897465	lightvial.gif	potion, usable	t	0	vials of whale cerebrospinal fluid
+11442	Crimbuccaneer runebone	796177154	runebone.gif	accessory	t	0
+11443	cannonbomb	131238950	crimbucbomb.gif	none, combat	t	0
+11444	Elf Guard mouthknife	353853148	mouthknife.gif	weapon	t	0
+11445	Crimbuccaneer fledges (disintegrating)	619365824	crimbucfledge2.gif	accessory	t	0	sets of Crimbuccaneer fledges (disintegrating)
+11446	Elf Guard fuel tank	839231411	egtank.gif	container	t	0
+11447	massive wrench	615915001	egwrench.gif	weapon	t	0	massive wrenches
+11448	brown pirate pants	879963972	brownpants.gif	pants	t	0	pairs of brown pirate pants
+11449	Elf Guard Field Manual: Extortion	420210939	book.gif	usable	t	0	copies of Elf Guard Field Manual: Extortion
+11450	The Encyclopedia of Fruit	966029305	book3.gif	usable	t	0	copies of The Encyclopedia of Fruit
+11451	punching mirror	911655077	crimbucmirror.gif	reusable	t	0
+11452	ancient Elf dessert spoon	231753264	egspoon.gif	weapon	t	0
+11453	Elf Guard SCUBA tank	303906801	elfscuba.gif	container	t	0
+11454	Elf Guard Field Manual: Wilderness Sleeping	424878071	book.gif	usable	t	0	copies of Elf Guard Field Manual: Wilderness Sleep
+11455	free boots	184381676	crimbucboots.gif	accessory	t	0	pairs of free boots
+11456	baby rigging snake	418328037	rigsnakelarva.gif	grow	t	0
+11457	Elvish underarmor	818267349	egarmor.gif	accessory	t	0	sets of Elvish underarmor
+11458	Crimbuccaneer bombjacket	480222973	cardigan.gif	shirt	t	0
+11459	sugarplum ration	189858284	sugarplum.gif	food	t	0
+11460	gingerbread nylons	363568811	gingernylons.gif	food	t	0	pairs of gingerbread nylons
+11461	rum-soaked fruitcake	971219375	fruitcake.gif	food	t	0
+11462	candied lime	213410535	candylime.gif	food	t	0
+11463	gingerbread pirate	231889259	gingerpirate.gif	food	t	0
+11464	fruit-stuffed rumcake	469219075	fruitrumcake.gif	food	t	0
+11465	mulled wine	906612746	mulledwine.gif	drink	t	0	glasses of mulled wine
+11466	Swedish coffee	157954343	coffeecup.gif	drink	t	0	mugs of Swedish coffee
+11467	canteen of eggnog	169086098	canteen.gif	drink	t	0	canteens of eggnog
+11468	hot wine	319954775	icewine.gif	drink	t	0	glasses of hot wine
+11469	Jamaican coffee	804218824	coffeecup.gif	drink	t	0	mugs of Jamaican coffee
+11470	flask of egggrog	536421114	flask.gif	drink	t	0	flasks of egggrog
+11471	Black and White Apron Enrollment Form	881024729	apronform.gif	usable	t	0
+11472	Black and White Apron Meal Kit	531598068	apronbox.gif	usable	t	0
+11473	pirate encryption key (complete)	789944018	piratekey.gif	usable		0	pirate encryption keys (complete)
+11474	yule grog	857711662	tankard.gif	drink, mix	t	0	tankards of yule grog
+11475	wet tack	458308953	wettack.gif	food	t	0	pieces of wet tack
+11476	whalecake	119486089	whalecake.gif	food	t,d	0
+11477	gunwale whalegun	602303862	whalegungun.gif	weapon		0
+11478	red white and blue claret	227207466	egclaret2.gif	drink, mix	t	0	glasses of red white and blue claret
+11479	rigging knot	788405217	knot.gif	familiar	t,d	75
+11480	trick coin	201534780	prankcoin.gif	none, combat	t	0
+11481	Elf Guard squirtgun	537938412	elfsquirtgun.gif	weapon	t,d	0
+11482	chest of &quot;pirate gold&quot;	999917759	lilchest.gif	usable	t	0
+11483	sequin-encrusted sweater	614716541	c23sweater1.gif	shirt	t	0
+11484	replica Elf Guard medal	821622244	egmedal.gif	accessory	t	0
+11485	Lil' Snowball Factory	816732337	snowfactory.gif	reusable	t	0	Lil' Snowball Factories
+11486	Elf Guard temporary (permanent) tattoo	271982729	egtat.gif	usable	t	0
+11487	prank Crimbo card	598532985	c23card.gif	none, combat	t	0
+11488	Crimbuccaneer squirtblunderbuss	161565670	crimbucsquirt.gif	weapon	t	0	Crimbuccaneer squirtblunderbusses
+11489	My First Paycheck envelope	676567657	envelope.gif	usable	t	0
+11490	barnacle-encrusted sweater	729920985	c23sweater2.gif	shirt	t	0
+11491	Crimbuccaneer nose ring	696182050	crimbucnosering.gif	accessory	t	0
+11492	pet anchor	120654814	anchor.gif	grow	t	0
+11493	Crimbuccaneer tattoo gift certificate	229285610	crimbuccert.gif	usable	t,d	0
+11494	Elf Guard safety bear	512733269	egbear.gif	offhand	g	0
+11495	stuffed kraken	165429188	crimbuckraken.gif	offhand	g	0
+11496	precision snowball	645124468	hellsnowball.gif	usable, combat	t	0
+11497	Elf Guard Field Manual: Culinary Arts (used)	894142436	book.gif	reusable		0
+11498	Cocktails of the Age of Sail (used)	332132489	book4.gif	reusable		0	copies of Cocktails of the Age of Sail (used)
+11499	Elf Guard Field Manual: Extortion (used)	193745312	book.gif	reusable		0	copies of Elf Guard Field Manual: Extortion (used)
+11500	The Encyclopedia of Fruit (used)	413436542	book3.gif	reusable		0	copies of The Encyclopedia of Fruit (used)
+11501	Elf Guard Field Manual: Wilderness Sleeping (used)	838155166	book.gif	reusable		0	copies of Elf Guard Field Manual: Wilderness Sleep
+11502	military candy cane	132951284	pep_bigcane.gif	potion, usable	t,d	5
+11503	groggipop	933817198	neutronpop.gif	potion, usable	t,d	5
+11504	moss mace	809294211	mossmace.gif	weapon		0
+11505	moss megaphone	498480961	mossmegaphone.gif	offhand		0
+11506	moss medal	624276315	mossmedal.gif	accessory		0
+11507	moss mitre	134042130	mossmitre.gif	hat		0
+11508	moss mantle	218473880	mossmantle.gif	container		0
+11509	moss marlinspike	467015084	mossmarlin.gif	accessory		0
+11510	moss mulch	553327070	mossbits.gif	spleen, usable		0	handfuls of moss mulch
+11511	moss floss	472410646	mossfloss.gif	potion, usable	t,d	15	pieces of moss floss
+11512	adobe arsecover	957760779	adobepants.gif	pants		0
+11513	adobe adze	939817089	adobeadze.gif	weapon		0	adobe adzez
+11514	adobe abacus	393976686	adobeabacus.gif	offhand		0	adobe abaci
+11515	adobe ayam	984761563	adobehat.gif	hat		0
+11516	adobe ascot	757035735	adobeascot.gif	accessory		0
+11517	adobe abaya	768488079	adobeabaya.gif	shirt		0
+11518	adobe assortment	469007963	adobebits.gif	spleen, usable		0
+11519	adobe brittle	493931168	adobebrittle.gif	potion, usable	t,d	15
+11520
+11521
+11522
+11523
+11524
+11525
+11526
+11527
+11528
+11529
+11530
+11531
+11532
+11533
+11534
+11535
+11536
+11537
+11538
+11539
+11540	baby chest mimic	584086799	mimicbaby.gif	grow	t	0
+11541	googly chest eyes	343119773	eyes.gif	familiar	t	0
+11542	mimic egg	646626465	mimicegg.gif	usable	q	0
+11543	Crimbuccaneer war standard	823960598	c23_pirateflag.gif	offhand		0
+11544	Elf Guard war standard	679660460	c23_elfflag.gif	offhand		0
+11545	in-the-box spring shoes	809348020	springshoes_box.gif	usable	t	0
+11546	spring shoes	533142596	springshoes.gif	accessory		0	sets of spring shoes
+11547	ultra-soft ferns	979781148	softfern.gif	potion	t,d	10	bunches of ultra-soft ferns
+11548	crunchy brush	865877671	drybrush.gif	potion	t,d	10	bunches of crunchy brush
+11549	smashed scientific equipment	523850558	brokenscience.gif	none	q	0
+11550	biphasic molecular oculus	327995300	wp_oculus1.gif	hat	q	0
+11551	triphasic molecular oculus	960532486	wp_oculus2.gif	hat	q	0
+11552	high-tension exoskeleton	589968168	wp_exo1.gif	pants	q	0
+11553	ultra-high-tension exoskeleton	123467674	wp_exo2.gif	pants	q	0
+11554	irresponsible-tension exoskeleton	291853336	wp_exo3.gif	pants	q	0
+11555	quick-release belt pouch	706414662	wp_belt1.gif	accessory	q	0
+11556	quick-release fannypack	503257041	wp_belt2.gif	accessory	q	0
+11557	quick-release utility belt	836859893	wp_belt3.gif	accessory	q	0
+11558	motion sensor	337915078	wp_sensor.gif	accessory	q	0
+11559	focused magnetron pistol	303408883	wp_gun.gif	weapon	q	0
+11560	packaged Everfull Dart Holster	839379198	dartholster_box.gif	usable	t	0
+11561	Everfull Dart Holster	129400771	dartholster.gif	accessory		0
+11562	research fragment	981562994	blueprint.gif	usable	t	0
+11563	Thwaitgold wolf spider statuette	455599612	thwaitwolf.gif	none		0
+11564	boxed Apriling band helmet	244348744	aprilinghat_box.gif	usable	t	0	Apriling band helmets in a boxes
+11565	Apriling band helmet	861863392	aprilinghat.gif	hat		0
+11566	Apriling band saxophone	410507605	saxophone.gif	weapon	q	0
+11567	Apriling band quad tom	726993691	drums_april.gif	weapon	q	0
+11568	Apriling band tuba	360234564	tuba.gif	weapon	q	0
+11569	Apriling band staff	295593615	staff_april.gif	offhand	q	0
+11570	Apriling band piccolo	760923456	piccolo.gif	familiar	q	0
+11571	boxed Mayam Calendar	633964170	yamcalbox.gif	usable	t	0
+11572	Mayam Calendar	243774189	yamcal.gif	usable		0
+11573	yam	801960895	yam.gif	food, cook, mix	t,d	5
+11574	yam martini	451008769	martini.gif	drink, mix	t,d	65
+11575	sweet potato o' mine	971008770	martini.gif	drink	t,d	115	sweet potatoes o' mine
+11576	Southern yam	987803560	fruitym.gif	drink	t,d	115
+11577	sweet potato punch	851409708	coconut.gif	drink	t,d	115	sweet potato punches
+11578	Mayam spinach	917311667	spinachcan.gif	food	t,d	50	cans of Mayam spinach
+11579	yam and swiss	444359187	hamsandwich.gif	food	t,d	50	yams and swiss
+11580	yam cannon	881829575	yamgun.gif	weapon	q	0
+11581	tiny yam cannon	480014210	yamgun2.gif	familiar	q,d	50
+11582	yam battery	699339852	yambattery.gif	usable	d	50	yam batteries
+11583	stuffed yam stinkbomb	708760617	yambomb2.gif	none, combat	t,d	50
+11584	furry yam buckler	633819472	yamshield.gif	offhand	q	0
+11585	thanksgiving bomb	976934021	yambomb.gif	none, combat	t,d	50
+11586	yamtility belt	266839903	yambelt.gif	accessory	q	0
+11587	yam slider	593891884	burger.gif	food	t,d	11
+11588	yam mayo	878600079	nutramekin.gif	food	t,d	11	ramekins of yam mayo
+11589	yam burrito	855430740	burrito.gif	food	t,d	11
+11590
+11591	mini kiwi egg	845486056	kiwi_egg.gif	grow	t	0
+11592	aviator goggles	628912777	goggles.gif	familiar	t,d	75	pairs of aviator goggles
+11593	Thwaitgold Illinigina illinoiensis model	257510677	thwaitilli.gif	none		0
+11594	mini kiwi	940910612	kiwi_minikiwi.gif	food	t,d	5
+11595	mini kiwi bikini	705305695	kiwi_bikini.gif	accessory	t,d	11
+11596	mini kiwitini	263511672	martini.gif	drink	t,d	11
+11597	mini kiwi invisible dirigible	718055433	kiwi_dirigible.gif	familiar	t,d	30
+11598	mini kiwi aioli	863064561	ramekin.gif	usable	t,d	11
+11599	mini kiwi silicon tiepin	701181594	kiwi_tiepin.gif	accessory	t,d	40
+11600	mini kiwi tipi	496300747	kiwi_tipi.gif	usable	t,d	11
+11601	mini kiwi digitized cookies	733008951	10101.gif	food	t,d	11
+11602	mini kiwi intoxicating spirits	774169937	beerbottle.gif	drink	t,d	11
+11603	mini kiwi antimilitaristic hippy petition	779505307	document.gif	potion, usable	t,d	11
+11604	mini kiwi illicit antibiotic	459688276	kiwi_pill.gif	potion, usable	t,d	11
+11605	mini kiwi whipping stick	128063299	kiwi_stick.gif	offhand	t,d	11
+11606	mini kiwi icepick	956877502	kiwi_icepick.gif	weapon	t,d	11
+11607	mini kiwi-flavored aspirin-injecting lipstick	406308925	kiwi_lipstick.gif	potion, usable	t,d	11

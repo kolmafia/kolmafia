@@ -33,7 +33,7 @@ public class StatusHandler implements ISVNStatusHandler, ISVNEventHandler {
        * overlap with local changes the user has in his working copy.
        */
       RequestLogger.printLine("C " + status.getFile().getPath());
-      RequestLogger.printLine(
+      RequestLogger.printHtml(
           "<font color=\"red\">Note: conflict must be resolved manually.</font>");
     }
   }

@@ -300,6 +300,7 @@ public class DataFileConsistencyTest {
             if (id < 0) {
               fail("unrecognised skill " + name);
             }
+            assertTrue(SkillDatabase.isPassive(id), "Skill " + name + " should be passive");
           }
           case "Familiar", "Throne" -> {
             if (!"(none)".equals(name)) {
@@ -389,6 +390,7 @@ public class DataFileConsistencyTest {
               "BackupCamera",
               "UnbreakableUmbrella",
               "JurassicParka",
+              "LedCandle",
               "Mask",
               "Ensorcel",
               "Robot",
@@ -430,6 +432,91 @@ public class DataFileConsistencyTest {
             }
           }
           default -> fail("unrecognised identifier " + identifier);
+        }
+      }
+    } catch (IOException e) {
+      fail("Couldn't read from " + file);
+    }
+  }
+
+  @Test
+  public void npcStoresShouldSellItems() {
+    String file = "npcstores.txt";
+    int version = 2;
+    String[] fields;
+    try (BufferedReader reader = FileUtilities.getVersionedReader(file, version)) {
+      while ((fields = FileUtilities.readData(reader)) != null) {
+        String item = fields[2];
+        var id = ItemDatabase.getExactItemId(item);
+        if (id == -1) {
+          fail("unrecognised item " + item);
+        }
+      }
+    } catch (IOException e) {
+      fail("Couldn't read from " + file);
+    }
+  }
+
+  @Test
+  public void concoctionsAreItems() {
+    String file = "concoctions.txt";
+    int version = 3;
+    String[] fields;
+    Pattern withNum = Pattern.compile("(.*) \\(\\d+\\)");
+    try (BufferedReader reader = FileUtilities.getVersionedReader(file, version)) {
+      while ((fields = FileUtilities.readData(reader)) != null) {
+        String item = fields[0];
+        switch (fields[1]) {
+          case "VYKEA", "SUSHI", "STILLSUIT" -> {
+            // not items
+          }
+          default -> {
+            var match = withNum.matcher(item);
+            if (match.find()) {
+              item = match.group(1);
+            }
+            var id = ItemDatabase.getExactItemId(item);
+            if (id == -1) {
+              fail("unrecognised item " + item + ".");
+            }
+          }
+        }
+      }
+    } catch (IOException e) {
+      fail("Couldn't read from " + file);
+    }
+  }
+
+  @Test
+  public void concoctionIngredientsAreItems() {
+    String file = "concoctions.txt";
+    int version = 3;
+    String[] fields;
+    Pattern withNum = Pattern.compile("(.*) \\(\\d+\\)");
+    try (BufferedReader reader = FileUtilities.getVersionedReader(file, version)) {
+      while ((fields = FileUtilities.readData(reader)) != null) {
+        if (fields.length < 3) {
+          // no ingredients
+          continue;
+        }
+        String item = fields[0];
+        switch (fields[1]) {
+          case "CLIPART" -> {
+            // not items
+          }
+          default -> {
+            for (int i = 2; i < fields.length; i++) {
+              var ingredient = fields[i];
+              var match = withNum.matcher(ingredient);
+              if (match.find()) {
+                ingredient = match.group(1);
+              }
+              var id = ItemDatabase.getExactItemId(ingredient);
+              if (id == -1) {
+                fail("unrecognised item " + ingredient + " for item " + item + ".");
+              }
+            }
+          }
         }
       }
     } catch (IOException e) {

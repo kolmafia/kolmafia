@@ -168,6 +168,10 @@ public class NPCStoreDatabase {
       return false;
     }
 
+    if (KoLCharacter.isSavageBeast()) {
+      return false;
+    }
+
     switch (storeId) {
       case "armory" -> {
         // Armory and Leggery

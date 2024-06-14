@@ -47,6 +47,17 @@ class ResponseTextParserTest {
 
   @ParameterizedTest
   @ValueSource(ints = {SkillPool.SLIMY_SHOULDERS, SkillPool.SLIMY_SYNAPSES, SkillPool.SLIMY_SINEWS})
+  void cannotLearnMoreSlimeSkillsThanPossible(int skillId) {
+    var levelPref = "skillLevel" + skillId;
+    var cleanups = new Cleanups(withProperty(levelPref, 10));
+    try (cleanups) {
+      ResponseTextParser.learnSkill(skillId);
+      assertThat(levelPref, isSetTo(10));
+    }
+  }
+
+  @ParameterizedTest
+  @ValueSource(ints = {SkillPool.SLIMY_SHOULDERS, SkillPool.SLIMY_SYNAPSES, SkillPool.SLIMY_SINEWS})
   void cannotOverlearnSlimeSkills(int skillId) {
     var levelPref = "skillLevel" + skillId;
     var cleanups = new Cleanups(withProperty(levelPref, 10));
@@ -140,6 +151,94 @@ class ResponseTextParserTest {
         assertPostRequest(
             requests.get(0), "/inv_use.php", "which=3&whichitem=10983&ajax=1&pwd=recipe");
         assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+      }
+    }
+  }
+
+  @Nested
+  class AprilBand {
+    @Test
+    void canPlaySax() {
+      var cleanups = new Cleanups(withProperty("_aprilBandSaxophoneUses", "0"));
+      try (cleanups) {
+        var request = new GenericRequest("inventory.php?iid=11566&action=aprilplay");
+        request.responseText = html("request/test_inventory_april_sax_success.html");
+        ResponseTextParser.externalUpdate(request);
+        assertThat("_aprilBandSaxophoneUses", isSetTo(1));
+      }
+    }
+
+    @Test
+    void tooLuckyToPlaySax() {
+      var cleanups = new Cleanups(withProperty("_aprilBandSaxophoneUses", "0"));
+      try (cleanups) {
+        var request = new GenericRequest("inventory.php?iid=11566&action=aprilplay");
+        request.responseText = html("request/test_inventory_april_sax_lucky.html");
+        ResponseTextParser.externalUpdate(request);
+        assertThat("_aprilBandSaxophoneUses", isSetTo(0));
+      }
+    }
+
+    @Test
+    void canPlayTom() {
+      var cleanups = new Cleanups(withProperty("_aprilBandTomUses", "0"));
+      try (cleanups) {
+        var request = new GenericRequest("inventory.php?iid=11567&action=aprilplay");
+        request.responseText = html("request/test_inventory_april_tom_success.html");
+        ResponseTextParser.externalUpdate(request);
+        assertThat("_aprilBandTomUses", isSetTo(1));
+      }
+    }
+
+    @Test
+    void canPlayTuba() {
+      var cleanups =
+          new Cleanups(
+              withProperty("_aprilBandTubaUses", "0"),
+              withProperty("noncombatForcerActive", false));
+      try (cleanups) {
+        var request = new GenericRequest("inventory.php?iid=11568&action=aprilplay");
+        request.responseText = html("request/test_inventory_april_tuba_success.html");
+        ResponseTextParser.externalUpdate(request);
+        assertThat("_aprilBandTubaUses", isSetTo(1));
+        assertThat("noncombatForcerActive", isSetTo(true));
+      }
+    }
+
+    @Test
+    void canPlayPiccolo() {
+      var cleanups = new Cleanups(withProperty("_aprilBandPiccoloUses", "0"));
+      try (cleanups) {
+        var request = new GenericRequest("inventory.php?iid=11570&action=aprilplay");
+        request.responseText = html("request/test_inventory_april_piccolo_success.html");
+        ResponseTextParser.externalUpdate(request);
+        assertThat("_aprilBandPiccoloUses", isSetTo(1));
+      }
+    }
+
+    @Test
+    void fatFamiliarAvoidsPiccolo() {
+      var cleanups = new Cleanups(withProperty("_aprilBandPiccoloUses", "0"));
+      try (cleanups) {
+        var request = new GenericRequest("inventory.php?iid=11570&action=aprilplay");
+        request.responseText = html("request/test_inventory_april_piccolo_failure.html");
+        ResponseTextParser.externalUpdate(request);
+        assertThat("_aprilBandPiccoloUses", isSetTo(0));
+      }
+    }
+
+    @Test
+    void tooMuchPlaying() {
+      var cleanups =
+          new Cleanups(
+              withProperty("_aprilBandTubaUses", "0"),
+              withProperty("noncombatForcerActive", false));
+      try (cleanups) {
+        var request = new GenericRequest("inventory.php?iid=11568&action=aprilplay");
+        request.responseText = html("request/test_inventory_april_too_much.html");
+        ResponseTextParser.externalUpdate(request);
+        assertThat("_aprilBandTubaUses", isSetTo(3));
+        assertThat("noncombatForcerActive", isSetTo(false));
       }
     }
   }

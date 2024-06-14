@@ -189,11 +189,12 @@ public interface KoLConstants extends UtilityConstants {
   // The current version number of each data file
 
   int ADVENTURES_VERSION = 6;
+  int BOOKOFFACTS_VERSION = 1;
   int BOUNTY_VERSION = 2;
   int BUFFBOTS_VERSION = 1;
   int CAFE_BOOZE_VERSION = 1;
   int CAFE_FOOD_VERSION = 1;
-  int CLASSSKILLS_VERSION = 4;
+  int CLASSSKILLS_VERSION = 6;
   int COINMASTERS_VERSION = 2;
   int COMBATS_VERSION = 1;
   int CONCOCTIONS_VERSION = 3;
@@ -212,6 +213,7 @@ public interface KoLConstants extends UtilityConstants {
   int ITEMS_VERSION = 1;
   int MODIFIERS_VERSION = 3;
   int MONSTERS_VERSION = 8;
+  int MONSTER_PARTS_VERSION = 1;
   int NONFILLING_VERSION = 1;
   int NPCSTORES_VERSION = 2;
   int OUTFITS_VERSION = 3;
@@ -221,7 +223,11 @@ public interface KoLConstants extends UtilityConstants {
   int QUESTSCOUNCIL_VERSION = 1;
   int QUESTSLOG_VERSION = 1;
   int SPLEENHIT_VERSION = 3;
+  int STANDARD_REWARDS_VERSION = 1;
+  int STANDARD_PULVERIZED_VERSION = 1;
   int STATUSEFFECTS_VERSION = 4;
+  int WEREPROFESSOR_VERSION = 1;
+  int WITCHESS_SOLUTIONS_VERSION = 1;
   int ZAPGROUPS_VERSION = 1;
   int ZONELIST_VERSION = 2;
 
@@ -300,6 +306,13 @@ public interface KoLConstants extends UtilityConstants {
     SUBMOXIE("SubMoxie"),
     NONE("None");
 
+    public static Stat find(final String name) {
+      return Arrays.stream(values())
+          .filter(s -> s.toString().equalsIgnoreCase(name))
+          .findFirst()
+          .orElse(Stat.NONE);
+    }
+
     private final String name;
 
     Stat(String name) {
@@ -339,6 +352,7 @@ public interface KoLConstants extends UtilityConstants {
     GRIMOIRE,
     LIBRAM
   }
+
   // for maximizer these are things we can filer on...
   enum filterType {
     EQUIP,
@@ -507,6 +521,10 @@ public interface KoLConstants extends UtilityConstants {
     WOOL, // Items made from grubby wool
     SHADOW_FORGE, // Items made at The Shadow Forge
     FIXODENT, // Items made from fixodent
+    BURNING_LEAVES, // Items made at the Pile of Burning Leaves
+    TINKERING_BENCH, // Items made at the Tinkering Bench
+    MAYAM, // Items made at the Mayam Calendar
+    KIWI, // Items bought at Kiwi Kwiki Mart
   }
 
   enum CraftingRequirements {

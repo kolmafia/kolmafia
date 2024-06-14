@@ -56,6 +56,7 @@ public class ColdMedicineCabinetCommand extends AbstractCommand {
           Map.entry(
               'x',
               " combats underwater or until no environment has overall majority")); // underwater/unknown
+
   // need extra stuff
 
   private static Stream<Character> getCharacters() {

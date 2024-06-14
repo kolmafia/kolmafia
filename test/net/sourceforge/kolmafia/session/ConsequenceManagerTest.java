@@ -5,6 +5,7 @@ import static internal.helpers.Player.withProperty;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -17,6 +18,8 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 public class ConsequenceManagerTest {
   @BeforeEach
@@ -28,7 +31,7 @@ public class ConsequenceManagerTest {
   @Nested
   class IntegerPreferences {
     @Test
-    public void canParseDescItemIntegerPreference() {
+    void canParseDescItemIntegerPreference() {
       var cleanups = new Cleanups(withProperty("boneAbacusVictories", "0"));
 
       try (cleanups) {
@@ -36,9 +39,17 @@ public class ConsequenceManagerTest {
         var responseText = html("request/test_consequences_bone_abacus.html");
 
         // You have defeated 1,000 opponents while holding this abacus.
-        ConsequenceManager.parseItemDesc(descid, responseText);
+        var has = ConsequenceManager.parseItemDesc(descid, responseText);
+        assertThat(has, is(true));
         assertThat("boneAbacusVictories", isSetTo("1000"));
       }
+    }
+
+    @Test
+    void canParseDescItemNoConsequence() {
+      var descid = ItemDatabase.getDescriptionId(ItemPool.SEAL_CLUB);
+      var has = ConsequenceManager.parseItemDesc(descid, "");
+      assertThat(has, is(false));
     }
 
     @Test
@@ -112,6 +123,65 @@ public class ConsequenceManagerTest {
 
       ConsequenceManager.parseEffectDesc(descid, responseText);
       assertThat(Preferences.getString("_circadianRhythmsPhylum"), equalTo("elemental"));
+    }
+  }
+
+  @Nested
+  public class LedCandleMode {
+    @ParameterizedTest
+    @ValueSource(strings = {"disco", "ultraviolet", "reading"})
+    public void canParseNormal(String type) {
+      var cleanups = new Cleanups(withProperty("ledCandleMode"));
+
+      try (cleanups) {
+        var descid = ItemDatabase.getDescriptionId(ItemPool.LED_CANDLE);
+        var responseText = html("request/test_desc_item_led_candle_" + type + ".html");
+
+        ConsequenceManager.parseItemDesc(descid, responseText);
+        assertThat(Preferences.getString("ledCandleMode"), equalTo(type));
+      }
+    }
+
+    @Test
+    public void trimsExtraSpacesForRedLight() {
+      var cleanups = new Cleanups(withProperty("ledCandleMode"));
+
+      try (cleanups) {
+        var descid = ItemDatabase.getDescriptionId(ItemPool.LED_CANDLE);
+        var responseText = html("request/test_desc_item_led_candle_red_light.html");
+
+        ConsequenceManager.parseItemDesc(descid, responseText);
+        assertThat(Preferences.getString("ledCandleMode"), equalTo("red light"));
+      }
+    }
+  }
+
+  @Test
+  public void canParseSavageBeast() {
+    var cleanups = new Cleanups(withProperty("_savageBeastMods"));
+
+    try (cleanups) {
+      var descId = EffectDatabase.getDescriptionId(EffectPool.SAVAGE_BEAST);
+      var responseText = html("request/test_desc_effect_savage_beast.html");
+
+      ConsequenceManager.parseEffectDesc(descId, responseText);
+      assertThat(
+          Preferences.getString("_savageBeastMods"),
+          equalTo(
+              "Combat Rate: +25, Muscle Percent: 100, Maximum HP Percent: 100, Mysticality Percent: 100, Hot Resistance: 6, Cold Resistance: 6, Stench Resistance: 6, Sleaze Resistance: 6, Spooky Resistance: 6, Item Drop: 75, Monster Level: 50, Moxie Percent: 100, Initiative: 200, Meat Drop: 150, HP Regen Min: 1, HP Regen Max: 1"));
+    }
+  }
+
+  @Test
+  void canParseCrudeSculpture() {
+    var cleanups = new Cleanups(withProperty("crudeMonster", ""));
+
+    try (cleanups) {
+      var descid = ItemDatabase.getDescriptionId(ItemPool.CRUDE_SCULPTURE);
+      var responseText = html("request/test_desc_item_crude_sculpture.html");
+
+      ConsequenceManager.parseItemDesc(descid, responseText);
+      assertThat("crudeMonster", isSetTo("factory worker (male)"));
     }
   }
 }

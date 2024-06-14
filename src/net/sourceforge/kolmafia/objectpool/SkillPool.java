@@ -60,6 +60,7 @@ public class SkillPool {
   public static final int GRAB_A_COLD_ONE = 95;
   public static final int SPAGHETTI_BREAKFAST = 101;
   public static final int SHADOW_NOODLES = 102;
+  public static final int SONG_OF_SAUCE = 105;
   public static final int SUMMON_ANNOYANCE = 107;
   public static final int SHRAP = 110;
   public static final int PSYCHOKINETIC_HUG = 111;
@@ -69,7 +70,7 @@ public class SkillPool {
   public static final int HOLIDAY_FUN = 121;
   public static final int RAPID_PROTOTYPING = 125;
   public static final int SUMMON_CARROT = 128;
-  public static final int BEAR_ESSENCE = 135;
+  public static final int BEAR_ESSENCE = 134;
   public static final int SUMMON_KOKOMO_RESORT_PASS = 135;
   public static final int HEALING_SALVE = 136;
   public static final int DARK_RITUAL = 137;
@@ -210,6 +211,7 @@ public class SkillPool {
   public static final int DISCO_DANCE_OF_DOOM = 5005;
   public static final int DISCO_NAP = 5007;
   public static final int DISCO_DANCE_II_ELECTRIC_BOOGALOO = 5008;
+  public static final int DISCO_FEVER = 5009;
   public static final int ADVENTURER_OF_LEISURE = 5011;
   public static final int DISCO_FACE_STAB = 5012;
   public static final int ADVANCED_COCKTAIL = 5014;
@@ -576,6 +578,21 @@ public class SkillPool {
   public static final int HOLD_HANDS = 7484;
   public static final int RECALL_FACTS_MONSTER_HABITATS = 7485;
   public static final int RECALL_FACTS_CIRCADIAN_RHYTHMS = 7486;
+  public static final int TOAST_YOUR_ENEMY = 7487;
+  public static final int SURPRISINGLY_SWEET_SLASH = 7488;
+  public static final int SURPRISINGLY_SWEET_STAB = 7489;
+  public static final int LAY_AN_EGG = 7494;
+  public static final int SPRING_KICK = 7501;
+  public static final int ADVANCED_RESEARCH = 7512;
+  public static final int DART_PART1 = 7513;
+  public static final int DART_PART2 = 7514;
+  public static final int DART_PART3 = 7515;
+  public static final int DART_PART4 = 7516;
+  public static final int DART_PART5 = 7517;
+  public static final int DART_PART6 = 7518;
+  public static final int DART_PART7 = 7519;
+  public static final int DART_PART8 = 7520;
+  public static final int DART_BULLSEYE = 7521;
   public static final int GOOD_SINGING_VOICE = 11016;
   public static final int BANISHING_SHOUT = 11020;
   public static final int DEMAND_SANDWICH = 11021;
@@ -676,6 +693,7 @@ public class SkillPool {
   public static final int PATENT_MEDICINE = 20004;
   public static final int LONG_CON = 20007;
   public static final int TOLERANT_CONSTITUTION = 20008;
+  public static final int WALK_LEISURELY_AMBLE = 20009;
   public static final int OVERCLOCKED = 21001;
   public static final int BOILING_TEAR_DUCTS = 22012;
   public static final int THROAT_REFRIDGERANT = 22013;

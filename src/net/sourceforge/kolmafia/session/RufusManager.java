@@ -62,8 +62,11 @@ public class RufusManager {
       String items = itemMatcher.group(1);
       // Convert to itemId and back to non-plural item name
       int itemId = ItemDatabase.getItemId(items, 3);
-      String itemName = ItemDatabase.getItemName(itemId);
-      Preferences.setString("rufusDesiredItems", itemName);
+      // On April Fools Day, Rufus can ask for salad...
+      if (itemId != -1) {
+        String itemName = ItemDatabase.getItemName(itemId);
+        Preferences.setString("rufusDesiredItems", itemName);
+      }
     }
   }
 

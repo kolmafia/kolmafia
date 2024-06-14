@@ -1,23 +1,23 @@
 package internal.helpers;
 
-import static org.mockito.Mockito.mockStatic;
-
 import internal.helpers.Cleanups.OrderedRunnable;
 import internal.network.FakeHttpClientBuilder;
 import internal.network.FakeHttpResponse;
 import java.net.http.HttpClient;
+import java.time.LocalDateTime;
 import java.time.Month;
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
+import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -44,6 +44,7 @@ import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.ChateauRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
+import net.sourceforge.kolmafia.request.CoinMasterPurchaseRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.FloristRequest;
@@ -51,6 +52,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.GenericRequest.TopMenuStyle;
 import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
+import net.sourceforge.kolmafia.session.BanishManager;
 import net.sourceforge.kolmafia.session.ChoiceControl;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ClanManager;
@@ -58,9 +60,11 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EquipmentRequirement;
 import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.session.TrackManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.utilities.HttpUtilities;
-import org.mockito.Mockito;
+import net.sourceforge.kolmafia.utilities.Statics;
+import net.sourceforge.kolmafia.utilities.TestStatics;
 
 public class Player {
 
@@ -836,7 +840,7 @@ public class Player {
    */
   public static Cleanups withFlorist(int locationId, FloristRequest.Florist... plants) {
     KoLAdventure location = AdventureDatabase.getAdventure(locationId);
-    FloristRequest.setHaveFlorist(true);
+    FloristRequest.setFloristFriarAvailable(true);
     for (var plant : plants) {
       FloristRequest.addPlant(location.getAdventureName(), plant.id());
     }
@@ -929,6 +933,16 @@ public class Player {
    */
   public static Cleanups withIntrinsicEffect(final String effectName) {
     return withEffect(effectName, Integer.MAX_VALUE);
+  }
+
+  /**
+   * Gives player (effectively) infinite turns of an effect
+   *
+   * @param effectId Effect to add intrinsicly
+   * @return Removes effect
+   */
+  public static Cleanups withIntrinsicEffect(final int effectId) {
+    return withEffect(effectId, Integer.MAX_VALUE);
   }
 
   /**
@@ -1416,28 +1430,19 @@ public class Player {
    * @param day Day to set
    * @param hour Hour to set
    * @param minute Minute to set
-   * @return Restores to using the real day
+   * @return Restores to using the previous date time manager
    */
   public static Cleanups withDay(
       final int year, final Month month, final int day, final int hour, final int minute) {
-    var mocked = mockStatic(DateTimeManager.class, Mockito.RETURNS_DEFAULTS);
-
-    mocked
-        .when(DateTimeManager::getArizonaDateTime)
-        .thenReturn(
-            ZonedDateTime.of(
-                year, month.getValue(), day, hour, minute, 0, 0, DateTimeManager.ARIZONA));
-    mocked
-        .when(DateTimeManager::getRolloverDateTime)
-        .thenReturn(
-            ZonedDateTime.of(
-                year, month.getValue(), day, hour, minute, 0, 0, DateTimeManager.ROLLOVER));
+    var dtm = Statics.DateTimeManager;
+    var localDateTime = LocalDateTime.of(year, month, day, hour, minute);
+    TestStatics.setDate(localDateTime);
 
     HolidayDatabase.reset();
 
     return new Cleanups(
         () -> {
-          mocked.close();
+          TestStatics.setDateTimeManager(dtm);
           HolidayDatabase.reset();
         });
   }
@@ -1844,6 +1849,32 @@ public class Player {
   }
 
   /**
+   * Sets next response to a GenericRequest Note that this uses its own FakeHttpClientBuilder so
+   * getRequests() will not work on one set separately
+   *
+   * @param responseMap Map of responses, keyed by request.
+   * @return Cleans up so this response is not given afterwards.
+   */
+  public static Cleanups withResponseMap(final Map<String, FakeHttpResponse<String>> responseMap) {
+    var old = HttpUtilities.getClientBuilder();
+    var builder = new FakeHttpClientBuilder();
+    HttpUtilities.setClientBuilder(() -> builder);
+    GenericRequest.resetClient();
+    GenericRequest.sessionId = "TEST"; // we fake the client, so "run" the requests
+
+    for (var entry : responseMap.entrySet()) {
+      builder.client.addResponse(entry.getKey(), entry.getValue());
+    }
+
+    return new Cleanups(
+        () -> {
+          GenericRequest.sessionId = null;
+          HttpUtilities.setClientBuilder(() -> old);
+          GenericRequest.resetClient();
+        });
+  }
+
+  /**
    * Visits a choice with a given choice and response
    *
    * @param choice Choice to set
@@ -1867,6 +1898,84 @@ public class Player {
         });
   }
 
+  public static Cleanups withChoice(
+      final BiConsumer<String, GenericRequest> cb,
+      final int choice,
+      final int decision,
+      final String extra,
+      final String responseText) {
+    ChoiceManager.lastChoice = choice;
+    ChoiceManager.lastDecision = decision;
+    var url = "choice.php?choice=" + choice + "&option=" + decision;
+    if (extra != null) url = url + "&" + extra;
+    var req = new GenericRequest(url);
+    req.responseText = responseText;
+    cb.accept(url, req);
+
+    return new Cleanups(
+        () -> {
+          ChoiceManager.lastChoice = 0;
+          ChoiceManager.lastDecision = 0;
+        });
+  }
+
+  /**
+   * Runs postChoice0 with a given choice and decision and response
+   *
+   * @param choice Choice to set
+   * @param decision Decision to set
+   * @param extra Any extra parameters for the request
+   * @param responseText Response to fake
+   * @return Restores last choice and last decision
+   */
+  public static Cleanups withPostChoice0(
+      final int choice, final int decision, final String extra, final String responseText) {
+    return withChoice(
+        (url, req) -> ChoiceControl.postChoice0(choice, url, req),
+        choice,
+        decision,
+        extra,
+        responseText);
+  }
+
+  /**
+   * Runs postChoice0 with a given choice and decision and response
+   *
+   * @param choice Choice to set
+   * @param decision Decision to set
+   * @param responseText Response to fake
+   * @return Restores last choice and last decision
+   */
+  public static Cleanups withPostChoice0(
+      final int choice, final int decision, final String responseText) {
+    return withPostChoice0(choice, decision, null, responseText);
+  }
+
+  /**
+   * Runs postChoice0 with a given choice and decision and response
+   *
+   * @param choice Choice to set
+   * @param decision Decision to set
+   * @return Restores last choice and last decision
+   */
+  public static Cleanups withPostChoice0(final int choice, final int decision) {
+    return withPostChoice0(choice, decision, "");
+  }
+
+  /**
+   * Runs postChoice1 with a given choice and decision and response
+   *
+   * @param choice Choice to set
+   * @param decision Decision to set
+   * @param extra Any extra parameters for the request
+   * @param responseText Response to fake
+   * @return Restores last choice and last decision
+   */
+  public static Cleanups withPostChoice1(
+      final int choice, final int decision, final String extra, final String responseText) {
+    return withChoice(ChoiceControl::postChoice1, choice, decision, extra, responseText);
+  }
+
   /**
    * Runs postChoice1 with a given choice and decision and response
    *
@@ -1877,17 +1986,7 @@ public class Player {
    */
   public static Cleanups withPostChoice1(
       final int choice, final int decision, final String responseText) {
-    ChoiceManager.lastChoice = choice;
-    ChoiceManager.lastDecision = decision;
-    var req = new GenericRequest("choice.php?choice=" + choice + "&option=" + decision);
-    req.responseText = responseText;
-    ChoiceControl.postChoice1("choice.php?choice=" + choice + "&option=" + decision, req);
-
-    return new Cleanups(
-        () -> {
-          ChoiceManager.lastChoice = 0;
-          ChoiceManager.lastDecision = 0;
-        });
+    return withPostChoice1(choice, decision, null, responseText);
   }
 
   /**
@@ -1906,22 +2005,26 @@ public class Player {
    *
    * @param choice Choice to set
    * @param decision Decision to set
+   * @param extra Any extra parameters for the request
+   * @param responseText Response to fake
+   * @return Restores last choice and last decision
+   */
+  public static Cleanups withPostChoice2(
+      final int choice, final int decision, final String extra, final String responseText) {
+    return withChoice(ChoiceControl::postChoice2, choice, decision, extra, responseText);
+  }
+
+  /**
+   * Runs postChoice2 with a given choice and decision and response
+   *
+   * @param choice Choice to set
+   * @param decision Decision to set
    * @param responseText Response to fake
    * @return Restores last choice and last decision
    */
   public static Cleanups withPostChoice2(
       final int choice, final int decision, final String responseText) {
-    ChoiceManager.lastChoice = choice;
-    ChoiceManager.lastDecision = decision;
-    var req = new GenericRequest("choice.php?choice=" + choice + "&option=" + decision);
-    req.responseText = responseText;
-    ChoiceControl.postChoice2("choice.php?choice=" + choice + "&option=" + decision, req);
-
-    return new Cleanups(
-        () -> {
-          ChoiceManager.lastChoice = 0;
-          ChoiceManager.lastDecision = 0;
-        });
+    return withPostChoice2(choice, decision, null, responseText);
   }
 
   /**
@@ -1942,14 +2045,31 @@ public class Player {
    *
    * @param choice Choice number
    * @param decision Decision number
+   * @param responseText Response text to simulate
    * @return Restores state for choice handling
    */
   public static Cleanups withChoice(
       final int choice, final int decision, final String responseText) {
+    return withChoice(choice, decision, null, responseText);
+  }
+
+  /**
+   * Simulates a choice (postChoice1, processResults and then postChoice2)
+   *
+   * <p>{@code @todo} Still needs some more choice handling (postChoice0)
+   *
+   * @param choice Choice number
+   * @param decision Decision number
+   * @param extra Any extra parameters for the request
+   * @param responseText Response text to simulate
+   * @return Restores state for choice handling
+   */
+  public static Cleanups withChoice(
+      final int choice, final int decision, final String extra, final String responseText) {
     var cleanups = new Cleanups();
-    cleanups.add(withPostChoice1(choice, decision, responseText));
+    cleanups.add(withPostChoice1(choice, decision, extra, responseText));
     ResultProcessor.processResults(false, responseText);
-    cleanups.add(withPostChoice2(choice, decision, responseText));
+    cleanups.add(withPostChoice2(choice, decision, extra, responseText));
     return cleanups;
   }
 
@@ -2060,7 +2180,7 @@ public class Player {
    * @return Restores previous value
    */
   public static Cleanups withHandlingChoice(final int whichChoice) {
-    ChoiceManager.handlingChoice = true;
+    ChoiceManager.handlingChoice = whichChoice != 0;
     ChoiceManager.lastChoice = whichChoice;
     return new Cleanups(
         () -> {
@@ -2335,6 +2455,118 @@ public class Player {
     return new Cleanups(
         () -> {
           GenericRequest.topMenuStyle = oldStyle;
+        });
+  }
+
+  /**
+   * Sets the user id
+   *
+   * @param id The user id
+   * @return Returns value to previous value
+   */
+  public static Cleanups withUserId(final int id) {
+    var oldId = KoLCharacter.getUserId();
+    KoLCharacter.setUserId(id);
+    return new Cleanups(
+        () -> {
+          KoLCharacter.setUserId(oldId);
+        });
+  }
+
+  /**
+   * Sets the "banishedMonsters" property
+   *
+   * @param contents The user id
+   * @return Returns value to previous value
+   */
+  public static Cleanups withBanishedMonsters(String contents) {
+    var preference = withProperty("banishedMonsters", contents);
+    BanishManager.loadBanished();
+    return new Cleanups(preference, new Cleanups(BanishManager::loadBanished));
+  }
+
+  /**
+   * Sets the "banishedPhyla" property
+   *
+   * @param contents The user id
+   * @return Returns value to previous value
+   */
+  public static Cleanups withBanishedPhyla(String contents) {
+    var preference = withProperty("banishedPhyla", contents);
+    BanishManager.loadBanished();
+    return new Cleanups(preference, new Cleanups(BanishManager::loadBanished));
+  }
+
+  /**
+   * Sets the "trackedMonsters" property
+   *
+   * @param contents The user id
+   * @return Returns value to previous value
+   */
+  public static Cleanups withTrackedMonsters(String contents) {
+    var preference = withProperty("trackedMonsters", contents);
+    TrackManager.loadTracked();
+    return new Cleanups(preference, new Cleanups(TrackManager::loadTracked));
+  }
+
+  /**
+   * Sets the "trackedPhyla" property
+   *
+   * @param contents The user id
+   * @return Returns value to previous value
+   */
+  public static Cleanups withTrackedPhyla(String contents) {
+    var preference = withProperty("trackedPhyla", contents);
+    TrackManager.loadTracked();
+    return new Cleanups(preference, new Cleanups(TrackManager::loadTracked));
+  }
+
+  public static Cleanups withDisabledCoinmaster(CoinmasterData data) {
+    data.setDisabled(true);
+    return new Cleanups(() -> data.setDisabled(false));
+  }
+
+  public static Cleanups withoutCoinmasterBuyItem(CoinmasterData data, AdventureResult item) {
+    List<AdventureResult> buyItems = data.getBuyItems();
+    if (!buyItems.contains(item)) {
+      return new Cleanups();
+    }
+
+    List<AdventureResult> newBuyItems = CoinmastersDatabase.getNewList();
+    newBuyItems.addAll(buyItems);
+    newBuyItems.remove(item);
+    data.withBuyItems(newBuyItems);
+
+    CoinMasterPurchaseRequest request = CoinmastersDatabase.findPurchaseRequest(item);
+    if (request != null) {
+      CoinmastersDatabase.removePurchaseRequest(item);
+    }
+
+    return new Cleanups(
+        () -> {
+          // Restore original list
+          data.withBuyItems(buyItems);
+          if (request != null) {
+            CoinmastersDatabase.addPurchaseRequest(item, request);
+          }
+        });
+  }
+
+  public static Cleanups withoutCoinmasterSellItem(CoinmasterData data, AdventureResult item) {
+    List<AdventureResult> sellItems = data.getSellItems();
+    if (!sellItems.contains(item)) {
+      return new Cleanups();
+    }
+
+    List<AdventureResult> newSellItems = CoinmastersDatabase.getNewList();
+    newSellItems.addAll(sellItems);
+    newSellItems.remove(item);
+    data.withSellItems(newSellItems);
+
+    return new Cleanups(
+        () -> {
+          // Restore original list
+          data.withSellItems(sellItems);
         });
   }
 }

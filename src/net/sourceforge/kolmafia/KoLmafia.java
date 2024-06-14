@@ -13,7 +13,6 @@ import java.io.RandomAccessFile;
 import java.math.BigInteger;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
-import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -37,10 +36,12 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.FlaggedItems;
+import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
@@ -101,6 +102,7 @@ import net.sourceforge.kolmafia.session.LocketManager;
 import net.sourceforge.kolmafia.session.LogoutManager;
 import net.sourceforge.kolmafia.session.MallPriceManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.session.TrackManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.ValhallaManager;
 import net.sourceforge.kolmafia.session.VolcanoMazeManager;
@@ -114,7 +116,6 @@ import net.sourceforge.kolmafia.swingui.listener.LicenseDisplayListener;
 import net.sourceforge.kolmafia.swingui.panel.GearChangePanel;
 import net.sourceforge.kolmafia.swingui.panel.GenericPanel;
 import net.sourceforge.kolmafia.textui.AshRuntime;
-import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
 import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -134,23 +135,11 @@ public abstract class KoLmafia {
     System.setProperty("com.apple.mrj.application.live-resize", "true");
     System.setProperty("com.apple.mrj.application.growbox.intrudes", "false");
     System.setProperty("java.net.preferIPv4Stack", "true");
-    // override content types to avoid a Rhino problem
-    // see https://github.com/mozilla/rhino/issues/1232
-    ensureContentTypes();
 
     if (SwinglessUIUtils.isSwingAvailable()) {
       JEditorPane.registerEditorKitForContentType("text/html", RequestEditorKit.class.getName());
     }
     System.setProperty("apple.laf.useScreenMenuBar", "true");
-  }
-
-  protected static void ensureContentTypes() {
-    var contentTypesFile = KoLConstants.DATA_LOCATION.toPath().resolve("content-types.properties");
-    if (!Files.exists(contentTypesFile)) {
-      FileUtilities.loadLibrary(
-          KoLConstants.DATA_LOCATION, KoLConstants.DATA_DIRECTORY, "content-types.properties");
-    }
-    System.setProperty("content.types.user.table", contentTypesFile.toString());
   }
 
   public static String currentIterationString = "";
@@ -286,10 +275,13 @@ public abstract class KoLmafia {
       }
     }
 
+    // Start background process to detect and report deadlocks.
+    DeadlockDetector.registerDeadlockDetector();
+
     // Reload your settings and determine all the different users which
     // are present in your save state list.
 
-    Preferences.setBoolean("useDevProxyServer", false);
+    Preferences.setBoolean("useDevServer", false);
     Preferences.setBoolean("relayBrowserOnly", false);
 
     Arrays.stream(StaticEntity.getPastUserList())
@@ -493,7 +485,7 @@ public abstract class KoLmafia {
   }
 
   public static final boolean usingDevServer() {
-    return Preferences.getBoolean("useDevProxyServer");
+    return Preferences.getBoolean("useDevServer");
   }
 
   public static final String getLastMessage() {
@@ -604,6 +596,10 @@ public abstract class KoLmafia {
     BanishManager.loadBanished();
     BanishManager.resetRollover();
 
+    // Make sure Tracks are loaded before removing them
+    TrackManager.loadTracked();
+    TrackManager.resetRollover();
+
     // Libram summoning skills now costs 1 MP again
     LockableListFactory.sort(KoLConstants.summoningSkills);
     LockableListFactory.sort(KoLConstants.usableSkills);
@@ -695,6 +691,9 @@ public abstract class KoLmafia {
     // It would be nice to not have to do this
     IslandManager.ensureUpdatedBigIsland();
 
+    KoLCharacter.recalculateAdjustments();
+    ConsumablesDatabase.calculateAllAverageAdventures();
+
     KoLmafia.setIsRefreshing(false);
   }
 
@@ -770,10 +769,16 @@ public abstract class KoLmafia {
 
     // if the Cyrpt quest is active, force evilometer refresh
     // (if we don't know evil levels already)
-    if (QuestDatabase.isQuestStep(Quest.CYRPT, QuestDatabase.STARTED)) {
-      if (Preferences.getInteger("cyrptTotalEvilness") == 0) {
-        RequestThread.postRequest(UseItemRequest.getInstance(ItemPool.EVILOMETER));
-      }
+    if (QuestDatabase.isQuestStep(Quest.CYRPT, QuestDatabase.STARTED)
+        && Preferences.getInteger("cyrptTotalEvilness") == 0) {
+      RequestThread.postRequest(UseItemRequest.getInstance(ItemPool.EVILOMETER));
+    }
+
+    // If it's Halloween and we haven't done so, parse the current block
+    if (HolidayDatabase.getHolidays().contains("Halloween")
+        && Preferences.getString("_trickOrTreatBlock").isEmpty()) {
+      var req = new GenericRequest("place.php?whichplace=town&action=town_trickortreat");
+      RequestThread.postRequest(req);
     }
 
     // Path-related stuff
@@ -821,7 +826,8 @@ public abstract class KoLmafia {
     if (!KoLCharacter.getLimitMode().limitCampground()
         && !KoLCharacter.isEd()
         && !KoLCharacter.inNuclearAutumn()
-        && !KoLCharacter.inRobocore()) {
+        && !KoLCharacter.inRobocore()
+        && !KoLCharacter.inWereProfessor()) {
       KoLmafia.updateDisplay("Retrieving campground data...");
       if (!KoLCharacter.isVampyre()) {
         RequestThread.postRequest(new CampgroundRequest("inspectdwelling"));
@@ -866,6 +872,7 @@ public abstract class KoLmafia {
     InventoryManager.checkVampireVintnerWine();
     InventoryManager.checkBirdOfTheDay();
     ResultProcessor.updateEntauntauned();
+    ResultProcessor.updateSavageBeast();
     CargoCultistShortsRequest.loadPockets();
 
     // This needs to be checked once, to set the property.
@@ -879,6 +886,9 @@ public abstract class KoLmafia {
 
     // Items that conditionally grant skills
     InventoryManager.checkSkillGrantingEquipment();
+
+    // check dart perks on logon
+    InventoryManager.checkDartPerks();
 
     // Check Horsery if we haven't today
     if (Preferences.getBoolean("horseryAvailable")
@@ -983,6 +993,7 @@ public abstract class KoLmafia {
     Preferences.setString("peteMotorbikeMuffler", "");
     Preferences.setString("peteMotorbikeSeat", "");
     BanishManager.resetAvatar();
+    TrackManager.resetAvatar();
 
     // Hermit items depend on character class
     HermitRequest.initialize();
