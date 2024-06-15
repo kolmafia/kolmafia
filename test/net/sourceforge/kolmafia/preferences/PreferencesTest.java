@@ -714,28 +714,35 @@ class PreferencesTest {
 
     @Test
     public void savesSettingsIfOn() throws IOException {
+      String contents;
+      final InputStream inputStream, inputStream1;
       var cleanups =
           new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true));
       try (cleanups) {
         File userFile = new File("settings/" + USER_NAME + "_prefs.txt");
-        InputStream inputStream = DataUtilities.getInputStream(userFile);
-        String contents = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
-        inputStream.close();
-        assertThat(contents, not(containsString("\nxyz=abc\n")));
-        Preferences.setString("xyz", "abc");
         inputStream = DataUtilities.getInputStream(userFile);
-        contents = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
-        assertThat(contents, containsString("\nxyz=abc\n"));
-        inputStream.close();
+        try (inputStream) {
+          contents = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
+          assertThat(contents, not(containsString("\nxyz=abc\n")));
+        }
+        Preferences.setString("xyz", "abc");
+        inputStream1 = DataUtilities.getInputStream(userFile);
+        try (inputStream1) {
+          contents = new String(inputStream1.readAllBytes(), StandardCharsets.UTF_8);
+          assertThat(contents, containsString("\nxyz=abc\n"));
+        }
       }
     }
 
     @Test
     public void canToggle() throws IOException {
+      String contents;
+      final InputStream inputStream, inputStream1, inputStream2;
       File userFile = new File("settings/" + USER_NAME + "_prefs.txt");
-      InputStream inputStream = DataUtilities.getInputStream(userFile);
-      String contents = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
-      inputStream.close();
+      inputStream = DataUtilities.getInputStream(userFile);
+      try (inputStream) {
+        contents = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
+      }
       assertThat(contents, not(containsString("\nxyz=abc\n")));
 
       var cleanups =
@@ -744,17 +751,19 @@ class PreferencesTest {
               withProperty("saveSettingsOnSet", false),
               withProperty("xyz", "abc"));
       try (cleanups) {
-        inputStream = DataUtilities.getInputStream(userFile);
-        contents = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
-        inputStream.close();
+        inputStream1 = DataUtilities.getInputStream(userFile);
+        try (inputStream1) {
+          contents = new String(inputStream1.readAllBytes(), StandardCharsets.UTF_8);
+        }
         assertThat(contents, not(containsString("\nxyz=abc\n")));
 
         var cleanups2 =
             new Cleanups(withProperty("saveSettingsOnSet", true), withProperty("wxy", "def"));
         try (cleanups2) {
-          inputStream = DataUtilities.getInputStream(userFile);
-          contents = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
-          inputStream.close();
+          inputStream2 = DataUtilities.getInputStream(userFile);
+          try (inputStream2) {
+            contents = new String(inputStream2.readAllBytes(), StandardCharsets.UTF_8);
+          }
           assertThat(contents, containsString("\nxyz=abc\n"));
           assertThat(contents, containsString("\nwxy=def\n"));
         }
