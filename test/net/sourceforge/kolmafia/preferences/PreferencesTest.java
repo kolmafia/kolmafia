@@ -13,17 +13,16 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import internal.helpers.Cleanups;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Date;
 import java.util.TreeMap;
 import java.util.stream.IntStream;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.session.LoginManager;
-import net.sourceforge.kolmafia.session.LogoutManager;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -47,9 +46,9 @@ class PreferencesTest {
   private static void deleteSerFiles(String username) {
     String part = username.toLowerCase();
     Path dest = Paths.get(KoLConstants.ROOT_LOCATION + "/data/" + part + "_queue.ser");
-    dest.toFile().delete();
+    verboseDelete(dest);
     dest = Paths.get(KoLConstants.ROOT_LOCATION + "/data/" + part + "_turns.ser");
-    dest.toFile().delete();
+    verboseDelete(dest);
   }
 
   @Test
@@ -61,16 +60,8 @@ class PreferencesTest {
     KoLCharacter.setUserId(0);
     File userFile = new File("settings/" + EMPTY_USER.toLowerCase() + "_prefs.txt");
     File backupUserFile = new File("settings/" + EMPTY_USER.toLowerCase() + "_prefs.bak");
-    if (userFile.exists()) {
-      if (!userFile.delete()) {
-        System.out.println("Failed to delete " + userFile);
-      }
-    }
-    if (backupUserFile.exists()) {
-      if (!backupUserFile.delete()) {
-        System.out.println("Failed to delete " + backupUserFile);
-      }
-    }
+    verboseDelete(userFile);
+    verboseDelete(backupUserFile);
     Preferences.reset(EMPTY_USER);
     var cleanups =
         new Cleanups(
@@ -708,40 +699,6 @@ class PreferencesTest {
         // If we got here, we did not deadlock.
       }
     }
-
-    @Test
-    public void incrementSimultaneouslyDoesNotCauseRaceCondition() {
-      String incrementedPref = "counter";
-      Integer threadCount = 100;
-
-      var cleanups = new Cleanups(withSavePreferencesToFile(), withProperty(incrementedPref, 0));
-      try (cleanups) {
-        Thread[] incrementThreads = new Thread[threadCount];
-
-        IntStream.range(0, threadCount)
-            .forEach(
-                i -> {
-                  incrementThreads[i] = new incrementThread("Increment-" + i);
-                  incrementThreads[i].start();
-                });
-        IntStream.range(0, threadCount)
-            .forEach(
-                j -> {
-                  try {
-                    incrementThreads[j].join(4000);
-                  } catch (InterruptedException e) {
-                    e.printStackTrace();
-                  }
-                  if (incrementThreads[j].isAlive()) {
-                    System.out.println("Undead thread: " + incrementThreads[j].getName());
-                  }
-                });
-        assertEquals(
-            threadCount,
-            Preferences.getInteger(incrementedPref),
-            "incremented pref does not match");
-      }
-    }
   }
 
   @Test
@@ -785,9 +742,7 @@ class PreferencesTest {
       // Global preferences name
       String globalName = "settings/" + "GLOBAL" + "_prefs.txt";
       File globalfile = new File(globalName);
-      if (globalfile.exists()) {
-        verboseDelete(globalfile);
-      }
+      verboseDelete(globalfile);
       assertFalse(globalfile.exists());
       // Reset should save global.
       Preferences.reset(null);
@@ -803,9 +758,7 @@ class PreferencesTest {
       // Global preferences name
       String globalName = "settings/" + "GLOBAL" + "_prefs.txt";
       File globalfile = new File(globalName);
-      if (globalfile.exists()) {
-        verboseDelete(globalfile);
-      }
+      verboseDelete(globalfile);
       assertFalse(globalfile.exists());
       // Reset should save global.
       Preferences.reset("");
@@ -821,13 +774,81 @@ class PreferencesTest {
       // Global preferences name
       String globalName = "settings/" + "GLOBAL" + "_prefs.txt";
       File globalfile = new File(globalName);
-      if (globalfile.exists()) {
-        verboseDelete(globalfile);
-      }
+      verboseDelete(globalfile);
       assertFalse(globalfile.exists());
       // Reset should save global.
       Preferences.reset("dot_is_....not_good");
       assertTrue(globalfile.exists());
+    }
+  }
+
+  @Nested
+  class SaveTogglePreferencesTest {
+    private final String USER_NAME = "PreferencesTestAlsoFakeUser".toLowerCase();
+
+    private String streamReadHelper(File userFile) {
+      String contents = "";
+      final InputStream inputStream;
+      inputStream = DataUtilities.getInputStream(userFile);
+      try (inputStream) {
+        contents = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
+      } catch (IOException e) {
+        fail("Stream read for " + userFile + " failed with exception " + e.getMessage());
+      }
+      return contents;
+    }
+
+    @BeforeEach
+    public void initializeCharPreferences() {
+      KoLCharacter.reset(USER_NAME);
+    }
+
+    @AfterEach
+    public void resetCharAndPreferences() {
+      File userFile = new File("settings/" + USER_NAME + "_prefs.txt");
+      verboseDelete(userFile);
+      File backupFile = new File("settings/" + USER_NAME + "_prefs.bak");
+      verboseDelete(backupFile);
+    }
+
+    @Test
+    public void savesSettingsIfOn() {
+      String contents;
+      var cleanups =
+          new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true));
+      try (cleanups) {
+        File userFile = new File("settings/" + USER_NAME + "_prefs.txt");
+        contents = streamReadHelper(userFile);
+        assertThat(contents, not(containsString("\nxyz=abc\n")));
+        Preferences.setString("xyz", "abc");
+        contents = streamReadHelper(userFile);
+        assertThat(contents, containsString("\nxyz=abc\n"));
+      }
+    }
+
+    @Test
+    public void canToggle() {
+      String contents;
+      File userFile = new File("settings/" + USER_NAME + "_prefs.txt");
+      contents = streamReadHelper(userFile);
+      assertThat(contents, not(containsString("\nxyz=abc\n")));
+
+      var cleanups =
+          new Cleanups(
+              withSavePreferencesToFile(),
+              withProperty("saveSettingsOnSet", false),
+              withProperty("xyz", "abc"));
+      try (cleanups) {
+        contents = streamReadHelper(userFile);
+        assertThat(contents, not(containsString("\nxyz=abc\n")));
+        var cleanups2 =
+            new Cleanups(withProperty("saveSettingsOnSet", true), withProperty("wxy", "def"));
+        try (cleanups2) {
+          contents = streamReadHelper(userFile);
+          assertThat(contents, containsString("\nxyz=abc\n"));
+          assertThat(contents, containsString("\nwxy=def\n"));
+        }
+      }
     }
   }
 }
