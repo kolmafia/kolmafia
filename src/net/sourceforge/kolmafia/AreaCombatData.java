@@ -20,6 +20,7 @@ import net.sourceforge.kolmafia.persistence.AdventureDatabase.Environment;
 import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
+import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
@@ -334,7 +335,13 @@ public class AreaCombatData {
   }
 
   public int getRejection(final MonsterData monster) {
-    return this.rejection.get(monster);
+    return switch (monster.getName()) {
+      case "alielf", "cat-alien", "dog-alien" -> ((8 - HolidayDatabase.getGrimaceMoonlight()) / 8)
+          * 100;
+      case "dogcat", "ferrelf", "hamsterpus" -> ((8 - HolidayDatabase.getRonaldMoonlight()) / 8)
+          * 100;
+      default -> this.rejection.get(monster);
+    };
   }
 
   public double totalWeighting() {
