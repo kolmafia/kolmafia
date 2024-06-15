@@ -2,19 +2,29 @@ package net.sourceforge.kolmafia.preferences;
 
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withSavePreferencesToFile;
+import static internal.helpers.Utilities.verboseDelete;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import internal.helpers.Cleanups;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.TreeMap;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLmafia;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -22,40 +32,38 @@ import org.junit.jupiter.api.Test;
 
 class PreferencesTest {
   private final String USER_NAME = "PreferencesTestFakeUser";
-  private final String EMPTY_USER = "Empty";
 
-  // These need to be before and after each because leakage has been observed between tests
-  // in this class.
   @BeforeEach
-  public void initializeCharPrefs() {
+  public void initializeCharPreferences() {
     KoLCharacter.reset(USER_NAME);
-    KoLCharacter.reset(true);
   }
 
   @AfterEach
-  public void resetCharAndPrefs() {
+  public void resetCharAndPreferences() {
+    deleteSerFiles(USER_NAME);
+    KoLmafia.releaseFileLock();
     KoLCharacter.reset("");
-    KoLCharacter.reset(true);
-    KoLCharacter.setUserId(0);
-    File userFile = new File("settings/" + USER_NAME.toLowerCase() + "_prefs.txt");
-    if (userFile.exists()) {
-      userFile.delete();
-    }
+  }
+
+  private static void deleteSerFiles(String username) {
+    String part = username.toLowerCase();
+    Path dest = Paths.get(KoLConstants.ROOT_LOCATION + "/data/" + part + "_queue.ser");
+    verboseDelete(dest);
+    dest = Paths.get(KoLConstants.ROOT_LOCATION + "/data/" + part + "_turns.ser");
+    verboseDelete(dest);
   }
 
   @Test
   void TestBackupFileWrite() {
+    // to test global prefs concurrency
+    String EMPTY_USER = "Empty";
     KoLCharacter.reset(EMPTY_USER);
     KoLCharacter.reset(true);
     KoLCharacter.setUserId(0);
     File userFile = new File("settings/" + EMPTY_USER.toLowerCase() + "_prefs.txt");
     File backupUserFile = new File("settings/" + EMPTY_USER.toLowerCase() + "_prefs.bak");
-    if (userFile.exists()) {
-      userFile.delete();
-    }
-    if (backupUserFile.exists()) {
-      backupUserFile.delete();
-    }
+    verboseDelete(userFile);
+    verboseDelete(backupUserFile);
     Preferences.reset(EMPTY_USER);
     var cleanups =
         new Cleanups(
@@ -68,6 +76,7 @@ class PreferencesTest {
       assertThat("userFile Not Found: " + userFile, userFile.exists());
       assertThat("backupUserFile not found: " + backupUserFile, backupUserFile.exists());
     }
+    deleteSerFiles(EMPTY_USER);
   }
 
   @Test
@@ -75,7 +84,7 @@ class PreferencesTest {
     String propName = "aTestProp";
     Preferences.setBoolean(propName, true);
     assertTrue(Preferences.getBoolean(propName), "Property Set but does not exist.");
-    Preferences.reset("PreferencesTestFakeUser"); // reload from disk
+    Preferences.reset(USER_NAME); // reload from disk
     assertFalse(Preferences.getBoolean(propName), "Property not restored from disk by reset.");
   }
 
@@ -560,7 +569,49 @@ class PreferencesTest {
     assertFalse(Preferences.isPerUserGlobalProperty("xyzzy"));
     assertFalse(Preferences.isPerUserGlobalProperty("xy..z.zy"));
     // property
-    assertTrue(Preferences.isPerUserGlobalProperty("getBreakfast.PreferencesTestFakeUser"));
+    assertTrue(Preferences.isPerUserGlobalProperty("getBreakfast." + USER_NAME));
+  }
+
+  @Nested
+  class preferenceWriteAcrossThreads {
+    public class resetThread extends Thread {
+      public resetThread(String s) {
+        super(s);
+      }
+
+      public void run() {
+        Preferences.reset(USER_NAME);
+      }
+    }
+
+    public static class resetDailiesThread extends Thread {
+      public resetDailiesThread(String s) {
+        super(s);
+      }
+
+      public void run() {
+        Preferences.resetDailies();
+      }
+    }
+
+    @Test
+    public void resetDailiesDoesNotRaceWithReset() {
+      var cleanups = new Cleanups(withSavePreferencesToFile());
+      try (cleanups) {
+        Thread reset = new resetThread("Timein");
+        Thread resetDailies = new resetDailiesThread("Timein");
+        reset.start();
+        resetDailies.start();
+
+        try {
+          reset.join(1000);
+          resetDailies.join(1000);
+        } catch (InterruptedException ex) {
+          fail("deadlock encountered");
+        }
+        // If we got here, we did not deadlock.
+      }
+    }
   }
 
   @Test
@@ -604,9 +655,7 @@ class PreferencesTest {
       // Global preferences name
       String globalName = "settings/" + "GLOBAL" + "_prefs.txt";
       File globalfile = new File(globalName);
-      if (globalfile.exists()) {
-        globalfile.delete();
-      }
+      verboseDelete(globalfile);
       assertFalse(globalfile.exists());
       // Reset should save global.
       Preferences.reset(null);
@@ -622,9 +671,7 @@ class PreferencesTest {
       // Global preferences name
       String globalName = "settings/" + "GLOBAL" + "_prefs.txt";
       File globalfile = new File(globalName);
-      if (globalfile.exists()) {
-        globalfile.delete();
-      }
+      verboseDelete(globalfile);
       assertFalse(globalfile.exists());
       // Reset should save global.
       Preferences.reset("");
@@ -640,9 +687,7 @@ class PreferencesTest {
       // Global preferences name
       String globalName = "settings/" + "GLOBAL" + "_prefs.txt";
       File globalfile = new File(globalName);
-      if (globalfile.exists()) {
-        globalfile.delete();
-      }
+      verboseDelete(globalfile);
       assertFalse(globalfile.exists());
       // Reset should save global.
       Preferences.reset("dot_is_....not_good");
@@ -651,34 +696,54 @@ class PreferencesTest {
   }
 
   @Nested
-  class SaveSettingsOnSet {
+  class SaveTogglePreferencesTest {
+    private final String USER_NAME = "PreferencesTestAlsoFakeUser".toLowerCase();
+
+    private String streamReadHelper(File userFile) {
+      String contents = "";
+      final InputStream inputStream;
+      inputStream = DataUtilities.getInputStream(userFile);
+      try (inputStream) {
+        contents = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
+      } catch (IOException e) {
+        fail("Stream read for " + userFile + " failed with exception " + e.getMessage());
+      }
+      return contents;
+    }
+
+    @BeforeEach
+    public void initializeCharPreferences() {
+      KoLCharacter.reset(USER_NAME);
+    }
+
+    @AfterEach
+    public void resetCharAndPreferences() {
+      File userFile = new File("settings/" + USER_NAME + "_prefs.txt");
+      verboseDelete(userFile);
+      File backupFile = new File("settings/" + USER_NAME + "_prefs.bak");
+      verboseDelete(backupFile);
+    }
+
     @Test
-    public void savesSettingsIfOn() throws IOException {
+    public void savesSettingsIfOn() {
+      String contents;
       var cleanups =
           new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true));
       try (cleanups) {
-        File userFile =
-            new File("settings/" + KoLCharacter.getUserName().toLowerCase() + "_prefs.txt");
-        String contents =
-            new String(
-                DataUtilities.getInputStream(userFile).readAllBytes(), StandardCharsets.UTF_8);
+        File userFile = new File("settings/" + USER_NAME + "_prefs.txt");
+        contents = streamReadHelper(userFile);
         assertThat(contents, not(containsString("\nxyz=abc\n")));
-
-        try (var cleanups2 = withProperty("xyz", "abc")) {
-          contents =
-              new String(
-                  DataUtilities.getInputStream(userFile).readAllBytes(), StandardCharsets.UTF_8);
-          assertThat(contents, containsString("\nxyz=abc\n"));
-        }
+        Preferences.setString("xyz", "abc");
+        contents = streamReadHelper(userFile);
+        assertThat(contents, containsString("\nxyz=abc\n"));
       }
     }
 
     @Test
-    public void canToggle() throws IOException {
-      File userFile =
-          new File("settings/" + KoLCharacter.getUserName().toLowerCase() + "_prefs.txt");
-      String contents =
-          new String(DataUtilities.getInputStream(userFile).readAllBytes(), StandardCharsets.UTF_8);
+    public void canToggle() {
+      String contents;
+      File userFile = new File("settings/" + USER_NAME + "_prefs.txt");
+      contents = streamReadHelper(userFile);
       assertThat(contents, not(containsString("\nxyz=abc\n")));
 
       var cleanups =
@@ -687,17 +752,12 @@ class PreferencesTest {
               withProperty("saveSettingsOnSet", false),
               withProperty("xyz", "abc"));
       try (cleanups) {
-        contents =
-            new String(
-                DataUtilities.getInputStream(userFile).readAllBytes(), StandardCharsets.UTF_8);
+        contents = streamReadHelper(userFile);
         assertThat(contents, not(containsString("\nxyz=abc\n")));
-
         var cleanups2 =
             new Cleanups(withProperty("saveSettingsOnSet", true), withProperty("wxy", "def"));
         try (cleanups2) {
-          contents =
-              new String(
-                  DataUtilities.getInputStream(userFile).readAllBytes(), StandardCharsets.UTF_8);
+          contents = streamReadHelper(userFile);
           assertThat(contents, containsString("\nxyz=abc\n"));
           assertThat(contents, containsString("\nwxy=def\n"));
         }
