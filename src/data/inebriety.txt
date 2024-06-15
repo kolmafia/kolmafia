@@ -71,7 +71,7 @@ Bone's Farm &quot;wine&quot;	1	6	awesome	3-4	5-10	5-10	5-10	30 Sticks and Stones
 boot flask	3	1	awesome	12-13	5-15	0	0
 booze-soaked cherry	1	3	decent	1-3	0	5-10	0
 Bordeaux Marteaux	1	3	awesome	3-5	60-75	0	0	20 Hammered (+50% weapon dmg), WINE
-Boris's beer	1	1	EPIC	5-7	20-40	0	0	30 Beery Cool (+5 Muscle, +50% Muscle, +5 Hot Resistance)
+Boris's beer	1	1	EPIC	5-7	20-40	0	0	30 Beery Cool (+5 Muscle, +50% Muscle, +5 Hot Resistance), BEER
 bottle of Amontillado	4	5	good	11-13	5-15	0	5-15	100 Bricked-In (+50 HP)
 bottle of Bloodweiser	2	1	EPIC	12-13	30-50	30-50	30-50	50 Blood Porter
 bottle of Cabernet Sauvignon	3	1	awesome	10-13	2-5	16-25	5-8	30 Cabernet Hunter (+100% Booze Drops)
@@ -732,7 +732,7 @@ vodka martini	3	1	decent	5-6	0	0	8-10	MARTINI
 Vodka Matryoshka	2	2	EPIC	10-13	25-50	10-20	10-20
 vodka stinger	1	1	awesome	3-5	0	0	0	40 Mer-kindliness (+2 Prismatic res)
 vodka stratocaster	4	6	awesome	14-18	25-27	0	16-20
-void lager	1	1	awesome	3-4	0	0	0	
+void lager	1	1	awesome	3-4	0	0	0	BEER
 VYKEA mead	2	7	awesome	8-10	5-10	5-10	20-40
 warbear bearserker mead	3	1	awesome	12-15	5-10	5-10	5-10	40 Warbear Warlust (+60 WarBear Armor Penetration), WINE
 warbear blizzard mead	3	1	awesome	12-15	5-10	5-10	5-10	40 Warbear Blubber (Serious Supercold resistance), WINE
