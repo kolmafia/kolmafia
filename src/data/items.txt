@@ -11626,8 +11626,8 @@
 11598	mini kiwi aioli	863064561	ramekin.gif	usable	t,d	11
 11599	mini kiwi silicon tiepin	701181594	kiwi_tiepin.gif	accessory	t,d	40
 11600	mini kiwi tipi	496300747	kiwi_tipi.gif	usable	t,d	11
-11601	mini kiwi digitized cookies	733008951	10101.gif	food	t,d	11
-11602	mini kiwi intoxicating spirits	774169937	beerbottle.gif	drink	t,d	11
+11601	mini kiwi digitized cookies	733008951	10101.gif	food	t,d	11	packs of mini kiwi digitized cookies
+11602	mini kiwi intoxicating spirits	774169937	beerbottle.gif	drink	t,d	11	mini bottles of mini kiwi intoxicating spirits
 11603	mini kiwi antimilitaristic hippy petition	779505307	document.gif	potion, usable	t,d	11
 11604	mini kiwi illicit antibiotic	459688276	kiwi_pill.gif	potion, usable	t,d	11
 11605	mini kiwi whipping stick	128063299	kiwi_stick.gif	offhand	t,d	11
