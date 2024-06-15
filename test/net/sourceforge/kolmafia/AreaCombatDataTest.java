@@ -4,6 +4,7 @@ import static internal.helpers.Player.withBanishedMonsters;
 import static internal.helpers.Player.withBanishedPhyla;
 import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withCurrentRun;
+import static internal.helpers.Player.withDay;
 import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
@@ -25,6 +26,7 @@ import static org.hamcrest.core.Every.everyItem;
 
 import internal.helpers.Cleanups;
 import java.io.File;
+import java.time.Month;
 import java.util.Map;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -43,6 +45,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 public class AreaCombatDataTest {
@@ -953,6 +956,90 @@ public class AreaCombatDataTest {
                 hasEntry(MonsterDatabase.findMonster("Jefferson pilot"), 300.0 / 16.0),
                 hasEntry(MonsterDatabase.findMonster("lynyrd skinner"), 300.0 / 16.0),
                 hasEntry(MonsterDatabase.findMonster("The Nuge"), -3.0)));
+      }
+    }
+  }
+
+  @Nested
+  class Spaaaace {
+    @ParameterizedTest
+    @CsvSource({
+      "15, 0.12",
+      "2, 0.0",
+    })
+    void alienAppearanceAffectedByRonaldLight(final int dayOfJune2024, final double alienWeight) {
+      var cleanups = withDay(2024, Month.JUNE, dayOfJune2024);
+
+      try (cleanups) {
+        var zone = AdventureDatabase.getAreaCombatData("Domed City of Ronaldus");
+        var appearanceRates = zone.getMonsterData(true);
+
+        var survivorWeight = 1.0;
+        var totalWeight = (survivorWeight * 3) + (alienWeight * 3);
+
+        var alienChance = (alienWeight / totalWeight) * 100;
+        var survivorChance = (survivorWeight / totalWeight) * 100;
+
+        assertThat(appearanceRates, aMapWithSize(6));
+        assertThat(
+            appearanceRates,
+            allOf(
+                hasEntry(
+                    equalTo(MonsterDatabase.findMonster("dogcat")), closeTo(alienChance, 0.001)),
+                hasEntry(
+                    equalTo(MonsterDatabase.findMonster("ferrelf")), closeTo(alienChance, 0.001)),
+                hasEntry(
+                    equalTo(MonsterDatabase.findMonster("hamsterpus")),
+                    closeTo(alienChance, 0.001)),
+                hasEntry(
+                    equalTo(MonsterDatabase.findMonster("overarmed survivor")),
+                    closeTo(survivorChance, 0.001)),
+                hasEntry(
+                    equalTo(MonsterDatabase.findMonster("primitive survivor")),
+                    closeTo(survivorChance, 0.001)),
+                hasEntry(
+                    equalTo(MonsterDatabase.findMonster("unlikely survivor")),
+                    closeTo(survivorChance, 0.001))));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "13, 0.12",
+      "2, 0.0",
+    })
+    void alienAppearanceAffectedByGrimaceLight(final int dayOfJune2024, final double alienWeight) {
+      var cleanups = withDay(2024, Month.JUNE, dayOfJune2024);
+
+      try (cleanups) {
+        var zone = AdventureDatabase.getAreaCombatData("Domed City of Grimacia");
+        var appearanceRates = zone.getMonsterData(true);
+
+        var survivorWeight = 1.0;
+        var totalWeight = (survivorWeight * 3) + (alienWeight * 3);
+
+        var alienChance = (alienWeight / totalWeight) * 100;
+        var survivorChance = (survivorWeight / totalWeight) * 100;
+
+        assertThat(appearanceRates, aMapWithSize(6));
+        assertThat(
+            appearanceRates,
+            allOf(
+                hasEntry(
+                    equalTo(MonsterDatabase.findMonster("alielf")), closeTo(alienChance, 0.001)),
+                hasEntry(
+                    equalTo(MonsterDatabase.findMonster("cat-alien")), closeTo(alienChance, 0.001)),
+                hasEntry(
+                    equalTo(MonsterDatabase.findMonster("dog-alien")), closeTo(alienChance, 0.001)),
+                hasEntry(
+                    equalTo(MonsterDatabase.findMonster("grizzled survivor")),
+                    closeTo(survivorChance, 0.001)),
+                hasEntry(
+                    equalTo(MonsterDatabase.findMonster("unhinged survivor")),
+                    closeTo(survivorChance, 0.001)),
+                hasEntry(
+                    equalTo(MonsterDatabase.findMonster("whiny survivor")),
+                    closeTo(survivorChance, 0.001))));
       }
     }
   }
