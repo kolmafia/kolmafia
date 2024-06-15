@@ -48,9 +48,9 @@ class PreferencesTest {
   private static void deleteSerFiles(String username) {
     String part = username.toLowerCase();
     Path dest = Paths.get(KoLConstants.ROOT_LOCATION + "/data/" + part + "_queue.ser");
-    verboseDelete(dest.toFile());
+    verboseDelete(dest);
     dest = Paths.get(KoLConstants.ROOT_LOCATION + "/data/" + part + "_turns.ser");
-    verboseDelete(dest.toFile());
+    verboseDelete(dest);
   }
 
   @Test
