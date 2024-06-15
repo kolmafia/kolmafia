@@ -317,10 +317,24 @@ public class ConcoctionTest {
 
   @Nested
   class Kiwi {
+    @Test
+    void cannotBuyIntoxicatingSpiritsWithoutKiwis() {
+      var cleanups = withItem(ItemPool.MINI_KIWI);
+
+      try (cleanups) {
+        var conc = ConcoctionPool.get(ItemPool.MINI_KIWI_INTOXICATING_SPIRITS);
+        conc.calculate3();
+        assertThat(conc.freeTotal, is(0));
+      }
+    }
+
     @ParameterizedTest
     @ValueSource(booleans = {true, false})
     void canBuyOneIntoxicatingSpirits(boolean haveBought) {
-      var cleanups = new Cleanups(withProperty("_miniKiwiIntoxicatingSpiritsBought", haveBought));
+      var cleanups =
+          new Cleanups(
+              withItem(ItemPool.MINI_KIWI, 3),
+              withProperty("_miniKiwiIntoxicatingSpiritsBought", haveBought));
 
       try (cleanups) {
         var conc = ConcoctionPool.get(ItemPool.MINI_KIWI_INTOXICATING_SPIRITS);
