@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.function.Function;
+import java.util.function.IntSupplier;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter.Gender;
@@ -334,15 +335,20 @@ public class AreaCombatData {
     return raw >> WEIGHT_SHIFT;
   }
 
+  private int getMoonlightRejection(final IntSupplier fn) {
+    // 0, 1 -> 8/8
+    // 2, 3, 4 -> 7/8, 6/8, 5/8 respectively
+    return (int) Math.round((Math.min(8, 9 - fn.getAsInt()) / 8.0) * 100);
+  }
+
   public int getRejection(final MonsterData monster) {
-    return (int)
-        switch (monster.getName()) {
-          case "alielf", "cat-alien", "dog-alien" -> Math.round(
-              ((8 - HolidayDatabase.getGrimaceMoonlight()) / 8.0) * 100);
-          case "dogcat", "ferrelf", "hamsterpus" -> Math.round(
-              ((8 - HolidayDatabase.getRonaldMoonlight()) / 8.0) * 100);
-          default -> this.rejection.get(monster);
-        };
+    return switch (monster.getName()) {
+      case "alielf", "cat-alien", "dog-alien" -> getMoonlightRejection(
+          HolidayDatabase::getGrimaceMoonlight);
+      case "dogcat", "ferrelf", "hamsterpus" -> getMoonlightRejection(
+          HolidayDatabase::getRonaldMoonlight);
+      default -> this.rejection.get(monster);
+    };
   }
 
   public double totalWeighting() {
