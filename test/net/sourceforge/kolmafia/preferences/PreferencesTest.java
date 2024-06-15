@@ -706,7 +706,7 @@ class PreferencesTest {
       try (inputStream) {
         contents = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
       } catch (IOException e) {
-        fail("Stream read for " + userFile + "failed with exception " + e.getMessage());
+        fail("Stream read for " + userFile + " failed with exception " + e.getMessage());
       }
       return contents;
     }
