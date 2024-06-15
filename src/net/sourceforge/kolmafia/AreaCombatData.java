@@ -335,11 +335,11 @@ public class AreaCombatData {
   }
 
   public int getRejection(final MonsterData monster) {
-    return switch (monster.getName()) {
-      case "alielf", "cat-alien", "dog-alien" -> ((8 - HolidayDatabase.getGrimaceMoonlight()) / 8)
-          * 100;
-      case "dogcat", "ferrelf", "hamsterpus" -> ((8 - HolidayDatabase.getRonaldMoonlight()) / 8)
-          * 100;
+    return (int) switch (monster.getName()) {
+      case "alielf", "cat-alien", "dog-alien" ->
+          Math.round(((8 - HolidayDatabase.getGrimaceMoonlight()) / 8.0) * 100);
+      case "dogcat", "ferrelf", "hamsterpus" ->
+          Math.round(((8 - HolidayDatabase.getRonaldMoonlight()) / 8.0) * 100);
       default -> this.rejection.get(monster);
     };
   }
