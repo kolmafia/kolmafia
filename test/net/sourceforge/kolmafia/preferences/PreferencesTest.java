@@ -48,9 +48,9 @@ class PreferencesTest {
   private static void deleteSerFiles(String username) {
     String part = username.toLowerCase();
     Path dest = Paths.get(KoLConstants.ROOT_LOCATION + "/data/" + part + "_queue.ser");
-    dest.toFile().delete();
+    verboseDelete(dest.toFile());
     dest = Paths.get(KoLConstants.ROOT_LOCATION + "/data/" + part + "_turns.ser");
-    dest.toFile().delete();
+    verboseDelete(dest.toFile());
   }
 
   @Test
@@ -62,16 +62,8 @@ class PreferencesTest {
     KoLCharacter.setUserId(0);
     File userFile = new File("settings/" + EMPTY_USER.toLowerCase() + "_prefs.txt");
     File backupUserFile = new File("settings/" + EMPTY_USER.toLowerCase() + "_prefs.bak");
-    if (userFile.exists()) {
-      if (!userFile.delete()) {
-        System.out.println("Failed to delete " + userFile);
-      }
-    }
-    if (backupUserFile.exists()) {
-      if (!backupUserFile.delete()) {
-        System.out.println("Failed to delete " + backupUserFile);
-      }
-    }
+    verboseDelete(userFile);
+    verboseDelete(backupUserFile);
     Preferences.reset(EMPTY_USER);
     var cleanups =
         new Cleanups(
@@ -663,9 +655,7 @@ class PreferencesTest {
       // Global preferences name
       String globalName = "settings/" + "GLOBAL" + "_prefs.txt";
       File globalfile = new File(globalName);
-      if (globalfile.exists()) {
-        verboseDelete(globalfile);
-      }
+      verboseDelete(globalfile);
       assertFalse(globalfile.exists());
       // Reset should save global.
       Preferences.reset(null);
@@ -681,9 +671,7 @@ class PreferencesTest {
       // Global preferences name
       String globalName = "settings/" + "GLOBAL" + "_prefs.txt";
       File globalfile = new File(globalName);
-      if (globalfile.exists()) {
-        verboseDelete(globalfile);
-      }
+      verboseDelete(globalfile);
       assertFalse(globalfile.exists());
       // Reset should save global.
       Preferences.reset("");
@@ -699,9 +687,7 @@ class PreferencesTest {
       // Global preferences name
       String globalName = "settings/" + "GLOBAL" + "_prefs.txt";
       File globalfile = new File(globalName);
-      if (globalfile.exists()) {
-        verboseDelete(globalfile);
-      }
+      verboseDelete(globalfile);
       assertFalse(globalfile.exists());
       // Reset should save global.
       Preferences.reset("dot_is_....not_good");
