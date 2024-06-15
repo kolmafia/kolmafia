@@ -546,7 +546,11 @@ public enum DoubleModifier implements Modifier {
       Pattern.compile("([+-]\\d+) Pirate Warfare Effectiveness"),
       Pattern.compile("Pirate Warfare Effectiveness: " + EXPR)),
   MPC_DROP("MPC Drop", Pattern.compile("MPC Drop: " + EXPR)),
-  PIECE_OF_TWELVE_DROP("Piece of Twelve Drop", Pattern.compile("Piece of Twelve Drop: " + EXPR));
+  PIECE_OF_TWELVE_DROP("Piece of Twelve Drop", Pattern.compile("Piece of Twelve Drop: " + EXPR)),
+  COMBAT_ITEM_DAMAGE_PCT(
+      "Combat Item Damage Percent",
+      Pattern.compile("Combat items deal ([+-]\\d+)% more damage"),
+      Pattern.compile("Combat Item Damage Percent:" + EXPR));
 
   private final String name;
   private final Pattern[] descPatterns;

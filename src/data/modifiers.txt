@@ -979,8 +979,7 @@ Item	coconut bikini top	Mysticality: +5
 Item	conquistador's breastplate	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Meat Drop: +15
 Item	cool iron breastplate	Damage Reduction: 20, Maximum HP: +200
 Item	Corporal Fennel's Lonely Clubs Club Jacket	PvP Fights: +2
-# Crimbuccaneer bombjacket: Combat items deal 100% more damage
-Item	Crimbuccaneer bombjacket	Moxie Percent: +25, Ranged Damage: +25
+Item	Crimbuccaneer bombjacket	Moxie Percent: +25, Ranged Damage: +25, Combat Item Damage Percent: 100
 Item	Crimbuccaneer shirt	Familiar Weight: [+10*event(December)]
 Item	demonskin jacket	Mysticality: +5, Hot Spell Damage: +5
 Item	denim jacket	Mysticality: +10, MP Regen Min: 4, MP Regen Max: 8
@@ -3577,9 +3576,8 @@ Item	replica plastic vampire fangs	Maximum HP: +30, Maximum MP: +30, Muscle: +15
 Item	replica Powerful Glove	Maximum MP: +10, Maximum HP: +20, Weapon Damage Percent: +25, Spell Damage Percent: +50, HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10, Single Equip
 # replica V for Vivala mask: +1-3 Stat(s) per Fight
 # replica V for Vivala mask: Allows use of Creepy Grin (once per day)
-# replica V for Vivala mask: Combat items do more damage
 # replica V for Vivala mask: Critical Hits are extra-explosive
-Item	replica V for Vivala mask	Muscle Percent: +30, Critical Hit Percent: +10, Single Equip
+Item	replica V for Vivala mask	Muscle Percent: +30, Critical Hit Percent: +10, Combat Item Damage Percent: 50, Single Equip
 # Retrospecs: Gives you another chance on item drops you missed out on
 # Retrospecs: Reveals foes' weaknesses
 Item	Retrospecs	Muscle: +15, Mysticality: +15, Moxie: +15, Maximum HP: +25, Maximum MP: +25, HP Regen Min: 3, HP Regen Max: 5, MP Regen Min: 3, MP Regen Max: 5, Single Equip, Free Pull
@@ -4068,9 +4066,8 @@ Item	Uranium Omega of Temperance	Muscle: +5, Mysticality: +5, Moxie: +5, Item Dr
 Item	UV monocular	Item Drop: +5, Single Equip
 # V for Vivala mask: +1-3 Stat(s) per Fight
 # V for Vivala mask: Allows use of Creepy Grin (once per day)
-# V for Vivala mask: Combat items do more damage
 # V for Vivala mask: Critical Hits are extra-explosive
-Item	V for Vivala mask	Muscle Percent: +30, Critical Hit Percent: +10, Single Equip, Softcore Only
+Item	V for Vivala mask	Muscle Percent: +30, Critical Hit Percent: +10, Combat Item Damage Percent: 50, Single Equip, Softcore Only
 # vampire collar: Makes You Act Like a Vampire.  Blah.
 Item	vampire collar	Single Equip
 Item	vampire pearl earring	MP Regen Min: 4, MP Regen Max: 14, Single Equip
@@ -6748,7 +6745,7 @@ Effect	Mark of Candy Cain	Critical Hit Percent: +20, Spell Critical Percent: +20
 Effect	Martially-Minded	Weapon Damage: +50, Weapon Damage Percent: +25
 Effect	Matador Nemesis	Avatar: "raging bull"
 Effect	Material Witness	Meat Drop: +10
-# Mathematically Precise: Combat items deal 50% more damage
+Effect	Mathematically Precise	Combat Item Damage Percent: 50
 Effect	Mayeaugh	Damage Aura: 1
 Effect	Meadulla Oblongota	Experience: +5, Maximum MP Percent: +50
 # Meat Shielded
@@ -8245,7 +8242,7 @@ Skill	Dark Circles Under Your Eyes	Spooky Damage: +7
 Skill	Dead Nostrils	Stench Spell Damage: +1, Stench Resistance: +1
 Skill	Deductive Reasoning	Mysticality: +15
 # Deep Saucery: Lets you cook with Deep Sauce
-# Deft Hands: +25% damage from combat items
+Skill	Deft Hands	Combat Item Damage Percent: 25
 Skill	Dilatable Capillaries	Hot Resistance: +1
 Skill	Diminished Gag Reflex	Stench Resistance: +2
 Skill	Dimples, How Merry!	Experience: +1
