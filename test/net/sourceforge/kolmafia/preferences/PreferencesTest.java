@@ -699,6 +699,18 @@ class PreferencesTest {
   class SaveTogglePreferencesTest {
     private final String USER_NAME = "PreferencesTestAlsoFakeUser".toLowerCase();
 
+    private String streamReadHelper(File userFile) {
+      String contents = "";
+      final InputStream inputStream;
+      inputStream = DataUtilities.getInputStream(userFile);
+      try (inputStream) {
+        contents = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
+      } catch (IOException e) {
+        fail("Stream read for " + userFile + "failed with exception " + e.getMessage());
+      }
+      return contents;
+    }
+
     @BeforeEach
     public void initializeCharPreferences() {
       KoLCharacter.reset(USER_NAME);
@@ -713,36 +725,25 @@ class PreferencesTest {
     }
 
     @Test
-    public void savesSettingsIfOn() throws IOException {
+    public void savesSettingsIfOn() {
       String contents;
-      final InputStream inputStream, inputStream1;
       var cleanups =
           new Cleanups(withSavePreferencesToFile(), withProperty("saveSettingsOnSet", true));
       try (cleanups) {
         File userFile = new File("settings/" + USER_NAME + "_prefs.txt");
-        inputStream = DataUtilities.getInputStream(userFile);
-        try (inputStream) {
-          contents = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
-          assertThat(contents, not(containsString("\nxyz=abc\n")));
-        }
+        contents = streamReadHelper(userFile);
+        assertThat(contents, not(containsString("\nxyz=abc\n")));
         Preferences.setString("xyz", "abc");
-        inputStream1 = DataUtilities.getInputStream(userFile);
-        try (inputStream1) {
-          contents = new String(inputStream1.readAllBytes(), StandardCharsets.UTF_8);
-          assertThat(contents, containsString("\nxyz=abc\n"));
-        }
+        contents = streamReadHelper(userFile);
+        assertThat(contents, containsString("\nxyz=abc\n"));
       }
     }
 
     @Test
-    public void canToggle() throws IOException {
+    public void canToggle() {
       String contents;
-      final InputStream inputStream, inputStream1, inputStream2;
       File userFile = new File("settings/" + USER_NAME + "_prefs.txt");
-      inputStream = DataUtilities.getInputStream(userFile);
-      try (inputStream) {
-        contents = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
-      }
+      contents = streamReadHelper(userFile);
       assertThat(contents, not(containsString("\nxyz=abc\n")));
 
       var cleanups =
@@ -751,19 +752,12 @@ class PreferencesTest {
               withProperty("saveSettingsOnSet", false),
               withProperty("xyz", "abc"));
       try (cleanups) {
-        inputStream1 = DataUtilities.getInputStream(userFile);
-        try (inputStream1) {
-          contents = new String(inputStream1.readAllBytes(), StandardCharsets.UTF_8);
-        }
+        contents = streamReadHelper(userFile);
         assertThat(contents, not(containsString("\nxyz=abc\n")));
-
         var cleanups2 =
             new Cleanups(withProperty("saveSettingsOnSet", true), withProperty("wxy", "def"));
         try (cleanups2) {
-          inputStream2 = DataUtilities.getInputStream(userFile);
-          try (inputStream2) {
-            contents = new String(inputStream2.readAllBytes(), StandardCharsets.UTF_8);
-          }
+          contents = streamReadHelper(userFile);
           assertThat(contents, containsString("\nxyz=abc\n"));
           assertThat(contents, containsString("\nwxy=def\n"));
         }
