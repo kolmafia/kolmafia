@@ -1865,9 +1865,7 @@ public class ConcoctionDatabase {
 
     boolean inBadMoon = KoLCharacter.inBadMoon() && !KoLCharacter.skillsRecalled();
 
-    boolean hasClipArt =
-        KoLCharacter.hasSkill(SkillPool.CLIP_ART)
-            && !inBadMoon;
+    boolean hasClipArt = KoLCharacter.hasSkill(SkillPool.CLIP_ART) && !inBadMoon;
     boolean clipArtSummonsRemaining =
         hasClipArt
             && (KoLCharacter.canInteract()
@@ -2113,8 +2111,7 @@ public class ConcoctionDatabase {
             || InventoryManager.hasItem(ItemPool.FISH_HATCHET)
             || InventoryManager.hasItem(ItemPool.TUNAC);
     boolean floundryUsable =
-        StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Clan Floundry")
-            && !inBadMoon;
+        StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Clan Floundry") && !inBadMoon;
     if (clanFloundry && !gotFloundryItem && floundryUsable) {
       permitNoCost(CraftingType.FLOUNDRY);
     }
@@ -2161,8 +2158,7 @@ public class ConcoctionDatabase {
     }
 
     boolean spacegateUsable =
-        StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Spacegate access badge")
-            && !inBadMoon;
+        StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Spacegate access badge") && !inBadMoon;
     if (Preferences.getBoolean("spacegateAlways") && spacegateUsable) {
       permitNoCost(CraftingType.SPACEGATE);
     } else {
