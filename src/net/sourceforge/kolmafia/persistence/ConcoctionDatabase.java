@@ -1863,9 +1863,11 @@ public class ConcoctionDatabase {
     // Summoning Clip Art is possible if the person has that tome,
     // and isn't in Bad Moon
 
+    boolean inBadMoon = KoLCharacter.inBadMoon() && !KoLCharacter.skillsRecalled();
+
     boolean hasClipArt =
         KoLCharacter.hasSkill(SkillPool.CLIP_ART)
-            && (!KoLCharacter.inBadMoon() || KoLCharacter.skillsRecalled());
+            && !inBadMoon;
     boolean clipArtSummonsRemaining =
         hasClipArt
             && (KoLCharacter.canInteract()
@@ -2112,7 +2114,7 @@ public class ConcoctionDatabase {
             || InventoryManager.hasItem(ItemPool.TUNAC);
     boolean floundryUsable =
         StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Clan Floundry")
-            && (!KoLCharacter.inBadMoon() || KoLCharacter.skillsRecalled());
+            && !inBadMoon;
     if (clanFloundry && !gotFloundryItem && floundryUsable) {
       permitNoCost(CraftingType.FLOUNDRY);
     }
@@ -2131,7 +2133,7 @@ public class ConcoctionDatabase {
     boolean gotBarrelItem = Preferences.getBoolean("_barrelPrayer");
     boolean barrelUsable =
         StandardRequest.isAllowed(RestrictedItemType.ITEMS, "shrine to the Barrel god")
-            && (!KoLCharacter.inBadMoon() || KoLCharacter.skillsRecalled());
+            && !inBadMoon;
     if (gotBarrelShrine && !gotBarrelItem && barrelUsable) {
       permitNoCost(CraftingType.BARREL);
     }
@@ -2160,7 +2162,7 @@ public class ConcoctionDatabase {
 
     boolean spacegateUsable =
         StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Spacegate access badge")
-            && (!KoLCharacter.inBadMoon() || KoLCharacter.skillsRecalled());
+            && !inBadMoon;
     if (Preferences.getBoolean("spacegateAlways") && spacegateUsable) {
       permitNoCost(CraftingType.SPACEGATE);
     } else {
@@ -2170,7 +2172,7 @@ public class ConcoctionDatabase {
 
     boolean fantasyRealmUsable =
         StandardRequest.isAllowed(RestrictedItemType.ITEMS, "FantasyRealm membership packet")
-            && (!KoLCharacter.inBadMoon() || KoLCharacter.skillsRecalled())
+            && !inBadMoon
             && !StringUtilities.isNumeric(Preferences.getString("_frHoursLeft"));
     if ((Preferences.getBoolean("frAlways") || Preferences.getBoolean("_frToday"))
         && fantasyRealmUsable) {
@@ -2198,7 +2200,7 @@ public class ConcoctionDatabase {
 
     boolean mayamCalendarUsable =
         StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Mayam Calendar")
-            && (!KoLCharacter.inBadMoon() || KoLCharacter.skillsRecalled())
+            && !inBadMoon
             && InventoryManager.hasItem(ItemPool.MAYAM_CALENDAR);
     if (mayamCalendarUsable) {
       permitNoCost(CraftingType.MAYAM);
