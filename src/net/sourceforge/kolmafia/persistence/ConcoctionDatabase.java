@@ -2034,15 +2034,6 @@ public class ConcoctionDatabase {
           "Only a mild-mannered professor can work at their Tinkering Bench.");
     }
 
-    // Making stuff with the Mayam Calendar is always allowed
-
-    if (InventoryManager.hasItem(ItemPool.MAYAM_CALENDAR)) {
-      permitNoCost(CraftingType.MAYAM);
-    } else {
-      ConcoctionDatabase.EXCUSE.put(
-          CraftingType.MAYAM, "You need to have a Mayam Calendar to make that.");
-    }
-
     // Making stuff with mini kiwis is always allowed
     permitNoCost(CraftingType.KIWI);
 
@@ -2203,6 +2194,17 @@ public class ConcoctionDatabase {
     } else {
       ConcoctionDatabase.EXCUSE.put(
           CraftingType.STILLSUIT, "You do not have access to a tiny stillsuit.");
+    }
+
+    boolean mayamCalendarUsable =
+        StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Mayam Calendar")
+            && (!KoLCharacter.inBadMoon() || KoLCharacter.skillsRecalled())
+            && InventoryManager.hasItem(ItemPool.MAYAM_CALENDAR);
+    if (mayamCalendarUsable) {
+      permitNoCost(CraftingType.MAYAM);
+    } else {
+      ConcoctionDatabase.EXCUSE.put(
+          CraftingType.MAYAM, "You need to have a Mayam Calendar to make that.");
     }
 
     // Now, go through all the cached adventure usage values and if
