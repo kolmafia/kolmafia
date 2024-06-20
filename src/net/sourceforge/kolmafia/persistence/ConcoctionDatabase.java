@@ -1863,9 +1863,9 @@ public class ConcoctionDatabase {
     // Summoning Clip Art is possible if the person has that tome,
     // and isn't in Bad Moon
 
-    boolean hasClipArt =
-        KoLCharacter.hasSkill(SkillPool.CLIP_ART)
-            && (!KoLCharacter.inBadMoon() || KoLCharacter.skillsRecalled());
+    boolean inBadMoon = KoLCharacter.inBadMoon() && !KoLCharacter.skillsRecalled();
+
+    boolean hasClipArt = KoLCharacter.hasSkill(SkillPool.CLIP_ART) && !inBadMoon;
     boolean clipArtSummonsRemaining =
         hasClipArt
             && (KoLCharacter.canInteract()
@@ -2034,15 +2034,6 @@ public class ConcoctionDatabase {
           "Only a mild-mannered professor can work at their Tinkering Bench.");
     }
 
-    // Making stuff with the Mayam Calendar is always allowed
-
-    if (InventoryManager.hasItem(ItemPool.MAYAM_CALENDAR)) {
-      permitNoCost(CraftingType.MAYAM);
-    } else {
-      ConcoctionDatabase.EXCUSE.put(
-          CraftingType.MAYAM, "You need to have a Mayam Calendar to make that.");
-    }
-
     // Making stuff with mini kiwis is always allowed
     permitNoCost(CraftingType.KIWI);
 
@@ -2120,8 +2111,7 @@ public class ConcoctionDatabase {
             || InventoryManager.hasItem(ItemPool.FISH_HATCHET)
             || InventoryManager.hasItem(ItemPool.TUNAC);
     boolean floundryUsable =
-        StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Clan Floundry")
-            && (!KoLCharacter.inBadMoon() || KoLCharacter.skillsRecalled());
+        StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Clan Floundry") && !inBadMoon;
     if (clanFloundry && !gotFloundryItem && floundryUsable) {
       permitNoCost(CraftingType.FLOUNDRY);
     }
@@ -2140,7 +2130,7 @@ public class ConcoctionDatabase {
     boolean gotBarrelItem = Preferences.getBoolean("_barrelPrayer");
     boolean barrelUsable =
         StandardRequest.isAllowed(RestrictedItemType.ITEMS, "shrine to the Barrel god")
-            && (!KoLCharacter.inBadMoon() || KoLCharacter.skillsRecalled());
+            && !inBadMoon;
     if (gotBarrelShrine && !gotBarrelItem && barrelUsable) {
       permitNoCost(CraftingType.BARREL);
     }
@@ -2168,8 +2158,7 @@ public class ConcoctionDatabase {
     }
 
     boolean spacegateUsable =
-        StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Spacegate access badge")
-            && (!KoLCharacter.inBadMoon() || KoLCharacter.skillsRecalled());
+        StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Spacegate access badge") && !inBadMoon;
     if (Preferences.getBoolean("spacegateAlways") && spacegateUsable) {
       permitNoCost(CraftingType.SPACEGATE);
     } else {
@@ -2179,7 +2168,7 @@ public class ConcoctionDatabase {
 
     boolean fantasyRealmUsable =
         StandardRequest.isAllowed(RestrictedItemType.ITEMS, "FantasyRealm membership packet")
-            && (!KoLCharacter.inBadMoon() || KoLCharacter.skillsRecalled())
+            && !inBadMoon
             && !StringUtilities.isNumeric(Preferences.getString("_frHoursLeft"));
     if ((Preferences.getBoolean("frAlways") || Preferences.getBoolean("_frToday"))
         && fantasyRealmUsable) {
@@ -2203,6 +2192,17 @@ public class ConcoctionDatabase {
     } else {
       ConcoctionDatabase.EXCUSE.put(
           CraftingType.STILLSUIT, "You do not have access to a tiny stillsuit.");
+    }
+
+    boolean mayamCalendarUsable =
+        StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Mayam Calendar")
+            && !inBadMoon
+            && InventoryManager.hasItem(ItemPool.MAYAM_CALENDAR);
+    if (mayamCalendarUsable) {
+      permitNoCost(CraftingType.MAYAM);
+    } else {
+      ConcoctionDatabase.EXCUSE.put(
+          CraftingType.MAYAM, "You need to have a Mayam Calendar to make that.");
     }
 
     // Now, go through all the cached adventure usage values and if
