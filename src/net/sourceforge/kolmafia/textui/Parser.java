@@ -5560,7 +5560,7 @@ public class Parser {
   private AshDiagnostic sinceError(
       final String current, final String target, final Range directiveRange) {
     String template =
-        "'%s' requires revision r%s of kolmafia or higher (current: r%s).  Up-to-date builds can be found at https://ci.kolmafia.us/.";
+        "'%s' requires revision r%s of kolmafia or higher (current: r%s).  Up-to-date builds can be found at https://github.com/kolmafia/kolmafia/releases/.";
 
     return this.error(directiveRange, String.format(template, this.shortFileName, target, current));
   }
