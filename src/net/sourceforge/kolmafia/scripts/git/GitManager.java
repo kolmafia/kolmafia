@@ -205,7 +205,7 @@ public class GitManager extends ScriptManager {
           }
         }
 
-        if (DEPENDENCIES.equals(diff.getNewPath())) {
+        if (DEPENDENCIES.equals(newRelPath.toString())) {
           checkDependencies = true;
         }
       }
