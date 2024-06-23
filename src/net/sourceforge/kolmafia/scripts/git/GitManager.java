@@ -663,6 +663,11 @@ public class GitManager extends ScriptManager {
     public boolean isCancelled() {
       return false;
     }
+
+    @Override
+    public void showDuration(boolean b) {
+      // say nothing
+    }
   }
 
   public record RepoDetails(String repoUrl, String branchName) {}
