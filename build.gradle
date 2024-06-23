@@ -16,6 +16,7 @@ plugins {
 	id 'net.nemerosa.versioning' version '3.0.0'
 	id 'org.ajoberstar.grgit' version '5.2.1'
 	id 'org.panteleyev.jpackageplugin' version '1.6.0'
+	id "com.github.ben-manes.versions" version "0.51.0" // enables ./gradlew dependencyUpdates for outdated
 }
 
 sourceSets {
@@ -93,8 +94,8 @@ dependencies {
 	implementation 'org.swinglabs:swingx:1.0'
 	implementation 'org.tmatesoft.svnkit:svnkit:1.10.7'
 	implementation 'com.jgoodies:jgoodies-binding:2.13.0'
-	implementation 'org.eclipse.jgit:org.eclipse.jgit:6.3.0.202209071007-r'
-	implementation 'org.eclipse.jgit:org.eclipse.jgit.ssh.apache:6.3.0.202209071007-r'
+	implementation 'org.eclipse.jgit:org.eclipse.jgit:6.10.0.202406032230-r'
+	implementation 'org.eclipse.jgit:org.eclipse.jgit.ssh.apache:6.10.0.202406032230-r'
 }
 
 application {
