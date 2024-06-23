@@ -52,6 +52,7 @@ public class DataTypes {
     STRING,
     BUFFER,
     MATCHER,
+    RNG,
 
     ITEM,
     LOCATION,
@@ -86,6 +87,7 @@ public class DataTypes {
   public static final Type STRING_TYPE = new Type("string", TypeSpec.STRING);
   public static final Type BUFFER_TYPE = new Type("buffer", TypeSpec.BUFFER);
   public static final Type MATCHER_TYPE = new Type("matcher", TypeSpec.MATCHER);
+  public static final Type RNG_TYPE = new Type("rng", TypeSpec.RNG);
 
   public static final Type ITEM_TYPE = new Type("item", TypeSpec.ITEM);
   public static final Type LOCATION_TYPE = new Type("location", TypeSpec.LOCATION);
@@ -248,6 +250,7 @@ public class DataTypes {
           STRING_TYPE,
           BUFFER_TYPE,
           MATCHER_TYPE,
+          RNG_TYPE,
           AGGREGATE_TYPE);
 
   static {
