@@ -2194,7 +2194,7 @@
 2318	Orignial Bonerdagon	head	tail	torso	wing
 2319	Jr. Awkwarj	arm	head	leg	torso
 2320	Little Lord Spookyraven	arm	head	leg	torso
-2321	Protector Spectre Candidate
+2321	Protector Spectre Candidate	...wing?	arm	head	leg	torso
 2322	Flock of Groars?	arm	head	leg	wing
 2323	The Little Wisniewski	arm	head	leg	torso
 2324	The Boy	arm	head	leg	torso
