@@ -2134,11 +2134,11 @@
 2246	Slackiosaurus	arm	head	leg	tail	torso
 2247	Oligarcheopteryx	arm	head	leg	tail	torso
 2248	Naughty Saursaurus	arm	head	leg	tail	torso
-2249	gator-human hybrid	arm	head	leg	torso
+2249	gator-human hybrid	arm	head	leg	tail	torso
 2250	gangster's moll	arm	head	leg	torso
 2251	traveling hobo	arm	head	leg	torso
-2252	goblin flapper	arms	head	leg	torso
-2253	undercover prohibition agent	arms	head	leg	torso
+2252	goblin flapper	arm	dress	hairdo	head	leg
+2253	undercover prohibition agent	arm	head	leg	sunglasses	torso
 2254	Brake-Operating Trainbot	abdomen	brake line	claw	head
 2255	Track-Switching Trainbot	chassis	eye	flag	lever
 2256	Ping-Pong-Playing Trainbot	camera	chassis	net	paddle
@@ -2194,7 +2194,7 @@
 2318	Orignial Bonerdagon	head	tail	torso	wing
 2319	Jr. Awkwarj	arm	head	leg	torso
 2320	Little Lord Spookyraven	arm	head	leg	torso
-2321	Protector Spectre Candidate
+2321	Protector Spectre Candidate	...wing?	arm	head	leg	torso
 2322	Flock of Groars?	arm	head	leg	wing
 2323	The Little Wisniewski	arm	head	leg	torso
 2324	The Boy	arm	head	leg	torso
