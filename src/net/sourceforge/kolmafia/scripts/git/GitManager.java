@@ -184,7 +184,7 @@ public class GitManager extends ScriptManager {
         return false;
       }
 
-      if (diffs.size() == 0) {
+      if (diffs.isEmpty()) {
         RequestLogger.printLine("No changes");
         return false;
       }
@@ -205,7 +205,7 @@ public class GitManager extends ScriptManager {
           }
         }
 
-        if (DEPENDENCIES.equals(diff.getNewPath())) {
+        if (DEPENDENCIES.equals(newRelPath.toString())) {
           checkDependencies = true;
         }
       }
@@ -226,7 +226,7 @@ public class GitManager extends ScriptManager {
     var success = result.getRebaseResult().getStatus().isSuccessful();
     if (!success) {
       // the rebase failed. Does the user have any local changes?
-      var hasLocal = git.diff().call().size() != 0;
+      var hasLocal = !git.diff().call().isEmpty();
       if (!hasLocal) return false;
       KoLmafia.updateDisplay("Detected local changes in " + folder + ". Attempting to merge.");
       // add all files
@@ -632,7 +632,7 @@ public class GitManager extends ScriptManager {
     if (json.isEmpty()) return projectPath;
     var manifest = json.get();
     var root = manifest.optString(MANIFEST_ROOTDIR, "");
-    if (root.length() == 0) return projectPath;
+    if (root.isEmpty()) return projectPath;
     // deny absolute paths or folder escapes
     if (root.startsWith("/") || root.startsWith("\\") || root.contains("..")) return projectPath;
     return projectPath.resolve(root);
@@ -662,6 +662,11 @@ public class GitManager extends ScriptManager {
     @Override
     public boolean isCancelled() {
       return false;
+    }
+
+    @Override
+    public void showDuration(boolean b) {
+      // say nothing
     }
   }
 

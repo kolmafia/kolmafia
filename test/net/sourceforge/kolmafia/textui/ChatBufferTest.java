@@ -27,11 +27,12 @@ public class ChatBufferTest {
     assertTrue(displayHTML.contains("ăѣ\uD835\uDD20ծềſģ"));
 
     StringBuilder builder = new StringBuilder();
+    StyledChatBuffer buffer = null;
 
     try {
       // This creates a StyledChatBuffer in ChatManager, which will generate a log file. We will
       // need to clean this up later.
-      StyledChatBuffer buffer = ChatManager.getBuffer("[events]");
+      buffer = ChatManager.getBuffer("[events]");
 
       // We send the html to the ChatBuffer, this will write it to file.
       buffer.append(displayHTML);
@@ -42,7 +43,7 @@ public class ChatBufferTest {
 
         // Read the full file to a string
         while ((line = FileUtilities.readLine(reader)) != null) {
-          if (builder.length() > 0) {
+          if (!builder.isEmpty()) {
             builder.append("\n");
           }
 
@@ -54,6 +55,7 @@ public class ChatBufferTest {
     } finally {
       // We can't leave the ChatBuffer lying around
       ChatManager.reset();
+      buffer.dispose();
     }
 
     // As time changes, we can't reuse the same displayHTML. So we must reuse the html we
