@@ -142,7 +142,7 @@ public class DataFileConsistencyTest {
   }
 
   @Test
-   void noDuplicateEquipmentEntries() throws IOException {
+  void noDuplicateEquipmentEntries() throws IOException {
     var items = new HashSet<String>();
     try (BufferedReader reader = FileUtilities.getVersionedReader("equipment.txt", 2)) {
       String[] fields;
