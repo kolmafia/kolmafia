@@ -8,6 +8,7 @@ import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -136,6 +137,25 @@ public class DataFileConsistencyTest {
             true,
             // Explicitly apply the matcher to keep the error message manageable.
             equalTo(anyOf(hasItem(name), hasItem(bracketedName)).matches(filteredItems)));
+      }
+    }
+  }
+
+  @Test
+  void noDuplicateEquipmentEntries() throws IOException {
+    var items = new HashSet<String>();
+    try (BufferedReader reader = FileUtilities.getVersionedReader("equipment.txt", 2)) {
+      String[] fields;
+      while ((fields = FileUtilities.readData(reader)) != null) {
+        if (fields.length == 1) {
+          continue;
+        }
+        var thing = fields[0];
+
+        if (!thing.isBlank()) {
+          var inserted = items.add(thing);
+          assertThat(thing, inserted, is(true));
+        }
       }
     }
   }
