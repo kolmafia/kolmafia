@@ -70,23 +70,22 @@ public class ClearSharedStateBefore implements BeforeAllCallback {
 
   public static void deleteDirectoriesAndContents() {
     // These are the directories and files in test\root that are under git control.  Everything
-    // else is fair game for deletion after testing.  Keep relay as well since at least one test
-    // assumes relay had content created when mafia starts up.
-    String[] keepersArray = {"ccs", "data", "expected", "request", "relay", "scripts", "README"};
+    // else is fair game for deletion after testing.
+    String[] keepersArray = {"ccs", "data", "expected", "request", "scripts", "README"};
     List<String> keepersList = new ArrayList<>(Arrays.asList(keepersArray));
     // Get list of things in test\root and iterate, deleting as appropriate
     File root = KoLConstants.ROOT_LOCATION;
     String[] contents = root.list();
-    for (String content : contents) {
-      if (!keepersList.contains(content) && !(content.toLowerCase().startsWith("debug"))) {
-        Path pathToBeDeleted = new File(root, content).toPath();
-        try {
-          Files.walk(pathToBeDeleted)
-              .sorted(Comparator.reverseOrder())
-              .map(Path::toFile)
-              .forEach(File::delete);
-        } catch (IOException e) {
-          e.printStackTrace();
+    if (contents != null) {
+      for (String content : contents) {
+        if (!keepersList.contains(content) && !(content.toLowerCase().startsWith("debug"))) {
+          Path pathToBeDeleted = new File(root, content).toPath();
+          try (var walker = Files.walk(pathToBeDeleted)) {
+            walker.sorted(Comparator.reverseOrder()).map(Path::toFile).forEach(File::delete);
+          } catch (IOException e) {
+            System.out.println(
+                "Unexpected exception when walking root/ for deletions: " + e.getMessage());
+          }
         }
       }
     }

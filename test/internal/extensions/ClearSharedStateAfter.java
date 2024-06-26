@@ -1,6 +1,7 @@
 package internal.extensions;
 
 import static internal.extensions.CheckNested.isNested;
+import static internal.helpers.Utilities.verboseDelete;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -29,7 +30,7 @@ public class ClearSharedStateAfter implements AfterAllCallback {
     };
     for (String s : filesToDelete) {
       Path dest = Paths.get(KoLConstants.ROOT_LOCATION + "/data/" + s);
-      dest.toFile().delete();
+      verboseDelete(dest);
     }
   }
 }
