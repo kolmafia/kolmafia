@@ -9,7 +9,6 @@ import java.io.File;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class RelayRequestTest {
@@ -19,7 +18,6 @@ public class RelayRequestTest {
    * the only test that breaks when that happens. Duplicate the code that loads the relay directory
    * here so that the directory will be present when the test is run.
    */
-  @BeforeEach
   public void initializeRelayFileDirectory() {
     for (int i = 0; i < KoLConstants.RELAY_FILES.length; ++i) {
       FileUtilities.loadLibrary(
@@ -29,6 +27,7 @@ public class RelayRequestTest {
 
   @Test
   public void findVariousRelayFilesOrNot() {
+    initializeRelayFileDirectory();
     File f;
     f = RelayRequest.findRelayFile("thisIsNotAPipe");
     assertNotNull(f, "Allowed to find a new file.");
