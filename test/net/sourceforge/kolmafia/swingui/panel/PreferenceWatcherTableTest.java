@@ -165,9 +165,8 @@ class PreferenceWatcherTableTest {
               withProperty("testPrefA", "a"),
               withProperty("testPrefB", "b"),
               withProperty("watchedPreferences", "testPrefA,testPrefB"));
-
+      var table = new PreferenceWatcherTable();
       try (cleanups) {
-        var table = new PreferenceWatcherTable();
         // Force update so don't try and remove something before it is there
         table.getModel().update();
         table.getModel().removePreference(0);
