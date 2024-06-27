@@ -308,7 +308,7 @@ public class HolidayDatabase {
   }
 
   public static int getRonaldMoonlight() {
-    return getRonaldMoonlight(getRonaldPhase());
+    return getRonaldMoonlight(HolidayDatabase.RONALD_PHASE);
   }
 
   public static int getRonaldMoonlight(final int ronaldPhase) {
@@ -316,7 +316,7 @@ public class HolidayDatabase {
   }
 
   public static int getGrimaceMoonlight() {
-    return getGrimaceMoonlight(getGrimacePhase());
+    return getGrimaceMoonlight(HolidayDatabase.GRIMACE_PHASE);
   }
 
   public static int getGrimaceMoonlight(final int grimacePhase) {
