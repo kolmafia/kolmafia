@@ -4,7 +4,11 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -73,7 +77,7 @@ public abstract class MoodManager {
   }
 
   public static LockableListModel<Mood> getAvailableMoods() {
-    return MoodManager.availableMoods;
+    return new LockableListModel<>(MoodManager.availableMoods);
   }
 
   /**
@@ -81,7 +85,7 @@ public abstract class MoodManager {
    * loaded for the given mood if no data exists.
    */
   public static void setMood(String newMoodName) {
-    if (newMoodName == null || newMoodName.trim().equals("")) {
+    if (newMoodName == null || newMoodName.trim().isEmpty()) {
       newMoodName = "default";
     }
 
@@ -127,7 +131,7 @@ public abstract class MoodManager {
   }
 
   public static List<MoodTrigger> getTriggers(String moodName) {
-    if (moodName == null || moodName.length() == 0) {
+    if (moodName == null || moodName.isEmpty()) {
       return Collections.emptyList();
     }
 
@@ -182,7 +186,7 @@ public abstract class MoodManager {
 
     for (AdventureResult effect : effects) {
       String action = MoodManager.getDefaultAction("lose_effect", effect.getName());
-      if (action != null && !action.equals("")) {
+      if (action != null && !action.isEmpty()) {
         MoodManager.addTrigger("lose_effect", effect.getName(), action);
       }
     }
@@ -608,7 +612,7 @@ public abstract class MoodManager {
         while ((line = reader.readLine()) != null) {
           line = line.trim();
 
-          if (line.length() == 0) {
+          if (line.isEmpty()) {
             continue;
           }
 
@@ -666,7 +670,7 @@ public abstract class MoodManager {
     if (type.equals("unconditional")) {
       return action;
     } else if (type.equals("lose_effect")) {
-      if (action.equals("")) {
+      if (action.isEmpty()) {
         int effectId = EffectDatabase.getEffectId(name);
         action = EffectDatabase.getDefaultAction(effectId);
 
@@ -677,7 +681,7 @@ public abstract class MoodManager {
 
       return action;
     } else {
-      if (action.equals("")) {
+      if (action.isEmpty()) {
         int effectId = EffectDatabase.getEffectId(name);
         if (UneffectRequest.isRemovable(effectId)) {
           action = "uneffect " + name;
