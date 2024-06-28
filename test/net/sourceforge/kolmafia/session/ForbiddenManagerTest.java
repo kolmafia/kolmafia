@@ -67,8 +67,8 @@ public class ForbiddenManagerTest {
   @Test
   public void canRemoveForbiddenStore() {
     var cleanups = new Cleanups(withProperty("forbiddenStores", "123"));
+    var forbidden = MallPurchaseRequest.getForbiddenStores();
     try (cleanups) {
-      var forbidden = MallPurchaseRequest.getForbiddenStores();
       assertEquals(1, forbidden.size());
       assertTrue(MallPurchaseRequest.isForbidden(123));
       MallPurchaseRequest.removeForbiddenStore(123);
