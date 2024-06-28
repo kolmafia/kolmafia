@@ -964,8 +964,9 @@ public class AreaCombatDataTest {
   class Spaaaace {
     @ParameterizedTest
     @CsvSource({
-      "15, 0.12",
+      "15, 0.25",
       "2, 0.0",
+      "22, 0.37",
     })
     void alienAppearanceAffectedByRonaldLight(final int dayOfJune2024, final double alienWeight) {
       var cleanups = withDay(2024, Month.JUNE, dayOfJune2024);
@@ -1004,10 +1005,7 @@ public class AreaCombatDataTest {
     }
 
     @ParameterizedTest
-    @CsvSource({
-      "13, 0.12",
-      "2, 0.0",
-    })
+    @CsvSource({"13, 0.25", "2, 0.0", "27, 0.37"})
     void alienAppearanceAffectedByGrimaceLight(final int dayOfJune2024, final double alienWeight) {
       var cleanups = withDay(2024, Month.JUNE, dayOfJune2024);
 
