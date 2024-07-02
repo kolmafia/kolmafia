@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.utilities;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.endsWith;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.Instant;
@@ -779,5 +780,22 @@ class StringUtilitiesTest {
   })
   void withOrdinalSuffix(final int number, final String expected) {
     assertThat(StringUtilities.withOrdinalSuffix(number), endsWith(expected));
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    "XXVII, 27",
+    "CMXXXV, 935",
+    "CCXIX, 219",
+    "CMLXVII, 967",
+    "CCCLIII, 353",
+    "DCCCXLI, 841",
+    "XXXV, 35",
+    "DCCLXXXVII, 787",
+    "DXCIX, 599",
+    "DCVII, 607",
+  })
+  void parseRomanNumerals(final String roman, final Integer value) {
+    assertThat(StringUtilities.parseRomanNumerals(roman), is(value));
   }
 }
