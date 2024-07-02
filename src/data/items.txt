@@ -11633,3 +11633,5 @@
 11605	mini kiwi whipping stick	128063299	kiwi_stick.gif	offhand	t,d	11
 11606	mini kiwi icepick	956877502	kiwi_icepick.gif	weapon	t,d	11
 11607	mini kiwi-flavored aspirin-injecting lipstick	406308925	kiwi_lipstick.gif	potion, usable	t,d	11
+11608	packaged Roman Candelabra	208269088	romcandelbox.gif	usable	t	0
+11609	Roman Candelabra	552059394	romcandel.gif	offhand		0

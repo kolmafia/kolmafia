@@ -1078,6 +1078,11 @@
 7519	Darts: Throw at %part7	nicedart.gif	combat	0	0
 7520	Darts: Throw at %part8	nicedart.gif	combat	0	0
 7521	Darts: Aim for the Bullseye	nicedart.gif	combat	0	0
+7522	Blow the Red Candle!	blowcandle.gif	combat	0	0
+7523	Blow the Yellow Candle!	blowcandle.gif	combat	0	0
+7524	Blow the Blue Candle!	blowcandle.gif	combat	0	0
+7525	Blow the Green Candle!	blowcandle.gif	combat	0	0
+7526	Blow the Purple Candle!	blowcandle.gif	combat	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.

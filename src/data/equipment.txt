@@ -2202,6 +2202,7 @@ replica Operation Patriot Shield	240	none	shield
 reusable shopping bag	10	none
 rice bowl	30	none
 rock	0	none
+Roman Candelabra	0	none
 Royal scepter	100	none
 rubber baby doll	100	none
 rubber ribcage	120	Mus: 45	shield

@@ -2569,6 +2569,14 @@ Item	replica august scepter	Muscle: +15, Mysticality: +15, Moxie: +15, HP Regen 
 Item	replica Operation Patriot Shield	Experience: +3, Maximum HP: +20, Maximum MP: +20, Variable
 Item	reusable shopping bag	Food Drop: +20, Booze Drop: +20, Candy Drop: +20
 Item	rice bowl	Food Drop: +20
+# Roman Candelabra: Maximum HP +<span style="font-family: times new roman">XX</span>
+# Roman Candelabra: Maximum MP +<span style="font-family: times new roman">XX</span>
+# Roman Candelabra: Muscle +<span style="font-family: times new roman">X</span>
+# Roman Candelabra: Mysticality +<span style="font-family: times new roman">X</span>
+# Roman Candelabra: Moxie +<span style="font-family: times new roman">X</span>
+# Roman Candelabra: +<span style="font-family: times new roman">X</span> <font color=gray>Spooky Damage</font>
+# Roman Candelabra: +<span style="font-family: times new roman">X</span> <font color=blue>Cold Damage</font>
+# Roman Candelabra: +<span style="font-family: times new roman">X</span> <font color=blueviolet>Sleaze Damage</font></font>
 Item	Royal scepter	Adventures: +4, PvP Fights: +8, Rollover Effect: "It's Good To Be Royal!", Rollover Effect Duration: 5
 Item	rubber baby doll	Damage Aura: 1
 Item	rubber ribcage	Spooky Resistance: +3, Damage Reduction: 12
@@ -12078,6 +12086,7 @@ Item	packaged knock-off retro superhero cape	Free Pull
 Item	packaged miniature crystal ball	Free Pull
 Item	packaged model train set	Free Pull
 Item	packaged Pocket Professor	Free Pull
+Item	packaged Roman Candelabra	Free Pull
 Item	packaged SpinMaster&trade; lathe	Free Pull
 # PADL Phone: Summons Frat Army Aid
 # paint bomb: Deals 5-10 Prismatic Damage
