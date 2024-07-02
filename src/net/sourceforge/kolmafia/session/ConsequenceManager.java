@@ -218,7 +218,19 @@ public abstract class ConsequenceManager {
       this.test(text, true);
     }
 
+    private static final Pattern ROMAN_NUMERAL =
+        Pattern.compile("<span style=\"font-family: times new roman\">(.*?)</span>");
+
+    private static String replaceRomanNumerals(final CharSequence enchantments) {
+      return ROMAN_NUMERAL
+          .matcher(enchantments)
+          .replaceAll(match -> String.valueOf(StringUtilities.parseRomanNumerals(match.group(1))));
+    }
+
     public String test(CharSequence text, boolean printText) {
+      // Roman Candelabra is the only item that does this, but who knows!
+      text = replaceRomanNumerals(text);
+
       String rv = null;
       if (this.next != null) {
         rv = this.next.test(text, printText);

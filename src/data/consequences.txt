@@ -89,6 +89,11 @@ DESC_ITEM	Crimbo training manual	all that's left is Chapter (\d+).	crimboTrainin
 DESC_ITEM	cursed monkey's paw	monkey's paw recently pointed at a ([^<]+).<!-- itemid	monkeyPointMonster=$1
 DESC_ITEM	Cincho de Mayo	Your belt is <b>([\d]+)% </b> cinched	_cinchUsed=[100-$1]
 DESC_ITEM	LED candle	It is currently set to (.*?) mode	ledCandleMode=$1
+DESC_ITEM	Roman Candelabra	Maximum HP \+(\d+)	romanCandelabraRedCasts=[($1/10)-2]
+DESC_ITEM	Roman Candelabra	Maximum MP \+(\d+)	romanCandelabraYellowCasts=[($1/10)-2]
+DESC_ITEM	Roman Candelabra	Muscle \+(\d+)	romanCandelabraBlueCasts=[($1/5)-2]
+DESC_ITEM	Roman Candelabra	Mysticality \+(\d+)	romanCandelabraGreenCasts=[($1/5)-2]
+DESC_ITEM	Roman Candelabra	Moxie \+(\d+)	romanCandelabraPurpleCasts=[($1/5)-2]
 
 # Item modifiers
 DESC_ITEM	no hat		_noHatModifier=mods
