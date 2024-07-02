@@ -378,6 +378,7 @@ public class EffectPool {
   public static final int EVERYTHING_LOOKS_GREEN = 2881;
   public static final int MILD_MANNERED_PROFESSOR = 2897;
   public static final int SAVAGE_BEAST = 2898;
+  public static final int EVERYTHING_LOOKS_PURPLE = 2922;
 
   public static final AdventureResult CURSE1_EFFECT = EffectPool.get(EffectPool.ONCE_CURSED);
   public static final AdventureResult CURSE2_EFFECT = EffectPool.get(EffectPool.TWICE_CURSED);
