@@ -2218,7 +2218,8 @@ public class QuestManager {
         }
 
         if (KoLCharacter.hasEquipped(ItemPool.SURVIVAL_KNIFE)
-            && KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.ULTRAHYDRATED))) {
+            && KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.ULTRAHYDRATED))
+            && Preferences.getBoolean("oasisAvailable")) {
           explored += 2;
         }
 
