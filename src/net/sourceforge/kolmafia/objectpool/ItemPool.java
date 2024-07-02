@@ -3786,6 +3786,7 @@ public class ItemPool {
   public static final int MINI_KIWI = 11594;
   public static final int MINI_KIWI_TIPI = 11600;
   public static final int MINI_KIWI_INTOXICATING_SPIRITS = 11602;
+  public static final int ROMAN_CANDELABRA = 11609;
 
   private ItemPool() {}
 
