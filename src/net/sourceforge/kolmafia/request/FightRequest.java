@@ -10565,6 +10565,32 @@ public class FightRequest extends GenericRequest {
           Preferences.increment("dartsThrown");
         }
         break;
+
+      case SkillPool.BLOW_THE_RED_CANDLE:
+        if (responseText.contains("all the red") || skillSuccess) {
+          Preferences.increment("romanCandelabraRedCasts");
+        }
+        break;
+      case SkillPool.BLOW_THE_YELLOW_CANDLE:
+        if (responseText.contains("all the yellow") || skillSuccess) {
+          Preferences.increment("romanCandelabraYellowCasts");
+        }
+        break;
+      case SkillPool.BLOW_THE_BLUE_CANDLE:
+        if (responseText.contains("all the blue") || skillSuccess) {
+          Preferences.increment("romanCandelabraBlueCasts");
+        }
+        break;
+      case SkillPool.BLOW_THE_GREEN_CANDLE:
+        if (responseText.contains("all the green") || skillSuccess) {
+          Preferences.increment("romanCandelabraGreenCasts");
+        }
+        break;
+      case SkillPool.BLOW_THE_PURPLE_CANDLE:
+        if (responseText.contains("all the purple") || skillSuccess) {
+          Preferences.increment("romanCandelabraPurpleCasts");
+        }
+        break;
     }
 
     if (skillSuccess || skillRunawaySuccess || familiarSkillSuccess) {
