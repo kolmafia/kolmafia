@@ -589,6 +589,7 @@ public class QuestManagerTest {
       var cleanups =
           new Cleanups(
               withProperty("desertExploration", 20),
+              withProperty("oasisAvailable", true),
               withEquipped(Slot.WEAPON, "survival knife"),
               withEffect("Ultrahydrated"));
       try (cleanups) {
@@ -606,6 +607,7 @@ public class QuestManagerTest {
       var cleanups =
           new Cleanups(
               withProperty("desertExploration", 20),
+              withProperty("oasisAvailable", true),
               withEquipped(Slot.WEAPON, "survival knife"),
               withEquipped(Slot.OFFHAND, "UV-resistant compass"),
               withEffect("Ultrahydrated"));
@@ -656,6 +658,7 @@ public class QuestManagerTest {
       var cleanups =
           new Cleanups(
               withProperty("desertExploration", 20),
+              withProperty("oasisAvailable", true),
               withFamiliar(FamiliarPool.MELODRAMEDARY),
               withEquipped(Slot.WEAPON, "survival knife"),
               withEffect("Ultrahydrated"));
@@ -674,6 +677,7 @@ public class QuestManagerTest {
       var cleanups =
           new Cleanups(
               withProperty("desertExploration", 20),
+              withProperty("oasisAvailable", true),
               withFamiliar(FamiliarPool.MELODRAMEDARY),
               withEquipped(Slot.OFFHAND, "UV-resistant compass"),
               withEquipped(Slot.WEAPON, "survival knife"),
@@ -693,6 +697,7 @@ public class QuestManagerTest {
       var cleanups =
           new Cleanups(
               withProperty("desertExploration", 20),
+              withProperty("oasisAvailable", true),
               withFamiliar(FamiliarPool.MELODRAMEDARY),
               withEquipped(Slot.WEAPON, "survival knife"));
       try (cleanups) {
