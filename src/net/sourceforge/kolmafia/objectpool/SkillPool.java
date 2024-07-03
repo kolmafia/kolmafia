@@ -593,6 +593,12 @@ public class SkillPool {
   public static final int DART_PART7 = 7519;
   public static final int DART_PART8 = 7520;
   public static final int DART_BULLSEYE = 7521;
+  public static final int BLOW_THE_RED_CANDLE = 7522;
+  public static final int BLOW_THE_YELLOW_CANDLE = 7523;
+  public static final int BLOW_THE_BLUE_CANDLE = 7524;
+  public static final int BLOW_THE_GREEN_CANDLE = 7525;
+  public static final int BLOW_THE_PURPLE_CANDLE = 7526;
+
   public static final int GOOD_SINGING_VOICE = 11016;
   public static final int BANISHING_SHOUT = 11020;
   public static final int DEMAND_SANDWICH = 11021;

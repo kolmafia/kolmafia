@@ -2569,14 +2569,7 @@ Item	replica august scepter	Muscle: +15, Mysticality: +15, Moxie: +15, HP Regen 
 Item	replica Operation Patriot Shield	Experience: +3, Maximum HP: +20, Maximum MP: +20, Variable
 Item	reusable shopping bag	Food Drop: +20, Booze Drop: +20, Candy Drop: +20
 Item	rice bowl	Food Drop: +20
-# Roman Candelabra: Maximum HP +<span style="font-family: times new roman">XX</span>
-# Roman Candelabra: Maximum MP +<span style="font-family: times new roman">XX</span>
-# Roman Candelabra: Muscle +<span style="font-family: times new roman">X</span>
-# Roman Candelabra: Mysticality +<span style="font-family: times new roman">X</span>
-# Roman Candelabra: Moxie +<span style="font-family: times new roman">X</span>
-# Roman Candelabra: +<span style="font-family: times new roman">X</span> <font color=gray>Spooky Damage</font>
-# Roman Candelabra: +<span style="font-family: times new roman">X</span> <font color=blue>Cold Damage</font>
-# Roman Candelabra: +<span style="font-family: times new roman">X</span> <font color=blueviolet>Sleaze Damage</font></font>
+Item	Roman Candelabra	Maximum HP: [10*(pref(romanCandelabraRedCasts)+2)], Maximum MP: [10*(pref(romanCandelabraYellowCasts)+2)], Muscle: [5*(pref(romanCandelabraBlueCasts)+2)], Mysticality: [5*(pref(romanCandelabraGreenCasts)+2)], Moxie: [5*(pref(romanCandelabraPurpleCasts)+2)], Spooky Damage: [10*min(1,effect(Everything Looks Yellow))], Cold Damage: [10*min(1,effect(Everything Looks Blue))], Hot Damage: [10*min(1,effect(Everything Looks Red))], Stench Damage: [10*min(1,effect(Everything Looks Green))], Sleaze Damage: [10*min(1,effect(Everything Looks Purple))]
 Item	Royal scepter	Adventures: +4, PvP Fights: +8, Rollover Effect: "It's Good To Be Royal!", Rollover Effect Duration: 5
 Item	rubber baby doll	Damage Aura: 1
 Item	rubber ribcage	Spooky Resistance: +3, Damage Reduction: 12

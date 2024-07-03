@@ -392,6 +392,10 @@ public class Expression {
           String arg = (String) this.literals.get((int) s[--sp]);
           v = StringUtilities.parseInt(arg.replaceAll(",", ""));
         }
+        case '\u008a' -> {
+          String arg = (String) this.literals.get((int) s[--sp]);
+          v = StringUtilities.parseRomanNumerals(arg);
+        }
           // Valid with Modifier Expression:
         case '\u0097' -> v = KoLCharacter.getBaseMuscle();
 

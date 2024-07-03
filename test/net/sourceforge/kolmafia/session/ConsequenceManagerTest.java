@@ -184,4 +184,53 @@ public class ConsequenceManagerTest {
       assertThat("crudeMonster", isSetTo("factory worker (male)"));
     }
   }
+
+  @Nested
+  class RomanCandelabra {
+    @Test
+    void unused() {
+      var cleanups =
+          new Cleanups(
+              withProperty("romanCandelabraRedCasts", 1),
+              withProperty("romanCandelabraBlueCasts", 1),
+              withProperty("romanCandelabraYellowCasts", 1),
+              withProperty("romanCandelabraGreenCasts", 1),
+              withProperty("romanCandelabraPurpleCasts", 1));
+
+      try (cleanups) {
+        var descid = ItemDatabase.getDescriptionId(ItemPool.ROMAN_CANDELABRA);
+        var responseText = html("request/test_desc_item_roman_candelabra.html");
+
+        ConsequenceManager.parseItemDesc(descid, responseText);
+        assertThat("romanCandelabraRedCasts", isSetTo(0));
+        assertThat("romanCandelabraBlueCasts", isSetTo(0));
+        assertThat("romanCandelabraYellowCasts", isSetTo(0));
+        assertThat("romanCandelabraGreenCasts", isSetTo(0));
+        assertThat("romanCandelabraPurpleCasts", isSetTo(0));
+      }
+    }
+
+    @Test
+    void lightlyUsed() {
+      var cleanups =
+          new Cleanups(
+              withProperty("romanCandelabraRedCasts", 0),
+              withProperty("romanCandelabraBlueCasts", 0),
+              withProperty("romanCandelabraYellowCasts", 0),
+              withProperty("romanCandelabraGreenCasts", 0),
+              withProperty("romanCandelabraPurpleCasts", 0));
+
+      try (cleanups) {
+        var descid = ItemDatabase.getDescriptionId(ItemPool.ROMAN_CANDELABRA);
+        var responseText = html("request/test_desc_item_roman_candelabra_used.html");
+
+        ConsequenceManager.parseItemDesc(descid, responseText);
+        assertThat("romanCandelabraRedCasts", isSetTo(1));
+        assertThat("romanCandelabraBlueCasts", isSetTo(1));
+        assertThat("romanCandelabraYellowCasts", isSetTo(2));
+        assertThat("romanCandelabraGreenCasts", isSetTo(1));
+        assertThat("romanCandelabraPurpleCasts", isSetTo(2));
+      }
+    }
+  }
 }
