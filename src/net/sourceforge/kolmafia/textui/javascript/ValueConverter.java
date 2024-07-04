@@ -19,6 +19,7 @@ import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
 import org.mozilla.javascript.ConsString;
 import org.mozilla.javascript.Context;
+import org.mozilla.javascript.EvaluatorException;
 import org.mozilla.javascript.NativeArray;
 import org.mozilla.javascript.NativeObject;
 import org.mozilla.javascript.Scriptable;
@@ -204,8 +205,9 @@ public class ValueConverter {
   }
 
   public Value fromJava(Object object, Type typeHint) {
-    if (object == null) return null;
-    else if (object instanceof Boolean) {
+    if (object == null) {
+        throw new EvaluatorException("Passing null to an ASH function is not supported.");
+    } else if (object instanceof Boolean) {
       return DataTypes.makeBooleanValue((Boolean) object);
     } else if (object instanceof Byte
         || object instanceof Short
@@ -232,7 +234,7 @@ public class ValueConverter {
     } else if (object instanceof Value) {
       return (Value) object;
     } else if (Undefined.isUndefined(object)) {
-      return UNDEFINED;
+      throw new EvaluatorException("Passing undefined to an ASH function is not supported.");
     } else {
       return DataTypes.makeStringValue(object.toString());
     }

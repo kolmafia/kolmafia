@@ -92,9 +92,6 @@ public abstract class AshStub extends BaseFunction {
     List<Value> ashArgs = new ArrayList<>();
     for (int i = 0; i < definedArgs; i++) {
       Object original = args[i];
-      if (Undefined.isUndefined(original)) {
-        throw controller.runtimeException("Passing undefined to an ASH function is not supported.");
-      }
       Value coerced = coercer.fromJava(original);
       if (coerced == null
           || (coerced.getType() instanceof AggregateType agg
