@@ -589,7 +589,6 @@ public class QuestManagerTest {
       var cleanups =
           new Cleanups(
               withProperty("desertExploration", 20),
-              withProperty("oasisAvailable", true),
               withEquipped(Slot.WEAPON, "survival knife"),
               withEffect("Ultrahydrated"));
       try (cleanups) {
@@ -607,7 +606,6 @@ public class QuestManagerTest {
       var cleanups =
           new Cleanups(
               withProperty("desertExploration", 20),
-              withProperty("oasisAvailable", true),
               withEquipped(Slot.WEAPON, "survival knife"),
               withEquipped(Slot.OFFHAND, "UV-resistant compass"),
               withEffect("Ultrahydrated"));
@@ -617,6 +615,24 @@ public class QuestManagerTest {
         QuestManager.updateQuestData(responseText, "giant giant giant centipede");
         assertTrue(responseText.contains("Desert exploration <b>+4%</b>"));
         assertEquals(Preferences.getInteger("desertExploration"), 24);
+      }
+    }
+
+    @Test
+    void canDetectNoDesertProgressInFirstDesertAdvWithCompassAndSurvivalKnifeUltrahydrated() {
+      String responseText = html("request/test_desert_exploration_first_adv_compass_knife.html");
+      var cleanups =
+        new Cleanups(
+          withProperty("desertExploration", 5),
+          withEquipped(Slot.WEAPON, "survival knife"),
+          withEquipped(Slot.OFFHAND, "UV-resistant compass"),
+          withEffect("Ultrahydrated"));
+      try (cleanups) {
+        KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
+        assertEquals(KoLAdventure.lastAdventureId(), AdventurePool.ARID_DESERT);
+        QuestManager.updateQuestData(responseText, "giant giant giant centipede");
+        assertTrue(responseText.contains("Desert exploration <b>+2%</b>"));
+        assertEquals(Preferences.getInteger("desertExploration"), 7);
       }
     }
 
@@ -658,7 +674,6 @@ public class QuestManagerTest {
       var cleanups =
           new Cleanups(
               withProperty("desertExploration", 20),
-              withProperty("oasisAvailable", true),
               withFamiliar(FamiliarPool.MELODRAMEDARY),
               withEquipped(Slot.WEAPON, "survival knife"),
               withEffect("Ultrahydrated"));
@@ -677,7 +692,6 @@ public class QuestManagerTest {
       var cleanups =
           new Cleanups(
               withProperty("desertExploration", 20),
-              withProperty("oasisAvailable", true),
               withFamiliar(FamiliarPool.MELODRAMEDARY),
               withEquipped(Slot.OFFHAND, "UV-resistant compass"),
               withEquipped(Slot.WEAPON, "survival knife"),
@@ -697,7 +711,6 @@ public class QuestManagerTest {
       var cleanups =
           new Cleanups(
               withProperty("desertExploration", 20),
-              withProperty("oasisAvailable", true),
               withFamiliar(FamiliarPool.MELODRAMEDARY),
               withEquipped(Slot.WEAPON, "survival knife"));
       try (cleanups) {
