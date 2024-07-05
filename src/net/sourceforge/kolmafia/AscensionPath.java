@@ -15,7 +15,7 @@ public class AscensionPath {
     NONE("none", 0, false, "blank", null),
     BOOZETAFARIAN("Boozetafarian", 1, false, "martini", "a", null, 0, false, 0, 14, 15),
     TEETOTALER("Teetotaler", 2, false, "bowl", "a", null, 0, false, 15, 0, 15),
-    OXYGENARIAN("Oxygenarian", 3, false, "oxy", "an", null, 0, false, 0, 0, 15),
+    OXYGENARIAN("Oxygenarian", 3, false, "smalloxy", "an", null, 0, false, 0, 0, 15),
     BEES_HATE_YOU("Bees Hate You", 4, false, "beeicon", "a"),
     SURPRISING_FIST("Way of the Surprising Fist", 6, false, "wosp_fist", "a"),
     TRENDY("Trendy", 7, false, "trendyicon", "a"),

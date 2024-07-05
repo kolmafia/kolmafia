@@ -1372,6 +1372,11 @@ user	restUsingChateau	true
 user	retroCapeSuperhero	vampire
 user	retroCapeWashingInstructions	hold
 user	rockinRobinProgress	25
+user	romanCandelabraRedCasts	0
+user	romanCandelabraBlueCasts	0
+user	romanCandelabraYellowCasts	0
+user	romanCandelabraGreenCasts	0
+user	romanCandelabraPurpleCasts	0
 user	romanticTarget
 user	ROMOfOptimalityAvailable	true
 user	ROMOfOptimalityCost	1000
