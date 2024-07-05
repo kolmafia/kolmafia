@@ -2217,8 +2217,11 @@ public class QuestManager {
           explored += 2;
         }
 
+        // Survival knife does not give exploration bonus the first adv in Arid Desert
+        // Oasis is always unlocked first adv. Don't count progress if Oasis was just unlocked
         if (KoLCharacter.hasEquipped(ItemPool.SURVIVAL_KNIFE)
-            && KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.ULTRAHYDRATED))) {
+            && KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.ULTRAHYDRATED))
+            && !responseText.contains("discover a verdant oasis")) {
           explored += 2;
         }
 
