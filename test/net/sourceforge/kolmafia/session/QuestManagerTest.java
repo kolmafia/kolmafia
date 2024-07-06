@@ -619,6 +619,24 @@ public class QuestManagerTest {
     }
 
     @Test
+    void canDetectNoDesertProgressInFirstDesertAdvWithCompassAndSurvivalKnifeUltrahydrated() {
+      String responseText = html("request/test_desert_exploration_first_adv_compass_knife.html");
+      var cleanups =
+          new Cleanups(
+              withProperty("desertExploration", 5),
+              withEquipped(Slot.WEAPON, "survival knife"),
+              withEquipped(Slot.OFFHAND, "UV-resistant compass"),
+              withEffect("Ultrahydrated"));
+      try (cleanups) {
+        KoLAdventure.setLastAdventure("The Arid, Extra-Dry Desert");
+        assertEquals(KoLAdventure.lastAdventureId(), AdventurePool.ARID_DESERT);
+        QuestManager.updateQuestData(responseText, "giant giant giant centipede");
+        assertTrue(responseText.contains("Desert exploration <b>+2%</b>"));
+        assertEquals(Preferences.getInteger("desertExploration"), 7);
+      }
+    }
+
+    @Test
     void canDetectDesertProgressWithMelodramadery() {
       String responseText = html("request/test_desert_exploration_camel.html");
       var cleanups =
