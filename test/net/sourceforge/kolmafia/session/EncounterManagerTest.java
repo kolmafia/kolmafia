@@ -496,6 +496,14 @@ class EncounterManagerTest {
   }
 
   @ParameterizedTest
+  @ValueSource(strings = {"mimeograph", "mimeograph_in_ocrs"})
+  void isMimeographMonster(final String fixture) {
+    String html = html("request/test_fight_" + fixture + ".html");
+
+    assertThat(EncounterManager.isMimeographEncounter(html), is(true));
+  }
+
+  @ParameterizedTest
   @CsvSource({"gregarious_monster, true", "oil_slick, false"})
   void isGregariousEncounter(String file, String expected) {
     String html = html("request/test_fight_" + file + ".html");
