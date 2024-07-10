@@ -9,10 +9,15 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
+import java.util.function.Predicate;
 import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JRadioButton;
@@ -1010,9 +1015,24 @@ public class RequestEditorKit extends HTMLEditorKit {
   // <script>var ocrs =
   // ["flip","floating","broke","drunk","appendimg:adventureimages\/ol_drunk.gif:0:0","turgid","narcissistic"];</script>
   private static final Pattern OCRS_PATTERN =
-      Pattern.compile("<script>var ocrs = \\[(.*?)\\];</script>", Pattern.DOTALL);
+      Pattern.compile("<script>var ocrs = \\[(.*?)];</script>", Pattern.DOTALL);
 
-  private static void suppressPowerPixellation(final StringBuffer buffer) {
+  public static List<String> parseCosmeticModifiers(final String text) {
+    Matcher matcher = RequestEditorKit.OCRS_PATTERN.matcher(text);
+
+    if (!matcher.find()) return List.of();
+
+    return Arrays.stream(matcher.group(1).split(","))
+        .filter(Predicate.not(String::isBlank))
+        .map(v -> v.substring(1, v.length() - 1))
+        .toList();
+  }
+
+  public static String cosmeticModifiersToString(final List<String> modifiers) {
+    return modifiers.stream().map(m -> "\"" + m + "\"").collect(Collectors.joining(","));
+  }
+
+  protected static void suppressPowerPixellation(final StringBuffer buffer) {
     boolean suppressPowerPixellation = Preferences.getBoolean("suppressPowerPixellation");
     String extraCosmeticModifiers = Preferences.getString("extraCosmeticModifiers").trim();
     boolean haveExtraCosmeticModifiers = !extraCosmeticModifiers.isEmpty();
@@ -1030,62 +1050,36 @@ public class RequestEditorKit extends HTMLEditorKit {
 
     // Iterate over all ocrs modifiers. We should only manipulate
     // the cosmetic ones, but we can add or delete those at will.
+    var modifiers = parseCosmeticModifiers(buffer.toString());
 
-    StringBuilder ocrs = new StringBuilder();
-    String delimiter = "";
+    var filtered =
+        modifiers.stream().filter(m -> !suppressPowerPixellation || !m.equals("powerPixel"));
+    var added =
+        Arrays.stream(extraCosmeticModifiers.split(","))
+            .map(String::trim)
+            .filter(Predicate.not(String::isBlank))
+            .map(
+                m -> {
+                  var image = MonsterData.cosmeticModifierImages.get(m);
+                  return image != null ? "appendimg:adventureimages\\/" + image : m;
+                });
 
-    Matcher matcher = RequestEditorKit.OCRS_PATTERN.matcher(buffer);
-    boolean found = matcher.find();
-    String find = found ? matcher.group(1) : "";
+    var replacementModifiers = Stream.concat(filtered, added).toList();
 
-    if (found) {
-      String[] modifiers = find.split(",");
-      String powerPixel = "\"powerPixel\"";
+    var replacementModifierString = cosmeticModifiersToString(replacementModifiers);
 
-      for (String modifier : modifiers) {
-        if (suppressPowerPixellation && modifier.equals(powerPixel)) {
-          continue;
-        }
-        ocrs.append(delimiter);
-        ocrs.append(modifier);
-        delimiter = ",";
-      }
-    }
-
-    if (haveExtraCosmeticModifiers) {
-      String[] extraModifiers = extraCosmeticModifiers.split(" *, *");
-
-      for (String modifier : extraModifiers) {
-        String image = MonsterData.cosmeticModifierImages.get(modifier);
-        if (image != null) {
-          ocrs.append(delimiter);
-          ocrs.append("\"");
-          ocrs.append("appendimg:adventureimages\\/");
-          ocrs.append(image);
-          ocrs.append("\"");
-          delimiter = ",";
-        } else {
-          ocrs.append(delimiter);
-          ocrs.append("\"");
-          ocrs.append(modifier);
-          ocrs.append("\"");
-          delimiter = ",";
-        }
-      }
-    }
-
-    String replace = ocrs.toString();
-
-    if (found) {
+    if (!modifiers.isEmpty()) {
       // We had an "ocrs" var. Replace the value
-      StringUtilities.singleStringReplace(buffer, find, replace);
-    } else if (!replace.isEmpty()) {
+      StringUtilities.singleStringReplace(
+          buffer, cosmeticModifiersToString(modifiers), replacementModifierString);
+    } else if (!replacementModifiers.isEmpty()) {
       // We did not have an ocrs var but want to add some.
       // Include the appropriate scripts and insert a variable
       buffer.insert(buffer.indexOf("</head>"), OCRS_JS);
       buffer.insert(buffer.indexOf("</head>"), OCRS_CSS);
-      String ocrs_var = "<script>var ocrs = [" + replace + "];</script>";
-      buffer.insert(buffer.indexOf("</head>"), ocrs_var);
+      buffer.insert(
+          buffer.indexOf("</head>"),
+          "<script>var ocrs = [" + replacementModifierString + "];</script>");
     }
   }
 

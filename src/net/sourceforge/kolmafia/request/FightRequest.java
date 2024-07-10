@@ -2283,6 +2283,8 @@ public class FightRequest extends GenericRequest {
         TurnCounter.stopCounting("Spooky VHS Tape unknown monster window begin");
         TurnCounter.stopCounting("Spooky VHS Tape unknown monster window end");
         Preferences.setString("spookyVHSTapeMonster", "");
+      } else if (EncounterManager.isMimeographEncounter(responseText)) {
+        EncounterManager.ignoreSpecialMonsters();
       }
 
       // Increment Turtle Blessing counter
