@@ -500,7 +500,7 @@ class EncounterManagerTest {
   void isMimeographMonster(final String fixture) {
     String html = html("request/test_fight_" + fixture + ".html");
 
-    assertThat(EncounterManager.isMimeographMonster(html), is(true));
+    assertThat(EncounterManager.isMimeographEncounter(html), is(true));
   }
 
   @ParameterizedTest

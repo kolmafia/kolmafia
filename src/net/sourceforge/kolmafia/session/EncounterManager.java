@@ -321,7 +321,7 @@ public abstract class EncounterManager {
     return false;
   }
 
-  public static boolean isMimeographMonster(final String responseText) {
+  public static boolean isMimeographEncounter(final String responseText) {
     return RequestEditorKit.parseCosmeticModifiers(responseText).contains("mimeo");
   }
 
