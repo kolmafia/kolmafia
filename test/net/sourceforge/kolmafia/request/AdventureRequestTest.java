@@ -128,6 +128,30 @@ public class AdventureRequestTest {
 
   @ParameterizedTest
   @ValueSource(booleans = {true, false})
+  void mimeographMonstersAreNotEnqueued(final boolean isMimeograph) {
+    var cleanups = new Cleanups(withLastLocation("Barf Mountain"));
+
+    try (cleanups) {
+      FightRequest.preFight(false);
+      AdventureQueueDatabase.resetQueue();
+      var req = new GenericRequest("fight.php");
+      req.setHasResult(true);
+      req.responseText =
+          html(
+              "request/test_fight_"
+                  + (isMimeograph ? "mimeograph" : "knob_goblin_assistant_chef")
+                  + ".html");
+      req.processResponse();
+
+      var matcher = contains("Knob Goblin Assistant Chef");
+      if (isMimeograph) matcher = not(matcher);
+
+      assertThat(AdventureQueueDatabase.getZoneQueue("Barf Mountain"), matcher);
+    }
+  }
+
+  @ParameterizedTest
+  @ValueSource(booleans = {true, false})
   void rainManWitchessPiecesArentCountedTowardsTotal(final boolean isRainMan) {
     var cleanups = new Cleanups(withProperty("_witchessFights", 0), withFight(0));
 

@@ -13,6 +13,7 @@ import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.MonsterData;
+import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
@@ -318,6 +319,10 @@ public abstract class EncounterManager {
       return true;
     }
     return false;
+  }
+
+  public static boolean isMimeographEncounter(final String responseText) {
+    return RequestEditorKit.parseCosmeticModifiers(responseText).contains("mimeo");
   }
 
   public static boolean isRainManEncounter(final String responseText) {

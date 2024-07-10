@@ -5,6 +5,7 @@ import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withNextMonster;
 import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.api.Assertions.*;
@@ -411,6 +412,66 @@ public class RequestEditorKitTest {
         assertThat(decorated, not(containsString("<b>Niche</b>")));
         assertThat(decorated, not(containsString("<b>Cranny</b>")));
         assertThat(decorated, not(containsString("<b>Alcove</b>")));
+      }
+    }
+  }
+
+  @Nested
+  class CosmeticModifiers {
+    @Test
+    void canAddCustomModifiersToMonsterWithNone() {
+      var cleanups = withProperty("extraCosmeticModifiers", "wobble");
+
+      try (cleanups) {
+        var text = html("request/test_fight_fleaman.html");
+        var buffer = new StringBuffer(text);
+        RequestEditorKit.suppressPowerPixellation(buffer);
+        var modifiers = RequestEditorKit.parseCosmeticModifiers(buffer.toString());
+        assertThat(modifiers, containsInAnyOrder("wobble"));
+      }
+    }
+
+    @Test
+    void canAddCustomModifiersToMonsterWithSome() {
+      var cleanups = withProperty("extraCosmeticModifiers", "wobble");
+
+      try (cleanups) {
+        var text = html("request/test_fight_mimeograph.html");
+        var buffer = new StringBuffer(text);
+        RequestEditorKit.suppressPowerPixellation(buffer);
+        var modifiers = RequestEditorKit.parseCosmeticModifiers(buffer.toString());
+        assertThat(modifiers, containsInAnyOrder("wobble", "mimeo"));
+      }
+    }
+
+    @Test
+    void canSuppressPowerPixellation() {
+      var cleanups = withProperty("suppressPowerPixellation", "true");
+
+      try (cleanups) {
+        var text = html("request/test_fight_oil_slick.html");
+        var buffer = new StringBuffer(text);
+        RequestEditorKit.suppressPowerPixellation(buffer);
+        var modifiers = RequestEditorKit.parseCosmeticModifiers(buffer.toString());
+        assertThat(modifiers, containsInAnyOrder());
+      }
+    }
+
+    @Test
+    void canSuppressPowerPixellationWhileAddingModifier() {
+      var cleanups =
+          new Cleanups(
+              withProperty("suppressPowerPixellation", "true"),
+              withProperty("extraCosmeticModifiers", "drunk,floating"));
+
+      try (cleanups) {
+        var text = html("request/test_fight_oil_slick.html");
+        var buffer = new StringBuffer(text);
+        RequestEditorKit.suppressPowerPixellation(buffer);
+        var modifiers = RequestEditorKit.parseCosmeticModifiers(buffer.toString());
+        assertThat(
+            modifiers,
+            containsInAnyOrder("appendimg:adventureimages\\/ol_drunk.gif:0:0", "floating"));
       }
     }
   }
