@@ -160,7 +160,7 @@ Guano Junction	100	baseball bat	briefcase bat	perpendicular bat	screambat: 0	sku
 Gumdrop Forest	100	candied pecan tree	licorice snake	tricksy pixie
 Haert of the Cyrpt	100	Bonerdagon
 Hamburglaris Shield Generator	100	alien hamsterpus	mutated alielephant	mutated alielf
-Hell	100	devil	vampire
+Hell	100	devil	magma man	vampire
 Hero's Field	100	Keese	Octorok	Tektite	Zol
 Hippy Camp	100	crusty hippy	crusty hippy jewelry maker	crusty hippy Vegan chef	dirty hippy	dirty hippy jewelry maker	dirty hippy Vegan chef	filthy hippy	filthy hippy jewelry maker	filthy hippy Vegan chef
 Hobopolis Town Square	95	Normal hobo	Hodgman, The Hoboverlord: 0
