@@ -89,7 +89,7 @@ public class ChoiceUtilities {
       case "Lyle, LyleCo CEO" -> 1309;
       case "What the Future Holds" -> 1462;
       case "Make a Wish" -> 1501;
-      case "Opportunities Available" -> 1523;
+      case "Research Bench" -> 1523;
       default -> 0;
     };
   }
