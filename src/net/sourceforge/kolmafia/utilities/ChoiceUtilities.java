@@ -6,7 +6,9 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.session.ChoiceAdventures;
 import net.sourceforge.kolmafia.session.ChoiceAdventures.Spoilers;
 import net.sourceforge.kolmafia.session.ChoiceManager;
@@ -53,6 +55,23 @@ public class ChoiceUtilities {
 
   // Extract choice number from responseText
 
+  private static final Pattern DEV_READOUT = Pattern.compile("(.*?) \\(#\\d+\\)$");
+
+  /**
+   * On the dev server choice adventures have their choice numbers in brackets afterwards This needs
+   * to be stripped
+   *
+   * @param encounter Raw encounter name
+   * @return Encounter name without dev readout if it exists
+   */
+  public static String stripDevReadout(final String encounter) {
+    if (!KoLmafia.usingDevServer()) return encounter;
+
+    var m = DEV_READOUT.matcher(encounter);
+
+    return m.find() ? m.group(1) : encounter;
+  }
+
   public static int extractChoice(final String responseText) {
     for (Pattern pattern : ChoiceUtilities.CHOICE_PATTERNS) {
       Matcher matcher = pattern.matcher(responseText);
@@ -61,25 +80,18 @@ public class ChoiceUtilities {
       }
     }
 
-    // Rarely, a choice isn't given, but try to identify it anyway:
-    if (responseText.contains("<b>Hippy Talkin'</b>")) {
-      // Is this really missing? My logs look normal
-      return 798;
-    } else if (responseText.contains("<b>Another Errand I Mean Quest</b>")) {
-      return 930;
-    } else if (responseText.contains("<b>The WLF Bunker</b>")) {
-      return 1093;
-    } else if (responseText.contains("<b>Lyle, LyleCo CEO</b>")) {
-      return 1309;
-    } else if (responseText.contains("<b>What the Future Holds</b>")) {
-      return 1462;
-    } else if (responseText.contains("<b>Make a Wish</b>")) {
-      return 1501;
-    } else if (responseText.contains("<b>Opportunities Available</b>")) {
-      return 1523;
-    }
-
-    return 0;
+    return switch (AdventureRequest.parseEncounter(responseText)) {
+      case "Hippy Talkin'" ->
+      // Is this really missing? My logs look normal - Veracity
+      798;
+      case "Another Errand I Mean Quest" -> 930;
+      case "The WLF Bunker" -> 1093;
+      case "Lyle, LyleCo CEO" -> 1309;
+      case "What the Future Holds" -> 1462;
+      case "Make a Wish" -> 1501;
+      case "Research Bench" -> 1523;
+      default -> 0;
+    };
   }
 
   public static final Pattern DECISION_BUTTON_PATTERN =
