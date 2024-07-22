@@ -206,7 +206,7 @@ public class ValueConverter {
 
   public Value fromJava(Object object, Type typeHint) {
     if (object == null) {
-        throw new EvaluatorException("Passing null to an ASH function is not supported.");
+      throw new EvaluatorException("Passing null to an ASH function is not supported.");
     } else if (object instanceof Boolean) {
       return DataTypes.makeBooleanValue((Boolean) object);
     } else if (object instanceof Byte
