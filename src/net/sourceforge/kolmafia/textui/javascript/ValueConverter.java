@@ -185,12 +185,7 @@ public class ValueConverter {
       }
       Value keyCoerced = coerce(key, indexType);
 
-      if (keyCoerced != null && value != null) {
-        underlyingMap.put(keyCoerced, value);
-      } else {
-        System.out.println(indexType + " : " + dataType.getBaseType());
-        throw new ScriptException("Failed to insert value into map.");
-      }
+      underlyingMap.put(keyCoerced, value);
     }
 
     return new MapValue(new AggregateType(dataType, indexType), underlyingMap);
