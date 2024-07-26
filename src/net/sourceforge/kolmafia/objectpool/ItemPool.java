@@ -3787,6 +3787,11 @@ public class ItemPool {
   public static final int MINI_KIWI_TIPI = 11600;
   public static final int MINI_KIWI_INTOXICATING_SPIRITS = 11602;
   public static final int ROMAN_CANDELABRA = 11609;
+  public static final int SYNAPTIC_SOUP = 11621;
+  public static final int MUSCULAR_SOUP = 11622;
+  public static final int FLAGELLATE_SOUP = 11623;
+  public static final int ELBOW_SOUP = 11624;
+  public static final int LIP_SOUP = 11625;
 
   private ItemPool() {}
 

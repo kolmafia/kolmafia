@@ -577,7 +577,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
       var data = json.getJSONObject(key);
       fam.setSoupWeight(data.getInt("times"));
       var attrs = data.getJSONArray("attr").toList().stream().map(String.class::cast).toList();
-      fam.setSoupAttributes(attrs);
+      fam.addSoupAttribute(attrs);
     }
   }
 
@@ -736,12 +736,21 @@ public class FamiliarData implements Comparable<FamiliarData> {
     this.soupWeight = Math.min(111, soupWeight);
   }
 
+  public void incrementSoupWeight() {
+    this.soupWeight++;
+  }
+
   public Set<String> getSoupAttributes() {
     return this.soupAttributes;
   }
 
-  public void setSoupAttributes(List<String> soupAttributes) {
-    this.soupAttributes.addAll(soupAttributes);
+  public void addSoupAttribute(String attribute) {
+    if (attribute == null) return;
+    this.soupAttributes.add(attribute);
+  }
+
+  public void addSoupAttribute(List<String> attributes) {
+    this.soupAttributes.addAll(attributes);
   }
 
   public void deactivate() {
