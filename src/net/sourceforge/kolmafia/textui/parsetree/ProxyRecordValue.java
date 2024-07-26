@@ -975,7 +975,8 @@ public class ProxyRecordValue extends RecordValue {
     public Value get_soup_attributes() {
       FamiliarData fam = KoLCharacter.usableFamiliar((int) this.contentLong);
       return new PluralValue(
-          DataTypes.STRING_TYPE, fam == null ? List.of() : fam.getSoupAttributes().stream().map(Value::new).toList());
+          DataTypes.STRING_TYPE,
+          fam == null ? List.of() : fam.getSoupAttributes().stream().map(Value::new).toList());
     }
   }
 

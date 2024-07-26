@@ -20,7 +20,6 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
-import org.json.JSONObject;
 
 public class FamiliarRequest extends GenericRequest {
   private static final Pattern FAMID_PATTERN = Pattern.compile("famid=(-?\\d+)");

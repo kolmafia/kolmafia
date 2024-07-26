@@ -554,9 +554,8 @@ public class FamiliarData implements Comparable<FamiliarData> {
     return ItemPool.get(itemName, 1);
   }
 
-
-
-  private static final Pattern SOUP_PATTERN = Pattern.compile("<!-- some soup for you! \"(.*?)\" -->");
+  private static final Pattern SOUP_PATTERN =
+      Pattern.compile("<!-- some soup for you! \"(.*?)\" -->");
 
   private static void parseSoup(final String responseText) {
     var m = SOUP_PATTERN.matcher(responseText);
