@@ -3334,6 +3334,7 @@ Item	Mer-kin gutgirdle	Maximum HP: -300, Experience (Moxie): [20*env(underwater)
 Item	Mer-kin thighguard	Damage Reduction: 10
 Item	Mer-kin waistrope	Mysticality Percent: +10
 Item	Mesmereyes&trade; contact lenses	Mysticality Percent: +15, Single Equip
+Item	messenger bag RNA	Experience: +2, Experience (familiar): +2, HP Regen Min: 4, HP Regen Max: 8, MP Regen Min: 4, MP Regen Max: 8
 Item	meteorite earring	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25, Experience Percent (Moxie): +25, Initiative: +200, Single Equip
 Item	meteorite necklace	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25, Experience Percent (Mysticality): +25, Spell Damage Percent: +200, Single Equip
 Item	meteorite ring	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25, Experience Percent (Muscle): +25, Weapon Damage Percent: +200, Single Equip

@@ -11640,7 +11640,7 @@
 11612	protogenetic chunklet (flagellum)	608951974	chunklet3.gif	none	t	0
 11613	protogenetic chunklet (elbow)	644935635	chunklet2.gif	none	t	0
 11614	protogenetic chunklet (lips)	212824342	chunklet1.gif	none	t	0
-11615
+11615	messenger bag RNA	643906111	messengerbag.gif	accessory	t	0
 11616
 11617	proto-proto-protozoa	306809184	protoprotoproto.gif	grow	t	0
 11618	bacteria bisque	917399676	soupbowl.gif	food	t	0
