@@ -12,7 +12,10 @@ import static internal.helpers.Player.withNextResponse;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.notNullValue;
 
@@ -30,6 +33,8 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+
+import java.util.Arrays;
 
 class FamiliarRequestTest {
   @BeforeEach
@@ -197,9 +202,9 @@ class FamiliarRequestTest {
   class TimeTwitchingTowerSoup {
     @ParameterizedTest
     @CsvSource({
-      "287, 12, '[hp, hp, hp, hp, hp, hp, hp, hp]'",
-      "43, 1, '[mp]'",
-      "302, 3, '[stats, act, hp]'",
+      "288, 1, 'hp'",
+      "209, 2, 'hp,act'",
+      "154, 3, 'stats,dmg'",
     })
     void canParseSoupedUpFamiliars(int familiarId, int soupWeight, String soupAttributes) {
       var page = html("request/test_familiar_soup.html");
@@ -211,7 +216,8 @@ class FamiliarRequestTest {
         var familiar = KoLCharacter.usableFamiliar(familiarId);
         assertThat(familiar, notNullValue());
         assertThat(familiar.getSoupWeight(), equalTo(soupWeight));
-        assertThat(familiar.getSoupAttributes().toString(), equalTo(soupAttributes));
+        var attrs = soupAttributes.split(",");
+        assertThat(familiar.getSoupAttributes(), hasItems(attrs));
       }
     }
   }

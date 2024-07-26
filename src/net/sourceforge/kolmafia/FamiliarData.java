@@ -3,8 +3,10 @@ package net.sourceforge.kolmafia;
 import java.awt.Component;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
@@ -205,7 +207,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
   private int ownerId;
   private boolean active = false;
   private int soupWeight = 0;
-  private List<String> soupAttributes = new ArrayList<>();
+  private Set<String> soupAttributes = new HashSet<>();
 
   public FamiliarData(final int id) {
     this(id, "", 1, EquipmentRequest.UNEQUIP);
@@ -734,12 +736,12 @@ public class FamiliarData implements Comparable<FamiliarData> {
     this.soupWeight = Math.min(111, soupWeight);
   }
 
-  public List<String> getSoupAttributes() {
+  public Set<String> getSoupAttributes() {
     return this.soupAttributes;
   }
 
   public void setSoupAttributes(List<String> soupAttributes) {
-    this.soupAttributes = soupAttributes;
+    this.soupAttributes.addAll(soupAttributes);
   }
 
   public void deactivate() {
