@@ -13,6 +13,7 @@ import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.notNullValue;
 
@@ -20,6 +21,7 @@ import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -27,6 +29,8 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 class FamiliarRequestTest {
   @BeforeEach
@@ -38,7 +42,6 @@ class FamiliarRequestTest {
 
   @Nested
   class UnusableFamiliars {
-
     @Test
     void canEquipUnusableFamiliar() {
       var cleanups =
@@ -187,6 +190,30 @@ class FamiliarRequestTest {
         var requests = getRequests();
 
         assertThat(requests, hasSize(0));
+      }
+    }
+  }
+
+  @Nested
+  class TimeTwitchingTowerSoup {
+    @ParameterizedTest
+    @CsvSource({
+      "288, 1, 'hp'",
+      "209, 2, 'hp,act'",
+      "154, 3, 'stats,dmg'",
+    })
+    void canParseSoupedUpFamiliars(int familiarId, int soupWeight, String soupAttributes) {
+      var page = html("request/test_familiar_soup.html");
+      var cleanups = new Cleanups(withNextResponse(200, page));
+
+      try (cleanups) {
+        RequestThread.postRequest(new FamiliarRequest());
+
+        var familiar = KoLCharacter.usableFamiliar(familiarId);
+        assertThat(familiar, notNullValue());
+        assertThat(familiar.getSoupWeight(), equalTo(soupWeight));
+        var attrs = soupAttributes.split(",");
+        assertThat(familiar.getSoupAttributes(), hasItems(attrs));
       }
     }
   }
