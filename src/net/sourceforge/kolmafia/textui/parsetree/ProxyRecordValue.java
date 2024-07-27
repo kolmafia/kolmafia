@@ -764,6 +764,8 @@ public class ProxyRecordValue extends RecordValue {
             .add("poke_move_2", DataTypes.STRING_TYPE)
             .add("poke_move_3", DataTypes.STRING_TYPE)
             .add("poke_attribute", DataTypes.STRING_TYPE)
+            .add("soup_weight", DataTypes.INT_TYPE)
+            .add("soup_attributes", new PluralValueType(DataTypes.STRING_TYPE))
             .finish("familiar proxy");
 
     public FamiliarProxy(Value obj) {
@@ -963,6 +965,18 @@ public class ProxyRecordValue extends RecordValue {
     public String get_poke_attribute() {
       PokefamData data = FamiliarDatabase.getPokeDataById((int) this.contentLong);
       return data == null ? "" : data.getAttribute();
+    }
+
+    public int get_soup_weight() {
+      FamiliarData fam = KoLCharacter.usableFamiliar((int) this.contentLong);
+      return fam == null ? 0 : fam.getSoupWeight();
+    }
+
+    public Value get_soup_attributes() {
+      FamiliarData fam = KoLCharacter.usableFamiliar((int) this.contentLong);
+      return new PluralValue(
+          DataTypes.STRING_TYPE,
+          fam == null ? List.of() : fam.getSoupAttributes().stream().map(Value::new).toList());
     }
   }
 

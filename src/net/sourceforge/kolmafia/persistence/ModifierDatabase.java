@@ -448,6 +448,7 @@ public class ModifierDatabase {
       weight += (int) tempMods.getDouble(DoubleModifier.FAMILIAR_WEIGHT);
       weight += (int) tempMods.getDouble(DoubleModifier.HIDDEN_FAMILIAR_WEIGHT);
       weight += (fam.getFeasted() ? 10 : 0);
+      weight += fam.getSoupWeight();
       double percent = tempMods.getDouble(DoubleModifier.FAMILIAR_WEIGHT_PCT) / 100.0;
       if (percent != 0.0) {
         weight = (int) Math.floor(weight + weight * percent);

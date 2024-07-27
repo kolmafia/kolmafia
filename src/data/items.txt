@@ -11635,3 +11635,22 @@
 11607	mini kiwi-flavored aspirin-injecting lipstick	406308925	kiwi_lipstick.gif	potion, usable	t,d	11
 11608	packaged Roman Candelabra	208269088	romcandelbox.gif	usable	t	0
 11609	Roman Candelabra	552059394	romcandel.gif	offhand		0
+11610	protogenetic chunklet (synapse)	334708219	chunklet5.gif	none	t	0
+11611	protogenetic chunklet (muscle)	805460481	chunklet4.gif	none	t	0
+11612	protogenetic chunklet (flagellum)	608951974	chunklet3.gif	none	t	0
+11613	protogenetic chunklet (elbow)	644935635	chunklet2.gif	none	t	0
+11614	protogenetic chunklet (lips)	212824342	chunklet1.gif	none	t	0
+11615	messenger bag RNA	643906111	messengerbag.gif	accessory	t	0
+11616	flagellate flagon	798348789	flagon.gif	usable	t	0
+11617	proto-proto-protozoa	306809184	protoprotoproto.gif	grow	t	0
+11618	bacteria bisque	917399676	soupbowl.gif	food	t	0
+11619	ciliophora chowder	705837465	bbat_soup.gif	food	t	0
+11620	cream of chloroplasts	513904214	porcbowl.gif	food	t	0
+11621	synaptic soup	954045983	bakebowl.gif	usable	t	0
+11622	muscular soup	484341099	bakebowl.gif	usable	t	0
+11623	flagellate soup	965025272	bakebowl.gif	usable	t	0
+11624	elbow soup	430494229	bakebowl.gif	usable	t	0
+11625	lip soup	323198086	bakebowl.gif	usable	t	0
+11626	unevolved organism	493581704	spore.gif	grow	t	0
+11627
+11628	extra DNA	945599812	dna.gif	familiar	t,d	11

@@ -2923,3 +2923,6 @@
 2920	Incredibly Healthy	kiwi_pill.gif	8fa125fb5bcb1a66079b1ff970d7e5fd	neutral	none	use 1 mini kiwi illicit antibiotic
 2921	Aspirinated Lips	kiwi_lipstick.gif	9e5dfff0ab057887d958c0fb5609c2c1	neutral	none	use 1 mini kiwi-flavored aspirin-injecting lipstick
 2922	Everything Looks Purple	eyes.gif	3c340b41732b40571bf8ca24eb535380	neutral	noremove
+2923	Infected with Chronerism	chroner.gif	85122dd028354f65bf76800b064eb920	neutral	none	eat 1 bacteria bisque
+2924	Twitching Senses	nopic.gif	10424fbb137ba7a24a8a7798f2908bb6	neutral	none	eat 1 ciliophora chowder
+2925	Chloroplasted	sun.gif	f1c704c574989c850076ccc1b43ce420	neutral	none	eat 1 cream of chloroplasts

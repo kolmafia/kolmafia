@@ -37,6 +37,7 @@ astral hot dog	3	1	???	20-24	176-220	176-220	176-220
 autumn-spice donut	1	1	awesome	4-6	10-20	10-20	10-20	30 Whet Appetite (+100% Food Drops)
 b&auml;tzle	4	4	good	10-14	0	0	20-30
 babycakes	2	1	crappy	2	0	0	0
+bacteria bisque	1	1	awesome	0	0	0	0	Unspaded
 badass pie	2	4	awesome	8-10	10-20	10-20	10-20	20 Pie in the Sky (+2 mus/mys/mox exp)
 bag of GORF	1	3	decent	2	0	0	0	3 Long Live GORF
 bag of GORP	2	1	decent	4	20-30	20-30	20-30
@@ -181,6 +182,7 @@ chocolate-frosted king cake	3	1	crappy	3	0	0	0	red plastic baby
 chocomotive	5	1	good	15	35	0	0	15-20 HP
 chorizo brownies	3	2	decent	3-9	0	0	0
 chorizo taco	1	1	decent	2	3-5	0	0
+ciliophora chowder	1	1	awesome	0	0	0	0	Unspaded
 cinnamon cannoli	1	4	awesome	4-5	15-25	15-25	15-25
 Cinnamon Nutrition Block	5	1	good	10-15	0	0	0	30 Forbear, Warbears! (+40 WarBear Armor Penetration)
 circular CRIMBCOOKIE	2	1	awesome	8-10	0	0	0	10 Mystic Circle (+10% mys)
@@ -233,6 +235,7 @@ cranberry cylinder	2	1	awesome	8-10	0	0	10-20	leftovers, 20 Thanksgetting (Varia
 crappy brain	1	1	crappy	1	1	1	1	Zombie Slayer
 Crazy Dragon Shogun Buddha Roll	5	1	good	10-15	0	0	0
 crazy little Turkish delight	1	2	decent	1-3	0	30-40	0
+cream of chloroplasts	1	1	awesome	0	0	0	0	Unspaded
 cream of pointy mushroom soup	2	1	decent	2-5	0	0	35-40	lose 3 HP
 creamsicle	1	3	good	1-4	8-10	8-10	8-10
 Crepes a la Lune	2	3	awesome	9-10	10-20	10-20	15-20

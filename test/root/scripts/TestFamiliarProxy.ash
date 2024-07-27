@@ -39,3 +39,5 @@ familiar f = $familiar[blood-faced volleyball];
             print(f.poke_move_3);
             print(f.underwater);
             print(f.variable);
+            print(f.soup_weight);
+            print(f.soup_attributes);

@@ -2350,6 +2350,13 @@ Boltsmann security robot	2402	jetsecurity1.gif	Scale: 9 Cap: 1000 Init: -10000 P
 automated bearing foundry	2403	jetfoundry.gif	Scale: 1 Cap: 1000 Init: -10000 P: construct Article: a	automa-bot parts (50)	handful of Boltsmann bearings (30)	handful of Boltsmann bearings (5)
 clerical robot	2404	jetcleric.gif	Scale: 3 Cap: 1000 Init: -10000 P: construct	automa-bot parts (40)	clerical automa-core (f10)
 
+# Twitch 10 - The Primordial Stew (July 2024)
+flailing flagellate	2449	bacterium.gif	Scale: ? Cap: ? Floor: ? Init: 100 P: bug Article: a
+herd of archaea	2451	archaea.gif	Scale: ? Cap: ? Floor: ? Init: 75 P: beast Article: a
+messenger RNA	2448	mrna.gif	Scale: ? Cap: ? Floor: ? Init: 50 P: weird Article: a
+proto-protozoa	2450	protozoa.gif	Scale: ? Cap: ? Floor: ? Init: -10000 P: slime Article: a
+yeast gang	2452	yeast.gif	Scale: ? Cap: ? Floor: ? Init: 100 P: plant Article: a
+
 # Crimbo 2023 (December 2023)
 Elf Guard conscript	2392	egconscript.gif	NOWISH Scale: ? Init: -10000 P: elf Article: an	1-2 Elf Guard MPC (m100)	Elf Guard patrol cap (c0)
 Elf Guard convict	2393	egconvict.gif	NOWISH Scale: ? Init: -10000 P: elf Article: an	1-2 Elf Guard MPC (m100)	Elf Guard hotpants (c0)

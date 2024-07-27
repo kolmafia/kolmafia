@@ -413,6 +413,7 @@ Twitch	adventure=476	DiffLevel: mid Env: outdoor Stat: 0	KoL Con Clan Party Hous
 Twitch	adventure=580	DiffLevel: mid Env: indoor Stat: 0	The Home of The Future
 Twitch	adventure=581	DiffLevel: mid Env: indoor Stat: 0	Spring Bros. Solenoids
 Twitch	adventure=582	DiffLevel: mid Env: indoor Stat: 0	Boltsmann Bearings
+Twitch	adventure=584	DiffLevel: mid Env: outdoor Stat: 0	The Primordial Stew
 
 Shadow Rift	adventure=567	DiffLevel: mid Env: outdoor Stat: 0 nowander	Shadow Rift
 Shadow Rift	place=shadow_rift	DiffLevel: mid Env: outdoor Stat: 0 nowander	Shadow Rift (Desert Beach)

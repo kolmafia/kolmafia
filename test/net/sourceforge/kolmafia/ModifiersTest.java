@@ -1560,4 +1560,20 @@ public class ModifiersTest {
       assertThat(mods.getDouble(DoubleModifier.EFFECT_DURATION), closeTo(5, 0.001));
     }
   }
+
+  @Nested
+  class TimeTwitchingTowerSoup {
+    @Test
+    void protogeneticSoupConsideredInFamiliarWeight() {
+      Modifiers familiarMods = new Modifiers();
+      var familiar = FamiliarData.registerFamiliar(FamiliarPool.BABY_GRAVY_FAIRY, 0);
+      familiar.setSoupWeight(19);
+
+      familiarMods.applyFamiliarModifiers(familiar, null);
+
+      assertThat(familiarMods.getDouble(DoubleModifier.ITEMDROP), closeTo(50.166, 0.001));
+
+      KoLCharacter.removeFamiliar(familiar);
+    }
+  }
 }

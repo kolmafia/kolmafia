@@ -2268,3 +2268,8 @@
 2445	The Beastman	arm	head	leg	torso
 2446	The Naughty Wolferess	arm	head	leg	torso
 2447	ewe	butt	head	leg	tail
+2448	messenger RNA	adenine	cytosine	guanine	uracil
+2449	flailing flagellate	flagella	hot-dog-shaped part
+2450	proto-protozoa	glob	membrane	organelle
+2451	herd of archaea	another archaea	archaea	different archaea
+2452	yeast gang	nodule

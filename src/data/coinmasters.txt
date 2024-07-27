@@ -1057,7 +1057,9 @@ Dino World Gift Shop (The Dinostaur)	buy	500	stuffed dinosaur	ROW1288
 
 # KoL Con 13 Merch Table
 
-KoL Con 13 Merch Table	buy	2	KoL Con 13 snowglobe	ROW883
+KoL Con 13 Merch Table	buy	1	unevolved organism	ROW1509
+KoL Con 13 Merch Table	buy	2	crated wardrobe-o-matic	ROW1397
+KoL Con 13 Merch Table	buy	3	KoL Con 13 snowglobe	ROW883
 KoL Con 13 Merch Table	buy	4	potted tea tree	ROW884
 KoL Con 13 Merch Table	buy	5	Xi Receiver Unit	ROW885
 KoL Con 13 Merch Table	buy	6	Gordon Beer's Beer Garden Catalog	ROW886
@@ -1225,3 +1227,22 @@ Elf Guard Toy and Munitions Factory	buy	2000	Elf Guard temporary (permanent) tat
 #Kiwi Kwiki Mart	unknown	mini kiwi icepick	mini kiwi (4)	ROW1488
 #Kiwi Kwiki Mart	unknown	mini kiwi-flavored aspirin-injecting lipstick	mini kiwi (3)	ROW1489
 #Kiwi Kwiki Mart	unknown	mini kiwi digitized cookies	mini kiwi (3)	ROW1490
+
+# The Primordial Soup Kitchen	unknown	bacteria bisque	Chroner (10)	ROW1491
+# The Primordial Soup Kitchen	unknown	ciliophora chowder	Chroner (10)	ROW1492
+# The Primordial Soup Kitchen	unknown	cream of chloroplasts	Chroner (10)	ROW1493
+# The Primordial Soup Kitchen	unknown	lip soup	cream of chloroplasts	ROW1494
+# The Primordial Soup Kitchen	unknown	lip soup	ciliophora chowder	ROW1495
+# The Primordial Soup Kitchen	unknown	lip soup	bacteria bisque	ROW1496
+# The Primordial Soup Kitchen	unknown	elbow soup	cream of chloroplasts	ROW1497
+# The Primordial Soup Kitchen	unknown	elbow soup	ciliophora chowder	ROW1498
+# The Primordial Soup Kitchen	unknown	elbow soup	bacteria bisque	ROW1499
+# The Primordial Soup Kitchen	unknown	flagellate soup	ciliophora chowder	ROW1500
+# The Primordial Soup Kitchen	unknown	flagellate soup	cream of chloroplasts	ROW1501
+# The Primordial Soup Kitchen	unknown	flagellate soup	bacteria bisque	ROW1502
+# The Primordial Soup Kitchen	unknown	muscular soup	cream of chloroplasts	ROW1503
+# The Primordial Soup Kitchen	unknown	muscular soup	ciliophora chowder	ROW1504
+# The Primordial Soup Kitchen	unknown	muscular soup	bacteria bisque	ROW1505
+# The Primordial Soup Kitchen	unknown	synaptic soup	cream of chloroplasts	ROW1506
+# The Primordial Soup Kitchen	unknown	synaptic soup	ciliophora chowder	ROW1507
+# The Primordial Soup Kitchen	unknown	synaptic soup	bacteria bisque	ROW1508
