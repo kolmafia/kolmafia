@@ -4654,19 +4654,21 @@ public class UseItemRequest extends GenericRequest {
         break;
 
       case ItemPool.PILE_OF_USELESS_ROBOT_PARTS:
-        if (responseText.contains("emits a satisfied whirr")) {
-          Preferences.increment("homemadeRobotUpgrades", 1, 9, false);
-        } else if (responseText.contains("Your work here is done")) {
-          Preferences.setInteger("homemadeRobotUpgrades", 9);
-        } else {
-          // Otherwise it is not consumed.
-          return;
-        }
+        {
+          if (responseText.contains("emits a satisfied whirr")) {
+            Preferences.increment("homemadeRobotUpgrades", 1, 9, false);
+          } else if (responseText.contains("Your work here is done")) {
+            Preferences.setInteger("homemadeRobotUpgrades", 9);
+          } else {
+            // Otherwise it is not consumed.
+            return;
+          }
 
-        // If we got to here, we probably need to refresh our familiar weight
-        var fam = KoLCharacter.getFamiliar();
-        if (fam != null) fam.setWeight();
-        break;
+          // If we got to here, we probably need to refresh our familiar weight
+          var fam = KoLCharacter.getFamiliar();
+          if (fam != null) fam.setWeight();
+          break;
+        }
 
       case ItemPool.MERKIN_WORDQUIZ:
         matcher = MERKIN_WORDQUIZ_PATTERN.matcher(responseText);
@@ -6192,6 +6194,25 @@ public class UseItemRequest extends GenericRequest {
       case ItemPool.YAM_BATTERY:
         Preferences.setBoolean("_yamBatteryUsed", true);
         break;
+      case ItemPool.SYNAPTIC_SOUP:
+      case ItemPool.MUSCULAR_SOUP:
+      case ItemPool.FLAGELLATE_SOUP:
+      case ItemPool.ELBOW_SOUP:
+      case ItemPool.LIP_SOUP:
+        {
+          var fam = KoLCharacter.getFamiliar();
+          fam.incrementSoupWeight();
+          fam.addSoupAttribute(
+              switch (itemId) {
+                case ItemPool.SYNAPTIC_SOUP -> "mp";
+                case ItemPool.MUSCULAR_SOUP -> "damage";
+                case ItemPool.FLAGELLATE_SOUP -> "act";
+                case ItemPool.ELBOW_SOUP -> "hp";
+                case ItemPool.LIP_SOUP -> "stats";
+                default -> null;
+              });
+          break;
+        }
     }
 
     if (CampgroundRequest.isWorkshedItem(itemId)) {

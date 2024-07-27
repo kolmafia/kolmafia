@@ -63,7 +63,7 @@ dependencies {
 	testImplementation 'com.spotify:hamcrest-optional:1.3.2'
 	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.2'
 	testImplementation 'org.junit.jupiter:junit-jupiter-params:5.10.2'
-	testImplementation 'org.mockito:mockito-inline:5.2.0'
+	testImplementation 'org.mockito:mockito-core:5.12.0'
 	testImplementation('org.eclipse.xtext:org.eclipse.xtext.xbase.lib:2.12.0') {
 		because 'assertion errors including Location/Range/Position need it'
 	}
@@ -210,6 +210,7 @@ jar {
 }
 
 shadowJar {
+	mustRunAfter cleanDist
 	duplicatesStrategy = 'exclude'
 	destinationDirectory = file('dist/')
 	archiveClassifier.set("${isDirty() ? 'M' : ''}")

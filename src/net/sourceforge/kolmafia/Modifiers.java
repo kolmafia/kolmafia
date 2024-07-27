@@ -1091,6 +1091,7 @@ public class Modifiers {
     weight += (int) this.getDouble(DoubleModifier.FAMILIAR_WEIGHT);
     weight += (int) this.getDouble(DoubleModifier.HIDDEN_FAMILIAR_WEIGHT);
     weight += (familiar.getFeasted() ? 10 : 0);
+    weight += familiar.getSoupWeight();
     // Comma Chameleons gain a passive 5lbs while they are imitating another familiar
     weight +=
         (familiar.getId() == FamiliarPool.CHAMELEON && familiar.getId() != familiar.getEffectiveId()
