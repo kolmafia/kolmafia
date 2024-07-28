@@ -17,6 +17,7 @@ import net.sourceforge.kolmafia.request.ManageStoreRequest;
 import net.sourceforge.kolmafia.request.QuantumTerrariumRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
+import net.sourceforge.kolmafia.session.BanishManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
 public class RefreshStatusCommand extends AbstractCommand {
@@ -72,6 +73,9 @@ public class RefreshStatusCommand extends AbstractCommand {
       return;
     } else if (parameters.equals("concoctions")) {
       ConcoctionDatabase.refreshConcoctions(true);
+      return;
+    } else if (parameters.equals("banishes")) {
+      BanishManager.loadBanished();
       return;
     } else {
       KoLmafia.updateDisplay(MafiaState.ERROR, parameters + " cannot be refreshed.");
