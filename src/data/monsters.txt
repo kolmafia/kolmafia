@@ -2351,11 +2351,11 @@ automated bearing foundry	2403	jetfoundry.gif	Scale: 1 Cap: 1000 Init: -10000 P:
 clerical robot	2404	jetcleric.gif	Scale: 3 Cap: 1000 Init: -10000 P: construct	automa-bot parts (40)	clerical automa-core (f10)
 
 # Twitch 10 - The Primordial Stew (July 2024)
-flailing flagellate	2449	bacterium.gif	Scale: ? Cap: ? Floor: ? Init: 100 P: bug Article: a
-herd of archaea	2451	archaea.gif	Scale: ? Cap: ? Floor: ? Init: 75 P: beast Article: a
-messenger RNA	2448	mrna.gif	Scale: ? Cap: ? Floor: ? Init: 50 P: weird Article: a
-proto-protozoa	2450	protozoa.gif	Scale: ? Cap: ? Floor: ? Init: -10000 P: slime Article: a
-yeast gang	2452	yeast.gif	Scale: ? Cap: ? Floor: ? Init: 100 P: plant Article: a
+flailing flagellate	2449	bacterium.gif	Scale: ? Cap: 1000 Floor: ? Init: 100 P: bug EA: stench Article: a	protogenetic chunklet (flagellum) (c0)	flagellate flagon (f0)
+herd of archaea	2451	archaea.gif	Scale: ? Cap: 1000 Floor: ? Init: 75 P: beast EA: stench EA: sleaze Article: a	protogenetic chunklet (elbow) (c0)
+messenger RNA	2448	mrna.gif	Scale: ? Cap: 1000 Floor: ? Init: 50 P: weird EA: hot Article: a	protogenetic chunklet (synapse) (c0)	messenger bag RNA (f0)
+proto-protozoa	2450	protozoa.gif	Scale: ? Cap: 1000 Floor: ? Init: -10000 P: slime EA: stench EA: sleaze Article: a	protogenetic chunklet (lips) (c0)	proto-proto-protozoa (f0)
+yeast gang	2452	yeast.gif	Scale: ? Cap: 1000 Floor: ? Init: 100 P: plant Article: a	protogenetic chunklet (muscle) (c0)	fermenting powder (100)	fermenting powder (10)
 
 # Crimbo 2023 (December 2023)
 Elf Guard conscript	2392	egconscript.gif	NOWISH Scale: ? Init: -10000 P: elf Article: an	1-2 Elf Guard MPC (m100)	Elf Guard patrol cap (c0)
