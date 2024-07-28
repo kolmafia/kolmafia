@@ -3777,7 +3777,6 @@ Item	Time Bandit Badge of Courage	Muscle Limit: 50, Mysticality Limit: 50, Moxie
 Item	time halo	Adventures: +5, Unarmed, Single Equip
 # Time Lord Badge of Honor: Proves your worth to the Time Lords
 Item	Time Lord Badge of Honor	Muscle Limit: 50, Mysticality Limit: 50, Moxie Limit: 50
-# time-twitching toolbelt: +60% Item Drops in the Time-Twitching Tower
 # time-twitching toolbelt: Reveals various Time-Forgotten Secrets
 # time-twitching toolbelt: (also in the Time-Twitching Tower)
 # time-twitching toolbelt	Muscle: +15, Mysticality: +15, Moxie: +15, Single Equip, Item Drop: [60*zone(Twitch)], Free Pull: [pref(timeTowerAvailable,true)]
@@ -7907,7 +7906,7 @@ Effect	Twice-Cursed	Muscle: -20, Mysticality: -20, Moxie: -20
 Effect	Twinklebritches	Damage Reduction: 3
 Effect	Twinkly Weapon	Weapon Damage: +3
 Effect	Twist and an Eye	Maximum MP: +50
-# Twitching Senses: +50% Item Drops from Monsters in the Time-Twitching Tower
+Effect	Twitching Senses	Item Drop: [50*zone(Twitch)]
 Effect	Two Car Bar Rag	Avatar: "craggy bartender"
 Effect	Two Left Feet	Moxie: -5
 Effect	Ultra-Soft Steps	Combat Rate: -5
@@ -11563,6 +11562,8 @@ Item	experimental carbon fiber pasta additive	Class: "Pastamancer"
 # experimental gene therapy: Increases your maximum Bat-Health
 # exploding hacky-sack: Deals 75-100 Physical Damage
 # exploding kickball: Instantly ends a fight
+Item	extra DNA	Experience (familiar): +1
+# extra ooze: Increases sleaze damage
 # extra-strength red potion: Restores 190-210 HP
 Item	extra-strength red potion	Effect: "Healthy Red Glow", Effect Duration: 40
 # fabric softener: Weakens enemies a lot
@@ -11612,6 +11613,7 @@ Item	fishy pipe	Effect: "Fishy", Effect Duration: 10
 Item	fist turkey outline	Free Pull
 # fistful of wood shavings: Stops Enemy From Attacking and Weakens it Very Slightly
 # fizzing spore pod: Deals 20-40 physical damage
+# flagellate flagon: Gain extra stats from your next drink
 # flagellate soup: Add a pound and increase the activation rate of your familiar
 # flame orb: Burn up an enemy and none of its items
 # flaming feather: Deals 80-120 <font color=red>Hot Damage</font>
