@@ -11562,6 +11562,8 @@ Item	experimental carbon fiber pasta additive	Class: "Pastamancer"
 # experimental gene therapy: Increases your maximum Bat-Health
 # exploding hacky-sack: Deals 75-100 Physical Damage
 # exploding kickball: Instantly ends a fight
+Item	extra DNA	Experience (familiar): +1
+# extra ooze: Increases sleaze damage
 # extra-strength red potion: Restores 190-210 HP
 Item	extra-strength red potion	Effect: "Healthy Red Glow", Effect Duration: 40
 # fabric softener: Weakens enemies a lot
@@ -11611,6 +11613,7 @@ Item	fishy pipe	Effect: "Fishy", Effect Duration: 10
 Item	fist turkey outline	Free Pull
 # fistful of wood shavings: Stops Enemy From Attacking and Weakens it Very Slightly
 # fizzing spore pod: Deals 20-40 physical damage
+# flagellate flagon: Gain extra stats from your next drink
 # flagellate soup: Add a pound and increase the activation rate of your familiar
 # flame orb: Burn up an enemy and none of its items
 # flaming feather: Deals 80-120 <font color=red>Hot Damage</font>
