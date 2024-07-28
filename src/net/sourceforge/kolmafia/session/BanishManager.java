@@ -531,7 +531,13 @@ public class BanishManager {
   }
 
   public static List<String> getBanishedMonsters() {
-    BanishManager.recalculate();
+    return getBanishedMonsters(true);
+  }
+
+  public static List<String> getBanishedMonsters(final boolean recalculate) {
+    if (recalculate) {
+      BanishManager.recalculate();
+    }
 
     return banishedMonsters.stream().map(Banished::banished).collect(Collectors.toList());
   }
