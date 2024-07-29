@@ -1004,7 +1004,7 @@ public class MonsterData extends AdventureResult {
     MonsterData.cosmeticModifierImages.put("shrunk", null);
   }
 
-  private static final String[] extraModifierNames = {"powerPixel", "shrunk"};
+  private static final String[] extraModifierNames = {"powerPixel", "shrunk", "mimeo"};
 
   public static final Set<String> extraModifiers = new HashSet<>();
 
