@@ -17,7 +17,7 @@ public enum AscensionClass {
   ASTRAL_SPIRIT("Astral Spirit", -1),
   SEAL_CLUBBER("Seal Clubber", 1, "club", 0, Path.NONE, "Club Foot"),
   TURTLE_TAMER("Turtle Tamer", 2, "turtle", 0, Path.NONE, "Shell Up"),
-  PASTAMANCER("Pastamancer", 3, "pasta", 1, Path.NONE, "Entangling Noodles"),
+  PASTAMANCER("Pastamancer", 3, "pastaspoon", 1, Path.NONE, "Entangling Noodles"),
   SAUCEROR("Sauceror", 4, "saucepan", 1, Path.NONE, "Soul Bubble"),
   DISCO_BANDIT("Disco Bandit", 5, "discoball", 2),
   ACCORDION_THIEF("Accordion Thief", 6, "accordion", 2, Path.NONE, "Accordion Bash"),
