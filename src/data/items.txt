@@ -11654,3 +11654,5 @@
 11626	unevolved organism	493581704	spore.gif	grow	t	0
 11627	extra ooze	160270726	raindrop.gif	familiar	t,d	1	extra drops of ooze
 11628	extra DNA	945599812	dna.gif	familiar	t,d	11	extra strands of DNA
+11629	untorn tearaway pants package	962323138	oliver_package.gif	usable	t	0
+11630	tearaway pants	953334403	wbpants7.gif	pants		0

@@ -863,6 +863,8 @@ Item	stylish swimsuit	Moxie: +5, Sleaze Damage: [5-5*X], Familiar Effect: "1xPot
 Item	sucker hakama	Damage Reduction: 5, Familiar Effect: "afk, cap 12"
 Item	sugar shorts	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25, Breakable, Familiar Effect: "2xVolley, 1xLep, cap 25"
 Item	swashbuckling pants	Moxie: +4, Familiar Effect: "3xPotato, 1.5xFairy, cap 20"
+# tearaway pants: Tear them away in combat!
+Item	tearaway pants	Sleaze Damage: [5*L], Damage Reduction: 10, Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Initiative: +50, Maximum HP: +50
 # terra cotta trousers: Lets you unleash a terra cotta army on your foes
 Item	terra cotta trousers	Muscle Percent: +20, Familiar Weight: +5
 Item	the Archwizard's briefs	Mysticality: +15, Mysticality Percent: +25, Maximum MP: +100
@@ -12656,6 +12658,7 @@ Item	unpowered Robortender	Free Pull
 # unrefined Mountain Stream syrup: Restores 50-60 MP
 # unstable laser battery: Deals 200-250 <font color=red>Hot Damage</font>
 # unstable laser battery: Briefly stuns enemies
+Item	untorn tearaway pants package	Free Pull
 Item	unused walkie-talkie	Free Pull
 Item	unwound cymbal-playing monkey	Free Pull
 # unwrapped knock-off retro superhero cape
