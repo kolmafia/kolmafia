@@ -1083,7 +1083,7 @@
 7524	Blow the Blue Candle!	blowcandle.gif	combat	0	0
 7525	Blow the Green Candle!	blowcandle.gif	combat	0	0
 7526	Blow the Purple Candle!	blowcandle.gif	combat	0	0
-7527	Tear Away your Pants!	wbpants7.gif	combat	0	0
+7527	Tear Away your Pants!	tearawaypants.gif	combat	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.
