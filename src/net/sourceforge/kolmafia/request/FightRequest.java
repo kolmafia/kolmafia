@@ -10601,6 +10601,14 @@ public class FightRequest extends GenericRequest {
           Preferences.increment("romanCandelabraPurpleCasts");
         }
         break;
+      case SkillPool.TEAR_AWAY_YOUR_PANTS:
+        if (responseText.contains("Your lack of pants is going to help")) {
+          skillSuccess = true;
+          addFightModifiers("Tear Away your Pants", DoubleModifier.ITEMDROP, 15);
+        } else if (responseText.contains("Having stripped away the pants")) {
+          Preferences.increment("_tearawayPantsAdvs");
+        }
+        break;
     }
 
     if (skillSuccess || skillRunawaySuccess || familiarSkillSuccess) {
