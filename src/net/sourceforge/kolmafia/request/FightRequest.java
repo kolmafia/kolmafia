@@ -34,6 +34,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaASH;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.ModifierType;
+import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -42,6 +43,8 @@ import net.sourceforge.kolmafia.combat.CombatActionManager;
 import net.sourceforge.kolmafia.combat.Macrofier;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import net.sourceforge.kolmafia.modifiers.Lookup;
 import net.sourceforge.kolmafia.moods.MPRestoreItemList;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
@@ -9112,8 +9115,13 @@ public class FightRequest extends GenericRequest {
     return false;
   }
 
-  private static void setFightModifiers(final String mods) {
-    ModifierDatabase.overrideModifier(ModifierType.GENERATED, "fightMods", mods);
+  private static void addFightModifiers(
+      final String key, final DoubleModifier mod, final int value) {
+    var lookup = new Lookup(ModifierType.GENERATED, "fightMods");
+    var mods = ModifierDatabase.getModifiers(lookup);
+    if (mods == null) mods = new Modifiers(lookup);
+    mods.addDouble(mod, value, ModifierType.GENERATED, key);
+    ModifierDatabase.overrideModifier(lookup, mods);
     KoLCharacter.recalculateAdjustments();
     KoLCharacter.updateStatus();
   }
@@ -9418,11 +9426,11 @@ public class FightRequest extends GenericRequest {
         break;
 
       case SkillPool.HOBO_JOKE:
-        setFightModifiers("Meat Drop: +100");
+        addFightModifiers("Ask the hobo to tell you a joke", DoubleModifier.MEATDROP, 100);
         break;
 
       case SkillPool.HOBO_DANCE:
-        setFightModifiers("Item Drop: +100");
+        addFightModifiers("Ask the hobo to dance for you", DoubleModifier.ITEMDROP, 100);
         break;
 
       case SkillPool.BOXING_GLOVE_ARROW:
@@ -9839,7 +9847,7 @@ public class FightRequest extends GenericRequest {
         if (responseText.contains("Jackal demon shrugs and produces a large wad of meat")
             || skillSuccess) {
           ResultProcessor.processItem(ItemPool.KA_COIN, -1);
-          setFightModifiers("Meat Drop: +200");
+          addFightModifiers("Curse of Fortune", DoubleModifier.MEATDROP, 200);
         }
         break;
 
@@ -10043,7 +10051,7 @@ public class FightRequest extends GenericRequest {
       case SkillPool.OTOSCOPE:
         if (responseText.contains("jam it into your enemy's ear") || skillSuccess) {
           skillSuccess = true;
-          setFightModifiers("Item Drop: +200");
+          addFightModifiers("Otoscope", DoubleModifier.ITEMDROP, 200);
         }
         break;
 
@@ -10484,7 +10492,7 @@ public class FightRequest extends GenericRequest {
       case SkillPool.DO_EPIC_MCTWIST:
         if (responseText.contains("degrees in the air while performing")) {
           skillSuccess = true;
-          setFightModifiers("Item Drop: +75");
+          addFightModifiers("Do an epic McTwist!", DoubleModifier.ITEMDROP, 75);
         }
         break;
 
@@ -10591,6 +10599,14 @@ public class FightRequest extends GenericRequest {
       case SkillPool.BLOW_THE_PURPLE_CANDLE:
         if (responseText.contains("all the purple") || skillSuccess) {
           Preferences.increment("romanCandelabraPurpleCasts");
+        }
+        break;
+      case SkillPool.TEAR_AWAY_YOUR_PANTS:
+        if (responseText.contains("Your lack of pants is going to help")) {
+          skillSuccess = true;
+          addFightModifiers("Tear Away your Pants", DoubleModifier.ITEMDROP, 15);
+        } else if (responseText.contains("Having stripped away the pants")) {
+          Preferences.increment("_tearawayPantsAdvs");
         }
         break;
     }

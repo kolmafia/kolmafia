@@ -598,6 +598,7 @@ public class SkillPool {
   public static final int BLOW_THE_BLUE_CANDLE = 7524;
   public static final int BLOW_THE_GREEN_CANDLE = 7525;
   public static final int BLOW_THE_PURPLE_CANDLE = 7526;
+  public static final int TEAR_AWAY_YOUR_PANTS = 7527;
 
   public static final int GOOD_SINGING_VOICE = 11016;
   public static final int BANISHING_SHOUT = 11020;
