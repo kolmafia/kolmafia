@@ -704,6 +704,7 @@ stylish swimsuit	40	Mus: 5
 sucker hakama	50	none
 sugar shorts	100	none
 swashbuckling pants	80	Mox: 25
+tearaway pants	100	none
 terra cotta trousers	120	Mus: 40
 the Archwizard's briefs	200	Mys: 40
 The Emperor's new pants	10	none
@@ -2858,7 +2859,7 @@ Mer-kin prayerbeads	200	Mys: 85
 Mer-kin thighguard	200	Mys: 85
 Mer-kin waistrope	200	Mys: 85
 Mesmereyes&trade; contact lenses	200	Mys: 200
-messenger bag RNA	0	Mys: 60
+messenger bag RNA	150	Mys: 60
 meteorite earring	250	Mys: 200
 meteorite necklace	250	Mys: 200
 meteorite ring	250	Mys: 200
