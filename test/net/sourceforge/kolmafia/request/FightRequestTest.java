@@ -2624,7 +2624,7 @@ public class FightRequestTest {
   }
 
   @Test
-  public void canDetectSpringBoots() {
+  public void canDetectSpringBootsBanish() {
     var cleanups = new Cleanups(withFight(), withBanishedMonsters(""));
 
     try (cleanups) {
@@ -2632,17 +2632,6 @@ public class FightRequestTest {
           "request/test_fight_spring_boots_banish.html", "fight.php?action=skill&whichskill=7501");
 
       assertThat("banishedMonsters", hasStringValue(startsWith("fluffy bunny:Spring Kick:")));
-    }
-  }
-
-  @Test
-  public void canDetectDarts() {
-    var cleanups = new Cleanups(withFight(), withProperty("dartsThrown", 16));
-
-    try (cleanups) {
-      parseCombatData("request/test_fight_dart.html", "fight.php?action=skill&whichskill=7516");
-
-      assertThat("dartsThrown", hasIntegerValue(equalTo(17)));
     }
   }
 
@@ -2751,6 +2740,47 @@ public class FightRequestTest {
         FightRequest.processResults(null, null, html);
 
         assertThat("_currentDartboard", isSetTo(expected));
+      }
+    }
+
+    @Test
+    public void canDetectDartsThrown() {
+      var cleanups = new Cleanups(withFight(), withProperty("dartsThrown", 16));
+
+      try (cleanups) {
+        parseCombatData("request/test_fight_dart.html", "fight.php?action=skill&whichskill=7516");
+
+        assertThat("dartsThrown", hasIntegerValue(equalTo(17)));
+      }
+    }
+  }
+
+  @Nested
+  class TearawayPants {
+    @Test
+    public void canTrackPlantAdventures() {
+      var cleanups = new Cleanups(withProperty("_tearawayPantsAdvs", 0), withFight());
+
+      try (cleanups) {
+        String urlString = "fight.php?action=skill&whichskill=7527";
+        String html = html("request/test_fight_tearaway_gain_adv.html");
+        FightRequest.registerRequest(true, urlString);
+        FightRequest.updateCombatData(null, null, html);
+        assertThat("_tearawayPantsAdvs", isSetTo(1));
+      }
+    }
+
+    @Test
+    public void canTrackItemDropImprovement() {
+      var cleanups = new Cleanups(withFight());
+
+      try (cleanups) {
+        String urlString = "fight.php?action=skill&whichskill=7527";
+        String html = html("request/test_fight_tearaway_itemdrop.html");
+        FightRequest.registerRequest(true, urlString);
+        FightRequest.updateCombatData(null, null, html);
+        var fightMods = ModifierDatabase.getModifiers(ModifierType.GENERATED, "fightMods");
+        assertThat(fightMods.getDouble(DoubleModifier.ITEMDROP), equalTo(15.0));
       }
     }
   }

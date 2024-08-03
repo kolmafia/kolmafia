@@ -2351,10 +2351,10 @@ automated bearing foundry	2403	jetfoundry.gif	Scale: 1 Cap: 1000 Init: -10000 P:
 clerical robot	2404	jetcleric.gif	Scale: 3 Cap: 1000 Init: -10000 P: construct	automa-bot parts (40)	clerical automa-core (f10)
 
 # Twitch 10 - The Primordial Stew (July 2024)
-flailing flagellate	2449	bacterium.gif	Scale: ? Cap: 1000 Floor: ? Init: 100 P: bug EA: stench Article: a	protogenetic chunklet (flagellum) (c0)	flagellate flagon (f0)
+flailing flagellate	2449	bacterium.gif	Scale: ? Cap: 1000 Floor: ? Init: 100 P: bug EA: stench Article: a	protogenetic chunklet (flagellum) (c0)	flagellate flagon (f0.1)
 herd of archaea	2451	archaea.gif	Scale: ? Cap: 1000 Floor: ? Init: 75 P: beast EA: stench EA: sleaze Article: a	protogenetic chunklet (elbow) (c0)
-messenger RNA	2448	mrna.gif	Scale: ? Cap: 1000 Floor: ? Init: 50 P: weird EA: hot Article: a	protogenetic chunklet (synapse) (c0)	messenger bag RNA (f0)
-proto-protozoa	2450	protozoa.gif	Scale: ? Cap: 1000 Floor: ? Init: -10000 P: slime EA: stench EA: sleaze Article: a	protogenetic chunklet (lips) (c0)	proto-proto-protozoa (f0)
+messenger RNA	2448	mrna.gif	Scale: ? Cap: 1000 Floor: ? Init: 50 P: weird EA: hot Article: a	protogenetic chunklet (synapse) (c0)	messenger bag RNA (f0.1)
+proto-protozoa	2450	protozoa.gif	Scale: ? Cap: 1000 Floor: ? Init: -10000 P: slime EA: stench EA: sleaze Article: a	protogenetic chunklet (lips) (c0)	proto-proto-protozoa (f0.1)
 yeast gang	2452	yeast.gif	Scale: ? Cap: 1000 Floor: ? Init: 100 P: plant Article: a	protogenetic chunklet (muscle) (c0)	fermenting powder (100)	fermenting powder (10)
 
 # Crimbo 2023 (December 2023)
@@ -2817,7 +2817,7 @@ gooified dog-thing	2222	goo_dog.gif	Atk: 150 Def: 150 HP: 200 Init: 200 P: beast
 gooified flower	2223	goo_flower.gif	Atk: 180 Def: 180 HP: 300 Init: -10000 P: plant Article: a	gooified vegetable matter (100)	gooified vegetable matter (100)	gooified vegetable matter (100)
 gooified tree	2224	goo_tree.gif	Atk: 150 Def: 50 HP: 1000 Init: -10000 P: plant Article: a	gooified vegetable matter (10)	gooified vegetable matter (10)	gooified vegetable matter (10)	gooified vegetable matter (10)	gooified vegetable matter (10)
 gooified rock slab	2225	goo_slab1.gif,goo_slab2.gif,goo_slab3.gif	Atk: 250 Def: 250 HP: 500 Init: -10000 P: elemental Article: a	1-6 gooified mineral matter (m100)
-massive goo construct	2226		Atk: 100 Def: 100 HP: 100 Init: -10000 P: construct EA: hot EA: sleaze Article: a	4-20 gooified animal matter (m100)	4-20 gooified vegetable matter (m100)	4-20 gooified mineral matter (m100)
+massive goo construct	2226	noart.gif	Atk: 100 Def: 100 HP: 100 Init: -10000 P: construct EA: hot EA: sleaze Article: a	4-20 gooified animal matter (m100)	4-20 gooified vegetable matter (m100)	4-20 gooified mineral matter (m100)
 
 # Crimbo 2022 (December 2022)
 Brake-Operating Trainbot	2254	trainbot_brake.gif	NOWISH Scale: 0 Cap: ? Init: -10000 P: construct Article: a

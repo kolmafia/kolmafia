@@ -995,31 +995,34 @@ public class ModifierDatabase {
 
   // region: override / register / re-register modifiers
 
-  public static final void overrideModifier(
-      final ModifierType type, final int key, final String value) {
+  public static void overrideModifier(final ModifierType type, final int key, final String value) {
     overrideModifierInternal(new Lookup(type, key), value);
   }
 
-  public static final void overrideModifier(
+  public static void overrideModifier(
       final ModifierType type, final String key, final String value) {
     overrideModifierInternal(new Lookup(type, key), value);
   }
 
-  public static final void overrideModifier(
+  public static void overrideModifier(
       final ModifierType type, final int key, final Modifiers value) {
     overrideModifierInternal(new Lookup(type, key), value);
   }
 
-  public static final void overrideModifier(
+  public static void overrideModifier(
       final ModifierType type, final String key, final Modifiers value) {
     overrideModifierInternal(new Lookup(type, key), value);
   }
 
-  private static final void overrideModifierInternal(final Lookup lookup, final String value) {
+  public static void overrideModifier(final Lookup lookup, final Modifiers value) {
+    overrideModifierInternal(lookup, value);
+  }
+
+  private static void overrideModifierInternal(final Lookup lookup, final String value) {
     overrideModifierInternal(lookup, parseModifiers(lookup, value));
   }
 
-  private static final void overrideModifierInternal(final Lookup lookup, final Modifiers value) {
+  private static void overrideModifierInternal(final Lookup lookup, final Modifiers value) {
     if (!modifierStringsByName.containsKey(lookup.type, lookup.getKey())
         && !(lookup.type == ModifierType.GENERATED)) {
       RequestLogger.updateSessionLog("WARNING: updated modifier not in modifiers.txt: " + lookup);
@@ -1028,15 +1031,15 @@ public class ModifierDatabase {
     modifiersByName.put(lookup.type, lookup.getKey(), value);
   }
 
-  public static final void overrideRemoveModifier(final ModifierType type, final int key) {
+  public static void overrideRemoveModifier(final ModifierType type, final int key) {
     overrideRemoveModifierInternal(new Lookup(type, key));
   }
 
-  public static final void overrideRemoveModifier(final ModifierType type, final String key) {
+  public static void overrideRemoveModifier(final ModifierType type, final String key) {
     overrideRemoveModifierInternal(new Lookup(type, key));
   }
 
-  private static final void overrideRemoveModifierInternal(final Lookup lookup) {
+  private static void overrideRemoveModifierInternal(final Lookup lookup) {
     modifiersByName.remove(lookup.type, lookup.getKey());
   }
 
