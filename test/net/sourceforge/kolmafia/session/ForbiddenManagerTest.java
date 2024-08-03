@@ -10,23 +10,17 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.MallPurchaseRequest;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class ForbiddenManagerTest {
 
-  private static final String TESTUSERNAME = "ForbiddenManager";
-
-  @BeforeAll
-  public static void beforeAll() {
-    KoLCharacter.reset(TESTUSERNAME);
-    MallPurchaseRequest.reset();
-  }
+  private static final String TEST_USERNAME = "ForbiddenManager";
 
   @BeforeEach
   public void beforeEach() {
-    Preferences.reset(TESTUSERNAME);
+    KoLCharacter.reset(TEST_USERNAME);
+    MallPurchaseRequest.reset();
   }
 
   @AfterEach
@@ -73,8 +67,8 @@ public class ForbiddenManagerTest {
   @Test
   public void canRemoveForbiddenStore() {
     var cleanups = new Cleanups(withProperty("forbiddenStores", "123"));
+    var forbidden = MallPurchaseRequest.getForbiddenStores();
     try (cleanups) {
-      var forbidden = MallPurchaseRequest.getForbiddenStores();
       assertEquals(1, forbidden.size());
       assertTrue(MallPurchaseRequest.isForbidden(123));
       MallPurchaseRequest.removeForbiddenStore(123);
