@@ -1,0 +1,1 @@
+exception: Passing null to an ASH function is not supported.
