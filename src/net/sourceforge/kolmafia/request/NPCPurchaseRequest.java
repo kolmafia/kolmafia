@@ -139,7 +139,7 @@ public class NPCPurchaseRequest extends PurchaseRequest {
   }
 
   @Override
-  public int getQuantity() {
+  public long getQuantity() {
     var possibleQuantity = NPCStoreDatabase.getQuantity(this.getItemId());
     return possibleQuantity.orElseGet(super::getQuantity);
   }
@@ -150,7 +150,7 @@ public class NPCPurchaseRequest extends PurchaseRequest {
    * @return The price of the item being purchased
    */
   @Override
-  public int getPrice() {
+  public long getPrice() {
     long factor = 100;
     if (this.shopName.equals("Doc Galaktik's Medicine Show")
         && QuestDatabase.isQuestFinished(Quest.DOC)) {
@@ -162,18 +162,18 @@ public class NPCPurchaseRequest extends PurchaseRequest {
     }
     if (NPCPurchaseRequest.usingTrousers(this.npcStoreId)) factor -= 5;
     if (KoLCharacter.hasSkill(SkillPool.FIVE_FINGER_DISCOUNT)) factor -= 5;
-    return (int) ((this.price * factor) / 100);
+    return (this.price * factor) / 100;
   }
 
-  public static int currentDiscountedPrice(int price) {
+  public static long currentDiscountedPrice(long price) {
     return currentDiscountedPrice(null, price);
   }
 
-  public static int currentDiscountedPrice(String npcStoreId, int price) {
+  public static long currentDiscountedPrice(String npcStoreId, long price) {
     long factor = 100;
     if (NPCPurchaseRequest.usingTrousers(npcStoreId)) factor -= 5;
     if (KoLCharacter.hasSkill(SkillPool.FIVE_FINGER_DISCOUNT)) factor -= 5;
-    return (int) ((price * factor) / 100);
+    return (price * factor) / 100;
   }
 
   private static boolean usingTrousers(String npcStoreId) {

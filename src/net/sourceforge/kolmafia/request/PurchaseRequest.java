@@ -172,9 +172,9 @@ public abstract class PurchaseRequest extends GenericRequest
     return this.canPurchase;
   }
 
-  public int affordableCount() {
+  public long affordableCount() {
     // Eliminate silly purchases
-    return (int) Math.min(Integer.MAX_VALUE, this.getAvailableMeat() / this.getPrice());
+    return Math.min(Long.MAX_VALUE, this.getAvailableMeat() / this.getPrice());
   }
 
   public boolean isAccessible() {

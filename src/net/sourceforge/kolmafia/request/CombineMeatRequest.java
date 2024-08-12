@@ -32,7 +32,7 @@ public class CombineMeatRequest extends CreateItemRequest {
   @Override
   public void run() {
     String name = this.getName();
-    int count = this.getQuantityNeeded();
+    long count = this.getQuantityNeeded();
     int cost = CombineMeatRequest.getCost(this.getItemId());
 
     if (cost * count > KoLCharacter.getAvailableMeat()) {

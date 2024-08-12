@@ -130,15 +130,15 @@ public class FamiliarTrainingFrame extends GenericFrame {
   private static boolean worstEnemyAvailable;
 
   // Active effects which affect weight
-  private static int leashActive;
-  private static int empathyActive;
-  private static int bestialActive;
-  private static int blackTongueActive;
-  private static int greenGlowActive;
-  private static int greenHeartActive;
-  private static int greenTongueActive;
-  private static int heavyPettingActive;
-  private static int worstEnemyActive;
+  private static long leashActive;
+  private static long empathyActive;
+  private static long bestialActive;
+  private static long blackTongueActive;
+  private static long greenGlowActive;
+  private static long greenHeartActive;
+  private static long greenTongueActive;
+  private static long heavyPettingActive;
+  private static long worstEnemyActive;
 
   public FamiliarTrainingFrame() {
     super("Familiar Trainer");
@@ -1259,7 +1259,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
     boolean doppelganger;
 
     int tpCount;
-    int whipCount;
+    long whipCount;
     AdventureResult[] tp = new AdventureResult[3];
 
     // Weights
@@ -1626,7 +1626,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
       }
 
       AdventureResult ar = ItemPool.get(id);
-      int count = ar.getCount(KoLConstants.inventory);
+      long count = ar.getCount(KoLConstants.inventory);
 
       // Make a new one for each slot
       while (count-- > 0 && this.tpCount < 3) {
@@ -2513,7 +2513,7 @@ public class FamiliarTrainingFrame extends GenericFrame {
 
       text.append("Available equipment:");
 
-      text.append(" bar whip (+2)".repeat(Math.max(0, this.whipCount)));
+      text.append(" bar whip (+2)".repeat(Math.max(0, (int) this.whipCount)));
 
       if (this.hat == FamiliarTrainingFrame.CRUMPLED_FEDORA) {
         text.append(" crumpled felt fedora (+10)");

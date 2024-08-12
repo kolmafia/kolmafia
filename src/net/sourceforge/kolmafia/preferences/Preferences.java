@@ -1057,12 +1057,16 @@ public class Preferences {
   }
 
   public static int increment(final String name, final int delta) {
+    return (int) Preferences.increment(name, delta, 0, false);
+  }
+
+  public static long increment(final String name, final long delta) {
     return Preferences.increment(name, delta, 0, false);
   }
 
-  public static int increment(
-      final String name, final int delta, final int max, final boolean mod) {
-    int current = Preferences.getInteger(name);
+  public static long increment(
+      final String name, final long delta, final int max, final boolean mod) {
+    long current = Preferences.getLong(name);
     if (delta != 0) {
       current += delta;
 
@@ -1074,7 +1078,7 @@ public class Preferences {
         }
       }
 
-      Preferences.setInteger(name, current);
+      Preferences.setLong(name, current);
     }
     return current;
   }

@@ -256,10 +256,9 @@ public class ItemManageFrame extends GenericFrame {
     }
   }
 
-  public static void updatePullsBudgeted(final int pullsBudgeted) {
-    Integer value = pullsBudgeted;
-    ItemManageFrame.pullBudgetSpinner1.setValue(value);
-    ItemManageFrame.pullBudgetSpinner2.setValue(value);
+  public static void updatePullsBudgeted(final long pullsBudgeted) {
+    ItemManageFrame.pullBudgetSpinner1.setValue(pullsBudgeted);
+    ItemManageFrame.pullBudgetSpinner2.setValue(pullsBudgeted);
   }
 
   private static class JunkItemsPanel extends OverlapPanel {
@@ -290,8 +289,8 @@ public class ItemManageFrame extends GenericFrame {
       AdventureResult[] items = new AdventureResult[KoLConstants.singletonList.size()];
       for (int i = 0; i < KoLConstants.singletonList.size(); ++i) {
         AdventureResult current = KoLConstants.singletonList.get(i);
-        int icount = current.getCount(KoLConstants.inventory);
-        int ccount = current.getCount(KoLConstants.closet);
+        long icount = current.getCount(KoLConstants.inventory);
+        long ccount = current.getCount(KoLConstants.closet);
         items[i] = current.getInstance(Math.min(icount, Math.max(0, 1 - ccount)));
       }
 

@@ -5012,7 +5012,7 @@ public abstract class RuntimeLibrary {
     }
 
     AdventureResult itemToBuy = ItemPool.get(item);
-    int initialAmount = itemToBuy.getCount(KoLConstants.inventory);
+    long initialAmount = itemToBuy.getCount(KoLConstants.inventory);
     KoLmafiaCLI.DEFAULT_SHELL.executeCommand("buy", count + " \u00B6" + item);
     return DataTypes.makeBooleanValue(
         initialAmount + count == itemToBuy.getCount(KoLConstants.inventory));
@@ -5041,7 +5041,7 @@ public abstract class RuntimeLibrary {
 
     AdventureResult itemToBuy = ItemPool.get(itemId);
 
-    int initialAmount = itemToBuy.getCount(KoLConstants.inventory);
+    long initialAmount = itemToBuy.getCount(KoLConstants.inventory);
     KoLmafiaCLI.DEFAULT_SHELL.executeCommand("buy", count + " \u00B6" + itemId + "@" + limit);
     return new Value(itemToBuy.getCount(KoLConstants.inventory) - initialAmount);
   }
@@ -5070,7 +5070,7 @@ public abstract class RuntimeLibrary {
     }
 
     AdventureResult itemToBuy = ItemPool.get(item);
-    int initialAmount = itemToBuy.getCount(KoLConstants.storage);
+    long initialAmount = itemToBuy.getCount(KoLConstants.storage);
     KoLmafiaCLI.DEFAULT_SHELL.executeCommand("buy", "using storage " + count + " \u00B6" + item);
     return DataTypes.makeBooleanValue(
         initialAmount + count == itemToBuy.getCount(KoLConstants.storage));
@@ -5099,7 +5099,7 @@ public abstract class RuntimeLibrary {
 
     AdventureResult itemToBuy = ItemPool.get(itemId);
 
-    int initialAmount = itemToBuy.getCount(KoLConstants.storage);
+    long initialAmount = itemToBuy.getCount(KoLConstants.storage);
     KoLmafiaCLI.DEFAULT_SHELL.executeCommand(
         "buy", "using storage " + count + " \u00B6" + itemId + "@" + limit);
     return new Value(itemToBuy.getCount(KoLConstants.storage) - initialAmount);
@@ -5132,7 +5132,7 @@ public abstract class RuntimeLibrary {
     }
     CoinmasterData data = (CoinmasterData) master.rawValue();
     AdventureResult item = ItemPool.get((int) itemValue.intValue(), count);
-    int initialAmount = item.getCount(KoLConstants.inventory);
+    long initialAmount = item.getCount(KoLConstants.inventory);
     CoinMasterRequest.buy(data, item);
     return DataTypes.makeBooleanValue(
         initialAmount + count == item.getCount(KoLConstants.inventory));
@@ -5464,7 +5464,7 @@ public abstract class RuntimeLibrary {
       RuntimeLibrary.batchCommand(controller, cmd, prefix, params);
     } else {
       int[] itemIds = {itemId};
-      int[] prices = {price};
+      long[] prices = {price};
       int[] limits = {limit};
 
       ManageStoreRequest request = new ManageStoreRequest(itemIds, prices, limits);
@@ -6356,15 +6356,15 @@ public abstract class RuntimeLibrary {
     msr.run();
     // Now iterate over results
     // Assume sorted by price so can bail at first failure
-    int available = 0;
+    long available = 0;
     for (PurchaseRequest pr : msr.getResults()) {
       // only interested in mall
       if (pr instanceof MallPurchaseRequest) {
         // get price and bail if higher
-        int storePrice = pr.getPrice();
+        long storePrice = pr.getPrice();
         if (storePrice > checkPrice) return new Value(available >= checkQuant);
         // get available
-        int canGet = Math.min(pr.getLimit(), pr.getQuantity());
+        long canGet = Math.min(pr.getLimit(), pr.getQuantity());
         available += canGet;
         if (available >= checkQuant) return DataTypes.TRUE_VALUE;
       }
@@ -6485,7 +6485,7 @@ public abstract class RuntimeLibrary {
 
   public static Value creatable_turns(ScriptRuntime controller, final Value itemId) {
     AdventureResult item = ItemPool.get((int) itemId.intValue());
-    int initialAmount = item.getCount(KoLConstants.inventory);
+    long initialAmount = item.getCount(KoLConstants.inventory);
     Concoction concoction = ConcoctionPool.get(item);
     return new Value(concoction == null ? 0 : concoction.getAdventuresNeeded(initialAmount + 1));
   }
@@ -6494,7 +6494,7 @@ public abstract class RuntimeLibrary {
       ScriptRuntime controller, final Value itemId, final Value count) {
     AdventureResult item = ItemPool.get((int) itemId.intValue());
     int number = (int) count.intValue();
-    int initialAmount = item.getCount(KoLConstants.inventory);
+    long initialAmount = item.getCount(KoLConstants.inventory);
     Concoction concoction = ConcoctionPool.get(item);
     return new Value(
         concoction == null ? 0 : concoction.getAdventuresNeeded(initialAmount + number));
@@ -6505,7 +6505,7 @@ public abstract class RuntimeLibrary {
     AdventureResult item = ItemPool.get((int) itemId.intValue());
     int number = (int) count.intValue();
     boolean considerFreeCrafting = freeCrafting.intValue() == 1;
-    int initialAmount = item.getCount(KoLConstants.inventory);
+    long initialAmount = item.getCount(KoLConstants.inventory);
     Concoction concoction = ConcoctionPool.get(item);
     return new Value(
         concoction == null
@@ -6529,10 +6529,10 @@ public abstract class RuntimeLibrary {
         // Skip pseudo-ingredients: coinmaster tokens
         continue;
       }
-      int count = ingredient.getCount();
+      long count = ingredient.getCount();
       Value key = DataTypes.makeItemValue(ingredient.getItemId(), true);
       if (value.contains(key)) {
-        count += (int) value.aref(key).intValue();
+        count += value.aref(key).intValue();
       }
       value.aset(key, new Value(count));
     }
@@ -6863,12 +6863,12 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value my_session_adv(ScriptRuntime controller) {
-    int adv = 0;
-    for (AdventureResult result : KoLConstants.tally) {
-      if (result.getConditionType().equals("choiceadv")) {
-        adv = result.getCount();
-      }
-    }
+    var adv =
+        KoLConstants.tally.stream()
+            .filter(r -> r.getConditionType().equals("choiceadv"))
+            .mapToLong(AdventureResult::getCount)
+            .findAny()
+            .orElse(0L);
     return new Value(adv);
   }
 
@@ -7113,8 +7113,8 @@ public abstract class RuntimeLibrary {
     MapValue value = new MapValue(type);
 
     for (AdventureResult effect : effectsArray) {
-      int duration = effect.getCount();
-      if (duration == Integer.MAX_VALUE) {
+      long duration = effect.getCount();
+      if (duration == Long.MAX_VALUE) {
         duration = -1;
       }
 

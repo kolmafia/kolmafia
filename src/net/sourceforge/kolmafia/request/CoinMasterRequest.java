@@ -59,11 +59,11 @@ public class CoinMasterRequest extends GenericRequest {
   }
 
   public CoinMasterRequest(
-      final CoinmasterData data, final boolean buying, final int itemId, final int quantity) {
+      final CoinmasterData data, final boolean buying, final int itemId, final long quantity) {
     this(data, buying, ItemPool.get(itemId, quantity));
   }
 
-  public final void setQuantity(final int quantity) {
+  public final void setQuantity(final long quantity) {
     // Kludge for the use of CoinmasterPurchaseRequest
     AdventureResult ar = attachments[0];
     attachments[0] = ar.getInstance(quantity);
@@ -147,8 +147,8 @@ public class CoinMasterRequest extends GenericRequest {
     }
   }
 
-  public int setCount(final AdventureResult item, final boolean singleton) {
-    int count = item.getCount();
+  public long setCount(final AdventureResult item, final boolean singleton) {
+    long count = item.getCount();
     if (singleton) {
       count = TransferItemRequest.keepSingleton(item, count);
     }
@@ -195,7 +195,7 @@ public class CoinMasterRequest extends GenericRequest {
           AdventureResult ar = this.attachments[i];
           boolean singleton = keepSingleton && KoLConstants.singletonList.contains(ar);
 
-          int count = this.setCount(ar, singleton);
+          long count = this.setCount(ar, singleton);
 
           if (count == 0) {
             continue;
@@ -205,14 +205,14 @@ public class CoinMasterRequest extends GenericRequest {
 
           // If we cannot specify the count, we must get 1 at a time.
 
-          int visits = data.getCountField() == null ? count : 1;
+          long visits = data.getCountField() == null ? count : 1;
           int visit = 0;
 
           while (KoLmafia.permitsContinue() && ++visit <= visits) {
             if (visits > 1) {
               KoLmafia.updateDisplay(
                   "Visiting the " + master + " (" + visit + " of " + visits + ")...");
-            } else if (visits == 1) {
+            } else {
               KoLmafia.updateDisplay("Visiting the " + master + "...");
             }
 
@@ -371,9 +371,9 @@ public class CoinMasterRequest extends GenericRequest {
     AdventureResult item = data.getItem();
     if (item != null) {
       // Check and adjust inventory count, just in case
-      int count = StringUtilities.parseInt(balance);
+      long count = StringUtilities.parseLong(balance);
       // AdventureResult current = item.getInstance( count );
-      int icount = item.getCount(KoLConstants.inventory);
+      long icount = item.getCount(KoLConstants.inventory);
       if (count != icount) {
         item = item.getInstance(count - icount);
         AdventureResult.addResultToList(KoLConstants.inventory, item);
@@ -442,10 +442,10 @@ public class CoinMasterRequest extends GenericRequest {
     CoinMasterRequest.buyStuff(data, itemId, count, storage);
   }
 
-  public static final void buyStuff(
+  public static void buyStuff(
       final CoinmasterData data, final int itemId, final int count, final boolean storage) {
     AdventureResult tokenItem = data.itemBuyPrice(itemId);
-    int cost = count * tokenItem.getCount();
+    long cost = count * tokenItem.getCount();
     if (tokenItem.isMeat()) {
       cost = NPCPurchaseRequest.currentDiscountedPrice(cost);
     }
@@ -465,7 +465,7 @@ public class CoinMasterRequest extends GenericRequest {
             + (storage ? " from storage" : ""));
   }
 
-  public static final void completePurchase(final CoinmasterData data, final String urlString) {
+  public static void completePurchase(final CoinmasterData data, final String urlString) {
     if (data == null) {
       return;
     }
@@ -478,7 +478,7 @@ public class CoinMasterRequest extends GenericRequest {
     String storageAction = data.getStorageAction();
     boolean storage = storageAction != null && urlString.contains(storageAction);
 
-    int count = CoinMasterRequest.extractCount(data, urlString);
+    long count = CoinMasterRequest.extractCount(data, urlString);
     if (count == 0) {
       String tradeAll = data.getTradeAllAction();
 
@@ -489,7 +489,7 @@ public class CoinMasterRequest extends GenericRequest {
       AdventureResult tokenItem = data.itemBuyPrice(itemId);
       String property = data.getProperty();
 
-      int available =
+      long available =
           tokenItem.isMeat()
               ? Concoction.getAvailableMeat()
               : storage
@@ -498,7 +498,7 @@ public class CoinMasterRequest extends GenericRequest {
                       ? Preferences.getInteger(property)
                       : tokenItem.getCount(KoLConstants.inventory);
 
-      int price = tokenItem.getCount();
+      long price = tokenItem.getCount();
       if (tokenItem.isMeat()) {
         price = NPCPurchaseRequest.currentDiscountedPrice(price);
       }
@@ -509,10 +509,10 @@ public class CoinMasterRequest extends GenericRequest {
   }
 
   public static final void completePurchase(
-      final CoinmasterData data, final int itemId, final int count, final boolean storage) {
+      final CoinmasterData data, final int itemId, final long count, final boolean storage) {
     AdventureResult tokenItem = data.itemBuyPrice(itemId);
-    int price = tokenItem.getCount();
-    int cost = count * price;
+    long price = tokenItem.getCount();
+    long cost = count * price;
     if (tokenItem.isMeat()) {
       cost = NPCPurchaseRequest.currentDiscountedPrice(cost);
     }

@@ -86,7 +86,7 @@ public class ConcoctionDatabase {
   public static int queuedTomesUsed = 0;
   public static int queuedExtrudesUsed = 0;
   public static int queuedPullsUsed = 0;
-  public static int queuedMeatSpent = 0;
+  public static long queuedMeatSpent = 0;
   public static boolean queuedFancyDog = false;
   public static int queuedSpeakeasyDrink = 0;
   public static int queuedSmores = 0;
@@ -97,17 +97,17 @@ public class ConcoctionDatabase {
   public static boolean queuedMimeShotglass = false;
   public static int lastQueuedMayo = 0;
 
-  private static int queuedFullness = 0;
+  private static long queuedFullness = 0;
   public static final LockableListModel<QueuedConcoction> queuedFood = new LockableListModel<>();
   private static final SortedListModel<AdventureResult> queuedFoodIngredients =
       new SortedListModel<>();
 
-  private static int queuedInebriety = 0;
+  private static long queuedInebriety = 0;
   public static final LockableListModel<QueuedConcoction> queuedBooze = new LockableListModel<>();
   private static final SortedListModel<AdventureResult> queuedBoozeIngredients =
       new SortedListModel<>();
 
-  private static int queuedSpleenHit = 0;
+  private static long queuedSpleenHit = 0;
   public static final LockableListModel<QueuedConcoction> queuedSpleen = new LockableListModel<>();
   private static final SortedListModel<AdventureResult> queuedSpleenIngredients =
       new SortedListModel<>();
@@ -502,7 +502,7 @@ public class ConcoctionDatabase {
     ConcoctionDatabase.queuedSpleenHit += c.getSpleenHit() * quantity;
 
     // Get current values of things that a concoction can consume
-    int meat = ConcoctionDatabase.queuedMeatSpent;
+    long meat = ConcoctionDatabase.queuedMeatSpent;
     int pulls = ConcoctionDatabase.queuedPullsUsed;
     int tome = ConcoctionDatabase.queuedTomesUsed;
     int stills = ConcoctionDatabase.queuedStillsUsed;
@@ -648,7 +648,7 @@ public class ConcoctionDatabase {
       AdventureResult.addOrRemoveResultToList(queuedIngredients, ingredient.getNegation());
     }
 
-    int meat = qc.getMeat();
+    long meat = qc.getMeat();
     if (meat != 0) {
       ConcoctionDatabase.queuedMeatSpent -= meat;
       AdventureResult.addOrRemoveResultToList(
@@ -804,7 +804,7 @@ public class ConcoctionDatabase {
     }
   }
 
-  private static int lastUnconsumed(int quantity, ConcoctionType type) {
+  private static long lastUnconsumed(long quantity, ConcoctionType type) {
     return quantity
         - (type == ConcoctionType.FOOD
             ? EatItemRequest.foodConsumed
@@ -857,7 +857,7 @@ public class ConcoctionDatabase {
     while (!toProcess.isEmpty()) {
       QueuedConcoction currentItem = toProcess.pop();
       Concoction c = currentItem.getConcoction();
-      int quantity = currentItem.getCount();
+      long quantity = currentItem.getCount();
 
       if (consumptionType != ConsumptionType.EAT
           && consumptionType != ConsumptionType.DRINK
@@ -962,7 +962,7 @@ public class ConcoctionDatabase {
     }
   }
 
-  private static void consumeItem(Concoction c, int quantity, ConsumptionType consumptionType) {
+  private static void consumeItem(Concoction c, long quantity, ConsumptionType consumptionType) {
     AdventureResult item = c.getItem();
 
     // If it's food we're consuming, we have a MayoMinder set, and we are autostocking it, do so
@@ -980,7 +980,7 @@ public class ConcoctionDatabase {
             && KoLCharacter.getLiverCapacity() == KoLCharacter.getInebriety())
         && workshedItem != null
         && workshedItem.getItemId() == ItemPool.MAYO_CLINIC) {
-      int mayoCount = Preferences.getString("mayoInMouth").equals("") ? 0 : 1;
+      int mayoCount = Preferences.getString("mayoInMouth").isEmpty() ? 0 : 1;
       if (quantity > mayoCount && c.getFullness() != 0) {
         InventoryManager.retrieveItem(minderSetting, quantity - mayoCount);
       }
@@ -993,7 +993,7 @@ public class ConcoctionDatabase {
         UseItemRequest request;
 
         // First, consume any items which appear in the inventory.
-        int initial = Math.min(quantity, InventoryManager.getCount(item.getItemId()));
+        long initial = Math.min(quantity, InventoryManager.getCount(item.getItemId()));
         if (initial > 0) {
           request = UseItemRequest.getInstance(consumptionType, item.getInstance(initial));
           RequestThread.postRequest(request);
@@ -1044,15 +1044,15 @@ public class ConcoctionDatabase {
     }
   }
 
-  public static final int getQueuedFullness() {
+  public static long getQueuedFullness() {
     return ConcoctionDatabase.queuedFullness;
   }
 
-  public static final int getQueuedInebriety() {
+  public static long getQueuedInebriety() {
     return ConcoctionDatabase.queuedInebriety;
   }
 
-  public static final int getQueuedSpleenHit() {
+  public static long getQueuedSpleenHit() {
     return ConcoctionDatabase.queuedSpleenHit;
   }
 
@@ -1275,7 +1275,7 @@ public class ConcoctionDatabase {
       PurchaseRequest purchaseRequest = item.getPurchaseRequest();
       if (purchaseRequest != null) {
         purchaseRequest.setCanPurchase(useCoinmasters);
-        int acquirable = purchaseRequest.canPurchase() ? purchaseRequest.affordableCount() : 0;
+        long acquirable = purchaseRequest.canPurchase() ? purchaseRequest.affordableCount() : 0;
         item.price = 0;
         item.initial = concoction.getCount(availableIngredients);
         item.creatable = acquirable;
@@ -2590,11 +2590,11 @@ public class ConcoctionDatabase {
     return diff > 0 ? ingredient1 : ingredient2;
   }
 
-  public static final int getPullsBudgeted() {
+  public static long getPullsBudgeted() {
     return ConcoctionDatabase.pullsBudgeted;
   }
 
-  public static int pullsBudgeted = 0;
+  public static long pullsBudgeted = 0;
   public static int pullsRemaining = 0;
 
   public static final int getPullsRemaining() {
@@ -2874,7 +2874,7 @@ public class ConcoctionDatabase {
     }
   }
 
-  public static final void setPullsBudgeted(int pullsBudgeted) {
+  public static void setPullsBudgeted(long pullsBudgeted) {
     if (pullsBudgeted < queuedPullsUsed) {
       pullsBudgeted = queuedPullsUsed;
     }
@@ -2969,7 +2969,7 @@ public class ConcoctionDatabase {
       return this.ingredients;
     }
 
-    public int getMeat() {
+    public long getMeat() {
       return this.meat;
     }
 
@@ -3020,7 +3020,7 @@ public class ConcoctionDatabase {
     @Override
     public int hashCode() {
       int hash = (this.concoction != null ? this.concoction.hashCode() : 0);
-      hash = 31 * hash + this.count;
+      hash = 31 * hash + (int) this.count;
       return hash;
     }
   }

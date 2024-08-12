@@ -172,7 +172,7 @@ public abstract class TransferItemRequest extends GenericRequest {
           continue;
         }
 
-        int availableCount = item.getCount(this.source);
+        long availableCount = item.getCount(this.source);
 
         if (!allowSingleton && KoLConstants.singletonList.contains(item)) {
           availableCount = TransferItemRequest.keepSingleton(item, availableCount);
@@ -211,7 +211,7 @@ public abstract class TransferItemRequest extends GenericRequest {
     return subinstances;
   }
 
-  public static int keepSingleton(final AdventureResult item, final int count) {
+  public static long keepSingleton(final AdventureResult item, final long count) {
     // We're doing something dangerous with a singleton item
 
     // If we are wearing the item, that counts as keeping one
@@ -225,7 +225,7 @@ public abstract class TransferItemRequest extends GenericRequest {
     }
 
     // Otherwise, make sure at least one remains in inventory.
-    int icount = item.getCount(KoLConstants.inventory);
+    long icount = item.getCount(KoLConstants.inventory);
     return (count < icount) ? count : (icount > 0) ? icount - 1 : 0;
   }
 
@@ -408,7 +408,7 @@ public abstract class TransferItemRequest extends GenericRequest {
         continue;
       }
 
-      int quantity = defaultQuantity;
+      long quantity = defaultQuantity;
       if (quantityMatcher != null && quantityMatcher.find()) {
         quantity = StringUtilities.parseInt(quantityMatcher.group(1));
       }
@@ -625,7 +625,7 @@ public abstract class TransferItemRequest extends GenericRequest {
     boolean addedItem = false;
     for (AdventureResult item : itemList) {
       String name = item.getName();
-      int quantity = item.getCount();
+      long quantity = item.getCount();
 
       if (addedItem) {
         itemListBuffer.append(", ");

@@ -75,11 +75,11 @@ public class HermitRequest extends CoinMasterRequest {
     super(HERMIT, buying, attachment);
   }
 
-  public HermitRequest(final boolean buying, final int itemId, final int quantity) {
+  public HermitRequest(final boolean buying, final int itemId, final long quantity) {
     super(HERMIT, buying, itemId, quantity);
   }
 
-  public HermitRequest(final int itemId, final int quantity) {
+  public HermitRequest(final int itemId, final long quantity) {
     this(true, itemId, quantity);
   }
 
@@ -167,8 +167,8 @@ public class HermitRequest extends CoinMasterRequest {
       return;
     }
 
-    int cloversWanted = this.cloversNeeded();
-    int cloversAvailable = cloverCount();
+    long cloversWanted = this.cloversNeeded();
+    long cloversAvailable = cloverCount();
     if (cloversWanted > cloversAvailable) {
       KoLmafia.updateDisplay(
           MafiaState.ERROR,
@@ -187,7 +187,7 @@ public class HermitRequest extends CoinMasterRequest {
       RequestThread.postRequest(UseItemRequest.getInstance(HACK_SCROLL));
     }
 
-    int worthless = getWorthlessItemCount();
+    long worthless = getWorthlessItemCount();
 
     // If we want to make a trade, fetch enough worthless items
     if (worthless < count) {
@@ -295,12 +295,12 @@ public class HermitRequest extends CoinMasterRequest {
       return true;
     }
 
-    int quantity = StringUtilities.parseInt(quantityMatcher.group(1));
+    long quantity = StringUtilities.parseLong(quantityMatcher.group(1));
 
     // Subtract the worthless items in order of their priority;
     // as far as we know, the priority is the item Id.
 
-    int used = subtractWorthlessItems(TRINKET, quantity);
+    long used = subtractWorthlessItems(TRINKET, quantity);
     if (used > 0) {
       quantity -= used;
     }
@@ -327,7 +327,7 @@ public class HermitRequest extends CoinMasterRequest {
       Preferences.increment("_cloversPurchased", result.getCount());
     }
 
-    if (responseText.indexOf("he sends you packing") != -1) {
+    if (responseText.contains("he sends you packing")) {
       // No worthless items in inventory, so we can't tell if
       // clovers remain in stock
       checkedForClovers = false;
@@ -339,12 +339,12 @@ public class HermitRequest extends CoinMasterRequest {
     return true;
   }
 
-  private static int subtractWorthlessItems(final AdventureResult item, final int total) {
-    int count = 0 - Math.min(total, item.getCount(KoLConstants.inventory));
+  private static long subtractWorthlessItems(final AdventureResult item, final long total) {
+    long count = -Math.min(total, item.getCount(KoLConstants.inventory));
     if (count != 0) {
       ResultProcessor.processResult(item.getInstance(count));
     }
-    return 0 - count;
+    return -count;
   }
 
   // <td valign=center><img src="http://images.kingdomofloathing.com/itemimages/tooth.gif"
@@ -380,7 +380,7 @@ public class HermitRequest extends CoinMasterRequest {
       registerHermitItem(ItemPool.ELEVEN_LEAF_CLOVER, count);
     } else {
       AdventureResult old = KoLConstants.hermitItems.get(index);
-      int oldCount = old.getCount();
+      long oldCount = old.getCount();
       if (oldCount != count) {
         KoLConstants.hermitItems.set(index, CLOVER.getInstance(count));
       }
@@ -401,16 +401,16 @@ public class HermitRequest extends CoinMasterRequest {
     };
   }
 
-  public static final int getWorthlessItemCount() {
+  public static long getWorthlessItemCount() {
     return getWorthlessItemCount(KoLConstants.inventory);
   }
 
-  public static final int getWorthlessItemCount(final List<AdventureResult> list) {
+  public static long getWorthlessItemCount(final List<AdventureResult> list) {
     return TRINKET.getCount(list) + GEWGAW.getCount(list) + KNICK_KNACK.getCount(list);
   }
 
-  public static final int getAvailableWorthlessItemCount() {
-    int count = getWorthlessItemCount(KoLConstants.inventory);
+  public static long getAvailableWorthlessItemCount() {
+    long count = getWorthlessItemCount(KoLConstants.inventory);
 
     if (InventoryManager.canUseCloset()) {
       count += getWorthlessItemCount(KoLConstants.closet);
@@ -423,16 +423,16 @@ public class HermitRequest extends CoinMasterRequest {
     return count;
   }
 
-  public static final int getAcquirableWorthlessItemCount() {
-    int count = getAvailableWorthlessItemCount();
+  public static long getAcquirableWorthlessItemCount() {
+    long count = getAvailableWorthlessItemCount();
     if (InventoryManager.canUseNPCStores()) {
       int cost = SewerRequest.currentWorthlessItemCost();
-      count += ((int) KoLCharacter.getAvailableMeat()) / cost;
+      count += KoLCharacter.getAvailableMeat() / cost;
     }
     return count;
   }
 
-  public static final int cloverCount() {
+  public static long cloverCount() {
     // One clover a day available in Zombie path
     if (KoLCharacter.inZombiecore()) {
       return Preferences.getBoolean("_zombieClover0") ? 0 : 1;
@@ -443,7 +443,7 @@ public class HermitRequest extends CoinMasterRequest {
     }
 
     int index = KoLConstants.hermitItems.indexOf(CLOVER);
-    return index < 0 ? 0 : KoLConstants.hermitItems.get(index).getCount();
+    return Math.max(0, KoLConstants.hermitItems.get(index).getCount());
   }
 
   public static final boolean isCloverDay() {

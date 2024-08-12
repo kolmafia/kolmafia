@@ -74,9 +74,9 @@ public class RecipeCommand extends AbstractCommand {
     boolean first = true;
     while (it.hasNext()) {
       AdventureResult ingredient = it.next();
-      int need = ingredient.getCount();
-      int have = InventoryManager.getAccessibleCount(ingredient);
-      int missing = need - have;
+      long need = ingredient.getCount();
+      long have = InventoryManager.getAccessibleCount(ingredient);
+      long missing = need - have;
 
       if (!first) {
         sb.append(", ");
