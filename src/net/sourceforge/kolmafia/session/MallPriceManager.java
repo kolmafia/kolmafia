@@ -133,7 +133,7 @@ public abstract class MallPriceManager {
   // The data structures that this package "manages".
 
   // a Map from itemId -> current mall price (as visible to a scripter.)
-  private static final Map<Integer, Integer> mallPrices = new HashMap<>();
+  private static final Map<Integer, Long> mallPrices = new HashMap<>();
 
   // a Map from itemId -> the most resent mall search results.
   private static final Map<Integer, List<PurchaseRequest>> mallSearches = new HashMap<>();
@@ -228,16 +228,16 @@ public abstract class MallPriceManager {
     List<PurchaseRequest> search = MallPriceManager.mallSearches.get(itemId);
     if (search != null) {
       MallPriceManager.mallSearches.remove(itemId);
-      MallPriceManager.mallPrices.put(itemId, 0);
+      MallPriceManager.mallPrices.put(itemId, 0L);
     }
   }
 
   public static boolean searchIsTooOld(List<PurchaseRequest> search) {
-    if (search == null || search.size() == 0) {
+    if (search == null || search.isEmpty()) {
       return true;
     }
     long now = MallPriceManager.currentTimeMillis();
-    long freshnessLimit = now - MALL_SEARCH_FRESHNESS * 1000;
+    long freshnessLimit = now - MALL_SEARCH_FRESHNESS * 1000L;
     long t = search.get(0).getTimestamp();
     return (t < freshnessLimit);
   }
@@ -248,7 +248,7 @@ public abstract class MallPriceManager {
   }
 
   /** Utility method used to search the mall for a specific item. */
-  public static List<PurchaseRequest> getSavedSearch(Integer id, final int needed) {
+  public static List<PurchaseRequest> getSavedSearch(Integer id, final long needed) {
     // See if we have a saved search for this id
     List<PurchaseRequest> results = MallPriceManager.mallSearches.get(id);
 
@@ -302,7 +302,7 @@ public abstract class MallPriceManager {
 
   public static final List<PurchaseRequest> searchMall(final AdventureResult item) {
     int itemId = item.getItemId();
-    int needed = item.getCount();
+    long needed = item.getCount();
 
     if (itemId <= 0) {
       // This should not happen.
@@ -406,25 +406,19 @@ public abstract class MallPriceManager {
 
     List<PurchaseRequest> results = MallPriceManager.searchMall(searchString, maximumResults);
     PurchaseRequest[] resultsArray = results.toArray(new PurchaseRequest[0]);
-    TreeMap<Integer, Integer> prices = new TreeMap<>();
+    TreeMap<Long, Integer> prices = new TreeMap<>();
 
-    for (int i = 0; i < resultsArray.length; ++i) {
-      PurchaseRequest result = resultsArray[i];
+    for (PurchaseRequest result : resultsArray) {
       if (result instanceof CoinMasterPurchaseRequest) {
         continue;
       }
 
-      Integer currentPrice = result.getPrice();
-      Integer currentQuantity = prices.get(currentPrice);
+      long currentPrice = result.getPrice();
 
-      if (currentQuantity == null) {
-        prices.put(currentPrice, resultsArray[i].getLimit());
-      } else {
-        prices.put(currentPrice, currentQuantity.intValue() + resultsArray[i].getLimit());
-      }
+      prices.merge(currentPrice, result.getLimit(), Integer::sum);
     }
 
-    Integer[] priceArray = new Integer[prices.size()];
+    Long[] priceArray = new Long[prices.size()];
     prices.keySet().toArray(priceArray);
 
     for (int i = 0; i < priceArray.length; ++i) {
@@ -437,12 +431,12 @@ public abstract class MallPriceManager {
     }
   }
 
-  public static int nthCheapestPrice(int qty, List<PurchaseRequest> results) {
+  public static long nthCheapestPrice(int qty, List<PurchaseRequest> results) {
     // Filter out forbidden, ignored, and disabled stores
     List<PurchaseRequest> filtered = filterMallSearch(results);
 
     // If there are no PurchaseRequests for this item, return -1
-    int price = -1;
+    long price = -1;
     for (PurchaseRequest req : filtered) {
       if (req instanceof CoinMasterPurchaseRequest || !req.canPurchaseIgnoringMeat()) {
         continue;
@@ -458,21 +452,21 @@ public abstract class MallPriceManager {
     return price;
   }
 
-  public static int updateMallPrice(AdventureResult item, final List<PurchaseRequest> results) {
+  public static long updateMallPrice(AdventureResult item, final List<PurchaseRequest> results) {
     return MallPriceManager.updateMallPrice(item.getItemId(), results, false);
   }
 
-  public static int updateMallPrice(int itemId, final List<PurchaseRequest> results) {
+  public static long updateMallPrice(int itemId, final List<PurchaseRequest> results) {
     return MallPriceManager.updateMallPrice(itemId, results, false);
   }
 
-  private static int updateMallPrice(
+  private static long updateMallPrice(
       final int itemId, final List<PurchaseRequest> results, final boolean deferred) {
     if (itemId < 1) {
       return 0;
     }
 
-    int price = MallPriceManager.nthCheapestPrice(NTH_CHEAPEST_COUNT, results);
+    long price = MallPriceManager.nthCheapestPrice(NTH_CHEAPEST_COUNT, results);
     MallPriceManager.mallPrices.put(itemId, price);
     if (price > 0) {
       MallPriceDatabase.recordPrice(itemId, price, deferred);
@@ -495,18 +489,18 @@ public abstract class MallPriceManager {
   // *** Which is to say, this package wasn't ever REALLY thread safe,
   // *** and synchronizing this single method will not make it so.
 
-  public static int getMallPrice(final int itemId) {
+  public static long getMallPrice(final int itemId) {
     // Don't waste time if the item is not purchasable.
     if (!validMallItem(itemId)) {
       return 0;
     }
 
-    int price = MallPriceManager.mallPrices.getOrDefault(itemId, 0);
+    long price = MallPriceManager.mallPrices.getOrDefault(itemId, 0L);
 
     if (price == 0) {
       AdventureResult search = ItemPool.get(itemId, NTH_CHEAPEST_COUNT);
       MallPriceManager.searchMall(search);
-      price = MallPriceManager.mallPrices.getOrDefault(itemId, 0);
+      price = MallPriceManager.mallPrices.getOrDefault(itemId, 0L);
     }
 
     return price;
@@ -536,7 +530,7 @@ public abstract class MallPriceManager {
     }
 
     // If we want to know the price of no more than the "n" of an item, use a cached mall price
-    int count = Math.max(1, item.getCount());
+    long count = Math.max(1, item.getCount());
     if (count <= NTH_CHEAPEST_COUNT) {
       return (long) MallPriceManager.getMallPrice(itemId) * count;
     }
@@ -545,9 +539,9 @@ public abstract class MallPriceManager {
     List<PurchaseRequest> results = MallPriceManager.searchMall(item.getInstance(0));
 
     // Iterate through the PurchaseRequests accumulating prices.
-    int needed = count;
-    int found = 0;
-    int price = -1;
+    long needed = count;
+    long found = 0;
+    long price = -1;
 
     long total = 0;
 
@@ -578,7 +572,7 @@ public abstract class MallPriceManager {
       }
 
       // Calculate how much of the remaining inventory we will use
-      int used = Math.min(available, needed);
+      long used = Math.min(available, needed);
       needed -= used;
       found += used;
       total += (long) price * used;
@@ -609,16 +603,16 @@ public abstract class MallPriceManager {
 
   public static long getMallPrice(AdventureResult item, float maxAge) {
     int itemId = item.getItemId();
-    int count = Math.max(1, item.getCount());
-    return (long) MallPriceManager.getMallPrice(itemId, maxAge) * count;
+    long count = Math.max(1, item.getCount());
+    return MallPriceManager.getMallPrice(itemId, maxAge) * count;
   }
 
-  public static int getMallPrice(int itemId, float maxAge) {
+  public static long getMallPrice(int itemId, float maxAge) {
     if (!validMallItem(itemId)) {
       return 0;
     }
 
-    int price = MallPriceDatabase.getPrice(itemId);
+    long price = MallPriceDatabase.getPrice(itemId);
     if (MallPriceDatabase.getAge(itemId) > maxAge) {
       MallPriceManager.flushCache(itemId);
       MallPriceManager.mallPrices.remove(itemId);
@@ -642,11 +636,11 @@ public abstract class MallPriceManager {
         if (!validMallItem(itemId)) {
           continue;
         }
-        int price = MallPriceDatabase.getPrice(itemId);
+        long price = MallPriceDatabase.getPrice(itemId);
         if (price > 0 && MallPriceDatabase.getAge(itemId) <= maxAge) {
           continue;
         }
-        if (MallPriceManager.mallPrices.getOrDefault(itemId, 0) == 0) {
+        if (MallPriceManager.mallPrices.getOrDefault(itemId, 0L) == 0) {
           AdventureResult search = item.getInstance(NTH_CHEAPEST_COUNT);
           List<PurchaseRequest> results = MallPriceManager.searchMall(search);
           MallPriceManager.flushCache(itemId);

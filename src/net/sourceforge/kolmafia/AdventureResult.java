@@ -29,7 +29,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
   protected Priority priority;
   protected int id;
   protected String name;
-  protected int count;
+  protected long count;
 
   public enum Priority {
     MONSTER,
@@ -129,7 +129,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
     this(AdventureResult.choosePriority(name), name, 0);
   }
 
-  public AdventureResult(final String name, final int count) {
+  public AdventureResult(final String name, final long count) {
     this(AdventureResult.choosePriority(name), name, count);
   }
 
@@ -141,7 +141,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
     this(subType, name, 1);
   }
 
-  public AdventureResult(final Priority subType, final String name, final int count) {
+  public AdventureResult(final Priority subType, final String name, final long count) {
     this.name = name;
     this.count = count;
     this.priority = subType;
@@ -466,7 +466,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
     return this.name;
   }
 
-  public int getPluralCount() {
+  public long getPluralCount() {
     return this.getCount();
   }
 
@@ -474,7 +474,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
     return this.getPluralName(this.getPluralCount());
   }
 
-  public String getPluralName(final int count) {
+  public String getPluralName(final long count) {
     return count == 1
         ? this.getName()
         : this.priority == Priority.BOUNTY_ITEM
@@ -513,7 +513,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
    *
    * @return The amount associated with this result
    */
-  public int getCount() {
+  public long getCount() {
     return count;
   }
 
@@ -531,7 +531,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
    *
    * @return The total value at the given index of the count array
    */
-  public int getCount(final int index) {
+  public long getCount(final int index) {
     return index != 0 ? 0 : this.count;
   }
 
@@ -775,7 +775,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
       }
     }
 
-    int count = this.count;
+    long count = this.count;
 
     return count == 1
         ? name
@@ -923,9 +923,9 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
     if (this.priority == Priority.EFFECT) {
       // Status effects have IDs and durations.  Sort by
       // duration, or by name, if durations are equal.
-      int countComparison = this.getCount() - o.getCount();
+      long countComparison = this.getCount() - o.getCount();
       return countComparison != 0
-          ? countComparison
+          ? (int) Math.min(1, Math.max(-1, countComparison))
           : this.id != o.id ? this.name.compareToIgnoreCase(o.name) : 0;
     }
 

@@ -67,7 +67,7 @@ public abstract class PurchaseRequest extends GenericRequest
    *
    * @return The price of the item being purchased
    */
-  public int getPrice() {
+  public long getPrice() {
     return this.price;
   }
 
@@ -264,10 +264,10 @@ public abstract class PurchaseRequest extends GenericRequest
       }
 
       // Order first by price, low to high.
-      int thisPrice = o1.getPrice();
-      int thatPrice = o2.getPrice();
+      long thisPrice = o1.getPrice();
+      long thatPrice = o2.getPrice();
       if (thisPrice != thatPrice) {
-        return thisPrice - thatPrice;
+        return (int) Math.min(1, Math.max(-1, thisPrice - thatPrice));
       }
 
       // limit is how many items you can actually buy

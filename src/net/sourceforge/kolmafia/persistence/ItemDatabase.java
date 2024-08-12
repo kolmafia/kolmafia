@@ -142,7 +142,7 @@ public class ItemDatabase {
   private ItemDatabase() {}
 
   private static String parseAccess(final String data) {
-    if (data.equals("")) {
+    if (data.isEmpty()) {
       return "";
     }
 
@@ -427,7 +427,7 @@ public class ItemDatabase {
     while (it.hasNext()) {
       Entry<Integer, String> entry = it.next();
       Integer nextInteger = entry.getKey();
-      int itemId = nextInteger.intValue();
+      int itemId = nextInteger;
 
       // Skip pseudo items
       if (itemId == 13 || itemId < 1) {
@@ -481,7 +481,7 @@ public class ItemDatabase {
         + access
         + "\t"
         + autosell
-        + (plural == null || plural.equals("") ? "" : "\t" + plural);
+        + (plural == null || plural.isEmpty() ? "" : "\t" + plural);
   }
 
   public static class FoldGroup {
@@ -524,7 +524,7 @@ public class ItemDatabase {
   }
 
   private static void addPseudoItems() {
-    Integer id = 13;
+    int id = 13;
 
     ItemDatabase.dataNameById.put(id, "worthless item");
     ItemDatabase.nameById.put(id, "worthless item");
@@ -1030,7 +1030,7 @@ public class ItemDatabase {
    * @param count How many there are
    * @return The Id number of the corresponding item
    */
-  public static final int getItemId(final String itemName, final int count) {
+  public static final int getItemId(final String itemName, final long count) {
     return getItemId(itemName, count, true);
   }
 
@@ -1043,7 +1043,7 @@ public class ItemDatabase {
    * @return The Id number of the corresponding item
    */
   public static final int getItemId(
-      final String itemName, final int count, final boolean substringMatch) {
+      final String itemName, final long count, final boolean substringMatch) {
     int[] itemIds = getItemIds(itemName, count, substringMatch);
     int length = itemIds == null ? 0 : itemIds.length;
 
@@ -1080,8 +1080,8 @@ public class ItemDatabase {
 
   private static final int[] NO_ITEM_IDS = new int[0];
 
-  public static final int[] getItemIds(
-      final String itemName, final int count, final boolean substringMatch) {
+  public static int[] getItemIds(
+      final String itemName, final long count, final boolean substringMatch) {
     if (itemName == null) {
       return NO_ITEM_IDS;
     }
@@ -1124,13 +1124,13 @@ public class ItemDatabase {
     return ItemDatabase.getCanonicalName(itemName, 1);
   }
 
-  public static final String getCanonicalName(final String itemName, final int count) {
+  public static final String getCanonicalName(final String itemName, final long count) {
     return ItemDatabase.getCanonicalName(itemName, count, true);
   }
 
   public static final String getCanonicalName(
-      final String itemName, final int count, final boolean substringMatch) {
-    if (itemName == null || itemName.length() == 0) {
+      final String itemName, final long count, final boolean substringMatch) {
+    if (itemName == null || itemName.isEmpty()) {
       return null;
     }
 

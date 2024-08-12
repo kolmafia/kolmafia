@@ -144,7 +144,7 @@ public class MallPriceDatabase {
     }
   }
 
-  public static void recordPrice(int itemId, int price, boolean deferred) {
+  public static void recordPrice(int itemId, long price, boolean deferred) {
     long timestamp = MallPriceManager.currentTimeMillis() / 1000L;
     Price p = MallPriceDatabase.prices.get(itemId);
     if (p == null) {
