@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia.persistence;
 
+import static net.sourceforge.kolmafia.session.StoreManager.MALL_MAX;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.EnumSet;
@@ -58,7 +60,7 @@ public class CandyDatabase {
     List<AdventureResult> others = new ArrayList<>();
 
     for (Integer itemId : CandyDatabase.tier2Candy) {
-      AdventureResult item = ItemPool.get(itemId.intValue());
+      AdventureResult item = ItemPool.get(itemId);
       if (ConsumablesDatabase.getFullness(item.getName()) > 0) {
         foods.add(item);
       } else if (ItemDatabase.isPotion(item)) {
@@ -385,7 +387,6 @@ public class CandyDatabase {
   // Use DESCENDING_COUNT_COMPARATOR in-run
 
   // Pseudo-price for a non-tradeable item
-  public static final int NON_TRADEABLE_PRICE = 999999999;
 
   public static class Candy implements Comparable<Candy> {
     private final int itemId;
@@ -436,8 +437,8 @@ public class CandyDatabase {
       return this.count;
     }
 
-    public int getCost() {
-      return this.mallprice == 0 ? CandyDatabase.NON_TRADEABLE_PRICE : this.mallprice;
+    public long getCost() {
+      return this.mallprice == 0 ? MALL_MAX : this.mallprice;
     }
 
     public int getMallPrice() {
@@ -470,10 +471,10 @@ public class CandyDatabase {
   private static class MallPriceComparator implements Comparator<Candy> {
     @Override
     public int compare(Candy o1, Candy o2) {
-      int cost1 = o1.getCost();
-      int cost2 = o2.getCost();
+      long cost1 = o1.getCost();
+      long cost2 = o2.getCost();
       if (cost1 != cost2) {
-        return cost1 - cost2;
+        return (int) Math.min(1, Math.max(-1, cost1 - cost2));
       }
       int count1 = o1.getCount();
       int count2 = o2.getCount();
@@ -558,7 +559,7 @@ public class CandyDatabase {
   private static Candy[] synthesisPairByCost(final int effectId, final int flags) {
     int tier = CandyDatabase.getEffectTier(effectId);
 
-    int bestCost = Integer.MAX_VALUE;
+    long bestCost = Long.MAX_VALUE;
     Candy candy1 = null;
     Candy candy2 = null;
 
@@ -567,7 +568,7 @@ public class CandyDatabase {
     candy1List.sort(ASCENDING_MALL_PRICE_COMPARATOR);
 
     for (Candy candy : candy1List) {
-      int cost1 = candy.getCost();
+      long cost1 = candy.getCost();
       if (cost1 > bestCost) {
         break;
       }
@@ -579,8 +580,8 @@ public class CandyDatabase {
       candy2List.sort(ASCENDING_MALL_PRICE_COMPARATOR);
 
       for (Candy pairing : candy2List) {
-        int cost2 = pairing.getCost();
-        int currentCost = cost1 + cost2;
+        long cost2 = pairing.getCost();
+        long currentCost = cost1 + cost2;
 
         if (currentCost >= bestCost) {
           break;

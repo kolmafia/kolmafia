@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia.swingui;
 
+import static net.sourceforge.kolmafia.session.StoreManager.MALL_MAX;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -233,7 +235,7 @@ public class StoreManageFrame extends GenericPanelFrame {
       int rowCount = StoreManageFrame.this.manageTable.getRowCount();
 
       int[] itemId = new int[rowCount];
-      int[] prices = new int[rowCount];
+      long[] prices = new long[rowCount];
       int[] limits = new int[rowCount];
 
       SoldItem[] sold = new SoldItem[StoreManager.getSoldItemList().size()];
@@ -243,8 +245,8 @@ public class StoreManageFrame extends GenericPanelFrame {
         String item = (String) StoreManageFrame.this.manageTable.getValueAt(i, 0);
         itemId[i] = ItemDatabase.getItemId(item);
 
-        prices[i] = ((Integer) StoreManageFrame.this.manageTable.getValueAt(i, 1)).intValue();
-        int cheapest = ((Integer) StoreManageFrame.this.manageTable.getValueAt(i, 2)).intValue();
+        prices[i] = (Long) StoreManageFrame.this.manageTable.getValueAt(i, 1);
+        long cheapest = (Long) StoreManageFrame.this.manageTable.getValueAt(i, 2);
 
         if (cheapest >= 1000000 && prices[i] < cheapest * 0.15) {
           String message =
@@ -314,7 +316,7 @@ public class StoreManageFrame extends GenericPanelFrame {
     private void setEditors() {
       this.setDefaultEditor(JButton.class, new JButtonHackEditor());
       this.setDefaultEditor(Boolean.class, new JButtonHackEditor());
-      this.setDefaultEditor(Integer.class, new PriceEditor());
+      this.setDefaultEditor(Long.class, new PriceEditor());
     }
 
     private void setRenderers() {
@@ -349,8 +351,8 @@ public class StoreManageFrame extends GenericPanelFrame {
             public boolean isHighlighted(Component renderer, ComponentAdapter adapter) {
               if (!adapter.getComponent().isEnabled()) return false;
               if (convertColumnIndexToModel(adapter.column) == 1) {
-                int cellValue =
-                    (Integer)
+                long cellValue =
+                    (Long)
                         adapter.getValueAt(
                             convertRowIndexToModel(adapter.row),
                             convertColumnIndexToModel(adapter.column));
@@ -380,8 +382,8 @@ public class StoreManageFrame extends GenericPanelFrame {
             public boolean isHighlighted(Component renderer, ComponentAdapter adapter) {
               if (!adapter.getComponent().isEnabled()) return false;
               if (convertColumnIndexToModel(adapter.column) != 1) return false;
-              int cellValue =
-                  (Integer)
+              long cellValue =
+                  (Long)
                       adapter.getValueAt(
                           convertRowIndexToModel(adapter.row),
                           convertColumnIndexToModel(adapter.column));
@@ -398,8 +400,8 @@ public class StoreManageFrame extends GenericPanelFrame {
             public boolean isHighlighted(Component renderer, ComponentAdapter adapter) {
               if (!adapter.getComponent().isEnabled()) return false;
               if (convertColumnIndexToModel(adapter.column) != 0) return false;
-              int cellValue = (Integer) adapter.getValueAt(convertRowIndexToModel(adapter.row), 1);
-              return (cellValue == 999999999);
+              long cellValue = (Long) adapter.getValueAt(convertRowIndexToModel(adapter.row), 1);
+              return (cellValue == MALL_MAX);
             }
           };
 
@@ -538,8 +540,8 @@ public class StoreManageFrame extends GenericPanelFrame {
           new String[] {"Item Name", "Price", "Lowest", "Qty", "Lim", " ", " "},
           new Class[] {
             String.class,
-            Integer.class,
-            Integer.class,
+            Long.class,
+            Long.class,
             Integer.class,
             Boolean.class,
             JButton.class,
@@ -816,7 +818,7 @@ public class StoreManageFrame extends GenericPanelFrame {
 
     @Override
     public Object getCellEditorValue() {
-      return StringUtilities.parseInt(super.getCellEditorValue().toString());
+      return StringUtilities.parseLong(super.getCellEditorValue().toString());
     }
 
     @Override
