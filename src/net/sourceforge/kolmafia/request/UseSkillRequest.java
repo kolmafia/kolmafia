@@ -2259,7 +2259,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
   }
 
   @Override
-  public int getAdventuresUsed() {
+  public long getAdventuresUsed() {
     return SkillDatabase.getAdventureCost(this.skillId);
   }
 

@@ -194,7 +194,7 @@ public class CampgroundRequest extends GenericRequest {
 
     @Override
     public String toString() {
-      int count = this.getCount();
+      long count = this.getCount();
       return count == 1
           ? "tall grass"
           : count < 8 ? "tall grass (" + count + ")" : "very tall grass";
@@ -202,13 +202,13 @@ public class CampgroundRequest extends GenericRequest {
 
     @Override
     public String getName() {
-      int count = this.getCount();
+      long count = this.getCount();
       return count != 8 ? "tall grass" : "very tall grass";
     }
 
     @Override
-    public int getPluralCount() {
-      int count = this.getCount();
+    public long getPluralCount() {
+      long count = this.getCount();
       return count != 8 ? count : 1;
     }
 
@@ -218,7 +218,7 @@ public class CampgroundRequest extends GenericRequest {
     }
 
     @Override
-    public String getPluralName(int count) {
+    public String getPluralName(long count) {
       return count == 1
           ? "patch of tall grass"
           : count < 8 ? "patches of tall grass" : "patch of very tall grass";
@@ -231,7 +231,7 @@ public class CampgroundRequest extends GenericRequest {
     }
 
     @Override
-    public int getPluralCount() {
+    public long getPluralCount() {
       // We always have 1 mushroom to pick
       return 1;
     }
@@ -243,7 +243,7 @@ public class CampgroundRequest extends GenericRequest {
 
     @Override
     public String toString() {
-      return switch (count) {
+      return switch ((int) count) {
         case 1 -> "free-range mushroom";
         case 2 -> "plump free-range mushroom";
         case 3 -> "bulky free-range mushroom";
@@ -505,7 +505,7 @@ public class CampgroundRequest extends GenericRequest {
   }
 
   @Override
-  public int getAdventuresUsed() {
+  public long getAdventuresUsed() {
     return getAdventuresUsed("rest".equals(this.action));
   }
 
@@ -627,11 +627,11 @@ public class CampgroundRequest extends GenericRequest {
     }
 
     int currentID = current.getItemId();
-    int currentCount = current.getCount();
+    long currentCount = current.getCount();
 
     AdventureResult desired = CampgroundRequest.parseCrop(cropName);
     int desiredID = desired.getItemId();
-    int desiredCount = desired.getCount();
+    long desiredCount = desired.getCount();
 
     // If the current crop type equals the desired crop and the
     // count is at least as great, peachy. Or is it pumpkiny?
@@ -688,7 +688,7 @@ public class CampgroundRequest extends GenericRequest {
 
     // Other garden types have zero or more things to pick.
     // We learned the count by looking at the campground.
-    int count = crops.stream().mapToInt(AdventureResult::getCount).sum();
+    long count = crops.stream().mapToLong(AdventureResult::getCount).sum();
     if (count == 0) {
       // Nothing to pick.
       return;
@@ -888,7 +888,7 @@ public class CampgroundRequest extends GenericRequest {
       return;
     }
 
-    int count = crop.getCount();
+    long count = crop.getCount();
     if (count == 8) {
       // We already have very tall grass
       return;

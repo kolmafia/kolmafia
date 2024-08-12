@@ -44,7 +44,7 @@ public class FalloutShelterRequest extends GenericRequest {
   }
 
   @Override
-  public int getAdventuresUsed() {
+  public long getAdventuresUsed() {
     return this.action.equals(CRYO_SLEEP_CHAMBER) ? 1 : 0;
   }
 

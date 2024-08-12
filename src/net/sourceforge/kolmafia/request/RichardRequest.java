@@ -59,7 +59,7 @@ public class RichardRequest extends GenericRequest {
   }
 
   @Override
-  public int getAdventuresUsed() {
+  public long getAdventuresUsed() {
     return this.turnCount;
   }
 

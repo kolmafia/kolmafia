@@ -3799,7 +3799,7 @@ public class ItemPool {
     return ItemPool.get(itemName, 1);
   }
 
-  public static final AdventureResult get(String itemName, int count) {
+  public static final AdventureResult get(String itemName, long count) {
     int itemId = ItemDatabase.getItemId(itemName, 1, false);
 
     if (itemId != -1) {
@@ -3809,7 +3809,7 @@ public class ItemPool {
     return AdventureResult.tallyItem(itemName, count, false);
   }
 
-  public static final AdventureResult get(int itemId, int count) {
+  public static final AdventureResult get(int itemId, long count) {
     return new AdventureResult(itemId, count, false);
   }
 

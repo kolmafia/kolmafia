@@ -1225,7 +1225,7 @@ public class AdventureRequest extends GenericRequest {
   }
 
   @Override
-  public int getAdventuresUsed() {
+  public long getAdventuresUsed() {
     if (this.override >= 0) {
       return this.override;
     }

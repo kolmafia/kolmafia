@@ -53,7 +53,7 @@ public class CakeArenaRequest extends GenericRequest {
   }
 
   @Override
-  public int getAdventuresUsed() {
+  public long getAdventuresUsed() {
     return getAdventuresUsed(this.isCompetition);
   }
 

@@ -80,7 +80,7 @@ public class PlaceRequest extends GenericRequest {
   }
 
   @Override
-  public int getAdventuresUsed() {
+  public long getAdventuresUsed() {
     return PlaceRequest.getAdventuresUsed(this.getURLString());
   }
 

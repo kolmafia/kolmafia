@@ -26,7 +26,7 @@ public class SpleenItemRequest extends UseItemRequest {
   }
 
   @Override
-  public int getAdventuresUsed() {
+  public long getAdventuresUsed() {
     return 0;
   }
 

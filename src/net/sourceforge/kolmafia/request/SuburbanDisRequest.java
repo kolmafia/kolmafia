@@ -38,7 +38,7 @@ public class SuburbanDisRequest extends GenericRequest {
   }
 
   @Override
-  public int getAdventuresUsed() {
+  public long getAdventuresUsed() {
     return getAdventuresUsed("dothis".equals(this.action));
   }
 

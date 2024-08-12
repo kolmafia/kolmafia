@@ -39,7 +39,7 @@ public class VolcanoIslandRequest extends GenericRequest {
   }
 
   @Override
-  public int getAdventuresUsed() {
+  public long getAdventuresUsed() {
     return getAdventuresUsed(this.getURLString());
   }
 

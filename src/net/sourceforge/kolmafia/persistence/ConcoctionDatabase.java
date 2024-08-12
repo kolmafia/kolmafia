@@ -134,7 +134,7 @@ public class ConcoctionDatabase {
   public static final EnumSet<CraftingType> PERMIT_METHOD = EnumSet.noneOf(CraftingType.class);
   public static final Map<CraftingType, Integer> ADVENTURE_USAGE =
       new EnumMap<>(CraftingType.class);
-  public static final Map<CraftingType, Integer> CREATION_COST = new EnumMap<>(CraftingType.class);
+  public static final Map<CraftingType, Long> CREATION_COST = new EnumMap<>(CraftingType.class);
   public static final Map<CraftingType, String> EXCUSE = new EnumMap<>(CraftingType.class);
   public static final EnumSet<CraftingRequirements> REQUIREMENT_MET =
       EnumSet.noneOf(CraftingRequirements.class);
@@ -467,7 +467,7 @@ public class ConcoctionDatabase {
     };
   }
 
-  public static final void push(final Concoction c, final int quantity) {
+  public static void push(final Concoction c, final long quantity) {
     LockableListModel<QueuedConcoction> queue;
     LockableListModel<AdventureResult> queuedIngredients;
 
@@ -637,7 +637,7 @@ public class ConcoctionDatabase {
 
     QueuedConcoction qc = queue.remove(queue.size() - 1);
     Concoction c = qc.getConcoction();
-    int quantity = qc.getCount();
+    long quantity = qc.getCount();
 
     c.queued -= quantity;
     ConcoctionDatabase.queuedFullness -= c.getFullness() * quantity;
@@ -1347,8 +1347,8 @@ public class ConcoctionDatabase {
         continue;
       }
 
-      int creatable = Math.max(item.creatable, 0);
-      int pullable = Math.max(item.pullable, 0);
+      long creatable = Math.max(item.creatable, 0);
+      long pullable = Math.max(item.pullable, 0);
 
       instance.setQuantityPossible(creatable);
       instance.setQuantityPullable(pullable);
@@ -1542,7 +1542,7 @@ public class ConcoctionDatabase {
     ConcoctionDatabase.ADVENTURE_USAGE.clear();
     ConcoctionDatabase.CREATION_COST.clear();
     ConcoctionDatabase.EXCUSE.clear();
-    int freeCrafts = ConcoctionDatabase.getFreeCraftingTurns();
+    long freeCrafts = ConcoctionDatabase.getFreeCraftingTurns();
 
     if (KoLCharacter.getGender() == Gender.MALE) {
       ConcoctionDatabase.REQUIREMENT_MET.add(CraftingRequirements.MALE);
@@ -1557,12 +1557,12 @@ public class ConcoctionDatabase {
     // combination.
 
     ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.COMBINE);
-    ConcoctionDatabase.CREATION_COST.put(CraftingType.COMBINE, 10);
+    ConcoctionDatabase.CREATION_COST.put(CraftingType.COMBINE, 10L);
     ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.COMBINE, 0);
 
     // Un-untinkerable Amazing Ideas
     ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.ACOMBINE);
-    ConcoctionDatabase.CREATION_COST.put(CraftingType.ACOMBINE, 10);
+    ConcoctionDatabase.CREATION_COST.put(CraftingType.ACOMBINE, 10L);
     ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.ACOMBINE, 0);
 
     // The gnomish tinkerer is available if the person is in a
@@ -1583,7 +1583,7 @@ public class ConcoctionDatabase {
 
     if (InventoryManager.hasItem(ItemPool.TENDER_HAMMER) || willBuyTool) {
       ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.SMITH);
-      ConcoctionDatabase.CREATION_COST.put(CraftingType.SMITH, 0);
+      ConcoctionDatabase.CREATION_COST.put(CraftingType.SMITH, 0L);
       ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.SMITH, 1);
     }
 
@@ -1596,7 +1596,7 @@ public class ConcoctionDatabase {
 
     if (ConcoctionDatabase.PERMIT_METHOD.contains(CraftingType.SMITH)) {
       ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.SSMITH);
-      ConcoctionDatabase.CREATION_COST.put(CraftingType.SSMITH, 0);
+      ConcoctionDatabase.CREATION_COST.put(CraftingType.SSMITH, 0L);
       ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.SSMITH, 1);
     }
 
@@ -1694,7 +1694,7 @@ public class ConcoctionDatabase {
     // has at least 1,000 Meat and autoSatisfyWithNPCs = true
     if (!KoLCharacter.hasRange() && !willBuyTool) {
       ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.COOK_FANCY, 0);
-      ConcoctionDatabase.CREATION_COST.put(CraftingType.COOK_FANCY, 0);
+      ConcoctionDatabase.CREATION_COST.put(CraftingType.COOK_FANCY, 0L);
       ConcoctionDatabase.EXCUSE.put(
           CraftingType.COOK_FANCY, "You cannot cook fancy foods without a range.");
     }
@@ -1710,7 +1710,7 @@ public class ConcoctionDatabase {
     // We might not care if cooking takes adventures
     else if (Preferences.getBoolean("requireBoxServants") && !KoLCharacter.inGLover()) {
       ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.COOK_FANCY, 0);
-      ConcoctionDatabase.CREATION_COST.put(CraftingType.COOK_FANCY, 0);
+      ConcoctionDatabase.CREATION_COST.put(CraftingType.COOK_FANCY, 0L);
       ConcoctionDatabase.EXCUSE.put(
           CraftingType.COOK_FANCY,
           "You have chosen not to cook fancy food without a chef-in-the-box.");
@@ -1721,7 +1721,7 @@ public class ConcoctionDatabase {
         ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.COOK_FANCY);
       }
       ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.COOK_FANCY, 1);
-      ConcoctionDatabase.CREATION_COST.put(CraftingType.COOK_FANCY, 0);
+      ConcoctionDatabase.CREATION_COST.put(CraftingType.COOK_FANCY, 0L);
       ConcoctionDatabase.EXCUSE.put(
           CraftingType.COOK_FANCY, "You cannot cook fancy foods without adventures.");
     }
@@ -1780,7 +1780,7 @@ public class ConcoctionDatabase {
     // has at least 1,000 Meat and autoSatisfyWithNPCs = true
     if (!KoLCharacter.hasCocktailKit() && !willBuyTool) {
       ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.MIX_FANCY, 0);
-      ConcoctionDatabase.CREATION_COST.put(CraftingType.MIX_FANCY, 0);
+      ConcoctionDatabase.CREATION_COST.put(CraftingType.MIX_FANCY, 0L);
       ConcoctionDatabase.EXCUSE.put(
           CraftingType.MIX_FANCY, "You cannot mix fancy drinks without a cocktailcrafting kit.");
     }
@@ -1810,7 +1810,7 @@ public class ConcoctionDatabase {
     // We might not care if mixing takes adventures
     else if (Preferences.getBoolean("requireBoxServants") && !KoLCharacter.inGLover()) {
       ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.MIX_FANCY, 0);
-      ConcoctionDatabase.CREATION_COST.put(CraftingType.MIX_FANCY, 0);
+      ConcoctionDatabase.CREATION_COST.put(CraftingType.MIX_FANCY, 0L);
       ConcoctionDatabase.EXCUSE.put(
           CraftingType.MIX_FANCY,
           "You have chosen not to mix fancy drinks without a bartender-in-the-box.");
@@ -1821,7 +1821,7 @@ public class ConcoctionDatabase {
         ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.MIX_FANCY);
       }
       ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.MIX_FANCY, 1);
-      ConcoctionDatabase.CREATION_COST.put(CraftingType.MIX_FANCY, 0);
+      ConcoctionDatabase.CREATION_COST.put(CraftingType.MIX_FANCY, 0L);
       ConcoctionDatabase.EXCUSE.put(
           CraftingType.MIX_FANCY, "You cannot mix fancy drinks without adventures.");
     }
@@ -1851,8 +1851,7 @@ public class ConcoctionDatabase {
     if (ConcoctionDatabase.stillsLimit.total > 0) {
       ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.STILL);
       ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.STILL, 0);
-      ConcoctionDatabase.CREATION_COST.put(
-          CraftingType.STILL, Preferences.getInteger("valueOfStill"));
+      ConcoctionDatabase.CREATION_COST.put(CraftingType.STILL, Preferences.getLong("valueOfStill"));
     }
     ConcoctionDatabase.EXCUSE.put(
         CraftingType.STILL,
@@ -1875,7 +1874,7 @@ public class ConcoctionDatabase {
       ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.CLIPART);
       ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.CLIPART, 0);
       ConcoctionDatabase.CREATION_COST.put(
-          CraftingType.CLIPART, Preferences.getInteger("valueOfTome"));
+          CraftingType.CLIPART, Preferences.getLong("valueOfTome"));
     }
     ConcoctionDatabase.EXCUSE.put(
         CraftingType.CLIPART,
@@ -1955,7 +1954,7 @@ public class ConcoctionDatabase {
       ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.SAUSAGE_O_MATIC);
       ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.SAUSAGE_O_MATIC, 0);
       ConcoctionDatabase.CREATION_COST.put(
-          CraftingType.SAUSAGE_O_MATIC, 111 * (1 + Preferences.getInteger("_sausagesMade")));
+          CraftingType.SAUSAGE_O_MATIC, 111 * (1 + Preferences.getLong("_sausagesMade")));
     }
     ConcoctionDatabase.EXCUSE.put(
         CraftingType.SAUSAGE_O_MATIC, "You do not have a Kramco Sausage-o-Matic&trade;.");
@@ -2212,11 +2211,11 @@ public class ConcoctionDatabase {
     int value = Preferences.getInteger("valueOfAdventure");
     for (CraftingType method : CraftingType.values()) {
       if (ConcoctionDatabase.PERMIT_METHOD.contains(method)) {
-        int adv = ConcoctionDatabase.getAdventureUsage(method);
+        long adv = ConcoctionDatabase.getAdventureUsage(method);
         if (adv == 0) {
           continue;
         }
-        int usableFreeCrafts = getFreeCraftingTurns();
+        long usableFreeCrafts = getFreeCraftingTurns();
         if (method == CraftingType.SMITH || method == CraftingType.SSMITH) {
           usableFreeCrafts += getFreeSmithingTurns();
         } else if (method == CraftingType.COOK_FANCY) {
@@ -2227,7 +2226,7 @@ public class ConcoctionDatabase {
           ConcoctionDatabase.EXCUSE.put(
               method, "You don't have enough adventures left to create that.");
         } else {
-          int cost = ConcoctionDatabase.getCreationCost(method);
+          long cost = ConcoctionDatabase.getCreationCost(method);
           ConcoctionDatabase.CREATION_COST.put(method, cost + (adv * value));
         }
       }
@@ -2236,22 +2235,20 @@ public class ConcoctionDatabase {
 
   private static void permitNoCost(CraftingType craft) {
     ConcoctionDatabase.PERMIT_METHOD.add(craft);
-    ConcoctionDatabase.CREATION_COST.put(craft, 0);
+    ConcoctionDatabase.CREATION_COST.put(craft, 0L);
     ConcoctionDatabase.ADVENTURE_USAGE.put(craft, 0);
     ConcoctionDatabase.EXCUSE.remove(craft);
   }
 
   public static int getAdventureUsage(CraftingType method) {
-    Integer advs = ConcoctionDatabase.ADVENTURE_USAGE.get(method);
-    return advs == null ? 0 : advs.intValue();
+    return ConcoctionDatabase.ADVENTURE_USAGE.getOrDefault(method, 0);
   }
 
-  public static int getCreationCost(CraftingType method) {
-    Integer advs = ConcoctionDatabase.CREATION_COST.get(method);
-    return advs == null ? 0 : advs.intValue();
+  public static long getCreationCost(CraftingType method) {
+    return ConcoctionDatabase.CREATION_COST.getOrDefault(method, 0L);
   }
 
-  public static int getFreeCraftingTurns() {
+  public static long getFreeCraftingTurns() {
     return ConcoctionDatabase.INIGO.getCount(KoLConstants.activeEffects) / 5
         + (KoLCharacter.hasSkill(SkillPool.RAPID_PROTOTYPING)
                 && StandardRequest.isAllowed(RestrictedItemType.SKILLS, "Rapid Prototyping")
@@ -2280,7 +2277,7 @@ public class ConcoctionDatabase {
     return haveBat ? 5 - Preferences.getInteger("_cookbookbatCrafting") : 0;
   }
 
-  public static int getFreeSmithingTurns() {
+  public static long getFreeSmithingTurns() {
     AdventureResult workshedItem = CampgroundRequest.getCurrentWorkshedItem();
     boolean haveWarbearAutoanvil =
         workshedItem != null && workshedItem.getItemId() == ItemPool.AUTO_ANVIL;
@@ -2563,7 +2560,7 @@ public class ConcoctionDatabase {
     return ingredients;
   }
 
-  public static final int getYield(final int itemId) {
+  public static long getYield(final int itemId) {
     Concoction item = ConcoctionPool.get(itemId);
     return item == null ? 1 : item.getYield();
   }
@@ -2585,7 +2582,7 @@ public class ConcoctionDatabase {
       final int itemId1, final int itemId2, final List<AdventureResult> availableIngredients) {
     AdventureResult ingredient1 = ItemPool.get(itemId1, 1);
     AdventureResult ingredient2 = ItemPool.get(itemId2, 1);
-    int diff =
+    long diff =
         ingredient1.getCount(availableIngredients) - ingredient2.getCount(availableIngredients);
     if (diff == 0) {
       diff = MallPriceDatabase.getPrice(itemId2) - MallPriceDatabase.getPrice(itemId1);
@@ -2927,9 +2924,9 @@ public class ConcoctionDatabase {
 
   public static class QueuedConcoction {
     private final Concoction concoction;
-    private final int count;
+    private final long count;
     private final ArrayList<AdventureResult> ingredients;
-    private final int meat;
+    private final long meat;
     private final int pulls;
     private final int tomes;
     private final int stills;
@@ -2939,9 +2936,9 @@ public class ConcoctionDatabase {
 
     public QueuedConcoction(
         final Concoction c,
-        final int count,
+        final long count,
         final ArrayList<AdventureResult> ingredients,
-        final int meat,
+        final long meat,
         final int pulls,
         final int tomes,
         final int stills,
@@ -2964,7 +2961,7 @@ public class ConcoctionDatabase {
       return this.concoction;
     }
 
-    public int getCount() {
+    public long getCount() {
       return this.count;
     }
 

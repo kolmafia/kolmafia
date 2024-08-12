@@ -72,8 +72,8 @@ public class CafeRequest extends GenericRequest {
     this.addFormField("whichitem", String.valueOf(itemId));
   }
 
-  public static int discountedPrice(int price) {
-    int count = LARP.getCount(KoLConstants.inventory) + LARP.getCount(KoLConstants.closet);
+  public static long discountedPrice(long price) {
+    long count = LARP.getCount(KoLConstants.inventory) + LARP.getCount(KoLConstants.closet);
 
     if (count > 0) {
       price = (int) Math.ceil(0.90f * (float) price);
@@ -215,7 +215,7 @@ public class CafeRequest extends GenericRequest {
     return true;
   }
 
-  public static final void registerItemUsage(final String itemName, int price) {
+  public static final void registerItemUsage(final String itemName, long price) {
     int inebriety = ConsumablesDatabase.getInebriety(itemName);
     String consume = inebriety > 0 ? "drink" : "eat";
 

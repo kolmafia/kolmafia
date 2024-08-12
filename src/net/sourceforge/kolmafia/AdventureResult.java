@@ -133,7 +133,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
     this(AdventureResult.choosePriority(name), name, count);
   }
 
-  public AdventureResult(final String name, final int count, final boolean isStatusEffect) {
+  public AdventureResult(final String name, final long count, final boolean isStatusEffect) {
     this(isStatusEffect ? Priority.EFFECT : Priority.ITEM, name, count);
   }
 
@@ -205,7 +205,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
     return Priority.ITEM;
   }
 
-  public AdventureResult(final int id, final int count, final boolean isStatusEffect) {
+  public AdventureResult(final int id, final long count, final boolean isStatusEffect) {
     if (isStatusEffect) {
       String name = EffectDatabase.getEffectName(id);
       this.name = name != null ? name : "(unknown effect " + id + ")";
@@ -220,7 +220,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
   }
 
   public AdventureResult(
-      final String name, final int id, final int count, final boolean isStatusEffect) {
+      final String name, final int id, final long count, final boolean isStatusEffect) {
     this.name = name;
     this.id = id;
     this.count = count;
@@ -306,7 +306,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
   }
 
   public static AdventureResult tallyItem(
-      final String name, final int count, final boolean setItemId) {
+      final String name, final long count, final boolean setItemId) {
     AdventureResult item = AdventureResult.tallyItem(name, setItemId);
     item.count = count;
     return item;
@@ -442,7 +442,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
           + ")";
       case ItemPool.JURASSIC_PARKA, ItemPool.REPLICA_JURASSIC_PARKA -> {
         var mode = Preferences.getString("parkaMode");
-        yield mode.equals("") ? this.name : this.name + " (" + mode + " mode)";
+        yield mode.isEmpty() ? this.name : this.name + " (" + mode + " mode)";
       }
       case ItemPool.BACKUP_CAMERA -> this.name
           + " ("
@@ -953,7 +953,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
         sourceList.add(result);
         return;
       }
-      int count = result.getCount();
+      long count = result.getCount();
       if (count == 0) return;
       if (count < 0
           && (sourceList != KoLConstants.tally || !Preferences.getBoolean("allowNegativeTally"))) {
@@ -1118,7 +1118,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
    * Special method which simplifies the constant use of indexOf and count retrieval. This makes
    * intent more transparent.
    */
-  public int getCount(final List<AdventureResult> list) {
+  public long getCount(final List<AdventureResult> list) {
     int index = list.indexOf(this);
     if (index == -1) return 0;
     AdventureResult item = list.get(index);
@@ -1126,7 +1126,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
     return item.getCount();
   }
 
-  public int getCount(final Map<Integer, AdventureResult> map) {
+  public long getCount(final Map<Integer, AdventureResult> map) {
     AdventureResult item = map.get(this.getItemId());
     if (item == null) return 0;
     return item.getCount();
@@ -1276,7 +1276,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
      * @return The amount associated with this result
      */
     @Override
-    public int getCount() {
+    public long getCount() {
       return Arrays.stream(this.counts).sum();
     }
 
@@ -1292,7 +1292,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
      * @return The total value at the given index of the count array
      */
     @Override
-    public int getCount(final int index) {
+    public long getCount(final int index) {
       return index < 0 || index >= this.counts.length ? 0 : this.counts[index];
     }
 
@@ -1481,8 +1481,8 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
     }
 
     @Override
-    public int getCount(final List<AdventureResult> list) {
-      int count = 0;
+    public long getCount(final List<AdventureResult> list) {
+      long count = 0;
       for (AdventureResult ar : list) {
         if (this.equals(ar)) {
           count += ar.getCount();

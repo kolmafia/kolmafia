@@ -660,7 +660,7 @@ public class ItemDatabase {
     return value != null && value.equals("1");
   }
 
-  public static final String extractItemsPlural(final int count, final String items) {
+  public static final String extractItemsPlural(final long count, final String items) {
     if (count > 1 && items != null) {
       int space = items.indexOf(" ");
       if (space != -1) {

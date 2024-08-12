@@ -144,7 +144,7 @@ public class GenieRequest extends GenericRequest {
   }
 
   @Override
-  public int getAdventuresUsed() {
+  public long getAdventuresUsed() {
     return GenieRequest.wishedForCombat(this.wish) ? 1 : 0;
   }
 

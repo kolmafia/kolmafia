@@ -192,7 +192,7 @@ public abstract class KoLCharacter {
   private static int currentPP, maximumPP;
 
   // Robots only
-  private static int youRobotEnergy, youRobotScraps;
+  private static long youRobotEnergy, youRobotScraps;
 
   // Wildfire only
   private static int wildfireWater;
@@ -1400,7 +1400,7 @@ public abstract class KoLCharacter {
    *
    * @param youRobotEnergy The character's current energy
    */
-  public static final void setYouRobotEnergy(final int youRobotEnergy) {
+  public static final void setYouRobotEnergy(final long youRobotEnergy) {
     KoLCharacter.youRobotEnergy = youRobotEnergy;
 
     KoLCharacter.updateStatus();
@@ -1411,7 +1411,7 @@ public abstract class KoLCharacter {
    *
    * @return The character's energy
    */
-  public static final int getYouRobotEnergy() {
+  public static long getYouRobotEnergy() {
     return KoLCharacter.youRobotEnergy;
   }
 
@@ -1420,7 +1420,7 @@ public abstract class KoLCharacter {
    *
    * @param youRobotScraps The character's current scraps
    */
-  public static final void setYouRobotScraps(final int youRobotScraps) {
+  public static void setYouRobotScraps(final long youRobotScraps) {
     KoLCharacter.youRobotScraps = youRobotScraps;
 
     KoLCharacter.updateStatus();
@@ -1431,7 +1431,7 @@ public abstract class KoLCharacter {
    *
    * @return The character's scraps
    */
-  public static final int getYouRobotScraps() {
+  public static long getYouRobotScraps() {
     return KoLCharacter.youRobotScraps;
   }
 
@@ -5084,7 +5084,7 @@ public abstract class KoLCharacter {
       if (item.getItemId() == ItemPool.GINORMOUS_PUMPKIN) {
         continue;
       }
-      for (int count = item.getCount(); count > 0; --count) {
+      for (long count = item.getCount(); count > 0; --count) {
         newModifiers.add(ModifierDatabase.getItemModifiers(item.getItemId()));
       }
     }

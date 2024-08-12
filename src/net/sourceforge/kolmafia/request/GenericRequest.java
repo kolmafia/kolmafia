@@ -2282,7 +2282,7 @@ public class GenericRequest implements Runnable {
    *
    * @return The number of adventures used by this request.
    */
-  public int getAdventuresUsed() {
+  public long getAdventuresUsed() {
     String urlString = this.getURLString();
 
     return switch (this.baseURLString) {

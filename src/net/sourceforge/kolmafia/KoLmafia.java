@@ -1695,9 +1695,9 @@ public abstract class KoLmafia {
   public static void makePurchases(
       final List<PurchaseRequest> results,
       final PurchaseRequest[] purchases,
-      final int maxPurchases,
+      final long maxPurchases,
       final boolean isAutomated,
-      final int priceLimit) {
+      final long priceLimit) {
     // If we are searching for a limited item from an NPC store, the
     // NPCPurchaseRequest may have been filtered out before being added
     // to "purchases".
@@ -1750,7 +1750,7 @@ public abstract class KoLmafia {
                 ? KoLConstants.freepulls
                 : KoLConstants.storage;
 
-    int remaining = maxPurchases;
+    long remaining = maxPurchases;
     int itemId = 0;
 
     for (int i = firstIndex;
@@ -1760,12 +1760,12 @@ public abstract class KoLmafia {
       AdventureResult item = currentRequest.getItem();
       itemId = item.getItemId();
 
-      int initialCount = item.getCount(destination);
-      int currentCount = initialCount;
-      int desiredCount =
+      long initialCount = item.getCount(destination);
+      long currentCount = initialCount;
+      long desiredCount =
           remaining == Integer.MAX_VALUE ? Integer.MAX_VALUE : initialCount + remaining;
 
-      int currentPrice = currentRequest.getPrice();
+      long currentPrice = currentRequest.getPrice();
 
       if ((priceLimit > 0 && currentPrice > priceLimit)
           || (isAutomated && currentPrice > Preferences.getInteger("autoBuyPriceLimit"))) {
@@ -1777,8 +1777,8 @@ public abstract class KoLmafia {
         continue;
       }
 
-      int previousLimit = currentRequest.getLimit();
-      int toPurchase =
+      long previousLimit = currentRequest.getLimit();
+      long toPurchase =
           Math.min(
               (int) Math.min(Integer.MAX_VALUE, currentRequest.getAvailableMeat() / currentPrice),
               Math.min(previousLimit, desiredCount - currentCount));
@@ -1787,7 +1787,7 @@ public abstract class KoLmafia {
       RequestThread.postRequest(currentRequest);
 
       // Update how many of the item we have post-purchase
-      int purchased = item.getCount(destination) - currentCount;
+      long purchased = item.getCount(destination) - currentCount;
       remaining -= purchased;
 
       // We've purchased as many as we will from this store

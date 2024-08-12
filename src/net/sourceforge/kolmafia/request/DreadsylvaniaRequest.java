@@ -103,7 +103,7 @@ public class DreadsylvaniaRequest extends GenericRequest {
   }
 
   @Override
-  public int getAdventuresUsed() {
+  public long getAdventuresUsed() {
     return 1;
   }
 

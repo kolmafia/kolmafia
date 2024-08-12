@@ -73,10 +73,10 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
   private CraftingType mixingMethod;
   private final EnumSet<CraftingRequirements> requirements;
 
-  protected int beforeQuantity;
-  private int yield;
+  protected long beforeQuantity;
+  private long yield;
 
-  protected int quantityNeeded, quantityPossible, quantityPullable;
+  protected long quantityNeeded, quantityPossible, quantityPullable;
 
   /**
    * Constructs a new <code>CreateItemRequest</code> with nothing known other than the form to use.
@@ -109,7 +109,7 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
     this.createdItem = this.concoction.getItem().getInstance(this.yield);
   }
 
-  public int getYield() {
+  public long getYield() {
     return this.yield;
   }
 
@@ -352,7 +352,8 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
 
       // Figure out how many items were created
 
-      int createdQuantity = this.createdItem.getCount(KoLConstants.inventory) - this.beforeQuantity;
+      long createdQuantity =
+          this.createdItem.getCount(KoLConstants.inventory) - this.beforeQuantity;
 
       // If we created none, log error and stop iterating
 
@@ -412,16 +413,16 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
       return;
     }
 
-    int needed = this.quantityNeeded;
+    long needed = this.quantityNeeded;
 
     // See how many of the ingredient are already available
     int available = InventoryManager.getAccessibleCount(input);
 
     // See how many of those we should pull into inventory
-    int retrieve = Math.min(available, needed);
+    long retrieve = Math.min(available, needed);
 
     // See how many we need to purchase
-    int purchase = needed - retrieve;
+    long purchase = needed - retrieve;
 
     // Pull accessible ingredients into inventory
     if (!InventoryManager.retrieveItem(input.getInstance(retrieve))) {
@@ -526,7 +527,7 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
       }
     }
 
-    int quantity = (this.quantityNeeded + this.yield - 1) / this.yield;
+    long quantity = (this.quantityNeeded + this.yield - 1) / this.yield;
     this.addFormField(quantityField, String.valueOf(quantity));
   }
 
@@ -748,10 +749,9 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
     }
 
     AdventureResult[] ingredients = CreateItemRequest.findIngredients(urlString);
-    int quantity = CreateItemRequest.getQuantity(urlString, ingredients, multiplier);
+    long quantity = CreateItemRequest.getQuantity(urlString, ingredients, multiplier);
 
-    for (int i = 0; i < ingredients.length; ++i) {
-      AdventureResult item = ingredients[i];
+    for (AdventureResult item : ingredients) {
       ResultProcessor.processItem(item.getItemId(), -quantity);
     }
 
@@ -904,7 +904,7 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
         "Verifying ingredients for " + this.name + " (" + this.quantityNeeded + ")...");
 
     this.calculateYield();
-    int yield = this.yield;
+    long yield = this.yield;
 
     // If this is a combining request, you need meat paste as well.
 
@@ -912,7 +912,7 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
             || this.mixingMethod == CraftingType.ACOMBINE
             || this.mixingMethod == CraftingType.JEWELRY)
         && (!KoLCharacter.knollAvailable() || KoLCharacter.inZombiecore())) {
-      int pasteNeeded =
+      long pasteNeeded =
           this.concoction.getMeatPasteNeeded(this.quantityNeeded + this.concoction.initial);
       AdventureResult paste = ItemPool.get(ItemPool.MEAT_PASTE, pasteNeeded);
 
@@ -960,7 +960,7 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
       // Then, make enough of the ingredient in order
       // to proceed with the concoction.
 
-      int quantity = this.quantityNeeded * multiplier;
+      long quantity = this.quantityNeeded * multiplier;
 
       if (yield > 1) {
         quantity = (quantity + yield - 1) / yield;
@@ -1017,7 +1017,7 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
   }
 
   /** Returns the quantity of items to be created by this request if it were to run right now. */
-  public int getQuantityNeeded() {
+  public long getQuantityNeeded() {
     return this.quantityNeeded;
   }
 
@@ -1025,27 +1025,27 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
    * Sets the quantity of items to be created by this request. This method is used whenever the
    * original quantity intended by the request changes.
    */
-  public void setQuantityNeeded(final int quantityNeeded) {
+  public void setQuantityNeeded(final long quantityNeeded) {
     this.quantityNeeded = quantityNeeded;
   }
 
   /** Returns the quantity of items that could be created with available ingredients. */
-  public int getQuantityPossible() {
+  public long getQuantityPossible() {
     return this.quantityPossible;
   }
 
   /** Sets the quantity of items that could be created. This is set by refreshConcoctions. */
-  public void setQuantityPossible(final int quantityPossible) {
+  public void setQuantityPossible(final long quantityPossible) {
     this.quantityPossible = quantityPossible;
   }
 
   /** Returns the quantity of items that could be pulled with the current budget. */
-  public int getQuantityPullable() {
+  public long getQuantityPullable() {
     return this.quantityPullable;
   }
 
   /** Sets the quantity of items that could be pulled. This is set by refreshConcoctions. */
-  public void setQuantityPullable(final int quantityPullable) {
+  public void setQuantityPullable(final long quantityPullable) {
     this.quantityPullable = quantityPullable;
   }
 
@@ -1067,11 +1067,11 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
    * @return The number of adventures used by this request.
    */
   @Override
-  public int getAdventuresUsed() {
+  public long getAdventuresUsed() {
     return CreateItemRequest.getAdventuresUsed(this);
   }
 
-  public static int getAdventuresUsed(final GenericRequest request) {
+  public static long getAdventuresUsed(final GenericRequest request) {
     String urlString = request.getURLString();
     String path = request.getPath();
 
@@ -1087,7 +1087,7 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
     }
 
     AdventureResult[] ingredients = CreateItemRequest.findIngredients(urlString);
-    int quantity = CreateItemRequest.getQuantity(urlString, ingredients, multiplier);
+    long quantity = CreateItemRequest.getQuantity(urlString, ingredients, multiplier);
     return CreateItemRequest.getAdventuresUsed(mixingMethod, quantity);
   }
 
@@ -1124,7 +1124,8 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
     };
   }
 
-  private static int getAdventuresUsed(final CraftingType mixingMethod, final int quantityNeeded) {
+  private static long getAdventuresUsed(
+      final CraftingType mixingMethod, final long quantityNeeded) {
     return switch (mixingMethod) {
       case SMITH, SSMITH -> Math.max(
           0,
@@ -1219,7 +1220,7 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
 
       // *** Should do this after we get response text back
       AdventureResult item = ItemPool.get(ingredient);
-      int quantity = item.getCount(KoLConstants.inventory);
+      long quantity = item.getCount(KoLConstants.inventory);
       ResultProcessor.processItem(ingredient, 0 - quantity);
 
       return true;
@@ -1279,7 +1280,7 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
 
     // *** We should deduct ingredients after we have verified that the creation worked.
     AdventureResult[] ingredients = CreateItemRequest.findIngredients(urlString);
-    int quantity = CreateItemRequest.getQuantity(urlString, ingredients, multiplier);
+    long quantity = CreateItemRequest.getQuantity(urlString, ingredients, multiplier);
     CreateItemRequest.useIngredients(urlString, ingredients, quantity);
 
     return true;
@@ -1298,7 +1299,7 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
     buffer.append(command);
 
     AdventureResult[] ingredients = CreateItemRequest.findIngredients(urlString);
-    int quantity = CreateItemRequest.getQuantity(urlString, ingredients, multiplier);
+    long quantity = CreateItemRequest.getQuantity(urlString, ingredients, multiplier);
 
     for (int i = 0; i < ingredients.length; ++i) {
       AdventureResult item = ingredients[i];
@@ -1351,19 +1352,18 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
     return ItemPool.get(StringUtilities.parseInt(itemId), 1);
   }
 
-  public static final int getQuantity(
+  public static long getQuantity(
       final String urlString, final AdventureResult[] ingredients, int multiplier) {
     if (!urlString.contains("max=on")
         && !urlString.contains("smashall=1")
         && !urlString.contains("makeall=on")) {
       Matcher matcher = CreateItemRequest.QUANTITY_PATTERN.matcher(urlString);
-      return matcher.find() ? StringUtilities.parseInt(matcher.group(2)) * multiplier : multiplier;
+      return matcher.find() ? StringUtilities.parseLong(matcher.group(2)) * multiplier : multiplier;
     }
 
-    int quantity = Integer.MAX_VALUE;
+    long quantity = Long.MAX_VALUE;
 
-    for (int i = 0; i < ingredients.length; ++i) {
-      AdventureResult item = ingredients[i];
+    for (AdventureResult item : ingredients) {
       quantity = Math.min(item.getCount(KoLConstants.inventory) / multiplier, quantity);
     }
 
@@ -1371,7 +1371,7 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
   }
 
   private static void useIngredients(
-      final String urlString, AdventureResult[] ingredients, int quantity) {
+      final String urlString, AdventureResult[] ingredients, long quantity) {
     // Let crafting tell us which ingredients it used and remove
     // them from inventory after the fact.
     if (urlString.startsWith("craft.php")) {

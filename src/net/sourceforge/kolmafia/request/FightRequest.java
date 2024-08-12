@@ -11050,7 +11050,7 @@ public class FightRequest extends GenericRequest {
   }
 
   @Override
-  public int getAdventuresUsed() {
+  public long getAdventuresUsed() {
     return 0;
   }
 

@@ -20,14 +20,14 @@ public abstract class PurchaseRequest extends GenericRequest
   protected String shopName;
 
   protected AdventureResult item;
-  protected int quantity;
-  protected int price;
-  protected int limit;
+  protected long quantity;
+  protected long price;
+  protected long limit;
 
   protected boolean canPurchase;
   protected long timestamp;
 
-  protected int initialCount; // for detecting partial yields
+  protected long initialCount; // for detecting partial yields
 
   public PurchaseRequest(final String location) {
     super(location);
@@ -88,7 +88,7 @@ public abstract class PurchaseRequest extends GenericRequest
    *
    * @return The quantity of the item in the store
    */
-  public int getQuantity() {
+  public long getQuantity() {
     return this.quantity;
   }
 
@@ -97,7 +97,7 @@ public abstract class PurchaseRequest extends GenericRequest
    *
    * @param quantity The quantity of the item available in the store.
    */
-  public void setQuantity(final int quantity) {
+  public void setQuantity(final long quantity) {
     this.quantity = quantity;
   }
 
@@ -106,7 +106,7 @@ public abstract class PurchaseRequest extends GenericRequest
    *
    * @return The quantity of the item being purchased
    */
-  public int getLimit() {
+  public long getLimit() {
     return this.limit;
   }
 
@@ -115,7 +115,7 @@ public abstract class PurchaseRequest extends GenericRequest
    *
    * @param limit The maximum number of items to be purchased with this request
    */
-  public void setLimit(final int limit) {
+  public void setLimit(final long limit) {
     this.limit = Math.min(this.quantity, limit);
   }
 
@@ -252,7 +252,7 @@ public abstract class PurchaseRequest extends GenericRequest
     super.run();
   }
 
-  public int getCurrentCount() {
+  public long getCurrentCount() {
     return this.item.getCount(KoLConstants.inventory);
   }
 
@@ -273,14 +273,14 @@ public abstract class PurchaseRequest extends GenericRequest
       // limit is how many items you can actually buy
       // Order next by limit, high to low
       if (o1.limit != o2.limit) {
-        return o2.limit - o1.limit;
+        return (int) Math.min(1, Math.max(-1, o2.limit - o1.limit));
       }
 
       // If limits are equal but quantity is not, one or the other
       // stores has an artificial limit. Reward those that don't do
       // that by sorting low to high on quantity.
       if (o1.quantity != o2.quantity) {
-        return o1.quantity - o2.quantity;
+        return (int) Math.min(1, Math.max(-1, o1.quantity - o2.quantity));
       }
 
       // Return 0 as they are equal

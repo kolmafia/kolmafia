@@ -134,7 +134,7 @@ public class ResultProcessor {
       // Extract item from the relstring
       AdventureResult item = ItemDatabase.itemFromRelString(relString);
       int itemId = item.getItemId();
-      int count = item.getCount();
+      long count = item.getCount();
       String name = item.getName();
 
       if (crazyRandomAdjectives) {
@@ -753,7 +753,7 @@ public class ResultProcessor {
     }
 
     String effectName = result.getName();
-    int count = result.getCount();
+    long count = result.getCount();
 
     String message = acquisition + " " + effectName;
     if (count != 0) {
@@ -865,7 +865,7 @@ public class ResultProcessor {
     return ResultProcessor.processStatGain(lastToken, data);
   }
 
-  private static boolean possibleMeatDrop(int drop, int bonus) {
+  private static boolean possibleMeatDrop(long drop, int bonus) {
     double rate = (KoLCharacter.getMeatDropPercentAdjustment() + 100 + bonus) / 100.0;
     return Math.floor(Math.ceil(drop / rate) * rate) == drop;
   }
@@ -883,7 +883,7 @@ public class ResultProcessor {
       }
 
       if (SpadingManager.hasSpadingScript()) {
-        int drop = result.getCount();
+        long drop = result.getCount();
         if (!ResultProcessor.possibleMeatDrop(drop, 0)) {
           StringBuilder buf = new StringBuilder("Alert - possible unknown meat bonus:");
           if (KoLCharacter.currentNumericModifier(DoubleModifier.SPORADIC_MEATDROP) != 0.0f) {
@@ -1037,8 +1037,8 @@ public class ResultProcessor {
     if (result.isItem()) {
       AdventureResult.addResultToList(KoLConstants.tally, result);
     } else if (result.isStatusEffect()) {
-      int active = result.getCount(KoLConstants.activeEffects);
-      int duration = result.getCount();
+      long active = result.getCount(KoLConstants.activeEffects);
+      long duration = result.getCount();
       shouldRefresh |= duration > 0 ? active == 0 : active == duration;
       AdventureResult.addResultToList(KoLConstants.recentEffects, result);
     } else if (resultName.equals(AdventureResult.SUBSTATS)) {
@@ -1136,7 +1136,7 @@ public class ResultProcessor {
           }
         }
         case EffectPool.HARE_BRAINED -> {
-          Preferences.setInteger("hareTurnsUsed", 30 - result.getCount());
+          Preferences.setLong("hareTurnsUsed", 30 - result.getCount());
         }
         case EffectPool.INIGOS, EffectPool.CRAFT_TEA -> {
           // If you gain or lose Inigo's or Craft Tea, what you can
@@ -1152,17 +1152,17 @@ public class ResultProcessor {
           ConcoctionDatabase.setRefreshNeeded(true);
         }
         case EffectPool.CHILLED_TO_THE_BONE -> {
-          int duration = result.getCount();
+          long duration = result.getCount();
           if (duration <= 0) break;
           Preferences.setInteger("chilledToTheBone", (int) Math.pow(3, duration));
         }
         case EffectPool.A_BEASTLY_ODOR -> {
-          int duration = result.getCount();
+          long duration = result.getCount();
           if (duration <= 0) break;
           TrackManager.track("beast", Tracker.A_BEASTLY_ODOR);
         }
         case EffectPool.EW_THE_HUMANITY -> {
-          int duration = result.getCount();
+          long duration = result.getCount();
           if (duration <= 0) break;
           TrackManager.track("dude", Tracker.EW_THE_HUMANITY);
         }
@@ -1176,7 +1176,7 @@ public class ResultProcessor {
     return shouldRefresh;
   }
 
-  public static boolean processItem(int itemId, int count) {
+  public static boolean processItem(int itemId, long count) {
     return ResultProcessor.processResult(ItemPool.get(itemId, count));
   }
 

@@ -118,7 +118,7 @@ public class LocketRequest extends GenericRequest {
   }
 
   @Override
-  public int getAdventuresUsed() {
+  public long getAdventuresUsed() {
     return LocketRequest.getAdventuresUsed(this.monster);
   }
 

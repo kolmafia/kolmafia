@@ -428,7 +428,7 @@ public class BeachCombRequest extends GenericRequest {
   public void processResults() {}
 
   @Override
-  public int getAdventuresUsed() {
+  public long getAdventuresUsed() {
     return getAdventuresUsed(this.command);
   }
 

@@ -45,7 +45,7 @@ public class Concoction implements Comparable<Concoction> {
   private CreateItemRequest request;
   private PurchaseRequest purchaseRequest;
 
-  private final int yield;
+  private final long yield;
   private CraftingType mixingMethod;
   private final EnumSet<CraftingRequirements> mixingRequirements;
   private final EnumSet<CraftingMisc> mixingMisc;
@@ -60,22 +60,22 @@ public class Concoction implements Comparable<Concoction> {
   private final List<AdventureResult> ingredients;
   private int param;
   private AdventureResult[] ingredientArray;
-  private int allocated;
+  private long allocated;
   public static int debugId = Integer.MAX_VALUE;
   public static boolean debug = false;
 
   public ConcoctionType type;
-  public int price;
+  public long price;
   public String property;
-  public int creatable;
-  public int queued;
+  public long creatable;
+  public long queued;
   public int queuedPulls;
-  public int initial;
-  public int pullable;
+  public long initial;
+  public long pullable;
   public int mallable;
-  public int total;
-  public int visibleTotal;
-  public int freeTotal;
+  public long total;
+  public long visibleTotal;
+  public long freeTotal;
 
   public boolean special;
   public boolean hotdog;
@@ -256,7 +256,7 @@ public class Concoction implements Comparable<Concoction> {
     return this.usesIngredient(ar.getItemId());
   }
 
-  public int getYield() {
+  public long getYield() {
     if (KoLCharacter.tripleReagent() && this.isReagentPotion()) {
       return 3 * this.yield;
     }
@@ -569,23 +569,23 @@ public class Concoction implements Comparable<Concoction> {
     return this.name;
   }
 
-  public int getInitial() {
+  public long getInitial() {
     return this.initial;
   }
 
-  public int getAvailable() {
+  public long getAvailable() {
     return this.visibleTotal;
   }
 
-  public int getTurnFreeAvailable() {
+  public long getTurnFreeAvailable() {
     return this.freeTotal;
   }
 
-  public int getQueued() {
+  public long getQueued() {
     return this.queued;
   }
 
-  public int getPrice() {
+  public long getPrice() {
     return this.price;
   }
 
@@ -676,14 +676,14 @@ public class Concoction implements Comparable<Concoction> {
   public void queue(
       final List<AdventureResult> globalChanges,
       final List<AdventureResult> localChanges,
-      final int amount) {
+      final long amount) {
     this.queue(globalChanges, localChanges, amount, true);
   }
 
   public void queue(
       final List<AdventureResult> globalChanges,
       final List<AdventureResult> localChanges,
-      final int amount,
+      final long amount,
       boolean adjust) {
     if (amount <= 0) {
       return;
@@ -697,10 +697,10 @@ public class Concoction implements Comparable<Concoction> {
       return;
     }
 
-    int decrementAmount = Math.min(this.initial, amount);
-    int creatableAmount = Math.max(this.creatable, 0);
-    int overAmount = Math.min(creatableAmount, amount - decrementAmount);
-    int pullAmount = amount - decrementAmount - overAmount;
+    long decrementAmount = Math.min(this.initial, amount);
+    long creatableAmount = Math.max(this.creatable, 0);
+    long overAmount = Math.min(creatableAmount, amount - decrementAmount);
+    long pullAmount = amount - decrementAmount - overAmount;
     if (this.price > 0 || this.property != null || this.special) {
       pullAmount = 0;
     }
@@ -721,7 +721,7 @@ public class Concoction implements Comparable<Concoction> {
       AdventureResult.addResultToList(localChanges, ingredient);
     }
 
-    int advs = ConcoctionDatabase.getAdventureUsage(this.mixingMethod) * overAmount;
+    long advs = ConcoctionDatabase.getAdventureUsage(this.mixingMethod) * overAmount;
     if (advs != 0) {
       for (int i = 0; i < advs; ++i) {
         if (ConcoctionDatabase.queuedFreeCraftingTurns
@@ -762,8 +762,8 @@ public class Concoction implements Comparable<Concoction> {
     // Recipes that yield multiple units require smaller
     // quantities of ingredients.
 
-    int mult = this.getYield();
-    int icount = (overAmount + (mult - 1)) / mult;
+    long mult = this.getYield();
+    long icount = (overAmount + (mult - 1)) / mult;
     for (AdventureResult ingredient : this.ingredientArray) {
       Concoction c = ConcoctionPool.get(ingredient);
       if (c == null) {
@@ -801,7 +801,7 @@ public class Concoction implements Comparable<Concoction> {
 
     if (this.speakeasy != null) {
       boolean available = ClanLoungeRequest.availableSpeakeasyDrink(this.speakeasy);
-      int affordableNumber = Concoction.getAvailableMeat() / this.price;
+      long affordableNumber = Concoction.getAvailableMeat() / this.price;
       int drinkableNumber = 3 - Preferences.getInteger("_speakeasyDrinksDrunk");
       this.initial = available ? Math.min(affordableNumber, drinkableNumber) : 0;
       this.creatable = 0;
@@ -823,7 +823,7 @@ public class Concoction implements Comparable<Concoction> {
     }
   }
 
-  public void setPullable(final int pullable) {
+  public void setPullable(final long pullable) {
     this.pullable = pullable;
     this.total += pullable;
     this.visibleTotal += pullable;
@@ -896,9 +896,9 @@ public class Concoction implements Comparable<Concoction> {
     }
 
     int id = this.getItemId();
-    int maxSuccess = this.initial;
-    int minFailure = Integer.MAX_VALUE;
-    int guess = maxSuccess + 1;
+    long maxSuccess = this.initial;
+    long minFailure = Integer.MAX_VALUE;
+    long guess = maxSuccess + 1;
     ArrayList<Concoction> visited = new ArrayList<>();
 
     if (id == Concoction.debugId) {
@@ -906,7 +906,7 @@ public class Concoction implements Comparable<Concoction> {
     }
 
     while (true) {
-      int res = this.canMake(guess, visited);
+      long res = this.canMake(guess, visited);
 
       if (Concoction.debug) {
         RequestLogger.printLine(this.name + ".canMake(" + guess + ") => " + res);
@@ -960,13 +960,13 @@ public class Concoction implements Comparable<Concoction> {
       return;
     }
 
-    int maxSuccess = this.initial;
-    int minFailure = Integer.MAX_VALUE;
-    int guess = maxSuccess + 1;
+    long maxSuccess = this.initial;
+    long minFailure = Long.MAX_VALUE;
+    long guess = maxSuccess + 1;
     ArrayList<Concoction> visited = new ArrayList<>();
 
     while (true) {
-      int res = this.canMake(guess, visited, true);
+      long res = this.canMake(guess, visited, true);
 
       if (res >= guess) {
         maxSuccess = guess;
@@ -999,11 +999,11 @@ public class Concoction implements Comparable<Concoction> {
   // accurate.  This method will be called with distinct requested
   // values until some N is found to be possible, while N+1 is impossible.
 
-  private int canMake(int requested, ArrayList<Concoction> visited) {
+  private long canMake(long requested, ArrayList<Concoction> visited) {
     return canMake(requested, visited, false);
   }
 
-  private int canMake(int requested, ArrayList<Concoction> visited, boolean turnFreeOnly) {
+  private long canMake(long requested, ArrayList<Concoction> visited, boolean turnFreeOnly) {
     if (!this.visited) {
       visited.add(this);
       this.visited = true;
@@ -1013,7 +1013,7 @@ public class Concoction implements Comparable<Concoction> {
       this.initial = 1;
     }
 
-    int alreadyHave = this.initial - this.allocated;
+    long alreadyHave = this.initial - this.allocated;
     if (alreadyHave < 0
         || requested <= 0) { // Already overspent this ingredient - either due to it being
       // present multiple times in the recipe, or being part of a
@@ -1022,10 +1022,10 @@ public class Concoction implements Comparable<Concoction> {
     }
 
     this.allocated += requested;
-    int needToMake = requested - alreadyHave;
+    long needToMake = requested - alreadyHave;
     if (needToMake > 0 && this.price > 0) {
       Concoction c = ConcoctionDatabase.meatLimit;
-      int buyable = c.canMake(needToMake * this.price, visited, turnFreeOnly) / this.price;
+      long buyable = c.canMake(needToMake * this.price, visited, turnFreeOnly) / this.price;
       if (Concoction.debug) {
         RequestLogger.printLine(
             "- " + this.name + " limited to " + buyable + " by price " + this.price);
@@ -1131,19 +1131,19 @@ public class Concoction implements Comparable<Concoction> {
       return alreadyHave;
     }
 
-    int yield = this.getYield();
+    long yield = this.getYield();
     needToMake = (needToMake + yield - 1) / yield;
-    int minMake = Integer.MAX_VALUE;
+    long minMake = Integer.MAX_VALUE;
 
     // Debugging variable
-    int lastMinMake = minMake;
+    long lastMinMake = minMake;
 
     int len = this.ingredientArray.length;
     for (int i = 0; minMake > 0 && i < len; ++i) {
       AdventureResult ingredient = this.ingredientArray[i];
       Concoction c = ConcoctionPool.get(ingredient);
       if (c == null) continue;
-      int count = ingredient.getCount();
+      long count = ingredient.getCount();
 
       if (i == 0 && len == 2 && this.ingredientArray[1].equals(ingredient)) {
         // Two identical ingredients - this is a moderately common
@@ -1301,10 +1301,10 @@ public class Concoction implements Comparable<Concoction> {
     return alreadyHave + minMake * yield;
   }
 
-  public int getMeatPasteNeeded(final int quantityNeeded) {
+  public long getMeatPasteNeeded(final long quantityNeeded) {
     // Avoid mutual recursion.
 
-    int create = quantityNeeded - this.initial;
+    long create = quantityNeeded - this.initial;
     if (create <= 0
         || (this.mixingMethod != CraftingType.COMBINE
             && this.mixingMethod != CraftingType.ACOMBINE
@@ -1316,7 +1316,7 @@ public class Concoction implements Comparable<Concoction> {
     // Count all the meat paste from the different
     // levels in the creation tree.
 
-    int runningTotal = create;
+    long runningTotal = create;
     for (AdventureResult adventureResult : this.ingredientArray) {
       Concoction ingredient = ConcoctionPool.get(adventureResult);
 
@@ -1326,18 +1326,18 @@ public class Concoction implements Comparable<Concoction> {
     return runningTotal;
   }
 
-  public int getAdventuresNeeded(final int quantityNeeded) {
+  public long getAdventuresNeeded(final long quantityNeeded) {
     return this.getAdventuresNeeded(quantityNeeded, false);
   }
 
-  public int getAdventuresNeeded(final int quantityNeeded, boolean considerFree) {
+  public long getAdventuresNeeded(final long quantityNeeded, boolean considerFree) {
     // If we can't make this item, it costs no adventures to use
     // the quantity on hand.
     if (!ConcoctionDatabase.isPermittedMethod(this.mixingMethod, this.mixingRequirements)) {
       return 0;
     }
 
-    int create = quantityNeeded - this.initial;
+    long create = quantityNeeded - this.initial;
     if (create <= 0) {
       return 0;
     }
@@ -1349,8 +1349,8 @@ public class Concoction implements Comparable<Concoction> {
       return 0;
     }
 
-    int runningTotal = ConcoctionDatabase.getAdventureUsage(this.mixingMethod) * create;
-    int yield = this.getYield();
+    long runningTotal = ConcoctionDatabase.getAdventureUsage(this.mixingMethod) * create;
+    long yield = this.getYield();
     if (yield > 1) {
       // Determine how many turns will really be used to make
       // this many of the item.
@@ -1378,7 +1378,7 @@ public class Concoction implements Comparable<Concoction> {
       return runningTotal;
     }
 
-    int freeCrafts = ConcoctionDatabase.getFreeCraftingTurns();
+    long freeCrafts = ConcoctionDatabase.getFreeCraftingTurns();
 
     if (this.mixingMethod == CraftingType.SMITH || this.mixingMethod == CraftingType.SSMITH) {
       freeCrafts += ConcoctionDatabase.getFreeSmithingTurns();

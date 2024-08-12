@@ -57,7 +57,7 @@ public class EatItemRequest extends UseItemRequest {
   }
 
   @Override
-  public int getAdventuresUsed() {
+  public long getAdventuresUsed() {
     if (this.itemUsed.getItemId() == ItemPool.BLACK_PUDDING) {
       // Items that can redirect to a fight
       return this.itemUsed.getCount();

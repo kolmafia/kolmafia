@@ -222,7 +222,7 @@ public class DeckOfEveryCardRequest extends GenericRequest {
   }
 
   @Override
-  public int getAdventuresUsed() {
+  public long getAdventuresUsed() {
     return DeckOfEveryCardRequest.getAdventuresUsed(this.card);
   }
 

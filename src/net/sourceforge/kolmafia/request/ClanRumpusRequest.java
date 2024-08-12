@@ -213,7 +213,7 @@ public class ClanRumpusRequest extends GenericRequest {
   }
 
   @Override
-  public int getAdventuresUsed() {
+  public long getAdventuresUsed() {
     return this.turnCount;
   }
 

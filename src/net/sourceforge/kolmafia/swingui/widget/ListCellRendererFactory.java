@@ -275,9 +275,9 @@ public class ListCellRendererFactory {
         }
       }
 
-      int costForOne = icr.concoction.getAdventuresNeeded(1, true);
-      int maxPossible = icr.getQuantityPossible();
-      int costForMax = icr.concoction.getAdventuresNeeded(maxPossible, true);
+      long costForOne = icr.concoction.getAdventuresNeeded(1, true);
+      long maxPossible = icr.getQuantityPossible();
+      long costForMax = icr.concoction.getAdventuresNeeded(maxPossible, true);
       boolean futureCreationMoreExpensive = costForMax > costForOne * maxPossible;
 
       if (costForOne > 0) {
@@ -335,7 +335,7 @@ public class ListCellRendererFactory {
         final Concoction item,
         final int listWidth,
         final boolean isSelected,
-        int count) {
+        long count) {
       StringBuffer stringForm = new StringBuffer();
       String name = item.getName();
 
@@ -483,7 +483,7 @@ public class ListCellRendererFactory {
                   ModifierType.ITEM, name, DoubleModifier.EFFECT_DURATION);
       stringForm.append(effectDuration).append(" ").append(effectName);
 
-      int active = effect.getCount(KoLConstants.activeEffects);
+      long active = effect.getCount(KoLConstants.activeEffects);
       if (active > 0) {
         stringForm.append(" (").append(active).append(" active)");
       }
@@ -500,8 +500,8 @@ public class ListCellRendererFactory {
     public boolean appendAmount(final StringBuffer stringForm, final Concoction item) {
       if (item.getItem() != null) {
         boolean turnFreeOnly = Preferences.getBoolean("showTurnFreeOnly");
-        int modified = (turnFreeOnly ? item.getTurnFreeAvailable() : item.getAvailable());
-        int initial = item.getItem().getCount(KoLConstants.inventory);
+        long modified = (turnFreeOnly ? item.getTurnFreeAvailable() : item.getAvailable());
+        long initial = item.getItem().getCount(KoLConstants.inventory);
 
         // hack for clip art summons: if "no-summon" is checked, only show on-hand items
         if (item.getMixingMethod() == CraftingType.CLIPART
@@ -520,7 +520,7 @@ public class ListCellRendererFactory {
         PurchaseRequest purchaseRequest = item.getPurchaseRequest();
         if (purchaseRequest != null) {
           AdventureResult cost = purchaseRequest.getCost();
-          int count = cost.getCount();
+          long count = cost.getCount();
           String currency = purchaseRequest.getCurrency(count);
           stringForm.append(count);
           stringForm.append(" ");
@@ -537,9 +537,9 @@ public class ListCellRendererFactory {
         stringForm.append(" possible, ");
         stringForm.append(initial);
         stringForm.append(" current");
-        int costForOne = item.getAdventuresNeeded(1, true);
-        int maxPossible = modified;
-        int costForMax = item.getAdventuresNeeded(maxPossible, true);
+        long costForOne = item.getAdventuresNeeded(1, true);
+        long maxPossible = modified;
+        long costForMax = item.getAdventuresNeeded(maxPossible, true);
         boolean futureCreationMoreExpensive = costForMax > costForOne * maxPossible;
 
         if (costForOne > 0) {
@@ -552,7 +552,7 @@ public class ListCellRendererFactory {
         }
       } else if (item.getPrice() > 0) {
         // The speakeasy doesn't give you a discount.
-        int price =
+        long price =
             item.speakeasy != null ? item.getPrice() : CafeRequest.discountedPrice(item.getPrice());
         stringForm.append(price);
         stringForm.append(" meat");
@@ -787,7 +787,7 @@ public class ListCellRendererFactory {
         stringForm = ar.getName();
       } else {
         if (equipmentType == ConsumptionType.ACCESSORY) {
-          int count;
+          long count;
           Modifiers mods = ModifierDatabase.getItemModifiers(ar.getItemId());
           if (mods != null && mods.getBoolean(BooleanModifier.SINGLE)) {
             count = 1;

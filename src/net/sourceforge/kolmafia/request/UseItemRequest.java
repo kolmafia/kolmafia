@@ -6888,7 +6888,7 @@ public class UseItemRequest extends GenericRequest {
   }
 
   @Override
-  public int getAdventuresUsed() {
+  public long getAdventuresUsed() {
     // Some only use adventures when used as a proxy for a non adventure game location
     return switch (this.itemUsed.getItemId()) {
       case ItemPool.CHATEAU_WATERCOLOR,
