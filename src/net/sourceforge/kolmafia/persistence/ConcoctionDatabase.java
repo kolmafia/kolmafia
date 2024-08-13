@@ -134,7 +134,7 @@ public class ConcoctionDatabase {
   public static final EnumSet<CraftingType> PERMIT_METHOD = EnumSet.noneOf(CraftingType.class);
   public static final Map<CraftingType, Integer> ADVENTURE_USAGE =
       new EnumMap<>(CraftingType.class);
-  public static final Map<CraftingType, Integer> CREATION_COST = new EnumMap<>(CraftingType.class);
+  public static final Map<CraftingType, Long> CREATION_COST = new EnumMap<>(CraftingType.class);
   public static final Map<CraftingType, String> EXCUSE = new EnumMap<>(CraftingType.class);
   public static final EnumSet<CraftingRequirements> REQUIREMENT_MET =
       EnumSet.noneOf(CraftingRequirements.class);
@@ -1557,12 +1557,12 @@ public class ConcoctionDatabase {
     // combination.
 
     ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.COMBINE);
-    ConcoctionDatabase.CREATION_COST.put(CraftingType.COMBINE, 10);
+    ConcoctionDatabase.CREATION_COST.put(CraftingType.COMBINE, 10L);
     ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.COMBINE, 0);
 
     // Un-untinkerable Amazing Ideas
     ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.ACOMBINE);
-    ConcoctionDatabase.CREATION_COST.put(CraftingType.ACOMBINE, 10);
+    ConcoctionDatabase.CREATION_COST.put(CraftingType.ACOMBINE, 10L);
     ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.ACOMBINE, 0);
 
     // The gnomish tinkerer is available if the person is in a
@@ -1583,7 +1583,7 @@ public class ConcoctionDatabase {
 
     if (InventoryManager.hasItem(ItemPool.TENDER_HAMMER) || willBuyTool) {
       ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.SMITH);
-      ConcoctionDatabase.CREATION_COST.put(CraftingType.SMITH, 0);
+      ConcoctionDatabase.CREATION_COST.put(CraftingType.SMITH, 0L);
       ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.SMITH, 1);
     }
 
@@ -1596,7 +1596,7 @@ public class ConcoctionDatabase {
 
     if (ConcoctionDatabase.PERMIT_METHOD.contains(CraftingType.SMITH)) {
       ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.SSMITH);
-      ConcoctionDatabase.CREATION_COST.put(CraftingType.SSMITH, 0);
+      ConcoctionDatabase.CREATION_COST.put(CraftingType.SSMITH, 0L);
       ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.SSMITH, 1);
     }
 
@@ -1694,7 +1694,7 @@ public class ConcoctionDatabase {
     // has at least 1,000 Meat and autoSatisfyWithNPCs = true
     if (!KoLCharacter.hasRange() && !willBuyTool) {
       ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.COOK_FANCY, 0);
-      ConcoctionDatabase.CREATION_COST.put(CraftingType.COOK_FANCY, 0);
+      ConcoctionDatabase.CREATION_COST.put(CraftingType.COOK_FANCY, 0L);
       ConcoctionDatabase.EXCUSE.put(
           CraftingType.COOK_FANCY, "You cannot cook fancy foods without a range.");
     }
@@ -1710,7 +1710,7 @@ public class ConcoctionDatabase {
     // We might not care if cooking takes adventures
     else if (Preferences.getBoolean("requireBoxServants") && !KoLCharacter.inGLover()) {
       ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.COOK_FANCY, 0);
-      ConcoctionDatabase.CREATION_COST.put(CraftingType.COOK_FANCY, 0);
+      ConcoctionDatabase.CREATION_COST.put(CraftingType.COOK_FANCY, 0L);
       ConcoctionDatabase.EXCUSE.put(
           CraftingType.COOK_FANCY,
           "You have chosen not to cook fancy food without a chef-in-the-box.");
@@ -1721,7 +1721,7 @@ public class ConcoctionDatabase {
         ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.COOK_FANCY);
       }
       ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.COOK_FANCY, 1);
-      ConcoctionDatabase.CREATION_COST.put(CraftingType.COOK_FANCY, 0);
+      ConcoctionDatabase.CREATION_COST.put(CraftingType.COOK_FANCY, 0L);
       ConcoctionDatabase.EXCUSE.put(
           CraftingType.COOK_FANCY, "You cannot cook fancy foods without adventures.");
     }
@@ -1780,7 +1780,7 @@ public class ConcoctionDatabase {
     // has at least 1,000 Meat and autoSatisfyWithNPCs = true
     if (!KoLCharacter.hasCocktailKit() && !willBuyTool) {
       ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.MIX_FANCY, 0);
-      ConcoctionDatabase.CREATION_COST.put(CraftingType.MIX_FANCY, 0);
+      ConcoctionDatabase.CREATION_COST.put(CraftingType.MIX_FANCY, 0L);
       ConcoctionDatabase.EXCUSE.put(
           CraftingType.MIX_FANCY, "You cannot mix fancy drinks without a cocktailcrafting kit.");
     }
@@ -1810,7 +1810,7 @@ public class ConcoctionDatabase {
     // We might not care if mixing takes adventures
     else if (Preferences.getBoolean("requireBoxServants") && !KoLCharacter.inGLover()) {
       ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.MIX_FANCY, 0);
-      ConcoctionDatabase.CREATION_COST.put(CraftingType.MIX_FANCY, 0);
+      ConcoctionDatabase.CREATION_COST.put(CraftingType.MIX_FANCY, 0L);
       ConcoctionDatabase.EXCUSE.put(
           CraftingType.MIX_FANCY,
           "You have chosen not to mix fancy drinks without a bartender-in-the-box.");
@@ -1821,7 +1821,7 @@ public class ConcoctionDatabase {
         ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.MIX_FANCY);
       }
       ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.MIX_FANCY, 1);
-      ConcoctionDatabase.CREATION_COST.put(CraftingType.MIX_FANCY, 0);
+      ConcoctionDatabase.CREATION_COST.put(CraftingType.MIX_FANCY, 0L);
       ConcoctionDatabase.EXCUSE.put(
           CraftingType.MIX_FANCY, "You cannot mix fancy drinks without adventures.");
     }
@@ -1851,8 +1851,7 @@ public class ConcoctionDatabase {
     if (ConcoctionDatabase.stillsLimit.total > 0) {
       ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.STILL);
       ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.STILL, 0);
-      ConcoctionDatabase.CREATION_COST.put(
-          CraftingType.STILL, Preferences.getInteger("valueOfStill"));
+      ConcoctionDatabase.CREATION_COST.put(CraftingType.STILL, Preferences.getLong("valueOfStill"));
     }
     ConcoctionDatabase.EXCUSE.put(
         CraftingType.STILL,
@@ -1875,7 +1874,7 @@ public class ConcoctionDatabase {
       ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.CLIPART);
       ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.CLIPART, 0);
       ConcoctionDatabase.CREATION_COST.put(
-          CraftingType.CLIPART, Preferences.getInteger("valueOfTome"));
+          CraftingType.CLIPART, Preferences.getLong("valueOfTome"));
     }
     ConcoctionDatabase.EXCUSE.put(
         CraftingType.CLIPART,
@@ -1955,7 +1954,7 @@ public class ConcoctionDatabase {
       ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.SAUSAGE_O_MATIC);
       ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.SAUSAGE_O_MATIC, 0);
       ConcoctionDatabase.CREATION_COST.put(
-          CraftingType.SAUSAGE_O_MATIC, 111 * (1 + Preferences.getInteger("_sausagesMade")));
+          CraftingType.SAUSAGE_O_MATIC, 111 * (1 + Preferences.getLong("_sausagesMade")));
     }
     ConcoctionDatabase.EXCUSE.put(
         CraftingType.SAUSAGE_O_MATIC, "You do not have a Kramco Sausage-o-Matic&trade;.");
@@ -2227,8 +2226,8 @@ public class ConcoctionDatabase {
           ConcoctionDatabase.EXCUSE.put(
               method, "You don't have enough adventures left to create that.");
         } else {
-          int cost = ConcoctionDatabase.getCreationCost(method);
-          ConcoctionDatabase.CREATION_COST.put(method, cost + (adv * value));
+          long cost = ConcoctionDatabase.getCreationCost(method);
+          ConcoctionDatabase.CREATION_COST.put(method, (cost + ((long) adv * value)));
         }
       }
     }
@@ -2236,7 +2235,7 @@ public class ConcoctionDatabase {
 
   private static void permitNoCost(CraftingType craft) {
     ConcoctionDatabase.PERMIT_METHOD.add(craft);
-    ConcoctionDatabase.CREATION_COST.put(craft, 0);
+    ConcoctionDatabase.CREATION_COST.put(craft, 0L);
     ConcoctionDatabase.ADVENTURE_USAGE.put(craft, 0);
     ConcoctionDatabase.EXCUSE.remove(craft);
   }
@@ -2246,9 +2245,9 @@ public class ConcoctionDatabase {
     return advs == null ? 0 : advs.intValue();
   }
 
-  public static int getCreationCost(CraftingType method) {
-    Integer advs = ConcoctionDatabase.CREATION_COST.get(method);
-    return advs == null ? 0 : advs.intValue();
+  public static long getCreationCost(CraftingType method) {
+    Long advs = ConcoctionDatabase.CREATION_COST.get(method);
+    return advs == null ? 0 : advs;
   }
 
   public static int getFreeCraftingTurns() {
@@ -2585,7 +2584,7 @@ public class ConcoctionDatabase {
       final int itemId1, final int itemId2, final List<AdventureResult> availableIngredients) {
     AdventureResult ingredient1 = ItemPool.get(itemId1, 1);
     AdventureResult ingredient2 = ItemPool.get(itemId2, 1);
-    int diff =
+    long diff =
         ingredient1.getCount(availableIngredients) - ingredient2.getCount(availableIngredients);
     if (diff == 0) {
       diff = MallPriceDatabase.getPrice(itemId2) - MallPriceDatabase.getPrice(itemId1);

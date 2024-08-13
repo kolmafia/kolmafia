@@ -5422,7 +5422,7 @@ public abstract class RuntimeLibrary {
     }
 
     int itemId = (int) itemValue.intValue();
-    int price = (int) priceValue.intValue();
+    long price = priceValue.intValue();
     int limit = (int) limitValue.intValue();
 
     if (controller.getBatched() != null) {
@@ -5432,7 +5432,7 @@ public abstract class RuntimeLibrary {
       RuntimeLibrary.batchCommand(controller, cmd, prefix, params);
     } else {
       AdventureResult[] items = {ItemPool.get(itemId, (int) qty)};
-      int[] prices = {price};
+      long[] prices = {price};
       int[] limits = {limit};
 
       ManageStoreRequest request = new ManageStoreRequest(items, prices, limits, usingStorage);
@@ -5454,7 +5454,7 @@ public abstract class RuntimeLibrary {
       final Value limitValue,
       final Value itemValue) {
     int itemId = (int) itemValue.intValue();
-    int price = (int) priceValue.intValue();
+    long price = priceValue.intValue();
     int limit = (int) limitValue.intValue();
 
     if (controller.getBatched() != null) {
@@ -5464,7 +5464,7 @@ public abstract class RuntimeLibrary {
       RuntimeLibrary.batchCommand(controller, cmd, prefix, params);
     } else {
       int[] itemIds = {itemId};
-      int[] prices = {price};
+      long[] prices = {price};
       int[] limits = {limit};
 
       ManageStoreRequest request = new ManageStoreRequest(itemIds, prices, limits);
@@ -6329,7 +6329,7 @@ public abstract class RuntimeLibrary {
 
     // Update the mall prices, one by one,
     // Note that the AdventureResults all have "count" of 1
-    int result = MallPriceManager.getMallPrices(itemIds, 0.0f);
+    long result = MallPriceManager.getMallPrices(itemIds, 0.0f);
 
     return DataTypes.makeIntValue(result);
   }
@@ -6361,7 +6361,7 @@ public abstract class RuntimeLibrary {
       // only interested in mall
       if (pr instanceof MallPurchaseRequest) {
         // get price and bail if higher
-        int storePrice = pr.getPrice();
+        long storePrice = pr.getPrice();
         if (storePrice > checkPrice) return new Value(available >= checkQuant);
         // get available
         int canGet = Math.min(pr.getLimit(), pr.getQuantity());

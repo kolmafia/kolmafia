@@ -65,7 +65,7 @@ public class Concoction implements Comparable<Concoction> {
   public static boolean debug = false;
 
   public ConcoctionType type;
-  public int price;
+  public long price;
   public String property;
   public int creatable;
   public int queued;
@@ -585,7 +585,7 @@ public class Concoction implements Comparable<Concoction> {
     return this.queued;
   }
 
-  public int getPrice() {
+  public long getPrice() {
     return this.price;
   }
 
@@ -801,7 +801,7 @@ public class Concoction implements Comparable<Concoction> {
 
     if (this.speakeasy != null) {
       boolean available = ClanLoungeRequest.availableSpeakeasyDrink(this.speakeasy);
-      int affordableNumber = Concoction.getAvailableMeat() / this.price;
+      int affordableNumber = (int) (Concoction.getAvailableMeat() / this.price);
       int drinkableNumber = 3 - Preferences.getInteger("_speakeasyDrinksDrunk");
       this.initial = available ? Math.min(affordableNumber, drinkableNumber) : 0;
       this.creatable = 0;
@@ -814,7 +814,7 @@ public class Concoction implements Comparable<Concoction> {
     if (this.concoction == null && this.name != null) {
       this.initial =
           this.price > 0
-              ? Concoction.getAvailableMeat() / this.price
+              ? (int) (Concoction.getAvailableMeat() / this.price)
               : this.property != null ? Preferences.getInteger(property) : this.special ? 1 : 0;
       this.creatable = 0;
       this.total = this.initial;
@@ -1025,7 +1025,13 @@ public class Concoction implements Comparable<Concoction> {
     int needToMake = requested - alreadyHave;
     if (needToMake > 0 && this.price > 0) {
       Concoction c = ConcoctionDatabase.meatLimit;
-      int buyable = c.canMake(needToMake * this.price, visited, turnFreeOnly) / this.price;
+      int buyable =
+          (int)
+              (c.canMake(
+                      (int) Math.min(needToMake * this.price, Integer.MAX_VALUE),
+                      visited,
+                      turnFreeOnly)
+                  / this.price);
       if (Concoction.debug) {
         RequestLogger.printLine(
             "- " + this.name + " limited to " + buyable + " by price " + this.price);

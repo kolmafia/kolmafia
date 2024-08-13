@@ -1697,7 +1697,7 @@ public abstract class KoLmafia {
       final PurchaseRequest[] purchases,
       final int maxPurchases,
       final boolean isAutomated,
-      final int priceLimit) {
+      final long priceLimit) {
     // If we are searching for a limited item from an NPC store, the
     // NPCPurchaseRequest may have been filtered out before being added
     // to "purchases".
@@ -1765,7 +1765,7 @@ public abstract class KoLmafia {
       int desiredCount =
           remaining == Integer.MAX_VALUE ? Integer.MAX_VALUE : initialCount + remaining;
 
-      int currentPrice = currentRequest.getPrice();
+      long currentPrice = currentRequest.getPrice();
 
       if ((priceLimit > 0 && currentPrice > priceLimit)
           || (isAutomated && currentPrice > Preferences.getInteger("autoBuyPriceLimit"))) {
