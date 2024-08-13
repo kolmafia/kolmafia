@@ -215,7 +215,7 @@ public class MallPurchaseRequest extends PurchaseRequest {
       final int quantity,
       final int shopId,
       final String shopName,
-      final int price,
+      final long price,
       final int limit,
       final boolean canPurchase) {
     this(ItemPool.get(itemId), quantity, shopId, shopName, price, limit, canPurchase);
@@ -226,7 +226,7 @@ public class MallPurchaseRequest extends PurchaseRequest {
       final int quantity,
       final int shopId,
       final String shopName,
-      final int price,
+      final long price,
       final int limit) {
     this(ItemPool.get(itemId), quantity, shopId, shopName, price, limit, true);
   }
@@ -236,7 +236,7 @@ public class MallPurchaseRequest extends PurchaseRequest {
       final int quantity,
       final int shopId,
       final String shopName,
-      final int price,
+      final long price,
       final int limit,
       final boolean canPurchase) {
     super("mallstore.php");
@@ -265,7 +265,7 @@ public class MallPurchaseRequest extends PurchaseRequest {
     return true;
   }
 
-  public static String getStoreString(final int itemId, final int price) {
+  public static String getStoreString(final int itemId, final long price) {
     // whichitem=2272000000246
 
     StringBuilder whichItem = new StringBuilder();

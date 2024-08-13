@@ -150,7 +150,7 @@ public class NPCPurchaseRequest extends PurchaseRequest {
    * @return The price of the item being purchased
    */
   @Override
-  public int getPrice() {
+  public long getPrice() {
     long factor = 100;
     if (this.shopName.equals("Doc Galaktik's Medicine Show")
         && QuestDatabase.isQuestFinished(Quest.DOC)) {
@@ -162,14 +162,14 @@ public class NPCPurchaseRequest extends PurchaseRequest {
     }
     if (NPCPurchaseRequest.usingTrousers(this.npcStoreId)) factor -= 5;
     if (KoLCharacter.hasSkill(SkillPool.FIVE_FINGER_DISCOUNT)) factor -= 5;
-    return (int) ((this.price * factor) / 100);
+    return (this.price * factor) / 100;
   }
 
-  public static int currentDiscountedPrice(int price) {
+  public static int currentDiscountedPrice(long price) {
     return currentDiscountedPrice(null, price);
   }
 
-  public static int currentDiscountedPrice(String npcStoreId, int price) {
+  public static int currentDiscountedPrice(String npcStoreId, long price) {
     long factor = 100;
     if (NPCPurchaseRequest.usingTrousers(npcStoreId)) factor -= 5;
     if (KoLCharacter.hasSkill(SkillPool.FIVE_FINGER_DISCOUNT)) factor -= 5;
@@ -371,7 +371,7 @@ public class NPCPurchaseRequest extends PurchaseRequest {
     int itemId = StringUtilities.parseInt(itemMatcher.group(1));
     String itemName = ItemDatabase.getItemName(itemId);
     int quantity = StringUtilities.parseInt(quantityMatcher.group(1));
-    int priceVal = NPCStoreDatabase.price(itemId);
+    long priceVal = NPCStoreDatabase.price(itemId);
 
     Matcher m = NPCPurchaseRequest.NPCSHOPID_PATTERN.matcher(urlString);
     String shopId = m.find() ? NPCStoreDatabase.getStoreName(m.group(1)) : null;
@@ -1190,7 +1190,7 @@ public class NPCPurchaseRequest extends PurchaseRequest {
     }
 
     String itemName = ItemDatabase.getItemName(itemId);
-    int priceVal = NPCStoreDatabase.price(itemId);
+    long priceVal = NPCStoreDatabase.price(itemId);
 
     // A "shop" can have items for Meat and also for tokens.
     // If  there is no Meat price, let correct class claim it.

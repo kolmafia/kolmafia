@@ -613,12 +613,12 @@ public class NPCStoreDatabase {
     return NPCStoreDatabase.contains(itemId, true);
   }
 
-  public static final int price(final int itemId) {
+  public static final long price(final int itemId) {
     PurchaseRequest request = NPCStoreDatabase.getPurchaseRequest(itemId);
     return request == null ? 0 : request.getPrice();
   }
 
-  public static final int availablePrice(final int itemId) {
+  public static final long availablePrice(final int itemId) {
     PurchaseRequest request = NPCStoreDatabase.getPurchaseRequest(itemId);
     return request == null || !request.canPurchase() ? 0 : request.getPrice();
   }

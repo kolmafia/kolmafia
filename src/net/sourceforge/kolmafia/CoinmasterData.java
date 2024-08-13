@@ -31,7 +31,7 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
         }
 
         @Override
-        public String getPluralName(int price) {
+        public String getPluralName(long price) {
           return "Meat";
         }
       };
@@ -816,7 +816,7 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
       this.tokenItem =
           new AdventureResult(this.token, -1, 1, false) {
             @Override
-            public String getPluralName(final int count) {
+            public String getPluralName(final long count) {
               return count == 1
                   ? CoinmasterData.this.getToken()
                   : CoinmasterData.this.getPluralToken();
