@@ -337,7 +337,7 @@ public class MallSearchRequest extends GenericRequest {
 
   private static final Pattern STOREID_PATTERN = Pattern.compile("<b>(.*?) \\(<a.*?who=(\\d+)\"");
   private static final Pattern STOREPRICE_PATTERN =
-      Pattern.compile("radio value=(\\d+).*?<b>(.*?)</b> \\(([\\d,]+)\\)(.*?)</td>");
+      Pattern.compile("radio value=([\\d.]+).*?<b>(.*?)</b> \\(([\\d,]+)\\)(.*?)</td>");
   private static final Pattern STORELIMIT_PATTERN = Pattern.compile("Limit ([\\d,]+) /");
   private static final Pattern mangledEntityPattern = Pattern.compile("\\s+;");
 
@@ -362,7 +362,7 @@ public class MallSearchRequest extends GenericRequest {
 
       String itemName = priceMatcher.group(2);
 
-      int itemId = StringUtilities.parseInt(priceId.substring(0, priceId.length() - 12));
+      int itemId = MallPurchaseRequest.itemFromStoreString(priceId);
       int quantity = StringUtilities.parseInt(priceMatcher.group(3));
       int limit = quantity;
 
@@ -371,7 +371,7 @@ public class MallSearchRequest extends GenericRequest {
         limit = StringUtilities.parseInt(limitMatcher.group(1));
       }
 
-      long price = StringUtilities.parseLong(priceId.substring(priceId.length() - 12));
+      long price = MallPurchaseRequest.priceFromStoreString(priceId);
       this.results.add(
           new MallPurchaseRequest(itemId, quantity, shopId, shopName, price, limit, true));
     }

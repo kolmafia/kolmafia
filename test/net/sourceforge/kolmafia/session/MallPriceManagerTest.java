@@ -785,7 +785,7 @@ public class MallPriceManagerTest {
       request.run();
 
       List<PurchaseRequest> results = request.getResults();
-      assertEquals(4091, results.size());
+      assertEquals(4065, results.size());
     }
   }
 
