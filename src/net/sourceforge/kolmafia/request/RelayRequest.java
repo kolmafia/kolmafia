@@ -387,8 +387,8 @@ public class RelayRequest extends PasswordHashRequest {
       while (itemMatcher.find()) {
         String itemData = itemMatcher.group(1);
 
-        int itemId = StringUtilities.parseInt(itemData.substring(0, itemData.length() - 9));
-        int price = StringUtilities.parseInt(itemData.substring(itemData.length() - 9));
+        int itemId = StringUtilities.parseInt(itemData.substring(0, itemData.length() - 12));
+        int price = StringUtilities.parseInt(itemData.substring(itemData.length() - 12));
 
         if (itemId != searchItemId && RelayRequest.isJunkItem(itemId, price)) {
           StringUtilities.singleStringDelete(responseBuffer, itemMatcher.group());
