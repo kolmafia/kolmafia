@@ -242,11 +242,11 @@ public class ElVibratoManager {
     Construct construct = nameToConstruct.get(monster.getName());
     for (var command : construct.getCommands()) {
       int card1 = command.card1().id();
-      int card1Count = InventoryManager.getCount(card1);
+      long card1Count = InventoryManager.getCount(card1);
       int card2 = command.card2().id();
-      int card2Count = InventoryManager.getCount(card2);
+      long card2Count = InventoryManager.getCount(card2);
       AdventureResult item = command.object();
-      int itemCount = item == null ? 0 : InventoryManager.getCount(item);
+      long itemCount = item == null ? 0 : InventoryManager.getCount(item);
 
       boolean enabled = card1Count > 0 && card2Count > 0;
       if (item != null) {

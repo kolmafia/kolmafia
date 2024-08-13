@@ -265,7 +265,7 @@ public class SpecialOutfit implements Comparable<SpecialOutfit> {
       }
 
       int pieceCount = this.pieceCount(piece);
-      int accessibleCount = InventoryManager.getAccessibleCount(piece);
+      long accessibleCount = InventoryManager.getAccessibleCount(piece);
 
       if (accessibleCount < pieceCount) {
         missing.add(ItemPool.get(piece.getItemId(), pieceCount - accessibleCount));

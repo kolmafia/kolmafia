@@ -1,7 +1,6 @@
 package net.sourceforge.kolmafia.moods;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
@@ -36,7 +35,7 @@ public class MoodTrigger implements Comparable<MoodTrigger> {
   private final String type;
   private final String name;
 
-  private int count;
+  private long count;
   private AdventureResult item;
   private UseSkillRequest skill;
 
@@ -45,7 +44,7 @@ public class MoodTrigger implements Comparable<MoodTrigger> {
     this.effect = effect;
     this.name = effect == null ? null : effect.getName();
 
-    if ((action.startsWith("use ") || action.startsWith("cast ")) && action.indexOf(";") == -1) {
+    if ((action.startsWith("use ") || action.startsWith("cast ")) && !action.contains(";")) {
       // Determine the command, the count amount,
       // and the parameter's unambiguous form.
 
@@ -126,25 +125,7 @@ public class MoodTrigger implements Comparable<MoodTrigger> {
 
   public static String getKnownSources(String name) {
     Set<String> existingActions = MoodTrigger.knownSources.get(name);
-
-    if (existingActions == null) {
-      return "";
-    }
-
-    StringBuilder buffer = new StringBuilder();
-
-    Iterator<String> actionIterator = existingActions.iterator();
-
-    while (actionIterator.hasNext()) {
-      if (buffer.length() > 0) {
-        buffer.append("|");
-      }
-
-      String action = actionIterator.next();
-      buffer.append(action);
-    }
-
-    return buffer.toString();
+    return (existingActions == null) ? "" : String.join("|", existingActions);
   }
 
   public static void clearKnownSources() {
@@ -273,12 +254,12 @@ public class MoodTrigger implements Comparable<MoodTrigger> {
     }
 
     if (this.skill != null) {
-      int casts = Math.max(this.count, this.count * multiplicity);
+      long casts = Math.max(this.count, this.count * multiplicity);
       this.skill.setBuffCount(casts);
       this.skill.setTarget(KoLCharacter.getUserName());
       RequestThread.postRequest(this.skill);
 
-      if (!UseSkillRequest.lastUpdate.equals("")) {
+      if (!UseSkillRequest.lastUpdate.isEmpty()) {
         String name = this.skill.getSkillName();
         KoLmafia.updateDisplay(
             MafiaState.ERROR,
@@ -323,7 +304,7 @@ public class MoodTrigger implements Comparable<MoodTrigger> {
       return !KoLConstants.activeEffects.contains(this.effect);
     }
 
-    int activeCount = this.effect.getCount(KoLConstants.activeEffects);
+    long activeCount = this.effect.getCount(KoLConstants.activeEffects);
 
     if (multiplicity == -1) {
       return activeCount <= 1;

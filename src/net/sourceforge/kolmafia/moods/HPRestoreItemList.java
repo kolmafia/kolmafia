@@ -411,7 +411,7 @@ public abstract class HPRestoreItemList {
         return;
       }
 
-      int numberToUse =
+      long numberToUse =
           Math.max((int) Math.floor((float) hpShort / (float) this.getHealthRestored()), 1);
 
       if (this == HPRestoreItemList.SOFA) {
@@ -429,7 +429,7 @@ public abstract class HPRestoreItemList {
         // more of the given item from NPC stores, or
         // from the mall.
 
-        int numberAvailable = this.itemUsed.getCount(KoLConstants.inventory);
+        long numberAvailable = this.itemUsed.getCount(KoLConstants.inventory);
         int itemId = this.itemUsed.getItemId();
 
         if (purchase && numberAvailable < numberToUse) {
@@ -438,8 +438,8 @@ public abstract class HPRestoreItemList {
           if (KoLCharacter.isPlumber()) {
             // Healing items are bought with coins
             int unitPrice = this.purchaseCost;
-            int coins = COIN.getCount(KoLConstants.inventory);
-            int canBuy = coins / unitPrice;
+            long coins = COIN.getCount(KoLConstants.inventory);
+            long canBuy = coins / unitPrice;
             numberToBuy = Math.min(canBuy, numberToUse - numberAvailable);
           } else if (NPCStoreDatabase.contains(itemId)) {
             // Healing items are bought with Meat

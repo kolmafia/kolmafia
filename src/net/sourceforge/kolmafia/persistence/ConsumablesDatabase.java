@@ -368,7 +368,7 @@ public class ConsumablesDatabase {
     int size = consumable.getSize();
 
     Concoction c = consumable.getConcoction();
-    int advs = (c == null) ? 0 : c.getAdventuresNeeded(1, true);
+    long advs = (c == null) ? 0 : c.getAdventuresNeeded(1, true);
 
     if (KoLCharacter.inNuclearAutumn()) {
       if (consumable.getConsumptionType() == ConsumptionType.EAT) {

@@ -651,10 +651,10 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     private final JButton pullB = new InvocationButton("pull Uncle B", this, "pullB");
     private final JButton AToB = new InvocationButton("1 A -> 10 B", this, "AToB");
     private final JButton BToA = new InvocationButton("10 B -> 1 A", this, "BToA");
-    private int ACountStorage = 0;
-    private int BCountStorage = 0;
-    private int ACount = 0;
-    private int BCount = 0;
+    private long ACountStorage = 0;
+    private long BCountStorage = 0;
+    private long ACount = 0;
+    private long BCount = 0;
 
     public MrStorePanel() {
       super(MrStoreRequest.MR_STORE);
@@ -766,7 +766,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     }
 
     public void fish() {
-      int available = HermitRequest.getWorthlessItemCount();
+      long available = HermitRequest.getWorthlessItemCount();
       AdventureResult item = HermitRequest.WORTHLESS_ITEM.getInstance(available + 1);
       InventoryManager.retrieveItem(item, false);
     }
@@ -1040,7 +1040,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
 
   public class TicketCounterPanel extends CoinmasterPanel {
     private final JButton skeeball = new InvocationButton("skeeball", this, "skeeball");
-    private int gameGridTokens = 0;
+    private long gameGridTokens = 0;
 
     public TicketCounterPanel() {
       super(TicketCounterRequest.TICKET_COUNTER);
@@ -1336,7 +1336,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     }
 
     @Override
-    public int buyMax(final AdventureResult item, final int max) {
+    public long buyMax(final AdventureResult item, final long max) {
       return switch (item.getItemId()) {
         case ItemPool.TALES_OF_DREAD, ItemPool.BRASS_DREAD_FLASK, ItemPool.SILVER_DREAD_FLASK -> 1;
         default -> max;
@@ -1369,7 +1369,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     }
 
     @Override
-    public int buyMax(final AdventureResult item, final int max) {
+    public long buyMax(final AdventureResult item, final long max) {
       return switch (item.getItemId()) {
         case ItemPool.VIRAL_VIDEO,
             ItemPool.PLUS_ONE,
@@ -1401,7 +1401,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     }
 
     @Override
-    public int buyDefault(final int max) {
+    public long buyDefault(final long max) {
       return max;
     }
   }
@@ -1416,7 +1416,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     }
 
     @Override
-    public int buyDefault(final int max) {
+    public long buyDefault(final long max) {
       return max;
     }
   }
@@ -1455,7 +1455,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     public void setTitle(final StringBuffer buffer) {
       this.standardTitle(buffer);
       for (AdventureResult currency : this.data.currencies()) {
-        int count =
+        long count =
             currency.isMeat() ? Concoction.getAvailableMeat() : InventoryManager.getCount(currency);
         buffer.append(" (");
         buffer.append(count);
@@ -1482,7 +1482,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     public void setTitle(final StringBuffer buffer) {
       this.standardTitle(buffer);
       for (AdventureResult currency : this.data.currencies()) {
-        int count = InventoryManager.getCount(currency);
+        long count = InventoryManager.getCount(currency);
         buffer.append(" (");
         buffer.append(count);
         buffer.append(" ");
@@ -1637,7 +1637,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
       String token = this.data.getToken();
       if (token != null) {
         AdventureResult item = this.data.getItem();
-        int count = this.data.availableTokens();
+        long count = this.data.availableTokens();
         String name = (count != 1) ? this.data.getPluralToken() : token;
         buffer.append(" (");
         buffer.append(count);
@@ -1646,7 +1646,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
 
         // Makes no sense to show storage except for real items
         if (storageInTitle && item != null) {
-          int count1 = item.getCount(KoLConstants.storage);
+          long count1 = item.getCount(KoLConstants.storage);
           buffer.append(", ");
           buffer.append(count1);
           buffer.append(" in storage");
@@ -1693,11 +1693,11 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
       }
     }
 
-    public int buyMax(final AdventureResult item, final int max) {
+    public long buyMax(final AdventureResult item, final long max) {
       return max;
     }
 
-    public int buyDefault(final int max) {
+    public long buyDefault(final long max) {
       return 1;
     }
 
@@ -1737,8 +1737,8 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
       }
 
       CoinmasterData data = this.data;
-      Map<Integer, Integer> originalBalances = new TreeMap<>();
-      Map<Integer, Integer> balances = new TreeMap<>();
+      Map<Integer, Long> originalBalances = new TreeMap<>();
+      Map<Integer, Long> balances = new TreeMap<>();
       int neededSize = items.length;
 
       for (int i = 0; i < items.length; ++i) {
@@ -1754,19 +1754,18 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
 
         AdventureResult cost = data.itemBuyPrice(itemId);
         Integer currency = cost.getItemId();
-        int price = cost.getCount();
+        long price = cost.getCount();
 
-        Integer value = originalBalances.get(currency);
-        if (value == null) {
-          int newValue =
-              fromStorage ? data.availableStorageTokens(cost) : data.availableTokens(cost);
-          value = newValue;
-          originalBalances.put(currency, value);
-          balances.put(currency, value);
-        }
-
-        int originalBalance = value.intValue();
-        int balance = balances.get(currency).intValue();
+        long originalBalance =
+            originalBalances.computeIfAbsent(
+                currency,
+                (k) -> {
+                  long newValue =
+                      fromStorage ? data.availableStorageTokens(cost) : data.availableTokens(cost);
+                  balances.put(currency, newValue);
+                  return newValue;
+                });
+        long balance = balances.get(currency);
 
         if (price > originalBalance) {
           // This was grayed out.
@@ -1775,11 +1774,11 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
           continue;
         }
 
-        int max = CoinmasterPanel.this.buyMax(item, balance / price);
-        int quantity = max;
+        long max = CoinmasterPanel.this.buyMax(item, balance / price);
+        long quantity = max;
 
         if (max > 1) {
-          int def = CoinmasterPanel.this.buyDefault(max);
+          long def = CoinmasterPanel.this.buyDefault(max);
           String val =
               InputFieldUtilities.input(
                   "Buying " + item.getName() + "...", KoLConstants.COMMA_FORMAT.format(def));
@@ -2090,15 +2089,15 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
 
       boolean show = !this.buying || data.availableItem(itemId);
 
-      int price = cost.getCount();
+      long price = cost.getCount();
 
       if (cost.isMeat()) {
         price = NPCPurchaseRequest.currentDiscountedPrice(price);
       }
 
       if (show && this.buying) {
-        int balance1 = this.data.availableTokens(cost);
-        int balance2 = this.data.availableStorageTokens(cost);
+        long balance1 = this.data.availableTokens(cost);
+        long balance2 = this.data.availableStorageTokens(cost);
         if (price > balance1 && price > balance2) {
           show = false;
         }
@@ -2115,7 +2114,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
       stringForm.append(" ");
       stringForm.append(cost.getPluralName(price));
       stringForm.append(")");
-      int count = ar.getCount();
+      long count = ar.getCount();
       if (count == -1) {
         stringForm.append(" (unknown)");
       } else if (count != PurchaseRequest.MAX_QUANTITY) {

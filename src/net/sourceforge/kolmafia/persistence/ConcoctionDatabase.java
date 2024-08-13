@@ -80,15 +80,15 @@ public class ConcoctionDatabase {
   private static boolean recalculateAdventureRange = false;
   public static int refreshLevel = 0;
 
-  public static int queuedAdventuresUsed = 0;
-  public static int queuedFreeCraftingTurns = 0;
-  public static int queuedStillsUsed = 0;
-  public static int queuedTomesUsed = 0;
-  public static int queuedExtrudesUsed = 0;
-  public static int queuedPullsUsed = 0;
+  public static long queuedAdventuresUsed = 0;
+  public static long queuedFreeCraftingTurns = 0;
+  public static long queuedStillsUsed = 0;
+  public static long queuedTomesUsed = 0;
+  public static long queuedExtrudesUsed = 0;
+  public static long queuedPullsUsed = 0;
   public static long queuedMeatSpent = 0;
   public static boolean queuedFancyDog = false;
-  public static int queuedSpeakeasyDrink = 0;
+  public static long queuedSpeakeasyDrink = 0;
   public static int queuedSmores = 0;
   public static int queuedAffirmationCookies = 0;
   public static int queuedSpaghettiBreakfast = 0;
@@ -158,21 +158,21 @@ public class ConcoctionDatabase {
 
   private ConcoctionDatabase() {}
 
-  public static final void resetQueue() {
+  public static void resetQueue() {
     LockableListModel<QueuedConcoction> queue = ConcoctionDatabase.queuedFood;
-    while (queue.size() > 0) {
+    while (!queue.isEmpty()) {
       ConcoctionDatabase.pop(ConcoctionType.FOOD);
     }
     queue = ConcoctionDatabase.queuedBooze;
-    while (queue.size() > 0) {
+    while (!queue.isEmpty()) {
       ConcoctionDatabase.pop(ConcoctionType.BOOZE);
     }
     queue = ConcoctionDatabase.queuedSpleen;
-    while (queue.size() > 0) {
+    while (!queue.isEmpty()) {
       ConcoctionDatabase.pop(ConcoctionType.SPLEEN);
     }
     queue = ConcoctionDatabase.queuedPotions;
-    while (queue.size() > 0) {
+    while (!queue.isEmpty()) {
       ConcoctionDatabase.pop(ConcoctionType.POTION);
     }
   }
@@ -439,7 +439,7 @@ public class ConcoctionDatabase {
     if (ConcoctionDatabase.isMayo(id)
         && ConcoctionDatabase.lastQueuedMayo == 0
         && (!ConcoctionDatabase.queuedFood.isEmpty()
-            || Preferences.getString("mayoInMouth").equals(""))) {
+            || Preferences.getString("mayoInMouth").isEmpty())) {
       AdventureResult workshedItem = CampgroundRequest.getCurrentWorkshedItem();
       if (workshedItem == null || workshedItem.getItemId() != ItemPool.MAYO_CLINIC) {
         return false;
@@ -503,12 +503,12 @@ public class ConcoctionDatabase {
 
     // Get current values of things that a concoction can consume
     long meat = ConcoctionDatabase.queuedMeatSpent;
-    int pulls = ConcoctionDatabase.queuedPullsUsed;
-    int tome = ConcoctionDatabase.queuedTomesUsed;
-    int stills = ConcoctionDatabase.queuedStillsUsed;
-    int extrudes = ConcoctionDatabase.queuedExtrudesUsed;
-    int free = ConcoctionDatabase.queuedFreeCraftingTurns;
-    int advs = ConcoctionDatabase.queuedAdventuresUsed;
+    long pulls = ConcoctionDatabase.queuedPullsUsed;
+    long tome = ConcoctionDatabase.queuedTomesUsed;
+    long stills = ConcoctionDatabase.queuedStillsUsed;
+    long extrudes = ConcoctionDatabase.queuedExtrudesUsed;
+    long free = ConcoctionDatabase.queuedFreeCraftingTurns;
+    long advs = ConcoctionDatabase.queuedAdventuresUsed;
 
     // Queue the ingredients used by this concoction
     ArrayList<AdventureResult> ingredients = new ArrayList<>();
@@ -655,7 +655,7 @@ public class ConcoctionDatabase {
           queuedIngredients, new AdventureResult(AdventureResult.MEAT_SPENT, -meat));
     }
 
-    int pulls = qc.getPulls();
+    long pulls = qc.getPulls();
     if (pulls != 0) {
       c.queuedPulls -= pulls;
       ConcoctionDatabase.queuedPullsUsed -= pulls;
@@ -663,35 +663,35 @@ public class ConcoctionDatabase {
           queuedIngredients, new AdventureResult(AdventureResult.PULL, -pulls));
     }
 
-    int tome = qc.getTomes();
+    long tome = qc.getTomes();
     if (tome != 0) {
       ConcoctionDatabase.queuedTomesUsed -= tome;
       AdventureResult.addOrRemoveResultToList(
           queuedIngredients, new AdventureResult(AdventureResult.TOME, -tome));
     }
 
-    int stills = qc.getStills();
+    long stills = qc.getStills();
     if (stills != 0) {
       ConcoctionDatabase.queuedStillsUsed -= stills;
       AdventureResult.addOrRemoveResultToList(
           queuedIngredients, new AdventureResult(AdventureResult.STILL, -stills));
     }
 
-    int extrudes = qc.getExtrudes();
+    long extrudes = qc.getExtrudes();
     if (extrudes != 0) {
       ConcoctionDatabase.queuedExtrudesUsed -= extrudes;
       AdventureResult.addOrRemoveResultToList(
           queuedIngredients, new AdventureResult(AdventureResult.EXTRUDE, -extrudes));
     }
 
-    int advs = qc.getAdventures();
+    long advs = qc.getAdventures();
     if (advs != 0) {
       ConcoctionDatabase.queuedAdventuresUsed -= advs;
       AdventureResult.addOrRemoveResultToList(
           queuedIngredients, new AdventureResult(AdventureResult.ADV, -advs));
     }
 
-    int free = qc.getFreeCrafts();
+    long free = qc.getFreeCrafts();
     if (free != 0) {
       ConcoctionDatabase.queuedFreeCraftingTurns -= free;
       AdventureResult.addOrRemoveResultToList(
@@ -973,7 +973,7 @@ public class ConcoctionDatabase {
     if (item != null
         && consumptionType == ConsumptionType.EAT
         && !ConcoctionDatabase.isMayo(item.getItemId())
-        && !minderSetting.equals("")
+        && !minderSetting.isEmpty()
         && Preferences.getBoolean("autoFillMayoMinder")
         && !(minderSetting.equals("Mayostat") && c.getFullness() == 1)
         && !(minderSetting.equals("Mayodiol")
@@ -2927,24 +2927,24 @@ public class ConcoctionDatabase {
     private final long count;
     private final ArrayList<AdventureResult> ingredients;
     private final long meat;
-    private final int pulls;
-    private final int tomes;
-    private final int stills;
-    private final int extrudes;
-    private final int adventures;
-    private final int freeCrafts;
+    private final long pulls;
+    private final long tomes;
+    private final long stills;
+    private final long extrudes;
+    private final long adventures;
+    private final long freeCrafts;
 
     public QueuedConcoction(
         final Concoction c,
         final long count,
         final ArrayList<AdventureResult> ingredients,
         final long meat,
-        final int pulls,
-        final int tomes,
-        final int stills,
-        final int extrudes,
-        final int adventures,
-        final int freeCrafts) {
+        final long pulls,
+        final long tomes,
+        final long stills,
+        final long extrudes,
+        final long adventures,
+        final long freeCrafts) {
       this.concoction = c;
       this.count = count;
       this.ingredients = ingredients;
@@ -2973,27 +2973,27 @@ public class ConcoctionDatabase {
       return this.meat;
     }
 
-    public int getPulls() {
+    public long getPulls() {
       return this.pulls;
     }
 
-    public int getTomes() {
+    public long getTomes() {
       return this.tomes;
     }
 
-    public int getStills() {
+    public long getStills() {
       return this.stills;
     }
 
-    public int getExtrudes() {
+    public long getExtrudes() {
       return this.extrudes;
     }
 
-    public int getAdventures() {
+    public long getAdventures() {
       return this.adventures;
     }
 
-    public int getFreeCrafts() {
+    public long getFreeCrafts() {
       return this.freeCrafts;
     }
 

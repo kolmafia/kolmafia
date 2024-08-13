@@ -189,11 +189,11 @@ public class DailyLimitDatabase {
       return getMax() == 1 && Preferences.getDefault(this.uses).equals("false");
     }
 
-    public int increment() {
+    public long increment() {
       return increment(1);
     }
 
-    public int increment(final int delta) {
+    public long increment(final int delta) {
       if (isBoolean()) {
         Preferences.setBoolean(this.uses, true);
         return 1;
@@ -206,7 +206,7 @@ public class DailyLimitDatabase {
       return Preferences.increment(this.uses, delta, getMax(), false);
     }
 
-    public int incrementByCost(final int count) {
+    public long incrementByCost(final int count) {
       return increment(cost() * count);
     }
 

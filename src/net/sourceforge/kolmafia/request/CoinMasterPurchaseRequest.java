@@ -68,7 +68,7 @@ public class CoinMasterPurchaseRequest extends PurchaseRequest {
 
   @Override
   public long affordableCount() {
-    int tokens = this.data.affordableTokens(this.cost);
+    long tokens = this.data.affordableTokens(this.cost);
     long price = this.price;
     return price == 0 ? 0 : tokens / price;
   }

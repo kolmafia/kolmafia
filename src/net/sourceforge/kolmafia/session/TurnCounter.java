@@ -196,7 +196,7 @@ public class TurnCounter implements Comparable<TurnCounter> {
     KoLAdventure adventure = AdventureDatabase.getAdventureByURL(URL);
 
     String adventureId;
-    int turnsUsed;
+    long turnsUsed;
 
     if (adventure != null) {
       adventureId = adventure.getAdventureId();
@@ -214,7 +214,7 @@ public class TurnCounter implements Comparable<TurnCounter> {
     }
 
     int thisTurn = KoLCharacter.getCurrentRun();
-    int currentTurns = thisTurn + turnsUsed - 1;
+    long currentTurns = thisTurn + turnsUsed - 1;
 
     synchronized (TurnCounter.relayCounters) {
       Iterator<TurnCounter> it = TurnCounter.relayCounters.iterator();
@@ -439,16 +439,13 @@ public class TurnCounter implements Comparable<TurnCounter> {
     Preferences.setString("_tempRelayCounters", "");
   }
 
-  public static int getTurnsUsed(GenericRequest request) {
+  public static long getTurnsUsed(GenericRequest request) {
     return request.getAdventuresUsed();
   }
 
   public static final void addWarning(final String label) {
     synchronized (TurnCounter.relayCounters) {
-      Iterator<TurnCounter> it = TurnCounter.relayCounters.iterator();
-
-      while (it.hasNext()) {
-        TurnCounter counter = it.next();
+      for (TurnCounter counter : TurnCounter.relayCounters) {
         if (counter.parsedLabel.equals(label) && counter.exemptions == TurnCounter.ALL_LOCATIONS) {
           counter.label = counter.label.replace(" loc=*", "");
 

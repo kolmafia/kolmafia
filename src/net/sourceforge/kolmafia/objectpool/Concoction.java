@@ -69,7 +69,7 @@ public class Concoction implements Comparable<Concoction> {
   public String property;
   public long creatable;
   public long queued;
-  public int queuedPulls;
+  public long queuedPulls;
   public long initial;
   public long pullable;
   public int mallable;
@@ -483,7 +483,7 @@ public class Concoction implements Comparable<Concoction> {
     }
 
     if (Preferences.getBoolean("sortByRoom")) {
-      int limit;
+      long limit;
       boolean thisCantConsume = false;
       boolean oCantConsume = false;
 

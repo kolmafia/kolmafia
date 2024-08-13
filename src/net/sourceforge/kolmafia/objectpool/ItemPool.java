@@ -3985,13 +3985,13 @@ public class ItemPool {
       ++unknown;
 
       AdventureResult item = new AdventureResult(i, 1, false);
-      int count = item.getCount(KoLConstants.inventory);
+      long count = item.getCount(KoLConstants.inventory);
 
       if (count <= 0) {
         continue; // can't identify yet
       }
 
-      possible.add(i | Math.min(count, 127) << 24);
+      possible.add(i | Math.min((int) count, 127) << 24);
     }
 
     int count = possible.size();

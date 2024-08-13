@@ -10,7 +10,6 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.moods.MPRestoreItemList;
-import net.sourceforge.kolmafia.moods.MPRestoreItemList.MPRestoreItem;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
@@ -575,36 +574,34 @@ public class Macrofier {
       return;
     }
 
-    int cumulative = 0;
-    for (int i = 0; i < MPRestoreItemList.CONFIGURES.length; ++i) {
-      MPRestoreItem restorer = MPRestoreItemList.CONFIGURES[i];
-      if (restorer.isCombatUsable()) {
-        AdventureResult restoreItem = restorer.getItem();
-        if (restoreItem == null) {
-          continue;
-        }
-
-        int count = restoreItem.getCount(KoLConstants.inventory);
-        if (count <= 0) {
-          continue;
-        }
-
-        String itemId = String.valueOf(restoreItem.getItemId());
-        cumulative += count;
-        if (cumulative >= 30) {
-          // Assume this item will be sufficient for all requests
-          macro.append("call mafiaround; use ");
-          macro.append(itemId);
-          macro.append("\nmark mafiampexit\n");
-          return;
-        }
-
-        macro.append("if hascombatitem ");
-        macro.append(itemId);
-        macro.append("\ncall mafiaround; use ");
-        macro.append(itemId);
-        macro.append("\ngoto mafiampexit\nendif\n");
+    long cumulative = 0;
+    for (var restorer : MPRestoreItemList.CONFIGURES) {
+      if (!restorer.isCombatUsable()) continue;
+      AdventureResult restoreItem = restorer.getItem();
+      if (restoreItem == null) {
+        continue;
       }
+
+      long count = restoreItem.getCount(KoLConstants.inventory);
+      if (count <= 0) {
+        continue;
+      }
+
+      String itemId = String.valueOf(restoreItem.getItemId());
+      cumulative += count;
+      if (cumulative >= 30) {
+        // Assume this item will be sufficient for all requests
+        macro.append("call mafiaround; use ");
+        macro.append(itemId);
+        macro.append("\nmark mafiampexit\n");
+        return;
+      }
+
+      macro.append("if hascombatitem ");
+      macro.append(itemId);
+      macro.append("\ncall mafiaround; use ");
+      macro.append(itemId);
+      macro.append("\ngoto mafiampexit\nendif\n");
     }
 
     macro.append("abort \"No MP restoratives!\"\n");

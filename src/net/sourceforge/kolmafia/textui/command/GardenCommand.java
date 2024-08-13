@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.textui.command;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -61,7 +62,7 @@ public class GardenCommand extends AbstractCommand {
 
     CropType cropType = CampgroundRequest.getCropType(crops.get(0));
 
-    if (command.equals("")) {
+    if (command.isEmpty()) {
       String gardenType = cropType.toString();
       StringBuilder display = new StringBuilder();
       display.append("Your ").append(gardenType).append(" garden has ");
@@ -72,7 +73,7 @@ public class GardenCommand extends AbstractCommand {
             if (!first) {
               display.append(", and ");
             }
-            int count = crop.getPluralCount();
+            long count = crop.getPluralCount();
             String name = crop.getPluralName();
             display.append(count).append(" ").append(name);
             first = false;
@@ -83,7 +84,7 @@ public class GardenCommand extends AbstractCommand {
         }
       } else {
         var onlyCrop = crops.get(0);
-        int count = onlyCrop.getPluralCount();
+        long count = onlyCrop.getPluralCount();
         String name = onlyCrop.getPluralName();
         display.append(count).append(" ").append(name);
       }
@@ -114,9 +115,9 @@ public class GardenCommand extends AbstractCommand {
         Set<CropPlot> plots =
             Arrays.stream(split, 1, split.length)
                 .map(CropPlot::nameToPlot)
-                .filter(x -> x != null)
+                .filter(Objects::nonNull)
                 .collect(Collectors.toSet());
-        if (plots.size() > 0) {
+        if (!plots.isEmpty()) {
           for (var crop : crops) {
             if (crop.getCount() == 0) {
               continue;
@@ -141,7 +142,7 @@ public class GardenCommand extends AbstractCommand {
         return;
       }
 
-      int count = crops.stream().mapToInt(AdventureResult::getCount).sum();
+      long count = crops.stream().mapToLong(AdventureResult::getCount).sum();
       if (count == 0) {
         KoLmafia.updateDisplay("There is nothing ready to pick in your garden.");
         return;

@@ -391,7 +391,7 @@ public abstract class MPRestoreItemList {
         return;
       }
 
-      int numberToUse =
+      long numberToUse =
           Math.max((int) Math.floor((float) mpShort / (float) this.getManaRestored()), 1);
 
       if (this == MPRestoreItemList.SOFA) {
@@ -408,7 +408,7 @@ public abstract class MPRestoreItemList {
         return;
       }
 
-      int numberAvailable = this.itemUsed.getCount(KoLConstants.inventory);
+      long numberAvailable = this.itemUsed.getCount(KoLConstants.inventory);
 
       // If you need to purchase, then calculate a better
       // purchasing strategy.

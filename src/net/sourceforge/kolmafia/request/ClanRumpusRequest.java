@@ -173,7 +173,7 @@ public class ClanRumpusRequest extends GenericRequest {
 
   private final RequestType action;
   private int option;
-  private int turnCount;
+  private long turnCount;
 
   private ClanRumpusRequest() {
     super("clan_rumpus.php");
@@ -200,7 +200,7 @@ public class ClanRumpusRequest extends GenericRequest {
    * Runs the request. Note that this does not report an error if it fails; it merely parses the
    * results to see if any gains were made.
    */
-  public ClanRumpusRequest setTurnCount(final int turnCount) {
+  public ClanRumpusRequest setTurnCount(final long turnCount) {
     this.turnCount = turnCount;
     return this;
   }

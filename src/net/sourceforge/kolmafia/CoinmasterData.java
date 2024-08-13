@@ -31,7 +31,7 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
         }
 
         @Override
-        public String getPluralName(int price) {
+        public String getPluralName(long price) {
           return "Meat";
         }
       };
@@ -816,7 +816,7 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
       this.tokenItem =
           new AdventureResult(this.token, -1, 1, false) {
             @Override
-            public String getPluralName(final int count) {
+            public String getPluralName(final long count) {
               return count == 1
                   ? CoinmasterData.this.getToken()
                   : CoinmasterData.this.getPluralToken();
@@ -826,7 +826,7 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
     return this.tokenItem;
   }
 
-  public final int availableTokens() {
+  public final long availableTokens() {
     AdventureResult item = this.item;
     if (item != null) {
       return item.getItemId() == ItemPool.WORTHLESS_ITEM
@@ -840,7 +840,7 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
     return 0;
   }
 
-  public final int availableTokens(final AdventureResult currency) {
+  public final long availableTokens(final AdventureResult currency) {
     if (currency.isMeat()) {
       return Concoction.getAvailableMeat();
     }
@@ -860,17 +860,17 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
     return 0;
   }
 
-  public final int availableStorageTokens() {
+  public final long availableStorageTokens() {
     return this.storageAction != null ? this.item.getCount(KoLConstants.storage) : 0;
   }
 
-  public final int availableStorageTokens(final AdventureResult currency) {
+  public final long availableStorageTokens(final AdventureResult currency) {
     return this.storageAction != null && currency.getItemId() != -1
         ? currency.getCount(KoLConstants.storage)
         : 0;
   }
 
-  public final int affordableTokens(final AdventureResult currency) {
+  public final long affordableTokens(final AdventureResult currency) {
     if (currency.isMeat()) {
       return Concoction.getAvailableMeat();
     }

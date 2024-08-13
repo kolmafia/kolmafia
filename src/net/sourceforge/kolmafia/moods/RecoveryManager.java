@@ -478,8 +478,8 @@ public class RecoveryManager {
       this.superDeluxe = superDeluxe;
     }
 
-    public boolean execute(final int extraSupers, boolean purchase) {
-      int supers = this.superDeluxe + extraSupers;
+    public boolean execute(final long extraSupers, boolean purchase) {
+      long supers = this.superDeluxe + extraSupers;
       if (supers > 0) {
         if (!this.use(supers, SUPER_DELUXE_MUSHROOM, purchase)) {
           return false;
@@ -500,8 +500,8 @@ public class RecoveryManager {
       return true;
     }
 
-    private boolean use(int count, AdventureResult item, boolean purchase) {
-      int have = InventoryManager.getCount(item);
+    private boolean use(long count, AdventureResult item, boolean purchase) {
+      long have = InventoryManager.getCount(item);
       if (!purchase && have < count) {
         return false;
       }
@@ -576,10 +576,10 @@ public class RecoveryManager {
     //   mushroom                 10 HP    5 coins
 
     // Assess our resources
-    int mushrooms = InventoryManager.getCount(MUSHROOM);
-    int deluxeMushrooms = InventoryManager.getCount(DELUXE_MUSHROOM);
-    int superDeluxeMushrooms = InventoryManager.getCount(SUPER_DELUXE_MUSHROOM);
-    int coins = InventoryManager.getCount(COIN);
+    long mushrooms = InventoryManager.getCount(MUSHROOM);
+    long deluxeMushrooms = InventoryManager.getCount(DELUXE_MUSHROOM);
+    long superDeluxeMushrooms = InventoryManager.getCount(SUPER_DELUXE_MUSHROOM);
+    long coins = InventoryManager.getCount(COIN);
 
     // Assess our needs.
 
@@ -588,7 +588,7 @@ public class RecoveryManager {
 
     // Find all plans that will recover enough HP
     long recover = desired;
-    int superNeeded = 0;
+    long superNeeded = 0;
 
     if (recover >= 100) {
       superNeeded = (int) (recover / 100);
@@ -618,7 +618,7 @@ public class RecoveryManager {
 
     // Start by using super-deluxe mushrooms we have
     if (superNeeded > 0) {
-      int use = Math.min(superNeeded, superDeluxeMushrooms);
+      long use = Math.min(superNeeded, superDeluxeMushrooms);
       if (use > 0) {
         boolean success = superOnlyPlan.execute(use, false);
         if (!success) {
@@ -631,7 +631,7 @@ public class RecoveryManager {
 
     // Continue by buying super-deluxe mushrooms
     if (superNeeded > 0) {
-      int use = superNeeded;
+      long use = superNeeded;
       boolean success = superOnlyPlan.execute(use, true);
       if (!success) {
         return false;

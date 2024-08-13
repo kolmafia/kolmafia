@@ -1898,7 +1898,7 @@ public class ProxyRecordValue extends RecordValue {
       return this.content != null ? ((CoinmasterData) this.content).getProperty() : "";
     }
 
-    public int get_available_tokens() {
+    public long get_available_tokens() {
       return this.content != null ? ((CoinmasterData) this.content).availableTokens() : 0;
     }
 

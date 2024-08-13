@@ -919,7 +919,7 @@ public class CharPaneRequest extends GenericRequest {
         continue;
       }
 
-      int currentCount = effect.getCount();
+      long currentCount = effect.getCount();
       if (currentCount == 0) {
         // This is an expired effect. We don't need to
         // explicitly remove it from activeEffects,
@@ -927,7 +927,7 @@ public class CharPaneRequest extends GenericRequest {
         continue;
       }
 
-      int activeCount = effect.getCount(KoLConstants.activeEffects);
+      long activeCount = effect.getCount(KoLConstants.activeEffects);
 
       if (currentCount != activeCount) {
         ResultProcessor.processResult(effect.getInstance(currentCount - activeCount));
@@ -946,7 +946,7 @@ public class CharPaneRequest extends GenericRequest {
 
   private static void checkChilledToTheBone() {
     // Update chilled to the bone - consequences.txt should populate it from description
-    int chilledCount = CharPaneRequest.CHILLED_TO_THE_BONE.getCount(KoLConstants.activeEffects);
+    long chilledCount = CharPaneRequest.CHILLED_TO_THE_BONE.getCount(KoLConstants.activeEffects);
     if (chilledCount > 0 && Preferences.getInteger("chilledToTheBone") == 0) {
       String descId = EffectDatabase.getDescriptionId(EffectPool.CHILLED_TO_THE_BONE);
       GenericRequest req = new GenericRequest("desc_effect.php?whicheffect=" + descId);

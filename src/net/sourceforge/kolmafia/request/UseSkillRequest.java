@@ -469,7 +469,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
         // casting consumes five elemental wads and a twinkly wad
 
       case SkillPool.RAINBOW_GRAVITATION:
-        var maximumCast = Math.max(3 - Preferences.getInteger("prismaticSummons"), 0);
+        var maximumCast = Math.max(3 - Preferences.getInteger("prismaticSummons"), 0L);
         maximumCast = Math.min(InventoryManager.getAccessibleCount(ItemPool.COLD_WAD), maximumCast);
         maximumCast = Math.min(InventoryManager.getAccessibleCount(ItemPool.HOT_WAD), maximumCast);
         maximumCast =
@@ -1228,7 +1228,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
 
       AdventureResult mana = SkillDatabase.getManaItemCost(this.skillId);
       if (mana != null) {
-        int manaPerCast = mana.getCount();
+        long manaPerCast = mana.getCount();
         long manaNeeded = manaPerCast * castsRemaining;
 
         // getMaximumCast accounted for the "accessible
@@ -1624,34 +1624,34 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
     return UseSkillRequest.getUnmodifiedInstance(SkillDatabase.getSkillId(skillName));
   }
 
-  public static final UseSkillRequest getInstance(
-      final int skillId, final String target, final int buffCount) {
+  public static UseSkillRequest getInstance(
+      final int skillId, final String target, final long buffCount) {
     UseSkillRequest request = new UseSkillRequest(skillId);
-    request.setTarget(target == null || target.equals("") ? KoLCharacter.getUserName() : target);
+    request.setTarget(target == null || target.isEmpty() ? KoLCharacter.getUserName() : target);
     request.setBuffCount(buffCount);
     return request;
   }
 
-  public static final UseSkillRequest getInstance(final int skillId) {
+  public static UseSkillRequest getInstance(final int skillId) {
     return UseSkillRequest.getInstance(skillId, null, 0);
   }
 
-  public static final UseSkillRequest getInstance(final int skillId, final int buffCount) {
+  public static UseSkillRequest getInstance(final int skillId, final int buffCount) {
     return UseSkillRequest.getInstance(skillId, null, buffCount);
   }
 
-  public static final UseSkillRequest getInstance(
-      final String skillName, final String target, final int buffCount) {
+  public static UseSkillRequest getInstance(
+      final String skillName, final String target, final long buffCount) {
     // *** Skills can have ambiguous names. Best to use the methods that deal with skill id
     return UseSkillRequest.getInstance(SkillDatabase.getSkillId(skillName), target, buffCount);
   }
 
-  public static final UseSkillRequest getInstance(String skillName) {
+  public static UseSkillRequest getInstance(String skillName) {
     // *** Skills can have ambiguous names. Best to use the methods that deal with skill id
     return UseSkillRequest.getInstance(skillName, null, 0);
   }
 
-  public static final UseSkillRequest getInstance(final String skillName, final int buffCount) {
+  public static UseSkillRequest getInstance(final String skillName, final int buffCount) {
     // *** Skills can have ambiguous names. Best to use the methods that deal with skill id
     return UseSkillRequest.getInstance(skillName, null, buffCount);
   }
