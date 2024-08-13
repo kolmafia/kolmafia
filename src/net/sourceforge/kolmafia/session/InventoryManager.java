@@ -738,7 +738,7 @@ public abstract class InventoryManager {
     if (!forceNoMall) {
       if (shouldUseNPCStore) {
         // If Price from NPC store is 100 or below and available, never try mall.
-        int NPCPrice = NPCStoreDatabase.availablePrice(itemId);
+        long NPCPrice = NPCStoreDatabase.availablePrice(itemId);
         int autosellPrice = ItemDatabase.getPriceById(itemId);
         if (NPCPrice > 0 && NPCPrice <= Math.max(100, autosellPrice * 2)) {
           forceNoMall = true;

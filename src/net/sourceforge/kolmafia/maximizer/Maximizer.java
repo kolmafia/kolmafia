@@ -470,7 +470,7 @@ public class Maximizer {
 
         String cmd, text;
 
-        int price = 0;
+        long price = 0L;
         int advCost = 0;
         long mpCost = 0;
         int fullCost = 0;
@@ -1645,7 +1645,7 @@ public class Maximizer {
 
       CheckedItem checkedItem = new CheckedItem(itemId, equipScope, maxPrice, priceLevel);
 
-      int price = 0;
+      long price = 0L;
 
       // How many have been needed so far to make this maximization set?
       // We need 1 + that number to equip this item, not just 1
@@ -1814,7 +1814,7 @@ public class Maximizer {
     CheckedItem checkedItem = new CheckedItem(itemId, equipScope, maxPrice, priceLevel);
     // We won't include unavailable items, as this just gets far too large
     String cmd, text;
-    int price = 0;
+    long price = 0L;
     boolean canMake = true;
     AdventureResult item = ItemPool.get(itemId);
     cmd = "absorb \u00B6" + itemId;
