@@ -11656,3 +11656,7 @@
 11628	extra DNA	945599812	dna.gif	familiar	t,d	11	extra strands of DNA
 11629	untorn tearaway pants package	962323138	oliver_package.gif	usable	t	0
 11630	tearaway pants	953334403	tearawaypants.gif	pants		0
+11631
+11632
+11633	tiny Tina gun	280367330	tinagun.gif	familiar	t	0
+11634	tattoo gun	500042705	happiness.gif	usable	t	0
