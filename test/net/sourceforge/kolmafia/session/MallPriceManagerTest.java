@@ -196,7 +196,8 @@ public class MallPriceManagerTest {
     return makeMallItem(itemId, quantity, price, limit, nextShopId++);
   }
 
-  private PurchaseRequest makeMallItem(int itemId, int quantity, long price, int limit, int shopId) {
+  private PurchaseRequest makeMallItem(
+      int itemId, int quantity, long price, int limit, int shopId) {
     String shopName = "shop " + String.valueOf(shopId);
 
     return makeMallItem(itemId, quantity, price, limit, shopId, shopName);
