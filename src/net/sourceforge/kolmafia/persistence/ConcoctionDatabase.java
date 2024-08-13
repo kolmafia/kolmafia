@@ -1851,8 +1851,7 @@ public class ConcoctionDatabase {
     if (ConcoctionDatabase.stillsLimit.total > 0) {
       ConcoctionDatabase.PERMIT_METHOD.add(CraftingType.STILL);
       ConcoctionDatabase.ADVENTURE_USAGE.put(CraftingType.STILL, 0);
-      ConcoctionDatabase.CREATION_COST.put(
-          CraftingType.STILL, Preferences.getLong("valueOfStill"));
+      ConcoctionDatabase.CREATION_COST.put(CraftingType.STILL, Preferences.getLong("valueOfStill"));
     }
     ConcoctionDatabase.EXCUSE.put(
         CraftingType.STILL,

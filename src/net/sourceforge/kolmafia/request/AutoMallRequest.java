@@ -183,7 +183,8 @@ public class AutoMallRequest extends TransferItemRequest {
     List<Long> prices = new ArrayList<>();
     Matcher matcher = AutoMallRequest.PRICE_PATTERN.matcher(urlString);
     while (matcher.find()) {
-      long price = matcher.group(1) == null ? MALL_MAX : StringUtilities.parseLong(matcher.group(1));
+      long price =
+          matcher.group(1) == null ? MALL_MAX : StringUtilities.parseLong(matcher.group(1));
       prices.add(price);
     }
     return prices.stream().mapToLong(i -> i).toArray();

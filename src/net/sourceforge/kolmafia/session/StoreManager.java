@@ -393,7 +393,11 @@ public abstract class StoreManager {
     private final long lowest;
 
     public SoldItem(
-        final int itemId, final int quantity, final long price, final int limit, final long lowest) {
+        final int itemId,
+        final int quantity,
+        final long price,
+        final int limit,
+        final long lowest) {
       this.itemId = itemId;
       this.itemName = ItemDatabase.getItemDataName(itemId);
       this.quantity = quantity;

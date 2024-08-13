@@ -1025,7 +1025,13 @@ public class Concoction implements Comparable<Concoction> {
     int needToMake = requested - alreadyHave;
     if (needToMake > 0 && this.price > 0) {
       Concoction c = ConcoctionDatabase.meatLimit;
-      int buyable = (int) (c.canMake((int) Math.min(needToMake * this.price, Integer.MAX_VALUE), visited, turnFreeOnly) / this.price);
+      int buyable =
+          (int)
+              (c.canMake(
+                      (int) Math.min(needToMake * this.price, Integer.MAX_VALUE),
+                      visited,
+                      turnFreeOnly)
+                  / this.price);
       if (Concoction.debug) {
         RequestLogger.printLine(
             "- " + this.name + " limited to " + buyable + " by price " + this.price);
