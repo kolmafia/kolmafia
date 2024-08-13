@@ -274,7 +274,7 @@ public class MallPurchaseRequest extends PurchaseRequest {
     int originalLength = whichItem.length();
     whichItem.append(price);
 
-    while (whichItem.length() < originalLength + 9) {
+    while (whichItem.length() < originalLength + 12) {
       whichItem.insert(originalLength, '0');
     }
 
@@ -368,11 +368,11 @@ public class MallPurchaseRequest extends PurchaseRequest {
       return -1;
     }
 
-    // whichitem=2272000000246
-    // the last 9 characters of idString are the price, with leading zeros
+    // whichitem=2272000000000246
+    // the last 12 characters of idString are the price, with leading zeros
 
     String idString = itemMatcher.group(1);
-    return StringUtilities.parseInt(idString.substring(0, idString.length() - 9));
+    return StringUtilities.parseInt(idString.substring(0, idString.length() - 12));
   }
 
   private static final Pattern YIELD_PATTERN =
@@ -616,7 +616,7 @@ public class MallPurchaseRequest extends PurchaseRequest {
   }
 
   public static boolean registerRequest(final String urlString) {
-    // mallstore.php?whichstore=294980&buying=1&ajax=1&whichitem=2272000000246&quantity=9
+    // mallstore.php?whichstore=294980&buying=1&ajax=1&whichitem=2272000000000246&quantity=9
 
     if (!urlString.startsWith("mallstore.php")) {
       return false;
@@ -634,12 +634,12 @@ public class MallPurchaseRequest extends PurchaseRequest {
 
     int quantity = StringUtilities.parseInt(quantityMatcher.group(1));
 
-    // whichitem=2272000000246
-    // the last 9 characters of idString are the price, with leading zeros
+    // whichitem=2272000000000246
+    // the last 12 characters of idString are the price, with leading zeros
     String idString = itemMatcher.group(1);
     int idStringLength = idString.length();
-    String priceString = idString.substring(idStringLength - 9, idStringLength);
-    idString = idString.substring(0, idStringLength - 9);
+    String priceString = idString.substring(idStringLength - 12, idStringLength);
+    idString = idString.substring(0, idStringLength - 12);
 
     // In a perfect world where I was not so lazy, I'd verify that
     // the price string was really an int and might find another

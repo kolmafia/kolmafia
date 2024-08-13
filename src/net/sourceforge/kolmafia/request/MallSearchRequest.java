@@ -362,7 +362,7 @@ public class MallSearchRequest extends GenericRequest {
 
       String itemName = priceMatcher.group(2);
 
-      int itemId = StringUtilities.parseInt(priceId.substring(0, priceId.length() - 9));
+      int itemId = StringUtilities.parseInt(priceId.substring(0, priceId.length() - 12));
       int quantity = StringUtilities.parseInt(priceMatcher.group(3));
       int limit = quantity;
 
@@ -371,7 +371,7 @@ public class MallSearchRequest extends GenericRequest {
         limit = StringUtilities.parseInt(limitMatcher.group(1));
       }
 
-      int price = StringUtilities.parseInt(priceId.substring(priceId.length() - 9));
+      int price = StringUtilities.parseInt(priceId.substring(priceId.length() - 12));
       this.results.add(
           new MallPurchaseRequest(itemId, quantity, shopId, shopName, price, limit, true));
     }

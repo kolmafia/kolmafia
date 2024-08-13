@@ -18,6 +18,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 public class MallPurchaseRequestTest {
 
@@ -109,5 +111,17 @@ public class MallPurchaseRequestTest {
         assertEquals("red", request.color());
       }
     }
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    "7924, 9950, 7924000000009950",
+    "7924, 50000, 7924000000050000",
+    "7924, 888888888888, 7924888888888888",
+    "1, 100, 1000000000100",
+    "10951, 999999999998, 10951999999999998",
+  })
+  public void whichItemIsCorrect(int itemId, long price, String whichitem) {
+    assertEquals(whichitem, MallPurchaseRequest.getStoreString(itemId, price));
   }
 }
