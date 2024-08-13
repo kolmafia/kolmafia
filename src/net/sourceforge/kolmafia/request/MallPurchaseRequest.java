@@ -274,7 +274,7 @@ public class MallPurchaseRequest extends PurchaseRequest {
     int originalLength = whichItem.length();
     whichItem.append(price);
 
-    while (whichItem.length() < originalLength + 9) {
+    while (whichItem.length() < originalLength + 12) {
       whichItem.insert(originalLength, '0');
     }
 
