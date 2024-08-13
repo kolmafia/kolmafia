@@ -447,7 +447,7 @@ public class MallPurchaseRequest extends PurchaseRequest {
 
       if (itemChangedMatcher.find()) {
         int limit = StringUtilities.parseInt(itemChangedMatcher.group(1));
-        int newPrice = StringUtilities.parseInt(itemChangedMatcher.group(2));
+        long newPrice = StringUtilities.parseLong(itemChangedMatcher.group(2));
 
         // If the item exists at a lower or equivalent price, then you
         // should re-attempt the purchase of the item.
@@ -645,7 +645,7 @@ public class MallPurchaseRequest extends PurchaseRequest {
     // the price string was really an int and might find another
     // way to effectively strip leading zeros from the display
 
-    int priceVal = StringUtilities.parseInt(priceString);
+    long priceVal = StringUtilities.parseLong(priceString);
     int itemId = StringUtilities.parseInt(idString);
     String itemName = ItemDatabase.getItemName(itemId);
 

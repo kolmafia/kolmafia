@@ -188,22 +188,22 @@ public class MallPriceManagerTest {
     }
   }
 
-  private PurchaseRequest makeMallItem(int itemId, int quantity, int price) {
+  private PurchaseRequest makeMallItem(int itemId, int quantity, long price) {
     return makeMallItem(itemId, quantity, price, quantity);
   }
 
-  private PurchaseRequest makeMallItem(int itemId, int quantity, int price, int limit) {
+  private PurchaseRequest makeMallItem(int itemId, int quantity, long price, int limit) {
     return makeMallItem(itemId, quantity, price, limit, nextShopId++);
   }
 
-  private PurchaseRequest makeMallItem(int itemId, int quantity, int price, int limit, int shopId) {
+  private PurchaseRequest makeMallItem(int itemId, int quantity, long price, int limit, int shopId) {
     String shopName = "shop " + String.valueOf(shopId);
 
     return makeMallItem(itemId, quantity, price, limit, shopId, shopName);
   }
 
   private PurchaseRequest makeMallItem(
-      int itemId, int quantity, int price, int limit, int shopId, String shopName) {
+      int itemId, int quantity, long price, int limit, int shopId, String shopName) {
     PurchaseRequest item =
         new MallPurchaseRequest(itemId, quantity, shopId, shopName, price, limit, true);
     return item;
