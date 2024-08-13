@@ -4612,6 +4612,8 @@ Item	tiny rake	Item Drop: +1, Generic, Leaves: +1.5
 Item	tiny shaker of salt	Familiar Weight: +5
 Item	tiny sombrero	Sombrero Bonus: +10
 Item	tiny stillsuit	Familiar Weight: +5, Experience (familiar): +1, Familiar Damage: +10, Generic
+# tiny Tina gun: Your Moll Doll will deal a lot more damage in combat
+Item	tiny Tina gun	Familiar Weight: +5
 # tiny top hat and cane: Lets your Li'l Xenomorph dance!
 # tiny top hat and cane: (adds item0 to familiar abilities)
 Item	tiny top hat and cane	Fairy: 1.0
