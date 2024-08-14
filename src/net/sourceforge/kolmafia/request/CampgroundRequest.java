@@ -218,7 +218,7 @@ public class CampgroundRequest extends GenericRequest {
     }
 
     @Override
-    public String getPluralName(int count) {
+    public String getPluralName(long count) {
       return count == 1
           ? "patch of tall grass"
           : count < 8 ? "patches of tall grass" : "patch of very tall grass";

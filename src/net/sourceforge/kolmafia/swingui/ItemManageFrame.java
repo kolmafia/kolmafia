@@ -358,7 +358,7 @@ public class ItemManageFrame extends GenericFrame {
           JOptionPane.showConfirmDialog(
               ItemManageFrame.this,
               StringUtilities.basicTextWrap(
-                  "KoLmafia will place all tradeable, autosellable items into your store at 999,999,999 meat. "
+                  "KoLmafia will place all tradeable, autosellable items into your store at 999,999,999,999 meat. "
                       + StoreManageFrame.UNDERCUT_MESSAGE),
               "",
               JOptionPane.YES_NO_CANCEL_OPTION);

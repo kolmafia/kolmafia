@@ -331,4 +331,6 @@
 299	Chest Mimic	mimicchest.gif	item0,meat0	baby chest mimic	googly chest eyes	1	2	2	3	haseyes
 300	Mini Kiwi	kiwi_kiwi.gif	stat0,meat0,drop	mini kiwi egg	aviator goggles	3	3	3	1
 301	Proto-Protozoa	protoproto.gif	combat1	proto-proto-protozoa	extra ooze	0	0	0	0
-302	evolving organism	bacteria.gif	combat1,hp1,mp1,block,variable	unevolved organism	extra DNA	0	0	0	0
+302	Evolving Organism	bacteria.gif	combat1,hp1,mp1,block,variable	unevolved organism	extra DNA	0	0	0	0
+303
+304	Doll Moll	molldoll.gif	combat1,meat		tiny Tina gun	0	0	0	0

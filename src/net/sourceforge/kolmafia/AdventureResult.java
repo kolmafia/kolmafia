@@ -474,7 +474,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
     return this.getPluralName(this.getPluralCount());
   }
 
-  public String getPluralName(final int count) {
+  public String getPluralName(final long count) {
     return count == 1
         ? this.getName()
         : this.priority == Priority.BOUNTY_ITEM

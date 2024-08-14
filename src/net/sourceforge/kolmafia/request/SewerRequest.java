@@ -477,7 +477,7 @@ public class SewerRequest extends CreateItemRequest {
 
   public static int currentWorthlessItemCost() {
     int x = SewerRequest.uniqueStarterItemCount();
-    int gumPrice = SewerRequest.CHEWING_GUM.getPrice();
+    long gumPrice = SewerRequest.CHEWING_GUM.getPrice();
     return (int) Math.ceil((gumPrice / 4.0) * (17 - x));
   }
 
