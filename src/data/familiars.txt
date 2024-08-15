@@ -332,5 +332,5 @@
 300	Mini Kiwi	kiwi_kiwi.gif	stat0,meat0,drop	mini kiwi egg	aviator goggles	3	3	3	1
 301	Proto-Protozoa	protoproto.gif	combat1	proto-proto-protozoa	extra ooze	0	0	0	0
 302	Evolving Organism	bacteria.gif	combat1,hp1,mp1,block,variable	unevolved organism	extra DNA	0	0	0	0
-303
-304	Doll Moll	molldoll.gif	combat1,meat		tiny Tina gun	0	0	0	0
+303	Burly Bodyguard	bodyguard.gif	combat1,block	baby bodyguard	bodyguard badge	0	0	0	0
+304	Doll Moll	molldoll.gif	combat1,meat	Doll Moll violin case	tiny Tina gun	0	0	0	0
