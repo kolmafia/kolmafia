@@ -165,6 +165,7 @@ clear Russian	3	1	decent	5-7	0	0	0
 Cobb's Knob Wurstbrau	1	4	good	2-3	4-6	0	0	5-10 MP, BEER
 Cobra Bowl	6	6	awesome	19-24	0	0	40-60	40 Tiki Temerity (+100% Moxie, +10% Moxie Gains)
 Cold One	1	1	???	6	0	0	0	BEER, CANNED
+Colera Peste Nebbiolo	1	13	EPIC	0	0	0	0	Unspaded
 complex mushroom wine	4	3	EPIC	22-24	0	100-150	0	80 Omphalotus Omnipresence (+40 Mys), WINE
 cool mushroom wine	3	6	awesome	10-14	0	8-10	0	WINE
 Corpse Island iced tea	6	5	awesome	19-23	25-30	25-30	25-30
