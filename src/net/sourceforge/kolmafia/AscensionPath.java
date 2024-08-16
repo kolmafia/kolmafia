@@ -79,6 +79,7 @@ public class AscensionPath {
         4,
         15),
     ELEVEN_THINGS("11 Things I Hate About U", 51, false, "ihatesu", "an"),
+    AVANT_GUARD("Avant Guard", 52, false, "radshield", "an"),
     // A "sign" rather than a "path" for some reason
     BAD_MOON("Bad Moon", 999, false, "badmoon", null),
     ;
