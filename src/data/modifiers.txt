@@ -11225,6 +11225,7 @@ Item	blue potion	Effect: "Healthy Blue Glow", Effect Duration: 20
 # blue shell: Deals up to 25 Physical Damage to whoever is in the lead
 # bobcat grenade: Deals 400-500 Physical Damage
 # bobcat grenade: (super effective against beasts)
+# bodyguard badge: Gives your bodyguard the authority to always stop one assault
 # Bohemian rhapsody: Deals Physical Damage based on your Level
 Item	book of facts	Skill: "Just the Facts"
 Item	book of facts (dog-eared)	Skill: "Just the Facts"

@@ -11656,7 +11656,11 @@
 11628	extra DNA	945599812	dna.gif	familiar	t,d	11	extra strands of DNA
 11629	untorn tearaway pants package	962323138	oliver_package.gif	usable	t	0
 11630	tearaway pants	953334403	tearawaypants.gif	pants		0
-11631
-11632
+11631	baby bodyguard	359093428	bodyguard.gif	grow	q	0	bodyguard babies
+11632	Doll Moll violin case	992809861	vcase.gif	grow	t	0
 11633	tiny Tina gun	280367330	tinagun.gif	familiar	t	0
 11634	tattoo gun	500042705	happiness.gif	usable	t	0
+11635	Colera Peste Nebbiolo	211748296	wine.gif	drink	t	0	bottles of Colera Peste Nebbiolo
+11636
+11637
+11638	bodyguard badge	160131366	bodybadge.gif	familiar	t,d	11
