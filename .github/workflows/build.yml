@@ -100,6 +100,7 @@ jobs:
             releases/*.deb
             releases/*.dmg
           tag_name: r${{ env.KOLMAFIA_VERSION }}
+          target_commitish: ${{ github.sha }}
           name: ${{ env.KOLMAFIA_VERSION }}
           generate_release_notes: true
         env:
