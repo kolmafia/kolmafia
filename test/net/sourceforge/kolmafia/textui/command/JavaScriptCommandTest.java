@@ -44,7 +44,7 @@ public class JavaScriptCommandTest extends AbstractCommandTestBase {
           output,
           equalTo(
               """
-              JavaScript evaluator exception: Null / undefined values in arrays are not supported.
+              JavaScript evaluator exception: Null / undefined values in JS arrays cannot be converted to ASH.
               Returned: null
               """));
     }
@@ -57,7 +57,7 @@ public class JavaScriptCommandTest extends AbstractCommandTestBase {
           output,
           equalTo(
               """
-              JavaScript evaluator exception: Null / undefined values in arrays are not supported.
+              JavaScript evaluator exception: Null / undefined values in JS arrays cannot be converted to ASH.
               Returned: null
               """));
     }
@@ -70,7 +70,7 @@ public class JavaScriptCommandTest extends AbstractCommandTestBase {
           output,
           equalTo(
               """
-              JavaScript evaluator exception: Null / undefined values in arrays are not supported.
+              JavaScript evaluator exception: Null / undefined values in JS arrays cannot be converted to ASH.
               Returned: null
               """));
     }
@@ -83,7 +83,7 @@ public class JavaScriptCommandTest extends AbstractCommandTestBase {
           output,
           equalTo(
               """
-              JavaScript evaluator exception: Null / undefined values in objects are not supported.
+              JavaScript evaluator exception: Null / undefined values in JS objects cannot be converted to ASH.
               Returned: null
               """));
     }
@@ -96,8 +96,27 @@ public class JavaScriptCommandTest extends AbstractCommandTestBase {
           output,
           equalTo(
               """
-              JavaScript evaluator exception: Null / undefined values in objects are not supported.
+              JavaScript evaluator exception: Null / undefined values in JS objects cannot be converted to ASH.
               Returned: null
+              """));
+    }
+
+    @Test
+    public void nullValueInStringifiedObject() {
+      String output = execute("JSON.stringify({\"hello\": null})");
+
+      assertThat(output, equalTo("""
+              Returned: {"hello":null}
+              """));
+    }
+
+    @Test
+    public void nullCoalescing() {
+      // Rhino doesn't support `a ?? b` yet.
+      String output = execute("null || true");
+
+      assertThat(output, equalTo("""
+              Returned: true
               """));
     }
   }

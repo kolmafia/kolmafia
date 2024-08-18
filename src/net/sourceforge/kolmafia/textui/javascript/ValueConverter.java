@@ -178,10 +178,12 @@ public class ValueConverter {
       if (key == null) {
         // This will likely never execute, since if your key is `null`, then it
         // will turn into the string "null".
-        throw new EvaluatorException("Null / undefined keys in objects are not supported.");
+        throw new EvaluatorException(
+            "Null / undefined keys in JS objects cannot be converted to ASH.");
       }
       if (value == null) {
-        throw new EvaluatorException("Null / undefined values in objects are not supported.");
+        throw new EvaluatorException(
+            "Null / undefined values in JS objects cannot be converted to ASH.");
       }
       Value keyCoerced = coerce(key, indexType);
 
@@ -205,7 +207,8 @@ public class ValueConverter {
     List<Value> result = new ArrayList<>();
     for (Object element : nativeArray) {
       if (element == null) {
-        throw new EvaluatorException("Null / undefined values in arrays are not supported.");
+        throw new EvaluatorException(
+            "Null / undefined values in JS arrays cannot be converted to ASH.");
       }
 
       result.add(fromJava(element));
