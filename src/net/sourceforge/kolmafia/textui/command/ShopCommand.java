@@ -51,11 +51,11 @@ public class ShopCommand extends AbstractCommand {
     }
 
     List<AdventureResult> items = new ArrayList<>();
-    List<Integer> prices = new ArrayList<>();
+    List<Long> prices = new ArrayList<>();
     List<Integer> limits = new ArrayList<>();
 
     for (String itemName : parameters.split("\\s*,\\s*")) {
-      int price = 0;
+      long price = 0;
       int limit = 0;
 
       int separatorIndex = itemName.indexOf('@');
@@ -71,7 +71,7 @@ public class ShopCommand extends AbstractCommand {
           description = description.substring(0, separatorIndex).trim();
         }
 
-        price = StringUtilities.parseInt(description);
+        price = StringUtilities.parseLong(description);
       }
 
       // workaround issue: user types in something like "mallsell pail @ 20,000,000
@@ -112,14 +112,14 @@ public class ShopCommand extends AbstractCommand {
         RequestThread.postRequest(
             new ManageStoreRequest(
                 items.toArray(new AdventureResult[0]),
-                prices.stream().mapToInt(i -> i).toArray(),
+                prices.stream().mapToLong(i -> i).toArray(),
                 limits.stream().mapToInt(i -> i).toArray(),
                 storage));
       } else {
         RequestThread.postRequest(
             new AutoMallRequest(
                 items.toArray(new AdventureResult[0]),
-                prices.stream().mapToInt(i -> i).toArray(),
+                prices.stream().mapToLong(i -> i).toArray(),
                 limits.stream().mapToInt(i -> i).toArray()));
       }
     }
@@ -182,7 +182,7 @@ public class ShopCommand extends AbstractCommand {
     List<SoldItem> list = StoreManager.getSoldItemList();
 
     List<Integer> itemIds = new ArrayList<>();
-    List<Integer> prices = new ArrayList<>();
+    List<Long> prices = new ArrayList<>();
     List<Integer> limits = new ArrayList<>();
 
     String[] x = parameters.split("\\s*,\\s*");
@@ -198,7 +198,7 @@ public class ShopCommand extends AbstractCommand {
 
     for (String itemName : parameters.split("\\s*,\\s*")) {
       AdventureResult item;
-      int price;
+      long price;
       Integer limit = null;
 
       int separatorIndex = itemName.indexOf('@');
@@ -217,7 +217,7 @@ public class ShopCommand extends AbstractCommand {
         description = description.substring(0, separatorIndex).trim();
       }
 
-      price = StringUtilities.parseInt(description);
+      price = StringUtilities.parseLong(description);
 
       // workaround issue: user types in something like "shop reprice pail @ 20,000,000
       if (StringUtilities.isNumeric(itemName)) {
@@ -255,7 +255,7 @@ public class ShopCommand extends AbstractCommand {
       RequestThread.postRequest(
           new ManageStoreRequest(
               itemIds.stream().mapToInt(i -> i).toArray(),
-              prices.stream().mapToInt(i -> i).toArray(),
+              prices.stream().mapToLong(i -> i).toArray(),
               limits.stream().mapToInt(i -> i).toArray()));
     }
   }

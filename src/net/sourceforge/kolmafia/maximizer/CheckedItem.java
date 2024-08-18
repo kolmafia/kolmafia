@@ -17,7 +17,7 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MallPriceManager;
 
 public class CheckedItem extends AdventureResult {
-  public CheckedItem(int itemId, EquipScope equipScope, int maxPrice, PriceLevel priceLevel) {
+  public CheckedItem(int itemId, EquipScope equipScope, long maxPrice, PriceLevel priceLevel) {
     super(itemId, 1, false);
 
     this.inventory = InventoryManager.getCount(itemId);
@@ -88,10 +88,13 @@ public class CheckedItem extends AdventureResult {
     if (c.getAdventuresNeeded(1) > 0 && Preferences.getBoolean("maximizerNoAdventures")) {
       this.creatable = 0;
     } else if (c.price > 0) {
-      this.npcBuyable = maxPrice / c.price;
+      long theoreticBuyable = maxPrice / c.price;
       int limit = CheckedItem.limitBuyable(itemId);
-      if (limit < this.npcBuyable) {
+      if (limit < theoreticBuyable) {
         this.npcBuyable = limit;
+      } else {
+        // SAFETY: limitBuyable caps at Integer.MAX_VALUE
+        this.npcBuyable = (int) theoreticBuyable;
       }
     }
 
@@ -200,7 +203,7 @@ public class CheckedItem extends AdventureResult {
         + this.pullBuyable;
   }
 
-  public void validate(int maxPrice, PriceLevel priceLevel) throws MaximizerInterruptedException {
+  public void validate(long maxPrice, PriceLevel priceLevel) throws MaximizerInterruptedException {
     if (!KoLmafia.permitsContinue()) {
       throw new MaximizerInterruptedException();
     }
@@ -214,7 +217,7 @@ public class CheckedItem extends AdventureResult {
     }
 
     // Check mall price
-    int price = MallPriceManager.getMallPrice(this.getItemId());
+    long price = MallPriceManager.getMallPrice(this.getItemId());
 
     // Check if too expensive for max price settings
     if (price <= 0 || price > maxPrice) {

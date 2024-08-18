@@ -863,6 +863,8 @@ Item	stylish swimsuit	Moxie: +5, Sleaze Damage: [5-5*X], Familiar Effect: "1xPot
 Item	sucker hakama	Damage Reduction: 5, Familiar Effect: "afk, cap 12"
 Item	sugar shorts	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25, Breakable, Familiar Effect: "2xVolley, 1xLep, cap 25"
 Item	swashbuckling pants	Moxie: +4, Familiar Effect: "3xPotato, 1.5xFairy, cap 20"
+# tearaway pants: Tear them away in combat!
+Item	tearaway pants	Sleaze Damage: [5*L], Damage Reduction: 10, Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Initiative: +50, Maximum HP: +50
 # terra cotta trousers: Lets you unleash a terra cotta army on your foes
 Item	terra cotta trousers	Muscle Percent: +20, Familiar Weight: +5
 Item	the Archwizard's briefs	Mysticality: +15, Mysticality Percent: +25, Maximum MP: +100
@@ -3334,6 +3336,7 @@ Item	Mer-kin gutgirdle	Maximum HP: -300, Experience (Moxie): [20*env(underwater)
 Item	Mer-kin thighguard	Damage Reduction: 10
 Item	Mer-kin waistrope	Mysticality Percent: +10
 Item	Mesmereyes&trade; contact lenses	Mysticality Percent: +15, Single Equip
+Item	messenger bag RNA	Experience: +2, Experience (familiar): +2, HP Regen Min: 4, HP Regen Max: 8, MP Regen Min: 4, MP Regen Max: 8
 Item	meteorite earring	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25, Experience Percent (Moxie): +25, Initiative: +200, Single Equip
 Item	meteorite necklace	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25, Experience Percent (Mysticality): +25, Spell Damage Percent: +200, Single Equip
 Item	meteorite ring	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: +25, Experience Percent (Muscle): +25, Weapon Damage Percent: +200, Single Equip
@@ -3776,11 +3779,10 @@ Item	Time Bandit Badge of Courage	Muscle Limit: 50, Mysticality Limit: 50, Moxie
 Item	time halo	Adventures: +5, Unarmed, Single Equip
 # Time Lord Badge of Honor: Proves your worth to the Time Lords
 Item	Time Lord Badge of Honor	Muscle Limit: 50, Mysticality Limit: 50, Moxie Limit: 50
-# time-twitching toolbelt: +60% Item Drops in the Time-Twitching Tower
 # time-twitching toolbelt: Reveals various Time-Forgotten Secrets
 # time-twitching toolbelt: (also in the Time-Twitching Tower)
 # time-twitching toolbelt	Muscle: +15, Mysticality: +15, Moxie: +15, Single Equip, Item Drop: [60*zone(Twitch)], Free Pull: [pref(timeTowerAvailable,true)]
-Item	time-twitching toolbelt	Muscle: +15, Mysticality: +15, Moxie: +15, Single Equip, Item Drop: [60*zone(Twitch)], Variable
+Item	time-twitching toolbelt	Muscle: +15, Mysticality: +15, Moxie: +15, Item Drop: [60*zone(Twitch)], Single Equip
 Item	tin star	Monster Level: +5, Moxie: +3
 Item	tiny die-cast arc-welding Elfborg	Meat Drop: +10
 Item	tiny die-cast Bashful the Reindeer	Sleaze Damage: +1
@@ -4610,6 +4612,8 @@ Item	tiny rake	Item Drop: +1, Generic, Leaves: +1.5
 Item	tiny shaker of salt	Familiar Weight: +5
 Item	tiny sombrero	Sombrero Bonus: +10
 Item	tiny stillsuit	Familiar Weight: +5, Experience (familiar): +1, Familiar Damage: +10, Generic
+# tiny Tina gun: Your Moll Doll will deal a lot more damage in combat
+Item	tiny Tina gun	Familiar Weight: +5
 # tiny top hat and cane: Lets your Li'l Xenomorph dance!
 # tiny top hat and cane: (adds item0 to familiar abilities)
 Item	tiny top hat and cane	Fairy: 1.0
@@ -5657,6 +5661,7 @@ Effect	Chill Out, Dog	Cold Damage: +30, Stench Resistance: +3, Sleaze Resistance
 Effect	Chilled to the Bone	Mana Cost: [pref(chilledToTheBone)]
 Effect	Chitin Powderful	Muscle: +30, Mysticality: +30, Moxie: +30
 Effect	Chlorophyll Flavor	MP Regen Min: 1, MP Regen Max: 3
+Effect	Chloroplasted	Muscle: +100, Mysticality: +100, Moxie: +100
 Effect	Chock Full o' Nanites	Damage Absorption: +50, Weapon Damage: +20
 Effect	[1060]Chocolate Reign	Avatar: "white chocolate golem"
 Effect	[800]Chocolate Reign	Moxie: +10
@@ -6521,6 +6526,7 @@ Effect	Industrial Strength Starch	Muscle: +20, Mysticality: +20, Moxie: +20, Wik
 Effect	Industrially Frosted	Damage Reduction: 50, Hot Resistance: +5, Cold Resistance: +5, Stench Resistance: +5, Spooky Resistance: +5, Sleaze Resistance: +5, Sprinkle Drop: +250
 Effect	Industrially Lubricated	Initiative: +150
 Effect	Inebriate Pride	Experience: [min(4,ceil(D/5))]
+# Infected with Chronerism: Find Chroners more often after a fight
 Effect	Infernal Thirst	Booze Drop: +200
 # Infinite Loop
 Effect	Inflamed With Shadows	Cold Resistance: +3, Spooky Resistance: +3
@@ -7904,6 +7910,7 @@ Effect	Twice-Cursed	Muscle: -20, Mysticality: -20, Moxie: -20
 Effect	Twinklebritches	Damage Reduction: 3
 Effect	Twinkly Weapon	Weapon Damage: +3
 Effect	Twist and an Eye	Maximum MP: +50
+Effect	Twitching Senses	Item Drop: [50*zone(Twitch)]
 Effect	Two Car Bar Rag	Avatar: "craggy bartender"
 Effect	Two Left Feet	Moxie: -5
 Effect	Ultra-Soft Steps	Combat Rate: -5
@@ -8971,6 +8978,7 @@ Item	Aldebaran sardines	Effect: "Fishy", Effect Duration: 60
 Item	amok pudding	Effect: "Puddingface", Effect Duration: 20
 Item	animal part cracker	Effect: "Sprinkle in Your Eye", Effect Duration: 30
 Item	autumn-spice donut	Effect: "Whet Appetite", Effect Duration: 30
+Item	bacteria bisque	Effect: "Infected with Chronerism", Effect Duration: 50
 Item	badass pie	Effect: "Pie in the Sky", Effect Duration: 20
 Item	bag of GORF	Effect: "Long Live GORF", Effect Duration: 3
 Item	bag of QWOP	Effect: "QWOPped Up", Effect Duration: 10
@@ -9036,6 +9044,7 @@ Item	cheezburger	Effect: "Yes, Can Haz", Effect Duration: 50
 Item	chilly dog	Effect: "Chill Out, Dog", Effect Duration: 30
 Item	Choco-Mint patty	Effect: "Alpine Mintiness", Effect Duration: 25
 Item	chocolate chip muffin	Effect: "All Chipped Up", Effect Duration: 25
+Item	ciliophora chowder	Effect: "Twitching Senses", Effect Duration: 50
 Item	circular CRIMBCOOKIE	Effect: "Mystic Circle", Effect Duration: 10
 Item	cold hi mein	Effect: "Cold Breath", Effect Duration: 5
 # cold mashed potatoes: Selling Price: <b>1 Meat.</b><p><center><b><font color=blue>Deals <font color=blue>Cold Damage</font> based on your Mysticality when used as a combat item
@@ -9045,6 +9054,7 @@ Item	cool cat claw	Effect: "Feline Ferocity", Effect Duration: 30
 Item	cool jelly donut	Effect: "Filled with Magic", Effect Duration: 30
 Item	cool mint precipice bar	Effect: "On the Minty Precipice", Effect Duration: 30
 Item	cranberry cylinder	Effect: "Thanksgetting", Effect Duration: 20
+Item	cream of chloroplasts	Effect: "Chloroplasted", Effect Duration: 50
 Item	Crimbo salad	Effect: "Salad Days", Effect Duration: 40
 Item	cup of lukewarm tea	Effect: "Jittery", Effect Duration: 20
 Item	cupcake-in-a-cup	Effect: "Cake Caked", Effect Duration: 10
@@ -11215,6 +11225,7 @@ Item	blue potion	Effect: "Healthy Blue Glow", Effect Duration: 20
 # blue shell: Deals up to 25 Physical Damage to whoever is in the lead
 # bobcat grenade: Deals 400-500 Physical Damage
 # bobcat grenade: (super effective against beasts)
+# bodyguard badge: Gives your bodyguard the authority to always stop one assault
 # Bohemian rhapsody: Deals Physical Damage based on your Level
 Item	book of facts	Skill: "Just the Facts"
 Item	book of facts (dog-eared)	Skill: "Just the Facts"
@@ -11519,6 +11530,7 @@ Item	El Vibrato punchcard (SELF)	Wiki Name: "El Vibrato punchcard (216 holes)"
 Item	El Vibrato punchcard (SPHERE)	Wiki Name: "El Vibrato punchcard (104 holes)"
 Item	El Vibrato punchcard (TARGET)	Wiki Name: "El Vibrato punchcard (142 holes)"
 Item	El Vibrato punchcard (WALL)	Wiki Name: "El Vibrato punchcard (176 holes)"
+# elbow soup: Add a pound and HP restore to your familiar
 Item	Eldritch Intellect: Journey into a Mind of Horror	Skill: "Eldritch Intellect"
 Item	eldritch tincture	Skill: "Evoke Eldritch Horror"
 Item	eldritch tincture (depleted)	Skill: "Evoke Eldritch Horror"
@@ -11555,6 +11567,8 @@ Item	experimental carbon fiber pasta additive	Class: "Pastamancer"
 # experimental gene therapy: Increases your maximum Bat-Health
 # exploding hacky-sack: Deals 75-100 Physical Damage
 # exploding kickball: Instantly ends a fight
+Item	extra DNA	Experience (familiar): +1
+# extra ooze: Increases sleaze damage
 # extra-strength red potion: Restores 190-210 HP
 Item	extra-strength red potion	Effect: "Healthy Red Glow", Effect Duration: 40
 # fabric softener: Weakens enemies a lot
@@ -11604,6 +11618,8 @@ Item	fishy pipe	Effect: "Fishy", Effect Duration: 10
 Item	fist turkey outline	Free Pull
 # fistful of wood shavings: Stops Enemy From Attacking and Weakens it Very Slightly
 # fizzing spore pod: Deals 20-40 physical damage
+# flagellate flagon: Gain extra stats from your next drink
+# flagellate soup: Add a pound and increase the activation rate of your familiar
 # flame orb: Burn up an enemy and none of its items
 # flaming feather: Deals 80-120 <font color=red>Hot Damage</font>
 # flaregun: Deals Various Kinds of Naval Damage
@@ -11860,6 +11876,7 @@ Item	Libram of Resolutions	Free Pull, Skill: "Summon Resolutions"
 # License To Kill: ???
 # Lil' Snowball Factory: Makes 3 perfect snowballs, every day!
 # linen bandages: Restores 10-20 HP
+# lip soup: Add a pound and volleyball behavior to your familiar
 # little parachute guy: Eventually restores 10-20 HP and MP
 # little piece of steel: Deals <font color=red>Hot</font> and Physical Damage based on your Muscle
 # little red book: Doesn't go away when used.
@@ -11998,6 +12015,7 @@ Item	mummified entombed cookbookbat	Free Pull
 # mumming trunk: Dress your familiars up like weird old dramatic archetypes!
 # murderbot live wire: Deals <font color=red>Hot Damage</font> every round to every monster you fight today in the zone where you used it
 # murderbot memory chip: Worth 15 pages of Spacegate Research
+# muscular soup: Add a pound and increase the combat damage of your familiar
 # mushroom: Heals 10 HP
 Item	My First Art of War	Skill: "Army of Toddlers"
 # My First Paycheck envelope: Contains 50 Elf Guard MPCs
@@ -12461,6 +12479,7 @@ Item	suspicious package	Free Pull
 Item	suspicious stocking	Free Pull
 Item	sweet nutcracker	Free Pull
 Item	sweet tooth	Wiki Name: "sweet tooth"
+# synaptic soup: Add a pound and MP restore to your familiar
 # T.U.R.D.S. Key: Lets you escape from combat without spending an Adventure
 # T.U.R.D.S. Key: (Maybe)
 # tabletop candy dispenser: Produces some random candy items (1x/day, costs 10 Meat)
@@ -12625,6 +12644,7 @@ Item	Underworld acorn	Free Pull
 Item	undrilled cosmic bowling ball	Free Pull
 Item	unearthed volcanic meteoroid	Skill: "Volcanometeor Showeruption"
 Item	unemployed hunchbacked minion	Free Pull
+Item	unevolved organism	Free Pull
 # unfinished ice sculpture: Makes a copy of a monster to fight later
 Item	uniclops egg	Free Pull
 # universal biscuit: Gives your familiar 10 XP
@@ -12641,6 +12661,7 @@ Item	unpowered Robortender	Free Pull
 # unrefined Mountain Stream syrup: Restores 50-60 MP
 # unstable laser battery: Deals 200-250 <font color=red>Hot Damage</font>
 # unstable laser battery: Briefly stuns enemies
+Item	untorn tearaway pants package	Free Pull
 Item	unused walkie-talkie	Free Pull
 Item	unwound cymbal-playing monkey	Free Pull
 # unwrapped knock-off retro superhero cape

@@ -337,7 +337,7 @@ public class MallSearchRequest extends GenericRequest {
 
   private static final Pattern STOREID_PATTERN = Pattern.compile("<b>(.*?) \\(<a.*?who=(\\d+)\"");
   private static final Pattern STOREPRICE_PATTERN =
-      Pattern.compile("radio value=(\\d+).*?<b>(.*?)</b> \\(([\\d,]+)\\)(.*?)</td>");
+      Pattern.compile("radio value=([\\d.]+).*?<b>(.*?)</b> \\(([\\d,]+)\\)(.*?)</td>");
   private static final Pattern STORELIMIT_PATTERN = Pattern.compile("Limit ([\\d,]+) /");
   private static final Pattern mangledEntityPattern = Pattern.compile("\\s+;");
 
@@ -362,7 +362,7 @@ public class MallSearchRequest extends GenericRequest {
 
       String itemName = priceMatcher.group(2);
 
-      int itemId = StringUtilities.parseInt(priceId.substring(0, priceId.length() - 9));
+      int itemId = MallPurchaseRequest.itemFromStoreString(priceId);
       int quantity = StringUtilities.parseInt(priceMatcher.group(3));
       int limit = quantity;
 
@@ -371,7 +371,7 @@ public class MallSearchRequest extends GenericRequest {
         limit = StringUtilities.parseInt(limitMatcher.group(1));
       }
 
-      int price = StringUtilities.parseInt(priceId.substring(priceId.length() - 9));
+      long price = MallPurchaseRequest.priceFromStoreString(priceId);
       this.results.add(
           new MallPurchaseRequest(itemId, quantity, shopId, shopName, price, limit, true));
     }
@@ -455,7 +455,7 @@ public class MallSearchRequest extends GenericRequest {
         // Only add mall store results if the NPC store option
         // is not available.
 
-        int price = StringUtilities.parseInt(detailsMatcher.group(3));
+        long price = StringUtilities.parseLong(detailsMatcher.group(3));
         String shopName = detailsMatcher.group(4).replaceAll("<br>", " ");
 
         this.results.add(
@@ -570,7 +570,7 @@ public class MallSearchRequest extends GenericRequest {
       String searchitem = detailsMatcher.group(2);
       int itemId = StringUtilities.parseInt(searchitem);
       String searchprice = detailsMatcher.group(3);
-      int price = StringUtilities.parseInt(searchprice);
+      long price = StringUtilities.parseLong(searchprice);
 
       // Replace:
       //   <td valign="center" class="buyers">&nbsp;</td>

@@ -15,7 +15,7 @@ public class PokemporiumRequest extends CoinMasterRequest {
   public static final AdventureResult POKEDOLLAR =
       new AdventureResult(ItemPool.POKEDOLLAR_BILLS, 1, false) {
         @Override
-        public String getPluralName(int price) {
+        public String getPluralName(long price) {
           return price == 1 ? "pok&eacute;dollar bill" : "pok&eacute;dollar bills";
         }
       };

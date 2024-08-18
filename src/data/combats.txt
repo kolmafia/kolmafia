@@ -436,6 +436,7 @@ The Penultimate Fantasy Airship	80	Burly Sidekick	Irritating Series of Random En
 The Poop Deck	80	wacky pirate	warty pirate	wealthy pirate	whiny pirate	witty pirate
 The Post-Mall	100	T-9000	damned dirty ape	jet-ski bandit	Z-Rex	superdupervirus	sentient ATM: 0
 The Primordial Soup	100	cluster of angry bacteria	corrosive algae	hostile amoeba	mad flagellate	violent fungus	Cyrus the Virus: 0
+The Primordial Stew	100	flailing flagellate	herd of archaea	messenger RNA	proto-protozoa	yeast gang
 The Purple Light District	-1	Sleaze hobo	Chester: 0
 The Putrid Swamp	100	swamp monster
 The Red Queen's Garden	100	snapdragon	beelephant	Tiger-lily	wasp in a wig

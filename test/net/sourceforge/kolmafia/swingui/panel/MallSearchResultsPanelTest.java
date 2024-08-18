@@ -40,7 +40,8 @@ public class MallSearchResultsPanelTest {
     MallPurchaseRequest.reset();
   }
 
-  private MallPurchaseRequest makeMallPurchaseRequest(AdventureResult item, int shopId, int price) {
+  private MallPurchaseRequest makeMallPurchaseRequest(
+      AdventureResult item, int shopId, long price) {
     return new MallPurchaseRequest(item, item.getCount(), shopId, "shop" + shopId, price, 1, true);
   }
 

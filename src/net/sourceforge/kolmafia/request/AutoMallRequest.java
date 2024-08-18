@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia.request;
 
+import static net.sourceforge.kolmafia.session.StoreManager.MALL_MAX;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -19,21 +21,21 @@ public class AutoMallRequest extends TransferItemRequest {
   public static final Pattern PRICE_PATTERN = Pattern.compile("price[^=&]*\\d*=([\\d]+)?");
   public static final Pattern LIMIT_PATTERN = Pattern.compile("limit[^=&]*\\d*=([\\d]+)?");
 
-  private final int[] prices;
+  private final long[] prices;
   private final int[] limits;
 
-  public AutoMallRequest(final AdventureResult item, final int price, final int limit) {
-    this(new AdventureResult[] {item}, new int[] {price}, new int[] {limit});
+  public AutoMallRequest(final AdventureResult item, final long price, final int limit) {
+    this(new AdventureResult[] {item}, new long[] {price}, new int[] {limit});
   }
 
   public AutoMallRequest(final AdventureResult[] items) {
-    this(items, new int[0], new int[0]);
+    this(items, new long[0], new int[0]);
   }
 
-  public AutoMallRequest(final AdventureResult[] items, final int[] prices, final int[] limits) {
+  public AutoMallRequest(final AdventureResult[] items, final long[] prices, final int[] limits) {
     super("managestore.php", items);
 
-    this.prices = new int[prices.length];
+    this.prices = new long[prices.length];
     this.limits = new int[limits.length];
 
     this.addFormField("action", "additem");
@@ -85,7 +87,7 @@ public class AutoMallRequest extends TransferItemRequest {
 
   @Override
   public TransferItemRequest getSubInstance(final AdventureResult[] attachments) {
-    int[] prices = new int[this.prices.length == 0 ? 0 : attachments.length];
+    long[] prices = new long[this.prices.length == 0 ? 0 : attachments.length];
     int[] limits = new int[this.prices.length == 0 ? 0 : attachments.length];
 
     for (int i = 0; i < prices.length; ++i) {
@@ -144,10 +146,10 @@ public class AutoMallRequest extends TransferItemRequest {
       // We cannot assume that the itemList includes
       // everything we asked for or is in the same order.
       AdventureResult[] rawItems = AutoMallRequest.getItems(urlString);
-      int[] rawPrices = AutoMallRequest.getPrices(urlString);
+      long[] rawPrices = AutoMallRequest.getPrices(urlString);
       int[] rawLimits = AutoMallRequest.getLimits(urlString);
 
-      List<Integer> prices = new ArrayList<>();
+      List<Long> prices = new ArrayList<>();
       List<Integer> limits = new ArrayList<>();
       for (int i = 0; i < rawItems.length; ++i) {
         if (items.contains(rawItems[i])) {
@@ -158,7 +160,7 @@ public class AutoMallRequest extends TransferItemRequest {
 
       StoreManager.addItems(
           items.toArray(new AdventureResult[0]),
-          prices.stream().mapToInt(i -> i).toArray(),
+          prices.stream().mapToLong(i -> i).toArray(),
           limits.stream().mapToInt(i -> i).toArray());
     } else {
       StoreManager.update(responseText, TableType.ADDER);
@@ -177,14 +179,15 @@ public class AutoMallRequest extends TransferItemRequest {
     return items.toArray(new AdventureResult[0]);
   }
 
-  private static int[] getPrices(final String urlString) {
-    List<Integer> prices = new ArrayList<>();
+  private static long[] getPrices(final String urlString) {
+    List<Long> prices = new ArrayList<>();
     Matcher matcher = AutoMallRequest.PRICE_PATTERN.matcher(urlString);
     while (matcher.find()) {
-      int price = matcher.group(1) == null ? 999999999 : StringUtilities.parseInt(matcher.group(1));
+      long price =
+          matcher.group(1) == null ? MALL_MAX : StringUtilities.parseLong(matcher.group(1));
       prices.add(price);
     }
-    return prices.stream().mapToInt(i -> i).toArray();
+    return prices.stream().mapToLong(i -> i).toArray();
   }
 
   private static int[] getLimits(final String urlString) {

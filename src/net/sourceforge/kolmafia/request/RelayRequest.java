@@ -94,7 +94,7 @@ public class RelayRequest extends PasswordHashRequest {
 
   private static final Pattern STORE_PATTERN =
       Pattern.compile(
-          "<tr><td><input name=whichitem type=radio value=(\\d+).*?</tr>", Pattern.DOTALL);
+          "<tr><td><input name=whichitem type=radio value=([\\d.]+).*?</tr>", Pattern.DOTALL);
 
   private static final Pattern BASE_LINK_PATTERN =
       Pattern.compile("([\\.\\s])(src|href|action)(=[\"']?)([^\\/\"'][^\\s\"'>]+)");
@@ -250,7 +250,7 @@ public class RelayRequest extends PasswordHashRequest {
     return this;
   }
 
-  private static boolean isJunkItem(final int itemId, final int price) {
+  private static boolean isJunkItem(final int itemId, final long price) {
     if (!Preferences.getBoolean("relayHidesJunkMallItems")) {
       return false;
     }
@@ -260,7 +260,7 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     if (NPCStoreDatabase.contains(itemId)) {
-      if (price == 100 || price > Math.abs(ItemDatabase.getPriceById(itemId)) * 2) {
+      if (price == 100 || price > Math.abs(ItemDatabase.getPriceById(itemId)) * 2L) {
         return true;
       }
     }
@@ -387,8 +387,8 @@ public class RelayRequest extends PasswordHashRequest {
       while (itemMatcher.find()) {
         String itemData = itemMatcher.group(1);
 
-        int itemId = StringUtilities.parseInt(itemData.substring(0, itemData.length() - 9));
-        int price = StringUtilities.parseInt(itemData.substring(itemData.length() - 9));
+        int itemId = MallPurchaseRequest.itemFromStoreString(itemData);
+        long price = MallPurchaseRequest.priceFromStoreString(itemData);
 
         if (itemId != searchItemId && RelayRequest.isJunkItem(itemId, price)) {
           StringUtilities.singleStringDelete(responseBuffer, itemMatcher.group());

@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia.request;
 
+import static net.sourceforge.kolmafia.session.StoreManager.MALL_MAX;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -41,7 +43,8 @@ public class ManageStoreRequest extends GenericRequest {
 
   // For action=additem
   private AdventureResult[] items;
-  private int[] prices, limits;
+  private long[] prices;
+  private int[] limits;
   private boolean storage;
 
   public ManageStoreRequest() {
@@ -79,7 +82,7 @@ public class ManageStoreRequest extends GenericRequest {
   }
 
   public ManageStoreRequest(
-      final AdventureResult[] items, final int[] prices, final int[] limits, boolean storage) {
+      final AdventureResult[] items, final long[] prices, final int[] limits, boolean storage) {
     super("backoffice.php");
     this.addFormField("action", "additem");
     this.addFormField("ajax", "1");
@@ -91,15 +94,15 @@ public class ManageStoreRequest extends GenericRequest {
     this.storage = storage;
   }
 
-  public ManageStoreRequest(final int[] itemIds, final int[] prices, final int[] limits) {
+  public ManageStoreRequest(final int[] itemIds, final long[] prices, final int[] limits) {
     super("backoffice.php");
     this.addFormField("action", "updateinv");
     this.addFormField("ajax", "1");
 
     this.requestType = RequestType.PRICE_UPDATE;
     for (int i = 0; i < itemIds.length; ++i) {
-      int price = prices[i];
-      if (price == 0) {
+      long price = prices[i];
+      if (price == 0L) {
         continue;
       }
 
@@ -110,7 +113,7 @@ public class ManageStoreRequest extends GenericRequest {
       }
 
       int autosell = ItemDatabase.getPriceById(itemId);
-      int actualPrice = Math.max(price, Math.max(autosell, 100));
+      long actualPrice = Math.max(price, Math.max(autosell, 100));
       this.addFormField("price[" + itemId + "]", String.valueOf(actualPrice));
       if (limit != 0) {
         this.addFormField("limit[" + itemId + "]", String.valueOf(limit));
@@ -225,7 +228,7 @@ public class ManageStoreRequest extends GenericRequest {
       }
 
       int quantity = StringUtilities.parseInt(stockedMatcher.group(1));
-      int price = StringUtilities.parseInt(stockedMatcher.group(3));
+      long price = StringUtilities.parseLong(stockedMatcher.group(3));
       int limit =
           stockedMatcher.group(4) == null ? 0 : StringUtilities.parseInt(stockedMatcher.group(5));
 
@@ -325,10 +328,10 @@ public class ManageStoreRequest extends GenericRequest {
       if (!priceMatcher.find()) {
         return false;
       }
-      int price =
+      long price =
           priceMatcher.group(1) == null
-              ? 999999999
-              : StringUtilities.parseInt(priceMatcher.group(1));
+              ? MALL_MAX
+              : StringUtilities.parseLong(priceMatcher.group(1));
 
       Matcher limitMatcher = ManageStoreRequest.LIMIT_PATTERN.matcher(urlString);
       if (!limitMatcher.find()) {

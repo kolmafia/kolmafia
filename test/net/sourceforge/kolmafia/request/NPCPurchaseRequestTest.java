@@ -55,7 +55,7 @@ class NPCPurchaseRequestTest {
   @Test
   public void canGetPrice() {
     var req = new NPCPurchaseRequest("Bugbear Bakery", "bugbear", 159, 678, 50, 1);
-    assertThat(req.getPrice(), equalTo(50));
+    assertThat(req.getPrice(), equalTo(50L));
   }
 
   @Nested
@@ -65,7 +65,7 @@ class NPCPurchaseRequestTest {
       var cleanups = new Cleanups(withEquipped(Slot.PANTS, "Travoltan trousers"));
       try (cleanups) {
         var req = new NPCPurchaseRequest("Hippy Store (Hippy)", "hippy", 242, 665, 70, 1);
-        assertThat(req.getPrice(), equalTo(66));
+        assertThat(req.getPrice(), equalTo(66L));
       }
     }
 
@@ -74,7 +74,7 @@ class NPCPurchaseRequestTest {
       var cleanups = new Cleanups(withEquipped(Slot.PANTS, "designer sweatpants"));
       try (cleanups) {
         var req = new NPCPurchaseRequest("Hippy Store (Hippy)", "hippy", 242, 665, 70, 1);
-        assertThat(req.getPrice(), equalTo(66));
+        assertThat(req.getPrice(), equalTo(66L));
       }
     }
 
@@ -83,7 +83,7 @@ class NPCPurchaseRequestTest {
       var cleanups = new Cleanups(withEquipped(Slot.PANTS, "Travoltan trousers"));
       try (cleanups) {
         var req = new NPCPurchaseRequest("Gift Shop", "town_giftshop.php", 1179, 0, 100, 1);
-        assertThat(req.getPrice(), equalTo(95));
+        assertThat(req.getPrice(), equalTo(95L));
       }
     }
 
@@ -97,7 +97,7 @@ class NPCPurchaseRequestTest {
         var req = new NPCPurchaseRequest("Gift Shop", "town_giftshop.php", 1179, 0, 100, 1);
 
         // The price is 100, as designer sweatpants do not have a discount
-        assertThat(req.getPrice(), equalTo(100));
+        assertThat(req.getPrice(), equalTo(100L));
 
         // Tell mafia to equip the trousers
         var result = req.ensureProperAttire();
@@ -115,7 +115,7 @@ class NPCPurchaseRequestTest {
       var cleanups = new Cleanups(withEquipped(Slot.PANTS, "designer sweatpants"));
       try (cleanups) {
         var req = new NPCPurchaseRequest("Gift Shop", "town_giftshop.php", 1179, 0, 100, 1);
-        assertThat(req.getPrice(), equalTo(100));
+        assertThat(req.getPrice(), equalTo(100L));
       }
     }
 

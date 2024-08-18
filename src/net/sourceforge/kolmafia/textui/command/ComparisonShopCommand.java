@@ -96,7 +96,8 @@ public class ComparisonShopCommand extends AbstractCommand implements Comparator
 
   @Override
   public int compare(final AdventureResult o1, final AdventureResult o2) {
-    return MallPriceManager.getMallPrice(o1.getItemId())
-        - MallPriceManager.getMallPrice(o2.getItemId());
+    return Long.signum(
+        MallPriceManager.getMallPrice(o1.getItemId())
+            - MallPriceManager.getMallPrice(o2.getItemId()));
   }
 }

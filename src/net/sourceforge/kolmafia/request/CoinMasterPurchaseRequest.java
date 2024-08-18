@@ -46,7 +46,7 @@ public class CoinMasterPurchaseRequest extends PurchaseRequest {
 
   @Override
   public String getPriceString() {
-    int price =
+    long price =
         this.cost.isMeat() ? NPCPurchaseRequest.currentDiscountedPrice(this.price) : this.price;
 
     return KoLConstants.COMMA_FORMAT.format(price) + " " + this.cost.getPluralName(price);
@@ -69,8 +69,8 @@ public class CoinMasterPurchaseRequest extends PurchaseRequest {
   @Override
   public int affordableCount() {
     int tokens = this.data.affordableTokens(this.cost);
-    int price = this.price;
-    return price == 0 ? 0 : tokens / price;
+    long price = this.price;
+    return price == 0 ? 0 : (int) (tokens / price);
   }
 
   public boolean availableItem() {

@@ -366,7 +366,7 @@ Knob Goblin Barbecue Team	155	kg_bbqteam.gif	Atk: 2 Def: 1 HP: 2 Init: 60 Meat: 
 Knob Goblin Bean Counter	80	kg_beancounter.gif	Atk: 24 Def: 21 HP: 20 Init: 80 Meat: 60 P: goblin Article: a	hill of beans (50)	Knob Goblin visor (5)	stolen office supplies (10)
 Knob Goblin Elite Guard	1057	kg_guard.gif	Atk: 25 Def: 27 HP: 30 Init: -10000 Meat: 50 P: goblin Article: a	Cobb's Knob Wurstbrau (15)	Knob Goblin elite helm (10)	Knob Goblin elite pants (10)	Knob Goblin elite shirt (10)	knob bugle (10)
 Knob Goblin Elite Guard Captain	263	kg_guardcaptain.gif	LUCKY Atk: 30 Def: 27 HP: 35 Init: -10000 Meat: 300 P: goblin Article: a	Knob Goblin elite helm (100)	Knob Goblin elite pants (100)	Knob Goblin elite polearm (100)
-Knob Goblin Embezzler	530	kg_embezzler.gif	LUCKY Atk: 24 Def: 21 HP: 20 Init: 80 Meat: 1000 P: goblin Article: a	meat stack (30)	meat stack (30)	meat stack (30)	meat stack (30)	Knob Goblin visor (25)	embezzler's oil (c30)
+Knob Goblin Embezzler	530	kg_embezzler.gif	NOCOPY LUCKY Atk: 24 Def: 21 HP: 20 Init: 80 Meat: 1000 P: goblin Article: a	meat stack (30)	meat stack (30)	meat stack (30)	meat stack (30)	Knob Goblin visor (25)	embezzler's oil (c30)
 Knob Goblin Harem Girl	78	kg_haremgirl.gif	Atk: 25 Def: 22 HP: 20 Init: 80 P: goblin ED: sleaze EA: hot EA: sleaze Article: a	disease (10)	Knob Goblin harem veil (20)	Knob Goblin harem pants (20)	finger cymbals (5)	harem girl t-shirt (c2)
 Knob Goblin Harem Guard	1061	kg_haremguard.gif	Atk: 25 Def: 22 HP: 20 Init: 50 P: goblin Article: a	Knob Goblin deluxe scimitar (10)	Knob nuts (15)	excitement pill (10)
 Knob Goblin King	81	kg_king.gif	BOSS NOCOPY Atk: 53 Def: 47 HP: 50 Exp: [66+ML/3] Init: 100 P: goblin Article: The	2 dense meat stack (m100)	Crown of the Goblin King (c100)	Glass Balls of the Goblin King (c100)	Codpiece of the Goblin King (c100)	Cobb's Knob lab key (c100)
@@ -2350,6 +2350,13 @@ Boltsmann security robot	2402	jetsecurity1.gif	Scale: 9 Cap: 1000 Init: -10000 P
 automated bearing foundry	2403	jetfoundry.gif	Scale: 1 Cap: 1000 Init: -10000 P: construct Article: a	automa-bot parts (50)	handful of Boltsmann bearings (30)	handful of Boltsmann bearings (5)
 clerical robot	2404	jetcleric.gif	Scale: 3 Cap: 1000 Init: -10000 P: construct	automa-bot parts (40)	clerical automa-core (f10)
 
+# Twitch 10 - The Primordial Stew (July 2024)
+flailing flagellate	2449	bacterium.gif	Scale: ? Cap: 1000 Floor: ? Init: 100 P: bug EA: stench Article: a	protogenetic chunklet (flagellum) (c0)	flagellate flagon (f0.1)
+herd of archaea	2451	archaea.gif	Scale: ? Cap: 1000 Floor: ? Init: 75 P: beast EA: stench EA: sleaze Article: a	protogenetic chunklet (elbow) (c0)
+messenger RNA	2448	mrna.gif	Scale: ? Cap: 1000 Floor: ? Init: 50 P: weird EA: hot Article: a	protogenetic chunklet (synapse) (c0)	messenger bag RNA (f0.1)
+proto-protozoa	2450	protozoa.gif	Scale: ? Cap: 1000 Floor: ? Init: -10000 P: slime EA: stench EA: sleaze Article: a	protogenetic chunklet (lips) (c0)	proto-proto-protozoa (f0.1)
+yeast gang	2452	yeast.gif	Scale: ? Cap: 1000 Floor: ? Init: 100 P: plant Article: a	protogenetic chunklet (muscle) (c0)	fermenting powder (100)	fermenting powder (10)
+
 # Crimbo 2023 (December 2023)
 Elf Guard conscript	2392	egconscript.gif	NOWISH Scale: ? Init: -10000 P: elf Article: an	1-2 Elf Guard MPC (m100)	Elf Guard patrol cap (c0)
 Elf Guard convict	2393	egconvict.gif	NOWISH Scale: ? Init: -10000 P: elf Article: an	1-2 Elf Guard MPC (m100)	Elf Guard hotpants (c0)
@@ -2810,7 +2817,7 @@ gooified dog-thing	2222	goo_dog.gif	Atk: 150 Def: 150 HP: 200 Init: 200 P: beast
 gooified flower	2223	goo_flower.gif	Atk: 180 Def: 180 HP: 300 Init: -10000 P: plant Article: a	gooified vegetable matter (100)	gooified vegetable matter (100)	gooified vegetable matter (100)
 gooified tree	2224	goo_tree.gif	Atk: 150 Def: 50 HP: 1000 Init: -10000 P: plant Article: a	gooified vegetable matter (10)	gooified vegetable matter (10)	gooified vegetable matter (10)	gooified vegetable matter (10)	gooified vegetable matter (10)
 gooified rock slab	2225	goo_slab1.gif,goo_slab2.gif,goo_slab3.gif	Atk: 250 Def: 250 HP: 500 Init: -10000 P: elemental Article: a	1-6 gooified mineral matter (m100)
-massive goo construct	2226		Atk: 100 Def: 100 HP: 100 Init: -10000 P: construct EA: hot EA: sleaze Article: a	4-20 gooified animal matter (m100)	4-20 gooified vegetable matter (m100)	4-20 gooified mineral matter (m100)
+massive goo construct	2226	noart.gif	Atk: 100 Def: 100 HP: 100 Init: -10000 P: construct EA: hot EA: sleaze Article: a	4-20 gooified animal matter (m100)	4-20 gooified vegetable matter (m100)	4-20 gooified mineral matter (m100)
 
 # Crimbo 2022 (December 2022)
 Brake-Operating Trainbot	2254	trainbot_brake.gif	NOWISH Scale: 0 Cap: ? Init: -10000 P: construct Article: a

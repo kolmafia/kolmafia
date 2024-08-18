@@ -38,3 +38,5 @@ Frighten
 Deluxe Impale
 false
 false
+0
+aggregate boolean [string]
