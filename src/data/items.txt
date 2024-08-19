@@ -11662,5 +11662,5 @@
 11634	tattoo gun	500042705	happiness.gif	usable	t	0
 11635	Colera Peste Nebbiolo	211748296	wine.gif	drink	t	0	bottles of Colera Peste Nebbiolo
 11636
-11637
+11637	Thwaitgold shield bug statuette	254234859	thwaitshield.gif	none		0
 11638	bodyguard badge	160131366	bodybadge.gif	familiar	t,d	11
