@@ -120,7 +120,8 @@ public class CheckedItem extends AdventureResult {
           this.buyableFlag = true;
         }
       }
-    } else if (!KoLCharacter.isHardcore()) {
+    } else if (!KoLCharacter.isHardcore()
+        && (!KoLCharacter.inLegacyOfLoathing() || InventoryManager.pullableInLoL(itemId))) {
       // consider pulling
       this.pullable = this.getCount(KoLConstants.storage);
 

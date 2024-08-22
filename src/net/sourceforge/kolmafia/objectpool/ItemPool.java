@@ -3355,6 +3355,7 @@ public class ItemPool {
   public static final int PEPPERMINT_EEL_SAUCE = 10416;
   public static final int GREEN_AND_RED_BEAN = 10417;
   public static final int TEMPURA_GREEN_AND_RED_BEAN = 10425;
+  public static final int RETROSPECS = 10432;
   public static final int BIRD_A_DAY_CALENDAR = 10434;
   public static final int POWERFUL_GLOVE = 10438;
   public static final int DRIP_HARNESS = 10441;
