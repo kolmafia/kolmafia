@@ -19,7 +19,10 @@ import static internal.helpers.Player.withEquippableItem;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withFamiliarInTerrarium;
+import static internal.helpers.Player.withHardcore;
+import static internal.helpers.Player.withInteractivity;
 import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withItemInFreepulls;
 import static internal.helpers.Player.withItemInStorage;
 import static internal.helpers.Player.withLocation;
 import static internal.helpers.Player.withMeat;
@@ -2079,6 +2082,38 @@ public class MaximizerTest {
         assertTrue(maximize("PvP Fights"));
         recommendedSlotIs(Slot.OFFHAND, "card sleeve");
         recommendedSlotIs(Slot.CARDSLEEVE, "Alice's Army Foil Lanceman");
+      }
+    }
+  }
+
+  @Nested
+  class LegacyOfLoathing {
+    @Test
+    public void shouldNotSuggestPullingEquipmentInLegacyOfLoathing() {
+      var cleanups =
+          new Cleanups(
+              withPath(Path.LEGACY_OF_LOATHING),
+              withItemInStorage(ItemPool.POWERFUL_GLOVE),
+              withInteractivity(false));
+
+      try (cleanups) {
+        maximizeAny("hp");
+        assertFalse(someBoostIs(b -> commandStartsWith(b, "pull")));
+      }
+    }
+
+    @Test
+    public void shouldNotSuggestPullingFreePullsInLegacyOfLoathingHardcore() {
+      var cleanups =
+          new Cleanups(
+              withPath(Path.LEGACY_OF_LOATHING),
+              withItemInFreepulls(ItemPool.RETROSPECS),
+              withHardcore(),
+              withInteractivity(false));
+
+      try (cleanups) {
+        maximizeAny("mus");
+        assertFalse(someBoostIs(b -> b.toString().startsWith("free pull")));
       }
     }
   }

@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.session;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -35,6 +36,7 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.DebugDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase.Attribute;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.persistence.RestoresDatabase;
@@ -205,14 +207,16 @@ public abstract class InventoryManager {
       count += item.getCount(KoLConstants.closet);
     }
 
-    // Free Pulls from Hagnk's are always accessible
-    count += item.getCount(KoLConstants.freepulls);
+    if (!KoLCharacter.inLegacyOfLoathing() || pullableInLoL(itemId)) {
+      // Free Pulls from Hagnk's are always accessible
+      count += item.getCount(KoLConstants.freepulls);
 
-    // Storage and your clan stash are always accessible
-    // once you are out of Ronin or have freed the king,
-    // but the user can mark either as out-of-bounds
-    if (InventoryManager.canUseStorage()) {
-      count += item.getCount(KoLConstants.storage);
+      // Storage and your clan stash are always accessible
+      // once you are out of Ronin or have freed the king,
+      // but the user can mark either as out-of-bounds
+      if (InventoryManager.canUseStorage()) {
+        count += item.getCount(KoLConstants.storage);
+      }
     }
 
     if (InventoryManager.canUseClanStash() && includeStash) {
@@ -2032,5 +2036,33 @@ public abstract class InventoryManager {
     InventoryManager.askedAboutCrafting = KoLCharacter.getUserId();
 
     return true;
+  }
+
+  public static boolean pullableInLoL(int itemId) {
+    // Only food, booze, potions, combat and usable items may be pulled on this path.
+    return switch (ItemDatabase.getConsumptionType(itemId)) {
+      case
+          // food, booze
+          EAT,
+          DRINK,
+          // potions
+          POTION,
+          AVATAR_POTION,
+          // usable
+          USE,
+          USE_MULTIPLE,
+          USE_INFINITE,
+          USE_MESSAGE_DISPLAY,
+          FOOD_HELPER,
+          DRINK_HELPER,
+          CARD,
+          FOLDER,
+          BOOTSKIN,
+          BOOTSPUR -> true;
+        // combat
+      case NONE -> ItemDatabase.getAttribute(
+          itemId, EnumSet.of(Attribute.COMBAT, Attribute.COMBAT_REUSABLE));
+      default -> false;
+    };
   }
 }
