@@ -396,7 +396,7 @@ public class Maximizer {
         Maximizer.boosts.add(new Boost(cmd, text, (AdventureResult) null, delta));
       }
 
-      if (KoLCharacter.mcdAvailable()) {
+      if (KoLCharacter.mcdAvailable() || includeAll) {
         int max = KoLCharacter.getSignZone() == ZodiacZone.CANADIA ? 11 : 10;
         for (int i = 0; i <= max; i++) {
           MaximizerSpeculation spec = new MaximizerSpeculation();
@@ -407,6 +407,10 @@ public class Maximizer {
           }
           String text, cmd;
           text = cmd = "mcd " + i;
+          if (!KoLCharacter.mcdAvailable()) {
+            cmd = "";
+            text = "(ascend into a non-Bad Moon sign and mcd " + i + ")";
+          }
           text += " (" + KoLConstants.MODIFIER_FORMAT.format(delta) + ")";
           Maximizer.boosts.add(new Boost(cmd, text, (AdventureResult) null, delta));
         }
