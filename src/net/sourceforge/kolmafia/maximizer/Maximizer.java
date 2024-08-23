@@ -398,7 +398,8 @@ public class Maximizer {
 
       if (KoLCharacter.mcdAvailable() || includeAll) {
         int max = KoLCharacter.getSignZone() == ZodiacZone.CANADIA ? 11 : 10;
-        for (int i = 0; i <= max; i++) {
+        // check only the ends
+        for (int i : new int[] {0, max}) {
           MaximizerSpeculation spec = new MaximizerSpeculation();
           spec.setMindControlLevel(i);
           double delta = spec.getScore() - current;
