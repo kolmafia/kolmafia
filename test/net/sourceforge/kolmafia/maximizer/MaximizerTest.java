@@ -25,12 +25,14 @@ import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withItemInFreepulls;
 import static internal.helpers.Player.withItemInStorage;
 import static internal.helpers.Player.withLocation;
+import static internal.helpers.Player.withMCD;
 import static internal.helpers.Player.withMeat;
 import static internal.helpers.Player.withNotAllowedInStandard;
 import static internal.helpers.Player.withOverrideModifiers;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withRestricted;
+import static internal.helpers.Player.withSign;
 import static internal.helpers.Player.withSkill;
 import static internal.helpers.Player.withStats;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -48,6 +50,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RestrictedItemType;
+import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.modifiers.BitmapModifier;
 import net.sourceforge.kolmafia.modifiers.DerivedModifier;
@@ -2114,6 +2117,49 @@ public class MaximizerTest {
       try (cleanups) {
         maximizeAny("mus");
         assertFalse(someBoostIs(b -> b.toString().startsWith("free pull")));
+      }
+    }
+  }
+
+  @Nested
+  class Mcd {
+    @Test
+    public void doesNotSuggestMcdIfSignless() {
+      var cleanups = withSign(ZodiacSign.NONE);
+
+      try (cleanups) {
+        maximize("ml");
+        assertFalse(someBoostIs(b -> commandStartsWith(b, "mcd")));
+      }
+    }
+
+    @Test
+    public void suggestsMcdWhenBoostingML() {
+      var cleanups = withSign(ZodiacSign.MONGOOSE);
+
+      try (cleanups) {
+        maximize("ml");
+        assertTrue(someBoostIs(b -> commandStartsWith(b, "mcd 10")));
+      }
+    }
+
+    @Test
+    public void suggestsTurningOffMcdWithNegativeML() {
+      var cleanups = new Cleanups(withSign(ZodiacSign.MONGOOSE), withMCD(5));
+
+      try (cleanups) {
+        maximize("-ml");
+        assertTrue(someBoostIs(b -> commandStartsWith(b, "mcd 0")));
+      }
+    }
+
+    @Test
+    public void suggestsMcdElevenWhenCanadiaSign() {
+      var cleanups = withSign(ZodiacSign.MARMOT);
+
+      try (cleanups) {
+        maximize("ml");
+        assertTrue(someBoostIs(b -> commandStartsWith(b, "mcd 11")));
       }
     }
   }
