@@ -860,7 +860,7 @@ Cheer-o-Vend 3000	buy	15	cheer-o-gram	ROW969
 Cheer-o-Vend 3000	buy	100	cheerful antler hat	ROW970
 Cheer-o-Vend 3000	buy	100	cheerful Crimbo sweater	ROW971
 Cheer-o-Vend 3000	buy	100	cheerful pajama pants	ROW972
-Cheer-o-Vend 3000	buy	150	warehouse key	ROW979
+# Cheer-o-Vend 3000	buy	150	warehouse key	ROW979
 Cheer-o-Vend 3000	buy	1000	The Journal of Mime Science Vol. 1	ROW973
 Cheer-o-Vend 3000	buy	1000	The Journal of Mime Science Vol. 2	ROW974
 Cheer-o-Vend 3000	buy	1000	The Journal of Mime Science Vol. 3	ROW975

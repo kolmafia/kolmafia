@@ -4,6 +4,7 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 public class Crimbo17Request extends CoinMasterRequest {
@@ -73,7 +74,11 @@ public class Crimbo17Request extends CoinMasterRequest {
   }
 
   public static String accessible() {
-    return "Crimbo is gone";
+    int cheer = CHEER.getCount(KoLConstants.inventory);
+    if (cheer == 0) {
+      return "You need some crystalline cheer.";
+    }
+    return null;
   }
 
   public static final boolean registerRequest(final String urlString) {
