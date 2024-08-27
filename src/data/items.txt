@@ -11664,3 +11664,5 @@
 11636
 11637	Thwaitgold shield bug statuette	254234859	thwaitshield.gif	none		0
 11638	bodyguard badge	160131366	bodybadge.gif	familiar	t,d	11
+11639	Too Cold to Hold: How to Be Cool - A Memoir	684260885	book5.gif	usable	t	0
+11640	Too Cold to Hold: How to Be Cool - A Memo (read)	445549210	book5.gif	reusable		0
