@@ -8631,6 +8631,8 @@ Skill	Thumbs	Pickpocket Chance: +50
 # Tiki Mixology: You can make cocktails with rhum in them
 Skill	Tolerance of the Kitchen	Hot Resistance: +2
 Skill	Tolerant Constitution	Spleen Capacity: +5
+# Too Cool: Makes you cooler
+Skill	Too Cool	Cold Spell Damage: +1, Cold Resistance: +1
 # Torso Awareness: Lets you equip Shirts
 Skill	Tougher Skin	Damage Absorption: +100
 # Transcendental Noodlecraft: Lets you cook more advanced noodle dishes
@@ -12604,6 +12606,8 @@ Item	Tome of Snowcone Summoning	Free Pull, Skill: "Summon Snowcones"
 Item	Tome of Sugar Shummoning	Free Pull, Skill: "Summon Sugar Sheets"
 # tongue depressor: Briefly stuns a monster and reveals its vital statistics
 # tonic water: Restores 30-50 MP
+Item	Too Cold to Hold: How to Be Cool - A Memo (read)	Skill: "Too Cool"
+Item	Too Cold to Hold: How to Be Cool - A Memoir	Skill: "Too Cool"
 Item	toothbrush	Effect: "Very Clean Teeth", Effect Duration: 10
 # top: Weakens enemies a little bit
 # toxic globule: Can be scienced into various objects

@@ -259,6 +259,8 @@
 231	Elf Guard Extortion Techniques	dollarsign.gif	passive	0	0
 232	Fruit Recognition	cherry.gif	passive	0	0
 233	Elf Guard Relaxation Techniques	sleepy.gif	passive	0	0
+234
+235	Too Cool		passive	0	0
 
 # Skills available to Clubbers
 
