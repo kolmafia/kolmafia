@@ -11666,3 +11666,18 @@
 11638	bodyguard badge	160131366	bodybadge.gif	familiar	t,d	11
 11639	Too Cold to Hold: How to Be Cool - A Memoir	684260885	book5.gif	usable	t	0
 11640	Too Cold to Hold: How to Be Cool - A Memo (read)	445549210	book5.gif	reusable		0
+11641
+11642
+11643
+11644
+11645
+11646
+11647
+11648
+11649
+11650
+11651
+11652
+11653
+11654
+11655	soft cap of diminishing returns	584372121	softcap.gif	hat		0

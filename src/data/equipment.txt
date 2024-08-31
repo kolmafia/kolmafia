@@ -357,6 +357,7 @@ snakeskin cowboy hat	100	Mox: 20
 snorkel	10	none
 snow hat	50	Mox: 10
 Snow Queen Crown	115	Mox: 42
+soft cap of diminishing returns	100	none
 Sombrero De Vida	50	Mox: 10
 sombrero-mounted sparkler	50	none
 space beast fur hat	100	Mox: 35

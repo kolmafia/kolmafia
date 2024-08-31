@@ -479,6 +479,7 @@ Item	snakeskin cowboy hat	Moxie: +5, Ranged Damage Percent: +50
 Item	snorkel	Familiar Effect: "atk, cap 2"
 Item	snow hat	Damage Reduction: 3, Familiar Effect: "cold atk, cap 12"
 Item	Snow Queen Crown	Cold Damage: +5, Cold Resistance: +3, Familiar Effect: "cold atk, 1xGhuol, cap 28"
+Item	soft cap of diminishing returns	Experience (Muscle): [-1*floor(basemus/100)], Experience (Mysticality): [-1*floor(basemys/100)], Experience (Moxie): [-1*floor(basemox/100)]
 Item	Sombrero De Vida	Four Songs, Familiar Effect: "1xVolley, 1xPotato, 1xLep, cap 12"
 Item	sombrero-mounted sparkler	Combat Rate: +5, Hot Damage: +10, Hot Spell Damage: +20, Lasts Until Rollover
 Item	space beast fur hat	Damage Reduction: 5, Familiar Effect: "1xVolley"
