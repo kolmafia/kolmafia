@@ -2175,6 +2175,9 @@ flaming leaflet	2389	leaflet.gif	FREE NOCOPY Atk: 11 Def: 11 HP: 11 Init: 11 P: 
 flaming monstera	2390	monstera.gif	FREE NOCOPY Scale: 0 Cap: ? Floor: ? Init: 50 P: plant E: hot Article: a	leafy browns (100)	6-8 inflammable leaf (m100)
 leaviathan	2391	leaviathan.gif	FREE NOCOPY Scale: 25 Cap: ? Floor: ? HP: 2500 Init: -10000 P: plant EA: hot Article: the	flaming leaf crown (100)	100-150 inflammable leaf (m100)
 
+# Sept-Ember Censer (Sep 2024)
+Embering Hulk	2453	emberhulk.gif	NOCOPY Scale: 11 Cap: ? Floor: ? Init: -10000 P: elemental E: hot Article: an	embering hunk (c0)
+
 # KoL Con
 
 # Gygaxian Libram (KoL Con VIII)

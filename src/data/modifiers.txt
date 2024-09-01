@@ -281,6 +281,7 @@ Item	Hairpiece On Fire	Cold Resistance: +2, Adventures: +4, Smithsness: +5, Maxi
 Item	hangman's hood	Muscle: +50, Weapon Damage: +50, Damage Reduction: 10
 Item	hardened slime hat	Spooky Resistance: +3, Stench Resistance: +3, Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3, Damage Reduction: 10, Muscle Percent: +20, Familiar Effect: "1xFairy"
 Item	Hat O' Nine Tails	Moxie Percent: +9
+Item	hat of remembering	Maximum MP: +50, MP Regen Min: 8, MP Regen Max: 12, Mana Cost: -1, Lasts Until Rollover
 # hazmat helmet: Changes Your Avatar
 Item	hazmat helmet	Damage Absorption: +50, Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, HP Regen Min: 40, HP Regen Max: 60, Negative Status Resist
 Item	head-mounted Trainbot	Item Drop: +5, Maximum MP: +5, Moxie: +5
@@ -989,6 +990,7 @@ Item	denim jacket	Mysticality: +10, MP Regen Min: 4, MP Regen Max: 8
 Item	Dragonscale breastplate	Muscle: +15, Muscle Percent: +25, Spooky Resistance: +3, Stench Resistance: +3, Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3
 Item	dreadful sweater	HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 10, MP Regen Max: 20, Kruegerand Drop: 5
 Item	duct tape shirt	Moxie: +9, Meat Drop: +20
+Item	embers-only jacket	Hot Damage: +10, Hot Resistance: +3, Hot Spell Damage: +20, Lasts Until Rollover
 Item	extra-see-thru nightie	Moxie Percent: +15
 Item	eXtreme Bi-Polar Fleece Vest	Cold Resistance: +2
 Item	extremely wet T-shirt	Moxie Percent: +10, Sleaze Damage: +25, HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10
@@ -1198,6 +1200,8 @@ Item	Bjorn's Hammer	Muscle: +10, Class: "Seal Clubber"
 Item	black blade	Spooky Damage: +10
 Item	black kettle drum	Moxie: +5, Maximum HP: +30, Maximum MP: +30
 Item	black sword	Critical Hit Percent: +7, Weapon Damage: +7
+# blade of dismemberment: Does more damage to armed or legged foes
+Item	blade of dismemberment	Weakens Monster, Lasts Until Rollover
 Item	blammer	Critical Hit Percent: +7, Weakens Monster
 # blood knife: Gross!
 Item	blood knife	Lasts Until Rollover
@@ -2855,6 +2859,7 @@ Item	bejeweled pledge pin	Maximum HP: +40, Single Equip
 Item	Belt of Howling Anger	PvP Fights: +3, Critical Hit Percent: +3, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Single Equip
 Item	Belt of Loathing	Damage Reduction: 20, Familiar Weight: +10, Negative Status Resist, Single Equip, Cloathing
 Item	belt of Ogrekind	Muscle: +15, Muscle Percent: +25, Experience (Muscle): +5, Single Equip
+Item	bembershoot	Cold Resistance: +5, Lasts Until Rollover
 # bewitching boots: Slight Cute Resistance
 Item	bewitching boots	Meat Drop: +10, Synergetic
 # bezoar ring: Protects the wearer from poison
@@ -5577,6 +5582,7 @@ Effect	Bureaucratized	Familiar Weight: +10
 Effect	Burning Ears	Hot Spell Damage: +11, Cold Resistance: +3
 Effect	Burning Hands	Hot Damage: +33, Hot Spell Damage: +33, Cold Resistance: +3
 Effect	Burning Heart	Hot Damage: +10, Damage Reduction: -2
+Effect	Burning Mouth	Initiative: +50, Hot Damage: +25
 # Burning Soul: Sizzle!
 # Burning Tongue: Lets you spit fireballs!
 Effect	Burning, Man	Damage Aura: 1
@@ -9310,6 +9316,7 @@ Item	wasabi pocky	Effect: "Wasabi With You", Effect Duration: 30
 Item	wax pancake	Effect: "Waxing", Effect Duration: 30
 Item	weird gazelle steak	Effect: "Gaze of the Gazelle", Effect Duration: 1
 Item	wet dog	Effect: "Hangdog", Effect Duration: 30
+Item	wheel of camembert	Effect: "Burning Mouth", Effect Duration: 30
 # whole turkey leg: Selling Price: <b>1 Meat.</b><p><center><b><font color=blue>Deals <font color=blueviolet>Sleaze Damage</font> based on your Moxie when used as a combat item
 Item	wild honey pie	Effect: "Sugar Rush", Effect Duration: 10
 Item	witch's bread	Effect: "Witch Breaded", Effect Duration: 20
@@ -11259,6 +11266,7 @@ Item	boxed Apriling band helmet	Free Pull
 Item	boxed august scepter	Free Pull
 Item	boxed autumn-aton	Free Pull
 Item	boxed Mayam Calendar	Free Pull
+Item	boxed Sept-Ember Censer	Free Pull
 Item	Boxing Day care package	Free Pull
 # brain preservation fluid: Drink it for 5 Adventures!
 # brass abacus: Stuns your opponent for a few rounds
@@ -11746,6 +11754,7 @@ Item	hand turkey outline	Free Pull
 # Handsome Devil: Instantly defeats most monsters
 # hard spore pod: Briefly enhances your defense
 # Harold's bell: Banishes a monster for a while
+# head of emberg lettuce: Wrap your next food in lettuce!
 Item	heart necklace	Free Pull
 # heart of dark chocolate: Restores 40-50 HP
 # heart of dark chocolate: (doesn't go away when used)
@@ -11982,6 +11991,7 @@ Item	Merc Core Field Manual: Sanity Maintenance	Skill: "Hypersane"
 Item	mini kiwi egg	Free Pull
 Item	mini kiwi invisible dirigible	Familiar Weight: -20, Generic
 # miniature boiler: Deals 20-40 Physical Damage
+# miniature Embering Hulk: Fight an Embering Hulk
 # Miniborg beeper: Deals 20-25 Physical Damage and hurts you a little bit
 # Miniborg beeper: (doesn't go away when used)
 # Miniborg Destroy-O-Bot: Deals 10-15 Physical Damage
@@ -12000,6 +12010,7 @@ Item	miniscule temporal rip	Free Pull
 Item	mint condition Lil' Doctor&trade; bag	Free Pull
 # mint condition magnifying glass: Helps you solve mysteries and is totally safe
 Item	mint-in-box Powerful Glove	Free Pull
+# Mmm-brr! brand mouthwash: Gain stats based on your cold protection
 # Mob Penguin cellular phone: Lets You Talk to Penguins
 # modern picture frame: Put abstractions in it to create abstract art!
 # molotov cocktail cocktail: Deals 65-80 <font color=red>Hot Damage</font>
@@ -12335,6 +12346,7 @@ Item	seal-blubber candle	Class: "Seal Clubber"
 # sealhide snare: Stuns your opponent for a few rounds
 # self-defense training: Increases your Bat-Armor
 Item	Sensual Massage for Creeps	Skill: "Inappropriate Backrub"
+# Sept-Ember Censer: Generate 7 embers each day to magically consume
 # sew-on bandage: Restores up to 300 HP
 # sewing kit: Restores up to 1,000 HP
 # sewing kit: (doesn't go away when used)
@@ -12607,7 +12619,7 @@ Item	Tome of Snowcone Summoning	Free Pull, Skill: "Summon Snowcones"
 Item	Tome of Sugar Shummoning	Free Pull, Skill: "Summon Sugar Sheets"
 # tongue depressor: Briefly stuns a monster and reveals its vital statistics
 # tonic water: Restores 30-50 MP
-Item	Too Cold to Hold: How to Be Cool - A Memo (read)	Skill: "Too Cool"
+Item	Too Cold to Hold: How to Be Cool - A Memoir (read)	Skill: "Too Cool"
 Item	Too Cold to Hold: How to Be Cool - A Memoir	Skill: "Too Cool"
 Item	toothbrush	Effect: "Very Clean Teeth", Effect Duration: 10
 # top: Weakens enemies a little bit

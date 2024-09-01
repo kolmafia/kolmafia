@@ -186,6 +186,7 @@ Hairpiece On Fire	100	none
 hangman's hood	250	Mus: 200
 hardened slime hat	200	Mox: 200
 Hat O' Nine Tails	10	none
+hat of remembering	100	none
 hazmat helmet	200	Mox: 85
 head-mounted Trainbot	50	none
 headlamp	100	none
@@ -815,6 +816,7 @@ Dragonscale breastplate	200	Mus: 40
 dreadful sweater	200	Mys: 200
 duct tape shirt	195	Mus: 82
 elf army poncho	0	none
+embers-only jacket	100	none
 extra-see-thru nightie	200	Mus: 200
 eXtreme Bi-Polar Fleece Vest	90	Mus: 30
 extremely wet T-shirt	200	Mus: 85
@@ -1010,6 +1012,7 @@ Bjorn's Hammer	50	Mus: 10	1-handed club
 black blade	160	Mus: 65	1-handed knife
 black kettle drum	140	Mox: 55	2-handed drum
 black sword	160	Mus: 65	1-handed sword
+blade of dismemberment	100	Mus: 0	1-handed sword
 blammer	50	Mus: 0	1-handed club
 blood knife	300	Mus: 0	1-handed knife
 Bloodbath	200	Mus: 200	2-handed sword
@@ -2457,6 +2460,7 @@ bejeweled pledge pin	170	Mys: 70
 Belt of Howling Anger	120	none
 Belt of Loathing	200	Mox: 150
 belt of Ogrekind	200	Mus: 40
+bembershoot	100	none
 bewitching boots	160	Mys: 65
 bezoar ring	100	Mys: 35
 BGE pocket calendar	0	none

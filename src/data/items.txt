@@ -11665,19 +11665,19 @@
 11637	Thwaitgold shield bug statuette	254234859	thwaitshield.gif	none		0
 11638	bodyguard badge	160131366	bodybadge.gif	familiar	t,d	11
 11639	Too Cold to Hold: How to Be Cool - A Memoir	684260885	book5.gif	usable	t	0
-11640	Too Cold to Hold: How to Be Cool - A Memo (read)	445549210	book5.gif	reusable		0
-11641
-11642
-11643
-11644
-11645
-11646
-11647
-11648
-11649
-11650
-11651
-11652
-11653
-11654
+11640	Too Cold to Hold: How to Be Cool - A Memoir (read)	445549210	book5.gif	reusable		0
+11641	boxed Sept-Ember Censer	940381296	emberbox.gif	usable	t	0
+11642	Sept-Ember Censer	189515221	embercenser.gif	usable		0
+11643	blade of dismemberment	514450928	embersword.gif	weapon	q	0	blades of dismemberment
+11644	miniature Embering Hulk	522091732	emberhulk.gif	usable		0	Embering Hulk miniatures
+11645	Mmm-brr! brand mouthwash	406085040	emberbottle.gif	usable	t,d	5	bottles of Mmm-brr! brand mouthwash
+11646	Septapus summoning charm	185891232	emberpus.gif	none, combat	t	0
+11647	structural ember	251613605	emberboard.gif	usable	t	0
+11648	embers-only jacket	778179676	emberjacket.gif	shirt	q	0
+11649	bembershoot	402598302	emberella.gif	accessory	q	0
+11650	wheel of camembert	665272067	embercheese.gif	food	t	0	wheels of camembert
+11651	hat of remembering	912871310	emberhat.gif	hat	q	0	hats of remembering
+11652	throwin' ember	214089388	emberchunk.gif	none, combat	t	0
+11653	head of emberg lettuce	931508825	emberlettuce.gif	usable	t	0	heads of emberg lettuce
+11654	embering hunk	447678631	emberhunk.gif	multiple		0
 11655	soft cap of diminishing returns	584372121	softcap.gif	hat		0
