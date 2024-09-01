@@ -11665,7 +11665,7 @@
 11637	Thwaitgold shield bug statuette	254234859	thwaitshield.gif	none		0
 11638	bodyguard badge	160131366	bodybadge.gif	familiar	t,d	11
 11639	Too Cold to Hold: How to Be Cool - A Memoir	684260885	book5.gif	usable	t	0
-11640	Too Cold to Hold: How to Be Cool - A Memo (read)	445549210	book5.gif	reusable		0
+11640	Too Cold to Hold: How to Be Cool - A Memoir (read)	445549210	book5.gif	reusable		0
 11641	boxed Sept-Ember Censer	940381296	emberbox.gif	usable	t	0
 11642	Sept-Ember Censer	189515221	embercenser.gif	usable		0
 11643	blade of dismemberment	514450928	embersword.gif	weapon	q	0	blades of dismemberment

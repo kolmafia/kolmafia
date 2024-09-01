@@ -12619,7 +12619,7 @@ Item	Tome of Snowcone Summoning	Free Pull, Skill: "Summon Snowcones"
 Item	Tome of Sugar Shummoning	Free Pull, Skill: "Summon Sugar Sheets"
 # tongue depressor: Briefly stuns a monster and reveals its vital statistics
 # tonic water: Restores 30-50 MP
-Item	Too Cold to Hold: How to Be Cool - A Memo (read)	Skill: "Too Cool"
+Item	Too Cold to Hold: How to Be Cool - A Memoir (read)	Skill: "Too Cool"
 Item	Too Cold to Hold: How to Be Cool - A Memoir	Skill: "Too Cool"
 Item	toothbrush	Effect: "Very Clean Teeth", Effect Duration: 10
 # top: Weakens enemies a little bit
