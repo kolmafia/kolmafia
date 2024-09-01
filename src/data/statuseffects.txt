@@ -2926,3 +2926,4 @@
 2923	Infected with Chronerism	chroner.gif	85122dd028354f65bf76800b064eb920	neutral	none	eat 1 bacteria bisque
 2924	Twitching Senses	nopic.gif	10424fbb137ba7a24a8a7798f2908bb6	neutral	none	eat 1 ciliophora chowder
 2925	Chloroplasted	sun.gif	f1c704c574989c850076ccc1b43ce420	neutral	none	eat 1 cream of chloroplasts
+2926	Burning Mouth	embercheese.gif	077bfdc23982be1c734fa7a8f47791a4	neutral	none	eat 1 wheel of camembert
