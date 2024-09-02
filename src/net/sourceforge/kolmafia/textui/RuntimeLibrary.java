@@ -4284,7 +4284,7 @@ public abstract class RuntimeLibrary {
       }
     }
 
-    if (value.getType().equals(DataTypes.LOCATION_TYPE)) {
+    if (value.getType().equals(DataTypes.LOCATION_TYPE) && value.content != null) {
       return new Value(((KoLAdventure) value.content).getAdventureNumber());
     }
 
