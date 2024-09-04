@@ -9,7 +9,6 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 
 import internal.helpers.Cleanups;
-import javax.swing.*;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,11 +19,12 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 class PreferenceWatcherTableTest {
+
+  private static final String PREFERENCE_WATCHER_TEST_USER = "PreferenceWatcherTableTestUser";
+
   @BeforeEach
   void beforeEach() {
-    KoLCharacter.reset(true);
-    KoLCharacter.reset("PreferenceWatcherTableTest");
-    Preferences.reset("PreferenceWatcherTableTest");
+    KoLCharacter.reset(PREFERENCE_WATCHER_TEST_USER);
   }
 
   @Nested
@@ -165,9 +165,10 @@ class PreferenceWatcherTableTest {
               withProperty("testPrefA", "a"),
               withProperty("testPrefB", "b"),
               withProperty("watchedPreferences", "testPrefA,testPrefB"));
-
+      var table = new PreferenceWatcherTable();
       try (cleanups) {
-        var table = new PreferenceWatcherTable();
+        // Force update so don't try and remove something before it is there
+        table.getModel().update();
         table.getModel().removePreference(0);
 
         assertThat(table.getRowCount(), is(1));
