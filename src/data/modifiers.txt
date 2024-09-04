@@ -6677,6 +6677,7 @@ Effect	Less Vincible	HP Regen Min: 2, HP Regen Max: 5
 Effect	Let It Snow/Boil/Stink/Frighten/Grease	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Effect	Let's Go Shopping!	Mysticality Percent: -300, Item Drop: +75, Meat Drop: +150
 Effect	Lettuce Go!	Initiative: +100
+Effect	Lettuce Rejoice	Experience: +7, Muscle Percent: +77, Mysticality Percent: +77, Moxie Percent: +77, Item Drop: +7, Meat Drop: +7, Weapon Damage: +7
 Effect	Libra Rising	Experience (Muscle): +1, Experience (Mysticality): +1, Experience (Moxie): +1
 Effect	License to Punch	Muscle Percent: +100
 Effect	Lifted Spirits	Initiative: +25, Experience: +5
