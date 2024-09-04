@@ -1580,7 +1580,7 @@ shiny butcherknife	60	Mys: 15	1-handed utensil
 shipwright's hammer	50	Mus: 0	1-handed club
 shooting morning star	100	Mus: 0	1-handed flail
 short-handled mop	165	Mus: 67	1-handed polearm
-shotgun	60	Mox: 0	1-handed
+shotgun	60	Mox: 0	1-handed shotgun
 shuddersword	125	Mus: 45	2-handed sword
 silent pea shooter	100	Mox: 35	1-handed slingshot
 silver cheese-slicer	140	Mys: 55	1-handed utensil
