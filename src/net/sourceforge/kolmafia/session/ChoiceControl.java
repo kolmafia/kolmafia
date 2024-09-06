@@ -423,6 +423,18 @@ public abstract class ChoiceControl {
         BastilleBattalionManager.preChoice(urlString, request);
         break;
 
+      case 1356: // Smooth Sailing
+      case 1357: // High Tide, Low Morale
+      case 1360: // Like Shops in the Night
+      case 1361: // Avast, a Mast!
+      case 1362: // Stormy Weather
+      case 1363: // Who Pirates the Pirates?
+      case 1364: // An Opportunity for Dastardly Do
+      case 1365: // A Sea Monster!
+        // This could be in postChoice1 but doing it here allows us to use a single line of code.
+        Preferences.increment("_pirateRealmSailingTurns", 1);
+        break;
+
       case 1451:
         // Fire Captain Hagnk
         WildfireCampRequest.parseCaptain(text);
@@ -4241,6 +4253,9 @@ public abstract class ChoiceControl {
         // Try to gain some extra distance
         if (ChoiceManager.lastDecision == 2) {
           if (text.contains("you manage to outsail the storm")) {
+            // This is already incremented in postChoice0, but successful sailing increments it one
+            // further.
+            Preferences.increment("_pirateRealmSailingTurns", 1);
             Preferences.increment("pirateRealmStormsEscaped", 1, 10, false);
           }
         }

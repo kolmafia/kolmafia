@@ -2291,6 +2291,7 @@ user	_pirateRealmCrewmate3
 user	_pirateRealmIslandCombats	0
 user	_pirateRealmWindicleUsed	false
 user	_pirateRealmShip
+user	_pirateRealmSailingTurns	0
 user	_pixelOrbUsed	false
 user	_pixieCharge	0
 user	_plumbersMushroomStewEaten	false
