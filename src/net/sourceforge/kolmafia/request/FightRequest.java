@@ -3459,11 +3459,6 @@ public class FightRequest extends GenericRequest {
       }
     }
 
-    // Track combats on PirateRealm islands
-    if (adventure == AdventurePool.PIRATEREALM) {
-      Preferences.increment("_pirateRealmIslandCombats");
-    }
-
     if (free) {
       String updateMessage = "This combat did not cost a turn";
       RequestLogger.updateSessionLog(updateMessage);
@@ -4212,6 +4207,11 @@ public class FightRequest extends GenericRequest {
 
       if (!free && responseText.contains("playing on your SongBoom")) {
         Preferences.increment("_boomBoxFights");
+      }
+
+      // Track monsters defeated on the current PirateRealm island
+      if (adventure == AdventurePool.PIRATEREALM_ISLAND) {
+        Preferences.increment("_pirateRealmIslandMonstersDefeated");
       }
 
       switch (monsterName) {
@@ -10985,7 +10985,7 @@ public class FightRequest extends GenericRequest {
         Preferences.setBoolean("_pirateRealmWindicleUsed", true);
 
         if (responseText.contains("Your foe is blown clear of the island") || itemRunawaySuccess) {
-          Preferences.increment("_pirateRealmIslandCombats", 3);
+          Preferences.increment("_pirateRealmIslandMonstersDefeated", 3);
         }
 
         break;

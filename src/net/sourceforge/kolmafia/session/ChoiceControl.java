@@ -432,7 +432,16 @@ public abstract class ChoiceControl {
       case 1364: // An Opportunity for Dastardly Do
       case 1365: // A Sea Monster!
         // This could be in postChoice1 but doing it here allows us to use a single line of code.
-        Preferences.increment("_pirateRealmSailingTurns", 1);
+
+        // Shops in the Night only takes its turn when you decide to leave (decision 6),
+        // otherwise we just need to make sure that we made a decision at all
+        var takesTurn =
+            (choice == 1360)
+                ? (ChoiceManager.lastDecision == 6)
+                : (ChoiceManager.lastDecision != 0);
+        if (takesTurn) {
+          Preferences.increment("_pirateRealmSailingTurns", 1);
+        }
         break;
 
       case 1451:
@@ -9718,7 +9727,8 @@ public abstract class ChoiceControl {
             if (desc != null && !desc.equals("Decide Later")) {
               Preferences.setString("_lastPirateRealmIsland", desc);
               // Reset per-island flags
-              Preferences.setInteger("_pirateRealmIslandCombats", 0);
+              Preferences.setInteger("_pirateRealmIslandMonstersDefeated", 0);
+              Preferences.setInteger("_pirateRealmSailingTurns", 0);
               Preferences.setBoolean("_pirateRealmWindicleUsed", false);
             }
             return true;

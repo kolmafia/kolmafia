@@ -2300,10 +2300,14 @@ user	_pirateRealmCrewmate1
 user	_pirateRealmCrewmate2
 user	_pirateRealmCrewmate3
 user	_pirateRealmCurio
-user	_pirateRealmIslandCombats	0
+user	_pirateRealmGold	0
+user	_pirateRealmGrog	0
+user	_pirateRealmGrub	0
+user	_pirateRealmGuns	0
+user	_pirateRealmIslandMonstersDefeated	0
 user	_pirateRealmSailingTurns	0
-user	_pirateRealmSoldCompass	false
 user	_pirateRealmShip
+user	_pirateRealmSoldCompass	false
 user	_pirateRealmWindicleUsed	false
 user	_pixelOrbUsed	false
 user	_pixieCharge	0
