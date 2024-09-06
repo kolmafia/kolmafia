@@ -969,5 +969,21 @@ class ChoiceControlTest {
         assertThat("_pirateRealmSailingTurns", isSetTo(addsTurn ? 1 : 0));
       }
     }
+
+    @Test
+    void handlesOutsailingStorm() {
+      var responseText = html("request/test_choice_piraterealm_outsailed_storm.html");
+
+      var cleanups =
+          new Cleanups(
+              withProperty("_pirateRealmSailingTurns", 0),
+              withProperty("pirateRealmStormsEscaped", 0),
+              withChoice(1362, 2, responseText));
+
+      try (cleanups) {
+        assertThat("_pirateRealmSailingTurns", isSetTo(2));
+        assertThat("pirateRealmStormsEscaped", isSetTo(1));
+      }
+    }
   }
 }
