@@ -939,5 +939,28 @@ class ChoiceControlTest {
         assertThat("_pirateRealmShipSpeed", isSetTo(6));
       }
     }
+
+    @CsvSource({
+      "1356, 0, false",
+      "1356, 1, true",
+      "1357, 1, true",
+      "1360, 1, false",
+      "1360, 6, true",
+      "1361, 1, true",
+      "1362, 1, true",
+      "1363, 1, true",
+      "1364, 1, true",
+      "1365, 1, true",
+    })
+    @ParameterizedTest
+    void makesSailingProgressInValidChoices(
+        final int choice, final int decision, final boolean addsTurn) {
+      var cleanups =
+          new Cleanups(
+              withProperty("_pirateRealmSailingTurns", 0), withChoice(choice, decision, ""));
+      try (cleanups) {
+        assertThat("_pirateRealmSailingTurns", isSetTo(addsTurn ? 1 : 0));
+      }
+    }
   }
 }
