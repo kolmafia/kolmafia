@@ -1211,6 +1211,7 @@ user	pirateRealmUnlockedRadioRing	false
 user	pirateRealmUnlockedRhum	false
 user	pirateRealmUnlockedShavingCream	false
 user	pirateRealmUnlockedSpyglass	false
+user	pirateRealmUnlockedThirdCrewmate	false
 user	pirateSwagger	0
 user	pizzaOfLegendEaten	false
 user	plantingDate

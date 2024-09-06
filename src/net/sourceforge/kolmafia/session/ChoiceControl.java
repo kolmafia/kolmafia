@@ -4280,6 +4280,12 @@ public abstract class ChoiceControl {
           break;
         }
 
+      case 1383: // Parole
+        {
+          Preferences.setBoolean("pirateRealmUnlockedThirdCrewmate", true);
+          break;
+        }
+
       case 1384: // The Calm After the Storm
         {
           Preferences.setBoolean("pirateRealmUnlockedAnemometer", true);
@@ -8459,10 +8465,12 @@ public abstract class ChoiceControl {
 
       case 1347:
         {
-          ChoiceUtilities.parseChoices(text)
-              .forEach(
-                  (choice, crewmate) ->
-                      Preferences.setString("_pirateRealmCrewmate" + choice, crewmate));
+          var choices = ChoiceUtilities.parseChoices(text);
+          choices.forEach(
+              (choice, crewmate) ->
+                  Preferences.setString("_pirateRealmCrewmate" + choice, crewmate));
+          // Correct knowledge of third crewmate unlock if necessary.
+          Preferences.setBoolean("pirateRealmUnlockedThirdCrewmate", choices.size() >= 3);
           break;
         }
 
