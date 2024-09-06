@@ -1201,6 +1201,27 @@ user	peteMotorbikeSeat
 user	photocopyMonster
 user	pieStuffing
 user	pingpongSkill	0
+user	pirateRealmPlasticPiratesDefeated	0
+user	pirateRealmShipsDestroyed	0
+user	pirateRealmStormsEscaped	0
+user	pirateRealmUnlockedAnemometer	false
+user	pirateRealmUnlockedBlunderbuss	false
+user	pirateRealmUnlockedBreastplate	false
+user	pirateRealmUnlockedClipper	false
+user	pirateRealmUnlockedCrabsicle	false
+user	pirateRealmUnlockedFlag	false
+user	pirateRealmUnlockedFork	false
+user	pirateRealmUnlockedGoldRing	false
+user	pirateRealmUnlockedManOWar	false
+user	pirateRealmUnlockedPlushie	false
+user	pirateRealmUnlockedRadioRing	false
+user	pirateRealmUnlockedRhum	false
+user	pirateRealmUnlockedScurvySkillbook	false
+user	pirateRealmUnlockedShavingCream	false
+user	pirateRealmUnlockedSpyglass	false
+user	pirateRealmUnlockedTattoo	false
+user	pirateRealmUnlockedThirdCrewmate	false
+user	pirateRealmUnlockedTikiSkillbook	false
 user	pirateSwagger	0
 user	pizzaOfLegendEaten	false
 user	plantingDate
@@ -2274,6 +2295,21 @@ user	_piePartsCount	0
 user	_pingPongGame	false
 user	_pirateBellowUsed	false
 user	_pirateForkUsed	false
+user	_pirateRealmCrewmate
+user	_pirateRealmCrewmate1
+user	_pirateRealmCrewmate2
+user	_pirateRealmCrewmate3
+user	_pirateRealmCurio
+user	_pirateRealmGold	0
+user	_pirateRealmGrog	0
+user	_pirateRealmGrub	0
+user	_pirateRealmGuns	0
+user	_pirateRealmIslandMonstersDefeated	0
+user	_pirateRealmSailingTurns	0
+user	_pirateRealmShip
+user	_pirateRealmShipSpeed	0
+user	_pirateRealmSoldCompass	false
+user	_pirateRealmWindicleUsed	false
 user	_pixelOrbUsed	false
 user	_pixieCharge	0
 user	_plumbersMushroomStewEaten	false

@@ -5,6 +5,7 @@ import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withInebriety;
+import static internal.helpers.Player.withLastLocation;
 import static internal.helpers.Player.withNoEffects;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
@@ -18,13 +19,16 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
+import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.LimitMode;
 import org.junit.jupiter.api.BeforeEach;
@@ -312,6 +316,32 @@ class CharPaneRequestTest {
         CharPaneRequest.processResults(html("request/test_charpane_compact_research.html"));
         assertThat("wereProfessorResearchPoints", isSetTo(15));
         assertThat("wereProfessorTransformTurns", isSetTo(11));
+      }
+    }
+  }
+
+  @Nested
+  class PirateRealm {
+    private static final KoLAdventure PIRATEREALM =
+        AdventureDatabase.getAdventure(AdventurePool.PIRATEREALM_ISLAND);
+
+    @Test
+    void canTrackPirateRealmStats() {
+      var cleanups =
+          new Cleanups(
+              withLastLocation(PIRATEREALM),
+              withProperty("availableFunPoints", 0),
+              withProperty("_pirateRealmGold", 0),
+              withProperty("_pirateRealmGrog", 0),
+              withProperty("_pirateRealmGrub", 0),
+              withProperty("_pirateRealmGuns", 0));
+      try (cleanups) {
+        CharPaneRequest.processResults(html("request/test_charpane_piraterealm.html"));
+        assertThat("availableFunPoints", isSetTo(139));
+        assertThat("_pirateRealmGold", isSetTo(186));
+        assertThat("_pirateRealmGrog", isSetTo(2));
+        assertThat("_pirateRealmGrub", isSetTo(2));
+        assertThat("_pirateRealmGuns", isSetTo(2));
       }
     }
   }

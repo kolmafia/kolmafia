@@ -799,6 +799,28 @@ public class QuestManager {
     if (!Preferences.getBoolean("prAlways")) {
       Preferences.setBoolean("_prToday", true);
     }
+
+    // Cleared the last island
+    if (responseText.contains("an envelope with your name on it")) {
+      if (responseText.contains("piratical blunderbuss")) {
+        Preferences.setBoolean("pirateRealmUnlockedBlunderbuss", true);
+      }
+      if (responseText.contains("pirate fork")) {
+        Preferences.setBoolean("pirateRealmUnlockedFork", true);
+      }
+      if (responseText.contains("Scurvy and Sobriety Prevention")) {
+        Preferences.setBoolean("pirateRealmUnlockedScurvySkillbook", true);
+      }
+      if (responseText.contains("lucky gold ring")) {
+        Preferences.setBoolean("pirateRealmUnlockedGoldRing", true);
+      }
+      if (responseText.contains("Menacing Man o' War")) {
+        Preferences.setBoolean("pirateRealmUnlockedManOWar", true);
+      }
+      if (responseText.contains("Swift Clipper")) {
+        Preferences.setBoolean("pirateRealmUnlockedClipper", true);
+      }
+    }
   }
 
   private static void handleBilliardsRoomChange(final String responseText) {

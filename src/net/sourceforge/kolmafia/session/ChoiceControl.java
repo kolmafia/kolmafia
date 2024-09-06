@@ -423,6 +423,27 @@ public abstract class ChoiceControl {
         BastilleBattalionManager.preChoice(urlString, request);
         break;
 
+      case 1356: // Smooth Sailing
+      case 1357: // High Tide, Low Morale
+      case 1360: // Like Shops in the Night
+      case 1361: // Avast, a Mast!
+      case 1362: // Stormy Weather
+      case 1363: // Who Pirates the Pirates?
+      case 1364: // An Opportunity for Dastardly Do
+      case 1365: // A Sea Monster!
+        // This could be in postChoice1 but doing it here allows us to use a single line of code.
+
+        // Shops in the Night only takes its turn when you decide to leave (decision 6),
+        // otherwise we just need to make sure that we made a decision at all
+        var takesTurn =
+            (choice == 1360)
+                ? (ChoiceManager.lastDecision == 6)
+                : (ChoiceManager.lastDecision != 0);
+        if (takesTurn) {
+          Preferences.increment("_pirateRealmSailingTurns", 1);
+        }
+        break;
+
       case 1451:
         // Fire Captain Hagnk
         WildfireCampRequest.parseCaptain(text);
@@ -4217,10 +4238,50 @@ public abstract class ChoiceControl {
         }
         break;
 
-      case 1360:
-        // Like Shops in the Night
+      case 1347: // Groggy's Tavern
+        {
+          Preferences.setString(
+              "_pirateRealmCrewmate",
+              Preferences.getString("_pirateRealmCrewmate" + ChoiceManager.lastDecision));
+          break;
+        }
+
+      case 1348: // Seaside Curios
+        {
+          // The item ids are in order from 10190 to 10195
+          Preferences.setString(
+              "_pirateRealmCurio", String.valueOf(10189 + ChoiceManager.lastDecision));
+          break;
+        }
+
+      case 1349: // Dishonest Ed's Ships
+        {
+          Preferences.setString(
+              "_pirateRealmShip",
+              switch (ChoiceManager.lastDecision) {
+                case 1 -> "Rigged Frigate";
+                case 2 -> "Intimidating Galleon";
+                case 3 -> "Speedy Caravel";
+                case 4 -> "Swift Clipper";
+                case 5 -> "Menacing Man o' War";
+                default -> "";
+              });
+          Preferences.setInteger(
+              "_pirateRealmShipSpeed",
+              switch (ChoiceManager.lastDecision) {
+                case 1, 2 -> 7;
+                case 3 -> 6;
+                case 4 -> 4;
+                case 5 -> 9;
+                default -> 0;
+              });
+          break;
+        }
+
+      case 1360: // Like Shops in the Night
         if (ChoiceManager.lastDecision == 5 && text.contains("You gain 500 gold")) {
           // Sell them the cursed compass
+          Preferences.setBoolean("_pirateRealmSoldCompass", true);
           // Remove from equipment (including checkpoints)
           if (EquipmentManager.discardEquipment(ItemPool.CURSED_COMPASS) == Slot.NONE) {
             // Remove from inventory
@@ -4228,6 +4289,73 @@ public abstract class ChoiceControl {
           }
         }
         break;
+
+      case 1362: // Stormy Weather
+        // Try to gain some extra distance
+        if (ChoiceManager.lastDecision == 2) {
+          if (text.contains("you manage to outsail the storm")) {
+            // This is already incremented in postChoice0, but successful sailing increments it one
+            // further.
+            Preferences.increment("_pirateRealmSailingTurns", 1);
+            Preferences.increment("pirateRealmStormsEscaped", 1, 10, false);
+          }
+        }
+        break;
+
+      case 1364: // An Opportunity for Dastardly Do
+        // Attack them
+        if (ChoiceManager.lastDecision == 1) {
+          if (text.contains("blast them to bits")) {
+            Preferences.increment("pirateRealmShipsDestroyed", 1, 10, false);
+          }
+        }
+        break;
+
+      case 1365: // A Sea Monster!
+        if (ChoiceManager.lastDecision == 1) {
+          if (text.contains("plush sea serpent")) {
+            Preferences.setBoolean("pirateRealmUnlockedPlushie", true);
+          }
+        }
+        break;
+
+      case 1372: // You Can See Clearly Now
+        {
+          Preferences.setBoolean("pirateRealmUnlockedRhum", true);
+          break;
+        }
+
+      case 1375: // A Close Shave
+        {
+          Preferences.setBoolean("pirateRealmUnlockedShavingCream", true);
+          break;
+        }
+
+      case 1379: // The Tiki Craze Is Over
+        {
+          if (text.contains("Island Drinkin' skillbook")) {
+            Preferences.setBoolean("pirateRealmUnlockedTikiSkillbook", true);
+          }
+          break;
+        }
+
+      case 1380: // Temple's Grand End
+        {
+          Preferences.setBoolean("pirateRealmUnlockedTattoo", true);
+          break;
+        }
+
+      case 1383: // Parole
+        {
+          Preferences.setBoolean("pirateRealmUnlockedThirdCrewmate", true);
+          break;
+        }
+
+      case 1384: // The Calm After the Storm
+        {
+          Preferences.setBoolean("pirateRealmUnlockedAnemometer", true);
+          break;
+        }
 
       case 1386:
         SaberRequest.parseUpgrade(urlString, text);
@@ -8400,6 +8528,33 @@ public abstract class ChoiceControl {
           break;
         }
 
+      case 1347: // Groggy's Tavern
+        {
+          var choices = ChoiceUtilities.parseChoices(text);
+          choices.forEach(
+              (choice, crewmate) ->
+                  Preferences.setString(
+                      "_pirateRealmCrewmate" + choice, crewmate.replaceFirst("^the ", "")));
+          // Correct knowledge of third crewmate unlock if necessary.
+          Preferences.setBoolean("pirateRealmUnlockedThirdCrewmate", choices.size() >= 3);
+          break;
+        }
+
+      case 1348: // Seaside Curios
+        {
+          var choices = ChoiceUtilities.parseChoices(text);
+          Preferences.setBoolean("pirateRealmUnlockedAnemometer", choices.containsKey(4));
+          Preferences.setBoolean("pirateRealmUnlockedFlag", choices.containsKey(5));
+          Preferences.setBoolean("pirateRealmUnlockedSpyglass", choices.containsKey(6));
+        }
+
+      case 1349: // Dishonest Ed's Ships
+        {
+          var choices = ChoiceUtilities.parseChoices(text);
+          Preferences.setBoolean("pirateRealmUnlockedClipper", choices.containsKey(4));
+          Preferences.setBoolean("pirateRealmUnlockedManOWar", choices.containsKey(5));
+        }
+
       case 1388:
         BeachManager.parseCombUsage(text);
         BeachManager.parseBeachMap(text);
@@ -9581,6 +9736,10 @@ public abstract class ChoiceControl {
             RequestLogger.updateSessionLog("Took choice " + choice + "/" + decision + ": " + desc);
             if (desc != null && !desc.equals("Decide Later")) {
               Preferences.setString("_lastPirateRealmIsland", desc);
+              // Reset per-island flags
+              Preferences.setInteger("_pirateRealmIslandMonstersDefeated", 0);
+              Preferences.setInteger("_pirateRealmSailingTurns", 0);
+              Preferences.setBoolean("_pirateRealmWindicleUsed", false);
             }
             return true;
           }

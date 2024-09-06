@@ -4209,34 +4209,42 @@ public class FightRequest extends GenericRequest {
         Preferences.increment("_boomBoxFights");
       }
 
+      // Track monsters defeated on the current PirateRealm island
+      if (adventure == AdventurePool.PIRATEREALM_ISLAND) {
+        Preferences.increment("_pirateRealmIslandMonstersDefeated");
+      }
+
       if (IslandManager.isBattlefieldMonster(monsterName)) {
         IslandManager.handleBattlefieldMonster(responseText, monsterName);
-      } else if (monsterName.equals("black pudding")) {
-        Preferences.increment("blackPuddingsDefeated", 1);
-      } else if (monsterName.equals("general seal")) {
-        ResultProcessor.removeItem(ItemPool.ABYSSAL_BATTLE_PLANS);
-      } else if (monsterName.equals("Frank &quot;Skipper&quot; Dan, the Accordion Lord")) {
-        ResultProcessor.removeItem(ItemPool.SUSPICIOUS_ADDRESS);
-      } else if (monsterName.equals("Chef Boy, R&amp;D")) {
-        ResultProcessor.removeItem(ItemPool.CHEF_BOY_BUSINESS_CARD);
-      } else if (monsterName.equals("drunk pygmy")) {
-        if (responseText.contains("notices the Bowl of Scorpions")) {
-          ResultProcessor.removeItem(ItemPool.BOWL_OF_SCORPIONS);
-          Preferences.increment("_drunkPygmyBanishes");
-        }
-      } else if (monsterName.equals("bugbear robo-surgeon")) {
-        BugbearManager.clearShipZone("Medbay");
-      } else if (monsterName.equals("wumpus")) {
-        WumpusManager.reset();
-      } else if (monsterName.equals("Baron von Ratsworth")) {
-        TavernRequest.addTavernLocation('6');
-      } else if (monsterName.equals("the invader")) {
-        Preferences.setBoolean("spaceInvaderDefeated", true);
-      } else if (monsterName.equals("Eldritch Tentacle")) {
-        Preferences.increment("eldritchTentaclesFought", 1);
       } else if (special == SpecialMonster.SEWER && !EncounterManager.ignoreSpecialMonsters) {
         AdventureResult result = AdventureResult.tallyItem("sewer tunnel explorations", false);
         AdventureResult.addResultToList(KoLConstants.tally, result);
+      }
+
+      switch (monsterName) {
+        case "black pudding" -> Preferences.increment("blackPuddingsDefeated", 1);
+        case "general seal" -> ResultProcessor.removeItem(ItemPool.ABYSSAL_BATTLE_PLANS);
+        case "Frank &quot;Skipper&quot; Dan, the Accordion Lord" -> ResultProcessor.removeItem(
+            ItemPool.SUSPICIOUS_ADDRESS);
+        case "Chef Boy, R&amp;D" -> ResultProcessor.removeItem(ItemPool.CHEF_BOY_BUSINESS_CARD);
+        case "drunk pygmy" -> {
+          if (responseText.contains("notices the Bowl of Scorpions")) {
+            ResultProcessor.removeItem(ItemPool.BOWL_OF_SCORPIONS);
+            Preferences.increment("_drunkPygmyBanishes");
+          }
+        }
+        case "bugbear robo-surgeon" -> BugbearManager.clearShipZone("Medbay");
+        case "wumpus" -> WumpusManager.reset();
+        case "Baron von Ratsworth" -> TavernRequest.addTavernLocation('6');
+        case "the invader" -> Preferences.setBoolean("spaceInvaderDefeated", true);
+        case "Eldritch Tentacle" -> Preferences.increment("eldritchTentaclesFought", 1);
+        case "Glass Jack Hummel" -> Preferences.setBoolean("pirateRealmUnlockedSpyglass", true);
+        case "Red Roger" -> Preferences.setBoolean("pirateRealmUnlockedFlag", true);
+        case "giant giant crab" -> Preferences.setBoolean("pirateRealmUnlockedCrabsicle", true);
+        case "jungle titan" -> Preferences.setBoolean("pirateRealmUnlockedBreastplate", true);
+        case "plastic pirate" -> Preferences.increment(
+            "pirateRealmPlasticPiratesDefeated", 1, 50, false);
+        case "pirate radio" -> Preferences.setBoolean("pirateRealmUnlockedRadioRing", true);
       }
 
       if (KoLCharacter.hasEquipped(ItemPool.BONE_ABACUS, Slot.OFFHAND)
@@ -10966,6 +10974,19 @@ public class FightRequest extends GenericRequest {
           TurnCounter.startCounting(100, "Trick Coin Monster loc=*", "snout.gif");
           TrackManager.trackCurrentMonster(Tracker.TRICK_COIN);
         }
+        break;
+
+      case ItemPool.WINDICLE:
+        if (responseText.contains("This item can only be used in PirateRealm")) {
+          break;
+        }
+
+        Preferences.setBoolean("_pirateRealmWindicleUsed", true);
+
+        if (responseText.contains("Your foe is blown clear of the island") || itemRunawaySuccess) {
+          Preferences.increment("_pirateRealmIslandMonstersDefeated", 3);
+        }
+
         break;
     }
 
