@@ -242,7 +242,11 @@ public class CharSheetRequestTest {
   }
 
   @ParameterizedTest
-  @CsvSource({"normal, 394, 394, 394", "unbuffed_stats, 162, 243, 243", "grey_you, 25, 25, 25"})
+  @CsvSource({
+    "normal, 394, 394, 394",
+    "unbuffed_stats, 162, 243, 243",
+    "grey_you, 2345678901, 2600000000, 2600000000"
+  })
   public void parseHP(
       String page, String expectedCurrentHP, String expectedMaxHP, String expectedBaseMaxHP) {
     String html = html("request/test_charsheet_" + page + ".html");
@@ -254,7 +258,11 @@ public class CharSheetRequestTest {
   }
 
   @ParameterizedTest
-  @CsvSource({"normal, 359, 1221, 1221", "unbuffed_stats, 225, 225, 225", "grey_you, 5, 5, 5"})
+  @CsvSource({
+    "normal, 359, 1221, 1221",
+    "unbuffed_stats, 225, 225, 225",
+    "grey_you, 2345678903, 2600000002, 2600000002"
+  })
   public void parseMP(
       String page, String expectedCurrentMP, String expectedMaxMP, String expectedBaseMaxMP) {
     String html = html("request/test_charsheet_" + page + ".html");
@@ -314,7 +322,7 @@ public class CharSheetRequestTest {
   }
 
   @ParameterizedTest
-  @CsvSource({"normal, 8621947", "unbuffed_stats, 593", "grey_you, 0"})
+  @CsvSource({"normal, 8621947", "unbuffed_stats, 593", "grey_you, 5000000000"})
   public void parseAvailableMeat(String page, String expected) {
     String html = html("request/test_charsheet_" + page + ".html");
     CharSheetRequest.parseStatus(html);
