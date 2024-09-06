@@ -314,7 +314,7 @@ public class CharSheetRequestTest {
   }
 
   @ParameterizedTest
-  @CsvSource({"normal, 8621947", "unbuffed_stats, 593", "grey_you, 5,000,000,000"})
+  @CsvSource({"normal, 8621947", "unbuffed_stats, 593", "grey_you, 5000000000"})
   public void parseAvailableMeat(String page, String expected) {
     String html = html("request/test_charsheet_" + page + ".html");
     CharSheetRequest.parseStatus(html);
