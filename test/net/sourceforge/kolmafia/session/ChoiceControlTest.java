@@ -926,17 +926,24 @@ class ChoiceControlTest {
       }
     }
 
-    @Test
-    void canSelectShip() {
+    @CsvSource({
+      "1, Rigged Frigate, 7",
+      "2, Intimidating Galleon, 7",
+      "3, Speedy Caravel, 6",
+      "4, Swift Clipper, 4",
+      "5, Menacing Man o' War, 9"
+    })
+    @ParameterizedTest
+    void canSelectShip(final int decision, final String name, final int speed) {
       var cleanups =
           new Cleanups(
               withProperty("_pirateRealmShip", ""),
               withProperty("_pirateRealmShipSpeed", 0),
-              withChoice(1349, 3, ""));
+              withChoice(1349, decision, ""));
 
       try (cleanups) {
-        assertThat("_pirateRealmShip", isSetTo("Speedy Caravel"));
-        assertThat("_pirateRealmShipSpeed", isSetTo(6));
+        assertThat("_pirateRealmShip", isSetTo(name));
+        assertThat("_pirateRealmShipSpeed", isSetTo(speed));
       }
     }
 
