@@ -4266,6 +4266,15 @@ public abstract class ChoiceControl {
                 case 5 -> "Menacing Man o' War";
                 default -> "";
               });
+          Preferences.setInteger(
+              "_pirateRealmShipSpeed",
+              switch (ChoiceManager.lastDecision) {
+                case 1, 2 -> 7;
+                case 3 -> 6;
+                case 4 -> 4;
+                case 5 -> 9;
+                default -> 0;
+              });
           break;
         }
 

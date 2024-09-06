@@ -929,12 +929,14 @@ class ChoiceControlTest {
     @Test
     void canSelectShip() {
       var cleanups =
-        new Cleanups(
-          withProperty("_pirateRealmShip", ""),
-          withChoice(1349, 3, ""));
+          new Cleanups(
+              withProperty("_pirateRealmShip", ""),
+              withProperty("_pirateRealmShipSpeed", 0),
+              withChoice(1349, 3, ""));
 
       try (cleanups) {
         assertThat("_pirateRealmShip", isSetTo("Speedy Caravel"));
+        assertThat("_pirateRealmShipSpeed", isSetTo(6));
       }
     }
   }

@@ -2307,6 +2307,7 @@ user	_pirateRealmGuns	0
 user	_pirateRealmIslandMonstersDefeated	0
 user	_pirateRealmSailingTurns	0
 user	_pirateRealmShip
+user	_pirateRealmShipSpeed	0
 user	_pirateRealmSoldCompass	false
 user	_pirateRealmWindicleUsed	false
 user	_pixelOrbUsed	false
