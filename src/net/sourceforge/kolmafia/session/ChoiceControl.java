@@ -4260,10 +4260,10 @@ public abstract class ChoiceControl {
           break;
         }
 
-      case 1360:
-        // Like Shops in the Night
+      case 1360: // Like Shops in the Night
         if (ChoiceManager.lastDecision == 5 && text.contains("You gain 500 gold")) {
           // Sell them the cursed compass
+          Preferences.setBoolean("_pirateRealmSoldCompass", true);
           // Remove from equipment (including checkpoints)
           if (EquipmentManager.discardEquipment(ItemPool.CURSED_COMPASS) == Slot.NONE) {
             // Remove from inventory
