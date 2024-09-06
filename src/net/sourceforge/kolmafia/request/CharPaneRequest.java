@@ -22,6 +22,7 @@ import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.ModifierList;
 import net.sourceforge.kolmafia.modifiers.ModifierList.ModifierValue;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
+import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -256,6 +257,8 @@ public class CharPaneRequest extends GenericRequest {
     CharPaneRequest.checkAbsorbs(responseText);
 
     CharPaneRequest.checkFantasyRealmHours(responseText);
+
+    checkPirateRealm(responseText);
 
     CharPaneRequest.checkEnsorcelee(responseText);
 
@@ -1273,6 +1276,30 @@ public class CharPaneRequest extends GenericRequest {
     if (matcher.find()) {
       Preferences.setInteger("_frHoursLeft", StringUtilities.parseInt(matcher.group(1)));
     }
+  }
+
+  private static final Pattern PIRATE_REALM_PATTERN =
+      Pattern.compile("<b>(Guns|Grub|Grog|Gold|Fun):</b></td><td class=small>(\\d+)</td>");
+
+  private static void checkPirateRealm(final String response) {
+    // Only shows when we have a relevant last adventure
+    switch (KoLAdventure.lastAdventureId()) {
+      case AdventurePool.PIRATEREALM_ISLAND, AdventurePool.PIRATEREALM_SAILING:
+        break;
+      default:
+        return;
+    }
+
+    PIRATE_REALM_PATTERN
+        .matcher(response)
+        .results()
+        .forEach(
+            match -> {
+              String type = match.group(1);
+              int value = StringUtilities.parseInt(match.group(2));
+              var pref = type.equals("Fun") ? "availableFunPoints" : "_pirateRealm" + type;
+              Preferences.setInteger(pref, value);
+            });
   }
 
   private static void checkAbsorbs(final String responseText) {

@@ -2067,6 +2067,7 @@ public class Player {
   public static Cleanups withChoice(
       final int choice, final int decision, final String extra, final String responseText) {
     var cleanups = new Cleanups();
+    cleanups.add(withPostChoice0(choice, decision, extra, responseText));
     cleanups.add(withPostChoice1(choice, decision, extra, responseText));
     ResultProcessor.processResults(false, responseText);
     cleanups.add(withPostChoice2(choice, decision, extra, responseText));

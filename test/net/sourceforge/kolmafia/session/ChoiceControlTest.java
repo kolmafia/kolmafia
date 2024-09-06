@@ -872,4 +872,118 @@ class ChoiceControlTest {
       }
     }
   }
+
+  @Nested
+  class PirateRealm {
+    @Test
+    void canParseCrewmates() {
+      var responseText = html("request/test_choice_piraterealm_three_crewmates.html");
+      var cleanups =
+          new Cleanups(
+              withProperty("_pirateRealmCrewmate", ""),
+              withProperty("_pirateRealmCrewmate1", ""),
+              withProperty("_pirateRealmCrewmate2", ""),
+              withProperty("_pirateRealmCrewmate3", ""),
+              withProperty("pirateRealmUnlockedThirdCrewmate", false),
+              withChoice(1347, responseText));
+
+      try (cleanups) {
+        assertThat("_pirateRealmCrewmate", isSetTo(""));
+        assertThat("_pirateRealmCrewmate1", isSetTo("Beligerent Coxswain"));
+        assertThat("_pirateRealmCrewmate2", isSetTo("Pinch-Fisted Cryptobotanist"));
+        assertThat("_pirateRealmCrewmate3", isSetTo("Dipsomaniacal Cuisinier"));
+        assertThat("pirateRealmUnlockedThirdCrewmate", isSetTo(true));
+      }
+    }
+
+    @Test
+    void canSelectCrewmate() {
+      var cleanups =
+          new Cleanups(
+              withProperty("_pirateRealmCrewmate", ""),
+              withProperty("_pirateRealmCrewmate1", "Beligerent Coxswain"),
+              withProperty("_pirateRealmCrewmate2", "Pinch-Fisted Cryptobotanist"),
+              withProperty("_pirateRealmCrewmate3", "Dipsomaniacal Cuisinier"),
+              withChoice(1347, 2, ""));
+
+      try (cleanups) {
+        assertThat("_pirateRealmCrewmate", isSetTo("Pinch-Fisted Cryptobotanist"));
+      }
+    }
+
+    @Test
+    void canParseShips() {
+      var responseText = html("request/test_choice_piraterealm_manowar.html");
+      var cleanups =
+          new Cleanups(
+              withProperty("pirateRealmUnlockedManOWar", false),
+              withProperty("pirateRealmUnlockedClipper", false),
+              withChoice(1349, responseText));
+
+      try (cleanups) {
+        assertThat("pirateRealmUnlockedManOWar", isSetTo(true));
+        assertThat("pirateRealmUnlockedClipper", isSetTo(false));
+      }
+    }
+
+    @CsvSource({
+      "1, Rigged Frigate, 7",
+      "2, Intimidating Galleon, 7",
+      "3, Speedy Caravel, 6",
+      "4, Swift Clipper, 4",
+      "5, Menacing Man o' War, 9"
+    })
+    @ParameterizedTest
+    void canSelectShip(final int decision, final String name, final int speed) {
+      var cleanups =
+          new Cleanups(
+              withProperty("_pirateRealmShip", ""),
+              withProperty("_pirateRealmShipSpeed", 0),
+              withChoice(1349, decision, ""));
+
+      try (cleanups) {
+        assertThat("_pirateRealmShip", isSetTo(name));
+        assertThat("_pirateRealmShipSpeed", isSetTo(speed));
+      }
+    }
+
+    @CsvSource({
+      "1356, 0, false",
+      "1356, 1, true",
+      "1357, 1, true",
+      "1360, 1, false",
+      "1360, 6, true",
+      "1361, 1, true",
+      "1362, 1, true",
+      "1363, 1, true",
+      "1364, 1, true",
+      "1365, 1, true",
+    })
+    @ParameterizedTest
+    void makesSailingProgressInValidChoices(
+        final int choice, final int decision, final boolean addsTurn) {
+      var cleanups =
+          new Cleanups(
+              withProperty("_pirateRealmSailingTurns", 0), withChoice(choice, decision, ""));
+      try (cleanups) {
+        assertThat("_pirateRealmSailingTurns", isSetTo(addsTurn ? 1 : 0));
+      }
+    }
+
+    @Test
+    void handlesOutsailingStorm() {
+      var responseText = html("request/test_choice_piraterealm_outsailed_storm.html");
+
+      var cleanups =
+          new Cleanups(
+              withProperty("_pirateRealmSailingTurns", 0),
+              withProperty("pirateRealmStormsEscaped", 0),
+              withChoice(1362, 2, responseText));
+
+      try (cleanups) {
+        assertThat("_pirateRealmSailingTurns", isSetTo(2));
+        assertThat("pirateRealmStormsEscaped", isSetTo(1));
+      }
+    }
+  }
 }
