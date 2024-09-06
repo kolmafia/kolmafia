@@ -8524,7 +8524,8 @@ public abstract class ChoiceControl {
           var choices = ChoiceUtilities.parseChoices(text);
           choices.forEach(
               (choice, crewmate) ->
-                  Preferences.setString("_pirateRealmCrewmate" + choice, crewmate));
+                  Preferences.setString(
+                      "_pirateRealmCrewmate" + choice, crewmate.replaceFirst("^the ", "")));
           // Correct knowledge of third crewmate unlock if necessary.
           Preferences.setBoolean("pirateRealmUnlockedThirdCrewmate", choices.size() >= 3);
           break;
