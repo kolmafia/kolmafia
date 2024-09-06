@@ -4229,11 +4229,34 @@ public abstract class ChoiceControl {
         }
         break;
 
-      case 1347:
+      case 1347: // Groggy's Tavern
         {
           Preferences.setString(
-              "_pirateRealmChosenCrewmate",
+              "_pirateRealmCrewmate",
               Preferences.getString("_pirateRealmCrewmate" + ChoiceManager.lastDecision));
+          break;
+        }
+
+      case 1348: // Seaside Curios
+        {
+          // The item ids are in order from 10190 to 10195
+          Preferences.setString(
+              "_pirateRealmCurio", String.valueOf(10189 + ChoiceManager.lastDecision));
+          break;
+        }
+
+      case 1349: // Dishonest Ed's Ships
+        {
+          Preferences.setString(
+              "_pirateRealmShip",
+              switch (ChoiceManager.lastDecision) {
+                case 1 -> "Rigged Frigate";
+                case 2 -> "Intimidating Galleon";
+                case 3 -> "Speedy Caravel";
+                case 4 -> "Swift Clipper";
+                case 5 -> "Menacing Man o' War";
+                default -> "";
+              });
           break;
         }
 
@@ -8463,7 +8486,7 @@ public abstract class ChoiceControl {
           break;
         }
 
-      case 1347:
+      case 1347: // Groggy's Tavern
         {
           var choices = ChoiceUtilities.parseChoices(text);
           choices.forEach(
@@ -8472,6 +8495,21 @@ public abstract class ChoiceControl {
           // Correct knowledge of third crewmate unlock if necessary.
           Preferences.setBoolean("pirateRealmUnlockedThirdCrewmate", choices.size() >= 3);
           break;
+        }
+
+      case 1348: // Seaside Curios
+        {
+          var choices = ChoiceUtilities.parseChoices(text);
+          Preferences.setBoolean("pirateRealmUnlockedAnemometer", choices.containsKey(4));
+          Preferences.setBoolean("pirateRealmUnlockedFlag", choices.containsKey(5));
+          Preferences.setBoolean("pirateRealmUnlockedSpyglass", choices.containsKey(6));
+        }
+
+      case 1349: // Dishonest Ed's Ships
+        {
+          var choices = ChoiceUtilities.parseChoices(text);
+          Preferences.setBoolean("pirateRealmUnlockedClipper", choices.containsKey(4));
+          Preferences.setBoolean("pirateRealmUnlockedManOWar", choices.containsKey(5));
         }
 
       case 1388:
