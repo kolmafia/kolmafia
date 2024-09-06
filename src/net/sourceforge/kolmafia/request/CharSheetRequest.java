@@ -378,7 +378,7 @@ public class CharSheetRequest extends GenericRequest {
     }
 
     stats[0] = StringUtilities.parseInt(tokens[++pos]);
-    int base = CharSheetRequest.retrieveBase(tokens[++pos], (int) stats[0]);
+    int base = (int) CharSheetRequest.retrieveBase(tokens[++pos], (int) stats[0]);
 
     int subPoints = 0;
 
