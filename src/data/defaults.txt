@@ -1201,6 +1201,16 @@ user	peteMotorbikeSeat
 user	photocopyMonster
 user	pieStuffing
 user	pingpongSkill	0
+user	pirateRealmShipsDestroyed	0
+user	pirateRealmStormsEscaped	0
+user	pirateRealmUnlockedAnemometer	false
+user	pirateRealmUnlockedBreastplate	false
+user	pirateRealmUnlockedCrabsicle	false
+user	pirateRealmUnlockedFlag	false
+user	pirateRealmUnlockedRadioRing	false
+user	pirateRealmUnlockedRhum	false
+user	pirateRealmUnlockedShavingCream	false
+user	pirateRealmUnlockedSpyglass	false
 user	pirateSwagger	0
 user	pizzaOfLegendEaten	false
 user	plantingDate
@@ -2274,6 +2284,12 @@ user	_piePartsCount	0
 user	_pingPongGame	false
 user	_pirateBellowUsed	false
 user	_pirateForkUsed	false
+user	_pirateRealmChosenCrewmate
+user	_pirateRealmCrewmate1
+user	_pirateRealmCrewmate2
+user	_pirateRealmCrewmate3
+user	_pirateRealmIslandCombats	0
+user	_pirateRealmShip
 user	_pixelOrbUsed	false
 user	_pixieCharge	0
 user	_plumbersMushroomStewEaten	false

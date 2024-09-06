@@ -4217,6 +4217,14 @@ public abstract class ChoiceControl {
         }
         break;
 
+      case 1347:
+        {
+          Preferences.setString(
+              "_pirateRealmChosenCrewmate",
+              Preferences.getString("_pirateRealmCrewmate" + ChoiceManager.lastDecision));
+          break;
+        }
+
       case 1360:
         // Like Shops in the Night
         if (ChoiceManager.lastDecision == 5 && text.contains("You gain 500 gold")) {
@@ -4228,6 +4236,40 @@ public abstract class ChoiceControl {
           }
         }
         break;
+
+      case 1362: // Stormy Weather
+        // Try to gain some extra distance
+        if (ChoiceManager.lastDecision == 2) {
+          if (text.contains("you manage to outsail the storm")) {
+            Preferences.increment("pirateRealmStormsEscaped", 1, 10, false);
+          }
+        }
+
+      case 1364: // An Opportunity for Dastardly Do
+        // Attack them
+        if (ChoiceManager.lastDecision == 1) {
+          if (text.contains("blast them to bits")) {
+            Preferences.increment("pirateRealmShipsDestroyed", 1, 10, false);
+          }
+        }
+
+      case 1372: // You Can See Clearly Now
+        {
+          Preferences.setBoolean("pirateRealmUnlockedRhum", true);
+          break;
+        }
+
+      case 1375: // A Close Shave
+        {
+          Preferences.setBoolean("pirateRealmUnlockedShavingCream", true);
+          break;
+        }
+
+      case 1384: // The Calm After the Storm
+        {
+          Preferences.setBoolean("pirateRealmUnlockedAnemometer", true);
+          break;
+        }
 
       case 1386:
         SaberRequest.parseUpgrade(urlString, text);
@@ -8400,6 +8442,15 @@ public abstract class ChoiceControl {
           break;
         }
 
+      case 1347:
+        {
+          ChoiceUtilities.parseChoices(text)
+              .forEach(
+                  (choice, crewmate) ->
+                      Preferences.setString("_pirateRealmCrewmate" + choice, crewmate));
+          break;
+        }
+
       case 1388:
         BeachManager.parseCombUsage(text);
         BeachManager.parseBeachMap(text);
@@ -9581,6 +9632,7 @@ public abstract class ChoiceControl {
             RequestLogger.updateSessionLog("Took choice " + choice + "/" + decision + ": " + desc);
             if (desc != null && !desc.equals("Decide Later")) {
               Preferences.setString("_lastPirateRealmIsland", desc);
+              Preferences.setInteger("_pirateRealmIslandCombats", 0);
             }
             return true;
           }
