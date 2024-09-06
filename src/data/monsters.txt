@@ -2775,7 +2775,7 @@ cheerless mime functionary	2044	mimefunc1.gif,mimefunc2.gif,mimefunc3.gif	NOWISH
 cheerless mime scientist	2045	mimesci1.gif,mimesci2.gif,mimesci3.gif	NOWISH Scale: 15 Init: 100 P: horror EA: cold Article: a	4 crystalline cheer (m100)
 cheerless mime soldier	2046	mimebat1.gif,mimebat2.gif,mimebat3.gif	NOWISH Scale: 30 Init: 200 P: horror Article: a	5 crystalline cheer (m100)
 cheerless mime vizier	2047	mimeseer1.gif,mimeseer2.gif,mimeseer3.gif	NOWISH Scale: 45 Init: 300 P: horror EA: cold EA: spooky Article: a	6 crystalline cheer (m100)
-cheerless mime executive	2048	mimeexec1.gif,mimeexec2.gif,mimeexec3.gif	NOWISH Scale: 60 Init: 400 Meat: 500 P: horror Phys: 100 Article: a	7 crystalline cheer (m100)
+cheerless mime executive	2048	mimeexec1.gif,mimeexec2.gif,mimeexec3.gif	NOWISH Scale: 60 Init: 400 Meat: 100 P: horror Phys: 100 Article: a	7 crystalline cheer (m100)
 The Silent Nightmare	2049	c17_bossguy.gif	BOSS NOCOPY NOMANUEL Atk: 100 Def: 100 HP: 200 Init: 100 P: horror
 mouthless murmur	2043	mimemurmur.gif	NOWISH WANDERER Scale: -11 Init: -10000 P: weird Phys: 100 Article: a
 silent scream	2042	mimescream.gif	NOWISH WANDERER Scale: 1 Init: -10000 P: weird Article: a
