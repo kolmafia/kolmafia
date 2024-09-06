@@ -4214,6 +4214,13 @@ public class FightRequest extends GenericRequest {
         Preferences.increment("_pirateRealmIslandMonstersDefeated");
       }
 
+      if (IslandManager.isBattlefieldMonster(monsterName)) {
+        IslandManager.handleBattlefieldMonster(responseText, monsterName);
+      } else if (special == SpecialMonster.SEWER && !EncounterManager.ignoreSpecialMonsters) {
+        AdventureResult result = AdventureResult.tallyItem("sewer tunnel explorations", false);
+        AdventureResult.addResultToList(KoLConstants.tally, result);
+      }
+
       switch (monsterName) {
         case "black pudding" -> Preferences.increment("blackPuddingsDefeated", 1);
         case "general seal" -> ResultProcessor.removeItem(ItemPool.ABYSSAL_BATTLE_PLANS);
@@ -4238,14 +4245,6 @@ public class FightRequest extends GenericRequest {
         case "plastic pirate" -> Preferences.increment(
             "pirateRealmPlasticPiratesDefeated", 1, 50, false);
         case "pirate radio" -> Preferences.setBoolean("pirateRealmUnlockedRadioRing", true);
-        default -> {
-          if (IslandManager.isBattlefieldMonster(monsterName)) {
-            IslandManager.handleBattlefieldMonster(responseText, monsterName);
-          } else if (special == SpecialMonster.SEWER && !EncounterManager.ignoreSpecialMonsters) {
-            AdventureResult result = AdventureResult.tallyItem("sewer tunnel explorations", false);
-            AdventureResult.addResultToList(KoLConstants.tally, result);
-          }
-        }
       }
 
       if (KoLCharacter.hasEquipped(ItemPool.BONE_ABACUS, Slot.OFFHAND)
