@@ -2289,6 +2289,7 @@ user	_pirateRealmCrewmate1
 user	_pirateRealmCrewmate2
 user	_pirateRealmCrewmate3
 user	_pirateRealmIslandCombats	0
+user	_pirateRealmWindicleUsed	false
 user	_pirateRealmShip
 user	_pixelOrbUsed	false
 user	_pixieCharge	0

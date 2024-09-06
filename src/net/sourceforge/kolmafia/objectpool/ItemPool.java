@@ -3301,6 +3301,7 @@ public class ItemPool {
   public static final int BOOKE_OF_VAMPYRIC_KNOWLEDGE = 10180;
   public static final int VAMPYRE_BLOOD = 10185;
   public static final int GLITCH_ITEM = 10207;
+  public static final int WINDICLE = 10209;
   public static final int PR_MEMBER = 10187;
   public static final int PR_GUEST = 10188;
   public static final int CURSED_COMPASS = 10191;

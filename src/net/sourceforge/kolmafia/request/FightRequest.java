@@ -10974,6 +10974,19 @@ public class FightRequest extends GenericRequest {
           TrackManager.trackCurrentMonster(Tracker.TRICK_COIN);
         }
         break;
+
+      case ItemPool.WINDICLE:
+        if (responseText.contains("This item can only be used in PirateRealm")) {
+          break;
+        }
+
+        Preferences.setBoolean("_pirateRealmWindicleUsed", true);
+
+        if (responseText.contains("Your foe is blown clear of the island") || itemRunawaySuccess) {
+          Preferences.increment("_pirateRealmIslandCombats", 3);
+        }
+
+        break;
     }
 
     if (itemId != itemId2) {
