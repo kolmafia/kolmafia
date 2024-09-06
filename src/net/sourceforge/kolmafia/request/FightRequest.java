@@ -4235,6 +4235,8 @@ public class FightRequest extends GenericRequest {
         case "Red Roger" -> Preferences.setBoolean("pirateRealmUnlockedFlag", true);
         case "giant giant crab" -> Preferences.setBoolean("pirateRealmUnlockedCrabsicle", true);
         case "jungle titan" -> Preferences.setBoolean("pirateRealmUnlockedBreastplate", true);
+        case "plastic pirate" -> Preferences.increment(
+            "pirateRealmPlasticPiratesDefeated", 1, 50, false);
         case "pirate radio" -> Preferences.setBoolean("pirateRealmUnlockedRadioRing", true);
         default -> {
           if (IslandManager.isBattlefieldMonster(monsterName)) {
