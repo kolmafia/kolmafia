@@ -3300,18 +3300,17 @@ public class ItemPool {
   public static final int VAMPAGNE = 10178;
   public static final int BOOKE_OF_VAMPYRIC_KNOWLEDGE = 10180;
   public static final int VAMPYRE_BLOOD = 10185;
-  public static final int GLITCH_ITEM = 10207;
-  public static final int WINDICLE = 10209;
   public static final int PR_MEMBER = 10187;
   public static final int PR_GUEST = 10188;
   public static final int CURSED_COMPASS = 10191;
-
+  public static final int PR_CRABSICLE = 10199;
   public static final int PR_DARK_RHUM = 10201;
   public static final int PR_EXTRA_DARK_RHUM = 10202;
   public static final int PR_SUPER_EXTRA_DARK_RHUM = 10203;
-  public static final int PR_CRABSICLE = 10199;
   public static final int PR_SHAVING_CREAM = 10204;
   public static final int PR_BREASTPLATE = 10205;
+  public static final int GLITCH_ITEM = 10207;
+  public static final int WINDICLE = 10209;
   public static final int PR_RADIO_RING = 10210;
   public static final int ISLAND_DRINKIN = 10211;
   public static final int PR_TATTOO = 10224;
