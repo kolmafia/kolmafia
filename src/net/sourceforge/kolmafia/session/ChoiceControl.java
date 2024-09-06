@@ -4282,6 +4282,7 @@ public abstract class ChoiceControl {
             Preferences.increment("pirateRealmStormsEscaped", 1, 10, false);
           }
         }
+        break;
 
       case 1364: // An Opportunity for Dastardly Do
         // Attack them
@@ -4290,6 +4291,15 @@ public abstract class ChoiceControl {
             Preferences.increment("pirateRealmShipsDestroyed", 1, 10, false);
           }
         }
+        break;
+
+      case 1365: // A Sea Monster!
+        if (ChoiceManager.lastDecision == 1) {
+          if (text.contains("plush sea serpent")) {
+            Preferences.setBoolean("pirateRealmUnlockedPlushie", true);
+          }
+        }
+        break;
 
       case 1372: // You Can See Clearly Now
         {
@@ -4300,6 +4310,20 @@ public abstract class ChoiceControl {
       case 1375: // A Close Shave
         {
           Preferences.setBoolean("pirateRealmUnlockedShavingCream", true);
+          break;
+        }
+
+      case 1379: // The Tiki Craze Is Over
+        {
+          if (text.contains("Island Drinkin' skillbook")) {
+            Preferences.setBoolean("pirateRealmUnlockedTikiSkillbook", true);
+          }
+          break;
+        }
+
+      case 1380: // Temple's Grand End
+        {
+          Preferences.setBoolean("pirateRealmUnlockedTattoo", true);
           break;
         }
 

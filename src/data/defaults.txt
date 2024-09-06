@@ -1213,12 +1213,15 @@ user	pirateRealmUnlockedFlag	false
 user	pirateRealmUnlockedFork	false
 user	pirateRealmUnlockedGoldRing	false
 user	pirateRealmUnlockedManOWar	false
+user	pirateRealmUnlockedPlushie	false
 user	pirateRealmUnlockedRadioRing	false
 user	pirateRealmUnlockedRhum	false
-user	pirateRealmUnlockedScurvySkill	false
+user	pirateRealmUnlockedScurvySkillbook	false
 user	pirateRealmUnlockedShavingCream	false
 user	pirateRealmUnlockedSpyglass	false
+user	pirateRealmUnlockedTattoo	false
 user	pirateRealmUnlockedThirdCrewmate	false
+user	pirateRealmUnlockedTikiSkillbook	false
 user	pirateSwagger	0
 user	pizzaOfLegendEaten	false
 user	plantingDate

@@ -809,7 +809,7 @@ public class QuestManager {
         Preferences.setBoolean("pirateRealmUnlockedFork", true);
       }
       if (responseText.contains("Scurvy and Sobriety Prevention")) {
-        Preferences.setBoolean("pirateRealmUnlockedScurvySkill", true);
+        Preferences.setBoolean("pirateRealmUnlockedScurvySkillbook", true);
       }
       if (responseText.contains("lucky gold ring")) {
         Preferences.setBoolean("pirateRealmUnlockedGoldRing", true);
