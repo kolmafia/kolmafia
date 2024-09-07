@@ -501,9 +501,10 @@ public class RelayAgent extends Thread {
     }
 
     this.writer = new PrintStream(this.socket.getOutputStream(), false);
-    this.writer.println(this.request.statusLine);
+    this.writer.print(this.request.statusLine);
+    this.writer.print("\r\n");
     this.request.printHeaders(this.writer);
-    this.writer.println();
+    this.writer.print("\r\n");
     this.writer.write(this.request.rawByteBuffer);
     this.writer.flush();
 

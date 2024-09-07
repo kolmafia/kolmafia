@@ -12,6 +12,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.ZodiacZone;
 import net.sourceforge.kolmafia.KoLConstants.filterType;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
@@ -393,6 +394,27 @@ public class Maximizer {
           cmd = "";
         }
         Maximizer.boosts.add(new Boost(cmd, text, (AdventureResult) null, delta));
+      }
+
+      if (KoLCharacter.mcdAvailable() || includeAll) {
+        int max = KoLCharacter.getSignZone() == ZodiacZone.CANADIA ? 11 : 10;
+        // check only the ends
+        for (int i : new int[] {0, max}) {
+          MaximizerSpeculation spec = new MaximizerSpeculation();
+          spec.setMindControlLevel(i);
+          double delta = spec.getScore() - current;
+          if (delta <= 0.0) {
+            continue;
+          }
+          String text, cmd;
+          text = cmd = "mcd " + i;
+          if (!KoLCharacter.mcdAvailable()) {
+            cmd = "";
+            text = "(ascend into a non-Bad Moon sign and mcd " + i + ")";
+          }
+          text += " (" + KoLConstants.MODIFIER_FORMAT.format(delta) + ")";
+          Maximizer.boosts.add(new Boost(cmd, text, (AdventureResult) null, delta));
+        }
       }
     }
 

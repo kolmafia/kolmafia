@@ -1,21 +1,15 @@
 package net.sourceforge.kolmafia.request;
 
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class FunALogRequest extends CoinMasterRequest {
   public static final String master = "PirateRealm Fun-a-Log";
-
-  private static String unlockedItems = "";
 
   private static final Pattern TOKEN_PATTERN =
       Pattern.compile("<b>You have ([\\d,]+) FunPoints?\\.</b>");
@@ -29,8 +23,26 @@ public class FunALogRequest extends CoinMasterRequest {
           .withShopRowFields(master, "piraterealm")
           .withAvailableItem(FunALogRequest::availableItem);
 
+  private static final Map<Integer, String> ITEM_TO_UNLOCK_PREF =
+      Map.ofEntries(
+          Map.entry(ItemPool.PR_CRABSICLE, "pirateRealmUnlockedCrabsicle"),
+          Map.entry(ItemPool.PR_DARK_RHUM, "pirateRealmUnlockedRhum"),
+          Map.entry(ItemPool.PR_EXTRA_DARK_RHUM, "pirateRealmUnlockedRhum"),
+          Map.entry(ItemPool.PR_SUPER_EXTRA_DARK_RHUM, "pirateRealmUnlockedRhum"),
+          Map.entry(ItemPool.PR_SHAVING_CREAM, "pirateRealmUnlockedShavingCream"),
+          Map.entry(ItemPool.PR_BREASTPLATE, "pirateRealmUnlockedBreastplate"),
+          Map.entry(ItemPool.PR_RADIO_RING, "pirateRealmUnlockedRadioRing"),
+          Map.entry(ItemPool.ISLAND_DRINKIN, "pirateRealmUnlockedTikiSkillbook"),
+          Map.entry(ItemPool.PR_TATTOO, "pirateRealmUnlockedTattoo"),
+          Map.entry(ItemPool.PR_PLUSHIE, "pirateRealmUnlockedPlushie"),
+          Map.entry(ItemPool.PIRATE_FORK, "pirateRealmUnlockedFork"),
+          Map.entry(ItemPool.SCURVY_AND_SOBRIETY_PREVENTION, "pirateRealmUnlockedScurvySkillbook"),
+          Map.entry(ItemPool.LUCKY_GOLD_RING, "pirateRealmUnlockedGoldRing"),
+          Map.entry(ItemPool.PR_BLUNDERBUSS, "pirateRealmUnlockedBlunderbuss"));
+
   private static Boolean availableItem(final Integer itemId) {
-    return unlockedItems.contains(ItemDatabase.getItemName(itemId));
+    var pref = ITEM_TO_UNLOCK_PREF.getOrDefault(itemId, null);
+    return pref == null || Preferences.getBoolean(pref);
   }
 
   public FunALogRequest() {
@@ -70,61 +82,20 @@ public class FunALogRequest extends CoinMasterRequest {
       return;
     }
 
-    // Learn new Fun-a-Log simply visiting the shop
-    // Refresh the Coin Master inventory every time we visit.
-
-    CoinmasterData data = FUN_A_LOG;
-
-    Set<Integer> originalItems = data.getBuyPrices().keySet();
-    List<AdventureResult> items = data.getBuyItems();
-    Map<Integer, Integer> prices = data.getBuyPrices();
-    Map<Integer, Integer> rows = data.getRows();
-
-    StringBuilder unlocked = new StringBuilder();
-
-    Matcher matcher = ITEM_PATTERN.matcher(responseText);
-    while (matcher.find()) {
-      int itemId = StringUtilities.parseInt(matcher.group(1));
-      int row = StringUtilities.parseInt(matcher.group(2));
-      String descId = matcher.group(3);
-      String itemName = matcher.group(4);
-      int price = StringUtilities.parseInt(matcher.group(5));
-
-      String match = ItemDatabase.getItemDataName(itemId);
-      if (match == null || !match.equals(itemName)) {
-        ItemDatabase.registerItem(itemId, itemName, descId);
-      }
-
-      // Add it to the unlocked items
-      if (unlocked.length() > 0) {
-        unlocked.append("|");
-      }
-      unlocked.append(itemName);
-
-      // If this item was not previously known,
-      if (!originalItems.contains(itemId)) {
-        // Add it to the Fun-a-Log inventory
-        AdventureResult item = ItemPool.get(itemId, PurchaseRequest.MAX_QUANTITY);
-        items.add(item);
-        prices.put(itemId, price);
-        rows.put(itemId, row);
-
-        // Print a coinmasters.txt line for it
-        NPCPurchaseRequest.learnCoinmasterItem(
-            master,
-            new AdventureResult(itemName, 1),
-            new AdventureResult("FunPoint", price),
-            String.valueOf(row));
-      }
-    }
-
-    // Remember which items we have unlocked
-    unlockedItems = unlocked.toString();
+    // Check Fun-a-Log item unlock status from visiting the shop
+    var unlocked =
+        ITEM_PATTERN
+            .matcher(responseText)
+            .results()
+            .map(m -> Integer.parseInt(m.group(1)))
+            .toList();
+    ITEM_TO_UNLOCK_PREF.forEach(
+        (itemId, pref) -> Preferences.setBoolean(pref, unlocked.contains(itemId)));
 
     // Register the purchase requests, now that we know what is available
-    data.registerPurchaseRequests();
+    FUN_A_LOG.registerPurchaseRequests();
 
-    CoinMasterRequest.parseResponse(data, urlString, responseText);
+    CoinMasterRequest.parseResponse(FUN_A_LOG, urlString, responseText);
   }
 
   public static boolean registerRequest(final String urlString) {

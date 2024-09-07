@@ -109,12 +109,12 @@ public class CharSheetRequest extends GenericRequest {
       pos++;
     }
 
-    int currentHP = StringUtilities.parseInt(tokens[++pos]);
+    long currentHP = StringUtilities.parseLong(tokens[++pos]);
     while (!tokens[pos].startsWith("Maximum")) {
       pos++;
     }
 
-    int maximumHP = StringUtilities.parseInt(tokens[++pos]);
+    long maximumHP = StringUtilities.parseLong(tokens[++pos]);
     KoLCharacter.setHP(
         currentHP, maximumHP, CharSheetRequest.retrieveBase(tokens[++pos], maximumHP));
 
@@ -141,12 +141,12 @@ public class CharSheetRequest extends GenericRequest {
           pos++;
         }
 
-        int currentMP = StringUtilities.parseInt(tokens[++pos]);
+        long currentMP = StringUtilities.parseLong(tokens[++pos]);
         while (!tokens[pos].startsWith("Maximum")) {
           pos++;
         }
 
-        int maximumMP = StringUtilities.parseInt(tokens[++pos]);
+        long maximumMP = StringUtilities.parseLong(tokens[++pos]);
         KoLCharacter.setMP(
             currentMP, maximumMP, CharSheetRequest.retrieveBase(tokens[++pos], maximumMP));
         break;
@@ -212,7 +212,7 @@ public class CharSheetRequest extends GenericRequest {
     while (!tokens[pos].startsWith("Meat")) {
       pos++;
     }
-    KoLCharacter.setAvailableMeat(StringUtilities.parseInt(tokens[++pos]));
+    KoLCharacter.setAvailableMeat(StringUtilities.parseLong(tokens[++pos]));
 
     // Determine the player's ascension count, if any.
     // This is seen by whether or not the word "Ascensions"
@@ -378,7 +378,7 @@ public class CharSheetRequest extends GenericRequest {
     }
 
     stats[0] = StringUtilities.parseInt(tokens[++pos]);
-    int base = CharSheetRequest.retrieveBase(tokens[++pos], (int) stats[0]);
+    int base = (int) CharSheetRequest.retrieveBase(tokens[++pos], (int) stats[0]);
 
     int subPoints = 0;
 
@@ -411,9 +411,9 @@ public class CharSheetRequest extends GenericRequest {
    * @param defaultBase The value to return, if no base value is found
    * @return The parsed base value, or the default value if no base value is found
    */
-  private static int retrieveBase(final String token, final int defaultBase) {
+  private static long retrieveBase(final String token, final long defaultBase) {
     Matcher baseMatcher = CharSheetRequest.BASE_PATTERN.matcher(token);
-    return baseMatcher.find() ? StringUtilities.parseInt(baseMatcher.group(1)) : defaultBase;
+    return baseMatcher.find() ? StringUtilities.parseLong(baseMatcher.group(1)) : defaultBase;
   }
 
   /**

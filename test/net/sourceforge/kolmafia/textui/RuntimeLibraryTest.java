@@ -28,8 +28,10 @@ import static internal.helpers.Player.withTrackedMonsters;
 import static internal.helpers.Player.withTrackedPhyla;
 import static internal.helpers.Player.withTurnsPlayed;
 import static internal.helpers.Player.withValueOfAdventure;
+import static org.hamcrest.CoreMatchers.both;
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.endsWith;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
@@ -1551,6 +1553,30 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
         var output = execute("curse($item[disco ball], \"StuBorn\")");
         assertThat(output, startsWith("The disco ball cannot be used for cursing"));
       }
+    }
+  }
+
+  @Nested
+  class ToInt {
+    @ParameterizedTest
+    @ValueSource(
+        strings = {
+          "item",
+          "familiar",
+          "location",
+          "skill",
+          "effect",
+          "class",
+          "monster",
+          "thrall",
+          "servant",
+          "vykea",
+          "path"
+        })
+    void worksOnNoneValues(String type) {
+      assertThat(
+          execute("$" + type + "[none].to_int()"),
+          both(startsWith("Returned: ")).and(not(containsString("Script execution aborted"))));
     }
   }
 }
