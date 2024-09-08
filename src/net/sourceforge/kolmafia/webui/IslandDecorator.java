@@ -2,6 +2,8 @@ package net.sourceforge.kolmafia.webui;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -31,6 +33,8 @@ public class IslandDecorator {
   //	http://userscripts.org/scripts/show/11720
 
   private static final String LOCAL_ROOT = "/images/otherimages/bigisland/";
+
+  private static final Pattern GREMLIN_TOOL_MESSAGE = Pattern.compile("<!--moly\\d-->");
 
   private record Image(Quest quest, String image, String frat, String hippy) {}
 
@@ -152,21 +156,19 @@ public class IslandDecorator {
   }
 
   public enum GremlinTool {
-    HAMMER(ItemPool.MOLYBDENUM_HAMMER, "batwinged gremlin", "It whips out a hammer"),
-    WRENCH(ItemPool.MOLYBDENUM_WRENCH, "erudite gremlin", "He whips out a crescent wrench"),
-    PLIERS(ItemPool.MOLYBDENUM_PLIERS, "spider gremlin", "It whips out a pair of pliers"),
-    SCREWDRIVER(ItemPool.MOLYBDENUM_SCREWDRIVER, "vegetable gremlin", "It whips out a screwdriver");
+    HAMMER(ItemPool.MOLYBDENUM_HAMMER, "batwinged gremlin"),
+    WRENCH(ItemPool.MOLYBDENUM_WRENCH, "erudite gremlin"),
+    PLIERS(ItemPool.MOLYBDENUM_PLIERS, "spider gremlin"),
+    SCREWDRIVER(ItemPool.MOLYBDENUM_SCREWDRIVER, "vegetable gremlin");
 
     public final AdventureResult tool;
     public final MonsterData goodGremlin;
     public final MonsterData badGremlin;
-    public final String message;
 
-    GremlinTool(int toolId, String gremlin, String message) {
+    GremlinTool(int toolId, String gremlin) {
       this.tool = ItemPool.get(toolId, 1);
       this.goodGremlin = MonsterDatabase.findMonster(gremlin + " (tool)");
       this.badGremlin = MonsterDatabase.findMonster(gremlin);
-      this.message = message;
     }
   }
 
@@ -206,11 +208,13 @@ public class IslandDecorator {
         buffer, toolName, "<font color=#DD00FF>" + toolName + "</font>");
 
     // Is the monster presenting the tool?
-    String message = tool.message;
-    if (buffer.indexOf(message) != -1) {
+    Matcher matcher = GREMLIN_TOOL_MESSAGE.matcher(buffer.toString());
+    if (matcher.find()) {
+      int molyIndex = matcher.start();
+      int td = buffer.substring(0, molyIndex).lastIndexOf("<td>");
+      String message = buffer.substring(td + 4, molyIndex);
       // Make the message pink
-      StringUtilities.singleStringReplace(
-          buffer, message, "<font color=#DD00FF>" + message + "</font>");
+      buffer.replace(td + 4, molyIndex, "<td><font color=#DD00FF>" + message + "</font>");
 
       // If we already have the molybdenum magnet selected
       // (which should only be possible if we are
