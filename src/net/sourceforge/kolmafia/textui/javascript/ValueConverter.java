@@ -19,6 +19,7 @@ import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
 import org.mozilla.javascript.ConsString;
 import org.mozilla.javascript.Context;
+import org.mozilla.javascript.EvaluatorException;
 import org.mozilla.javascript.NativeArray;
 import org.mozilla.javascript.NativeObject;
 import org.mozilla.javascript.Scriptable;
@@ -152,9 +153,12 @@ public class ValueConverter {
     Type dataType = null;
     Type indexType = null;
     for (Entry<?, ?> entry : nativeObject.entrySet()) {
-      dataType = fromJava(entry.getValue()).getType();
-      indexType = fromJava(entry.getKey()).getType();
-      if (indexType.equals(TypeSpec.FLOAT)) {
+      Value key = fromJava(entry.getKey());
+      Value value = fromJava(entry.getValue());
+
+      dataType = value != null ? value.getType() : null;
+      indexType = key != null ? key.getType() : null;
+      if (TypeSpec.FLOAT.equals(indexType)) {
         // Convert float index to int, since it doesn't make sense in JS anyway.
         indexType = DataTypes.INT_TYPE;
       }
@@ -171,15 +175,19 @@ public class ValueConverter {
     for (Entry<?, ?> entry : nativeObject.entrySet()) {
       Value key = fromJava(entry.getKey());
       Value value = fromJava(entry.getValue());
-
+      if (key == null) {
+        // This will likely never execute, since if your key is `null`, then it
+        // will turn into the string "null".
+        throw new EvaluatorException(
+            "Null / undefined keys in JS objects cannot be converted to ASH.");
+      }
+      if (value == null) {
+        throw new EvaluatorException(
+            "Null / undefined values in JS objects cannot be converted to ASH.");
+      }
       Value keyCoerced = coerce(key, indexType);
 
-      if (keyCoerced != null) {
-        underlyingMap.put(keyCoerced, value);
-      } else {
-        System.out.println(indexType + " : " + dataType.getBaseType());
-        throw new ScriptException("Failed to insert value into map.");
-      }
+      underlyingMap.put(keyCoerced, value);
     }
 
     return new MapValue(new AggregateType(dataType, indexType), underlyingMap);
@@ -198,6 +206,11 @@ public class ValueConverter {
     Type elementType = firstElement == null ? DataTypes.ANY_TYPE : firstElement.getType();
     List<Value> result = new ArrayList<>();
     for (Object element : nativeArray) {
+      if (element == null) {
+        throw new EvaluatorException(
+            "Null / undefined values in JS arrays cannot be converted to ASH.");
+      }
+
       result.add(fromJava(element));
     }
     return new ArrayValue(new AggregateType(elementType, nativeArray.size()), result);

@@ -15,6 +15,7 @@ import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
 import org.mozilla.javascript.BaseFunction;
 import org.mozilla.javascript.Context;
+import org.mozilla.javascript.EvaluatorException;
 import org.mozilla.javascript.NativeJavaObject;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.Undefined;
@@ -93,7 +94,10 @@ public abstract class AshStub extends BaseFunction {
     for (int i = 0; i < definedArgs; i++) {
       Object original = args[i];
       if (Undefined.isUndefined(original)) {
-        throw controller.runtimeException("Passing undefined to an ASH function is not supported.");
+        throw new EvaluatorException("Passing undefined to an ASH function is not supported.");
+      }
+      if (original == null) {
+        throw new EvaluatorException("Passing null to an ASH function is not supported.");
       }
       Value coerced = coercer.fromJava(original);
       if (coerced == null
