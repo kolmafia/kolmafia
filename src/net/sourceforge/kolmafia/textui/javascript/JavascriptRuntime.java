@@ -237,6 +237,12 @@ public class JavascriptRuntime extends AbstractRuntime {
                 new Object[] {},
                 false);
       }
+    } catch (EvaluatorException e) {
+      String escapedMessage =
+          escapeHtmlInMessage(
+              "JavaScript evaluator exception: " + e.getMessage() + "\n" + e.getScriptStackTrace());
+      KoLmafia.updateDisplay(KoLConstants.MafiaState.ERROR, escapedMessage);
+      return null;
     } finally {
       EnumeratedWrapper.cleanup(scope);
       currentTopScope = null;
