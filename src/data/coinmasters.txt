@@ -1246,3 +1246,17 @@ Elf Guard Toy and Munitions Factory	buy	2000	Elf Guard temporary (permanent) tat
 # The Primordial Soup Kitchen	unknown	synaptic soup	cream of chloroplasts	ROW1506
 # The Primordial Soup Kitchen	unknown	synaptic soup	ciliophora chowder	ROW1507
 # The Primordial Soup Kitchen	unknown	synaptic soup	bacteria bisque	ROW1508
+
+# Sept-Ember Censer
+
+Sept-Ember Censer	buy	1	bembershoot	ROW1516
+Sept-Ember Censer	buy	1	blade of dismemberment	ROW1510
+Sept-Ember Censer	buy	1	embers-only jacket	ROW1515
+Sept-Ember Censer	buy	1	hat of remembering	ROW1518
+Sept-Ember Censer	buy	1	wheel of camembert	ROW1517
+Sept-Ember Censer	buy	2	Mmm-brr! brand mouthwash 	ROW1512
+Sept-Ember Censer	buy	2	head of emberg lettuce	ROW1520
+Sept-Ember Censer	buy	2	Septapus summoning charm	ROW1513
+Sept-Ember Censer	buy	2	throwin' ember	ROW1519
+Sept-Ember Censer	buy	4	structural ember	ROW1514
+Sept-Ember Censer	buy	6	miniature Embering Hulk	ROW1511

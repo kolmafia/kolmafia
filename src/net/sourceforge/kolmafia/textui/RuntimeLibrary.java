@@ -635,6 +635,9 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("to_familiar", DataTypes.FAMILIAR_TYPE, params));
 
     params = List.of(namedParam("name", DataTypes.STRICT_STRING_TYPE));
+    functions.add(new LibraryFunction("to_modifier", DataTypes.MODIFIER_TYPE, params));
+
+    params = List.of(namedParam("name", DataTypes.STRICT_STRING_TYPE));
     functions.add(new LibraryFunction("to_monster", DataTypes.MONSTER_TYPE, params));
     params = List.of(namedParam("id", DataTypes.INT_TYPE));
     functions.add(new LibraryFunction("to_monster", DataTypes.MONSTER_TYPE, params));
@@ -4425,6 +4428,10 @@ public abstract class RuntimeLibrary {
     }
 
     return DataTypes.parseFamiliarValue(value.toString(), true);
+  }
+
+  public static Value to_modifier(ScriptRuntime controller, final Value value) {
+    return DataTypes.parseModifierValue(value.toString(), true);
   }
 
   public static Value to_monster(ScriptRuntime controller, final Value value) {
