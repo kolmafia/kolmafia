@@ -2865,6 +2865,11 @@ public class GenericRequest implements Runnable {
         Preferences.setBoolean("_mapToACandyRichBlockUsed", true);
         consumed = true;
         break;
+      case ItemPool.MINIATURE_EMBERING_HULK:
+        itemName = item.getName();
+        Preferences.setBoolean("_emberingHulkFought", true);
+        consumed = true;
+        break;
 
       default:
         return;
