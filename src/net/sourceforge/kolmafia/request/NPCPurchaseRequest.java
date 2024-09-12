@@ -1072,6 +1072,11 @@ public class NPCPurchaseRequest extends PurchaseRequest {
       return;
     }
 
+    if (shopId.equals("september")) {
+      SeptEmberCenserRequest.parseResponse(urlString, responseText);
+      return;
+    }
+
     // When we purchase items from NPC stores using ajax, the
     // response tells us nothing about the contents of the store.
     if (urlString.contains("ajax=1")) {
@@ -1486,6 +1491,10 @@ public class NPCPurchaseRequest extends PurchaseRequest {
 
       if (shopId.equals("mrstore2022")) {
         return MrStore2002Request.registerRequest(urlString);
+      }
+
+      if (shopId.equals("september")) {
+        return SeptEmberCenserRequest.registerRequest(urlString);
       }
 
       return false;
