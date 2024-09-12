@@ -1005,6 +1005,9 @@ public abstract class UseLinkDecorator {
           case ItemPool.THE_CHEESE_WIZARDS_COMPANION:
           case ItemPool.JAZZ_AGENT_SHEET_MUSIC:
           case ItemPool.CLOSED_CIRCUIT_PAY_PHONE:
+          case ItemPool.AUTUMNATON:
+          case ItemPool.BLACK_AND_WHITE_APRON_MEAL_KIT:
+          case ItemPool.MAYAM_CALENDAR:
 
             // Not inline, since the redirection to a choice
             // doesn't work ajaxified.
@@ -1033,9 +1036,7 @@ public abstract class UseLinkDecorator {
           case ItemPool.MEGACOPIA:
           case ItemPool.AMORPHOUS_BLOB:
           case ItemPool.GIANT_AMORPHOUS_BLOB:
-          case ItemPool.AUTUMNATON:
-          case ItemPool.BLACK_AND_WHITE_APRON_MEAL_KIT:
-          case ItemPool.MAYAM_CALENDAR:
+          case ItemPool.MINIATURE_EMBERING_HULK:
 
             // Not inline, since the redirection to a fight
             // doesn't work ajaxified.
@@ -1054,6 +1055,12 @@ public abstract class UseLinkDecorator {
             // shop doesn't work ajaxified.
 
             return new UseLink(itemId, 1, "order", "inv_use.php?which=3&whichitem=", false);
+
+          case ItemPool.SEPTEMBER_CENSER:
+
+            // Not inline, and also just takes you to the shop directly
+
+            return new UseLink(itemId, 1, "stoke", "shop.php?whichshop=september", false);
 
           case ItemPool.LATTE_MUG:
 
