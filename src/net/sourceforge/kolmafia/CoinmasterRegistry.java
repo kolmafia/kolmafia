@@ -71,6 +71,7 @@ import net.sourceforge.kolmafia.request.QuartersmasterRequest;
 import net.sourceforge.kolmafia.request.ReplicaMrStoreRequest;
 import net.sourceforge.kolmafia.request.RubeeRequest;
 import net.sourceforge.kolmafia.request.SHAWARMARequest;
+import net.sourceforge.kolmafia.request.SeptEmberCenserRequest;
 import net.sourceforge.kolmafia.request.ShoeRepairRequest;
 import net.sourceforge.kolmafia.request.ShoreGiftShopRequest;
 import net.sourceforge.kolmafia.request.SpacegateFabricationRequest;
@@ -161,6 +162,7 @@ public abstract class CoinmasterRegistry {
         QuartersmasterRequest.FRATBOY,
         ReplicaMrStoreRequest.REPLICA_MR_STORE,
         RubeeRequest.RUBEE,
+        SeptEmberCenserRequest.SEPTEMBER_CENSER,
         SHAWARMARequest.SHAWARMA,
         ShoeRepairRequest.SHOE_REPAIR,
         ShoreGiftShopRequest.SHORE_GIFT_SHOP,
