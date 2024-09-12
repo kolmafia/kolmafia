@@ -12604,6 +12604,7 @@ Item	time's arrow	Free Pull
 # tin snips: Deals 8-10 Physical Damage and causes bleeding
 # tiny bomb: Deals moderate damage to enemies
 # tiny bomb: (much more effective in the Canadian Wildlife Preserve)
+Item	tiny ember	Cold Resistance: +1
 # tiny goth giant: Makes combat all Gothy
 # tiny goth giant: (doesn't go away when used)
 # tiny house: Restores 20-24 HP and MP and removes negative effects
@@ -12620,8 +12621,8 @@ Item	Tome of Snowcone Summoning	Free Pull, Skill: "Summon Snowcones"
 Item	Tome of Sugar Shummoning	Free Pull, Skill: "Summon Sugar Sheets"
 # tongue depressor: Briefly stuns a monster and reveals its vital statistics
 # tonic water: Restores 30-50 MP
-Item	Too Cold to Hold: How to Be Cool - A Memoir (read)	Skill: "Too Cool"
 Item	Too Cold to Hold: How to Be Cool - A Memoir	Skill: "Too Cool"
+Item	Too Cold to Hold: How to Be Cool - A Memoir (read)	Skill: "Too Cool"
 Item	toothbrush	Effect: "Very Clean Teeth", Effect Duration: 10
 # top: Weakens enemies a little bit
 # toxic globule: Can be scienced into various objects

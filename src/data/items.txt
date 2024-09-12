@@ -11681,3 +11681,8 @@
 11653	head of emberg lettuce	931508825	emberlettuce.gif	usable	t	0	heads of emberg lettuce
 11654	embering hunk	447678631	emberhunk.gif	multiple		0
 11655	soft cap of diminishing returns	584372121	softcap.gif	hat		0
+11656
+11657
+11658
+11659	ember egg	563280459	emberegg.gif	grow		0
+11660	tiny ember	277234855	ember.gif	familiar	t,d	11
