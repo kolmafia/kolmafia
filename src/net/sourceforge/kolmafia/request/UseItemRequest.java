@@ -6213,6 +6213,14 @@ public class UseItemRequest extends GenericRequest {
               });
           break;
         }
+      case ItemPool.MINIATURE_EMBERING_HULK:
+
+        // If we are redirected to a fight, the item is
+        // consumed elsewhere. If we got here, it wasn't
+        // actually consumed
+
+        Preferences.setBoolean("_emberingHulkFought", true);
+        return;
     }
 
     if (CampgroundRequest.isWorkshedItem(itemId)) {
@@ -6939,6 +6947,7 @@ public class UseItemRequest extends GenericRequest {
           ItemPool.ICE_SCULPTURE,
           ItemPool.LYNYRD_SNARE,
           ItemPool.MEGACOPIA,
+          ItemPool.MINIATURE_EMBERING_HULK,
           ItemPool.PHOTOCOPIED_MONSTER,
           ItemPool.POCKET_WISH,
           ItemPool.RAIN_DOH_MONSTER,

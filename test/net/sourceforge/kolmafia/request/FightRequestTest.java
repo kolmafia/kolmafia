@@ -2784,4 +2784,17 @@ public class FightRequestTest {
       }
     }
   }
+
+  @Test
+  public void canDetectThrowinEmberBanish() {
+    var cleanups = new Cleanups(withFight(), withBanishedMonsters(""));
+
+    try (cleanups) {
+      parseCombatData(
+          "request/test_fight_throwin_ember.html",
+          "fight.php?action=useitem&whichitem=11652&whichitem2=8489");
+
+      assertThat("banishedMonsters", hasStringValue(startsWith("spooky mummy:throwin' ember:")));
+    }
+  }
 }

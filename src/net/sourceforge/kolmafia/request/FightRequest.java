@@ -2913,6 +2913,10 @@ public class FightRequest extends GenericRequest {
       }
     }
 
+    if (won && responseText.contains("You burned that foe so hard, you won't")) {
+      BanishManager.banishCurrentMonster(Banisher.THROWIN_EMBER);
+    }
+
     FamiliarData familiar = KoLCharacter.getEffectiveFamiliar();
     int familiarId = familiar.getId();
 
