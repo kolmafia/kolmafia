@@ -464,7 +464,7 @@ Naughty Sorority Nurse	510	warfratmd2.gif	Atk: 180 Def: 166 HP: 160 Init: 30 P: 
 navy seal	801	navyseal.gif	NOCOPY FREE Atk: 175 Def: 157 HP: 200 Init: -10000 P: demon EA: cold Article: a	frost-rimed seal hide (35)	frozen seal spine (5)
 Neckbeard Giant	1333	giant_neckbeard.gif	Atk: 125 Def: 120 HP: 150 Init: 40 Meat: 150 P: humanoid Article: a	giant penguin keychain (10)	O'RLY manual (15)	open sauce (25)	giant neckbeard (c15)
 Neil	512	neil.gif	NOCOPY Atk: 195 Def: 175 HP: 240 Init: 40 Meat: 200 P: hippy ED: stench	longhaired hippy wig (100)	green clay bead (30)	Lockenstock&trade; sandals (0)	reinforced beaded headband (0)	bullet-proof corduroys (0)
-Neptune flytrap	740	flytrap.gif	Atk: 450 Def: 360 HP: 700 Init: 125 P: plant EA: sleaze Article: a Poison: "Really Quite Poisoned"	flytrap pellet (n30)	water-polo cap (c0)	wriggling flytrap pellet (c0)
+Neptune flytrap	740	flytrap.gif	Atk: 450 Def: 360 HP: 700 Init: 125 P: plant EA: sleaze Article: a Poison: "Really Quite Poisoned"	flytrap pellet (n30)	water-polo cap (c0)	wriggling flytrap pellet (c50)
 newt	333	newt.gif	NOCOPY Atk: [3] Def: [2] HP: [3] Init: -10000 Meat: 10 P: beast EA: sleaze Article: a	eye of newt (100)
 Next-generation Frat Boy	516	emofrat.gif	NOCOPY Atk: 190 Def: 171 HP: 200 Init: 20 Meat: 150 P: orc E: sleaze Article: a	beaten-up Chucks (100)	white class ring (30)	beer helmet (0)	distressed denim pants (0)	kick-ass kicks (0)
 ninja dressed as a waiter	1512	ninjawaiter.gif	NOWISH Atk: 150 Def: 150 HP: 155 Init: 100 P: dude Article: a	crappy waiter disguise (30)	throwing knife (10)	throwing fork (10)	throwing spoon (10)	ninja fear powder (c0)
