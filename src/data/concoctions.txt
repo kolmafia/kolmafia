@@ -3351,3 +3351,6 @@ mini kiwi whipping stick	KIWI, ROW1487	mini kiwi (4)
 mini kiwi icepick	KIWI, ROW1488	mini kiwi (4)
 mini kiwi-flavored aspirin-injecting lipstick	KIWI, ROW1489	mini kiwi (3)
 mini kiwi digitized cookies	KIWI, ROW1490	mini kiwi (3)
+
+# Sept-Ember Censer
+ember egg	MUSE	embering hunk (21)
