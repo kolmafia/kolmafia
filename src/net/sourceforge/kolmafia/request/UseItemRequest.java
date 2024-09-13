@@ -6221,6 +6221,9 @@ public class UseItemRequest extends GenericRequest {
 
         Preferences.setBoolean("_emberingHulkFought", true);
         return;
+      case ItemPool.STRUCTURAL_EMBER:
+        Preferences.setBoolean("_structuralEmberUsed", true);
+        break;
     }
 
     if (CampgroundRequest.isWorkshedItem(itemId)) {

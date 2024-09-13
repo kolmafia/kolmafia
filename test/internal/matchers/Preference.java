@@ -3,8 +3,10 @@ package internal.matchers;
 import static org.hamcrest.Matchers.equalTo;
 
 import net.sourceforge.kolmafia.preferences.Preferences;
+import org.hamcrest.Description;
 import org.hamcrest.FeatureMatcher;
 import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeMatcher;
 
 public class Preference {
   public static Matcher<String> hasStringValue(Matcher<? super String> prefMatcher) {
@@ -57,5 +59,19 @@ public class Preference {
 
   public static Matcher<String> isSetTo(boolean value) {
     return hasBooleanValue(equalTo(value));
+  }
+
+  public static Matcher<String> isUserPreference() {
+    return new TypeSafeMatcher<>() {
+      @Override
+      public void describeTo(Description description) {
+        description.appendText("to be valid user preference");
+      }
+
+      @Override
+      protected boolean matchesSafely(String pref) {
+        return Preferences.propertyExists(pref, false);
+      }
+    };
   }
 }
