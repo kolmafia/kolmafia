@@ -3806,6 +3806,7 @@ public class ItemPool {
   public static final int LIP_SOUP = 11625;
   public static final int SEPTEMBER_CENSER = 11642;
   public static final int MINIATURE_EMBERING_HULK = 11644;
+  public static final int STRUCTURAL_EMBER = 11647;
 
   private ItemPool() {}
 

@@ -2457,6 +2457,7 @@ user	_stolenAccordions
 user	_strangeStalagmiteUsed	false
 user	_streamsCrossed	false
 user	_stressBallSqueezes	0
+user	_structuralEmberUsed	false
 user	_stuffedPocketwatchUsed	false
 user	_styxSprayUsed	false
 user	_sugarSummons	0
