@@ -383,7 +383,8 @@ public class TypescriptDefinition {
             + DataTypes.enumeratedTypes.stream()
                 .sorted(Type::compareTo)
                 .map(TypescriptDefinition::formatMafiaClassName)
-                .collect(Collectors.joining(","))
+                .map(n -> "typeof " + n)
+                .collect(Collectors.joining(", "))
             + "]>;");
   }
 
