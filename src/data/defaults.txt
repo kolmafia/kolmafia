@@ -2397,7 +2397,7 @@ user	_skateBuff2	false
 user	_skateBuff3	false
 user	_skateBuff4	false
 user	_skateBuff5	false
-user    _slimeVialsHarvested 0
+user	_slimeVialsHarvested	0
 user	_sleazeAirportToday	false
 user	_sloppyDinerBeachBucks	0
 user	_smilesOfMrA	0
