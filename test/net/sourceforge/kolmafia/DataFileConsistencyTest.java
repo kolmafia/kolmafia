@@ -1,9 +1,11 @@
 package net.sourceforge.kolmafia;
 
+import static internal.matchers.Preference.isUserPreference;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.anyOf;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.everyItem;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.hasItem;
@@ -35,9 +37,11 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase.Attribute;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.FloristRequest;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -49,6 +53,11 @@ import org.junit.jupiter.params.provider.MethodSource;
   corresponding entries in equipment.txt.
 */
 public class DataFileConsistencyTest {
+  @BeforeAll
+  public static void init() {
+    Preferences.reset("DataFileConsistencyTest");
+  }
+
   Set<String> datafileItems(String file, int version, int index) throws IOException {
     var items = new HashSet<String>();
     try (BufferedReader reader = FileUtilities.getVersionedReader(file, version)) {
@@ -457,6 +466,12 @@ public class DataFileConsistencyTest {
     } catch (IOException e) {
       fail("Couldn't read from " + file);
     }
+  }
+
+  @Test
+  public void dailyLimitsShouldUseValidPreferences() throws IOException {
+    var preferences = datafileItems("dailylimits.txt", 1, 2);
+    assertThat(preferences, everyItem(isUserPreference()));
   }
 
   @Test

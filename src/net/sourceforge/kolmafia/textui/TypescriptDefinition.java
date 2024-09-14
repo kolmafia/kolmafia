@@ -303,8 +303,12 @@ public class TypescriptDefinition {
         String.format("    readonly %s: %s;", JavascriptRuntime.toCamelCase(name), type));
   }
 
+  private static String formatMafiaClassName(final Type t) {
+    return StringUtilities.capitalize(t.getName());
+  }
+
   private static List<String> formatMafiaClass(final Type t) {
-    var name = StringUtilities.capitalize(t.getName());
+    var name = formatMafiaClassName(t);
 
     List<String> values =
         t.allValues().count() < 30
@@ -371,6 +375,17 @@ public class TypescriptDefinition {
         .sorted(Type::compareTo)
         .flatMap(t -> formatMafiaClass(t).stream())
         .toList();
+  }
+
+  public static List<String> getMafiaClassArray() {
+    return List.of(
+        "export const MafiaClasses: Readonly<["
+            + DataTypes.enumeratedTypes.stream()
+                .sorted(Type::compareTo)
+                .map(TypescriptDefinition::formatMafiaClassName)
+                .map(n -> "typeof " + n)
+                .collect(Collectors.joining(", "))
+            + "]>;");
   }
 
   protected static String getEnvironmentUnion() {
@@ -465,6 +480,7 @@ public class TypescriptDefinition {
             getFunctionDefinitions(),
             getAbstractMafiaClass(),
             getMafiaClassDefs(),
+            getMafiaClassArray(),
             getScriptFunctionDefs(),
             getSessionStorageTyping())
         .flatMap(Collection::stream)

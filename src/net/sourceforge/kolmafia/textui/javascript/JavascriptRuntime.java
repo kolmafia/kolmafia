@@ -39,6 +39,7 @@ import org.mozilla.javascript.EcmaError;
 import org.mozilla.javascript.EvaluatorException;
 import org.mozilla.javascript.Function;
 import org.mozilla.javascript.JavaScriptException;
+import org.mozilla.javascript.NativeArray;
 import org.mozilla.javascript.NativeJavaObject;
 import org.mozilla.javascript.NativeObject;
 import org.mozilla.javascript.NativePromise;
@@ -170,7 +171,7 @@ public class JavascriptRuntime extends AbstractRuntime {
     return stdLib;
   }
 
-  private static void initEnumeratedType(
+  private static ScriptableObject initEnumeratedType(
       Context cx,
       Scriptable scope,
       Scriptable runtimeLibrary,
@@ -178,10 +179,11 @@ public class JavascriptRuntime extends AbstractRuntime {
       Type valueType) {
     EnumeratedWrapperPrototype prototype =
         new EnumeratedWrapperPrototype(recordValueClass, valueType);
-    prototype.initToScope(cx, scope, runtimeLibrary);
+    return prototype.initToScope(cx, scope, runtimeLibrary);
   }
 
   private static void initEnumeratedTypes(Context cx, Scriptable scope, Scriptable runtimeLibrary) {
+    var enumeratedProtos = new ArrayList<ScriptableObject>();
     for (Type valueType : DataTypes.enumeratedTypes) {
       String typeName = capitalize(valueType.getName());
       Class<?> proxyRecordValueClass = Value.class;
@@ -191,7 +193,14 @@ public class JavascriptRuntime extends AbstractRuntime {
         }
       }
 
-      initEnumeratedType(cx, scope, runtimeLibrary, proxyRecordValueClass, valueType);
+      var proto = initEnumeratedType(cx, scope, runtimeLibrary, proxyRecordValueClass, valueType);
+      if (proto != null) enumeratedProtos.add(proto);
+    }
+
+    if (runtimeLibrary != null) {
+      var jsArray = (NativeArray) cx.newArray(scope, enumeratedProtos.toArray());
+      ScriptableObject.defineProperty(
+          runtimeLibrary, "MafiaClasses", jsArray, DONTENUM | READONLY | PERMANENT);
     }
   }
 

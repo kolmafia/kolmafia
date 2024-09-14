@@ -346,8 +346,11 @@ Use	jar of psychoses (The Suspicious-Looking Guy)	_psychoJarUsed
 Use	jingle bell	_jingleBellUsed
 Use	lodestone	_lodestoneUsed
 Use	lupine appetite hormones	_lupineHormonesUsed
+Use	lynyrd snare	_lynyrdSnareUses	3
+Use	map to a candy-rich block	_mapToACandyRichBlockUsed
 Use	meatball machine	_meatballMachineUsed
 Use	milk of magnesium	_milkOfMagnesiumUsed
+Use	miniature Embering Hulk	_emberingHulkFought
 Use	mojo filter	currentMojoFilters	3
 Use	molehill mountain	_molehillMountainUsed
 Use	moveable feast	_feastUsed	5
@@ -371,15 +374,16 @@ Use	snake	_fireworkUsed
 Use	sparkler	_fireworkUsed
 Use	spice melange	spiceMelangeUsed
 Use	strange stalagmite	_strangeStalagmiteUsed
+Use	structural ember	_structuralEmberUsed
 Use	stuffed pocketwatch	_stuffedPocketwatchUsed
 Use	subscription cocoa dispenser	_cocoaDispenserUsed
 Use	sweet tooth	_sweetToothUsed
 Use	sweet-corn-flavored Mr. Mediocrebar	_chocolatesUsed	3
 Use	synthetic dog hair pill	_syntheticDogHairPillUsed
 Use	tempura air	_tempuraAirUsed
-Use	tied-up flaming leaflet	_tiedUpFlamingLeafletUsed
-Use	tied-up flaming monstera	_tiedUpFlamingMonsteraUsed
-Use	tied-up leaviathan	_tiedUpLeaviathanUsed
+Use	tied-up flaming leaflet	_tiedUpFlamingLeafletFought
+Use	tied-up flaming monstera	_tiedUpFlamingMonsteraFought
+Use	tied-up leaviathan	_tiedUpLeaviathanFought
 Use	tonic djinn	_tonicDjinn
 Use	vitachoconutriment capsule	_vitachocCapsulesUsed	3
 Use	warbear breakfast machine	_warbearBreakfastMachineUsed
