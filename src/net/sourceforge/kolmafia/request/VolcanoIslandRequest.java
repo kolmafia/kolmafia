@@ -7,6 +7,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
@@ -113,8 +114,15 @@ public class VolcanoIslandRequest extends GenericRequest {
   }
 
   public static void parseResponse(final String urlString, final String responseText) {
-    if (!urlString.startsWith("volcanoisland.php") || !urlString.contains("action=tniat")) {
-      return;
+    if (!(urlString.startsWith("volcanoisland.php")
+        && (urlString.contains("action=tniat") || urlString.contains("action=npc")))) return;
+
+    // Increment daily harvest count if successful
+    // "You ladle some slime out of one of the drums. Fortunately, you had an empty vial on hand for
+    // just such an opportunity.""
+    if (KoLCharacter.isSauceror()
+        && responseText.contains("ladle some slime out of one of the drums")) {
+      Preferences.increment("_slimeVialsHarvested", 1, 10, false);
     }
 
     // A Pastamancer wearing the spaghetti cult robes loses them
