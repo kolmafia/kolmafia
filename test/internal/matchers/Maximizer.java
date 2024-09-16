@@ -1,5 +1,6 @@
 package internal.matchers;
 
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.maximizer.Boost;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -20,7 +21,7 @@ public class Maximizer {
         if (!isItem(boost)) {
           return false;
         }
-        return StringUtilities.getEntityEncode(itemName).equals(boost.getItem().getName());
+        return equalsItem(itemName, boost.getItem());
       }
     };
   }
@@ -74,7 +75,7 @@ public class Maximizer {
         if (!isItem(boost)) {
           return false;
         }
-        return StringUtilities.getEntityEncode(itemName).equals(boost.getItem().getName());
+        return equalsItem(itemName, boost.getItem());
       }
     };
   }
@@ -84,5 +85,13 @@ public class Maximizer {
       return false;
     }
     return boost.getItem() != null;
+  }
+
+  public static boolean equalsItem(String testItem, AdventureResult boostItem) {
+    var encoded = StringUtilities.getEntityEncode(testItem);
+    if (encoded.equals(boostItem.getName())) {
+      return true;
+    }
+    return AdventureResult.tallyItem(encoded).equals(boostItem);
   }
 }
