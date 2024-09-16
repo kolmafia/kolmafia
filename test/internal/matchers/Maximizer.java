@@ -1,5 +1,6 @@
 package internal.matchers;
 
+import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.maximizer.Boost;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -10,19 +11,15 @@ public class Maximizer {
     return new TypeSafeMatcher<>() {
       @Override
       public void describeTo(Description description) {
-        description.appendText("item " + itemName + " to be recommended");
+        description.appendText("item " + itemName);
       }
 
       @Override
       protected boolean matchesSafely(Boost boost) {
-        if (!boost.isEquipment()) {
+        if (!isItem(boost)) {
           return false;
         }
-        var item = boost.getItem();
-        if (item == null) {
-          return false;
-        }
-        return itemName.equals(item.getName());
+        return itemName.equals(boost.getItem().getName());
       }
     };
   }
@@ -31,20 +28,60 @@ public class Maximizer {
     return new TypeSafeMatcher<>() {
       @Override
       public void describeTo(Description description) {
-        description.appendText("item with id " + itemId + " to be recommended");
+        description.appendText("item with id " + itemId);
       }
 
       @Override
       protected boolean matchesSafely(Boost boost) {
-        if (!boost.isEquipment()) {
+        if (!isItem(boost)) {
           return false;
         }
-        var item = boost.getItem();
-        if (item == null) {
-          return false;
-        }
-        return itemId == item.getItemId();
+        return itemId == boost.getItem().getItemId();
       }
     };
+  }
+
+  public static Matcher<Boost> recommendsSlot(Slot slot) {
+    return new TypeSafeMatcher<>() {
+      @Override
+      public void describeTo(Description description) {
+        description.appendText("slot " + slot);
+      }
+
+      @Override
+      protected boolean matchesSafely(Boost boost) {
+        if (!isItem(boost)) {
+          return false;
+        }
+        return boost.getSlot() == slot;
+      }
+    };
+  }
+
+  public static Matcher<Boost> recommendsSlot(Slot slot, String itemName) {
+    return new TypeSafeMatcher<>() {
+      @Override
+      public void describeTo(Description description) {
+        description.appendText("slot " + slot + " with item " + itemName);
+      }
+
+      @Override
+      protected boolean matchesSafely(Boost boost) {
+        if (boost.getSlot() != slot) {
+          return false;
+        }
+        if (!isItem(boost)) {
+          return false;
+        }
+        return itemName.equals(boost.getItem().getName());
+      }
+    };
+  }
+
+  public static boolean isItem(Boost boost) {
+    if (!boost.isEquipment()) {
+      return false;
+    }
+    return boost.getItem() != null;
   }
 }
