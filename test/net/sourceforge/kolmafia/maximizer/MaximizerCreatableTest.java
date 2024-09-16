@@ -2,6 +2,9 @@ package net.sourceforge.kolmafia.maximizer;
 
 import static internal.helpers.Maximizer.*;
 import static internal.helpers.Player.*;
+import static internal.matchers.Maximizer.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasItem;
 
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.AscensionPath.Path;
@@ -205,7 +208,7 @@ public class MaximizerCreatableTest {
 
       try (cleanups) {
         maximizeCreatable("muscle");
-        recommends("sphygmayomanometer");
+        assertThat(getBoosts(), hasItem(recommends("sphygmayomanometer")));
         recommendedSlotIsUnchanged(Slot.ACCESSORY2);
         recommendedSlotIsUnchanged(Slot.ACCESSORY3);
       }

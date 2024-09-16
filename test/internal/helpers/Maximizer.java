@@ -1,18 +1,12 @@
 package internal.helpers;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.hasItem;
-import static org.hamcrest.Matchers.hasProperty;
-import static org.hamcrest.Matchers.startsWith;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Predicate;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants.filterType;
 import net.sourceforge.kolmafia.ModifierType;
@@ -77,38 +71,5 @@ public class Maximizer {
                 + slot
                 + ", but it was "
                 + equipment.map(AdventureResult::toString).orElse(""));
-  }
-
-  public static void recommends(String item) {
-    Optional<Boost> found =
-        getBoosts().stream()
-            .filter(Boost::isEquipment)
-            .filter(b -> item.equals(b.getItem().getName()))
-            .findAny();
-    assertTrue(found.isPresent(), "Expected " + item + " to be recommended, but it was not");
-  }
-
-  public static void recommends(int itemId) {
-    Optional<Boost> found =
-        getBoosts().stream()
-            .filter(Boost::isEquipment)
-            .filter(b -> b.getItem() != null)
-            .filter(b -> (itemId == b.getItem().getItemId()))
-            .findAny();
-    assertTrue(found.isPresent(), "Expected " + itemId + " to be recommended, but it was not");
-  }
-
-  public static void doesNotRecommend(int itemId) {
-    Optional<Boost> found =
-        getBoosts().stream()
-            .filter(Boost::isEquipment)
-            .filter(b -> b.getItem() != null)
-            .filter(b -> (itemId == b.getItem().getItemId()))
-            .findAny();
-    assertFalse(found.isPresent(), "Expected " + itemId + " to not be recommended, but it was");
-  }
-
-  public static boolean someBoostIs(Predicate<Boost> predicate) {
-    return getBoosts().stream().anyMatch(predicate);
   }
 }

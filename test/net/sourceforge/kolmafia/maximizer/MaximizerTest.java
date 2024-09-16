@@ -1,6 +1,5 @@
 package net.sourceforge.kolmafia.maximizer;
 
-import static internal.helpers.Maximizer.doesNotRecommend;
 import static internal.helpers.Maximizer.getBoosts;
 import static internal.helpers.Maximizer.getSlot;
 import static internal.helpers.Maximizer.maximize;
@@ -8,8 +7,6 @@ import static internal.helpers.Maximizer.maximizeAny;
 import static internal.helpers.Maximizer.modFor;
 import static internal.helpers.Maximizer.recommendedSlotIs;
 import static internal.helpers.Maximizer.recommendedSlotIsUnchanged;
-import static internal.helpers.Maximizer.recommends;
-import static internal.helpers.Maximizer.someBoostIs;
 import static internal.helpers.Player.withCampgroundItem;
 import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withDay;
@@ -34,6 +31,8 @@ import static internal.helpers.Player.withRestricted;
 import static internal.helpers.Player.withSign;
 import static internal.helpers.Player.withSkill;
 import static internal.helpers.Player.withStats;
+import static internal.matchers.Maximizer.*;
+import static internal.matchers.Maximizer.recommends;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
@@ -424,9 +423,9 @@ public class MaximizerTest {
       try (cleanups) {
         assertTrue(maximize("surgeonosity -tie"));
         recommendedSlotIs(Slot.PANTS, "bloodied surgical dungarees");
-        recommends("head mirror");
-        recommends("surgical mask");
-        recommends("half-size scalpel");
+        assertThat(getBoosts(), hasItem(recommends("head mirror")));
+        assertThat(getBoosts(), hasItem(recommends("surgical mask")));
+        assertThat(getBoosts(), hasItem(recommends("half-size scalpel")));
         recommendedSlotIs(Slot.SHIRT, "surgical apron");
         assertEquals(5, modFor(BitmapModifier.SURGEONOSITY), 0.01);
       }
@@ -513,7 +512,8 @@ public class MaximizerTest {
           maximize("spell dmg");
 
           // used the grill in the throne.
-          assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("enthrone Galloping Grill"))));
+          assertThat(
+              getBoosts(), hasItem(hasProperty("cmd", startsWith("enthrone Galloping Grill"))));
         }
       }
     }
@@ -527,7 +527,9 @@ public class MaximizerTest {
         try (cleanups) {
           maximize("meat drop");
 
-          assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("use 1 baggie of powdered sugar"))));
+          assertThat(
+              getBoosts(),
+              hasItem(hasProperty("cmd", startsWith("use 1 baggie of powdered sugar"))));
         }
       }
 
@@ -539,7 +541,9 @@ public class MaximizerTest {
         try (cleanups) {
           maximize("meat drop");
 
-          assertThat(getBoosts(), not(hasItem(hasProperty("cmd", startsWith("use 1 baggie of powdered sugar")))));
+          assertThat(
+              getBoosts(),
+              not(hasItem(hasProperty("cmd", startsWith("use 1 baggie of powdered sugar")))));
         }
       }
 
@@ -550,7 +554,8 @@ public class MaximizerTest {
         try (cleanups) {
           maximize("hot dmg");
 
-          assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("use 1 Charter: Nellyville"))));
+          assertThat(
+              getBoosts(), hasItem(hasProperty("cmd", startsWith("use 1 Charter: Nellyville"))));
         }
       }
 
@@ -589,7 +594,7 @@ public class MaximizerTest {
 
       try (cleanups) {
         assertTrue(maximize("plumber, mox"));
-        recommends("work boots");
+        assertThat(getBoosts(), hasItem(recommends("work boots")));
       }
     }
 
@@ -605,8 +610,8 @@ public class MaximizerTest {
 
       try (cleanups) {
         assertTrue(maximize("cold plumber, mox"));
-        recommends("bonfire flower");
-        recommends("frosty button");
+        assertThat(getBoosts(), hasItem(recommends("bonfire flower")));
+        assertThat(getBoosts(), hasItem(recommends("frosty button")));
       }
     }
   }
@@ -624,9 +629,12 @@ public class MaximizerTest {
 
       try (cleanups) {
         assertTrue(maximize("meat"));
-        assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("absorb ¶303")))); // Knob mushroom
-        assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("absorb ¶443")))); // beer lens
-        assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("absorb ¶109")))); // crossbow string
+        assertThat(
+            getBoosts(), hasItem(hasProperty("cmd", startsWith("absorb ¶303")))); // Knob mushroom
+        assertThat(
+            getBoosts(), hasItem(hasProperty("cmd", startsWith("absorb ¶443")))); // beer lens
+        assertThat(
+            getBoosts(), hasItem(hasProperty("cmd", startsWith("absorb ¶109")))); // crossbow string
       }
     }
 
@@ -648,7 +656,8 @@ public class MaximizerTest {
       try (cleanups) {
         assertTrue(maximize("muscle -tie"));
         recommendedSlotIsUnchanged(Slot.HAT);
-        assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("absorb ¶3")))); // helmet turtle
+        assertThat(
+            getBoosts(), hasItem(hasProperty("cmd", startsWith("absorb ¶3")))); // helmet turtle
       }
     }
 
@@ -934,7 +943,8 @@ public class MaximizerTest {
 
         try (cleanups) {
           assertTrue(maximize("muscle -tie"));
-          assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("use 1 Flaskfull of Hollow"))));
+          assertThat(
+              getBoosts(), hasItem(hasProperty("cmd", startsWith("use 1 Flaskfull of Hollow"))));
         }
       }
 
@@ -945,7 +955,8 @@ public class MaximizerTest {
 
         try (cleanups) {
           assertTrue(maximize("muscle -tie"));
-          assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("use 1 Flaskfull of Hollow"))));
+          assertThat(
+              getBoosts(), hasItem(hasProperty("cmd", startsWith("use 1 Flaskfull of Hollow"))));
         }
       }
     }
@@ -1020,7 +1031,7 @@ public class MaximizerTest {
           recommendedSlotIs(Slot.HAT, "Hodgman's porkpie hat");
           recommendedSlotIs(Slot.PANTS, "Hodgman's lobsterskin pants");
           recommendedSlotIs(Slot.OFFHAND, "Hodgman's garbage sticker");
-          recommends("Hodgman's bow tie");
+          assertThat(getBoosts(), hasItem(recommends("Hodgman's bow tie")));
         }
       }
 
@@ -1217,7 +1228,9 @@ public class MaximizerTest {
       try (cleanups) {
         assertTrue(maximize("exp, -offhand, switch left-hand man"));
         assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("familiar Left-Hand Man"))));
-        assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("umbrella broken; equip familiar ¶10899"))));
+        assertThat(
+            getBoosts(),
+            hasItem(hasProperty("cmd", startsWith("umbrella broken; equip familiar ¶10899"))));
       }
     }
 
@@ -1279,8 +1292,8 @@ public class MaximizerTest {
 
       try (cleanups) {
         assertTrue(maximize("meat"));
-        recommends(ItemPool.BACKUP_CAMERA);
-        recommends("incredibly dense meat gem");
+        assertThat(getBoosts(), hasItem(recommends(ItemPool.BACKUP_CAMERA)));
+        assertThat(getBoosts(), hasItem(recommends("incredibly dense meat gem")));
         assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("backupcamera meat"))));
       }
     }
@@ -1303,7 +1316,7 @@ public class MaximizerTest {
           new Cleanups(withItemInStorage("backup camera"), withProperty("backupCameraMode", "ml"));
       try (cleanups) {
         maximizeAny("meat");
-        recommends(ItemPool.BACKUP_CAMERA);
+        assertThat(getBoosts(), hasItem(recommends(ItemPool.BACKUP_CAMERA)));
         assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("pull"))));
       }
     }
@@ -1319,7 +1332,7 @@ public class MaximizerTest {
 
       try (cleanups) {
         maximizeAny("meat");
-        doesNotRecommend(ItemPool.BACKUP_CAMERA);
+        assertThat(getBoosts(), not(hasItem(recommends(ItemPool.BACKUP_CAMERA))));
       }
     }
 
@@ -1406,7 +1419,9 @@ public class MaximizerTest {
       try (cleanups) {
         assertTrue(maximize("weapon damage percent"));
         recommendedSlotIs(Slot.OFFHAND, "broken champagne bottle");
-        assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("fold ¶9692;equip off-hand ¶9692"))));
+        assertThat(
+            getBoosts(),
+            hasItem(hasProperty("cmd", startsWith("fold ¶9692;equip off-hand ¶9692"))));
       }
     }
 
@@ -1418,7 +1433,8 @@ public class MaximizerTest {
       try (cleanups) {
         assertTrue(maximize("weapon damage percent"));
         recommendedSlotIs(Slot.WEAPON, "broken champagne bottle");
-        assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("fold ¶9692;equip weapon ¶9692"))));
+        assertThat(
+            getBoosts(), hasItem(hasProperty("cmd", startsWith("fold ¶9692;equip weapon ¶9692"))));
       }
     }
 
@@ -1428,7 +1444,9 @@ public class MaximizerTest {
 
       try (cleanups) {
         assertTrue(maximize("weapon damage percent"));
-        assertThat(getBoosts(), not(hasItem(hasProperty("cmd", startsWith("fold ¶9692;equip weapon ¶9692")))));
+        assertThat(
+            getBoosts(),
+            not(hasItem(hasProperty("cmd", startsWith("fold ¶9692;equip weapon ¶9692")))));
       }
     }
   }
@@ -1525,7 +1543,8 @@ public class MaximizerTest {
             maximize(
                 "adv -weapon -offhand -tie +switch tot +switch disembodied hand +switch mosquito"));
         recommendedSlotIs(Slot.FAMILIAR, "li'l unicorn costume");
-        assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("familiar Trick-or-Treating Tot"))));
+        assertThat(
+            getBoosts(), hasItem(hasProperty("cmd", startsWith("familiar Trick-or-Treating Tot"))));
       }
     }
 
@@ -1561,9 +1580,9 @@ public class MaximizerTest {
       try (cleanups) {
         assertTrue(maximize("adv"));
         assertEquals(14, modFor(DoubleModifier.ADVENTURES), 0.01);
-        recommends("Counterclockwise Watch");
-        recommends("plexiglass pocketwatch");
-        recommends("gold wedding ring");
+        assertThat(getBoosts(), hasItem(recommends("Counterclockwise Watch")));
+        assertThat(getBoosts(), hasItem(recommends("plexiglass pocketwatch")));
+        assertThat(getBoosts(), hasItem(recommends("gold wedding ring")));
       }
     }
 
@@ -1578,9 +1597,8 @@ public class MaximizerTest {
       try (cleanups) {
         assertTrue(maximize("fites"));
         assertEquals(5, modFor(DoubleModifier.PVP_FIGHTS), 0.01);
-        recommends("Crimbolex watch");
-        assertFalse(
-            someBoostIs(x -> x.isEquipment() && ItemPool.SASQ_WATCH == x.getItem().getItemId()));
+        assertThat(getBoosts(), hasItem(recommends("Crimbolex watch")));
+        assertThat(getBoosts(), not(hasItem(recommends(ItemPool.SASQ_WATCH))));
       }
     }
 
@@ -1715,9 +1733,9 @@ public class MaximizerTest {
 
         try (cleanups) {
           assertTrue(maximize("never fumble"));
-          recommends("aerogel anvil");
-          recommends("ring of the Skeleton Lord");
-          recommends("Baron von Ratsworth's monocle");
+          assertThat(getBoosts(), hasItem(recommends("aerogel anvil")));
+          assertThat(getBoosts(), hasItem(recommends("ring of the Skeleton Lord")));
+          assertThat(getBoosts(), hasItem(recommends("Baron von Ratsworth's monocle")));
         }
       }
     }
@@ -1744,15 +1762,15 @@ public class MaximizerTest {
 
         try (cleanups) {
           assertTrue(maximize("pirate, meat, -tie"));
-          recommends("pirate fledges");
-          recommends("Pantsgiving");
+          assertThat(getBoosts(), hasItem(recommends("pirate fledges")));
+          assertThat(getBoosts(), hasItem(recommends("Pantsgiving")));
 
           assertTrue(maximize("pirate, moxie, -tie"));
           recommendedSlotIs(Slot.HAT, "eyepatch");
           recommendedSlotIs(Slot.PANTS, "swashbuckling pants");
-          recommends("stuffed shoulder parrot");
-          recommends("moustache sock");
-          recommends("tube sock");
+          assertThat(getBoosts(), hasItem(recommends("stuffed shoulder parrot")));
+          assertThat(getBoosts(), hasItem(recommends("moustache sock")));
+          assertThat(getBoosts(), hasItem(recommends("tube sock")));
         }
       }
     }
@@ -1811,7 +1829,7 @@ public class MaximizerTest {
       try (cleanups) {
         assertTrue(maximize("spell dmg, -tie"));
         recommendedSlotIs(Slot.WEAPON, "Staff of Kitchen Royalty");
-        recommends("special sauce glove");
+        assertThat(getBoosts(), hasItem(recommends("special sauce glove")));
       }
     }
 
@@ -1851,7 +1869,9 @@ public class MaximizerTest {
 
       try (cleanups) {
         assertTrue(maximize("Item Drop"));
-        assertThat(getBoosts(), not(hasItem(hasProperty("cmd", startsWith("drink 1 1950 Vampire Vintner wine")))));
+        assertThat(
+            getBoosts(),
+            not(hasItem(hasProperty("cmd", startsWith("drink 1 1950 Vampire Vintner wine")))));
       }
     }
 
@@ -1865,7 +1885,9 @@ public class MaximizerTest {
 
       try (cleanups) {
         assertTrue(maximize("Item Drop"));
-        assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("drink 1 1950 Vampire Vintner wine"))));
+        assertThat(
+            getBoosts(),
+            hasItem(hasProperty("cmd", startsWith("drink 1 1950 Vampire Vintner wine"))));
       }
     }
 
@@ -1879,7 +1901,9 @@ public class MaximizerTest {
 
       try (cleanups) {
         assertTrue(maximize("Monster Level"));
-        assertThat(getBoosts(), not(hasItem(hasProperty("cmd", startsWith("drink 1 1950 Vampire Vintner wine")))));
+        assertThat(
+            getBoosts(),
+            not(hasItem(hasProperty("cmd", startsWith("drink 1 1950 Vampire Vintner wine")))));
       }
     }
   }
@@ -1924,8 +1948,11 @@ public class MaximizerTest {
 
         try (cleanups) {
           assertTrue(maximize("mp regen"));
-          assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("cast 1 Seek out a Bird"))));
-          assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("cast 1 Visit your Favorite Bird"))));
+          assertThat(
+              getBoosts(), hasItem(hasProperty("cmd", startsWith("cast 1 Seek out a Bird"))));
+          assertThat(
+              getBoosts(),
+              hasItem(hasProperty("cmd", startsWith("cast 1 Visit your Favorite Bird"))));
         }
       }
     }
@@ -1953,10 +1980,11 @@ public class MaximizerTest {
         assertTrue(maximize("passive dmg"));
         recommendedSlotIs(Slot.OFFHAND, "hot plate");
         recommendedSlotIs(Slot.FAMILIAR, "ant rake");
-        recommends(ItemPool.HIPPY_PROTEST_BUTTON);
-        recommends(ItemPool.BOTTLE_OPENER_BELT_BUCKLE);
+        assertThat(getBoosts(), hasItem(recommends(ItemPool.HIPPY_PROTEST_BUTTON)));
+        assertThat(getBoosts(), hasItem(recommends(ItemPool.BOTTLE_OPENER_BELT_BUCKLE)));
         recommendedSlotIs(Slot.ACCESSORY3, "Groll doll");
-        assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("cast 1 Jalapeño Saucesphere"))));
+        assertThat(
+            getBoosts(), hasItem(hasProperty("cmd", startsWith("cast 1 Jalapeño Saucesphere"))));
         assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("use 1 cheap cigar butt"))));
       }
     }
