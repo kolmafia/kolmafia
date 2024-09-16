@@ -31,9 +31,11 @@ import static internal.helpers.Player.withStats;
 import static internal.matchers.Maximizer.*;
 import static internal.matchers.Maximizer.recommends;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasProperty;
+import static org.hamcrest.Matchers.hasToString;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.startsWith;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -179,12 +181,11 @@ public class MaximizerTest {
       try (cleanups) {
         maximize("3 max, cold res");
 
-        assertTrue(
-            Maximizer.boosts.stream()
-                .anyMatch(
-                    b ->
-                        b.toString()
-                            .contains("(maximum achieved, no further combinations checked)")));
+        assertThat(
+            getBoosts(),
+            hasItem(
+                hasToString(
+                    containsString("(maximum achieved, no further combinations checked)"))));
       }
     }
   }

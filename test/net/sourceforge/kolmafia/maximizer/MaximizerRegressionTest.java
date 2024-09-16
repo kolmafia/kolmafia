@@ -10,7 +10,9 @@ import static internal.helpers.Player.withSign;
 import static internal.helpers.Player.withStats;
 import static internal.matchers.Maximizer.recommendsSlot;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -67,9 +69,9 @@ public class MaximizerRegressionTest {
       assertEquals(5, modFor(DoubleModifier.FAMILIAR_WEIGHT), 0.01, "Base score is 5");
       // monorail buff should always be available, but should not improve familiar weight.
       // so are friars, but I don't know why and that might be a bug
-      assertEquals(1, Maximizer.boosts.size());
-      Boost ar = Maximizer.boosts.get(0);
-      assertEquals("", ar.getCmd());
+      assertThat(getBoosts(), hasSize(1));
+      Boost ar = getBoosts().get(0);
+      assertThat(ar.getCmd(), equalTo(""));
     }
   }
 
