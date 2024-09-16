@@ -2,6 +2,7 @@ package internal.matchers;
 
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.maximizer.Boost;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
@@ -19,7 +20,7 @@ public class Maximizer {
         if (!isItem(boost)) {
           return false;
         }
-        return itemName.equals(boost.getItem().getName());
+        return StringUtilities.getEntityEncode(itemName).equals(boost.getItem().getName());
       }
     };
   }
@@ -73,7 +74,7 @@ public class Maximizer {
         if (!isItem(boost)) {
           return false;
         }
-        return itemName.equals(boost.getItem().getName());
+        return StringUtilities.getEntityEncode(itemName).equals(boost.getItem().getName());
       }
     };
   }
