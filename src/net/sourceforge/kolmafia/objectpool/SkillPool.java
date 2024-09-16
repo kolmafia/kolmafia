@@ -583,6 +583,8 @@ public class SkillPool {
   public static final int SURPRISINGLY_SWEET_STAB = 7489;
   public static final int LAY_AN_EGG = 7494;
   public static final int SPRING_KICK = 7501;
+  public static final int HUNT = 7509;
+  public static final int PUNT_WEREPROF = 7510;
   public static final int ADVANCED_RESEARCH = 7512;
   public static final int DART_PART1 = 7513;
   public static final int DART_PART2 = 7514;
@@ -825,7 +827,7 @@ public class SkillPool {
   public static final int SECOND_WIND = 28016;
   public static final int STOP_HITTING_YOURSELF = 28017;
   public static final int FREE_FOR_ALL = 28019;
-  public static final int PUNT = 28021;
+  public static final int PUNT_AOSOL = 28021;
   public static final int EMMENTAL_ELEMENTAL = 29017;
   public static final int STILTON_SPLATTER = 29019;
   public static final int FONDELUGE = 29021;
