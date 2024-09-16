@@ -9557,6 +9557,13 @@ public class FightRequest extends GenericRequest {
         }
         break;
 
+      case SkillPool.HUNT:
+        if (responseText.contains("You take a good sniff")) {
+          TrackManager.trackMonster(monster, Tracker.HUNT);
+          skillSuccess = true;
+        }
+        break;
+
         // Banishing Shout has lots of success messages.  Check for the failure message instead
       case SkillPool.BANISHING_SHOUT:
         if (!responseText.contains("but this foe refuses")) {
@@ -9603,9 +9610,9 @@ public class FightRequest extends GenericRequest {
         }
         break;
 
-      case SkillPool.PUNT:
+      case SkillPool.PUNT_AOSOL:
         if (responseText.contains("You punt your foe into next week") || skillRunawaySuccess) {
-          BanishManager.banishMonster(monster, Banisher.PUNT);
+          BanishManager.banishMonster(monster, Banisher.PUNT_AOSOL);
         }
         break;
 
@@ -9660,6 +9667,13 @@ public class FightRequest extends GenericRequest {
         if (responseText.contains("release a majestic roar") || skillRunawaySuccess) {
           skillRunawaySuccess = true;
           BanishManager.banishMonster(monster, Banisher.ROAR_LIKE_A_LION);
+        }
+        break;
+
+      case SkillPool.PUNT_WEREPROF:
+        if (responseText.contains("You punt your opponent over the horizon")
+            || skillRunawaySuccess) {
+          BanishManager.banishMonster(monster, Banisher.PUNT_WEREPROF);
         }
         break;
 
