@@ -51,6 +51,14 @@ public class ItemFinder {
     return ItemFinder.getFirstMatchingItemName(nameList, searchString, Match.ANY);
   }
 
+  /**
+   * Get the first matching item name out of a list of potential matches.
+   *
+   * @param nameList List of potential matches
+   * @param searchString Query used to search for matches
+   * @param filterType Type of item being sought
+   * @return null if no valid matches, "" if too many matches, an item name otherwise.
+   */
   public static String getFirstMatchingItemName(
       List<String> nameList, String searchString, Match filterType) {
     if (nameList == null || nameList.isEmpty()) {
@@ -58,31 +66,23 @@ public class ItemFinder {
     }
 
     // Filter the list
-    ItemFinder.filterNameList(nameList, filterType);
+    ItemFinder.prioritizeRestores(nameList, filterType);
+    ItemFinder.removeInappropriateMatchTypes(nameList, filterType);
+    ItemFinder.removeSuperstringMatches(nameList);
+
     if (nameList.isEmpty()) {
       return null;
     }
 
-    // If there are multiple matches, such that one is a substring of the
-    // others, choose the shorter one, on the grounds that the user would have
-    // included part of the unique section of the longer name if that was the
-    // item they actually intended.  This makes it easier to refer to
-    // non-clockwork in-a-boxes, and DoD potions by flavor.
-    while (nameList.size() >= 2) {
-      String name0 = nameList.get(0);
-      String name1 = nameList.get(1);
-      if (name0.contains(name1)) {
-        nameList.remove(0);
-      } else if (name1.contains(name0)) {
-        nameList.remove(1);
-      } else break;
-    }
+    // If there's one item left, that's it
+    var singleItem = ItemFinder.getSingleItem(nameList);
+    if (singleItem != null) return singleItem;
 
-    // If a single item remains, that's it!
-    if (nameList.size() == 1) {
-      return ItemDatabase.getCanonicalName(nameList.get(0));
-    }
+    String sweetName = prioritizeCandyHeartsSnowconesCupcakes(nameList);
+    return sweetName == null ? "" : sweetName;
+  }
 
+  private static String getSingleItem(List<String> nameList) {
     // Remove duplicate names that all refer to the same item?
     Set<Integer> itemIdSet = new HashSet<>();
     int pseudoItems = 0;
@@ -99,47 +99,59 @@ public class ItemFinder {
     if ((pseudoItems + itemIdSet.size()) == 1) {
       return ItemDatabase.getCanonicalName(nameList.get(0));
     }
+    return null;
+  }
 
-    String itemName;
+  private static String prioritizeCandyHeartsSnowconesCupcakes(List<String> nameList) {
     String rv = null;
 
     // Candy hearts, snowcones and cupcakes take precedence over
     // all the other items in the game, IF exactly one such item
     // matches.
 
-    for (String s : nameList) {
-      itemName = s;
+    for (String itemName : nameList) {
       if (!itemName.startsWith("pix") && itemName.endsWith("candy heart")) {
-        if (rv != null) return "";
+        if (rv != null) return null;
         rv = ItemDatabase.getCanonicalName(itemName);
       }
     }
 
-    for (String s : nameList) {
-      itemName = s;
+    for (String itemName : nameList) {
       if (!itemName.startsWith("abo")
           && !itemName.startsWith("yel")
           && itemName.endsWith("snowcone")) {
-        if (rv != null) return "";
+        if (rv != null) return null;
         rv = ItemDatabase.getCanonicalName(itemName);
       }
     }
 
-    for (String s : nameList) {
-      itemName = s;
+    for (String itemName : nameList) {
       if (itemName.endsWith("cupcake")) {
-        if (rv != null) return "";
+        if (rv != null) return null;
         rv = ItemDatabase.getCanonicalName(itemName);
       }
     }
-
-    if (rv != null) return rv;
-
-    // If we get here, there is not a single matching item
-    return "";
+    return rv;
   }
 
-  private static void filterNameList(List<String> nameList, Match filterType) {
+  private static void removeSuperstringMatches(List<String> nameList) {
+    // If there are multiple matches, such that one is a substring of the
+    // others, choose the shorter one, on the grounds that the user would have
+    // included part of the unique section of the longer name if that was the
+    // item they actually intended.  This makes it easier to refer to
+    // non-clockwork in-a-boxes, and DoD potions by flavor.
+    while (nameList.size() >= 2) {
+      String name0 = nameList.get(0);
+      String name1 = nameList.get(1);
+      if (name0.contains(name1)) {
+        nameList.remove(0);
+      } else if (name1.contains(name0)) {
+        nameList.remove(1);
+      } else break;
+    }
+  }
+
+  private static void prioritizeRestores(List<String> nameList, Match filterType) {
     if (filterType != Match.FOOD
         && filterType != Match.BOOZE
         && filterType != Match.SPLEEN
@@ -163,7 +175,9 @@ public class ItemFinder {
         nameList.addAll(restoreList);
       }
     }
+  }
 
+  private static void removeInappropriateMatchTypes(List<String> nameList, Match filterType) {
     // Check for consumption filters when matching against the
     // item name.
 
