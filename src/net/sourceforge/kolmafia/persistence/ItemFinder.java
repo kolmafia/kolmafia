@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.persistence;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -85,7 +86,10 @@ public class ItemFinder {
     if (filterType != Match.CREATE && filterType != Match.UNTINKER) {
       var available =
           nameList.stream()
-              .filter(name -> InventoryManager.itemAvailable(ItemDatabase.getItemId(name)))
+              .filter(
+                  name ->
+                      Arrays.stream(ItemDatabase.getItemIds(name))
+                          .anyMatch(id -> InventoryManager.itemAvailable(id)))
               .collect(Collectors.toList());
       if (available.size() == 1) {
         return available.get(0);
@@ -103,8 +107,8 @@ public class ItemFinder {
     var singleItem = ItemFinder.getSingleItem(nameList);
     if (singleItem != null) return singleItem;
 
-    String sweetName = prioritizeCandyHeartsSnowconesCupcakes(nameList);
-    return sweetName == null ? "" : sweetName;
+    // "" represents too many matches.
+    return "";
   }
 
   private static String getSingleItem(List<String> nameList) {
@@ -125,38 +129,6 @@ public class ItemFinder {
       return ItemDatabase.getCanonicalName(nameList.get(0));
     }
     return null;
-  }
-
-  private static String prioritizeCandyHeartsSnowconesCupcakes(List<String> nameList) {
-    String rv = null;
-
-    // Candy hearts, snowcones and cupcakes take precedence over
-    // all the other items in the game, IF exactly one such item
-    // matches.
-
-    for (String itemName : nameList) {
-      if (!itemName.startsWith("pix") && itemName.endsWith("candy heart")) {
-        if (rv != null) return null;
-        rv = ItemDatabase.getCanonicalName(itemName);
-      }
-    }
-
-    for (String itemName : nameList) {
-      if (!itemName.startsWith("abo")
-          && !itemName.startsWith("yel")
-          && itemName.endsWith("snowcone")) {
-        if (rv != null) return null;
-        rv = ItemDatabase.getCanonicalName(itemName);
-      }
-    }
-
-    for (String itemName : nameList) {
-      if (itemName.endsWith("cupcake")) {
-        if (rv != null) return null;
-        rv = ItemDatabase.getCanonicalName(itemName);
-      }
-    }
-    return rv;
   }
 
   private static void removeSuperstringMatches(List<String> nameList) {

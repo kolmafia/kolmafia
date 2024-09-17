@@ -1095,6 +1095,10 @@ public class ItemDatabase {
 
   private static final int[] NO_ITEM_IDS = new int[0];
 
+  public static final int[] getItemIds(final String itemName) {
+    return getItemIds(itemName, 1, false);
+  }
+
   public static final int[] getItemIds(
       final String itemName, final int count, final boolean substringMatch) {
     if (itemName == null) {
