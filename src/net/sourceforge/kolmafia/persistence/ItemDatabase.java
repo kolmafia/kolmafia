@@ -2371,6 +2371,20 @@ public class ItemDatabase {
     }
   }
 
+  private static final Pattern MIMIC_EGG_PATTERN =
+      Pattern.compile("<!-- monsterid:(\\d+) --> \\((\\d+)\\)");
+
+  public static void parseMimicEgg(final String desc) {
+    // Will return an empty string if the egg is empty
+    var pref =
+        MIMIC_EGG_PATTERN
+            .matcher(desc)
+            .results()
+            .map(m -> m.group(1) + ":" + m.group(2))
+            .collect(Collectors.joining(","));
+    Preferences.setString("mimicEggMonsters", pref);
+  }
+
   public static boolean unusableInBeecore(final int itemId) {
     return switch (itemId) {
       case
