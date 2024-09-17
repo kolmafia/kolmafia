@@ -22,6 +22,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CombineMeatRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ItemFinder {
@@ -256,7 +257,7 @@ public class ItemFinder {
     }
 
     // Never match against (non-quest) untradeable items not available
-    // in NPC stores when other items are possible.
+    // in NPC stores and not in your inventory when other items are possible.
     // This can be overridden by adding "matchable" as a secondary
     // use; this is needed for untradeables that do need to be
     // explicitly referred to, and have names similar to other items
@@ -277,7 +278,8 @@ public class ItemFinder {
           itemId != -1
               && !ItemDatabase.getAttribute(
                   itemId, EnumSet.of(Attribute.TRADEABLE, Attribute.MATCHABLE, Attribute.QUEST))
-              && !NPCStoreDatabase.contains(itemId));
+              && !NPCStoreDatabase.contains(itemId)
+              && !InventoryManager.itemAvailable(itemId));
     }
 
     // restore from last step iff we filtered _everything_

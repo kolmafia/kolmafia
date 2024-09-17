@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.persistence;
 
 import static internal.helpers.Player.withContinuationState;
 import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withItems;
 import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -707,6 +708,37 @@ public class ItemFinderTest {
     assertNotNull(item);
     assertEquals(expectedItemId, item.getItemId());
     assertEquals(expectedQuantity, item.getCount());
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    "free-range mush," + ItemPool.COLOSSAL_FREE_RANGE_MUSHROOM,
+    "Kramco Sausage," + ItemPool.REPLICA_SAUSAGE_O_MATIC
+  })
+  public void itShouldAvoidUntradeableItemsNotInNPCStore(String toBeParsed, int expectedItemId) {
+    AdventureResult item;
+    item = ItemFinder.getFirstMatchingItem(toBeParsed, false, null, Match.ANY);
+    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
+    assertNotNull(item);
+    assertEquals(expectedItemId, item.getItemId());
+    assertEquals(1, item.getCount());
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    "Fourth of May Cosplay," + ItemPool.FOURTH_SABER + "," + ItemPool.REPLICA_FOURTH_SABER,
+    "Kramco Sausage," + ItemPool.SAUSAGE_O_MATIC + "," + ItemPool.REPLICA_SAUSAGE_O_MATIC
+  })
+  public void itShouldNotAvoidUntradeableItemsInInventory(
+      String toBeParsed, int expectedItemId, int unexpectedItemId) {
+    try (var cleanups = withItems(expectedItemId, unexpectedItemId)) {
+      AdventureResult item;
+      item = ItemFinder.getFirstMatchingItem(toBeParsed, false, null, Match.ANY);
+      assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
+      assertNotNull(item);
+      assertEquals(expectedItemId, item.getItemId());
+      assertEquals(1, item.getCount());
+    }
   }
 
   // Tests written for the sole purpose of 100% coverage
