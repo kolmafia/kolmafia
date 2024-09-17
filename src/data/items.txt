@@ -11669,7 +11669,7 @@
 11641	boxed Sept-Ember Censer	940381296	emberbox.gif	usable	t	0
 11642	Sept-Ember Censer	189515221	embercenser.gif	usable		0
 11643	blade of dismemberment	514450928	embersword.gif	weapon	q	0	blades of dismemberment
-11644	miniature Embering Hulk	522091732	emberhulk.gif	usable		0	Embering Hulk miniatures
+11644	miniature Embering Hulk	522091732	emberhulk.gif	usable	t	0	Embering Hulk miniatures
 11645	Mmm-brr! brand mouthwash	406085040	emberbottle.gif	usable	t,d	5	bottles of Mmm-brr! brand mouthwash
 11646	Septapus summoning charm	185891232	emberpus.gif	none, combat	t	0
 11647	structural ember	251613605	emberboard.gif	usable	t	0
