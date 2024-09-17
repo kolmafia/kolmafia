@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -68,13 +69,37 @@ public class ItemFinder {
     // Filter the list
     ItemFinder.prioritizeRestores(nameList, filterType);
     ItemFinder.removeInappropriateMatchTypes(nameList, filterType);
+
+    // If exact match, return.
+    if (nameList.size() == 1) {
+      return nameList.get(0);
+    }
+
+    // If query is unique initialism, return.
+    if (!searchString.contains(" ")) {
+      var initialismName = ItemDatabase.getNameByInitialismIfUnique(searchString);
+      if (initialismName != null) return initialismName;
+    }
+
+    // If only one available per user settings, return.
+    if (filterType != Match.CREATE && filterType != Match.UNTINKER) {
+      var available =
+          nameList.stream()
+              .filter(name -> InventoryManager.itemAvailable(ItemDatabase.getItemId(name)))
+              .collect(Collectors.toList());
+      if (available.size() == 1) {
+        return available.get(0);
+      }
+    }
+
+    ItemFinder.removeInaccessibleItems(nameList, filterType);
     ItemFinder.removeSuperstringMatches(nameList);
 
     if (nameList.isEmpty()) {
       return null;
     }
 
-    // If there's one item left, that's it
+    // Remove duplicates (?). If there's one item left, that's it.
     var singleItem = ItemFinder.getSingleItem(nameList);
     if (singleItem != null) return singleItem;
 
@@ -265,13 +290,15 @@ public class ItemFinder {
           break;
       }
     }
+  }
 
+  private static void removeInaccessibleItems(List<String> nameList, Match filterType) {
     if (nameList.size() == 1 || filterType == Match.CREATE || filterType == Match.UNTINKER) {
       return;
     }
 
-    // Never match against (non-quest) untradeable items not available
-    // in NPC stores and not in your inventory when other items are possible.
+    // Never match against (non-quest) untradeable items not
+    // in NPC stores or otherwise available per user settings when other items are possible.
     // This can be overridden by adding "matchable" as a secondary
     // use; this is needed for untradeables that do need to be
     // explicitly referred to, and have names similar to other items
@@ -279,9 +306,8 @@ public class ItemFinder {
 
     // If this process results in filtering EVERYTHING in our list, that's not helpful.
     // Make a backup of nameList to restore from in such a case.
-    List<String> nameListCopy = new ArrayList<>(nameList);
-
-    nameIterator = nameList.iterator();
+    var nameListCopy = new ArrayList<>(nameList);
+    var nameIterator = nameList.iterator();
 
     while (nameIterator.hasNext()) {
       String itemName = nameIterator.next();
