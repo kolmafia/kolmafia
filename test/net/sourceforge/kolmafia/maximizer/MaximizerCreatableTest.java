@@ -2,6 +2,10 @@ package net.sourceforge.kolmafia.maximizer;
 
 import static internal.helpers.Maximizer.*;
 import static internal.helpers.Player.*;
+import static internal.matchers.Maximizer.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.not;
 
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.AscensionPath.Path;
@@ -31,7 +35,7 @@ public class MaximizerCreatableTest {
 
     try (cleanups) {
       maximizeCreatable("sleaze dmg");
-      recommendedSlotIs(Slot.HAT, "asshat");
+      assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "asshat")));
     }
   }
 
@@ -44,7 +48,7 @@ public class MaximizerCreatableTest {
       try (cleanups) {
         ConcoctionDatabase.refreshConcoctions();
         maximizeCreatable("ml");
-        recommendedSlotIs(Slot.OFFHAND, "barrel lid");
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.OFFHAND, "barrel lid")));
       }
     }
 
@@ -58,7 +62,7 @@ public class MaximizerCreatableTest {
       try (cleanups) {
         ConcoctionDatabase.refreshConcoctions();
         maximizeCreatable("ml");
-        recommendedSlotIsUnchanged(Slot.OFFHAND);
+        assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.OFFHAND))));
       }
     }
 
@@ -71,7 +75,7 @@ public class MaximizerCreatableTest {
       try (cleanups) {
         ConcoctionDatabase.refreshConcoctions();
         maximizeCreatable("ml");
-        recommendedSlotIsUnchanged(Slot.OFFHAND);
+        assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.OFFHAND))));
       }
     }
 
@@ -86,7 +90,7 @@ public class MaximizerCreatableTest {
       try (cleanups) {
         ConcoctionDatabase.refreshConcoctions();
         maximizeCreatable("ml");
-        recommendedSlotIsUnchanged(Slot.OFFHAND);
+        assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.OFFHAND))));
       }
     }
   }
@@ -101,7 +105,7 @@ public class MaximizerCreatableTest {
       try (cleanups) {
         ConcoctionDatabase.refreshConcoctions();
         maximizeCreatable("moxie");
-        recommendedSlotIs(Slot.HAT, "FantasyRealm Rogue's Mask");
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "FantasyRealm Rogue's Mask")));
       }
     }
 
@@ -112,7 +116,7 @@ public class MaximizerCreatableTest {
       try (cleanups) {
         ConcoctionDatabase.refreshConcoctions();
         maximizeCreatable("moxie");
-        recommendedSlotIsUnchanged(Slot.HAT);
+        assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.HAT))));
       }
     }
 
@@ -127,7 +131,7 @@ public class MaximizerCreatableTest {
       try (cleanups) {
         ConcoctionDatabase.refreshConcoctions();
         maximizeCreatable("moxie");
-        recommendedSlotIsUnchanged(Slot.HAT);
+        assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.HAT))));
       }
     }
   }
@@ -143,7 +147,7 @@ public class MaximizerCreatableTest {
       try (cleanups) {
         ConcoctionDatabase.refreshConcoctions();
         maximizeCreatable("meat");
-        recommendedSlotIs(Slot.CONTAINER, "carpe");
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.CONTAINER, "carpe")));
       }
     }
 
@@ -159,7 +163,7 @@ public class MaximizerCreatableTest {
       try (cleanups) {
         ConcoctionDatabase.refreshConcoctions();
         maximizeCreatable("meat");
-        recommendedSlotIsUnchanged(Slot.CONTAINER);
+        assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.CONTAINER))));
       }
     }
   }
@@ -176,7 +180,7 @@ public class MaximizerCreatableTest {
 
       try (cleanups) {
         maximizeCreatable("spell dmg");
-        recommendedSlotIs(Slot.WEAPON, "rubber spatula");
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.WEAPON, "rubber spatula")));
       }
     }
 
@@ -191,7 +195,7 @@ public class MaximizerCreatableTest {
 
       try (cleanups) {
         maximizeCreatable("spell dmg");
-        recommendedSlotIs(Slot.WEAPON, "obsidian nutcracker");
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.WEAPON, "obsidian nutcracker")));
       }
     }
 
@@ -205,9 +209,9 @@ public class MaximizerCreatableTest {
 
       try (cleanups) {
         maximizeCreatable("muscle");
-        recommends("sphygmayomanometer");
-        recommendedSlotIsUnchanged(Slot.ACCESSORY2);
-        recommendedSlotIsUnchanged(Slot.ACCESSORY3);
+        assertThat(getBoosts(), hasItem(recommends("sphygmayomanometer")));
+        assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.ACCESSORY2))));
+        assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.ACCESSORY3))));
       }
     }
 
@@ -222,8 +226,8 @@ public class MaximizerCreatableTest {
       try (cleanups) {
         ConcoctionDatabase.refreshConcoctions();
         maximizeCreatable("item drop");
-        recommendedSlotIs(Slot.WEAPON, "oversized sparkler");
-        recommendedSlotIsUnchanged(Slot.OFFHAND);
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.WEAPON, "oversized sparkler")));
+        assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.OFFHAND))));
       }
     }
 
@@ -238,7 +242,7 @@ public class MaximizerCreatableTest {
       try (cleanups) {
         ConcoctionDatabase.refreshConcoctions();
         maximizeCreatable("-combat");
-        recommendedSlotIsUnchanged(Slot.HAT);
+        assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.HAT))));
       }
     }
   }
@@ -251,7 +255,7 @@ public class MaximizerCreatableTest {
 
       try (cleanups) {
         maximizeCreatable("hot res");
-        recommendedSlotIs(Slot.HAT, "turtle wax helmet");
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "turtle wax helmet")));
       }
     }
 
@@ -264,7 +268,7 @@ public class MaximizerCreatableTest {
 
       try (cleanups) {
         maximizeCreatable("hot res");
-        recommendedSlotIsUnchanged(Slot.HAT);
+        assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.HAT))));
       }
     }
 
@@ -274,7 +278,7 @@ public class MaximizerCreatableTest {
 
       try (cleanups) {
         maximizeCreatable("ml");
-        recommendedSlotIs(Slot.PANTS, "tinsel tights");
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.PANTS, "tinsel tights")));
       }
     }
 
@@ -285,7 +289,7 @@ public class MaximizerCreatableTest {
 
       try (cleanups) {
         maximizeCreatable("ml");
-        recommendedSlotIs(Slot.PANTS, "tinsel tights");
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.PANTS, "tinsel tights")));
       }
     }
   }
