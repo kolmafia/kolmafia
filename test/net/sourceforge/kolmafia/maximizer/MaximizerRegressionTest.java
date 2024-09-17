@@ -8,6 +8,12 @@ import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliarInTerrarium;
 import static internal.helpers.Player.withSign;
 import static internal.helpers.Player.withStats;
+import static internal.matchers.Maximizer.recommendsSlot;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -63,9 +69,9 @@ public class MaximizerRegressionTest {
       assertEquals(5, modFor(DoubleModifier.FAMILIAR_WEIGHT), 0.01, "Base score is 5");
       // monorail buff should always be available, but should not improve familiar weight.
       // so are friars, but I don't know why and that might be a bug
-      assertEquals(1, Maximizer.boosts.size());
-      Boost ar = Maximizer.boosts.get(0);
-      assertEquals("", ar.getCmd());
+      assertThat(getBoosts(), hasSize(1));
+      Boost ar = getBoosts().get(0);
+      assertThat(ar.getCmd(), equalTo(""));
     }
   }
 
@@ -176,7 +182,7 @@ public class MaximizerRegressionTest {
 
     try (cleanups) {
       assertTrue(maximize("adventures, -buddy-bjorn, +25 bonus Buddy Bjorn"));
-      recommendedSlotIsUnchanged(Slot.CONTAINER);
+      assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.CONTAINER))));
     }
   }
 
@@ -192,8 +198,8 @@ public class MaximizerRegressionTest {
     try (cleanups) {
       assertTrue(maximize("adventures, -buddy-bjorn, +25 bonus Buddy Bjorn"));
 
-      recommendedSlotIs(Slot.HAT, "time helmet");
-      recommendedSlotIsUnchanged(Slot.CONTAINER);
+      assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "time helmet")));
+      assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.CONTAINER))));
     }
   }
 
@@ -205,8 +211,8 @@ public class MaximizerRegressionTest {
     try (cleanups) {
       assertTrue(maximize("+25 bonus Buddy Bjorn, +25 bonus Crown of Thrones"));
 
-      recommendedSlotIs(Slot.HAT, "Crown of Thrones");
-      recommendedSlotIs(Slot.CONTAINER, "Buddy Bjorn");
+      assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "Crown of Thrones")));
+      assertThat(getBoosts(), hasItem(recommendsSlot(Slot.CONTAINER, "Buddy Bjorn")));
     }
   }
 
@@ -226,9 +232,9 @@ public class MaximizerRegressionTest {
 
     try (cleanups) {
       assertTrue(maximize("mys -tie"));
-      recommendedSlotIs(Slot.HAT, "basic meat fez");
+      assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "basic meat fez")));
       // No back change recommended.
-      assertFalse(getSlot(Slot.CONTAINER).isPresent());
+      assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.CONTAINER))));
       assertEquals(7, modFor(DerivedModifier.BUFFED_MUS), 0.01);
     }
   }
@@ -242,7 +248,7 @@ public class MaximizerRegressionTest {
 
     try (cleanups) {
       assertTrue(maximize("meat"));
-      recommendedSlotIsUnchanged(Slot.WEAPON);
+      assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.WEAPON))));
     }
   }
 }

@@ -9552,7 +9552,7 @@ public class FightRequest extends GenericRequest {
 
       case SkillPool.HOLD_HANDS:
         if (responseText.contains("stop the battle for a moment and hold hands with you")) {
-          Preferences.setString("holdHandsMonster", monsterName);
+          TrackManager.trackMonster(monster, Tracker.HOLD_HANDS);
           skillSuccess = true;
         }
         break;

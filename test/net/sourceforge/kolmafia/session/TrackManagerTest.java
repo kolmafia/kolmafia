@@ -584,6 +584,19 @@ class TrackManagerTest {
       }
 
       @Test
+      void holdHandsMonster() {
+        var cleanups =
+            new Cleanups(withProperty("banishedMonsters"), withProperty("holdHandsMonster"));
+
+        try (cleanups) {
+          TrackManager.trackMonster(SPOOKY_MUMMY, Tracker.HOLD_HANDS);
+
+          assertTrue(isTracked("spooky mummy"));
+          assertThat("holdHandsMonster", isSetTo("spooky mummy"));
+        }
+      }
+
+      @Test
       void redSnapperPhylum() {
         var cleanups =
             new Cleanups(

@@ -84,7 +84,7 @@ public class TrackManager {
     PERCEIVE_SOUL("Perceive Soul", 2, false, 30, Reset.AVATAR_TURN_RESET),
     MOTIF("Motif", 2, true, -1, Reset.AVATAR_RESET),
     MONKEY_POINT("Monkey Point", 2, false, -1, Reset.ASCENSION_RESET),
-    // HOLD_HANDS, but we have no idea for the copies
+    HOLD_HANDS("Hold Hands", 1, false, -1, Reset.ROLLOVER_RESET),
     PRANK_CARD("prank Crimbo card", 3, true, 100, Reset.TURN_ROLLOVER_RESET),
     TRICK_COIN("trick coin", 3, true, 100, Reset.TURN_ROLLOVER_RESET),
     HUNT("Hunt", 3, true, -1, Reset.AVATAR_RESET), // TODO: check values
@@ -342,6 +342,7 @@ public class TrackManager {
       case LONG_CON -> Preferences.setString("longConMonster", tracked);
       case MOTIF -> Preferences.setString("motifMonster", tracked);
       case MONKEY_POINT -> Preferences.setString("monkeyPointMonster", tracked);
+      case HOLD_HANDS -> Preferences.setString("holdHandsMonster", tracked);
       case PRANK_CARD -> Preferences.setString("_prankCardMonster", tracked);
       case TRICK_COIN -> Preferences.setString("_trickCoinMonster", tracked);
       case RED_SNAPPER -> Preferences.setString("redSnapperPhylum", tracked);
