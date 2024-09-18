@@ -5,6 +5,7 @@ import static net.sourceforge.kolmafia.utilities.StringUtilities.extractIidFromU
 
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -4912,13 +4913,30 @@ public abstract class ChoiceControl {
         break;
       case 1517:
         // Mimic DNA Bank
-        if (ChoiceManager.lastDecision == 1 && text.contains("You donate your egg to science.")) {
-          ResultProcessor.processItem(ItemPool.MIMIC_EGG, -1);
-          Preferences.increment("_mimicEggsDonated", 1, 3, false);
-        }
-        if (ChoiceManager.lastDecision == 2 && text.contains("pops into a backroom")) {
-          Preferences.increment("_mimicEggsObtained", 1, 11, false);
-          KoLCharacter.getFamiliar().addNonCombatExperience(-100);
+        switch (ChoiceManager.lastDecision) {
+          case 1:
+            {
+              if (text.contains("You donate your egg to science.")) {
+                ResultProcessor.processItem(ItemPool.MIMIC_EGG, -1);
+                updateMimicMonsters(urlString, -1);
+                Preferences.increment("_mimicEggsDonated", 1, 3, false);
+              }
+              break;
+            }
+          case 2:
+            {
+              if (text.contains("pops into a backroom")) {
+                Preferences.increment("_mimicEggsObtained", 1, 11, false);
+                updateMimicMonsters(urlString, 1);
+                KoLCharacter.getFamiliar().addNonCombatExperience(-100);
+                break;
+              }
+              if (text.contains("can't extract")) {
+                Preferences.setInteger("_mimicEggsObtained", 11);
+                break;
+              }
+              break;
+            }
         }
         break;
     }
@@ -4943,6 +4961,39 @@ public abstract class ChoiceControl {
       }
     }
     return null;
+  }
+
+  private static final Pattern MONSTER_ID_PATTERN = Pattern.compile("mid=(\\d+)");
+
+  public static void updateMimicMonsters(final String urlString, final int increment) {
+    var matcher = MONSTER_ID_PATTERN.matcher(urlString);
+    if (!matcher.find()) return;
+    int mid = Integer.parseInt(matcher.group(1));
+    updateMimicMonsters(mid, increment);
+  }
+
+  public static void updateMimicMonsters(final int monsterId, final int increment) {
+    var mid = String.valueOf(monsterId);
+
+    // Parse the string into a map
+    var map =
+        Arrays.stream(Preferences.getString("mimicEggMonsters").split(","))
+            .map(pair -> pair.split(":"))
+            .filter(pair -> pair.length == 2)
+            .map(pair -> Map.entry(pair[0], Integer.parseInt(pair[1])))
+            .collect(Collectors.toMap(Entry::getKey, Entry::getValue));
+
+    // Update the map
+    map.compute(mid, (k, v) -> (v == null ? 0 : v) + increment);
+
+    // Encode the map back into a string, removing any monsters for whom we have fewer than one eggs
+    var updated =
+        map.entrySet().stream()
+            .filter(e -> e.getValue() > 0)
+            .map(e -> e.getKey() + ":" + e.getValue())
+            .collect(Collectors.joining(","));
+
+    Preferences.setString("mimicEggMonsters", updated);
   }
 
   private static final Pattern BENCH_WARRANT_PATTERN =

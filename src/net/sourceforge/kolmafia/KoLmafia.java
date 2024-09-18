@@ -871,6 +871,8 @@ public abstract class KoLmafia {
     InventoryManager.checkKGB();
     InventoryManager.checkVampireVintnerWine();
     InventoryManager.checkBirdOfTheDay();
+    InventoryManager.checkDartPerks();
+    InventoryManager.checkMimicEgg();
     ResultProcessor.updateEntauntauned();
     ResultProcessor.updateSavageBeast();
     CargoCultistShortsRequest.loadPockets();
@@ -886,9 +888,6 @@ public abstract class KoLmafia {
 
     // Items that conditionally grant skills
     InventoryManager.checkSkillGrantingEquipment();
-
-    // check dart perks on logon
-    InventoryManager.checkDartPerks();
 
     // Check Horsery if we haven't today
     if (Preferences.getBoolean("horseryAvailable")

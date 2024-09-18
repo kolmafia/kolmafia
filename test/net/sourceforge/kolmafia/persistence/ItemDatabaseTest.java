@@ -3,11 +3,13 @@ package net.sourceforge.kolmafia.persistence;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withProperty;
 import static internal.matchers.Preference.hasStringValue;
+import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.emptyString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
+import internal.helpers.Cleanups;
 import java.util.EnumSet;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
@@ -17,6 +19,8 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 public class ItemDatabaseTest {
   @Nested
@@ -133,6 +137,29 @@ public class ItemDatabaseTest {
             hasStringValue(
                 equalTo(
                     "Deal 25-50% more damage,You are less impressed by bullseyes,25% Better bullseye targeting,Extra stats from stats targets,Butt awareness,Add Sleaze Damage")));
+      }
+    }
+  }
+
+  @Nested
+  class MimicEgg {
+    @BeforeEach
+    public void beforeEach() {
+      KoLCharacter.reset("MimicEgg");
+      Preferences.reset("MimicEgg");
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "full,'374:1,378:2'",
+      "empty,''",
+    })
+    void parsesEggOptionsCorrectly(final String file, final String expected) {
+      var cleanups = new Cleanups(withProperty("mimicEggMonsters", ""));
+      try (cleanups) {
+        var response = html("request/test_desc_item_mimic_egg_" + file + ".html");
+        ItemDatabase.parseMimicEgg(response);
+        assertThat("mimicEggMonsters", isSetTo(expected));
       }
     }
   }
