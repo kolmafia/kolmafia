@@ -2612,7 +2612,11 @@ public class FightRequestTest {
 
   @Test
   public void canTrackMimicEggLay() {
-    var cleanups = new Cleanups(withProperty("_mimicEggsObtained", 0), withFight());
+    var cleanups =
+        new Cleanups(
+            withProperty("mimicEggMonsters", ""),
+            withProperty("_mimicEggsObtained", 0),
+            withFight());
 
     try (cleanups) {
       String urlString = "fight.php?action=skill&whichskill=7494";
@@ -2620,6 +2624,7 @@ public class FightRequestTest {
       FightRequest.registerRequest(true, urlString);
       FightRequest.updateCombatData(null, null, html);
       assertThat("_mimicEggsObtained", isSetTo(1));
+      assertThat("mimicEggMonsters", isSetTo("2409:1"));
     }
   }
 

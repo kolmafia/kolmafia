@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -4977,20 +4976,22 @@ public abstract class ChoiceControl {
     var mid = String.valueOf(monsterId);
 
     // Parse the string into a map
-    var map = Arrays.stream(Preferences.getString("mimicEggMonsters").split(","))
-      .map(pair -> pair.split(":"))
-      .filter(pair -> pair.length == 2)
-      .map(pair -> Map.entry(pair[0], Integer.parseInt(pair[1])))
-      .collect(Collectors.toMap(Entry::getKey, Entry::getValue));
+    var map =
+        Arrays.stream(Preferences.getString("mimicEggMonsters").split(","))
+            .map(pair -> pair.split(":"))
+            .filter(pair -> pair.length == 2)
+            .map(pair -> Map.entry(pair[0], Integer.parseInt(pair[1])))
+            .collect(Collectors.toMap(Entry::getKey, Entry::getValue));
 
     // Update the map
     map.compute(mid, (k, v) -> (v == null ? 0 : v) + increment);
 
     // Encode the map back into a string, removing any monsters for whom we have fewer than one eggs
-    var updated = map.entrySet().stream()
-      .filter(e -> e.getValue() > 0)
-      .map(e -> e.getKey() + ":" + e.getValue())
-      .collect(Collectors.joining(","));
+    var updated =
+        map.entrySet().stream()
+            .filter(e -> e.getValue() > 0)
+            .map(e -> e.getKey() + ":" + e.getValue())
+            .collect(Collectors.joining(","));
 
     Preferences.setString("mimicEggMonsters", updated);
   }
