@@ -4911,6 +4911,14 @@ public abstract class ChoiceControl {
           Preferences.increment("_automatedFutureManufactures", 1, 11, false);
         }
         break;
+      case 1516:
+        // Differentiate this egg
+        if (ChoiceManager.lastDecision == 1
+            && !text.contains("That's not something your mimic can become.")) {
+          updateMimicMonsters(urlString, -1);
+          EncounterManager.ignoreSpecialMonsters();
+        }
+        break;
       case 1517:
         // Mimic DNA Bank
         switch (ChoiceManager.lastDecision) {

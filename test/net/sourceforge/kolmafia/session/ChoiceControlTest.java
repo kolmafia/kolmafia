@@ -512,6 +512,28 @@ class ChoiceControlTest {
     }
 
     @Test
+    void handlesFighting() {
+      var cleanups =
+          new Cleanups(
+              withProperty("mimicEggMonsters", "823:1"), withPostChoice1(1516, 1, "mid=823", ""));
+      try (cleanups) {
+        assertThat("mimicEggMonsters", isSetTo(""));
+      }
+    }
+
+    @Test
+    void handlesInvalidFight() {
+      var cleanups =
+          new Cleanups(
+              withProperty("mimicEggMonsters", "823:1"),
+              withPostChoice1(
+                  1516, 1, "mid=1", html("request/test_choice_mimic_egg_invalid.html")));
+      try (cleanups) {
+        assertThat("mimicEggMonsters", isSetTo("823:1"));
+      }
+    }
+
+    @Test
     void handlesExtracting() {
       var cleanups =
           new Cleanups(
