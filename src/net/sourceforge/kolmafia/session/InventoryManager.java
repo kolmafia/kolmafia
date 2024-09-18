@@ -1825,12 +1825,19 @@ public abstract class InventoryManager {
   }
 
   public static void checkDartPerks() {
-    var dartHolster = ItemPool.EVERFULL_DART_HOLSTER;
-    if (!InventoryManager.equippedOrInInventory(ItemPool.get(dartHolster, 1))) {
+    if (!InventoryManager.equippedOrInInventory(ItemPool.get(ItemPool.EVERFULL_DART_HOLSTER, 1))) {
       return;
     }
 
-    checkItemDescription(dartHolster);
+    checkItemDescription(ItemPool.EVERFULL_DART_HOLSTER);
+  }
+
+  public static void checkMimicEgg() {
+    if (!InventoryManager.equippedOrInInventory(ItemPool.get(ItemPool.MIMIC_EGG, 1))) {
+      return;
+    }
+
+    checkItemDescription(ItemPool.MIMIC_EGG);
   }
 
   private static final AdventureResult GOLDEN_MR_ACCESSORY =
