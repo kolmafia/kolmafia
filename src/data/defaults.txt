@@ -1117,6 +1117,7 @@ user	merkinLockkeyMonster
 user	merkinVocabularyMastery	0
 user	middleChamberUnlock	false
 user	milkOfMagnesiumActive	false
+user	mimicEggMonsters
 user	mineLayout1
 user	mineLayout2
 user	mineLayout3

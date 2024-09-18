@@ -417,6 +417,7 @@ public class Preferences {
         "merkinQuestPath",
         "merkinVocabularyMastery",
         "milkOfMagnesiumActive",
+        "mimicEggMonsters",
         "miniAdvClass",
         "moonTuned",
         "motifMonster",
