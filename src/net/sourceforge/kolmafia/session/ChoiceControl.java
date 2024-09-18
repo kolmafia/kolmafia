@@ -4969,22 +4969,28 @@ public abstract class ChoiceControl {
   private static void updateMimicMonsters(final String urlString, final int increment) {
     var matcher = MONSTER_ID_PATTERN.matcher(urlString);
     if (!matcher.find()) return;
-    var mid = matcher.group(1);
+    int mid = Integer.parseInt(matcher.group(1));
+    updateMimicMonsters(mid, increment);
+  }
 
-    var updated =
-        Arrays.stream(Preferences.getString("mimicEggMonsters").split(","))
-            .map(
-                pair -> {
-                  var p = pair.split(":");
-                  var val = Integer.parseInt(p[1]);
-                  if (p[0].equals(mid)) {
-                    val += increment;
-                  }
-                  if (val <= 0) return "";
-                  return p[0] + ":" + val;
-                })
-            .filter(Predicate.not(String::isEmpty))
-            .collect(Collectors.joining(","));
+  public static void updateMimicMonsters(final int monsterId, final int increment) {
+    var mid = String.valueOf(monsterId);
+
+    // Parse the string into a map
+    var map = Arrays.stream(Preferences.getString("mimicEggMonsters").split(","))
+      .map(pair -> pair.split(":"))
+      .filter(pair -> pair.length == 2)
+      .map(pair -> Map.entry(pair[0], Integer.parseInt(pair[1])))
+      .collect(Collectors.toMap(Entry::getKey, Entry::getValue));
+
+    // Update the map
+    map.compute(mid, (k, v) -> (v == null ? 0 : v) + increment);
+
+    // Encode the map back into a string, removing any monsters for whom we have fewer than one eggs
+    var updated = map.entrySet().stream()
+      .filter(e -> e.getValue() > 0)
+      .map(e -> e.getKey() + ":" + e.getValue())
+      .collect(Collectors.joining(","));
 
     Preferences.setString("mimicEggMonsters", updated);
   }
