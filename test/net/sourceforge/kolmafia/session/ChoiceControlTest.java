@@ -478,7 +478,7 @@ class ChoiceControlTest {
   }
 
   @Nested
-  class MimicDnaBank {
+  class ChestMimic {
     @Test
     void updatesEggsObtainedAndDonatedIfPresent() {
       var cleanups =
@@ -502,9 +502,24 @@ class ChoiceControlTest {
       var cleanups =
           new Cleanups(
               withProperty("_mimicEggsDonated", 1),
-              withPostChoice1(1517, 1, html("request/test_choice_mimic_dna_bank_donate.html")));
+              withProperty("mimicEggMonsters", "374:1,378:2"),
+              withPostChoice1(
+                  1517, 1, "mid=374", html("request/test_choice_mimic_dna_bank_donate.html")));
       try (cleanups) {
         assertThat("_mimicEggsDonated", isSetTo(2));
+        assertThat("mimicEggMonsters", isSetTo("378:2"));
+      }
+    }
+
+    @Test
+    void handlesInvalidFight() {
+      var cleanups =
+          new Cleanups(
+              withProperty("mimicEggMonsters", "823:1"),
+              withPostChoice1(
+                  1516, 1, "mid=1", html("request/test_choice_mimic_egg_invalid.html")));
+      try (cleanups) {
+        assertThat("mimicEggMonsters", isSetTo("823:1"));
       }
     }
 
@@ -513,9 +528,46 @@ class ChoiceControlTest {
       var cleanups =
           new Cleanups(
               withProperty("_mimicEggsObtained", 6),
-              withPostChoice1(1517, 2, html("request/test_choice_mimic_dna_bank_extract.html")));
+              withProperty("mimicEggMonsters", "374:1,378:2"),
+              withPostChoice1(
+                  1517, 2, "mid=374", html("request/test_choice_mimic_dna_bank_extract.html")));
       try (cleanups) {
         assertThat("_mimicEggsObtained", isSetTo(7));
+        assertThat("mimicEggMonsters", isSetTo("374:2,378:2"));
+      }
+    }
+
+    @Test
+    void doesNotCountFailedExtracts() {
+      var cleanups =
+          new Cleanups(
+              withProperty("_mimicEggsObtained", 6),
+              withProperty("mimicEggMonsters", "374:1,378:2"),
+              withPostChoice1(
+                  1517,
+                  2,
+                  "mid=374",
+                  html("request/test_choice_mimic_dna_bank_not_enough_samples.html")));
+      try (cleanups) {
+        assertThat("_mimicEggsObtained", isSetTo(6));
+        assertThat("mimicEggMonsters", isSetTo("374:1,378:2"));
+      }
+    }
+
+    @Test
+    void adjustsForTooManyExtracts() {
+      var cleanups =
+          new Cleanups(
+              withProperty("_mimicEggsObtained", 6),
+              withProperty("mimicEggMonsters", "374:1,378:2"),
+              withPostChoice1(
+                  1517,
+                  2,
+                  "mid=374",
+                  html("request/test_choice_mimic_dna_bank_too_many_extracts.html")));
+      try (cleanups) {
+        assertThat("_mimicEggsObtained", isSetTo(11));
+        assertThat("mimicEggMonsters", isSetTo("374:1,378:2"));
       }
     }
   }

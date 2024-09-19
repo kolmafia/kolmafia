@@ -63,6 +63,7 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDrop.DropFlag;
 import net.sourceforge.kolmafia.persistence.MonsterDrop.SimpleMonsterDrop;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.session.ChoiceControl;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.CrystalBallManager;
 import net.sourceforge.kolmafia.session.EncounterManager;
@@ -2932,6 +2933,7 @@ public class GenericRequest implements Runnable {
 
       case 1516:
         name = "mimic egg";
+        ChoiceControl.updateMimicMonsters(location, -1);
         break;
 
       default:

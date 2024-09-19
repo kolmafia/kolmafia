@@ -65,7 +65,7 @@ public class Preference {
     return new TypeSafeMatcher<>() {
       @Override
       public void describeTo(Description description) {
-        description.appendText("to be valid user preference");
+        description.appendText("valid user preference");
       }
 
       @Override

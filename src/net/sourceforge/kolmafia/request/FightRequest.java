@@ -79,6 +79,7 @@ import net.sourceforge.kolmafia.session.BanishManager.Banisher;
 import net.sourceforge.kolmafia.session.BatManager;
 import net.sourceforge.kolmafia.session.BugbearManager;
 import net.sourceforge.kolmafia.session.BugbearManager.Bugbear;
+import net.sourceforge.kolmafia.session.ChoiceControl;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.ConsequenceManager;
 import net.sourceforge.kolmafia.session.CryptManager;
@@ -9552,7 +9553,7 @@ public class FightRequest extends GenericRequest {
 
       case SkillPool.HOLD_HANDS:
         if (responseText.contains("stop the battle for a moment and hold hands with you")) {
-          Preferences.setString("holdHandsMonster", monsterName);
+          TrackManager.trackMonster(monster, Tracker.HOLD_HANDS);
           skillSuccess = true;
         }
         break;
@@ -10584,6 +10585,7 @@ public class FightRequest extends GenericRequest {
       case SkillPool.LAY_AN_EGG:
         if (responseText.contains("shudders and lays an egg") || skillSuccess) {
           skillSuccess = true;
+          ChoiceControl.updateMimicMonsters(monster.getId(), 1);
           KoLCharacter.getFamiliar().addNonCombatExperience(-50);
         }
         break;
