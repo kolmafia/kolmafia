@@ -94,13 +94,6 @@ public class ItemFinder {
     }
 
     ItemFinder.prioritizeRestores(nameList, filterType);
-
-    // If exact match, return.
-    String potentialCanonicalName = StringUtilities.getEntityEncode(searchString).toLowerCase();
-    if (nameList.contains(potentialCanonicalName)) {
-      return SingleResult.match(potentialCanonicalName);
-    }
-
     ItemFinder.removeInappropriateMatchTypes(nameList, filterType);
 
     // If one left, return.

@@ -312,42 +312,17 @@ public class ItemFinderTest {
 
   @ParameterizedTest
   @CsvSource({
-    "vesper, FOOD, " + ItemPool.VESPER,
-    "Hell ramen, BOOZE, " + ItemPool.HELL_RAMEN,
-    "seal tooth, SPLEEN, " + ItemPool.SEAL_TOOTH,
-    "stolen accordion, USE, " + ItemPool.STOLEN_ACCORDION,
-    "1 meat, CREATE, " + ItemPool.ONE_MEAT,
-    "seal tooth, UNTINKER, " + ItemPool.SEAL_TOOTH,
-    "Hell ramen, EQUIP, " + ItemPool.HELL_RAMEN,
-    "alien drugs, CANDY, " + ItemPool.ALIEN_DRUGS,
-    "spooky sapling, ABSORB, " + ItemPool.SPOOKY_SAPLING,
-    "bottle of gin, ROBO, " + ItemPool.BOTTLE_OF_GIN,
-    "strawberry, ASDON, " + ItemPool.STRAWBERRY
-  })
-  void itShouldFindExactMatchesThatDontMatchTheirType(
-      final String itemName, final Match matchType, final int itemId) {
-    try (var cleanups = new Cleanups(withContinuationState(), withProperty("_roboDrinks", ""))) {
-      var item = ItemFinder.getFirstMatchingItem(itemName, true, null, matchType);
-      assertThat(StaticEntity.getContinuationState(), is(MafiaState.CONTINUE));
-      assertThat(item, notNullValue());
-      assertThat(item.getItemId(), is(itemId));
-      assertThat(item.getCount(), is(1));
-    }
-  }
-
-  @ParameterizedTest
-  @CsvSource({
-    "vespe, FOOD, [vespe] cannot be eaten.",
-    "Hell rame, BOOZE, [Hell rame] cannot be drunk.",
-    "seal toot, SPLEEN, [seal toot] cannot be chewed.",
-    "asparagus knif, USE, [asparagus knif] cannot be used.",
-    "1 mea, CREATE, [1 mea] cannot be created.",
-    "seal toot, UNTINKER, [seal toot] cannot be untinkered.",
-    "Hell rame, EQUIP, [Hell rame] cannot be equipped.",
-    "alien drug, CANDY, [alien drug] is not candy.",
-    "spooky saplin, ABSORB, [spooky saplin] cannot be absorbed.",
-    "pink pon, ROBO, [pink pon] cannot be fed.",
-    "Fog Murdere, ASDON, [Fog Murdere] cannot be used as fuel."
+    "vesper, FOOD, [vesper] cannot be eaten.",
+    "Hell ramen, BOOZE, [Hell ramen] cannot be drunk.",
+    "seal tooth, SPLEEN, [seal tooth] cannot be chewed.",
+    "stolen accordion, USE, [stolen accordion] cannot be used.",
+    "1 meat, CREATE, [1 meat] cannot be created.",
+    "seal tooth, UNTINKER, [seal tooth] cannot be untinkered.",
+    "Hell ramen, EQUIP, [Hell ramen] cannot be equipped.",
+    "alien drugs, CANDY, [alien drugs] is not candy.",
+    "spooky sapling, ABSORB, [spooky sapling] cannot be absorbed.",
+    "pink pony, ROBO, [pink pony] cannot be fed.",
+    "lemon, ASDON, [lemon] cannot be used as fuel."
   })
   void itShouldNotFindItemsThatDontMatchTheirType(
       final String itemName, final Match matchType, final String message) {
