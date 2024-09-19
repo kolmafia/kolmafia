@@ -4216,7 +4216,10 @@ public class FightRequest extends GenericRequest {
 
       // Track monsters defeated on the current PirateRealm island
       if (adventure == AdventurePool.PIRATEREALM_ISLAND) {
-        Preferences.increment("_pirateRealmIslandMonstersDefeated");
+        var defeated = Preferences.increment("_pirateRealmIslandMonstersDefeated");
+        if (defeated == (QuestManager.getPirateRealmIslandNumber() < 2 ? 4 : 9)) {
+          QuestManager.setPirateRealmIslandQuestProgress(3);
+        }
       }
 
       if (IslandManager.isBattlefieldMonster(monsterName)) {

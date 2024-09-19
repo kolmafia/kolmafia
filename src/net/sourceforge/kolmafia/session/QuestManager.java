@@ -795,13 +795,39 @@ public class QuestManager {
     Preferences.setString("_frMonstersKilled", kills.toString());
   }
 
+  /**
+   * Determine PirateRealm island number from current quest step
+   *
+   * @return PirateRealm island number (zero-indexed)
+   */
+  public static int getPirateRealmIslandNumber() {
+    if (QuestDatabase.isQuestBefore(Quest.PIRATEREALM, "step7")) return 0;
+    if (QuestDatabase.isQuestBefore(Quest.PIRATEREALM, "step12")) return 1;
+    return 2;
+  }
+
+  public static void setPirateRealmIslandQuestProgress(final int progress) {
+    var island = getPirateRealmIslandNumber();
+    setPirateRealmIslandQuestProgress(island, progress);
+  }
+
+  public static void setPirateRealmIslandQuestProgress(final int island, final int progress) {
+    QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, (island * 5) + 2 + progress);
+  }
+
   private static void handlePirateRealmChange(final String location, final String responseText) {
     if (!Preferences.getBoolean("prAlways")) {
       Preferences.setBoolean("_prToday", true);
     }
 
+    if (responseText.contains("You grab an eyepatch")) {
+      QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, QuestDatabase.STARTED);
+    }
+
     // Cleared the last island
     if (responseText.contains("an envelope with your name on it")) {
+      QuestDatabase.setQuest(Quest.PIRATEREALM, QuestDatabase.FINISHED);
+
       if (responseText.contains("piratical blunderbuss")) {
         Preferences.setBoolean("pirateRealmUnlockedBlunderbuss", true);
       }

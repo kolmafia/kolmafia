@@ -424,6 +424,29 @@ public abstract class ChoiceControl {
         BastilleBattalionManager.preChoice(urlString, request);
         break;
 
+      case 1350:
+        QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, 1);
+        break;
+
+      case 1352: //  Island #1, Who Are You?
+      case 1353: //  What's Behind Island #2?
+      case 1354: //  Third Island's the Charm
+        {
+          // Advance quest progress
+          QuestManager.setPirateRealmIslandQuestProgress(choice - 1352, 0);
+          // Reset per-island flags
+          Preferences.setInteger("_pirateRealmIslandMonstersDefeated", 0);
+          Preferences.setInteger("_pirateRealmSailingTurns", 0);
+          Preferences.setBoolean("_pirateRealmWindicleUsed", false);
+          break;
+        }
+
+      case 1355:
+        {
+          // Step 3 -> 4, 8 -> 9 or 13 -> 14
+          QuestManager.setPirateRealmIslandQuestProgress(2);
+        }
+
       case 1356: // Smooth Sailing
       case 1357: // High Tide, Low Morale
       case 1360: // Like Shops in the Night
@@ -441,7 +464,10 @@ public abstract class ChoiceControl {
                 ? (ChoiceManager.lastDecision == 6)
                 : (ChoiceManager.lastDecision != 0);
         if (takesTurn) {
-          Preferences.increment("_pirateRealmSailingTurns", 1);
+          var turns = Preferences.increment("_pirateRealmSailingTurns", 1);
+          if (turns >= Preferences.getInteger("_pirateRealmShipSpeed")) {
+            QuestManager.setPirateRealmIslandQuestProgress(1);
+          }
         }
         break;
 
@@ -4297,7 +4323,13 @@ public abstract class ChoiceControl {
           if (text.contains("you manage to outsail the storm")) {
             // This is already incremented in postChoice0, but successful sailing increments it one
             // further.
-            Preferences.increment("_pirateRealmSailingTurns", 1);
+            var turns = Preferences.increment("_pirateRealmSailingTurns", 1);
+            // Since the value is already incremented, we could have already reached the island. The
+            // subquest progress
+            // function is smart enough to handle this, however.
+            if (turns >= Preferences.getInteger("_pirateRealmShipSpeed")) {
+              QuestManager.setPirateRealmIslandQuestProgress(1);
+            }
             Preferences.increment("pirateRealmStormsEscaped", 1, 10, false);
           }
         }
@@ -9783,14 +9815,12 @@ public abstract class ChoiceControl {
         case 1353: //  What's Behind Island #2?
         case 1354: //  Third Island's the Charm
           {
+            // Get the island name here so that we can set the location name accordingly.
+            // Other choicey things should happen in postChoiceX
             String desc = ChoiceManager.choiceDescription(choice, decision);
             RequestLogger.updateSessionLog("Took choice " + choice + "/" + decision + ": " + desc);
             if (desc != null && !desc.equals("Decide Later")) {
               Preferences.setString("_lastPirateRealmIsland", desc);
-              // Reset per-island flags
-              Preferences.setInteger("_pirateRealmIslandMonstersDefeated", 0);
-              Preferences.setInteger("_pirateRealmSailingTurns", 0);
-              Preferences.setBoolean("_pirateRealmWindicleUsed", false);
             }
             return true;
           }
