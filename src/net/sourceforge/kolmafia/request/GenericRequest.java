@@ -2934,6 +2934,7 @@ public class GenericRequest implements Runnable {
       case 1516:
         name = "mimic egg";
         ChoiceControl.updateMimicMonsters(location, -1);
+        ResultProcessor.processResult(ItemPool.get(ItemPool.MIMIC_EGG, -1));
         break;
 
       default:
