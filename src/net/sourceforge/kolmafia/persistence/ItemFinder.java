@@ -84,7 +84,8 @@ public class ItemFinder {
    * @param nameList List of potential matches
    * @param searchString Query used to search for matches
    * @param filterType Type of item being sought
-   * @return null if no valid matches, "" if too many matches, an item name otherwise.
+   * @return NO_MATCH if no valid matches, MULTIPLE_MATCHES if too many matches, SINGLE_MATCH with
+   *     an item name otherwise.
    */
   public static SingleResult getFirstMatchingItemName(
       List<String> nameList, String searchString, Match filterType) {
