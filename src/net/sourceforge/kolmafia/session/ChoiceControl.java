@@ -4355,15 +4355,33 @@ public abstract class ChoiceControl {
         }
         break;
 
+      case 1369, // The Battle (Island) Is Won
+          1370, // Skull's Well That Ends Skull
+          1371, // The Key Takeaway
+          1385: // Just Desserts
+        {
+          QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, 6);
+          break;
+        }
+
       case 1372: // You Can See Clearly Now
         {
           Preferences.setBoolean("pirateRealmUnlockedRhum", true);
+          QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, 6);
           break;
         }
 
       case 1375: // A Close Shave
         {
           Preferences.setBoolean("pirateRealmUnlockedShavingCream", true);
+          QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, 11);
+          break;
+        }
+
+      case 1376, // Your Empire of Dirt
+          1377: // A Dreaded Sunny Day
+        {
+          QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, 11);
           break;
         }
 
@@ -4386,6 +4404,7 @@ public abstract class ChoiceControl {
       case 1383: // Parole
         {
           Preferences.setBoolean("pirateRealmUnlockedThirdCrewmate", true);
+          QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, 11);
           break;
         }
 

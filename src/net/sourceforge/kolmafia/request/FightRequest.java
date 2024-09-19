@@ -4254,8 +4254,14 @@ public class FightRequest extends GenericRequest {
           Preferences.setBoolean("pirateRealmUnlockedFlag", true);
           QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, 16);
         }
-        case "giant giant crab" -> Preferences.setBoolean("pirateRealmUnlockedCrabsicle", true);
-        case "jungle titan" -> Preferences.setBoolean("pirateRealmUnlockedBreastplate", true);
+        case "giant giant crab" -> {
+          Preferences.setBoolean("pirateRealmUnlockedCrabsicle", true);
+          QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, 6);
+        }
+        case "jungle titan" -> {
+          Preferences.setBoolean("pirateRealmUnlockedBreastplate", true);
+          QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, 11);
+        }
         case "plastic pirate" -> Preferences.increment(
             "pirateRealmPlasticPiratesDefeated", 1, 50, false);
         case "pirate radio" -> {
