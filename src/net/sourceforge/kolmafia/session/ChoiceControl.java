@@ -425,6 +425,7 @@ public abstract class ChoiceControl {
         break;
 
       case 1350:
+        // Time to Set Sail!
         QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, 1);
         break;
 
@@ -442,6 +443,7 @@ public abstract class ChoiceControl {
         }
 
       case 1355:
+        //  Land Ho!
         {
           // Step 3 -> 4, 8 -> 9 or 13 -> 14
           QuestManager.setPirateRealmIslandQuestProgress(2);
