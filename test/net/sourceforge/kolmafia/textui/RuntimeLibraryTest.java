@@ -1315,6 +1315,11 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       "item_fact, goblin conspirator, Knob mushroom",
       "effect_fact, trophyfish, Fishy",
       "numeric_fact, trophyfish, 10",
+      "fact_type, none,",
+      "string_fact, none,",
+      "item_fact, none, none",
+      "effect_fact, none, none",
+      "numeric_fact, none, 0",
     })
     void functionsHaveVersionsThatUseCurrentClassPath(
         final String fn, final String monsterName, final String expected) {
@@ -1323,7 +1328,8 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       try (cleanups) {
         var code = fn + "($monster[" + monsterName + "])";
         String actual = execute(code);
-        assertThat(actual, startsWith("Returned: " + expected + "\n"));
+        var startsWith = expected == null ? "\n" : " " + expected + "\n";
+        assertThat(actual, startsWith("Returned:" + startsWith));
       }
     }
   }
