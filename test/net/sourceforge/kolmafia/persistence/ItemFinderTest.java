@@ -16,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import internal.helpers.Cleanups;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -31,7 +32,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.MethodSource;
 
 public class ItemFinderTest {
 
@@ -309,17 +312,42 @@ public class ItemFinderTest {
 
   @ParameterizedTest
   @CsvSource({
-    "vesper, FOOD, [vesper] cannot be eaten.",
-    "Hell ramen, BOOZE, [Hell ramen] cannot be drunk.",
-    "seal tooth, SPLEEN, [seal tooth] cannot be chewed.",
-    "stolen accordion, USE, [stolen accordion] cannot be used.",
-    "1 meat, CREATE, [1 meat] cannot be created.",
-    "seal tooth, UNTINKER, [seal tooth] cannot be untinkered.",
-    "Hell ramen, EQUIP, [Hell ramen] cannot be equipped.",
-    "alien drugs, CANDY, [alien drugs] is not candy.",
-    "spooky sapling, ABSORB, [spooky sapling] cannot be absorbed.",
-    "pink pony, ROBO, [pink pony] cannot be fed.",
-    "lemon, ASDON, [lemon] cannot be used as fuel."
+    "vesper, FOOD, " + ItemPool.VESPER,
+    "Hell ramen, BOOZE, " + ItemPool.HELL_RAMEN,
+    "seal tooth, SPLEEN, " + ItemPool.SEAL_TOOTH,
+    "stolen accordion, USE, " + ItemPool.STOLEN_ACCORDION,
+    "1 meat, CREATE, " + ItemPool.ONE_MEAT,
+    "seal tooth, UNTINKER, " + ItemPool.SEAL_TOOTH,
+    "Hell ramen, EQUIP, " + ItemPool.HELL_RAMEN,
+    "alien drugs, CANDY, " + ItemPool.ALIEN_DRUGS,
+    "spooky sapling, ABSORB, " + ItemPool.SPOOKY_SAPLING,
+    "bottle of gin, ROBO, " + ItemPool.BOTTLE_OF_GIN,
+    "strawberry, ASDON, " + ItemPool.STRAWBERRY
+  })
+  void itShouldFindExactMatchesThatDontMatchTheirType(
+      final String itemName, final Match matchType, final int itemId) {
+    try (var cleanups = new Cleanups(withContinuationState(), withProperty("_roboDrinks", ""))) {
+      var item = ItemFinder.getFirstMatchingItem(itemName, true, null, matchType);
+      assertThat(StaticEntity.getContinuationState(), is(MafiaState.CONTINUE));
+      assertThat(item, notNullValue());
+      assertThat(item.getItemId(), is(itemId));
+      assertThat(item.getCount(), is(1));
+    }
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    "vespe, FOOD, [vespe] cannot be eaten.",
+    "Hell rame, BOOZE, [Hell rame] cannot be drunk.",
+    "seal toot, SPLEEN, [seal toot] cannot be chewed.",
+    "asparagus knif, USE, [asparagus knif] cannot be used.",
+    "1 mea, CREATE, [1 mea] cannot be created.",
+    "seal toot, UNTINKER, [seal toot] cannot be untinkered.",
+    "Hell rame, EQUIP, [Hell rame] cannot be equipped.",
+    "alien drug, CANDY, [alien drug] is not candy.",
+    "spooky saplin, ABSORB, [spooky saplin] cannot be absorbed.",
+    "pink pon, ROBO, [pink pon] cannot be fed.",
+    "Fog Murdere, ASDON, [Fog Murdere] cannot be used as fuel."
   })
   void itShouldNotFindItemsThatDontMatchTheirType(
       final String itemName, final Match matchType, final String message) {
@@ -702,8 +730,7 @@ public class ItemFinderTest {
   })
   public void parseStringAndFindItemAndQuantity(
       String toBeParsed, int expectedItemId, int expectedQuantity) {
-    AdventureResult item;
-    item = ItemFinder.getFirstMatchingItem(toBeParsed, false, null, Match.ANY);
+    AdventureResult item = ItemFinder.getFirstMatchingItem(toBeParsed, false, null, Match.ANY);
     assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
     assertNotNull(item);
     assertEquals(expectedItemId, item.getItemId());
@@ -712,16 +739,94 @@ public class ItemFinderTest {
 
   @ParameterizedTest
   @CsvSource({
-    "free-range mush," + ItemPool.COLOSSAL_FREE_RANGE_MUSHROOM,
-    "Kramco Sausage," + ItemPool.REPLICA_SAUSAGE_O_MATIC
+    "jofpj," + ItemPool.FERMENTED_PICKLE_JUICE,
   })
-  public void itShouldAvoidUntradeableItemsNotInNPCStore(String toBeParsed, int expectedItemId) {
-    AdventureResult item;
-    item = ItemFinder.getFirstMatchingItem(toBeParsed, false, null, Match.ANY);
+  public void itShouldReturnUniqueInitialisms(String toBeParsed, int expectedItemId) {
+    AdventureResult item = ItemFinder.getFirstMatchingItem(toBeParsed, false, null, Match.ANY);
     assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
     assertNotNull(item);
     assertEquals(expectedItemId, item.getItemId());
     assertEquals(1, item.getCount());
+  }
+
+  static Stream<Arguments> availableItemsProvider() {
+    return Stream.of(
+        // Can also return jar of psychoses (Jick)
+        Arguments.arguments("jar of p j", ItemPool.FERMENTED_PICKLE_JUICE, Match.BOOZE),
+        // Can also return replica 4th saber
+        Arguments.arguments("saber", ItemPool.FOURTH_SABER, Match.EQUIP));
+  }
+
+  @ParameterizedTest
+  @MethodSource("availableItemsProvider")
+  public void itShouldPreferAvailableItems(String toBeParsed, int expectedItemId, Match matchType) {
+    try (var cleanups = withItem(expectedItemId)) {
+      AdventureResult item = ItemFinder.getFirstMatchingItem(toBeParsed, false, null, matchType);
+      assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
+      assertNotNull(item);
+      assertEquals(expectedItemId, item.getItemId());
+      assertEquals(1, item.getCount());
+    }
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    "free-range mush," + ItemPool.COLOSSAL_FREE_RANGE_MUSHROOM,
+    "Kramco Sausage," + ItemPool.REPLICA_SAUSAGE_O_MATIC
+  })
+  public void itShouldAvoidInaccessibleItems(String toBeParsed, int expectedItemId) {
+    AdventureResult item = ItemFinder.getFirstMatchingItem(toBeParsed, false, null, Match.ANY);
+    assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
+    assertNotNull(item);
+    assertEquals(expectedItemId, item.getItemId());
+    assertEquals(1, item.getCount());
+  }
+
+  static Stream<Arguments> superstringsProvider() {
+    return Stream.of(
+        // Can also return Boris's key lime pie
+        Arguments.arguments("ris's key", ItemPool.BORIS_KEY, new int[] {}),
+        // Can also return replica 4th saber
+        Arguments.arguments(
+            "saber",
+            ItemPool.FOURTH_SABER,
+            new int[] {ItemPool.FOURTH_SABER, ItemPool.REPLICA_FOURTH_SABER}));
+  }
+
+  @ParameterizedTest
+  @MethodSource("superstringsProvider")
+  public void itShouldAvoidSuperstrings(
+      String toBeParsed, int expectedItemId, int[] inventoryItemIds) {
+    try (var cleanups = withItems(inventoryItemIds)) {
+      AdventureResult item = ItemFinder.getFirstMatchingItem(toBeParsed, false, null, Match.ANY);
+      assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
+      assertNotNull(item);
+      assertEquals(expectedItemId, item.getItemId());
+      assertEquals(1, item.getCount());
+    }
+  }
+
+  @Test
+  public void itShouldReturnMeatcarWithCreateAndTPBM() {
+    try (var cleanups = withItem("tiny plastic bitchin' meatcar")) {
+      AdventureResult item = ItemFinder.getFirstMatchingItem("bitchin", false, null, Match.CREATE);
+      assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
+      assertNotNull(item);
+      assertEquals(ItemPool.BITCHIN_MEATCAR, item.getItemId());
+      assertEquals(1, item.getCount());
+    }
+  }
+
+  @Test
+  public void itShouldReturnPayPhoneWithUse() {
+    try (var cleanups = withItem(ItemPool.CLOSED_CIRCUIT_PAY_PHONE)) {
+      AdventureResult item =
+          ItemFinder.getFirstMatchingItem("closed-circuit", false, null, Match.USE);
+      assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
+      assertNotNull(item);
+      assertEquals(ItemPool.CLOSED_CIRCUIT_PAY_PHONE, item.getItemId());
+      assertEquals(1, item.getCount());
+    }
   }
 
   @ParameterizedTest
@@ -743,19 +848,17 @@ public class ItemFinderTest {
 
   // Tests written for the sole purpose of 100% coverage
   @Test
-  public void itShouldReturnNullWhenPassedNull() {
-    String item;
-    item = ItemFinder.getFirstMatchingItemName(null, "7-ball");
+  public void itShouldReturnNoMatchWhenPassedNull() {
+    ItemFinder.SingleResult match = ItemFinder.getFirstMatchingItemName(null, "7-ball");
     assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
-    assertNull(item);
+    assertEquals(match.type, ItemFinder.SingleResult.Type.NO_MATCH);
   }
 
   @Test
-  public void itShouldReturnNullWhenPassedEmptyList() {
+  public void itShouldReturnNoMatchWhenPassedEmptyList() {
     List<String> nameList = new ArrayList<>();
-    String item;
-    item = ItemFinder.getFirstMatchingItemName(nameList, "7-ball");
+    ItemFinder.SingleResult match = ItemFinder.getFirstMatchingItemName(nameList, "7-ball");
     assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
-    assertNull(item);
+    assertEquals(match.type, ItemFinder.SingleResult.Type.NO_MATCH);
   }
 }

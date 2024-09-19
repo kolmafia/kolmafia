@@ -586,16 +586,18 @@ public class ItemDatabase {
     ItemDatabase.canonicalNames = newArray;
 
     ItemDatabase.uniqueInitialisms.clear();
+    Map<String, Integer> initialismCounts = new HashMap();
     for (var itemName : ItemDatabase.itemIdSetByName.keySet()) {
       var initialism =
           Arrays.stream(itemName.toLowerCase().split("[ -]"))
               .filter(word -> !word.isEmpty())
               .map((word) -> word.substring(0, 1))
               .collect(Collectors.joining(""));
-      if (ItemDatabase.uniqueInitialisms.containsKey(initialism)) {
-        ItemDatabase.uniqueInitialisms.remove(initialism);
-      } else {
+      var count = initialismCounts.compute(initialism, (k, v) -> v == null ? 1 : v + 1);
+      if (count == 1) {
         ItemDatabase.uniqueInitialisms.put(initialism, itemName);
+      } else if (count > 1) {
+        ItemDatabase.uniqueInitialisms.remove(initialism);
       }
     }
   }
