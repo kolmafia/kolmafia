@@ -4369,6 +4369,7 @@ public abstract class ChoiceControl {
         {
           if (text.contains("Island Drinkin' skillbook")) {
             Preferences.setBoolean("pirateRealmUnlockedTikiSkillbook", true);
+            QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, 16);
           }
           break;
         }
@@ -4376,6 +4377,7 @@ public abstract class ChoiceControl {
       case 1380: // Temple's Grand End
         {
           Preferences.setBoolean("pirateRealmUnlockedTattoo", true);
+          QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, 16);
           break;
         }
 
@@ -4388,6 +4390,7 @@ public abstract class ChoiceControl {
       case 1384: // The Calm After the Storm
         {
           Preferences.setBoolean("pirateRealmUnlockedAnemometer", true);
+          QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, 16);
           break;
         }
 

@@ -4246,13 +4246,22 @@ public class FightRequest extends GenericRequest {
         case "Baron von Ratsworth" -> TavernRequest.addTavernLocation('6');
         case "the invader" -> Preferences.setBoolean("spaceInvaderDefeated", true);
         case "Eldritch Tentacle" -> Preferences.increment("eldritchTentaclesFought", 1);
-        case "Glass Jack Hummel" -> Preferences.setBoolean("pirateRealmUnlockedSpyglass", true);
-        case "Red Roger" -> Preferences.setBoolean("pirateRealmUnlockedFlag", true);
+        case "Glass Jack Hummel" -> {
+          Preferences.setBoolean("pirateRealmUnlockedSpyglass", true);
+          QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, 16);
+        }
+        case "Red Roger" -> {
+          Preferences.setBoolean("pirateRealmUnlockedFlag", true);
+          QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, 16);
+        }
         case "giant giant crab" -> Preferences.setBoolean("pirateRealmUnlockedCrabsicle", true);
         case "jungle titan" -> Preferences.setBoolean("pirateRealmUnlockedBreastplate", true);
         case "plastic pirate" -> Preferences.increment(
             "pirateRealmPlasticPiratesDefeated", 1, 50, false);
-        case "pirate radio" -> Preferences.setBoolean("pirateRealmUnlockedRadioRing", true);
+        case "pirate radio" -> {
+          Preferences.setBoolean("pirateRealmUnlockedRadioRing", true);
+          QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, 16);
+        }
       }
 
       if (KoLCharacter.hasEquipped(ItemPool.BONE_ABACUS, Slot.OFFHAND)
