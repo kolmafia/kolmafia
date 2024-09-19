@@ -11016,7 +11016,10 @@ public class FightRequest extends GenericRequest {
         Preferences.setBoolean("_pirateRealmWindicleUsed", true);
 
         if (responseText.contains("Your foe is blown clear of the island") || itemRunawaySuccess) {
-          Preferences.increment("_pirateRealmIslandMonstersDefeated", 3);
+          var defeated = Preferences.increment("_pirateRealmIslandMonstersDefeated", 3);
+          if (defeated >= (QuestManager.getPirateRealmIslandNumber() < 2 ? 4 : 9)) {
+            QuestManager.setPirateRealmIslandQuestProgress(3);
+          }
         }
 
         break;
