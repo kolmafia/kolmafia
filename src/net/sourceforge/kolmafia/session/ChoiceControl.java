@@ -445,6 +445,7 @@ public abstract class ChoiceControl {
         {
           // Step 3 -> 4, 8 -> 9 or 13 -> 14
           QuestManager.setPirateRealmIslandQuestProgress(2);
+          break;
         }
 
       case 1356: // Smooth Sailing
