@@ -2422,6 +2422,7 @@ public class ItemPool {
   public static final int BLACK_MAP = 7500;
   public static final int BLACK_LABEL = 7508;
   public static final int CRUMBLING_WHEEL = 7511;
+  public static final int ALIEN_DRUGS = 7525;
   public static final int ALIEN_SOURCE_CODE = 7533;
   public static final int ALIEN_SOURCE_CODE_USED = 7534;
   public static final int SPACE_BEAST_FUR = 7536;

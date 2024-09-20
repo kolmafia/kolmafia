@@ -1,11 +1,14 @@
 package net.sourceforge.kolmafia.persistence;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -22,6 +25,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CombineMeatRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
+import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ItemFinder {
@@ -42,46 +46,97 @@ public class ItemFinder {
     ASDON,
   }
 
+  public static class SingleResult {
+    public enum Type {
+      NO_MATCH,
+      SINGLE_MATCH,
+      MULTIPLE_MATCHES
+    }
+
+    public final Type type;
+    public final String value;
+
+    private SingleResult(Type type, String value) {
+      this.type = type;
+      this.value = value;
+    }
+
+    public static final SingleResult NO_MATCH = new SingleResult(Type.NO_MATCH, null);
+    public static final SingleResult MULTIPLE_MATCHES =
+        new SingleResult(Type.MULTIPLE_MATCHES, null);
+
+    public static SingleResult match(String value) {
+      return new SingleResult(Type.SINGLE_MATCH, value);
+    }
+  }
+
   public static List<String> getMatchingNames(String searchString) {
     return ItemDatabase.getMatchingNames(searchString);
   }
 
-  public static String getFirstMatchingItemName(List<String> nameList, String searchString) {
+  public static SingleResult getFirstMatchingItemName(List<String> nameList, String searchString) {
     return ItemFinder.getFirstMatchingItemName(nameList, searchString, Match.ANY);
   }
 
-  public static String getFirstMatchingItemName(
+  /**
+   * Get the first matching item name out of a list of potential matches.
+   *
+   * @param nameList List of potential matches
+   * @param searchString Query used to search for matches
+   * @param filterType Type of item being sought
+   * @return NO_MATCH if no valid matches, MULTIPLE_MATCHES if too many matches, SINGLE_MATCH with
+   *     an item name otherwise.
+   */
+  public static SingleResult getFirstMatchingItemName(
       List<String> nameList, String searchString, Match filterType) {
     if (nameList == null || nameList.isEmpty()) {
-      return null;
+      return SingleResult.NO_MATCH;
     }
 
-    // Filter the list
-    ItemFinder.filterNameList(nameList, filterType);
-    if (nameList.isEmpty()) {
-      return null;
-    }
+    ItemFinder.prioritizeRestores(nameList, filterType);
+    ItemFinder.removeInappropriateMatchTypes(nameList, filterType);
 
-    // If there are multiple matches, such that one is a substring of the
-    // others, choose the shorter one, on the grounds that the user would have
-    // included part of the unique section of the longer name if that was the
-    // item they actually intended.  This makes it easier to refer to
-    // non-clockwork in-a-boxes, and DoD potions by flavor.
-    while (nameList.size() >= 2) {
-      String name0 = nameList.get(0);
-      String name1 = nameList.get(1);
-      if (name0.contains(name1)) {
-        nameList.remove(0);
-      } else if (name1.contains(name0)) {
-        nameList.remove(1);
-      } else break;
-    }
-
-    // If a single item remains, that's it!
+    // If one left, return.
     if (nameList.size() == 1) {
-      return ItemDatabase.getCanonicalName(nameList.get(0));
+      return SingleResult.match(nameList.get(0));
     }
 
+    // If query is unique initialism, return.
+    if (!searchString.contains(" ")) {
+      var initialismName = ItemDatabase.getNameByInitialismIfUnique(searchString);
+      if (initialismName != null) return SingleResult.match(initialismName);
+    }
+
+    // If only one available per user settings, return.
+    if (filterType != Match.CREATE && filterType != Match.ANY) {
+      var available =
+          nameList.stream()
+              .filter(
+                  name ->
+                      Arrays.stream(ItemDatabase.getItemIds(name))
+                          .anyMatch(InventoryManager::itemAvailable))
+              .collect(Collectors.toList());
+      if (available.size() == 1) {
+        return SingleResult.match(available.get(0));
+      }
+    }
+
+    ItemFinder.removeInaccessibleItems(nameList, filterType);
+    ItemFinder.removeSuperstringMatches(nameList);
+
+    if (nameList.isEmpty()) {
+      return SingleResult.NO_MATCH;
+    }
+
+    // Remove duplicates (?). If there's one item left, that's it.
+    var singleItem = ItemFinder.getSingleItem(nameList);
+    if (singleItem != null) return SingleResult.match(singleItem);
+
+    // Too many matches.
+    return SingleResult.MULTIPLE_MATCHES;
+  }
+
+  private static String getSingleItem(List<String> nameList) {
     // Remove duplicate names that all refer to the same item?
     Set<Integer> itemIdSet = new HashSet<>();
     int pseudoItems = 0;
@@ -98,47 +153,27 @@ public class ItemFinder {
     if ((pseudoItems + itemIdSet.size()) == 1) {
       return ItemDatabase.getCanonicalName(nameList.get(0));
     }
-
-    String itemName;
-    String rv = null;
-
-    // Candy hearts, snowcones and cupcakes take precedence over
-    // all the other items in the game, IF exactly one such item
-    // matches.
-
-    for (String s : nameList) {
-      itemName = s;
-      if (!itemName.startsWith("pix") && itemName.endsWith("candy heart")) {
-        if (rv != null) return "";
-        rv = ItemDatabase.getCanonicalName(itemName);
-      }
-    }
-
-    for (String s : nameList) {
-      itemName = s;
-      if (!itemName.startsWith("abo")
-          && !itemName.startsWith("yel")
-          && itemName.endsWith("snowcone")) {
-        if (rv != null) return "";
-        rv = ItemDatabase.getCanonicalName(itemName);
-      }
-    }
-
-    for (String s : nameList) {
-      itemName = s;
-      if (itemName.endsWith("cupcake")) {
-        if (rv != null) return "";
-        rv = ItemDatabase.getCanonicalName(itemName);
-      }
-    }
-
-    if (rv != null) return rv;
-
-    // If we get here, there is not a single matching item
-    return "";
+    return null;
   }
 
-  private static void filterNameList(List<String> nameList, Match filterType) {
+  private static void removeSuperstringMatches(List<String> nameList) {
+    // If there are multiple matches, such that one is a substring of the
+    // others, choose the shorter one, on the grounds that the user would have
+    // included part of the unique section of the longer name if that was the
+    // item they actually intended.  This makes it easier to refer to
+    // non-clockwork in-a-boxes, and DoD potions by flavor.
+    // NB: this only removes superstrings at the beginning of the list.
+    nameList.sort(Comparator.comparingInt(String::length));
+    while (nameList.size() >= 2) {
+      String name0 = nameList.get(0);
+      String name1 = nameList.get(1);
+      if (name1.contains(name0)) {
+        nameList.remove(1);
+      } else break;
+    }
+  }
+
+  private static void prioritizeRestores(List<String> nameList, Match filterType) {
     if (filterType != Match.FOOD
         && filterType != Match.BOOZE
         && filterType != Match.SPLEEN
@@ -162,7 +197,9 @@ public class ItemFinder {
         nameList.addAll(restoreList);
       }
     }
+  }
 
+  private static void removeInappropriateMatchTypes(List<String> nameList, Match filterType) {
     // Check for consumption filters when matching against the
     // item name.
 
@@ -172,13 +209,16 @@ public class ItemFinder {
       String itemName = nameIterator.next();
       int itemId = ItemDatabase.getItemId(itemName);
 
-      if (filterType == Match.CREATE || filterType == Match.UNTINKER) {
-        CraftingType mixMethod = ConcoctionDatabase.getMixingMethod(itemId, itemName);
-        boolean condition =
-            (filterType == Match.CREATE)
-                ? (mixMethod == CraftingType.NOCREATE && CombineMeatRequest.getCost(itemId) == 0)
-                : (mixMethod != CraftingType.COMBINE && mixMethod != CraftingType.JEWELRY);
-        ItemFinder.conditionalRemove(nameIterator, condition);
+      CraftingType mixMethod = ConcoctionDatabase.getMixingMethod(itemId, itemName);
+      if (filterType == Match.CREATE
+          && mixMethod == CraftingType.NOCREATE
+          && CombineMeatRequest.getCost(itemId) == 0) {
+        nameIterator.remove();
+        continue;
+      } else if (filterType == Match.UNTINKER
+          && mixMethod != CraftingType.COMBINE
+          && mixMethod != CraftingType.JEWELRY) {
+        nameIterator.remove();
         continue;
       }
 
@@ -250,13 +290,15 @@ public class ItemFinder {
           break;
       }
     }
+  }
 
-    if (nameList.size() == 1 || filterType == Match.CREATE || filterType == Match.UNTINKER) {
+  private static void removeInaccessibleItems(List<String> nameList, Match filterType) {
+    if (nameList.size() == 1 || filterType == Match.CREATE) {
       return;
     }
 
-    // Never match against (non-quest) untradeable items not available
-    // in NPC stores when other items are possible.
+    // Never match against (non-quest) untradeable items not
+    // in NPC stores or otherwise available per user settings when other items are possible.
     // This can be overridden by adding "matchable" as a secondary
     // use; this is needed for untradeables that do need to be
     // explicitly referred to, and have names similar to other items
@@ -264,9 +306,8 @@ public class ItemFinder {
 
     // If this process results in filtering EVERYTHING in our list, that's not helpful.
     // Make a backup of nameList to restore from in such a case.
-    List<String> nameListCopy = new ArrayList<>(nameList);
-
-    nameIterator = nameList.iterator();
+    var nameListCopy = new ArrayList<>(nameList);
+    var nameIterator = nameList.iterator();
 
     while (nameIterator.hasNext()) {
       String itemName = nameIterator.next();
@@ -277,7 +318,9 @@ public class ItemFinder {
           itemId != -1
               && !ItemDatabase.getAttribute(
                   itemId, EnumSet.of(Attribute.TRADEABLE, Attribute.MATCHABLE, Attribute.QUEST))
-              && !NPCStoreDatabase.contains(itemId));
+              && !NPCStoreDatabase.contains(itemId)
+              && !InventoryManager.itemAvailable(itemId)
+              && ConcoctionDatabase.getIngredients(itemId).length == 0);
     }
 
     // restore from last step iff we filtered _everything_
@@ -411,41 +454,44 @@ public class ItemFinder {
       matchList = ItemFinder.getMatchingNames(parameters);
     }
 
-    String itemName = ItemFinder.getFirstMatchingItemName(matchList, parameters, filterType);
+    SingleResult match = ItemFinder.getFirstMatchingItemName(matchList, parameters, filterType);
 
-    if (itemName == null) {
-      if (errorOnFailure) {
-        String error =
-            switch (filterType) {
-              case ANY -> " has no matches.";
-              case FOOD -> " cannot be eaten.";
-              case BOOZE -> " cannot be drunk.";
-              case SPLEEN -> " cannot be chewed.";
-              case USE -> " cannot be used.";
-              case CREATE -> " cannot be created.";
-              case UNTINKER -> " cannot be untinkered.";
-              case EQUIP -> " cannot be equipped.";
-              case CANDY -> " is not candy.";
-              case ABSORB -> " cannot be absorbed.";
-              case ROBO -> " cannot be fed.";
-              case ASDON -> " cannot be used as fuel.";
-            };
+    String itemName = null;
+    switch (match.type) {
+      case NO_MATCH -> {
+        if (errorOnFailure) {
+          String error =
+              switch (filterType) {
+                case ANY -> " has no matches.";
+                case FOOD -> " cannot be eaten.";
+                case BOOZE -> " cannot be drunk.";
+                case SPLEEN -> " cannot be chewed.";
+                case USE -> " cannot be used.";
+                case CREATE -> " cannot be created.";
+                case UNTINKER -> " cannot be untinkered.";
+                case EQUIP -> " cannot be equipped.";
+                case CANDY -> " is not candy.";
+                case ABSORB -> " cannot be absorbed.";
+                case ROBO -> " cannot be fed.";
+                case ASDON -> " cannot be used as fuel.";
+              };
 
-        KoLmafia.updateDisplay(MafiaState.ERROR, "[" + parameters + "]" + error);
+          KoLmafia.updateDisplay(MafiaState.ERROR, "[" + parameters + "]" + error);
+        }
+
+        return null;
       }
+      case MULTIPLE_MATCHES -> {
+        if (errorOnFailure) {
+          RequestLogger.printList(matchList);
+          RequestLogger.printLine();
 
-      return null;
-    }
+          KoLmafia.updateDisplay(MafiaState.ERROR, "[" + parameters + "] has too many matches.");
+        }
 
-    if (itemName.equals("")) {
-      if (errorOnFailure) {
-        RequestLogger.printList(matchList);
-        RequestLogger.printLine();
-
-        KoLmafia.updateDisplay(MafiaState.ERROR, "[" + parameters + "] has too many matches.");
+        return null;
       }
-
-      return null;
+      case SINGLE_MATCH -> itemName = match.value;
     }
 
     AdventureResult firstMatch;
