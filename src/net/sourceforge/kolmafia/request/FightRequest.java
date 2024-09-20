@@ -4216,7 +4216,10 @@ public class FightRequest extends GenericRequest {
 
       // Track monsters defeated on the current PirateRealm island
       if (adventure == AdventurePool.PIRATEREALM_ISLAND) {
-        Preferences.increment("_pirateRealmIslandMonstersDefeated");
+        var defeated = Preferences.increment("_pirateRealmIslandMonstersDefeated");
+        if (defeated == (QuestManager.getPirateRealmIslandNumber() < 2 ? 4 : 9)) {
+          QuestManager.setPirateRealmIslandQuestProgress(3);
+        }
       }
 
       if (IslandManager.isBattlefieldMonster(monsterName)) {
@@ -4243,13 +4246,28 @@ public class FightRequest extends GenericRequest {
         case "Baron von Ratsworth" -> TavernRequest.addTavernLocation('6');
         case "the invader" -> Preferences.setBoolean("spaceInvaderDefeated", true);
         case "Eldritch Tentacle" -> Preferences.increment("eldritchTentaclesFought", 1);
-        case "Glass Jack Hummel" -> Preferences.setBoolean("pirateRealmUnlockedSpyglass", true);
-        case "Red Roger" -> Preferences.setBoolean("pirateRealmUnlockedFlag", true);
-        case "giant giant crab" -> Preferences.setBoolean("pirateRealmUnlockedCrabsicle", true);
-        case "jungle titan" -> Preferences.setBoolean("pirateRealmUnlockedBreastplate", true);
+        case "Glass Jack Hummel" -> {
+          Preferences.setBoolean("pirateRealmUnlockedSpyglass", true);
+          QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, 16);
+        }
+        case "Red Roger" -> {
+          Preferences.setBoolean("pirateRealmUnlockedFlag", true);
+          QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, 16);
+        }
+        case "giant giant crab" -> {
+          Preferences.setBoolean("pirateRealmUnlockedCrabsicle", true);
+          QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, 6);
+        }
+        case "jungle titan" -> {
+          Preferences.setBoolean("pirateRealmUnlockedBreastplate", true);
+          QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, 11);
+        }
         case "plastic pirate" -> Preferences.increment(
             "pirateRealmPlasticPiratesDefeated", 1, 50, false);
-        case "pirate radio" -> Preferences.setBoolean("pirateRealmUnlockedRadioRing", true);
+        case "pirate radio" -> {
+          Preferences.setBoolean("pirateRealmUnlockedRadioRing", true);
+          QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, 16);
+        }
       }
 
       if (KoLCharacter.hasEquipped(ItemPool.BONE_ABACUS, Slot.OFFHAND)
@@ -11004,7 +11022,10 @@ public class FightRequest extends GenericRequest {
         Preferences.setBoolean("_pirateRealmWindicleUsed", true);
 
         if (responseText.contains("Your foe is blown clear of the island") || itemRunawaySuccess) {
-          Preferences.increment("_pirateRealmIslandMonstersDefeated", 3);
+          var defeated = Preferences.increment("_pirateRealmIslandMonstersDefeated", 3);
+          if (defeated >= (QuestManager.getPirateRealmIslandNumber() < 2 ? 4 : 9)) {
+            QuestManager.setPirateRealmIslandQuestProgress(3);
+          }
         }
 
         break;

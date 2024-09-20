@@ -795,13 +795,47 @@ public class QuestManager {
     Preferences.setString("_frMonstersKilled", kills.toString());
   }
 
+  /**
+   * Determine PirateRealm island number from current quest step
+   *
+   * @return PirateRealm island number (zero-indexed)
+   */
+  public static int getPirateRealmIslandNumber() {
+    if (QuestDatabase.isQuestBefore(Quest.PIRATEREALM, "step7")) return 0;
+    if (QuestDatabase.isQuestBefore(Quest.PIRATEREALM, "step12")) return 1;
+    return 2;
+  }
+
+  public static void setPirateRealmIslandQuestProgress(final int progress) {
+    var island = getPirateRealmIslandNumber();
+    setPirateRealmIslandQuestProgress(island, progress);
+  }
+
+  public static void setPirateRealmIslandQuestProgress(final int island, final int progress) {
+    QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, (island * 5) + 2 + progress);
+  }
+
   private static void handlePirateRealmChange(final String location, final String responseText) {
     if (!Preferences.getBoolean("prAlways")) {
       Preferences.setBoolean("_prToday", true);
     }
 
-    // Cleared the last island
-    if (responseText.contains("an envelope with your name on it")) {
+    if (responseText.contains("You grab an eyepatch")) {
+      // Acquired your eyepatch
+      QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, QuestDatabase.STARTED);
+    } else if (responseText.contains("sail1.gif")) {
+      // Assembled your crew
+      QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, 1);
+    } else if (responseText.contains("sail2.gif")) {
+      // Cleared the first island
+      QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, 6);
+    } else if (responseText.contains("sail3.gif")) {
+      // Cleared the second island
+      QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, 11);
+    } else if (responseText.contains("an envelope with your name on it")) {
+      // Cleared the final island
+      QuestDatabase.setQuest(Quest.PIRATEREALM, QuestDatabase.FINISHED);
+
       if (responseText.contains("piratical blunderbuss")) {
         Preferences.setBoolean("pirateRealmUnlockedBlunderbuss", true);
       }

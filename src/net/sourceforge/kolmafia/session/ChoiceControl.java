@@ -441,7 +441,10 @@ public abstract class ChoiceControl {
                 ? (ChoiceManager.lastDecision == 6)
                 : (ChoiceManager.lastDecision != 0);
         if (takesTurn) {
-          Preferences.increment("_pirateRealmSailingTurns", 1);
+          var turns = Preferences.increment("_pirateRealmSailingTurns", 1);
+          if (turns >= Preferences.getInteger("_pirateRealmShipSpeed")) {
+            QuestManager.setPirateRealmIslandQuestProgress(1);
+          }
         }
         break;
 
@@ -4279,6 +4282,27 @@ public abstract class ChoiceControl {
           break;
         }
 
+      case 1352: //  Island #1, Who Are You?
+      case 1353: //  What's Behind Island #2?
+      case 1354: //  Third Island's the Charm
+        {
+          // Advance quest progress
+          QuestManager.setPirateRealmIslandQuestProgress(ChoiceManager.lastChoice - 1352, 0);
+          // Reset per-island flags
+          Preferences.setInteger("_pirateRealmIslandMonstersDefeated", 0);
+          Preferences.setInteger("_pirateRealmSailingTurns", 0);
+          Preferences.setBoolean("_pirateRealmWindicleUsed", false);
+          break;
+        }
+
+      case 1355:
+        //  Land Ho!
+        {
+          // Step 3 -> 4, 8 -> 9 or 13 -> 14
+          QuestManager.setPirateRealmIslandQuestProgress(2);
+          break;
+        }
+
       case 1360: // Like Shops in the Night
         if (ChoiceManager.lastDecision == 5 && text.contains("You gain 500 gold")) {
           // Sell them the cursed compass
@@ -4297,7 +4321,13 @@ public abstract class ChoiceControl {
           if (text.contains("you manage to outsail the storm")) {
             // This is already incremented in postChoice0, but successful sailing increments it one
             // further.
-            Preferences.increment("_pirateRealmSailingTurns", 1);
+            var turns = Preferences.increment("_pirateRealmSailingTurns", 1);
+            // Since the value is already incremented, we could have already reached the island. The
+            // subquest progress
+            // function is smart enough to handle this, however.
+            if (turns >= Preferences.getInteger("_pirateRealmShipSpeed")) {
+              QuestManager.setPirateRealmIslandQuestProgress(1);
+            }
             Preferences.increment("pirateRealmStormsEscaped", 1, 10, false);
           }
         }
@@ -4320,15 +4350,33 @@ public abstract class ChoiceControl {
         }
         break;
 
+      case 1369, // The Battle (Island) Is Won
+          1370, // Skull's Well That Ends Skull
+          1371, // The Key Takeaway
+          1385: // Just Desserts
+        {
+          QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, 6);
+          break;
+        }
+
       case 1372: // You Can See Clearly Now
         {
           Preferences.setBoolean("pirateRealmUnlockedRhum", true);
+          QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, 6);
           break;
         }
 
       case 1375: // A Close Shave
         {
           Preferences.setBoolean("pirateRealmUnlockedShavingCream", true);
+          QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, 11);
+          break;
+        }
+
+      case 1376, // Your Empire of Dirt
+          1377: // A Dreaded Sunny Day
+        {
+          QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, 11);
           break;
         }
 
@@ -4336,6 +4384,7 @@ public abstract class ChoiceControl {
         {
           if (text.contains("Island Drinkin' skillbook")) {
             Preferences.setBoolean("pirateRealmUnlockedTikiSkillbook", true);
+            QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, 16);
           }
           break;
         }
@@ -4343,18 +4392,21 @@ public abstract class ChoiceControl {
       case 1380: // Temple's Grand End
         {
           Preferences.setBoolean("pirateRealmUnlockedTattoo", true);
+          QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, 16);
           break;
         }
 
       case 1383: // Parole
         {
           Preferences.setBoolean("pirateRealmUnlockedThirdCrewmate", true);
+          QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, 11);
           break;
         }
 
       case 1384: // The Calm After the Storm
         {
           Preferences.setBoolean("pirateRealmUnlockedAnemometer", true);
+          QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, 16);
           break;
         }
 
@@ -9783,14 +9835,12 @@ public abstract class ChoiceControl {
         case 1353: //  What's Behind Island #2?
         case 1354: //  Third Island's the Charm
           {
+            // Get the island name here so that we can set the location name accordingly.
+            // Other choicey things should happen in postChoiceX
             String desc = ChoiceManager.choiceDescription(choice, decision);
             RequestLogger.updateSessionLog("Took choice " + choice + "/" + decision + ": " + desc);
             if (desc != null && !desc.equals("Decide Later")) {
               Preferences.setString("_lastPirateRealmIsland", desc);
-              // Reset per-island flags
-              Preferences.setInteger("_pirateRealmIslandMonstersDefeated", 0);
-              Preferences.setInteger("_pirateRealmSailingTurns", 0);
-              Preferences.setBoolean("_pirateRealmWindicleUsed", false);
             }
             return true;
           }

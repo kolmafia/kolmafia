@@ -118,6 +118,7 @@ public class QuestDatabase {
     MAELSTROM("questMaelstromOfLovers"),
     GLACIER("questGlacierOfJerks"),
     RUFUS("questRufus"),
+    PIRATEREALM("_questPirateRealm"),
     ;
 
     private final String pref;
@@ -1073,6 +1074,12 @@ public class QuestDatabase {
     return Preferences.getString(quest.getPref());
   }
 
+  private static String stepToProgress(int step) {
+    if (step < 0) return QuestDatabase.UNSTARTED;
+    if (step == 0) return QuestDatabase.STARTED;
+    return "step" + step;
+  }
+
   public static void setQuest(Quest quest, String progress) {
     Preferences.setString(quest.getPref(), progress);
   }
@@ -1082,6 +1089,10 @@ public class QuestDatabase {
       return;
     }
     QuestDatabase.setQuestIfBetter(quest.getPref(), progress);
+  }
+
+  public static void setQuestIfBetter(Quest quest, int step) {
+    QuestDatabase.setQuestIfBetter(quest, stepToProgress(step));
   }
 
   private static void setQuestIfBetter(String pref, String status) {
