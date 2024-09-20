@@ -821,11 +821,19 @@ public class QuestManager {
     }
 
     if (responseText.contains("You grab an eyepatch")) {
+      // Acquired your eyepatch
       QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, QuestDatabase.STARTED);
-    }
-
-    // Cleared the last island
-    if (responseText.contains("an envelope with your name on it")) {
+    } else if (responseText.contains("sail1.gif")) {
+      // Assembled your crew
+      QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, 1);
+    } else if (responseText.contains("sail2.gif")) {
+      // Cleared the first island
+      QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, 6);
+    } else if (responseText.contains("sail3.gif")) {
+      // Cleared the second island
+      QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, 11);
+    } else if (responseText.contains("an envelope with your name on it")) {
+      // Cleared the final island
       QuestDatabase.setQuest(Quest.PIRATEREALM, QuestDatabase.FINISHED);
 
       if (responseText.contains("piratical blunderbuss")) {

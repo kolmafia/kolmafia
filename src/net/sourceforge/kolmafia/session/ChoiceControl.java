@@ -424,32 +424,6 @@ public abstract class ChoiceControl {
         BastilleBattalionManager.preChoice(urlString, request);
         break;
 
-      case 1350:
-        // Time to Set Sail!
-        QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, 1);
-        break;
-
-      case 1352: //  Island #1, Who Are You?
-      case 1353: //  What's Behind Island #2?
-      case 1354: //  Third Island's the Charm
-        {
-          // Advance quest progress
-          QuestManager.setPirateRealmIslandQuestProgress(choice - 1352, 0);
-          // Reset per-island flags
-          Preferences.setInteger("_pirateRealmIslandMonstersDefeated", 0);
-          Preferences.setInteger("_pirateRealmSailingTurns", 0);
-          Preferences.setBoolean("_pirateRealmWindicleUsed", false);
-          break;
-        }
-
-      case 1355:
-        //  Land Ho!
-        {
-          // Step 3 -> 4, 8 -> 9 or 13 -> 14
-          QuestManager.setPirateRealmIslandQuestProgress(2);
-          break;
-        }
-
       case 1356: // Smooth Sailing
       case 1357: // High Tide, Low Morale
       case 1360: // Like Shops in the Night
@@ -4305,6 +4279,27 @@ public abstract class ChoiceControl {
                 case 5 -> 9;
                 default -> 0;
               });
+          break;
+        }
+
+      case 1352: //  Island #1, Who Are You?
+      case 1353: //  What's Behind Island #2?
+      case 1354: //  Third Island's the Charm
+        {
+          // Advance quest progress
+          QuestManager.setPirateRealmIslandQuestProgress(ChoiceManager.lastChoice - 1352, 0);
+          // Reset per-island flags
+          Preferences.setInteger("_pirateRealmIslandMonstersDefeated", 0);
+          Preferences.setInteger("_pirateRealmSailingTurns", 0);
+          Preferences.setBoolean("_pirateRealmWindicleUsed", false);
+          break;
+        }
+
+      case 1355:
+        //  Land Ho!
+        {
+          // Step 3 -> 4, 8 -> 9 or 13 -> 14
+          QuestManager.setPirateRealmIslandQuestProgress(2);
           break;
         }
 
