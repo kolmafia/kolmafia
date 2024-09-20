@@ -2342,6 +2342,7 @@ user	_questPartyFair	unstarted
 user	_questPartyFairItemsOpened	0
 user	_questPartyFairProgress
 user	_questPartyFairQuest
+user	_questPirateRealm	unstarted
 user	_radlibSummons	0
 user	_raindohCopiesMade	0
 user	_rainStickUsed	false

@@ -17,6 +17,7 @@ import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withPostChoice1;
 import static internal.helpers.Player.withPostChoice2;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withQuestProgress;
 import static internal.helpers.Player.withTurnsPlayed;
 import static internal.matchers.Preference.isSetTo;
 import static internal.matchers.Quest.isStep;
@@ -45,6 +46,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 class ChoiceControlTest {
   @BeforeEach
@@ -1022,19 +1024,38 @@ class ChoiceControlTest {
       }
     }
 
-    @Test
-    void handlesOutsailingStorm() {
+    @ParameterizedTest
+    @CsvSource({"2,3", "3,3", "7,8", "8,8", "12,13", "13,13"})
+    void questReflectsCompletedSail(final int startingStep, final int finishingStep) {
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.PIRATEREALM, startingStep),
+              withProperty("_pirateRealmShipSpeed", 7),
+              withProperty("_pirateRealmSailingTurns", 6),
+              withChoice(1356, 1, ""));
+      try (cleanups) {
+        assertThat("_pirateRealmSailingTurns", isSetTo(7));
+        var test2 = QuestDatabase.getQuest(Quest.PIRATEREALM);
+        assertThat(Quest.PIRATEREALM, isStep(finishingStep));
+      }
+    }
+
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
+    void handlesOutsailingStorm(final boolean overshoot) {
       var responseText = html("request/test_choice_piraterealm_outsailed_storm.html");
 
       var cleanups =
           new Cleanups(
               withProperty("_pirateRealmSailingTurns", 0),
               withProperty("pirateRealmStormsEscaped", 0),
+              withQuestProgress(Quest.PIRATEREALM, overshoot ? 3 : 2),
               withChoice(1362, 2, responseText));
 
       try (cleanups) {
         assertThat("_pirateRealmSailingTurns", isSetTo(2));
         assertThat("pirateRealmStormsEscaped", isSetTo(1));
+        assertThat(Quest.PIRATEREALM, isStep(3));
       }
     }
   }

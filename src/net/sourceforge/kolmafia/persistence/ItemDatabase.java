@@ -64,6 +64,7 @@ public class ItemDatabase {
   private static int maxItemId = 0;
 
   private static String[] canonicalNames = new String[0];
+  private static final Map<String, String> uniqueInitialisms = new HashMap<>();
   private static final Map<Integer, ConsumptionType> useTypeById = new HashMap<>();
   private static final Map<Integer, EnumSet<Attribute>> attributesById = new HashMap<>();
   private static final Map<Integer, Integer> priceById = new HashMap<>();
@@ -231,7 +232,7 @@ public class ItemDatabase {
     ItemDatabase.readItems();
     ItemDatabase.readFoldGroups();
     ItemDatabase.addPseudoItems();
-    ItemDatabase.saveCanonicalNames();
+    ItemDatabase.saveCanonicalNamesAndInitialisms();
   }
 
   private static void addIdToName(String canonicalName, int itemId) {
@@ -310,7 +311,7 @@ public class ItemDatabase {
 
     ItemDatabase.addPseudoItems();
 
-    ItemDatabase.saveCanonicalNames();
+    ItemDatabase.saveCanonicalNamesAndInitialisms();
   }
 
   private static void readItems() {
@@ -578,11 +579,27 @@ public class ItemDatabase {
     }
   }
 
-  private static void saveCanonicalNames() {
+  private static void saveCanonicalNamesAndInitialisms() {
     String[] newArray = new String[ItemDatabase.itemIdSetByName.size()];
     ItemDatabase.itemIdSetByName.keySet().toArray(newArray);
     Arrays.sort(newArray);
     ItemDatabase.canonicalNames = newArray;
+
+    ItemDatabase.uniqueInitialisms.clear();
+    Map<String, Integer> initialismCounts = new HashMap();
+    for (var itemName : ItemDatabase.itemIdSetByName.keySet()) {
+      var initialism =
+          Arrays.stream(itemName.toLowerCase().split("[ -]"))
+              .filter(word -> !word.isEmpty())
+              .map((word) -> word.substring(0, 1))
+              .collect(Collectors.joining(""));
+      var count = initialismCounts.compute(initialism, (k, v) -> v == null ? 1 : v + 1);
+      if (count == 1) {
+        ItemDatabase.uniqueInitialisms.put(initialism, itemName);
+      } else if (count > 1) {
+        ItemDatabase.uniqueInitialisms.remove(initialism);
+      }
+    }
   }
 
   /**
@@ -814,7 +831,7 @@ public class ItemDatabase {
     ItemDatabase.itemIdByDescription.put(descId, id);
 
     ItemDatabase.addIdToName(StringUtilities.getCanonicalName(itemName), id);
-    ItemDatabase.saveCanonicalNames();
+    ItemDatabase.saveCanonicalNamesAndInitialisms();
 
     if (plural != null) {
       ItemDatabase.registerPlural(itemId, plural);
@@ -1010,7 +1027,7 @@ public class ItemDatabase {
       ItemDatabase.pluralAliases.add(canonical);
     }
 
-    ItemDatabase.saveCanonicalNames();
+    ItemDatabase.saveCanonicalNamesAndInitialisms();
   }
 
   /**
@@ -1079,6 +1096,10 @@ public class ItemDatabase {
   }
 
   private static final int[] NO_ITEM_IDS = new int[0];
+
+  public static final int[] getItemIds(final String itemName) {
+    return getItemIds(itemName, 1, false);
+  }
 
   public static final int[] getItemIds(
       final String itemName, final int count, final boolean substringMatch) {
@@ -1381,6 +1402,10 @@ public class ItemDatabase {
     // Unknown item
 
     return null;
+  }
+
+  public static final String getNameByInitialismIfUnique(final String query) {
+    return ItemDatabase.uniqueInitialisms.get(query.toLowerCase());
   }
 
   public static final int getNameLength(final int itemId) {
