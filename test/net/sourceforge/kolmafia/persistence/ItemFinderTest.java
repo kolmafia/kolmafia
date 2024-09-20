@@ -760,20 +760,28 @@ public class ItemFinderTest {
   static Stream<Arguments> superstringsProvider() {
     return Stream.of(
         // Can also return Boris's key lime pie
-        Arguments.arguments("ris's key", ItemPool.BORIS_KEY, new int[] {}),
+        Arguments.arguments("ris's key", ItemPool.BORIS_KEY, Match.ANY, new int[] {}),
         // Can also return replica 4th saber
         Arguments.arguments(
             "saber",
             ItemPool.FOURTH_SABER,
-            new int[] {ItemPool.FOURTH_SABER, ItemPool.REPLICA_FOURTH_SABER}));
+            Match.ANY,
+            new int[] {ItemPool.FOURTH_SABER, ItemPool.REPLICA_FOURTH_SABER}),
+        // Can also return replica Kramco, and the name length ordering is different from Saber.
+        // This one only succeeds on EQUIP because the carton is not a superstring.
+        Arguments.arguments(
+            "kramco",
+            ItemPool.SAUSAGE_O_MATIC,
+            Match.EQUIP,
+            new int[] {ItemPool.SAUSAGE_O_MATIC, ItemPool.REPLICA_SAUSAGE_O_MATIC}));
   }
 
   @ParameterizedTest
   @MethodSource("superstringsProvider")
   public void itShouldAvoidSuperstrings(
-      String toBeParsed, int expectedItemId, int[] inventoryItemIds) {
+      String toBeParsed, int expectedItemId, Match matchType, int[] inventoryItemIds) {
     try (var cleanups = withItems(inventoryItemIds)) {
-      AdventureResult item = ItemFinder.getFirstMatchingItem(toBeParsed, false, null, Match.ANY);
+      AdventureResult item = ItemFinder.getFirstMatchingItem(toBeParsed, false, null, matchType);
       assertEquals(StaticEntity.getContinuationState(), MafiaState.CONTINUE);
       assertNotNull(item);
       assertEquals(expectedItemId, item.getItemId());
