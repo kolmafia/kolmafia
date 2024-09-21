@@ -107,22 +107,14 @@ public class ItemFinder {
       if (initialismName != null) return SingleResult.match(initialismName);
     }
 
-    // If only one available per user settings, return.
-    if (filterType != Match.CREATE && filterType != Match.ANY) {
-      var available =
-          nameList.stream()
-              .filter(
-                  name ->
-                      Arrays.stream(ItemDatabase.getItemIds(name))
-                          .anyMatch(InventoryManager::itemAvailable))
-              .collect(Collectors.toList());
-      if (available.size() == 1) {
-        return SingleResult.match(available.get(0));
-      }
-    }
+    var singleAvailable = ItemFinder.getSingleAvailableItem(nameList, filterType);
+    if (singleAvailable != null) return SingleResult.match(singleAvailable);
 
     ItemFinder.removeInaccessibleItems(nameList, filterType);
     ItemFinder.removeSuperstringMatches(nameList);
+
+    singleAvailable = ItemFinder.getSingleAvailableItem(nameList, filterType);
+    if (singleAvailable != null) return SingleResult.match(singleAvailable);
 
     if (nameList.isEmpty()) {
       return SingleResult.NO_MATCH;
@@ -134,6 +126,23 @@ public class ItemFinder {
 
     // Too many matches.
     return SingleResult.MULTIPLE_MATCHES;
+  }
+
+  private static String getSingleAvailableItem(List<String> nameList, Match filterType) {
+    // If only one available per user settings, return.
+    if (filterType != Match.CREATE && filterType != Match.ANY) {
+      var available =
+          nameList.stream()
+              .filter(
+                  name ->
+                      Arrays.stream(ItemDatabase.getItemIds(name))
+                          .anyMatch(InventoryManager::itemAvailable))
+              .collect(Collectors.toList());
+      if (available.size() == 1) {
+        return available.get(0);
+      }
+    }
+    return null;
   }
 
   private static String getSingleItem(List<String> nameList) {
@@ -162,15 +171,11 @@ public class ItemFinder {
     // included part of the unique section of the longer name if that was the
     // item they actually intended.  This makes it easier to refer to
     // non-clockwork in-a-boxes, and DoD potions by flavor.
-    // NB: this only removes superstrings at the beginning of the list.
+    // NB: this only removes superstrings of the first string.
+    if (nameList.isEmpty()) return;
     nameList.sort(Comparator.comparingInt(String::length));
-    while (nameList.size() >= 2) {
-      String name0 = nameList.get(0);
-      String name1 = nameList.get(1);
-      if (name1.contains(name0)) {
-        nameList.remove(1);
-      } else break;
-    }
+    var name0 = nameList.get(0);
+    nameList.removeIf(s -> !s.equals(name0) && s.contains(name0));
   }
 
   private static void prioritizeRestores(List<String> nameList, Match filterType) {
