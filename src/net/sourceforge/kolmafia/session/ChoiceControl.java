@@ -426,6 +426,8 @@ public abstract class ChoiceControl {
 
       case 1356: // Smooth Sailing
       case 1357: // High Tide, Low Morale
+      case 1358: // The Starboard is Bare
+      case 1359: // Grog for the Grogless
       case 1360: // Like Shops in the Night
       case 1361: // Avast, a Mast!
       case 1362: // Stormy Weather
