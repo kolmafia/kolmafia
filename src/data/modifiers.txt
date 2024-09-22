@@ -339,8 +339,7 @@ Item	loofah lumberjack's hat	Muscle: +10, HP Regen Min: 15, HP Regen Max: 25
 Item	lynyrdskin cap	Initiative: +25, Familiar Effect: "1xPotato, 1xVolley, cap 42"
 Item	MAHI fez	Moxie: +30, Familiar Effect: "0.5xVolley, 0.5xPotato, 0.5xLep, 0.5xFairy"
 Item	maiden wig	Familiar Effect: "2xPotato, cap 8"
-# makeshift turban: Interferes with your vision
-Item	makeshift turban	Spooky Resistance: +2, Familiar Effect: "1.5xBarrr, 1xLep, cap 25"
+Item	makeshift turban	Spooky Resistance: +2, Familiar Effect: "1.5xBarrr, 1xLep, cap 25", Blind
 Item	makeshift yakuza mask	Moxie: -10
 Item	mantis skull	Ranged Damage: +15, Moxie: [5*L]
 Item	marble mariachi hat	Monster Level: +10, Ranged Damage Percent: +30, Thorns: 1
@@ -470,8 +469,7 @@ Item	silent beret	Muscle Percent: -30, Mysticality Percent: -30, Moxie Percent: 
 Item	sinister demon mask	Spooky Damage: +25, HP Regen Min: 10, HP Regen Max: 25, Food Drop: +25, Familiar Effect: "atk, cap 25"
 Item	six-gallon hat	Muscle: +6, Mysticality: +6, Moxie: +6, Experience: +3
 Item	skeletortoise	Mysticality: +2, Familiar Effect: "spooky atk, 2xFairy, cap 7"
-# sleep mask: Can't see nothin'
-Item	sleep mask	Familiar Effect: "atk, 1xBarrr, cap 37"
+Item	sleep mask	Familiar Effect: "atk, 1xBarrr, cap 37", Blind
 Item	slime fedora	Mysticality Percent: +25, Spell Critical Percent: +10, MP Regen Min: 10, MP Regen Max: 15
 Item	slime-covered helmet	Slime Resistance: +2, Stench Resistance: +2, Cold Resistance: +2, Familiar Effect: "1xPotato, 1xFairy"
 Item	smooth velvet hat	Disco Style: +1
@@ -2781,8 +2779,7 @@ Item	albatross necklace	Mysticality Percent: +10, Single Equip
 Item	Aluminum Epsilon of Humility	Muscle: +7, Mysticality: +7, Moxie: +7, Item Drop: +9, Single Equip
 Item	amber aviator shades	Mysticality Percent: +5, Moxie Percent: +5, Sleaze Damage: +30, Single Equip
 Item	amulet of extreme plot significance	Maximum MP: +30
-# Amulet of Perpetual Darkness: Also, it's always dark.
-Item	Amulet of Perpetual Darkness	Monster Level: +15, Spooky Damage: +10, Spooky Spell Damage: +10, Weakens Monster
+Item	Amulet of Perpetual Darkness	Monster Level: +15, Spooky Damage: +10, Spooky Spell Damage: +10, Weakens Monster, Blind
 # Amulet of Yendor: Prevents Level Teleporting
 Item	Amulet of Yendor	Mana Cost: +3, Initiative: -10, Single Equip
 Item	anchovy can key	Food Drop: +100
@@ -3217,7 +3214,7 @@ Item	headhunter necktie	Muscle: +15, Moxie: -3, Single Equip
 Item	heart of the volcano	HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 2, MP Regen Max: 5
 Item	heat-resistant gloves	Hot Resistance: +4, Weapon Damage Percent: -50, Fumble: 2, Single Equip
 Item	heat-resistant necktie	Hot Resistance: +4, Spell Damage: -50, Single Equip
-Item	Helps-You-Sleep	Initiative: +75, Critical Hit Percent: +10, Single Equip
+Item	Helps-You-Sleep	Initiative: +75, Critical Hit Percent: +10, Single Equip, Blind
 # hemp string
 Item	hewn moon-rune spoon	Experience: +3, Familiar Weight: +5, Critical Hit Percent: +10, Spell Damage: +10, Initiative: +25, Rollover Effect: "Spoon Boon", Rollover Effect Duration: 50, Muscle: +5, Mysticality: +5, Moxie: +5, Maximum HP: +25, Maximum MP: +25, Single Equip
 # high-friction boots: Allows you to move normally on extremely windy planets
@@ -7718,7 +7715,7 @@ Effect	Techno Bliss	Item Drop: +10
 Effect	Teleportitis	Adventure Randomly
 Effect	Temporarily Filtered	Stench Resistance: +5
 # Temporary Amnesia: Who am I?
-Effect	Temporary Blindness	Item Drop: -75, Moxie Percent: -25, Initiative: -30
+Effect	Temporary Blindness	Item Drop: -75, Moxie Percent: -25, Initiative: -30, Blind
 Effect	Temporary Lycanthropy	Muscle Percent: [B]
 Effect	Ten out of Ten	Moxie Percent: +200, Initiative: +50
 Effect	Tenacity of the Snapper	Weapon Damage: +8
