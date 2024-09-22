@@ -3610,8 +3610,7 @@ Item	ring of gain strength	Muscle: +10
 # ring of half-assed regeneration: Sporadic HP Regeneration
 Item	ring of half-assed regeneration	Single Equip, HP Regen Min: 0, HP Regen Max: 1.333
 Item	ring of increase damage	Weapon Damage: +10, Spell Damage: +10
-# ring of teleportation: Your position seems uncertain...
-Item	ring of teleportation	Single Equip
+Item	ring of teleportation	Single Equip, Adventure Randomly
 # ring of telling skeletons what to do: Lets you tell skeletons what to do
 Item	ring of telling skeletons what to do	Muscle: +2, Mysticality: +2, Moxie: +2
 Item	Ring of the Sewer Snake	Muscle: +3, Mysticality: +3, Moxie: +3, Stench Damage: +40, Single Equip
@@ -6094,8 +6093,7 @@ Effect	Feeling Excited	Muscle: +25, Mysticality: +25, Moxie: +25
 Effect	Feeling Fancy	Experience (familiar): +10, Muscle: +15, Mysticality Percent: +200
 Effect	Feeling Insignificant	Muscle Limit: 100, Mysticality Limit: 100, Moxie Limit: 100
 Effect	Feeling Lonely	Combat Rate: -5
-# Feeling Lost: Wander Aimlessly While Learning and Collecting Stuff
-Effect	Feeling Lost	Item Drop: +60, Experience: +30
+Effect	Feeling Lost	Item Drop: +60, Experience: +30, Adventure Randomly
 Effect	Feeling Nervous	Thorns: 1
 Effect	Feeling No Pain	Hot Resistance: +3, Cold Resistance: +3, Stench Resistance: +3, Spooky Resistance: +3, Sleaze Resistance: +3, Damage Reduction: 10, Damage Absorption: +100
 Effect	Feeling Peaceful	Hot Resistance: +2, Cold Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2, Sleaze Resistance: +2, Damage Reduction: 10, Damage Absorption: +100
@@ -6231,7 +6229,7 @@ Effect	Full of Vinegar	Weapon Damage: [+1*D]
 Effect	Full of Wist	Experience: [min(L,11)]
 Effect	Full Steam Ahead	Avatar: "Steampunk Giant"
 Effect	Full-Body Tan	Experience (Moxie): [L]
-# Funday!: Adventure Randomly
+Effect	Funday	Adventure Randomly
 Effect	Fungal Flambé	Hot Spell Damage: +100
 Effect	Fungal Fortification	Damage Absorption: +200
 Effect	Funky Coal Patina	Moxie: +20
@@ -7717,7 +7715,7 @@ Effect	Tea-hee	Experience: +5
 Effect	Teacher's Pet	Sleaze Resistance: +2, Damage Absorption: +50, Damage Reduction: 5, Wiki Name: "Teacher's Pet (Effect)"
 Effect	Tearful, Fearful	Item Drop: +30
 Effect	Techno Bliss	Item Drop: +10
-# Teleportitis: Your position seems uncertain...
+Effect	Teleportitis	Adventure Randomly
 Effect	Temporarily Filtered	Stench Resistance: +5
 # Temporary Amnesia: Who am I?
 Effect	Temporary Blindness	Item Drop: -75, Moxie Percent: -25, Initiative: -30

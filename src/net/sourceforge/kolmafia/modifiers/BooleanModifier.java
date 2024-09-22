@@ -39,6 +39,7 @@ public enum BooleanModifier implements Modifier {
       "Four Songs",
       Pattern.compile("Allows you to keep 4 songs in your head instead of 3"),
       Pattern.compile("Four Songs")),
+  ADVENTURE_RANDOMLY("Adventure Randomly", Pattern.compile("Adventure Randomly")),
   ADVENTURE_UNDERWATER(
       "Adventure Underwater",
       Pattern.compile("Lets you [bB]reathe [uU]nderwater"),
