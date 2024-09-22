@@ -57,6 +57,7 @@ public enum BooleanModifier implements Modifier {
       "Lasts Until Rollover",
       Pattern.compile("This item will disappear at the end of the day"),
       Pattern.compile("Lasts Until Rollover")),
+  ALTERS_PAGE_TEXT("Alters Page Text", null),
   ATTACKS_CANT_MISS(
       "Attacks Can't Miss",
       new Pattern[] {Pattern.compile("Regular Attacks Can't Miss"), Pattern.compile("Cannot miss")},

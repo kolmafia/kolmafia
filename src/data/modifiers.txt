@@ -1953,7 +1953,7 @@ Item	Staff of the Well-Tempered Cauldron	Spell Damage Percent: +125, Mysticality
 Item	Staff of the Woodfire	Experience (Mysticality): +10, Spell Damage Percent: +100, MP Regen Min: 5, MP Regen Max: 15
 Item	stained glass shiv	Moxie Percent: +20, Stench Resistance: +3, Stench Damage: +5
 Item	stainless steel shillelagh	Weapon Damage: +20, Critical Hit Percent: +10, Muscle Percent: +15
-Item	staph of homophones	Mysticality: +7, Adventures: +5
+Item	staph of homophones	Mysticality: +7, Adventures: +5, Alters Page Text
 Item	star boomerang	Moxie: +5
 Item	star crossbow	Moxie: +8
 Item	star spatula	Spell Damage: +18
@@ -1991,7 +1991,7 @@ Item	super-sweet boom box	Muscle Percent: +20, Mysticality Percent: +20, Moxie P
 # survival knife: Aids in desert exploration
 Item	survival knife	Muscle: +5, Mysticality: +5, Moxie: +5, Lasts Until Rollover
 # sweet ninja sword
-Item	sword behind inappropriate prepositions	Muscle: +7, Adventures: +5
+Item	sword behind inappropriate prepositions	Muscle: +7, Adventures: +5, Alters Page Text
 Item	Sword of Dark Omens	Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold Damage: +3, Sleaze Damage: +3, Spell Damage Percent: +50, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5
 # Sword of Procedural Generation: Randomized per player
 Item	sword of static	Muscle: +3, Moxie: +2, MP Regen Min: 2, MP Regen Max: 3
@@ -5602,7 +5602,7 @@ Effect	Buzzard Breath	Stench Damage: +30, Spooky Damage: +30
 Effect	Cabernet Hunter	Booze Drop: +100
 Effect	Cafeter&iacute;a Brujer&iacute;a	MP Regen Min: 3, MP Regen Max: 4
 Effect	Cake Caked	Mysticality Percent: +50
-Effect	Can Has Cyborger	Moxie Percent: +10
+Effect	Can Has Cyborger	Moxie Percent: +10, Alters Page Text
 Effect	Can't Be a Chooser	Meat Drop: +30
 Effect	Can't Smell Nothin'	Stench Resistance: +9
 # Canadianity: Makes you feel more Canadian
@@ -5874,6 +5874,7 @@ Effect	Dirge of Dreadfulness	Spooky Damage: +12, Spooky Spell Damage: +12
 Effect	Dirge of Dreadfulness (Remastered)	Spooky Damage: +36, Spooky Spell Damage: +36
 Effect	Dirty Pear	Sleaze Damage: [mod(Sleaze Damage)], Sleaze Spell Damage: [mod(Sleaze Spell Damage)]
 # Dis Abled: Grants access to the Suburb of Dis
+Effect	Dis Abled	Alters Page Text
 Effect	Disabled Olfactory Processing	Stench Resistance: +3
 Effect	Disavowed	Muscle Percent: [-pref(_disavowed)], Mysticality Percent: [-pref(_disavowed)], Moxie Percent: [-pref(_disavowed)], Item Drop: [-pref(_disavowed)], Meat Drop: [-2*pref(_disavowed)], Experience: [-pref(_disavowed)]
 # Disavowed reduces a bunch of stuff based on how many times it has been given that day
@@ -6345,7 +6346,7 @@ Effect	Haemolymphatic	Muscle: +20, Mysticality: +20, Moxie: +20
 Effect	Hag-gard	Avatar: "swamp hag"
 Effect	Hagg-ard	Muscle: +10
 Effect	Hagnk's Gratitude	Hot Spell Damage: +50, Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
-# Haiku State of Mind: large penalty to result parsing
+Effect	Haiku State of Mind	Alters Page Text
 Effect	Hair on Your Chest	Maximum MP Percent: +50
 # Hairless and Airless: Makes you a better diver
 Effect	Hairless and Airless	Initiative Penalty: [20*env(underwater)], Item Drop Penalty: [20*env(underwater)], Meat Drop Penalty: [20*env(underwater)]
@@ -6634,7 +6635,7 @@ Effect	Jukebox Hero	Item Drop: +300
 # Jungle Juiced: Doubles Stat Gains in the Deep Dark Jungle
 Effect	Just Aged Enough	Moxie: +25
 Effect	Just Like Me, They Want to Be	Hot Resistance: +1, Cold Resistance: +1, Stench Resistance: +1, Spooky Resistance: +1, Sleaze Resistance: +1
-# Just the Best Anapests: Da da dee, da da dee
+Effect	Just the Best Anapests	Alters Page Text
 Effect	Just the Brown Ones	Moxie: +15
 Effect	Keep Free Hate in your Heart	Monster Level: +30, Damage Absorption: +10
 Effect	Kernel Panic!	Critical Hit Percent: +5
@@ -6925,7 +6926,7 @@ Effect	Nut-Rition	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent
 Effect	Nutrient-Rich	Experience: +4, Maximum HP Percent: +50, Maximum MP Percent: +25
 Effect	Nuts about Candy	Maximum HP: +50
 Effect	Nyah-ha-ha-haaa	Avatar: "The Jokester"
-# O Hai!: Effect Cat is Not Amused
+Effect	O Hai!	Alters Page Text
 Effect	Object Detection	Item Drop: +5
 Effect	Obscuri Tea	Combat Rate: -5
 Effect	Ocelot Eyes	Item Drop: +10
@@ -7233,7 +7234,7 @@ Effect	Rippin' Ricotta	Initiative: +200, Moxie: +10, Moxie Percent: +100
 Effect	Ripping, Dripping	Weapon Damage Percent: +50
 Effect	Riqueza de Pasta	Experience: +2
 Effect	Robbin' Like a Goblin	Avatar: "Knob Goblin Embezzler"
-# Robocamo: Beep Boop
+Effect	Robocamo	Alters Page Text
 Effect	Robot Friends	Familiar Weight: +20
 Effect	Rolando's Rondo of Resisto	Hot Resistance: +5, Cold Resistance: +5, Stench Resistance: +5, Spooky Resistance: +5, Sleaze Resistance: +5, Supercold Resistance: +5
 Effect	Roly Poly	Initiative: [min(500,T)]
