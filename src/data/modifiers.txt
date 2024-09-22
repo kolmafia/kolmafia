@@ -6226,7 +6226,7 @@ Effect	Full of Vinegar	Weapon Damage: [+1*D]
 Effect	Full of Wist	Experience: [min(L,11)]
 Effect	Full Steam Ahead	Avatar: "Steampunk Giant"
 Effect	Full-Body Tan	Experience (Moxie): [L]
-Effect	Funday	Adventure Randomly
+Effect	Funday!	Adventure Randomly
 Effect	Fungal Flambé	Hot Spell Damage: +100
 Effect	Fungal Fortification	Damage Absorption: +200
 Effect	Funky Coal Patina	Moxie: +20
