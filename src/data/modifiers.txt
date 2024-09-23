@@ -5412,7 +5412,7 @@ Effect	Berry Defensive	Damage Reduction: 10, Damage Absorption: +100
 Effect	Berry Elemental	Cold Resistance: +1, Hot Resistance: +1, Stench Resistance: +1, Spooky Resistance: +1, Sleaze Resistance: +1
 Effect	Berry Experiential	Experience: +6
 Effect	Berry Statistical	Muscle Percent: +66, Mysticality Percent: +100, Moxie Percent: +66
-# Berry Thorny: Damages Attacking Opponents
+Effect	Berry Thorny	Thorns: 1
 Effect	Bestial Sympathy	Familiar Weight: +3
 Effect	Bet Your Autumn Dollar	Meat Drop: +50
 Effect	Beta Carotene Overdose	Item Drop: +50
@@ -7155,6 +7155,7 @@ Effect	Pyromania	Hot Damage: +15
 Effect	Quaaaaaaa	Mysticality Percent: +50, Maximum MP: +50, MP Regen Min: 10, MP Regen Max: 20
 Effect	Quadrilled	Item Drop: +20
 Effect	Quantum of Moxie	Moxie: +30
+Effect	Queso Fustulento	Damage Aura: 1
 Effect	Quiet 'n' Good	Initiative: +30
 Effect	Quiet Desperation	Moxie Percent: +25
 Effect	Quiet Determination	Muscle Percent: +25
@@ -7377,7 +7378,7 @@ Effect	Sizzling with Fury	Hot Damage: +25, Initiative: +60
 Effect	Skeletal Buddy	Experience: +2
 # Skeletal Cleric
 Effect	Skeletal Cleric	Damage Aura: 1
-# Skeletal Rogue
+Effect	Skeletal Rogue	Damage Aura: [min(1,effect(Skeletal Warrior))]
 # Skeletal Warrior
 Effect	Skeletal Warrior	Damage Aura: 1
 # Skeletal Wizard
