@@ -361,8 +361,7 @@ Item	Mer-kin headguard	PvP Fights: +2, Monster Level: +10, Weapon Damage Percent
 Item	Mer-kin scholar mask	Stench Resistance: +3, Item Drop: -25, Initiative: -50, Adventure Underwater, Familiar Effect: "cold atk"
 Item	Mer-kin sneakmask	Moxie Percent: +5, Initiative: +30, Combat Rate (Underwater): -5, Familiar Effect: "1xBarrr, 1xFairy"
 Item	mesh cap	Muscle: +15, Moxie: -5, Familiar Effect: "atk, 1xVolley, cap 41"
-# metallic foil cat ears: Not Amused
-Item	metallic foil cat ears	Familiar Effect: "atk, cap 7"
+Item	metallic foil cat ears	Familiar Effect: "atk, cap 7", Alters Page Text
 Item	meteortarboard	MP Regen Min: 4, MP Regen Max: 8, Mysticality Percent: +15, Spell Critical Percent: +10
 Item	miming beret	Damage Reduction: 10, Stench Resistance: +3
 Item	miner's helmet	Item Drop: +5, Familiar Effect: "1xBarrr, 1xFairy, cap 20"
@@ -404,8 +403,7 @@ Item	oxygenated eggnog helmet	Item Drop: -100, Initiative: -100, Adventure Under
 Item	pail	Damage Absorption: +10, Familiar Effect: "2xFairy, cap 7"
 Item	panhandle panhandling hat	Food Drop: +30, Familiar Effect: "1xLep, cap 37"
 Item	paperclip turban	Muscle: +5, Mysticality: +5, Moxie: +5, Maximum HP: +5, Maximum MP: +5, Damage Reduction: 5, Familiar Effect: "atk, cap 12"
-# papier-mitre: Helps you describe things
-Item	papier-mitre	Familiar Weight: +5, PvP Fights: +2, Familiar Effect: "1xVolley, cap 25"
+Item	papier-mitre	Familiar Weight: +5, PvP Fights: +2, Familiar Effect: "1xVolley, cap 25", Alters Page Text
 # paraffin pith helmet: Lets you unleash a prismatic attack
 Item	paraffin pith helmet	Experience (Muscle): +2, Cold Damage: +10
 Item	parasitic headgnawer	Familiar Effect: "atk, cap 7", Thorns: 1
@@ -791,8 +789,7 @@ Item	pants of the Slug Lord	Stench Resistance: +2, Familiar Effect: "stench atk,
 Item	Pantsgiving	Experience: +2, Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Item Drop: +15, Meat Drop: +30, Softcore Only, Bonus Resting HP: [5*F], Bonus Resting MP: [5*F], Familiar Effect: "1xPotato, cap 25", Drops Items, Variable
 Item	paper-plate-mail pants	Familiar Effect: "hot atk, 2xBarrr, cap 20"
 Item	paperclip pants	Adventures: +2, Initiative: +15, Familiar Effect: "atk, 3xBarrr, cap 12"
-# papier-m&acirc;churidars: Improves things
-Item	papier-m&acirc;churidars	Initiative: +25, Never Fumble, Familiar Effect: "1xFairy, cap 25"
+Item	papier-m&acirc;churidars	Initiative: +25, Never Fumble, Familiar Effect: "1xFairy, cap 25", Alters Page Text
 # paraffin palazzos: Lets you unleash a prismatic attack
 Item	paraffin palazzos	Moxie: +10, Stench Damage: +10
 Item	parasitic tentacles	Initiative: [min(2*L,30)], Familiar Effect: "spooky atk, 5xBarrr, cap 7"
@@ -1697,10 +1694,8 @@ Item	oversized pipe	Muscle: +6, Mysticality: +6
 Item	oversized pizza cutter	Spell Damage: +13
 Item	pair of bolt cutters	Weakens Monster
 Item	palm-frond whip	Weapon Damage: +30
-# papier-m&acirc;ch&eacute;te: Makes actions more exciting
-Item	papier-m&acirc;ch&eacute;te	Weapon Damage: +10, Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15
-# papier-m&acirc;chine gun: Makes actions more exciting
-Item	papier-m&acirc;chine gun	Ranged Damage: +10, Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15
+Item	papier-m&acirc;ch&eacute;te	Weapon Damage: +10, Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15, Alters Page Text
+Item	papier-m&acirc;chine gun	Ranged Damage: +10, Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15, Alters Page Text
 # paraffin pseudoaccordion: Lets you unleash a prismatic attack
 Item	paraffin pseudoaccordion	Experience (Moxie): +2, Spooky Damage: +10, Song Duration: 5
 Item	parasitic claw	Weapon Damage: [min(L,15)]
@@ -3216,7 +3211,7 @@ Item	heat-resistant gloves	Hot Resistance: +4, Weapon Damage Percent: -50, Fumbl
 Item	heat-resistant necktie	Hot Resistance: +4, Spell Damage: -50, Single Equip
 Item	Helps-You-Sleep	Initiative: +75, Critical Hit Percent: +10, Single Equip, Blind
 # hemp string
-Item	hewn moon-rune spoon	Experience: +3, Familiar Weight: +5, Critical Hit Percent: +10, Spell Damage: +10, Initiative: +25, Rollover Effect: "Spoon Boon", Rollover Effect Duration: 50, Muscle: +5, Mysticality: +5, Moxie: +5, Maximum HP: +25, Maximum MP: +25, Single Equip
+Item	hewn moon-rune spoon	Experience: +3, Familiar Weight: +5, Critical Hit Percent: +10, Spell Damage: +10, Initiative: +25, Rollover Effect: "Spoon Boon", Rollover Effect Duration: 50, Muscle: +5, Mysticality: +5, Moxie: +5, Maximum HP: +25, Maximum MP: +25, Single Equip, Alters Page Text
 # high-friction boots: Allows you to move normally on extremely windy planets
 Item	high-friction boots	Single Equip, Lasts Until Rollover
 Item	hippy medical kit	Mysticality: +10, HP Regen Min: 6, HP Regen Max: 10, Single Equip
@@ -3439,8 +3434,7 @@ Item	pair of government shades	Maximum HP: +10, Single Equip
 # pair of pearidot earrings: (only in the Candy Diorama)
 Item	pair of pearidot earrings	Item Drop: [100*zone(The Candy Diorama)], Single Equip
 Item	paperclip-on tie	Weapon Damage: +5, Spell Damage: +5, Experience: +1, Single Equip
-# papier-masque: Makes your possessions seem more interesting
-Item	papier-masque	Spell Damage: +10, HP Regen Min: 2, HP Regen Max: 4, MP Regen Min: 2, MP Regen Max: 4, Single Equip
+Item	papier-masque	Spell Damage: +10, HP Regen Min: 2, HP Regen Max: 4, MP Regen Min: 2, MP Regen Max: 4, Single Equip, Alters Page Text
 # paraffin pendant: Lets you unleash a prismatic attack
 Item	paraffin pendant	Experience (Mysticality): +2, Maximum MP: +10, Single Equip
 # paraffin punching bag: Lets you unleash a prismatic attack
@@ -3571,7 +3565,7 @@ Item	replica Cincho de Mayo	Moxie Percent: +25, HP Regen Min: 10, HP Regen Max: 
 Item	replica Elf Guard medal	Elf Warfare Effectiveness: +5, Experience: +2, Maximum HP: +20, Maximum MP: +20
 # replica Elvish sunglasses: Lets you Rock Out
 Item	replica Elvish sunglasses	Moxie: +10, Moxie Percent: +10, Ranged Damage: +15, Pickpocket Chance: +25, Single Equip
-Item	replica hewn moon-rune spoon	Experience: +3, Familiar Weight: +5, Critical Hit Percent: +10, Spell Damage: +10, Initiative: +25, Rollover Effect: "Spoon Boon", Rollover Effect Duration: 50, Muscle: +5, Mysticality: +5, Moxie: +5, Maximum HP: +25, Maximum MP: +25, Single Equip
+Item	replica hewn moon-rune spoon	Experience: +3, Familiar Weight: +5, Critical Hit Percent: +10, Spell Damage: +10, Initiative: +25, Rollover Effect: "Spoon Boon", Rollover Effect Duration: 50, Muscle: +5, Mysticality: +5, Moxie: +5, Maximum HP: +25, Maximum MP: +25, Single Equip, Alters Page Text
 # replica Juju Mojo Mask: Big Mojo
 Item	replica Juju Mojo Mask	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Experience: +2, Single Equip
 # replica Kramco Sausage-o-Matic&trade;: Shows you how the sausage is made
@@ -5870,7 +5864,6 @@ Effect	Dirge of Dreadfulness	Spooky Damage: +12, Spooky Spell Damage: +12
 Effect	Dirge of Dreadfulness (Remastered)	Spooky Damage: +36, Spooky Spell Damage: +36
 Effect	Dirty Pear	Sleaze Damage: [mod(Sleaze Damage)], Sleaze Spell Damage: [mod(Sleaze Spell Damage)]
 # Dis Abled: Grants access to the Suburb of Dis
-Effect	Dis Abled	Alters Page Text
 Effect	Disabled Olfactory Processing	Stench Resistance: +3
 Effect	Disavowed	Muscle Percent: [-pref(_disavowed)], Mysticality Percent: [-pref(_disavowed)], Moxie Percent: [-pref(_disavowed)], Item Drop: [-pref(_disavowed)], Meat Drop: [-2*pref(_disavowed)], Experience: [-pref(_disavowed)]
 # Disavowed reduces a bunch of stuff based on how many times it has been given that day
