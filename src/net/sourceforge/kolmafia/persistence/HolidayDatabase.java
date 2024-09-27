@@ -1007,6 +1007,25 @@ public class HolidayDatabase {
   }
 
   /**
+   * Is it April 1st in Arizona
+   *
+   * @return Returns true if it is currently April 1st in Arizona
+   */
+  public static boolean isAprilFirst() {
+    return isAprilFirst(DateTimeManager.getArizonaDateTime());
+  }
+
+  /**
+   * Is the given date ad time April 1st in Arizona
+   *
+   * @return Returns true if the given date and time is currently April 1st in Arizona
+   */
+  public static boolean isAprilFirst(ZonedDateTime dateTime) {
+    var monthDay = MonthDay.from(dateTime);
+    return monthDay.equals(MonthDay.of(Month.APRIL, 1));
+  }
+
+  /**
    * Is it December in Arizona
    *
    * @return Returns true if it is currently December in Arizona
