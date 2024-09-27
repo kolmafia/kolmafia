@@ -7222,7 +7222,7 @@ Effect	Rippin' Ricotta	Initiative: +200, Moxie: +10, Moxie Percent: +100
 Effect	Ripping, Dripping	Weapon Damage Percent: +50
 Effect	Riqueza de Pasta	Experience: +2
 Effect	Robbin' Like a Goblin	Avatar: "Knob Goblin Embezzler"
-Effect	Robocamo	Alters Page Text
+# Robocamo: Beep Boop
 Effect	Robot Friends	Familiar Weight: +20
 Effect	Rolando's Rondo of Resisto	Hot Resistance: +5, Cold Resistance: +5, Stench Resistance: +5, Spooky Resistance: +5, Sleaze Resistance: +5, Supercold Resistance: +5
 Effect	Roly Poly	Initiative: [min(500,T)]
