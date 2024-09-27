@@ -65,6 +65,26 @@ class HolidayDatabaseTest {
   }
 
   @Nested
+  class AprilFirst {
+    @ParameterizedTest
+    @CsvSource({"1, true", "2, false"})
+    void canDetectTodayIsAprilFirst(final int date, final boolean isAprilFirst) {
+      var cleanups = new Cleanups(withDay(2024, Month.APRIL, date));
+
+      try (cleanups) {
+        assertThat(HolidayDatabase.isAprilFirst(), equalTo(isAprilFirst));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({"1, true", "2, false"})
+    void canDetectADayIsAprilFirst(final int date, final boolean isAprilFirst) {
+      var dateTime = ZonedDateTime.of(2024, Month.APRIL.getValue(), date, 0, 0, 0, 0, ROLLOVER);
+      assertThat(HolidayDatabase.isAprilFirst(dateTime), equalTo(isAprilFirst));
+    }
+  }
+
+  @Nested
   class RealLifeHolidays {
     @ParameterizedTest
     @CsvSource({

@@ -1576,4 +1576,19 @@ public class ModifiersTest {
       KoLCharacter.removeFamiliar(familiar);
     }
   }
+
+  @Nested
+  class AprilFirst {
+    @ParameterizedTest
+    @CsvSource({"1, true", "2, false"})
+    void aprilFirstAltersPageText(final int date, final boolean isAprilFirst) {
+      var cleanups = new Cleanups(withDay(2024, Month.APRIL, date));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments();
+        Modifiers mods = KoLCharacter.getCurrentModifiers();
+        assertThat(mods.getBoolean(BooleanModifier.ALTERS_PAGE_TEXT), equalTo(isAprilFirst));
+      }
+    }
+  }
 }
