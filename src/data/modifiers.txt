@@ -8886,8 +8886,11 @@ Event	April Fool's Day	Alters Page Text
 
 Zone	The Sea	Initiative Penalty: -100, Item Drop Penalty: -100, Meat Drop Penalty: -100
 Zone	Shadow Rift	Item Drop: [-0.8*mod(Item Drop))
+Zone	Suburbs	Alters Page Text
 
 # Location-specific section of modifiers.txt
+
+Loc	The Haiku Dungeon	Alters Page Text
 
 Loc	The Briniest Deepests	Initiative Penalty: +25, Item Drop Penalty: +25, Meat Drop Penalty: +25
 Loc	The Brinier Deepers	Initiative Penalty: +50, Item Drop Penalty: +50, Meat Drop Penalty: +50
