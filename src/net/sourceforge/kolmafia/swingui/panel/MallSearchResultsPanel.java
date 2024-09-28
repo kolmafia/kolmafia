@@ -74,8 +74,8 @@ public class MallSearchResultsPanel extends JPanel {
     public boolean isVisible(final Object element) {
       if (element instanceof MallPurchaseRequest mpr) {
         int shopId = mpr.getShopId();
-        boolean forbidden = mpr.isForbidden(shopId);
-        boolean ignoring = mpr.isIgnoring(shopId);
+        boolean forbidden = MallPurchaseRequest.isForbidden(shopId);
+        boolean ignoring = MallPurchaseRequest.isIgnoring(shopId);
         if (!forbidden && !ignoring) {
           return true;
         }
