@@ -3216,6 +3216,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
           && action.startsWith("attack")
           && !this.areaSummary.willHitSomething()
           && !KoLCharacter.currentBooleanModifier(BooleanModifier.ATTACKS_CANT_MISS)
+          && KoLCharacter.currentBooleanModifier(BooleanModifier.ALWAYS_FUMBLE)
           && !KoLCharacter.getFamiliar().isCombatFamiliar()) {
         KoLmafia.updateDisplay(MafiaState.ERROR, "You can't hit anything there.");
         return;
