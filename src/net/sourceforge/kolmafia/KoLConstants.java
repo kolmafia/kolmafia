@@ -247,7 +247,7 @@ public interface KoLConstants extends UtilityConstants {
   String COMBATFILTER_JS = "combatfilter.1.js";
   String HOTKEYS_JS = "hotkeys.js";
   String IRCM_JS = "ircm_extend.3.js";
-  String MACROHELPER_JS = "macrohelper.5.js";
+  String MACROHELPER_JS = "macrohelper.6.js";
   String ONFOCUS_JS = "onfocus.1.js";
   String SORTTABLE_JS = "sorttable.2.js";
   String STATIONARYBUTTONS_CSS = "stationarybuttons.2.css";
