@@ -586,7 +586,7 @@ public class ItemDatabase {
     ItemDatabase.canonicalNames = newArray;
 
     ItemDatabase.uniqueInitialisms.clear();
-    Map<String, Integer> initialismCounts = new HashMap();
+    Map<String, Integer> initialismCounts = new HashMap<>();
     for (var itemName : ItemDatabase.itemIdSetByName.keySet()) {
       var initialism =
           Arrays.stream(itemName.toLowerCase().split("[ -]"))
