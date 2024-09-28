@@ -55,6 +55,7 @@ import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
 import net.sourceforge.kolmafia.swingui.widget.DisabledItemsComboBox;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
+@SuppressWarnings("incomplete-switch")
 public class DailyDeedsPanel extends Box implements Listener {
   public static final AdventureResult GREAT_PANTS = ItemPool.get(ItemPool.GREAT_PANTS, 1);
   public static final AdventureResult REPLICA_GREAT_PANTS =

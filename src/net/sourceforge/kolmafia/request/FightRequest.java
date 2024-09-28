@@ -128,6 +128,7 @@ import org.htmlcleaner.ContentNode;
 import org.htmlcleaner.HtmlCleaner;
 import org.htmlcleaner.TagNode;
 
+@SuppressWarnings("incomplete-switch")
 public class FightRequest extends GenericRequest {
   // Character-class permissions
   private static final PauseObject PAUSER = new PauseObject();

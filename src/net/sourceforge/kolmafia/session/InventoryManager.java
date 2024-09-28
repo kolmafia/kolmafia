@@ -66,6 +66,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+@SuppressWarnings("incomplete-switch")
 public abstract class InventoryManager {
   private static final int BULK_PURCHASE_AMOUNT = 30;
 

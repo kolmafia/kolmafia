@@ -37,6 +37,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
  * Internal class used to represent a single concoction. It contains all the information needed to
  * actually make the item.
  */
+@SuppressWarnings("incomplete-switch")
 public class Concoction implements Comparable<Concoction> {
   private String name;
   private final int hashCode;

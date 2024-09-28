@@ -47,6 +47,7 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.Indexed;
 import net.sourceforge.kolmafia.utilities.IntOrString;
 
+@SuppressWarnings("incomplete-switch")
 public class Modifiers {
   // static fields used to compute current modifiers
 

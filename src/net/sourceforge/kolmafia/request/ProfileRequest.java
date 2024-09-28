@@ -21,6 +21,7 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
+@SuppressWarnings("incomplete-switch")
 public class ProfileRequest extends GenericRequest implements Comparable<ProfileRequest> {
   private static final Pattern DATA_PATTERN = Pattern.compile("<td.*?>(.*?)</td>");
   private static final Pattern NUMERIC_PATTERN = Pattern.compile("\\d+");

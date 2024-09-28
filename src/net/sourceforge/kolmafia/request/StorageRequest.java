@@ -31,6 +31,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+@SuppressWarnings("incomplete-switch")
 public class StorageRequest extends TransferItemRequest {
   private StorageRequestType moveType;
   private boolean bulkTransfer;
