@@ -39,6 +39,7 @@ public enum BooleanModifier implements Modifier {
       "Four Songs",
       Pattern.compile("Allows you to keep 4 songs in your head instead of 3"),
       Pattern.compile("Four Songs")),
+  ADVENTURE_RANDOMLY("Adventure Randomly", Pattern.compile("Adventure Randomly")),
   ADVENTURE_UNDERWATER(
       "Adventure Underwater",
       Pattern.compile("Lets you [bB]reathe [uU]nderwater"),
@@ -57,11 +58,13 @@ public enum BooleanModifier implements Modifier {
       "Lasts Until Rollover",
       Pattern.compile("This item will disappear at the end of the day"),
       Pattern.compile("Lasts Until Rollover")),
+  ALTERS_PAGE_TEXT("Alters Page Text", Pattern.compile("Alters Page Text")),
   ATTACKS_CANT_MISS(
       "Attacks Can't Miss",
       new Pattern[] {Pattern.compile("Regular Attacks Can't Miss"), Pattern.compile("Cannot miss")},
       Pattern.compile("Attacks Can't Miss")),
   LOOK_LIKE_A_PIRATE("Pirate", Pattern.compile("Look like a Pirate")),
+  BLIND("Blind", Pattern.compile("Blind")),
   BREAKABLE("Breakable", Pattern.compile("Breakable")),
   DROPS_ITEMS("Drops Items", Pattern.compile("Drops Items")),
   DROPS_MEAT("Drops Meat", Pattern.compile("Drops Meat")),
