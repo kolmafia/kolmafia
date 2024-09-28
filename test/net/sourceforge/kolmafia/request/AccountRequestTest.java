@@ -1,4 +1,4 @@
-package net.sourceforge.kolmafia.webui;
+package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withHttpClientBuilder;
@@ -8,8 +8,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.request.CharPaneRequest;
-import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.GenericRequest.TopMenuStyle;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
