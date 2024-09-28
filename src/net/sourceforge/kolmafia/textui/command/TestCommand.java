@@ -200,6 +200,7 @@ public class TestCommand extends AbstractCommand {
         RequestLogger.printLine("Inside try: checkpoint known = " + saved.known());
       }
       RequestLogger.printLine("Outside try: checkpoint known = " + saved.known());
+      saved.close();
       return;
     }
 
