@@ -5112,9 +5112,6 @@ public abstract class KoLCharacter {
           DoubleModifier.RESTING_HP_PCT, 100, ModifierType.EVENT, "Moons (Grimace full)");
     }
 
-    // Words are replaced with salad on April 1st (hilarious)
-    newModifiers.setBoolean(BooleanModifier.ALTERS_PAGE_TEXT, HolidayDatabase.isAprilFirst());
-
     for (String equip : ClanManager.getClanRumpus()) {
       newModifiers.add(ModifierDatabase.getModifiers(ModifierType.RUMPUS, equip));
     }
