@@ -8084,7 +8084,7 @@ Effect	Yeg's Glory	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percen
 Effect	Yeg's Keeping	Muscle Percent: +666, Mysticality Percent: +666, Moxie Percent: +666
 Effect	Yeg's Power	Maximum HP: +666, Maximum MP: +666
 # Yellow Tongue: Eww.
-# Yes, Can Haz: Effect Cat is Not Amused
+Effect	Yes, Can Haz	Alters Page Text
 Effect	Yet tea	Cold Damage: +30
 Effect	Yiffable You	Avatar: "sexy werewolf"
 Effect	Yoloswagyoloswag	Sleaze Damage: +15, Sleaze Spell Damage: +15, Monster Level: +15
