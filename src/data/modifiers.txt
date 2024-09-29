@@ -5686,7 +5686,7 @@ Effect	Cletus's Canticle of Celerity	Initiative: +20
 Effect	Cloak of Shadows	Combat Rate: -15
 Effect	Closer to Fine	HP Regen Min: [min(T,50)], HP Regen Max: [2*min(T,50)]
 Effect	Cloud of Mosquitos	HP Regen Min: 40, HP Regen Max: 50
-# Clumsy: Always Fumble
+Effect	Clumsy	Always Fumble
 Effect	Clyde's Blessing	Item Drop: +50
 Effect	Coal-Powered	Damage Aura: 1
 Effect	Coated Arms	Weapon Damage: +15
@@ -7150,8 +7150,7 @@ Effect	Quiet Desperation	Moxie Percent: +25
 Effect	Quiet Determination	Muscle Percent: +25
 Effect	Quiet Judgement	Mysticality Percent: +25
 Effect	Quivering with Rage	Muscle Percent: -10, Damage Aura: 1
-# QWOPped Up: Always Fumble
-Effect	QWOPped Up	Initiative: -100
+Effect	QWOPped Up	Initiative: -100, Always Fumble
 Effect	Racing!	Initiative: +200
 Effect	Rad-ish	Moxie Percent: +25
 Effect	Radiant Personality	Moxie Percent: +30
@@ -8085,7 +8084,7 @@ Effect	Yeg's Glory	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percen
 Effect	Yeg's Keeping	Muscle Percent: +666, Mysticality Percent: +666, Moxie Percent: +666
 Effect	Yeg's Power	Maximum HP: +666, Maximum MP: +666
 # Yellow Tongue: Eww.
-# Yes, Can Haz: Effect Cat is Not Amused
+Effect	Yes, Can Haz	Alters Page Text
 Effect	Yet tea	Cold Damage: +30
 Effect	Yiffable You	Avatar: "sexy werewolf"
 Effect	Yoloswagyoloswag	Sleaze Damage: +15, Sleaze Spell Damage: +15, Monster Level: +15

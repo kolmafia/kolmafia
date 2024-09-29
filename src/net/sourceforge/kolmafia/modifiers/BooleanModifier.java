@@ -15,6 +15,7 @@ public enum BooleanModifier implements Modifier {
       Pattern.compile("This item cannot be equipped while in Hardcore"),
       Pattern.compile("Softcore Only")),
   SINGLE("Single Equip", Pattern.compile("Single Equip")),
+  ALWAYS_FUMBLE("Always Fumble", Pattern.compile("Always Fumble")),
   NEVER_FUMBLE("Never Fumble", Pattern.compile("Never Fumble"), Pattern.compile("Never Fumble")),
   WEAKENS(
       "Weakens Monster",
