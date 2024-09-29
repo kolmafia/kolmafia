@@ -18,6 +18,7 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
+@SuppressWarnings("incomplete-switch")
 public class TrackManager {
   private static final Set<Tracked> trackedMonsters = new LinkedHashSet<>();
   private static final Set<Tracked> trackedPhyla = new LinkedHashSet<>();

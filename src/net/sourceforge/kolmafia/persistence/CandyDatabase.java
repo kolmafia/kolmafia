@@ -18,6 +18,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.MallPriceManager;
 
+@SuppressWarnings("incomplete-switch")
 public class CandyDatabase {
   public static Set<Integer> NO_CANDY = new HashSet<>(); // No candies
   public static Set<Integer> tier0Candy = new HashSet<>(); // Unspaded

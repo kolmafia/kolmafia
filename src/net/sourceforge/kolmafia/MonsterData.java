@@ -30,6 +30,7 @@ import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.MonsterManuelManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
+@SuppressWarnings("incomplete-switch")
 public class MonsterData extends AdventureResult {
   public enum Attribute {
     // Non-scaling monsters

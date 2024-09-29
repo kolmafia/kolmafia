@@ -46,7 +46,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
  * choice adventures.
  */
 public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
-  private final TreeMap<String, ArrayList> choiceMap;
+  private final TreeMap<String, ArrayList<String>> choiceMap;
   private final HashMap<String, ArrayList<JComponent>> selectMap;
   private final CardLayout choiceCards;
   private final JPanel choicePanel;
@@ -423,7 +423,7 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
 
     this.loadSettings();
 
-    ArrayList optionsList;
+    ArrayList<String> optionsList;
     String[] keys = this.choiceMap.keySet().toArray(new String[0]);
 
     for (int i = 0; i < keys.length; ++i) {
@@ -458,25 +458,25 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
       this.choiceMap.put(zone, new ArrayList<>());
     }
 
-    ArrayList options = this.choiceMap.get(zone);
+    ArrayList<String> options = this.choiceMap.get(zone);
 
     if (!options.contains(name)) {
       options.add(name);
       this.selectMap.put(name, new ArrayList<>());
     }
 
-    options = this.selectMap.get(name);
-    options.add(option);
+    ArrayList<JComponent> selectOptions = this.selectMap.get(name);
+    selectOptions.add(option);
   }
 
   private class ChoicePanel extends GenericPanel {
-    public ChoicePanel(final ArrayList options) {
+    public ChoicePanel(final ArrayList<String> options) {
       super(new Dimension(150, 20), new Dimension(300, 20));
 
       ArrayList<VerifiableElement> elementList = new ArrayList<>();
 
       for (int i = 0; i < options.size(); ++i) {
-        Object key = options.get(i);
+        String key = options.get(i);
         ArrayList<JComponent> value = ChoiceOptionsPanel.this.selectMap.get(key);
 
         if (value.size() == 1) {
@@ -743,7 +743,7 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
         return;
       }
 
-      Map map = ChoiceOptionsPanel.this.choiceMap;
+      Map<String, ArrayList<String>> map = ChoiceOptionsPanel.this.choiceMap;
       String parent = location.getParentZone();
       String key = map.containsKey(zone) ? zone : map.containsKey(parent) ? parent : "";
 

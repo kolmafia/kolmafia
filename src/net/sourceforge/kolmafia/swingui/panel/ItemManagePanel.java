@@ -48,6 +48,7 @@ import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
+@SuppressWarnings("incomplete-switch")
 public abstract class ItemManagePanel<E, S extends JComponent> extends ScrollablePanel<S> {
   public enum QuantityType {
     USE_MULTIPLE,

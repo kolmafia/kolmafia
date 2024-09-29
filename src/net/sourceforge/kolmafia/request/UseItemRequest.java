@@ -67,6 +67,7 @@ import net.sourceforge.kolmafia.textui.command.ZapCommand;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
+@SuppressWarnings("incomplete-switch")
 public class UseItemRequest extends GenericRequest {
   public static final AdventureResult INFERNAL_SEAL_CLAW =
       ItemPool.get(ItemPool.INFERNAL_SEAL_CLAW, 1);

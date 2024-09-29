@@ -109,6 +109,7 @@ import net.sourceforge.kolmafia.webui.DiscoCombatHelper;
  * loosens the coupling between the various aspects of <code>KoLmafia</code>, leading to
  * extensibility.
  */
+@SuppressWarnings("incomplete-switch")
 public abstract class KoLCharacter {
   public enum TurtleBlessing {
     WAR,

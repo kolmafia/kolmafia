@@ -45,6 +45,7 @@ import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
+@SuppressWarnings("incomplete-switch")
 public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> implements Listener {
   private final JCheckBox[] filters;
   private final JTabbedPane queueTabs;

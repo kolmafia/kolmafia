@@ -12,6 +12,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+@SuppressWarnings("incomplete-switch")
 public class AccountRequest extends PasswordHashRequest {
   private static final Pattern SELECTED_PATTERN =
       Pattern.compile("selected=\"selected\" value=\"?(\\d+)\"?>");
