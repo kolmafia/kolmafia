@@ -115,7 +115,7 @@ public abstract class ClanManager {
   }
 
   // For testing
-  public static void setClan(int clanId, String name) {
+  public static void setClan(int clanId, String clanName) {
     // Drop all saved clan information
     ClanManager.clearCache(true);
 

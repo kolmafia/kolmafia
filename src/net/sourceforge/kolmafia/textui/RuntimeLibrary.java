@@ -214,7 +214,7 @@ import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.wc.SVNInfo;
 import org.tmatesoft.svn.core.wc.SVNWCUtil;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"incomplete-switch", "unused"})
 public abstract class RuntimeLibrary {
   private static final RecordType itemDropRec =
       new RecordType(

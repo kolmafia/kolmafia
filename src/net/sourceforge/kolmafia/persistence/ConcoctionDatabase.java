@@ -67,6 +67,7 @@ import net.sourceforge.kolmafia.swingui.ItemManageFrame;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
+@SuppressWarnings("incomplete-switch")
 public class ConcoctionDatabase {
 
   private static final Set<AdventureResult> EMPTY_SET = new HashSet<>();

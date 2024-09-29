@@ -179,9 +179,10 @@ public class FamiliarDataTest {
     var di =
         new FamiliarData.DropInfo(
             FamiliarPool.COOKBOOKBAT, -1, "cookbookbat recipe", "_cookbookbatRecipeDrops", 1);
-    new Cleanups(withProperty("_cookbookbatRecipeDrops", false));
-
-    assertThat(di.dropsToday(), equalTo(0));
+    var cleanups = new Cleanups(withProperty("_cookbookbatRecipeDrops", false));
+    try (cleanups) {
+      assertThat(di.dropsToday(), equalTo(0));
+    }
   }
 
   @Test
@@ -189,9 +190,10 @@ public class FamiliarDataTest {
     var di =
         new FamiliarData.DropInfo(
             FamiliarPool.COOKBOOKBAT, -1, "cookbookbat recipe", "_cookbookbatRecipeDrops", 1);
-    new Cleanups(withProperty("_cookbookbatRecipeDrops", true));
-
-    assertThat(di.dropsToday(), equalTo(1));
+    var cleanups = new Cleanups(withProperty("_cookbookbatRecipeDrops", true));
+    try (cleanups) {
+      assertThat(di.dropsToday(), equalTo(1));
+    }
   }
 
   @Test
@@ -204,9 +206,10 @@ public class FamiliarDataTest {
             "_powerPillDrops",
             Math.min(1 + KoLCharacter.getCurrentDays(), 11));
 
-    new Cleanups(withProperty("_powerPillDrops", 7));
-
-    assertThat(di.dropsToday(), equalTo(7));
+    var cleanups = new Cleanups(withProperty("_powerPillDrops", 7));
+    try (cleanups) {
+      assertThat(di.dropsToday(), equalTo(7));
+    }
   }
 
   @ParameterizedTest
