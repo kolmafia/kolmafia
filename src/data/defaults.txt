@@ -410,6 +410,7 @@ user	burnoutsDefeated	0
 user	burrowgrubHiveUsed	false
 user	burrowgrubSummonsRemaining	0
 user	buyScript
+user	bwApronMealsEaten	-1
 user	calzoneOfLegendEaten	false
 user	camelSpit	0
 user	cameraMonster
