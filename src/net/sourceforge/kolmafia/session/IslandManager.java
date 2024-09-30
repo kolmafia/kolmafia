@@ -22,6 +22,7 @@ import net.sourceforge.kolmafia.request.FightRequest.SpecialMonster;
 import net.sourceforge.kolmafia.request.QuartersmasterRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
+@SuppressWarnings("incomplete-switch")
 public class IslandManager {
   private IslandManager() {}
 

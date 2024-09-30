@@ -31,6 +31,7 @@ import net.sourceforge.kolmafia.session.QuestManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
+@SuppressWarnings("incomplete-switch")
 public class EquipmentRequest extends PasswordHashRequest {
   private static final Pattern CELL_PATTERN = Pattern.compile("<td>(.*?)</td>");
 

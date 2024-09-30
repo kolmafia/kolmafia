@@ -59,6 +59,7 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
+@SuppressWarnings("incomplete-switch")
 public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   public static final String[][] DEMON_TYPES = {
     {"Summoning Chamber", "Pies"},

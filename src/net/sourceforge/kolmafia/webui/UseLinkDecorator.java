@@ -46,6 +46,7 @@ import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.textui.command.SpeculateCommand;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
+@SuppressWarnings("incomplete-switch")
 public abstract class UseLinkDecorator {
   private static final StringBuffer deferred = new StringBuffer();
 

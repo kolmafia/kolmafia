@@ -35,6 +35,7 @@ import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
+@SuppressWarnings("incomplete-switch")
 public class EquipmentDatabase {
   private static final Map<Integer, Integer> power = new HashMap<>();
   private static final Map<Integer, Integer> hands = new HashMap<>();

@@ -35,6 +35,7 @@ import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.VillainLairDecorator;
 
+@SuppressWarnings("incomplete-switch")
 public abstract class ChoiceManager {
 
   public static boolean handlingChoice = false;

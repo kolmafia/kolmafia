@@ -52,6 +52,7 @@ import org.junit.jupiter.params.provider.MethodSource;
   For instance, items marked as equipment in items.txt should also have
   corresponding entries in equipment.txt.
 */
+@SuppressWarnings("incomplete-switch")
 public class DataFileConsistencyTest {
   @BeforeAll
   public static void init() {
