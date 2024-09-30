@@ -4993,6 +4993,15 @@ public abstract class ChoiceControl {
             }
         }
         break;
+      case 1518:
+        // Black and White Apron Meal Kit
+        if (text.contains("You cook and quickly consume your")) {
+          ResultProcessor.processItem(ItemPool.BLACK_AND_WHITE_APRON_MEAL_KIT, -1);
+          if (Preferences.getInteger("bwApronMealsEaten") >= 0) {
+            // Known starting point.
+            Preferences.increment("bwApronMealsEaten");
+          }
+        }
     }
   }
 
