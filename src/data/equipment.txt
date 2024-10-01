@@ -3601,6 +3601,7 @@ back shell	0	none
 bakelite backpack	120	Mus: 40
 balsam barrel	200	Mus: 50
 barskin cloak	25	Mys: 75
+bat wings	100	none
 black cloak	120	Mys: 75
 bony back shell	0	none
 Buddy Bjorn	100	none
