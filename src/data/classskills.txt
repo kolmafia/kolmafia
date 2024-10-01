@@ -1090,6 +1090,8 @@
 7529	Ask %fn to go down in flames	emberbird.gif	combat	0	0
 7530	Swoop like a Bat	batswoop.gif	combat	0	0
 7531	Summon Cauldron of Bats	batcauldron.gif	combat	1	0
+7532	Assert your Authority	bakebadge.gif	combat	0	0
+7533	Check for photo booth supplies	document.gif	combat	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.
