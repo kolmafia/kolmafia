@@ -4179,6 +4179,10 @@ Item	back shell	Damage Absorption: +200, Damage Reduction: 20
 Item	bakelite backpack	Monster Level: +10, Candy Drop: +20
 Item	balsam barrel	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50, Item Drop: +15, HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 10, MP Regen Max: 20
 Item	barskin cloak	Muscle: +7
+# bat wings: Find Fruit
+# bat wings: Random bonuses underground
+# bat wings: Use some bat skills
+Item	bat wings	Muscle: +5, Mysticality: +5, Moxie: +5, Initiative: +100, Food Drop: +50
 Item	black cloak	Spell Damage: +10
 Item	bony back shell	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2
 # Buddy Bjorn: Put a Familiar In It!
@@ -5371,6 +5375,7 @@ Effect	Bats Form	Initiative: +150, Item Drop: +150
 Effect	Bats in the Belfry	Mysticality Percent: +10
 Effect	Batted Around	Avatar: "perpendicular bat"
 Effect	Batteries Included	Crimbot Outfit Power: +4
+Effect	Batty	Initiative: +10, Spooky Damage: +5
 Effect	Batwards Masking	Avatar: "Batburglar"
 Effect	Be a Mind Master	Spell Damage Percent: +100, MP Regen Min: 10, MP Regen Max: 20
 Effect	Bear Clawed	Weapon Damage Percent: +100
@@ -11259,6 +11264,7 @@ Item	box of sunshine	Free Pull
 Item	boxed Apriling band helmet	Free Pull
 Item	boxed august scepter	Free Pull
 Item	boxed autumn-aton	Free Pull
+Item	boxed bat wings	Free Pull
 Item	boxed Mayam Calendar	Free Pull
 Item	boxed Sept-Ember Censer	Free Pull
 Item	Boxing Day care package	Free Pull
