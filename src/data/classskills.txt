@@ -1086,6 +1086,12 @@
 7525	Blow the Green Candle!	blowcandle.gif	combat	0	0
 7526	Blow the Purple Candle!	blowcandle.gif	combat	0	0
 7527	Tear Away your Pants!	tearawaypants.gif	combat	0	0
+7528	Rest upside down	upsidebat.gif	nc,self	0	0
+7529	Ask %fn to go down in flames	emberbird.gif	combat	0	0
+7530	Swoop like a Bat	batswoop.gif	combat	0	0
+7531	Summon Cauldron of Bats	batcauldron.gif	combat	1	0
+7532	Assert your Authority	bakebadge.gif	combat	0	0
+7533	Check for photo booth supplies	document.gif	combat	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.

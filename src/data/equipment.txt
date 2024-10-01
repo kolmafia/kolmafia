@@ -18,6 +18,7 @@ Apriling band helmet	100	none
 asbestos helmet turtle	80	Mox: 25
 asshat	30	none
 astral chapeau	50	none
+astronaut helmet	30	none
 balaclava	50	Mox: 10
 balloon helmet	50	Mox: 10
 bark beret	40	Mox: 5
@@ -124,6 +125,7 @@ extra-wide head candle	100	none
 eXtreme scarf	100	Mox: 35
 eyepatch	25	none
 f3d0r4	110	Mox: 40
+fake arrow-through-the-head	30	none
 fancy ball mask	90	Mox: 15
 fancy tophat	100	Mox: 35
 FantasyRealm Mage's Hat	50	none
@@ -1576,6 +1578,7 @@ Shagadelic Disco Banjo	90	Mox: 15	2-handed banjo
 Shakespeare's Sister's Accordion	100	Mox: 0	1-handed accordion
 sharpened spoon	100	Mus: 20	1-handed knife
 Sheila Take a Crossbow	100	Mox: 0	1-handed crossbow
+Sheriff pistol	50	Mus: 0	1-handed pistol
 shiny butcherknife	60	Mys: 15	1-handed utensil
 shipwright's hammer	50	Mus: 0	1-handed club
 shooting morning star	100	Mus: 0	1-handed flail
@@ -2150,6 +2153,7 @@ ornate dowsing rod	10	none
 Oscus's garbage can lid	240	Mus: 200	shield
 Ouija Board, Ouija Board	120	none	shield
 outmoded fidget toy	50	none
+oversized monocle on a stick	0	none
 ox-head shield	250	Mus: 10	shield
 oyster basket	10	none
 oyster egg balloon	100	Mys: 35
@@ -2162,6 +2166,7 @@ party crasher	150	Mus: 20	shield
 peanut brittle shield	50	Mus: 10	shield
 penguin skin buckler	90	Mus: 30	shield
 penguin thesaurus	30	none
+photo booth supply list	10	none
 pilgrim shield	240	none	shield
 pirate hook	0	none
 pixel grappling hook	200	Mox: 200
@@ -2522,6 +2527,7 @@ chalk chain	50	none
 chalk choker	50	none
 Charleston shoes	100	Mys: 25
 cheap elven gloves	30	none
+cheap plastic pipe	0	none
 cheap studded belt	10	none
 cheap sunglasses	80	Mys: 20
 Chester's Aquarius medallion	200	Mys: 200
@@ -2643,10 +2649,12 @@ expensive camera	100	Mys: 30
 eXtreme mittens	100	Mys: 35
 eXtreme nose ring	100	Mys: 10
 f'c'le sh'c'le k'y	10	none
+fake huge beard	10	none
 fancy black tie	100	Mys: 35
 fancy boots	0	none
 Fancy Jeff's fancy pocket square	150	Mox: 30
 FantasyRealm G. E. M.	10	none
+feather boa	0	none
 fiberglass fannypack	120	Mys: 40
 fiberglass fingerguard	120	Mys: 40
 filigreed hamethyst earring	110	Mys: 40
@@ -2698,6 +2706,7 @@ Gauntlets of the Blood Moon	120	none
 gearbox necklace	180	Mys: 75
 genie's bracers	50	Mys: 10
 ghost of a necklace	60	Mys: 15
+giant bow tie	0	none
 giant designer sunglasses	10	none
 giant diamond ring	10	none
 giant motorcycle boots	120	Mus: 45
@@ -3120,6 +3129,8 @@ severed rocking horse head	50	Mys: 10
 shadow monocle	0	none
 shamanic beads	125	Mys: 47
 shark tooth necklace	200	Mys: 85
+Sheriff badge	0	none
+Sheriff moustache	0	none
 shin gourds	100	none
 shining halo	50	none
 shiny hood ornament	190	Mys: 80
@@ -3601,6 +3612,7 @@ back shell	0	none
 bakelite backpack	120	Mus: 40
 balsam barrel	200	Mus: 50
 barskin cloak	25	Mys: 75
+bat wings	100	none
 black cloak	120	Mys: 75
 bony back shell	0	none
 Buddy Bjorn	100	none

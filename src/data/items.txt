@@ -11681,8 +11681,20 @@
 11653	head of emberg lettuce	931508825	emberlettuce.gif	usable	t	0	heads of emberg lettuce
 11654	embering hunk	447678631	emberhunk.gif	multiple		0
 11655	soft cap of diminishing returns	584372121	softcap.gif	hat		0
-11656
-11657
-11658
+11656	photo booth sized crate	918207532	crate.gif	usable	t	0
+11657	boxed bat wings	352162832	batwings_box.gif	usable	t	0	boxes of bat wings
+11658	bat wings	695150783	batwings.gif	container		0
+11658	bat wings	695150783	batwings.gif	container		0	pairs of bat wings
 11659	ember egg	563280459	emberegg.gif	grow		0
 11660	tiny ember	277234855	ember.gif	familiar	t,d	11
+11661	oversized monocle on a stick	860603310	stickmonocle.gif	offhand	q	0	oversized monocles on sticks
+11662	cheap plastic pipe	848358080	plasticpipe.gif	accessory	q	0
+11663	fake arrow-through-the-head	841134929	fakearrow.gif	hat	q	0	fake arrows-through-the-head
+11664	giant bow tie	519088282	bigbowtie.gif	accessory	q	0
+11665	fake huge beard	920420368	bigbeard.gif	accessory	q	0
+11666	astronaut helmet	420948344	noghelmet.gif	hat	q	0
+11667	feather boa	298164051	clanboa.gif	accessory	q	0
+11668	Sheriff badge	964944537	bakebadge.gif	accessory	q	0
+11669	Sheriff pistol	116395444	sixgun4.gif	weapon	q	0
+11670	Sheriff moustache	231935926	jackmoustache.gif	accessory	q	0
+11671	photo booth supply list	459315400	document.gif	offhand	q	0

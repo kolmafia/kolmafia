@@ -2928,3 +2928,7 @@
 2925	Chloroplasted	sun.gif	f1c704c574989c850076ccc1b43ce420	neutral	none	eat 1 cream of chloroplasts
 2926	Burning Mouth	embercheese.gif	077bfdc23982be1c734fa7a8f47791a4	neutral	none	eat 1 wheel of camembert
 2927	Lettuce Rejoice	emberlettuce.gif	74fff3d37b73461779ee2a24ef4cf34b	neutral	none
+2928	Batty	batwing.gif	6fef7da0c7eb9763f63d3dcf002f9e8a	neutral	none
+2929	Wild and Westy!	cowboyboots.gif	b5f7e03c415eee2ee0cfd74105468c32	neutral	none
+2930	Towering Muscles	stronggnome.gif	ae32f8a8b0a2868710d497d6939e6ea7	neutral	none
+2931	Spaced Out	celesteyes.gif	67ec6215eff43af9f0373ff2c69cde99	neutral	none
