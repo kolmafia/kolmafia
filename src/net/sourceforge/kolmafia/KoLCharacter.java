@@ -3351,6 +3351,10 @@ public abstract class KoLCharacter {
     return KoLCharacter.ascensionPath == Path.WEREPROFESSOR;
   }
 
+  public static final boolean inAvantGuard() {
+    return KoLCharacter.ascensionPath == Path.AVANT_GUARD;
+  }
+
   public static final boolean isMildManneredProfessor() {
     return KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.MILD_MANNERED_PROFESSOR));
   }

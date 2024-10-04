@@ -344,6 +344,8 @@ user	blackPuddingsDefeated	0
 user	blackForestProgress	0
 user	blankOutUsed	0
 user	bloodweiserDrunk	0
+user	bodyguardCharge	0
+user	bodyguardChatMonster
 user	bondAdv	false
 user	bondBeach	false
 user	bondBeat	false
