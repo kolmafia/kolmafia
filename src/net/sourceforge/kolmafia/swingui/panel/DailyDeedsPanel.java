@@ -2853,6 +2853,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       this.addListener("_gnomeAdv");
       this.addListener("_mafiaThumbRingAdvs");
       this.addListener("_carnivorousPottedPlantWins");
+      this.addListener("_batWingsFreeFights");
       this.addListener("(character)");
       this.addLabel("");
     }
@@ -2906,6 +2907,11 @@ public class DailyDeedsPanel extends Box implements Listener {
           || KoLCharacter.hasEquipped(ItemPool.CARNIVOROUS_POTTED_PLANT)
           || InventoryManager.getCount(ItemPool.CARNIVOROUS_POTTED_PLANT) > 0) {
         text.add(Preferences.getInteger("_carnivorousPottedPlantWins") + " potted plant");
+      }
+
+      if (Preferences.getInteger("_batWingsFreeFights") > 0
+          || InventoryManager.equippedOrInInventory(ItemPool.BAT_WINGS)) {
+        text.add(Preferences.getInteger("_batWingsFreeFights") + " bat wings");
       }
 
       this.setShown(!text.isEmpty());
