@@ -543,6 +543,22 @@ public abstract class EncounterManager {
         Preferences.setBoolean("hallowienerKnollGym", true);
         return;
       }
+      case "you can never have enough" -> {
+        Preferences.setBoolean("batWingsBatHoleEntrance", true);
+        return;
+      }
+      case "bats of a feather" -> {
+        Preferences.setBoolean("batWingsGuanoJunction", true);
+        return;
+      }
+      case "one of us" -> {
+        Preferences.setBoolean("batWingsBatratBurrow", true);
+        return;
+      }
+      case "magical fruit" -> {
+        Preferences.setBoolean("batWingsBeanbatChamber", true);
+        return;
+      }
     }
   }
 

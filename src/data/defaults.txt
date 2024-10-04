@@ -321,6 +321,10 @@ user	batmanTimeLeft	0
 user	batmanZone	Gotpork City
 user	batmanUpgrades
 user	battleAction	attack with weapon
+user	batWingsBatHoleEntrance	false
+user	batWingsBatratBurrow	false
+user	batWingsBeanbatChamber	false
+user	batWingsGuanoJunction	false
 user	beachHeadsUnlocked
 user	bearSwagger	0
 user	beastSkillsAvailable

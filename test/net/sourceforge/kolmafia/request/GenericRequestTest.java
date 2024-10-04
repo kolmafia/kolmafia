@@ -326,4 +326,33 @@ public class GenericRequestTest {
       }
     }
   }
+
+  @ParameterizedTest
+  @CsvSource({
+    "entrance, The Bat Hole Entrance, You can never have enough, batWingsBatHoleEntrance, true",
+    "guano, Guano Junction, Bats of a feather, batWingsGuanoJunction, true",
+    "batrat, Batrat and Ratbat Burrow, One of us, batWingsBatratBurrow, true",
+    "beanbat, The Beanbat Chamber, Magical fruit, batWingsBeanbatChamber, true"
+  })
+  public void batWingsPickedUp(
+      String htmlName, String location, String encounterName, String property, String expected) {
+    var cleanups =
+        new Cleanups(
+            withProperty("lastEncounter", ""),
+            withProperty(property, Preferences.getDefault(property)));
+
+    try (cleanups) {
+      KoLAdventure.setLastAdventure(location);
+
+      GenericRequest request =
+          new GenericRequest("adventure.php?snarfblat=" + KoLAdventure.lastAdventureId());
+      request.setHasResult(true);
+      request.responseText = html("request/test_adventure_bat_wings_" + htmlName + ".html");
+
+      request.processResponse();
+
+      assertEquals(encounterName, Preferences.getString("lastEncounter"));
+      assertThat(property, isSetTo(expected));
+    }
+  }
 }
