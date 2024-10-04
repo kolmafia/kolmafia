@@ -7108,7 +7108,7 @@ public abstract class ChoiceControl {
         break;
 
       case 1532:
-        // Burly Bodygurd chat
+        // Chatting with your Burly Bodyguard
         {
           var monsterIdString = request.getFormField("bgid");
           if (text.contains("You set off to find a monster with a specific bodyguard to challenge.")
