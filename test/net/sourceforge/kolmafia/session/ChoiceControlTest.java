@@ -1100,4 +1100,22 @@ class ChoiceControlTest {
       }
     }
   }
+
+  @Nested
+  class BodyguardChat {
+    @Test
+    void tracksChattedBodyguard() {
+      var responseText = html("request/test_choice_bodyguard_chat_success.html");
+      try (var cleanups =
+          new Cleanups(
+              withPath(Path.AVANT_GUARD),
+              withFamiliar(FamiliarPool.BURLY_BODYGUARD),
+              withProperty("bodyguardCharge", 50),
+              withProperty("bodyguardChatMonster", ""),
+              withChoice(1532, 1, "bgid=1430", responseText))) {
+        assertThat("bodyguardCharge", isSetTo(0));
+        assertThat("bodyguardChatMonster", isSetTo("pygmy witch accountant"));
+      }
+    }
+  }
 }
