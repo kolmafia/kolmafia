@@ -2384,6 +2384,7 @@ user	_seaJellyHarvested	false
 user	_sealFigurineUses	0
 user	_sealScreeches	0
 user	_sealsSummoned	0
+user	_septEmberBalanceChecked	false
 user	_setOfJacksUsed	false
 user	_sewingKitUsed	false
 user	_sexChanged	false
