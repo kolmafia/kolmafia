@@ -3808,6 +3808,7 @@ public class ItemPool {
   public static final int SEPTEMBER_CENSER = 11642;
   public static final int MINIATURE_EMBERING_HULK = 11644;
   public static final int STRUCTURAL_EMBER = 11647;
+  public static final int CLAN_PHOTO_BOOTH = 11656;
 
   private ItemPool() {}
 
