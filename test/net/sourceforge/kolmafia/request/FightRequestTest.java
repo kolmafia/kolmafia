@@ -2825,4 +2825,18 @@ public class FightRequestTest {
       }
     }
   }
+
+  @Test
+  public void canDetectBatWingsWins() {
+    RequestLoggerOutput.startStream();
+    var cleanups =
+        new Cleanups(
+            withEquipped(Slot.CONTAINER, "bat wings"), withProperty("_batWingsFreeFights", 0));
+    try (cleanups) {
+      parseCombatData("request/test_fight_bat_wings_free.html");
+      var text = RequestLoggerOutput.stopStream();
+      assertThat(text, containsString("You flap your bat wings gustily"));
+      assertEquals(1, Preferences.getInteger("_batWingsFreeFights"));
+    }
+  }
 }

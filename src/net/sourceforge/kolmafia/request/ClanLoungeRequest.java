@@ -1178,6 +1178,7 @@ public class ClanLoungeRequest extends GenericRequest {
       // We haven't visited it yet today so it is not unlocked yet.
       new ClanLoungeRequest(Action.FIREWORKS).run();
     }
+    findImage(responseText, "photobooth.gif", ItemPool.CLAN_PHOTO_BOOTH);
 
     Matcher hottubMatcher = HOTTUB_PATTERN.matcher(responseText);
     if (hottubMatcher.find()) {
