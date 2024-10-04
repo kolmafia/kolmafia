@@ -5636,6 +5636,7 @@ public class FightRequest extends GenericRequest {
     public boolean pebble;
     public boolean serendipity;
     public boolean mildManneredProfessor;
+    public boolean batwings;
 
     public TagStatus() {
       FamiliarData current = KoLCharacter.getFamiliar();
@@ -5730,6 +5731,9 @@ public class FightRequest extends GenericRequest {
           KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.SERENDIPITY));
 
       this.mildManneredProfessor = KoLCharacter.isMildManneredProfessor();
+
+      // If we have bat wings
+      this.batwings = KoLCharacter.hasEquipped(ItemPool.BAT_WINGS);
 
       this.ghost = null;
 
@@ -6489,6 +6493,12 @@ public class FightRequest extends GenericRequest {
       // Your potted plant swallows your opponent{s} whole.
       if (status.carnivorous && str.contains("Your potted plant swallows")) {
         Preferences.increment("_carnivorousPottedPlantWins", 1);
+        FightRequest.logText(str, status);
+      }
+
+      // You flap your bat wings gustily and launch yourself to your next adventure in an instant.
+      if (status.batwings && str.contains("You flap your bat wings gustily")) {
+        Preferences.increment("_batWingsFreeFights", 1);
         FightRequest.logText(str, status);
       }
 

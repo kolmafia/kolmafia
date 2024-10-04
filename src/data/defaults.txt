@@ -1806,6 +1806,7 @@ user	_bastilleLastBattleWon	false
 user	_bastilleLastCheese	0
 user	_bastilleLastEncounter	
 user	_bastilleStats	
+user	_batWingsFreeFights	0
 user	_beachCombing	false
 user	_beachHeadsUsed
 user	_beachLayout
