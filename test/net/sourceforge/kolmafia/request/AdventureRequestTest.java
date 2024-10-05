@@ -295,7 +295,7 @@ public class AdventureRequestTest {
 
     @ParameterizedTest
     @CsvSource({
-      // "2, test_adventure_upper_chamber_a_wheel_how_fortunate.html"
+      "2, test_adventure_upper_chamber_a_wheel_how_fortunate.html",
       "5, test_adventure_upper_chamber_down_dooby_doo_down_down.html"
     })
     void doesntTrackUpperChamberSuperlikelies(int turnsSpent, String htmlFile) {
