@@ -2654,7 +2654,7 @@ fancy black tie	100	Mys: 35
 fancy boots	0	none
 Fancy Jeff's fancy pocket square	150	Mox: 30
 FantasyRealm G. E. M.	10	none
-feather boa	0	none
+feather boa	10	none
 fiberglass fannypack	120	Mys: 40
 fiberglass fingerguard	120	Mys: 40
 filigreed hamethyst earring	110	Mys: 40
