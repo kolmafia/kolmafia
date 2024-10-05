@@ -2833,7 +2833,8 @@ public class FightRequestTest {
       RequestLoggerOutput.startStream();
       var cleanups =
           new Cleanups(
-              withEquipped(Slot.CONTAINER, ItemPool.BAT_WINGS), withProperty("_batWingsFreeFights", 0));
+              withEquipped(Slot.CONTAINER, ItemPool.BAT_WINGS),
+              withProperty("_batWingsFreeFights", 0));
       try (cleanups) {
         parseCombatData("request/test_fight_bat_wings_free.html");
         var text = RequestLoggerOutput.stopStream();
@@ -2851,7 +2852,8 @@ public class FightRequestTest {
               withFight());
 
       try (cleanups) {
-        parseCombatData("request/test_fight_bat_wings_swoop.html", "fight.php?action=skill&whichskill=7530");
+        parseCombatData(
+            "request/test_fight_bat_wings_swoop.html", "fight.php?action=skill&whichskill=7530");
         assertThat("_batWingsSwoopUsed", isSetTo(1));
       }
     }
@@ -2865,7 +2867,8 @@ public class FightRequestTest {
               withFight());
 
       try (cleanups) {
-        parseCombatData("request/test_fight_bat_wings_cauldron.html", "fight.php?action=skill&whichskill=7531");
+        parseCombatData(
+            "request/test_fight_bat_wings_cauldron.html", "fight.php?action=skill&whichskill=7531");
         assertThat("_batWingsCauldronUsed", isSetTo(1));
       }
     }
