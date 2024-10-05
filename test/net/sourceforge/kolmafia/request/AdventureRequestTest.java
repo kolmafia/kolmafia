@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withAdventuresSpent;
 import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withFight;
 import static internal.helpers.Player.withLastLocation;
@@ -10,6 +11,7 @@ import static internal.helpers.Player.withProperty;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -19,11 +21,14 @@ import internal.helpers.Cleanups;
 import java.util.Set;
 import net.sourceforge.kolmafia.AscensionPath;
 import net.sourceforge.kolmafia.AscensionPath.Path;
+import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
+import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.JuneCleaverManager;
@@ -205,6 +210,110 @@ public class AdventureRequestTest {
       req.processResponse();
 
       assertThat("_witchessFights", isSetTo(isRelativityFight ? 0 : 1));
+    }
+  }
+
+  @Nested
+  public class NoncombatQueue {
+    @Test
+    void addsNoncombatToQueue() {
+      var cleanups = withLastLocation(AdventureDatabase.getAdventure(AdventurePool.BLACK_FOREST));
+      try (cleanups) {
+        AdventureQueueDatabase.resetQueue();
+        var req = new GenericRequest("adventure.php?snarfblat=" + AdventurePool.BLACK_FOREST);
+        req.setHasResult(true);
+        req.responseText = html("request/test_adventure_black_forest_all_over_the_map.html");
+        req.processResponse();
+
+        assertThat(
+            AdventureQueueDatabase.getZoneNoncombatQueue(
+                AdventureDatabase.getAdventure(AdventurePool.BLACK_FOREST)),
+            contains("All Over the Map"));
+      }
+    }
+
+    @Test
+    void doesntAddZonelessNoncombatToQueue() {
+      var cleanups = withLastLocation(AdventureDatabase.getAdventure(AdventurePool.DEFILED_NOOK));
+      try (cleanups) {
+        AdventureQueueDatabase.resetQueue();
+        var req = new GenericRequest("adventure.php?snarfblat=" + AdventurePool.DEFILED_NOOK);
+        req.setHasResult(true);
+        req.responseText = html("request/test_adventure_hallowiener_defiled_nook.html");
+        req.processResponse();
+
+        assertThat(
+            AdventureQueueDatabase.getZoneNoncombatQueue(
+                AdventureDatabase.getAdventure(AdventurePool.DEFILED_NOOK)),
+            empty());
+      }
+    }
+  }
+
+  @Nested
+  public class LastNoncombat {
+    @BeforeEach
+    void beforeEach() {
+      AdventureSpentDatabase.resetTurns(false);
+    }
+
+    @Test
+    void tracksLastNoncombat() {
+      KoLAdventure location = AdventureDatabase.getAdventure(AdventurePool.BLACK_FOREST);
+      var cleanups =
+          new Cleanups(
+              withLastLocation(location),
+              withProperty("lastNoncombat" + AdventurePool.BLACK_FOREST, 0),
+              withAdventuresSpent(location, 5));
+      try (cleanups) {
+        var req = new GenericRequest("adventure.php?snarfblat=" + AdventurePool.BLACK_FOREST);
+        req.setHasResult(true);
+        req.responseText = html("request/test_adventure_black_forest_all_over_the_map.html");
+        req.processResponse();
+
+        assertThat("lastNoncombat" + AdventurePool.BLACK_FOREST, isSetTo(5));
+      }
+    }
+
+    @Test
+    void doesntTrackZonelessNoncombat() {
+      KoLAdventure location = AdventureDatabase.getAdventure(AdventurePool.SKELETON_STORE);
+      var cleanups =
+          new Cleanups(
+              withLastLocation(location),
+              withProperty("lastNoncombat" + AdventurePool.SKELETON_STORE, 0),
+              withAdventuresSpent(location, 5));
+      try (cleanups) {
+        var req = new GenericRequest("adventure.php?snarfblat=" + AdventurePool.SKELETON_STORE);
+        req.setHasResult(true);
+        req.responseText = html("request/test_adventure_hallowiener_skeleton_store.html");
+        req.processResponse();
+
+        assertThat("lastNoncombat" + AdventurePool.SKELETON_STORE, isSetTo(0));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      // "2, test_adventure_upper_chamber_a_wheel_how_fortunate.html"
+      "5, test_adventure_upper_chamber_down_dooby_doo_down_down.html"
+    })
+    void doesntTrackUpperChamberSuperlikelies(int turnsSpent, String htmlFile) {
+      KoLAdventure location = AdventureDatabase.getAdventure(AdventurePool.UPPER_CHAMBER);
+      var cleanups =
+          new Cleanups(
+              withLastLocation(location),
+              withProperty("lastNoncombat" + AdventurePool.UPPER_CHAMBER, 0),
+              withAdventuresSpent(location, turnsSpent));
+      try (cleanups) {
+        AdventureQueueDatabase.resetQueue();
+        var req = new GenericRequest("adventure.php?snarfblat=" + AdventurePool.UPPER_CHAMBER);
+        req.setHasResult(true);
+        req.responseText = html("request/" + htmlFile);
+        req.processResponse();
+
+        assertThat("lastNoncombat" + AdventurePool.UPPER_CHAMBER, isSetTo(0));
+      }
     }
   }
 

@@ -47,6 +47,7 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
 import net.sourceforge.kolmafia.persistence.RestoresDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.persistence.TCRSDatabase;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.WildfireCampRequest;
@@ -1407,6 +1408,7 @@ public class ProxyRecordValue extends RecordValue {
             .add("combat_queue", DataTypes.STRING_TYPE)
             .add("noncombat_queue", DataTypes.STRING_TYPE)
             .add("turns_spent", DataTypes.INT_TYPE)
+            .add("last_noncombat_turns_spent", DataTypes.INT_TYPE)
             .add("kisses", DataTypes.INT_TYPE)
             .add("recommended_stat", DataTypes.INT_TYPE)
             .add("poison", DataTypes.INT_TYPE)
@@ -1527,6 +1529,15 @@ public class ProxyRecordValue extends RecordValue {
       return this.content != null
           ? AdventureSpentDatabase.getTurns((KoLAdventure) this.content, true)
           : 0;
+    }
+
+    public int last_noncombat_turns_spent() {
+      if (this.content == null) {
+        return -1;
+      }
+
+      var id = ((KoLAdventure) this.content).getAdventureId();
+      return id != "" ? Preferences.getInteger("lastNoncombat" + id) : -1;
     }
 
     public int get_kisses() {

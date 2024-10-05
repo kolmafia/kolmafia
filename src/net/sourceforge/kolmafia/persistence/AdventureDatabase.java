@@ -65,6 +65,7 @@ public class AdventureDatabase {
   private static final Map<String, String> bountyLookup = new HashMap<>();
   private static final Map<String, Integer> statLookup = new HashMap<>();
   private static final Map<String, Integer> waterLevelLookup = new HashMap<>();
+  private static final Map<String, Integer> forceNoncombatLookup = new HashMap<>();
   private static final Map<String, Boolean> wandererLookup = new HashMap<>();
   private static final Map<String, Boolean> overdrunkLookup = new HashMap<>();
   private static final Map<String, Path> ascensionPathZones = new HashMap<>();
@@ -225,6 +226,7 @@ public class AdventureDatabase {
         String environment = null;
         int stat = -1;
         int waterLevel = -1;
+        int forceNoncombat = -1;
         boolean hasWanderers = true;
         boolean canAdventureWhileOverdrunk = false;
         StringTokenizer tokens = new StringTokenizer(data[2], " ");
@@ -235,6 +237,7 @@ public class AdventureDatabase {
             case "Env:" -> environment = tokens.nextToken();
             case "Stat:" -> stat = StringUtilities.parseInt(tokens.nextToken());
             case "Level:" -> waterLevel = StringUtilities.parseInt(tokens.nextToken());
+            case "ForceNoncombat:" -> forceNoncombat = StringUtilities.parseInt(tokens.nextToken());
             case "nowander" -> hasWanderers = false;
             case "overdrunk" -> canAdventureWhileOverdrunk = true;
           }
@@ -289,6 +292,10 @@ public class AdventureDatabase {
         }
 
         AdventureDatabase.waterLevelLookup.put(name, waterLevel);
+
+        if (forceNoncombat != -1) {
+          AdventureDatabase.forceNoncombatLookup.put(name, forceNoncombat);
+        }
 
         if (data.length <= 4) {
           continue;
@@ -904,6 +911,10 @@ public class AdventureDatabase {
 
   public static int getWaterLevel(String adventureName) {
     return AdventureDatabase.waterLevelLookup.getOrDefault(adventureName, -1);
+  }
+
+  public static int getForceNoncombat(String adventureName) {
+    return AdventureDatabase.forceNoncombatLookup.getOrDefault(adventureName, -1);
   }
 
   public static boolean hasWanderers(final String adventureName, final boolean adv) {

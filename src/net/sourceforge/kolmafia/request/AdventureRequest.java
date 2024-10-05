@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -54,6 +55,88 @@ import org.htmlcleaner.XPatherException;
 
 public class AdventureRequest extends GenericRequest {
   public static final String NOT_IN_A_FIGHT = "Not in a Fight";
+
+  public static final Set<String> ZONELESS_NCS =
+      Set.of(
+          "Mmmmmmayonnaise",
+
+          // Ghost Dog
+          "Wooof! Wooooooof!",
+          "Playing Fetch*",
+          "Your Dog Found Something Again",
+          "Dog Diner Afternoon",
+          "Labrador Conspirator",
+          "Doggy Heaven",
+          "Lava Dogs",
+          "Fruuuuuuuit",
+          "Boooooze Hound",
+          "Baker's Dogzen",
+          "Dog Needs Food Badly",
+          "Ratchet-catcher",
+          "Something About Hot Wings",
+          "Seeing-Eyes Dog",
+          "Carpenter Dog",
+          "Are They Made of Real Dogs?",
+          "Gunbowwowder",
+          "It Isn't a Poodle",
+
+          // June Cleaver
+          "Aunts not Ants",
+          "Bath Time",
+          "Beware of Aligator",
+          "Delicious Sprouts",
+          "Hypnotic Master",
+          "Lost and Found",
+          "Poetic Justice",
+          "Summer Days",
+          "Teacher's Pet",
+
+          // Violet Fog
+          "She's So Unusual",
+          "The Big Scary Place",
+          "The Prince of Wishful Thinking",
+          "Violet Fog",
+
+          // Turtle Taming
+          "Nantucket Snapper",
+          "Blue Monday",
+          "Capital!",
+          "Training Day",
+          "Boxed In",
+          "Duel Nature",
+          "Slow Food",
+          "A Rolling Turtle Gathers No Moss",
+          "The Horror...",
+          "Slow Road to Hell",
+          "C'mere, Little Fella",
+          "The Real Victims",
+          "Like That Time in Tortuga",
+          "Cleansing your Palette",
+          "Harem Scarum",
+          "Turtle in peril",
+          "No Man, No Hole",
+          "Slow and Steady Wins the Brawl",
+          "Stormy Weather",
+          "Turtles of the Universe",
+          "O Turtle Were Art Thou",
+          "Allow 6-8 Weeks For Delivery",
+          "Kick the Can",
+          "Turtles All The Way Around",
+          "More eXtreme Than Usual",
+          "Jewel in the Rough",
+          "The worst kind of drowning",
+          "Even Tamer Than Usual",
+          "Never Break the Chain",
+          "Close, but Yes Cigar",
+          "Armchair Quarterback",
+          "This Turtle Rocks!",
+          "Really Sticking Her Neck Out",
+          "It Came from Beneath the Sewer? Great!",
+          "Don't Be Alarmed, Now",
+          "Puttin' it on Wax",
+          "More Like... Hurtle",
+          "Musk! Musk! Musk!",
+          "Silent Strolling");
 
   private static final Pattern AREA_PATTERN =
       Pattern.compile("(adv|snarfblat)=(\\d*)", Pattern.DOTALL);
@@ -582,6 +665,8 @@ public class AdventureRequest extends GenericRequest {
     RequestLogger.updateSessionLog("Encounter: " + prettyEncounter);
     AdventureRequest.registerDemonName(encounter, responseText);
 
+    var location = KoLAdventure.lastVisitedLocation();
+
     // We are done registering the item's encounter.
     if (type != null) {
       if (type.equals("Combat")) {
@@ -621,11 +706,29 @@ public class AdventureRequest extends GenericRequest {
                 && !FightRequest.edFightInProgress())) {
           AdventureQueueDatabase.enqueue(KoLAdventure.lastVisitedLocation(), encounter);
         }
-      } else if (type.equals("Noncombat")) {
+      } else if (type.equals("Noncombat")
+          && !AdventureRequest.ZONELESS_NCS.contains(encounter)
+          // Special-case first two NCs in the Upper Chamber, which are superlikely.
+          // In a perfect world, Mafia would have a list of all superlikelies, but this works for
+          // now.
+          && !(AdventureSpentDatabase.getTurns(
+                      AdventureDatabase.getAdventure(AdventurePool.UPPER_CHAMBER))
+                  == 2
+              && encounter.equals("A Wheel -- How Fortunate!"))
+          && !(AdventureSpentDatabase.getTurns(
+                      AdventureDatabase.getAdventure(AdventurePool.UPPER_CHAMBER))
+                  == 5
+              && encounter.equals("Down Dooby-Doo Down Down"))) {
         // only log the FIRST choice that we see in a choiceadventure chain.
         if ((!urlString.startsWith("choice.php") || ChoiceManager.getLastChoice() == 0)
             && !FightRequest.edFightInProgress()) {
-          AdventureQueueDatabase.enqueueNoncombat(KoLAdventure.lastVisitedLocation(), encounter);
+          AdventureQueueDatabase.enqueueNoncombat(location, encounter);
+          var preference = "lastNoncombat" + location.getAdventureId();
+          if (location.getForceNoncombat() > 0
+              && !AdventureRequest.ZONELESS_NCS.contains(encounter)
+              && Preferences.containsDefault(preference)) {
+            Preferences.setInteger(preference, AdventureSpentDatabase.getTurns(location));
+          }
         }
       }
       EncounterManager.registerEncounter(encounter, type, responseText);
