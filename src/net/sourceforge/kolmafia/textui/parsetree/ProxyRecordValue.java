@@ -53,6 +53,7 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.WildfireCampRequest;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ProxyRecordValue extends RecordValue {
   public ProxyRecordValue(final RecordType type, final Value obj) {
@@ -1537,7 +1538,8 @@ public class ProxyRecordValue extends RecordValue {
       }
 
       var id = ((KoLAdventure) this.content).getAdventureId();
-      return id != "" ? Preferences.getInteger("lastNoncombat" + id) : -1;
+      // Using getString instead of getInteger for a default of -1.
+      return id != "" ? StringUtilities.parseInt(Preferences.getString("lastNoncombat" + id)) : -1;
     }
 
     public int get_kisses() {
