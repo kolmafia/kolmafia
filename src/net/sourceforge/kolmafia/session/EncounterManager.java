@@ -339,6 +339,10 @@ public abstract class EncounterManager {
     return responseText.contains("Fun fact that you just remembered");
   }
 
+  public static final boolean isBodyguardEncounter(final String responseText) {
+    return KoLCharacter.inAvantGuard() && responseText.contains("acting as the bodyguard to");
+  }
+
   public static final boolean isWanderingMonster(String encounter) {
     MonsterData monster = MonsterDatabase.findMonster(encounter);
     return monster != null && monster.getType().contains(EncounterType.WANDERER);
@@ -537,6 +541,22 @@ public abstract class EncounterManager {
       }
       case "it isn't a poodle" -> {
         Preferences.setBoolean("hallowienerKnollGym", true);
+        return;
+      }
+      case "you can never have enough" -> {
+        Preferences.setBoolean("batWingsBatHoleEntrance", true);
+        return;
+      }
+      case "bats of a feather" -> {
+        Preferences.setBoolean("batWingsGuanoJunction", true);
+        return;
+      }
+      case "one of us" -> {
+        Preferences.setBoolean("batWingsBatratBurrow", true);
+        return;
+      }
+      case "magical fruit" -> {
+        Preferences.setBoolean("batWingsBeanbatChamber", true);
         return;
       }
     }

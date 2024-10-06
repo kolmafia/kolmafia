@@ -139,6 +139,7 @@ Cast	Recall Facts: Monster Habitats	_monsterHabitatsRecalled	3
 Cast	Reflex Hammer	_reflexHammerUsed	3
 Cast	Release the Boots	_bootStomps	7
 Cast	Request Sandwich	_requestSandwichSucceeded
+Cast	Rest upside down	_batWingsRestUsed	11
 Cast	Shattering Punch	_shatteringPunchUsed	3
 Cast	Show them your ring	_mafiaMiddleFingerRingUsed
 Cast	Smash & Graaagh	_zombieSmashPocketsUsed	30
@@ -151,6 +152,7 @@ Cast	Summon &quot;Boner Battalion&quot;	_bonersSummoned
 Cast	Summon Alice's Army Cards	grimoire3Summons
 Cast	Summon Annoyance	_summonAnnoyanceUsed
 Cast	Summon Carrot	_summonCarrotUsed
+Cast	Summon Cauldron of Bats	_batWingsCauldronUsed	11
 Cast	Summon Confiscated Things	_grimoireConfiscatorSummons
 Cast	Summon Crimbo Candy	_candySummons
 Cast	Summon Geeky Gifts	_grimoireGeekySummons
@@ -163,6 +165,7 @@ Cast	Summon Tasteful Items	grimoire2Summons
 Cast	Surprisingly Sweet Slash	_surprisinglySweetSlashUsed	11
 Cast	Surprisingly Sweet Stab	_surprisinglySweetStabUsed	11
 Cast	Sweat Out Some Booze	_sweatOutSomeBoozeUsed	3
+Cast	Swoop like a Bat	_batWingsSwoopUsed	11
 Cast	Talk About Politics	_pantsgivingBanish	5
 Cast	That's Not a Knife	_discoKnife
 Cast	The Ballad of Richie Thingfinder	_thingfinderCasts	10

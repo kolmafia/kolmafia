@@ -2232,7 +2232,11 @@ public class FightRequest extends GenericRequest {
       // http://kol.coldfront.net/thekolwiki/index.php/Encounter#Encounter_Flowchart (image link
       // there
       // is regularly updated) shows the order is Digitize, Arrow, Enamorang, so check in that order
-      if (EncounterManager.isDigitizedEncounter(responseText, true)) {
+      // Bodyguard chats are entirely separate, so those come before everything else.
+      if (EncounterManager.isBodyguardEncounter(responseText)) {
+        EncounterManager.ignoreSpecialMonsters();
+        Preferences.setString("bodyguardChatMonster", "");
+      } else if (EncounterManager.isDigitizedEncounter(responseText, true)) {
         EncounterManager.ignoreSpecialMonsters();
         Preferences.increment("_sourceTerminalDigitizeMonsterCount");
         TurnCounter.stopCounting("Digitize Monster");
@@ -3446,6 +3450,19 @@ public class FightRequest extends GenericRequest {
             "sourceInterval", (int) (0.8 * StringUtilities.parseInt(intervalMatcher.group(1))));
       } else {
         Preferences.setInteger("sourceInterval", 0);
+      }
+    }
+
+    if (KoLCharacter.inAvantGuard()) {
+      if (KoLCharacter.getEffectiveFamiliar().getId() == FamiliarPool.BURLY_BODYGUARD) {
+        // After 50 fights (won, lost, whatever) in the Avant Guard path, allows a "chat" to select
+        // a particular bodyguard.
+        if (responseText.contains("looks mildly talkative")) {
+          Preferences.setInteger("bodyguardCharge", 50);
+          familiar.setCharges(50);
+        } else {
+          familiar.setCharges(Preferences.increment("bodyguardCharge", 1, 50, false));
+        }
       }
     }
 
@@ -5619,6 +5636,7 @@ public class FightRequest extends GenericRequest {
     public boolean pebble;
     public boolean serendipity;
     public boolean mildManneredProfessor;
+    public boolean batwings;
 
     public TagStatus() {
       FamiliarData current = KoLCharacter.getFamiliar();
@@ -5713,6 +5731,9 @@ public class FightRequest extends GenericRequest {
           KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.SERENDIPITY));
 
       this.mildManneredProfessor = KoLCharacter.isMildManneredProfessor();
+
+      // If we have bat wings
+      this.batwings = KoLCharacter.hasEquipped(ItemPool.BAT_WINGS);
 
       this.ghost = null;
 
@@ -6472,6 +6493,12 @@ public class FightRequest extends GenericRequest {
       // Your potted plant swallows your opponent{s} whole.
       if (status.carnivorous && str.contains("Your potted plant swallows")) {
         Preferences.increment("_carnivorousPottedPlantWins", 1);
+        FightRequest.logText(str, status);
+      }
+
+      // You flap your bat wings gustily and launch yourself to your next adventure in an instant.
+      if (status.batwings && str.contains("You flap your bat wings gustily")) {
+        Preferences.increment("_batWingsFreeFights", 1);
         FightRequest.logText(str, status);
       }
 
@@ -10654,6 +10681,16 @@ public class FightRequest extends GenericRequest {
           addFightModifiers("Tear Away your Pants", DoubleModifier.ITEMDROP, 15);
         } else if (responseText.contains("Having stripped away the pants")) {
           Preferences.increment("_tearawayPantsAdvs");
+        }
+        break;
+      case SkillPool.SWOOP_LIKE_A_BAT:
+        if (responseText.contains("manage to grab something") || skillSuccess) {
+          skillSuccess = true;
+        }
+        break;
+      case SkillPool.SUMMON_CAULDRON_OF_BATS:
+        if (responseText.contains("You flap your wings") || skillSuccess) {
+          skillSuccess = true;
         }
         break;
     }

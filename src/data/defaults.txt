@@ -321,6 +321,10 @@ user	batmanTimeLeft	0
 user	batmanZone	Gotpork City
 user	batmanUpgrades
 user	battleAction	attack with weapon
+user	batWingsBatHoleEntrance	false
+user	batWingsBatratBurrow	false
+user	batWingsBeanbatChamber	false
+user	batWingsGuanoJunction	false
 user	beachHeadsUnlocked
 user	bearSwagger	0
 user	beastSkillsAvailable
@@ -344,6 +348,8 @@ user	blackPuddingsDefeated	0
 user	blackForestProgress	0
 user	blankOutUsed	0
 user	bloodweiserDrunk	0
+user	bodyguardCharge	0
+user	bodyguardChatMonster
 user	bondAdv	false
 user	bondBeach	false
 user	bondBeat	false
@@ -1800,6 +1806,10 @@ user	_bastilleLastBattleWon	false
 user	_bastilleLastCheese	0
 user	_bastilleLastEncounter	
 user	_bastilleStats	
+user	_batWingsCauldronUsed	0
+user	_batWingsFreeFights	0
+user	_batWingsRestUsed	0
+user	_batWingsSwoopUsed	0
 user	_beachCombing	false
 user	_beachHeadsUsed
 user	_beachLayout
@@ -2382,6 +2392,7 @@ user	_seaJellyHarvested	false
 user	_sealFigurineUses	0
 user	_sealScreeches	0
 user	_sealsSummoned	0
+user	_septEmberBalanceChecked	false
 user	_setOfJacksUsed	false
 user	_sewingKitUsed	false
 user	_sexChanged	false

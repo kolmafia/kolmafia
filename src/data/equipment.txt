@@ -2153,7 +2153,7 @@ ornate dowsing rod	10	none
 Oscus's garbage can lid	240	Mus: 200	shield
 Ouija Board, Ouija Board	120	none	shield
 outmoded fidget toy	50	none
-oversized monocle on a stick	0	none
+oversized monocle on a stick	10	none
 ox-head shield	250	Mus: 10	shield
 oyster basket	10	none
 oyster egg balloon	100	Mys: 35
@@ -2654,7 +2654,7 @@ fancy black tie	100	Mys: 35
 fancy boots	0	none
 Fancy Jeff's fancy pocket square	150	Mox: 30
 FantasyRealm G. E. M.	10	none
-feather boa	0	none
+feather boa	10	none
 fiberglass fannypack	120	Mys: 40
 fiberglass fingerguard	120	Mys: 40
 filigreed hamethyst earring	110	Mys: 40

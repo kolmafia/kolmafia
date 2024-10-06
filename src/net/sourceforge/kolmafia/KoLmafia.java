@@ -81,6 +81,7 @@ import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.RichardRequest;
 import net.sourceforge.kolmafia.request.ScrapheapRequest;
+import net.sourceforge.kolmafia.request.SeptEmberCenserRequest;
 import net.sourceforge.kolmafia.request.SpelunkyRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
@@ -876,6 +877,9 @@ public abstract class KoLmafia {
     ResultProcessor.updateEntauntauned();
     ResultProcessor.updateSavageBeast();
     CargoCultistShortsRequest.loadPockets();
+    if (!Preferences.getBoolean("_septEmberBalanceChecked")) {
+      RequestThread.postRequest(new SeptEmberCenserRequest());
+    }
 
     // This needs to be checked once, to set the property.
     // Once it is set, no further requests will be issued.
