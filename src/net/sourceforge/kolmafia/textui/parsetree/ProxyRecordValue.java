@@ -1532,7 +1532,7 @@ public class ProxyRecordValue extends RecordValue {
           : 0;
     }
 
-    public int last_noncombat_turns_spent() {
+    public int get_last_noncombat_turns_spent() {
       if (this.content == null) {
         return -1;
       }

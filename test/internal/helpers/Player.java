@@ -2389,6 +2389,17 @@ public class Player {
   }
 
   /**
+   * Sets the adventures spent in a particular location
+   *
+   * @param location The name of the location, as an integer snarfblat
+   * @param adventuresSpent The number of adventures spent to set
+   * @return Returns adventures spent to previous value
+   */
+  public static Cleanups withAdventuresSpent(final int location, final int adventuresSpent) {
+    return withAdventuresSpent(AdventureDatabase.getAdventure(location), adventuresSpent);
+  }
+
+  /**
    * Sets the value of an adventure
    *
    * @param value The value in meat
