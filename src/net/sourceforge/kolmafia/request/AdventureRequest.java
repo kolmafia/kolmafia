@@ -622,7 +622,7 @@ public class AdventureRequest extends GenericRequest {
                 && !EncounterManager.isSpookyVHSTapeMonster(responseText, false)
                 && !EncounterManager.isMimeographEncounter(responseText)
                 && !FightRequest.edFightInProgress())) {
-          AdventureQueueDatabase.enqueue(KoLAdventure.lastVisitedLocation(), encounter);
+          AdventureQueueDatabase.enqueue(location, encounter);
         }
       } else if (type.equals("Noncombat")
           // Don't enqueue Lucky, hallowiener, etc. adventures.
