@@ -232,20 +232,44 @@ public class AdventureRequestTest {
       }
     }
 
-    @Test
-    void doesntAddZonelessNoncombatToQueue() {
-      var cleanups = withLastLocation(AdventureDatabase.getAdventure(AdventurePool.DEFILED_NOOK));
+    @ParameterizedTest
+    @CsvSource({
+      "test_adventure_hallowiener_skeleton_store.html," + AdventurePool.SKELETON_STORE,
+      "test_adventure_bat_wings_beanbat.html," + AdventurePool.BEANBAT,
+      "test_adventure_lucky_outskirts_knob.html," + AdventurePool.OUTSKIRTS_OF_THE_KNOB,
+      "test_june_cleaver_choice.html," + AdventurePool.HIDDEN_APARTMENT,
+    })
+    void doesntAddSpecialNoncombatToQueue(String htmlFile, int locationId) {
+      var cleanups = withLastLocation(AdventureDatabase.getAdventure(locationId));
       try (cleanups) {
         AdventureQueueDatabase.resetQueue();
-        var req = new GenericRequest("adventure.php?snarfblat=" + AdventurePool.DEFILED_NOOK);
+        var req = new GenericRequest("adventure.php?snarfblat=" + locationId);
         req.setHasResult(true);
-        req.responseText = html("request/test_adventure_hallowiener_defiled_nook.html");
+        req.responseText = html("request/" + htmlFile);
         req.processResponse();
 
         assertThat(
             AdventureQueueDatabase.getZoneNoncombatQueue(
-                AdventureDatabase.getAdventure(AdventurePool.DEFILED_NOOK)),
+                AdventureDatabase.getAdventure(locationId)),
             empty());
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({"test_adventure_poop_deck_its_always_swordfish.html," + AdventurePool.POOP_DECK})
+    void addsStopNoncombatToQueue(String htmlFile, int locationId) {
+      var cleanups = withLastLocation(AdventureDatabase.getAdventure(locationId));
+      try (cleanups) {
+        AdventureQueueDatabase.resetQueue();
+        var req = new GenericRequest("adventure.php?snarfblat=" + locationId);
+        req.setHasResult(true);
+        req.responseText = html("request/" + htmlFile);
+        req.processResponse();
+
+        assertThat(
+            AdventureQueueDatabase.getZoneNoncombatQueue(
+                AdventureDatabase.getAdventure(locationId)),
+            contains("It's Always Swordfish"));
       }
     }
   }
@@ -275,21 +299,27 @@ public class AdventureRequestTest {
       }
     }
 
-    @Test
-    void doesntTrackZonelessNoncombat() {
-      KoLAdventure location = AdventureDatabase.getAdventure(AdventurePool.SKELETON_STORE);
+    @ParameterizedTest
+    @CsvSource({
+      "test_adventure_hallowiener_skeleton_store.html," + AdventurePool.SKELETON_STORE,
+      "test_adventure_bat_wings_beanbat.html," + AdventurePool.BEANBAT,
+      "test_adventure_lucky_billiards_room.html," + AdventurePool.HAUNTED_BILLIARDS_ROOM,
+      "test_june_cleaver_choice.html," + AdventurePool.HIDDEN_APARTMENT,
+    })
+    void doesntTrackSpecialNoncombat(String htmlFile, int locationId) {
+      KoLAdventure location = AdventureDatabase.getAdventure(locationId);
       var cleanups =
           new Cleanups(
               withLastLocation(location),
-              withProperty("lastNoncombat" + AdventurePool.SKELETON_STORE, 0),
+              withProperty("lastNoncombat" + locationId, 0),
               withAdventuresSpent(location, 5));
       try (cleanups) {
-        var req = new GenericRequest("adventure.php?snarfblat=" + AdventurePool.SKELETON_STORE);
+        var req = new GenericRequest("adventure.php?snarfblat=" + locationId);
         req.setHasResult(true);
-        req.responseText = html("request/test_adventure_hallowiener_skeleton_store.html");
+        req.responseText = html("request/" + htmlFile);
         req.processResponse();
 
-        assertThat("lastNoncombat" + AdventurePool.SKELETON_STORE, isSetTo(0));
+        assertThat("lastNoncombat" + locationId, isSetTo(0));
       }
     }
 
