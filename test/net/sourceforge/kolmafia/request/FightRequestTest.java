@@ -2826,17 +2826,51 @@ public class FightRequestTest {
     }
   }
 
-  @Test
-  public void canDetectBatWingsWins() {
-    RequestLoggerOutput.startStream();
-    var cleanups =
-        new Cleanups(
-            withEquipped(Slot.CONTAINER, "bat wings"), withProperty("_batWingsFreeFights", 0));
-    try (cleanups) {
-      parseCombatData("request/test_fight_bat_wings_free.html");
-      var text = RequestLoggerOutput.stopStream();
-      assertThat(text, containsString("You flap your bat wings gustily"));
-      assertEquals(1, Preferences.getInteger("_batWingsFreeFights"));
+  @Nested
+  class BatWings {
+    @Test
+    public void canDetectBatWingsWins() {
+      RequestLoggerOutput.startStream();
+      var cleanups =
+          new Cleanups(
+              withEquipped(Slot.CONTAINER, ItemPool.BAT_WINGS),
+              withProperty("_batWingsFreeFights", 0));
+      try (cleanups) {
+        parseCombatData("request/test_fight_bat_wings_free.html");
+        var text = RequestLoggerOutput.stopStream();
+        assertThat(text, containsString("You flap your bat wings gustily"));
+        assertEquals(1, Preferences.getInteger("_batWingsFreeFights"));
+      }
+    }
+
+    @Test
+    void swoopRecorded() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(Slot.CONTAINER, ItemPool.BAT_WINGS),
+              withProperty("_batWingsSwoopUsed", 0),
+              withFight());
+
+      try (cleanups) {
+        parseCombatData(
+            "request/test_fight_bat_wings_swoop.html", "fight.php?action=skill&whichskill=7530");
+        assertThat("_batWingsSwoopUsed", isSetTo(1));
+      }
+    }
+
+    @Test
+    void cauldronRecorded() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(Slot.CONTAINER, ItemPool.BAT_WINGS),
+              withProperty("_batWingsCauldronUsed", 0),
+              withFight());
+
+      try (cleanups) {
+        parseCombatData(
+            "request/test_fight_bat_wings_cauldron.html", "fight.php?action=skill&whichskill=7531");
+        assertThat("_batWingsCauldronUsed", isSetTo(1));
+      }
     }
   }
 }

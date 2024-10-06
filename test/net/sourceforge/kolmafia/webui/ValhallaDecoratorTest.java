@@ -137,4 +137,42 @@ class ValhallaDecoratorTest {
       }
     }
   }
+
+  @Nested
+  class SeptEmber {
+    @Test
+    public void decoratesWithEmbers() {
+      var cleanups =
+          new Cleanups(
+              // trophy check
+              withNextResponse(200, ""), withProperty("availableSeptEmbers", 6));
+
+      try (cleanups) {
+        var buffer =
+            new StringBuffer(
+                "<input type=submit class=button value=\"Ascend\"> <input type=checkbox name=confirm> (confirm) <input type=checkbox name=confirm2> (seriously)");
+        ValhallaDecorator.decorateGashJump("ascend.php", buffer);
+        assertThat(
+            buffer.toString(),
+            containsString(
+                "<a href=\"shop.php?whichshop=september\">Spend remaining Sept Embers (6)</a>"));
+      }
+    }
+
+    @Test
+    public void doesNotDecorateWithoutEmbers() {
+      var cleanups =
+          new Cleanups(
+              // trophy check
+              withNextResponse(200, ""), withProperty("availableSeptEmbers", 0));
+
+      try (cleanups) {
+        var buffer =
+            new StringBuffer(
+                "<input type=submit class=button value=\"Ascend\"> <input type=checkbox name=confirm> (confirm) <input type=checkbox name=confirm2> (seriously)");
+        ValhallaDecorator.decorateGashJump("ascend.php", buffer);
+        assertThat(buffer.toString(), not(containsString("shop.php?whichshop=september")));
+      }
+    }
+  }
 }

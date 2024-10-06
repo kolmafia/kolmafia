@@ -317,7 +317,7 @@
 285	Arachnelf	arachnelf.gif	none	festive egg sac	Site Alpha ID badge	3	1	3	1
 286	Synthetic Rock	synthrock.gif	none	synthetic rock		0	0	0	0	mineral,object,hard
 287	Grey Goose	greygoose.gif	item0	grey gosling	grey down vest	1	2	3	3
-288	Cookbookbat	bbat_fam.gif	item1,drop	mummified entombed cookbookbat	cookbookbat book	0	3	2	3	flies,haseyes
+288	Cookbookbat	bbat_fam.gif	item1,drop	mummified entombed cookbookbat	cookbookbat book	0	3	2	3	flies,haseyes,undead
 289	Mini-Trainbot	tbot_on.gif	combat1,hp1,mp1	deactivated mini-Trainbot	overloaded Yule battery	3	2	3	1	hashands
 290	Hobo in Sheep's Clothing	hobosheep.gif	stat0,item0,drop	unoccupied sheep suit	half-height cigar	1	3	3	2	haseyes,wearsclothes
 291	Pixel Rock	pixelrock.gif	none	pixel rock		0	0	0	0	mineral,cute,haseyes,hard
