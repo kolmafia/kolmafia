@@ -170,8 +170,7 @@ McLarge	dwarffactory=0	DiffLevel: none Env: none Stat: 0	Dwarven Factory Warehou
 McLarge	mining=1	DiffLevel: none Env: none Stat: 0	Itznotyerzitz Mine (in Disguise)
 
 Highlands	adventure=296	DiffLevel: mid Env: outdoor Stat: 75	A-Boo Peak	3 A-Boo clue
-# TODO: Verify the ForceNoncombat value for Twin Peak.
-Highlands	adventure=297	DiffLevel: mid Env: outdoor Stat: 90 ForceNoncombat: 10	Twin Peak	1 gold wedding ring
+Highlands	adventure=297	DiffLevel: mid Env: outdoor Stat: 90 ForceNoncombat: 7	Twin Peak	1 gold wedding ring
 Highlands	adventure=298	DiffLevel: mid Env: outdoor Stat: 85	Oil Peak	1 jar of oil|oil cap, oil lamp, oil slacks|oil cap, oil lamp, oil slacks, oily boid, oil pan
 
 The Red Zeppelin's Mooring	adventure=384	DiffLevel: high Env: outdoor Stat: 125 ForceNoncombat: 7	A Mob of Zeppelin Protesters
