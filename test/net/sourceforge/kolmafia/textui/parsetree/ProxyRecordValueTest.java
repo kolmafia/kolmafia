@@ -43,6 +43,8 @@ public class ProxyRecordValueTest {
       assertThat(location.get_combat_queue(), is(""));
       assertThat(location.get_noncombat_queue(), is(""));
       assertThat(location.get_turns_spent(), is(0));
+      assertThat(location.get_last_noncombat_turns_spent(), is(-1));
+      assertThat(location.get_force_noncombat(), is(-1));
       assertThat(location.get_kisses(), is(0));
       assertThat(location.get_recommended_stat(), is(0));
       assertThat(location.get_poison(), is(Integer.MAX_VALUE));
@@ -78,6 +80,7 @@ public class ProxyRecordValueTest {
         assertThat(location.get_noncombat_queue(), is(""));
         assertThat(location.get_turns_spent(), is(5));
         assertThat(location.get_last_noncombat_turns_spent(), is(3));
+        assertThat(location.get_force_noncombat(), is(10));
         assertThat(location.get_kisses(), is(0));
         assertThat(location.get_recommended_stat(), is(20));
         assertThat(location.get_poison(), is(Integer.MAX_VALUE));

@@ -1410,6 +1410,7 @@ public class ProxyRecordValue extends RecordValue {
             .add("noncombat_queue", DataTypes.STRING_TYPE)
             .add("turns_spent", DataTypes.INT_TYPE)
             .add("last_noncombat_turns_spent", DataTypes.INT_TYPE)
+            .add("force_noncombat", DataTypes.INT_TYPE)
             .add("kisses", DataTypes.INT_TYPE)
             .add("recommended_stat", DataTypes.INT_TYPE)
             .add("poison", DataTypes.INT_TYPE)
@@ -1540,6 +1541,10 @@ public class ProxyRecordValue extends RecordValue {
       var id = ((KoLAdventure) this.content).getAdventureId();
       // Using getString instead of getInteger for a default of -1.
       return id != "" ? StringUtilities.parseInt(Preferences.getString("lastNoncombat" + id)) : -1;
+    }
+
+    public int get_force_noncombat() {
+      return this.content != null ? ((KoLAdventure) this.content).getForceNoncombat() : -1;
     }
 
     public int get_kisses() {
