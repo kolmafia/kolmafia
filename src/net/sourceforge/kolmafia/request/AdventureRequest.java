@@ -644,9 +644,11 @@ public class AdventureRequest extends GenericRequest {
         if ((!urlString.startsWith("choice.php") || ChoiceManager.getLastChoice() == 0)
             && !FightRequest.edFightInProgress()) {
           AdventureQueueDatabase.enqueueNoncombat(location, encounter);
-          var preference = "lastNoncombat" + location.getAdventureId();
-          if (location.getForceNoncombat() > 0 && Preferences.containsDefault(preference)) {
-            Preferences.setInteger(preference, AdventureSpentDatabase.getTurns(location));
+          if (location != null) {
+            var preference = "lastNoncombat" + location.getAdventureId();
+            if (location.getForceNoncombat() > 0 && Preferences.containsDefault(preference)) {
+              Preferences.setInteger(preference, AdventureSpentDatabase.getTurns(location));
+            }
           }
         }
       }
