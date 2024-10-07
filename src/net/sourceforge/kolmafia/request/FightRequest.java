@@ -10683,6 +10683,16 @@ public class FightRequest extends GenericRequest {
           Preferences.increment("_tearawayPantsAdvs");
         }
         break;
+      case SkillPool.SWOOP_LIKE_A_BAT:
+        if (responseText.contains("manage to grab something") || skillSuccess) {
+          skillSuccess = true;
+        }
+        break;
+      case SkillPool.SUMMON_CAULDRON_OF_BATS:
+        if (responseText.contains("You flap your wings") || skillSuccess) {
+          skillSuccess = true;
+        }
+        break;
     }
 
     if (skillSuccess || skillRunawaySuccess || familiarSkillSuccess) {
