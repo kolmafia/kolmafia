@@ -1,11 +1,17 @@
 package net.sourceforge.kolmafia.request;
 
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONArray;
+import com.alibaba.fastjson2.JSONException;
+import com.alibaba.fastjson2.JSONObject;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
@@ -17,6 +23,8 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AreaCombatData;
@@ -77,6 +85,12 @@ import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.VoteMonsterManager;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
+import net.sourceforge.kolmafia.textui.DataTypes;
+import net.sourceforge.kolmafia.textui.RuntimeLibrary;
+import net.sourceforge.kolmafia.textui.ScriptRuntime;
+import net.sourceforge.kolmafia.textui.javascript.JSONValueConverter;
+import net.sourceforge.kolmafia.textui.parsetree.ProxyRecordValue;
+import net.sourceforge.kolmafia.textui.parsetree.Value;
 import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.PauseObject;
@@ -84,7 +98,6 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.utilities.WikiUtilities;
 import net.sourceforge.kolmafia.webui.RelayServer;
 import net.sourceforge.kolmafia.webui.StationaryButtonDecorator;
-import org.json.JSONObject;
 
 public class RelayRequest extends PasswordHashRequest {
   private final PauseObject pauser = new PauseObject();
@@ -113,6 +126,8 @@ public class RelayRequest extends PasswordHashRequest {
   public String contentType = null;
   public long lastModified = 0;
   public String statusLine = "HTTP/1.1 302 Found";
+
+  private static final JSONValueConverter jsonConverter = new JSONValueConverter();
 
   public static boolean specialCommandIsAdventure = false;
   public static String specialCommandResponse = "";
@@ -3457,6 +3472,8 @@ public class RelayRequest extends PasswordHashRequest {
         // specifically support it - we have no page to display.
         this.pseudoResponse("HTTP/1.1 200 OK", "<html><body>Automation complete.</body></html>)");
       }
+    } else if (path.endsWith("apiRequest")) {
+      this.handleApiRequest(this.getFormField("body"));
     } else if (path.endsWith("logout")) {
       submitCommand("logout");
       this.pseudoResponse("HTTP/1.1 302 Found", "/loggedout.php");
@@ -3498,6 +3515,141 @@ public class RelayRequest extends PasswordHashRequest {
     this.contentType = "text/html";
     this.pseudoResponse("HTTP/1.1 200 OK", buffer);
     return true;
+  }
+
+  private void jsonError(String message) {
+    this.statusLine = "HTTP/1.1 400 Bad Request";
+    this.contentType = "application/json";
+    this.responseCode = 400;
+    this.responseText = JSON.toJSONString(Map.of("error", message));
+  }
+
+  private Object transformApiArgument(Object thing) {
+    if (thing instanceof JSONObject obj) {
+      var objectTypeObject = obj.get("objectType");
+      if (objectTypeObject instanceof String objectType
+          && DataTypes.enumeratedTypeNames.contains(objectType)) {
+        var dataType = DataTypes.enumeratedTypes.find(objectType);
+        var identifierStringObject = obj.get("identifierString");
+        var identifierNumberObject = obj.get("identifierNumber");
+        if (identifierStringObject instanceof String identifierString) {
+          return ProxyRecordValue.asProxy(dataType.parseValue(identifierString, false));
+        } else if (identifierNumberObject instanceof Integer identifierNumber) {
+          return ProxyRecordValue.asProxy(dataType.makeValue(identifierNumber, false));
+        }
+      }
+
+      return jsonConverter.fromJava(obj);
+    } else return jsonConverter.fromJava(thing);
+  }
+
+  private void handleApiRequest(String request) {
+    this.contentType = "application/json";
+    try {
+      var json = JSON.parseObject(request);
+      var result = new JSONObject();
+
+      var properties = json.get("properties");
+      if (properties instanceof JSONArray propertiesArray) {
+        var nonString = propertiesArray.stream().filter(name -> !(name instanceof String)).toList();
+        if (!nonString.isEmpty()) {
+          jsonError("Invalid property names " + JSON.toJSONString(nonString));
+          return;
+        }
+        result.put(
+            "properties",
+            ((JSONArray) properties)
+                .stream()
+                    .map(
+                        name ->
+                            name instanceof String ? Preferences.getString((String) name) : null)
+                    .toList());
+      }
+
+      var functions = json.get("functions");
+      if (functions instanceof JSONArray functionsArray) {
+        var nonMatching =
+            functionsArray.stream()
+                .filter(
+                    func -> {
+                      if (!(func instanceof JSONObject)) return true;
+                      var funcObject = (JSONObject) func;
+                      var name = funcObject.get("name");
+                      var args = funcObject.get("args");
+                      if (!(name instanceof String) || !(args instanceof JSONArray)) return true;
+                      return ((JSONArray) args).contains(null);
+                    })
+                .toList();
+        if (!nonMatching.isEmpty()) {
+          jsonError("Invalid function calls " + JSON.toJSONString(nonMatching));
+          return;
+        }
+
+        // Everything validated. Transform all function arguments.
+        var functionsResult = new JSONObject();
+        for (var func : (JSONArray) functions) {
+          var funcObject = (JSONObject) func;
+          var name = (String) funcObject.get("name");
+          var args = (JSONArray) funcObject.get("args");
+          var transformedArguments = args.stream().map(this::transformApiArgument).toList();
+          var badIndices =
+              IntStream.range(0, transformedArguments.size())
+                  .filter(i -> transformedArguments.get(i) == null)
+                  .toArray();
+          if (badIndices.length > 0) {
+            jsonError(
+                "Invalid arguments to "
+                    + name
+                    + ": "
+                    + JSON.toJSONString(Arrays.stream(badIndices).mapToObj(args::get)));
+            return;
+          }
+
+          Class<?>[] argClasses = new Class[args.size() + 1];
+
+          argClasses[0] = ScriptRuntime.class;
+          Arrays.fill(argClasses, 1, args.size() + 1, Value.class);
+
+          Object[] argsWithRuntime =
+              Stream.concat(Stream.of(new Object[] {null}), args.stream()).toArray();
+
+          try {
+            var method = RuntimeLibrary.findMethod(name, argClasses);
+            var returnValue = method.invoke(RuntimeLibrary.class, argsWithRuntime);
+
+            if (!(returnValue instanceof Value value)) {
+              jsonError("Function " + name + " returned something other than a value.");
+              return;
+            }
+
+            functionsResult.put(
+                JSON.toJSONString(Stream.concat(Stream.of(name), args.stream()).toList()),
+                jsonConverter.asJava(value));
+          } catch (NoSuchMethodException e) {
+            jsonError("Unable to find method " + name);
+            return;
+          } catch (IllegalAccessException e) {
+            jsonError("Illegal access exception on " + name + ": " + e.getMessage());
+            return;
+          } catch (InvocationTargetException e) {
+            jsonError("Invocation target exception on " + name + ": " + e.getMessage());
+            return;
+          } catch (Exception e) {
+            jsonError(
+                "Exception " + e.getClass().getName() + " on " + name + ": " + e.getMessage());
+            return;
+          }
+        }
+
+        result.put("functions", functionsResult);
+      }
+
+      this.statusLine = "HTTP/1.1 200 OK";
+      this.responseCode = 200;
+      this.responseText = JSON.toJSONString(result);
+    } catch (JSONException e) {
+      jsonError("Invalid JSON object in request.");
+    }
   }
 
   private void submitCommand(String command) {
@@ -3650,7 +3802,7 @@ public class RelayRequest extends PasswordHashRequest {
         if (index != -1) {
           index += string.length();
           for (ChatMessage message : messages) {
-            JSONObject object = message.toJSON();
+            org.json.JSONObject object = message.toJSON();
             if (object != null) {
               string = object.toString();
               buffer.insert(index, string);

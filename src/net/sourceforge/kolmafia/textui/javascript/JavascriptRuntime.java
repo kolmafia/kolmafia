@@ -320,7 +320,11 @@ public class JavascriptRuntime extends AbstractRuntime {
               KoLmafia.updateDisplay(KoLConstants.MafiaState.ERROR, escapedMessage);
             });
 
-    return new ValueConverter(cx, scope).fromJava(returnValue);
+    try {
+      return new ScriptableValueConverter(cx, scope).fromJava(returnValue);
+    } catch (ValueConverter.ValueConverterException e) {
+      throw new EvaluatorException(e.getMessage());
+    }
   }
 
   private static Object resolvePromise(Context cx, NativePromise promise) {

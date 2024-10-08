@@ -780,7 +780,7 @@ public class GenericRequest implements Runnable {
     return (!this.isExternalRequest ? "pwd" : null);
   }
 
-  private String getDataString() {
+  public String getDataString() {
     // This returns the data string as we will submit it to KoL: if
     // the request wants us to include the password hash, we
     // include the actual value

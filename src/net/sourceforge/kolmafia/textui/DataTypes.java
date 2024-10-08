@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.textui;
 
+import java.util.ArrayList;
 import java.util.List;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -219,6 +220,17 @@ public class DataTypes {
   public static final Value PATH_INIT = new Value(DataTypes.PATH_TYPE, -1, "none", Path.NONE);
   public static final Value MODIFIER_INIT = new Value(DataTypes.MODIFIER_TYPE, "none", null);
 
+  public static final TypeList enumeratedTypesIntLike =
+      TypeList.of(
+          ITEM_TYPE,
+          FAMILIAR_TYPE,
+          LOCATION_TYPE,
+          SKILL_TYPE,
+          EFFECT_TYPE,
+          CLASS_TYPE,
+          MONSTER_TYPE,
+          THRALL_TYPE,
+          SERVANT_TYPE);
   public static final TypeList enumeratedTypes =
       TypeList.of(
           ITEM_TYPE,
@@ -249,9 +261,11 @@ public class DataTypes {
           BUFFER_TYPE,
           MATCHER_TYPE,
           AGGREGATE_TYPE);
+  public static final List<String> enumeratedTypeNames = new ArrayList<>();
 
   static {
     simpleTypes.addAll(enumeratedTypes);
+    enumeratedTypeNames.addAll(enumeratedTypes.stream().map(Type::getName).toList());
   }
 
   private DataTypes() {}

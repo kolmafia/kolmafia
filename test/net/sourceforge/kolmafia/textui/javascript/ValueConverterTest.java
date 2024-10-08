@@ -90,7 +90,7 @@ public class ValueConverterTest {
     Value boolTrue = new Value(true);
     Value floatValue = new Value(Float.MAX_VALUE);
 
-    ValueConverter vc = new ValueConverter(cx, scope);
+    ScriptableValueConverter vc = new ScriptableValueConverter(cx, scope);
     Assertions.assertEquals(
         vc.fromJava(vc.asJava(longMaxInt)),
         longMaxInt,
