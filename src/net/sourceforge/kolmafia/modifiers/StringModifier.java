@@ -56,7 +56,13 @@ public enum StringModifier implements Modifier {
   FLOOR_BUFFED_MOXIE("Floor Buffed Moxie", Pattern.compile("Floor Buffed Moxie: \"(.*?)\"")),
   PLUMBER_STAT("Plumber Stat", Pattern.compile("Plumber Stat: \"(.*?)\"")),
   RECIPE("Recipe", Pattern.compile("Recipe: \"(.*?)\"")),
-  EVALUATED_MODIFIERS("Evaluated Modifiers");
+  EVALUATED_MODIFIERS("Evaluated Modifiers"),
+  CONDITIONAL_SKILL_EQUIPPED(
+      "Conditional Skill (Equipped)",
+      new Pattern[] {Pattern.compile("Grants \"(.*?)\" Combat Skill")},
+      Pattern.compile("Conditional Skill (Equipped): \"(.*?)\"")),
+  CONDITIONAL_SKILL_INVENTORY(
+      "Conditional Skill (Inventory)", Pattern.compile("Conditional Skill (Inventory): \"(.*?)\""));
   private final String name;
   private final Pattern[] descPatterns;
   private final Pattern tagPattern;
