@@ -1,5 +1,8 @@
 package net.sourceforge.kolmafia.session;
 
+import com.alibaba.fastjson2.JSONArray;
+import com.alibaba.fastjson2.JSONException;
+import com.alibaba.fastjson2.JSONObject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -42,9 +45,6 @@ import net.sourceforge.kolmafia.swingui.panel.GearChangePanel;
 import net.sourceforge.kolmafia.textui.command.ConditionsCommand;
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
 import net.sourceforge.kolmafia.utilities.SortedList;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 @SuppressWarnings("incomplete-switch")
 public class EquipmentManager {
@@ -2093,7 +2093,7 @@ public class EquipmentManager {
     while (keys.hasNext()) {
       String slotName = keys.next();
       if (slotName.equals("fakehands")) {
-        fakeHands = equip.getInt(slotName);
+        fakeHands = equip.getIntValue(slotName);
         continue;
       }
 
@@ -2102,14 +2102,14 @@ public class EquipmentManager {
         continue;
       }
 
-      equipment.put(slot, EquipmentManager.equippedItem(equip.getInt(slotName)));
+      equipment.put(slot, EquipmentManager.equippedItem(equip.getIntValue(slotName)));
     }
 
     // Read stickers
     JSONArray stickers = JSON.getJSONArray("stickers");
     int i = 0;
     for (var slot : SlotSet.STICKER_SLOTS) {
-      AdventureResult item = EquipmentManager.equippedItem(stickers.getInt(i++));
+      AdventureResult item = EquipmentManager.equippedItem(stickers.getIntValue(i++));
       equipment.put(slot, item);
     }
 
@@ -2117,7 +2117,7 @@ public class EquipmentManager {
     JSONArray folders = JSON.getJSONArray("folder_holder");
     i = 0;
     for (var slot : SlotSet.FOLDER_SLOTS) {
-      int folder = folders.getInt(i++);
+      int folder = folders.getIntValue(i++);
       AdventureResult item =
           folder == 0 ? EquipmentRequest.UNEQUIP : ItemPool.get(ItemPool.FOLDER_01 - 1 + folder, 1);
       equipment.put(slot, item);

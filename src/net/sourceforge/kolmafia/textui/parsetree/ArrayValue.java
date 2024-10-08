@@ -1,11 +1,11 @@
 package net.sourceforge.kolmafia.textui.parsetree;
 
+import com.alibaba.fastjson2.JSONArray;
+import com.alibaba.fastjson2.JSONException;
 import java.io.PrintStream;
 import java.util.List;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes.TypeSpec;
-import org.json.JSONArray;
-import org.json.JSONException;
 
 public class ArrayValue extends AggregateValue {
   public ArrayValue(final AggregateType type) {

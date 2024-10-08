@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia.request;
 
+import com.alibaba.fastjson2.JSONException;
+import com.alibaba.fastjson2.JSONObject;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -28,8 +30,6 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 @SuppressWarnings("incomplete-switch")
 public class StorageRequest extends TransferItemRequest {
@@ -138,7 +138,7 @@ public class StorageRequest extends TransferItemRequest {
       while (keys.hasNext()) {
         String key = keys.next();
         int itemId = StringUtilities.parseInt(key);
-        int count = JSON.getInt(key);
+        int count = JSON.getIntValue(key);
         String name = ItemDatabase.getItemDataName(itemId);
         if (name == null) {
           // api.php?what=item does not work for
