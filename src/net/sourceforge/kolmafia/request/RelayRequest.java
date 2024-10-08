@@ -3472,8 +3472,8 @@ public class RelayRequest extends PasswordHashRequest {
         // specifically support it - we have no page to display.
         this.pseudoResponse("HTTP/1.1 200 OK", "<html><body>Automation complete.</body></html>)");
       }
-    } else if (path.endsWith("apiRequest")) {
-      this.handleApiRequest(this.getFormField("body"));
+    } else if (path.endsWith("jsonApi")) {
+      this.handleJsonApi(this.getFormField("body"));
     } else if (path.endsWith("logout")) {
       submitCommand("logout");
       this.pseudoResponse("HTTP/1.1 302 Found", "/loggedout.php");
@@ -3543,7 +3543,7 @@ public class RelayRequest extends PasswordHashRequest {
     } else return jsonConverter.fromJava(thing);
   }
 
-  private void handleApiRequest(String request) {
+  private void handleJsonApi(String request) {
     this.contentType = "application/json";
     try {
       var json = JSON.parseObject(request);

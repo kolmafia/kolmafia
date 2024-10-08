@@ -67,10 +67,10 @@ public class RelayRequestTest {
   }
 
   @Nested
-  class ApiRequest {
+  class JsonApi {
     private RelayRequest makeApiRequest(String bodyString) {
       var rr = new RelayRequest(false);
-      rr.constructURLString("KoLmafia/apiRequest", true);
+      rr.constructURLString("KoLmafia/jsonApi", true);
       rr.addFormField("pwd", GenericRequest.passwordHash);
       rr.addFormField("body", bodyString);
       rr.run();
