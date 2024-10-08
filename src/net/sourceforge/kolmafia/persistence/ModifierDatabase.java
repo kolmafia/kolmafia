@@ -478,17 +478,17 @@ public class ModifierDatabase {
     return mods.getBoolean(mod);
   }
 
-  public static final String getStringModifier(
+  public static String getStringModifier(
       final ModifierType type, final int id, final StringModifier mod) {
     return getStringModifier(new Lookup(type, id), mod);
   }
 
-  public static final String getStringModifier(
+  public static String getStringModifier(
       final ModifierType type, final String name, final StringModifier mod) {
     return getStringModifier(new Lookup(type, name), mod);
   }
 
-  public static final String getStringModifier(final Lookup lookup, final StringModifier mod) {
+  public static String getStringModifier(final Lookup lookup, final StringModifier mod) {
     Modifiers mods = getModifiers(lookup);
     if (mods == null) {
       return "";
@@ -504,7 +504,7 @@ public class ModifierDatabase {
       return new ModifierList();
     }
 
-    return splitModifiers(mods.getString(StringModifier.MODIFIERS));
+    return splitModifiers(String.join(", ", mods.getString(StringModifier.MODIFIERS)));
   }
 
   public static final ModifierList splitModifiers(String modifiers) {
@@ -1415,7 +1415,7 @@ public class ModifierDatabase {
 
         Modifiers modifiers = modifiersByName.get(type, key);
         if (modifiers != null) {
-          modifierString = modifiers.getString(StringModifier.MODIFIERS);
+          modifierString = String.join(", ", modifiers.getString(StringModifier.MODIFIERS));
         }
 
         ModifierList list = splitModifiers(modifierString);

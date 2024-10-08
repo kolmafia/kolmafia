@@ -119,34 +119,34 @@ public class Modifiers {
     int mys = KoLCharacter.getBaseMysticality();
     int mox = KoLCharacter.getBaseMoxie();
 
-    String equalize = this.getString(StringModifier.EQUALIZE);
-    if (equalize.startsWith("Mus")) {
+    var equalize = this.getString(StringModifier.EQUALIZE);
+    if (equalize.contains("Muscle")) {
       mys = mox = mus;
-    } else if (equalize.startsWith("Mys")) {
+    } else if (equalize.contains("Mysticality")) {
       mus = mox = mys;
-    } else if (equalize.startsWith("Mox")) {
+    } else if (equalize.contains("Moxie")) {
       mus = mys = mox;
-    } else if (equalize.startsWith("High")) {
+    } else if (equalize.contains("High")) {
       int high = Math.max(Math.max(mus, mys), mox);
       mus = mys = mox = high;
     }
 
-    String mus_equalize = this.getString(StringModifier.EQUALIZE_MUSCLE);
-    if (mus_equalize.startsWith("Mys")) {
+    var mus_equalize = this.getString(StringModifier.EQUALIZE_MUSCLE);
+    if (mus_equalize.contains("Mysticality")) {
       mus = mys;
-    } else if (mus_equalize.startsWith("Mox")) {
+    } else if (mus_equalize.contains("Moxie")) {
       mus = mox;
     }
-    String mys_equalize = this.getString(StringModifier.EQUALIZE_MYST);
-    if (mys_equalize.startsWith("Mus")) {
+    var mys_equalize = this.getString(StringModifier.EQUALIZE_MYST);
+    if (mys_equalize.contains("Muscle")) {
       mys = mus;
-    } else if (mys_equalize.startsWith("Mox")) {
+    } else if (mys_equalize.contains("Moxie")) {
       mys = mox;
     }
-    String mox_equalize = this.getString(StringModifier.EQUALIZE_MOXIE);
-    if (mox_equalize.startsWith("Mus")) {
+    var mox_equalize = this.getString(StringModifier.EQUALIZE_MOXIE);
+    if (mox_equalize.contains("Muscle")) {
       mox = mus;
-    } else if (mox_equalize.startsWith("Mys")) {
+    } else if (mox_equalize.contains("Mysticality")) {
       mox = mys;
     }
 
@@ -179,37 +179,37 @@ public class Modifiers {
             + (int) this.getDouble(DoubleModifier.MOX)
             + (int) Math.ceil(this.getDouble(DoubleModifier.MOX_PCT) * mox / 100.0));
 
-    String mus_buffed_floor = this.getString(StringModifier.FLOOR_BUFFED_MUSCLE);
-    if (mus_buffed_floor.startsWith("Mys")) {
+    var mus_buffed_floor = this.getString(StringModifier.FLOOR_BUFFED_MUSCLE);
+    if (mus_buffed_floor.contains("Mysticality")) {
       var mod = rv.get(DerivedModifier.BUFFED_MYS);
       if (mod > rv.get(DerivedModifier.BUFFED_MUS)) {
         rv.put(DerivedModifier.BUFFED_MUS, mod);
       }
-    } else if (mus_buffed_floor.startsWith("Mox")) {
+    } else if (mus_buffed_floor.contains("Moxie")) {
       var mod = rv.get(DerivedModifier.BUFFED_MOX);
       if (mod > rv.get(DerivedModifier.BUFFED_MUS)) {
         rv.put(DerivedModifier.BUFFED_MUS, mod);
       }
     }
-    String mys_buffed_floor = this.getString(StringModifier.FLOOR_BUFFED_MYST);
-    if (mys_buffed_floor.startsWith("Mus")) {
+    var mys_buffed_floor = this.getString(StringModifier.FLOOR_BUFFED_MYST);
+    if (mys_buffed_floor.contains("Muscle")) {
       var mod = rv.get(DerivedModifier.BUFFED_MUS);
       if (mod > rv.get(DerivedModifier.BUFFED_MYS)) {
         rv.put(DerivedModifier.BUFFED_MYS, mod);
       }
-    } else if (mys_buffed_floor.startsWith("Mox")) {
+    } else if (mys_buffed_floor.contains("Moxie")) {
       var mod = rv.get(DerivedModifier.BUFFED_MOX);
       if (mod > rv.get(DerivedModifier.BUFFED_MYS)) {
         rv.put(DerivedModifier.BUFFED_MYS, mod);
       }
     }
-    String mox_buffed_floor = this.getString(StringModifier.FLOOR_BUFFED_MOXIE);
-    if (mox_buffed_floor.startsWith("Mus")) {
+    var mox_buffed_floor = this.getString(StringModifier.FLOOR_BUFFED_MOXIE);
+    if (mox_buffed_floor.contains("Muscle")) {
       var mod = rv.get(DerivedModifier.BUFFED_MUS);
       if (mod > rv.get(DerivedModifier.BUFFED_MOX)) {
         rv.put(DerivedModifier.BUFFED_MOX, mod);
       }
-    } else if (mox_buffed_floor.startsWith("Mys")) {
+    } else if (mox_buffed_floor.contains("Mysticality")) {
       var mod = rv.get(DerivedModifier.BUFFED_MYS);
       if (mod > rv.get(DerivedModifier.BUFFED_MOX)) {
         rv.put(DerivedModifier.BUFFED_MOX, mod);
@@ -388,20 +388,26 @@ public class Modifiers {
     return bools;
   }
 
-  public String getString(final StringModifier modifier) {
+  public List<String> getStrings(final StringModifier modifier) {
     if (modifier == null) {
-      return "";
+      return List.of();
     }
 
     // Can't cache this as expressions can be dependent on things
     // that can change within a session, like character level.
     if (modifier == StringModifier.EVALUATED_MODIFIERS) {
-      return ModifierDatabase.evaluateModifiers(
-              this.originalLookup, this.strings.get(StringModifier.MODIFIERS))
-          .toString();
+      return List.of(
+          ModifierDatabase.evaluateModifiers(
+                  this.originalLookup,
+                  String.join(", ", this.strings.get(StringModifier.MODIFIERS)))
+              .toString());
     }
 
     return this.strings.get(modifier);
+  }
+
+  public String getString(final StringModifier modifier) {
+    return this.getStrings(modifier).get(0);
   }
 
   public double getAccumulator(final DoubleModifier modifier) {
@@ -434,6 +440,10 @@ public class Modifiers {
     }
 
     return this.booleans.set(modifier, value);
+  }
+
+  public boolean setString(final StringModifier modifier, List<String> mods) {
+    return mods.stream().anyMatch(m -> setString(modifier, m));
   }
 
   public boolean setString(final StringModifier modifier, String mod) {
@@ -584,12 +594,13 @@ public class Modifiers {
     }
 
     // Make sure the modifiers apply to current class
-    String className = mods.strings.get(StringModifier.CLASS);
-    if (className != null && !className.isEmpty()) {
-      AscensionClass ascensionClass = AscensionClass.findByExactName(className);
-      if (ascensionClass != null && ascensionClass != KoLCharacter.getAscensionClass()) {
-        return;
-      }
+    var classNames = mods.strings.get(StringModifier.CLASS);
+    if (classNames != null && !classNames.isEmpty()) {
+      var matchClass =
+          classNames.stream()
+              .map(AscensionClass::findByExactName)
+              .anyMatch(c -> c == KoLCharacter.getAscensionClass());
+      if (!matchClass) return;
     }
 
     // Unarmed modifiers apply only if the character has no weapon or offhand
@@ -614,14 +625,14 @@ public class Modifiers {
 
     // Add in string modifiers as appropriate.
 
-    String val;
+    List<String> val;
     val = mods.strings.get(StringModifier.EQUALIZE);
     if (!val.isEmpty() && this.strings.get(StringModifier.EQUALIZE).isEmpty()) {
       this.strings.set(StringModifier.EQUALIZE, val);
     }
     val = mods.strings.get(StringModifier.INTRINSIC_EFFECT);
     if (!val.isEmpty()) {
-      String prev = this.strings.get(StringModifier.INTRINSIC_EFFECT);
+      var prev = this.strings.get(StringModifier.INTRINSIC_EFFECT);
       if (prev.isEmpty()) {
         this.strings.set(StringModifier.INTRINSIC_EFFECT, val);
       } else {
@@ -1498,6 +1509,6 @@ public class Modifiers {
 
   @Override
   public String toString() {
-    return this.getString(StringModifier.MODIFIERS);
+    return String.join(", ", this.getString(StringModifier.MODIFIERS));
   }
 }

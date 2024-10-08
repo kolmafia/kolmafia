@@ -1,24 +1,35 @@
 package net.sourceforge.kolmafia.modifiers;
 
+import java.util.ArrayList;
 import java.util.EnumMap;
+import java.util.List;
 import java.util.Map;
 
 public class StringModifierCollection {
-  private final Map<StringModifier, String> strings = new EnumMap<>(StringModifier.class);
+  private final Map<StringModifier, List<String>> strings = new EnumMap<>(StringModifier.class);
 
   public void reset() {
     this.strings.clear();
   }
 
-  public String get(final StringModifier mod) {
-    return this.strings.getOrDefault(mod, "");
+  public List<String> get(final StringModifier mod) {
+    return this.strings.getOrDefault(mod, List.of());
   }
 
   public boolean set(StringModifier modifier, String value) {
-    String oldValue =
-        value.isEmpty() ? this.strings.remove(modifier) : this.strings.put(modifier, value);
+    if (value.isEmpty()) {
+      this.strings.remove(modifier);
+      return true;
+    }
 
-    // TODO: does anything use this return value, or can we save ourselves a check?
-    return oldValue == null || !oldValue.equals(value);
+    var oldSet = this.strings.getOrDefault(modifier, new ArrayList<>());
+
+    if (oldSet.contains(value)) return false;
+    return oldSet.add(value);
+  }
+
+  public boolean set(StringModifier modifier, List<String> values) {
+    var set = this.strings.getOrDefault(modifier, new ArrayList<>());
+    return set.addAll(values);
   }
 }

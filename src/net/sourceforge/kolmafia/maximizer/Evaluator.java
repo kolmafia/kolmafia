@@ -890,7 +890,7 @@ public class Evaluator {
       }
     }
     // Add fudge factor for Rollover Effect
-    if (mods.getString(StringModifier.ROLLOVER_EFFECT).length() > 0) {
+    if (!mods.getString(StringModifier.ROLLOVER_EFFECT).isEmpty()) {
       score += 0.01f;
     }
     if (score < this.totalMin) this.failed = true;

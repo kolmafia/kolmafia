@@ -7,6 +7,7 @@ import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.BiConsumer;
@@ -5494,10 +5495,9 @@ public abstract class KoLCharacter {
 
     if (imod != null) {
       if (speculation) {
-        String intrinsic = imod.getString(StringModifier.INTRINSIC_EFFECT);
-        if (intrinsic.length() > 0) {
-          newModifiers.add(ModifierDatabase.getModifiers(ModifierType.EFFECT, intrinsic));
-        }
+        imod.getStrings(StringModifier.INTRINSIC_EFFECT).stream()
+            .map(i -> ModifierDatabase.getModifiers(ModifierType.EFFECT, i))
+            .forEach(newModifiers::add);
       }
 
       if (KoLCharacter.inNoobcore()
@@ -5731,9 +5731,13 @@ public abstract class KoLCharacter {
             || itemId > ItemPool.SHAKESPEARES_SISTERS_ACCORDION) continue;
         Modifiers imod = ModifierDatabase.getItemModifiers(itemId);
         if (imod != null) {
-          AscensionClass classType = AscensionClass.find(imod.getString(StringModifier.CLASS));
-          if (classType == null
-              || classType == ascensionClass
+          var classes =
+              imod.getStrings(StringModifier.CLASS).stream()
+                  .map(AscensionClass::find)
+                  .filter(Objects::nonNull)
+                  .toList();
+          if (classes.isEmpty()
+              || classes.contains(ascensionClass)
                   && (slot != Slot.FAMILIAR
                       || KoLCharacter.getFamiliar().getId() == FamiliarPool.HAND)) {
             smithsness += imod.getDouble(DoubleModifier.SMITHSNESS);
