@@ -9,7 +9,6 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -90,6 +89,7 @@ import net.sourceforge.kolmafia.textui.RuntimeLibrary;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 import net.sourceforge.kolmafia.textui.javascript.JSONValueConverter;
 import net.sourceforge.kolmafia.textui.parsetree.ProxyRecordValue;
+import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
 import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
@@ -126,8 +126,6 @@ public class RelayRequest extends PasswordHashRequest {
   public String contentType = null;
   public long lastModified = 0;
   public String statusLine = "HTTP/1.1 302 Found";
-
-  private static final JSONValueConverter jsonConverter = new JSONValueConverter();
 
   public static boolean specialCommandIsAdventure = false;
   public static String specialCommandResponse = "";
@@ -3524,12 +3522,16 @@ public class RelayRequest extends PasswordHashRequest {
     this.responseText = JSON.toJSONString(Map.of("error", message));
   }
 
-  private Object transformApiArgument(Object thing) {
+  private String underscoreName(String name) {
+    return name.replaceAll("[A-Z]", "_$0").toLowerCase();
+  }
+
+  private Value transformApiArgument(Object thing) {
     if (thing instanceof JSONObject obj) {
       var objectTypeObject = obj.get("objectType");
+      Type dataType;
       if (objectTypeObject instanceof String objectType
-          && DataTypes.enumeratedTypeNames.contains(objectType)) {
-        var dataType = DataTypes.enumeratedTypes.find(objectType);
+          && ((dataType = DataTypes.enumeratedTypes.find(objectType.toLowerCase())) != null)) {
         var identifierStringObject = obj.get("identifierString");
         var identifierNumberObject = obj.get("identifierNumber");
         if (identifierStringObject instanceof String identifierString) {
@@ -3539,116 +3541,127 @@ public class RelayRequest extends PasswordHashRequest {
         }
       }
 
-      return jsonConverter.fromJava(obj);
-    } else return jsonConverter.fromJava(thing);
+      return JSONValueConverter.fromJSON(obj);
+    } else return JSONValueConverter.fromJSON(thing);
   }
 
+  /**
+   * Handle JSON API request. Format is e.g. { properties: ["kingLiberated"], functions: [{ name:
+   * "myTunrcount", args: [] }}. Enumerated types (Item, Familiar, etc.) can be passed in with
+   * either of the following placeholder formats: { "objectType": "item", "identifierString":
+   * "seal-clubbing club" } { "objectType": "item", "identifierNumber": 22 } Enumerated types will
+   * be returned in the same format. Details for an enumerated type instance can be request with the
+   * special "identity" function, which takes one placeholder argument.
+   *
+   * @param request Request body
+   */
   private void handleJsonApi(String request) {
     this.contentType = "application/json";
+    JSONObject json;
     try {
-      var json = JSON.parseObject(request);
-      var result = new JSONObject();
-
-      var properties = json.get("properties");
-      if (properties instanceof JSONArray propertiesArray) {
-        var nonString = propertiesArray.stream().filter(name -> !(name instanceof String)).toList();
-        if (!nonString.isEmpty()) {
-          jsonError("Invalid property names " + JSON.toJSONString(nonString));
-          return;
-        }
-        result.put(
-            "properties",
-            ((JSONArray) properties)
-                .stream()
-                    .map(
-                        name ->
-                            name instanceof String ? Preferences.getString((String) name) : null)
-                    .toList());
-      }
-
-      var functions = json.get("functions");
-      if (functions instanceof JSONArray functionsArray) {
-        var nonMatching =
-            functionsArray.stream()
-                .filter(
-                    func -> {
-                      if (!(func instanceof JSONObject)) return true;
-                      var funcObject = (JSONObject) func;
-                      var name = funcObject.get("name");
-                      var args = funcObject.get("args");
-                      if (!(name instanceof String) || !(args instanceof JSONArray)) return true;
-                      return ((JSONArray) args).contains(null);
-                    })
-                .toList();
-        if (!nonMatching.isEmpty()) {
-          jsonError("Invalid function calls " + JSON.toJSONString(nonMatching));
-          return;
-        }
-
-        // Everything validated. Transform all function arguments.
-        var functionsResult = new JSONObject();
-        for (var func : (JSONArray) functions) {
-          var funcObject = (JSONObject) func;
-          var name = (String) funcObject.get("name");
-          var args = (JSONArray) funcObject.get("args");
-          var transformedArguments = args.stream().map(this::transformApiArgument).toList();
-          var badIndices =
-              IntStream.range(0, transformedArguments.size())
-                  .filter(i -> transformedArguments.get(i) == null)
-                  .toArray();
-          if (badIndices.length > 0) {
-            jsonError(
-                "Invalid arguments to "
-                    + name
-                    + ": "
-                    + JSON.toJSONString(Arrays.stream(badIndices).mapToObj(args::get)));
-            return;
-          }
-
-          Class<?>[] argClasses = new Class[args.size() + 1];
-
-          argClasses[0] = ScriptRuntime.class;
-          Arrays.fill(argClasses, 1, args.size() + 1, Value.class);
-
-          Object[] argsWithRuntime =
-              Stream.concat(Stream.of(new Object[] {null}), args.stream()).toArray();
-
-          try {
-            var method = RuntimeLibrary.findMethod(name, argClasses);
-            var returnValue = method.invoke(RuntimeLibrary.class, argsWithRuntime);
-
-            if (!(returnValue instanceof Value value)) {
-              jsonError("Function " + name + " returned something other than a value.");
-              return;
-            }
-
-            functionsResult.put(
-                JSON.toJSONString(Stream.concat(Stream.of(name), args.stream()).toList()),
-                jsonConverter.asJava(value));
-          } catch (NoSuchMethodException e) {
-            jsonError("Unable to find method " + name);
-            return;
-          } catch (IllegalAccessException e) {
-            jsonError("Illegal access exception on " + name + ": " + e.getMessage());
-            return;
-          } catch (InvocationTargetException e) {
-            jsonError("Invocation target exception on " + name + ": " + e.getMessage());
-            return;
-          } catch (Exception e) {
-            jsonError(
-                "Exception " + e.getClass().getName() + " on " + name + ": " + e.getMessage());
-            return;
-          }
-        }
-
-        result.put("functions", functionsResult);
-      }
-
-      this.statusLine = "HTTP/1.1 200 OK";
-      this.responseCode = 200;
-      this.responseText = JSON.toJSONString(result);
+      json = JSON.parseObject(request);
     } catch (JSONException e) {
       jsonError("Invalid JSON object in request.");
+      return;
+    }
+
+    var result = new JSONObject();
+
+    var properties = json.get("properties");
+    if (properties instanceof JSONArray propertiesArray) {
+      var nonString = propertiesArray.stream().filter(name -> !(name instanceof String)).toList();
+      if (!nonString.isEmpty()) {
+        jsonError("Invalid property names " + JSON.toJSONString(nonString));
+        return;
+      }
+      result.put(
+          "properties",
+          ((JSONArray) properties)
+              .stream()
+                  .map(name -> name instanceof String ? Preferences.getString((String) name) : null)
+                  .toList());
+    }
+
+    var functions = json.get("functions");
+    if (functions instanceof JSONArray functionsArray) {
+      var nonMatching =
+          functionsArray.stream()
+              .filter(
+                  func -> {
+                    if (!(func instanceof JSONObject)) return true;
+                    var funcObject = (JSONObject) func;
+                    var name = funcObject.get("name");
+                    var args = funcObject.get("args");
+                    if (!(name instanceof String) || !(args instanceof JSONArray)) return true;
+                    return ((JSONArray) args).contains(null);
+                  })
+              .toList();
+      if (!nonMatching.isEmpty()) {
+        jsonError("Invalid function calls " + JSON.toJSONString(nonMatching));
+        return;
+      }
+
+      // Everything validated. Transform all function arguments.
+      var functionsResult = new JSONArray(functionsArray.size());
+      for (var func : (JSONArray) functions) {
+        var funcObject = (JSONObject) func;
+        var name = (String) funcObject.get("name");
+        var args = (JSONArray) funcObject.get("args");
+        var transformedArguments = args.stream().map(this::transformApiArgument).toList();
+        var badIndices =
+            IntStream.range(0, transformedArguments.size())
+                .filter(i -> transformedArguments.get(i) == null)
+                .toArray();
+        if (badIndices.length > 0) {
+          jsonError(
+              "Invalid arguments to "
+                  + name
+                  + ": "
+                  + JSON.toJSONString(Arrays.stream(badIndices).mapToObj(args::get)));
+          return;
+        }
+
+        if (name.equals("identity") && args.size() == 1) {
+          functionsResult.add(JSONValueConverter.asJSON(transformedArguments.get(0)));
+          continue;
+        }
+
+        Class<?>[] argClasses = new Class[args.size() + 1];
+
+        argClasses[0] = ScriptRuntime.class;
+        Arrays.fill(argClasses, 1, args.size() + 1, Value.class);
+
+        Object[] argsWithRuntime =
+            Stream.concat(Stream.of(new Object[] {null}), transformedArguments.stream()).toArray();
+
+        try {
+          var method = RuntimeLibrary.findMethod(underscoreName(name), argClasses);
+          var returnValue = method.invoke(RuntimeLibrary.class, argsWithRuntime);
+
+          if (!(returnValue instanceof Value value)) {
+            jsonError("Function " + name + " returned something other than a value.");
+            return;
+          }
+
+          functionsResult.add(JSONValueConverter.asJSON(value));
+        } catch (NoSuchMethodException e) {
+          jsonError("Unable to find method " + name);
+          return;
+        } catch (Exception e) {
+          jsonError("Exception " + e.getClass().getName() + " on " + name + ": " + e.getMessage());
+          return;
+        }
+      }
+
+      result.put("functions", functionsResult);
+    }
+
+    this.statusLine = "HTTP/1.1 200 OK";
+    this.responseCode = 200;
+    try {
+      this.responseText = JSON.toJSONString(result);
+    } catch (JSONException e) {
+      jsonError("Failed to serialize result: " + e.getMessage());
     }
   }
 

@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
-public class ValueConverterTest {
+public class ScriptableValueConverterTest {
   Context cx = new Context();
   Scriptable scope =
       new Scriptable() {

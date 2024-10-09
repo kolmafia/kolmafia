@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.textui.parsetree;
 
+import com.alibaba.fastjson2.TypeReference;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -142,6 +143,27 @@ public class Type extends Symbol {
           PHYLUM,
           BOUNTY,
           MODIFIER -> true;
+      default -> false;
+    };
+  }
+
+  public boolean isIntLike() {
+    return switch (this.getType()) {
+      case BOOLEAN,
+          INT,
+          FLOAT,
+          STRING,
+          ITEM,
+          SKILL,
+          EFFECT,
+          FAMILIAR,
+          MONSTER,
+          THRALL,
+          SERVANT,
+          LOCATION,
+          SLOT,
+          PATH,
+          CLASS -> true;
       default -> false;
     };
   }

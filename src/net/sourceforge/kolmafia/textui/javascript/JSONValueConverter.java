@@ -3,14 +3,39 @@ package net.sourceforge.kolmafia.textui.javascript;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.parsetree.ArrayValue;
 import net.sourceforge.kolmafia.textui.parsetree.MapValue;
 import net.sourceforge.kolmafia.textui.parsetree.PluralValue;
+import net.sourceforge.kolmafia.textui.parsetree.ProxyRecordValue;
 import net.sourceforge.kolmafia.textui.parsetree.RecordValue;
+import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
 
 public class JSONValueConverter extends ValueConverter<Object> {
+
+  private static record TypeAndIdentifier(Type type, String identifier) {
+    public TypeAndIdentifier(Value value) {
+      this(value.getType(), value.contentString != null ? value.contentString : value.toString());
+    }
+
+    @Override
+    public int hashCode() {
+      return this.type.hashCode() ^ this.identifier.hashCode();
+    }
+  }
+
+  private final Set<TypeAndIdentifier> processedObjects = new HashSet<>();
+
+  public static Object asJSON(Value value) {
+    return new JSONValueConverter().asJava(value);
+  }
+
+  public static Value fromJSON(Object json) {
+    return new JSONValueConverter().fromJava(json);
+  }
 
   @Override
   protected Object asJavaObject(MapValue mapValue) {
@@ -45,10 +70,15 @@ public class JSONValueConverter extends ValueConverter<Object> {
       result.put(keyString, asJava(value));
     }
 
-    if (DataTypes.enumeratedTypes.contains(recordValue.type)) {
-      result.put("objectType", recordValue.type.name);
-      result.put("identifierString", recordValue.toString());
-      if (DataTypes.enumeratedTypesIntLike.contains(recordValue.type)) {
+    if (recordValue instanceof ProxyRecordValue proxyRecordValue) {
+      Type underlyingType = proxyRecordValue.getUnderlyingValue().getType();
+      String typeName = underlyingType.getName();
+      String typeNameCaps = Character.toUpperCase(typeName.charAt(0)) + typeName.substring(1);
+      result.put("objectType", typeNameCaps);
+      result.put(
+          "identifierString",
+          recordValue.content == null ? recordValue.contentString : recordValue.content.toString());
+      if (underlyingType.isIntLike()) {
         result.put("identifierNumber", recordValue.contentLong);
       }
     }
@@ -63,5 +93,21 @@ public class JSONValueConverter extends ValueConverter<Object> {
   @Override
   protected Object asJavaArray(PluralValue arrayValue) {
     return JSONArray.from(Arrays.stream((Value[]) arrayValue.content).map(this::asJava).toList());
+  }
+
+  @Override
+  public Object asJava(Value value) {
+    if (value instanceof ProxyRecordValue proxyRecordValue) {
+      value = proxyRecordValue.getUnderlyingValue();
+    }
+    if (DataTypes.enumeratedTypes.contains(value.getType())) {
+      var id = new TypeAndIdentifier(value);
+      // This logic prevents circular references.
+      Object result = processedObjects.add(id) ? super.asJava(value) : new JSONObject();
+      processedObjects.remove(id);
+      return result;
+    } else {
+      return super.asJava(value);
+    }
   }
 }

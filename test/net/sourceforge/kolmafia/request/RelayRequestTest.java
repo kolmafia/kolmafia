@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia.request;
 
+import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withTurnsPlayed;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -13,6 +15,7 @@ import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import java.io.File;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import org.junit.jupiter.api.BeforeAll;
@@ -108,18 +111,100 @@ public class RelayRequestTest {
         var rr =
             this.makeApiRequest(
                 """
-          { "functions": [{ "name": "my_turncount", "args": [] }] }
+          { "functions": [{ "name": "myTurncount", "args": [] }] }
           """);
 
-        JSONObject expected =
-            JSON.parseObject(
-                """
-          { "functions": { "[\\"my_turncount\\"]": 0 } }
+        JSONObject expected = JSON.parseObject("""
+          { "functions": [0] }
           """);
         assertThat(rr.statusLine, is("HTTP/1.1 200 OK"));
         assertThat(rr.responseCode, is(200));
         assertThat(JSON.parse(rr.responseText), is(expected));
       }
+    }
+
+    @Test
+    public void handlesEnumeratedTypes() {
+      var cleanups = withItem(ItemPool.SEAL_CLUB);
+      try (cleanups) {
+        var rr =
+            this.makeApiRequest(
+                """
+      { "functions": [{ "name": "availableAmount", "args": [{
+        "objectType": "Item",
+        "identifierString": "seal-clubbing club"
+      }] }] }
+      """);
+
+        JSONObject expected = JSON.parseObject("""
+      { "functions": [1] }
+      """);
+        assertThat(rr.statusLine, is("HTTP/1.1 200 OK"));
+        assertThat(rr.responseCode, is(200));
+        assertThat(JSON.parse(rr.responseText), is(expected));
+      }
+    }
+
+    @Test
+    public void handlesIdentity() {
+      var cleanups = withItem(ItemPool.SEAL_CLUB);
+      try (cleanups) {
+        var rr =
+            this.makeApiRequest(
+                """
+      { "functions": [{ "name": "identity", "args": [{
+        "objectType": "Class",
+        "identifierString": "Seal Clubber"
+      }] }] }
+      """);
+
+        JSONObject expected =
+            JSON.parseObject(
+                """
+      { "functions": [{
+        "objectType": "Class",
+        "identifierString": "Seal Clubber",
+        "identifierNumber": 1,
+        "id": 1,
+        "primestat": {
+          "objectType": "Stat",
+          "identifierString": "Muscle"
+        },
+        "path": {
+          "objectType": "Path",
+          "identifierString": "none",
+          "identifierNumber": -1,
+          "id": 0,
+          "name": "none",
+          "avatar": false,
+          "image": "blank.gif",
+          "points": 0,
+          "familiars": true
+        }
+      }] }
+      """);
+        assertThat(rr.statusLine, is("HTTP/1.1 200 OK"));
+        assertThat(rr.responseCode, is(200));
+        assertThat(JSON.parse(rr.responseText), is(expected));
+      }
+    }
+
+    @Test
+    public void handlesIdentityWithLoops() {
+      var rr =
+          this.makeApiRequest(
+              """
+    { "functions": [{ "name": "identity", "args": [{
+      "objectType": "Location",
+      "identifierString": "The Haunted Kitchen"
+    }] }] }
+    """);
+
+      JSONObject expected =
+          JSON.parseObject(html("request/test_relay_request_identity_with_loops.json"));
+      assertThat(rr.statusLine, is("HTTP/1.1 200 OK"));
+      assertThat(rr.responseCode, is(200));
+      assertThat(JSON.parse(rr.responseText), is(expected));
     }
 
     @Test
@@ -187,13 +272,13 @@ public class RelayRequestTest {
       var rr =
           this.makeApiRequest(
               """
-      { "functions": [{ "name": "my_turncount", "args": [null] }] }
+      { "functions": [{ "name": "myTurncount", "args": [null] }] }
       """);
 
       JSONObject expected =
           JSON.parseObject(
               """
-      { "error": "Invalid function calls [{\\"name\\":\\"my_turncount\\",\\"args\\":[null]}]" }
+      { "error": "Invalid function calls [{\\"name\\":\\"myTurncount\\",\\"args\\":[null]}]" }
       """);
       assertThat(rr.statusLine, is("HTTP/1.1 400 Bad Request"));
       assertThat(rr.responseCode, is(400));
@@ -205,7 +290,7 @@ public class RelayRequestTest {
       var rr =
           this.makeApiRequest(
               """
-      { "functions": [{ "name": "non_existent_function", "args": [] }] }
+      { "functions": [{ "name": "nonExistentFunction", "args": [] }] }
       """);
 
       JSONObject expected =

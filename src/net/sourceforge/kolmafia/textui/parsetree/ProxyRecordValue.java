@@ -54,12 +54,19 @@ import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
 
 public class ProxyRecordValue extends RecordValue {
+  private final Value underlyingValue;
+
   public ProxyRecordValue(final RecordType type, final Value obj) {
     super(type);
 
+    this.underlyingValue = obj;
     this.contentLong = obj.contentLong;
     this.contentString = obj.contentString;
     this.content = obj.content;
+  }
+
+  public Value getUnderlyingValue() {
+    return underlyingValue;
   }
 
   @Override

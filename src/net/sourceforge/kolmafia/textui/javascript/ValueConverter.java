@@ -23,13 +23,14 @@ public abstract class ValueConverter<ObjectType> {
     }
   }
 
-  protected abstract ObjectType asJavaObject(MapValue mapValue);
+  protected abstract ObjectType asJavaObject(MapValue mapValue) throws ValueConverterException;
 
-  protected abstract ObjectType asJavaObject(RecordValue recordValue);
+  protected abstract ObjectType asJavaObject(RecordValue recordValue)
+      throws ValueConverterException;
 
-  protected abstract ObjectType asJavaArray(ArrayValue arrayValue);
+  protected abstract ObjectType asJavaArray(ArrayValue arrayValue) throws ValueConverterException;
 
-  protected abstract ObjectType asJavaArray(PluralValue arrayValue);
+  protected abstract ObjectType asJavaArray(PluralValue arrayValue) throws ValueConverterException;
 
   public Object asJava(Value value) throws ValueConverterException {
     if (value == null) return null;
@@ -57,9 +58,11 @@ public abstract class ValueConverter<ObjectType> {
       return asJavaObject((RecordValue) value);
     } else if (value instanceof PluralValue) {
       return asJavaArray((PluralValue) value);
+    } else if (value.asProxy() instanceof RecordValue proxyValue) {
+      return asJavaObject(proxyValue);
     } else {
       // record type, ...?
-      return value;
+      throw new ValueConverterException("Unrecognized Value of type " + value.getType().toString());
     }
   }
 
