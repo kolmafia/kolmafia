@@ -304,8 +304,15 @@ public abstract class ChoiceManager {
     }
 
     String scriptName = Preferences.getString("choiceAdventureScript").trim();
-    if (scriptName.length() == 0) {
+    if (scriptName.isEmpty()) {
       return false;
+    }
+
+    String functionName = "main";
+    int atsign = scriptName.indexOf("@");
+    if (atsign != -1) {
+      functionName = scriptName.substring(0, atsign);
+      scriptName = scriptName.substring(atsign + 1);
     }
 
     List<File> scriptFiles = KoLmafiaCLI.findScriptFile(scriptName);
@@ -318,8 +325,10 @@ public abstract class ChoiceManager {
     File scriptFile = scriptFiles.get(0);
 
     Object[] parameters = new Object[2];
-    parameters[0] = Integer.valueOf(choice);
+    parameters[0] = choice;
     parameters[1] = responseText;
+
+    boolean executeTopLevel = functionName.equals("main");
 
     KoLmafiaASH.logScriptExecution(
         "Starting choice adventure script: ", scriptFile.getName(), interpreter);
@@ -327,7 +336,7 @@ public abstract class ChoiceManager {
     // Since we are automating, let the script execute without interruption
     KoLmafia.forceContinue();
 
-    interpreter.execute("main", parameters);
+    interpreter.execute(functionName, parameters, executeTopLevel);
     KoLmafiaASH.logScriptExecution(
         "Finished choice adventure script: ", scriptFile.getName(), interpreter);
 
