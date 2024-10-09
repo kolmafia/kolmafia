@@ -35,9 +35,9 @@ Dreadsylvania	adventure=340	DiffLevel: mid Env: indoor Stat: 500	Dreadsylvanian 
 
 Town	adventure=112	DiffLevel: low Env: outdoor Stat: 0	The Sleazy Back Alley	1 pail of pretentious paint|+3 distilled fortified wine|1 map to a hidden booze cache
 Town	adventure=383	DiffLevel: high Env: indoor Stat: 135	The Copperhead Club	1 Copperhead Charm|1 priceless diamond|1 choiceadv
-Town	adventure=439	DiffLevel: mid Env: indoor Stat: 0	The Skeleton Store	1 Skeleton Store office key|1 check to the Meatsmith
-Town	adventure=440	DiffLevel: mid Env: indoor Stat: 0	Madness Bakery	1 no-handed pie
-Town	adventure=441	DiffLevel: mid Env: outdoor Stat: 0	The Overgrown Lot	3 Fraudwort, 3 Shysterweed, 3 Swindleblossom|The Lot's engagement ring
+Town	adventure=439	DiffLevel: mid Env: indoor Stat: 0 ForceNoncombat: 4	The Skeleton Store	1 Skeleton Store office key|1 check to the Meatsmith
+Town	adventure=440	DiffLevel: mid Env: indoor Stat: 0 ForceNoncombat: 4	Madness Bakery	1 no-handed pie
+Town	adventure=441	DiffLevel: mid Env: outdoor Stat: 0 ForceNoncombat: 4	The Overgrown Lot	3 Fraudwort, 3 Shysterweed, 3 Swindleblossom|The Lot's engagement ring
 
 Casino	casino=1	DiffLevel: none Env: none Stat: 0	Goat Party
 Casino	casino=2	DiffLevel: none Env: none Stat: 0	Pirate Party
@@ -55,7 +55,7 @@ Manor1	adventure=113	DiffLevel: low Env: indoor Stat: 0	The Haunted Pantry	prete
 Manor1	adventure=388	DiffLevel: mid Env: indoor Stat: 20	The Haunted Kitchen	1 Spookyraven billiards room key|1 loosening powder|1 chef's hat|+1 freezerburned ice cube
 Manor1	adventure=389	DiffLevel: mid Env: indoor Stat: 20	The Haunted Conservatory	1 powdered castoreum|1 pellet of plant food
 Manor1	adventure=390	DiffLevel: mid Env: indoor Stat: 20	The Haunted Library	1 Lady Spookyraven's necklace|+1 black eyedrops
-Manor1	adventure=391	DiffLevel: mid Env: indoor Stat: 20	The Haunted Billiards Room	1 [7302]Spookyraven library key|+1 cube of billiard chalk
+Manor1	adventure=391	DiffLevel: mid Env: indoor Stat: 20 ForceNoncombat: 10	The Haunted Billiards Room	1 [7302]Spookyraven library key|+1 cube of billiard chalk
 Manor2	adventure=392	DiffLevel: mid Env: indoor Stat: 40	The Haunted Bathroom	1 Lady Spookyraven's powder puff|1 drain dissolver
 Manor2	adventure=393	DiffLevel: mid Env: indoor Stat: 40	The Haunted Bedroom	1 Lady Spookyraven's finest gown|1 Lord Spookyraven's spectacles|1 disposable instant camera
 Manor2	adventure=394	DiffLevel: mid Env: indoor Stat: 40	The Haunted Gallery	1 Lady Spookyraven's dancing shoes|1 triple-distilled turpentine
@@ -74,7 +74,7 @@ Degrassi Knoll	adventure=354	DiffLevel: low Env: indoor Stat: 10	The Degrassi Kn
 Plains	adventure=20	DiffLevel: low Env: indoor Stat: 15	The "Fun" House	1 box|20 empty greasepaint tube
 Plains	adventure=21	DiffLevel: low Env: outdoor Stat: 11	The Unquiet Garves	1 smart skull|+1 poltergeist-in-the-jar-o|The Shield of Brook
 Plains	adventure=58	DiffLevel: mid Env: outdoor Stat: 40	The VERY Unquiet Garves	1 smart skull|+1 poltergeist-in-the-jar-o|+5 figurine of a shadowy seal|The Shield of Brook
-Plains	adventure=386	DiffLevel: high Env: outdoor Stat: 120	Inside the Palindome	1 stunt nuts, 1 I Love Me Vol I, 1 photograph of god, 1 photograph of a red nugget, 1 photograph of an ostrich egg, 1 photograph of a dog|1 wet stunt nut stew
+Plains	adventure=386	DiffLevel: high Env: outdoor Stat: 120 ForceNoncombat: 6	Inside the Palindome	1 stunt nuts, 1 I Love Me Vol I, 1 photograph of god, 1 photograph of a red nugget, 1 photograph of an ostrich egg, 1 photograph of a dog|1 wet stunt nut stew
 
 BatHole	adventure=30	DiffLevel: low Env: underground Stat: 13	The Bat Hole Entrance	1 Pine-Fresh air freshener
 BatHole	adventure=31	DiffLevel: low Env: underground Stat: 13	Guano Junction	3 sonar-in-a-biscuit|+1 Eau de Guaneau
@@ -83,7 +83,7 @@ BatHole	adventure=33	DiffLevel: low Env: underground Stat: 13	The Beanbat Chambe
 BatHole	adventure=34	DiffLevel: low Env: underground Stat: 13	The Boss Bat's Lair
 
 Knob	adventure=114	DiffLevel: low Env: outdoor Stat: 0	The Outskirts of Cobb's Knob	1 chef's hat|1 Knob Goblin Encryption Key|1 pretentious paintbrush|+1 Knob Goblin lunchbox|1 bone with a price tag on it
-Knob	adventure=257	DiffLevel: low Env: underground Stat: 25	Cobb's Knob Barracks	Knob Goblin elite helm, Knob Goblin elite pants, Knob Goblin elite polearm
+Knob	adventure=257	DiffLevel: low Env: underground Stat: 25 ForceNoncombat: 8	Cobb's Knob Barracks	Knob Goblin elite helm, Knob Goblin elite pants, Knob Goblin elite polearm
 Knob	adventure=258	DiffLevel: low Env: underground Stat: 20	Cobb's Knob Kitchens	Knob Goblin elite helm, Knob Goblin elite pants, Knob Goblin elite polearm
 Knob	adventure=259	DiffLevel: low Env: underground Stat: 25	Cobb's Knob Harem	outfit|outfit, 1 Knob Goblin perfume|+3 scented massage oil
 Knob	adventure=260	DiffLevel: low Env: underground Stat: 20	Cobb's Knob Treasury
@@ -109,9 +109,9 @@ Cyrpt	adventure=263	DiffLevel: mid Env: underground Stat: 40	The Defiled Niche	1
 Cyrpt	crypt=heart	DiffLevel: none Env: none Stat: 0 Level: 6	Haert of the Cyrpt
 
 Beanstalk	adventure=81	DiffLevel: high Env: outdoor Stat: 90	The Penultimate Fantasy Airship	1 S.O.C.K.|1 metallic A|1 model airship|1 amulet of extreme plot significance
-Beanstalk	adventure=322	DiffLevel: high Env: underground Stat: 130	The Castle in the Clouds in the Sky (Basement)	1 heavy D
-Beanstalk	adventure=323	DiffLevel: high Env: indoor Stat: 110	The Castle in the Clouds in the Sky (Ground Floor)	1 electric boning knife
-Beanstalk	adventure=324	DiffLevel: high Env: indoor Stat: 130	The Castle in the Clouds in the Sky (Top Floor)	3 thin black candle|1 steam-powered model rocketship|Murphy's Rancid Black Flag
+Beanstalk	adventure=322	DiffLevel: high Env: underground Stat: 130 ForceNoncombat: 10	The Castle in the Clouds in the Sky (Basement)	1 heavy D
+Beanstalk	adventure=323	DiffLevel: high Env: indoor Stat: 110 ForceNoncombat: 10	The Castle in the Clouds in the Sky (Ground Floor)	1 electric boning knife
+Beanstalk	adventure=324	DiffLevel: high Env: indoor Stat: 130 ForceNoncombat: 10	The Castle in the Clouds in the Sky (Top Floor)	3 thin black candle|1 steam-powered model rocketship|Murphy's Rancid Black Flag
 Beanstalk	adventure=83	DiffLevel: high Env: outdoor Stat: 100	The Hole in the Sky	1 Richard's star key|1 star starfish|The Eye of the Stars
 
 Sorceress	place=ns_01_crowd1	DiffLevel: none Env: none Stat: 0	Fastest Adventurer Contest
@@ -141,7 +141,7 @@ Beach	adventure=364	DiffLevel: high Env: outdoor Stat: 120	The Arid, Extra-Dry D
 Beach	adventure=355	DiffLevel: mid Env: indoor Stat: 0 nowander	The Shore, Inc. Travel Agency
 Beach	adventure=446	DiffLevel: mid Env: outdoor Stat: 0	Kokomo Resort
 
-Pyramid	adventure=406	DiffLevel: high Env: underground Stat: 150	The Upper Chamber	10 crumbling wooden wheel
+Pyramid	adventure=406	DiffLevel: high Env: underground Stat: 150 ForceNoncombat: 7	The Upper Chamber	10 crumbling wooden wheel
 Pyramid	adventure=407	DiffLevel: high Env: underground Stat: 140	The Middle Chamber	10 tomb ratchet
 Pyramid	place=pyramid_state	DiffLevel: none Env: none Stat: 0 Level: 6	The Lower Chambers
 
@@ -159,10 +159,10 @@ Dungeon	adventure=226	DiffLevel: mid Env: underground Stat: 44	The Enormous Grea
 Dungeon	adventure=39	DiffLevel: mid Env: underground Stat: 44	The Dungeons of Doom	1 dead mimic
 Dungeon	adventure=325	DiffLevel: mid Env: underground Stat: 15 nowander	The Daily Dungeon
 
-McLarge	adventure=270	DiffLevel: mid Env: underground Stat: 60	Itznotyerzitz Mine	outfit
+McLarge	adventure=270	DiffLevel: mid Env: underground Stat: 60 ForceNoncombat: 10	Itznotyerzitz Mine	outfit
 McLarge	adventure=271	DiffLevel: mid Env: outdoor Stat: 65	The Goatlet	3 goat cheese|+1 can of spinach|+5 figurine of a cold seal
 McLarge	adventure=272	DiffLevel: mid Env: indoor Stat: 85	Lair of the Ninja Snowmen	+1 bottle of antifreeze|1 ninja carabiner, 1 ninja rope, 1 ninja crampons|The First Pizza
-McLarge	adventure=273	DiffLevel: mid Env: outdoor Stat: 70	The eXtreme Slope	outfit
+McLarge	adventure=273	DiffLevel: mid Env: outdoor Stat: 70 ForceNoncombat: 8	The eXtreme Slope	outfit
 McLarge	place=cloudypeak2	DiffLevel: none Env: none Stat: 0 Level: 2	Mist-Shrouded Peak
 McLarge	adventure=110	DiffLevel: high Env: outdoor Stat: 53	The Icy Peak
 McLarge	adventure=176	DiffLevel: high Env: underground Stat: 0	The Mine Foremens' Office	1 dwarvish document, 1 dwarvish parchment, 1 dwarvish paper, 1 dwarvish punchcard, 1 little laminated card, 1 notbig laminated card, 1 small laminated card, 1 unlarge laminated card
@@ -170,27 +170,28 @@ McLarge	dwarffactory=0	DiffLevel: none Env: none Stat: 0	Dwarven Factory Warehou
 McLarge	mining=1	DiffLevel: none Env: none Stat: 0	Itznotyerzitz Mine (in Disguise)
 
 Highlands	adventure=296	DiffLevel: mid Env: outdoor Stat: 75	A-Boo Peak	3 A-Boo clue
-Highlands	adventure=297	DiffLevel: mid Env: outdoor Stat: 90	Twin Peak	1 gold wedding ring
+Highlands	adventure=297	DiffLevel: mid Env: outdoor Stat: 90 ForceNoncombat: 7	Twin Peak	1 gold wedding ring
 Highlands	adventure=298	DiffLevel: mid Env: outdoor Stat: 85	Oil Peak	1 jar of oil|oil cap, oil lamp, oil slacks|oil cap, oil lamp, oil slacks, oily boid, oil pan
 
-The Red Zeppelin's Mooring	adventure=384	DiffLevel: high Env: outdoor Stat: 125	A Mob of Zeppelin Protesters
+The Red Zeppelin's Mooring	adventure=384	DiffLevel: high Env: outdoor Stat: 125 ForceNoncombat: 7	A Mob of Zeppelin Protesters
 The Red Zeppelin's Mooring	adventure=385	DiffLevel: high Env: indoor Stat: 150	The Red Zeppelin	1 Copperhead Charm (rampant)
 
 # Woods areas.
 
 Woods	cellar=0	DiffLevel: none Env: none Stat: 0 Level: 6	The Typical Tavern Cellar
-Woods	adventure=15	DiffLevel: low Env: outdoor Stat: 0	The Spooky Forest	1 mosquito larva|1 spooky sapling, 1 Spooky Temple map, 1 Spooky-Gro fertilizer|+1 fake blood
-Woods	adventure=280	DiffLevel: low Env: indoor Stat: 0	The Hidden Temple	3 choiceadv
+# Spooky Forest is not quite force NC 8 - effectively it's force NC 7.5.
+Woods	adventure=15	DiffLevel: low Env: outdoor Stat: 0 ForceNoncombat: 8	The Spooky Forest	1 mosquito larva|1 spooky sapling, 1 Spooky Temple map, 1 Spooky-Gro fertilizer|+1 fake blood
+Woods	adventure=280	DiffLevel: low Env: indoor Stat: 0 ForceNoncombat: 15	The Hidden Temple	3 choiceadv
 Woods	adventure=233	DiffLevel: mid Env: indoor Stat: 0	A Barroom Brawl	1 beer goggles|+3 beer lens
 Woods	adventure=100	DiffLevel: mid Env: outdoor Stat: 37	Whitey's Grove	1 bird rib, 1 lion oil|+5 piece of wedding cake|+3 white rice|+5 white rice|+1 bag of lard
 
 Woods	adventure=413	DiffLevel: mid Env: outdoor	The Road to the White Citadel	+1 duonoculars
-Woods	adventure=405	DiffLevel: high Env: outdoor Stat: 110	The Black Forest	1 sunken eyes, 1 broken wings|1 bird brain, 1 busted wings|1 beehive
+Woods	adventure=405	DiffLevel: high Env: outdoor Stat: 110 ForceNoncombat: 5	The Black Forest	1 sunken eyes, 1 broken wings|1 bird brain, 1 busted wings|1 beehive
 Woods	adventure=356	DiffLevel: mid Env: outdoor Stat: 25	The Old Landfill	1 old claw-foot bathtub, 1 old clothesline pole, 1 antique cigar sign
 
-Friars	adventure=541	DiffLevel: mid Env: outdoor Stat: 40	The Dark Neck of the Woods	1 dodecagram
-Friars	adventure=540	DiffLevel: mid Env: outdoor Stat: 45	The Dark Heart of the Woods	1 box of birthday candles|heavy-duty bendy straw
-Friars	adventure=539	DiffLevel: mid Env: outdoor Stat: 45	The Dark Elbow of the Woods	1 eldritch butterknife
+Friars	adventure=541	DiffLevel: mid Env: outdoor Stat: 40 ForceNoncombat: 5	The Dark Neck of the Woods	1 dodecagram
+Friars	adventure=540	DiffLevel: mid Env: outdoor Stat: 45 ForceNoncombat: 5	The Dark Heart of the Woods	1 box of birthday candles|heavy-duty bendy straw
+Friars	adventure=539	DiffLevel: mid Env: outdoor Stat: 45 ForceNoncombat: 5	The Dark Elbow of the Woods	1 eldritch butterknife
 Friars	friars=0	DiffLevel: none Env: none Stat: 0	Friar Ceremony Location
 Friars	adventure=438	DiffLevel: unknown Env: outdoor	Pandamonium
 
@@ -198,9 +199,9 @@ Pandamonium	adventure=248	DiffLevel: mid Env: outdoor Stat: 45	Pandamonium Slums
 Pandamonium	adventure=242	DiffLevel: mid Env: indoor Stat: 60	The Laugh Floor	5 imp air|1 observational glasses
 Pandamonium	adventure=243	DiffLevel: mid Env: indoor Stat: 55	Infernal Rackets Backstage	5 bus pass
 
-HiddenCity	adventure=341	DiffLevel: high Env: indoor Stat: 135	The Hidden Apartment Building	1 moss-covered stone sphere
+HiddenCity	adventure=341	DiffLevel: high Env: indoor Stat: 135 ForceNoncombat: 8	The Hidden Apartment Building	1 moss-covered stone sphere
 HiddenCity	adventure=342	DiffLevel: high Env: indoor Stat: 140	The Hidden Hospital	1 dripping stone sphere
-HiddenCity	adventure=343	DiffLevel: high Env: indoor Stat: 135	The Hidden Office Building	1 crackling stone sphere
+HiddenCity	adventure=343	DiffLevel: high Env: indoor Stat: 135 ForceNoncombat: 5	The Hidden Office Building	1 crackling stone sphere
 HiddenCity	adventure=344	DiffLevel: high Env: indoor Stat: 125	The Hidden Bowling Alley	1 scorched stone sphere
 HiddenCity	adventure=345	DiffLevel: high Env: outdoor Stat: 125	The Hidden Park	1 antique machete|+1 shrinking powder|1 book of matches
 HiddenCity	adventure=346	DiffLevel: high Env: outdoor Stat: 140 nowander	An Overgrown Shrine (Northwest)
@@ -347,7 +348,7 @@ KOL High School	adventure=329	DiffLevel: unknown Env: indoor Stat: 0	Art Class
 
 # Kingdom of Exploathing path
 
-Exploathing	adventure=533	DiffLevel: unknown Env: outdoor Stat: 0	The Exploaded Battlefield
+Exploathing	adventure=533	DiffLevel: unknown Env: outdoor Stat: 0 ForceNoncombat: 7	The Exploaded Battlefield
 Exploathing	adventure=534	DiffLevel: unknown Env: outdoor Stat: 0	The Invader
 
 # Grey Goo path
@@ -661,7 +662,7 @@ Dinseylandfill	adventure=445	DiffLevel: mid Env: indoor Stat: 0	Uncle Gator's Co
 
 That 70s Volcano	adventure=448	DiffLevel: mid Env: indoor Stat: 0	The SMOOCH Army HQ
 That 70s Volcano	adventure=449	DiffLevel: mid Env: underground Stat: 45	The Velvet / Gold Mine
-That 70s Volcano	adventure=450	DiffLevel: mid Env: indoor Stat: 45	LavaCo&trade; Lamp Factory
+That 70s Volcano	adventure=450	DiffLevel: mid Env: indoor Stat: 45 ForceNoncombat: 10	LavaCo&trade; Lamp Factory
 That 70s Volcano	adventure=451	DiffLevel: mid Env: outdoor Stat: 90	The Bubblin' Caldera	+1 superduperheated metal
 That 70s Volcano	mining=6	DiffLevel: none Env: none Stat: 0	The Velvet / Gold Mine (Mining)
 

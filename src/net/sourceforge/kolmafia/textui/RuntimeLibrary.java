@@ -3629,6 +3629,9 @@ public abstract class RuntimeLibrary {
     params = List.of();
     functions.add(
         new LibraryFunction("dart_skills_to_parts", DataTypes.SKILL_TO_STRING_TYPE, params));
+
+    params = List.of(namedParam("location", DataTypes.LOCATION_TYPE));
+    functions.add(new LibraryFunction("turns_until_forced_noncombat", DataTypes.INT_TYPE, params));
   }
 
   public static Method findMethod(final String name, final Class<?>[] args)
@@ -11256,5 +11259,25 @@ public abstract class RuntimeLibrary {
     }
 
     return value;
+  }
+
+  public static Value turns_until_forced_noncombat(
+      ScriptRuntime controller, final Value locationValue) {
+    if (locationValue.rawValue() == null) return DataTypes.makeIntValue(-1);
+
+    var location = (KoLAdventure) locationValue.rawValue();
+    var preference = "lastNoncombat" + location.getAdventureNumber();
+    if (location.getForceNoncombat() < 0
+        || !Preferences.containsDefault(preference)
+        || Preferences.getInteger(preference) < 0) {
+      return DataTypes.makeIntValue(-1);
+    }
+
+    return DataTypes.makeIntValue(
+        Math.max(
+            0,
+            location.getForceNoncombat()
+                - (AdventureSpentDatabase.getTurns(location)
+                    - Preferences.getInteger(preference))));
   }
 }

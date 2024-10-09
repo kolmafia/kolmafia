@@ -47,11 +47,13 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
 import net.sourceforge.kolmafia.persistence.RestoresDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.persistence.TCRSDatabase;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.WildfireCampRequest;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ProxyRecordValue extends RecordValue {
   public ProxyRecordValue(final RecordType type, final Value obj) {
@@ -1407,6 +1409,8 @@ public class ProxyRecordValue extends RecordValue {
             .add("combat_queue", DataTypes.STRING_TYPE)
             .add("noncombat_queue", DataTypes.STRING_TYPE)
             .add("turns_spent", DataTypes.INT_TYPE)
+            .add("last_noncombat_turns_spent", DataTypes.INT_TYPE)
+            .add("force_noncombat", DataTypes.INT_TYPE)
             .add("kisses", DataTypes.INT_TYPE)
             .add("recommended_stat", DataTypes.INT_TYPE)
             .add("poison", DataTypes.INT_TYPE)
@@ -1527,6 +1531,20 @@ public class ProxyRecordValue extends RecordValue {
       return this.content != null
           ? AdventureSpentDatabase.getTurns((KoLAdventure) this.content, true)
           : 0;
+    }
+
+    public int get_last_noncombat_turns_spent() {
+      if (this.content == null) {
+        return -1;
+      }
+
+      var id = ((KoLAdventure) this.content).getAdventureId();
+      // Using getString instead of getInteger for a default of -1.
+      return id != "" ? StringUtilities.parseInt(Preferences.getString("lastNoncombat" + id)) : -1;
+    }
+
+    public int get_force_noncombat() {
+      return this.content != null ? ((KoLAdventure) this.content).getForceNoncombat() : -1;
     }
 
     public int get_kisses() {
