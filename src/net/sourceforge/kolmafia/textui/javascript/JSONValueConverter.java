@@ -91,7 +91,7 @@ public class JSONValueConverter extends ValueConverter<Object> {
     if (value instanceof ProxyRecordValue proxyRecordValue) {
       underlying = proxyRecordValue.getUnderlyingValue();
     }
-    if (DataTypes.enumeratedTypes.contains(underlying.getType())) {
+    if (underlying != null && DataTypes.enumeratedTypes.contains(underlying.getType())) {
       // This logic prevents circular references. For objects down the tree, we only add their
       // identifying fields.
       Object result;

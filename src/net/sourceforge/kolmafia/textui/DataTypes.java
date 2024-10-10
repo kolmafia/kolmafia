@@ -219,18 +219,6 @@ public class DataTypes {
   public static final Value PATH_INIT = new Value(DataTypes.PATH_TYPE, -1, "none", Path.NONE);
   public static final Value MODIFIER_INIT = new Value(DataTypes.MODIFIER_TYPE, "none", null);
 
-  public static final TypeList enumeratedTypesIntLike =
-      TypeList.of(
-          ITEM_TYPE,
-          FAMILIAR_TYPE,
-          LOCATION_TYPE,
-          SKILL_TYPE,
-          EFFECT_TYPE,
-          CLASS_TYPE,
-          MONSTER_TYPE,
-          THRALL_TYPE,
-          SERVANT_TYPE,
-          PATH_TYPE);
   public static final TypeList enumeratedTypes =
       TypeList.of(
           ITEM_TYPE,
