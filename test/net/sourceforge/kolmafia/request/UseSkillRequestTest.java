@@ -209,7 +209,7 @@ class UseSkillRequestTest {
     @Test
     void wearDesignerSweatpantsForCastingSweatSkills() {
       var cleanups = new Cleanups(withEquippableItem("designer sweatpants"));
-      InventoryManager.checkDesignerSweatpants();
+      InventoryManager.addDesignerSweatpantsSkills();
 
       try (cleanups) {
         var req = UseSkillRequest.getInstance(SkillPool.DRENCH_YOURSELF_IN_SWEAT, 1);
@@ -228,7 +228,7 @@ class UseSkillRequestTest {
     @Test
     void dontWearDesignerSweatpantsForSweatingOutBooze() {
       var cleanups = new Cleanups(withEquippableItem("designer sweatpants"));
-      InventoryManager.checkDesignerSweatpants();
+      InventoryManager.addDesignerSweatpantsSkills();
 
       try (cleanups) {
         var req = UseSkillRequest.getInstance(SkillPool.SWEAT_OUT_BOOZE, 1);
@@ -245,7 +245,7 @@ class UseSkillRequestTest {
     @Test
     void doNotEquipDesignerSweatpantsForSkillIfAlreadyWearing() {
       var cleanups = new Cleanups(withEquipped(Slot.PANTS, "designer sweatpants"));
-      InventoryManager.checkDesignerSweatpants();
+      InventoryManager.addDesignerSweatpantsSkills();
 
       try (cleanups) {
         var req = UseSkillRequest.getInstance(SkillPool.DRENCH_YOURSELF_IN_SWEAT, 1);
@@ -342,7 +342,6 @@ class UseSkillRequestTest {
     public static void afterAll() {
       UseSkillRequest.lastSkillUsed = -1;
       UseSkillRequest.lastSkillCount = 0;
-      InventoryManager.checkCinchoDeMayo();
     }
 
     @ParameterizedTest
@@ -351,7 +350,7 @@ class UseSkillRequestTest {
     void wearCinchoForCastingCinchSkills(final int skill) {
       var cleanups =
           new Cleanups(withEquippableItem("Cincho de Mayo"), withProperty("_cinchUsed", 0));
-      InventoryManager.checkCinchoDeMayo();
+      InventoryManager.addCinchoDeMayoSkills();
 
       try (cleanups) {
         var req = UseSkillRequest.getInstance(skill, 1);
@@ -378,7 +377,7 @@ class UseSkillRequestTest {
               withPath(Path.LEGACY_OF_LOATHING),
               withEquippableItem(ItemPool.REPLICA_CINCHO_DE_MAYO),
               withProperty("_cinchUsed", 0));
-      InventoryManager.checkCinchoDeMayo();
+      InventoryManager.addCinchoDeMayoSkills();
 
       try (cleanups) {
         var req = UseSkillRequest.getInstance(SkillPool.CINCHO_PARTY_SOUNDTRACK, 1);
@@ -401,7 +400,7 @@ class UseSkillRequestTest {
     void doNotEquipCinchoDeMayoForSkillIfAlreadyWearing(final int itemId) {
       var cleanups =
           new Cleanups(withPath(Path.LEGACY_OF_LOATHING), withEquipped(Slot.ACCESSORY2, itemId));
-      InventoryManager.checkCinchoDeMayo();
+      InventoryManager.addCinchoDeMayoSkills();
 
       try (cleanups) {
         var req = UseSkillRequest.getInstance(SkillPool.CINCHO_DISPENSE_SALT_AND_LIME, 1);
@@ -452,11 +451,6 @@ class UseSkillRequestTest {
       Preferences.reset("AugustScepter");
     }
 
-    @AfterAll
-    public static void afterAll() {
-      InventoryManager.checkAugustScepter();
-    }
-
     @Test
     public void canCastSkillNormally() {
       var cleanups =
@@ -464,7 +458,7 @@ class UseSkillRequestTest {
               withItem(ItemPool.AUGUST_SCEPTER),
               withProperty("_aug12Cast"),
               withProperty("_augSkillsCast"));
-      InventoryManager.checkAugustScepter();
+      InventoryManager.addAugustScepterSkills();
 
       try (cleanups) {
         var skill = UseSkillRequest.getInstance(SkillPool.AUG_12TH_ELEPHANT_DAY);
@@ -479,7 +473,7 @@ class UseSkillRequestTest {
               withItem(ItemPool.AUGUST_SCEPTER),
               withProperty("_aug12Cast", true),
               withProperty("_augSkillsCast"));
-      InventoryManager.checkAugustScepter();
+      InventoryManager.addAugustScepterSkills();
 
       try (cleanups) {
         var skill = UseSkillRequest.getInstance(SkillPool.AUG_12TH_ELEPHANT_DAY);
@@ -494,7 +488,7 @@ class UseSkillRequestTest {
               withItem(ItemPool.AUGUST_SCEPTER),
               withProperty("_aug12Cast"),
               withProperty("_augSkillsCast", 5));
-      InventoryManager.checkAugustScepter();
+      InventoryManager.addAugustScepterSkills();
 
       try (cleanups) {
         var skill = UseSkillRequest.getInstance(SkillPool.AUG_12TH_ELEPHANT_DAY);
@@ -511,7 +505,7 @@ class UseSkillRequestTest {
               withProperty("_augSkillsCast", 5),
               withInteractivity(false),
               withDay(2023, Month.AUGUST, 12));
-      InventoryManager.checkAugustScepter();
+      InventoryManager.addAugustScepterSkills();
 
       try (cleanups) {
         var skill = UseSkillRequest.getInstance(SkillPool.AUG_12TH_ELEPHANT_DAY);
@@ -529,7 +523,7 @@ class UseSkillRequestTest {
               withProperty("_augSkillsCast", 5),
               withInteractivity(true),
               withDay(2023, Month.AUGUST, 31));
-      InventoryManager.checkAugustScepter();
+      InventoryManager.addAugustScepterSkills();
 
       try (cleanups) {
         var skill = UseSkillRequest.getInstance(SkillPool.AUG_31ST_CABERNET_SAUVIGNON_DAY);
@@ -549,7 +543,7 @@ class UseSkillRequestTest {
               withProperty("_augTodayCast", false),
               withInteractivity(true),
               withDay(2023, Month.AUGUST, 12));
-      InventoryManager.checkAugustScepter();
+      InventoryManager.addAugustScepterSkills();
 
       try (cleanups) {
         UseSkillRequest.lastSkillUsed = SkillPool.AUG_12TH_ELEPHANT_DAY;
@@ -571,7 +565,7 @@ class UseSkillRequestTest {
               withProperty("_augTodayCast", false),
               withInteractivity(false),
               withDay(2023, Month.AUGUST, 12));
-      InventoryManager.checkAugustScepter();
+      InventoryManager.addAugustScepterSkills();
 
       try (cleanups) {
         UseSkillRequest.lastSkillUsed = SkillPool.AUG_12TH_ELEPHANT_DAY;

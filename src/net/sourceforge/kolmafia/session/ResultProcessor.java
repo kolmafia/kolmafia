@@ -3401,6 +3401,11 @@ public class ResultProcessor {
         InventoryManager.addCinchoDeMayoSkills();
         break;
 
+      case ItemPool.AUGUST_SCEPTER:
+      case ItemPool.REPLICA_AUGUST_SCEPTER:
+        InventoryManager.addAugustScepterSkills();
+        break;
+
       case ItemPool.LED_CANDLE:
         if (adventureResults
             && KoLCharacter.currentFamiliar.getId() == FamiliarPool.JILL_OF_ALL_TRADES) {
@@ -3417,6 +3422,10 @@ public class ResultProcessor {
         if (adventureResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.MINI_KIWI) {
           Preferences.increment("_miniKiwiDrops", 1);
         }
+        break;
+
+      case ItemPool.BAT_WINGS:
+        InventoryManager.addBatWingsSkills();
         break;
     }
 
