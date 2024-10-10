@@ -3,14 +3,16 @@ package net.sourceforge.kolmafia.textui.javascript;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
 public class ScriptableValueConverterTest {
-  Context cx = new Context();
-  Scriptable scope =
+  private static Context cx;
+  private static Scriptable scope =
       new Scriptable() {
         @Override
         public String getClassName() {
@@ -80,6 +82,16 @@ public class ScriptableValueConverterTest {
           return false;
         }
       };
+
+  @BeforeAll
+  static void beforeAll() {
+    cx = Context.enter();
+  }
+
+  @AfterAll
+  static void afterAll() {
+    Context.exit();
+  }
 
   @Test
   void asJavaFromJavaConvertWithoutDataLoss() {

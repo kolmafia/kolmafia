@@ -16,11 +16,15 @@ import com.alibaba.fastjson2.JSONObject;
 import java.io.File;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
+import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 public class RelayRequestTest {
 
@@ -83,6 +87,8 @@ public class RelayRequestTest {
     @BeforeAll
     public static void beforeAll() {
       Preferences.reset("RelayRequestTest.ApiRequest");
+      AdventureSpentDatabase.resetTurns();
+      AdventureQueueDatabase.resetQueue();
     }
 
     @Test
@@ -173,13 +179,7 @@ public class RelayRequestTest {
         "path": {
           "objectType": "Path",
           "identifierString": "none",
-          "identifierNumber": -1,
-          "id": 0,
-          "name": "none",
-          "avatar": false,
-          "image": "blank.gif",
-          "points": 0,
-          "familiars": true
+          "identifierNumber": -1
         }
       }] }
       """);
@@ -189,19 +189,43 @@ public class RelayRequestTest {
       }
     }
 
-    @Test
-    public void handlesIdentityWithLoops() {
+    @ParameterizedTest
+    @CsvSource({
+      "Item,,test_relay_request_identity_item_none.json",
+      "Location,The Haunted Kitchen,test_relay_request_identity_with_loops_location.json",
+      "Item,backup camera,test_relay_request_identity_with_loops_item.json"
+    })
+    public void handlesIdentityWithLoops(String type, String identifier, String expectedFile) {
       var rr =
           this.makeApiRequest(
               """
     { "functions": [{ "name": "identity", "args": [{
-      "objectType": "Location",
-      "identifierString": "The Haunted Kitchen"
+      "objectType": "%s",
+      "identifierString": "%s"
     }] }] }
-    """);
+    """
+                  .formatted(type, identifier));
 
-      JSONObject expected =
-          JSON.parseObject(html("request/test_relay_request_identity_with_loops.json"));
+      JSONObject expected = JSON.parseObject(html("request/" + expectedFile));
+      assertThat(rr.statusLine, is("HTTP/1.1 200 OK"));
+      assertThat(rr.responseCode, is(200));
+      assertThat(JSON.parse(rr.responseText), is(expected));
+    }
+
+    @Test
+    public void handlesOverloadedFunction() {
+      var rr =
+          this.makeApiRequest(
+              """
+{ "functions": [{ "name": "elementalResistance", "args": [{
+  "objectType": "Element",
+  "identifierString": "spooky"
+}] }] }
+""");
+
+      JSONObject expected = JSON.parseObject("""
+{ "functions": [0.0] }
+""");
       assertThat(rr.statusLine, is("HTTP/1.1 200 OK"));
       assertThat(rr.responseCode, is(200));
       assertThat(JSON.parse(rr.responseText), is(expected));

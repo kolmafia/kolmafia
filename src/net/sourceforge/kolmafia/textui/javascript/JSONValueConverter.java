@@ -3,8 +3,6 @@ package net.sourceforge.kolmafia.textui.javascript;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.parsetree.ArrayValue;
 import net.sourceforge.kolmafia.textui.parsetree.MapValue;
@@ -15,30 +13,18 @@ import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
 
 public class JSONValueConverter extends ValueConverter<Object> {
+  private int depth = 0;
 
-  private static record TypeAndIdentifier(Type type, String identifier) {
-    public TypeAndIdentifier(Value value) {
-      this(value.getType(), value.contentString != null ? value.contentString : value.toString());
-    }
-
-    @Override
-    public int hashCode() {
-      return this.type.hashCode() ^ this.identifier.hashCode();
-    }
-  }
-
-  private final Set<TypeAndIdentifier> processedObjects = new HashSet<>();
-
-  public static Object asJSON(Value value) {
+  public static Object asJSON(Value value) throws ValueConverterException {
     return new JSONValueConverter().asJava(value);
   }
 
-  public static Value fromJSON(Object json) {
+  public static Value fromJSON(Object json) throws ValueConverterException {
     return new JSONValueConverter().fromJava(json);
   }
 
   @Override
-  protected Object asJavaObject(MapValue mapValue) {
+  protected Object asJavaObject(MapValue mapValue) throws ValueConverterException {
     JSONObject result = new JSONObject();
     for (Value key : mapValue.keys()) {
       Value value = mapValue.aref(key);
@@ -56,8 +42,23 @@ public class JSONValueConverter extends ValueConverter<Object> {
     return result;
   }
 
+  private void maybeAddIdentifiedFields(JSONObject result, Value source) {
+    if (source instanceof ProxyRecordValue proxyRecordValue) {
+      Type underlyingType = proxyRecordValue.getUnderlyingValue().getType();
+      String typeName = underlyingType.getName();
+      String typeNameCaps = Character.toUpperCase(typeName.charAt(0)) + typeName.substring(1);
+      result.put("objectType", typeNameCaps);
+      result.put(
+          "identifierString",
+          source.content == null ? source.contentString : source.content.toString());
+      if (underlyingType.isIntLike()) {
+        result.put("identifierNumber", source.contentLong);
+      }
+    }
+  }
+
   @Override
-  protected Object asJavaObject(RecordValue recordValue) {
+  protected Object asJavaObject(RecordValue recordValue) throws ValueConverterException {
     JSONObject result = new JSONObject();
     for (Value key : recordValue.keys()) {
       Value value = recordValue.aref(key);
@@ -70,41 +71,38 @@ public class JSONValueConverter extends ValueConverter<Object> {
       result.put(keyString, asJava(value));
     }
 
-    if (recordValue instanceof ProxyRecordValue proxyRecordValue) {
-      Type underlyingType = proxyRecordValue.getUnderlyingValue().getType();
-      String typeName = underlyingType.getName();
-      String typeNameCaps = Character.toUpperCase(typeName.charAt(0)) + typeName.substring(1);
-      result.put("objectType", typeNameCaps);
-      result.put(
-          "identifierString",
-          recordValue.content == null ? recordValue.contentString : recordValue.content.toString());
-      if (underlyingType.isIntLike()) {
-        result.put("identifierNumber", recordValue.contentLong);
-      }
-    }
+    maybeAddIdentifiedFields(result, recordValue);
     return result;
   }
 
   @Override
-  protected Object asJavaArray(ArrayValue arrayValue) {
+  protected Object asJavaArray(ArrayValue arrayValue) throws ValueConverterException {
     return JSONArray.from(Arrays.stream((Value[]) arrayValue.content).map(this::asJava).toList());
   }
 
   @Override
-  protected Object asJavaArray(PluralValue arrayValue) {
+  protected Object asJavaArray(PluralValue arrayValue) throws ValueConverterException {
     return JSONArray.from(Arrays.stream((Value[]) arrayValue.content).map(this::asJava).toList());
   }
 
   @Override
-  public Object asJava(Value value) {
+  public Object asJava(Value value) throws ValueConverterException {
+    Value underlying = value;
     if (value instanceof ProxyRecordValue proxyRecordValue) {
-      value = proxyRecordValue.getUnderlyingValue();
+      underlying = proxyRecordValue.getUnderlyingValue();
     }
-    if (DataTypes.enumeratedTypes.contains(value.getType())) {
-      var id = new TypeAndIdentifier(value);
-      // This logic prevents circular references.
-      Object result = processedObjects.add(id) ? super.asJava(value) : new JSONObject();
-      processedObjects.remove(id);
+    if (DataTypes.enumeratedTypes.contains(underlying.getType())) {
+      // This logic prevents circular references. For objects down the tree, we only add their
+      // identifying fields.
+      Object result;
+      depth++;
+      if (depth == 1) {
+        result = super.asJava(value);
+      } else {
+        result = new JSONObject();
+        maybeAddIdentifiedFields((JSONObject) result, underlying.asProxy());
+      }
+      depth--;
       return result;
     } else {
       return super.asJava(value);

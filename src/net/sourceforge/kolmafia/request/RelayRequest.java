@@ -88,7 +88,6 @@ import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.RuntimeLibrary;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 import net.sourceforge.kolmafia.textui.javascript.JSONValueConverter;
-import net.sourceforge.kolmafia.textui.parsetree.ProxyRecordValue;
 import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
 import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
@@ -3535,9 +3534,9 @@ public class RelayRequest extends PasswordHashRequest {
         var identifierStringObject = obj.get("identifierString");
         var identifierNumberObject = obj.get("identifierNumber");
         if (identifierStringObject instanceof String identifierString) {
-          return ProxyRecordValue.asProxy(dataType.parseValue(identifierString, false));
+          return dataType.parseValue(identifierString, true);
         } else if (identifierNumberObject instanceof Integer identifierNumber) {
-          return ProxyRecordValue.asProxy(dataType.makeValue(identifierNumber, false));
+          return dataType.makeValue(identifierNumber, true);
         }
       }
 
@@ -3622,7 +3621,7 @@ public class RelayRequest extends PasswordHashRequest {
         }
 
         if (name.equals("identity") && args.size() == 1) {
-          functionsResult.add(JSONValueConverter.asJSON(transformedArguments.get(0)));
+          functionsResult.add(JSONValueConverter.asJSON(transformedArguments.get(0).asProxy()));
           continue;
         }
 
