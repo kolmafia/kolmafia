@@ -636,10 +636,7 @@ public class AdventureRequest extends GenericRequest {
                       AdventureDatabase.getAdventure(AdventurePool.UPPER_CHAMBER))
                   == 2
               && encounter.equals("A Wheel -- How Fortunate!"))
-          && !(AdventureSpentDatabase.getTurns(
-                      AdventureDatabase.getAdventure(AdventurePool.UPPER_CHAMBER))
-                  == 5
-              && encounter.equals("Down Dooby-Doo Down Down"))) {
+          && !(encounter.equals("Down Dooby-Doo Down Down"))) {
         // only log the FIRST choice that we see in a choiceadventure chain.
         if ((!urlString.startsWith("choice.php") || ChoiceManager.getLastChoice() == 0)
             && !FightRequest.edFightInProgress()) {

@@ -1538,9 +1538,12 @@ public class ProxyRecordValue extends RecordValue {
         return -1;
       }
 
+      // Default -1 if this location doesn't have forcenoncombat.
       var id = ((KoLAdventure) this.content).getAdventureId();
-      // Using getString instead of getInteger for a default of -1.
-      return id != "" ? StringUtilities.parseInt(Preferences.getString("lastNoncombat" + id)) : -1;
+      if (id.isEmpty()) return -1;
+
+      var turnsString = Preferences.getString("lastNoncombat" + id);
+      return turnsString.isEmpty() ? -1 : StringUtilities.parseInt(turnsString);
     }
 
     public int get_force_noncombat() {

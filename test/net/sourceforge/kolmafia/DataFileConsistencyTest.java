@@ -559,4 +559,14 @@ public class DataFileConsistencyTest {
       fail("Couldn't read from " + file);
     }
   }
+
+  @Test
+  public void everyForceNoncombatZoneHasDefault() {
+    for (var adventure : AdventureDatabase.getAsLockableListModel()) {
+      if (adventure.getAdventureNumber() < 0) continue;
+
+      var pref = "lastNoncombat" + adventure.getAdventureNumber();
+      assertThat(Preferences.containsDefault(pref), is(adventure.getForceNoncombat() > 0));
+    }
+  }
 }
