@@ -2198,4 +2198,25 @@ public class MaximizerTest {
       }
     }
   }
+
+  @Nested
+  class AprilBand {
+    @Test
+    public void recommendsAprilBand() {
+      var cleanups = withItem(ItemPool.APRILING_BAND_HELMET);
+
+      try (cleanups) {
+        maximize("combat");
+
+        assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("aprilband effect c"))));
+      }
+    }
+
+    @Test
+    public void doesNotRecommendAprilBandWithoutItem() {
+      maximize("combat");
+
+      assertThat(getBoosts(), not(hasItem(hasProperty("cmd", startsWith("aprilband effect c")))));
+    }
+  }
 }

@@ -282,7 +282,7 @@ public abstract class TransferItemRequest extends GenericRequest {
       KoLmafia.updateDisplay(MafiaState.ERROR, "Transfer failed for " + item.toString());
     }
 
-    int totalMeat = StringUtilities.parseInt(this.getFormField(this.getMeatField()));
+    long totalMeat = StringUtilities.parseLong(this.getFormField(this.getMeatField()));
     if (totalMeat != 0) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "Transfer failed for " + totalMeat + " meat");
     }

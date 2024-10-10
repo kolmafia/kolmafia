@@ -234,7 +234,7 @@ public class ClosetRequest extends TransferItemRequest {
 
     if (meatInClosetMatcher.find()) {
       String meatInCloset = meatInClosetMatcher.group(1);
-      KoLCharacter.setClosetMeat(StringUtilities.parseInt(meatInCloset));
+      KoLCharacter.setClosetMeat(StringUtilities.parseLong(meatInCloset));
     }
   }
 

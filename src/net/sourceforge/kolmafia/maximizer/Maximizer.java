@@ -1294,6 +1294,8 @@ public class Maximizer {
             item = ItemPool.get(usableMicrophone, 1);
           }
           duration = 30;
+        } else if (cmd.startsWith("aprilband ")) {
+          item = ItemPool.get(ItemPool.APRILING_BAND_HELMET, 1);
         }
 
         if (item != null) {
