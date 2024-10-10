@@ -1869,6 +1869,7 @@ public abstract class InventoryManager {
     checkDesignerSweatpants();
     checkCinchoDeMayo();
     checkAugustScepter();
+    checkBatWings();
   }
 
   public static void checkPowerfulGlove() {
@@ -1966,6 +1967,18 @@ public abstract class InventoryManager {
     KoLCharacter.addAvailableSkill(SkillPool.AUG_29TH_MORE_HERBS_LESS_SALT_DAY);
     KoLCharacter.addAvailableSkill(SkillPool.AUG_30TH_BEACH_DAY);
     KoLCharacter.addAvailableSkill(SkillPool.AUG_31ST_CABERNET_SAUVIGNON_DAY);
+  }
+
+  public static void checkBatWings() {
+    if (KoLCharacter.hasEquipped(UseSkillRequest.BAT_WINGS)
+        || InventoryManager.hasItem(UseSkillRequest.BAT_WINGS, false)) {
+      addBatWingsSkills();
+    }
+  }
+
+  public static void addBatWingsSkills() {
+    // *** Special case: the buffs are always available
+    KoLCharacter.addAvailableSkill(SkillPool.REST_UPSIDE_DOWN);
   }
 
   public static void checkRing() {
