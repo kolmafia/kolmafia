@@ -43,6 +43,7 @@ import net.sourceforge.kolmafia.modifiers.Lookup;
 import net.sourceforge.kolmafia.modifiers.Modifier;
 import net.sourceforge.kolmafia.modifiers.ModifierList;
 import net.sourceforge.kolmafia.modifiers.ModifierList.ModifierValue;
+import net.sourceforge.kolmafia.modifiers.MultiStringModifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -478,22 +479,59 @@ public class ModifierDatabase {
     return mods.getBoolean(mod);
   }
 
-  public static final String getStringModifier(
-      final ModifierType type, final int id, final StringModifier mod) {
+  public static String getStringModifier(
+      final ModifierType type, final int id, final Modifier mod) {
     return getStringModifier(new Lookup(type, id), mod);
   }
 
-  public static final String getStringModifier(
-      final ModifierType type, final String name, final StringModifier mod) {
+  public static String getStringModifier(
+      final ModifierType type, final int id, final MultiStringModifier mod) {
+    return getStringModifier(new Lookup(type, id), mod);
+  }
+
+  public static String getStringModifier(
+      final ModifierType type, final String name, final Modifier mod) {
     return getStringModifier(new Lookup(type, name), mod);
   }
 
-  public static final String getStringModifier(final Lookup lookup, final StringModifier mod) {
+  public static String getStringModifier(
+      final ModifierType type, final String name, final MultiStringModifier mod) {
+    return getStringModifier(new Lookup(type, name), mod);
+  }
+
+  public static String getStringModifier(final Lookup lookup, final Modifier mod) {
     Modifiers mods = getModifiers(lookup);
     if (mods == null) {
       return "";
     }
     return mods.getString(mod);
+  }
+
+  public static String getStringModifier(final Lookup lookup, final MultiStringModifier mod) {
+    Modifiers mods = getModifiers(lookup);
+    if (mods == null) {
+      return "";
+    }
+    return mods.getString(mod);
+  }
+
+  public static List<String> getMultiStringModifier(
+      final ModifierType type, final int id, final MultiStringModifier mod) {
+    return getMultiStringModifier(new Lookup(type, id), mod);
+  }
+
+  public static List<String> getMultiStringModifier(
+      final ModifierType type, final String name, final MultiStringModifier mod) {
+    return getMultiStringModifier(new Lookup(type, name), mod);
+  }
+
+  public static List<String> getMultiStringModifier(
+      final Lookup lookup, final MultiStringModifier mod) {
+    Modifiers mods = getModifiers(lookup);
+    if (mods == null) {
+      return List.of();
+    }
+    return mods.getStrings(mod);
   }
 
   // sub-region: parse modifiers.txt expressions to Modifiers / ModifierList
@@ -704,6 +742,23 @@ public class ModifierDatabase {
         newMods.setString(mod, value);
         continue modLoop;
       }
+
+      for (var mod : MultiStringModifier.MULTISTRING_MODIFIERS) {
+        Pattern pattern = mod.getTagPattern();
+        if (pattern == null) {
+          continue;
+        }
+
+        Matcher matcher = pattern.matcher(string);
+        if (!matcher.matches()) {
+          continue;
+        }
+
+        String value = matcher.group(1);
+
+        newMods.addMuiltiString(mod, value);
+        continue modLoop;
+      }
     }
     newMods.setString(StringModifier.MODIFIERS, list.toString());
 
@@ -798,7 +853,7 @@ public class ModifierDatabase {
           name = "[" + effectId + "]" + name;
         }
       }
-      return StringModifier.EFFECT.getTag() + ": \"" + name + "\"";
+      return MultiStringModifier.EFFECT.getTag() + ": \"" + name + "\"";
     }
 
     return null;
@@ -1155,7 +1210,7 @@ public class ModifierDatabase {
           if (mods == null) {
             break;
           }
-          if (!mods.getString(StringModifier.EFFECT).isEmpty()) {
+          if (!mods.getString(MultiStringModifier.EFFECT).isEmpty()) {
             potions.add(name);
           } else if (mods.getBoolean(BooleanModifier.FREE_PULL)) {
             freepulls.add(name);

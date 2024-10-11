@@ -26,6 +26,7 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import net.sourceforge.kolmafia.modifiers.MultiStringModifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
@@ -613,7 +614,7 @@ public class TCRSDatabase {
 
     // Add as effect source, if appropriate
     String effectName =
-        ModifierDatabase.getStringModifier(ModifierType.ITEM, itemName, StringModifier.EFFECT);
+        ModifierDatabase.getStringModifier(ModifierType.ITEM, itemName, MultiStringModifier.EFFECT);
     if (effectName != null && !effectName.equals("")) {
       addEffectSource(itemName, usage, effectName);
     }
@@ -704,7 +705,7 @@ public class TCRSDatabase {
     ConsumablesDatabase.getAttributes(consumable).stream().map(Enum::name).forEach(comment::add);
 
     String effectName =
-        ModifierDatabase.getStringModifier(ModifierType.ITEM, itemName, StringModifier.EFFECT);
+        ModifierDatabase.getStringModifier(ModifierType.ITEM, itemName, MultiStringModifier.EFFECT);
     if (effectName != null && !effectName.isEmpty()) {
       int duration =
           (int)

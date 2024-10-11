@@ -82,6 +82,7 @@ import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.Modifier;
 import net.sourceforge.kolmafia.modifiers.ModifierList.ModifierValue;
 import net.sourceforge.kolmafia.modifiers.ModifierValueType;
+import net.sourceforge.kolmafia.modifiers.MultiStringModifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.moods.Mood;
 import net.sourceforge.kolmafia.moods.MoodManager;
@@ -3159,6 +3160,37 @@ public abstract class RuntimeLibrary {
         List.of(
             namedParam("type", DataTypes.STRING_TYPE),
             namedParam("modifier", DataTypes.STRING_TYPE));
+    functions.add(
+        new LibraryFunction(
+            "effects_modifier", new AggregateType(DataTypes.EFFECT_TYPE, 0), params));
+
+    params =
+        List.of(
+            namedParam("type", DataTypes.STRING_TYPE),
+            namedParam("modifier", DataTypes.MODIFIER_TYPE));
+    functions.add(
+        new LibraryFunction(
+            "effects_modifier", new AggregateType(DataTypes.EFFECT_TYPE, 0), params));
+
+    params =
+        List.of(
+            namedParam("item", DataTypes.ITEM_TYPE), namedParam("modifier", DataTypes.STRING_TYPE));
+    functions.add(
+        new LibraryFunction(
+            "effects_modifier", new AggregateType(DataTypes.EFFECT_TYPE, 0), params));
+
+    params =
+        List.of(
+            namedParam("item", DataTypes.ITEM_TYPE),
+            namedParam("modifier", DataTypes.MODIFIER_TYPE));
+    functions.add(
+        new LibraryFunction(
+            "effects_modifier", new AggregateType(DataTypes.EFFECT_TYPE, 0), params));
+
+    params =
+        List.of(
+            namedParam("type", DataTypes.STRING_TYPE),
+            namedParam("modifier", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("class_modifier", DataTypes.CLASS_TYPE, params));
 
     params =
@@ -3212,6 +3244,33 @@ public abstract class RuntimeLibrary {
             namedParam("item", DataTypes.ITEM_TYPE),
             namedParam("modifier", DataTypes.MODIFIER_TYPE));
     functions.add(new LibraryFunction("skill_modifier", DataTypes.SKILL_TYPE, params));
+
+    params =
+        List.of(
+            namedParam("type", DataTypes.STRING_TYPE),
+            namedParam("modifier", DataTypes.STRING_TYPE));
+    functions.add(
+        new LibraryFunction("skills_modifier", new AggregateType(DataTypes.SKILL_TYPE, 0), params));
+
+    params =
+        List.of(
+            namedParam("type", DataTypes.STRING_TYPE),
+            namedParam("modifier", DataTypes.MODIFIER_TYPE));
+    functions.add(
+        new LibraryFunction("skills_modifier", new AggregateType(DataTypes.SKILL_TYPE, 0), params));
+
+    params =
+        List.of(
+            namedParam("item", DataTypes.ITEM_TYPE), namedParam("modifier", DataTypes.STRING_TYPE));
+    functions.add(
+        new LibraryFunction("skills_modifier", new AggregateType(DataTypes.SKILL_TYPE, 0), params));
+
+    params =
+        List.of(
+            namedParam("item", DataTypes.ITEM_TYPE),
+            namedParam("modifier", DataTypes.MODIFIER_TYPE));
+    functions.add(
+        new LibraryFunction("skills_modifier", new AggregateType(DataTypes.SKILL_TYPE, 0), params));
 
     params =
         List.of(
@@ -10166,6 +10225,26 @@ public abstract class RuntimeLibrary {
     return StringModifier.byCaselessName(mod);
   }
 
+  private static MultiStringModifier getMultiStringModifier(
+      ScriptRuntime controller, final Value modifier) {
+    Type type = modifier.getType();
+    if (type.equals(DataTypes.MODIFIER_TYPE)) {
+      Modifier content = (Modifier) modifier.content;
+      if (content.getType() == ModifierValueType.STRING) {
+        return (MultiStringModifier) content;
+      }
+      throw controller.runtimeException("string modifier required");
+    }
+    String mod = modifier.toString();
+    return MultiStringModifier.byCaselessName(mod);
+  }
+
+  private static Modifier getAnyStringModifier(ScriptRuntime controller, final Value modifier) {
+    Modifier mod = getStringModifier(controller, modifier);
+    if (mod == null) mod = getMultiStringModifier(controller, modifier);
+    return mod;
+  }
+
   public static Value numeric_modifier(ScriptRuntime controller, final Value modifier) {
     Modifier realMod = getNumericModifier(controller, modifier);
     return new Value(KoLCharacter.currentNumericModifier(realMod));
@@ -10224,9 +10303,27 @@ public abstract class RuntimeLibrary {
       ScriptRuntime controller, final Value arg, final Value modifier) {
     ModifierType type = RuntimeLibrary.getModifierType(arg);
     String name = RuntimeLibrary.getModifierName(arg);
-    StringModifier strMod = getStringModifier(controller, modifier);
+    var strMod = getAnyStringModifier(controller, modifier);
     return new Value(
         DataTypes.parseEffectValue(ModifierDatabase.getStringModifier(type, name, strMod), true));
+  }
+
+  public static Value effects_modifier(
+      ScriptRuntime controller, final Value arg, final Value modifier) {
+    ModifierType type = RuntimeLibrary.getModifierType(arg);
+    String name = RuntimeLibrary.getModifierName(arg);
+    var mStrMod = getMultiStringModifier(controller, modifier);
+
+    var values = ModifierDatabase.getMultiStringModifier(type, name, mStrMod);
+    ArrayValue value = new ArrayValue(new AggregateType(DataTypes.EFFECT_TYPE, values.size()));
+
+    int i = 0;
+    for (var eff : values) {
+      Value effect = DataTypes.parseEffectValue(eff, true);
+      value.aset(DataTypes.makeIntValue(i++), effect);
+    }
+
+    return value;
   }
 
   public static Value class_modifier(
@@ -10245,6 +10342,24 @@ public abstract class RuntimeLibrary {
     StringModifier strMod = getStringModifier(controller, modifier);
     return new Value(
         DataTypes.parseSkillValue(ModifierDatabase.getStringModifier(type, name, strMod), true));
+  }
+
+  public static Value skills_modifier(
+      ScriptRuntime controller, final Value arg, final Value modifier) {
+    ModifierType type = RuntimeLibrary.getModifierType(arg);
+    String name = RuntimeLibrary.getModifierName(arg);
+    var mStrMod = getMultiStringModifier(controller, modifier);
+
+    var values = ModifierDatabase.getMultiStringModifier(type, name, mStrMod);
+    ArrayValue value = new ArrayValue(new AggregateType(DataTypes.SKILL_TYPE, values.size()));
+
+    int i = 0;
+    for (var sk : values) {
+      Value skill = DataTypes.parseSkillValue(sk, true);
+      value.aset(DataTypes.makeIntValue(i++), skill);
+    }
+
+    return value;
   }
 
   public static Value stat_modifier(
