@@ -301,6 +301,10 @@ public class ModifierDatabase {
     if (str != null) {
       return str;
     }
+    var mStr = MultiStringModifier.byCaselessName(name);
+    if (mStr != null) {
+      return mStr;
+    }
     return BooleanModifier.byCaselessName(name);
   }
 
