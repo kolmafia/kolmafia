@@ -9,7 +9,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
-
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
@@ -33,7 +32,6 @@ import net.sourceforge.kolmafia.modifiers.MultiStringModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.objectpool.OutfitPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
@@ -448,7 +446,7 @@ public class EquipmentManager {
   }
 
   private static void manageConditionalSkillsFromOutfit(
-    final boolean add, final int id, final Consumer<Integer> cb) {
+      final boolean add, final int id, final Consumer<Integer> cb) {
     var outfit = normalOutfits.stream().filter(o -> o.containsPiece(id)).findAny().orElse(null);
 
     if (outfit == null) return;
@@ -458,14 +456,14 @@ public class EquipmentManager {
     if (add && !outfit.isWearing()) return;
 
     outfitMods.getStrings(MultiStringModifier.CONDITIONAL_SKILL_EQUIPPED).stream()
-      .map(SkillDatabase::getSkillId)
-      .forEach(cb);
+        .map(SkillDatabase::getSkillId)
+        .forEach(cb);
   }
 
   private static void manageConditionalSkills(
-    final boolean add, final Slot slot, AdventureResult item) {
+      final boolean add, final Slot slot, AdventureResult item) {
     Consumer<Integer> cb =
-      add ? KoLCharacter::addAvailableSkill : KoLCharacter::removeAvailableSkill;
+        add ? KoLCharacter::addAvailableSkill : KoLCharacter::removeAvailableSkill;
     // Certain items can be equipped either in their normal slot or
     // on a familiar. Granted skills may or may not be available.
     //
@@ -479,9 +477,9 @@ public class EquipmentManager {
     // If we are equipping a new sword or gun we may be changing the capabilities of the retrocape
     if (slot == Slot.WEAPON) {
       if (EquipmentDatabase.isSword(id)
-        || EquipmentDatabase.isGun(id)
-        || EquipmentDatabase.isPistol(id)
-        || EquipmentDatabase.isRifle(id)) {
+          || EquipmentDatabase.isGun(id)
+          || EquipmentDatabase.isPistol(id)
+          || EquipmentDatabase.isRifle(id)) {
         ItemDatabase.setCapeSkills();
       }
     }
@@ -489,8 +487,8 @@ public class EquipmentManager {
     var mods = ModifierDatabase.getItemModifiers(id);
     if (mods != null) {
       mods.getStrings(MultiStringModifier.CONDITIONAL_SKILL_EQUIPPED).stream()
-        .map(SkillDatabase::getSkillId)
-        .forEach(cb);
+          .map(SkillDatabase::getSkillId)
+          .forEach(cb);
     }
 
     manageConditionalSkillsFromOutfit(add, id, cb);
@@ -498,7 +496,7 @@ public class EquipmentManager {
     switch (id) {
       case ItemPool.RIGHT_BEAR_ARM, ItemPool.LEFT_BEAR_ARM -> {
         if (KoLCharacter.hasEquipped(ItemPool.get(ItemPool.RIGHT_BEAR_ARM, 1))
-          && KoLCharacter.hasEquipped(ItemPool.get(ItemPool.LEFT_BEAR_ARM, 1))) {
+            && KoLCharacter.hasEquipped(ItemPool.get(ItemPool.LEFT_BEAR_ARM, 1))) {
           cb.accept(SkillPool.BEAR_HUG);
           cb.accept(SkillPool.I_CAN_BEARLY_HEAR_YOU_OVER_THE_APPLAUSE);
         }
