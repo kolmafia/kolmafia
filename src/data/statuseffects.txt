@@ -2901,9 +2901,9 @@
 2898	Savage Beast	intrinsic_beast.gif	d9cb5591b2638f856456d356f5c4fb0e	neutral	none
 2899	Ultra-Soft Steps	softfern.gif	ea08a91c456c3dead7a11092f0bb1213	neutral	none	use 1 ultra-soft ferns
 2900	Crunchy Steps	drybrush.gif	b32c6ab90bda5197d973908ac94fbde4	neutral	none	use 1 crunchy brush
-2901	Apriling Band Patrol Beat	april_music1.gif	315f72f3d2d9f02cddf2b78dca3fbaa6	neutral	none
-2902	Apriling Band Battle Cadence	april_music2.gif	7a55b609635e7b112bfd40b437b85146	neutral	none
-2903	Apriling Band Celebration Bop	april_music3.gif	9d4971782dac388aaac6be8bf96ef5d6	neutral	none
+2901	Apriling Band Patrol Beat	april_music1.gif	315f72f3d2d9f02cddf2b78dca3fbaa6	neutral	none	aprilband effect nc
+2902	Apriling Band Battle Cadence	april_music2.gif	7a55b609635e7b112bfd40b437b85146	neutral	none	aprilband effect c
+2903	Apriling Band Celebration Bop	april_music3.gif	9d4971782dac388aaac6be8bf96ef5d6	neutral	none	aprilband effect drop
 2904	Bottled Fortitude	yambottle.gif	a3104be510b30e74b21828e4d7e5cf80	neutral	none
 2905	Big Eyes	yameye.gif	591a425ca0ccb96788051388c5e581eb	neutral	none
 2906	Vessel of Magic	yamvessel.gif	b05746e8d34ef035bb7785fec0969265	neutral	none

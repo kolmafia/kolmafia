@@ -2527,7 +2527,7 @@ chalk chain	50	none
 chalk choker	50	none
 Charleston shoes	100	Mys: 25
 cheap elven gloves	30	none
-cheap plastic pipe	0	none
+cheap plastic pipe	10	none
 cheap studded belt	10	none
 cheap sunglasses	80	Mys: 20
 Chester's Aquarius medallion	200	Mys: 200

@@ -1383,7 +1383,8 @@ public abstract class ChoiceAdventures {
             "Penultimate Fantasy chest",
             "metallic A",
             "soft green echo eyedrop antidote",
-            "titanium assault umbrella"));
+            "titanium assault umbrella"),
+        new ChoiceOption("advance immateria quest"));
 
     // That Explains All The Eyepatches
     // Dynamically calculate options based on mainstat
