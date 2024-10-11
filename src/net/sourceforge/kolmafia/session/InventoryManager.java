@@ -1865,36 +1865,46 @@ public abstract class InventoryManager {
   }
 
   public static void checkSkillGrantingEquipment() {
-    checkPowerfulGlove();
-    checkDesignerSweatpants();
-    checkCinchoDeMayo();
-    checkAugustScepter();
+    checkAndAddSkills(
+        UseSkillRequest.POWERFUL_GLOVE,
+        UseSkillRequest.REPLICA_POWERFUL_GLOVE,
+        InventoryManager::addPowerfulGloveSkills);
+    checkAndAddSkills(
+        UseSkillRequest.DESIGNER_SWEATPANTS,
+        UseSkillRequest.REPLICA_DESIGNER_SWEATPANTS,
+        InventoryManager::addDesignerSweatpantsSkills);
+    checkAndAddSkills(
+        UseSkillRequest.CINCHO_DE_MAYO,
+        UseSkillRequest.REPLICA_CINCHO_DE_MAYO,
+        InventoryManager::addCinchoDeMayoSkills);
+    checkAndAddSkills(
+        UseSkillRequest.AUGUST_SCEPTER,
+        UseSkillRequest.REPLICA_AUGUST_SCEPTER,
+        InventoryManager::addAugustScepterSkills);
+    checkAndAddSkills(UseSkillRequest.BAT_WINGS, InventoryManager::addBatWingsSkills);
   }
 
-  public static void checkPowerfulGlove() {
-    if (KoLCharacter.hasEquipped(UseSkillRequest.POWERFUL_GLOVE)
-        || InventoryManager.hasItem(UseSkillRequest.POWERFUL_GLOVE, false)
-        || (KoLCharacter.inLegacyOfLoathing()
-            && (KoLCharacter.hasEquipped(UseSkillRequest.REPLICA_POWERFUL_GLOVE)
-                || InventoryManager.hasItem(UseSkillRequest.REPLICA_POWERFUL_GLOVE, false)))) {
-      addPowerfulGloveSkills();
+  private static void checkAndAddSkills(AdventureResult item, Runnable addSkills) {
+    checkAndAddSkills(item, null, addSkills);
+  }
+
+  private static void checkAndAddSkills(
+      AdventureResult item, AdventureResult replicaItem, Runnable addSkills) {
+    if (!KoLCharacter.hasEquipped(item) && !InventoryManager.hasItem(item, false)) {
+      if (replicaItem == null) return;
+      if (!KoLCharacter.inLegacyOfLoathing()
+          || (!KoLCharacter.hasEquipped(replicaItem)
+              && !InventoryManager.hasItem(replicaItem, false))) {
+        return;
+      }
     }
+    addSkills.run();
   }
 
   public static void addPowerfulGloveSkills() {
     // *** Special case: the buffs are always available
     KoLCharacter.addAvailableSkill(SkillPool.INVISIBLE_AVATAR);
     KoLCharacter.addAvailableSkill(SkillPool.TRIPLE_SIZE);
-  }
-
-  public static void checkDesignerSweatpants() {
-    if (KoLCharacter.hasEquipped(UseSkillRequest.DESIGNER_SWEATPANTS)
-        || InventoryManager.hasItem(UseSkillRequest.DESIGNER_SWEATPANTS, false)
-        || (KoLCharacter.inLegacyOfLoathing()
-            && (KoLCharacter.hasEquipped(UseSkillRequest.REPLICA_DESIGNER_SWEATPANTS)
-                || InventoryManager.hasItem(UseSkillRequest.REPLICA_DESIGNER_SWEATPANTS, false)))) {
-      addDesignerSweatpantsSkills();
-    }
   }
 
   public static void addDesignerSweatpantsSkills() {
@@ -1905,16 +1915,6 @@ public abstract class InventoryManager {
     KoLCharacter.addAvailableSkill(SkillPool.SIP_SOME_SWEAT);
   }
 
-  public static void checkCinchoDeMayo() {
-    if (KoLCharacter.hasEquipped(UseSkillRequest.CINCHO_DE_MAYO)
-        || InventoryManager.hasItem(UseSkillRequest.CINCHO_DE_MAYO, false)
-        || (KoLCharacter.inLegacyOfLoathing()
-            && (KoLCharacter.hasEquipped(UseSkillRequest.REPLICA_CINCHO_DE_MAYO)
-                || InventoryManager.hasItem(UseSkillRequest.REPLICA_CINCHO_DE_MAYO, false)))) {
-      addCinchoDeMayoSkills();
-    }
-  }
-
   public static void addCinchoDeMayoSkills() {
     KoLCharacter.addAvailableSkill(SkillPool.CINCHO_DISPENSE_SALT_AND_LIME);
     KoLCharacter.addAvailableSkill(SkillPool.CINCHO_PARTY_SOUNDTRACK);
@@ -1922,16 +1922,6 @@ public abstract class InventoryManager {
     KoLCharacter.addAvailableSkill(SkillPool.CINCHO_PROJECTILE_PINATA);
     KoLCharacter.addAvailableSkill(SkillPool.CINCHO_PARTY_FOUL);
     KoLCharacter.addAvailableSkill(SkillPool.CINCHO_CONFETTI_EXTRAVAGANZA);
-  }
-
-  public static void checkAugustScepter() {
-    if (KoLCharacter.hasEquipped(UseSkillRequest.AUGUST_SCEPTER)
-        || InventoryManager.hasItem(UseSkillRequest.AUGUST_SCEPTER, false)
-        || (KoLCharacter.inLegacyOfLoathing()
-            && (KoLCharacter.hasEquipped(UseSkillRequest.REPLICA_AUGUST_SCEPTER)
-                || InventoryManager.hasItem(UseSkillRequest.REPLICA_AUGUST_SCEPTER, false)))) {
-      addAugustScepterSkills();
-    }
   }
 
   public static void addAugustScepterSkills() {
@@ -1966,6 +1956,11 @@ public abstract class InventoryManager {
     KoLCharacter.addAvailableSkill(SkillPool.AUG_29TH_MORE_HERBS_LESS_SALT_DAY);
     KoLCharacter.addAvailableSkill(SkillPool.AUG_30TH_BEACH_DAY);
     KoLCharacter.addAvailableSkill(SkillPool.AUG_31ST_CABERNET_SAUVIGNON_DAY);
+  }
+
+  public static void addBatWingsSkills() {
+    // *** Special case: the buffs are always available
+    KoLCharacter.addAvailableSkill(SkillPool.REST_UPSIDE_DOWN);
   }
 
   public static void checkRing() {
