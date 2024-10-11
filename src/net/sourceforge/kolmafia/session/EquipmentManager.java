@@ -665,7 +665,6 @@ public class EquipmentManager {
         KoLCharacter.removeAvailableSkill(SkillPool.BLOW_THE_YELLOW_CANDLE);
       }
       case ItemPool.BAT_WINGS -> {
-        KoLCharacter.removeAvailableSkill(SkillPool.REST_UPSIDE_DOWN);
         KoLCharacter.removeAvailableSkill(SkillPool.SWOOP_LIKE_A_BAT);
         KoLCharacter.removeAvailableSkill(SkillPool.SUMMON_CAULDRON_OF_BATS);
       }
@@ -923,7 +922,6 @@ public class EquipmentManager {
         KoLCharacter.addAvailableSkill(SkillPool.BLOW_THE_YELLOW_CANDLE);
       }
       case ItemPool.BAT_WINGS -> {
-        KoLCharacter.addAvailableSkill(SkillPool.REST_UPSIDE_DOWN);
         KoLCharacter.addAvailableSkill(SkillPool.SWOOP_LIKE_A_BAT);
         KoLCharacter.addAvailableSkill(SkillPool.SUMMON_CAULDRON_OF_BATS);
       }
