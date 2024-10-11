@@ -10230,7 +10230,7 @@ public abstract class RuntimeLibrary {
     Type type = modifier.getType();
     if (type.equals(DataTypes.MODIFIER_TYPE)) {
       Modifier content = (Modifier) modifier.content;
-      if (content.getType() == ModifierValueType.STRING) {
+      if (content.getType() == ModifierValueType.MULTISTRING) {
         return (MultiStringModifier) content;
       }
       throw controller.runtimeException("string modifier required");
@@ -10240,9 +10240,14 @@ public abstract class RuntimeLibrary {
   }
 
   private static Modifier getAnyStringModifier(ScriptRuntime controller, final Value modifier) {
-    Modifier mod = getStringModifier(controller, modifier);
-    if (mod == null) mod = getMultiStringModifier(controller, modifier);
-    return mod;
+    if (modifier.getType() != DataTypes.MODIFIER_TYPE) return null;
+    var content = (Modifier) modifier.content;
+    var type = content.getType();
+    return switch (type) {
+      case STRING -> getStringModifier(controller, modifier);
+      case MULTISTRING -> getMultiStringModifier(controller, modifier);
+      default -> null;
+    };
   }
 
   public static Value numeric_modifier(ScriptRuntime controller, final Value modifier) {

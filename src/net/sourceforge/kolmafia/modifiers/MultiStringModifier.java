@@ -66,7 +66,7 @@ public enum MultiStringModifier implements Modifier {
 
   @Override
   public ModifierValueType getType() {
-    return ModifierValueType.STRING;
+    return ModifierValueType.MULTISTRING;
   }
 
   @Override
