@@ -582,6 +582,9 @@ public class AdventureRequest extends GenericRequest {
     RequestLogger.updateSessionLog("Encounter: " + prettyEncounter);
     AdventureRequest.registerDemonName(encounter, responseText);
 
+    var location = KoLAdventure.lastVisitedLocation();
+    var encounterData = EncounterManager.findEncounter(location, encounter);
+
     // We are done registering the item's encounter.
     if (type != null) {
       if (type.equals("Combat")) {
@@ -619,13 +622,31 @@ public class AdventureRequest extends GenericRequest {
                 && !EncounterManager.isSpookyVHSTapeMonster(responseText, false)
                 && !EncounterManager.isMimeographEncounter(responseText)
                 && !FightRequest.edFightInProgress())) {
-          AdventureQueueDatabase.enqueue(KoLAdventure.lastVisitedLocation(), encounter);
+          AdventureQueueDatabase.enqueue(location, encounter);
         }
-      } else if (type.equals("Noncombat")) {
+      } else if (type.equals("Noncombat")
+          // Don't enqueue Lucky, hallowiener, etc. adventures.
+          && (encounterData == null
+              || encounterData.getEncounterType() == EncounterManager.EncounterType.NONE
+              || encounterData.getEncounterType() == EncounterManager.EncounterType.STOP)
+          // Special-case first two NCs in the Upper Chamber, which are superlikely.
+          // In a perfect world, Mafia would have a list of all superlikelies, but this works for
+          // now.
+          && !(AdventureSpentDatabase.getTurns(
+                      AdventureDatabase.getAdventure(AdventurePool.UPPER_CHAMBER))
+                  == 2
+              && encounter.equals("A Wheel -- How Fortunate!"))
+          && !(encounter.equals("Down Dooby-Doo Down Down"))) {
         // only log the FIRST choice that we see in a choiceadventure chain.
         if ((!urlString.startsWith("choice.php") || ChoiceManager.getLastChoice() == 0)
             && !FightRequest.edFightInProgress()) {
-          AdventureQueueDatabase.enqueueNoncombat(KoLAdventure.lastVisitedLocation(), encounter);
+          AdventureQueueDatabase.enqueueNoncombat(location, encounter);
+          if (location != null) {
+            var preference = "lastNoncombat" + location.getAdventureId();
+            if (location.getForceNoncombat() > 0 && Preferences.containsDefault(preference)) {
+              Preferences.setInteger(preference, AdventureSpentDatabase.getTurns(location));
+            }
+          }
         }
       }
       EncounterManager.registerEncounter(encounter, type, responseText);
