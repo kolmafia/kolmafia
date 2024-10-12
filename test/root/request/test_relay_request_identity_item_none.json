@@ -27,7 +27,7 @@
       "tradeable": false,
       "discardable": false,
       "combat": false,
-      "combat_reusable": false,
+      "combatReusable": false,
       "usable": false,
       "reusable": false,
       "multi": false,
@@ -37,7 +37,7 @@
       "cookable": false,
       "mixable": false,
       "candy": false,
-      "candy_type": "none",
+      "candyType": "none",
       "chocolate": false,
       "potion": false,
       "seller": {
@@ -48,13 +48,13 @@
         "objectType": "Coinmaster",
         "identifierString": "none"
       },
-      "name_length": 0,
-      "noob_skill": {
+      "nameLength": 0,
+      "noobSkill": {
         "objectType": "Skill",
         "identifierString": "none",
         "identifierNumber": -1
       },
-      "tcrs_name": "",
+      "tcrsName": "",
       "skill": {
         "objectType": "Skill",
         "identifierString": "none",

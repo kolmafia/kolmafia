@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withAdventuresSpent;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withMeat;
@@ -18,6 +19,7 @@ import com.alibaba.fastjson2.JSONObject;
 import internal.helpers.Cleanups;
 import java.io.File;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
@@ -306,20 +308,23 @@ public class RelayRequestTest {
       "Item,backup camera,test_relay_request_identity_with_loops_item.json"
     })
     public void handlesIdentityWithLoops(String type, String identifier, String expectedFile) {
-      var rr =
-          this.makeApiRequest(
+      var cleanups = withAdventuresSpent(AdventurePool.HAUNTED_KITCHEN, 5);
+      try (cleanups) {
+        var rr =
+            this.makeApiRequest(
+                """
+              { "functions": [{ "name": "identity", "args": [{
+                "objectType": "%s",
+                "identifierString": "%s"
+              }] }] }
               """
-    { "functions": [{ "name": "identity", "args": [{
-      "objectType": "%s",
-      "identifierString": "%s"
-    }] }] }
-    """
-                  .formatted(type, identifier));
+                    .formatted(type, identifier));
 
-      JSONObject expected = JSON.parseObject(html("request/" + expectedFile));
-      assertThat(rr.statusLine, is("HTTP/1.1 200 OK"));
-      assertThat(rr.responseCode, is(200));
-      assertThat(JSON.parse(rr.responseText), is(expected));
+        JSONObject expected = JSON.parseObject(html("request/" + expectedFile));
+        assertThat(rr.statusLine, is("HTTP/1.1 200 OK"));
+        assertThat(rr.responseCode, is(200));
+        assertThat(JSON.parse(rr.responseText), is(expected));
+      }
     }
 
     @ParameterizedTest

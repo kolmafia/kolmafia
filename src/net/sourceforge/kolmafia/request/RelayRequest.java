@@ -22,6 +22,7 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import net.java.dev.spellcast.utilities.DataUtilities;
@@ -87,6 +88,7 @@ import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.RuntimeLibrary;
 import net.sourceforge.kolmafia.textui.javascript.JSONValueConverter;
+import net.sourceforge.kolmafia.textui.javascript.JavascriptRuntime;
 import net.sourceforge.kolmafia.textui.parsetree.LibraryFunction;
 import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
@@ -3521,6 +3523,12 @@ public class RelayRequest extends PasswordHashRequest {
     this.responseText = JSON.toJSONString(Map.of("error", message));
   }
 
+  private String camelCaseName(String name) {
+    return Arrays.stream(name.split("_"))
+        .map(s -> s.substring(0, 1).toUpperCase() + s.substring(1))
+        .collect(Collectors.joining());
+  }
+
   private String underscoreName(String name) {
     return name.replaceAll("[A-Z]", "_$0").toLowerCase();
   }
@@ -3551,6 +3559,24 @@ public class RelayRequest extends PasswordHashRequest {
 
       return JSONValueConverter.fromJSON(obj);
     } else return JSONValueConverter.fromJSON(thing);
+  }
+
+  // Ensure output field names are in camelCase style.
+  private Object transformResult(Object thing) {
+    if (thing instanceof JSONObject obj) {
+      var objectTypeObject = obj.get("objectType");
+      if (objectTypeObject instanceof String objectType
+          && isJavascriptTypeNameFormat(objectType)
+          && DataTypes.enumeratedTypes.find(objectType.toLowerCase()) != null) {
+        var result = new JSONObject();
+        for (var entry : obj.entrySet()) {
+          result.put(
+              JavascriptRuntime.toCamelCase(entry.getKey()), transformResult(entry.getValue()));
+        }
+        return result;
+      }
+    }
+    return thing;
   }
 
   /**
@@ -3609,8 +3635,7 @@ public class RelayRequest extends PasswordHashRequest {
           functionsArray.stream()
               .filter(
                   func -> {
-                    if (!(func instanceof JSONObject)) return true;
-                    var funcObject = (JSONObject) func;
+                    if (!(func instanceof JSONObject funcObject)) return true;
                     var name = funcObject.get("name");
                     var args = funcObject.get("args");
                     if (!(name instanceof String) || !(args instanceof JSONArray)) return true;
@@ -3643,7 +3668,8 @@ public class RelayRequest extends PasswordHashRequest {
         }
 
         if (name.equals("identity") && args.size() == 1) {
-          functionsResult.add(JSONValueConverter.asJSON(transformedArguments.get(0).asProxy()));
+          functionsResult.add(
+              transformResult(JSONValueConverter.asJSON(transformedArguments.get(0).asProxy())));
           continue;
         }
 
@@ -3659,7 +3685,7 @@ public class RelayRequest extends PasswordHashRequest {
             return;
           }
 
-          functionsResult.add(JSONValueConverter.asJSON(value));
+          functionsResult.add(transformResult(JSONValueConverter.asJSON(value)));
         } catch (NoSuchMethodException e) {
           jsonError("Unable to find method " + name);
           return;
