@@ -1,7 +1,9 @@
 package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withMeat;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withTurnsPlayed;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -13,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
+import internal.helpers.Cleanups;
 import java.io.File;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -25,6 +28,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 public class RelayRequestTest {
 
@@ -111,17 +115,62 @@ public class RelayRequestTest {
     }
 
     @Test
+    public void returnsMultipleProperties() {
+      var cleanups =
+          new Cleanups(
+              withProperty("kingLiberated", true), withProperty("lastKingLiberation", 1000));
+      try (cleanups) {
+        var rr =
+            this.makeApiRequest(
+                """
+          { "properties": ["kingLiberated", "lastKingLiberation"] }
+          """);
+
+        JSONObject expected =
+            JSON.parseObject("""
+          { "properties": ["true", "1000"] }
+          """);
+        assertThat(rr.statusLine, is("HTTP/1.1 200 OK"));
+        assertThat(rr.responseCode, is(200));
+        assertThat(JSON.parse(rr.responseText), is(expected));
+      }
+    }
+
+    @Test
     public void returnsFunctions() {
       var cleanups = withTurnsPlayed(22);
       try (cleanups) {
         var rr =
             this.makeApiRequest(
                 """
-          { "functions": [{ "name": "myTurncount", "args": [] }] }
+          { "functions": [{ "name": "totalTurnsPlayed", "args": [] }] }
           """);
 
         JSONObject expected = JSON.parseObject("""
-          { "functions": [0] }
+          { "functions": [22] }
+          """);
+        assertThat(rr.statusLine, is("HTTP/1.1 200 OK"));
+        assertThat(rr.responseCode, is(200));
+        assertThat(JSON.parse(rr.responseText), is(expected));
+      }
+    }
+
+    @Test
+    public void returnsMultipleFunctions() {
+      var cleanups = new Cleanups(withTurnsPlayed(22), withMeat(1000));
+      try (cleanups) {
+        var rr =
+            this.makeApiRequest(
+                """
+      { "functions": [
+        { "name": "totalTurnsPlayed", "args": [] },
+        { "name": "myMeat", "args": [] }
+      ] }
+      """);
+
+        JSONObject expected =
+            JSON.parseObject("""
+          { "functions": [22, 1000] }
           """);
         assertThat(rr.statusLine, is("HTTP/1.1 200 OK"));
         assertThat(rr.responseCode, is(200));
@@ -151,18 +200,38 @@ public class RelayRequestTest {
       }
     }
 
-    @Test
-    public void handlesIdentity() {
+    @ParameterizedTest
+    @ValueSource(
+        strings = {
+          """
+      {
+        "objectType": "Class",
+        "identifierString": "Seal Clubber"
+      }
+      """,
+          """
+      {
+        "objectType": "Class",
+        "identifierNumber": 1
+      }
+      """,
+          """
+      {
+        "objectType": "Class",
+        "identifierString": "Turtle Tamer",
+        "identifierNumber": 1
+      }
+      """
+        })
+    public void handlesIdentity(String json) {
       var cleanups = withItem(ItemPool.SEAL_CLUB);
       try (cleanups) {
         var rr =
             this.makeApiRequest(
                 """
-      { "functions": [{ "name": "identity", "args": [{
-        "objectType": "Class",
-        "identifierString": "Seal Clubber"
-      }] }] }
-      """);
+      { "functions": [{ "name": "identity", "args": [%s] }] }
+      """
+                    .formatted(json));
 
         JSONObject expected =
             JSON.parseObject(
@@ -190,6 +259,47 @@ public class RelayRequestTest {
     }
 
     @ParameterizedTest
+    @ValueSource(
+        strings = {
+          """
+      {
+        "objectType": "Class",
+      }
+      """,
+          """
+      {
+        "identifierString": "Seal Clubber"
+      }
+      """,
+          """
+      {
+        "objectType": "class",
+        "identifierString": "Seal Clubber"
+      }
+      """,
+          """
+      {
+        "objectType": "cLASS",
+        "identifierString": "Seal Clubber"
+      }
+      """
+        })
+    public void ignoresPartialIdentity(String json) {
+      var rr =
+          this.makeApiRequest(
+              """
+{ "functions": [{ "name": "identity", "args": [%s] }] }
+""".formatted(json));
+
+      JSONObject expected = JSON.parseObject("""
+{ "functions": [%s] }
+""".formatted(json));
+      assertThat(rr.statusLine, is("HTTP/1.1 200 OK"));
+      assertThat(rr.responseCode, is(200));
+      assertThat(JSON.parse(rr.responseText), is(expected));
+    }
+
+    @ParameterizedTest
     @CsvSource({
       "Item,,test_relay_request_identity_item_none.json",
       "Location,The Haunted Kitchen,test_relay_request_identity_with_loops_location.json",
@@ -212,23 +322,31 @@ public class RelayRequestTest {
       assertThat(JSON.parse(rr.responseText), is(expected));
     }
 
-    @Test
-    public void handlesOverloadedFunction() {
-      var rr =
-          this.makeApiRequest(
+    @ParameterizedTest
+    @CsvSource({
+      "Element,spooky",
+      "Monster,Lord Spookyraven",
+    })
+    public void handlesOverloadedFunction(String type, String identifier) {
+      var cleanups = withEquipped(ItemPool.CURSED_MONKEY_PAW);
+      try (cleanups) {
+        var rr =
+            this.makeApiRequest(
+                """
+              { "functions": [{ "name": "elementalResistance", "args": [{
+                "objectType": "%s",
+                "identifierString": "%s"
+              }] }] }
               """
-{ "functions": [{ "name": "elementalResistance", "args": [{
-  "objectType": "Element",
-  "identifierString": "spooky"
-}] }] }
-""");
+                    .formatted(type, identifier));
 
-      JSONObject expected = JSON.parseObject("""
-{ "functions": [0.0] }
-""");
-      assertThat(rr.statusLine, is("HTTP/1.1 200 OK"));
-      assertThat(rr.responseCode, is(200));
-      assertThat(JSON.parse(rr.responseText), is(expected));
+        JSONObject expected = JSON.parseObject("""
+          { "functions": [20.0] }
+          """);
+        assertThat(rr.statusLine, is("HTTP/1.1 200 OK"));
+        assertThat(rr.responseCode, is(200));
+        assertThat(JSON.parse(rr.responseText), is(expected));
+      }
     }
 
     @Test

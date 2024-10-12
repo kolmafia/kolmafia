@@ -32,7 +32,7 @@ public abstract class ValueConverter<ObjectType> {
 
   protected abstract ObjectType asJavaArray(PluralValue arrayValue) throws ValueConverterException;
 
-  public Object asJava(Value value) throws ValueConverterException {
+  public Object asJava(Value value) {
     if (value == null) return null;
     else if (value.getType().equals(DataTypes.VOID_TYPE)) {
       return null;
@@ -81,7 +81,7 @@ public abstract class ValueConverter<ObjectType> {
     }
   }
 
-  private MapValue convertJavaMap(Map<?, ?> javaMap, Type typeHint) throws ValueConverterException {
+  private MapValue convertJavaMap(Map<?, ?> javaMap, Type typeHint) {
     if (javaMap.size() == 0) {
       if (typeHint instanceof AggregateType aggregateTypeHint && aggregateTypeHint.getSize() < 0) {
         return new MapValue(
@@ -136,8 +136,7 @@ public abstract class ValueConverter<ObjectType> {
     return new MapValue(new AggregateType(dataType, indexType), underlyingMap);
   }
 
-  private ArrayValue convertJavaArray(List<?> javaArray, Type typeHint)
-      throws ValueConverterException {
+  private ArrayValue convertJavaArray(List<?> javaArray, Type typeHint) {
     if (javaArray.size() == 0) {
       if (typeHint instanceof AggregateType aggregateTypeHint && aggregateTypeHint.getSize() >= 0) {
         return new ArrayValue(new AggregateType(aggregateTypeHint.getDataType(), 0));
@@ -160,7 +159,7 @@ public abstract class ValueConverter<ObjectType> {
     return new ArrayValue(new AggregateType(elementType, javaArray.size()), result);
   }
 
-  public Value fromJava(Object object, Type typeHint) throws ValueConverterException {
+  public Value fromJava(Object object, Type typeHint) {
     if (object == null) return null;
     else if (object instanceof Boolean) {
       return DataTypes.makeBooleanValue((Boolean) object);

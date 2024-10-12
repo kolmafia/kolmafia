@@ -15,16 +15,16 @@ import net.sourceforge.kolmafia.textui.parsetree.Value;
 public class JSONValueConverter extends ValueConverter<Object> {
   private int depth = 0;
 
-  public static Object asJSON(Value value) throws ValueConverterException {
+  public static Object asJSON(Value value) {
     return new JSONValueConverter().asJava(value);
   }
 
-  public static Value fromJSON(Object json) throws ValueConverterException {
+  public static Value fromJSON(Object json) {
     return new JSONValueConverter().fromJava(json);
   }
 
   @Override
-  protected Object asJavaObject(MapValue mapValue) throws ValueConverterException {
+  protected Object asJavaObject(MapValue mapValue) {
     JSONObject result = new JSONObject();
     for (Value key : mapValue.keys()) {
       Value value = mapValue.aref(key);
@@ -58,7 +58,7 @@ public class JSONValueConverter extends ValueConverter<Object> {
   }
 
   @Override
-  protected Object asJavaObject(RecordValue recordValue) throws ValueConverterException {
+  protected Object asJavaObject(RecordValue recordValue) {
     JSONObject result = new JSONObject();
     for (Value key : recordValue.keys()) {
       Value value = recordValue.aref(key);
@@ -76,17 +76,17 @@ public class JSONValueConverter extends ValueConverter<Object> {
   }
 
   @Override
-  protected Object asJavaArray(ArrayValue arrayValue) throws ValueConverterException {
+  protected Object asJavaArray(ArrayValue arrayValue) {
     return JSONArray.from(Arrays.stream((Value[]) arrayValue.content).map(this::asJava).toList());
   }
 
   @Override
-  protected Object asJavaArray(PluralValue arrayValue) throws ValueConverterException {
+  protected Object asJavaArray(PluralValue arrayValue) {
     return JSONArray.from(Arrays.stream((Value[]) arrayValue.content).map(this::asJava).toList());
   }
 
   @Override
-  public Object asJava(Value value) throws ValueConverterException {
+  public Object asJava(Value value) {
     Value underlying = value;
     if (value instanceof ProxyRecordValue proxyRecordValue) {
       underlying = proxyRecordValue.getUnderlyingValue();

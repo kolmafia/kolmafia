@@ -86,8 +86,8 @@ import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.RuntimeLibrary;
-import net.sourceforge.kolmafia.textui.ScriptRuntime;
 import net.sourceforge.kolmafia.textui.javascript.JSONValueConverter;
+import net.sourceforge.kolmafia.textui.parsetree.LibraryFunction;
 import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
 import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
@@ -3525,18 +3525,27 @@ public class RelayRequest extends PasswordHashRequest {
     return name.replaceAll("[A-Z]", "_$0").toLowerCase();
   }
 
+  // All existing JS type names follow this pattern
+  private boolean isJavascriptTypeNameFormat(String name) {
+    var nameUpper = name.toUpperCase();
+    var nameLower = name.toLowerCase();
+    return nameUpper.substring(0, 1).equals(name.substring(0, 1))
+        && nameLower.substring(1).equals(name.substring(1));
+  }
+
   private Value transformApiArgument(Object thing) {
     if (thing instanceof JSONObject obj) {
       var objectTypeObject = obj.get("objectType");
       Type dataType;
       if (objectTypeObject instanceof String objectType
+          && isJavascriptTypeNameFormat(objectType)
           && ((dataType = DataTypes.enumeratedTypes.find(objectType.toLowerCase())) != null)) {
         var identifierStringObject = obj.get("identifierString");
         var identifierNumberObject = obj.get("identifierNumber");
-        if (identifierStringObject instanceof String identifierString) {
-          return dataType.parseValue(identifierString, true);
-        } else if (identifierNumberObject instanceof Integer identifierNumber) {
+        if (identifierNumberObject instanceof Integer identifierNumber) {
           return dataType.makeValue(identifierNumber, true);
+        } else if (identifierStringObject instanceof String identifierString) {
+          return dataType.parseValue(identifierString, true);
         }
       }
 
@@ -3545,12 +3554,27 @@ public class RelayRequest extends PasswordHashRequest {
   }
 
   /**
-   * Handle JSON API request. Format is e.g. { properties: ["kingLiberated"], functions: [{ name:
-   * "myTunrcount", args: [] }}. Enumerated types (Item, Familiar, etc.) can be passed in with
-   * either of the following placeholder formats: { "objectType": "item", "identifierString":
-   * "seal-clubbing club" } { "objectType": "item", "identifierNumber": 22 } Enumerated types will
-   * be returned in the same format. Details for an enumerated type instance can be request with the
-   * special "identity" function, which takes one placeholder argument.
+   * Handle JSON API request.
+   *
+   * <p>API is, as usual, x-www-urlencoded with pwd=[password hash] and body=[json object].
+   *
+   * <p>The JSON request object has the type { properties?: string[], functions?: { name: string,
+   * args: unknown[] }[] }. Names of functions are in JS style (camelCase).
+   *
+   * <p>The response will have type { error: string } or { properties?: string[], functions?:
+   * unknown[] }, with properties and functions each present if they were present on the request
+   * object.
+   *
+   * <p>Enumerated types (Item, Familiar, Modifier, etc.) can be passed in with either of the
+   * following placeholder formats: { objectType: EnumeratedTypeName, identifierString: string } | {
+   * objectType: EnumeratedTypeName, identifierNumber: number }. If both identifierString and
+   * identifierNumber are present, identifierNumber will be prioritized. Enumerated types will be
+   * returned as a POJO with all the fields of a JS enumerated type, except any second-level
+   * referenced objects will be left as placeholders. Objects will also have the placeholder fields
+   * (objectType, identifierString, identifierNumber if applicable) set.
+   *
+   * <p>Details for an enumerated type instance can be requested with the special "identity"
+   * function, which takes one placeholder argument.
    *
    * @param request Request body
    */
@@ -3573,12 +3597,10 @@ public class RelayRequest extends PasswordHashRequest {
         jsonError("Invalid property names " + JSON.toJSONString(nonString));
         return;
       }
+      // Now all elements must be strings.
       result.put(
           "properties",
-          ((JSONArray) properties)
-              .stream()
-                  .map(name -> name instanceof String ? Preferences.getString((String) name) : null)
-                  .toList());
+          propertiesArray.stream().map(name -> Preferences.getString((String) name)).toList());
     }
 
     var functions = json.get("functions");
@@ -3602,7 +3624,7 @@ public class RelayRequest extends PasswordHashRequest {
 
       // Everything validated. Transform all function arguments.
       var functionsResult = new JSONArray(functionsArray.size());
-      for (var func : (JSONArray) functions) {
+      for (var func : functionsArray) {
         var funcObject = (JSONObject) func;
         var name = (String) funcObject.get("name");
         var args = (JSONArray) funcObject.get("args");
@@ -3625,16 +3647,11 @@ public class RelayRequest extends PasswordHashRequest {
           continue;
         }
 
-        Class<?>[] argClasses = new Class[args.size() + 1];
-
-        argClasses[0] = ScriptRuntime.class;
-        Arrays.fill(argClasses, 1, args.size() + 1, Value.class);
-
         Object[] argsWithRuntime =
             Stream.concat(Stream.of(new Object[] {null}), transformedArguments.stream()).toArray();
 
         try {
-          var method = RuntimeLibrary.findMethod(underscoreName(name), argClasses);
+          var method = LibraryFunction.findLibraryMethod(underscoreName(name), args.size());
           var returnValue = method.invoke(RuntimeLibrary.class, argsWithRuntime);
 
           if (!(returnValue instanceof Value value)) {

@@ -84,7 +84,7 @@ public class ScriptableValueConverter extends ValueConverter<Scriptable> {
   }
 
   @Override
-  public Value fromJava(Object object, Type typeHint) throws ValueConverterException {
+  public Value fromJava(Object object, Type typeHint) {
     if (Undefined.isUndefined(object)) {
       return UNDEFINED;
     } else if (object instanceof ConsString) {
@@ -95,7 +95,7 @@ public class ScriptableValueConverter extends ValueConverter<Scriptable> {
   }
 
   @Override
-  public Object asJava(Value value) throws ValueConverterException {
+  public Object asJava(Value value) {
     if (DataTypes.enumeratedTypes.contains(value.getType())) {
       return EnumeratedWrapper.wrap(scope, value.asProxy().getClass(), value);
     } else {
