@@ -252,6 +252,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
   public static final AdventureResult REPLICA_AUGUST_SCEPTER =
       ItemPool.get(ItemPool.REPLICA_AUGUST_SCEPTER, 1);
   public static final AdventureResult BAYWATCH = ItemPool.get(ItemPool.BAYWATCH, 1);
+  public static final AdventureResult BAT_WINGS = ItemPool.get(ItemPool.BAT_WINGS, 1);
 
   private static final AdventureResult[] AVOID_REMOVAL =
       new AdventureResult[] {
@@ -806,6 +807,10 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
         && InventoryManager.hasItem(item, false);
   }
 
+  private static void equipForSkill(final int skillId, final AdventureResult regularItem) {
+    equipForSkill(skillId, regularItem, null);
+  }
+
   private static void equipForSkill(
       final int skillId, final AdventureResult regularItem, final AdventureResult replicaItem) {
     if (KoLCharacter.hasEquipped(regularItem)) {
@@ -891,6 +896,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
           SkillPool.CINCHO_PARTY_SOUNDTRACK,
           SkillPool.CINCHO_FIESTA_EXIT -> equipForSkill(
           skillId, UseSkillRequest.CINCHO_DE_MAYO, UseSkillRequest.REPLICA_CINCHO_DE_MAYO);
+      case SkillPool.REST_UPSIDE_DOWN -> equipForSkill(skillId, UseSkillRequest.BAT_WINGS);
     }
 
     if (Preferences.getBoolean("switchEquipmentForBuffs")) {

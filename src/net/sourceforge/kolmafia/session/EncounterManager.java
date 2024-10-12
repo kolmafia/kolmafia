@@ -42,6 +42,11 @@ public abstract class EncounterManager {
     BORIS(true),
     BADMOON(true),
     BUGBEAR,
+    MAYO,
+    CLEAVER,
+    HALLOWIENER,
+    VIOLET_FOG,
+    BAT_WINGS,
     WANDERER,
     SUPERLIKELY,
     ULTRARARE,
@@ -106,7 +111,7 @@ public abstract class EncounterManager {
       String[] data;
 
       while ((data = FileUtilities.readData(reader)) != null) {
-        if (!AdventureDatabase.validateAdventureArea(data[0])) {
+        if (!data[0].equals("*") && !AdventureDatabase.validateAdventureArea(data[0])) {
           RequestLogger.printLine("Invalid adventure area: \"" + data[0] + "\"");
           continue;
         }
@@ -160,7 +165,11 @@ public abstract class EncounterManager {
   public static final Encounter findEncounter(
       final String locationName, final String encounterName) {
     return Arrays.stream(specialEncounters)
-        .filter(e -> locationName == null || e.getLocation().equalsIgnoreCase(locationName))
+        .filter(
+            e ->
+                locationName == null
+                    || e.getLocation().equals("*")
+                    || e.getLocation().equalsIgnoreCase(locationName))
         .filter(e -> e.getEncounter().equalsIgnoreCase(encounterName))
         .findAny()
         .orElse(null);
