@@ -212,7 +212,9 @@ Hero's Field	TURTLE	Blue Monday
 Megalo-City	TURTLE	Blue Monday
 The Fungus Plains	TURTLE	Blue Monday
 Vanya's Castle	TURTLE	Blue Monday
-A Battlefield	TURTLE	Capital!
+Battlefield (No Uniform)	TURTLE	Capital!
+Battlefield (Cloaca Uniform)	TURTLE	Capital!
+Battlefield (Dyspepsi Uniform)	TURTLE	Capital!
 A Maze of Sewer Tunnels	TURTLE	Training Day
 Hobopolis Town Square	TURTLE	Training Day
 Burnbarrel Blvd.	TURTLE	Training Day
@@ -227,9 +229,10 @@ The Degrassi Knoll Restroom	TURTLE	A Rolling Turtle Gathers No Moss
 The Degrassi Knoll Bakery	TURTLE	A Rolling Turtle Gathers No Moss
 The Degrassi Knoll Gym	TURTLE	A Rolling Turtle Gathers No Moss
 The Degrassi Knoll Garage	TURTLE	A Rolling Turtle Gathers No Moss
-Orcish Frat House	TURTLE	The Horror...
+Frat House	TURTLE	The Horror...
+Frat House (Frat Disguise)	TURTLE	The Horror...
 The Haunted Boiler Room	TURTLE	Slow Road to Hell
-Outskirts of Cobb's Knob	TURTLE	C'mere, Little Fella
+The Outskirts of Cobb's Knob	TURTLE	C'mere, Little Fella
 Oil Peak	TURTLE	The Real Victims
 Barrrney's Barrr	TURTLE	Like That Time in Tortuga
 The Haunted Gallery	TURTLE	Cleansing your Palette
@@ -242,9 +245,10 @@ The Haunted Conservatory	TURTLE	Turtles of the Universe
 The Spooky Forest	TURTLE	O Turtle Were Art Thou
 The Outer Compound	TURTLE	Allow 6-8 Weeks For Delivery
 The Haunted Pantry	TURTLE	Kick the Can
-The Hippy Camp	TURTLE	Turtles All The Way Around
+Hippy Camp	TURTLE	Turtles All The Way Around
+Hippy Camp (Hippy Disguise)	TURTLE	Turtles All The Way Around
 The eXtreme Slope	TURTLE	More eXtreme Than Usual
-South of The Border	TURTLE	Jewel in the Rough
+South of the Border	TURTLE	Jewel in the Rough
 Guano Junction	TURTLE	The worst kind of drowning
 *	TURTLE	Even Tamer Than Usual
 *	TURTLE	Never Break the Chain
