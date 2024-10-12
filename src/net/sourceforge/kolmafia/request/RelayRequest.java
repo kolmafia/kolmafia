@@ -22,7 +22,6 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import net.java.dev.spellcast.utilities.DataUtilities;
@@ -3521,12 +3520,6 @@ public class RelayRequest extends PasswordHashRequest {
     this.contentType = "application/json";
     this.responseCode = 400;
     this.responseText = JSON.toJSONString(Map.of("error", message));
-  }
-
-  private String camelCaseName(String name) {
-    return Arrays.stream(name.split("_"))
-        .map(s -> s.substring(0, 1).toUpperCase() + s.substring(1))
-        .collect(Collectors.joining());
   }
 
   private String underscoreName(String name) {
