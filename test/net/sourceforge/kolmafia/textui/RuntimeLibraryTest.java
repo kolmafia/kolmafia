@@ -1452,33 +1452,69 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
   }
 
   @Test
-  public void itShouldXyzzy() {
-    String maxStr = "adv";
+  public void itShouldEquipCleaver() {
+    String maxStr =
+        "5item,meat,0.5initiative,0.1da 1000max,dr,0.5all res,1.5mainstat,-fumble,mox,0.4hp,0.2mp 1000max,3mp regen,0.25spell damage,1.75spell damage percent,2familiar weight,5familiar exp,10exp,5Mysticality experience percent,+200bonus spring shoes,+200bonus June cleaver,+200bonus designer sweatpants,2 dump";
     HttpClientWrapper.setupFakeClient();
     var cleanups =
-      new Cleanups(
-        withStats(10, 5, 5),
-        withEquippableItem("seal-skull helmet"),  // 2283
-        withEquippableItem("astral shirt"),  // 5041
-        withEquippableItem("old sweatpants"),  // 4711
-        withEquippableItem("sewer snake"),  // 8173
-        withEquippableItem("seal-clubbing club"));  // 1
+        new Cleanups(
+            // withOutfit(34), //Bounty-Hunting Rig
+            // withOutfit(93), //Hateful Habiliment
+            // withOutfit(128), //Eldritch Equipage
+            withEquippableItem("seal-skull helmet"), // 2283
+            withEquippableItem("ravioli hat"),
+            withEquippableItem("Hollandaise helmet"),
+            withEquippableItem("disco mask"),
+            withEquippableItem("mariachi hat"),
+            withEquippableItem("helmet turtle"),
+            withEquippableItem("coconut shell"),
+            withEquippableItem("Apriling band helmet"),
+            withEquippableItem("toy accordion"),
+            withEquippableItem("hobo code binder"),
+            withEquippableItem("stuffed spooky gravy fairy "),
+            withEquippableItem("stuffed astral badger"),
+            withEquippableItem("magical ice cubes"),
+            withEquippableItem("Roman Candelabra"),
+            // withEquippableItem("unbreakable umbrella (broken)"),
+            withEquippableItem("august scepter"),
+            withEquippableItem("bat wings"),
+            withEquippableItem("Jurassic Parka (kachungasaur mode)"),
+            withEquippableItem("old sweatpants"),
+            withEquippableItem("tearaway pants"),
+            withEquippableItem("designer sweatpants"),
+            withEquippableItem("Everfull Dart Holster"),
+            withEquippableItem("cursed monkey's paw"),
+            withEquippableItem("astral mask"),
+            withEquippableItem("Cincho de Mayo"),
+            withEquippableItem("combat lover's locket"),
+            withEquippableItem("spring shoes"),
+            withEquippableItem("turtle totem"),
+            withEquippableItem("pasta spoon"),
+            withEquippableItem("saucepan"),
+            withEquippableItem("disco ball"),
+            withEquippableItem("little paper umbrella"),
+            withEquippableItem("candy cane sword cane"),
+            withEquippableItem("June cleaver"), // 10920
+            withEquippableItem("seal-clubbing club")); // 1
     String out;
     String cmd = "maximize(\"" + maxStr + "\", false)";
     try (cleanups) {
       out = execute(cmd);
     }
-    assertFalse(out.isEmpty());
-    assertTrue(out.contains("Putting on seal-skull helmet..."));
-    assertTrue(out.contains("Wielding sewer snake"));
-    assertTrue(out.contains("Putting on old sweatpants..."));
+    assertFalse(out.isEmpty()); //
+    assertTrue(out.contains("Putting on Apriling band helmet..."));
+    assertTrue(out.contains("Wielding June cleaver"));
+    assertTrue(out.contains("Putting on designer sweatpants..."));
     assertContinueState();
     var requests = getRequests();
     assertFalse(requests.isEmpty());
     var checkMe =
-      requests.stream().filter(x -> getPostRequestBody(x).contains("whichitem=2283")).findFirst();
+        requests.stream()
+            .filter(x -> getPostRequestBody(x).contains("whichitem=10920"))
+            .findFirst();
     if (checkMe.isPresent()) {
-      assertPostRequest(checkMe.get(), "/inv_equip.php", "which=2&ajax=1&action=equip&whichitem=2283");
+      assertPostRequest(
+          checkMe.get(), "/inv_equip.php", "which=2&ajax=1&action=equip&whichitem=10920");
     } else {
       fail("Could not find expected equipment request.");
     }
