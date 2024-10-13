@@ -59,6 +59,7 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
+@SuppressWarnings("incomplete-switch")
 public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   public static final String[][] DEMON_TYPES = {
     {"Summoning Chamber", "Pies"},
@@ -91,7 +92,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   private final DifficultyLevel difficultyLevel;
   private final Environment environment;
   private final int adventureNumber;
-  private final int recommendedStat, waterLevel;
+  private final int recommendedStat, waterLevel, forceNoncombat;
   private final String normalString, lowercaseString, parentZoneDescription;
 
   private final GenericRequest request;
@@ -136,6 +137,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     this.recommendedStat = AdventureDatabase.getRecommendedStat(adventureName);
 
     this.waterLevel = AdventureDatabase.getWaterLevel(adventureName);
+
+    this.forceNoncombat = AdventureDatabase.getForceNoncombat(adventureName);
 
     this.hasWanderers =
         AdventureDatabase.hasWanderers(adventureName, formSource.equals("adventure.php"));
@@ -204,6 +207,10 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
   public int getWaterLevel() {
     return this.waterLevel;
+  }
+
+  public int getForceNoncombat() {
+    return this.forceNoncombat;
   }
 
   public boolean hasWanderers() {

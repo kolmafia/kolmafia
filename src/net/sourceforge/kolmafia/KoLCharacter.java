@@ -109,6 +109,7 @@ import net.sourceforge.kolmafia.webui.DiscoCombatHelper;
  * loosens the coupling between the various aspects of <code>KoLmafia</code>, leading to
  * extensibility.
  */
+@SuppressWarnings("incomplete-switch")
 public abstract class KoLCharacter {
   public enum TurtleBlessing {
     WAR,
@@ -3348,6 +3349,10 @@ public abstract class KoLCharacter {
 
   public static final boolean inWereProfessor() {
     return KoLCharacter.ascensionPath == Path.WEREPROFESSOR;
+  }
+
+  public static final boolean inAvantGuard() {
+    return KoLCharacter.ascensionPath == Path.AVANT_GUARD;
   }
 
   public static final boolean isMildManneredProfessor() {

@@ -46,6 +46,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+@SuppressWarnings("incomplete-switch")
 public class EquipmentManager {
   /** A list of all possible accessories. Is an interior list of equipmentLists for acc1, 2, 3 */
   private static final List<AdventureResult> accessories =
@@ -663,6 +664,10 @@ public class EquipmentManager {
         KoLCharacter.removeAvailableSkill(SkillPool.BLOW_THE_RED_CANDLE);
         KoLCharacter.removeAvailableSkill(SkillPool.BLOW_THE_YELLOW_CANDLE);
       }
+      case ItemPool.BAT_WINGS -> {
+        KoLCharacter.removeAvailableSkill(SkillPool.SWOOP_LIKE_A_BAT);
+        KoLCharacter.removeAvailableSkill(SkillPool.SUMMON_CAULDRON_OF_BATS);
+      }
     }
   }
 
@@ -915,6 +920,10 @@ public class EquipmentManager {
         KoLCharacter.addAvailableSkill(SkillPool.BLOW_THE_PURPLE_CANDLE);
         KoLCharacter.addAvailableSkill(SkillPool.BLOW_THE_RED_CANDLE);
         KoLCharacter.addAvailableSkill(SkillPool.BLOW_THE_YELLOW_CANDLE);
+      }
+      case ItemPool.BAT_WINGS -> {
+        KoLCharacter.addAvailableSkill(SkillPool.SWOOP_LIKE_A_BAT);
+        KoLCharacter.addAvailableSkill(SkillPool.SUMMON_CAULDRON_OF_BATS);
       }
     }
   }

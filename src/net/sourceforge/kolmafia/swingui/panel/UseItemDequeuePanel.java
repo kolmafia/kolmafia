@@ -21,6 +21,7 @@ import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 import net.sourceforge.kolmafia.swingui.widget.ListCellRendererFactory;
 
+@SuppressWarnings("incomplete-switch")
 public class UseItemDequeuePanel extends ItemListManagePanel<QueuedConcoction> implements Listener {
   private final JTabbedPane queueTabs;
   private final LockableListModel<QueuedConcoction> queue;

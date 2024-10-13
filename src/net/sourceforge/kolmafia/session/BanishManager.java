@@ -21,6 +21,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
+@SuppressWarnings("incomplete-switch")
 public class BanishManager {
   private static final Set<Banished> banishedMonsters = new LinkedHashSet<>();
   private static final Set<Banished> banishedPhyla = new LinkedHashSet<>();

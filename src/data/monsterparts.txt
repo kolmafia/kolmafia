@@ -209,7 +209,7 @@
 228	forest spirit	arm	head	leg	torso
 229	crazy bastard
 230	infinite meat bug
-231	Baiowulf
+231	Baiowulf	arm	head	leg	torso
 232	Hypnotist of Hey Deze
 233	decent lumberjack	arm	head	leg	torso
 234	lumberjill	arm	head	leg	torso
@@ -1344,7 +1344,7 @@
 1422	QuickBASIC elemental	arm	head	leg	torso
 1423	Fran&ccedil;ois Verte, Art Teacher	arm	head	leg	torso
 1424	Mrs. K, the Chemistry Teacher	arm	head	leg	torso
-1425	Principal Mooney
+1425	Principal Mooney	arm	head	leg	torso
 1426	dense liana	leaf	vine
 1427	pygmy janitor	arm	head	leg	torso
 1428	pygmy shaman	arm	head	leg	torso
@@ -2004,7 +2004,7 @@
 2110	Sylvia Belgrande	arm	body	head	leg
 2111	Sharona	arm	body	head	leg
 2112	Jake Norris	arm	body	head	leg
-2113	Chad Alacarte
+2113	Chad Alacarte	army	body	head	leg
 2114	%alucard%	arm	body	head	leg
 2115	Your Lack of Reflection	absence	missingness	nothereness
 2116	giant crab	claw	eyestalk	head	leg
@@ -2177,12 +2177,12 @@
 2289	shadow of Groar	abyss	darkness	nothingness	shadow	void
 2290	shadow of the 1960s	abyss	darkness	nothingness	shadow	void
 2291	shadow of the 1980s
-2292	General Bruise
-2293	General Bruise (true form)
+2292	General Bruise	arm	head	torso	leg
+2293	General Bruise (true form)	arm	head	torso	leg
 2294	Dark Noël	arm	hat	head	leg	torso
 2295	Dark Noël (true form)	hoof	mouth	tentacle
-2296	Terrence Poindexter
-2297	Terrence Poindexter (true form)
+2296	Terrence Poindexter	arm	hat	head	leg	torso
+2297	Terrence Poindexter (true form)	body	head	snoot	wing
 2298	shadow spire	base	tip	void
 2299	shadow orrery	moon	planet	ring
 2300	shadow tongue	nothing	tastebud
@@ -2264,7 +2264,7 @@
 2441	Lord Beastlyraven	arm	head	leg	torso
 2442	Protector Beast	...wing?	arm	head	leg	torso
 2443	Just Groar	arm	head	leg	wing
-2444	The Beast Wisniewski
+2444	The Beast Wisniewski	arm	head	leg	torso
 2445	The Beastman	arm	head	leg	torso
 2446	The Naughty Wolferess	arm	head	leg	torso
 2447	ewe	butt	head	leg	tail
@@ -2273,3 +2273,4 @@
 2450	proto-protozoa	glob	membrane	organelle
 2451	herd of archaea	another archaea	archaea	different archaea
 2452	yeast gang	nodule
+2453	Embering Hulk	arm	ember	flames	head	leg

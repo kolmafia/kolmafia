@@ -4,6 +4,7 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
 public class SeptEmberCenserRequest extends CoinMasterRequest {
@@ -53,6 +54,7 @@ public class SeptEmberCenserRequest extends CoinMasterRequest {
 
     // Parse current coin balances
     CoinMasterRequest.parseBalance(SEPTEMBER_CENSER, responseText);
+    Preferences.setBoolean("_septEmberBalanceChecked", true);
   }
 
   public static boolean registerRequest(final String urlString) {

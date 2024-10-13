@@ -43,6 +43,7 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.DebugDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
@@ -4993,6 +4994,15 @@ public abstract class ChoiceControl {
             }
         }
         break;
+      case 1518:
+        // Black and White Apron Meal Kit
+        if (text.contains("You cook and quickly consume your")) {
+          ResultProcessor.processItem(ItemPool.BLACK_AND_WHITE_APRON_MEAL_KIT, -1);
+          if (Preferences.getInteger("bwApronMealsEaten") >= 0) {
+            // Known starting point.
+            Preferences.increment("bwApronMealsEaten");
+          }
+        }
     }
   }
 
@@ -7096,6 +7106,23 @@ public abstract class ChoiceControl {
           Preferences.increment("_mayamRests", 5);
         }
         break;
+
+      case 1532:
+        // Chatting with your Burly Bodyguard
+        {
+          var monsterIdString = request.getFormField("bgid");
+          if (text.contains("You set off to find a monster with a specific bodyguard to challenge.")
+              && monsterIdString != null) {
+            try {
+              var monsterName = MonsterDatabase.getMonsterName(Integer.parseInt(monsterIdString));
+              Preferences.setInteger("bodyguardCharge", 0);
+              Preferences.setString("bodyguardChatMonster", monsterName);
+            } catch (NumberFormatException e) {
+              break;
+            }
+          }
+          break;
+        }
     }
   }
 

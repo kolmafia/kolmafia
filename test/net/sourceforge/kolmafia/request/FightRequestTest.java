@@ -1,31 +1,7 @@
 package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Networking.html;
-import static internal.helpers.Player.withAnapest;
-import static internal.helpers.Player.withBanishedMonsters;
-import static internal.helpers.Player.withBanishedPhyla;
-import static internal.helpers.Player.withClass;
-import static internal.helpers.Player.withCounter;
-import static internal.helpers.Player.withCurrentRun;
-import static internal.helpers.Player.withEffect;
-import static internal.helpers.Player.withEquipped;
-import static internal.helpers.Player.withFamiliar;
-import static internal.helpers.Player.withFamiliarInTerrarium;
-import static internal.helpers.Player.withFight;
-import static internal.helpers.Player.withHP;
-import static internal.helpers.Player.withHippyStoneBroken;
-import static internal.helpers.Player.withHttpClientBuilder;
-import static internal.helpers.Player.withIntrinsicEffect;
-import static internal.helpers.Player.withItem;
-import static internal.helpers.Player.withLastLocation;
-import static internal.helpers.Player.withNextMonster;
-import static internal.helpers.Player.withPath;
-import static internal.helpers.Player.withProperty;
-import static internal.helpers.Player.withSkill;
-import static internal.helpers.Player.withTurnsPlayed;
-import static internal.helpers.Player.withWorkshedItem;
-import static internal.helpers.Player.withoutCounters;
-import static internal.helpers.Player.withoutSkill;
+import static internal.helpers.Player.*;
 import static internal.matchers.Item.isInInventory;
 import static internal.matchers.Preference.hasIntegerValue;
 import static internal.matchers.Preference.hasStringValue;
@@ -2800,6 +2776,101 @@ public class FightRequestTest {
           "fight.php?action=useitem&whichitem=11652&whichitem2=8489");
 
       assertThat("banishedMonsters", hasStringValue(startsWith("spooky mummy:throwin' ember:")));
+    }
+  }
+
+  @Nested
+  class BodyguardChat {
+    @ParameterizedTest
+    @CsvSource({
+      "request/test_fight_win.html",
+      "request/test_fight_lose.html",
+      "request/test_fight_run.html"
+    })
+    void tracksCharge(String file) {
+      try (var cleanups =
+          new Cleanups(
+              withPath(Path.AVANT_GUARD),
+              withFamiliar(FamiliarPool.BURLY_BODYGUARD),
+              withProperty("bodyguardCharge", 0),
+              withFight())) {
+        parseCombatData(file);
+        assertThat("bodyguardCharge", isSetTo(1));
+      }
+    }
+
+    @Test
+    void tracksReady() {
+      try (var cleanups =
+          new Cleanups(
+              withPath(Path.AVANT_GUARD),
+              withFamiliar(FamiliarPool.BURLY_BODYGUARD),
+              withProperty("bodyguardCharge", 10),
+              withFight())) {
+        parseCombatData("request/test_fight_bodyguard_ready.html");
+        assertThat("bodyguardCharge", isSetTo(50));
+      }
+    }
+
+    @Test
+    void resetsChattedBodyguardOnEncounter() {
+      try (var cleanups =
+          new Cleanups(
+              withPath(Path.AVANT_GUARD),
+              withFamiliar(FamiliarPool.BURLY_BODYGUARD),
+              withProperty("bodyguardChatMonster", "pygmy witch accountant"),
+              withFight(0))) {
+        parseCombatData("request/test_fight_bodyguard_pwa.html");
+        assertThat("bodyguardChatMonster", isSetTo(""));
+      }
+    }
+  }
+
+  @Nested
+  class BatWings {
+    @Test
+    public void canDetectBatWingsWins() {
+      RequestLoggerOutput.startStream();
+      var cleanups =
+          new Cleanups(
+              withEquipped(Slot.CONTAINER, ItemPool.BAT_WINGS),
+              withProperty("_batWingsFreeFights", 0));
+      try (cleanups) {
+        parseCombatData("request/test_fight_bat_wings_free.html");
+        var text = RequestLoggerOutput.stopStream();
+        assertThat(text, containsString("You flap your bat wings gustily"));
+        assertEquals(1, Preferences.getInteger("_batWingsFreeFights"));
+      }
+    }
+
+    @Test
+    void swoopRecorded() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(Slot.CONTAINER, ItemPool.BAT_WINGS),
+              withProperty("_batWingsSwoopUsed", 0),
+              withFight());
+
+      try (cleanups) {
+        parseCombatData(
+            "request/test_fight_bat_wings_swoop.html", "fight.php?action=skill&whichskill=7530");
+        assertThat("_batWingsSwoopUsed", isSetTo(1));
+      }
+    }
+
+    @Test
+    void cauldronRecorded() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(Slot.CONTAINER, ItemPool.BAT_WINGS),
+              withProperty("_batWingsCauldronUsed", 0),
+              withFight());
+
+      try (cleanups) {
+        parseCombatData(
+            "request/test_fight_bat_wings_cauldron.html", "fight.php?action=skill&whichskill=7531");
+        assertThat("_batWingsCauldronUsed", isSetTo(1));
+      }
     }
   }
 }

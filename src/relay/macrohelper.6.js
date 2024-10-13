@@ -122,12 +122,16 @@ var stringPreds = {
 
 var argPreds = {
 // Predicates which take an arbitrary argument (not further parsed)
-	"haseffect": true,
-	"hascombatitem": true,
-	"hasskill": true,
-	"monstername": true,
-	"monsterid": true,
 	"happymediumglow": true,
+	"hascombatitem": true,
+	"haseffect": true,
+	"hasskill": true,
+	"hastwocombatitems": true,
+	"knowsskill": true,
+	"monsterelement": true,
+	"monsterid": true,
+	"monstername": true,
+	"monsterphylum": true,
 };
 
 function predicate(text, err)

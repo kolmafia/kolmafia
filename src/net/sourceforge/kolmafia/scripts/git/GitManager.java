@@ -498,12 +498,14 @@ public class GitManager extends ScriptManager {
 
       var lastCommitId = repo.resolve("HEAD");
       var rw = new RevWalk(repo);
-      var commit = rw.parseCommit(lastCommitId);
-      var author = commit.getAuthorIdent();
-      var datetime = getCommitDate(commit, author);
+      try (rw) {
+        var commit = rw.parseCommit(lastCommitId);
+        var author = commit.getAuthorIdent();
+        var datetime = getCommitDate(commit, author);
 
-      return Optional.of(
-          new GitInfo(url, branch, ObjectId.toString(lastCommitId), getAuthor(author), datetime));
+        return Optional.of(
+            new GitInfo(url, branch, ObjectId.toString(lastCommitId), getAuthor(author), datetime));
+      }
     } catch (IOException e) {
       // all or nothing
       return Optional.empty();

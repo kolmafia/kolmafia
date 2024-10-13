@@ -1059,4 +1059,63 @@ class ChoiceControlTest {
       }
     }
   }
+
+  @Nested
+  class BWApron {
+    @Test
+    void handlesSuccess() {
+      var responseText = html("request/test_choice_bw_apron_success.html");
+      try (var cleanups =
+          new Cleanups(
+              withProperty("bwApronMealsEaten", 1),
+              withItem(ItemPool.BLACK_AND_WHITE_APRON_MEAL_KIT),
+              withChoice(1518, 1, responseText))) {
+        assertThat("bwApronMealsEaten", isSetTo(2));
+        assertThat(InventoryManager.getCount(ItemPool.BLACK_AND_WHITE_APRON_MEAL_KIT), is(0));
+      }
+    }
+
+    @Test
+    void handlesUnknownMealsEaten() {
+      var responseText = html("request/test_choice_bw_apron_success.html");
+      try (var cleanups =
+          new Cleanups(
+              withItem(ItemPool.BLACK_AND_WHITE_APRON_MEAL_KIT),
+              withChoice(1518, 1, responseText))) {
+        assertThat("bwApronMealsEaten", isSetTo(-1));
+        assertThat(InventoryManager.getCount(ItemPool.BLACK_AND_WHITE_APRON_MEAL_KIT), is(0));
+      }
+    }
+
+    @Test
+    void handlesFull() {
+      var responseText = html("request/test_choice_bw_apron_full.html");
+      try (var cleanups =
+          new Cleanups(
+              withProperty("bwApronMealsEaten", 1),
+              withItem(ItemPool.BLACK_AND_WHITE_APRON_MEAL_KIT),
+              withChoice(1518, 1, responseText))) {
+        assertThat("bwApronMealsEaten", isSetTo(1));
+        assertThat(InventoryManager.getCount(ItemPool.BLACK_AND_WHITE_APRON_MEAL_KIT), is(1));
+      }
+    }
+  }
+
+  @Nested
+  class BodyguardChat {
+    @Test
+    void tracksChattedBodyguard() {
+      var responseText = html("request/test_choice_bodyguard_chat_success.html");
+      try (var cleanups =
+          new Cleanups(
+              withPath(Path.AVANT_GUARD),
+              withFamiliar(FamiliarPool.BURLY_BODYGUARD),
+              withProperty("bodyguardCharge", 50),
+              withProperty("bodyguardChatMonster", ""),
+              withChoice(1532, 1, "bgid=1430", responseText))) {
+        assertThat("bodyguardCharge", isSetTo(0));
+        assertThat("bodyguardChatMonster", isSetTo("pygmy witch accountant"));
+      }
+    }
+  }
 }

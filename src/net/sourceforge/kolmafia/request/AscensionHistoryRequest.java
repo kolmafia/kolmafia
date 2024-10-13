@@ -28,6 +28,7 @@ import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
+@SuppressWarnings("incomplete-switch")
 public class AscensionHistoryRequest extends GenericRequest
     implements Comparable<AscensionHistoryRequest> {
   private static AscensionFilter typeComparator = AscensionFilter.NORMAL;

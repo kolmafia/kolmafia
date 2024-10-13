@@ -31,6 +31,7 @@ import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
+@SuppressWarnings("incomplete-switch")
 public class ClanLoungeRequest extends GenericRequest {
   public enum Action {
     SEARCH,
@@ -1177,6 +1178,7 @@ public class ClanLoungeRequest extends GenericRequest {
       // We haven't visited it yet today so it is not unlocked yet.
       new ClanLoungeRequest(Action.FIREWORKS).run();
     }
+    findImage(responseText, "photobooth.gif", ItemPool.CLAN_PHOTO_BOOTH);
 
     Matcher hottubMatcher = HOTTUB_PATTERN.matcher(responseText);
     if (hottubMatcher.find()) {

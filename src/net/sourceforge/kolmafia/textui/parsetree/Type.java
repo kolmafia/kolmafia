@@ -32,6 +32,7 @@ import net.sourceforge.kolmafia.textui.ScriptRuntime;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import org.eclipse.lsp4j.Location;
 
+@SuppressWarnings("incomplete-switch")
 public class Type extends Symbol {
   public boolean primitive;
   private final TypeSpec type;

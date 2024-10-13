@@ -214,7 +214,7 @@ import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.wc.SVNInfo;
 import org.tmatesoft.svn.core.wc.SVNWCUtil;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"incomplete-switch", "unused"})
 public abstract class RuntimeLibrary {
   private static final RecordType itemDropRec =
       new RecordType(
@@ -3629,6 +3629,9 @@ public abstract class RuntimeLibrary {
     params = List.of();
     functions.add(
         new LibraryFunction("dart_skills_to_parts", DataTypes.SKILL_TO_STRING_TYPE, params));
+
+    params = List.of(namedParam("location", DataTypes.LOCATION_TYPE));
+    functions.add(new LibraryFunction("turns_until_forced_noncombat", DataTypes.INT_TYPE, params));
   }
 
   public static Method findMethod(final String name, final Class<?>[] args)
@@ -5368,7 +5371,7 @@ public abstract class RuntimeLibrary {
       String params = meat + " meat";
       RuntimeLibrary.batchCommand(controller, cmd, prefix, params);
     } else {
-      ClosetRequest request = new ClosetRequest(ClosetRequestType.MEAT_TO_CLOSET, (int) meat);
+      ClosetRequest request = new ClosetRequest(ClosetRequestType.MEAT_TO_CLOSET, meat);
       RequestThread.postRequest(request);
     }
     return RuntimeLibrary.continueValue();
@@ -5581,7 +5584,7 @@ public abstract class RuntimeLibrary {
       String params = meat + " meat";
       RuntimeLibrary.batchCommand(controller, cmd, prefix, params);
     } else {
-      ClosetRequest request = new ClosetRequest(ClosetRequestType.MEAT_TO_INVENTORY, (int) meat);
+      ClosetRequest request = new ClosetRequest(ClosetRequestType.MEAT_TO_INVENTORY, meat);
       RequestThread.postRequest(request);
     }
 
@@ -11256,5 +11259,25 @@ public abstract class RuntimeLibrary {
     }
 
     return value;
+  }
+
+  public static Value turns_until_forced_noncombat(
+      ScriptRuntime controller, final Value locationValue) {
+    if (locationValue.rawValue() == null) return DataTypes.makeIntValue(-1);
+
+    var location = (KoLAdventure) locationValue.rawValue();
+    var preference = "lastNoncombat" + location.getAdventureNumber();
+    if (location.getForceNoncombat() < 0
+        || !Preferences.containsDefault(preference)
+        || Preferences.getInteger(preference) < 0) {
+      return DataTypes.makeIntValue(-1);
+    }
+
+    return DataTypes.makeIntValue(
+        Math.max(
+            0,
+            location.getForceNoncombat()
+                - (AdventureSpentDatabase.getTurns(location)
+                    - Preferences.getInteger(preference))));
   }
 }

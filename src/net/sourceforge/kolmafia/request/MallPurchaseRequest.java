@@ -552,7 +552,7 @@ public class MallPurchaseRequest extends PurchaseRequest {
       return;
     }
 
-    int cost = StringUtilities.parseInt(meatMatcher.group(1));
+    long cost = StringUtilities.parseLong(meatMatcher.group(1));
     if (meatMatcher.group(2) != null) {
       long balance = StringUtilities.parseLong(meatMatcher.group(3));
       KoLCharacter.setStorageMeat(balance);

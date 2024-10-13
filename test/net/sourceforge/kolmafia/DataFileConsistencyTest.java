@@ -52,6 +52,7 @@ import org.junit.jupiter.params.provider.MethodSource;
   For instance, items marked as equipment in items.txt should also have
   corresponding entries in equipment.txt.
 */
+@SuppressWarnings("incomplete-switch")
 public class DataFileConsistencyTest {
   @BeforeAll
   public static void init() {
@@ -556,6 +557,33 @@ public class DataFileConsistencyTest {
       }
     } catch (IOException e) {
       fail("Couldn't read from " + file);
+    }
+  }
+
+  @Test
+  public void everyForceNoncombatZoneHasDefault() {
+    for (var adventure : AdventureDatabase.getAsLockableListModel()) {
+      if (adventure.getAdventureNumber() < 0) continue;
+
+      var pref = "lastNoncombat" + adventure.getAdventureNumber();
+      assertThat(Preferences.containsDefault(pref), is(adventure.getForceNoncombat() > 0));
+    }
+  }
+
+  @Test
+  public void everyEncounterIsInAZone() {
+    try (BufferedReader reader =
+        FileUtilities.getVersionedReader("encounters.txt", KoLConstants.ENCOUNTERS_VERSION)) {
+      String[] data;
+
+      while ((data = FileUtilities.readData(reader)) != null) {
+        assertThat(
+            "Couldn't validate zone " + data[0] + " for encounter " + data[2] + ".",
+            data[0].equals("*") || AdventureDatabase.validateAdventureArea(data[0]),
+            is(true));
+      }
+    } catch (IOException e) {
+      fail("Couldn't read from encounters.txt");
     }
   }
 }

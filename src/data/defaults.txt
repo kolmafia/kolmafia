@@ -321,6 +321,10 @@ user	batmanTimeLeft	0
 user	batmanZone	Gotpork City
 user	batmanUpgrades
 user	battleAction	attack with weapon
+user	batWingsBatHoleEntrance	false
+user	batWingsBatratBurrow	false
+user	batWingsBeanbatChamber	false
+user	batWingsGuanoJunction	false
 user	beachHeadsUnlocked
 user	bearSwagger	0
 user	beastSkillsAvailable
@@ -344,6 +348,8 @@ user	blackPuddingsDefeated	0
 user	blackForestProgress	0
 user	blankOutUsed	0
 user	bloodweiserDrunk	0
+user	bodyguardCharge	0
+user	bodyguardChatMonster
 user	bondAdv	false
 user	bondBeach	false
 user	bondBeat	false
@@ -410,6 +416,7 @@ user	burnoutsDefeated	0
 user	burrowgrubHiveUsed	false
 user	burrowgrubSummonsRemaining	0
 user	buyScript
+user	bwApronMealsEaten	-1
 user	calzoneOfLegendEaten	false
 user	camelSpit	0
 user	cameraMonster
@@ -1799,6 +1806,10 @@ user	_bastilleLastBattleWon	false
 user	_bastilleLastCheese	0
 user	_bastilleLastEncounter	
 user	_bastilleStats	
+user	_batWingsCauldronUsed	0
+user	_batWingsFreeFights	0
+user	_batWingsRestUsed	0
+user	_batWingsSwoopUsed	0
 user	_beachCombing	false
 user	_beachHeadsUsed
 user	_beachLayout
@@ -2381,6 +2392,7 @@ user	_seaJellyHarvested	false
 user	_sealFigurineUses	0
 user	_sealScreeches	0
 user	_sealsSummoned	0
+user	_septEmberBalanceChecked	false
 user	_setOfJacksUsed	false
 user	_sewingKitUsed	false
 user	_sexChanged	false
@@ -3423,3 +3435,28 @@ user	unknownRecipe10990	true
 user	unknownRecipe10991	true
 user	unknownRecipe10992	true
 user	unknownRecipe11000	true
+
+user	lastNoncombat15	0
+user	lastNoncombat257	0
+user	lastNoncombat270	0
+user	lastNoncombat273	0
+user	lastNoncombat280	0
+user	lastNoncombat297	0
+user	lastNoncombat322	0
+user	lastNoncombat323	0
+user	lastNoncombat324	0
+user	lastNoncombat341	0
+user	lastNoncombat343	0
+user	lastNoncombat384	0
+user	lastNoncombat386	0
+user	lastNoncombat391	0
+user	lastNoncombat405	0
+user	lastNoncombat406	0
+user	lastNoncombat439	0
+user	lastNoncombat440	0
+user	lastNoncombat441	0
+user	lastNoncombat450	0
+user	lastNoncombat533	0
+user	lastNoncombat539	0
+user	lastNoncombat540	0
+user	lastNoncombat541	0

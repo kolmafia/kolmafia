@@ -92,6 +92,7 @@ Item	Apriling band helmet	Maximum HP: +25, Maximum MP: +25, Never Fumble, Negati
 Item	asbestos helmet turtle	Hot Resistance: +2, Familiar Effect: "hot atk, 1xFairy, cap 20"
 Item	asshat	Stench Resistance: +1, Sleaze Damage: +1, Familiar Effect: "stench atk, 1xVolley, cap 7"
 Item	astral chapeau	Mysticality Percent: +25, Spell Damage: +20, MP Regen Min: 3, MP Regen Max: 5, Familiar Effect: "1xVolley, 1xLep, cap 12"
+Item	astronaut helmet	Cold Resistance: +3, Stench Resistance: +3, Lasts Until Rollover
 Item	balaclava	Cold Resistance: +1, Familiar Effect: "cold atk, 1.5xLep, cap 12"
 Item	balloon helmet	Damage Absorption: +20, Clowniness: 25, Familiar Effect: "3xFairy, cap 12"
 Item	bark beret	Damage Reduction: 4, Familiar Effect: "2xPotato, 2.5xLep, cap 10"
@@ -211,6 +212,7 @@ Item	extra-wide head candle	Weapon Damage Percent: +100, HP Regen Min: 10, HP Re
 Item	eXtreme scarf	Mysticality: +5, Familiar Effect: "atk, 1xBarrr, cap 25"
 Item	eyepatch	Moxie: +2, Familiar Effect: "3xBarrr, cap 6"
 Item	f3d0r4	Moxie: +6, Familiar Effect: "atk, 1xLep, cap 27"
+Item	fake arrow-through-the-head	Moxie Percent: +25, Combat Rate: -5, Lasts Until Rollover
 Item	fancy ball mask	Moxie Percent: +10, Familiar Effect: "1xBarrr, 1xFairy, cap 22"
 Item	fancy tophat	Mysticality Percent: +15, Familiar Effect: "1xBarrr, cap 25"
 Item	FantasyRealm Mage's Hat	Mysticality: +15
@@ -339,8 +341,7 @@ Item	loofah lumberjack's hat	Muscle: +10, HP Regen Min: 15, HP Regen Max: 25
 Item	lynyrdskin cap	Initiative: +25, Familiar Effect: "1xPotato, 1xVolley, cap 42"
 Item	MAHI fez	Moxie: +30, Familiar Effect: "0.5xVolley, 0.5xPotato, 0.5xLep, 0.5xFairy"
 Item	maiden wig	Familiar Effect: "2xPotato, cap 8"
-# makeshift turban: Interferes with your vision
-Item	makeshift turban	Spooky Resistance: +2, Familiar Effect: "1.5xBarrr, 1xLep, cap 25"
+Item	makeshift turban	Spooky Resistance: +2, Familiar Effect: "1.5xBarrr, 1xLep, cap 25", Blind
 Item	makeshift yakuza mask	Moxie: -10
 Item	mantis skull	Ranged Damage: +15, Moxie: [5*L]
 Item	marble mariachi hat	Monster Level: +10, Ranged Damage Percent: +30, Thorns: 1
@@ -362,8 +363,7 @@ Item	Mer-kin headguard	PvP Fights: +2, Monster Level: +10, Weapon Damage Percent
 Item	Mer-kin scholar mask	Stench Resistance: +3, Item Drop: -25, Initiative: -50, Adventure Underwater, Familiar Effect: "cold atk"
 Item	Mer-kin sneakmask	Moxie Percent: +5, Initiative: +30, Combat Rate (Underwater): -5, Familiar Effect: "1xBarrr, 1xFairy"
 Item	mesh cap	Muscle: +15, Moxie: -5, Familiar Effect: "atk, 1xVolley, cap 41"
-# metallic foil cat ears: Not Amused
-Item	metallic foil cat ears	Familiar Effect: "atk, cap 7"
+Item	metallic foil cat ears	Familiar Effect: "atk, cap 7", Alters Page Text
 Item	meteortarboard	MP Regen Min: 4, MP Regen Max: 8, Mysticality Percent: +15, Spell Critical Percent: +10
 Item	miming beret	Damage Reduction: 10, Stench Resistance: +3
 Item	miner's helmet	Item Drop: +5, Familiar Effect: "1xBarrr, 1xFairy, cap 20"
@@ -405,8 +405,7 @@ Item	oxygenated eggnog helmet	Item Drop: -100, Initiative: -100, Adventure Under
 Item	pail	Damage Absorption: +10, Familiar Effect: "2xFairy, cap 7"
 Item	panhandle panhandling hat	Food Drop: +30, Familiar Effect: "1xLep, cap 37"
 Item	paperclip turban	Muscle: +5, Mysticality: +5, Moxie: +5, Maximum HP: +5, Maximum MP: +5, Damage Reduction: 5, Familiar Effect: "atk, cap 12"
-# papier-mitre: Helps you describe things
-Item	papier-mitre	Familiar Weight: +5, PvP Fights: +2, Familiar Effect: "1xVolley, cap 25"
+Item	papier-mitre	Familiar Weight: +5, PvP Fights: +2, Familiar Effect: "1xVolley, cap 25", Alters Page Text
 # paraffin pith helmet: Lets you unleash a prismatic attack
 Item	paraffin pith helmet	Experience (Muscle): +2, Cold Damage: +10
 Item	parasitic headgnawer	Familiar Effect: "atk, cap 7", Thorns: 1
@@ -470,8 +469,7 @@ Item	silent beret	Muscle Percent: -30, Mysticality Percent: -30, Moxie Percent: 
 Item	sinister demon mask	Spooky Damage: +25, HP Regen Min: 10, HP Regen Max: 25, Food Drop: +25, Familiar Effect: "atk, cap 25"
 Item	six-gallon hat	Muscle: +6, Mysticality: +6, Moxie: +6, Experience: +3
 Item	skeletortoise	Mysticality: +2, Familiar Effect: "spooky atk, 2xFairy, cap 7"
-# sleep mask: Can't see nothin'
-Item	sleep mask	Familiar Effect: "atk, 1xBarrr, cap 37"
+Item	sleep mask	Familiar Effect: "atk, 1xBarrr, cap 37", Blind
 Item	slime fedora	Mysticality Percent: +25, Spell Critical Percent: +10, MP Regen Min: 10, MP Regen Max: 15
 Item	slime-covered helmet	Slime Resistance: +2, Stench Resistance: +2, Cold Resistance: +2, Familiar Effect: "1xPotato, 1xFairy"
 Item	smooth velvet hat	Disco Style: +1
@@ -793,8 +791,7 @@ Item	pants of the Slug Lord	Stench Resistance: +2, Familiar Effect: "stench atk,
 Item	Pantsgiving	Experience: +2, Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Item Drop: +15, Meat Drop: +30, Softcore Only, Bonus Resting HP: [5*F], Bonus Resting MP: [5*F], Familiar Effect: "1xPotato, cap 25", Drops Items, Variable
 Item	paper-plate-mail pants	Familiar Effect: "hot atk, 2xBarrr, cap 20"
 Item	paperclip pants	Adventures: +2, Initiative: +15, Familiar Effect: "atk, 3xBarrr, cap 12"
-# papier-m&acirc;churidars: Improves things
-Item	papier-m&acirc;churidars	Initiative: +25, Never Fumble, Familiar Effect: "1xFairy, cap 25"
+Item	papier-m&acirc;churidars	Initiative: +25, Never Fumble, Familiar Effect: "1xFairy, cap 25", Alters Page Text
 # paraffin palazzos: Lets you unleash a prismatic attack
 Item	paraffin palazzos	Moxie: +10, Stench Damage: +10
 Item	parasitic tentacles	Initiative: [min(2*L,30)], Familiar Effect: "spooky atk, 5xBarrr, cap 7"
@@ -1699,10 +1696,8 @@ Item	oversized pipe	Muscle: +6, Mysticality: +6
 Item	oversized pizza cutter	Spell Damage: +13
 Item	pair of bolt cutters	Weakens Monster
 Item	palm-frond whip	Weapon Damage: +30
-# papier-m&acirc;ch&eacute;te: Makes actions more exciting
-Item	papier-m&acirc;ch&eacute;te	Weapon Damage: +10, Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15
-# papier-m&acirc;chine gun: Makes actions more exciting
-Item	papier-m&acirc;chine gun	Ranged Damage: +10, Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15
+Item	papier-m&acirc;ch&eacute;te	Weapon Damage: +10, Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15, Alters Page Text
+Item	papier-m&acirc;chine gun	Ranged Damage: +10, Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15, Alters Page Text
 # paraffin pseudoaccordion: Lets you unleash a prismatic attack
 Item	paraffin pseudoaccordion	Experience (Moxie): +2, Spooky Damage: +10, Song Duration: 5
 Item	parasitic claw	Weapon Damage: [min(L,15)]
@@ -1846,6 +1841,8 @@ Item	Shagadelic Disco Banjo	Moxie: +11, Meat Drop: +10, DB Combat Damage: +7, Cl
 Item	Shakespeare's Sister's Accordion	Mana Cost: [-1*(1+skill(Accordion Appreciation))], Smithsness: [5*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 15, Moxie Percent: [2*K]
 # sharpened spoon
 Item	Sheila Take a Crossbow	HP Regen Min: 1, HP Regen Max: 2, MP Regen Min: 1, MP Regen Max: 2, Pickpocket Chance: +5, Smithsness: +5, Initiative: [K]
+# Sheriff pistol: Provides 1/3 Authority
+Item	Sheriff pistol	Muscle Percent: +50, Hot Damage: +15, Lasts Until Rollover
 Item	shiny butcherknife	Spell Damage: +8
 # shipwright's hammer: +30% Damage vs. Skeletons
 Item	shipwright's hammer	Pirate Warfare Effectiveness: +3, Weapon Damage Percent: +30
@@ -1953,7 +1950,7 @@ Item	Staff of the Well-Tempered Cauldron	Spell Damage Percent: +125, Mysticality
 Item	Staff of the Woodfire	Experience (Mysticality): +10, Spell Damage Percent: +100, MP Regen Min: 5, MP Regen Max: 15
 Item	stained glass shiv	Moxie Percent: +20, Stench Resistance: +3, Stench Damage: +5
 Item	stainless steel shillelagh	Weapon Damage: +20, Critical Hit Percent: +10, Muscle Percent: +15
-Item	staph of homophones	Mysticality: +7, Adventures: +5
+Item	staph of homophones	Mysticality: +7, Adventures: +5, Alters Page Text
 Item	star boomerang	Moxie: +5
 Item	star crossbow	Moxie: +8
 Item	star spatula	Spell Damage: +18
@@ -1991,7 +1988,7 @@ Item	super-sweet boom box	Muscle Percent: +20, Mysticality Percent: +20, Moxie P
 # survival knife: Aids in desert exploration
 Item	survival knife	Muscle: +5, Mysticality: +5, Moxie: +5, Lasts Until Rollover
 # sweet ninja sword
-Item	sword behind inappropriate prepositions	Muscle: +7, Adventures: +5
+Item	sword behind inappropriate prepositions	Muscle: +7, Adventures: +5, Alters Page Text
 Item	Sword of Dark Omens	Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold Damage: +3, Sleaze Damage: +3, Spell Damage Percent: +50, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5
 # Sword of Procedural Generation: Randomized per player
 Item	sword of static	Muscle: +3, Moxie: +2, MP Regen Min: 2, MP Regen Max: 3
@@ -2515,6 +2512,7 @@ Item	Oscus's garbage can lid	Stench Damage: +20, Damage Reduction: 15, Thorns: 1
 # Ouija Board, Ouija Board: Gain the favor of the Turtle Spirits more quickly
 Item	Ouija Board, Ouija Board	Familiar Weight: +5, Smithsness: +5, Class: "Turtle Tamer", Damage Reduction: 7, Muscle Percent: [2*K]
 Item	outmoded fidget toy	Experience: +2
+Item	oversized monocle on a stick	Mysticality Percent: +25, Item Drop: +25, Lasts Until Rollover
 Item	ox-head shield	Maximum HP: +100, Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Damage Reduction: 26, PvP Fights: +8, Never Fumble, Lasts Until Rollover
 # oyster basket
 Item	oyster egg balloon	Muscle: +5, Mysticality: +5, Moxie: +5
@@ -2529,6 +2527,8 @@ Item	party crasher	Initiative: +25, Spooky Resistance: +2, Stench Resistance: +2
 Item	peanut brittle shield	Candy Drop: +100, Damage Reduction: 3
 Item	penguin skin buckler	Moxie: +5, Damage Reduction: 5
 Item	penguin thesaurus	Mysticality: +1, Maximum HP: +5, Maximum MP: +5
+# photo booth supply list: Lets you find photo booth supplies
+Item	photo booth supply list	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Damage Reduction: 20, Lasts Until Rollover
 Item	pilgrim shield	Maximum HP: +30, Weapon Damage: +15, Experience: +3, HP Regen Min: 10, HP Regen Max: 12, Weapon Drop: +50, Damage Reduction: [L], Softcore Only
 Item	pirate hook	Weapon Damage: +3
 Item	pixel grappling hook	Initiative: +40, Item Drop: +10
@@ -2781,8 +2781,7 @@ Item	albatross necklace	Mysticality Percent: +10, Single Equip
 Item	Aluminum Epsilon of Humility	Muscle: +7, Mysticality: +7, Moxie: +7, Item Drop: +9, Single Equip
 Item	amber aviator shades	Mysticality Percent: +5, Moxie Percent: +5, Sleaze Damage: +30, Single Equip
 Item	amulet of extreme plot significance	Maximum MP: +30
-# Amulet of Perpetual Darkness: Also, it's always dark.
-Item	Amulet of Perpetual Darkness	Monster Level: +15, Spooky Damage: +10, Spooky Spell Damage: +10, Weakens Monster
+Item	Amulet of Perpetual Darkness	Monster Level: +15, Spooky Damage: +10, Spooky Spell Damage: +10, Weakens Monster, Blind
 # Amulet of Yendor: Prevents Level Teleporting
 Item	Amulet of Yendor	Mana Cost: +3, Initiative: -10, Single Equip
 Item	anchovy can key	Food Drop: +100
@@ -2931,6 +2930,7 @@ Item	chalk chain	Experience (Muscle): +2, Experience (familiar): +1, Single Equi
 Item	chalk choker	Experience (Moxie): +2, Pants Drop: +20, Single Equip
 Item	Charleston shoes	Moxie: +30, Item Drop: +10, Single Equip
 Item	cheap elven gloves	Mysticality: +1, Sleaze Resistance: +1
+Item	cheap plastic pipe	Maximum MP: +40, MP Regen Min: 8, MP Regen Max: 12, Single Equip, Lasts Until Rollover
 Item	cheap studded belt	Damage Reduction: 1
 # cheap sunglasses: +60% Meat Drops from Tourists
 Item	cheap sunglasses	Meat Drop: [60*zone(Dinseylandfill)], Single Equip
@@ -3073,10 +3073,12 @@ Item	expensive camera	Initiative: +20, Reduce Enemy Defense: 10, Single Equip
 Item	eXtreme mittens	Weapon Damage: +6
 Item	eXtreme nose ring	Muscle: +4, Mysticality: +4, Moxie: +4
 Item	f'c'le sh'c'le k'y	Monster Level: +20, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5
+Item	fake huge beard	Muscle Percent: +25, Food Drop: +40, Lasts Until Rollover
 Item	fancy black tie	Muscle Percent: +15, Single Equip
 Item	fancy boots	Plumber Stat: "Moxie", Plumber Power: 2, Single Equip
 Item	Fancy Jeff's fancy pocket square	Moxie Percent: +25, HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10
 Item	FantasyRealm G. E. M.	Muscle Limit: 100, Mysticality Limit: 100, Moxie Limit: 100, Lasts Until Rollover
+Item	feather boa	Sleaze Damage: +15, Meat Drop: +50, Single Equip, Lasts Until Rollover
 # fiberglass fannypack: Filled with a never-ending supply of deadly pasta
 Item	fiberglass fannypack	Mana Cost (combat): -2, Sleaze Damage: +15, Single Equip
 # fiberglass fingerguard: Dramatically increases the effectiveness of Disco Eye Poke
@@ -3146,6 +3148,7 @@ Item	Gauntlets of the Blood Moon	Maximum HP: +75, Item Drop: +5, Muscle Percent:
 Item	gearbox necklace	Mysticality: +11, Maximum MP: +50
 Item	genie's bracers	Mysticality: +5, Moxie: +5
 Item	ghost of a necklace	Sleaze Damage: +8, Sleaze Spell Damage: +8, Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1
+Item	giant bow tie	Muscle: +5, Mysticality: +5, Moxie: +5, Spooky Damage: +5, Stench Damage: +5, Hot Damage: +5, Cold Damage: +5, Sleaze Damage: +5, Clowniness: 25, Lasts Until Rollover
 Item	giant designer sunglasses	Moxie Percent: -10, Single Equip
 # giant diamond ring
 # giant motorcycle boots: +10 Damage vs. Ghosts
@@ -3217,9 +3220,9 @@ Item	headhunter necktie	Muscle: +15, Moxie: -3, Single Equip
 Item	heart of the volcano	HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 2, MP Regen Max: 5
 Item	heat-resistant gloves	Hot Resistance: +4, Weapon Damage Percent: -50, Fumble: 2, Single Equip
 Item	heat-resistant necktie	Hot Resistance: +4, Spell Damage: -50, Single Equip
-Item	Helps-You-Sleep	Initiative: +75, Critical Hit Percent: +10, Single Equip
+Item	Helps-You-Sleep	Initiative: +75, Critical Hit Percent: +10, Single Equip, Blind
 # hemp string
-Item	hewn moon-rune spoon	Experience: +3, Familiar Weight: +5, Critical Hit Percent: +10, Spell Damage: +10, Initiative: +25, Rollover Effect: "Spoon Boon", Rollover Effect Duration: 50, Muscle: +5, Mysticality: +5, Moxie: +5, Maximum HP: +25, Maximum MP: +25, Single Equip
+Item	hewn moon-rune spoon	Experience: +3, Familiar Weight: +5, Critical Hit Percent: +10, Spell Damage: +10, Initiative: +25, Rollover Effect: "Spoon Boon", Rollover Effect Duration: 50, Muscle: +5, Mysticality: +5, Moxie: +5, Maximum HP: +25, Maximum MP: +25, Single Equip, Alters Page Text
 # high-friction boots: Allows you to move normally on extremely windy planets
 Item	high-friction boots	Single Equip, Lasts Until Rollover
 Item	hippy medical kit	Mysticality: +10, HP Regen Min: 6, HP Regen Max: 10, Single Equip
@@ -3442,8 +3445,7 @@ Item	pair of government shades	Maximum HP: +10, Single Equip
 # pair of pearidot earrings: (only in the Candy Diorama)
 Item	pair of pearidot earrings	Item Drop: [100*zone(The Candy Diorama)], Single Equip
 Item	paperclip-on tie	Weapon Damage: +5, Spell Damage: +5, Experience: +1, Single Equip
-# papier-masque: Makes your possessions seem more interesting
-Item	papier-masque	Spell Damage: +10, HP Regen Min: 2, HP Regen Max: 4, MP Regen Min: 2, MP Regen Max: 4, Single Equip
+Item	papier-masque	Spell Damage: +10, HP Regen Min: 2, HP Regen Max: 4, MP Regen Min: 2, MP Regen Max: 4, Single Equip, Alters Page Text
 # paraffin pendant: Lets you unleash a prismatic attack
 Item	paraffin pendant	Experience (Mysticality): +2, Maximum MP: +10, Single Equip
 # paraffin punching bag: Lets you unleash a prismatic attack
@@ -3574,7 +3576,7 @@ Item	replica Cincho de Mayo	Moxie Percent: +25, HP Regen Min: 10, HP Regen Max: 
 Item	replica Elf Guard medal	Elf Warfare Effectiveness: +5, Experience: +2, Maximum HP: +20, Maximum MP: +20
 # replica Elvish sunglasses: Lets you Rock Out
 Item	replica Elvish sunglasses	Moxie: +10, Moxie Percent: +10, Ranged Damage: +15, Pickpocket Chance: +25, Single Equip
-Item	replica hewn moon-rune spoon	Experience: +3, Familiar Weight: +5, Critical Hit Percent: +10, Spell Damage: +10, Initiative: +25, Rollover Effect: "Spoon Boon", Rollover Effect Duration: 50, Muscle: +5, Mysticality: +5, Moxie: +5, Maximum HP: +25, Maximum MP: +25, Single Equip
+Item	replica hewn moon-rune spoon	Experience: +3, Familiar Weight: +5, Critical Hit Percent: +10, Spell Damage: +10, Initiative: +25, Rollover Effect: "Spoon Boon", Rollover Effect Duration: 50, Muscle: +5, Mysticality: +5, Moxie: +5, Maximum HP: +25, Maximum MP: +25, Single Equip, Alters Page Text
 # replica Juju Mojo Mask: Big Mojo
 Item	replica Juju Mojo Mask	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Experience: +2, Single Equip
 # replica Kramco Sausage-o-Matic&trade;: Shows you how the sausage is made
@@ -3610,8 +3612,7 @@ Item	ring of gain strength	Muscle: +10
 # ring of half-assed regeneration: Sporadic HP Regeneration
 Item	ring of half-assed regeneration	Single Equip, HP Regen Min: 0, HP Regen Max: 1.333
 Item	ring of increase damage	Weapon Damage: +10, Spell Damage: +10
-# ring of teleportation: Your position seems uncertain...
-Item	ring of teleportation	Single Equip
+Item	ring of teleportation	Single Equip, Adventure Randomly
 # ring of telling skeletons what to do: Lets you tell skeletons what to do
 Item	ring of telling skeletons what to do	Muscle: +2, Mysticality: +2, Moxie: +2
 Item	Ring of the Sewer Snake	Muscle: +3, Mysticality: +3, Moxie: +3, Stench Damage: +40, Single Equip
@@ -3651,6 +3652,10 @@ Item	severed rocking horse head	Muscle: +3, Mysticality: +3, Moxie: +3
 Item	shadow monocle	Spell Damage: +13, Item Drop: +13, Initiative: +13, Single Equip
 Item	shamanic beads	Spooky Damage: +1, Stench Damage: +1, Hot Damage: +1, Cold Damage: +1, Sleaze Damage: +1, Spell Damage: +10
 Item	shark tooth necklace	Moxie Percent: +5, Initiative: +35, Single Equip
+# Sheriff badge: Provides 1/3 Authority
+Item	Sheriff badge	Mysticality Percent: +50, Spooky Resistance: +3, Single Equip, Lasts Until Rollover
+# Sheriff moustache: Provides 1/3 Authority
+Item	Sheriff moustache	Moxie Percent: +50, Initiative: +25, Single Equip, Lasts Until Rollover
 Item	shin gourds	Damage Reduction: 5, Weapon Damage: +10, Single Equip
 Item	shining halo	Experience: +3, Unarmed, Single Equip
 Item	shiny hood ornament	Muscle: +5, Mysticality: +5, Moxie: +5, Maximum HP: +30, Maximum MP: +30, Initiative: +10
@@ -4189,6 +4194,10 @@ Item	back shell	Damage Absorption: +200, Damage Reduction: 20
 Item	bakelite backpack	Monster Level: +10, Candy Drop: +20
 Item	balsam barrel	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50, Item Drop: +15, HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 10, MP Regen Max: 20
 Item	barskin cloak	Muscle: +7
+# bat wings: Find Fruit
+# bat wings: Random bonuses underground
+# bat wings: Use some bat skills
+Item	bat wings	Muscle: +5, Mysticality: +5, Moxie: +5, Initiative: +100, Food Drop: +50
 Item	black cloak	Spell Damage: +10
 Item	bony back shell	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2
 # Buddy Bjorn: Put a Familiar In It!
@@ -5381,6 +5390,7 @@ Effect	Bats Form	Initiative: +150, Item Drop: +150
 Effect	Bats in the Belfry	Mysticality Percent: +10
 Effect	Batted Around	Avatar: "perpendicular bat"
 Effect	Batteries Included	Crimbot Outfit Power: +4
+Effect	Batty	Initiative: +10, Spooky Damage: +5
 Effect	Batwards Masking	Avatar: "Batburglar"
 Effect	Be a Mind Master	Spell Damage Percent: +100, MP Regen Min: 10, MP Regen Max: 20
 Effect	Bear Clawed	Weapon Damage Percent: +100
@@ -5602,7 +5612,7 @@ Effect	Buzzard Breath	Stench Damage: +30, Spooky Damage: +30
 Effect	Cabernet Hunter	Booze Drop: +100
 Effect	Cafeter&iacute;a Brujer&iacute;a	MP Regen Min: 3, MP Regen Max: 4
 Effect	Cake Caked	Mysticality Percent: +50
-Effect	Can Has Cyborger	Moxie Percent: +10
+Effect	Can Has Cyborger	Moxie Percent: +10, Alters Page Text
 Effect	Can't Be a Chooser	Meat Drop: +30
 Effect	Can't Smell Nothin'	Stench Resistance: +9
 # Canadianity: Makes you feel more Canadian
@@ -5696,7 +5706,7 @@ Effect	Cletus's Canticle of Celerity	Initiative: +20
 Effect	Cloak of Shadows	Combat Rate: -15
 Effect	Closer to Fine	HP Regen Min: [min(T,50)], HP Regen Max: [2*min(T,50)]
 Effect	Cloud of Mosquitos	HP Regen Min: 40, HP Regen Max: 50
-# Clumsy: Always Fumble
+Effect	Clumsy	Always Fumble
 Effect	Clyde's Blessing	Item Drop: +50
 Effect	Coal-Powered	Damage Aura: 1
 Effect	Coated Arms	Weapon Damage: +15
@@ -6093,8 +6103,7 @@ Effect	Feeling Excited	Muscle: +25, Mysticality: +25, Moxie: +25
 Effect	Feeling Fancy	Experience (familiar): +10, Muscle: +15, Mysticality Percent: +200
 Effect	Feeling Insignificant	Muscle Limit: 100, Mysticality Limit: 100, Moxie Limit: 100
 Effect	Feeling Lonely	Combat Rate: -5
-# Feeling Lost: Wander Aimlessly While Learning and Collecting Stuff
-Effect	Feeling Lost	Item Drop: +60, Experience: +30
+Effect	Feeling Lost	Item Drop: +60, Experience: +30, Adventure Randomly
 Effect	Feeling Nervous	Thorns: 1
 Effect	Feeling No Pain	Hot Resistance: +3, Cold Resistance: +3, Stench Resistance: +3, Spooky Resistance: +3, Sleaze Resistance: +3, Damage Reduction: 10, Damage Absorption: +100
 Effect	Feeling Peaceful	Hot Resistance: +2, Cold Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2, Sleaze Resistance: +2, Damage Reduction: 10, Damage Absorption: +100
@@ -6230,7 +6239,7 @@ Effect	Full of Vinegar	Weapon Damage: [+1*D]
 Effect	Full of Wist	Experience: [min(L,11)]
 Effect	Full Steam Ahead	Avatar: "Steampunk Giant"
 Effect	Full-Body Tan	Experience (Moxie): [L]
-# Funday!: Adventure Randomly
+Effect	Funday!	Adventure Randomly
 Effect	Fungal Flambé	Hot Spell Damage: +100
 Effect	Fungal Fortification	Damage Absorption: +200
 Effect	Funky Coal Patina	Moxie: +20
@@ -6345,7 +6354,7 @@ Effect	Haemolymphatic	Muscle: +20, Mysticality: +20, Moxie: +20
 Effect	Hag-gard	Avatar: "swamp hag"
 Effect	Hagg-ard	Muscle: +10
 Effect	Hagnk's Gratitude	Hot Spell Damage: +50, Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
-# Haiku State of Mind: large penalty to result parsing
+Effect	Haiku State of Mind	Alters Page Text
 Effect	Hair on Your Chest	Maximum MP Percent: +50
 # Hairless and Airless: Makes you a better diver
 Effect	Hairless and Airless	Initiative Penalty: [20*env(underwater)], Item Drop Penalty: [20*env(underwater)], Meat Drop Penalty: [20*env(underwater)]
@@ -6634,7 +6643,7 @@ Effect	Jukebox Hero	Item Drop: +300
 # Jungle Juiced: Doubles Stat Gains in the Deep Dark Jungle
 Effect	Just Aged Enough	Moxie: +25
 Effect	Just Like Me, They Want to Be	Hot Resistance: +1, Cold Resistance: +1, Stench Resistance: +1, Spooky Resistance: +1, Sleaze Resistance: +1
-# Just the Best Anapests: Da da dee, da da dee
+Effect	Just the Best Anapests	Alters Page Text
 Effect	Just the Brown Ones	Moxie: +15
 Effect	Keep Free Hate in your Heart	Monster Level: +30, Damage Absorption: +10
 Effect	Kernel Panic!	Critical Hit Percent: +5
@@ -6925,7 +6934,7 @@ Effect	Nut-Rition	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent
 Effect	Nutrient-Rich	Experience: +4, Maximum HP Percent: +50, Maximum MP Percent: +25
 Effect	Nuts about Candy	Maximum HP: +50
 Effect	Nyah-ha-ha-haaa	Avatar: "The Jokester"
-# O Hai!: Effect Cat is Not Amused
+Effect	O Hai!	Alters Page Text
 Effect	Object Detection	Item Drop: +5
 Effect	Obscuri Tea	Combat Rate: -5
 Effect	Ocelot Eyes	Item Drop: +10
@@ -7161,8 +7170,7 @@ Effect	Quiet Desperation	Moxie Percent: +25
 Effect	Quiet Determination	Muscle Percent: +25
 Effect	Quiet Judgement	Mysticality Percent: +25
 Effect	Quivering with Rage	Muscle Percent: -10, Damage Aura: 1
-# QWOPped Up: Always Fumble
-Effect	QWOPped Up	Initiative: -100
+Effect	QWOPped Up	Initiative: -100, Always Fumble
 Effect	Racing!	Initiative: +200
 Effect	Rad-ish	Moxie Percent: +25
 Effect	Radiant Personality	Moxie Percent: +30
@@ -7498,6 +7506,7 @@ Effect	Space Cadet	Maximum MP Percent: +50
 Effect	Space Cowboy	Experience: +2
 Effect	Space Tripping	Experience (Muscle): +4, Experience (Mysticality): +4, Experience (Moxie): +4
 Effect	Space Warlord's Beard	Weapon Damage: +25, Critical Hit Percent: +10
+Effect	Spaced Out	Mysticality: +10, Maximum MP: +50, Experience (Mysticality): +3, MP Regen Min: 10, MP Regen Max: 30
 Effect	Spangled Star	Monster Level: +10
 Effect	Sparkling Consciousness	Mysticality Percent: +100
 # Sparkly!: +50 Damage vs. Undead
@@ -7717,10 +7726,10 @@ Effect	Tea-hee	Experience: +5
 Effect	Teacher's Pet	Sleaze Resistance: +2, Damage Absorption: +50, Damage Reduction: 5, Wiki Name: "Teacher's Pet (Effect)"
 Effect	Tearful, Fearful	Item Drop: +30
 Effect	Techno Bliss	Item Drop: +10
-# Teleportitis: Your position seems uncertain...
+Effect	Teleportitis	Adventure Randomly
 Effect	Temporarily Filtered	Stench Resistance: +5
 # Temporary Amnesia: Who am I?
-Effect	Temporary Blindness	Item Drop: -75, Moxie Percent: -25, Initiative: -30
+Effect	Temporary Blindness	Item Drop: -75, Moxie Percent: -25, Initiative: -30, Blind
 Effect	Temporary Lycanthropy	Muscle Percent: [B]
 Effect	Ten out of Ten	Moxie Percent: +200, Initiative: +50
 Effect	Tenacity of the Snapper	Weapon Damage: +8
@@ -7876,6 +7885,7 @@ Effect	Tortious	Monster Level: +10
 Effect	Total Protonic Reversal	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20
 Effect	Touched	Spooky Resistance: +3, Spooky Damage: +30, Experience: +3
 Effect	Touched by a Ghost	Muscle Percent: [-(30+T)], Mysticality Percent: [-(30+T)], Moxie Percent: [-(30+T)]
+Effect	Towering Muscles	Muscle: +10, Maximum HP: +50, Experience (Muscle): +3, Combat Rate: +5
 Effect	Towering Strength	Muscle Percent: [100+2*min(50,pref(chessboardsCleared))]
 Effect	Toxic Vengeance	Muscle: [-T], Mysticality: [-T], Moxie: [-T], Stench Damage: [3*T], Spell Damage Percent: [3*T]
 Effect	Traditional Eating	Meat Drop: +25
@@ -8047,6 +8057,7 @@ Effect	Wholesomely Resolved	Spooky Resistance: +2, Stench Resistance: +2, Sleaze
 Effect	Whose Drinks Are These?	Avatar: "Resort Waiter"
 Effect	Why is the Shampoo Always Gone?	Avatar: "flashy pirate"
 Effect	Why So Serious?	Hot Damage: +25, Cold Damage: +25, Stench Damage: +25, Spooky Damage: +25, Sleaze Damage: +25, Hot Spell Damage: +25, Cold Spell Damage: +25, Stench Spell Damage: +25, Spooky Spell Damage: +25, Sleaze Spell Damage: +25
+Effect	Wild and Westy!	Moxie: +10, Initiative: +50, Experience (Moxie): +3, Combat Rate: -5
 Effect	Wine-Befouled	Stench Damage: [pref(vintnerWineLevel)*3], Stench Resistance: [pref(vintnerWineLevel)-2], Muscle: [pref(vintnerWineLevel)*5], Familiar Weight: [pref(vintnerWineLevel)]
 Effect	Wine-Cold	Cold Damage: [pref(vintnerWineLevel)*3], Cold Resistance: [pref(vintnerWineLevel)-2], Maximum MP: [pref(vintnerWineLevel)*5], Meat Drop: [pref(vintnerWineLevel)*5]
 Effect	Wine-Dark	Spooky Damage: [pref(vintnerWineLevel)*4], Spooky Resistance: [pref(vintnerWineLevel)-2], Mysticality: [pref(vintnerWineLevel)*5], Spell Critical Percent: [pref(vintnerWineLevel)*2]
@@ -8096,7 +8107,7 @@ Effect	Yeg's Glory	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percen
 Effect	Yeg's Keeping	Muscle Percent: +666, Mysticality Percent: +666, Moxie Percent: +666
 Effect	Yeg's Power	Maximum HP: +666, Maximum MP: +666
 # Yellow Tongue: Eww.
-# Yes, Can Haz: Effect Cat is Not Amused
+Effect	Yes, Can Haz	Alters Page Text
 Effect	Yet tea	Cold Damage: +30
 Effect	Yiffable You	Avatar: "sexy werewolf"
 Effect	Yoloswagyoloswag	Sleaze Damage: +15, Sleaze Spell Damage: +15, Monster Level: +15
@@ -8890,14 +8901,18 @@ Event	Festival of Jarlsberg	Mana Cost: -3
 Event	Lab&oacute;r Day Eve	Adventures: +10
 # Fullness only applies in no path or Teetotaller, and does not apply to AoWoL classes for some reason
 Event	Feast of Boris	Stomach Capacity: [min(1,path(none)+path(Teetotaller))*(1-class(AWOL))*15]
+Event	April Fool's Day	Alters Page Text
 
 # Zone-specific section of modifiers.txt
 # -100% is the most common penalty in The Sea; use it as the default
 
 Zone	The Sea	Initiative Penalty: -100, Item Drop Penalty: -100, Meat Drop Penalty: -100
 Zone	Shadow Rift	Item Drop: [-0.8*mod(Item Drop))
+Zone	Suburbs	Alters Page Text
 
 # Location-specific section of modifiers.txt
+
+Loc	The Haiku Dungeon	Alters Page Text
 
 Loc	The Briniest Deepests	Initiative Penalty: +25, Item Drop Penalty: +25, Meat Drop Penalty: +25
 Loc	The Brinier Deepers	Initiative Penalty: +50, Item Drop Penalty: +50, Meat Drop Penalty: +50
@@ -11267,6 +11282,7 @@ Item	box of sunshine	Free Pull
 Item	boxed Apriling band helmet	Free Pull
 Item	boxed august scepter	Free Pull
 Item	boxed autumn-aton	Free Pull
+Item	boxed bat wings	Free Pull
 Item	boxed Mayam Calendar	Free Pull
 Item	boxed Sept-Ember Censer	Free Pull
 Item	Boxing Day care package	Free Pull
@@ -12144,6 +12160,7 @@ Item	personalized coffee mug	Free Pull
 # personalized wassail stein: Produces a random booze item (1x/day)
 # petrified wood: Deals 50-60 Physical Damage and 50-60 <font color=gray>Spooky Damage</font>
 # phonics down: Restores 46-50 HP and MP and also does other weird stuff
+Item	photo booth sized crate	Free Pull
 # photoprotoneutron torpedo: Deals 30-40 Physical Damage
 # pink-belly slapper: Weakens enemies a little bit, brieftly stuns them, and restores 8-16 of your Hit Points
 # pint of sweat: Deals 25-30 <font color=green>Stench Damage</font> and 25-30 <font color=blueviolet>Sleaze Damage</font>

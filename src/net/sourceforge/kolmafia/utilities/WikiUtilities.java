@@ -20,6 +20,7 @@ import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
 import net.sourceforge.kolmafia.webui.RelayLoader;
 
+@SuppressWarnings("incomplete-switch")
 public class WikiUtilities {
 
   public enum WikiType {
