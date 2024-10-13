@@ -169,7 +169,7 @@ public abstract class ValueConverter<ObjectType> {
         || object instanceof Long
         || object instanceof Double d && JavascriptNumbers.isDoubleSafeInteger(d)) {
       return DataTypes.makeIntValue(((Number) object).longValue());
-    } else if (object instanceof Float || object instanceof Double) {
+    } else if (object instanceof Number) {
       return DataTypes.makeFloatValue(((Number) object).doubleValue());
     } else if (object instanceof String) {
       return DataTypes.makeStringValue((String) object);

@@ -180,6 +180,27 @@ public class RelayRequestTest {
       }
     }
 
+    @ParameterizedTest
+    @CsvSource({"truncate,3.1,3", "urlDecode,\"%40\",\"@\""})
+    public void handlesPrimitiveArgument(String function, String input, String output) {
+      var rr =
+          this.makeApiRequest(
+              """
+  { "functions": [
+    { "name": "%s", "args": [%s] },
+  ] }
+  """
+                  .formatted(function, input));
+
+      JSONObject expected =
+          JSON.parseObject("""
+          { "functions": [%s] }
+          """.formatted(output));
+      assertThat(rr.statusLine, is("HTTP/1.1 200 OK"));
+      assertThat(rr.responseCode, is(200));
+      assertThat(JSON.parse(rr.responseText), is(expected));
+    }
+
     @Test
     public void handlesEnumeratedTypes() {
       var cleanups = withItem(ItemPool.SEAL_CLUB);
