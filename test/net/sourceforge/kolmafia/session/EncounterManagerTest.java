@@ -107,6 +107,11 @@ class EncounterManagerTest {
   }
 
   @Test
+  void resetEncountersSucceeds() {
+    assertThat(EncounterManager.resetEncounters(), is(true));
+  }
+
+  @Test
   void findEncounterByName() {
     var enc = EncounterManager.findEncounter("With a Clatter");
 
