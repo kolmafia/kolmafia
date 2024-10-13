@@ -10212,13 +10212,18 @@ public abstract class RuntimeLibrary {
     return BooleanModifier.byCaselessName(mod);
   }
 
-  private static StringModifier getStringModifier(ScriptRuntime controller, final Value modifier) {
+  private static Modifier getStringModifier(ScriptRuntime controller, final Value modifier) {
     Type type = modifier.getType();
     if (type.equals(DataTypes.MODIFIER_TYPE)) {
       Modifier content = (Modifier) modifier.content;
-      if (content.getType() == ModifierValueType.STRING) {
-        return (StringModifier) content;
-      }
+        switch (content.getType()) {
+            case STRING -> {
+                return (StringModifier) content;
+            }
+            case MULTISTRING -> {
+                return (MultiStringModifier) content;
+            }
+        }
       throw controller.runtimeException("string modifier required");
     }
     String mod = modifier.toString();
@@ -10237,17 +10242,6 @@ public abstract class RuntimeLibrary {
     }
     String mod = modifier.toString();
     return MultiStringModifier.byCaselessName(mod);
-  }
-
-  private static Modifier getAnyStringModifier(ScriptRuntime controller, final Value modifier) {
-    if (modifier.getType() != DataTypes.MODIFIER_TYPE) return null;
-    var content = (Modifier) modifier.content;
-    var type = content.getType();
-    return switch (type) {
-      case STRING -> getStringModifier(controller, modifier);
-      case MULTISTRING -> getMultiStringModifier(controller, modifier);
-      default -> null;
-    };
   }
 
   public static Value numeric_modifier(ScriptRuntime controller, final Value modifier) {
@@ -10292,7 +10286,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value string_modifier(ScriptRuntime controller, final Value modifier) {
-    StringModifier strMod = getStringModifier(controller, modifier);
+    var strMod = getStringModifier(controller, modifier);
     return new Value(KoLCharacter.currentStringModifier(strMod));
   }
 
@@ -10300,7 +10294,7 @@ public abstract class RuntimeLibrary {
       ScriptRuntime controller, final Value arg, final Value modifier) {
     ModifierType type = RuntimeLibrary.getModifierType(arg);
     String name = RuntimeLibrary.getModifierName(arg);
-    StringModifier strMod = getStringModifier(controller, modifier);
+    var strMod = getStringModifier(controller, modifier);
     return new Value(ModifierDatabase.getStringModifier(type, name, strMod));
   }
 
@@ -10308,7 +10302,7 @@ public abstract class RuntimeLibrary {
       ScriptRuntime controller, final Value arg, final Value modifier) {
     ModifierType type = RuntimeLibrary.getModifierType(arg);
     String name = RuntimeLibrary.getModifierName(arg);
-    var strMod = getAnyStringModifier(controller, modifier);
+    var strMod = getStringModifier(controller, modifier);
     return new Value(
         DataTypes.parseEffectValue(ModifierDatabase.getStringModifier(type, name, strMod), true));
   }
@@ -10335,7 +10329,7 @@ public abstract class RuntimeLibrary {
       ScriptRuntime controller, final Value arg, final Value modifier) {
     ModifierType type = RuntimeLibrary.getModifierType(arg);
     String name = RuntimeLibrary.getModifierName(arg);
-    StringModifier strMod = getStringModifier(controller, modifier);
+    var strMod = getStringModifier(controller, modifier);
     return new Value(
         DataTypes.parseClassValue(ModifierDatabase.getStringModifier(type, name, strMod), true));
   }
@@ -10344,7 +10338,7 @@ public abstract class RuntimeLibrary {
       ScriptRuntime controller, final Value arg, final Value modifier) {
     ModifierType type = RuntimeLibrary.getModifierType(arg);
     String name = RuntimeLibrary.getModifierName(arg);
-    StringModifier strMod = getStringModifier(controller, modifier);
+    var strMod = getStringModifier(controller, modifier);
     return new Value(
         DataTypes.parseSkillValue(ModifierDatabase.getStringModifier(type, name, strMod), true));
   }
@@ -10371,7 +10365,7 @@ public abstract class RuntimeLibrary {
       ScriptRuntime controller, final Value arg, final Value modifier) {
     ModifierType type = RuntimeLibrary.getModifierType(arg);
     String name = RuntimeLibrary.getModifierName(arg);
-    StringModifier strMod = getStringModifier(controller, modifier);
+    var strMod = getStringModifier(controller, modifier);
     return new Value(
         DataTypes.parseStatValue(ModifierDatabase.getStringModifier(type, name, strMod), true));
   }
@@ -10380,7 +10374,7 @@ public abstract class RuntimeLibrary {
       ScriptRuntime controller, final Value arg, final Value modifier) {
     ModifierType type = RuntimeLibrary.getModifierType(arg);
     String name = RuntimeLibrary.getModifierName(arg);
-    StringModifier strMod = getStringModifier(controller, modifier);
+    var strMod = getStringModifier(controller, modifier);
     return new Value(
         DataTypes.parseMonsterValue(ModifierDatabase.getStringModifier(type, name, strMod), true));
   }

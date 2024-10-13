@@ -33,6 +33,7 @@ import net.sourceforge.kolmafia.modifiers.DerivedModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.Lookup;
 import net.sourceforge.kolmafia.modifiers.Modifier;
+import net.sourceforge.kolmafia.modifiers.MultiStringModifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.moods.HPRestoreItemList;
 import net.sourceforge.kolmafia.moods.MPRestoreItemList;
@@ -2093,7 +2094,7 @@ public abstract class KoLCharacter {
     return KoLCharacter.currentModifiers.getBoolean(mod);
   }
 
-  public static final String currentStringModifier(final StringModifier mod) {
+  public static final String currentStringModifier(final Modifier mod) {
     return KoLCharacter.currentModifiers.getString(mod);
   }
 
