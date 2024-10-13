@@ -774,7 +774,7 @@ Item	Oscus's dumpster waders	Hot Resistance: +3, Spooky Resistance: +3, Class: "
 Item	Oscus's flypaper pants	Moxie Percent: +20, Damage Absorption: +50, Familiar Effect: "stench atk, 1xPotato"
 Item	pair of plants	Spooky Damage: +5, Stench Damage: +5, Hot Damage: +5, Cold Damage: +5, Sleaze Damage: +5, Meat Drop: +20, HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10
 Item	palm-frond capris	Moxie: +4, Maximum HP: +30, Maximum MP: +30, Familiar Effect: "1.5xGhuol, cap 35"
-Item	Pantaloons of Hatred	Adventures: +4, Reduce Enemy Defense: 10, Spell Damage Percent: +60, Familiar Effect: "hot atk, 2xVolley", Conditional Skill (Equipped): "Static Shock"
+Item	Pantaloons of Hatred	Adventures: +4, Reduce Enemy Defense: 10, Spell Damage Percent: +60, Familiar Effect: "hot atk, 2xVolley", Conditional Skill (Equipped): "[7156]Static Shock"
 Item	pantogram pants	Lasts Until Rollover
 Item	pants of the Slug Lord	Stench Resistance: +2, Familiar Effect: "stench atk, 3xPotato, cap 8"
 Item	Pantsgiving	Experience: +2, Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Item Drop: +15, Meat Drop: +30, Softcore Only, Bonus Resting HP: [5*F], Bonus Resting MP: [5*F], Familiar Effect: "1xPotato, cap 25", Drops Items, Variable, Conditional Skill (Equipped): "Talk About Politics", Conditional Skill (Equipped): "Pocket Crumbs", Conditional Skill (Equipped): "Air Dirty Laundry"
@@ -1048,7 +1048,7 @@ Item	Quartet of Flare Masters Jacket	PvP Fights: +2, Rollover Effect: "Eldritch 
 Item	Radio Free Jersey	Muscle: +10, Mysticality: +10, Moxie: +10, Spooky Resistance: +3, Stench Resistance: +3, Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3
 Item	red coat	Ranged Damage: +25, Initiative: -25
 Item	red shirt	Monster Level: +20, Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50
-Item	red-and-green sweater	Conditional Skill (Equipped): "Static Shock"
+Item	red-and-green sweater	Conditional Skill (Equipped): "[7094]Static Shock"
 Item	reflective vest	Combat Rate: +10
 Item	replica Jurassic Parka	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Spooky Resistance: 1, Stench Resistance: 1, Hot Resistance: 1, Cold Resistance: 1, Sleaze Resistance: 1
 Item	rhinestone cowboy shirt	Muscle: +5
@@ -2153,7 +2153,7 @@ Item	box	Meat Drop: +1, Wiki Name: "box"
 Item	box turtle	Muscle: +1, Damage Reduction: 3
 Item	box-in-the-box	Meat Drop: +2
 Item	box-in-the-box-in-the-box	Meat Drop: +3
-Item	Brand of Violence	Moxie Percent: +20, Critical Hit Percent: +5, Weapon Damage Percent: +30, Conditional Skill (Equipped): "Brand
+Item	Brand of Violence	Moxie Percent: +20, Critical Hit Percent: +5, Weapon Damage Percent: +30, Conditional Skill (Equipped): "Brand"
 Item	brass dorsal fin	Weapon Damage Percent: +20, Damage Reduction: 13
 Item	bread basket	Food Drop: +20
 Item	BRICKO bulwark	Maximum HP: +6, Damage Reduction: 3
@@ -4131,7 +4131,7 @@ Item	anniversary pewter cape	Muscle: +1, Mysticality: +1, Moxie: +1
 Item	antique nutcracker cape	Spell Damage Percent: +30, Mysticality Percent: +15
 Item	auxiliary backbone	PvP Fights: +3
 Item	awkward dinosaur research harness	Muscle Percent: -30, Mysticality Percent: -30, Moxie Percent: -30, Monster Level: +10, Initiative: -100
-Item	B. L. A. R. T.	Hot Resistance: +3, Conditional Skill (Equipped): B". L. A. R. T. Spray (narrow)", Conditional Skill (Equipped): B". L. A. R. T. Spray (medium)", Conditional Skill (Equipped): B". L. A. R. T. Spray (wide)"
+Item	B. L. A. R. T.	Hot Resistance: +3, Conditional Skill (Equipped): "B. L. A. R. T. Spray (narrow)", Conditional Skill (Equipped): "B. L. A. R. T. Spray (medium)", Conditional Skill (Equipped): "B. L. A. R. T. Spray (wide)"
 Item	back shell	Damage Absorption: +200, Damage Reduction: 20
 # bakelite backpack: Makes Accordion Bash knock loose some Meat
 Item	bakelite backpack	Monster Level: +10, Candy Drop: +20
@@ -10153,7 +10153,7 @@ Item	funky dried mushroom	Effect: "Seeing Colors", Effect Duration: 10
 Item	funny bone	Effect: "Angry Bone", Effect Duration: 30
 Item	fustulent seal grulch	Effect: "Grulched", Effect Duration: 10
 Item	future drug: Coolscaline	Effect: "The Style... of the Future", Effect Duration: 25
-Item	future drug: Muscularactum	Effect: "The Strength...  of the Future", Effect Duration: 25
+Item	future drug: Muscularactum	Effect: "The Strength... of the Future", Effect Duration: 25
 Item	future drug: Smartinex	Effect: "The Wisdom... of the Future", Effect Duration: 25
 Item	Gabarbar	Effect: "Gabarding", Effect Duration: 25
 Item	gaffer's tape	Effect: "Gaffe Free", Effect Duration: 20
