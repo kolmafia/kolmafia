@@ -103,8 +103,14 @@ public abstract class EncounterManager {
     resetEncounters();
   }
 
-  private static void resetEncounters() {
+  /**
+   * Reset encounter database from encounters.txt
+   *
+   * @return Whether the reset was fully successful
+   */
+  public static boolean resetEncounters() {
     ArrayList<Encounter> encounters = new ArrayList<>();
+    boolean success = true;
 
     try (BufferedReader reader =
         FileUtilities.getVersionedReader("encounters.txt", KoLConstants.ENCOUNTERS_VERSION)) {
@@ -113,6 +119,7 @@ public abstract class EncounterManager {
       while ((data = FileUtilities.readData(reader)) != null) {
         if (!data[0].equals("*") && !AdventureDatabase.validateAdventureArea(data[0])) {
           RequestLogger.printLine("Invalid adventure area: \"" + data[0] + "\"");
+          success = false;
           continue;
         }
 
@@ -120,9 +127,11 @@ public abstract class EncounterManager {
       }
     } catch (IOException e) {
       StaticEntity.printStackTrace(e);
+      success = false;
     }
 
     specialEncounters = encounters.toArray(new Encounter[encounters.size()]);
+    return success;
   }
 
   /** Utility method used to register a given adventure in the running adventure summary. */

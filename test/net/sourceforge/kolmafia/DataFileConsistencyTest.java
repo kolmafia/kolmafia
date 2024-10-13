@@ -569,4 +569,21 @@ public class DataFileConsistencyTest {
       assertThat(Preferences.containsDefault(pref), is(adventure.getForceNoncombat() > 0));
     }
   }
+
+  @Test
+  public void everyEncounterIsInAZone() {
+    try (BufferedReader reader =
+        FileUtilities.getVersionedReader("encounters.txt", KoLConstants.ENCOUNTERS_VERSION)) {
+      String[] data;
+
+      while ((data = FileUtilities.readData(reader)) != null) {
+        assertThat(
+            "Couldn't validate zone " + data[0] + " for encounter " + data[2] + ".",
+            data[0].equals("*") || AdventureDatabase.validateAdventureArea(data[0]),
+            is(true));
+      }
+    } catch (IOException e) {
+      fail("Couldn't read from encounters.txt");
+    }
+  }
 }
