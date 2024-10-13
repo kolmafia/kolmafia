@@ -1,7 +1,6 @@
 package net.sourceforge.kolmafia.textui.javascript;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -9,7 +8,6 @@ import java.util.TreeMap;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.DataTypes.TypeSpec;
-import net.sourceforge.kolmafia.textui.ScriptException;
 import net.sourceforge.kolmafia.textui.parsetree.AggregateType;
 import net.sourceforge.kolmafia.textui.parsetree.ArrayValue;
 import net.sourceforge.kolmafia.textui.parsetree.MapValue;
@@ -17,79 +15,22 @@ import net.sourceforge.kolmafia.textui.parsetree.PluralValue;
 import net.sourceforge.kolmafia.textui.parsetree.RecordValue;
 import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
-import org.mozilla.javascript.ConsString;
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.EvaluatorException;
-import org.mozilla.javascript.NativeArray;
-import org.mozilla.javascript.NativeObject;
-import org.mozilla.javascript.Scriptable;
-import org.mozilla.javascript.ScriptableObject;
-import org.mozilla.javascript.Undefined;
 
-public class ValueConverter {
-  /* This is the closest thing that we have to undefined in our Value type system. Since javascript
-   * void functions return undefined, and we currently don't support undefined values as parameters,
-   * this is good enough for now.
-   */
-  private static final Type UNDEFINED_TYPE = new Type("undefined", TypeSpec.VOID);
-  private static final Value UNDEFINED =
-      new Value(UNDEFINED_TYPE) {
-        @Override
-        public String toString() {
-          return "undefined";
-        }
-      };
-
-  private final Context cx;
-  private final Scriptable scope;
-
-  public ValueConverter(Context cx, Scriptable scope) {
-    this.cx = cx;
-    this.scope = scope;
-  }
-
-  private Scriptable asObject(MapValue mapValue) {
-    Scriptable result = cx.newObject(scope);
-    for (Value key : mapValue.keys()) {
-      Value value = mapValue.aref(key);
-      if (key.getType().equals(DataTypes.STRING_TYPE)
-          || DataTypes.enumeratedTypes.contains(key.getType()) && key.contentString.length() > 0) {
-        ScriptableObject.putProperty(result, key.contentString, asJava(value));
-      } else if (key.getType().equals(DataTypes.INT_TYPE)
-          || DataTypes.enumeratedTypes.contains(key.getType()) && key.contentLong > 0) {
-        ScriptableObject.putProperty(result, (int) key.contentLong, asJava(value));
-      } else {
-        throw new ScriptException(
-            "Maps may only have keys of type string, int or an enumerated type.");
-      }
+public abstract class ValueConverter<ObjectType> {
+  public static class ValueConverterException extends RuntimeException {
+    public ValueConverterException(String message) {
+      super(message);
     }
-    return result;
   }
 
-  private Scriptable asObject(RecordValue recordValue) {
-    Scriptable result = cx.newObject(scope);
-    for (Value key : recordValue.keys()) {
-      Value value = recordValue.aref(key);
-      String keyString = key.contentString;
-      if (key.getType().equals(DataTypes.INT_TYPE)) {
-        keyString = Long.toString(key.contentLong);
-      } else if (!key.getType().equals(DataTypes.STRING_TYPE)) {
-        throw new ScriptException("Maps may only have string keys.");
-      }
-      ScriptableObject.putProperty(result, keyString, asJava(value));
-    }
-    return result;
-  }
+  protected abstract ObjectType asJavaObject(MapValue mapValue) throws ValueConverterException;
 
-  private Scriptable asNativeArray(ArrayValue arrayValue) {
-    return cx.newArray(
-        scope, Arrays.stream((Value[]) arrayValue.content).map(this::asJava).toArray());
-  }
+  protected abstract ObjectType asJavaObject(RecordValue recordValue)
+      throws ValueConverterException;
 
-  private Scriptable asNativeArray(PluralValue arrayValue) {
-    return cx.newArray(
-        scope, Arrays.stream((Value[]) arrayValue.content).map(this::asJava).toArray());
-  }
+  protected abstract ObjectType asJavaArray(ArrayValue arrayValue) throws ValueConverterException;
+
+  protected abstract ObjectType asJavaArray(PluralValue arrayValue) throws ValueConverterException;
 
   public Object asJava(Value value) {
     if (value == null) return null;
@@ -110,18 +51,18 @@ public class ValueConverter {
       // This should not happen.
       return null;
     } else if (value instanceof MapValue) {
-      return asObject((MapValue) value);
+      return asJavaObject((MapValue) value);
     } else if (value instanceof ArrayValue) {
-      return asNativeArray((ArrayValue) value);
-    } else if (DataTypes.enumeratedTypes.contains(value.getType())) {
-      return EnumeratedWrapper.wrap(scope, value.asProxy().getClass(), value);
+      return asJavaArray((ArrayValue) value);
     } else if (value instanceof RecordValue) {
-      return asObject((RecordValue) value);
+      return asJavaObject((RecordValue) value);
     } else if (value instanceof PluralValue) {
-      return asNativeArray((PluralValue) value);
+      return asJavaArray((PluralValue) value);
+    } else if (value.asProxy() instanceof RecordValue proxyValue) {
+      return asJavaObject(proxyValue);
     } else {
       // record type, ...?
-      return value;
+      throw new ValueConverterException("Unrecognized Value of type " + value.getType().toString());
     }
   }
 
@@ -140,8 +81,8 @@ public class ValueConverter {
     }
   }
 
-  private MapValue convertNativeObject(NativeObject nativeObject, Type typeHint) {
-    if (nativeObject.size() == 0) {
+  private MapValue convertJavaMap(Map<?, ?> javaMap, Type typeHint) {
+    if (javaMap.size() == 0) {
       if (typeHint instanceof AggregateType aggregateTypeHint && aggregateTypeHint.getSize() < 0) {
         return new MapValue(
             new AggregateType(aggregateTypeHint.getDataType(), aggregateTypeHint.getIndexType()));
@@ -152,7 +93,8 @@ public class ValueConverter {
 
     Type dataType = null;
     Type indexType = null;
-    for (Entry<?, ?> entry : nativeObject.entrySet()) {
+    for (Object entryObject : javaMap.entrySet()) {
+      var entry = (Entry<?, ?>) entryObject;
       Value key = fromJava(entry.getKey());
       Value value = fromJava(entry.getValue());
 
@@ -172,17 +114,18 @@ public class ValueConverter {
     }
 
     Map<Value, Value> underlyingMap = new TreeMap<>();
-    for (Entry<?, ?> entry : nativeObject.entrySet()) {
+    for (Object entryObject : javaMap.entrySet()) {
+      var entry = (Entry<?, ?>) entryObject;
       Value key = fromJava(entry.getKey());
       Value value = fromJava(entry.getValue());
       if (key == null) {
         // This will likely never execute, since if your key is `null`, then it
         // will turn into the string "null".
-        throw new EvaluatorException(
+        throw new ValueConverterException(
             "Null / undefined keys in JS objects cannot be converted to ASH.");
       }
       if (value == null) {
-        throw new EvaluatorException(
+        throw new ValueConverterException(
             "Null / undefined values in JS objects cannot be converted to ASH.");
       }
       Value keyCoerced = coerce(key, indexType);
@@ -193,8 +136,8 @@ public class ValueConverter {
     return new MapValue(new AggregateType(dataType, indexType), underlyingMap);
   }
 
-  private ArrayValue convertNativeArray(NativeArray nativeArray, Type typeHint) {
-    if (nativeArray.size() == 0) {
+  private ArrayValue convertJavaArray(List<?> javaArray, Type typeHint) {
+    if (javaArray.size() == 0) {
       if (typeHint instanceof AggregateType aggregateTypeHint && aggregateTypeHint.getSize() >= 0) {
         return new ArrayValue(new AggregateType(aggregateTypeHint.getDataType(), 0));
       } else {
@@ -202,18 +145,18 @@ public class ValueConverter {
       }
     }
 
-    Value firstElement = fromJava(nativeArray.get(0));
+    Value firstElement = fromJava(javaArray.get(0));
     Type elementType = firstElement == null ? DataTypes.ANY_TYPE : firstElement.getType();
     List<Value> result = new ArrayList<>();
-    for (Object element : nativeArray) {
+    for (Object element : javaArray) {
       if (element == null) {
-        throw new EvaluatorException(
+        throw new ValueConverterException(
             "Null / undefined values in JS arrays cannot be converted to ASH.");
       }
 
       result.add(fromJava(element));
     }
-    return new ArrayValue(new AggregateType(elementType, nativeArray.size()), result);
+    return new ArrayValue(new AggregateType(elementType, javaArray.size()), result);
   }
 
   public Value fromJava(Object object, Type typeHint) {
@@ -226,11 +169,11 @@ public class ValueConverter {
         || object instanceof Long
         || object instanceof Double d && JavascriptNumbers.isDoubleSafeInteger(d)) {
       return DataTypes.makeIntValue(((Number) object).longValue());
-    } else if (object instanceof Float || object instanceof Double) {
+    } else if (object instanceof Number) {
       return DataTypes.makeFloatValue(((Number) object).doubleValue());
     } else if (object instanceof String) {
       return DataTypes.makeStringValue((String) object);
-    } else if (object instanceof StringBuffer || object instanceof ConsString) {
+    } else if (object instanceof StringBuffer) {
       return DataTypes.makeStringValue(object.toString());
     } else if (object instanceof MonsterData) {
       return DataTypes.makeMonsterValue((MonsterData) object);
@@ -238,14 +181,12 @@ public class ValueConverter {
       return ((EnumeratedWrapper) object).getWrapped();
     } else if (object instanceof AshStub) {
       return DataTypes.makeStringValue("[function " + ((AshStub) object).getFunctionName() + "]");
-    } else if (object instanceof NativeObject) {
-      return convertNativeObject((NativeObject) object, typeHint);
-    } else if (object instanceof NativeArray) {
-      return convertNativeArray((NativeArray) object, typeHint);
+    } else if (object instanceof Map) {
+      return convertJavaMap((Map<?, ?>) object, typeHint);
+    } else if (object instanceof List) {
+      return convertJavaArray((List<?>) object, typeHint);
     } else if (object instanceof Value) {
       return (Value) object;
-    } else if (Undefined.isUndefined(object)) {
-      return UNDEFINED;
     } else {
       return DataTypes.makeStringValue(object.toString());
     }

@@ -379,7 +379,11 @@ public class DataTypes {
   }
 
   public static final Value makeLocationValue(final KoLAdventure adventure) {
-    return new Value(DataTypes.LOCATION_TYPE, adventure.getAdventureName(), adventure);
+    return new Value(
+        DataTypes.LOCATION_TYPE,
+        adventure.getAdventureNumber(),
+        adventure.getAdventureName(),
+        adventure);
   }
 
   public static final Value parseClassValue(final String name, final boolean returnDefault) {
@@ -853,7 +857,9 @@ public class DataTypes {
   }
 
   public static final Value makeClassValue(final int id, boolean returnDefault) {
-    return makeClassValue(AscensionClass.find(id), returnDefault);
+    AscensionClass ascensionClass = AscensionClass.find(id);
+    return makeClassValue(
+        ascensionClass.equals(AscensionClass.UNKNOWN) ? null : ascensionClass, returnDefault);
   }
 
   private static Value makeNormalizedSkill(final int num, String name) {

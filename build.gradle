@@ -90,6 +90,7 @@ dependencies {
 	implementation 'org.slf4j:slf4j-nop:2.0.16'
 	implementation 'org.fusesource.jansi:jansi:2.4.1'
 	implementation 'org.json:json:20240303'
+	implementation 'com.alibaba.fastjson2:fastjson2:2.0.53'
 	implementation 'org.mozilla:rhino:1.7.15'
 	implementation 'org.swinglabs:swingx:1.0'
 	implementation 'org.tmatesoft.svnkit:svnkit:1.10.11'

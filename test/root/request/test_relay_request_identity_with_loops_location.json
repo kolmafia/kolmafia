@@ -1,0 +1,34 @@
+{
+  "functions": [
+    {
+      "id": 388,
+      "nocombats": false,
+      "combatPercent": 100.0,
+      "zone": "Manor1",
+      "parent": "Manor",
+      "parentdesc": "Spookyraven Manor",
+      "root": "Town",
+      "difficultyLevel": "mid",
+      "environment": "indoor",
+      "fireLevel": 0,
+      "bounty": {
+        "objectType": "Bounty",
+        "identifierString": "paper towel"
+      },
+      "combatQueue": "",
+      "noncombatQueue": "",
+      "turnsSpent": 5,
+      "lastNoncombatTurnsSpent": -1,
+      "forceNoncombat": -1,
+      "kisses": 0,
+      "recommendedStat": 20,
+      "poison": 2147483647,
+      "waterLevel": 0,
+      "wanderers": true,
+      "pledgeAllegiance": "Initiative: 100, Cold Damage: 10, Cold Spell Damage: 10, Mysticality: 10",
+      "objectType": "Location",
+      "identifierString": "Manor1: The Haunted Kitchen",
+      "identifierNumber": 388
+    }
+  ]
+}
