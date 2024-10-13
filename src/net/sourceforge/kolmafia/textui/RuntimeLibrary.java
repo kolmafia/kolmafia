@@ -10216,14 +10216,14 @@ public abstract class RuntimeLibrary {
     Type type = modifier.getType();
     if (type.equals(DataTypes.MODIFIER_TYPE)) {
       Modifier content = (Modifier) modifier.content;
-        switch (content.getType()) {
-            case STRING -> {
-                return (StringModifier) content;
-            }
-            case MULTISTRING -> {
-                return (MultiStringModifier) content;
-            }
+      switch (content.getType()) {
+        case STRING -> {
+          return (StringModifier) content;
         }
+        case MULTISTRING -> {
+          return (MultiStringModifier) content;
+        }
+      }
       throw controller.runtimeException("string modifier required");
     }
     String mod = modifier.toString();
