@@ -265,9 +265,11 @@ public class RelayRequestTest {
         strings = {
           """
       {
-        "objectType": "Class",
+        "a": "b"
       }
-      """,
+            """,
+          "\"a\"",
+          "2",
           """
       {
         "identifierString": "Seal Clubber"
@@ -286,7 +288,7 @@ public class RelayRequestTest {
       }
       """
         })
-    public void ignoresPartialIdentity(String json) {
+    public void ignoresPartialIdentityOrOtherObject(String json) {
       var rr =
           this.makeApiRequest(
               """
@@ -302,8 +304,50 @@ public class RelayRequestTest {
     }
 
     @ParameterizedTest
+    @ValueSource(
+        strings = {
+          """
+    {
+      "objectType": "Class",
+      "identifierString": "xxxxxxx"
+    }
+    """,
+          """
+  {
+    "objectType": "Class",
+    "identifierString": null
+  }
+  """,
+          """
+  {
+    "objectType": "Class",
+    "identifierNumber": 9999999
+  }
+  """,
+          """
+    {
+      "objectType": "Class"
+    }
+    """
+        })
+    public void errorsOnInvalidIdentifiedObject(String json) {
+      var rr =
+          this.makeApiRequest(
+              """
+{ "functions": [{ "name": "identity", "args": [%s] }] }
+""".formatted(json));
+
+      JSONObject expected = new JSONObject();
+      expected.put(
+          "error", "Invalid arguments to identity: [" + JSON.toJSONString(JSON.parse(json)) + "]");
+      assertThat(rr.statusLine, is("HTTP/1.1 400 Bad Request"));
+      assertThat(rr.responseCode, is(400));
+      assertThat(JSON.parse(rr.responseText), is(expected));
+    }
+
+    @ParameterizedTest
     @CsvSource({
-      "Item,,test_relay_request_identity_item_none.json",
+      "Item,none,test_relay_request_identity_item_none.json",
       "Location,The Haunted Kitchen,test_relay_request_identity_with_loops_location.json",
       "Item,backup camera,test_relay_request_identity_with_loops_item.json"
     })
@@ -325,6 +369,26 @@ public class RelayRequestTest {
         assertThat(rr.responseCode, is(200));
         assertThat(JSON.parse(rr.responseText), is(expected));
       }
+    }
+
+    @Test
+    public void handlesPOJOResult() {
+      var rr =
+          this.makeApiRequest(
+              """
+        { "functions": [{ "name": "itemDrops", "args": [{
+          "objectType": "Monster",
+          "identifierString": "Astronomer"
+        }] }] }
+        """);
+
+      JSONObject expected =
+          JSON.parseObject("""
+       { "functions": [{ "star chart": 100.0 }] }
+        """);
+      assertThat(rr.statusLine, is("HTTP/1.1 200 OK"));
+      assertThat(rr.responseCode, is(200));
+      assertThat(JSON.parse(rr.responseText), is(expected));
     }
 
     @ParameterizedTest

@@ -3544,13 +3544,15 @@ public class RelayRequest extends PasswordHashRequest {
         var identifierStringObject = obj.get("identifierString");
         var identifierNumberObject = obj.get("identifierNumber");
         if (identifierNumberObject instanceof Integer identifierNumber) {
-          return dataType.makeValue(identifierNumber, true);
+          return dataType.makeValue(identifierNumber, false);
         } else if (identifierStringObject instanceof String identifierString) {
-          return dataType.parseValue(identifierString, true);
+          return dataType.parseValue(identifierString, false);
         }
+        return null;
       }
 
-      return JSONValueConverter.fromJSON(obj);
+      // Unable to find enumerated object.
+      return JSONValueConverter.fromJSON(thing);
     } else return JSONValueConverter.fromJSON(thing);
   }
 
@@ -3656,7 +3658,7 @@ public class RelayRequest extends PasswordHashRequest {
               "Invalid arguments to "
                   + name
                   + ": "
-                  + JSON.toJSONString(Arrays.stream(badIndices).mapToObj(args::get)));
+                  + JSON.toJSONString(Arrays.stream(badIndices).mapToObj(args::get).toList()));
           return;
         }
 

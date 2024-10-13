@@ -857,7 +857,9 @@ public class DataTypes {
   }
 
   public static final Value makeClassValue(final int id, boolean returnDefault) {
-    return makeClassValue(AscensionClass.find(id), returnDefault);
+    AscensionClass ascensionClass = AscensionClass.find(id);
+    return makeClassValue(
+        ascensionClass.equals(AscensionClass.UNKNOWN) ? null : ascensionClass, returnDefault);
   }
 
   private static Value makeNormalizedSkill(final int num, String name) {
