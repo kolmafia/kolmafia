@@ -372,6 +372,25 @@ public class RelayRequestTest {
     }
 
     @Test
+    public void handlesPOJOArgument() {
+      var rr =
+          this.makeApiRequest(
+              """
+    { "functions": [{ "name": "count", "args": [{
+      "a": "z",
+      "b": 2
+    }] }] }
+    """);
+
+      JSONObject expected = JSON.parseObject("""
+       { "functions": [2] }
+        """);
+      assertThat(rr.statusLine, is("HTTP/1.1 200 OK"));
+      assertThat(rr.responseCode, is(200));
+      assertThat(JSON.parse(rr.responseText), is(expected));
+    }
+
+    @Test
     public void handlesPOJOResult() {
       var rr =
           this.makeApiRequest(
