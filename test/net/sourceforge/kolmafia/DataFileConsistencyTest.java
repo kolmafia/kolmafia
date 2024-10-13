@@ -352,8 +352,8 @@ public class DataFileConsistencyTest {
             }
             case "Outfit" -> {
               var outfit =
-                EquipmentDatabase.normalOutfits.values().stream()
-                  .anyMatch(x -> x.getName().equals(name));
+                  EquipmentDatabase.normalOutfits.values().stream()
+                      .anyMatch(x -> x.getName().equals(name));
               if (!outfit) {
                 fail("unrecognised outfit " + name);
               }
@@ -413,26 +413,26 @@ public class DataFileConsistencyTest {
               }
             }
             case "Motorbike",
-              "Snowsuit",
-              "Edpiece",
-              "Rumpus",
-              "Event",
-              "MaxCat",
-              "Horsery",
-              "BoomBox",
-              "RetroCape",
-              "BackupCamera",
-              "UnbreakableUmbrella",
-              "JurassicParka",
-              "LedCandle",
-              "Mask",
-              "Ensorcel",
-              "Robot",
-              "RobotTop",
-              "RobotRight",
-              "RobotBottom",
-              "RobotLeft",
-              "RobotCPU" -> {
+                "Snowsuit",
+                "Edpiece",
+                "Rumpus",
+                "Event",
+                "MaxCat",
+                "Horsery",
+                "BoomBox",
+                "RetroCape",
+                "BackupCamera",
+                "UnbreakableUmbrella",
+                "JurassicParka",
+                "LedCandle",
+                "Mask",
+                "Ensorcel",
+                "Robot",
+                "RobotTop",
+                "RobotRight",
+                "RobotBottom",
+                "RobotLeft",
+                "RobotCPU" -> {
               // all fine
             }
             default -> fail("unrecognised identifier " + identifier);
@@ -454,8 +454,9 @@ public class DataFileConsistencyTest {
           var mods = ModifierDatabase.splitModifiers(modifierString);
           for (var mod : mods) {
             var val = mod.getValue();
-            if (val != null && val.startsWith("\"") && val.endsWith("\"")) val = val.substring(1, val.length() - 1);
-            switch(mod.getName()) {
+            if (val != null && val.startsWith("\"") && val.endsWith("\""))
+              val = val.substring(1, val.length() - 1);
+            switch (mod.getName()) {
               case "Effect", "Rollover Effect" -> {
                 var effect = EffectDatabase.getEffectId(val, true);
                 if (effect < 0) {
