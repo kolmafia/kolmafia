@@ -50,7 +50,10 @@ public class JSONValueConverter extends ValueConverter<Object> {
       result.put("objectType", typeNameCaps);
       result.put(
           "identifierString",
-          source.content == null ? source.contentString : source.content.toString());
+          source.contentString != null && !source.contentString.isEmpty()
+              ? source.contentString
+              : source.content.toString());
+
       if (underlyingType.isIntLike()) {
         result.put("identifierNumber", source.contentLong);
       }

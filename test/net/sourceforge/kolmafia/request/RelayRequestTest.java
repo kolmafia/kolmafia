@@ -9,6 +9,7 @@ import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withTurnsPlayed;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -455,6 +456,70 @@ public class RelayRequestTest {
         assertThat(rr.statusLine, is("HTTP/1.1 200 OK"));
         assertThat(rr.responseCode, is(200));
         assertThat(JSON.parse(rr.responseText), is(expected));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "Bounty,bean-shaped rock,",
+      "Class,Seal Clubber,1",
+      "Coinmaster,The Black Market,",
+      "Effect,Confused,3",
+      "Element,cold,",
+      "Familiar,Mosquito,1",
+      "Item,seal-clubbing club,1",
+      "Location,The Sleazy Back Alley,112",
+      "Modifier,Item Drop,",
+      "Monster,spooky vampire,1",
+      "Path,Standard,22",
+      "Phylum,construct,",
+      "Servant,Assassin,",
+      "Skill,Liver of Steel,1",
+      "Slot,hat,",
+      "Stat,Muscle,",
+      "Thrall,Lasagmbie,",
+      "Vykea,level 1 couch,",
+    })
+    public void identityReturnsSameIdentifier(
+        String type, String identifierString, String identifierNumberString) {
+      var rr =
+          this.makeApiRequest(
+              """
+        { "functions": [{ "name": "identity", "args": [{
+          "objectType": "%s",
+          "identifierString": "%s"
+        }] }] }
+        """
+                  .formatted(type, identifierString));
+      assertThat(rr.statusLine, is("HTTP/1.1 200 OK"));
+      assertThat(rr.responseCode, is(200));
+      JSONObject allResults = JSON.parseObject(rr.responseText);
+      assertThat(allResults.get("error"), nullValue());
+      JSONObject result = allResults.getJSONArray("functions").getJSONObject(0);
+      assertThat(result.get("objectType"), is(type));
+      assertThat(result.get("identifierString"), is(identifierString));
+
+      if (identifierNumberString != null) {
+        int identifierNumber = Integer.parseInt(identifierNumberString);
+        assertThat(result.get("identifierNumber"), is(identifierNumber));
+
+        rr =
+            this.makeApiRequest(
+                """
+          { "functions": [{ "name": "identity", "args": [{
+            "objectType": "%s",
+            "identifierNumber": %d
+          }] }] }
+          """
+                    .formatted(type, identifierNumber));
+        assertThat(rr.statusLine, is("HTTP/1.1 200 OK"));
+        assertThat(rr.responseCode, is(200));
+        allResults = JSON.parseObject(rr.responseText);
+        assertThat(allResults.get("error"), nullValue());
+        result = allResults.getJSONArray("functions").getJSONObject(0);
+        assertThat(result.get("objectType"), is(type));
+        assertThat(result.get("identifierString"), is(identifierString));
+        assertThat(result.get("identifierNumber"), is(identifierNumber));
       }
     }
 
