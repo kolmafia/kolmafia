@@ -278,6 +278,11 @@ tasks.withType(JavaCompile) {
 	options.encoding = 'UTF-8'
 }
 
+tasks.withType(Test) {
+	// Mockito requires dynamic loading for mock creation.
+	jvmArgs("-XX:+EnableDynamicAgentLoading")
+}
+
 task cleanJpackage(type: Delete) {
 	onlyIf {
 		file('build/releases').exists()
@@ -360,6 +365,13 @@ pruneDist.dependsOn getRevision
 // Note that pruneDist relies on getRevision.
 jar.dependsOn pruneDist
 shadowJar.dependsOn pruneDist
+
+startShadowScripts.dependsOn jar
+startScripts.dependsOn jar
+
+distTar.dependsOn shadowJar
+distZip.dependsOn shadowJar
+startScripts.dependsOn shadowJar
 
 jacocoTestReport.dependsOn test
 
