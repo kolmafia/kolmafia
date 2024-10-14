@@ -26,17 +26,21 @@ public class LibraryFunction extends Function {
 
     this.deprecationWarning = deprecationWarning;
 
-    this.method = findLibraryMethod(name, variableReferences.size());
+    this.method = findLibraryMethodOrError(name, variableReferences.size());
   }
 
-  private static Method findLibraryMethod(String name, int paramCount) {
+  public static Method findLibraryMethod(String name, int paramCount) throws NoSuchMethodException {
+    Class<?>[] args = new Class[paramCount + 1];
+
+    args[0] = ScriptRuntime.class;
+    Arrays.fill(args, 1, args.length, Value.class);
+
+    return RuntimeLibrary.findMethod(name, args);
+  }
+
+  private static Method findLibraryMethodOrError(String name, int paramCount) {
     try {
-      Class<?>[] args = new Class[paramCount + 1];
-
-      args[0] = ScriptRuntime.class;
-      Arrays.fill(args, 1, args.length, Value.class);
-
-      return RuntimeLibrary.findMethod(name, args);
+      return LibraryFunction.findLibraryMethod(name, paramCount);
     } catch (Exception e) {
       // This should not happen; it denotes a coding
       // error that must be fixed before release.

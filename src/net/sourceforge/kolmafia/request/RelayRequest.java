@@ -1,11 +1,16 @@
 package net.sourceforge.kolmafia.request;
 
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONArray;
+import com.alibaba.fastjson2.JSONException;
+import com.alibaba.fastjson2.JSONObject;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
@@ -17,6 +22,8 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AreaCombatData;
@@ -77,6 +84,13 @@ import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.VoteMonsterManager;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
+import net.sourceforge.kolmafia.textui.DataTypes;
+import net.sourceforge.kolmafia.textui.RuntimeLibrary;
+import net.sourceforge.kolmafia.textui.javascript.JSONValueConverter;
+import net.sourceforge.kolmafia.textui.javascript.JavascriptRuntime;
+import net.sourceforge.kolmafia.textui.parsetree.LibraryFunction;
+import net.sourceforge.kolmafia.textui.parsetree.Type;
+import net.sourceforge.kolmafia.textui.parsetree.Value;
 import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.PauseObject;
@@ -84,7 +98,6 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.utilities.WikiUtilities;
 import net.sourceforge.kolmafia.webui.RelayServer;
 import net.sourceforge.kolmafia.webui.StationaryButtonDecorator;
-import org.json.JSONObject;
 
 public class RelayRequest extends PasswordHashRequest {
   private final PauseObject pauser = new PauseObject();
@@ -3457,6 +3470,8 @@ public class RelayRequest extends PasswordHashRequest {
         // specifically support it - we have no page to display.
         this.pseudoResponse("HTTP/1.1 200 OK", "<html><body>Automation complete.</body></html>)");
       }
+    } else if (path.endsWith("jsonApi")) {
+      this.handleJsonApi(this.getFormField("body"));
     } else if (path.endsWith("logout")) {
       submitCommand("logout");
       this.pseudoResponse("HTTP/1.1 302 Found", "/loggedout.php");
@@ -3498,6 +3513,193 @@ public class RelayRequest extends PasswordHashRequest {
     this.contentType = "text/html";
     this.pseudoResponse("HTTP/1.1 200 OK", buffer);
     return true;
+  }
+
+  private void jsonError(String message) {
+    this.statusLine = "HTTP/1.1 400 Bad Request";
+    this.contentType = "application/json";
+    this.responseCode = 400;
+    this.responseText = JSON.toJSONString(Map.of("error", message));
+  }
+
+  private String underscoreName(String name) {
+    return name.replaceAll("[A-Z]", "_$0").toLowerCase();
+  }
+
+  // All existing JS type names follow this pattern
+  private boolean isJavascriptTypeNameFormat(String name) {
+    var nameUpper = name.toUpperCase();
+    var nameLower = name.toLowerCase();
+    return nameUpper.substring(0, 1).equals(name.substring(0, 1))
+        && nameLower.substring(1).equals(name.substring(1));
+  }
+
+  private Value transformApiArgument(Object thing) {
+    if (thing instanceof JSONObject obj) {
+      var objectTypeObject = obj.get("objectType");
+      Type dataType;
+      if (objectTypeObject instanceof String objectType
+          && isJavascriptTypeNameFormat(objectType)
+          && ((dataType = DataTypes.enumeratedTypes.find(objectType.toLowerCase())) != null)) {
+        var identifierStringObject = obj.get("identifierString");
+        var identifierNumberObject = obj.get("identifierNumber");
+        if (identifierNumberObject instanceof Integer identifierNumber) {
+          return dataType.makeValue(identifierNumber, false);
+        } else if (identifierStringObject instanceof String identifierString) {
+          return dataType.parseValue(identifierString, false);
+        }
+        return null;
+      }
+
+      // Unable to find enumerated object.
+      return JSONValueConverter.fromJSON(thing);
+    } else return JSONValueConverter.fromJSON(thing);
+  }
+
+  // Ensure output field names are in camelCase style.
+  private Object transformResult(Object thing) {
+    if (thing instanceof JSONObject obj) {
+      var objectTypeObject = obj.get("objectType");
+      if (objectTypeObject instanceof String objectType
+          && isJavascriptTypeNameFormat(objectType)
+          && DataTypes.enumeratedTypes.find(objectType.toLowerCase()) != null) {
+        var result = new JSONObject();
+        for (var entry : obj.entrySet()) {
+          result.put(
+              JavascriptRuntime.toCamelCase(entry.getKey()), transformResult(entry.getValue()));
+        }
+        return result;
+      }
+    }
+    return thing;
+  }
+
+  /**
+   * Handle JSON API request.
+   *
+   * <p>API is, as usual, x-www-urlencoded with pwd=[password hash] and body=[json object].
+   *
+   * <p>The JSON request object has the type { properties?: string[], functions?: { name: string,
+   * args: unknown[] }[] }. Names of functions are in JS style (camelCase).
+   *
+   * <p>The response will have type { error: string } or { properties?: string[], functions?:
+   * unknown[] }, with properties and functions each present if they were present on the request
+   * object.
+   *
+   * <p>Enumerated types (Item, Familiar, Modifier, etc.) can be passed in with either of the
+   * following placeholder formats: { objectType: EnumeratedTypeName, identifierString: string } | {
+   * objectType: EnumeratedTypeName, identifierNumber: number }. If both identifierString and
+   * identifierNumber are present, identifierNumber will be prioritized. Enumerated types will be
+   * returned as a POJO with all the fields of a JS enumerated type, except any second-level
+   * referenced objects will be left as placeholders. Objects will also have the placeholder fields
+   * (objectType, identifierString, identifierNumber if applicable) set.
+   *
+   * <p>Details for an enumerated type instance can be requested with the special "identity"
+   * function, which takes one placeholder argument.
+   *
+   * @param request Request body
+   */
+  private void handleJsonApi(String request) {
+    this.contentType = "application/json";
+    JSONObject json;
+    try {
+      json = JSON.parseObject(request);
+    } catch (JSONException e) {
+      jsonError("Invalid JSON object in request.");
+      return;
+    }
+
+    var result = new JSONObject();
+
+    var properties = json.get("properties");
+    if (properties instanceof JSONArray propertiesArray) {
+      var nonString = propertiesArray.stream().filter(name -> !(name instanceof String)).toList();
+      if (!nonString.isEmpty()) {
+        jsonError("Invalid property names " + JSON.toJSONString(nonString));
+        return;
+      }
+      // Now all elements must be strings.
+      result.put(
+          "properties",
+          propertiesArray.stream().map(name -> Preferences.getString((String) name)).toList());
+    }
+
+    var functions = json.get("functions");
+    if (functions instanceof JSONArray functionsArray) {
+      var nonMatching =
+          functionsArray.stream()
+              .filter(
+                  func -> {
+                    if (!(func instanceof JSONObject funcObject)) return true;
+                    var name = funcObject.get("name");
+                    var args = funcObject.get("args");
+                    if (!(name instanceof String) || !(args instanceof JSONArray)) return true;
+                    return ((JSONArray) args).contains(null);
+                  })
+              .toList();
+      if (!nonMatching.isEmpty()) {
+        jsonError("Invalid function calls " + JSON.toJSONString(nonMatching));
+        return;
+      }
+
+      // Everything validated. Transform all function arguments.
+      var functionsResult = new JSONArray(functionsArray.size());
+      for (var func : functionsArray) {
+        var funcObject = (JSONObject) func;
+        var name = (String) funcObject.get("name");
+        var args = (JSONArray) funcObject.get("args");
+        var transformedArguments = args.stream().map(this::transformApiArgument).toList();
+        var badIndices =
+            IntStream.range(0, transformedArguments.size())
+                .filter(i -> transformedArguments.get(i) == null)
+                .toArray();
+        if (badIndices.length > 0) {
+          jsonError(
+              "Invalid arguments to "
+                  + name
+                  + ": "
+                  + JSON.toJSONString(Arrays.stream(badIndices).mapToObj(args::get).toList()));
+          return;
+        }
+
+        if (name.equals("identity") && args.size() == 1) {
+          functionsResult.add(
+              transformResult(JSONValueConverter.asJSON(transformedArguments.get(0).asProxy())));
+          continue;
+        }
+
+        Object[] argsWithRuntime =
+            Stream.concat(Stream.of(new Object[] {null}), transformedArguments.stream()).toArray();
+
+        try {
+          var method = LibraryFunction.findLibraryMethod(underscoreName(name), args.size());
+          var returnValue = method.invoke(RuntimeLibrary.class, argsWithRuntime);
+
+          if (!(returnValue instanceof Value value)) {
+            jsonError("Function " + name + " returned something other than a value.");
+            return;
+          }
+
+          functionsResult.add(transformResult(JSONValueConverter.asJSON(value)));
+        } catch (NoSuchMethodException e) {
+          jsonError("Unable to find method " + name);
+          return;
+        } catch (Exception e) {
+          jsonError("Exception " + e.getClass().getName() + " on " + name + ": " + e.getMessage());
+          return;
+        }
+      }
+
+      result.put("functions", functionsResult);
+    }
+
+    this.statusLine = "HTTP/1.1 200 OK";
+    this.responseCode = 200;
+    try {
+      this.responseText = JSON.toJSONString(result);
+    } catch (JSONException e) {
+      jsonError("Failed to serialize result: " + e.getMessage());
+    }
   }
 
   private void submitCommand(String command) {
@@ -3650,7 +3852,7 @@ public class RelayRequest extends PasswordHashRequest {
         if (index != -1) {
           index += string.length();
           for (ChatMessage message : messages) {
-            JSONObject object = message.toJSON();
+            org.json.JSONObject object = message.toJSON();
             if (object != null) {
               string = object.toString();
               buffer.insert(index, string);
