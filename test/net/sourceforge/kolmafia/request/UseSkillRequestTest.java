@@ -458,7 +458,7 @@ class UseSkillRequestTest {
               withItem(ItemPool.AUGUST_SCEPTER),
               withProperty("_aug12Cast"),
               withProperty("_augSkillsCast"));
-      InventoryManager.addAugustScepterSkills();
+      InventoryManager.checkSkillGrantingEquipment(ItemPool.AUGUST_SCEPTER);
 
       try (cleanups) {
         var skill = UseSkillRequest.getInstance(SkillPool.AUG_12TH_ELEPHANT_DAY);
@@ -473,7 +473,7 @@ class UseSkillRequestTest {
               withItem(ItemPool.AUGUST_SCEPTER),
               withProperty("_aug12Cast", true),
               withProperty("_augSkillsCast"));
-      InventoryManager.addAugustScepterSkills();
+      InventoryManager.checkSkillGrantingEquipment(ItemPool.AUGUST_SCEPTER);
 
       try (cleanups) {
         var skill = UseSkillRequest.getInstance(SkillPool.AUG_12TH_ELEPHANT_DAY);
@@ -488,7 +488,7 @@ class UseSkillRequestTest {
               withItem(ItemPool.AUGUST_SCEPTER),
               withProperty("_aug12Cast"),
               withProperty("_augSkillsCast", 5));
-      InventoryManager.addAugustScepterSkills();
+      InventoryManager.checkSkillGrantingEquipment(ItemPool.AUGUST_SCEPTER);
 
       try (cleanups) {
         var skill = UseSkillRequest.getInstance(SkillPool.AUG_12TH_ELEPHANT_DAY);
@@ -505,7 +505,7 @@ class UseSkillRequestTest {
               withProperty("_augSkillsCast", 5),
               withInteractivity(false),
               withDay(2023, Month.AUGUST, 12));
-      InventoryManager.addAugustScepterSkills();
+      InventoryManager.checkSkillGrantingEquipment(ItemPool.AUGUST_SCEPTER);
 
       try (cleanups) {
         var skill = UseSkillRequest.getInstance(SkillPool.AUG_12TH_ELEPHANT_DAY);
@@ -523,7 +523,7 @@ class UseSkillRequestTest {
               withProperty("_augSkillsCast", 5),
               withInteractivity(true),
               withDay(2023, Month.AUGUST, 31));
-      InventoryManager.addAugustScepterSkills();
+      InventoryManager.checkSkillGrantingEquipment(ItemPool.AUGUST_SCEPTER);
 
       try (cleanups) {
         var skill = UseSkillRequest.getInstance(SkillPool.AUG_31ST_CABERNET_SAUVIGNON_DAY);
@@ -543,7 +543,7 @@ class UseSkillRequestTest {
               withProperty("_augTodayCast", false),
               withInteractivity(true),
               withDay(2023, Month.AUGUST, 12));
-      InventoryManager.addAugustScepterSkills();
+      InventoryManager.checkSkillGrantingEquipment(ItemPool.AUGUST_SCEPTER);
 
       try (cleanups) {
         UseSkillRequest.lastSkillUsed = SkillPool.AUG_12TH_ELEPHANT_DAY;
@@ -565,7 +565,7 @@ class UseSkillRequestTest {
               withProperty("_augTodayCast", false),
               withInteractivity(false),
               withDay(2023, Month.AUGUST, 12));
-      InventoryManager.addAugustScepterSkills();
+      InventoryManager.checkSkillGrantingEquipment(ItemPool.AUGUST_SCEPTER);
 
       try (cleanups) {
         UseSkillRequest.lastSkillUsed = SkillPool.AUG_12TH_ELEPHANT_DAY;
