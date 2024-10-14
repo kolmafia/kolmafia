@@ -208,8 +208,8 @@ class UseSkillRequestTest {
 
     @Test
     void wearDesignerSweatpantsForCastingSweatSkills() {
-      var cleanups = new Cleanups(withEquippableItem("designer sweatpants"));
-      InventoryManager.addDesignerSweatpantsSkills();
+      var cleanups = new Cleanups(withEquippableItem(ItemPool.DESIGNER_SWEATPANTS));
+      InventoryManager.checkSkillGrantingEquipment(ItemPool.DESIGNER_SWEATPANTS);
 
       try (cleanups) {
         var req = UseSkillRequest.getInstance(SkillPool.DRENCH_YOURSELF_IN_SWEAT, 1);
@@ -227,8 +227,8 @@ class UseSkillRequestTest {
 
     @Test
     void dontWearDesignerSweatpantsForSweatingOutBooze() {
-      var cleanups = new Cleanups(withEquippableItem("designer sweatpants"));
-      InventoryManager.addDesignerSweatpantsSkills();
+      var cleanups = new Cleanups(withEquippableItem(ItemPool.DESIGNER_SWEATPANTS));
+      InventoryManager.checkSkillGrantingEquipment(ItemPool.DESIGNER_SWEATPANTS);
 
       try (cleanups) {
         var req = UseSkillRequest.getInstance(SkillPool.SWEAT_OUT_BOOZE, 1);
@@ -245,7 +245,7 @@ class UseSkillRequestTest {
     @Test
     void doNotEquipDesignerSweatpantsForSkillIfAlreadyWearing() {
       var cleanups = new Cleanups(withEquipped(Slot.PANTS, "designer sweatpants"));
-      InventoryManager.addDesignerSweatpantsSkills();
+      InventoryManager.checkSkillGrantingEquipment(ItemPool.DESIGNER_SWEATPANTS);
 
       try (cleanups) {
         var req = UseSkillRequest.getInstance(SkillPool.DRENCH_YOURSELF_IN_SWEAT, 1);
