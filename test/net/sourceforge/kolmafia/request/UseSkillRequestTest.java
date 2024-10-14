@@ -349,8 +349,8 @@ class UseSkillRequestTest {
         ints = {SkillPool.CINCHO_PARTY_SOUNDTRACK, SkillPool.CINCHO_DISPENSE_SALT_AND_LIME})
     void wearCinchoForCastingCinchSkills(final int skill) {
       var cleanups =
-          new Cleanups(withEquippableItem("Cincho de Mayo"), withProperty("_cinchUsed", 0));
-      InventoryManager.addCinchoDeMayoSkills();
+          new Cleanups(withEquippableItem(ItemPool.CINCHO_DE_MAYO), withProperty("_cinchUsed", 0));
+      InventoryManager.checkSkillGrantingEquipment(ItemPool.CINCHO_DE_MAYO);
 
       try (cleanups) {
         var req = UseSkillRequest.getInstance(skill, 1);
@@ -377,7 +377,7 @@ class UseSkillRequestTest {
               withPath(Path.LEGACY_OF_LOATHING),
               withEquippableItem(ItemPool.REPLICA_CINCHO_DE_MAYO),
               withProperty("_cinchUsed", 0));
-      InventoryManager.addCinchoDeMayoSkills();
+      InventoryManager.checkSkillGrantingEquipment(ItemPool.REPLICA_CINCHO_DE_MAYO);
 
       try (cleanups) {
         var req = UseSkillRequest.getInstance(SkillPool.CINCHO_PARTY_SOUNDTRACK, 1);
@@ -400,7 +400,7 @@ class UseSkillRequestTest {
     void doNotEquipCinchoDeMayoForSkillIfAlreadyWearing(final int itemId) {
       var cleanups =
           new Cleanups(withPath(Path.LEGACY_OF_LOATHING), withEquipped(Slot.ACCESSORY2, itemId));
-      InventoryManager.addCinchoDeMayoSkills();
+      InventoryManager.checkSkillGrantingEquipment(ItemPool.REPLICA_CINCHO_DE_MAYO);
 
       try (cleanups) {
         var req = UseSkillRequest.getInstance(SkillPool.CINCHO_DISPENSE_SALT_AND_LIME, 1);
