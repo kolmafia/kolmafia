@@ -64,6 +64,8 @@ public class ModifierDatabase {
       new TwoLevelEnumHashMap<>(ModifierType.class);
   private static final Map<String, Modifier> modifierTypesByName = new HashMap<>();
   private static final Map<String, String> familiarEffectByName = new HashMap<>();
+  private static final Set<Lookup> inventorySkillProviders = new HashSet<>();
+  private static final Set<Lookup> noncombatSkillProviders = new HashSet<>();
 
   /** Map of synergetic item name to bitmap mask of all items in set */
   private static final Map<String, Integer> synergies = new HashMap<>();
@@ -80,15 +82,12 @@ public class ModifierDatabase {
 
   public static final String EXPR = "(?:([-+]?[\\d.]+)|\\[([^]]+)\\])";
 
-  private static final Pattern FAMILIAR_EFFECT_PATTERN =
-      Pattern.compile("Familiar Effect: \"(.*?)\"");
   private static final Pattern FAMILIAR_EFFECT_TRANSLATE_PATTERN =
       Pattern.compile("([\\d.]+)\\s*x\\s*(Volley|Somb|Lep|Fairy)");
   private static final String FAMILIAR_EFFECT_TRANSLATE_REPLACEMENT = "$2: $1 ";
   private static final Pattern FAMILIAR_EFFECT_TRANSLATE_PATTERN2 =
       Pattern.compile("cap ([\\d.]+)");
   private static final String FAMILIAR_EFFECT_TRANSLATE_REPLACEMENT2 = "Familiar Weight Cap: $1 ";
-
   private static final String COLD = DoubleModifier.COLD_RESISTANCE.getTag() + ": ";
   private static final String HOT = DoubleModifier.HOT_RESISTANCE.getTag() + ": ";
   private static final String SLEAZE = DoubleModifier.SLEAZE_RESISTANCE.getTag() + ": ";
@@ -235,6 +234,18 @@ public class ModifierDatabase {
 
   public static final String getFamiliarEffect(final String itemName) {
     return familiarEffectByName.get(itemName);
+  }
+
+  /**
+   * @return All sources of a conditional skills that don't require active use (e.g. equipping the
+   *     item)
+   */
+  public static Set<Lookup> getInventorySkillProviders() {
+    return inventorySkillProviders;
+  }
+
+  public static Set<Lookup> getNonCombatSkillProviders() {
+    return noncombatSkillProviders;
   }
 
   // Returned set yields bitmaps keyed by names
@@ -1532,7 +1543,7 @@ public class ModifierDatabase {
           KoLmafia.updateDisplay("Duplicate modifiers for: " + type + ":" + name);
         }
 
-        Matcher matcher = FAMILIAR_EFFECT_PATTERN.matcher(modifiers);
+        Matcher matcher = StringModifier.FAMILIAR_EFFECT.getTagPattern().matcher(modifiers);
         if (matcher.find()) {
           String effect = matcher.group(1);
           familiarEffectByName.put(name, effect);
@@ -1545,6 +1556,22 @@ public class ModifierDatabase {
             effect = matcher.replaceAll(FAMILIAR_EFFECT_TRANSLATE_REPLACEMENT2);
           }
           modifierStringsByName.put(ModifierType.FAM_EQ, new IntOrString(name), effect);
+        }
+
+        matcher =
+            MultiStringModifier.CONDITIONAL_SKILL_INVENTORY.getTagPattern().matcher(modifiers);
+        if (matcher.find()) {
+          inventorySkillProviders.add(lookup);
+        }
+
+        matcher = MultiStringModifier.CONDITIONAL_SKILL_EQUIPPED.getTagPattern().matcher(modifiers);
+        while (matcher.find()) {
+          var skill = matcher.group(1);
+          var id = SkillDatabase.getSkillId(skill, true);
+          if (SkillDatabase.getSkillTags(id).contains(SkillDatabase.SkillTag.NONCOMBAT)) {
+            noncombatSkillProviders.add(lookup);
+            break;
+          }
         }
       }
     } catch (IOException e) {
