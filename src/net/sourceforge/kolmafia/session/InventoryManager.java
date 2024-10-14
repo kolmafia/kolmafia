@@ -6,7 +6,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -94,9 +93,7 @@ public abstract class InventoryManager {
 
     try {
       // {"1":"1","2":"1" ... }
-      Iterator<String> keys = JSON.keys();
-      while (keys.hasNext()) {
-        String key = keys.next();
+      for (String key : JSON.keySet()) {
         int itemId = StringUtilities.parseInt(key);
         int count = JSON.getIntValue(key);
         String name = ItemDatabase.getItemDataName(itemId);

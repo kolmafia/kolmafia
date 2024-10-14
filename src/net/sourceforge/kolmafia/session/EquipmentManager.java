@@ -8,7 +8,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.EnumSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -2089,9 +2088,7 @@ public class EquipmentManager {
     int fakeHands = 0;
 
     JSONObject equip = JSON.getJSONObject("equipment");
-    Iterator<String> keys = equip.keys();
-    while (keys.hasNext()) {
-      String slotName = keys.next();
+    for (String slotName : equip.keySet()) {
       if (slotName.equals("fakehands")) {
         fakeHands = equip.getIntValue(slotName);
         continue;

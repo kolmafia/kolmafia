@@ -189,7 +189,7 @@ public class ArrayValue extends AggregateValue {
     var obj = new JSONArray();
 
     for (var value : (Value[]) this.content) {
-      obj.put(value.toJSON());
+      obj.add(value.toJSON());
     }
 
     return obj;

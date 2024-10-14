@@ -3,7 +3,6 @@ package net.sourceforge.kolmafia.request;
 import com.alibaba.fastjson2.JSONException;
 import com.alibaba.fastjson2.JSONObject;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -375,9 +374,7 @@ public class SpelunkyRequest extends GenericRequest {
     // Spelunky, but parse equipment, at least.
 
     JSONObject equip = JSON.getJSONObject("equipment");
-    Iterator<String> keys = equip.keys();
-    while (keys.hasNext()) {
-      String slotName = keys.next();
+    for (String slotName : equip.keySet()) {
       if (slotName.equals("fakehands")) {
         continue;
       }

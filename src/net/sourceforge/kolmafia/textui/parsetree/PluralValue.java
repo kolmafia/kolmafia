@@ -59,7 +59,7 @@ public class PluralValue extends AggregateValue {
     var obj = new JSONArray();
 
     for (Value value : this.keys()) {
-      obj.put(value.toJSON());
+      obj.add(value.toJSON());
     }
 
     return obj;

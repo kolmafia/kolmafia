@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.session;
 
+import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONException;
 import com.alibaba.fastjson2.JSONObject;
 import java.io.Serializable;
@@ -718,7 +719,7 @@ public abstract class StoreManager {
     try {
       json = JSON.parseObject(storeText);
 
-      String[] itemDescs = JSONObject.getNames(json);
+      String[] itemDescs = json.keySet().toArray(new String[json.keySet().size()]);
 
       for (String itemDesc : itemDescs) {
         int itemId = ItemDatabase.getItemIdFromDescription(itemDesc);

@@ -2,8 +2,8 @@ package net.sourceforge.kolmafia.textui;
 
 import static net.sourceforge.kolmafia.utilities.Statics.DateTimeManager;
 
+import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONException;
-import com.alibaba.fastjson2.JSONObject;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -4229,7 +4229,7 @@ public abstract class RuntimeLibrary {
   // of one data format to another.
   public static Value to_json(ScriptRuntime controller, Value val) throws JSONException {
     Object obj = val.asProxy().toJSON();
-    return new Value(obj instanceof String ? JSONObject.quote((String) obj) : obj.toString());
+    return new Value(JSON.toJSONString(obj));
   }
 
   public static Value to_string(ScriptRuntime controller, Value val) {

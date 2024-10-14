@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.scripts.git;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
+import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONException;
 import com.alibaba.fastjson2.JSONObject;
 import java.io.File;
@@ -633,7 +634,7 @@ public class GitManager extends ScriptManager {
     var json = readManifest(projectPath.resolve(MANIFEST));
     if (json.isEmpty()) return projectPath;
     var manifest = json.get();
-    var root = manifest.getString(MANIFEST_ROOTDIR, "");
+    var root = Optional.ofNullable(manifest.getString(MANIFEST_ROOTDIR)).orElse("");
     if (root.isEmpty()) return projectPath;
     // deny absolute paths or folder escapes
     if (root.startsWith("/") || root.startsWith("\\") || root.contains("..")) return projectPath;
