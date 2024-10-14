@@ -499,7 +499,7 @@ public class RelayRequestTest {
       "Vykea,level 1 couch,",
     })
     public void identityReturnsSameIdentifier(
-        String type, String identifierString, String identifierNumberString) {
+        String type, String identifierString, Integer identifierNumber) {
       var rr =
           this.makeApiRequest(
               """
@@ -517,8 +517,7 @@ public class RelayRequestTest {
       assertThat(result.get("objectType"), is(type));
       assertThat(result.get("identifierString"), is(identifierString));
 
-      if (identifierNumberString != null) {
-        int identifierNumber = Integer.parseInt(identifierNumberString);
+      if (identifierNumber != null) {
         assertThat(result.get("identifierNumber"), is(identifierNumber));
 
         if (!identifierString.equals("none")) {
