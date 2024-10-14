@@ -1570,6 +1570,7 @@ public class ModifierDatabase {
           var id = SkillDatabase.getSkillId(skill, true);
           if (SkillDatabase.getSkillTags(id).contains(SkillDatabase.SkillTag.NONCOMBAT)) {
             noncombatSkillProviders.add(lookup);
+            inventorySkillProviders.add(lookup);
             break;
           }
         }

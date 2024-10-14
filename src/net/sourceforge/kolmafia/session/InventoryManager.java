@@ -6,6 +6,7 @@ import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -1868,37 +1869,33 @@ public abstract class InventoryManager {
   }
 
   public static void checkSkillGrantingEquipment() {
-    var inventory =
-        ModifierDatabase.getInventorySkillProviders().stream()
-            .filter(l -> l.getType() == ModifierType.ITEM)
-            .map(Lookup::getIntKey)
-            .filter(id -> KoLCharacter.hasEquipped(id) || InventoryManager.hasItem(id))
-            .flatMap(
-                id -> {
-                  var mods = ModifierDatabase.getItemModifiers(id);
-                  if (mods == null) return Stream.empty();
-                  return mods.getStrings(MultiStringModifier.CONDITIONAL_SKILL_INVENTORY).stream();
-                })
-            .map(SkillDatabase::getSkillId);
+    checkSkillGrantingEquipment(null);
+  }
 
-    // We mark non-combat skills granted by equipped items as "available" because we autoequip them
-    // before casting
-    var equipped =
-        ModifierDatabase.getNonCombatSkillProviders().stream()
-            .filter(l -> l.getType() == ModifierType.ITEM)
-            .map(Lookup::getIntKey)
-            .filter(InventoryManager::hasItem)
-            .flatMap(
-                id -> {
-                  var mods = ModifierDatabase.getItemModifiers(id);
-                  if (mods == null) return Stream.empty();
-                  return mods.getStrings(MultiStringModifier.CONDITIONAL_SKILL_EQUIPPED).stream();
-                })
-            .map(SkillDatabase::getSkillId)
-            .filter(s -> SkillDatabase.getSkillTags(s).contains(SkillDatabase.SkillTag.NONCOMBAT));
-
-    // Add the available skills
-    Stream.concat(equipped, inventory).forEach(KoLCharacter::addAvailableSkill);
+  public static void checkSkillGrantingEquipment(final Integer itemId) {
+    ModifierDatabase.getInventorySkillProviders().stream()
+        .filter(l -> l.getType() == ModifierType.ITEM)
+        .map(Lookup::getIntKey)
+        .filter(i -> itemId == null || i.equals(itemId))
+        .filter(id -> KoLCharacter.hasEquipped(id) || InventoryManager.hasItem(id))
+        .flatMap(
+            id -> {
+              var mods = ModifierDatabase.getItemModifiers(id);
+              if (mods == null) return Stream.empty();
+              return Stream.concat(
+                  mods.getStrings(MultiStringModifier.CONDITIONAL_SKILL_INVENTORY).stream()
+                      .map(s -> Map.entry(true, s)),
+                  mods.getStrings(MultiStringModifier.CONDITIONAL_SKILL_EQUIPPED).stream()
+                      .map(s -> Map.entry(false, s)));
+            })
+        .map(e -> Map.entry(e.getKey(), SkillDatabase.getSkillId(e.getValue())))
+        .filter(
+            e ->
+                e.getKey()
+                    || SkillDatabase.getSkillTags(e.getValue())
+                        .contains(SkillDatabase.SkillTag.NONCOMBAT))
+        .map(Map.Entry::getValue)
+        .forEach(KoLCharacter::addAvailableSkill);
   }
 
   public static void checkRing() {
