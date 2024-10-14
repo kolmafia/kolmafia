@@ -637,5 +637,23 @@ public class RelayRequestTest {
       assertThat(rr.responseCode, is(400));
       assertThat(JSON.parse(rr.responseText), is(expected));
     }
+
+    @Test
+    public void testInvalidFunctionCallWrongArgTypes() {
+      var rr =
+          this.makeApiRequest(
+              """
+      { "functions": [{ "name": "itemDropsArray", "args": [{"objectType": "monster", "identifierString": "fluffy bunny"}] }] }
+      """);
+
+      JSONObject expected =
+          JSON.parseObject(
+              """
+      { "error": "Unable to call method: java.lang.ClassCastException: class java.util.TreeMap cannot be cast to class net.sourceforge.kolmafia.MonsterData (java.util.TreeMap is in module java.base of loader 'bootstrap'; net.sourceforge.kolmafia.MonsterData is in unnamed module of loader 'app')" }
+      """);
+      assertThat(rr.statusLine, is("HTTP/1.1 400 Bad Request"));
+      assertThat(rr.responseCode, is(400));
+      assertThat(JSON.parse(rr.responseText), is(expected));
+    }
   }
 }
