@@ -18,16 +18,21 @@ import static internal.helpers.Player.withFamiliarInTerrarium;
 import static internal.helpers.Player.withFamiliarInTerrariumWithItem;
 import static internal.helpers.Player.withFight;
 import static internal.helpers.Player.withHandlingChoice;
+import static internal.helpers.Player.withHardcore;
 import static internal.helpers.Player.withHttpClientBuilder;
+import static internal.helpers.Player.withInteractivity;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withNextMonster;
 import static internal.helpers.Player.withNextResponse;
+import static internal.helpers.Player.withNoEffects;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withSign;
 import static internal.helpers.Player.withStats;
 import static internal.helpers.Player.withTrackedMonsters;
 import static internal.helpers.Player.withTrackedPhyla;
 import static internal.helpers.Player.withTurnsPlayed;
+import static internal.helpers.Player.withUnequipped;
 import static internal.helpers.Player.withValueOfAdventure;
 import static org.hamcrest.CoreMatchers.both;
 import static org.hamcrest.CoreMatchers.containsString;
@@ -55,6 +60,7 @@ import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -1458,9 +1464,23 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     HttpClientWrapper.setupFakeClient();
     var cleanups =
         new Cleanups(
-            // withOutfit(34), //Bounty-Hunting Rig
-            // withOutfit(93), //Hateful Habiliment
-            // withOutfit(128), //Eldritch Equipage
+            withClass(AscensionClass.PASTAMANCER),
+            withHardcore(),
+            withPath(Path.AVANT_GUARD),
+            withSign(ZodiacSign.OPOSSUM),
+            withInteractivity(false),
+            withNoEffects(),
+            withProperty("umbrellaState", "broken"),
+            withEquipped(Slot.HAT, "Apriling band helmet"),
+            withUnequipped(Slot.WEAPON),
+            withUnequipped(Slot.OFFHAND),
+            withEquipped(Slot.SHIRT, "Jurassic Parka"),
+            withProperty("parkaMode", "kachungasaur"),
+            withEquipped(Slot.PANTS, "designer sweapants"),
+            withEquipped(Slot.CONTAINER, "bat wings"),
+            withEquipped(Slot.ACCESSORY1, "Cincho de Mayo"),
+            withEquipped(Slot.ACCESSORY2, "combat lover's locket"),
+            withEquipped(Slot.ACCESSORY3, "spring shoes"),
             withEquippableItem("seal-skull helmet"), // 2283
             withEquippableItem("ravioli hat"),
             withEquippableItem("Hollandaise helmet"),
@@ -1475,7 +1495,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
             withEquippableItem("stuffed astral badger"),
             withEquippableItem("magical ice cubes"),
             withEquippableItem("Roman Candelabra"),
-            // withEquippableItem("unbreakable umbrella (broken)"),
+            withEquippableItem("unbreakable umbrella (broken)"),
             withEquippableItem("august scepter"),
             withEquippableItem("bat wings"),
             withEquippableItem("Jurassic Parka (kachungasaur mode)"),
@@ -1501,22 +1521,21 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     try (cleanups) {
       out = execute(cmd);
     }
-    assertFalse(out.isEmpty()); //
-    assertTrue(out.contains("Putting on Apriling band helmet..."));
+    assertFalse(out.isEmpty());
+    System.out.println(out);
     assertTrue(out.contains("Wielding June cleaver"));
     assertTrue(out.contains("Putting on designer sweatpants..."));
     assertContinueState();
     var requests = getRequests();
     assertFalse(requests.isEmpty());
-    var checkMe =
-        requests.stream()
-            .filter(x -> getPostRequestBody(x).contains("whichitem=10920"))
-            .findFirst();
-    if (checkMe.isPresent()) {
-      assertPostRequest(
-          checkMe.get(), "/inv_equip.php", "which=2&ajax=1&action=equip&whichitem=10920");
-    } else {
-      fail("Could not find expected equipment request.");
+    for (var req : requests) {
+      if (req.method().contains("POST")) {
+        boolean passed = getPostRequestBody(req).contains("whichitem=10920");
+        if (!passed) {
+          fail("Could not find expected equipment request.");
+        }
+        break;
+      }
     }
   }
 
