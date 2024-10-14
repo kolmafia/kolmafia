@@ -461,23 +461,41 @@ public class RelayRequestTest {
 
     @ParameterizedTest
     @CsvSource({
+      "Bounty,none,",
       "Bounty,bean-shaped rock,",
+      "Class,none,-1",
       "Class,Seal Clubber,1",
+      "Coinmaster,none,",
       "Coinmaster,The Black Market,",
+      "Effect,none,-1",
       "Effect,Confused,3",
+      "Element,none,",
       "Element,cold,",
+      "Familiar,none,-1",
       "Familiar,Mosquito,1",
+      "Item,none,-1",
       "Item,seal-clubbing club,1",
+      "Location,none,0",
       "Location,The Sleazy Back Alley,112",
+      "Modifier,none,",
       "Modifier,Item Drop,",
+      "Monster,none,0",
       "Monster,spooky vampire,1",
+      "Path,none,-1",
       "Path,Standard,22",
+      "Phylum,none,",
       "Phylum,construct,",
+      "Servant,none,",
       "Servant,Assassin,",
+      "Skill,none,-1",
       "Skill,Liver of Steel,1",
+      "Slot,none,",
       "Slot,hat,",
+      "Stat,none,",
       "Stat,Muscle,",
+      "Thrall,none,",
       "Thrall,Lasagmbie,",
+      "Vykea,none,",
       "Vykea,level 1 couch,",
     })
     public void identityReturnsSameIdentifier(
@@ -503,23 +521,25 @@ public class RelayRequestTest {
         int identifierNumber = Integer.parseInt(identifierNumberString);
         assertThat(result.get("identifierNumber"), is(identifierNumber));
 
-        rr =
-            this.makeApiRequest(
+        if (!identifierString.equals("none")) {
+          rr =
+              this.makeApiRequest(
+                  """
+                { "functions": [{ "name": "identity", "args": [{
+                  "objectType": "%s",
+                  "identifierNumber": %d
+                }] }] }
                 """
-          { "functions": [{ "name": "identity", "args": [{
-            "objectType": "%s",
-            "identifierNumber": %d
-          }] }] }
-          """
-                    .formatted(type, identifierNumber));
-        assertThat(rr.statusLine, is("HTTP/1.1 200 OK"));
-        assertThat(rr.responseCode, is(200));
-        allResults = JSON.parseObject(rr.responseText);
-        assertThat(allResults.get("error"), nullValue());
-        result = allResults.getJSONArray("functions").getJSONObject(0);
-        assertThat(result.get("objectType"), is(type));
-        assertThat(result.get("identifierString"), is(identifierString));
-        assertThat(result.get("identifierNumber"), is(identifierNumber));
+                      .formatted(type, identifierNumber));
+          assertThat(rr.statusLine, is("HTTP/1.1 200 OK"));
+          assertThat(rr.responseCode, is(200));
+          allResults = JSON.parseObject(rr.responseText);
+          assertThat(allResults.get("error"), nullValue());
+          result = allResults.getJSONArray("functions").getJSONObject(0);
+          assertThat(result.get("objectType"), is(type));
+          assertThat(result.get("identifierString"), is(identifierString));
+          assertThat(result.get("identifierNumber"), is(identifierNumber));
+        }
       }
     }
 
