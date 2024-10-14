@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -3683,6 +3684,9 @@ public class RelayRequest extends PasswordHashRequest {
           functionsResult.add(transformResult(JSONValueConverter.asJSON(value)));
         } catch (NoSuchMethodException e) {
           jsonError("Unable to find method " + name);
+          return;
+        } catch (InvocationTargetException e) {
+          jsonError("Unable to call method: " + e.getTargetException().toString());
           return;
         } catch (Exception e) {
           jsonError("Exception " + e.getClass().getName() + " on " + name + ": " + e.getMessage());
