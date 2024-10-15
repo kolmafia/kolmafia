@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.request;
 
+import static internal.helpers.Networking.bytes;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withAdventuresSpent;
 import static internal.helpers.Player.withEquipped;
@@ -19,6 +20,9 @@ import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import internal.helpers.Cleanups;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -78,6 +82,44 @@ public class RelayRequestTest {
     assertNull(rr.getHashField());
     assertFalse(rr.retryOnTimeout());
     rr.constructURLString("diary.php?textversion=1");
+  }
+
+  @Nested
+  class LocalFiles {
+    private RelayRequest makeFileRequest(String path) throws IOException {
+      Files.copy(Paths.get("request", path), Paths.get("relay", path));
+      var rr = new RelayRequest(true);
+      rr.constructURLString(path, true);
+      rr.run();
+      Files.deleteIfExists(Paths.get("relay", path));
+      return rr;
+    }
+
+    @BeforeAll
+    public static void beforeAll() throws IOException {
+      Files.createDirectory(Paths.get("relay"));
+    }
+
+    @ParameterizedTest
+    @ValueSource(
+        strings = {
+          "test_relay_request_text.txt",
+          "test_relay_request_html.html",
+        })
+    public void returnsTextFile(String filename) throws IOException {
+      var rr = makeFileRequest(filename);
+      assertThat(rr.statusLine, is("HTTP/1.1 200 OK"));
+      assertThat(rr.responseCode, is(200));
+      assertThat(rr.responseText.trim(), is(html("request/" + filename).trim()));
+    }
+
+    @Test
+    public void returnsPng() throws IOException {
+      var rr = makeFileRequest("test_relay_request_sample.png");
+      assertThat(rr.statusLine, is("HTTP/1.1 200 OK"));
+      assertThat(rr.responseCode, is(200));
+      assertThat(rr.rawByteBuffer, is(bytes("request/test_relay_request_sample.png")));
+    }
   }
 
   @Nested

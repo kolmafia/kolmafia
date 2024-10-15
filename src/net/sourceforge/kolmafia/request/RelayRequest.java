@@ -733,6 +733,18 @@ public class RelayRequest extends PasswordHashRequest {
     } catch (IOException e) {
     }
 
+    // If it's a binary file, send it back without loading it as a string.
+    if (!this.contentType.startsWith("text/") && !this.contentType.startsWith("application/")) {
+      this.rawByteBuffer = ByteBufferUtilities.read(override);
+      if (this.rawByteBuffer == null) {
+        this.sendNotFound();
+        return;
+      }
+      this.statusLine = "HTTP/1.1 200 OK";
+      this.responseCode = 200;
+      return;
+    }
+
     // Read the file
     StringBuffer replyBuffer;
 
