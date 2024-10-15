@@ -5,6 +5,7 @@ import com.alibaba.fastjson2.JSONException;
 import com.alibaba.fastjson2.JSONObject;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -1613,7 +1614,7 @@ public class CharPaneRequest extends GenericRequest {
     String adventureId = lastadv.getString("id");
     String adventureName = lastadv.getString("name");
     String adventureURL = lastadv.getString("link");
-    String container = lastadv.getString("container");
+    String container = Optional.ofNullable(lastadv.getString("container")).orElse("");
     CharPaneRequest.setLastAdventure(adventureId, adventureName, adventureURL, container);
 
     int fury = JSON.getIntValue("fury");
