@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -3684,6 +3685,9 @@ public class RelayRequest extends PasswordHashRequest {
         } catch (NoSuchMethodException e) {
           jsonError("Unable to find method " + name);
           return;
+        } catch (InvocationTargetException e) {
+          jsonError("Unable to call method: " + e.getTargetException().toString());
+          return;
         } catch (Exception e) {
           jsonError("Exception " + e.getClass().getName() + " on " + name + ": " + e.getMessage());
           return;
@@ -3852,7 +3856,7 @@ public class RelayRequest extends PasswordHashRequest {
         if (index != -1) {
           index += string.length();
           for (ChatMessage message : messages) {
-            org.json.JSONObject object = message.toJSON();
+            com.alibaba.fastjson2.JSONObject object = message.toJSON();
             if (object != null) {
               string = object.toString();
               buffer.insert(index, string);

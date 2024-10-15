@@ -1,7 +1,11 @@
 package net.sourceforge.kolmafia.request;
 
+import com.alibaba.fastjson2.JSONArray;
+import com.alibaba.fastjson2.JSONException;
+import com.alibaba.fastjson2.JSONObject;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -47,9 +51,6 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 import org.htmlcleaner.HtmlCleaner;
 import org.htmlcleaner.TagNode;
 import org.htmlcleaner.XPatherException;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class CharPaneRequest extends GenericRequest {
   private static final AdventureResult ABSINTHE = EffectPool.get(EffectPool.ABSINTHE);
@@ -1580,10 +1581,10 @@ public class CharPaneRequest extends GenericRequest {
   }
 
   public static final void parseStatus(final JSONObject JSON) throws JSONException {
-    int turnsThisRun = JSON.getInt("turnsthisrun");
+    int turnsThisRun = JSON.getIntValue("turnsthisrun");
     CharPaneRequest.turnsThisRun = turnsThisRun;
 
-    int turnsPlayed = JSON.getInt("turnsplayed");
+    int turnsPlayed = JSON.getIntValue("turnsplayed");
     KoLCharacter.setTurnsPlayed(turnsPlayed);
 
     if (KoLmafia.isRefreshing()) {
@@ -1613,19 +1614,19 @@ public class CharPaneRequest extends GenericRequest {
     String adventureId = lastadv.getString("id");
     String adventureName = lastadv.getString("name");
     String adventureURL = lastadv.getString("link");
-    String container = lastadv.optString("container");
+    String container = Optional.ofNullable(lastadv.getString("container")).orElse("");
     CharPaneRequest.setLastAdventure(adventureId, adventureName, adventureURL, container);
 
-    int fury = JSON.getInt("fury");
+    int fury = JSON.getIntValue("fury");
     KoLCharacter.setFuryNoCheck(fury);
 
-    int soulsauce = JSON.getInt("soulsauce");
+    int soulsauce = JSON.getIntValue("soulsauce");
     KoLCharacter.setSoulsauce(soulsauce);
 
     if (KoLCharacter.isSneakyPete()) {
       int audience = 0;
-      audience += JSON.getInt("petelove");
-      audience -= JSON.getInt("petehate");
+      audience += JSON.getIntValue("petelove");
+      audience -= JSON.getIntValue("petehate");
       KoLCharacter.setAudience(audience);
     }
 
@@ -1634,7 +1635,7 @@ public class CharPaneRequest extends GenericRequest {
     KoLCharacter.setHP(hp, maxhp, maxhp);
 
     if (KoLCharacter.inZombiecore()) {
-      int horde = JSON.getInt("horde");
+      int horde = JSON.getIntValue("horde");
       KoLCharacter.setMP(horde, horde, horde);
     } else {
       long mp = JSON.getLong("mp");
@@ -1645,45 +1646,45 @@ public class CharPaneRequest extends GenericRequest {
     long meat = JSON.getLong("meat");
     KoLCharacter.setAvailableMeat(meat);
 
-    int drunk = JSON.getInt("drunk");
+    int drunk = JSON.getIntValue("drunk");
     KoLCharacter.setInebriety(drunk);
 
-    int full = JSON.getInt("full");
+    int full = JSON.getIntValue("full");
     KoLCharacter.setFullness(full);
 
-    int spleen = JSON.getInt("spleen");
+    int spleen = JSON.getIntValue("spleen");
     KoLCharacter.setSpleenUse(spleen);
 
-    int adventures = JSON.getInt("adventures");
+    int adventures = JSON.getIntValue("adventures");
     KoLCharacter.setAdventuresLeft(adventures);
 
-    int mcd = JSON.getInt("mcd");
+    int mcd = JSON.getIntValue("mcd");
     KoLCharacter.setMindControlLevel(mcd);
 
-    int classType = JSON.getInt("class");
+    int classType = JSON.getIntValue("class");
     KoLCharacter.setAscensionClass(classType);
 
-    int pvpFights = JSON.getInt("pvpfights");
+    int pvpFights = JSON.getIntValue("pvpfights");
     KoLCharacter.setAttacksLeft(pvpFights);
 
-    boolean hardcore = JSON.getInt("hardcore") == 1;
+    boolean hardcore = JSON.getIntValue("hardcore") == 1;
     KoLCharacter.setHardcore(hardcore);
 
-    boolean casual = JSON.getInt("casual") == 1;
+    boolean casual = JSON.getIntValue("casual") == 1;
     KoLCharacter.setCasual(casual);
 
     var noncombatForcers = JSON.getJSONArray("noncomforcers");
-    Preferences.setBoolean("noncombatForcerActive", noncombatForcers.length() > 0);
+    Preferences.setBoolean("noncombatForcerActive", noncombatForcers.size() > 0);
 
-    // boolean casual = JSON.getInt( "casual" ) == 1;
-    int roninLeft = JSON.getInt("roninleft");
+    // boolean casual = JSON.getIntValue( "casual" ) == 1;
+    int roninLeft = JSON.getIntValue("roninleft");
 
     if (KoLCharacter.inRaincore()) {
-      int thunder = JSON.getInt("thunder");
+      int thunder = JSON.getIntValue("thunder");
       KoLCharacter.setThunder(thunder);
-      int rain = JSON.getInt("rain");
+      int rain = JSON.getIntValue("rain");
       KoLCharacter.setRain(rain);
-      int lightning = JSON.getInt("lightning");
+      int lightning = JSON.getIntValue("lightning");
       KoLCharacter.setLightning(lightning);
     }
 
@@ -1695,8 +1696,8 @@ public class CharPaneRequest extends GenericRequest {
     if (KoLCharacter.getLimitMode().limitFamiliars()) {
       // No familiar
     } else if (KoLCharacter.inAxecore()) {
-      int level = JSON.getInt("clancy_level");
-      int itype = JSON.getInt("clancy_instrument");
+      int level = JSON.getIntValue("clancy_level");
+      int itype = JSON.getIntValue("clancy_instrument");
       boolean att = JSON.getBoolean("clancy_wantsattention");
       AdventureResult instrument =
           itype == 1
@@ -1704,8 +1705,8 @@ public class CharPaneRequest extends GenericRequest {
               : itype == 2 ? CharPaneRequest.CRUMHORN : itype == 3 ? CharPaneRequest.LUTE : null;
       KoLCharacter.setClancy(level, instrument, att);
     } else if (KoLCharacter.isJarlsberg()) {
-      if (JSON.has("jarlcompanion")) {
-        int companion = JSON.getInt("jarlcompanion");
+      if (JSON.containsKey("jarlcompanion")) {
+        int companion = JSON.getIntValue("jarlcompanion");
         switch (companion) {
           case 1 -> KoLCharacter.setCompanion(Companion.EGGMAN);
           case 2 -> KoLCharacter.setCompanion(Companion.RADISH);
@@ -1719,8 +1720,8 @@ public class CharPaneRequest extends GenericRequest {
       // No familiar, but may have a servant.  Unfortunately,
       // details of such are not in api.php
     } else if (KoLCharacter.getPath().canUseFamiliars()) {
-      int famId = JSON.getInt("familiar");
-      int famExp = JSON.getInt("familiarexp");
+      int famId = JSON.getIntValue("familiar");
+      int famExp = JSON.getIntValue("familiarexp");
       FamiliarData familiar = FamiliarData.registerFamiliar(famId, famExp);
       KoLCharacter.setFamiliar(familiar);
 
@@ -1729,7 +1730,7 @@ public class CharPaneRequest extends GenericRequest {
         KoLCharacter.setFamiliarImage(image.equals("") ? null : image + ".gif");
       }
 
-      familiar.setFeasted(JSON.getInt("familiar_wellfed") == 1);
+      familiar.setFeasted(JSON.getIntValue("familiar_wellfed") == 1);
 
       // Set charges from the Medium's image
 
@@ -1740,8 +1741,8 @@ public class CharPaneRequest extends GenericRequest {
       }
     }
 
-    int thrallId = JSON.getInt("pastathrall");
-    int thrallLevel = JSON.getInt("pastathralllevel");
+    int thrallId = JSON.getIntValue("pastathrall");
+    int thrallLevel = JSON.getIntValue("pastathralllevel");
 
     PastaThrallData thrall = KoLCharacter.findPastaThrall(thrallId);
     if (thrall != null) {
@@ -1752,8 +1753,8 @@ public class CharPaneRequest extends GenericRequest {
     }
 
     if (KoLCharacter.inNuclearAutumn()) {
-      if (JSON.has("radsickness")) {
-        int rads = JSON.getInt("radsickness");
+      if (JSON.containsKey("radsickness")) {
+        int rads = JSON.getIntValue("radsickness");
         KoLCharacter.setRadSickness(rads);
       } else {
         KoLCharacter.setRadSickness(0);
@@ -1763,7 +1764,7 @@ public class CharPaneRequest extends GenericRequest {
 
   public static final void checkFamiliarWeight(final JSONObject JSON) throws JSONException {
     KoLCharacter.recalculateAdjustments();
-    KoLCharacter.getFamiliar().checkWeight(JSON.getInt("famlevel"));
+    KoLCharacter.getFamiliar().checkWeight(JSON.getIntValue("famlevel"));
   }
 
   private static void refreshEffects(final JSONObject JSON) throws JSONException {
@@ -1772,7 +1773,7 @@ public class CharPaneRequest extends GenericRequest {
     Object o = JSON.get("effects");
     if (o instanceof JSONObject effects) {
       // KoL returns an empty JSON array if there are no effects
-      Iterator<String> keys = effects.keys();
+      Iterator<String> keys = effects.keySet().iterator();
       while (keys.hasNext()) {
         String descId = keys.next();
         JSONArray data = effects.getJSONArray(descId);
@@ -1788,7 +1789,7 @@ public class CharPaneRequest extends GenericRequest {
 
     o = JSON.get("intrinsics");
     if (o instanceof JSONObject intrinsics) {
-      Iterator<String> keys = intrinsics.keys();
+      Iterator<String> keys = intrinsics.keySet().iterator();
       while (keys.hasNext()) {
         String descId = keys.next();
         JSONArray data = intrinsics.getJSONArray(descId);
