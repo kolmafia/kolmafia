@@ -1,12 +1,12 @@
 package net.sourceforge.kolmafia.textui.parsetree;
 
+import com.alibaba.fastjson2.JSONArray;
+import com.alibaba.fastjson2.JSONException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.TreeSet;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
-import org.json.JSONArray;
-import org.json.JSONException;
 
 public class PluralValue extends AggregateValue {
   private TreeSet<Value> lookup;
@@ -59,7 +59,7 @@ public class PluralValue extends AggregateValue {
     var obj = new JSONArray();
 
     for (Value value : this.keys()) {
-      obj.put(value.toJSON());
+      obj.add(value.toJSON());
     }
 
     return obj;

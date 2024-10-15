@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.Mockito.mockStatic;
 
+import com.alibaba.fastjson2.JSONObject;
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
@@ -17,7 +18,6 @@ import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.TurnCounter;
-import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -53,9 +53,9 @@ public class QuantumTerrariumRequestTest {
     apiRequest.responseText = text;
 
     // Stats affect Familiar Weight in Quantum Familiar
-    int basemuscle = JSON.getInt("basemuscle");
-    int basemysticality = JSON.getInt("basemysticality");
-    int basemoxie = JSON.getInt("basemoxie");
+    int basemuscle = JSON.getIntValue("basemuscle");
+    int basemysticality = JSON.getIntValue("basemysticality");
+    int basemoxie = JSON.getIntValue("basemoxie");
 
     var cleanups =
         new Cleanups(
