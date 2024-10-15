@@ -21,6 +21,7 @@ import com.alibaba.fastjson2.JSONObject;
 import internal.helpers.Cleanups;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -97,7 +98,10 @@ public class RelayRequestTest {
 
     @BeforeAll
     public static void beforeAll() throws IOException {
-      Files.createDirectory(Paths.get("relay"));
+      try {
+        Files.createDirectory(Paths.get("relay"));
+      } catch (FileAlreadyExistsException e) {
+      }
     }
 
     @ParameterizedTest
