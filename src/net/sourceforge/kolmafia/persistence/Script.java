@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.persistence;
 
+import com.alibaba.fastjson2.JSONObject;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -7,7 +8,6 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.scripts.git.GitManager;
 import net.sourceforge.kolmafia.scripts.svn.SVNManager;
-import org.json.JSONObject;
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.SVNURL;
 
@@ -37,10 +37,10 @@ public class Script implements Comparable<Script> {
     this.longDesc = jObj.getString("longDesc");
     this.forumThread = jObj.getString("forumThread");
 
-    var type = jObj.optString("type");
+    var type = jObj.getString("type");
     this.type = "git".equals(type) ? Type.GIT : Type.SVN;
     if (this.type == Type.GIT) {
-      this.branch = jObj.optString("branch", null);
+      this.branch = jObj.getString("branch");
     }
   }
 

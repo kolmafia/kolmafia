@@ -2,7 +2,8 @@ package net.sourceforge.kolmafia.chat;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.json.JSONObject;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
 import org.junit.jupiter.api.Test;
 
 public class ChatMessageTest {
@@ -37,11 +38,26 @@ public class ChatMessageTest {
     assertEquals(testMessage.getContent(), "content");
     JSONObject jso = testMessage.toJSON();
     assertNotNull(jso);
-    String ep1 =
-        "{\"msg\":\"content\",\"for\":{\"color\":\"black\",\"name\":\"recipient\",\"id\":\"recipient\"},\"time\":";
-    String ep2 = Long.toString(testMessage.getDate().getTime() / 1000);
-    String ep3 =
-        ",\"type\":\"private\",\"who\":{\"color\":\"black\",\"name\":\"sender\",\"id\":\"sender\"}}";
-    assertEquals(jso.toString(), ep1 + ep2 + ep3);
+    JSONObject expected =
+        JSON.parseObject(
+            """
+{
+  "type": "private",
+  "who": {
+    "id": "sender",
+    "name": "sender",
+    "color": "black"
+  },
+  "for": {
+    "id": "recipient",
+    "name": "recipient",
+    "color": "black"
+  },
+  "msg": "content"
+}
+""");
+    // time has to be a long so compare will succeed.
+    expected.put("time", testMessage.getDate().getTime() / 1000);
+    assertEquals(jso, expected);
   }
 }

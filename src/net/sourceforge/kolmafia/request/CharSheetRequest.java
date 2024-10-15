@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia.request;
 
+import com.alibaba.fastjson2.JSONException;
+import com.alibaba.fastjson2.JSONObject;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -27,8 +29,6 @@ import net.sourceforge.kolmafia.utilities.HTMLParserUtils;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import org.htmlcleaner.DomSerializer;
 import org.htmlcleaner.HtmlCleaner;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -702,9 +702,9 @@ public class CharSheetRequest extends GenericRequest {
   }
 
   public static void parseStatus(final JSONObject JSON) throws JSONException {
-    int muscle = JSON.getInt("muscle");
-    int mysticality = JSON.getInt("mysticality");
-    int moxie = JSON.getInt("moxie");
+    int muscle = JSON.getIntValue("muscle");
+    int mysticality = JSON.getIntValue("mysticality");
+    int moxie = JSON.getIntValue("moxie");
     long rawmuscle;
     long rawmysticality;
     long rawmoxie;
