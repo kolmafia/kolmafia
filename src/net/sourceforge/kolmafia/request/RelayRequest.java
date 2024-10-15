@@ -736,7 +736,7 @@ public class RelayRequest extends PasswordHashRequest {
     // If it's a binary file, send it back without loading it as a string.
     if (!this.contentType.startsWith("text/") && !this.contentType.startsWith("application/")) {
       this.rawByteBuffer = ByteBufferUtilities.read(override);
-      if (this.rawByteBuffer == null) {
+      if (this.rawByteBuffer.length == 0) {
         this.sendNotFound();
         return;
       }

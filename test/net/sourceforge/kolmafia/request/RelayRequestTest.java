@@ -104,6 +104,16 @@ public class RelayRequestTest {
       }
     }
 
+    @Test
+    public void returnsNotFound() {
+      var rr = new RelayRequest(true);
+      rr.constructURLString("nonexistent.png", true);
+      rr.run();
+
+      assertThat(rr.statusLine, is("HTTP/1.1 404 Not Found"));
+      assertThat(rr.responseCode, is(404));
+    }
+
     @ParameterizedTest
     @ValueSource(
         strings = {
