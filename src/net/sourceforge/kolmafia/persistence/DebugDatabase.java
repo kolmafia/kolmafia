@@ -2413,7 +2413,7 @@ public class DebugDatabase {
         var entry = array.getJSONObject(i);
         var id = entry.getIntValue("itemid");
         var name = entry.getString("name");
-        var plural = (String) entry.get("plural");
+        var plural = Optional.ofNullable(entry.getString("plural")).orElse("");
 
         if (plural.equals(name + "s")) {
           // make default
