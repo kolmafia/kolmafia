@@ -550,7 +550,11 @@ public enum DoubleModifier implements Modifier {
   COMBAT_ITEM_DAMAGE_PCT(
       "Combat Item Damage Percent",
       Pattern.compile("Combat items deal ([+-]\\d+)% more damage"),
-      Pattern.compile("Combat Item Damage Percent: " + EXPR));
+      Pattern.compile("Combat Item Damage Percent: " + EXPR)),
+  AVOID_ATTACK(
+      "Avoid Attack",
+      Pattern.compile("The first attack against you will always miss"),
+      Pattern.compile("Avoid Attack: " + EXPR));
 
   private final String name;
   private final Pattern[] descPatterns;
