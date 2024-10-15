@@ -146,6 +146,27 @@ public class Type extends Symbol {
     };
   }
 
+  public boolean isIntLike() {
+    return switch (this.getType()) {
+      case BOOLEAN,
+          INT,
+          FLOAT,
+          STRING,
+          ITEM,
+          SKILL,
+          EFFECT,
+          FAMILIAR,
+          MONSTER,
+          THRALL,
+          SERVANT,
+          LOCATION,
+          SLOT,
+          PATH,
+          CLASS -> true;
+      default -> false;
+    };
+  }
+
   public Value initialValue() {
     return switch (this.type) {
       case VOID -> DataTypes.VOID_VALUE;

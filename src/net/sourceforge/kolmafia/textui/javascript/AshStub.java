@@ -84,7 +84,7 @@ public abstract class AshStub extends BaseFunction {
       definedArgs -= 1;
     }
 
-    ValueConverter coercer = new ValueConverter(cx, scope);
+    ScriptableValueConverter coercer = new ScriptableValueConverter(cx, scope);
 
     // Find library function matching arguments, in two stages.
     // First, designate any arguments where we can't determine type (or aggregate type) from JS
@@ -99,13 +99,17 @@ public abstract class AshStub extends BaseFunction {
       if (original == null) {
         throw new EvaluatorException("Passing null to an ASH function is not supported.");
       }
-      Value coerced = coercer.fromJava(original);
-      if (coerced == null
-          || (coerced.getType() instanceof AggregateType agg
-              && agg.getDataType().equals(DataTypes.ANY_TYPE))) {
-        coerced = new Value(DataTypes.ANY_TYPE);
+      try {
+        Value coerced = coercer.fromJava(original);
+        if (coerced == null
+            || (coerced.getType() instanceof AggregateType agg
+                && agg.getDataType().equals(DataTypes.ANY_TYPE))) {
+          coerced = new Value(DataTypes.ANY_TYPE);
+        }
+        ashArgs.add(coerced);
+      } catch (ValueConverter.ValueConverterException e) {
+        throw new EvaluatorException(e.getMessage());
       }
-      ashArgs.add(coerced);
     }
     Function function = findMatchingFunction(ashArgs, true);
 

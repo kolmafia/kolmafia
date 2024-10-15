@@ -1,10 +1,11 @@
 package net.sourceforge.kolmafia.session;
 
+import com.alibaba.fastjson2.JSONException;
+import com.alibaba.fastjson2.JSONObject;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -63,8 +64,6 @@ import net.sourceforge.kolmafia.textui.ScriptRuntime;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 @SuppressWarnings("incomplete-switch")
 public abstract class InventoryManager {
@@ -94,11 +93,9 @@ public abstract class InventoryManager {
 
     try {
       // {"1":"1","2":"1" ... }
-      Iterator<String> keys = JSON.keys();
-      while (keys.hasNext()) {
-        String key = keys.next();
+      for (String key : JSON.keySet()) {
         int itemId = StringUtilities.parseInt(key);
-        int count = JSON.getInt(key);
+        int count = JSON.getIntValue(key);
         String name = ItemDatabase.getItemDataName(itemId);
         if (name == null) {
           // Fetch descid from api.php?what=item
