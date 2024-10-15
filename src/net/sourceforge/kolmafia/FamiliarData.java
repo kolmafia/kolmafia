@@ -575,7 +575,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
       if (fam == null) continue;
 
       var data = json.getJSONObject(key);
-      fam.setSoupWeight(data.getInteger("times"));
+      fam.setSoupWeight(data.getIntValue("times"));
       var attrs = data.getJSONArray("attr").stream().map(String.class::cast).toList();
       fam.addSoupAttribute(attrs);
     }
