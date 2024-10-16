@@ -9,7 +9,9 @@ import static internal.helpers.Player.withMeat;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withTurnsPlayed;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.emptyOrNullString;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -118,6 +120,7 @@ public class RelayRequestTest {
     @ValueSource(
         strings = {
           "test_relay_request_text.txt",
+          "test_relay_request_identity_item_none.json",
           "test_relay_request_html.html",
         })
     public void returnsTextFile(String filename) throws IOException {
@@ -133,6 +136,10 @@ public class RelayRequestTest {
       assertThat(rr.statusLine, is("HTTP/1.1 200 OK"));
       assertThat(rr.responseCode, is(200));
       assertThat(rr.rawByteBuffer, is(bytes("request/test_relay_request_sample.png")));
+
+      // Not testing value here, which would require it to complete the same second.
+      assertThat(rr.getHeaderField("Last-Modified"), not(emptyOrNullString()));
+      assertThat(rr.getHeaderField("Expires"), not(emptyOrNullString()));
     }
   }
 

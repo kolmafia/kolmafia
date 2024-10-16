@@ -710,6 +710,14 @@ public class RelayRequest extends PasswordHashRequest {
     }
   }
 
+  private void setLastModified(final File override) {
+    long lastModified = override.lastModified();
+    long now = (new Date()).getTime();
+    long expires = now + (1000L * 60 * 60 * 24 * 30);
+    this.headers.add("Last-Modified: " + StringUtilities.formatDate(lastModified));
+    this.headers.add("Expires: " + StringUtilities.formatDate(expires));
+  }
+
   private void sendLocalFile(final String filename) {
     if (!RelayRequest.overrideMap.containsKey(filename)) {
       RelayRequest.overrideMap.put(filename, RelayRequest.findRelayFile(filename));
@@ -734,7 +742,7 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     // If it's a binary file, send it back without loading it as a string.
-    if (!this.contentType.startsWith("text/") && !this.contentType.startsWith("application/")) {
+    if (!this.contentType.startsWith("text/") && !this.contentType.equals("application/json")) {
       this.rawByteBuffer = ByteBufferUtilities.read(override);
       if (this.rawByteBuffer.length == 0) {
         this.sendNotFound();
@@ -742,6 +750,7 @@ public class RelayRequest extends PasswordHashRequest {
       }
       this.statusLine = "HTTP/1.1 200 OK";
       this.responseCode = 200;
+      this.setLastModified(override);
       return;
     }
 
@@ -765,11 +774,7 @@ public class RelayRequest extends PasswordHashRequest {
         StringUtilities.globalStringReplace(
             replyBuffer, "MAFIAHIT", "pwd=" + GenericRequest.passwordHash);
       } else if (!filename.endsWith(".html")) {
-        long lastModified = override.lastModified();
-        long now = (new Date()).getTime();
-        long expires = now + (1000L * 60 * 60 * 24 * 30);
-        this.headers.add("Last-Modified: " + StringUtilities.formatDate(lastModified));
-        this.headers.add("Expires: " + StringUtilities.formatDate(expires));
+        setLastModified(override);
       }
     }
 
