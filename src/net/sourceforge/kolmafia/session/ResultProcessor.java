@@ -26,6 +26,7 @@ import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import net.sourceforge.kolmafia.modifiers.Lookup;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -1530,6 +1531,11 @@ public class ResultProcessor {
 
     if (EquipmentDatabase.isHat(result)) {
       PreferenceListenerRegistry.firePreferenceChanged("(hats)");
+    }
+
+    var lookup = new Lookup(ModifierType.ITEM, itemId);
+    if (ModifierDatabase.getInventorySkillProviders().contains(lookup)) {
+      InventoryManager.checkSkillGrantingEquipment(itemId);
     }
 
     switch (itemId) {
@@ -3306,11 +3312,6 @@ public class ResultProcessor {
         }
         break;
 
-      case ItemPool.POWERFUL_GLOVE:
-      case ItemPool.REPLICA_POWERFUL_GLOVE:
-        InventoryManager.addPowerfulGloveSkills();
-        break;
-
       case ItemPool.POWDER_PUFF:
       case ItemPool.FINEST_GOWN:
       case ItemPool.DANCING_SHOES:
@@ -3355,11 +3356,6 @@ public class ResultProcessor {
         }
         break;
 
-      case ItemPool.DESIGNER_SWEATPANTS:
-      case ItemPool.REPLICA_DESIGNER_SWEATPANTS:
-        InventoryManager.addDesignerSweatpantsSkills();
-        break;
-
       case ItemPool.ROBY_BORIS_BEER:
       case ItemPool.ROBY_HONEY_BUN_OF_BORIS:
       case ItemPool.ROBY_RATATOUILLE_DE_JARLSBERG:
@@ -3396,16 +3392,6 @@ public class ResultProcessor {
         QuestDatabase.setQuestProgress(Quest.RUFUS, "step1");
         break;
 
-      case ItemPool.CINCHO_DE_MAYO:
-      case ItemPool.REPLICA_CINCHO_DE_MAYO:
-        InventoryManager.addCinchoDeMayoSkills();
-        break;
-
-      case ItemPool.AUGUST_SCEPTER:
-      case ItemPool.REPLICA_AUGUST_SCEPTER:
-        InventoryManager.addAugustScepterSkills();
-        break;
-
       case ItemPool.LED_CANDLE:
         if (adventureResults
             && KoLCharacter.currentFamiliar.getId() == FamiliarPool.JILL_OF_ALL_TRADES) {
@@ -3422,10 +3408,6 @@ public class ResultProcessor {
         if (adventureResults && KoLCharacter.currentFamiliar.getId() == FamiliarPool.MINI_KIWI) {
           Preferences.increment("_miniKiwiDrops", 1);
         }
-        break;
-
-      case ItemPool.BAT_WINGS:
-        InventoryManager.addBatWingsSkills();
         break;
     }
 

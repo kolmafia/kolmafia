@@ -2093,7 +2093,7 @@ public abstract class KoLCharacter {
     return KoLCharacter.currentModifiers.getBoolean(mod);
   }
 
-  public static final String currentStringModifier(final StringModifier mod) {
+  public static final String currentStringModifier(final Modifier mod) {
     return KoLCharacter.currentModifiers.getString(mod);
   }
 
