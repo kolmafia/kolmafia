@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia.request;
 
+import com.alibaba.fastjson2.JSONException;
+import com.alibaba.fastjson2.JSONObject;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AscensionPath;
@@ -9,8 +11,6 @@ import net.sourceforge.kolmafia.KoLConstants.ZodiacType;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 @SuppressWarnings("incomplete-switch")
 public class AccountRequest extends PasswordHashRequest {
@@ -482,7 +482,7 @@ public class AccountRequest extends PasswordHashRequest {
 
     /*
     // This is currently busted
-    int topmenu = flags.getInt( "topmenu" );
+    int topmenu = flags.getIntValue( "topmenu" );
     GenericRequest.topMenuStyle =
       (topmenu == 2 ) ?
       TopMenuStyle.MENU_FANCY :
@@ -491,32 +491,32 @@ public class AccountRequest extends PasswordHashRequest {
       TopMenuStyle.MENU_NORMAL;
     */
 
-    checked = flags.getInt("compactchar") == 1;
+    checked = flags.getIntValue("compactchar") == 1;
     CharPaneRequest.compactCharacterPane = checked;
 
-    checked = flags.getInt("swapfam") == 1;
+    checked = flags.getIntValue("swapfam") == 1;
     CharPaneRequest.familiarBelowEffects = checked;
 
-    checked = flags.getInt("ignorezonewarnings") == 1;
+    checked = flags.getIntValue("ignorezonewarnings") == 1;
     KoLCharacter.setIgnoreZoneWarnings(checked);
 
     // Inventory options
 
-    checked = flags.getInt("sellstuffugly") == 1;
+    checked = flags.getIntValue("sellstuffugly") == 1;
     KoLCharacter.setAutosellMode(checked ? "compact" : "detailed");
 
-    checked = flags.getInt("lazyinventory") == 1;
+    checked = flags.getIntValue("lazyinventory") == 1;
     KoLCharacter.setLazyInventory(checked);
 
-    checked = flags.getInt("unfamequip") == 1;
+    checked = flags.getIntValue("unfamequip") == 1;
     KoLCharacter.setUnequipFamiliar(checked);
 
     // Combat options
 
-    checked = flags.getInt("wowbar") == 1;
+    checked = flags.getIntValue("wowbar") == 1;
     Preferences.setBoolean("serverAddsCustomCombat", checked);
 
-    int autoAttackAction = flags.getInt("autoattack");
+    int autoAttackAction = flags.getIntValue("autoattack");
     KoLCharacter.setAutoAttackAction(autoAttackAction);
 
     // Account options
@@ -524,28 +524,28 @@ public class AccountRequest extends PasswordHashRequest {
     String sign = JSON.getString("sign");
     KoLCharacter.setSign(sign);
 
-    int pathId = JSON.getInt("path");
+    int pathId = JSON.getIntValue("path");
     Path path = AscensionPath.idToPath(pathId);
     KoLCharacter.setPath(path);
 
-    boolean hardcore = JSON.getInt("hardcore") == 1 || sign.equals("Bad Moon");
+    boolean hardcore = JSON.getIntValue("hardcore") == 1 || sign.equals("Bad Moon");
     KoLCharacter.setHardcore(hardcore);
 
-    boolean casual = JSON.getInt("casual") == 1;
+    boolean casual = JSON.getIntValue("casual") == 1;
     KoLCharacter.setCasual(casual);
 
     // This isn't safe in Ed after defeating adventurer, but if we're Ed we haven't freed ralph!
     if (path != Path.ACTUALLY_ED_THE_UNDYING) {
-      boolean liberated = JSON.getInt("freedralph") == 1;
+      boolean liberated = JSON.getIntValue("freedralph") == 1;
       KoLCharacter.setKingLiberated(liberated);
     } else {
       KoLCharacter.setKingLiberated(false);
     }
 
-    boolean recalled = JSON.getInt("recalledskills") == 1;
+    boolean recalled = JSON.getIntValue("recalledskills") == 1;
     KoLCharacter.setSkillsRecalled(recalled);
 
-    int eudora = flags.getInt("whichpenpal");
+    int eudora = flags.getIntValue("whichpenpal");
     KoLCharacter.setEudora(eudora);
   }
 }

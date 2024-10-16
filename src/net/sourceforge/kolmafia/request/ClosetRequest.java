@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia.request;
 
+import com.alibaba.fastjson2.JSONException;
+import com.alibaba.fastjson2.JSONObject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -17,8 +19,6 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class ClosetRequest extends TransferItemRequest {
   private ClosetRequestType moveType;
@@ -49,12 +49,12 @@ public class ClosetRequest extends TransferItemRequest {
 
     try {
       // {"1":"1","2":"1" ... }
-      Iterator<String> keys = JSON.keys();
+      Iterator<String> keys = JSON.keySet().iterator();
 
       while (keys.hasNext()) {
         String key = keys.next();
         int itemId = StringUtilities.parseInt(key);
-        int count = JSON.getInt(key);
+        int count = JSON.getIntValue(key);
         String name = ItemDatabase.getItemDataName(itemId);
         if (name == null) {
           // Fetch descid from api.php?what=item

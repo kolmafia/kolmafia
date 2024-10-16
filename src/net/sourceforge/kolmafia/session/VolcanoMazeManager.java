@@ -1,5 +1,9 @@
 package net.sourceforge.kolmafia.session;
 
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONArray;
+import com.alibaba.fastjson2.JSONException;
+import com.alibaba.fastjson2.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,9 +30,6 @@ import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.VolcanoMazeRequest;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public abstract class VolcanoMazeManager {
   private static boolean loaded = false;
@@ -652,18 +653,18 @@ public abstract class VolcanoMazeManager {
 
   private static String parseJSONCoords(final String responseText) {
     StringBuffer buffer = new StringBuffer();
-    JSONObject JSON;
+    JSONObject json;
 
     // Parse the string into a JSON object
     try {
-      JSON = new JSONObject(responseText);
+      json = JSON.parseObject(responseText);
     } catch (JSONException e) {
       return "";
     }
 
     // "pos" is the player's position
     try {
-      String pos = JSON.getString("pos");
+      String pos = json.getString("pos");
       Matcher matcher = POS_PATTERN.matcher(pos);
       if (matcher.find()) {
         int col = Integer.parseInt(matcher.group(1));
@@ -678,16 +679,16 @@ public abstract class VolcanoMazeManager {
     // "show" is an array of platforms
     JSONArray show;
     try {
-      show = JSON.getJSONArray("show");
+      show = json.getJSONArray("show");
     } catch (JSONException e) {
       return "";
     }
 
     // Iterate over the squares
     boolean first = true;
-    int count = show.length();
+    int count = show.size();
     for (int index = 0; index < count; ++index) {
-      String square = show.optString(index, null);
+      String square = show.getString(index);
 
       // Omit the goal square; that is a platform on all maps
       if (square == null || square.equals("84")) {
