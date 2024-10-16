@@ -1,0 +1,73 @@
+{
+  "functions": [
+    {
+      "id": 10749,
+      "name": "backup camera",
+      "plural": "backup cameras",
+      "descid": "703497599",
+      "image": "backcamera.gif",
+      "smallimage": "backcamera.gif",
+      "levelreq": 0,
+      "quality": "",
+      "adventures": "",
+      "muscle": "",
+      "mysticality": "",
+      "moxie": "",
+      "fullness": 0,
+      "inebriety": 0,
+      "spleen": 0,
+      "minhp": 0,
+      "maxhp": 0,
+      "minmp": 0,
+      "maxmp": 0,
+      "dailyusesleft": 2147483647,
+      "notes": "",
+      "quest": false,
+      "gift": false,
+      "tradeable": false,
+      "discardable": false,
+      "combat": false,
+      "combatReusable": false,
+      "usable": false,
+      "reusable": false,
+      "multi": false,
+      "fancy": false,
+      "pasteable": false,
+      "smithable": false,
+      "cookable": false,
+      "mixable": false,
+      "candy": false,
+      "candyType": "none",
+      "chocolate": false,
+      "potion": false,
+      "seller": {
+        "objectType": "Coinmaster",
+        "identifierString": "none"
+      },
+      "buyer": {
+        "objectType": "Coinmaster",
+        "identifierString": "none"
+      },
+      "nameLength": 13,
+      "noobSkill": {
+        "objectType": "Skill",
+        "identifierString": "none",
+        "identifierNumber": -1
+      },
+      "tcrsName": "backup camera",
+      "skill": {
+        "objectType": "Skill",
+        "identifierString": "none",
+        "identifierNumber": -1
+      },
+      "recipe": {
+        "objectType": "Item",
+        "identifierString": "none",
+        "identifierNumber": -1
+      },
+      "objectType": "Item",
+      "identifierString": "backup camera",
+      "identifierNumber": 10749
+    }
+  ]
+}

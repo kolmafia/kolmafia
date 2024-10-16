@@ -3,14 +3,16 @@ package net.sourceforge.kolmafia.textui.javascript;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
-public class ValueConverterTest {
-  Context cx = new Context();
-  Scriptable scope =
+public class ScriptableValueConverterTest {
+  private static Context cx;
+  private static Scriptable scope =
       new Scriptable() {
         @Override
         public String getClassName() {
@@ -81,6 +83,16 @@ public class ValueConverterTest {
         }
       };
 
+  @BeforeAll
+  static void beforeAll() {
+    cx = Context.enter();
+  }
+
+  @AfterAll
+  static void afterAll() {
+    Context.exit();
+  }
+
   @Test
   void asJavaFromJavaConvertWithoutDataLoss() {
     Value longMaxInt = new Value(Integer.MAX_VALUE - 1);
@@ -90,7 +102,7 @@ public class ValueConverterTest {
     Value boolTrue = new Value(true);
     Value floatValue = new Value(Float.MAX_VALUE);
 
-    ValueConverter vc = new ValueConverter(cx, scope);
+    ScriptableValueConverter vc = new ScriptableValueConverter(cx, scope);
     Assertions.assertEquals(
         vc.fromJava(vc.asJava(longMaxInt)),
         longMaxInt,

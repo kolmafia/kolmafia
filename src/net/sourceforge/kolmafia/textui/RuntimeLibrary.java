@@ -2,6 +2,8 @@ package net.sourceforge.kolmafia.textui;
 
 import static net.sourceforge.kolmafia.utilities.Statics.DateTimeManager;
 
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONException;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -209,8 +211,6 @@ import org.htmlcleaner.HtmlCleaner;
 import org.htmlcleaner.SimpleXmlSerializer;
 import org.htmlcleaner.TagNode;
 import org.htmlcleaner.XPatherException;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.wc.SVNInfo;
 import org.tmatesoft.svn.core.wc.SVNWCUtil;
@@ -3688,6 +3688,9 @@ public abstract class RuntimeLibrary {
     params = List.of();
     functions.add(
         new LibraryFunction("dart_skills_to_parts", DataTypes.SKILL_TO_STRING_TYPE, params));
+
+    params = List.of(namedParam("location", DataTypes.LOCATION_TYPE));
+    functions.add(new LibraryFunction("turns_until_forced_noncombat", DataTypes.INT_TYPE, params));
   }
 
   public static Method findMethod(final String name, final Class<?>[] args)
@@ -4285,7 +4288,7 @@ public abstract class RuntimeLibrary {
   // of one data format to another.
   public static Value to_json(ScriptRuntime controller, Value val) throws JSONException {
     Object obj = val.asProxy().toJSON();
-    return new Value(obj instanceof String ? JSONObject.quote((String) obj) : obj.toString());
+    return new Value(JSON.toJSONString(obj));
   }
 
   public static Value to_string(ScriptRuntime controller, Value val) {
@@ -11370,5 +11373,25 @@ public abstract class RuntimeLibrary {
     }
 
     return value;
+  }
+
+  public static Value turns_until_forced_noncombat(
+      ScriptRuntime controller, final Value locationValue) {
+    if (locationValue.rawValue() == null) return DataTypes.makeIntValue(-1);
+
+    var location = (KoLAdventure) locationValue.rawValue();
+    var preference = "lastNoncombat" + location.getAdventureNumber();
+    if (location.getForceNoncombat() < 0
+        || !Preferences.containsDefault(preference)
+        || Preferences.getInteger(preference) < 0) {
+      return DataTypes.makeIntValue(-1);
+    }
+
+    return DataTypes.makeIntValue(
+        Math.max(
+            0,
+            location.getForceNoncombat()
+                - (AdventureSpentDatabase.getTurns(location)
+                    - Preferences.getInteger(preference))));
   }
 }

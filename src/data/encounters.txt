@@ -1,9 +1,10 @@
 1
 # Adventure Area Name	Type	Encounter Title
 #
-# Adventure Area Name must match that in adventures.txt
+# Adventure Area Name must match that in adventures.txt or be "*"
 #
-# Type can be one of the following: STOP, LUCKY, GLYPH, TURTLE, SEAL, FIST, BORIS, BADMOON, BUGBEAR
+# Type can be one of the following: STOP, LUCKY, GLYPH, TURTLE, SEAL, FIST, BORIS, BADMOON, BUGBEAR, CLEAVER,
+#   HALLOWIENER, VIOLET_FOG, BAT_WINGS
 #
 
 ### Autostop Adventures
@@ -204,3 +205,108 @@ Navigation	BUGBEAR	Out of N-Space
 Navigation	BUGBEAR	The Water Cooler of Madness
 Galley	BUGBEAR	Darwin's Revenge
 Galley	BUGBEAR	Haute Dish
+
+### Turtle Taming Adventures
+The Limerick Dungeon	TURTLE	Nantucket Snapper
+Hero's Field	TURTLE	Blue Monday
+Megalo-City	TURTLE	Blue Monday
+The Fungus Plains	TURTLE	Blue Monday
+Vanya's Castle	TURTLE	Blue Monday
+Battlefield (No Uniform)	TURTLE	Capital!
+Battlefield (Cloaca Uniform)	TURTLE	Capital!
+Battlefield (Dyspepsi Uniform)	TURTLE	Capital!
+A Maze of Sewer Tunnels	TURTLE	Training Day
+Hobopolis Town Square	TURTLE	Training Day
+Burnbarrel Blvd.	TURTLE	Training Day
+Exposure Esplanade	TURTLE	Training Day
+The Heap	TURTLE	Training Day
+The Purple Light District	TURTLE	Training Day
+The Ancient Hobo Burial Ground	TURTLE	Training Day
+The "Fun" House	TURTLE	Boxed In
+Whitey's Grove	TURTLE	Duel Nature
+The Castle in the Clouds in the Sky (Ground Floor)	TURTLE	Slow Food
+The Degrassi Knoll Restroom	TURTLE	A Rolling Turtle Gathers No Moss
+The Degrassi Knoll Bakery	TURTLE	A Rolling Turtle Gathers No Moss
+The Degrassi Knoll Gym	TURTLE	A Rolling Turtle Gathers No Moss
+The Degrassi Knoll Garage	TURTLE	A Rolling Turtle Gathers No Moss
+Frat House	TURTLE	The Horror...
+Frat House (Frat Disguise)	TURTLE	The Horror...
+The Haunted Boiler Room	TURTLE	Slow Road to Hell
+The Outskirts of Cobb's Knob	TURTLE	C'mere, Little Fella
+Oil Peak	TURTLE	The Real Victims
+Barrrney's Barrr	TURTLE	Like That Time in Tortuga
+The Haunted Gallery	TURTLE	Cleansing your Palette
+Cobb's Knob Harem	TURTLE	Harem Scarum
+The Haiku Dungeon	TURTLE	Turtle in peril
+The Sleazy Back Alley	TURTLE	No Man, No Hole
+A Barroom Brawl	TURTLE	Slow and Steady Wins the Brawl
+The Castle in the Clouds in the Sky (Top Floor)	TURTLE	Stormy Weather
+The Haunted Conservatory	TURTLE	Turtles of the Universe
+The Spooky Forest	TURTLE	O Turtle Were Art Thou
+The Outer Compound	TURTLE	Allow 6-8 Weeks For Delivery
+The Haunted Pantry	TURTLE	Kick the Can
+Hippy Camp	TURTLE	Turtles All The Way Around
+Hippy Camp (Hippy Disguise)	TURTLE	Turtles All The Way Around
+The eXtreme Slope	TURTLE	More eXtreme Than Usual
+South of the Border	TURTLE	Jewel in the Rough
+Guano Junction	TURTLE	The worst kind of drowning
+*	TURTLE	Even Tamer Than Usual
+*	TURTLE	Never Break the Chain
+*	TURTLE	Close, but Yes Cigar
+*	TURTLE	Armchair Quarterback
+*	TURTLE	This Turtle Rocks!
+*	TURTLE	Really Sticking Her Neck Out
+*	TURTLE	It Came from Beneath the Sewer? Great!
+*	TURTLE	Don't Be Alarmed, Now
+*	TURTLE	Puttin' it on Wax
+*	TURTLE	More Like... Hurtle
+*	TURTLE	Musk! Musk! Musk!
+*	TURTLE	Silent Strolling
+
+### Mayo
+*	MAYO	Mmmmmmayonnaise
+
+### Hallowiener
+*	HALLOWIENER	Wooof! Wooooooof!
+*	HALLOWIENER	Playing Fetch*
+*	HALLOWIENER	Your Dog Found Something Again
+Sloppy Seconds Diner	HALLOWIENER	Dog Diner Afternoon
+The Secret Government Laboratory	HALLOWIENER	Labrador Conspirator
+Barf Mountain	HALLOWIENER	Doggy Heaven
+The Bubblin' Caldera	HALLOWIENER	Lava Dogs
+The Skeleton Store	HALLOWIENER	Fruuuuuuuit
+The Overgrown Lot	HALLOWIENER	Boooooze Hound
+Madness Bakery	HALLOWIENER	Baker's Dogzen
+8-Bit Realm	HALLOWIENER	Dog Needs Food Badly
+The Middle Chamber	HALLOWIENER	Ratchet-catcher
+The Dark Elbow of the Woods	HALLOWIENER	Something About Hot Wings
+The Dark Heart of the Woods	HALLOWIENER	Something About Hot Wings
+The Dark Neck of the Woods	HALLOWIENER	Something About Hot Wings
+The Defiled Nook	HALLOWIENER	Seeing-Eyes Dog
+The Smut Orc Logging Camp	HALLOWIENER	Carpenter Dog
+Guano Junction	HALLOWIENER	Are They Made of Real Dogs?
+Sonofa Beach	HALLOWIENER	Gunbowwowder
+The Degrassi Knoll Gym	HALLOWIENER	It Isn't a Poodle
+
+### June Cleaver Adventures
+*	CLEAVER	Aunts not Ants
+*	CLEAVER	Bath Time
+*	CLEAVER	Beware of Aligator
+*	CLEAVER	Delicious Sprouts
+*	CLEAVER	Hypnotic Master
+*	CLEAVER	Lost and Found
+*	CLEAVER	Poetic Justice
+*	CLEAVER	Summer Days
+*	CLEAVER	Teacher's Pet
+
+### Violet Fog Adventures
+*	VIOLET_FOG	She's So Unusual
+*	VIOLET_FOG	The Big Scary Place
+*	VIOLET_FOG	The Prince of Wishful Thinking
+*	VIOLET_FOG	Violet Fog
+
+### Bat Wings Adventures
+The Bat Hole Entrance	BAT_WINGS	You can never have enough
+Guano Junction	BAT_WINGS	Bats of a feather
+The Batrat and Ratbat Burrow	BAT_WINGS	One of us
+The Beanbat Chamber	BAT_WINGS	Magical fruit

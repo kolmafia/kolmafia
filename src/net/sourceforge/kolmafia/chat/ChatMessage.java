@@ -1,11 +1,11 @@
 package net.sourceforge.kolmafia.chat;
 
+import com.alibaba.fastjson2.JSONException;
+import com.alibaba.fastjson2.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import net.sourceforge.kolmafia.session.ContactManager;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class ChatMessage {
   private String sender;

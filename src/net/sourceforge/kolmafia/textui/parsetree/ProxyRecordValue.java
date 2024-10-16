@@ -47,19 +47,28 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
 import net.sourceforge.kolmafia.persistence.RestoresDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.persistence.TCRSDatabase;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.WildfireCampRequest;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ProxyRecordValue extends RecordValue {
+  private final Value underlyingValue;
+
   public ProxyRecordValue(final RecordType type, final Value obj) {
     super(type);
 
+    this.underlyingValue = obj;
     this.contentLong = obj.contentLong;
     this.contentString = obj.contentString;
     this.content = obj.content;
+  }
+
+  public Value getUnderlyingValue() {
+    return underlyingValue;
   }
 
   @Override
@@ -1407,6 +1416,8 @@ public class ProxyRecordValue extends RecordValue {
             .add("combat_queue", DataTypes.STRING_TYPE)
             .add("noncombat_queue", DataTypes.STRING_TYPE)
             .add("turns_spent", DataTypes.INT_TYPE)
+            .add("last_noncombat_turns_spent", DataTypes.INT_TYPE)
+            .add("force_noncombat", DataTypes.INT_TYPE)
             .add("kisses", DataTypes.INT_TYPE)
             .add("recommended_stat", DataTypes.INT_TYPE)
             .add("poison", DataTypes.INT_TYPE)
@@ -1527,6 +1538,23 @@ public class ProxyRecordValue extends RecordValue {
       return this.content != null
           ? AdventureSpentDatabase.getTurns((KoLAdventure) this.content, true)
           : 0;
+    }
+
+    public int get_last_noncombat_turns_spent() {
+      if (this.content == null) {
+        return -1;
+      }
+
+      // Default -1 if this location doesn't have forcenoncombat.
+      var id = ((KoLAdventure) this.content).getAdventureId();
+      if (id.isEmpty()) return -1;
+
+      var turnsString = Preferences.getString("lastNoncombat" + id);
+      return turnsString.isEmpty() ? -1 : StringUtilities.parseInt(turnsString);
+    }
+
+    public int get_force_noncombat() {
+      return this.content != null ? ((KoLAdventure) this.content).getForceNoncombat() : -1;
     }
 
     public int get_kisses() {

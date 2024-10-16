@@ -42,6 +42,11 @@ public abstract class EncounterManager {
     BORIS(true),
     BADMOON(true),
     BUGBEAR,
+    MAYO,
+    CLEAVER,
+    HALLOWIENER,
+    VIOLET_FOG,
+    BAT_WINGS,
     WANDERER,
     SUPERLIKELY,
     ULTRARARE,
@@ -98,16 +103,23 @@ public abstract class EncounterManager {
     resetEncounters();
   }
 
-  private static void resetEncounters() {
+  /**
+   * Reset encounter database from encounters.txt
+   *
+   * @return Whether the reset was fully successful
+   */
+  public static boolean resetEncounters() {
     ArrayList<Encounter> encounters = new ArrayList<>();
+    boolean success = true;
 
     try (BufferedReader reader =
         FileUtilities.getVersionedReader("encounters.txt", KoLConstants.ENCOUNTERS_VERSION)) {
       String[] data;
 
       while ((data = FileUtilities.readData(reader)) != null) {
-        if (!AdventureDatabase.validateAdventureArea(data[0])) {
+        if (!data[0].equals("*") && !AdventureDatabase.validateAdventureArea(data[0])) {
           RequestLogger.printLine("Invalid adventure area: \"" + data[0] + "\"");
+          success = false;
           continue;
         }
 
@@ -115,9 +127,11 @@ public abstract class EncounterManager {
       }
     } catch (IOException e) {
       StaticEntity.printStackTrace(e);
+      success = false;
     }
 
     specialEncounters = encounters.toArray(new Encounter[encounters.size()]);
+    return success;
   }
 
   /** Utility method used to register a given adventure in the running adventure summary. */
@@ -160,7 +174,11 @@ public abstract class EncounterManager {
   public static final Encounter findEncounter(
       final String locationName, final String encounterName) {
     return Arrays.stream(specialEncounters)
-        .filter(e -> locationName == null || e.getLocation().equalsIgnoreCase(locationName))
+        .filter(
+            e ->
+                locationName == null
+                    || e.getLocation().equals("*")
+                    || e.getLocation().equalsIgnoreCase(locationName))
         .filter(e -> e.getEncounter().equalsIgnoreCase(encounterName))
         .findAny()
         .orElse(null);

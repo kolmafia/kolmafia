@@ -7,6 +7,7 @@ import static internal.helpers.Networking.getPostRequestBody;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Networking.json;
 import static internal.helpers.Player.withAdventuresLeft;
+import static internal.helpers.Player.withAdventuresSpent;
 import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withDay;
 import static internal.helpers.Player.withEffect;
@@ -40,6 +41,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import com.alibaba.fastjson2.JSONObject;
 import internal.helpers.Cleanups;
 import internal.helpers.HttpClientWrapper;
 import internal.network.FakeHttpClientBuilder;
@@ -55,9 +57,11 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
@@ -70,7 +74,6 @@ import net.sourceforge.kolmafia.session.GreyYouManager;
 import net.sourceforge.kolmafia.session.MallPriceManager;
 import net.sourceforge.kolmafia.textui.command.AbstractCommandTestBase;
 import net.sourceforge.kolmafia.utilities.NullStream;
-import org.json.JSONObject;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -1583,6 +1586,36 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       assertThat(
           execute("$" + type + "[none].to_int()"),
           both(startsWith("Returned: ")).and(not(containsString("Script execution aborted"))));
+    }
+  }
+
+  @Nested
+  class TurnsUntilForcedNoncombat {
+    @Test
+    void works() {
+      AdventureSpentDatabase.resetTurns();
+      var cleanups =
+          new Cleanups(
+              withAdventuresSpent(AdventurePool.HAUNTED_BILLIARDS_ROOM, 5),
+              withProperty("lastNoncombat" + AdventurePool.HAUNTED_BILLIARDS_ROOM, 3));
+      try (cleanups) {
+        assertThat(
+            execute("$location[The Haunted Billiards Room].turns_until_forced_noncombat()").trim(),
+            is("Returned: 8"));
+      }
+    }
+
+    @Test
+    void worksOnNotApplicableValues() {
+      assertThat(
+          execute("$location[The Haunted Kitchen].turns_until_forced_noncombat()").trim(),
+          is("Returned: -1"));
+    }
+
+    @Test
+    void worksOnNoneValues() {
+      assertThat(
+          execute("$location[none].turns_until_forced_noncombat()").trim(), is("Returned: -1"));
     }
   }
 }

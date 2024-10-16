@@ -1,5 +1,9 @@
 package net.sourceforge.kolmafia.persistence;
 
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONArray;
+import com.alibaba.fastjson2.JSONException;
+import com.alibaba.fastjson2.JSONObject;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -60,9 +64,6 @@ import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.utilities.WikiUtilities;
 import net.sourceforge.kolmafia.utilities.WikiUtilities.WikiType;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.SVNURL;
 import org.w3c.dom.Document;
@@ -128,7 +129,7 @@ public class DebugDatabase {
     String plural = "";
     JSONObject json;
     try {
-      json = new JSONObject(request.responseText);
+      json = JSON.parseObject(request.responseText);
       plural = (String) json.get("plural");
     } catch (JSONException ex) {
       KoLmafia.updateDisplay("Exception reading API: " + ex.getMessage());
@@ -2407,12 +2408,12 @@ public class DebugDatabase {
 
     try (report) {
       var array = getMuseumPluralArray();
-      var length = array.length();
+      var length = array.size();
       for (int i = 0; i < length; i++) {
         var entry = array.getJSONObject(i);
-        var id = entry.getInt("itemid");
+        var id = entry.getIntValue("itemid");
         var name = entry.getString("name");
-        var plural = entry.optString("plural", "");
+        var plural = Optional.ofNullable(entry.getString("plural")).orElse("");
 
         if (plural.equals(name + "s")) {
           // make default
@@ -2587,7 +2588,7 @@ public class DebugDatabase {
     }
 
     try {
-      int power = JSON.getInt("power");
+      int power = JSON.getIntValue("power");
 
       // Yes, some items really are power 0
       if (power == 0 || power == current) {
@@ -2712,7 +2713,7 @@ public class DebugDatabase {
 
       try {
         int oldPower = EquipmentDatabase.getPower(itemId);
-        int correctPower = JSON.getInt("power");
+        int correctPower = JSON.getIntValue("power");
         if (oldPower == correctPower) {
           continue;
         }
