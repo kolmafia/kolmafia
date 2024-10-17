@@ -2004,7 +2004,7 @@
 2110	Sylvia Belgrande	arm	body	head	leg
 2111	Sharona	arm	body	head	leg
 2112	Jake Norris	arm	body	head	leg
-2113	Chad Alacarte	army	body	head	leg
+2113	Chad Alacarte	arm	body	head	leg
 2114	%alucard%	arm	body	head	leg
 2115	Your Lack of Reflection	absence	missingness	nothereness
 2116	giant crab	claw	eyestalk	head	leg
