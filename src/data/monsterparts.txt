@@ -425,7 +425,7 @@
 450	Protector Spectre	...wing?	arm	head	leg	torso
 451	caveman frat boy	arm	head	leg	torso
 452	caveman sorority girl	arm	head	leg	torso
-453	Dr. Awkward	arm	head	leg
+453	Dr. Awkward	arm	head	leg	torso
 454	possessed wine rack (obsolete)	leg	shelf
 455	skeletal sommelier (obsolete)	arm	head	leg	torso
 456	swarm of scarab beatles	head	leg
@@ -2004,7 +2004,7 @@
 2110	Sylvia Belgrande	arm	body	head	leg
 2111	Sharona	arm	body	head	leg
 2112	Jake Norris	arm	body	head	leg
-2113	Chad Alacarte	army	body	head	leg
+2113	Chad Alacarte	arm	body	head	leg
 2114	%alucard%	arm	body	head	leg
 2115	Your Lack of Reflection	absence	missingness	nothereness
 2116	giant crab	claw	eyestalk	head	leg
@@ -2138,7 +2138,7 @@
 2250	gangster's moll	arm	head	leg	torso
 2251	traveling hobo	arm	head	leg	torso
 2252	goblin flapper	arm	dress	hairdo	head	leg
-2253	undercover prohibition agent	arm	head	leg	sunglasses	torso
+2253	undercover prohibition agent	arm	hat	head	leg	sunglasses	torso
 2254	Brake-Operating Trainbot	abdomen	brake line	claw	head
 2255	Track-Switching Trainbot	chassis	eye	flag	lever
 2256	Ping-Pong-Playing Trainbot	camera	chassis	net	paddle
@@ -2177,8 +2177,8 @@
 2289	shadow of Groar	abyss	darkness	nothingness	shadow	void
 2290	shadow of the 1960s	abyss	darkness	nothingness	shadow	void
 2291	shadow of the 1980s
-2292	General Bruise	arm	head	torso	leg
-2293	General Bruise (true form)	arm	head	torso	leg
+2292	General Bruise	arm	head	leg	torso
+2293	General Bruise (true form)	arm	head	leg	torso
 2294	Dark Noël	arm	hat	head	leg	torso
 2295	Dark Noël (true form)	hoof	mouth	tentacle
 2296	Terrence Poindexter	arm	hat	head	leg	torso

@@ -143,6 +143,7 @@ public class Preferences {
         "beGregariousFightsLeft",
         "bigBrotherRescued",
         "blankOutUsed",
+        "bodyguardCharge",
         "bondAdv",
         "bondBeach",
         "bondBeat",
