@@ -1,2 +1,5 @@
 gradlew text eol=lf
 test/root/** text eol=lf
+test/root/**/*.png binary
+test/root/**/*.gif binary
+test/root/**/*.ser binary
