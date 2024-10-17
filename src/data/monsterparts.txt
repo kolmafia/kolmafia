@@ -425,7 +425,7 @@
 450	Protector Spectre	...wing?	arm	head	leg	torso
 451	caveman frat boy	arm	head	leg	torso
 452	caveman sorority girl	arm	head	leg	torso
-453	Dr. Awkward	arm	head	leg
+453	Dr. Awkward	arm	head	leg	torso
 454	possessed wine rack (obsolete)	leg	shelf
 455	skeletal sommelier (obsolete)	arm	head	leg	torso
 456	swarm of scarab beatles	head	leg
