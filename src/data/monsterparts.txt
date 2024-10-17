@@ -2138,7 +2138,7 @@
 2250	gangster's moll	arm	head	leg	torso
 2251	traveling hobo	arm	head	leg	torso
 2252	goblin flapper	arm	dress	hairdo	head	leg
-2253	undercover prohibition agent	arm	head	leg	sunglasses	torso
+2253	undercover prohibition agent	arm	hat	head	leg	sunglasses	torso
 2254	Brake-Operating Trainbot	abdomen	brake line	claw	head
 2255	Track-Switching Trainbot	chassis	eye	flag	lever
 2256	Ping-Pong-Playing Trainbot	camera	chassis	net	paddle
