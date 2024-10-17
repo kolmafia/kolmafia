@@ -2177,8 +2177,8 @@
 2289	shadow of Groar	abyss	darkness	nothingness	shadow	void
 2290	shadow of the 1960s	abyss	darkness	nothingness	shadow	void
 2291	shadow of the 1980s
-2292	General Bruise	arm	head	torso	leg
-2293	General Bruise (true form)	arm	head	torso	leg
+2292	General Bruise	arm	head	leg	torso
+2293	General Bruise (true form)	arm	head	leg	torso
 2294	Dark Noël	arm	hat	head	leg	torso
 2295	Dark Noël (true form)	hoof	mouth	tentacle
 2296	Terrence Poindexter	arm	hat	head	leg	torso
