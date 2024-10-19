@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia.request;
 
+import com.alibaba.fastjson2.JSONException;
+import com.alibaba.fastjson2.JSONObject;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -15,8 +17,6 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class ApiRequest extends GenericRequest {
   private static final ApiRequest INSTANCE = new ApiRequest("status");
@@ -344,7 +344,7 @@ public class ApiRequest extends GenericRequest {
     try {
       // Pull out the current ascension count. Do this first.
       // Some later processing depends on this.
-      int ascensions = JSON.getInt("ascensions");
+      int ascensions = JSON.getIntValue("ascensions");
       KoLCharacter.setAscensions(ascensions);
 
       // Pull out the current password hash
@@ -387,7 +387,7 @@ public class ApiRequest extends GenericRequest {
       KoLCharacter.setRollover(rollover);
 
       // Add the global count of rollovers everyone shares
-      int daycount = JSON.getInt("daynumber");
+      int daycount = JSON.getIntValue("daynumber");
       KoLCharacter.setGlobalDays(daycount);
     } catch (JSONException e) {
       ApiRequest.reportParseError("status", JSON.toString(), e);
@@ -470,7 +470,7 @@ public class ApiRequest extends GenericRequest {
     // Parse the string into a JSON object
     try {
       String str = ApiRequest.getJSONString(text);
-      return str == null ? null : new JSONObject(str);
+      return str == null ? null : com.alibaba.fastjson2.JSON.parseObject(str);
     } catch (JSONException e) {
       ApiRequest.reportParseError(what, text, e);
     }

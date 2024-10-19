@@ -720,7 +720,7 @@ Item	grubby wool trousers	Initiative: +25, Damage Reduction: 5, Familiar Weight:
 Item	gym shorts	PvP Fights: +2, Initiative: +20, Familiar Effect: "sleaze atk, 1xGhuol, cap 25"
 Item	hardened slime pants	Spooky Resistance: +3, Stench Resistance: +3, Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3, Never Fumble, Moxie Percent: +20, Familiar Effect: "atk, 1xPotato"
 Item	hep waders	Maximum Hooch: +3, Familiar Effect: "1xPotato, 1xVolley, cap 12"
-# high-tension exoskeleton: Avoid the first attack in each combat
+Item	high-tension exoskeleton	Avoid Attack: 1
 Item	hippopotamus kilt	Maximum HP: +25, Familiar Effect: "atk, 1xFairy, cap 32"
 Item	hippopotamus pants	Maximum HP: +25, Familiar Effect: "1xPotato, 2xGhuol, cap 32"
 Item	hippopotamus skirt	Maximum HP: +25, Familiar Effect: "1xBarrr, 1xFairy, cap 32"
@@ -729,7 +729,7 @@ Item	Hodgman's lobsterskin pants	Muscle Percent: +20, Mysticality Percent: +20, 
 Item	honeybritches	Muscle Percent: +5, Critical Hit Percent: +5, Weapon Damage: +15, Familiar Effect: "sleaze atk, 2xGhuol, cap 43"
 Item	hot daub stand	Hot Damage: +9, Hot Spell Damage: +9, Familiar Effect: "hot atk, cap 21"
 Item	ironic jogging shorts	Initiative: +10, Damage Absorption: +20, Moxie: -5, Familiar Effect: "1xBarrr, 6xGhuol, cap 10"
-# irresponsible-tension exoskeleton: Avoid the first three attacks in each combat
+Item	irresponsible-tension exoskeleton	Avoid Attack: 3
 Item	Jeans of Loathing	HP Regen Min: 20, HP Regen Max: 30, MP Regen Min: 20, MP Regen Max: 30, Maximum HP: +500, Maximum MP: +500, Stench Resistance: +5, Cloathing, Familiar Effect: "stench atk, 1xPotato"
 # Jodhpurs of Violence: Allows moshing
 Item	Jodhpurs of Violence	PvP Fights: +4, Critical Hit Percent: +5, Weapon Damage Percent: +30, Familiar Effect: "atk, 1xPotato"
@@ -896,7 +896,7 @@ Item	troutpiece	Familiar Effect: "1xVolley, 1xBarrr, cap 27"
 Item	troutsers	Moxie Percent: +50, Pickpocket Chance: +50, Spooky Damage: +11, Stench Damage: +11, Hot Damage: +11, Cold Damage: +11, Sleaze Damage: +11, Spooky Resistance: +5, Stench Resistance: +5, Hot Resistance: +5, Cold Resistance: +5, Sleaze Resistance: +5, Lasts Until Rollover, Familiar Effect: "sleaze atk, 0.5xPotato"
 Item	turtle wax greaves	Muscle: +2, Familiar Effect: "atk, 3xBarrr, cap 10"
 Item	turtlemail breeches	Maximum HP: +30, Sleaze Resistance: +2, Familiar Effect: "3xBarrr, 1.5xFairy, cap 20"
-# ultra-high-tension exoskeleton: Avoid the first two attacks in each combat
+Item	ultra-high-tension exoskeleton	Avoid Attack: 2
 Item	Uncle Hobo's gift baggy pants	Moxie Percent: +20, Critical Hit Percent: +5, Familiar Effect: "1xPotato, 1xGhuol"
 Item	union scalemail pants	Familiar Effect: "2xBarrr, cap 12"
 Item	Unkillable Skeleton's shinguards	Sleaze Damage: +50, Hot Resistance: +5, Stench Resistance: +1, Class: "Turtle Tamer", Familiar Effect: "1xVolley, 1xBarrr"
@@ -1026,7 +1026,7 @@ Item	hipposkin poncho	Monster Level: +10
 Item	Hodgman's disgusting technicolor overcoat	Spooky Damage: +15, Stench Damage: +15, Hot Damage: +15, Cold Damage: +15, Sleaze Damage: +15, Spooky Resistance: +5, Stench Resistance: +5, Hot Resistance: +5, Cold Resistance: +5, Sleaze Resistance: +5
 Item	icing poncho	Cold Damage: +25, Cold Spell Damage: +25, Food Drop: +50
 Item	junk-mail shirt	Muscle: +4, Mysticality: +4, Moxie: +4
-Item	Jurassic Parka	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Spooky Resistance: 1, Stench Resistance: 1, Hot Resistance: 1, Cold Resistance: 1, Sleaze Resistance: 1
+Item	Jurassic Parka	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Spooky Resistance: 1, Stench Resistance: 1, Hot Resistance: 1, Cold Resistance: 1, Sleaze Resistance: 1, Avoid Attack: 1
 Item	Kashmir sweater	Hot Damage: +10, Hot Spell Damage: +10
 Item	Kelflar vest	Elf Warfare Effectiveness: +3, Damage Reduction: 5, Negative Status Resist
 Item	Kiss the Knob apron	Maximum MP: +5
@@ -1062,7 +1062,7 @@ Item	red coat	Ranged Damage: +25, Initiative: -25
 Item	red shirt	Monster Level: +20, Muscle Percent: -50, Mysticality Percent: -50, Moxie Percent: -50
 # red-and-green sweater: Shocking!
 Item	reflective vest	Combat Rate: +10
-Item	replica Jurassic Parka	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Spooky Resistance: 1, Stench Resistance: 1, Hot Resistance: 1, Cold Resistance: 1, Sleaze Resistance: 1
+Item	replica Jurassic Parka	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Spooky Resistance: 1, Stench Resistance: 1, Hot Resistance: 1, Cold Resistance: 1, Sleaze Resistance: 1, Avoid Attack: 1
 Item	rhinestone cowboy shirt	Muscle: +5
 Item	safety vest	Damage Reduction: 3, Moxie: +5
 Item	sea salt scrubs	Maximum HP: +400, Maximum MP: +400, Mysticality Percent: +15
@@ -3036,16 +3036,14 @@ Item	Dreadsylvania Auditor's badge	Item Drop: +10, Kruegerand Drop: 5, Single Eq
 Item	driftwood beach comb	Moxie Percent: +5, MP Regen Min: 4, MP Regen Max: 5, Familiar Weight: +2, Single Equip, Lasts Until Rollover
 Item	driftwood bracelet	Mysticality: +5, Mysticality Percent: +1, Maximum MP: +1, Maximum MP Percent: +1, Spell Damage: +1, Spell Damage Percent: +1, Spell Critical Percent: +1, Experience (Mysticality): +2, Experience Percent (Mysticality): +1, Single Equip, Lasts Until Rollover
 Item	droll monocle	MP Regen Min: 2, MP Regen Max: 4, Meat Drop: +20, Single Equip
-# Drunkula's ring of haze: The first attack against you will always miss
-Item	Drunkula's ring of haze	Weapon Damage Percent: -100, Maximum HP: -200, Maximum MP: +300, Single Equip
+Item	Drunkula's ring of haze	Weapon Damage Percent: -100, Maximum HP: -200, Maximum MP: +300, Single Equip, Avoid Attack: 1
 Item	duonoculars	Combat Rate: -5, Monster Level: +5, Single Equip
 Item	Duskwalker fangs	Weapon Damage Percent: +5, Weakens Monster
 Item	Dyspepsi-Cola-issue canteen	Maximum MP: +5, Single Equip
 # E.M.U. Unit
 Item	Earring of Fire	Cold Resistance: +3, Spooky Resistance: +3, Single Equip
 Item	eerie fetish	Spooky Resistance: +4, Single Equip
-# Eight Days a Week Pill Keeper: Doesn't Let You Down once a fight
-Item	Eight Days a Week Pill Keeper	Maximum HP: +20, HP Regen Min: 10, HP Regen Max: 15, MP Regen Min: 10, MP Regen Max: 15, Muscle: +10, Mysticality: +10, Moxie: +10
+Item	Eight Days a Week Pill Keeper	Maximum HP: +20, HP Regen Min: 10, HP Regen Max: 15, MP Regen Min: 10, MP Regen Max: 15, Muscle: +10, Mysticality: +10, Moxie: +10, Avoid Attack: 1
 # El Vibrato translator
 Item	elevennis shoes	Muscle: +11, Mysticality: +11, Moxie: +11, Maximum HP: +11, Maximum MP: +11
 Item	Elf Guard commandeering gloves	Item Drop: +3, Piece of Twelve Drop: 0.5, Single Equip
@@ -5010,8 +5008,7 @@ Edpiece	owl	Mysticality: +20, Experience (Mysticality): +2
 Edpiece	puma	Moxie: +20, Experience (Moxie): +2
 Edpiece	hyena	Monster Level: +20
 Edpiece	mouse	Item Drop: +10, Meat Drop: +20
-# Edpiece	weasel First attack against you will always miss
-Edpiece	weasel	HP Regen Min: 10, HP Regen Max: 20
+Edpiece	weasel	HP Regen Min: 10, HP Regen Max: 20, Avoid Attack: 1
 Edpiece	fish	Adventure Underwater
 
 # Bedazzlements section of modifiers.txt
@@ -5234,7 +5231,7 @@ Effect	Abominably Slippery	Initiative: +20, Sleaze Resistance: +2
 Effect	Abuela's Army	Elf Warfare Effectiveness: +10, Maximum HP Percent: +100, HP Regen Min: 8, HP Regen Max: 10
 Effect	Abuela's Navy	Pirate Warfare Effectiveness: +10, Maximum MP Percent: +100, MP Regen Min: 8, MP Regen Max: 10
 Effect	Abyssal Blood	Weapon Damage Percent: +100, Hot Damage: +50, HP Regen Min: 40, HP Regen Max: 50
-# Abyssal Sweat: The first attack against you will always miss
+Effect	Abyssal Sweat	Avoid Attack: 1
 Effect	Abyssal Tears	Reduce Enemy Defense: 20
 Effect	Ack!  Barred!	Muscle Percent: +30
 Effect	Action	Muscle Percent: +100
@@ -5486,7 +5483,7 @@ Effect	Blinking Belly	Combat Rate: +10
 Effect	Block-Rockin' Beet	Damage Reduction: 15
 # Blood Bond: Lose 8-10 HP per Adventure
 Effect	Blood Bond	Familiar Weight: +5
-# Blood Bubble: The first attack against you will always miss
+Effect	Blood Bubble	Avoid Attack: 1
 Effect	Blood of the Jerk that Bit You	Avatar: "Mansquito"
 Effect	Blood Porter	Maximum HP: [min(pref(bloodweiserDrunk),50)*10], HP Regen Min: [min(pref(bloodweiserDrunk),40)], HP Regen Max: [min(pref(bloodweiserDrunk),40)*2]
 Effect	[1457]Blood Sugar Sauce Magic	Maximum HP Percent: -10, Maximum MP Percent: +10
@@ -8160,7 +8157,7 @@ Skill	Adrenal Gland	Spooky Resistance: +2
 Skill	Advanced Exo-Alloy	Damage Absorption: +100
 # Adventurer of Leisure: Disco Napping is much more effective
 Skill	Adventurer of Leisure	Free Rests: 2
-# Air of Mystery: The first attack against you will always miss
+Skill	Air of Mystery	Avoid Attack: 1
 Skill	Algebra	Mysticality: +25
 Skill	Alien Source Code	Maximum MP: +5
 Skill	Aluminum Nerves	MP Regen Min: 8, MP Regen Max: 10

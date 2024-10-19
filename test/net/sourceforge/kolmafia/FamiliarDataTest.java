@@ -21,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.alibaba.fastjson2.JSONObject;
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.equipment.Slot;
@@ -31,7 +32,6 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
-import org.json.JSONObject;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
@@ -301,16 +301,16 @@ public class FamiliarDataTest {
       JSONObject JSON = json(text);
 
       // Here are the attributes relevant to familiars
-      int famId = JSON.getInt("familiar");
-      int famExp = JSON.getInt("familiarexp");
+      int famId = JSON.getIntValue("familiar");
+      int famExp = JSON.getIntValue("familiarexp");
       String famPic = JSON.getString("familiarpic");
-      int famLevel = JSON.getInt("famlevel");
-      boolean feasted = JSON.getInt("familiar_wellfed") == 1;
+      int famLevel = JSON.getIntValue("famlevel");
+      boolean feasted = JSON.getIntValue("familiar_wellfed") == 1;
 
       // Stats affect Familiar Weight in Quantum Familiar
-      int basemuscle = JSON.getInt("basemuscle");
-      int basemysticality = JSON.getInt("basemysticality");
-      int basemoxie = JSON.getInt("basemoxie");
+      int basemuscle = JSON.getIntValue("basemuscle");
+      int basemysticality = JSON.getIntValue("basemysticality");
+      int basemoxie = JSON.getIntValue("basemoxie");
 
       Cleanups cleanups =
           new Cleanups(
@@ -341,17 +341,17 @@ public class FamiliarDataTest {
       JSONObject JSON = json(text);
 
       // Here are the attributes relevant to familiars
-      int famId = JSON.getInt("familiar");
+      int famId = JSON.getIntValue("familiar");
       assertEquals(famId, FamiliarPool.GHOST_CHEER);
-      int famExp = JSON.getInt("familiarexp");
+      int famExp = JSON.getIntValue("familiarexp");
       String famPic = JSON.getString("familiarpic");
-      int famLevel = JSON.getInt("famlevel");
-      boolean feasted = JSON.getInt("familiar_wellfed") == 1;
+      int famLevel = JSON.getIntValue("famlevel");
+      boolean feasted = JSON.getIntValue("familiar_wellfed") == 1;
 
       // Stats affect Familiar Weight in Quantum Familiar
-      int basemuscle = JSON.getInt("basemuscle");
-      int basemysticality = JSON.getInt("basemysticality");
-      int basemoxie = JSON.getInt("basemoxie");
+      int basemuscle = JSON.getIntValue("basemuscle");
+      int basemysticality = JSON.getIntValue("basemysticality");
+      int basemoxie = JSON.getIntValue("basemoxie");
 
       Cleanups cleanups =
           new Cleanups(
@@ -388,12 +388,12 @@ public class FamiliarDataTest {
       JSONObject JSON = json(text);
 
       // Here are the attributes relevant to familiars
-      int famId = JSON.getInt("familiar");
+      int famId = JSON.getIntValue("familiar");
       assertEquals(famId, FamiliarPool.GHOST_CHEER);
-      int famExp = JSON.getInt("familiarexp");
+      int famExp = JSON.getIntValue("familiarexp");
       String famPic = JSON.getString("familiarpic");
-      int famLevel = JSON.getInt("famlevel");
-      boolean feasted = JSON.getInt("familiar_wellfed") == 1;
+      int famLevel = JSON.getIntValue("famlevel");
+      boolean feasted = JSON.getIntValue("familiar_wellfed") == 1;
 
       Cleanups cleanups =
           new Cleanups(

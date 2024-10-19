@@ -1,5 +1,9 @@
 package net.sourceforge.kolmafia.chat;
 
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONArray;
+import com.alibaba.fastjson2.JSONException;
+import com.alibaba.fastjson2.JSONObject;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -14,9 +18,6 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.RollingLinkedList;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class ChatPoller extends Thread {
   // The most recent HistoryEntries we processed
@@ -335,7 +336,7 @@ public class ChatPoller extends Thread {
     List<ChatMessage> messages = new LinkedList<>();
     try {
       ChatPoller.parseNewChat(
-          messages, new JSONObject(responseData), "", ChatPoller.localLastSeen, true);
+          messages, JSON.parseObject(responseData), "", ChatPoller.localLastSeen, true);
     } catch (JSONException e) {
       e.printStackTrace();
     }
@@ -350,11 +351,11 @@ public class ChatPoller extends Thread {
       final boolean debug)
       throws JSONException {
     JSONArray msgs = obj.getJSONArray("msgs");
-    for (int i = 0; i < msgs.length(); i++) {
+    for (int i = 0; i < msgs.size(); i++) {
       JSONObject msg = msgs.getJSONObject(i);
 
       // If we have already seen this message in the chat GUI, skip it.
-      long mid = msg.optLong("mid");
+      long mid = msg.getLongValue("mid");
       if (!debug && mid != 0 && mid <= ChatPoller.serverLastSeen) {
         continue;
       }
@@ -362,7 +363,7 @@ public class ChatPoller extends Thread {
       String type = msg.getString("type");
       boolean pub = type.equals("public");
 
-      String formatString = msg.optString("format");
+      String formatString = msg.getString("format");
       int format = formatString == null ? 0 : StringUtilities.parseInt(formatString);
 
       // From mchat.js:
@@ -382,15 +383,15 @@ public class ChatPoller extends Thread {
       // System Message or Event. Those are probably
       // obsolete, now that they have their own types
 
-      JSONObject whoObj = msg.optJSONObject("who");
+      JSONObject whoObj = msg.getJSONObject("who");
       String sender = whoObj != null ? whoObj.getString("name") : null;
       String senderId = whoObj != null ? whoObj.getString("id") : null;
       boolean mine = KoLCharacter.getPlayerId().equals(senderId);
 
-      JSONObject forObj = msg.optJSONObject("for");
-      String recipient = forObj != null ? forObj.optString("name") : null;
+      JSONObject forObj = msg.getJSONObject("for");
+      String recipient = forObj != null ? forObj.getString("name") : null;
 
-      String content = msg.optString("msg", null);
+      String content = msg.getString("msg");
 
       if (type.equals("event")) {
         // {"type":"event","msg":"You are now in away mode, chat will update more slowly until you
@@ -460,11 +461,11 @@ public class ChatPoller extends Thread {
       final String responseData, final String sent, final long localLastSeen) {
     try {
       List<ChatMessage> messages = new LinkedList<>();
-      JSONObject obj = new JSONObject(responseData);
+      JSONObject obj = JSON.parseObject(responseData);
 
       // note: output is where /who, /listen, + various game commands
       // (/use etc) output goes. May exist.
-      String output = obj.optString("output", null);
+      String output = obj.getString("output");
       if (output != null) {
         // TODO: strip channelname so /cli works again.
         ChatSender.processResponse(messages, output, sent);
@@ -472,14 +473,14 @@ public class ChatPoller extends Thread {
 
       ChatPoller.parseNewChat(messages, obj, sent, localLastSeen, false);
 
-      if (obj.has("last")) {
+      if (obj.containsKey("last")) {
         // Remember the last timestamp the server gave us
         ChatPoller.setServerLast(obj.getLong("last"));
       }
 
-      if (obj.has("delay")) {
+      if (obj.containsKey("delay")) {
         // Set the chat GUI's delay to whatever KoL says it should be.
-        ChatPoller.setServerDelay(obj.getInt("delay"));
+        ChatPoller.setServerDelay(obj.getIntValue("delay"));
       }
 
       ChatManager.processMessages(messages);

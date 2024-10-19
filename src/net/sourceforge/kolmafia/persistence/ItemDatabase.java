@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia.persistence;
 
+import com.alibaba.fastjson2.JSONException;
+import com.alibaba.fastjson2.JSONObject;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -57,8 +59,6 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 import org.htmlcleaner.HtmlCleaner;
 import org.htmlcleaner.TagNode;
 import org.htmlcleaner.XPatherException;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class ItemDatabase {
   private static int maxItemId = 0;
@@ -734,7 +734,7 @@ public class ItemDatabase {
     try {
       String name = JSON.getString("name");
       String descid = JSON.getString("descid");
-      int power = JSON.getInt("power");
+      int power = JSON.getIntValue("power");
       ItemDatabase.registerItem(itemId, name, descid, null, power, false);
     } catch (JSONException e) {
       KoLmafia.updateDisplay("Error parsing JSON string!");

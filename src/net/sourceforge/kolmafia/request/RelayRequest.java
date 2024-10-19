@@ -3873,7 +3873,7 @@ public class RelayRequest extends PasswordHashRequest {
         if (index != -1) {
           index += string.length();
           for (ChatMessage message : messages) {
-            org.json.JSONObject object = message.toJSON();
+            com.alibaba.fastjson2.JSONObject object = message.toJSON();
             if (object != null) {
               string = object.toString();
               buffer.insert(index, string);
