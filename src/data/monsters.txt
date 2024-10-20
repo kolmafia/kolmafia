@@ -2168,7 +2168,7 @@ shadow cauldron	2302	shadowcauldron.gif	FREE BOSS NOCOPY Atk: [300+5*pref(_shado
 shadow matrix	2303	shadowmatrix.gif	FREE BOSS NOCOPY Atk: [300+5*pref(_shadowRiftCombats)] Def: [300+5*pref(_shadowRiftCombats)] HP: [500+10*pref(_shadowRiftCombats)] Init: 1000 P: horror Phys: 100 Elem: [min(pref(_shadowRiftCombats),90)] Article: a	shadow flame (100)	shadow skin (100)
 
 # august scepter (Aug 2023)
-Tooth Golem	2336	toothgolem.gif	Scale: ? Cap: ? Floor: ? Init: -10000 P: construct Article: a	loose teeth (100)	loose teeth (100)	loose teeth (100)	loose teeth (100)	fixodent (50)
+Tooth Golem	2336	toothgolem.gif	Scale: ? Cap: 10000 Floor: ? Init: -10000 P: construct Article: a	loose teeth (100)	loose teeth (100)	loose teeth (100)	loose teeth (100)	fixodent (50)
 
 # A Guide to Burning Leaves (Nov 2023)
 flaming leaflet	2389	leaflet.gif	FREE NOCOPY Atk: 11 Def: 11 HP: 11 Init: 11 P: plant E: hot Article: a	inflammable leaf (100)	inflammable leaf (75)	inflammable leaf (50)	inflammable leaf (25)	inflammable leaf (10)	inflammable leaf (5)	inflammable leaf (1)
@@ -2176,7 +2176,7 @@ flaming monstera	2390	monstera.gif	FREE NOCOPY Scale: 0 Cap: ? Floor: ? Init: 50
 leaviathan	2391	leaviathan.gif	FREE NOCOPY Scale: 25 Cap: ? Floor: ? HP: 2500 Init: -10000 P: plant EA: hot Article: the	flaming leaf crown (100)	100-150 inflammable leaf (m100)
 
 # Sept-Ember Censer (Sep 2024)
-Embering Hulk	2453	emberhulk.gif	NOCOPY Scale: 11 Cap: ? Floor: ? Init: -10000 P: elemental E: hot Article: an	embering hunk (c0)
+Embering Hulk	2453	emberhulk.gif	NOCOPY Scale: 11 Cap: 10000 Floor: ? Init: -10000 P: elemental E: hot Article: an	embering hunk (c0)
 
 # KoL Con
 

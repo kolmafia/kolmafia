@@ -1296,6 +1296,25 @@ public class Maximizer {
           duration = 30;
         } else if (cmd.startsWith("aprilband ")) {
           item = ItemPool.get(ItemPool.APRILING_BAND_HELMET, 1);
+        } else if (cmd.startsWith("mayam ")) {
+          item = ItemPool.get(ItemPool.MAYAM_CALENDAR, 1);
+        } else if (cmd.startsWith("photobooth effect ")) {
+          if (KoLCharacter.inBadMoon()) {
+            continue;
+          } else if (!StandardRequest.isAllowed(RestrictedItemType.CLAN_ITEMS, "Photo Booth")) {
+            continue;
+          } else if (limitMode.limitClan()) {
+            continue;
+          } else if (!haveVipKey) {
+            if (includeAll) {
+              text = "( get access to the VIP lounge )";
+              cmd = "";
+            } else continue;
+          } else if (Preferences.getInteger("_photoBoothEffects") >= 3) {
+            cmd = "";
+          }
+          duration = 50;
+          usesRemaining = 3 - Preferences.getInteger("_photoBoothEffects");
         }
 
         if (item != null) {
