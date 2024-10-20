@@ -1083,7 +1083,7 @@
 1154	eXtreme cross-country hippy	arm	dreadlock	head	leg	torso
 1155	eXtreme Orcish snowboarder	arm	head	leg	torso
 1156	sk8 gnome	arm	head	leg
-1157	Groar	arm	head	leg	torso	wing
+1157	Groar	arm	head	leg	wing
 1158	The Avatar of Sneaky Pete	arm	head	leg	torso
 1159	stone temple pirate	head
 1160	baa-relief sheep	head	leg	tail	torso
