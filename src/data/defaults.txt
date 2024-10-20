@@ -2302,6 +2302,8 @@ user	_peteJumpedShark	0
 user	_petePartyThrown	false
 user	_petePeeledOut	0
 user	_peteRiotIncited	false
+user	_photoBoothEffects	0
+user	_photoBoothEquipment	0
 user	_photocopyUsed	false
 user	_pickyTweezersUsed	false
 user	_pickleJuiceDrunk	false
