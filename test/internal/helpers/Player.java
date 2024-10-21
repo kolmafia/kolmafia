@@ -565,7 +565,13 @@ public class Player {
     int oldLimit = StoreManager.getLimit(item.getItemId());
     StoreManager.addItem(item.getItemId(), item.getCount(), price, limit);
     return new Cleanups(
-        () -> StoreManager.updateItem(item.getItemId(), oldQuantity, oldPrice, oldLimit));
+        () -> {
+          if (oldQuantity > 0) {
+            StoreManager.updateItem(item.getItemId(), oldQuantity, oldPrice, oldLimit);
+          } else {
+            StoreManager.removeItem(item.getItemId(), StoreManager.shopAmount(item.getItemId()));
+          }
+        });
   }
 
   /**
