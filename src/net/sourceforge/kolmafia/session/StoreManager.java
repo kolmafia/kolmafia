@@ -1,5 +1,8 @@
 package net.sourceforge.kolmafia.session;
 
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONException;
+import com.alibaba.fastjson2.JSONObject;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,8 +28,6 @@ import net.sourceforge.kolmafia.request.ManageStoreRequest;
 import net.sourceforge.kolmafia.swingui.StoreManageFrame;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public abstract class StoreManager {
   private static final Pattern LOGSPAN_PATTERN = Pattern.compile("<span class=small>.*?</span>");
@@ -716,15 +717,15 @@ public abstract class StoreManager {
 
     JSONObject json;
     try {
-      json = new JSONObject(storeText);
+      json = JSON.parseObject(storeText);
 
-      String[] itemDescs = JSONObject.getNames(json);
+      String[] itemDescs = json.keySet().toArray(new String[json.keySet().size()]);
 
       for (String itemDesc : itemDescs) {
         int itemId = ItemDatabase.getItemIdFromDescription(itemDesc);
         JSONObject item = json.getJSONObject(itemDesc);
-        int newPrice = item.getInt("price");
-        int newLimit = item.getInt("lim");
+        int newPrice = item.getIntValue("price");
+        int newLimit = item.getIntValue("lim");
 
         StoreManager.SoldItem soldItem = new StoreManager.SoldItem(itemId, 0, 0, 0, 0);
         int index = StoreManager.soldItemList.indexOf(soldItem);

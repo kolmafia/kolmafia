@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.textui.parsetree;
 
+import com.alibaba.fastjson2.JSONException;
 import java.io.PrintStream;
 import java.util.Comparator;
 import java.util.List;
@@ -18,7 +19,6 @@ import net.sourceforge.kolmafia.textui.DataTypes.TypeSpec;
 import net.sourceforge.kolmafia.textui.Parser;
 import net.sourceforge.kolmafia.textui.parsetree.ParseTreeNode.TypedNode;
 import org.eclipse.lsp4j.Location;
-import org.json.JSONException;
 
 /**
  * A concrete value, either computed as a result of executing a {@link Command} or created

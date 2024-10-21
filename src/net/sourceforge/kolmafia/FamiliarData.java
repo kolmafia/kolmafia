@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia;
 
+import com.alibaba.fastjson2.JSON;
 import java.awt.Component;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,7 +37,6 @@ import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.YouRobotManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
-import org.json.JSONObject;
 
 public class FamiliarData implements Comparable<FamiliarData> {
   public static final FamiliarData NO_FAMILIAR = new FamiliarData(-1);
@@ -566,7 +566,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
     // This replacement would not be sufficient for all forms of escaped JSON but in this case it's
     // fine.
     var soupJson = m.group(1).replace("\\\"", "\"");
-    var json = new JSONObject(soupJson);
+    var json = JSON.parseObject(soupJson);
     for (var key : json.keySet()) {
       var id = Integer.parseInt(key);
       var fam = KoLCharacter.usableFamiliar(id);
@@ -575,8 +575,8 @@ public class FamiliarData implements Comparable<FamiliarData> {
       if (fam == null) continue;
 
       var data = json.getJSONObject(key);
-      fam.setSoupWeight(data.getInt("times"));
-      var attrs = data.getJSONArray("attr").toList().stream().map(String.class::cast).toList();
+      fam.setSoupWeight(data.getIntValue("times"));
+      var attrs = data.getJSONArray("attr").stream().map(String.class::cast).toList();
       fam.addSoupAttribute(attrs);
     }
   }

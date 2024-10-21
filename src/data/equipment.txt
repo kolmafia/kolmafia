@@ -2706,7 +2706,7 @@ Gauntlets of the Blood Moon	120	none
 gearbox necklace	180	Mys: 75
 genie's bracers	50	Mys: 10
 ghost of a necklace	60	Mys: 15
-giant bow tie	0	none
+giant bow tie	10	none
 giant designer sunglasses	10	none
 giant diamond ring	10	none
 giant motorcycle boots	120	Mus: 45
