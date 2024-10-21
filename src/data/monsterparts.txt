@@ -1083,7 +1083,7 @@
 1154	eXtreme cross-country hippy	arm	dreadlock	head	leg	torso
 1155	eXtreme Orcish snowboarder	arm	head	leg	torso
 1156	sk8 gnome	arm	head	leg
-1157	Groar	arm	head	leg	torso	wing
+1157	Groar	arm	head	leg	wing
 1158	The Avatar of Sneaky Pete	arm	head	leg	torso
 1159	stone temple pirate	head
 1160	baa-relief sheep	head	leg	tail	torso
@@ -1542,10 +1542,10 @@
 1620	banjoccultist	arm	bridge	frets	head	leg	neck	torso
 1621	Caveman Dan	arm	head	leg	torso
 1622	giant rubber spider	head	leg	torso
-1623	Gladiator	arm	head	leg	torso
-1624	Sadiator	arm	head	leg	torso
-1625	Madiator	arm	head	leg	torso
-1626	Radiator	arm	head	leg	torso
+1623	Gladiator	arm	body	head	leg
+1624	Sadiator	arm	body	head	leg
+1625	Madiator	arm	body	head	leg
+1626	Radiator	arm	body	head	leg
 1627	cheap strix	beak	torso	wing
 1628	hypocritical medicus	arm	head	leg	torso
 1629	holographic army	bomb	gun	tank
