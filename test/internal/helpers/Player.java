@@ -60,6 +60,7 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EquipmentRequirement;
 import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.TrackManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.utilities.HttpUtilities;
@@ -413,6 +414,49 @@ public class Player {
   }
 
   /**
+   * Puts an amount of the given item into the player's display
+   *
+   * @param itemName Item to give
+   * @param count Quantity to give
+   * @return Restores the number of this item to the old value
+   */
+  public static Cleanups withItemInDisplay(final String itemName, final int count) {
+    int itemId = ItemDatabase.getItemId(itemName, count, false);
+    return withItemInDisplay(itemId, count);
+  }
+
+  /**
+   * Puts the given item into the player's display
+   *
+   * @param itemId Item to give
+   * @return Restores the number of this item to the old value
+   */
+  public static Cleanups withItemInDisplay(final int itemId) {
+    return withItemInDisplay(itemId, 1);
+  }
+
+  /**
+   * Puts an amount of the given item into the player's display
+   *
+   * @param itemId Item to give
+   * @param count Quantity to give
+   * @return Restores the number of this item to the old value
+   */
+  public static Cleanups withItemInDisplay(final int itemId, final int count) {
+    return withItemInDisplay(ItemPool.get(itemId, count));
+  }
+
+  /**
+   * Puts the given item into the player's display
+   *
+   * @param item Item to give
+   * @return Restores the number of this item to the old value
+   */
+  public static Cleanups withItemInDisplay(final AdventureResult item) {
+    return addToList(item, KoLConstants.collection);
+  }
+
+  /**
    * Puts the given item into the player's freepulls
    *
    * @param itemName Item to give
@@ -473,6 +517,61 @@ public class Player {
    */
   public static Cleanups withItemInStash(final String itemName) {
     return withItemInStash(itemName, 1);
+  }
+
+  /**
+   * Puts an amount of the given item into the player's shop
+   *
+   * @param itemName Item to give
+   * @param count Quantity to give
+   * @return Restores the number of this item to the old value
+   */
+  public static Cleanups withItemInShop(
+      final String itemName, final int count, long price, int limit) {
+    int itemId = ItemDatabase.getItemId(itemName, count, false);
+    return withItemInShop(itemId, count, price, limit);
+  }
+
+  /**
+   * Puts the given item into the player's shop
+   *
+   * @param itemId Item to give
+   * @return Restores the number of this item to the old value
+   */
+  public static Cleanups withItemInShop(final int itemId, long price, int limit) {
+    return withItemInShop(itemId, 1, price, limit);
+  }
+
+  /**
+   * Puts an amount of the given item into the player's shop
+   *
+   * @param itemId Item to give
+   * @param count Quantity to give
+   * @return Restores the number of this item to the old value
+   */
+  public static Cleanups withItemInShop(final int itemId, final int count, long price, int limit) {
+    return withItemInShop(ItemPool.get(itemId, count), price, limit);
+  }
+
+  /**
+   * Puts the given item into the player's shop
+   *
+   * @param item Item to give
+   * @return Restores the number of this item to the old value
+   */
+  public static Cleanups withItemInShop(final AdventureResult item, long price, int limit) {
+    int oldQuantity = StoreManager.shopAmount(item.getItemId());
+    long oldPrice = StoreManager.getPrice(item.getItemId());
+    int oldLimit = StoreManager.getLimit(item.getItemId());
+    StoreManager.addItem(item.getItemId(), item.getCount(), price, limit);
+    return new Cleanups(
+        () -> {
+          if (oldQuantity > 0) {
+            StoreManager.updateItem(item.getItemId(), oldQuantity, oldPrice, oldLimit);
+          } else {
+            StoreManager.removeItem(item.getItemId(), StoreManager.shopAmount(item.getItemId()));
+          }
+        });
   }
 
   /**
