@@ -6104,6 +6104,15 @@ public abstract class RuntimeLibrary {
     return hash;
   }
 
+  /**
+   * Quickly get a hash of the contents of inventory, closet, storage, display, or shop. Useful for
+   * relay scripts that want to poll for changes to inventory via the JSON API.
+   *
+   * @param controller Script runtime controller
+   * @param itemsSource One of "inventory", "closet", "storage", "display", or "shop", specifying
+   *     which item list to hash.
+   * @return Long of hashed value.
+   */
   public static Value get_items_hash(ScriptRuntime controller, Value itemsSource) {
     long hash = RuntimeLibrary.FNV_INIT;
 
