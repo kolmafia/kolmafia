@@ -20,6 +20,10 @@ import static internal.helpers.Player.withFight;
 import static internal.helpers.Player.withHandlingChoice;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withItemInCloset;
+import static internal.helpers.Player.withItemInDisplay;
+import static internal.helpers.Player.withItemInShop;
+import static internal.helpers.Player.withItemInStorage;
 import static internal.helpers.Player.withNextMonster;
 import static internal.helpers.Player.withNextResponse;
 import static internal.helpers.Player.withPath;
@@ -1616,6 +1620,48 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     void worksOnNoneValues() {
       assertThat(
           execute("$location[none].turns_until_forced_noncombat()").trim(), is("Returned: -1"));
+    }
+  }
+
+  @Nested
+  class ItemsHash {
+    @ParameterizedTest
+    @CsvSource({
+      "inventory,1,4340360107830324225",
+      "inventory,2,-6003725834895904559",
+      "closet,1,4340360107830324225",
+      "closet,2,-6003725834895904559",
+      "storage,1,4340360107830324225",
+      "storage,2,-6003725834895904559",
+      "display,1,4340360107830324225",
+      "display,2,-6003725834895904559",
+      "shop,1,3366927173997222913",
+      "shop,2,-7673585838980678286"
+    })
+    void producesHashForValidItemsSource(String itemsSource, int itemId, long expected) {
+      var cleanups =
+          switch (itemsSource) {
+            case "inventory" -> withItem(itemId);
+            case "closet" -> withItemInCloset(itemId);
+            case "storage" -> withItemInStorage(itemId);
+            case "display" -> withItemInDisplay(itemId);
+            case "shop" -> withItemInShop(itemId, 100, 0);
+            default -> new Cleanups();
+          };
+      try (cleanups) {
+        assertThat(
+            execute("get_items_hash(\"%s\")".formatted(itemsSource)).trim(),
+            is("Returned: " + expected));
+        assertContinueState();
+      }
+    }
+
+    @Test
+    void errorsOnInvalidItemsSource() {
+      assertThat(
+          execute("get_items_hash(\"xxxxxx\")").trim(),
+          is(
+              "get_items_hash: Invalid items source. Valid are inventory, closet, storage, display, shop.\nReturned: -3750763034362895579"));
     }
   }
 }
