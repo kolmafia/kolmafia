@@ -6290,6 +6290,16 @@ public abstract class ChoiceAdventures {
         new ChoiceOption("30 turns of +5% combat chance", 2),
         new ChoiceOption("30 turns of +50% item drop", 3),
         new ChoiceOption("30 turns of +3 exp, +4 stench/sleaze res", 4));
+
+    // Clan Photo Booth - Get your photo taken
+    new ChoiceAdventure(
+        1534,
+        "Clan VIP Lounge",
+        "Clan Photo Booth - Get your photo taken",
+        new ChoiceOption("50 turns of +50% init, +10 moxie, +3 moxie exp, -5% combat", 1),
+        new ChoiceOption("50 turns of +50HP, +10 muscle, +3 muscle exp, +5% combat", 2),
+        new ChoiceOption("50 turns of +50MP, +10 myst, +3 myst exp, +10-30 mp regen", 3),
+        new ChoiceOption("skip adventure", 6));
   }
 
   // This array is used by the ChoiceOptionsPanel to provide all the GUI configurable choices.
