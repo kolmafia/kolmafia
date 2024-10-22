@@ -47,8 +47,10 @@ public class Macrofier {
   }
 
   public static void resetErroringMacro() {
-    macroOverrides.pop();
-    macroOverrides.push(new MacroOverride(null, null));
+    var macroOverride = macroOverrides.peek();
+    if (macroOverride == null) return;
+    macroOverride.macroOverride = null;
+    macroOverride.macroInterpreter = null;
   }
 
   public static void setMacroOverride(String macroOverride, ScriptRuntime interpreter) {
@@ -59,6 +61,9 @@ public class Macrofier {
     } else {
       macroOverrides.push(new MacroOverride(macroOverride, interpreter));
     }
+    Macrofier.macroFunction = null;
+    Macrofier.macroScope = null;
+    Macrofier.macroThisArg = null;
   }
 
   public static void setJavaScriptMacroOverride(
@@ -125,6 +130,9 @@ public class Macrofier {
       Value returnValue;
 
       if (macroInterpreter instanceof JavascriptRuntime interpreter) {
+        var macroScope = macroOverrideRec.macroScope;
+        var macroFunction = macroOverrideRec.macroFunction;
+        var macroThisArg = macroOverrideRec.macroThisArg;
         // Execute a function from the JavaScript runtime maintaining the scope, thisObj etc
         returnValue =
             interpreter.executeFunction(
@@ -619,5 +627,24 @@ public class Macrofier {
     macro.append("mark mafiampexit\n");
   }
 
-  private record MacroOverride(String macroOverride, ScriptRuntime macroInterpreter) {}
+  private static class MacroOverride {
+    public MacroOverride(String macroOverride, ScriptRuntime macroInterpreter) {
+      this.macroOverride = macroOverride;
+      this.macroInterpreter = macroInterpreter;
+      setJavaScriptVariables(Macrofier.macroFunction, Macrofier.macroScope, Macrofier.macroThisArg);
+    }
+
+    public void setJavaScriptVariables(
+        BaseFunction macroFunction, Scriptable macroScope, Scriptable macroThisArg) {
+      this.macroFunction = macroFunction;
+      this.macroScope = macroScope;
+      this.macroThisArg = macroThisArg;
+    }
+
+    public String macroOverride;
+    public ScriptRuntime macroInterpreter;
+    public BaseFunction macroFunction = null;
+    public Scriptable macroScope = null;
+    public Scriptable macroThisArg = null;
+  }
 }
