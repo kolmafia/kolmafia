@@ -20,6 +20,10 @@ import static internal.helpers.Player.withFight;
 import static internal.helpers.Player.withHandlingChoice;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withItemInCloset;
+import static internal.helpers.Player.withItemInDisplay;
+import static internal.helpers.Player.withItemInShop;
+import static internal.helpers.Player.withItemInStorage;
 import static internal.helpers.Player.withNextMonster;
 import static internal.helpers.Player.withNextResponse;
 import static internal.helpers.Player.withPath;
@@ -48,6 +52,7 @@ import internal.network.FakeHttpClientBuilder;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.time.Month;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -1616,6 +1621,57 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     void worksOnNoneValues() {
       assertThat(
           execute("$location[none].turns_until_forced_noncombat()").trim(), is("Returned: -1"));
+    }
+  }
+
+  @Nested
+  class ItemsHash {
+    @ParameterizedTest
+    @CsvSource({
+      "inventory,1,3010618080379317301",
+      "inventory,2,5098877678963069302",
+      "inventory,1|2,-5775617302849066554",
+      "inventory,1|2|3,8531806457801124500",
+      "closet,1,3010618080379317301",
+      "closet,2,5098877678963069302",
+      "storage,1,3010618080379317301",
+      "storage,2,5098877678963069302",
+      "display,1,3010618080379317301",
+      "display,2,5098877678963069302",
+      "shop,1,3366927173997222913",
+      "shop,2,-7673585838980678286"
+    })
+    void producesHashForValidItemsSource(String itemsSource, String itemIdsString, long expected) {
+      List<Integer> itemIds =
+          Arrays.stream(itemIdsString.split("\\|")).map(Integer::parseInt).toList();
+      var cleanups =
+          new Cleanups(
+              itemIds.stream()
+                  .map(
+                      itemId ->
+                          switch (itemsSource) {
+                            case "inventory" -> withItem(itemId);
+                            case "closet" -> withItemInCloset(itemId);
+                            case "storage" -> withItemInStorage(itemId);
+                            case "display" -> withItemInDisplay(itemId);
+                            case "shop" -> withItemInShop(itemId, 100, 0);
+                            default -> new Cleanups();
+                          })
+                  .toArray(Cleanups[]::new));
+      try (cleanups) {
+        assertThat(
+            execute("get_items_hash(\"%s\")".formatted(itemsSource)).trim(),
+            is("Returned: " + expected));
+        assertContinueState();
+      }
+    }
+
+    @Test
+    void errorsOnInvalidItemsSource() {
+      assertThat(
+          execute("get_items_hash(\"xxxxxx\")").trim(),
+          is(
+              "get_items_hash: Invalid items source. Valid are inventory, closet, storage, display, shop.\nReturned: -3750763034362895579"));
     }
   }
 }
