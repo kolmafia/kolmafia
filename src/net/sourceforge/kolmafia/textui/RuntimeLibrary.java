@@ -6142,8 +6142,8 @@ public abstract class RuntimeLibrary {
         };
 
     for (var itemCount : itemsList) {
-      hash ^= RuntimeLibrary.fnvHash(hash, itemCount.getItemId());
-      hash ^= RuntimeLibrary.fnvHash(hash, itemCount.getCount());
+      hash = RuntimeLibrary.fnvHash(hash, itemCount.getItemId());
+      hash = RuntimeLibrary.fnvHash(hash, itemCount.getCount());
     }
 
     return DataTypes.makeIntValue(hash);
