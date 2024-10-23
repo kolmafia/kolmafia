@@ -534,7 +534,7 @@ public abstract class CombatActionManager {
       String combo = DiscoCombatHelper.disambiguateCombo(name);
       if (combo == null) {
         KoLmafia.updateDisplay(MafiaState.ABORT, "Invalid combo '" + name + "' requested");
-        Macrofier.resetMacroOverride();
+        Macrofier.resetErroringMacro();
         return "skip";
       }
       return "combo " + combo;
