@@ -64,6 +64,8 @@ Clan Basement	Clan Basement	Clan Basement
 Hobopolis	Clan Basement	Hobopolis
 Dreadsylvania	Clan Basement	Dreadsylvania
 
+Clan VIP Lounge	Clan VIP Lounge	Clan VIP Lounge
+
 # Nemesis
 
 Nemesis Cave	Mountain	Nemesis Cave
