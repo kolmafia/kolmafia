@@ -5003,6 +5003,16 @@ public abstract class ChoiceControl {
             Preferences.increment("bwApronMealsEaten");
           }
         }
+      case 1534:
+        // Clan Photo Booth - Get your photo taken
+        if (ChoiceManager.lastDecision != 6 && text.contains("You select")) {
+          Preferences.increment("_photoBoothEffects");
+        }
+      case 1535:
+        // Clan Photo Booth - Borrow a prop
+        if (ChoiceManager.lastDecision != 12 && text.contains("You grab your prop")) {
+          Preferences.increment("_photoBoothEquipment");
+        }
     }
   }
 
@@ -10162,6 +10172,10 @@ public abstract class ChoiceControl {
       case 1523: // Research Bench
       case 1526: // Conduct the Band
       case 1527: // Consider the Calendar
+      case 1533: // Clan Photo Booth
+      case 1534: // Clan Photo Booth - Get your photo taken
+      case 1535: // Clan Photo Booth - Borrow a prop
+      case 1536: // Clan Photo Booth - Take a group photo
         return true;
 
       default:

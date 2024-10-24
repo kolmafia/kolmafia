@@ -3130,7 +3130,7 @@ shadow monocle	0	none
 shamanic beads	125	Mys: 47
 shark tooth necklace	200	Mys: 85
 Sheriff badge	0	none
-Sheriff moustache	0	none
+Sheriff moustache	10	none
 shin gourds	100	none
 shining halo	50	none
 shiny hood ornament	190	Mys: 80
