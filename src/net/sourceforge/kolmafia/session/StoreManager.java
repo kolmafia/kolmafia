@@ -652,7 +652,7 @@ public abstract class StoreManager {
     }
   }
 
-  public static void updateItem(int itemId, int quantity, int price, int limit) {
+  public static void updateItem(int itemId, int quantity, long price, int limit) {
     StoreManager.updateItem(ItemPool.get(itemId, quantity), price, limit);
 
     StoreManager.sortItemsByName = true;
@@ -661,7 +661,7 @@ public abstract class StoreManager {
     Collections.sort(StoreManager.sortedSoldItemList);
   }
 
-  private static void updateItem(AdventureResult item, int price, int limit) {
+  private static void updateItem(AdventureResult item, long price, int limit) {
     int itemId = item.getItemId();
     int quantity = item.getCount();
 

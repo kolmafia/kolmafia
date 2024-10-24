@@ -36,6 +36,15 @@ public class Networking {
     }
   }
 
+  public static byte[] bytes(String path) {
+    try {
+      return Files.readAllBytes(Paths.get(path));
+    } catch (IOException e) {
+      Assertions.fail("Failed to load binary file: " + path);
+      throw new AssertionError(e);
+    }
+  }
+
   public static void printRequests(List<HttpRequest> requests) {
     for (HttpRequest req : requests) {
       String method = req.method();

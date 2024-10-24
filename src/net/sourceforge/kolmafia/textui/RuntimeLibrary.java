@@ -1347,6 +1347,9 @@ public abstract class RuntimeLibrary {
     params = List.of();
     functions.add(new LibraryFunction("get_clan_lounge", DataTypes.ITEM_TO_INT_TYPE, params));
 
+    params = List.of(namedParam("itemsSource", DataTypes.STRING_TYPE));
+    functions.add(new LibraryFunction("get_items_hash", DataTypes.INT_TYPE, params));
+
     params = List.of();
     functions.add(
         new LibraryFunction("get_fishing_locations", DataTypes.STRING_TO_LOCATION_TYPE, params));
@@ -6085,6 +6088,65 @@ public abstract class RuntimeLibrary {
     }
 
     return value;
+  }
+
+  private static final long FNV_INIT = 0xcbf29ce484222325L;
+  private static final long FNV_PRIME = 0x00000100000001b3L;
+
+  // https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function
+  private static long fnvHash(long init, int n) {
+    long hash = init;
+    for (int i = 0; i < 4; i++) {
+      hash ^= n & 0xFF;
+      hash *= RuntimeLibrary.FNV_PRIME;
+      n >>= 8;
+    }
+    return hash;
+  }
+
+  /**
+   * Quickly get a hash of the contents of inventory, closet, storage, display, or shop. Useful for
+   * relay scripts that want to poll for changes to inventory via the JSON API.
+   *
+   * @param controller Script runtime controller
+   * @param itemsSource One of "inventory", "closet", "storage", "display", or "shop", specifying
+   *     which item list to hash.
+   * @return Long of hashed value.
+   */
+  public static Value get_items_hash(ScriptRuntime controller, Value itemsSource) {
+    long hash = RuntimeLibrary.FNV_INIT;
+
+    List<AdventureResult> itemsList =
+        switch (itemsSource.toString()) {
+          case "shop" -> {
+            for (var soldItem : StoreManager.getSoldItemList()) {
+              hash = RuntimeLibrary.fnvHash(hash, soldItem.getItemId());
+              hash = RuntimeLibrary.fnvHash(hash, soldItem.getQuantity());
+              hash = RuntimeLibrary.fnvHash(hash, (int) soldItem.getPrice());
+              hash = RuntimeLibrary.fnvHash(hash, (int) (soldItem.getPrice() >> 32));
+              hash = RuntimeLibrary.fnvHash(hash, soldItem.getLimit());
+            }
+
+            yield List.of();
+          }
+          case "inventory" -> KoLConstants.inventory;
+          case "closet" -> KoLConstants.closet;
+          case "storage" -> KoLConstants.storage;
+          case "display" -> KoLConstants.collection;
+          default -> {
+            KoLmafia.updateDisplay(
+                MafiaState.ERROR,
+                "get_items_hash: Invalid items source. Valid are inventory, closet, storage, display, shop.");
+            yield List.of();
+          }
+        };
+
+    for (var itemCount : itemsList) {
+      hash = RuntimeLibrary.fnvHash(hash, itemCount.getItemId());
+      hash = RuntimeLibrary.fnvHash(hash, itemCount.getCount());
+    }
+
+    return DataTypes.makeIntValue(hash);
   }
 
   public static Value get_fishing_locations(ScriptRuntime controller) {
