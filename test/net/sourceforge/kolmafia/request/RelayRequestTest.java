@@ -388,6 +388,17 @@ public class RelayRequestTest {
       assertThat(JSON.parse(rr.responseText), is(expected));
     }
 
+    @Test
+    public void handlesBufferToFile() {
+      var rr =
+          this.makeApiRequest(
+              """
+        { "functions": [{ "name": "bufferToFile", "args": ["abcde", "data/x.txt"] }] }
+        """);
+      assertThat(rr.statusLine, is("HTTP/1.1 200 OK"));
+      assertThat(rr.responseCode, is(200));
+    }
+
     @ParameterizedTest
     @ValueSource(
         strings = {
@@ -423,8 +434,7 @@ public class RelayRequestTest {
 """.formatted(json));
 
       JSONObject expected = new JSONObject();
-      expected.put(
-          "error", "Invalid arguments to identity: [" + JSON.toJSONString(JSON.parse(json)) + "]");
+      expected.put("error", "Invalid argument to identity: " + JSON.toJSONString(JSON.parse(json)));
       assertThat(rr.statusLine, is("HTTP/1.1 400 Bad Request"));
       assertThat(rr.responseCode, is(400));
       assertThat(JSON.parse(rr.responseText), is(expected));
@@ -694,7 +704,7 @@ public class RelayRequestTest {
       JSONObject expected =
           JSON.parseObject(
               """
-      { "error": "Unable to find method nonExistentFunction" }
+      { "error": "Unable to find method nonExistentFunction accepting arguments []." }
       """);
       assertThat(rr.statusLine, is("HTTP/1.1 400 Bad Request"));
       assertThat(rr.responseCode, is(400));
@@ -712,8 +722,8 @@ public class RelayRequestTest {
       JSONObject expected =
           JSON.parseObject(
               """
-      { "error": "Unable to call method: java.lang.ClassCastException: class java.util.TreeMap cannot be cast to class net.sourceforge.kolmafia.MonsterData (java.util.TreeMap is in module java.base of loader 'bootstrap'; net.sourceforge.kolmafia.MonsterData is in unnamed module of loader 'app')" }
-      """);
+                {"error":"Unable to find method itemDropsArray accepting arguments [{\\"objectType\\":\\"monster\\",\\"identifierString\\":\\"fluffy bunny\\"}]."}
+                      """);
       assertThat(rr.statusLine, is("HTTP/1.1 400 Bad Request"));
       assertThat(rr.responseCode, is(400));
       assertThat(JSON.parse(rr.responseText), is(expected));
