@@ -96,7 +96,8 @@ public class ScriptableValueConverter extends ValueConverter<Scriptable> {
 
   @Override
   public Object asJava(Value value) {
-    if (DataTypes.enumeratedTypes.contains(value.getType())) {
+    if (value == null) return null;
+    else if (DataTypes.enumeratedTypes.contains(value.getType())) {
       return EnumeratedWrapper.wrap(scope, value.asProxy().getClass(), value);
     } else {
       return super.asJava(value);
