@@ -2880,9 +2880,6 @@ public class FightRequestTest {
       RequestLoggerOutput.startStream();
       var cleanups =
           new Cleanups(
-              withEquipped(Slot.CONTAINER, ItemPool.SHERIFF_BADGE),
-              withEquipped(Slot.CONTAINER, ItemPool.SHERIFF_MOUSTACHE),
-              withEquipped(Slot.CONTAINER, ItemPool.SHERIFF_PISTOL),
               withProperty("_authorityUsed", 0));
       try (cleanups) {
         parseCombatData("request/test_fight_sheriff_authority.html");
