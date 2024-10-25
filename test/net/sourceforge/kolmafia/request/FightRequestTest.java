@@ -2873,14 +2873,13 @@ public class FightRequestTest {
       }
     }
   }
+
   @Nested
   class Authority {
     @Test
     public void canDetectAssertAuthority() {
       RequestLoggerOutput.startStream();
-      var cleanups =
-          new Cleanups(
-              withProperty("_authorityUsed", 0));
+      var cleanups = withProperty("_authorityUsed", 0);
       try (cleanups) {
         parseCombatData("request/test_fight_sheriff_authority.html");
         var text = RequestLoggerOutput.stopStream();
