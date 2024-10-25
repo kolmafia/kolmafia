@@ -2873,4 +2873,23 @@ public class FightRequestTest {
       }
     }
   }
+  @Nested
+  class Authority {
+    @Test
+    public void canDetectAssertAuthority() {
+      RequestLoggerOutput.startStream();
+      var cleanups =
+          new Cleanups(
+              withEquipped(Slot.CONTAINER, ItemPool.SHERIFF_BADGE),
+              withEquipped(Slot.CONTAINER, ItemPool.SHERIFF_MOUSTACHE),
+              withEquipped(Slot.CONTAINER, ItemPool.SHERIFF_PISTOL),
+              withProperty("_authorityUsed", 0));
+      try (cleanups) {
+        parseCombatData("request/test_fight_sheriff_authority.html");
+        var text = RequestLoggerOutput.stopStream();
+        assertThat(text, containsString("You flash your sheriff badge"));
+        assertEquals(1, Preferences.getInteger("_authorityUsed"));
+      }
+    }
+  }
 }

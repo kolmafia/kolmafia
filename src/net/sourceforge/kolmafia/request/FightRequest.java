@@ -10693,6 +10693,11 @@ public class FightRequest extends GenericRequest {
           skillSuccess = true;
         }
         break;
+      case SkillPool.ASSERT_YOUR_AUTHORITY:
+        if (responseText.contains("You flash your sheriff badge") || skillSuccess) {
+          skillSuccess = true;
+        }
+        break;
     }
 
     if (skillSuccess || skillRunawaySuccess || familiarSkillSuccess) {
