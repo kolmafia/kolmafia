@@ -2878,13 +2878,11 @@ public class FightRequestTest {
   class Authority {
     @Test
     public void canDetectAssertAuthority() {
-      RequestLoggerOutput.startStream();
-      var cleanups = withProperty("_authorityUsed", 0);
+      var cleanups = new Cleanups(withProperty("_authorityUsed", 0), withFight());
       try (cleanups) {
-        parseCombatData("request/test_fight_sheriff_authority.html");
-        var text = RequestLoggerOutput.stopStream();
-        assertThat(text, containsString("You flash your sheriff badge"));
-        assertEquals(1, Preferences.getInteger("_authorityUsed"));
+        parseCombatData(
+            "request/test_fight_sheriff_authority.html", "fight.php?action=skill&whichskill=7532");
+        assertThat("_authorityUsed", isSetTo(1));
       }
     }
   }
