@@ -927,8 +927,12 @@ public class EquipmentManager {
         KoLCharacter.addAvailableSkill(SkillPool.SWOOP_LIKE_A_BAT);
         KoLCharacter.addAvailableSkill(SkillPool.SUMMON_CAULDRON_OF_BATS);
       }
-      case ItemPool.SHERIFF_BADGE, ItemPool.SHERIFF_PISTOL, ItemPool.SHERIFF_MOUSTACHE  -> {
-        KoLCharacter.addAvailableSkill(SkillPool.ASSERT_YOUR_AUTHORITY);
+      case ItemPool.SHERIFF_BADGE  -> {
+        if (KoLCharacter.hasEquipped(ItemPool.get(ItemPool.SHERIFF_PISTOL, 1))) {
+          if(KoLCharacter.hasEquipped(ItemPool.get(ItemPool.SHERIFF_MOUSTACHE, 1))) {
+            KoLCharacter.addAvailableSkill(SkillPool.ASSERT_YOUR_AUTHORITY);
+          }
+        }
       }
     }
   }
