@@ -181,12 +181,11 @@ public abstract class ValueConverter<ObjectType> {
       return DataTypes.makeIntValue(((Number) object).longValue());
     } else if (object instanceof Number) {
       return DataTypes.makeFloatValue(((Number) object).doubleValue());
-    } else if ((object instanceof String || object instanceof StringBuffer)
-        && Objects.equals(typeHint, DataTypes.BUFFER_TYPE)) {
+    } else if (object instanceof CharSequence && Objects.equals(typeHint, DataTypes.BUFFER_TYPE)) {
       return new Value(
           DataTypes.BUFFER_TYPE,
           null,
-          object instanceof StringBuffer ? object : new StringBuffer((String) object));
+          object instanceof StringBuffer ? object : new StringBuffer(object.toString()));
     } else if (object instanceof CharSequence) {
       return DataTypes.makeStringValue(object.toString());
     } else if (object instanceof MonsterData) {
