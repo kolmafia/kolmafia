@@ -2878,11 +2878,11 @@ public class FightRequestTest {
   class Authority {
     @Test
     public void canDetectAssertAuthority() {
-      var cleanups = new Cleanups(withProperty("_authorityUsed", 0), withFight());
+      var cleanups = new Cleanups(withProperty("_assertAuthorityCast", 0), withFight());
       try (cleanups) {
         parseCombatData(
             "request/test_fight_sheriff_authority.html", "fight.php?action=skill&whichskill=7532");
-        assertThat("_authorityUsed", isSetTo(1));
+        assertThat("_assertAuthorityCast", isSetTo(1));
       }
     }
   }
