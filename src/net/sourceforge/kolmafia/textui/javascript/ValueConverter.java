@@ -24,7 +24,7 @@ public abstract class ValueConverter<ObjectType> {
   public static record FunctionWithArgs(Function function, List<Value> ashArgs) {}
 
   // These need special treatment. They accept a buffer as a first parameter, but we should cast
-  // string to buffer in that position. These are the only functions that take a buffer as
+  // string to buffer in that position. These are the only functions that take a buffer as an
   // argument at the time of this comment.
   private static final List<String> bufferFunctions = List.of("write_ccs", "buffer_to_file");
 
@@ -187,14 +187,10 @@ public abstract class ValueConverter<ObjectType> {
           DataTypes.BUFFER_TYPE,
           null,
           object instanceof StringBuffer ? object : new StringBuffer((String) object));
-    } else if (object instanceof String || object instanceof StringBuffer) {
+    } else if (object instanceof CharSequence) {
       return DataTypes.makeStringValue(object.toString());
     } else if (object instanceof MonsterData) {
       return DataTypes.makeMonsterValue((MonsterData) object);
-    } else if (object instanceof EnumeratedWrapper) {
-      return ((EnumeratedWrapper) object).getWrapped();
-    } else if (object instanceof AshStub) {
-      return DataTypes.makeStringValue("[function " + ((AshStub) object).getFunctionName() + "]");
     } else if (object instanceof Map) {
       return convertJavaMap((Map<?, ?>) object, typeHint);
     } else if (object instanceof List) {

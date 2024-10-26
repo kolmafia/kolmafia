@@ -16,6 +16,8 @@ import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import java.util.List;
 import java.util.Map;
+import net.sourceforge.kolmafia.MonsterData;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.RuntimeLibrary;
 import net.sourceforge.kolmafia.textui.parsetree.AggregateType;
@@ -34,61 +36,59 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 
 public class JSONValueConverterTest {
-  private final JSONValueConverter converter = new JSONValueConverter();
-
   @Nested
   class AsJava {
     @Test
     public void testNullValue() {
-      assertThat(converter.asJava(null), nullValue());
+      assertThat(JSONValueConverter.asJSON(null), nullValue());
     }
 
     @Test
     public void testVoidType() {
       Value value = new Value();
-      assertThat(converter.asJava(value), nullValue());
+      assertThat(JSONValueConverter.asJSON(value), nullValue());
     }
 
     @Test
     public void testBooleanTypeTrue() {
       Value value = DataTypes.makeBooleanValue(true);
-      assertThat(converter.asJava(value), is(true));
+      assertThat(JSONValueConverter.asJSON(value), is(true));
     }
 
     @Test
     public void testBooleanTypeFalse() {
       Value value = DataTypes.makeBooleanValue(true);
-      assertThat(converter.asJava(value), is(true));
+      assertThat(JSONValueConverter.asJSON(value), is(true));
     }
 
     @Test
     public void testIntType() {
       Value value = DataTypes.makeIntValue(123);
-      assertThat(converter.asJava(value), is(123L));
+      assertThat(JSONValueConverter.asJSON(value), is(123L));
     }
 
     @Test
     public void testFloatType() {
       Value value = DataTypes.makeFloatValue(3.14);
-      assertThat(converter.asJava(value), is(3.14));
+      assertThat(JSONValueConverter.asJSON(value), is(3.14));
     }
 
     @Test
     public void testStringType() {
       Value value = DataTypes.makeStringValue("Hello World");
-      assertThat(converter.asJava(value), is("Hello World"));
+      assertThat(JSONValueConverter.asJSON(value), is("Hello World"));
     }
 
     @Test
     public void testStrictStringType() {
       Value value = new Value(DataTypes.STRICT_STRING_TYPE, "Strict Hello");
-      assertThat(converter.asJava(value), is("Strict Hello"));
+      assertThat(JSONValueConverter.asJSON(value), is("Strict Hello"));
     }
 
     @Test
     public void testBufferType() {
       Value value = new Value(DataTypes.BUFFER_TYPE, "", new StringBuffer("Buffer Content"));
-      assertThat(converter.asJava(value), is("Buffer Content"));
+      assertThat(JSONValueConverter.asJSON(value), is("Buffer Content"));
     }
 
     @Test
@@ -100,7 +100,7 @@ public class JSONValueConverterTest {
               DataTypes.makeStringValue("b"),
               DataTypes.makeIntValue(2));
       Value value = new MapValue(DataTypes.STRING_TO_INT_TYPE, map);
-      JSONObject converted = (JSONObject) converter.asJava(value);
+      JSONObject converted = (JSONObject) JSONValueConverter.asJSON(value);
       assertThat(converted.size(), is(2));
       assertThat(converted, allOf(hasEntry("a", 1L), hasEntry("b", 2L)));
     }
@@ -109,7 +109,7 @@ public class JSONValueConverterTest {
     public void testArrayType() {
       List<String> list = List.of("a", "b", "d");
       Value value = DataTypes.makeStringArrayValue(list);
-      JSONArray converted = (JSONArray) converter.asJava(value);
+      JSONArray converted = (JSONArray) JSONValueConverter.asJSON(value);
       assertThat(converted, contains("a", "b", "d"));
     }
 
@@ -123,7 +123,7 @@ public class JSONValueConverterTest {
                   new String[] {"a", "b"},
                   new Type[] {DataTypes.INT_TYPE, DataTypes.STRING_TYPE}));
       value.content = array;
-      JSONObject converted = (JSONObject) converter.asJava(value);
+      JSONObject converted = (JSONObject) JSONValueConverter.asJSON(value);
       assertThat(converted.size(), is(2));
       assertThat(converted, hasEntry("a", 1L));
       assertThat(converted, hasEntry("b", "c"));
@@ -210,6 +210,13 @@ public class JSONValueConverterTest {
       assertThat(result.contentLong, is(0L));
       assertThat(result.content, nullValue());
       assertThat(result.contentString, is("test string"));
+    }
+
+    @Test
+    public void testMonsterData() {
+      MonsterData monster = MonsterDatabase.findMonster("fantasy bandit");
+      Value result = JSONValueConverter.fromJSON(monster, null);
+      assertThat(result, is(DataTypes.makeMonsterValue(monster)));
     }
 
     @Test

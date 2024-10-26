@@ -28,7 +28,7 @@ import org.mozilla.javascript.Undefined;
 
 public class ScriptableValueConverterTest {
   private static Context cx;
-  private static Scriptable scope =
+  private static final Scriptable scope =
       new Scriptable() {
         @Override
         public String getClassName() {
