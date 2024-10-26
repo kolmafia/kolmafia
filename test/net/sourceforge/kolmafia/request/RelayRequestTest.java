@@ -615,115 +615,27 @@ public class RelayRequestTest {
       }
     }
 
-    @Test
-    public void testInvalidJson() {
-      var rr = this.makeApiRequest("{ invalid_json }");
+    @ParameterizedTest
+    @CsvSource(
+        value = {
+          "{ invalid_json };Invalid JSON object in request.",
+          "{ \"properties\": [123, true] };Invalid property names [123,true]",
+          "{ \"functions\": [{ \"args\": [] }] };Invalid function calls [{\\\"args\\\":[]}]",
+          "{ \"functions\": [{ \"name\": \"abc\" }] };Invalid function calls [{\\\"name\\\":\\\"abc\\\"}]",
+          "{ \"functions\": [{ \"name\": \"myTurncount\", \"args\": [null] }] };Invalid function calls [{\\\"name\\\":\\\"myTurncount\\\",\\\"args\\\":[null]}]",
+          "{ \"functions\": [{ \"name\": \"nonExistentFunction\", \"args\": [] }] };Unable to find method nonExistentFunction accepting arguments [].",
+          "{ \"functions\": [{ \"name\": \"itemDropsArray\", \"args\": [{\"objectType\": \"monster\", \"identifierString\": \"fluffy bunny\"}] }] };"
+              + "Unable to find method itemDropsArray accepting arguments [{\\\"objectType\\\":\\\"monster\\\",\\\"identifierString\\\":\\\"fluffy bunny\\\"}]."
+        },
+        delimiter = ';')
+    public void testInvalidRequest(String json, String errorMessage) {
+      var rr = this.makeApiRequest(json);
 
       JSONObject expected =
           JSON.parseObject("""
-      { "error": "Invalid JSON object in request." }
-      """);
-      assertThat(rr.statusLine, is("HTTP/1.1 400 Bad Request"));
-      assertThat(rr.responseCode, is(400));
-      assertThat(JSON.parse(rr.responseText), is(expected));
-    }
+            { "error": "%s" }
+        """.formatted(errorMessage));
 
-    @Test
-    public void testInvalidPropertyNames() {
-      var rr = this.makeApiRequest("""
-      { "properties": [123, true] }
-      """);
-
-      JSONObject expected =
-          JSON.parseObject("""
-      { "error": "Invalid property names [123,true]" }
-      """);
-      assertThat(rr.statusLine, is("HTTP/1.1 400 Bad Request"));
-      assertThat(rr.responseCode, is(400));
-      assertThat(JSON.parse(rr.responseText), is(expected));
-    }
-
-    @Test
-    public void testInvalidFunctionCallNoFunctionName() {
-      var rr = this.makeApiRequest("""
-      { "functions": [{ "args": [] }] }
-      """);
-
-      JSONObject expected =
-          JSON.parseObject(
-              """
-      { "error": "Invalid function calls [{\\"args\\":[]}]"}
-      """);
-      assertThat(rr.statusLine, is("HTTP/1.1 400 Bad Request"));
-      assertThat(rr.responseCode, is(400));
-      assertThat(JSON.parse(rr.responseText), is(expected));
-    }
-
-    @Test
-    public void testInvalidFunctionCallNoFunctionArgs() {
-      var rr = this.makeApiRequest("""
-      { "functions": [{ "name": "abc" }] }
-      """);
-
-      JSONObject expected =
-          JSON.parseObject(
-              """
-      { "error": "Invalid function calls [{\\"name\\":\\"abc\\"}]"}
-      """);
-      assertThat(rr.statusLine, is("HTTP/1.1 400 Bad Request"));
-      assertThat(rr.responseCode, is(400));
-      assertThat(JSON.parse(rr.responseText), is(expected));
-    }
-
-    @Test
-    public void testInvalidFunctionCallInvalidArgs() {
-      var rr =
-          this.makeApiRequest(
-              """
-      { "functions": [{ "name": "myTurncount", "args": [null] }] }
-      """);
-
-      JSONObject expected =
-          JSON.parseObject(
-              """
-      { "error": "Invalid function calls [{\\"name\\":\\"myTurncount\\",\\"args\\":[null]}]" }
-      """);
-      assertThat(rr.statusLine, is("HTTP/1.1 400 Bad Request"));
-      assertThat(rr.responseCode, is(400));
-      assertThat(JSON.parse(rr.responseText), is(expected));
-    }
-
-    @Test
-    public void testFunctionNotFound() {
-      var rr =
-          this.makeApiRequest(
-              """
-      { "functions": [{ "name": "nonExistentFunction", "args": [] }] }
-      """);
-
-      JSONObject expected =
-          JSON.parseObject(
-              """
-      { "error": "Unable to find method nonExistentFunction accepting arguments []." }
-      """);
-      assertThat(rr.statusLine, is("HTTP/1.1 400 Bad Request"));
-      assertThat(rr.responseCode, is(400));
-      assertThat(JSON.parse(rr.responseText), is(expected));
-    }
-
-    @Test
-    public void testInvalidFunctionCallWrongArgTypes() {
-      var rr =
-          this.makeApiRequest(
-              """
-      { "functions": [{ "name": "itemDropsArray", "args": [{"objectType": "monster", "identifierString": "fluffy bunny"}] }] }
-      """);
-
-      JSONObject expected =
-          JSON.parseObject(
-              """
-                {"error":"Unable to find method itemDropsArray accepting arguments [{\\"objectType\\":\\"monster\\",\\"identifierString\\":\\"fluffy bunny\\"}]."}
-                      """);
       assertThat(rr.statusLine, is("HTTP/1.1 400 Bad Request"));
       assertThat(rr.responseCode, is(400));
       assertThat(JSON.parse(rr.responseText), is(expected));

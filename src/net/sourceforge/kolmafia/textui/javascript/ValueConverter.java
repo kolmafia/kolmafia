@@ -202,7 +202,7 @@ public abstract class ValueConverter<ObjectType> {
     } else if (object instanceof Value) {
       return (Value) object;
     } else {
-      return DataTypes.makeStringValue(object.toString());
+      return null;
     }
   }
 

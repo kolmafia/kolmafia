@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.textui.javascript;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 
 import java.util.Calendar;
@@ -9,6 +10,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 import net.sourceforge.kolmafia.textui.DataTypes;
+import net.sourceforge.kolmafia.textui.RuntimeLibrary;
 import net.sourceforge.kolmafia.textui.parsetree.MapValue;
 import net.sourceforge.kolmafia.textui.parsetree.RecordType;
 import net.sourceforge.kolmafia.textui.parsetree.RecordValue;
@@ -22,6 +24,7 @@ import org.junit.jupiter.api.Test;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
+import org.mozilla.javascript.Undefined;
 
 public class ScriptableValueConverterTest {
   private static Context cx;
@@ -240,5 +243,17 @@ public class ScriptableValueConverterTest {
       assertThat(ScriptableObject.getProperty(converted, "a"), is(1L));
       assertThat(ScriptableObject.getProperty(converted, "b"), is("c"));
     }
+  }
+
+  @Test
+  public void findMatchingFunctionConvertArgsStripsUndefinedArguments() {
+    ScriptableValueConverter converter = new ScriptableValueConverter(cx, scope);
+    var args = List.of(42.0d, Undefined.SCRIPTABLE_UNDEFINED, Undefined.SCRIPTABLE_UNDEFINED);
+    var functionWithArgs =
+        converter.findMatchingFunctionConvertArgs(
+            RuntimeLibrary.getFunctions(), "truncate", args.toArray());
+    assertThat(functionWithArgs, notNullValue());
+    assertThat(functionWithArgs.function().name, is("truncate"));
+    assertThat(functionWithArgs.ashArgs(), is(List.of(DataTypes.makeFloatValue(42.0d))));
   }
 }

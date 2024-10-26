@@ -25,6 +25,7 @@ import net.sourceforge.kolmafia.textui.parsetree.RecordType;
 import net.sourceforge.kolmafia.textui.parsetree.RecordValue;
 import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -312,10 +313,7 @@ public class JSONValueConverterTest {
     public void testDefaultCase() {
       Object unknownObject = new Object();
       Value result = JSONValueConverter.fromJSON(unknownObject, null);
-      assertThat(result.getType(), is(DataTypes.STRING_TYPE));
-      assertThat(result.contentLong, is(0L));
-      assertThat(result.content, nullValue());
-      assertThat(result.contentString, is(unknownObject.toString()));
+      assertThat(result, nullValue());
     }
   }
 
@@ -389,6 +387,27 @@ public class JSONValueConverterTest {
               .findMatchingFunctionConvertArgs(
                   RuntimeLibrary.getFunctions(), functionName, args.toArray());
       assertThat(functionWithArgs, nullValue());
+    }
+
+    private static List<Arguments> cantBeConvertedSource() {
+      return List.of(
+          Arguments.of(new Object[] {null}, "Passing null to an ASH function is not supported."),
+          Arguments.of(
+              new Object[] {new Value(DataTypes.ANY_TYPE)},
+              "Could not coerce argument to valid ASH value."));
+    }
+
+    @ParameterizedTest
+    @MethodSource("cantBeConvertedSource")
+    public void throwsIfArgCantBeConverted(Object[] args, String message) {
+      try {
+        new JSONValueConverter()
+            .findMatchingFunctionConvertArgs(RuntimeLibrary.getFunctions(), "to_string", args);
+      } catch (ValueConverter.ValueConverterException e) {
+        assertThat(e.getMessage(), is(message));
+        return;
+      }
+      Assertions.fail("findMatchingFunctionConvertArgs should throw ValueConverterException.");
     }
   }
 }
