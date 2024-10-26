@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.persistence;
 
+import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONException;
 import com.alibaba.fastjson2.JSONObject;
@@ -57,7 +58,7 @@ public class ScriptManager {
     String string = new String(bytes, StandardCharsets.UTF_8);
 
     try {
-      return new JSONArray(string);
+      return JSON.parseArray(string);
     } catch (JSONException e) {
       // This file is evidently bad. Delete it so it doesn't keep causing problems.
       repoFile.delete();

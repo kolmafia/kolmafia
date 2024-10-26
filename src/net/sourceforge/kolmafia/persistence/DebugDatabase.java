@@ -2481,7 +2481,7 @@ public class DebugDatabase {
 
     if (response.statusCode() == 200) {
       String body = response.body();
-      return new JSONArray(body);
+      return JSON.parseArray(body);
     } else {
       return new JSONArray();
     }
