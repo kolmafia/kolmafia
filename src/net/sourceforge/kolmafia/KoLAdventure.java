@@ -1274,6 +1274,12 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         case AdventurePool.BEANBAT:
         case AdventurePool.BOSSBAT:
           {
+            // Cannot adventure in the Boss Bat's Lair after completing the quest.
+            if (this.adventureNumber == AdventurePool.BOSSBAT
+                && QuestDatabase.isQuestFinished(Quest.BAT)) {
+              return false;
+            }
+
             int sonarsUsed =
                 switch (progress) {
                   case QuestDatabase.STARTED -> 0;
