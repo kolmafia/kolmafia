@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia.combat;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.HashSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -30,8 +32,7 @@ import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
 public class Macrofier {
-  private static String macroOverride = null;
-  private static ScriptRuntime macroInterpreter = null;
+  private static Deque<MacroOverride> macroOverrides = new ArrayDeque<>();
   private static BaseFunction macroFunction = null;
   private static Scriptable macroScope = null;
   private static Scriptable macroThisArg = null;
@@ -42,24 +43,27 @@ public class Macrofier {
   private Macrofier() {}
 
   public static void resetMacroOverride() {
-    Macrofier.macroOverride = null;
-    Macrofier.macroInterpreter = null;
-    Macrofier.macroFunction = null;
-    Macrofier.macroScope = null;
-    Macrofier.macroThisArg = null;
+    macroOverrides.pop();
+  }
+
+  public static void resetErroringMacro() {
+    var macroOverride = macroOverrides.peek();
+    if (macroOverride == null) return;
+    macroOverride.macroOverride = null;
+    macroOverride.macroInterpreter = null;
   }
 
   public static void setMacroOverride(String macroOverride, ScriptRuntime interpreter) {
     if (macroOverride == null || macroOverride.length() == 0) {
-      Macrofier.macroOverride = null;
-      Macrofier.macroInterpreter = null;
+      macroOverrides.push(new MacroOverride(null, null));
     } else if (macroOverride.indexOf(';') != -1) {
-      Macrofier.macroOverride = macroOverride;
-      Macrofier.macroInterpreter = null;
+      macroOverrides.push(new MacroOverride(macroOverride, null));
     } else {
-      Macrofier.macroOverride = macroOverride;
-      Macrofier.macroInterpreter = interpreter;
+      macroOverrides.push(new MacroOverride(macroOverride, interpreter));
     }
+    Macrofier.macroFunction = null;
+    Macrofier.macroScope = null;
+    Macrofier.macroThisArg = null;
   }
 
   public static void setJavaScriptMacroOverride(
@@ -70,7 +74,8 @@ public class Macrofier {
   }
 
   public static boolean usingCombatFilter() {
-    return Macrofier.macroInterpreter != null;
+    var macroOverride = macroOverrides.peek();
+    return macroOverride != null && macroOverride.macroInterpreter != null;
   }
 
   private static boolean isSimpleAction(String action) {
@@ -92,15 +97,23 @@ public class Macrofier {
   public static String macrofy() {
     boolean debug = Preferences.getBoolean("macroDebug");
 
+    String macroOverride;
+    ScriptRuntime macroInterpreter;
+    var macroOverrideRec = macroOverrides.peek();
+    if (macroOverrideRec != null) {
+      macroOverride = macroOverrideRec.macroOverride;
+      macroInterpreter = macroOverrideRec.macroInterpreter;
+    } else {
+      macroOverride = null;
+      macroInterpreter = null;
+    }
     // If there's an override, always use it
 
-    if (Macrofier.macroInterpreter == null
-        && Macrofier.macroOverride != null
-        && Macrofier.macroOverride.length() > 0) {
+    if (macroInterpreter == null && macroOverride != null && macroOverride.length() > 0) {
       if (debug) {
         RequestLogger.printLine("Using macroOverride");
       }
-      return Macrofier.macroOverride;
+      return macroOverride;
     }
 
     // Begin monster-specific macrofication.
@@ -108,7 +121,7 @@ public class Macrofier {
     MonsterData monster = MonsterStatusTracker.getLastMonster();
     String monsterName = (monster != null) ? monster.getName() : "";
 
-    if (Macrofier.macroInterpreter != null) {
+    if (macroInterpreter != null) {
       Object[] parameters = new Object[3];
       parameters[0] = FightRequest.getRoundIndex();
       parameters[1] = monster;
@@ -116,7 +129,10 @@ public class Macrofier {
 
       Value returnValue;
 
-      if (Macrofier.macroInterpreter instanceof JavascriptRuntime interpreter) {
+      if (macroInterpreter instanceof JavascriptRuntime interpreter) {
+        var macroScope = macroOverrideRec.macroScope;
+        var macroFunction = macroOverrideRec.macroFunction;
+        var macroThisArg = macroOverrideRec.macroThisArg;
         // Execute a function from the JavaScript runtime maintaining the scope, thisObj etc
         returnValue =
             interpreter.executeFunction(
@@ -129,7 +145,7 @@ public class Macrofier {
         // Execute a single function in the scope of the
         // currently executing file.  Do not re-execute
         // top-level code in that file.
-        returnValue = Macrofier.macroInterpreter.execute(macroOverride, parameters, false);
+        returnValue = macroInterpreter.execute(macroOverride, parameters, false);
       }
 
       if (KoLmafia.refusesContinue()) {
@@ -609,5 +625,22 @@ public class Macrofier {
 
     macro.append("abort \"No MP restoratives!\"\n");
     macro.append("mark mafiampexit\n");
+  }
+
+  private static class MacroOverride {
+    public MacroOverride(String macroOverride, ScriptRuntime macroInterpreter) {
+      this.macroOverride = macroOverride;
+      this.macroInterpreter = macroInterpreter;
+      // Set JavaScript variables from global storage
+      this.macroFunction = Macrofier.macroFunction;
+      this.macroScope = Macrofier.macroScope;
+      this.macroThisArg = Macrofier.macroThisArg;
+    }
+
+    public String macroOverride;
+    public ScriptRuntime macroInterpreter;
+    public BaseFunction macroFunction = null;
+    public Scriptable macroScope = null;
+    public Scriptable macroThisArg = null;
   }
 }
