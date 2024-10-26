@@ -3162,6 +3162,16 @@ public class KoLAdventureValidationTest {
             requests.get(2), "/inv_use.php", "whichitem=" + ItemPool.SONAR + "&ajax=1");
       }
     }
+
+    @Test
+    public void cannotVisitBossBatLairAfterQuestFinished() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.BAT, QuestDatabase.FINISHED));
+      try (cleanups) {
+        assertThat(BATRAT.canAdventure(), is(true));
+        assertThat(BEANBAT.canAdventure(), is(true));
+        assertThat(BOSSBAT.canAdventure(), is(false));
+      }
+    }
   }
 
   @Nested
