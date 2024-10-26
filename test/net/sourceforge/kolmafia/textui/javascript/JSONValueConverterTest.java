@@ -16,7 +16,9 @@ import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import net.sourceforge.kolmafia.MonsterData;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.RuntimeLibrary;
@@ -103,6 +105,49 @@ public class JSONValueConverterTest {
       JSONObject converted = (JSONObject) JSONValueConverter.asJSON(value);
       assertThat(converted.size(), is(2));
       assertThat(converted, allOf(hasEntry("a", 1L), hasEntry("b", 2L)));
+    }
+
+    @Test
+    public void testMapTypeWithIntKeys() {
+      Map<Value, Value> map =
+          Map.of(
+              DataTypes.makeIntValue(1),
+              DataTypes.makeStringValue("a"),
+              DataTypes.makeIntValue(2),
+              DataTypes.makeStringValue("b"));
+      Value value = new MapValue(DataTypes.INT_TO_STRING_TYPE, map);
+      JSONObject converted = (JSONObject) JSONValueConverter.asJSON(value);
+      assertThat(converted.size(), is(2));
+      assertThat(converted, allOf(hasEntry("1", "a"), hasEntry("2", "b")));
+    }
+
+    @Test
+    public void testMapTypeWithItemKeys() {
+      Map<Value, Value> map =
+          Map.of(
+              Objects.requireNonNull(DataTypes.makeItemValue(ItemPool.SEAL_CLUB, false)),
+              DataTypes.makeIntValue(1),
+              Objects.requireNonNull(DataTypes.makeItemValue(ItemPool.TURTLE_TOTEM, false)),
+              DataTypes.makeIntValue(2));
+      Value value = new MapValue(DataTypes.ITEM_TO_INT_TYPE, map);
+      JSONObject converted = (JSONObject) JSONValueConverter.asJSON(value);
+      assertThat(converted.size(), is(2));
+      assertThat(
+          converted, allOf(hasEntry("seal-clubbing club", 1L), hasEntry("turtle totem", 2L)));
+    }
+
+    @Test
+    public void testMapTypeWithBadKeys() {
+      Map<Value, Value> map = Map.of(DataTypes.makeFloatValue(22.0), DataTypes.makeIntValue(1));
+      Value value = new MapValue(new AggregateType(DataTypes.FLOAT_TYPE, DataTypes.INT_TYPE), map);
+      try {
+        JSONValueConverter.asJSON(value);
+        Assertions.fail("Should have thrown ValueConverterException.");
+      } catch (ValueConverter.ValueConverterException e) {
+        assertThat(
+            e.getMessage(),
+            is("Maps may only have keys of type string, int or an enumerated type."));
+      }
     }
 
     @Test
@@ -410,11 +455,11 @@ public class JSONValueConverterTest {
       try {
         new JSONValueConverter()
             .findMatchingFunctionConvertArgs(RuntimeLibrary.getFunctions(), "to_string", args);
+        Assertions.fail(
+            "findMatchingFunctionConvertArgs should have thrown ValueConverterException.");
       } catch (ValueConverter.ValueConverterException e) {
         assertThat(e.getMessage(), is(message));
-        return;
       }
-      Assertions.fail("findMatchingFunctionConvertArgs should throw ValueConverterException.");
     }
   }
 }
