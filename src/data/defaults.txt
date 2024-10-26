@@ -1774,7 +1774,7 @@ user	_aug30Cast	false
 user	_aug31Cast	false
 user	_augSkillsCast	0
 user	_augTodayCast	false
-user	_authorityUsed	0
+user	_assertAuthorityCast	0
 user	_authorsInkUsed	false
 user	_automatedFutureSide
 user	_automatedFutureManufactures	0
