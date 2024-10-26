@@ -631,14 +631,10 @@ public class Macrofier {
     public MacroOverride(String macroOverride, ScriptRuntime macroInterpreter) {
       this.macroOverride = macroOverride;
       this.macroInterpreter = macroInterpreter;
-      setJavaScriptVariables(Macrofier.macroFunction, Macrofier.macroScope, Macrofier.macroThisArg);
-    }
-
-    public void setJavaScriptVariables(
-        BaseFunction macroFunction, Scriptable macroScope, Scriptable macroThisArg) {
-      this.macroFunction = macroFunction;
-      this.macroScope = macroScope;
-      this.macroThisArg = macroThisArg;
+      // Set JavaScript variables from global storage
+      this.macroFunction = Macrofier.macroFunction;
+      this.macroScope = Macrofier.macroScope;
+      this.macroThisArg = Macrofier.macroThisArg;
     }
 
     public String macroOverride;
