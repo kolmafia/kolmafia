@@ -4,7 +4,8 @@ public enum ModifierValueType {
   NONE,
   NUMERIC,
   BOOLEAN,
-  STRING;
+  STRING,
+  MULTISTRING;
 
   @Override
   public String toString() {
