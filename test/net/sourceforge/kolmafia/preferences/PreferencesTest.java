@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.preferences;
 
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withSavePreferencesToFile;
+import static internal.helpers.Utilities.deleteSerFiles;
 import static internal.helpers.Utilities.verboseDelete;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.CoreMatchers.containsString;
@@ -14,7 +15,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import internal.helpers.Cleanups;
-import internal.helpers.Utilities;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -38,7 +38,7 @@ class PreferencesTest {
 
   @AfterEach
   public void resetCharAndPreferences() {
-    Utilities.deleteSerFiles(USER_NAME);
+    deleteSerFiles(USER_NAME);
     KoLmafia.releaseFileLock();
     KoLCharacter.reset("");
   }
@@ -66,7 +66,7 @@ class PreferencesTest {
       assertThat("userFile Not Found: " + userFile, userFile.exists());
       assertThat("backupUserFile not found: " + backupUserFile, backupUserFile.exists());
     }
-    Utilities.deleteSerFiles(EMPTY_USER);
+    deleteSerFiles(EMPTY_USER);
   }
 
   @Test
