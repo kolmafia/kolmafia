@@ -46,7 +46,7 @@ public abstract class AshStub extends BaseFunction {
           coercer.findMatchingFunctionConvertArgs(getAllFunctions(), ashFunctionName, args);
       if (functionWithArgs == null || functionWithArgs.function() == null) {
         throw controller.runtimeException(
-            Parser.undefinedFunctionMessage(ashFunctionName, functionWithArgs.ashArgs()));
+            Parser.undefinedFunctionMessage(ashFunctionName, List.of()));
       }
 
       ashReturnValue = execute(functionWithArgs.function(), functionWithArgs.ashArgs());
