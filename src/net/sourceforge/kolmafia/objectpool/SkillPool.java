@@ -604,6 +604,7 @@ public class SkillPool {
   public static final int REST_UPSIDE_DOWN = 7528;
   public static final int SWOOP_LIKE_A_BAT = 7530;
   public static final int SUMMON_CAULDRON_OF_BATS = 7531;
+  public static final int ASSERT_YOUR_AUTHORITY = 7532;
 
   public static final int GOOD_SINGING_VOICE = 11016;
   public static final int BANISHING_SHOUT = 11020;
