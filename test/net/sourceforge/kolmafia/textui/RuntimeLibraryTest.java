@@ -33,6 +33,7 @@ import static internal.helpers.Player.withTrackedMonsters;
 import static internal.helpers.Player.withTrackedPhyla;
 import static internal.helpers.Player.withTurnsPlayed;
 import static internal.helpers.Player.withValueOfAdventure;
+import static internal.helpers.Utilities.deleteSerFiles;
 import static org.hamcrest.CoreMatchers.both;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.not;
@@ -89,11 +90,15 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 public class RuntimeLibraryTest extends AbstractCommandTestBase {
+
+  private static final String TESTUSER = "RuntimeLibraryTestUser";
+
   @BeforeEach
   public void initEach() {
-    KoLCharacter.reset("testUser");
+    KoLCharacter.reset(TESTUSER);
+    deleteSerFiles(TESTUSER);
     KoLCharacter.reset(true);
-    Preferences.reset("testUser");
+    Preferences.reset(TESTUSER);
   }
 
   public RuntimeLibraryTest() {
