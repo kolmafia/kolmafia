@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.preferences;
 
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withSavePreferencesToFile;
+import static internal.helpers.Utilities.deleteSerFiles;
 import static internal.helpers.Utilities.verboseDelete;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.CoreMatchers.containsString;
@@ -18,18 +19,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Date;
 import java.util.TreeMap;
-import java.util.stream.IntStream;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.session.LoginManager;
-import net.sourceforge.kolmafia.session.LogoutManager;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -48,14 +41,6 @@ class PreferencesTest {
     deleteSerFiles(USER_NAME);
     KoLmafia.releaseFileLock();
     KoLCharacter.reset("");
-  }
-
-  private static void deleteSerFiles(String username) {
-    String part = username.toLowerCase();
-    Path dest = Paths.get(KoLConstants.ROOT_LOCATION + "/data/" + part + "_queue.ser");
-    verboseDelete(dest);
-    dest = Paths.get(KoLConstants.ROOT_LOCATION + "/data/" + part + "_turns.ser");
-    verboseDelete(dest);
   }
 
   @Test
@@ -579,95 +564,6 @@ class PreferencesTest {
 
   @Nested
   class preferenceWriteAcrossThreads {
-
-    public class timeinThread extends Thread {
-      public timeinThread(String s) {
-        super(s);
-      }
-
-      public void run() {
-        LoginManager.timein(USER_NAME);
-      }
-    }
-
-    public static class incrementThread extends Thread {
-      public incrementThread(String s) {
-        super(s);
-      }
-
-      public void run() {
-
-        Preferences.increment("counter", 1);
-      }
-    }
-
-    @Test
-    public void timeinDoesNotCauseRaceCondition() {
-      File sessonFile =
-          new File(
-              KoLConstants.SESSIONS_DIRECTORY
-                  + StringUtilities.globalStringReplace(KoLCharacter.getUserName(), " ", "_")
-                  + "_"
-                  + KoLConstants.DAILY_FORMAT.format(new Date())
-                  + ".txt");
-
-      String unrelatedPref = "coalmine";
-      String unrelatedValue = "canary";
-      String incrementedPref = "counter";
-      int threadCount = 100;
-
-      var cleanups =
-          new Cleanups(
-              withSavePreferencesToFile(),
-              withProperty(unrelatedPref, unrelatedValue),
-              withProperty(incrementedPref, 0));
-      try (cleanups) {
-        Thread[] incrementThreads = new Thread[threadCount];
-        Thread timein = new timeinThread("Timein");
-        timein.start();
-
-        IntStream.range(0, threadCount)
-            .forEach(
-                i -> {
-                  incrementThreads[i] = new incrementThread("Increment-" + i);
-                  incrementThreads[i].start();
-                });
-        try {
-          if (timein.isAlive()) {
-            timein.join(4000);
-          }
-        } catch (InterruptedException ex) {
-          ex.printStackTrace();
-        }
-        if (timein.isAlive()) {
-          System.out.println("Undead thread: " + timein.getName());
-        }
-        IntStream.range(0, threadCount)
-            .forEach(
-                j -> {
-                  try {
-                    incrementThreads[j].join(4000);
-                  } catch (InterruptedException e) {
-                    e.printStackTrace();
-                  }
-                  assertFalse(
-                      incrementThreads[j].isAlive(),
-                      "Undead thread: " + incrementThreads[j].getName());
-                });
-
-        assertEquals(
-            unrelatedValue,
-            Preferences.getString(unrelatedPref, false),
-            "unrelated pref does not match");
-        assertEquals(
-            threadCount,
-            Preferences.getInteger(incrementedPref),
-            "Incremented preference does not match");
-      }
-      LogoutManager.logout();
-      verboseDelete(sessonFile);
-    }
-
     public class resetThread extends Thread {
       public resetThread(String s) {
         super(s);
