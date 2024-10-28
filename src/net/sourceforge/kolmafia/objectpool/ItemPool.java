@@ -3810,6 +3810,9 @@ public class ItemPool {
   public static final int STRUCTURAL_EMBER = 11647;
   public static final int CLAN_PHOTO_BOOTH = 11656;
   public static final int BAT_WINGS = 11658;
+  public static final int SHERIFF_BADGE = 11668;
+  public static final int SHERIFF_PISTOL = 11669;
+  public static final int SHERIFF_MOUSTACHE = 11670;
 
   private ItemPool() {}
 
