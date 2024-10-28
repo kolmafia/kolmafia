@@ -82,8 +82,8 @@ Some tasks of interest:
  check            | Run all checks, including formatting and tests.
  jacocoTestReport | Generate a coverage report in build/reports/jacoco.
 
-We currently require at least Java 9, but strongly recommend building
-and running via the latest LTS release (Java 17 as of October 2021).
+We currently require at least Java 17, but strongly recommend building
+and running via the latest LTS release (Java 21 as of October 2024).
 
 See [this thread](https://kolmafia.us/threads/rocking-the-gradle.26583/) for
 some additional notes on Gradle usage.
