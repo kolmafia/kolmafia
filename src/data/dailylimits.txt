@@ -8,6 +8,7 @@ Cast	Advanced Saucecrafting	reagentSummons
 Cast	Ancestral Recall	_ancestralRecallCasts	10
 Cast	Army of Toddlers	_armyToddlerCast
 Cast	Asdon Martin: Missile Launcher	_missileLauncherUsed
+Cast	Assert your Authority	_assertYourAuthorityCast	3
 Cast	Aug. 1st: Mountain Climbing Day!	_aug1Cast
 Cast	Aug. 2nd: Find an Eleven-Leaf Clover Day	_aug2Cast
 Cast	Aug. 3rd: Watermelon Day!	_aug3Cast
