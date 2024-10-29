@@ -179,7 +179,7 @@ public class MonsterData extends AdventureResult {
             if (tokens.hasMoreTokens()) {
               String next = parseString(tokens.nextToken(), tokens);
               Element element = parseElement(next);
-              if (element == null) break;
+              if (element == null) continue;
               Object current = attributeMap.get(attribute);
               if (current == null) {
                 attributeMap.put(attribute, element);
