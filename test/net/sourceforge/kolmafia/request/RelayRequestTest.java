@@ -8,6 +8,7 @@ import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withMeat;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withTurnsPlayed;
+import static internal.helpers.Utilities.deleteSerFiles;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.emptyOrNullString;
 import static org.hamcrest.Matchers.is;
@@ -33,6 +34,7 @@ import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -159,6 +161,14 @@ public class RelayRequestTest {
       Preferences.reset("RelayRequestTest.ApiRequest");
       AdventureSpentDatabase.resetTurns();
       AdventureQueueDatabase.resetQueue();
+    }
+
+    @AfterAll
+    public static void afterAll() {
+      // This test creates ser files as if the logged in user were "GLOBAL".   The reason why
+      // has not been found and setting a logged in user breaks the test because the returned JSON
+      // is different from what is expected.
+      deleteSerFiles("GLOBAL");
     }
 
     @Test

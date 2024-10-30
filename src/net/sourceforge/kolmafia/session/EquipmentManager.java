@@ -667,6 +667,9 @@ public class EquipmentManager {
         KoLCharacter.removeAvailableSkill(SkillPool.SWOOP_LIKE_A_BAT);
         KoLCharacter.removeAvailableSkill(SkillPool.SUMMON_CAULDRON_OF_BATS);
       }
+      case ItemPool.SHERIFF_BADGE, ItemPool.SHERIFF_PISTOL, ItemPool.SHERIFF_MOUSTACHE -> {
+        KoLCharacter.removeAvailableSkill(SkillPool.ASSERT_YOUR_AUTHORITY);
+      }
     }
   }
 
@@ -923,6 +926,24 @@ public class EquipmentManager {
       case ItemPool.BAT_WINGS -> {
         KoLCharacter.addAvailableSkill(SkillPool.SWOOP_LIKE_A_BAT);
         KoLCharacter.addAvailableSkill(SkillPool.SUMMON_CAULDRON_OF_BATS);
+      }
+      case ItemPool.SHERIFF_BADGE -> {
+        if (KoLCharacter.hasEquipped(ItemPool.SHERIFF_PISTOL)
+            && KoLCharacter.hasEquipped(ItemPool.SHERIFF_MOUSTACHE)) {
+          KoLCharacter.addAvailableSkill(SkillPool.ASSERT_YOUR_AUTHORITY);
+        }
+      }
+      case ItemPool.SHERIFF_PISTOL -> {
+        if (KoLCharacter.hasEquipped(ItemPool.SHERIFF_BADGE)
+            && KoLCharacter.hasEquipped(ItemPool.SHERIFF_MOUSTACHE)) {
+          KoLCharacter.addAvailableSkill(SkillPool.ASSERT_YOUR_AUTHORITY);
+        }
+      }
+      case ItemPool.SHERIFF_MOUSTACHE -> {
+        if (KoLCharacter.hasEquipped(ItemPool.SHERIFF_BADGE)
+            && KoLCharacter.hasEquipped(ItemPool.SHERIFF_PISTOL)) {
+          KoLCharacter.addAvailableSkill(SkillPool.ASSERT_YOUR_AUTHORITY);
+        }
       }
     }
   }

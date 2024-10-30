@@ -2873,4 +2873,17 @@ public class FightRequestTest {
       }
     }
   }
+
+  @Nested
+  class Authority {
+    @Test
+    public void canDetectAssertAuthority() {
+      var cleanups = new Cleanups(withProperty("_assertYourAuthorityCast", 0), withFight());
+      try (cleanups) {
+        parseCombatData(
+            "request/test_fight_sheriff_authority.html", "fight.php?action=skill&whichskill=7532");
+        assertThat("_assertYourAuthorityCast", isSetTo(1));
+      }
+    }
+  }
 }
