@@ -12,6 +12,7 @@ import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -22,6 +23,7 @@ import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.StringTokenizer;
 import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.IntStream;
@@ -584,6 +586,38 @@ public class DataFileConsistencyTest {
       }
     } catch (IOException e) {
       fail("Couldn't read from encounters.txt");
+    }
+  }
+
+  @Test
+  public void monsterElementsAreValid() {
+    try (BufferedReader reader =
+        FileUtilities.getVersionedReader("monsters.txt", KoLConstants.MONSTERS_VERSION)) {
+      String[] data;
+
+      while ((data = FileUtilities.readData(reader)) != null) {
+        StringTokenizer tokens = new StringTokenizer(data[3], " ");
+        while (tokens.hasMoreTokens()) {
+          var value = tokens.nextToken();
+          var attribute = MonsterData.Attribute.find(value);
+          var elemental =
+              value.equals("E:")
+                  || attribute == MonsterData.Attribute.EA
+                  || attribute == MonsterData.Attribute.ED;
+
+          if (!elemental) continue;
+          if (!tokens.hasMoreTokens()) continue;
+
+          String next = MonsterData.parseString(tokens.nextToken(), tokens);
+          var element = MonsterData.parseElement(next);
+          assertThat(
+              "Monster" + data[0] + " references an invalid element \"" + next + "\"",
+              element,
+              notNullValue());
+        }
+      }
+    } catch (IOException e) {
+      fail("Couldn't read from monsters.txt");
     }
   }
 }
