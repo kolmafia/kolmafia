@@ -129,7 +129,7 @@ public class MonsterData extends AdventureResult {
           if (tokens.hasMoreTokens()) {
             String next = tokens.nextToken();
             Element element = parseElement(next);
-            if (element != Element.NONE) {
+            if (element != null) {
               attributeMap.put(Attribute.EA, element);
               attributeMap.put(Attribute.ED, element);
             }
@@ -179,9 +179,7 @@ public class MonsterData extends AdventureResult {
             if (tokens.hasMoreTokens()) {
               String next = parseString(tokens.nextToken(), tokens);
               Element element = parseElement(next);
-              if (element == Element.NONE) {
-                continue;
-              }
+              if (element == null) continue;
               Object current = attributeMap.get(attribute);
               if (current == null) {
                 attributeMap.put(attribute, element);
@@ -196,7 +194,7 @@ public class MonsterData extends AdventureResult {
             if (tokens.hasMoreTokens()) {
               String next = tokens.nextToken();
               Element element = parseElement(next);
-              if (element != Element.NONE) {
+              if (element != null) {
                 attributeMap.put(attribute, element);
               }
             }
@@ -312,7 +310,7 @@ public class MonsterData extends AdventureResult {
     return temp.substring(1, temp.length() - 1);
   }
 
-  private static String parseString(String token, StringTokenizer tokens) {
+  protected static String parseString(String token, StringTokenizer tokens) {
     if (!token.startsWith("\"")) {
       return token;
     }
@@ -337,7 +335,7 @@ public class MonsterData extends AdventureResult {
         return elem;
       }
     }
-    return Element.NONE;
+    return null;
   }
 
   public static Phylum parsePhylum(final String s) {
