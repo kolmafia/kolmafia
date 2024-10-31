@@ -12242,6 +12242,7 @@ Item	puppet strings	Free Pull
 # pygmy blowgun: Poisons enemies, dealing damage over multiple rounds
 Item	pygmy bugbear shaman	Free Pull
 # quantum nanopolymer spider web: Weakens enemies somewhat and briefly stuns them
+Item	quantum watch	Adventures: +2
 Item	quasi-ethereal macaroni fragments	Class: "Pastamancer"
 # Rad-B-Gone (1 lb.): Cures Radiation Sickness
 # Rain-Doh black box: Makes a copy of a monster to fight later
