@@ -11710,3 +11710,4 @@
 11682	pea brittle	413024704	pto_brittle.gif	potion, usable	t,d	5
 11683	peasco sour	113636715	pto_drink.gif	drink	t,d	21
 11684	piece of cake	380207608	tinycake.gif	food	t,d	11
+11685	handful of split pea soup	564145882	pto_soup.gif	none, combat	t,d	1

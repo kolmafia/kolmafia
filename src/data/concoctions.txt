@@ -3359,3 +3359,4 @@ ember egg	MUSE	embering hunk (21)
 peasco sour	MIX	whirled peas	bottle of vodka
 peaza	COOK	whirled peas	flat dough
 pea brittle	COOK	whirled peas	Gnollish casserole dish
+handful of split pea soup	COMBINE	whirled peas	whirled peas

@@ -11769,6 +11769,7 @@ Item	hand turkey outline	Free Pull
 # handful of sand: Make stuff out of it!
 # handful of sand: Weakens Enemies a Little Bit
 # handful of sawdust: Weakens enemies somewhat
+# handful of split pea soup: Banish a foe
 # Handsome Devil: Instantly defeats most monsters
 # hard spore pod: Briefly enhances your defense
 # Harold's bell: Banishes a monster for a while
