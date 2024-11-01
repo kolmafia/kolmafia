@@ -3354,3 +3354,7 @@ mini kiwi digitized cookies	KIWI, ROW1490	mini kiwi (3)
 
 # Sept-Ember Censer
 ember egg	MUSE	embering hunk (21)
+
+# Peace Turkey
+peasco sour	MIX	whirled peas	bottle of vodka
+peaza	COOK	whirled peas	flat dough
