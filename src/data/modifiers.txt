@@ -6411,6 +6411,7 @@ Effect	Hella Tough	Muscle Percent: +25, Weapon Damage: +10, Damage Reduction: 5
 Effect	HELLO WORLD!	Avatar: "triad code wizard"
 Effect	Hello, I Must Be Going	Monster Level: +40
 Effect	Helping Comes Second	Meat Drop: +20, Food Drop: +25, Booze Drop: +25, Candy Drop: +25
+Effect	Helping Fingers	Weapon Damage Percent: +100
 Effect	Helvella Health	Maximum HP: +100, HP Regen Min: 10, HP Regen Max: 20
 Effect	Hennaliciousness	Mysticality: +3
 Effect	Herbal Pert	Experience (Moxie): [25*zone(Twitch)], Initiative: [250*zone(Twitch)]
