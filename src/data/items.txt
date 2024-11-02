@@ -11697,13 +11697,17 @@
 11669	Sheriff pistol	116395444	sixgun4.gif	weapon	q	0
 11670	Sheriff moustache	231935926	jackmoustache.gif	accessory	q	0
 11671	photo booth supply list	459315400	document.gif	offhand	q	0
-11672
-11673
-11674
-11675
-11676
+11672	peace turkey outline	206862721	pto.gif	grow	t	0
+11673	tie-dye headband	716138076	pto_headband.gif	familiar	t,d	10
+11674	whirled peas	876145561	pto_peas.gif	food, paste, cook, mix	t,d	5
+11675	peaza	503542763	pto_pizza.gif	food	t,d	21
+11676	peace shooter	535806162	pto_shooter.gif	none, combat	t,d	11
 11677
 11678
 11679	quantized familiar	258736001	qflarva.gif	grow		0
 11680	quantum watch	757870628	qfwatch.gif	familiar	t,d	37
 11681	quantized familiar experience	829423278	qfexp.gif	usable	t,d	11
+11682	pea brittle	413024704	pto_brittle.gif	potion, usable	t,d	5
+11683	peasco sour	113636715	pto_drink.gif	drink	t,d	21
+11684	piece of cake	380207608	tinycake.gif	food	t,d	11
+11685	handful of split pea soup	564145882	pto_soup.gif	none, combat	t,d	1

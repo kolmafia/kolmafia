@@ -2932,3 +2932,6 @@
 2929	Wild and Westy!	cowboyboots.gif	b5f7e03c415eee2ee0cfd74105468c32	neutral	none	photobooth effect wild
 2930	Towering Muscles	stronggnome.gif	ae32f8a8b0a2868710d497d6939e6ea7	neutral	none	photobooth effect tower
 2931	Spaced Out	celesteyes.gif	67ec6215eff43af9f0373ff2c69cde99	neutral	none	photobooth effect space
+2932
+2933	Brittled	pto_brittle.gif	169314abffcc7f5695decb01733520c9	neutral	none	use 1 pea brittle
+2934	Helping Fingers	pto.gif	4dd19b77677c06ff1d6fef76281c6a81	neutral	none

@@ -523,6 +523,7 @@ papaya slung	3	2	decent	4-8	11-15	11-15	11-15
 parisian cathouse	3	3	good	5-10	0	0	16-20
 party beer bomb	1	4	EPIC	5-6	0	0	0	BEER
 passable stout	3	1	decent	4-5	0	20-30	10-20
+peasco sour	3	1	awesome	0	0	0	0	Unspaded
 pebblebr&auml;u	1	1	crappy	1	50-80	50-80	50-80	BEER
 perfect cosmopolitan	3	5	EPIC	18-19	20-35	10-25	1-15
 perfect dark and stormy	3	5	EPIC	18-19	1-15	20-35	10-25
