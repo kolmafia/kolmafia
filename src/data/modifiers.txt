@@ -5560,6 +5560,7 @@ Effect	Brilliant Resolve	Experience (Mysticality): +2
 # Brined Liver: Makes you a better diver
 Effect	Brined Liver	Initiative Penalty: [20*env(underwater)], Item Drop Penalty: [20*env(underwater)], Meat Drop Penalty: [20*env(underwater)]
 Effect	Briny Blood	Spell Damage: +20, Maximum MP: +40
+Effect	Brittled	Initiative: +50
 Effect	Broad-Spectrum Vaccine	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 Effect	Broberry Brotality	Muscle Percent: +100, Critical Hit Percent: +10, Meat Drop: +50
 Effect	Brocolate Brostidigitation	Mysticality Percent: +100, Spell Critical Percent: +20, Item Drop: +25
@@ -6410,6 +6411,7 @@ Effect	Hella Tough	Muscle Percent: +25, Weapon Damage: +10, Damage Reduction: 5
 Effect	HELLO WORLD!	Avatar: "triad code wizard"
 Effect	Hello, I Must Be Going	Monster Level: +40
 Effect	Helping Comes Second	Meat Drop: +20, Food Drop: +25, Booze Drop: +25, Candy Drop: +25
+Effect	Helping Fingers	Weapon Damage Percent: +100
 Effect	Helvella Health	Maximum HP: +100, HP Regen Min: 10, HP Regen Max: 20
 Effect	Hennaliciousness	Mysticality: +3
 Effect	Herbal Pert	Experience (Moxie): [25*zone(Twitch)], Initiative: [250*zone(Twitch)]
@@ -10516,6 +10518,7 @@ Item	patent avarice tonic	Effect: "Patent Avarice", Effect Duration: 30
 Item	patent invisibility tonic	Effect: "Patent Invisibility", Effect Duration: 30
 Item	patent preventative tonic	Effect: "Patent Prevention", Effect Duration: 30
 Item	patent sallowness tonic	Effect: "Patent Sallowness", Effect Duration: 50
+Item	pea brittle	Effect: "Brittled", Effect Duration: 20
 Item	peach lozenge	Effect: "The Halls of Moxiousness", Effect Duration: [R]
 Item	pear lozenge	Effect: "The Halls of Mysticality", Effect Duration: [R]
 Item	pear supersucker	Effect: "Dirty Pear", Effect Duration: 30
@@ -11766,6 +11769,7 @@ Item	hand turkey outline	Free Pull
 # handful of sand: Make stuff out of it!
 # handful of sand: Weakens Enemies a Little Bit
 # handful of sawdust: Weakens enemies somewhat
+# handful of split pea soup: Banish a foe
 # Handsome Devil: Instantly defeats most monsters
 # hard spore pod: Briefly enhances your defense
 # Harold's bell: Banishes a monster for a while
@@ -12144,6 +12148,8 @@ Item	passed-out psychedelic bear	Free Pull
 # patchouli incense stick: Weakens enemies a little bit
 Item	patchouli incense stick	Effect: "Far Out", Effect: "Embarrassed", Effect Duration: 5
 # patchouli oil bomb: Deals 65-80 <font color=green>Stench Damage</font>
+# peace shooter: Makes an opponent peaceful for 3 rounds
+Item	peace turkey outline	Free Pull
 Item	Peek-a-Boo!	Skill: "Object Quasi-Permanence"
 # pencil kunai: Deals 20-30 Physical Damage
 # pencil stub: Does any number of crazy things
@@ -12611,6 +12617,7 @@ Item	throbbing rage gland	Skill: "Vent Rage Gland"
 # throwing fork: Deals 20-30 Physical Damage with each of its three tines
 # throwing knife: Causes bleeding
 # throwing spoon: Deals 50-60 Physical Damage and weakens enemies somewhat
+# tie-dye headband: Makes your peace turkey outline block delevel more often
 # time shuriken: (does not go away when used)
 Item	time sleigh	Free Pull
 # Time-Spinner: Allows you to travel through time
