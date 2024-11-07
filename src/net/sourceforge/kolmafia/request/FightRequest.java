@@ -8552,6 +8552,40 @@ public class FightRequest extends GenericRequest {
     }
     return false;
   }
+  
+  private static final Pattern[] COOKBOOKBAT_QUEST = {
+    Pattern.compile("Perhaps if you kill an? (.*?), you'll find one."),
+    Pattern.compile("Perhaps if you find an? (.*?)"),
+    Pattern.compile("was often collected from an? (.*?)"),
+  };
+
+  private static final Pattern[] COOKBOOKBAT_QUEST_COMPLETE = {
+    Pattern.compile("looks smug as you follow their instructions."),
+    Pattern.compile("As I recall, this is where I told you to look."),
+  };
+
+  private static boolean handleCookbookbat(String text, TagStatus status) {
+    if (!status.familiar.equals("bbat_fam.gif")) {
+      return false;
+    }
+
+    for (Pattern p : COOKBOOKBAT_QUEST) {
+      Matcher matcher = p.matcher(text);
+      if (matcher.find()) {
+        String monsterName = matcher.group(1);
+        Preferences.setString("_cookbookbatQuestMonster", monsterName);
+        return true;
+      }
+    }
+
+    for (Pattern p : COOKBOOKBAT_QUEST_COMPLETE) {
+      Matcher matcher = p.matcher(text);
+      if (matcher.find()) {
+        Preferences.setString("_cookbookbatQuestMonster", "");
+        return true;
+      }
+    }
+  }
 
   private static void logSkillAcquisition(String skillName, final TagStatus status) {
     FightRequest.logText("You acquire a skill: " + skillName, status);

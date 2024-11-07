@@ -187,6 +187,20 @@ public class FightRequestTest {
     }
   }
 
+    // CookBookBat Tests
+    @Nested
+    class CookBookBat {
+      @Test
+      public void cookbookBatStartsAtProperValue() {
+        var cleanups = new Cleanups(withFamiliar(FamiliarPool.COOKBOOKBAT));
+        try (cleanups) {
+          assertEquals(null, Preferences.getString("_cookbookbatQuestMonster"));
+          parseCombatData("request/test_cookbookbat_quest.html");
+          assertEquals(!null, Preferences.getString("_cookbookbatQuestMonster"));
+        }
+      }
+    }
+
   @Test
   public void gnomeAdv() {
     var cleanups =
