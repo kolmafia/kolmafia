@@ -2877,12 +2877,29 @@ public class FightRequestTest {
   @Nested
   class Authority {
     @Test
-    public void canDetectAssertAuthority() {
+    void canDetectAssertAuthority() {
       var cleanups = new Cleanups(withProperty("_assertYourAuthorityCast", 0), withFight());
       try (cleanups) {
         parseCombatData(
             "request/test_fight_sheriff_authority.html", "fight.php?action=skill&whichskill=7532");
         assertThat("_assertYourAuthorityCast", isSetTo(1));
+      }
+    }
+  }
+
+  @Nested
+  class PeaceTurkey {
+    @ParameterizedTest
+    @ValueSource(ints = {0, 1, 2, 3, 4, 5, 6, 7})
+    void canTrackProcIndex(final int index) {
+      var cleanups =
+          new Cleanups(
+              withProperty("peaceTurkeyIndex", index > 0 ? 0 : 5),
+              withFamiliar(FamiliarPool.PEACE_TURKEY),
+              withFight());
+      try (cleanups) {
+        parseCombatData("request/test_fight_peace_turkey_" + index + ".html");
+        assertThat("peaceTurkeyIndex", isSetTo(index));
       }
     }
   }
