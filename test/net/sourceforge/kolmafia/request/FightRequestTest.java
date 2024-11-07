@@ -2886,4 +2886,19 @@ public class FightRequestTest {
       }
     }
   }
+
+  @Test
+  public void canDetectSplitPeaSoupBanish() {
+    var cleanups = new Cleanups(withFight(), withBanishedMonsters(""));
+
+    try (cleanups) {
+      parseCombatData(
+          "request/test_fight_split_pea_soup.html",
+          "fight.php?action=useitem&whichitem=11685&whichitem2=0");
+
+      assertThat(
+          "banishedMonsters",
+          hasStringValue(startsWith("pair of burnouts:handful of split pea soup:")));
+    }
+  }
 }

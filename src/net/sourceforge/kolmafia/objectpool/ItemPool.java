@@ -3813,6 +3813,7 @@ public class ItemPool {
   public static final int SHERIFF_BADGE = 11668;
   public static final int SHERIFF_PISTOL = 11669;
   public static final int SHERIFF_MOUSTACHE = 11670;
+  public static final int SPLIT_PEA_SOUP = 11685;
 
   private ItemPool() {}
 

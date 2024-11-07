@@ -11072,6 +11072,12 @@ public class FightRequest extends GenericRequest {
         }
 
         break;
+
+      case ItemPool.SPLIT_PEA_SOUP:
+        if (responseText.contains("like a pea and split") || itemRunawaySuccess) {
+          BanishManager.banishCurrentMonster(Banisher.SPLIT_PEA_SOUP);
+        }
+        break;
     }
 
     if (itemId != itemId2) {
