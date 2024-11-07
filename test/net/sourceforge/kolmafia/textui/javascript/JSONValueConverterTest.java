@@ -221,7 +221,8 @@ public class JSONValueConverterTest {
 
     @Test
     public void testStringBufferWithBufferHint() {
-      Value result = JSONValueConverter.fromJSON("test buffer", DataTypes.BUFFER_TYPE);
+      Value result =
+          JSONValueConverter.fromJSON(new StringBuffer("test buffer"), DataTypes.BUFFER_TYPE);
       assertThat(result.getType(), is(DataTypes.BUFFER_TYPE));
       assertThat(result.contentLong, is(0L));
       assertThat(result.content, instanceOf(StringBuffer.class));
@@ -231,7 +232,7 @@ public class JSONValueConverterTest {
 
     @Test
     public void testStringBufferWithoutBufferHint() {
-      Value result = JSONValueConverter.fromJSON("test string", null);
+      Value result = JSONValueConverter.fromJSON(new StringBuffer("test string"), null);
       assertThat(result.getType(), is(DataTypes.STRING_TYPE));
       assertThat(result.contentLong, is(0L));
       assertThat(result.content, nullValue());
