@@ -1200,6 +1200,7 @@ user	pastaThrall7
 user	pastaThrall8
 user	pathedSummonsHardcore	true
 user	pathedSummonsSoftcore	false
+user	peaceTurkeyIndex	0
 user	pendingMapReflections	0
 user	peteMotorbikeTires
 user	peteMotorbikeGasTank
