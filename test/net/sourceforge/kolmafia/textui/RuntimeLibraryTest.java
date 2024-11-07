@@ -1232,6 +1232,23 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
                  Unarmed =>
                  """));
     }
+
+    @Test
+    void parsesModifiersWithDifferentNamesToTags() {
+      String input =
+          "split_modifiers(\"Experience (Muscle): +11, Experience (Mysticality): +9, Experience (Moxie): +7, Damage Reduction: 24\")";
+      String output = execute(input);
+      assertThat(
+          output,
+          is(
+              """
+                 Returned: aggregate string [modifier]
+                 Damage Reduction => 24
+                 Moxie Experience => +7
+                 Muscle Experience => +11
+                 Mysticality Experience => +9
+                 """));
+    }
   }
 
   @Nested
