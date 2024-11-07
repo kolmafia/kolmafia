@@ -1,7 +1,9 @@
 package net.sourceforge.kolmafia.textui.javascript;
 
+import java.util.Arrays;
 import java.util.List;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Parser;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 import net.sourceforge.kolmafia.textui.parsetree.Function;
@@ -45,8 +47,20 @@ public abstract class AshStub extends BaseFunction {
       var functionWithArgs =
           coercer.findMatchingFunctionConvertArgs(getAllFunctions(), ashFunctionName, args);
       if (functionWithArgs == null || functionWithArgs.function() == null) {
+        // Convert arguments as best we can, and return undefined.
+        var ashArgsGuess =
+            Arrays.stream(args)
+                .map(
+                    (arg) -> {
+                      try {
+                        return coercer.fromJava(arg);
+                      } catch (ValueConverter.ValueConverterException e) {
+                        return new Value(DataTypes.ANY_TYPE);
+                      }
+                    })
+                .toList();
         throw controller.runtimeException(
-            Parser.undefinedFunctionMessage(ashFunctionName, List.of()));
+            Parser.undefinedFunctionMessage(ashFunctionName, ashArgsGuess));
       }
 
       ashReturnValue = execute(functionWithArgs.function(), functionWithArgs.ashArgs());

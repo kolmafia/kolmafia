@@ -162,8 +162,8 @@ public class ScriptableValueConverterTest {
     @Test
     public void testBooleanTypeFalse() {
       ScriptableValueConverter converter = new ScriptableValueConverter(cx, scope);
-      Value value = DataTypes.makeBooleanValue(true);
-      assertThat(converter.asJava(value), is(true));
+      Value value = DataTypes.makeBooleanValue(false);
+      assertThat(converter.asJava(value), is(false));
     }
 
     @Test

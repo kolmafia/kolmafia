@@ -10,7 +10,6 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
@@ -22,7 +21,6 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -3630,6 +3628,9 @@ public class RelayRequest extends PasswordHashRequest {
             continue;
           }
 
+          // This method throws if any of the values fail to convert, and returns null if no
+          // matching method can be found. So if it returns and is non-null, all the arguments are
+          // good to go.
           var functionWithArgs =
               new JSONValueConverter()
                   .findMatchingFunctionConvertArgs(
@@ -3643,25 +3644,15 @@ public class RelayRequest extends PasswordHashRequest {
           var function = functionWithArgs.function();
           var transformedArguments = functionWithArgs.ashArgs();
 
-          var badIndices =
-              IntStream.range(0, transformedArguments.size())
-                  .filter(i -> transformedArguments.get(i) == null)
-                  .toArray();
-          if (badIndices.length > 0) {
-            jsonError(
-                "Invalid arguments to "
-                    + name
-                    + ": "
-                    + JSON.toJSONString(Arrays.stream(badIndices).mapToObj(args::get).toList()));
-            return;
-          }
-
           var returnValue =
               function.execute(
                   runtime,
                   Stream.concat(Stream.of(runtime), transformedArguments.stream()).toArray());
 
           functionsResult.add(JSONValueConverter.asJSON(returnValue));
+        } catch (ValueConverter.ValueConverterException e) {
+          jsonError("Failed to convert arguments to ASH: " + e.getMessage());
+          return;
         } catch (Exception e) {
           jsonError("Exception " + e.getClass().getName() + " on " + name + ": " + e.getMessage());
           return;

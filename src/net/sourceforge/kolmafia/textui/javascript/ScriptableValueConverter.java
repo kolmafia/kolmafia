@@ -86,10 +86,10 @@ public class ScriptableValueConverter extends ValueConverter<Scriptable> {
   public Value fromJava(Object object, Type typeHint) {
     if (Undefined.isUndefined(object)) {
       return UNDEFINED;
-    } else if (object instanceof EnumeratedWrapper) {
-      return ((EnumeratedWrapper) object).getWrapped();
-    } else if (object instanceof AshStub) {
-      return DataTypes.makeStringValue("[function " + ((AshStub) object).getFunctionName() + "]");
+    } else if (object instanceof EnumeratedWrapper wrapper) {
+      return wrapper.getWrapped();
+    } else if (object instanceof AshStub stub) {
+      return DataTypes.makeStringValue("[function " + stub.getFunctionName() + "]");
     } else {
       return super.fromJava(object, typeHint);
     }

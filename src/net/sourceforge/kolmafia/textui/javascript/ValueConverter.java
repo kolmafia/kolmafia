@@ -110,7 +110,7 @@ public abstract class ValueConverter<ObjectType> {
 
       dataType = value != null ? value.getType() : null;
       indexType = key != null ? key.getType() : null;
-      if (indexType != null && indexType.equals(DataTypes.INT_TYPE)) {
+      if (indexType != null && indexType.equals(DataTypes.FLOAT_TYPE)) {
         // Convert float index to int, since it doesn't make sense in JS anyway.
         indexType = DataTypes.INT_TYPE;
       }

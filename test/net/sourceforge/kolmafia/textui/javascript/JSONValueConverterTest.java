@@ -441,12 +441,21 @@ public class JSONValueConverterTest {
       assertThat(functionWithArgs, nullValue());
     }
 
+    private static final String UNIDENTIFIED =
+        """
+          { "objectType": "Item", "identifierString": "nonexistent" }
+          """
+            .trim();
+
     private static List<Arguments> cantBeConvertedSource() {
       return List.of(
           Arguments.of(new Object[] {null}, "Passing null to an ASH function is not supported."),
           Arguments.of(
               new Object[] {new Value(DataTypes.ANY_TYPE)},
-              "Could not coerce argument to valid ASH value."));
+              "Could not coerce argument to valid ASH value."),
+          Arguments.of(
+              new Object[] {JSON.parse(UNIDENTIFIED)},
+              "Unidentified object " + JSON.parseObject(UNIDENTIFIED).toString() + "."));
     }
 
     @ParameterizedTest
