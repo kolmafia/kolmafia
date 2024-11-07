@@ -59,8 +59,8 @@ public class JSONValueConverterTest {
 
     @Test
     public void testBooleanTypeFalse() {
-      Value value = DataTypes.makeBooleanValue(true);
-      assertThat(JSONValueConverter.asJSON(value), is(true));
+      Value value = DataTypes.makeBooleanValue(false);
+      assertThat(JSONValueConverter.asJSON(value), is(false));
     }
 
     @Test
