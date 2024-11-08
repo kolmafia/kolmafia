@@ -187,6 +187,45 @@ public class FightRequestTest {
     }
   }
 
+  @Nested
+  class CookBookBat {
+    @ParameterizedTest
+    @CsvSource({
+      "test_fight_cookbookbat_quest_new_1.html,skullery maid,The Haunted Kitchen",
+      "test_fight_cookbookbat_quest_new_2.html,crate,Noob Cave",
+      "test_fight_cookbookbat_quest_reminder_1.html,,The Haunted Kitchen",
+      "test_fight_cookbookbat_quest_reminder_2.html,crate,",
+    })
+    public void handlesQuest(String file, String monsterName, String locationName) {
+      var cleanups =
+          new Cleanups(
+              withFamiliar(FamiliarPool.COOKBOOKBAT),
+              withProperty("_cookbookbatQuestMonster", ""),
+              withProperty("_cookbookbatQuestSuggestedLocation", ""));
+      try (cleanups) {
+        parseCombatData("request/" + file);
+        assertThat("_cookbookbatQuestMonster", isSetTo(monsterName == null ? "" : monsterName));
+        assertThat(
+            "_cookbookbatQuestSuggestedLocation",
+            isSetTo(locationName == null ? "" : locationName));
+      }
+    }
+
+    @Test
+    public void handlesQuestComplete() {
+      var cleanups =
+          new Cleanups(
+              withFamiliar(FamiliarPool.COOKBOOKBAT),
+              withProperty("_cookbookbatQuestMonster", "skullery maid"),
+              withProperty("_cookbookbatQuestSuggestedLocation", "The Haunted Kitchen"));
+      try (cleanups) {
+        parseCombatData("request/test_fight_cookbookbat_quest_complete.html");
+        assertThat("_cookbookbatQuestMonster", isSetTo(""));
+        assertThat("_cookbookbatQuestSuggestedLocation", isSetTo(""));
+      }
+    }
+  }
+
   @Test
   public void gnomeAdv() {
     var cleanups =
