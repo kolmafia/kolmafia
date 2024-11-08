@@ -8552,7 +8552,7 @@ public class FightRequest extends GenericRequest {
     }
     return false;
   }
-  
+
   private static final Pattern[] COOKBOOKBAT_QUEST = {
     Pattern.compile("Perhaps if you kill an? (.*?), you'll find one."),
     Pattern.compile("Perhaps if you find an? (.*?)"),
