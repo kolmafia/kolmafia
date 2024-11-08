@@ -555,6 +555,8 @@ public enum DoubleModifier implements Modifier {
       "Avoid Attack",
       Pattern.compile("The first attack against you will always miss"),
       Pattern.compile("Avoid Attack: " + EXPR)),
+  // the following do not distinguish between percentage / flat damage because the corresponding
+  // flat / percentage damage bonuses do not exist
   BUGBEAR_DAMAGE(
       "Damage vs. Bugbears",
       Pattern.compile("([+-]\\d+)% Damage vs. Bugbears"),
