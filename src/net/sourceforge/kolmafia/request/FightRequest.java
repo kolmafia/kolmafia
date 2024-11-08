@@ -2982,6 +2982,26 @@ public class FightRequest extends GenericRequest {
             Preferences.increment("_turkeyMoxie");
           }
         }
+      case FamiliarPool.PEACE_TURKEY:
+        {
+          if (responseText.contains("Uncharacteristically violent")) {
+            Preferences.setInteger("peaceTurkeyIndex", 1);
+          } else if (responseText.contains("You pluck an olive and toss the branch")) {
+            Preferences.setInteger("peaceTurkeyIndex", 2);
+          } else if (responseText.contains("Finally, some peace and quiet")) {
+            Preferences.setInteger("peaceTurkeyIndex", 3);
+          } else if (responseText.contains("gives you a limbering massage")) {
+            Preferences.setInteger("peaceTurkeyIndex", 4);
+          } else if (responseText.contains("holds up a sign that says &quot;Visualize&quot;")) {
+            Preferences.setInteger("peaceTurkeyIndex", 5);
+          } else if (responseText.contains("signs that they are giving you peace")) {
+            Preferences.setInteger("peaceTurkeyIndex", 6);
+          } else if (responseText.contains("doesn't have many other options")) {
+            Preferences.setInteger("peaceTurkeyIndex", 7);
+          } else if (responseText.contains("tosses you contradiction in physical form")) {
+            Preferences.setInteger("peaceTurkeyIndex", 0);
+          }
+        }
     }
 
     int blindIndex = responseText.indexOf("... something.</div>");
@@ -11071,6 +11091,12 @@ public class FightRequest extends GenericRequest {
           }
         }
 
+        break;
+
+      case ItemPool.SPLIT_PEA_SOUP:
+        if (responseText.contains("like a pea and split") || itemRunawaySuccess) {
+          BanishManager.banishCurrentMonster(Banisher.SPLIT_PEA_SOUP);
+        }
         break;
     }
 

@@ -108,6 +108,7 @@ public class BanishManager {
     PUNT_WEREPROF("[7510]Punt", 40, 1, false, Reset.TURN_RESET),
     REFLEX_HAMMER("Reflex Hammer", 30, 1, true, Reset.TURN_ROLLOVER_RESET),
     ROAR_LIKE_A_LION("Roar like a Lion", -1, 1, false, Reset.EFFECT_RESET),
+    SPLIT_PEA_SOUP("handful of split pea soup", 30, 1, true, Reset.TURN_ROLLOVER_RESET),
     STUFFED_YAM_STINKBOMB("stuffed yam stinkbomb", 15, 1, true, Reset.TURN_ROLLOVER_RESET),
     PATRIOTIC_SCREECH("Patriotic Screech", 100, 1, false, Reset.TURN_RESET, BanishType.PHYLUM),
     SABER_FORCE("Saber Force", 30, 1, true, Reset.TURN_ROLLOVER_RESET),
