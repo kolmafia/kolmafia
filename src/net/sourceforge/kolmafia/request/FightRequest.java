@@ -5613,6 +5613,7 @@ public class FightRequest extends GenericRequest {
     public final boolean crimbo;
     public String diceMessage;
     public final boolean eagle;
+    public final boolean cookbookbat;
     public final String ghost;
     public final boolean logFamiliar;
     public final boolean logMonsterHealth;
@@ -5665,6 +5666,7 @@ public class FightRequest extends GenericRequest {
       this.familiarName = current.getName();
       this.camel = (familiarId == FamiliarPool.MELODRAMEDARY);
       this.eagle = (familiarId == FamiliarPool.PATRIOTIC_EAGLE);
+      this.cookbookbat = (familiarId == FamiliarPool.COOKBOOKBAT);
       this.doppel =
           (familiarId == FamiliarPool.DOPPEL)
               || KoLCharacter.hasEquipped(ItemPool.TINY_COSTUME_WARDROBE, Slot.FAMILIAR);
@@ -7701,6 +7703,10 @@ public class FightRequest extends GenericRequest {
       return;
     }
 
+    if (status.cookbookbat && FightRequest.handleCookbookbat(str, status)) {
+      return;
+    }
+
     if (FightRequest.handleGooseDrones(str, status)) {
       return;
     }
@@ -8552,11 +8558,18 @@ public class FightRequest extends GenericRequest {
     }
     return false;
   }
-  
+
   private static final Pattern[] COOKBOOKBAT_QUEST = {
-    Pattern.compile("Perhaps if you kill an? (.*?), you'll find one."),
-    Pattern.compile("Perhaps if you find an? (.*?)"),
-    Pattern.compile("was often collected from an? (.*?)"),
+    Pattern.compile(
+        "\"As I recall, .*? was common in (?<location>.*?), back in my day\\. +Perhaps if you kill an? (?<monster>.*?), you'll find one\\.\""),
+    Pattern.compile(
+        "\"If memory serves, .*? was very popular in (?<location>.*?), during my time\\. +Perhaps if you find an? (?<monster>.*?), you'll collect one\\,\""),
+    Pattern.compile(
+        "\"My recollection is that .*? was often collected from an? (?<monster>.*?)\\. +If I recall correctly, you can hunt them in (?<location>.*?)\\.\""),
+    Pattern.compile("\"If I recall, I suggested that you look for an? (?<monster>.*?)\\.\""),
+    Pattern.compile("\"If my ancient memory serves, I suggested looking in (?<location>.*?)\\.\""),
+    Pattern.compile(
+        "\"According to my memories, an? (?<monster>.*?) at (?<location>.*?) may have what you're looking for\\.\""),
   };
 
   private static final Pattern[] COOKBOOKBAT_QUEST_COMPLETE = {
@@ -8572,8 +8585,14 @@ public class FightRequest extends GenericRequest {
     for (Pattern p : COOKBOOKBAT_QUEST) {
       Matcher matcher = p.matcher(text);
       if (matcher.find()) {
-        String monsterName = matcher.group(1);
-        Preferences.setString("_cookbookbatQuestMonster", monsterName);
+        if (p.toString().contains("<monster>")) {
+          String monsterName = matcher.group("monster");
+          Preferences.setString("_cookbookbatQuestMonster", monsterName);
+        }
+        if (p.toString().contains("<location>")) {
+          String locationName = matcher.group("location");
+          Preferences.setString("_cookbookbatQuestSuggestedLocation", locationName);
+        }
         return true;
       }
     }
@@ -8582,9 +8601,12 @@ public class FightRequest extends GenericRequest {
       Matcher matcher = p.matcher(text);
       if (matcher.find()) {
         Preferences.setString("_cookbookbatQuestMonster", "");
+        Preferences.setString("_cookbookbatQuestSuggestedLocation", "");
         return true;
       }
     }
+
+    return false;
   }
 
   private static void logSkillAcquisition(String skillName, final TagStatus status) {
