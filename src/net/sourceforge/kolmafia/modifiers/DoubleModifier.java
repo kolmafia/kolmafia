@@ -664,7 +664,7 @@ public enum DoubleModifier implements Modifier {
         String tag = mod.getTag();
 
         if (matcher.groupCount() == 0) {
-          return tag;
+          return tag + ": 1";
         }
 
         // Kludge for Slime (Really) Hates it
