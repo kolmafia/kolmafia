@@ -107,7 +107,6 @@ public class Preferences {
 
   private static final String[] resetOnAscension =
       new String[] {
-        "_cookbookbatQuestMonster",
         "_shortOrderCookCharge",
         "8BitBonusTurns",
         "8BitColor",
