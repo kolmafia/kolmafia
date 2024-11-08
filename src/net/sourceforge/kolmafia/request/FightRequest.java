@@ -8585,6 +8585,9 @@ public class FightRequest extends GenericRequest {
     for (Pattern p : COOKBOOKBAT_QUEST) {
       Matcher matcher = p.matcher(text);
       if (matcher.find()) {
+        // Some messages contain only location, and others contain only monster.
+        // We have to check the pattern as Java does not give a convenient way to check if a named
+        // group exists.
         if (p.toString().contains("<monster>")) {
           String monsterName = matcher.group("monster");
           Preferences.setString("_cookbookbatQuestMonster", monsterName);
