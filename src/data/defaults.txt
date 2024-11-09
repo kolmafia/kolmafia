@@ -484,6 +484,7 @@ user	commerceGhostItem
 user	commerceGhostCombats	0
 user	considerShadowNoodles	false
 user	controlRoomUnlock	false
+user	cookbookbatIngredientsCharge	0
 user	counterScript
 user	concertVisited	false
 user	controlPanel1	false
@@ -1914,7 +1915,8 @@ user	_confusingLEDClockUsed	false
 user	_controlPanelUsed	false
 user	_cookbookbatCrafting	0
 user	_cookbookbatRecipeDrops	false
-user	_cookbookbatQuestSuggestedLocation
+user	_cookbookbatCombatsUntilNewQuest	0
+user	_cookbookbatQuestLastLocation
 user	_cookbookbatQuestMonster
 user	_corruptedStardustUsed	false
 user	_cosmicBowlingSkillsUsed	0
