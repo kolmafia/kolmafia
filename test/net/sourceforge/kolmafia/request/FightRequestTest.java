@@ -292,7 +292,7 @@ public class FightRequestTest {
               withProperty("_cookbookbatQuestMonster", monsterName),
               withProperty("_cookbookbatQuestLastLocation", locationName),
               withProperty("_cookbookbatCombatsUntilNewQuest", newInitial));
-      if (inLocation) cleanups.add(withNextAdventure(locationName));
+      if (inLocation) cleanups.add(withLastLocation(locationName));
       try (cleanups) {
         parseCombatData("request/" + file);
         assertThat("_cookbookbatQuestMonster", isSetTo(monsterName));
