@@ -27,7 +27,6 @@ import java.io.IOException;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.List;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -40,9 +39,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 public class RelayRequestTest {
@@ -628,50 +625,20 @@ public class RelayRequestTest {
       }
     }
 
-    private static List<Arguments> testInvalidRequestSource() {
-      return List.of(
-          Arguments.of("{ invalid_json }", "Invalid JSON object in request."),
-          Arguments.of(
-              """
-            { "properties": [123, true] }
-             """,
-              "Invalid property names [123,true]"),
-          Arguments.of(
-              """
-          { "functions": [{ "args": [] }] }""",
-              """
-Invalid function calls [{\\"args\\":[]}]
-"""),
-          Arguments.of(
-              """
-                      { "functions": [{ "name": "abc" }] }""",
-              """
-Invalid function calls [{\\"name\\":\\"abc\\"}]"""),
-          Arguments.of(
-              """
-          { "functions": [{ "name": "myTurncount", "args": [null] }] }""",
-              """
-Invalid function calls [{\\"name\\":\\"myTurncount\\",\\"args\\":[null]}]
-"""),
-          Arguments.of(
-              """
-          { "functions": [{ "name": "nonExistentFunction", "args": [] }] }""",
-              """
-Unable to find method nonExistentFunction accepting arguments []."""),
-          Arguments.of(
-              """
-              { "functions": [{ "name": "itemDropsArray", "args": [{"objectType": "monster", "identifierString": "fluffy bunny"}] }] }""",
-              """
-          Unable to find method itemDropsArray accepting arguments [{\\"objectType\\":\\"monster\\",\\"identifierString\\":\\"fluffy bunny\\"}]."""),
-          Arguments.of(
-              """
-            { "functions": [{ "name": "availableAmount", "args": [{ "objectType": "Item", "identifierString": "nonexistent" }] }] }""",
-              """
-            Failed to convert arguments to ASH: Unidentified object {\\"objectType\\":\\"Item\\",\\"identifierString\\":\\"nonexistent\\"}."""));
-    }
-
     @ParameterizedTest
-    @MethodSource("testInvalidRequestSource")
+    @CsvSource(
+        textBlock =
+            """
+    { invalid_json };Invalid JSON object in request.
+    { "properties": [123, true] };Invalid property names [123,true]
+    { "functions": [{ "args": [] }] };Invalid function calls [{\\"args\\":[]}]
+    { "functions": [{ "name": "abc" }] };Invalid function calls [{\\"name\\":\\"abc\\"}]
+    { "functions": [{ "name": "myTurncount", "args": [null] }] };Invalid function calls [{\\"name\\":\\"myTurncount\\",\\"args\\":[null]}]
+    { "functions": [{ "name": "nonExistentFunction", "args": [] }] };Unable to find method nonExistentFunction accepting arguments [].
+    { "functions": [{ "name": "itemDropsArray", "args": [{"objectType": "monster", "identifierString": "fluffy bunny"}] }] };Unable to find method itemDropsArray accepting arguments [{\\"objectType\\":\\"monster\\",\\"identifierString\\":\\"fluffy bunny\\"}].
+    { "functions": [{ "name": "availableAmount", "args": [{ "objectType": "Item", "identifierString": "nonexistent" }] }] };Failed to convert arguments to ASH: Unidentified object {\\"objectType\\":\\"Item\\",\\"identifierString\\":\\"nonexistent\\"}.
+    """,
+        delimiter = ';')
     public void testInvalidRequest(String json, String errorMessage) {
       var rr = this.makeApiRequest(json);
 
