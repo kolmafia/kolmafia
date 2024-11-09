@@ -52,9 +52,13 @@ public class FunctionList implements Iterable<Function> {
     for (Function.MatchType matchType : matchTypes) {
       for (Function testFunction : libraryFunctions) {
         if (coerceAnyType) {
-          for (int i = 0; i < ashArgs.size(); i++) {
+          var references = testFunction.getVariableReferences();
+          // If references is empty, no coercion to be done. Otherwise, have to be careful to match
+          // the varargs case.
+          for (int i = 0; i < ashArgs.size() && !references.isEmpty(); i++) {
             if (ashArgs.get(i).getType() == DataTypes.ANY_TYPE) {
-              Type expectedType = testFunction.getVariableReferences().get(i).getType();
+              int referenceIndex = i >= references.size() ? references.size() - 1 : i;
+              Type expectedType = references.get(referenceIndex).getType();
               Value coerced = new Value(expectedType);
               coercedArgs.set(i, coerced);
             }
