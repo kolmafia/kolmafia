@@ -300,6 +300,21 @@ public class FightRequestTest {
         assertThat("_cookbookbatCombatsUntilNewQuest", isSetTo(newExpected));
       }
     }
+
+    @Test
+    public void handlesNullLocation() {
+      var cleanups =
+          new Cleanups(
+              withFamiliar(FamiliarPool.COOKBOOKBAT),
+              withProperty("_cookbookbatQuestMonster", "crate"),
+              withProperty("_cookbookbatQuestLastLocation", "Noob Cave"),
+              withLastLocation((KoLAdventure) null));
+      try (cleanups) {
+        parseCombatData("request/test_fight_win.html");
+        assertThat("_cookbookbatQuestMonster", isSetTo("crate"));
+        assertThat("_cookbookbatQuestLastLocation", isSetTo("Noob Cave"));
+      }
+    }
   }
 
   @Test
