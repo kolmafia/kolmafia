@@ -10,6 +10,7 @@ import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.startsWith;
 
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
@@ -365,8 +366,14 @@ public class JSONValueConverterTest {
     @Test
     public void testDefaultCase() {
       Object unknownObject = new Object();
-      Value result = JSONValueConverter.fromJSON(unknownObject, null);
-      assertThat(result, nullValue());
+      try {
+        Value result = JSONValueConverter.fromJSON(unknownObject, null);
+        assertThat("Should have thrown an exception.", false);
+      } catch (ValueConverter.ValueConverterException e) {
+
+        assertThat(
+            e.getMessage(), startsWith("Unrecognized Java object of class java.lang.Object."));
+      }
     }
   }
 
@@ -456,7 +463,9 @@ public class JSONValueConverterTest {
               "Could not coerce argument to valid ASH value."),
           Arguments.of(
               new Object[] {JSON.parse(UNIDENTIFIED)},
-              "Unidentified object " + JSON.parseObject(UNIDENTIFIED).toString() + "."));
+              "Unidentified object " + JSON.parseObject(UNIDENTIFIED).toString() + "."),
+          Arguments.of(
+              new Object[] {new Object()}, "Unrecognized Java object of class java.lang.Object."));
     }
 
     @ParameterizedTest
@@ -465,8 +474,8 @@ public class JSONValueConverterTest {
       try {
         new JSONValueConverter()
             .findMatchingFunctionConvertArgs(RuntimeLibrary.getFunctions(), "to_string", args);
-        Assertions.fail(
-            "findMatchingFunctionConvertArgs should have thrown ValueConverterException.");
+        assertThat(
+            "findMatchingFunctionConvertArgs should have thrown ValueConverterException.", false);
       } catch (ValueConverter.ValueConverterException e) {
         assertThat(e.getMessage(), is(message));
       }

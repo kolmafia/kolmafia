@@ -60,14 +60,14 @@ public abstract class ValueConverter<ObjectType> {
     } else if (value.getType().equals(DataTypes.MATCHER_TYPE)) {
       // This should not happen.
       return null;
-    } else if (value instanceof MapValue) {
-      return asJavaObject((MapValue) value);
-    } else if (value instanceof ArrayValue) {
-      return asJavaArray((ArrayValue) value);
-    } else if (value instanceof RecordValue) {
-      return asJavaObject((RecordValue) value);
-    } else if (value instanceof PluralValue) {
-      return asJavaArray((PluralValue) value);
+    } else if (value instanceof MapValue mapValue) {
+      return asJavaObject(mapValue);
+    } else if (value instanceof ArrayValue arrayValue) {
+      return asJavaArray(arrayValue);
+    } else if (value instanceof RecordValue recordValue) {
+      return asJavaObject(recordValue);
+    } else if (value instanceof PluralValue pluralValue) {
+      return asJavaArray(pluralValue);
     } else if (value.asProxy() instanceof RecordValue proxyValue) {
       return asJavaObject(proxyValue);
     } else {
@@ -194,10 +194,11 @@ public abstract class ValueConverter<ObjectType> {
       return convertJavaMap((Map<?, ?>) object, typeHint);
     } else if (object instanceof List) {
       return convertJavaArray((List<?>) object, typeHint);
-    } else if (object instanceof Value) {
-      return (Value) object;
+    } else if (object instanceof Value value) {
+      return value;
     } else {
-      return null;
+      throw new ValueConverterException(
+          "Unrecognized Java object of class " + object.getClass().getName() + ".");
     }
   }
 
