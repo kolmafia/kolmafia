@@ -4136,11 +4136,11 @@ public class FightRequest extends GenericRequest {
             familiar.setCharges(
                 Preferences.increment("cookbookbatIngredientsCharge", 1, 11, false));
           }
-          String lastLocationName = KoLAdventure.lastVisitedLocation().getAdventureName();
+          String questLastLocation = Preferences.getString("_cookbookbatQuestLastLocation");
           boolean inSuggestedLocation =
-              !lastLocationName.isEmpty()
-                  && lastLocationName.equals(
-                      Preferences.getString("_cookbookbatQuestLastLocation"));
+              location != null
+                  && !questLastLocation.isEmpty()
+                  && questLastLocation.equals(location.getAdventureName());
           Preferences.decrement("_cookbookbatCombatsUntilNewQuest", 1, inSuggestedLocation ? 1 : 0);
           break;
       }
