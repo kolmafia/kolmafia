@@ -10336,7 +10336,7 @@ public abstract class RuntimeLibrary {
 
     for (ModifierValue mVal : ModifierDatabase.splitModifiers(arg.toString())) {
       var modifierName = mVal.getName();
-      var modifier = ModifierDatabase.byCaselessName(modifierName);
+      var modifier = ModifierDatabase.getModifierByName(modifierName);
       if (modifier == null) {
         // splitModifiers doesn't validate the passed-in string, so just drop it
         continue;

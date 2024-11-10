@@ -187,6 +187,136 @@ public class FightRequestTest {
     }
   }
 
+  @Nested
+  class CookBookBat {
+    @ParameterizedTest
+    @CsvSource({"test_fight_win.html,2", "test_fight_lose.html,1", "test_fight_run.html,1"})
+    public void handlesFight(String file, int expectedCharge) {
+      var cleanups =
+          new Cleanups(
+              withFamiliar(FamiliarPool.COOKBOOKBAT),
+              withProperty("cookbookbatIngredientsCharge", 1));
+      try (cleanups) {
+        parseCombatData("request/" + file);
+        assertThat("cookbookbatIngredientsCharge", isSetTo(expectedCharge));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "test_fight_cookbookbat_ingredients.html,10,0",
+      "test_fight_win.html,2,3",
+      "test_fight_lose.html,2,2",
+      "test_fight_run.html,2,2"
+    })
+    public void handlesIngredientsCharge(String file, int chargeInitial, int chargeExpected) {
+      var cleanups =
+          new Cleanups(
+              withFamiliar(FamiliarPool.COOKBOOKBAT),
+              withProperty("cookbookbatIngredientsCharge", chargeInitial));
+      try (cleanups) {
+        parseCombatData("request/" + file);
+        assertThat("cookbookbatIngredientsCharge", isSetTo(chargeExpected));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "test_fight_cookbookbat_quest_new_1.html,false,skullery maid,The Haunted Kitchen",
+      "test_fight_cookbookbat_quest_new_2.html,false,crate,Noob Cave",
+      "test_fight_cookbookbat_quest_new_3.html,false,novelty tropical skeleton,The Skeleton Store",
+      "test_fight_cookbookbat_quest_reminder_1.html,true,,The Haunted Kitchen",
+      "test_fight_cookbookbat_quest_reminder_2.html,true,crate,",
+      "test_fight_cookbookbat_quest_reminder_3.html,true,horrible tourist family,Barf Mountain",
+    })
+    public void handlesQuest(
+        String file, boolean isReminder, String monsterName, String locationName) {
+      var cleanups =
+          new Cleanups(
+              withFamiliar(FamiliarPool.COOKBOOKBAT),
+              withProperty("_cookbookbatQuestMonster", ""),
+              withProperty("_cookbookbatQuestLastLocation", ""),
+              withProperty("_cookbookbatCombatsUntilNewQuest", 2));
+      try (cleanups) {
+        parseCombatData("request/" + file);
+        assertThat("_cookbookbatQuestMonster", isSetTo(monsterName == null ? "" : monsterName));
+        assertThat(
+            "_cookbookbatQuestLastLocation", isSetTo(locationName == null ? "" : locationName));
+        assertThat("_cookbookbatCombatsUntilNewQuest", isSetTo(isReminder ? 1 : 5));
+      }
+    }
+
+    @Test
+    public void handlesQuestComplete() {
+      var cleanups =
+          new Cleanups(
+              withFamiliar(FamiliarPool.COOKBOOKBAT),
+              withProperty("_cookbookbatQuestMonster", "skullery maid"),
+              withProperty("_cookbookbatQuestLastLocation", "The Haunted Kitchen"),
+              withProperty("_cookbookbatCombatsUntilNewQuest", 3));
+      try (cleanups) {
+        parseCombatData("request/test_fight_cookbookbat_quest_complete.html");
+        assertThat("_cookbookbatQuestMonster", isSetTo(""));
+        assertThat("_cookbookbatQuestLastLocation", isSetTo("The Haunted Kitchen"));
+        assertThat("_cookbookbatCombatsUntilNewQuest", isSetTo(2));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      // Counter decrements on win, not on loss
+      "test_fight_win.html,crate,Noob Cave,false,3,2",
+      "test_fight_lose.html,crate,Noob Cave,false,3,3",
+      "test_fight_run.html,crate,Noob Cave,false,3,3",
+      // Counter decrements to 0 if not in location
+      "test_fight_win.html,crate,Noob Cave,false,1,0",
+      // Counter decrements to >0 in location
+      "test_fight_win.html,crate,Noob Cave,true,3,2",
+      // Counter doesn't decrement to 0 in location
+      "test_fight_win.html,crate,Noob Cave,true,1,1",
+      // Counter decrements (doesn't reset) on quest reminder
+      "test_fight_cookbookbat_quest_reminder_3.html,horrible tourist family,Barf Mountain,true,3,2",
+    })
+    public void decrementsQuestCounters(
+        String file,
+        String monsterName,
+        String locationName,
+        boolean inLocation,
+        int newInitial,
+        int newExpected) {
+      if (monsterName == null) monsterName = "";
+      if (locationName == null) locationName = "";
+      var cleanups =
+          new Cleanups(
+              withFamiliar(FamiliarPool.COOKBOOKBAT),
+              withProperty("_cookbookbatQuestMonster", monsterName),
+              withProperty("_cookbookbatQuestLastLocation", locationName),
+              withProperty("_cookbookbatCombatsUntilNewQuest", newInitial));
+      if (inLocation) cleanups.add(withLastLocation(locationName));
+      try (cleanups) {
+        parseCombatData("request/" + file);
+        assertThat("_cookbookbatQuestMonster", isSetTo(monsterName));
+        assertThat("_cookbookbatQuestLastLocation", isSetTo(locationName));
+        assertThat("_cookbookbatCombatsUntilNewQuest", isSetTo(newExpected));
+      }
+    }
+
+    @Test
+    public void handlesNullLocation() {
+      var cleanups =
+          new Cleanups(
+              withFamiliar(FamiliarPool.COOKBOOKBAT),
+              withProperty("_cookbookbatQuestMonster", "crate"),
+              withProperty("_cookbookbatQuestLastLocation", "Noob Cave"),
+              withLastLocation((KoLAdventure) null));
+      try (cleanups) {
+        parseCombatData("request/test_fight_win.html");
+        assertThat("_cookbookbatQuestMonster", isSetTo("crate"));
+        assertThat("_cookbookbatQuestLastLocation", isSetTo("Noob Cave"));
+      }
+    }
+  }
+
   @Test
   public void gnomeAdv() {
     var cleanups =
@@ -2877,13 +3007,45 @@ public class FightRequestTest {
   @Nested
   class Authority {
     @Test
-    public void canDetectAssertAuthority() {
+    void canDetectAssertAuthority() {
       var cleanups = new Cleanups(withProperty("_assertYourAuthorityCast", 0), withFight());
       try (cleanups) {
         parseCombatData(
             "request/test_fight_sheriff_authority.html", "fight.php?action=skill&whichskill=7532");
         assertThat("_assertYourAuthorityCast", isSetTo(1));
       }
+    }
+  }
+
+  @Nested
+  class PeaceTurkey {
+    @ParameterizedTest
+    @ValueSource(ints = {0, 1, 2, 3, 4, 5, 6, 7})
+    void canTrackProcIndex(final int index) {
+      var cleanups =
+          new Cleanups(
+              withProperty("peaceTurkeyIndex", index > 0 ? 0 : 5),
+              withFamiliar(FamiliarPool.PEACE_TURKEY),
+              withFight());
+      try (cleanups) {
+        parseCombatData("request/test_fight_peace_turkey_" + index + ".html");
+        assertThat("peaceTurkeyIndex", isSetTo(index));
+      }
+    }
+  }
+
+  @Test
+  public void canDetectSplitPeaSoupBanish() {
+    var cleanups = new Cleanups(withFight(), withBanishedMonsters(""));
+
+    try (cleanups) {
+      parseCombatData(
+          "request/test_fight_split_pea_soup.html",
+          "fight.php?action=useitem&whichitem=11685&whichitem2=0");
+
+      assertThat(
+          "banishedMonsters",
+          hasStringValue(startsWith("pair of burnouts:handful of split pea soup:")));
     }
   }
 }

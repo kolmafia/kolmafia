@@ -1612,6 +1612,7 @@ public class UseItemRequest extends GenericRequest {
   public static void parseAprilPlay(final String urlString, final String responseText) {
     // inventory.php?iid=11567&action=aprilplay
     var itemId = StringUtilities.extractIidFromURL(urlString);
+    AdventureResult item = ItemPool.get(itemId, -1);
     // each item can be used three times per day, and getting additional copies doesn't help
     String preference;
     switch (itemId) {
@@ -1645,6 +1646,9 @@ public class UseItemRequest extends GenericRequest {
       return;
     }
 
+    String message = "Playing " + item.getName();
+    RequestLogger.printLine(message);
+    RequestLogger.updateSessionLog(message);
     Preferences.increment(preference, 1, 3, false);
   }
 
