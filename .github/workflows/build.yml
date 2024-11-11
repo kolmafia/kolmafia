@@ -37,7 +37,7 @@ jobs:
       - name: Upload binaries
         uses: actions/upload-artifact@v4
         with:
-          name: releases
+          name: releases-${{ matrix.runs-on }}
           path: |
             build/releases/*.deb
             build/releases/*.exe
