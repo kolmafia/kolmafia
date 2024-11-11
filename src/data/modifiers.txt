@@ -266,8 +266,7 @@ Item	goofily-plumed helmet	Familiar Effect: "atk, cap 17"
 Item	googly-ball hat	Mysticality: +10, Experience (Mysticality): +3
 Item	googly-heart hat	Moxie: +10, Experience (Moxie): +3
 Item	googly-star hat	Muscle: +10, Experience (Muscle): +3, Familiar Effect: "atk"
-# government-issued eyeshade: +25 Damage vs. Ghosts
-Item	government-issued eyeshade	Experience Percent (Moxie): +10, Pool Skill: +5
+Item	government-issued eyeshade	Experience Percent (Moxie): +10, Damage vs. Ghosts: +25, Pool Skill: +5
 Item	grass hat	Maximum MP: +10, Familiar Effect: "2xVolley, 1xBarrr, cap 20"
 # gravy boat: Decreased Damage from Undead<br/>Improved Evil Suppression
 Item	Great Wolf's headband	Muscle: +250, Maximum HP: +250, HP Regen Min: 50, HP Regen Max: 100, Class: "Seal Clubber", Familiar Effect: "atk, 1xVolley"
@@ -705,8 +704,7 @@ Item	gnauga hide chaps	Damage Absorption: +30, Familiar Effect: "atk, 4xBarrr, c
 Item	gnauga hide kilt	Damage Absorption: +30, Familiar Effect: "2.5xFairy, cap 20"
 Item	gnauga hide skirt	Damage Absorption: +30, Familiar Effect: "2.5xFairy, cap 20"
 Item	gold lam&eacute; pants	Moxie: -8, Familiar Effect: "2xPotato, 1xLep, cap 25"
-# government-issued slacks: +25% Damage vs. Skeletons
-Item	government-issued slacks	Experience Percent (Muscle): +10, Fishing Skill: +5
+Item	government-issued slacks	Experience Percent (Muscle): +10, Damage vs. Skeletons: +25, Fishing Skill: +5
 Item	grass skirt	Moxie: +5, Familiar Effect: "atk, 1.5xFairy, cap 20"
 # Great Wolf's beastly trousers: Troubling Vulnerability to All Elements (-5)
 Item	Great Wolf's beastly trousers	Weapon Damage Percent: +50, Familiar Weight: +10, Hot Resistance: -5, Cold Resistance: -5, Spooky Resistance: -5, Stench Resistance: -5, Sleaze Resistance: -5, Familiar Effect: "1xPotato, 1.5xWhelp"
@@ -1207,16 +1205,15 @@ Item	Bloodbath	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2,
 Item	bloody harpoon	Weapon Damage Percent: [100*zone(PirateRealm)], Lasts Until Rollover
 Item	blunt icepick	Cold Damage: +15
 Item	boilgun	Hot Damage: +8, Maximum MP: +10
-# bone and arrows: +30% Damage vs. Skeletons
+Item	bone and arrows	Damage vs. Skeletons: +30
 Item	bone bandoneon	Spooky Damage: [7*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 11
-# bone crusher: +30% Damage vs. Skeletons
+Item	bone crusher	Damage vs. Skeletons: +30
 Item	bone flute	Spooky Damage: +11
 Item	bone rattle	Spooky Damage: +4
-# bonerang: +10% Damage vs. Skeletons
-# Bonestabber: +30% Damage vs. Skeletons
-Item	Bonestabber	Spooky Resistance: +3, Spooky Damage: +10, Monster Level: +5
+Item	bonerang	Damage vs. Skeletons: +10
+Item	Bonestabber	Spooky Resistance: +3, Spooky Damage: +10, Monster Level: +5, Damage vs. Skeletons: +30
 Item	bonfire flower	Plumber Stat: "Mysticality", Plumber Power: 2
-# boning knife: +10% Damage vs. Skeletons
+Item	boning knife	Damage vs. Skeletons: +10
 # boot knife
 # bottle-rocket crossbow: Shoots Bottle-Rockets!
 Item	bottle-rocket crossbow	Moxie Percent: +15, Meat Drop: +15, Item Drop: +10, Softcore Only
@@ -1239,8 +1236,7 @@ Item	bubblewrap staff	Mysticality: +3, Muscle: +2
 Item	bubblewrap sword	Muscle: +3, Moxie: +2
 Item	bucket of anniversary lard	Muscle: +1, Mysticality: +1, Moxie: +1
 Item	buffalo blade	Muscle: +5, Hot Damage: +3, Sleaze Damage: +2
-# bugbear-smiting sword: +100% Damage vs. Bugbears
-Item	bugbear-smiting sword	Weapon Damage: +10, Muscle: +10
+Item	bugbear-smiting sword	Weapon Damage: +10, Muscle: +10, Damage vs. Bugbears: +100
 Item	Bugfinder Blade	Muscle: +7, Mysticality: +7, Moxie: +7, Adventures: +3
 Item	butterfly knife	Moxie: +6
 Item	Byte	Spell Damage Percent: +100, Spell Critical Percent: +15
@@ -1341,8 +1337,7 @@ Item	cyber-mattock	Item Drop: +5, Meat Drop: +10
 Item	daddy shortlegs leg	Weapon Damage: +10, Muscle: [4*L]
 Item	deadfall branch	Mysticality Percent: +10, Weapon Damage Percent: +10, Adventures: +1, PvP Fights: +1
 Item	deathchucks	Weapon Damage Percent: +75, Monster Level: +15
-# debonair deboner: +25% Damage vs. Skeletons
-Item	debonair deboner	Moxie: +10
+Item	debonair deboner	Moxie: +10, Damage vs. Skeletons: +25
 # decaying wooden oar
 Item	deep six-shooter	Ranged Damage: +40, Critical Hit Percent: +6
 Item	demon whip	Hot Damage: +3, Sleaze Damage: +3, Stench Damage: +3
@@ -1538,8 +1533,7 @@ Item	hand-carved staff	Mysticality Percent: +10, Spell Damage: +10, Spooky Resis
 Item	happiness	Hot Damage: +12
 Item	haunted bindle	Spooky Damage: +10, Spooky Spell Damage: +10
 Item	haunted paddle-ball	Monster Level: +5, Spooky Damage: +10
-# hawk: +22% Damage vs. Skeletons
-Item	hawk	Critical Hit Percent: +5, Weapon Damage: +11
+Item	hawk	Critical Hit Percent: +5, Weapon Damage: +11, Damage vs. Skeletons: +22
 # heavy hammer: +2 to Hammer attacks
 Item	heavy hammer	Plumber Stat: "Muscle", Plumber Power: 2
 Item	heavy leather-bound tome	Weakens Monster
@@ -1634,10 +1628,9 @@ Item	mannequin leg	Sleaze Damage: +20, Moxie: +5, Class: "Seal Clubber"
 Item	massive sitar	Mysticality: +12, Spell Damage: +20
 Item	massive wrench	Elf Warfare Effectiveness: +10, Critical Hit Percent: +20, Weapon Damage Percent: +50
 Item	Maxwell's Silver Hammer	Mysticality: +10, Weapon Damage: +10
-# Mayor Ghost's gavel: +50 Damage vs. Ghosts
 # Mayor Ghost's gavel: Lets you hit ghosts with a gavel.
 # Mayor Ghost's gavel: This gavel, specifically.
-Item	Mayor Ghost's gavel	Critical Hit Percent: +10, Weapon Damage: +30
+Item	Mayor Ghost's gavel	Critical Hit Percent: +10, Weapon Damage: +30, Damage vs. Ghosts: +50
 # Meat Tenderizer is Murder: 25% chance to gain an extra gallon of Fury when you gain a gallon of Fury.
 Item	Meat Tenderizer is Murder	Weapon Damage Percent: +20, Smithsness: +5, Class: "Seal Clubber", Muscle Percent: [2*K]
 Item	Meatcleaver	Meat Drop: +35, Weapon Damage Percent: +100
@@ -1759,7 +1752,7 @@ Item	pterodactyl rifle	Ranged Damage Percent: +50
 Item	PVC staff	Mysticality Percent: +15, Item Drop: +10, Cold Spell Damage: +60
 Item	pygmy concertinette	Weapon Damage: [10*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 17
 Item	pygmy spear	Muscle: +7
-# quantum disintegrator pistol: +15% Damage vs. Bugbears
+Item	quantum disintegrator pistol	Damage vs. Bugbears: +15
 Item	quirky accordion	Monster Level: [5*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 10
 Item	Radio Free Foil	Muscle: +20
 Item	Rain-Doh violet bo	Sleaze Damage: +11, Moxie: +11, Softcore Only
@@ -1844,8 +1837,7 @@ Item	Sheila Take a Crossbow	HP Regen Min: 1, HP Regen Max: 2, MP Regen Min: 1, M
 # Sheriff pistol: Provides 1/3 Authority
 Item	Sheriff pistol	Muscle Percent: +50, Hot Damage: +15, Lasts Until Rollover
 Item	shiny butcherknife	Spell Damage: +8
-# shipwright's hammer: +30% Damage vs. Skeletons
-Item	shipwright's hammer	Pirate Warfare Effectiveness: +3, Weapon Damage Percent: +30
+Item	shipwright's hammer	Pirate Warfare Effectiveness: +3, Weapon Damage Percent: +30, Damage vs. Skeletons: +30
 Item	shooting morning star	Muscle Percent: +15, Hot Damage: +15, Weakens Monster, Single Equip
 Item	short-handled mop	Stench Damage: +10, Sleaze Damage: +10
 Item	shotgun	Ranged Damage: +10
@@ -1889,8 +1881,7 @@ Item	space needle	Weapon Damage: +10, Spooky Resistance: +2
 # Space Tourist Phaser: This Phaser is set to Fun
 Item	spant spear	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Weapon Damage Percent: +25
 Item	spearfish fishing spear	Weapon Damage Percent: +50, Monster Level: +10, Fishing Skill: +5
-# spectral axe: +30 Damage vs. Ghosts
-Item	spectral axe	Cold Damage: +15
+Item	spectral axe	Cold Damage: +15, Damage vs. Ghosts: +30
 Item	Spelunker's whip	Weapon Damage Percent: +25, Item Drop: +10, Familiar Weight: +5
 Item	spider leg	Weapon Damage: +15, Muscle: [5*L]
 Item	spiked femur	Spooky Damage: +6
@@ -2047,12 +2038,7 @@ Item	Underworld flail	Experience (Moxie): +10, Ranged Damage: +30, Moxie Percent
 Item	Underworld truncheon	Experience (Muscle): +10, Weapon Damage Percent: +20, Muscle Percent: +10
 Item	Unionize The Elves sign	Weakens Monster
 Item	Unkillable Skeleton's restless leg	Weapon Damage: +40, MP Regen Min: 20, MP Regen Max: 30
-# Unkillable Skeleton's sawsword: +50 Damage vs. Ghosts
-# Unkillable Skeleton's sawsword: +50% Damage vs. Bugbears
-# Unkillable Skeleton's sawsword: +50% Damage vs. Vampires
-# Unkillable Skeleton's sawsword: +50% Damage vs. Werewolves
-# Unkillable Skeleton's sawsword: +50% Damage vs. Zombies
-# Unkillable Skeleton's sawsword: +100% Damage vs. Skeletons
+Item	Unkillable Skeleton's sawsword	Damage vs. Skeletons: +100, Damage vs. Zombies: +50, Damage vs. Vampires: +50, Damage vs. Werewolves: +50, Damage vs. Ghosts: +50, Damage vs. Bugbears: +50
 Item	unsanitized scalpel	Sleaze Damage: +25
 Item	vampire duck-on-a-string	Weapon Damage: +5, Item Drop: +5
 Item	velcro broadsword	Muscle Percent: +5, MP Regen Min: 6, MP Regen Max: 12, Hat Drop: +20, Pants Drop: +20
@@ -2325,9 +2311,8 @@ Item	giant penguin keychain	HP Regen Min: 12, HP Regen Max: 16, Moxie: -5, Damag
 Item	gingerbread moneybag	Sprinkle Drop: +25
 Item	Glass Balls of the Goblin King	Mysticality: +14
 Item	glass gnoll eye	Mysticality: +3
-# glass pie plate: +25 Damage vs. Ghosts
 # glass pie plate: Half Damage from Ghosts
-Item	glass pie plate	Hot Resistance: +3, Damage Reduction: 7
+Item	glass pie plate	Hot Resistance: +3, Damage vs. Ghosts: +25, Damage Reduction: 7
 Item	glow-in-the-dark stuffed burrowgrub	Muscle: [9-M], Weapon Damage: [9-M]
 Item	glowing esca	Item Drop: [20*env(underwater)]
 Item	glowstick on a string	Weapon Damage: +10, Raveosity: +1
@@ -2954,8 +2939,7 @@ Item	Cincho de Mayo	Moxie Percent: +25, HP Regen Min: 10, HP Regen Max: 20, MP R
 # Claw of the Infernal Seal: 5 Additional Seal Summons Per Day
 # Claw of the Infernal Seal: This enchantment works even when this item is not equipped
 Item	Claw of the Infernal Seal	Muscle: +11, HP Regen Min: 20, HP Regen Max: 25, Class: "Seal Clubber", Single Equip
-# Claybender glasses: +15 Damage vs. Ghosts
-Item	Claybender glasses	Item Drop: +4, Single Equip
+Item	Claybender glasses	Item Drop: +4, Damage vs. Ghosts: +15, Single Equip
 Item	clingfilm slippers	Spell Damage: +15, Single Equip
 Item	clown car key	Spooky Damage: +10, Stench Damage: +10, Hot Damage: +10, Cold Damage: +10, Sleaze Damage: +10, Monster Level: +10
 Item	clown shoes	Maximum MP: +7, Clowniness: 25
@@ -3149,8 +3133,7 @@ Item	ghost of a necklace	Sleaze Damage: +8, Sleaze Spell Damage: +8, Spooky Resi
 Item	giant bow tie	Muscle: +5, Mysticality: +5, Moxie: +5, Spooky Damage: +5, Stench Damage: +5, Hot Damage: +5, Cold Damage: +5, Sleaze Damage: +5, Clowniness: 25, Lasts Until Rollover
 Item	giant designer sunglasses	Moxie Percent: -10, Single Equip
 # giant diamond ring
-# giant motorcycle boots: +10 Damage vs. Ghosts
-Item	giant motorcycle boots	Muscle: +5, Single Equip
+Item	giant motorcycle boots	Damage vs. Ghosts: +10, Muscle: +5, Single Equip
 Item	giant pinky ring	Negative Status Resist, Single Equip
 Item	gingerbeard	Single Equip, Adventures: [6+(3*event(December))]
 Item	gingerservo	Muscle Percent: +25, HP Regen Min: 6, HP Regen Max: 12, PvP Fights: +6, Single Equip
@@ -3169,8 +3152,7 @@ Item	gold wedding ring	Adventures: +1, Negative Status Resist, Single Equip
 Item	Golden Mr. Accessory	Muscle: +15, Mysticality: +15, Moxie: +15, Softcore Only
 Item	Golden Mr. Eh?	Muscle: +12, Mysticality: +12, Moxie: +12
 Item	gory drippy orb	Drippy Damage: +5
-# government-issued necktie: +25% Damage vs. Zombies
-Item	government-issued necktie	Experience Percent (Mysticality): +10, Meat Drop: [5*G], Single Equip
+Item	government-issued necktie	Experience Percent (Mysticality): +10, Damage vs. Zombies: +25, Meat Drop: [5*G], Single Equip
 Item	government-issued night-vision goggles	Item Drop: +5, Monster Level: +5, Single Equip
 # GPS-tracking wristwatch
 Item	grandfather watch	Adventures: +6, Single Equip, Nonstackable Watch
@@ -5288,7 +5270,7 @@ Effect	Ancient Protected	Hot Resistance: +2, Cold Resistance: +2, Stench Resista
 Effect	And Your Family, Too	Familiar Weight: -10
 Effect	Angering Pizza Purists	Monster Level: +50, Moxie: +15, Muscle Percent: +200
 Effect	Angry	Combat Rate: +5
-# Angry Bone: +40 Damage vs. Undead
+Effect	Angry Bone	Damage vs. Undead: +40
 Effect	Angry like the Wolf	Maximum HP: +20, Maximum MP: +10
 Effect	Animal Exploiter	Muscle: +40, Familiar Weight Percent: -50
 Effect	Animal Lover	Experience (familiar): +2
@@ -5498,7 +5480,7 @@ Effect	Bloody Bloody Bloody!	Spooky Damage: +50
 Effect	Bloody Grin	Experience (Muscle): [25*zone(Twitch)], Weapon Damage Percent: [500*zone(Twitch)]
 Effect	Bloody Hand	Muscle: -1
 Effect	Bloody Potato Bits	HP Regen Min: 3, HP Regen Max: 5
-# Bloody-minded: +50% Damage vs. Vampires
+Effect	Bloody-minded	Damage vs. Vampires: +50
 Effect	Blooper Inked	Combat Rate: -10
 Effect	Blubbered Up	Moxie: +5
 Effect	Blue Eyed Devil	Experience Percent (Mysticality): +50
@@ -5517,7 +5499,7 @@ Effect	Bonelording	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent:
 Effect	Boner Battalion	Damage Aura: 1
 Effect	Bony Dancer	Avatar: "tapdancing skeleton"
 Effect	Boo Tea	Spooky Damage: +30
-# Booing Radly: +50 Damage vs. Ghosts
+Effect	Booing Radly	Damage vs. Ghosts: +50
 # Boon of She-Who-Was: Your melee attacks deal <font color=gray>Spooky Damage</font>
 Effect	Boon of She-Who-Was	Weapon Damage: +20
 # Boon of the Storm Tortoise: Your melee attacks restore some MP
@@ -5541,7 +5523,7 @@ Effect	Boxing Day Breakfast	Gear Drop: +50, Weapon Damage Percent: +50, Spell Da
 Effect	Boxing Day Drinking	Pickpocket Chance: +25, Experience: +5
 Effect	Boxing Day Glow	Meat Drop: +50, Familiar Weight: +5
 Effect	Braaaaaains	Meat Drop: +200, Item Drop: -50
-# Braaaains Over Braaaawwn: +50% Damage vs. Zombies
+Effect	Braaaains Over Braaaawwn	Damage vs. Zombies: +50
 Effect	Braaains	Meat Drop: +50, Initiative: -50
 Effect	Brain Freeze	Spell Damage: +25, Moxie Percent: +50, Maximum MP: +100
 Effect	Brainworm	Item Drop: [200*zone(Twitch)], Experience (Mysticality): [25*zone(Twitch)]
@@ -5812,12 +5794,7 @@ Effect	Curse of Dullness	Weapon Damage: -50, Spell Damage: -50, Ranged Damage: -
 Effect	Curse of Exposure	Cold Resistance: -9, Hot Resistance: -9, Sleaze Resistance: -9, Spooky Resistance: -9, Stench Resistance: -9
 Effect	Curse of Forgetfulness	Experience: -25
 Effect	Curse of Hollowness	Maximum HP: -200, Maximum MP: -200
-# Curse of Impotence: -50% Damage vs. Bugbears
-# Curse of Impotence: -50% Damage vs. Werewolves
-# Curse of Impotence: -50% Damage vs. Zombies
-# Curse of Impotence: -50 Damage vs. Ghosts
-# Curse of Impotence: -50% Damage vs. Vampires
-# Curse of Impotence: -50% Damage vs. Skeletons
+Effect	Curse of Impotence	Damage vs. Bugbears: -50, Damage vs. Werewolves: -50, Damage vs. Zombies: -50, Damage vs. Ghosts: -50, Damage vs. Vampires: -50, Damage vs. Skeletons: -50
 Effect	Curse of Loneliness	Familiar Weight: -20, Familiar Damage: -20
 Effect	Curse of Misfortune	Meat Drop: -100, Item Drop: -50
 Effect	Curse of Randomness	Random Monster Modifiers: +1
@@ -6258,7 +6235,7 @@ Effect	Gelded	Monster Level: +5
 Effect	Gemini Rising	Maximum HP Percent: +100
 # Get Me Off This Crazy Thing!: Jane!
 Effect	Gettin' the Goods	Item Drop: +100
-# Ghost Finger: +100 Damage vs. Ghosts
+Effect	Ghost Finger	Damage vs. Ghosts: +100
 Effect	Ghostly Shell	Damage Absorption: +80
 Effect	Giant Growth	Muscle Percent: +300, Mysticality Percent: +300, Moxie Percent: +300
 # Gift of the Warbear: +15% Item Drops from WarBears
@@ -6557,9 +6534,7 @@ Effect	Inky Camouflage	Combat Rate: -5
 Effect	Innately Strong	Muscle Percent: +100, Experience (Muscle): +3
 Effect	Innately Truthy	Moxie Percent: +100, Experience (Moxie): +3
 Effect	Innately Wise	Mysticality Percent: +100, Experience (Mysticality): +3
-# Inner Dog: +50% Damage vs. Zombies
-# Inner Dog: +50 Damage vs. Ghosts
-Effect	Inner Dog	Mysticality Percent: +50, Spell Critical Percent: +10
+Effect	Inner Dog	Damage vs. Zombies: +50, Damage vs. Ghosts: +50, Mysticality Percent: +50, Spell Critical Percent: +10
 Effect	Inner Elf	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100, Weapon Damage Percent: +100, Spell Damage Percent: +100
 Effect	Inner Warmth	Cold Resistance: +5
 # Innuendo Shopping
@@ -6738,9 +6713,7 @@ Effect	Lycanthropy, Eh?	Muscle Percent: [+2*M], Moxie Percent: [+2*M]
 Effect	Lynyrd Prytynder	Avatar: "lynyrd skinner"
 Effect	Macaroni Coating	Muscle: +10
 Effect	Macho Profundo	Muscle Percent: +60, Moxie Percent: +60
-# Macho, Macho Dog: +50% Damage vs. Bugbears
-# Macho, Macho Dog: +50% Damage vs. Werewolves
-Effect	Macho, Macho Dog	Muscle Percent: +50, Critical Hit Percent: +10
+Effect	Macho, Macho Dog	Damage vs. Bugbears: +50, Damage vs. Werewolves: +50, Muscle Percent: +50, Critical Hit Percent: +10
 Effect	Mad at Science	Muscle: +3
 Effect	Made Up, Watered Down	Moxie: +30
 Effect	Madly Liberated	Avatar: "The Mad Libber"
@@ -6943,8 +6916,7 @@ Effect	Octolus Gift	Item Drop: +50
 Effect	Odoriffic	Avatar: "Odorous Humongous"
 Effect	Of Course It Looks Great	Item Drop: +100
 Effect	Ogred and Oublietted	Experience (Muscle): +1, Experience (Mysticality): +1
-# Oh Hamlet Hamlet Hamlet Hamlet: +50 Damage vs. Ghosts
-Effect	Oh Hamlet Hamlet Hamlet Hamlet	Maximum HP Percent: +50, Maximum MP Percent: +50
+Effect	Oh Hamlet Hamlet Hamlet Hamlet	Maximum HP Percent: +50, Maximum MP Percent: +50, Damage vs. Ghosts: +50
 Effect	Oh Snap	Experience (Moxie): +10
 Effect	Oiled Skin	Moxie Percent: +100
 Effect	Oiled-Up	Hot Resistance: +2, Cold Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2, Sleaze Resistance: +2
@@ -7509,8 +7481,7 @@ Effect	Space Warlord's Beard	Weapon Damage: +25, Critical Hit Percent: +10
 Effect	Spaced Out	Mysticality: +10, Maximum MP: +50, Experience (Mysticality): +3, MP Regen Min: 10, MP Regen Max: 30
 Effect	Spangled Star	Monster Level: +10
 Effect	Sparkling Consciousness	Mysticality Percent: +100
-# Sparkly!: +50 Damage vs. Undead
-Effect	Sparkly!	Moxie Percent: +200, Spell Damage Percent: +200
+Effect	Sparkly!	Moxie Percent: +200, Spell Damage Percent: +200, Damage vs. Undead: +50
 Effect	Speakin' Easy	Muscle: +15, Mysticality: +15, Moxie: +15
 Effect	Speakin' Even Easier	Muscle: +30, Mysticality: +30, Moxie: +30
 Effect	Spectacle Moustache	Item Drop: +50, Spooky Resistance: +5
@@ -7598,7 +7569,7 @@ Effect	Steroid Boost	Muscle: +2
 Effect	Stevedave's Shanty of Superiority	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 Effect	Stick Emporium Membership	Weapon Drop: +100
 Effect	Stickler for Promptness	Familiar Action Bonus: +20
-# Sticks and Stones: +50% Damage vs. Skeletons
+Effect	Sticks and Stones	Damage vs. Skeletons: +50
 Effect	Sticky Fingers	Meat Drop: +20
 # Sticky Hands: Reduced chance of fumbling
 Effect	Stiff Upper Lip	Damage Reduction: 10
@@ -7878,9 +7849,7 @@ Effect	Too Noir For Snoir	Monster Level: +50
 Effect	Too Shamed	Sleaze Resistance: +3
 Effect	Took Eleven	Muscle: +11, Mysticality: +11, Moxie: +11
 Effect	Toothy Grin	Familiar Weight: +5
-# Top Dog: +50% Damage vs. Vampires
-# Top Dog: +50% Damage vs. Skeletons
-Effect	Top Dog	Moxie Percent: +50, Pickpocket Chance: +10
+Effect	Top Dog	Damage vs. Vampires: +50, Damage vs. Skeletons: +50, Moxie Percent: +50, Pickpocket Chance: +10
 Effect	Tortious	Monster Level: +10
 Effect	Total Protonic Reversal	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20
 Effect	Touched	Spooky Resistance: +3, Spooky Damage: +30, Experience: +3
@@ -7958,14 +7927,7 @@ Effect	Very Clean Guns	Ranged Damage: +20
 Effect	Very Clean Teeth	Moxie: +1
 Effect	Vessel of Magic	Maximum MP: +100, MP Regen Min: 8, MP Regen Max: 12
 Effect	Video Game Hot Dog	Item Drop: +25, Meat Drop: +25
-# Video... Games?: +5% Damage vs. Bugbears
-# Video... Games?: +5% Damage vs. Werewolves
-# Video... Games?: +5% Damage vs. Zombies
-# Video... Games?: +5 Damage vs. Ghosts
-# Video... Games?: +5% Damage vs. Vampires
-# Video... Games?: +5% Damage vs. Skeletons
-# Video... Games?: +5 Damage vs. Undead
-Effect	Video... Games?	Muscle: +5, Mysticality: +5, Moxie: +5, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Maximum HP: +5, Maximum MP: +5, Maximum HP Percent: +5, Maximum MP Percent: +5, Damage Absorption: +5, Damage Reduction: 5, Hot Resistance: +5, Cold Resistance: +5, Stench Resistance: +5, Spooky Resistance: +5, Sleaze Resistance: +5, Hot Damage: +5, Cold Damage: +5, Stench Damage: +5, Spooky Damage: +5, Sleaze Damage: +5, Hot Spell Damage: +5, Cold Spell Damage: +5, Stench Spell Damage: +5, Spooky Spell Damage: +5, Sleaze Spell Damage: +5, Weapon Damage: +5, Spell Damage: +5, Ranged Damage: +5, Weapon Damage Percent: +5, Spell Damage Percent: +5, Ranged Damage Percent: +5, Critical Hit Percent: +5, Spell Critical Percent: +5, Initiative: +5, Experience: +5, Experience (Muscle): +5, Experience (Mysticality): +5, Experience (Moxie): +5, Experience Percent (Muscle): +5, Experience Percent (Mysticality): +5, Experience Percent (Moxie): +5, Meat Drop: +5, Item Drop: +5, Gear Drop: +5, Food Drop: +5, Booze Drop: +5, Candy Drop: +5, Pickpocket Chance: +5, Familiar Weight: +5, Familiar Damage: +5, Experience (familiar): +5, Monster Level: +5, Pool Skill: +5, Hobo Power: +5, Smithsness: +5, Fishing Skill: +5, Accessory Drop: +5, Hat Drop: +5, Offhand Drop: +5, Pants Drop: +5, Shirt Drop: +5, Weapon Drop: +5
+Effect	Video... Games?	Muscle: +5, Mysticality: +5, Moxie: +5, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Maximum HP: +5, Maximum MP: +5, Maximum HP Percent: +5, Maximum MP Percent: +5, Damage Absorption: +5, Damage Reduction: 5, Hot Resistance: +5, Cold Resistance: +5, Stench Resistance: +5, Spooky Resistance: +5, Sleaze Resistance: +5, Hot Damage: +5, Cold Damage: +5, Stench Damage: +5, Spooky Damage: +5, Sleaze Damage: +5, Hot Spell Damage: +5, Cold Spell Damage: +5, Stench Spell Damage: +5, Spooky Spell Damage: +5, Sleaze Spell Damage: +5, Damage vs. Bugbears: +5, Damage vs. Werewolves: +5, Damage vs. Zombies: +5, Damage vs. Ghosts: +5, Damage vs. Vampires: +5, Damage vs. Skeletons: +5, Damage vs. Undead: +5, Weapon Damage: +5, Spell Damage: +5, Ranged Damage: +5, Weapon Damage Percent: +5, Spell Damage Percent: +5, Ranged Damage Percent: +5, Critical Hit Percent: +5, Spell Critical Percent: +5, Initiative: +5, Experience: +5, Experience (Muscle): +5, Experience (Mysticality): +5, Experience (Moxie): +5, Experience Percent (Muscle): +5, Experience Percent (Mysticality): +5, Experience Percent (Moxie): +5, Meat Drop: +5, Item Drop: +5, Gear Drop: +5, Food Drop: +5, Booze Drop: +5, Candy Drop: +5, Pickpocket Chance: +5, Familiar Weight: +5, Familiar Damage: +5, Experience (familiar): +5, Monster Level: +5, Pool Skill: +5, Hobo Power: +5, Smithsness: +5, Fishing Skill: +5
 Effect	Vinegavotte	Item Drop: +20
 Effect	Violent Night	Critical Hit Percent: +5
 Effect	Virgo Rising	Moxie Percent: +50
@@ -8087,7 +8049,7 @@ Effect	Wizard Sight	Item Drop: +100, Mysticality: +10, Mysticality Percent: +100
 Effect	Wizard Squint	Spell Critical Percent: +10
 Effect	Woad Warrior	Muscle: +25
 Effect	Wolf Form	Muscle Percent: +150, Meat Drop: +150
-# Wolf's Bane: +50% Damage vs. Werewolves
+Effect	Wolf's Bane	Damage vs. Werewolves: +50
 Effect	Wolfish Form	Muscle Percent: +50, Meat Drop: +50
 Effect	Work For Hours a Week	Familiar Weight: +5, HP Regen Min: 10, HP Regen Max: 20
 Effect	World's Shortest Giant	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
@@ -8467,7 +8429,7 @@ Skill	Nanofur	Cold Resistance: +3
 Skill	Nasal Lamina Propria	Stench Resistance: +2
 Skill	Nasal Septum	Stench Resistance: +2
 Skill	Natural Born Scrabbler	Item Drop: +5
-# Natural Born Skeleton Killer: +10% Damage vs. Skeletons
+Skill	Natural Born Skeleton Killer	Damage vs. Skeletons: +10
 Skill	Natural Dancer	Item Drop: +200
 # Neurogourmet: +1 Adventure per Brain Eaten
 Skill	Never Late for Dinner	Initiative: +50, Adventures: +10

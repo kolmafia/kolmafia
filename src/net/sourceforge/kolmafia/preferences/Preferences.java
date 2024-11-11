@@ -222,6 +222,7 @@ public class Preferences {
         "commaFamiliar",
         "commerceGhostCombats",
         "commerceGhostItem",
+        "cookbookbatIngredientsCharge",
         "copperheadClubHazard",
         "cornucopiasOpened",
         "cosmicBowlingBallReturnCombats",

@@ -8,7 +8,6 @@ import net.sourceforge.kolmafia.textui.parsetree.PluralValue;
 import net.sourceforge.kolmafia.textui.parsetree.RecordValue;
 import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
-import org.mozilla.javascript.ConsString;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
@@ -87,8 +86,10 @@ public class ScriptableValueConverter extends ValueConverter<Scriptable> {
   public Value fromJava(Object object, Type typeHint) {
     if (Undefined.isUndefined(object)) {
       return UNDEFINED;
-    } else if (object instanceof ConsString) {
-      return DataTypes.makeStringValue(object.toString());
+    } else if (object instanceof EnumeratedWrapper wrapper) {
+      return wrapper.getWrapped();
+    } else if (object instanceof AshStub stub) {
+      return DataTypes.makeStringValue("[function " + stub.getFunctionName() + "]");
     } else {
       return super.fromJava(object, typeHint);
     }
@@ -96,7 +97,8 @@ public class ScriptableValueConverter extends ValueConverter<Scriptable> {
 
   @Override
   public Object asJava(Value value) {
-    if (DataTypes.enumeratedTypes.contains(value.getType())) {
+    if (value == null) return null;
+    else if (DataTypes.enumeratedTypes.contains(value.getType())) {
       return EnumeratedWrapper.wrap(scope, value.asProxy().getClass(), value);
     } else {
       return super.asJava(value);

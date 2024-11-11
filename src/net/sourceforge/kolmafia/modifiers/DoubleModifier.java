@@ -554,7 +554,37 @@ public enum DoubleModifier implements Modifier {
   AVOID_ATTACK(
       "Avoid Attack",
       Pattern.compile("The first attack against you will always miss"),
-      Pattern.compile("Avoid Attack: " + EXPR));
+      Pattern.compile("Avoid Attack: " + EXPR)),
+  // the following do not distinguish between percentage / flat damage because the corresponding
+  // flat / percentage damage bonuses do not exist
+  BUGBEAR_DAMAGE(
+      "Damage vs. Bugbears",
+      Pattern.compile("([+-]\\d+)% Damage vs. Bugbears"),
+      Pattern.compile("Damage vs. Bugbears: " + EXPR)),
+  WEREWOLF_DAMAGE(
+      "Damage vs. Werewolves",
+      Pattern.compile("([+-]\\d+)% Damage vs. Werewolves"),
+      Pattern.compile("Damage vs. Werewolves: " + EXPR)),
+  ZOMBIE_DAMAGE(
+      "Damage vs. Zombies",
+      Pattern.compile("([+-]\\d+)% Damage vs. Zombies"),
+      Pattern.compile("Damage vs. Zombies: " + EXPR)),
+  GHOST_DAMAGE(
+      "Damage vs. Ghosts",
+      Pattern.compile("([+-]\\d+) Damage vs. Ghosts"),
+      Pattern.compile("Damage vs. Ghosts: " + EXPR)),
+  VAMPIRE_DAMAGE(
+      "Damage vs. Vampires",
+      Pattern.compile("([+-]\\d+)% Damage vs. Vampires"),
+      Pattern.compile("Damage vs. Vampires: " + EXPR)),
+  SKELETON_DAMAGE(
+      "Damage vs. Skeletons",
+      Pattern.compile("([+-]\\d+)% Damage vs. Skeletons"),
+      Pattern.compile("Damage vs. Skeletons: " + EXPR)),
+  UNDEAD_DAMAGE(
+      "Damage vs. Undead",
+      Pattern.compile("([+-]\\d+) Damage vs. Undead"),
+      Pattern.compile("Damage vs. Undead: " + EXPR));
 
   private final String name;
   private final Pattern[] descPatterns;
@@ -664,7 +694,7 @@ public enum DoubleModifier implements Modifier {
         String tag = mod.getTag();
 
         if (matcher.groupCount() == 0) {
-          return tag;
+          return tag + ": 1";
         }
 
         // Kludge for Slime (Really) Hates it
