@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.textui.command;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.startsWith;
 
 import org.junit.jupiter.api.Nested;
@@ -27,6 +28,13 @@ public class JavaScriptCommandTest extends AbstractCommandTestBase {
       String output = execute("undefined");
 
       assertThat(output, startsWith("Returned: undefined"));
+    }
+
+    @Test
+    public void printsFunction() {
+      String output = execute("availableAmount");
+
+      assertThat(output.trim(), is("Returned: [function availableAmount]"));
     }
 
     @Test
