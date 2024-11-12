@@ -27,6 +27,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 class PreferencesTest {
   private final String USER_NAME = "PreferencesTestFakeUser";
@@ -479,6 +481,21 @@ class PreferencesTest {
     String prefName = "autoLogin";
     boolean result = Preferences.containsDefault(prefName);
     assertTrue(result, "default not in defaultsSet for pref " + prefName);
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    "choiceAdventure2, false",
+    "8BitScore, true",
+    "lastNoncombat15, true",
+    "yearbookCameraUpgrades, false",
+    "noobPoints, false",
+    "bwApronMealsEaten, true",
+    "muffinOnOrder, true",
+    "nonExistentPref, false"
+  })
+  void isResetOnAscension(String name, boolean expected) {
+    assertEquals(Preferences.isResetOnAscension(name), expected);
   }
 
   @Test
