@@ -1432,7 +1432,11 @@ public class Preferences {
   }
 
   public static boolean isResetOnAscension(String name) {
-    return resetOnAscensionSet.contains(name);
+    // yearbookCameraUpgrades and deferred points prefs are not really reset on ascension, just
+    // incremented.
+    return name.equals("muffinOnOrder")
+        || name.equals("bwApronMealsEaten")
+        || resetOnAscensionSet.contains(name);
   }
 
   private static void deferredPoints(String prop, String defprop, int max) {
