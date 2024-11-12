@@ -2982,6 +2982,26 @@ public class FightRequest extends GenericRequest {
             Preferences.increment("_turkeyMoxie");
           }
         }
+      case FamiliarPool.PEACE_TURKEY:
+        {
+          if (responseText.contains("Uncharacteristically violent")) {
+            Preferences.setInteger("peaceTurkeyIndex", 1);
+          } else if (responseText.contains("You pluck an olive and toss the branch")) {
+            Preferences.setInteger("peaceTurkeyIndex", 2);
+          } else if (responseText.contains("Finally, some peace and quiet")) {
+            Preferences.setInteger("peaceTurkeyIndex", 3);
+          } else if (responseText.contains("gives you a limbering massage")) {
+            Preferences.setInteger("peaceTurkeyIndex", 4);
+          } else if (responseText.contains("holds up a sign that says &quot;Visualize&quot;")) {
+            Preferences.setInteger("peaceTurkeyIndex", 5);
+          } else if (responseText.contains("signs that they are giving you peace")) {
+            Preferences.setInteger("peaceTurkeyIndex", 6);
+          } else if (responseText.contains("doesn't have many other options")) {
+            Preferences.setInteger("peaceTurkeyIndex", 7);
+          } else if (responseText.contains("tosses you contradiction in physical form")) {
+            Preferences.setInteger("peaceTurkeyIndex", 0);
+          }
+        }
     }
 
     int blindIndex = responseText.indexOf("... something.</div>");
@@ -4107,6 +4127,21 @@ public class FightRequest extends GenericRequest {
           } else {
             familiar.setCharges(Preferences.increment("vintnerCharge", 1, 13, false));
           }
+          break;
+
+        case FamiliarPool.COOKBOOKBAT:
+          // Counts up to 11, ingredients drop on 11th fight.
+          // Don't increment on a drop fight.
+          if (!responseText.contains(COOKBOOKBAT_INGREDIENTS)) {
+            familiar.setCharges(
+                Preferences.increment("cookbookbatIngredientsCharge", 1, 11, false));
+          }
+          String questLastLocation = Preferences.getString("_cookbookbatQuestLastLocation");
+          boolean inSuggestedLocation =
+              location != null
+                  && !questLastLocation.isEmpty()
+                  && questLastLocation.equals(location.getAdventureName());
+          Preferences.decrement("_cookbookbatCombatsUntilNewQuest", 1, inSuggestedLocation ? 1 : 0);
           break;
       }
 
@@ -5593,6 +5628,7 @@ public class FightRequest extends GenericRequest {
     public final boolean crimbo;
     public String diceMessage;
     public final boolean eagle;
+    public final boolean cookbookbat;
     public final String ghost;
     public final boolean logFamiliar;
     public final boolean logMonsterHealth;
@@ -5645,6 +5681,7 @@ public class FightRequest extends GenericRequest {
       this.familiarName = current.getName();
       this.camel = (familiarId == FamiliarPool.MELODRAMEDARY);
       this.eagle = (familiarId == FamiliarPool.PATRIOTIC_EAGLE);
+      this.cookbookbat = (familiarId == FamiliarPool.COOKBOOKBAT);
       this.doppel =
           (familiarId == FamiliarPool.DOPPEL)
               || KoLCharacter.hasEquipped(ItemPool.TINY_COSTUME_WARDROBE, Slot.FAMILIAR);
@@ -7681,6 +7718,10 @@ public class FightRequest extends GenericRequest {
       return;
     }
 
+    if (status.cookbookbat && FightRequest.handleCookbookbat(str, status)) {
+      return;
+    }
+
     if (FightRequest.handleGooseDrones(str, status)) {
       return;
     }
@@ -8530,6 +8571,72 @@ public class FightRequest extends GenericRequest {
         return true;
       }
     }
+    return false;
+  }
+
+  private static final String COOKBOOKBAT_INGREDIENTS = "\"As I recall,  you could use these,\"";
+
+  private static final Pattern[] COOKBOOKBAT_QUEST = {
+    Pattern.compile(
+        "\"As I recall, .*? was common in (?<location>.*?), back in my day\\. +Perhaps if you kill an? (?<monster>.*?), you'll find one\\.\""),
+    Pattern.compile(
+        "\"If memory serves, .*? was very popular in (?<location>.*?), during my time\\. +Perhaps if you find an? (?<monster>.*?), you'll collect one\\,\""),
+    Pattern.compile(
+        "\"My recollection is that .*? was often collected from an? (?<monster>.*?)\\. +If I recall correctly, you can hunt them in (?<location>.*?)\\.\"")
+  };
+
+  private static final Pattern[] COOKBOOKBAT_QUEST_REMINDER = {
+    Pattern.compile("\"If I recall, I suggested that you look for an? (?<monster>.*?)\\.\""),
+    Pattern.compile("\"If my ancient memory serves, I suggested looking in (?<location>.*?)\\.\""),
+    Pattern.compile(
+        "\"According to my memories, an? (?<monster>.*?) at (?<location>.*?) may have what you're looking for\\.\""),
+  };
+
+  private static final Pattern[] COOKBOOKBAT_QUEST_COMPLETE = {
+    Pattern.compile("looks smug as you follow their instructions."),
+    Pattern.compile("As I recall, this is where I told you to look."),
+  };
+
+  private static boolean handleCookbookbat(String text, TagStatus status) {
+    if (!status.familiar.equals("bbat_fam.gif")) {
+      return false;
+    }
+
+    if (text.contains(COOKBOOKBAT_INGREDIENTS)) {
+      Preferences.setInteger("cookbookbatIngredientsCharge", 0);
+    }
+
+    for (Pattern[] patterns : List.of(COOKBOOKBAT_QUEST, COOKBOOKBAT_QUEST_REMINDER)) {
+      for (Pattern p : patterns) {
+        Matcher matcher = p.matcher(text);
+        if (matcher.find()) {
+          // Some messages contain only location, and others contain only monster.
+          // We have to check the pattern as Java does not give a convenient way to check if a named
+          // group exists.
+          if (p.toString().contains("<monster>")) {
+            String monsterName = matcher.group("monster");
+            Preferences.setString("_cookbookbatQuestMonster", monsterName);
+          }
+          if (p.toString().contains("<location>")) {
+            String locationName = matcher.group("location");
+            Preferences.setString("_cookbookbatQuestLastLocation", locationName);
+          }
+          if (patterns == COOKBOOKBAT_QUEST) {
+            Preferences.setInteger("_cookbookbatCombatsUntilNewQuest", 6);
+          }
+          return true;
+        }
+      }
+    }
+
+    for (Pattern p : COOKBOOKBAT_QUEST_COMPLETE) {
+      Matcher matcher = p.matcher(text);
+      if (matcher.find()) {
+        Preferences.setString("_cookbookbatQuestMonster", "");
+        return true;
+      }
+    }
+
     return false;
   }
 
@@ -11071,6 +11178,12 @@ public class FightRequest extends GenericRequest {
           }
         }
 
+        break;
+
+      case ItemPool.SPLIT_PEA_SOUP:
+        if (responseText.contains("like a pea and split") || itemRunawaySuccess) {
+          BanishManager.banishCurrentMonster(Banisher.SPLIT_PEA_SOUP);
+        }
         break;
     }
 

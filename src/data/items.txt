@@ -11682,7 +11682,7 @@
 11654	embering hunk	447678631	emberhunk.gif	multiple		0
 11655	soft cap of diminishing returns	584372121	softcap.gif	hat		0
 11656	photo booth sized crate	918207532	crate.gif	usable	t	0
-11657	boxed bat wings	352162832	batwings_box.gif	usable	t	0	boxes of bat wings
+11657	boxed bat wings	352162832	batwings_box.gif	usable	t	0	boxes of boxed bat wings
 11658	bat wings	695150783	batwings.gif	container		0	pairs of bat wings
 11659	ember egg	563280459	emberegg.gif	grow		0
 11660	tiny ember	277234855	ember.gif	familiar	t,d	11
@@ -11699,7 +11699,7 @@
 11671	photo booth supply list	459315400	document.gif	offhand	q	0
 11672	peace turkey outline	206862721	pto.gif	grow	t	0
 11673	tie-dye headband	716138076	pto_headband.gif	familiar	t,d	10
-11674	whirled peas	876145561	pto_peas.gif	food, paste, cook, mix	t,d	5
+11674	whirled peas	876145561	pto_peas.gif	food, paste, cook, mix	t,d	5	whirled peas
 11675	peaza	503542763	pto_pizza.gif	food	t,d	21
 11676	peace shooter	535806162	pto_shooter.gif	none, combat	t,d	11
 11677
@@ -11707,7 +11707,7 @@
 11679	quantized familiar	258736001	qflarva.gif	grow		0
 11680	quantum watch	757870628	qfwatch.gif	familiar	t,d	37
 11681	quantized familiar experience	829423278	qfexp.gif	usable	t,d	11
-11682	pea brittle	413024704	pto_brittle.gif	potion, usable	t,d	5
+11682	pea brittle	413024704	pto_brittle.gif	potion, usable	t,d	5	pieces of pea brittle
 11683	peasco sour	113636715	pto_drink.gif	drink	t,d	21
 11684	piece of cake	380207608	tinycake.gif	food	t,d	11
-11685	handful of split pea soup	564145882	pto_soup.gif	none, combat	t,d	1
+11685	handful of split pea soup	564145882	pto_soup.gif	none, combat	t,d	1	handfuls of split pea soup
