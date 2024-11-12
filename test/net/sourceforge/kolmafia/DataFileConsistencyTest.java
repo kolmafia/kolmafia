@@ -563,12 +563,13 @@ public class DataFileConsistencyTest {
   }
 
   @Test
-  public void everyForceNoncombatZoneHasDefault() {
+  public void everyForceNoncombatZoneHasDefaultAndResetsOnAscension() {
     for (var adventure : AdventureDatabase.getAsLockableListModel()) {
       if (adventure.getAdventureNumber() < 0) continue;
 
       var pref = "lastNoncombat" + adventure.getAdventureNumber();
       assertThat(Preferences.containsDefault(pref), is(adventure.getForceNoncombat() > 0));
+      assertThat(Preferences.isResetOnAscension(pref), is(adventure.getForceNoncombat() > 0));
     }
   }
 

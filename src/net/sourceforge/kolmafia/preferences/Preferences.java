@@ -9,6 +9,7 @@ import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -375,6 +376,30 @@ public class Preferences {
         "lastFriarsElbowNC",
         "lastFriarsHeartNC",
         "lastFriarsNeckNC",
+        "lastNoncombat15",
+        "lastNoncombat257",
+        "lastNoncombat270",
+        "lastNoncombat273",
+        "lastNoncombat280",
+        "lastNoncombat297",
+        "lastNoncombat322",
+        "lastNoncombat323",
+        "lastNoncombat324",
+        "lastNoncombat341",
+        "lastNoncombat343",
+        "lastNoncombat384",
+        "lastNoncombat386",
+        "lastNoncombat391",
+        "lastNoncombat405",
+        "lastNoncombat406",
+        "lastNoncombat439",
+        "lastNoncombat440",
+        "lastNoncombat441",
+        "lastNoncombat450",
+        "lastNoncombat533",
+        "lastNoncombat539",
+        "lastNoncombat540",
+        "lastNoncombat541",
         "lastShadowForgeUnlockAdventure",
         "lastTrainsetConfiguration",
         "lastZapperWandExplosionDay",
@@ -578,6 +603,9 @@ public class Preferences {
         "youRobotScavenged",
         "youRobotTop",
       };
+
+  private static final Set<String> resetOnAscensionSet =
+      new HashSet<>(Arrays.asList(resetOnAscension));
 
   // Obsolete properties.
   private static final String[] obsoleteProperties =
@@ -1401,6 +1429,14 @@ public class Preferences {
   public static boolean isDaily(String name) {
     return (name.startsWith("_") && !legacyNonDailies.contains(name))
         || legacyDailies.contains(name);
+  }
+
+  public static boolean isResetOnAscension(String name) {
+    // yearbookCameraUpgrades and deferred points prefs are not really reset on ascension, just
+    // incremented.
+    return name.equals("muffinOnOrder")
+        || name.equals("bwApronMealsEaten")
+        || resetOnAscensionSet.contains(name);
   }
 
   private static void deferredPoints(String prop, String defprop, int max) {
