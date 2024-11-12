@@ -316,7 +316,7 @@ public abstract class RequestThread {
    */
   public static final void declareWorldPeace() {
     StaticEntity.userAborted = true;
-    var worldPeace = (KoLCharacter.getFamiliar().getId() == FamiliarPool.PEACE_TURKEY) ? "whirled peas" : "world peace"
+    var worldPeace = (KoLCharacter.getFamiliar().getId() == FamiliarPool.PEACE_TURKEY) ? "whirled peas" : "world peace";
     var messageText = "KoLmafia declares " + worldPeace + ".";
     KoLmafia.updateDisplay(MafiaState.ABORT, messageText);
     KoLmafiaASH.stopAllRelayInterpreters();
