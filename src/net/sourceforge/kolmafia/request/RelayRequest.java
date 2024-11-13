@@ -1657,7 +1657,11 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     // You can't equip them in Avatar of Boris, Suprising Fist or G-Lover, so no problem
-    if (KoLCharacter.inFistcore() || KoLCharacter.inAxecore() || KoLCharacter.inGLover()) {
+    // They don't help in Avant Guard, so also no problem
+    if (KoLCharacter.inFistcore()
+        || KoLCharacter.inAxecore()
+        || KoLCharacter.inGLover()
+        || KoLCharacter.inAvantGuard()) {
       return false;
     }
 
