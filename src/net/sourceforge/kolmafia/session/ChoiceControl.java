@@ -10157,6 +10157,7 @@ public abstract class ChoiceControl {
       case 1460: // Toy Lab
       case 1463: // Reminiscing About Those Monsters You Fought
       case 1476: // Stillsuit
+      case 1481: // Adjust Your Parka
       case 1483: // Direct Autumn-Aton
       case 1484: // Conspicuous Plaque
       case 1485: // Play with your train
