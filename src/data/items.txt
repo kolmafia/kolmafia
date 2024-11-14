@@ -11641,7 +11641,7 @@
 11613	protogenetic chunklet (elbow)	644935635	chunklet2.gif	none	t	0	protogenetic chunklets (elbows)
 11614	protogenetic chunklet (lips)	212824342	chunklet1.gif	none	t	0	protogenetic chunklets (lips)
 11615	messenger bag RNA	643906111	messengerbag.gif	accessory	t	0	strands of messenger bag RNA
-11616	flagellate flagon	798348789	flagon.gif	usable	t	0
+11616	flagellate flagon	798348789	flagon.gif	reusable	t	0
 11617	proto-proto-protozoa	306809184	protoprotoproto.gif	grow	t	0
 11618	bacteria bisque	917399676	soupbowl.gif	food	t	0	bowls of bacteria bisque
 11619	ciliophora chowder	705837465	bbat_soup.gif	food	t	0	bowls of ciliophora chowder
@@ -11667,7 +11667,7 @@
 11639	Too Cold to Hold: How to Be Cool - A Memoir	684260885	book5.gif	usable	t	0
 11640	Too Cold to Hold: How to Be Cool - A Memoir (read)	445549210	book5.gif	reusable		0
 11641	boxed Sept-Ember Censer	940381296	emberbox.gif	usable	t	0
-11642	Sept-Ember Censer	189515221	embercenser.gif	usable		0
+11642	Sept-Ember Censer	189515221	embercenser.gif	reusable		0
 11643	blade of dismemberment	514450928	embersword.gif	weapon	q	0	blades of dismemberment
 11644	miniature Embering Hulk	522091732	emberhulk.gif	usable	t	0	Embering Hulk miniatures
 11645	Mmm-brr! brand mouthwash	406085040	emberbottle.gif	usable	t,d	5	bottles of Mmm-brr! brand mouthwash
