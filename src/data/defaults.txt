@@ -1918,6 +1918,7 @@ user	_cookbookbatRecipeDrops	false
 user	_cookbookbatCombatsUntilNewQuest	0
 user	_cookbookbatQuestLastLocation
 user	_cookbookbatQuestMonster
+user	_cookbookbatQuestIngredient
 user	_corruptedStardustUsed	false
 user	_cosmicBowlingSkillsUsed	0
 user	_cosmicSixPackConjured	false
