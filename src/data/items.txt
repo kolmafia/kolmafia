@@ -11501,7 +11501,7 @@
 11473	pirate encryption key (complete)	789944018	piratekey.gif	usable		0	pirate encryption keys (complete)
 11474	yule grog	857711662	tankard.gif	drink, mix	t	0	tankards of yule grog
 11475	wet tack	458308953	wettack.gif	food	t	0	pieces of wet tack
-11476	whalecake	119486089	whalecake.gif	food	t,d	0
+11476	whalecake	119486089	whalecake.gif	food	t	0
 11477	gunwale whalegun	602303862	whalegungun.gif	weapon		0
 11478	red white and blue claret	227207466	egclaret2.gif	drink, mix	t	0	glasses of red white and blue claret
 11479	rigging knot	788405217	knot.gif	familiar	t,d	75
