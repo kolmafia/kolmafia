@@ -726,7 +726,7 @@ Twig and Berries	352	twigberry.gif	Atk: 152 Def: 136 HP: 150 Init: 70 Group: 3 P
 undead elbow macaroni	147	macaroni.gif	Atk: 1 Def: 1 HP: 1 Init: 50 Meat: 5 P: undead E: spooky Article: an Wiki: "undead elbow macaroni (monster)"	magicalness-in-a-can (25)
 unemployed knob goblin	1000	lensgoblin.gif	Atk: 6 Def: 5 HP: 5 Init: -10000 Meat: 15 P: goblin EA: hot EA: none Article: an	beer lens (c25)
 unholy diver	745	unholydiver.gif	Atk: 700 Def: 540 HP: 1000 Init: 100 Meat: 250 P: horror Article: an	glowing syringe (c4)	rusty broken diving helmet (n3)	rusty porthole (n2)	rusty rivet (n10)	rusty rivet (n10)	rusty rivet (n2)	rusty rivet (n1)	unholy water (c0)
-upgraded ram	384	ram.gif	Atk: 106 Def: 93 HP: 95 Init: 50 Meat: 100 P: beast ED: cold EA: cold EA: none Article: an	ram horns (5)	ram stick (5)	Ram's Face Lager (30)
+upgraded ram	384	ram.gif	Atk: 106 Def: 93 HP: 95 Init: 50 Meat: 100 P: beast ED: cold EA: cold EA: none Article: an	ram horns (5)	ram stick (5)	Ram's Face Lager (30)	Mt. McLargeHuge oyster (25)
 uppercase Q	937	upper_q.gif	Atk: 61 Def: 51 HP: 81 Init: 80 P: dude Article: an	left parenthesis (40)	right parenthesis (10)	dollar sign (p20)
 urchin urchin	733	urchin.gif	Atk: 400 Def: 315 HP: 600 Init: 20 P: fish Article: an	mermaid's purse (n5)	bazookafish bubble gum (n30)	underwater slingshot (n25)
 vampire bat	350	regbat.gif	Atk: 17 Def: 14 HP: 10 Init: 60 Meat: 40 P: beast EA: hot EA: stench EA: none Article: a	bat wing (15)	batgut (15)	sonar-in-a-biscuit (10)
