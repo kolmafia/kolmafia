@@ -199,16 +199,17 @@ public class DeckOfEveryCardRequest extends GenericRequest {
     return DeckOfEveryCardRequest.buffToCard.get(buff);
   }
 
-  // Only used in testing
+  // Only used in testing.  Note can return null.
   public static EveryCard getCardById(int id) {
-    EveryCard retVal = idToCard.get(id);
-    if (retVal == null) {
-      retVal = new EveryCard();
-    }
-    return retVal;
+    return idToCard.get(id);
   }
 
   private final EveryCard card;
+
+  // Only used in testing.  Note can return null.
+  public EveryCard getRequestCard() {
+    return card;
+  }
 
   public DeckOfEveryCardRequest() {
     super("choice.php");

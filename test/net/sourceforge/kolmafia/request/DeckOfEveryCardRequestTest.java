@@ -1,13 +1,19 @@
 package net.sourceforge.kolmafia.request;
 
+import static net.sourceforge.kolmafia.request.DeckOfEveryCardRequest.RACING;
+import static net.sourceforge.kolmafia.request.DeckOfEveryCardRequest.buffToCard;
 import static net.sourceforge.kolmafia.request.DeckOfEveryCardRequest.canonicalNameToCard;
+import static net.sourceforge.kolmafia.request.DeckOfEveryCardRequest.getCardById;
 import static net.sourceforge.kolmafia.request.DeckOfEveryCardRequest.getMatchingNames;
 import static net.sourceforge.kolmafia.request.DeckOfEveryCardRequest.phylumToCard;
+import static net.sourceforge.kolmafia.request.DeckOfEveryCardRequest.statToCard;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
@@ -38,20 +44,50 @@ class DeckOfEveryCardRequestTest {
     @Test
     public void testPhylumToCard() {
       DeckOfEveryCardRequest.EveryCard card = phylumToCard(MonsterDatabase.Phylum.ELF);
-      assertEquals(card.name, "Christmas Card");
+      assertEquals(card, getCardById(28));
       card = phylumToCard(MonsterDatabase.Phylum.PENGUIN);
-      assertEquals(card.name, "Suit Warehouse Discount Card");
+      assertEquals(card, getCardById(27));
     }
 
     @Test
     public void testCanonicalName() {
-      String cName = "x of spades";
       String fName = "X of Spades";
-      DeckOfEveryCardRequest.EveryCard card = canonicalNameToCard(cName);
-      assertEquals(card.name, fName);
+      List<String> results = getMatchingNames(fName);
+      assertEquals(1, results.size());
+      DeckOfEveryCardRequest.EveryCard card = canonicalNameToCard(results.getFirst());
+      assertEquals(card, getCardById(4));
     }
 
     @Test
-    public void testGetStatCard() {}
+    public void testInvalidInputGetCardById() {
+      DeckOfEveryCardRequest.EveryCard card = getCardById(-1);
+      assertNull(card);
+      card = getCardById(999);
+      assertNull(card);
+    }
+
+    @Test
+    public void testGetStatCard() {
+      DeckOfEveryCardRequest.EveryCard card = statToCard(KoLConstants.Stat.MOXIE);
+      assertEquals(card, getCardById(69));
+      card = statToCard(KoLConstants.Stat.MUSCLE);
+      assertEquals(card, getCardById(68));
+      card = statToCard(KoLConstants.Stat.MYSTICALITY);
+      assertEquals(card, getCardById(70));
+    }
+
+    @Test
+    public void testBuffToCard() {
+      DeckOfEveryCardRequest.EveryCard card = buffToCard(RACING);
+      assertEquals(card, getCardById(48));
+    }
+
+    @Test
+    public void testRequestFields() {
+      DeckOfEveryCardRequest req = new DeckOfEveryCardRequest();
+      assertNull(req.getRequestCard());
+      req = new DeckOfEveryCardRequest(getCardById(58));
+      assertEquals(req.getRequestCard().id, 58);
+    }
   }
 }
