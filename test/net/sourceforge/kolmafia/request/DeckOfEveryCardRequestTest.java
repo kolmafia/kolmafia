@@ -8,6 +8,7 @@ import static net.sourceforge.kolmafia.request.DeckOfEveryCardRequest.getMatchin
 import static net.sourceforge.kolmafia.request.DeckOfEveryCardRequest.phylumToCard;
 import static net.sourceforge.kolmafia.request.DeckOfEveryCardRequest.statToCard;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -54,7 +55,7 @@ class DeckOfEveryCardRequestTest {
       String fName = "X of Spades";
       List<String> results = getMatchingNames(fName);
       assertEquals(1, results.size());
-      DeckOfEveryCardRequest.EveryCard card = canonicalNameToCard(results.getFirst());
+      DeckOfEveryCardRequest.EveryCard card = canonicalNameToCard(results.get(0));
       assertEquals(card, getCardById(4));
     }
 
@@ -88,6 +89,21 @@ class DeckOfEveryCardRequestTest {
       assertNull(req.getRequestCard());
       req = new DeckOfEveryCardRequest(getCardById(58));
       assertEquals(req.getRequestCard().id, 58);
+    }
+
+    @Test
+    public void testSomeEveryCardOverrides() {
+      DeckOfEveryCardRequest.EveryCard mickey = getCardById(58);
+      DeckOfEveryCardRequest.EveryCard notMickey = getCardById(59);
+      DeckOfEveryCardRequest.EveryCard copyMickey =
+          new DeckOfEveryCardRequest.EveryCard(mickey.id, mickey.name);
+      // Not simplifying the assertion because this makes it explicit that EveryCard.equals is being
+      // tested
+      assertFalse(mickey.equals(null));
+      assertFalse(mickey.equals(notMickey));
+      assertTrue(mickey.equals(mickey));
+      assertTrue(mickey.equals(copyMickey));
+      assertEquals(mickey.toString(), "1952 Mickey Mantle (58)");
     }
   }
 }
