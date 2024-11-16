@@ -199,6 +199,15 @@ public class DeckOfEveryCardRequest extends GenericRequest {
     return DeckOfEveryCardRequest.buffToCard.get(buff);
   }
 
+  // Only used in testing
+  public static EveryCard getCardById(int id) {
+    EveryCard retVal = idToCard.get(id);
+    if (retVal == null) {
+      retVal = new EveryCard();
+    }
+    return retVal;
+  }
+
   private final EveryCard card;
 
   public DeckOfEveryCardRequest() {

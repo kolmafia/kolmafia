@@ -52,8 +52,6 @@ class DeckOfEveryCardRequestTest {
     }
 
     @Test
-    public void testGetStatCard() {
-
-    }
+    public void testGetStatCard() {}
   }
 }
