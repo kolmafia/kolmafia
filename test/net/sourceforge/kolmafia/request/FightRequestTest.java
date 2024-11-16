@@ -225,9 +225,9 @@ public class FightRequestTest {
       "test_fight_cookbookbat_quest_new_1.html,false,skullery maid,The Haunted Kitchen,Vegetable of Jarlsberg",
       "test_fight_cookbookbat_quest_new_2.html,false,crate,Noob Cave,Yeast of Boris",
       "test_fight_cookbookbat_quest_new_3.html,false,novelty tropical skeleton,The Skeleton Store,St. Sneaky Pete's Whey",
-      "test_fight_cookbookbat_quest_reminder_1.html,true,,The Haunted Kitchen,",
-      "test_fight_cookbookbat_quest_reminder_2.html,true,crate,,",
-      "test_fight_cookbookbat_quest_reminder_3.html,true,horrible tourist family,Barf Mountain,",
+      "test_fight_cookbookbat_quest_reminder_1.html,true,'',The Haunted Kitchen,''",
+      "test_fight_cookbookbat_quest_reminder_2.html,true,crate,'',''",
+      "test_fight_cookbookbat_quest_reminder_3.html,true,horrible tourist family,Barf Mountain,''",
     })
     public void handlesQuest(
         String file,
@@ -235,9 +235,6 @@ public class FightRequestTest {
         String monsterName,
         String locationName,
         String ingredientName) {
-      if (monsterName == null) monsterName = "";
-      if (locationName == null) locationName = "";
-      if (ingredientName == null) ingredientName = "";
       var cleanups =
           new Cleanups(
               withFamiliar(FamiliarPool.COOKBOOKBAT),
@@ -294,8 +291,6 @@ public class FightRequestTest {
         boolean inLocation,
         int newInitial,
         int newExpected) {
-      if (monsterName == null) monsterName = "";
-      if (locationName == null) locationName = "";
       var cleanups =
           new Cleanups(
               withFamiliar(FamiliarPool.COOKBOOKBAT),
