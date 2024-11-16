@@ -1,11 +1,16 @@
 package net.sourceforge.kolmafia.request;
 
+import static net.sourceforge.kolmafia.request.DeckOfEveryCardRequest.canonicalNameToCard;
+import static net.sourceforge.kolmafia.request.DeckOfEveryCardRequest.getMatchingNames;
+import static net.sourceforge.kolmafia.request.DeckOfEveryCardRequest.phylumToCard;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -22,9 +27,9 @@ class DeckOfEveryCardRequestTest {
   class StaticsCoverage {
     @Test
     public void testMatchingNames() {
-      List<String> results = DeckOfEveryCardRequest.getMatchingNames("not a real card name");
+      List<String> results = getMatchingNames("not a real card name");
       assertTrue(results.isEmpty());
-      results = DeckOfEveryCardRequest.getMatchingNames(" of ");
+      results = getMatchingNames(" of ");
       assertEquals(13, results.size());
       assertTrue(results.contains("x of spades"));
       assertTrue(results.contains("x of hearts"));
@@ -34,11 +39,18 @@ class DeckOfEveryCardRequestTest {
 
     @Test
     public void testPhylumToCard() {
-      DeckOfEveryCardRequest.EveryCard card =
-          DeckOfEveryCardRequest.phylumToCard(MonsterDatabase.Phylum.ELF);
+      DeckOfEveryCardRequest.EveryCard card = phylumToCard(MonsterDatabase.Phylum.ELF);
       assertEquals(card.name, "Christmas Card");
-      card = DeckOfEveryCardRequest.phylumToCard(MonsterDatabase.Phylum.PENGUIN);
+      card = phylumToCard(MonsterDatabase.Phylum.PENGUIN);
       assertEquals(card.name, "Suit Warehouse Discount Card");
+    }
+
+    @Test
+    public void testCanonicalName() {
+      String friendly = "X of Spades";
+      DeckOfEveryCardRequest.EveryCard card = canonicalNameToCard(friendly);
+      assertNotEquals(card.name, friendly);
+      assertEquals(card.name, StringUtilities.getCanonicalName(friendly));
     }
   }
 }
