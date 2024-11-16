@@ -1806,7 +1806,7 @@
 1778	ancient frozen dinner	492523939	dinner.gif	food	t,d	60
 1779	cardboard katana	388815462	cbkatana.gif	weapon	t,d	65
 1780	ram stick	627123160	ramstick.gif	weapon, smith	t,d	120
-1781	enchantlers	313387595	ramhorns.gif	hat, smith	t,d	120	sets of enchantlers
+1781	enchantlers	313387595	ramhorns.gif	hat	t,d	120	sets of enchantlers
 1782	ram-battering staff	485624106	ramstaff.gif	weapon	t,d	140	ram-battering staves
 1783	crazy little Turkish delight	412595361	confection.gif	food, candy1	t,d	50
 1784	Snow Queen Crown	691413196	queencrown.gif	hat	t,d	120
@@ -1997,7 +1997,7 @@
 1969	spoon!	143708125	spoooon.gif	familiar	t,d	75	spoons!
 1970	nervous tick egg	634197201	tickegg.gif	grow	t	0
 1971	plastic pumpkin bucket	322191256	punkin.gif	familiar	t	0
-1972	silver shrimp fork	488128981	shrimpfork.gif	weapon	t	235
+1972	silver shrimp fork	488128981	shrimpfork.gif	weapon	t	0
 1973	half of a memo	907150750	halfmemo.gif	message	q	0
 1974	stuffed cocoabo	199200449	stuffcocoa.gif	offhand	g,d	10
 1975	stuffed baby gravy fairy	705302247	stufffairyw.gif	offhand	g,d	10	stuffed baby gravy fairies
@@ -5814,7 +5814,7 @@
 5786	long hard screw	602324275	longscrew.gif	none	q	0
 5787	messy butt joint	732783566	buttjoint.gif	none	q	0
 5788	smut orc keepsake box	252389564	keepsakebox.gif	usable	t	0	smut orc keepsake boxes
-5789	bubblin' crude	856998415	crudeoil.gif	multiple, cook	t	60
+5789	bubblin' crude	856998415	crudeoil.gif	multiple, cook	t	0
 5790	box of bear arms	424762876	beararms.gif	usable	t	0
 5791	right bear arm	409034560	beararm_right.gif	weapon	t	0
 5792	left bear arm	208749545	beararm_left.gif	offhand, usable	t	0
@@ -6872,7 +6872,7 @@
 6844	ironic mint	800270383	ironmint.gif	potion	t,d	25
 6845	unused walkie-talkie	515507078	walkietalkie.gif	usable	t	0
 6846	walkie-talkie	879889967	walkietalkie.gif	reusable		0
-6847	killing jar	888987269	killingjar.gif	none, combat	t	88
+6847	killing jar	888987269	killingjar.gif	none, combat	t	0
 6848	security flashlight	327985938	flashlight.gif	offhand	t,d	40
 6849	Effermint&trade; tablets	230478466	effermint.gif	potion	t,d	35	packets of Effermint&trade; tablets
 6850	sturdy cane	183101962	cane.gif	offhand	t,d	40
@@ -11506,7 +11506,7 @@
 11478	red white and blue claret	227207466	egclaret2.gif	drink, mix	t	0	glasses of red white and blue claret
 11479	rigging knot	788405217	knot.gif	familiar	t,d	75
 11480	trick coin	201534780	prankcoin.gif	none, combat	t	0
-11481	Elf Guard squirtgun	537938412	elfsquirtgun.gif	weapon	t,d	0
+11481	Elf Guard squirtgun	537938412	elfsquirtgun.gif	weapon	t	0
 11482	chest of &quot;pirate gold&quot;	999917759	lilchest.gif	usable	t	0
 11483	sequin-encrusted sweater	614716541	c23sweater1.gif	shirt	t	0
 11484	replica Elf Guard medal	821622244	egmedal.gif	accessory	t	0
@@ -11518,7 +11518,7 @@
 11490	barnacle-encrusted sweater	729920985	c23sweater2.gif	shirt	t	0
 11491	Crimbuccaneer nose ring	696182050	crimbucnosering.gif	accessory	t	0
 11492	pet anchor	120654814	anchor.gif	grow	t	0
-11493	Crimbuccaneer tattoo gift certificate	229285610	crimbuccert.gif	usable	t,d	0
+11493	Crimbuccaneer tattoo gift certificate	229285610	crimbuccert.gif	usable	t	0
 11494	Elf Guard safety bear	512733269	egbear.gif	offhand	g	0
 11495	stuffed kraken	165429188	crimbuckraken.gif	offhand	g	0
 11496	precision snowball	645124468	hellsnowball.gif	usable, combat	t	0
