@@ -4244,7 +4244,7 @@ Item	polyester parachute	Experience (Muscle): +2, Weapon Drop: +10, Initiative: 
 # porcelain pelerine: Begin Fights with 1 Disco Momentum
 Item	porcelain pelerine	Hat Drop: +20, Monster Level: +10
 Item	portable housekeeping robot	Adventures: +10
-Item	protonic accelerator pack	MP Regen Min: 2, MP Regen Max: 20, Item Drop: +15, Muscle: +10, Mysticality: +10, Moxie: +10, Critical Hit Percent: +5, Combat Rate: -5
+Item	protonic accelerator pack	Damage vs. Ghosts: +25, MP Regen Min: 2, MP Regen Max: 20, Item Drop: +15, Muscle: +10, Mysticality: +10, Moxie: +10, Critical Hit Percent: +5, Combat Rate: -5
 # rad cloak: Protects against harmful radiation on alien worlds
 Item	rad cloak	Lasts Until Rollover
 Item	Rain-Doh red wings	Hot Damage: +11, Initiative: +20, Softcore Only
