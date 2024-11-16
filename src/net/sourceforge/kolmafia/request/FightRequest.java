@@ -8578,11 +8578,11 @@ public class FightRequest extends GenericRequest {
 
   private static final Pattern[] COOKBOOKBAT_QUEST = {
     Pattern.compile(
-        "\"As I recall, .*? was common in (?<location>.*?), back in my day\\. +Perhaps if you kill an? (?<monster>.*?), you'll find one\\.\""),
+        "\"As I recall, (?<ingredient>.*?) was common in (?<location>.*?), back in my day\\. +Perhaps if you kill an? (?<monster>.*?), you'll find one\\.\""),
     Pattern.compile(
-        "\"If memory serves, .*? was very popular in (?<location>.*?), during my time\\. +Perhaps if you find an? (?<monster>.*?), you'll collect one\\,\""),
+        "\"If memory serves, (?<ingredient>.*?) was very popular in (?<location>.*?), during my time\\. +Perhaps if you find an? (?<monster>.*?), you'll collect one\\,\""),
     Pattern.compile(
-        "\"My recollection is that .*? was often collected from an? (?<monster>.*?)\\. +If I recall correctly, you can hunt them in (?<location>.*?)\\.\"")
+        "\"My recollection is that (?<ingredient>.*?) was often collected from an? (?<monster>.*?)\\. +If I recall correctly, you can hunt them in (?<location>.*?)\\.\"")
   };
 
   private static final Pattern[] COOKBOOKBAT_QUEST_REMINDER = {
@@ -8621,6 +8621,10 @@ public class FightRequest extends GenericRequest {
             String locationName = matcher.group("location");
             Preferences.setString("_cookbookbatQuestLastLocation", locationName);
           }
+          if (p.toString().contains("<ingredient>")) {
+            String ingredientName = matcher.group("ingredient");
+            Preferences.setString("_cookbookbatQuestIngredient", ingredientName);
+          }
           if (patterns == COOKBOOKBAT_QUEST) {
             Preferences.setInteger("_cookbookbatCombatsUntilNewQuest", 6);
           }
@@ -8633,6 +8637,7 @@ public class FightRequest extends GenericRequest {
       Matcher matcher = p.matcher(text);
       if (matcher.find()) {
         Preferences.setString("_cookbookbatQuestMonster", "");
+        Preferences.setString("_cookbookbatQuestIngredient", "");
         return true;
       }
     }
