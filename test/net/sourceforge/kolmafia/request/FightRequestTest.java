@@ -222,26 +222,31 @@ public class FightRequestTest {
 
     @ParameterizedTest
     @CsvSource({
-      "test_fight_cookbookbat_quest_new_1.html,false,skullery maid,The Haunted Kitchen",
-      "test_fight_cookbookbat_quest_new_2.html,false,crate,Noob Cave",
-      "test_fight_cookbookbat_quest_new_3.html,false,novelty tropical skeleton,The Skeleton Store",
-      "test_fight_cookbookbat_quest_reminder_1.html,true,,The Haunted Kitchen",
-      "test_fight_cookbookbat_quest_reminder_2.html,true,crate,",
-      "test_fight_cookbookbat_quest_reminder_3.html,true,horrible tourist family,Barf Mountain",
+      "test_fight_cookbookbat_quest_new_1.html,false,skullery maid,The Haunted Kitchen,Vegetable of Jarlsberg",
+      "test_fight_cookbookbat_quest_new_2.html,false,crate,Noob Cave,Yeast of Boris",
+      "test_fight_cookbookbat_quest_new_3.html,false,novelty tropical skeleton,The Skeleton Store,St. Sneaky Pete's Whey",
+      "test_fight_cookbookbat_quest_reminder_1.html,true,'',The Haunted Kitchen,''",
+      "test_fight_cookbookbat_quest_reminder_2.html,true,crate,'',''",
+      "test_fight_cookbookbat_quest_reminder_3.html,true,horrible tourist family,Barf Mountain,''",
     })
     public void handlesQuest(
-        String file, boolean isReminder, String monsterName, String locationName) {
+        String file,
+        boolean isReminder,
+        String monsterName,
+        String locationName,
+        String ingredientName) {
       var cleanups =
           new Cleanups(
               withFamiliar(FamiliarPool.COOKBOOKBAT),
               withProperty("_cookbookbatQuestMonster", ""),
               withProperty("_cookbookbatQuestLastLocation", ""),
+              withProperty("_cookbookbatQuestIngredient", ""),
               withProperty("_cookbookbatCombatsUntilNewQuest", 2));
       try (cleanups) {
         parseCombatData("request/" + file);
-        assertThat("_cookbookbatQuestMonster", isSetTo(monsterName == null ? "" : monsterName));
-        assertThat(
-            "_cookbookbatQuestLastLocation", isSetTo(locationName == null ? "" : locationName));
+        assertThat("_cookbookbatQuestMonster", isSetTo(monsterName));
+        assertThat("_cookbookbatQuestLastLocation", isSetTo(locationName));
+        assertThat("_cookbookbatQuestIngredient", isSetTo(ingredientName));
         assertThat("_cookbookbatCombatsUntilNewQuest", isSetTo(isReminder ? 1 : 5));
       }
     }
@@ -253,11 +258,13 @@ public class FightRequestTest {
               withFamiliar(FamiliarPool.COOKBOOKBAT),
               withProperty("_cookbookbatQuestMonster", "skullery maid"),
               withProperty("_cookbookbatQuestLastLocation", "The Haunted Kitchen"),
+              withProperty("_cookbookbatQuestIngredient", "Vegetable of Jarlsberg"),
               withProperty("_cookbookbatCombatsUntilNewQuest", 3));
       try (cleanups) {
         parseCombatData("request/test_fight_cookbookbat_quest_complete.html");
         assertThat("_cookbookbatQuestMonster", isSetTo(""));
         assertThat("_cookbookbatQuestLastLocation", isSetTo("The Haunted Kitchen"));
+        assertThat("_cookbookbatQuestIngredient", isSetTo(""));
         assertThat("_cookbookbatCombatsUntilNewQuest", isSetTo(2));
       }
     }
@@ -284,8 +291,6 @@ public class FightRequestTest {
         boolean inLocation,
         int newInitial,
         int newExpected) {
-      if (monsterName == null) monsterName = "";
-      if (locationName == null) locationName = "";
       var cleanups =
           new Cleanups(
               withFamiliar(FamiliarPool.COOKBOOKBAT),
@@ -308,11 +313,13 @@ public class FightRequestTest {
               withFamiliar(FamiliarPool.COOKBOOKBAT),
               withProperty("_cookbookbatQuestMonster", "crate"),
               withProperty("_cookbookbatQuestLastLocation", "Noob Cave"),
+              withProperty("_cookbookbatQuestIngredient", "Vegetable of Jarlsberg"),
               withLastLocation((KoLAdventure) null));
       try (cleanups) {
         parseCombatData("request/test_fight_win.html");
         assertThat("_cookbookbatQuestMonster", isSetTo("crate"));
         assertThat("_cookbookbatQuestLastLocation", isSetTo("Noob Cave"));
+        assertThat("_cookbookbatQuestIngredient", isSetTo("Vegetable of Jarlsberg"));
       }
     }
   }
