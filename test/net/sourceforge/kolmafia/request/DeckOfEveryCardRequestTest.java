@@ -4,13 +4,11 @@ import static net.sourceforge.kolmafia.request.DeckOfEveryCardRequest.canonicalN
 import static net.sourceforge.kolmafia.request.DeckOfEveryCardRequest.getMatchingNames;
 import static net.sourceforge.kolmafia.request.DeckOfEveryCardRequest.phylumToCard;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -47,10 +45,15 @@ class DeckOfEveryCardRequestTest {
 
     @Test
     public void testCanonicalName() {
-      String friendly = "X of Spades";
-      DeckOfEveryCardRequest.EveryCard card = canonicalNameToCard(friendly);
-      assertNotEquals(card.name, friendly);
-      assertEquals(card.name, StringUtilities.getCanonicalName(friendly));
+      String cName = "x of spades";
+      String fName = "X of Spades";
+      DeckOfEveryCardRequest.EveryCard card = canonicalNameToCard(cName);
+      assertEquals(card.name, fName);
+    }
+
+    @Test
+    public void testGetStatCard() {
+
     }
   }
 }
