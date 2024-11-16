@@ -167,10 +167,10 @@ public class DeckOfEveryCardRequest extends GenericRequest {
 
   static {
     Set<String> keys = DeckOfEveryCardRequest.canonicalNameToCard.keySet();
-    DeckOfEveryCardRequest.CANONICAL_CARDS_ARRAY = keys.toArray(new String[keys.size()]);
+    DeckOfEveryCardRequest.CANONICAL_CARDS_ARRAY = keys.toArray(new String[0]);
   }
 
-  public static final List<String> getMatchingNames(final String substring) {
+  public static List<String> getMatchingNames(final String substring) {
     return StringUtilities.getMatchingNames(
         DeckOfEveryCardRequest.CANONICAL_CARDS_ARRAY, substring);
   }
@@ -385,7 +385,7 @@ public class DeckOfEveryCardRequest extends GenericRequest {
     // What remains is the set of cards we have drawn.
     StringBuilder buffer = new StringBuilder();
     for (String card : cards) {
-      if (buffer.length() > 0) {
+      if (!buffer.isEmpty()) {
         buffer.append("|");
       }
       buffer.append(card);
@@ -409,7 +409,7 @@ public class DeckOfEveryCardRequest extends GenericRequest {
       int of = cardName.indexOf(" of ");
       String munged = of == -1 ? cardName : ("X" + cardName.substring(of));
       String alt = Preferences.getString("_deckCardsSeen");
-      String neu = alt.length() == 0 ? munged : (alt + "|" + munged);
+      String neu = alt.isEmpty() ? munged : (alt + "|" + munged);
       Preferences.setString("_deckCardsSeen", neu);
 
       EveryCard card =
@@ -470,8 +470,8 @@ public class DeckOfEveryCardRequest extends GenericRequest {
   }
 
   public static class EveryCard {
-    public int id;
-    public String name;
+    public final int id;
+    public final String name;
     private final String stringForm;
 
     public EveryCard(int id, String name) {
