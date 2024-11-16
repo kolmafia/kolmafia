@@ -336,4 +336,4 @@
 304	Doll Moll	molldoll.gif	combat0,meat	Doll Moll violin case	tiny Tina gun	0	0	0	0
 305	Emberiza Aureola	emberbird.gif	combat1	ember egg	tiny ember	0	0	0	0
 306	Peace Turkey	pto_fam.gif	drop,delevel,block,passive,other1,hp1,mp1	peace turkey outline	tie-dye headband	0	0	0	0
-307	quantum entangler	qf.gif	block	quantized familiar	quantum watch	0	0	0	0
+307	quantum entangler	qf.gif	block	quantized familiar	quantum watch	0	0	0	0	object
