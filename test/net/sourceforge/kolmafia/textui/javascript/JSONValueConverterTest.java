@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.textui.javascript;
 
+import static internal.helpers.Utilities.verboseDelete;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.aMapWithSize;
 import static org.hamcrest.Matchers.allOf;
@@ -30,6 +31,7 @@ import net.sourceforge.kolmafia.textui.parsetree.RecordType;
 import net.sourceforge.kolmafia.textui.parsetree.RecordValue;
 import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -379,6 +381,11 @@ public class JSONValueConverterTest {
 
   @Nested
   class FindMatchingFunction {
+    @AfterEach
+    public void removeTestFile() {
+      verboseDelete("data/x.txt");
+    }
+
     private static List<Arguments> argumentsSource() {
       return List.of(
           // No arguments.
