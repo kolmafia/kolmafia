@@ -21,7 +21,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 class DeckOfEveryCardRequestTest {
-  private static final String USERNAME = "DeckOfEvertCardRequestTest";
+  private static final String USERNAME = "DeckOfEveryCardRequestTest";
 
   @BeforeAll
   static void beforeAll() {
