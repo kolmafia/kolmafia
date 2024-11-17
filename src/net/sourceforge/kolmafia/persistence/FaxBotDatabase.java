@@ -391,7 +391,7 @@ public class FaxBotDatabase {
         String beforeHash = computeHash(local);
         FileUtilities.downloadFile(this.data.URL, local, true);
         String afterHash = computeHash(local);
-        if (!(beforeHash.equals(afterHash)) && (!beforeHash.equals(NOHASH))) {
+        if (!(beforeHash.equals(afterHash))) {
           setBoolean("_faxDataChanged", true);
         }
 
