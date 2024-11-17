@@ -106,5 +106,21 @@ class DeckOfEveryCardRequestTest {
       assertTrue(mickey.equals(copyMickey));
       assertEquals(mickey.toString(), "1952 Mickey Mantle (58)");
     }
+
+    @Test
+    public void testItShouldFollowRedirect() {
+      DeckOfEveryCardRequest req = new DeckOfEveryCardRequest();
+      assertTrue(req.shouldFollowRedirect());
+    }
+
+    @Test
+    public void testGetAdventuresUsed() {
+      DeckOfEveryCardRequest noCard = new DeckOfEveryCardRequest();
+      assertEquals(noCard.getAdventuresUsed(), 1);
+      DeckOfEveryCardRequest notMonster = new DeckOfEveryCardRequest(getCardById(58));
+      assertEquals(notMonster.getAdventuresUsed(), 0);
+      DeckOfEveryCardRequest monster = new DeckOfEveryCardRequest(getCardById(27));
+      assertEquals(monster.getAdventuresUsed(), 1);
+    }
   }
 }
