@@ -200,14 +200,14 @@ public class DeckOfEveryCardRequest extends GenericRequest {
   }
 
   // Only used in testing.  Note can return null.
-  public static EveryCard getCardById(int id) {
+  static EveryCard getCardById(int id) {
     return idToCard.get(id);
   }
 
   private final EveryCard card;
 
   // Only used in testing.  Note can return null.
-  public EveryCard getRequestCard() {
+  EveryCard getRequestCard() {
     return card;
   }
 
