@@ -1,7 +1,5 @@
 package net.sourceforge.kolmafia.request;
 
-import static internal.helpers.Player.withItem;
-import static internal.helpers.Player.withProperty;
 import static net.sourceforge.kolmafia.request.DeckOfEveryCardRequest.RACING;
 import static net.sourceforge.kolmafia.request.DeckOfEveryCardRequest.buffToCard;
 import static net.sourceforge.kolmafia.request.DeckOfEveryCardRequest.canonicalNameToCard;
@@ -14,11 +12,9 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import internal.helpers.Cleanups;
 import java.util.List;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
-import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
@@ -109,20 +105,6 @@ class DeckOfEveryCardRequestTest {
       assertTrue(mickey.equals(mickey));
       assertTrue(mickey.equals(copyMickey));
       assertEquals(mickey.toString(), "1952 Mickey Mantle (58)");
-    }
-  }
-
-  // This test tries to actually create and run the request as a platform for investigating
-  // preference changes and thread locks.
-  @Test
-  public void runTheRequest() {
-    final int RACECARDID = 48;
-    DeckOfEveryCardRequest req = new DeckOfEveryCardRequest(getCardById(RACECARDID));
-    assertEquals(req.getRequestCard().id, RACECARDID);
-    var cleanups =
-        new Cleanups(withItem(ItemPool.DECK_OF_EVERY_CARD), withProperty("_deckCardsDrawn", 0));
-    try (cleanups) {
-      req.run();
     }
   }
 }
