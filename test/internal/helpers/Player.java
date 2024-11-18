@@ -2713,8 +2713,7 @@ public class Player {
     try {
       Files.copy(sourceFile.toPath(), destinationFile.toPath());
     } catch (IOException e) {
-      System.out.println(
-          e.toString() + " copying " + sourceName + " to " + destinationName + ".");
+      System.out.println(e.toString() + " copying " + sourceName + " to " + destinationName + ".");
     }
     return new Cleanups(
         () -> {
