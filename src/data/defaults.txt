@@ -186,6 +186,7 @@ global	verboseSpeakeasy	false
 global	verboseFloundry	false
 global	wrapLongLines	true
 global	_beachTides	-1
+global	_faxDataChanged	false
 global	_g9Effect	0
 global	_gitUpdated	false
 global	_svnRepoFileFetched	false
