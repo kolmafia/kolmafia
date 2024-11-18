@@ -142,7 +142,7 @@ Cloaca-Cola Footsoldier	294	colasol1.gif	Atk: 30 Def: 27 HP: 35 Init: 50 P: dude
 Cloaca-Cola Soldier	292	colasol1.gif	Atk: 30 Def: 27 HP: 30 Init: 50 P: dude Article: a	Cloaca-Cola (15)	Cloaca-Cola (15)	Cloaca grenade (5)	lucky lighter (p5)
 cloud of disembodied whiskers	226	whiskers.gif	Atk: 2 Def: 2 HP: 3 Init: 45 Group: 20 P: weird Article: a	shaving cream (20)
 clubfish	725	clubfish.gif	Atk: 350 Def: 360 HP: 600 Init: 100 Meat: 220 P: fish Article: a	dull fish scale (n15)	fish stick (n2)
-coaltergeist	1558	coaltergeist.gif	Atk: 152 Def: 138 HP: 150 Init: 25 P: undead EA: hot EA: none Article: a	coal dust (15)	hot coal (10)	hot coal (10)	coal shovel (5)
+coaltergeist	1558	coaltergeist.gif	Atk: 152 Def: 138 HP: 150 Init: 25 P: undead GHOST EA: hot EA: none Article: a	coal dust (15)	hot coal (10)	hot coal (10)	coal shovel (5)
 Cobb's Knob oven	1060	kg_oven.gif	Atk: 20 Def: 18 HP: 20 Init: 50 P: construct E: hot Article: a	oven mitts (5)	overcookie (20)
 completely different spider	157	spider2.gif	Atk: 1 Def: 0 HP: 1 Init: 40 Meat: 5 P: bug Article: a Poison: "Hardly Poisoned at All"	spider web (25)	spider web (25)
 confused goth music student	376	lilgoth.gif	Atk: 24 Def: 21 HP: 24 Init: 50 P: dude EA: spooky EA: none Article: a	pocket theremin (10)	clove-flavored lip balm (c0)
@@ -1162,7 +1162,7 @@ bugbear robo-surgeon	1177	robosurgeon.gif	NOCOPY Atk: 15 Def: 22 HP: 20 Init: 50
 batbugbear	1167	bb_bat.gif	Atk: 25 Def: 22 HP: 25 Init: 100 P: beast Article: a	BURT (100)
 bugbear scientist	1168	bb_science.gif	Atk: 45 Def: 40 HP: 50 Init: 50 P: beast EA: cold EA: none Article: a	BURT (100)
 spiderbugbear	1178	bb_spider.gif	Atk: 55 Def: 49 HP: 50 Init: 75 P: beast Article: a	quantum nanopolymer spider web (30)
-bugaboo	1169	bb_ghost.gif	Atk: 60 Def: 54 HP: 70 Init: 50 P: undead ED: spooky EA: sleaze EA: spooky EA: none Article: a	BURT (100)
+bugaboo	1169	bb_ghost.gif	Atk: 60 Def: 54 HP: 70 Init: 50 P: undead GHOST ED: spooky EA: sleaze EA: spooky EA: none Article: a	BURT (100)
 bugbear mortician	1179	bb_mortician.gif	Atk: 65 Def: 76 HP: 60 Init: 25 P: beast EA: spooky EA: none Article: a	bugbear autopsy tweezers (100)
 Black Ops Bugbear	1170	bb_ninja.gif	Atk: 90 Def: 81 HP: 100 Init: 75 P: beast Phys: 25 Elem: 25 Article: a	BURT (100)
 Battlesuit Bugbear Type	1171	bb_mech.gif	Atk: 125 Def: 112 HP: 150 Init: 50 P: beast Phys: 50 Elem: 50 Article: a	BURT (100)
@@ -2130,7 +2130,7 @@ translucent monkey	2120	pr_monkey.gif	Atk: 30 Def: 30 HP: 40 Init: 75 P: beast E
 giant giant crab	2121	pr_bosscrab.gif	NOCOPY Atk: 80 Def: 80 HP: 200 Init: 50 Meat: 2000 P: beast EA: sleaze EA: spooky EA: none Article: a
 toy dinosaur	2123	pr_dinosaur.gif	Atk: 50 Def: 50 HP: 60 Init: 75 P: beast Article: a
 cockroach	2124	pr_cockroach.gif	Atk: 40 Def: 80 HP: 60 Init: 50 Meat: 500 P: bug EA: sleaze EA: none Article: a
-vape ghost	2125	pr_vapeghost.gif	Atk: 60 Def: 30 HP: 60 Init: 30 P: undead Phys: 100 EA: cold EA: hot EA: sleaze EA: spooky EA: stench EA: none Article: a
+vape ghost	2125	pr_vapeghost.gif	Atk: 60 Def: 30 HP: 60 Init: 30 P: undead Phys: 100 GHOST EA: cold EA: hot EA: sleaze EA: spooky EA: stench EA: none Article: a
 signal	2126	pr_signal.gif	Atk: 90 Def: 90 HP: 100 Init: 200 P: weird Phys: 50 Elem: 50 Article: a	signal fragment (25)
 tiki idol	2127	pr_tiki.gif	Atk: 90 Def: 110 HP: 100 Init: 50 P: construct ED: sleaze EA: sleaze EA: spooky EA: none Article: a	hibiscus petal (c100)	huge mint leaf (c100)	pineapple slab (c100)
 pewter torsohunter	2128	pr_headhunter.gif	Atk: 120 Def: 80 HP: 100 Init: 80 P: construct Article: a	pewter shavings (5)
