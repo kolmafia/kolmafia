@@ -1,9 +1,7 @@
 package net.sourceforge.kolmafia.scripts;
 
-import static internal.helpers.Player.withDataFile;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import internal.helpers.Cleanups;
 import java.net.URI;
 import java.net.URISyntaxException;
 import org.junit.jupiter.api.Nested;
@@ -14,22 +12,16 @@ public class ScriptManagerTest {
   class ProjectIdentifier {
     @Test
     void setForSourceForge() throws URISyntaxException {
-      var cleanup = new Cleanups(withDataFile("svnrepo.json", "svnrepo.json"));
-      try (cleanup) {
-        URI uri = new URI("https://svn.code.sf.net/p/zlib/code");
-        var ident = ScriptManager.getProjectIdentifier(uri.getHost(), uri.getPath());
-        assertEquals("zlib", ident);
-      }
+      URI uri = new URI("https://svn.code.sf.net/p/zlib/code");
+      var ident = ScriptManager.getProjectIdentifier(uri.getHost(), uri.getPath());
+      assertEquals("zlib", ident);
     }
 
     @Test
     void setForGitHub() throws URISyntaxException {
-      var cleanup = new Cleanups(withDataFile("svnrepo.json", "svnrepo.json"));
-      try (cleanup) {
-        URI uri = new URI("https://github.com/soolar/CONSUME.ash");
-        var ident = ScriptManager.getProjectIdentifier(uri.getHost(), uri.getPath());
-        assertEquals("soolar-CONSUME.ash", ident);
-      }
+      URI uri = new URI("https://github.com/soolar/CONSUME.ash");
+      var ident = ScriptManager.getProjectIdentifier(uri.getHost(), uri.getPath());
+      assertEquals("soolar-CONSUME.ash", ident);
     }
 
     @Test
