@@ -2714,7 +2714,7 @@ public class Player {
     try {
       Files.copy(sourceFile.toPath(), destinationFile.toPath());
     } catch (FileAlreadyExistsException e) {
-      // Do nothing.  No
+      // Do nothing.  No message needed.
     } catch (IOException e) {
       System.out.println(e + " while copying " + sourceName + " to " + destinationName + ".");
     }

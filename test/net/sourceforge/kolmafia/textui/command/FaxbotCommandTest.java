@@ -54,6 +54,7 @@ public class FaxbotCommandTest extends AbstractCommandTestBase {
             withDataFile("easyfax.xml", "easyfax.xml"),
             withDataFile("onlyfax.xml", "onlyfax.xml"));
     try (cleanup) {
+      // This is primarily here to trigger the cleanup
       ChatManager.setChatLiteracy(false);
     }
   }
