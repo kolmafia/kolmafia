@@ -47,9 +47,9 @@ public class FaxbotCommandTest extends AbstractCommandTestBase {
     var cleanups =
         new Cleanups(
             withProperty("lastSuccessfulFaxbot", "$FaxBot$"),
-            (withDataFile("cheesefax.xml", "cheesefax.xml")),
-            (withDataFile("easyfax.xml", "easyfax.xml")),
-            (withDataFile("onlyfax.xml", "onlyfax.xml")));
+            withDataFile("cheesefax.xml", "cheesefax.xml"),
+            withDataFile("easyfax.xml", "easyfax.xml"),
+            withDataFile("onlyfax.xml", "onlyfax.xml"));
 
     try (cleanups) {
       // Start the process of faxing in a Knob Goblin Embezzler
