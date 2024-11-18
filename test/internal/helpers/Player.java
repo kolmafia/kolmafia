@@ -6,6 +6,7 @@ import internal.network.FakeHttpResponse;
 import java.io.File;
 import java.io.IOException;
 import java.net.http.HttpClient;
+import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -2712,8 +2713,10 @@ public class Player {
     File destinationFile = new File(KoLConstants.DATA_LOCATION, destinationName);
     try {
       Files.copy(sourceFile.toPath(), destinationFile.toPath());
+    } catch (FileAlreadyExistsException e) {
+      // Do nothing.  No
     } catch (IOException e) {
-      System.out.println(e.toString() + " while copying " + sourceName + " to " + destinationName + ".");
+      System.out.println(e + " while copying " + sourceName + " to " + destinationName + ".");
     }
     return new Cleanups(
         () -> {
