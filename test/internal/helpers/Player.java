@@ -2708,8 +2708,8 @@ public class Player {
    * @return deletes the destination file
    */
   public static Cleanups withDataFile(String sourceName, String destinationName) {
-    File sourceFile = new File("root/provided_data", sourceName);
-    File destinationFile = new File("root/data", destinationName);
+    File sourceFile = new File(KoLConstants.ROOT_LOCATION + "/provided_data", sourceName);
+    File destinationFile = new File(KoLConstants.DATA_LOCATION, destinationName);
     try {
       Files.copy(sourceFile.toPath(), destinationFile.toPath());
     } catch (IOException e) {

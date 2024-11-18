@@ -14,9 +14,12 @@ public class ScriptManagerTest {
   class ProjectIdentifier {
     @Test
     void setForSourceForge() throws URISyntaxException {
-      URI uri = new URI("https://svn.code.sf.net/p/zlib/code");
-      var ident = ScriptManager.getProjectIdentifier(uri.getHost(), uri.getPath());
-      assertEquals("zlib", ident);
+      var cleanup = new Cleanups(withDataFile("svnrepo.json", "svnrepo.json"));
+      try (cleanup) {
+        URI uri = new URI("https://svn.code.sf.net/p/zlib/code");
+        var ident = ScriptManager.getProjectIdentifier(uri.getHost(), uri.getPath());
+        assertEquals("zlib", ident);
+      }
     }
 
     @Test
