@@ -1,11 +1,16 @@
 package net.sourceforge.kolmafia.persistence;
 
+import static net.sourceforge.kolmafia.preferences.Preferences.setBoolean;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HexFormat;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -45,12 +50,12 @@ public class FaxBotDatabase {
 
   private FaxBotDatabase() {}
 
-  public static final void reconfigure() {
+  public static void reconfigure() {
     FaxBotDatabase.isInitialized = false;
     FaxBotDatabase.configure();
   }
 
-  public static final void configure() {
+  public static void configure() {
     if (FaxBotDatabase.isInitialized) {
       return;
     }
@@ -101,15 +106,14 @@ public class FaxBotDatabase {
           MafiaState.ABORT,
           "Could not load " + data.name + " configuration from \"" + data.URL + "\"");
       RequestLogger.printLine(FaxBotDatabase.faxBotErrorMessage);
-      return;
     }
   }
 
-  public static final FaxBot getFaxbot(final int i) {
+  public static FaxBot getFaxbot(final int i) {
     return FaxBotDatabase.faxbots.get(Math.max(0, i % faxbots.size()));
   }
 
-  public static final FaxBot getFaxbot(final String botName) {
+  public static FaxBot getFaxbot(final String botName) {
     for (FaxBot bot : faxbots) {
       if (bot == null) {
         continue;
@@ -122,7 +126,7 @@ public class FaxBotDatabase {
     return null;
   }
 
-  public static final List<FaxBot> getSortedFaxbots() {
+  public static List<FaxBot> getSortedFaxbots() {
     // Get preferred faxbot or null
     FaxBot preferred = getFaxbot(Preferences.getString("lastSuccessfulFaxbot"));
     // Use original list
@@ -231,7 +235,7 @@ public class FaxBotDatabase {
       for (Monster monster : monsters) {
         this.monsters.add(monster);
         String category = monster.category;
-        if (!category.equals("")
+        if (!category.isEmpty()
             && !category.equalsIgnoreCase("none")
             && !tempCategories.contains(category)) {
           tempCategories.add(category);
@@ -384,7 +388,12 @@ public class FaxBotDatabase {
 
       try {
         File local = new File(KoLConstants.DATA_LOCATION, this.data.name + ".xml");
+        String beforeHash = computeHash(local);
         FileUtilities.downloadFile(this.data.URL, local, true);
+        String afterHash = computeHash(local);
+        if (!(beforeHash.equals(afterHash))) {
+          setBoolean("_faxDataChanged", true);
+        }
 
         // Get an instance of document builder
         DocumentBuilder db = dbf.newDocumentBuilder();
@@ -440,6 +449,20 @@ public class FaxBotDatabase {
       FaxBotDatabase.faxbots.addAll(bots);
     }
 
+    private static final String NOHASH = "Problem with hash";
+
+    private static String computeHash(File file) {
+      String checksum;
+      try {
+        byte[] data = Files.readAllBytes(file.toPath());
+        byte[] hash = MessageDigest.getInstance("SHA-256").digest(data);
+        checksum = HexFormat.of().formatHex(hash);
+      } catch (Exception e) {
+        checksum = NOHASH;
+      }
+      return checksum;
+    }
+
     private FaxBot getFaxBot(Element el) {
       String name = getTextValue(el, "name");
       String playerId = getTextValue(el, "playerid");
@@ -450,15 +473,15 @@ public class FaxBotDatabase {
 
     private Monster getMonster(Element el) {
       String monster = getTextValue(el, "name");
-      if (monster.equals("") || monster.equals("none")) {
+      if (monster.isEmpty() || monster.equals("none")) {
         return null;
       }
       String actualMonster = getTextValue(el, "actual_name");
-      if (actualMonster.equals("")) {
+      if (actualMonster.isEmpty()) {
         return null;
       }
       String command = getTextValue(el, "command");
-      if (command.equals("")) {
+      if (command.isEmpty()) {
         return null;
       }
       String category = getTextValue(el, "category");
