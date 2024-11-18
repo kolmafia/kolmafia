@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.textui.command;
 
 import static internal.helpers.HttpClientWrapper.getRequests;
 import static internal.helpers.Networking.assertGetRequest;
+import static internal.helpers.Player.withDataFile;
 import static internal.helpers.Player.withProperty;
 
 import internal.helpers.Cleanups;
@@ -43,7 +44,12 @@ public class FaxbotCommandTest extends AbstractCommandTestBase {
 
   @Test
   void doesntErrorUnknownFaxbot() {
-    var cleanups = new Cleanups(withProperty("lastSuccessfulFaxbot", "$FaxBot$"));
+    var cleanups =
+        new Cleanups(
+            withProperty("lastSuccessfulFaxbot", "$FaxBot$"),
+            (withDataFile("cheesefax.xml", "cheesefax.xml")),
+            (withDataFile("easyfax.xml", "easyfax.xml")),
+            (withDataFile("onlyfax.xml", "onlyfax.xml")));
 
     try (cleanups) {
       // Start the process of faxing in a Knob Goblin Embezzler
