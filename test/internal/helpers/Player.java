@@ -2701,7 +2701,7 @@ public class Player {
   /**
    * Copies the source file from root/provided_data to root/data giving it the destination name.
    * Deletes the copied file as part of cleanup. No error checking, specifically that the source
-   * file is present or that the destination file was written.
+   * file is present or that the destination file was written successfully.
    *
    * @param sourceName the name of the source file in root/provided_data
    * @param destinationName the name of the destination file in root/data.
@@ -2713,7 +2713,7 @@ public class Player {
     try {
       Files.copy(sourceFile.toPath(), destinationFile.toPath());
     } catch (IOException e) {
-      System.out.println(e.toString() + " copying " + sourceName + " to " + destinationName + ".");
+      System.out.println(e.toString() + " while copying " + sourceName + " to " + destinationName + ".");
     }
     return new Cleanups(
         () -> {

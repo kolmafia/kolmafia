@@ -72,7 +72,12 @@ public class FaxbotCommandTest extends AbstractCommandTestBase {
   @ParameterizedTest
   @MethodSource("provideFaxbotNames")
   void usesLastSuccessfulFaxbot(String lastFaxbot) {
-    var cleanups = new Cleanups(withProperty("lastSuccessfulFaxbot", lastFaxbot));
+    var cleanups =
+        new Cleanups(
+            withProperty("lastSuccessfulFaxbot", lastFaxbot),
+            withDataFile("cheesefax.xml", "cheesefax.xml"),
+            withDataFile("easyfax.xml", "easyfax.xml"),
+            withDataFile("onlyfax.xml", "onlyfax.xml"));
 
     try (cleanups) {
       // Start the process of faxing in a Knob Goblin Embezzler
