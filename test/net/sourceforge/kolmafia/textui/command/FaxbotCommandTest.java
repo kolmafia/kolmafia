@@ -25,6 +25,8 @@ public class FaxbotCommandTest extends AbstractCommandTestBase {
     this.command = "faxbot";
   }
 
+  public static Cleanups globalCleanup;
+
   @BeforeAll
   public static void beforeAll() {
     KoLCharacter.reset("testUser");
@@ -34,9 +36,8 @@ public class FaxbotCommandTest extends AbstractCommandTestBase {
     ChatManager.setChatLiteracy(true);
 
     // This needs to happen before database configuration.
-    // ignoring cleanup
-
-    var ignoredCleanup =
+    // ignoring cleanup until testing complete
+    globalCleanup =
         new Cleanups(
             withDataFile("cheesefax.xml"),
             withDataFile("easyfax.xml"),
@@ -48,15 +49,7 @@ public class FaxbotCommandTest extends AbstractCommandTestBase {
 
   @AfterAll
   public static void afterAll() {
-    var cleanup =
-        new Cleanups(
-            withDataFile("cheesefax.xml"),
-            withDataFile("easyfax.xml"),
-            withDataFile("onlyfax.xml"));
-    try (cleanup) {
-      // This is primarily here to trigger the cleanup
-      ChatManager.setChatLiteracy(false);
-    }
+    globalCleanup.close();
   }
 
   @BeforeEach
