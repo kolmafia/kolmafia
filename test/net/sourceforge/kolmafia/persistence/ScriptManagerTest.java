@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.persistence;
 
+import static internal.helpers.Player.withDataFile;
 import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
@@ -15,7 +16,8 @@ public class ScriptManagerTest {
   @Test
   void canReadSvnRepoJson() {
     // This should read the existing test/root/data/svnrepo.json, which contains two entries.
-    try (var cleanups = new Cleanups(withProperty("_svnRepoFileFetched", "true"))) {
+    try (var cleanups =
+        new Cleanups(withProperty("_svnRepoFileFetched", "true"), withDataFile("svnrepo.json"))) {
       ScriptManager.updateRepoScripts(false);
     }
 
