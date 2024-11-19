@@ -38,9 +38,9 @@ public class FaxbotCommandTest extends AbstractCommandTestBase {
 
     var ignoredCleanup =
         new Cleanups(
-            withDataFile("cheesefax.xml", "cheesefax.xml"),
-            withDataFile("easyfax.xml", "easyfax.xml"),
-            withDataFile("onlyfax.xml", "onlyfax.xml"));
+            withDataFile("cheesefax.xml"),
+            withDataFile("easyfax.xml"),
+            withDataFile("onlyfax.xml"));
 
     // Configure
     FaxBotDatabase.configure();
@@ -50,9 +50,9 @@ public class FaxbotCommandTest extends AbstractCommandTestBase {
   public static void afterAll() {
     var cleanup =
         new Cleanups(
-            withDataFile("cheesefax.xml", "cheesefax.xml"),
-            withDataFile("easyfax.xml", "easyfax.xml"),
-            withDataFile("onlyfax.xml", "onlyfax.xml"));
+            withDataFile("cheesefax.xml"),
+            withDataFile("easyfax.xml"),
+            withDataFile("onlyfax.xml"));
     try (cleanup) {
       // This is primarily here to trigger the cleanup
       ChatManager.setChatLiteracy(false);

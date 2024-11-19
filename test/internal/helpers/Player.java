@@ -2723,4 +2723,16 @@ public class Player {
           destinationFile.delete();
         });
   }
+
+  /**
+   * Copies the source file from root/provided_data to root/data giving it the same name. Deletes
+   * the copied file as part of cleanup. No error checking, specifically that the source file is
+   * present or that the destination file was written successfully.
+   *
+   * @param sourceName the name of the source file in root/provided_data and destination in data
+   * @return deletes the destination file
+   */
+  public static Cleanups withDataFile(String sourceName) {
+    return withDataFile(sourceName, sourceName);
+  }
 }
