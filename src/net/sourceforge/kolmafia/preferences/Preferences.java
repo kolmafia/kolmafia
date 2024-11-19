@@ -483,6 +483,7 @@ public class Preferences {
         "pastaThrall6",
         "pastaThrall7",
         "pastaThrall8",
+        "peaceTurkeyIndex",
         "pendingMapReflections",
         "photocopyMonster",
         "pingpongSkill",
