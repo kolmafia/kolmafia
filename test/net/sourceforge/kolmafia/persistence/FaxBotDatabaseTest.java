@@ -50,6 +50,8 @@ class FaxBotDatabaseTest {
     assertTrue(categories.contains("Standard"));
     List<LockableListModel<FaxBotDatabase.Monster>> monCat = faxBot.getMonstersByCategory();
     assertEquals(monCat.size(), 13);
+    FaxBotDatabase.Monster commandMe = faxBot.getMonsterByCommand("vegetable gremlin (tool)");
+    assertEquals(commandMe.getActualName(), "xyzzy");
   }
 
   @Test
