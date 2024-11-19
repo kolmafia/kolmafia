@@ -106,6 +106,35 @@ class FaxBotDatabaseTest {
     assertEquals(botB.compareTo(botA), 1);
   }
 
+  @Test
+  public void exerciseSomeMonsterMethodsForCoverage() {
+    FaxBotDatabase.FaxBot faxBot = FaxBotDatabase.getFaxbot("OnlyFax");
+    FaxBotDatabase.Monster aMonster = faxBot.getMonsterByCommand("[1183]angry cavebugbear");
+    assertEquals(aMonster.getName(), "angry cavebugbear");
+    assertEquals(aMonster.getActualName(), "angry cavebugbear");
+    assertEquals(aMonster.getCommand(), "[1183]angry cavebugbear");
+    assertEquals(aMonster.getCategory(), "Unwishable");
+    assertEquals(aMonster.toString(), "angry cavebugbear [[1183]angry cavebugbear]");
+    assertEquals(aMonster.toLowerCaseString(), "angry cavebugbear [[1183]angry cavebugbear]");
+  }
+
+  @Test
+  public void exerciseSomeMonsterOverridesForCoverage() {
+    FaxBotDatabase.FaxBot faxBot = FaxBotDatabase.getFaxbot("OnlyFax");
+    FaxBotDatabase.Monster aMonster = faxBot.getMonsterByCommand("[1183]angry cavebugbear");
+    FaxBotDatabase.Monster bMonster =
+        faxBot.getMonsterByCommand("[399]animated nightstand (mahogany combat)");
+    assertTrue(aMonster.equals(aMonster));
+    assertFalse(aMonster.equals(bMonster));
+    assertFalse(aMonster.equals(validMonsterData));
+    assertFalse(aMonster.equals(null));
+    assertNotEquals(aMonster.hashCode(), bMonster.hashCode());
+    assertEquals(aMonster.compareTo(null), -1);
+    assertEquals(aMonster.compareTo(aMonster), 0);
+    assertEquals(aMonster.compareTo(bMonster), -2);
+    assertEquals(bMonster.compareTo(aMonster), 2);
+  }
+
   @Disabled
   @Test
   public void configureFax() {
