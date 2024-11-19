@@ -3,7 +3,11 @@ package internal.helpers;
 import internal.helpers.Cleanups.OrderedRunnable;
 import internal.network.FakeHttpClientBuilder;
 import internal.network.FakeHttpResponse;
+import java.io.File;
+import java.io.IOException;
 import java.net.http.HttpClient;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Files;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.ArrayList;
@@ -2693,5 +2697,42 @@ public class Player {
           // Restore original list
           data.withSellItems(sellItems);
         });
+  }
+
+  /**
+   * Copies the source file from root/provided_data to root/data giving it the destination name.
+   * Deletes the copied file as part of cleanup. No error checking, specifically that the source
+   * file is present or that the destination file was written successfully.
+   *
+   * @param sourceName the name of the source file in root/provided_data
+   * @param destinationName the name of the destination file in root/data.
+   * @return deletes the destination file
+   */
+  public static Cleanups withDataFile(String sourceName, String destinationName) {
+    File sourceFile = new File(KoLConstants.ROOT_LOCATION + "/provided_data", sourceName);
+    File destinationFile = new File(KoLConstants.DATA_LOCATION, destinationName);
+    try {
+      Files.copy(sourceFile.toPath(), destinationFile.toPath());
+    } catch (FileAlreadyExistsException e) {
+      // Do nothing.  No message needed.
+    } catch (IOException e) {
+      System.out.println(e + " while copying " + sourceName + " to " + destinationName + ".");
+    }
+    return new Cleanups(
+        () -> {
+          destinationFile.delete();
+        });
+  }
+
+  /**
+   * Copies the source file from root/provided_data to root/data giving it the same name. Deletes
+   * the copied file as part of cleanup. No error checking, specifically that the source file is
+   * present or that the destination file was written successfully.
+   *
+   * @param sourceName the name of the source file in root/provided_data and destination in data
+   * @return deletes the destination file
+   */
+  public static Cleanups withDataFile(String sourceName) {
+    return withDataFile(sourceName, sourceName);
   }
 }
