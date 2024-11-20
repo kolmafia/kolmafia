@@ -874,6 +874,8 @@ user	knownAscensions	-1
 user	kolhsTotalSchoolSpirited	0
 user	lassoTraining
 user	lastAdventure
+user	lastAdventureContainer
+user	lastAdventureTrail
 user	lastAnticheeseDay	-5
 user	lastArcadeAscension	-1
 user	lastBadMoonReset	-1
@@ -1159,6 +1161,7 @@ user	nextQuantumFamiliarOwner
 user	nextQuantumFamiliarOwnerId	0
 user	nextQuantumFamiliarTurn	0
 user	noncombatForcerActive	false
+user	noncombatForcers
 user	noobPoints	0
 user	noobDeferredPoints	0
 user	noodleSummons	0
