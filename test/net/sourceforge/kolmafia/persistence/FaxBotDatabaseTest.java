@@ -2,6 +2,8 @@ package net.sourceforge.kolmafia.persistence;
 
 import static internal.helpers.Player.withDataFile;
 import static internal.helpers.Player.withNextResponse;
+import static internal.helpers.Player.withProperty;
+import static net.sourceforge.kolmafia.preferences.Preferences.getBoolean;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -14,21 +16,19 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.MonsterData;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 class FaxBotDatabaseTest {
-
   public static Cleanups globalCleanup;
 
   @BeforeAll
   public static void beforeAll() {
     globalCleanup =
-        new Cleanups(
-            withDataFile("cheesefax.xml"),
-            withDataFile("easyfax.xml"),
-            withDataFile("onlyfax.xml"));
+      new Cleanups(
+        withDataFile("cheesefax.xml"),
+        withDataFile("easyfax.xml"),
+        withDataFile("onlyfax.xml"));
     // Configure
     FaxBotDatabase.reconfigure();
   }
@@ -37,7 +37,6 @@ class FaxBotDatabaseTest {
   public static void afterAll() {
     globalCleanup.close();
   }
-
   @Nested
   class CoverageDriven {
 
@@ -140,12 +139,31 @@ class FaxBotDatabaseTest {
     }
   }
 
-  @Disabled
+  static String response =
+      "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+          + "<faxbot>\n"
+          + "\t<botdata>\n"
+          + "\t\t<name>OnlyFax</name>\n"
+          + "\t\t<playerid>3690803</playerid>\n"
+          + "\t</botdata>\n"
+          + "\t<monsterlist>\n"
+          + "\t\t<monsterdata>\n"
+          + "\t\t\t<name>anesthesiologist bugbear</name>\n"
+          + "\t\t\t<actual_name>anesthesiologist bugbear</actual_name>\n"
+          + "\t\t\t<command>[1176]anesthesiologist bugbear</command>\n"
+          + "\t\t\t<category>Unwishable</category>\n"
+          + "\t\t</monsterdata>\t</monsterlist>\n"
+          + "</faxbot>";
+
   @Test
   public void configureFax() {
-    var cleanups = new Cleanups(withNextResponse(200, "xyzzy"));
+    String property = "_faxDataChanged";
+    var cleanups = new Cleanups(withNextResponse(200, response), withProperty(property, false));
     try (cleanups) {
+      assertFalse(getBoolean(property));
+      globalCleanup.close();
       FaxBotDatabase.configure();
+      assertTrue(getBoolean(property));
     }
   }
 }
