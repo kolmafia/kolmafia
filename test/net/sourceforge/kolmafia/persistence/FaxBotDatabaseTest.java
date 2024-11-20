@@ -25,10 +25,10 @@ class FaxBotDatabaseTest {
   @BeforeAll
   public static void beforeAll() {
     globalCleanup =
-      new Cleanups(
-        withDataFile("cheesefax.xml"),
-        withDataFile("easyfax.xml"),
-        withDataFile("onlyfax.xml"));
+        new Cleanups(
+            withDataFile("cheesefax.xml"),
+            withDataFile("easyfax.xml"),
+            withDataFile("onlyfax.xml"));
     // Configure
     FaxBotDatabase.reconfigure();
   }
@@ -37,6 +37,7 @@ class FaxBotDatabaseTest {
   public static void afterAll() {
     globalCleanup.close();
   }
+
   @Nested
   class CoverageDriven {
 
@@ -49,15 +50,15 @@ class FaxBotDatabaseTest {
     public void doThingsForCoverage() {
       FaxBotDatabase.FaxBot faxBot = FaxBotDatabase.getFaxbot("OnlyFax");
       assertNotNull(faxBot);
-      assertEquals(faxBot.getName(), "OnlyFax");
-      assertEquals(faxBot.getPlayerId(), 3690803);
+      assertEquals("OnlyFax", faxBot.getName());
+      assertEquals(3690803, faxBot.getPlayerId());
       List<String> categories = faxBot.getCategories();
-      assertEquals(categories.size(), 13);
+      assertEquals(13, categories.size());
       assertTrue(categories.contains("Standard"));
       List<LockableListModel<FaxBotDatabase.Monster>> monCat = faxBot.getMonstersByCategory();
-      assertEquals(monCat.size(), 13);
+      assertEquals(13, monCat.size());
       FaxBotDatabase.Monster commandMe = faxBot.getMonsterByCommand("[1183]angry cavebugbear");
-      assertEquals(commandMe.getActualName(), "angry cavebugbear");
+      assertEquals("angry cavebugbear", commandMe.getActualName());
     }
 
     @Test
@@ -100,25 +101,25 @@ class FaxBotDatabaseTest {
       assertFalse(botA.equals(botB));
       assertFalse(botA.equals(validMonsterData));
       assertFalse(botA.equals(botInvalid));
-      assertNotEquals(botA.hashCode(), 0);
-      assertEquals(botInvalid.hashCode(), 0);
-      assertEquals(botA.compareTo(nullBot), -1);
-      assertEquals(botA.compareTo(botA), 0);
-      assertEquals(botA.compareTo(botAlsoA), 0);
-      assertEquals(botA.compareTo(botB), -1);
-      assertEquals(botB.compareTo(botA), 1);
+      assertNotEquals(0, botA.hashCode());
+      assertEquals(0, botInvalid.hashCode());
+      assertEquals(-1, botA.compareTo(nullBot));
+      assertEquals(0, botA.compareTo(botA));
+      assertEquals(0, botA.compareTo(botAlsoA));
+      assertEquals(-1, botA.compareTo(botB));
+      assertEquals(1, botB.compareTo(botA));
     }
 
     @Test
     public void exerciseSomeMonsterMethodsForCoverage() {
       FaxBotDatabase.FaxBot faxBot = FaxBotDatabase.getFaxbot("OnlyFax");
       FaxBotDatabase.Monster aMonster = faxBot.getMonsterByCommand("[1183]angry cavebugbear");
-      assertEquals(aMonster.getName(), "angry cavebugbear");
-      assertEquals(aMonster.getActualName(), "angry cavebugbear");
-      assertEquals(aMonster.getCommand(), "[1183]angry cavebugbear");
-      assertEquals(aMonster.getCategory(), "Unwishable");
-      assertEquals(aMonster.toString(), "angry cavebugbear [[1183]angry cavebugbear]");
-      assertEquals(aMonster.toLowerCaseString(), "angry cavebugbear [[1183]angry cavebugbear]");
+      assertEquals("angry cavebugbear", aMonster.getName());
+      assertEquals("angry cavebugbear", aMonster.getActualName());
+      assertEquals("[1183]angry cavebugbear", aMonster.getCommand());
+      assertEquals("Unwishable", aMonster.getCategory());
+      assertEquals("angry cavebugbear [[1183]angry cavebugbear]", aMonster.toString());
+      assertEquals("angry cavebugbear [[1183]angry cavebugbear]", aMonster.toLowerCaseString());
     }
 
     @Test
@@ -132,12 +133,13 @@ class FaxBotDatabaseTest {
       assertFalse(aMonster.equals(validMonsterData));
       assertFalse(aMonster.equals(null));
       assertNotEquals(aMonster.hashCode(), bMonster.hashCode());
-      assertEquals(aMonster.compareTo(null), -1);
-      assertEquals(aMonster.compareTo(aMonster), 0);
-      // note that the underlying compareToIgnoreCase returns an index of lexicographical significance
+      assertEquals(-1, aMonster.compareTo(null));
+      assertEquals(0, aMonster.compareTo(aMonster));
+      // note that the underlying compareToIgnoreCase returns an index of lexicographical
+      // significance
       // and not a value normalized to +/- 1 (or 0)
-      assertEquals(aMonster.compareTo(bMonster), -2);
-      assertEquals(bMonster.compareTo(aMonster), 2);
+      assertEquals(-2, aMonster.compareTo(bMonster));
+      assertEquals(2, bMonster.compareTo(aMonster));
     }
   }
 
