@@ -65,7 +65,7 @@ class FaxBotDatabaseTest {
       FaxBotDatabase.reconfigure();
       FaxBotDatabase.FaxBot faxBot = FaxBotDatabase.getFaxbot("OnlyFax");
       assertNotNull(faxBot);
-      // as currently written faxbot.request is expected to fail in the test environment
+      // as test is currently written faxbot.request is expected to fail in the test environment
       // because the faxbot is not online and the test has not yet provided responses that
       // would indicate otherwise.
       boolean result = faxBot.request(validMonsterData);
@@ -134,6 +134,8 @@ class FaxBotDatabaseTest {
       assertNotEquals(aMonster.hashCode(), bMonster.hashCode());
       assertEquals(aMonster.compareTo(null), -1);
       assertEquals(aMonster.compareTo(aMonster), 0);
+      // note that the underlying compareToIgnoreCase returns an index of lexicographical significance
+      // and not a value normalized to +/- 1 (or 0)
       assertEquals(aMonster.compareTo(bMonster), -2);
       assertEquals(bMonster.compareTo(aMonster), 2);
     }
