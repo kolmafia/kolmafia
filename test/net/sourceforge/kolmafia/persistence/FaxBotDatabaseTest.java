@@ -113,6 +113,7 @@ class FaxBotDatabaseTest {
     @Test
     public void exerciseSomeMonsterMethodsForCoverage() {
       FaxBotDatabase.FaxBot faxBot = FaxBotDatabase.getFaxbot("OnlyFax");
+      assertNotNull(faxBot);
       FaxBotDatabase.Monster aMonster = faxBot.getMonsterByCommand("[1183]angry cavebugbear");
       assertEquals("angry cavebugbear", aMonster.getName());
       assertEquals("angry cavebugbear", aMonster.getActualName());
@@ -143,34 +144,40 @@ class FaxBotDatabaseTest {
     }
   }
 
-  static String response =
-      "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-          + "<faxbot>\n"
-          + "\t<botdata>\n"
-          + "\t\t<name>OnlyFax</name>\n"
-          + "\t\t<playerid>3690803</playerid>\n"
-          + "\t</botdata>\n"
-          + "\t<monsterlist>\n"
-          + "\t\t<monsterdata>\n"
-          + "\t\t\t<name>anesthesiologist bugbear</name>\n"
-          + "\t\t\t<actual_name>anesthesiologist bugbear</actual_name>\n"
-          + "\t\t\t<command>[1176]anesthesiologist bugbear</command>\n"
-          + "\t\t\t<category>Unwishable</category>\n"
-          + "\t\t</monsterdata>\t</monsterlist>\n"
-          + "</faxbot>";
+  @Nested
+  class faxChangedPreference {
 
-  @Test
-  public void configureFax() {
-    String property = "_faxDataChanged";
-    // FaxRequestFrame does a static initialization which means the files are present when the test
-    // starts
-    globalCleanup.close();
-    FaxBotDatabase.resetInitialization();
-    var cleanups = new Cleanups(withNextResponse(200, response), withProperty(property, false));
-    try (cleanups) {
-      assertFalse(getBoolean(property));
-      FaxBotDatabase.configure();
-      // assertTrue(getBoolean(property));
+    static final String response =
+        """
+                    <?xml version="1.0" encoding="UTF-8"?>
+                    <faxbot>
+                    \t<botdata>
+                    \t\t<name>OnlyFax</name>
+                    \t\t<playerid>3690803</playerid>
+                    \t</botdata>
+                    \t<monsterlist>
+                    \t\t<monsterdata>
+                    \t\t\t<name>anesthesiologist bugbear</name>
+                    \t\t\t<actual_name>anesthesiologist bugbear</actual_name>
+                    \t\t\t<command>[1176]anesthesiologist bugbear</command>
+                    \t\t\t<category>Unwishable</category>
+                    \t\t</monsterdata>\t</monsterlist>
+                    </faxbot>""";
+
+    @Test
+    public void configureFax() {
+      String property = "_faxDataChanged";
+      // FaxRequestFrame does a static initialization which means the files are present when the
+      // test
+      // starts
+      globalCleanup.close();
+      FaxBotDatabase.resetInitialization();
+      var cleanups = new Cleanups(withNextResponse(200, response), withProperty(property, false));
+      try (cleanups) {
+        assertFalse(getBoolean(property));
+        FaxBotDatabase.configure();
+        // assertTrue(getBoolean(property));
+      }
     }
   }
 }
