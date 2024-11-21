@@ -165,16 +165,32 @@ class FaxBotDatabaseTest {
                     </faxbot>""";
 
     @Test
-    public void configureFax() {
+    public void checkPreferenceWhenNoFiles() {
       String property = "_faxDataChanged";
       // FaxRequestFrame does a static initialization which means the files are present when the
-      // test starts
+      // test starts.  Delete them since a missing file and one from a fake response will be
+      // different.
       globalCleanup.close();
       FaxBotDatabase.resetInitialization();
       var cleanups = new Cleanups(withNextResponse(200, response), withProperty(property, false));
       try (cleanups) {
         assertFalse(getBoolean(property));
         FaxBotDatabase.configure();
+        // This test fails because the ResettingHttpClient in FileUtilities does not actually get
+        // the fake response.
+        // assertTrue(getBoolean(property));
+      }
+    }
+
+    @Test
+    public void checkPreferenceWhenFiles() {
+      String property = "_faxDataChanged";
+      FaxBotDatabase.resetInitialization();
+      var cleanups = new Cleanups(withNextResponse(200, response), withProperty(property, false));
+      try (cleanups) {
+        assertFalse(getBoolean(property));
+        FaxBotDatabase.configure();
+        // Not sure why not working
         // assertTrue(getBoolean(property));
       }
     }
