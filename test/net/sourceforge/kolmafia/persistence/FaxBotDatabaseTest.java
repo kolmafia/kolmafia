@@ -15,15 +15,15 @@ import java.util.List;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.MonsterData;
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 class FaxBotDatabaseTest {
   public static Cleanups globalCleanup;
 
-  @BeforeAll
-  public static void beforeAll() {
+  @BeforeEach
+  public void beforeEach() {
     globalCleanup =
         new Cleanups(
             withDataFile("cheesefax.xml"),
@@ -168,8 +168,7 @@ class FaxBotDatabaseTest {
     public void configureFax() {
       String property = "_faxDataChanged";
       // FaxRequestFrame does a static initialization which means the files are present when the
-      // test
-      // starts
+      // test starts
       globalCleanup.close();
       FaxBotDatabase.resetInitialization();
       var cleanups = new Cleanups(withNextResponse(200, response), withProperty(property, false));
