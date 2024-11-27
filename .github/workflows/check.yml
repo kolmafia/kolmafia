@@ -12,7 +12,7 @@ jobs:
     strategy:
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
-        java: [17]
+        java: [17, 21]
 
     name: Run Checks
 
@@ -61,7 +61,7 @@ jobs:
         uses: mikepenz/action-junit-report@v5
         if: always()
         with:
-          check_name: "Test Report (${{ matrix.os }})"
+          check_name: "Test Report (${{ matrix.os }}, Java ${{ matrix.java }})"
           report_paths: "**/build/test-results/test/TEST-*.xml"
 
       - name: Publish Coverage Report
