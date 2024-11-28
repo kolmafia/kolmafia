@@ -46,12 +46,7 @@ import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.session.CrystalBallManager;
-import net.sourceforge.kolmafia.session.EquipmentManager;
-import net.sourceforge.kolmafia.session.GreyYouManager;
-import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.LocketManager;
-import net.sourceforge.kolmafia.session.TurnCounter;
+import net.sourceforge.kolmafia.session.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
@@ -3053,6 +3048,44 @@ public class FightRequestTest {
       assertThat(
           "banishedMonsters",
           hasStringValue(startsWith("pair of burnouts:handful of split pea soup:")));
+    }
+  }
+
+  @Nested
+  class PowerPill {
+    @ParameterizedTest
+    @ValueSource(ints = {FamiliarPool.PUCK_MAN, FamiliarPool.MS_PUCK_MAN})
+    public void tracksProgressOnWin(int familiar) {
+      var cleanups =
+          new Cleanups(
+              withFamiliar(familiar),
+              withProperty("powerPillProgress", 12),
+              withProperty("_powerPillDrops", 1));
+      try (cleanups) {
+        parseCombatData("request/test_fight_win.html");
+        assertThat("powerPillProgress", isSetTo(13));
+        assertThat("_powerPillDrops", isSetTo(1));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      FamiliarPool.PUCK_MAN + ",test_fight_lose.html",
+      FamiliarPool.PUCK_MAN + ",test_fight_run.html",
+      FamiliarPool.MS_PUCK_MAN + ",test_fight_lose.html",
+      FamiliarPool.MS_PUCK_MAN + ",test_fight_run.html",
+    })
+    public void doesntTrackProgressOnRunOrLoss(int familiar, String file) {
+      var cleanups =
+          new Cleanups(
+              withFamiliar(familiar),
+              withProperty("powerPillProgress", 12),
+              withProperty("_powerPillDrops", 1));
+      try (cleanups) {
+        parseCombatData("request/" + file);
+        assertThat("powerPillProgress", isSetTo(12));
+        assertThat("_powerPillDrops", isSetTo(1));
+      }
     }
   }
 }
