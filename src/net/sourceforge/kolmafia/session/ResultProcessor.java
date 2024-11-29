@@ -2454,6 +2454,7 @@ public class ResultProcessor {
         if (adventureResults
             && (KoLCharacter.currentFamiliar.getId() == FamiliarPool.PUCK_MAN
                 || KoLCharacter.currentFamiliar.getId() == FamiliarPool.MS_PUCK_MAN)) {
+          Preferences.setInteger("powerPillProgress", 0);
           Preferences.increment("_powerPillDrops", 1);
         }
         break;
