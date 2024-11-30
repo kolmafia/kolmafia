@@ -4004,6 +4004,11 @@ public class FightRequest extends GenericRequest {
           Preferences.increment("garbageFireProgress");
           break;
 
+        case FamiliarPool.PUCK_MAN:
+        case FamiliarPool.MS_PUCK_MAN:
+          Preferences.increment("powerPillProgress");
+          break;
+
         case FamiliarPool.ROBORTENDER:
           for (String s : ROBORTENDER_DROP_MESSAGES) {
             if (!responseText.contains(s)) continue;
