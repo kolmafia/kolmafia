@@ -1250,6 +1250,7 @@ user	poolSkill	0
 user	popularTartUnlocked	false
 user	postAscensionScript
 user	potatoAlarmClockUsed	false
+user	powerPillProgress	0
 user	prAlways	false
 user	prayedForGlamour	false
 user	prayedForProtection	false

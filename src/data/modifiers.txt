@@ -8861,8 +8861,8 @@ Event	Muscle Day	Experience Percent (Muscle): [25*interact()]
 Event	Mysticality Day	Experience Percent (Mysticality): [25*interact()]
 Event	Festival of Jarlsberg	Mana Cost: -3
 Event	Lab&oacute;r Day Eve	Adventures: +10
-# Fullness only applies in no path or Teetotaller, and does not apply to AoWoL classes for some reason
-Event	Feast of Boris	Stomach Capacity: [min(1,path(none)+path(Teetotaller))*(1-class(AWOL))*15]
+# Fullness only applies in no path or Teetotaler, and does not apply to AoWoL classes for some reason
+Event	Feast of Boris	Stomach Capacity: [min(1,path(none)+path(Teetotaler))*(1-class(AWOL))*15]
 Event	April Fool's Day	Alters Page Text
 
 # Zone-specific section of modifiers.txt
