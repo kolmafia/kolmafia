@@ -11711,3 +11711,29 @@
 11683	peasco sour	113636715	pto_drink.gif	drink	t,d	21
 11684	piece of cake	380207608	tinycake.gif	food	t,d	11
 11685	handful of split pea soup	564145882	pto_soup.gif	none, combat	t,d	1	handfuls of split pea soup
+11686
+11687
+11688
+11689
+11690
+11691
+11692
+11693
+11694
+11695
+11696
+11697
+11698
+11699
+11700
+11701
+11702
+11703
+11704
+11705
+11706
+11707
+11708
+11709	peppermint pegleg	240958650	pepperpeg.gif	potion, usable	t	0
+11710	hard cocoa	491706523	coffeecup.gif	drink	t	0
+11711	salmagumdi	784940421	salmagundi.gif	food	t	0

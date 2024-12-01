@@ -357,6 +357,7 @@ grog	3	3	good	5-10	8-10	0	0
 grogtini	6	6	awesome	22-26	16-20	0	0	tiny plastic sword, MARTINI
 gunner's daughter	1	3	EPIC	5-7	0	0	40-80	40 Kissed the Gunner's Daughter (+40 Mox)
 hacked gibson	4	4	EPIC	20-22	40-60	40-60	40-60	MARTINI
+hard cocoa	2	1	good	0	0	0	0	Unspaded
 haunted bottle of vodka	3	1	decent	3-5	0	0	0	20 Haunted Liver (+50% Item Drop, +25% Meat Drop)
 haunted eggnog	3	3	awesome	9-11	0	30-70	30-70	20 Haunted Liver (+50% Item Drop, +25% Meat Drop)
 haunted gimlet	4	6	awesome	16-20	0	60-80	0	20 Haunted Liver (+50% Item Drop, +25% Meat Drop)
@@ -523,7 +524,7 @@ papaya slung	3	2	decent	4-8	11-15	11-15	11-15
 parisian cathouse	3	3	good	5-10	0	0	16-20
 party beer bomb	1	4	EPIC	5-6	0	0	0	BEER
 passable stout	3	1	decent	4-5	0	20-30	10-20
-peasco sour	3	1	awesome	0	0	0	0	Unspaded
+peasco sour	3	1	awesome	11-13	20-30	10-15	10-15
 pebblebr&auml;u	1	1	crappy	1	50-80	50-80	50-80	BEER
 perfect cosmopolitan	3	5	EPIC	18-19	20-35	10-25	1-15
 perfect dark and stormy	3	5	EPIC	18-19	1-15	20-35	10-25
