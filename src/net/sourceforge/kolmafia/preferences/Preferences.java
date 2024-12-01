@@ -491,6 +491,7 @@ public class Preferences {
         "plumberCostumeWorn",
         "pokefamBoosts",
         "popularTartUnlocked",
+        "powerPillProgress",
         "prayedForGlamour",
         "prayedForProtection",
         "prayedForVigor",
