@@ -27,6 +27,7 @@ import net.sourceforge.kolmafia.request.ClanLoungeRequest.SpeakeasyDrink;
 import net.sourceforge.kolmafia.request.CombineMeatRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.MayamRequest;
+import net.sourceforge.kolmafia.request.PhotoBoothRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.StillSuitRequest;
 import net.sourceforge.kolmafia.request.TinkeringBenchRequest;
@@ -1123,6 +1124,8 @@ public class Concoction implements Comparable<Concoction> {
             return alreadyHave;
           }
         }
+      case PHOTO_BOOTH:
+        return alreadyHave + PhotoBoothRequest.canMake(this);
     }
 
     if (needToMake <= 0) { // Have enough on hand already.

@@ -525,6 +525,7 @@ public interface KoLConstants extends UtilityConstants {
     TINKERING_BENCH, // Items made at the Tinkering Bench
     MAYAM, // Items made at the Mayam Calendar
     KIWI, // Items bought at Kiwi Kwiki Mart
+    PHOTO_BOOTH, // Items made at the Clan Photo Booth
   }
 
   enum CraftingRequirements {
