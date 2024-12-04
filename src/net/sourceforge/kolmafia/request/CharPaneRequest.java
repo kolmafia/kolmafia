@@ -4,10 +4,15 @@ import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONException;
 import com.alibaba.fastjson2.JSONObject;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.EdServantData;
 import net.sourceforge.kolmafia.FamiliarData;
@@ -209,6 +214,7 @@ public class CharPaneRequest extends GenericRequest {
     ResultProcessor.processAdventuresUsed(turnsThisRun - mafiaTurnsThisRun);
 
     CharPaneRequest.parseAvatar(responseText);
+    CharPaneRequest.parseTitle(responseText);
 
     if (KoLCharacter.inDisguise()) {
       CharPaneRequest.checkMask(responseText);
@@ -282,10 +288,34 @@ public class CharPaneRequest extends GenericRequest {
     return true;
   }
 
+  private static final Map<String, String> NONCOMBAT_FORCERS =
+      Map.of(
+          "You are temporarily in the mostly-combatless world of Clara's Bell.", "clara",
+          "Your spikes are scaring away most monsters.", "spikolodon",
+          "With the jelly all over you, you are probably not going to encounter anything",
+              "stench jelly",
+          "You've engaged exit mode on your cincho and will avoid most combats.", "cincho exit",
+          "You are avoiding fights until something cool happens.", "sneakisol",
+          "Your tuba playing has scared away most monsters.", "band tuba");
+  private static final Pattern NONCOMBAT_FORCER_PATTERN =
+      Pattern.compile(
+          "<b><font size=2>Adventure Modifiers:</font></b><br><div style='text-align: left'><small>(.*?)</small>");
+
   public static void checkNoncombatForcers(final String responseText) {
-    boolean noncombatForcerActive =
-        responseText.contains("<b><font size=2>Adventure Modifiers:</font></b>");
+    var result = NONCOMBAT_FORCER_PATTERN.matcher(responseText);
+    boolean noncombatForcerActive = result.find();
     Preferences.setBoolean("noncombatForcerActive", noncombatForcerActive);
+    if (noncombatForcerActive) {
+      var descriptions = result.group(1).split("<br>");
+      Preferences.setString(
+          "noncombatForcers",
+          Arrays.stream(descriptions)
+              .map(desc -> NONCOMBAT_FORCERS.get(desc.trim()))
+              .filter(Objects::nonNull)
+              .collect(Collectors.joining("|")));
+    } else {
+      Preferences.setString("noncombatForcers", "");
+    }
   }
 
   public static final String getLastResponse() {
@@ -313,6 +343,17 @@ public class CharPaneRequest extends GenericRequest {
       if (avatarMatcher.find()) {
         KoLCharacter.setAvatar(avatarMatcher.group(1));
       }
+    }
+  }
+
+  public static final Pattern TITLE_PATTERN =
+      Pattern.compile(
+          "<a class=nounder target=mainpane href=\"charsheet.php\"><b>[^>]*?</b></a><br>(?<title>[^<]*?)<br>[^<]*?<table");
+
+  public static void parseTitle(final String responseText) {
+    Matcher titleMatcher = CharPaneRequest.TITLE_PATTERN.matcher(responseText);
+    if (titleMatcher.find()) {
+      KoLCharacter.setTitle(titleMatcher.group("title"));
     }
   }
 
@@ -963,7 +1004,12 @@ public class CharPaneRequest extends GenericRequest {
 
   private static final Pattern compactLastAdventurePattern =
       Pattern.compile(
-          "<td align=right><a onclick=[^<]+ title=\"Last Adventure: ([^\"]+)\" target=mainpane href=\"([^\"]*)\">.*?</a>:</td>");
+          "<a onclick=[^>]+ title=\"Last Adventure: ([^\"]+)\" target=mainpane href=\"([^\"]*)\">.*?</a>:");
+  private static final Pattern compactTrailPattern =
+      Pattern.compile(
+          "<span id=\"lastadvmenu\" style=\"[^>]*?\"><font size=1>(?<trail>.*?)</font></span>");
+  private static final Pattern trailElementPattern =
+      Pattern.compile("<nobr><a [^>]*?href=\"(?<link>.*?)\">(?<name>[^<]*?)</a></nobr>");
 
   // <a onclick='if (top.mainpane.focus) top.mainpane.focus();' class=nounder
   // href="place.php?whichplace=airport_stench" target=mainpane>Last
@@ -973,29 +1019,51 @@ public class CharPaneRequest extends GenericRequest {
 
   private static final Pattern expandedLastAdventurePattern =
       Pattern.compile(
-          "<a .*?href=\"([^\"]*)\"[^>]*>Last Adventure:</a>.*?<a .*?href=\"([^\"]*)\">([^<]*)</a>.*?</table>");
+          "<center><font.*?><b><a .*?href=\"(?<container>[^\"]*)\"[^>]*>Last Adventure:</a></b></font><br>"
+              + "<table.*?><tr><td><font.*?><a .*?href=\"(?<link>[^\"]*)\">(?<name>[^<]*)</a><br></font></td></tr></table>(?<trail>.*?)</center>");
+  private static final Pattern expandedTrailElementPattern =
+      Pattern.compile("<font.*?><a [^>]*?href=\"(?<link>.*?)\">(?<name>[^<]*?)</a><br></font>");
 
   private static void setLastAdventure(final String responseText) {
     String adventureName = null;
     String adventureURL = null;
     String container = null;
+    String trailString = null;
     if (CharPaneRequest.compactCharacterPane) {
       Matcher matcher = CharPaneRequest.compactLastAdventurePattern.matcher(responseText);
       if (matcher.find()) {
         adventureName = matcher.group(1);
         adventureURL = matcher.group(2);
       }
+
+      matcher = compactTrailPattern.matcher(responseText);
+      if (matcher.find()) {
+        trailString = matcher.group("trail");
+      }
     } else {
       Matcher matcher = CharPaneRequest.expandedLastAdventurePattern.matcher(responseText);
       if (matcher.find()) {
-        adventureName = matcher.group(3);
-        adventureURL = matcher.group(2);
-        container = matcher.group(1);
+        adventureName = matcher.group("name");
+        adventureURL = matcher.group("link");
+        container = matcher.group("container");
+        trailString = matcher.group("trail");
       }
     }
 
     if (adventureName == null || adventureName.equals("The Naughty Sorceress' Tower")) {
       return;
+    }
+
+    if (trailString != null) {
+      List<String> trail = new ArrayList<>();
+      if (!CharPaneRequest.compactCharacterPane) {
+        trail.add(adventureName);
+      }
+      Matcher matcher = trailElementPattern.matcher(trailString);
+      while (matcher.find()) {
+        trail.add(matcher.group("name"));
+      }
+      Preferences.setString("lastAdventureTrail", String.join("|", trail));
     }
 
     CharPaneRequest.setLastAdventure("", adventureName, adventureURL, container);
@@ -1675,6 +1743,8 @@ public class CharPaneRequest extends GenericRequest {
 
     var noncombatForcers = JSON.getJSONArray("noncomforcers");
     Preferences.setBoolean("noncombatForcerActive", noncombatForcers.size() > 0);
+    Preferences.setString(
+        "noncombatForcers", String.join("|", noncombatForcers.toList(String.class)));
 
     // boolean casual = JSON.getIntValue( "casual" ) == 1;
     int roninLeft = JSON.getIntValue("roninleft");
