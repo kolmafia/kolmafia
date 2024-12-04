@@ -3355,6 +3355,19 @@ mini kiwi digitized cookies	KIWI, ROW1490	mini kiwi (3)
 # Sept-Ember Censer
 ember egg	MUSE	embering hunk (21)
 
+# Clan Photo Booth
+photo booth supply list	PHOTO_BOOTH
+fake arrow-through-the-head	PHOTO_BOOTH
+fake huge beard	PHOTO_BOOTH
+astronaut helmet	PHOTO_BOOTH
+cheap plastic pipe	PHOTO_BOOTH
+oversized monocle on a stick	PHOTO_BOOTH
+giant bow tie	PHOTO_BOOTH
+feather boa	PHOTO_BOOTH
+Sheriff badge	PHOTO_BOOTH
+Sheriff pistol	PHOTO_BOOTH
+Sheriff moustache	PHOTO_BOOTH
+
 # Peace Turkey
 peasco sour	MIX	whirled peas	bottle of vodka
 peaza	COOK	whirled peas	flat dough
