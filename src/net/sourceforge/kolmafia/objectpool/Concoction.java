@@ -27,6 +27,7 @@ import net.sourceforge.kolmafia.request.ClanLoungeRequest.SpeakeasyDrink;
 import net.sourceforge.kolmafia.request.CombineMeatRequest;
 import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.MayamRequest;
+import net.sourceforge.kolmafia.request.PhotoBoothRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.StillSuitRequest;
 import net.sourceforge.kolmafia.request.TinkeringBenchRequest;
@@ -1076,11 +1077,13 @@ public class Concoction implements Comparable<Concoction> {
     }
 
     switch (this.mixingMethod) {
-      case FLOUNDRY:
+      case FLOUNDRY -> {
         return alreadyHave + (ClanLoungeRequest.availableFloundryItem(this.name) ? 1 : 0);
-      case BARREL:
+      }
+      case BARREL -> {
         return alreadyHave + (BarrelShrineRequest.availableBarrelItem(this.name) ? 1 : 0);
-      case TERMINAL:
+      }
+      case TERMINAL -> {
         // Check that we know the file for this
         String known = Preferences.getString("sourceTerminalExtrudeKnown");
         if (this.name.equals("Source terminal GRAM chip") && !known.contains("gram.ext")) {
@@ -1104,25 +1107,34 @@ public class Concoction implements Comparable<Concoction> {
         if (this.name.equals("software bug") && !known.contains("familiar.ext")) {
           return alreadyHave;
         }
-        break;
-      case SPACEGATE:
+      }
+      case SPACEGATE -> {
         // If you have one in inventory, you cannot get more
         return this.initial == 0 ? alreadyHave + 1 : alreadyHave;
-      case FANTASY_REALM:
+      }
+      case FANTASY_REALM -> {
         return alreadyHave
             + (StringUtilities.isNumeric(Preferences.getString("_frHoursLeft")) ? 0 : 1);
-      case STILLSUIT:
+      }
+      case STILLSUIT -> {
         return StillSuitRequest.canMake() ? 1 : 0;
-      case BURNING_LEAVES:
+      }
+      case BURNING_LEAVES -> {
         return BurningLeavesRequest.canMake(this);
-      case MAYAM:
+      }
+      case MAYAM -> {
         return alreadyHave + (MayamRequest.canMake(this) ? 1 : 0);
-      case KIWI:
+      }
+      case KIWI -> {
         if (this.name.equals("mini kiwi intoxicating spirits")) {
           if (Preferences.getBoolean("_miniKiwiIntoxicatingSpiritsBought")) {
             return alreadyHave;
           }
         }
+      }
+      case PHOTO_BOOTH -> {
+        return alreadyHave + PhotoBoothRequest.canMake(this);
+      }
     }
 
     if (needToMake <= 0) { // Have enough on hand already.

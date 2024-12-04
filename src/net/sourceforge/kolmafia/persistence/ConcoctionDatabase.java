@@ -2205,6 +2205,20 @@ public class ConcoctionDatabase {
           CraftingType.MAYAM, "You need to have a Mayam Calendar to make that.");
     }
 
+    boolean clanPhotoBooth =
+        ClanLoungeRequest.hasClanLoungeItem(ItemPool.get(ItemPool.CLAN_PHOTO_BOOTH, 1));
+    boolean canTakePhotoBoothProp = Preferences.getInteger("_photoBoothEquipment") < 3;
+    if (clanPhotoBooth && canTakePhotoBoothProp) {
+      permitNoCost(CraftingType.PHOTO_BOOTH);
+    }
+    if (!canTakePhotoBoothProp) {
+      ConcoctionDatabase.EXCUSE.put(
+          CraftingType.PHOTO_BOOTH, "You have already taken too many Photo Booth props today.");
+    } else if (!clanPhotoBooth) {
+      ConcoctionDatabase.EXCUSE.put(
+          CraftingType.PHOTO_BOOTH, "Your current clan does not have a Photo Booth.");
+    }
+
     // Now, go through all the cached adventure usage values and if
     // the number of adventures left is zero and the request requires
     // adventures, it is not permitted.
@@ -2412,6 +2426,7 @@ public class ConcoctionDatabase {
       case TINKERING_BENCH -> result.append("Tinkering Bench");
       case MAYAM -> result.append("Mayam Calendar");
       case KIWI -> result.append("Kiwi Kwiki Mart");
+      case PHOTO_BOOTH -> result.append("Clan Photo Booth");
     }
     if (result.isEmpty()) {
       result.append("[unknown method of creation]");
@@ -2849,6 +2864,7 @@ public class ConcoctionDatabase {
       case "TINKERING_BENCH" -> ConcoctionDatabase.mixingMethod = CraftingType.TINKERING_BENCH;
       case "MAYAM" -> ConcoctionDatabase.mixingMethod = CraftingType.MAYAM;
       case "KIWI" -> ConcoctionDatabase.mixingMethod = CraftingType.KIWI;
+      case "PHOTO_BOOTH" -> ConcoctionDatabase.mixingMethod = CraftingType.PHOTO_BOOTH;
       default -> {
         if (mix.startsWith("ROW")) {
           ConcoctionDatabase.row = StringUtilities.parseInt(mix.substring(3));
