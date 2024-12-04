@@ -677,7 +677,7 @@ peach	1	4	good	3	0	0	15-20
 peach pie	3	7	awesome	8-14	0	0	25-45
 pear	1	4	good	3	0	15-20	0
 pear tart	3	7	awesome	8-14	0	25-45	0
-peaza	2	1	awesome	0	0	0	0	Unspaded, PIZZA
+peaza	2	1	awesome	6-8	110-120	0	0	PIZZA
 pecan pie	3	5	good	7-9	20-25	0	0	30 Pecan Pied Piper (+25 candy drop)
 Peche a la Frog	3	1	decent	3-4	0	0	0
 penguin focaccia bread	7	1	good	18-24	21-38	21-38	21-38
@@ -788,6 +788,7 @@ rum-soaked fruitcake	5	1	awesome	20	0	0	0	100 Rum of Darkness (+5 Elf Warfare Ef
 S.T.L.T.	4	4	awesome	10-15	10-30	10-30	13-27
 s'more	1	1	crappy	1	0	0	0
 salacious crumbs	3	1	decent	5-7	0	0	15-20
+salmagumdi	1	1	awesome	0	0	0	0	Unspaded
 salt plum	2	1	good	6	0	0	0
 salted mutton	1	1	good	3	0	0	8-10	pirate encryption key
 salty ancient serpent roll	3	1	sushi	9-14	0	8-16	20-30	45/55 Fishy, 10 Salty Dogs

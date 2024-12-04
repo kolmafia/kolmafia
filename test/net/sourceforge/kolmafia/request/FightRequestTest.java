@@ -3055,4 +3055,42 @@ public class FightRequestTest {
           hasStringValue(startsWith("pair of burnouts:handful of split pea soup:")));
     }
   }
+
+  @Nested
+  class PowerPill {
+    @ParameterizedTest
+    @ValueSource(ints = {FamiliarPool.PUCK_MAN, FamiliarPool.MS_PUCK_MAN})
+    public void tracksProgressOnWin(int familiar) {
+      var cleanups =
+          new Cleanups(
+              withFamiliar(familiar),
+              withProperty("powerPillProgress", 12),
+              withProperty("_powerPillDrops", 1));
+      try (cleanups) {
+        parseCombatData("request/test_fight_win.html");
+        assertThat("powerPillProgress", isSetTo(13));
+        assertThat("_powerPillDrops", isSetTo(1));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      FamiliarPool.PUCK_MAN + ",test_fight_lose.html",
+      FamiliarPool.PUCK_MAN + ",test_fight_run.html",
+      FamiliarPool.MS_PUCK_MAN + ",test_fight_lose.html",
+      FamiliarPool.MS_PUCK_MAN + ",test_fight_run.html",
+    })
+    public void doesntTrackProgressOnRunOrLoss(int familiar, String file) {
+      var cleanups =
+          new Cleanups(
+              withFamiliar(familiar),
+              withProperty("powerPillProgress", 12),
+              withProperty("_powerPillDrops", 1));
+      try (cleanups) {
+        parseCombatData("request/" + file);
+        assertThat("powerPillProgress", isSetTo(12));
+        assertThat("_powerPillDrops", isSetTo(1));
+      }
+    }
+  }
 }

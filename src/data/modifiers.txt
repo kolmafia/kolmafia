@@ -2561,7 +2561,7 @@ Item	replica august scepter	Muscle: +15, Mysticality: +15, Moxie: +15, HP Regen 
 Item	replica Operation Patriot Shield	Experience: +3, Maximum HP: +20, Maximum MP: +20, Variable
 Item	reusable shopping bag	Food Drop: +20, Booze Drop: +20, Candy Drop: +20
 Item	rice bowl	Food Drop: +20
-Item	Roman Candelabra	Maximum HP: [10*(pref(romanCandelabraRedCasts)+2)], Maximum MP: [10*(pref(romanCandelabraYellowCasts)+2)], Muscle: [5*(pref(romanCandelabraBlueCasts)+2)], Mysticality: [5*(pref(romanCandelabraGreenCasts)+2)], Moxie: [5*(pref(romanCandelabraPurpleCasts)+2)], Spooky Damage: [10*min(1,effect(Everything Looks Yellow))], Cold Damage: [10*min(1,effect(Everything Looks Blue))], Hot Damage: [10*min(1,effect(Everything Looks Red))], Stench Damage: [10*min(1,effect(Everything Looks Green))], Sleaze Damage: [10*min(1,effect(Everything Looks Purple))]
+Item	Roman Candelabra	Maximum HP: [10*(pref(romanCandelabraRedCasts)+2)], Maximum MP: [10*(pref(romanCandelabraYellowCasts)+2)], Muscle: [5*(pref(romanCandelabraBlueCasts)+2)], Mysticality: [5*(pref(romanCandelabraGreenCasts)+2)], Moxie: [5*(pref(romanCandelabraPurpleCasts)+2)], Spooky Damage: [10*(1-min(1,effect(Everything Looks Yellow)))], Cold Damage: [10*(1-min(1,effect(Everything Looks Blue)))], Hot Damage: [10*(1-min(1,effect(Everything Looks Red)))], Stench Damage: [10*(1-min(1,effect(Everything Looks Green)))], Sleaze Damage: [10*(1-min(1,effect(Everything Looks Purple)))]
 Item	Royal scepter	Adventures: +4, PvP Fights: +8, Rollover Effect: "It's Good To Be Royal!", Rollover Effect Duration: 5
 Item	rubber baby doll	Damage Aura: 1
 Item	rubber ribcage	Spooky Resistance: +3, Damage Reduction: 12
@@ -7014,6 +7014,7 @@ Effect	Peeled Eyeballs	Experience: -1, Meat Drop: -30, Item Drop: +20
 Effect	Penguinny Flavor	Cold Damage: +10, Cold Resistance: +2
 Effect	Penne Fedora	Moxie: +10
 Effect	Peppermint Bite	Muscle: +5
+Effect	Peppermint Endoskeleton	Initiative: +50, Experience: +5
 Effect	Peppermint Rush	Initiative: +40, Muscle Percent: +10, Moxie Percent: +10, Mysticality Percent: -10, Experience: +3
 Effect	Peppermint Twisted	Initiative: +40, Meat Drop: +50, Monster Level: +10
 Effect	Perception	Experience Percent (Moxie): +25
@@ -8861,8 +8862,8 @@ Event	Muscle Day	Experience Percent (Muscle): [25*interact()]
 Event	Mysticality Day	Experience Percent (Mysticality): [25*interact()]
 Event	Festival of Jarlsberg	Mana Cost: -3
 Event	Lab&oacute;r Day Eve	Adventures: +10
-# Fullness only applies in no path or Teetotaller, and does not apply to AoWoL classes for some reason
-Event	Feast of Boris	Stomach Capacity: [min(1,path(none)+path(Teetotaller))*(1-class(AWOL))*15]
+# Fullness only applies in no path or Teetotaler, and does not apply to AoWoL classes for some reason
+Event	Feast of Boris	Stomach Capacity: [min(1,path(none)+path(Teetotaler))*(1-class(AWOL))*15]
 Event	April Fool's Day	Alters Page Text
 
 # Zone-specific section of modifiers.txt
@@ -10487,6 +10488,7 @@ Item	pear lozenge	Effect: "The Halls of Mysticality", Effect Duration: [R]
 Item	pear supersucker	Effect: "Dirty Pear", Effect Duration: 30
 Item	pec oil	Effect: "Oiled-Up", Effect Duration: 20
 Item	PEEZ dispenser	Effect: "Sugar Rush", Effect Duration: 5
+Item	peppermint pegleg	Effect: "Peppermint Endoskeleton", Effect Duration: 30
 Item	peppermint syrup	Effect: "Candied Teeth", Effect Duration: 20
 Item	peppermint twist	Effect: "Peppermint Twisted", Effect Duration: 10
 Item	perfume of prejudice	Effect: "Eau D'enmity", Effect Duration: [R]

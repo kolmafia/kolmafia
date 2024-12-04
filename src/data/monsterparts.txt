@@ -1968,8 +1968,8 @@
 2074	regular thief	arm	head	leg	torso
 2075	swamp troll	arm	head	leg	torso
 2076	crypt creeper	arm	coffin	head	lef
-2077	"Phoenix"	nozzle	pipes
-2078	Sewage Treatment Dragon	head	spout	wing
+2077	"Phoenix"	nozzle	pipe
+2078	Sewage Treatment Dragon	head	pipe	spout	wing
 2079	Duke Vampire	head	torso
 2080	Spider Queen	abdomen	mandibles	thorax
 2081	Archwizard	arm	head	leg	torso
