@@ -3281,6 +3281,10 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
   public static KoLAdventure setLastAdventure(
       String adventureId, final String adventureName, String adventureURL, final String container) {
+    if (container != null) {
+      Preferences.setString("lastAdventureContainer", container);
+    }
+
     KoLAdventure adventure = AdventureDatabase.getAdventureByURL(adventureURL);
     if (adventure == null) {
       int index = adventureURL.indexOf("?");

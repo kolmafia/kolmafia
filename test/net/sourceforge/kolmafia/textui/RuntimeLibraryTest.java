@@ -1696,4 +1696,18 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
               "get_items_hash: Invalid items source. Valid are inventory, closet, storage, display, shop.\nReturned: -3750763034362895579"));
     }
   }
+
+  @Test
+  void getAvatar() {
+    KoLCharacter.setAvatar("otherimages/giant_foodie.gif");
+    assertThat(
+        execute("get_avatar()").trim(),
+        is("Returned: aggregate string [1]\n0 => otherimages/giant_foodie.gif"));
+  }
+
+  @Test
+  void getTitle() {
+    KoLCharacter.setTitle("NO PEEKING");
+    assertThat(execute("get_title()").trim(), is("Returned: NO PEEKING"));
+  }
 }
