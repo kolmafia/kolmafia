@@ -136,6 +136,7 @@ public class Maximizer {
       return;
     }
 
+    // ensure character state is updated
     if (KoLCharacter.inQuantum()) {
       RequestThread.postRequest(new QuantumTerrariumRequest());
     }
