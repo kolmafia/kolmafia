@@ -178,6 +178,7 @@ public abstract class KoLCharacter {
   // Things which can change over the course of playing
 
   private static List<String> avatar = Collections.emptyList();
+  private static String title = "";
   private static AscensionClass ascensionClass = AscensionClass.UNKNOWN;
   private static Gender gender = Gender.UNKNOWN;
   public static int AWOLtattoo = 0;
@@ -702,7 +703,7 @@ public abstract class KoLCharacter {
   }
 
   /**
-   * Accessor method to get the avatar associated with this character.
+   * Setter method to set the avatar associated with this character.
    *
    * @param avatar The avatar for this character
    */
@@ -761,6 +762,24 @@ public abstract class KoLCharacter {
    */
   public static final List<String> getAvatar() {
     return KoLCharacter.avatar;
+  }
+
+  /**
+   * Setter method to set the title for this character.
+   *
+   * @param title The title for this character
+   */
+  public static void setTitle(final String title) {
+    KoLCharacter.title = title;
+  }
+
+  /**
+   * Accessor method to get the title for this character.
+   *
+   * @return The title for this character
+   */
+  public static String getTitle() {
+    return KoLCharacter.title;
   }
 
   private static Gender setGender() {
