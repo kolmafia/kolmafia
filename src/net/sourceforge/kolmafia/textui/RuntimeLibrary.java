@@ -3635,6 +3635,13 @@ public abstract class RuntimeLibrary {
 
     params = List.of(namedParam("location", DataTypes.LOCATION_TYPE));
     functions.add(new LibraryFunction("turns_until_forced_noncombat", DataTypes.INT_TYPE, params));
+
+    params = List.of();
+    functions.add(
+        new LibraryFunction("get_avatar", new AggregateType(DataTypes.STRING_TYPE, 0), params));
+
+    params = List.of();
+    functions.add(new LibraryFunction("get_title", DataTypes.STRING_TYPE, params));
   }
 
   public static Method findMethod(final String name, final Class<?>[] args)
@@ -11341,5 +11348,13 @@ public abstract class RuntimeLibrary {
             location.getForceNoncombat()
                 - (AdventureSpentDatabase.getTurns(location)
                     - Preferences.getInteger(preference))));
+  }
+
+  public static Value get_avatar(ScriptRuntime controller) {
+    return DataTypes.makeStringArrayValue(KoLCharacter.getAvatar());
+  }
+
+  public static Value get_title(ScriptRuntime controller) {
+    return DataTypes.makeStringValue(KoLCharacter.getTitle());
   }
 }

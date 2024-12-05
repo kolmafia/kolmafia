@@ -36,6 +36,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 class CharPaneRequestTest {
   @BeforeEach
@@ -61,6 +62,13 @@ class CharPaneRequestTest {
     CharPaneRequest.processResults(html("request/test_charpane_snowsuit.html"));
     var snowCharacterAvatar = KoLCharacter.getAvatar();
     assertTrue(snowCharacterAvatar.contains("itemimages/snowface5.gif"), "fails on no crossorigin");
+  }
+
+  @Test
+  void canFindTitle() {
+    KoLCharacter.setTitle("");
+    CharPaneRequest.processResults(html("request/test_charpane_basic.html"));
+    assertThat(KoLCharacter.getTitle(), is("NO PEEKING"));
   }
 
   @Test
@@ -113,7 +121,9 @@ class CharPaneRequestTest {
   class NonCombatForcers {
     @Test
     void anyNoncombatForcerSetsFlagInApi() {
-      var cleanups = new Cleanups(withProperty("noncombatForcerActive", false));
+      var cleanups =
+          new Cleanups(
+              withProperty("noncombatForcerActive", false), withProperty("noncombatForcers", ""));
       try (cleanups) {
         var json =
             ApiRequest.getJSON(html("request/test_api_status_noncomforcers.json"), "testing");
@@ -122,12 +132,18 @@ class CharPaneRequestTest {
         CharPaneRequest.parseStatus(json);
 
         assertThat("noncombatForcerActive", isSetTo(true));
+        assertThat(
+            "noncombatForcers",
+            isSetTo("clara|spikolodon|stench jelly|cincho exit|sneakisol|band tuba"));
       }
     }
 
     @Test
     void absenceOfNoncombatForcerUnsetsFlagInApi() {
-      var cleanups = new Cleanups(withProperty("noncombatForcerActive", true));
+      var cleanups =
+          new Cleanups(
+              withProperty("noncombatForcerActive", true),
+              withProperty("noncombatForcers", "stench jelly"));
       try (cleanups) {
         var json =
             ApiRequest.getJSON(
@@ -138,24 +154,42 @@ class CharPaneRequestTest {
         CharPaneRequest.parseStatus(json);
 
         assertThat("noncombatForcerActive", isSetTo(false));
+        assertThat("noncombatForcers", isSetTo(""));
+      }
+    }
+
+    @ParameterizedTest
+    @ValueSource(
+        strings = {
+          "test_parse_charpane_for_noncombat_forcers.html",
+          "test_parse_charpane_for_noncombat_forcers_compact.html"
+        })
+    void canParseNoncombatModifiersInCharpane(String fileName) {
+      var cleanups =
+          new Cleanups(
+              withProperty("noncombatForcerActive", false), withProperty("noncombatForcers", ""));
+
+      try (cleanups) {
+        CharPaneRequest.processResults(html("request/" + fileName));
+        assertThat("noncombatForcerActive", isSetTo(true));
+        assertThat(
+            "noncombatForcers",
+            isSetTo("clara|spikolodon|stench jelly|cincho exit|sneakisol|band tuba"));
       }
     }
 
     @Test
-    void canParseNoncombatModifiersInCharpane() {
-      CharPaneRequest.processResults(
-          html("request/test_parse_charpane_for_noncombat_forcers.html"));
-      assertThat("noncombatForcerActive", isSetTo(true));
-    }
-
-    @Test
     void canParseAbsenceOfNoncombatModifiersInCharpane() {
-      var cleanups = new Cleanups(withProperty("noncombatForcerActive", true));
+      var cleanups =
+          new Cleanups(
+              withProperty("noncombatForcerActive", true),
+              withProperty("noncombatForcers", "stench jelly"));
 
       try (cleanups) {
         // This one doesn't hav eany noncombat modifiers
         CharPaneRequest.processResults(html("request/test_charpane_comma_as_homemade_robot.html"));
         assertThat("noncombatForcerActive", isSetTo(false));
+        assertThat("noncombatForcers", isSetTo(""));
       }
     }
   }
@@ -343,6 +377,23 @@ class CharPaneRequestTest {
         assertThat("_pirateRealmGrub", isSetTo(2));
         assertThat("_pirateRealmGuns", isSetTo(2));
       }
+    }
+  }
+
+  @ParameterizedTest
+  @CsvSource({"test_charpane_trail_basic.html,tutorial.php", "test_charpane_trail_compact.html,''"})
+  void tracksLastAdventureAndTrail(String fileName, String container) {
+    var cleanups =
+        new Cleanups(withLastLocation((KoLAdventure) null), withProperty("lastAdventureTrail", ""));
+    try (cleanups) {
+      CharPaneRequest.processResults(html("request/" + fileName));
+      assertThat("lastAdventure", isSetTo("Noob Cave"));
+      assertThat("lastAdventureContainer", isSetTo(container));
+      assertThat(
+          "lastAdventureTrail",
+          isSetTo("Noob Cave|The Dire Warren|The Haiku Dungeon|Shadow Rift|The Neverending Party"));
+      assertThat(KoLAdventure.lastVisitedLocation().getAdventureName(), is("Noob Cave"));
+      assertThat(KoLAdventure.lastAdventureId(), is(240));
     }
   }
 }

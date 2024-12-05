@@ -174,3 +174,6 @@
 167	Crimbuccaneer rigging	crimbuctat1.gif	Crimbuccaneer tricorn, Crimbuccaneer breeches	groggipop
 168	Moss Mufti	mosstat.gif	moss mitre, moss mace, moss megaphone, moss mantle, moss medal, moss marlinspike	moss floss
 169	Adobe Armor	adobetat.gif	adobe ayam, adobe adze, adobe abacus, adobe abaya, adobe arsecover, adobe ascot	adobe brittle
+170
+171
+172	Governor's Daughter's Fancy Finery	govtat.gif	governor's daughter's pearl hairpin, governor's daughter's petticoats, governor's daughter's lace collar

@@ -11699,7 +11699,7 @@
 11671	photo booth supply list	459315400	document.gif	offhand	q	0
 11672	peace turkey outline	206862721	pto.gif	grow	t	0
 11673	tie-dye headband	716138076	pto_headband.gif	familiar	t,d	10
-11674	whirled peas	876145561	pto_peas.gif	food, paste, cook, mix	t,d	5	whirled peas
+11674	whirled peas	876145561	pto_peas.gif	food, paste, cook, mix	t,d	5	handfuls of whirled peas
 11675	peaza	503542763	pto_pizza.gif	food	t,d	21
 11676	peace shooter	535806162	pto_shooter.gif	none, combat	t,d	11
 11677
@@ -11709,31 +11709,31 @@
 11681	quantized familiar experience	829423278	qfexp.gif	usable	t,d	11
 11682	pea brittle	413024704	pto_brittle.gif	potion, usable	t,d	5	pieces of pea brittle
 11683	peasco sour	113636715	pto_drink.gif	drink	t,d	21
-11684	piece of cake	380207608	tinycake.gif	food	t,d	11
+11684	piece of cake	380207608	tinycake.gif	food	t,d	11	pieces of cake
 11685	handful of split pea soup	564145882	pto_soup.gif	none, combat	t,d	1	handfuls of split pea soup
-11686
-11687
-11688
-11689
-11690
+11686	Sealed TakerSpace letter of Marque	379334136	ts_letter2.gif	usable	t	0	Sealed TakerSpace letters of Marque
+11687	TakerSpace letter of Marque	589032239	ts_letter1.gif	usable		0	TakerSpace letters of Marque
+11688	deft pirate hook	170705933	ts_hook.gif	offhand	q	0
+11689	iron tricorn hat	322564205	ts_tricorn.gif	hat	q	0
+11690	jolly roger flag	380671170	ts_roger.gif	accessory	q	0
 11691
-11692
-11693
-11694
-11695
-11696
-11697
-11698
-11699
-11700
-11701
+11692	pirrrate's currrse	343938051	ts_curse.gif	none, usable, curse	t,d	11
+11693	tankard of spiced rum	215156557	tankard.gif	drink	t,d	11	tankards of spiced rum
+11694	tankard of spiced Goldschlepper	694321154	tankard.gif	drink	t,d	11	tankards of spiced Goldschlepper
+11695	packaged luxury garment	588522964	ts_garment.gif	usable	t,d	50
+11696	governor's daughter's lace collar	246230526	ts_collar.gif	accessory		0
+11697	governor's daughter's petticoats	941871020	ts_petticoat.gif	pants		0	governor's daughter's petticoats
+11698	governor's daughter's pearl hairpin	761739620	ts_hairpin.gif	hat		0
+11699	harpoon	586410747	ts_harpoon.gif	none, combat	t,d	22
+11700	chili powder cutlass	303793949	ts_cutlass.gif	weapon	t,d	25	chili powder cutlasses
+11701	cursed Aztec tamale	545083244	ts_tamale.gif	food	t,d	11
 11702
 11703
-11704
-11705
-11706
-11707
-11708
+11704	groggles	658108570	ts_goggles.gif	accessory	t,d	11	pairs of groggles
+11705	pirate dinghy	613418372	ts_dinghy.gif	usable	q	0	pirate dinghies
+11706	anchor bomb	702120284	ts_bomb.gif	none, combat	t,d	11
+11707	silky pirate drawers	353264524	ts_pants.gif	pants	t,d	22	pairs of silky pirate drawers
+11708	profane eye patch	592191675	ts_eyepatch.gif	familiar	t,d	10	profane eye patches
 11709	peppermint pegleg	240958650	pepperpeg.gif	potion, usable	t	0
-11710	hard cocoa	491706523	coffeecup.gif	drink	t	0
-11711	salmagumdi	784940421	salmagundi.gif	food	t	0
+11710	hard cocoa	491706523	coffeecup.gif	drink	t	0	cups of hard cocoa
+11711	salmagumdi	784940421	salmagundi.gif	food	t	0	plates of salmagumdi
