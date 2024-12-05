@@ -267,6 +267,7 @@ Item	googly-ball hat	Mysticality: +10, Experience (Mysticality): +3
 Item	googly-heart hat	Moxie: +10, Experience (Moxie): +3
 Item	googly-star hat	Muscle: +10, Experience (Muscle): +3, Familiar Effect: "atk"
 Item	government-issued eyeshade	Experience Percent (Moxie): +10, Damage vs. Ghosts: +25, Pool Skill: +5
+Item	governor's daughter's pearl hairpin	Moxie Percent: +20
 Item	grass hat	Maximum MP: +10, Familiar Effect: "2xVolley, 1xBarrr, cap 20"
 # gravy boat: Decreased Damage from Undead<br/>Improved Evil Suppression
 Item	Great Wolf's headband	Muscle: +250, Maximum HP: +250, HP Regen Min: 50, HP Regen Max: 100, Class: "Seal Clubber", Familiar Effect: "atk, 1xVolley"
@@ -307,6 +308,8 @@ Item	intimidating coiffure	Muscle Percent: +25, Mysticality Percent: +25, Moxie 
 Item	invisible bag	Familiar Effect: "8xVolley, 8xLep, cap 2"
 Item	irate sombrero	Weapon Damage: +3, Familiar Effect: "1xPotato, 3xLep, cap 11"
 Item	iron helmet	Cold Resistance: +2, MP Regen Min: 1, MP Regen Max: 2, Initiative: +10, Familiar Effect: "atk, 1xFairy, cap 25"
+# iron tricorn hat: Allows you to headbutt your foes
+Item	iron tricorn hat	Maximum HP: +40, Damage Reduction: 10, Lasts Until Rollover
 Item	ironic knit cap	Maximum MP: +20, Mysticality: +1, Familiar Effect: "1xVolley, 2xPotato, cap 10"
 Item	isotophat	Stench Damage: +10, Stench Spell Damage: +20, Familiar Effect: "stench atk, cap 25"
 # Iunion Crown: Becomes more powerful as you adventure each day
@@ -705,6 +708,7 @@ Item	gnauga hide kilt	Damage Absorption: +30, Familiar Effect: "2.5xFairy, cap 2
 Item	gnauga hide skirt	Damage Absorption: +30, Familiar Effect: "2.5xFairy, cap 20"
 Item	gold lam&eacute; pants	Moxie: -8, Familiar Effect: "2xPotato, 1xLep, cap 25"
 Item	government-issued slacks	Experience Percent (Muscle): +10, Damage vs. Skeletons: +25, Fishing Skill: +5
+Item	governor's daughter's petticoats	Muscle Percent: +20
 Item	grass skirt	Moxie: +5, Familiar Effect: "atk, 1.5xFairy, cap 20"
 # Great Wolf's beastly trousers: Troubling Vulnerability to All Elements (-5)
 Item	Great Wolf's beastly trousers	Weapon Damage Percent: +50, Familiar Weight: +10, Hot Resistance: -5, Cold Resistance: -5, Spooky Resistance: -5, Stench Resistance: -5, Sleaze Resistance: -5, Familiar Effect: "1xPotato, 1.5xWhelp"
@@ -834,6 +838,7 @@ Item	sea chaps	Muscle Percent: +15, HP Regen Min: 6, HP Regen Max: 10, Familiar 
 Item	sealhide leggings	HP Regen Min: 5, HP Regen Max: 10, Familiar Effect: "1xVolley, cap 40"
 Item	servo-assisted exo-pants	Initiative: -30, Familiar Effect: "cold atk, 1xPotato, cap 12"
 Item	shadow trousers	Monster Level: +13, Meat Drop: +13, Maximum HP: +13
+Item	silky pirate drawers	Combat Rate: -5, Initiative: +50
 Item	slime waders	Mysticality Percent: +25, Experience (Mysticality): +3, Sleaze Resistance: +3
 Item	slime-covered greaves	Slime Resistance: +2, HP Regen Min: 20, HP Regen Max: 40, Initiative: -10, Familiar Effect: "sleaze atk, 0.5xBarrr"
 Item	SMOOCH codpiece	Damage Reduction: 5, Damage Absorption: +20, Familiar Effect: "atk, 1xBarrr, cap 20", Thorns: 1
@@ -1280,6 +1285,7 @@ Item	cheap plastic kazoo	Monster Level: +10
 Item	Chelonian Morningstar	Muscle: +11, Never Fumble, Class: "Turtle Tamer"
 Item	Chester's bag of candy	Sleaze Damage: +30, Moxie Percent: +10, Class: "Disco Bandit"
 Item	chiffon chakram	Moxie: +10, Stench Damage: +10, Stench Spell Damage: +10, Damage Aura: 1
+Item	chili powder cutlass	Hot Damage: +20
 # chisel
 # chocolate cow bone: Candilicious Smacks!
 Item	chocolate cow bone	Candy Drop: +30
@@ -2240,6 +2246,8 @@ Item	deceased crimbo tree	Lasts Until Rollover, Breakable
 Item	deck of lewd playing cards	Moxie Percent: +5, Sleaze Damage: +69, Sleaze Spell Damage: +69
 Item	deck of tropical cards	Experience: +1, Stat Tuning: "Mysticality"
 # defective skull
+# deft pirate hook: Occasionally snags on your opponent's stuff
+Item	deft pirate hook	Muscle: +20, Weapon Damage: +10, Lasts Until Rollover
 Item	demon buckler	Hot Damage: +3, Damage Reduction: 5
 Item	depleted Grimacite gravy boat	Mysticality Percent: [5*G], Adventures: [G]
 # detective skull
@@ -3154,6 +3162,7 @@ Item	Golden Mr. Eh?	Muscle: +12, Mysticality: +12, Moxie: +12
 Item	gory drippy orb	Drippy Damage: +5
 Item	government-issued necktie	Experience Percent (Mysticality): +10, Damage vs. Zombies: +25, Meat Drop: [5*G], Single Equip
 Item	government-issued night-vision goggles	Item Drop: +5, Monster Level: +5, Single Equip
+Item	governor's daughter's lace collar	Mysticality Percent: +20
 # GPS-tracking wristwatch
 Item	grandfather watch	Adventures: +6, Single Equip, Nonstackable Watch
 # Gravyskin Belt of the Sauceblob: 3 Additional Scrumptious Reagent Summons Per Day
@@ -3168,6 +3177,7 @@ Item	Grimacite gauntlets	Meat Drop: +30, Muscle Percent: [10*G], Single Equip
 Item	Grimacite girdle	Spell Damage: +20, Mysticality Percent: [10*G], Single Equip
 Item	Grimacite go-go boots	Item Drop: +30, Moxie Percent: [10*G], Single Equip
 Item	Grimacite gorget	Item Drop: +25, Muscle Percent: [10*G]
+Item	groggles	Booze Drop: +50
 # Groll doll: Is The Best The Best The Best The Best The Best The Best The Best
 Item	Groll doll	Single Equip, Sporadic Damage Aura: 0.6
 Item	groovy prism necklace	Single Equip, Sporadic Thorns: 2.5
@@ -3237,6 +3247,8 @@ Item	jaunty feather	Muscle: +1, Mysticality: +1, Moxie: +1, Maximum HP: +3, Maxi
 Item	Jefferson wings	Sleaze Damage: +20
 Item	Jekyllin hide belt	Muscle: [9-M], Mysticality: [9-M], Moxie: [9-M], Item Drop: [15+5*M], Softcore Only
 Item	Jolly Roger charrrm bracelet	Moxie: +5
+# jolly roger flag: Scares away rich monsters
+Item	jolly roger flag	Meat Drop: +25, Lasts Until Rollover
 # Juju Mojo Mask: Big Mojo
 Item	Juju Mojo Mask	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Experience: +2, Single Equip, Softcore Only
 Item	Junior Adventurer's merit badge	Muscle: +3, Mysticality: +3, Moxie: +3, Single Equip
@@ -5800,6 +5812,7 @@ Effect	Curse of Misfortune	Meat Drop: -100, Item Drop: -50
 Effect	Curse of Randomness	Random Monster Modifiers: +1
 Effect	Curse of Sluggishness	Initiative: -50
 Effect	Curse of the Black Pearl Onion	Damage Aura: 1
+Effect	Curse of the Tamale	Spooky Damage: +10
 Effect	Curse of Vulnerability	Damage Absorption: -500, Damage Reduction: -50
 Effect	Curse of Weakness	Weapon Damage Percent: -50, Spell Damage Percent: -50
 # Cursed by The RNG: ???
@@ -8741,6 +8754,7 @@ Outfit	Gingerbread Best	Sprinkle Drop: +25
 Outfit	Glad Bag Glad Rags	Stench Damage: +5, Sleaze Damage: +5, Mysticality: +10, Moxie: +10, Initiative: +10
 Outfit	Gladiatorial Glad Rags	Adventures: +6
 Outfit	Gnauga Hides	Damage Reduction: 3
+Outfit	Governor's Daughter's Fancy Finery	Hot Resistance: +1, Cold Resistance: +1, Stench Resistance: +1, Spooky Resistance: +1, Sleaze Resistance: +1
 Outfit	Grass Guise	HP Regen Min: 1, HP Regen Max: 3
 Outfit	Grimy Reaper's Vestments	Spooky Damage: +100, Spooky Spell Damage: +100
 Outfit	Guzzlr Uniform	Initiative: +25
@@ -9047,6 +9061,7 @@ Item	cream of chloroplasts	Effect: "Chloroplasted", Effect Duration: 50
 Item	Crimbo salad	Effect: "Salad Days", Effect Duration: 40
 Item	cup of lukewarm tea	Effect: "Jittery", Effect Duration: 20
 Item	cupcake-in-a-cup	Effect: "Cake Caked", Effect Duration: 10
+Item	cursed Aztec tamale	Effect: "Curse of the Tamale", Effect Duration: 20
 Item	cursed black pearl onion	Effect: "Curse of the Black Pearl Onion", Effect Duration: 1
 Item	cursed sea biscuit	Effect: "Curse Magnet", Effect Duration: 10
 Item	D roll	Effect: "On a Roll", Effect Duration: 20
@@ -11114,6 +11129,7 @@ Item	alien source code printout (used)	Skill: "Alien Source Code"
 Item	all-purpose cleaner	Effect: "Soul-Crushing Headache", Effect Duration: 10
 Item	all-year sucker	Effect: "Gonna Get You, Sucker", Effect Duration: 10
 # alpine watercolor set: Make a painting of a monster to hang on your wall
+# anchor bomb: Banish a foe for 30 turns
 # ancient cure-all: Allows you to remove an Effect
 # ancient Magi-Wipes: Restores 50-60 MP and HP and removes some negative effects
 # ancient poisoned dart: Poisons your opponent
@@ -12134,6 +12150,7 @@ Item	photo booth sized crate	Free Pull
 # pint of sweat: Deals 25-30 <font color=green>Stench Damage</font> and 25-30 <font color=blueviolet>Sleaze Damage</font>
 # pint of sweat: (and additional Stench and Sleaze damage in subsequent rounds)
 # piracetam: Make a Pokefamiliar Smart
+# pirate dinghy: Take a relaxing sail or visit the Mysterious Island of Mystery
 # PirateRealm fun-a-log: Purchase gifts using PirateRealm FunPoints
 # PirateRealm guest pass: Gives you access to PirateRealm for the day
 # PirateRealm membership packet: Permanently unlocks access to PirateRealm
@@ -12201,6 +12218,7 @@ Item	praying Grim Brother	Free Pull
 Item	Prelude of Precision	Skill: "Prelude of Precision"
 # print screen button: Copies a Monster
 # procrastination potion: Causes Enemy to Put Off Attacking You
+Item	profane eye patch	Sleaze Damage: +3
 Item	Professor of Spelunkology	Free Pull
 Item	Psycho From The Heat	Skill: "Pyromania"
 # psychokinetic energy blob: Restores 20-30 MP
