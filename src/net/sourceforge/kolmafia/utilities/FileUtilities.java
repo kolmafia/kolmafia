@@ -217,7 +217,7 @@ public class FileUtilities {
     HttpResponse<InputStream> response;
     if (testingWithFakeData) {
       var localClient = createClient();
-      try {
+      try (localClient) {
         response = localClient.send(request, BodyHandlers.ofInputStream());
       } catch (IOException | InterruptedException e) {
         StaticEntity.printStackTrace(e);
