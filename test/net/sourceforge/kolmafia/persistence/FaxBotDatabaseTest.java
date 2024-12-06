@@ -178,8 +178,6 @@ class FaxBotDatabaseTest {
       try (cleanups) {
         assertFalse(getBoolean(property));
         FaxBotDatabase.configure();
-        // This test fails because the ResettingHttpClient in FileUtilities does not actually get
-        // the fake response.
         assertTrue(getBoolean(property));
       }
       FileUtilities.setTestingWithFakeData(false);
@@ -194,7 +192,6 @@ class FaxBotDatabaseTest {
       try (cleanups) {
         assertFalse(getBoolean(property));
         FaxBotDatabase.configure();
-        // Not sure why not working
         assertTrue(getBoolean(property));
       }
       FileUtilities.setTestingWithFakeData(false);
