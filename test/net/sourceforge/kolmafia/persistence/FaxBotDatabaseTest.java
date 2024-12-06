@@ -14,6 +14,7 @@ import internal.helpers.Cleanups;
 import java.util.List;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.MonsterData;
+import net.sourceforge.kolmafia.utilities.FileUtilities;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -172,27 +173,31 @@ class FaxBotDatabaseTest {
       // different.
       globalCleanup.close();
       FaxBotDatabase.resetInitialization();
+      FileUtilities.setTestingWithFakeData(true);
       var cleanups = new Cleanups(withNextResponse(200, response), withProperty(property, false));
       try (cleanups) {
         assertFalse(getBoolean(property));
         FaxBotDatabase.configure();
         // This test fails because the ResettingHttpClient in FileUtilities does not actually get
         // the fake response.
-        // assertTrue(getBoolean(property));
+        assertTrue(getBoolean(property));
       }
+      FileUtilities.setTestingWithFakeData(false);
     }
 
     @Test
     public void checkPreferenceWhenFiles() {
       String property = "_faxDataChanged";
       FaxBotDatabase.resetInitialization();
-      var cleanups = new Cleanups(withNextResponse(200, response), withProperty(property, false));
+      FileUtilities.setTestingWithFakeData(true);
+      var cleanups = new Cleanups(withNextResponse(200, ""), withProperty(property, false));
       try (cleanups) {
         assertFalse(getBoolean(property));
         FaxBotDatabase.configure();
         // Not sure why not working
-        // assertTrue(getBoolean(property));
+        assertTrue(getBoolean(property));
       }
+      FileUtilities.setTestingWithFakeData(false);
     }
   }
 }

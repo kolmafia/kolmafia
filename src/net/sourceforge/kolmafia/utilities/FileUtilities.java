@@ -32,7 +32,12 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 
 public class FileUtilities {
+  private static boolean testingWithFakeData = false;
   private static ResettingHttpClient client;
+
+  public static void setTestingWithFakeData(boolean val) {
+    testingWithFakeData = val;
+  }
 
   private static ResettingHttpClient getClient() {
     if (client != null) {
@@ -209,13 +214,23 @@ public class FileUtilities {
       RequestLogger.trace("Requesting: " + remote);
     }
 
-    var client = getClient();
     HttpResponse<InputStream> response;
-    try {
-      response = client.send(request, BodyHandlers.ofInputStream());
-    } catch (IOException | InterruptedException e) {
-      StaticEntity.printStackTrace(e);
-      return null;
+    if (testingWithFakeData) {
+      var localClient = createClient();
+      try {
+        response = localClient.send(request, BodyHandlers.ofInputStream());
+      } catch (IOException | InterruptedException e) {
+        StaticEntity.printStackTrace(e);
+        return null;
+      }
+    } else {
+      var localClient = getClient();
+      try {
+        response = localClient.send(request, BodyHandlers.ofInputStream());
+      } catch (IOException | InterruptedException e) {
+        StaticEntity.printStackTrace(e);
+        return null;
+      }
     }
 
     int responseCode = response.statusCode();
