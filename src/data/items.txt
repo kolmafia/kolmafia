@@ -11737,3 +11737,24 @@
 11709	peppermint pegleg	240958650	pepperpeg.gif	potion, usable	t	0
 11710	hard cocoa	491706523	coffeecup.gif	drink	t	0	cups of hard cocoa
 11711	salmagumdi	784940421	salmagundi.gif	food	t	0	plates of salmagumdi
+11712
+11713
+11714
+11715
+11716
+11717
+11718
+11719
+11720
+11721
+11722
+11723
+11724
+11725
+11726
+11727
+11728
+11729
+11730
+11731
+11732	rum ball	431412139	candy.gif	potion, usable	t,d	5

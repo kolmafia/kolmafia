@@ -176,4 +176,4 @@
 169	Adobe Armor	adobetat.gif	adobe ayam, adobe adze, adobe abacus, adobe abaya, adobe arsecover, adobe ascot	adobe brittle
 170
 171
-172	Governor's Daughter's Fancy Finery	govtat.gif	governor's daughter's pearl hairpin, governor's daughter's petticoats, governor's daughter's lace collar
+172	Governor's Daughter's Fancy Finery	govtat.gif	governor's daughter's pearl hairpin, governor's daughter's petticoats, governor's daughter's lace collar	rum ball

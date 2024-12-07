@@ -7238,6 +7238,7 @@ Effect	Rosewater Mark	Mysticality: +10, Spell Damage: +10, Experience (Mysticali
 Effect	Rotten Memories	Stench Damage: +15
 Effect	Ruby-ous	Initiative: +150, Weapon Damage: +10
 Effect	Rum of Darkness	Elf Warfare Effectiveness: +5
+Effect	Rummy	Booze Drop: +30
 Effect	Rumpel-pumped	Muscle Percent: +400, Mysticality Percent: +400, Moxie Percent: +400
 Effect	Rushin' Hands	Weapon Damage: +3
 Effect	Rushtacean'	Initiative: +50
@@ -10648,6 +10649,7 @@ Item	Rock Pops	Effect: "Sugar Rush", Effect Duration: 3
 Item	roll of meat	Effect: "Stick Emporium Membership", Effect Duration: 50
 Item	rubber nubbin	Effect: "You're Rubber", Effect Duration: 20
 Item	ruby on canes	Effect: "Ruby-ous", Effect Duration: 20
+Item	rum ball	Effect: "Rummy", Effect Duration: 20
 Item	runproof mascara	Effect: "Unrunnable Face", Effect Duration: 20
 Item	salamander slurry	Effect: "Salamander In Your Stomach", Effect Duration: [R]
 Item	Salsa Caliente&trade; candle	Effect: "El Aroma de Salsa", Effect Duration: 40

@@ -140,6 +140,7 @@ public class CampgroundRequest extends GenericRequest {
           ItemPool.DIABOLIC_PIZZA_CUBE,
           ItemPool.COLD_MEDICINE_CABINET,
           ItemPool.MODEL_TRAIN_SET,
+          ItemPool.TAKERSPACE_LETTER_OF_MARQUE,
 
           // Outside dwelling
           ItemPool.MEAT_GOLEM,
@@ -437,7 +438,8 @@ public class CampgroundRequest extends GenericRequest {
           ItemPool.ASDON_MARTIN,
           ItemPool.DIABOLIC_PIZZA_CUBE,
           ItemPool.COLD_MEDICINE_CABINET,
-          ItemPool.MODEL_TRAIN_SET);
+          ItemPool.MODEL_TRAIN_SET,
+          ItemPool.TAKERSPACE_LETTER_OF_MARQUE);
 
   public static final AdventureResult[] CROPS = {
     CampgroundRequest.PUMPKIN,
@@ -1676,6 +1678,7 @@ public class CampgroundRequest extends GenericRequest {
         Preferences.setInteger("_coldMedicineConsults", 5);
       }
     }
+    // takerspace is detected in choice control
   }
 
   private static boolean findImage(
