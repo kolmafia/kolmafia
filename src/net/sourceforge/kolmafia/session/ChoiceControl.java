@@ -9044,6 +9044,10 @@ public abstract class ChoiceControl {
         // Consider the Calendar
         parseMayamCalendar(text);
         break;
+
+      case 1537: // TakerSpace
+        CampgroundRequest.setCurrentWorkshedItem(ItemPool.TAKERSPACE_LETTER_OF_MARQUE);
+        break;
     }
   }
 
