@@ -2938,3 +2938,5 @@
 2935	Peppermint Endoskeleton	pepperpeg.gif	92bf2d2fcf7ec4082c685df639677cf0	neutral	none	use 1 peppermint pegleg
 2936	Pirate's Currrse	ts_curse.gif	691dd7d62dcb27e6406e7959dbf6bbef	neutral	none
 2937	Curse of the Tamale	ts_tamale.gif	4e266c3ab86db9587b54fa54ae1adb04	neutral	none	eat 1 cursed Aztec tamale
+2938
+2939	Rummy	candy.gif	df0db5d253af5a2e71afd14cc6ed80d0	neutral	none	use 1 rum ball
