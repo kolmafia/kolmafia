@@ -173,6 +173,7 @@ googly-ball hat	200	Mys: 111
 googly-heart hat	200	Mox: 111
 googly-star hat	200	Mus: 111
 government-issued eyeshade	50	none
+governor's daughter's pearl hairpin	50	none
 grass hat	80	Mox: 25
 gravy boat	100	none
 Great Wolf's headband	300	Mus: 250
@@ -211,6 +212,7 @@ intimidating coiffure	225	Mox: 200
 invisible bag	10	none
 irate sombrero	45	Mox: 7
 iron helmet	100	Mox: 20
+iron tricorn hat	100	Mox: 35
 ironic knit cap	40	Mox: 5
 isotophat	100	Mox: 35
 Iunion Crown	100	none
@@ -570,6 +572,7 @@ gnauga hide kilt	80	Mox: 25
 gnauga hide skirt	80	Mox: 25
 gold lam&eacute; pants	100	Mox: 35
 government-issued slacks	50	none
+governor's daughter's petticoats	50	none
 grass skirt	80	Mox: 25
 Great Wolf's beastly trousers	300	Mus: 100
 Greatest American Pants	100	none
@@ -682,6 +685,7 @@ sea chaps	200	Mox: 85
 sealhide leggings	160	Mox: 65
 servo-assisted exo-pants	50	none
 shadow trousers	100	none
+silky pirate drawers	10	none
 slime waders	150	Mys: 30
 slime-covered greaves	200	Mox: 200
 SMOOCH codpiece	80	Mox: 25
@@ -1091,6 +1095,7 @@ cheer extractor	40	Mus: 0	1-handed club
 Chelonian Morningstar	90	Mus: 15	1-handed flail
 Chester's bag of candy	200	Mox: 200	2-handed bag
 chiffon chakram	50	Mox: 0	1-handed 
+chili powder cutlass	120	Mus: 0	1-handed sword
 chisel	10	Mus: 0	1-handed knife
 chocolate cow bone	100	Mus: 35	1-handed club
 chopsticks	75	Mys: 23	1-handed utensil
@@ -1939,6 +1944,7 @@ deceased crimbo tree	0	none
 deck of lewd playing cards	75	Mys: 22
 deck of tropical cards	20	none
 defective skull	60	none
+deft pirate hook	0	none
 demon buckler	80	Mus: 25	shield
 depleted Grimacite gravy boat	100	Mus: 35
 detective skull	60	none
@@ -2729,6 +2735,7 @@ Golden Mr. Eh?	0	none
 gory drippy orb	0	none
 government-issued necktie	50	none
 government-issued night-vision goggles	25	none
+governor's daughter's lace collar	50	none
 GPS-tracking wristwatch	10	none
 grandfather watch	225	Mys: 200
 Gravyskin Belt of the Sauceblob	150	Mys: 45
@@ -2741,6 +2748,7 @@ Grimacite gauntlets	0	Mys: 15
 Grimacite girdle	0	Mys: 15
 Grimacite go-go boots	0	Mys: 15
 Grimacite gorget	0	Mys: 17
+groggles	0	none
 Groll doll	50	none
 groovy prism necklace	150	Mys: 60
 grubby wool gloves	50	none
@@ -2803,6 +2811,7 @@ jaunty feather	0	none
 Jefferson wings	160	Mys: 65
 Jekyllin hide belt	0	none
 Jolly Roger charrrm bracelet	70	Mys: 20
+jolly roger flag	0	none
 Juju Mojo Mask	100	none
 Junior Adventurer's merit badge	30	none
 Junior LAAAAME merit badge	10	none

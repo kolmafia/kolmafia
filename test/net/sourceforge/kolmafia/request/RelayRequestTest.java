@@ -8,6 +8,7 @@ import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withMeat;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withTurnsPlayed;
+import static internal.helpers.Utilities.deleteSerFiles;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.emptyOrNullString;
 import static org.hamcrest.Matchers.is;
@@ -33,6 +34,7 @@ import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -159,6 +161,14 @@ public class RelayRequestTest {
       Preferences.reset("RelayRequestTest.ApiRequest");
       AdventureSpentDatabase.resetTurns();
       AdventureQueueDatabase.resetQueue();
+    }
+
+    @AfterAll
+    public static void afterAll() {
+      // This test creates ser files as if the logged in user were "GLOBAL".   The reason why
+      // has not been found and setting a logged in user breaks the test because the returned JSON
+      // is different from what is expected.
+      deleteSerFiles("GLOBAL");
     }
 
     @Test
@@ -388,6 +398,17 @@ public class RelayRequestTest {
       assertThat(JSON.parse(rr.responseText), is(expected));
     }
 
+    @Test
+    public void handlesBufferToFile() {
+      var rr =
+          this.makeApiRequest(
+              """
+        { "functions": [{ "name": "bufferToFile", "args": ["abcde", "data/x.txt"] }] }
+        """);
+      assertThat(rr.statusLine, is("HTTP/1.1 200 OK"));
+      assertThat(rr.responseCode, is(200));
+    }
+
     @ParameterizedTest
     @ValueSource(
         strings = {
@@ -423,8 +444,7 @@ public class RelayRequestTest {
 """.formatted(json));
 
       JSONObject expected = new JSONObject();
-      expected.put(
-          "error", "Invalid arguments to identity: [" + JSON.toJSONString(JSON.parse(json)) + "]");
+      expected.put("error", "Invalid argument to identity: " + JSON.toJSONString(JSON.parse(json)));
       assertThat(rr.statusLine, is("HTTP/1.1 400 Bad Request"));
       assertThat(rr.responseCode, is(400));
       assertThat(JSON.parse(rr.responseText), is(expected));
@@ -605,115 +625,29 @@ public class RelayRequestTest {
       }
     }
 
-    @Test
-    public void testInvalidJson() {
-      var rr = this.makeApiRequest("{ invalid_json }");
-
-      JSONObject expected =
-          JSON.parseObject("""
-      { "error": "Invalid JSON object in request." }
-      """);
-      assertThat(rr.statusLine, is("HTTP/1.1 400 Bad Request"));
-      assertThat(rr.responseCode, is(400));
-      assertThat(JSON.parse(rr.responseText), is(expected));
-    }
-
-    @Test
-    public void testInvalidPropertyNames() {
-      var rr = this.makeApiRequest("""
-      { "properties": [123, true] }
-      """);
-
-      JSONObject expected =
-          JSON.parseObject("""
-      { "error": "Invalid property names [123,true]" }
-      """);
-      assertThat(rr.statusLine, is("HTTP/1.1 400 Bad Request"));
-      assertThat(rr.responseCode, is(400));
-      assertThat(JSON.parse(rr.responseText), is(expected));
-    }
-
-    @Test
-    public void testInvalidFunctionCallNoFunctionName() {
-      var rr = this.makeApiRequest("""
-      { "functions": [{ "args": [] }] }
-      """);
+    @ParameterizedTest
+    @CsvSource(
+        textBlock =
+            """
+    { invalid_json };Invalid JSON object in request.
+    { "properties": [123, true] };Invalid property names [123,true]
+    { "functions": [{ "args": [] }] };Invalid function calls [{\\"args\\":[]}]
+    { "functions": [{ "name": "abc" }] };Invalid function calls [{\\"name\\":\\"abc\\"}]
+    { "functions": [{ "name": "myTurncount", "args": [null] }] };Invalid function calls [{\\"name\\":\\"myTurncount\\",\\"args\\":[null]}]
+    { "functions": [{ "name": "nonExistentFunction", "args": [] }] };Unable to find method nonExistentFunction accepting arguments [].
+    { "functions": [{ "name": "itemDropsArray", "args": [{"objectType": "monster", "identifierString": "fluffy bunny"}] }] };Unable to find method itemDropsArray accepting arguments [{\\"objectType\\":\\"monster\\",\\"identifierString\\":\\"fluffy bunny\\"}].
+    { "functions": [{ "name": "availableAmount", "args": [{ "objectType": "Item", "identifierString": "nonexistent" }] }] };Failed to convert arguments to ASH: Unidentified object {\\"objectType\\":\\"Item\\",\\"identifierString\\":\\"nonexistent\\"}.
+    """,
+        delimiter = ';')
+    public void testInvalidRequest(String json, String errorMessage) {
+      var rr = this.makeApiRequest(json);
 
       JSONObject expected =
           JSON.parseObject(
               """
-      { "error": "Invalid function calls [{\\"args\\":[]}]"}
-      """);
-      assertThat(rr.statusLine, is("HTTP/1.1 400 Bad Request"));
-      assertThat(rr.responseCode, is(400));
-      assertThat(JSON.parse(rr.responseText), is(expected));
-    }
+            { "error": "%s" }
+        """.formatted(errorMessage.trim()));
 
-    @Test
-    public void testInvalidFunctionCallNoFunctionArgs() {
-      var rr = this.makeApiRequest("""
-      { "functions": [{ "name": "abc" }] }
-      """);
-
-      JSONObject expected =
-          JSON.parseObject(
-              """
-      { "error": "Invalid function calls [{\\"name\\":\\"abc\\"}]"}
-      """);
-      assertThat(rr.statusLine, is("HTTP/1.1 400 Bad Request"));
-      assertThat(rr.responseCode, is(400));
-      assertThat(JSON.parse(rr.responseText), is(expected));
-    }
-
-    @Test
-    public void testInvalidFunctionCallInvalidArgs() {
-      var rr =
-          this.makeApiRequest(
-              """
-      { "functions": [{ "name": "myTurncount", "args": [null] }] }
-      """);
-
-      JSONObject expected =
-          JSON.parseObject(
-              """
-      { "error": "Invalid function calls [{\\"name\\":\\"myTurncount\\",\\"args\\":[null]}]" }
-      """);
-      assertThat(rr.statusLine, is("HTTP/1.1 400 Bad Request"));
-      assertThat(rr.responseCode, is(400));
-      assertThat(JSON.parse(rr.responseText), is(expected));
-    }
-
-    @Test
-    public void testFunctionNotFound() {
-      var rr =
-          this.makeApiRequest(
-              """
-      { "functions": [{ "name": "nonExistentFunction", "args": [] }] }
-      """);
-
-      JSONObject expected =
-          JSON.parseObject(
-              """
-      { "error": "Unable to find method nonExistentFunction" }
-      """);
-      assertThat(rr.statusLine, is("HTTP/1.1 400 Bad Request"));
-      assertThat(rr.responseCode, is(400));
-      assertThat(JSON.parse(rr.responseText), is(expected));
-    }
-
-    @Test
-    public void testInvalidFunctionCallWrongArgTypes() {
-      var rr =
-          this.makeApiRequest(
-              """
-      { "functions": [{ "name": "itemDropsArray", "args": [{"objectType": "monster", "identifierString": "fluffy bunny"}] }] }
-      """);
-
-      JSONObject expected =
-          JSON.parseObject(
-              """
-      { "error": "Unable to call method: java.lang.ClassCastException: class java.util.TreeMap cannot be cast to class net.sourceforge.kolmafia.MonsterData (java.util.TreeMap is in module java.base of loader 'bootstrap'; net.sourceforge.kolmafia.MonsterData is in unnamed module of loader 'app')" }
-      """);
       assertThat(rr.statusLine, is("HTTP/1.1 400 Bad Request"));
       assertThat(rr.responseCode, is(400));
       assertThat(JSON.parse(rr.responseText), is(expected));

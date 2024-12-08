@@ -1,1 +1,1 @@
-exception: Passing undefined to an ASH function is not supported.
+Script exception: Passing undefined to an ASH function is not supported. (file:%%STACKTRACE_LOCATION%%/print_undefined.js#3)

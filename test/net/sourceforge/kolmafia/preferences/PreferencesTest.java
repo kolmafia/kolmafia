@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.preferences;
 
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withSavePreferencesToFile;
+import static internal.helpers.Utilities.deleteSerFiles;
 import static internal.helpers.Utilities.verboseDelete;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.CoreMatchers.containsString;
@@ -18,17 +19,16 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.TreeMap;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 class PreferencesTest {
   private final String USER_NAME = "PreferencesTestFakeUser";
@@ -43,14 +43,6 @@ class PreferencesTest {
     deleteSerFiles(USER_NAME);
     KoLmafia.releaseFileLock();
     KoLCharacter.reset("");
-  }
-
-  private static void deleteSerFiles(String username) {
-    String part = username.toLowerCase();
-    Path dest = Paths.get(KoLConstants.ROOT_LOCATION + "/data/" + part + "_queue.ser");
-    verboseDelete(dest);
-    dest = Paths.get(KoLConstants.ROOT_LOCATION + "/data/" + part + "_turns.ser");
-    verboseDelete(dest);
   }
 
   @Test
@@ -489,6 +481,21 @@ class PreferencesTest {
     String prefName = "autoLogin";
     boolean result = Preferences.containsDefault(prefName);
     assertTrue(result, "default not in defaultsSet for pref " + prefName);
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    "choiceAdventure2, false",
+    "8BitScore, true",
+    "lastNoncombat15, true",
+    "yearbookCameraUpgrades, false",
+    "noobPoints, false",
+    "bwApronMealsEaten, true",
+    "muffinOnOrder, true",
+    "nonExistentPref, false"
+  })
+  void isResetOnAscension(String name, boolean expected) {
+    assertEquals(Preferences.isResetOnAscension(name), expected);
   }
 
   @Test

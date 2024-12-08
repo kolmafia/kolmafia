@@ -1274,6 +1274,12 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         case AdventurePool.BEANBAT:
         case AdventurePool.BOSSBAT:
           {
+            // Cannot adventure in the Boss Bat's Lair after completing the quest.
+            if (this.adventureNumber == AdventurePool.BOSSBAT
+                && QuestDatabase.isQuestFinished(Quest.BAT)) {
+              return false;
+            }
+
             int sonarsUsed =
                 switch (progress) {
                   case QuestDatabase.STARTED -> 0;
@@ -3275,6 +3281,10 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
   public static KoLAdventure setLastAdventure(
       String adventureId, final String adventureName, String adventureURL, final String container) {
+    if (container != null) {
+      Preferences.setString("lastAdventureContainer", container);
+    }
+
     KoLAdventure adventure = AdventureDatabase.getAdventureByURL(adventureURL);
     if (adventure == null) {
       int index = adventureURL.indexOf("?");

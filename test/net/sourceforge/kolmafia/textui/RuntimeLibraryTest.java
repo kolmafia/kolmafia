@@ -38,6 +38,7 @@ import static internal.helpers.Player.withTrackedPhyla;
 import static internal.helpers.Player.withTurnsPlayed;
 import static internal.helpers.Player.withUnequipped;
 import static internal.helpers.Player.withValueOfAdventure;
+import static internal.helpers.Utilities.deleteSerFiles;
 import static org.hamcrest.CoreMatchers.both;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.not;
@@ -95,11 +96,15 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 public class RuntimeLibraryTest extends AbstractCommandTestBase {
+
+  private static final String TESTUSER = "RuntimeLibraryTestUser";
+
   @BeforeEach
   public void initEach() {
-    KoLCharacter.reset("testUser");
+    KoLCharacter.reset(TESTUSER);
+    deleteSerFiles(TESTUSER);
     KoLCharacter.reset(true);
-    Preferences.reset("testUser");
+    Preferences.reset(TESTUSER);
   }
 
   public RuntimeLibraryTest() {
@@ -1233,6 +1238,23 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
                  Unarmed =>
                  """));
     }
+
+    @Test
+    void parsesModifiersWithDifferentNamesToTags() {
+      String input =
+          "split_modifiers(\"Experience (Muscle): +11, Experience (Mysticality): +9, Experience (Moxie): +7, Damage Reduction: 24\")";
+      String output = execute(input);
+      assertThat(
+          output,
+          is(
+              """
+                 Returned: aggregate string [modifier]
+                 Damage Reduction => 24
+                 Moxie Experience => +7
+                 Muscle Experience => +11
+                 Mysticality Experience => +9
+                 """));
+    }
   }
 
   @Nested
@@ -1761,5 +1783,19 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
           is(
               "get_items_hash: Invalid items source. Valid are inventory, closet, storage, display, shop.\nReturned: -3750763034362895579"));
     }
+  }
+
+  @Test
+  void getAvatar() {
+    KoLCharacter.setAvatar("otherimages/giant_foodie.gif");
+    assertThat(
+        execute("get_avatar()").trim(),
+        is("Returned: aggregate string [1]\n0 => otherimages/giant_foodie.gif"));
+  }
+
+  @Test
+  void getTitle() {
+    KoLCharacter.setTitle("NO PEEKING");
+    assertThat(execute("get_title()").trim(), is("Returned: NO PEEKING"));
   }
 }

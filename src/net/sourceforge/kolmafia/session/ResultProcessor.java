@@ -1586,6 +1586,7 @@ public class ResultProcessor {
       case ItemPool.DINGY_DINGHY:
       case ItemPool.SKIFF:
       case ItemPool.YELLOW_SUBMARINE:
+      case ItemPool.PIRATE_DINGHY:
         // Island unlocked
         Preferences.setInteger("lastIslandUnlock", KoLCharacter.getAscensions());
         break;
@@ -2454,6 +2455,7 @@ public class ResultProcessor {
         if (adventureResults
             && (KoLCharacter.currentFamiliar.getId() == FamiliarPool.PUCK_MAN
                 || KoLCharacter.currentFamiliar.getId() == FamiliarPool.MS_PUCK_MAN)) {
+          Preferences.setInteger("powerPillProgress", 0);
           Preferences.increment("_powerPillDrops", 1);
         }
         break;

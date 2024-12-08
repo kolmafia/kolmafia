@@ -18,12 +18,12 @@ jobs:
         os: [macos-latest, ubuntu-latest, windows-latest]
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Setup Java 17
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: "temurin"
           java-version: "17"
@@ -35,9 +35,9 @@ jobs:
         run: ./gradlew --no-daemon jpackage
 
       - name: Upload binaries
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: releases
+          name: releases-${{ matrix.os }}
           path: |
             build/releases/*.deb
             build/releases/*.exe
@@ -50,12 +50,12 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Setup Java 17
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: "temurin"
           java-version: "17"
@@ -67,7 +67,7 @@ jobs:
         run: ./gradlew --no-daemon shadowJar
 
       - name: Upload files
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: dist
           path: dist/*.jar
@@ -79,7 +79,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -90,15 +90,15 @@ jobs:
           echo "KOLMAFIA_VERSION=$KOLMAFIA_VERSION" >> $GITHUB_ENV
 
       - name: Download binaries
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
 
       - name: Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           files: |
             dist/*.jar
-            releases/*.deb
-            releases/*.dmg
+            releases-ubuntu-latest/*.deb
+            releases-macos-latest/*.dmg
           tag_name: r${{ env.KOLMAFIA_VERSION }}
           target_commitish: ${{ github.sha }}
           name: ${{ env.KOLMAFIA_VERSION }}
@@ -114,7 +114,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 

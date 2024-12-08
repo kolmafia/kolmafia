@@ -186,6 +186,7 @@ global	verboseSpeakeasy	false
 global	verboseFloundry	false
 global	wrapLongLines	true
 global	_beachTides	-1
+global	_faxDataChanged	false
 global	_g9Effect	0
 global	_gitUpdated	false
 global	_svnRepoFileFetched	false
@@ -484,6 +485,7 @@ user	commerceGhostItem
 user	commerceGhostCombats	0
 user	considerShadowNoodles	false
 user	controlRoomUnlock	false
+user	cookbookbatIngredientsCharge	0
 user	counterScript
 user	concertVisited	false
 user	controlPanel1	false
@@ -872,6 +874,8 @@ user	knownAscensions	-1
 user	kolhsTotalSchoolSpirited	0
 user	lassoTraining
 user	lastAdventure
+user	lastAdventureContainer
+user	lastAdventureTrail
 user	lastAnticheeseDay	-5
 user	lastArcadeAscension	-1
 user	lastBadMoonReset	-1
@@ -1157,6 +1161,7 @@ user	nextQuantumFamiliarOwner
 user	nextQuantumFamiliarOwnerId	0
 user	nextQuantumFamiliarTurn	0
 user	noncombatForcerActive	false
+user	noncombatForcers
 user	noobPoints	0
 user	noobDeferredPoints	0
 user	noodleSummons	0
@@ -1200,6 +1205,7 @@ user	pastaThrall7
 user	pastaThrall8
 user	pathedSummonsHardcore	true
 user	pathedSummonsSoftcore	false
+user	peaceTurkeyIndex	0
 user	pendingMapReflections	0
 user	peteMotorbikeTires
 user	peteMotorbikeGasTank
@@ -1247,6 +1253,7 @@ user	poolSkill	0
 user	popularTartUnlocked	false
 user	postAscensionScript
 user	potatoAlarmClockUsed	false
+user	powerPillProgress	0
 user	prAlways	false
 user	prayedForGlamour	false
 user	prayedForProtection	false
@@ -1774,6 +1781,7 @@ user	_aug30Cast	false
 user	_aug31Cast	false
 user	_augSkillsCast	0
 user	_augTodayCast	false
+user	_assertYourAuthorityCast	0
 user	_authorsInkUsed	false
 user	_automatedFutureSide
 user	_automatedFutureManufactures	0
@@ -1912,6 +1920,10 @@ user	_confusingLEDClockUsed	false
 user	_controlPanelUsed	false
 user	_cookbookbatCrafting	0
 user	_cookbookbatRecipeDrops	false
+user	_cookbookbatCombatsUntilNewQuest	0
+user	_cookbookbatQuestLastLocation
+user	_cookbookbatQuestMonster
+user	_cookbookbatQuestIngredient
 user	_corruptedStardustUsed	false
 user	_cosmicBowlingSkillsUsed	0
 user	_cosmicSixPackConjured	false
@@ -3368,6 +3380,7 @@ user	choiceAdventure1491	0
 user	choiceAdventure1494	0
 user	choiceAdventure1505	0
 user	choiceAdventure1528	1
+user	choiceAdventure1534	6
 user	lockedItem4637	true
 user	lockedItem4638	true
 user	lockedItem4639	true
