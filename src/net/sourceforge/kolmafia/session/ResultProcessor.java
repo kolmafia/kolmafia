@@ -1586,6 +1586,7 @@ public class ResultProcessor {
       case ItemPool.DINGY_DINGHY:
       case ItemPool.SKIFF:
       case ItemPool.YELLOW_SUBMARINE:
+      case ItemPool.PIRATE_DINGHY:
         // Island unlocked
         Preferences.setInteger("lastIslandUnlock", KoLCharacter.getAscensions());
         break;

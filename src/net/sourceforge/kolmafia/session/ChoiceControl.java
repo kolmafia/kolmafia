@@ -9044,6 +9044,10 @@ public abstract class ChoiceControl {
         // Consider the Calendar
         parseMayamCalendar(text);
         break;
+
+      case 1537: // TakerSpace
+        CampgroundRequest.setCurrentWorkshedItem(ItemPool.TAKERSPACE_LETTER_OF_MARQUE);
+        break;
     }
   }
 
@@ -10178,6 +10182,7 @@ public abstract class ChoiceControl {
       case 1534: // Clan Photo Booth - Get your photo taken
       case 1535: // Clan Photo Booth - Borrow a prop
       case 1536: // Clan Photo Booth - Take a group photo
+      case 1537: // TakerSpace
         return true;
 
       default:
