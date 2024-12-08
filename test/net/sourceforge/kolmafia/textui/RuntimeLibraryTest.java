@@ -1555,15 +1555,13 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     assertContinueState();
     var requests = getRequests();
     assertFalse(requests.isEmpty());
+    boolean passed = false;
     for (var req : requests) {
       if (req.method().contains("POST")) {
-        boolean passed = getPostRequestBody(req).contains("whichitem=10920");
-        if (!passed) {
-          fail("Could not find expected equipment request.");
-        }
-        break;
+        passed = passed || getPostRequestBody(req).contains("whichitem=10920");
       }
     }
+    assertTrue(passed, "Did not find expected equip request.");
   }
 
   @Nested
