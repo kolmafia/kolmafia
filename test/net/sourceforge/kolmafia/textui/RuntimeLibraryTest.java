@@ -1549,7 +1549,6 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       out = execute(cmd);
     }
     assertFalse(out.isEmpty());
-    System.out.println(out);
     assertTrue(out.contains("Wielding June cleaver"));
     assertTrue(out.contains("Putting on designer sweatpants..."));
     assertContinueState();
