@@ -337,3 +337,6 @@
 305	Emberiza Aureola	emberbird.gif	combat1	ember egg	tiny ember	0	0	0	0
 306	Peace Turkey	pto_fam.gif	drop,delevel,block,passive,other1,hp1,mp1	peace turkey outline	tie-dye headband	0	0	0	0
 307	quantum entangler	qf.gif	block	quantized familiar	quantum watch	0	0	0	0	object
+308	golden pet rock	ts_goldrock.gif	none	golden pet rock		0	0	0	0
+309
+310	Profane Parrot	ts_parrot2.gif	block,combat1	sleeping profane parrot	profane eye patch	0	0	0	0
