@@ -9056,12 +9056,12 @@ public abstract class ChoiceControl {
                     "<b>Current Supplies:</b><br>(\\d+) stolen spices<br>(\\d+) robbed rums<br>(\\d+) absconded-with anchors?<br>(\\d+) misappropriated mainmasts<br>(\\d+) snatched silk<br>(\\d+) gaffled gold<br>")
                 .matcher(text);
         if (supplies.find()) {
-          Preferences.setInteger("_takerSpaceSpice", Integer.parseInt(supplies.group(1)));
-          Preferences.setInteger("_takerSpaceRum", Integer.parseInt(supplies.group(2)));
-          Preferences.setInteger("_takerSpaceAnchor", Integer.parseInt(supplies.group(3)));
-          Preferences.setInteger("_takerSpaceMast", Integer.parseInt(supplies.group(4)));
-          Preferences.setInteger("_takerSpaceSilk", Integer.parseInt(supplies.group(5)));
-          Preferences.setInteger("_takerSpaceGold", Integer.parseInt(supplies.group(6)));
+          Preferences.setInteger("takerSpaceSpice", Integer.parseInt(supplies.group(1)));
+          Preferences.setInteger("takerSpaceRum", Integer.parseInt(supplies.group(2)));
+          Preferences.setInteger("takerSpaceAnchor", Integer.parseInt(supplies.group(3)));
+          Preferences.setInteger("takerSpaceMast", Integer.parseInt(supplies.group(4)));
+          Preferences.setInteger("takerSpaceSilk", Integer.parseInt(supplies.group(5)));
+          Preferences.setInteger("takerSpaceGold", Integer.parseInt(supplies.group(6)));
         }
         break;
     }
