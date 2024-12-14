@@ -235,6 +235,7 @@ user	autoSatisfyWithStorage	true
 user	autoSetConditions	true
 user	autoSteal	true
 user	autoTuxedo	false
+user	autopsyTweezersUsed	0
 user	autumnatonQuestLocation
 user	autumnatonQuestTurn	-1
 user	autumnatonUpgrades
@@ -637,6 +638,7 @@ user	drippyBatsUnlocked	0
 user	drippyJuice	0
 user	drippyOrbsClaimed	0
 user	drippyShieldUnlocked	false
+user	droneSelfDestructChipsUsed	0
 user	drunkenSwagger	0
 user	duckAreasCleared	
 user	duckAreasSelected	
@@ -865,6 +867,7 @@ user	itemBoughtPerCharacter6428	false
 user	itemBoughtPerCharacter6429	false
 user	jarlsbergPoints	0
 user	jickSwordModifier
+user	juicyGarbageUsed	0
 user	juneCleaverQueue
 user	jungCharge	0
 user	junglePuns	0
@@ -1148,6 +1151,7 @@ user	mpAutoRecoveryTarget	0.3
 user	muffinOnOrder	none
 user	munchiesPillsUsed	0
 user	mushroomGardenCropLevel	1
+user	nanopolymerSpiderWebsUsed	0
 user	neverendingPartyAlways	false
 user	nextAdventure
 user	nextAprilBandTurn	0
