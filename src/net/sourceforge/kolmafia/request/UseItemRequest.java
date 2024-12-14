@@ -4142,6 +4142,10 @@ public class UseItemRequest extends GenericRequest {
         UseItemRequest.getBugbearBiodataLevels(responseText);
         return;
 
+      case ItemPool.JUICY_GARBAGE:
+        Preferences.increment("juicyGarbageUsed");
+        break;
+
       case ItemPool.PEN_PAL_KIT:
         // You've already got a pen pal. There's no way you
         // could handle the pressure of contantly forgetting to
