@@ -1118,4 +1118,35 @@ class ChoiceControlTest {
       }
     }
   }
+
+  @Nested
+  class TakerSpace {
+    @ParameterizedTest
+    @CsvSource({
+      "first,3,15,26,26,7,1",
+      "parse,9,15,28,27,5,6",
+    })
+    void parsesIngredientsOnFirstVisit(
+        String frag, int spices, int rum, int anchor, int mast, int silk, int gold) {
+      var cleanups =
+          new Cleanups(
+              withProperty("_takerSpaceSpice", 0),
+              withProperty("_takerSpaceRum", 0),
+              withProperty("_takerSpaceAnchor", 0),
+              withProperty("_takerSpaceMast", 0),
+              withProperty("_takerSpaceSilk", 0),
+              withProperty("_takerSpaceGold", 0),
+              withChoice(1537, html("request/test_campground_takerspace_" + frag + ".html")));
+
+      try (cleanups) {
+        assertThat("_takerSpaceSuppliesDelivered", isSetTo(true));
+        assertThat("_takerSpaceSpice", isSetTo(spices));
+        assertThat("_takerSpaceRum", isSetTo(rum));
+        assertThat("_takerSpaceAnchor", isSetTo(anchor));
+        assertThat("_takerSpaceMast", isSetTo(mast));
+        assertThat("_takerSpaceSilk", isSetTo(silk));
+        assertThat("_takerSpaceGold", isSetTo(gold));
+      }
+    }
+  }
 }
