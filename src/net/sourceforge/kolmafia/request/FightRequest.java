@@ -10837,178 +10837,162 @@ public class FightRequest extends GenericRequest {
     boolean itemLimitMaxedOut = false;
 
     switch (itemId) {
-      default:
-        break;
-
-      case ItemPool.CHAOS_BUTTERFLY:
+      case ItemPool.CHAOS_BUTTERFLY -> {
         if (responseText.contains("reality is altered in unpredictable ways") || itemSuccess) {
           Preferences.setBoolean("chaosButterflyThrown", true);
         }
-        break;
-
-      case ItemPool.TOY_SOLDIER:
+      }
+      case ItemPool.TOY_SOLDIER -> {
         // A toy soldier consumes tequila.
 
         if (KoLConstants.inventory.contains(FightRequest.TEQUILA)) {
           ResultProcessor.processResult(FightRequest.TEQUILA);
         }
-        break;
-
-      case ItemPool.TOY_MERCENARY:
+      }
+      case ItemPool.TOY_MERCENARY -> {
         // A toy mercenary consumes 5-10 meat
 
         // A sidepane refresh at the end of the battle will
         // re-synch everything.
-        break;
-
-      case ItemPool.SHRINKING_POWDER:
+      }
+      case ItemPool.SHRINKING_POWDER -> {
         if (responseText.contains("gets smaller and angrier") || itemSuccess) {
           MonsterStatusTracker.damageMonster(MonsterStatusTracker.getMonsterHealth() / 2);
         }
-        break;
-
-      case 819:
-      case 820:
-      case 821:
-      case 822:
-      case 823:
-      case 824:
-      case 825:
-      case 826:
-      case 827:
+      }
+      case 819, 820, 821, 822, 823, 824, 825, 826, 827 -> {
         if (AdventureResult.bangPotionName(itemId).contains("healing")) {
           MonsterStatusTracker.healMonster(16);
         }
-        break;
+      }
 
         // Handle item banishers
-      case ItemPool.CRYSTAL_SKULL:
+      case ItemPool.CRYSTAL_SKULL -> {
         if (responseText.contains("skull explodes into a million worthless shards of glass")
             || itemRunawaySuccess) {
           BanishManager.banishCurrentMonster(Banisher.CRYSTAL_SKULL);
         }
-        break;
-      case ItemPool.DIVINE_CHAMPAGNE_POPPER:
+      }
+      case ItemPool.DIVINE_CHAMPAGNE_POPPER -> {
         if (responseText.contains("surprisingly loud bang, and your opponent")
             || itemRunawaySuccess) {
           BanishManager.banishCurrentMonster(Banisher.DIVINE_CHAMPAGNE_POPPER);
         }
-        break;
-      case ItemPool.HAROLDS_HAMMER:
+      }
+      case ItemPool.HAROLDS_HAMMER -> {
         if (responseText.contains("throw the bell away") || itemRunawaySuccess) {
           BanishManager.banishCurrentMonster(Banisher.HAROLDS_BELL);
         }
-        break;
-      case ItemPool.INDIGO_TAFFY:
+      }
+      case ItemPool.INDIGO_TAFFY -> {
         if (responseText.contains("nowhere to be found") || itemRunawaySuccess) {
           BanishManager.banishCurrentMonster(Banisher.PULLED_INDIGO_TAFFY);
         }
-        break;
-      case ItemPool.CLASSY_MONKEY:
+      }
+      case ItemPool.CLASSY_MONKEY -> {
         if (responseText.contains("EEEEEEEEEEEEEEEEEEEEEEEEK!") || itemRunawaySuccess) {
           BanishManager.banishCurrentMonster(Banisher.CLASSY_MONKEY);
         }
-        break;
-      case ItemPool.DIRTY_STINKBOMB:
+      }
+      case ItemPool.DIRTY_STINKBOMB -> {
         if (responseText.contains("don't expect to see") || itemRunawaySuccess) {
           BanishManager.banishCurrentMonster(Banisher.DIRTY_STINKBOMB);
         }
-        break;
-      case ItemPool.DEATHCHUCKS:
+      }
+      case ItemPool.DEATHCHUCKS -> {
         if (responseText.contains("far enough away from you") || itemRunawaySuccess) {
           BanishManager.banishCurrentMonster(Banisher.DEATHCHUCKS);
         }
-        break;
-      case ItemPool.COCKTAIL_NAPKIN:
+      }
+      case ItemPool.COCKTAIL_NAPKIN -> {
         if (responseText.contains(
                 "random phone number onto the napkin and hand it to the clingy pirate")
             || itemRunawaySuccess) {
           BanishManager.banishCurrentMonster(Banisher.COCKTAIL_NAPKIN);
         }
-        break;
-      case ItemPool.LOUDER_THAN_BOMB:
+      }
+      case ItemPool.LOUDER_THAN_BOMB -> {
         if (responseText.contains("nowhere to be seen") || itemRunawaySuccess) {
           BanishManager.banishCurrentMonster(Banisher.LOUDER_THAN_BOMB);
         }
-        break;
-      case ItemPool.SMOKE_GRENADE:
+      }
+      case ItemPool.SMOKE_GRENADE -> {
         if (responseText.contains("flee in the ensuing confusion") || itemRunawaySuccess) {
           BanishManager.banishCurrentMonster(Banisher.SMOKE_GRENADE);
         }
-        break;
-      case ItemPool.SPOOKY_MUSIC_BOX_MECHANISM:
+      }
+      case ItemPool.SPOOKY_MUSIC_BOX_MECHANISM -> {
         if (responseText.contains("wistful expression") || itemRunawaySuccess) {
           BanishManager.banishCurrentMonster(Banisher.SPOOKY_MUSIC_BOX_MECHANISM);
         }
-        break;
-      case ItemPool.ICE_HOUSE:
+      }
+      case ItemPool.ICE_HOUSE -> {
         // You toss the ice house on the ground, and your opponent enters it.
         // You slam the door and laugh all the way to the Museum, where you put
         // the house on display with it still inside it.
         if (responseText.contains("toss the ice house") || itemRunawaySuccess) {
           BanishManager.banishCurrentMonster(Banisher.ICE_HOUSE);
         }
-        break;
-      case ItemPool.TENNIS_BALL:
+      }
+      case ItemPool.TENNIS_BALL -> {
         if (responseText.contains("You won't be seeing") || itemRunawaySuccess) {
           BanishManager.banishCurrentMonster(Banisher.TENNIS_BALL);
         }
-        break;
-      case ItemPool.ICE_HOTEL_BELL:
+      }
+      case ItemPool.ICE_HOTEL_BELL -> {
         if (responseText.contains("a nearby door") || itemRunawaySuccess) {
           BanishManager.banishCurrentMonster(Banisher.ICE_HOTEL_BELL);
         }
-        break;
-      case ItemPool.GINGERBREAD_RESTRAINING_ORDER:
+      }
+      case ItemPool.GINGERBREAD_RESTRAINING_ORDER -> {
         // You read the restraining order to the gingerbread man, and for some reason, he agrees to
         // abide by it.
         if (responseText.contains("read the restraining order") || itemSuccess) {
           BanishManager.banishCurrentMonster(Banisher.GINGERBREAD_RESTRAINING_ORDER);
         }
-        break;
-      case ItemPool.BUNDLE_OF_FRAGRANT_HERBS:
+      }
+      case ItemPool.BUNDLE_OF_FRAGRANT_HERBS -> {
         if (responseText.contains("chokes and sputters and leave") || itemRunawaySuccess) {
           Preferences.increment("_fragrantHerbsUsed", 1, 10, false);
           BanishManager.banishCurrentMonster(Banisher.BUNDLE_OF_FRAGRANT_HERBS);
         }
-        break;
-      case ItemPool.NUCLEAR_STOCKPILE:
+      }
+      case ItemPool.NUCLEAR_STOCKPILE -> {
         if (responseText.contains("pull a nuclear bomb out of the stockpile")
             || itemRunawaySuccess) {
           Preferences.increment("_nuclearStockpileUsed", 1, 10, false);
         }
-        break;
-      case ItemPool.AFFIRMATION_SUPERFICIALLY_INTERESTED:
+      }
+      case ItemPool.AFFIRMATION_SUPERFICIALLY_INTERESTED -> {
         if (responseText.contains("are feeling really, really interested") || itemSuccess) {
           TrackManager.trackCurrentMonster(Tracker.SUPERFICIAL);
           TurnCounter.stopCounting("Superficially Interested Monster");
           TurnCounter.startCounting(80, "Superficially Interested Monster loc=*", "snout.gif");
         }
-        break;
-      case ItemPool.AFFIRMATION_MIND_MASTER:
+      }
+      case ItemPool.AFFIRMATION_MIND_MASTER -> {
         if (responseText.contains("push away your opponent") || itemRunawaySuccess) {
           BanishManager.banishCurrentMonster(Banisher.BE_A_MIND_MASTER);
         }
-        break;
-      case ItemPool.TRYPTOPHAN_DART:
+      }
+      case ItemPool.TRYPTOPHAN_DART -> {
         if (responseText.contains("asleep on a nearby recliner") || itemSuccess) {
           BanishManager.banishCurrentMonster(Banisher.TRYPTOPHAN_DART);
           Preferences.setBoolean("_tryptophanDartUsed", true);
         }
-        break;
-      case ItemPool.HUMAN_MUSK:
+      }
+      case ItemPool.HUMAN_MUSK -> {
         if (responseText.contains("open the vial") || itemSuccess) {
           BanishManager.banishCurrentMonster(Banisher.HUMAN_MUSK);
           Preferences.increment("_humanMuskUses");
         }
-        break;
-      case ItemPool.STUFFED_YAM_STINKBOMB:
+      }
+      case ItemPool.STUFFED_YAM_STINKBOMB -> {
         if (responseText.contains("busy getting the cheese off") || itemRunawaySuccess) {
           BanishManager.banishCurrentMonster(Banisher.STUFFED_YAM_STINKBOMB);
         }
-        break;
-      case ItemPool.ROCK_BAND_FLYERS:
-      case ItemPool.JAM_BAND_FLYERS:
+      }
+      case ItemPool.ROCK_BAND_FLYERS, ItemPool.JAM_BAND_FLYERS -> {
         // You slap a flyer up on your opponent. It enrages it.
         if (responseText.contains("You slap a flyer") || itemSuccess) {
           int ML = Math.max(0, MonsterStatusTracker.getMonsterOriginalAttack());
@@ -11024,8 +11008,8 @@ public class FightRequest extends GenericRequest {
         else if (responseText.contains("Rock Promoters are long gone")) {
           ResultProcessor.removeItem(itemId);
         }
-        break;
-      case ItemPool.EMPTY_EYE:
+      }
+      case ItemPool.EMPTY_EYE -> {
         // You hold Zombo's eye out toward your opponent,
         // whose gaze is transfixed by it. (success)
         //   or
@@ -11039,8 +11023,8 @@ public class FightRequest extends GenericRequest {
           TurnCounter.stopCounting("Zombo's Empty Eye");
           TurnCounter.startCounting(50, "Zombo's Empty Eye loc=*", "zomboeye.gif");
         }
-        break;
-      case ItemPool.DNA_SYRINGE:
+      }
+      case ItemPool.DNA_SYRINGE -> {
         // "Your opponent is shocked into inaction as you plunge the syringe into it and extract a
         // sample of its DNA."
         if (responseText.contains("plunge the syringe") || itemSuccess) {
@@ -11048,74 +11032,64 @@ public class FightRequest extends GenericRequest {
           Phylum dna = monster != null ? monster.getPhylum() : Phylum.NONE;
           Preferences.setString("dnaSyringe", dna.toString());
         }
-        break;
-
-      case ItemPool.MAYO_LANCE:
+      }
+      case ItemPool.MAYO_LANCE -> {
         if (responseText.contains("Everything Looks Yellow")) {
           int mayo = Math.max(Preferences.getInteger("mayoLevel") - 30, 0);
           Preferences.setInteger("mayoLevel", mayo);
         }
-        break;
-
-      case ItemPool.BEEHIVE:
+      }
+      case ItemPool.BEEHIVE -> {
         if (responseText.contains("entire wall fattens")) {
           ResultProcessor.removeItem(ItemPool.BEEHIVE);
         }
-        break;
-
-      case ItemPool.ELECTRIC_BONING_KNIFE:
+      }
+      case ItemPool.ELECTRIC_BONING_KNIFE -> {
         if (responseText.contains("knife's motor burns out")) {
           ResultProcessor.removeItem(ItemPool.ELECTRIC_BONING_KNIFE);
         }
-        break;
-
-      case ItemPool.SPIDER_WEB:
+      }
+      case ItemPool.SPIDER_WEB -> {
         if (responseText.contains("Three other minions")) {
           Preferences.increment("_villainLairProgress", 3);
           Preferences.setBoolean("_villainLairWebUsed", true);
         }
-        break;
-
-      case ItemPool.KNOB_FIRECRACKER:
+      }
+      case ItemPool.KNOB_FIRECRACKER -> {
         if (responseText.contains("three other minions")) {
           Preferences.increment("_villainLairProgress", 3);
           Preferences.setBoolean("_villainLairFirecrackerUsed", true);
         }
-        break;
-
-      case ItemPool.CAN_LID:
+      }
+      case ItemPool.CAN_LID -> {
         if (responseText.contains("three other minions")) {
           Preferences.increment("_villainLairProgress", 3);
           Preferences.setBoolean("_villainLairCanLidUsed", true);
         }
-        break;
-
-      case ItemPool.BOMB_OF_UNKNOWN_ORIGIN:
+      }
+      case ItemPool.BOMB_OF_UNKNOWN_ORIGIN -> {
         if (responseText.contains("decide to find something else to protest")) {
           Preferences.increment("zeppelinProtestors", 10);
         }
-        break;
-
-      case ItemPool.DAILY_DUNGEON_MALWARE:
+      }
+      case ItemPool.DAILY_DUNGEON_MALWARE -> {
         if (responseText.contains("It's a UNIX system")
             || responseText.contains("You attempt to hack the monster")) {
           Preferences.setBoolean("_dailyDungeonMalwareUsed", true);
         }
-        break;
-
-      case ItemPool.CA_BASE_PAIR:
-      case ItemPool.CG_BASE_PAIR:
-      case ItemPool.CT_BASE_PAIR:
-      case ItemPool.AG_BASE_PAIR:
-      case ItemPool.AT_BASE_PAIR:
-      case ItemPool.GT_BASE_PAIR:
+      }
+      case ItemPool.CA_BASE_PAIR,
+          ItemPool.CG_BASE_PAIR,
+          ItemPool.CT_BASE_PAIR,
+          ItemPool.AG_BASE_PAIR,
+          ItemPool.AT_BASE_PAIR,
+          ItemPool.GT_BASE_PAIR -> {
         if (!usedBasePair) {
           usedBasePair = true;
           QuestManager.updateCyrusAdjective(itemId);
         }
-        break;
-
-      case ItemPool.GLOB_OF_BLANK_OUT:
+      }
+      case ItemPool.GLOB_OF_BLANK_OUT -> {
         // You smear part of your handful of Blank-Out on the monster until you can't see it
         // anymore.
         // And if you've learned one thing from urban legends about ostriches,
@@ -11123,9 +11097,8 @@ public class FightRequest extends GenericRequest {
         if (responseText.contains("You smear part of your handful") || itemRunawaySuccess) {
           Preferences.increment("blankOutUsed");
         }
-        break;
-
-      case ItemPool.COSMIC_BOWLING_BALL:
+      }
+      case ItemPool.COSMIC_BOWLING_BALL -> {
         // Since you've got this cosmic bowling ball, you hurl it down
         // the ancient lanes. You knock over a few pins. You may be
         // getting the hang of this!
@@ -11133,9 +11106,8 @@ public class FightRequest extends GenericRequest {
         if (responseText.contains("you hurl it down the ancient lanes")) {
           Preferences.increment("hiddenBowlingAlleyProgress", 1);
         }
-        break;
-
-      case ItemPool.SHADOW_BRICK:
+      }
+      case ItemPool.SHADOW_BRICK -> {
         // Using against a monster that cannot be insta-killed will still count towards the limit
         if (responseText.contains("It strikes a glancing blow")) {
           itemSuccess = true;
@@ -11144,37 +11116,32 @@ public class FightRequest extends GenericRequest {
             "You can't bear to use any more of those horrible things today")) {
           itemLimitMaxedOut = true;
         }
-        break;
-
-      case ItemPool.PEPPERMINT_BOMB:
+      }
+      case ItemPool.PEPPERMINT_BOMB -> {
         if (responseText.contains("at least until they can wash their hands")) {
           BanishManager.banishCurrentMonster(Banisher.PEPPERMINT_BOMB);
         }
-        break;
-
-      case ItemPool.CRIMBUCCANEER_RIGGING_LASSO:
+      }
+      case ItemPool.CRIMBUCCANEER_RIGGING_LASSO -> {
         if (responseText.contains("then toss it roguishly")) {
           BanishManager.banishCurrentMonster(Banisher.CRIMBUCCANEER_RIGGING_LASSO);
         }
-        break;
-
-      case ItemPool.PRANK_CRIMBO_CARD:
+      }
+      case ItemPool.PRANK_CRIMBO_CARD -> {
         if (responseText.contains("You hand the Crimbo card to the elf")) {
           TurnCounter.stopCounting("Prank Card Monster");
           TurnCounter.startCounting(100, "Prank Card Monster loc=*", "snout.gif");
           TrackManager.trackCurrentMonster(Tracker.PRANK_CARD);
         }
-        break;
-
-      case ItemPool.TRICK_COIN:
+      }
+      case ItemPool.TRICK_COIN -> {
         if (responseText.contains("You show the coin to your opponent")) {
           TurnCounter.stopCounting("Trick Coin Monster");
           TurnCounter.startCounting(100, "Trick Coin Monster loc=*", "snout.gif");
           TrackManager.trackCurrentMonster(Tracker.TRICK_COIN);
         }
-        break;
-
-      case ItemPool.WINDICLE:
+      }
+      case ItemPool.WINDICLE -> {
         if (responseText.contains("This item can only be used in PirateRealm")) {
           break;
         }
@@ -11187,86 +11154,82 @@ public class FightRequest extends GenericRequest {
             QuestManager.setPirateRealmIslandQuestProgress(3);
           }
         }
-
-        break;
-
-      case ItemPool.SPLIT_PEA_SOUP:
+      }
+      case ItemPool.SPLIT_PEA_SOUP -> {
         if (responseText.contains("like a pea and split") || itemRunawaySuccess) {
           BanishManager.banishCurrentMonster(Banisher.SPLIT_PEA_SOUP);
         }
-        break;
+      }
+      case ItemPool.ANCHOR_BOMB -> {
+        if (responseText.contains("unfurls outward in a blast") || itemRunawaySuccess) {
+          BanishManager.banishCurrentMonster(Banisher.ANCHOR_BOMB);
+        }
+      }
     }
 
     if (itemId != itemId2) {
       // If these items succeed, then the second one won't actually do anything
       // because the first one ended the fight.
       switch (itemId) {
-        case ItemPool.POWER_PILL:
+        case ItemPool.POWER_PILL -> {
           if (responseText.contains("devours your foe") || itemSuccess) {
             Preferences.increment("_powerPillUses");
           } else if (responseText.contains("refuses to eat")) {
             Preferences.setInteger("_powerPillUses", 20);
           }
-          break;
-
-        case ItemPool.GLARK_CABLE:
+        }
+        case ItemPool.GLARK_CABLE -> {
           if (responseText.contains("neatly vaporized") || itemSuccess) {
             Preferences.increment("_glarkCableUses", 1, 5, false);
           } else if (responseText.contains("glark batteries")) {
             Preferences.setInteger("_glarkCableUses", 5);
           }
-          break;
-
-        case ItemPool.NANOPOLYMER_SPIDER_WEB:
+        }
+        case ItemPool.NANOPOLYMER_SPIDER_WEB -> {
           if (responseText.contains("wraps her in a cocoon")) {
             Preferences.increment("nanopolymerSpiderWebsUsed");
           }
-          break;
-
-        case ItemPool.DRONE_SELFDESTRUCT_CHIP:
+        }
+        case ItemPool.DRONE_SELFDESTRUCT_CHIP -> {
           if (responseText.contains("opponent is totally disintegrated")) {
             Preferences.increment("droneSelfDestructChipsUsed");
           }
-          break;
-
-        case ItemPool.REPLICA_BAT_OOMERANG:
+        }
+        case ItemPool.REPLICA_BAT_OOMERANG -> {
           if (responseText.contains("arm is too tired")) {
             Preferences.setInteger("_usedReplicaBatoomerang", 3);
           } else if (responseText.contains("throw the replica bat-oomerang") || itemSuccess) {
             Preferences.increment("_usedReplicaBatoomerang", 1, 3, false);
           }
-          break;
-
-        case ItemPool.POWDERED_MADNESS:
+        }
+        case ItemPool.POWDERED_MADNESS -> {
           if (responseText.contains("blow the madness")) {
             Preferences.increment("_powderedMadnessUses");
           }
-          break;
-
-        case ItemPool.AFFIRMATION_HATE:
+        }
+        case ItemPool.AFFIRMATION_HATE -> {
           if (responseText.contains("You gain 3 PvP Fights")
               || responseText.contains("belligerent")
               || itemSuccess) {
             Preferences.setBoolean("_affirmationHateUsed", true);
           }
-          break;
-
-        case ItemPool.CA_BASE_PAIR:
-        case ItemPool.CG_BASE_PAIR:
-        case ItemPool.CT_BASE_PAIR:
-        case ItemPool.AG_BASE_PAIR:
-        case ItemPool.AT_BASE_PAIR:
-        case ItemPool.GT_BASE_PAIR:
+        }
+        case ItemPool.CA_BASE_PAIR,
+            ItemPool.CG_BASE_PAIR,
+            ItemPool.CT_BASE_PAIR,
+            ItemPool.AG_BASE_PAIR,
+            ItemPool.AT_BASE_PAIR,
+            ItemPool.GT_BASE_PAIR -> {
           if (!usedBasePair) {
             usedBasePair = true;
             QuestManager.updateCyrusAdjective(itemId2);
           }
-          break;
-
-        case ItemPool.SHADOW_BRICK:
+        }
+        case ItemPool.SHADOW_BRICK -> {
           if (responseText.contains("They collide, and are annihilated")) {
             itemSuccess = true;
           }
+        }
       }
     }
 
