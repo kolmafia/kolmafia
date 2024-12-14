@@ -2506,6 +2506,13 @@ user	_syntheticDogHairPillUsed	false
 user	_tacoFlierUsed	false
 user	_taffyRareSummons	0
 user	_taffyYellowSummons	0
+user	_takerSpaceAnchor	0
+user	_takerSpaceGold	0
+user	_takerSpaceMast	0
+user	_takerSpaceRum	0
+user	_takerSpaceSilk	0
+user	_takerSpaceSpice	0
+user	_takerSpaceSuppliesDelivered	false
 user	_tearawayPantsAdvs	0
 user	_telegraphOfficeToday	false
 user	_templeHiddenPower	false
