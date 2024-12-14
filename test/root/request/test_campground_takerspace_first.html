@@ -1,0 +1,486 @@
+<html><head>
+<script language=Javascript>
+<!--
+if (parent.frames.length == 0) location.href="game.php";
+top.charpane.location.href="charpane.php";
+//-->
+</script>
+<script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/jquery-1.5.1.js"></script>
+<script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/keybinds.min.2.js"></script>
+<script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/window.20111231.js"></script>
+<script language="javascript">function chatFocus(){if(top.chatpane.document.chatform.graf) top.chatpane.document.chatform.graf.focus();}
+if (typeof defaultBind != 'undefined') { defaultBind(47, 2, chatFocus); defaultBind(190, 2, chatFocus);defaultBind(191, 2, chatFocus); defaultBind(47, 8, chatFocus);defaultBind(190, 8, chatFocus); defaultBind(191, 8, chatFocus); }</script><script>
+function switchFocus()
+{
+	if (top.chatpane.document.chatform.graf.focus) 
+		top.chatpane.document.chatform.graf.focus(); 
+	return false;
+}
+function repeat()
+{
+	var linx = document.getElementsByTagName("A");
+	for (var i = 0; i < linx.length; i++)
+	{
+		if (typeof timersfunc != 'undefined') {
+			if (!timersfunc()) { 
+				return; 
+			}
+			timersfunc = null;
+		}
+		var link = linx[i];
+		if (link.innerHTML.match(/Adventure Again/) || link.innerHTML.match(/Do it again/) || (link.getAttribute && link.getAttribute('id')=='againlink'))
+			location.href = link.href;
+	}
+}
+
+defaultBind(47, CTRL, switchFocus);
+defaultBind(191, CTRL, switchFocus);
+defaultBind(47, META, switchFocus);
+defaultBind(191, META, switchFocus);
+defaultBind(192, NONE, repeat);
+defaultBind(220, NONE, repeat);
+</script><script language="javascript">
+	function updateParseItem(iid, field, info) {
+		var tbl = $('#ic'+iid);
+		var data = parseItem(tbl);
+		if (!data) return;
+		data[field] = info;
+		var out = [];
+		for (i in data) {
+			if (!data.hasOwnProperty(i)) continue;
+			out.push(i+'='+data[i]);
+		}
+		tbl.attr('rel', out.join('&'));
+	}
+	function parseItem(tbl) {
+		tbl = $(tbl);
+		var rel = tbl.attr('rel');
+		var data = {};
+		if (!rel) return data;
+		var parts = rel.split('&');
+		for (i in parts) {
+			if (!parts.hasOwnProperty(i)) continue;
+			var kv = parts[i].split('=');
+			tbl.data(kv[0], kv[1]);
+			data[kv[0]] = kv[1];
+		}
+		return data;
+	}
+</script><script type="text/javascript" src="https://d2uyhvukfffg5a.cloudfront.net/scripts/pop_query.20230713.js"></script>
+<script type="text/javascript" src="https://d2uyhvukfffg5a.cloudfront.net/scripts/ircm.20230626.js"></script>
+<script type="text/javascript">
+var tp = top;
+function pop_ircm_contents(i, some) {
+	var contents = '',
+		shown = 0,
+		da = '&nbsp;<a href="#" rel="?" class="small dojaxy">[some]</a>&nbsp;<a href="#" rel="',
+		db = '" class="small dojaxy">[all]</a>',
+		dc = '<div style="width:100%; padding-bottom: 3px;" rel="',
+		dd = '<a href="#" rel="1" class="small dojaxy">[';
+	one = 'one'; ss=some;
+if (i.d==1 && i.s>0) { shown++; 
+contents += dc + 'sellstuff.php?action=sell&ajax=1&type=quant&whichitem%5B%5D=IID&howmany=NUM&pwd=dffdeccc72e16bd0bba49357e784d7e4" id="pircm_'+i.id+'"><b>Auto-Sell ('+i.s+' meat):</b> '+dd+one+']</a>';
+if (ss) { contents += da + i.n + db;}
+contents += '</div>';
+}
+one = 'one'; ss=some;
+if (i.q==0) { shown++; 
+contents += dc + 'inventory.php?action=closetpush&ajax=1&whichitem=IID&qty=NUM&pwd=dffdeccc72e16bd0bba49357e784d7e4" id="pircm_'+i.id+'"><b>Closet:</b> '+dd+one+']</a>';
+if (ss) { contents += da + i.n + db;}
+contents += '</div>';
+}
+one = 'one'; ss=some;
+if (i.q==0 && i.g==0 && i.t==1) { shown++; 
+contents += dc + 'managestore.php?action=additem&qty1=NUM&item1=IID&price1=&limit1=&ajax=1&pwd=dffdeccc72e16bd0bba49357e784d7e4" id="pircm_'+i.id+'"><b>Stock in Mall:</b> '+dd+one+']</a>';
+if (ss) { contents += da + i.n + db;}
+contents += '</div>';
+}
+one = 'one'; ss=some;
+if (i.q==0) { shown++; 
+contents += dc + 'managecollection.php?action=put&ajax=1&whichitem1=IID&howmany1=NUM&pwd=dffdeccc72e16bd0bba49357e784d7e4" id="pircm_'+i.id+'"><b>Add to Display Case:</b> '+dd+one+']</a>';
+if (ss) { contents += da + i.n + db;}
+contents += '</div>';
+}
+one = 'one'; ss=some;
+if (i.u && i.u != "." && !i.ac) { shown++; 
+contents += dc + 'inv_'+(i.u=="a"?"redir":(lab=(i.u=="u"?"use":(i.u=="e"?"eat":(i.u=="b"?"booze":(i.u=="s"?"spleen":"equip"))))))+'.php?ajax=1&whichitem=IID&itemquantity=NUM&quantity=NUM'+(i.u=="q"?"&action=equip":"")+'&pwd=dffdeccc72e16bd0bba49357e784d7e4" id="pircm_'+i.id+'"><b>'+ucfirst(unescape(i.ou ? i.ou.replace(/\+/g," ") : (lab=="booze"?"drink":lab)))+':</b> '+dd+one+']</a>';
+if (ss && i.u != 'q' && !(i.u=='u' && i.m==0)) { contents += da + i.n + db;}
+contents += '</div>';
+}
+one = 'one'; ss=some;
+if (i.u && i.u != "." && i.ac) { shown++; 
+contents += dc + 'inv_equip.php?slot=1&ajax=1&whichitem=IID&action=equip&pwd=dffdeccc72e16bd0bba49357e784d7e4" id="pircm_'+i.id+'"><b>Equip (slot 1):</b> '+dd+one+']</a>';
+if (ss && i.u != 'q' && !(i.u=='u' && i.m==0)) { contents += da + i.n + db;}
+contents += '</div>';
+}
+one = 'one'; ss=some;
+if (i.u && i.u != "." && i.ac) { shown++; 
+contents += dc + 'inv_equip.php?slot=2&ajax=1&whichitem=IID&action=equip&pwd=dffdeccc72e16bd0bba49357e784d7e4" id="pircm_'+i.id+'"><b>Equip (slot 2):</b> '+dd+one+']</a>';
+if (ss && i.u != 'q' && !(i.u=='u' && i.m==0)) { contents += da + i.n + db;}
+contents += '</div>';
+}
+one = 'one'; ss=some;
+if (i.u && i.u != "." && i.ac) { shown++; 
+contents += dc + 'inv_equip.php?slot=3&ajax=1&whichitem=IID&action=equip&pwd=dffdeccc72e16bd0bba49357e784d7e4" id="pircm_'+i.id+'"><b>Equip (slot 3):</b> '+dd+one+']</a>';
+if (ss && i.u != 'q' && !(i.u=='u' && i.m==0)) { contents += da + i.n + db;}
+contents += '</div>';
+}
+
+	return [contents, shown];
+}
+tp=top
+var todo = [];
+function nextAction() {
+	var next_todo = todo.shift();
+	if (next_todo) {
+		eval(next_todo);
+	}
+}
+function dojax(dourl, afterFunc, hoverCaller, failureFunc, method, params) {
+	$.ajax({
+		type: method || 'GET', url: dourl, cache: false,
+		data: params || null,
+		global: false,
+		success: function (out) {
+			nextAction();
+			if (out.match(/no\|/)) {
+				var parts = out.split(/\|/);
+				if (failureFunc) failureFunc(parts[1]);
+				else if (window.dojaxFailure) window.dojaxFailure(parts[1]);
+				else if (tp.chatpane.handleMessage) tp.chatpane.handleMessage({type: 'event', msg: 'Oops!  Sorry, Dave, you appear to be ' + parts[1]});
+				else  $('#ChatWindow').append('<font color="green">Oops!  Sorry, Dave, you appear to be ' + parts[1] + '.</font><br />' + "\n");
+				return;
+			}
+
+			if (hoverCaller)  {
+				float_results(hoverCaller, out);
+				if (afterFunc) { afterFunc(out); }
+				return;
+			}
+$(tp.mainpane.document).find("#effdiv").remove(); if(!window.dontscroll || (window.dontscroll && dontscroll==0)) { window.scroll(0,0);}
+			var $eff = $(tp.mainpane.document).find('#effdiv');
+			if ($eff.length == 0) {
+				var d = tp.mainpane.document.createElement('DIV');
+				d.id = 'effdiv';
+				var b = tp.mainpane.document.body;
+				if ($('#content_').length > 0) {
+					b = $('#content_ div:first')[0];
+				}
+				b.insertBefore(d, b.firstChild);
+				$eff = $(d);
+			}
+			$eff.find('a[name="effdivtop"]').remove().end()
+				.prepend('<a name="effdivtop"></a><center>' + out + '</center>').css('display','block');
+			if (!window.dontscroll || (window.dontscroll && dontscroll==0)) {
+				tp.mainpane.document.location = tp.mainpane.document.location + "#effdivtop";
+			}
+			if (afterFunc) { afterFunc(out); }
+		}
+	});
+}
+</script>	<link rel="stylesheet" type="text/css" href="https://d2uyhvukfffg5a.cloudfront.net/styles.20230117d.css">
+<style type='text/css'>
+.faded {
+	zoom: 1;
+	filter: alpha(opacity=35);
+	opacity: 0.35;
+	-khtml-opacity: 0.35; 
+    -moz-opacity: 0.35;
+}
+</style>
+
+</head>
+
+<body>
+<Center><table  width=95%  cellspacing=0 cellpadding=0><tr><td style="color: white;" align=center bgcolor=blue><b>TakerSpace</b></td></tr><tr><td style="padding: 5px; border: 1px solid blue;"><center><table><tr><td><center>You swagger into your workshed and survey your TakerSpace.<p>Your latest shipment of totally legitimate crafting supplies has arrived: 3 stolen spices, 3 robbed rums, 3 absconded-with anchors, 3 misappropriated mainmasts, 1 snatched silk, and 1 gaffled gold. <p><b>Current Supplies:</b><br>3 stolen spices<br>15 robbed rums<br>26 absconded-with anchor<br>26 misappropriated mainmasts<br>7 snatched silk<br>1 gaffled gold<br>
+
+
+<form method="post" action="choice.php">
+   <input type="hidden" name="pwd" value="dffdeccc72e16bd0bba49357e784d7e4" />
+   <input type="hidden" name="option" value="1" />
+   <input type="hidden" name="whichchoice" value="1537" />
+
+   Try Making Something With:<br>
+   <div style="text-align: left">
+            <select name="spice"><option >0</option><option >1</option><option >2</option><option >3</option></select> stolen spices<br>
+            <select name="rum"><option >0</option><option >1</option><option >2</option><option >3</option><option >4</option><option >5</option><option >6</option><option >7</option><option >8</option><option >9</option><option >10</option><option >11</option><option >12</option><option >13</option><option >14</option><option >15</option></select> robbed rums<br>
+            <select name="anchor"><option >0</option><option >1</option><option >2</option><option >3</option><option >4</option><option >5</option><option >6</option><option >7</option><option >8</option><option >9</option><option >10</option><option >11</option><option >12</option><option >13</option><option >14</option><option >15</option></select> absconded-with anchor<br>
+            <select name="mast"><option >0</option><option >1</option><option >2</option><option >3</option><option >4</option><option >5</option><option >6</option><option >7</option><option >8</option><option >9</option><option >10</option><option >11</option><option >12</option><option >13</option><option >14</option><option >15</option></select> misappropriated mainmasts<br>
+            <select name="silk"><option >0</option><option >1</option><option >2</option><option >3</option><option >4</option><option >5</option><option >6</option><option >7</option></select> snatched silk<br>
+            <select name="gold"><option >0</option><option >1</option></select> gaffled gold<br>
+      </div>
+
+   <input type="submit" value="Make" class="button" />
+</form>
+
+<hr />
+<b>TakerSpace Formulas:</b><br>
+   <form method="post" action="choice.php">
+     <input type="hidden" name="pwd" value="dffdeccc72e16bd0bba49357e784d7e4" />
+     <input type="hidden" name="option" value="1" />
+     <input type="hidden" name="whichchoice" value="1537" />
+     <input type="hidden" name="spice" value="0" /><input type="hidden" name="rum" value="0" /><input type="hidden" name="anchor" value="2" /><input type="hidden" name="mast" value="1" /><input type="hidden" name="silk" value="0" /><input type="hidden" name="gold" value="0" />     <div style="display: flex">
+     <button class="button" type="submit" style="display: flex">
+        <div style="margin-right: 1em">
+        iron tricorn hat<br>
+        0 spice, 
+        0 rum, 
+        2 anchor, 
+        1 mast, 
+        0 silk, 
+        0 gold
+        </div>
+        <img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/ts_tricorn.gif" align="absmiddle" />
+     </button>
+     <img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/magnify.gif" align="absmiddle" onclick="descitem('322564205')" height="30" width="30"/>
+     </div>
+   </form>
+   <form method="post" action="choice.php">
+     <input type="hidden" name="pwd" value="dffdeccc72e16bd0bba49357e784d7e4" />
+     <input type="hidden" name="option" value="1" />
+     <input type="hidden" name="whichchoice" value="1537" />
+     <input type="hidden" name="spice" value="15" /><input type="hidden" name="rum" value="3" /><input type="hidden" name="anchor" value="0" /><input type="hidden" name="mast" value="0" /><input type="hidden" name="silk" value="2" /><input type="hidden" name="gold" value="1" />     <div style="display: flex">
+     <button class="button" type="submit" style="display: flex">
+        <div style="margin-right: 1em">
+        sleeping profane parrot<br>
+        15 spice, 
+        3 rum, 
+        0 anchor, 
+        0 mast, 
+        2 silk, 
+        1 gold
+        </div>
+        <img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/ts_parrot1.gif" align="absmiddle" />
+     </button>
+     <img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/magnify.gif" align="absmiddle" onclick="descitem('679135867')" height="30" width="30"/>
+     </div>
+   </form>
+   <form method="post" action="choice.php">
+     <input type="hidden" name="pwd" value="dffdeccc72e16bd0bba49357e784d7e4" />
+     <input type="hidden" name="option" value="1" />
+     <input type="hidden" name="whichchoice" value="1537" />
+     <input type="hidden" name="spice" value="2" /><input type="hidden" name="rum" value="2" /><input type="hidden" name="anchor" value="0" /><input type="hidden" name="mast" value="0" /><input type="hidden" name="silk" value="0" /><input type="hidden" name="gold" value="0" />     <div style="display: flex">
+     <button class="button" type="submit" style="display: flex">
+        <div style="margin-right: 1em">
+        pirrrate's currrse<br>
+        2 spice, 
+        2 rum, 
+        0 anchor, 
+        0 mast, 
+        0 silk, 
+        0 gold
+        </div>
+        <img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/ts_curse.gif" align="absmiddle" />
+     </button>
+     <img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/magnify.gif" align="absmiddle" onclick="descitem('343938051')" height="30" width="30"/>
+     </div>
+   </form>
+   <form method="post" action="choice.php">
+     <input type="hidden" name="pwd" value="dffdeccc72e16bd0bba49357e784d7e4" />
+     <input type="hidden" name="option" value="1" />
+     <input type="hidden" name="whichchoice" value="1537" />
+     <input type="hidden" name="spice" value="1" /><input type="hidden" name="rum" value="2" /><input type="hidden" name="anchor" value="0" /><input type="hidden" name="mast" value="0" /><input type="hidden" name="silk" value="0" /><input type="hidden" name="gold" value="0" />     <div style="display: flex">
+     <button class="button" type="submit" style="display: flex">
+        <div style="margin-right: 1em">
+        tankard of spiced rum<br>
+        1 spice, 
+        2 rum, 
+        0 anchor, 
+        0 mast, 
+        0 silk, 
+        0 gold
+        </div>
+        <img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/tankard.gif" align="absmiddle" />
+     </button>
+     <img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/magnify.gif" align="absmiddle" onclick="descitem('215156557')" height="30" width="30"/>
+     </div>
+   </form>
+   <form method="post" action="choice.php">
+     <input type="hidden" name="pwd" value="dffdeccc72e16bd0bba49357e784d7e4" />
+     <input type="hidden" name="option" value="1" />
+     <input type="hidden" name="whichchoice" value="1537" />
+     <input type="hidden" name="spice" value="0" /><input type="hidden" name="rum" value="2" /><input type="hidden" name="anchor" value="0" /><input type="hidden" name="mast" value="0" /><input type="hidden" name="silk" value="0" /><input type="hidden" name="gold" value="1" />     <div style="display: flex">
+     <button class="button" type="submit" style="display: flex">
+        <div style="margin-right: 1em">
+        tankard of spiced Goldschlepper<br>
+        0 spice, 
+        2 rum, 
+        0 anchor, 
+        0 mast, 
+        0 silk, 
+        1 gold
+        </div>
+        <img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/tankard.gif" align="absmiddle" />
+     </button>
+     <img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/magnify.gif" align="absmiddle" onclick="descitem('694321154')" height="30" width="30"/>
+     </div>
+   </form>
+   <form method="post" action="choice.php">
+     <input type="hidden" name="pwd" value="dffdeccc72e16bd0bba49357e784d7e4" />
+     <input type="hidden" name="option" value="1" />
+     <input type="hidden" name="whichchoice" value="1537" />
+     <input type="hidden" name="spice" value="0" /><input type="hidden" name="rum" value="0" /><input type="hidden" name="anchor" value="0" /><input type="hidden" name="mast" value="2" /><input type="hidden" name="silk" value="0" /><input type="hidden" name="gold" value="0" />     <div style="display: flex">
+     <button class="button" type="submit" style="display: flex">
+        <div style="margin-right: 1em">
+        harpoon<br>
+        0 spice, 
+        0 rum, 
+        0 anchor, 
+        2 mast, 
+        0 silk, 
+        0 gold
+        </div>
+        <img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/ts_harpoon.gif" align="absmiddle" />
+     </button>
+     <img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/magnify.gif" align="absmiddle" onclick="descitem('586410747')" height="30" width="30"/>
+     </div>
+   </form>
+   <form method="post" action="choice.php">
+     <input type="hidden" name="pwd" value="dffdeccc72e16bd0bba49357e784d7e4" />
+     <input type="hidden" name="option" value="1" />
+     <input type="hidden" name="whichchoice" value="1537" />
+     <input type="hidden" name="spice" value="5" /><input type="hidden" name="rum" value="0" /><input type="hidden" name="anchor" value="1" /><input type="hidden" name="mast" value="0" /><input type="hidden" name="silk" value="0" /><input type="hidden" name="gold" value="0" />     <div style="display: flex">
+     <button class="button" type="submit" style="display: flex">
+        <div style="margin-right: 1em">
+        chili powder cutlass<br>
+        5 spice, 
+        0 rum, 
+        1 anchor, 
+        0 mast, 
+        0 silk, 
+        0 gold
+        </div>
+        <img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/ts_cutlass.gif" align="absmiddle" />
+     </button>
+     <img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/magnify.gif" align="absmiddle" onclick="descitem('303793949')" height="30" width="30"/>
+     </div>
+   </form>
+   <form method="post" action="choice.php">
+     <input type="hidden" name="pwd" value="dffdeccc72e16bd0bba49357e784d7e4" />
+     <input type="hidden" name="option" value="1" />
+     <input type="hidden" name="whichchoice" value="1537" />
+     <input type="hidden" name="spice" value="2" /><input type="hidden" name="rum" value="0" /><input type="hidden" name="anchor" value="0" /><input type="hidden" name="mast" value="0" /><input type="hidden" name="silk" value="0" /><input type="hidden" name="gold" value="0" />     <div style="display: flex">
+     <button class="button" type="submit" style="display: flex">
+        <div style="margin-right: 1em">
+        cursed Aztec tamale<br>
+        2 spice, 
+        0 rum, 
+        0 anchor, 
+        0 mast, 
+        0 silk, 
+        0 gold
+        </div>
+        <img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/ts_tamale.gif" align="absmiddle" />
+     </button>
+     <img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/magnify.gif" align="absmiddle" onclick="descitem('545083244')" height="30" width="30"/>
+     </div>
+   </form>
+   <form method="post" action="choice.php">
+     <input type="hidden" name="pwd" value="dffdeccc72e16bd0bba49357e784d7e4" />
+     <input type="hidden" name="option" value="1" />
+     <input type="hidden" name="whichchoice" value="1537" />
+     <input type="hidden" name="spice" value="0" /><input type="hidden" name="rum" value="0" /><input type="hidden" name="anchor" value="0" /><input type="hidden" name="mast" value="0" /><input type="hidden" name="silk" value="0" /><input type="hidden" name="gold" value="7" />     <div style="display: flex">
+     <button class="button" type="submit" style="display: flex">
+        <div style="margin-right: 1em">
+        golden pet rock<br>
+        0 spice, 
+        0 rum, 
+        0 anchor, 
+        0 mast, 
+        0 silk, 
+        7 gold
+        </div>
+        <img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/ts_goldrock.gif" align="absmiddle" />
+     </button>
+     <img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/magnify.gif" align="absmiddle" onclick="descitem('277212142')" height="30" width="30"/>
+     </div>
+   </form>
+   <form method="post" action="choice.php">
+     <input type="hidden" name="pwd" value="dffdeccc72e16bd0bba49357e784d7e4" />
+     <input type="hidden" name="option" value="1" />
+     <input type="hidden" name="whichchoice" value="1537" />
+     <input type="hidden" name="spice" value="0" /><input type="hidden" name="rum" value="6" /><input type="hidden" name="anchor" value="0" /><input type="hidden" name="mast" value="0" /><input type="hidden" name="silk" value="0" /><input type="hidden" name="gold" value="0" />     <div style="display: flex">
+     <button class="button" type="submit" style="display: flex">
+        <div style="margin-right: 1em">
+        groggles<br>
+        0 spice, 
+        6 rum, 
+        0 anchor, 
+        0 mast, 
+        0 silk, 
+        0 gold
+        </div>
+        <img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/ts_goggles.gif" align="absmiddle" />
+     </button>
+     <img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/magnify.gif" align="absmiddle" onclick="descitem('658108570')" height="30" width="30"/>
+     </div>
+   </form>
+   <form method="post" action="choice.php">
+     <input type="hidden" name="pwd" value="dffdeccc72e16bd0bba49357e784d7e4" />
+     <input type="hidden" name="option" value="1" />
+     <input type="hidden" name="whichchoice" value="1537" />
+     <input type="hidden" name="spice" value="0" /><input type="hidden" name="rum" value="0" /><input type="hidden" name="anchor" value="1" /><input type="hidden" name="mast" value="1" /><input type="hidden" name="silk" value="1" /><input type="hidden" name="gold" value="0" />     <div style="display: flex">
+     <button class="button" type="submit" style="display: flex">
+        <div style="margin-right: 1em">
+        pirate dinghy<br>
+        0 spice, 
+        0 rum, 
+        1 anchor, 
+        1 mast, 
+        1 silk, 
+        0 gold
+        </div>
+        <img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/ts_dinghy.gif" align="absmiddle" />
+     </button>
+     <img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/magnify.gif" align="absmiddle" onclick="descitem('613418372')" height="30" width="30"/>
+     </div>
+   </form>
+   <form method="post" action="choice.php">
+     <input type="hidden" name="pwd" value="dffdeccc72e16bd0bba49357e784d7e4" />
+     <input type="hidden" name="option" value="1" />
+     <input type="hidden" name="whichchoice" value="1537" />
+     <input type="hidden" name="spice" value="0" /><input type="hidden" name="rum" value="0" /><input type="hidden" name="anchor" value="0" /><input type="hidden" name="mast" value="0" /><input type="hidden" name="silk" value="2" /><input type="hidden" name="gold" value="0" />     <div style="display: flex">
+     <button class="button" type="submit" style="display: flex">
+        <div style="margin-right: 1em">
+        silky pirate drawers<br>
+        0 spice, 
+        0 rum, 
+        0 anchor, 
+        0 mast, 
+        2 silk, 
+        0 gold
+        </div>
+        <img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/ts_pants.gif" align="absmiddle" />
+     </button>
+     <img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/magnify.gif" align="absmiddle" onclick="descitem('353264524')" height="30" width="30"/>
+     </div>
+   </form>
+   <form method="post" action="choice.php">
+     <input type="hidden" name="pwd" value="dffdeccc72e16bd0bba49357e784d7e4" />
+     <input type="hidden" name="option" value="1" />
+     <input type="hidden" name="whichchoice" value="1537" />
+     <input type="hidden" name="spice" value="1" /><input type="hidden" name="rum" value="0" /><input type="hidden" name="anchor" value="0" /><input type="hidden" name="mast" value="0" /><input type="hidden" name="silk" value="0" /><input type="hidden" name="gold" value="0" />     <div style="display: flex">
+     <button class="button" type="submit" style="display: flex">
+        <div style="margin-right: 1em">
+        spices<br>
+        1 spice, 
+        0 rum, 
+        0 anchor, 
+        0 mast, 
+        0 silk, 
+        0 gold
+        </div>
+        <img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/spice.gif" align="absmiddle" />
+     </button>
+     <img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/magnify.gif" align="absmiddle" onclick="descitem('266103456')" height="30" width="30"/>
+     </div>
+   </form>
+     
+   
+   
+
+
+<p><a href="campground.php">Back to Campground</a>
+</center>
+</td></tr></table></center></td></tr><tr><td height=4></td></tr></table><script>top.charpane.location.href="charpane.php";</script>
+</body></html>

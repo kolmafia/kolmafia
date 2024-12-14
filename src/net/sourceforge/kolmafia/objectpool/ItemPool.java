@@ -3819,6 +3819,7 @@ public class ItemPool {
   public static final int SPLIT_PEA_SOUP = 11685;
   public static final int TAKERSPACE_LETTER_OF_MARQUE = 11687;
   public static final int PIRATE_DINGHY = 11705;
+  public static final int ANCHOR_BOMB = 11706;
 
   private ItemPool() {}
 
