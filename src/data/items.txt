@@ -11716,7 +11716,7 @@
 11688	deft pirate hook	170705933	ts_hook.gif	offhand	q	0
 11689	iron tricorn hat	322564205	ts_tricorn.gif	hat	q	0
 11690	jolly roger flag	380671170	ts_roger.gif	accessory	q	0
-11691
+11691	sleeping profane parrot	679135867	ts_parrot1.gif	grow	t	0
 11692	pirrrate's currrse	343938051	ts_curse.gif	none, usable, curse	t,d	11
 11693	tankard of spiced rum	215156557	tankard.gif	drink	t,d	11	tankards of spiced rum
 11694	tankard of spiced Goldschlepper	694321154	tankard.gif	drink	t,d	11	tankards of spiced Goldschlepper
@@ -11727,8 +11727,8 @@
 11699	harpoon	586410747	ts_harpoon.gif	none, combat	t,d	22
 11700	chili powder cutlass	303793949	ts_cutlass.gif	weapon	t,d	25	chili powder cutlasses
 11701	cursed Aztec tamale	545083244	ts_tamale.gif	food	t,d	11
-11702
-11703
+11702	jolly roger tattoo kit	293648871	ts_tatkit.gif	usable	t,d	250
+11703	golden pet rock	277212142	ts_goldrock.gif	grow	t	0
 11704	groggles	658108570	ts_goggles.gif	accessory	t,d	11	pairs of groggles
 11705	pirate dinghy	613418372	ts_dinghy.gif	usable	q	0	pirate dinghies
 11706	anchor bomb	702120284	ts_bomb.gif	none, combat	t,d	11
