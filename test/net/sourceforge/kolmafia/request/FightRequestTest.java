@@ -3093,4 +3093,17 @@ public class FightRequestTest {
       }
     }
   }
+
+  @Test
+  public void canDetectAnchorBombBanish() {
+    var cleanups = new Cleanups(withFight(), withBanishedMonsters(""));
+
+    try (cleanups) {
+      parseCombatData(
+          "request/test_fight_anchor_bomb.html",
+          "fight.php?action=useitem&whichitem=11706&whichitem2=0");
+
+      assertThat("banishedMonsters", hasStringValue(startsWith("lynyrd:anchor bomb:")));
+    }
+  }
 }

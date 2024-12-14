@@ -66,6 +66,7 @@ public class BanishManager {
   }
 
   public enum Banisher {
+    ANCHOR_BOMB("anchor bomb", 30, 1, true, Reset.TURN_ROLLOVER_RESET),
     BALEFUL_HOWL("baleful howl", -1, 1, true, Reset.ROLLOVER_RESET),
     BANISHING_SHOUT("banishing shout", -1, 3, false, Reset.AVATAR_RESET),
     BATTER_UP("batter up!", -1, 1, false, Reset.ROLLOVER_RESET),

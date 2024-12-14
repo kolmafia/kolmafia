@@ -11195,6 +11195,12 @@ public class FightRequest extends GenericRequest {
           BanishManager.banishCurrentMonster(Banisher.SPLIT_PEA_SOUP);
         }
         break;
+
+      case ItemPool.ANCHOR_BOMB:
+        if (responseText.contains("unfurls outward in a blast") || itemRunawaySuccess) {
+          BanishManager.banishCurrentMonster(Banisher.ANCHOR_BOMB);
+        }
+        break;
     }
 
     if (itemId != itemId2) {
