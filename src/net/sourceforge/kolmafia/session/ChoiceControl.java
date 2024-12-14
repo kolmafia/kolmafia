@@ -1160,6 +1160,7 @@ public abstract class ChoiceControl {
         // The tweezers you used dissolve in the caustic fluid. Rats.
         if (text.contains("dissolve in the caustic fluid")) {
           ResultProcessor.processItem(ItemPool.AUTOPSY_TWEEZERS, -1);
+          Preferences.increment("autopsyTweezersUsed");
         }
         return;
 

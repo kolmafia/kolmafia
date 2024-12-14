@@ -11217,6 +11217,18 @@ public class FightRequest extends GenericRequest {
           }
           break;
 
+        case ItemPool.NANOPOLYMER_SPIDER_WEB:
+          if (responseText.contains("wraps her in a cocoon")) {
+            Preferences.increment("nanopolymerSpiderWebsUsed");
+          }
+          break;
+
+        case ItemPool.DRONE_SELFDESTRUCT_CHIP:
+          if (responseText.contains("opponent is totally disintegrated")) {
+            Preferences.increment("droneSelfDestructChipsUsed");
+          }
+          break;
+
         case ItemPool.REPLICA_BAT_OOMERANG:
           if (responseText.contains("arm is too tired")) {
             Preferences.setInteger("_usedReplicaBatoomerang", 3);
@@ -11250,6 +11262,7 @@ public class FightRequest extends GenericRequest {
             QuestManager.updateCyrusAdjective(itemId2);
           }
           break;
+
         case ItemPool.SHADOW_BRICK:
           if (responseText.contains("They collide, and are annihilated")) {
             itemSuccess = true;
