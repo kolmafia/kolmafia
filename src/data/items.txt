@@ -11661,7 +11661,7 @@
 11633	tiny Tina gun	280367330	tinagun.gif	familiar	t	0
 11634	tattoo gun	500042705	happiness.gif	usable	t	0
 11635	Colera Peste Nebbiolo	211748296	wine.gif	drink	t	0	bottles of Colera Peste Nebbiolo
-11636
+11636	longbox of Batfellow comics	945266286	longbox.gif	usable	t	0	longboxes of Batfellow comics
 11637	Thwaitgold shield bug statuette	254234859	thwaitshield.gif	none		0
 11638	bodyguard badge	160131366	bodybadge.gif	familiar	t,d	11
 11639	Too Cold to Hold: How to Be Cool - A Memoir	684260885	book5.gif	usable	t	0
@@ -11742,15 +11742,15 @@
 11714
 11715
 11716
-11717
-11718
-11719
-11720
-11721
-11722
-11723
-11724
-11725
+11717	Spirit of Easter	756560474	spirit_easter.gif	none		0
+11718	Spirit of St. Patrick's Day	655322653	spirit_stpatrick.gif	none		0
+11719	Spirit of Veteran's Day	303899144	spirit_veterans.gif	none		0
+11720	Spirit of Thanksgiving	166270423	spirit_thanks.gif	none		0
+11721	Spirit of Christmas	903725390	spirit_xmas.gif	none		0
+11722	coney haunch	209073751	coneyhaunch.gif	food	t,d	25
+11723	dark chocolate egg	428655084	darkchocegg.gif	potion, usable	t,d	15
+11724	moai toai	969792989	icedtea.gif	drink	t,d	29
+11725	moaiball	728604035	moaieye.gif	offhand	t	0
 11726
 11727
 11728
@@ -11758,3 +11758,32 @@
 11730
 11731
 11732	rum ball	431412139	candy.gif	potion, usable	t,d	5
+11733
+11734
+11735
+11736
+11737
+11738
+11739
+11740
+11741
+11742
+11743
+11744
+11745
+11746
+11747	Easter grasshopper	745334157	shadowmartini.gif	drink	t,d	75
+11748
+11749	canteen of jungle juice	193545248	canteen.gif	drink	t,d	75
+11750	turchucken	233388840	rawturkey.gif	drink	t,d	75
+11751	mechanically-mulled cider	816185020	frostigkraut.gif	drink	t,d	75
+11752	holiday trip around the world	460578233	boxingpunch.gif	drink	t,d	250
+11753	chocolate ostrich egg	477352862	chocegg.gif	food	t,d	75
+11754	candied beef and cabbage	942057727	crimboscraps.gif	food	t,d	75
+11755
+11756
+11757	Christmas ham	535336050	ham.gif	food	t,d	75
+11758
+11759
+11760
+11761	Secrets of the Master Egg Hunters	943549721	book5.gif	usable	t	0

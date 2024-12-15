@@ -142,6 +142,7 @@ can of Adultwitch&trade;	2	4	decent	2-4	0	0	0	20 Greasy Visage (+50 Sleaze Spell
 can of franks 'n' beans	3	1	good	8-10	20-40	20-40	20-40	50 Crimbo Nostalgia (+5 exp)
 can of sardines	1	4	awesome	3-4	20-25	0	0
 can-shaped gelatinous cranberry sauce	3	6	awesome	9-17	0	0	71-74
+candied beef and cabbage	2	1	EPIC	0	0	0	0	Unspaded
 candied lime	4	1	good	16	0	0	0	50 Limed Up (+MPC drops)
 candied pecan	1	1	decent	2	5-10	0	0	10 Sugar Rush
 candied sweet potatoes	2	1	awesome	8-10	0	10-20	0	leftovers, 20 Thanksgetting (Variable +meat, +item, +familiar weight, +all res)
@@ -176,12 +177,14 @@ Choco-Mint patty	1	1	good	2-4	5-10	5-10	5-10	25 Alpine Mintiness (+25 HP/MP, +25
 chocolate &quot;Phoenix&quot;	1	1	decent	2	0	70-90	0
 chocolate chip muffin	1	1	awesome	4-5	150	150	150	25 All Chipped Up (+30% Meat Drop, +20% Item Drop, 4-5 MP Regen, 3-6 HP Regen)
 chocolate Ogre Chieftain	1	1	decent	2	70-90	0	0
+chocolate ostrich egg	2	1	EPIC	0	0	0	0	Unspaded
 chocolate Spider Queen	1	1	decent	2	0	0	70-90
 chocolate-covered scarab beetle	2	5	awesome	7-10	25-40	25-40	25-40
 chocolate-frosted king cake	3	1	crappy	3	0	0	0	red plastic baby
 chocomotive	5	1	good	15	35	0	0	15-20 HP
 chorizo brownies	3	2	decent	3-9	0	0	0
 chorizo taco	1	1	decent	2	3-5	0	0
+Christmas ham	2	1	EPIC	0	0	0	0	Unspaded
 ciliophora chowder	1	1	awesome	0	0	0	0	Unspaded
 cinnamon cannoli	1	4	awesome	4-5	15-25	15-25	15-25
 Cinnamon Nutrition Block	5	1	good	10-15	0	0	0	30 Forbear, Warbears! (+40 WarBear Armor Penetration)
@@ -192,6 +195,7 @@ cocktail onion	1	2	decent	2	0	0	0
 cocoa eggshell fragment	1	1	crappy	1	0	0	0
 cold hi mein	5	12	EPIC	24-27	70-75	30-35	15-20	5 Cold Breath (combat skill), SAUCY
 cold mashed potatoes	1	4	awesome	4-5	0	0	0
+coney haunch	1	5	awesome	0	0	0	0	Unspaded
 congratulatory cake	3	1	crappy	3	0	0	0
 consummate bacon	3	1	decent	4-5	10-20	20-30	0
 consummate bagel	4	1	decent	5-7	10-20	20-30	0

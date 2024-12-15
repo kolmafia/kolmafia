@@ -144,6 +144,7 @@ Candicaine	2	8	awesome	8-9	0	0	30-40	15 Holiday Bliss (+20 Item Drop, +20 Meat D
 Candy Alexander	2	4	awesome	6-7	0	0	20-30	10 Holiday Bliss (+20 Item Drop, +20 Meat Drop)
 candycaine	4	1	decent	7-10	0	0	0	10 Sugar Rush
 canteen of eggnog	5	1	awesome	21	0	0	0	100 All Liquored Up For War (+10 Elf Warfare Effectiveness)
+canteen of jungle juice	2	1	EPIC	0	0	0	0	Unspaded
 canteen of wine	3	5	good	7-10	22-40	22-40	22-40	20 In Vino Vires (+50% all), WINE
 carrot claret	3	3	decent	7-8	3-4	3-4	3-4	10 Pla-see-bo (+10 Item Drop), WINE
 Cement Mixer	2	1	good	4-5	10-20	0	0	5 Mortarfied (+100 DA)
@@ -247,6 +248,7 @@ dusty bottle of Port	1	1	decent	2	0	0	0	10 Full of Vinegar (+weapon damage), WIN
 dusty bottle of Zinfandel	2	1	good	5-7	10-15	10-15	10-15	WINE
 Earth and Firewater	2	4	awesome	6-7	0	20-30	0	10 Elemental Mastery (+5 Prismatic Dam)
 Earth, Wind and Firewater	2	8	awesome	8-9	0	30-40	0	15 Elemental Mastery (+5 Prismatic Dam)
+Easter grasshopper	2	1	EPIC	0	0	0	0	Unspaded
 Ecto-Cooler	1	6	awesome	3-4	5-10	5-10	5-10	30 Booing Radly (+50 dmg vs. Ghosts)
 ecto-nog	3	1	decent	3-6	5-6	5-6	5-6
 eggnog	3	3	good	5-10	0	17-30	18-30
@@ -373,6 +375,7 @@ high-end ginger wine	2	1	EPIC	12-14	10-30	10-30	10-30	30 High-Falutin' (+50% Mea
 Highest Bitter	3	6	awesome	12-15	0	10-25	0	60 Mercenary (+40% Item Drop), BEER
 hipster cocktail	4	4	good	11-13	10-15	10-15	10-15	10 Artisanal Satiaton (+3 exp/fight)
 Hodgman's blanket	2	15	EPIC	14-18	300-800	300-800	300-800
+holiday trip around the world	4	5	EPIC	0	0	0	0	Unspaded
 honey mead	2	1	decent	4-6	2-4	2-4	2-4	5 Sugar Rush
 horizontal tango	4	4	good	10-14	0	34-36	0
 Horseradish-infused Vodka	5	1	decent	12-13	0	0	0	15 Rad-ish (+25% Mox)
@@ -447,6 +450,7 @@ martiny	1	1	awesome	4-6	5-10	5-10	5-10
 McLeod's Hard Haggis-Ade	2	2	decent	3-4	5-10	0	0	20 Hagg-ard (+10 Mus)
 McMillicancuddy's Special Lager	1	10	good	2-4	10-15	10-15	10-15	10-20 MP, BEER
 meadeorite	1	1	EPIC	6-7	0	0	0	40 Meadulla Oblongota (+5 stats/fight, +50% MP)
+mechanically-mulled cider	2	1	EPIC	0	0	0	0	Unspaded
 mediocre lager	2	1	crappy	2	0	10-20	5-10
 melon-infused sake	4	7	awesome	14-17	0	75-120	0	1 Warm Belly (+hot dmg, +10 Fishy)
 melted Jell-o shot	1	10	good	2-4	0-40	0-40	0-40
@@ -461,6 +465,7 @@ mini-martini	1	11	crappy	1	0	0	0	11 It's Not Even Funny, MARTINI
 Mint Yulep	2	2	EPIC	10-13	25-50	10-20	10-20
 Miss Graves' vermouth	2	4	EPIC	15-17	10-20	10-20	10-20
 missing wine	2	5	good	4-8	0	0	31-50	WINE
+moai toai	1	5	awesome	0	0	0	0	Unspaded
 Mohobo	2	1	good	4-5	5-10	5-10	5-10	5 Mo' Hobo (+10 Hobo Power)
 Mon Tiki	4	6	awesome	14-18	40-47	0	0
 monkey wrench	3	1	decent	5-6	0	8-10	0
@@ -713,6 +718,7 @@ tomato daiquiri	3	2	decent	4-8	10-12	0	10-12
 Transylvania Sling	2	4	awesome	6-7	20-30	0	0	10 Creepypasted (+50 Spooky Dam)
 TRIO cup of beer	1	6	EPIC	6-7	10-20	10-20	10-20	BEER
 tropical swill	4	4	good	10-14	26-30	2-3	2-3
+turchucken	2	1	EPIC	0	0	0	0	Unspaded
 Turtle Bowl	6	6	awesome	19-24	0	40-60	0	40 Tiki Thoughtfulness (+100% Mysticality, +10% Mysticality Gains)
 twice-haunted screwdriver	2	2	EPIC	10-12	80-100	0	0	40 Haunted Liver (+50% Item Drop, +25% Meat Drop)
 two meat muck	3	4	good	8-9	40-50	40-50	40-50

@@ -1613,6 +1613,12 @@ user	sweat	0
 user	sweetSynthesisBlacklist	chocolate cigar,fudge bunny,gummi ammonite,gummi belemnite,gummi trilobite,powdered candy sushi set,radio button candy,Ultra Mega Sour Ball,vitachoconutriment capsule
 user	tacoDanCocktailSauce	0
 user	tacoDanFishMeat	0
+user	takerSpaceAnchor	0
+user	takerSpaceGold	0
+user	takerSpaceMast	0
+user	takerSpaceRum	0
+user	takerSpaceSilk	0
+user	takerSpaceSpice	0
 user	tavernLayout	0000000000000000000000000
 user	telegraphOfficeAvailable	false
 user	telescope1
@@ -2506,12 +2512,6 @@ user	_syntheticDogHairPillUsed	false
 user	_tacoFlierUsed	false
 user	_taffyRareSummons	0
 user	_taffyYellowSummons	0
-user	_takerSpaceAnchor	0
-user	_takerSpaceGold	0
-user	_takerSpaceMast	0
-user	_takerSpaceRum	0
-user	_takerSpaceSilk	0
-user	_takerSpaceSpice	0
 user	_takerSpaceSuppliesDelivered	false
 user	_tearawayPantsAdvs	0
 user	_telegraphOfficeToday	false
