@@ -596,6 +596,10 @@ public class RequestEditorKit extends HTMLEditorKit {
           buffer, "bgcolor=blue", "bgcolor=\"" + defaultColor + "\"");
       StringUtilities.globalStringReplace(
           buffer, "border: 1px solid blue", "border: 1px solid " + defaultColor);
+      StringUtilities.globalStringReplace(
+          buffer,
+          "<td style=\"background-color: blue\"",
+          "<td style=\"background-color: " + defaultColor + "\"");
     }
   }
 

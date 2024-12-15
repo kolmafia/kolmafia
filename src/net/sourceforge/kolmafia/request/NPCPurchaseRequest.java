@@ -429,7 +429,9 @@ public class NPCPurchaseRequest extends PurchaseRequest {
   }
 
   private static final Pattern SHOP_NAME_PATTERN =
-      Pattern.compile("bgcolor=blue><b>(.*?)</b>", Pattern.DOTALL);
+      Pattern.compile(
+          "<td style=\"background-color: blue\" align=center ><b style=\"color: white\">(.*?)</b>",
+          Pattern.DOTALL);
   private static final Pattern BLOOD_MAYO_PATTERN =
       Pattern.compile("blood mayonnaise concentration: (\\d+) mayograms");
 
