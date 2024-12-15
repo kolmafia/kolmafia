@@ -108,7 +108,8 @@ public class RequestEditorKit extends HTMLEditorKit {
   private static final Pattern NOLABEL_CUSTOM_OUTFITS_PATTERN =
       Pattern.compile("\\(select an outfit\\)</option>(<option.*?)<optgroup", Pattern.DOTALL);
 
-  private static final Pattern ROUND_SEP_PATTERN = Pattern.compile("<(?:b>Combat!</b>|hr.*?>)");
+  private static final Pattern ROUND_SEP_PATTERN =
+      Pattern.compile("<(?:b style=\"color: white\">Combat!</b>|hr.*?>)");
   private static final Pattern RCM_JS_PATTERN = Pattern.compile("rcm\\.(\\d+\\.)?js");
 
   private static final RequestViewFactory DEFAULT_FACTORY = new RequestViewFactory();
@@ -1717,7 +1718,7 @@ public class RequestEditorKit extends HTMLEditorKit {
     buffer.setLength(0);
     while (m.find()) {
       if (m.group().startsWith("<b")) { // Initial round - add # after "Combat"
-        m.appendReplacement(buffer, "<b>Combat: Round ");
+        m.appendReplacement(buffer, "<b style=\"color: white\">Combat: Round ");
         buffer.append(round++);
         if (KoLCharacter.isEd()) {
           int edfight = Preferences.getInteger("_edDefeats");
