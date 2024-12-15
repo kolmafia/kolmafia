@@ -1010,7 +1010,9 @@ public class AdventureRequest extends GenericRequest {
     return parseEncounter(responseText);
   }
 
-  private static final Pattern BOLD_ENCOUNTER = Pattern.compile("<td style=\"background-color: blue\" align=center ><b style=\"color: white\">(.*?)</b>");
+  private static final Pattern BOLD_ENCOUNTER =
+      Pattern.compile(
+          "<td style=\"background-color: blue\" align=center ><b style=\"color: white\">(.*?)</b>");
 
   public static String parseEncounter(final String responseText) {
     // Look only in HTML body; the header can have scripts with
