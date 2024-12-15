@@ -2460,6 +2460,7 @@ Item	misfit dolly	Moxie: +5, Spooky Damage: +5
 Item	misfit hobby horse	Muscle: +5, Stench Damage: +5
 Item	misfit teddy bear	Mysticality: +5, Hot Damage: +5
 Item	Mixed Garbanzos and Chickpeas	Maximum HP: [5*(1+skill(Beanweaver))], Maximum MP: [5*(1+skill(Beanweaver))], Spell Damage: [10*(1+skill(Beanweaver))], HP Regen Min: [(1+skill(Beanweaver))], HP Regen Max: [3*(1+skill(Beanweaver))], MP Regen Min: [(1+skill(Beanweaver))], MP Regen Max: [3*(1+skill(Beanweaver))]
+Item	moaiball	Muscle Percent: +25, Item Drop: +10, Initiative: +50
 Item	mole skin notebook	Moxie: +1
 # moss megaphone: Whisper with the voice of the Great Turtle Spirits
 Item	moss megaphone	Muscle: +10, Cold Resistance: +2
@@ -5329,6 +5330,7 @@ Effect	Aspirinated Lips	HP Regen Min: 40, HP Regen Max: 50
 Effect	Ass Over Teakettle	Initiative: +50
 Effect	Assaulted with Pepper	Monster Level: +20
 Effect	Astral Shell	Damage Absorption: +80, Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1
+Effect	Attracting Snakes	Combat Rate: +5
 # Attractive to Fire Ants: Fire Ants will nip at you after each fight
 Effect	Attractive to Fire Ants	Hot Damage: +10
 Effect	Aura of Fire	Muscle Percent: [min(T,500)], Mysticality Percent: [min(T,500)], Moxie Percent: [min(T,500)], Initiative: [min(T,100)], Damage Aura: 1
@@ -6065,6 +6067,7 @@ Effect	Eyes for Miles	Meat Drop: +50, Item Drop: +25
 # Eyes of the Dragon: (Underwater only)
 Effect	Eyes of the Dragon	Item Drop: [100*env(underwater)]
 Effect	Eyes Wide Propped	Item Drop: +25, Meat Drop: +50
+Effect	Eyesies on the Pressies	Item Drop: +25
 Effect	Faboooo	Muscle: +5, Weapon Damage: +10
 Effect	Faerie Fortune	Rubee Drop: 1
 Effect	Familial Ties	Familiar Weight (hidden): [10*env(underwater)]
@@ -6297,6 +6300,7 @@ Effect	Grand Blessing of the War Snapper	Muscle: +10, Weapon Damage: +10
 Effect	Grand Theft Candy	Candy Drop: +100, Hot Damage: +25, Hot Spell Damage: +25
 Effect	Granolarrrgh	Stench Damage: +20, Stench Spell Damage: +20
 Effect	Grape Expectations	Maximum HP: +50, Maximum MP: +25
+Effect	Grateful, But Spelled With a Dollar Sign	Meat Drop: +50
 Effect	Grease Trappings	Avatar: "Grease Trapper"
 # Greased: Continually take damage
 Effect	Greased	Sleaze Damage: +20
@@ -6309,6 +6313,7 @@ Effect	Greasy Visage	Sleaze Spell Damage: +50, Spell Damage Percent: +100
 Effect	Greedy Resolve	Meat Drop: +30
 Effect	Green Peace	Experience Percent (Moxie): +50
 Effect	Green Tongue	Familiar Weight: +5, Experience (familiar): +2
+Effect	Green-Blooded	Maximum MP: +25, MP Regen Min: 5, MP Regen Max: 15
 Effect	Green, Uneasy	Avatar: "frog"
 Effect	Grilled	Muscle: -10
 Effect	Grillin' Like a Villain	Avatar: "toothy pirate"
@@ -6406,6 +6411,7 @@ Effect	Helping Fingers	Weapon Damage Percent: +100
 Effect	Helvella Health	Maximum HP: +100, HP Regen Min: 10, HP Regen Max: 20
 Effect	Hennaliciousness	Mysticality: +3
 Effect	Herbal Pert	Experience (Moxie): [25*zone(Twitch)], Initiative: [250*zone(Twitch)]
+Effect	Herder, Bitter, Fester, Stranger	Familiar Weight: +5, Monster Level: +10, Stench Damage: +15, Sleaze Damage: +15
 Effect	Here to Kick Ass	Muscle Percent: +50, Weapon Damage Percent: +50
 Effect	Here's Mud in Your Eye	Meat Drop: +50
 Effect	Here's Some More Mud in Your Eye	Meat Drop: +100
@@ -6414,6 +6420,7 @@ Effect	Heroic Fortune	Rubee Drop: 1
 Effect	HGH-charged	Experience Percent (Muscle): +50
 Effect	Hidden Power	Muscle: +15, Mysticality: +15, Moxie: +15
 Effect	Hide of Sobek	Damage Absorption: +50, Damage Reduction: 5, Hot Resistance: +1, Cold Resistance: +1, Stench Resistance: +1, Spooky Resistance: +1, Sleaze Resistance: +1
+Effect	Hiding From Seekers	Combat Rate: -5
 Effect	Hiding in Plain Sight	Initiative: +100
 Effect	High Blood Chocolate Content	Candy Drop: +30
 Effect	High Colognic	Combat Rate: +5
@@ -7218,6 +7225,7 @@ Effect	Reptilian Fortitude	Maximum HP: +30
 Effect	Resilient Spirit	Damage Reduction: 15, Damage Absorption: +50
 Effect	Resined	Leaves: +1
 Effect	Resting Beach Face	Initiative: +50
+Effect	Resurrection of the Flesh	Maximum HP: +25, HP Regen Min: 10, HP Regen Max: 30
 Effect	Retrograde Relaxation	HP Regen Min: 8, HP Regen Max: 10
 Effect	Rhinestoned	Moxie: [T]
 # Riboflavin': Pickin' Pockets like a G
@@ -7869,6 +7877,7 @@ Effect	Tortious	Monster Level: +10
 Effect	Total Protonic Reversal	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20
 Effect	Touched	Spooky Resistance: +3, Spooky Damage: +30, Experience: +3
 Effect	Touched by a Ghost	Muscle Percent: [-(30+T)], Mysticality Percent: [-(30+T)], Moxie Percent: [-(30+T)]
+Effect	Toured of Duty	Damage Reduction: 5, Weapon Damage: +20, Spell Damage: +20, Ranged Damage: +20
 Effect	Towering Muscles	Muscle: +10, Maximum HP: +50, Experience (Muscle): +3, Combat Rate: +5
 Effect	Towering Strength	Muscle Percent: [100+2*min(50,pref(chessboardsCleared))]
 Effect	Toxic Vengeance	Muscle: [-T], Mysticality: [-T], Moxie: [-T], Stench Damage: [3*T], Spell Damage Percent: [3*T]
@@ -8352,6 +8361,7 @@ Skill	High Water Content	Hot Resistance: +2
 Skill	His Master's Voice	Familiar Weight: +5
 # Hivemindedness: Regenerate 100 MP per Adventure (Scales with your Mysticality)
 Skill	Hivemindedness	MP Regen Min: [min(ceil(basemys/10),100)], MP Regen Max: [min(ceil(basemys/10),100)]
+# Holiday Multitasking: Craft up to 3 items per day without using an Adventure
 Skill	Hollow Leg	Liver Capacity: +1
 Skill	Hot Headedness	Hot Damage: +11
 Skill	Hungry Eyes	Food Drop: +100
@@ -8421,6 +8431,7 @@ Skill	Madness of Untold Aeons	Mysticality Percent: +150, Maximum HP: -25
 Skill	Marginally Insane	Maximum MP Percent: +10
 Skill	Mariachi Memory	Additional Song: 1
 Skill	Master Accordion Master Thief	Pickpocket Chance: +10
+Skill	Master Egg Hunter	Item Drop: +10
 Skill	Master of the Surprising Fist	Weapon Damage: +10, Damage Reduction: 10, Unarmed
 Skill	Master Saucier	Spell Damage Percent: +10
 Skill	Matter Over Mind	Maximum MP Percent: +25
@@ -8504,6 +8515,7 @@ Skill	Rainbow Shield	Cold Resistance: +2, Hot Resistance: +2, Sleaze Resistance:
 Skill	Ravenous Pounce	Stomach Capacity: +5
 # Really Expensive Jewelrycrafting: Lets you use fancy jewelrycrafting ingredients
 Skill	Refusal to Freeze	Cold Resistance: +3
+Skill	Reindeer Games	Initiative: +30
 Skill	Reloading	Adventures: +5
 Skill	Replacement Liver	Liver Capacity: +4
 Skill	Replacement Stomach	Stomach Capacity: +5
@@ -9032,6 +9044,7 @@ Item	campfire s'more	Effect: "Gimme, Gimme", Effect Duration: 60
 Item	campfire stew	Effect: "Just Like Me, They Want to Be", Effect Duration: 60
 Item	can of Adultwitch&trade;	Effect: "Greasy Visage", Effect Duration: 20
 Item	can of franks 'n' beans	Effect: "Crimbo Nostalgia", Effect Duration: 50
+Item	candied beef and cabbage	Effect: "Green-Blooded", Effect Duration: 40
 Item	candied lime	Effect: "Limed Up", Effect Duration: 50
 Item	candied pecan	Effect: "Sugar Rush", Effect Duration: 10
 Item	candied sweet potatoes	Effect: "Thanksgetting", Effect Duration: 20
@@ -9048,6 +9061,8 @@ Item	cheezburger	Effect: "Yes, Can Haz", Effect Duration: 50
 Item	chilly dog	Effect: "Chill Out, Dog", Effect Duration: 30
 Item	Choco-Mint patty	Effect: "Alpine Mintiness", Effect Duration: 25
 Item	chocolate chip muffin	Effect: "All Chipped Up", Effect Duration: 25
+Item	chocolate ostrich egg	Effect: "Resurrection of the Flesh", Effect Duration: 40
+Item	Christmas ham	Effect: "Eyesies on the Pressies", Effect Duration: 40
 Item	ciliophora chowder	Effect: "Twitching Senses", Effect Duration: 50
 Item	circular CRIMBCOOKIE	Effect: "Mystic Circle", Effect Duration: 10
 Item	cold hi mein	Effect: "Cold Breath", Effect Duration: 5
@@ -9380,6 +9395,7 @@ Item	Caipiranha	Effect: "Fishy", Effect Duration: 5
 Item	Candicaine	Effect: "Holiday Bliss", Effect Duration: 15
 Item	Candy Alexander	Effect: "Holiday Bliss", Effect Duration: 10
 Item	canteen of eggnog	Effect: "All Liquored Up For War", Effect Duration: 100
+Item	canteen of jungle juice	Effect: "Toured of Duty", Effect Duration: 40
 Item	canteen of wine	Effect: "In Vino Vires", Effect Duration: 20
 Item	carrot claret	Effect: "Pla-see-bo", Effect Duration: 10
 Item	Cement Mixer	Effect: "Mortarfied", Effect Duration: 5
@@ -9427,6 +9443,7 @@ Item	dusty bottle of Pinot Noir	Effect: "Kiss of the Black Fairy", Effect Durati
 Item	dusty bottle of Port	Effect: "Full of Vinegar", Effect Duration: 10
 Item	Earth and Firewater	Effect: "Elemental Mastery", Effect Duration: 10
 Item	Earth, Wind and Firewater	Effect: "Elemental Mastery", Effect Duration: 15
+Item	Easter grasshopper	Effect: "Resurrection of the Flesh", Effect Duration: 40
 Item	Ecto-Cooler	Effect: "Booing Radly", Effect Duration: 30
 Item	eighth plague	Effect: "Wings of the Dragonfly", Effect Duration: 40
 Item	eldritch elixir	Effect: "Eldritch Attunement", Effect Duration: 5
@@ -9521,6 +9538,7 @@ Item	lychee chuhai	Effect: "Brined Liver", Effect Duration: 20
 Item	marshmallow flamb&eacute;	Effect: "Sugar Rush", Effect Duration: 10
 Item	McLeod's Hard Haggis-Ade	Effect: "Hagg-ard", Effect Duration: 20
 Item	meadeorite	Effect: "Meadulla Oblongota", Effect Duration: 40
+Item	mechanically-mulled cider	Effect: "Eyesies on the Pressies", Effect Duration: 40
 Item	melon-infused sake	Effect: "Warm Belly", Effect Duration: 1
 Item	mentholated wine	Effect: "Christmessy", Effect Duration: 20
 Item	mini kiwitini	Effect: "Green Peace", Effect Duration: 15
@@ -9619,6 +9637,7 @@ Item	The Cooler Out of Space	Effect: "You Can Taste the Darkness", Effect Durati
 Item	Third Base	Effect: "Third Based", Effect Duration: 40
 Item	tobiko-infused sake	Effect: "Pisces in the Skyces", Effect Duration: 30
 Item	Transylvania Sling	Effect: "Creepypasted", Effect Duration: 10
+Item	turchucken	Effect: "Grateful, But Spelled With a Dollar Sign", Effect Duration: 40
 Item	Turtle Bowl	Effect: "Tiki Thoughtfulness", Effect Duration: 40
 Item	twice-haunted screwdriver	Effect: "Haunted Liver", Effect Duration: 40
 Item	unfinished fruitcake	Effect: "Holiday Disappointment", Effect Duration: 10
@@ -10053,6 +10072,7 @@ Item	Daily Affirmation: Keep Free Hate in your Heart	Effect: "Keep Free Hate in 
 Item	Daily Affirmation: Think Win-Lose	Effect: "Think Win-Lose", Effect Duration: 100
 # Daily Affirmation: Work For Hours a Week: In Combat: Earn Active Income!
 Item	Daily Affirmation: Work For Hours a Week	Effect: "Work For Hours a Week", Effect Duration: 100
+Item	dark chocolate egg	Effect: "Herder, Bitter, Fester, Stranger", Effect Duration: 20
 Item	daub-breaker	Effect: "Hot Breath", Effect Duration: 1
 Item	deadly lampshade	Effect: "Deadly Lampblade", Effect Duration: 20
 Item	Deep Machine Tunnels snowglobe	Effect: "Inside The Snowglobe", Effect Duration: 57
