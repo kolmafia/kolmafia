@@ -2398,6 +2398,11 @@ Elf Guard armorer	2434	egarmorer.gif	NOWISH Scale: ? Init: -10000 P: elf Article
 Elf Guard Red and White Beret	2435	egberet.gif	NOWISH Scale: ? Init: -10000 P: elf Article: an	1-2 Elf Guard MPC (m100)	red and white claret (f5)	Elf Guard red and white beret (f0.5)
 Crimbuccaneer privateer	2436	cbprivateer.gif	NOWISH Scale: ? Init: -10000 P: pirate Article: a	1-2 Crimbuccaneer piece of 12 (m100)	Crimbuccaneer fledges (mint) (c0)
 
+# Crimbo 2024 (December 2024)
+feral bunny	2475	feralbunny.gif	Scale: ? Cap: ? Floor: ? Init: 100 P: beast Article: a	Spirit of Easter (100)	coney haunch (0)
+chocolate chicken	2476	chocken.gif	Scale: ? Cap: ? Floor: ? Init: 150 P: beast Article: a	Spirit of Easter (100)	dark chocolate egg (15)
+moai	2477	moai.gif	Scale: ? Cap: ? Floor: ? Init: -10000 P: construct Article: a	Spirit of Easter (100)	moai toai (0)	moaiball (0)
+
 # Old Events
 
 # White Wednesday (October 26, 2005)
