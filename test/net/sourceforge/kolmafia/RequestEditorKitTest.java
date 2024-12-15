@@ -475,4 +475,14 @@ public class RequestEditorKitTest {
       }
     }
   }
+
+  @Test
+  void decoratesFightDec2024() {
+    var html = html("request/test_fight_dec2024.html");
+    var buffer = new StringBuffer(html);
+    RequestEditorKit.getFeatureRichHTML("fight.php?ireallymeanit=1734262567", buffer, false);
+    var str = buffer.toString();
+    assertThat(str, containsString("Round 1!"));
+    assertThat(str, containsString("Round 2!"));
+  }
 }

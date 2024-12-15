@@ -960,7 +960,7 @@ public class BasementRequest extends AdventureRequest {
       return true;
     }
 
-    if (responseText.contains("<b>Fernswarthy's Basement, Level 500</b>")) {
+    if (responseText.contains(">Fernswarthy's Basement, Level 500</b>")) {
       BasementRequest.basementTestString = "Encounter: Fernswarthy's Basement, Level 500";
       return true;
     }

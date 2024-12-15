@@ -2135,6 +2135,7 @@ misfit dolly	0	none
 misfit hobby horse	0	none
 misfit teddy bear	0	none
 Mixed Garbanzos and Chickpeas	40	Mys: 5	can of beans
+moaiball	0	Mys: 35
 mole skin notebook	40	none
 moss megaphone	0	none
 moxie magnet	30	none

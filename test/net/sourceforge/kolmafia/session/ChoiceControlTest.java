@@ -1130,22 +1130,22 @@ class ChoiceControlTest {
         String frag, int spices, int rum, int anchor, int mast, int silk, int gold) {
       var cleanups =
           new Cleanups(
-              withProperty("_takerSpaceSpice", 0),
-              withProperty("_takerSpaceRum", 0),
-              withProperty("_takerSpaceAnchor", 0),
-              withProperty("_takerSpaceMast", 0),
-              withProperty("_takerSpaceSilk", 0),
-              withProperty("_takerSpaceGold", 0),
+              withProperty("takerSpaceSpice", 0),
+              withProperty("takerSpaceRum", 0),
+              withProperty("takerSpaceAnchor", 0),
+              withProperty("takerSpaceMast", 0),
+              withProperty("takerSpaceSilk", 0),
+              withProperty("takerSpaceGold", 0),
               withChoice(1537, html("request/test_campground_takerspace_" + frag + ".html")));
 
       try (cleanups) {
         assertThat("_takerSpaceSuppliesDelivered", isSetTo(true));
-        assertThat("_takerSpaceSpice", isSetTo(spices));
-        assertThat("_takerSpaceRum", isSetTo(rum));
-        assertThat("_takerSpaceAnchor", isSetTo(anchor));
-        assertThat("_takerSpaceMast", isSetTo(mast));
-        assertThat("_takerSpaceSilk", isSetTo(silk));
-        assertThat("_takerSpaceGold", isSetTo(gold));
+        assertThat("takerSpaceSpice", isSetTo(spices));
+        assertThat("takerSpaceRum", isSetTo(rum));
+        assertThat("takerSpaceAnchor", isSetTo(anchor));
+        assertThat("takerSpaceMast", isSetTo(mast));
+        assertThat("takerSpaceSilk", isSetTo(silk));
+        assertThat("takerSpaceGold", isSetTo(gold));
       }
     }
   }
