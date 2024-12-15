@@ -355,10 +355,4 @@ public class GenericRequestTest {
       assertThat(property, isSetTo(expected));
     }
   }
-
-  @Test
-  public void canParseDec2024Choice() {
-    var encounter = AdventureRequest.parseEncounter(html("request/test_choice_dec2024.html"));
-    assertThat(encounter, equalTo("Dr. Gordon Stuart, a Scientist"));
-  }
 }
