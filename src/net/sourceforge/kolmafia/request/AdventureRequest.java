@@ -1014,6 +1014,9 @@ public class AdventureRequest extends GenericRequest {
       Pattern.compile(
           "<td style=\"background-color: blue\" align=center ><b style=\"color: white\">(.*?)</b>");
 
+  private static final Pattern OLD_BOLD_ENCOUNTER =
+      Pattern.compile("<td style=\"color: white;\" align=center bgcolor=blue><b>(.*?)</b>");
+
   public static String parseEncounter(final String responseText) {
     // Look only in HTML body; the header can have scripts with
     // bold text.
@@ -1035,7 +1038,10 @@ public class AdventureRequest extends GenericRequest {
 
     Matcher boldMatch = BOLD_ENCOUNTER.matcher(responseText);
     if (!boldMatch.find(index)) {
-      return "";
+      boldMatch = OLD_BOLD_ENCOUNTER.matcher(responseText);
+      if (!boldMatch.find(index)) {
+        return "";
+      }
     }
 
     return ChoiceUtilities.stripDevReadout(boldMatch.group(1));
