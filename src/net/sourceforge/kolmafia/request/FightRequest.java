@@ -7174,6 +7174,11 @@ public class FightRequest extends GenericRequest {
       return true;
     }
 
+    if (image.equals("ts_hook.gif")) {
+      FightRequest.logText(str, status);
+      return true;
+    }
+
     // Combat item usage: process the children of this node
     // to pick up damage to the monster and stat gains
     return true;
