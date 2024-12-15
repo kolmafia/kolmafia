@@ -2274,3 +2274,6 @@
 2451	herd of archaea	another archaea	archaea	different archaea
 2452	yeast gang	nodule
 2453	Embering Hulk	arm	ember	flames	head	leg
+2475	feral bunny	scales
+2476	chocolate chicken	scales
+2477	moai	scales
