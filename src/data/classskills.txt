@@ -261,6 +261,11 @@
 233	Elf Guard Relaxation Techniques	sleepy.gif	passive	0	0
 234
 235	Too Cool	ice.gif	passive	0	0
+236	Attract Snakes	tinysnake.gif	nc,self	50	10
+237	Hide From Seekers	darkvision.gif	nc,self	50	10
+238	Reindeer Games	dcreindeer.gif	passive	0	0
+239	Master Egg Hunter	eggdot.gif	passive	0	0
+240	Holiday Multitasking	addresslist.gif	passive	0	0
 
 # Skills available to Clubbers
 
@@ -1093,6 +1098,8 @@
 7532	Assert your Authority	bakebadge.gif	combat	0	0
 7533	Check for photo booth supplies	document.gif	combat	0	0
 7534	Iron Tricorn Headbutt	ts_tricorn.gif	combat	0	0
+7535	Throw Military Orb	grenorb.gif	combat	0	0
+7536	Place your hat on their head	snowmanhat.gif	combat	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.
