@@ -3106,4 +3106,18 @@ public class FightRequestTest {
       assertThat("banishedMonsters", hasStringValue(startsWith("lynyrd:anchor bomb:")));
     }
   }
+
+  @Test
+  public void canDetectPirateHookSteal() {
+    RequestLoggerOutput.startStream();
+    var cleanups = new Cleanups(withFight(), withEquipped(Slot.OFFHAND, "deft pirate hook"));
+    try (cleanups) {
+      parseCombatData("request/test_fight_deft_pirate_hook_steal.html", "fight.php?action=attack");
+      var text = RequestLoggerOutput.stopStream();
+      assertThat(
+          text,
+          containsString(
+              "You deftly snag something from your opponent with your deft pirate hook.\nYou acquire an item: Spirit of Easter"));
+    }
+  }
 }
