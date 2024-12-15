@@ -326,7 +326,7 @@ public class IslandDecorator {
     // Find the table that contains the map.
     int tableIndex =
         buffer.indexOf(
-            "<tr><td style=\"color: white;\" align=center bgcolor=blue><b>The Mysterious Island of Mystery</b></td>");
+            "<tr><td style=\"background-color: blue\" align=center ><b style=\"color: white\">The Mysterious Island of Mystery</b></td>");
     if (tableIndex != -1) {
       String fratboyMessage = IslandManager.sideSummary("frat boys");
       String hippyMessage = IslandManager.sideSummary("hippies");
@@ -375,7 +375,7 @@ public class IslandDecorator {
 
     int tableIndex =
         buffer.indexOf(
-            "<tr><td style=\"color: white;\" align=center bgcolor=blue><b>The Junkyard</b></td>");
+            "<tr><td style=\"background-color: blue\" align=center ><b style=\"color: white\">The Junkyard</b></td>");
     if (tableIndex == -1) {
       return;
     }
@@ -426,7 +426,7 @@ public class IslandDecorator {
 
       int tableIndex =
           buffer.indexOf(
-              "<tr><td style=\"color: white;\" align=center bgcolor=blue><b>Mysterious Island Arena</b></td>");
+              "<tr><td style=\"background-color: blue\" align=center ><b style=\"color: white\">Mysterious Island Arena</b></td>");
       if (tableIndex != -1) {
         String message = RequestEditorKit.advertisingMessage();
         String row =
