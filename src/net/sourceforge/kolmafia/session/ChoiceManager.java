@@ -241,7 +241,7 @@ public abstract class ChoiceManager {
         //
         // <b>Now What?</b>
         // <a href=choice.php>Continue down the corridor...</a>
-        if (responseText.contains("<b>Now What?</b>")) {
+        if (responseText.contains(">Now What?</b>")) {
           request.constructURLString("choice.php");
           request.run();
           String redirectLocation = request.redirectLocation;
