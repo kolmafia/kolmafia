@@ -505,4 +505,10 @@ public class AdventureRequestTest {
     var encounter = AdventureRequest.parseEncounter(html("request/test_choice_dec2024.html"));
     assertThat(encounter, equalTo("Dr. Gordon Stuart, a Scientist"));
   }
+
+  @Test
+  public void canParseDec2024Noncombat() {
+    var encounter = AdventureRequest.parseEncounter(html("request/test_noncombat_dec2024.html"));
+    assertThat(encounter, equalTo("Cards with Bards"));
+  }
 }

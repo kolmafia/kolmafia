@@ -1010,12 +1010,7 @@ public class AdventureRequest extends GenericRequest {
     return parseEncounter(responseText);
   }
 
-  private static final Pattern BOLD_ENCOUNTER =
-      Pattern.compile(
-          "<td style=\"background-color: blue\" align=center ><b style=\"color: white\">(.*?)</b>");
-
-  private static final Pattern OLD_BOLD_ENCOUNTER =
-      Pattern.compile("<td style=\"color: white;\" align=center bgcolor=blue><b>(.*?)</b>");
+  private static final Pattern BOLD_ENCOUNTER = Pattern.compile("<b(?:| [^>]*)>(.*?)</b>");
 
   public static String parseEncounter(final String responseText) {
     // Look only in HTML body; the header can have scripts with
@@ -1038,10 +1033,7 @@ public class AdventureRequest extends GenericRequest {
 
     Matcher boldMatch = BOLD_ENCOUNTER.matcher(responseText);
     if (!boldMatch.find(index)) {
-      boldMatch = OLD_BOLD_ENCOUNTER.matcher(responseText);
-      if (!boldMatch.find(index)) {
-        return "";
-      }
+      return "";
     }
 
     return ChoiceUtilities.stripDevReadout(boldMatch.group(1));
