@@ -1010,6 +1010,8 @@ public class AdventureRequest extends GenericRequest {
     return parseEncounter(responseText);
   }
 
+  private static final Pattern BOLD_ENCOUNTER = Pattern.compile("<td style=\"background-color: blue\" align=center ><b style=\"color: white\">(.*?)</b>");
+
   public static String parseEncounter(final String responseText) {
     // Look only in HTML body; the header can have scripts with
     // bold text.
@@ -1029,18 +1031,12 @@ public class AdventureRequest extends GenericRequest {
       }
     }
 
-    int boldIndex = responseText.indexOf("<b>", index);
-    if (boldIndex == -1) {
+    Matcher boldMatch = BOLD_ENCOUNTER.matcher(responseText);
+    if (!boldMatch.find(index)) {
       return "";
     }
 
-    int endBoldIndex = responseText.indexOf("</b>", boldIndex);
-
-    if (endBoldIndex == -1) {
-      return "";
-    }
-
-    return ChoiceUtilities.stripDevReadout(responseText.substring(boldIndex + 3, endBoldIndex));
+    return ChoiceUtilities.stripDevReadout(boldMatch.group(1));
   }
 
   public static int parseArea(final String urlString) {
