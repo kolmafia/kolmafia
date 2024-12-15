@@ -6300,6 +6300,14 @@ public abstract class ChoiceAdventures {
         new ChoiceOption("50 turns of +50HP, +10 muscle, +3 muscle exp, +5% combat", 2),
         new ChoiceOption("50 turns of +50MP, +10 myst, +3 myst exp, +10-30 mp regen", 3),
         new ChoiceOption("skip adventure", 6));
+
+    // The Eggdump
+    new ChoiceAdventure(
+        1538,
+        "Easter Island",
+        "The Eggdump",
+        new ChoiceOption("get Spirits of Easter scaling with stench resistance", 2),
+        new ChoiceOption("skip adventure", 3));
   }
 
   // This array is used by the ChoiceOptionsPanel to provide all the GUI configurable choices.
