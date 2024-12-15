@@ -1031,6 +1031,11 @@ public class AdventureRequest extends GenericRequest {
       }
     }
 
+    if (index == -1) {
+      // something has gone horribly wrong
+      return "";
+    }
+
     Matcher boldMatch = BOLD_ENCOUNTER.matcher(responseText);
     if (!boldMatch.find(index)) {
       return "";
