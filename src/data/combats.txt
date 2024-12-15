@@ -127,6 +127,7 @@ Dreadsylvanian Village	-1	cold ghost	cold zombie	hot ghost	hot zombie	sleaze gho
 Dreadsylvanian Woods	-1	cold bugbear	cold werewolf	hot bugbear	hot werewolf	sleaze bugbear	sleaze werewolf	spooky bugbear	spooky werewolf	stench bugbear	stench werewolf	Great Wolf of the Air: 0	Falls-From-Sky: 0
 Duke Vampire's Chateau	0	Duke Vampire: 0
 Eager Rice Burrows	100	chocolate hare	chocolate-cherry prairie dog	Rock Pop weasel
+Easter Island	100	chocolate chicken	feral bunny	moai
 El Vibrato Island	100	bizarre construct	hulking construct	industrious construct	lonely construct	menacing construct	towering construct
 Elf Alley	100	Hobelf	Uncle Hobo: 0
 Engineering	100	Battlesuit Bugbear Type	bugbear drone	liquid metal bugbear
