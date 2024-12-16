@@ -9053,6 +9053,7 @@ Item	candy carrot cake	Effect: "Improved Candy Vision", Effect Duration: 30
 # candy kneecapping stick: Deals 10-20 Physical Damage when used as a combat item
 Item	candy kneecapping stick	Effect: "Sugar Rush", Effect Duration: 5
 Item	candy mountain oyster	Effect: "Sugar Rush", Effect Duration: 10
+Item	candy rations	Effect: "Toured of Duty", Effect Duration: 40
 Item	carrot cake	Effect: "Pla-see-bo", Effect Duration: 10
 Item	carrot cake precipice bar	Effect: "On the Precipice of Carrots", Effect Duration: 30
 Item	centipede eggs	Effect: "Somewhat Poisoned", Effect Duration: 10
@@ -9516,6 +9517,7 @@ Item	Hundred Headed IPA	Effect: "Hoppyness", Effect Duration: 20
 Item	ice porter	Wiki Name: "ice porter (drink)"
 Item	ice wine	Effect: "Brain Freeze", Effect Duration: 50
 Item	Irish Coffee, English Heart	Effect: "Smithsness Cheer", Effect Duration: 100
+Item	Irish eggnog	Effect: "Green-Blooded", Effect Duration: 40
 Item	Ish Kabibble	Effect: "Feeling No Pain", Effect Duration: 25
 Item	Island Hurricane	Effect: "Tiki Temerity", Effect Duration: 20
 Item	Island Landslide	Effect: "Tiki Toughness", Effect Duration: 20
