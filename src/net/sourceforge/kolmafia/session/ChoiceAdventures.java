@@ -6304,7 +6304,7 @@ public abstract class ChoiceAdventures {
     // The Eggdump
     new ChoiceAdventure(
         1538,
-        "Easter Island",
+        "Holiday Islands",
         "The Eggdump",
         new ChoiceOption("get Spirits of Easter scaling with stench resistance", 2),
         new ChoiceOption("skip adventure", 3));
