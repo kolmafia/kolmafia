@@ -11764,7 +11764,7 @@
 11736
 11737
 11738
-11739
+11739	room scale green bean casserole	822288223	bigcasserole.gif	food	t,d	85
 11740
 11741
 11742
@@ -11773,17 +11773,18 @@
 11745
 11746
 11747	Easter grasshopper	745334157	shadowmartini.gif	drink	t,d	75
-11748
-11749	canteen of jungle juice	193545248	canteen.gif	drink	t,d	75
+11748	Irish eggnog	976878716	coffeecup.gif	drink	t,d	75	mugs of Irish eggnog
+11749	canteen of jungle juice	193545248	canteen.gif	drink	t,d	75	canteens of jungle juice
 11750	turchucken	233388840	rawturkey.gif	drink	t,d	75
-11751	mechanically-mulled cider	816185020	frostigkraut.gif	drink	t,d	75
-11752	holiday trip around the world	460578233	boxingpunch.gif	drink	t,d	250
+11751	mechanically-mulled cider	816185020	frostigkraut.gif	drink	t,d	75	jars of mechanically-mulled cider
+11752	holiday trip around the world	460578233	boxingpunch.gif	drink	t,d	250	holiday trips around the world
 11753	chocolate ostrich egg	477352862	chocegg.gif	food	t,d	75
-11754	candied beef and cabbage	942057727	crimboscraps.gif	food	t,d	75
-11755
+11754	candied beef and cabbage	942057727	crimboscraps.gif	food	t,d	75	plates of candied beef and cabbage
+11755	candy rations	995325513	crimbotin.gif	food	t,d	75	candy rations
 11756
 11757	Christmas ham	535336050	ham.gif	food	t,d	75
 11758
 11759
 11760
-11761	Secrets of the Master Egg Hunters	943549721	book5.gif	usable	t	0
+11761	Secrets of the Master Egg Hunters	943549721	book5.gif	usable	t	0	copies of Secrets of the Master Egg Hunters
+11762	Secrets of the Master Egg Hunters (used)	216321799	book5.gif	usable		0	used copies of Secrets of the Master Egg Hunters
