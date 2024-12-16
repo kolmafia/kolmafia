@@ -2274,3 +2274,7 @@
 2451	herd of archaea	another archaea	archaea	different archaea
 2452	yeast gang	nodule
 2453	Embering Hulk	arm	ember	flames	head	leg
+2464	Easter Island Bunny	ear	head
+2475	feral bunny	ear	head	paw	tail
+2476	chocolate chicken	beak	breast	leg	thigh	wing
+2477	moai	brow	chin	eye	forehead
