@@ -489,4 +489,16 @@ public class CampgroundRequestTest {
       }
     }
   }
+
+  @Test
+  void canParseDwellingDec2024() {
+    var cleanups = new Cleanups(withEmptyCampground());
+
+    try (cleanups) {
+      String page = html("request/test_campground_dwelling_dec2024.html");
+      CampgroundRequest.parseResponse("campground.php?action=inspectdwelling", page);
+      assertCampgroundItemCount(ItemPool.FOREST_CANOPY_BED, 1);
+      assertCampgroundItemCount(ItemPool.CLOCKWORK_MAID, 1);
+    }
+  }
 }

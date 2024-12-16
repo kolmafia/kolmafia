@@ -11742,12 +11742,12 @@
 11714
 11715
 11716
-11717	Spirit of Easter	756560474	spirit_easter.gif	none		0
-11718	Spirit of St. Patrick's Day	655322653	spirit_stpatrick.gif	none		0
-11719	Spirit of Veteran's Day	303899144	spirit_veterans.gif	none		0
-11720	Spirit of Thanksgiving	166270423	spirit_thanks.gif	none		0
-11721	Spirit of Christmas	903725390	spirit_xmas.gif	none		0
-11722	coney haunch	209073751	coneyhaunch.gif	food	t,d	25
+11717	Spirit of Easter	756560474	spirit_easter.gif	none		0	Spirits of Easter
+11718	Spirit of St. Patrick's Day	655322653	spirit_stpatrick.gif	none		0	Spirits of St. Patrick's Day
+11719	Spirit of Veteran's Day	303899144	spirit_veterans.gif	none		0	Spirits of Veteran's Day
+11720	Spirit of Thanksgiving	166270423	spirit_thanks.gif	none		0	Spirits of Thanksgiving
+11721	Spirit of Christmas	903725390	spirit_xmas.gif	none		0	Spirits of Christmas
+11722	coney haunch	209073751	coneyhaunch.gif	food	t,d	25	coney haunches
 11723	dark chocolate egg	428655084	darkchocegg.gif	potion, usable	t,d	15
 11724	moai toai	969792989	icedtea.gif	drink	t,d	29
 11725	moaiball	728604035	moaieye.gif	offhand	t	0
