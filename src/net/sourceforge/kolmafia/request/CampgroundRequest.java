@@ -1566,7 +1566,7 @@ public class CampgroundRequest extends GenericRequest {
   private static void inspectDwelling(final String responseText) {
     // "Your dwelling has the following stuff" or "Your patch of ground has the following stuff"
     int startIndex = responseText.indexOf("has the following stuff");
-    int endIndex = responseText.indexOf("<b>Your Campsite</b>", startIndex + 1);
+    int endIndex = responseText.indexOf(">Your Campsite</b>", startIndex + 1);
     if (startIndex > 0 && endIndex > 0) {
       var relevantResponse = responseText.substring(startIndex, endIndex);
 
