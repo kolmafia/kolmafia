@@ -180,7 +180,9 @@ Override	Unsorted	Discoveries
 Events	Events	Events
 
 Twitch	Town	Time-Twitching Tower
+
 Crimbo24	Holiday	Christmas 2024
+Holiday Islands	Crimbo24	Holiday Islands
 
 # The following zones are all retired Events or Holidays
 
