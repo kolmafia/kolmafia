@@ -67,34 +67,34 @@ public abstract class LeafletManager {
 
   private static final String[][] LOCATIONS = {
     {
-      "<b>In the House</b>", "in the house",
+      ">In the House</b>", "in the house",
     },
     {
-      "<b>West of House</b>", "west of the house",
+      ">West of House</b>", "west of the house",
     },
     {
-      "<b>North of the Field</b>", "north of the field",
+      ">North of the Field</b>", "north of the field",
     },
     {
-      "<b>Forest Clearing</b>", "in the forest clearing",
+      ">Forest Clearing</b>", "in the forest clearing",
     },
     {
-      "<b>Cave</b>", "in the cave",
+      ">Cave</b>", "in the cave",
     },
     {
-      "<b>South Bank</b>", "on the south bank",
+      ">South Bank</b>", "on the south bank",
     },
     {
-      "<b>Forest</b>", "in the forest",
+      ">Forest</b>", "in the forest",
     },
     {
-      "<b>On the other side of the forest maze...</b>", "past maze",
+      ">On the other side of the forest maze...</b>", "past maze",
     },
     {
-      "<b>Halfway Up The Tree</b>", "halfway up the tree",
+      ">Halfway Up The Tree</b>", "halfway up the tree",
     },
     {
-      "<b>Tabletop</b>", "on the tabletop",
+      ">Tabletop</b>", "on the tabletop",
     }
   };
 
