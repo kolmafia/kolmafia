@@ -3373,3 +3373,23 @@ peasco sour	MIX	whirled peas	bottle of vodka
 peaza	COOK	whirled peas	flat dough
 pea brittle	COOK	whirled peas	Gnollish casserole dish
 handful of split pea soup	COMBINE	whirled peas	whirled peas
+
+# TakerSpace
+deft pirate hook	TAKERSPACE
+iron tricorn hat	TAKERSPACE
+jolly roger flag	TAKERSPACE
+sleeping profane parrot	TAKERSPACE
+pirrrate's currrse	TAKERSPACE
+tankard of spiced rum	TAKERSPACE
+tankard of spiced Goldschlepper	TAKERSPACE
+packaged luxury garment	TAKERSPACE
+harpoon	TAKERSPACE
+chili powder cutlass	TAKERSPACE
+cursed Aztec tamale	TAKERSPACE
+jolly roger tattoo kit	TAKERSPACE
+golden pet rock	TAKERSPACE
+groggles	TAKERSPACE
+pirate dinghy	TAKERSPACE
+anchor bomb	TAKERSPACE
+silky pirate drawers	TAKERSPACE
+spices	TAKERSPACE
