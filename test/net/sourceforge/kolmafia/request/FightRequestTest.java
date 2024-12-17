@@ -2025,7 +2025,7 @@ public class FightRequestTest {
       "away_2, 30, The Fun-Guy Mansion",
       "finished, 1, ''",
       "same_location, 2, The Fun-Guy Mansion",
-      "period_in_name, 22, St. Patrick's Day Island"
+      "period_in_name, 45, St. Patrick's Day Island"
     })
     public void canUpdateQuestParamsFromFightInfo(
         final String fixture, final int questTurn, final String questLocation) {
