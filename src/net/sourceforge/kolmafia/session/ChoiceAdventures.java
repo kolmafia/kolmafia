@@ -6306,6 +6306,7 @@ public abstract class ChoiceAdventures {
         1538,
         "Holiday Islands",
         "The Eggdump",
+        new ChoiceOption("fight the Easter Island Bunny", 1),
         new ChoiceOption("get Spirits of Easter scaling with stench resistance", 2),
         new ChoiceOption("skip adventure", 3));
   }
