@@ -268,6 +268,7 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
       case MAYAM -> new MayamRequest(conc);
       case KIWI -> new KiwiKwikiMartRequest(conc);
       case PHOTO_BOOTH -> new PhotoBoothRequest(conc);
+      case TAKERSPACE -> new TakerSpaceRequest(conc);
       default -> new CreateItemRequest(conc);
     };
   }
