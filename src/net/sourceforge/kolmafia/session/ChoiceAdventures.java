@@ -6309,6 +6309,14 @@ public abstract class ChoiceAdventures {
         new ChoiceOption("fight the Easter Island Bunny", 1),
         new ChoiceOption("get Spirits of Easter scaling with stench resistance", 2),
         new ChoiceOption("skip adventure", 3));
+
+    // Snakes in the Grasses
+    new ChoiceAdventure(
+        1539,
+        "Holiday Islands",
+        "Snakes in the Grasses",
+        new ChoiceOption("get Spirits of St. Patrick's Day scaling with sleaze resistance", 2),
+        new ChoiceOption("skip adventure", 3));
   }
 
   // This array is used by the ChoiceOptionsPanel to provide all the GUI configurable choices.
