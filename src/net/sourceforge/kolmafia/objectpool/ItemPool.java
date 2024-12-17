@@ -3818,8 +3818,23 @@ public class ItemPool {
   public static final int SHERIFF_MOUSTACHE = 11670;
   public static final int SPLIT_PEA_SOUP = 11685;
   public static final int TAKERSPACE_LETTER_OF_MARQUE = 11687;
+  public static final int DEFT_PIRATE_HOOK = 11688;
+  public static final int IRON_TRICORN_HAT = 11689;
+  public static final int JOLLY_ROGER_FLAG = 11690;
+  public static final int SLEEPING_PROFANE_PARROT = 11691;
+  public static final int PIRRRATES_CURRRSE = 11692;
+  public static final int TANKARD_OF_SPICED_RUM = 11693;
+  public static final int TANKARD_OF_SPICED_GOLDSCHLEPPER = 11694;
+  public static final int PACKAGED_LUXURY_GARMENT = 11695;
+  public static final int HARPOON = 11699;
+  public static final int CHILI_POWDER_CUTLASS = 11700;
+  public static final int CURSED_AZTEC_TAMALE = 11701;
+  public static final int JOLLY_ROGER_TATTOO_KIT = 11702;
+  public static final int GOLDEN_PET_ROCK = 11703;
+  public static final int GROGGLES = 11704;
   public static final int PIRATE_DINGHY = 11705;
   public static final int ANCHOR_BOMB = 11706;
+  public static final int SILKY_PIRATE_DRAWERS = 11707;
 
   private ItemPool() {}
 

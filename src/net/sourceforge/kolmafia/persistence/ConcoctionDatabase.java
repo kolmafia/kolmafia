@@ -2219,6 +2219,16 @@ public class ConcoctionDatabase {
           CraftingType.PHOTO_BOOTH, "Your current clan does not have a Photo Booth.");
     }
 
+    AdventureResult workshedItem = CampgroundRequest.getCurrentWorkshedItem();
+    boolean takerspace =
+        workshedItem != null && workshedItem.getItemId() == ItemPool.TAKERSPACE_LETTER_OF_MARQUE;
+    if (takerspace) {
+      permitNoCost(CraftingType.TAKERSPACE);
+    } else {
+      ConcoctionDatabase.EXCUSE.put(
+          CraftingType.TAKERSPACE, "You need a TakerSpace as your Workshed.");
+    }
+
     // Now, go through all the cached adventure usage values and if
     // the number of adventures left is zero and the request requires
     // adventures, it is not permitted.
@@ -2427,6 +2437,7 @@ public class ConcoctionDatabase {
       case MAYAM -> result.append("Mayam Calendar");
       case KIWI -> result.append("Kiwi Kwiki Mart");
       case PHOTO_BOOTH -> result.append("Clan Photo Booth");
+      case TAKERSPACE -> result.append("TakerSpace");
     }
     if (result.isEmpty()) {
       result.append("[unknown method of creation]");
@@ -2865,6 +2876,7 @@ public class ConcoctionDatabase {
       case "MAYAM" -> ConcoctionDatabase.mixingMethod = CraftingType.MAYAM;
       case "KIWI" -> ConcoctionDatabase.mixingMethod = CraftingType.KIWI;
       case "PHOTO_BOOTH" -> ConcoctionDatabase.mixingMethod = CraftingType.PHOTO_BOOTH;
+      case "TAKERSPACE" -> ConcoctionDatabase.mixingMethod = CraftingType.TAKERSPACE;
       default -> {
         if (mix.startsWith("ROW")) {
           ConcoctionDatabase.row = StringUtilities.parseInt(mix.substring(3));

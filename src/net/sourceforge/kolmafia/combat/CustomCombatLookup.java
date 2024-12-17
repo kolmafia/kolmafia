@@ -11,6 +11,7 @@ import java.util.TreeMap;
 import javax.swing.tree.DefaultMutableTreeNode;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.MonsterData;
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -40,19 +41,28 @@ public class CustomCombatLookup extends DefaultMutableTreeNode {
     // If no matches were found, then see if there is a match
     // against the adventure location.
 
-    String location = Preferences.getString("lastAdventure").toLowerCase();
+    // An unrecognized monster is likely to be:
+    // * something new that the player may want to see personally,
+    //   so allow an [unrecognized] section to match them.
+    // * something fundamentally different from the known monsters
+    //   in the current zone, so don't try to use a [zone name] match.
 
-    if (monsterData == null) {
-      // An unrecognized monster is likely to be:
-      // * something new that the player may want to see personally,
-      //	so allow an [unrecognized] section to match them.
-      // * something fundamentally different from the known monsters
-      //	in the current zone, so don't try to use a [zone name] match.
+    String location = monsterData != null ? Preferences.getString("lastAdventure") : "unrecognized";
 
-      location = "unrecognized";
+    encounterKey = getLongestMatch(location.toLowerCase(), monsterData);
+
+    if (encounterKey != null) {
+      return encounterKey;
     }
 
-    encounterKey = getLongestMatch(location, monsterData);
+    // If no matches were found, then see if there is a match
+    // against the adventure location's zone.
+
+    String zone = AdventureDatabase.getZone(location);
+
+    if (zone != null) {
+      encounterKey = getLongestMatch(zone.toLowerCase(), monsterData);
+    }
 
     if (encounterKey != null) {
       return encounterKey;

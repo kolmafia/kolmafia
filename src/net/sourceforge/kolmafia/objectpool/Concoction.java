@@ -30,6 +30,7 @@ import net.sourceforge.kolmafia.request.MayamRequest;
 import net.sourceforge.kolmafia.request.PhotoBoothRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.StillSuitRequest;
+import net.sourceforge.kolmafia.request.TakerSpaceRequest;
 import net.sourceforge.kolmafia.request.TinkeringBenchRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -1134,6 +1135,9 @@ public class Concoction implements Comparable<Concoction> {
       }
       case PHOTO_BOOTH -> {
         return alreadyHave + PhotoBoothRequest.canMake(this);
+      }
+      case TAKERSPACE -> {
+        return alreadyHave + TakerSpaceRequest.canMake(this);
       }
     }
 
