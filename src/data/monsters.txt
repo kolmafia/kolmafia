@@ -2404,6 +2404,11 @@ chocolate chicken	2476	chocken.gif	Scale: 5 Init: 150 P: beast Article: a	Spirit
 moai	2477	moai.gif	Scale: 5 Init: -10000 P: construct Article: a	Spirit of Easter (c100)	moai toai (15)	moaiball (0)
 Easter Island Bunny	2464	moaibunny.gif	NOCOPY NOMANUEL Scale: 10 HP: 300 Init: -10000 P: construct Article: the
 
+giant snake	2478	bigsnake.gif	Scale: 5 Init: 200 P: beast	Spirit of St. Patrick's Day (c100)	half-digested rat (0)
+giant potato	2479	bigpotato.gif	Scale: 5 Init: 50 P: plant Article: a	Spirit of St. Patrick's Day (c100)	four-leaf potato sprout (0)
+giant potato snake	2480	potatosnake.gif	Scale: 5 Init: 150 P: beast Article: a	Spirit of St. Patrick's Day (c100)	half-digested rat (0)	four-leaf potato sprout (0)
+
+
 # Old Events
 
 # White Wednesday (October 26, 2005)
