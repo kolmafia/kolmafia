@@ -11751,8 +11751,8 @@
 11723	dark chocolate egg	428655084	darkchocegg.gif	potion, usable	t,d	15
 11724	moai toai	969792989	icedtea.gif	drink	t,d	29
 11725	moaiball	728604035	moaieye.gif	offhand	t	0
-11726
-11727
+11726	half-digested rat	445778415	halfdigrat.gif	none, combat	t,d	15
+11727	four-leaf potato sprout	990121184	fourleafsprout.gif	potion, usable	t,d	22
 11728
 11729
 11730
@@ -11788,3 +11788,12 @@
 11760
 11761	Secrets of the Master Egg Hunters	943549721	book5.gif	usable	t	0	copies of Secrets of the Master Egg Hunters
 11762	Secrets of the Master Egg Hunters (used)	216321799	book5.gif	usable		0	used copies of Secrets of the Master Egg Hunters
+11763	How to Lose Friends and Attract Snakes	465814056	book3.gif	usable	t	0	How to Lose Friends and Attract Snakes
+11764	How to Lose Friends and Attract Snakes (used)	465814056	book3.gif	usable	t	0	copies of How to Lose Friends and Attract Snakes
+11765
+11766
+11767
+11768
+11769
+11770
+11771	lucky moai statuette	232982896	chiatiki.gif	usable	t	0
