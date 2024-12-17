@@ -154,6 +154,7 @@ candy carrot	1	3	good	3	1-2	1-2	1-2	10 Improved Candy Vision (+25 candy drop)
 candy carrot cake	4	8	awesome	15-17	10-20	10-20	10-20	30 Improved Candy Vision (+25 candy drop)
 candy kneecapping stick	1	4	good	1-5	10-20	10-20	10-20	5 Sugar Rush
 candy mountain oyster	1	3	decent	2	4-8	4-8	4-8	10 Sugar Rush
+candy rations	2	1	EPIC	0	0	0	0	Unspaded
 candy stake	1	4	good	1-5	10-20	10-20	10-20
 carob brownies	2	1	decent	2-5	0	17-19	0
 carob chunk cookies	2	1	decent	2-5	0	6-9	0
@@ -785,6 +786,7 @@ roasted vegetable of Jarlsberg	1	1	EPIC	6-8	0	40-80	0	30 Wizard Sight (+10 Mysti
 robin flan	2	1	awesome	7-9	10-20	10-20	10-20
 rocky road ice cream	2	7	awesome	7-10	12-14	12-14	12-14	40 A Contender (+200% all stats)
 rook cookie	1	13	EPIC	4-6	45-50	0	0	30 Towering Strength (+100..200% mus)
+room scale green bean casserole	11	11	awesome	0	0	0	0	Unspaded
 root beer	1	1	awesome	4	5-10	5-10	5-10	BEVERAGE, 20-30 MP
 rotting beefsteak	3	1	awesome	9-10	0	0	0	30 Cowrruption (+200% weapon dmg, +200% spell dmg, muscle limited to 30, moxie limited to 30)
 royal jelly	1	1	crappy	1	10-15	0	0
