@@ -788,7 +788,7 @@ public class MallPriceManagerTest {
 
       List<PurchaseRequest> results = request.getResults();
       assertEquals(4264, results.size());
-      assertThat(results.getFirst().getShopName(), equalTo("Clerk's"));
+      assertThat(results.get(0).getShopName(), equalTo("Clerk's"));
     }
   }
 
