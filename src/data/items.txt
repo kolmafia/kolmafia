@@ -11789,7 +11789,7 @@
 11761	Secrets of the Master Egg Hunters	943549721	book5.gif	usable	t	0	copies of Secrets of the Master Egg Hunters
 11762	Secrets of the Master Egg Hunters (used)	216321799	book5.gif	usable		0	used copies of Secrets of the Master Egg Hunters
 11763	How to Lose Friends and Attract Snakes	465814056	book3.gif	usable	t	0	copies of How to Lose Friends and Attract Snakes
-11764	How to Lose Friends and Attract Snakes (used)	465814056	book3.gif	usable	t	0	used copies of How to Lose Friends and Attract Sna
+11764	How to Lose Friends and Attract Snakes (used)	953745853	book3.gif	usable	t	0	used copies of How to Lose Friends and Attract Sna
 11765
 11766
 11767
