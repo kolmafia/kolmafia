@@ -3488,3 +3488,5 @@ user	lastNoncombat533	0
 user	lastNoncombat539	0
 user	lastNoncombat540	0
 user	lastNoncombat541	0
+user	lastNoncombat588	0
+user	lastNoncombat589	0
