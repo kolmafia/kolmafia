@@ -440,7 +440,8 @@ Tammy's Offshore Platform	adventure=536	DiffLevel: unknown Env: underwater Stat:
 Tammy's Offshore Platform	adventure=537	DiffLevel: unknown Env: underwater Stat: 0	The Wreck of the H. M. S. Kringle
 Tammy's Offshore Platform	adventure=538	DiffLevel: unknown Env: underwater Stat: 0	The Impenetrable Kelp-Holly Forest
 
-Holiday Islands	adventure=588	DiffLevel: mid Env: outdoor Stat: 0	Easter Island
+Holiday Islands	adventure=588	DiffLevel: mid Env: outdoor Stat: 0 ForceNoncombat: 11	Easter Island
+Holiday Islands	adventure=589	DiffLevel: mid Env: outdoor Stat: 0 ForceNoncombat: 11	St. Patrick's Day Island
 
 Crimbo23	adventure=575	DiffLevel: mid Env: indoor Stat: 0	Abuela's Cottage (Contested)
 Crimbo23	adventure=576	DiffLevel: mid Env: indoor Stat: 0	The Embattled Factory

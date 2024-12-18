@@ -3394,6 +3394,7 @@ user	choiceAdventure1505	0
 user	choiceAdventure1528	1
 user	choiceAdventure1534	6
 user	choiceAdventure1538	2
+user	choiceAdventure1539	2
 user	lockedItem4637	true
 user	lockedItem4638	true
 user	lockedItem4639	true
@@ -3488,3 +3489,5 @@ user	lastNoncombat533	0
 user	lastNoncombat539	0
 user	lastNoncombat540	0
 user	lastNoncombat541	0
+user	lastNoncombat588	0
+user	lastNoncombat589	0

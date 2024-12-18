@@ -2938,7 +2938,7 @@
 2935	Peppermint Endoskeleton	pepperpeg.gif	92bf2d2fcf7ec4082c685df639677cf0	neutral	none	use 1 peppermint pegleg
 2936	Pirate's Currrse	ts_curse.gif	691dd7d62dcb27e6406e7959dbf6bbef	neutral	none
 2937	Curse of the Tamale	ts_tamale.gif	4e266c3ab86db9587b54fa54ae1adb04	neutral	none	eat 1 cursed Aztec tamale
-2938
+2938	Luck of St. Patrick	fourleafsprout.gif	a52f0ec8fa2f9cb2bca63739aa1099df	neutral	none	use 1 four-leaf potato sprout
 2939	Rummy	candy.gif	df0db5d253af5a2e71afd14cc6ed80d0	neutral	none	use 1 rum ball
 2940
 2941
@@ -2947,9 +2947,9 @@
 2944
 2945	Attracting Snakes	tinysnake.gif	09921a7a4230ada9a833ca92b1b453dd	neutral	none	cast 1 Attract Snakes
 2946	Hiding From Seekers	darkvision.gif	18b4a2010721b16d9e85da10fdaaa515	neutral	none	cast 1 Hide From Seekers
-2947	Resurrection of the Flesh	eggstripe.gif	08ec7462372b8ebe2450d19525415b22	neutral	none	eat 1 chocolate ostrich egg
-2948	Green-Blooded	clover.gif	9fe9e62146de9f83356ab168d864beb9	neutral	none	eat 1 candied beef and cabbage
-2949	Toured of Duty	bountyrifle.gif	88f72e98917d2bf21d3dcdf0a8007570	neutral	none	drink 1 canteen of jungle juice
-2950	Grateful, But Spelled With a Dollar Sign	dollarsign.gif	d327b4c6b31dce1f0a7435f37da24878	neutral	none	drink 1 turchucken
-2951	Eyesies on the Pressies	darkgift.gif	1ee7baeab92f07b17d7619ea62b6d167	neutral	none	eat 1 Christmas ham
+2947	Resurrection of the Flesh	eggstripe.gif	08ec7462372b8ebe2450d19525415b22	neutral	none	eat 1 chocolate ostrich egg|drink 1 Easter grasshopper
+2948	Green-Blooded	clover.gif	9fe9e62146de9f83356ab168d864beb9	neutral	none	eat 1 candied beef and cabbage|drink 1 Irish eggnog
+2949	Toured of Duty	bountyrifle.gif	88f72e98917d2bf21d3dcdf0a8007570	neutral	none	eat 1 candy rations|drink 1 canteen of jungle juice
+2950	Grateful, But Spelled With a Dollar Sign	dollarsign.gif	d327b4c6b31dce1f0a7435f37da24878	neutral	none	eat 1 double-candied yams|drink 1 turchucken
+2951	Eyesies on the Pressies	darkgift.gif	1ee7baeab92f07b17d7619ea62b6d167	neutral	none	eat 1 Christmas ham|drink 1 mechanically-mulled cider
 2952	Herder, Bitter, Fester, Stranger	darkchocegg.gif	a8a929d23d6d0676bf31e4e3e2c25d1d	neutral	none	use 1 dark chocolate egg

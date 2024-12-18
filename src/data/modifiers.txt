@@ -1055,6 +1055,7 @@ Item	Othello's military jacket	Othello Skill: +10
 Item	PARTY HARD T-shirt	Muscle Limit: 100, Mysticality Limit: 100, Moxie Limit: 100
 Item	pirate shirt	Moxie: +3
 Item	poncho de azucar	Adventures: +5, Stench Damage: +30, Class: "Accordion Thief"
+Item	potato jacket	Hot Damage: +20, Cold Resistance: +3, Meat Drop: +15
 # Private Pepper's Lonely Hearts Club Jacket: 50% Discount on Gift Packages
 Item	Professor What T-Shirt	MP Regen Min: 1, MP Regen Max: 2
 Item	psycho sweater	Weapon Damage Percent: +20, Spell Damage Percent: +20
@@ -6725,6 +6726,7 @@ Effect	Low on the Hog	Meat Drop: +100
 Effect	Loyal as a Rock	Familiar Weight: +5, Familiar Damage: +10
 Effect	Loyal Tea	Familiar Weight: +5
 Effect	Lubed	Sleaze Damage: +25, Moxie Percent: +10
+# Luck of St. Patrick: Additional Holiday Spirits can drop
 Effect	Lucky Cat Is Lucky	Item Drop: +5
 Effect	Lucky Struck	Item Drop: +20
 Effect	Lustful Heart	Moxie: [min(T,20)]
@@ -9089,6 +9091,7 @@ Item	diabolic pizza	Lasts Until Rollover
 # dinner roll: Selling Price: <b>1 Meat.</b><p><center><b><font color=blue>Deals Physical Damage based on your Muscle when used as a combat item
 Item	Dinsey food-cone	Effect: "The Dinsey Way", Effect Duration: 30
 Item	disco biscuit	Effect: "Buttermilk Boogie", Effect Duration: 100
+Item	double-candied yams	Effect: "Grateful, But Spelled With a Dollar Sign", Effect Duration: 40
 Item	dragon snaps	Effect: "Oh Snap", Effect Duration: 5
 Item	Dreadsylvanian cold pocket	Effect: "Dreadful Chill", Effect Duration: 200
 Item	Dreadsylvanian hot pocket	Effect: "Dreadful Heat", Effect Duration: 200
@@ -11665,6 +11668,7 @@ Item	floaty stone sphere	Free Pull
 Item	Fly-By-Knight Heraldry form	Free Pull
 # food mailing list: Unlocks another row of houses for Crimbo activities
 # forest tears: Restores 5-10 HP
+Item	four-leaf potato sprout	Effect: "Luck of St. Patrick", Effect Duration: 30
 Item	Fourth of May Cosplay Saber kit	Free Pull
 Item	fragment of Jarlsberg's soul	Free Pull
 Item	fresh can of paint	Free Pull
@@ -11931,6 +11935,7 @@ Item	lodestone	Effect: "Loded", Effect Duration: 5
 Item	Love Potions and the Wizards who Mix Them	Skill: "Love Mixology"
 # LT&T telegraph office deed: Opens a LT&T telegraph office in Seaside Town
 Item	LT&T telegraph office deed	Free Pull
+# lucky moai statuette: Contains three 11-leaf clovers
 # lump of frequently wriggling eldritch matter: Makes you feel Vaguely Uneasy
 # lump of not really wriggling eldritch matter: Makes you feel Vaguely Uneasy
 Item	Lump-Stacking for Beginners	Skill: "Stack Lumps"

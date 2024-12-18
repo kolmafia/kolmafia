@@ -2401,8 +2401,13 @@ Crimbuccaneer privateer	2436	cbprivateer.gif	NOWISH Scale: ? Init: -10000 P: pir
 # Crimbo 2024 (December 2024)
 feral bunny	2475	feralbunny.gif	Scale: 5 Init: 100 P: beast Article: a	Spirit of Easter (c100)	coney haunch (15)
 chocolate chicken	2476	chocken.gif	Scale: 5 Init: 150 P: beast Article: a	Spirit of Easter (c100)	dark chocolate egg (15)
-moai	2477	moai.gif	Scale: 5 Init: -10000 P: construct Article: a	Spirit of Easter (c100)	moai toai (15)	moaiball (0)
+moai	2477	moai.gif	Scale: 5 Init: -10000 P: construct Article: a	Spirit of Easter (c100)	moai toai (15)	moaiball (f0.1)
 Easter Island Bunny	2464	moaibunny.gif	NOCOPY NOMANUEL Scale: 10 HP: 300 Init: -10000 P: construct Article: the
+
+giant snake	2478	bigsnake.gif	Scale: 5 Init: 200 P: beast	Spirit of St. Patrick's Day (c100)	half-digested rat (10)
+giant potato	2479	bigpotato.gif	Scale: 5 Init: 50 P: plant Article: a	Spirit of St. Patrick's Day (c100)	four-leaf potato sprout (10)	potato jacket (f0.1)
+giant potato snake	2480	potatosnake.gif	Scale: 5 Init: 150 P: beast Article: a	Spirit of St. Patrick's Day (c100)	half-digested rat (5)	four-leaf potato sprout (5)
+
 
 # Old Events
 

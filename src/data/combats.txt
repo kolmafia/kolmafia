@@ -127,7 +127,7 @@ Dreadsylvanian Village	-1	cold ghost	cold zombie	hot ghost	hot zombie	sleaze gho
 Dreadsylvanian Woods	-1	cold bugbear	cold werewolf	hot bugbear	hot werewolf	sleaze bugbear	sleaze werewolf	spooky bugbear	spooky werewolf	stench bugbear	stench werewolf	Great Wolf of the Air: 0	Falls-From-Sky: 0
 Duke Vampire's Chateau	0	Duke Vampire: 0
 Eager Rice Burrows	100	chocolate hare	chocolate-cherry prairie dog	Rock Pop weasel
-Easter Island	100	chocolate chicken	feral bunny	moai
+Easter Island	100	chocolate chicken	feral bunny	moai	Easter Island Bunny: 0
 El Vibrato Island	100	bizarre construct	hulking construct	industrious construct	lonely construct	menacing construct	towering construct
 Elf Alley	100	Hobelf	Uncle Hobo: 0
 Engineering	100	Battlesuit Bugbear Type	bugbear drone	liquid metal bugbear
@@ -255,6 +255,7 @@ Special Ops	-1	Black Ops Bugbear
 Spookiest Adventurer Contest	100	Ghostpuncher	Plague Chef	Batburglar	Arthur Frankenstein: 0
 Spooky Fright Factory	100	bow-making mummy	Cookie-baking Thing from Beyond Time	gift-wrapping vampire	skeletal reindeer	stocking-stuffing zombie	toy-making creature from the Gray Lagoon
 Spring Bros. Solenoids	95	Spring Bros. security robot	automated solenoid press	janitor robot
+St. Patrick's Day Island	100	giant snake	giant potato	giant potato snake
 Stinkiest Adventurer Contest	100	Granola Barbarian	Cheese Wizard	Assassin	Odorous Humongous: 0
 Strongest Adventurer Contest	100	Macho Man	Iron Chef	Entire Shoplifter	Mr. Loathing: 0
 Summoning Chamber	100	Lord Spookyraven

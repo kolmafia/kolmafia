@@ -884,6 +884,7 @@ Othello's military jacket	150	Mus: 40
 PARTY HARD T-shirt	10	none
 pirate shirt	50	Mus: 10
 poncho de azucar	200	Mox: 75
+potato jacket	150	Mus: 40
 Private Pepper's Lonely Hearts Club Jacket	130	Mus: 50
 Professor What T-Shirt	10	none
 psycho sweater	100	Mus: 35

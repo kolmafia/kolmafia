@@ -11751,9 +11751,9 @@
 11723	dark chocolate egg	428655084	darkchocegg.gif	potion, usable	t,d	15
 11724	moai toai	969792989	icedtea.gif	drink	t,d	29
 11725	moaiball	728604035	moaieye.gif	offhand	t	0
-11726
-11727
-11728
+11726	half-digested rat	445778415	halfdigrat.gif	none, combat	t,d	15
+11727	four-leaf potato sprout	990121184	fourleafsprout.gif	potion, usable	t,d	22
+11728	potato jacket	623781707	potatojacket.gif	shirt	t	0
 11729
 11730
 11731
@@ -11781,10 +11781,19 @@
 11753	chocolate ostrich egg	477352862	chocegg.gif	food	t,d	75
 11754	candied beef and cabbage	942057727	crimboscraps.gif	food	t,d	75	plates of candied beef and cabbage
 11755	candy rations	995325513	crimbotin.gif	food	t,d	75	candy rations
-11756
+11756	double-candied yams	699171863	casserole.gif	food	t,d	75	platters of double-candied yams
 11757	Christmas ham	535336050	ham.gif	food	t,d	75
-11758
+11758	holiday smorgasbord	259131327	partytray.gif	food	t,d	250
 11759
 11760
 11761	Secrets of the Master Egg Hunters	943549721	book5.gif	usable	t	0	copies of Secrets of the Master Egg Hunters
 11762	Secrets of the Master Egg Hunters (used)	216321799	book5.gif	usable		0	used copies of Secrets of the Master Egg Hunters
+11763	How to Lose Friends and Attract Snakes	465814056	book3.gif	usable	t	0	copies of How to Lose Friends and Attract Snakes
+11764	How to Lose Friends and Attract Snakes (used)	465814056	book3.gif	usable	t	0	used copies of How to Lose Friends and Attract Sna
+11765
+11766
+11767
+11768
+11769
+11770
+11771	lucky moai statuette	232982896	chiatiki.gif	usable	t	0
