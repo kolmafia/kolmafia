@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
+import net.sourceforge.kolmafia.ItemRow;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -1118,6 +1119,20 @@ public class TestCommand extends AbstractCommand {
     if (command.equals("generator")) {
       SpaaaceRequest.visitGeneratorChoice(TestCommand.contents);
       TestCommand.contents = null;
+      return;
+    }
+
+    if (command.equals("itemrows")) {
+      String shop = ItemRow.parseShopName(TestCommand.contents);
+      List<ItemRow> rows = ItemRow.parseShop(TestCommand.contents);
+      TestCommand.contents = null;
+      RequestLogger.printLine("shop '" + shop + "' offers " + rows.size() + " items.");
+      for (ItemRow row : rows) {
+        RequestLogger.printLine("row = " + row.getRow() + " item = " + row.getItem());
+        for (AdventureResult cost : row.getCosts()) {
+          RequestLogger.printLine("cost: " + cost);
+        }
+      }
       return;
     }
 
