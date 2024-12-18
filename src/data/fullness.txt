@@ -286,6 +286,7 @@ dire fudgesicle	2	1	decent	2-4	0	8-10	0	lose 2 HP
 Disc-Shaped Nutrition Unit	4	5	decent	6-9	0	0	0
 disco biscuit	1	6	EPIC	6-7	0	0	20-30	100 Buttermilk Boogie (+50% mox, +50 init, +20-40 HP regen)
 Double Bacon Beelzeburger	3	1	decent	4-6	15-20	-15-20	0
+double-candied yams	2	1	EPIC	0	0	0	0	Unspaded
 dragon snaps	1	1	crappy	1	0	0	5-10	5 Oh Snap (+10 mox exp)
 Dreadsylvanian cold pocket	4	26	EPIC	36-40	30-50	30-50	30-50	200 Dreadful Chill (+5 Sleaze/Stench Res)
 Dreadsylvanian hot pocket	4	26	EPIC	36-40	30-50	30-50	30-50	200 Dreadful Heat (+5 Cold/Spooky Res)
@@ -483,6 +484,7 @@ Hide-rox&trade; cookie	1	1	awesome	3-5	0	20-30	0	30 Broken Bone Nubs (+50% Myst,
 high-calorie sugar substitute	1	4	awesome	3-4	0	20-25	0
 hippy herbal tea	1	1	decent	2	0	4-7	0	BEVERAGE, 5 Sleepy (-30% mus)
 holiday cheese log	3	1	good	8-10	10-20	10-20	10-20	Stands Alone (+10 Stench dmg)
+holiday smorgasbord	4	5	EPIC	0	0	0	0	Unspaded
 honey bun of Boris	1	1	EPIC	5-7	20-40	0	0	30 Motherly Loved (+5 Muscle, +50% Muscle, +5 Cold Res)
 honey-dew	2	2	good	4-7	13-15	0	0	10 Mmmmmelon (+30% item drop)
 honey-drenched ham slice	1	1	decent	1-2	1-5	1-5	1-5
