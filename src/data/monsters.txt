@@ -2176,7 +2176,7 @@ flaming monstera	2390	monstera.gif	FREE NOCOPY Scale: 0 Cap: ? Floor: ? Init: 50
 leaviathan	2391	leaviathan.gif	FREE NOCOPY Scale: 25 Cap: ? Floor: ? HP: 2500 Init: -10000 P: plant EA: hot Article: the	flaming leaf crown (100)	100-150 inflammable leaf (m100)
 
 # Sept-Ember Censer (Sep 2024)
-Embering Hulk	2453	emberhulk.gif	NOCOPY Scale: 11 Cap: 10000 Floor: ? Init: -10000 P: elemental E: hot Article: an	embering hunk (c0)
+Embering Hulk	2453	emberhulk.gif	NOCOPY Scale: 11 Cap: 10000 Floor: ? Init: -10000 P: elemental E: hot Article: an	embering hunk (c100)
 
 # KoL Con
 
