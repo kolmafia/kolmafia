@@ -335,7 +335,8 @@ public class MallSearchRequest extends GenericRequest {
     }
   }
 
-  private static final Pattern STOREID_PATTERN = Pattern.compile("<b>(.*?) \\(<a.*?who=(\\d+)\"");
+  private static final Pattern STOREID_PATTERN =
+      Pattern.compile("<b style=\"color: [^\"]+\">(.*?) \\(<a.*?who=(\\d+)\"");
   private static final Pattern STOREPRICE_PATTERN =
       Pattern.compile("radio value=([\\d.]+).*?<b>(.*?)</b> \\(([\\d,]+)\\)(.*?)</td>");
   private static final Pattern STORELIMIT_PATTERN = Pattern.compile("Limit ([\\d,]+) /");
