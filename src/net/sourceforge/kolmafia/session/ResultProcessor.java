@@ -1400,6 +1400,12 @@ public class ResultProcessor {
       case ItemPool.ELF_ARMY_MACHINE_PARTS:
       case ItemPool.CRIMBUCCANEER_PIECE_OF_12:
       case ItemPool.CRIMBUCCANEER_FLOTSAM:
+        // Crimbo24 currencies
+      case ItemPool.SPIRIT_OF_EASTER:
+      case ItemPool.SPIRIT_OF_ST_PATRICKS_DAY:
+      case ItemPool.SPIRIT_OF_VETERANS_DAY:
+      case ItemPool.SPIRIT_OF_THANKSGIVING:
+      case ItemPool.SPIRIT_OF_CHRISTMAS:
         NamedListenerRegistry.fireChange("(coinmaster)");
         break;
 

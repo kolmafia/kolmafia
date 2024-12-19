@@ -1213,6 +1213,20 @@ Elf Guard Toy and Munitions Factory	buy	400	Lil' Snowball Factory	ROW1429
 Elf Guard Toy and Munitions Factory	buy	1000	Elf Guard safety bear	ROW1440
 Elf Guard Toy and Munitions Factory	buy	2000	Elf Guard temporary (permanent) tattoo	ROW1430
 
+
+# Crimbo 2024
+
+Crimbo24 Bar	buy	15	Easter grasshopper	ROW1521
+Crimbo24 Bar	buy	15	Irish eggnog	ROW1522
+
+Crimbo24 Cafe	buy	15	chocolate ostrich egg	ROW1527
+Crimbo24 Cafe	buy	15	candied beef and cabbage	ROW1528
+
+Crimbo24 Factory	buy	50	lucky moai statuette	ROW1538
+Crimbo24 Factory	buy	500	Secrets of the Master Egg Hunters	ROW1533
+Crimbo24 Factory	buy	500	How to Lose Friends and Attract Snakes	ROW1534
+
+
 #Kiwi Kwiki Mart	unknown	mini kiwi bikini	mini kiwi (2)	ROW1477
 #Kiwi Kwiki Mart	unknown	mini kiwitini	mini kiwi	ROW1478
 #Kiwi Kwiki Mart	unknown	mini kiwitini	mini kiwi	ROW1479

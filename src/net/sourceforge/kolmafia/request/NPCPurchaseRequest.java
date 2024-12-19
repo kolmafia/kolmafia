@@ -930,6 +930,18 @@ public class NPCPurchaseRequest extends PurchaseRequest {
       Crimbo23PirateFactoryRequest.parseResponse(urlString, responseText);
     }
 
+    if (shopId.equals("crimbo24_bar")) {
+      Crimbo24BarRequest.parseResponse(urlString, responseText);
+    }
+
+    if (shopId.equals("crimbo24_cafe")) {
+      Crimbo24CafeRequest.parseResponse(urlString, responseText);
+    }
+
+    if (shopId.equals("crimbo24_factory")) {
+      Crimbo24FactoryRequest.parseResponse(urlString, responseText);
+    }
+
     if (shopId.equals("edunder_shopshop")) {
       EdShopRequest.parseResponse(urlString, responseText);
       return;
@@ -1425,6 +1437,18 @@ public class NPCPurchaseRequest extends PurchaseRequest {
 
       if (shopId.startsWith("crimbo23_pirate_factory")) {
         Crimbo23PirateFactoryRequest.registerRequest(urlString);
+      }
+
+      if (shopId.equals("crimbo24_bar")) {
+        Crimbo24BarRequest.registerRequest(urlString);
+      }
+
+      if (shopId.equals("crimbo24_cafe")) {
+        Crimbo24CafeRequest.registerRequest(urlString);
+      }
+
+      if (shopId.equals("crimbo24_factory")) {
+        Crimbo24FactoryRequest.registerRequest(urlString);
       }
 
       if (shopId.equals("edunder_shopshop")) {
