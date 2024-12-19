@@ -340,6 +340,7 @@ Item	literal bucket hat	Water: +5
 Item	longhaired hippy wig	Stench Damage: +20, Mysticality Percent: +5, Familiar Effect: "1xPotato, 1xGhuol"
 # loofah lumberjack's hat: Feels good on your head
 Item	loofah lumberjack's hat	Muscle: +10, HP Regen Min: 15, HP Regen Max: 25
+Item	lucky army helmet	Damage Absorption: +10, Maximum HP: +100, Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Never Fumble
 Item	lynyrdskin cap	Initiative: +25, Familiar Effect: "1xPotato, 1xVolley, cap 42"
 Item	MAHI fez	Moxie: +30, Familiar Effect: "0.5xVolley, 0.5xPotato, 0.5xLep, 0.5xFairy"
 Item	maiden wig	Familiar Effect: "2xPotato, cap 8"
@@ -1389,6 +1390,7 @@ Item	dueling banjo	Moxie: +4, Monster Level: +5
 # dwarvish war mattock: Magical Blue Glow
 # ebony epee: Lets you disarm your foes
 Item	ebony epee	Weapon Damage Percent: +100, Muscle: +25, Experience (Muscle): +5, Lasts Until Rollover
+Item	egg gun	Stench Damage: +25, Familiar Weight: +5, Food Drop: +75, HP Regen Min: 15, HP Regen Max: 20
 Item	eggbeater	Spell Damage: +7
 # El Vibrato energy spear
 Item	eldritch hammer	Maximum MP: +40, Monster Level: +10, Weapon Damage Percent: +50
@@ -2453,6 +2455,8 @@ Item	Microplushie: Hobomosome	Stench Resistance: +1
 Item	Microplushie: Otakulone	Maximum MP: +4
 Item	Microplushie: Raverdrine	Maximum HP: +8
 Item	Microplushie: Sororitrate	Sleaze Damage: +2
+# military orb: Detonate to destroy a monster
+Item	military orb	MP Regen Min: 10, MP Regen Max: 15, Mysticality: +15
 Item	mini kiwi whipping stick	Sleaze Damage: +5, Experience: +2
 # mini-zeppelin
 Item	miniature candle	Experience: +3, Item Drop: +20, Lasts Until Rollover
@@ -2960,6 +2964,7 @@ Item	codpiece	Mysticality Percent: +100, Maximum MP: +100, Spell Damage: +50, Co
 Item	Codpiece of the Goblin King	Moxie: +7, Single Equip
 Item	colored-light &quot;necklace&quot;	Maximum MP: +15
 Item	compression stocking	Maximum MP: +30, MP Regen Min: 3, MP Regen Max: 5
+Item	Congressional Medal of Insanity	Mysticality Percent: +25, Spell Damage Percent: +50, MP Regen Min: 8, MP Regen Max: 12
 Item	consolation ribbon	Muscle: +1, Mysticality: +1, Moxie: +1
 # continuum transfunctioner
 Item	Copper Alpha of Sincerity	Muscle: +11, Mysticality: +11, Moxie: +11, Item Drop: +5, Single Equip
@@ -5250,6 +5255,7 @@ Effect	All Branned Up	Item Drop: +40, MP Regen Min: 5, MP Regen Max: 7
 Effect	All Chipped Up	Meat Drop: +30, Item Drop: +20, MP Regen Min: 4, MP Regen Max: 5, HP Regen Min: 3, HP Regen Max: 6
 # All Covered In Whatsit: More likely to fumble
 # All Covered In Whatsit: Continually take damage
+Effect	All Cut Up	Maximum HP Percent: -75
 Effect	All Dolled Up	Avatar: "cigarette girl"
 Effect	All Fired Up	Initiative: +30
 Effect	All Glory To the Toad	Hot Damage: +2, Cold Damage: +2, Spooky Damage: +2, Stench Damage: +2, Sleaze Damage: +2

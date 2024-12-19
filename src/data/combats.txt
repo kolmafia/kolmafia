@@ -505,6 +505,7 @@ Uncle Gator's Country Fun-Time Liquid Waste Sluice	100	C<i>bzzt</i>er the Grisly
 Unleash Your Inner Wolf	100	befouled straw house	brick (suggestive pause) house	brick icehouse	brick kiln	brick mausoleum	brick outhouse	cold ironwood house	Dutch Angle straw house	frosty straw house	glowing ash house	oily straw house	pitch pine house	quaking aspen house	slippery elm house	steaming straw house
 Vanya's Castle	100	fleaman	ghost	medusa
 Vanya's Castle Foyer	100	fleaman	ghost	medusa
+Veterans Day Island	100	Brandonian loyalist	Section 11	spectre of war
 Video Game Level 1	-1	Video Game Minion (weak)
 Video Game Level 2	-1	Video Game Minion (moderate)	Video Game Miniboss: 0
 Video Game Level 3	-1	Video Game Minion (strong)	Video Game Miniboss: 0	Video Game Boss: 0
