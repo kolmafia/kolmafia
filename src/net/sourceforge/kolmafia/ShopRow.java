@@ -5,14 +5,15 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-public class ItemRow implements Comparable<ItemRow> {
+public class ShopRow implements Comparable<ShopRow> {
 
   private int row;
   private AdventureResult item;
   private AdventureResult[] costs;
 
-  ItemRow(int row, AdventureResult item, AdventureResult... costs) {
+  ShopRow(int row, AdventureResult item, AdventureResult... costs) {
     this.row = row;
     this.item = item;
     this.costs = costs;
@@ -32,7 +33,7 @@ public class ItemRow implements Comparable<ItemRow> {
 
   @Override
   public boolean equals(final Object o) {
-    return o instanceof ItemRow data && this.row == data.row;
+    return o instanceof ShopRow data && this.row == data.row;
   }
 
   @Override
@@ -41,7 +42,7 @@ public class ItemRow implements Comparable<ItemRow> {
   }
 
   @Override
-  public int compareTo(final ItemRow ir) {
+  public int compareTo(final ShopRow ir) {
     return this.row < ir.row ? -1 : this.row == ir.row ? 0 : 1;
   }
 
@@ -181,11 +182,11 @@ public class ItemRow implements Comparable<ItemRow> {
       Pattern.compile("itemimages/(.*?)\\..*?descitem\\((\\d*)\\)");
   private static final Pattern TD3_PATTERN = Pattern.compile("<b>\\(?(.*?)\\)?</b>");
   private static final Pattern IEVEN_PATTERN = Pattern.compile("descitem\\((.*?)\\)");
-  private static final Pattern IODD_PATTERN = Pattern.compile("<b>(\\d+)</b>");
+  private static final Pattern IODD_PATTERN = Pattern.compile("<b>([\\d,]+)</b>");
   private static final Pattern IROW_PATTERN = Pattern.compile("whichrow=(\\d+)");
 
-  public static List<ItemRow> parseShop(final String html) {
-    List<ItemRow> result = new ArrayList<>();
+  public static List<ShopRow> parseShop(final String html, final boolean includeMeat) {
+    List<ShopRow> result = new ArrayList<>();
     Matcher m = ROW_PATTERN.matcher(html);
     while (m.find()) {
       int itemId = Integer.valueOf(m.group(1));
@@ -200,6 +201,7 @@ public class ItemRow implements Comparable<ItemRow> {
       List<AdventureResult> ingredients = new ArrayList<>();
 
       String idescid = "";
+      boolean isMeat = false;
 
       Matcher td = TD_PATTERN.matcher(m.group(2));
       while (td.find()) {
@@ -236,11 +238,19 @@ public class ItemRow implements Comparable<ItemRow> {
           }
           case 4, 6, 8, 10, 12 -> {
             // ingredient image, descid, name
-            Matcher m4 = IEVEN_PATTERN.matcher(text);
-            idescid = m4.find() ? m4.group(1) : null;
+            if (text.contains("meat.gif")) {
+              isMeat = true;
+            } else {
+              Matcher m4 = IEVEN_PATTERN.matcher(text);
+              idescid = m4.find() ? m4.group(1) : null;
+              isMeat = false;
+            }
           }
           case 5, 7, 9, 11, 13 -> {
-            if (idescid == null) {
+            if (!isMeat && idescid == null) {
+              continue;
+            }
+            if (isMeat && !includeMeat) {
               continue;
             }
 
@@ -248,17 +258,22 @@ public class ItemRow implements Comparable<ItemRow> {
             Matcher m5 = IODD_PATTERN.matcher(text);
             int icount = 1;
             if (m5.find()) {
-              icount = Integer.valueOf(m5.group(1));
+              icount = StringUtilities.parseInt(m5.group(1));
             }
             // We have found an ingredient. Do we know what it is?
-            int iid = ItemDatabase.getItemIdFromDescription(idescid);
-            if (iid == -1) {
-              // No. Register it by looking at the item description
-              ItemDatabase.registerItem(idescid);
-              iid = ItemDatabase.getItemIdFromDescription(idescid);
+            if (isMeat) {
+              AdventureResult cost = new MeatAdventureResult(icount);
+              ingredients.add(cost);
+            } else {
+              int iid = ItemDatabase.getItemIdFromDescription(idescid);
+              if (iid == -1) {
+                // No. Register it by looking at the item description
+                ItemDatabase.registerItem(idescid);
+                iid = ItemDatabase.getItemIdFromDescription(idescid);
+              }
+              AdventureResult ingredient = new AdventureResult(iid, icount, false);
+              ingredients.add(ingredient);
             }
-            AdventureResult ingredient = new AdventureResult(iid, icount, false);
-            ingredients.add(ingredient);
           }
           case 14 -> {
             // rel string with whichrow
@@ -275,9 +290,20 @@ public class ItemRow implements Comparable<ItemRow> {
         continue;
       }
       AdventureResult[] currencies = ingredients.toArray(new AdventureResult[0]);
-      ItemRow irow = new ItemRow(row, item, currencies);
+      ShopRow irow = new ShopRow(row, item, currencies);
       result.add(irow);
     }
     return result;
+  }
+
+  public static class MeatAdventureResult extends AdventureResult {
+    public MeatAdventureResult(final int count) {
+      super("Meat", count);
+    }
+
+    @Override
+    public String toString() {
+      return KoLConstants.COMMA_FORMAT.format(this.count) + " Meat";
+    }
   }
 }

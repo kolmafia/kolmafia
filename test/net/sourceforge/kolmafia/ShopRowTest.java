@@ -1,6 +1,6 @@
 package net.sourceforge.kolmafia;
 
-public class ItemRowTest {
+public class ShopRowTest {
   // shop.php?whichshop=armory
   // test_shop_armory_and_leggery.html
 

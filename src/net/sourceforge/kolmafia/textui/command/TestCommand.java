@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
-import net.sourceforge.kolmafia.ItemRow;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -24,6 +23,7 @@ import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.ShopRow;
 import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.chat.ChatManager;
@@ -1122,12 +1122,12 @@ public class TestCommand extends AbstractCommand {
       return;
     }
 
-    if (command.equals("itemrows")) {
-      String shop = ItemRow.parseShopName(TestCommand.contents);
-      List<ItemRow> rows = ItemRow.parseShop(TestCommand.contents);
+    if (command.equals("shoprows")) {
+      String shop = ShopRow.parseShopName(TestCommand.contents);
+      List<ShopRow> rows = ShopRow.parseShop(TestCommand.contents, true);
       TestCommand.contents = null;
       RequestLogger.printLine("shop '" + shop + "' offers " + rows.size() + " items.");
-      for (ItemRow row : rows) {
+      for (ShopRow row : rows) {
         RequestLogger.printLine("row = " + row.getRow() + " item = " + row.getItem());
         for (AdventureResult cost : row.getCosts()) {
           RequestLogger.printLine("cost: " + cost);
@@ -1215,6 +1215,20 @@ public class TestCommand extends AbstractCommand {
       String urlString = "shop.php?whichshop=" + name;
       NPCPurchaseRequest.parseShopResponse(urlString, TestCommand.contents);
       TestCommand.contents = null;
+      return;
+    }
+
+    if (command.equals("shoprows")) {
+      String shop = ShopRow.parseShopName(TestCommand.contents);
+      List<ShopRow> rows = ShopRow.parseShop(TestCommand.contents, true);
+      TestCommand.contents = null;
+      RequestLogger.printLine("shop '" + shop + "' offers " + rows.size() + " items.");
+      for (ShopRow row : rows) {
+        RequestLogger.printLine("row = " + row.getRow() + " item = " + row.getItem());
+        for (AdventureResult cost : row.getCosts()) {
+          RequestLogger.printLine("cost: " + cost);
+        }
+      }
       return;
     }
 
