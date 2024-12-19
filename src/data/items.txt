@@ -11754,9 +11754,9 @@
 11726	half-digested rat	445778415	halfdigrat.gif	none, combat	t,d	15
 11727	four-leaf potato sprout	990121184	fourleafsprout.gif	potion, usable	t,d	22
 11728	potato jacket	623781707	potatojacket.gif	shirt	t	0
-11729
-11730
-11731
+11729	traumatic holiday memory	972764718	trauma.gif	none, combat	t,d	35	traumatic holiday memories
+11730	Brandonian footlocker key	907012992	srkey1.gif	none	t,d	42
+11731	military orb	755323552	grenorb.gif	offhand	t,d	29
 11732	rum ball	431412139	candy.gif	potion, usable	t,d	5
 11733
 11734
@@ -11770,7 +11770,7 @@
 11742
 11743
 11744
-11745
+11745	Congressional Medal of Insanity	349618725	insanitymedal.gif	accessory	t	0	Congressional Medals of Insanity
 11746
 11747	Easter grasshopper	745334157	shadowmartini.gif	drink	t,d	75
 11748	Irish eggnog	976878716	coffeecup.gif	drink	t,d	75	mugs of Irish eggnog
@@ -11790,10 +11790,12 @@
 11762	Secrets of the Master Egg Hunters (used)	216321799	book5.gif	usable		0	used copies of Secrets of the Master Egg Hunters
 11763	How to Lose Friends and Attract Snakes	465814056	book3.gif	usable	t	0	copies of How to Lose Friends and Attract Snakes
 11764	How to Lose Friends and Attract Snakes (used)	953745853	book3.gif	usable	t	0	used copies of How to Lose Friends and Attract Sna
-11765
-11766
+11765	Covert Ops for Kids	484772100	book2.gif	usable	t	0	copies of Covert Ops for Kids
+11766	Covert Ops for Kids (used)	700189532	book2.gif	usable		0	used copies of Covert Ops for Kids
 11767
 11768
 11769
 11770
 11771	lucky moai statuette	232982896	chiatiki.gif	usable	t	0
+11772	egg gun	530204511	egggun.gif	weapon	t	0
+11773	lucky army helmet	759962296	luckyhelmet.gif	hat	t	0
