@@ -2145,6 +2145,7 @@ public class FightRequest extends GenericRequest {
 
     if (FightRequest.currentRound == 0) {
       Preferences.setString("_lastCombatStarted", FightRequest.COMBAT_START.format(new Date()));
+      Preferences.setString("_lastCombatActions", "");
       int adventure = KoLAdventure.lastAdventureId();
 
       // Pocket Familiars changes everything
@@ -11546,6 +11547,7 @@ public class FightRequest extends GenericRequest {
 
     boolean shouldLogAction = Preferences.getBoolean("logBattleAction");
     StringBuilder action = new StringBuilder();
+    String haps = Preferences.getString("_lastCombatActions");
 
     if (shouldLogAction) {
       action.append("Round ");
@@ -11590,25 +11592,30 @@ public class FightRequest extends GenericRequest {
       FightRequest.nextAction = "runaway";
       if (shouldLogAction) {
         action.append("casts RETURN!");
+        haps += "runaway;";
       }
     } else if (urlString.contains("steal")) {
       FightRequest.nextAction = "steal";
       if (shouldLogAction) {
         action.append("tries to steal an item!");
+        haps += "steal;";
       }
     } else if (urlString.contains("attack")) {
       FightRequest.nextAction = "attack";
       if (shouldLogAction) {
         action.append("attacks!");
+        haps += "attack;";
       }
     } else if (urlString.contains("chefstaff")) {
       FightRequest.nextAction = "jiggle";
       if (shouldLogAction) {
         action.append("jiggles the ");
         action.append(EquipmentManager.getEquipment(Slot.WEAPON).getName());
+        haps += "jiggle;";
       }
     } else if (urlString.contains("twiddle")) {
       FightRequest.nextAction = "twiddle";
+      haps += "twiddle;";
       return true;
     } else {
       Matcher skillMatcher = FightRequest.SKILL_PATTERN.matcher(urlString);
@@ -11652,6 +11659,7 @@ public class FightRequest extends GenericRequest {
               action.append("casts ");
             }
             action.append(skill.toUpperCase()).append("!");
+            haps += "sk" + skillId + ";";
           }
         }
       } else {
@@ -11667,6 +11675,7 @@ public class FightRequest extends GenericRequest {
             FightRequest.nextAction = String.valueOf(itemId);
             if (shouldLogAction) {
               action.append("uses the ").append(item);
+              haps += "it" + itemId + ";";
             }
           }
 
@@ -11683,6 +11692,7 @@ public class FightRequest extends GenericRequest {
               FightRequest.nextAction += "," + itemId;
               if (shouldLogAction) {
                 action.append(" and uses the ").append(item);
+                haps += "it" + itemId + ";";
               }
             }
           }
@@ -11700,6 +11710,7 @@ public class FightRequest extends GenericRequest {
       if (urlString.contains("[AA]")) { // pseudo-parameter for parsing an autoattack
         action.append(" (auto-attack)");
       }
+      Preferences.setString("_lastCombatActions", haps);
       String message = action.toString();
       RequestLogger.printLine(message);
       RequestLogger.updateSessionLog(message);
