@@ -236,6 +236,7 @@ linoleum helmet turtle	100	Mox: 35
 literal bucket hat	100	Mus: 35
 longhaired hippy wig	200	Mox: 85
 loofah lumberjack's hat	50	none
+lucky army helmet	200	Mus: 4
 lynyrdskin cap	170	Mox: 70
 MAHI fez	200	Mox: 85
 maiden wig	35	Mox: 2
@@ -1182,6 +1183,7 @@ duct tape sword	195	Mus: 82	1-handed sword
 dueling banjo	40	Mox: 5	2-handed banjo
 dwarvish war mattock	165	Mus: 67	1-handed axe
 ebony epee	100	Mus: 0	1-handed sword
+egg gun	200	Mox: 40	1-handed pistol
 eggbeater	55	Mys: 12	1-handed utensil
 El Vibrato energy spear	200	Mus: 200	2-handed spear
 eldritch hammer	125	Mus: 47	1-handed hammer
@@ -2127,6 +2129,7 @@ Microplushie: Hobomosome	5	none
 Microplushie: Otakulone	5	none
 Microplushie: Raverdrine	5	none
 Microplushie: Sororitrate	5	none
+military orb	0	Mys: 25
 mime pocket probe	10	none
 mini kiwi whipping stick	0	none
 mini-zeppelin	10	none
@@ -2565,6 +2568,7 @@ Codpiece of the Goblin King	70	Mys: 20
 colored-light &quot;necklace&quot;	100	Mys: 35
 combat lover's locket	100	none
 compression stocking	160	Mys: 65
+Congressional Medal of Insanity	0	Mys: 35
 consolation ribbon	10	none
 continuum transfunctioner	10	none
 Copper Alpha of Sincerity	200	Mys: 85
