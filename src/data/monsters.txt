@@ -2407,7 +2407,11 @@ Easter Island Bunny	2464	moaibunny.gif	NOCOPY NOMANUEL Scale: 10 HP: 300 Init: -
 giant snake	2478	bigsnake.gif	Scale: 5 Init: 200 P: beast	Spirit of St. Patrick's Day (c100)	half-digested rat (10)
 giant potato	2479	bigpotato.gif	Scale: 5 Init: 50 P: plant Article: a	Spirit of St. Patrick's Day (c100)	four-leaf potato sprout (10)	potato jacket (f0.1)
 giant potato snake	2480	potatosnake.gif	Scale: 5 Init: 150 P: beast Article: a	Spirit of St. Patrick's Day (c100)	half-digested rat (5)	four-leaf potato sprout (5)
+St. Patrick	2465	stpat.gif	NOCOPY NOMANUEL Scale: 5 HP: 500 Init: -10000 P: dude
 
+spectre of war	2482	trauma.gif	Scale: 20 Init: 100 P: undead Phys: 100	Spirit of Veteran's Day (c100)	traumatic holiday memory (5)
+Brandonian loyalist	2483	brandonian.gif	Scale: 20 Init: 10000 P: dude	Spirit of Veteran's Day (c100)	Brandonian footlocker key (5)
+Section 11	2484	section11.gif	Scale: 20 Init: 300 P: dude Elem: 100	Spirit of Veteran's Day (c100)	military orb (5)	Congressional Medal of Insanity (f0.1)
 
 # Old Events
 

@@ -442,6 +442,7 @@ Tammy's Offshore Platform	adventure=538	DiffLevel: unknown Env: underwater Stat:
 
 Holiday Islands	adventure=588	DiffLevel: mid Env: outdoor Stat: 0 ForceNoncombat: 11	Easter Island
 Holiday Islands	adventure=589	DiffLevel: mid Env: outdoor Stat: 0 ForceNoncombat: 11	St. Patrick's Day Island
+Holiday Islands	adventure=590	DiffLevel: mid Env: outdoor Stat: 0 ForceNoncombat: 11	Veterans Day Island
 
 Crimbo23	adventure=575	DiffLevel: mid Env: indoor Stat: 0	Abuela's Cottage (Contested)
 Crimbo23	adventure=576	DiffLevel: mid Env: indoor Stat: 0	The Embattled Factory
