@@ -122,7 +122,6 @@ import net.sourceforge.kolmafia.webui.HobopolisDecorator;
 import net.sourceforge.kolmafia.webui.NemesisDecorator;
 import net.sourceforge.kolmafia.webui.VillainLairDecorator;
 import org.htmlcleaner.BaseToken;
-import org.htmlcleaner.CleanerProperties;
 import org.htmlcleaner.CommentNode;
 import org.htmlcleaner.ContentNode;
 import org.htmlcleaner.HtmlCleaner;
@@ -229,7 +228,7 @@ public class FightRequest extends GenericRequest {
 
   private static final Pattern NS_ML_PATTERN =
       Pattern.compile(
-          "The Sorceress pauses for a moment\\, mutters some words under her breath\\, and straightens out her dress\\. Her skin seems to shimmer for a moment\\.");
+          "The Sorceress pauses for a moment, mutters some words under her breath, and straightens out her dress\\. Her skin seems to shimmer for a moment\\.");
 
   private static final Pattern DETECTIVE_PATTERN =
       Pattern.compile("I deduce that this monster has approximately (\\d+) hit points");
@@ -266,7 +265,7 @@ public class FightRequest extends GenericRequest {
   private static final Pattern NANORHINO_CHARGE1_PATTERN = Pattern.compile("(\\d+)% charge");
   private static final Pattern NANORHINO_CHARGE2_PATTERN = Pattern.compile("charge to (\\d+)%");
   private static final Pattern NANORHINO_BUFF_PATTERN =
-      Pattern.compile("title=\\\"Nano(?:brawny|brainy|ballsy)\\\"");
+      Pattern.compile("title=\"Nano(?:brawny|brainy|ballsy)\"");
 
   private static final Pattern SHORT_ORDER_EXP_PATTERN =
       Pattern.compile("and tosses a plate of food to (.*?), who gains ([0-9,]+) exp!");
@@ -346,7 +345,7 @@ public class FightRequest extends GenericRequest {
   private static final String DESTROYER_ACTION = "item" + ItemPool.MINIBORG_DESTROYOBOT;
   private static final String OLFACTION_ACTION = "skill" + SkillPool.OLFACTION;
 
-  private static Set<Integer> singleCastsThisFight = new HashSet<>();
+  private static final Set<Integer> singleCastsThisFight = new HashSet<>();
 
   private static boolean insultedPirate = false;
   private static boolean usedFlyer = false;
@@ -521,7 +520,7 @@ public class FightRequest extends GenericRequest {
   }
 
   private static void initializeSpecialMonsters() {
-    if (specialMonsters.size() > 0) {
+    if (!specialMonsters.isEmpty()) {
       return;
     }
 
@@ -720,12 +719,6 @@ public class FightRequest extends GenericRequest {
   // Make an HTML cleaner
   private static final HtmlCleaner cleaner = HTMLParserUtils.configureDefaultParser();
 
-  static {
-    CleanerProperties props = cleaner.getProperties();
-    // Need to parse the forms in a fambattle
-    // props.setPruneTags( "form" );
-  }
-
   /**
    * Constructs a new <code>FightRequest</code>. User settings will be used to determine the kind of
    * action to be taken during the battle.
@@ -833,14 +826,14 @@ public class FightRequest extends GenericRequest {
     return (InventoryManager.getCount(ItemPool.get(ItemPool.PIRATE_INSULT_BOOK, 1)) > 0
             || InventoryManager.getCount(ItemPool.get(ItemPool.MARAUDER_MOCKERY_MANUAL, 1)) > 0)
         && BeerPongRequest.countPirateInsults() != 8
-        && FightRequest.insultedPirate == false
+        && !FightRequest.insultedPirate
         && FightRequest.isPirate();
   }
 
   public static final boolean canJamFlyer() {
     return InventoryManager.getCount(ItemPool.JAM_BAND_FLYERS) > 0
         && Preferences.getInteger("flyeredML") < 10000
-        && usedFlyer == false
+        && !usedFlyer
         && !IslandManager.isBattlefieldMonster()
         && !QuestDatabase.isQuestFinished(QuestDatabase.Quest.ISLAND_WAR)
         && !KoLCharacter.inGLover();
@@ -849,7 +842,7 @@ public class FightRequest extends GenericRequest {
   public static final boolean canRockFlyer() {
     return InventoryManager.getCount(ItemPool.ROCK_BAND_FLYERS) > 0
         && Preferences.getInteger("flyeredML") < 10000
-        && usedFlyer == false
+        && !usedFlyer
         && !IslandManager.isBattlefieldMonster()
         && !QuestDatabase.isQuestFinished(QuestDatabase.Quest.ISLAND_WAR)
         && !KoLCharacter.inGLover();
@@ -968,7 +961,7 @@ public class FightRequest extends GenericRequest {
 
     // Desired action overrides any internal logic not related to macros
 
-    if (desiredAction != null && desiredAction.length() > 0) {
+    if (desiredAction != null && !desiredAction.isEmpty()) {
       if (CombatActionManager.isMacroAction(desiredAction)) {
         this.handleMacroAction(desiredAction);
         return;
@@ -989,7 +982,7 @@ public class FightRequest extends GenericRequest {
 
       String macro = Macrofier.macrofy();
 
-      if (macro != null && macro.length() > 0) {
+      if (macro != null && !macro.isEmpty()) {
         if (macro.contains("\n") || macro.contains(";")) {
           this.handleMacroAction(macro);
           return;
@@ -2209,9 +2202,7 @@ public class FightRequest extends GenericRequest {
       // If other familiars also end up getting charged at start of fight rather than end we can put
       // them here
       switch (familiarId) {
-        case FamiliarPool.GHOST_COMMERCE -> {
-          Preferences.increment("commerceGhostCombats");
-        }
+        case FamiliarPool.GHOST_COMMERCE -> Preferences.increment("commerceGhostCombats");
         default -> {}
       }
 
@@ -2637,7 +2628,6 @@ public class FightRequest extends GenericRequest {
     boolean won = finalRound && responseText.contains("<!--WINWINWIN-->");
     boolean lost = finalRound && responseText.contains("<!--LOSELOSELOSE-->");
     KoLAdventure location = KoLAdventure.lastVisitedLocation();
-    String locationName = (location != null) ? location.getAdventureName() : null;
 
     // If we won, the fight is over for sure. It might be over
     // anyway. We can detect this in one of two ways: if you have
@@ -4042,7 +4032,7 @@ public class FightRequest extends GenericRequest {
                   demonName = gnatMatcher.group(1);
                 }
 
-                if (demonName.equals("Neil") || demonName.equals("")) {
+                if (demonName.equals("Neil") || demonName.isEmpty()) {
                   break;
                 } else if (demonName.contains("'")) {
                   SummoningChamberRequest.updateIntergnatName(demonName, false);
@@ -4247,7 +4237,7 @@ public class FightRequest extends GenericRequest {
         }
 
         // Increment number of completed deliveries for this tier
-        if (tier != null && !tier.equals("")) {
+        if (tier != null && !tier.isEmpty()) {
           Preferences.increment("guzzlr" + StringUtilities.toTitleCase(tier) + "Deliveries");
         }
 
@@ -4395,10 +4385,10 @@ public class FightRequest extends GenericRequest {
     StringBuilder buffer = new StringBuilder();
     Matcher matcher = FightRequest.HIERO_PATTERN.matcher(responseText);
     while (matcher.find()) {
-      buffer.append(buffer.length() == 0 ? "Cartouche: " : ", ");
+      buffer.append(buffer.isEmpty() ? "Cartouche: " : ", ");
       buffer.append(matcher.group(1));
     }
-    if (buffer.length() > 0) {
+    if (!buffer.isEmpty()) {
       String message = buffer.toString();
       RequestLogger.updateSessionLog(message);
       KoLmafia.updateDisplay(message);
@@ -4409,7 +4399,7 @@ public class FightRequest extends GenericRequest {
     ArrayList<Integer> items = new ArrayList<>();
 
     String pref = Preferences.getString("autoOlfact");
-    if (!pref.equals("")
+    if (!pref.isEmpty()
         && !KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.ON_THE_TRAIL))) {
       boolean haveSkill =
           KoLCharacter.hasSkill(SkillPool.OLFACTION)
@@ -4426,7 +4416,7 @@ public class FightRequest extends GenericRequest {
     }
 
     pref = Preferences.getString("autoPutty");
-    if (!pref.equals("")) {
+    if (!pref.isEmpty()) {
       int totalCopies =
           Preferences.getInteger("spookyPuttyCopiesMade")
               + Preferences.getInteger("_raindohCopiesMade");
@@ -4689,13 +4679,13 @@ public class FightRequest extends GenericRequest {
 
     String value =
         dartSkillToPart.entrySet().stream()
-            .map(e -> String.valueOf(e.getKey()) + ":" + e.getValue())
+            .map(e -> e.getKey() + ":" + e.getValue())
             .sorted()
             .collect(Collectors.joining(","));
     Preferences.setString("_currentDartboard", value);
 
     Matcher dartsLeftMatcher = FightRequest.DARTS_LEFT_PATTERN.matcher(responseText);
-    dartsLeft = dartsLeftMatcher.find() ? Integer.valueOf(dartsLeftMatcher.group(1)) : 0;
+    dartsLeft = dartsLeftMatcher.find() ? Integer.parseInt(dartsLeftMatcher.group(1)) : 0;
     Preferences.setInteger("_dartsLeft", dartsLeft);
   }
 
@@ -5040,7 +5030,7 @@ public class FightRequest extends GenericRequest {
   private static final Pattern SECONDARY_PATTERN = Pattern.compile("\\+([\\d,]+)");
 
   private static int parseNormalDamage(final String text) {
-    if (text.equals("")) {
+    if (text.isEmpty()) {
       return 0;
     }
 
@@ -5053,7 +5043,7 @@ public class FightRequest extends GenericRequest {
       // against the monster or is damage that should not
       // count (reap/sow X damage.)
 
-      if (!m.group(1).equals("")) {
+      if (!m.group(1).isEmpty()) {
         return 0;
       }
 
@@ -5096,7 +5086,7 @@ public class FightRequest extends GenericRequest {
 
     m = FightRequest.ELEMENTAL_PATTERN.matcher(text);
     if (m.find()) {
-      if (!m.group(1).equals("")) {
+      if (!m.group(1).isEmpty()) {
         return 0;
       }
 
@@ -5164,7 +5154,7 @@ public class FightRequest extends GenericRequest {
       buffer.append(" / ");
     }
 
-    if (tag != null && nodeName.equals(tag)) {
+    if (nodeName.equals(tag)) {
       hasTag = true;
     }
 
@@ -5700,18 +5690,18 @@ public class FightRequest extends GenericRequest {
       String enthronedName = enthroned.getName();
       this.enthroned = enthroned.getImageLocation();
       this.enthronedName =
-          (enthronedName == null || enthronedName.equals("")) ? null : enthronedName;
+          (enthronedName == null || enthronedName.isEmpty()) ? null : enthronedName;
 
       FamiliarData bjorned = KoLCharacter.getBjorned();
       String bjornedName = bjorned.getName();
       this.bjorned = bjorned.getImageLocation();
-      this.bjornedName = (bjornedName == null || bjornedName.equals("")) ? null : bjornedName;
+      this.bjornedName = (bjornedName == null || bjornedName.isEmpty()) ? null : bjornedName;
 
       String VYKEAName = Preferences.getString("_VYKEACompanionName");
-      this.VYKEACompanion = (VYKEAName == null || VYKEAName.equals("")) ? null : VYKEAName;
+      this.VYKEACompanion = (VYKEAName == null || VYKEAName.isEmpty()) ? null : VYKEAName;
 
       String horseName = Preferences.getString("_horseryCurrentName");
-      this.horse = (horseName == null || horseName.equals("")) ? null : horseName;
+      this.horse = (horseName == null || horseName.isEmpty()) ? null : horseName;
 
       this.logFamiliar = Preferences.getBoolean("logFamiliarActions");
       this.logMonsterHealth = Preferences.getBoolean("logMonsterHealth");
@@ -6105,7 +6095,7 @@ public class FightRequest extends GenericRequest {
       case ARMOR, REGENERATING, SMART, SPIKED -> attributes.remove(boost.toString());
     }
 
-    if (attributes.size() > 0) {
+    if (!attributes.isEmpty()) {
       attribute = attributes.get(0);
     }
 
@@ -6228,7 +6218,7 @@ public class FightRequest extends GenericRequest {
     // holds the whole combat table
 
     TagNode[] nodes = node.getElementsByName("center", true);
-    if (nodes != null || nodes.length >= 2) {
+    if (nodes != null && nodes.length >= 2) {
       return nodes[1].getParent();
     }
 
@@ -6624,7 +6614,7 @@ public class FightRequest extends GenericRequest {
       if (child instanceof ContentNode object) {
         String str = object.getContent().trim();
 
-        if (str.equals("")) {
+        if (str.isEmpty()) {
           continue;
         }
 
@@ -7546,7 +7536,7 @@ public class FightRequest extends GenericRequest {
     String value = Preferences.getString("wereProfessorAdvancedResearch");
     Set<Integer> monsterIds =
         Arrays.stream(value.split("\\s*,\\s*"))
-            .filter(s -> s != null && !s.isEmpty())
+            .filter(s -> !s.isEmpty())
             .map(Integer::valueOf)
             .filter(i -> i != 0)
             .collect(Collectors.toSet());
@@ -7562,8 +7552,7 @@ public class FightRequest extends GenericRequest {
     if (!monsterIds.contains(monsterId)) {
       monsterIds.add(monsterId);
       String value =
-          new TreeSet<Integer>(monsterIds)
-              .stream().map(Object::toString).collect(Collectors.joining(","));
+          new TreeSet<>(monsterIds).stream().map(Object::toString).collect(Collectors.joining(","));
       Preferences.setString("wereProfessorAdvancedResearch", value);
     }
   }
@@ -7674,7 +7663,7 @@ public class FightRequest extends GenericRequest {
 
     // If you have a tiny costume wardrobe or a doppelshifter, it
     // can change its image mid-battle.
-    if (status.doppel && !image.equals("")) {
+    if (status.doppel && !image.isEmpty()) {
       status.setFamiliar(image);
     }
 
@@ -7749,7 +7738,7 @@ public class FightRequest extends GenericRequest {
       status.hookah = true;
     }
 
-    if (!str.equals("") && !ResultProcessor.processFamiliarWeightGain(str)) {
+    if (!str.isEmpty() && !ResultProcessor.processFamiliarWeightGain(str)) {
       // Familiar combat action? (or cartography)
       // Don't log most familiar actions in the Deep Machine Tunnels
       if (status.logFamiliar
@@ -7795,7 +7784,7 @@ public class FightRequest extends GenericRequest {
       return false;
     }
 
-    if (content.equals("&nbsp;&nbsp;&nbsp;&nbsp;") || content.equals("")) {
+    if (content.equals("&nbsp;&nbsp;&nbsp;&nbsp;") || content.isEmpty()) {
       return true;
     }
 
@@ -8002,7 +7991,7 @@ public class FightRequest extends GenericRequest {
           evilness++;
         }
 
-        CryptManager.decreaseEvilness(setting, 1);
+        CryptManager.decreaseEvilness(setting, evilness);
         return true;
       }
     }
@@ -8543,7 +8532,7 @@ public class FightRequest extends GenericRequest {
 
   private static final Pattern[] GHOST_OF_COMMERCE_QUEST = {
     Pattern.compile("Better get an? (.*?) while there's still some left!"),
-    Pattern.compile("(?:B|b)uy an? (.*?) before they all sell out"),
+    Pattern.compile("[Bb]uy an? (.*?) before they all sell out"),
     Pattern.compile("Don't forget to buy an? (.*?)!"),
     Pattern.compile("Did you buy an? (.*?) yet\\?"),
     Pattern.compile("Hey pal, you should buy an? (.*?)!"),
@@ -8591,7 +8580,7 @@ public class FightRequest extends GenericRequest {
     Pattern.compile(
         "\"As I recall, (?<ingredient>.*?) was common in (?<location>.*?), back in my day\\. +Perhaps if you kill an? (?<monster>.*?), you'll find one\\.\""),
     Pattern.compile(
-        "\"If memory serves, (?<ingredient>.*?) was very popular in (?<location>.*?), during my time\\. +Perhaps if you find an? (?<monster>.*?), you'll collect one\\,\""),
+        "\"If memory serves, (?<ingredient>.*?) was very popular in (?<location>.*?), during my time\\. +Perhaps if you find an? (?<monster>.*?), you'll collect one,\""),
     Pattern.compile(
         "\"My recollection is that (?<ingredient>.*?) was often collected from an? (?<monster>.*?)\\. +If I recall correctly, you can hunt them in (?<location>.*?)\\.\"")
   };
@@ -8669,7 +8658,7 @@ public class FightRequest extends GenericRequest {
   }
 
   private static void logText(String text, final TagStatus status) {
-    if (text.equals("")) {
+    if (text.isEmpty()) {
       return;
     }
 
@@ -8688,7 +8677,7 @@ public class FightRequest extends GenericRequest {
   }
 
   private static void logText(String text) {
-    if (text.equals("")) {
+    if (text.isEmpty()) {
       return;
     }
 
@@ -8755,12 +8744,9 @@ public class FightRequest extends GenericRequest {
         && !FightRequest.inMultiFight
         && !FightRequest.choiceFollowsFight) {
       Runnable initializeRunner =
-          new Runnable() {
-            @Override
-            public void run() {
-              LoginManager.login(KoLCharacter.getUserName());
-              FightRequest.initializeAfterFight = false;
-            }
+          () -> {
+            LoginManager.login(KoLCharacter.getUserName());
+            FightRequest.initializeAfterFight = false;
           };
 
       RequestThread.runInParallel(initializeRunner);
@@ -9319,7 +9305,7 @@ public class FightRequest extends GenericRequest {
 
   private static void payActionCost(final String responseText) {
     // If we don't know what we tried, punt now.
-    if (FightRequest.nextAction == null || FightRequest.nextAction.equals("")) {
+    if (FightRequest.nextAction == null || FightRequest.nextAction.isEmpty()) {
       return;
     }
 
@@ -9502,7 +9488,7 @@ public class FightRequest extends GenericRequest {
     long mpCost = SkillDatabase.getMPConsumptionById(skillId);
 
     if (mpCost > 0) {
-      ResultProcessor.processResult(new AdventureLongCountResult(AdventureResult.MP, 0 - mpCost));
+      ResultProcessor.processResult(new AdventureLongCountResult(AdventureResult.MP, -mpCost));
     }
     SkillDatabase.registerCasts(skillId, 1);
 
