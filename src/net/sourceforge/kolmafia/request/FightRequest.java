@@ -11253,33 +11253,32 @@ public class FightRequest extends GenericRequest {
       }
     } else if (urlString.contains("runaway")) {
       FightRequest.nextAction = "runaway";
+      haps += "runaway;";
       if (shouldLogAction) {
         action.append("casts RETURN!");
-        haps += "runaway;";
       }
     } else if (urlString.contains("steal")) {
       FightRequest.nextAction = "steal";
+      haps += "steal;";
       if (shouldLogAction) {
         action.append("tries to steal an item!");
-        haps += "steal;";
       }
     } else if (urlString.contains("attack")) {
       FightRequest.nextAction = "attack";
+      haps += "attack;";
       if (shouldLogAction) {
         action.append("attacks!");
-        haps += "attack;";
       }
     } else if (urlString.contains("chefstaff")) {
       FightRequest.nextAction = "jiggle";
+      haps += "jiggle;";
       if (shouldLogAction) {
         action.append("jiggles the ");
         action.append(EquipmentManager.getEquipment(Slot.WEAPON).getName());
-        haps += "jiggle;";
       }
     } else if (urlString.contains("twiddle")) {
       FightRequest.nextAction = "twiddle";
       haps += "twiddle;";
-      return true;
     } else {
       Matcher skillMatcher = FightRequest.SKILL_PATTERN.matcher(urlString);
       if (skillMatcher.find()) {
@@ -11297,6 +11296,7 @@ public class FightRequest extends GenericRequest {
         } else {
           FightRequest.nextAction =
               CombatActionManager.getShortCombatOptionName("skill " + skillNumber);
+          haps += "sk" + skillId + ";";
           if (shouldLogAction) {
             if (isBatfellow) {
               String verb = "uses ";
@@ -11317,7 +11317,6 @@ public class FightRequest extends GenericRequest {
               action.append("casts ");
             }
             action.append(skill.toUpperCase()).append("!");
-            haps += "sk" + skillId + ";";
           }
         }
       } else {
@@ -11331,9 +11330,9 @@ public class FightRequest extends GenericRequest {
             }
           } else {
             FightRequest.nextAction = String.valueOf(itemId);
+            haps += "it" + itemId + ";";
             if (shouldLogAction) {
               action.append("uses the ").append(item);
-              haps += "it" + itemId + ";";
             }
           }
 
@@ -11348,9 +11347,9 @@ public class FightRequest extends GenericRequest {
               }
 
               FightRequest.nextAction += "," + itemId;
+              haps += "it" + itemId + ";";
               if (shouldLogAction) {
                 action.append(" and uses the ").append(item);
-                haps += "it" + itemId + ";";
               }
             }
           }
@@ -11368,11 +11367,12 @@ public class FightRequest extends GenericRequest {
       if (urlString.contains("[AA]")) { // pseudo-parameter for parsing an autoattack
         action.append(" (auto-attack)");
       }
-      Preferences.setString("_lastCombatActions", haps);
       String message = action.toString();
       RequestLogger.printLine(message);
       RequestLogger.updateSessionLog(message);
     }
+
+    Preferences.setString("_lastCombatActions", haps);
 
     return true;
   }
