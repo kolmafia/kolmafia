@@ -202,6 +202,7 @@ public class ShopRow implements Comparable<ShopRow> {
 
       String idescid = "";
       boolean isMeat = false;
+      boolean skip = false;
 
       Matcher td = TD_PATTERN.matcher(m.group(2));
       while (td.find()) {
@@ -251,6 +252,7 @@ public class ShopRow implements Comparable<ShopRow> {
               continue;
             }
             if (isMeat && !includeMeat) {
+              skip = true;
               continue;
             }
 
@@ -289,6 +291,9 @@ public class ShopRow implements Comparable<ShopRow> {
         // Don't have enough fields?
         continue;
       }
+      if (skip) {
+        continue;
+      }
       AdventureResult[] currencies = ingredients.toArray(new AdventureResult[0]);
       ShopRow irow = new ShopRow(row, item, currencies);
       result.add(irow);
@@ -299,6 +304,13 @@ public class ShopRow implements Comparable<ShopRow> {
   public static class MeatAdventureResult extends AdventureResult {
     public MeatAdventureResult(final int count) {
       super("Meat", count);
+    }
+
+    public AdventureResult getInstance(final long count) {
+      if (this.getCount() == count) {
+        return this;
+      }
+      return new MeatAdventureResult((int) count);
     }
 
     @Override
