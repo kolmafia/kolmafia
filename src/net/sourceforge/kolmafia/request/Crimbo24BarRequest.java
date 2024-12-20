@@ -1,12 +1,10 @@
 package net.sourceforge.kolmafia.request;
 
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.TreeMap;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 
 public class Crimbo24BarRequest extends CoinMasterRequest {
   public static final String master = "Crimbo24 Bar";
@@ -37,6 +35,7 @@ public class Crimbo24BarRequest extends CoinMasterRequest {
       ItemPool.get(ItemPool.SPIRIT_OF_CHRISTMAS, 1);
 
   // Manually set up the map and change the currency, as need
+  /*
   static {
     Map<Integer, Integer> map = CoinmastersDatabase.getBuyPrices(master);
     for (Entry<Integer, Integer> entry : map.entrySet()) {
@@ -51,6 +50,7 @@ public class Crimbo24BarRequest extends CoinMasterRequest {
       buyCosts.put(itemId, cost);
     }
   }
+  */
 
   public Crimbo24BarRequest() {
     super(DATA);
