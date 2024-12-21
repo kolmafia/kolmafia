@@ -33,6 +33,9 @@ import net.sourceforge.kolmafia.request.Crimbo23PirateArmoryRequest;
 import net.sourceforge.kolmafia.request.Crimbo23PirateBarRequest;
 import net.sourceforge.kolmafia.request.Crimbo23PirateCafeRequest;
 import net.sourceforge.kolmafia.request.Crimbo23PirateFactoryRequest;
+import net.sourceforge.kolmafia.request.Crimbo24BarRequest;
+import net.sourceforge.kolmafia.request.Crimbo24CafeRequest;
+import net.sourceforge.kolmafia.request.Crimbo24FactoryRequest;
 import net.sourceforge.kolmafia.request.CrimboCartelRequest;
 import net.sourceforge.kolmafia.request.DimemasterRequest;
 import net.sourceforge.kolmafia.request.DinostaurRequest;
@@ -125,6 +128,9 @@ public abstract class CoinmasterRegistry {
         Crimbo23PirateBarRequest.DATA,
         Crimbo23PirateCafeRequest.DATA,
         Crimbo23PirateFactoryRequest.DATA,
+        Crimbo24BarRequest.DATA,
+        Crimbo24CafeRequest.DATA,
+        Crimbo24FactoryRequest.DATA,
         CrimboCartelRequest.CRIMBO_CARTEL,
         DimemasterRequest.HIPPY,
         DinostaurRequest.DINOSTAUR,
@@ -199,6 +205,20 @@ public abstract class CoinmasterRegistry {
   public static void reset() {
     // Nothing to do, but calling this will run the static
     // initialization the first time this class is accessed.
+  }
+
+  public static CoinmasterData findCoinmaster(final String nickname, final String master) {
+    CoinmasterData result = findCoinmasterByNickname(nickname);
+    if (result != null) {
+      return result;
+    }
+
+    result = findCoinmaster(master);
+    if (result != null) {
+      return result;
+    }
+
+    return null;
   }
 
   public static CoinmasterData findCoinmaster(final String master) {

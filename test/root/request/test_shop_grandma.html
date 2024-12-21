@@ -1,0 +1,281 @@
+<html><head>
+<script language=Javascript>
+<!--
+if (parent.frames.length == 0) location.href="game.php";
+//-->
+</script>
+<script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/jquery-1.5.1.js"></script>
+<script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/keybinds.min.2.js"></script>
+<script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/window.20111231.js"></script>
+<script language="javascript">function chatFocus(){if(top.chatpane.document.chatform.graf) top.chatpane.document.chatform.graf.focus();}
+if (typeof defaultBind != 'undefined') { defaultBind(47, 2, chatFocus); defaultBind(190, 2, chatFocus);defaultBind(191, 2, chatFocus); defaultBind(47, 8, chatFocus);defaultBind(190, 8, chatFocus); defaultBind(191, 8, chatFocus); }</script><script language="javascript">
+	function updateParseItem(iid, field, info) {
+		var tbl = $('#ic'+iid);
+		var data = parseItem(tbl);
+		if (!data) return;
+		data[field] = info;
+		var out = [];
+		for (i in data) {
+			if (!data.hasOwnProperty(i)) continue;
+			out.push(i+'='+data[i]);
+		}
+		tbl.attr('rel', out.join('&'));
+	}
+	function parseItem(tbl) {
+		tbl = $(tbl);
+		var rel = tbl.attr('rel');
+		var data = {};
+		if (!rel) return data;
+		var parts = rel.split('&');
+		for (i in parts) {
+			if (!parts.hasOwnProperty(i)) continue;
+			var kv = parts[i].split('=');
+			tbl.data(kv[0], kv[1]);
+			data[kv[0]] = kv[1];
+		}
+		return data;
+	}
+</script><script type="text/javascript" src="https://d2uyhvukfffg5a.cloudfront.net/scripts/pop_query.20230713.js"></script>
+<script type="text/javascript" src="https://d2uyhvukfffg5a.cloudfront.net/scripts/ircm.20230626.js"></script>
+<script type="text/javascript">
+var tp = top;
+function pop_ircm_contents(i, some) {
+	var contents = '',
+		shown = 0,
+		da = '&nbsp;<a href="#" rel="?" class="small dojaxy">[some]</a>&nbsp;<a href="#" rel="',
+		db = '" class="small dojaxy">[all]</a>',
+		dc = '<div style="width:100%; padding-bottom: 3px;" rel="',
+		dd = '<a href="#" rel="1" class="small dojaxy">[';
+	one = 'one'; ss=some;
+if (i.d==1 && i.s>0) { shown++; 
+contents += dc + 'sellstuff.php?action=sell&ajax=1&type=quant&whichitem%5B%5D=IID&howmany=NUM&pwd=daa2136bd0601e7e4671281b3354bd48" id="pircm_'+i.id+'"><b>Auto-Sell ('+i.s+' meat):</b> '+dd+one+']</a>';
+if (ss) { contents += da + i.n + db;}
+contents += '</div>';
+}
+one = 'one'; ss=some;
+if (i.q==0) { shown++; 
+contents += dc + 'inventory.php?action=closetpush&ajax=1&whichitem=IID&qty=NUM&pwd=daa2136bd0601e7e4671281b3354bd48" id="pircm_'+i.id+'"><b>Closet:</b> '+dd+one+']</a>';
+if (ss) { contents += da + i.n + db;}
+contents += '</div>';
+}
+one = 'one'; ss=some;
+if (i.q==0 && i.g==0 && i.t==1) { shown++; 
+contents += dc + 'managestore.php?action=additem&qty1=NUM&item1=IID&price1=&limit1=&ajax=1&pwd=daa2136bd0601e7e4671281b3354bd48" id="pircm_'+i.id+'"><b>Stock in Mall:</b> '+dd+one+']</a>';
+if (ss) { contents += da + i.n + db;}
+contents += '</div>';
+}
+one = 'one'; ss=some;
+if (i.q==0) { shown++; 
+contents += dc + 'managecollection.php?action=put&ajax=1&whichitem1=IID&howmany1=NUM&pwd=daa2136bd0601e7e4671281b3354bd48" id="pircm_'+i.id+'"><b>Add to Display Case:</b> '+dd+one+']</a>';
+if (ss) { contents += da + i.n + db;}
+contents += '</div>';
+}
+one = 'one'; ss=some;
+if (i.q==0 && i.t==1) { shown++; 
+contents += dc + 'clan_stash.php?action=addgoodies&ajax=1&item1=IID&qty1=NUM&pwd=daa2136bd0601e7e4671281b3354bd48" id="pircm_'+i.id+'"><b>Contribute to Clan:</b> '+dd+one+']</a>';
+if (ss) { contents += da + i.n + db;}
+contents += '</div>';
+}
+one = 'one'; ss=some;
+if (i.u && i.u != "." && !i.ac) { shown++; 
+contents += dc + 'inv_'+(i.u=="a"?"redir":(lab=(i.u=="u"?"use":(i.u=="e"?"eat":(i.u=="b"?"booze":(i.u=="s"?"spleen":"equip"))))))+'.php?ajax=1&whichitem=IID&itemquantity=NUM&quantity=NUM'+(i.u=="q"?"&action=equip":"")+'&pwd=daa2136bd0601e7e4671281b3354bd48" id="pircm_'+i.id+'"><b>'+ucfirst(unescape(i.ou ? i.ou.replace(/\+/g," ") : (lab=="booze"?"drink":lab)))+':</b> '+dd+one+']</a>';
+if (ss && i.u != 'q' && !(i.u=='u' && i.m==0)) { contents += da + i.n + db;}
+contents += '</div>';
+}
+one = 'one'; ss=some;
+if (i.u && i.u != "." && i.ac) { shown++; 
+contents += dc + 'inv_equip.php?slot=1&ajax=1&whichitem=IID&action=equip&pwd=daa2136bd0601e7e4671281b3354bd48" id="pircm_'+i.id+'"><b>Equip (slot 1):</b> '+dd+one+']</a>';
+if (ss && i.u != 'q' && !(i.u=='u' && i.m==0)) { contents += da + i.n + db;}
+contents += '</div>';
+}
+one = 'one'; ss=some;
+if (i.u && i.u != "." && i.ac) { shown++; 
+contents += dc + 'inv_equip.php?slot=2&ajax=1&whichitem=IID&action=equip&pwd=daa2136bd0601e7e4671281b3354bd48" id="pircm_'+i.id+'"><b>Equip (slot 2):</b> '+dd+one+']</a>';
+if (ss && i.u != 'q' && !(i.u=='u' && i.m==0)) { contents += da + i.n + db;}
+contents += '</div>';
+}
+one = 'one'; ss=some;
+if (i.u && i.u != "." && i.ac) { shown++; 
+contents += dc + 'inv_equip.php?slot=3&ajax=1&whichitem=IID&action=equip&pwd=daa2136bd0601e7e4671281b3354bd48" id="pircm_'+i.id+'"><b>Equip (slot 3):</b> '+dd+one+']</a>';
+if (ss && i.u != 'q' && !(i.u=='u' && i.m==0)) { contents += da + i.n + db;}
+contents += '</div>';
+}
+
+	return [contents, shown];
+}
+tp=top
+var todo = [];
+function nextAction() {
+	var next_todo = todo.shift();
+	if (next_todo) {
+		eval(next_todo);
+	}
+}
+function dojax(dourl, afterFunc, hoverCaller, failureFunc, method, params) {
+	$.ajax({
+		type: method || 'GET', url: dourl, cache: false,
+		data: params || null,
+		global: false,
+		success: function (out) {
+			nextAction();
+			if (out.match(/no\|/)) {
+				var parts = out.split(/\|/);
+				if (failureFunc) failureFunc(parts[1]);
+				else if (window.dojaxFailure) window.dojaxFailure(parts[1]);
+				else if (tp.chatpane.handleMessage) tp.chatpane.handleMessage({type: 'event', msg: 'Oops!  Sorry, Dave, you appear to be ' + parts[1]});
+				else  $('#ChatWindow').append('<font color="green">Oops!  Sorry, Dave, you appear to be ' + parts[1] + '.</font><br />' + "\n");
+				return;
+			}
+
+			if (hoverCaller)  {
+				float_results(hoverCaller, out);
+				if (afterFunc) { afterFunc(out); }
+				return;
+			}
+$(tp.mainpane.document).find("#effdiv").remove(); if(!window.dontscroll || (window.dontscroll && dontscroll==0)) { window.scroll(0,0);}
+			var $eff = $(tp.mainpane.document).find('#effdiv');
+			if ($eff.length == 0) {
+				var d = tp.mainpane.document.createElement('DIV');
+				d.id = 'effdiv';
+				var b = tp.mainpane.document.body;
+				if ($('#content_').length > 0) {
+					b = $('#content_ div:first')[0];
+				}
+				b.insertBefore(d, b.firstChild);
+				$eff = $(d);
+			}
+			$eff.find('a[name="effdivtop"]').remove().end()
+				.prepend('<a name="effdivtop"></a><center>' + out + '</center>').css('display','block');
+			if (!window.dontscroll || (window.dontscroll && dontscroll==0)) {
+				tp.mainpane.document.location = tp.mainpane.document.location + "#effdivtop";
+			}
+			if (afterFunc) { afterFunc(out); }
+		}
+	});
+}
+</script>	<link rel="stylesheet" type="text/css" href="https://d2uyhvukfffg5a.cloudfront.net/styles.20230117d.css">
+<style> body * { image-rendering: auto!important;} </style><style type='text/css'>
+.faded {
+	zoom: 1;
+	filter: alpha(opacity=35);
+	opacity: 0.35;
+	-khtml-opacity: 0.35; 
+    -moz-opacity: 0.35;
+}
+</style>
+
+</head>
+
+<body>
+<script src="https://d2uyhvukfffg5a.cloudfront.net/scripts/jquery.ui.tooltip.min.js?v=12"></script>
+<style>
+	.ui-helper-hidden-accessible {display: none; }
+	.tip { 
+		/*max-height: 300px;  */
+		overflow: auto;
+		background-color: white; 
+		border: 1px solid black;
+   		display:none;
+    	width:350px;
+    	padding:10px;
+    	color:black;
+    	z-index: 99;
+		position: absolute;
+	}
+	#loading {
+		position: fixed; top: 0px; right: 0px; padding: 2px; background-color: blue; color: white; display: none; z-index: 100; 
+	}
+</style>
+<div id="loading">Loading description...</div>
+<script>
+	var boom;
+	var cur_tip;
+	var invtip = function(callback) {
+		if (cur_tip == $(this).attr('rel')) return null;
+		//$('#loading').show();
+		var d = $('<div>Loading...</div>');
+		cur_tip = $(this).attr('rel');
+		$.get($(this).attr('rel'), function (res) {
+			var h = res.replace(/[\s\S]*<div id="description"/m,'<div').replace(/<script[\s\S]*/,'')+'</div>'
+			$('#loading').remove();
+			setTimeout(function () {
+			callback(h);
+			}, 500);
+		});
+		return "Loading description...";
+	};
+	var tooltip_options = {
+		content: invtip, 
+		show: {delay: 250, duration: 10},
+		hide: {delay: 5000000, duration: 100},
+		position: {collision: 'flipfit', at: 'right' },
+		open: function (e, ui) {
+			clearTimeout(boom);
+			$('.ui-tooltip').each(function () {
+				if ($(ui.tooltip).attr('id') != $(this).attr('id')) $(this).remove();
+			});
+		},
+		close : function (e) {
+			var killme  = function () { $('.tip').remove(); cur_tip = null; };
+			boom = setTimeout(function () { $('.tip').remove(); cur_tip = null; }, 1000);
+			$('.tip').hover(
+				function () { clearTimeout(boom); },
+				killme
+			);
+		},
+		tooltipClass: 'tip'
+	};
+	jQuery(function ($) {
+		if ($('.pop').tooltip) {
+		   	$('.pop').attr('title','').tooltip(tooltip_options);
+		}
+		var uia = function (e) {
+			e.preventDefault();
+			var p = $(this).parents('.ui-tooltip');
+			$.get($(this).attr('href'), function (res) {
+				p.empty().append(res);
+			});
+		};
+		var ua = navigator.userAgent,
+			        cname = (ua.match(/iP(hone|ad)/i)) ? "touchend" : "click";
+		$(document).bind(cname, function (e) {
+			if ($(e.target).parents('.ui-tooltip').length || $(e.target).is('.ircm')) return;
+			 $('.tip').remove(); cur_tip = null; 
+		});
+		$(document).bind('contextmenu',function (e) {
+			 $('.tip').remove(); cur_tip = null; 
+		});
+		if ($(document).live) $('.ui-tooltip a').live('click',uia);
+		else if ($.on) $(document).on('click', '.ui-tooltip a', uia);
+	});
+</script>
+<centeR><table  width=95%  cellspacing=0 cellpadding=0><tr><td style="background-color: blue" align=center ><b style="color: white">Grandma Sea Monkee's Window</b></td></tr><tr><td style="padding: 5px; border: 1px solid blue;"><center><table><tr><td><center><table width=80%><tr><td valign=top><img src=https://d2uyhvukfffg5a.cloudfront.net/otherimages/../adventureimages/sm_gw.gif width=100 height=100 alt="Grandma" title="Grandma"></td><td valign=top><center><b>Grandma</b></center><p>Oh, hello there, dearie.  You look cold.  Would you like me to make something for you?</td></tr></table><form name=bigform action=shop.php method=post><input type=hidden name=pwd value=daa2136bd0601e7e4671281b3354bd48><input type=hidden name=whichshop value="grandma"><input type=hidden name=action value=buyitem><br><table cellspacing=2 cellpadding=0><tr><td></td><td colspan=2 align=center><b>Item:</b> (click for description)</td><td colspan=10 align=center><b>Price:</b></td></tr><tr rel="4282"><td valign=center><input type=radio name=whichrow value=124></td><td><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/merkinmask.gif" class="hand pop" rel="desc_item.php?whichitem=898158960" onClick='javascript:descitem(898158960)'></td><td valign=center><a onClick='javascript:descitem(898158960)'><b>crappy Mer-kin mask</b>&nbsp;&nbsp;&nbsp;&nbsp;</a></td><td><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/divehelmet.gif width=30 height=30 onClick='javascript:descitem(784913887)' alt="aerated diving helmet" title="aerated diving helmet"></td><td><b>1</b>&nbsp;&nbsp;</td><td><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/scale3.gif width=30 height=30 onClick='javascript:descitem(922469052)' alt="pristine fish scale" title="pristine fish scale"></td><td><b>3</b>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td valign=center><input class="button doit multibuy disabled" disabled type=button rel='shop.php?whichshop=grandma&action=buyitem&quantity=1&whichrow=124&pwd=daa2136bd0601e7e4671281b3354bd48' value='Buy'></td></tr><tr rel="4283"><td valign=center><input type=radio name=whichrow value=125></td><td><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/tailpiece.gif" class="hand pop" rel="desc_item.php?whichitem=219864306" onClick='javascript:descitem(219864306)'></td><td valign=center><a onClick='javascript:descitem(219864306)'><b>crappy Mer-kin tailpiece</b>&nbsp;&nbsp;&nbsp;&nbsp;</a></td><td><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/seachaps.gif width=30 height=30 onClick='javascript:descitem(424923166)' alt="sea chaps" title="sea chaps"></td><td><b>1</b>&nbsp;&nbsp;</td><td><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/teflonfins.gif width=30 height=30 onClick='javascript:descitem(667590304)' alt="teflon swim fins" title="teflon swim fins"></td><td><b>1</b>&nbsp;&nbsp;</td><td><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/scale3.gif width=30 height=30 onClick='javascript:descitem(922469052)' alt="pristine fish scale" title="pristine fish scale"></td><td><b>3</b>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td valign=center><input class="button doit multibuy disabled" disabled type=button rel='shop.php?whichshop=grandma&action=buyitem&quantity=1&whichrow=125&pwd=daa2136bd0601e7e4671281b3354bd48' value='Buy'></td></tr><tr rel="4284"><td valign=center><input type=radio name=whichrow value=126></td><td><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/gladmask.gif" class="hand pop" rel="desc_item.php?whichitem=250428951" onClick='javascript:descitem(250428951)'></td><td valign=center><a onClick='javascript:descitem(250428951)'><b>Mer-kin gladiator mask</b>&nbsp;&nbsp;&nbsp;&nbsp;</a></td><td><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/merkinmask.gif width=30 height=30 onClick='javascript:descitem(898158960)' alt="crappy Mer-kin mask" title="crappy Mer-kin mask"></td><td><b>1</b>&nbsp;&nbsp;</td><td><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/headguard.gif width=30 height=30 onClick='javascript:descitem(899134630)' alt="Mer-kin headguard" title="Mer-kin headguard"></td><td><b>1</b>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td valign=center><input class="button doit multibuy disabled" disabled type=button rel='shop.php?whichshop=grandma&action=buyitem&quantity=1&whichrow=126&pwd=daa2136bd0601e7e4671281b3354bd48' value='Buy'></td></tr><tr rel="4286"><td valign=center><input type=radio name=whichrow value=127></td><td><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/tailpiece_g.gif" class="hand pop" rel="desc_item.php?whichitem=824557438" onClick='javascript:descitem(824557438)'></td><td valign=center><a onClick='javascript:descitem(824557438)'><b>Mer-kin gladiator tailpiece</b>&nbsp;&nbsp;&nbsp;&nbsp;</a></td><td><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/tailpiece.gif width=30 height=30 onClick='javascript:descitem(219864306)' alt="crappy Mer-kin tailpiece" title="crappy Mer-kin tailpiece"></td><td><b>1</b>&nbsp;&nbsp;</td><td><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/thighguard.gif width=30 height=30 onClick='javascript:descitem(510636820)' alt="Mer-kin thighguard" title="Mer-kin thighguard"></td><td><b>1</b>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td valign=center><input class="button doit multibuy disabled" disabled type=button rel='shop.php?whichshop=grandma&action=buyitem&quantity=1&whichrow=127&pwd=daa2136bd0601e7e4671281b3354bd48' value='Buy'></td></tr><tr rel="4285"><td valign=center><input type=radio name=whichrow value=129></td><td><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/scholarmask.gif" class="hand pop" rel="desc_item.php?whichitem=811744187" onClick='javascript:descitem(811744187)'></td><td valign=center><a onClick='javascript:descitem(811744187)'><b>Mer-kin scholar mask</b>&nbsp;&nbsp;&nbsp;&nbsp;</a></td><td><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/merkinmask.gif width=30 height=30 onClick='javascript:descitem(898158960)' alt="crappy Mer-kin mask" title="crappy Mer-kin mask"></td><td><b>1</b>&nbsp;&nbsp;</td><td><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/facecowl.gif width=30 height=30 onClick='javascript:descitem(441778457)' alt="Mer-kin facecowl" title="Mer-kin facecowl"></td><td><b>1</b>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td valign=center><input class="button doit multibuy disabled" disabled type=button rel='shop.php?whichshop=grandma&action=buyitem&quantity=1&whichrow=129&pwd=daa2136bd0601e7e4671281b3354bd48' value='Buy'></td></tr><tr rel="4287"><td valign=center><input type=radio name=whichrow value=130></td><td><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/tailpiece_s.gif" class="hand pop" rel="desc_item.php?whichitem=873915410" onClick='javascript:descitem(873915410)'></td><td valign=center><a onClick='javascript:descitem(873915410)'><b>Mer-kin scholar tailpiece</b>&nbsp;&nbsp;&nbsp;&nbsp;</a></td><td><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/tailpiece.gif width=30 height=30 onClick='javascript:descitem(219864306)' alt="crappy Mer-kin tailpiece" title="crappy Mer-kin tailpiece"></td><td><b>1</b>&nbsp;&nbsp;</td><td><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/waistrope.gif width=30 height=30 onClick='javascript:descitem(645327600)' alt="Mer-kin waistrope" title="Mer-kin waistrope"></td><td><b>1</b>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td valign=center><input class="button doit multibuy disabled" disabled type=button rel='shop.php?whichshop=grandma&action=buyitem&quantity=1&whichrow=130&pwd=daa2136bd0601e7e4671281b3354bd48' value='Buy'></td></tr><tr rel="6328"><td valign=center><input type=radio name=whichrow value=116></td><td><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/doily.gif" class="hand pop" rel="desc_item.php?whichitem=823516292" onClick='javascript:descitem(823516292)'></td><td valign=center><a onClick='javascript:descitem(823516292)'><b>sushi doily</b>&nbsp;&nbsp;&nbsp;&nbsp;</a></td><td><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/sealace.gif width=30 height=30 onClick='javascript:descitem(460430889)' alt="sea lace" title="sea lace"></td><td><b>1</b>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td valign=center><input class="button doit multibuy "  type=button rel='shop.php?whichshop=grandma&action=buyitem&quantity=1&whichrow=116&pwd=daa2136bd0601e7e4671281b3354bd48' value='Buy'></td></tr><tr rel="6329"><td valign=center><input type=radio name=whichrow value=117></td><td><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/cozy1.gif" class="hand pop" rel="desc_item.php?whichitem=598070907" onClick='javascript:descitem(598070907)'></td><td valign=center><a onClick='javascript:descitem(598070907)'><b>scimitar cozy</b>&nbsp;&nbsp;&nbsp;&nbsp;</a></td><td><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/sealace.gif width=30 height=30 onClick='javascript:descitem(460430889)' alt="sea lace" title="sea lace"></td><td><b>3</b>&nbsp;&nbsp;</td><td><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/scale3.gif width=30 height=30 onClick='javascript:descitem(922469052)' alt="pristine fish scale" title="pristine fish scale"></td><td><b>1</b>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td valign=center><input class="button doit multibuy disabled" disabled type=button rel='shop.php?whichshop=grandma&action=buyitem&quantity=1&whichrow=117&pwd=daa2136bd0601e7e4671281b3354bd48' value='Buy'></td></tr><tr rel="6330"><td valign=center><input type=radio name=whichrow value=118></td><td><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/cozy3.gif" class="hand pop" rel="desc_item.php?whichitem=515495032" onClick='javascript:descitem(515495032)'></td><td valign=center><a onClick='javascript:descitem(515495032)'><b>fish stick cozy</b>&nbsp;&nbsp;&nbsp;&nbsp;</a></td><td><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/sealace.gif width=30 height=30 onClick='javascript:descitem(460430889)' alt="sea lace" title="sea lace"></td><td><b>3</b>&nbsp;&nbsp;</td><td><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/scale3.gif width=30 height=30 onClick='javascript:descitem(922469052)' alt="pristine fish scale" title="pristine fish scale"></td><td><b>1</b>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td valign=center><input class="button doit multibuy disabled" disabled type=button rel='shop.php?whichshop=grandma&action=buyitem&quantity=1&whichrow=118&pwd=daa2136bd0601e7e4671281b3354bd48' value='Buy'></td></tr><tr rel="6331"><td valign=center><input type=radio name=whichrow value=119></td><td><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/cozy2.gif" class="hand pop" rel="desc_item.php?whichitem=739603289" onClick='javascript:descitem(739603289)'></td><td valign=center><a onClick='javascript:descitem(739603289)'><b>bazooka cozy</b>&nbsp;&nbsp;&nbsp;&nbsp;</a></td><td><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/sealace.gif width=30 height=30 onClick='javascript:descitem(460430889)' alt="sea lace" title="sea lace"></td><td><b>3</b>&nbsp;&nbsp;</td><td><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/scale3.gif width=30 height=30 onClick='javascript:descitem(922469052)' alt="pristine fish scale" title="pristine fish scale"></td><td><b>1</b>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td valign=center><input class="button doit multibuy disabled" disabled type=button rel='shop.php?whichshop=grandma&action=buyitem&quantity=1&whichrow=119&pwd=daa2136bd0601e7e4671281b3354bd48' value='Buy'></td></tr><tr rel="6392"><td valign=center><input type=radio name=whichrow value=132></td><td><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/scaleunderwear.gif" class="hand pop" rel="desc_item.php?whichitem=539861153" onClick='javascript:descitem(539861153)'></td><td valign=center><a onClick='javascript:descitem(539861153)'><b>scale-mail underwear</b>&nbsp;&nbsp;&nbsp;&nbsp;</a></td><td><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/scale1.gif width=30 height=30 onClick='javascript:descitem(433811634)' alt="dull fish scale" title="dull fish scale"></td><td><b>25</b>&nbsp;&nbsp;</td><td><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/scale3.gif width=30 height=30 onClick='javascript:descitem(922469052)' alt="pristine fish scale" title="pristine fish scale"></td><td><b>1</b>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td valign=center><input class="button doit multibuy "  type=button rel='shop.php?whichshop=grandma&action=buyitem&quantity=1&whichrow=132&pwd=daa2136bd0601e7e4671281b3354bd48' value='Buy'></td></tr><tr rel="6335"><td valign=center><input type=radio name=whichrow value=120></td><td><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/seaback1.gif" class="hand pop" rel="desc_item.php?whichitem=254098025" onClick='javascript:descitem(254098025)'></td><td valign=center><a onClick='javascript:descitem(254098025)'><b>sea mantle</b>&nbsp;&nbsp;&nbsp;&nbsp;</a></td><td><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/scale3.gif width=30 height=30 onClick='javascript:descitem(922469052)' alt="pristine fish scale" title="pristine fish scale"></td><td><b>5</b>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td valign=center><input class="button doit multibuy disabled" disabled type=button rel='shop.php?whichshop=grandma&action=buyitem&quantity=1&whichrow=120&pwd=daa2136bd0601e7e4671281b3354bd48' value='Buy'></td></tr><tr rel="6336"><td valign=center><input type=radio name=whichrow value=121></td><td><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/seaback2.gif" class="hand pop" rel="desc_item.php?whichitem=509681026" onClick='javascript:descitem(509681026)'></td><td valign=center><a onClick='javascript:descitem(509681026)'><b>sea shawl</b>&nbsp;&nbsp;&nbsp;&nbsp;</a></td><td><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/scale3.gif width=30 height=30 onClick='javascript:descitem(922469052)' alt="pristine fish scale" title="pristine fish scale"></td><td><b>5</b>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td valign=center><input class="button doit multibuy disabled" disabled type=button rel='shop.php?whichshop=grandma&action=buyitem&quantity=1&whichrow=121&pwd=daa2136bd0601e7e4671281b3354bd48' value='Buy'></td></tr><tr rel="6337"><td valign=center><input type=radio name=whichrow value=122></td><td><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/seaback3.gif" class="hand pop" rel="desc_item.php?whichitem=584242832" onClick='javascript:descitem(584242832)'></td><td valign=center><a onClick='javascript:descitem(584242832)'><b>sea cape</b>&nbsp;&nbsp;&nbsp;&nbsp;</a></td><td><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/scale3.gif width=30 height=30 onClick='javascript:descitem(922469052)' alt="pristine fish scale" title="pristine fish scale"></td><td><b>5</b>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td valign=center><input class="button doit multibuy disabled" disabled type=button rel='shop.php?whichshop=grandma&action=buyitem&quantity=1&whichrow=122&pwd=daa2136bd0601e7e4671281b3354bd48' value='Buy'></td></tr><tr rel="6338"><td valign=center><input type=radio name=whichrow value=123></td><td><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/waterbed.gif" class="hand pop" rel="desc_item.php?whichitem=530970383" onClick='javascript:descitem(530970383)'></td><td valign=center><a onClick='javascript:descitem(530970383)'><b>saltwaterbed</b>&nbsp;&nbsp;&nbsp;&nbsp;</a></td><td><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/sealeather.gif width=30 height=30 onClick='javascript:descitem(147947170)' alt="sea leather" title="sea leather"></td><td><b>15</b>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td valign=center><input class="button doit multibuy disabled" disabled type=button rel='shop.php?whichshop=grandma&action=buyitem&quantity=1&whichrow=123&pwd=daa2136bd0601e7e4671281b3354bd48' value='Buy'></td></tr></table><center><input class=button type=submit value="Buy Item"> <input class=text type=text name=quantity size=2 value=1></center></form></form><div id="ass" style="font-size: .8em; text-align: center; width: 100%">*Right-Click to Multi-Buy</div><p><b>You have:</b><table><tr><td><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/scholarmask.gif width=30 height=30 onClick='javascript:descitem(811744187)' alt="Mer-kin scholar mask" title="Mer-kin scholar mask"></td><td>no Mer-kin scholar masks</td></tr><tr><td><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/gladmask.gif width=30 height=30 onClick='javascript:descitem(250428951)' alt="Mer-kin gladiator mask" title="Mer-kin gladiator mask"></td><td>no Mer-kin gladiator masks</td></tr><tr><td><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/divehelmet.gif width=30 height=30 onClick='javascript:descitem(784913887)' alt="aerated diving helmet" title="aerated diving helmet"></td><td>no aerated diving helmets</td></tr><tr><td><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/scale3.gif width=30 height=30 onClick='javascript:descitem(922469052)' alt="pristine fish scale" title="pristine fish scale"></td><td>1 pristine fish scale</td></tr><tr><td><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/seachaps.gif width=30 height=30 onClick='javascript:descitem(424923166)' alt="sea chaps" title="sea chaps"></td><td>no pairs of sea chaps</td></tr><tr><td><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/teflonfins.gif width=30 height=30 onClick='javascript:descitem(667590304)' alt="teflon swim fins" title="teflon swim fins"></td><td>no pairs of teflon swim fins</td></tr><tr><td><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/merkinmask.gif width=30 height=30 onClick='javascript:descitem(898158960)' alt="crappy Mer-kin mask" title="crappy Mer-kin mask"></td><td>no crappy Mer-kin masks</td></tr><tr><td><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/headguard.gif width=30 height=30 onClick='javascript:descitem(899134630)' alt="Mer-kin headguard" title="Mer-kin headguard"></td><td>no Mer-kin headguards</td></tr><tr><td><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/tailpiece.gif width=30 height=30 onClick='javascript:descitem(219864306)' alt="crappy Mer-kin tailpiece" title="crappy Mer-kin tailpiece"></td><td>no crappy Mer-kin tailpieces</td></tr><tr><td><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/thighguard.gif width=30 height=30 onClick='javascript:descitem(510636820)' alt="Mer-kin thighguard" title="Mer-kin thighguard"></td><td>no Mer-kin thighguards</td></tr><tr><td><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/facecowl.gif width=30 height=30 onClick='javascript:descitem(441778457)' alt="Mer-kin facecowl" title="Mer-kin facecowl"></td><td>no Mer-kin facecowls</td></tr><tr><td><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/waistrope.gif width=30 height=30 onClick='javascript:descitem(645327600)' alt="Mer-kin waistrope" title="Mer-kin waistrope"></td><td>no Mer-kin waistropes</td></tr><tr><td><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/sealace.gif width=30 height=30 onClick='javascript:descitem(460430889)' alt="sea lace" title="sea lace"></td><td>2 pieces of sea lace</td></tr><tr><td><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/scale1.gif width=30 height=30 onClick='javascript:descitem(433811634)' alt="dull fish scale" title="dull fish scale"></td><td>73 dull fish scales</td></tr><tr><td><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/sealeather.gif width=30 height=30 onClick='javascript:descitem(147947170)' alt="sea leather" title="sea leather"></td><td>no pieces of sea leather</td></tr></table><p><a href=monkeycastle.php>Back to the Sea Monkee Castle</a></center></td></tr></table></center></td></tr><tr><td height=4></td></tr></table></center><script>
+jQuery(function ($) {
+	var ass = false;
+	$('.doit').bind('contextmenu', function (e) {
+		e.preventDefault();
+		var l = $(this);
+		pop_query(l, 'How Many?', 'Buy', function (num) {
+			var url = l.attr('rel');
+			url = url.replace(/quantity=1/, 'quantity=' + num);
+			parent.mainpane.location=url;
+		})
+	}).each(function () {
+		//$(this).val($(this).val() + '*');
+		ass = true;
+	}).click(function (e) {
+		e.preventDefault();
+		if (e.shiftKey) {
+			var t= this;
+			setTimeout(function () { $(t).trigger('contextmenu');}, 500);
+			return;
+		}
+		var url = $(this).attr('rel');
+		parent.mainpane.location=url;
+	});
+
+	if (!ass) { $('#ass').hide() }
+
+});
+</script>
+</body></html>

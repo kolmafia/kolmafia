@@ -11737,7 +11737,7 @@
 11709	peppermint pegleg	240958650	pepperpeg.gif	potion, usable	t	0
 11710	hard cocoa	491706523	coffeecup.gif	drink	t	0	cups of hard cocoa
 11711	salmagumdi	784940421	salmagundi.gif	food	t	0	plates of salmagumdi
-11712
+11712	tiny plastic Easter Island Bunny	910030772	c24tpa.gif	accessory	t	0
 11713
 11714
 11715
@@ -11753,25 +11753,25 @@
 11725	moaiball	728604035	moaieye.gif	offhand	t	0
 11726	half-digested rat	445778415	halfdigrat.gif	none, combat	t,d	15
 11727	four-leaf potato sprout	990121184	fourleafsprout.gif	potion, usable	t,d	22
-11728
-11729
-11730
-11731
+11728	potato jacket	623781707	potatojacket.gif	shirt	t	0
+11729	traumatic holiday memory	972764718	trauma.gif	none, combat	t,d	35	traumatic holiday memories
+11730	Brandonian footlocker key	907012992	srkey1.gif	none	t,d	42
+11731	military orb	755323552	grenorb.gif	offhand	t,d	29
 11732	rum ball	431412139	candy.gif	potion, usable	t,d	5
-11733
-11734
-11735
-11736
-11737
-11738
+11733	gravy skin	542032695	gravyskin.gif	none, smith	t,d	5
+11734	gravyskin hat	800643208	gravyhat.gif	hat	t,d	25
+11735	gravyskin buckler	960954379	gravyshield.gif	offhand	t,d	25
+11736	gravyskin skirt	759340976	gravyskirt.gif	pants	t,d	25
+11737	gravyskin pants	578323143	gravypants.gif	pants	t,d	25
+11738	crystallized pumpkin spice	209448544	spicecrystal.gif	potion, usable	t,d	111
 11739	room scale green bean casserole	822288223	bigcasserole.gif	food	t,d	85
 11740
 11741
 11742
 11743
 11744
-11745
-11746
+11745	Congressional Medal of Insanity	349618725	insanitymedal.gif	accessory	t	0	Congressional Medals of Insanity
+11746	pumpkin spice whorl	469349444	spicewhorl.gif	usable	t	0
 11747	Easter grasshopper	745334157	shadowmartini.gif	drink	t,d	75
 11748	Irish eggnog	976878716	coffeecup.gif	drink	t,d	75	mugs of Irish eggnog
 11749	canteen of jungle juice	193545248	canteen.gif	drink	t,d	75	canteens of jungle juice
@@ -11781,19 +11781,29 @@
 11753	chocolate ostrich egg	477352862	chocegg.gif	food	t,d	75
 11754	candied beef and cabbage	942057727	crimboscraps.gif	food	t,d	75	plates of candied beef and cabbage
 11755	candy rations	995325513	crimbotin.gif	food	t,d	75	candy rations
-11756
+11756	double-candied yams	699171863	casserole.gif	food	t,d	75	platters of double-candied yams
 11757	Christmas ham	535336050	ham.gif	food	t,d	75
-11758
+11758	holiday smorgasbord	259131327	partytray.gif	food	t,d	250
 11759
 11760
 11761	Secrets of the Master Egg Hunters	943549721	book5.gif	usable	t	0	copies of Secrets of the Master Egg Hunters
 11762	Secrets of the Master Egg Hunters (used)	216321799	book5.gif	usable		0	used copies of Secrets of the Master Egg Hunters
-11763	How to Lose Friends and Attract Snakes	465814056	book3.gif	usable	t	0	How to Lose Friends and Attract Snakes
-11764	How to Lose Friends and Attract Snakes (used)	465814056	book3.gif	usable	t	0	copies of How to Lose Friends and Attract Snakes
-11765
-11766
-11767
-11768
+11763	How to Lose Friends and Attract Snakes	465814056	book3.gif	usable	t	0	copies of How to Lose Friends and Attract Snakes
+11764	How to Lose Friends and Attract Snakes (used)	953745853	book3.gif	usable	t	0	used copies of How to Lose Friends and Attract Sna
+11765	Covert Ops for Kids	484772100	book2.gif	usable	t	0	copies of Covert Ops for Kids
+11766	Covert Ops for Kids (used)	700189532	book2.gif	usable		0	used copies of Covert Ops for Kids
+11767	Holiday Multitasking	555431420	book3.gif	usable	t	0
+11768	Holiday Multitasking (used)	639002731	book3.gif	usable		0
 11769
 11770
 11771	lucky moai statuette	232982896	chiatiki.gif	usable	t	0
+11772	egg gun	530204511	egggun.gif	weapon	t	0
+11773	lucky army helmet	759962296	luckyhelmet.gif	hat	t	0
+11774	candy egg deviler	477053908	deviler.gif	usable	t	0
+11775	lucky napkin	415628647	luckynapkin.gif	usable	t	0
+11776	Thanksgiving ration	304022096	thanksration.gif	food	t	0
+11777
+11778
+11779
+11780
+11781	deviled candy egg	732823232	candyegg.gif	potion, usable	t,d	5

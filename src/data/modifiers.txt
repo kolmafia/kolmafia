@@ -270,6 +270,7 @@ Item	government-issued eyeshade	Experience Percent (Moxie): +10, Damage vs. Ghos
 Item	governor's daughter's pearl hairpin	Moxie Percent: +20
 Item	grass hat	Maximum MP: +10, Familiar Effect: "2xVolley, 1xBarrr, cap 20"
 # gravy boat: Decreased Damage from Undead<br/>Improved Evil Suppression
+Item	gravyskin hat	Sleaze Damage: +11, Sleaze Spell Damage: +11
 Item	Great Wolf's headband	Muscle: +250, Maximum HP: +250, HP Regen Min: 50, HP Regen Max: 100, Class: "Seal Clubber", Familiar Effect: "atk, 1xVolley"
 Item	green cloth cap	Stench Resistance: +1, Maximum HP: +15, Maximum MP: +15, Moxie: +3, Familiar Effect: "atk, 1xVolley, cap 12"
 Item	green traffic cone	Moxie: +3, Stench Resistance: +2, Familiar Effect: "2xLep, 2xFairy, cap 15"
@@ -340,6 +341,7 @@ Item	literal bucket hat	Water: +5
 Item	longhaired hippy wig	Stench Damage: +20, Mysticality Percent: +5, Familiar Effect: "1xPotato, 1xGhuol"
 # loofah lumberjack's hat: Feels good on your head
 Item	loofah lumberjack's hat	Muscle: +10, HP Regen Min: 15, HP Regen Max: 25
+Item	lucky army helmet	Damage Absorption: +10, Maximum HP: +100, Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Never Fumble
 Item	lynyrdskin cap	Initiative: +25, Familiar Effect: "1xPotato, 1xVolley, cap 42"
 Item	MAHI fez	Moxie: +30, Familiar Effect: "0.5xVolley, 0.5xPotato, 0.5xLep, 0.5xFairy"
 Item	maiden wig	Familiar Effect: "2xPotato, cap 8"
@@ -710,6 +712,8 @@ Item	gold lam&eacute; pants	Moxie: -8, Familiar Effect: "2xPotato, 1xLep, cap 25
 Item	government-issued slacks	Experience Percent (Muscle): +10, Damage vs. Skeletons: +25, Fishing Skill: +5
 Item	governor's daughter's petticoats	Muscle Percent: +20
 Item	grass skirt	Moxie: +5, Familiar Effect: "atk, 1.5xFairy, cap 20"
+Item	gravyskin pants	Sleaze Damage: +11, Sleaze Spell Damage: +11
+Item	gravyskin skirt	Sleaze Damage: +11, Sleaze Spell Damage: +11
 # Great Wolf's beastly trousers: Troubling Vulnerability to All Elements (-5)
 Item	Great Wolf's beastly trousers	Weapon Damage Percent: +50, Familiar Weight: +10, Hot Resistance: -5, Cold Resistance: -5, Spooky Resistance: -5, Stench Resistance: -5, Sleaze Resistance: -5, Familiar Effect: "1xPotato, 1.5xWhelp"
 # Greatest American Pants: Amazing Super Powers
@@ -1055,6 +1059,7 @@ Item	Othello's military jacket	Othello Skill: +10
 Item	PARTY HARD T-shirt	Muscle Limit: 100, Mysticality Limit: 100, Moxie Limit: 100
 Item	pirate shirt	Moxie: +3
 Item	poncho de azucar	Adventures: +5, Stench Damage: +30, Class: "Accordion Thief"
+Item	potato jacket	Hot Damage: +20, Cold Resistance: +3, Meat Drop: +15
 # Private Pepper's Lonely Hearts Club Jacket: 50% Discount on Gift Packages
 Item	Professor What T-Shirt	MP Regen Min: 1, MP Regen Max: 2
 Item	psycho sweater	Weapon Damage Percent: +20, Spell Damage Percent: +20
@@ -1388,6 +1393,7 @@ Item	dueling banjo	Moxie: +4, Monster Level: +5
 # dwarvish war mattock: Magical Blue Glow
 # ebony epee: Lets you disarm your foes
 Item	ebony epee	Weapon Damage Percent: +100, Muscle: +25, Experience (Muscle): +5, Lasts Until Rollover
+Item	egg gun	Stench Damage: +25, Familiar Weight: +5, Food Drop: +75, HP Regen Min: 15, HP Regen Max: 20
 Item	eggbeater	Spell Damage: +7
 # El Vibrato energy spear
 Item	eldritch hammer	Maximum MP: +40, Monster Level: +10, Weapon Damage Percent: +50
@@ -2330,6 +2336,7 @@ Item	gnauga hide buckler	Muscle: +3, Mysticality: +3, Moxie: +3, Damage Reductio
 # golden sausage
 # goo magnet: Automatically collects residual grey goo at Site Alpha locations
 # gore bucket
+Item	gravyskin buckler	Sleaze Damage: +11, Sleaze Spell Damage: +11, Damage Reduction: 7
 Item	Great Wolf's left paw	Critical Hit Percent: +10, Spooky Damage: +10, Stench Damage: +10, Hot Damage: +10, Cold Damage: +10, Sleaze Damage: +10, Never Fumble, Class: "Seal Clubber"
 # green balloon
 Item	green LavaCo Lamp&trade;	Adventures: +5, Rollover Effect: "Green Peace", Rollover Effect Duration: 50
@@ -2452,6 +2459,8 @@ Item	Microplushie: Hobomosome	Stench Resistance: +1
 Item	Microplushie: Otakulone	Maximum MP: +4
 Item	Microplushie: Raverdrine	Maximum HP: +8
 Item	Microplushie: Sororitrate	Sleaze Damage: +2
+# military orb: Detonate to destroy a monster
+Item	military orb	MP Regen Min: 10, MP Regen Max: 15, Mysticality: +15
 Item	mini kiwi whipping stick	Sleaze Damage: +5, Experience: +2
 # mini-zeppelin
 Item	miniature candle	Experience: +3, Item Drop: +20, Lasts Until Rollover
@@ -2959,6 +2968,7 @@ Item	codpiece	Mysticality Percent: +100, Maximum MP: +100, Spell Damage: +50, Co
 Item	Codpiece of the Goblin King	Moxie: +7, Single Equip
 Item	colored-light &quot;necklace&quot;	Maximum MP: +15
 Item	compression stocking	Maximum MP: +30, MP Regen Min: 3, MP Regen Max: 5
+Item	Congressional Medal of Insanity	Mysticality Percent: +25, Spell Damage Percent: +50, MP Regen Min: 8, MP Regen Max: 12
 Item	consolation ribbon	Muscle: +1, Mysticality: +1, Moxie: +1
 # continuum transfunctioner
 Item	Copper Alpha of Sincerity	Muscle: +11, Mysticality: +11, Moxie: +11, Item Drop: +5, Single Equip
@@ -3906,6 +3916,7 @@ Item	tiny plastic Don Crimbo	Weapon Damage Percent: +5
 Item	tiny plastic Dr. Awkward	Never Fumble
 Item	tiny plastic drunk goat	Monster Level: +1
 Item	tiny plastic Duke Starkiller	Monster Level: +1
+Item	tiny plastic Easter Island Bunny	Damage Reduction: 3
 Item	tiny plastic Ed the Undying	Maximum HP: +30, Damage Absorption: +30
 Item	tiny plastic exo-suited miner	Muscle: +1
 Item	tiny plastic Factory	Initiative: +3
@@ -5249,6 +5260,7 @@ Effect	All Branned Up	Item Drop: +40, MP Regen Min: 5, MP Regen Max: 7
 Effect	All Chipped Up	Meat Drop: +30, Item Drop: +20, MP Regen Min: 4, MP Regen Max: 5, HP Regen Min: 3, HP Regen Max: 6
 # All Covered In Whatsit: More likely to fumble
 # All Covered In Whatsit: Continually take damage
+Effect	All Cut Up	Maximum HP Percent: -75
 Effect	All Dolled Up	Avatar: "cigarette girl"
 Effect	All Fired Up	Initiative: +30
 Effect	All Glory To the Toad	Hot Damage: +2, Cold Damage: +2, Spooky Damage: +2, Stench Damage: +2, Sleaze Damage: +2
@@ -5612,6 +5624,7 @@ Effect	Can't Be a Chooser	Meat Drop: +30
 Effect	Can't Smell Nothin'	Stench Resistance: +9
 # Canadianity: Makes you feel more Canadian
 Effect	Cancer Rising	Maximum MP Percent: +100
+Effect	Candied Devil	Familiar Weight: +5, Experience (familiar): +5, Monster Level: +25
 Effect	Candied Skeleton	Weapon Damage: -10, Spooky Damage: +10
 Effect	Candied Teeth	Candy Drop: +50
 Effect	Capricorn Rising	Item Drop: +5
@@ -7514,6 +7527,7 @@ Effect	Spectral Awareness	Hot Resistance: +2, Cold Resistance: +2, Stench Resist
 Effect	Speed of the Internet	Initiative: +50
 Effect	Spell Transfer Complete	Experience (Mysticality): +5
 Effect	Spice Haze	Item Drop: +5
+Effect	Spiced Out	Muscle Percent: +200, Mysticality Percent: +200, Moxie Percent: +200, Initiative: +50, Item Drop: +25, Experience: +10, Familiar Weight: +5
 Effect	Spiced Up	Experience Percent (Muscle): +20
 Effect	Spicy Limeness	Muscle: -5, Moxie: +5
 Effect	Spicy Mouth	Mysticality: +5, Moxie: -5
@@ -9090,6 +9104,7 @@ Item	diabolic pizza	Lasts Until Rollover
 # dinner roll: Selling Price: <b>1 Meat.</b><p><center><b><font color=blue>Deals Physical Damage based on your Muscle when used as a combat item
 Item	Dinsey food-cone	Effect: "The Dinsey Way", Effect Duration: 30
 Item	disco biscuit	Effect: "Buttermilk Boogie", Effect Duration: 100
+Item	double-candied yams	Effect: "Grateful, But Spelled With a Dollar Sign", Effect Duration: 40
 Item	dragon snaps	Effect: "Oh Snap", Effect Duration: 5
 Item	Dreadsylvanian cold pocket	Effect: "Dreadful Chill", Effect Duration: 200
 Item	Dreadsylvanian hot pocket	Effect: "Dreadful Heat", Effect Duration: 200
@@ -10019,6 +10034,7 @@ Item	Crimbo peppermint bark	Effect: "Peppermint Bite", Effect Duration: 5
 Item	Crimbot battery	Effect: "Batteries Included", Effect Duration: 50
 Item	crude crudit&eacute;s	Effect: "Crud&eacute;", Effect Duration: 10
 Item	crunchy brush	Effect: "Crunchy Steps", Effect Duration: 5
+Item	crystallized pumpkin spice	Effect: "Spiced Out", Effect Duration: 50
 Item	CSA bravery badge	Effect: "Standard Issue Bravery", Effect Duration: 20
 Item	cube of billiard chalk	Effect: "Chalked Weapon", Effect Duration: 10
 Item	cuppa Alacri tea	Effect: "Alacri Tea", Effect Duration: 30
@@ -10087,6 +10103,7 @@ Item	Dennis's blessing of Minerva	Effect: "Minerva's Zen", Effect Duration: 50
 Item	dented spoon	Effect: "There Is A Spoon", Effect Duration: 20
 Item	deodorant	Effect: "Fresh Scent", Effect Duration: [10+skill(Dead Nostrils)]
 Item	desktop zen garden	Effect: "Everything's Zen", Effect Duration: 10
+Item	deviled candy egg	Effect: "Candied Devil", Effect Duration: 10
 Item	devilish folio	Effect: "Dis Abled", Effect Duration: 30
 Item	digital underground potion	Effect: "Digitally Converted", Effect Duration: 20
 Item	diluted makeup	Effect: "Made Up, Watered Down", Effect Duration: 10
@@ -11324,6 +11341,7 @@ Item	calm attention-deficit demon	Free Pull
 # can of Ghuol-B-Gone&trade;: Repels Ghuols
 # can of sterno: Deals 15-20 <font color=red>Hot Damage</font> and 10-20 more each round for the rest of the fight
 Item	candy cornucopia	Free Pull
+# candy egg deviler: Convert any candy into a deviled candy egg (3x / day)
 # candy mailing list: Unlocks another row of houses for Crimbo activities
 # candycaine powder: Poisons your opponent
 # cannonbomb: Blow up a bunch of Elf Guard soldiers
@@ -12253,6 +12271,7 @@ Item	Psycho From The Heat	Skill: "Pyromania"
 # pufferfish spine: Poisons your opponent, and using additional ones makes the poison way worse
 # pumpkin bomb: Vaporizes an enemy and causes all of its items to drop
 # pumpkin carriage: <b>Allows Travel to Desert Beach</b>
+# pumpkin spice whorl: Permanent +3 Level for Pastamancer Spice Ghost
 # punching mirror: Punch it for 5 PvP fights per day
 Item	puppet strings	Free Pull
 # pygmy blowgun: Poisons enemies, dealing damage over multiple rounds

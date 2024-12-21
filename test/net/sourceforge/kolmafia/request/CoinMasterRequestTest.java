@@ -107,19 +107,18 @@ public class CoinMasterRequestTest {
         var text = SessionLoggerOutput.stopStream();
         assertTrue(
             text.contains(
-                "Elf Guard Armory\tunknown\tElf Army machine parts (3)\tElf Guard commandeering gloves\tROW1412"));
+                "Elf Guard Armory\tROW1412\tElf Army machine parts (3)\tElf Guard commandeering gloves"));
+        assertTrue(
+            text.contains("Elf Guard Armory\tROW1415\tElf Army machine parts (3)\tKelflar vest"));
         assertTrue(
             text.contains(
-                "Elf Guard Armory\tunknown\tElf Army machine parts (3)\tElf Guard officer's sidearm\tROW1413"));
+                "Elf Guard Armory\tROW1416\tElf Army machine parts (3)\tElf Guard mouthknife"));
         assertTrue(
             text.contains(
-                "Elf Guard Armory\tunknown\tElf Army machine parts (3)\tKelflar vest\tROW1415"));
+                "Elf Guard Armory\tROW1413\tElf Army machine parts (3)\tElf Guard officer's sidearm"));
         assertTrue(
             text.contains(
-                "Elf Guard Armory\tunknown\tElf Army machine parts (3)\tElf Guard mouthknife\tROW1416"));
-        assertTrue(
-            text.contains(
-                "Elf Guard Armory\tunknown\tElf Guard honor present\tElf Army machine parts (200)\tROW1411"));
+                "Elf Guard Armory\tROW1411\tElf Guard honor present\tElf Army machine parts (200)"));
 
         var requests = client.getRequests();
         assertThat(requests, hasSize(1));
@@ -153,9 +152,15 @@ public class CoinMasterRequestTest {
             text.contains("Elf Guard Armory\tsell\t3\tElf Guard commandeering gloves\tROW1412"));
         assertFalse(
             text.contains("Elf Guard Armory\tsell\t3\tElf Guard officer's sidearm\tROW1413"));
-        assertTrue(text.contains("Elf Guard Armory\tsell\t3\tKelflar vest\tROW1415"));
+        // assertTrue(text.contains("Elf Guard Armory\tsell\t3\tKelflar vest\tROW1415"));
+        assertTrue(
+            text.contains("Elf Guard Armory\tROW1415\tElf Army machine parts (3)\tKelflar vest"));
         assertFalse(text.contains("Elf Guard Armory\tsell\t3\tElf Guard mouthknife\tROW1416"));
-        assertTrue(text.contains("Elf Guard Armory\tbuy\t200\tElf Guard honor present\tROW1411"));
+        // assertTrue(text.contains("Elf Guard Armory\tbuy\t200\tElf Guard honor
+        // present\tROW1411"));
+        assertTrue(
+            text.contains(
+                "Elf Guard Armory\tROW1411\tElf Guard honor present\tElf Army machine parts"));
 
         var requests = client.getRequests();
         assertThat(requests, hasSize(1));

@@ -255,13 +255,14 @@ Special Ops	-1	Black Ops Bugbear
 Spookiest Adventurer Contest	100	Ghostpuncher	Plague Chef	Batburglar	Arthur Frankenstein: 0
 Spooky Fright Factory	100	bow-making mummy	Cookie-baking Thing from Beyond Time	gift-wrapping vampire	skeletal reindeer	stocking-stuffing zombie	toy-making creature from the Gray Lagoon
 Spring Bros. Solenoids	95	Spring Bros. security robot	automated solenoid press	janitor robot
-St. Patrick's Day Island	95	giant snake	giant potato	giant potato snake
+St. Patrick's Day Island	100	giant snake	giant potato	giant potato snake
 Stinkiest Adventurer Contest	100	Granola Barbarian	Cheese Wizard	Assassin	Odorous Humongous: 0
 Strongest Adventurer Contest	100	Macho Man	Iron Chef	Entire Shoplifter	Mr. Loathing: 0
 Summoning Chamber	100	Lord Spookyraven
 Super Villain's Lair	-1	Villainous Henchperson	Villainous Minion	Villainous Villain
 Swamp Beaver Territory	-1	swamp beaver lumberjack	swamp beaver shaman	swamp beaver warrior	conservationist hippy: 0
 Sweet-Ade Lake	100	gummi plesiosaur	lemonhead minnow	school of gummi piranhas
+Thanksgiving Island	100	gravy slime	possessed can of cream of mushroom soup	possessed can of green beans	pumpkin spice wraith
 The "Fun" House	100	bugbear-in-the-box	disease-in-the-box	lemon-in-the-box	scary clown	shaky clown	creepy clown	The Clownlord Beelzebozo: 0
 The Ancient Burial Ground	100	skeleton	vampire
 The Ancient Hobo Burial Ground	-1	Spooky hobo	Zombo: 0
@@ -505,6 +506,7 @@ Uncle Gator's Country Fun-Time Liquid Waste Sluice	100	C<i>bzzt</i>er the Grisly
 Unleash Your Inner Wolf	100	befouled straw house	brick (suggestive pause) house	brick icehouse	brick kiln	brick mausoleum	brick outhouse	cold ironwood house	Dutch Angle straw house	frosty straw house	glowing ash house	oily straw house	pitch pine house	quaking aspen house	slippery elm house	steaming straw house
 Vanya's Castle	100	fleaman	ghost	medusa
 Vanya's Castle Foyer	100	fleaman	ghost	medusa
+Veterans Day Island	100	Brandonian loyalist	Section 11	spectre of war
 Video Game Level 1	-1	Video Game Minion (weak)
 Video Game Level 2	-1	Video Game Minion (moderate)	Video Game Miniboss: 0
 Video Game Level 3	-1	Video Game Minion (strong)	Video Game Miniboss: 0	Video Game Boss: 0

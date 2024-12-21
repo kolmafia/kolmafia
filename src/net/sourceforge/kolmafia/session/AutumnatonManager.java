@@ -138,7 +138,8 @@ public class AutumnatonManager {
     return Preferences.getString("autumnatonQuestLocation");
   }
 
-  private static final Pattern LOCATION = Pattern.compile("returns? from (.*?)(?:\\.| after)");
+  private static final Pattern LOCATION =
+      Pattern.compile("returns? from (.*?)(?:\\.<\\/td>| after)");
   private static final Pattern TURNS_LEFT = Pattern.compile("<!-- autumnback -->(\\d+)");
 
   public static void parseFight(final String responseText) {

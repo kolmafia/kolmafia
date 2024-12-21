@@ -3393,3 +3393,9 @@ pirate dinghy	TAKERSPACE
 anchor bomb	TAKERSPACE
 silky pirate drawers	TAKERSPACE
 spices	TAKERSPACE
+
+# Crimbo 2024
+gravyskin buckler	SMITH	buckler buckle	gravy skin
+gravyskin hat	SMITH	basic meat helmet	gravy skin
+gravyskin pants	SMITH	pants kit	gravy skin
+gravyskin skirt	SMITH	skirt / kilt kit	gravy skin
