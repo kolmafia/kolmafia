@@ -207,6 +207,20 @@ public abstract class CoinmasterRegistry {
     // initialization the first time this class is accessed.
   }
 
+  public static CoinmasterData findCoinmaster(final String nickname, final String master) {
+    CoinmasterData result = findCoinmasterByNickname(nickname);
+    if (result != null) {
+      return result;
+    }
+
+    result = findCoinmaster(master);
+    if (result != null) {
+      return result;
+    }
+
+    return null;
+  }
+
   public static CoinmasterData findCoinmaster(final String master) {
     List<String> matchingNames = StringUtilities.getMatchingNames(MASTERS, master);
 

@@ -231,7 +231,6 @@ public class ShopRow implements Comparable<ShopRow> {
             // We have found the item. Do we know what it is?
             int iid = ItemDatabase.getItemIdFromDescription(descid);
             if (itemId != iid) {
-              System.out.println("itemId = " + itemId + " iid = " + iid);
               // No. Register it by looking at the item description
               ItemDatabase.registerItem(descid);
             }

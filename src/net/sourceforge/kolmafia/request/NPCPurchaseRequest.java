@@ -437,8 +437,8 @@ public class NPCPurchaseRequest extends PurchaseRequest {
       Pattern.compile("blood mayonnaise concentration: (\\d+) mayograms");
 
   public static final void learnNPCStoreItem(
-      final String shopName,
       final String shopId,
+      final String shopName,
       final AdventureResult item,
       final int cost,
       final int row) {
@@ -456,7 +456,8 @@ public class NPCPurchaseRequest extends PurchaseRequest {
   }
 
   public static final void learnCoinmasterItem(
-      final String shopName,
+      final String shopId,
+      String shopName,
       final AdventureResult item,
       final AdventureResult[] costs,
       final int row) {
@@ -467,7 +468,7 @@ public class NPCPurchaseRequest extends PurchaseRequest {
     }
 
     // See if this is a known Coinmaster
-    CoinmasterData data = CoinmasterRegistry.findCoinmaster(shopName);
+    CoinmasterData data = CoinmasterRegistry.findCoinmaster(shopId, shopName);
     String type = "unknown";
 
     if (data != null && !data.isDisabled()) {
@@ -475,6 +476,8 @@ public class NPCPurchaseRequest extends PurchaseRequest {
       if (data.hasRow(row)) {
         return;
       }
+
+      shopName = data.getMaster();
 
       if (costs.length == 1) {
         // we can categorize this as a buy or a sell
@@ -635,11 +638,11 @@ public class NPCPurchaseRequest extends PurchaseRequest {
 
       if (costs.length == 1 && costs[0].equals("Meat")) {
         int cost = costs[0].getCount();
-        learnNPCStoreItem(shopName, shopId, item, cost, row);
+        learnNPCStoreItem(shopId, shopName, item, cost, row);
         continue;
       }
 
-      learnCoinmasterItem(shopName, item, costs, row);
+      learnCoinmasterItem(shopId, shopName, item, costs, row);
     }
 
     // Quest tracker update
