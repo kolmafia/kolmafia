@@ -262,6 +262,7 @@ Summoning Chamber	100	Lord Spookyraven
 Super Villain's Lair	-1	Villainous Henchperson	Villainous Minion	Villainous Villain
 Swamp Beaver Territory	-1	swamp beaver lumberjack	swamp beaver shaman	swamp beaver warrior	conservationist hippy: 0
 Sweet-Ade Lake	100	gummi plesiosaur	lemonhead minnow	school of gummi piranhas
+Thanksgiving Island	100	gravy slime	possessed can of cream of mushroom soup	possessed can of green beans	pumpkin spice wraith
 The "Fun" House	100	bugbear-in-the-box	disease-in-the-box	lemon-in-the-box	scary clown	shaky clown	creepy clown	The Clownlord Beelzebozo: 0
 The Ancient Burial Ground	100	skeleton	vampire
 The Ancient Hobo Burial Ground	-1	Spooky hobo	Zombo: 0

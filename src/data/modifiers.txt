@@ -270,6 +270,7 @@ Item	government-issued eyeshade	Experience Percent (Moxie): +10, Damage vs. Ghos
 Item	governor's daughter's pearl hairpin	Moxie Percent: +20
 Item	grass hat	Maximum MP: +10, Familiar Effect: "2xVolley, 1xBarrr, cap 20"
 # gravy boat: Decreased Damage from Undead<br/>Improved Evil Suppression
+Item	gravyskin hat	Sleaze Damage: +11, Sleaze Spell Damage: +11
 Item	Great Wolf's headband	Muscle: +250, Maximum HP: +250, HP Regen Min: 50, HP Regen Max: 100, Class: "Seal Clubber", Familiar Effect: "atk, 1xVolley"
 Item	green cloth cap	Stench Resistance: +1, Maximum HP: +15, Maximum MP: +15, Moxie: +3, Familiar Effect: "atk, 1xVolley, cap 12"
 Item	green traffic cone	Moxie: +3, Stench Resistance: +2, Familiar Effect: "2xLep, 2xFairy, cap 15"
@@ -711,6 +712,8 @@ Item	gold lam&eacute; pants	Moxie: -8, Familiar Effect: "2xPotato, 1xLep, cap 25
 Item	government-issued slacks	Experience Percent (Muscle): +10, Damage vs. Skeletons: +25, Fishing Skill: +5
 Item	governor's daughter's petticoats	Muscle Percent: +20
 Item	grass skirt	Moxie: +5, Familiar Effect: "atk, 1.5xFairy, cap 20"
+Item	gravyskin pants	Sleaze Damage: +11, Sleaze Spell Damage: +11
+Item	gravyskin skirt	Sleaze Damage: +11, Sleaze Spell Damage: +11
 # Great Wolf's beastly trousers: Troubling Vulnerability to All Elements (-5)
 Item	Great Wolf's beastly trousers	Weapon Damage Percent: +50, Familiar Weight: +10, Hot Resistance: -5, Cold Resistance: -5, Spooky Resistance: -5, Stench Resistance: -5, Sleaze Resistance: -5, Familiar Effect: "1xPotato, 1.5xWhelp"
 # Greatest American Pants: Amazing Super Powers
@@ -2333,6 +2336,7 @@ Item	gnauga hide buckler	Muscle: +3, Mysticality: +3, Moxie: +3, Damage Reductio
 # golden sausage
 # goo magnet: Automatically collects residual grey goo at Site Alpha locations
 # gore bucket
+Item	gravyskin buckler	Sleaze Damage: +11, Sleaze Spell Damage: +11, Damage Reduction: 7
 Item	Great Wolf's left paw	Critical Hit Percent: +10, Spooky Damage: +10, Stench Damage: +10, Hot Damage: +10, Cold Damage: +10, Sleaze Damage: +10, Never Fumble, Class: "Seal Clubber"
 # green balloon
 Item	green LavaCo Lamp&trade;	Adventures: +5, Rollover Effect: "Green Peace", Rollover Effect Duration: 50
@@ -3912,6 +3916,7 @@ Item	tiny plastic Don Crimbo	Weapon Damage Percent: +5
 Item	tiny plastic Dr. Awkward	Never Fumble
 Item	tiny plastic drunk goat	Monster Level: +1
 Item	tiny plastic Duke Starkiller	Monster Level: +1
+Item	tiny plastic Easter Island Bunny	Damage Reduction: 3
 Item	tiny plastic Ed the Undying	Maximum HP: +30, Damage Absorption: +30
 Item	tiny plastic exo-suited miner	Muscle: +1
 Item	tiny plastic Factory	Initiative: +3
@@ -7522,6 +7527,7 @@ Effect	Spectral Awareness	Hot Resistance: +2, Cold Resistance: +2, Stench Resist
 Effect	Speed of the Internet	Initiative: +50
 Effect	Spell Transfer Complete	Experience (Mysticality): +5
 Effect	Spice Haze	Item Drop: +5
+Effect	Spiced Out	Muscle Percent: +200, Mysticality Percent: +200, Moxie Percent: +200, Initiative: +50, Item Drop: +25, Experience: +10, Familiar Weight: +5
 Effect	Spiced Up	Experience Percent (Muscle): +20
 Effect	Spicy Limeness	Muscle: -5, Moxie: +5
 Effect	Spicy Mouth	Mysticality: +5, Moxie: -5
@@ -10028,6 +10034,7 @@ Item	Crimbo peppermint bark	Effect: "Peppermint Bite", Effect Duration: 5
 Item	Crimbot battery	Effect: "Batteries Included", Effect Duration: 50
 Item	crude crudit&eacute;s	Effect: "Crud&eacute;", Effect Duration: 10
 Item	crunchy brush	Effect: "Crunchy Steps", Effect Duration: 5
+Item	crystallized pumpkin spice	Effect: "Spiced Out", Effect Duration: 50
 Item	CSA bravery badge	Effect: "Standard Issue Bravery", Effect Duration: 20
 Item	cube of billiard chalk	Effect: "Chalked Weapon", Effect Duration: 10
 Item	cuppa Alacri tea	Effect: "Alacri Tea", Effect Duration: 30
@@ -12264,6 +12271,7 @@ Item	Psycho From The Heat	Skill: "Pyromania"
 # pufferfish spine: Poisons your opponent, and using additional ones makes the poison way worse
 # pumpkin bomb: Vaporizes an enemy and causes all of its items to drop
 # pumpkin carriage: <b>Allows Travel to Desert Beach</b>
+# pumpkin spice whorl: Permanent +3 Level for Pastamancer Spice Ghost
 # punching mirror: Punch it for 5 PvP fights per day
 Item	puppet strings	Free Pull
 # pygmy blowgun: Poisons enemies, dealing damage over multiple rounds
