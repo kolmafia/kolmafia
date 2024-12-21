@@ -2412,6 +2412,8 @@ St. Patrick	2465	stpat.gif	NOCOPY NOMANUEL Scale: 5 HP: 500 Init: -10000 P: dude
 spectre of war	2482	trauma.gif	Scale: 20 Init: 100 P: undead Article: a Phys: 100	Spirit of Veteran's Day (c100)	traumatic holiday memory (5)
 Brandonian loyalist	2483	brandonian.gif	Scale: 20 Init: 10000 P: dude Article: a	Spirit of Veteran's Day (c100)	Brandonian footlocker key (5)
 Section 11	2484	section11.gif	Scale: 20 Init: 300 P: dude Article: a Elem: 100	Spirit of Veteran's Day (c100)	military orb (5)	Congressional Medal of Insanity (f0.1)
+some underbrush	2492	hedgerow.gif	NOCOPY NOMANUEL Atk: 0 Def: 100 HP: 1 Init: -10000 P: plant
+Colonel Brando	2466	brando.gif	NOCOPY NOMANUEL Scale: 5 HP: 500 Init: -10000 P: dude
 
 gravy slime	2485	gravyslime.gif	Scale: 30 Init: 100 P: slime Article: a	Spirit of Thanksgiving (c100)	gravy skin (5)
 pumpkin spice wraith	2486	pumpkinwraith.gif	Scale: 30 Init: 200 P: undead Phys: 100 Article: a	Spirit of Thanksgiving (c100)	crystallized pumpkin spice (5)	pumpkin spice whorl (f0.1)

@@ -2276,12 +2276,14 @@
 2453	Embering Hulk	arm	ember	flames	head	leg
 2464	Easter Island Bunny	ear	head
 2465	St. Patrick	arm	body	head	leg
+2466	Colonel Brando	arm	body	head	leg
 2475	feral bunny	ear	head	paw	tail
 2476	chocolate chicken	beak	breast	leg	thigh	wing
 2477	moai	brow	chin	eye	forehead
-2478	giant snake	
+2478	giant snake	head	tail
 2479	giant potato	eye	vine
 2480	giant potato snake	belly	bulge	head	tail
 2482	spectre of war	memory
 2483	Brandonian loyalist	arm	head	leg	torso
 2484	Section 11	arm	head	leg	torso
+2492	some underbrush	branch	trunk
