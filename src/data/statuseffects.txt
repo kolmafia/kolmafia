@@ -2943,7 +2943,7 @@
 2940
 2941	All Cut Up	fence.gif	f08f52dd911edcd4ef8a1cd952ced281	neutral	none
 2942
-2943
+2943	Candied Devil	candyegg.gif	8e5858ba1620c6ef09ee0a32ae5e13fe	neutral	none	use 1 deviled candy egg
 2944
 2945	Attracting Snakes	tinysnake.gif	09921a7a4230ada9a833ca92b1b453dd	neutral	none	cast 1 Attract Snakes
 2946	Hiding From Seekers	darkvision.gif	18b4a2010721b16d9e85da10fdaaa515	neutral	none	cast 1 Hide From Seekers

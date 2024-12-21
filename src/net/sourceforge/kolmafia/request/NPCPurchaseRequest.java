@@ -12,6 +12,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.ShopRow;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
@@ -436,11 +437,11 @@ public class NPCPurchaseRequest extends PurchaseRequest {
       Pattern.compile("blood mayonnaise concentration: (\\d+) mayograms");
 
   public static final void learnNPCStoreItem(
-      final String shopName,
       final String shopId,
+      final String shopName,
       final AdventureResult item,
-      final String cost,
-      final String row) {
+      final int cost,
+      final int row) {
     String printMe;
     // Print what goes in npcstores.txt
     printMe = "--------------------";
@@ -455,41 +456,44 @@ public class NPCPurchaseRequest extends PurchaseRequest {
   }
 
   public static final void learnCoinmasterItem(
-      final String shopName,
+      final String shopId,
+      String shopName,
       final AdventureResult item,
-      final AdventureResult price,
-      final String row) {
+      final AdventureResult[] costs,
+      final int row) {
+
+    // Sanity check: must be at least one cost
+    if (costs.length == 0) {
+      return;
+    }
+
     // See if this is a known Coinmaster
-    CoinmasterData data = CoinmasterRegistry.findCoinmaster(shopName);
-    String type;
+    CoinmasterData data = CoinmasterRegistry.findCoinmaster(shopId, shopName);
+    String type = "unknown";
+
     if (data != null && !data.isDisabled()) {
-      // It is.
-      Set<AdventureResult> currencies = data.currencies();
-      if (currencies.contains(price)) {
-        // If the price is a currency, this is a "buy" request.
-        // Punt if item is a known buy item.
-        if (data.getBuyItems().contains(item)) {
-          return;
-        }
-        type = "buy";
-      } else if (currencies.contains(item)) {
-        // If the item is a currency, this is a "sell" request.
-        // Punt if price is a known sell item.
-        if (data.getSellItems().contains(price)) {
-          return;
-        }
-        type = "sell";
-      } else {
-        // Neither price nor item is a currency.  This shop must use
-        // mixed currencies. We don't support that in the datafiles, but
-        // Coinmaster request classes can be coded to handle it. This is
-        // an unknown request type and coding will be needed.
-        type = "unknown";
+      // If we already know this row, nothing to learn.
+      if (data.hasRow(row)) {
+        return;
       }
-    } else {
-      // This is an unknown Coinmaster. Since we don't know what currencies it uses,
-      // this is an unknown request type.
-      type = "unknown";
+
+      shopName = data.getMaster();
+
+      if (costs.length == 1) {
+        // we can categorize this as a buy or a sell
+        AdventureResult price = costs[0];
+        Set<AdventureResult> currencies = data.currencies();
+        if (currencies.contains(price)) {
+          // If the price is a currency, this is a "buy" request.
+          type = "buy";
+        } else if (currencies.contains(item)) {
+          // If the item is a currency, this is a "sell" request.
+          type = "sell";
+        } else {
+          // Neither price nor item is a known currency.
+          type = "unknown";
+        }
+      }
     }
 
     String printMe;
@@ -499,13 +503,26 @@ public class NPCPurchaseRequest extends PurchaseRequest {
     RequestLogger.updateSessionLog(printMe);
     switch (type) {
       case "buy" -> {
+        AdventureResult price = costs[0];
         printMe = shopName + "\tbuy\t" + price.getCount() + "\t" + item + "\tROW" + row;
       }
       case "sell" -> {
+        AdventureResult price = costs[0];
         printMe = shopName + "\tsell\t" + item.getCount() + "\t" + price + "\tROW" + row;
       }
       default -> {
-        printMe = shopName + "\tunknown\t" + item + "\t" + price + "\tROW" + row;
+        StringBuilder buf = new StringBuilder();
+        buf.append(shopName);
+        buf.append("\t");
+        buf.append("ROW");
+        buf.append(row);
+        buf.append("\t");
+        buf.append(item);
+        for (AdventureResult cost : costs) {
+          buf.append("\t");
+          buf.append(cost);
+        }
+        printMe = buf.toString();
       }
     }
     RequestLogger.printLine(printMe);
@@ -558,55 +575,74 @@ public class NPCPurchaseRequest extends PurchaseRequest {
 
     int boughtItemId = parseWhichRow(shopId, urlString);
 
-    // Learn new items by simply visiting a store
-    Matcher matcher = ITEM_PATTERN.matcher(responseText);
-    while (matcher.find()) {
-      int id = StringUtilities.parseInt(matcher.group(1));
-      String desc = matcher.group(2);
-      String name = matcher.group(3).trim();
-      String data = ItemDatabase.getItemDataName(id);
-      String countString = matcher.group(4);
-      int count = countString == null ? 1 : StringUtilities.parseInt(matcher.group(5));
-      AdventureResult item = new AdventureResult(name, count);
+    // Parse the entire shop inventory, including items that sell for Meat
+    // This will register all previously unknown items.
 
-      if (data == null || !data.equals(name)) {
-        // Unknown item
-        ItemDatabase.registerItem(id, name, desc);
+    String shopName = ShopRow.parseShopName(responseText);
+    List<ShopRow> shopRows = ShopRow.parseShop(responseText, true);
+
+    // Certain existing shops with mixed currencies are implemented as
+    // mixing methods. KoL COULD add new items to such shops. Detect them.
+    boolean usesMixedCurrency = usesMixedCurrency(shopId);
+
+    for (ShopRow shopRow : shopRows) {
+      int row = shopRow.getRow();
+      AdventureResult item = shopRow.getItem();
+      AdventureResult[] costs = shopRow.getCosts();
+
+      // There should be from 1-5 costs.  If KoL included none (KoL
+      // bug), or parsing failed (KoLmafiq bug), skip.
+      if (costs.length == 0) {
+        // *** Perhaps log the error?
+        continue;
       }
 
-      // If there is no purchase request for this item, learn new NPCStore or CoinMaster item
-      if (NPCStoreDatabase.getPurchaseRequest(id) == null
-          // Not registered as a NPCStorePurchase
-          && CoinmastersDatabase.getPurchaseRequest(id) == null
-          // ... and not registered as a CoinMasterPurchaseRequest
-          && !usesMixedCurrency(shopId)
-          // ...and doesn't use mixed currency (we can't store this currently in our data files)
-          && !ConcoctionDatabase.hasNonCoinmasterMixingMethod(id)
-      // ...and doesn't have a mixing method (sometimes things are stored as concoctions
-      // instead of NPC items)
-      ) {
-        // Didn't know this was buyable
-        String currency = matcher.group(6);
-        String cost = matcher.group(7).replaceAll(",", "");
-        String row = matcher.group(8);
-        String shopName = "";
-        Matcher nameMatcher = SHOP_NAME_PATTERN.matcher(responseText);
-        if (nameMatcher.find()) {
-          shopName = nameMatcher.group(1);
-        }
-        if (shopName.equals("Results:") && nameMatcher.find()) {
-          shopName = nameMatcher.group(1);
-        }
-        AdventureResult price = new AdventureResult(currency, StringUtilities.parseInt(cost));
+      // Shops can yield more than one of an item
+      // Shops can yield the same item with multiple costs
+      // Shops can accept up to five currencies per item.
 
-        if (currency.equals("Meat")) {
-          // If the currency is Meat, assume this is an NPC Store
-          NPCPurchaseRequest.learnNPCStoreItem(shopName, shopId, item, cost, row);
-        } else {
-          // Otherwise, it is a Coinmaster
-          NPCPurchaseRequest.learnCoinmasterItem(shopName, item, price, row);
-        }
+      int id = item.getItemId();
+      int count = item.getCount();
+
+      // Current practice:
+      //
+      // A shop with a single currency which is Meat is an NPCStore
+      // A shop with a single currency per item  which is not Meat is a Coinmaster
+      // A shop with multiple currencies per item is a Mixing method.
+
+      // New practice:
+      //
+      // A shop with multiple currencies per item can be a Coinmaster
+
+      // *** NPCStoreDatabase assumes that only a single store sells a particular item.
+      if (NPCStoreDatabase.getPurchaseRequest(id) != null) {
+        continue;
       }
+
+      // *** CoinmastersDatabase assumes that only a single store sells a particular item.
+      if (CoinmastersDatabase.getPurchaseRequest(id) != null) {
+        continue;
+      }
+
+      // *** If an existing mixing method makes this item, skip it
+      if (ConcoctionDatabase.hasNonCoinmasterMixingMethod(id)) {
+        continue;
+      }
+
+      // If this shop is an existing mixed currency mixing method, we've
+      // detected a new item for sale.
+      if (usesMixedCurrency) {
+        // *** log it
+        continue;
+      }
+
+      if (costs.length == 1 && costs[0].equals("Meat")) {
+        int cost = costs[0].getCount();
+        learnNPCStoreItem(shopId, shopName, item, cost, row);
+        continue;
+      }
+
+      learnCoinmasterItem(shopId, shopName, item, costs, row);
     }
 
     // Quest tracker update
@@ -928,6 +964,18 @@ public class NPCPurchaseRequest extends PurchaseRequest {
 
     if (shopId.startsWith("crimbo23_pirate_factory")) {
       Crimbo23PirateFactoryRequest.parseResponse(urlString, responseText);
+    }
+
+    if (shopId.equals("crimbo24_bar")) {
+      Crimbo24BarRequest.parseResponse(urlString, responseText);
+    }
+
+    if (shopId.equals("crimbo24_cafe")) {
+      Crimbo24CafeRequest.parseResponse(urlString, responseText);
+    }
+
+    if (shopId.equals("crimbo24_factory")) {
+      Crimbo24FactoryRequest.parseResponse(urlString, responseText);
     }
 
     if (shopId.equals("edunder_shopshop")) {
@@ -1425,6 +1473,18 @@ public class NPCPurchaseRequest extends PurchaseRequest {
 
       if (shopId.startsWith("crimbo23_pirate_factory")) {
         Crimbo23PirateFactoryRequest.registerRequest(urlString);
+      }
+
+      if (shopId.equals("crimbo24_bar")) {
+        Crimbo24BarRequest.registerRequest(urlString);
+      }
+
+      if (shopId.equals("crimbo24_cafe")) {
+        Crimbo24CafeRequest.registerRequest(urlString);
+      }
+
+      if (shopId.equals("crimbo24_factory")) {
+        Crimbo24FactoryRequest.registerRequest(urlString);
       }
 
       if (shopId.equals("edunder_shopshop")) {
