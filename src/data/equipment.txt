@@ -176,6 +176,7 @@ government-issued eyeshade	50	none
 governor's daughter's pearl hairpin	50	none
 grass hat	80	Mox: 25
 gravy boat	100	none
+gravyskin hat	90	Mox: 30
 Great Wolf's headband	300	Mus: 250
 green cloth cap	50	none
 green traffic cone	60	Mox: 15
@@ -236,6 +237,7 @@ linoleum helmet turtle	100	Mox: 35
 literal bucket hat	100	Mus: 35
 longhaired hippy wig	200	Mox: 85
 loofah lumberjack's hat	50	none
+lucky army helmet	200	Mus: 4
 lynyrdskin cap	170	Mox: 70
 MAHI fez	200	Mox: 85
 maiden wig	35	Mox: 2
@@ -574,6 +576,8 @@ gold lam&eacute; pants	100	Mox: 35
 government-issued slacks	50	none
 governor's daughter's petticoats	50	none
 grass skirt	80	Mox: 25
+gravyskin pants	90	Mox: 30
+gravyskin skirt	90	Mox: 30
 Great Wolf's beastly trousers	300	Mus: 100
 Greatest American Pants	100	none
 Greaves of the Murk Lord	120	none
@@ -1182,6 +1186,7 @@ duct tape sword	195	Mus: 82	1-handed sword
 dueling banjo	40	Mox: 5	2-handed banjo
 dwarvish war mattock	165	Mus: 67	1-handed axe
 ebony epee	100	Mus: 0	1-handed sword
+egg gun	200	Mox: 40	1-handed pistol
 eggbeater	55	Mys: 12	1-handed utensil
 El Vibrato energy spear	200	Mus: 200	2-handed spear
 eldritch hammer	125	Mus: 47	1-handed hammer
@@ -2021,6 +2026,7 @@ Golden HP-35 Calculator	0	none
 golden sausage	0	none
 goo magnet	10	none
 gore bucket	0	none
+gravyskin buckler	120	Mus: 30	shield
 Great Wolf's left paw	300	Mus: 250
 green balloon	10	none
 green LavaCo Lamp&trade;	100	Mox: 35
@@ -2127,6 +2133,7 @@ Microplushie: Hobomosome	5	none
 Microplushie: Otakulone	5	none
 Microplushie: Raverdrine	5	none
 Microplushie: Sororitrate	5	none
+military orb	0	Mys: 25
 mime pocket probe	10	none
 mini kiwi whipping stick	0	none
 mini-zeppelin	10	none
@@ -2565,6 +2572,7 @@ Codpiece of the Goblin King	70	Mys: 20
 colored-light &quot;necklace&quot;	100	Mys: 35
 combat lover's locket	100	none
 compression stocking	160	Mys: 65
+Congressional Medal of Insanity	0	Mys: 35
 consolation ribbon	10	none
 continuum transfunctioner	10	none
 Copper Alpha of Sincerity	200	Mys: 85
@@ -3373,6 +3381,7 @@ tiny plastic Don Crimbo	0	none
 tiny plastic Dr. Awkward	50	Mys: 10
 tiny plastic drunk goat	10	none
 tiny plastic Duke Starkiller	10	none
+tiny plastic Easter Island Bunny	10	none
 tiny plastic Ed the Undying	50	Mys: 10
 tiny plastic exo-suited miner	10	none
 tiny plastic Factory	10	none

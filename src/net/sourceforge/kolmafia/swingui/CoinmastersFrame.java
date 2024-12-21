@@ -80,6 +80,9 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
   private CoinmasterPanel crimbo23PirateCafePanel = null;
   private CoinmasterPanel crimbo23PirateArmoryPanel = null;
   private CoinmasterPanel crimbo23PirateFactoryPanel = null;
+  private CoinmasterPanel crimbo24BarPanel = null;
+  private CoinmasterPanel crimbo24CafePanel = null;
+  private CoinmasterPanel crimbo24FactoryPanel = null;
   private CoinmasterPanel crimboCartelPanel = null;
   private CoinmasterPanel dimemasterPanel = null;
   private CoinmasterPanel dinostaurPanel = null;
@@ -548,6 +551,21 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     crimbo23PirateFactoryPanel = new Crimbo23PirateFactoryPanel();
     panel.add(crimbo23PirateFactoryPanel);
     this.selectorPanel.addPanel(crimbo23PirateFactoryPanel.getPanelSelector(), panel);
+
+    panel = new JPanel(new BorderLayout());
+    crimbo24BarPanel = new Crimbo24BarPanel();
+    panel.add(crimbo24BarPanel);
+    this.selectorPanel.addPanel(crimbo24BarPanel.getPanelSelector(), panel);
+
+    panel = new JPanel(new BorderLayout());
+    crimbo24CafePanel = new Crimbo24CafePanel();
+    panel.add(crimbo24CafePanel);
+    this.selectorPanel.addPanel(crimbo24CafePanel.getPanelSelector(), panel);
+
+    panel = new JPanel(new BorderLayout());
+    crimbo24FactoryPanel = new Crimbo24FactoryPanel();
+    panel.add(crimbo24FactoryPanel);
+    this.selectorPanel.addPanel(crimbo24FactoryPanel.getPanelSelector(), panel);
 
     // Removed coinmasters
     this.selectorPanel.addSeparator();
@@ -1561,6 +1579,42 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
   private class Crimbo23PirateFactoryPanel extends CoinmasterPanel {
     public Crimbo23PirateFactoryPanel() {
       super(Crimbo23PirateFactoryRequest.DATA);
+    }
+  }
+
+  private class Crimbo24Panel extends CoinmasterPanel {
+    public Crimbo24Panel(CoinmasterData data) {
+      super(data);
+    }
+
+    @Override
+    public void setTitle(final StringBuffer buffer) {
+      this.standardTitle(buffer);
+      for (AdventureResult currency : this.data.currencies()) {
+        buffer.append(" (");
+        buffer.append(InventoryManager.getCount(currency));
+        buffer.append(" ");
+        buffer.append(currency.getPluralName());
+        buffer.append(")");
+      }
+    }
+  }
+
+  private class Crimbo24BarPanel extends Crimbo24Panel {
+    public Crimbo24BarPanel() {
+      super(Crimbo24BarRequest.DATA);
+    }
+  }
+
+  private class Crimbo24CafePanel extends Crimbo24Panel {
+    public Crimbo24CafePanel() {
+      super(Crimbo24CafeRequest.DATA);
+    }
+  }
+
+  private class Crimbo24FactoryPanel extends Crimbo24Panel {
+    public Crimbo24FactoryPanel() {
+      super(Crimbo24FactoryRequest.DATA);
     }
   }
 

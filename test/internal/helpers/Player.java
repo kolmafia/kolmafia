@@ -2671,10 +2671,20 @@ public class Player {
       CoinmastersDatabase.removePurchaseRequest(item);
     }
 
+    var rows = data.getRows();
+    Integer itemId = item.getItemId();
+    Integer row = rows.get(itemId);
+    if (row != null) {
+      rows.remove(itemId);
+    }
+
     return new Cleanups(
         () -> {
           // Restore original list
           data.withBuyItems(buyItems);
+          if (row != null) {
+            rows.put(itemId, row);
+          }
           if (request != null) {
             CoinmastersDatabase.addPurchaseRequest(item, request);
           }
@@ -2692,10 +2702,20 @@ public class Player {
     newSellItems.remove(item);
     data.withSellItems(newSellItems);
 
+    var rows = data.getRows();
+    Integer itemId = item.getItemId();
+    Integer row = rows.get(itemId);
+    if (row != null) {
+      rows.remove(itemId);
+    }
+
     return new Cleanups(
         () -> {
           // Restore original list
           data.withSellItems(sellItems);
+          if (row != null) {
+            rows.put(itemId, row);
+          }
         });
   }
 

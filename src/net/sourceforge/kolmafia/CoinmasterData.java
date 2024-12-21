@@ -725,6 +725,13 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
     return row;
   }
 
+  public final boolean hasRow(int row) {
+    if (this.itemRows == null) {
+      return false;
+    }
+    return this.itemRows.containsValue(row);
+  }
+
   // The base URL used to buy things from this Coinmaster
   public final String getBuyURL() {
     return this.buyURL;
@@ -932,8 +939,10 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   public Set<AdventureResult> currencies() {
     if (this.currencies == null) {
       this.currencies = new TreeSet<>();
-      for (AdventureResult item : this.buyItems) {
-        this.currencies.add(this.itemBuyPrice(item.getItemId()));
+      if (this.buyItems != null) {
+        for (AdventureResult item : this.buyItems) {
+          this.currencies.add(this.itemBuyPrice(item.getItemId()));
+        }
       }
     }
     return this.currencies;
@@ -970,6 +979,11 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
 
     // Clear existing purchase requests
     CoinmastersDatabase.clearPurchaseRequests(this);
+
+    // If no buyItems registered, nothing to register
+    if (this.buyItems == null) {
+      return;
+    }
 
     // For each item you can buy from this Coin Master, create a purchase request
     for (AdventureResult item : this.buyItems) {

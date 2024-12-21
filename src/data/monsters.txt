@@ -2176,7 +2176,7 @@ flaming monstera	2390	monstera.gif	FREE NOCOPY Scale: 0 Cap: ? Floor: ? Init: 50
 leaviathan	2391	leaviathan.gif	FREE NOCOPY Scale: 25 Cap: ? Floor: ? HP: 2500 Init: -10000 P: plant EA: hot Article: the	flaming leaf crown (100)	100-150 inflammable leaf (m100)
 
 # Sept-Ember Censer (Sep 2024)
-Embering Hulk	2453	emberhulk.gif	NOCOPY Scale: 11 Cap: 10000 Floor: ? Init: -10000 P: elemental E: hot Article: an	embering hunk (c0)
+Embering Hulk	2453	emberhulk.gif	NOCOPY Scale: 11 Cap: 10000 Floor: ? Init: -10000 P: elemental E: hot Article: an	embering hunk (c100)
 
 # KoL Con
 
@@ -2404,10 +2404,21 @@ chocolate chicken	2476	chocken.gif	Scale: 5 Init: 150 P: beast Article: a	Spirit
 moai	2477	moai.gif	Scale: 5 Init: -10000 P: construct Article: a	Spirit of Easter (c100)	moai toai (15)	moaiball (f0.1)
 Easter Island Bunny	2464	moaibunny.gif	NOCOPY NOMANUEL Scale: 10 HP: 300 Init: -10000 P: construct Article: the
 
-giant snake	2478	bigsnake.gif	Scale: 5 Init: 200 P: beast	Spirit of St. Patrick's Day (c100)	half-digested rat (10)
+giant snake	2478	bigsnake.gif	Scale: 5 Init: 200 P: beast Article: a	Spirit of St. Patrick's Day (c100)	half-digested rat (10)
 giant potato	2479	bigpotato.gif	Scale: 5 Init: 50 P: plant Article: a	Spirit of St. Patrick's Day (c100)	four-leaf potato sprout (10)	potato jacket (f0.1)
 giant potato snake	2480	potatosnake.gif	Scale: 5 Init: 150 P: beast Article: a	Spirit of St. Patrick's Day (c100)	half-digested rat (5)	four-leaf potato sprout (5)
+St. Patrick	2465	stpat.gif	NOCOPY NOMANUEL Scale: 5 HP: 500 Init: -10000 P: dude
 
+spectre of war	2482	trauma.gif	Scale: 20 Init: 100 P: undead Article: a Phys: 100	Spirit of Veteran's Day (c100)	traumatic holiday memory (5)
+Brandonian loyalist	2483	brandonian.gif	Scale: 20 Init: 10000 P: dude Article: a	Spirit of Veteran's Day (c100)	Brandonian footlocker key (5)
+Section 11	2484	section11.gif	Scale: 20 Init: 300 P: dude Article: a Elem: 100	Spirit of Veteran's Day (c100)	military orb (5)	Congressional Medal of Insanity (f0.1)
+some underbrush	2492	hedgerow.gif	NOCOPY NOMANUEL Atk: 0 Def: 100 HP: 1 Init: -10000 P: plant
+Colonel Brando	2466	brando.gif	NOCOPY NOMANUEL Scale: 5 HP: 500 Init: -10000 P: dude
+
+gravy slime	2485	gravyslime.gif	Scale: 30 Init: 100 P: slime Article: a	Spirit of Thanksgiving (c100)	gravy skin (5)
+pumpkin spice wraith	2486	pumpkinwraith.gif	Scale: 30 Init: 200 P: undead Phys: 100 Article: a	Spirit of Thanksgiving (c100)	crystallized pumpkin spice (5)	pumpkin spice whorl (f0.1)
+possessed can of cream of mushroom soup	2487	can_mush.gif	Scale: 30 Init: 100 P: undead Article: a	Spirit of Thanksgiving (c100)
+possessed can of green beans	2488	can_green.gif	Scale: 30 Init: 100 P: undead Article: a	Spirit of Thanksgiving (c100)
 
 # Old Events
 

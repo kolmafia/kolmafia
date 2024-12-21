@@ -137,8 +137,11 @@ public class SpinMasterLatheRequest extends CoinMasterRequest {
         data.getBuyItems().add(item);
         AdventureResult cost = ItemPool.get(currency, price);
         buyCosts.put(iitemId, cost);
+        AdventureResult[] costs = new AdventureResult[1];
+        costs[0] = cost;
+        String nickname = data.getNickname();
         NPCPurchaseRequest.learnCoinmasterItem(
-            master, ItemPool.get(itemId, 1), cost, String.valueOf(row));
+            nickname, master, ItemPool.get(itemId, 1), costs, row, true);
         CoinmastersDatabase.registerPurchaseRequest(data, item, cost);
         changed = true;
       }

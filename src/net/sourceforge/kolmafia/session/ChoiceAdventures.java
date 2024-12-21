@@ -6315,7 +6315,27 @@ public abstract class ChoiceAdventures {
         1539,
         "Holiday Islands",
         "Snakes in the Grasses",
+        new ChoiceOption("fight St. Patrick", 1),
         new ChoiceOption("get Spirits of St. Patrick's Day scaling with sleaze resistance", 2),
+        new ChoiceOption("skip adventure", 3));
+
+    // War is Like Hell: Very Hot
+    new ChoiceAdventure(
+        1540,
+        "Holiday Islands",
+        "War is Like Hell: Very Hot",
+        new ChoiceOption("fight some underbrush", 1),
+        new ChoiceOption("get Spirits of Veteran's Day scaling with hot resistance", 2),
+        new ChoiceOption("gain meat and TakerSpace ingredient", 3),
+        new ChoiceOption("skip adventure", 4));
+
+    // The Edge of Winter
+    new ChoiceAdventure(
+        1541,
+        "Holiday Islands",
+        "The Edge of Winter",
+        new ChoiceOption("fight ???", 1),
+        new ChoiceOption("get Spirits of Thanksgiving scaling with cold resistance", 2),
         new ChoiceOption("skip adventure", 3));
   }
 
