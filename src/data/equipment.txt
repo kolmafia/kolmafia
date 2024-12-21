@@ -176,6 +176,7 @@ government-issued eyeshade	50	none
 governor's daughter's pearl hairpin	50	none
 grass hat	80	Mox: 25
 gravy boat	100	none
+gravyskin hat	90	Mox: 30
 Great Wolf's headband	300	Mus: 250
 green cloth cap	50	none
 green traffic cone	60	Mox: 15
@@ -575,6 +576,8 @@ gold lam&eacute; pants	100	Mox: 35
 government-issued slacks	50	none
 governor's daughter's petticoats	50	none
 grass skirt	80	Mox: 25
+gravyskin pants	90	Mox: 30
+gravyskin skirt	90	Mox: 30
 Great Wolf's beastly trousers	300	Mus: 100
 Greatest American Pants	100	none
 Greaves of the Murk Lord	120	none
@@ -2023,6 +2026,7 @@ Golden HP-35 Calculator	0	none
 golden sausage	0	none
 goo magnet	10	none
 gore bucket	0	none
+gravyskin buckler	120	Mus: 30	shield
 Great Wolf's left paw	300	Mus: 250
 green balloon	10	none
 green LavaCo Lamp&trade;	100	Mox: 35
@@ -3377,6 +3381,7 @@ tiny plastic Don Crimbo	0	none
 tiny plastic Dr. Awkward	50	Mys: 10
 tiny plastic drunk goat	10	none
 tiny plastic Duke Starkiller	10	none
+tiny plastic Easter Island Bunny	10	none
 tiny plastic Ed the Undying	50	Mys: 10
 tiny plastic exo-suited miner	10	none
 tiny plastic Factory	10	none
