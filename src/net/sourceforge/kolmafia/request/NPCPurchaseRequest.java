@@ -436,102 +436,6 @@ public class NPCPurchaseRequest extends PurchaseRequest {
   private static final Pattern BLOOD_MAYO_PATTERN =
       Pattern.compile("blood mayonnaise concentration: (\\d+) mayograms");
 
-  public static final void learnNPCStoreItem(
-      final String shopId,
-      final String shopName,
-      final AdventureResult item,
-      final int cost,
-      final int row) {
-    String printMe;
-    // Print what goes in npcstores.txt
-    printMe = "--------------------";
-    RequestLogger.printLine(printMe);
-    RequestLogger.updateSessionLog(printMe);
-    printMe = shopName + "\t" + shopId + "\t" + item + "\t" + cost + "\tROW" + row;
-    RequestLogger.printLine(printMe);
-    RequestLogger.updateSessionLog(printMe);
-    printMe = "--------------------";
-    RequestLogger.printLine(printMe);
-    RequestLogger.updateSessionLog(printMe);
-  }
-
-  public static final void learnCoinmasterItem(
-      final String shopId,
-      String shopName,
-      final AdventureResult item,
-      final AdventureResult[] costs,
-      final int row) {
-
-    // Sanity check: must be at least one cost
-    if (costs.length == 0) {
-      return;
-    }
-
-    // See if this is a known Coinmaster
-    CoinmasterData data = CoinmasterRegistry.findCoinmaster(shopId, shopName);
-    String type = "unknown";
-
-    if (data != null && !data.isDisabled()) {
-      // If we already know this row, nothing to learn.
-      if (data.hasRow(row)) {
-        return;
-      }
-
-      shopName = data.getMaster();
-
-      if (costs.length == 1) {
-        // we can categorize this as a buy or a sell
-        AdventureResult price = costs[0];
-        Set<AdventureResult> currencies = data.currencies();
-        if (currencies.contains(price)) {
-          // If the price is a currency, this is a "buy" request.
-          type = "buy";
-        } else if (currencies.contains(item)) {
-          // If the item is a currency, this is a "sell" request.
-          type = "sell";
-        } else {
-          // Neither price nor item is a known currency.
-          type = "unknown";
-        }
-      }
-    }
-
-    String printMe;
-    // Print what goes in coinmasters.txt
-    printMe = "--------------------";
-    RequestLogger.printLine(printMe);
-    RequestLogger.updateSessionLog(printMe);
-    switch (type) {
-      case "buy" -> {
-        AdventureResult price = costs[0];
-        printMe = shopName + "\tbuy\t" + price.getCount() + "\t" + item + "\tROW" + row;
-      }
-      case "sell" -> {
-        AdventureResult price = costs[0];
-        printMe = shopName + "\tsell\t" + item.getCount() + "\t" + price + "\tROW" + row;
-      }
-      default -> {
-        StringBuilder buf = new StringBuilder();
-        buf.append(shopName);
-        buf.append("\t");
-        buf.append("ROW");
-        buf.append(row);
-        buf.append("\t");
-        buf.append(item);
-        for (AdventureResult cost : costs) {
-          buf.append("\t");
-          buf.append(cost);
-        }
-        printMe = buf.toString();
-      }
-    }
-    RequestLogger.printLine(printMe);
-    RequestLogger.updateSessionLog(printMe);
-    printMe = "--------------------";
-    RequestLogger.printLine(printMe);
-    RequestLogger.updateSessionLog(printMe);
-  }
-
   public static boolean usesMixedCurrency(final String shopId) {
     return shopId.equals("airport")
         || shopId.equals("beergarden")
@@ -573,77 +477,12 @@ public class NPCPurchaseRequest extends PurchaseRequest {
       return;
     }
 
+    // Parse the inventory and learn new items for "row" (modern) shops.
+    // Print npcstores.txt or coinmasters.txt entries for new rows.
+
+    parseShopInventory(shopId, responseText);
+
     int boughtItemId = parseWhichRow(shopId, urlString);
-
-    // Parse the entire shop inventory, including items that sell for Meat
-    // This will register all previously unknown items.
-
-    String shopName = ShopRow.parseShopName(responseText);
-    List<ShopRow> shopRows = ShopRow.parseShop(responseText, true);
-
-    // Certain existing shops with mixed currencies are implemented as
-    // mixing methods. KoL COULD add new items to such shops. Detect them.
-    boolean usesMixedCurrency = usesMixedCurrency(shopId);
-
-    for (ShopRow shopRow : shopRows) {
-      int row = shopRow.getRow();
-      AdventureResult item = shopRow.getItem();
-      AdventureResult[] costs = shopRow.getCosts();
-
-      // There should be from 1-5 costs.  If KoL included none (KoL
-      // bug), or parsing failed (KoLmafiq bug), skip.
-      if (costs.length == 0) {
-        // *** Perhaps log the error?
-        continue;
-      }
-
-      // Shops can yield more than one of an item
-      // Shops can yield the same item with multiple costs
-      // Shops can accept up to five currencies per item.
-
-      int id = item.getItemId();
-      int count = item.getCount();
-
-      // Current practice:
-      //
-      // A shop with a single currency which is Meat is an NPCStore
-      // A shop with a single currency per item  which is not Meat is a Coinmaster
-      // A shop with multiple currencies per item is a Mixing method.
-
-      // New practice:
-      //
-      // A shop with multiple currencies per item can be a Coinmaster
-
-      // *** NPCStoreDatabase assumes that only a single store sells a particular item.
-      if (NPCStoreDatabase.getPurchaseRequest(id) != null) {
-        continue;
-      }
-
-      // *** CoinmastersDatabase assumes that only a single store sells a particular item.
-      if (CoinmastersDatabase.getPurchaseRequest(id) != null) {
-        continue;
-      }
-
-      // *** If an existing mixing method makes this item, skip it
-      if (ConcoctionDatabase.hasNonCoinmasterMixingMethod(id)) {
-        continue;
-      }
-
-      // If this shop is an existing mixed currency mixing method, we've
-      // detected a new item for sale.
-      if (usesMixedCurrency) {
-        // *** log it
-        continue;
-      }
-
-      if (costs.length == 1 && costs[0].equals("Meat")) {
-        int cost = costs[0].getCount();
-        learnNPCStoreItem(shopId, shopName, item, cost, row);
-        continue;
-      }
-
-      learnCoinmasterItem(shopId, shopName, item, costs, row);
-    }
 
     // Quest tracker update
     if (shopId.equals("junkmagazine")) {
@@ -1169,6 +1008,185 @@ public class NPCPurchaseRequest extends PurchaseRequest {
       }
       return;
     }
+  }
+
+  public static final void parseShopInventory(final String shopId, final String responseText) {
+
+    // Parse the entire shop inventory, including items that sell for Meat
+    // This will register all previously unknown items.
+
+    String shopName = ShopRow.parseShopName(responseText);
+    List<ShopRow> shopRows = ShopRow.parseShop(responseText, true);
+
+    // Certain existing shops with mixed currencies are implemented as
+    // mixing methods. KoL COULD add new items to such shops. Detect them.
+    boolean usesMixedCurrency = usesMixedCurrency(shopId);
+
+    boolean newShopItems = false;
+
+    for (ShopRow shopRow : shopRows) {
+      int row = shopRow.getRow();
+      AdventureResult item = shopRow.getItem();
+      AdventureResult[] costs = shopRow.getCosts();
+
+      // There should be from 1-5 costs.  If KoL included none (KoL
+      // bug), or parsing failed (KoLmafiq bug), skip.
+      if (costs.length == 0) {
+        // *** Perhaps log the error?
+        continue;
+      }
+
+      // Shops can yield more than one of an item
+      // Shops can yield the same item with multiple costs
+      // Shops can accept up to five currencies per item.
+
+      int id = item.getItemId();
+      int count = item.getCount();
+
+      // Current practice:
+      //
+      // A shop with a single currency which is Meat is an NPCStore
+      // A shop with a single currency per item which is not Meat is a Coinmaster
+      // A shop with multiple currencies per item is a Mixing method.
+
+      // New practice:
+      //
+      // A shop with multiple currencies per item can be a Coinmaster
+
+      // *** NPCStoreDatabase assumes that only a single store sells a particular item.
+      if (NPCStoreDatabase.getPurchaseRequest(id) != null) {
+        continue;
+      }
+
+      // *** CoinmastersDatabase assumes that only a single store sells a particular item.
+      if (CoinmastersDatabase.getPurchaseRequest(id) != null) {
+        continue;
+      }
+
+      // *** If an existing mixing method makes this item, skip it
+      if (ConcoctionDatabase.hasNonCoinmasterMixingMethod(id)) {
+        continue;
+      }
+
+      // If this shop is an existing mixed currency mixing method, we've
+      // detected a new item for sale.
+      if (usesMixedCurrency) {
+        // *** log it
+        continue;
+      }
+
+      if (costs.length == 1 && costs[0].equals("Meat")) {
+        int cost = costs[0].getCount();
+        newShopItems |= learnNPCStoreItem(shopId, shopName, item, cost, row, newShopItems);
+        continue;
+      }
+
+      newShopItems |= learnCoinmasterItem(shopId, shopName, item, costs, row, newShopItems);
+    }
+
+    if (newShopItems) {
+      String printMe = "--------------------";
+      RequestLogger.printLine(printMe);
+      RequestLogger.updateSessionLog(printMe);
+    }
+  }
+
+  public static final boolean learnNPCStoreItem(
+      final String shopId,
+      final String shopName,
+      final AdventureResult item,
+      final int cost,
+      final int row,
+      final boolean newShopItems) {
+    String printMe;
+    // Print what goes in npcstores.txt
+    if (!newShopItems) {
+      printMe = "--------------------";
+      RequestLogger.printLine(printMe);
+      RequestLogger.updateSessionLog(printMe);
+    }
+    printMe = shopName + "\t" + shopId + "\t" + item + "\t" + cost + "\tROW" + row;
+    RequestLogger.printLine(printMe);
+    RequestLogger.updateSessionLog(printMe);
+    return true;
+  }
+
+  public static final boolean learnCoinmasterItem(
+      final String shopId,
+      String shopName,
+      final AdventureResult item,
+      final AdventureResult[] costs,
+      final int row,
+      final boolean newShopItems) {
+
+    // Sanity check: must be at least one cost
+    if (costs.length == 0) {
+      return false;
+    }
+
+    // See if this is a known Coinmaster
+    CoinmasterData data = CoinmasterRegistry.findCoinmaster(shopId, shopName);
+    String type = "unknown";
+
+    if (data != null && !data.isDisabled()) {
+      // If we already know this row, nothing to learn.
+      if (data.hasRow(row)) {
+        return false;
+      }
+
+      shopName = data.getMaster();
+
+      if (costs.length == 1) {
+        // we can categorize this as a buy or a sell
+        AdventureResult price = costs[0];
+        Set<AdventureResult> currencies = data.currencies();
+        if (currencies.contains(price)) {
+          // If the price is a currency, this is a "buy" request.
+          type = "buy";
+        } else if (currencies.contains(item)) {
+          // If the item is a currency, this is a "sell" request.
+          type = "sell";
+        } else {
+          // Neither price nor item is a known currency.
+          type = "unknown";
+        }
+      }
+    }
+
+    String printMe;
+    // Print what goes in coinmasters.txt
+    if (!newShopItems) {
+      printMe = "--------------------";
+      RequestLogger.printLine(printMe);
+      RequestLogger.updateSessionLog(printMe);
+    }
+    switch (type) {
+      case "buy" -> {
+        AdventureResult price = costs[0];
+        printMe = shopName + "\tbuy\t" + price.getCount() + "\t" + item + "\tROW" + row;
+      }
+      case "sell" -> {
+        AdventureResult price = costs[0];
+        printMe = shopName + "\tsell\t" + item.getCount() + "\t" + price + "\tROW" + row;
+      }
+      default -> {
+        StringBuilder buf = new StringBuilder();
+        buf.append(shopName);
+        buf.append("\t");
+        buf.append("ROW");
+        buf.append(row);
+        buf.append("\t");
+        buf.append(item);
+        for (AdventureResult cost : costs) {
+          buf.append("\t");
+          buf.append(cost);
+        }
+        printMe = buf.toString();
+      }
+    }
+    RequestLogger.printLine(printMe);
+    RequestLogger.updateSessionLog(printMe);
+    return true;
   }
 
   public static final boolean registerShopRowRequest(final String urlString) {
