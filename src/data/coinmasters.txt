@@ -1213,6 +1213,31 @@ Elf Guard Toy and Munitions Factory	buy	400	Lil' Snowball Factory	ROW1429
 Elf Guard Toy and Munitions Factory	buy	1000	Elf Guard safety bear	ROW1440
 Elf Guard Toy and Munitions Factory	buy	2000	Elf Guard temporary (permanent) tattoo	ROW1430
 
+
+# Crimbo 2024
+
+#Crimbo24 Cafe	ROW1527	chocolate ostrich egg	Spirit of Easter (15)
+#Crimbo24 Cafe	ROW1528	candied beef and cabbage	Spirit of St. Patrick's Day (15)
+#Crimbo24 Cafe	ROW1529	candy rations	Spirit of Veteran's Day (15)
+#Crimbo24 Cafe	ROW1530	double-candied yams	Spirit of Thanksgiving (15)
+
+#Crimbo24 Bar	ROW1521	Easter grasshopper	Spirit of Easter (15)
+#Crimbo24 Bar	ROW1522	Irish eggnog	Spirit of St. Patrick's Day (15)
+#Crimbo24 Bar	ROW1523	canteen of jungle juice	Spirit of Veteran's Day (15)
+#Crimbo24 Bar	ROW1524	turchucken	Spirit of Thanksgiving (15)
+
+#Crimbo24 Factory	ROW1538	lucky moai statuette	Spirit of Easter (50)	Spirit of St. Patrick's Day (50)
+#Crimbo24 Factory	ROW1537	egg gun	Spirit of Easter (200)	Spirit of Veteran's Day (200)
+#Crimbo24 Factory	ROW1540	lucky army helmet	Spirit of St. Patrick's Day (350)	Spirit of Veteran's Day (75)
+#Crimbo24 Factory	ROW1541	candy egg deviler	Spirit of Easter (200)	Spirit of Thanksgiving (125)
+#Crimbo24 Factory	ROW1542	lucky napkin	Spirit of St. Patrick's Day (50)	Spirit of Thanksgiving (25)
+#Crimbo24 Factory	ROW1543	Thanksgiving ration	Spirit of Veteran's Day (25)	Spirit of Thanksgiving (50)
+#Crimbo24 Factory	ROW1533	Secrets of the Master Egg Hunters	Spirit of Easter (500)
+#Crimbo24 Factory	ROW1534	How to Lose Friends and Attract Snakes	Spirit of St. Patrick's Day (500)
+#Crimbo24 Factory	ROW1535	Covert Ops for Kids	Spirit of Veteran's Day (500)
+#Crimbo24 Factory	ROW1536	Holiday Multitasking	Spirit of Thanksgiving (500)
+
+
 #Kiwi Kwiki Mart	unknown	mini kiwi bikini	mini kiwi (2)	ROW1477
 #Kiwi Kwiki Mart	unknown	mini kiwitini	mini kiwi	ROW1478
 #Kiwi Kwiki Mart	unknown	mini kiwitini	mini kiwi	ROW1479
