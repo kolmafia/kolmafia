@@ -11792,10 +11792,15 @@
 11764	How to Lose Friends and Attract Snakes (used)	953745853	book3.gif	usable	t	0	used copies of How to Lose Friends and Attract Sna
 11765	Covert Ops for Kids	484772100	book2.gif	usable	t	0	copies of Covert Ops for Kids
 11766	Covert Ops for Kids (used)	700189532	book2.gif	usable		0	used copies of Covert Ops for Kids
-11767
+11767	Holiday Multitasking	555431420	book3.gif	usable	t	0
 11768
 11769
 11770
 11771	lucky moai statuette	232982896	chiatiki.gif	usable	t	0
 11772	egg gun	530204511	egggun.gif	weapon	t	0
 11773	lucky army helmet	759962296	luckyhelmet.gif	hat	t	0
+11774	candy egg deviler	477053908	deviler.gif	usable	t	0
+11775	lucky napkin	415628647	luckynapkin.gif	usable	t	0
+11776	Thanksgiving ration	304022096	thanksration.gif	food	t	0
+
+11781	deviled candy egg	732823232	candyegg.gif	potion, usable	t,d	5

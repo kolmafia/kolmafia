@@ -5619,6 +5619,7 @@ Effect	Can't Be a Chooser	Meat Drop: +30
 Effect	Can't Smell Nothin'	Stench Resistance: +9
 # Canadianity: Makes you feel more Canadian
 Effect	Cancer Rising	Maximum MP Percent: +100
+Effect	Candied Devil	Familiar Weight: +5, Experience (familiar): +5, Monster Level: +25
 Effect	Candied Skeleton	Weapon Damage: -10, Spooky Damage: +10
 Effect	Candied Teeth	Candy Drop: +50
 Effect	Capricorn Rising	Item Drop: +5
@@ -10095,6 +10096,7 @@ Item	Dennis's blessing of Minerva	Effect: "Minerva's Zen", Effect Duration: 50
 Item	dented spoon	Effect: "There Is A Spoon", Effect Duration: 20
 Item	deodorant	Effect: "Fresh Scent", Effect Duration: [10+skill(Dead Nostrils)]
 Item	desktop zen garden	Effect: "Everything's Zen", Effect Duration: 10
+Item	deviled candy egg	Effect: "Candied Devil", Effect Duration: 10
 Item	devilish folio	Effect: "Dis Abled", Effect Duration: 30
 Item	digital underground potion	Effect: "Digitally Converted", Effect Duration: 20
 Item	diluted makeup	Effect: "Made Up, Watered Down", Effect Duration: 10
@@ -11332,6 +11334,7 @@ Item	calm attention-deficit demon	Free Pull
 # can of Ghuol-B-Gone&trade;: Repels Ghuols
 # can of sterno: Deals 15-20 <font color=red>Hot Damage</font> and 10-20 more each round for the rest of the fight
 Item	candy cornucopia	Free Pull
+# candy egg deviler: Convert any candy into a deviled candy egg (3x / day)
 # candy mailing list: Unlocks another row of houses for Crimbo activities
 # candycaine powder: Poisons your opponent
 # cannonbomb: Blow up a bunch of Elf Guard soldiers
