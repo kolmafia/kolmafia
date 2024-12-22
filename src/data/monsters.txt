@@ -2419,6 +2419,8 @@ gravy slime	2485	gravyslime.gif	Scale: 30 Init: 100 P: slime Article: a	Spirit o
 pumpkin spice wraith	2486	pumpkinwraith.gif	Scale: 30 Init: 200 P: undead Phys: 100 Article: a	Spirit of Thanksgiving (c100)	crystallized pumpkin spice (5)	pumpkin spice whorl (f0.1)
 possessed can of cream of mushroom soup	2487	can_mush.gif	Scale: 30 Init: 100 P: undead Article: a	Spirit of Thanksgiving (c100)
 possessed can of green beans	2488	can_green.gif	Scale: 30 Init: 100 P: undead Article: a	Spirit of Thanksgiving (c100)
+Jebediah	2467	jebediah.gif	NOCOPY NOMANUEL Scale: 5 HP: 400 Init: -10000 P: dude
+Boiling Cloud	2468	boilingcloud.gif	NOCOPY NOMANUEL Scale: 5 HP: 400 Init: -10000 P: elemental
 
 # Old Events
 
