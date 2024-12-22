@@ -2277,6 +2277,8 @@
 2464	Easter Island Bunny	ear	head
 2465	St. Patrick	arm	body	head	leg
 2466	Colonel Brando	arm	body	head	leg
+2467	Jedediah	arm	body	hat	head	leg
+2468	Boiling Cloud	cloud	fog	steam	wisp
 2475	feral bunny	ear	head	paw	tail
 2476	chocolate chicken	beak	breast	leg	thigh	wing
 2477	moai	brow	chin	eye	forehead
@@ -2286,4 +2288,8 @@
 2482	spectre of war	memory
 2483	Brandonian loyalist	arm	head	leg	torso
 2484	Section 11	arm	head	leg	torso
+2485	gravy slime	glob	pseudopod
+2486	pumpkin spice wraith	allspice	cinnamon	clove	ginger	nutmeg
+2487	possessed can of cream of mushroom soup	arm	can	leg
+2488	possessed can of green beans	arm	can	leg
 2492	some underbrush	branch	trunk
