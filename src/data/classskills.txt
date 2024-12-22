@@ -1100,6 +1100,7 @@
 7534	Iron Tricorn Headbutt	ts_tricorn.gif	combat	0	0
 7535	Throw Military Orb	grenorb.gif	combat	0	0
 7536	Place your hat on their head	snowmanhat.gif	combat	0	0
+7537	Egg the face	egggun.gif	combat	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.
