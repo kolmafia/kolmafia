@@ -2266,7 +2266,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
               --neededSize;
               continue;
             }
-        
+
             // items[i] = item.getInstance(quantity);
             balance -= quantity * price;
             balances.put(currency, balance);

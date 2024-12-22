@@ -1,10 +1,7 @@
 package net.sourceforge.kolmafia.request;
 
-import java.util.Map;
-import java.util.TreeMap;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
-import net.sourceforge.kolmafia.objectpool.ItemPool;
 
 public class Crimbo24BarRequest extends CoinMasterRequest {
   public static final String master = "Crimbo24 Bar";
