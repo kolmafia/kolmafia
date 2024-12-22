@@ -1172,18 +1172,8 @@ public class NPCPurchaseRequest extends PurchaseRequest {
         printMe = shopName + "\tsell\t" + item.getCount() + "\t" + price + "\tROW" + row;
       }
       default -> {
-        StringBuilder buf = new StringBuilder();
-        buf.append(shopName);
-        buf.append("\t");
-        buf.append("ROW");
-        buf.append(row);
-        buf.append("\t");
-        buf.append(item);
-        for (AdventureResult cost : costs) {
-          buf.append("\t");
-          buf.append(cost);
-        }
-        printMe = buf.toString();
+        ShopRow shopRow = new ShopRow(row, item, costs);
+        printMe = shopRow.toData(shopName);
       }
     }
     RequestLogger.printLine(printMe);
