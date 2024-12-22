@@ -4022,6 +4022,7 @@ Item	tiny plastic spiny skelelton	Monster Level: +1
 Item	tiny plastic spooky pirate skeleton	Familiar Weight: +1
 Item	tiny plastic spooky vampire	Monster Level: +1
 Item	tiny plastic Spunky Princess	Monster Level: +1
+Item	tiny plastic St. Patrick	Familiar Weight: +1
 Item	tiny plastic stab bat	Familiar Weight: +1
 Item	tiny plastic star starfish	Familiar Weight: +1
 Item	tiny plastic stocking mimic	Candy Drop: +10
