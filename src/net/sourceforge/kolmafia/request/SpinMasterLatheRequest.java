@@ -141,7 +141,7 @@ public class SpinMasterLatheRequest extends CoinMasterRequest {
         costs[0] = cost;
         String nickname = data.getNickname();
         NPCPurchaseRequest.learnCoinmasterItem(
-            nickname, master, ItemPool.get(itemId, 1), costs, row, true);
+            nickname, master, ItemPool.get(itemId, 1), costs, row, true, false);
         CoinmastersDatabase.registerPurchaseRequest(data, item, cost);
         changed = true;
       }
