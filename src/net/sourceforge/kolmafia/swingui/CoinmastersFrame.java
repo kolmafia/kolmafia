@@ -2128,16 +2128,6 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     public class ShopRowPanel extends ItemListManagePanel<ShopRow> {
       public ShopRowPanel(ActionListener[] listeners) {
         super((LockableListModel<ShopRow>) CoinmasterPanel.this.data.getShopRows());
-
-        var data = CoinmasterPanel.this.data;
-        var master = data.getMaster();
-        var rows = data.getShopRows();
-        System.out.println(data.getMaster() + " has " + rows.size() + " items for sale");
-        for (ShopRow row : rows) {
-          System.out.println(row.toData(master));
-          // System.out.println("ROW" + row.getRow() + " item = " + row.getItem());
-        }
-
         this.eastPanel.add(
             new InvocationButton("visit", CoinmasterPanel.this, "check"), BorderLayout.SOUTH);
         this.getElementList()
@@ -2432,7 +2422,6 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
 
     public Component getRenderer(final Component defaultComponent, final ShopRow sr) {
       AdventureResult ar = sr.getItem();
-      System.out.println("getting renderer for ShopRow " + sr.getRow() + " item = " + ar);
 
       if (!ar.isItem()) {
         return defaultComponent;
@@ -2448,7 +2437,9 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
 
       boolean show = data.availableItem(itemId);
 
-      StringBuilder costString = new StringBuilder();
+      StringBuilder costString = new StringBuilder(" ");
+      boolean first = true;
+      costString.append("(");
       for (AdventureResult cost : costs) {
         int price = cost.getCount();
 
@@ -2463,12 +2454,16 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
           }
         }
 
-        costString.append(" (");
+        if (!first) {
+          costString.append("+");
+        }
+        first = false;
+
         costString.append(price);
         costString.append(" ");
         costString.append(cost.getPluralName(price));
-        costString.append(")");
       }
+      costString.append(")");
 
       StringBuilder stringForm = new StringBuilder();
       stringForm.append("<html>");
@@ -2476,16 +2471,16 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
         stringForm.append("<font color=gray>");
       }
       stringForm.append(ar.getName());
-      stringForm.append(costString.toString());
-      stringForm.append(")");
+      stringForm.append(" ");
       int count = ar.getCount();
       if (count == -1) {
         stringForm.append(" (unknown)");
-      } else if (count != PurchaseRequest.MAX_QUANTITY) {
+      } else if (count > 1 && count != PurchaseRequest.MAX_QUANTITY) {
         stringForm.append(" (");
         stringForm.append(KoLConstants.COMMA_FORMAT.format(count));
         stringForm.append(")");
       }
+      stringForm.append(costString.toString());
       if (!show) {
         stringForm.append("</font>");
       }

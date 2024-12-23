@@ -949,6 +949,13 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   }
 
   private Boolean availableItemInternal(final Integer itemId) {
+    if (this.shopRows != null) {
+      for (ShopRow row : this.shopRows) {
+        if (row.getItem().getItemId() == itemId) return true;
+      }
+      return false;
+    }
+
     if (this.buyItems == null) {
       return false;
     }
@@ -961,6 +968,13 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   }
 
   public Boolean canBuyItemInternal(final Integer itemId) {
+    if (this.shopRows != null) {
+      for (ShopRow row : this.shopRows) {
+        if (row.getItem().getItemId() == itemId) return true;
+      }
+      return false;
+    }
+
     if (this.buyItems == null) {
       return false;
     }
@@ -1044,7 +1058,14 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
     CoinmastersDatabase.clearPurchaseRequests(this);
 
     // If no buyItems registered, nothing to register
-    if (this.buyItems == null) {
+    if (this.shopRows == null && this.buyItems == null) {
+      return;
+    }
+
+    if (this.shopRows != null) {
+      for (ShopRow row : this.shopRows) {
+        CoinmastersDatabase.registerPurchaseRequest(this, row);
+      }
       return;
     }
 

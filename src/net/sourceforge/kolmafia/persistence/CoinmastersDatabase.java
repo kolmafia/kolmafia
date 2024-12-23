@@ -257,6 +257,10 @@ public class CoinmastersDatabase {
     }
   }
 
+  public static final void registerPurchaseRequest(final CoinmasterData data, final ShopRow row) {
+    // *** What to do?
+  }
+
   public static final CoinMasterPurchaseRequest getPurchaseRequest(final int itemId) {
     Integer id = itemId;
     CoinMasterPurchaseRequest request = COINMASTER_ITEMS.get(id);
