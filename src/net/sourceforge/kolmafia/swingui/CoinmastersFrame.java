@@ -1660,17 +1660,17 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
 
       if (data.getShopRows() != null) {
         this.shopRowPanel = new ShopRowPanel();
-        this.add(shopRowPanel, BorderLayout.NORTH);
-      }
+        this.add(shopRowPanel, BorderLayout.CENTER);
+      } else {
+        if (data.getSellPrices() != null) {
+          this.sellPanel = new SellPanel();
+          this.add(sellPanel, BorderLayout.NORTH);
+        }
 
-      if (data.getSellPrices() != null) {
-        this.sellPanel = new SellPanel();
-        this.add(sellPanel, BorderLayout.NORTH);
-      }
-
-      if (data.getBuyPrices() != null) {
-        this.buyPanel = new BuyPanel();
-        this.add(buyPanel, BorderLayout.CENTER);
+        if (data.getBuyPrices() != null) {
+          this.buyPanel = new BuyPanel();
+          this.add(buyPanel, BorderLayout.CENTER);
+        }
       }
 
       this.storageInTitle = this.data.getStorageAction() != null;
