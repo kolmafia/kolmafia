@@ -2422,6 +2422,10 @@ possessed can of green beans	2488	can_green.gif	Scale: 30 Init: 100 P: undead Ar
 Jebediah	2467	jebediah.gif	NOCOPY NOMANUEL Scale: 5 HP: 400 Init: -10000 P: dude
 Boiling Cloud	2468	boilingcloud.gif	NOCOPY NOMANUEL Scale: 5 HP: 400 Init: -10000 P: elemental
 
+magically-animated snowman	2489	regularsnowman.gif	Scale: 40 Init: 150 P: elemental Article: a	Spirit of Christmas (c100)	ragged wool yarn (0)	snowman-enchanting tophat (f0.1)
+Christmas treant	2490	xmastreant.gif	Scale: 40 Init: 250 P: plant Article: a	Spirit of Christmas (c100)	fragile Christmas ornament (0)
+self-driving sleigh	2491	sleigh.gif	Scale: 40 Init: 300 P: construct Article: a	Spirit of Christmas (c100)	LIDAR candle (0)
+
 # Old Events
 
 # White Wednesday (October 26, 2005)

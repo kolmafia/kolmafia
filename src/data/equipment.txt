@@ -364,6 +364,7 @@ snakeskin cowboy hat	100	Mox: 20
 snorkel	10	none
 snow hat	50	Mox: 10
 Snow Queen Crown	115	Mox: 42
+snowman-enchanting tophat	150	Mox: 35
 soft cap of diminishing returns	100	none
 Sombrero De Vida	50	Mox: 10
 sombrero-mounted sparkler	50	none
@@ -2989,6 +2990,7 @@ pegfinger	50	none
 Pendant of Fire	150	Mys: 60
 Pendant of Gargalesis	150	Mys: 60
 peppermint-scented socks	50	none
+perfect Christmas scarf	0	Mys: 25
 perfume-soaked bandana	75	Mys: 15
 Personal Ventilation Unit	100	none
 phase-tuned shield generator belt	75	Mys: 22
