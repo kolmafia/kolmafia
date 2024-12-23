@@ -11,6 +11,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
+import net.sourceforge.kolmafia.ShopRow;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
@@ -24,6 +25,32 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class CoinmastersDatabase {
 
   private CoinmastersDatabase() {}
+
+  // *** New style "shop.php" Coinmaster
+  // buy (and sell) using shopRows
+
+  // Map from String -> List<ShopRow>
+  public static final Map<String, List<ShopRow>> shopRows = new TreeMap<>();
+
+  // Map from Integer to ShopRow
+
+  // *** Since I believe ROW numbers are unique, it would be nice to also
+  // *** also register items in NPCstores and Concoctions
+  // *** Put this into ShopRow.java?
+  public static final Map<Integer, ShopRow> rowData = new TreeMap<>();
+
+  // Map from Integer to String
+
+  // *** Same comment
+  public static final Map<Integer, String> rowShop = new TreeMap<>();
+
+  public static final List<ShopRow> getShopRows(final String key) {
+    return shopRows.get(key);
+  }
+
+  // *** Old style "shop.php" (and other) Coinmasters
+  // buy using buyItems and buyPrices
+  // sell using sellItems and sellPrices.
 
   // Map from Integer( itemId ) -> CoinMasterPurchaseRequest
   public static final Map<Integer, CoinMasterPurchaseRequest> COINMASTER_ITEMS = new HashMap<>();
@@ -111,12 +138,38 @@ public class CoinmastersDatabase {
         }
 
         String master = data[0];
+
+        // "type" is the second field.
+        // If it is "buy", the Coinmaster uses buyItems and buyPrices
+        // If it is "sell", the Coinmaster uses sellItems and sellPrices
+        // If it starts with ROW, the Coinmaster uses shopRows
+
         String type = data[1];
+
+        if (type.startsWith("ROW")) {
+          ShopRow shopRow = ShopRow.fromData(data);
+          if (shopRow == null) {
+            // *** error
+            continue;
+          }
+          int row = shopRow.getRow();
+          List<ShopRow> rows = shopRows.get(master);
+          if (rows == null) {
+            // Get a LockableListModel if we are running in a Swing environment,
+            // since these lists will be the models for GUI elements
+            rows = LockableListFactory.getInstance(ShopRow.class);
+            shopRows.put(master, rows);
+          }
+          rows.add(shopRow);
+          rowData.put(row, shopRow);
+          rowShop.put(row, master);
+          continue;
+        }
+
         int price = StringUtilities.parseInt(data[2]);
         Integer iprice = price;
         AdventureResult item = AdventureResult.parseItem(data[3], true);
         Integer iitemId = item.getItemId();
-
         Integer row = null;
         if (data.length > 4) {
           String[] extra = data[4].split("\\s,\\s");
@@ -202,6 +255,10 @@ public class CoinmastersDatabase {
     if (concoction.getMixingMethod() == CraftingType.COINMASTER) {
       concoction.setPurchaseRequest(request);
     }
+  }
+
+  public static final void registerPurchaseRequest(final CoinmasterData data, final ShopRow row) {
+    // *** What to do?
   }
 
   public static final CoinMasterPurchaseRequest getPurchaseRequest(final int itemId) {

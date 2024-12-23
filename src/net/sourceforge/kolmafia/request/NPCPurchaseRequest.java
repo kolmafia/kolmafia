@@ -480,7 +480,7 @@ public class NPCPurchaseRequest extends PurchaseRequest {
     // Parse the inventory and learn new items for "row" (modern) shops.
     // Print npcstores.txt or coinmasters.txt entries for new rows.
 
-    parseShopInventory(shopId, responseText);
+    parseShopInventory(shopId, responseText, false);
 
     int boughtItemId = parseWhichRow(shopId, urlString);
 
@@ -1010,7 +1010,8 @@ public class NPCPurchaseRequest extends PurchaseRequest {
     }
   }
 
-  public static final void parseShopInventory(final String shopId, final String responseText) {
+  public static final void parseShopInventory(
+      final String shopId, final String responseText, boolean force) {
 
     // Parse the entire shop inventory, including items that sell for Meat
     // This will register all previously unknown items.
@@ -1054,34 +1055,33 @@ public class NPCPurchaseRequest extends PurchaseRequest {
       // A shop with multiple currencies per item can be a Coinmaster
 
       // *** NPCStoreDatabase assumes that only a single store sells a particular item.
-      if (NPCStoreDatabase.getPurchaseRequest(id) != null) {
+      if (NPCStoreDatabase.getPurchaseRequest(id) != null && !force) {
         continue;
       }
 
       // *** CoinmastersDatabase assumes that only a single store sells a particular item.
-      if (CoinmastersDatabase.getPurchaseRequest(id) != null) {
+      if (CoinmastersDatabase.getPurchaseRequest(id) != null && !force) {
         continue;
       }
 
       // *** If an existing mixing method makes this item, skip it
-      if (ConcoctionDatabase.hasNonCoinmasterMixingMethod(id)) {
+      if (ConcoctionDatabase.hasNonCoinmasterMixingMethod(id) && !force) {
         continue;
       }
 
       // If this shop is an existing mixed currency mixing method, we've
       // detected a new item for sale.
-      if (usesMixedCurrency) {
-        // *** log it
+      if (usesMixedCurrency && !force) {
         continue;
       }
 
       if (costs.length == 1 && costs[0].equals("Meat")) {
         int cost = costs[0].getCount();
-        newShopItems |= learnNPCStoreItem(shopId, shopName, item, cost, row, newShopItems);
+        newShopItems |= learnNPCStoreItem(shopId, shopName, item, cost, row, newShopItems, force);
         continue;
       }
 
-      newShopItems |= learnCoinmasterItem(shopId, shopName, item, costs, row, newShopItems);
+      newShopItems |= learnCoinmasterItem(shopId, shopName, item, costs, row, newShopItems, force);
     }
 
     if (newShopItems) {
@@ -1097,7 +1097,8 @@ public class NPCPurchaseRequest extends PurchaseRequest {
       final AdventureResult item,
       final int cost,
       final int row,
-      final boolean newShopItems) {
+      final boolean newShopItems,
+      boolean force) {
     String printMe;
     // Print what goes in npcstores.txt
     if (!newShopItems) {
@@ -1117,7 +1118,8 @@ public class NPCPurchaseRequest extends PurchaseRequest {
       final AdventureResult item,
       final AdventureResult[] costs,
       final int row,
-      final boolean newShopItems) {
+      final boolean newShopItems,
+      boolean force) {
 
     // Sanity check: must be at least one cost
     if (costs.length == 0) {
@@ -1130,7 +1132,7 @@ public class NPCPurchaseRequest extends PurchaseRequest {
 
     if (data != null && !data.isDisabled()) {
       // If we already know this row, nothing to learn.
-      if (data.hasRow(row)) {
+      if (data.hasRow(row) && !force) {
         return false;
       }
 
@@ -1170,18 +1172,8 @@ public class NPCPurchaseRequest extends PurchaseRequest {
         printMe = shopName + "\tsell\t" + item.getCount() + "\t" + price + "\tROW" + row;
       }
       default -> {
-        StringBuilder buf = new StringBuilder();
-        buf.append(shopName);
-        buf.append("\t");
-        buf.append("ROW");
-        buf.append(row);
-        buf.append("\t");
-        buf.append(item);
-        for (AdventureResult cost : costs) {
-          buf.append("\t");
-          buf.append(cost);
-        }
-        printMe = buf.toString();
+        ShopRow shopRow = new ShopRow(row, item, costs);
+        printMe = shopRow.toData(shopName);
       }
     }
     RequestLogger.printLine(printMe);

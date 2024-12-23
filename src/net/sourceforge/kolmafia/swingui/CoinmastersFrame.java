@@ -22,6 +22,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.ShopRow;
 import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
@@ -1629,6 +1630,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     protected boolean storageInTitle = false;
     protected boolean pullsInTitle = false;
 
+    protected ShopRowPanel shopRowPanel = null;
     protected SellPanel sellPanel = null;
     protected BuyPanel buyPanel = null;
 
@@ -1655,6 +1657,11 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
       this();
 
       this.setData(data);
+
+      if (data.getShopRows() != null) {
+        this.shopRowPanel = new ShopRowPanel();
+        this.add(shopRowPanel, BorderLayout.NORTH);
+      }
 
       if (data.getSellPrices() != null) {
         this.sellPanel = new SellPanel();
@@ -1684,6 +1691,10 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
 
     public CoinMasterRequest getRequest(final boolean buying, final AdventureResult[] items) {
       return this.data.getRequest(buying, items);
+    }
+
+    public CoinMasterRequest getRequest(final ShopRow[] rows) {
+      return this.data.getRequest(rows);
     }
 
     public final void setTitle() {
@@ -1793,6 +1804,20 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
 
       if (this.buyPanel != null) {
         this.buyPanel.filterItems();
+      }
+    }
+
+    protected void execute(final ShopRow[] rows) {
+      if (rows.length == 0) {
+        return;
+      }
+
+      CoinMasterRequest request = this.getRequest(rows);
+
+      RequestThread.postRequest(request);
+
+      if (this.shopRowPanel != null) {
+        this.shopRowPanel.filterItems();
       }
     }
 
@@ -2099,6 +2124,199 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
         }
       }
     }
+
+    public class ShopRowPanel extends ItemListManagePanel<ShopRow> {
+      public ShopRowPanel(ActionListener[] listeners) {
+        super((LockableListModel<ShopRow>) CoinmasterPanel.this.data.getShopRows());
+        this.eastPanel.add(
+            new InvocationButton("visit", CoinmasterPanel.this, "check"), BorderLayout.SOUTH);
+        this.getElementList()
+            .setCellRenderer(getCoinmasterRenderer(CoinmasterPanel.this.data, true));
+        this.getElementList().setVisibleRowCount(6);
+
+        if (listeners != null) {
+          this.setButtons(true, listeners);
+          this.setEnabled(true);
+          this.filterItems();
+        }
+      }
+
+      public ShopRowPanel() {
+        this(null);
+
+        ActionListener[] listeners = new ActionListener[1];
+        listeners[0] = new BuyListener();
+
+        this.setButtons(true, listeners);
+        this.setEnabled(true);
+        this.filterItems();
+      }
+
+      public void addButton(final JButton button, final boolean save) {
+        JButton[] buttons = new JButton[1];
+        buttons[0] = button;
+        this.addButtons(buttons, save);
+      }
+
+      @Override
+      public void addButtons(final JButton[] buttons, final boolean save) {
+        super.addButtons(buttons, save);
+      }
+
+      @Override
+      public final void setEnabled(final boolean isEnabled) {
+        super.setEnabled(isEnabled);
+        for (int i = 0; this.buttons != null && i < this.buttons.length; ++i) {
+          this.buttons[i].setEnabled(CoinmasterPanel.this.enabled());
+        }
+      }
+
+      @Override
+      public void addFilters() {}
+
+      @Override
+      public void addMovers() {}
+
+      @Override
+      public AutoFilterTextField<ShopRow> getWordFilter() {
+        return new BuyableFilterField();
+      }
+
+      public ShopRow[] getDesiredRows() {
+        ShopRow[] rows = this.getSelectedValues().toArray(new ShopRow[0]);
+        return getDesiredRows(rows);
+      }
+
+      public ShopRow[] getDesiredRows(final ShopRow[] rows) {
+        if (rows.length == 0) {
+          return null;
+        }
+
+        CoinmasterData data = CoinmasterPanel.this.data;
+        Map<Integer, Integer> originalBalances = new TreeMap<>();
+        Map<Integer, Integer> balances = new TreeMap<>();
+        int neededSize = rows.length;
+
+        for (int i = 0; i < rows.length; ++i) {
+          ShopRow row = rows[i];
+          AdventureResult item = row.getItem();
+          int itemId = item.getItemId();
+
+          if (!data.availableItem(itemId)) {
+            // This was shown but was grayed out.
+            rows[i] = null;
+            --neededSize;
+            continue;
+          }
+
+          for (AdventureResult cost : row.getCosts()) {
+            Integer currency = cost.getItemId();
+            int price = cost.getCount();
+
+            Integer value = originalBalances.get(currency);
+            if (value == null) {
+              int newValue = data.availableTokens(cost);
+              value = newValue;
+              originalBalances.put(currency, value);
+              balances.put(currency, value);
+            }
+
+            int originalBalance = value.intValue();
+            int balance = balances.get(currency).intValue();
+
+            if (price > originalBalance) {
+              // This was grayed out.
+              rows[i] = null;
+              --neededSize;
+              continue;
+            }
+
+            int max = CoinmasterPanel.this.buyMax(item, balance / price);
+            int quantity = max;
+
+            if (max > 1) {
+              int def = CoinmasterPanel.this.buyDefault(max);
+              String val =
+                  InputFieldUtilities.input(
+                      "Buying " + item.getName() + "...", KoLConstants.COMMA_FORMAT.format(def));
+              if (val == null) {
+                // He hit cancel
+                return null;
+              }
+
+              quantity = StringUtilities.parseInt(val);
+            }
+
+            if (quantity > max) {
+              quantity = max;
+            }
+
+            if (quantity <= 0) {
+              rows[i] = null;
+              --neededSize;
+              continue;
+            }
+
+            // items[i] = item.getInstance(quantity);
+            balance -= quantity * price;
+            balances.put(currency, balance);
+          }
+        }
+
+        // Shrink the array which will be returned so
+        // that it removes any nulled values.
+
+        if (neededSize == 0) {
+          return null;
+        }
+
+        ShopRow[] desiredRows = new ShopRow[neededSize];
+        neededSize = 0;
+
+        for (int i = 0; i < rows.length; ++i) {
+          if (rows[i] != null) {
+            desiredRows[neededSize++] = rows[i];
+          }
+        }
+
+        return desiredRows;
+      }
+
+      public class BuyListener extends ThreadedListener {
+        @Override
+        protected void execute() {
+          CoinmasterData data = CoinmasterPanel.this.data;
+          String reason = data.canBuy();
+          if (reason != null) {
+            KoLmafia.updateDisplay(MafiaState.ERROR, reason);
+            return;
+          }
+
+          ShopRow[] rows = ShopRowPanel.this.getDesiredRows();
+          if (rows == null) {
+            return;
+          }
+
+          CoinmasterPanel.this.execute(rows);
+        }
+
+        @Override
+        public String toString() {
+          return "buy";
+        }
+      }
+
+      private class BuyableFilterField extends FilterItemField {
+        @Override
+        public boolean isVisible(final Object element) {
+          if (!(element instanceof ShopRow sr)) {
+            return false;
+          }
+          AdventureResult ar = sr.getItem();
+          return CoinmasterPanel.this.canBuyItem(ar) && super.isVisible(element);
+        }
+      }
+    }
   }
 
   public static final DefaultListCellRenderer getCoinmasterRenderer(
@@ -2136,6 +2354,10 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
 
       if (value instanceof AdventureResult) {
         return this.getRenderer(defaultComponent, (AdventureResult) value);
+      }
+
+      if (value instanceof ShopRow) {
+        return this.getRenderer(defaultComponent, (ShopRow) value);
       }
 
       return defaultComponent;
@@ -2189,6 +2411,76 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
         stringForm.append(KoLConstants.COMMA_FORMAT.format(count));
         stringForm.append(")");
       }
+      if (!show) {
+        stringForm.append("</font>");
+      }
+      stringForm.append("</html>");
+
+      ((JLabel) defaultComponent).setText(stringForm.toString());
+      return defaultComponent;
+    }
+
+    public Component getRenderer(final Component defaultComponent, final ShopRow sr) {
+      AdventureResult ar = sr.getItem();
+
+      if (!ar.isItem()) {
+        return defaultComponent;
+      }
+
+      int itemId = ar.getItemId();
+
+      AdventureResult[] costs = sr.getCosts();
+
+      if (costs == null) {
+        return defaultComponent;
+      }
+
+      boolean show = data.availableItem(itemId);
+
+      StringBuilder costString = new StringBuilder(" ");
+      boolean first = true;
+      costString.append("(");
+      for (AdventureResult cost : costs) {
+        int price = cost.getCount();
+
+        if (cost.isMeat()) {
+          price = NPCPurchaseRequest.currentDiscountedPrice(price);
+        }
+
+        if (show) {
+          int balance = this.data.availableTokens(cost);
+          if (price > balance) {
+            show = false;
+          }
+        }
+
+        if (!first) {
+          costString.append("+");
+        }
+        first = false;
+
+        costString.append(price);
+        costString.append(" ");
+        costString.append(cost.getPluralName(price));
+      }
+      costString.append(")");
+
+      StringBuilder stringForm = new StringBuilder();
+      stringForm.append("<html>");
+      if (!show) {
+        stringForm.append("<font color=gray>");
+      }
+      stringForm.append(ar.getName());
+      stringForm.append(" ");
+      int count = ar.getCount();
+      if (count == -1) {
+        stringForm.append(" (unknown)");
+      } else if (count > 1 && count != PurchaseRequest.MAX_QUANTITY) {
+        stringForm.append(" (");
+        stringForm.append(KoLConstants.COMMA_FORMAT.format(count));
+        stringForm.append(")");
+      }
+      stringForm.append(costString.toString());
       if (!show) {
         stringForm.append("</font>");
       }

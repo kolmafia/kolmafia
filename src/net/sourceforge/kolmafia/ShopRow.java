@@ -13,7 +13,7 @@ public class ShopRow implements Comparable<ShopRow> {
   private AdventureResult item;
   private AdventureResult[] costs;
 
-  ShopRow(int row, AdventureResult item, AdventureResult... costs) {
+  public ShopRow(int row, AdventureResult item, AdventureResult... costs) {
     this.row = row;
     this.item = item;
     this.costs = costs;
@@ -51,6 +51,14 @@ public class ShopRow implements Comparable<ShopRow> {
 
   public static String parseShopName(final String html) {
     Matcher m = SHOP_PATTERN.matcher(html);
+    return m.find() ? m.group(1) : "";
+  }
+
+  // name=whichshop value="grandma"
+  private static final Pattern SHOP_ID_PATTERN = Pattern.compile("name=whichshop value=\"(.*?)\"");
+
+  public static String parseShopId(final String html) {
+    Matcher m = SHOP_ID_PATTERN.matcher(html);
     return m.find() ? m.group(1) : "";
   }
 
@@ -300,6 +308,9 @@ public class ShopRow implements Comparable<ShopRow> {
     return result;
   }
 
+  // Custom AdventureResult for Meat values. The default one wants to
+  // print Priority.MEAT objects as " Meat gained"
+
   public static class MeatAdventureResult extends AdventureResult {
     public MeatAdventureResult(final int count) {
       super("Meat", count);
@@ -316,5 +327,53 @@ public class ShopRow implements Comparable<ShopRow> {
     public String toString() {
       return KoLConstants.COMMA_FORMAT.format(this.count) + " Meat";
     }
+  }
+
+  // Conversion from ShopRow objects to and from data strings.
+  // KoLmafia data file format is tab-separated fields
+  //
+  // Grandma Sea Monkee's Window	ROW124	crappy Mer-kin mask	aerated diving helmet	pristine fish
+  // scale (3)
+
+  public String toData(final String shopName) {
+    return toData(shopName, this.row, this.item, this.costs);
+  }
+
+  public static String toData(
+      final String shopName,
+      final int row,
+      final AdventureResult item,
+      final AdventureResult... costs) {
+    StringBuilder buf = new StringBuilder();
+    buf.append(shopName);
+    buf.append("\t");
+    buf.append("ROW");
+    buf.append(row);
+    buf.append("\t");
+    buf.append(item);
+    for (AdventureResult cost : costs) {
+      buf.append("\t");
+      buf.append(cost);
+    }
+    return buf.toString();
+  }
+
+  public static ShopRow fromData(final String[] data) {
+    if (data.length < 4) {
+      return null;
+    }
+    if (!data[1].startsWith("ROW")) {
+      return null;
+    }
+
+    String master = data[0];
+    int row = Integer.valueOf(data[1].substring(3));
+    AdventureResult item = AdventureResult.parseItem(data[2], true);
+    List<AdventureResult> costs = new ArrayList<>();
+    for (int index = 3; index < data.length; ++index) {
+      AdventureResult cost = AdventureResult.parseItem(data[index], true);
+      costs.add(cost);
+    }
+    return new ShopRow(row, item, costs.toArray(new AdventureResult[0]));
   }
 }

@@ -1216,61 +1216,60 @@ Elf Guard Toy and Munitions Factory	buy	2000	Elf Guard temporary (permanent) tat
 
 # Crimbo 2024
 
-#Crimbo24 Cafe	ROW1527	chocolate ostrich egg	Spirit of Easter (15)
-#Crimbo24 Cafe	ROW1528	candied beef and cabbage	Spirit of St. Patrick's Day (15)
-#Crimbo24 Cafe	ROW1529	candy rations	Spirit of Veteran's Day (15)
-#Crimbo24 Cafe	ROW1530	double-candied yams	Spirit of Thanksgiving (15)
+Crimbo24 Cafe	ROW1527	chocolate ostrich egg	Spirit of Easter (15)
+Crimbo24 Cafe	ROW1528	candied beef and cabbage	Spirit of St. Patrick's Day (15)
+Crimbo24 Cafe	ROW1529	candy rations	Spirit of Veteran's Day (15)
+Crimbo24 Cafe	ROW1530	double-candied yams	Spirit of Thanksgiving (15)
 
-#Crimbo24 Bar	ROW1521	Easter grasshopper	Spirit of Easter (15)
-#Crimbo24 Bar	ROW1522	Irish eggnog	Spirit of St. Patrick's Day (15)
-#Crimbo24 Bar	ROW1523	canteen of jungle juice	Spirit of Veteran's Day (15)
-#Crimbo24 Bar	ROW1524	turchucken	Spirit of Thanksgiving (15)
+Crimbo24 Bar	ROW1521	Easter grasshopper	Spirit of Easter (15)
+Crimbo24 Bar	ROW1522	Irish eggnog	Spirit of St. Patrick's Day (15)
+Crimbo24 Bar	ROW1523	canteen of jungle juice	Spirit of Veteran's Day (15)
+Crimbo24 Bar	ROW1524	turchucken	Spirit of Thanksgiving (15)
 
-#Crimbo24 Factory	ROW1538	lucky moai statuette	Spirit of Easter (50)	Spirit of St. Patrick's Day (50)
-#Crimbo24 Factory	ROW1537	egg gun	Spirit of Easter (200)	Spirit of Veteran's Day (200)
-#Crimbo24 Factory	ROW1540	lucky army helmet	Spirit of St. Patrick's Day (350)	Spirit of Veteran's Day (75)
-#Crimbo24 Factory	ROW1541	candy egg deviler	Spirit of Easter (200)	Spirit of Thanksgiving (125)
-#Crimbo24 Factory	ROW1542	lucky napkin	Spirit of St. Patrick's Day (50)	Spirit of Thanksgiving (25)
-#Crimbo24 Factory	ROW1543	Thanksgiving ration	Spirit of Veteran's Day (25)	Spirit of Thanksgiving (50)
-#Crimbo24 Factory	ROW1533	Secrets of the Master Egg Hunters	Spirit of Easter (500)
-#Crimbo24 Factory	ROW1534	How to Lose Friends and Attract Snakes	Spirit of St. Patrick's Day (500)
-#Crimbo24 Factory	ROW1535	Covert Ops for Kids	Spirit of Veteran's Day (500)
-#Crimbo24 Factory	ROW1536	Holiday Multitasking	Spirit of Thanksgiving (500)
+Crimbo24 Factory	ROW1538	lucky moai statuette	Spirit of Easter (50)	Spirit of St. Patrick's Day (50)
+Crimbo24 Factory	ROW1537	egg gun	Spirit of Easter (200)	Spirit of Veteran's Day (200)
+Crimbo24 Factory	ROW1540	lucky army helmet	Spirit of St. Patrick's Day (350)	Spirit of Veteran's Day (75)
+Crimbo24 Factory	ROW1541	candy egg deviler	Spirit of Easter (200)	Spirit of Thanksgiving (125)
+Crimbo24 Factory	ROW1542	lucky napkin	Spirit of St. Patrick's Day (50)	Spirit of Thanksgiving (25)
+Crimbo24 Factory	ROW1543	Thanksgiving ration	Spirit of Veteran's Day (25)	Spirit of Thanksgiving (50)
+Crimbo24 Factory	ROW1533	Secrets of the Master Egg Hunters	Spirit of Easter (500)
+Crimbo24 Factory	ROW1534	How to Lose Friends and Attract Snakes	Spirit of St. Patrick's Day (500)
+Crimbo24 Factory	ROW1535	Covert Ops for Kids	Spirit of Veteran's Day (500)
+Crimbo24 Factory	ROW1536	Holiday Multitasking	Spirit of Thanksgiving (500)
 
+#Kiwi Kwiki Mart	ROW1477	mini kiwi bikini	mini kiwi (2)
+#Kiwi Kwiki Mart	ROW1488	mini kiwi icepick	mini kiwi (4)
+#Kiwi Kwiki Mart	ROW1487	mini kiwi whipping stick	mini kiwi (4)
+#Kiwi Kwiki Mart	ROW1480	mini kiwi invisible dirigible	mini kiwi (3)
+#Kiwi Kwiki Mart	ROW1482	mini kiwi silicon tiepin	mini kiwi (3)
+#Kiwi Kwiki Mart	ROW1484	mini kiwi intoxicating spirits	mini kiwi (3)
+#Kiwi Kwiki Mart	ROW1478	mini kiwitini	mini kiwi	bottle of vodka
+#Kiwi Kwiki Mart	ROW1479	mini kiwitini	mini kiwi	bottle of gin
+#Kiwi Kwiki Mart	ROW1486	mini kiwi antimilitaristic hippy petition	mini kiwi (3)
+#Kiwi Kwiki Mart	ROW1485	mini kiwi illicit antibiotic	mini kiwi (3)
+#Kiwi Kwiki Mart	ROW1483	mini kiwi tipi	mini kiwi
+#Kiwi Kwiki Mart	ROW1489	mini kiwi-flavored aspirin-injecting lipstick	mini kiwi (3)
+#Kiwi Kwiki Mart	ROW1481	mini kiwi aioli	mini kiwi (5)
+#Kiwi Kwiki Mart	ROW1490	mini kiwi digitized cookies	mini kiwi (3)
 
-#Kiwi Kwiki Mart	unknown	mini kiwi bikini	mini kiwi (2)	ROW1477
-#Kiwi Kwiki Mart	unknown	mini kiwitini	mini kiwi	ROW1478
-#Kiwi Kwiki Mart	unknown	mini kiwitini	mini kiwi	ROW1479
-#Kiwi Kwiki Mart	unknown	mini kiwi invisible dirigible	mini kiwi (3)	ROW1480
-#Kiwi Kwiki Mart	unknown	mini kiwi aioli	mini kiwi (5)	ROW1481
-#Kiwi Kwiki Mart	unknown	mini kiwi silicon tiepin	mini kiwi (3)	ROW1482
-#Kiwi Kwiki Mart	unknown	mini kiwi tipi	mini kiwi	ROW1483
-#Kiwi Kwiki Mart	unknown	mini kiwi intoxicating spirits	mini kiwi (3)	ROW1484
-#Kiwi Kwiki Mart	unknown	mini kiwi illicit antibiotic	mini kiwi (3)	ROW1485
-#Kiwi Kwiki Mart	unknown	mini kiwi antimilitaristic hippy petition	mini kiwi (3)	ROW1486
-#Kiwi Kwiki Mart	unknown	mini kiwi whipping stick	mini kiwi (4)	ROW1487
-#Kiwi Kwiki Mart	unknown	mini kiwi icepick	mini kiwi (4)	ROW1488
-#Kiwi Kwiki Mart	unknown	mini kiwi-flavored aspirin-injecting lipstick	mini kiwi (3)	ROW1489
-#Kiwi Kwiki Mart	unknown	mini kiwi digitized cookies	mini kiwi (3)	ROW1490
-
-# The Primordial Soup Kitchen	unknown	bacteria bisque	Chroner (10)	ROW1491
-# The Primordial Soup Kitchen	unknown	ciliophora chowder	Chroner (10)	ROW1492
-# The Primordial Soup Kitchen	unknown	cream of chloroplasts	Chroner (10)	ROW1493
-# The Primordial Soup Kitchen	unknown	lip soup	cream of chloroplasts	ROW1494
-# The Primordial Soup Kitchen	unknown	lip soup	ciliophora chowder	ROW1495
-# The Primordial Soup Kitchen	unknown	lip soup	bacteria bisque	ROW1496
-# The Primordial Soup Kitchen	unknown	elbow soup	cream of chloroplasts	ROW1497
-# The Primordial Soup Kitchen	unknown	elbow soup	ciliophora chowder	ROW1498
-# The Primordial Soup Kitchen	unknown	elbow soup	bacteria bisque	ROW1499
-# The Primordial Soup Kitchen	unknown	flagellate soup	ciliophora chowder	ROW1500
-# The Primordial Soup Kitchen	unknown	flagellate soup	cream of chloroplasts	ROW1501
-# The Primordial Soup Kitchen	unknown	flagellate soup	bacteria bisque	ROW1502
-# The Primordial Soup Kitchen	unknown	muscular soup	cream of chloroplasts	ROW1503
-# The Primordial Soup Kitchen	unknown	muscular soup	ciliophora chowder	ROW1504
-# The Primordial Soup Kitchen	unknown	muscular soup	bacteria bisque	ROW1505
-# The Primordial Soup Kitchen	unknown	synaptic soup	cream of chloroplasts	ROW1506
-# The Primordial Soup Kitchen	unknown	synaptic soup	ciliophora chowder	ROW1507
-# The Primordial Soup Kitchen	unknown	synaptic soup	bacteria bisque	ROW1508
+#The Primordial Soup Kitchen	ROW1491	bacteria bisque	Chroner (10)
+#The Primordial Soup Kitchen	ROW1492	ciliophora chowder	Chroner (10)
+#The Primordial Soup Kitchen	ROW1493	cream of chloroplasts	Chroner (10)	
+#The Primordial Soup Kitchen	ROW1499	elbow soup	bacteria bisque	protogenetic chunklet (elbow)
+#The Primordial Soup Kitchen	ROW1498	elbow soup	ciliophora chowder	protogenetic chunklet (elbow)
+#The Primordial Soup Kitchen	ROW1497	elbow soup	cream of chloroplasts	protogenetic chunklet (elbow)
+#The Primordial Soup Kitchen	ROW1502	flagellate soup	bacteria bisque	protogenetic chunklet (flagellum)
+#The Primordial Soup Kitchen	ROW1500	flagellate soup	ciliophora chowder	protogenetic chunklet (flagellum)
+#The Primordial Soup Kitchen	ROW1501	flagellate soup	cream of chloroplasts	protogenetic chunklet (flagellum)
+#The Primordial Soup Kitchen	ROW1496	lip soup	bacteria bisque	protogenetic chunklet (lips)
+#The Primordial Soup Kitchen	ROW1495	lip soup	ciliophora chowder	protogenetic chunklet (lips)
+#The Primordial Soup Kitchen	ROW1494	lip soup	cream of chloroplasts	protogenetic chunklet (lips)
+#The Primordial Soup Kitchen	ROW1505	muscular soup	bacteria bisque	protogenetic chunklet (muscle)
+#The Primordial Soup Kitchen	ROW1504	muscular soup	ciliophora chowder	protogenetic chunklet (muscle)
+#The Primordial Soup Kitchen	ROW1503	muscular soup	cream of chloroplasts	protogenetic chunklet (muscle)
+#The Primordial Soup Kitchen	ROW1508	synaptic soup	bacteria bisque	protogenetic chunklet (synapse)
+#The Primordial Soup Kitchen	ROW1507	synaptic soup	ciliophora chowder	protogenetic chunklet (synapse)
+#The Primordial Soup Kitchen	ROW1506	synaptic soup	cream of chloroplasts	protogenetic chunklet (synapse)
 
 # Sept-Ember Censer
 

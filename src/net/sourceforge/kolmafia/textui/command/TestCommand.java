@@ -1124,8 +1124,11 @@ public class TestCommand extends AbstractCommand {
 
     if (command.equals("shoprows")) {
       String shop = ShopRow.parseShopName(TestCommand.contents);
-      List<ShopRow> rows = ShopRow.parseShop(TestCommand.contents, true);
+      String shopId = ShopRow.parseShopId(TestCommand.contents);
+      NPCPurchaseRequest.parseShopInventory(shopId, TestCommand.contents, true);
       TestCommand.contents = null;
+      /*
+      List<ShopRow> rows = ShopRow.parseShop(TestCommand.contents, true);
       RequestLogger.printLine("shop '" + shop + "' offers " + rows.size() + " items.");
       for (ShopRow row : rows) {
         RequestLogger.printLine("row = " + row.getRow() + " item = " + row.getItem());
@@ -1133,6 +1136,7 @@ public class TestCommand extends AbstractCommand {
           RequestLogger.printLine("cost: " + cost);
         }
       }
+      */
       return;
     }
 
