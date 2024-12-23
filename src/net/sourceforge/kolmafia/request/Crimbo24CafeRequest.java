@@ -1,7 +1,7 @@
 package net.sourceforge.kolmafia.request;
 
-import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
+import net.sourceforge.kolmafia.ShopRow;
 
 public class Crimbo24CafeRequest extends CoinMasterRequest {
   public static final String master = "Crimbo24 Cafe";
@@ -15,16 +15,8 @@ public class Crimbo24CafeRequest extends CoinMasterRequest {
     super(DATA);
   }
 
-  public Crimbo24CafeRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(DATA, buying, attachments);
-  }
-
-  public Crimbo24CafeRequest(final boolean buying, final AdventureResult attachment) {
-    super(DATA, buying, attachment);
-  }
-
-  public Crimbo24CafeRequest(final boolean buying, final int itemId, final int quantity) {
-    super(DATA, buying, itemId, quantity);
+  public Crimbo24CafeRequest(final ShopRow row, final int count) {
+    super(DATA, row, count);
   }
 
   @Override
@@ -50,7 +42,7 @@ public class Crimbo24CafeRequest extends CoinMasterRequest {
   }
 
   public static String accessible() {
-    return "";
+    return null;
   }
 
   public static final boolean registerRequest(final String urlString) {

@@ -11,6 +11,7 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.ListSelectionModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -1680,6 +1681,9 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     public void update() {
       // (coinmaster) is fired when tokens change
       this.setTitle();
+      if (this.shopRowPanel != null) {
+        this.shopRowPanel.filterItems();
+      }
       if (this.buyPanel != null) {
         this.buyPanel.filterItems();
       }
@@ -1691,10 +1695,6 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
 
     public CoinMasterRequest getRequest(final boolean buying, final AdventureResult[] items) {
       return this.data.getRequest(buying, items);
-    }
-
-    public CoinMasterRequest getRequest(final ShopRow[] rows) {
-      return this.data.getRequest(rows);
     }
 
     public final void setTitle() {
@@ -1762,6 +1762,9 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     @Override
     public void setEnabled(final boolean isEnabled) {
       super.setEnabled(isEnabled);
+      if (this.shopRowPanel != null) {
+        this.shopRowPanel.setEnabled(isEnabled);
+      }
       if (this.buyPanel != null) {
         this.buyPanel.setEnabled(isEnabled);
       }
@@ -1780,6 +1783,9 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
 
     public void check() {
       RequestThread.postRequest(this.getRequest());
+      if (this.shopRowPanel != null) {
+        this.shopRowPanel.filterItems();
+      }
       if (this.buyPanel != null) {
         this.buyPanel.filterItems();
       }
@@ -1804,20 +1810,6 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
 
       if (this.buyPanel != null) {
         this.buyPanel.filterItems();
-      }
-    }
-
-    protected void execute(final ShopRow[] rows) {
-      if (rows.length == 0) {
-        return;
-      }
-
-      CoinMasterRequest request = this.getRequest(rows);
-
-      RequestThread.postRequest(request);
-
-      if (this.shopRowPanel != null) {
-        this.shopRowPanel.filterItems();
       }
     }
 
@@ -2126,10 +2118,14 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     }
 
     public class ShopRowPanel extends ItemListManagePanel<ShopRow> {
+      // Unlike an AdventureResult, a ShopRow doesn't come with a count field.
+      private record ShopRowSelection(ShopRow row, int count) {}
+
       public ShopRowPanel(ActionListener[] listeners) {
         super((LockableListModel<ShopRow>) CoinmasterPanel.this.data.getShopRows());
         this.eastPanel.add(
             new InvocationButton("visit", CoinmasterPanel.this, "check"), BorderLayout.SOUTH);
+        this.getElementList().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         this.getElementList()
             .setCellRenderer(getCoinmasterRenderer(CoinmasterPanel.this.data, true));
         this.getElementList().setVisibleRowCount(6);
@@ -2182,104 +2178,65 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
         return new BuyableFilterField();
       }
 
-      public ShopRow[] getDesiredRows() {
-        ShopRow[] rows = this.getSelectedValues().toArray(new ShopRow[0]);
-        return getDesiredRows(rows);
+      public ShopRowSelection getDesiredRow() {
+        ShopRow row = this.getSelectedValue();
+        return getDesiredRow(row);
       }
 
-      public ShopRow[] getDesiredRows(final ShopRow[] rows) {
-        if (rows.length == 0) {
+      public ShopRowSelection getDesiredRow(final ShopRow row) {
+        AdventureResult item = row.getItem();
+
+        int max = Integer.MAX_VALUE;
+
+        // Look at all costs and decide the max you can buy given available balances
+        for (AdventureResult cost : row.getCosts()) {
+          int available =
+              cost.isMeat() ? Concoction.getAvailableMeat() : cost.getCount(KoLConstants.inventory);
+          int price = cost.getCount();
+          if (cost.isMeat()) {
+            price = NPCPurchaseRequest.currentDiscountedPrice(price);
+          }
+          max = Math.min(max, available / price);
+        }
+
+        if (max <= 0) {
           return null;
         }
 
-        CoinmasterData data = CoinmasterPanel.this.data;
-        Map<Integer, Integer> originalBalances = new TreeMap<>();
-        Map<Integer, Integer> balances = new TreeMap<>();
-        int neededSize = rows.length;
+        int quantity = 1;
 
-        for (int i = 0; i < rows.length; ++i) {
-          ShopRow row = rows[i];
-          AdventureResult item = row.getItem();
-          int itemId = item.getItemId();
-
-          if (!data.availableItem(itemId)) {
-            // This was shown but was grayed out.
-            rows[i] = null;
-            --neededSize;
-            continue;
+        if (max > 1) {
+          int def = CoinmasterPanel.this.buyDefault(max);
+          String val =
+              InputFieldUtilities.input(
+                  "Buying " + item.getName() + "...", KoLConstants.COMMA_FORMAT.format(def));
+          if (val == null) {
+            // He hit cancel
+            return null;
           }
 
-          for (AdventureResult cost : row.getCosts()) {
-            Integer currency = cost.getItemId();
-            int price = cost.getCount();
-
-            Integer value = originalBalances.get(currency);
-            if (value == null) {
-              int newValue = data.availableTokens(cost);
-              value = newValue;
-              originalBalances.put(currency, value);
-              balances.put(currency, value);
-            }
-
-            int originalBalance = value.intValue();
-            int balance = balances.get(currency).intValue();
-
-            if (price > originalBalance) {
-              // This was grayed out.
-              rows[i] = null;
-              --neededSize;
-              continue;
-            }
-
-            int max = CoinmasterPanel.this.buyMax(item, balance / price);
-            int quantity = max;
-
-            if (max > 1) {
-              int def = CoinmasterPanel.this.buyDefault(max);
-              String val =
-                  InputFieldUtilities.input(
-                      "Buying " + item.getName() + "...", KoLConstants.COMMA_FORMAT.format(def));
-              if (val == null) {
-                // He hit cancel
-                return null;
-              }
-
-              quantity = StringUtilities.parseInt(val);
-            }
-
-            if (quantity > max) {
-              quantity = max;
-            }
-
-            if (quantity <= 0) {
-              rows[i] = null;
-              --neededSize;
-              continue;
-            }
-
-            // items[i] = item.getInstance(quantity);
-            balance -= quantity * price;
-            balances.put(currency, balance);
-          }
+          quantity = StringUtilities.parseInt(val);
         }
 
-        // Shrink the array which will be returned so
-        // that it removes any nulled values.
+        if (quantity > max) {
+          quantity = max;
+        }
 
-        if (neededSize == 0) {
+        if (quantity <= 0) {
           return null;
         }
 
-        ShopRow[] desiredRows = new ShopRow[neededSize];
-        neededSize = 0;
+        return new ShopRowSelection(row, quantity);
+      }
 
-        for (int i = 0; i < rows.length; ++i) {
-          if (rows[i] != null) {
-            desiredRows[neededSize++] = rows[i];
-          }
-        }
+      public CoinMasterRequest getRequest(final ShopRow row, int quantity) {
+        return CoinmasterPanel.this.data.getRequest(row, quantity);
+      }
 
-        return desiredRows;
+      protected void execute(final ShopRow row, int quantity) {
+        CoinMasterRequest request = getRequest(row, quantity);
+        RequestThread.postRequest(request);
+        filterItems();
       }
 
       public class BuyListener extends ThreadedListener {
@@ -2292,12 +2249,12 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
             return;
           }
 
-          ShopRow[] rows = ShopRowPanel.this.getDesiredRows();
-          if (rows == null) {
+          ShopRowSelection selection = ShopRowPanel.this.getDesiredRow();
+          if (selection == null) {
             return;
           }
 
-          CoinmasterPanel.this.execute(rows);
+          ShopRowPanel.this.execute(selection.row(), selection.count());
         }
 
         @Override
@@ -2312,8 +2269,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
           if (!(element instanceof ShopRow sr)) {
             return false;
           }
-          AdventureResult ar = sr.getItem();
-          return CoinmasterPanel.this.canBuyItem(ar) && super.isVisible(element);
+          return super.isVisible(element);
         }
       }
     }
@@ -2435,21 +2391,21 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
         return defaultComponent;
       }
 
-      boolean show = data.availableItem(itemId);
+      boolean show = true;
 
       StringBuilder costString = new StringBuilder(" ");
       boolean first = true;
       costString.append("(");
       for (AdventureResult cost : costs) {
+        int available =
+            cost.isMeat() ? Concoction.getAvailableMeat() : cost.getCount(KoLConstants.inventory);
         int price = cost.getCount();
-
         if (cost.isMeat()) {
           price = NPCPurchaseRequest.currentDiscountedPrice(price);
         }
 
         if (show) {
-          int balance = this.data.availableTokens(cost);
-          if (price > balance) {
+          if (price > available) {
             show = false;
           }
         }

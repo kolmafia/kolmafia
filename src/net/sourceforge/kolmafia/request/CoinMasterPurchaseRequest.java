@@ -57,7 +57,7 @@ public class CoinMasterPurchaseRequest extends PurchaseRequest {
     // this.cost = price;
     this.cost = null;
 
-    this.request = data.getRequest(new ShopRow[] {row});
+    this.request = data.getRequest(row, 1);
   }
 
   @Override
