@@ -444,7 +444,7 @@ Holiday Islands	adventure=588	DiffLevel: mid Env: outdoor Stat: 0 ForceNoncombat
 Holiday Islands	adventure=589	DiffLevel: mid Env: outdoor Stat: 0 ForceNoncombat: 12	St. Patrick's Day Island
 Holiday Islands	adventure=590	DiffLevel: mid Env: outdoor Stat: 0 ForceNoncombat: 13	Veterans Day Island
 Holiday Islands	adventure=591	DiffLevel: mid Env: outdoor Stat: 0 ForceNoncombat: 14	Thanksgiving Island
-Holiday Islands	adventure=591	DiffLevel: mid Env: outdoor Stat: 0 ForceNoncombat: 15	Christmas Island
+Holiday Islands	adventure=592	DiffLevel: mid Env: outdoor Stat: 0 ForceNoncombat: 15	Christmas Island
 
 Crimbo23	adventure=575	DiffLevel: mid Env: indoor Stat: 0	Abuela's Cottage (Contested)
 Crimbo23	adventure=576	DiffLevel: mid Env: indoor Stat: 0	The Embattled Factory

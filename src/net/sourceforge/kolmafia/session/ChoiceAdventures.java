@@ -6337,6 +6337,15 @@ public abstract class ChoiceAdventures {
         new ChoiceOption("fight Jebediah", 1),
         new ChoiceOption("get Spirits of Thanksgiving scaling with cold resistance", 2),
         new ChoiceOption("skip adventure", 3));
+
+    // The Malevolent Spirit of the Holiday
+    new ChoiceAdventure(
+        1542,
+        "Holiday Islands",
+        "The Malevolent Spirit of the Holiday",
+        new ChoiceOption("fight ???", 1),
+        new ChoiceOption("get Spirits of Christmas scaling with spooky resistance", 2),
+        new ChoiceOption("skip adventure", 3));
   }
 
   // This array is used by the ChoiceOptionsPanel to provide all the GUI configurable choices.
