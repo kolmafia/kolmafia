@@ -30,7 +30,7 @@ public class DataFileMechanicsTest {
         Arguments.of("cafe_booze.txt", 1, 2, 2),
         Arguments.of("cafe_food.txt", 1, 2, 2),
         Arguments.of("classskills.txt", 6, 6, 7),
-        Arguments.of("coinmasters.txt", 2, 4, 5),
+        Arguments.of("coinmasters.txt", 3, 4, 7),
         // combats.txt too complex
         // concoctions.txt too complex
         // consequences.txt too complex

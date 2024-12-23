@@ -1,4 +1,4 @@
-2
+3
 # Shop name	buy/sell	shop currency gained/lost	item bought/sold	ROWXXX
 # ROW and quantity sold are optional, if both are used they must be separated by a comma
 
