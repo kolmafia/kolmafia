@@ -411,6 +411,7 @@ public class Preferences {
         "lastNoncombat589",
         "lastNoncombat590",
         "lastNoncombat591",
+        "lastNoncombat592",
         "lastShadowForgeUnlockAdventure",
         "lastTrainsetConfiguration",
         "lastZapperWandExplosionDay",

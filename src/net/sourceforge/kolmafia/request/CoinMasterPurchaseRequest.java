@@ -6,6 +6,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.ShopRow;
 
 public class CoinMasterPurchaseRequest extends PurchaseRequest {
   private final CoinmasterData data;
@@ -33,6 +34,30 @@ public class CoinMasterPurchaseRequest extends PurchaseRequest {
     this.data = data;
     this.cost = price;
     this.request = data.getRequest(true, new AdventureResult[] {this.item});
+  }
+
+  public CoinMasterPurchaseRequest(final CoinmasterData data, final ShopRow row) {
+    super(""); // We do not run this request itself
+
+    this.shopName = data.getMaster();
+
+    AdventureResult item = row.getItem();
+    this.item = item.getInstance(1);
+    this.quantity = item.getCount();
+
+    this.limit = this.quantity;
+    this.canPurchase = true;
+
+    this.timestamp = 0L;
+
+    this.data = data;
+
+    // *** What to do?
+    // this.price = price.getCount();
+    // this.cost = price;
+    this.cost = null;
+
+    this.request = data.getRequest(new ShopRow[] {row});
   }
 
   @Override

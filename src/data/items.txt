@@ -11730,16 +11730,16 @@
 11702	jolly roger tattoo kit	293648871	ts_tatkit.gif	usable	t,d	250
 11703	golden pet rock	277212142	ts_goldrock.gif	grow	t	0
 11704	groggles	658108570	ts_goggles.gif	accessory	t,d	11	pairs of groggles
-11705	pirate dinghy	613418372	ts_dinghy.gif	usable	q	0	pirate dinghies
+11705	pirate dinghy	613418372	ts_dinghy.gif	reusable	q	0	pirate dinghies
 11706	anchor bomb	702120284	ts_bomb.gif	none, combat	t,d	11
 11707	silky pirate drawers	353264524	ts_pants.gif	pants	t,d	22	pairs of silky pirate drawers
 11708	profane eye patch	592191675	ts_eyepatch.gif	familiar	t,d	10	profane eye patches
-11709	peppermint pegleg	240958650	pepperpeg.gif	potion, usable	t	0
+11709	peppermint pegleg	240958650	pepperpeg.gif	potion	t	0
 11710	hard cocoa	491706523	coffeecup.gif	drink	t	0	cups of hard cocoa
 11711	salmagumdi	784940421	salmagundi.gif	food	t	0	plates of salmagumdi
-11712	tiny plastic Easter Island Bunny	910030772	c24tpa.gif	accessory	t	0
-11713
-11714
+11712	tiny plastic Easter Island Bunny	910030772	c24tpa.gif	accessory	t	0	tiny plastic Easter Island Bunnies
+11713	tiny plastic St. Patrick	427726670	c24tpbee.gif	accessory	t	0
+11714	tiny plastic Colonel Brando	148356375	c24tptres.gif	accessory	t	0
 11715
 11716
 11717	Spirit of Easter	756560474	spirit_easter.gif	none		0	Spirits of Easter
@@ -11762,14 +11762,14 @@
 11734	gravyskin hat	800643208	gravyhat.gif	hat	t,d	25
 11735	gravyskin buckler	960954379	gravyshield.gif	offhand	t,d	25
 11736	gravyskin skirt	759340976	gravyskirt.gif	pants	t,d	25
-11737	gravyskin pants	578323143	gravypants.gif	pants	t,d	25
-11738	crystallized pumpkin spice	209448544	spicecrystal.gif	potion, usable	t,d	111
+11737	gravyskin pants	578323143	gravypants.gif	pants	t,d	25	pairs of gravyskin pants
+11738	crystallized pumpkin spice	209448544	spicecrystal.gif	potion, usable	t,d	111	pieces of crystallized pumpkin spice
 11739	room scale green bean casserole	822288223	bigcasserole.gif	food	t,d	85
-11740
-11741
-11742
-11743
-11744
+11740	fragile Christmas ornament	438837250	xmasornament.gif	none, combat	t,d	9
+11741	ragged wool yarn	420599352	xmasthread.gif	usable	t,d	2	ragged wool yarn threads
+11742	perfect Christmas scarf	183929132	xmasscarf.gif	accessory	t,d	222	perfect Christmas scarves
+11743	snowman-enchanting tophat	187101564	snowmanhat.gif	hat	t	0
+11744	LIDAR candle	458314762	lidarcandle.gif	potion	t,d	18
 11745	Congressional Medal of Insanity	349618725	insanitymedal.gif	accessory	t	0	Congressional Medals of Insanity
 11746	pumpkin spice whorl	469349444	spicewhorl.gif	usable	t	0
 11747	Easter grasshopper	745334157	shadowmartini.gif	drink	t,d	75
@@ -11787,23 +11787,23 @@
 11759
 11760
 11761	Secrets of the Master Egg Hunters	943549721	book5.gif	usable	t	0	copies of Secrets of the Master Egg Hunters
-11762	Secrets of the Master Egg Hunters (used)	216321799	book5.gif	usable		0	used copies of Secrets of the Master Egg Hunters
+11762	Secrets of the Master Egg Hunters (used)	216321799	book5.gif	reusable		0	used copies of Secrets of the Master Egg Hunters
 11763	How to Lose Friends and Attract Snakes	465814056	book3.gif	usable	t	0	copies of How to Lose Friends and Attract Snakes
-11764	How to Lose Friends and Attract Snakes (used)	953745853	book3.gif	usable	t	0	used copies of How to Lose Friends and Attract Sna
+11764	How to Lose Friends and Attract Snakes (used)	953745853	book3.gif	reusable		0	used copies of How to Lose Friends and Attract Sna
 11765	Covert Ops for Kids	484772100	book2.gif	usable	t	0	copies of Covert Ops for Kids
-11766	Covert Ops for Kids (used)	700189532	book2.gif	usable		0	used copies of Covert Ops for Kids
-11767	Holiday Multitasking	555431420	book3.gif	usable	t	0
-11768	Holiday Multitasking (used)	639002731	book3.gif	usable		0
-11769
+11766	Covert Ops for Kids (used)	700189532	book2.gif	reusable		0	used copies of Covert Ops for Kids
+11767	Holiday Multitasking	555431420	book3.gif	usable	t	0	copies of Holiday Multitasking
+11768	Holiday Multitasking (used)	639002731	book3.gif	reusable		0	used copies of Holiday Multitasking
+11769	Hoyle's Guide to Reindeer Games	429457903	book4.gif	usable	t	0	copies of Hoyle's Guide to Reindeer Games
 11770
 11771	lucky moai statuette	232982896	chiatiki.gif	usable	t	0
 11772	egg gun	530204511	egggun.gif	weapon	t	0
 11773	lucky army helmet	759962296	luckyhelmet.gif	hat	t	0
-11774	candy egg deviler	477053908	deviler.gif	usable	t	0
+11774	candy egg deviler	477053908	deviler.gif	reusable	t	0
 11775	lucky napkin	415628647	luckynapkin.gif	usable	t	0
 11776	Thanksgiving ration	304022096	thanksration.gif	food	t	0
-11777
-11778
-11779
-11780
+11777	Easter eggnog	657231657	easternog.gif	drink	t	0	mugs of Easter eggnog
+11778	clovermint	801500156	clovermint.gif	spleen, usable	t	0
+11779	nylon Christmas stockings	229779717	xmasstockings.gif	accessory	t	0	pairs of nylon Christmas stockings
+11780	tattoo of two turkeys	563249901	twoturkeytat.gif	usable	t	0	tattoos of two turkeys
 11781	deviled candy egg	732823232	candyegg.gif	potion, usable	t,d	5

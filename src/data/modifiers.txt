@@ -482,6 +482,8 @@ Item	snakeskin cowboy hat	Moxie: +5, Ranged Damage Percent: +50
 Item	snorkel	Familiar Effect: "atk, cap 2"
 Item	snow hat	Damage Reduction: 3, Familiar Effect: "cold atk, cap 12"
 Item	Snow Queen Crown	Cold Damage: +5, Cold Resistance: +3, Familiar Effect: "cold atk, 1xGhuol, cap 28"
+# snowman-enchanting tophat: Can turn enemies into snowmen
+Item	snowman-enchanting tophat	Moxie Percent: +25, Spell Damage Percent: +50
 Item	soft cap of diminishing returns	Experience (Muscle): [-1*floor(basemus/100)], Experience (Mysticality): [-1*floor(basemys/100)], Experience (Moxie): [-1*floor(basemox/100)]
 Item	Sombrero De Vida	Four Songs, Familiar Effect: "1xVolley, 1xPotato, 1xLep, cap 12"
 Item	sombrero-mounted sparkler	Combat Rate: +5, Hot Damage: +10, Hot Spell Damage: +20, Lasts Until Rollover
@@ -3421,6 +3423,7 @@ Item	Nouveau nosering	Moxie Percent: +50, Item Drop: +25, Maximum HP: +25, Maxim
 Item	Novelty Belt Buckle of Violence	Muscle Percent: +20, Critical Hit Percent: +5, Weapon Damage Percent: +30, Single Equip
 Item	novelty tattoo sleeves	Muscle: +6, PvP Fights: +1, Single Equip
 Item	numberwang	PvP Fights: +5, Adventures: +5, Monster Level: +11, Initiative: +23, Maximum HP: +37, Maximum MP: +37, HP Regen Min: 6, HP Regen Max: 9, MP Regen Min: 6, MP Regen Max: 9, Single Equip
+Item	nylon Christmas stockings	Initiative: +75, Spell Damage Percent: +50, Experience: +3, Mana Cost: -1, Single Equip
 Item	observational glasses	Item Drop: +5
 Item	offensive moustache	PvP Fights: +7, Single Equip
 Item	Official Council Aide Pin	Adventures: +4, PvP Fights: +2
@@ -3467,6 +3470,7 @@ Item	pegfinger	Spell Damage Percent: +25, MPC Drop: 0.5, Single Equip
 Item	Pendant of Fire	Muscle: +3, Mysticality: +3, Moxie: +3, Hot Spell Damage: +40, Single Equip
 Item	Pendant of Gargalesis	MP Regen Min: 6, MP Regen Max: 10
 Item	peppermint-scented socks	MP Regen Min: 8, MP Regen Max: 16
+Item	perfect Christmas scarf	Adventures: [+9*event(December)], Cold Resistance: [+7*event(December)], HP Regen Min: [4*event(December)], HP Regen Max: [6*event(December)], MP Regen Min: [4*event(December)], MP Regen Max: [6*event(December)]
 Item	perfume-soaked bandana	Stench Resistance: +4, Spooky Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Single Equip
 # Personal Ventilation Unit: Allows Safe Access to Secret Government Lab
 Item	Personal Ventilation Unit	Muscle Limit: 100, Mysticality Limit: 100, Moxie Limit: 100, Single Equip
@@ -3892,6 +3896,7 @@ Item	tiny plastic coal car	Hot Damage: +5, Hot Spell Damage: +5
 Item	tiny plastic cocoabo	Familiar Weight: +1
 Item	tiny plastic coffee pixie	Familiar Weight: +1
 Item	tiny plastic colollilossus	HP Regen Min: 3, HP Regen Max: 5
+Item	tiny plastic Colonel Brando	Spooky Damage: +3, Spooky Spell Damage: +3
 Item	tiny plastic conservationist hippy	Stench Damage: +5
 Item	tiny plastic CRIMBCO HQ	Item Drop: +4
 Item	tiny plastic Crimbo caroler	Familiar Weight: +3
@@ -4022,6 +4027,7 @@ Item	tiny plastic spiny skelelton	Monster Level: +1
 Item	tiny plastic spooky pirate skeleton	Familiar Weight: +1
 Item	tiny plastic spooky vampire	Monster Level: +1
 Item	tiny plastic Spunky Princess	Monster Level: +1
+Item	tiny plastic St. Patrick	Familiar Weight: +1
 Item	tiny plastic stab bat	Familiar Weight: +1
 Item	tiny plastic star starfish	Familiar Weight: +1
 Item	tiny plastic stocking mimic	Candy Drop: +10
@@ -6697,6 +6703,7 @@ Effect	Lettuce Go!	Initiative: +100
 Effect	Lettuce Rejoice	Experience: +7, Muscle Percent: +77, Mysticality Percent: +77, Moxie Percent: +77, Item Drop: +7, Meat Drop: +7, Weapon Damage: +7
 Effect	Libra Rising	Experience (Muscle): +1, Experience (Mysticality): +1, Experience (Moxie): +1
 Effect	License to Punch	Muscle Percent: +100
+# LIDARed: Helps you keep your distance from enemies.
 Effect	Lifted Spirits	Initiative: +25, Experience: +5
 # Light!
 # Light-Headed: Increased chance of fumbling
@@ -9715,6 +9722,7 @@ Item	brilliant oyster egg	Effect: "Eggstraordinary Brilliance", Effect Duration:
 Item	bug paste	Effect: "Buggy Flavor", Effect Duration: 10
 Item	carrot juice	Effect: "Pla-see-bo", Effect Duration: 10
 Item	chlorophyll paste	Effect: "Chlorophyll Flavor", Effect Duration: 10
+# clovermint: Gives you good luck
 # cold jelly: Freezes your liver
 Item	cold jelly	Effect: "Cold Jellied", Effect Duration: 50
 Item	cold wad	Effect: "Cold Blooded", Effect Duration: 20
@@ -10396,6 +10404,7 @@ Item	lesser grodulated violet	Effect: "Fustulent", Effect Duration: 10
 Item	libation of liveliness	Effect: "Provocative Perkiness", Effect Duration: [R]
 Item	licorice root	Effect: "Rootin' Around", Effect Duration: 20
 Item	licorice snake	Effect: "Whippin' It Good", Effect Duration: 20
+Item	LIDAR candle	Effect: "LIDARed", Effect Duration: 30
 Item	lime supersucker	Effect: "In the Limelight", Effect Duration: 30
 Item	lime-and-chile-flavored chewing gum	Effect: "Spicy Limeness", Effect Duration: 5
 Item	lion musk	Effect: "Lion in Ambush", Effect Duration: 20
@@ -12570,6 +12579,7 @@ Item	talking spade	Free Pull
 Item	Tapioc berry	Effect: "Berry Elemental", Effect Duration: 20
 # tattered scrap of paper: Lets you escape from combat without spending an Adventure
 # tattered scrap of paper: (Maybe)
+# tattoo of two turkeys: Grants a tattoo when used
 # tennis ball: Banish an enemy for 30 Adventures
 # tequila grenade: Deals 75-100 Physical Damage
 # terrible poem: Deals 5-6 Physical Damage
