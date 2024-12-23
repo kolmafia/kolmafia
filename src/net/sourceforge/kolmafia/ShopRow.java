@@ -332,8 +332,7 @@ public class ShopRow implements Comparable<ShopRow> {
   // Conversion from ShopRow objects to and from data strings.
   // KoLmafia data file format is tab-separated fields
   //
-  // Grandma Sea Monkee's Window	ROW124	crappy Mer-kin mask	aerated diving helmet	pristine fish
-  // scale (3)
+  // Star Chart	ROW142	star shirt	star (15)	line (15)	star chart
 
   public String toData(final String shopName) {
     return toData(shopName, this.row, this.item, this.costs);

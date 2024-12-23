@@ -1,4 +1,4 @@
-2
+3
 # Shop name	buy/sell	shop currency gained/lost	item bought/sold	ROWXXX
 # ROW and quantity sold are optional, if both are used they must be separated by a comma
 
@@ -1220,11 +1220,15 @@ Crimbo24 Cafe	ROW1527	chocolate ostrich egg	Spirit of Easter (15)
 Crimbo24 Cafe	ROW1528	candied beef and cabbage	Spirit of St. Patrick's Day (15)
 Crimbo24 Cafe	ROW1529	candy rations	Spirit of Veteran's Day (15)
 Crimbo24 Cafe	ROW1530	double-candied yams	Spirit of Thanksgiving (15)
+Crimbo24 Cafe	ROW1531	Christmas ham	Spirit of Christmas (15)
+Crimbo24 Cafe	ROW1532	holiday smorgasbord	Spirit of Easter (15)	Spirit of St. Patrick's Day (15)	Spirit of Veteran's Day (15)	Spirit of Thanksgiving (15)	Spirit of Christmas (15)
 
 Crimbo24 Bar	ROW1521	Easter grasshopper	Spirit of Easter (15)
 Crimbo24 Bar	ROW1522	Irish eggnog	Spirit of St. Patrick's Day (15)
 Crimbo24 Bar	ROW1523	canteen of jungle juice	Spirit of Veteran's Day (15)
 Crimbo24 Bar	ROW1524	turchucken	Spirit of Thanksgiving (15)
+Crimbo24 Bar	ROW1525	mechanically-mulled cider	Spirit of Christmas (15)
+Crimbo24 Bar	ROW1526	holiday trip around the world	Spirit of Easter (15)	Spirit of St. Patrick's Day (15)	Spirit of Veteran's Day (15)	Spirit of Thanksgiving (15)	Spirit of Christmas (15)
 
 Crimbo24 Factory	ROW1538	lucky moai statuette	Spirit of Easter (50)	Spirit of St. Patrick's Day (50)
 Crimbo24 Factory	ROW1537	egg gun	Spirit of Easter (200)	Spirit of Veteran's Day (200)
@@ -1232,10 +1236,15 @@ Crimbo24 Factory	ROW1540	lucky army helmet	Spirit of St. Patrick's Day (350)	Spi
 Crimbo24 Factory	ROW1541	candy egg deviler	Spirit of Easter (200)	Spirit of Thanksgiving (125)
 Crimbo24 Factory	ROW1542	lucky napkin	Spirit of St. Patrick's Day (50)	Spirit of Thanksgiving (25)
 Crimbo24 Factory	ROW1543	Thanksgiving ration	Spirit of Veteran's Day (25)	Spirit of Thanksgiving (50)
+Crimbo24 Factory	ROW1544	Easter eggnog	Spirit of Easter (50)	Spirit of Christmas (25)
+Crimbo24 Factory	ROW1545	clovermint	Spirit of St. Patrick's Day (50)	Spirit of Christmas (25)
+Crimbo24 Factory	ROW1546	nylon Christmas stockings	Spirit of Veteran's Day (200)	Spirit of Christmas (150)
+Crimbo24 Factory	ROW1547	tattoo of two turkeys	Spirit of Thanksgiving (300)	Spirit of Christmas (300)
 Crimbo24 Factory	ROW1533	Secrets of the Master Egg Hunters	Spirit of Easter (500)
 Crimbo24 Factory	ROW1534	How to Lose Friends and Attract Snakes	Spirit of St. Patrick's Day (500)
 Crimbo24 Factory	ROW1535	Covert Ops for Kids	Spirit of Veteran's Day (500)
 Crimbo24 Factory	ROW1536	Holiday Multitasking	Spirit of Thanksgiving (500)
+Crimbo24 Factory	ROW1548	Hoyle's Guide to Reindeer Games	Spirit of Christmas (500)
 
 #Kiwi Kwiki Mart	ROW1477	mini kiwi bikini	mini kiwi (2)
 #Kiwi Kwiki Mart	ROW1488	mini kiwi icepick	mini kiwi (4)
