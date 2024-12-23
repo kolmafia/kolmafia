@@ -2940,7 +2940,7 @@
 2937	Curse of the Tamale	ts_tamale.gif	4e266c3ab86db9587b54fa54ae1adb04	neutral	none	eat 1 cursed Aztec tamale
 2938	Luck of St. Patrick	fourleafsprout.gif	a52f0ec8fa2f9cb2bca63739aa1099df	neutral	none	use 1 four-leaf potato sprout
 2939	Rummy	candy.gif	df0db5d253af5a2e71afd14cc6ed80d0	neutral	none	use 1 rum ball
-2940
+2940	LIDARed	lidarcandle.gif	b34429042b32da133c148957b526aafb	neutral	none	use 1 LIDAR candle
 2941	All Cut Up	fence.gif	f08f52dd911edcd4ef8a1cd952ced281	neutral	none
 2942
 2943	Candied Devil	candyegg.gif	8e5858ba1620c6ef09ee0a32ae5e13fe	neutral	none	use 1 deviled candy egg

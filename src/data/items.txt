@@ -11739,7 +11739,7 @@
 11711	salmagumdi	784940421	salmagundi.gif	food	t	0	plates of salmagumdi
 11712	tiny plastic Easter Island Bunny	910030772	c24tpa.gif	accessory	t	0	tiny plastic Easter Island Bunnies
 11713	tiny plastic St. Patrick	427726670	c24tpbee.gif	accessory	t	0
-11714
+11714	tiny plastic Colonel Brando	148356375	c24tptres.gif	accessory	t	0
 11715
 11716
 11717	Spirit of Easter	756560474	spirit_easter.gif	none		0	Spirits of Easter
@@ -11765,11 +11765,11 @@
 11737	gravyskin pants	578323143	gravypants.gif	pants	t,d	25	pairs of gravyskin pants
 11738	crystallized pumpkin spice	209448544	spicecrystal.gif	potion, usable	t,d	111	pieces of crystallized pumpkin spice
 11739	room scale green bean casserole	822288223	bigcasserole.gif	food	t,d	85
-11740
-11741
-11742
-11743
-11744
+11740	fragile Christmas ornament	438837250	xmasornament.gif	none, combat	t,d	9
+11741	ragged wool yarn	420599352	xmasthread.gif	usable	t,d	2	ragged wool yarn threads
+11742	perfect Christmas scarf	183929132	xmasscarf.gif	accessory	t,d	222	perfect Christmas scarves
+11743	snowman-enchanting tophat	187101564	snowmanhat.gif	hat	t	0
+11744	LIDAR candle	458314762	lidarcandle.gif	potion	t,d	18
 11745	Congressional Medal of Insanity	349618725	insanitymedal.gif	accessory	t	0	Congressional Medals of Insanity
 11746	pumpkin spice whorl	469349444	spicewhorl.gif	usable	t	0
 11747	Easter grasshopper	745334157	shadowmartini.gif	drink	t,d	75
@@ -11794,7 +11794,7 @@
 11766	Covert Ops for Kids (used)	700189532	book2.gif	reusable		0	used copies of Covert Ops for Kids
 11767	Holiday Multitasking	555431420	book3.gif	usable	t	0	copies of Holiday Multitasking
 11768	Holiday Multitasking (used)	639002731	book3.gif	reusable		0	used copies of Holiday Multitasking
-11769
+11769	Hoyle's Guide to Reindeer Games	429457903	book4.gif	usable	t	0	copies of Hoyle's Guide to Reindeer Games
 11770
 11771	lucky moai statuette	232982896	chiatiki.gif	usable	t	0
 11772	egg gun	530204511	egggun.gif	weapon	t	0
@@ -11802,8 +11802,8 @@
 11774	candy egg deviler	477053908	deviler.gif	reusable	t	0
 11775	lucky napkin	415628647	luckynapkin.gif	usable	t	0
 11776	Thanksgiving ration	304022096	thanksration.gif	food	t	0
-11777
-11778
-11779
-11780
+11777	Easter eggnog	657231657	easternog.gif	drink	t	0	mugs of Easter eggnog
+11778	clovermint	801500156	clovermint.gif	spleen, usable	t	0
+11779	nylon Christmas stockings	229779717	xmasstockings.gif	accessory	t	0	pairs of nylon Christmas stockings
+11780	tattoo of two turkeys	563249901	twoturkeytat.gif	usable	t	0	tattoos of two turkeys
 11781	deviled candy egg	732823232	candyegg.gif	potion, usable	t,d	5
