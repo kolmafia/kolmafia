@@ -1128,11 +1128,12 @@ public class NPCPurchaseRequest extends PurchaseRequest {
 
     // See if this is a known Coinmaster
     CoinmasterData data = CoinmasterRegistry.findCoinmaster(shopId, shopName);
+    String rowShop = CoinmastersDatabase.getRowShop(row);
     String type = "unknown";
 
     if (data != null && !data.isDisabled()) {
       // If we already know this row, nothing to learn.
-      if (data.hasRow(row) && !force) {
+      if ((data.getMaster().equals(rowShop) || data.hasRow(row)) && !force) {
         return false;
       }
 
@@ -1142,10 +1143,10 @@ public class NPCPurchaseRequest extends PurchaseRequest {
         // we can categorize this as a buy or a sell
         AdventureResult price = costs[0];
         Set<AdventureResult> currencies = data.currencies();
-        if (currencies.contains(price)) {
+        if (data.getBuyItems() != null && currencies.contains(price)) {
           // If the price is a currency, this is a "buy" request.
           type = "buy";
-        } else if (currencies.contains(item)) {
+        } else if (data.getSellItems() != null && currencies.contains(item)) {
           // If the item is a currency, this is a "sell" request.
           type = "sell";
         } else {

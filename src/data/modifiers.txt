@@ -3421,6 +3421,7 @@ Item	Nouveau nosering	Moxie Percent: +50, Item Drop: +25, Maximum HP: +25, Maxim
 Item	Novelty Belt Buckle of Violence	Muscle Percent: +20, Critical Hit Percent: +5, Weapon Damage Percent: +30, Single Equip
 Item	novelty tattoo sleeves	Muscle: +6, PvP Fights: +1, Single Equip
 Item	numberwang	PvP Fights: +5, Adventures: +5, Monster Level: +11, Initiative: +23, Maximum HP: +37, Maximum MP: +37, HP Regen Min: 6, HP Regen Max: 9, MP Regen Min: 6, MP Regen Max: 9, Single Equip
+Item	nylon Christmas stockings	Initiative: +75, Spell Damage Percent: +50, Experience: +3, Mana Cost: -1, Single Equip
 Item	observational glasses	Item Drop: +5
 Item	offensive moustache	PvP Fights: +7, Single Equip
 Item	Official Council Aide Pin	Adventures: +4, PvP Fights: +2
@@ -3892,6 +3893,7 @@ Item	tiny plastic coal car	Hot Damage: +5, Hot Spell Damage: +5
 Item	tiny plastic cocoabo	Familiar Weight: +1
 Item	tiny plastic coffee pixie	Familiar Weight: +1
 Item	tiny plastic colollilossus	HP Regen Min: 3, HP Regen Max: 5
+Item	tiny plastic Colonel Brando	Spooky Damage: +3, Spooky Spell Damage: +3
 Item	tiny plastic conservationist hippy	Stench Damage: +5
 Item	tiny plastic CRIMBCO HQ	Item Drop: +4
 Item	tiny plastic Crimbo caroler	Familiar Weight: +3
@@ -9716,6 +9718,7 @@ Item	brilliant oyster egg	Effect: "Eggstraordinary Brilliance", Effect Duration:
 Item	bug paste	Effect: "Buggy Flavor", Effect Duration: 10
 Item	carrot juice	Effect: "Pla-see-bo", Effect Duration: 10
 Item	chlorophyll paste	Effect: "Chlorophyll Flavor", Effect Duration: 10
+# clovermint: Gives you good luck
 # cold jelly: Freezes your liver
 Item	cold jelly	Effect: "Cold Jellied", Effect Duration: 50
 Item	cold wad	Effect: "Cold Blooded", Effect Duration: 20
@@ -12571,6 +12574,7 @@ Item	talking spade	Free Pull
 Item	Tapioc berry	Effect: "Berry Elemental", Effect Duration: 20
 # tattered scrap of paper: Lets you escape from combat without spending an Adventure
 # tattered scrap of paper: (Maybe)
+# tattoo of two turkeys: Grants a tattoo when used
 # tennis ball: Banish an enemy for 30 Adventures
 # tequila grenade: Deals 75-100 Physical Damage
 # terrible poem: Deals 5-6 Physical Damage
