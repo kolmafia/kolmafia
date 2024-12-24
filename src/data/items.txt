@@ -11784,7 +11784,7 @@
 11756	double-candied yams	699171863	casserole.gif	food	t,d	75	platters of double-candied yams
 11757	Christmas ham	535336050	ham.gif	food	t,d	75
 11758	holiday smorgasbord	259131327	partytray.gif	food	t,d	250
-11759
+11759	Bowl of Infinite Jelly	460792182	infinitejelly.gif	none		0
 11760
 11761	Secrets of the Master Egg Hunters	943549721	book5.gif	usable	t	0	copies of Secrets of the Master Egg Hunters
 11762	Secrets of the Master Egg Hunters (used)	216321799	book5.gif	reusable		0	used copies of Secrets of the Master Egg Hunters
