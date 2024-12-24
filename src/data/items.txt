@@ -11789,13 +11789,13 @@
 11761	Secrets of the Master Egg Hunters	943549721	book5.gif	usable	t	0	copies of Secrets of the Master Egg Hunters
 11762	Secrets of the Master Egg Hunters (used)	216321799	book5.gif	reusable		0	used copies of Secrets of the Master Egg Hunters
 11763	How to Lose Friends and Attract Snakes	465814056	book3.gif	usable	t	0	copies of How to Lose Friends and Attract Snakes
-11764	How to Lose Friends and Attract Snakes (used)	953745853	book3.gif	reusable		0	used copies of How to Lose Friends and Attract Sna
+11764	How to Lose Friends and Attract Snakes (used)	953745853	book3.gif	reusable		0	used copies of How to Lose Friends and Attract Snakes
 11765	Covert Ops for Kids	484772100	book2.gif	usable	t	0	copies of Covert Ops for Kids
 11766	Covert Ops for Kids (used)	700189532	book2.gif	reusable		0	used copies of Covert Ops for Kids
 11767	Holiday Multitasking	555431420	book3.gif	usable	t	0	copies of Holiday Multitasking
 11768	Holiday Multitasking (used)	639002731	book3.gif	reusable		0	used copies of Holiday Multitasking
 11769	Hoyle's Guide to Reindeer Games	429457903	book4.gif	usable	t	0	copies of Hoyle's Guide to Reindeer Games
-11770
+11770	Hoyle's Guide to Reindeer Games (used)	145669836	book4.gif	reusable		0	used copies of Hoyle's Guide to Reindeer Games
 11771	lucky moai statuette	232982896	chiatiki.gif	usable	t	0
 11772	egg gun	530204511	egggun.gif	weapon	t	0
 11773	lucky army helmet	759962296	luckyhelmet.gif	hat	t	0
