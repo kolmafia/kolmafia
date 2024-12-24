@@ -46,7 +46,6 @@ public class Crimbo24FactoryRequest extends CoinMasterRequest {
   }
 
   public static final boolean registerRequest(final String urlString) {
-    System.out.println("Crimbo24Factory.registerRequest(" + urlString + ")");
     if (!urlString.startsWith("shop.php")
         || !urlString.contains("whichshop=" + DATA.getNickname())) {
       return false;
