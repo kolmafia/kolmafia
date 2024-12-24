@@ -11451,6 +11451,8 @@ Item	cotton candy cocoon	Free Pull
 # cotton candy skoshe: Restores 15-30 HP and MP
 # cotton candy smidgen: Restores 11-23 HP and MP
 # counterfeit city
+Item	Covert Ops for Kids	Skill: "Hide From Seekers"
+Item	Covert Ops for Kids (used)	Skill: "Hide From Seekers"
 # cracked stone sphere: Mysterious, Deprecated
 # crappy camera: Makes a copy of a monster to fight later
 # crappy camera: (when it works)
@@ -11836,6 +11838,8 @@ Item	Hodgman's journal #3: Pumping Tin	Skill: "Abs of Tin"
 Item	Hodgman's journal #4: View From The Big Top	Skill: "Marginally Insane"
 Item	Holiday Fun!	Free Pull
 Item	Holiday Hal's Happy-Time Fun Book!	Skill: "Summon Holiday Fun!"
+Item	Holiday Multitasking	Skill: "Holiday Multitasking"
+Item	Holiday Multitasking (used)	Skill: "Holiday Multitasking"
 # holo-bomber: Deals 5,000 Physical Damage
 # holo-platoon: Deals 5,000 Physical Damage
 # holo-tank: Deals 5,000 Physical Damage
@@ -11855,8 +11859,12 @@ Item	Horsery contract	Free Pull
 # hot spore pod: Briefly improves your <font color = red>Hot</font> spells
 Item	How To Get Bigger Without Really Trying	Skill: "Get Big"
 Item	How to Hold a Grudge	Skill: "Chip on your Shoulder"
+Item	How to Lose Friends and Attract Snakes	Skill: "Attract Snakes"
+Item	How to Lose Friends and Attract Snakes (used)	Skill: "Attract Snakes"
 # How to Play Othello: Teaches you how to play Othello better
 Item	How to Tolerate Jerks	Skill: "Thick-Skinned"
+Item	Hoyle's Guide to Reindeer Games	Skill: "Reindeer Games"
+Item	Hoyle's Guide to Reindeer Games (used)	Skill: "Reindeer Games"
 Item	Huggler Radio	Free Pull
 # human musk: Banish an enemy for the rest of the day
 Item	hungover chauvinist pig	Free Pull
@@ -12405,6 +12413,8 @@ Item	Scurvy and Sobriety Prevention	Skill: "Prevent Scurvy and Sobriety"
 Item	seal tooth	Effect: "Bloody Hand", Effect Duration: 3
 Item	seal-blubber candle	Class: "Seal Clubber"
 # sealhide snare: Stuns your opponent for a few rounds
+Item	Secrets of the Master Egg Hunters	Skill: "Master Egg Hunter"
+Item	Secrets of the Master Egg Hunters (used)	Skill: "Master Egg Hunter"
 # self-defense training: Increases your Bat-Armor
 Item	Sensual Massage for Creeps	Skill: "Inappropriate Backrub"
 # Sept-Ember Censer: Generate 7 embers each day to magically consume
