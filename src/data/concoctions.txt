@@ -3399,3 +3399,4 @@ gravyskin buckler	ASMITH	buckler buckle	gravy skin
 gravyskin hat	ASMITH	basic meat helmet	gravy skin
 gravyskin pants	ASMITH	pants kit	gravy skin
 gravyskin skirt	ASMITH	skirt / kilt kit	gravy skin
+perfect Christmas scarf	SUSE	ragged wool yarn (50)

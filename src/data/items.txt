@@ -11740,7 +11740,7 @@
 11712	tiny plastic Easter Island Bunny	910030772	c24tpa.gif	accessory	t	0	tiny plastic Easter Island Bunnies
 11713	tiny plastic St. Patrick	427726670	c24tpbee.gif	accessory	t	0
 11714	tiny plastic Colonel Brando	148356375	c24tptres.gif	accessory	t	0
-11715
+11715	tiny plastic Jedediah and Boiling Cloud	357579052	c24tp444.gif	accessory	t	0
 11716
 11717	Spirit of Easter	756560474	spirit_easter.gif	none		0	Spirits of Easter
 11718	Spirit of St. Patrick's Day	655322653	spirit_stpatrick.gif	none		0	Spirits of St. Patrick's Day
