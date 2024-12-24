@@ -3425,6 +3425,7 @@ tiny plastic hypodermic bugbear	10	none
 tiny plastic Iiti Kitty	10	none
 tiny plastic Jared the Duskwalker	10	none
 tiny plastic Jarlsberg	30	none
+tiny plastic Jedediah and Boiling Cloud	10	none
 tiny plastic K.R.A.M.P.U.S.	10	none
 tiny plastic killer bee	10	none
 tiny plastic Knob Goblin bean counter	10	none

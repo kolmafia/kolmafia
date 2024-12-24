@@ -3961,6 +3961,7 @@ Item	tiny plastic hypodermic bugbear	Monster Level: +1
 Item	tiny plastic Iiti Kitty	Monster Level: +1
 Item	tiny plastic Jared the Duskwalker	Monster Level: +1
 Item	tiny plastic Jarlsberg	Mysticality: +5, Muscle: +3, Moxie: +3
+Item	tiny plastic Jedediah and Boiling Cloud	Weapon Damage: +3
 Item	tiny plastic K.R.A.M.P.U.S.	Weapon Damage: +5, Spooky Damage: +1, Stench Damage: +1, Hot Damage: +1, Cold Damage: +1, Sleaze Damage: +1
 Item	tiny plastic killer bee	Familiar Weight: +1
 Item	tiny plastic Knob Goblin bean counter	Monster Level: +1
@@ -6633,6 +6634,7 @@ Effect	Jay Walking	Avatar: ""Handyman" Jay Android"
 # Jazz Hands
 Effect	Je Ne Sais Porquoise	Moxie Percent: +50, Meat Drop: +6, Item Drop: +5
 Effect	Jeffersonian	Avatar: "Jefferson pilot"
+Effect	Jelly-Coated Insides	Experience: +5, Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 # Jelly Combed: Makes you harder to hit (when underwater)
 Effect	Jerky, Boy	Mysticality Percent: +25
 Effect	Jiggu... What?	Mana Cost: +100
