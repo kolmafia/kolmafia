@@ -10,6 +10,7 @@ import net.sourceforge.kolmafia.ShopRow;
 
 public class CoinMasterPurchaseRequest extends PurchaseRequest {
   private final CoinmasterData data;
+  private final ShopRow shopRow;
   private final AdventureResult cost;
   private final CoinMasterRequest request;
 
@@ -22,6 +23,8 @@ public class CoinMasterPurchaseRequest extends PurchaseRequest {
     super(""); // We do not run this request itself
 
     this.shopName = data.getMaster();
+    this.shopRow = null;
+
     this.item = item.getInstance(1);
     this.price = price.getCount();
     this.quantity = item.getCount();
@@ -40,6 +43,7 @@ public class CoinMasterPurchaseRequest extends PurchaseRequest {
     super(""); // We do not run this request itself
 
     this.shopName = data.getMaster();
+    this.shopRow = row;
 
     AdventureResult item = row.getItem();
     this.item = item.getInstance(1);
