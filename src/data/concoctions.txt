@@ -3395,7 +3395,7 @@ silky pirate drawers	TAKERSPACE
 spices	TAKERSPACE
 
 # Crimbo 2024
-gravyskin buckler	SMITH	buckler buckle	gravy skin
-gravyskin hat	SMITH	basic meat helmet	gravy skin
-gravyskin pants	SMITH	pants kit	gravy skin
-gravyskin skirt	SMITH	skirt / kilt kit	gravy skin
+gravyskin buckler	ASMITH	buckler buckle	gravy skin
+gravyskin hat	ASMITH	basic meat helmet	gravy skin
+gravyskin pants	ASMITH	pants kit	gravy skin
+gravyskin skirt	ASMITH	skirt / kilt kit	gravy skin

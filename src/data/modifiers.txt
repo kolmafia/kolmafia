@@ -11305,6 +11305,7 @@ Item	bottled green pixie	Free Pull
 # bottled swamp gas: Weakens Enemies Very Slightly
 Item	bottled Vampire Vintner	Free Pull
 # boulder: Deals 20-30 Physical Damage
+# Bowl of Infinite Jelly: Improves the first thing you eat each day
 # bowl of potpourri: Gives some Moxie stats when you rest
 # bowling ball: Weakens enemies somewhat and briefly stuns them
 # box of hammers: Deals 400-500 Physical Damage
