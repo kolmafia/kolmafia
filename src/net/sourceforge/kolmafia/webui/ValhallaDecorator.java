@@ -667,17 +667,17 @@ public class ValhallaDecorator {
           .append(
               "<nobr><a href=\"campground.php?action=workshed\">Spend remaining TakerSpace ingredients (")
           .append(spice)
-          .append("/")
+          .append(" spice / ")
           .append(rum)
-          .append("/")
+          .append(" rum / ")
           .append(anchor)
-          .append("/")
+          .append(" anchor / ")
           .append(mast)
-          .append("/")
+          .append(" mast / ")
           .append(silk)
-          .append("/")
+          .append(" silk / ")
           .append(gold)
-          .append(")</a></nobr><br>");
+          .append(" gold)</a></nobr><br>");
       buffer.append(builder);
     }
   }

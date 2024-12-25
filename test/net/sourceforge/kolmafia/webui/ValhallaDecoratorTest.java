@@ -198,7 +198,7 @@ class ValhallaDecoratorTest {
         assertThat(
             buffer.toString(),
             containsString(
-                "<a href=\"campground.php?action=workshed\">Spend remaining TakerSpace ingredients (1/0/1/0/1/0)</a>"));
+                "<a href=\"campground.php?action=workshed\">Spend remaining TakerSpace ingredients (1 spice / 0 rum / 1 anchor / 0 mast / 1 silk / 0 gold)</a>"));
       }
     }
 
