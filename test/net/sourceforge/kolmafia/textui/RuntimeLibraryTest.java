@@ -74,6 +74,7 @@ import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
+import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.MallPurchaseRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.session.GreyYouManager;
@@ -1713,6 +1714,11 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
   @Nested
   class XPath {
+    @AfterAll
+    static void reset() {
+      GenericRequest.setPasswordHash("");
+    }
+
     private String xpath(String html, String xpath) {
       return execute("xpath(`" + html + "`, `" + xpath + "`)");
     }
