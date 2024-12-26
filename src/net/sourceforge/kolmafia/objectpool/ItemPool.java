@@ -3840,13 +3840,6 @@ public class ItemPool {
   public static final int SPIRIT_OF_VETERANS_DAY = 11719;
   public static final int SPIRIT_OF_THANKSGIVING = 11720;
   public static final int SPIRIT_OF_CHRISTMAS = 11721;
-  public static final int EASTER_GRASSHOPPER = 11747;
-  public static final int IRISH_EGGNOG = 11748;
-  public static final int CHOCOLATE_OSTRICH_EGG = 11753;
-  public static final int CANDIED_BEEF_AND_CABBAGE = 11754;
-  public static final int SECRETS_OF_THE_MASTER_EGG_HUNTERS = 11761;
-  public static final int HOW_TO_LOSE_FRIENDS_AND_ATTRACT_SNAKES = 11763;
-  public static final int LUCKY_MOAI_STATUETTE = 11771;
 
   private ItemPool() {}
 

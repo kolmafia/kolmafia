@@ -195,7 +195,7 @@ public interface KoLConstants extends UtilityConstants {
   int CAFE_BOOZE_VERSION = 1;
   int CAFE_FOOD_VERSION = 1;
   int CLASSSKILLS_VERSION = 6;
-  int COINMASTERS_VERSION = 2;
+  int COINMASTERS_VERSION = 3;
   int COMBATS_VERSION = 1;
   int CONCOCTIONS_VERSION = 3;
   int CONSEQUENCES_VERSION = 1;

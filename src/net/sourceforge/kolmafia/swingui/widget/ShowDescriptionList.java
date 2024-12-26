@@ -18,6 +18,7 @@ import net.sourceforge.kolmafia.CreateFrameRunnable;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.ShopRow;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.maximizer.Boost;
 import net.sourceforge.kolmafia.moods.MoodManager;
@@ -163,6 +164,16 @@ public class ShowDescriptionList<E> extends JList<E> {
     return result;
   }
 
+  public ShopRow[] getSelectedShopRows() {
+    // Obviously, this only works if the model contains ShopRows
+    List<E> values = this.getSelectedValuesList();
+    ShopRow[] result = new ShopRow[values.size()];
+    for (int i = 0; i < values.size(); ++i) {
+      result[i] = (ShopRow) values.get(i);
+    }
+    return result;
+  }
+
   public PurchaseRequest[] getSelectedPurchases() {
     // Obviously, this only works if the model contains PurchaseRequests
     List<E> values = this.getSelectedValuesList();
@@ -191,6 +202,10 @@ public class ShowDescriptionList<E> extends JList<E> {
         String descId = EffectDatabase.getDescriptionId(EffectDatabase.getEffectId(ar.getName()));
         StaticEntity.openDescriptionFrame("desc_effect.php?whicheffect=" + descId);
       }
+    } else if (item instanceof ShopRow sr) {
+      int itemId = sr.getItem().getItemId();
+      String descId = ItemDatabase.getDescriptionId(itemId);
+      StaticEntity.openDescriptionFrame("desc_item.php?whichitem=" + descId);
     } else if (item instanceof Concoction c) {
       int itemId = c.getItemId();
       String descId =

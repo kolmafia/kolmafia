@@ -74,6 +74,7 @@ import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
+import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.MallPurchaseRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.session.GreyYouManager;
@@ -1709,5 +1710,106 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
   void getTitle() {
     KoLCharacter.setTitle("NO PEEKING");
     assertThat(execute("get_title()").trim(), is("Returned: NO PEEKING"));
+  }
+
+  @Nested
+  class XPath {
+    @AfterAll
+    static void reset() {
+      GenericRequest.setPasswordHash("");
+    }
+
+    private String xpath(String html, String xpath) {
+      return execute("xpath(`" + html + "`, `" + xpath + "`)");
+    }
+
+    @Test
+    void blankXpathReturnsFullHtml() {
+      var fullHtml = "<html><head><title>Hello</title></head><body>World</body></html>";
+      assertThat(
+          xpath(fullHtml, ""),
+          is(
+              """
+          Returned: aggregate string [1]
+          0 => &lt;html&gt;
+          &lt;head&gt;&lt;title&gt;Hello&lt;/title&gt;&lt;/head&gt;
+          &lt;body&gt;World&lt;/body&gt;&lt;/html&gt;
+          """));
+    }
+
+    @Test
+    void invalidXPathIsError() {
+      assertThat(xpath("<p>", "//p["), startsWith("invalid xpath expression"));
+    }
+
+    @Test
+    void xpathFullPage() {
+      var cleanups = withNextResponse(200, html("request/test_account_tab_combat.html"));
+
+      try (cleanups) {
+        assertThat(
+            execute(
+                "string page = visit_url(\"account.php?tab=combat\"); xpath(page, `//*[@id=\"opt_flag_aabosses\"]/label/input[@type='checkbox']@checked`)"),
+            is(
+                """
+                Returned: aggregate string [1]
+                0 => checked
+                """));
+      }
+    }
+
+    @Test
+    void xpathJoinsNodes() {
+      var cleanups = withNextResponse(200, html("request/test_clan_signup.html"));
+
+      try (cleanups) {
+        assertThat(
+            execute(
+                "string page = visit_url(\"clan_signup.php\"); xpath(page, `//select[@name=\"whichclan\"]//option`)"),
+            is(
+                """
+                    Returned: aggregate string [21]
+                    0 => &lt;option value=&quot;2046996836&quot;&gt;&Icirc;&copy;&Iuml;&lt;/option&gt;
+                    1 => &lt;option value=&quot;84165&quot;&gt;Alliance From Heck&lt;/option&gt;
+                    2 => &lt;option value=&quot;2046994401&quot;&gt;Black Mesa&lt;/option&gt;
+                    3 => &lt;option value=&quot;90485&quot;&gt;Bonus Adventures from Hell&lt;/option&gt;
+                    4 => &lt;option value=&quot;2047008364&quot;&gt;Collaborative Dungeon Central&lt;/option&gt;
+                    5 => &lt;option value=&quot;2047008362&quot;&gt;Collaborative Dungeon Running 1&lt;/option&gt;
+                    6 => &lt;option value=&quot;2047008363&quot;&gt;Collaborative Dungeon Running 2&lt;/option&gt;
+                    7 => &lt;option value=&quot;2046987880&quot;&gt;Easter Pink&lt;/option&gt;
+                    8 => &lt;option value=&quot;18112&quot;&gt;Evil for Fun and Profit&lt;/option&gt;
+                    9 => &lt;option value=&quot;2047004665&quot;&gt;factnet_0136&lt;/option&gt;
+                    10 => &lt;option value=&quot;52111&quot;&gt;First Lives Club&lt;/option&gt;
+                    11 => &lt;option value=&quot;2046994693&quot;&gt;From the Ashes&lt;/option&gt;
+                    12 => &lt;option value=&quot;2047005067&quot;&gt;Funking Good&lt;/option&gt;
+                    13 => &lt;option value=&quot;2047009544&quot;&gt;LUPO&lt;/option&gt;
+                    14 => &lt;option value=&quot;2046987019&quot;&gt;Not Dead Yet&lt;/option&gt;
+                    15 => &lt;option value=&quot;83922&quot;&gt;Prinny Land&lt;/option&gt;
+                    16 => &lt;option value=&quot;2047000135&quot;&gt;Reddit United&lt;/option&gt;
+                    17 => &lt;option value=&quot;2046997154&quot;&gt;The Fax Dump&lt;/option&gt;
+                    18 => &lt;option value=&quot;2046986725&quot;&gt;The Meowing Squirrel&lt;/option&gt;
+                    19 => &lt;option value=&quot;20655&quot;&gt;The Ugly Ducklings&lt;/option&gt;
+                    20 => &lt;option value=&quot;2046997063&quot;&gt;Ultimate Durs&lt;/option&gt;
+                    """));
+      }
+    }
+
+    @Test
+    void xpathWorksWithFragments() {
+      var fragment = "<select><option value=\"90485\">Bonus Adventures from Hell</option></select>";
+      assertThat(
+          xpath(fragment, "//@value"),
+          is("""
+          Returned: aggregate string [1]
+          0 => 90485
+          """));
+      assertThat(
+          xpath(fragment, "//text()"),
+          is(
+              """
+          Returned: aggregate string [1]
+          0 => Bonus Adventures from Hell
+          """));
+    }
   }
 }
