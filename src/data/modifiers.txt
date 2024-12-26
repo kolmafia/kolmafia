@@ -2857,6 +2857,7 @@ Item	Beach Comb	Moxie Percent: +20, MP Regen Min: 8, MP Regen Max: 12, Familiar 
 Item	beach glass necklace	Muscle: +5
 Item	beaten-up Chucks	Initiative: +40
 # beer goggles: They Do Nothing!
+Item	bejazzled eyepatch	Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold Damage: +3, Sleaze Damage: +3
 Item	bejeweled accordion strap	Maximum HP: +25, Maximum MP: +25, Class: "Accordion Thief"
 Item	bejeweled cufflinks	Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold Damage: +3, Sleaze Damage: +3, Single Equip
 Item	bejeweled pledge pin	Maximum HP: +40, Single Equip
@@ -3470,7 +3471,7 @@ Item	pegfinger	Spell Damage Percent: +25, MPC Drop: 0.5, Single Equip
 Item	Pendant of Fire	Muscle: +3, Mysticality: +3, Moxie: +3, Hot Spell Damage: +40, Single Equip
 Item	Pendant of Gargalesis	MP Regen Min: 6, MP Regen Max: 10
 Item	peppermint-scented socks	MP Regen Min: 8, MP Regen Max: 16
-Item	perfect Christmas scarf	Adventures: [+9*event(December)], Cold Resistance: [+7*event(December)], HP Regen Min: [4*event(December)], HP Regen Max: [6*event(December)], MP Regen Min: [4*event(December)], MP Regen Max: [6*event(December)]
+Item	perfect Christmas scarf	Adventures: [+9*event(December)], Cold Resistance: [+7*event(December)], HP Regen Min: [4*event(December)], HP Regen Max: [6*event(December)], MP Regen Min: [4*event(December)], MP Regen Max: [6*event(December)], Single Equip
 Item	perfume-soaked bandana	Stench Resistance: +4, Spooky Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Single Equip
 # Personal Ventilation Unit: Allows Safe Access to Secret Government Lab
 Item	Personal Ventilation Unit	Muscle Limit: 100, Mysticality Limit: 100, Moxie Limit: 100, Single Equip
@@ -3832,6 +3833,7 @@ Item	tiny die-cast turtle mech	Familiar Weight: +2
 Item	tiny die-cast Uncle Hobo	HP Regen Min: 3, HP Regen Max: 5, MP Regen Min: 3, MP Regen Max: 5, Booze Drop: +10
 Item	tiny die-cast Unionize the Elves Sign	Monster Level: +1
 Item	tiny die-cast Zeppo the Reindeer	Spooky Damage: +1
+Item	tiny plastic &quot;Santa Claus&quot;	Muscle: +3, Mysticality: +3, Moxie: +3
 Item	tiny plastic 7-foot dwarf	Monster Level: +1
 Item	tiny plastic 11 Dealer	Meat Drop: +4
 Item	tiny plastic abominable fudgeman	Weapon Damage: +10
@@ -3961,6 +3963,7 @@ Item	tiny plastic hypodermic bugbear	Monster Level: +1
 Item	tiny plastic Iiti Kitty	Monster Level: +1
 Item	tiny plastic Jared the Duskwalker	Monster Level: +1
 Item	tiny plastic Jarlsberg	Mysticality: +5, Muscle: +3, Moxie: +3
+Item	tiny plastic Jedediah and Boiling Cloud	Weapon Damage: +3
 Item	tiny plastic K.R.A.M.P.U.S.	Weapon Damage: +5, Spooky Damage: +1, Stench Damage: +1, Hot Damage: +1, Cold Damage: +1, Sleaze Damage: +1
 Item	tiny plastic killer bee	Familiar Weight: +1
 Item	tiny plastic Knob Goblin bean counter	Monster Level: +1
@@ -6633,6 +6636,7 @@ Effect	Jay Walking	Avatar: ""Handyman" Jay Android"
 # Jazz Hands
 Effect	Je Ne Sais Porquoise	Moxie Percent: +50, Meat Drop: +6, Item Drop: +5
 Effect	Jeffersonian	Avatar: "Jefferson pilot"
+Effect	Jelly-Coated Insides	Experience: +5, Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 # Jelly Combed: Makes you harder to hit (when underwater)
 Effect	Jerky, Boy	Mysticality Percent: +25
 Effect	Jiggu... What?	Mana Cost: +100

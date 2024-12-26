@@ -6343,7 +6343,7 @@ public abstract class ChoiceAdventures {
         1542,
         "Holiday Islands",
         "The Malevolent Spirit of the Holiday",
-        new ChoiceOption("fight ???", 1),
+        new ChoiceOption("fight \"Santa Claus\"", 1),
         new ChoiceOption("get Spirits of Christmas scaling with spooky resistance", 2),
         new ChoiceOption("skip adventure", 3));
   }
