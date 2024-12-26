@@ -6334,8 +6334,17 @@ public abstract class ChoiceAdventures {
         1541,
         "Holiday Islands",
         "The Edge of Winter",
-        new ChoiceOption("fight ???", 1),
+        new ChoiceOption("fight Jebediah", 1),
         new ChoiceOption("get Spirits of Thanksgiving scaling with cold resistance", 2),
+        new ChoiceOption("skip adventure", 3));
+
+    // The Malevolent Spirit of the Holiday
+    new ChoiceAdventure(
+        1542,
+        "Holiday Islands",
+        "The Malevolent Spirit of the Holiday",
+        new ChoiceOption("fight \"Santa Claus\"", 1),
+        new ChoiceOption("get Spirits of Christmas scaling with spooky resistance", 2),
         new ChoiceOption("skip adventure", 3));
   }
 

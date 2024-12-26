@@ -14,6 +14,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
+import net.sourceforge.kolmafia.ShopRow;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase.QueuedConcoction;
 import net.sourceforge.kolmafia.persistence.FaxBotDatabase.Monster;
@@ -166,6 +167,9 @@ public class AutoFilterTextField<E> extends AutoHighlightTextField
     if (element instanceof QueuedConcoction) {
       return ((QueuedConcoction) element).getName().toLowerCase();
     }
+    if (element instanceof ShopRow) {
+      return ((ShopRow) element).getItem().getName().toLowerCase();
+    }
     if (element instanceof SoldItem) {
       return ((SoldItem) element).getItemName().toLowerCase();
     }
@@ -213,6 +217,9 @@ public class AutoFilterTextField<E> extends AutoHighlightTextField
     }
     if (element instanceof Concoction) {
       return ((Concoction) element).getAvailable();
+    }
+    if (element instanceof ShopRow) {
+      return ((ShopRow) element).getItem().getCount();
     }
     if (element instanceof SoldItem) {
       return ((SoldItem) element).getQuantity();

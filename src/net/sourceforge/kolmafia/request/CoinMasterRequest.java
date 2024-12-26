@@ -12,6 +12,7 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.ShopRow;
 import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.objectpool.Concoction;
@@ -28,6 +29,8 @@ public class CoinMasterRequest extends GenericRequest {
 
   protected String action = null;
   protected AdventureResult[] attachments;
+  protected ShopRow row = null;
+  protected int quantity = 0;
 
   // A simple visit goes to the "buy" URL
   public CoinMasterRequest(final CoinmasterData data) {
@@ -39,6 +42,13 @@ public class CoinMasterRequest extends GenericRequest {
     this(data);
     this.addFormField("action", action);
     this.action = action;
+  }
+
+  public CoinMasterRequest(final CoinmasterData data, final ShopRow row, final int quantity) {
+    this(data, data.getBuyAction());
+    this.row = row;
+    this.addFormField("whichrow", String.valueOf(row.getRow()));
+    this.quantity = quantity;
   }
 
   public CoinMasterRequest(
@@ -159,6 +169,14 @@ public class CoinMasterRequest extends GenericRequest {
     return count;
   }
 
+  public int setCount(int count) {
+    String countField = this.data.getCountField();
+    if (countField != null) {
+      this.addFormField(countField, String.valueOf(count));
+    }
+    return count;
+  }
+
   @Override
   public void run() {
     CoinmasterData data = this.data;
@@ -185,51 +203,10 @@ public class CoinMasterRequest extends GenericRequest {
       if (justVisiting) {
         KoLmafia.updateDisplay("Visiting " + master + "...");
         super.run();
+      } else if (this.row != null) {
+        this.shopRowTransaction();
       } else {
-        boolean keepSingleton =
-            this.action != null
-                && this.action.equals(data.getSellAction())
-                && !KoLCharacter.canInteract();
-
-        for (int i = 0; i < this.attachments.length && KoLmafia.permitsContinue(); ++i) {
-          AdventureResult ar = this.attachments[i];
-          boolean singleton = keepSingleton && KoLConstants.singletonList.contains(ar);
-
-          int count = this.setCount(ar, singleton);
-
-          if (count == 0) {
-            continue;
-          }
-
-          this.setItem(ar);
-
-          // If we cannot specify the count, we must get 1 at a time.
-
-          int visits = data.getCountField() == null ? count : 1;
-          int visit = 0;
-
-          while (KoLmafia.permitsContinue() && ++visit <= visits) {
-            if (visits > 1) {
-              KoLmafia.updateDisplay(
-                  "Visiting the " + master + " (" + visit + " of " + visits + ")...");
-            } else if (visits == 1) {
-              KoLmafia.updateDisplay("Visiting the " + master + "...");
-            }
-
-            super.run();
-
-            if (this.responseText.contains("You don't have enough")) {
-              KoLmafia.updateDisplay(MafiaState.ERROR, "You can't afford that item.");
-              break;
-            }
-
-            if (this.responseText.contains("You don't have that many of that item")) {
-              KoLmafia.updateDisplay(
-                  MafiaState.ERROR, "You don't have that many of that item to turn in.");
-              break;
-            }
-          }
-        }
+        this.attachmentsTransaction();
       }
 
       if (KoLmafia.permitsContinue() && this.action != null) {
@@ -237,6 +214,75 @@ public class CoinMasterRequest extends GenericRequest {
       }
     } finally {
       this.unequip();
+    }
+  }
+
+  private void shopRowTransaction() {
+    if (this.quantity == 0) {
+      return;
+    }
+
+    this.setCount(this.quantity);
+
+    String master = data.getMaster();
+    KoLmafia.updateDisplay("Visiting the " + master + "...");
+    super.run();
+
+    if (this.responseText.contains("You don't have enough")) {
+      KoLmafia.updateDisplay(MafiaState.ERROR, "You can't afford that item.");
+    }
+
+    if (this.responseText.contains("You don't have that many of that item")) {
+      KoLmafia.updateDisplay(MafiaState.ERROR, "You don't have that many of that item to turn in.");
+    }
+  }
+
+  private void attachmentsTransaction() {
+    boolean keepSingleton =
+        this.action != null
+            && this.action.equals(data.getSellAction())
+            && !KoLCharacter.canInteract();
+
+    String master = data.getMaster();
+
+    for (int i = 0; i < this.attachments.length && KoLmafia.permitsContinue(); ++i) {
+      AdventureResult ar = this.attachments[i];
+      boolean singleton = keepSingleton && KoLConstants.singletonList.contains(ar);
+
+      int count = this.setCount(ar, singleton);
+
+      if (count == 0) {
+        continue;
+      }
+
+      this.setItem(ar);
+
+      // If we cannot specify the count, we must get 1 at a time.
+
+      int visits = data.getCountField() == null ? count : 1;
+      int visit = 0;
+
+      while (KoLmafia.permitsContinue() && ++visit <= visits) {
+        if (visits > 1) {
+          KoLmafia.updateDisplay(
+              "Visiting the " + master + " (" + visit + " of " + visits + ")...");
+        } else if (visits == 1) {
+          KoLmafia.updateDisplay("Visiting the " + master + "...");
+        }
+
+        super.run();
+
+        if (this.responseText.contains("You don't have enough")) {
+          KoLmafia.updateDisplay(MafiaState.ERROR, "You can't afford that item.");
+          break;
+        }
+
+        if (this.responseText.contains("You don't have that many of that item")) {
+          KoLmafia.updateDisplay(
+              MafiaState.ERROR, "You don't have that many of that item to turn in.");
+          break;
+        }
+      }
     }
   }
 
@@ -258,6 +304,23 @@ public class CoinMasterRequest extends GenericRequest {
     String action = GenericRequest.getAction(urlString);
     if (action == null) {
       CoinMasterRequest.parseBalance(data, responseText);
+      return;
+    }
+
+    if (data.getShopRows() != null) {
+      ShopRow shopRow = extractShopRow(data, urlString);
+      // The coinmaster has not yet registered this row.
+      if (shopRow == null) {
+        return;
+      }
+      if (responseText.contains("You don't have enough") || responseText.contains("Huh?")) {
+        return;
+      }
+      int count = extractCount(data, urlString);
+      if (count == 0) {
+        count = 1;
+      }
+      CoinMasterRequest.completePurchase(data, shopRow, count);
       return;
     }
 
@@ -322,6 +385,13 @@ public class CoinMasterRequest extends GenericRequest {
 
   public static void parseBalance(final CoinmasterData data, final String responseText) {
     if (data == null) {
+      return;
+    }
+
+    if (data.getShopRows() != null) {
+      // Shops with registered ShopRows registered trade for actual
+      // items in inventory. Potentially many of them.
+      NamedListenerRegistry.fireChange("(coinmaster)");
       return;
     }
 
@@ -404,6 +474,15 @@ public class CoinMasterRequest extends GenericRequest {
     return itemId;
   }
 
+  public static final ShopRow extractShopRow(final CoinmasterData data, final String urlString) {
+    Matcher rowMatcher = GenericRequest.WHICHROW_PATTERN.matcher(urlString);
+    if (!rowMatcher.find()) {
+      return null;
+    }
+    int row = StringUtilities.parseInt(rowMatcher.group(1));
+    return CoinmastersDatabase.getRowData(row);
+  }
+
   public static final int extractCount(final CoinmasterData data, final String urlString) {
     Matcher countMatcher = data.getCountMatcher(urlString);
     if (countMatcher != null) {
@@ -463,6 +542,40 @@ public class CoinMasterRequest extends GenericRequest {
             + " "
             + itemName
             + (storage ? " from storage" : ""));
+  }
+
+  public static final void buyStuff(
+      final CoinmasterData data, final ShopRow shopRow, final int count) {
+
+    StringBuilder buf = new StringBuilder();
+    buf.append("trading ");
+
+    AdventureResult[] costs = shopRow.getCosts();
+    for (int i = 0; i < costs.length; ++i) {
+      AdventureResult cost = costs[i];
+      if (i > 0) {
+        buf.append(", ");
+      }
+      int price = cost.getCount() * count;
+      if (cost.isMeat()) {
+        price = NPCPurchaseRequest.currentDiscountedPrice(price);
+      }
+      buf.append(price);
+      buf.append(" ");
+      if (cost.isMeat()) {
+        buf.append("Meat");
+      } else {
+        buf.append(cost.getPluralName(price));
+      }
+    }
+    buf.append(" for ");
+    AdventureResult item = shopRow.getItem();
+    buf.append(count * item.getCount());
+    buf.append(" ");
+    buf.append(item.getPluralName(count));
+
+    RequestLogger.updateSessionLog();
+    RequestLogger.updateSessionLog(buf.toString());
   }
 
   public static final void completePurchase(final CoinmasterData data, final String urlString) {
@@ -530,6 +643,21 @@ public class CoinMasterRequest extends GenericRequest {
     }
 
     data.purchasedItem(ItemPool.get(itemId, count), storage);
+  }
+
+  public static final void completePurchase(
+      final CoinmasterData data, final ShopRow shopRow, final int count) {
+
+    // Deduct all costs
+    for (AdventureResult cost : shopRow.getCosts()) {
+      int price = cost.getCount() * count;
+      if (cost.isMeat()) {
+        price = NPCPurchaseRequest.currentDiscountedPrice(price);
+      }
+      ResultProcessor.processResult(cost.getInstance(-price));
+    }
+
+    data.purchasedItem(ItemPool.get(shopRow.getItem().getItemId(), count), false);
   }
 
   public static final void sellStuff(final CoinmasterData data, final String urlString) {
@@ -613,6 +741,21 @@ public class CoinMasterRequest extends GenericRequest {
       return true;
     }
 
+    int count = extractCount(data, urlString);
+    if (count == 0) {
+      count = 1;
+    }
+
+    if (data.getShopRows() != null) {
+      ShopRow shopRow = extractShopRow(data, urlString);
+      // The coinmaster has not yet registered this row.
+      if (shopRow == null) {
+        return false;
+      }
+      buyStuff(data, shopRow, count);
+      return true;
+    }
+
     String buy = data.getBuyAction();
     String sell = data.getSellAction();
 
@@ -657,25 +800,20 @@ public class CoinMasterRequest extends GenericRequest {
       return false;
     }
 
-    int itemId = CoinMasterRequest.extractItemId(data, urlString);
+    int itemId = extractItemId(data, urlString);
     if (itemId == -1) {
       return true;
-    }
-
-    int count = CoinMasterRequest.extractCount(data, urlString);
-    if (count == 0) {
-      count = 1;
     }
 
     AdventureResult item = new AdventureResult(itemId, count, false);
 
     if (data.getBuyItems().contains(item)) {
-      CoinMasterRequest.buyStuff(data, itemId, count, false);
+      buyStuff(data, itemId, count, false);
       return true;
     }
 
     if (data.getSellItems().contains(item)) {
-      CoinMasterRequest.sellStuff(data, itemId, count);
+      sellStuff(data, itemId, count);
       return true;
     }
 

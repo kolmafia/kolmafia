@@ -1025,6 +1025,24 @@ public class RequestLogger extends NullStream {
       return;
     }
 
+    if ((isExternal || request instanceof Crimbo24BarRequest)
+        && Crimbo24BarRequest.registerRequest(urlString)) {
+      RequestLogger.wasLastRequestSimple = false;
+      return;
+    }
+
+    if ((isExternal || request instanceof Crimbo24CafeRequest)
+        && Crimbo24CafeRequest.registerRequest(urlString)) {
+      RequestLogger.wasLastRequestSimple = false;
+      return;
+    }
+
+    if ((isExternal || request instanceof Crimbo24FactoryRequest)
+        && Crimbo24FactoryRequest.registerRequest(urlString)) {
+      RequestLogger.wasLastRequestSimple = false;
+      return;
+    }
+
     if ((isExternal || request instanceof CrimboCartelRequest)
         && CrimboCartelRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
