@@ -2475,6 +2475,7 @@ Beach Comb	150	none
 beach glass necklace	70	Mys: 20
 beaten-up Chucks	200	Mys: 45
 beer goggles	10	none
+bejazzled eyepatch	50	none
 bejeweled accordion strap	40	Mox: 5
 bejeweled cufflinks	120	Mys: 45
 bejeweled pledge pin	170	Mys: 70
@@ -3296,6 +3297,7 @@ tiny die-cast turtle mech	20	none
 tiny die-cast Uncle Hobo	50	none
 tiny die-cast Unionize the Elves Sign	10	none
 tiny die-cast Zeppo the Reindeer	10	none
+tiny plastic &quot;Santa Claus&quot;	10	none
 tiny plastic 7-foot dwarf	10	none
 tiny plastic 11 Dealer	0	none
 tiny plastic abominable fudgeman	0	none
