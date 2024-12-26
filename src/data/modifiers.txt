@@ -3470,7 +3470,7 @@ Item	pegfinger	Spell Damage Percent: +25, MPC Drop: 0.5, Single Equip
 Item	Pendant of Fire	Muscle: +3, Mysticality: +3, Moxie: +3, Hot Spell Damage: +40, Single Equip
 Item	Pendant of Gargalesis	MP Regen Min: 6, MP Regen Max: 10
 Item	peppermint-scented socks	MP Regen Min: 8, MP Regen Max: 16
-Item	perfect Christmas scarf	Adventures: [+9*event(December)], Cold Resistance: [+7*event(December)], HP Regen Min: [4*event(December)], HP Regen Max: [6*event(December)], MP Regen Min: [4*event(December)], MP Regen Max: [6*event(December)]
+Item	perfect Christmas scarf	Adventures: [+9*event(December)], Cold Resistance: [+7*event(December)], HP Regen Min: [4*event(December)], HP Regen Max: [6*event(December)], MP Regen Min: [4*event(December)], MP Regen Max: [6*event(December)], Single Equip
 Item	perfume-soaked bandana	Stench Resistance: +4, Spooky Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Single Equip
 # Personal Ventilation Unit: Allows Safe Access to Secret Government Lab
 Item	Personal Ventilation Unit	Muscle Limit: 100, Mysticality Limit: 100, Moxie Limit: 100, Single Equip
@@ -3961,6 +3961,7 @@ Item	tiny plastic hypodermic bugbear	Monster Level: +1
 Item	tiny plastic Iiti Kitty	Monster Level: +1
 Item	tiny plastic Jared the Duskwalker	Monster Level: +1
 Item	tiny plastic Jarlsberg	Mysticality: +5, Muscle: +3, Moxie: +3
+Item	tiny plastic Jedediah and Boiling Cloud	Weapon Damage: +3
 Item	tiny plastic K.R.A.M.P.U.S.	Weapon Damage: +5, Spooky Damage: +1, Stench Damage: +1, Hot Damage: +1, Cold Damage: +1, Sleaze Damage: +1
 Item	tiny plastic killer bee	Familiar Weight: +1
 Item	tiny plastic Knob Goblin bean counter	Monster Level: +1
@@ -6633,6 +6634,7 @@ Effect	Jay Walking	Avatar: ""Handyman" Jay Android"
 # Jazz Hands
 Effect	Je Ne Sais Porquoise	Moxie Percent: +50, Meat Drop: +6, Item Drop: +5
 Effect	Jeffersonian	Avatar: "Jefferson pilot"
+Effect	Jelly-Coated Insides	Experience: +5, Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 # Jelly Combed: Makes you harder to hit (when underwater)
 Effect	Jerky, Boy	Mysticality Percent: +25
 Effect	Jiggu... What?	Mana Cost: +100
@@ -11305,6 +11307,7 @@ Item	bottled green pixie	Free Pull
 # bottled swamp gas: Weakens Enemies Very Slightly
 Item	bottled Vampire Vintner	Free Pull
 # boulder: Deals 20-30 Physical Damage
+# Bowl of Infinite Jelly: Improves the first thing you eat each day
 # bowl of potpourri: Gives some Moxie stats when you rest
 # bowling ball: Weakens enemies somewhat and briefly stuns them
 # box of hammers: Deals 400-500 Physical Damage
@@ -11451,6 +11454,8 @@ Item	cotton candy cocoon	Free Pull
 # cotton candy skoshe: Restores 15-30 HP and MP
 # cotton candy smidgen: Restores 11-23 HP and MP
 # counterfeit city
+Item	Covert Ops for Kids	Skill: "Hide From Seekers"
+Item	Covert Ops for Kids (used)	Skill: "Hide From Seekers"
 # cracked stone sphere: Mysterious, Deprecated
 # crappy camera: Makes a copy of a monster to fight later
 # crappy camera: (when it works)
@@ -11836,6 +11841,8 @@ Item	Hodgman's journal #3: Pumping Tin	Skill: "Abs of Tin"
 Item	Hodgman's journal #4: View From The Big Top	Skill: "Marginally Insane"
 Item	Holiday Fun!	Free Pull
 Item	Holiday Hal's Happy-Time Fun Book!	Skill: "Summon Holiday Fun!"
+Item	Holiday Multitasking	Skill: "Holiday Multitasking"
+Item	Holiday Multitasking (used)	Skill: "Holiday Multitasking"
 # holo-bomber: Deals 5,000 Physical Damage
 # holo-platoon: Deals 5,000 Physical Damage
 # holo-tank: Deals 5,000 Physical Damage
@@ -11855,8 +11862,12 @@ Item	Horsery contract	Free Pull
 # hot spore pod: Briefly improves your <font color = red>Hot</font> spells
 Item	How To Get Bigger Without Really Trying	Skill: "Get Big"
 Item	How to Hold a Grudge	Skill: "Chip on your Shoulder"
+Item	How to Lose Friends and Attract Snakes	Skill: "Attract Snakes"
+Item	How to Lose Friends and Attract Snakes (used)	Skill: "Attract Snakes"
 # How to Play Othello: Teaches you how to play Othello better
 Item	How to Tolerate Jerks	Skill: "Thick-Skinned"
+Item	Hoyle's Guide to Reindeer Games	Skill: "Reindeer Games"
+Item	Hoyle's Guide to Reindeer Games (used)	Skill: "Reindeer Games"
 Item	Huggler Radio	Free Pull
 # human musk: Banish an enemy for the rest of the day
 Item	hungover chauvinist pig	Free Pull
@@ -12405,6 +12416,8 @@ Item	Scurvy and Sobriety Prevention	Skill: "Prevent Scurvy and Sobriety"
 Item	seal tooth	Effect: "Bloody Hand", Effect Duration: 3
 Item	seal-blubber candle	Class: "Seal Clubber"
 # sealhide snare: Stuns your opponent for a few rounds
+Item	Secrets of the Master Egg Hunters	Skill: "Master Egg Hunter"
+Item	Secrets of the Master Egg Hunters (used)	Skill: "Master Egg Hunter"
 # self-defense training: Increases your Bat-Armor
 Item	Sensual Massage for Creeps	Skill: "Inappropriate Backrub"
 # Sept-Ember Censer: Generate 7 embers each day to magically consume

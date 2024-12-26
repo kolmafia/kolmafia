@@ -5058,10 +5058,10 @@ public class FightRequest extends GenericRequest {
     }
 
     for (BaseToken child : node.getAllChildren()) {
-      if (child instanceof ContentNode) {
-        buffer.append(((ContentNode) child).getContent());
-      } else if (child instanceof TagNode) {
-        hasTag |= FightRequest.extractVerse((TagNode) child, buffer, tag);
+      if (child instanceof ContentNode cn) {
+        buffer.append(cn.getContent());
+      } else if (child instanceof TagNode tn) {
+        hasTag |= FightRequest.extractVerse(tn, buffer, tag);
       }
     }
 
@@ -6176,8 +6176,8 @@ public class FightRequest extends GenericRequest {
   private static String getContentNodeText(TagNode node) {
     StringBuilder text = new StringBuilder();
     for (Object item : node.getAllChildren()) {
-      if (item instanceof ContentNode) {
-        text.append(((ContentNode) item).getContent());
+      if (item instanceof ContentNode cn) {
+        text.append(cn.getContent());
       }
     }
     return text.toString();

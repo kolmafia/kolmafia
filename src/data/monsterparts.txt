@@ -2292,4 +2292,7 @@
 2486	pumpkin spice wraith	allspice	cinnamon	clove	ginger	nutmeg
 2487	possessed can of cream of mushroom soup	arm	can	leg
 2488	possessed can of green beans	arm	can	leg
+2489	magically-animated snowman	bottom	head	torso
+2490	Christmas treant	bough	branch	limb	trunk
+2491	self-driving sleigh	chassis	floorboards	rails	seat
 2492	some underbrush	branch	trunk

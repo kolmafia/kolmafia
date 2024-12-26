@@ -2417,14 +2417,15 @@ Colonel Brando	2466	brando.gif	NOCOPY NOMANUEL Scale: 5 HP: 500 Init: -10000 P: 
 
 gravy slime	2485	gravyslime.gif	Scale: 30 Init: 100 P: slime Article: a	Spirit of Thanksgiving (c100)	gravy skin (5)
 pumpkin spice wraith	2486	pumpkinwraith.gif	Scale: 30 Init: 200 P: undead Phys: 100 Article: a	Spirit of Thanksgiving (c100)	crystallized pumpkin spice (5)	pumpkin spice whorl (f0.1)
-possessed can of cream of mushroom soup	2487	can_mush.gif	Scale: 30 Init: 100 P: undead Article: a	Spirit of Thanksgiving (c100)
-possessed can of green beans	2488	can_green.gif	Scale: 30 Init: 100 P: undead Article: a	Spirit of Thanksgiving (c100)
+possessed can of cream of mushroom soup	2487	can_mush.gif	Scale: 30 Init: 100 P: undead Phys: 50 Article: a	Spirit of Thanksgiving (c100)
+possessed can of green beans	2488	can_green.gif	Scale: 30 Init: 100 P: undead Phys: 50 Article: a	Spirit of Thanksgiving (c100)
 Jebediah	2467	jebediah.gif	NOCOPY NOMANUEL Scale: 5 HP: 400 Init: -10000 P: dude
 Boiling Cloud	2468	boilingcloud.gif	NOCOPY NOMANUEL Scale: 5 HP: 400 Init: -10000 P: elemental
 
-magically-animated snowman	2489	regularsnowman.gif	Scale: 40 Init: 150 P: elemental Article: a	Spirit of Christmas (c100)	ragged wool yarn (0)	snowman-enchanting tophat (f0.1)
-Christmas treant	2490	xmastreant.gif	Scale: 40 Init: 250 P: plant Article: a	Spirit of Christmas (c100)	fragile Christmas ornament (0)
-self-driving sleigh	2491	sleigh.gif	Scale: 40 Init: 300 P: construct Article: a	Spirit of Christmas (c100)	LIDAR candle (0)
+magically-animated snowman	2489	regularsnowman.gif	Scale: 40 Init: 150 P: elemental Article: a	Spirit of Christmas (c100)	ragged wool yarn (15)	snowman-enchanting tophat (f0.1)
+Christmas treant	2490	xmastreant.gif	Scale: 40 Init: 250 P: plant Article: a	Spirit of Christmas (c100)	fragile Christmas ornament (5)
+self-driving sleigh	2491	sleigh.gif	Scale: 40 Init: 300 P: construct Article: a	Spirit of Christmas (c100)	LIDAR candle (10)
+"Santa Claus"	2469	santa.gif	NOCOPY NOMANUEL Scale: 40 HP: 2000 Init: -10000 P: dude	Bowl of Infinite Jelly (n100)
 
 # Old Events
 

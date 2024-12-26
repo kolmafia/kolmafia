@@ -698,11 +698,6 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
    *   <li>countPattern
    * </ul>
    *
-   * <p>Note that if your coinmaster has multiple currencies and/or variable inventory (which means
-   * you will be programmatically building rows/items/prices at runtime), you can still use this to
-   * fill in the fields; you will simply need to follow up with withItemRows, withBuyItems,
-   * withBuyPrices as needed.
-   *
    * @param master - The name of the shop in <code>coinmasters.txt</code>
    * @param shopId - The value of the shopId parameter in <code>shop.php</code>
    * @return this - Allows fluid chaining of fields
@@ -949,13 +944,6 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   }
 
   private Boolean availableItemInternal(final Integer itemId) {
-    if (this.shopRows != null) {
-      for (ShopRow row : this.shopRows) {
-        if (row.getItem().getItemId() == itemId) return true;
-      }
-      return false;
-    }
-
     if (this.buyItems == null) {
       return false;
     }
@@ -968,13 +956,6 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   }
 
   public Boolean canBuyItemInternal(final Integer itemId) {
-    if (this.shopRows != null) {
-      for (ShopRow row : this.shopRows) {
-        if (row.getItem().getItemId() == itemId) return true;
-      }
-      return false;
-    }
-
     if (this.buyItems == null) {
       return false;
     }
@@ -1135,17 +1116,18 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
     }
   }
 
-  public CoinMasterRequest getRequest(final ShopRow[] rows) {
+  public CoinMasterRequest getRequest(final ShopRow row, final int quantity) {
     Class<? extends CoinMasterRequest> requestClass = this.getRequestClass();
     Class<?>[] parameters = new Class<?>[2];
-    parameters[0] = boolean.class;
-    parameters[1] = AdventureResult[].class;
+    parameters[0] = ShopRow.class;
+    parameters[1] = int.class;
 
     try {
       Constructor<? extends CoinMasterRequest> constructor =
           requestClass.getConstructor(parameters);
       Object[] initargs = new Object[2];
-      initargs[0] = rows;
+      initargs[0] = row;
+      initargs[1] = quantity;
       return constructor.newInstance(initargs);
     } catch (Exception e) {
       return null;
