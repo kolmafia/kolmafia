@@ -22,9 +22,9 @@ public class EventManager {
   public static final List<Pattern> EVENT_PATTERNS =
       List.of(
           Pattern.compile(
-              "<table[^>]*><tr><td[^>]*bgcolor=orange><b>New Events:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid orange;\"><center><table><tr><td>(.*?)</td></tr></table></center></td></tr><tr><td height=4></td></tr></table>"),
+              "<table[^>]*><tr><td[^>]*><b(?:| [^>]+)>New Events:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid orange;\"><center><table><tr><td>(.*?)</td></tr></table></center></td></tr><tr><td height=4></td></tr></table>"),
           Pattern.compile(
-              "<table[^>]*><tr><td[^>]*bgcolor=orange><b>New Events:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid orange;\" align=center>(.*?)</td></tr><tr><td height=4></td></tr></table>"));
+              "<table[^>]*><tr><td[^>]*><b(?:| [^>]+)>New Events:</b></td></tr><tr><td style=\"padding: 5px; border: 1px solid orange;\" align=center>(.*?)</td></tr><tr><td height=4></td></tr></table>"));
 
   private static final SimpleDateFormat EVENT_TIMESTAMP =
       new SimpleDateFormat("MM/dd/yy hh:mm a", Locale.US);

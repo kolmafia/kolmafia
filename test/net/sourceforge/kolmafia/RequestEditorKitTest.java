@@ -238,7 +238,7 @@ public class RequestEditorKitTest {
       RequestEditorKit.applyGlobalAdjustments("main.php", buffer, false);
       var output = buffer.toString();
 
-      assertThat(output, containsString("<b>New Events:</b>"));
+      assertThat(output, containsString(">New Events:</b>"));
       assertThat(
           output,
           containsString("You remember you have a lifetime VIP membership and grab your key!"));
