@@ -12,6 +12,7 @@ public class CoinMasterPurchaseRequest extends PurchaseRequest {
   private final CoinmasterData data;
   private final ShopRow shopRow;
   private final AdventureResult cost;
+  private final AdventureResult[] costs;
   private final CoinMasterRequest request;
 
   /**
@@ -26,8 +27,8 @@ public class CoinMasterPurchaseRequest extends PurchaseRequest {
     this.shopRow = null;
 
     this.item = item.getInstance(1);
-    this.price = price.getCount();
     this.quantity = item.getCount();
+    this.price = price.getCount();
 
     this.limit = this.quantity;
     this.canPurchase = true;
@@ -36,6 +37,7 @@ public class CoinMasterPurchaseRequest extends PurchaseRequest {
 
     this.data = data;
     this.cost = price;
+    this.costs = new AdventureResult[] {cost};
     this.request = data.getRequest(true, new AdventureResult[] {this.item});
   }
 
@@ -48,6 +50,7 @@ public class CoinMasterPurchaseRequest extends PurchaseRequest {
     AdventureResult item = row.getItem();
     this.item = item.getInstance(1);
     this.quantity = item.getCount();
+    this.price = 0;
 
     this.limit = this.quantity;
     this.canPurchase = true;
@@ -55,11 +58,8 @@ public class CoinMasterPurchaseRequest extends PurchaseRequest {
     this.timestamp = 0L;
 
     this.data = data;
-
-    // *** What to do?
-    // this.price = price.getCount();
-    // this.cost = price;
     this.cost = null;
+    this.costs = row.getCosts();
 
     this.request = data.getRequest(row, 1);
   }
@@ -75,10 +75,13 @@ public class CoinMasterPurchaseRequest extends PurchaseRequest {
 
   @Override
   public String getPriceString() {
+    if (this.shopRow != null) {
+      return this.shopRow.costString();
+    }
     long price =
         this.cost.isMeat() ? NPCPurchaseRequest.currentDiscountedPrice(this.price) : this.price;
 
-    return KoLConstants.COMMA_FORMAT.format(price) + " " + this.cost.getPluralName(price);
+    return KoLConstants.COMMA_FORMAT.format(price) + " " + this.cost.getPluralName(this.price);
   }
 
   @Override
@@ -87,7 +90,15 @@ public class CoinMasterPurchaseRequest extends PurchaseRequest {
   }
 
   @Override
+  public AdventureResult[] getCosts() {
+    return this.costs;
+  }
+
+  @Override
   public String getCurrency(final long count) {
+    if (this.shopRow != null) {
+      return this.shopRow.costString();
+    }
     return this.cost.getPluralName(this.price);
   }
 
@@ -97,6 +108,10 @@ public class CoinMasterPurchaseRequest extends PurchaseRequest {
 
   @Override
   public int affordableCount() {
+    if (this.shopRow != null) {
+      return this.shopRow.getAffordableCount();
+    }
+
     int tokens = this.data.affordableTokens(this.cost);
     long price = this.price;
     return price == 0 ? 0 : (int) (tokens / price);
@@ -150,7 +165,8 @@ public class CoinMasterPurchaseRequest extends PurchaseRequest {
     }
 
     // Make sure we have enough tokens to buy what we want.
-    if (this.data.availableTokens(this.cost) < this.limit * this.price) {
+    if (this.affordableCount() < this.limit) {
+      // if (this.data.availableTokens(this.cost) < this.limit * this.price) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "You can't afford that.");
       return;
     }

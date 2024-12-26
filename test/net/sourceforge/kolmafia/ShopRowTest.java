@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import net.sourceforge.kolmafia.ShopRow.MeatAdventureResult;
+import net.sourceforge.kolmafia.AdventureResult.MeatResult;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -35,7 +35,7 @@ public class ShopRowTest {
     // shop.php?whichshop=armory
     // test_shop_armory_and_leggery.html
 
-    static AdventureResult meat = new MeatAdventureResult(1);
+    static AdventureResult meat = new MeatResult(1);
     static AdventureResult adobe = new AdventureResult("adobe assortment", 1);
     static AdventureResult moss = new AdventureResult("moss mulch", 1);
 
