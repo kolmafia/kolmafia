@@ -275,10 +275,12 @@ public class CoinmastersDatabase {
     CoinMasterPurchaseRequest request = new CoinMasterPurchaseRequest(data, shopRow);
     COINMASTER_ROWS.put(shopRow.getRow(), request);
 
-    // Register this in the Concoction for the item
     AdventureResult item = shopRow.getItem();
     int itemId = item.getItemId();
     int count = item.getCount();
+    COINMASTER_ITEMS.put(itemId, request);
+
+    // Register this in the Concoction for the item
 
     // *** Only register if this is like a "buy"
     Concoction concoction = ConcoctionPool.get(itemId);
