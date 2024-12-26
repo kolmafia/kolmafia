@@ -11806,4 +11806,4 @@
 11778	clovermint	801500156	clovermint.gif	spleen, usable	t	0
 11779	nylon Christmas stockings	229779717	xmasstockings.gif	accessory	t	0	pairs of nylon Christmas stockings
 11780	tattoo of two turkeys	563249901	twoturkeytat.gif	usable	t	0	tattoos of two turkeys
-11781	deviled candy egg	732823232	candyegg.gif	potion, usable	t,d	5
+11781	deviled candy egg	732823232	candyegg.gif	potion	t,d	5
