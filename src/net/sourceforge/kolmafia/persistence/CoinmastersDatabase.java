@@ -212,7 +212,7 @@ public class CoinmastersDatabase {
     }
   }
 
-  private static int purchaseLimit(final int itemId) {
+  public static int purchaseLimit(final int itemId) {
     return switch (itemId) {
       case ItemPool.ZEPPELIN_TICKET,
           ItemPool.TALES_OF_DREAD,

@@ -7,6 +7,7 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.ShopRow;
+import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 
 public class CoinMasterPurchaseRequest extends PurchaseRequest {
   private final CoinmasterData data;
@@ -49,7 +50,7 @@ public class CoinMasterPurchaseRequest extends PurchaseRequest {
 
     AdventureResult item = row.getItem();
     this.item = item.getInstance(1);
-    this.quantity = item.getCount();
+    this.quantity = CoinmastersDatabase.purchaseLimit(item.getItemId());
     this.price = 0;
 
     this.limit = this.quantity;
