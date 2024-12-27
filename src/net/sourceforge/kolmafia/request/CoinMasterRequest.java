@@ -74,9 +74,7 @@ public class CoinMasterRequest extends GenericRequest {
   }
 
   public final void setQuantity(final int quantity) {
-    // Kludge for the use of CoinmasterPurchaseRequest
-    AdventureResult ar = attachments[0];
-    attachments[0] = ar.getInstance(quantity);
+    this.quantity = quantity;
   }
 
   public static void visit(final CoinmasterData data) {

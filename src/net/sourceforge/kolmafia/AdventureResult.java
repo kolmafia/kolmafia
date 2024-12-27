@@ -1518,6 +1518,27 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
     }
   }
 
+  // Custom AdventureResult for Meat values. The default one wants to
+  // print Priority.MEAT objects as " Meat gained"
+
+  public static class MeatResult extends AdventureResult {
+    public MeatResult(final int count) {
+      super("Meat", count);
+    }
+
+    public AdventureResult getInstance(final long count) {
+      if (this.getCount() == count) {
+        return this;
+      }
+      return new MeatResult((int) count);
+    }
+
+    @Override
+    public String toString() {
+      return KoLConstants.COMMA_FORMAT.format(this.count) + " Meat";
+    }
+  }
+
   public static AdventureResult parseEffectString(String effectString) {
     String name = effectString;
     int duration = 0;
