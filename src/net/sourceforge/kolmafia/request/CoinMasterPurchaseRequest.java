@@ -29,6 +29,9 @@ public class CoinMasterPurchaseRequest extends PurchaseRequest {
 
     this.item = item.getInstance(1);
     this.quantity = item.getCount();
+
+    this.costs = new AdventureResult[] {price};
+    this.cost = price;
     this.price = price.getCount();
 
     this.limit = this.quantity;
@@ -37,8 +40,6 @@ public class CoinMasterPurchaseRequest extends PurchaseRequest {
     this.timestamp = 0L;
 
     this.data = data;
-    this.cost = price;
-    this.costs = new AdventureResult[] {cost};
     this.request = data.getRequest(true, new AdventureResult[] {this.item});
   }
 
@@ -51,7 +52,13 @@ public class CoinMasterPurchaseRequest extends PurchaseRequest {
     AdventureResult item = row.getItem();
     this.item = item.getInstance(1);
     this.quantity = CoinmastersDatabase.purchaseLimit(item.getItemId());
-    this.price = 0;
+
+    // PurchaseRequest.orice is Meat. In this class, it is the quantity
+    // of the "cost" - the traded token. In a ShopRow, there can be
+    // multiple costs. Kludge: use the first cost.
+    this.costs = row.getCosts();
+    this.cost = costs[0];
+    this.price = cost.getCount();
 
     this.limit = this.quantity;
     this.canPurchase = true;
@@ -59,8 +66,6 @@ public class CoinMasterPurchaseRequest extends PurchaseRequest {
     this.timestamp = 0L;
 
     this.data = data;
-    this.cost = null;
-    this.costs = row.getCosts();
 
     this.request = data.getRequest(row, 1);
   }
