@@ -248,7 +248,7 @@ dusty bottle of Port	1	1	decent	2	0	0	0	10 Full of Vinegar (+weapon damage), WIN
 dusty bottle of Zinfandel	2	1	good	5-7	10-15	10-15	10-15	WINE
 Earth and Firewater	2	4	awesome	6-7	0	20-30	0	10 Elemental Mastery (+5 Prismatic Dam)
 Earth, Wind and Firewater	2	8	awesome	8-9	0	30-40	0	15 Elemental Mastery (+5 Prismatic Dam)
-Easter eggnog	3	5	EPIC	0	0	0	0	Unspaded
+Easter eggnog	3	5	EPIC	24-30	20-60	20-60	20-60
 Easter grasshopper	2	1	EPIC	0	0	0	0	Unspaded
 Ecto-Cooler	1	6	awesome	3-4	5-10	5-10	5-10	30 Booing Radly (+50 dmg vs. Ghosts)
 ecto-nog	3	1	decent	3-6	5-6	5-6	5-6
