@@ -2184,25 +2184,13 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
       }
 
       public ShopRowSelection getDesiredRow(final ShopRow row) {
-        AdventureResult item = row.getItem();
-
-        int max = Integer.MAX_VALUE;
-
-        // Look at all costs and decide the max you can buy given available balances
-        for (AdventureResult cost : row.getCosts()) {
-          int available =
-              cost.isMeat() ? Concoction.getAvailableMeat() : cost.getCount(KoLConstants.inventory);
-          int price = cost.getCount();
-          if (cost.isMeat()) {
-            price = NPCPurchaseRequest.currentDiscountedPrice(price);
-          }
-          max = Math.min(max, available / price);
-        }
+        int max = row.getAffordableCount();
 
         if (max <= 0) {
           return null;
         }
 
+        AdventureResult item = row.getItem();
         int quantity = 1;
 
         if (max > 1) {
@@ -2391,35 +2379,8 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
         return defaultComponent;
       }
 
-      boolean show = true;
-
-      StringBuilder costString = new StringBuilder(" ");
-      boolean first = true;
-      costString.append("(");
-      for (AdventureResult cost : costs) {
-        int available =
-            cost.isMeat() ? Concoction.getAvailableMeat() : cost.getCount(KoLConstants.inventory);
-        int price = cost.getCount();
-        if (cost.isMeat()) {
-          price = NPCPurchaseRequest.currentDiscountedPrice(price);
-        }
-
-        if (show) {
-          if (price > available) {
-            show = false;
-          }
-        }
-
-        if (!first) {
-          costString.append("+");
-        }
-        first = false;
-
-        costString.append(price);
-        costString.append(" ");
-        costString.append(cost.getPluralName(price));
-      }
-      costString.append(")");
+      String costString = sr.costString();
+      boolean show = sr.getAffordableCount() > 0;
 
       StringBuilder stringForm = new StringBuilder();
       stringForm.append("<html>");
@@ -2436,7 +2397,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
         stringForm.append(KoLConstants.COMMA_FORMAT.format(count));
         stringForm.append(")");
       }
-      stringForm.append(costString.toString());
+      stringForm.append(costString);
       if (!show) {
         stringForm.append("</font>");
       }

@@ -63,6 +63,9 @@ public class CoinmastersDatabase {
   // Map from Integer( itemId ) -> CoinMasterPurchaseRequest
   public static final Map<Integer, CoinMasterPurchaseRequest> COINMASTER_ITEMS = new HashMap<>();
 
+  // Map from Integer( row ) -> CoinMasterPurchaseRequest
+  public static final Map<Integer, CoinMasterPurchaseRequest> COINMASTER_ROWS = new HashMap<>();
+
   // Map from String -> LockableListModel
   public static final Map<String, List<AdventureResult>> buyItems = new TreeMap<>();
 
@@ -209,7 +212,7 @@ public class CoinmastersDatabase {
     }
   }
 
-  private static int purchaseLimit(final int itemId) {
+  public static int purchaseLimit(final int itemId) {
     return switch (itemId) {
       case ItemPool.ZEPPELIN_TICKET,
           ItemPool.TALES_OF_DREAD,
@@ -230,6 +233,7 @@ public class CoinmastersDatabase {
   public static final void clearPurchaseRequests(CoinmasterData data) {
     // Clear all purchase requests for a particular Coin Master
     COINMASTER_ITEMS.values().removeIf(request -> request.getData() == data);
+    COINMASTER_ROWS.values().removeIf(request -> request.getData() == data);
   }
 
   public static final void registerPurchaseRequest(
@@ -265,14 +269,49 @@ public class CoinmastersDatabase {
     }
   }
 
-  public static final void registerPurchaseRequest(final CoinmasterData data, final ShopRow row) {
-    // *** What to do?
+  public static final void registerPurchaseRequest(
+      final CoinmasterData data, final ShopRow shopRow) {
+    // Register a purchase request
+    CoinMasterPurchaseRequest request = new CoinMasterPurchaseRequest(data, shopRow);
+    COINMASTER_ROWS.put(shopRow.getRow(), request);
+
+    AdventureResult item = shopRow.getItem();
+    int itemId = item.getItemId();
+    int count = item.getCount();
+    COINMASTER_ITEMS.put(itemId, request);
+
+    // Register this in the Concoction for the item
+
+    // *** Only register if this is like a "buy"
+    Concoction concoction = ConcoctionPool.get(itemId);
+    if (concoction == null) {
+      return;
+    }
+
+    // If we can create it any other way, prefer that method
+    if (concoction.getMixingMethod() == CraftingType.NOCREATE) {
+      concoction.setMixingMethod(CraftingType.COINMASTER);
+      for (AdventureResult ingredient : shopRow.getCosts()) {
+        concoction.addIngredient(ingredient);
+      }
+    }
+
+    // If we can create this only via a coin master trade, save request
+    if (concoction.getMixingMethod() == CraftingType.COINMASTER) {
+      concoction.setPurchaseRequest(request);
+    }
   }
 
   public static final CoinMasterPurchaseRequest getPurchaseRequest(final int itemId) {
-    Integer id = itemId;
-    CoinMasterPurchaseRequest request = COINMASTER_ITEMS.get(id);
+    return getPurchaseRequest(COINMASTER_ITEMS.get(itemId));
+  }
 
+  public static final CoinMasterPurchaseRequest getPurchaseRequest(final ShopRow shopRow) {
+    return getPurchaseRequest(COINMASTER_ROWS.get(shopRow));
+  }
+
+  public static final CoinMasterPurchaseRequest getPurchaseRequest(
+      CoinMasterPurchaseRequest request) {
     if (request == null) {
       return null;
     }

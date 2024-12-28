@@ -80,6 +80,10 @@ public abstract class PurchaseRequest extends GenericRequest
     return new AdventureLongCountResult(AdventureResult.MEAT, this.getPrice());
   }
 
+  public AdventureResult[] getCosts() {
+    return new AdventureResult[] {this.getCost()};
+  }
+
   public String getCurrency(final long count) {
     return "Meat";
   }
