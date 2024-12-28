@@ -11741,7 +11741,7 @@
 11713	tiny plastic St. Patrick	427726670	c24tpbee.gif	accessory	t	0
 11714	tiny plastic Colonel Brando	148356375	c24tptres.gif	accessory	t	0
 11715	tiny plastic Jedediah and Boiling Cloud	357579052	c24tp444.gif	accessory	t	0
-11716
+11716	tiny plastic &quot;Santa Claus&quot;	142637822	c24tpsanta.gif	accessory	t	0	tiny plastic &quot;Santa Clauses&quot;
 11717	Spirit of Easter	756560474	spirit_easter.gif	none		0	Spirits of Easter
 11718	Spirit of St. Patrick's Day	655322653	spirit_stpatrick.gif	none		0	Spirits of St. Patrick's Day
 11719	Spirit of Veteran's Day	303899144	spirit_veterans.gif	none		0	Spirits of Veteran's Day
@@ -11785,11 +11785,11 @@
 11757	Christmas ham	535336050	ham.gif	food	t,d	75
 11758	holiday smorgasbord	259131327	partytray.gif	food	t,d	250
 11759	Bowl of Infinite Jelly	460792182	infinitejelly.gif	none		0
-11760
+11760	bejazzled eyepatch	359009269	xmaspatch.gif	accessory		0	bejazzled eyepatches
 11761	Secrets of the Master Egg Hunters	943549721	book5.gif	usable	t	0	copies of Secrets of the Master Egg Hunters
 11762	Secrets of the Master Egg Hunters (used)	216321799	book5.gif	reusable		0	used copies of Secrets of the Master Egg Hunters
 11763	How to Lose Friends and Attract Snakes	465814056	book3.gif	usable	t	0	copies of How to Lose Friends and Attract Snakes
-11764	How to Lose Friends and Attract Snakes (used)	953745853	book3.gif	reusable		0	used copies of How to Lose Friends and Attract Snakes
+11764	How to Lose Friends and Attract Snakes (used)	953745853	book3.gif	reusable		0	used copies of How to Lose Friends and Attract Sna
 11765	Covert Ops for Kids	484772100	book2.gif	usable	t	0	copies of Covert Ops for Kids
 11766	Covert Ops for Kids (used)	700189532	book2.gif	reusable		0	used copies of Covert Ops for Kids
 11767	Holiday Multitasking	555431420	book3.gif	usable	t	0	copies of Holiday Multitasking
@@ -11806,4 +11806,4 @@
 11778	clovermint	801500156	clovermint.gif	spleen, usable	t	0
 11779	nylon Christmas stockings	229779717	xmasstockings.gif	accessory	t	0	pairs of nylon Christmas stockings
 11780	tattoo of two turkeys	563249901	twoturkeytat.gif	usable	t	0	tattoos of two turkeys
-11781	deviled candy egg	732823232	candyegg.gif	potion, usable	t,d	5
+11781	deviled candy egg	732823232	candyegg.gif	potion	t,d	5

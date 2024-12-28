@@ -519,12 +519,21 @@ public class ListCellRendererFactory {
 
         PurchaseRequest purchaseRequest = item.getPurchaseRequest();
         if (purchaseRequest != null) {
-          AdventureResult cost = purchaseRequest.getCost();
-          int count = cost.getCount();
-          String currency = purchaseRequest.getCurrency(count);
-          stringForm.append(count);
-          stringForm.append(" ");
-          stringForm.append(currency);
+          AdventureResult[] costs = purchaseRequest.getCosts();
+          // *** multiple costs
+          if (costs.length == 1) {
+            AdventureResult cost = costs[0];
+            int count = cost.getCount();
+            String currency = purchaseRequest.getCurrency(count);
+            if (!currency.startsWith("(")) {
+              stringForm.append(count);
+              stringForm.append(" ");
+            }
+            stringForm.append(currency);
+          } else {
+            String currency = purchaseRequest.getCurrency(1);
+            stringForm.append(currency);
+          }
           stringForm.append(", ");
           stringForm.append(modified);
           stringForm.append(" possible, ");

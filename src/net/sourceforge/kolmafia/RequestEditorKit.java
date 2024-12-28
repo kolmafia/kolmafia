@@ -561,8 +561,8 @@ public class RequestEditorKit extends HTMLEditorKit {
       StringBuilder eventsTable = new StringBuilder();
 
       eventsTable.append("<center><table width=95% cellspacing=0 cellpadding=0>");
-      eventsTable.append("<tr><td style=\"color: white;\" align=center bgcolor=orange>");
-      eventsTable.append("<b>New Events:</b>");
+      eventsTable.append("<tr><td style=\"background-color: orange;\" align=center >");
+      eventsTable.append("<b style=\"color: white\">New Events:</b>");
       eventsTable.append("</td></tr>");
       eventsTable.append("<tr><td style=\"padding: 5px; border: 1px solid orange;\" align=center>");
 

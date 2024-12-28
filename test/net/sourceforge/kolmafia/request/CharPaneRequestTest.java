@@ -22,13 +22,16 @@ import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.LimitMode;
 import org.junit.jupiter.api.BeforeEach;
@@ -394,6 +397,19 @@ class CharPaneRequestTest {
           isSetTo("Noob Cave|The Dire Warren|The Haiku Dungeon|Shadow Rift|The Neverending Party"));
       assertThat(KoLAdventure.lastVisitedLocation().getAdventureName(), is("Noob Cave"));
       assertThat(KoLAdventure.lastAdventureId(), is(240));
+    }
+  }
+
+  @Test
+  void processAbsorbs() {
+    var cleanups = withPath(Path.GELATINOUS_NOOB);
+
+    try (cleanups) {
+      CharPaneRequest.processResults(html("request/test_gel_noob_charsheet.html"));
+      var mods =
+          ModifierDatabase.getStringModifier(
+              ModifierType.GENERATED, "Enchantments Absorbed", StringModifier.MODIFIERS);
+      assertThat(mods, is("Mysticality: 75, Smithsness: 75, Item Drop: 1125"));
     }
   }
 }
