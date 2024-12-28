@@ -10,6 +10,7 @@ import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.arrayContainingInAnyOrder;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.equalTo;
@@ -510,5 +511,27 @@ public class AdventureRequestTest {
   public void canParseDec2024Noncombat() {
     var encounter = AdventureRequest.parseEncounter(html("request/test_noncombat_dec2024.html"));
     assertThat(encounter, equalTo("Cards with Bards"));
+  }
+
+  @Test
+  public void recordsMonsterModifiers() {
+    var cleanups =
+        new Cleanups(
+            withFight(0),
+            withProperty("lastEncounter"),
+            withLastLocation("The Outskirts of Cobb's Knob"));
+
+    try (cleanups) {
+      AdventureQueueDatabase.resetQueue();
+      var req = new GenericRequest("fight.php?ireallymeanit=16");
+      req.responseText = html("request/test_fight_mimeograph_in_ocrs.html");
+      String encounter = AdventureRequest.registerEncounter(req);
+
+      assertThat(encounter, is("Sub-Assistant Knob Mad Scientist"));
+      var monster = MonsterStatusTracker.getLastMonster();
+      assertThat(
+          monster.getRandomModifiers(),
+          arrayContainingInAnyOrder("dancin'", "floating", "haunted", "untouchable", "mimeo"));
+    }
   }
 }

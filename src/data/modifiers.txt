@@ -2857,6 +2857,7 @@ Item	Beach Comb	Moxie Percent: +20, MP Regen Min: 8, MP Regen Max: 12, Familiar 
 Item	beach glass necklace	Muscle: +5
 Item	beaten-up Chucks	Initiative: +40
 # beer goggles: They Do Nothing!
+Item	bejazzled eyepatch	Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold Damage: +3, Sleaze Damage: +3
 Item	bejeweled accordion strap	Maximum HP: +25, Maximum MP: +25, Class: "Accordion Thief"
 Item	bejeweled cufflinks	Spooky Damage: +3, Stench Damage: +3, Hot Damage: +3, Cold Damage: +3, Sleaze Damage: +3, Single Equip
 Item	bejeweled pledge pin	Maximum HP: +40, Single Equip
@@ -3832,6 +3833,7 @@ Item	tiny die-cast turtle mech	Familiar Weight: +2
 Item	tiny die-cast Uncle Hobo	HP Regen Min: 3, HP Regen Max: 5, MP Regen Min: 3, MP Regen Max: 5, Booze Drop: +10
 Item	tiny die-cast Unionize the Elves Sign	Monster Level: +1
 Item	tiny die-cast Zeppo the Reindeer	Spooky Damage: +1
+Item	tiny plastic &quot;Santa Claus&quot;	Muscle: +3, Mysticality: +3, Moxie: +3
 Item	tiny plastic 7-foot dwarf	Monster Level: +1
 Item	tiny plastic 11 Dealer	Meat Drop: +4
 Item	tiny plastic abominable fudgeman	Weapon Damage: +10

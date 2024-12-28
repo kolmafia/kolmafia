@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import net.sourceforge.kolmafia.AdventureResult.MeatResult;
+import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ShopRow implements Comparable<ShopRow> {
@@ -44,6 +47,45 @@ public class ShopRow implements Comparable<ShopRow> {
   @Override
   public int compareTo(final ShopRow ir) {
     return this.row < ir.row ? -1 : this.row == ir.row ? 0 : 1;
+  }
+
+  public int getAffordableCount() {
+    // Look at all costs and decide the max you can buy given available balances
+
+    int max = Integer.MAX_VALUE;
+
+    for (AdventureResult cost : this.getCosts()) {
+      int available =
+          cost.isMeat() ? Concoction.getAvailableMeat() : cost.getCount(KoLConstants.inventory);
+      int price = cost.getCount();
+      if (cost.isMeat()) {
+        price = NPCPurchaseRequest.currentDiscountedPrice(price);
+      }
+      max = Math.min(max, available / price);
+    }
+
+    return max;
+  }
+
+  public String costString() {
+    StringBuilder buf = new StringBuilder();
+    String separator = "";
+
+    buf.append("(");
+    for (AdventureResult cost : costs) {
+      int price = cost.getCount();
+      if (cost.isMeat()) {
+        price = NPCPurchaseRequest.currentDiscountedPrice(price);
+      }
+      buf.append(separator);
+      separator = "+";
+
+      buf.append(price);
+      buf.append(" ");
+      buf.append(cost.getPluralName(price));
+    }
+    buf.append(")");
+    return buf.toString();
   }
 
   // <b style="color: white">Crimbo Factory</b>
@@ -271,7 +313,7 @@ public class ShopRow implements Comparable<ShopRow> {
             }
             // We have found an ingredient. Do we know what it is?
             if (isMeat) {
-              AdventureResult cost = new MeatAdventureResult(icount);
+              AdventureResult cost = new MeatResult(icount);
               ingredients.add(cost);
             } else {
               int iid = ItemDatabase.getItemIdFromDescription(idescid);
@@ -306,27 +348,6 @@ public class ShopRow implements Comparable<ShopRow> {
       result.add(irow);
     }
     return result;
-  }
-
-  // Custom AdventureResult for Meat values. The default one wants to
-  // print Priority.MEAT objects as " Meat gained"
-
-  public static class MeatAdventureResult extends AdventureResult {
-    public MeatAdventureResult(final int count) {
-      super("Meat", count);
-    }
-
-    public AdventureResult getInstance(final long count) {
-      if (this.getCount() == count) {
-        return this;
-      }
-      return new MeatAdventureResult((int) count);
-    }
-
-    @Override
-    public String toString() {
-      return KoLConstants.COMMA_FORMAT.format(this.count) + " Meat";
-    }
   }
 
   // Conversion from ShopRow objects to and from data strings.
