@@ -271,6 +271,12 @@ public class CoinmastersDatabase {
 
   public static final void registerPurchaseRequest(
       final CoinmasterData data, final ShopRow shopRow) {
+    // "Manual" rows are visible in CoinmastersFrame, but do not get a
+    // Concoction or PurchaseRequest - as is used by acquire and such.
+    if (data.manualOnlyRow(shopRow)) {
+      return;
+    }
+
     // Register a purchase request
     CoinMasterPurchaseRequest request = new CoinMasterPurchaseRequest(data, shopRow);
     COINMASTER_ROWS.put(shopRow.getRow(), request);

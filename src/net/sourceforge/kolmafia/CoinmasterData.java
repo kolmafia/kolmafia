@@ -1046,6 +1046,12 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
         : this.item.getInstance(price);
   }
 
+  // Override this method if certain rows should not get a Concoction or
+  // CoinMasterPurchaseRequest.
+  public boolean manualOnlyRow(final ShopRow shopRow) {
+    return false;
+  }
+
   public void registerPurchaseRequests() {
     // If this Coin Master doesn't sell anything that goes into
     // your inventory, nothing to register
