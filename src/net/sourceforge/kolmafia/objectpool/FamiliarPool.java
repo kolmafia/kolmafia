@@ -15,6 +15,7 @@ public class FamiliarPool {
   public static final int BABY_GRAVY_FAIRY = 15;
   public static final int STARFISH = 17;
   public static final int SOMBRERO = 18;
+  public static final int KILLER_BEE = 20;
   public static final int JILL_O_LANTERN = 24;
   public static final int HAND_TURKEY = 25;
   public static final int CRIMBO_ELF = 26;
@@ -53,6 +54,7 @@ public class FamiliarPool {
   public static final int BANDER = 105;
   public static final int CLOWNFISH = 106;
   public static final int PURSE_RAT = 109;
+  public static final int WERETURTLE = 110;
   public static final int SANDWORM = 111;
   public static final int SLIMELING = 112;
   public static final int HE_BOULDER = 113;
