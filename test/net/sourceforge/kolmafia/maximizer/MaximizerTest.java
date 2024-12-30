@@ -919,7 +919,7 @@ public class MaximizerTest {
               withEquippableItem("hardened slime belt"));
 
       try (cleanups) {
-        assertTrue(maximize("spooky resistance"));
+        maximizeAny("spooky resistance");
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "hardened slime hat")));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.PANTS, "hardened slime pants")));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.ACCESSORY3, "hardened slime belt")));
