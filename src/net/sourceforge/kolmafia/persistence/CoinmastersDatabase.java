@@ -164,6 +164,9 @@ public class CoinmastersDatabase {
             continue;
           }
           int row = shopRow.getRow();
+          if (row != 0) {
+            ShopRowDatabase.registerShopRow(row, "coin", shopRow.getItem(), master);
+          }
           List<ShopRow> rows = shopRows.get(master);
           if (rows == null) {
             // Get a LockableListModel if we are running in a Swing environment,
@@ -191,6 +194,10 @@ public class CoinmastersDatabase {
               rowMap.put(iitemId, row);
             }
           }
+        }
+
+        if (row != null) {
+          ShopRowDatabase.registerShopRow(row, "coin", item, master);
         }
 
         if (type.equals("buy")) {
