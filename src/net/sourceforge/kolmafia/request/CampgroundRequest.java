@@ -1973,11 +1973,7 @@ public class CampgroundRequest extends GenericRequest {
       case "dnainject" -> message = "Hybridizing yourself";
       case "rest" -> message = "[" + KoLAdventure.getAdventureCount() + "] Rest in your dwelling";
       case "witchess" -> {
-        KoLAdventure.lastVisitedLocation = null;
-        KoLAdventure.lastLocationName = null;
-        KoLAdventure.lastLocationURL = urlString;
-        KoLAdventure.setLastAdventure("None");
-        KoLAdventure.setNextAdventure("None");
+        KoLAdventure.clearLocation();
         message = "[" + KoLAdventure.getAdventureCount() + "] Your Witchess Set";
       }
       case "fuelconvertor" -> {
