@@ -51,11 +51,17 @@ public class ShopRowDatabase {
   }
 
   private static final Pattern MEAT_PATTERN = Pattern.compile("([\\d,]+) Meat");
+  private static final Pattern CURRENCY_PATTERN = Pattern.compile("CURRENCY \\(([\\d,]+)\\)");
 
   public static AdventureResult parseItemOrMeat(final String s) {
     Matcher meatMatcher = MEAT_PATTERN.matcher(s);
     if (meatMatcher.find()) {
       return new MeatResult(StringUtilities.parseInt(meatMatcher.group(1)));
+    }
+    Matcher currencyMatcher = CURRENCY_PATTERN.matcher(s);
+    if (currencyMatcher.find()) {
+      return AdventureResult.tallyItem(
+          "CURRENCY", StringUtilities.parseInt(currencyMatcher.group(1)), false);
     }
     return AdventureResult.parseItem(s, false);
   }

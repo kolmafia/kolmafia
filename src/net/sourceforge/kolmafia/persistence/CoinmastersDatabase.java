@@ -196,22 +196,28 @@ public class CoinmastersDatabase {
           }
         }
 
-        if (row != null) {
-          ShopRowDatabase.registerShopRow(row, "coin", item, master);
-        }
-
         if (type.equals("buy")) {
           List<AdventureResult> list = getOrMakeList(master, buyItems);
           list.add(item.getInstance(purchaseLimit(iitemId)));
 
           Map<Integer, Integer> map = getOrMakeMap(master, buyPrices);
           map.put(iitemId, iprice);
+
+          if (row != null) {
+            ShopRowDatabase.registerShopRow(row, "coin", item, master);
+          }
         } else if (type.equals("sell")) {
           List<AdventureResult> list = getOrMakeList(master, sellItems);
           list.add(item);
 
           Map<Integer, Integer> map = getOrMakeMap(master, sellPrices);
           map.put(iitemId, iprice);
+
+          if (row != null) {
+            System.out.println("sell row = " + row + "  for " + master);
+            AdventureResult currency = AdventureResult.tallyItem("CURRENCY", price, false);
+            ShopRowDatabase.registerShopRow(row, "coin", currency, master);
+          }
         }
       }
     } catch (IOException e) {

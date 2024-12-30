@@ -350,15 +350,15 @@
 376	coin	Meteoid ice beam	Arcade Ticket Counter
 377	coin	folder (Jackass Plumber)	Arcade Ticket Counter
 378	coin	Agent Mauve	The Armory
-389	coin	recovered elf magazine	Crimbo 2014
-390	coin	recovered elf toothbrush	Crimbo 2014
-391	coin	recovered elf sleeping pills	Crimbo 2014
-392	coin	recovered elf underpants	Crimbo 2014
-393	coin	recovered elf wallet	Crimbo 2014
-394	coin	recovered elf pocketwatch	Crimbo 2014
-395	coin	recovered elf photo album	Crimbo 2014
-396	coin	recovered elf smartphone	Crimbo 2014
-397	coin	peppermint tailings (10)	Crimbo 2014
+389	coin	CURRENCY	Crimbo 2014
+390	coin	CURRENCY	Crimbo 2014
+391	coin	CURRENCY (2)	Crimbo 2014
+392	coin	CURRENCY (2)	Crimbo 2014
+393	coin	CURRENCY (3)	Crimbo 2014
+394	coin	CURRENCY (3)	Crimbo 2014
+395	coin	CURRENCY (4)	Crimbo 2014
+396	coin	CURRENCY (5)	Crimbo 2014
+397	coin	CURRENCY	Crimbo 2014
 398	coin	choco-Crimbot	Crimbo 2014
 399	coin	smart watch	Crimbo 2014
 400	coin	augmented-reality shades	Crimbo 2014
@@ -1152,15 +1152,15 @@
 1409	coin	Jamaican coffee	Crimbuccaneer Bar
 1410	coin	flask of egggrog	Crimbuccaneer Bar
 1411	coin	Elf Guard honor present	Elf Guard Armory
-1412	coin	Elf Guard commandeering gloves	Elf Guard Armory
-1413	coin	Elf Guard officer's sidearm	Elf Guard Armory
-1415	coin	Kelflar vest	Elf Guard Armory
-1416	coin	Elf Guard mouthknife	Elf Guard Armory
+1412	coin	CURRENCY (3)	Elf Guard Armory
+1413	coin	CURRENCY (3)	Elf Guard Armory
+1415	coin	CURRENCY (3)	Elf Guard Armory
+1416	coin	CURRENCY (3)	Elf Guard Armory
 1417	coin	Crimbuccaneer premium booty sack	Crimbuccaneer Junkworks
-1418	coin	Crimbuccaneer shirt	Crimbuccaneer Junkworks
-1420	coin	sawed-off blunderbuss	Crimbuccaneer Junkworks
-1421	coin	shipwright's hammer	Crimbuccaneer Junkworks
-1422	coin	pegfinger	Crimbuccaneer Junkworks
+1418	coin	CURRENCY (3)	Crimbuccaneer Junkworks
+1420	coin	CURRENCY (3)	Crimbuccaneer Junkworks
+1421	coin	CURRENCY (3)	Crimbuccaneer Junkworks
+1422	coin	CURRENCY (3)	Crimbuccaneer Junkworks
 1424	coin	trick coin	Elf Guard Toy and Munitions Factory
 1425	coin	Elf Guard squirtgun	Elf Guard Toy and Munitions Factory
 1426	coin	chest of &quot;pirate gold&quot;	Elf Guard Toy and Munitions Factory
@@ -1240,4 +1240,3 @@
 1546	coin	nylon Christmas stockings	Crimbo24 Factory
 1547	coin	tattoo of two turkeys	Crimbo24 Factory
 1548	coin	Hoyle's Guide to Reindeer Games	Crimbo24 Factory
-
