@@ -164,6 +164,9 @@ public class CoinmastersDatabase {
             continue;
           }
           int row = shopRow.getRow();
+          if (row != 0) {
+            ShopRowDatabase.registerShopRow(row, "coin", shopRow.getItem(), master);
+          }
           List<ShopRow> rows = shopRows.get(master);
           if (rows == null) {
             // Get a LockableListModel if we are running in a Swing environment,
@@ -199,12 +202,21 @@ public class CoinmastersDatabase {
 
           Map<Integer, Integer> map = getOrMakeMap(master, buyPrices);
           map.put(iitemId, iprice);
+
+          if (row != null) {
+            ShopRowDatabase.registerShopRow(row, "coin", item, master);
+          }
         } else if (type.equals("sell")) {
           List<AdventureResult> list = getOrMakeList(master, sellItems);
           list.add(item);
 
           Map<Integer, Integer> map = getOrMakeMap(master, sellPrices);
           map.put(iitemId, iprice);
+
+          if (row != null) {
+            AdventureResult currency = AdventureResult.tallyItem("CURRENCY", price, false);
+            ShopRowDatabase.registerShopRow(row, "coin", currency, master);
+          }
         }
       }
     } catch (IOException e) {

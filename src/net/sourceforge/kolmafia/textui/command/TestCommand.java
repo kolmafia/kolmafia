@@ -38,6 +38,7 @@ import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.DebugDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
@@ -46,6 +47,8 @@ import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
+import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
+import net.sourceforge.kolmafia.persistence.ShopRowDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.persistence.StandardRewardDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -868,6 +871,15 @@ public class TestCommand extends AbstractCommand {
 
       RequestLogger.printLine(location);
 
+      return;
+    }
+
+    if (command.equals("write-shoprows")) {
+      // Ensure that the three databases that register ShopRowData entries are loaded
+      ConcoctionDatabase.singleUseCreation(0);
+      CoinmastersDatabase.purchaseLimit(0);
+      NPCStoreDatabase.contains(0);
+      ShopRowDatabase.writeShopRowDataFile();
       return;
     }
 
