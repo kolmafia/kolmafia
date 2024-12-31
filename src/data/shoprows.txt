@@ -1,0 +1,1242 @@
+1
+3	coin	FDKOL tattoo	FDKOL Tent
+4	coin	fireman's helmet	FDKOL Tent
+7	coin	fire axe	FDKOL Tent
+8	coin	enchanted fire extinguisher	FDKOL Tent
+9	coin	Hjodor's Guide to Arctic Dalmatians	FDKOL Tent
+11	coin	FDKOL fire hose	FDKOL Tent
+12	coin	bottle of fire	FDKOL Tent
+13	coin	penguin skin	The Trapper
+14	coin	yak skin	The Trapper
+15	coin	hippopotamus skin	The Trapper
+26	conc	white pixel	PIXEL
+27	conc	red pixel potion	PIXEL
+28	conc	blue pixel potion	PIXEL
+29	conc	green pixel potion	PIXEL
+30	conc	purple pixel pie	PIXEL
+31	conc	monster bait	PIXEL
+32	conc	pixel shield	PIXEL
+33	conc	pixel hat	PIXEL
+34	conc	pixel pants	PIXEL
+35	conc	pixel sword	PIXEL
+37	conc	pixel boomerang	PIXEL
+38	conc	pixel whip	PIXEL
+39	conc	pixel pill	PIXEL
+40	conc	pixel energy tank	PIXEL
+41	conc	pixel grappling hook	PIXEL
+42	conc	consummate hard-boiled egg	JARLS
+43	conc	consummate fried egg	JARLS
+44	conc	consummate egg salad	JARLS
+45	conc	consummate bagel	JARLS
+46	conc	consummate sliced bread	JARLS
+47	conc	consummate hot dog bun	JARLS
+48	conc	consummate brownie	JARLS
+49	conc	consummate toast	JARLS
+50	conc	passable stout	JARLS
+51	conc	consummate soup	JARLS
+52	conc	consummate corn chips	JARLS
+53	conc	consummate salad	JARLS
+54	conc	consummate salsa	JARLS
+55	conc	consummate sauerkraut	JARLS
+56	conc	consummate cheese slice	JARLS
+57	conc	consummate melted cheese	JARLS
+58	conc	consummate bacon	JARLS
+59	conc	consummate meatloaf	JARLS
+60	conc	consummate steak	JARLS
+61	conc	consummate cold cuts	JARLS
+62	conc	consummate frankfurter	JARLS
+63	conc	consummate french fries	JARLS
+64	conc	consummate baked potato	JARLS
+65	conc	acceptable vodka	JARLS
+66	conc	consummate ice cream	JARLS
+67	conc	consummate whipped cream	JARLS
+68	conc	consummate sour cream	JARLS
+69	conc	consummate strawberries	JARLS
+70	conc	consummate sorbet	JARLS
+71	conc	adequate rum	JARLS
+72	conc	immaculate grilled cheese	JARLS
+73	conc	immaculate ice cream sandwich	JARLS
+74	conc	immaculate hot dog	JARLS
+75	conc	immaculate egg salad sandwich	JARLS
+76	conc	perfect sandwich	JARLS
+77	conc	perfect chef salad	JARLS
+78	conc	perfect breakfast	JARLS
+79	conc	sublime deluxe hot dog	JARLS
+80	conc	sublime stew	JARLS
+81	conc	sublime nachos	JARLS
+82	conc	Ultimate Breakfast Sandwich	JARLS
+83	conc	Loaded Baked Potato	JARLS
+84	conc	Omega Sundae	JARLS
+85	conc	Das Sauerlager	JARLS
+86	conc	Bologna Lambic	JARLS
+87	conc	Vodka Dog	JARLS
+88	conc	Disappointed Russian	JARLS
+89	conc	Chunky Mary	JARLS
+90	conc	Nachojito	JARLS
+91	conc	Le Roi	JARLS
+92	conc	Over Easy Rider	JARLS
+93	coin	Boris's key	Vending Machine
+94	coin	Jarlsberg's key	Vending Machine
+95	coin	Sneaky Pete's key	Vending Machine
+96	coin	Boris's ring	Vending Machine
+97	coin	Jarlsberg's earring	Vending Machine
+98	coin	Sneaky Pete's breath spray	Vending Machine
+99	coin	potato sprout	Vending Machine
+100	coin	dried gelatinous cube	Vending Machine
+101	coin	Spellbook: Walberg's Dim Bulb	Vending Machine
+102	coin	Spellbook: Singer's Faithful Ocelot	Vending Machine
+103	coin	Spellbook: Drescher's Annoying Noise	Vending Machine
+104	conc	Staff of the Healthy Breakfast	JARLS
+105	conc	Staff of the Staff of Life	JARLS
+106	conc	Staff of the Light Lunch	JARLS
+107	conc	Staff of the Standalone Cheese	JARLS
+108	conc	Staff of the Hearty Dinner	JARLS
+109	conc	Staff of the All-Steak	JARLS
+110	conc	Staff of Fruit Salad	JARLS
+111	conc	Staff of the Cream of the Cream	JARLS
+112	conc	cosmic six-pack	JARLS
+116	conc	sushi doily	GRANDMA
+117	conc	scimitar cozy	GRANDMA
+118	conc	fish stick cozy	GRANDMA
+119	conc	bazooka cozy	GRANDMA
+120	conc	sea mantle	GRANDMA
+121	conc	sea shawl	GRANDMA
+122	conc	sea cape	GRANDMA
+123	conc	saltwaterbed	GRANDMA
+124	conc	crappy Mer-kin mask	GRANDMA
+125	conc	crappy Mer-kin tailpiece	GRANDMA
+126	conc	Mer-kin gladiator mask	GRANDMA
+127	conc	Mer-kin gladiator tailpiece	GRANDMA
+128	conc	crappy Mer-kin mask	GRANDMA
+129	conc	Mer-kin scholar mask	GRANDMA
+130	conc	Mer-kin scholar tailpiece	GRANDMA
+131	conc	crappy Mer-kin mask	GRANDMA
+132	conc	scale-mail underwear	GRANDMA
+133	conc	star sword	STARCHART
+134	conc	star crossbow	STARCHART
+135	conc	star staff	STARCHART
+136	conc	star pants	STARCHART
+137	conc	star hat	STARCHART
+138	conc	star buckler	STARCHART
+139	conc	star throwing star	STARCHART
+140	conc	star starfish	STARCHART
+141	conc	Richard's star key	STARCHART
+142	conc	star shirt	STARCHART
+143	conc	star stiletto	STARCHART
+144	conc	star boomerang	STARCHART
+145	conc	star spatula	STARCHART
+146	coin	Tales of Dread	The Terrified Eagle Inn
+147	coin	Dreadsylvanian skeleton key	The Terrified Eagle Inn
+148	coin	Official Seal of Dreadsylvania	The Terrified Eagle Inn
+149	coin	Dreadsylvanian stew	The Terrified Eagle Inn
+150	coin	white Dreadsylvanian	The Terrified Eagle Inn
+151	coin	brass Dreadsylvanian flask	The Terrified Eagle Inn
+152	coin	silver Dreadsylvanian flask	The Terrified Eagle Inn
+153	coin	dreadful fedora	The Terrified Eagle Inn
+154	coin	dreadful sweater	The Terrified Eagle Inn
+155	coin	dreadful glove	The Terrified Eagle Inn
+156	coin	hot Dreadsylvanian cocoa	The Terrified Eagle Inn
+157	coin	folder (tranquil landscape)	The Terrified Eagle Inn
+158	conc	miniature suspension bridge	SHOPCLASS
+159	conc	Staff of the Lunch Lady	SHOPCLASS
+160	conc	universal key	SHOPCLASS
+161	conc	world's most dangerous birdhouse	SHOPCLASS
+162	conc	deathchucks	SHOPCLASS
+163	conc	giant eraser	ARTCLASS
+164	conc	quasireligious sculpture	ARTCLASS
+165	conc	giant Faraday cage	ARTCLASS
+166	conc	modeling claymore	ARTCLASS
+167	conc	sticky clay homunculus	ARTCLASS
+168	conc	sodium pentasomething	CHEMCLASS
+169	conc	grains of salt	CHEMCLASS
+170	conc	yellowcake bomb	CHEMCLASS
+171	conc	dirty stinkbomb	CHEMCLASS
+172	conc	superwater	CHEMCLASS
+173	npc	Cursed Punch	The Hidden Tavern
+174	npc	Bowl of Scorpions	The Hidden Tavern
+175	npc	Fog Murderer	The Hidden Tavern
+176	coin	dinghy plans	The Shore, Inc. Gift Shop
+177	coin	fuzzy dice	The Shore, Inc. Gift Shop
+178	coin	meat globe	The Shore, Inc. Gift Shop
+179	coin	cheap toaster	The Shore, Inc. Gift Shop
+180	coin	dude ranch souvenir crate	The Shore, Inc. Gift Shop
+181	coin	tropical island souvenir crate	The Shore, Inc. Gift Shop
+182	coin	ski resort souvenir crate	The Shore, Inc. Gift Shop
+183	coin	UV-resistant compass	The Shore, Inc. Gift Shop
+184	conc	junk junk	JUNK
+185	conc	junk band	JUNK
+186	conc	junk trunks	JUNK
+187	conc	junk-mail shirt	JUNK
+188	conc	junk food	JUNK
+189	conc	junk yard	JUNK
+190	conc	swordzall	JUNK
+191	conc	arm buzzer	JUNK
+192	conc	boilgun	JUNK
+193	coin	Mint-in-box Moonthril Circlet	Isotope Smithery
+194	coin	Mint-in-box Moonthril Flamberge	Isotope Smithery
+195	coin	Mint-in-box Moonthril Longbow	Isotope Smithery
+196	coin	Mint-in-box Moonthril Greaves	Isotope Smithery
+197	coin	Mint-in-box Moonthril Cuirass	Isotope Smithery
+198	coin	plush alielf	Dollhawker's Emporium
+199	coin	plush dogcat	Dollhawker's Emporium
+200	coin	plush hamsterpus	Dollhawker's Emporium
+201	coin	plush ferrelf	Dollhawker's Emporium
+202	coin	plush mutated alielf	Dollhawker's Emporium
+203	coin	plush alien hamsterpus	Dollhawker's Emporium
+204	coin	plush mutated alielephant	Dollhawker's Emporium
+205	coin	Saison du Lune	Lunar Lunch-o-Mat
+206	coin	Moonthril Schnapps	Lunar Lunch-o-Mat
+207	coin	Wrecked Generator	Lunar Lunch-o-Mat
+208	coin	Spaghetti with Moonballs	Lunar Lunch-o-Mat
+209	coin	Crepes a la Lune	Lunar Lunch-o-Mat
+210	coin	Moon Pie	Lunar Lunch-o-Mat
+211	coin	Comet Pop	Lunar Lunch-o-Mat
+212	coin	Flan in the Moon	Lunar Lunch-o-Mat
+213	coin	1/6th Pound Cake	Lunar Lunch-o-Mat
+214	conc	can of Br&uuml;talbr&auml;u	BEER
+215	conc	can of Drooling Monk	BEER
+216	conc	can of Impetuous Scofflaw	BEER
+217	conc	bottle of Old Pugilist	BEER
+218	conc	bottle of Professor Beer	BEER
+219	conc	bottle of Rapier Witbier	BEER
+220	conc	artisanal homebrew gift package	BEER
+221	coin	warbear helm fragment	Warbear Black Box
+222	coin	warbear trouser fragment	Warbear Black Box
+223	coin	warbear accoutrements chunk	Warbear Black Box
+224	coin	blind-packed die-cast metal toy	Warbear Black Box
+225	coin	warbear requisition box	Warbear Black Box
+226	coin	warbear officer requisition box	Warbear Black Box
+227	conc	snow cleats	WINTER
+228	conc	liquid ice pack	WINTER
+229	conc	snow boards	WINTER
+230	conc	snow crab	WINTER
+231	conc	Ice Island Long Tea	WINTER
+232	conc	unfinished ice sculpture	WINTER
+233	conc	ice house	WINTER
+234	conc	snow machine	WINTER
+235	conc	snow mobile	WINTER
+236	conc	ice bucket	WINTER
+237	conc	snow shovel	WINTER
+238	conc	bod-ice	WINTER
+239	conc	snow belt	WINTER
+240	conc	ice nine	WINTER
+241	conc	snow fort	WINTER
+242	coin	warbear dress greaves	Warbear Black Box
+243	coin	warbear dress bracers	Warbear Black Box
+244	coin	warbear dress helmet	Warbear Black Box
+245	coin	cinnamon cannoli	Paul's Boutique
+246	coin	expensive champagne	Paul's Boutique
+247	coin	polo trophy	Paul's Boutique
+248	coin	fancy oil painting	Paul's Boutique
+249	coin	solid gold rosary	Paul's Boutique
+250	coin	ornate dowsing rod	Paul's Boutique
+251	conc	smudge stick	RUMPLE
+252	conc	portable wall	RUMPLE
+253	conc	large tankard of ale	RUMPLE
+254	conc	scroll case	RUMPLE
+255	conc	jug of &quot;wine&quot;	RUMPLE
+256	conc	juggling ball	RUMPLE
+257	conc	crappy camera	RUMPLE
+258	conc	humble pie	RUMPLE
+259	conc	small golem	RUMPLE
+267	conc	bottle of Calcutta Emerald	STILL
+268	conc	bottle of Lieutenant Freeman	STILL
+269	conc	bottle of Jorge Sinsonte	STILL
+270	conc	bottle of Definit	STILL
+271	conc	bottle of Domesticated Turkey	STILL
+272	conc	boxed champagne	STILL
+273	conc	bottle of Ooze-O	STILL
+274	conc	bottle of Pete's Sake	STILL
+275	conc	tangerine	STILL
+276	conc	kiwi	STILL
+277	conc	cocktail onion	STILL
+278	conc	kumquat	STILL
+279	conc	tonic water	STILL
+280	conc	raspberry	STILL
+281	npc	forged identification documents	The Black Market
+282	npc	can of black paint	The Black Market
+283	npc	black cherry soda	The Black Market
+284	npc	black facepaint	The Black Market
+285	npc	black sheepskin diploma	The Black Market
+286	npc	Black Body&trade; spray	The Black Market
+287	npc	exotic parrot egg	The Black Market
+288	npc	spare kidney	The Black Market
+289	npc	Red Zeppelin ticket	The Black Market
+290	coin	Red Zeppelin ticket	The Black Market
+291	conc	liquid bread	BEER
+292	coin	sewing kit	Vending Machine
+293	coin	regular-size brogurt	The Frozen Brogurt Stand
+294	coin	super-size brogurt	The Frozen Brogurt Stand
+295	coin	broberry brogurt	The Frozen Brogurt Stand
+296	coin	brocolate brogurt	The Frozen Brogurt Stand
+297	coin	French bronilla brogurt	The Frozen Brogurt Stand
+298	coin	Taco Dan's Basic Taco Dan Taco	Taco Dan's Taco Stand
+299	coin	Pastaco shell	Taco Dan's Taco Stand
+300	coin	Taco Dan's Super Taco-Riffic Taco Sauce!	Taco Dan's Taco Stand
+301	coin	Taco Dan's Taco Fish Fish Taco	Taco Dan's Taco Stand
+302	coin	History's Most Offensive Jokes, Vol. IX	Buff Jimmy's Souvenir Shop
+303	coin	Now You're Cooking With Grease	Buff Jimmy's Souvenir Shop
+304	coin	Sloppy Seconds Diner Employee Handbook	Buff Jimmy's Souvenir Shop
+305	coin	Brogre brorts	Buff Jimmy's Souvenir Shop
+306	coin	Brogre brolo shirt	Buff Jimmy's Souvenir Shop
+307	coin	Brogre bucket hat	Buff Jimmy's Souvenir Shop
+308	coin	Spring Break Beach tattoo coupon	Buff Jimmy's Souvenir Shop
+309	coin	one-day ticket to Spring Break Beach	Buff Jimmy's Souvenir Shop
+310	coin	industrial strength anti-fungal spray	Buff Jimmy's Souvenir Shop
+311	coin	strange helix fossil	The Neandermall
+312	coin	rack of dinosaur ribs	The Neandermall
+313	coin	scotch on the rocks	The Neandermall
+314	coin	yabba dabba doo rag	The Neandermall
+315	coin	wooly loincloth	The Neandermall
+316	coin	dog ointment	Legitimate Shoe Repair, Inc.
+317	coin	gumshoes	Legitimate Shoe Repair, Inc.
+318	coin	flapper floppers	Legitimate Shoe Repair, Inc.
+319	coin	sneakeasies	Legitimate Shoe Repair, Inc.
+320	coin	fishbone catcher's mitt	Freshwater Fishbonery
+321	coin	fishbone kneepads	Freshwater Fishbonery
+322	coin	fishbone corset	Freshwater Fishbonery
+323	coin	fishbone fins	Freshwater Fishbonery
+324	coin	fishbone facemask	Freshwater Fishbonery
+325	coin	fishbone bracers	Freshwater Fishbonery
+326	coin	fishbone belt	Freshwater Fishbonery
+327	conc	sugar shotgun	SUGAR_FOLDING
+328	conc	sugar shillelagh	SUGAR_FOLDING
+329	conc	sugar shank	SUGAR_FOLDING
+330	conc	sugar chapeau	SUGAR_FOLDING
+331	conc	sugar shorts	SUGAR_FOLDING
+332	conc	sugar shield	SUGAR_FOLDING
+333	conc	sugar shirt	SUGAR_FOLDING
+334	conc	Xiblaxian stealth cowl	FIVE_D
+335	conc	Xiblaxian stealth trousers	FIVE_D
+336	conc	Xiblaxian stealth vest	FIVE_D
+337	conc	Xiblaxian xeno-detection goggles	FIVE_D
+338	conc	Xiblaxian space-whiskey	FIVE_D
+339	conc	Xiblaxian ultraburrito	FIVE_D
+340	conc	Xiblaxian residence-cube	FIVE_D
+341	coin	warm war shawarma	The SHAWARMA Initiative
+342	coin	initiative shawarma	The SHAWARMA Initiative
+343	coin	karma shawarma	The SHAWARMA Initiative
+344	coin	Jungle Juice	The Canteen
+345	coin	Amnesiac Ale	The Canteen
+346	coin	Highest Bitter	The Canteen
+347	coin	mercenary pistol	The Armory
+348	coin	mercenary rifle	The Armory
+349	coin	specialty ammo bandolier	The Armory
+350	coin	Merc Core deployment orders	The Armory
+351	coin	Merc Core Field Manual: Sanity Maintenance	The Armory
+352	coin	Merc Core Field Manual: Intimidation Techniques	The Armory
+353	coin	Merc Core challenge coin	The Armory
+354	coin	unidentifiable dried fruit	The Applecalypse Store
+355	coin	flat cider	The Applecalypse Store
+356	coin	iShield	The Applecalypse Store
+357	coin	white earbuds	The Applecalypse Store
+358	coin	iFlail	The Applecalypse Store
+359	coin	finger cuffs	Arcade Ticket Counter
+360	coin	little parachute guy	Arcade Ticket Counter
+361	coin	superduperball	Arcade Ticket Counter
+363	coin	coffee pixie stick	Arcade Ticket Counter
+364	coin	plastic spider ring	Arcade Ticket Counter
+365	coin	sinister demon mask	Arcade Ticket Counter
+366	coin	cheap plastic kazoo	Arcade Ticket Counter
+367	coin	inflatable baseball bat	Arcade Ticket Counter
+368	coin	googly-star hat	Arcade Ticket Counter
+369	coin	googly-ball hat	Arcade Ticket Counter
+370	coin	googly-heart hat	Arcade Ticket Counter
+371	coin	Game Grid valued membership card	Arcade Ticket Counter
+372	coin	super-sweet boom box	Arcade Ticket Counter
+373	coin	Space Trip safety headphones	Arcade Ticket Counter
+374	coin	Dungeon Fist gauntlet	Arcade Ticket Counter
+375	coin	streetfighting champion's belt	Arcade Ticket Counter
+376	coin	Meteoid ice beam	Arcade Ticket Counter
+377	coin	folder (Jackass Plumber)	Arcade Ticket Counter
+378	coin	Agent Mauve	The Armory
+389	coin	CURRENCY	Crimbo 2014
+390	coin	CURRENCY	Crimbo 2014
+391	coin	CURRENCY (2)	Crimbo 2014
+392	coin	CURRENCY (2)	Crimbo 2014
+393	coin	CURRENCY (3)	Crimbo 2014
+394	coin	CURRENCY (3)	Crimbo 2014
+395	coin	CURRENCY (4)	Crimbo 2014
+396	coin	CURRENCY (5)	Crimbo 2014
+397	coin	CURRENCY	Crimbo 2014
+398	coin	choco-Crimbot	Crimbo 2014
+399	coin	smart watch	Crimbo 2014
+400	coin	augmented-reality shades	Crimbo 2014
+401	coin	toy Crimbot mega face	Crimbo 2014
+402	coin	toy Crimbot power glove	Crimbo 2014
+403	coin	toy Crimbot super fist	Crimbo 2014
+404	coin	toy Crimbot rocket legs	Crimbo 2014
+405	coin	Crimbot battery	Crimbo 2014
+406	coin	Crimbot ROM: Rapid Prototyping	Crimbo 2014
+407	coin	Crimbot ROM: Mathematical Precision	Crimbo 2014
+408	coin	Crimbot ROM: Ruthless Efficiency	Crimbo 2014
+409	coin	Mini-Crimbot crate	Crimbo 2014
+410	coin	fitness wristband	Crimbo 2014
+411	npc	electric muscle stimulator	Chateau Mantenga Gift Shop
+412	npc	foreign language tapes	Chateau Mantenga Gift Shop
+413	npc	bowl of potpourri	Chateau Mantenga Gift Shop
+414	npc	ceiling fan	Chateau Mantenga Gift Shop
+415	npc	antler chandelier	Chateau Mantenga Gift Shop
+416	npc	artificial skylight	Chateau Mantenga Gift Shop
+417	npc	Swiss piggy bank	Chateau Mantenga Gift Shop
+418	npc	continental juice bar	Chateau Mantenga Gift Shop
+419	npc	fancy stationery set	Chateau Mantenga Gift Shop
+420	npc	alpine watercolor set	Chateau Mantenga Gift Shop
+421	coin	tope&eacute;	Topiary Nuggletcrafting
+422	coin	topiary necktie	Topiary Nuggletcrafting
+423	coin	topiary tights	Topiary Nuggletcrafting
+424	coin	bowl of topioca	Topiary Nuggletcrafting
+425	coin	topiary skunk	Topiary Nuggletcrafting
+426	coin	mummified fig	Everything Under the World
+427	coin	mummified loaf of bread	Everything Under the World
+428	coin	mummified beef haunch	Everything Under the World
+429	coin	linen bandages	Everything Under the World
+430	coin	cotton bandages	Everything Under the World
+431	coin	silk bandages	Everything Under the World
+432	coin	spirit beer	Everything Under the World
+433	coin	sacramental wine	Everything Under the World
+434	coin	talisman of Thoth	Everything Under the World
+435	coin	ancient cure-all	Everything Under the World
+436	coin	holy spring water	Everything Under the World
+439	coin	talisman of Renenutet	Everything Under the World
+466	npc	suede shortsword	Armory and Leggery
+467	npc	bamboo bokuto	Armory and Leggery
+468	npc	25-meat staff	Armory and Leggery
+469	npc	two-handed depthsword	Armory and Leggery
+470	npc	bill bec-de-bardiche glaive-guisarme	Armory and Leggery
+471	npc	lead yo-yo	Armory and Leggery
+472	npc	slightly peevedbow	Armory and Leggery
+473	npc	sack of doorknobs	Armory and Leggery
+474	npc	lucky ball-and-chain	Armory and Leggery
+475	npc	automatic catapult	Armory and Leggery
+476	npc	pentacorn hat	Armory and Leggery
+477	npc	goofily-plumed helmet	Armory and Leggery
+478	npc	yellow plastic hard hat	Armory and Leggery
+479	npc	wooden salad bowl	Armory and Leggery
+480	npc	football helmet	Armory and Leggery
+481	npc	chain-mail monokini	Armory and Leggery
+482	npc	union scalemail pants	Armory and Leggery
+483	npc	paper-plate-mail pants	Armory and Leggery
+484	npc	troutpiece	Armory and Leggery
+485	npc	alpha-mail pants	Armory and Leggery
+486	npc	Kentucky-style derby	Armory and Leggery
+487	npc	cool whip	Armory and Leggery
+488	npc	snorkel	Armory and Leggery
+489	npc	studded leather boxer shorts	Armory and Leggery
+490	npc	sweet ninja sword	Armory and Leggery
+491	npc	toy accordion	Armory and Leggery
+492	npc	sword hilt	Meatsmith's Shop
+493	npc	helmet recipe	Meatsmith's Shop
+494	npc	pants kit	Meatsmith's Shop
+495	npc	meatsmithing guide	Meatsmith's Shop
+496	npc	big stick	Meatsmith's Shop
+497	npc	crossbow string	Meatsmith's Shop
+498	npc	tenderizing hammer	Meatsmith's Shop
+499	npc	whip kit	Meatsmith's Shop
+500	npc	buckler buckle	Meatsmith's Shop
+501	npc	skirt / kilt kit	Meatsmith's Shop
+502	npc	bigger stick	Meatsmith's Shop
+503	npc	sinewy crossbow string	Meatsmith's Shop
+504	npc	sturdy sword hilt	Meatsmith's Shop
+505	npc	shirt kit	Meatsmith's Shop
+506	npc	fancy tophat	Uncle P's Antiques
+507	npc	'Villa' document	Uncle P's Antiques
+508	npc	fancy black tie	Uncle P's Antiques
+509	npc	fancy tuxedo pants	Uncle P's Antiques
+511	npc	Clancy's crumhorn	Uncle P's Antiques
+513	npc	Knob Goblin nasal spray	The Knob Dispensary
+514	npc	Knob Goblin eyedrops	The Knob Dispensary
+515	npc	Knob Goblin learning pill	The Knob Dispensary
+516	npc	Knob Goblin steroids	The Knob Dispensary
+517	npc	Knob Goblin love potion	The Knob Dispensary
+518	npc	Knob Goblin stink bomb	The Knob Dispensary
+519	npc	Knob Goblin sharpening spray	The Knob Dispensary
+520	npc	Knob Goblin pet-buffing spray	The Knob Dispensary
+521	npc	Knob Goblin seltzer	The Knob Dispensary
+522	npc	ye olde golde frontes	Shadowy Store
+523	npc	bejeweled accordion strap	Shadowy Store
+524	npc	moxie magnet	Shadowy Store
+525	npc	Gazpacho's Glacial Grimoire	Gouda's Grimoire and Grocery
+526	npc	Codex of Capsaicin Conjuration	Gouda's Grimoire and Grocery
+527	npc	magical mystery juice	Gouda's Grimoire and Grocery
+528	npc	kickback cookbook	Gouda's Grimoire and Grocery
+529	npc	special sauce glove	Gouda's Grimoire and Grocery
+530	npc	ladle of mystery	Gouda's Grimoire and Grocery
+531	npc	delectable catalyst	Gouda's Grimoire and Grocery
+532	npc	MSG	Gouda's Grimoire and Grocery
+533	npc	big stirring stick	Gouda's Grimoire and Grocery
+534	npc	enchanted brass knuckles	Smacketeria
+535	npc	blood of the Wereseal	Smacketeria
+536	npc	Medicinal Herb's medicinal herbs	Smacketeria
+537	npc	cheap wind-up clock	Smacketeria
+538	npc	turtle pheromones	Smacketeria
+539	npc	seal-blubber candle	Smacketeria
+540	npc	figurine of a wretched-looking seal	Smacketeria
+541	npc	figurine of a cute baby seal	Smacketeria
+542	npc	figurine of an armored seal	Smacketeria
+543	npc	turtling rod	Smacketeria
+544	npc	piercing post	Little Canadia Jewelers
+545	npc	necklace chain	Little Canadia Jewelers
+546	npc	ring setting	Little Canadia Jewelers
+547	npc	jewelry-making pliers	Little Canadia Jewelers
+548	npc	Really Expensive Jewelry and You	Little Canadia Jewelers
+549	npc	extra-fancy ring setting	Little Canadia Jewelers
+550	npc	precious piercing post	Little Canadia Jewelers
+551	npc	heavy necklace chain	Little Canadia Jewelers
+552	npc	lime-and-chile-flavored chewing gum	Gno-Mart
+553	npc	jaba&ntilde;ero-flavored chewing gum	Gno-Mart
+554	npc	tamarind-flavored chewing gum	Gno-Mart
+555	npc	pickle-flavored chewing gum	Gno-Mart
+556	npc	handsomeness potion	Gno-Mart
+557	npc	Meleegra&trade; pills	Gno-Mart
+558	npc	marzipan skull	Gno-Mart
+559	npc	vial of Gnomochloric acid	Gno-Mart
+560	npc	flask of Gnomochloric acid	Gno-Mart
+561	npc	jug of Gnomochloric acid	Gno-Mart
+562	npc	day-old beer	The Typical Tavern
+563	npc	plain old beer	The Typical Tavern
+564	npc	overpriced &quot;imported&quot; beer	The Typical Tavern
+565	npc	Hatorade	Huggler Memorial Colosseum Snack Bar
+566	npc	nailswurst	Huggler Memorial Colosseum Snack Bar
+567	npc	used beer	Huggler Memorial Colosseum Snack Bar
+568	npc	fortune cookie	Chinatown Shops
+569	npc	brass abacus	Chinatown Shops
+570	npc	cheap Chinese beer	Chinatown Shops
+571	npc	bottle of limeade	Chinatown Shops
+572	npc	rhinoceros horn	Chinatown Shops
+573	npc	furry pink pillow	Chinatown Shops
+574	npc	novelty tattoo sleeves	Chinatown Shops
+575	npc	toy taijijian	Chinatown Shops
+576	npc	bonsai tree	Chinatown Shops
+577	npc	lucky cat statue	Chinatown Shops
+578	npc	puff of smoke	The Tweedleporium
+579	npc	stuffed pocketwatch	The Tweedleporium
+580	npc	stuffed caterpillar	The Tweedleporium
+581	npc	stuffed carpenter	The Tweedleporium
+582	npc	stuffed porpoise	The Tweedleporium
+583	npc	stuffed bandersnatch	The Tweedleporium
+584	npc	stuffed walrus	The Tweedleporium
+585	npc	stuffed dodo	The Tweedleporium
+586	npc	insane tophat	The Tweedleporium
+587	npc	helm of the white knight	The Tweedleporium
+588	npc	trousers of the white knight	The Tweedleporium
+589	npc	wristwatch of the white knight	The Tweedleporium
+591	npc	Dramatic&trade; range	Nervewrecker's Store
+592	npc	Queue Du Coq cocktailcrafting kit	Nervewrecker's Store
+593	npc	tenderizing hammer	Nervewrecker's Store
+594	npc	sprocket	Degrassi Knoll Bakery and Hardware Store
+595	npc	empty meat tank	Degrassi Knoll Bakery and Hardware Store
+596	npc	spring	Degrassi Knoll Bakery and Hardware Store
+597	npc	cog	Degrassi Knoll Bakery and Hardware Store
+598	npc	tires	Degrassi Knoll Bakery and Hardware Store
+599	npc	Gnollish pie tin	Degrassi Knoll Bakery and Hardware Store
+600	npc	wad of dough	Degrassi Knoll Bakery and Hardware Store
+601	npc	bugbear beanie	Degrassi Knoll Bakery and Hardware Store
+602	npc	bugbear bungguard	Degrassi Knoll Bakery and Hardware Store
+603	npc	flat dough	Degrassi Knoll Bakery and Hardware Store
+604	npc	skewer	Degrassi Knoll Bakery and Hardware Store
+605	npc	Gnollish plunger	Degrassi Knoll Bakery and Hardware Store
+606	npc	taco shell	Degrassi Knoll Bakery and Hardware Store
+607	npc	maiden wig	Degrassi Knoll Bakery and Hardware Store
+608	npc	Gnollish flyswatter	Degrassi Knoll Bakery and Hardware Store
+609	npc	frilly skirt	Degrassi Knoll Bakery and Hardware Store
+610	npc	Gnollish casserole dish	Degrassi Knoll Bakery and Hardware Store
+611	npc	detuned radio	Degrassi Knoll Bakery and Hardware Store
+612	npc	pirate brochure	Barrrtleby's Barrrgain Books (Bees Hate You)
+613	npc	pirate pamphlet	Barrrtleby's Barrrgain Books (Bees Hate You)
+614	npc	pirate tract	Barrrtleby's Barrrgain Books (Bees Hate You)
+615	npc	The Big Book of Pirate Insults	Barrrtleby's Barrrgain Books
+616	npc	Massive Manual of Marauder Mockery	Barrrtleby's Barrrgain Books (Bees Hate You)
+618	npc	White Citadel fries	White Citadel
+619	npc	onion shurikens	White Citadel
+620	npc	Diet Cloaca Cola	White Citadel
+621	npc	Cherry Cloaca Cola	White Citadel
+622	npc	Regular Cloaca Cola	White Citadel
+623	npc	White Citadel burger	White Citadel
+625	npc	water wings for babies	The General Store
+626	npc	miniature life preserver	The General Store
+627	npc	heavy duty umbrella	The General Store
+628	npc	pool skimmer	The General Store
+629	npc	glittery mascara	The General Store
+630	npc	Ben-Gal&trade; Balm	The General Store
+631	npc	hair spray	The General Store
+632	npc	loose purse strings	The General Store
+633	npc	third-hand lantern	The General Store
+634	npc	folder (red)	The General Store
+635	npc	folder (green)	The General Store
+636	npc	folder (blue)	The General Store
+637	npc	snake	The General Store
+638	npc	sparkler	The General Store
+639	npc	M-242	The General Store
+642	npc	Queue Du Coq cocktailcrafting kit	The General Store
+643	npc	Dramatic&trade; range	The General Store
+644	npc	cup of lukewarm tea	The General Store
+645	npc	fortune cookie	The General Store
+646	npc	pickled egg	The General Store
+648	npc	chewing gum on a string	The General Store
+649	npc	fermenting powder	The General Store
+650	npc	soda water	The General Store
+651	npc	casino pass	The General Store
+652	npc	hermit permit	The General Store
+653	npc	sweet rims	The General Store
+654	npc	party hat	The General Store
+655	npc	dingy planks	The General Store
+656	npc	Familiar-Gro&trade; Terrarium	The General Store
+657	npc	Desert Bus pass	The General Store
+658	npc	oyster basket	The General Store
+659	npc	inflatable duck	The General Store
+660	npc	foam noodle	The General Store
+661	npc	water wings	The General Store
+662	npc	marshmallow	The General Store
+663	npc	herbs	Hippy Store (Fratboy)
+664	npc	lemon	Hippy Store (Fratboy)
+665	npc	orange	Hippy Store (Fratboy)
+666	npc	grapes	Hippy Store (Fratboy)
+667	npc	tomato	Hippy Store (Fratboy)
+668	npc	strawberry	Hippy Store (Fratboy)
+669	npc	grapefruit	Hippy Store (Fratboy)
+670	npc	olive	Hippy Store (Fratboy)
+671	npc	cob of corn	Hippy Store (Fratboy)
+672	npc	plum	Hippy Store (Hippy)
+673	npc	peach	Hippy Store (Hippy)
+674	npc	bowl of rye sprouts	Hippy Store (Fratboy)
+675	npc	juniper berries	Hippy Store (Fratboy)
+676	npc	pear	Hippy Store (Hippy)
+677	npc	Gnollish pie tin	Bugbear Bakery
+678	npc	wad of dough	Bugbear Bakery
+679	npc	taco shell	Bugbear Bakery
+680	npc	skewer	Bugbear Bakery
+681	npc	Gnollish casserole dish	Bugbear Bakery
+682	npc	unrolling pin	Bugbear Bakery
+683	npc	rolling pin	Bugbear Bakery
+684	npc	rubber spatula	Armory and Leggery
+685	npc	wooden spoon	Armory and Leggery
+686	npc	crystalline reamer	Armory and Leggery
+687	npc	macroplane grater	Armory and Leggery
+688	npc	bastard baster	Armory and Leggery
+689	npc	obsidian nutcracker	Armory and Leggery
+690	coin	invisible potion	Ni&ntilde;a Store
+691	coin	time shuriken	Ni&ntilde;a Store
+692	coin	ninjammies	Ni&ntilde;a Store
+693	coin	talisman of Horus	Everything Under the World
+694	npc	anti-anti-antidote	Doc Galaktik's Medicine Show
+695	npc	Doc Galaktik's Pungent Unguent	Doc Galaktik's Medicine Show
+696	npc	Doc Galaktik's Homeopathic Elixir	Doc Galaktik's Medicine Show
+697	npc	Doc Galaktik's Invigorating Tonic	Doc Galaktik's Medicine Show
+698	npc	Doc Galaktik's Vitality Serum	Doc Galaktik's Medicine Show
+699	coin	Dinsey food-cone	The Dinsey Company Store
+700	coin	Dinsey Whinskey	The Dinsey Company Store
+701	coin	Dinsey face paint	The Dinsey Company Store
+702	coin	stinky fannypack	The Dinsey Company Store
+703	coin	garbage sticker	The Dinsey Company Store
+704	coin	hazmat helmet	The Dinsey Company Store
+705	coin	Scratch-and-Sniff Guide to Dinseylandfill	The Dinsey Company Store
+706	coin	Trash, a Memoir	The Dinsey Company Store
+707	coin	Dinsey Maintenance Manual	The Dinsey Company Store
+708	coin	Dinsey tattoo kit	The Dinsey Company Store
+709	coin	toxo	Toxic Chemistry
+710	coin	Lemonade-235	Toxic Chemistry
+711	coin	isotophat	Toxic Chemistry
+712	coin	Three Mile Island shorts	Toxic Chemistry
+713	coin	toxic mop	Toxic Chemistry
+714	coin	inert sludgepuppy	Toxic Chemistry
+715	coin	one-day ticket to Dinseylandfill	The Dinsey Company Store
+716	npc	Mayonex	The Mayo Clinic
+717	npc	Mayodiol	The Mayo Clinic
+718	npc	Mayostat	The Mayo Clinic
+719	npc	Mayozapine	The Mayo Clinic
+720	npc	Mayoflex	The Mayo Clinic
+721	npc	miracle whip	The Mayo Clinic
+722	npc	sphygmayomanometer	The Mayo Clinic
+723	npc	tomayohawk-style reflex hammer	The Mayo Clinic
+724	npc	mayo lance	The Mayo Clinic
+725	npc	Mayo Minder&trade;	The Mayo Clinic
+726	conc	pixel coin	PIXEL
+728	conc	pixel star	PIXEL
+729	conc	pixel banana	PIXEL
+730	conc	pixel beer	PIXEL
+731	conc	yellow submarine	PIXEL
+732	conc	pixel lemon	PIXEL
+733	conc	pixel daiquiri	PIXEL
+734	conc	miniature power pill	PIXEL
+735	conc	yellow pixel potion	PIXEL
+736	npc	Gnollish pie tin	Madeline's Baking Supply
+737	npc	wad of dough	Madeline's Baking Supply
+738	npc	taco shell	Madeline's Baking Supply
+739	npc	skewer	Madeline's Baking Supply
+740	npc	Gnollish casserole dish	Madeline's Baking Supply
+741	npc	rolling pin	Madeline's Baking Supply
+742	npc	unrolling pin	Madeline's Baking Supply
+744	coin	liquid rhinestones	Disco GiftCo
+745	coin	disco biscuit	Disco GiftCo
+746	coin	Quaatorade&trade;	Disco GiftCo
+747	coin	biker's hat	Disco GiftCo
+748	coin	feathered headdress	Disco GiftCo
+749	coin	electrician's hardhat	Disco GiftCo
+750	coin	Lava Miner's Daughter	Disco GiftCo
+751	coin	Psycho From The Heat	Disco GiftCo
+752	coin	The Firegate Tapes	Disco GiftCo
+753	coin	&quot;DEBBIE&quot; tattoo kit	Disco GiftCo
+754	coin	one-day ticket to That 70s Volcano	Disco GiftCo
+755	coin	portable Othello set	Ye Newe Souvenir Shoppe
+756	coin	rotten tomato	Ye Newe Souvenir Shoppe
+757	coin	Twelve Night Energy	Ye Newe Souvenir Shoppe
+758	coin	Yorick	Ye Newe Souvenir Shoppe
+763	coin	shoulder-warming lotion	Wal-Mart
+764	coin	iceberg lettuce	Wal-Mart
+765	coin	ice wine	Wal-Mart
+766	coin	Wal-Mart snowglobe	Wal-Mart
+767	coin	Wal-Mart nametag	Wal-Mart
+768	coin	Wal-Mart overalls	Wal-Mart
+769	coin	To Build an Igloo	Wal-Mart
+770	coin	The Chill of the Wild	Wal-Mart
+771	coin	Wal-Mart tattoo kit	Wal-Mart
+772	coin	Cold Fang	Wal-Mart
+773	coin	one-day ticket to The Glaciest	Wal-Mart
+774	coin	bottle of Bloodweiser	The Terrified Eagle Inn
+775	coin	electric Kool-Aid	The Terrified Eagle Inn
+776	conc	That 70s Cologne	DUTYFREE
+777	conc	Wal-Mart &quot;diamond&quot; ring	DUTYFREE
+778	conc	Puffstone cigar	DUTYFREE
+779	conc	Conspiracy&trade; mascara	DUTYFREE
+780	conc	Spring Break Beach &quot;swimsuit&quot;	DUTYFREE
+781	conc	airplane tattoo	DUTYFREE
+782	coin	bat-oomerang	Bat-Fabricator
+783	coin	bat-jute	Bat-Fabricator
+784	coin	bat-o-mite	Bat-Fabricator
+785	coin	experimental gene therapy	ChemiCorp
+787	coin	ultracoagulator	ChemiCorp
+788	coin	self-defense training	Gotpork P. D.
+789	coin	fingerprint dusting kit	Gotpork P. D.
+790	coin	confidence-building hug	Gotpork Orphanage
+791	coin	exploding kickball	Gotpork Orphanage
+792	coin	western-style skinning knife	LT&T Gift Shop
+793	coin	Shrub's Premium Baked Beans	LT&T Gift Shop
+794	coin	reliable sixgun	LT&T Gift Shop
+795	coin	steel knuckles	LT&T Gift Shop
+796	coin	Tales of Western Braggadoccio	LT&T Gift Shop
+797	coin	Hell and How I Bent It	LT&T Gift Shop
+798	coin	The Western Look	LT&T Gift Shop
+799	coin	LT&T tattoo kit	LT&T Gift Shop
+800	coin	Western Slang Vol. 1: Violence	LT&T Gift Shop
+801	coin	Western Slang Vol. 2: Cooking	LT&T Gift Shop
+802	coin	Western Slang Vol. 3: Fraud	LT&T Gift Shop
+803	coin	inflatable LT&T telegraph office	LT&T Gift Shop
+817	npc	high-test fishing line	The General Store
+818	npc	fishin' hat	Armory and Leggery
+821	coin	viral video	Internet Meme Shop
+822	coin	internet point	Internet Meme Shop
+823	coin	meme generator	Internet Meme Shop
+824	coin	plus one	Internet Meme Shop
+825	coin	gallon of milk	Internet Meme Shop
+826	coin	print screen button	Internet Meme Shop
+827	coin	daily dungeon malware	Internet Meme Shop
+828	coin	infinite BACON machine	Internet Meme Shop
+829	coin	First Post shirt package	Internet Meme Shop
+830	coin	detective roscoe	Precinct Materiel Division
+834	coin	shoe gum	Precinct Materiel Division
+835	coin	Falcon&trade; Maltese Liquor	Precinct Materiel Division
+836	coin	noir fedora	Precinct Materiel Division
+837	coin	trench coat	Precinct Materiel Division
+838	coin	detective tattoo	Precinct Materiel Division
+839	coin	hardboiled egg	Precinct Materiel Division
+843	npc	lead umbrella	Fallout Shelter Medical Supply
+844	npc	Rad-B-Gone (1 lb.)	Fallout Shelter Medical Supply
+845	npc	Rad-Pro (1 oz.)	Fallout Shelter Medical Supply
+846	npc	Wrist-Boy	Fallout Shelter Electronics Supply
+847	npc	Shrieking Weasel holo-record	Fallout Shelter Electronics Supply
+848	npc	Power-Guy 2000 holo-record	Fallout Shelter Electronics Supply
+849	npc	Superdrifter holo-record	Fallout Shelter Electronics Supply
+850	npc	Lucky Strikes holo-record	Underground Record Store
+851	npc	EMD holo-record	Underground Record Store
+880	npc	The Pigs holo-record	Underground Record Store
+881	npc	Drunk Uncles holo-record	Underground Record Store
+883	coin	KoL Con 13 snowglobe	KoL Con 13 Merch Table
+884	coin	potted tea tree	KoL Con 13 Merch Table
+885	coin	Xi Receiver Unit	KoL Con 13 Merch Table
+886	coin	Gordon Beer's Beer Garden Catalog	KoL Con 13 Merch Table
+887	coin	Tome of Rad Libs	KoL Con 13 Merch Table
+888	coin	Gygaxian Libram	KoL Con 13 Merch Table
+889	coin	hippo tutu	KoL Con 13 Merch Table
+890	npc	li'l unicorn costume	The General Store
+891	npc	li'l candy corn costume	The General Store
+892	npc	li'l eyeball costume	Fallout Shelter Medical Supply
+893	npc	li'l robot costume	Fallout Shelter Electronics Supply
+894	npc	li'l liberty costume	Underground Record Store
+895	coin	Twitching Television Tattoo	KoL Con 13 Merch Table
+896	npc	li'l candy corn costume	Fallout Shelter Medical Supply
+897	npc	li'l unicorn costume	Underground Record Store
+898	npc	li'l knight costume	Fallout Shelter Electronics Supply
+899	coin	mini-marshmallow dispenser	A traveling Thanksgiving salesman
+900	coin	glass casserole dish	A traveling Thanksgiving salesman
+901	coin	stuffing fluffer	A traveling Thanksgiving salesman
+902	coin	can opener	A traveling Thanksgiving salesman
+903	coin	turkey blaster	A traveling Thanksgiving salesman
+904	coin	glass pie plate	A traveling Thanksgiving salesman
+905	coin	potato masher	A traveling Thanksgiving salesman
+906	coin	gravy boat	A traveling Thanksgiving salesman
+907	coin	bread mold	A traveling Thanksgiving salesman
+908	npc	antique accordion	Uncle P's Antiques
+911	conc	hambrosier	CRIMBO16
+912	conc	chakra-mental wine	CRIMBO16
+913	conc	chakra malt	CRIMBO16
+914	conc	Black Angus blackburger	CRIMBO16
+915	conc	black brandy	CRIMBO16
+916	conc	potion of spiritual gunkifying	CRIMBO16
+917	conc	bad vibroknife	CRIMBO16
+918	conc	crystal belt buckle	CRIMBO16
+919	conc	saffron antaravasaka	CRIMBO16
+920	conc	saffron uttarasanga	CRIMBO16
+921	conc	Lump-Stacking for Beginners	CRIMBO16
+922	conc	pet bad vibe	CRIMBO16
+923	conc	Rethinking Candy	CRIMBO16
+924	conc	eternal knot tattoo	CRIMBO16
+939	conc	spants	SPANT
+940	conc	spant shield	SPANT
+941	conc	spant shoulderpads	SPANT
+942	conc	spant backplate	SPANT
+943	coin	Aldebaran sardines	Spacegate Fabrication Facility
+944	coin	Centauri fish wine	Spacegate Fabrication Facility
+945	coin	powdered oxygen	Spacegate Fabrication Facility
+947	coin	portable Spacegate	Spacegate Fabrication Facility
+948	coin	Spacegate scientist's insignia	Spacegate Fabrication Facility
+949	coin	Spacegate military insignia	Spacegate Fabrication Facility
+950	coin	Spacegate diplomat's insignia	Spacegate Fabrication Facility
+951	coin	Spacegate emergency disintegrator	Spacegate Fabrication Facility
+952	coin	Spacegate Initiative tattoo unit	Spacegate Fabrication Facility
+953	conc	pair of candy glasses	XO
+955	conc	jug of booze	XO
+956	conc	Hide-rox&trade; cookie	XO
+957	conc	temporary X tattoos	XO
+958	conc	glyph of athleticism	XO
+959	conc	pair of scissors	XO
+960	conc	new habit	XO
+961	conc	bridge truss	XO
+962	conc	pearl necklace	XO
+963	conc	amorphous blob	XO
+964	conc	giant amorphous blob	XO
+966	coin	stale cheer wine	Cheer-o-Vend 3000
+967	coin	stale Cheer-E-Os	Cheer-o-Vend 3000
+968	coin	Cheer-Up soda	Cheer-o-Vend 3000
+969	coin	cheer-o-gram	Cheer-o-Vend 3000
+970	coin	cheerful antler hat	Cheer-o-Vend 3000
+971	coin	cheerful Crimbo sweater	Cheer-o-Vend 3000
+972	coin	cheerful pajama pants	Cheer-o-Vend 3000
+973	coin	The Journal of Mime Science Vol. 1	Cheer-o-Vend 3000
+974	coin	The Journal of Mime Science Vol. 2	Cheer-o-Vend 3000
+975	coin	The Journal of Mime Science Vol. 3	Cheer-o-Vend 3000
+976	coin	The Journal of Mime Science Vol. 4	Cheer-o-Vend 3000
+977	coin	The Journal of Mime Science Vol. 5	Cheer-o-Vend 3000
+978	coin	The Journal of Mime Science Vol. 6	Cheer-o-Vend 3000
+992	coin	metandienone	The Pok&eacute;mporium
+993	coin	riboflavin	The Pok&eacute;mporium
+994	coin	bronze	The Pok&eacute;mporium
+995	coin	piracetam	The Pok&eacute;mporium
+996	coin	ultracalcium	The Pok&eacute;mporium
+997	coin	ginseng	The Pok&eacute;mporium
+998	coin	Team Avarice cap	The Pok&eacute;mporium
+999	coin	Team Sloth cap	The Pok&eacute;mporium
+1000	coin	Team Wrath cap	The Pok&eacute;mporium
+1001	coin	Mu cap	The Pok&eacute;mporium
+1002	npc	green rocket	The General Store
+1003	coin	FantasyRealm key	FantasyRealm Rubee&trade; Store
+1004	coin	LyleCo premium pickaxe	FantasyRealm Rubee&trade; Store
+1005	coin	LyleCo premium rope	FantasyRealm Rubee&trade; Store
+1007	coin	LyleCo premium monocle	FantasyRealm Rubee&trade; Store
+1008	coin	LyleCo premium magnifying glass	FantasyRealm Rubee&trade; Store
+1009	coin	FantasyRealm tattoo kit	FantasyRealm Rubee&trade; Store
+1010	coin	LyleCo Contractor's Manual	FantasyRealm Rubee&trade; Store
+1011	coin	FantasyRealm turkey leg	FantasyRealm Rubee&trade; Store
+1012	coin	FantasyRealm mead	FantasyRealm Rubee&trade; Store
+1013	coin	map to the Towering Mountains	FantasyRealm Rubee&trade; Store
+1014	coin	map to the Mystic Wood	FantasyRealm Rubee&trade; Store
+1015	coin	map to the Putrid Swamp	FantasyRealm Rubee&trade; Store
+1016	coin	map to the Cursed Village	FantasyRealm Rubee&trade; Store
+1017	coin	map to the Sprawling Cemetery	FantasyRealm Rubee&trade; Store
+1018	coin	FantasyRealm guest pass	FantasyRealm Rubee&trade; Store
+1019	coin	gattoo	G-Mart
+1020	coin	A-Boo glue	G-Mart
+1021	coin	crude oil congealer	G-Mart
+1022	coin	good guava	G-Mart
+1023	coin	gin and ginger	G-Mart
+1024	coin	gaseous gravy	G-Mart
+1025	conc	slime fedora	SLIEMCE
+1026	conc	slime knuckles	SLIEMCE
+1027	conc	slime waders	SLIEMCE
+1029	npc	yule gruel	The Crimbo Cafe
+1030	npc	hot watered rum	The Crimbo Cafe
+1031	npc	bottle of Crimbognac	Crimbo Town Gift-O-Mat
+1032	npc	Crimboysters Rockefeller	Crimbo Town Gift-O-Mat
+1033	npc	Crimbeau de toilette	Crimbo Town Gift-O-Mat
+1034	npc	Crimbo candle	Crimbo Town Gift-O-Mat
+1035	npc	Carol of the Bulls	Crimbo Town Gift-O-Mat
+1036	npc	Carol of the Hells	Crimbo Town Gift-O-Mat
+1037	npc	Carol of the Thrills	Crimbo Town Gift-O-Mat
+1039	npc	Crimbolex watch	Crimbo Town Gift-O-Mat
+1040	npc	Crimbo tattoo kit	Crimbo Town Gift-O-Mat
+1053	coin	crabsicle	PirateRealm Fun-a-Log
+1054	coin	bottle of dark rhum	PirateRealm Fun-a-Log
+1055	coin	bottle of extra-dark rhum	PirateRealm Fun-a-Log
+1056	coin	bottle of super-extra-dark rhum	PirateRealm Fun-a-Log
+1057	coin	pirate shaving cream	PirateRealm Fun-a-Log
+1058	coin	conquistador's breastplate	PirateRealm Fun-a-Log
+1059	coin	pirate radio ring	PirateRealm Fun-a-Log
+1060	coin	Island Drinkin', a Tiki Mixology Odyssey	PirateRealm Fun-a-Log
+1061	coin	Red Roger tattoo kit	PirateRealm Fun-a-Log
+1062	coin	plush sea serpent	PirateRealm Fun-a-Log
+1063	coin	piratical blunderbuss	PirateRealm Fun-a-Log
+1064	coin	PirateRealm party hat	PirateRealm Fun-a-Log
+1065	coin	pirate fork	PirateRealm Fun-a-Log
+1066	coin	Scurvy and Sobriety Prevention	PirateRealm Fun-a-Log
+1067	coin	PirateRealm guest pass	PirateRealm Fun-a-Log
+1068	coin	lucky gold ring	PirateRealm Fun-a-Log
+1069	coin	whittled flail	Your Campfire
+1070	coin	whittled wand	Your Campfire
+1071	coin	whittled flute	Your Campfire
+1072	coin	whittled bear figurine	Your Campfire
+1073	coin	whittled owl figurine	Your Campfire
+1074	coin	whittled fox figurine	Your Campfire
+1075	coin	whittled walking stick	Your Campfire
+1076	coin	campfire hot dog	Your Campfire
+1077	coin	campfire baked potato	Your Campfire
+1078	coin	campfire s'more	Your Campfire
+1079	coin	campfire beans	Your Campfire
+1080	coin	campfire stew	Your Campfire
+1081	coin	campfire coffee	Your Campfire
+1083	coin	burnt stick	Your Campfire
+1084	coin	whittled tiara	Your Campfire
+1085	coin	whittled shorts	Your Campfire
+1086	coin	bundle of firewood	Your Campfire
+1087	coin	campfire smoke	Your Campfire
+1088	coin	space shield	Cosmic Ray's Bazaar
+1089	coin	signal jammer	Cosmic Ray's Bazaar
+1090	coin	digital key	Cosmic Ray's Bazaar
+1091	coin	low-pressure oxygen tank	Cosmic Ray's Bazaar
+1092	coin	Wand of Nagamar	Cosmic Ray's Bazaar
+1093	coin	Boris's key	Cosmic Ray's Bazaar
+1094	coin	Jarlsberg's key	Cosmic Ray's Bazaar
+1095	coin	Sneaky Pete's key	Cosmic Ray's Bazaar
+1096	coin	rare Meat isotope	Cosmic Ray's Bazaar
+1097	coin	antique accordion	Cosmic Ray's Bazaar
+1098	coin	space chowder	Cosmic Ray's Bazaar
+1099	coin	space wine	Cosmic Ray's Bazaar
+1100	coin	lucky-ish pill	Cosmic Ray's Bazaar
+1101	npc	bowl of mernudo	The Crimbo Cafe
+1103	npc	fishelada	The Crimbo Cafe
+1104	npc	ojo de pez burrito	The Crimbo Cafe
+1105	conc	antique nutcracker hat	KRINGLE
+1106	conc	antique nutcracker cape	KRINGLE
+1107	conc	antique nutcracker waistcoat	KRINGLE
+1108	conc	antique nutcracker boots	KRINGLE
+1109	conc	antique nutcracker sword	KRINGLE
+1110	conc	antique nutcracker beard	KRINGLE
+1111	conc	antique nutcracker epaulets	KRINGLE
+1112	conc	antique nutcracker drumstick	KRINGLE
+1113	conc	antique nutcracker figurine	KRINGLE
+1114	conc	antique nutcracker pants	KRINGLE
+1128	npc	Drip harness	Drip Institute Armory
+1129	npc	drippy truncheon	Drip Institute Armory
+1130	coin	drippy khakis	Drip Institute Armory
+1131	npc	drippy nugget	Drip Institute Cafeteria
+1132	coin	drippy shield	Drip Institute Armory
+1133	coin	deluxe mushroom	Mushroom District Item Shop
+1134	coin	mushroom	Mushroom District Item Shop
+1135	coin	super deluxe mushroom	Mushroom District Item Shop
+1136	coin	fizzy soda	Mushroom District Item Shop
+1137	coin	healthy juice	Mushroom District Item Shop
+1138	coin	hammer	Mushroom District Gear Shop
+1139	coin	heavy hammer	Mushroom District Gear Shop
+1140	coin	fire flower	Mushroom District Gear Shop
+1141	coin	bonfire flower	Mushroom District Gear Shop
+1143	coin	fancy boots	Mushroom District Gear Shop
+1144	coin	cape	Mushroom District Gear Shop
+1145	coin	back shell	Mushroom District Gear Shop
+1146	coin	spiky back shell	Mushroom District Gear Shop
+1147	coin	power pants	Mushroom District Gear Shop
+1148	coin	bony back shell	Mushroom District Gear Shop
+1149	coin	frosty button	Mushroom District Gear Shop
+1150	coin	blooper ink	Mushroom District Item Shop
+1151	npc	glass of drippy wine	Drip Institute Cafeteria
+1152	npc	drippy caviar	Drip Institute Cafeteria
+1153	coin	Guzzlr hat	Guzzlr Company Store Website
+1154	coin	Guzzlr shoes	Guzzlr Company Store Website
+1155	coin	Guzzlr pants	Guzzlr Company Store Website
+1156	coin	Guzzlr souvenir stein	Guzzlr Company Store Website
+1157	coin	Guzzlr tattoo kit	Guzzlr Company Store Website
+1158	coin	Never Don't Stop Not Striving	Guzzlr Company Store Website
+1159	npc	Drip Institute petri dish	Drip Institute Cafeteria
+1160	coin	birch battery	Your SpinMaster&trade; lathe
+1161	coin	ebony epee	Your SpinMaster&trade; lathe
+1162	coin	weeping willow wand	Your SpinMaster&trade; lathe
+1163	coin	beechwood blowgun	Your SpinMaster&trade; lathe
+1164	coin	maple magnet	Your SpinMaster&trade; lathe
+1165	coin	hemlock helm	Your SpinMaster&trade; lathe
+1166	coin	balsam barrel	Your SpinMaster&trade; lathe
+1167	coin	redwood rain stick	Your SpinMaster&trade; lathe
+1168	coin	purpleheart &quot;pants&quot;	Your SpinMaster&trade; lathe
+1169	coin	wormwood wedding ring	Your SpinMaster&trade; lathe
+1170	coin	drippy diadem	Your SpinMaster&trade; lathe
+1171	npc	&quot;reusable&quot; grocery bag	The Black and White and Red All Over Market
+1172	npc	cardboard wine carrier	The Black and White and Red All Over Market
+1173	npc	antique candy bucket	The Black and White and Red All Over Market
+1174	npc	prescription teeth whitener	The Black and White and Red All Over Market
+1175	npc	imported lemon lozenge	The Black and White and Red All Over Market
+1176	npc	hermedisiac cologne	The Black and White and Red All Over Market
+1177	npc	government food shipment	The Black and White and Red All Over Market
+1178	npc	government booze shipment	The Black and White and Red All Over Market
+1179	npc	government candy shipment	The Black and White and Red All Over Market
+1180	npc	Crimbo Cheer tattoo kit	The Black and White and Red All Over Market
+1181	npc	Crimbo Carol tattoo kit	The Black and White and Red All Over Market
+1182	npc	Crimbo Commerce tattoo kit	The Black and White and Red All Over Market
+1183	coin	food drive button	Elf Food Drive
+1184	coin	booze drive button	Elf Booze Drive
+1185	coin	candy drive button	Elf Candy Drive
+1186	coin	food mailing list	Elf Food Drive
+1187	coin	booze mailing list	Elf Booze Drive
+1188	coin	candy mailing list	Elf Candy Drive
+1189	coin	fruit bat	Elf Candy Drive
+1190	coin	tinsel orb	Elf Candy Drive
+1191	coin	Crimbo stockings	Elf Booze Drive
+1192	coin	poncho de azucar	Elf Booze Drive
+1193	coin	snowpack	Elf Food Drive
+1194	coin	Satan hat	Elf Food Drive
+1195	coin	The Night Before Crimbo, Ch. 1	Elf Food Drive
+1196	coin	The Night Before Crimbo, Ch. 2	Elf Food Drive
+1197	coin	The Night Before Crimbo, Ch. 3	Elf Booze Drive
+1198	coin	The Night Before Crimbo, Ch. 4	Elf Booze Drive
+1199	coin	The Night Before Crimbo, Ch. 5	Elf Candy Drive
+1201	npc	stuffed red and green pepper (stale)	The Crimbo Cafe
+1202	npc	cranberry margarita (brackish)	The Crimbo Cafe
+1204	coin	miniature goose mask	Elf Booze Drive
+1205	coin	tiny glowing red nose	Elf Food Drive
+1206	coin	fuzzy polar bear ears	Elf Candy Drive
+1207	coin	The Night Before Crimbo, Ch. 6	Elf Candy Drive
+1209	coin	drive-thru burger	Elf Food Drive
+1210	coin	Boulevardier cocktail	Elf Booze Drive
+1211	coin	Hotwire&trade; brand candy rope	Elf Candy Drive
+1247	npc	fedora-mounted fountain	Clan Underground Fireworks Shop
+1248	npc	sombrero-mounted sparkler	Clan Underground Fireworks Shop
+1249	npc	porkpie-mounted popper	Clan Underground Fireworks Shop
+1250	npc	yellow rocket	Clan Underground Fireworks Shop
+1251	npc	blue rocket	Clan Underground Fireworks Shop
+1252	npc	red rocket	Clan Underground Fireworks Shop
+1253	npc	fire crackers	Clan Underground Fireworks Shop
+1254	npc	Arr, M80	Clan Underground Fireworks Shop
+1255	npc	Catherine Wheel	Clan Underground Fireworks Shop
+1256	npc	rocket boots	Clan Underground Fireworks Shop
+1257	npc	oversized sparkler	Clan Underground Fireworks Shop
+1258	npc	B. L. A. R. T.	FDKOL Auxiliary
+1259	npc	rusty empty nacho cheese can	FDKOL Auxiliary
+1260	npc	literal bucket hat	FDKOL Auxiliary
+1261	npc	rainproof barrel caulk	FDKOL Auxiliary
+1262	npc	pump grease	FDKOL Auxiliary
+1263	npc	bread pie	The Crimbo Cafe
+1264	npc	clear Russian	The Crimbo Cafe
+1265	npc	black Crimbo ball	Ornament Stand
+1266	npc	white Crimbo ball	Ornament Stand
+1279	coin	dinosaur pheromone kit	Dino World Gift Shop (The Dinostaur)
+1280	coin	pterodactyl rifle	Dino World Gift Shop (The Dinostaur)
+1281	coin	birdseed hat	Dino World Gift Shop (The Dinostaur)
+1282	coin	flatusaur gasmask	Dino World Gift Shop (The Dinostaur)
+1283	coin	dinosaur dart	Dino World Gift Shop (The Dinostaur)
+1284	coin	Dino DNAde&trade;	Dino World Gift Shop (The Dinostaur)
+1285	coin	dinosaur repellent	Dino World Gift Shop (The Dinostaur)
+1286	coin	camouflage vest	Dino World Gift Shop (The Dinostaur)
+1287	coin	reflective vest	Dino World Gift Shop (The Dinostaur)
+1288	coin	stuffed dinosaur	Dino World Gift Shop (The Dinostaur)
+1289	coin	Charleston Choo-Choo	Fancy Dan the Cocktail Man
+1290	coin	Velvet Veil	Fancy Dan the Cocktail Man
+1291	coin	Marltini	Fancy Dan the Cocktail Man
+1292	coin	Strong, Silent Type	Fancy Dan the Cocktail Man
+1293	coin	Mysterious Stranger	Fancy Dan the Cocktail Man
+1294	coin	Champagne Shimmy	Fancy Dan the Cocktail Man
+1307	conc	pixel bread	PIXEL
+1308	conc	pixel whiskey	PIXEL
+1309	conc	shadow chef's hat	SHADOW_FORGE
+1310	conc	shadow trousers	SHADOW_FORGE
+1311	conc	shadow hammer	SHADOW_FORGE
+1312	conc	shadow monocle	SHADOW_FORGE
+1313	conc	shadow candle	SHADOW_FORGE
+1315	conc	shadow hot dog	SHADOW_FORGE
+1316	conc	shadow martini	SHADOW_FORGE
+1317	conc	shadow pill	SHADOW_FORGE
+1318	conc	shadow needle	SHADOW_FORGE
+1319	coin	replica Dark Jill-O-Lantern	Replica Mr. Store
+1320	coin	replica hand turkey outline	Replica Mr. Store
+1321	coin	replica crimbo elfling	Replica Mr. Store
+1322	coin	replica pygmy bugbear shaman	Replica Mr. Store
+1323	coin	replica miniature gravy-covered maypole	Replica Mr. Store
+1324	coin	replica wax lips	Replica Mr. Store
+1325	coin	replica Tome of Snowcone Summoning	Replica Mr. Store
+1326	coin	replica plastic pumpkin bucket	Replica Mr. Store
+1328	coin	replica jewel-eyed wizard hat	Replica Mr. Store
+1329	coin	replica bottle-rocket crossbow	Replica Mr. Store
+1330	coin	replica navel ring of navel gazing	Replica Mr. Store
+1331	coin	replica V for Vivala mask	Replica Mr. Store
+1332	coin	replica little box of fireworks	Replica Mr. Store
+1333	coin	replica Libram of Resolutions	Replica Mr. Store
+1334	coin	replica cotton candy cocoon	Replica Mr. Store
+1335	coin	replica Elvish sunglasses	Replica Mr. Store
+1336	coin	replica Greatest American Pants	Replica Mr. Store
+1337	coin	replica organ grinder	Replica Mr. Store
+1338	coin	replica Juju Mojo Mask	Replica Mr. Store
+1339	coin	replica cute angel	Replica Mr. Store
+1340	coin	replica Camp Scout backpack	Replica Mr. Store
+1341	coin	replica deactivated nanobots	Replica Mr. Store
+1342	coin	replica haiku katana	Replica Mr. Store
+1343	coin	replica Apathargic Bandersnatch	Replica Mr. Store
+1344	coin	replica squamous polyp	Replica Mr. Store
+1345	coin	replica Operation Patriot Shield	Replica Mr. Store
+1346	coin	replica plastic vampire fangs	Replica Mr. Store
+1347	coin	replica Smith's Tome	Replica Mr. Store
+1348	coin	replica over-the-shoulder Folder Holder	Replica Mr. Store
+1349	coin	replica Order of the Green Thumb Order Form	Replica Mr. Store
+1350	coin	replica Little Geneticist DNA-Splicing Lab	Replica Mr. Store
+1351	coin	replica still grill	Replica Mr. Store
+1352	coin	replica Crimbo sapling	Replica Mr. Store
+1353	coin	replica yellow puck	Replica Mr. Store
+1354	coin	replica Chateau Mantegna room key	Replica Mr. Store
+1355	coin	replica Deck of Every Card	Replica Mr. Store
+1356	coin	replica Source terminal	Replica Mr. Store
+1357	coin	replica disconnected intergnat	Replica Mr. Store
+1358	coin	replica Witchess Set	Replica Mr. Store
+1359	coin	replica genie bottle	Replica Mr. Store
+1360	coin	replica space planula	Replica Mr. Store
+1361	coin	replica unpowered Robortender	Replica Mr. Store
+1362	coin	replica Neverending Party invitation envelope	Replica Mr. Store
+1363	coin	replica January's Garbage Tote	Replica Mr. Store
+1364	coin	replica God Lobster Egg	Replica Mr. Store
+1365	coin	replica Kramco Sausage-o-Matic&trade;	Replica Mr. Store
+1366	coin	replica Fourth of May Cosplay Saber	Replica Mr. Store
+1367	coin	replica hewn moon-rune spoon	Replica Mr. Store
+1368	coin	replica baby camelCalf	Replica Mr. Store
+1369	coin	replica Powerful Glove	Replica Mr. Store
+1370	coin	replica Cargo Cultist Shorts	Replica Mr. Store
+1371	coin	replica emotion chip	Replica Mr. Store
+1372	coin	replica miniature crystal ball	Replica Mr. Store
+1373	coin	replica industrial fire extinguisher	Replica Mr. Store
+1374	coin	replica Jurassic Parka	Replica Mr. Store
+1375	coin	replica grey gosling	Replica Mr. Store
+1376	coin	replica designer sweatpants	Replica Mr. Store
+1377	coin	replica Cincho de Mayo	Replica Mr. Store
+1378	coin	&quot;I survived Y2K&quot; T-Shirt	Mr. Store 2002
+1379	coin	Spooky VHS Tape	Mr. Store 2002
+1380	coin	Letter from Carrie Bradshaw	Mr. Store 2002
+1381	coin	pro skateboard	Mr. Store 2002
+1382	coin	Mr. Accessaturday	Mr. Store 2002
+1383	coin	Meat Butler	Mr. Store 2002
+1384	coin	Loathing Idol Microphone	Mr. Store 2002
+1385	coin	Charter: Nellyville	Mr. Store 2002
+1386	coin	Manual of Secret Door Detection	Mr. Store 2002
+1387	coin	Flash Liquidizer Ultra Dousing Accessory	Mr. Store 2002
+1388	coin	Amulet of Perpetual Darkness	Mr. Store 2002
+1389	coin	Giant black monolith	Mr. Store 2002
+1390	coin	Crimbo cookie sheet	Mr. Store 2002
+1391	coin	Replica 2002 Mr. Store Catalog	Replica Mr. Store
+1392	coin	replica sleeping patriotic eagle	Replica Mr. Store
+1393	conc	cat o' nine teeth	FIXODENT
+1394	conc	toothy trousers	FIXODENT
+1395	conc	tooth cap	FIXODENT
+1396	coin	replica august scepter	Replica Mr. Store
+1397	coin	crated wardrobe-o-matic	KoL Con 13 Merch Table
+1399	coin	sugarplum ration	Elf Guard Mess Hall
+1400	coin	gingerbread nylons	Elf Guard Mess Hall
+1401	coin	rum-soaked fruitcake	Elf Guard Mess Hall
+1402	coin	candied lime	Crimbuccaneer Grub Hall
+1403	coin	gingerbread pirate	Crimbuccaneer Grub Hall
+1404	coin	fruit-stuffed rumcake	Crimbuccaneer Grub Hall
+1405	coin	mulled wine	Elf Guard Officers' Club
+1406	coin	Swedish coffee	Elf Guard Officers' Club
+1407	coin	canteen of eggnog	Elf Guard Officers' Club
+1408	coin	hot wine	Crimbuccaneer Bar
+1409	coin	Jamaican coffee	Crimbuccaneer Bar
+1410	coin	flask of egggrog	Crimbuccaneer Bar
+1411	coin	Elf Guard honor present	Elf Guard Armory
+1412	coin	CURRENCY (3)	Elf Guard Armory
+1413	coin	CURRENCY (3)	Elf Guard Armory
+1415	coin	CURRENCY (3)	Elf Guard Armory
+1416	coin	CURRENCY (3)	Elf Guard Armory
+1417	coin	Crimbuccaneer premium booty sack	Crimbuccaneer Junkworks
+1418	coin	CURRENCY (3)	Crimbuccaneer Junkworks
+1420	coin	CURRENCY (3)	Crimbuccaneer Junkworks
+1421	coin	CURRENCY (3)	Crimbuccaneer Junkworks
+1422	coin	CURRENCY (3)	Crimbuccaneer Junkworks
+1424	coin	trick coin	Elf Guard Toy and Munitions Factory
+1425	coin	Elf Guard squirtgun	Elf Guard Toy and Munitions Factory
+1426	coin	chest of &quot;pirate gold&quot;	Elf Guard Toy and Munitions Factory
+1427	coin	sequin-encrusted sweater	Elf Guard Toy and Munitions Factory
+1428	coin	replica Elf Guard medal	Elf Guard Toy and Munitions Factory
+1429	coin	Lil' Snowball Factory	Elf Guard Toy and Munitions Factory
+1430	coin	Elf Guard temporary (permanent) tattoo	Elf Guard Toy and Munitions Factory
+1431	coin	prank Crimbo card	Crimbuccaneer Foundry
+1432	coin	Crimbuccaneer squirtblunderbuss	Crimbuccaneer Foundry
+1433	coin	My First Paycheck envelope	Crimbuccaneer Foundry
+1434	coin	barnacle-encrusted sweater	Crimbuccaneer Foundry
+1435	coin	Crimbuccaneer nose ring	Crimbuccaneer Foundry
+1436	coin	pet anchor	Crimbuccaneer Foundry
+1437	coin	Crimbuccaneer tattoo gift certificate	Crimbuccaneer Foundry
+1440	coin	Elf Guard safety bear	Elf Guard Toy and Munitions Factory
+1441	coin	stuffed kraken	Crimbuccaneer Foundry
+1467	conc	biphasic molecular oculus	TINKERING_BENCH
+1468	conc	triphasic molecular oculus	TINKERING_BENCH
+1469	conc	high-tension exoskeleton	TINKERING_BENCH
+1470	conc	ultra-high-tension exoskeleton	TINKERING_BENCH
+1471	conc	irresponsible-tension exoskeleton	TINKERING_BENCH
+1472	conc	quick-release belt pouch	TINKERING_BENCH
+1473	conc	quick-release fannypack	TINKERING_BENCH
+1474	conc	quick-release utility belt	TINKERING_BENCH
+1475	conc	motion sensor	TINKERING_BENCH
+1476	conc	focused magnetron pistol	TINKERING_BENCH
+1477	conc	mini kiwi bikini	KIWI
+1478	conc	mini kiwitini	KIWI
+1479	conc	mini kiwitini	KIWI
+1480	conc	mini kiwi invisible dirigible	KIWI
+1481	conc	mini kiwi aioli	KIWI
+1482	conc	mini kiwi silicon tiepin	KIWI
+1483	conc	mini kiwi tipi	KIWI
+1484	conc	mini kiwi intoxicating spirits	KIWI
+1485	conc	mini kiwi illicit antibiotic	KIWI
+1486	conc	mini kiwi antimilitaristic hippy petition	KIWI
+1487	conc	mini kiwi whipping stick	KIWI
+1488	conc	mini kiwi icepick	KIWI
+1489	conc	mini kiwi-flavored aspirin-injecting lipstick	KIWI
+1490	conc	mini kiwi digitized cookies	KIWI
+1509	coin	unevolved organism	KoL Con 13 Merch Table
+1510	coin	blade of dismemberment	Sept-Ember Censer
+1511	coin	miniature Embering Hulk	Sept-Ember Censer
+1512	coin	Mmm-brr! brand mouthwash	Sept-Ember Censer
+1513	coin	Septapus summoning charm	Sept-Ember Censer
+1514	coin	structural ember	Sept-Ember Censer
+1515	coin	embers-only jacket	Sept-Ember Censer
+1516	coin	bembershoot	Sept-Ember Censer
+1517	coin	wheel of camembert	Sept-Ember Censer
+1518	coin	hat of remembering	Sept-Ember Censer
+1519	coin	throwin' ember	Sept-Ember Censer
+1520	coin	head of emberg lettuce	Sept-Ember Censer
+1521	coin	Easter grasshopper	Crimbo24 Bar
+1522	coin	Irish eggnog	Crimbo24 Bar
+1523	coin	canteen of jungle juice	Crimbo24 Bar
+1524	coin	turchucken	Crimbo24 Bar
+1525	coin	mechanically-mulled cider	Crimbo24 Bar
+1526	coin	holiday trip around the world	Crimbo24 Bar
+1527	coin	chocolate ostrich egg	Crimbo24 Cafe
+1528	coin	candied beef and cabbage	Crimbo24 Cafe
+1529	coin	candy rations	Crimbo24 Cafe
+1530	coin	double-candied yams	Crimbo24 Cafe
+1531	coin	Christmas ham	Crimbo24 Cafe
+1532	coin	holiday smorgasbord	Crimbo24 Cafe
+1533	coin	Secrets of the Master Egg Hunters	Crimbo24 Factory
+1534	coin	How to Lose Friends and Attract Snakes	Crimbo24 Factory
+1535	coin	Covert Ops for Kids	Crimbo24 Factory
+1536	coin	Holiday Multitasking	Crimbo24 Factory
+1537	coin	egg gun	Crimbo24 Factory
+1538	coin	lucky moai statuette	Crimbo24 Factory
+1540	coin	lucky army helmet	Crimbo24 Factory
+1541	coin	candy egg deviler	Crimbo24 Factory
+1542	coin	lucky napkin	Crimbo24 Factory
+1543	coin	Thanksgiving ration	Crimbo24 Factory
+1544	coin	Easter eggnog	Crimbo24 Factory
+1545	coin	clovermint	Crimbo24 Factory
+1546	coin	nylon Christmas stockings	Crimbo24 Factory
+1547	coin	tattoo of two turkeys	Crimbo24 Factory
+1548	coin	Hoyle's Guide to Reindeer Games	Crimbo24 Factory

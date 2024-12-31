@@ -2908,11 +2908,18 @@ public class GenericRequest implements Runnable {
         name = "Rain Man";
         break;
 
+      case 1103:
+        name = "Calculate the Universe";
+        break;
+
       case 1201:
         name = "Dr. Gordon Stuart's Science Tent";
         Preferences.setBoolean("_eldritchTentacleFought", true);
         break;
 
+        // NB: Pocket / genie wishes aren't handled via a redirect, so this code path should not be
+        // triggered.
+        // Instead, postChoice2 calls GenieRequest.postChoice.
       case 1267:
         name = "Genie Wish";
         break;
@@ -2942,11 +2949,7 @@ public class GenericRequest implements Runnable {
     }
 
     GenericRequest.itemMonster = name;
-    KoLAdventure.lastVisitedLocation = null;
-    KoLAdventure.lastLocationName = null;
-    KoLAdventure.lastLocationURL = location;
-    KoLAdventure.setLastAdventure("None");
-    KoLAdventure.setNextAdventure("None");
+    KoLAdventure.clearLocation();
 
     RequestLogger.registerLocation(name);
   }
@@ -2973,11 +2976,7 @@ public class GenericRequest implements Runnable {
         return;
     }
 
-    KoLAdventure.lastVisitedLocation = null;
-    KoLAdventure.lastLocationName = null;
-    KoLAdventure.lastLocationURL = location;
-    KoLAdventure.setLastAdventure("None");
-    KoLAdventure.setNextAdventure("None");
+    KoLAdventure.clearLocation();
 
     RequestLogger.registerLocation(skillName);
   }
@@ -3002,11 +3001,7 @@ public class GenericRequest implements Runnable {
       return;
     }
 
-    KoLAdventure.lastVisitedLocation = null;
-    KoLAdventure.lastLocationName = null;
-    KoLAdventure.lastLocationURL = location;
-    KoLAdventure.setLastAdventure("None");
-    KoLAdventure.setNextAdventure("None");
+    KoLAdventure.clearLocation();
 
     RequestLogger.registerLocation(otherName);
   }

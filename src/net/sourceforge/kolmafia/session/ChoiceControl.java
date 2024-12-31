@@ -2243,11 +2243,7 @@ public abstract class ChoiceControl {
         // Rainy Fax Dreams on your Wedding Day
         if (ChoiceManager.lastDecision == 1) {
           EncounterManager.ignoreSpecialMonsters();
-          KoLAdventure.lastVisitedLocation = null;
-          KoLAdventure.lastLocationName = null;
-          KoLAdventure.lastLocationURL = urlString;
-          KoLAdventure.setLastAdventure("None");
-          KoLAdventure.setNextAdventure("None");
+          KoLAdventure.clearLocation();
           GenericRequest.itemMonster = "Rain Man";
         }
         break;
@@ -2879,6 +2875,15 @@ public abstract class ChoiceControl {
         }
         break;
 
+      case 1103:
+        {
+          int result =
+              NumberologyManager.numberology(StringUtilities.parseInt(request.getFormField("num")));
+          if (NumberologyManager.numberologyPrize(result).startsWith("fight")) {
+            KoLAdventure.clearLocation();
+          }
+        }
+
       case 1118:
         // X-32-F Combat Training Snowman Control Console
         switch (ChoiceManager.lastDecision) {
@@ -3015,11 +3020,7 @@ public abstract class ChoiceControl {
       case 1182:
         // Play against the Witchess Pieces
         if (ChoiceManager.lastDecision == 1) {
-          KoLAdventure.lastVisitedLocation = null;
-          KoLAdventure.lastLocationName = null;
-          KoLAdventure.lastLocationURL = urlString;
-          KoLAdventure.setLastAdventure("None");
-          KoLAdventure.setNextAdventure("None");
+          KoLAdventure.clearLocation();
           GenericRequest.itemMonster = "Your Witchess Set";
         }
         break;
@@ -9937,11 +9938,7 @@ public abstract class ChoiceControl {
     switch (choice) {
       case 1195:
         if (decision == 3) {
-          KoLAdventure.lastVisitedLocation = null;
-          KoLAdventure.lastLocationName = null;
-          KoLAdventure.lastLocationURL = urlString;
-          KoLAdventure.setLastAdventure("None");
-          KoLAdventure.setNextAdventure("None");
+          KoLAdventure.clearLocation();
           GenericRequest.itemMonster = "Time-Spinner";
 
           RequestLogger.registerLocation("Way Back in Time");
@@ -9950,11 +9947,7 @@ public abstract class ChoiceControl {
 
       case 1196:
         if (ChoiceManager.lastDecision == 1 && !urlString.contains("monid=0")) {
-          KoLAdventure.lastVisitedLocation = null;
-          KoLAdventure.lastLocationName = null;
-          KoLAdventure.lastLocationURL = urlString;
-          KoLAdventure.setLastAdventure("None");
-          KoLAdventure.setNextAdventure("None");
+          KoLAdventure.clearLocation();
           GenericRequest.itemMonster = "Time-Spinner";
 
           RequestLogger.registerLocation("A Recent Fight");
