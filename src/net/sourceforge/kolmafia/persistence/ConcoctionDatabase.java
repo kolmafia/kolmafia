@@ -269,6 +269,10 @@ public class ConcoctionDatabase {
               ConcoctionDatabase.row);
       concoction.setParam(param);
 
+      if (row != 0) {
+        ShopRowDatabase.registerShopRow(row, "conc", item, mixingMethod.toString());
+      }
+
       Concoction existing = ConcoctionPool.get(item);
       if (concoction.getMisc().contains(CraftingMisc.MANUAL)
           || (existing != null && existing.getMixingMethod() != CraftingType.NOCREATE)) {
