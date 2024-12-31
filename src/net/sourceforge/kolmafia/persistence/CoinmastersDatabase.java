@@ -165,7 +165,7 @@ public class CoinmastersDatabase {
           }
           int row = shopRow.getRow();
           if (row != 0) {
-            ShopRowDatabase.registerShopRow(row, "coin", shopRow.getItem(), master);
+            ShopRowDatabase.registerShopRow(row, "row", shopRow.getItem(), master);
           }
           List<ShopRow> rows = shopRows.get(master);
           if (rows == null) {
@@ -204,7 +204,7 @@ public class CoinmastersDatabase {
           map.put(iitemId, iprice);
 
           if (row != null) {
-            ShopRowDatabase.registerShopRow(row, "coin", item, master);
+            ShopRowDatabase.registerShopRow(row, "buy", item, master);
           }
         } else if (type.equals("sell")) {
           List<AdventureResult> list = getOrMakeList(master, sellItems);
@@ -215,7 +215,7 @@ public class CoinmastersDatabase {
 
           if (row != null) {
             AdventureResult currency = AdventureResult.tallyItem("CURRENCY", price, false);
-            ShopRowDatabase.registerShopRow(row, "coin", currency, master);
+            ShopRowDatabase.registerShopRow(row, "sell", currency, master);
           }
         }
       }
