@@ -3406,6 +3406,11 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     NamedListenerRegistry.fireChange("(koladventure)");
   }
 
+  public static void clearLocation() {
+    KoLAdventure.setLastAdventure("None");
+    KoLAdventure.setNextAdventure("None");
+  }
+
   public static KoLAdventure lastVisitedLocation() {
     return KoLAdventure.lastVisitedLocation;
   }
