@@ -1062,7 +1062,23 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
     }
 
     if (this.shopRows != null) {
+      Set<AdventureResult> currencies = this.currencies();
       for (ShopRow row : this.shopRows) {
+        AdventureResult item = row.getItem();
+
+        // If the item is a currency and you get more than one when you
+        // buy it with this row, it is conceptually a "sell" request.
+        //
+        // A coinmaster can both create an item and use such an item to
+        // make another item - for example, Grandma Sea Monkey with a
+        // Mer-kin gladiator mask or a Mer-kin scholar mask - and if the
+        // yield of the "currency" is 1, we want treat those as "buys".
+
+        if (item.getCount() > 1 && currencies.contains(item)) {
+          // Do not make a PurchaseRequest for a "sell"
+          continue;
+        }
+
         CoinmastersDatabase.registerPurchaseRequest(this, row);
       }
       return;
