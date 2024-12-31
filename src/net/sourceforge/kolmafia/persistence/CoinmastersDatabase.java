@@ -214,7 +214,6 @@ public class CoinmastersDatabase {
           map.put(iitemId, iprice);
 
           if (row != null) {
-            System.out.println("sell row = " + row + "  for " + master);
             AdventureResult currency = AdventureResult.tallyItem("CURRENCY", price, false);
             ShopRowDatabase.registerShopRow(row, "coin", currency, master);
           }
