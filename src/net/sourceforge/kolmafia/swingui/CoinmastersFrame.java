@@ -1599,10 +1599,11 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     public void setTitle(final StringBuffer buffer) {
       this.standardTitle(buffer);
       for (AdventureResult currency : this.data.currencies()) {
+        int count = InventoryManager.getCount(currency);
         buffer.append(" (");
-        buffer.append(InventoryManager.getCount(currency));
+        buffer.append(count);
         buffer.append(" ");
-        buffer.append(currency.getPluralName());
+        buffer.append(currency.getPluralName(count));
         buffer.append(")");
       }
     }
