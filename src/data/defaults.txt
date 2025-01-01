@@ -235,6 +235,7 @@ user	autoSatisfyWithStorage	true
 user	autoSetConditions	true
 user	autoSteal	true
 user	autoTuxedo	false
+user	autopsyTweezersUsed	0
 user	autumnatonQuestLocation
 user	autumnatonQuestTurn	-1
 user	autumnatonUpgrades
@@ -637,6 +638,7 @@ user	drippyBatsUnlocked	0
 user	drippyJuice	0
 user	drippyOrbsClaimed	0
 user	drippyShieldUnlocked	false
+user	droneSelfDestructChipsUsed	0
 user	drunkenSwagger	0
 user	duckAreasCleared	
 user	duckAreasSelected	
@@ -865,6 +867,7 @@ user	itemBoughtPerCharacter6428	false
 user	itemBoughtPerCharacter6429	false
 user	jarlsbergPoints	0
 user	jickSwordModifier
+user	juicyGarbageUsed	0
 user	juneCleaverQueue
 user	jungCharge	0
 user	junglePuns	0
@@ -874,6 +877,8 @@ user	knownAscensions	-1
 user	kolhsTotalSchoolSpirited	0
 user	lassoTraining
 user	lastAdventure
+user	lastAdventureContainer
+user	lastAdventureTrail
 user	lastAnticheeseDay	-5
 user	lastArcadeAscension	-1
 user	lastBadMoonReset	-1
@@ -1146,6 +1151,7 @@ user	mpAutoRecoveryTarget	0.3
 user	muffinOnOrder	none
 user	munchiesPillsUsed	0
 user	mushroomGardenCropLevel	1
+user	nanopolymerSpiderWebsUsed	0
 user	neverendingPartyAlways	false
 user	nextAdventure
 user	nextAprilBandTurn	0
@@ -1159,6 +1165,7 @@ user	nextQuantumFamiliarOwner
 user	nextQuantumFamiliarOwnerId	0
 user	nextQuantumFamiliarTurn	0
 user	noncombatForcerActive	false
+user	noncombatForcers
 user	noobPoints	0
 user	noobDeferredPoints	0
 user	noodleSummons	0
@@ -1250,6 +1257,7 @@ user	poolSkill	0
 user	popularTartUnlocked	false
 user	postAscensionScript
 user	potatoAlarmClockUsed	false
+user	powerPillProgress	0
 user	prAlways	false
 user	prayedForGlamour	false
 user	prayedForProtection	false
@@ -1260,6 +1268,7 @@ user	primaryLabCheerCoreGrabbed	false
 user	prismaticSummons	0
 user	procrastinatorLanguageFluency	0
 user	promptAboutCrafting	1
+user	pumpkinSpiceWhorlUsed	false
 user	puzzleChampBonus	5
 user	pyramidPosition	1
 user	pyramidBombUsed	false
@@ -1605,6 +1614,12 @@ user	sweat	0
 user	sweetSynthesisBlacklist	chocolate cigar,fudge bunny,gummi ammonite,gummi belemnite,gummi trilobite,powdered candy sushi set,radio button candy,Ultra Mega Sour Ball,vitachoconutriment capsule
 user	tacoDanCocktailSauce	0
 user	tacoDanFishMeat	0
+user	takerSpaceAnchor	0
+user	takerSpaceGold	0
+user	takerSpaceMast	0
+user	takerSpaceRum	0
+user	takerSpaceSilk	0
+user	takerSpaceSpice	0
 user	tavernLayout	0000000000000000000000000
 user	telegraphOfficeAvailable	false
 user	telescope1
@@ -2121,6 +2136,7 @@ user	_iceHotelRoomsRaided	false
 user	_iceSculptureUsed	false
 user	_incredibleSelfEsteemCast	false
 user	_infernoDiscoVisited	false
+user	_infiniteJellyUsed	false
 user	_inigosCasts	0
 user	_internetDailyDungeonMalwareBought	false
 user	_internetGallonOfMilkBought	false
@@ -2179,6 +2195,7 @@ user	_kolhsPoeticallyLicenced	false
 user	_kolhsSavedByTheBell	0
 user	_kolhsSchoolSpirited	false
 user	_kudzuSaladEaten	false
+user	_lastCombatActions
 user	_lastCombatLost	false
 user	_lastCombatStarted
 user	_lastCombatWon	true
@@ -2319,6 +2336,7 @@ user	_pieDrops	0
 user	_piePartsCount	0
 user	_pingPongGame	false
 user	_pirateBellowUsed	false
+user	_pirateDinghyUsed	false
 user	_pirateForkUsed	false
 user	_pirateRealmCrewmate
 user	_pirateRealmCrewmate1
@@ -2498,6 +2516,7 @@ user	_syntheticDogHairPillUsed	false
 user	_tacoFlierUsed	false
 user	_taffyRareSummons	0
 user	_taffyYellowSummons	0
+user	_takerSpaceSuppliesDelivered	false
 user	_tearawayPantsAdvs	0
 user	_telegraphOfficeToday	false
 user	_templeHiddenPower	false
@@ -3377,6 +3396,11 @@ user	choiceAdventure1494	0
 user	choiceAdventure1505	0
 user	choiceAdventure1528	1
 user	choiceAdventure1534	6
+user	choiceAdventure1538	2
+user	choiceAdventure1539	2
+user	choiceAdventure1540	2
+user	choiceAdventure1541	2
+user	choiceAdventure1542	2
 user	lockedItem4637	true
 user	lockedItem4638	true
 user	lockedItem4639	true
@@ -3471,3 +3495,8 @@ user	lastNoncombat533	0
 user	lastNoncombat539	0
 user	lastNoncombat540	0
 user	lastNoncombat541	0
+user	lastNoncombat588	0
+user	lastNoncombat589	0
+user	lastNoncombat590	0
+user	lastNoncombat591	0
+user	lastNoncombat592	0

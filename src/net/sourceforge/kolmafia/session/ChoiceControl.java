@@ -1160,6 +1160,7 @@ public abstract class ChoiceControl {
         // The tweezers you used dissolve in the caustic fluid. Rats.
         if (text.contains("dissolve in the caustic fluid")) {
           ResultProcessor.processItem(ItemPool.AUTOPSY_TWEEZERS, -1);
+          Preferences.increment("autopsyTweezersUsed");
         }
         return;
 
@@ -2242,11 +2243,7 @@ public abstract class ChoiceControl {
         // Rainy Fax Dreams on your Wedding Day
         if (ChoiceManager.lastDecision == 1) {
           EncounterManager.ignoreSpecialMonsters();
-          KoLAdventure.lastVisitedLocation = null;
-          KoLAdventure.lastLocationName = null;
-          KoLAdventure.lastLocationURL = urlString;
-          KoLAdventure.setLastAdventure("None");
-          KoLAdventure.setNextAdventure("None");
+          KoLAdventure.clearLocation();
           GenericRequest.itemMonster = "Rain Man";
         }
         break;
@@ -2878,6 +2875,15 @@ public abstract class ChoiceControl {
         }
         break;
 
+      case 1103:
+        {
+          int result =
+              NumberologyManager.numberology(StringUtilities.parseInt(request.getFormField("num")));
+          if (NumberologyManager.numberologyPrize(result).startsWith("fight")) {
+            KoLAdventure.clearLocation();
+          }
+        }
+
       case 1118:
         // X-32-F Combat Training Snowman Control Console
         switch (ChoiceManager.lastDecision) {
@@ -3014,11 +3020,7 @@ public abstract class ChoiceControl {
       case 1182:
         // Play against the Witchess Pieces
         if (ChoiceManager.lastDecision == 1) {
-          KoLAdventure.lastVisitedLocation = null;
-          KoLAdventure.lastLocationName = null;
-          KoLAdventure.lastLocationURL = urlString;
-          KoLAdventure.setLastAdventure("None");
-          KoLAdventure.setNextAdventure("None");
+          KoLAdventure.clearLocation();
           GenericRequest.itemMonster = "Your Witchess Set";
         }
         break;
@@ -9044,6 +9046,25 @@ public abstract class ChoiceControl {
         // Consider the Calendar
         parseMayamCalendar(text);
         break;
+
+      case 1537: // TakerSpace
+        CampgroundRequest.setCurrentWorkshedItem(ItemPool.TAKERSPACE_LETTER_OF_MARQUE);
+
+        // visiting the choice for the first time delivers the daily supplies
+        Preferences.setBoolean("_takerSpaceSuppliesDelivered", true);
+        Matcher supplies =
+            Pattern.compile(
+                    "<b>Current Supplies:</b><br>(\\d+) stolen spices<br>(\\d+) robbed rums<br>(\\d+) absconded-with anchors?<br>(\\d+) misappropriated mainmasts<br>(\\d+) snatched silk<br>(\\d+) gaffled gold<br>")
+                .matcher(text);
+        if (supplies.find()) {
+          Preferences.setInteger("takerSpaceSpice", Integer.parseInt(supplies.group(1)));
+          Preferences.setInteger("takerSpaceRum", Integer.parseInt(supplies.group(2)));
+          Preferences.setInteger("takerSpaceAnchor", Integer.parseInt(supplies.group(3)));
+          Preferences.setInteger("takerSpaceMast", Integer.parseInt(supplies.group(4)));
+          Preferences.setInteger("takerSpaceSilk", Integer.parseInt(supplies.group(5)));
+          Preferences.setInteger("takerSpaceGold", Integer.parseInt(supplies.group(6)));
+        }
+        break;
     }
   }
 
@@ -9917,11 +9938,7 @@ public abstract class ChoiceControl {
     switch (choice) {
       case 1195:
         if (decision == 3) {
-          KoLAdventure.lastVisitedLocation = null;
-          KoLAdventure.lastLocationName = null;
-          KoLAdventure.lastLocationURL = urlString;
-          KoLAdventure.setLastAdventure("None");
-          KoLAdventure.setNextAdventure("None");
+          KoLAdventure.clearLocation();
           GenericRequest.itemMonster = "Time-Spinner";
 
           RequestLogger.registerLocation("Way Back in Time");
@@ -9930,11 +9947,7 @@ public abstract class ChoiceControl {
 
       case 1196:
         if (ChoiceManager.lastDecision == 1 && !urlString.contains("monid=0")) {
-          KoLAdventure.lastVisitedLocation = null;
-          KoLAdventure.lastLocationName = null;
-          KoLAdventure.lastLocationURL = urlString;
-          KoLAdventure.setLastAdventure("None");
-          KoLAdventure.setNextAdventure("None");
+          KoLAdventure.clearLocation();
           GenericRequest.itemMonster = "Time-Spinner";
 
           RequestLogger.registerLocation("A Recent Fight");
@@ -10169,6 +10182,7 @@ public abstract class ChoiceControl {
       case 1501: // Make a Wish
       case 1509: // Adjust Jill-of-All-Trades Lighting
       case 1510: // Burning Leaves
+      case 1516: // Differentiate this Egg
       case 1517: // Mimic DNA Bank
       case 1518: // Prepare your Meal
       case 1523: // Research Bench
@@ -10178,6 +10192,7 @@ public abstract class ChoiceControl {
       case 1534: // Clan Photo Booth - Get your photo taken
       case 1535: // Clan Photo Booth - Borrow a prop
       case 1536: // Clan Photo Booth - Take a group photo
+      case 1537: // TakerSpace
         return true;
 
       default:

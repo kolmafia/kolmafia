@@ -269,6 +269,10 @@ public class ConcoctionDatabase {
               ConcoctionDatabase.row);
       concoction.setParam(param);
 
+      if (row != 0) {
+        ShopRowDatabase.registerShopRow(row, "conc", item, mixingMethod.toString());
+      }
+
       Concoction existing = ConcoctionPool.get(item);
       if (concoction.getMisc().contains(CraftingMisc.MANUAL)
           || (existing != null && existing.getMixingMethod() != CraftingType.NOCREATE)) {
@@ -2205,6 +2209,30 @@ public class ConcoctionDatabase {
           CraftingType.MAYAM, "You need to have a Mayam Calendar to make that.");
     }
 
+    boolean clanPhotoBooth =
+        ClanLoungeRequest.hasClanLoungeItem(ItemPool.get(ItemPool.CLAN_PHOTO_BOOTH, 1));
+    boolean canTakePhotoBoothProp = Preferences.getInteger("_photoBoothEquipment") < 3;
+    if (clanPhotoBooth && canTakePhotoBoothProp) {
+      permitNoCost(CraftingType.PHOTO_BOOTH);
+    }
+    if (!canTakePhotoBoothProp) {
+      ConcoctionDatabase.EXCUSE.put(
+          CraftingType.PHOTO_BOOTH, "You have already taken too many Photo Booth props today.");
+    } else if (!clanPhotoBooth) {
+      ConcoctionDatabase.EXCUSE.put(
+          CraftingType.PHOTO_BOOTH, "Your current clan does not have a Photo Booth.");
+    }
+
+    AdventureResult workshedItem = CampgroundRequest.getCurrentWorkshedItem();
+    boolean takerspace =
+        workshedItem != null && workshedItem.getItemId() == ItemPool.TAKERSPACE_LETTER_OF_MARQUE;
+    if (takerspace) {
+      permitNoCost(CraftingType.TAKERSPACE);
+    } else {
+      ConcoctionDatabase.EXCUSE.put(
+          CraftingType.TAKERSPACE, "You need a TakerSpace as your Workshed.");
+    }
+
     // Now, go through all the cached adventure usage values and if
     // the number of adventures left is zero and the request requires
     // adventures, it is not permitted.
@@ -2412,6 +2440,8 @@ public class ConcoctionDatabase {
       case TINKERING_BENCH -> result.append("Tinkering Bench");
       case MAYAM -> result.append("Mayam Calendar");
       case KIWI -> result.append("Kiwi Kwiki Mart");
+      case PHOTO_BOOTH -> result.append("Clan Photo Booth");
+      case TAKERSPACE -> result.append("TakerSpace");
     }
     if (result.isEmpty()) {
       result.append("[unknown method of creation]");
@@ -2849,6 +2879,8 @@ public class ConcoctionDatabase {
       case "TINKERING_BENCH" -> ConcoctionDatabase.mixingMethod = CraftingType.TINKERING_BENCH;
       case "MAYAM" -> ConcoctionDatabase.mixingMethod = CraftingType.MAYAM;
       case "KIWI" -> ConcoctionDatabase.mixingMethod = CraftingType.KIWI;
+      case "PHOTO_BOOTH" -> ConcoctionDatabase.mixingMethod = CraftingType.PHOTO_BOOTH;
+      case "TAKERSPACE" -> ConcoctionDatabase.mixingMethod = CraftingType.TAKERSPACE;
       default -> {
         if (mix.startsWith("ROW")) {
           ConcoctionDatabase.row = StringUtilities.parseInt(mix.substring(3));

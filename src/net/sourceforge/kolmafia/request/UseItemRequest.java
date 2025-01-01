@@ -4142,6 +4142,10 @@ public class UseItemRequest extends GenericRequest {
         UseItemRequest.getBugbearBiodataLevels(responseText);
         return;
 
+      case ItemPool.JUICY_GARBAGE:
+        Preferences.increment("juicyGarbageUsed");
+        break;
+
       case ItemPool.PEN_PAL_KIT:
         // You've already got a pen pal. There's no way you
         // could handle the pressure of contantly forgetting to
@@ -6228,6 +6232,15 @@ public class UseItemRequest extends GenericRequest {
         return;
       case ItemPool.STRUCTURAL_EMBER:
         Preferences.setBoolean("_structuralEmberUsed", true);
+        break;
+      case ItemPool.PIRATE_DINGHY:
+        Preferences.setBoolean("_pirateDinghyUsed", true);
+        break;
+      case ItemPool.PUMPKIN_SPICE_WHORL:
+        Preferences.setBoolean("pumpkinSpiceWhorlUsed", true);
+        if (responseText.contains("You can't add any more")) {
+          return;
+        }
         break;
     }
 

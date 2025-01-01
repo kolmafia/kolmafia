@@ -382,6 +382,16 @@ public class KoLCharacterTest {
       }
     }
 
+    @Test
+    void teetotalersDoFeastWithBoris() {
+      var cleanups = new Cleanups(withDay(2023, Month.APRIL, 19), withPath(Path.TEETOTALER));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments();
+        assertThat(KoLCharacter.getStomachCapacity(), is(30));
+      }
+    }
+
     @ParameterizedTest
     @ValueSource(booleans = {true, false})
     void edCanExpandStomachIfHeHasOne(final boolean hasStomach) {

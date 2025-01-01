@@ -42,6 +42,7 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
+import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
@@ -52,6 +53,7 @@ import net.sourceforge.kolmafia.session.GreyYouManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LocketManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
+import org.hamcrest.core.Is;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
@@ -2024,7 +2026,8 @@ public class FightRequestTest {
       "away_1, 29, The Fun-Guy Mansion",
       "away_2, 30, The Fun-Guy Mansion",
       "finished, 1, ''",
-      "same_location, 2, The Fun-Guy Mansion"
+      "same_location, 2, The Fun-Guy Mansion",
+      "period_in_name, 45, St. Patrick's Day Island"
     })
     public void canUpdateQuestParamsFromFightInfo(
         final String fixture, final int questTurn, final String questLocation) {
@@ -3053,6 +3056,102 @@ public class FightRequestTest {
       assertThat(
           "banishedMonsters",
           hasStringValue(startsWith("pair of burnouts:handful of split pea soup:")));
+    }
+  }
+
+  @Nested
+  class PowerPill {
+    @ParameterizedTest
+    @ValueSource(ints = {FamiliarPool.PUCK_MAN, FamiliarPool.MS_PUCK_MAN})
+    public void tracksProgressOnWin(int familiar) {
+      var cleanups =
+          new Cleanups(
+              withFamiliar(familiar),
+              withProperty("powerPillProgress", 12),
+              withProperty("_powerPillDrops", 1));
+      try (cleanups) {
+        parseCombatData("request/test_fight_win.html");
+        assertThat("powerPillProgress", isSetTo(13));
+        assertThat("_powerPillDrops", isSetTo(1));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      FamiliarPool.PUCK_MAN + ",test_fight_lose.html",
+      FamiliarPool.PUCK_MAN + ",test_fight_run.html",
+      FamiliarPool.MS_PUCK_MAN + ",test_fight_lose.html",
+      FamiliarPool.MS_PUCK_MAN + ",test_fight_run.html",
+    })
+    public void doesntTrackProgressOnRunOrLoss(int familiar, String file) {
+      var cleanups =
+          new Cleanups(
+              withFamiliar(familiar),
+              withProperty("powerPillProgress", 12),
+              withProperty("_powerPillDrops", 1));
+      try (cleanups) {
+        parseCombatData("request/" + file);
+        assertThat("powerPillProgress", isSetTo(12));
+        assertThat("_powerPillDrops", isSetTo(1));
+      }
+    }
+  }
+
+  @Test
+  public void canDetectAnchorBombBanish() {
+    var cleanups = new Cleanups(withFight(), withBanishedMonsters(""));
+
+    try (cleanups) {
+      parseCombatData(
+          "request/test_fight_anchor_bomb.html",
+          "fight.php?action=useitem&whichitem=11706&whichitem2=0");
+
+      assertThat("banishedMonsters", hasStringValue(startsWith("lynyrd:anchor bomb:")));
+    }
+  }
+
+  @Test
+  public void canDetectPirateHookSteal() {
+    RequestLoggerOutput.startStream();
+    var cleanups = new Cleanups(withFight(), withEquipped(Slot.OFFHAND, "deft pirate hook"));
+    try (cleanups) {
+      parseCombatData("request/test_fight_deft_pirate_hook_steal.html", "fight.php?action=attack");
+      var text = RequestLoggerOutput.stopStream();
+      assertThat(
+          text,
+          containsString(
+              "You deftly snag something from your opponent with your deft pirate hook.\nYou acquire an item: Spirit of Easter"));
+    }
+  }
+
+  @Nested
+  class PokeFam {
+    @Test
+    public void parseInitialPokefam() {
+      RequestLoggerOutput.startStream();
+      var cleanups = new Cleanups(withFight(0), withPath(Path.POKEFAM));
+      try (cleanups) {
+        parseCombatData("request/test_fight_pokefam_start.html", "fambattle.php");
+        var text = RequestLoggerOutput.stopStream();
+        assertThat(
+            text,
+            containsString("Pokefam move2 'Hug' -> 'hug': Heal the frontmost ally by [power]."));
+        assertThat(
+            FamiliarDatabase.getPokeDataById(FamiliarPool.BURLY_BODYGUARD).getMove2(),
+            Is.is("Hug"));
+      }
+    }
+
+    @Test
+    public void logPokefamMoves() {
+      RequestLoggerOutput.startStream();
+      var cleanups = new Cleanups(withFightRequestPokefam(), withFight(1), withPath(Path.POKEFAM));
+      try (cleanups) {
+        parseCombatData(
+            "request/test_fight_pokefam_end.html", "fambattle.php?famaction[splash-110]=Splash");
+        var text = RequestLoggerOutput.stopStream();
+        assertThat(text, containsString("FightRequestTest's Wereturtle uses Splash!"));
+      }
     }
   }
 }

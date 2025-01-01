@@ -140,6 +140,7 @@ public class CampgroundRequest extends GenericRequest {
           ItemPool.DIABOLIC_PIZZA_CUBE,
           ItemPool.COLD_MEDICINE_CABINET,
           ItemPool.MODEL_TRAIN_SET,
+          ItemPool.TAKERSPACE_LETTER_OF_MARQUE,
 
           // Outside dwelling
           ItemPool.MEAT_GOLEM,
@@ -437,7 +438,8 @@ public class CampgroundRequest extends GenericRequest {
           ItemPool.ASDON_MARTIN,
           ItemPool.DIABOLIC_PIZZA_CUBE,
           ItemPool.COLD_MEDICINE_CABINET,
-          ItemPool.MODEL_TRAIN_SET);
+          ItemPool.MODEL_TRAIN_SET,
+          ItemPool.TAKERSPACE_LETTER_OF_MARQUE);
 
   public static final AdventureResult[] CROPS = {
     CampgroundRequest.PUMPKIN,
@@ -1564,7 +1566,7 @@ public class CampgroundRequest extends GenericRequest {
   private static void inspectDwelling(final String responseText) {
     // "Your dwelling has the following stuff" or "Your patch of ground has the following stuff"
     int startIndex = responseText.indexOf("has the following stuff");
-    int endIndex = responseText.indexOf("<b>Your Campsite</b>", startIndex + 1);
+    int endIndex = responseText.indexOf(">Your Campsite</b>", startIndex + 1);
     if (startIndex > 0 && endIndex > 0) {
       var relevantResponse = responseText.substring(startIndex, endIndex);
 
@@ -1676,6 +1678,7 @@ public class CampgroundRequest extends GenericRequest {
         Preferences.setInteger("_coldMedicineConsults", 5);
       }
     }
+    // takerspace is detected in choice control
   }
 
   private static boolean findImage(
@@ -1970,11 +1973,7 @@ public class CampgroundRequest extends GenericRequest {
       case "dnainject" -> message = "Hybridizing yourself";
       case "rest" -> message = "[" + KoLAdventure.getAdventureCount() + "] Rest in your dwelling";
       case "witchess" -> {
-        KoLAdventure.lastVisitedLocation = null;
-        KoLAdventure.lastLocationName = null;
-        KoLAdventure.lastLocationURL = urlString;
-        KoLAdventure.setLastAdventure("None");
-        KoLAdventure.setNextAdventure("None");
+        KoLAdventure.clearLocation();
         message = "[" + KoLAdventure.getAdventureCount() + "] Your Witchess Set";
       }
       case "fuelconvertor" -> {

@@ -11545,22 +11545,22 @@
 11517	adobe abaya	768488079	adobeabaya.gif	shirt		0
 11518	adobe assortment	469007963	adobebits.gif	spleen, usable		0
 11519	adobe brittle	493931168	adobebrittle.gif	potion, usable	t,d	15
-11520
-11521
-11522
-11523
-11524
-11525
+11520	crepe paper phrygian cap	528131649	crepehat.gif	hat		0
+11521	crepe paper parachute cape	235866977	crepecape.gif	container		0
+11522	crepe paper pie clip	567897179	crepepin.gif	accessory		0
+11523	crepe paper puzzle cube	775001489	crepecube.gif	offhand		0
+11524	crepe paper plunge camisole	135604730	crepecamisole.gif	shirt		0
+11525	crepe paper polka charm	528321843	crepecharm.gif	accessory		0
 11526
-11527
-11528
-11529
-11530
-11531
-11532
-11533
+11527	crepe paper peanut candy	281680775	crepecandy.gif	potion, usable	t,d	15
+11528	petrified wood war pike	326850864	pwoodpike.gif	weapon		0
+11529	petrified wood waist protector	942174223	pwoodbelt.gif	accessory		0
+11530	petrified wood wizard's pouch	208187116	pwoodpouch.gif	accessory		0
+11531	petrified wood water purifier	791540752	pwoodpurifier.gif	offhand		0
+11532	petrified wood whoopie panama	439261300	pwoodhat.gif	hat		0
+11533	petrified wood walking pants	587162395	pwoodpants.gif	pants		0
 11534
-11535
+11535	petrified wood wafer praline	544944743	pwoodcandy.gif	potion, usable	t,d	15
 11536
 11537
 11538
@@ -11661,7 +11661,7 @@
 11633	tiny Tina gun	280367330	tinagun.gif	familiar	t	0
 11634	tattoo gun	500042705	happiness.gif	usable	t	0
 11635	Colera Peste Nebbiolo	211748296	wine.gif	drink	t	0	bottles of Colera Peste Nebbiolo
-11636
+11636	longbox of Batfellow comics	945266286	longbox.gif	usable	t	0	longboxes of Batfellow comics
 11637	Thwaitgold shield bug statuette	254234859	thwaitshield.gif	none		0
 11638	bodyguard badge	160131366	bodybadge.gif	familiar	t,d	11
 11639	Too Cold to Hold: How to Be Cool - A Memoir	684260885	book5.gif	usable	t	0
@@ -11699,7 +11699,7 @@
 11671	photo booth supply list	459315400	document.gif	offhand	q	0
 11672	peace turkey outline	206862721	pto.gif	grow	t	0
 11673	tie-dye headband	716138076	pto_headband.gif	familiar	t,d	10
-11674	whirled peas	876145561	pto_peas.gif	food, paste, cook, mix	t,d	5	whirled peas
+11674	whirled peas	876145561	pto_peas.gif	food, paste, cook, mix	t,d	5	handfuls of whirled peas
 11675	peaza	503542763	pto_pizza.gif	food	t,d	21
 11676	peace shooter	535806162	pto_shooter.gif	none, combat	t,d	11
 11677
@@ -11709,5 +11709,107 @@
 11681	quantized familiar experience	829423278	qfexp.gif	usable	t,d	11
 11682	pea brittle	413024704	pto_brittle.gif	potion, usable	t,d	5	pieces of pea brittle
 11683	peasco sour	113636715	pto_drink.gif	drink	t,d	21
-11684	piece of cake	380207608	tinycake.gif	food	t,d	11
+11684	piece of cake	380207608	tinycake.gif	food	t,d	11	pieces of cake
 11685	handful of split pea soup	564145882	pto_soup.gif	none, combat	t,d	1	handfuls of split pea soup
+11686	Sealed TakerSpace letter of Marque	379334136	ts_letter2.gif	usable	t	0	Sealed TakerSpace letters of Marque
+11687	TakerSpace letter of Marque	589032239	ts_letter1.gif	usable		0	TakerSpace letters of Marque
+11688	deft pirate hook	170705933	ts_hook.gif	offhand	q	0
+11689	iron tricorn hat	322564205	ts_tricorn.gif	hat	q	0
+11690	jolly roger flag	380671170	ts_roger.gif	accessory	q	0
+11691	sleeping profane parrot	679135867	ts_parrot1.gif	grow	t	0
+11692	pirrrate's currrse	343938051	ts_curse.gif	none, usable, curse	t,d	11
+11693	tankard of spiced rum	215156557	tankard.gif	drink	t,d	11	tankards of spiced rum
+11694	tankard of spiced Goldschlepper	694321154	tankard.gif	drink	t,d	11	tankards of spiced Goldschlepper
+11695	packaged luxury garment	588522964	ts_garment.gif	usable	t,d	50
+11696	governor's daughter's lace collar	246230526	ts_collar.gif	accessory		0
+11697	governor's daughter's petticoats	941871020	ts_petticoat.gif	pants		0	governor's daughter's petticoats
+11698	governor's daughter's pearl hairpin	761739620	ts_hairpin.gif	hat		0
+11699	harpoon	586410747	ts_harpoon.gif	none, combat	t,d	22
+11700	chili powder cutlass	303793949	ts_cutlass.gif	weapon	t,d	25	chili powder cutlasses
+11701	cursed Aztec tamale	545083244	ts_tamale.gif	food	t,d	11
+11702	jolly roger tattoo kit	293648871	ts_tatkit.gif	usable	t,d	250
+11703	golden pet rock	277212142	ts_goldrock.gif	grow	t	0
+11704	groggles	658108570	ts_goggles.gif	accessory	t,d	11	pairs of groggles
+11705	pirate dinghy	613418372	ts_dinghy.gif	reusable	q	0	pirate dinghies
+11706	anchor bomb	702120284	ts_bomb.gif	none, combat	t,d	11
+11707	silky pirate drawers	353264524	ts_pants.gif	pants	t,d	22	pairs of silky pirate drawers
+11708	profane eye patch	592191675	ts_eyepatch.gif	familiar	t,d	10	profane eye patches
+11709	peppermint pegleg	240958650	pepperpeg.gif	potion	t	0
+11710	hard cocoa	491706523	coffeecup.gif	drink	t	0	cups of hard cocoa
+11711	salmagumdi	784940421	salmagundi.gif	food	t	0	plates of salmagumdi
+11712	tiny plastic Easter Island Bunny	910030772	c24tpa.gif	accessory	t	0	tiny plastic Easter Island Bunnies
+11713	tiny plastic St. Patrick	427726670	c24tpbee.gif	accessory	t	0
+11714	tiny plastic Colonel Brando	148356375	c24tptres.gif	accessory	t	0
+11715	tiny plastic Jedediah and Boiling Cloud	357579052	c24tp444.gif	accessory	t	0
+11716	tiny plastic &quot;Santa Claus&quot;	142637822	c24tpsanta.gif	accessory	t	0	tiny plastic &quot;Santa Clauses&quot;
+11717	Spirit of Easter	756560474	spirit_easter.gif	none		0	Spirits of Easter
+11718	Spirit of St. Patrick's Day	655322653	spirit_stpatrick.gif	none		0	Spirits of St. Patrick's Day
+11719	Spirit of Veteran's Day	303899144	spirit_veterans.gif	none		0	Spirits of Veteran's Day
+11720	Spirit of Thanksgiving	166270423	spirit_thanks.gif	none		0	Spirits of Thanksgiving
+11721	Spirit of Christmas	903725390	spirit_xmas.gif	none		0	Spirits of Christmas
+11722	coney haunch	209073751	coneyhaunch.gif	food	t,d	25	coney haunches
+11723	dark chocolate egg	428655084	darkchocegg.gif	potion, usable	t,d	15
+11724	moai toai	969792989	icedtea.gif	drink	t,d	29
+11725	moaiball	728604035	moaieye.gif	offhand	t	0
+11726	half-digested rat	445778415	halfdigrat.gif	none, combat	t,d	15
+11727	four-leaf potato sprout	990121184	fourleafsprout.gif	potion, usable	t,d	22
+11728	potato jacket	623781707	potatojacket.gif	shirt	t	0
+11729	traumatic holiday memory	972764718	trauma.gif	none, combat	t,d	35	traumatic holiday memories
+11730	Brandonian footlocker key	907012992	srkey1.gif	none	t,d	42
+11731	military orb	755323552	grenorb.gif	offhand	t,d	29
+11732	rum ball	431412139	candy.gif	potion, usable	t,d	5
+11733	gravy skin	542032695	gravyskin.gif	none, smith	t,d	5
+11734	gravyskin hat	800643208	gravyhat.gif	hat	t,d	25
+11735	gravyskin buckler	960954379	gravyshield.gif	offhand	t,d	25
+11736	gravyskin skirt	759340976	gravyskirt.gif	pants	t,d	25
+11737	gravyskin pants	578323143	gravypants.gif	pants	t,d	25	pairs of gravyskin pants
+11738	crystallized pumpkin spice	209448544	spicecrystal.gif	potion, usable	t,d	111	pieces of crystallized pumpkin spice
+11739	room scale green bean casserole	822288223	bigcasserole.gif	food	t,d	85
+11740	fragile Christmas ornament	438837250	xmasornament.gif	none, combat	t,d	9
+11741	ragged wool yarn	420599352	xmasthread.gif	usable	t,d	2	ragged wool yarn threads
+11742	perfect Christmas scarf	183929132	xmasscarf.gif	accessory	t,d	222	perfect Christmas scarves
+11743	snowman-enchanting tophat	187101564	snowmanhat.gif	hat	t	0
+11744	LIDAR candle	458314762	lidarcandle.gif	potion	t,d	18
+11745	Congressional Medal of Insanity	349618725	insanitymedal.gif	accessory	t	0	Congressional Medals of Insanity
+11746	pumpkin spice whorl	469349444	spicewhorl.gif	usable	t	0
+11747	Easter grasshopper	745334157	shadowmartini.gif	drink	t,d	75
+11748	Irish eggnog	976878716	coffeecup.gif	drink	t,d	75	mugs of Irish eggnog
+11749	canteen of jungle juice	193545248	canteen.gif	drink	t,d	75	canteens of jungle juice
+11750	turchucken	233388840	rawturkey.gif	drink	t,d	75
+11751	mechanically-mulled cider	816185020	frostigkraut.gif	drink	t,d	75	jars of mechanically-mulled cider
+11752	holiday trip around the world	460578233	boxingpunch.gif	drink	t,d	250	holiday trips around the world
+11753	chocolate ostrich egg	477352862	chocegg.gif	food	t,d	75
+11754	candied beef and cabbage	942057727	crimboscraps.gif	food	t,d	75	plates of candied beef and cabbage
+11755	candy rations	995325513	crimbotin.gif	food	t,d	75	candy rations
+11756	double-candied yams	699171863	casserole.gif	food	t,d	75	platters of double-candied yams
+11757	Christmas ham	535336050	ham.gif	food	t,d	75
+11758	holiday smorgasbord	259131327	partytray.gif	food	t,d	250
+11759	Bowl of Infinite Jelly	460792182	infinitejelly.gif	none		0
+11760	bejazzled eyepatch	359009269	xmaspatch.gif	accessory		0	bejazzled eyepatches
+11761	Secrets of the Master Egg Hunters	943549721	book5.gif	usable	t	0	copies of Secrets of the Master Egg Hunters
+11762	Secrets of the Master Egg Hunters (used)	216321799	book5.gif	reusable		0	used copies of Secrets of the Master Egg Hunters
+11763	How to Lose Friends and Attract Snakes	465814056	book3.gif	usable	t	0	copies of How to Lose Friends and Attract Snakes
+11764	How to Lose Friends and Attract Snakes (used)	953745853	book3.gif	reusable		0	used copies of How to Lose Friends and Attract Sna
+11765	Covert Ops for Kids	484772100	book2.gif	usable	t	0	copies of Covert Ops for Kids
+11766	Covert Ops for Kids (used)	700189532	book2.gif	reusable		0	used copies of Covert Ops for Kids
+11767	Holiday Multitasking	555431420	book3.gif	usable	t	0	copies of Holiday Multitasking
+11768	Holiday Multitasking (used)	639002731	book3.gif	reusable		0	used copies of Holiday Multitasking
+11769	Hoyle's Guide to Reindeer Games	429457903	book4.gif	usable	t	0	copies of Hoyle's Guide to Reindeer Games
+11770	Hoyle's Guide to Reindeer Games (used)	145669836	book4.gif	reusable		0	used copies of Hoyle's Guide to Reindeer Games
+11771	lucky moai statuette	232982896	chiatiki.gif	usable	t	0
+11772	egg gun	530204511	egggun.gif	weapon	t	0
+11773	lucky army helmet	759962296	luckyhelmet.gif	hat	t	0
+11774	candy egg deviler	477053908	deviler.gif	reusable	t	0
+11775	lucky napkin	415628647	luckynapkin.gif	usable	t	0
+11776	Thanksgiving ration	304022096	thanksration.gif	food	t	0
+11777	Easter eggnog	657231657	easternog.gif	drink	t	0	mugs of Easter eggnog
+11778	clovermint	801500156	clovermint.gif	spleen, usable	t	0
+11779	nylon Christmas stockings	229779717	xmasstockings.gif	accessory	t	0	pairs of nylon Christmas stockings
+11780	tattoo of two turkeys	563249901	twoturkeytat.gif	usable	t	0	tattoos of two turkeys
+11781	deviled candy egg	732823232	candyegg.gif	potion	t,d	5
+11782	McHugeLarge deluxe ski set	547353933	skibag1.gif	usable	t	0
+11783	McHugeLarge duffel bag	845163862	skibag2.gif	container		0
+11784	McHugeLarge left pole	387040123	skipole1.gif	offhand	q	0
+11785	McHugeLarge right pole	282816137	skipole2.gif	weapon	q	0
+11786	McHugeLarge left ski	210105166	ski1.gif	accessory	q	0
+11787	McHugeLarge right ski	796918007	ski2.gif	accessory	q	0

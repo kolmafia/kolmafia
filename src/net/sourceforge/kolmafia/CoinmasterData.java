@@ -53,8 +53,11 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   private AdventureResult item = null;
   private String property = null;
 
-  // For Coinmasters that deal with "rows", a map from item id to row number
+  // For (old style) Coinmasters that deal with "rows", a map from item id to row number
   private Map<Integer, Integer> itemRows = null;
+
+  // For (new style) Coinmasters that deal with "rows", a list of ShopRow objects
+  private List<ShopRow> shopRows = null;
 
   // The base URL used to buy things from this Coinmaster
   private String buyURL = null;
@@ -215,6 +218,24 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
    */
   public CoinmasterData withProperty(String property) {
     this.property = property;
+    return this;
+  }
+
+  /**
+   * Specifies that the "rows" of this <code>shop.php</code> coinmaster are all listed in <code>
+   * coinmasters.txt</code> using the new ShopRow format.
+   *
+   * <p>If the coinmaster uses modern <code>shop.php</code>, every purchasable item has a "row"
+   * associated with it. These are unique across all shops, even if they refer to the same item.
+   *
+   * <p>If the rows are all provided in <code>coinmasters.txt</code>, pass in the "master" name to
+   * get all the rows for that coinmaster.
+   *
+   * @param master - The name of the shop in <code>coinmasters.txt</code>
+   * @return this - Allows fluid chaining of fields
+   */
+  public CoinmasterData withShopRows(String master) {
+    this.shopRows = CoinmastersDatabase.getShopRows(master);
     return this;
   }
 
@@ -664,6 +685,33 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
         .withCountPattern(GenericRequest.QUANTITY_PATTERN);
   }
 
+  /**
+   * Populates the seven fields for a new <code>shop.php</code> coinmaster that uses row #s.
+   *
+   * <ul>
+   *   <li>shopRows from <code>coinmasters.txt</code>
+   *   <li>buyURL
+   *   <li>buyAction
+   *   <li>itemField
+   *   <li>itemPattern
+   *   <li>countField
+   *   <li>countPattern
+   * </ul>
+   *
+   * @param master - The name of the shop in <code>coinmasters.txt</code>
+   * @param shopId - The value of the shopId parameter in <code>shop.php</code>
+   * @return this - Allows fluid chaining of fields
+   */
+  public CoinmasterData withNewShopRowFields(String master, String shopId) {
+    return this.withShopRows(master)
+        .withBuyURL("shop.php?whichshop=" + shopId)
+        .withBuyAction("buyitem")
+        .withItemField("whichrow")
+        .withItemPattern(GenericRequest.WHICHROW_PATTERN)
+        .withCountField("quantity")
+        .withCountPattern(GenericRequest.QUANTITY_PATTERN);
+  }
+
   // Getters for mandatory fields
 
   public final String getMaster() {
@@ -713,6 +761,10 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
     return this.property;
   }
 
+  public List<ShopRow> getShopRows() {
+    return this.shopRows;
+  }
+
   public Map<Integer, Integer> getRows() {
     return this.itemRows;
   }
@@ -723,6 +775,13 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
     }
     Integer row = this.itemRows.get(itemId);
     return row;
+  }
+
+  public final boolean hasRow(int row) {
+    if (this.itemRows == null) {
+      return false;
+    }
+    return this.itemRows.containsValue(row);
   }
 
   // The base URL used to buy things from this Coinmaster
@@ -885,6 +944,15 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   }
 
   private Boolean availableItemInternal(final Integer itemId) {
+    if (this.shopRows != null) {
+      for (ShopRow shopRow : this.shopRows) {
+        if (shopRow.getItem().getItemId() == itemId) {
+          return true;
+        }
+      }
+      return false;
+    }
+
     if (this.buyItems == null) {
       return false;
     }
@@ -897,6 +965,15 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   }
 
   public Boolean canBuyItemInternal(final Integer itemId) {
+    if (this.shopRows != null) {
+      for (ShopRow shopRow : this.shopRows) {
+        if (shopRow.getItem().getItemId() == itemId) {
+          return true;
+        }
+      }
+      return false;
+    }
+
     if (this.buyItems == null) {
       return false;
     }
@@ -932,8 +1009,16 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   public Set<AdventureResult> currencies() {
     if (this.currencies == null) {
       this.currencies = new TreeSet<>();
-      for (AdventureResult item : this.buyItems) {
-        this.currencies.add(this.itemBuyPrice(item.getItemId()));
+      if (this.shopRows != null) {
+        for (ShopRow shopRow : this.shopRows) {
+          for (AdventureResult cost : shopRow.getCosts()) {
+            this.currencies.add(cost);
+          }
+        }
+      } else if (this.buyItems != null) {
+        for (AdventureResult item : this.buyItems) {
+          this.currencies.add(this.itemBuyPrice(item.getItemId()));
+        }
       }
     }
     return this.currencies;
@@ -970,6 +1055,18 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
 
     // Clear existing purchase requests
     CoinmastersDatabase.clearPurchaseRequests(this);
+
+    // If no buyItems registered, nothing to register
+    if (this.shopRows == null && this.buyItems == null) {
+      return;
+    }
+
+    if (this.shopRows != null) {
+      for (ShopRow row : this.shopRows) {
+        CoinmastersDatabase.registerPurchaseRequest(this, row);
+      }
+      return;
+    }
 
     // For each item you can buy from this Coin Master, create a purchase request
     for (AdventureResult item : this.buyItems) {
@@ -1031,6 +1128,24 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
       Object[] initargs = new Object[2];
       initargs[0] = buying;
       initargs[1] = items;
+      return constructor.newInstance(initargs);
+    } catch (Exception e) {
+      return null;
+    }
+  }
+
+  public CoinMasterRequest getRequest(final ShopRow row, final int quantity) {
+    Class<? extends CoinMasterRequest> requestClass = this.getRequestClass();
+    Class<?>[] parameters = new Class<?>[2];
+    parameters[0] = ShopRow.class;
+    parameters[1] = int.class;
+
+    try {
+      Constructor<? extends CoinMasterRequest> constructor =
+          requestClass.getConstructor(parameters);
+      Object[] initargs = new Object[2];
+      initargs[0] = row;
+      initargs[1] = quantity;
       return constructor.newInstance(initargs);
     } catch (Exception e) {
       return null;

@@ -108,7 +108,8 @@ public class RequestEditorKit extends HTMLEditorKit {
   private static final Pattern NOLABEL_CUSTOM_OUTFITS_PATTERN =
       Pattern.compile("\\(select an outfit\\)</option>(<option.*?)<optgroup", Pattern.DOTALL);
 
-  private static final Pattern ROUND_SEP_PATTERN = Pattern.compile("<(?:b>Combat!</b>|hr.*?>)");
+  private static final Pattern ROUND_SEP_PATTERN =
+      Pattern.compile("<(?:b style=\"color: white\">Combat!</b>|hr.*?>)");
   private static final Pattern RCM_JS_PATTERN = Pattern.compile("rcm\\.(\\d+\\.)?js");
 
   private static final RequestViewFactory DEFAULT_FACTORY = new RequestViewFactory();
@@ -560,8 +561,8 @@ public class RequestEditorKit extends HTMLEditorKit {
       StringBuilder eventsTable = new StringBuilder();
 
       eventsTable.append("<center><table width=95% cellspacing=0 cellpadding=0>");
-      eventsTable.append("<tr><td style=\"color: white;\" align=center bgcolor=orange>");
-      eventsTable.append("<b>New Events:</b>");
+      eventsTable.append("<tr><td style=\"background-color: orange;\" align=center >");
+      eventsTable.append("<b style=\"color: white\">New Events:</b>");
       eventsTable.append("</td></tr>");
       eventsTable.append("<tr><td style=\"padding: 5px; border: 1px solid orange;\" align=center>");
 
@@ -595,6 +596,10 @@ public class RequestEditorKit extends HTMLEditorKit {
           buffer, "bgcolor=blue", "bgcolor=\"" + defaultColor + "\"");
       StringUtilities.globalStringReplace(
           buffer, "border: 1px solid blue", "border: 1px solid " + defaultColor);
+      StringUtilities.globalStringReplace(
+          buffer,
+          "<td style=\"background-color: blue\"",
+          "<td style=\"background-color: " + defaultColor + "\"");
     }
   }
 
@@ -1717,7 +1722,7 @@ public class RequestEditorKit extends HTMLEditorKit {
     buffer.setLength(0);
     while (m.find()) {
       if (m.group().startsWith("<b")) { // Initial round - add # after "Combat"
-        m.appendReplacement(buffer, "<b>Combat: Round ");
+        m.appendReplacement(buffer, "<b style=\"color: white\">Combat: Round ");
         buffer.append(round++);
         if (KoLCharacter.isEd()) {
           int edfight = Preferences.getInteger("_edDefeats");

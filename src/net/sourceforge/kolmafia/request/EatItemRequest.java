@@ -1027,6 +1027,12 @@ public class EatItemRequest extends UseItemRequest {
       Preferences.decrement("whetstonesUsed", chargesUsed);
     }
 
+    // You slather the chocolate chip muffin with festive Christmas jelly.
+    if (responseText.contains("festive Christmas jelly")) {
+      EatItemRequest.logConsumption("Your Bowl of Infinite Jelly kicked in");
+      Preferences.setBoolean("_infiniteJellyUsed", true);
+    }
+
     // Satisfied, you let loose a nasty magnesium-flavored belch.
     if (responseText.contains("magnesium-flavored belch")) {
       EatItemRequest.logConsumption("Your milk of magnesium kicked in");

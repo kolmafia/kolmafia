@@ -238,7 +238,7 @@ public class RequestEditorKitTest {
       RequestEditorKit.applyGlobalAdjustments("main.php", buffer, false);
       var output = buffer.toString();
 
-      assertThat(output, containsString("<b>New Events:</b>"));
+      assertThat(output, containsString(">New Events:</b>"));
       assertThat(
           output,
           containsString("You remember you have a lifetime VIP membership and grab your key!"));
@@ -474,5 +474,15 @@ public class RequestEditorKitTest {
             containsInAnyOrder("appendimg:adventureimages\\/ol_drunk.gif:0:0", "floating"));
       }
     }
+  }
+
+  @Test
+  void decoratesFightDec2024() {
+    var html = html("request/test_fight_dec2024.html");
+    var buffer = new StringBuffer(html);
+    RequestEditorKit.getFeatureRichHTML("fight.php?ireallymeanit=1734262567", buffer, false);
+    var str = buffer.toString();
+    assertThat(str, containsString("Round 1!"));
+    assertThat(str, containsString("Round 2!"));
   }
 }

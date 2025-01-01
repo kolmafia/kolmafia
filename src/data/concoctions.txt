@@ -3355,8 +3355,48 @@ mini kiwi digitized cookies	KIWI, ROW1490	mini kiwi (3)
 # Sept-Ember Censer
 ember egg	MUSE	embering hunk (21)
 
+# Clan Photo Booth
+photo booth supply list	PHOTO_BOOTH
+fake arrow-through-the-head	PHOTO_BOOTH
+fake huge beard	PHOTO_BOOTH
+astronaut helmet	PHOTO_BOOTH
+cheap plastic pipe	PHOTO_BOOTH
+oversized monocle on a stick	PHOTO_BOOTH
+giant bow tie	PHOTO_BOOTH
+feather boa	PHOTO_BOOTH
+Sheriff badge	PHOTO_BOOTH
+Sheriff pistol	PHOTO_BOOTH
+Sheriff moustache	PHOTO_BOOTH
+
 # Peace Turkey
 peasco sour	MIX	whirled peas	bottle of vodka
 peaza	COOK	whirled peas	flat dough
 pea brittle	COOK	whirled peas	Gnollish casserole dish
 handful of split pea soup	COMBINE	whirled peas	whirled peas
+
+# TakerSpace
+deft pirate hook	TAKERSPACE
+iron tricorn hat	TAKERSPACE
+jolly roger flag	TAKERSPACE
+sleeping profane parrot	TAKERSPACE
+pirrrate's currrse	TAKERSPACE
+tankard of spiced rum	TAKERSPACE
+tankard of spiced Goldschlepper	TAKERSPACE
+packaged luxury garment	TAKERSPACE
+harpoon	TAKERSPACE
+chili powder cutlass	TAKERSPACE
+cursed Aztec tamale	TAKERSPACE
+jolly roger tattoo kit	TAKERSPACE
+golden pet rock	TAKERSPACE
+groggles	TAKERSPACE
+pirate dinghy	TAKERSPACE
+anchor bomb	TAKERSPACE
+silky pirate drawers	TAKERSPACE
+spices	TAKERSPACE
+
+# Crimbo 2024
+gravyskin buckler	ASMITH	buckler buckle	gravy skin
+gravyskin hat	ASMITH	basic meat helmet	gravy skin
+gravyskin pants	ASMITH	pants kit	gravy skin
+gravyskin skirt	ASMITH	skirt / kilt kit	gravy skin
+perfect Christmas scarf	SUSE	ragged wool yarn (50)

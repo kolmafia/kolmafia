@@ -5,6 +5,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.MonsterData;
+import net.sourceforge.kolmafia.ShopRow;
 import net.sourceforge.kolmafia.maximizer.Boost;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.Concoction;
@@ -164,6 +165,9 @@ public class WikiUtilities {
           result.isItem()
               ? WikiType.ITEM
               : result.isStatusEffect() ? WikiType.EFFECT : WikiType.ANY;
+    } else if (item instanceof ShopRow sr) {
+      name = sr.getItem().getDataName();
+      type = WikiType.ITEM;
     } else if (item instanceof UseSkillRequest usr) {
       name = usr.getSkillName();
       type = WikiType.SKILL;

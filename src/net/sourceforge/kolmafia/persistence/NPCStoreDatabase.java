@@ -67,6 +67,11 @@ public class NPCStoreDatabase {
                 ? StringUtilities.parseInt(data[4].substring(3))
                 : 0;
 
+        if (row != 0) {
+          ShopRowDatabase.registerShopRow(
+              row, "npc", new AdventureResult(itemName, 1, false), storeName);
+        }
+
         // Make the purchase request for this item
         int quantity = NPCStoreDatabase.limitQuantity(itemId);
         NPCPurchaseRequest purchaseRequest =

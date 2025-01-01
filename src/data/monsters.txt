@@ -2176,7 +2176,7 @@ flaming monstera	2390	monstera.gif	FREE NOCOPY Scale: 0 Cap: ? Floor: ? Init: 50
 leaviathan	2391	leaviathan.gif	FREE NOCOPY Scale: 25 Cap: ? Floor: ? HP: 2500 Init: -10000 P: plant EA: hot Article: the	flaming leaf crown (100)	100-150 inflammable leaf (m100)
 
 # Sept-Ember Censer (Sep 2024)
-Embering Hulk	2453	emberhulk.gif	NOCOPY Scale: 11 Cap: 10000 Floor: ? Init: -10000 P: elemental E: hot Article: an	embering hunk (c0)
+Embering Hulk	2453	emberhulk.gif	NOCOPY Scale: 11 Cap: 10000 Floor: ? Init: -10000 P: elemental E: hot Article: an	embering hunk (c100)
 
 # KoL Con
 
@@ -2397,6 +2397,35 @@ Elf Guard arctic seal	2433	egseal.gif	NOWISH Scale: ? Init: -10000 P: elf Articl
 Elf Guard armorer	2434	egarmorer.gif	NOWISH Scale: ? Init: -10000 P: elf Article: an	1-2 Elf Guard MPC (m100)	Kelflar vest (f5)	Elvish underarmor (f0.5)
 Elf Guard Red and White Beret	2435	egberet.gif	NOWISH Scale: ? Init: -10000 P: elf Article: an	1-2 Elf Guard MPC (m100)	red and white claret (f5)	Elf Guard red and white beret (f0.5)
 Crimbuccaneer privateer	2436	cbprivateer.gif	NOWISH Scale: ? Init: -10000 P: pirate Article: a	1-2 Crimbuccaneer piece of 12 (m100)	Crimbuccaneer fledges (mint) (c0)
+
+# Crimbo 2024 (December 2024)
+feral bunny	2475	feralbunny.gif	Scale: 5 Init: 100 P: beast Article: a	Spirit of Easter (c100)	coney haunch (15)
+chocolate chicken	2476	chocken.gif	Scale: 5 Init: 150 P: beast Article: a	Spirit of Easter (c100)	dark chocolate egg (15)
+moai	2477	moai.gif	Scale: 5 Init: -10000 P: construct Article: a	Spirit of Easter (c100)	moai toai (15)	moaiball (f0.1)
+Easter Island Bunny	2464	moaibunny.gif	NOCOPY NOMANUEL Scale: 10 HP: 300 Init: -10000 P: construct Article: the
+
+giant snake	2478	bigsnake.gif	Scale: 5 Init: 200 P: beast Article: a	Spirit of St. Patrick's Day (c100)	half-digested rat (10)
+giant potato	2479	bigpotato.gif	Scale: 5 Init: 50 P: plant Article: a	Spirit of St. Patrick's Day (c100)	four-leaf potato sprout (10)	potato jacket (f0.1)
+giant potato snake	2480	potatosnake.gif	Scale: 5 Init: 150 P: beast Article: a	Spirit of St. Patrick's Day (c100)	half-digested rat (5)	four-leaf potato sprout (5)
+St. Patrick	2465	stpat.gif	NOCOPY NOMANUEL Scale: 5 HP: 500 Init: -10000 P: dude
+
+spectre of war	2482	trauma.gif	Scale: 20 Init: 100 P: undead Article: a Phys: 100	Spirit of Veteran's Day (c100)	traumatic holiday memory (5)
+Brandonian loyalist	2483	brandonian.gif	Scale: 20 Init: 10000 P: dude Article: a	Spirit of Veteran's Day (c100)	Brandonian footlocker key (5)
+Section 11	2484	section11.gif	Scale: 20 Init: 300 P: dude Article: a Elem: 100	Spirit of Veteran's Day (c100)	military orb (5)	Congressional Medal of Insanity (f0.1)
+some underbrush	2492	hedgerow.gif	NOCOPY NOMANUEL Atk: 0 Def: 100 HP: 1 Init: -10000 P: plant
+Colonel Brando	2466	brando.gif	NOCOPY NOMANUEL Scale: 5 HP: 500 Init: -10000 P: dude
+
+gravy slime	2485	gravyslime.gif	Scale: 30 Init: 100 P: slime Article: a	Spirit of Thanksgiving (c100)	gravy skin (5)
+pumpkin spice wraith	2486	pumpkinwraith.gif	Scale: 30 Init: 200 P: undead Phys: 100 Article: a	Spirit of Thanksgiving (c100)	crystallized pumpkin spice (5)	pumpkin spice whorl (f0.1)
+possessed can of cream of mushroom soup	2487	can_mush.gif	Scale: 30 Init: 100 P: undead Phys: 50 Article: a	Spirit of Thanksgiving (c100)
+possessed can of green beans	2488	can_green.gif	Scale: 30 Init: 100 P: undead Phys: 50 Article: a	Spirit of Thanksgiving (c100)
+Jebediah	2467	jebediah.gif	NOCOPY NOMANUEL Scale: 5 HP: 400 Init: -10000 P: dude
+Boiling Cloud	2468	boilingcloud.gif	NOCOPY NOMANUEL Scale: 5 HP: 400 Init: -10000 P: elemental
+
+magically-animated snowman	2489	regularsnowman.gif	Scale: 40 Init: 150 P: elemental Article: a	Spirit of Christmas (c100)	ragged wool yarn (15)	snowman-enchanting tophat (f0.1)
+Christmas treant	2490	xmastreant.gif	Scale: 40 Init: 250 P: plant Article: a	Spirit of Christmas (c100)	fragile Christmas ornament (5)
+self-driving sleigh	2491	sleigh.gif	Scale: 40 Init: 300 P: construct Article: a	Spirit of Christmas (c100)	LIDAR candle (10)
+"Santa Claus"	2469	santa.gif	NOCOPY NOMANUEL Scale: 40 HP: 2000 Init: -10000 P: dude	Bowl of Infinite Jelly (n100)
 
 # Old Events
 
@@ -2798,17 +2827,17 @@ wild beaver	2102	c18beaver.gif	Scale: 1 Cap: 10000 Floor: 10 Init: -10000 Meat: 
 wild reindeer	2103	c18reindeer.gif	Scale: 1 Cap: 10000 Floor: 10 Init: -10000 Meat: 150 P: beast ED: cold Article: a
 
 # Crimbo 2019 (December 2019)
-gingerbread maw	2141	gingermaw.gif	Atk: 200 Def: 200 HP: 300 Init: 100 P: horror EA: spooky EA: none Article: a	salty gumdrop (0)	soggy gingerbread chunk (0)	ribbon candy ascot (c0)
-nutmeg anemone	2142	nutmeganemone.gif	Atk: 200 Def: 200 HP: 150 Init: -10000 Meat: 100 P: plant EA: stench EA: none Article: a	intact anemone spike (0)	moist Crimbo spices (0)	anemoney clip (c0)
-icingfish	2143	icingfish.gif	Atk: 200 Def: 200 HP: 100 Init: 300 P: fish Article: an	runny icing (0)	super-sweet fish goo (spoiled) (0)	icing poncho (c0)
-Mer-kin baker	2144	merkinbaker.gif	Atk: 200 Def: 200 HP: 400 Init: 200 Meat: 200 P: mer-kin Article: a	glob of salty molasses (0)	Mer-kin cookiestove (0)	Mer-kin rollpin (c0)
+gingerbread maw	2141	gingermaw.gif	Atk: 200 Def: 200 HP: 300 Init: 100 P: horror EA: spooky EA: none Article: a	salty gumdrop (0)	soggy gingerbread chunk (0)	ribbon candy ascot (f0.33)
+nutmeg anemone	2142	nutmeganemone.gif	Atk: 200 Def: 200 HP: 150 Init: -10000 Meat: 100 P: plant EA: stench EA: none Article: a	intact anemone spike (0)	moist Crimbo spices (0)	anemoney clip (f0.33)
+icingfish	2143	icingfish.gif	Atk: 200 Def: 200 HP: 100 Init: 300 P: fish Article: an	runny icing (0)	super-sweet fish goo (spoiled) (0)	icing poncho (f0.33)
+Mer-kin baker	2144	merkinbaker.gif	Atk: 200 Def: 200 HP: 400 Init: 200 Meat: 200 P: mer-kin Article: a	glob of salty molasses (0)	Mer-kin cookiestove (0)	Mer-kin rollpin (f0.33)
 dolphin "orphan"	2145	dolphin2.gif	Atk: 300 Def: 300 HP: 500 Init: 200 Meat: 300 P: fish Article: a	waterlogged wood (c100)	waterlogged cloth (c100)	waterlogged stuffing (c100)	waterlogged leather (c100)	waterlogged metal (c100)
-kelpie (horse form)	2146	kelpiehorse.gif	Atk: 300 Def: 300 HP: 400 Init: 200 Meat: 300 P: beast EA: cold EA: hot EA: stench EA: none Article: a	kelp-holly drape (c0)
-kelpie (lady form)	2147	kelpielady.gif	Atk: 300 Def: 300 HP: 400 Init: 300 Meat: 200 P: dude EA: stench EA: none Article: a	kelp-holly gun (c0)
-Crimbylow	2148	crimbylow.gif	Atk: 500 Def: 400 HP: 50 Init: 300 Meat: 100 P: demon Article: a	green and red bean (0)	Crimbylow-rise jeans (c0)
-sea-elf	2149	seaelf.gif	Atk: 300 Def: 300 HP: 400 Init: 200 Meat: 100 P: elf Article: a	salt plum (0)	soggy elf shoes (c0)
-peppermint eel	2150	pepperminteel.gif	Atk: 400 Def: 400 HP: 400 Init: 200 Meat: 150 P: fish EA: cold EA: hot EA: none Article: a	peppermint eel sauce (0)	peppermint spine (c0)
-Yuleviathan	2151	yuleviathan.gif	Atk: 400 Def: 400 HP: 1000 Init: -10000 Meat: 300 P: fish Article: The	Yuleviathan necklace (c0)
+kelpie (horse form)	2146	kelpiehorse.gif	Atk: 300 Def: 300 HP: 400 Init: 200 Meat: 300 P: beast EA: cold EA: hot EA: stench EA: none Article: a	kelp-holly drape (f0.33)
+kelpie (lady form)	2147	kelpielady.gif	Atk: 300 Def: 300 HP: 400 Init: 300 Meat: 200 P: dude EA: stench EA: none Article: a	kelp-holly gun (f0.33)
+Crimbylow	2148	crimbylow.gif	Atk: 500 Def: 400 HP: 50 Init: 300 Meat: 100 P: demon Article: a	green and red bean (0)	Crimbylow-rise jeans (f0.33)
+sea-elf	2149	seaelf.gif	Atk: 300 Def: 300 HP: 400 Init: 200 Meat: 100 P: elf Article: a	salt plum (0)	soggy elf shoes (f0.33)
+peppermint eel	2150	pepperminteel.gif	Atk: 400 Def: 400 HP: 400 Init: 200 Meat: 150 P: fish EA: cold EA: hot EA: none Article: a	peppermint eel sauce (0)	peppermint spine (f0.33)
+Yuleviathan	2151	yuleviathan.gif	Atk: 400 Def: 400 HP: 1000 Init: -10000 Meat: 300 P: fish Article: The	Yuleviathan necklace (f0.2)
 Dolph Bossin, the Boss Dolphin	2152	dolphbossin.gif	NOCOPY NOMANUEL Atk: 500 Def: 450 HP: 800 Init: -10000 P: fish EA: stench EA: none	Dolph Bossin's charity note (100)	Dolph Bossin's Crimbo hat (100)
 
 # Crimbo 2020 (December 2020)
