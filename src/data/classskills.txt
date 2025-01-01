@@ -1101,6 +1101,10 @@
 7535	Throw Military Orb	grenorb.gif	combat	0	0
 7536	Place your hat on their head	snowmanhat.gif	combat	0	0
 7537	Egg the face	egggun.gif	combat	0	0
+7538	McHugeLarge Slash	skipole1.gif	combat	0	0
+7539	McLargeHuge Stab	skipole2.gif	combat	0	0
+7540	McHugeLarge Avalanche	ski1.gif	combat	0	0
+7541	McHugeLarge Ski Plow	ski2.gif	combat	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.
