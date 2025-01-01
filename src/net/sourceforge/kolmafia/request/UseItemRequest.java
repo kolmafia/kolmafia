@@ -6233,6 +6233,15 @@ public class UseItemRequest extends GenericRequest {
       case ItemPool.STRUCTURAL_EMBER:
         Preferences.setBoolean("_structuralEmberUsed", true);
         break;
+      case ItemPool.PIRATE_DINGHY:
+        Preferences.setBoolean("_pirateDinghyUsed", true);
+        break;
+      case ItemPool.PUMPKIN_SPICE_WHORL:
+        Preferences.setBoolean("pumpkinSpiceWhorlUsed", true);
+        if (responseText.contains("You can't add any more")) {
+          return;
+        }
+        break;
     }
 
     if (CampgroundRequest.isWorkshedItem(itemId)) {
@@ -6895,10 +6904,6 @@ public class UseItemRequest extends GenericRequest {
       case ItemPool.REPLICA_MR_STORE_2002_CATALOG:
         // This redirects to shop.php
         Preferences.setBoolean("_2002MrStoreCreditsCollected", true);
-        break;
-
-      case ItemPool.PUMPKIN_SPICE_WHORL:
-        Preferences.setBoolean("pumpkinSpiceWhorlUsed", true);
         break;
     }
 
