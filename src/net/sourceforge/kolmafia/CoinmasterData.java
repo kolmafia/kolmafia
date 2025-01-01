@@ -765,6 +765,18 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
     return this.shopRows;
   }
 
+  public final ShopRow getShopRow(int itemId) {
+    if (this.shopRows == null) {
+      return null;
+    }
+    for (ShopRow shopRow : this.shopRows) {
+      if (shopRow.getItem().getItemId() == itemId) {
+        return shopRow;
+      }
+    }
+    return null;
+  }
+
   public Map<Integer, Integer> getRows() {
     return this.itemRows;
   }
