@@ -3840,6 +3840,7 @@ public class ItemPool {
   public static final int SPIRIT_OF_VETERANS_DAY = 11719;
   public static final int SPIRIT_OF_THANKSGIVING = 11720;
   public static final int SPIRIT_OF_CHRISTMAS = 11721;
+  public static final int PUMPKIN_SPICE_WHORL = 11746;
 
   private ItemPool() {}
 

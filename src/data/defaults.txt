@@ -1268,6 +1268,7 @@ user	primaryLabCheerCoreGrabbed	false
 user	prismaticSummons	0
 user	procrastinatorLanguageFluency	0
 user	promptAboutCrafting	1
+user	pumpkinSpiceWhorlUsed	false
 user	puzzleChampBonus	5
 user	pyramidPosition	1
 user	pyramidBombUsed	false
@@ -2135,6 +2136,7 @@ user	_iceHotelRoomsRaided	false
 user	_iceSculptureUsed	false
 user	_incredibleSelfEsteemCast	false
 user	_infernoDiscoVisited	false
+user	_infiniteJellyUsed	false
 user	_inigosCasts	0
 user	_internetDailyDungeonMalwareBought	false
 user	_internetGallonOfMilkBought	false
@@ -2334,6 +2336,7 @@ user	_pieDrops	0
 user	_piePartsCount	0
 user	_pingPongGame	false
 user	_pirateBellowUsed	false
+user	_pirateDinghyUsed	false
 user	_pirateForkUsed	false
 user	_pirateRealmCrewmate
 user	_pirateRealmCrewmate1

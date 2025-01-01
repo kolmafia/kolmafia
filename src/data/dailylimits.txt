@@ -361,6 +361,7 @@ Use	moveable feast	_feastUsed	5
 Use	overflowing gift basket	_overflowingGiftBasketUsed
 Use	perfectly fair coin	_perfectlyFairCoinUsed
 Use	picky tweezers	_pickyTweezersUsed
+Use	pirate dinghy	_pirateDinghyUsed
 Use	pixel orb	_pixelOrbUsed
 Use	portable ping-pong table	_pingPongGame
 Use	portable steam unit	_portableSteamUnitUsed
