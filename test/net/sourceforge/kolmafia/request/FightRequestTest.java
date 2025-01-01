@@ -3121,4 +3121,29 @@ public class FightRequestTest {
               "You deftly snag something from your opponent with your deft pirate hook.\nYou acquire an item: Spirit of Easter"));
     }
   }
+
+  @Nested
+  class PokeFam {
+    @Test
+    public void parseInitialPokefam() {
+      RequestLoggerOutput.startStream();
+      var cleanups = new Cleanups(withFight(0), withPath(Path.POKEFAM));
+      try (cleanups) {
+        parseCombatData("request/test_fight_pokefam_start.html", "fambattle.php");
+        var text = RequestLoggerOutput.stopStream();
+      }
+    }
+
+    @Test
+    public void logPokefamMoves() {
+      RequestLoggerOutput.startStream();
+      var cleanups = new Cleanups(withFightRequestPokefam(), withFight(1), withPath(Path.POKEFAM));
+      try (cleanups) {
+        parseCombatData(
+            "request/test_fight_pokefam_end.html", "fambattle.php?famaction[splash-110]=Splash");
+        var text = RequestLoggerOutput.stopStream();
+        assertThat(text, containsString("FightRequestTest's Wereturtle uses Splash!"));
+      }
+    }
+  }
 }
