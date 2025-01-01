@@ -157,6 +157,8 @@ Item	corrosive cowl	Spooky Damage: +30, Spooky Resistance: +4, Slime Hates It: +
 Item	Covers-Your-Head	Moxie: +250, Maximum HP: +100, Maximum MP: +100, Initiative: +50, Class: "Disco Bandit", Familiar Effect: "atk, 2xVolley"
 Item	cr&ecirc;epy mask	Mysticality: +2, Maximum MP: +5, Familiar Effect: "spooky atk, cap 5"
 Item	crappy Mer-kin mask	Stench Resistance: +3, Item Drop: -25, Initiative: -50, Adventure Underwater, Familiar Effect: "hot atk, 1xBarrr"
+# crepe paper phrygian cap: Pull down to avoid monsters
+Item	crepe paper phrygian cap	Muscle: +10, Stench Damage: +10, Stench Spell Damage: +10
 Item	Crimbo hat	Spooky Resistance: +1, Familiar Effect: "1.75xVolley, 1.75xLep, cap 25"
 Item	Crown of the Goblin King	Muscle: +10, Familiar Effect: "2xBarrr, 1xGhuol, cap 17"
 # Crown of Thrones: Put a Familiar In It!
@@ -418,6 +420,8 @@ Item	party hat	MP Regen Min: [3*J], MP Regen Max: [5*J], Mysticality: +3, Famili
 Item	passable elf mask	Familiar Effect: "atk, cap 2"
 Item	pentacorn hat	Familiar Effect: "atk, cap 10"
 Item	pentagram bandana	Mysticality: +15, Maximum MP: +15
+# petrified wood whoopie panama: Headbutt attacking foes
+Item	petrified wood whoopie panama	Moxie Percent: +20, Critical Hit Percent: +10
 Item	pickelhaube	Weapon Damage: +5, Weapon Damage Percent: +10, Familiar Effect: "atk, 1xFairy, cap 18"
 Item	pig-iron helm	Muscle: +7, Weapon Damage: +10, Familiar Effect: "1xFairy, cap 22"
 Item	pimpin' meat hat	Muscle: +2, Moxie: +2, Familiar Effect: "sleaze atk, 1xVolley, cap 13"
@@ -806,6 +810,8 @@ Item	parasitic tentacles	Initiative: [min(2*L,30)], Familiar Effect: "spooky atk
 Item	penguin shorts	Initiative: +20, Familiar Effect: "cold atk, 1xGhuol, cap 30"
 Item	penguinskin mini-kilt	Initiative: +20, Familiar Effect: "cold atk, 1xFairy, cap 30"
 Item	penguinskin mini-skirt	Initiative: +20, Familiar Effect: "cold atk, 1xFairy, cap 30"
+# petrified wood walking pants: Make you dodge some attacks
+Item	petrified wood walking pants	Experience (Moxie): +3, Spell Critical Percent: +10
 Item	pig-iron shinguards	Moxie: +6, Initiative: +10, Familiar Effect: "2xBarrr, 1.5xFairy, cap 22"
 Item	pin-stripe slacks	Initiative: +15, Familiar Effect: "6xSombrero, 2xPotato, cap 7"
 Item	pink pinkslip slip	Initiative: +35, Damage Reduction: 4, Familiar Effect: "1xVolley, 1xBarrr"
@@ -989,6 +995,8 @@ Item	coconut bikini top	Mysticality: +5
 Item	conquistador's breastplate	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Meat Drop: +15
 Item	cool iron breastplate	Damage Reduction: 20, Maximum HP: +200
 Item	Corporal Fennel's Lonely Clubs Club Jacket	PvP Fights: +2
+# crepe paper plunge camisole: Leave nothing to the imagination and distract your foes
+Item	crepe paper plunge camisole	Moxie: +10, Sleaze Damage: +10, Sleaze Spell Damage: +10
 Item	Crimbuccaneer bombjacket	Moxie Percent: +25, Ranged Damage: +25, Combat Item Damage Percent: 100
 Item	Crimbuccaneer shirt	Familiar Weight: [+10*event(December)]
 Item	demonskin jacket	Mysticality: +5, Hot Spell Damage: +5
@@ -1645,6 +1653,8 @@ Item	Maxwell's Silver Hammer	Mysticality: +10, Weapon Damage: +10
 # Mayor Ghost's gavel: Lets you hit ghosts with a gavel.
 # Mayor Ghost's gavel: This gavel, specifically.
 Item	Mayor Ghost's gavel	Critical Hit Percent: +10, Weapon Damage: +30, Damage vs. Ghosts: +50
+# McHugeLarge right pole: Stab your foe to hurt them
+Item	McHugeLarge right pole	Critical Hit Percent: +10, Weapon Damage: +10, Weapon Damage Percent: +25, Single Equip
 # Meat Tenderizer is Murder: 25% chance to gain an extra gallon of Fury when you gain a gallon of Fury.
 Item	Meat Tenderizer is Murder	Weapon Damage Percent: +20, Smithsness: +5, Class: "Seal Clubber", Muscle Percent: [2*K]
 Item	Meatcleaver	Meat Drop: +35, Weapon Damage Percent: +100
@@ -1722,6 +1732,8 @@ Item	perforated battle paddle	Weapon Damage: +10
 Item	Periodical Paintbrush	Muscle Percent: [+5*G], Mysticality Percent: [+5*G], Moxie Percent: [+5*G], Softcore Only
 Item	pernicious cudgel	Sleaze Damage: +30, Critical Hit Percent: +10, Slime Hates It: +1
 Item	pestoblade	Muscle: +3, Stench Damage: +3
+# petrified wood war pike: Attack a second time when you attack
+Item	petrified wood war pike	Muscle Percent: +20, PvP Fights: +5
 Item	pewter claymore	HP Regen Min: 6, HP Regen Max: 12, MP Regen Min: 6, MP Regen Max: 12
 # Pigsticker of Violence: Lets you stab opponents as they fail to attack you
 Item	Pigsticker of Violence	HP Regen Min: 20, HP Regen Max: 30, Critical Hit Percent: +10, Weapon Damage Percent: +60
@@ -2230,6 +2242,8 @@ Item	cosmetic football	Muscle: +10
 Item	creepy doll head	Spooky Damage: +15
 # creepy voice box: Pull the String!  I Dare You!
 Item	creme brulee torch	Hot Damage: +30, Lasts Until Rollover
+# crepe paper puzzle cube: Play with it to get more stats after combat
+Item	crepe paper puzzle cube	Experience (Mysticality): +2, Spooky Damage: +10, Spooky Spell Damage: +10
 Item	Crimbo bottomless hot cocoa mug	Hot Spell Damage: +10
 Item	Crimbo Elf creepy bobble-head	Spooky Damage: +10
 Item	Crimbo light-up Rudolph doll	Sleaze Damage: +10
@@ -2439,6 +2453,8 @@ Item	marinara jug	Spell Damage: +30, Class: "Sauceror"
 Item	marionette	Mysticality: +3
 Item	marionette collective	Mysticality: +3
 Item	martini dregs	Moxie Percent: +50
+# McHugeLarge left pole: Slash an enemy to make them easier to track
+Item	McHugeLarge left pole	Mysticality: +10, Spell Damage: +10, Spell Damage Percent: +25
 Item	meat shield	Meat Drop: +3, Damage Reduction: 3
 Item	Medallion of the Ventrilo Prince	Moxie Percent: +12
 Item	Mer-kin begsign	Weakens Monster, Meat Drop: [40*env(underwater)]
@@ -2532,6 +2548,8 @@ Item	party crasher	Initiative: +25, Spooky Resistance: +2, Stench Resistance: +2
 Item	peanut brittle shield	Candy Drop: +100, Damage Reduction: 3
 Item	penguin skin buckler	Moxie: +5, Damage Reduction: 5
 Item	penguin thesaurus	Mysticality: +1, Maximum HP: +5, Maximum MP: +5
+# petrified wood water purifier: Adds cold and sleaze damage to spells
+Item	petrified wood water purifier	Experience (Mysticality): +3, Meat Drop: +20
 # photo booth supply list: Lets you find photo booth supplies
 Item	photo booth supply list	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Damage Reduction: 20, Lasts Until Rollover
 Item	pilgrim shield	Maximum HP: +30, Weapon Damage: +15, Experience: +3, HP Regen Min: 10, HP Regen Max: 12, Weapon Drop: +50, Damage Reduction: [L], Softcore Only
@@ -2980,6 +2998,10 @@ Item	corncob pipe	Muscle Percent: +10, Single Equip
 Item	Counterclockwise Watch	Adventures: +10, Single Equip, Nonstackable Watch
 Item	cozy scarf	Cold Resistance: +5
 Item	crank-powered radio on a lanyard	Monster Level: +15, Lasts Until Rollover
+# crepe paper pie clip: Look through it to enhance your spells
+Item	crepe paper pie clip	Mysticality: +10, Hot Damage: +10, Hot Spell Damage: +10
+# crepe paper polka charm: Embrace polka and dance for more items
+Item	crepe paper polka charm	Experience (Moxie): +2, Weapon Damage: +10, Spell Damage: +10
 # CRIMBCO lanyard: Lets you work harder!
 Item	CRIMBCO lanyard	Single Equip
 Item	Crimbolex watch	Adventures: +5, PvP Fights: +5, Rollover Effect: "Watched Over", Rollover Effect Duration: 100, Single Equip, Nonstackable Watch
@@ -3342,6 +3364,10 @@ Item	Master Thief's utility belt	Moxie: +15, Moxie Percent: +25, Experience (Mox
 # mayfly bait necklace: Allows Summoning of Mayflies in Combat
 Item	mayfly bait necklace	Meat Drop: +10, Item Drop: +10, Single Equip, Softcore Only
 Item	Mayor Ghost's sash	Item Drop: +30, Meat Drop: -30, Experience: -10, Single Equip
+# McHugeLarge left ski: Clear the area of monsters
+Item	McHugeLarge left ski	Combat Rate: -5, Muscle: +10
+# McHugeLarge right ski: Cover your foe in snow and embarass them
+Item	McHugeLarge right ski	Combat Rate: +5, Moxie: +10
 # Mega Gem
 Item	memory of a cultist's robe	Single Equip
 Item	Mer-kin dragbelt	Initiative: -25, Experience (Muscle): [20*env(underwater)], Single Equip
@@ -3475,6 +3501,10 @@ Item	perfect Christmas scarf	Adventures: [+9*event(December)], Cold Resistance: 
 Item	perfume-soaked bandana	Stench Resistance: +4, Spooky Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Single Equip
 # Personal Ventilation Unit: Allows Safe Access to Secret Government Lab
 Item	Personal Ventilation Unit	Muscle Limit: 100, Mysticality Limit: 100, Moxie Limit: 100, Single Equip
+# petrified wood waist protector: Makes opponents miss their first attack
+Item	petrified wood waist protector	Experience (Muscle): +3, Adventures: +5, Single Equip
+# petrified wood wizard's pouch: Adds hot and physical damage to spells
+Item	petrified wood wizard's pouch	Mysticality Percent: +20, Item Drop: +10, Single Equip
 # phase-tuned shield generator belt: +10 Damage Reduction vs. Bugbears
 Item	phase-tuned shield generator belt	Single Equip
 Item	phat turquoise bracelet	Mysticality: +5
@@ -4226,6 +4256,8 @@ Item	Catherine Wheel	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percen
 Item	chalk chlamys	Adventures: +2, Combat Rate: -5
 Item	Cloak of Dire Shadows	Maximum MP: +40, Meat Drop: +10, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5
 Item	cod cape	Stench Damage: +25, Combat Rate: +5
+# crepe paper parachute cape: Parachute into a battle in a recent zone
+Item	crepe paper parachute cape	Experience (Muscle): +2, Cold Damage: +10, Cold Spell Damage: +10
 Item	cursed blanket	Hot Resistance: +3, Cold Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, Sleaze Resistance: +3, Familiar Weight: -20
 # cursed goblin cape: Cold Vulnerability (-6)
 # cursed goblin cape: Spooky Vulnerability (-6)
@@ -4257,6 +4289,8 @@ Item	LOV Epaulettes	Experience Percent (Mysticality): +25, MP Regen Min: 4, MP R
 Item	makeshift cape	Item Drop: +5
 Item	marble mantle	Damage Reduction: 10, Weapon Damage Percent: +30, Thorns: 1
 Item	Mayor Ghost's cloak	PvP Fights: +5, Weapon Drop: +20, Food Drop: +20, Class: "Pastamancer"
+# McHugeLarge duffel bag: Lets you hit the slopes when equipped with all your McHugeLarge ski gear
+Item	McHugeLarge duffel bag	Item Drop: +15, Maximum HP: +20
 Item	Misty Cape	Moxie: +5, HP Regen Min: 2, HP Regen Max: 4, MP Regen Min: 1, MP Regen Max: 2
 Item	Misty Cloak	Muscle: +5, HP Regen Min: 4, HP Regen Max: 8
 Item	Misty Robe	Mysticality: +5, MP Regen Min: 2, MP Regen Max: 4
@@ -5801,6 +5835,7 @@ Effect	Cravin' for a Ravin'	Meat Drop: +100
 Effect	Craving Prawns	Food Drop: +50
 Effect	Creepin' Up on You	Spooky Damage: +20, Spooky Spell Damage: +20
 Effect	Creepypasted	Spooky Damage: +50
+Effect	Crepe Paper Pedestrian Cacophony	Combat Rate: +5
 Effect	Crimbeau'd	Familiar Weight: +10, Item Drop: +25, Meat Drop: +50
 Effect	Crimbo Epiphany	Mysticality Percent: +10
 Effect	Crimbo Flavor	Spell Damage: +30
@@ -7074,6 +7109,7 @@ Effect	Perspicacious Pressure	Mysticality Percent: +300
 Effect	Pet Shop Song	Initiative: +10
 Effect	Petit Forbearance	MP Regen Min: 8, MP Regen Max: 10, HP Regen Min: 10, HP Regen Max: 20
 Effect	Petit Force	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
+Effect	Petrified Wood Wound Prevention	Damage Reduction: 5
 Effect	Pewtershot	Damage Absorption: +250, Damage Reduction: 25
 # Phairly Balanced: Equalize all your stats to your highest stat
 Effect	Phairly Balanced	Equalize: "High"
@@ -8750,6 +8786,7 @@ Outfit	Cold Comforts	Cold Damage: +30, Cold Spell Damage: +30
 Outfit	Cool Irons	Damage Reduction: 20
 Outfit	Cooper's Couture	Damage Reduction: 10
 Outfit	Crappy Mer-kin Disguise	Muscle: +30, Mysticality: +30, Moxie: +30
+Outfit	Crepe Paper Participant's Clothes	Food Drop: +50, Booze Drop: +50, Candy Drop: +50
 Outfit	Crimbo Duds	Item Drop: +5
 Outfit	Crimborg Assault Armor	Ranged Damage: +20
 Outfit	Crimbot Crimboutfit	Crimbot Outfit Power: +3
@@ -8829,6 +8866,7 @@ Outfit	Oil Rig	Initiative: +30
 Outfit	OK Lumberjack Outfit	Critical Hit Percent: +10
 Outfit	Palmist Paraphernalia	Moxie: +7
 # Paperclippery: Helpful!
+Outfit	Petrified Wood Professional Wardrobe	Initiative: -200, Damage Absorption: +500, Damage Reduction: 50
 Outfit	Pinata Provisions	Damage Reduction: 15
 Outfit	PirateRealm Assortment	Moxie Percent: +20
 Outfit	Pork Elf Prizes	Item Drop: +10
@@ -10040,6 +10078,7 @@ Item	corrupted marrow	Effect: "Cowrruption", Effect Duration: 30
 Item	cosmic lemonade	Effect: "Lemon Enlightenment", Effect Duration: 10
 Item	cranberry cordial	Effect: "Cranberry Cordiality", Effect Duration: [R]
 Item	crappy waiter disguise	Effect: "Crappily Disguised as a Waiter", Effect Duration: 5
+Item	crepe paper peanut candy	Effect: "Crepe Paper Pedestrian Cacophony", Effect Duration: 20
 Item	Crimbo candied pecan	Effect: "Sweet, Nuts", Effect Duration: 5
 Item	Crimbo fudge	Effect: "Busy Bein' Delicious", Effect Duration: 5
 Item	Crimbo peppermint bark	Effect: "Peppermint Bite", Effect Duration: 5
@@ -10562,6 +10601,7 @@ Item	peppermint syrup	Effect: "Candied Teeth", Effect Duration: 20
 Item	peppermint twist	Effect: "Peppermint Twisted", Effect Duration: 10
 Item	perfume of prejudice	Effect: "Eau D'enmity", Effect Duration: [R]
 Item	perl necklace	Effect: "PERL of Great Price", Effect Duration: 20
+Item	petrified wood wafer praline	Effect: "Petrified Wood Wound Prevention", Effect Duration: 20
 Item	ph balancer	Effect: "Phairly Balanced", Effect Duration: 5
 Item	phial of coldness	Effect: "Coldform", Effect Duration: 5
 Item	phial of hotness	Effect: "Hotform", Effect Duration: 5
@@ -12015,6 +12055,7 @@ Item	mayo lance	Lasts Until Rollover
 # Mayor Ghost's scissors: (doesn't go away when used)
 # Mayostat: Recover a portion of the next substantial thing you eat for later use
 # Mayozapine: Increases the stat gains from the next thing you eat
+Item	McHugeLarge deluxe ski set	Free Pull
 Item	McPhee's Grimoire of Hilarious Object Summoning	Skill: "Summon Hilarious Objects"
 # meat vortex: Steals Some Meat From an Enemy
 # melty plastic grenade: Deals <font color=green>Stench Damage</font> based on your highest stat

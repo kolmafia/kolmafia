@@ -174,6 +174,6 @@
 167	Crimbuccaneer rigging	crimbuctat1.gif	Crimbuccaneer tricorn, Crimbuccaneer breeches	groggipop
 168	Moss Mufti	mosstat.gif	moss mitre, moss mace, moss megaphone, moss mantle, moss medal, moss marlinspike	moss floss
 169	Adobe Armor	adobetat.gif	adobe ayam, adobe adze, adobe abacus, adobe abaya, adobe arsecover, adobe ascot	adobe brittle
-170
-171
+170	Crepe Paper Participant's Clothes	crepetat.gif	crepe paper phrygian cap, crepe paper puzzle cube, crepe paper parachute cape, crepe paper plunge camisole, crepe paper pie clip, crepe paper polka charm
+171	Petrified Wood Professional Wardrobe	pwoodtat.gif	petrified wood whoopie panama, petrified wood war pike, petrified wood water purifier, petrified wood walking pants, petrified wood waist protector
 172	Governor's Daughter's Fancy Finery	govtat.gif	governor's daughter's pearl hairpin, governor's daughter's petticoats, governor's daughter's lace collar	rum ball
