@@ -6896,6 +6896,10 @@ public class UseItemRequest extends GenericRequest {
         // This redirects to shop.php
         Preferences.setBoolean("_2002MrStoreCreditsCollected", true);
         break;
+
+      case ItemPool.PUMPKIN_SPICE_WHORL:
+        Preferences.setBoolean("pumpkinSpiceWhorlUsed", true);
+        break;
     }
 
     if (useString == null) {
