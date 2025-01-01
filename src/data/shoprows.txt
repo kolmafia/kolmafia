@@ -722,6 +722,18 @@
 801	buy	Western Slang Vol. 2: Cooking	LT&T Gift Shop
 802	buy	Western Slang Vol. 3: Fraud	LT&T Gift Shop
 803	buy	inflatable LT&T telegraph office	LT&T Gift Shop
+804	buy	wicker slicker	Armory & Leggery
+805	buy	polyester pad	Armory & Leggery
+806	buy	polyester peeler	Armory & Leggery
+807	buy	polyester pettipants	Armory & Leggery
+808	buy	polyester panama hat	Armory & Leggery
+809	buy	polyester pulsera	Armory & Leggery
+810	buy	porcelain police baton	Armory & Leggery
+811	buy	porcelain plus-fours	Armory & Leggery
+812	buy	porcelain porkpie	Armory & Leggery
+813	buy	porcelain pepper mill	Armory & Leggery
+814	buy	porcelain pelerine	Armory & Leggery
+815	buy	porcelain phantom mask	Armory & Leggery
 817	npc	high-test fishing line	The General Store
 818	npc	fishin' hat	Armory and Leggery
 821	buy	viral video	Internet Meme Shop
@@ -791,6 +803,18 @@
 922	conc	pet bad vibe	CRIMBO16
 923	conc	Rethinking Candy	CRIMBO16
 924	conc	eternal knot tattoo	CRIMBO16
+925	buy	wicker knickers	Armory & Leggery
+926	buy	wicker kickers	Armory & Leggery
+927	buy	wicker ticker	Armory & Leggery
+928	buy	wicker sticker	Armory & Leggery
+929	buy	wicker clicker	Armory & Leggery
+930	buy	bakelite belt	Armory & Leggery
+931	buy	polyester parachute	Armory & Leggery
+932	buy	bakelite badge	Armory & Leggery
+933	buy	bakelite bowl	Armory & Leggery
+934	buy	bakelite brooch	Armory & Leggery
+935	buy	bakelite breeches	Armory & Leggery
+936	buy	bakelite backpack	Armory & Leggery
 939	conc	spants	SPANT
 940	conc	spant shield	SPANT
 941	conc	spant shoulderpads	SPANT
@@ -828,6 +852,18 @@
 976	buy	The Journal of Mime Science Vol. 4	Cheer-o-Vend 3000
 977	buy	The Journal of Mime Science Vol. 5	Cheer-o-Vend 3000
 978	buy	The Journal of Mime Science Vol. 6	Cheer-o-Vend 3000
+980	buy	aerogel anvil	Armory & Leggery
+981	buy	aerogel akubra	Armory & Leggery
+982	buy	aerogel apron	Armory & Leggery
+983	buy	aerogel ascot	Armory & Leggery
+984	buy	aerogel attache case	Armory & Leggery
+985	buy	aerogel accordion	Armory & Leggery
+986	buy	wrought-iron wig	Armory & Leggery
+987	buy	wrought-iron winch crank	Armory & Leggery
+988	buy	wrought-iron widget	Armory & Leggery
+989	buy	wrought-iron whisk	Armory & Leggery
+990	buy	wrought-iron walker	Armory & Leggery
+991	buy	wrought-iron waders	Armory & Leggery
 992	buy	metandienone	The Pok&eacute;mporium
 993	buy	riboflavin	The Pok&eacute;mporium
 994	buy	bronze	The Pok&eacute;mporium
@@ -874,6 +910,18 @@
 1037	npc	Carol of the Thrills	Crimbo Town Gift-O-Mat
 1039	npc	Crimbolex watch	Crimbo Town Gift-O-Mat
 1040	npc	Crimbo tattoo kit	Crimbo Town Gift-O-Mat
+1041	buy	gabardine gaiters	Armory & Leggery
+1042	buy	gabardine garland	Armory & Leggery
+1043	buy	gabardine gunnysack	Armory & Leggery
+1044	buy	gabardine garibaldi	Armory & Leggery
+1045	buy	gabardine girdle	Armory & Leggery
+1046	buy	gabardine gloves	Armory & Leggery
+1047	buy	fiberglass fetish	Armory & Leggery
+1048	buy	fiberglass foil	Armory & Leggery
+1049	buy	fiberglass fannypack	Armory & Leggery
+1050	buy	fiberglass frock	Armory & Leggery
+1051	buy	fiberglass fingerguard	Armory & Leggery
+1052	buy	fiberglass fedora	Armory & Leggery
 1053	buy	crabsicle	PirateRealm Fun-a-Log
 1054	buy	bottle of dark rhum	PirateRealm Fun-a-Log
 1055	buy	bottle of extra-dark rhum	PirateRealm Fun-a-Log
@@ -934,6 +982,18 @@
 1112	conc	antique nutcracker drumstick	KRINGLE
 1113	conc	antique nutcracker figurine	KRINGLE
 1114	conc	antique nutcracker pants	KRINGLE
+1116	buy	chalk chlamys	Armory & Leggery
+1117	buy	chalk chain	Armory & Leggery
+1118	buy	chalk chalice	Armory & Leggery
+1119	buy	chalk chinos	Armory & Leggery
+1120	buy	chalk chapeau	Armory & Leggery
+1121	buy	chalk choker	Armory & Leggery
+1122	buy	marble maebari	Armory & Leggery
+1123	buy	marble mantle	Armory & Leggery
+1124	buy	marble magnet	Armory & Leggery
+1125	buy	marble mignonette bowl	Armory & Leggery
+1126	buy	marble medallion	Armory & Leggery
+1127	buy	marble mariachi hat	Armory & Leggery
 1128	npc	Drip harness	Drip Institute Armory
 1129	npc	drippy truncheon	Drip Institute Armory
 1130	buy	drippy khakis	Drip Institute Armory
@@ -1014,6 +1074,18 @@
 1209	buy	drive-thru burger	Elf Food Drive
 1210	buy	Boulevardier cocktail	Elf Booze Drive
 1211	buy	Hotwire&trade; brand candy rope	Elf Candy Drive
+1235	buy	paraffin punching bag	Armory & Leggery
+1236	buy	paraffin pith helmet	Armory & Leggery
+1237	buy	paraffin poncho	Armory & Leggery
+1238	buy	paraffin pendant	Armory & Leggery
+1239	buy	paraffin palazzos	Armory & Leggery
+1240	buy	paraffin pseudoaccordion	Armory & Leggery
+1241	buy	terra cotta truss	Armory & Leggery
+1242	buy	terra cotta trousers	Armory & Leggery
+1243	buy	terra cotta tongs	Armory & Leggery
+1244	buy	terra cotta train	Armory & Leggery
+1245	buy	terra cotta tie tack	Armory & Leggery
+1246	buy	terra cotta tambourine	Armory & Leggery
 1247	npc	fedora-mounted fountain	Clan Underground Fireworks Shop
 1248	npc	sombrero-mounted sparkler	Clan Underground Fireworks Shop
 1249	npc	porkpie-mounted popper	Clan Underground Fireworks Shop
@@ -1034,6 +1106,18 @@
 1264	npc	clear Russian	The Crimbo Cafe
 1265	npc	black Crimbo ball	Ornament Stand
 1266	npc	white Crimbo ball	Ornament Stand
+1267	buy	velour voulge	Armory & Leggery
+1268	buy	velour vambraces	Armory & Leggery
+1269	buy	velour veil	Armory & Leggery
+1270	buy	velour viscometer	Armory & Leggery
+1271	buy	velour valise	Armory & Leggery
+1272	buy	velour vaqueros	Armory & Leggery
+1273	buy	stained glass suspenders	Armory & Leggery
+1274	buy	stained glass shield	Armory & Leggery
+1275	buy	stained glass stetson	Armory & Leggery
+1276	buy	stained glass spectacles	Armory & Leggery
+1277	buy	stained glass shiv	Armory & Leggery
+1278	buy	stained glass serape	Armory & Leggery
 1279	buy	dinosaur pheromone kit	Dino World Gift Shop (The Dinostaur)
 1280	buy	pterodactyl rifle	Dino World Gift Shop (The Dinostaur)
 1281	buy	birdseed hat	Dino World Gift Shop (The Dinostaur)
@@ -1050,6 +1134,18 @@
 1292	buy	Strong, Silent Type	Fancy Dan the Cocktail Man
 1293	buy	Mysterious Stranger	Fancy Dan the Cocktail Man
 1294	buy	Champagne Shimmy	Fancy Dan the Cocktail Man
+1295	buy	chiffon chapeau	Armory & Leggery
+1296	buy	chiffon chevrons	Armory & Leggery
+1297	buy	loofah lederhosen	Armory & Leggery
+1298	buy	loofah ladle	Armory & Leggery
+1299	buy	loofah legwarmers	Armory & Leggery
+1300	buy	loofah lavalier	Armory & Leggery
+1301	buy	flagstone flag	Armory & Leggery
+1302	buy	flagstone flail	Armory & Leggery
+1303	buy	flagstone flip-flops	Armory & Leggery
+1304	buy	flagstone fez	Armory & Leggery
+1305	buy	flagstone fleece	Armory & Leggery
+1306	buy	flagstone fringe	Armory & Leggery
 1307	conc	pixel bread	PIXEL
 1308	conc	pixel whiskey	PIXEL
 1309	conc	shadow chef's hat	SHADOW_FORGE
@@ -1177,6 +1273,18 @@
 1437	buy	Crimbuccaneer tattoo gift certificate	Crimbuccaneer Foundry
 1440	buy	Elf Guard safety bear	Elf Guard Toy and Munitions Factory
 1441	buy	stuffed kraken	Crimbuccaneer Foundry
+1442	buy	chiffon chamberpot	Armory & Leggery
+1443	buy	chiffon chemise	Armory & Leggery
+1444	buy	chiffon chakram	Armory & Leggery
+1445	buy	chiffon chaps	Armory & Leggery
+1446	buy	loofah lumberjack's hat	Armory & Leggery
+1447	buy	loofah lei	Armory & Leggery
+1448	buy	ceramic cestus	Armory & Leggery
+1449	buy	ceramic centurion shield	Armory & Leggery
+1450	buy	ceramic celery grater	Armory & Leggery
+1451	buy	ceramic celsiturometer	Armory & Leggery
+1452	buy	ceramic cerecloth belt	Armory & Leggery
+1453	buy	ceramic cenobite's robe	Armory & Leggery
 1467	conc	biphasic molecular oculus	TINKERING_BENCH
 1468	conc	triphasic molecular oculus	TINKERING_BENCH
 1469	conc	high-tension exoskeleton	TINKERING_BENCH
@@ -1201,6 +1309,24 @@
 1488	conc	mini kiwi icepick	KIWI
 1489	conc	mini kiwi-flavored aspirin-injecting lipstick	KIWI
 1490	conc	mini kiwi digitized cookies	KIWI
+1491	row	bacteria bisque	The Primordial Soup Kitchen
+1492	row	ciliophora chowder	The Primordial Soup Kitchen
+1493	row	cream of chloroplasts	The Primordial Soup Kitchen
+1494	row	lip soup	The Primordial Soup Kitchen
+1495	row	lip soup	The Primordial Soup Kitchen
+1496	row	lip soup	The Primordial Soup Kitchen
+1497	row	elbow soup	The Primordial Soup Kitchen
+1498	row	elbow soup	The Primordial Soup Kitchen
+1499	row	elbow soup	The Primordial Soup Kitchen
+1500	row	flagellate soup	The Primordial Soup Kitchen
+1501	row	flagellate soup	The Primordial Soup Kitchen
+1502	row	flagellate soup	The Primordial Soup Kitchen
+1503	row	muscular soup	The Primordial Soup Kitchen
+1504	row	muscular soup	The Primordial Soup Kitchen
+1505	row	muscular soup	The Primordial Soup Kitchen
+1506	row	synaptic soup	The Primordial Soup Kitchen
+1507	row	synaptic soup	The Primordial Soup Kitchen
+1508	row	synaptic soup	The Primordial Soup Kitchen
 1509	buy	unevolved organism	KoL Con 13 Merch Table
 1510	buy	blade of dismemberment	Sept-Ember Censer
 1511	buy	miniature Embering Hulk	Sept-Ember Censer
