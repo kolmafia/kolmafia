@@ -86,7 +86,7 @@ public class ShopRowTest {
       String html = html("request/test_shop_grandma.html");
       var inventory = ShopRow.parseShop(html, true);
       var currencies = currencies(inventory);
-      assertEquals(15, inventory.size());
+      assertEquals(17, inventory.size());
       assertEquals(1, currencies.get(helmet));
       assertEquals(2, currencies.get(mask));
       assertEquals(2, currencies.get(tailpiece));
