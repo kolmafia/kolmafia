@@ -2879,8 +2879,8 @@
 2876	Groggipopped	neutronpop.gif	477dbdf51c06ae7c5460c3c1b7438607	neutral	none	use 1 groggipop
 2877	Flossed Blood	mossfloss.gif	e7c32f6a77e64426d5e3e8b5bdd8a8bc	neutral	none	use 1 moss floss
 2878	Clay-Coated Teeth	adobebrittle.gif	ed7b103d89c53316f0e6f2970c51a6e0	neutral	none	use 1 adobe brittle
-2879
-2880
+2879	Crepe Paper Pedestrian Cacophony	crepecandy.gif	478e82e4d8d15e16d1edad2d61092e9b	neutral	none	use 1 crepe paper peanut candy
+2880	Petrified Wood Wound Prevention	pwoodcandy.gif	6d4a5887902368d2c6eb4a1c0b440eee	neutral	none	use 1 petrified wood wafer praline
 2881	Everything Looks Green	eyes.gif	baf449fcc4f46537a491d4355129581f	neutral	noremove	# use green smoke bomb
 2882	Adobe Arsecover Subscription	adobepants.gif	46f7853d4dfeb10ea2dddbf6054f0be0	neutral	none
 2883	Adobe Adze Subscription	adobeadze.gif	e7a7b5461155ebf282e8af64613154f2	neutral	none

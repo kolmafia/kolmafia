@@ -11545,22 +11545,22 @@
 11517	adobe abaya	768488079	adobeabaya.gif	shirt		0
 11518	adobe assortment	469007963	adobebits.gif	spleen, usable		0
 11519	adobe brittle	493931168	adobebrittle.gif	potion, usable	t,d	15
-11520
-11521
-11522
-11523
-11524
-11525
+11520	crepe paper phrygian cap	528131649	crepehat.gif	hat		0
+11521	crepe paper parachute cape	235866977	crepecape.gif	container		0
+11522	crepe paper pie clip	567897179	crepepin.gif	accessory		0
+11523	crepe paper puzzle cube	775001489	crepecube.gif	offhand		0
+11524	crepe paper plunge camisole	135604730	crepecamisole.gif	shirt		0
+11525	crepe paper polka charm	528321843	crepecharm.gif	accessory		0
 11526
-11527
-11528
-11529
-11530
-11531
-11532
-11533
+11527	crepe paper peanut candy	281680775	crepecandy.gif	potion, usable	t,d	15
+11528	petrified wood war pike	326850864	pwoodpike.gif	weapon		0
+11529	petrified wood waist protector	942174223	pwoodbelt.gif	accessory		0
+11530	petrified wood wizard's pouch	208187116	pwoodpouch.gif	accessory		0
+11531	petrified wood water purifier	791540752	pwoodpurifier.gif	offhand		0
+11532	petrified wood whoopie panama	439261300	pwoodhat.gif	hat		0
+11533	petrified wood walking pants	587162395	pwoodpants.gif	pants		0
 11534
-11535
+11535	petrified wood wafer praline	544944743	pwoodcandy.gif	potion, usable	t,d	15
 11536
 11537
 11538
@@ -11807,3 +11807,9 @@
 11779	nylon Christmas stockings	229779717	xmasstockings.gif	accessory	t	0	pairs of nylon Christmas stockings
 11780	tattoo of two turkeys	563249901	twoturkeytat.gif	usable	t	0	tattoos of two turkeys
 11781	deviled candy egg	732823232	candyegg.gif	potion	t,d	5
+11782	McHugeLarge deluxe ski set	547353933	skibag1.gif	usable	t	0
+11783	McHugeLarge duffel bag	845163862	skibag2.gif	container		0
+11784	McHugeLarge left pole	387040123	skipole1.gif	offhand	q	0
+11785	McHugeLarge right pole	282816137	skipole2.gif	weapon	q	0
+11786	McHugeLarge left ski	210105166	ski1.gif	accessory	q	0
+11787	McHugeLarge right ski	796918007	ski2.gif	accessory	q	0
