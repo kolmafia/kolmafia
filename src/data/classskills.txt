@@ -1105,6 +1105,18 @@
 7539	McLargeHuge Stab	skipole2.gif	combat	0	0
 7540	McHugeLarge Avalanche	ski1.gif	combat	0	0
 7541	McHugeLarge Ski Plow	ski2.gif	combat	0	0
+7542
+7543
+7544
+7545
+7546
+7547
+7548
+7549	Pull down your crepe paper phrygian cap	crepehat.gif	nc,self	0	20
+7550	Look through your crepe paper pie clip	crepepin.gif	nc,self	0	20
+7551	Play with your crepe paper puzzle	crepecube.gif	nc,self	0	20
+7552	Leave nothing to the imagination	crepecamisole.gif	nc,self	0	20
+7553	Embrace polka	crepecharm.gif	nc,self	0	20
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.
