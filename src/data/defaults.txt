@@ -1876,6 +1876,7 @@ user	_candyCaneSwordOvergrownShrine	false
 user	_candyCaneSwordPalindome	false
 user	_candyCaneSwordSouthOfTheBorder	false
 user	_candyCaneSwordSpookyForest	false
+user	_candyEggsDeviled	0
 user	_candySummons	0
 user	_captainHagnkUsed	0
 user	_carboLoaded	false

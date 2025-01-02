@@ -10146,7 +10146,7 @@
 10118	velour valise	217953676	vel_valise.gif	offhand		0
 10119	velour vaqueros	441211726	vel_vaqueros.gif	pants		0	pairs of velour vaqueros
 10120	velour veneer	806757439	vel_veneer.gif	spleen, usable		0	sheets of velour veneer
-10121	Velougats&trade;	711521938	velougat.gif	potion, usable	d	15	Velougats&trade;
+10121	Velougats&trade;	711521938	velougat.gif	potion, usable, candy	d	15	Velougats&trade;
 10122	stained glass suspenders	622632255	sg_suspenders.gif	accessory		0	pairs of stained glass suspenders
 10123	stained glass shield	399459418	sg_shield.gif	offhand		0
 10124	stained glass stetson	701584101	sg_stetson.gif	hat		0
@@ -11052,7 +11052,7 @@
 11024	ceramic cerecloth belt	523770515	cerabelt.gif	accessory		0
 11025	ceramic cenobite's robe	935849680	cerarobe.gif	shirt		0
 11026	ceramic scree	220950183	cerabits.gif	spleen, usable		0	handfuls of ceramic scree
-11027	extra-hard jawbreaker	205324256	ceracandy.gif	potion, usable	t,d	15
+11027	extra-hard jawbreaker	205324256	ceracandy.gif	potion, usable, candy	t,d	15
 11028	chiffon chevrons	332021835	chifchevrons.gif	accessory		0	pairs of chiffon chevrons
 11029	chiffon chapeau	900963107	chifhat.gif	hat		0
 11030	chiffon chamberpot	467542968	chifpot.gif	offhand		0
