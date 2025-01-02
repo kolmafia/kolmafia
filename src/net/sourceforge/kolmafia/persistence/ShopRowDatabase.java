@@ -141,9 +141,19 @@ public class ShopRowDatabase {
       writer.println(KoLConstants.SHOPROWS_VERSION);
 
       Iterator<Entry<Integer, ShopRowData>> it = shopRowData.entrySet().iterator();
+      int lastRow = 1;
+
       while (it.hasNext()) {
         Entry<Integer, ShopRowData> entry = it.next();
-        writer.println(entry.getValue().dataString());
+        ShopRowData value = entry.getValue();
+
+        int row = value.row();
+        while (lastRow < row) {
+          writer.println(lastRow++);
+        }
+        lastRow = row + 1;
+
+        writer.println(value.dataString());
       }
     } finally {
       writer.close();

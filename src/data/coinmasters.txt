@@ -643,6 +643,32 @@ Ye Newe Souvenir Shoppe	buy	100	portable Othello set	ROW755
 Ye Newe Souvenir Shoppe	buy	250	Twelve Night Energy	ROW757
 Ye Newe Souvenir Shoppe	buy	1000	Yorick	ROW758
 
+# The Central Loathing Floral Mercantile Exchange
+
+# The Central Loathing Floral Mercantile Exchange	buy	2	Chroner (1)	ROW759
+# The Central Loathing Floral Mercantile Exchange	buy	1	Chroner (16)	ROW760
+# The Central Loathing Floral Mercantile Exchange	buy	1	Chroner (21)	ROW761
+# The Central Loathing Floral Mercantile Exchange	buy	1	Chroner (11)	ROW762
+
+The Primordial Soup Kitchen	ROW1491	bacteria bisque	Chroner (10)
+The Primordial Soup Kitchen	ROW1492	ciliophora chowder	Chroner (10)
+The Primordial Soup Kitchen	ROW1493	cream of chloroplasts	Chroner (10)	
+The Primordial Soup Kitchen	ROW1499	elbow soup	bacteria bisque	protogenetic chunklet (elbow)
+The Primordial Soup Kitchen	ROW1498	elbow soup	ciliophora chowder	protogenetic chunklet (elbow)
+The Primordial Soup Kitchen	ROW1497	elbow soup	cream of chloroplasts	protogenetic chunklet (elbow)
+The Primordial Soup Kitchen	ROW1502	flagellate soup	bacteria bisque	protogenetic chunklet (flagellum)
+The Primordial Soup Kitchen	ROW1500	flagellate soup	ciliophora chowder	protogenetic chunklet (flagellum)
+The Primordial Soup Kitchen	ROW1501	flagellate soup	cream of chloroplasts	protogenetic chunklet (flagellum)
+The Primordial Soup Kitchen	ROW1496	lip soup	bacteria bisque	protogenetic chunklet (lips)
+The Primordial Soup Kitchen	ROW1495	lip soup	ciliophora chowder	protogenetic chunklet (lips)
+The Primordial Soup Kitchen	ROW1494	lip soup	cream of chloroplasts	protogenetic chunklet (lips)
+The Primordial Soup Kitchen	ROW1505	muscular soup	bacteria bisque	protogenetic chunklet (muscle)
+The Primordial Soup Kitchen	ROW1504	muscular soup	ciliophora chowder	protogenetic chunklet (muscle)
+The Primordial Soup Kitchen	ROW1503	muscular soup	cream of chloroplasts	protogenetic chunklet (muscle)
+The Primordial Soup Kitchen	ROW1508	synaptic soup	bacteria bisque	protogenetic chunklet (synapse)
+The Primordial Soup Kitchen	ROW1507	synaptic soup	ciliophora chowder	protogenetic chunklet (synapse)
+The Primordial Soup Kitchen	ROW1506	synaptic soup	cream of chloroplasts	protogenetic chunklet (synapse)
+
 # Things you can buy with freshwater fishbones
 
 Freshwater Fishbonery	buy	5	fishbone belt	ROW326
@@ -1068,13 +1094,6 @@ KoL Con 13 Merch Table	buy	8	Gygaxian Libram	ROW888
 KoL Con 13 Merch Table	buy	9	hippo tutu	ROW889
 KoL Con 13 Merch Table	buy	1111	Twitching Television Tattoo	ROW895
 
-# The Central Loathing Floral Mercantile Exchange
-
-# The Central Loathing Floral Mercantile Exchange	buy	2	Chroner (1)	ROW759
-# The Central Loathing Floral Mercantile Exchange	buy	1	Chroner (16)	ROW760
-# The Central Loathing Floral Mercantile Exchange	buy	1	Chroner (21)	ROW761
-# The Central Loathing Floral Mercantile Exchange	buy	1	Chroner (11)	ROW762
-
 # Fancy Dan the Cocktail Man
 
 Fancy Dan the Cocktail Man	buy	1	Champagne Shimmy	ROW1294
@@ -1260,25 +1279,6 @@ Crimbo24 Factory	ROW1548	Hoyle's Guide to Reindeer Games	Spirit of Christmas (50
 #Kiwi Kwiki Mart	ROW1489	mini kiwi-flavored aspirin-injecting lipstick	mini kiwi (3)
 #Kiwi Kwiki Mart	ROW1481	mini kiwi aioli	mini kiwi (5)
 #Kiwi Kwiki Mart	ROW1490	mini kiwi digitized cookies	mini kiwi (3)
-
-#The Primordial Soup Kitchen	ROW1491	bacteria bisque	Chroner (10)
-#The Primordial Soup Kitchen	ROW1492	ciliophora chowder	Chroner (10)
-#The Primordial Soup Kitchen	ROW1493	cream of chloroplasts	Chroner (10)	
-#The Primordial Soup Kitchen	ROW1499	elbow soup	bacteria bisque	protogenetic chunklet (elbow)
-#The Primordial Soup Kitchen	ROW1498	elbow soup	ciliophora chowder	protogenetic chunklet (elbow)
-#The Primordial Soup Kitchen	ROW1497	elbow soup	cream of chloroplasts	protogenetic chunklet (elbow)
-#The Primordial Soup Kitchen	ROW1502	flagellate soup	bacteria bisque	protogenetic chunklet (flagellum)
-#The Primordial Soup Kitchen	ROW1500	flagellate soup	ciliophora chowder	protogenetic chunklet (flagellum)
-#The Primordial Soup Kitchen	ROW1501	flagellate soup	cream of chloroplasts	protogenetic chunklet (flagellum)
-#The Primordial Soup Kitchen	ROW1496	lip soup	bacteria bisque	protogenetic chunklet (lips)
-#The Primordial Soup Kitchen	ROW1495	lip soup	ciliophora chowder	protogenetic chunklet (lips)
-#The Primordial Soup Kitchen	ROW1494	lip soup	cream of chloroplasts	protogenetic chunklet (lips)
-#The Primordial Soup Kitchen	ROW1505	muscular soup	bacteria bisque	protogenetic chunklet (muscle)
-#The Primordial Soup Kitchen	ROW1504	muscular soup	ciliophora chowder	protogenetic chunklet (muscle)
-#The Primordial Soup Kitchen	ROW1503	muscular soup	cream of chloroplasts	protogenetic chunklet (muscle)
-#The Primordial Soup Kitchen	ROW1508	synaptic soup	bacteria bisque	protogenetic chunklet (synapse)
-#The Primordial Soup Kitchen	ROW1507	synaptic soup	ciliophora chowder	protogenetic chunklet (synapse)
-#The Primordial Soup Kitchen	ROW1506	synaptic soup	cream of chloroplasts	protogenetic chunklet (synapse)
 
 # Sept-Ember Censer
 

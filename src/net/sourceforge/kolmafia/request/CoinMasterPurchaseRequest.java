@@ -82,7 +82,7 @@ public class CoinMasterPurchaseRequest extends PurchaseRequest {
   @Override
   public String getPriceString() {
     if (this.shopRow != null) {
-      return this.shopRow.costString();
+      return this.shopRow.costString(1);
     }
     long price =
         this.cost.isMeat() ? NPCPurchaseRequest.currentDiscountedPrice(this.price) : this.price;
@@ -103,7 +103,7 @@ public class CoinMasterPurchaseRequest extends PurchaseRequest {
   @Override
   public String getCurrency(final long count) {
     if (this.shopRow != null) {
-      return this.shopRow.costString();
+      return this.shopRow.costString(count);
     }
     return this.cost.getPluralName(this.price);
   }
