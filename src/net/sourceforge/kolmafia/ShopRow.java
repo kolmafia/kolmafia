@@ -68,12 +68,16 @@ public class ShopRow implements Comparable<ShopRow> {
   }
 
   public String costString() {
+    return this.costString(1);
+  }
+
+  public String costString(long count) {
     StringBuilder buf = new StringBuilder();
     String separator = "";
 
     buf.append("(");
     for (AdventureResult cost : costs) {
-      int price = cost.getCount();
+      long price = cost.getCount() * count;
       if (cost.isMeat()) {
         price = NPCPurchaseRequest.currentDiscountedPrice(price);
       }

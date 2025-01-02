@@ -10,6 +10,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ShopRowDatabase;
 import net.sourceforge.kolmafia.persistence.StandardRewardDatabase;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -62,6 +63,10 @@ public class ArmoryAndLeggeryRequest extends CoinMasterRequest {
 
       int row = reward.row().equals("UNKNOWN") ? 0 : StringUtilities.parseInt(reward.row());
       rows.put(itemId, row);
+
+      if (row != 0) {
+        ShopRowDatabase.registerShopRow(row, "buy", item.getInstance(1), master);
+      }
     }
 
     data.getBuyItems().clear();
