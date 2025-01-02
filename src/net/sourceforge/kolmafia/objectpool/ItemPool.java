@@ -554,6 +554,7 @@ public class ItemPool {
   public static final int BUBBLEWRAP_ORE = 1677;
   public static final int GROUCHO_DISGUISE = 1678;
   public static final int EXPRESS_CARD = 1687;
+  public static final int FLAMING_CARDBOARD_SWORD = 1706;
   public static final int MUCULENT_MACHETE = 1721;
   public static final int SWORD_PREPOSITIONS = 1734;
   public static final int GOULAUNCHER = 1748;
@@ -3844,6 +3845,10 @@ public class ItemPool {
   public static final int PUMPKIN_SPICE_WHORL = 11746;
   public static final int CANDY_EGG_DEVILER = 11774;
   public static final int MCHUGELARGE_DUFFEL_BAG = 11783;
+  public static final int MCHUGELARGE_LEFT_POLE = 11784;
+  public static final int MCHUGELARGE_RIGHT_POLE = 11785;
+  public static final int MCHUGELARGE_LEFT_SKI = 11786;
+  public static final int MCHUGELARGE_RIGHT_SKI = 11787;
 
   private ItemPool() {}
 

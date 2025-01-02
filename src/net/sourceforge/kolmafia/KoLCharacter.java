@@ -5093,6 +5093,16 @@ public abstract class KoLCharacter {
           DoubleModifier.ITEMDROP, cloathingLevel / 2, ModifierType.OUTFIT, "Cloathing");
     }
 
+    int mcHugeLargeLevel = getMcHugeLargeLevel(newModifiers);
+    if (mcHugeLargeLevel > 0) {
+      newModifiers.addDouble(
+          DoubleModifier.COLD_RESISTANCE, mcHugeLargeLevel, ModifierType.OUTFIT, "McHugeLarge");
+      newModifiers.addDouble(
+          DoubleModifier.HOT_DAMAGE, 5 * mcHugeLargeLevel, ModifierType.OUTFIT, "McHugeLarge");
+      newModifiers.addDouble(
+          DoubleModifier.INITIATIVE, 10 * mcHugeLargeLevel, ModifierType.OUTFIT, "McHugeLarge");
+    }
+
     // Add modifiers from Passive Skills
     newModifiers.applyPassiveModifiers(debug);
 
@@ -5897,5 +5907,18 @@ public abstract class KoLCharacter {
       Preferences.setInteger("lastCellarReset", KoLCharacter.getAscensions());
       Preferences.setInteger("cellarLayout", 0);
     }
+  }
+
+  private static int getMcHugeLargeLevel(Modifiers mods) {
+    int totalItems = mods.getBitmap(BitmapModifier.MCHUGELARGE);
+    var itemLevel =
+        switch (totalItems) {
+          case 0, 1 -> 0;
+          case 2, 3 -> 1;
+          case 4 -> 2;
+          case 5 -> 3;
+          default -> 0;
+        };
+    return itemLevel * totalItems;
   }
 }

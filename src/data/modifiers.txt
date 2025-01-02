@@ -1654,7 +1654,7 @@ Item	Maxwell's Silver Hammer	Mysticality: +10, Weapon Damage: +10
 # Mayor Ghost's gavel: This gavel, specifically.
 Item	Mayor Ghost's gavel	Critical Hit Percent: +10, Weapon Damage: +30, Damage vs. Ghosts: +50
 # McHugeLarge right pole: Stab your foe to hurt them
-Item	McHugeLarge right pole	Critical Hit Percent: +10, Weapon Damage: +10, Weapon Damage Percent: +25, Single Equip
+Item	McHugeLarge right pole	Critical Hit Percent: +10, Weapon Damage: +10, Weapon Damage Percent: +25, Single Equip, McHugeLarge
 # Meat Tenderizer is Murder: 25% chance to gain an extra gallon of Fury when you gain a gallon of Fury.
 Item	Meat Tenderizer is Murder	Weapon Damage Percent: +20, Smithsness: +5, Class: "Seal Clubber", Muscle Percent: [2*K]
 Item	Meatcleaver	Meat Drop: +35, Weapon Damage Percent: +100
@@ -2454,7 +2454,7 @@ Item	marionette	Mysticality: +3
 Item	marionette collective	Mysticality: +3
 Item	martini dregs	Moxie Percent: +50
 # McHugeLarge left pole: Slash an enemy to make them easier to track
-Item	McHugeLarge left pole	Mysticality: +10, Spell Damage: +10, Spell Damage Percent: +25
+Item	McHugeLarge left pole	Mysticality: +10, Spell Damage: +10, Spell Damage Percent: +25, McHugeLarge
 Item	meat shield	Meat Drop: +3, Damage Reduction: 3
 Item	Medallion of the Ventrilo Prince	Moxie Percent: +12
 Item	Mer-kin begsign	Weakens Monster, Meat Drop: [40*env(underwater)]
@@ -3365,9 +3365,9 @@ Item	Master Thief's utility belt	Moxie: +15, Moxie Percent: +25, Experience (Mox
 Item	mayfly bait necklace	Meat Drop: +10, Item Drop: +10, Single Equip, Softcore Only
 Item	Mayor Ghost's sash	Item Drop: +30, Meat Drop: -30, Experience: -10, Single Equip
 # McHugeLarge left ski: Clear the area of monsters
-Item	McHugeLarge left ski	Combat Rate: -5, Muscle: +10
+Item	McHugeLarge left ski	Combat Rate: -5, Muscle: +10, McHugeLarge
 # McHugeLarge right ski: Cover your foe in snow and embarass them
-Item	McHugeLarge right ski	Combat Rate: +5, Moxie: +10
+Item	McHugeLarge right ski	Combat Rate: +5, Moxie: +10, McHugeLarge
 # Mega Gem
 Item	memory of a cultist's robe	Single Equip
 Item	Mer-kin dragbelt	Initiative: -25, Experience (Muscle): [20*env(underwater)], Single Equip
@@ -4290,7 +4290,7 @@ Item	makeshift cape	Item Drop: +5
 Item	marble mantle	Damage Reduction: 10, Weapon Damage Percent: +30, Thorns: 1
 Item	Mayor Ghost's cloak	PvP Fights: +5, Weapon Drop: +20, Food Drop: +20, Class: "Pastamancer"
 # McHugeLarge duffel bag: Lets you hit the slopes when equipped with all your McHugeLarge ski gear
-Item	McHugeLarge duffel bag	Item Drop: +15, Maximum HP: +20
+Item	McHugeLarge duffel bag	Item Drop: +15, Maximum HP: +20, McHugeLarge
 Item	Misty Cape	Moxie: +5, HP Regen Min: 2, HP Regen Max: 4, MP Regen Min: 1, MP Regen Max: 2
 Item	Misty Cloak	Muscle: +5, HP Regen Min: 4, HP Regen Max: 8
 Item	Misty Robe	Mysticality: +5, MP Regen Min: 2, MP Regen Max: 4
@@ -9050,6 +9050,7 @@ MutexE	Broken Heart/Fiery Heart/Cold Hearted/Sweet Heart/Withered Heart/Lustful 
 MaxCat	_brimstone	Item Drop: +1, Meat Drop: +1, Monster Level: +1
 MaxCat	_cloathing	Item Drop: +1, Meat Drop: +1, Moxie: +1, Mysticality: +1, Muscle: +1
 MaxCat	_hoboPower	Weapon Damage: 0.8, Ranged Damage: 1.0, Spell Damage: 1.2, HP Regen Min: 0.25, HP Regen Max: 0.33, MP Regen Min: 0.25, MP Regen Max: 0.33, Meat Drop: 1.0, Item Drop: 0.5
+MaxCat	_mcHugeLarge	Cold Resistance: +1, Hot Damage: +5, Initiative: +10
 MaxCat	_slimeHate	Monster Level: [loc(The Slime Tube)]
 MaxCat	_smithsness	Meat Drop: +2, Item Drop: +1, Moxie Percent: +2, Mysticality Percent: +2, Muscle Percent: +2, Weapon Damage: +1, Monster Level: +1, Spell Damage: +2, Initiative: +1, Maximum MP: +2, Maximum HP: +2
 
