@@ -5531,6 +5531,7 @@ Effect	Blessing of the Stinking Alphredo&trade;	Stench Spell Damage: +20, Spooky
 Effect	Blessing of the Storm Tortoise	Initiative: +5, Maximum MP: +10
 Effect	Blessing of the War Snapper	Muscle: +5, Weapon Damage: +5
 Effect	Blessing of your favorite Bird	none
+Effect	Blinded by the Crepe	Combat Rate: -5
 Effect	Blinking Belly	Combat Rate: +10
 Effect	Block-Rockin' Beet	Damage Reduction: 15
 # Blood Bond: Lose 8-10 HP per Adventure
@@ -5836,6 +5837,8 @@ Effect	Craving Prawns	Food Drop: +50
 Effect	Creepin' Up on You	Spooky Damage: +20, Spooky Spell Damage: +20
 Effect	Creepypasted	Spooky Damage: +50
 Effect	Crepe Paper Pedestrian Cacophony	Combat Rate: +5
+Effect	Crepe Paper Puzzled	Experience: +5
+Effect	Crepe Paper Rainbow	Hot Spell Damage: +10, Cold Spell Damage: +10, Spooky Spell Damage: +10, Stench Spell Damage: +10, Sleaze Spell Damage: +10
 Effect	Crimbeau'd	Familiar Weight: +10, Item Drop: +25, Meat Drop: +50
 Effect	Crimbo Epiphany	Mysticality Percent: +10
 Effect	Crimbo Flavor	Spell Damage: +30
@@ -6671,8 +6674,8 @@ Effect	Jay Walking	Avatar: ""Handyman" Jay Android"
 # Jazz Hands
 Effect	Je Ne Sais Porquoise	Moxie Percent: +50, Meat Drop: +6, Item Drop: +5
 Effect	Jeffersonian	Avatar: "Jefferson pilot"
-Effect	Jelly-Coated Insides	Experience: +5, Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 # Jelly Combed: Makes you harder to hit (when underwater)
+Effect	Jelly-Coated Insides	Experience: +5, Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 Effect	Jerky, Boy	Mysticality Percent: +25
 Effect	Jiggu... What?	Mana Cost: +100
 Effect	Jingle Jangle Jingle	Familiar Action Bonus: +10
@@ -6729,6 +6732,7 @@ Effect	Larger	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +1
 Effect	Latency	Muscle: [-3*pref(sourceAgentsDefeated)], Mysticality: [-3*pref(sourceAgentsDefeated)], Moxie: [-3*pref(sourceAgentsDefeated)], Cold Resistance: [-pref(sourceAgentsDefeated)], Hot Resistance: [-pref(sourceAgentsDefeated)], Sleaze Resistance: [-pref(sourceAgentsDefeated)], Spooky Resistance: [-pref(sourceAgentsDefeated)], Stench Resistance: [-pref(sourceAgentsDefeated)]
 Effect	Latently Energized	MP Regen Min: 20, MP Regen Max: 30
 Effect	Leash of Linguini	Familiar Weight: +5
+# Leaving Nothing to the Imagination: Distract foes on the first round of combat
 Effect	Leisurely Amblin'	Meat Drop: +100
 Effect	Lemon Enlightenment	Mysticality Percent: +10, Spell Damage Percent: +15
 Effect	Lemony Goodness	Muscle: +10, Mysticality: +10, Moxie: +10
@@ -7141,6 +7145,7 @@ Effect	Pointy Wizard Beard	Spell Damage: +25, Spell Critical Percent: +10
 Effect	Poison For Blood	Muscle Percent: -90, Mysticality Percent: -90, Moxie Percent: -90
 Effect	Poker Faced	Moxie: +25
 Effect	Polar Express	MP Regen Min: 10, MP Regen Max: 20
+Effect	Polka Dancing	Item Drop: +30
 Effect	Polka Face	Item Drop: [5*min(L,11)], Meat Drop: [5*min(L,11)]
 Effect	Polka of Plenty	Meat Drop: +50
 Effect	Polonoia	Monster Level: +50
