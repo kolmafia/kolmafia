@@ -1163,6 +1163,9 @@ public abstract class UseLinkDecorator {
           case ItemPool.FIXODENT:
             return new UseLink(itemId, 1, "fix", "shop.php?whichshop=fixodent");
 
+          case ItemPool.CANDY_EGG_DEVILER:
+            return new UseLink(itemId, 1, "devil", "inventory.php?action=eggdevil", false);
+
           default:
             return new UseLink(
                 itemId,

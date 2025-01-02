@@ -1149,4 +1149,18 @@ class ChoiceControlTest {
       }
     }
   }
+
+  @Test
+  void devilsEgg() {
+    var cleanups =
+        new Cleanups(
+            withProperty("_candyEggsDeviled", 1),
+            withItem(ItemPool.BLACK_CANDY_HEART, 3),
+            withPostChoice2(1544, 1, "a=3054", html("request/test_choice_devilegg.html")));
+
+    try (cleanups) {
+      assertThat("_candyEggsDeviled", isSetTo(2));
+      assertThat(InventoryManager.getCount(ItemPool.BLACK_CANDY_HEART), is(2));
+    }
+  }
 }

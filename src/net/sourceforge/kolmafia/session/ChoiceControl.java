@@ -7135,6 +7135,19 @@ public abstract class ChoiceControl {
           }
           break;
         }
+
+      case 1544:
+        // Devil some Candy
+        if (text.contains("You place your candy in the deviler")) {
+          Preferences.increment("_candyEggsDeviled");
+          String item = request.getFormField("a");
+          try {
+            ResultProcessor.removeItem(Integer.parseInt(item));
+          } catch (NumberFormatException e) {
+            break;
+          }
+        }
+        break;
     }
   }
 
@@ -10193,6 +10206,7 @@ public abstract class ChoiceControl {
       case 1535: // Clan Photo Booth - Borrow a prop
       case 1536: // Clan Photo Booth - Take a group photo
       case 1537: // TakerSpace
+      case 1544: // Devil some Candy
         return true;
 
       default:

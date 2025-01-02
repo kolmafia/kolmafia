@@ -632,6 +632,7 @@ public class KoLmafiaCLI {
     new DebugCreateCommand().register("debugcreate");
     new DebugRequestCommand().register("debug");
     new DemonNamesCommand().register("demons");
+    new DevilCandyEggCommand().register("devilcandyegg");
     new DisplayCaseCommand().register("display");
     new DreadscrollCommand().register("dreadscroll");
     new DustyBottlesCommand().register("dusty");
