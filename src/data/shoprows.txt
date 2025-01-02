@@ -1372,7 +1372,7 @@
 1371	buy	replica emotion chip	Replica Mr. Store
 1372	buy	replica miniature crystal ball	Replica Mr. Store
 1373	buy	replica industrial fire extinguisher	Replica Mr. Store
-1374	buy	replica Jurassic Parka (dilophosaur mode)	Replica Mr. Store
+1374	buy	replica Jurassic Parka	Replica Mr. Store
 1375	buy	replica grey gosling	Replica Mr. Store
 1376	buy	replica designer sweatpants	Replica Mr. Store
 1377	buy	replica Cincho de Mayo	Replica Mr. Store
