@@ -10492,6 +10492,17 @@ public class FightRequest extends GenericRequest {
           skillSuccess = true;
         }
       }
+      case SkillPool.MCHUGELARGE_SLASH -> {
+        if (responseText.contains("You reach your left ski pole") || skillSuccess) {
+          TrackManager.trackMonster(monster, Tracker.MCHUGELARGE_SLASH);
+        }
+      }
+      case SkillPool.MCHUGELARGE_AVALANCHE -> {
+        if (responseText.contains("You stomp your ski on the ground") || skillSuccess) {
+          Preferences.setBoolean("noncombatForcerActive", true);
+          skillSuccess = true;
+        }
+      }
     }
 
     if (skillSuccess || skillRunawaySuccess || familiarSkillSuccess) {

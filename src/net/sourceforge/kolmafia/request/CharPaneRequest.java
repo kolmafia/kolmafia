@@ -296,7 +296,8 @@ public class CharPaneRequest extends GenericRequest {
               "stench jelly",
           "You've engaged exit mode on your cincho and will avoid most combats.", "cincho exit",
           "You are avoiding fights until something cool happens.", "sneakisol",
-          "Your tuba playing has scared away most monsters.", "band tuba");
+          "Your tuba playing has scared away most monsters.", "band tuba",
+          "You triggered an avalanche clearing the area of monsters.", "avalanche");
   private static final Pattern NONCOMBAT_FORCER_PATTERN =
       Pattern.compile(
           "<b><font size=2>Adventure Modifiers:</font></b><br><div style='text-align: left'><small>(.*?)</small>");

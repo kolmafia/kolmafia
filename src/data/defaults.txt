@@ -2258,6 +2258,9 @@ user	_mayflowerDrops	0
 user	_mayflySummons	0
 user	_mayoDeviceRented	false
 user	_mayoTankSoaked	false
+user	_mcHugeLargeAvalancheUses	0
+user	_mcHugeLargeSkiPlowUses	0
+user	_mcHugeLargeSlashUses	0
 user	_meatballMachineUsed	false
 user	_meatifyMatterUsed	false
 user	_mediumSiphons	0

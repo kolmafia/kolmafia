@@ -1102,7 +1102,7 @@
 7536	Place your hat on their head	snowmanhat.gif	combat	0	0
 7537	Egg the face	egggun.gif	combat	0	0
 7538	McHugeLarge Slash	skipole1.gif	combat	0	0
-7539	McLargeHuge Stab	skipole2.gif	combat	0	0
+7539	McHugeLarge Stab	skipole2.gif	combat	0	0
 7540	McHugeLarge Avalanche	ski1.gif	combat	0	0
 7541	McHugeLarge Ski Plow	ski2.gif	combat	0	0
 7542

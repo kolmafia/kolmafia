@@ -3843,6 +3843,7 @@ public class ItemPool {
   public static final int SPIRIT_OF_CHRISTMAS = 11721;
   public static final int PUMPKIN_SPICE_WHORL = 11746;
   public static final int CANDY_EGG_DEVILER = 11774;
+  public static final int MCHUGELARGE_DUFFEL_BAG = 11783;
 
   private ItemPool() {}
 
