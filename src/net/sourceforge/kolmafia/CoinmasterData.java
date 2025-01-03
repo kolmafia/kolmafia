@@ -1103,6 +1103,14 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
     }
   }
 
+  public void registerCurrencies() {
+    for (AdventureResult currency : this.currencies()) {
+      if (currency.isItem()) {
+        CoinmastersDatabase.registerCurrency(currency);
+      }
+    }
+  }
+
   public void registerPropertyToken() {
     if (this.property == null) {
       return;
