@@ -3,9 +3,11 @@ package net.sourceforge.kolmafia.persistence;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.TreeMap;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
@@ -54,6 +56,21 @@ public class CoinmastersDatabase {
 
   public static final String getRowShop(final int row) {
     return rowShop.get(row);
+  }
+
+  // All items that are used as a "currency": traded in to acquire a different item.
+  public static final Set<Integer> allCurrencies = new HashSet<>();
+
+  public static void registerCurrency(final AdventureResult currency) {
+    allCurrencies.add(currency.getItemId());
+  }
+
+  public static boolean isCurrency(final AdventureResult item) {
+    return isCurrency(item.getItemId());
+  }
+
+  public static boolean isCurrency(final int itemId) {
+    return allCurrencies.contains(itemId);
   }
 
   // *** Old style "shop.php" (and other) Coinmasters
