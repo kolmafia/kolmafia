@@ -1411,7 +1411,7 @@ public class ResultProcessor {
         break;
     }
 
-    if (CoinmastersDatabase.isCurrency(itemId)) {
+    if (CoinmastersDatabase.isCurrency(result)) {
       NamedListenerRegistry.fireChange("(coinmaster)");
     }
 
