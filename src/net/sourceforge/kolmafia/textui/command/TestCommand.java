@@ -879,7 +879,18 @@ public class TestCommand extends AbstractCommand {
       ConcoctionDatabase.singleUseCreation(0);
       CoinmastersDatabase.purchaseLimit(0);
       NPCStoreDatabase.contains(0);
-      ShopRowDatabase.writeShopRowDataFile();
+      // Ditto for the Armory & Leggery, which registers standard rewards.
+      ArmoryAndLeggeryRequest.parseResponse("", "");
+
+      // Certain items include a "mode" in their string representation.
+      // We don't want that.
+      String parkaMode = Preferences.getString("parkaMode");
+      try {
+        Preferences.setString("parkaMode", "");
+        ShopRowDatabase.writeShopRowDataFile();
+      } finally {
+        Preferences.setString("parkaMode", parkaMode);
+      }
       return;
     }
 

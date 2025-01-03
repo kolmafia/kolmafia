@@ -652,7 +652,7 @@ Ye Newe Souvenir Shoppe	buy	1000	Yorick	ROW758
 
 The Primordial Soup Kitchen	ROW1491	bacteria bisque	Chroner (10)
 The Primordial Soup Kitchen	ROW1492	ciliophora chowder	Chroner (10)
-The Primordial Soup Kitchen	ROW1493	cream of chloroplasts	Chroner (10)	
+The Primordial Soup Kitchen	ROW1493	cream of chloroplasts	Chroner (10)
 The Primordial Soup Kitchen	ROW1499	elbow soup	bacteria bisque	protogenetic chunklet (elbow)
 The Primordial Soup Kitchen	ROW1498	elbow soup	ciliophora chowder	protogenetic chunklet (elbow)
 The Primordial Soup Kitchen	ROW1497	elbow soup	cream of chloroplasts	protogenetic chunklet (elbow)
