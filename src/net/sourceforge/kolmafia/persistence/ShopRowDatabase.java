@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -33,6 +34,9 @@ public class ShopRowDatabase {
   // recompile, log in, and "test write-shoprows"
   public static Mode mode = Mode.NONE;
 
+  public static final Map<Integer, ShopRow> allShopRows = new HashMap<>();
+  public static final Map<Integer, String> allShopRowShops = new HashMap<>();
+
   private ShopRowDatabase() {}
 
   record ShopRowData(int row, String type, AdventureResult item, String shopName) {
@@ -51,16 +55,22 @@ public class ShopRowDatabase {
 
   public static Map<Integer, ShopRowData> shopRowData = new TreeMap<>();
 
-  public static void registerShopRow(int row, String type, AdventureResult item, String shopName) {
+  public static void registerShopRow(ShopRow shopRow, String type, String shopName) {
     if (mode == Mode.BUILD) {
+      int row = shopRow.getRow();
+      if (allShopRows.containsKey(row)) {
+        // *** log it
+        return;
+      }
+      allShopRows.put(row, shopRow);
+      allShopRowShops.put(row, shopName);
+      AdventureResult item = shopRow.getItem();
+      if (type.equals("sell")) {
+        item = shopRow.getCosts()[0];
+      }
       ShopRowData data = new ShopRowData(row, type, item, shopName);
       shopRowData.put(row, data);
     }
-  }
-
-  public static void registerShopRow(ShopRow shopRow, String type, String shopName) {
-
-    registerShopRow(shopRow.getRow(), type, shopRow.getItem(), shopName);
   }
 
   private static final Pattern MEAT_PATTERN = Pattern.compile("([\\d,]+) Meat");
@@ -102,6 +112,7 @@ public class ShopRowDatabase {
       case BUILD -> {
         // Create empty data file
         writeShopRowDataFile();
+        writeShopRowFile();
       }
       case NONE -> {}
     }
@@ -154,6 +165,27 @@ public class ShopRowDatabase {
         lastRow = row + 1;
 
         writer.println(value.dataString());
+      }
+    } finally {
+      writer.close();
+    }
+  }
+
+  public static void writeShopRowFile() {
+    File output = new File(KoLConstants.DATA_LOCATION, "allshoprows.txt");
+    PrintStream writer = LogStream.openStream(output, true);
+    try {
+      writer.println(KoLConstants.SHOPROWS_VERSION);
+
+      Iterator<Entry<Integer, ShopRow>> it = allShopRows.entrySet().iterator();
+      while (it.hasNext()) {
+        Entry<Integer, ShopRow> entry = it.next();
+
+        ShopRow value = entry.getValue();
+        int row = value.getRow();
+        String shopName = allShopRowShops.get(row);
+
+        writer.println(value.toData(shopName));
       }
     } finally {
       writer.close();
