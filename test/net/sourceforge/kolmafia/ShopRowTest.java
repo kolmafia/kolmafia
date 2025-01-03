@@ -159,4 +159,48 @@ public class ShopRowTest {
       assertEquals(3, currencies.get(veterans));
     }
   }
+
+  @Nested
+  class PrimordialSoupKitchen {
+    static AdventureResult chroner = new AdventureResult("Chroner", 1, false);
+    static AdventureResult bisque = new AdventureResult("bacteria bisque", 1);
+    static AdventureResult chowder = new AdventureResult("ciliophora chowder", 1);
+    static AdventureResult cream = new AdventureResult("cream of chloroplasts", 1);
+    static AdventureResult elbow = new AdventureResult("protogenetic chunklet (elbow)", 1);
+    static AdventureResult flagellum = new AdventureResult("protogenetic chunklet (flagellum)", 1);
+    static AdventureResult lips = new AdventureResult("protogenetic chunklet (lips)", 1);
+    static AdventureResult muscle = new AdventureResult("protogenetic chunklet (muscle)", 1);
+    static AdventureResult synapse = new AdventureResult("protogenetic chunklet (synapse)", 1);
+
+    @Test
+    public void canParsePrimordialSoupKitchen() {
+      String html = html("request/test_shop_twitchsoup.html");
+      var shopName = ShopRow.parseShopName(html);
+      assertEquals("The Primordial Soup Kitchen", shopName);
+
+      var shopId = ShopRow.parseShopId(html);
+      assertEquals("twitchsoup", shopId);
+
+      var shopRows = ShopRow.parseShop(html, true);
+      assertEquals(18, shopRows.size());
+
+      var derivedCurrencies = ShopRow.deriveCurrencies(shopRows);
+      assertEquals(9, derivedCurrencies.size());
+
+      var parsedCurrencies = ShopRow.parseCurrencies(html);
+      assertEquals(9, parsedCurrencies.size());
+
+      assertTrue(derivedCurrencies.contains(chroner));
+      assertTrue(derivedCurrencies.contains(bisque));
+      assertTrue(derivedCurrencies.contains(chowder));
+      assertTrue(derivedCurrencies.contains(cream));
+      assertTrue(derivedCurrencies.contains(elbow));
+      assertTrue(derivedCurrencies.contains(flagellum));
+      assertTrue(derivedCurrencies.contains(lips));
+      assertTrue(derivedCurrencies.contains(muscle));
+      assertTrue(derivedCurrencies.contains(synapse));
+
+      assertEquals(derivedCurrencies, parsedCurrencies);
+    }
+  }
 }

@@ -1163,6 +1163,9 @@ public abstract class UseLinkDecorator {
           case ItemPool.FIXODENT:
             return new UseLink(itemId, 1, "fix", "shop.php?whichshop=fixodent");
 
+          case ItemPool.CANDY_EGG_DEVILER:
+            return new UseLink(itemId, 1, "devil", "inventory.php?action=eggdevil", false);
+
           default:
             return new UseLink(
                 itemId,
@@ -1539,6 +1542,9 @@ public abstract class UseLinkDecorator {
             // Not inline, since the redirection to a choice
             // doesn't work ajaxified.
             uses.add(new UseLink(itemId, 1, "pockets", "inventory.php?action=pocket", false));
+          }
+          case ItemPool.MCHUGELARGE_DUFFEL_BAG -> {
+            uses.add(new UseLink(itemId, 1, "open", "inventory.php?action=skiduffel"));
           }
         }
 

@@ -79,6 +79,7 @@ corrosive cowl	200	Mox: 150
 Covers-Your-Head	300	Mox: 250
 cr&ecirc;epy mask	20	none
 crappy Mer-kin mask	200	Mox: 85
+crepe paper phrygian cap	50	none
 Crimbo hat	100	Mox: 35
 Crimbuccaneer tricorn	50	none
 Crown of the Goblin King	70	Mox: 20
@@ -309,6 +310,7 @@ party hat	30	none
 passable elf mask	10	none
 pentacorn hat	40	Mox: 5
 pentagram bandana	50	none
+petrified wood whoopie panama	120	Mox: 40
 pickelhaube	75	Mox: 22
 pig-iron helm	90	Mox: 30
 pimpin' meat hat	55	Mox: 12
@@ -659,6 +661,7 @@ parasitic tentacles	30	none
 penguin shorts	120	Mox: 45
 penguinskin mini-kilt	120	Mox: 45
 penguinskin mini-skirt	120	Mox: 45
+petrified wood walking pants	120	Mox: 40
 pig-iron shinguards	90	Mox: 30
 pin-stripe slacks	30	none
 pink pinkslip slip	200	Mox: 85
@@ -819,6 +822,7 @@ Colonel Mustard's Lonely Spades Club Jacket	130	Mus: 50
 conquistador's breastplate	80	none
 cool iron breastplate	250	Mus: 200
 Corporal Fennel's Lonely Clubs Club Jacket	130	Mus: 50
+crepe paper plunge camisole	50	none
 Crimbuccaneer bombjacket	100	none
 Crimbuccaneer shirt	50	none
 demonskin jacket	80	Mus: 25
@@ -1412,6 +1416,7 @@ massive sitar	190	Mox: 80	2-handed sitar
 massive wrench	100	Mus: 0	2-handed club
 Maxwell's Silver Hammer	165	Mus: 67	1-handed club
 Mayor Ghost's gavel	10	Mus: 0	1-handed club
+McHugeLarge right pole	100	Mus: 0	1-handed club
 Meat Tenderizer is Murder	100	Mus: 0	1-handed club
 Meatcleaver	200	Mus: 200	2-handed sword
 meatspout staff	125	Mus: 45	2-handed staff
@@ -1479,6 +1484,7 @@ perforated battle paddle	175	Mus: 72	2-handed club
 Periodical Paintbrush	100	Mus: 0	1-handed artsything
 pernicious cudgel	200	Mus: 150	1-handed club
 pestoblade	50	Mus: 10	1-handed sword
+petrified wood war pike	120	Mus: 40	1-handed polearm
 pewter claymore	155	Mus: 62	2-handed sword
 Pigsticker of Violence	200	Mus: 100	1-handed knife
 ping-pong paddle	50	Mus: 0	1-handed paddle
@@ -1928,6 +1934,7 @@ cosmetic football	50	none
 creepy doll head	100	Mys: 35
 creepy voice box	120	Mys: 45
 creme brulee torch	0	Mus: 25
+crepe paper puzzle cube	0	none
 Crimbo bottomless hot cocoa mug	20	none
 Crimbo Elf creepy bobble-head	20	none
 Crimbo light-up Rudolph doll	20	none
@@ -2114,6 +2121,7 @@ marinara jug	160	Mys: 150
 marionette	110	Mys: 40
 marionette collective	110	Mys: 40
 martini dregs	50	none
+McHugeLarge left pole	0	none
 meat shield	60	Mus: 15	shield
 Medallion of the Ventrilo Prince	0	none
 Mer-kin begsign	200	Mus: 85
@@ -2182,6 +2190,7 @@ party crasher	150	Mus: 20	shield
 peanut brittle shield	50	Mus: 10	shield
 penguin skin buckler	90	Mus: 30	shield
 penguin thesaurus	30	none
+petrified wood water purifier	0	Mys: 40
 photo booth supply list	10	none
 pilgrim shield	240	none	shield
 pirate hook	0	none
@@ -2583,6 +2592,8 @@ corncob pipe	200	Mys: 200
 Counterclockwise Watch	200	none
 cozy scarf	50	none
 crank-powered radio on a lanyard	100	none
+crepe paper pie clip	0	none
+crepe paper polka charm	0	none
 CRIMBCO lanyard	0	none
 Crimbolex watch	200	Mys: 20
 Crimbomega drive chain	100	none
@@ -2885,6 +2896,8 @@ Marvelous Unitard	10	none
 Master Thief's utility belt	200	Mox: 40
 mayfly bait necklace	0	none
 Mayor Ghost's sash	300	Mys: 100
+McHugeLarge left ski	0	none
+McHugeLarge right ski	0	none
 Mega Gem	10	none
 memory of a cultist's robe	10	none
 Mer-kin dragbelt	200	Mus: 85
@@ -2994,6 +3007,8 @@ peppermint-scented socks	50	none
 perfect Christmas scarf	0	Mys: 25
 perfume-soaked bandana	75	Mys: 15
 Personal Ventilation Unit	100	none
+petrified wood waist protector	0	Mus: 40
+petrified wood wizard's pouch	0	Mys: 40
 phase-tuned shield generator belt	75	Mys: 22
 phat turquoise bracelet	70	Mys: 20
 pig-iron bracers	90	Mys: 30
@@ -3652,6 +3667,7 @@ Catherine Wheel	150	none
 chalk chlamys	50	none
 Cloak of Dire Shadows	120	none
 cod cape	225	Mox: 200
+crepe paper parachute cape	0	none
 cursed blanket	0	none
 cursed goblin cape	0	none
 dice-shaped backpack	10	none
@@ -3677,6 +3693,7 @@ LOV Epaulettes	100	none
 makeshift cape	100	Mys: 75
 marble mantle	120	Mus: 40
 Mayor Ghost's cloak	300	Mys: 250
+McHugeLarge duffel bag	0	none
 Misty Cape	130	Mox: 75
 Misty Cloak	130	Mus: 75
 Misty Robe	130	Mys: 75

@@ -22,6 +22,17 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ShopRowDatabase {
 
+  enum Mode {
+    NONE, // Do nothing
+    READ, // Read data file into data structure
+    BUILD // Populate data structure from other data
+  }
+
+  // If we eventually need this internally, set to Mode.READ
+  // If you want to regenerate the data file, set to Mode.BUILD
+  // recompile, log in, and "test write-shoprows"
+  public static Mode mode = Mode.NONE;
+
   private ShopRowDatabase() {}
 
   record ShopRowData(int row, String type, AdventureResult item, String shopName) {
@@ -41,17 +52,19 @@ public class ShopRowDatabase {
   public static Map<Integer, ShopRowData> shopRowData = new TreeMap<>();
 
   public static void registerShopRow(int row, String type, AdventureResult item, String shopName) {
-    ShopRowData data = new ShopRowData(row, type, item, shopName);
-    shopRowData.put(row, data);
+    if (mode == Mode.BUILD) {
+      ShopRowData data = new ShopRowData(row, type, item, shopName);
+      shopRowData.put(row, data);
+    }
   }
 
   public static void registerShopRow(ShopRow shopRow, String type, String shopName) {
-    System.out.println("register " + type + " row " + shopRow.getRow());
+
     registerShopRow(shopRow.getRow(), type, shopRow.getItem(), shopName);
   }
 
   private static final Pattern MEAT_PATTERN = Pattern.compile("([\\d,]+) Meat");
-  private static final Pattern CURRENCY_PATTERN = Pattern.compile("CURRENCY \\(([\\d,]+)\\)");
+  private static final Pattern CURRENCY_PATTERN = Pattern.compile("CURRENCY(?: \\(([\\d,]+)\\))?");
 
   public static AdventureResult parseItemOrMeat(final String s) {
     Matcher meatMatcher = MEAT_PATTERN.matcher(s);
@@ -60,8 +73,9 @@ public class ShopRowDatabase {
     }
     Matcher currencyMatcher = CURRENCY_PATTERN.matcher(s);
     if (currencyMatcher.find()) {
-      return AdventureResult.tallyItem(
-          "CURRENCY", StringUtilities.parseInt(currencyMatcher.group(1)), false);
+      String countString = currencyMatcher.group(1);
+      int count = (countString == null) ? 1 : StringUtilities.parseInt(countString);
+      return AdventureResult.tallyItem("CURRENCY", count, false);
     }
     return AdventureResult.parseItem(s, false);
   }
@@ -80,6 +94,20 @@ public class ShopRowDatabase {
   }
 
   static {
+    switch (mode) {
+      case READ -> {
+        // Read existing data file
+        readShopRowDataFile();
+      }
+      case BUILD -> {
+        // Create empty data file
+        writeShopRowDataFile();
+      }
+      case NONE -> {}
+    }
+  }
+
+  public static void readShopRowDataFile() {
     try (BufferedReader reader =
         FileUtilities.getVersionedReader("shoprows.txt", KoLConstants.SHOPROWS_VERSION)) {
       String[] data;
@@ -113,9 +141,19 @@ public class ShopRowDatabase {
       writer.println(KoLConstants.SHOPROWS_VERSION);
 
       Iterator<Entry<Integer, ShopRowData>> it = shopRowData.entrySet().iterator();
+      int lastRow = 1;
+
       while (it.hasNext()) {
         Entry<Integer, ShopRowData> entry = it.next();
-        writer.println(entry.getValue().dataString());
+        ShopRowData value = entry.getValue();
+
+        int row = value.row();
+        while (lastRow < row) {
+          writer.println(lastRow++);
+        }
+        lastRow = row + 1;
+
+        writer.println(value.dataString());
       }
     } finally {
       writer.close();

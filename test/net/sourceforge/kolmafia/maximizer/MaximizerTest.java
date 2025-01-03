@@ -1055,6 +1055,24 @@ public class MaximizerTest {
         }
       }
     }
+
+    @Test
+    void considersMcHugeLargeIfHelpful() {
+      var cleanups =
+          new Cleanups(
+              withEquippableItem(ItemPool.MCHUGELARGE_DUFFEL_BAG),
+              withEquippableItem(ItemPool.MCHUGELARGE_LEFT_POLE),
+              withEquippableItem(ItemPool.MCHUGELARGE_RIGHT_POLE),
+              withEquippableItem(ItemPool.FLAMING_CARDBOARD_SWORD));
+
+      try (cleanups) {
+        assertTrue(maximize("hot dmg -tie"));
+        assertEquals(15, modFor(DoubleModifier.HOT_DAMAGE), 0.01);
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.CONTAINER, "McHugeLarge duffel bag")));
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.WEAPON, "McHugeLarge right pole")));
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.OFFHAND, "McHugeLarge left pole")));
+      }
+    }
   }
 
   @Nested

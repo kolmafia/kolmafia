@@ -879,7 +879,18 @@ public class TestCommand extends AbstractCommand {
       ConcoctionDatabase.singleUseCreation(0);
       CoinmastersDatabase.purchaseLimit(0);
       NPCStoreDatabase.contains(0);
-      ShopRowDatabase.writeShopRowDataFile();
+      // Ditto for the Armory & Leggery, which registers standard rewards.
+      ArmoryAndLeggeryRequest.parseResponse("", "");
+
+      // Certain items include a "mode" in their string representation.
+      // We don't want that.
+      String parkaMode = Preferences.getString("parkaMode");
+      try {
+        Preferences.setString("parkaMode", "");
+        ShopRowDatabase.writeShopRowDataFile();
+      } finally {
+        Preferences.setString("parkaMode", parkaMode);
+      }
       return;
     }
 
@@ -1139,16 +1150,6 @@ public class TestCommand extends AbstractCommand {
       String shopId = ShopRow.parseShopId(TestCommand.contents);
       NPCPurchaseRequest.parseShopInventory(shopId, TestCommand.contents, true);
       TestCommand.contents = null;
-      /*
-      List<ShopRow> rows = ShopRow.parseShop(TestCommand.contents, true);
-      RequestLogger.printLine("shop '" + shop + "' offers " + rows.size() + " items.");
-      for (ShopRow row : rows) {
-        RequestLogger.printLine("row = " + row.getRow() + " item = " + row.getItem());
-        for (AdventureResult cost : row.getCosts()) {
-          RequestLogger.printLine("cost: " + cost);
-        }
-      }
-      */
       return;
     }
 
