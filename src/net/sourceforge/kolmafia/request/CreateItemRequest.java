@@ -46,21 +46,6 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
       Pattern.compile("<!-- ?cr:(\\d+)x(-?\\d+),(-?\\d+)=(\\d+) ?-->");
   // 1=quantity, 2,3=items used, 4=result (redundant)
   public static final Pattern DISCOVERY_PATTERN = Pattern.compile("descitem\\((\\d+)\\);");
-  public static final Pattern JACKHAMMER_PATTERN =
-      Pattern.compile("jackhammer lets you finish your smithing in record time");
-  public static final Pattern AUTO_ANVIL_PATTERN =
-      Pattern.compile("auto-anvil handles some of the smithing");
-  public static final Pattern THORS_PLIERS_PATTERN =
-      Pattern.compile("use Thor's Pliers to do the job super fast");
-  public static final Pattern RAPID_PROTOTYPING_PATTERN =
-      Pattern.compile(
-          "That rapid prototyping programming you downloaded is really paying dividends");
-  public static final Pattern COOKBOOKBAT_PATTERN =
-      Pattern.compile("The advice from your cookbookbat is really saving time");
-  public static final Pattern CORNER_CUTTER_PATTERN =
-      Pattern.compile("You really crafted that item the LyleCo way");
-  public static final Pattern HOMEBODYL_PATTERN =
-      Pattern.compile("You are so relaxed that your crafting takes hardly any time at all!");
 
   public static final AdventureResult TENDER_HAMMER = ItemPool.get(ItemPool.TENDER_HAMMER, 1);
   public static final AdventureResult GRIMACITE_HAMMER = ItemPool.get(ItemPool.GRIMACITE_HAMMER, 1);
@@ -666,27 +651,23 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
       created = craftComments.get(i)[1];
 
       int turnsSaved = 0;
-      Matcher freeTurn;
 
       if (mode.equals("smith")) {
-        freeTurn = JACKHAMMER_PATTERN.matcher(craftSection);
-        if (freeTurn.find()) {
+        if (craftSection.contains("jackhammer lets you finish your smithing in record time")) {
           int jackhammerTurnsSaved =
               Math.min(
                   3 - Preferences.getInteger("_legionJackhammerCrafting"), created - turnsSaved);
           Preferences.increment("_legionJackhammerCrafting", created, 3, false);
           turnsSaved += jackhammerTurnsSaved;
         }
-        freeTurn = AUTO_ANVIL_PATTERN.matcher(craftSection);
-        if (freeTurn.find()) {
+        if (craftSection.contains("auto-anvil handles some of the smithing")) {
           int autoAnvilTurnsSaved =
               Math.min(
                   5 - Preferences.getInteger("_warbearAutoAnvilCrafting"), created - turnsSaved);
           Preferences.increment("_warbearAutoAnvilCrafting", created - turnsSaved, 5, false);
           turnsSaved += autoAnvilTurnsSaved;
         }
-        freeTurn = THORS_PLIERS_PATTERN.matcher(craftSection);
-        if (freeTurn.find()) {
+        if (craftSection.contains("use Thor's Pliers to do the job super fast")) {
           int thorsPliersTurnsSaved =
               Math.min(10 - Preferences.getInteger("_thorsPliersCrafting"), created - turnsSaved);
           Preferences.increment("_thorsPliersCrafting", created - turnsSaved, 10, false);
@@ -694,15 +675,14 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
         }
       }
 
-      freeTurn = HOMEBODYL_PATTERN.matcher(craftSection);
-      if (freeTurn.find()) {
+      if (craftSection.contains(
+          "You are so relaxed that your crafting takes hardly any time at all!")) {
         int homebodylTurnsSaved =
             Math.min(Preferences.getInteger("homebodylCharges"), created - turnsSaved);
         Preferences.decrement("homebodylCharges", created - turnsSaved, 0);
         turnsSaved += homebodylTurnsSaved;
       }
-      freeTurn = COOKBOOKBAT_PATTERN.matcher(craftSection);
-      if (freeTurn.find()) {
+      if (craftSection.contains("The advice from your cookbookbat is really saving time")) {
         int cookBookBatTurnsSaved =
             Math.min(5 - Preferences.getInteger("_cookbookbatCrafting"), created - turnsSaved);
         Preferences.increment("_cookbookbatCrafting", created - turnsSaved, 5, false);
@@ -721,15 +701,14 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
         Preferences.increment("_oldSchoolCocktailCraftingUsed", created - turnsSaved, 3, false);
         turnsSaved += oldSchoolTurnsSaved;
       }
-      freeTurn = RAPID_PROTOTYPING_PATTERN.matcher(craftSection);
-      if (freeTurn.find()) {
+      if (craftSection.contains(
+          "That rapid prototyping programming you downloaded is really paying dividends")) {
         int rapidPrototypingTurnsSaved =
             Math.min(5 - Preferences.getInteger("_rapidPrototypingUsed"), created - turnsSaved);
         Preferences.increment("_rapidPrototypingUsed", created - turnsSaved, 5, false);
         turnsSaved += rapidPrototypingTurnsSaved;
       }
-      freeTurn = CORNER_CUTTER_PATTERN.matcher(craftSection);
-      if (freeTurn.find()) {
+      if (craftSection.contains("You really crafted that item the LyleCo way")) {
         int expertCornerCutterTurnsSaved =
             Math.min(5 - Preferences.getInteger("_expertCornerCutterUsed"), created - turnsSaved);
         Preferences.increment("_expertCornerCutterUsed", created - turnsSaved, 5, false);
