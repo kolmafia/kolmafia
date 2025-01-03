@@ -699,8 +699,8 @@ Taco Dan's Taco Stand Chimichangarita	1	4	good	2-3	0	0	15-30	5 Margaritish (+mox
 tangarita	4	6	awesome	14-18	0	16-20	25-27
 tangarita with a fly in it	0	1	crappy	0	0	0	0	Undrinkable
 tankard of ale	1	1	good	3	12-15	12-15	12-15	BEER
-tankard of spiced Goldschlepper	1	1	EPIC	0	0	0	0	Unspaded
-tankard of spiced rum	1	1	awesome	0	0	0	0	Unspaded
+tankard of spiced Goldschlepper	1	1	EPIC	6-7	40-50	0	0
+tankard of spiced rum	1	1	awesome	4-5	0	0	40-50
 Temps Tempranillo	1	4	awesome	3-5	15-30	15-30	15-30	WINE
 teqiwila	3	3	good	5-10	16-20	0	0
 teqiwila slammer	4	6	awesome	14-18	40-47	0	0

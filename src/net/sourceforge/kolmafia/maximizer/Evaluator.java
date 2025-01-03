@@ -1092,45 +1092,12 @@ public class Evaluator {
       if (delta > 0.0) usefulSynergies |= value;
     }
 
-    boolean hoboPowerUseful = false;
-    {
-      Modifiers mods = ModifierDatabase.getModifiers(ModifierType.MAX_CAT, "_hoboPower");
-      if (mods != null && this.getScore(mods) - nullScore > 0.0) {
-        hoboPowerUseful = true;
-      }
-    }
-
-    boolean smithsnessUseful = false;
-    {
-      Modifiers mods = ModifierDatabase.getModifiers(ModifierType.MAX_CAT, "_smithsness");
-      if (mods != null && this.getScore(mods) - nullScore > 0.0) {
-        smithsnessUseful = true;
-      }
-    }
-
-    boolean brimstoneUseful = false;
-    {
-      Modifiers mods = ModifierDatabase.getModifiers(ModifierType.MAX_CAT, "_brimstone");
-      if (mods != null && this.getScore(mods) - nullScore > 0.0) {
-        brimstoneUseful = true;
-      }
-    }
-
-    boolean cloathingUseful = false;
-    {
-      Modifiers mods = ModifierDatabase.getModifiers(ModifierType.MAX_CAT, "_cloathing");
-      if (mods != null && this.getScore(mods) - nullScore > 0.0) {
-        cloathingUseful = true;
-      }
-    }
-
-    boolean slimeHateUseful = false;
-    {
-      Modifiers mods = ModifierDatabase.getModifiers(ModifierType.MAX_CAT, "_slimeHate");
-      if (mods != null && this.getScore(mods) - nullScore > 0.0) {
-        slimeHateUseful = true;
-      }
-    }
+    boolean hoboPowerUseful = isCatUseful(nullScore, "_hoboPower");
+    boolean smithsnessUseful = isCatUseful(nullScore, "_smithsness");
+    boolean brimstoneUseful = isCatUseful(nullScore, "_brimstone");
+    boolean cloathingUseful = isCatUseful(nullScore, "_cloathing");
+    boolean slimeHateUseful = isCatUseful(nullScore, "_slimeHate");
+    boolean mcHugeLargeUseful = isCatUseful(nullScore, "_mcHugeLarge");
 
     // This relies on the special sauce glove having a lower ID
     // than any chefstaff.
@@ -1512,6 +1479,7 @@ public class Evaluator {
             || (brimstoneUseful && mods.getRawBitmap(BitmapModifier.BRIMSTONE) != 0)
             || (cloathingUseful && mods.getRawBitmap(BitmapModifier.CLOATHING) != 0)
             || (slimeHateUseful && mods.getDouble(DoubleModifier.SLIME_HATES_IT) > 0.0)
+            || (mcHugeLargeUseful && mods.getRawBitmap(BitmapModifier.MCHUGELARGE) != 0)
             || (this.clownosity > 0 && mods.getRawBitmap(BitmapModifier.CLOWNINESS) != 0)
             || (this.raveosity > 0 && mods.getRawBitmap(BitmapModifier.RAVEOSITY) != 0)
             || (this.surgeonosity > 0 && mods.getRawBitmap(BitmapModifier.SURGEONOSITY) != 0)
@@ -2321,6 +2289,11 @@ public class Evaluator {
         useCard,
         useCrownFamiliar,
         useBjornFamiliar);
+  }
+
+  private boolean isCatUseful(double nullScore, String catName) {
+    Modifiers mods = ModifierDatabase.getModifiers(ModifierType.MAX_CAT, catName);
+    return mods != null && this.getScore(mods) - nullScore > 0.0;
   }
 
   private Slot jumpAccessories(Slot base, int jumpIfFromStart) {

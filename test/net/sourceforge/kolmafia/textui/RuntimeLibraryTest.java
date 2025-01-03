@@ -32,6 +32,7 @@ import static internal.helpers.Player.withNoEffects;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withSign;
+import static internal.helpers.Player.withSkill;
 import static internal.helpers.Player.withStats;
 import static internal.helpers.Player.withTrackedMonsters;
 import static internal.helpers.Player.withTrackedPhyla;
@@ -73,6 +74,7 @@ import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
@@ -1895,6 +1897,29 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
           Returned: aggregate string [1]
           0 => Bonus Adventures from Hell
           """));
+    }
+  }
+
+  @Test
+  void computesFreeCrafts() {
+    var cleanups =
+        new Cleanups(
+            withEffect(EffectPool.INIGOS, 6),
+            withEffect(EffectPool.COOKING_CONCENTRATE, 7),
+            withItem(ItemPool.THORS_PLIERS),
+            withSkill(SkillPool.RAPID_PROTOTYPING),
+            withSkill(SkillPool.HOLIDAY_MULTITASKING),
+            withSkill(SkillPool.OLD_SCHOOL_COCKTAILCRAFTING),
+            withProperty("_thorsPliersCrafting", 1),
+            withProperty("_rapidPrototypingUsed", 5),
+            withProperty("_oldSchoolCocktailCraftingUsed", 1),
+            withProperty("_holidayMultitaskingUsed"));
+
+    try (cleanups) {
+      assertThat(execute("free_crafts()").trim(), is("Returned: 4"));
+      assertThat(execute("free_cooks()").trim(), is("Returned: 1"));
+      assertThat(execute("free_mixes()").trim(), is("Returned: 2"));
+      assertThat(execute("free_smiths()").trim(), is("Returned: 9"));
     }
   }
 }

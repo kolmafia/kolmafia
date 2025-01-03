@@ -2879,8 +2879,8 @@
 2876	Groggipopped	neutronpop.gif	477dbdf51c06ae7c5460c3c1b7438607	neutral	none	use 1 groggipop
 2877	Flossed Blood	mossfloss.gif	e7c32f6a77e64426d5e3e8b5bdd8a8bc	neutral	none	use 1 moss floss
 2878	Clay-Coated Teeth	adobebrittle.gif	ed7b103d89c53316f0e6f2970c51a6e0	neutral	none	use 1 adobe brittle
-2879
-2880
+2879	Crepe Paper Pedestrian Cacophony	crepecandy.gif	478e82e4d8d15e16d1edad2d61092e9b	neutral	none	use 1 crepe paper peanut candy
+2880	Petrified Wood Wound Prevention	pwoodcandy.gif	6d4a5887902368d2c6eb4a1c0b440eee	neutral	none	use 1 petrified wood wafer praline
 2881	Everything Looks Green	eyes.gif	baf449fcc4f46537a491d4355129581f	neutral	noremove	# use green smoke bomb
 2882	Adobe Arsecover Subscription	adobepants.gif	46f7853d4dfeb10ea2dddbf6054f0be0	neutral	none
 2883	Adobe Adze Subscription	adobeadze.gif	e7a7b5461155ebf282e8af64613154f2	neutral	none
@@ -2953,3 +2953,12 @@
 2950	Grateful, But Spelled With a Dollar Sign	dollarsign.gif	d327b4c6b31dce1f0a7435f37da24878	neutral	none	eat 1 double-candied yams|drink 1 turchucken
 2951	Eyesies on the Pressies	darkgift.gif	1ee7baeab92f07b17d7619ea62b6d167	neutral	none	eat 1 Christmas ham|drink 1 mechanically-mulled cider
 2952	Herder, Bitter, Fester, Stranger	darkchocegg.gif	a8a929d23d6d0676bf31e4e3e2c25d1d	neutral	none	use 1 dark chocolate egg
+2953
+2954
+2955
+2956
+2957	Blinded by the Crepe	crepehat.gif	29f9b1704209badb3da4f3fa59adf969	neutral	none	cast 1 Pull down your crepe paper phrygian cap
+2958	Crepe Paper Rainbow	crepepin.gif	4d7567add20055f67759e4d8b8164802	neutral	none	cast 1 Look through your crepe paper pie clip
+2959	Crepe Paper Puzzled	crepecube.gif	e3c54d616d1f7739663774625a631061	neutral	none	cast 1 Play with your crepe paper puzzle
+2960	Leaving Nothing to the Imagination	crepecamisole.gif	e5fc3ff65d76d85fc9d3e0c370ffbd84	neutral	none	cast 1 Leave nothing to the imagination
+2961	Polka Dancing	crepecharm.gif	2b6b041e7fcca2a26a40682f1caf3156	neutral	none	cast 1 Embrace polka

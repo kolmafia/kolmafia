@@ -1234,6 +1234,11 @@ public class Concoction implements Comparable<Concoction> {
             turnFreeOnly
                 ? ConcoctionDatabase.turnFreeCookingLimit
                 : ConcoctionDatabase.cookingLimit;
+      } else if (this.mixingMethod == CraftingType.MIX_FANCY) {
+        c =
+            turnFreeOnly
+                ? ConcoctionDatabase.turnFreeCocktailcraftingLimit
+                : ConcoctionDatabase.cocktailcraftingLimit;
       } else {
         c = (turnFreeOnly ? ConcoctionDatabase.turnFreeLimit : ConcoctionDatabase.adventureLimit);
       }
@@ -1408,6 +1413,9 @@ public class Concoction implements Comparable<Concoction> {
     }
     if (this.mixingMethod == CraftingType.COOK_FANCY) {
       freeCrafts += ConcoctionDatabase.getFreeCookingTurns();
+    }
+    if (this.mixingMethod == CraftingType.MIX_FANCY) {
+      freeCrafts += ConcoctionDatabase.getFreeCocktailcraftingTurns();
     }
     return Math.max(runningTotal - freeCrafts, 0);
   }
