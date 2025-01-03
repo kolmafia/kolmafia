@@ -5593,9 +5593,9 @@
 5565	PB&BP	660831377	sammich.gif	food	d	5
 5566	club sandwich	232765592	sammich.gif	food	d	5	club sandwiches
 5567	corned-beef Reuben	978545620	sammich.gif	food	d	5
-5568	ninja rope	206487152	ninjarope.gif	none	t,d	45	coils of ninja rope
-5569	ninja crampons	523106831	crampons.gif	none	t,d	45
-5570	ninja carabiner	726661902	carabiner.gif	none	t,d	45
+5568	frayed ninja rope	206487152	ninjarope.gif	none	t,d	45	coils of frayed ninja rope
+5569	dull ninja crampons	523106831	crampons.gif	none	t,d	45
+5570	loose ninja carabiner	726661902	carabiner.gif	none	t,d	45
 5571	Groar's fur	439808527	furfur.gif	none	q	0
 5572	Thwaitgold stag beetle statuette	497799983	thwaitbeetle.gif	none		0
 5573	Drac & Tan	142371526	blackntan.gif	drink	t,d	10	Dracs & Tans
@@ -11552,13 +11552,13 @@
 11524	crepe paper plunge camisole	135604730	crepecamisole.gif	shirt		0
 11525	crepe paper polka charm	528321843	crepecharm.gif	accessory		0
 11526
-11527	crepe paper peanut candy	281680775	crepecandy.gif	potion, usable, candy	t,d	15
+11527	crepe paper peanut candy	281680775	crepecandy.gif	potion, usable, candy	t,d	15	crepe paper peanut candies
 11528	petrified wood war pike	326850864	pwoodpike.gif	weapon		0
 11529	petrified wood waist protector	942174223	pwoodbelt.gif	accessory		0
-11530	petrified wood wizard's pouch	208187116	pwoodpouch.gif	accessory		0
+11530	petrified wood wizard's pouch	208187116	pwoodpouch.gif	accessory		0	petrified wood wizard's pouches
 11531	petrified wood water purifier	791540752	pwoodpurifier.gif	offhand		0
 11532	petrified wood whoopie panama	439261300	pwoodhat.gif	hat		0
-11533	petrified wood walking pants	587162395	pwoodpants.gif	pants		0
+11533	petrified wood walking pants	587162395	pwoodpants.gif	pants		0	pairs of petrified wood walking/pacing pants
 11534
 11535	petrified wood wafer praline	544944743	pwoodcandy.gif	potion, usable, candy	t,d	15
 11536
@@ -11813,3 +11813,49 @@
 11785	McHugeLarge right pole	282816137	skipole2.gif	weapon	q	0
 11786	McHugeLarge left ski	210105166	ski1.gif	accessory	q	0
 11787	McHugeLarge right ski	796918007	ski2.gif	accessory	q	0
+11787
+11788
+11789
+11790
+11791
+11792
+11793
+11794
+11795
+11796
+11797
+11798
+11799
+11800
+11801
+11802
+11803
+11804
+11805
+11806
+11807
+11808
+11809
+11810
+11811
+11812
+11813
+11814
+11815
+11816
+11817
+11818
+11819
+11820
+11821
+11822
+11823
+11824
+11825
+11826
+11827
+11828
+11829
+11830	ninja rope	351796064	ninjarope.gif	none	q	0	coils of ninja rope
+11831	ninja crampons	876430936	crampons.gif	none	q	0
+11832	ninja carabiner	128846387	carabiner.gif	none	q	0
