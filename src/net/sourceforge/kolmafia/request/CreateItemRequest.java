@@ -668,7 +668,6 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
       int turnsSaved = 0;
       Matcher freeTurn;
 
-      // Remove from Jackhammer, then Warbear Anvil, then Thor's Pliers
       if (mode.equals("smith")) {
         freeTurn = JACKHAMMER_PATTERN.matcher(craftSection);
         if (freeTurn.find()) {
@@ -695,7 +694,6 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
         }
       }
 
-      // Remove from Homebodyl, Cookbookbat, Rapid Prototyping, then Corner Cutter
       freeTurn = HOMEBODYL_PATTERN.matcher(craftSection);
       if (freeTurn.find()) {
         int homebodylTurnsSaved =
@@ -710,6 +708,19 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
         Preferences.increment("_cookbookbatCrafting", created - turnsSaved, 5, false);
         turnsSaved += cookBookBatTurnsSaved;
       }
+      if (craftSection.contains("That elf guard training has made you fast!")) {
+        int elfGuardTurnsSaved =
+            Math.min(3 - Preferences.getInteger("_elfGuardCookingUsed"), created - turnsSaved);
+        Preferences.increment("_elfGuardCookingUsed", created - turnsSaved, 3, false);
+        turnsSaved += elfGuardTurnsSaved;
+      }
+      if (craftSection.contains("That old-school cocktail training has made you fast!")) {
+        int oldSchoolTurnsSaved =
+            Math.min(
+                3 - Preferences.getInteger("_oldSchoolCocktailCraftingUsed"), created - turnsSaved);
+        Preferences.increment("_oldSchoolCocktailCraftingUsed", created - turnsSaved, 3, false);
+        turnsSaved += oldSchoolTurnsSaved;
+      }
       freeTurn = RAPID_PROTOTYPING_PATTERN.matcher(craftSection);
       if (freeTurn.find()) {
         int rapidPrototypingTurnsSaved =
@@ -723,6 +734,13 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
             Math.min(5 - Preferences.getInteger("_expertCornerCutterUsed"), created - turnsSaved);
         Preferences.increment("_expertCornerCutterUsed", created - turnsSaved, 5, false);
         turnsSaved += expertCornerCutterTurnsSaved;
+      }
+      if (craftSection.contains(
+          "With your holiday multitasking skills, you finished that crafting in record time.")) {
+        int multiTaskTurnsSaved =
+            Math.min(3 - Preferences.getInteger("_holidayMultitaskingUsed"), created - turnsSaved);
+        Preferences.increment("_holidayMultitaskingUsed", created - turnsSaved, 3, false);
+        turnsSaved += multiTaskTurnsSaved;
       }
     }
 
@@ -1138,7 +1156,11 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
           (quantityNeeded
               - ConcoctionDatabase.getFreeCraftingTurns()
               - ConcoctionDatabase.getFreeCookingTurns()));
-      case MIX_FANCY -> Math.max(0, (quantityNeeded - ConcoctionDatabase.getFreeCraftingTurns()));
+      case MIX_FANCY -> Math.max(
+          0,
+          (quantityNeeded
+              - ConcoctionDatabase.getFreeCraftingTurns()
+              - ConcoctionDatabase.getFreeCocktailcraftingTurns()));
       default -> 0;
     };
   }
