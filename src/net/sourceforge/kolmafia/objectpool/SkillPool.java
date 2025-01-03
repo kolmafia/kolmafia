@@ -127,6 +127,9 @@ public class SkillPool {
   public static final int PERPETRATE_MILD_EVIL = 226;
   public static final int CHITINOUS_SOUL = 227;
   public static final int JUST_THE_FACTS = 228;
+  public static final int ELF_GUARD_COOKING = 229;
+  public static final int OLD_SCHOOL_COCKTAILCRAFTING = 230;
+  public static final int HOLIDAY_MULTITASKING = 240;
   public static final int SUPER_ADVANCED_MEATSMITHING = 1006;
   public static final int WALRUS_TONGUE = 1010;
   public static final int BATTER_UP = 1014;

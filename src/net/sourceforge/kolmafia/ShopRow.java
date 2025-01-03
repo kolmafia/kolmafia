@@ -1,7 +1,9 @@
 package net.sourceforge.kolmafia;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult.MeatResult;
@@ -350,6 +352,63 @@ public class ShopRow implements Comparable<ShopRow> {
       AdventureResult[] currencies = ingredients.toArray(new AdventureResult[0]);
       ShopRow irow = new ShopRow(row, item, currencies);
       result.add(irow);
+    }
+    return result;
+  }
+
+  public static Set<AdventureResult> deriveCurrencies(List<ShopRow> shopRows) {
+    Set<AdventureResult> result = new HashSet<>();
+    for (ShopRow shopRow : shopRows) {
+      for (AdventureResult cost : shopRow.getCosts()) {
+        AdventureResult currency = cost.getInstance(1);
+        result.add(currency);
+      }
+    }
+    return result;
+  }
+
+  // <b>You have:</b>
+  // <table>
+  //   <tr>
+  //     <td><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/spirit_easter.gif width=30
+  // height=30 onClick='javascript:descitem(756560474)' alt="Spirit of Easter" title="Spirit of
+  // Easter"></td>
+  //     <td>1,527 Spirits of Easter</td></tr><tr>
+  //     <td><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/spirit_stpatrick.gif width=30
+  // height=30 onClick='javascript:descitem(655322653)' alt="Spirit of St. Patrick's Day"
+  // title="Spirit of St. Patrick's Day"></td>
+  //     <td>1,413 Spirits of St. Patrick's Day</td></tr><tr>
+  //     <td><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/spirit_veterans.gif width=30
+  // height=30 onClick='javascript:descitem(303899144)' alt="Spirit of Veteran's Day" title="Spirit
+  // of Veteran's Day"></td>
+  //     <td>no Spirits of Veteran's Day</td></tr><tr>
+  //     <td><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/spirit_thanks.gif width=30
+  // height=30 onClick='javascript:descitem(166270423)' alt="Spirit of Thanksgiving" title="Spirit
+  // of Thanksgiving"></td>
+  //     <td>no Spirits of Thanksgiving</td></tr><tr>
+  //     <td><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/spirit_xmas.gif width=30
+  // height=30 onClick='javascript:descitem(903725390)' alt="Spirit of Christmas" title="Spirit of
+  // Christmas"></td>
+  //     <td>no Spirits of Christmas</td>
+  //   </tr>
+  // </table>
+
+  private static final Pattern CURRENCY_TABLE_PATTERN =
+      Pattern.compile("You have:.*?<table>(.*?)</table>", Pattern.DOTALL);
+  private static final Pattern CURRENCY_PATTERN = Pattern.compile("javascript:descitem\\((.*?)\\)");
+
+  public static Set<AdventureResult> parseCurrencies(final String html) {
+    Set<AdventureResult> result = new HashSet<>();
+    Matcher tableMatcher = CURRENCY_TABLE_PATTERN.matcher(html);
+    if (tableMatcher.find()) {
+      Matcher currencyMatcher = CURRENCY_PATTERN.matcher(tableMatcher.group(1));
+      while (currencyMatcher.find()) {
+        int itemId = ItemDatabase.getItemIdFromDescription(currencyMatcher.group(1));
+        if (itemId != -1) {
+          AdventureResult currency = new AdventureResult(itemId, 1, false);
+          result.add(currency);
+        }
+      }
     }
     return result;
   }

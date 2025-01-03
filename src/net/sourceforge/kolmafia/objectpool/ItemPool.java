@@ -3837,11 +3837,6 @@ public class ItemPool {
   public static final int PIRATE_DINGHY = 11705;
   public static final int ANCHOR_BOMB = 11706;
   public static final int SILKY_PIRATE_DRAWERS = 11707;
-  public static final int SPIRIT_OF_EASTER = 11717;
-  public static final int SPIRIT_OF_ST_PATRICKS_DAY = 11718;
-  public static final int SPIRIT_OF_VETERANS_DAY = 11719;
-  public static final int SPIRIT_OF_THANKSGIVING = 11720;
-  public static final int SPIRIT_OF_CHRISTMAS = 11721;
   public static final int PUMPKIN_SPICE_WHORL = 11746;
   public static final int CANDY_EGG_DEVILER = 11774;
   public static final int MCHUGELARGE_DUFFEL_BAG = 11783;
