@@ -5758,8 +5758,10 @@ public class FightRequest extends GenericRequest {
     for (Object bnode : node.getElementListByName("b", true)) {
       // Should be unnecessary. We need a more modern version of this package
       if (bnode instanceof TagNode b) {
-        if (b.getText().toString().contains(" Team:")) {
-          return b.getParent();
+        // something is very weird with this cleaning
+        var parent = b.getParent();
+        if (getContentNodeText(parent).contains(" Team:")) {
+          return parent;
         }
       }
     }
@@ -6012,6 +6014,7 @@ public class FightRequest extends GenericRequest {
         // Enemy team
         // <span title="Deal 5 damage to the frontmost enemy.">
         //  [ULTIMATE: Deluxe Impale]
+        // also used on famteam.php for your own team
         TagNode[] spans = tdnode.getElementsByName("span", false);
         for (int i = 0; i < spans.length; ++i) {
           // <span style="background-color: lightblue;">
@@ -10489,6 +10492,17 @@ public class FightRequest extends GenericRequest {
           skillSuccess = true;
         }
       }
+      case SkillPool.MCHUGELARGE_SLASH -> {
+        if (responseText.contains("You reach your left ski pole") || skillSuccess) {
+          TrackManager.trackMonster(monster, Tracker.MCHUGELARGE_SLASH);
+        }
+      }
+      case SkillPool.MCHUGELARGE_AVALANCHE -> {
+        if (responseText.contains("You stomp your ski on the ground") || skillSuccess) {
+          Preferences.setBoolean("noncombatForcerActive", true);
+          skillSuccess = true;
+        }
+      }
     }
 
     if (skillSuccess || skillRunawaySuccess || familiarSkillSuccess) {
@@ -11227,7 +11241,7 @@ public class FightRequest extends GenericRequest {
           int famtype = StringUtilities.parseInt(m.group(1));
           String famname = FamiliarDatabase.getFamiliarName(famtype);
           String skill = StringUtilities.getURLDecode(m.group(2));
-          action.append("'s  ");
+          action.append("'s ");
           action.append(famname);
           action.append(" uses ");
           action.append(skill);

@@ -2002,6 +2002,7 @@ public abstract class InventoryManager {
     switch (mixingMethod) {
       case SMITH, SSMITH -> freeCrafts += ConcoctionDatabase.getFreeSmithingTurns();
       case COOK_FANCY -> freeCrafts += ConcoctionDatabase.getFreeCookingTurns();
+      case MIX_FANCY -> freeCrafts += ConcoctionDatabase.getFreeCocktailcraftingTurns();
     }
 
     if (needed <= freeCrafts) {

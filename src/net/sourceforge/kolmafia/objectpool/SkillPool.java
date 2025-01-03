@@ -127,6 +127,9 @@ public class SkillPool {
   public static final int PERPETRATE_MILD_EVIL = 226;
   public static final int CHITINOUS_SOUL = 227;
   public static final int JUST_THE_FACTS = 228;
+  public static final int ELF_GUARD_COOKING = 229;
+  public static final int OLD_SCHOOL_COCKTAILCRAFTING = 230;
+  public static final int HOLIDAY_MULTITASKING = 240;
   public static final int SUPER_ADVANCED_MEATSMITHING = 1006;
   public static final int WALRUS_TONGUE = 1010;
   public static final int BATTER_UP = 1014;
@@ -605,6 +608,8 @@ public class SkillPool {
   public static final int SWOOP_LIKE_A_BAT = 7530;
   public static final int SUMMON_CAULDRON_OF_BATS = 7531;
   public static final int ASSERT_YOUR_AUTHORITY = 7532;
+  public static final int MCHUGELARGE_SLASH = 7538;
+  public static final int MCHUGELARGE_AVALANCHE = 7540;
 
   public static final int GOOD_SINGING_VOICE = 11016;
   public static final int BANISHING_SHOUT = 11020;

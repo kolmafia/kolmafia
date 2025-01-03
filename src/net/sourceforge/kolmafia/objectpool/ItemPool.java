@@ -554,6 +554,7 @@ public class ItemPool {
   public static final int BUBBLEWRAP_ORE = 1677;
   public static final int GROUCHO_DISGUISE = 1678;
   public static final int EXPRESS_CARD = 1687;
+  public static final int FLAMING_CARDBOARD_SWORD = 1706;
   public static final int MUCULENT_MACHETE = 1721;
   public static final int SWORD_PREPOSITIONS = 1734;
   public static final int GOULAUNCHER = 1748;
@@ -902,6 +903,7 @@ public class ItemPool {
   public static final int FOIL_BOW = 3043;
   public static final int FOIL_RADAR = 3044;
   public static final int POWER_SPHERE = 3049;
+  public static final int BLACK_CANDY_HEART = 3054;
   public static final int FOIL_CAT_EARS = 3056;
   public static final int LASER_CANON = 3069;
   public static final int CHIN_STRAP = 3070;
@@ -3835,11 +3837,13 @@ public class ItemPool {
   public static final int PIRATE_DINGHY = 11705;
   public static final int ANCHOR_BOMB = 11706;
   public static final int SILKY_PIRATE_DRAWERS = 11707;
-  public static final int SPIRIT_OF_EASTER = 11717;
-  public static final int SPIRIT_OF_ST_PATRICKS_DAY = 11718;
-  public static final int SPIRIT_OF_VETERANS_DAY = 11719;
-  public static final int SPIRIT_OF_THANKSGIVING = 11720;
-  public static final int SPIRIT_OF_CHRISTMAS = 11721;
+  public static final int PUMPKIN_SPICE_WHORL = 11746;
+  public static final int CANDY_EGG_DEVILER = 11774;
+  public static final int MCHUGELARGE_DUFFEL_BAG = 11783;
+  public static final int MCHUGELARGE_LEFT_POLE = 11784;
+  public static final int MCHUGELARGE_RIGHT_POLE = 11785;
+  public static final int MCHUGELARGE_LEFT_SKI = 11786;
+  public static final int MCHUGELARGE_RIGHT_SKI = 11787;
 
   private ItemPool() {}
 

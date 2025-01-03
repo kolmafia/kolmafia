@@ -455,19 +455,9 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     panel.add(septEmberPanel);
     this.selectorPanel.addPanel(septEmberPanel.getPanelSelector(), panel);
 
-    // Events coinmasters
+    // Twitch coinmasters
     this.selectorPanel.addSeparator();
-    this.selectorPanel.addCategory("Special Events");
-
-    panel = new JPanel(new BorderLayout());
-    awolPanel = new CommendationPanel();
-    panel.add(awolPanel);
-    this.selectorPanel.addPanel(awolPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    fudgeWandPanel = new FudgeWandPanel();
-    panel.add(fudgeWandPanel);
-    this.selectorPanel.addPanel(fudgeWandPanel.getPanelSelector(), panel);
+    this.selectorPanel.addCategory("Twitch");
 
     panel = new JPanel(new BorderLayout());
     neandermallPanel = new NeandermallPanel();
@@ -499,6 +489,22 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     panel.add(merchTablePanel);
     this.selectorPanel.addPanel(merchTablePanel.getPanelSelector(), panel);
 
+    // *** Primordial Soup Kitchen goes here
+
+    // Events coinmasters
+    this.selectorPanel.addSeparator();
+    this.selectorPanel.addCategory("Special Events");
+
+    panel = new JPanel(new BorderLayout());
+    awolPanel = new CommendationPanel();
+    panel.add(awolPanel);
+    this.selectorPanel.addPanel(awolPanel.getPanelSelector(), panel);
+
+    panel = new JPanel(new BorderLayout());
+    fudgeWandPanel = new FudgeWandPanel();
+    panel.add(fudgeWandPanel);
+    this.selectorPanel.addPanel(fudgeWandPanel.getPanelSelector(), panel);
+
     panel = new JPanel(new BorderLayout());
     travelerPanel = new TravelingTraderPanel();
     panel.add(travelerPanel);
@@ -513,46 +519,6 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     warbearBoxPanel = new WarbearBoxPanel();
     panel.add(warbearBoxPanel);
     this.selectorPanel.addPanel(warbearBoxPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    crimbo23ElfBarPanel = new Crimbo23ElfBarPanel();
-    panel.add(crimbo23ElfBarPanel);
-    this.selectorPanel.addPanel(crimbo23ElfBarPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    crimbo23ElfCafePanel = new Crimbo23ElfCafePanel();
-    panel.add(crimbo23ElfCafePanel);
-    this.selectorPanel.addPanel(crimbo23ElfCafePanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    crimbo23ElfArmoryPanel = new Crimbo23ElfArmoryPanel();
-    panel.add(crimbo23ElfArmoryPanel);
-    this.selectorPanel.addPanel(crimbo23ElfArmoryPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    crimbo23ElfFactoryPanel = new Crimbo23ElfFactoryPanel();
-    panel.add(crimbo23ElfFactoryPanel);
-    this.selectorPanel.addPanel(crimbo23ElfFactoryPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    crimbo23PirateBarPanel = new Crimbo23PirateBarPanel();
-    panel.add(crimbo23PirateBarPanel);
-    this.selectorPanel.addPanel(crimbo23PirateBarPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    crimbo23PirateCafePanel = new Crimbo23PirateCafePanel();
-    panel.add(crimbo23PirateCafePanel);
-    this.selectorPanel.addPanel(crimbo23PirateCafePanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    crimbo23PirateArmoryPanel = new Crimbo23PirateArmoryPanel();
-    panel.add(crimbo23PirateArmoryPanel);
-    this.selectorPanel.addPanel(crimbo23PirateArmoryPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    crimbo23PirateFactoryPanel = new Crimbo23PirateFactoryPanel();
-    panel.add(crimbo23PirateFactoryPanel);
-    this.selectorPanel.addPanel(crimbo23PirateFactoryPanel.getPanelSelector(), panel);
 
     panel = new JPanel(new BorderLayout());
     crimbo24BarPanel = new Crimbo24BarPanel();
@@ -617,6 +583,46 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     crimbo20foodPanel = new Crimbo20FoodPanel();
     panel.add(crimbo20foodPanel);
     this.selectorPanel.addPanel(crimbo20foodPanel.getPanelSelector(), panel);
+
+    panel = new JPanel(new BorderLayout());
+    crimbo23ElfBarPanel = new Crimbo23ElfBarPanel();
+    panel.add(crimbo23ElfBarPanel);
+    this.selectorPanel.addPanel(crimbo23ElfBarPanel.getPanelSelector(), panel);
+
+    panel = new JPanel(new BorderLayout());
+    crimbo23ElfCafePanel = new Crimbo23ElfCafePanel();
+    panel.add(crimbo23ElfCafePanel);
+    this.selectorPanel.addPanel(crimbo23ElfCafePanel.getPanelSelector(), panel);
+
+    panel = new JPanel(new BorderLayout());
+    crimbo23ElfArmoryPanel = new Crimbo23ElfArmoryPanel();
+    panel.add(crimbo23ElfArmoryPanel);
+    this.selectorPanel.addPanel(crimbo23ElfArmoryPanel.getPanelSelector(), panel);
+
+    panel = new JPanel(new BorderLayout());
+    crimbo23ElfFactoryPanel = new Crimbo23ElfFactoryPanel();
+    panel.add(crimbo23ElfFactoryPanel);
+    this.selectorPanel.addPanel(crimbo23ElfFactoryPanel.getPanelSelector(), panel);
+
+    panel = new JPanel(new BorderLayout());
+    crimbo23PirateBarPanel = new Crimbo23PirateBarPanel();
+    panel.add(crimbo23PirateBarPanel);
+    this.selectorPanel.addPanel(crimbo23PirateBarPanel.getPanelSelector(), panel);
+
+    panel = new JPanel(new BorderLayout());
+    crimbo23PirateCafePanel = new Crimbo23PirateCafePanel();
+    panel.add(crimbo23PirateCafePanel);
+    this.selectorPanel.addPanel(crimbo23PirateCafePanel.getPanelSelector(), panel);
+
+    panel = new JPanel(new BorderLayout());
+    crimbo23PirateArmoryPanel = new Crimbo23PirateArmoryPanel();
+    panel.add(crimbo23PirateArmoryPanel);
+    this.selectorPanel.addPanel(crimbo23PirateArmoryPanel.getPanelSelector(), panel);
+
+    panel = new JPanel(new BorderLayout());
+    crimbo23PirateFactoryPanel = new Crimbo23PirateFactoryPanel();
+    panel.add(crimbo23PirateFactoryPanel);
+    this.selectorPanel.addPanel(crimbo23PirateFactoryPanel.getPanelSelector(), panel);
 
     this.selectorPanel.addChangeListener(this);
     this.selectorPanel.setSelectedIndex(Preferences.getInteger("coinMasterIndex"));
@@ -880,6 +886,18 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     }
   }
 
+  public class NinjaPanel extends TwitchPanel {
+    public NinjaPanel() {
+      super(NinjaStoreRequest.NINJA_STORE);
+    }
+  }
+
+  public class ShakeShopPanel extends TwitchPanel {
+    public ShakeShopPanel() {
+      super(YeNeweSouvenirShoppeRequest.SHAKE_SHOP);
+    }
+  }
+
   public class MerchTablePanel extends TwitchPanel {
     public MerchTablePanel() {
       super(MerchTableRequest.MERCH_TABLE);
@@ -891,18 +909,6 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
       buffer.append(" (");
       buffer.append(InventoryManager.getCount(MerchTableRequest.CHRONER));
       buffer.append(" Chroner)");
-    }
-  }
-
-  public class ShakeShopPanel extends TwitchPanel {
-    public ShakeShopPanel() {
-      super(YeNeweSouvenirShoppeRequest.SHAKE_SHOP);
-    }
-  }
-
-  public class NinjaPanel extends TwitchPanel {
-    public NinjaPanel() {
-      super(NinjaStoreRequest.NINJA_STORE);
     }
   }
 
@@ -1593,10 +1599,11 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     public void setTitle(final StringBuffer buffer) {
       this.standardTitle(buffer);
       for (AdventureResult currency : this.data.currencies()) {
+        int count = InventoryManager.getCount(currency);
         buffer.append(" (");
-        buffer.append(InventoryManager.getCount(currency));
+        buffer.append(count);
         buffer.append(" ");
-        buffer.append(currency.getPluralName());
+        buffer.append(currency.getPluralName(count));
         buffer.append(")");
       }
     }
@@ -2388,7 +2395,6 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
         stringForm.append("<font color=gray>");
       }
       stringForm.append(ar.getName());
-      stringForm.append(" ");
       int count = ar.getCount();
       if (count == -1) {
         stringForm.append(" (unknown)");
@@ -2397,6 +2403,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
         stringForm.append(KoLConstants.COMMA_FORMAT.format(count));
         stringForm.append(")");
       }
+      stringForm.append(" ");
       stringForm.append(costString);
       if (!show) {
         stringForm.append("</font>");

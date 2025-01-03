@@ -2755,4 +2755,14 @@ public class Player {
   public static Cleanups withDataFile(String sourceName) {
     return withDataFile(sourceName, sourceName);
   }
+
+  /**
+   * Tells FightRequest to use PokeFam parsing
+   *
+   * @return stops using PokeFam parsing
+   */
+  public static Cleanups withFightRequestPokefam() {
+    FightRequest.pokefam = true;
+    return new Cleanups(() -> FightRequest.pokefam = false);
+  }
 }

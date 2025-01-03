@@ -32,6 +32,7 @@ import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.DebugDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
@@ -1330,85 +1331,6 @@ public class ResultProcessor {
     // handled here.
 
     switch (itemId) {
-      case ItemPool.GG_TICKET:
-      case ItemPool.SNACK_VOUCHER:
-      case ItemPool.LUNAR_ISOTOPE:
-      case ItemPool.ODD_SILVER_COIN:
-      case ItemPool.BEACH_BUCK:
-      case ItemPool.WORTHLESS_TRINKET:
-      case ItemPool.WORTHLESS_GEWGAW:
-      case ItemPool.WORTHLESS_KNICK_KNACK:
-      case ItemPool.YETI_FUR:
-      case ItemPool.LUCRE:
-      case ItemPool.SAND_DOLLAR:
-      case ItemPool.CRIMBUCK:
-      case ItemPool.BONE_CHIPS:
-      case ItemPool.CRIMBCO_SCRIP:
-      case ItemPool.AWOL_COMMENDATION:
-      case ItemPool.MR_ACCESSORY:
-      case ItemPool.UNCLE_BUCK:
-      case ItemPool.FAT_LOOT_TOKEN:
-      case ItemPool.FUDGECULE:
-      case ItemPool.FDKOL_COMMENDATION:
-      case ItemPool.WARBEAR_WHOSIT:
-      case ItemPool.KRUEGERAND:
-      case ItemPool.SHIP_TRIP_SCRIP:
-      case ItemPool.CHRONER:
-      case ItemPool.BURT:
-      case ItemPool.FRESHWATER_FISHBONE:
-      case ItemPool.CRIMBO_CREDIT:
-      case ItemPool.TOPIARY_NUGGLET:
-      case ItemPool.FUNFUNDS:
-      case ItemPool.TOXIC_GLOBULE:
-      case ItemPool.VOLCOINO:
-      case ItemPool.BACON:
-      case ItemPool.COP_DOLLAR:
-      case ItemPool.PRICELESS_DIAMOND:
-      case ItemPool.CRYSTALLINE_CHEER:
-      case ItemPool.STICK_OF_FIREWOOD:
-      case ItemPool.RARE_MEAT_ISOTOPE:
-      case ItemPool.WHITE_PIXEL:
-      case ItemPool.DRIPLET:
-      case ItemPool.GUZZLRBUCK:
-        // BatFellow currencies
-      case ItemPool.INCRIMINATING_EVIDENCE:
-      case ItemPool.DANGEROUS_CHEMICALS:
-      case ItemPool.KIDNAPPED_ORPHAN:
-      case ItemPool.HIGH_GRADE_METAL:
-      case ItemPool.HIGH_TENSILE_STRENGTH_FIBERS:
-      case ItemPool.HIGH_GRADE_EXPLOSIVES:
-        // The Traveling Trader usually wants twinkly wads
-      case ItemPool.TWINKLY_WAD:
-        // You can trade tokens for tickets
-      case ItemPool.GG_TOKEN:
-        // You can go to spaaace with a transponder
-      case ItemPool.TRANSPORTER_TRANSPONDER:
-        // Lathe-worthy woods
-      case ItemPool.FLIMSY_HARDWOOD_SCRAPS:
-      case ItemPool.DREADSYLVANIAN_HEMLOCK:
-      case ItemPool.SWEATY_BALSAM:
-      case ItemPool.ANCIENT_REDWOOD:
-      case ItemPool.WORMWOOD_STICK:
-      case ItemPool.PURPLEHEART_LOGS:
-      case ItemPool.DRIPWOOD_SLAB:
-        // Speakeasy currencies
-      case ItemPool.MILK_CAP:
-      case ItemPool.DRINK_CHIT:
-      case ItemPool.REPLICA_MR_ACCESSORY:
-        // Crimbo23 currencies
-      case ItemPool.ELF_GUARD_MPC:
-      case ItemPool.ELF_ARMY_MACHINE_PARTS:
-      case ItemPool.CRIMBUCCANEER_PIECE_OF_12:
-      case ItemPool.CRIMBUCCANEER_FLOTSAM:
-        // Crimbo24 currencies
-      case ItemPool.SPIRIT_OF_EASTER:
-      case ItemPool.SPIRIT_OF_ST_PATRICKS_DAY:
-      case ItemPool.SPIRIT_OF_VETERANS_DAY:
-      case ItemPool.SPIRIT_OF_THANKSGIVING:
-      case ItemPool.SPIRIT_OF_CHRISTMAS:
-        NamedListenerRegistry.fireChange("(coinmaster)");
-        break;
-
       case ItemPool.FAKE_HAND:
         NamedListenerRegistry.fireChange("(fakehands)");
         break;
@@ -1487,6 +1409,10 @@ public class ResultProcessor {
       case ItemPool.SHADOW_STICK:
         RufusManager.handleShadowItems(result.getName());
         break;
+    }
+
+    if (CoinmastersDatabase.isCurrency(result)) {
+      NamedListenerRegistry.fireChange("(coinmaster)");
     }
 
     if (StandardRewardDatabase.isPulverizedStandardReward(itemId)) {

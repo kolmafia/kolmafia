@@ -42,6 +42,7 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
+import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
@@ -52,6 +53,7 @@ import net.sourceforge.kolmafia.session.GreyYouManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LocketManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
+import org.hamcrest.core.Is;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
@@ -3119,6 +3121,37 @@ public class FightRequestTest {
           text,
           containsString(
               "You deftly snag something from your opponent with your deft pirate hook.\nYou acquire an item: Spirit of Easter"));
+    }
+  }
+
+  @Nested
+  class PokeFam {
+    @Test
+    public void parseInitialPokefam() {
+      RequestLoggerOutput.startStream();
+      var cleanups = new Cleanups(withFight(0), withPath(Path.POKEFAM));
+      try (cleanups) {
+        parseCombatData("request/test_fight_pokefam_start.html", "fambattle.php");
+        var text = RequestLoggerOutput.stopStream();
+        assertThat(
+            text,
+            containsString("Pokefam move2 'Hug' -> 'hug': Heal the frontmost ally by [power]."));
+        assertThat(
+            FamiliarDatabase.getPokeDataById(FamiliarPool.BURLY_BODYGUARD).getMove2(),
+            Is.is("Hug"));
+      }
+    }
+
+    @Test
+    public void logPokefamMoves() {
+      RequestLoggerOutput.startStream();
+      var cleanups = new Cleanups(withFightRequestPokefam(), withFight(1), withPath(Path.POKEFAM));
+      try (cleanups) {
+        parseCombatData(
+            "request/test_fight_pokefam_end.html", "fambattle.php?famaction[splash-110]=Splash");
+        var text = RequestLoggerOutput.stopStream();
+        assertThat(text, containsString("FightRequestTest's Wereturtle uses Splash!"));
+      }
     }
   }
 }

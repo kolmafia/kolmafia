@@ -108,8 +108,21 @@ public class CoinMasterRequest extends GenericRequest {
       return;
     }
 
-    CoinMasterRequest request = data.getRequest(true, new AdventureResult[] {it});
-    request.transact(data);
+    CoinMasterRequest request = null;
+    if (data.getShopRows() != null) {
+      int quantity = it.getCount();
+      ShopRow shopRow = data.getShopRow(itemId);
+      if (shopRow == null) {
+        return;
+      }
+      request = data.getRequest(shopRow, quantity);
+    } else {
+      request = data.getRequest(true, new AdventureResult[] {it});
+    }
+
+    if (request != null) {
+      request.transact(data);
+    }
   }
 
   public static void sell(final CoinmasterData data, final AdventureResult it) {
