@@ -7,10 +7,12 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.TreeMap;
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.AdventureResult.MeatResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RestrictedItemType;
+import net.sourceforge.kolmafia.ShopRow;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -68,8 +70,10 @@ public class NPCStoreDatabase {
                 : 0;
 
         if (row != 0) {
-          ShopRowDatabase.registerShopRow(
-              row, "npc", new AdventureResult(itemName, 1, false), storeName);
+          AdventureResult item = new AdventureResult(itemName, 1, false);
+          AdventureResult cost = new MeatResult(price);
+          ShopRow shopRow = new ShopRow(row, item, cost);
+          ShopRowDatabase.registerShopRow(shopRow, "npc", storeName);
         }
 
         // Make the purchase request for this item

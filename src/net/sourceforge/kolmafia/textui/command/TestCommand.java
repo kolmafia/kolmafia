@@ -13,6 +13,7 @@ import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.CoinmasterRegistry;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -38,7 +39,6 @@ import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
-import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.DebugDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
@@ -877,7 +877,7 @@ public class TestCommand extends AbstractCommand {
     if (command.equals("write-shoprows")) {
       // Ensure that the three databases that register ShopRowData entries are loaded
       ConcoctionDatabase.singleUseCreation(0);
-      CoinmastersDatabase.purchaseLimit(0);
+      CoinmasterRegistry.reset();
       NPCStoreDatabase.contains(0);
       // Ditto for the Armory & Leggery, which registers standard rewards.
       ArmoryAndLeggeryRequest.parseResponse("", "");
@@ -888,6 +888,7 @@ public class TestCommand extends AbstractCommand {
       try {
         Preferences.setString("parkaMode", "");
         ShopRowDatabase.writeShopRowDataFile();
+        ShopRowDatabase.writeShopRowFile();
       } finally {
         Preferences.setString("parkaMode", parkaMode);
       }

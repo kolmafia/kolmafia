@@ -198,6 +198,7 @@ public abstract class CoinmasterRegistry {
       MASTERS[i] = StringUtilities.getCanonicalName(cm.getMaster());
       NICKNAMES[i] = StringUtilities.getCanonicalName(cm.getNickname());
       cm.registerCurrencies();
+      cm.registerShopRows();
       cm.registerPurchaseRequests();
       cm.registerPropertyToken();
     }

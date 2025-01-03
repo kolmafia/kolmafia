@@ -31,6 +31,7 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.RestrictedItemType;
+import net.sourceforge.kolmafia.ShopRow;
 import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.VYKEACompanionData;
@@ -275,17 +276,6 @@ public class ConcoctionDatabase {
               ConcoctionDatabase.row);
       concoction.setParam(param);
 
-      if (row != 0) {
-        ShopRowDatabase.registerShopRow(row, "conc", item, mixingMethod.toString());
-      }
-
-      Concoction existing = ConcoctionPool.get(item);
-      if (concoction.getMisc().contains(CraftingMisc.MANUAL)
-          || (existing != null && existing.getMixingMethod() != CraftingType.NOCREATE)) {
-        // Until multiple recipes are supported...
-        return;
-      }
-
       if (ingredients.length > 0) {
         for (AdventureResult ingredient : ingredients) {
           if (ingredient == null) {
@@ -297,6 +287,18 @@ public class ConcoctionDatabase {
             ConcoctionDatabase.meatStack.put(itemId, concoction);
           }
         }
+      }
+
+      if (row != 0) {
+        ShopRow shopRow = new ShopRow(row, item, concoction.getIngredients());
+        ShopRowDatabase.registerShopRow(shopRow, "conc", mixingMethod.toString());
+      }
+
+      Concoction existing = ConcoctionPool.get(item);
+      if (concoction.getMisc().contains(CraftingMisc.MANUAL)
+          || (existing != null && existing.getMixingMethod() != CraftingType.NOCREATE)) {
+        // Until multiple recipes are supported...
+        return;
       }
 
       ConcoctionPool.set(concoction);

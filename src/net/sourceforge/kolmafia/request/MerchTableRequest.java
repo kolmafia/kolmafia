@@ -35,7 +35,6 @@ public class MerchTableRequest extends CoinMasterRequest {
           .withItem(MR_A)
           .withShopRowFields(master, "conmerch")
           .withItemRows(CoinmastersDatabase.getOrMakeRows(master))
-          .withBuyItems()
           .withBuyPrices()
           .withItemBuyPrice(MerchTableRequest::itemBuyPrice);
 

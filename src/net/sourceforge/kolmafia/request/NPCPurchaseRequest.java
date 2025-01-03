@@ -429,10 +429,6 @@ public class NPCPurchaseRequest extends PurchaseRequest {
     }
   }
 
-  private static final Pattern SHOP_NAME_PATTERN =
-      Pattern.compile(
-          "<td style=\"background-color: blue\" align=center ><b style=\"color: white\">(.*?)</b>",
-          Pattern.DOTALL);
   private static final Pattern BLOOD_MAYO_PATTERN =
       Pattern.compile("blood mayonnaise concentration: (\\d+) mayograms");
 
@@ -454,18 +450,6 @@ public class NPCPurchaseRequest extends PurchaseRequest {
         || shopId.equals("wereprofessor_tinker")
         || shopId.equals("xo");
   }
-
-  // <tr rel="7567"><td valign=center></td><td><img
-  // src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/chroner.gif" class="hand pop"
-  // rel="desc_item.php?whichitem=783338147" onClick='javascript:descitem(783338147)'></td><td
-  // valign=center><a
-  // onClick='javascript:descitem(783338147)'><b>Chroner</b>&nbsp;<b>(15)</b>&nbsp;&nbsp;&nbsp;&nbsp;</a></td><td><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/twitchtulip.gif width=30 height=30 onClick='javascript:descitem(973996072)' alt="red tulip" title="red tulip"></td><td><b>1</b></td><td valign=center class=tiny>red tulip</td><td></td><td></td><td valign=center class=tiny></td><td></td><td></td><td valign=center class=tiny></td><td></td><td></td><td valign=center class=tiny></td><td></td><td></td><td valign=center class=tiny></td><td valign=center><input class="button doit multibuy "  type=button rel='shop.php?whichshop=flowertradein&action=buyitem&quantity=1&whichrow=760&pwd=173b4446c2dd92d83eb3ce2af0de1289' value='Trade In'></td></tr>
-  //
-  // <b>Chroner</b>&nbsp;<b>(15)</b>&nbsp;
-  private static final Pattern ITEM_PATTERN =
-      Pattern.compile(
-          "<tr rel=\\\"(\\d+).*?descitem.(\\d+)\\)'><b>(.*?)(?:<font.*)?</b>(&nbsp;<b>\\((\\d+)\\)</b>&nbsp;)?.*?title=\\\"(.*?)\\\">.*?<b>(.*?)</b>.*?whichrow=(\\d+)",
-          Pattern.DOTALL);
 
   public static final void parseShopResponse(final String urlString, final String responseText) {
     if (!urlString.startsWith("shop.php")) {

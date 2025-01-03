@@ -8,6 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
+import net.sourceforge.kolmafia.ShopRow;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ShopRowDatabase;
@@ -65,7 +66,8 @@ public class ArmoryAndLeggeryRequest extends CoinMasterRequest {
       rows.put(itemId, row);
 
       if (row != 0) {
-        ShopRowDatabase.registerShopRow(row, "buy", item.getInstance(1), master);
+        ShopRow shopRow = new ShopRow(row, item.getInstance(1), cost);
+        ShopRowDatabase.registerShopRow(shopRow, "buy", master);
       }
     }
 
