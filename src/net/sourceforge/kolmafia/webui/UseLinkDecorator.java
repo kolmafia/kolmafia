@@ -1543,6 +1543,9 @@ public abstract class UseLinkDecorator {
             // doesn't work ajaxified.
             uses.add(new UseLink(itemId, 1, "pockets", "inventory.php?action=pocket", false));
           }
+          case ItemPool.MCHUGELARGE_DUFFEL_BAG -> {
+            uses.add(new UseLink(itemId, 1, "open", "inventory.php?action=skiduffel"));
+          }
         }
 
         if (uses.size() == 1) {

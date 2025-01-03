@@ -84,6 +84,7 @@ public class Maximizer {
     "_folderholder",
     "_cardsleeve",
     "_smithsness",
+    "_mcHugeLarge",
   };
 
   static MaximizerSpeculation best;
