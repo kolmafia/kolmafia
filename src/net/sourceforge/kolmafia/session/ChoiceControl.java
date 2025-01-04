@@ -2203,6 +2203,7 @@ public abstract class ChoiceControl {
         if (ChoiceManager.lastDecision == 5) {
           Preferences.setBoolean("candyCaneSwordBlackForest", true);
         }
+        break;
 
       case 930:
         // Another Errand I Mean Quest
@@ -2882,8 +2883,8 @@ public abstract class ChoiceControl {
           if (NumberologyManager.numberologyPrize(result).startsWith("fight")) {
             KoLAdventure.clearLocation();
           }
-          break;
         }
+        break;
 
       case 1118:
         // X-32-F Combat Training Snowman Control Console
@@ -5006,11 +5007,13 @@ public abstract class ChoiceControl {
             Preferences.increment("bwApronMealsEaten");
           }
         }
+        break;
       case 1534:
         // Clan Photo Booth - Get your photo taken
         if (ChoiceManager.lastDecision != 6 && text.contains("You select")) {
           Preferences.increment("_photoBoothEffects");
         }
+        break;
       case 1535:
         // Clan Photo Booth - Borrow a prop
         if (ChoiceManager.lastDecision != 12 && text.contains("You grab your prop")) {
@@ -8705,6 +8708,7 @@ public abstract class ChoiceControl {
           Preferences.setBoolean("pirateRealmUnlockedFlag", choices.containsKey(5));
           Preferences.setBoolean("pirateRealmUnlockedSpyglass", choices.containsKey(6));
         }
+        break;
 
       case 1349: // Dishonest Ed's Ships
         {
@@ -8712,6 +8716,7 @@ public abstract class ChoiceControl {
           Preferences.setBoolean("pirateRealmUnlockedClipper", choices.containsKey(4));
           Preferences.setBoolean("pirateRealmUnlockedManOWar", choices.containsKey(5));
         }
+        break;
 
       case 1388:
         BeachManager.parseCombUsage(text);
