@@ -39,16 +39,97 @@ public class CreateItemRequestTest {
     Preferences.reset("CreateItemRequestTest");
   }
 
-  @Test
-  public void recognisesCookbookBatFreeCraft() {
-    var cleanups = Player.withProperty("_cookbookbatCrafting");
+  @Nested
+  class FreeCrafts {
+    @Test
+    public void recognisesThorsPliers() {
+      var cleanups = Player.withProperty("_thorsPliersCrafting", 1);
 
-    try (cleanups) {
-      CreateItemRequest.parseCrafting(
-          "craft.php?action=craft&qty=1&mode=cook&target=423&ajax=1",
-          html("request/test_create_cookbookbat.html"));
+      try (cleanups) {
+        CreateItemRequest.parseCrafting(
+            "craft.php?action=craft&mode=smith&ajax=1&a=95&b=11733&qty=1",
+            html("request/test_create_thorspliers.html"));
 
-      assertThat("_cookbookbatCrafting", isSetTo(1));
+        assertThat("_thorsPliersCrafting", isSetTo(2));
+      }
+    }
+
+    @Test
+    public void recognisesRapidPrototyping() {
+      var cleanups = Player.withProperty("_rapidPrototypingUsed", 1);
+
+      try (cleanups) {
+        CreateItemRequest.parseCrafting(
+            "craft.php?action=craft&mode=smith&ajax=1&a=95&b=11733&qty=1",
+            html("request/test_create_rapidprototyping.html"));
+
+        assertThat("_rapidPrototypingUsed", isSetTo(2));
+      }
+    }
+
+    @Test
+    public void recognisesCornerCutter() {
+      var cleanups = Player.withProperty("_expertCornerCutterUsed", 1);
+
+      try (cleanups) {
+        CreateItemRequest.parseCrafting(
+            "craft.php?action=craft&mode=smith&ajax=1&a=95&b=11733&qty=1",
+            html("request/test_create_cornercutter.html"));
+
+        assertThat("_expertCornerCutterUsed", isSetTo(2));
+      }
+    }
+
+    @Test
+    public void recognisesHolidayMultitasking() {
+      var cleanups = Player.withProperty("_holidayMultitaskingUsed", 1);
+
+      try (cleanups) {
+        CreateItemRequest.parseCrafting(
+            "craft.php?action=craft&mode=smith&ajax=1&a=95&b=11733&qty=1",
+            html("request/test_create_holidaymulti.html"));
+
+        assertThat("_holidayMultitaskingUsed", isSetTo(2));
+      }
+    }
+
+    @Test
+    public void recognisesCookbookBat() {
+      var cleanups = Player.withProperty("_cookbookbatCrafting");
+
+      try (cleanups) {
+        CreateItemRequest.parseCrafting(
+            "craft.php?action=craft&qty=1&mode=cook&target=423&ajax=1",
+            html("request/test_create_cookbookbat.html"));
+
+        assertThat("_cookbookbatCrafting", isSetTo(1));
+      }
+    }
+
+    @Test
+    public void recognisesElfGuard() {
+      var cleanups = Player.withProperty("_elfGuardCookingUsed", 1);
+
+      try (cleanups) {
+        CreateItemRequest.parseCrafting(
+            "craft.php?action=craft&mode=cook&ajax=1&a=304&b=8&qty=1",
+            html("request/test_create_elfguard.html"));
+
+        assertThat("_elfGuardCookingUsed", isSetTo(2));
+      }
+    }
+
+    @Test
+    public void recognisesOldSchoolCocktailCrafting() {
+      var cleanups = Player.withProperty("_oldSchoolCocktailCraftingUsed", 1);
+
+      try (cleanups) {
+        CreateItemRequest.parseCrafting(
+            "craft.php?action=craft&mode=cocktail&ajax=1&a=10534&b=9908&qty=1",
+            html("request/test_create_oldschool.html"));
+
+        assertThat("_oldSchoolCocktailCraftingUsed", isSetTo(2));
+      }
     }
   }
 
