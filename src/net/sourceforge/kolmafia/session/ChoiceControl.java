@@ -2883,8 +2883,8 @@ public abstract class ChoiceControl {
           if (NumberologyManager.numberologyPrize(result).startsWith("fight")) {
             KoLAdventure.clearLocation();
           }
-          break;
         }
+        break;
 
       case 1118:
         // X-32-F Combat Training Snowman Control Console
