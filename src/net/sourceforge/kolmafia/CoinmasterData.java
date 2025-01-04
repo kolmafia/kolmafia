@@ -1113,11 +1113,6 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   }
 
   public void registerShopRows() {
-    if (this.shopRows != null) {
-      for (ShopRow shopRow : this.shopRows) {
-        ShopRowDatabase.registerShopRow(shopRow, "row", this.master);
-      }
-    }
     if (this.buyItems != null) {
       for (AdventureResult item : this.buyItems) {
         int itemId = item.getItemId();

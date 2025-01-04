@@ -1489,24 +1489,24 @@
 1488	conc	mini kiwi icepick	KIWI
 1489	conc	mini kiwi-flavored aspirin-injecting lipstick	KIWI
 1490	conc	mini kiwi digitized cookies	KIWI
-1491
-1492
-1493
-1494
-1495
-1496
-1497
-1498
-1499
-1500
-1501
-1502
-1503
-1504
-1505
-1506
-1507
-1508
+1491	row	bacteria bisque	The Primordial Soup Kitchen
+1492	row	ciliophora chowder	The Primordial Soup Kitchen
+1493	row	cream of chloroplasts	The Primordial Soup Kitchen
+1494	row	lip soup	The Primordial Soup Kitchen
+1495	row	lip soup	The Primordial Soup Kitchen
+1496	row	lip soup	The Primordial Soup Kitchen
+1497	row	elbow soup	The Primordial Soup Kitchen
+1498	row	elbow soup	The Primordial Soup Kitchen
+1499	row	elbow soup	The Primordial Soup Kitchen
+1500	row	flagellate soup	The Primordial Soup Kitchen
+1501	row	flagellate soup	The Primordial Soup Kitchen
+1502	row	flagellate soup	The Primordial Soup Kitchen
+1503	row	muscular soup	The Primordial Soup Kitchen
+1504	row	muscular soup	The Primordial Soup Kitchen
+1505	row	muscular soup	The Primordial Soup Kitchen
+1506	row	synaptic soup	The Primordial Soup Kitchen
+1507	row	synaptic soup	The Primordial Soup Kitchen
+1508	row	synaptic soup	The Primordial Soup Kitchen
 1509	buy	unevolved organism	KoL Con 13 Merch Table
 1510	buy	blade of dismemberment	Sept-Ember Censer
 1511	buy	miniature Embering Hulk	Sept-Ember Censer

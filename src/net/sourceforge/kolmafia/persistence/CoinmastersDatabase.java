@@ -180,6 +180,7 @@ public class CoinmastersDatabase {
             // *** error
             continue;
           }
+          ShopRowDatabase.registerShopRow(shopRow, "row", master);
           int row = shopRow.getRow();
           List<ShopRow> rows = shopRows.get(master);
           if (rows == null) {
