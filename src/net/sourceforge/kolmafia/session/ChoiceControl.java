@@ -9714,17 +9714,17 @@ public abstract class ChoiceControl {
     int choice = ChoiceUtilities.extractChoiceFromURL(urlString);
     int decision = ChoiceUtilities.extractOptionFromURL(urlString);
     switch (choice) {
-      case 929:
+      case 929 -> {
         // Control Freak
         if (decision == 5) {
           return PyramidRequest.lowerChamberTurnsUsed();
         }
-        break;
-      case 1085:
-      case 1086:
+      }
+      case 1085, 1086 -> {
         // Pick a Card
         return DeckOfEveryCardRequest.getAdventuresUsed(urlString);
-      case 1099:
+      }
+      case 1099 -> {
         // The Barrel Full of Barrels
         //
         // choice 1: A barrel
@@ -9739,12 +9739,15 @@ public abstract class ChoiceControl {
         //
         // Assume that only option 3 - Exit - is guaranteed to not cost a turn.
         return decision == 3 ? 0 : 1;
-      case 1388:
+      }
+      case 1388 -> {
         // Comb the Beach
         return BeachCombRequest.getAdventuresUsed(urlString);
-      case 1463:
+      }
+      case 1463 -> {
         // Combat Lover's Locket
         return LocketRequest.getAdventuresUsed(urlString);
+      }
     }
     return 0;
   }
