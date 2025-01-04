@@ -360,27 +360,27 @@ public abstract class ChoiceControl {
   public static void postChoice0(int choice, final String urlString, final GenericRequest request) {
     String text = request.responseText;
     switch (choice) {
-      case 125: // No Visible Means of Support
+      case 125 -> { // No Visible Means of Support
         if (ChoiceManager.lastChoice == 0) {
           // If we are visiting for the first time,
           // finish the tiles
           DvorakManager.lastTile(text);
         }
-        break;
+      }
 
-      case 360: // Wumpus Cave
+      case 360 -> { // Wumpus Cave
         WumpusManager.preWumpus(ChoiceManager.lastDecision);
-        break;
+      }
 
-      case 1019: // Bee Rewarded
+      case 1019 -> { // Bee Rewarded
         if (ChoiceManager.lastDecision == 1) {
           // This does not contain an "Encounter", so was
           // not logged.
           RequestLogger.registerLocation("The Black Forest");
         }
-        break;
+      }
 
-      case 1308:
+      case 1308 -> {
         {
           // place.php?whichplace=monorail&action=monorail_downtown
           //
@@ -410,29 +410,29 @@ public abstract class ChoiceControl {
               ResultProcessor.processResult(ItemPool.get(ItemPool.EARTHENWARE_MUFFIN_TIN, -1));
             }
           }
-          break;
         }
+      }
 
-      case 1313: // Bastille Battalion
-      case 1314: // Bastille Battalion (Master of None)
-      case 1315: // Castle vs. Castle
-      case 1316: // GAME OVER
-      case 1317: // A Hello to Arms (Battalion)
-      case 1318: // Defensive Posturing
-      case 1319: // Cheese Seeking Behavior
+      case 1313, // Bastille Battalion
+          1314, // Bastille Battalion (Master of None)
+          1315, // Castle vs. Castle
+          1316, // GAME OVER
+          1317, // A Hello to Arms (Battalion)
+          1318, // Defensive Posturing
+          1319 -> { // Cheese Seeking Behavior
         BastilleBattalionManager.preChoice(urlString, request);
-        break;
+      }
 
-      case 1356: // Smooth Sailing
-      case 1357: // High Tide, Low Morale
-      case 1358: // The Starboard is Bare
-      case 1359: // Grog for the Grogless
-      case 1360: // Like Shops in the Night
-      case 1361: // Avast, a Mast!
-      case 1362: // Stormy Weather
-      case 1363: // Who Pirates the Pirates?
-      case 1364: // An Opportunity for Dastardly Do
-      case 1365: // A Sea Monster!
+      case 1356, // Smooth Sailing
+          1357, // High Tide, Low Morale
+          1358, // The Starboard is Bare
+          1359, // Grog for the Grogless
+          1360, // Like Shops in the Night
+          1361, // Avast, a Mast!
+          1362, // Stormy Weather
+          1363, // Who Pirates the Pirates?
+          1364, // An Opportunity for Dastardly Do
+          1365 -> { // A Sea Monster!
         // This could be in postChoice1 but doing it here allows us to use a single line of code.
 
         // Shops in the Night only takes its turn when you decide to leave (decision 6),
@@ -447,34 +447,34 @@ public abstract class ChoiceControl {
             QuestManager.setPirateRealmIslandQuestProgress(1);
           }
         }
-        break;
+      }
 
-      case 1451:
+      case 1451 -> {
         // Fire Captain Hagnk
         WildfireCampRequest.parseCaptain(text);
-        break;
-      case 1452:
+      }
+      case 1452 -> {
         // Sprinkler Joe
         if (text.contains("Thanks again for your help!")) {
           Preferences.setBoolean("wildfireSprinkled", true);
         }
-        break;
-      case 1453:
+      }
+      case 1453 -> {
         // Fracker Dan
         if (text.contains("Thanks for the help!")) {
           Preferences.setBoolean("wildfireFracked", true);
         }
-        break;
-      case 1454:
+      }
+      case 1454 -> {
         // Cropduster Dusty
         if (text.contains("Thanks for helping out.")) {
           Preferences.setBoolean("wildfireDusted", true);
         }
-        break;
-      case 1523:
+      }
+      case 1523 -> {
         // Research Bench
         ResearchBenchRequest.postChoice0(urlString, text);
-        break;
+      }
     }
   }
 
