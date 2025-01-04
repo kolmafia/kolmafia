@@ -657,6 +657,7 @@ user	encountersUntilNEPChoice	7
 user	encountersUntilSRChoice	11
 user	enamorangMonster
 user	enamorangMonsterTurn
+user	enqueueForConsumption	true
 user	ensorcelee
 user	ensorceleeLevel	0
 user	entauntaunedColdRes	0
