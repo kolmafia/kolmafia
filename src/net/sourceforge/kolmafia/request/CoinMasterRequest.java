@@ -164,7 +164,7 @@ public class CoinMasterRequest extends GenericRequest {
     String itemField = this.data.getItemField();
     if (itemField != null) {
       int itemId = item.getItemId();
-      this.addFormField(itemField, String.valueOf(this.data.getRow(itemId)));
+      this.addFormField(itemField, String.valueOf(data.getItemIdOrRow(itemId)));
     }
   }
 
@@ -193,7 +193,7 @@ public class CoinMasterRequest extends GenericRequest {
     CoinmasterData data = this.data;
 
     // See if the Coin Master is accessible
-    boolean justVisiting = attachments == null;
+    boolean justVisiting = this.attachments == null && this.row == null;
     if (!justVisiting) {
       String reason = data.accessible();
       if (reason != null) {

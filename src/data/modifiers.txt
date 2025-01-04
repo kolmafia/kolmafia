@@ -168,6 +168,7 @@ Item	crown-shaped beanie	Slime Resistance: +1, Food Drop: +20, Initiative: +20, 
 Item	crumpled felt fedora	Familiar Weight: +10, Muscle Percent: +5, Familiar Effect: "0.75xVolley, 0.75xLep"
 Item	cursed eyepatch	Mysticality: +15, Familiar Effect: "spooky atk, 1xBarrr"
 Item	cursed tricorn hat	Mysticality: +25, Experience: +10, PvP Fights: +5
+# cybervisor: +3 RAM
 # Daylight Shavings Helmet: Keeps your facial hair stylish at all times
 Item	Daylight Shavings Helmet	Experience: +3, Adventures: +5, Familiar Weight: +5
 Item	demon-horned hat	Moxie: +4, Familiar Effect: "hot atk, 1xLep, cap 17"
@@ -665,6 +666,7 @@ Item	depleted Grimacite shinguards	Muscle Percent: [5*G], PvP Fights: [G], Famil
 # designer sweatpants: oh, and also a 5% discount at NPC stores
 Item	designer sweatpants	Muscle: [5+(2*floor(sqrt(pref(sweat))))], Mysticality: [5+(2*floor(sqrt(pref(sweat))))], Moxie: [5+(2*floor(sqrt(pref(sweat))))], Damage Reduction: [5+(1*floor(sqrt(pref(sweat))))], Hot Resistance: [1+(0.5*floor(sqrt(pref(sweat))))], Sleaze Damage: [10+(5*floor(sqrt(pref(sweat))))], Sleaze Spell Damage: [10+(5*floor(sqrt(pref(sweat))))]
 Item	dice-print pajama pants	Random Monster Modifiers: +1
+# digibritches: CyberRealm: Take less damage from processes
 # Dinsey's pants: Disco Bandit Combat Skills weaken enemies by an additional 50%
 Item	Dinsey's pants	DB Combat Damage: +15
 Item	discarded swimming trunks	Experience Percent (Muscle): +5, Sleaze Damage: +10, Sleaze Spell Damage: +10
@@ -945,6 +947,7 @@ Item	whittled shorts	Muscle: +10, Mysticality: +10, Moxie: +10, Spooky Resistanc
 Item	Whoompa Fur Pants	Stench Damage: +10, Stench Resistance: +2, Familiar Effect: "atk, cap 27"
 # wicker knickers: Increases the effectiveness of Shield of the Pastalord
 Item	wicker knickers	Experience (Mysticality): +2, Adventures: +2
+# wired underwear: CyberRealm: Restore your HP (Hacker Physiology) by 50% for 1 RAM
 Item	wooly loincloth	Pickpocket Chance: +25, MP Regen Min: 4, MP Regen Max: 8, Familiar Effect: "atk, 1xVolley, cap 27"
 # wrought-iron waders: Adds an extra source of damage to Concerto de los Muertos
 Item	wrought-iron waders	Spooky Damage: +5, Stench Damage: +5, Hot Damage: +5, Cold Damage: +5, Sleaze Damage: +5, Meat Drop: +20
@@ -1125,6 +1128,7 @@ Item	yak anorak	MP Regen Min: 3, MP Regen Max: 4
 Item	Ye Olde Navy Fleece	Meat Drop: +10
 # Yeg's Motel bathrobe: Extremely fragile (will be destroyed if you are hit in combat)
 Item	Yeg's Motel bathrobe	Spooky Damage: +50, Muscle Percent: +66, Lasts Until Rollover
+# zero-trust tanktop: CyberRealm: Regenerate some of your HP (Hacker Physiology) each round
 
 # Weapons section of modifiers.txt
 
@@ -1419,6 +1423,7 @@ Item	Elf Guard officer's sidearm	Elf Warfare Effectiveness: +3, Weapon Damage Pe
 Item	Elf Guard squirtgun	Weakens Monster, Stench Damage: +20
 Item	elven tambourine	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2
 # elven whittling knife: On Critical:  Whittles enemy down
+# encrypted shuriken: CyberRealm: Deal 20 damage for 2 RAM
 Item	evil paper umbrella	Monster Level: +1
 Item	evil-ass club	Weapon Damage: +25, Monster Level: +15, Spooky Damage: +15, Class: "Seal Clubber"
 Item	extra-large utility candle	Item Drop: +25, Hot Damage: +50, Lasts Until Rollover
@@ -2331,6 +2336,7 @@ Item	frankincenser	Maximum MP: +10, Experience (Mysticality): +3
 Item	furry yam buckler	Cold Resistance: +4, Damage Reduction: 14, Negative Status Resist, Lasts Until Rollover
 # Gazpacho's Glacial Grimoire: All Spells Cast Are Cold
 Item	Gazpacho's Glacial Grimoire	Spell Damage: +10
+# geofencing shield: CyberRealm: Prevent most damage from processes
 # geological sample kit: Increases the yield of Spacegate geology operations
 Item	geological sample kit	Lasts Until Rollover
 Item	ghast iron heater shield	Spooky Damage: +10, Hot Damage: +10, Damage Reduction: 11
@@ -2447,6 +2453,7 @@ Item	mad scientist's sock monkey	Moxie: +3
 Item	magic lamp	Mysticality: +5
 Item	magical ice cubes	Cold Damage: +1
 Item	makeshift castanets	DB Combat Damage: +10, Class: "Disco Bandit"
+# malware injector: CyberRealm: Infect a process (1 RAM, 30 damage per round)
 Item	maple magnet	Maximum HP: +100, Weapon Drop: +50, Accessory Drop: +50, Lasts Until Rollover
 Item	marble mignonette bowl	MP Regen Min: 4, MP Regen Max: 8, Cold Spell Damage: +40, Thorns: 1
 Item	marinara jug	Spell Damage: +30, Class: "Sauceror"
@@ -2742,6 +2749,7 @@ Item	tortoboggan shield	Initiative: +30, Cold Resistance: +2, Damage Reduction: 
 Item	toy Crimbot super fist	Damage Reduction: 10, Crimbot Outfit Power: +1
 Item	Trader Olaf's Exotic Stinkbeans	Stench Spell Damage: [15*(1+skill(Beanweaver))]
 Item	trench lighter	Experience Percent (Muscle): +10, Experience Percent (Mysticality): +10, Experience Percent (Moxie): +10
+# trojan horseshoe: CyberRealm: Occasionally find 0s after combat
 Item	tropical paperweight	Experience: +1, Stat Tuning: "Muscle"
 # Tuesday's ruby: Has day-dependent effects which are hard-coded
 Item	Tuesday's ruby	Variable
@@ -2762,6 +2770,7 @@ Item	velour valise	Experience (Moxie): +2, Booze Drop: +30
 Item	vengeful spirit	Hot Spell Damage: +80
 Item	Victor, the Insult Comic Hellhound Puppet	Monster Level: +5
 Item	vinyl shield	Moxie Percent: +10, Damage Reduction: 24, Monster Level: +25
+# visual packet sniffer: CyberRealm:  Gives a chance for additional 1s to drop after combat
 Item	voodoo doll	Mysticality: +1
 Item	wad of Crovacite	Muscle: +5, Mysticality: +5, Moxie: +5, Spooky Damage: +5
 Item	Wal-Mart snowglobe	Muscle Percent: +40, Experience (Muscle): +4, Familiar Weight: +5
@@ -3032,6 +3041,7 @@ Item	dark baconstone ring	Mysticality: +15
 Item	dark hamethyst ring	Muscle: +15
 # dark porquoise ring: Makes Deleveling More Effective
 Item	dark porquoise ring	Moxie: +15
+# datastick: +1 RAM
 Item	dead guy's memento	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Adventures: +5, Single Equip, Nonstackable Watch
 Item	dead guy's watch	Adventures: +1, Single Equip, Nonstackable Watch
 Item	deep-fried key	Sleaze Resistance: +3, Sleaze Damage: +15, Sleaze Spell Damage: +30
@@ -3527,6 +3537,8 @@ Item	plexiglass pendant	Never Fumble, Moxie Percent: +30, Four Songs, Single Equ
 Item	plexiglass pinky ring	Spell Damage: +30, Spooky Resistance: +3, Stench Resistance: +3, Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3, Mysticality Percent: +30, Single Equip
 Item	plexiglass pocketwatch	Mana Cost: -3, Adventures: +3, Mysticality Percent: +30, Single Equip
 Item	plush sea serpent	Damage Reduction: 10, Monster Level: [-100*env(underwater)], Single Equip
+# pocket GPU: CyberRealm:  Allows you to run one command faster than a process can respond
+Item	pocket GPU	Single Equip
 Item	Pocket Square of Loathing	Never Fumble, Mana Cost: -3, Spooky Resistance: +5, Stench Resistance: +5, Hot Resistance: +5, Cold Resistance: +5, Sleaze Resistance: +5, Single Equip, Cloathing
 Item	pogo stick	Initiative: +30, Moxie Percent: +10, Single Equip
 Item	Pok&euml;mann figurine: Bloodkip	Familiar Weight: +3, Single Equip
@@ -3628,6 +3640,7 @@ Item	replica Powerful Glove	Maximum MP: +10, Maximum HP: +20, Weapon Damage Perc
 # replica V for Vivala mask: Allows use of Creepy Grin (once per day)
 # replica V for Vivala mask: Critical Hits are extra-explosive
 Item	replica V for Vivala mask	Muscle Percent: +30, Critical Hit Percent: +10, Combat Item Damage Percent: 50, Single Equip
+# retro floppy disk: CyberRealm: Get one additional 1 after combat
 # Retrospecs: Gives you another chance on item drops you missed out on
 # Retrospecs: Reveals foes' weaknesses
 Item	Retrospecs	Muscle: +15, Mysticality: +15, Moxie: +15, Maximum HP: +25, Maximum MP: +25, HP Regen Min: 3, HP Regen Max: 5, MP Regen Min: 3, MP Regen Max: 5, Single Equip, Free Pull
@@ -4258,6 +4271,7 @@ Item	Cloak of Dire Shadows	Maximum MP: +40, Meat Drop: +10, Muscle Percent: +5, 
 Item	cod cape	Stench Damage: +25, Combat Rate: +5
 # crepe paper parachute cape: Parachute into a battle in a recent zone
 Item	crepe paper parachute cape	Experience (Muscle): +2, Cold Damage: +10, Cold Spell Damage: +10
+# cryptocloak: CyberRealm: Avoid damage from processes, once per combat
 Item	cursed blanket	Hot Resistance: +3, Cold Resistance: +3, Spooky Resistance: +3, Stench Resistance: +3, Sleaze Resistance: +3, Familiar Weight: -20
 # cursed goblin cape: Cold Vulnerability (-6)
 # cursed goblin cape: Spooky Vulnerability (-6)
@@ -5801,6 +5815,7 @@ Effect	Concha de Tortuga	HP Regen Min: 6, HP Regen Max: 8
 Effect	Confidence of the Votive	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 Effect	Confidence!	Muscle Percent: +20, Mysticality Percent: +20, Moxie Percent: +20
 Effect	Confused	Mysticality Percent: -30
+Effect	Connected	Familiar Weight: +5, Familiar Damage: +5
 Effect	Connering the Seanman	Avatar: "Seannery the Conman"
 Effect	Conspiratory Eyes	Spooky Damage: +50, Spooky Spell Damage: +50, Cold Resistance: +5, Sleaze Resistance: +5
 Effect	CONSUME	Avatar: "Them"
@@ -5882,7 +5897,11 @@ Effect	Cut But Not Dried	Muscle Percent: +20, Moxie Percent: -20, Experience (Mu
 Effect	Cute Vision	Familiar Weight: +5
 Effect	Cuts Like a Buttered Knife	Sleaze Damage: +50
 Effect	Cuts Like a Lightly-Buttered Knife	Sleaze Damage: +5
+# Cyber Memory Boost: +3 RAM
+Effect	Cyber Resist x2000	Hot Resistance: +5, Cold Resistance: +5, Spooky Resistance: +5, Stench Resistance: +5, Sleaze Resistance: +5
+# Cyber Slicer: Cyber attacks deal more damage
 Effect	Cyber-Robo-Steam-Whatever Costume	Avatar: "super-sized Cola Wars soldier"
+Effect	Cybercrime Eyes	Item Drop: +30
 Effect	Cybernetic Muscles	Muscle Percent: +10
 Effect	Cyclonic Filth	Damage Aura: 1
 Effect	D-Charged	Spell Damage Percent: +50, Initiative: +50, Experience: +3, MP Regen Min: 5, MP Regen Max: 10
@@ -6503,6 +6522,7 @@ Effect	Holiday Disappointment	Muscle Percent: +50, Mysticality Percent: +50, Mox
 Effect	Holiday Yoked	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 Effect	Hollow Inside	Maximum Hooch: +6
 Effect	Hombre Muerto Caminando	Initiative: +20, Spooky Resistance: +1, Maximum MP: +20
+# Honeypotted: You will encounter fewer processes and more hackers
 Effect	Hood Ridin'	Hot Damage: +40, Hot Spell Damage: +40
 # Hooked Up: Continually gain MP
 Effect	Hooked Up	Moxie Percent: -100, MP Regen Min: 10, MP Regen Max: 15
@@ -6987,6 +7007,7 @@ Effect	Notably Lovely	Moxie: +10, Ranged Damage: +10, Damage Reduction: 10
 Effect	Nothing Happened	Monster Level: +20
 Effect	Nothing Is Impossible	Spell Damage Percent: +100
 Effect	Nothing Really Matters	Monster Level: -13
+# Null Afternoon: Enemy stats will be adjusted to zero
 Effect	Nut-Rition	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 Effect	Nutrient-Rich	Experience: +4, Maximum HP Percent: +50, Maximum MP Percent: +25
 Effect	Nuts about Candy	Maximum HP: +50
@@ -7765,6 +7786,7 @@ Effect	Synthesis: Smart	Mysticality Percent: +300
 Effect	Synthesis: Strong	Muscle Percent: +300
 Effect	Synthesis: Style	Experience Percent (Moxie): +50
 Effect	Synthesized	Damage Reduction: 8, Weapon Damage: -8
+Effect	Synthetic Buzz	Initiative: +50
 Effect	Tagged	Moxie: +10
 # Tainted Love Potion: Variable +/- mus/mys/mox/max hp/max mp
 Effect	Tainted Love Potion	Muscle: [105-(pref(lovePotion)%30)*7], Mysticality: [102-(pref(lovePotion)%35)*6], Moxie: [105-(pref(lovePotion)%42)*5], Maximum HP Percent: [40-(pref(lovePotion)%8)*10], Maximum MP Percent: [30-(pref(lovePotion)%5)*10]
@@ -9151,6 +9173,7 @@ Item	cupcake-in-a-cup	Effect: "Cake Caked", Effect Duration: 10
 Item	cursed Aztec tamale	Effect: "Curse of the Tamale", Effect Duration: 20
 Item	cursed black pearl onion	Effect: "Curse of the Black Pearl Onion", Effect Duration: 1
 Item	cursed sea biscuit	Effect: "Curse Magnet", Effect Duration: 10
+Item	cyburger	Effect: "Connected", Effect Duration: 40
 Item	D roll	Effect: "On a Roll", Effect Duration: 20
 Item	Deep Dish of Legend	Effect: "In the Depths", Effect Duration: 100
 Item	denastified haunch	Effect: "Faerie Fortune", Effect Duration: 30
@@ -9486,6 +9509,7 @@ Item	Crazymaker	Effect: "Void Between the Stars", Effect Duration: 15
 Item	cruelty-free wine	Effect: "Compensatory Cruelness", Effect Duration: 5
 Item	crystal skeleton vodka	Effect: "Aykrophobia", Effect Duration: 20
 Item	cursed bottle of black-label rum	Effect: "Curse Magnet", Effect Duration: 10
+Item	cybeer	Effect: "Connected", Effect Duration: 40
 Item	dew yoana lei	Effect: "Brined Liver", Effect Duration: 20
 Item	dew yoana salacious lei	Effect: "Brined Liver", Effect Duration: 30
 Item	Dinsey Whinskey	Effect: "The Dinsey Spirit", Effect Duration: 30
@@ -9781,11 +9805,13 @@ Item	Crimbo paste	Effect: "Crimbo Flavor", Effect Duration: 10
 Item	cute mushroom	Effect: "Cute Vision", Effect Duration: 50
 Item	demonic paste	Effect: "Demonic Flavor", Effect Duration: 10
 # dieting pill: Eat less, Enjoy it More!
+Item	drenchrome 2.0	Effect: "Cyber Slicer", Effect Duration: 30
 Item	ectoplasmic paste	Effect: "Spooky Flavor", Effect Duration: 10
 Item	eldritch essence	Effect: "Eldritch Concentration", Effect Duration: 50
 Item	elemental paste	Effect: "Elemental Flavor", Effect Duration: 10
 Item	energized spores	Effect: "Energized", Effect Duration: 40
 # excitement pill: Get an exciting random effect!
+Item	eXpand	Effect: "Cyber Memory Boost", Effect Duration: 30
 Item	fish sauce	Effect: "Fishy", Effect Duration: 30
 Item	fishy paste	Effect: "Fishy", Effect Duration: 10
 Item	fried air	Effect: "Well-Ventilated", Effect Duration: 30
@@ -9846,6 +9872,7 @@ Item	pirate paste	Effect: "Piratey Flavor", Effect Duration: 10
 Item	pool shark hair oil	Effect: "Sharky", Effect Duration: 20
 Item	powdered oxygen	Effect: "Hyperoxygenated Blood", Effect Duration: 10
 Item	prismatic wad	Effect: "Rainbow Bright", Effect Duration: 10
+Item	psilocyber mushroom	Effect: "Connected", Effect Duration: 80
 Item	prototype stimulant	Effect: "Proto-Stimulated", Effect Duration: 50
 # red paisley oyster egg: Restores 30-35 HP
 # red polka-dot oyster egg: Restores 30-35 HP
@@ -9869,6 +9896,7 @@ Item	stench jelly	Effect: "Stench Jellied", Effect Duration: 50
 Item	stench wad	Effect: "Stenchtastic", Effect Duration: 20
 Item	strange paste	Effect: "Weird Flavor", Effect Duration: 10
 Item	super-sweet fish goo (spoiled)	Effect: "Fishy", Effect Duration: 15
+Item	Synapse Blaster	Effect: "Cyber Resist x2000", Effect Duration: 30
 Item	The Author's ink	Effect: "It's a Good Life!", Effect Duration: 200
 Item	The Inquisitor's unidentifiable object	Effect: "The Inquisitor's Unknown Effect", Effect Duration: 100
 Item	tube of hair oil	Effect: "Got Your Boots On", Effect Duration: 10
@@ -10162,6 +10190,7 @@ Item	deodorant	Effect: "Fresh Scent", Effect Duration: [10+skill(Dead Nostrils)]
 Item	desktop zen garden	Effect: "Everything's Zen", Effect Duration: 10
 Item	deviled candy egg	Effect: "Candied Devil", Effect Duration: 10
 Item	devilish folio	Effect: "Dis Abled", Effect Duration: 30
+Item	digital honeypot	Effect: "Honeypotted", Effect Duration: 90
 Item	digital underground potion	Effect: "Digitally Converted", Effect Duration: 20
 Item	diluted makeup	Effect: "Made Up, Watered Down", Effect Duration: 10
 Item	Dino DNAde&trade;	Effect: "Prehistoric Potential", Effect Duration: 30
@@ -10409,6 +10438,7 @@ Item	huge mint leaf	Effect: "Mint-Condition Breath", Effect Duration: 20
 Item	humming El Vibrato drone	Effect: "El Vibrations", Effect Duration: 10
 Item	Hunger&trade; Sauce	Effect: "The Tunger&trade;", Effect Duration: 1
 Item	hyperinflated seal lung	Effect: "Really Deep Breath", Effect Duration: 20
+Item	iDrops	Effect: "Cybercrime Eyes", Effect Duration: 10
 Item	imported lemon lozenge	Effect: "Hypersoothed Throat", Effect Duration: 15
 Item	imported taffy	Effect: "Imported Strength", Effect Duration: 30
 Item	incense bath ball	Effect: "Incensed", Effect Duration: 10
@@ -10554,6 +10584,7 @@ Item	Nightstalker perfume	Effect: "Nightstalkin'", Effect Duration: 30
 Item	Northern pemmican	Effect: "Pemmican't", Effect Duration: 20
 Item	Now and Earlier	Effect: "Sugar Rush", Effect Duration: 5
 Item	Nuclear Blastball	Effect: "Taste the Inferno", Effect Duration: 50
+Item	null-day exploit	Effect: "Null Afternoon", Effect Duration: 30
 Item	O'RLY manual	Effect: "You Read The Manual", Effect Duration: 20
 Item	Ogres and Oubliettes&trade; module	Effect: "Ogred and Oublietted", Effect Duration: 10
 Item	oil of expertise	Effect: "Expert Oiliness", Effect Duration: [R]
@@ -10857,6 +10888,7 @@ Item	Sweet Sword	Effect: "Sugar Rush", Effect Duration: 10
 Item	sweet-corn-flavored Mr. Mediocrebar	Effect: "Kernel Panic!", Effect Duration: 30
 Item	sweetened reindeer fat	Effect: "Sweetened and Fattened", Effect Duration: 20
 Item	Swizzler	Effect: "Sugar Rush", Effect Duration: 5
+Item	synthetic coffee	Effect: "Synthetic Buzz", Effect Duration: 10
 Item	Taco Dan's Taco Stand Chillacious Churro	Effect: "Churro Chiaroscuro", Effect Duration: 5
 Item	tainted icing	Effect: "Iced and Tainted", Effect Duration: 10
 Item	tainted seal's blood	Effect: "Corruption of Wretched Wally", Effect Duration: 10
@@ -11578,6 +11610,7 @@ Item	Dear Past Self Package	Free Pull
 # Deck of Every Card: Who knows what will happen when you draw from it!
 Item	decoded cult documents	Skill: "Bind Spaghetti Elemental"
 Item	decorative fountain	Effect: "Sleepy", Effect Duration: 1
+Item	dedigitizer schematic: cybeer	Softcore Only
 Item	deed to Oliver's Place	Free Pull
 Item	defective Game Grid token	Effect: "Video... Games?", Effect Duration: 5
 Item	deflated inflatable dodecapede	Free Pull
@@ -11692,6 +11725,8 @@ Item	extra-strength red potion	Effect: "Healthy Red Glow", Effect Duration: 40
 # facsimile dictionary: (doesn't go away when used)
 Item	faerie dust	Lasts Until Rollover
 Item	fairy-worn boots	Free Pull
+# familiar-in-the-middle wrapper: CyberRealm: Your familiar will find an extra 1 at the end of combat
+Item	familiar-in-the-middle wrapper	Generic
 # fancy bath salts: Weakens enemies very slightly
 # fancy blue potion: Restores 90-110 MP
 Item	fancy blue potion	Effect: "Healthy Blue Glow", Effect Duration: 40
@@ -11782,6 +11817,7 @@ Item	Ghost Pinching Quarterly	Skill: "Pinch Ghost"
 Item	Glass Jack's spyglass	Lasts Until Rollover
 Item	glass of warm water	Free Pull
 # Glenn's golden dice: Grants you some random beneficial effects
+# glitched malware: CyberRealm:  Banish a process for the rest of the day
 # glob of Bat-Glue: Stuns foes for a few rounds
 # glob of Blank-Out: Lets you escape from combat without spending an Adventure
 # glob of Blank-Out: (usable a few times before it goes away)
@@ -12014,6 +12050,7 @@ Item	Loathing Legion jackhammer	Softcore Only
 # locked mumming trunk: Dress your familiars up like weird old dramatic archetypes!
 Item	locked mumming trunk	Free Pull
 Item	lodestone	Effect: "Loded", Effect Duration: 5
+# logic grenade: Instantly kill a CyberRealm process
 # LOLmec statuette: Sells for 1 Million Meat
 # Louder Than Bomb: Banishes a monster for a while
 Item	Love Potions and the Wizards who Mix Them	Skill: "Love Mixology"

@@ -161,6 +161,35 @@ public class ShopRowTest {
   }
 
   @Nested
+  class SeptEmberCenser {
+    // shop.php?whichshop=september
+    // test_shop_september.html
+
+    static AdventureResult ember = AdventureResult.tallyItem("Ember", 1, false);
+
+    // Sept-Ember Censer	ROW1516	bembershoot	Ember
+    // Sept-Ember Censer	ROW1510	blade of dismemberment	Ember
+    // Sept-Ember Censer	ROW1515	embers-only jacket	Ember
+    // Sept-Ember Censer	ROW1518	hat of remembering	Ember
+    // Sept-Ember Censer	ROW1517	wheel of camembert	Ember
+    // Sept-Ember Censer	ROW1512	Mmm-brr! brand mouthwash	Ember (2)
+    // Sept-Ember Censer	ROW1520	head of emberg lettuce	Ember (2)
+    // Sept-Ember Censer	ROW1513	Septapus summoning charm	Ember (2)
+    // Sept-Ember Censer	ROW1519	throwin' ember	Ember (2)
+    // Sept-Ember Censer	ROW1514	structural ember	Ember (4)
+    // Sept-Ember Censer	ROW1511	miniature Embering Hulk	Ember (6)
+
+    @Test
+    public void canParseSeptEmberCenser() {
+      String html = html("request/test_shop_september.html");
+      var inventory = ShopRow.parseShop(html, true);
+      var currencies = currencies(inventory);
+      assertEquals(11, inventory.size());
+      assertEquals(11, currencies.get(ember));
+    }
+  }
+
+  @Nested
   class PrimordialSoupKitchen {
     static AdventureResult chroner = new AdventureResult("Chroner", 1, false);
     static AdventureResult bisque = new AdventureResult("bacteria bisque", 1);

@@ -2200,8 +2200,8 @@
 2197	Hagnk's Gratitude	happy.gif	12ab723a001e17699fcf41cc1ff55cc7	good	none	# given by Hangk for contributing eldritch ichor during Eldritch Incursion
 2198	Wings of the Grasshopper	locust1.gif	b87ab6a546097731791c4e2cbbd00a71	good	none	drink 1 literal grasshopper
 2199	Wings of the Dragonfly	dragonfly.gif	9a5f36faa5771f5aaf9a2ca3db7c64b7	good	none	drink 1 eighth plague
-2200
-2201
+2200	Honeypotted	pixelwhiskey.gif	2e9ff5e9f24f78e838189b5eae14e001	neutral	none	use 1 digital honeypot
+2201	Connected	pixheart.gif	9259fbf1d465faad90e41f4552f33302	neutral	none	eat 1 cyburger
 2202	Space Cadet	spacehelmet.gif	62361e332402328f9398ded1aa551bda	good	none	drink 1 double entendre
 2203	Pounded by the Actual Stars	tinystars.gif	3414fb4ec08f761d3b0ea241aaba270f	good	none	drink 1 single entendre
 2204
@@ -2953,12 +2953,14 @@
 2950	Grateful, But Spelled With a Dollar Sign	dollarsign.gif	d327b4c6b31dce1f0a7435f37da24878	neutral	none	eat 1 double-candied yams|drink 1 turchucken
 2951	Eyesies on the Pressies	darkgift.gif	1ee7baeab92f07b17d7619ea62b6d167	neutral	none	eat 1 Christmas ham|drink 1 mechanically-mulled cider
 2952	Herder, Bitter, Fester, Stranger	darkchocegg.gif	a8a929d23d6d0676bf31e4e3e2c25d1d	neutral	none	use 1 dark chocolate egg
-2953
-2954
-2955
-2956
+2953	Cyber Memory Boost	10101.gif	f72542d649b923278a96f0cb69b77e5d	neutral	none	chew 1 eXpand
+2954	Cyber Resist x2000	realbrain.gif	83a264ac03c91ac4b838ba651b42557e	neutral	none	chew 1 Synapse Blaster
+2955	Cyber Slicer	pixelsword.gif	b8edcc46ef07e4609c98eb13166cd3fa	neutral	none	chew 1 drenchrome 2.0
+2956	Null Afternoon	10101.gif	dbea84c6cfa3261e64bdd722d198d133	neutral	none	use 1 null-day exploit
 2957	Blinded by the Crepe	crepehat.gif	29f9b1704209badb3da4f3fa59adf969	neutral	none	cast 1 Pull down your crepe paper phrygian cap
 2958	Crepe Paper Rainbow	crepepin.gif	4d7567add20055f67759e4d8b8164802	neutral	none	cast 1 Look through your crepe paper pie clip
 2959	Crepe Paper Puzzled	crepecube.gif	e3c54d616d1f7739663774625a631061	neutral	none	cast 1 Play with your crepe paper puzzle
 2960	Leaving Nothing to the Imagination	crepecamisole.gif	e5fc3ff65d76d85fc9d3e0c370ffbd84	neutral	none	cast 1 Leave nothing to the imagination
 2961	Polka Dancing	crepecharm.gif	2b6b041e7fcca2a26a40682f1caf3156	neutral	none	cast 1 Embrace polka
+2962	Synthetic Buzz	coffeecup.gif	20528648bd6e3ac43c284af4efcd631f	neutral	none	use 1 synthetic coffee
+2963	Cybercrime Eyes	bigpupil.gif	94d178dfabaef344cc7591315e6bbb03	neutral	none	use 1 iDrops

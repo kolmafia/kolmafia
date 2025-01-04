@@ -9500,7 +9500,7 @@
 9472	Spacegate emergency disintegrator	464165392	sgdisintegrator.gif	usable	t	0
 9473	Spacegate Initiative tattoo unit	506617361	sgtattoo.gif	usable	t	0
 9474	alien sandwich	264675078	sammich.gif	food	t,d	44	alien sandwiches
-9475
+9475	glitched malware	614948907	cr_malware.gif	none	t,d	99
 9476	Spant eggs	622124078	spanteggs.gif	potion	t,d	5	bundles of Spant eggs
 9477	portable Spacegate (open)	198155670	portablesg.gif	none	q	0
 9478	New-You Club Membership Form	452518496	newyouform.gif	usable	t	0
@@ -9690,7 +9690,7 @@
 9662	donated booze	803482456	donatedbooze.gif	none		0	boxes of donated booze
 9663	donated food	940575506	donatedfood.gif	none		0	piles of donated food
 9664	donated candy	442893531	donatedcandy.gif	none		0	boxes of donated candy
-9665
+9665	digital honeypot	118331272	pixelwhiskey.gif	potion, usable	t,d	22
 9666	mime-proof sunglasses	458961242	morphshades.gif	accessory		0	pairs of mime-proof sunglasses
 9667	mime army insignia (infantry)	999272300	marmy1.gif	accessory		0	mime army insignias (infantry)
 9668	mime army insignia (intelligence)	475405090	marmy2.gif	accessory		0	mime army insignias (intelligence)
@@ -10666,7 +10666,7 @@
 10638	flask of moonshine	316918980	flask.gif	drink	t,d	6	flasks of moonshine
 10639	sea-worn candlestick	727071839	seacandle.gif	weapon		0
 10640	Universal Seasoning	607903571	spice.gif	reusable		0
-10641
+10641	null-day exploit	840117872	10101.gif	potion, usable	t,d	15
 10642	flame orb	690359871	flame.gif	none, combat	t,d	6
 10643	chocolate chip muffin	918943586	earthpan3.gif	food	t	0
 10644	Comprehensive Cartographic Compendium	888457946	cccbook.gif	usable	t	0
@@ -10753,7 +10753,7 @@
 10725	bowl full of jelly	410129132	soupbowl.gif	food	t	0	bowls full of jelly
 10726	Eye and a Twist	475434554	eyemartini.gif	drink	t	0
 10727	Chubby and Plump bar	452862469	chubbybar.gif	potion, candy1	t	0
-10728
+10728	digibritches	997574636	cr_pants.gif	pants	t,d	75
 10729	packaged miniature crystal ball	347350648	famballbox.gif	usable	t	0
 10730	miniature crystal ball	320248255	famball.gif	familiar		0
 10731	fresh can of paint	689133733	freshcan.gif	usable	t	0	fresh cans of paint
@@ -10770,7 +10770,7 @@
 10742	battery (9-Volt)	571644039	ppbattery4.gif	potion, paste	t	0	batteries (9-Volt)
 10743	battery (lantern)	609332450	ppbattery5.gif	potion, paste	t	0	batteries (lantern)
 10744	battery (car)	331021839	ppbattery6.gif	potion	t	0	batteries (car)
-10745
+10745	cryptocloak	807767394	cr_cloak.gif	container	t,d	60
 10746	green marshmallow	762874061	greenmallow.gif	none	t	0
 10747	marshmallow bomb	415111150	shot_f.gif	drink	t	0
 10748	packaged backup camera	139667233	backcamera_box.gif	usable	t	0
@@ -10866,7 +10866,7 @@
 10838	Doc's Special Reserve Wine	510170168	rxwine.gif	drink	t,d	10	bottles of Doc's Special Reserve Wine
 10839	bread pie	734136895	pie.gif	food	t,d	5
 10840	clear Russian	276019932	whitedrink.gif	drink	t,d	5
-10841
+10841	zero-trust tanktop	122750587	cr_tanktop.gif	shirt	t,d	70
 10842	white Crimbo ball	465562412	crimball_white.gif	none	t	0
 10843	black Crimbo ball	720352210	crimball_black.gif	none	t	0
 10844	gooified animal matter	770996300	goo_org.gif	none	t	0
@@ -10922,7 +10922,7 @@
 10894	Thwaitgold protozoa statuette	575626986	thwaitproto.gif	none		0
 10895	grey gosling	802522606	greygosling.gif	grow	t	0
 10896	grey down vest	994210569	greygoovest.gif	familiar	t,d	75
-10897
+10897	trojan horseshoe	540610223	cr_horseshoe.gif	offhand	t,d	65
 10898	undamaged Unbreakable Umbrella	591888584	unbrella1.gif	usable	t	0
 10899	unbreakable umbrella	712482724	unbrella7.gif	offhand		0
 10900	MayDay&trade; contract	536141141	maydaycontract.gif	usable	t	0
@@ -10989,7 +10989,7 @@
 10961	autumn leaf pendant	871526580	maplependant.gif	accessory	q	0
 10962	autumn breeze	709263513	cueball.gif	spleen, usable	t,d	15
 10963	autumn years wisdom	794318555	xicrystal.gif	potion	t,d	15
-10964
+10964	familiar-in-the-middle wrapper	889778025	cr_sweater.gif	familiar	t,d	75
 10965	Oopsie IPA	439261217	beerbottle.gif	drink	t	0
 10966	mummified entombed cookbookbat	898160116	bbat_larva.gif	grow	t	0
 10967	Yeast of Boris	872378372	bbat_yeast.gif	none, cook, mix	t,d	50	handfuls of the Yeast of Boris
@@ -11219,11 +11219,11 @@
 11191	replica hand turkey outline	643478560	hand.gif	grow	q	0
 11192	replica crimbo elfling	258450480	elfling.gif	grow	q	0
 11193	replica pygmy bugbear shaman	899612550	familiar39.gif	grow	q	0
-11194
+11194	dedigitizer schematic: cyburger	651736319	cr_schematic.gif	none	t,d	20
 11195	replica miniature gravy-covered maypole	436493832	maypole.gif	familiar	q	0
 11196	replica wax lips	673520346	waxlips.gif	familiar	q	0
 11197	replica Tome of Snowcone Summoning	329232343	book.gif	usable	q	0
-11198
+11198	dedigitizer schematic: cybeer	691441855	cr_schematic.gif	none	t,d	20
 11199	replica jewel-eyed wizard hat	244839212	wizhat.gif	hat	q	0
 11200	replica bottle-rocket crossbow	503354088	brcrossbow.gif	weapon	q	0
 11201	replica navel ring of navel gazing	974079701	navelring.gif	accessory	q	0
@@ -11249,7 +11249,7 @@
 11221	replica Order of the Green Thumb Order Form	957859985	floristform.gif	usable	q	0
 11222	shrink-wrapped Cincho de Mayo	539769549	cinchobox.gif	usable	t	0	shrink-wrapped Cinchos de Mayo
 11223	Cincho de Mayo	408302806	cincho.gif	accessory		0	Cinchos de Mayo
-11224
+11224	dedigitizer schematic: psilocyber mushroom	435408848	cr_schematic.gif	none	t,d	20
 11225	replica Little Geneticist DNA-Splicing Lab	634830887	genelab.gif	usable	q	0
 11226	replica still grill	476730920	stillgrill.gif	grow	q	0
 11227	replica Crimbo sapling	841170076	crimbosapling.gif	grow	q	0
@@ -11310,7 +11310,7 @@
 11282	Sexy Cosmo	445044642	perf_cosmo.gif	drink	t,d	11
 11283	Souvenir Chopsticks	821052146	chopsticks2.gif	none	t,d	10	Souvenir Chopsticks
 11284	red-soled high heels	933964223	highheels.gif	accessory	t,d	100	pairs of red-soled high heels
-11285
+11285	cyburger	727592938	cr_burger.gif	food	t,d	10
 11286	ncle leg	416832592	antleg.gif	weapon	t,d	5
 11287	rutabuga bag	303689533	carapace2.gif	container	t,d	5
 11288	mesquito proboscis	393226240	proboscis.gif	offhand	t,d	5	mesquito proboscises
@@ -11561,10 +11561,10 @@
 11533	petrified wood walking pants	587162395	pwoodpants.gif	pants		0	pairs of petrified wood walking/pacing pants
 11534
 11535	petrified wood wafer praline	544944743	pwoodcandy.gif	potion, usable, candy	t,d	15
-11536
+11536	cybeer	356688730	cr_beer.gif	drink	t,d	10
 11537
-11538
-11539
+11538	wired underwear	672663785	cr_undies.gif	pants	t,d	40
+11539	encrypted shuriken	702660236	shuriken.gif	weapon	t,d	45
 11540	baby chest mimic	584086799	mimicbaby.gif	grow	t	0
 11541	googly chest eyes	343119773	eyes.gif	familiar	t	0
 11542	mimic egg	646626465	mimicegg.gif	usable	q	0
@@ -11615,7 +11615,7 @@
 11587	yam slider	593891884	burger.gif	food	t,d	11
 11588	yam mayo	878600079	nutramekin.gif	food	t,d	11	ramekins of yam mayo
 11589	yam burrito	855430740	burrito.gif	food	t,d	11
-11590
+11590	visual packet sniffer	717999195	cursedmag.gif	offhand	t,d	40
 11591	mini kiwi egg	845486056	kiwi_egg.gif	grow	t	0
 11592	aviator goggles	628912777	goggles.gif	familiar	t,d	75	pairs of aviator goggles
 11593	Thwaitgold Illinigina illinoiensis model	257510677	thwaitilli.gif	none		0
@@ -11702,8 +11702,8 @@
 11674	whirled peas	876145561	pto_peas.gif	food, paste, cook, mix	t,d	5	handfuls of whirled peas
 11675	peaza	503542763	pto_pizza.gif	food	t,d	21
 11676	peace shooter	535806162	pto_shooter.gif	none, combat	t,d	11
-11677
-11678
+11677	drenchrome 2.0	251345444	pill3.gif	spleen, usable	t,d	10
+11678	Synapse Blaster	442975201	pill2.gif	spleen, usable	t,d	10
 11679	quantized familiar	258736001	qflarva.gif	grow		0
 11680	quantum watch	757870628	qfwatch.gif	familiar	t,d	37
 11681	quantized familiar experience	829423278	qfexp.gif	usable	t,d	11
@@ -11814,39 +11814,39 @@
 11786	McHugeLarge left ski	210105166	ski1.gif	accessory	q	0
 11787	McHugeLarge right ski	796918007	ski2.gif	accessory	q	0
 11787
-11788
-11789
-11790
+11788	1	525329942	cr_1.gif	none	t,d	1
+11789	0	591340391	cr_0.gif	none	t,d	2
+11790	eXpand	312628661	pill4.gif	spleen, usable	t,d	10
 11791
-11792
+11792	datastick	369282839	cr_datastick.gif	accessory	t,d	50
 11793
-11794
-11795
+11794	dedigitizer schematic: malware injector	894160548	cr_schematic.gif	none	t,d	20
+11795	dedigitizer schematic: cybervisor	143214776	cr_schematic.gif	none	t,d	20
 11796
-11797
-11798
+11797	dedigitizer schematic: cryptocloak	268491073	cr_schematic.gif	none	t,d	20
+11798	dedigitizer schematic: zero-trust tanktop	372175914	cr_schematic.gif	none	t,d	20
 11799
-11800
-11801
-11802
-11803
-11804
-11805
-11806
-11807
-11808
+11800	dedigitizer schematic: pocket GPU	339400989	cr_schematic.gif	none	t,d	20
+11801	dedigitizer schematic: trojan horseshoe	178644708	cr_schematic.gif	none	t,d	20
+11802	dedigitizer schematic: familiar-in-the-middle	945787713	cr_schematic.gif	none	t,d	20
+11803	cybervisor	963774009	cr_visor.gif	hat	t,d	60
+11804	retro floppy disk	720399346	cr_floppy.gif	accessory	t,d	50
+11805	pocket GPU	921523852	cr_gpu.gif	accessory	t,d	75
+11806	malware injector	891017174	syringe.gif	offhand	t,d	60
+11807	CyberRealm keycode	211842512	cr_keycode.gif	usable	t	0
+11808	server room key	865269521	cr_key.gif	none		0
 11809
 11810
-11811
-11812
+11811	logic grenade	782107563	cr_grenade.gif	none, combat	t,d	30
+11812	psilocyber mushroom	546956019	cr_shroom.gif	spleen, usable	t,d	10
 11813
 11814
 11815
 11816
 11817
 11818
-11819
-11820
+11819	dedigitizer schematic: geofencing shield	345860648	cr_schematic.gif	none	t,d	30
+11820	dedigitizer schematic: virtual cybertattoo	258125297	cr_schematic.gif	none	t,d	30
 11821
 11822
 11823
@@ -11854,8 +11854,10 @@
 11825
 11826
 11827
-11828
-11829
+11828	geofencing shield	517384017	cr_shield.gif	offhand	t,d	200
+11829	virtual cybertattoo	757337801	cr_tat.gif	usable	t	0
 11830	ninja rope	351796064	ninjarope.gif	none	q	0	coils of ninja rope
 11831	ninja crampons	876430936	crampons.gif	none	q	0
 11832	ninja carabiner	128846387	carabiner.gif	none	q	0
+11833	synthetic coffee	348642138	coffeecup.gif	potion, usable	t,d	1
+11834	iDrops	129405226	blackdrops.gif	potion, usable	t,d	1

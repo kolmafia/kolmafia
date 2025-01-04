@@ -387,7 +387,10 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
       }
       case USE_MULTIPLE -> {
         int standard = itemCount;
-        if (!message.equals("Feed") && !message.equals("Queue")) {
+        boolean obeyConsumptionLimits =
+            !message.equals("Feed")
+                && (!message.equals("Queue") || Preferences.getBoolean("enqueueForConsumption"));
+        if (obeyConsumptionLimits) {
           if (item instanceof Concoction c) {
             int previous = 0, capacity = itemCount, unit = 0, shotglass = 0;
 
