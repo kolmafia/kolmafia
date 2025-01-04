@@ -1059,7 +1059,7 @@ public class NPCPurchaseRequest extends PurchaseRequest {
         continue;
       }
 
-      if (costs.length == 1 && costs[0].equals("Meat")) {
+      if (costs.length == 1 && costs[0].isMeat()) {
         int cost = costs[0].getCount();
         newShopItems |= learnNPCStoreItem(shopId, shopName, item, cost, row, newShopItems, force);
         continue;

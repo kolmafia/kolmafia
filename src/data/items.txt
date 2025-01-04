@@ -11702,8 +11702,8 @@
 11674	whirled peas	876145561	pto_peas.gif	food, paste, cook, mix	t,d	5	handfuls of whirled peas
 11675	peaza	503542763	pto_pizza.gif	food	t,d	21
 11676	peace shooter	535806162	pto_shooter.gif	none, combat	t,d	11
-11677
-11678
+11677	drenchrome 2.0	251345444	pill3.gif	spleen, usable	t,d	10
+11678	Synapse Blaster	442975201	pill2.gif	spleen, usable	t,d	10
 11679	quantized familiar	258736001	qflarva.gif	grow		0
 11680	quantum watch	757870628	qfwatch.gif	familiar	t,d	37
 11681	quantized familiar experience	829423278	qfexp.gif	usable	t,d	11
@@ -11816,7 +11816,7 @@
 11787
 11788
 11789
-11790
+11790	eXpand	312628661	pill4.gif	spleen, usable	t,d	10
 11791
 11792
 11793
@@ -11833,8 +11833,8 @@
 11804
 11805
 11806
-11807
-11808
+11807	CyberRealm keycode	211842512	cr_keycode.gif	usable	t	0
+11808	server room key	865269521	cr_key.gif	none		0
 11809
 11810
 11811
