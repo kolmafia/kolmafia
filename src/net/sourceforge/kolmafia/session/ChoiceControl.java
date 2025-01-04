@@ -2456,15 +2456,9 @@ public abstract class ChoiceControl {
           if (matcher.find()) {
             decoration = StringUtilities.parseInt(matcher.group(1));
             switch (decoration) {
-              case 1:
-                Preferences.setString("shrubTopper", "Muscle");
-                break;
-              case 2:
-                Preferences.setString("shrubTopper", "Mysticality");
-                break;
-              case 3:
-                Preferences.setString("shrubTopper", "Moxie");
-                break;
+              case 1 -> Preferences.setString("shrubTopper", "Muscle");
+              case 2 -> Preferences.setString("shrubTopper", "Mysticality");
+              case 3 -> Preferences.setString("shrubTopper", "Moxie");
             }
           }
 
@@ -2472,24 +2466,12 @@ public abstract class ChoiceControl {
           if (matcher.find()) {
             decoration = StringUtilities.parseInt(matcher.group(1));
             switch (decoration) {
-              case 1:
-                Preferences.setString("shrubLights", "prismatic");
-                break;
-              case 2:
-                Preferences.setString("shrubLights", "Hot");
-                break;
-              case 3:
-                Preferences.setString("shrubLights", "Cold");
-                break;
-              case 4:
-                Preferences.setString("shrubLights", "Stench");
-                break;
-              case 5:
-                Preferences.setString("shrubLights", "Spooky");
-                break;
-              case 6:
-                Preferences.setString("shrubLights", "Sleaze");
-                break;
+              case 1 -> Preferences.setString("shrubLights", "prismatic");
+              case 2 -> Preferences.setString("shrubLights", "Hot");
+              case 3 -> Preferences.setString("shrubLights", "Cold");
+              case 4 -> Preferences.setString("shrubLights", "Stench");
+              case 5 -> Preferences.setString("shrubLights", "Spooky");
+              case 6 -> Preferences.setString("shrubLights", "Sleaze");
             }
           }
 
@@ -2497,15 +2479,9 @@ public abstract class ChoiceControl {
           if (matcher.find()) {
             decoration = StringUtilities.parseInt(matcher.group(1));
             switch (decoration) {
-              case 1:
-                Preferences.setString("shrubGarland", "HP");
-                break;
-              case 2:
-                Preferences.setString("shrubGarland", "PvP");
-                break;
-              case 3:
-                Preferences.setString("shrubGarland", "blocking");
-                break;
+              case 1 -> Preferences.setString("shrubGarland", "HP");
+              case 2 -> Preferences.setString("shrubGarland", "PvP");
+              case 3 -> Preferences.setString("shrubGarland", "blocking");
             }
           }
 
@@ -2513,15 +2489,9 @@ public abstract class ChoiceControl {
           if (matcher.find()) {
             decoration = StringUtilities.parseInt(matcher.group(1));
             switch (decoration) {
-              case 1:
-                Preferences.setString("shrubGifts", "yellow");
-                break;
-              case 2:
-                Preferences.setString("shrubGifts", "meat");
-                break;
-              case 3:
-                Preferences.setString("shrubGifts", "gifts");
-                break;
+              case 1 -> Preferences.setString("shrubGifts", "yellow");
+              case 2 -> Preferences.setString("shrubGifts", "meat");
+              case 3 -> Preferences.setString("shrubGifts", "gifts");
             }
           }
         }
@@ -2622,41 +2592,16 @@ public abstract class ChoiceControl {
         // Underworld Body Shop
         Matcher skillidMatcher = URL_SKILLID_PATTERN.matcher(urlString);
         if (skillidMatcher.find()) {
-          int cost = 0;
-          switch (StringUtilities.parseInt(skillidMatcher.group(1))) {
-            case 30:
-              cost = 5;
-              break;
-            case 31:
-            case 36:
-            case 39:
-            case 40:
-            case 43:
-            case 44:
-              cost = 10;
-              break;
-            case 32:
-              cost = 15;
-              break;
-            case 33:
-            case 37:
-            case 38:
-            case 41:
-            case 42:
-            case 45:
-            case 48:
-              cost = 20;
-              break;
-            case 34:
-              cost = 25;
-              break;
-            case 28:
-            case 29:
-            case 35:
-            case 46:
-              cost = 30;
-              break;
-          }
+          int cost =
+              switch (StringUtilities.parseInt(skillidMatcher.group(1))) {
+                case 30 -> 5;
+                case 31, 36, 39, 40, 43, 44 -> 10;
+                case 32 -> 15;
+                case 33, 37, 38, 41, 42, 45, 48 -> 20;
+                case 34 -> 25;
+                case 28, 29, 35, 46 -> 30;
+                default -> 0;
+              };
           ResultProcessor.processResult(ItemPool.get(ItemPool.KA_COIN, -cost));
         }
         break;
@@ -2804,24 +2749,12 @@ public abstract class ChoiceControl {
       case 1076:
         // Mayo Minder&trade;
         switch (ChoiceManager.lastDecision) {
-          case 1:
-            Preferences.setString("mayoMinderSetting", "Mayonex");
-            break;
-          case 2:
-            Preferences.setString("mayoMinderSetting", "Mayodiol");
-            break;
-          case 3:
-            Preferences.setString("mayoMinderSetting", "Mayostat");
-            break;
-          case 4:
-            Preferences.setString("mayoMinderSetting", "Mayozapine");
-            break;
-          case 5:
-            Preferences.setString("mayoMinderSetting", "Mayoflex");
-            break;
-          case 6:
-            Preferences.setString("mayoMinderSetting", "");
-            break;
+          case 1 -> Preferences.setString("mayoMinderSetting", "Mayonex");
+          case 2 -> Preferences.setString("mayoMinderSetting", "Mayodiol");
+          case 3 -> Preferences.setString("mayoMinderSetting", "Mayostat");
+          case 4 -> Preferences.setString("mayoMinderSetting", "Mayozapine");
+          case 5 -> Preferences.setString("mayoMinderSetting", "Mayoflex");
+          case 6 -> Preferences.setString("mayoMinderSetting", "");
         }
         break;
 
@@ -2887,18 +2820,10 @@ public abstract class ChoiceControl {
       case 1118:
         // X-32-F Combat Training Snowman Control Console
         switch (ChoiceManager.lastDecision) {
-          case 1:
-            Preferences.setString("snojoSetting", "MUSCLE");
-            break;
-          case 2:
-            Preferences.setString("snojoSetting", "MYSTICALITY");
-            break;
-          case 3:
-            Preferences.setString("snojoSetting", "MOXIE");
-            break;
-          case 4:
-            Preferences.setString("snojoSetting", "TOURNAMENT");
-            break;
+          case 1 -> Preferences.setString("snojoSetting", "MUSCLE");
+          case 2 -> Preferences.setString("snojoSetting", "MYSTICALITY");
+          case 3 -> Preferences.setString("snojoSetting", "MOXIE");
+          case 4 -> Preferences.setString("snojoSetting", "TOURNAMENT");
         }
         break;
 
@@ -3827,24 +3752,15 @@ public abstract class ChoiceControl {
         {
           // Choose a Soundtrack
           if (!text.contains("decide not to change the station")) {
-            String songChosen = "";
-            switch (ChoiceManager.lastDecision) {
-              case 1:
-                songChosen = "Eye of the Giger";
-                break;
-              case 2:
-                songChosen = "Food Vibrations";
-                break;
-              case 3:
-                songChosen = "Remainin' Alive";
-                break;
-              case 4:
-                songChosen = "These Fists Were Made for Punchin'";
-                break;
-              case 5:
-                songChosen = "Total Eclipse of Your Meat";
-                break;
-            }
+            String songChosen =
+                switch (ChoiceManager.lastDecision) {
+                  case 1 -> "Eye of the Giger";
+                  case 2 -> "Food Vibrations";
+                  case 3 -> "Remainin' Alive";
+                  case 4 -> "These Fists Were Made for Punchin'";
+                  case 5 -> "Total Eclipse of Your Meat";
+                  default -> "";
+                };
             if (!songChosen.equals("")) {
               if (!KoLCharacter.hasSkill(SkillPool.SING_ALONG)) {
                 KoLCharacter.addAvailableSkill(SkillPool.SING_ALONG);
@@ -4609,14 +4525,12 @@ public abstract class ChoiceControl {
           // The Mushy Center
           int mushroomLevel = 1; // Tomorrow's mushroom
           switch (ChoiceManager.lastDecision) {
-            case 1:
-              // Fertilize the mushroom
-              mushroomLevel = Preferences.increment("mushroomGardenCropLevel", 1, 11, false);
-              break;
-            case 2:
-              // Pick the mushroom
-              Preferences.setInteger("mushroomGardenCropLevel", 1);
-              break;
+            case 1 ->
+            // Fertilize the mushroom
+            mushroomLevel = Preferences.increment("mushroomGardenCropLevel", 1, 11, false);
+            case 2 ->
+            // Pick the mushroom
+            Preferences.setInteger("mushroomGardenCropLevel", 1);
           }
           CampgroundRequest.clearCrop();
           CampgroundRequest.setCampgroundItem(new Mushroom(mushroomLevel));
@@ -4628,7 +4542,7 @@ public abstract class ChoiceControl {
         {
           // The Hall in the Hall
           switch (ChoiceManager.lastDecision) {
-            case 1:
+            case 1 -> {
               Preferences.setBoolean("_drippingHallDoor1", true);
               // If you acquire a drippy org, count it
               if (text.contains("drippy orb")) {
@@ -4638,21 +4552,17 @@ public abstract class ChoiceControl {
                 int min = KoLCharacter.estimatedPoolSkill() / 20;
                 Preferences.setInteger("drippyOrbsClaimed", Math.max(known, min));
               }
-              break;
-            case 2:
-              Preferences.setBoolean("_drippingHallDoor2", true);
-              break;
-            case 3:
-              Preferences.setBoolean("_drippingHallDoor3", true);
-              break;
-            case 4:
+            }
+            case 2 -> Preferences.setBoolean("_drippingHallDoor2", true);
+            case 3 -> Preferences.setBoolean("_drippingHallDoor3", true);
+            case 4 -> {
               Preferences.setBoolean("_drippingHallDoor4", true);
 
               // If you acquire drippy pilsner, uses a drippy stein
               if (text.contains("drippy pilsner")) {
                 ResultProcessor.processItem(ItemPool.DRIPPY_STEIN, -1);
               }
-              break;
+            }
           }
 
           // This only advances upon defeating a dripping reveler
@@ -4678,7 +4588,7 @@ public abstract class ChoiceControl {
         {
           // Guzzlr Client Selection
           switch (ChoiceManager.lastDecision) {
-            case 1:
+            case 1 -> {
               // Abandon
               Preferences.setBoolean("_guzzlrQuestAbandoned", true);
 
@@ -4687,62 +4597,58 @@ public abstract class ChoiceControl {
               Preferences.setString("guzzlrQuestLocation", "");
               Preferences.setString("guzzlrQuestTier", "");
               QuestDatabase.setQuestProgress(Quest.GUZZLR, QuestDatabase.UNSTARTED);
-              break;
-            case 2:
-            case 3:
-            case 4:
-              {
-                Matcher locationMatcher = GUZZLR_LOCATION_PATTERN.matcher(text);
-                Matcher boozeMatcher = DESCID_PATTERN.matcher(text);
+            }
+            case 2, 3, 4 -> {
+              Matcher locationMatcher = GUZZLR_LOCATION_PATTERN.matcher(text);
+              Matcher boozeMatcher = DESCID_PATTERN.matcher(text);
 
-                String tier = "";
+              String tier = "";
 
-                if (locationMatcher.find()) {
-                  tier = locationMatcher.group(1).toLowerCase();
-                  Preferences.setString("guzzlrQuestClient", locationMatcher.group(2));
-                  Preferences.setString("guzzlrQuestLocation", locationMatcher.group(4));
-                }
+              if (locationMatcher.find()) {
+                tier = locationMatcher.group(1).toLowerCase();
+                Preferences.setString("guzzlrQuestClient", locationMatcher.group(2));
+                Preferences.setString("guzzlrQuestLocation", locationMatcher.group(4));
+              }
 
-                // If we didn't capture from the ouput we can determine from the choice
-                if (tier.equals("")) {
-                  tier =
-                      ChoiceManager.lastDecision == 2
-                          ? "bronze"
-                          : ChoiceManager.lastDecision == 3 ? "gold" : "platinum";
-                }
+              // If we didn't capture from the ouput we can determine from the choice
+              if (tier.equals("")) {
+                tier =
+                    ChoiceManager.lastDecision == 2
+                        ? "bronze"
+                        : ChoiceManager.lastDecision == 3 ? "gold" : "platinum";
+              }
 
-                // Remember the tier of the current quest
-                Preferences.setString("guzzlrQuestTier", tier);
+              // Remember the tier of the current quest
+              Preferences.setString("guzzlrQuestTier", tier);
 
-                // Increment the number of gold or platinum deliveres STARTED today
-                if (!tier.equals("bronze")) {
-                  Preferences.increment(
-                      "_guzzlr" + StringUtilities.toTitleCase(tier) + "Deliveries", 1);
-                }
+              // Increment the number of gold or platinum deliveres STARTED today
+              if (!tier.equals("bronze")) {
+                Preferences.increment(
+                    "_guzzlr" + StringUtilities.toTitleCase(tier) + "Deliveries", 1);
+              }
 
-                if (boozeMatcher.find()) {
-                  int itemId = ItemDatabase.getItemIdFromDescription(boozeMatcher.group(1));
-                  Preferences.setString("guzzlrQuestBooze", ItemDatabase.getItemName(itemId));
-                }
+              if (boozeMatcher.find()) {
+                int itemId = ItemDatabase.getItemIdFromDescription(boozeMatcher.group(1));
+                Preferences.setString("guzzlrQuestBooze", ItemDatabase.getItemName(itemId));
+              }
 
-                if (Preferences.getString("guzzlrQuestBooze").isEmpty()
-                    || Preferences.getString("guzzlrQuestLocation").isEmpty()) {
-                  RequestThread.postRequest(new QuestLogRequest());
-                }
+              if (Preferences.getString("guzzlrQuestBooze").isEmpty()
+                  || Preferences.getString("guzzlrQuestLocation").isEmpty()) {
+                RequestThread.postRequest(new QuestLogRequest());
+              }
 
-                int itemId = ItemDatabase.getItemId(Preferences.getString("guzzlrQuestBooze"));
+              int itemId = ItemDatabase.getItemId(Preferences.getString("guzzlrQuestBooze"));
 
-                if (itemId > 0 && itemId != ItemPool.GUZZLR_COCKTAIL_SET) {
-                  if (InventoryManager.getCount(itemId) > 0) {
-                    QuestDatabase.setQuestProgress(Quest.GUZZLR, "step1");
-                  } else {
-                    QuestDatabase.setQuestProgress(Quest.GUZZLR, QuestDatabase.STARTED);
-                  }
+              if (itemId > 0 && itemId != ItemPool.GUZZLR_COCKTAIL_SET) {
+                if (InventoryManager.getCount(itemId) > 0) {
+                  QuestDatabase.setQuestProgress(Quest.GUZZLR, "step1");
                 } else {
                   QuestDatabase.setQuestProgress(Quest.GUZZLR, QuestDatabase.STARTED);
                 }
-                break;
+              } else {
+                QuestDatabase.setQuestProgress(Quest.GUZZLR, QuestDatabase.STARTED);
               }
+            }
           }
 
           break;
@@ -4972,29 +4878,22 @@ public abstract class ChoiceControl {
       case 1517:
         // Mimic DNA Bank
         switch (ChoiceManager.lastDecision) {
-          case 1:
-            {
-              if (text.contains("You donate your egg to science.")) {
-                ResultProcessor.processItem(ItemPool.MIMIC_EGG, -1);
-                updateMimicMonsters(urlString, -1);
-                Preferences.increment("_mimicEggsDonated", 1, 3, false);
-              }
-              break;
+          case 1 -> {
+            if (text.contains("You donate your egg to science.")) {
+              ResultProcessor.processItem(ItemPool.MIMIC_EGG, -1);
+              updateMimicMonsters(urlString, -1);
+              Preferences.increment("_mimicEggsDonated", 1, 3, false);
             }
-          case 2:
-            {
-              if (text.contains("pops into a backroom")) {
-                Preferences.increment("_mimicEggsObtained", 1, 11, false);
-                updateMimicMonsters(urlString, 1);
-                KoLCharacter.getFamiliar().addNonCombatExperience(-100);
-                break;
-              }
-              if (text.contains("can't extract")) {
-                Preferences.setInteger("_mimicEggsObtained", 11);
-                break;
-              }
-              break;
+          }
+          case 2 -> {
+            if (text.contains("pops into a backroom")) {
+              Preferences.increment("_mimicEggsObtained", 1, 11, false);
+              updateMimicMonsters(urlString, 1);
+              KoLCharacter.getFamiliar().addNonCombatExperience(-100);
+            } else if (text.contains("can't extract")) {
+              Preferences.setInteger("_mimicEggsObtained", 11);
             }
+          }
         }
         break;
       case 1518:
@@ -5482,24 +5381,15 @@ public abstract class ChoiceControl {
       case 553:
         // Relocked and Reloaded
         if (text.contains("You melt")) {
-          int item = 0;
-          switch (ChoiceManager.lastDecision) {
-            case 1:
-              item = ItemPool.MAXWELL_HAMMER;
-              break;
-            case 2:
-              item = ItemPool.TONGUE_BRACELET;
-              break;
-            case 3:
-              item = ItemPool.SILVER_CHEESE_SLICER;
-              break;
-            case 4:
-              item = ItemPool.SILVER_SHRIMP_FORK;
-              break;
-            case 5:
-              item = ItemPool.SILVER_PATE_KNIFE;
-              break;
-          }
+          int item =
+              switch (ChoiceManager.lastDecision) {
+                case 1 -> ItemPool.MAXWELL_HAMMER;
+                case 2 -> ItemPool.TONGUE_BRACELET;
+                case 3 -> ItemPool.SILVER_CHEESE_SLICER;
+                case 4 -> ItemPool.SILVER_SHRIMP_FORK;
+                case 5 -> ItemPool.SILVER_PATE_KNIFE;
+                default -> 0;
+              };
           if (item > 0) {
             ResultProcessor.processItem(item, -1);
           }
@@ -5849,19 +5739,13 @@ public abstract class ChoiceControl {
       case 855:
         {
           // Behind the 'Stache
-          String hazard = Preferences.getString("copperheadClubHazard");
-          switch (ChoiceManager.lastDecision) {
-            case 1:
-            case 5:
-              hazard = "gong";
-              break;
-            case 2:
-              hazard = "ice";
-              break;
-            case 3:
-              hazard = "lantern";
-              break;
-          }
+          String hazard =
+              switch (ChoiceManager.lastDecision) {
+                case 1, 5 -> "gong";
+                case 2 -> "ice";
+                case 3 -> "lantern";
+                default -> Preferences.getString("copperheadClubHazard");
+              };
           Preferences.setString("copperheadClubHazard", hazard);
           if (ChoiceManager.lastDecision == 5) {
             Preferences.setBoolean("candyCaneSwordCopperheadClub", true);
@@ -6122,42 +6006,21 @@ public abstract class ChoiceControl {
 
       case 1089: // Community Service
         if (text.contains("You acquire")) {
-          String quest = null;
-          switch (ChoiceManager.lastDecision) {
-            case 1:
-              quest = "Donate Blood";
-              break;
-            case 2:
-              quest = "Feed The Children";
-              break;
-            case 3:
-              quest = "Build Playground Mazes";
-              break;
-            case 4:
-              quest = "Feed Conspirators";
-              break;
-            case 5:
-              quest = "Breed More Collies";
-              break;
-            case 6:
-              quest = "Reduce Gazelle Population";
-              break;
-            case 7:
-              quest = "Make Sausage";
-              break;
-            case 8:
-              quest = "Be a Living Statue";
-              break;
-            case 9:
-              quest = "Make Margaritas";
-              break;
-            case 10:
-              quest = "Clean Steam Tunnels";
-              break;
-            case 11:
-              quest = "Coil Wire";
-              break;
-          }
+          String quest =
+              switch (ChoiceManager.lastDecision) {
+                case 1 -> "Donate Blood";
+                case 2 -> "Feed The Children";
+                case 3 -> "Build Playground Mazes";
+                case 4 -> "Feed Conspirators";
+                case 5 -> "Breed More Collies";
+                case 6 -> "Reduce Gazelle Population";
+                case 7 -> "Make Sausage";
+                case 8 -> "Be a Living Statue";
+                case 9 -> "Make Margaritas";
+                case 10 -> "Clean Steam Tunnels";
+                case 11 -> "Coil Wire";
+                default -> null;
+              };
           if (quest != null) {
             String current = Preferences.getString("csServicesPerformed");
             if (current.equals("")) {
@@ -6180,23 +6043,17 @@ public abstract class ChoiceControl {
         // Choice 1091 is The Floor Is Yours
         if (text.contains("You acquire")) {
           switch (ChoiceManager.lastDecision) {
-            case 1:
-              ResultProcessor.processResult(ItemPool.get(ItemPool.GOLD_1970, -1));
-              break;
-            case 2:
-              ResultProcessor.processResult(ItemPool.get(ItemPool.NEW_AGE_HEALING_CRYSTAL, -1));
-              break;
-            case 3:
-              ResultProcessor.processResult(ItemPool.get(ItemPool.EMPTY_LAVA_BOTTLE, -1));
-              break;
-            case 5:
-              ResultProcessor.processResult(ItemPool.get(ItemPool.GLOWING_NEW_AGE_CRYSTAL, -1));
-              break;
-            case 6:
+            case 1 -> ResultProcessor.processResult(ItemPool.get(ItemPool.GOLD_1970, -1));
+            case 2 -> ResultProcessor.processResult(
+                ItemPool.get(ItemPool.NEW_AGE_HEALING_CRYSTAL, -1));
+            case 3 -> ResultProcessor.processResult(ItemPool.get(ItemPool.EMPTY_LAVA_BOTTLE, -1));
+            case 5 -> ResultProcessor.processResult(
+                ItemPool.get(ItemPool.GLOWING_NEW_AGE_CRYSTAL, -1));
+            case 6 -> {
               ResultProcessor.processResult(ItemPool.get(ItemPool.CRYSTALLINE_LIGHT_BULB, -1));
               ResultProcessor.processResult(ItemPool.get(ItemPool.INSULATED_GOLD_WIRE, -1));
               ResultProcessor.processResult(ItemPool.get(ItemPool.HEAT_RESISTANT_SHEET_METAL, -1));
-              break;
+            }
           }
         }
         break;
@@ -6589,22 +6446,18 @@ public abstract class ChoiceControl {
         }
 
         switch (ChoiceManager.lastDecision) {
-          case 1:
-            // creme brulee torch
-            ResultProcessor.processResult(ItemPool.get(ItemPool.SPRINKLES, -25));
-            break;
-          case 2:
-            // candy crowbar
-            ResultProcessor.processResult(ItemPool.get(ItemPool.SPRINKLES, -50));
-            break;
-          case 3:
-            // candy screwdriver
-            ResultProcessor.processResult(ItemPool.get(ItemPool.SPRINKLES, -100));
-            break;
-          case 4:
-            // teethpick
-            ResultProcessor.processResult(ItemPool.get(ItemPool.SPRINKLES, -1000));
-            break;
+          case 1 ->
+          // creme brulee torch
+          ResultProcessor.processResult(ItemPool.get(ItemPool.SPRINKLES, -25));
+          case 2 ->
+          // candy crowbar
+          ResultProcessor.processResult(ItemPool.get(ItemPool.SPRINKLES, -50));
+          case 3 ->
+          // candy screwdriver
+          ResultProcessor.processResult(ItemPool.get(ItemPool.SPRINKLES, -100));
+          case 4 ->
+          // teethpick
+          ResultProcessor.processResult(ItemPool.get(ItemPool.SPRINKLES, -1000));
         }
         break;
 
@@ -6629,34 +6482,27 @@ public abstract class ChoiceControl {
         }
 
         switch (ChoiceManager.lastDecision) {
-          case 1:
-            // gingerbread dog treat
-            ResultProcessor.processResult(ItemPool.get(ItemPool.SPRINKLES, -200));
-            break;
-          case 2:
-            // pumpkin spice candle
-            ResultProcessor.processResult(ItemPool.get(ItemPool.SPRINKLES, -150));
-            break;
-          case 3:
-            // gingerbread spice latte
-            ResultProcessor.processResult(ItemPool.get(ItemPool.SPRINKLES, -50));
-            break;
-          case 4:
-            // gingerbread trousers
-            ResultProcessor.processResult(ItemPool.get(ItemPool.SPRINKLES, -500));
-            break;
-          case 5:
-            // gingerbread waistcoat
-            ResultProcessor.processResult(ItemPool.get(ItemPool.SPRINKLES, -500));
-            break;
-          case 6:
-            // gingerbread tophat
-            ResultProcessor.processResult(ItemPool.get(ItemPool.SPRINKLES, -500));
-            break;
-          case 8:
-            // gingerbread blackmail photos
-            Preferences.setBoolean("gingerNegativesDropped", false);
-            break;
+          case 1 ->
+          // gingerbread dog treat
+          ResultProcessor.processResult(ItemPool.get(ItemPool.SPRINKLES, -200));
+          case 2 ->
+          // pumpkin spice candle
+          ResultProcessor.processResult(ItemPool.get(ItemPool.SPRINKLES, -150));
+          case 3 ->
+          // gingerbread spice latte
+          ResultProcessor.processResult(ItemPool.get(ItemPool.SPRINKLES, -50));
+          case 4 ->
+          // gingerbread trousers
+          ResultProcessor.processResult(ItemPool.get(ItemPool.SPRINKLES, -500));
+          case 5 ->
+          // gingerbread waistcoat
+          ResultProcessor.processResult(ItemPool.get(ItemPool.SPRINKLES, -500));
+          case 6 ->
+          // gingerbread tophat
+          ResultProcessor.processResult(ItemPool.get(ItemPool.SPRINKLES, -500));
+          case 8 ->
+          // gingerbread blackmail photos
+          Preferences.setBoolean("gingerNegativesDropped", false);
         }
         break;
 
@@ -6669,18 +6515,10 @@ public abstract class ChoiceControl {
         }
 
         switch (ChoiceManager.lastDecision) {
-          case 1:
-            Preferences.setBoolean("gingerRetailUnlocked", true);
-            break;
-          case 2:
-            Preferences.setBoolean("gingerSewersUnlocked", true);
-            break;
-          case 3:
-            Preferences.setBoolean("gingerExtraAdventures", true);
-            break;
-          case 4:
-            Preferences.setBoolean("gingerAdvanceClockUnlocked", true);
-            break;
+          case 1 -> Preferences.setBoolean("gingerRetailUnlocked", true);
+          case 2 -> Preferences.setBoolean("gingerSewersUnlocked", true);
+          case 3 -> Preferences.setBoolean("gingerExtraAdventures", true);
+          case 4 -> Preferences.setBoolean("gingerAdvanceClockUnlocked", true);
         }
         break;
 
@@ -6870,56 +6708,42 @@ public abstract class ChoiceControl {
       case 1460: // Gift Fabrication Lab
         if (text.contains("You acquire an item")) {
           switch (ChoiceManager.lastDecision) {
-            case 1:
-              ResultProcessor.processItem(ItemPool.GOOIFIED_ANIMAL_MATTER, -30);
-              break;
-            case 2:
-              ResultProcessor.processItem(ItemPool.GOOIFIED_VEGETABLE_MATTER, -30);
-              break;
-            case 3:
-              ResultProcessor.processItem(ItemPool.GOOIFIED_MINERAL_MATTER, -30);
-              break;
-            case 4:
+            case 1 -> ResultProcessor.processItem(ItemPool.GOOIFIED_ANIMAL_MATTER, -30);
+            case 2 -> ResultProcessor.processItem(ItemPool.GOOIFIED_VEGETABLE_MATTER, -30);
+            case 3 -> ResultProcessor.processItem(ItemPool.GOOIFIED_MINERAL_MATTER, -30);
+            case 4 -> {
               ResultProcessor.processItem(ItemPool.GOOIFIED_ANIMAL_MATTER, -15);
               ResultProcessor.processItem(ItemPool.GOOIFIED_VEGETABLE_MATTER, -15);
-              break;
-            case 5:
+            }
+            case 5 -> {
               ResultProcessor.processItem(ItemPool.GOOIFIED_VEGETABLE_MATTER, -15);
               ResultProcessor.processItem(ItemPool.GOOIFIED_MINERAL_MATTER, -15);
-              break;
-            case 6:
+            }
+            case 6 -> {
               ResultProcessor.processItem(ItemPool.GOOIFIED_MINERAL_MATTER, -15);
               ResultProcessor.processItem(ItemPool.GOOIFIED_ANIMAL_MATTER, -15);
-              break;
-            case 7:
+            }
+            case 7 -> {
               ResultProcessor.processItem(ItemPool.GOOIFIED_ANIMAL_MATTER, -10);
               ResultProcessor.processItem(ItemPool.GOOIFIED_VEGETABLE_MATTER, -10);
               ResultProcessor.processItem(ItemPool.GOOIFIED_MINERAL_MATTER, -10);
-              break;
-            default:
-              break;
+            }
+            default -> {}
           }
         }
         break;
 
       case 1461: // Site Alpha Primary Lab
         switch (ChoiceManager.lastDecision) {
-          case 1:
-            Preferences.increment("primaryLabGooIntensity", 1);
-            break;
-          case 2:
-            Preferences.decrement("primaryLabGooIntensity", 1);
-            break;
-          case 3:
-            ResultProcessor.processItem(ItemPool.GREY_GOO_RING, -1);
-            break;
-          case 4:
+          case 1 -> Preferences.increment("primaryLabGooIntensity", 1);
+          case 2 -> Preferences.decrement("primaryLabGooIntensity", 1);
+          case 3 -> ResultProcessor.processItem(ItemPool.GREY_GOO_RING, -1);
+          case 4 -> {
             // Do nothing
-            break;
-          case 5:
-            // Grab the Cheer Core
-            Preferences.setBoolean("primaryLabCheerCoreGrabbed", true);
-            break;
+          }
+          case 5 ->
+          // Grab the Cheer Core
+          Preferences.setBoolean("primaryLabCheerCoreGrabbed", true);
         }
         break;
 
@@ -9952,7 +9776,7 @@ public abstract class ChoiceControl {
     RequestLogger.updateSessionLog(urlString);
 
     switch (choice) {
-      case 1195:
+      case 1195 -> {
         if (decision == 3) {
           KoLAdventure.clearLocation();
           GenericRequest.itemMonster = "Time-Spinner";
@@ -9960,8 +9784,8 @@ public abstract class ChoiceControl {
           RequestLogger.registerLocation("Way Back in Time");
         }
         return true;
-
-      case 1196:
+      }
+      case 1196 -> {
         if (ChoiceManager.lastDecision == 1 && !urlString.contains("monid=0")) {
           KoLAdventure.clearLocation();
           GenericRequest.itemMonster = "Time-Spinner";
@@ -9969,6 +9793,7 @@ public abstract class ChoiceControl {
           RequestLogger.registerLocation("A Recent Fight");
         }
         return true;
+      }
     }
 
     // Special cases
