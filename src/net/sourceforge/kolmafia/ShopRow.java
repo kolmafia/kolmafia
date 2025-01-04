@@ -173,7 +173,7 @@ public class ShopRow implements Comparable<ShopRow> {
    </tr>
   */
 
-  /* Crimbo23 Factory
+  /* Crimbo24 Factory
     <tr rel="11771">
       <td valign=center><input type=radio name=whichrow value=1538></td>
       <td><img src="/images/itemimages/chiatiki.gif" class="hand pop"
@@ -197,7 +197,7 @@ public class ShopRow implements Comparable<ShopRow> {
     </tr>
   */
 
-  /* Crimbo24 Pirate Armory: sell an item for multiple item
+  /* Crimbo23 Pirate Armory: sell an item for multiple item
      <tr rel="11405">
        <td valign=center><input type=radio name=whichrow value=1420></td>
        <td><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/crimbucparts.gif" class="hand pop" rel="desc_item.php?whichitem=269803558" onClick='javascript:descitem(269803558)'></td>
@@ -214,6 +214,25 @@ public class ShopRow implements Comparable<ShopRow> {
        <td>&nbsp;&nbsp;</td>
        <td valign=center><input class="button doit multibuy "  type=button rel='shop.php?whichshop=crimbo23_pirate_armory&action=buyitem&quantity=1&whichrow=1420&pwd=5b123ae252a3648944198ceaf318bd50' value='Buy'></td>
      </tr>
+  */
+
+  /* Sept-Ember: buy an item for tokens
+    <tr rel="11644">
+      <td valign=center><input type=radio name=whichrow value=1511></td>
+      <td><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/emberhulk.gif" class="hand pop" rel="desc_item.php?whichitem=522091732" onClick='javascript:descitem(522091732)'></td>
+      <td valign=center><a onClick='javascript:descitem(522091732)'><b>miniature Embering Hulk</b>&nbsp;&nbsp;&nbsp;&nbsp;</a></td>
+      <td><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/ember.gif" /></td>
+      <td><b>6</b>&nbsp;&nbsp;</td>
+      <td></td>
+      <td>&nbsp;&nbsp;</td>
+      <td></td>
+      <td>&nbsp;&nbsp;</td>
+      <td></td>
+      <td>&nbsp;&nbsp;</td>
+      <td></td>
+      <td>&nbsp;&nbsp;</td>
+      <td valign=center><input class="button doit multibuy "  type=button rel='shop.php?whichshop=september&action=buyitem&quantity=1&whichrow=1511&pwd=03a27ad2d8f28b0f40edb05fdc492c40' value='Buy'></td>
+    </tr>
   */
 
   // <tr rel="ITEMID">
@@ -237,7 +256,8 @@ public class ShopRow implements Comparable<ShopRow> {
   private static final Pattern TD2_PATTERN =
       Pattern.compile("itemimages/(.*?)\\..*?descitem\\((\\d*)\\)");
   private static final Pattern TD3_PATTERN = Pattern.compile("<b>\\(?(.*?)\\)?</b>");
-  private static final Pattern IEVEN_PATTERN = Pattern.compile("descitem\\((.*?)\\)");
+  private static final Pattern IEVEN_PATTERN =
+      Pattern.compile("itemimages/(.*?)\\.(?:.*?descitem\\((.*?)\\))?");
   private static final Pattern IODD_PATTERN = Pattern.compile("<b>([\\d,]+)</b>");
   private static final Pattern IROW_PATTERN = Pattern.compile("whichrow=(\\d+)");
 
@@ -256,7 +276,8 @@ public class ShopRow implements Comparable<ShopRow> {
       int count = 1;
       List<AdventureResult> ingredients = new ArrayList<>();
 
-      String idescid = "";
+      String iimage = null;
+      String idescid = null;
       boolean isMeat = false;
       boolean skip = false;
 
@@ -298,14 +319,17 @@ public class ShopRow implements Comparable<ShopRow> {
               isMeat = true;
             } else {
               Matcher m4 = IEVEN_PATTERN.matcher(text);
-              idescid = m4.find() ? m4.group(1) : null;
+              if (m4.find()) {
+                iimage = m4.group(1);
+                idescid = m4.group(2);
+              } else {
+                iimage = null;
+                idescid = null;
+              }
               isMeat = false;
             }
           }
           case 5, 7, 9, 11, 13 -> {
-            if (!isMeat && idescid == null) {
-              continue;
-            }
             if (isMeat && !includeMeat) {
               skip = true;
               continue;
@@ -321,7 +345,8 @@ public class ShopRow implements Comparable<ShopRow> {
             if (isMeat) {
               AdventureResult cost = new MeatResult(icount);
               ingredients.add(cost);
-            } else {
+            } else if (idescid != null) {
+              // Ingredient is an actual item
               int iid = ItemDatabase.getItemIdFromDescription(idescid);
               if (iid == -1) {
                 // No. Register it by looking at the item description
@@ -329,6 +354,11 @@ public class ShopRow implements Comparable<ShopRow> {
                 iid = ItemDatabase.getItemIdFromDescription(idescid);
               }
               AdventureResult ingredient = new AdventureResult(iid, icount, false);
+              ingredients.add(ingredient);
+            } else if (iimage != null) {
+              // Ingredient is a token
+              String token = iimage.substring(0, 1).toUpperCase() + iimage.substring(1);
+              AdventureResult ingredient = AdventureResult.tallyItem(token, icount, false);
               ingredients.add(ingredient);
             }
           }

@@ -387,15 +387,15 @@
 386
 387
 388
-389	sell	CURRENCY	Crimbo 2014
-390	sell	CURRENCY	Crimbo 2014
-391	sell	CURRENCY (2)	Crimbo 2014
-392	sell	CURRENCY (2)	Crimbo 2014
-393	sell	CURRENCY (3)	Crimbo 2014
-394	sell	CURRENCY (3)	Crimbo 2014
-395	sell	CURRENCY (4)	Crimbo 2014
-396	sell	CURRENCY (5)	Crimbo 2014
-397	sell	CURRENCY	Crimbo 2014
+389	sell	recovered elf magazine	Crimbo 2014
+390	sell	recovered elf toothbrush	Crimbo 2014
+391	sell	recovered elf sleeping pills	Crimbo 2014
+392	sell	recovered elf underpants	Crimbo 2014
+393	sell	recovered elf wallet	Crimbo 2014
+394	sell	recovered elf pocketwatch	Crimbo 2014
+395	sell	recovered elf photo album	Crimbo 2014
+396	sell	recovered elf smartphone	Crimbo 2014
+397	sell	peppermint tailings (10)	Crimbo 2014
 398	buy	choco-Crimbot	Crimbo 2014
 399	buy	smart watch	Crimbo 2014
 400	buy	augmented-reality shades	Crimbo 2014
@@ -610,9 +610,9 @@
 609	npc	frilly skirt	Degrassi Knoll Bakery and Hardware Store
 610	npc	Gnollish casserole dish	Degrassi Knoll Bakery and Hardware Store
 611	npc	detuned radio	Degrassi Knoll Bakery and Hardware Store
-612	npc	pirate brochure	Barrrtleby's Barrrgain Books (Bees Hate You)
-613	npc	pirate pamphlet	Barrrtleby's Barrrgain Books (Bees Hate You)
-614	npc	pirate tract	Barrrtleby's Barrrgain Books (Bees Hate You)
+612	npc	pirate brochure	Barrrtleby's Barrrgain Books
+613	npc	pirate pamphlet	Barrrtleby's Barrrgain Books
+614	npc	pirate tract	Barrrtleby's Barrrgain Books
 615	npc	The Big Book of Pirate Insults	Barrrtleby's Barrrgain Books
 616	npc	Massive Manual of Marauder Mockery	Barrrtleby's Barrrgain Books (Bees Hate You)
 617
@@ -661,14 +661,14 @@
 660	npc	foam noodle	The General Store
 661	npc	water wings	The General Store
 662	npc	marshmallow	The General Store
-663	npc	herbs	Hippy Store (Fratboy)
-664	npc	lemon	Hippy Store (Fratboy)
-665	npc	orange	Hippy Store (Fratboy)
-666	npc	grapes	Hippy Store (Fratboy)
-667	npc	tomato	Hippy Store (Fratboy)
-668	npc	strawberry	Hippy Store (Fratboy)
-669	npc	grapefruit	Hippy Store (Fratboy)
-670	npc	olive	Hippy Store (Fratboy)
+663	npc	herbs	Hippy Store (Pre-War)
+664	npc	lemon	Hippy Store (Pre-War)
+665	npc	orange	Hippy Store (Pre-War)
+666	npc	grapes	Hippy Store (Pre-War)
+667	npc	tomato	Hippy Store (Pre-War)
+668	npc	strawberry	Hippy Store (Pre-War)
+669	npc	grapefruit	Hippy Store (Pre-War)
+670	npc	olive	Hippy Store (Pre-War)
 671	npc	cob of corn	Hippy Store (Fratboy)
 672	npc	plum	Hippy Store (Hippy)
 673	npc	peach	Hippy Store (Hippy)
@@ -1410,17 +1410,17 @@
 1409	buy	Jamaican coffee	Crimbuccaneer Bar
 1410	buy	flask of egggrog	Crimbuccaneer Bar
 1411	buy	Elf Guard honor present	Elf Guard Armory
-1412	sell	CURRENCY (3)	Elf Guard Armory
-1413	sell	CURRENCY (3)	Elf Guard Armory
+1412	sell	Elf Guard commandeering gloves	Elf Guard Armory
+1413	sell	Elf Guard officer's sidearm	Elf Guard Armory
 1414
-1415	sell	CURRENCY (3)	Elf Guard Armory
-1416	sell	CURRENCY (3)	Elf Guard Armory
+1415	sell	Kelflar vest	Elf Guard Armory
+1416	sell	Elf Guard mouthknife	Elf Guard Armory
 1417	buy	Crimbuccaneer premium booty sack	Crimbuccaneer Junkworks
-1418	sell	CURRENCY (3)	Crimbuccaneer Junkworks
+1418	sell	Crimbuccaneer shirt	Crimbuccaneer Junkworks
 1419
-1420	sell	CURRENCY (3)	Crimbuccaneer Junkworks
-1421	sell	CURRENCY (3)	Crimbuccaneer Junkworks
-1422	sell	CURRENCY (3)	Crimbuccaneer Junkworks
+1420	sell	sawed-off blunderbuss	Crimbuccaneer Junkworks
+1421	sell	shipwright's hammer	Crimbuccaneer Junkworks
+1422	sell	pegfinger	Crimbuccaneer Junkworks
 1423
 1424	buy	trick coin	Elf Guard Toy and Munitions Factory
 1425	buy	Elf Guard squirtgun	Elf Guard Toy and Munitions Factory
