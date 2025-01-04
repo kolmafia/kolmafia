@@ -790,6 +790,14 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
     return row;
   }
 
+  public final Integer getItemIdOrRow(int itemId) {
+    if (this.itemRows == null) {
+      return itemId;
+    }
+    Integer row = this.itemRows.get(itemId);
+    return row;
+  }
+
   public final boolean hasRow(int row) {
     if (this.itemRows == null) {
       return false;

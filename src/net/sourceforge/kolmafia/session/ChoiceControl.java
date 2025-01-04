@@ -2882,6 +2882,7 @@ public abstract class ChoiceControl {
           if (NumberologyManager.numberologyPrize(result).startsWith("fight")) {
             KoLAdventure.clearLocation();
           }
+          break;
         }
 
       case 1118:
