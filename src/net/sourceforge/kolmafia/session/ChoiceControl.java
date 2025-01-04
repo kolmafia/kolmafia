@@ -7157,24 +7157,12 @@ public abstract class ChoiceControl {
   private static void handleAfterAvatar(final int decision) {
     String newClass = "Unknown";
     switch (ChoiceManager.lastDecision) {
-      case 1:
-        newClass = "Seal Clubber";
-        break;
-      case 2:
-        newClass = "Turtle Tamer";
-        break;
-      case 3:
-        newClass = "Pastamancer";
-        break;
-      case 4:
-        newClass = "Sauceror";
-        break;
-      case 5:
-        newClass = "Disco Bandit";
-        break;
-      case 6:
-        newClass = "Accordion Thief";
-        break;
+      case 1 -> newClass = "Seal Clubber";
+      case 2 -> newClass = "Turtle Tamer";
+      case 3 -> newClass = "Pastamancer";
+      case 4 -> newClass = "Sauceror";
+      case 5 -> newClass = "Disco Bandit";
+      case 6 -> newClass = "Accordion Thief";
     }
 
     String message = "Now walking on the " + newClass + " road.";
@@ -9491,31 +9479,30 @@ public abstract class ChoiceControl {
   }
 
   private static String hobopolisBossName(final int choice) {
-    switch (choice) {
-      case 200:
-        // Enter The Hoboverlord
-        return "Hodgman";
-      case 201:
-        // Home, Home in the Range
-        return "Ol' Scratch";
-      case 202:
-        // Bumpity Bump Bump
-        return "Frosty";
-      case 203:
-        // Deep Enough to Dive
-        return "Oscus";
-      case 204:
-        // Welcome To You!
-        return "Zombo";
-      case 205:
-        // Van, Damn
-        return "Chester";
-      case 518:
-        // Clear and Present Danger
-        return "Uncle Hobo";
-    }
-
-    return "nobody";
+    return switch (choice) {
+      case 200 ->
+      // Enter The Hoboverlord
+      "Hodgman";
+      case 201 ->
+      // Home, Home in the Range
+      "Ol' Scratch";
+      case 202 ->
+      // Bumpity Bump Bump
+      "Frosty";
+      case 203 ->
+      // Deep Enough to Dive
+      "Oscus";
+      case 204 ->
+      // Welcome To You!
+      "Zombo";
+      case 205 ->
+      // Van, Damn
+      "Chester";
+      case 518 ->
+      // Clear and Present Danger
+      "Uncle Hobo";
+      default -> "nobody";
+    };
   }
 
   private static void checkDungeonSewers(final GenericRequest request) {
