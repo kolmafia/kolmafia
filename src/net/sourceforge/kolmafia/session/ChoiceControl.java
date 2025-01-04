@@ -7220,25 +7220,25 @@ public abstract class ChoiceControl {
         ArcadeRequest.visitMeteoidChoice(text);
         break;
 
-      case 496:
-        // Crate Expectations
-      case 509:
-        // Of Course!
-      case 510:
-        // Those Who Came Before You
-      case 511:
-        // If it's Tiny, is it Still a Mansion?
-      case 512:
-        // Hot and Cold Running Rats
-      case 513:
-        // Staring Down the Barrel
-      case 514:
-        // 1984 Had Nothing on This Cellar
-      case 515:
-        // A Rat's Home...
-      case 1000:
-        // Everything in Moderation
-      case 1001:
+      case 496,
+          // Crate Expectations
+          509,
+          // Of Course!
+          510,
+          // Those Who Came Before You
+          511,
+          // If it's Tiny, is it Still a Mansion?
+          512,
+          // Hot and Cold Running Rats
+          513,
+          // Staring Down the Barrel
+          514,
+          // 1984 Had Nothing on This Cellar
+          515,
+          // A Rat's Home...
+          1000,
+          // Everything in Moderation
+          1001:
         // Hot and Cold Dripping Rats
         TavernRequest.postTavernVisit(request);
         break;
@@ -7271,12 +7271,7 @@ public abstract class ChoiceControl {
         GameproManager.parseGameproMagazine(text);
         break;
 
-      case 627:
-      case 628:
-      case 629:
-      case 630:
-      case 631:
-      case 633:
+      case 627, 628, 629, 630, 631, 633:
         ChibiBuddyManager.visit(ChoiceManager.lastChoice, text);
         break;
 
@@ -7370,8 +7365,7 @@ public abstract class ChoiceControl {
         }
         break;
 
-      case 692:
-      case 693:
+      case 692, 693:
         // I Wanna Be a Door and It's Almost Certainly a Trap
         Matcher chamberMatcher = CHAMBER_PATTERN.matcher(text);
         if (chamberMatcher.find()) {
@@ -7548,40 +7542,40 @@ public abstract class ChoiceControl {
         }
 
         // The Prince's Ball (In the Restroom)
-      case 822:
-        // The Prince's Ball (On the Dance Floor)
-      case 823:
-        // The Prince's Ball (The Kitchen)
-      case 824:
-        // The Prince's Ball (On the Balcony)
-      case 825:
-        // The Prince's Ball (The Lounge)
-      case 826:
-        // The Prince's Ball (At the Canapés Table)
-      case 827:
-        // stepmother
-      case 829:
-        // We all wear masks
-      case 830: // Cooldown
-      case 832: // Shower Power
-      case 833: // Vendi, Vidi, Vici
-      case 834: // Back Room Dealings
-        // wolf
-      case 831: // Intrusion
-      case 837: // On Purple Pond
-      case 838: // General Mill
-      case 839: // The Sounds of the Undergrounds
-      case 840: // Hop on Rock Pops
-      case 841: // Building, Structure, Edifice
-      case 842: // The Gingerbread Warehouse
-        // witch
-      case 844: // The Portal to Horrible Parents
-      case 845: // Rumpelstiltskin's Workshop
-      case 846: // Bartering for the Future of Innocent Children
-      case 847: // Pick Your Poison
-      case 848: // Where the Magic Happens
-      case 849: // The Practice
-      case 850: // World of Bartercraft
+      case 822,
+          // The Prince's Ball (On the Dance Floor)
+          823,
+          // The Prince's Ball (The Kitchen)
+          824,
+          // The Prince's Ball (On the Balcony)
+          825,
+          // The Prince's Ball (The Lounge)
+          826,
+          // The Prince's Ball (At the Canapés Table)
+          827,
+          // stepmother
+          829,
+          // We all wear masks
+          830, // Cooldown
+          832, // Shower Power
+          833, // Vendi, Vidi, Vici
+          834, // Back Room Dealings
+          // wolf
+          831, // Intrusion
+          837, // On Purple Pond
+          838, // General Mill
+          839, // The Sounds of the Undergrounds
+          840, // Hop on Rock Pops
+          841, // Building, Structure, Edifice
+          842, // The Gingerbread Warehouse
+          // witch
+          844, // The Portal to Horrible Parents
+          845, // Rumpelstiltskin's Workshop
+          846, // Bartering for the Future of Innocent Children
+          847, // Pick Your Poison
+          848, // Where the Magic Happens
+          849, // The Practice
+          850: // World of Bartercraft
         // gnome
         GrimstoneManager.visitChoice(text);
         break;
@@ -7652,20 +7646,20 @@ public abstract class ChoiceControl {
         }
         break;
 
-      case 890: // Lights Out in the Storage Room
-      case 891: // Lights Out in the Laundry Room
-      case 892: // Lights Out in the Bathroom
-      case 893: // Lights Out in the Kitchen
-      case 894: // Lights Out in the Library
-      case 895: // Lights Out in the Ballroom
-      case 896: // Lights Out in the Gallery
-      case 897: // Lights Out in the Bedroom
-      case 898: // Lights Out in the Nursery
-      case 899: // Lights Out in the Conservatory
-      case 900: // Lights Out in the Billiards Room
-      case 901: // Lights Out in the Wine Cellar
-      case 902: // Lights Out in the Boiler Room
-      case 903: // Lights Out in the Laboratory
+      case 890, // Lights Out in the Storage Room
+          891, // Lights Out in the Laundry Room
+          892, // Lights Out in the Bathroom
+          893, // Lights Out in the Kitchen
+          894, // Lights Out in the Library
+          895, // Lights Out in the Ballroom
+          896, // Lights Out in the Gallery
+          897, // Lights Out in the Bedroom
+          898, // Lights Out in the Nursery
+          899, // Lights Out in the Conservatory
+          900, // Lights Out in the Billiards Room
+          901, // Lights Out in the Wine Cellar
+          902, // Lights Out in the Boiler Room
+          903: // Lights Out in the Laboratory
         // Remove the counter if it exists so a new one can be made
         // as soon as the next adventure is started
         TurnCounter.stopCounting("Spookyraven Lights Out");
@@ -7691,52 +7685,51 @@ public abstract class ChoiceControl {
         break;
 
       case 984:
-        if (text.contains("Awaiting mission")) {
-          break;
-        }
+        if (!text.contains("Awaiting mission")) {
 
-        Matcher staticMatcher = RADIO_STATIC_PATTERN.matcher(text);
+          Matcher staticMatcher = RADIO_STATIC_PATTERN.matcher(text);
 
-        String snippet = ".*";
+          String snippet = ".*";
 
-        while (staticMatcher.find()) {
-          String section = staticMatcher.group(1);
+          while (staticMatcher.find()) {
+            String section = staticMatcher.group(1);
 
-          if (section.contains("You turn the biggest knob on the radio")) {
-            continue;
-          }
-
-          for (String part : section.split("&lt;.*?&gt;")) {
-            if (part.startsWith("&lt;") || part.length() < 3) {
+            if (section.contains("You turn the biggest knob on the radio")) {
               continue;
             }
 
-            part = part.replaceAll("\\.* *$", "");
-            part = part.replace("  ", " ");
-            snippet += Pattern.quote(part) + ".*";
-          }
-        }
+            for (String part : section.split("&lt;.*?&gt;")) {
+              if (part.startsWith("&lt;") || part.length() < 3) {
+                continue;
+              }
 
-        Iterator<Entry<Quest, String>> iterator = conspiracyQuestMessages.entrySet().iterator();
-
-        Quest todaysQuest = null;
-
-        while (iterator.hasNext()) {
-          Map.Entry<Quest, String> entry = iterator.next();
-
-          if (Pattern.matches(snippet, entry.getValue())) {
-            if (todaysQuest == null) {
-              todaysQuest = entry.getKey();
-            } else {
-              // Multiple matches
-              todaysQuest = null;
-              break;
+              part = part.replaceAll("\\.* *$", "");
+              part = part.replace("  ", " ");
+              snippet += Pattern.quote(part) + ".*";
             }
           }
-        }
 
-        if (todaysQuest != null) {
-          Preferences.setString("_questESp", todaysQuest.getPref());
+          Iterator<Entry<Quest, String>> iterator = conspiracyQuestMessages.entrySet().iterator();
+
+          Quest todaysQuest = null;
+
+          while (iterator.hasNext()) {
+            Map.Entry<Quest, String> entry = iterator.next();
+
+            if (Pattern.matches(snippet, entry.getValue())) {
+              if (todaysQuest == null) {
+                todaysQuest = entry.getKey();
+              } else {
+                // Multiple matches
+                todaysQuest = null;
+                break;
+              }
+            }
+          }
+
+          if (todaysQuest != null) {
+            Preferences.setString("_questESp", todaysQuest.getPref());
+          }
         }
 
         break;
@@ -7782,20 +7775,19 @@ public abstract class ChoiceControl {
         SorceressLairManager.parseContestBooth(0, text);
         break;
 
-      case 1005: // 'Allo
-      case 1006: // One Small Step For Adventurer
-      case 1007: // Twisty Little Passages, All Hedge
-      case 1008: // Pooling Your Resources
-      case 1009: // Good Ol' 44% Duck
-      case 1010: // Another Day, Another Fork
-      case 1011: // Of Mouseholes and Manholes
-      case 1012: // The Last Temptation
-      case 1013: // Mazel Tov!
+      case 1005, // 'Allo
+          1006, // One Small Step For Adventurer
+          1007, // Twisty Little Passages, All Hedge
+          1008, // Pooling Your Resources
+          1009, // Good Ol' 44% Duck
+          1010, // Another Day, Another Fork
+          1011, // Of Mouseholes and Manholes
+          1012, // The Last Temptation
+          1013: // Mazel Tov!
         SorceressLairManager.visitChoice(ChoiceManager.lastChoice, text);
         break;
 
-      case 1023:
-      case 1024:
+      case 1023, 1024:
         {
           // Like a Bat into Hell
           // Like a Bat out of Hell
@@ -7955,26 +7947,26 @@ public abstract class ChoiceControl {
             Preferences.setInteger("_volcanoItemCount1", 0);
             Preferences.setInteger("_volcanoItemCount2", 0);
             Preferences.setInteger("_volcanoItemCount3", 0);
-            break;
-          }
+          } else {
+            // On the other hand, if there IS a choice on the page,
+            // it will be whichchoice=1093 asking to redeem items
 
-          // On the other hand, if there IS a choice on the page,
-          // it will be whichchoice=1093 asking to redeem items
+            Preferences.setBoolean("_volcanoItemRedeemed", false);
 
-          Preferences.setBoolean("_volcanoItemRedeemed", false);
-
-          Matcher matcher = WLF_PATTERN.matcher(text);
-          while (matcher.find()) {
-            // String challenge = matcher.group( 1 );
-            String descid = matcher.group(2);
-            int itemId = ItemDatabase.getItemIdFromDescription(descid);
-            if (itemId != -1) {
-              String itemName = matcher.group(3).trim();
-              Matcher countMatcher = WLF_COUNT_PATTERN.matcher(itemName);
-              int count = countMatcher.find() ? StringUtilities.parseInt(countMatcher.group(1)) : 1;
-              String index = matcher.group(4);
-              Preferences.setInteger("_volcanoItem" + index, itemId);
-              Preferences.setInteger("_volcanoItemCount" + index, count);
+            Matcher matcher = WLF_PATTERN.matcher(text);
+            while (matcher.find()) {
+              // String challenge = matcher.group( 1 );
+              String descid = matcher.group(2);
+              int itemId = ItemDatabase.getItemIdFromDescription(descid);
+              if (itemId != -1) {
+                String itemName = matcher.group(3).trim();
+                Matcher countMatcher = WLF_COUNT_PATTERN.matcher(itemName);
+                int count =
+                    countMatcher.find() ? StringUtilities.parseInt(countMatcher.group(1)) : 1;
+                String index = matcher.group(4);
+                Preferences.setInteger("_volcanoItem" + index, itemId);
+                Preferences.setInteger("_volcanoItemCount" + index, count);
+              }
             }
           }
 
@@ -7985,16 +7977,16 @@ public abstract class ChoiceControl {
         // Pray to the Barrel God
         if (text.contains("You already prayed to the Barrel god today")) {
           Preferences.setBoolean("_barrelPrayer", true);
-          break;
-        }
-        if (!text.contains("barrel lid shield")) {
-          Preferences.setBoolean("prayedForProtection", true);
-        }
-        if (!text.contains("barrel hoop earring")) {
-          Preferences.setBoolean("prayedForGlamour", true);
-        }
-        if (!text.contains("bankruptcy barrel")) {
-          Preferences.setBoolean("prayedForVigor", true);
+        } else {
+          if (!text.contains("barrel lid shield")) {
+            Preferences.setBoolean("prayedForProtection", true);
+          }
+          if (!text.contains("barrel hoop earring")) {
+            Preferences.setBoolean("prayedForGlamour", true);
+          }
+          if (!text.contains("bankruptcy barrel")) {
+            Preferences.setBoolean("prayedForVigor", true);
+          }
         }
         break;
 
@@ -8060,14 +8052,14 @@ public abstract class ChoiceControl {
           break;
         }
 
-      case 1202: // Noon in the Civic Center
-      case 1203: // Midnight in Civic Center
-      case 1204: // Noon at the Train Station
-      case 1205: // Midnight at the Train Station
-      case 1206: // Noon in the Industrial Zone
-      case 1207: // Midnight in the Industrial Zone
-      case 1208: // Upscale Noon
-      case 1209: // Upscale Midnight
+      case 1202, // Noon in the Civic Center
+          1203, // Midnight in Civic Center
+          1204, // Noon at the Train Station
+          1205, // Midnight at the Train Station
+          1206, // Noon in the Industrial Zone
+          1207, // Midnight in the Industrial Zone
+          1208, // Upscale Noon
+          1209: // Upscale Midnight
         {
           Preferences.increment("_gingerbreadCityTurns");
           break;
@@ -8359,13 +8351,13 @@ public abstract class ChoiceControl {
           break;
         }
 
-      case 1313: // Bastille Battalion
-      case 1314: // Bastille Battalion (Master of None)
-      case 1315: // Castle vs. Castle
-      case 1316: // GAME OVER
-      case 1317: // A Hello to Arms (Battalion)
-      case 1318: // Defensive Posturing
-      case 1319: // Cheese Seeking Behavior
+      case 1313, // Bastille Battalion
+          1314, // Bastille Battalion (Master of None)
+          1315, // Castle vs. Castle
+          1316, // GAME OVER
+          1317, // A Hello to Arms (Battalion)
+          1318, // Defensive Posturing
+          1319: // Cheese Seeking Behavior
         BastilleBattalionManager.visitChoice(request);
         break;
 
@@ -8673,23 +8665,22 @@ public abstract class ChoiceControl {
           Preferences.setBoolean(
               "_guzzlrQuestAbandoned",
               (ChoiceUtilities.findChoiceDecisionIndex("Abandon Client", text).equals("0")));
+        } else {
+          // If we have unlocked Gold Tier but cannot accept one, we must have already accepted
+          // three.
+          boolean unlockedGoldTier = Preferences.getInteger("guzzlrBronzeDeliveries") >= 5;
+          if (unlockedGoldTier
+              && ChoiceUtilities.findChoiceDecisionIndex("Gold Tier", text).equals("0")) {
+            Preferences.setInteger("_guzzlrGoldDeliveries", 3);
+          }
 
-          break;
-        }
-
-        // If we have unlocked Gold Tier but cannot accept one, we must have already accepted three.
-        boolean unlockedGoldTier = Preferences.getInteger("guzzlrBronzeDeliveries") >= 5;
-        if (unlockedGoldTier
-            && ChoiceUtilities.findChoiceDecisionIndex("Gold Tier", text).equals("0")) {
-          Preferences.setInteger("_guzzlrGoldDeliveries", 3);
-        }
-
-        // If we have unlocked Platinum Tier but cannot accept one, we must have already accepted
-        // one.
-        boolean unlockedPlatinumTier = Preferences.getInteger("guzzlrGoldDeliveries") >= 5;
-        if (unlockedPlatinumTier
-            && ChoiceUtilities.findChoiceDecisionIndex("Platinum Tier", text).equals("0")) {
-          Preferences.setInteger("_guzzlrPlatinumDeliveries", 1);
+          // If we have unlocked Platinum Tier but cannot accept one, we must have already accepted
+          // one.
+          boolean unlockedPlatinumTier = Preferences.getInteger("guzzlrGoldDeliveries") >= 5;
+          if (unlockedPlatinumTier
+              && ChoiceUtilities.findChoiceDecisionIndex("Platinum Tier", text).equals("0")) {
+            Preferences.setInteger("_guzzlrPlatinumDeliveries", 1);
+          }
         }
 
         break;
@@ -8749,8 +8740,8 @@ public abstract class ChoiceControl {
         Preferences.setInteger("lastCartographyHauntedBilliards", KoLCharacter.getAscensions());
         break;
 
-      case 1445: // Reassembly Station
-      case 1447: // Statbot 5000
+      case 1445, // Reassembly Station
+          1447: // Statbot 5000
         YouRobotManager.visitChoice(request);
         break;
 
