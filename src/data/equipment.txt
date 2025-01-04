@@ -88,6 +88,7 @@ crown-shaped beanie	200	Mox: 200
 crumpled felt fedora	200	Mox: 200
 cursed eyepatch	200	Mus: 85
 cursed tricorn hat	200	Mox: 50
+cybervisor	100	none
 Daylight Shavings Helmet	100	none
 demon-horned hat	70	Mox: 20
 depleted Crimbonium football helmet	100	Mus: 30
@@ -529,6 +530,7 @@ demonskin trousers	70	Mox: 20
 depleted Grimacite shinguards	100	Mox: 35
 designer sweatpants	100	none
 dice-print pajama pants	10	none
+digibritches	100	none
 Dinsey's pants	200	Mox: 100
 discarded swimming trunks	100	none
 distressed denim pants	170	Mox: 70
@@ -775,6 +777,7 @@ white satin pants	40	Mox: 5
 whittled shorts	100	none
 Whoompa Fur Pants	110	Mox: 40
 wicker knickers	50	none
+wired underwear	50	none
 wooly loincloth	110	Mox: 40
 wrought-iron waders	120	Mox: 40
 wumpus-hair loincloth	100	Mox: 35
@@ -944,6 +947,7 @@ Xiblaxian stealth vest	100	none
 yak anorak	115	Mus: 42
 Ye Olde Navy Fleece	100	Mus: 35
 Yeg's Motel bathrobe	66	none
+zero-trust tanktop	100	none
 
 # Weapons section of equipment.txt
 
@@ -1206,6 +1210,7 @@ Elf Guard squirtgun	50	Mox: 0	1-handed pistol
 elf ploughshare	100	Mus: 0	1-handed sword
 elven tambourine	100	Mox: 0	1-handed rattle
 elven whittling knife	100	Mus: 35	1-handed knife
+encrypted shuriken	100	Mox: 0	1-handed shuriken
 evil paper umbrella	30	Mus: 0	1-handed umbrella
 evil-ass club	160	Mus: 65	2-handed club
 exclusive club	100	Mus: 0	1-handed club
@@ -2015,6 +2020,7 @@ frankincenser	0	none
 Frigid Northern Beans	30	none	can of beans
 furry yam buckler	50	none	shield
 Gazpacho's Glacial Grimoire	30	none
+geofencing shield	0	none
 geological sample kit	10	none
 ghast iron heater shield	180	Mus: 75	shield
 ghostly reins	50	none
@@ -2115,6 +2121,7 @@ mad scientist's sock monkey	110	Mys: 40
 magic lamp	30	none
 magical ice cubes	30	none
 makeshift castanets	160	Mox: 150
+malware injector	0	none
 maple magnet	100	none
 marble mignonette bowl	120	Mys: 40
 marinara jug	160	Mys: 150
@@ -2373,6 +2380,7 @@ tortoboggan shield	100	Mus: 35	shield
 toy Crimbot super fist	50	none
 Trader Olaf's Exotic Stinkbeans	30	none	can of beans
 trench lighter	200	Mus: 200
+trojan horseshoe	0	none
 tropical paperweight	20	none
 Tuesday's ruby	120	Mys: 45
 turtle wax shield	40	Mus: 5	shield
@@ -2390,6 +2398,7 @@ velour valise	50	none
 vengeful spirit	225	Mys: 200
 Victor, the Insult Comic Hellhound Puppet	10	none
 vinyl shield	220	Mus: 85	shield
+visual packet sniffer	0	none
 voodoo doll	0	none
 wad of Crovacite	0	none
 Wal-Mart snowglobe	200	Mus: 50
@@ -2616,6 +2625,7 @@ cyborg stompin' boot	150	Mus: 60
 dark baconstone ring	125	Mys: 47
 dark hamethyst ring	125	Mus: 47
 dark porquoise ring	125	Mox: 47
+datastick	50	none
 dead guy's memento	200	Mys: 200
 dead guy's watch	50	Mys: 10
 deep-fried key	10	none
@@ -3029,6 +3039,7 @@ plexiglass pendant	180	Mys: 75
 plexiglass pinky ring	180	Mys: 75
 plexiglass pocketwatch	180	Mys: 75
 plush sea serpent	50	none
+pocket GPU	0	none
 Pocket Square of Loathing	200	Mys: 150
 pogo stick	150	Mys: 50
 Pok&euml;mann figurine: Bloodkip	10	none
@@ -3111,6 +3122,7 @@ replica over-the-shoulder Folder Holder	0	none
 replica plastic vampire fangs	0	none
 replica Powerful Glove	0	none
 replica V for Vivala mask	0	none
+retro floppy disk	0	none
 Retrospecs	100	none
 ribbon candy ascot	80	Mys: 20
 rickety old unicycle	200	Mox: 200
@@ -3668,6 +3680,7 @@ chalk chlamys	50	none
 Cloak of Dire Shadows	120	none
 cod cape	225	Mox: 200
 crepe paper parachute cape	0	none
+cryptocloak	0	none
 cursed blanket	0	none
 cursed goblin cape	0	none
 dice-shaped backpack	10	none

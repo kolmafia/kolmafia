@@ -39,7 +39,7 @@ public class DevilCandyEggCommand extends AbstractCommand {
         KoLmafia.updateDisplay(MafiaState.ERROR, "Cannot retrieve " + item.getName() + ".");
         return;
       }
-      RequestThread.postRequest(new GenericRequest("inventory.php?action=devilegg", false));
+      RequestThread.postRequest(new GenericRequest("inventory.php?action=eggdevil"));
       RequestThread.postRequest(
           new GenericRequest("choice.php?whichchoice=1544&option=1&a=" + item.getItemId()));
     }

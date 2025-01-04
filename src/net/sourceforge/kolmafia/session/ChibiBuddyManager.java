@@ -175,6 +175,7 @@ public class ChibiBuddyManager {
           RequestLogger.updateSessionLog(message);
           Preferences.increment("_chibiAdventures", 1, 5, false);
         }
+        break;
       case 633:
         if (decision == 1) {
           ResultProcessor.processItem(ItemPool.CHIBIBUDDY_OFF, -1);
