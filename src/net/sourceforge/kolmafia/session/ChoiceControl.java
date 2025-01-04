@@ -9811,75 +9811,75 @@ public abstract class ChoiceControl {
 
   public static final void registerDeferredChoice(final int choice, final String encounter) {
     switch (choice) {
-      case 123: // At Least It's Not Full Of Trash
+      case 123 -> { // At Least It's Not Full Of Trash
         RequestLogger.registerLocation("The Hidden Temple");
-        break;
+      }
 
-      case 125: // No Visible Means of Support
+      case 125 -> { // No Visible Means of Support
         // The tiles took a turn to get here
         ResultProcessor.processAdventuresUsed(1);
         RequestLogger.registerLocation("The Hidden Temple");
-        break;
+      }
 
-      case 437: // Flying In Circles
+      case 437 -> { // Flying In Circles
         RequestLogger.registerLocation("The Nemesis' Lair");
-        break;
+      }
 
-      case 620: // A Blow Is Struck!
-      case 621: // Hold the Line!
-      case 622: // The Moment of Truth
-      case 634: // Goodbye Fnord
+      case 620, // A Blow Is Struck!
+          621, // Hold the Line!
+          622, // The Moment of Truth
+          634 -> { // Goodbye Fnord
         // These all arise out of a multifight, rather than by
         // visiting a location.
         RequestLogger.registerLastLocation();
-        break;
+      }
 
-      case 1005: // 'Allo
-      case 1006: // One Small Step For Adventurer
-      case 1007: // Twisty Little Passages, All Hedge
-      case 1008: // Pooling Your Resources
-      case 1009: // Good Ol' 44% Duck
-      case 1010: // Another Day, Another Fork
-      case 1011: // Of Mouseholes and Manholes
-      case 1012: // The Last Temptation
-      case 1013: // Mazel Tov!
+      case 1005, // 'Allo
+          1006, // One Small Step For Adventurer
+          1007, // Twisty Little Passages, All Hedge
+          1008, // Pooling Your Resources
+          1009, // Good Ol' 44% Duck
+          1010, // Another Day, Another Fork
+          1011, // Of Mouseholes and Manholes
+          1012, // The Last Temptation
+          1013 -> { // Mazel Tov!
         // This is chain of choices that either immediately
         // follow a fight or the previous choice, either of
         // which takes a turn (unlike normal choice chains)
         String location = "The Hedge Maze (Room " + (choice - 1004) + ")";
         RequestLogger.registerLocation(location);
-        break;
+      }
 
-      case 1018: // Bee Persistent
-      case 1019: // Bee Rewarded
+      case 1018, // Bee Persistent
+          1019 -> { // Bee Rewarded
         // Getting here took a turn
         ResultProcessor.processAdventuresUsed(1);
         RequestLogger.registerLocation("The Black Forest");
-        break;
+      }
 
-      case 1223: // L.O.V. Entrance
-      case 1224: // L.O.V. Equipment Room
-      case 1225: // L.O.V. Engine Room
-      case 1226: // L.O.V. Emergency Room
-      case 1227: // L.O.V. Elbow Room
-      case 1228: // L.O.V. Emporium
+      case 1223, // L.O.V. Entrance
+          1224, // L.O.V. Equipment Room
+          1225, // L.O.V. Engine Room
+          1226, // L.O.V. Emergency Room
+          1227, // L.O.V. Elbow Room
+          1228 -> { // L.O.V. Emporium
         // This is chain of choices that either immediately
         // follow a fight or the previous choice.
         RequestLogger.registerLastLocation();
-        break;
+      }
 
-      case 1310: // Granted a Boon
+      case 1310 -> { // Granted a Boon
         {
           // Boon after fight, location is currently null, so don't log under that name
           RequestLogger.registerLocation("God Lobster");
-          break;
         }
+      }
 
-      case 1334: // Boxing Daycare (Lobby)
-      case 1335: // Boxing Daycare Spa
-      case 1336: // Boxing Daycare
+      case 1334, // Boxing Daycare (Lobby)
+          1335, // Boxing Daycare Spa
+          1336 -> { // Boxing Daycare
         RequestLogger.registerLocation("Boxing Daycare");
-        break;
+      }
     }
   }
 
