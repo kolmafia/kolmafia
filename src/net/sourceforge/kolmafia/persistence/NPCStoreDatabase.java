@@ -265,6 +265,9 @@ public class NPCStoreDatabase {
         // Ornament Stand
         return false;
       }
+      case "cyber_hackmarket" -> {
+        return InventoryManager.getCount(ItemPool.SERVER_KEY) > 0;
+      }
       case "doc" -> {
         // Doc Galaktik's Medicine Show
         if (KoLCharacter.inZombiecore()

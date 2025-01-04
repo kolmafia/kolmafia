@@ -466,3 +466,7 @@ The Crimbo Cafe	crimbo21cafe	clear Russian	50	ROW1264
 
 Ornament Stand	crimbo21ornaments	black Crimbo ball	100	ROW1265
 Ornament Stand	crimbo21ornaments	white Crimbo ball	100	ROW1266
+
+Hack Market	cyber_hackmarket	drenchrome 2.0	500	ROW1557
+Hack Market	cyber_hackmarket	eXpand	500	ROW1556
+Hack Market	cyber_hackmarket	Synapse Blaster	500	ROW1549

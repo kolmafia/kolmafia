@@ -5883,6 +5883,9 @@ Effect	Cute Vision	Familiar Weight: +5
 Effect	Cuts Like a Buttered Knife	Sleaze Damage: +50
 Effect	Cuts Like a Lightly-Buttered Knife	Sleaze Damage: +5
 Effect	Cyber-Robo-Steam-Whatever Costume	Avatar: "super-sized Cola Wars soldier"
+# Cyber Memory Boost: +3 RAM
+Effect	Cyber Resist x2000	Hot Resistance: +5, Cold Resistance: +5, Spooky Resistance: +5, Stench Resistance: +5, Sleaze Resistance: +5
+# Cyber Slicer: Cyber attacks deal more damage
 Effect	Cybernetic Muscles	Muscle Percent: +10
 Effect	Cyclonic Filth	Damage Aura: 1
 Effect	D-Charged	Spell Damage Percent: +50, Initiative: +50, Experience: +3, MP Regen Min: 5, MP Regen Max: 10
@@ -9781,11 +9784,13 @@ Item	Crimbo paste	Effect: "Crimbo Flavor", Effect Duration: 10
 Item	cute mushroom	Effect: "Cute Vision", Effect Duration: 50
 Item	demonic paste	Effect: "Demonic Flavor", Effect Duration: 10
 # dieting pill: Eat less, Enjoy it More!
+Item	drenchrome 2.0	Effect: "Cyber Slicer", Effect Duration: 30
 Item	ectoplasmic paste	Effect: "Spooky Flavor", Effect Duration: 10
 Item	eldritch essence	Effect: "Eldritch Concentration", Effect Duration: 50
 Item	elemental paste	Effect: "Elemental Flavor", Effect Duration: 10
 Item	energized spores	Effect: "Energized", Effect Duration: 40
 # excitement pill: Get an exciting random effect!
+Item	eXpand	Effect: "Cyber Memory Boost", Effect Duration: 30
 Item	fish sauce	Effect: "Fishy", Effect Duration: 30
 Item	fishy paste	Effect: "Fishy", Effect Duration: 10
 Item	fried air	Effect: "Well-Ventilated", Effect Duration: 30
@@ -9869,6 +9874,7 @@ Item	stench jelly	Effect: "Stench Jellied", Effect Duration: 50
 Item	stench wad	Effect: "Stenchtastic", Effect Duration: 20
 Item	strange paste	Effect: "Weird Flavor", Effect Duration: 10
 Item	super-sweet fish goo (spoiled)	Effect: "Fishy", Effect Duration: 15
+Item	Synapse Blaster	Effect: "Cyber Resist x2000", Effect Duration: 30
 Item	The Author's ink	Effect: "It's a Good Life!", Effect Duration: 200
 Item	The Inquisitor's unidentifiable object	Effect: "The Inquisitor's Unknown Effect", Effect Duration: 100
 Item	tube of hair oil	Effect: "Got Your Boots On", Effect Duration: 10

@@ -2954,9 +2954,9 @@
 2951	Eyesies on the Pressies	darkgift.gif	1ee7baeab92f07b17d7619ea62b6d167	neutral	none	eat 1 Christmas ham|drink 1 mechanically-mulled cider
 2952	Herder, Bitter, Fester, Stranger	darkchocegg.gif	a8a929d23d6d0676bf31e4e3e2c25d1d	neutral	none	use 1 dark chocolate egg
 2953
-2954
-2955
-2956
+2954	Cyber Resist x2000	realbrain.gif	83a264ac03c91ac4b838ba651b42557e	neutral	none	chew 1 Synapse Blaster
+2955	Cyber Slicer	pixelsword.gif	b8edcc46ef07e4609c98eb13166cd3fa	neutral	none	chew 1 drenchrome 2.0
+2953	Cyber Memory Boost	10101.gif	f72542d649b923278a96f0cb69b77e5d	neutral	none	chew 1 eXpand
 2957	Blinded by the Crepe	crepehat.gif	29f9b1704209badb3da4f3fa59adf969	neutral	none	cast 1 Pull down your crepe paper phrygian cap
 2958	Crepe Paper Rainbow	crepepin.gif	4d7567add20055f67759e4d8b8164802	neutral	none	cast 1 Look through your crepe paper pie clip
 2959	Crepe Paper Puzzled	crepecube.gif	e3c54d616d1f7739663774625a631061	neutral	none	cast 1 Play with your crepe paper puzzle
