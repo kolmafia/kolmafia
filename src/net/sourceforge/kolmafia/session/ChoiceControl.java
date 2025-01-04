@@ -109,69 +109,67 @@ public abstract class ChoiceControl {
   public static final void preChoice(final GenericRequest request) {
     switch (ChoiceManager.lastChoice) {
         // Wheel In the Sky Keep on Turning: Muscle Position
-      case 9:
+      case 9 -> {
         Preferences.setString(
             "currentWheelPosition",
             ChoiceManager.lastDecision == 1
                 ? "mysticality"
                 : ChoiceManager.lastDecision == 2 ? "moxie" : "muscle");
-        break;
+      }
 
         // Wheel In the Sky Keep on Turning: Mysticality Position
-      case 10:
+      case 10 -> {
         Preferences.setString(
             "currentWheelPosition",
             ChoiceManager.lastDecision == 1
                 ? "map quest"
                 : ChoiceManager.lastDecision == 2 ? "muscle" : "mysticality");
-        break;
+      }
 
         // Wheel In the Sky Keep on Turning: Map Quest Position
-      case 11:
+      case 11 -> {
         Preferences.setString(
             "currentWheelPosition",
             ChoiceManager.lastDecision == 1
                 ? "moxie"
                 : ChoiceManager.lastDecision == 2 ? "mysticality" : "map quest");
-        break;
+      }
 
         // Wheel In the Sky Keep on Turning: Moxie Position
-      case 12:
+      case 12 -> {
         Preferences.setString(
             "currentWheelPosition",
             ChoiceManager.lastDecision == 1
                 ? "muscle"
                 : ChoiceManager.lastDecision == 2 ? "map quest" : "moxie");
-        break;
+      }
 
         // Maidens: disambiguate the Knights
-      case 89:
+      case 89 -> {
         AdventureRequest.setNameOverride(
             "Knight", ChoiceManager.lastDecision == 1 ? "Knight (Wolf)" : "Knight (Snake)");
-        break;
+      }
 
         // Strung-Up Quartet
-      case 106:
+      case 106 -> {
         Preferences.setInteger("lastQuartetAscension", KoLCharacter.getAscensions());
         Preferences.setInteger("lastQuartetRequest", ChoiceManager.lastDecision);
 
         if (KoLCharacter.recalculateAdjustments()) {
           KoLCharacter.updateStatus();
         }
+      }
 
-        break;
-
-      case 123: // At Least It's Not Full Of Trash
+      case 123 -> { // At Least It's Not Full Of Trash
         if (ChoiceManager.lastDecision == 2) {
           // Raise your hands up towards the heavens
           // This takes take a turn and advances to the tiles
           ResultProcessor.processAdventuresUsed(1);
         }
-        break;
+      }
 
         // Start the Island War Quest
-      case 142:
-      case 146:
+      case 142, 146 -> {
         if (ChoiceManager.lastDecision == 3) {
           QuestDatabase.setQuestProgress(Quest.ISLAND_WAR, "step1");
           Preferences.setString("warProgress", "started");
@@ -183,10 +181,10 @@ public abstract class ChoiceControl {
             Preferences.setInteger("fratboysDefeated", 500);
           }
         }
-        break;
+      }
 
         // The Gong Has Been Bung
-      case 276:
+      case 276 -> {
         ResultProcessor.processItem(ItemPool.GONG, -1);
         Preferences.setInteger("moleTunnelLevel", 0);
         Preferences.setInteger("birdformCold", 0);
@@ -195,31 +193,31 @@ public abstract class ChoiceControl {
         Preferences.setInteger("birdformSleaze", 0);
         Preferences.setInteger("birdformSpooky", 0);
         Preferences.setInteger("birdformStench", 0);
-        break;
+      }
 
         // The Horror...
-      case 611:
+      case 611 -> {
         // To find which step we're on, look at the responseText from the _previous_ request.  This
         // should still be in lastResponseText.
         abooPeakLevel =
             findBooPeakLevel(
                 ChoiceUtilities.findChoiceDecisionText(1, ChoiceManager.lastResponseText));
         // Handle changing the progress level in postChoice1 where we know the result.
-        break;
+      }
 
         // Behind the world there is a door...
-      case 612:
+      case 612 -> {
         TurnCounter.stopCounting("Silent Invasion window begin");
         TurnCounter.stopCounting("Silent Invasion window end");
         TurnCounter.startCounting(35, "Silent Invasion window begin loc=*", "lparen.gif");
         TurnCounter.startCounting(40, "Silent Invasion window end loc=*", "rparen.gif");
-        break;
+      }
 
-      case 794:
+      case 794 -> {
         ResultProcessor.removeItem(ItemPool.FUNKY_JUNK_KEY);
-        break;
+      }
 
-      case 804: // Trick-or-Treating!
+      case 804 -> { // Trick-or-Treating!
         {
           // Whether you win or lose the following encounter, or if there is just a non-combat,
           // once the selection is made, the house is "used", so we can reflect that in the pref
@@ -232,35 +230,35 @@ public abstract class ChoiceControl {
             state[house] = Character.toLowerCase(state[house]);
             Preferences.setString("_trickOrTreatBlock", String.valueOf(state));
           }
-          break;
         }
+      }
 
-      case 931:
+      case 931 -> {
         // Life Ain't Nothin But Witches and Mummies
         QuestDatabase.setQuestIfBetter(Quest.CITADEL, "step6");
-        break;
+      }
 
-      case 932:
+      case 932 -> {
         // No Whammies
         QuestDatabase.setQuestIfBetter(Quest.CITADEL, "step8");
-        break;
+      }
 
-      case 1005: // 'Allo
-      case 1006: // One Small Step For Adventurer
-      case 1007: // Twisty Little Passages, All Hedge
-      case 1008: // Pooling Your Resources
-      case 1009: // Good Ol' 44% Duck
-      case 1010: // Another Day, Another Fork
-      case 1011: // Of Mouseholes and Manholes
-      case 1012: // The Last Temptation
-      case 1013: // Mazel Tov!
+      case 1005, // 'Allo
+          1006, // One Small Step For Adventurer
+          1007, // Twisty Little Passages, All Hedge
+          1008, // Pooling Your Resources
+          1009, // Good Ol' 44% Duck
+          1010, // Another Day, Another Fork
+          1011, // Of Mouseholes and Manholes
+          1012, // The Last Temptation
+          1013 -> { // Mazel Tov!
         // Taking any of these takes a turn. We'll eventually
         // be informed of that in a charpane/api refresh, but
         // that's too late for logging.
         ResultProcessor.processAdventuresUsed(1);
-        break;
+      }
 
-      case 1023: // Like a Bat into Hell
+      case 1023 -> { // Like a Bat into Hell
         if (ChoiceManager.lastDecision == 2) {
           int edDefeats = Preferences.getInteger("_edDefeats");
           int kaCost = edDefeats > 2 ? (int) (Math.pow(2, Math.min(edDefeats - 3, 5))) : 0;
@@ -268,45 +266,45 @@ public abstract class ChoiceControl {
           ResultProcessor.processResult(cost);
           KoLCharacter.setLimitMode(LimitMode.NONE);
         }
-        break;
+      }
 
-      case 1024: // Like a Bat out of Hell
+      case 1024 -> { // Like a Bat out of Hell
         switch (ChoiceManager.lastDecision) {
-          case 2:
+          case 2 -> {
             Preferences.setInteger("_edDefeats", 0);
             Preferences.setBoolean("edUsedLash", false);
             MonsterStatusTracker.reset();
             KoLCharacter.setLimitMode(LimitMode.NONE);
-            break;
-          case 1:
+          }
+          case 1 -> {
             int edDefeats = Preferences.getInteger("_edDefeats");
             int kaCost = edDefeats > 2 ? (int) (Math.pow(2, Math.min(edDefeats - 3, 5))) : 0;
             AdventureResult cost = ItemPool.get(ItemPool.KA_COIN, -kaCost);
             ResultProcessor.processResult(cost);
             KoLCharacter.setLimitMode(LimitMode.NONE);
-            break;
+          }
         }
-        break;
+      }
 
-      case 1028:
+      case 1028 -> {
         // A Shop
         SpelunkyRequest.logShop(ChoiceManager.lastResponseText, ChoiceManager.lastDecision);
-        break;
+      }
 
-      case 1085: // Deck of Every Card
+      case 1085 -> { // Deck of Every Card
         if (ChoiceManager.lastDecision == 1) {
           Preferences.increment("_deckCardsDrawn", 1, 15, false);
         }
-        break;
+      }
 
-      case 1086: // Pick a Card
+      case 1086 -> { // Pick a Card
         if (ChoiceManager.lastDecision == 1) {
           // The extra 1 will be covered in choice 1085
           Preferences.increment("_deckCardsDrawn", 4, 15, false);
         }
-        break;
+      }
 
-      case 1171: // LT&T Office
+      case 1171 -> { // LT&T Office
         if (ChoiceManager.lastDecision < 4) {
           QuestDatabase.setQuestProgress(Quest.TELEGRAM, QuestDatabase.STARTED);
           Preferences.setInteger("lttQuestDifficulty", ChoiceManager.lastDecision);
@@ -324,16 +322,16 @@ public abstract class ChoiceControl {
           Preferences.setInteger("lttQuestStageCount", 0);
           Preferences.setString("lttQuestName", "");
         }
-        break;
+      }
 
-      case 1197:
+      case 1197 -> {
         // Travel back to a Delicious Meal
         if (ChoiceManager.lastDecision == 1 && !request.getURLString().contains("foodid=0")) {
           EatItemRequest.timeSpinnerUsed = true;
         }
-        break;
+      }
 
-      case 1261:
+      case 1261 -> {
         // Which Door?
         if (ChoiceManager.lastResponseText.contains("Boris")) {
           Preferences.setString("_villainLairKey", "boris");
@@ -342,20 +340,20 @@ public abstract class ChoiceControl {
         } else if (ChoiceManager.lastResponseText.contains("Sneaky Pete")) {
           Preferences.setString("_villainLairKey", "pete");
         }
-        break;
+      }
 
-      case 1345:
+      case 1345 -> {
         // Blech House
         Preferences.setInteger("smutOrcNoncombatProgress", 0);
-        break;
+      }
 
-      case 1500:
+      case 1500 -> {
         // Like a Loded Stone
         if (ChoiceManager.lastDecision == 1) {
           Preferences.setInteger("lastShadowForgeUnlockAdventure", KoLCharacter.getCurrentRun());
           ConcoctionDatabase.refreshConcoctions();
         }
-        break;
+      }
     }
   }
 
@@ -4280,7 +4278,8 @@ public abstract class ChoiceControl {
           Preferences.setInteger(
               "_pirateRealmShipSpeed",
               switch (ChoiceManager.lastDecision) {
-                case 1, 2 -> 7;
+                case 1, // a comment
+                    2 -> 7;
                 case 3 -> 6;
                 case 4 -> 4;
                 case 5 -> 9;
@@ -7736,12 +7735,18 @@ public abstract class ChoiceControl {
           break;
         }
 
-      case 822: // The Prince's Ball (In the Restroom)
-      case 823: // The Prince's Ball (On the Dance Floor)
-      case 824: // The Prince's Ball (The Kitchen)
-      case 825: // The Prince's Ball (On the Balcony)
-      case 826: // The Prince's Ball (The Lounge)
-      case 827: // The Prince's Ball (At the Canapés Table)
+        // The Prince's Ball (In the Restroom)
+      case 822:
+        // The Prince's Ball (On the Dance Floor)
+      case 823:
+        // The Prince's Ball (The Kitchen)
+      case 824:
+        // The Prince's Ball (On the Balcony)
+      case 825:
+        // The Prince's Ball (The Lounge)
+      case 826:
+        // The Prince's Ball (At the Canapés Table)
+      case 827:
         // stepmother
       case 829:
         // We all wear masks
@@ -9032,7 +9037,8 @@ public abstract class ChoiceControl {
         BurningLeavesRequest.visitChoice(text);
         break;
 
-      case 1512, 1513:
+      case 1512, // a comment
+          1513:
         if (text.contains("don't even think about pressing that button")) {
           Preferences.setString(
               "_automatedFutureSide", ChoiceManager.lastChoice == 1512 ? "bearings" : "solenoids");
