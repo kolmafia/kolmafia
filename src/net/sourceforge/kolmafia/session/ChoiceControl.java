@@ -9581,74 +9581,80 @@ public abstract class ChoiceControl {
     int decision = ChoiceUtilities.extractOptionFromURL(urlString);
     if (choice != 0) {
       switch (choice) {
-        case 443:
+        case 443 -> {
           // Chess Puzzle
           return RabbitHoleManager.registerChessboardRequest(urlString);
+        }
 
-        case 460:
-        case 461:
-        case 462:
-        case 463:
-        case 464:
-        case 465:
-        case 467:
-        case 468:
-        case 469:
-        case 470:
-        case 472:
-        case 473:
-        case 474:
-        case 475:
-        case 476:
-        case 477:
-        case 478:
-        case 479:
-        case 480:
-        case 481:
-        case 482:
-        case 483:
-        case 484:
-          // Space Trip
-        case 471:
-          // DemonStar
-        case 485:
-          // Fighters Of Fighting
-        case 486:
-          // Dungeon Fist!
-        case 488:
-        case 489:
-        case 490:
-        case 491:
+        case 460,
+            461,
+            462,
+            463,
+            464,
+            465,
+            467,
+            468,
+            469,
+            470,
+            472,
+            473,
+            474,
+            475,
+            476,
+            477,
+            478,
+            479,
+            480,
+            481,
+            482,
+            483,
+            484,
+            // Space Trip
+            471,
+            // DemonStar
+            485,
+            // Fighters Of Fighting
+            486,
+            // Dungeon Fist!
+            488,
+            489,
+            490,
+            491 -> {
           // Meteoid
           return true;
+        }
 
-        case 535: // Deep Inside Ronald
-        case 536: // Deep Inside Grimace
+        case 535, // Deep Inside Ronald
+            536 -> { // Deep Inside Grimace
           return true;
+        }
 
-        case 546: // Interview With You
+        case 546 -> { // Interview With You
           return true;
+        }
 
-        case 1003: // Test Your Might And Also Test Other Things
-        case 1015: // The Mirror in the Tower has the View that is True
-        case 1020: // Closing Ceremony
-        case 1021: // Meet Frank
-        case 1022: // Meet Frank
-        case 1005: // 'Allo
-        case 1006: // One Small Step For Adventurer
-        case 1007: // Twisty Little Passages, All Hedge
-        case 1008: // Pooling Your Resources
-        case 1009: // Good Ol' 44% Duck
-        case 1010: // Another Day, Another Fork
-        case 1011: // Of Mouseholes and Manholes
-        case 1012: // The Last Temptation
-        case 1013: // Mazel Tov!
+        case 1003, // Test Your Might And Also Test Other Things
+            1015, // The Mirror in the Tower has the View that is True
+            1020, // Closing Ceremony
+            1021, // Meet Frank
+            1022, // Meet Frank
+            1005, // 'Allo
+            1006, // One Small Step For Adventurer
+            1007, // Twisty Little Passages, All Hedge
+            1008, // Pooling Your Resources
+            1009, // Good Ol' 44% Duck
+            1010, // Another Day, Another Fork
+            1011, // Of Mouseholes and Manholes
+            1012, // The Last Temptation
+            1013 -> { // Mazel Tov!
           return SorceressLairManager.registerChoice(choice, urlString);
+        }
 
-        case 1053: // The Servants' Quarters
+        case 1053 -> { // The Servants' Quarters
           return EdServantData.registerRequest(urlString);
+        }
 
-        case 1063: // Adjust your 'Edpiece
+        case 1063 -> { // Adjust your 'Edpiece
           {
             var state = EdPieceCommand.getStateFromDecision(decision);
 
@@ -9659,8 +9665,9 @@ public abstract class ChoiceControl {
 
             return true;
           }
+        }
 
-        case 1101: // It's a Barrel Smashing Party!
+        case 1101 -> { // It's a Barrel Smashing Party!
           {
             if (decision == 2) {
               // We're smashing 100 barrels
@@ -9688,38 +9695,43 @@ public abstract class ChoiceControl {
             }
             break;
           }
+        }
 
-        case 1181: // Your Witchess Set
+        case 1181 -> { // Your Witchess Set
           {
             String desc = ChoiceManager.choiceDescription(choice, decision);
             RequestLogger.updateSessionLog("Took choice " + choice + "/" + decision + ": " + desc);
             return true;
           }
+        }
 
-        case 1182: // Play against the Witchess Pieces
+        case 1182 -> { // Play against the Witchess Pieces
           // These will redirect to a fight. The encounter will suffice.
           if (decision >= 1 && decision <= 7) {
             String desc = "Play against the Witchess pieces";
             RequestLogger.updateSessionLog("Took choice " + choice + "/" + decision + ": " + desc);
           }
           return true;
+        }
 
-        case 1313: // Bastille Battalion
-        case 1314: // Bastille Battalion (Master of None)
-        case 1315: // Castle vs. Castle
-        case 1316: // GAME OVER
-        case 1317: // A Hello to Arms (Battalion)
-        case 1318: // Defensive Posturing
-        case 1319: // Cheese Seeking Behavior
+        case 1313, // Bastille Battalion
+            1314, // Bastille Battalion (Master of None)
+            1315, // Castle vs. Castle
+            1316, // GAME OVER
+            1317, // A Hello to Arms (Battalion)
+            1318, // Defensive Posturing
+            1319 -> { // Cheese Seeking Behavior
           return BastilleBattalionManager.registerRequest(urlString);
+        }
 
-        case 1334: // Boxing Daycare (Lobby)
-        case 1335: // Boxing Daycare Spa
-        case 1336: // Boxing Daycare
+        case 1334, // Boxing Daycare (Lobby)
+            1335, // Boxing Daycare Spa
+            1336 -> { // Boxing Daycare
           // Special logging done elsewhere
           return true;
+        }
 
-        case 1339: // A Little Pump and Grind
+        case 1339 -> { // A Little Pump and Grind
           if (decision == 1) {
             int itemId = extractIidFromURL(urlString);
             int qty = extractQtyFromURL(urlString);
@@ -9730,10 +9742,11 @@ public abstract class ChoiceControl {
             }
           }
           return true;
+        }
 
-        case 1352: //  Island #1, Who Are You?
-        case 1353: //  What's Behind Island #2?
-        case 1354: //  Third Island's the Charm
+        case 1352, //  Island #1, Who Are You?
+            1353, //  What's Behind Island #2?
+            1354 -> { //  Third Island's the Charm
           {
             // Get the island name here so that we can set the location name accordingly.
             // Other choicey things should happen in postChoiceX
@@ -9744,21 +9757,26 @@ public abstract class ChoiceControl {
             }
             return true;
           }
+        }
 
-        case 1388: // Comb the Beach
+        case 1388 -> { // Comb the Beach
           {
             return BeachCombRequest.registerRequest(urlString);
           }
+        }
 
-        case 1445: // Reassembly Station
-        case 1447: // Statbot 5000
+        case 1445, // Reassembly Station
+            1447 -> { // Statbot 5000
           return YouRobotManager.registerRequest(urlString);
+        }
 
-        case 1483: // Direct Autumn-Aton
+        case 1483 -> { // Direct Autumn-Aton
           return AutumnatonManager.registerRequest(urlString);
+        }
 
-        case 1523: // Research Bench
+        case 1523 -> { // Research Bench
           return ResearchBenchRequest.registerRequest(urlString);
+        }
       }
 
       if (decision != 0) {
