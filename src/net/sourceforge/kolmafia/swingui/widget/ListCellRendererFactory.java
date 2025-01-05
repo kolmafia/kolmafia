@@ -524,7 +524,7 @@ public class ListCellRendererFactory {
           if (costs.length == 1) {
             AdventureResult cost = costs[0];
             int count = cost.getCount();
-            String currency = purchaseRequest.getCurrency(count);
+            String currency = purchaseRequest.getCurrency(1);
             if (!currency.startsWith("(")) {
               stringForm.append(count);
               stringForm.append(" ");
