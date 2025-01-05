@@ -19,6 +19,12 @@ plugins {
 	id 'org.ajoberstar.grgit' version '5.2.2'
 	id 'org.panteleyev.jpackageplugin' version '1.6.0'
 	id "com.github.ben-manes.versions" version "0.51.0" // enables ./gradlew dependencyUpdates for outdated
+
+	id 'checkstyle'
+}
+
+checkstyle {
+	toolVersion = '10.21.1'
 }
 
 sourceSets {
@@ -98,6 +104,8 @@ dependencies {
 	implementation 'com.jgoodies:jgoodies-binding:2.13.0'
 	implementation 'org.eclipse.jgit:org.eclipse.jgit:6.10.0.202406032230-r'
 	implementation 'org.eclipse.jgit:org.eclipse.jgit.ssh.apache:6.10.0.202406032230-r'
+
+	checkstyle "com.puppycrawl.tools:checkstyle:${checkstyle.toolVersion}"
 }
 
 application {
