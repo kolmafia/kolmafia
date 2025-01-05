@@ -33,6 +33,97 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.*;
 import net.sourceforge.kolmafia.request.StorageRequest.StorageRequestType;
+import net.sourceforge.kolmafia.request.coinmaster.AWOLQuartermasterRequest;
+import net.sourceforge.kolmafia.request.coinmaster.AltarOfBonesRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.AppleStoreRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.ArmoryAndLeggeryRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.ArmoryRequest;
+import net.sourceforge.kolmafia.request.coinmaster.BURTRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.BatFabricatorRequest;
+import net.sourceforge.kolmafia.request.coinmaster.BigBrotherRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.BlackMarketRequest;
+import net.sourceforge.kolmafia.request.coinmaster.BountyHunterHunterRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.BoutiqueRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.BrogurtRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.BuffJimmyRequest;
+import net.sourceforge.kolmafia.request.coinmaster.CRIMBCOGiftShopRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.CanteenRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.ChemiCorpRequest;
+import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.CosmicRaysBazaarRequest;
+import net.sourceforge.kolmafia.request.coinmaster.Crimbo11Request;
+import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo14Request;
+import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo17Request;
+import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo20BoozeRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo20CandyRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo20FoodRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo23ElfArmoryRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo23ElfBarRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo23ElfCafeRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo23ElfFactoryRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo23PirateArmoryRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo23PirateBarRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo23PirateCafeRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo23PirateFactoryRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo24BarRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo24CafeRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo24FactoryRequest;
+import net.sourceforge.kolmafia.request.coinmaster.CrimboCartelRequest;
+import net.sourceforge.kolmafia.request.coinmaster.DimemasterRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.DinostaurRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.DinseyCompanyStoreRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.DiscoGiftCoRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.DollHawkerRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.DripArmoryRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.EdShopRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.FDKOLRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.FancyDanRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.FishboneryRequest;
+import net.sourceforge.kolmafia.request.coinmaster.FreeSnackRequest;
+import net.sourceforge.kolmafia.request.coinmaster.FudgeWandRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.FunALogRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.GMartRequest;
+import net.sourceforge.kolmafia.request.coinmaster.GameShoppeRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.GotporkOrphanageRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.GotporkPDRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.GuzzlrRequest;
+import net.sourceforge.kolmafia.request.coinmaster.HermitRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.IsotopeSmitheryRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.LTTRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.LunarLunchRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.MemeShopRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.MerchTableRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.MrStore2002Request;
+import net.sourceforge.kolmafia.request.coinmaster.MrStoreRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.NeandermallRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.NinjaStoreRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.NuggletCraftingRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.PlumberGearRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.PlumberItemRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.PokemporiumRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.PrecinctRequest;
+import net.sourceforge.kolmafia.request.coinmaster.QuartersmasterRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.ReplicaMrStoreRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.RubeeRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.SHAWARMARequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.SeptEmberCenserRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.ShoeRepairRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.ShoreGiftShopRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.SpacegateFabricationRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.SpinMasterLatheRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.SwaggerShopRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.TacoDanRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.TerrifiedEagleInnRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.ThankShopRequest;
+import net.sourceforge.kolmafia.request.coinmaster.TicketCounterRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.ToxicChemistryRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.TrapperRequest;
+import net.sourceforge.kolmafia.request.coinmaster.TravelingTraderRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.VendingMachineRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.WalMartRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.WarbearBoxRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.YeNeweSouvenirShoppeRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.YourCampfireRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.shop.ShopRow;
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
@@ -654,19 +745,19 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
 
   private class DimemasterPanel extends WarMasterPanel {
     public DimemasterPanel() {
-      super(DimemasterRequest.HIPPY);
+      super( DimemasterRequest.HIPPY);
     }
   }
 
   private class QuartersmasterPanel extends WarMasterPanel {
     public QuartersmasterPanel() {
-      super(QuartersmasterRequest.FRATBOY);
+      super( QuartersmasterRequest.FRATBOY);
     }
   }
 
   private class BountyHunterHunterPanel extends CoinmasterPanel {
     public BountyHunterHunterPanel() {
-      super(BountyHunterHunterRequest.BHH);
+      super( BountyHunterHunterRequest.BHH);
     }
   }
 
@@ -761,7 +852,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
 
   public class ArmoryAndLeggeryPanel extends CoinmasterPanel {
     public ArmoryAndLeggeryPanel() {
-      super(ArmoryAndLeggeryRequest.ARMORY_AND_LEGGERY);
+      super( ArmoryAndLeggeryRequest.ARMORY_AND_LEGGERY);
       NamedListenerRegistry.registerNamedListener("(armoryandleggery)", this);
     }
 
@@ -785,7 +876,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
 
   public class BlackMarketPanel extends CoinmasterPanel {
     public BlackMarketPanel() {
-      super(BlackMarketRequest.BLACK_MARKET);
+      super( BlackMarketRequest.BLACK_MARKET);
     }
   }
 
@@ -793,7 +884,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     private final JButton fish = new InvocationButton("go fish", this, "fish");
 
     public HermitPanel() {
-      super(HermitRequest.HERMIT);
+      super( HermitRequest.HERMIT);
       this.buyPanel.addButton(fish, true);
     }
 
@@ -806,13 +897,13 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
 
   public class TrapperPanel extends CoinmasterPanel {
     public TrapperPanel() {
-      super(TrapperRequest.TRAPPER);
+      super( TrapperRequest.TRAPPER);
     }
   }
 
   public class SwaggerShopPanel extends CoinmasterPanel {
     public SwaggerShopPanel() {
-      super(SwaggerShopRequest.SWAGGER_SHOP);
+      super( SwaggerShopRequest.SWAGGER_SHOP);
       PreferenceListenerRegistry.registerPreferenceListener("blackBartsBootyAvailable", this);
       PreferenceListenerRegistry.registerPreferenceListener("holidayHalsBookAvailable", this);
       PreferenceListenerRegistry.registerPreferenceListener(
@@ -832,25 +923,25 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
 
   public class BURTPanel extends CoinmasterPanel {
     public BURTPanel() {
-      super(BURTRequest.BURT);
+      super( BURTRequest.BURT);
     }
   }
 
   public class FishboneryPanel extends CoinmasterPanel {
     public FishboneryPanel() {
-      super(FishboneryRequest.FISHBONERY);
+      super( FishboneryRequest.FISHBONERY);
     }
   }
 
   public class EdShopPanel extends CoinmasterPanel {
     public EdShopPanel() {
-      super(EdShopRequest.EDSHOP);
+      super( EdShopRequest.EDSHOP);
     }
   }
 
   public class NuggletCraftingPanel extends CoinmasterPanel {
     public NuggletCraftingPanel() {
-      super(NuggletCraftingRequest.NUGGLETCRAFTING);
+      super( NuggletCraftingRequest.NUGGLETCRAFTING);
     }
   }
 
@@ -870,37 +961,37 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
 
   public class NeandermallPanel extends TwitchPanel {
     public NeandermallPanel() {
-      super(NeandermallRequest.NEANDERMALL);
+      super( NeandermallRequest.NEANDERMALL);
     }
   }
 
   public class ShoeRepairPanel extends TwitchPanel {
     public ShoeRepairPanel() {
-      super(ShoeRepairRequest.SHOE_REPAIR);
+      super( ShoeRepairRequest.SHOE_REPAIR);
     }
   }
 
   public class ApplePanel extends TwitchPanel {
     public ApplePanel() {
-      super(AppleStoreRequest.APPLE_STORE);
+      super( AppleStoreRequest.APPLE_STORE);
     }
   }
 
   public class NinjaPanel extends TwitchPanel {
     public NinjaPanel() {
-      super(NinjaStoreRequest.NINJA_STORE);
+      super( NinjaStoreRequest.NINJA_STORE);
     }
   }
 
   public class ShakeShopPanel extends TwitchPanel {
     public ShakeShopPanel() {
-      super(YeNeweSouvenirShoppeRequest.SHAKE_SHOP);
+      super( YeNeweSouvenirShoppeRequest.SHAKE_SHOP);
     }
   }
 
   public class MerchTablePanel extends TwitchPanel {
     public MerchTablePanel() {
-      super(MerchTableRequest.MERCH_TABLE);
+      super( MerchTableRequest.MERCH_TABLE);
     }
 
     @Override
@@ -914,26 +1005,26 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
 
   public class ShoreGiftShopPanel extends CoinmasterPanel {
     public ShoreGiftShopPanel() {
-      super(ShoreGiftShopRequest.SHORE_GIFT_SHOP);
+      super( ShoreGiftShopRequest.SHORE_GIFT_SHOP);
       PreferenceListenerRegistry.registerPreferenceListener("itemBoughtPerAscension637", this);
     }
   }
 
   public class SpacegateFabricationPanel extends CoinmasterPanel {
     public SpacegateFabricationPanel() {
-      super(SpacegateFabricationRequest.SPACEGATE_STORE);
+      super( SpacegateFabricationRequest.SPACEGATE_STORE);
     }
   }
 
   public class VendingMachinePanel extends CoinmasterPanel {
     public VendingMachinePanel() {
-      super(VendingMachineRequest.VENDING_MACHINE);
+      super( VendingMachineRequest.VENDING_MACHINE);
     }
   }
 
   private class BigBrotherPanel extends CoinmasterPanel {
     public BigBrotherPanel() {
-      super(BigBrotherRequest.BIG_BROTHER);
+      super( BigBrotherRequest.BIG_BROTHER);
     }
   }
 
@@ -941,7 +1032,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     public Crimbo11Panel() {
       super();
 
-      this.setData(Crimbo11Request.CRIMBO11);
+      this.setData( Crimbo11Request.CRIMBO11);
 
       this.sellPanel = new SellPanel();
       this.add(this.sellPanel, BorderLayout.NORTH);
@@ -1015,7 +1106,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
 
   private class CrimboCartelPanel extends CoinmasterPanel {
     public CrimboCartelPanel() {
-      super(CrimboCartelRequest.CRIMBO_CARTEL);
+      super( CrimboCartelRequest.CRIMBO_CARTEL);
     }
   }
 
@@ -1023,7 +1114,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     public Crimbo14Panel() {
       super();
 
-      this.setData(Crimbo14Request.CRIMBO14);
+      this.setData( Crimbo14Request.CRIMBO14);
 
       this.sellPanel = new SellPanel();
       this.add(this.sellPanel, BorderLayout.NORTH);
@@ -1034,31 +1125,31 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
 
   private class Crimbo17Panel extends CoinmasterPanel {
     public Crimbo17Panel() {
-      super(Crimbo17Request.CRIMBO17);
+      super( Crimbo17Request.CRIMBO17);
     }
   }
 
   private class Crimbo20BoozePanel extends CoinmasterPanel {
     public Crimbo20BoozePanel() {
-      super(Crimbo20BoozeRequest.CRIMBO20BOOZE);
+      super( Crimbo20BoozeRequest.CRIMBO20BOOZE);
     }
   }
 
   private class Crimbo20CandyPanel extends CoinmasterPanel {
     public Crimbo20CandyPanel() {
-      super(Crimbo20CandyRequest.CRIMBO20CANDY);
+      super( Crimbo20CandyRequest.CRIMBO20CANDY);
     }
   }
 
   private class Crimbo20FoodPanel extends CoinmasterPanel {
     public Crimbo20FoodPanel() {
-      super(Crimbo20FoodRequest.CRIMBO20FOOD);
+      super( Crimbo20FoodRequest.CRIMBO20FOOD);
     }
   }
 
   private class PokemporiumPanel extends CoinmasterPanel {
     public PokemporiumPanel() {
-      super(PokemporiumRequest.POKEMPORIUM);
+      super( PokemporiumRequest.POKEMPORIUM);
     }
 
     @Override
@@ -1075,7 +1166,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     private int gameGridTokens = 0;
 
     public TicketCounterPanel() {
-      super(TicketCounterRequest.TICKET_COUNTER);
+      super( TicketCounterRequest.TICKET_COUNTER);
       this.buyPanel.addButton(skeeball, false);
       this.update();
     }
@@ -1108,61 +1199,61 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
 
   private class GameShoppePanel extends CoinmasterPanel {
     public GameShoppePanel() {
-      super(GameShoppeRequest.GAMESHOPPE);
+      super( GameShoppeRequest.GAMESHOPPE);
     }
   }
 
   private class SnackVoucherPanel extends CoinmasterPanel {
     public SnackVoucherPanel() {
-      super(FreeSnackRequest.FREESNACKS);
+      super( FreeSnackRequest.FREESNACKS);
     }
   }
 
   private class AltarOfBonesPanel extends CoinmasterPanel {
     public AltarOfBonesPanel() {
-      super(AltarOfBonesRequest.ALTAR_OF_BONES);
+      super( AltarOfBonesRequest.ALTAR_OF_BONES);
     }
   }
 
   private class CRIMBCOGiftShopPanel extends CoinmasterPanel {
     public CRIMBCOGiftShopPanel() {
-      super(CRIMBCOGiftShopRequest.CRIMBCO_GIFT_SHOP);
+      super( CRIMBCOGiftShopRequest.CRIMBCO_GIFT_SHOP);
     }
   }
 
   public class DripArmoryPanel extends CoinmasterPanel {
     public DripArmoryPanel() {
-      super(DripArmoryRequest.DRIP_ARMORY);
+      super( DripArmoryRequest.DRIP_ARMORY);
     }
   }
 
   private class CommendationPanel extends CoinmasterPanel {
     public CommendationPanel() {
-      super(AWOLQuartermasterRequest.AWOL);
+      super( AWOLQuartermasterRequest.AWOL);
     }
   }
 
   private class FudgeWandPanel extends CoinmasterPanel {
     public FudgeWandPanel() {
-      super(FudgeWandRequest.FUDGEWAND);
+      super( FudgeWandRequest.FUDGEWAND);
     }
   }
 
   private class TravelingTraderPanel extends CoinmasterPanel {
     public TravelingTraderPanel() {
-      super(TravelingTraderRequest.TRAVELER);
+      super( TravelingTraderRequest.TRAVELER);
     }
   }
 
   private class fdkolPanel extends CoinmasterPanel {
     public fdkolPanel() {
-      super(FDKOLRequest.FDKOL);
+      super( FDKOLRequest.FDKOL);
     }
   }
 
   private class IsotopeSmitheryPanel extends CoinmasterPanel {
     public IsotopeSmitheryPanel() {
-      super(IsotopeSmitheryRequest.ISOTOPE_SMITHERY);
+      super( IsotopeSmitheryRequest.ISOTOPE_SMITHERY);
     }
 
     @Override
@@ -1173,7 +1264,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
 
   private class DollHawkerPanel extends CoinmasterPanel {
     public DollHawkerPanel() {
-      super(DollHawkerRequest.DOLLHAWKER);
+      super( DollHawkerRequest.DOLLHAWKER);
     }
 
     @Override
@@ -1184,7 +1275,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
 
   private class LunarLunchPanel extends CoinmasterPanel {
     public LunarLunchPanel() {
-      super(LunarLunchRequest.LUNAR_LUNCH);
+      super( LunarLunchRequest.LUNAR_LUNCH);
     }
 
     @Override
@@ -1195,43 +1286,43 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
 
   private class BrogurtPanel extends CoinmasterPanel {
     public BrogurtPanel() {
-      super(BrogurtRequest.BROGURT);
+      super( BrogurtRequest.BROGURT);
     }
   }
 
   private class BuffJimmyPanel extends CoinmasterPanel {
     public BuffJimmyPanel() {
-      super(BuffJimmyRequest.BUFF_JIMMY);
+      super( BuffJimmyRequest.BUFF_JIMMY);
     }
   }
 
   private class TacoDanPanel extends CoinmasterPanel {
     public TacoDanPanel() {
-      super(TacoDanRequest.TACO_DAN);
+      super( TacoDanRequest.TACO_DAN);
     }
   }
 
   private class SHAWARMAPanel extends CoinmasterPanel {
     public SHAWARMAPanel() {
-      super(SHAWARMARequest.SHAWARMA);
+      super( SHAWARMARequest.SHAWARMA);
     }
   }
 
   private class CanteenPanel extends CoinmasterPanel {
     public CanteenPanel() {
-      super(CanteenRequest.CANTEEN);
+      super( CanteenRequest.CANTEEN);
     }
   }
 
   private class ArmoryPanel extends CoinmasterPanel {
     public ArmoryPanel() {
-      super(ArmoryRequest.ARMORY);
+      super( ArmoryRequest.ARMORY);
     }
   }
 
   private class DinseyCompanyStorePanel extends CoinmasterPanel {
     public DinseyCompanyStorePanel() {
-      super(DinseyCompanyStoreRequest.DINSEY_COMPANY_STORE);
+      super( DinseyCompanyStoreRequest.DINSEY_COMPANY_STORE);
     }
 
     @Override
@@ -1245,19 +1336,19 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
 
   private class DiscoGiftCoPanel extends CoinmasterPanel {
     public DiscoGiftCoPanel() {
-      super(DiscoGiftCoRequest.DISCO_GIFTCO);
+      super( DiscoGiftCoRequest.DISCO_GIFTCO);
     }
   }
 
   private class WalmartPanel extends CoinmasterPanel {
     public WalmartPanel() {
-      super(WalMartRequest.WALMART);
+      super( WalMartRequest.WALMART);
     }
   }
 
   private class BatFabricatorPanel extends BatFellowPanel {
     public BatFabricatorPanel() {
-      super(BatFabricatorRequest.BAT_FABRICATOR);
+      super( BatFabricatorRequest.BAT_FABRICATOR);
     }
 
     @Override
@@ -1275,37 +1366,37 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
 
   private class ChemiCorpPanel extends BatFellowPanel {
     public ChemiCorpPanel() {
-      super(ChemiCorpRequest.CHEMICORP);
+      super( ChemiCorpRequest.CHEMICORP);
     }
   }
 
   private class GotporkOrphanagePanel extends BatFellowPanel {
     public GotporkOrphanagePanel() {
-      super(GotporkOrphanageRequest.GOTPORK_ORPHANAGE);
+      super( GotporkOrphanageRequest.GOTPORK_ORPHANAGE);
     }
   }
 
   private class GotporkPDPanel extends BatFellowPanel {
     public GotporkPDPanel() {
-      super(GotporkPDRequest.GOTPORK_PD);
+      super( GotporkPDRequest.GOTPORK_PD);
     }
   }
 
   private class LTTPanel extends CoinmasterPanel {
     public LTTPanel() {
-      super(LTTRequest.LTT);
+      super( LTTRequest.LTT);
     }
   }
 
   private class PrecinctPanel extends CoinmasterPanel {
     public PrecinctPanel() {
-      super(PrecinctRequest.PRECINCT);
+      super( PrecinctRequest.PRECINCT);
     }
   }
 
   private class RubeePanel extends CoinmasterPanel {
     public RubeePanel() {
-      super(RubeeRequest.RUBEE);
+      super( RubeeRequest.RUBEE);
     }
 
     @Override
@@ -1319,25 +1410,25 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
 
   private class FunALogPanel extends CoinmasterPanel {
     public FunALogPanel() {
-      super(FunALogRequest.FUN_A_LOG);
+      super( FunALogRequest.FUN_A_LOG);
     }
   }
 
   private class YourCampfirePanel extends CoinmasterPanel {
     public YourCampfirePanel() {
-      super(YourCampfireRequest.YOUR_CAMPFIRE);
+      super( YourCampfireRequest.YOUR_CAMPFIRE);
     }
   }
 
   private class GuzzlrPanel extends CoinmasterPanel {
     public GuzzlrPanel() {
-      super(GuzzlrRequest.GUZZLR);
+      super( GuzzlrRequest.GUZZLR);
     }
   }
 
   private class SpinMasterLathePanel extends CoinmasterPanel {
     public SpinMasterLathePanel() {
-      super(SpinMasterLatheRequest.YOUR_SPINMASTER_LATHE);
+      super( SpinMasterLatheRequest.YOUR_SPINMASTER_LATHE);
     }
 
     @Override
@@ -1355,13 +1446,13 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
 
   public class ToxicChemistryPanel extends CoinmasterPanel {
     public ToxicChemistryPanel() {
-      super(ToxicChemistryRequest.TOXIC_CHEMISTRY);
+      super( ToxicChemistryRequest.TOXIC_CHEMISTRY);
     }
   }
 
   private class TerrifiedEagleInnPanel extends CoinmasterPanel {
     public TerrifiedEagleInnPanel() {
-      super(TerrifiedEagleInnRequest.TERRIFIED_EAGLE_INN);
+      super( TerrifiedEagleInnRequest.TERRIFIED_EAGLE_INN);
       PreferenceListenerRegistry.registerPreferenceListener("itemBoughtPerCharacter6423", this);
       PreferenceListenerRegistry.registerPreferenceListener("itemBoughtPerCharacter6428", this);
       PreferenceListenerRegistry.registerPreferenceListener("itemBoughtPerCharacter6429", this);
@@ -1378,19 +1469,19 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
 
   private class WarbearBoxPanel extends CoinmasterPanel {
     public WarbearBoxPanel() {
-      super(WarbearBoxRequest.WARBEARBOX);
+      super( WarbearBoxRequest.WARBEARBOX);
     }
   }
 
   private class BoutiquePanel extends CoinmasterPanel {
     public BoutiquePanel() {
-      super(BoutiqueRequest.BOUTIQUE);
+      super( BoutiqueRequest.BOUTIQUE);
     }
   }
 
   private class BaconPanel extends CoinmasterPanel {
     public BaconPanel() {
-      super(MemeShopRequest.BACON_STORE);
+      super( MemeShopRequest.BACON_STORE);
       PreferenceListenerRegistry.registerPreferenceListener("_internetViralVideoBought", this);
       PreferenceListenerRegistry.registerPreferenceListener("_internetPlusOneBought", this);
       PreferenceListenerRegistry.registerPreferenceListener("_internetGallonOfMilkBought", this);
@@ -1415,7 +1506,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
 
   private class CashewPanel extends CoinmasterPanel {
     public CashewPanel() {
-      super(ThankShopRequest.CASHEW_STORE);
+      super( ThankShopRequest.CASHEW_STORE);
     }
   }
 
@@ -1455,25 +1546,25 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
 
   private class GMartPanel extends CoinmasterPanel {
     public GMartPanel() {
-      super(GMartRequest.GMART);
+      super( GMartRequest.GMART);
     }
   }
 
   private class PlumberGearPanel extends CoinmasterPanel {
     public PlumberGearPanel() {
-      super(PlumberGearRequest.PLUMBER_GEAR);
+      super( PlumberGearRequest.PLUMBER_GEAR);
     }
   }
 
   private class PlumberItemPanel extends CoinmasterPanel {
     public PlumberItemPanel() {
-      super(PlumberItemRequest.PLUMBER_ITEMS);
+      super( PlumberItemRequest.PLUMBER_ITEMS);
     }
   }
 
   private class CosmicRaysBazaarPanel extends CoinmasterPanel {
     public CosmicRaysBazaarPanel() {
-      super(CosmicRaysBazaarRequest.COSMIC_RAYS_BAZAAR);
+      super( CosmicRaysBazaarRequest.COSMIC_RAYS_BAZAAR);
       this.update();
     }
 
@@ -1500,7 +1591,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
 
   private class FancyDanPanel extends CoinmasterPanel {
     public FancyDanPanel() {
-      super(FancyDanRequest.FANCY_DAN);
+      super( FancyDanRequest.FANCY_DAN);
       this.update();
     }
 
@@ -1526,67 +1617,67 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
 
   private class DinostaurPanel extends CoinmasterPanel {
     public DinostaurPanel() {
-      super(DinostaurRequest.DINOSTAUR);
+      super( DinostaurRequest.DINOSTAUR);
     }
   }
 
   private class ReplicaMrStorePanel extends CoinmasterPanel {
     public ReplicaMrStorePanel() {
-      super(ReplicaMrStoreRequest.REPLICA_MR_STORE);
+      super( ReplicaMrStoreRequest.REPLICA_MR_STORE);
     }
   }
 
   private class MrStore2002Panel extends CoinmasterPanel {
     public MrStore2002Panel() {
-      super(MrStore2002Request.MR_STORE_2002);
+      super( MrStore2002Request.MR_STORE_2002);
     }
   }
 
   private class Crimbo23ElfBarPanel extends CoinmasterPanel {
     public Crimbo23ElfBarPanel() {
-      super(Crimbo23ElfBarRequest.DATA);
+      super( Crimbo23ElfBarRequest.DATA);
     }
   }
 
   private class Crimbo23ElfCafePanel extends CoinmasterPanel {
     public Crimbo23ElfCafePanel() {
-      super(Crimbo23ElfCafeRequest.DATA);
+      super( Crimbo23ElfCafeRequest.DATA);
     }
   }
 
   private class Crimbo23ElfArmoryPanel extends CoinmasterPanel {
     public Crimbo23ElfArmoryPanel() {
-      super(Crimbo23ElfArmoryRequest.DATA);
+      super( Crimbo23ElfArmoryRequest.DATA);
     }
   }
 
   private class Crimbo23ElfFactoryPanel extends CoinmasterPanel {
     public Crimbo23ElfFactoryPanel() {
-      super(Crimbo23ElfFactoryRequest.DATA);
+      super( Crimbo23ElfFactoryRequest.DATA);
     }
   }
 
   private class Crimbo23PirateBarPanel extends CoinmasterPanel {
     public Crimbo23PirateBarPanel() {
-      super(Crimbo23PirateBarRequest.DATA);
+      super( Crimbo23PirateBarRequest.DATA);
     }
   }
 
   private class Crimbo23PirateCafePanel extends CoinmasterPanel {
     public Crimbo23PirateCafePanel() {
-      super(Crimbo23PirateCafeRequest.DATA);
+      super( Crimbo23PirateCafeRequest.DATA);
     }
   }
 
   private class Crimbo23PirateArmoryPanel extends CoinmasterPanel {
     public Crimbo23PirateArmoryPanel() {
-      super(Crimbo23PirateArmoryRequest.DATA);
+      super( Crimbo23PirateArmoryRequest.DATA);
     }
   }
 
   private class Crimbo23PirateFactoryPanel extends CoinmasterPanel {
     public Crimbo23PirateFactoryPanel() {
-      super(Crimbo23PirateFactoryRequest.DATA);
+      super( Crimbo23PirateFactoryRequest.DATA);
     }
   }
 
@@ -1611,25 +1702,25 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
 
   private class Crimbo24BarPanel extends Crimbo24Panel {
     public Crimbo24BarPanel() {
-      super(Crimbo24BarRequest.DATA);
+      super( Crimbo24BarRequest.DATA);
     }
   }
 
   private class Crimbo24CafePanel extends Crimbo24Panel {
     public Crimbo24CafePanel() {
-      super(Crimbo24CafeRequest.DATA);
+      super( Crimbo24CafeRequest.DATA);
     }
   }
 
   private class Crimbo24FactoryPanel extends Crimbo24Panel {
     public Crimbo24FactoryPanel() {
-      super(Crimbo24FactoryRequest.DATA);
+      super( Crimbo24FactoryRequest.DATA);
     }
   }
 
   private class SeptEmberPanel extends CoinmasterPanel {
     public SeptEmberPanel() {
-      super(SeptEmberCenserRequest.SEPTEMBER_CENSER);
+      super( SeptEmberCenserRequest.SEPTEMBER_CENSER);
     }
   }
 

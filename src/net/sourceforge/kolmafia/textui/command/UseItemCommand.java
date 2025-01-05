@@ -16,8 +16,8 @@ import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
 import net.sourceforge.kolmafia.request.DrinkItemRequest;
 import net.sourceforge.kolmafia.request.EatItemRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
-import net.sourceforge.kolmafia.request.StillSuitRequest;
-import net.sourceforge.kolmafia.request.SushiRequest;
+import net.sourceforge.kolmafia.request.concoction.StillSuitRequest;
+import net.sourceforge.kolmafia.request.concoction.SushiRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
