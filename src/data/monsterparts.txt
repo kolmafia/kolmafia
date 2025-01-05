@@ -2274,11 +2274,26 @@
 2451	herd of archaea	another archaea	archaea	different archaea
 2452	yeast gang	nodule
 2453	Embering Hulk	arm	ember	flames	head	leg
+2454	redhat hacker	avatar	arm	head	leg	torso
+2455
+2456	greenhat hacker	avatar	arm	head	leg	torso
+2457
+2458	greyhat hacker	avatar	arm	head	leg	torso
+2459	firewall	fire
+2460	ICE barrier	barrier
+2461
+2462	parental controls	brick
+2463	null container	
 2464	Easter Island Bunny	ear	head
 2465	St. Patrick	arm	body	head	leg
 2466	Colonel Brando	arm	body	head	leg
 2467	Jedediah	arm	body	hat	head	leg
 2468	Boiling Cloud	cloud	fog	steam	wisp
+2470	zombie process	arm	head	leg	torso
+2471	botfly	body	eye	leg	proboscis	wing
+2472	network worm	head	leg	leg
+2473	ICE man	head	leg	shield	torso
+2474	rat (remote access trojan)	one	ones	zero	zeroes
 2475	feral bunny	ear	head	paw	tail
 2476	chocolate chicken	beak	breast	leg	thigh	wing
 2477	moai	brow	chin	eye	forehead
