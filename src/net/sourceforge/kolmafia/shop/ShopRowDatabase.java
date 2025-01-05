@@ -1,4 +1,4 @@
-package net.sourceforge.kolmafia.persistence;
+package net.sourceforge.kolmafia.shop;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -15,7 +15,6 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AdventureResult.MeatResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.ShopRow;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.LogStream;

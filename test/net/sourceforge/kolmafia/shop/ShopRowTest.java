@@ -1,4 +1,4 @@
-package net.sourceforge.kolmafia;
+package net.sourceforge.kolmafia.shop;
 
 import static internal.helpers.Networking.html;
 import static org.junit.jupiter.api.Assertions.*;
@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AdventureResult.MeatResult;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
