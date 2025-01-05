@@ -1,7 +1,7 @@
 package net.sourceforge.kolmafia.request;
 
 import net.sourceforge.kolmafia.CoinmasterData;
-import net.sourceforge.kolmafia.ShopRow;
+import net.sourceforge.kolmafia.shop.ShopRow;
 
 public class Crimbo24BarRequest extends CoinMasterRequest {
   public static final String master = "Crimbo24 Bar";
