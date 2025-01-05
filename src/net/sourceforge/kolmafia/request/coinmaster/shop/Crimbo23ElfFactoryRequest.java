@@ -8,8 +8,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 
-public class Crimbo23ElfFactoryRequest extends CoinMasterRequest
-{
+public class Crimbo23ElfFactoryRequest extends CoinMasterRequest {
   public static final String master = "Elf Guard Toy and Munitions Factory";
 
   private static final Pattern TOKEN_PATTERN = Pattern.compile("([\\d,]+) Elf Guard MPCs");

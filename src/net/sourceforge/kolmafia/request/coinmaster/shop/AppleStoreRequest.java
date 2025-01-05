@@ -9,8 +9,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.QuestManager;
 
-public class AppleStoreRequest extends CoinMasterRequest
-{
+public class AppleStoreRequest extends CoinMasterRequest {
   public static final String master = "The Applecalypse Store";
 
   private static final Pattern CHRONER_PATTERN = Pattern.compile("([\\d,]+) Chroner");

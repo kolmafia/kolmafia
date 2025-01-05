@@ -9,8 +9,7 @@ import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
-public class PixelRequest extends CreateItemRequest
-{
+public class PixelRequest extends CreateItemRequest {
   public PixelRequest(final Concoction conc) {
     super("shop.php", conc);
 

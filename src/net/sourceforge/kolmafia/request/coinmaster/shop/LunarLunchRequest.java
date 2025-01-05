@@ -8,15 +8,14 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 
-public class LunarLunchRequest extends CoinMasterRequest
-{
+public class LunarLunchRequest extends CoinMasterRequest {
   public static final String master = "Lunar Lunch-o-Mat";
 
   public static final CoinmasterData LUNAR_LUNCH =
       new CoinmasterData(master, "lunarlunch", LunarLunchRequest.class)
           .withToken("isotope")
           .withTokenTest("You have 0 lunar isotopes")
-          .withTokenPattern( SpaaaceRequest.TOKEN_PATTERN)
+          .withTokenPattern(SpaaaceRequest.TOKEN_PATTERN)
           .withItem(SpaaaceRequest.ISOTOPE)
           .withShopRowFields(master, "elvishp3");
 

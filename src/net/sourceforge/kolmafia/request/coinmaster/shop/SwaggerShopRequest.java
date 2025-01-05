@@ -20,8 +20,7 @@ import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-public class SwaggerShopRequest extends CoinMasterRequest
-{
+public class SwaggerShopRequest extends CoinMasterRequest {
   // When a new type of PVP season appears:
   //
   // name = "new"
@@ -106,7 +105,7 @@ public class SwaggerShopRequest extends CoinMasterRequest
           .withBuyItems(master)
           .withBuyPrices(master)
           .withItemField("whichitem")
-          .withItemPattern( GenericRequest.WHICHITEM_PATTERN)
+          .withItemPattern(GenericRequest.WHICHITEM_PATTERN)
           .withCanBuyItem(SwaggerShopRequest::canBuyItem)
           .withGetBuyPrice(SwaggerShopRequest::getBuyPrice)
           .withAvailableItem(SwaggerShopRequest::availableItem);

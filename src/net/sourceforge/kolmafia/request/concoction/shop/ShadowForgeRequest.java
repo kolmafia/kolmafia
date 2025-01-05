@@ -9,8 +9,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 
-public class ShadowForgeRequest extends CreateItemRequest
-{
+public class ShadowForgeRequest extends CreateItemRequest {
   public ShadowForgeRequest(final Concoction conc) {
     super("shop.php", conc);
 

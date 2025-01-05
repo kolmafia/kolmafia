@@ -10,8 +10,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-public class BURTRequest extends CoinMasterRequest
-{
+public class BURTRequest extends CoinMasterRequest {
   public static final String master = "Bugbear Token";
 
   private static final Pattern TOKEN_PATTERN = Pattern.compile("You have ([\\d,]+) BURT");

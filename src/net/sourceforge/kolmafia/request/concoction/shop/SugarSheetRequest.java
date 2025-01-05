@@ -12,8 +12,7 @@ import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-public class SugarSheetRequest extends CreateItemRequest
-{
+public class SugarSheetRequest extends CreateItemRequest {
   public SugarSheetRequest(final Concoction conc) {
     // http://www.kingdomofloathing.com/shop.php?whichshop=sugarsheets&action=buyitem&quantity=1&whichrow=329
     // quantity field is not needed and is not used

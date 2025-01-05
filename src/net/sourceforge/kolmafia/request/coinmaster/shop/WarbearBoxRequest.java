@@ -8,8 +8,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 
-public class WarbearBoxRequest extends CoinMasterRequest
-{
+public class WarbearBoxRequest extends CoinMasterRequest {
   public static final String master = "Warbear Black Box";
 
   private static final Pattern TOKEN_PATTERN = Pattern.compile("<td>([\\d,]+) warbear whosit");

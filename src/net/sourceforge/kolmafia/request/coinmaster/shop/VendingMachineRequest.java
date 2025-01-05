@@ -9,8 +9,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
-public class VendingMachineRequest extends CoinMasterRequest
-{
+public class VendingMachineRequest extends CoinMasterRequest {
   public static final String master = "Vending Machine";
 
   private static final Pattern TOKEN_PATTERN = Pattern.compile("(\\d+) fat loot token");

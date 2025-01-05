@@ -11,8 +11,7 @@ import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
-public class BlackMarketRequest extends CoinMasterRequest
-{
+public class BlackMarketRequest extends CoinMasterRequest {
   public static final String master = "The Black Market";
 
   public static final AdventureResult TOKEN = ItemPool.get(ItemPool.PRICELESS_DIAMOND, 1);

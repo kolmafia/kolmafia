@@ -8,8 +8,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 
-public class Crimbo20FoodRequest extends CoinMasterRequest
-{
+public class Crimbo20FoodRequest extends CoinMasterRequest {
   public static final String master = "Elf Food Drive";
 
   private static final Pattern TOKEN_PATTERN =

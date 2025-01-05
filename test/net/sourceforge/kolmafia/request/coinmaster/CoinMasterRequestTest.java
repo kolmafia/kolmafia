@@ -98,7 +98,7 @@ public class CoinMasterRequestTest {
           new Cleanups(
               withHttpClientBuilder(builder),
               withPath(Path.STANDARD),
-              withDisabledCoinmaster( Crimbo23ElfArmoryRequest.DATA),
+              withDisabledCoinmaster(Crimbo23ElfArmoryRequest.DATA),
               withProperty("crimbo23ArmoryControl", "elf"));
       try (cleanups) {
         client.addResponse(200, html("request/test_armory_elf_visit.html"));

@@ -1235,7 +1235,7 @@ public class GenericRequest implements Runnable {
         // If he wants us to automatically get a worthless item
         // in the sewer, do it.
         if (location.contains("autoworthless=on")) {
-          InventoryManager.retrieveItem( HermitRequest.WORTHLESS_ITEM, false);
+          InventoryManager.retrieveItem(HermitRequest.WORTHLESS_ITEM, false);
         }
 
         // If he wants us to automatically get a hermit permit, if needed, do it.
@@ -1934,7 +1934,7 @@ public class GenericRequest implements Runnable {
           || this instanceof LocketRequest
           || this instanceof NumberologyRequest
           || this instanceof UseSkillRequest
-          || this instanceof BurningLeavesRequest ) {
+          || this instanceof BurningLeavesRequest) {
         this.redirectHandled = true;
         FightRequest.INSTANCE.run(this.redirectLocation);
 

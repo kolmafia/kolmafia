@@ -7,8 +7,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 
-public class ThankShopRequest extends CoinMasterRequest
-{
+public class ThankShopRequest extends CoinMasterRequest {
   public static final String master = "A traveling Thanksgiving salesman";
 
   private static final Pattern CASHEW_PATTERN = Pattern.compile("([\\d,]+) cashews");

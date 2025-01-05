@@ -11,8 +11,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 
-public class FancyDanRequest extends CoinMasterRequest
-{
+public class FancyDanRequest extends CoinMasterRequest {
   public static final String master = "Fancy Dan the Cocktail Man";
 
   // Since there are two different currencies, we need to have a map from

@@ -7,8 +7,7 @@ import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 
-public class ClipArtRequest extends CreateItemRequest
-{
+public class ClipArtRequest extends CreateItemRequest {
   public ClipArtRequest(final Concoction conc) {
     super("campground.php", conc);
   }

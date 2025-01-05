@@ -15,8 +15,7 @@ import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-public class TerrifiedEagleInnRequest extends CoinMasterRequest
-{
+public class TerrifiedEagleInnRequest extends CoinMasterRequest {
   public static final String master = "The Terrified Eagle Inn";
 
   private static final Pattern TOKEN_PATTERN =

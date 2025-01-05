@@ -9,8 +9,7 @@ import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.BatManager;
 import net.sourceforge.kolmafia.session.LimitMode;
 
-public class BatFabricatorRequest extends CoinMasterRequest
-{
+public class BatFabricatorRequest extends CoinMasterRequest {
   public static final String master = "Bat-Fabricator";
 
   public static final AdventureResult METAL = ItemPool.get(ItemPool.HIGH_GRADE_METAL, 1);

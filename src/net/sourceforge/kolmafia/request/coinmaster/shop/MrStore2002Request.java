@@ -13,8 +13,7 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
-public class MrStore2002Request extends CoinMasterRequest
-{
+public class MrStore2002Request extends CoinMasterRequest {
   public static final String master = "Mr. Store 2002";
 
   // <b>You have 3 Mr. Store 2002 Credits.</b>
@@ -72,7 +71,7 @@ public class MrStore2002Request extends CoinMasterRequest
   //    We can override that behavior, but doing so makes it something
   //    other than GenericRequest.class, which does not log nicely.
 
-  private static GenericRequest useItemRequest( int itemId) {
+  private static GenericRequest useItemRequest(int itemId) {
     UseItemRequest request = UseItemRequest.getInstance(itemId);
     request.followRedirect(false);
     return request;

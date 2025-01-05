@@ -7,8 +7,7 @@ import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 
-public class KringleRequest extends CreateItemRequest
-{
+public class KringleRequest extends CreateItemRequest {
   public KringleRequest(final Concoction conc) {
     super("shop.php", conc);
 

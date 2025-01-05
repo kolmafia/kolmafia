@@ -38,7 +38,7 @@ public class TakerSpaceRequestTest {
               withWorkshedItem(ItemPool.TAKERSPACE_LETTER_OF_MARQUE));
       try (cleanups) {
         var conc = ConcoctionPool.get(ItemPool.GOLDEN_PET_ROCK);
-        assertThat( TakerSpaceRequest.canMake(conc), equalTo(1));
+        assertThat(TakerSpaceRequest.canMake(conc), equalTo(1));
       }
     }
 

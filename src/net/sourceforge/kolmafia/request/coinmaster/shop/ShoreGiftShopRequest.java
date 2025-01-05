@@ -10,8 +10,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
-public class ShoreGiftShopRequest extends CoinMasterRequest
-{
+public class ShoreGiftShopRequest extends CoinMasterRequest {
   public static final String master = "The Shore, Inc. Gift Shop";
 
   private static final Pattern SCRIP_PATTERN = Pattern.compile("(\\d+) Shore Inc. Ship Trip Scrip");

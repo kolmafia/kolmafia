@@ -18,8 +18,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
-public class BigBrotherRequest extends CoinMasterRequest
-{
+public class BigBrotherRequest extends CoinMasterRequest {
   public static final String master = "Big Brother";
 
   private static final Pattern TOKEN_PATTERN =
@@ -39,7 +38,7 @@ public class BigBrotherRequest extends CoinMasterRequest
           .withBuyItems(master)
           .withBuyPrices(master)
           .withItemField("whichitem")
-          .withItemPattern( GenericRequest.WHICHITEM_PATTERN)
+          .withItemPattern(GenericRequest.WHICHITEM_PATTERN)
           .withCountField("quantity")
           .withCountPattern(GenericRequest.QUANTITY_PATTERN)
           .withCanBuyItem(BigBrotherRequest::canBuyItem);

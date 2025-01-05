@@ -6,8 +6,7 @@ import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 
-public class FreeSnackRequest extends CoinMasterRequest
-{
+public class FreeSnackRequest extends CoinMasterRequest {
   public static final String master = "Game Shoppe Snacks";
 
   private static final Pattern TOKEN_PATTERN =

@@ -8,8 +8,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 
-public class FishboneryRequest extends CoinMasterRequest
-{
+public class FishboneryRequest extends CoinMasterRequest {
   public static final String master = "Freshwater Fishbonery";
 
   private static final Pattern TOKEN_PATTERN = Pattern.compile("<td>([\\d,]+) freshwater fishbone");

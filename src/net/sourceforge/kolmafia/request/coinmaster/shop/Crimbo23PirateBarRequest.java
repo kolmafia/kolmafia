@@ -8,8 +8,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 
-public class Crimbo23PirateBarRequest extends CoinMasterRequest
-{
+public class Crimbo23PirateBarRequest extends CoinMasterRequest {
   public static final String master = "Crimbuccaneer Bar";
 
   private static final Pattern TOKEN_PATTERN =

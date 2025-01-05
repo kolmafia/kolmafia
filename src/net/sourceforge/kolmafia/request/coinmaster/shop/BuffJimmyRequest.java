@@ -9,8 +9,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 
-public class BuffJimmyRequest extends CoinMasterRequest
-{
+public class BuffJimmyRequest extends CoinMasterRequest {
   public static final String master = "Buff Jimmy's Souvenir Shop";
 
   private static final Pattern TOKEN_PATTERN = Pattern.compile("<td>([\\d,]+) Beach Bucks");

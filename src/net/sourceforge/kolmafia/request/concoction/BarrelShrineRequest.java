@@ -8,8 +8,7 @@ import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 
-public class BarrelShrineRequest extends CreateItemRequest
-{
+public class BarrelShrineRequest extends CreateItemRequest {
   public BarrelShrineRequest(final Concoction conc) {
     super("choice.php", conc);
   }

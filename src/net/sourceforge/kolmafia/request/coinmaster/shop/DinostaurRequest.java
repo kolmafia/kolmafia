@@ -8,8 +8,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 
-public class DinostaurRequest extends CoinMasterRequest
-{
+public class DinostaurRequest extends CoinMasterRequest {
   public static final String master = "Dino World Gift Shop (The Dinostaur)";
 
   private static final Pattern TOKEN_PATTERN = Pattern.compile("<td>([\\d,]+) Dinodollar");

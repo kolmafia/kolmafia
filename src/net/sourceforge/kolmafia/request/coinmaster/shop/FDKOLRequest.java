@@ -11,8 +11,7 @@ import net.sourceforge.kolmafia.request.TransferItemRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-public class FDKOLRequest extends CoinMasterRequest
-{
+public class FDKOLRequest extends CoinMasterRequest {
   public static final String master = "FDKOL Tent";
 
   public static final AdventureResult FDKOL_TOKEN = ItemPool.get(ItemPool.FDKOL_COMMENDATION, 1);

@@ -15,8 +15,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-public class TravelingTraderRequest extends CoinMasterRequest
-{
+public class TravelingTraderRequest extends CoinMasterRequest {
   public static final String master = "Traveling Trader";
 
   // traveler.php?action=For Gnomeregan!&whichitem=xxxx&quantity=1&tradeall=1&usehagnk=1&pwd
@@ -31,7 +30,7 @@ public class TravelingTraderRequest extends CoinMasterRequest
           .withBuyItems()
           .withBuyPrices()
           .withItemField("whichitem")
-          .withItemPattern( GenericRequest.WHICHITEM_PATTERN)
+          .withItemPattern(GenericRequest.WHICHITEM_PATTERN)
           .withCountField("quantity")
           .withItemPattern(GenericRequest.QUANTITY_PATTERN)
           .withStorageAction("usehagnk=1")

@@ -11,8 +11,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-public class TicketCounterRequest extends CoinMasterRequest
-{
+public class TicketCounterRequest extends CoinMasterRequest {
   public static final String master = "Arcade Ticket Counter";
 
   private static final Pattern TOKEN_PATTERN =

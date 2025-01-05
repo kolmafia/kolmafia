@@ -9,8 +9,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 
-public class SHAWARMARequest extends CoinMasterRequest
-{
+public class SHAWARMARequest extends CoinMasterRequest {
   public static final String master = "The SHAWARMA Initiative";
 
   private static final Pattern TOKEN_PATTERN = Pattern.compile("<td>([\\d,]+) Coins-spiracy");

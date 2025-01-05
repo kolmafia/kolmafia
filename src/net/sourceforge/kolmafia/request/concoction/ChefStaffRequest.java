@@ -11,8 +11,7 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-public class ChefStaffRequest extends CreateItemRequest
-{
+public class ChefStaffRequest extends CreateItemRequest {
   private static final Pattern WHICH_PATTERN = Pattern.compile("whichstaff=(\\d+)");
 
   public ChefStaffRequest(final Concoction conc) {

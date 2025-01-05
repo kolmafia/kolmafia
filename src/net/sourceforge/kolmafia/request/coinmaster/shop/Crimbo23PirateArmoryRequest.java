@@ -8,8 +8,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 
-public class Crimbo23PirateArmoryRequest extends CoinMasterRequest
-{
+public class Crimbo23PirateArmoryRequest extends CoinMasterRequest {
   public static final String master = "Crimbuccaneer Junkworks";
 
   public static final AdventureResult TOKEN = ItemPool.get(ItemPool.CRIMBUCCANEER_FLOTSAM, 1);

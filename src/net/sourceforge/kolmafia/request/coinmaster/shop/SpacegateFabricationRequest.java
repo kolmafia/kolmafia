@@ -8,8 +8,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 
-public class SpacegateFabricationRequest extends CoinMasterRequest
-{
+public class SpacegateFabricationRequest extends CoinMasterRequest {
   public static final String master = "Spacegate Fabrication Facility";
 
   private static final Pattern RESEARCH_PATTERN =

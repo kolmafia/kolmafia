@@ -11,8 +11,7 @@ import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
-public class DripArmoryRequest extends CoinMasterRequest
-{
+public class DripArmoryRequest extends CoinMasterRequest {
   public static final String master = "Drip Institute Armory";
 
   public static final AdventureResult TOKEN = ItemPool.get(ItemPool.DRIPLET, 1);

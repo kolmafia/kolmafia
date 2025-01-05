@@ -8,8 +8,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 
-public class PokemporiumRequest extends CoinMasterRequest
-{
+public class PokemporiumRequest extends CoinMasterRequest {
   public static final String master = "The Pok&eacute;mporium";
 
   private static final Pattern POKEDOLLAR_PATTERN =

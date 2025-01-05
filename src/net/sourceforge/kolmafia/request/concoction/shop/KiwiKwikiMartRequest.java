@@ -8,8 +8,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 
-public class KiwiKwikiMartRequest extends CreateItemRequest
-{
+public class KiwiKwikiMartRequest extends CreateItemRequest {
   public KiwiKwikiMartRequest(final Concoction conc) {
     super("shop.php", conc);
 

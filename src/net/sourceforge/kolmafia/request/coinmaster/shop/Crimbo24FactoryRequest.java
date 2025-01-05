@@ -5,8 +5,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.shop.ShopRow;
 
-public class Crimbo24FactoryRequest extends CoinMasterRequest
-{
+public class Crimbo24FactoryRequest extends CoinMasterRequest {
   public static final String master = "Crimbo24 Factory";
 
   public static final CoinmasterData DATA =

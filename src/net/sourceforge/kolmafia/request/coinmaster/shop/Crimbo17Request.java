@@ -9,8 +9,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 
-public class Crimbo17Request extends CoinMasterRequest
-{
+public class Crimbo17Request extends CoinMasterRequest {
   public static final String master = "Cheer-o-Vend 3000";
 
   private static final Pattern CHEER_PATTERN = Pattern.compile("([\\d,]+) crystalline cheer");

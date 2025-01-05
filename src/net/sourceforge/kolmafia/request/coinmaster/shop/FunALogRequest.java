@@ -9,8 +9,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
-public class FunALogRequest extends CoinMasterRequest
-{
+public class FunALogRequest extends CoinMasterRequest {
   public static final String master = "PirateRealm Fun-a-Log";
 
   private static final Pattern TOKEN_PATTERN =

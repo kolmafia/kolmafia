@@ -11,8 +11,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.request.GenericRequest;
 
-public class FudgeWandRequest extends CoinMasterRequest
-{
+public class FudgeWandRequest extends CoinMasterRequest {
   public static final String master = "Fudge Wand";
 
   private static final Pattern TOKEN_PATTERN =

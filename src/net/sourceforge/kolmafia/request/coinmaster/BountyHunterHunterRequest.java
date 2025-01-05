@@ -17,8 +17,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-public class BountyHunterHunterRequest extends CoinMasterRequest
-{
+public class BountyHunterHunterRequest extends CoinMasterRequest {
   public static final String master = "Bounty Hunter Hunter";
 
   private static final Pattern TOKEN_PATTERN =
@@ -37,7 +36,7 @@ public class BountyHunterHunterRequest extends CoinMasterRequest
           .withBuyItems(master)
           .withBuyPrices(master)
           .withItemField("whichitem")
-          .withItemPattern( GenericRequest.WHICHITEM_PATTERN)
+          .withItemPattern(GenericRequest.WHICHITEM_PATTERN)
           .withCountField("howmany")
           .withCountPattern(GenericRequest.HOWMANY_PATTERN);
 

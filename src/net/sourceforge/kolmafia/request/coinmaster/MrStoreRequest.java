@@ -19,8 +19,7 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-public class MrStoreRequest extends CoinMasterRequest
-{
+public class MrStoreRequest extends CoinMasterRequest {
   public static final String master = "Mr. Store";
 
   private static final Pattern TOKEN_PATTERN =
@@ -44,7 +43,7 @@ public class MrStoreRequest extends CoinMasterRequest
           .withBuyItems()
           .withBuyPrices()
           .withItemField("whichitem")
-          .withItemPattern( GenericRequest.WHICHITEM_PATTERN)
+          .withItemPattern(GenericRequest.WHICHITEM_PATTERN)
           .withItemBuyPrice(MrStoreRequest::itemBuyPrice);
 
   private static AdventureResult itemBuyPrice(final Integer itemId) {

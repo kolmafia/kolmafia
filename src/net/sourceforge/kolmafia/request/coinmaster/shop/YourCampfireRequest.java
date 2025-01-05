@@ -8,8 +8,7 @@ import net.sourceforge.kolmafia.request.CampAwayRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 
-public class YourCampfireRequest extends CoinMasterRequest
-{
+public class YourCampfireRequest extends CoinMasterRequest {
   public static final String master = "Your Campfire";
 
   private static final Pattern FIREWOOD_PATTERN = Pattern.compile("([\\d,]+) sticks? of firewood");

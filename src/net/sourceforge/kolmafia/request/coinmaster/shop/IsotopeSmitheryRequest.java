@@ -5,15 +5,14 @@ import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 
-public class IsotopeSmitheryRequest extends CoinMasterRequest
-{
+public class IsotopeSmitheryRequest extends CoinMasterRequest {
   public static final String master = "Isotope Smithery";
 
   public static final CoinmasterData ISOTOPE_SMITHERY =
       new CoinmasterData(master, "isotopesmithery", IsotopeSmitheryRequest.class)
           .withToken("isotope")
           .withTokenTest("You have 0 lunar isotopes")
-          .withTokenPattern( SpaaaceRequest.TOKEN_PATTERN)
+          .withTokenPattern(SpaaaceRequest.TOKEN_PATTERN)
           .withItem(SpaaaceRequest.ISOTOPE)
           .withShopRowFields(master, "elvishp1");
 

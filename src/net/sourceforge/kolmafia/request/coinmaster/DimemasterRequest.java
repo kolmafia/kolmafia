@@ -15,8 +15,7 @@ import net.sourceforge.kolmafia.request.IslandRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.IslandManager;
 
-public class DimemasterRequest extends CoinMasterRequest
-{
+public class DimemasterRequest extends CoinMasterRequest {
   public static final String master = "Dimemaster";
 
   private static final Pattern TOKEN_PATTERN = Pattern.compile("You've.*?got ([\\d,]+) dime");
@@ -36,7 +35,7 @@ public class DimemasterRequest extends CoinMasterRequest
           .withSellItems(master)
           .withSellPrices(master)
           .withItemField("whichitem")
-          .withItemPattern( GenericRequest.WHICHITEM_PATTERN)
+          .withItemPattern(GenericRequest.WHICHITEM_PATTERN)
           .withCountField("quantity")
           .withCountPattern(GenericRequest.QUANTITY_PATTERN)
           .withCanBuyItem(DimemasterRequest::canBuyItem);

@@ -9,8 +9,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 
-public class TacoDanRequest extends CoinMasterRequest
-{
+public class TacoDanRequest extends CoinMasterRequest {
   public static final String master = "Taco Dan's Taco Stand";
 
   private static final Pattern TOKEN_PATTERN = Pattern.compile("<td>([\\d,]+) Beach Bucks");

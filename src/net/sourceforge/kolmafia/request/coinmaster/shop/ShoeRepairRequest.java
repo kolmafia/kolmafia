@@ -9,8 +9,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.QuestManager;
 
-public class ShoeRepairRequest extends CoinMasterRequest
-{
+public class ShoeRepairRequest extends CoinMasterRequest {
   public static final String master = "Legitimate Shoe Repair, Inc.";
 
   private static final Pattern CHRONER_PATTERN = Pattern.compile("([\\d,]+) Chroner");

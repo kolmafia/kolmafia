@@ -7,8 +7,7 @@ import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 
-public class GrandmaRequest extends CreateItemRequest
-{
+public class GrandmaRequest extends CreateItemRequest {
   public GrandmaRequest(final Concoction conc) {
     super("shop.php", conc);
 

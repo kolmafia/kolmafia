@@ -15,8 +15,7 @@ import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-public class ReplicaMrStoreRequest extends CoinMasterRequest
-{
+public class ReplicaMrStoreRequest extends CoinMasterRequest {
   public static final String master = "Replica Mr. Store";
 
   private static final Pattern TOKEN_PATTERN =

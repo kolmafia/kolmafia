@@ -12,8 +12,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-public class CombineMeatRequest extends CreateItemRequest
-{
+public class CombineMeatRequest extends CreateItemRequest {
   public CombineMeatRequest(final Concoction conc) {
     super("craft.php", conc);
 

@@ -11,8 +11,7 @@ import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-public class Crimbo12Request extends CreateItemRequest
-{
+public class Crimbo12Request extends CreateItemRequest {
   private static final Pattern CREATE_PATTERN =
       Pattern.compile("shop.php.*whichshop=crimbo12.*whichitem=(\\d+).*quantity=(\\d+)");
 

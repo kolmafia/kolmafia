@@ -7,8 +7,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.GenericRequest;
 
-public class CrimboCartelRequest extends CoinMasterRequest
-{
+public class CrimboCartelRequest extends CoinMasterRequest {
   public static final String master = "Crimbo Cartel";
 
   private static final Pattern TOKEN_PATTERN =
@@ -25,7 +24,7 @@ public class CrimboCartelRequest extends CoinMasterRequest
           .withBuyItems(master)
           .withBuyPrices(master)
           .withItemField("whichitem")
-          .withItemPattern( GenericRequest.WHICHITEM_PATTERN)
+          .withItemPattern(GenericRequest.WHICHITEM_PATTERN)
           .withCountField("howmany")
           .withCountPattern(GenericRequest.HOWMANY_PATTERN)
           .withAvailableItem(CrimboCartelRequest::availableItem);

@@ -9,8 +9,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.QuestManager;
 
-public class NinjaStoreRequest extends CoinMasterRequest
-{
+public class NinjaStoreRequest extends CoinMasterRequest {
   public static final String master = "Ni&ntilde;a Store";
 
   private static final Pattern CHRONER_PATTERN = Pattern.compile("([\\d,]+) Chroner");

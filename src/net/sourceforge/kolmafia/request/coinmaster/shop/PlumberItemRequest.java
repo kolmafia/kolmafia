@@ -8,8 +8,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 
-public class PlumberItemRequest extends CoinMasterRequest
-{
+public class PlumberItemRequest extends CoinMasterRequest {
   public static final String master = "Mushroom District Item Shop";
 
   private static final Pattern TOKEN_PATTERN = Pattern.compile("([\\d,]+) coin");

@@ -15,8 +15,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-public class Crimbo11Request extends CoinMasterRequest
-{
+public class Crimbo11Request extends CoinMasterRequest {
   public static final String master = "Crimbo 2011";
 
   private static final Pattern TOKEN_PATTERN =
@@ -36,7 +35,7 @@ public class Crimbo11Request extends CoinMasterRequest
           .withSellItems(master)
           .withSellPrices(master)
           .withItemField("whichitem")
-          .withItemPattern( GenericRequest.WHICHITEM_PATTERN)
+          .withItemPattern(GenericRequest.WHICHITEM_PATTERN)
           .withCountField("howmany")
           .withCountPattern(GenericRequest.HOWMANY_PATTERN)
           .withCanPurchase(false);

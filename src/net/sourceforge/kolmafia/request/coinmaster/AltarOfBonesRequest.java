@@ -6,8 +6,7 @@ import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.GenericRequest;
 
-public class AltarOfBonesRequest extends CoinMasterRequest
-{
+public class AltarOfBonesRequest extends CoinMasterRequest {
   public static final String master = "Altar of Bones";
 
   private static final Pattern TOKEN_PATTERN = Pattern.compile("You have ([\\d,]+).*?bone chips");
@@ -24,7 +23,7 @@ public class AltarOfBonesRequest extends CoinMasterRequest
           .withBuyItems(master)
           .withBuyPrices(master)
           .withItemField("whichitem")
-          .withItemPattern( GenericRequest.WHICHITEM_PATTERN);
+          .withItemPattern(GenericRequest.WHICHITEM_PATTERN);
 
   public AltarOfBonesRequest() {
     super(ALTAR_OF_BONES);

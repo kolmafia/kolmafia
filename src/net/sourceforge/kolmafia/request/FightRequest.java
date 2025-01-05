@@ -3378,7 +3378,7 @@ public class FightRequest extends GenericRequest {
 
     int adventure = KoLAdventure.lastAdventureId();
 
-    if ( KOLHSRequest.isKOLHSLocation(adventure)) {
+    if (KOLHSRequest.isKOLHSLocation(adventure)) {
       Preferences.increment("_kolhsAdventures", 1);
     }
 

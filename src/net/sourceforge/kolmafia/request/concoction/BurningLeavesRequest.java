@@ -15,8 +15,7 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-public class BurningLeavesRequest extends CreateItemRequest
-{
+public class BurningLeavesRequest extends CreateItemRequest {
   public enum Outcome {
     NONE(0),
     LEAFLET(11, "flaming leaflet"),

@@ -13,8 +13,7 @@ import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-public class StarChartRequest extends CreateItemRequest
-{
+public class StarChartRequest extends CreateItemRequest {
   public StarChartRequest(final Concoction conc) {
     // http://www.kingdomofloathing.com/shop.php?whichshop=starchart&action=buyitem&quantity=1&whichrow=139
     // quantity field is not needed and is not used

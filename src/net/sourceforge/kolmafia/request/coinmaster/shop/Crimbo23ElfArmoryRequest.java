@@ -8,8 +8,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 
-public class Crimbo23ElfArmoryRequest extends CoinMasterRequest
-{
+public class Crimbo23ElfArmoryRequest extends CoinMasterRequest {
   public static final String master = "Elf Guard Armory";
 
   public static final AdventureResult TOKEN = ItemPool.get(ItemPool.ELF_ARMY_MACHINE_PARTS, 1);

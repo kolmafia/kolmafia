@@ -11,8 +11,7 @@ import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-public class StillRequest extends CreateItemRequest
-{
+public class StillRequest extends CreateItemRequest {
   private static final Pattern STILLS_PATTERN = Pattern.compile("with (\\d+) bright");
 
   public StillRequest(final Concoction conc) {

@@ -18,8 +18,7 @@ import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-public class SpinMasterLatheRequest extends CoinMasterRequest
-{
+public class SpinMasterLatheRequest extends CoinMasterRequest {
   public static final String master = "Your SpinMaster&trade; lathe";
 
   // Since there are four different currencies, we need to have a map from

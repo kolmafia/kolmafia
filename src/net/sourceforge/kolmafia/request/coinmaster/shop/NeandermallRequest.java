@@ -9,8 +9,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.QuestManager;
 
-public class NeandermallRequest extends CoinMasterRequest
-{
+public class NeandermallRequest extends CoinMasterRequest {
   public static final String master = "The Neandermall";
 
   private static final Pattern CHRONER_PATTERN = Pattern.compile("([\\d,]+) Chroner");

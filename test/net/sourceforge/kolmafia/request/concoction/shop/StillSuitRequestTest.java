@@ -31,7 +31,7 @@ class StillSuitRequestTest {
     try (cleanups) {
       var fam = KoLCharacter.usableFamiliar(FamiliarPool.BOWLET);
       fam.setItem(ItemPool.get(ItemPool.STILLSUIT));
-      assertThat( StillSuitRequest.canMake(), is(true));
+      assertThat(StillSuitRequest.canMake(), is(true));
     }
   }
 

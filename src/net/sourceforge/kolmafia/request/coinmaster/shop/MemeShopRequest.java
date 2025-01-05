@@ -8,8 +8,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 
-public class MemeShopRequest extends CoinMasterRequest
-{
+public class MemeShopRequest extends CoinMasterRequest {
   public static final String master = "Internet Meme Shop";
 
   private static final Pattern BACON_PATTERN = Pattern.compile("([\\d,]+) BACON");

@@ -12,8 +12,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 
-public class FiveDPrinterRequest extends CreateItemRequest
-{
+public class FiveDPrinterRequest extends CreateItemRequest {
   public FiveDPrinterRequest(final Concoction conc) {
     // shop.php?whichshop=5dprinter&action=buyitem&quantity=1&whichrow=340&pwd=15a3ed7ce8a5e0c8a6c7e08a03fca040
     // quantity field is not needed and is not used

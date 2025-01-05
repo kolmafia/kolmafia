@@ -8,8 +8,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
-public class GuzzlrRequest extends CoinMasterRequest
-{
+public class GuzzlrRequest extends CoinMasterRequest {
   public static final String master = "Guzzlr Company Store Website";
 
   private static final Pattern GUZZLR_PATTERN = Pattern.compile("([\\d,]+) Guzzlrbuck");

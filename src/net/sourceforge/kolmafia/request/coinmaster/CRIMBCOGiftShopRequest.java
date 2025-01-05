@@ -6,8 +6,7 @@ import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.GenericRequest;
 
-public class CRIMBCOGiftShopRequest extends CoinMasterRequest
-{
+public class CRIMBCOGiftShopRequest extends CoinMasterRequest {
   public static final String master = "CRIMBCO Gift Shop";
 
   private static final Pattern TOKEN_PATTERN =
@@ -25,7 +24,7 @@ public class CRIMBCOGiftShopRequest extends CoinMasterRequest
           .withBuyItems(master)
           .withBuyPrices(master)
           .withItemField("whichitem")
-          .withItemPattern( GenericRequest.WHICHITEM_PATTERN)
+          .withItemPattern(GenericRequest.WHICHITEM_PATTERN)
           .withCountField("quantity")
           .withCountPattern(GenericRequest.QUANTITY_PATTERN);
 

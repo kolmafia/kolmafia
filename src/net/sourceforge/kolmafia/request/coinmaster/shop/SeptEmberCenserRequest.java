@@ -9,8 +9,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
-public class SeptEmberCenserRequest extends CoinMasterRequest
-{
+public class SeptEmberCenserRequest extends CoinMasterRequest {
   public static final String master = "Sept-Ember Censer";
 
   // <b>You have 8 Embers.</b>

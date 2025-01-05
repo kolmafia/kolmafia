@@ -11,8 +11,7 @@ import net.sourceforge.kolmafia.session.BatManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LimitMode;
 
-public class ChemiCorpRequest extends CoinMasterRequest
-{
+public class ChemiCorpRequest extends CoinMasterRequest {
   public static final String master = "ChemiCorp";
 
   private static final Pattern TOKEN_PATTERN = Pattern.compile("<td>([\\d,]+) dangerous chemicals");

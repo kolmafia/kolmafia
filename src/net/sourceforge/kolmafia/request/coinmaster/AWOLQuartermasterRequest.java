@@ -10,8 +10,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-public class AWOLQuartermasterRequest extends CoinMasterRequest
-{
+public class AWOLQuartermasterRequest extends CoinMasterRequest {
   public static final String master = "A. W. O. L. Quartermaster";
 
   private static final Pattern TOKEN_PATTERN =
@@ -31,7 +30,7 @@ public class AWOLQuartermasterRequest extends CoinMasterRequest
           .withItemField("tobuy")
           .withItemPattern(TOBUY_PATTERN)
           .withCountField("howmany")
-          .withCountPattern( GenericRequest.HOWMANY_PATTERN);
+          .withCountPattern(GenericRequest.HOWMANY_PATTERN);
 
   private static String lastURL = null;
 

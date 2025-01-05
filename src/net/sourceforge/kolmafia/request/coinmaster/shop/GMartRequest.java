@@ -7,8 +7,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 
-public class GMartRequest extends CoinMasterRequest
-{
+public class GMartRequest extends CoinMasterRequest {
   public static final String master = "G-Mart";
 
   private static final Pattern G_PATTERN = Pattern.compile("([\\d,]+) G");

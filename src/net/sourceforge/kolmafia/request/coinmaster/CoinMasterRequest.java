@@ -27,8 +27,7 @@ import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.shop.ShopRow;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-public class CoinMasterRequest extends GenericRequest
-{
+public class CoinMasterRequest extends GenericRequest {
   protected final CoinmasterData data;
 
   protected String action = null;

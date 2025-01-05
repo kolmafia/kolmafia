@@ -11,8 +11,7 @@ import net.sourceforge.kolmafia.session.BatManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LimitMode;
 
-public class GotporkOrphanageRequest extends CoinMasterRequest
-{
+public class GotporkOrphanageRequest extends CoinMasterRequest {
   public static final String master = "Gotpork Orphanage";
 
   private static final Pattern TOKEN_PATTERN = Pattern.compile("<td>([\\d,]+) kidnapped orphan");

@@ -20,8 +20,7 @@ import net.sourceforge.kolmafia.shop.ShopRow;
 import net.sourceforge.kolmafia.shop.ShopRowDatabase;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-public class ArmoryAndLeggeryRequest extends CoinMasterRequest
-{
+public class ArmoryAndLeggeryRequest extends CoinMasterRequest {
   public static final String master = "Armory & Leggery";
 
   private static final Pattern TOKEN_PATTERN = Pattern.compile("<td>([\\d,]+) FDKOL commendation");

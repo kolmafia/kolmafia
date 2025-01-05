@@ -8,8 +8,7 @@ import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 
-public class KOLHSRequest extends CreateItemRequest
-{
+public class KOLHSRequest extends CreateItemRequest {
   public static final boolean isKOLHSLocation(final int adventureId) {
     return switch (adventureId) {
       case AdventurePool.THE_HALLOWED_HALLS,

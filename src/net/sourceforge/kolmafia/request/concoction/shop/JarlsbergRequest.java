@@ -13,8 +13,7 @@ import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-public class JarlsbergRequest extends CreateItemRequest
-{
+public class JarlsbergRequest extends CreateItemRequest {
   public JarlsbergRequest(final Concoction conc) {
     // shop.php?pwd&whichshop=jarl&action=buyitem&whichrow=60&quantity=1
     super("shop.php", conc);

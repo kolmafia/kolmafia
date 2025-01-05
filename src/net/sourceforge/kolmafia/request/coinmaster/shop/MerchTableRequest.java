@@ -19,8 +19,7 @@ import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.QuestManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-public class MerchTableRequest extends CoinMasterRequest
-{
+public class MerchTableRequest extends CoinMasterRequest {
   public static final String master = "KoL Con 13 Merch Table";
 
   private static final Pattern MR_A_PATTERN =

@@ -103,7 +103,7 @@ public class SingleUseRequest extends CreateItemRequest {
 
   @Override
   public void processResults() {
-    SingleUseRequest.parseResponse( UseItemRequest.lastItemUsed, this.responseText);
+    SingleUseRequest.parseResponse(UseItemRequest.lastItemUsed, this.responseText);
     UseItemRequest.lastItemUsed = null;
   }
 

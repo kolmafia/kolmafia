@@ -5,8 +5,7 @@ import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.GenericRequest;
 
-public class BurningNewspaperRequest extends CreateItemRequest
-{
+public class BurningNewspaperRequest extends CreateItemRequest {
   public BurningNewspaperRequest(final Concoction conc) {
     super("choice.php", conc);
     this.addFormField("whichchoice", "1277");

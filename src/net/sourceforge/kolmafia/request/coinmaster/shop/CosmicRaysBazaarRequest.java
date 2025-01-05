@@ -11,8 +11,7 @@ import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 
-public class CosmicRaysBazaarRequest extends CoinMasterRequest
-{
+public class CosmicRaysBazaarRequest extends CoinMasterRequest {
   public static final String master = "Cosmic Ray's Bazaar";
 
   public static final AdventureResult RARE_MEAT_ISOTOPE =

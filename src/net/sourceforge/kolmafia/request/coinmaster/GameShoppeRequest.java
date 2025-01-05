@@ -10,8 +10,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-public class GameShoppeRequest extends CoinMasterRequest
-{
+public class GameShoppeRequest extends CoinMasterRequest {
   public static final String master = "Game Shoppe";
 
   private static final Pattern TOKEN_PATTERN =
@@ -32,7 +31,7 @@ public class GameShoppeRequest extends CoinMasterRequest
           .withSellItems(master)
           .withSellPrices(master)
           .withItemField("whichitem")
-          .withItemPattern( GenericRequest.WHICHITEM_PATTERN)
+          .withItemPattern(GenericRequest.WHICHITEM_PATTERN)
           .withCountField("quantity")
           .withCountPattern(GenericRequest.QUANTITY_PATTERN);
 

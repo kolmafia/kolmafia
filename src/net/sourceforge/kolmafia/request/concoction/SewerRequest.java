@@ -182,7 +182,7 @@ public class SewerRequest extends CreateItemRequest {
 
     // If we are looking for worthless items, hermit scrolls can help out
     if (worthless) {
-      while (count < needed && InventoryManager.hasItem( HermitRequest.SUMMON_SCROLL)) {
+      while (count < needed && InventoryManager.hasItem(HermitRequest.SUMMON_SCROLL)) {
         // Read a single 31337 scroll
         RequestThread.postRequest(UseItemRequest.getInstance(HermitRequest.SUMMON_SCROLL));
 

@@ -59,8 +59,7 @@ import net.sourceforge.kolmafia.session.MallPriceManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-public class CreateItemRequest extends GenericRequest
-  implements Comparable<CreateItemRequest> {
+public class CreateItemRequest extends GenericRequest implements Comparable<CreateItemRequest> {
   public static final GenericRequest REDIRECT_REQUEST =
       new GenericRequest("inventory.php?action=message");
 
@@ -191,7 +190,7 @@ public class CreateItemRequest extends GenericRequest
       return null;
     }
 
-    if (instance instanceof CombineMeatRequest ) {
+    if (instance instanceof CombineMeatRequest) {
       return instance;
     }
 

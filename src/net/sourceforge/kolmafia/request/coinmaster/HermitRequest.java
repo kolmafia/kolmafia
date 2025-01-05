@@ -18,14 +18,13 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
-import net.sourceforge.kolmafia.request.concoction.SewerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
+import net.sourceforge.kolmafia.request.concoction.SewerRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-public class HermitRequest extends CoinMasterRequest
-{
+public class HermitRequest extends CoinMasterRequest {
   public static final String master = "Hermit";
 
   private static final Pattern TOKEN_PATTERN = Pattern.compile("You have ([\\d,]+) tradable items");
@@ -43,7 +42,7 @@ public class HermitRequest extends CoinMasterRequest
           .withBuyItems(KoLConstants.hermitItems)
           .withBuyPrices(buyPrices)
           .withItemField("whichitem")
-          .withItemPattern( GenericRequest.WHICHITEM_PATTERN)
+          .withItemPattern(GenericRequest.WHICHITEM_PATTERN)
           .withCountField("quantity")
           .withCountPattern(GenericRequest.QUANTITY_PATTERN);
 
@@ -189,7 +188,7 @@ public class HermitRequest extends CoinMasterRequest
 
     // If we have a hermit script, read it now
     if (InventoryManager.hasItem(HACK_SCROLL)) {
-      RequestThread.postRequest( UseItemRequest.getInstance(HACK_SCROLL));
+      RequestThread.postRequest(UseItemRequest.getInstance(HACK_SCROLL));
     }
 
     int worthless = getWorthlessItemCount();

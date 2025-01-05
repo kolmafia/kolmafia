@@ -99,7 +99,7 @@ public class MultiUseRequest extends CreateItemRequest {
 
   @Override
   public void processResults() {
-    MultiUseRequest.parseResponse( UseItemRequest.lastItemUsed, this.responseText);
+    MultiUseRequest.parseResponse(UseItemRequest.lastItemUsed, this.responseText);
     UseItemRequest.lastItemUsed = null;
   }
 

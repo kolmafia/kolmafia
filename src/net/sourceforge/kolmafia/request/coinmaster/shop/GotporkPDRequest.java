@@ -11,8 +11,7 @@ import net.sourceforge.kolmafia.session.BatManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LimitMode;
 
-public class GotporkPDRequest extends CoinMasterRequest
-{
+public class GotporkPDRequest extends CoinMasterRequest {
   public static final String master = "Gotpork P. D.";
 
   private static final Pattern TOKEN_PATTERN =

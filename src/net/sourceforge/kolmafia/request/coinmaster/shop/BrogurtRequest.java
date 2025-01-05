@@ -9,8 +9,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 
-public class BrogurtRequest extends CoinMasterRequest
-{
+public class BrogurtRequest extends CoinMasterRequest {
   public static final String master = "The Frozen Brogurt Stand";
 
   private static final Pattern TOKEN_PATTERN = Pattern.compile("<td>([\\d,]+) Beach Bucks");

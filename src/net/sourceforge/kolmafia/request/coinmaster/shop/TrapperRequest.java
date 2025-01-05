@@ -10,8 +10,7 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 
-public class TrapperRequest extends CoinMasterRequest
-{
+public class TrapperRequest extends CoinMasterRequest {
   public static String master = "The Trapper";
 
   private static final Pattern TOKEN_PATTERN = Pattern.compile("([\\d,]+) yeti fur");
