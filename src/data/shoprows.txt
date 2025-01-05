@@ -1547,3 +1547,12 @@
 1546	row	nylon Christmas stockings	Crimbo24 Factory
 1547	row	tattoo of two turkeys	Crimbo24 Factory
 1548	row	Hoyle's Guide to Reindeer Games	Crimbo24 Factory
+1549	npc	Synapse Blaster	Hack Market
+1550
+1551
+1552
+1553
+1554
+1555
+1556	npc	eXpand	Hack Market
+1557	npc	drenchrome 2.0	Hack Market
