@@ -1,4 +1,4 @@
-package net.sourceforge.kolmafia.request.concoction.shop;
+package net.sourceforge.kolmafia.request;
 
 import static internal.matchers.Item.isInInventory;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -9,6 +9,7 @@ import java.util.Set;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.request.concoction.shop.PixelRequest;
 import org.junit.jupiter.api.Test;
 
 public class PixelRequestTest {

@@ -1,4 +1,4 @@
-package net.sourceforge.kolmafia.request.concoction.shop;
+package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withWorkshedItem;

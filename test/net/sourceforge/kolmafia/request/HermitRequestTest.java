@@ -1,4 +1,4 @@
-package net.sourceforge.kolmafia.request.coinmaster.shop;
+package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withHermitReset;
