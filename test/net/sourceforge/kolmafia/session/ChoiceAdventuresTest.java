@@ -11,21 +11,14 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
-import net.sourceforge.kolmafia.preferences.Preferences;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 class ChoiceAdventuresTest {
-  @BeforeAll
-  public static void beforeAll() {
-    KoLCharacter.reset("ChoiceAdventures");
-  }
-
   @BeforeEach
-  public void beforeEach() {
-    Preferences.reset("ChoiceAdventures");
+  public void beforeAll() {
+    KoLCharacter.reset("ChoiceAdventures");
   }
 
   @Nested
