@@ -4,7 +4,7 @@
           "https://checkstyle.org/dtds/configuration_1_3.dtd">
 
 <!--
-    Minimal checkstyle configuration for Kolmafia: switch defaults and fallthroughs only, with
+    Minimal checkstyle configuration for Kolmafia: switch fallthroughs only, with
     basic suppression support.
 
     The Google checkstyle configuration is at:
@@ -16,7 +16,7 @@
 
   <property name="charset" value="UTF-8"/>
 
-  <property name="severity" value="${org.checkstyle.kolmafia.severity}" default="warning"/>
+  <property name="severity" value="${org.checkstyle.kolmafia.severity}" default="error"/>
 
   <property name="fileExtensions" value="java, properties, xml"/>
   <!-- Excludes all 'module-info.java' files              -->
@@ -28,8 +28,9 @@
   <module name="SuppressWarningsFilter"/>
 
   <module name="TreeWalker">
-    <module name="MissingSwitchDefault"/>
-    <module name="FallThrough"/>
+    <module name="FallThrough">
+      <property name="reliefPattern" value="(?i)falls?[ -]?thr(u|ough)"/>
+    </module>
 
     <module name="SuppressWarningsHolder" />
     <module name="SuppressionCommentFilter">
