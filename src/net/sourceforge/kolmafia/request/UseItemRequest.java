@@ -6243,6 +6243,7 @@ public class UseItemRequest extends GenericRequest {
         break;
       case ItemPool.PIRATE_DINGHY:
         Preferences.setBoolean("_pirateDinghyUsed", true);
+        Preferences.setInteger("lastIslandUnlock", KoLCharacter.getAscensions());
         break;
       case ItemPool.PUMPKIN_SPICE_WHORL:
         Preferences.setBoolean("pumpkinSpiceWhorlUsed", true);

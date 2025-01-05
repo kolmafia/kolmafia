@@ -3737,8 +3737,7 @@ public abstract class KoLCharacter {
           || InventoryManager.hasItem(ItemPool.SKIFF)
           || QuestDatabase.isQuestFinished(Quest.HIPPY)
           || Preferences.getString("peteMotorbikeGasTank").equals("Extra-Buoyant Tank")
-          || InventoryManager.hasItem(ItemPool.YELLOW_SUBMARINE)
-          || InventoryManager.hasItem(ItemPool.PIRATE_DINGHY)) {
+          || InventoryManager.hasItem(ItemPool.YELLOW_SUBMARINE)) {
         Preferences.setInteger("lastIslandUnlock", KoLCharacter.getAscensions());
       }
     }
