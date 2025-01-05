@@ -70,6 +70,8 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase.Category;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ResearchBenchRequest.Research;
+import net.sourceforge.kolmafia.request.coinmaster.DimemasterRequest;
+import net.sourceforge.kolmafia.request.coinmaster.QuartersmasterRequest;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EquipmentRequirement;

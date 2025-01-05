@@ -48,6 +48,14 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.persistence.RestoresDatabase;
 import net.sourceforge.kolmafia.persistence.TCRSDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.coinmaster.AWOLQuartermasterRequest;
+import net.sourceforge.kolmafia.request.coinmaster.BURTRequest;
+import net.sourceforge.kolmafia.request.coinmaster.FudgeWandRequest;
+import net.sourceforge.kolmafia.request.coinmaster.HermitRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.FDKOLRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.MrStore2002Request;
+import net.sourceforge.kolmafia.request.concoction.MultiUseRequest;
+import net.sourceforge.kolmafia.request.concoction.SingleUseRequest;
 import net.sourceforge.kolmafia.session.BugbearManager;
 import net.sourceforge.kolmafia.session.BugbearManager.Bugbear;
 import net.sourceforge.kolmafia.session.ChoiceControl;
@@ -139,7 +147,7 @@ public class UseItemRequest extends GenericRequest {
   // that we want to display to the user, if item usage is from the GUI.
   protected boolean showHTML = true;
 
-  protected static AdventureResult lastItemUsed = null;
+  public static AdventureResult lastItemUsed = null;
   protected static AdventureResult lastHelperUsed = null;
   protected static String currentURL = "";
   private static int currentItemId = -1;

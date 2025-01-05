@@ -141,6 +141,8 @@ import net.sourceforge.kolmafia.request.ClosetRequest.ClosetRequestType;
 import net.sourceforge.kolmafia.request.DeckOfEveryCardRequest.EveryCard;
 import net.sourceforge.kolmafia.request.FloristRequest.Florist;
 import net.sourceforge.kolmafia.request.StorageRequest.StorageRequestType;
+import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
+import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 import net.sourceforge.kolmafia.scripts.git.GitManager;
 import net.sourceforge.kolmafia.scripts.svn.SVNManager;
 import net.sourceforge.kolmafia.session.AutumnatonManager;

@@ -6,8 +6,8 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.BountyHunterHunterRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.coinmaster.BountyHunterHunterRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class BountyCommand extends AbstractCommand {
