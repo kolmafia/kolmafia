@@ -9082,6 +9082,7 @@ public abstract class ChoiceControl {
           Preferences.setInteger("takerSpaceMast", Integer.parseInt(supplies.group(4)));
           Preferences.setInteger("takerSpaceSilk", Integer.parseInt(supplies.group(5)));
           Preferences.setInteger("takerSpaceGold", Integer.parseInt(supplies.group(6)));
+          ConcoctionDatabase.refreshConcoctions();
         }
         break;
     }
