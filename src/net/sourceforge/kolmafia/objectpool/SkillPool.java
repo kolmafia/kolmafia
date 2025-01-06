@@ -608,8 +608,15 @@ public class SkillPool {
   public static final int SWOOP_LIKE_A_BAT = 7530;
   public static final int SUMMON_CAULDRON_OF_BATS = 7531;
   public static final int ASSERT_YOUR_AUTHORITY = 7532;
+  public static final int CHECK_FOR_PHOTOBOOTH_SUPPLIES = 7533;
+  public static final int IRON_TRICORN_HEADBUTT = 7534;
+  public static final int THROW_MILITARY_ORB = 7535;
+  public static final int PLACE_YOUR_HAT_ON_THEIR_HEAD = 7536;
+  public static final int EGG_THE_FACE = 7537;
   public static final int MCHUGELARGE_SLASH = 7538;
+  public static final int MCHUGELARGE_STAB = 7539;
   public static final int MCHUGELARGE_AVALANCHE = 7540;
+  public static final int MCHUGELARGE_SKI_PLOW = 7539;
 
   public static final int GOOD_SINGING_VOICE = 11016;
   public static final int BANISHING_SHOUT = 11020;

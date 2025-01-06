@@ -10494,14 +10494,30 @@ public class FightRequest extends GenericRequest {
           skillSuccess = true;
         }
       }
+      case SkillPool.IRON_TRICORN_HEADBUTT -> {
+        if (responseText.contains("You slam your tricorn") || skillSuccess) {
+          skillSuccess = true;
+        }
+      }
+      case SkillPool.PLACE_YOUR_HAT_ON_THEIR_HEAD -> {
+        if (responseText.contains("You place your hat upon") || skillSuccess) {
+          skillSuccess = true;
+        }
+      }
       case SkillPool.MCHUGELARGE_SLASH -> {
         if (responseText.contains("You reach your left ski pole") || skillSuccess) {
           TrackManager.trackMonster(monster, Tracker.MCHUGELARGE_SLASH);
+          skillSuccess = true;
         }
       }
       case SkillPool.MCHUGELARGE_AVALANCHE -> {
         if (responseText.contains("You stomp your ski on the ground") || skillSuccess) {
           Preferences.setBoolean("noncombatForcerActive", true);
+          skillSuccess = true;
+        }
+      }
+      case SkillPool.MCHUGELARGE_SKI_PLOW -> {
+        if (responseText.contains("You skid to an abrupt stop") || skillSuccess) {
           skillSuccess = true;
         }
       }
