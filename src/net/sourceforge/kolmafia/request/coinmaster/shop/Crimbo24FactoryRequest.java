@@ -44,7 +44,7 @@ public class Crimbo24FactoryRequest extends CoinMasterRequest {
   }
 
   public static String accessible() {
-    return null;
+    return "Crimbo Island has faded into the mists.";
   }
 
   public static final boolean registerRequest(final String urlString) {
