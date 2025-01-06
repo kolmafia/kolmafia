@@ -8,7 +8,7 @@ import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.request.ArmoryAndLeggeryRequest.CoinmasterItem;
+import net.sourceforge.kolmafia.request.coinmaster.shop.ArmoryAndLeggeryRequest.CoinmasterItem;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 

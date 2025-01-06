@@ -6,11 +6,11 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.AltarOfBonesRequest;
-import net.sourceforge.kolmafia.request.BrogurtRequest;
-import net.sourceforge.kolmafia.request.DimemasterRequest;
-import net.sourceforge.kolmafia.request.EdShopRequest;
-import net.sourceforge.kolmafia.request.TacoDanRequest;
+import net.sourceforge.kolmafia.request.coinmaster.AltarOfBonesRequest;
+import net.sourceforge.kolmafia.request.coinmaster.DimemasterRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.BrogurtRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.EdShopRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.TacoDanRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

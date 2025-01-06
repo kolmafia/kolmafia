@@ -61,7 +61,6 @@ import net.sourceforge.kolmafia.request.FloristRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.GuildRequest;
 import net.sourceforge.kolmafia.request.HellKitchenRequest;
-import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.MicroBreweryRequest;
 import net.sourceforge.kolmafia.request.QuantumTerrariumRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
@@ -70,6 +69,7 @@ import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.TelescopeRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.request.coinmaster.HermitRequest;
 import net.sourceforge.kolmafia.session.BanishManager;
 import net.sourceforge.kolmafia.session.BatManager;
 import net.sourceforge.kolmafia.session.ChoiceManager;
@@ -3737,8 +3737,7 @@ public abstract class KoLCharacter {
           || InventoryManager.hasItem(ItemPool.SKIFF)
           || QuestDatabase.isQuestFinished(Quest.HIPPY)
           || Preferences.getString("peteMotorbikeGasTank").equals("Extra-Buoyant Tank")
-          || InventoryManager.hasItem(ItemPool.YELLOW_SUBMARINE)
-          || InventoryManager.hasItem(ItemPool.PIRATE_DINGHY)) {
+          || InventoryManager.hasItem(ItemPool.YELLOW_SUBMARINE)) {
         Preferences.setInteger("lastIslandUnlock", KoLCharacter.getAscensions());
       }
     }
