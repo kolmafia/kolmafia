@@ -167,6 +167,7 @@ Downtown	Batfellow Area	Downtown
 FantasyRealm	A Monorail Station	FantasyRealm	FantasyRealm membership packet
 PirateRealm	A Monorail Station	PirateRealm	PirateRealm membership packet
 PirateRealm Island	PirateRealm	PirateRealm Island
+Server Room	A Monorail Station	CyberRealm
 
 # The following zones do not sort into a higher-level zone
 

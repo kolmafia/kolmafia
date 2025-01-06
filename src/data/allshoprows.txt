@@ -1366,3 +1366,6 @@ Crimbo24 Factory	ROW1545	clovermint	Spirit of St. Patrick's Day (50)	Spirit of C
 Crimbo24 Factory	ROW1546	nylon Christmas stockings	Spirit of Veteran's Day (200)	Spirit of Christmas (150)
 Crimbo24 Factory	ROW1547	tattoo of two turkeys	Spirit of Thanksgiving (300)	Spirit of Christmas (300)
 Crimbo24 Factory	ROW1548	Hoyle's Guide to Reindeer Games	Spirit of Christmas (500)
+Hack Market	ROW1549	Synapse Blaster	500 Meat
+Hack Market	ROW1556	eXpand	500 Meat
+Hack Market	ROW1557	drenchrome 2.0	500 Meat
