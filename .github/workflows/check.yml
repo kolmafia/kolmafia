@@ -12,7 +12,7 @@ jobs:
     strategy:
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
-        java: [17, 21]
+        java: [21]
 
     name: Run Checks
 
