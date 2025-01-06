@@ -1062,6 +1062,7 @@ Brimstone Bludgeon	200	Mus: 30	1-handed club
 broken beer bottle	75	Mus: 10	1-handed knife
 broken champagne bottle	50	Mus: 0	1-handed knife
 broken sword	85	Mus: 27	1-handed sword
+brute force hammer	100	Mus: 0	1-handed hammer
 bubble bauble bow	80	Mox: 25	2-handed bow
 bubblewrap crossbow	60	Mox: 15	2-handed crossbow
 bubblewrap staff	60	Mus: 15	2-handed staff
