@@ -791,14 +791,16 @@ public class RequestEditorKit extends HTMLEditorKit {
     buffer.insert(index + test.length(), link.getItemHTML());
   }
 
-  // <table  width=400  cellspacing=0 cellpadding=0><tr><td style="color: white;" align=center
-  // bgcolor=blue>f<b>New Area Unlocked</b></td></tr><tr><td style="padding: 5px; border: 1px solid
-  // blue;"><center><table><tr><td><center><table><tr><td valign=center><img
-  // src="http://images.kingdomofloathing.com/adventureimages/../otherimages/ocean/corrala.gif"></td><td valign=center class=small><b>The Coral Corral</b>, on <a class=nounder href=seafloor.php><b>The Sea Floor</b></a>.</td></tr></table></center></td></tr></table></center></td></tr><tr><td height=4></td></tr></table>
+  // <table  width=400  cellspacing=0 cellpadding=0><tr><td style="background-color: blue"
+  // align=center ><b style="color: white">New Area Unlocked</b></td></tr><tr><td style="padding:
+  // 5px; border: 1px solid blue;"><center><table><tr><td><center><table><tr><td valign=center><img
+  // src="https://d2uyhvukfffg5a.cloudfront.net/adventureimages/biggoat.gif"></td><td valign=center
+  // class=small><b>The Goatlet</b>, on <a href=place.php?whichplace=mclargehuge><b>Mt.
+  // McLargeHuge</b></a>.</td></tr></table>
 
   private static final Pattern NEW_LOCATION_PATTERN =
       Pattern.compile(
-          "<table.*?<b>New Area Unlocked</b>.*?(<img[^>]*>).*?(<b>(.*?)</b>)", Pattern.DOTALL);
+          "<table.*?<b.*?>New Area Unlocked</b>.*?(<img[^>]*>).*?(<b>(.*?)</b>)", Pattern.DOTALL);
 
   public static final void addNewLocationLinks(final StringBuffer buffer) {
     if (buffer.indexOf("New Area Unlocked") == -1) {
