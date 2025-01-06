@@ -471,7 +471,7 @@ ninja dressed as a waiter	1512	ninjawaiter.gif	NOWISH Atk: 150 Def: 150 HP: 155 
 Ninja Snowman (Chopsticks)	338	ninjarice.gif	Atk: 85 Def: 76 HP: 70 Init: 60 P: elemental ED: cold Article: a Manuel: "Ninja Snowman"	frigid ninja stars (20)	rice bowl (5)	chopsticks (5)	plain snowcone (20)	pentatonic accordion (a100)
 Ninja Snowman (Hilt)	137	snowman.gif	Atk: 85 Def: 76 HP: 70 Init: 60 P: elemental E: cold Article: a Manuel: "Ninja Snowman"	frigid ninja stars (20)	frozen nunchaku (5)	icy katana hilt (15)	plain snowcone (20)
 Ninja Snowman (Mask)	100	snowman.gif	Atk: 85 Def: 76 HP: 70 Init: 60 P: elemental E: cold Article: a Manuel: "Ninja Snowman"	cold ninja mask (10)	frigid ninja stars (20)	frozen nunchaku (5)	plain snowcone (20)
-ninja snowman assassin	1185	ninja_ass.gif	NOWISH SUPERLIKELY Atk: 150 Def: 135 HP: 10 Init: 150 P: elemental ED: cold Article: a	ninja rope (n100)	ninja crampons (n100)	ninja carabiner (n100)
+ninja snowman assassin	1185	ninja_ass.gif	NOCOPY SUPERLIKELY Atk: 150 Def: 135 HP: 10 Init: 150 P: elemental ED: cold Article: a	ninja rope (n100)	ninja crampons (n100)	ninja carabiner (n100)
 Ninja Snowman Janitor	339	ninjamop.gif	Atk: 80 Def: 81 HP: 70 Init: 60 P: elemental ED: cold Article: a	frigid ninja stars (20)	ninja mop (5)	pail (10)
 Ninja Snowman Weaponmaster	340	ninjacloud.gif	Atk: 90 Def: 81 HP: 80 Init: 75 P: elemental ED: cold Article: a	ridiculously overelaborate ninja weapon (5)	frigid ninja stars (20)	frozen nunchaku (5)	frigid hanky&#363; (5)	frigid mote (p5)
 novelty tropical skeleton	1746	tropicalskel.gif	Atk: 2 Def: 1 HP: 2 Init: -10000 P: undead ED: spooky Article: a	cherry (0)	cherry (0)	grapefruit (0)	grapefruit (0)	orange (0)	orange (0)	strawberry (0)	strawberry (0)	lemon (0)	lemon (0)	novelty fruit hat (c0)
@@ -2177,6 +2177,22 @@ leaviathan	2391	leaviathan.gif	FREE NOCOPY Scale: 25 Cap: ? Floor: ? HP: 2500 In
 
 # Sept-Ember Censer (Sep 2024)
 Embering Hulk	2453	emberhulk.gif	NOCOPY Scale: 11 Cap: 10000 Floor: ? Init: -10000 P: elemental E: hot Article: an	embering hunk (c100)
+
+# CyberRealm (2025 IotY)
+redhat hacker	2454	cr_hothacker.gif	Atk: 10 Def: 0 HP: 100 Init: 300 P: dude ED: hot Article: a	logic grenade (15)
+greenhat hacker	2456	cr_stenchhacker.gif	Atk: 0 Def: 0 HP: 0 Init: 150 P: dude ED: stench Article: a	glitched malware (15)
+greyhat hacker	2458	cr_spookyhacker.gif	Atk: 0 Def: 0 HP: 0 Init: 100 P: dude ED: spooky Article: a	null-day exploit (15)
+
+firewall	2459	cr_hotwall.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct ED: hot Article: a
+ICE barrier	2460	cr_icewall.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct ED: cold Article: an
+parental controls	2462	cr_sleazewall.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct ED: sleaze Article: some
+null container	2463	cr_spookywall.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct ED: spooky
+
+zombie process	2470	cr_zombie.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct Article: a
+botfly	2471	cr_fly.gif	Atk: 0 Def: 0 HP: 0 Init: 250 P: construct Article: a
+network worm	2472	cr_worm.gif	Atk: 0 Def: 0 HP: 0 Init: 150 P: construct Article: a
+ICE man	2473	cr_iceman.gif	Atk: 0 Def: 0 HP: 0 Init: 50 P: construct Article: an
+rat (remote access trojan)	2474	cr_rat.gif	Atk: 0 Def: 0 HP: 0 Init: 200 P: construct Article: a
 
 # KoL Con
 

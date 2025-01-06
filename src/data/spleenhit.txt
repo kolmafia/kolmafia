@@ -75,6 +75,7 @@ cuppa Cruel tea	4	1	crappy	0	0	0	0	+5 PvP fights
 cute mushroom	4	6	decent	7-9	5-10	5-10	5-10	50 Cute Vision (+5 familiar weight)
 demonic paste	4	4	good	5-10	18-22	18-22	18-22	10 Demonic Flavor (hot dmg/res)
 dieting pill	3	7	good	0	0	0	0	2x fullness, stats and adventures for next food
+drenchrome 2.0	1	1		0	0	0	0	Unspaded
 ectoplasmic paste	4	4	good	5-10	18-22	18-22	18-22	10 Spooky Flavor (spooky dmg/res)
 eldritch essence	1	4	crappy	0	66	66	66
 elemental paste	4	4	good	5-10	18-22	18-22	18-22	10 Elemental Flavor (+5 prismatic dmg)
@@ -84,6 +85,7 @@ energized spores	1	1		0	0	0	0	40 Energized (+100 initiative)
 epic cluster	1	20	EPIC	6	170-200	170-200	170-200
 epic wad	1	15	EPIC	5	140-150	140-150	140-150
 excitement pill	1	5	decent	0	11-13	11-13	24-26	Get random effect
+eXpand	1	1		0	0	0	0	Unspaded
 expensive cigar	1	7	decent	0	40-50	0	0
 extra-strength strongness elixir	1	3	good	0	8-10	0	0
 Extrovermectin&trade;	2	1	crappy	0	0	0	0	Gain skill that gives 3 copies of a monster
@@ -188,6 +190,7 @@ powdered gold	4	1	good	5-10	20-30	20-30	20-30
 powdered oxygen	3	4	good	0	0	0	0	10 Hyperoxygenated Blood (Breath Underwater)
 prismatic wad	3	7	good	5-7	50-60	50-60	50-60	10 Rainbow Bright (+30% all, prismatic dmg/res)
 prototype stimulant	1	1	good	0	0	0	0	50 Proto-Stimulated (+20 all stats)
+psilocyber mushroom	1	1		0	0	0	0	Unspaded
 puce paisley oyster egg	1	1	awesome	0	11-15	11-15	0
 puce polka-dot oyster egg	1	1	awesome	0	11-15	0	11-15
 puce striped oyster egg	1	1	awesome	0	22-30	0	0
@@ -219,6 +222,7 @@ strange paste	4	4	good	5-10	18-22	18-22	18-22	10 Weird Flavor (???)
 strongness elixir	1	1	crappy	0	1-3	0	0
 super-sweet fish goo (spoiled)	5	1	decent	0	0	0	0
 suntan lotion of moxiousness	1	3	good	0	0	0	8-10
+Synapse Blaster	1	1		0	0	0	0	Unspaded
 synthetic marrow	1	1	EPIC	0	30-40	0	0
 sweat-ade	4	1	crappy	0	0	0	0	+5 PvP fights
 terra cotta tidbits	3	8	awesome	0	0	0	0	Unspaded

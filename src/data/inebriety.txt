@@ -197,6 +197,7 @@ cup of primitive beer	1	12	good	2-4	50-65	0	0	12-15 MP, lose 10-18 HP, BEER
 cursed bottle of black-label rum	3	3	good	5-10	0	0	0	10 Curse Magnet
 cursed bottle of rum	1	1	crappy	1	0	0	0
 Cursed Punch	1	6	good	2-3	1-5	1-5	1-5	10 Once-Cursed (-10 all stats)
+cybeer	2	1	EPIC	0	0	0	0	Unspaded
 Cyder	3	5	decent	5	0	0	0
 Dad's brandy	1	1	awesome	4-5	10-20	10-20	10-20
 Dark & Starry	2	1	good	4-5	5-10	5-10	5-10	Restores MP

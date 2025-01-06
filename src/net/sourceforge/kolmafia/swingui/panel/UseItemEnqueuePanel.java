@@ -35,11 +35,11 @@ import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.PreferenceListenerCheckBox;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.widget.AutoFilterTextField;
@@ -114,7 +114,8 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
     this.getElementList().setVisibleRowCount(6);
     this.getElementList().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
-    this.filters = new JCheckBox[potions ? 4 : 8];
+    int filterCount = (potions ? 4 : 8) + (this.hasCreationQueue ? 1 : 0);
+    this.filters = new JCheckBox[filterCount];
 
     this.filters[0] = new JCheckBox("no create");
     this.filters[1] = new TurnFreeCheckbox();
@@ -122,12 +123,18 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
 
     if (potions) {
       this.filters[3] = new EffectNameCheckbox();
+      if (this.hasCreationQueue) {
+        this.filters[4] = new ToConsumeCheckbox();
+      }
     } else {
       this.filters[3] = new JCheckBox("+mus only");
       this.filters[4] = new JCheckBox("+mys only");
       this.filters[5] = new JCheckBox("+mox only");
       this.filters[6] = new PerUnitCheckBox(type);
       this.filters[7] = new ByRoomCheckbox();
+      if (this.hasCreationQueue) {
+        this.filters[8] = new ToConsumeCheckbox();
+      }
     }
 
     for (JCheckBox checkbox : this.filters) {
@@ -139,24 +146,34 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
     JPanel column2 = new JPanel(new BorderLayout());
     JPanel column3 = new JPanel(new BorderLayout());
     JPanel column4 = new JPanel(new BorderLayout());
+    JPanel column5 = new JPanel(new BorderLayout());
 
     column1.add(this.filters[0], BorderLayout.NORTH);
     column2.add(this.filters[1], BorderLayout.NORTH);
     column3.add(this.filters[2], BorderLayout.NORTH);
     if (potions) {
       column4.add(this.filters[3], BorderLayout.NORTH);
+      if (this.hasCreationQueue) {
+        column5.add(this.filters[4], BorderLayout.NORTH);
+      }
     } else {
       column1.add(this.filters[3], BorderLayout.CENTER);
       column2.add(this.filters[4], BorderLayout.CENTER);
       column3.add(this.filters[5], BorderLayout.CENTER);
       column4.add(this.filters[6], BorderLayout.NORTH);
       column4.add(this.filters[7], BorderLayout.CENTER);
+      if (this.hasCreationQueue) {
+        column5.add(this.filters[8], BorderLayout.NORTH);
+      }
     }
 
     filterPanel.add(column1);
     filterPanel.add(column2);
     filterPanel.add(column3);
     filterPanel.add(column4);
+    if (this.hasCreationQueue) {
+      filterPanel.add(column5);
+    }
 
     // Set the height of the filter panel to be just a wee bit taller than two checkboxes need
     filterPanel.setPreferredSize(
@@ -972,6 +989,17 @@ public class UseItemEnqueuePanel extends ItemListManagePanel<Concoction> impleme
     protected void handleClick() {
       ConcoctionDatabase.getUsables().sort();
     }
+  }
+
+  private static class ToConsumeCheckbox extends PreferenceListenerCheckBox {
+    public ToConsumeCheckbox() {
+      super("to consume", "enqueueForConsumption");
+
+      this.setToolTipText("Enqueue obeys consumption limits.");
+    }
+
+    @Override
+    protected void handleClick() {}
   }
 
   private static class RefreshListener extends ThreadedListener {

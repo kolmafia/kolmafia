@@ -61,7 +61,6 @@ import net.sourceforge.kolmafia.request.FloristRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.GuildRequest;
 import net.sourceforge.kolmafia.request.HellKitchenRequest;
-import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.MicroBreweryRequest;
 import net.sourceforge.kolmafia.request.QuantumTerrariumRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
@@ -70,6 +69,7 @@ import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.TelescopeRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.request.coinmaster.HermitRequest;
 import net.sourceforge.kolmafia.session.BanishManager;
 import net.sourceforge.kolmafia.session.BatManager;
 import net.sourceforge.kolmafia.session.ChoiceManager;
@@ -3737,8 +3737,7 @@ public abstract class KoLCharacter {
           || InventoryManager.hasItem(ItemPool.SKIFF)
           || QuestDatabase.isQuestFinished(Quest.HIPPY)
           || Preferences.getString("peteMotorbikeGasTank").equals("Extra-Buoyant Tank")
-          || InventoryManager.hasItem(ItemPool.YELLOW_SUBMARINE)
-          || InventoryManager.hasItem(ItemPool.PIRATE_DINGHY)) {
+          || InventoryManager.hasItem(ItemPool.YELLOW_SUBMARINE)) {
         Preferences.setInteger("lastIslandUnlock", KoLCharacter.getAscensions());
       }
     }
@@ -5093,6 +5092,16 @@ public abstract class KoLCharacter {
           DoubleModifier.ITEMDROP, cloathingLevel / 2, ModifierType.OUTFIT, "Cloathing");
     }
 
+    int mcHugeLargeLevel = getMcHugeLargeLevel(newModifiers);
+    if (mcHugeLargeLevel > 0) {
+      newModifiers.addDouble(
+          DoubleModifier.COLD_RESISTANCE, mcHugeLargeLevel, ModifierType.OUTFIT, "McHugeLarge");
+      newModifiers.addDouble(
+          DoubleModifier.HOT_DAMAGE, 5 * mcHugeLargeLevel, ModifierType.OUTFIT, "McHugeLarge");
+      newModifiers.addDouble(
+          DoubleModifier.INITIATIVE, 10 * mcHugeLargeLevel, ModifierType.OUTFIT, "McHugeLarge");
+    }
+
     // Add modifiers from Passive Skills
     newModifiers.applyPassiveModifiers(debug);
 
@@ -5897,5 +5906,18 @@ public abstract class KoLCharacter {
       Preferences.setInteger("lastCellarReset", KoLCharacter.getAscensions());
       Preferences.setInteger("cellarLayout", 0);
     }
+  }
+
+  private static int getMcHugeLargeLevel(Modifiers mods) {
+    int totalItems = mods.getBitmap(BitmapModifier.MCHUGELARGE);
+    var itemLevel =
+        switch (totalItems) {
+          case 0, 1 -> 0;
+          case 2, 3 -> 1;
+          case 4 -> 2;
+          case 5 -> 3;
+          default -> 0;
+        };
+    return itemLevel * totalItems;
   }
 }

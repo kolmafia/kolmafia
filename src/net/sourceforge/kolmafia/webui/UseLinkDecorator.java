@@ -30,13 +30,13 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
-import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.IslandRequest;
 import net.sourceforge.kolmafia.request.OrcChasmRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
+import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -1163,6 +1163,9 @@ public abstract class UseLinkDecorator {
           case ItemPool.FIXODENT:
             return new UseLink(itemId, 1, "fix", "shop.php?whichshop=fixodent");
 
+          case ItemPool.CANDY_EGG_DEVILER:
+            return new UseLink(itemId, 1, "devil", "inventory.php?action=eggdevil", false);
+
           default:
             return new UseLink(
                 itemId,
@@ -1539,6 +1542,9 @@ public abstract class UseLinkDecorator {
             // Not inline, since the redirection to a choice
             // doesn't work ajaxified.
             uses.add(new UseLink(itemId, 1, "pockets", "inventory.php?action=pocket", false));
+          }
+          case ItemPool.MCHUGELARGE_DUFFEL_BAG -> {
+            uses.add(new UseLink(itemId, 1, "open", "inventory.php?action=skiduffel"));
           }
         }
 

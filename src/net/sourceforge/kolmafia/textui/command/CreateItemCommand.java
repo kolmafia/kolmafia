@@ -9,7 +9,7 @@ import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
-import net.sourceforge.kolmafia.request.CreateItemRequest;
+import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 
 public class CreateItemCommand extends AbstractCommand {
   public CreateItemCommand() {

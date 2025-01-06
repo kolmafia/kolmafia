@@ -73,6 +73,8 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.FamTeamRequest.PokeBoost;
+import net.sourceforge.kolmafia.request.coinmaster.BountyHunterHunterRequest;
+import net.sourceforge.kolmafia.request.concoction.shop.KOLHSRequest;
 import net.sourceforge.kolmafia.session.AutumnatonManager;
 import net.sourceforge.kolmafia.session.BanishManager;
 import net.sourceforge.kolmafia.session.BanishManager.Banisher;
@@ -10489,6 +10491,17 @@ public class FightRequest extends GenericRequest {
       }
       case SkillPool.ASSERT_YOUR_AUTHORITY -> {
         if (responseText.contains("You flash your sheriff badge") || skillSuccess) {
+          skillSuccess = true;
+        }
+      }
+      case SkillPool.MCHUGELARGE_SLASH -> {
+        if (responseText.contains("You reach your left ski pole") || skillSuccess) {
+          TrackManager.trackMonster(monster, Tracker.MCHUGELARGE_SLASH);
+        }
+      }
+      case SkillPool.MCHUGELARGE_AVALANCHE -> {
+        if (responseText.contains("You stomp your ski on the ground") || skillSuccess) {
+          Preferences.setBoolean("noncombatForcerActive", true);
           skillSuccess = true;
         }
       }

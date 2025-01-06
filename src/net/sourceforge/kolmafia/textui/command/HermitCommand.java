@@ -10,7 +10,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.HermitRequest;
+import net.sourceforge.kolmafia.request.coinmaster.HermitRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class HermitCommand extends AbstractCommand {

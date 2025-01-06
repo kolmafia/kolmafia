@@ -33,13 +33,13 @@ import net.sourceforge.kolmafia.request.ClanStashRequest;
 import net.sourceforge.kolmafia.request.ClanStashRequest.ClanStashRequestType;
 import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest.ClosetRequestType;
-import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.DisplayCaseRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.ManageStoreRequest;
 import net.sourceforge.kolmafia.request.PulverizeRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
+import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.swingui.button.ThreadedButton;
@@ -387,7 +387,10 @@ public abstract class ItemManagePanel<E, S extends JComponent> extends Scrollabl
       }
       case USE_MULTIPLE -> {
         int standard = itemCount;
-        if (!message.equals("Feed") && !message.equals("Queue")) {
+        boolean obeyConsumptionLimits =
+            !message.equals("Feed")
+                && (!message.equals("Queue") || Preferences.getBoolean("enqueueForConsumption"));
+        if (obeyConsumptionLimits) {
           if (item instanceof Concoction c) {
             int previous = 0, capacity = itemCount, unit = 0, shotglass = 0;
 

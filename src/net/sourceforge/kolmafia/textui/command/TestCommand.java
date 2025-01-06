@@ -13,6 +13,7 @@ import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.CoinmasterRegistry;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -23,7 +24,6 @@ import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.ShopRow;
 import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.chat.ChatManager;
@@ -38,7 +38,6 @@ import net.sourceforge.kolmafia.moods.RecoveryManager;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
-import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.DebugDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
@@ -48,19 +47,16 @@ import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
-import net.sourceforge.kolmafia.persistence.ShopRowDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.persistence.StandardRewardDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.AdventureRequest;
-import net.sourceforge.kolmafia.request.ArmoryAndLeggeryRequest;
 import net.sourceforge.kolmafia.request.CampAwayRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CargoCultistShortsRequest;
 import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
-import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.DeckOfEveryCardRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
@@ -71,6 +67,8 @@ import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.PlaceRequest;
 import net.sourceforge.kolmafia.request.ScrapheapRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.ArmoryAndLeggeryRequest;
+import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 import net.sourceforge.kolmafia.session.BastilleBattalionManager;
 import net.sourceforge.kolmafia.session.BeachManager;
 import net.sourceforge.kolmafia.session.ChoiceAdventures;
@@ -84,6 +82,8 @@ import net.sourceforge.kolmafia.session.NumberologyManager;
 import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.RumpleManager;
+import net.sourceforge.kolmafia.shop.ShopRow;
+import net.sourceforge.kolmafia.shop.ShopRowDatabase;
 import net.sourceforge.kolmafia.swingui.ShowHTMLFrame;
 import net.sourceforge.kolmafia.swingui.SkillBuffFrame;
 import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
@@ -877,9 +877,21 @@ public class TestCommand extends AbstractCommand {
     if (command.equals("write-shoprows")) {
       // Ensure that the three databases that register ShopRowData entries are loaded
       ConcoctionDatabase.singleUseCreation(0);
-      CoinmastersDatabase.purchaseLimit(0);
+      CoinmasterRegistry.reset();
       NPCStoreDatabase.contains(0);
-      ShopRowDatabase.writeShopRowDataFile();
+      // Ditto for the Armory & Leggery, which registers standard rewards.
+      ArmoryAndLeggeryRequest.parseResponse("", "");
+
+      // Certain items include a "mode" in their string representation.
+      // We don't want that.
+      String parkaMode = Preferences.getString("parkaMode");
+      try {
+        Preferences.setString("parkaMode", "");
+        ShopRowDatabase.writeShopRowDataFile();
+        ShopRowDatabase.writeShopRowFile();
+      } finally {
+        Preferences.setString("parkaMode", parkaMode);
+      }
       return;
     }
 

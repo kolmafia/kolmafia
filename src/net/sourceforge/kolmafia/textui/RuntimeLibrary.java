@@ -141,6 +141,8 @@ import net.sourceforge.kolmafia.request.ClosetRequest.ClosetRequestType;
 import net.sourceforge.kolmafia.request.DeckOfEveryCardRequest.EveryCard;
 import net.sourceforge.kolmafia.request.FloristRequest.Florist;
 import net.sourceforge.kolmafia.request.StorageRequest.StorageRequestType;
+import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
+import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 import net.sourceforge.kolmafia.scripts.git.GitManager;
 import net.sourceforge.kolmafia.scripts.svn.SVNManager;
 import net.sourceforge.kolmafia.session.AutumnatonManager;
@@ -3642,6 +3644,18 @@ public abstract class RuntimeLibrary {
 
     params = List.of();
     functions.add(new LibraryFunction("get_title", DataTypes.STRING_TYPE, params));
+
+    params = List.of();
+    functions.add(new LibraryFunction("free_crafts", DataTypes.INT_TYPE, params));
+
+    params = List.of();
+    functions.add(new LibraryFunction("free_cooks", DataTypes.INT_TYPE, params));
+
+    params = List.of();
+    functions.add(new LibraryFunction("free_mixes", DataTypes.INT_TYPE, params));
+
+    params = List.of();
+    functions.add(new LibraryFunction("free_smiths", DataTypes.INT_TYPE, params));
   }
 
   public static Method findMethod(final String name, final Class<?>[] args)
@@ -11356,5 +11370,21 @@ public abstract class RuntimeLibrary {
 
   public static Value get_title(ScriptRuntime controller) {
     return DataTypes.makeStringValue(KoLCharacter.getTitle());
+  }
+
+  public static Value free_crafts(ScriptRuntime controller) {
+    return DataTypes.makeIntValue(ConcoctionDatabase.getFreeCraftingTurns());
+  }
+
+  public static Value free_cooks(ScriptRuntime controller) {
+    return DataTypes.makeIntValue(ConcoctionDatabase.getFreeCookingTurns());
+  }
+
+  public static Value free_mixes(ScriptRuntime controller) {
+    return DataTypes.makeIntValue(ConcoctionDatabase.getFreeCocktailcraftingTurns());
+  }
+
+  public static Value free_smiths(ScriptRuntime controller) {
+    return DataTypes.makeIntValue(ConcoctionDatabase.getFreeSmithingTurns());
   }
 }

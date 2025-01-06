@@ -17,9 +17,11 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.HermitRequest;
+import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
+import net.sourceforge.kolmafia.request.coinmaster.HermitRequest;
+import net.sourceforge.kolmafia.shop.ShopRow;
+import net.sourceforge.kolmafia.shop.ShopRowDatabase;
 
 public class CoinmasterData implements Comparable<CoinmasterData> {
 
@@ -783,6 +785,14 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
 
   public final Integer getRow(int itemId) {
     if (this.itemRows == null) {
+      return 0;
+    }
+    Integer row = this.itemRows.get(itemId);
+    return row;
+  }
+
+  public final Integer getItemIdOrRow(int itemId) {
+    if (this.itemRows == null) {
       return itemId;
     }
     Integer row = this.itemRows.get(itemId);
@@ -1100,6 +1110,39 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
     for (AdventureResult item : this.buyItems) {
       AdventureResult price = this.itemBuyPrice(item.getItemId());
       CoinmastersDatabase.registerPurchaseRequest(this, item, price);
+    }
+  }
+
+  public void registerCurrencies() {
+    for (AdventureResult currency : this.currencies()) {
+      if (currency.isItem()) {
+        CoinmastersDatabase.registerCurrency(currency);
+      }
+    }
+  }
+
+  public void registerShopRows() {
+    if (this.buyItems != null) {
+      for (AdventureResult item : this.buyItems) {
+        int itemId = item.getItemId();
+        int row = this.getRow(itemId);
+        if (row != 0) {
+          AdventureResult price = this.itemBuyPrice(itemId);
+          ShopRow shopRow = new ShopRow(row, item.getInstance(1), price);
+          ShopRowDatabase.registerShopRow(shopRow, "buy", this.master);
+        }
+      }
+    }
+    if (this.sellItems != null) {
+      for (AdventureResult item : this.sellItems) {
+        int itemId = item.getItemId();
+        int row = this.getRow(itemId);
+        if (row != 0) {
+          AdventureResult price = this.itemSellPrice(itemId);
+          ShopRow shopRow = new ShopRow(row, price, item);
+          ShopRowDatabase.registerShopRow(shopRow, "sell", this.master);
+        }
+      }
     }
   }
 

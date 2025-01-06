@@ -54,7 +54,6 @@ import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.ArcadeRequest;
 import net.sourceforge.kolmafia.request.BeachCombRequest;
-import net.sourceforge.kolmafia.request.BurningLeavesRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest.Mushroom;
 import net.sourceforge.kolmafia.request.CargoCultistShortsRequest;
@@ -82,6 +81,7 @@ import net.sourceforge.kolmafia.request.SweetSynthesisRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
 import net.sourceforge.kolmafia.request.UmbrellaRequest;
 import net.sourceforge.kolmafia.request.WildfireCampRequest;
+import net.sourceforge.kolmafia.request.concoction.BurningLeavesRequest;
 import net.sourceforge.kolmafia.session.ChoiceAdventures.Spoilers;
 import net.sourceforge.kolmafia.session.TrackManager.Tracker;
 import net.sourceforge.kolmafia.textui.command.EdPieceCommand;
@@ -2203,6 +2203,7 @@ public abstract class ChoiceControl {
         if (ChoiceManager.lastDecision == 5) {
           Preferences.setBoolean("candyCaneSwordBlackForest", true);
         }
+        break;
 
       case 930:
         // Another Errand I Mean Quest
@@ -2883,6 +2884,7 @@ public abstract class ChoiceControl {
             KoLAdventure.clearLocation();
           }
         }
+        break;
 
       case 1118:
         // X-32-F Combat Training Snowman Control Console
@@ -5005,11 +5007,13 @@ public abstract class ChoiceControl {
             Preferences.increment("bwApronMealsEaten");
           }
         }
+        break;
       case 1534:
         // Clan Photo Booth - Get your photo taken
         if (ChoiceManager.lastDecision != 6 && text.contains("You select")) {
           Preferences.increment("_photoBoothEffects");
         }
+        break;
       case 1535:
         // Clan Photo Booth - Borrow a prop
         if (ChoiceManager.lastDecision != 12 && text.contains("You grab your prop")) {
@@ -7135,6 +7139,19 @@ public abstract class ChoiceControl {
           }
           break;
         }
+
+      case 1544:
+        // Devil some Candy
+        if (text.contains("You place your candy in the deviler")) {
+          Preferences.increment("_candyEggsDeviled");
+          String item = request.getFormField("a");
+          try {
+            ResultProcessor.removeItem(Integer.parseInt(item));
+          } catch (NumberFormatException e) {
+            break;
+          }
+        }
+        break;
     }
   }
 
@@ -8691,6 +8708,7 @@ public abstract class ChoiceControl {
           Preferences.setBoolean("pirateRealmUnlockedFlag", choices.containsKey(5));
           Preferences.setBoolean("pirateRealmUnlockedSpyglass", choices.containsKey(6));
         }
+        break;
 
       case 1349: // Dishonest Ed's Ships
         {
@@ -8698,6 +8716,7 @@ public abstract class ChoiceControl {
           Preferences.setBoolean("pirateRealmUnlockedClipper", choices.containsKey(4));
           Preferences.setBoolean("pirateRealmUnlockedManOWar", choices.containsKey(5));
         }
+        break;
 
       case 1388:
         BeachManager.parseCombUsage(text);
@@ -9063,6 +9082,7 @@ public abstract class ChoiceControl {
           Preferences.setInteger("takerSpaceMast", Integer.parseInt(supplies.group(4)));
           Preferences.setInteger("takerSpaceSilk", Integer.parseInt(supplies.group(5)));
           Preferences.setInteger("takerSpaceGold", Integer.parseInt(supplies.group(6)));
+          ConcoctionDatabase.refreshConcoctions();
         }
         break;
     }
@@ -10193,6 +10213,7 @@ public abstract class ChoiceControl {
       case 1535: // Clan Photo Booth - Borrow a prop
       case 1536: // Clan Photo Booth - Take a group photo
       case 1537: // TakerSpace
+      case 1544: // Devil some Candy
         return true;
 
       default:
