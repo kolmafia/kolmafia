@@ -1254,6 +1254,7 @@ Item	Brimstone Bludgeon	Muscle Percent: +50, Mysticality Percent: -20, Weapon Da
 # broken champagne bottle: Doubles item drop bonus while the champagne flows
 Item	broken champagne bottle	MP Regen Min: 4, MP Regen Max: 8, Weapon Damage Percent: +50, Lasts Until Rollover, Breakable
 Item	broken sword	Spooky Resistance: +1
+# brute force hammer: CyberRealm: Deal 40 damage for 3 RAM
 Item	bubble bauble bow	Moxie: +3, Mysticality: +2, Item Drop: +5
 Item	bubblewrap crossbow	Moxie: +3, Mysticality: +2
 Item	bubblewrap staff	Mysticality: +3, Muscle: +2
@@ -8563,6 +8564,7 @@ Skill	Ominous Substrate	Spooky Damage: +10
 Skill	Optic Nerves	Item Drop: +30
 Skill	Overactive Pheromones	Familiar Weight: +10
 Skill	Overalls	Damage Reduction: 20
+# OVERCLOCK(10): Your first 10 fights each day in CyberRealm do not take an Adventure
 Skill	Overclocked	Initiative: +200
 Skill	Overclocking	Initiative: +300
 Skill	Overconfidence	Experience (Muscle): +3
@@ -8660,6 +8662,7 @@ Skill	Sinister Charm	Floor Buffed Moxie: "Mysticality", Maximum HP: -15
 Skill	Skin of the Leatherback	Damage Reduction: [max(1,ceil(L/2))]
 # Skullcracker: +100% Brain Drops from Monsters
 # Skullcracker: Critical hits occasionally stun opponents
+# SLEEP(5): 5 Free Rests
 Skill	Slimy Shoulders	Initiative: [pref(skillLevel48)*2]
 Skill	Slimy Sinews	Maximum HP: [pref(skillLevel46)*2]
 Skill	Slimy Synapses	Maximum MP: [pref(skillLevel47)]
@@ -8683,6 +8686,7 @@ Skill	Spleen of Steel	Spleen Capacity: +5
 Skill	Spooky Veins	Adventures: +10
 # Spot Weakness: Weakens foes at the start of combat
 Skill	Spot Weakness	Maximum HP: -15
+Skill	STATS+++	Experience: +3
 Skill	Steam Mycelia	Hot Damage: +15
 # Sticky Fingers: Pickpocketing also gives Meat
 Skill	Still Another Extra Spleen	Spleen Capacity: +5
@@ -12550,6 +12554,7 @@ Item	sinistral homunculus	Free Pull
 Item	slap and slap again recipe	Recipe: "slap and slap again"
 # sleaze clusterbomb: Deals <font color=blueviolet>Sleaze Damage</font> based on your highest stat
 # sleaze clusterbomb: (more effective against groups)
+Item	SLEEP(5) rom chip	Skill: "SLEEP(5)"
 Item	sleeping patriotic eagle	Free Pull
 Item	sleeping piano cat	Free Pull
 # slime stack: Deals 10-20% of a monster's current Hit Points in Physical Damage

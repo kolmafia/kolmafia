@@ -11817,15 +11817,15 @@
 11788	1	525329942	cr_1.gif	none	t,d	1
 11789	0	591340391	cr_0.gif	none	t,d	2
 11790	eXpand	312628661	pill4.gif	spleen, usable	t,d	10
-11791
+11791	brute force hammer	359346440	cr_hammer.gif	weapon	t,d	70
 11792	datastick	369282839	cr_datastick.gif	accessory	t,d	50
-11793
+11793	dedigitizer schematic: brute force hammer	478412494	cr_schematic.gif	none	t,d	20
 11794	dedigitizer schematic: malware injector	894160548	cr_schematic.gif	none	t,d	20
 11795	dedigitizer schematic: cybervisor	143214776	cr_schematic.gif	none	t,d	20
-11796
+11796	dedigitizer schematic: digibritches	142593078	cr_schematic.gif	none	t,d	20
 11797	dedigitizer schematic: cryptocloak	268491073	cr_schematic.gif	none	t,d	20
 11798	dedigitizer schematic: zero-trust tanktop	372175914	cr_schematic.gif	none	t,d	20
-11799
+11799	dedigitizer schematic: retro floppy disk	642758234	cr_schematic.gif	none	t,d	20
 11800	dedigitizer schematic: pocket GPU	339400989	cr_schematic.gif	none	t,d	20
 11801	dedigitizer schematic: trojan horseshoe	178644708	cr_schematic.gif	none	t,d	20
 11802	dedigitizer schematic: familiar-in-the-middle	945787713	cr_schematic.gif	none	t,d	20
@@ -11839,15 +11839,15 @@
 11810
 11811	logic grenade	782107563	cr_grenade.gif	none, combat	t,d	30
 11812	psilocyber mushroom	546956019	cr_shroom.gif	spleen, usable	t,d	10
-11813
+11813	dedigitizer schematic: SLEEP(5) rom chip	216913421	cr_schematic.gif	none	t,d	30
 11814
 11815
-11816
+11816	dedigitizer schematic: insignificant bit	872901303	cr_schematic.gif	none	t,d	30
 11817
 11818
 11819	dedigitizer schematic: geofencing shield	345860648	cr_schematic.gif	none	t,d	30
 11820	dedigitizer schematic: virtual cybertattoo	258125297	cr_schematic.gif	none	t,d	30
-11821
+11821	SLEEP(5) rom chip	745418066	cr_romchip.gif	usable	t	0
 11822
 11823
 11824
