@@ -476,6 +476,28 @@ public class RequestEditorKitTest {
     }
   }
 
+  @Nested
+  class RelayDecorations {
+    @Test
+    void decoratesNewAreaUnlocked() {
+      var buffer = new StringBuffer(html("request/test_place_mclargehuge_trapper_give_quest.html"));
+      RequestEditorKit.getFeatureRichHTML(
+          "place.php?whichplace=mclargehuge&action=trappercabin", buffer, true);
+      var contents = buffer.toString();
+      // This is not the best example of why we add links, since KoL
+      // itself shows you the updated Mt. McLargeHuge, but we add links
+      // to both locations, anyway.
+      assertThat(
+          contents,
+          containsString(
+              "<a class=nounder href=\"adventure.php?snarfblat=271\"><b>The Goatlet</b></a>"));
+      assertThat(
+          contents,
+          containsString(
+              "<a class=nounder href=\"adventure.php?snarfblat=270\"><b>Itznotyerzitz Mine</b>"));
+    }
+  }
+
   @Test
   void decoratesFightDec2024() {
     var html = html("request/test_fight_dec2024.html");
