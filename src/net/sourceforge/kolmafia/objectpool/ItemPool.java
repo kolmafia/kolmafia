@@ -3818,6 +3818,7 @@ public class ItemPool {
   public static final int SHERIFF_BADGE = 11668;
   public static final int SHERIFF_PISTOL = 11669;
   public static final int SHERIFF_MOUSTACHE = 11670;
+  public static final int PHOTO_BOOTH_SUPPLY_LIST = 11671;
   public static final int SPLIT_PEA_SOUP = 11685;
   public static final int TAKERSPACE_LETTER_OF_MARQUE = 11687;
   public static final int DEFT_PIRATE_HOOK = 11688;
@@ -3837,7 +3838,10 @@ public class ItemPool {
   public static final int PIRATE_DINGHY = 11705;
   public static final int ANCHOR_BOMB = 11706;
   public static final int SILKY_PIRATE_DRAWERS = 11707;
+  public static final int MILITARY_ORB = 11731;
+  public static final int SNOWMAN_ENCHANTING_TOPHAT = 11743;
   public static final int PUMPKIN_SPICE_WHORL = 11746;
+  public static final int EGG_GUN = 11772;
   public static final int CANDY_EGG_DEVILER = 11774;
   public static final int MCHUGELARGE_DUFFEL_BAG = 11783;
   public static final int MCHUGELARGE_LEFT_POLE = 11784;

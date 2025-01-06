@@ -111,6 +111,7 @@ Cast	Implode Universe	_universeImploded	[pref(skillLevel188)]
 Cast	Incite Riot	_peteRiotIncited
 Cast	Incredible Self-Esteem	_incredibleSelfEsteemCast
 Cast	Inigo's Incantation of Inspiration	_inigosCasts	5
+Cast	Iron Tricorn Headbutt	_ironTricornHeadbuttUsed	11
 Cast	Jump Shark	_peteJumpedShark	3
 Cast	KGB tranquilizer dart	_kgbTranquilizerDartUses	3
 Cast	Lash of the Cobra	_edLashCount	30
@@ -133,6 +134,7 @@ Cast	Peel Out	_petePeeledOut	[10+(pref(peteMotorbikeTires,Racing Slicks)*20)]
 Cast	Perfect Freeze	_perfectFreezeUsed
 Cast	Perpetrate Mild Evil	_mildEvilPerpetrated	3
 Cast	Pirate Bellow	_pirateBellowUsed
+Cast	Place your hat on their head	_snowmanHatPlaceUsed	3
 Cast	Portscan	_sourceTerminalPortscanUses	3
 Cast	Prelude of Precision	_precisionCasts	10
 Cast	Prevent Scurvy and Sobriety	_preventScurvy
