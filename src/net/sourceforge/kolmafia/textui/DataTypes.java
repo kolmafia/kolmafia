@@ -316,11 +316,18 @@ public class DataTypes {
       return DataTypes.ITEM_INIT;
     }
 
+    // If this is the name of an item exactly, return it
+    // We need to do this before checking numeric to match '1' and '0'
+    int itemId = ItemDatabase.getItemId(name, 1, false);
+    if (itemId != -1) {
+      return DataTypes.makeItemValue(itemId, true);
+    }
+
     // Allow for an item number to be specified
     // inside of the "item" construct.
 
     if (StringUtilities.isNumeric(name)) {
-      int itemId = StringUtilities.parseInt(name);
+      itemId = StringUtilities.parseInt(name);
       name = ItemDatabase.getItemDataName(itemId);
 
       if (name == null) {
@@ -331,7 +338,7 @@ public class DataTypes {
     }
 
     // Otherwise, let ItemDatabase parse the name using fuzzy matching.
-    int itemId = ItemDatabase.getItemId(name);
+    itemId = ItemDatabase.getItemId(name);
 
     if (itemId == -1 && resolveAliases) {
       AdventureResult item = new AdventureResult(name, itemId, 1, false);

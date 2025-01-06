@@ -1481,6 +1481,8 @@ user	skillBurn90	-100
 user	skillBurn153	-100
 user	skillBurn154	-100
 user	skillBurn155	-100
+user	skillBurn236	-100
+user	skillBurn237	-100
 user	skillBurn1019	-100
 user	skillBurn5017	-100
 user	skillBurn6014	-100

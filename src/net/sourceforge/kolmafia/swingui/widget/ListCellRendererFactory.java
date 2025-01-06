@@ -33,9 +33,9 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CafeRequest;
-import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
+import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 import net.sourceforge.kolmafia.session.EncounterManager.RegisteredEncounter;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.swingui.panel.GearChangePanel;
@@ -524,7 +524,7 @@ public class ListCellRendererFactory {
           if (costs.length == 1) {
             AdventureResult cost = costs[0];
             int count = cost.getCount();
-            String currency = purchaseRequest.getCurrency(count);
+            String currency = purchaseRequest.getCurrency(1);
             if (!currency.startsWith("(")) {
               stringForm.append(count);
               stringForm.append(" ");

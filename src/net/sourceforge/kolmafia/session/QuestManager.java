@@ -29,9 +29,7 @@ import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.*;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.AWOLQuartermasterRequest;
 import net.sourceforge.kolmafia.request.AdventureRequest;
-import net.sourceforge.kolmafia.request.BURTRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -40,6 +38,8 @@ import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
 import net.sourceforge.kolmafia.request.UpdateSuppressedRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.request.coinmaster.AWOLQuartermasterRequest;
+import net.sourceforge.kolmafia.request.coinmaster.BURTRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class QuestManager {
