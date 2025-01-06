@@ -2179,9 +2179,9 @@ leaviathan	2391	leaviathan.gif	FREE NOCOPY Scale: 25 Cap: ? Floor: ? HP: 2500 In
 Embering Hulk	2453	emberhulk.gif	NOCOPY Scale: 11 Cap: 10000 Floor: ? Init: -10000 P: elemental E: hot Article: an	embering hunk (c100)
 
 # CyberRealm (2025 IotY)
-redhat hacker	2454	cr_hothacker.gif	Atk: 10 Def: 0 HP: 100 Init: 300 P: dude ED: hot Article: a	logic grenade (0)
-greenhat hacker	2456	cr_stenchhacker.gif	Atk: 0 Def: 0 HP: 0 Init: 150 P: dude ED: stench Article: a	glitched malware (0)
-greyhat hacker	2458	cr_spookyhacker.gif	Atk: 0 Def: 0 HP: 0 Init: 100 P: dude ED: spooky Article: a	null-day exploit (0)
+redhat hacker	2454	cr_hothacker.gif	Atk: 10 Def: 0 HP: 100 Init: 300 P: dude ED: hot Article: a	logic grenade (15)
+greenhat hacker	2456	cr_stenchhacker.gif	Atk: 0 Def: 0 HP: 0 Init: 150 P: dude ED: stench Article: a	glitched malware (15)
+greyhat hacker	2458	cr_spookyhacker.gif	Atk: 0 Def: 0 HP: 0 Init: 100 P: dude ED: spooky Article: a	null-day exploit (15)
 
 firewall	2459	cr_hotwall.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct ED: hot Article: a
 ICE barrier	2460	cr_icewall.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct ED: cold Article: an
