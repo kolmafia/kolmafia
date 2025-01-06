@@ -1956,9 +1956,8 @@ public class RequestEditorKit extends HTMLEditorKit {
       case 579:
         // Such Great Heights
         if (option == 3) {
-          int index =
-              buffer.indexOf(
-                  "<p><a href=\"adventure.php?snarfblat=280\">Adventure Again (The Hidden Temple)</a>");
+          String adventureAgain = adventureAgainSection(AdventurePool.HIDDEN_TEMPLE);
+          int index = buffer.indexOf(adventureAgain);
           if (index == -1) {
             break;
           }
@@ -1985,9 +1984,8 @@ public class RequestEditorKit extends HTMLEditorKit {
       case 611:
         {
           // The Horror...
-          int index =
-              buffer.indexOf(
-                  "<p><a href=\"adventure.php?snarfblat=296\">Adventure Again (A-Boo Peak)</a>");
+          String adventureAgain = adventureAgainSection(AdventurePool.ABOO_PEAK);
+          int index = buffer.indexOf(adventureAgain);
           if (index == -1) {
             break;
           }
@@ -2224,6 +2222,14 @@ public class RequestEditorKit extends HTMLEditorKit {
     RequestEditorKit.addAdventureAgainSection(buffer, url, "Go to your El Vibrato portal");
   }
 
+  public static String adventureAgainSection(final int snarfblat) {
+    StringBuilder buf = new StringBuilder();
+    buf.append("<p><a href=\"adventure.php?snarfblat=");
+    buf.append(snarfblat);
+    buf.append("\" id='againlink'>");
+    return buf.toString();
+  }
+
   public static final void addAdventureAgainSection(
       final StringBuffer buffer, final String link, final String tag) {
     int index = buffer.indexOf("</center></td></tr><tr><td height=4></td></tr></table>");
@@ -2242,8 +2248,7 @@ public class RequestEditorKit extends HTMLEditorKit {
       return;
     }
 
-    String adventureAgain =
-        "<p><a href=\"adventure.php?snarfblat=" + AdventurePool.HAUNTED_BALLROOM + "\">";
+    String adventureAgain = adventureAgainSection(AdventurePool.HAUNTED_BALLROOM);
     int index = buffer.indexOf(adventureAgain);
     if (index == -1) {
       return;
