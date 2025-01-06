@@ -12279,6 +12279,7 @@ Item	panicked kernel	Free Pull
 Item	pantogram	Free Pull
 # paperclip sproinger: Stuns your opponent for a couple of rounds and deals 10-15 Physical Damage
 Item	paranormal ricotta	Class: "Pastamancer"
+Item	parity bit	Familiar Weight: +5
 Item	Party Planning on a Budget	Skill: "Budget Conscious"
 Item	passed-out psychedelic bear	Free Pull
 # patchouli incense stick: Weakens enemies a little bit

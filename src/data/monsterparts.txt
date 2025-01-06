@@ -2277,7 +2277,7 @@
 2454	redhat hacker	avatar	arm	head	leg	torso
 2455
 2456	greenhat hacker	avatar	arm	head	leg	torso
-2457
+2457	purplehat hacker	avatar	arm	head	leg	torso
 2458	greyhat hacker	avatar	arm	head	leg	torso
 2459	firewall	fire
 2460	ICE barrier	barrier

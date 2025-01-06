@@ -11233,7 +11233,7 @@
 11205	replica cotton candy cocoon	405092970	cccoccoon.gif	grow	q	0
 11206	replica Elvish sunglasses	238031926	elvisshades.gif	accessory	q	0
 11207	replica squamous polyp	554034719	polyp.gif	grow	q	0
-11208
+11208	replica floaty stone sphere	819748385	beholderegg.gif	grow	q	0
 11209	replica Greatest American Pants	676766688	gapants.gif	pants	q	0
 11210	replica organ grinder	799236688	grinder.gif	grow	q	0
 11211	replica Juju Mojo Mask	154667577	jujumask.gif	accessory	q	0
@@ -11813,7 +11813,6 @@
 11785	McHugeLarge right pole	282816137	skipole2.gif	weapon	q	0
 11786	McHugeLarge left ski	210105166	ski1.gif	accessory	q	0
 11787	McHugeLarge right ski	796918007	ski2.gif	accessory	q	0
-11787
 11788	1	525329942	cr_1.gif	none	t,d	1
 11789	0	591340391	cr_0.gif	none	t,d	2
 11790	eXpand	312628661	pill4.gif	spleen, usable	t,d	10
@@ -11835,26 +11834,26 @@
 11806	malware injector	891017174	syringe.gif	offhand	t,d	60
 11807	CyberRealm keycode	211842512	cr_keycode.gif	usable	t	0
 11808	server room key	865269521	cr_key.gif	none		0
-11809
-11810
+11809	3d printed server room key	411166757	cr_3dkey.gif	usable	t	0
+11810	dedigitizer schematic: 3d printed server room key	600797572	cr_schematic.gif	none	t,d	25
 11811	logic grenade	782107563	cr_grenade.gif	none, combat	t,d	30
 11812	psilocyber mushroom	546956019	cr_shroom.gif	spleen, usable	t,d	10
-11813	dedigitizer schematic: SLEEP(5) rom chip	216913421	cr_schematic.gif	none	t,d	30
+11813	dedigitizer schematic: SLEEP(5) rom chip	216913421	cr_schematic.gif	none	t	0
 11814
 11815
-11816	dedigitizer schematic: insignificant bit	872901303	cr_schematic.gif	none	t,d	30
+11816	dedigitizer schematic: insignificant bit	872901303	cr_schematic.gif	none	t	0
 11817
 11818
-11819	dedigitizer schematic: geofencing shield	345860648	cr_schematic.gif	none	t,d	30
-11820	dedigitizer schematic: virtual cybertattoo	258125297	cr_schematic.gif	none	t,d	30
+11819	dedigitizer schematic: geofencing shield	345860648	cr_schematic.gif	none	t	0
+11820	dedigitizer schematic: virtual cybertattoo	258125297	cr_schematic.gif	none	t	0
 11821	SLEEP(5) rom chip	745418066	cr_romchip.gif	usable	t	0
 11822
 11823
-11824
-11825
+11824	insignificant bit	979112735	cr_ibit.gif	grow	t	0
+11825	parity bit	827552498	cr_paritybit.gif	familiar	t,d	75
 11826
 11827
-11828	geofencing shield	517384017	cr_shield.gif	offhand	t,d	200
+11828	geofencing shield	517384017	cr_shield.gif	offhand	t	0
 11829	virtual cybertattoo	757337801	cr_tat.gif	usable	t	0
 11830	ninja rope	351796064	ninjarope.gif	none	q	0	coils of ninja rope
 11831	ninja crampons	876430936	crampons.gif	none	q	0

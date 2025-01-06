@@ -340,3 +340,4 @@
 308	golden pet rock	ts_goldrock.gif	none	golden pet rock		0	0	0	0
 309
 310	Profane Parrot	ts_parrot2.gif	block,combat1	sleeping profane parrot	profane eye patch	0	0	0	0
+311	Significant Bit	cr_sbit.gif	variable	insignificant bit	parity bit	0	0	0	0
