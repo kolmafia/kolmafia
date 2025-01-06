@@ -1165,7 +1165,7 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
     if (this.rootZone == null && this.zone != null) {
       this.rootZone = AdventureDatabase.getRootZone(this.zone);
     }
-    return this.rootZone == null ? "" : this.rootZone;
+    return this.rootZone;
   }
 
   @Override
@@ -1244,7 +1244,7 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
 
   public String accessible() {
     // Returns an error reason or null
-    if (this.getRootZone().equals("Removed")) {
+    if ("Removed".equals(this.getRootZone())) {
       return "Zone is no longer accessible";
     }
 
