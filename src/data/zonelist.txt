@@ -182,9 +182,6 @@ Events	Events	Events
 
 Twitch	Town	Time-Twitching Tower
 
-Crimbo24	Holiday	Christmas 2024
-Holiday Islands	Crimbo24	Holiday Islands
-
 # The following zones are all retired Events or Holidays
 
 Removed	Removed	Removed Areas
@@ -211,5 +208,7 @@ Tammy's Offshore Platform	Crimbo19	Crimbo 19 Underwater
 Crimbo21	Removed	Christmas 2021
 Crimbo22	Removed	Christmas 2022
 Crimbo23	Removed	Christmas 2023
+Crimbo24	Removed	Christmas 2024
+Holiday Islands	Crimbo24	Holiday Islands
 
 Obsolete	Removed	Retired zones
