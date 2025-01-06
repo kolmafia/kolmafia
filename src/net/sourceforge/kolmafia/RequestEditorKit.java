@@ -1987,7 +1987,7 @@ public class RequestEditorKit extends HTMLEditorKit {
           // The Horror...
           int index =
               buffer.indexOf(
-                  "<p><a href=\"adventure.php?snarfblat=296\">Adventure Again (A-Boo Peak)</a>");
+                  "<p><a href=\"adventure.php?snarfblat=296\" id='againlink'>Adventure Again (A-Boo Peak)</a>");
           if (index == -1) {
             break;
           }
