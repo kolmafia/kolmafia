@@ -791,14 +791,16 @@ public class RequestEditorKit extends HTMLEditorKit {
     buffer.insert(index + test.length(), link.getItemHTML());
   }
 
-  // <table  width=400  cellspacing=0 cellpadding=0><tr><td style="color: white;" align=center
-  // bgcolor=blue>f<b>New Area Unlocked</b></td></tr><tr><td style="padding: 5px; border: 1px solid
-  // blue;"><center><table><tr><td><center><table><tr><td valign=center><img
-  // src="http://images.kingdomofloathing.com/adventureimages/../otherimages/ocean/corrala.gif"></td><td valign=center class=small><b>The Coral Corral</b>, on <a class=nounder href=seafloor.php><b>The Sea Floor</b></a>.</td></tr></table></center></td></tr></table></center></td></tr><tr><td height=4></td></tr></table>
+  // <table  width=400  cellspacing=0 cellpadding=0><tr><td style="background-color: blue"
+  // align=center ><b style="color: white">New Area Unlocked</b></td></tr><tr><td style="padding:
+  // 5px; border: 1px solid blue;"><center><table><tr><td><center><table><tr><td valign=center><img
+  // src="https://d2uyhvukfffg5a.cloudfront.net/adventureimages/biggoat.gif"></td><td valign=center
+  // class=small><b>The Goatlet</b>, on <a href=place.php?whichplace=mclargehuge><b>Mt.
+  // McLargeHuge</b></a>.</td></tr></table>
 
   private static final Pattern NEW_LOCATION_PATTERN =
       Pattern.compile(
-          "<table.*?<b>New Area Unlocked</b>.*?(<img[^>]*>).*?(<b>(.*?)</b>)", Pattern.DOTALL);
+          "<table.*?<b.*?>New Area Unlocked</b>.*?(<img[^>]*>).*?(<b>(.*?)</b>)", Pattern.DOTALL);
 
   public static final void addNewLocationLinks(final StringBuffer buffer) {
     if (buffer.indexOf("New Area Unlocked") == -1) {
@@ -1954,9 +1956,8 @@ public class RequestEditorKit extends HTMLEditorKit {
       case 579:
         // Such Great Heights
         if (option == 3) {
-          int index =
-              buffer.indexOf(
-                  "<p><a href=\"adventure.php?snarfblat=280\">Adventure Again (The Hidden Temple)</a>");
+          String adventureAgain = adventureAgainSection(AdventurePool.HIDDEN_TEMPLE);
+          int index = buffer.indexOf(adventureAgain);
           if (index == -1) {
             break;
           }
@@ -1983,9 +1984,8 @@ public class RequestEditorKit extends HTMLEditorKit {
       case 611:
         {
           // The Horror...
-          int index =
-              buffer.indexOf(
-                  "<p><a href=\"adventure.php?snarfblat=296\">Adventure Again (A-Boo Peak)</a>");
+          String adventureAgain = adventureAgainSection(AdventurePool.ABOO_PEAK);
+          int index = buffer.indexOf(adventureAgain);
           if (index == -1) {
             break;
           }
@@ -2222,6 +2222,14 @@ public class RequestEditorKit extends HTMLEditorKit {
     RequestEditorKit.addAdventureAgainSection(buffer, url, "Go to your El Vibrato portal");
   }
 
+  public static String adventureAgainSection(final int snarfblat) {
+    StringBuilder buf = new StringBuilder();
+    buf.append("<p><a href=\"adventure.php?snarfblat=");
+    buf.append(snarfblat);
+    buf.append("\" id='againlink'>");
+    return buf.toString();
+  }
+
   public static final void addAdventureAgainSection(
       final StringBuffer buffer, final String link, final String tag) {
     int index = buffer.indexOf("</center></td></tr><tr><td height=4></td></tr></table>");
@@ -2240,8 +2248,7 @@ public class RequestEditorKit extends HTMLEditorKit {
       return;
     }
 
-    String adventureAgain =
-        "<p><a href=\"adventure.php?snarfblat=" + AdventurePool.HAUNTED_BALLROOM + "\">";
+    String adventureAgain = adventureAgainSection(AdventurePool.HAUNTED_BALLROOM);
     int index = buffer.indexOf(adventureAgain);
     if (index == -1) {
       return;

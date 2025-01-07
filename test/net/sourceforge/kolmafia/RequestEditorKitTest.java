@@ -2,7 +2,9 @@ package net.sourceforge.kolmafia;
 
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withEquipped;
+import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withNextMonster;
+import static internal.helpers.Player.withPasswordHash;
 import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
@@ -472,6 +474,47 @@ public class RequestEditorKitTest {
         assertThat(
             modifiers,
             containsInAnyOrder("appendimg:adventureimages\\/ol_drunk.gif:0:0", "floating"));
+      }
+    }
+  }
+
+  @Nested
+  class RelayDecorations {
+    @Test
+    void decoratesNewAreaUnlocked() {
+      var buffer = new StringBuffer(html("request/test_place_mclargehuge_trapper_give_quest.html"));
+      RequestEditorKit.getFeatureRichHTML(
+          "place.php?whichplace=mclargehuge&action=trappercabin", buffer, true);
+      var contents = buffer.toString();
+      // This is not the best example of why we add links, since KoL
+      // itself shows you the updated Mt. McLargeHuge, but we add links
+      // to both locations, anyway.
+      assertThat(
+          contents,
+          containsString(
+              "<a class=nounder href=\"adventure.php?snarfblat=271\"><b>The Goatlet</b></a>"));
+      assertThat(
+          contents,
+          containsString(
+              "<a class=nounder href=\"adventure.php?snarfblat=270\"><b>Itznotyerzitz Mine</b>"));
+    }
+
+    @Test
+    void decoratesABooPeakTheHorror() {
+      var cleanups =
+          new Cleanups(
+              withProperty("relayShowSpoilers", true),
+              withItem(ItemPool.BOO_CLUE),
+              withPasswordHash("BOO"));
+      try (cleanups) {
+        var buffer = new StringBuffer(html("request/test_aboo_peak_flee_the_horror.html"));
+        RequestEditorKit.getFeatureRichHTML("choice.php?whichchoice=611&option=2", buffer, true);
+        var contents = buffer.toString();
+        var expected =
+            "<a href=\"javascript:singleUse('inv_use.php','which=3&whichitem="
+                + ItemPool.BOO_CLUE
+                + "&pwd=BOO&ajax=1');void(0);\">Use another A-Boo Clue</a>";
+        assertThat(contents, containsString(expected));
       }
     }
   }

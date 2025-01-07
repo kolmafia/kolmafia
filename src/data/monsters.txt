@@ -2179,20 +2179,21 @@ leaviathan	2391	leaviathan.gif	FREE NOCOPY Scale: 25 Cap: ? Floor: ? HP: 2500 In
 Embering Hulk	2453	emberhulk.gif	NOCOPY Scale: 11 Cap: 10000 Floor: ? Init: -10000 P: elemental E: hot Article: an	embering hunk (c100)
 
 # CyberRealm (2025 IotY)
-redhat hacker	2454	cr_hothacker.gif	Atk: 10 Def: 0 HP: 100 Init: 300 P: dude ED: hot Article: a	logic grenade (15)
-greenhat hacker	2456	cr_stenchhacker.gif	Atk: 0 Def: 0 HP: 0 Init: 150 P: dude ED: stench Article: a	glitched malware (15)
-greyhat hacker	2458	cr_spookyhacker.gif	Atk: 0 Def: 0 HP: 0 Init: 100 P: dude ED: spooky Article: a	null-day exploit (15)
+redhat hacker	2454	cr_hothacker.gif	Scale: 9 Init: 300 P: dude ED: hot Article: a	logic grenade (15)
+greenhat hacker	2456	cr_stenchhacker.gif	Scale: 9 Init: 150 P: dude ED: stench Article: a	glitched malware (15)
+purplehat hacker	2457	cr_sleazehacker.gif	Scale: 9 Init: 200 P: dude ED: sleaze Article: a	digital honeypot (15)
+greyhat hacker	2458	cr_spookyhacker.gif	Scale: 9 Init: 100 P: dude ED: spooky Article: a	null-day exploit (15)
 
-firewall	2459	cr_hotwall.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct ED: hot Article: a
-ICE barrier	2460	cr_icewall.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct ED: cold Article: an
-parental controls	2462	cr_sleazewall.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct ED: sleaze Article: some
-null container	2463	cr_spookywall.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct ED: spooky
+firewall	2459	cr_hotwall.gif	Scale: 9 Init: -10000 P: construct ED: hot Article: a
+ICE barrier	2460	cr_icewall.gif	Scale: 9 Init: -10000 P: construct ED: cold Article: an
+parental controls	2462	cr_sleazewall.gif	Scale: 9 Init: -10000 P: construct ED: sleaze Article: some
+null container	2463	cr_spookywall.gif	Scale: 9 Init: -10000 P: construct ED: spooky
 
-zombie process	2470	cr_zombie.gif	Atk: 0 Def: 0 HP: 0 Init: -10000 P: construct Article: a
-botfly	2471	cr_fly.gif	Atk: 0 Def: 0 HP: 0 Init: 250 P: construct Article: a
-network worm	2472	cr_worm.gif	Atk: 0 Def: 0 HP: 0 Init: 150 P: construct Article: a
-ICE man	2473	cr_iceman.gif	Atk: 0 Def: 0 HP: 0 Init: 50 P: construct Article: an
-rat (remote access trojan)	2474	cr_rat.gif	Atk: 0 Def: 0 HP: 0 Init: 200 P: construct Article: a
+zombie process	2470	cr_zombie.gif	Scale: 9 Init: -10000 P: construct Article: a
+botfly	2471	cr_fly.gif	Scale: 9 Init: 250 P: construct Article: a
+network worm	2472	cr_worm.gif	Scale: 9 Init: 150 P: construct Article: a
+ICE man	2473	cr_iceman.gif	Scale: 9 Init: 50 P: construct Article: an
+rat (remote access trojan)	2474	cr_rat.gif	Scale: 9 Init: 200 P: construct Article: a
 
 # KoL Con
 

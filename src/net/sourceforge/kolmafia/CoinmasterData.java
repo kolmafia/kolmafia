@@ -14,6 +14,7 @@ import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -54,6 +55,7 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   private Pattern tokenPattern = null;
   private AdventureResult item = null;
   private String property = null;
+  private String zone = null;
 
   // For (old style) Coinmasters that deal with "rows", a map from item id to row number
   private Map<Integer, Integer> itemRows = null;
@@ -90,6 +92,7 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   public String pluralToken = null;
   private AdventureResult tokenItem = null;
   private Set<AdventureResult> currencies = null;
+  private String rootZone = null;
 
   // Functional fields to obviate overriding methods
   private Function<Integer, Integer> getBuyPrice = this::getBuyPriceInternal;
@@ -714,6 +717,11 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
         .withCountPattern(GenericRequest.QUANTITY_PATTERN);
   }
 
+  public CoinmasterData inZone(String zone) {
+    this.zone = zone;
+    return this;
+  }
+
   // Getters for mandatory fields
 
   public final String getMaster() {
@@ -1153,6 +1161,13 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
     ConcoctionPool.set(new Concoction(this.token, this.property));
   }
 
+  public String getRootZone() {
+    if (this.rootZone == null && this.zone != null) {
+      this.rootZone = AdventureDatabase.getRootZone(this.zone);
+    }
+    return this.rootZone;
+  }
+
   @Override
   public String toString() {
     return this.master;
@@ -1229,6 +1244,9 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
 
   public String accessible() {
     // Returns an error reason or null
+    if ("Removed".equals(this.getRootZone())) {
+      return "Zone is no longer accessible";
+    }
 
     Class<? extends CoinMasterRequest> requestClass = this.getRequestClass();
     Class<?>[] parameters = new Class<?>[0];
