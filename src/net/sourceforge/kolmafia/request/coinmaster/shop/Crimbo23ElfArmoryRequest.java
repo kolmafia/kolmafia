@@ -17,6 +17,7 @@ public class Crimbo23ElfArmoryRequest extends CoinMasterRequest {
 
   public static final CoinmasterData DATA =
       new CoinmasterData(master, "crimbo23_elf_armory", Crimbo23ElfArmoryRequest.class)
+          .inZone("Crimbo23")
           .withToken("Elf Army machine parts")
           .withTokenTest("no piles of Elf Army machine parts")
           .withItem(TOKEN)
