@@ -90,6 +90,7 @@ public class BanishManager {
     FEEL_HATRED("Feel Hatred", 50, 1, true, Reset.TURN_ROLLOVER_RESET),
     GINGERBREAD_RESTRAINING_ORDER(
         "gingerbread restraining order", -1, 1, false, Reset.ROLLOVER_RESET),
+    GLITCHED_MALWARE("Deploy Glitched Malware", -1, 1, false, Reset.ROLLOVER_RESET),
     HAROLDS_BELL("harold's bell", 20, 1, false, Reset.TURN_RESET),
     HOWL_OF_THE_ALPHA("howl of the alpha", -1, 3, false, Reset.AVATAR_RESET),
     HUMAN_MUSK("human musk", -1, 1, true, Reset.ROLLOVER_RESET),
