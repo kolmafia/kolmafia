@@ -10753,7 +10753,7 @@
 10725	bowl full of jelly	410129132	soupbowl.gif	food	t	0	bowls full of jelly
 10726	Eye and a Twist	475434554	eyemartini.gif	drink	t	0
 10727	Chubby and Plump bar	452862469	chubbybar.gif	potion, candy1	t	0
-10728	digibritches	997574636	cr_pants.gif	pants	t,d	75
+10728	digibritches	997574636	cr_pants.gif	pants	t,d	75	pairs of digibritches
 10729	packaged miniature crystal ball	347350648	famballbox.gif	usable	t	0
 10730	miniature crystal ball	320248255	famball.gif	familiar		0
 10731	fresh can of paint	689133733	freshcan.gif	usable	t	0	fresh cans of paint
@@ -11219,11 +11219,11 @@
 11191	replica hand turkey outline	643478560	hand.gif	grow	q	0
 11192	replica crimbo elfling	258450480	elfling.gif	grow	q	0
 11193	replica pygmy bugbear shaman	899612550	familiar39.gif	grow	q	0
-11194	dedigitizer schematic: cyburger	651736319	cr_schematic.gif	none	t,d	20
+11194	dedigitizer schematic: cyburger	651736319	cr_schematic.gif	none	t,d	20	dedigitizer schematics for cyburgers
 11195	replica miniature gravy-covered maypole	436493832	maypole.gif	familiar	q	0
 11196	replica wax lips	673520346	waxlips.gif	familiar	q	0
 11197	replica Tome of Snowcone Summoning	329232343	book.gif	usable	q	0
-11198	dedigitizer schematic: cybeer	691441855	cr_schematic.gif	none	t,d	20
+11198	dedigitizer schematic: cybeer	691441855	cr_schematic.gif	none	t,d	20	dedigitizer schematics for cybeer
 11199	replica jewel-eyed wizard hat	244839212	wizhat.gif	hat	q	0
 11200	replica bottle-rocket crossbow	503354088	brcrossbow.gif	weapon	q	0
 11201	replica navel ring of navel gazing	974079701	navelring.gif	accessory	q	0
@@ -11249,7 +11249,7 @@
 11221	replica Order of the Green Thumb Order Form	957859985	floristform.gif	usable	q	0
 11222	shrink-wrapped Cincho de Mayo	539769549	cinchobox.gif	usable	t	0	shrink-wrapped Cinchos de Mayo
 11223	Cincho de Mayo	408302806	cincho.gif	accessory		0	Cinchos de Mayo
-11224	dedigitizer schematic: psilocyber mushroom	435408848	cr_schematic.gif	none	t,d	20
+11224	dedigitizer schematic: psilocyber mushroom	435408848	cr_schematic.gif	none	t,d	20	dedigitizer schematics for psilocyber mushrooms
 11225	replica Little Geneticist DNA-Splicing Lab	634830887	genelab.gif	usable	q	0
 11226	replica still grill	476730920	stillgrill.gif	grow	q	0
 11227	replica Crimbo sapling	841170076	crimbosapling.gif	grow	q	0
@@ -11562,8 +11562,8 @@
 11534
 11535	petrified wood wafer praline	544944743	pwoodcandy.gif	potion, usable, candy	t,d	15
 11536	cybeer	356688730	cr_beer.gif	drink	t,d	10
-11537
-11538	wired underwear	672663785	cr_undies.gif	pants	t,d	40
+11537	ICEbox	740625826	cr_icebox.gif	usable	t,d	10	ICEboxes
+11538	wired underwear	672663785	cr_undies.gif	pants	t,d	40	pairs of wired underwear
 11539	encrypted shuriken	702660236	shuriken.gif	weapon	t,d	45
 11540	baby chest mimic	584086799	mimicbaby.gif	grow	t	0
 11541	googly chest eyes	343119773	eyes.gif	familiar	t	0
@@ -11703,7 +11703,7 @@
 11675	peaza	503542763	pto_pizza.gif	food	t,d	21
 11676	peace shooter	535806162	pto_shooter.gif	none, combat	t,d	11
 11677	drenchrome 2.0	251345444	pill3.gif	spleen, usable	t,d	10
-11678	Synapse Blaster	442975201	pill2.gif	spleen, usable	t,d	10
+11678	Synapse Blaster	442975201	pill2.gif	spleen, usable	t,d	10	Synapse Blaster pills
 11679	quantized familiar	258736001	qflarva.gif	grow		0
 11680	quantum watch	757870628	qfwatch.gif	familiar	t,d	37
 11681	quantized familiar experience	829423278	qfexp.gif	usable	t,d	11
@@ -11818,16 +11818,16 @@
 11790	eXpand	312628661	pill4.gif	spleen, usable	t,d	10
 11791	brute force hammer	359346440	cr_hammer.gif	weapon	t,d	70
 11792	datastick	369282839	cr_datastick.gif	accessory	t,d	50
-11793	dedigitizer schematic: brute force hammer	478412494	cr_schematic.gif	none	t,d	20
-11794	dedigitizer schematic: malware injector	894160548	cr_schematic.gif	none	t,d	20
-11795	dedigitizer schematic: cybervisor	143214776	cr_schematic.gif	none	t,d	20
-11796	dedigitizer schematic: digibritches	142593078	cr_schematic.gif	none	t,d	20
-11797	dedigitizer schematic: cryptocloak	268491073	cr_schematic.gif	none	t,d	20
-11798	dedigitizer schematic: zero-trust tanktop	372175914	cr_schematic.gif	none	t,d	20
-11799	dedigitizer schematic: retro floppy disk	642758234	cr_schematic.gif	none	t,d	20
-11800	dedigitizer schematic: pocket GPU	339400989	cr_schematic.gif	none	t,d	20
-11801	dedigitizer schematic: trojan horseshoe	178644708	cr_schematic.gif	none	t,d	20
-11802	dedigitizer schematic: familiar-in-the-middle	945787713	cr_schematic.gif	none	t,d	20
+11793	dedigitizer schematic: brute force hammer	478412494	cr_schematic.gif	none	t,d	20	dedigitizer schematics for brute force hammers
+11794	dedigitizer schematic: malware injector	894160548	cr_schematic.gif	none	t,d	20	dedigitizer schematics for malware injectors
+11795	dedigitizer schematic: cybervisor	143214776	cr_schematic.gif	none	t,d	20	dedigitizer schematics for cybervisors
+11796	dedigitizer schematic: digibritches	142593078	cr_schematic.gif	none	t,d	20	dedigitizer schematics for digibritches
+11797	dedigitizer schematic: cryptocloak	268491073	cr_schematic.gif	none	t,d	20	dedigitizer schematics for cryptocloaks
+11798	dedigitizer schematic: zero-trust tanktop	372175914	cr_schematic.gif	none	t,d	20	dedigitizer schematics for zero-trust tanktops
+11799	dedigitizer schematic: retro floppy disk	642758234	cr_schematic.gif	none	t,d	20	dedigitizer schematics for retro floppy disks
+11800	dedigitizer schematic: pocket GPU	339400989	cr_schematic.gif	none	t,d	20	dedigitizer schematics for pocket GPUs
+11801	dedigitizer schematic: trojan horseshoe	178644708	cr_schematic.gif	none	t,d	20	dedigitizer schematics for trojan horseshoes
+11802	dedigitizer schematic: familiar-in-the-middle	945787713	cr_schematic.gif	none	t,d	20	dedigitizer schematics for familiar-in-the-middle
 11803	cybervisor	963774009	cr_visor.gif	hat	t,d	60
 11804	retro floppy disk	720399346	cr_floppy.gif	accessory	t,d	50
 11805	pocket GPU	921523852	cr_gpu.gif	accessory	t,d	75
@@ -11835,17 +11835,17 @@
 11807	CyberRealm keycode	211842512	cr_keycode.gif	usable	t	0
 11808	server room key	865269521	cr_key.gif	none		0
 11809	3d printed server room key	411166757	cr_3dkey.gif	usable	t	0
-11810	dedigitizer schematic: 3d printed server room key	600797572	cr_schematic.gif	none	t,d	25
+11810	dedigitizer schematic: 3d printed server room key	600797572	cr_schematic.gif	none	t,d	25	dedigitizer schematics for 3d printed server room
 11811	logic grenade	782107563	cr_grenade.gif	none, combat	t,d	30
 11812	psilocyber mushroom	546956019	cr_shroom.gif	spleen, usable	t,d	10
-11813	dedigitizer schematic: SLEEP(5) rom chip	216913421	cr_schematic.gif	none	t	0
-11814	dedigitizer schematic: OVERCLOCK(10) rom chip	288551586	cr_schematic.gif	none	t	0
+11813	dedigitizer schematic: SLEEP(5) rom chip	216913421	cr_schematic.gif	none	t	0	dedigitizer schematics for SLEEP(5) rom chips
+11814	dedigitizer schematic: OVERCLOCK(10) rom chip	288551586	cr_schematic.gif	none	t	0	dedigitizer schematics for OVERCLOCK(10) rom chips
 11815
-11816	dedigitizer schematic: insignificant bit	872901303	cr_schematic.gif	none	t	0
+11816	dedigitizer schematic: insignificant bit	872901303	cr_schematic.gif	none	t	0	dedigitizer schematics for insignificant bits
 11817
 11818
-11819	dedigitizer schematic: geofencing shield	345860648	cr_schematic.gif	none	t	0
-11820	dedigitizer schematic: virtual cybertattoo	258125297	cr_schematic.gif	none	t	0
+11819	dedigitizer schematic: geofencing shield	345860648	cr_schematic.gif	none	t	0	dedigitizer schematics for geofencing shields
+11820	dedigitizer schematic: virtual cybertattoo	258125297	cr_schematic.gif	none	t	0	dedigitizer schematics for virtual cybertattoos
 11821	SLEEP(5) rom chip	745418066	cr_romchip.gif	usable	t	0
 11822	OVERCLOCK(10) rom chip	659892010	cr_romchip.gif	usable	t	0
 11823
