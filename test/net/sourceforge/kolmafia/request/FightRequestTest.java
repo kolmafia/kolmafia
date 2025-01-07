@@ -3154,4 +3154,17 @@ public class FightRequestTest {
       }
     }
   }
+
+  @Test
+  public void canDetectGlitchedMalwareBanish() {
+    var cleanups = new Cleanups(withFight(), withBanishedMonsters(""));
+
+    try (cleanups) {
+      parseCombatData(
+          "request/test_fight_glitched_malware.html", "fight.php?action=skill&whichskill=7548");
+
+      assertThat(
+          "banishedMonsters", hasStringValue(startsWith("network worm:Deploy Glitched Malware:")));
+    }
+  }
 }

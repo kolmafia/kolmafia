@@ -10521,6 +10521,12 @@ public class FightRequest extends GenericRequest {
           skillSuccess = true;
         }
       }
+      case SkillPool.DEPLOY_GLITCHED_MALWARE -> {
+        if (responseText.contains("You infect") || skillSuccess) {
+          BanishManager.banishCurrentMonster(Banisher.GLITCHED_MALWARE);
+          skillSuccess = true;
+        }
+      }
     }
 
     if (skillSuccess || skillRunawaySuccess || familiarSkillSuccess) {
