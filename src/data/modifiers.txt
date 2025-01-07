@@ -8662,7 +8662,7 @@ Skill	Sinister Charm	Floor Buffed Moxie: "Mysticality", Maximum HP: -15
 Skill	Skin of the Leatherback	Damage Reduction: [max(1,ceil(L/2))]
 # Skullcracker: +100% Brain Drops from Monsters
 # Skullcracker: Critical hits occasionally stun opponents
-# SLEEP(5): 5 Free Rests
+Skill	SLEEP(5)	Free Rests: 5
 Skill	Slimy Shoulders	Initiative: [pref(skillLevel48)*2]
 Skill	Slimy Sinews	Maximum HP: [pref(skillLevel46)*2]
 Skill	Slimy Synapses	Maximum MP: [pref(skillLevel47)]
@@ -12248,6 +12248,7 @@ Item	orphan baby yeti	Free Pull
 # Oscus's neverending soda: Restores 200-300 MP
 # Oscus's neverending soda: (doesn't go away when used)
 Item	Our Daily Candles&trade; order form	Free Pull
+Item	OVERCLOCK(10) rom chip	Skill: "OVERCLOCK(10)"
 # overflowing gift basket: Produces a random food item (1x/day)
 # overloaded micro-reactor: Deals 300 Physical Damage
 # oversized snowflake: Stuns your opponent for a few rounds
