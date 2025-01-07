@@ -16,6 +16,7 @@ public class Crimbo23ElfCafeRequest extends CoinMasterRequest {
 
   public static final CoinmasterData DATA =
       new CoinmasterData(master, "crimbo23_elf_cafe", Crimbo23ElfCafeRequest.class)
+          .inZone("Crimbo23")
           .withToken("Elf Guard MPC")
           .withTokenTest("no Elf Guard MPCs")
           .withTokenPattern(TOKEN_PATTERN)

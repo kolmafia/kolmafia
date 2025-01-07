@@ -7,6 +7,7 @@ import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withZonelessCoinmaster;
 import static internal.helpers.Player.withoutCoinmasterBuyItem;
 import static internal.helpers.Player.withoutCoinmasterSellItem;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -98,6 +99,7 @@ public class CoinMasterRequestTest {
               withHttpClientBuilder(builder),
               withPath(Path.STANDARD),
               withDisabledCoinmaster(Crimbo23ElfArmoryRequest.DATA),
+              withZonelessCoinmaster(Crimbo23ElfArmoryRequest.DATA),
               withProperty("crimbo23ArmoryControl", "elf"));
       try (cleanups) {
         client.addResponse(200, html("request/test_armory_elf_visit.html"));
@@ -141,6 +143,7 @@ public class CoinMasterRequestTest {
                   Crimbo23ElfArmoryRequest.DATA, ItemPool.get(ItemPool.KELFLAR_VEST)),
               withoutCoinmasterBuyItem(
                   Crimbo23ElfArmoryRequest.DATA, ItemPool.get(ItemPool.ELF_GUARD_HONOR_PRESENT)),
+              withZonelessCoinmaster(Crimbo23ElfArmoryRequest.DATA),
               withProperty("crimbo23ArmoryControl", "elf"));
       try (cleanups) {
         client.addResponse(200, html("request/test_armory_elf_visit.html"));
@@ -195,6 +198,7 @@ public class CoinMasterRequestTest {
           new Cleanups(
               withHttpClientBuilder(builder),
               withPath(Path.STANDARD),
+              withZonelessCoinmaster(Crimbo23ElfArmoryRequest.DATA),
               withProperty("crimbo23ArmoryControl", "elf"),
               withItem(ItemPool.ELF_GUARD_COMMANDEERING_GLOVES, 14),
               withItem(ItemPool.KELFLAR_VEST, 25),
@@ -231,6 +235,7 @@ public class CoinMasterRequestTest {
           new Cleanups(
               withHttpClientBuilder(builder),
               withPath(Path.STANDARD),
+              withZonelessCoinmaster(Crimbo23ElfArmoryRequest.DATA),
               withProperty("crimbo23ArmoryControl", "elf"),
               withItem(ItemPool.ELF_GUARD_COMMANDEERING_GLOVES, 14),
               withItem(ItemPool.KELFLAR_VEST, 25),
@@ -268,6 +273,7 @@ public class CoinMasterRequestTest {
           new Cleanups(
               withHttpClientBuilder(builder),
               withPath(Path.STANDARD),
+              withZonelessCoinmaster(Crimbo23ElfArmoryRequest.DATA),
               withProperty("crimbo23ArmoryControl", "elf"),
               withItem(ItemPool.ELF_GUARD_HONOR_PRESENT, 0),
               withItem(ItemPool.ELF_ARMY_MACHINE_PARTS, 277));
@@ -314,6 +320,7 @@ public class CoinMasterRequestTest {
           new Cleanups(
               withHttpClientBuilder(builder),
               withPath(Path.STANDARD),
+              withZonelessCoinmaster(Crimbo23ElfArmoryRequest.DATA),
               withProperty("crimbo23ArmoryControl", "elf"),
               withItem(ItemPool.ELF_GUARD_HONOR_PRESENT, 0),
               withItem(ItemPool.ELF_ARMY_MACHINE_PARTS, 277));
@@ -361,6 +368,7 @@ public class CoinMasterRequestTest {
           new Cleanups(
               withHttpClientBuilder(builder),
               withPath(Path.STANDARD),
+              withZonelessCoinmaster(Crimbo23ElfArmoryRequest.DATA),
               withProperty("crimbo23ArmoryControl", "elf"),
               withItem(ItemPool.ELF_GUARD_COMMANDEERING_GLOVES, 14),
               withItem(ItemPool.ELF_ARMY_MACHINE_PARTS, 49));
@@ -408,6 +416,7 @@ public class CoinMasterRequestTest {
           new Cleanups(
               withHttpClientBuilder(builder),
               withPath(Path.STANDARD),
+              withZonelessCoinmaster(Crimbo23ElfArmoryRequest.DATA),
               withProperty("crimbo23ArmoryControl", "elf"),
               withItem(ItemPool.ELF_GUARD_COMMANDEERING_GLOVES, 14),
               withItem(ItemPool.ELF_ARMY_MACHINE_PARTS, 49));

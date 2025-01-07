@@ -611,21 +611,6 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     panel.add(warbearBoxPanel);
     this.selectorPanel.addPanel(warbearBoxPanel.getPanelSelector(), panel);
 
-    panel = new JPanel(new BorderLayout());
-    crimbo24BarPanel = new Crimbo24BarPanel();
-    panel.add(crimbo24BarPanel);
-    this.selectorPanel.addPanel(crimbo24BarPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    crimbo24CafePanel = new Crimbo24CafePanel();
-    panel.add(crimbo24CafePanel);
-    this.selectorPanel.addPanel(crimbo24CafePanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    crimbo24FactoryPanel = new Crimbo24FactoryPanel();
-    panel.add(crimbo24FactoryPanel);
-    this.selectorPanel.addPanel(crimbo24FactoryPanel.getPanelSelector(), panel);
-
     // Removed coinmasters
     this.selectorPanel.addSeparator();
     this.selectorPanel.addCategory("Removed");
@@ -714,6 +699,21 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     crimbo23PirateFactoryPanel = new Crimbo23PirateFactoryPanel();
     panel.add(crimbo23PirateFactoryPanel);
     this.selectorPanel.addPanel(crimbo23PirateFactoryPanel.getPanelSelector(), panel);
+
+    panel = new JPanel(new BorderLayout());
+    crimbo24BarPanel = new Crimbo24BarPanel();
+    panel.add(crimbo24BarPanel);
+    this.selectorPanel.addPanel(crimbo24BarPanel.getPanelSelector(), panel);
+
+    panel = new JPanel(new BorderLayout());
+    crimbo24CafePanel = new Crimbo24CafePanel();
+    panel.add(crimbo24CafePanel);
+    this.selectorPanel.addPanel(crimbo24CafePanel.getPanelSelector(), panel);
+
+    panel = new JPanel(new BorderLayout());
+    crimbo24FactoryPanel = new Crimbo24FactoryPanel();
+    panel.add(crimbo24FactoryPanel);
+    this.selectorPanel.addPanel(crimbo24FactoryPanel.getPanelSelector(), panel);
 
     this.selectorPanel.addChangeListener(this);
     this.selectorPanel.setSelectedIndex(Preferences.getInteger("coinMasterIndex"));
