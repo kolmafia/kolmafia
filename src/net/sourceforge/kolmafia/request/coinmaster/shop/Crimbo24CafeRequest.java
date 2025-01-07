@@ -10,6 +10,7 @@ public class Crimbo24CafeRequest extends CoinMasterRequest {
 
   public static final CoinmasterData DATA =
       new CoinmasterData(master, "crimbo24_cafe", Crimbo24CafeRequest.class)
+          .inZone("Crimbo24")
           .withNewShopRowFields(master, "crimbo24_cafe")
           .withNeedsPasswordHash(true);
 
@@ -41,10 +42,6 @@ public class Crimbo24CafeRequest extends CoinMasterRequest {
 
     // Parse current coin balances
     CoinMasterRequest.parseBalance(data, responseText);
-  }
-
-  public static String accessible() {
-    return "Crimbo Island has faded into the mists.";
   }
 
   public static final boolean registerRequest(final String urlString) {
