@@ -17,6 +17,7 @@ public class Crimbo23PirateArmoryRequest extends CoinMasterRequest {
 
   public static final CoinmasterData DATA =
       new CoinmasterData(master, "crimbo23_pirate_armory", Crimbo23PirateArmoryRequest.class)
+          .inZone("Crimbo23")
           .withToken("Crimbuccaneer flotsam")
           .withTokenTest("no piles of Crimbuccaneer flotsam")
           .withItem(TOKEN)

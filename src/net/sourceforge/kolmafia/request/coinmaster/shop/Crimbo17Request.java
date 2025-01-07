@@ -17,6 +17,7 @@ public class Crimbo17Request extends CoinMasterRequest {
 
   public static final CoinmasterData CRIMBO17 =
       new CoinmasterData(master, "crimbo17", Crimbo17Request.class)
+          .inZone("Crimbo17")
           .withToken("crystalline cheer")
           .withTokenTest("no crystalline cheer")
           .withTokenPattern(CHEER_PATTERN)

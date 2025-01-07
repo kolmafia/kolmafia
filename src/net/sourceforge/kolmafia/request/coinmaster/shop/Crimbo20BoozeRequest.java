@@ -17,6 +17,7 @@ public class Crimbo20BoozeRequest extends CoinMasterRequest {
 
   public static final CoinmasterData CRIMBO20BOOZE =
       new CoinmasterData(master, "crimbo20booze", Crimbo20BoozeRequest.class)
+          .inZone("Crimbo20")
           .withToken("donated booze")
           .withTokenTest("no boxes of donated booze")
           .withTokenPattern(TOKEN_PATTERN)
@@ -72,10 +73,6 @@ public class Crimbo20BoozeRequest extends CoinMasterRequest {
 
     // Parse current coin balances
     CoinMasterRequest.parseBalance(data, responseText);
-  }
-
-  public static String accessible() {
-    return "Crimbo is gone";
   }
 
   public static final boolean registerRequest(final String urlString) {

@@ -23,6 +23,7 @@ public class Crimbo11Request extends CoinMasterRequest {
 
   public static final CoinmasterData CRIMBO11 =
       new CoinmasterData(master, "crimbo11", Crimbo11Request.class)
+          .inZone("Crimbo11")
           .withToken("Candy Credit")
           .withTokenPattern(TOKEN_PATTERN)
           .withProperty("availableCandyCredits")
@@ -225,9 +226,5 @@ public class Crimbo11Request extends CoinMasterRequest {
     }
 
     return CoinMasterRequest.registerRequest(CRIMBO11, urlString);
-  }
-
-  public static String accessible() {
-    return "Candy Credits are no longer exchangeable";
   }
 }
