@@ -1161,8 +1161,15 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
     ConcoctionPool.set(new Concoction(this.token, this.property));
   }
 
+  public String getZone() {
+    return this.zone;
+  }
+
   public String getRootZone() {
-    if (this.rootZone == null && this.zone != null) {
+    if (this.zone == null) {
+      // Reset, for testing
+      this.rootZone = null;
+    } else if (this.rootZone == null) {
       this.rootZone = AdventureDatabase.getRootZone(this.zone);
     }
     return this.rootZone;
