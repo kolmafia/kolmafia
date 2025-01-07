@@ -617,6 +617,7 @@ public class SkillPool {
   public static final int MCHUGELARGE_STAB = 7539;
   public static final int MCHUGELARGE_AVALANCHE = 7540;
   public static final int MCHUGELARGE_SKI_PLOW = 7539;
+  public static final int DEPLOY_GLITCHED_MALWARE = 7548;
 
   public static final int GOOD_SINGING_VOICE = 11016;
   public static final int BANISHING_SHOUT = 11020;
