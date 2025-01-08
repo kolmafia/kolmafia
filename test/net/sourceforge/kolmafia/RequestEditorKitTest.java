@@ -17,6 +17,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.CryptManager;
@@ -514,6 +515,26 @@ public class RequestEditorKitTest {
             "<a href=\"javascript:singleUse('inv_use.php','which=3&whichitem="
                 + ItemPool.BOO_CLUE
                 + "&pwd=BOO&ajax=1');void(0);\">Use another A-Boo Clue</a>";
+        assertThat(contents, containsString(expected));
+      }
+    }
+
+    @Test
+    void decoratesHauntedBallroomRottingMatilda() {
+      var cleanups =
+          new Cleanups(
+              withProperty("relayShowSpoilers", true),
+              withItem(ItemPool.DANCE_CARD),
+              withPasswordHash("DANCE"));
+      try (cleanups) {
+        var buffer = new StringBuffer(html("request/test_haunted_ballroom_rotting_matilda.html"));
+        RequestEditorKit.getFeatureRichHTML(
+            "adventure.php?snarfblat=" + AdventurePool.HAUNTED_BALLROOM, buffer, true);
+        var contents = buffer.toString();
+        var expected =
+            "<a href=\"javascript:singleUse('inv_use.php','which=3&whichitem="
+                + ItemPool.DANCE_CARD
+                + "&pwd=DANCE&ajax=1');void(0);\">Use another dance card</a>";
         assertThat(contents, containsString(expected));
       }
     }
