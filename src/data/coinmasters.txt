@@ -1293,3 +1293,12 @@ Sept-Ember Censer	buy	2	Septapus summoning charm	ROW1513
 Sept-Ember Censer	buy	2	throwin' ember	ROW1519
 Sept-Ember Censer	buy	4	structural ember	ROW1514
 Sept-Ember Censer	buy	6	miniature Embering Hulk	ROW1511
+
+The Dedigitizer	ROW1560	wired underwear	1 (8)
+The Dedigitizer	ROW1559	encrypted shuriken	1 (16)
+The Dedigitizer	ROW1558	visual packet sniffer	1 (16)
+The Dedigitizer	ROW1577	synthetic coffee	1 (8)	0 (8)
+The Dedigitizer	ROW1578	iDrops	1 (16)	0 (16)
+The Dedigitizer	ROW1567	cybeer	1 (32)	dedigitizer schematic: cybeer
+The Dedigitizer	ROW1563	zero-trust tanktop	1 (32)	0 (32)	dedigitizer schematic: zero-trust tanktop
+The Dedigitizer	ROW1574	geofencing rapier	1 (256)	dedigitizer schematic: geofencing rapier

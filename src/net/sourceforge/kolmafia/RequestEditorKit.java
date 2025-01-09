@@ -309,6 +309,7 @@ public class RequestEditorKit extends HTMLEditorKit {
       StationaryButtonDecorator.decorate(location, buffer);
       RequestEditorKit.fixBallroom2(buffer);
       RequestEditorKit.fixGovernmentLab(buffer);
+      RequestEditorKit.fixCyberRealm(buffer);
     } else if (location.startsWith("ascend.php")) {
       ValhallaDecorator.decorateGashJump(location, buffer);
     } else if (location.startsWith("ascensionhistory.php")) {
@@ -349,6 +350,7 @@ public class RequestEditorKit extends HTMLEditorKit {
       StationaryButtonDecorator.decorate(location, buffer);
       RequestEditorKit.addChoiceSpoilers(location, buffer, addComplexFeatures);
       RequestEditorKit.addBarrelSounds(buffer);
+      RequestEditorKit.fixCyberRealm(buffer);
     } else if (location.startsWith("clan_hobopolis.php")) {
       HobopolisDecorator.decorate(location, buffer);
     } else if (location.startsWith("clan_viplounge.php?preaction=testlove")) {
@@ -365,6 +367,7 @@ public class RequestEditorKit extends HTMLEditorKit {
 
       RequestEditorKit.suppressInappropriateNags(buffer);
       RequestEditorKit.suppressPowerPixellation(buffer);
+      RequestEditorKit.fixCyberRealm(buffer);
       RequestEditorKit.fixTavernCellar(buffer);
 
       // Decorate end of fight before stationary buttons
@@ -1087,6 +1090,54 @@ public class RequestEditorKit extends HTMLEditorKit {
       buffer.insert(
           buffer.indexOf("</head>"),
           "<script>var ocrs = [" + replacementModifierString + "];</script>");
+    }
+  }
+
+  /*
+  <link rel="stylesheet" href="https://unpkg.com/fixedsys-css/css/fixedsys.css">
+  <style>
+  	* { font-family: 'fixedsys', "Fixedsys", monospace !important; font-size: 1.05rem; }
+  	img { opacity: 0}
+  	img.cybered { opacity: 1}
+  	.actionbar img  { opacity: 1; filter: invert(0.8); }
+  	.actionbar img.cybered  { opacity: 1; filter: invert(0); }
+  	select, body{ background-color: black; color: green; }
+  	body { margin-top: 8px; }
+  	td{ background-color: black; color: green; }
+  	input.button, button.button, .button { background-color: black; color: green; border: 1px solid green; font-size: 1.05rem }
+  	a, a:link, a:visited, a:active {color: green; }
+  	b {color: green; }
+  	.spacer { background-color: black !important; }
+  	td.page { background-color: black !important; }
+  </style>
+   */
+
+  private static final Pattern CYBER_REALM_DARK_MODE_PATTERN =
+      Pattern.compile(
+          "<link rel=\"stylesheet\" href=\"https://unpkg.com/fixedsys-css/css/fixedsys.css\">.*?<style>.*?</style>",
+          Pattern.DOTALL);
+  private static final Pattern SCRIPT_PATTERN =
+      Pattern.compile("<script.*?</script>", Pattern.DOTALL);
+
+  protected static void fixCyberRealm(final StringBuffer buffer) {
+    boolean suppressDarkMode = Preferences.getBoolean("suppressCyberRealmDarkMode");
+    if (suppressDarkMode) {
+      Matcher darkMatcher = CYBER_REALM_DARK_MODE_PATTERN.matcher(buffer);
+      if (darkMatcher.find()) {
+        StringUtilities.singleStringReplace(buffer, darkMatcher.group(0), "");
+      }
+    }
+
+    boolean suppressGreenImages = Preferences.getBoolean("suppressCyberRealmGreenImages");
+    if (suppressGreenImages) {
+      Matcher scriptMatcher = SCRIPT_PATTERN.matcher(buffer);
+      while (scriptMatcher.find()) {
+        String text = scriptMatcher.group(0);
+        if (text.contains("cyberit = function ()")) {
+          StringUtilities.singleStringReplace(buffer, text, "");
+          break;
+        }
+      }
     }
   }
 
