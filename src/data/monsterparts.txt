@@ -2291,7 +2291,7 @@
 2468	Boiling Cloud	cloud	fog	steam	wisp
 2470	zombie process	arm	head	leg	torso
 2471	botfly	body	eye	leg	proboscis	wing
-2472	network worm	head	leg	leg
+2472	network worm	head	leg	leg	leg	tail
 2473	ICE man	head	leg	shield	torso
 2474	rat (remote access trojan)	one	ones	zero	zeroes
 2475	feral bunny	ear	head	paw	tail
