@@ -2146,11 +2146,11 @@
 2258	Luggage-Handling Trainbot	arm	chassis	face	rack
 2259	Ticket-Checking Trainbot	chassis	claw	scanner
 2260	Table-Waiting Trainbot	housing	tray	wheels
-2261	Wine-Pairing Trainbot	arm	housing	leg
+2261	Wine-Pairing Trainbot	arm	housing	leg	tray
 2262	Table-Bussing Trainbot	chassis	servo-actuator	wheel
-2263	Coal-Shoveling Trainbot	arm	pedestal	shovel
-2264	Slag-Processing Trainbot	crucible	slagspout
-2265	Steam-Routing Trainbot	chassis	tube	vent
+2263	Coal-Shoveling Trainbot	arm	chassis	pedestal	shovel
+2264	Slag-Processing Trainbot	chassis	crucible	slagspout
+2265	Steam-Routing Trainbot	chassis	pipe	tube	vent
 2266	The Superconductor
 2267	Moleman	arm	butt	claw	leg	snout
 2268	Met	foot	helmet
@@ -2289,9 +2289,10 @@
 2466	Colonel Brando	arm	body	head	leg
 2467	Jedediah	arm	body	hat	head	leg
 2468	Boiling Cloud	cloud	fog	steam	wisp
+2469	"Santa Claus"	arm	beard	belly	head	leg
 2470	zombie process	arm	head	leg	torso
 2471	botfly	body	eye	leg	proboscis	wing
-2472	network worm	head	leg	leg
+2472	network worm	head	leg	leg	leg	tail
 2473	ICE man	head	leg	shield	torso
 2474	rat (remote access trojan)	one	ones	zero	zeroes
 2475	feral bunny	ear	head	paw	tail
