@@ -2289,6 +2289,7 @@
 2466	Colonel Brando	arm	body	head	leg
 2467	Jedediah	arm	body	hat	head	leg
 2468	Boiling Cloud	cloud	fog	steam	wisp
+2469	"Santa Claus"	arm	beard	belly	head	leg
 2470	zombie process	arm	head	leg	torso
 2471	botfly	body	eye	leg	proboscis	wing
 2472	network worm	head	leg	leg	leg	tail
