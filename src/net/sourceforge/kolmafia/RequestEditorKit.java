@@ -2278,7 +2278,8 @@ public class RequestEditorKit extends HTMLEditorKit {
       return;
     }
 
-    int index = buffer.indexOf("<p><a href=\"adventure.php?snarfblat=395\">");
+    String adventureAgain = adventureAgainSection(AdventurePool.HAUNTED_BALLROOM);
+    int index = buffer.indexOf(adventureAgain);
     if (index == -1) {
       return;
     }

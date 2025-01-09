@@ -1452,18 +1452,18 @@
 1451	buy	ceramic celsiturometer	Armory & Leggery
 1452	buy	ceramic cerecloth belt	Armory & Leggery
 1453	buy	ceramic cenobite's robe	Armory & Leggery
-1454
-1455
-1456
-1457
-1458
-1459
-1460
-1461
-1462
-1463
-1464
-1465
+1454	buy	moss mace	Armory & Leggery
+1455	buy	moss megaphone	Armory & Leggery
+1456	buy	moss medal	Armory & Leggery
+1457	buy	moss mitre	Armory & Leggery
+1458	buy	moss mantle	Armory & Leggery
+1459	buy	moss marlinspike	Armory & Leggery
+1460	buy	adobe arsecover	Armory & Leggery
+1461	buy	adobe adze	Armory & Leggery
+1462	buy	adobe abacus	Armory & Leggery
+1463	buy	adobe ayam	Armory & Leggery
+1464	buy	adobe ascot	Armory & Leggery
+1465	buy	adobe abaya	Armory & Leggery
 1466
 1467	conc	biphasic molecular oculus	TINKERING_BENCH
 1468	conc	triphasic molecular oculus	TINKERING_BENCH

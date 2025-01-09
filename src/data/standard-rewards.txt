@@ -109,18 +109,18 @@
 11023	2023	hard	SA	ROW1451	ceramic celsiturometer
 11024	2023	hard	DB	ROW1452	ceramic cerecloth belt
 11025	2023	hard	AT	ROW1453	ceramic cenobite's robe
-11504	2024	norm	SC	UNKNOWN	moss mace
-11505	2024	norm	TT	UNKNOWN	moss megaphone
-11506	2024	norm	PA	UNKNOWN	moss medal
-11507	2024	norm	SA	UNKNOWN	moss mitre
-11508	2024	norm	DB	UNKNOWN	moss mantle
-11509	2024	norm	AT	UNKNOWN	moss marlinspike
-11512	2024	hard	SC	UNKNOWN	adobe arsecover
-11513	2024	hard	TT	UNKNOWN	adobe adze
-11514	2024	hard	PA	UNKNOWN	adobe abacus
-11515	2024	hard	SA	UNKNOWN	adobe ayam
-11516	2024	hard	DB	UNKNOWN	adobe ascot
-11517	2024	hard	AT	UNKNOWN	adobe abaya
+11504	2024	norm	SC	ROW1454	moss mace
+11505	2024	norm	TT	ROW1455	moss megaphone
+11506	2024	norm	PA	ROW1456	moss medal
+11507	2024	norm	SA	ROW1457	moss mitre
+11508	2024	norm	DB	ROW1458	moss mantle
+11509	2024	norm	AT	ROW1459	moss marlinspike
+11512	2024	hard	SC	ROW1460	adobe arsecover
+11513	2024	hard	TT	ROW1461	adobe adze
+11514	2024	hard	PA	ROW1462	adobe abacus
+11515	2024	hard	SA	ROW1463	adobe ayam
+11516	2024	hard	DB	ROW1464	adobe ascot
+11517	2024	hard	AT	ROW1465	adobe abaya
 11520	2025	norm	SC	UNKNOWN	crepe paper phrygian cap
 11521	2025	norm	TT	UNKNOWN	crepe paper parachute cape
 11522	2025	norm	PA	UNKNOWN	crepe paper pie clip

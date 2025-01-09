@@ -220,6 +220,11 @@ public class StandardRewardDatabase {
     }
 
     StandardPulverized pulverized = pulverizedByItemid.get(currency);
+    if (pulverized == null) {
+      RequestLogger.printLine(
+          "currency '" + reward.currency() + "' is not registered yet as a currency.");
+      return null;
+    }
 
     int itemId = reward.itemId();
     String itemName = reward.itemName();
