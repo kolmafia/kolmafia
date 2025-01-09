@@ -540,6 +540,52 @@ public class RequestEditorKitTest {
     }
   }
 
+  @Nested
+  class CyberRealm {
+    @Test
+    void decorationControlledBySettings() {
+      var cleanups =
+          new Cleanups(
+              withProperty("suppressCyberRealmDarkMode", false),
+              withProperty("suppressCyberRealmGreenImages", false));
+      try (cleanups) {
+        var buffer = new StringBuffer(html("request/test_fight_cyberrealm.html"));
+        RequestEditorKit.getFeatureRichHTML("fight.php", buffer, true);
+        var contents = buffer.toString();
+        assertTrue(contents.contains("fixedsys"));
+        assertTrue(contents.contains("cyberit"));
+      }
+    }
+
+    @Test
+    void canSuppressDarkMode() {
+      var cleanups =
+          new Cleanups(
+              withProperty("suppressCyberRealmDarkMode", true),
+              withProperty("suppressCyberRealmGreenImages", false));
+      try (cleanups) {
+        var buffer = new StringBuffer(html("request/test_fight_cyberrealm.html"));
+        RequestEditorKit.getFeatureRichHTML("fight.php", buffer, true);
+        var contents = buffer.toString();
+        assertFalse(contents.contains("fixedsys"));
+      }
+    }
+
+    @Test
+    void canSuppressGreenImages() {
+      var cleanups =
+          new Cleanups(
+              withProperty("suppressCyberRealmDarkMode", false),
+              withProperty("suppressCyberRealmGreenImages", true));
+      try (cleanups) {
+        var buffer = new StringBuffer(html("request/test_fight_cyberrealm.html"));
+        RequestEditorKit.getFeatureRichHTML("fight.php", buffer, true);
+        var contents = buffer.toString();
+        assertFalse(contents.contains("cyberit"));
+      }
+    }
+  }
+
   @Test
   void decoratesFightDec2024() {
     var html = html("request/test_fight_dec2024.html");

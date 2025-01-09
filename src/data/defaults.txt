@@ -1610,6 +1610,8 @@ user	sugarCounter4191	0
 user	summonAnnoyanceCost	11
 user	superconductorDefeated	false
 user	superficiallyInterestedMonster
+user	suppressCyberRealmDarkMode	false
+user	suppressCyberRealmGreenImages	false
 user	suppressInappropriateNags	false
 user	suppressPowerPixellation	false
 user	suppressMallPriceCacheMessages	true
