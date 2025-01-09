@@ -4194,8 +4194,7 @@ public abstract class ChoiceControl {
           Preferences.setInteger(
               "_pirateRealmShipSpeed",
               switch (ChoiceManager.lastDecision) {
-                case 1, // a comment
-                    2 -> 7;
+                case 1, 2 -> 7;
                 case 3 -> 6;
                 case 4 -> 4;
                 case 5 -> 9;
@@ -7539,18 +7538,12 @@ public abstract class ChoiceControl {
         }
       }
 
-        // The Prince's Ball (In the Restroom)
-      case 822,
-          // The Prince's Ball (On the Dance Floor)
-          823,
-          // The Prince's Ball (The Kitchen)
-          824,
-          // The Prince's Ball (On the Balcony)
-          825,
-          // The Prince's Ball (The Lounge)
-          826,
-          // The Prince's Ball (At the Canapés Table)
-          827,
+      case 822, // The Prince's Ball (In the Restroom)
+          823, // The Prince's Ball (On the Dance Floor)
+          824, // The Prince's Ball (The Kitchen)
+          825, // The Prince's Ball (On the Balcony)
+          826, // The Prince's Ball (The Lounge)
+          827, // The Prince's Ball (At the Canapés Table)
           // stepmother
           829,
           // We all wear masks
@@ -8833,8 +8826,7 @@ public abstract class ChoiceControl {
         BurningLeavesRequest.visitChoice(text);
       }
 
-      case 1512, // a comment
-          1513 -> {
+      case 1512, 1513 -> {
         if (text.contains("don't even think about pressing that button")) {
           Preferences.setString(
               "_automatedFutureSide", ChoiceManager.lastChoice == 1512 ? "bearings" : "solenoids");
