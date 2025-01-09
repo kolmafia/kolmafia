@@ -11559,7 +11559,7 @@
 11531	petrified wood water purifier	791540752	pwoodpurifier.gif	offhand		0
 11532	petrified wood whoopie panama	439261300	pwoodhat.gif	hat		0
 11533	petrified wood walking pants	587162395	pwoodpants.gif	pants		0	pairs of petrified wood walking/pacing pants
-11534
+11534	petrified wood waste parts	230241539	pwoodbits.gif	spleen, usable		0
 11535	petrified wood wafer praline	544944743	pwoodcandy.gif	potion, usable, candy	t,d	15
 11536	cybeer	356688730	cr_beer.gif	drink	t,d	10
 11537	ICEbox	740625826	cr_icebox.gif	usable	t,d	10	ICEboxes
