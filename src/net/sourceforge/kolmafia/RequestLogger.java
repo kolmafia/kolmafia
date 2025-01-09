@@ -54,6 +54,7 @@ import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo23PirateFactoryReq
 import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo24BarRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo24CafeRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo24FactoryRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.DedigitizerRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.DinostaurRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.DinseyCompanyStoreRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.DiscoGiftCoRequest;
@@ -1169,6 +1170,12 @@ public class RequestLogger extends NullStream {
 
     if ((isExternal || request instanceof CurseRequest)
         && CurseRequest.registerRequest(urlString)) {
+      RequestLogger.wasLastRequestSimple = false;
+      return;
+    }
+
+    if ((isExternal || request instanceof DedigitizerRequest)
+        && DedigitizerRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }

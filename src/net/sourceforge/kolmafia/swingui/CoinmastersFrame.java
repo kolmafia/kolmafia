@@ -78,6 +78,7 @@ import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo23PirateFactoryReq
 import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo24BarRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo24CafeRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo24FactoryRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.DedigitizerRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.DinostaurRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.DinseyCompanyStoreRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.DiscoGiftCoRequest;
@@ -177,6 +178,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
   private CoinmasterPanel crimbo24CafePanel = null;
   private CoinmasterPanel crimbo24FactoryPanel = null;
   private CoinmasterPanel crimboCartelPanel = null;
+  private CoinmasterPanel dedigitizerPanel = null;
   private CoinmasterPanel dimemasterPanel = null;
   private CoinmasterPanel dinostaurPanel = null;
   private CoinmasterPanel dinseyCompanyStorePanel = null;
@@ -366,6 +368,11 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     bigBrotherPanel = new BigBrotherPanel();
     panel.add(bigBrotherPanel);
     this.selectorPanel.addPanel(bigBrotherPanel.getPanelSelector(), panel);
+
+    panel = new JPanel(new BorderLayout());
+    dedigitizerPanel = new DedigitizerPanel();
+    panel.add(dedigitizerPanel);
+    this.selectorPanel.addPanel(dedigitizerPanel.getPanelSelector(), panel);
 
     panel = new JPanel(new BorderLayout());
     terrifiedEagleInnPanel = new TerrifiedEagleInnPanel();
@@ -1025,6 +1032,37 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
   private class BigBrotherPanel extends CoinmasterPanel {
     public BigBrotherPanel() {
       super(BigBrotherRequest.BIG_BROTHER);
+    }
+  }
+
+  private class DedigitizerPanel extends CoinmasterPanel {
+    private static AdventureResult ONE = ItemPool.get(ItemPool.ONE);
+    private static AdventureResult ZERO = ItemPool.get(ItemPool.ZERO);
+
+    public DedigitizerPanel() {
+      super(DedigitizerRequest.DATA);
+    }
+
+    @Override
+    public void setTitle(final StringBuffer buffer) {
+      this.standardTitle(buffer);
+
+      // Only show 0's and 1's. Everything also requires a schematic,
+      // but there are 27 of them and the title will be cluttered. Rows
+      // will be greyed out if you don't have the required schematic
+
+      int count1 = InventoryManager.getCount(ONE);
+      buffer.append(" (");
+      buffer.append(count1);
+      buffer.append(" ");
+      buffer.append(ONE.getPluralName(count1));
+      buffer.append(")");
+      int count0 = InventoryManager.getCount(ZERO);
+      buffer.append(" (");
+      buffer.append(count0);
+      buffer.append(" ");
+      buffer.append(ZERO.getPluralName(count0));
+      buffer.append(")");
     }
   }
 
