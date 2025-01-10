@@ -11843,7 +11843,7 @@
 11815	dedigitizer schematic: STATS+++ rom chip	545699097	cr_schematic.gif	none	t	0	dedigitizer schematics for STATS+++ rom chips
 11816	dedigitizer schematic: insignificant bit	872901303	cr_schematic.gif	none	t	0	dedigitizer schematics for insignificant bits
 11817	dedigitizer schematic: hashing vise	586616920	cr_schematic.gif	none	t	0	dedigitizer schematics for hashing vises
-11818	dedigitizer schematic: geofencing rapier	422685388	cr_schematic.gif	none	t	0	dedigitizer schematic for geofencing rapiers
+11818	dedigitizer schematic: geofencing rapier	422685388	cr_schematic.gif	none	t	0	dedigitizer schematics for geofencing rapiers
 11819	dedigitizer schematic: geofencing shield	345860648	cr_schematic.gif	none	t	0	dedigitizer schematics for geofencing shields
 11820	dedigitizer schematic: virtual cybertattoo	258125297	cr_schematic.gif	none	t	0	dedigitizer schematics for virtual cybertattoos
 11821	SLEEP(5) rom chip	745418066	cr_romchip.gif	usable	t	0
