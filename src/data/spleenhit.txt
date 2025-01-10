@@ -29,8 +29,8 @@ ancient protein powder	1	1	good	0	12-14	0	0
 antimatter wad	2	3	awesome	5-7	-20-30	-20-30	-20-30
 antique bottle of cough syrup	1	6	awesome	0	0	18-20	0	10 The Q Is Talking To You (+10% mys)
 armored prawn	1	1	EPIC	0	30-50	30-50	30-50	50 Rushtacean' (+50 Init)
-[5140]astral energy drink	8	1	awesome	29-35	0	0	0
 [10883]astral energy drink	5	1		0	0	0	0	Lucky!
+[5140]astral energy drink	8	1	awesome	29-35	0	0	0
 astronaut ice-cream	1	7	EPIC	8-10	0	0	0
 autumn breeze	1	1		0	30-50	30-50	30-50	50 Delighted by Autumn (+100% all stats)
 bakelite bits	3	12	awesome	0	1000-2000	1000-2000	1000-2000
@@ -68,6 +68,7 @@ cold wad	1	6	good	0	50-60	30-40	10-20	20 Cold Blooded (+30% mus, +20% mys, +10% 
 concentrated cooking	1	1		0	0	0	0	10 Cooking Concentrate (Cook things without costing a turn)
 concentrated magicalness pill	1	2	decent	0	0	5-7	0
 cosmic paste	4	4	good	5-10	18-22	18-22	18-22	10 Cosmic Flavor (+10% critical spell)
+crepe paper pared cuttings	3	12		0	0	0	0	Unspaded
 Crimbeau de toilette	1	1	awesome	0	20	20	20	Unspaded, 50 Crimbeau'd (+10 familiar weight, +25 item drop, +50 meat drop)
 Crimbo paste	4	4	good	5-10	18-22	18-22	18-22	10 Crimbo Flavor (+30 spell dmg)
 cuppa Activi tea	2	1	decent	3-5	8-10	8-10	8-10
@@ -132,10 +133,10 @@ industrial lubricant	1	1	awesome	0	0	0	0	30 Industrially Lubricated (+150 init)
 Instant Karma	5	13	EPIC	20-25	60-70	60-70	60-70
 jug-o-magicalness	1	3	good	0	0	8-10	0
 kelp	1	1	good	0	10-20	10-20	10-20	50 Does a Body Good (+60 max hp, +30 max mp, +10 dr)
-Knob Goblin pet-buffing spray	1	1	good	0	0	0	0	30 Heavy Petting (+5 familiar weight, -10% all stats)
-Knob Goblin learning pill	1	1	good	0	0	0	0	30 Big Veiny Brain (+3 stats/fight, -10% meat drop, -5% item drop)
 Knob Goblin eyedrops	1	1	good	0	0	0	0	30 Peeled Eyeballs (+20% item drop, -30% meat drop, -1 stats/fight)
+Knob Goblin learning pill	1	1	good	0	0	0	0	30 Big Veiny Brain (+3 stats/fight, -10% meat drop, -5% item drop)
 Knob Goblin nasal spray	1	1	good	0	0	0	0	30 Wasabi Sinuses (+40% meat drop, -20% item drop, -1 stats/fight)
+Knob Goblin pet-buffing spray	1	1	good	0	0	0	0	30 Heavy Petting (+5 familiar weight, -10% all stats)
 lavender paisley oyster egg	1	1	awesome	0	0	11-15	11-15
 lavender polka-dot oyster egg	1	1	awesome	0	0	0	22-30
 lavender striped oyster egg	1	1	awesome	0	11-15	0	11-15
@@ -147,9 +148,9 @@ lucky-ish pill	1	7		0	0	0	0	Get Lucky!
 lustrous oyster egg	1	5	EPIC	0	0	0	0	50 Lustre After Wealth (+50% meat drop)
 magicalness-in-a-can	1	1	crappy	0	0	1-3	0
 magnificent oyster egg	1	5	EPIC	0	50-60	0	0	20 Eggstraordinary Strength (+5 mus stats/fight)
+Mansquito Serum	1	2	awesome	0	20-40	20-40	20-40	400 More Mansquito Than Man (+100 HP, +100% HP, 20-40 HP regen)
 marble molecules	3	1	awesome	0	0	0	0	Unspaded
 Mariner's Friend cough drops	1	1	good	0	10-12	0	0
-Mansquito Serum	1	2	awesome	0	20-40	20-40	20-40	400 More Mansquito Than Man (+100 HP, +100% HP, 20-40 HP regen)
 mauve paisley oyster egg	1	1	awesome	0	0	22-30	0
 mauve polka-dot oyster egg	1	1	awesome	0	0	11-15	11-15
 mauve striped oyster egg	1	1	awesome	0	11-15	11-15	0
@@ -166,8 +167,8 @@ mummified loaf of bread	3	1	awesome	11-13	5-10	5-10	5-10
 mushroom tea	1	1	good	0	10-20	10-20	10-20	50 Mush-Maw (+20 ml, +10 combat rate)
 nasty snuff	1	4	decent	1-2	15-30	15-30	15-30
 Nightmare Fuel	1	1	crappy	0	0	0	0	Add Free Campground Rest
-not-a-pipe	4	4	good	4-12	20-30	20-30	20-30
 non-Euclidean angle	1	1	awesome	0	0	0	0	30 Different Way of Seeing Things (+50 mys experience)
+not-a-pipe	4	4	good	4-12	20-30	20-30	20-30
 octolus oculus	1	4	decent	2	0	0	15-30
 off-white paisley oyster egg	1	1	awesome	0	0	11-15	0	20 Eggs-tra Sensory Perception (+10% item drop)
 off-white polka-dot oyster egg	1	1	awesome	0	0	0	11-15	20 Eggs-tra Sensory Perception (+10% item drop)
@@ -181,6 +182,7 @@ Party-in-a-Can&trade;	1	4	crappy	0	1-50	1-50	1-50	50 Party on Your Skin (+50% HP
 patent antipsychotics	1	1	good	0	0	10-12	0
 pearlescent oyster egg	1	5	EPIC	0	0	0	0	50 Pearly Vision (+25% item drop)
 penguin paste	4	4	good	5-10	18-22	18-22	18-22	10 Penguinny Flavor (cold dmg/res)
+petrified wood waste parts	3	12		0	0	0	0	Unspaded
 pewter shavings	1	4	good	0	0	0	0	100 Pewtershot (+250 DA, +25 DR)
 pirate paste	4	4	good	5-10	18-22	18-22	18-22	10 Piratey Flavor (+5% critical)
 polyesterene powder	2	1	good	5	0	0	0
@@ -220,15 +222,15 @@ stench jelly	1	1	crappy	0	15-20	15-20	15-20	50 Stench Jellied (+30 item drop, +5
 stench wad	1	6	good	0	30-40	50-60	10-20	20 Stenchtastic (+30% mys, +20% mus, +10% mox, stench dmg/res)
 strange paste	4	4	good	5-10	18-22	18-22	18-22	10 Weird Flavor (???)
 strongness elixir	1	1	crappy	0	1-3	0	0
-super-sweet fish goo (spoiled)	5	1	decent	0	0	0	0
 suntan lotion of moxiousness	1	3	good	0	0	0	8-10
+super-sweet fish goo (spoiled)	5	1	decent	0	0	0	0
+sweat-ade	4	1	crappy	0	0	0	0	+5 PvP fights
 Synapse Blaster	1	1		0	0	0	0	Unspaded
 synthetic marrow	1	1	EPIC	0	30-40	0	0
-sweat-ade	4	1	crappy	0	0	0	0	+5 PvP fights
 terra cotta tidbits	3	8	awesome	0	0	0	0	Unspaded
 The Author's ink	1	4	awesome	0	0	0	0	200 It's a Good Life! (+10 stat gain, +200% all)
-The Inquisitor's unidentifiable object	1	6	EPIC	0	50-100	50-100	50-100	100 The Inquisitor's Unknown Effect (+10 fam weight, +25 DR, +100% init, +100% meat, +100% item, +100% MP, +100% weapon dmg, +200% spell dmg)
 the funk	1	1	EPIC	0	0	0	30-40
+The Inquisitor's unidentifiable object	1	6	EPIC	0	50-100	50-100	50-100	100 The Inquisitor's Unknown Effect (+10 fam weight, +25 DR, +100% init, +100% meat, +100% item, +100% MP, +100% weapon dmg, +200% spell dmg)
 thermos of brew	2	1	good	3-5	25-40	25-40	25-40	LWA ring (1 time)
 transdermal smoke patch	1	5	good	2-3	-10-15	-10-15	-10-15
 tube of hair oil	1	6	awesome	0	0	0	18-20	10 Got Your Boots On (+10% mox)

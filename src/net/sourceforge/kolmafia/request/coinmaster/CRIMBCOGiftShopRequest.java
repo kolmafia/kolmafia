@@ -15,6 +15,7 @@ public class CRIMBCOGiftShopRequest extends CoinMasterRequest {
 
   public static final CoinmasterData CRIMBCO_GIFT_SHOP =
       new CoinmasterData(master, "CRIMBCO", CRIMBCOGiftShopRequest.class)
+          .inZone("Crimbo10")
           .withToken("CRIMBCO scrip")
           .withTokenTest("You don't have any CRIMBCO scrip")
           .withTokenPattern(TOKEN_PATTERN)
@@ -75,9 +76,5 @@ public class CRIMBCOGiftShopRequest extends CoinMasterRequest {
     }
 
     return CoinMasterRequest.registerRequest(CRIMBCO_GIFT_SHOP, urlString);
-  }
-
-  public static String accessible() {
-    return "The CRIMBCO Gift Shop is not available";
   }
 }

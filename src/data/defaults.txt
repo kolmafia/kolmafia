@@ -1610,6 +1610,8 @@ user	sugarCounter4191	0
 user	summonAnnoyanceCost	11
 user	superconductorDefeated	false
 user	superficiallyInterestedMonster
+user	suppressCyberRealmDarkMode	false
+user	suppressCyberRealmGreenImages	false
 user	suppressInappropriateNags	false
 user	suppressPowerPixellation	false
 user	suppressMallPriceCacheMessages	true
@@ -2154,6 +2156,7 @@ user	_interviewMasquerade	false
 user	_interviewVlad	false
 user	_inquisitorsUnidentifiableObjectUsed	false
 user	_ironicMoustache	false
+user	_ironTricornHeadbuttUsed	0
 user	_jackassPlumberGame	false
 user	_jarlsCheeseSummoned	false
 user	_jarlsCreamSummoned	false
@@ -2460,6 +2463,7 @@ user	_snokebombUsed	0
 user	_snowballFactoryUsed	false
 user	_snowconeSummons	0
 user	_snowglobeDrops	0
+user	_snowmanHatPlaceUsed	0
 user	_snowSuitCount	0
 user	_sobrieTeaUsed	false
 user	_softwareGlitchTurnReceived	false

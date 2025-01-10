@@ -16,6 +16,7 @@ public class CrimboCartelRequest extends CoinMasterRequest {
 
   public static final CoinmasterData CRIMBO_CARTEL =
       new CoinmasterData(master, "cartel", CrimboCartelRequest.class) {}.withToken("Crimbuck")
+          .inZone("Crimbo09")
           .withTokenTest("You do not currently have any Crimbux")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(CRIMBUCK)
@@ -84,9 +85,5 @@ public class CrimboCartelRequest extends CoinMasterRequest {
     }
 
     return CoinMasterRequest.registerRequest(CRIMBO_CARTEL, urlString);
-  }
-
-  public static String accessible() {
-    return "The Crimbo Cartel is not available";
   }
 }

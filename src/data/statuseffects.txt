@@ -2944,7 +2944,7 @@
 2941	All Cut Up	fence.gif	f08f52dd911edcd4ef8a1cd952ced281	neutral	none
 2942	Jelly-Coated Insides	infinitejelly.gif	141eee7dc193eac1bccfd1d87398ea76	neutral	none
 2943	Candied Devil	candyegg.gif	8e5858ba1620c6ef09ee0a32ae5e13fe	neutral	none	use 1 deviled candy egg
-2944
+2944	Everything looks Beige	crepecape.gif	74ac5d5c07ca5501bcf196475e804fc8	neutral	none
 2945	Attracting Snakes	tinysnake.gif	09921a7a4230ada9a833ca92b1b453dd	neutral	none	cast 1 Attract Snakes
 2946	Hiding From Seekers	darkvision.gif	18b4a2010721b16d9e85da10fdaaa515	neutral	none	cast 1 Hide From Seekers
 2947	Resurrection of the Flesh	eggstripe.gif	08ec7462372b8ebe2450d19525415b22	neutral	none	eat 1 chocolate ostrich egg|drink 1 Easter grasshopper

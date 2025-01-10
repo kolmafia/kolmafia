@@ -17,6 +17,7 @@ public class Crimbo23PirateBarRequest extends CoinMasterRequest {
 
   public static final CoinmasterData DATA =
       new CoinmasterData(master, "crimbo23_pirate_bar", Crimbo23PirateBarRequest.class)
+          .inZone("Crimbo23")
           .withToken("Crimbuccaneer piece of 12")
           .withTokenTest("no Crimbuccaneer pieces of 12")
           .withTokenPattern(TOKEN_PATTERN)

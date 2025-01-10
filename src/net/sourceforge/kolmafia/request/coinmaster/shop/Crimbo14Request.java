@@ -16,6 +16,7 @@ public class Crimbo14Request extends CoinMasterRequest {
 
   public static final CoinmasterData CRIMBO14 =
       new CoinmasterData(master, "crimbo14", Crimbo14Request.class)
+          .inZone("Crimbo14")
           .withToken("Crimbo Credit")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(CRIMBO_CREDIT)
@@ -65,9 +66,5 @@ public class Crimbo14Request extends CoinMasterRequest {
     }
 
     return CoinMasterRequest.registerRequest(CRIMBO14, urlString);
-  }
-
-  public static String accessible() {
-    return "Crimbo Credits are no longer exchangeable";
   }
 }
