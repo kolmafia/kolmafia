@@ -1850,6 +1850,8 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       assertThat(execute("is_banished($phylum[undead])").trim(), is("Returned: true"));
       assertThat(execute("is_banished($monster[zombie process])").trim(), is("Returned: false"));
       assertThat(execute("is_banished($phylum[construct])").trim(), is("Returned: false"));
+      assertThat(execute("is_banished($monster[none])").trim(), is("Returned: false"));
+      assertThat(execute("is_banished($phylum[none])").trim(), is("Returned: false"));
     }
   }
 }
