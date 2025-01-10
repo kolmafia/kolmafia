@@ -12651,6 +12651,7 @@ Item	still grill	Free Pull
 # stuffed gray blob: Randomly becomes a different combat item when used
 # stuffed yam stinkbomb: Banish a monster for 15 turns
 Item	stuffed-shirt scarecrow	Free Pull
+Item	STATS+++ rom chip	Skill: "STATS+++"
 # sugar shard: Restores 10-20 HP and 5-10 MP
 Item	Summer Nights	Skill: "Grease Lightning"
 # super deluxe mushroom: Heals 100 HP
