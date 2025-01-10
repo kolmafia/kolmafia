@@ -1319,5 +1319,5 @@ The Dedigitizer	ROW1573	hashing vise	1 (256)	dedigitizer schematic: hashing vise
 The Dedigitizer	ROW1572	insignificant bit	1 (256)	dedigitizer schematic: insignificant bit
 The Dedigitizer	ROW1570	OVERCLOCK(10) rom chip	1 (256)	0 (64)	dedigitizer schematic: OVERCLOCK(10) rom chip
 The Dedigitizer	ROW1569	SLEEP(5) rom chip	1 (256)	0 (64)	dedigitizer schematic: SLEEP(5) rom chip
-# The Dedigitizer	ROW1571	STATS+++ rom chip	1 (X)	0 (X)	dedigitizer schematic: STATS+++ rom chip
+The Dedigitizer	ROW1571	STATS+++ rom chip	1 (256)	0 (64)	dedigitizer schematic: STATS+++ rom chip
 The Dedigitizer	ROW1576	virtual cybertattoo	1 (512)	0 (128)	dedigitizer schematic: virtual cybertattoo
