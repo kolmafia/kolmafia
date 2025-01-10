@@ -79,7 +79,7 @@ public class DailyDeedsPanelTest {
         assertThat(
             ff.getText(),
             is(
-                "<html>Fights: 0/3 lynyrd, 0/10 BRICKO, 0/7 hipster+goth, 0/5 machine elf<br>Fights: 0/3 god lobster, tentacle</html>"));
+                "<html>Fights: 0/3 lynyrd, 0/10 BRICKO, 0/7 hipster+goth, 0/5 machine elf<br>Fights: 0/3 god lobster, tentacle, 0/10 cyber</html>"));
       }
     }
 
