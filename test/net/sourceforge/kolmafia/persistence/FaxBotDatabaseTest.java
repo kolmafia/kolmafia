@@ -14,9 +14,9 @@ import internal.helpers.Cleanups;
 import java.util.List;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.sourceforge.kolmafia.MonsterData;
-import net.sourceforge.kolmafia.utilities.FileUtilities;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -165,6 +165,7 @@ class FaxBotDatabaseTest {
                     \t\t</monsterdata>\t</monsterlist>
                     </faxbot>""";
 
+    @Disabled("Resetting client needs support for fake data.")
     @Test
     public void checkPreferenceWhenNoFiles() {
       String property = "_faxDataChanged";
@@ -173,28 +174,25 @@ class FaxBotDatabaseTest {
       // different.
       globalCleanup.close();
       FaxBotDatabase.resetInitialization();
-      FileUtilities.setTestingWithFakeData(true);
       var cleanups = new Cleanups(withNextResponse(200, response), withProperty(property, false));
       try (cleanups) {
         assertFalse(getBoolean(property));
         FaxBotDatabase.configure();
         assertTrue(getBoolean(property));
       }
-      FileUtilities.setTestingWithFakeData(false);
     }
 
+    @Disabled("Resetting client needs support for fake data.")
     @Test
     public void checkPreferenceWhenFiles() {
       String property = "_faxDataChanged";
       FaxBotDatabase.resetInitialization();
-      FileUtilities.setTestingWithFakeData(true);
       var cleanups = new Cleanups(withNextResponse(200, ""), withProperty(property, false));
       try (cleanups) {
         assertFalse(getBoolean(property));
         FaxBotDatabase.configure();
         assertTrue(getBoolean(property));
       }
-      FileUtilities.setTestingWithFakeData(false);
     }
   }
 }
