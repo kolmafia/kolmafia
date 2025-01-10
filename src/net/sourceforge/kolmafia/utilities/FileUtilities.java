@@ -208,11 +208,10 @@ public class FileUtilities {
     if (RequestLogger.isTracing()) {
       RequestLogger.trace("Requesting: " + remote);
     }
-
+    var client = getClient(); 
     HttpResponse<InputStream> response;
-    var localClient = getClient();
-    try {
-      response = localClient.send(request, BodyHandlers.ofInputStream());
+     try {
+      response = client.send(request, BodyHandlers.ofInputStream());
     } catch (IOException | InterruptedException e) {
       StaticEntity.printStackTrace(e);
       return null;
