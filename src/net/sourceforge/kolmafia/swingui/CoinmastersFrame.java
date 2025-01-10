@@ -1047,8 +1047,8 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     public void setTitle(final StringBuffer buffer) {
       this.standardTitle(buffer);
 
-      // Only show 0's and 1's. Everything also requires a schematic,
-      // but there are 27 of them and the title will be cluttered. Rows
+      // Only show 0's and 1's. All but 5 also require a schematic,
+      // but there are 22 of them and the title will be cluttered. Rows
       // will be greyed out if you don't have the required schematic
 
       int count1 = InventoryManager.getCount(ONE);
