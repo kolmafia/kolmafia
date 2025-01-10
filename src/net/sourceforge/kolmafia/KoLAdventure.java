@@ -633,6 +633,9 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       case "PirateRealm":
         // One daily visit if available
         return checkZone("prAlways", "_prToday", "monorail");
+      case "CyberRealm":
+        // One daily visit if available
+        return checkZone("crAlways", "_crToday", "monorail");
       case "Tunnel of L.O.V.E.":
         return checkZone("loveTunnelAvailable", "_loveTunnelToday", "town_wrong");
       case "Twitch":

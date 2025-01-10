@@ -22,6 +22,7 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.moods.ManaBurnManager;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
@@ -6250,6 +6251,29 @@ public class UseItemRequest extends GenericRequest {
         if (responseText.contains("You can't add any more")) {
           return;
         }
+        break;
+
+      case ItemPool.CR_KEYCODE:
+
+        // You take the keycode to your friendly neighborhood
+        // locksmith and do some social engineering to convince the
+        // kid behind the counter to cut you a new key.
+
+        Preferences.setBoolean("crAlways", true);
+        if (!responseText.contains("cut you a new key")) {
+          return;
+        }
+        NamedListenerRegistry.fireChange("(coinmaster)");
+        break;
+
+      case ItemPool.PRINTED_SERVER_KEY:
+        if (Preferences.getBoolean("crAlways")) {
+          // If you already have access it is not consumed
+          // We assume.
+          return;
+        }
+        Preferences.setBoolean("_crToday", true);
+        NamedListenerRegistry.fireChange("(coinmaster)");
         break;
     }
 

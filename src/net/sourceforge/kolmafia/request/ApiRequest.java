@@ -413,6 +413,7 @@ public class ApiRequest extends GenericRequest {
           Map.entry("spacegate", Map.entry("spacegateAlways", "_spacegateToday")),
           Map.entry("fantasyrealm", Map.entry("frAlways", "_frToday")),
           Map.entry("piraterealm", Map.entry("prAlways", "_prToday")),
+          Map.entry("cyberrealm", Map.entry("crAlways", "_crToday")),
           Map.entry(
               "neverendingparty", Map.entry("neverendingPartyAlways", "_neverendingPartyToday")),
           Map.entry("voterregistered", Map.entry("voteAlways", "_voteToday")),
