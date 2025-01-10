@@ -633,7 +633,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       case "PirateRealm":
         // One daily visit if available
         return checkZone("prAlways", "_prToday", "monorail");
-      case "CyberRealm":
+      case "Server Room":
         // One daily visit if available
         return checkZone("crAlways", "_crToday", "monorail");
       case "Tunnel of L.O.V.E.":
@@ -2205,6 +2205,10 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         return true;
       }
       return Preferences.getString("_lastPirateRealmIsland").equals(this.adventureName);
+    }
+
+    if (this.zone.equals("Server Room")) {
+      return (Preferences.getBoolean("crAlways") || Preferences.getBoolean("_crToday"));
     }
 
     if (this.zone.equals("Speakeasy")) {

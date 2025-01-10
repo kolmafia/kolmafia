@@ -3153,7 +3153,7 @@ public class QuestManagerTest {
     }
 
     @ParameterizedTest
-    @CsvSource({"frAlways, _frToday", "prAlways, _prToday"})
+    @CsvSource({"frAlways, _frToday", "prAlways, _prToday", "crAlways, _crToday"})
     public void checkDayPassesInMonorail(String always, String today) {
       var html = html("request/test_visit_monorail.html");
       // If we have always access, we don't have today access
