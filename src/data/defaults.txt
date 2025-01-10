@@ -509,6 +509,7 @@ user	cozyCounter6334	0
 user	craftingClay	-1
 user	craftingLeather	-1
 user	craftingStraw	-1
+user	crAlways	false
 user	crappyCameraMonster
 user	crimbo16BeardChakraCleanliness	0
 user	crimbo16BootsChakraCleanliness	0
@@ -1949,6 +1950,7 @@ user	_creepyVoodooDollUsed	false
 user	_crimbo21ColdResistance	0
 user	_crimboTraining	false
 user	_crimboTree	false
+user	_crToday	false
 user	_currentDartboard
 user	_cursedKegUsed	false
 user	_cursedMicrowaveUsed	false

@@ -3853,6 +3853,7 @@ public class ItemPool {
   public static final int ZERO = 11789;
   public static final int CR_KEYCODE = 11807;
   public static final int SERVER_KEY = 11808;
+  public static final int PRINTED_SERVER_KEY = 11809;
 
   private ItemPool() {}
 

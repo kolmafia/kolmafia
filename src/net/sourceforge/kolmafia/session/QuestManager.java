@@ -529,6 +529,9 @@ public class QuestManager {
     if (responseText.contains("PirateRealm") && !Preferences.getBoolean("prAlways")) {
       Preferences.setBoolean("_prToday", true);
     }
+    if (responseText.contains("Server Room") && !Preferences.getBoolean("crAlways")) {
+      Preferences.setBoolean("_crToday", true);
+    }
   }
 
   private static void handleMountainsChange(

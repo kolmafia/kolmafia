@@ -234,7 +234,7 @@ public class KoLAdventureValidationTest {
       var html = html("request/test_visit_" + place + ".html");
       // If we have always access, we don't have today access
       checkDayPasses(adventure, place, html, true, false, always, today);
-      // If we don't have always access, we might today access
+      // If we don't have always access, we might have today access
       if (!today.equals("none")) {
         checkDayPasses(adventure, place, html, false, true, always, today);
       }
@@ -265,7 +265,8 @@ public class KoLAdventureValidationTest {
     @ParameterizedTest
     @CsvSource({
       "The Bandit Crossroads, frAlways, _frToday",
-      "PirateRealm Island, prAlways, _prToday"
+      "PirateRealm Island, prAlways, _prToday",
+      "Cyberzone 1, crAlways, _crToday"
     })
     public void checkDayPassesInMonorail(String adventureName, String always, String today) {
       checkDayPasses(adventureName, "monorail", always, today);
@@ -780,6 +781,7 @@ public class KoLAdventureValidationTest {
       "The Neverending Party, neverendingPartyAlways, true",
       "The Bandit Crossroads, frAlways, true",
       "Sailing the PirateRealm Seas, prAlways, true",
+      "Cyberzone 1, crAlways, true",
       "The Tunnel of L.O.V.E., loveTunnelAvailable, true",
       "Through the Spacegate, spacegateAlways, false"
     })
