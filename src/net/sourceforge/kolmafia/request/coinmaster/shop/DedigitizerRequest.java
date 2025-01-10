@@ -51,7 +51,7 @@ public class DedigitizerRequest extends CoinMasterRequest {
     if (Preferences.getBoolean("crAlways") || Preferences.getBoolean("_crToday")) {
       return null;
     }
-    return "You don't have a server room key in inventory.";
+    return "You can't access the server room.";
   }
 
   public static final boolean registerRequest(final String urlString) {
