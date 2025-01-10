@@ -266,6 +266,10 @@
 238	Reindeer Games	dcreindeer.gif	passive	0	0
 239	Master Egg Hunter	eggdot.gif	passive	0	0
 240	Holiday Multitasking	addresslist.gif	passive	0	0
+241
+242	SLEEP(5)	ss_restore.gif	passive	0	0
+243	OVERCLOCK(10)	ss_overclocked.gif	passive	0	0
+244	STATS+++	ss_codeblock.gif	passive	0	0
 
 # Skills available to Clubbers
 
@@ -1117,6 +1121,7 @@
 7551	Play with your crepe paper puzzle	crepecube.gif	nc,self	0	20
 7552	Leave nothing to the imagination	crepecamisole.gif	nc,self	0	20
 7553	Embrace polka	crepecharm.gif	nc,self	0	20
+7554	Thrust your geofencing rapier	cr_rapier.gif	combat	0	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.

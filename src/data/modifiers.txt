@@ -1254,6 +1254,7 @@ Item	Brimstone Bludgeon	Muscle Percent: +50, Mysticality Percent: -20, Weapon Da
 # broken champagne bottle: Doubles item drop bonus while the champagne flows
 Item	broken champagne bottle	MP Regen Min: 4, MP Regen Max: 8, Weapon Damage Percent: +50, Lasts Until Rollover, Breakable
 Item	broken sword	Spooky Resistance: +1
+# brute force hammer: CyberRealm: Deal 40 damage for 3 RAM
 Item	bubble bauble bow	Moxie: +3, Mysticality: +2, Item Drop: +5
 Item	bubblewrap crossbow	Moxie: +3, Mysticality: +2
 Item	bubblewrap staff	Mysticality: +3, Muscle: +2
@@ -1485,6 +1486,8 @@ Item	ga-ga radio	Experience: +1, Weapon Damage: +5, Maximum MP: +20
 Item	garbage sticker	Food Drop: +20, Booze Drop: +20, Accessory Drop: +20, Weapon Drop: +20, Hat Drop: +20, Meat Drop: +30, Drops Meat
 Item	gatorskin umbrella	Stench Resistance: +3, Weapon Damage: +15
 Item	genie's scimitar	Muscle: +5, Weapon Damage: +5
+# geofencing rapier: CyberRealm:  Deal 150-200 damage for 7 RAM
+Item	geofencing rapier	Single Equip
 Item	ghast iron cleaver	Spooky Damage: +15, Hot Damage: +15
 Item	ghost accordion	Spooky Damage: [5*(1+skill(Accordion Appreciation))], Booze Drop: [15*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 16
 Item	ghostly dagger	Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1, Damage Reduction: 11, Weapon Damage: -10
@@ -6146,7 +6149,7 @@ Effect	Eyes for Miles	Meat Drop: +50, Item Drop: +25
 # Eyes of the Dragon: (Underwater only)
 Effect	Eyes of the Dragon	Item Drop: [100*env(underwater)]
 Effect	Eyes Wide Propped	Item Drop: +25, Meat Drop: +50
-Effect	Eyesies on the Pressies	Item Drop: +25
+Effect	Eyesies on the Pressies	Item Drop: +15
 Effect	Faboooo	Muscle: +5, Weapon Damage: +10
 Effect	Faerie Fortune	Rubee Drop: 1
 Effect	Familial Ties	Familiar Weight (hidden): [10*env(underwater)]
@@ -6379,7 +6382,7 @@ Effect	Grand Blessing of the War Snapper	Muscle: +10, Weapon Damage: +10
 Effect	Grand Theft Candy	Candy Drop: +100, Hot Damage: +25, Hot Spell Damage: +25
 Effect	Granolarrrgh	Stench Damage: +20, Stench Spell Damage: +20
 Effect	Grape Expectations	Maximum HP: +50, Maximum MP: +25
-Effect	Grateful, But Spelled With a Dollar Sign	Meat Drop: +50
+Effect	Grateful, But Spelled With a Dollar Sign	Meat Drop: +30
 Effect	Grease Trappings	Avatar: "Grease Trapper"
 # Greased: Continually take damage
 Effect	Greased	Sleaze Damage: +20
@@ -6490,7 +6493,7 @@ Effect	Helping Fingers	Weapon Damage Percent: +100
 Effect	Helvella Health	Maximum HP: +100, HP Regen Min: 10, HP Regen Max: 20
 Effect	Hennaliciousness	Mysticality: +3
 Effect	Herbal Pert	Experience (Moxie): [25*zone(Twitch)], Initiative: [250*zone(Twitch)]
-Effect	Herder, Bitter, Fester, Stranger	Familiar Weight: +5, Monster Level: +10, Stench Damage: +15, Sleaze Damage: +15
+Effect	Herder, Bitter, Fester, Stranger	Familiar Weight: +1, Monster Level: +5, Stench Damage: +5, Sleaze Damage: +5
 Effect	Here to Kick Ass	Muscle Percent: +50, Weapon Damage Percent: +50
 Effect	Here's Mud in Your Eye	Meat Drop: +50
 Effect	Here's Some More Mud in Your Eye	Meat Drop: +100
@@ -8563,6 +8566,7 @@ Skill	Ominous Substrate	Spooky Damage: +10
 Skill	Optic Nerves	Item Drop: +30
 Skill	Overactive Pheromones	Familiar Weight: +10
 Skill	Overalls	Damage Reduction: 20
+# OVERCLOCK(10): Your first 10 fights each day in CyberRealm do not take an Adventure
 Skill	Overclocked	Initiative: +200
 Skill	Overclocking	Initiative: +300
 Skill	Overconfidence	Experience (Muscle): +3
@@ -8660,6 +8664,7 @@ Skill	Sinister Charm	Floor Buffed Moxie: "Mysticality", Maximum HP: -15
 Skill	Skin of the Leatherback	Damage Reduction: [max(1,ceil(L/2))]
 # Skullcracker: +100% Brain Drops from Monsters
 # Skullcracker: Critical hits occasionally stun opponents
+Skill	SLEEP(5)	Free Rests: 5
 Skill	Slimy Shoulders	Initiative: [pref(skillLevel48)*2]
 Skill	Slimy Sinews	Maximum HP: [pref(skillLevel46)*2]
 Skill	Slimy Synapses	Maximum MP: [pref(skillLevel47)]
@@ -8683,6 +8688,7 @@ Skill	Spleen of Steel	Spleen Capacity: +5
 Skill	Spooky Veins	Adventures: +10
 # Spot Weakness: Weakens foes at the start of combat
 Skill	Spot Weakness	Maximum HP: -15
+Skill	STATS+++	Experience: +3
 Skill	Steam Mycelia	Hot Damage: +15
 # Sticky Fingers: Pickpocketing also gives Meat
 Skill	Still Another Extra Spleen	Spleen Capacity: +5
@@ -9136,7 +9142,7 @@ Item	campfire s'more	Effect: "Gimme, Gimme", Effect Duration: 60
 Item	campfire stew	Effect: "Just Like Me, They Want to Be", Effect Duration: 60
 Item	can of Adultwitch&trade;	Effect: "Greasy Visage", Effect Duration: 20
 Item	can of franks 'n' beans	Effect: "Crimbo Nostalgia", Effect Duration: 50
-Item	candied beef and cabbage	Effect: "Green-Blooded", Effect Duration: 40
+Item	candied beef and cabbage	Effect: "Green-Blooded", Effect Duration: 20
 Item	candied lime	Effect: "Limed Up", Effect Duration: 50
 Item	candied pecan	Effect: "Sugar Rush", Effect Duration: 10
 Item	candied sweet potatoes	Effect: "Thanksgetting", Effect Duration: 20
@@ -9145,7 +9151,7 @@ Item	candy carrot cake	Effect: "Improved Candy Vision", Effect Duration: 30
 # candy kneecapping stick: Deals 10-20 Physical Damage when used as a combat item
 Item	candy kneecapping stick	Effect: "Sugar Rush", Effect Duration: 5
 Item	candy mountain oyster	Effect: "Sugar Rush", Effect Duration: 10
-Item	candy rations	Effect: "Toured of Duty", Effect Duration: 40
+Item	candy rations	Effect: "Toured of Duty", Effect Duration: 20
 Item	carrot cake	Effect: "Pla-see-bo", Effect Duration: 10
 Item	carrot cake precipice bar	Effect: "On the Precipice of Carrots", Effect Duration: 30
 Item	centipede eggs	Effect: "Somewhat Poisoned", Effect Duration: 10
@@ -9154,8 +9160,8 @@ Item	cheezburger	Effect: "Yes, Can Haz", Effect Duration: 50
 Item	chilly dog	Effect: "Chill Out, Dog", Effect Duration: 30
 Item	Choco-Mint patty	Effect: "Alpine Mintiness", Effect Duration: 25
 Item	chocolate chip muffin	Effect: "All Chipped Up", Effect Duration: 25
-Item	chocolate ostrich egg	Effect: "Resurrection of the Flesh", Effect Duration: 40
-Item	Christmas ham	Effect: "Eyesies on the Pressies", Effect Duration: 40
+Item	chocolate ostrich egg	Effect: "Resurrection of the Flesh", Effect Duration: 20
+Item	Christmas ham	Effect: "Eyesies on the Pressies", Effect Duration: 20
 Item	ciliophora chowder	Effect: "Twitching Senses", Effect Duration: 50
 Item	circular CRIMBCOOKIE	Effect: "Mystic Circle", Effect Duration: 10
 Item	cold hi mein	Effect: "Cold Breath", Effect Duration: 5
@@ -9182,7 +9188,7 @@ Item	diabolic pizza	Lasts Until Rollover
 # dinner roll: Selling Price: <b>1 Meat.</b><p><center><b><font color=blue>Deals Physical Damage based on your Muscle when used as a combat item
 Item	Dinsey food-cone	Effect: "The Dinsey Way", Effect Duration: 30
 Item	disco biscuit	Effect: "Buttermilk Boogie", Effect Duration: 100
-Item	double-candied yams	Effect: "Grateful, But Spelled With a Dollar Sign", Effect Duration: 40
+Item	double-candied yams	Effect: "Grateful, But Spelled With a Dollar Sign", Effect Duration: 20
 Item	dragon snaps	Effect: "Oh Snap", Effect Duration: 5
 Item	Dreadsylvanian cold pocket	Effect: "Dreadful Chill", Effect Duration: 200
 Item	Dreadsylvanian hot pocket	Effect: "Dreadful Heat", Effect Duration: 200
@@ -9490,7 +9496,7 @@ Item	Caipiranha	Effect: "Fishy", Effect Duration: 5
 Item	Candicaine	Effect: "Holiday Bliss", Effect Duration: 15
 Item	Candy Alexander	Effect: "Holiday Bliss", Effect Duration: 10
 Item	canteen of eggnog	Effect: "All Liquored Up For War", Effect Duration: 100
-Item	canteen of jungle juice	Effect: "Toured of Duty", Effect Duration: 40
+Item	canteen of jungle juice	Effect: "Toured of Duty", Effect Duration: 20
 Item	canteen of wine	Effect: "In Vino Vires", Effect Duration: 20
 Item	carrot claret	Effect: "Pla-see-bo", Effect Duration: 10
 Item	Cement Mixer	Effect: "Mortarfied", Effect Duration: 5
@@ -9539,7 +9545,7 @@ Item	dusty bottle of Pinot Noir	Effect: "Kiss of the Black Fairy", Effect Durati
 Item	dusty bottle of Port	Effect: "Full of Vinegar", Effect Duration: 10
 Item	Earth and Firewater	Effect: "Elemental Mastery", Effect Duration: 10
 Item	Earth, Wind and Firewater	Effect: "Elemental Mastery", Effect Duration: 15
-Item	Easter grasshopper	Effect: "Resurrection of the Flesh", Effect Duration: 40
+Item	Easter grasshopper	Effect: "Resurrection of the Flesh", Effect Duration: 20
 Item	Ecto-Cooler	Effect: "Booing Radly", Effect Duration: 30
 Item	eighth plague	Effect: "Wings of the Dragonfly", Effect Duration: 40
 Item	eldritch elixir	Effect: "Eldritch Attunement", Effect Duration: 5
@@ -9612,7 +9618,7 @@ Item	Hundred Headed IPA	Effect: "Hoppyness", Effect Duration: 20
 Item	ice porter	Wiki Name: "ice porter (drink)"
 Item	ice wine	Effect: "Brain Freeze", Effect Duration: 50
 Item	Irish Coffee, English Heart	Effect: "Smithsness Cheer", Effect Duration: 100
-Item	Irish eggnog	Effect: "Green-Blooded", Effect Duration: 40
+Item	Irish eggnog	Effect: "Green-Blooded", Effect Duration: 20
 Item	Ish Kabibble	Effect: "Feeling No Pain", Effect Duration: 25
 Item	Island Hurricane	Effect: "Tiki Temerity", Effect Duration: 20
 Item	Island Landslide	Effect: "Tiki Toughness", Effect Duration: 20
@@ -9635,7 +9641,7 @@ Item	lychee chuhai	Effect: "Brined Liver", Effect Duration: 20
 Item	marshmallow flamb&eacute;	Effect: "Sugar Rush", Effect Duration: 10
 Item	McLeod's Hard Haggis-Ade	Effect: "Hagg-ard", Effect Duration: 20
 Item	meadeorite	Effect: "Meadulla Oblongota", Effect Duration: 40
-Item	mechanically-mulled cider	Effect: "Eyesies on the Pressies", Effect Duration: 40
+Item	mechanically-mulled cider	Effect: "Eyesies on the Pressies", Effect Duration: 20
 Item	melon-infused sake	Effect: "Warm Belly", Effect Duration: 1
 Item	mentholated wine	Effect: "Christmessy", Effect Duration: 20
 Item	mini kiwitini	Effect: "Green Peace", Effect Duration: 15
@@ -9734,7 +9740,7 @@ Item	The Cooler Out of Space	Effect: "You Can Taste the Darkness", Effect Durati
 Item	Third Base	Effect: "Third Based", Effect Duration: 40
 Item	tobiko-infused sake	Effect: "Pisces in the Skyces", Effect Duration: 30
 Item	Transylvania Sling	Effect: "Creepypasted", Effect Duration: 10
-Item	turchucken	Effect: "Grateful, But Spelled With a Dollar Sign", Effect Duration: 40
+Item	turchucken	Effect: "Grateful, But Spelled With a Dollar Sign", Effect Duration: 20
 Item	Turtle Bowl	Effect: "Tiki Thoughtfulness", Effect Duration: 40
 Item	twice-haunted screwdriver	Effect: "Haunted Liver", Effect Duration: 40
 Item	unfinished fruitcake	Effect: "Holiday Disappointment", Effect Duration: 10
@@ -10176,7 +10182,7 @@ Item	Daily Affirmation: Keep Free Hate in your Heart	Effect: "Keep Free Hate in 
 Item	Daily Affirmation: Think Win-Lose	Effect: "Think Win-Lose", Effect Duration: 100
 # Daily Affirmation: Work For Hours a Week: In Combat: Earn Active Income!
 Item	Daily Affirmation: Work For Hours a Week	Effect: "Work For Hours a Week", Effect Duration: 100
-Item	dark chocolate egg	Effect: "Herder, Bitter, Fester, Stranger", Effect Duration: 20
+Item	dark chocolate egg	Effect: "Herder, Bitter, Fester, Stranger", Effect Duration: 10
 Item	daub-breaker	Effect: "Hot Breath", Effect Duration: 1
 Item	deadly lampshade	Effect: "Deadly Lampblade", Effect Duration: 20
 Item	Deep Machine Tunnels snowglobe	Effect: "Inside The Snowglobe", Effect Duration: 57
@@ -12244,6 +12250,7 @@ Item	orphan baby yeti	Free Pull
 # Oscus's neverending soda: Restores 200-300 MP
 # Oscus's neverending soda: (doesn't go away when used)
 Item	Our Daily Candles&trade; order form	Free Pull
+Item	OVERCLOCK(10) rom chip	Skill: "OVERCLOCK(10)"
 # overflowing gift basket: Produces a random food item (1x/day)
 # overloaded micro-reactor: Deals 300 Physical Damage
 # oversized snowflake: Stuns your opponent for a few rounds
@@ -12275,6 +12282,7 @@ Item	panicked kernel	Free Pull
 Item	pantogram	Free Pull
 # paperclip sproinger: Stuns your opponent for a couple of rounds and deals 10-15 Physical Damage
 Item	paranormal ricotta	Class: "Pastamancer"
+Item	parity bit	Familiar Weight: +5
 Item	Party Planning on a Budget	Skill: "Budget Conscious"
 Item	passed-out psychedelic bear	Free Pull
 # patchouli incense stick: Weakens enemies a little bit
@@ -12550,6 +12558,7 @@ Item	sinistral homunculus	Free Pull
 Item	slap and slap again recipe	Recipe: "slap and slap again"
 # sleaze clusterbomb: Deals <font color=blueviolet>Sleaze Damage</font> based on your highest stat
 # sleaze clusterbomb: (more effective against groups)
+Item	SLEEP(5) rom chip	Skill: "SLEEP(5)"
 Item	sleeping patriotic eagle	Free Pull
 Item	sleeping piano cat	Free Pull
 # slime stack: Deals 10-20% of a monster's current Hit Points in Physical Damage
@@ -12642,6 +12651,7 @@ Item	still grill	Free Pull
 # stuffed gray blob: Randomly becomes a different combat item when used
 # stuffed yam stinkbomb: Banish a monster for 15 turns
 Item	stuffed-shirt scarecrow	Free Pull
+Item	STATS+++ rom chip	Skill: "STATS+++"
 # sugar shard: Restores 10-20 HP and 5-10 MP
 Item	Summer Nights	Skill: "Grease Lightning"
 # super deluxe mushroom: Heals 100 HP

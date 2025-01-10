@@ -78,6 +78,11 @@ public class CoinMasterRequest extends GenericRequest {
 
   public final void setQuantity(final int quantity) {
     this.quantity = quantity;
+    if (this.attachments != null) {
+      // Kludge for the use of CoinmasterPurchaseRequest
+      AdventureResult ar = this.attachments[0];
+      this.attachments[0] = ar.getInstance(quantity);
+    }
   }
 
   public static void visit(final CoinmasterData data) {
@@ -176,11 +181,7 @@ public class CoinMasterRequest extends GenericRequest {
     if (singleton) {
       count = TransferItemRequest.keepSingleton(item, count);
     }
-    String countField = this.data.getCountField();
-    if (countField != null) {
-      this.addFormField(countField, String.valueOf(count));
-    }
-    return count;
+    return this.setCount(count);
   }
 
   public int setCount(int count) {

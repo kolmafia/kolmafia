@@ -1285,6 +1285,18 @@ Armory & Leggery	ROW1450	ceramic celery grater	adobe assortment
 Armory & Leggery	ROW1451	ceramic celsiturometer	adobe assortment
 Armory & Leggery	ROW1452	ceramic cerecloth belt	adobe assortment
 Armory & Leggery	ROW1453	ceramic cenobite's robe	adobe assortment
+Armory & Leggery	ROW1454	moss mace	crepe paper pared cuttings
+Armory & Leggery	ROW1455	moss megaphone	crepe paper pared cuttings
+Armory & Leggery	ROW1456	moss medal	crepe paper pared cuttings
+Armory & Leggery	ROW1457	moss mitre	crepe paper pared cuttings
+Armory & Leggery	ROW1458	moss mantle	crepe paper pared cuttings
+Armory & Leggery	ROW1459	moss marlinspike	crepe paper pared cuttings
+Armory & Leggery	ROW1460	adobe arsecover	petrified wood waste parts
+Armory & Leggery	ROW1461	adobe adze	petrified wood waste parts
+Armory & Leggery	ROW1462	adobe abacus	petrified wood waste parts
+Armory & Leggery	ROW1463	adobe ayam	petrified wood waste parts
+Armory & Leggery	ROW1464	adobe ascot	petrified wood waste parts
+Armory & Leggery	ROW1465	adobe abaya	petrified wood waste parts
 TINKERING_BENCH	ROW1467	biphasic molecular oculus	smashed scientific equipment
 TINKERING_BENCH	ROW1468	triphasic molecular oculus	biphasic molecular oculus	smashed scientific equipment
 TINKERING_BENCH	ROW1469	high-tension exoskeleton	smashed scientific equipment

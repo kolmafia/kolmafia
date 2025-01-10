@@ -55,6 +55,7 @@ import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo23PirateFactoryReq
 import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo24BarRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo24CafeRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo24FactoryRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.DedigitizerRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.DinostaurRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.DinseyCompanyStoreRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.DiscoGiftCoRequest;
@@ -877,6 +878,10 @@ public class NPCPurchaseRequest extends PurchaseRequest {
       Crimbo24FactoryRequest.parseResponse(urlString, responseText);
     }
 
+    if (shopId.equals("cyber_dedigitizer")) {
+      DedigitizerRequest.parseResponse(urlString, responseText);
+    }
+
     if (shopId.equals("edunder_shopshop")) {
       EdShopRequest.parseResponse(urlString, responseText);
       return;
@@ -1556,6 +1561,10 @@ public class NPCPurchaseRequest extends PurchaseRequest {
 
       if (shopId.equals("crimbo24_factory")) {
         Crimbo24FactoryRequest.registerRequest(urlString);
+      }
+
+      if (shopId.equals("cyber_dedigitizer")) {
+        DedigitizerRequest.registerRequest(urlString);
       }
 
       if (shopId.equals("edunder_shopshop")) {
