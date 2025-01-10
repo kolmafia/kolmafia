@@ -209,6 +209,7 @@ public class FileUtilities {
       RequestLogger.trace("Requesting: " + remote);
     }
     var client = getClient();
+    
     HttpResponse<InputStream> response;
     try {
       response = client.send(request, BodyHandlers.ofInputStream());
