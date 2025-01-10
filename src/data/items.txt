@@ -11840,15 +11840,15 @@
 11812	psilocyber mushroom	546956019	cr_shroom.gif	spleen, usable	t,d	10
 11813	dedigitizer schematic: SLEEP(5) rom chip	216913421	cr_schematic.gif	none	t	0	dedigitizer schematics for SLEEP(5) rom chips
 11814	dedigitizer schematic: OVERCLOCK(10) rom chip	288551586	cr_schematic.gif	none	t	0	dedigitizer schematics for OVERCLOCK(10) rom chips
-11815
+11815	dedigitizer schematic: STATS+++ rom chip	545699097	cr_schematic.gif	none	t	0	dedigitizer schematics for STATS+++ rom chips
 11816	dedigitizer schematic: insignificant bit	872901303	cr_schematic.gif	none	t	0	dedigitizer schematics for insignificant bits
 11817	dedigitizer schematic: hashing vise	586616920	cr_schematic.gif	none	t	0	dedigitizer schematics for hashing vises
-11818	dedigitizer schematic: geofencing rapier	422685388	cr_schematic.gif	none	t	0
+11818	dedigitizer schematic: geofencing rapier	422685388	cr_schematic.gif	none	t	0	dedigitizer schematics for geofencing rapiers
 11819	dedigitizer schematic: geofencing shield	345860648	cr_schematic.gif	none	t	0	dedigitizer schematics for geofencing shields
 11820	dedigitizer schematic: virtual cybertattoo	258125297	cr_schematic.gif	none	t	0	dedigitizer schematics for virtual cybertattoos
 11821	SLEEP(5) rom chip	745418066	cr_romchip.gif	usable	t	0
 11822	OVERCLOCK(10) rom chip	659892010	cr_romchip.gif	usable	t	0
-11823
+11823	STATS+++ rom chip	935723612	cr_romchip.gif	usable	t	0
 11824	insignificant bit	979112735	cr_ibit.gif	grow	t	0
 11825	parity bit	827552498	cr_paritybit.gif	familiar	t,d	75
 11826	hashing vise	550453565	cr_vise.gif	usable	t	0
