@@ -2880,6 +2880,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       addFreeFightEquipment(text, ItemPool.MAFIA_THUMB_RING, "_mafiaThumbRingAdvs", "thumb ring");
       addFreeFightEquipment(
           text, ItemPool.CARNIVOROUS_POTTED_PLANT, "_carnivorousPottedPlantWins", "potted plant");
+      addFreeFightEquipment(text, ItemPool.TEARAWAY_PANTS, "_tearawayPantsAdvs", "tearaway pants");
       addFreeFightEquipment(text, ItemPool.BAT_WINGS, "_batWingsFreeFights", "bat wings");
 
       this.setShown(!text.isEmpty());
