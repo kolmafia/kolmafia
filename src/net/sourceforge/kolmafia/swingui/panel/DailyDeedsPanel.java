@@ -2471,6 +2471,7 @@ public class DailyDeedsPanel extends Box implements Listener {
       this.addListener("_loveTunnelUsed");
       this.addListener("_neverendingPartyFreeTurns");
       this.addListener("_voteFreeFights");
+      this.addListener("_cyberRealmFreeTurnsUsed");
       this.addListener("(character)");
       this.addLabel("");
     }
@@ -2574,6 +2575,8 @@ public class DailyDeedsPanel extends Box implements Listener {
               && !KoLCharacter.getLimitMode().limitZone("Town")
               && !KoLCharacter.inBadMoon()
               && Preferences.getBoolean("ownsSpeakeasy");
+      boolean cy =
+          StandardRequest.isAllowed(RestrictedItemType.SKILLS, "OVERCLOCK(10)");
 
       StringBuilder buffer = new StringBuilder();
       count = 0;
@@ -2614,6 +2617,8 @@ public class DailyDeedsPanel extends Box implements Listener {
       if (gm) addFightCounter(buffer, "%monster%");
       if (op)
         addFightCounter(buffer, Preferences.getInteger("_speakeasyFreeFights") + "/3 Oliver's");
+      if (cy)
+        addFightCounter(buffer, Preferences.getInteger("_cyberRealmFreeTurnsUsed") + "/10 cyber");
       buffer.append("</html>");
 
       this.setShown(shown);
