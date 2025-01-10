@@ -3448,6 +3448,14 @@ public class FightRequest extends GenericRequest {
       }
     }
 
+    if (adventure == AdventurePool.CYBER_REALM1
+        || adventure == AdventurePool.CYBER_REALM2
+        || adventure == AdventurePool.CYBER_REALM3) {
+      if (free) {
+        Preferences.increment("_cyberRealmFreeTurnsUsed", 1, 10, false);
+      }
+    }
+
     if (free) {
       String updateMessage = "This combat did not cost a turn";
       RequestLogger.updateSessionLog(updateMessage);
