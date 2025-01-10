@@ -2575,8 +2575,7 @@ public class DailyDeedsPanel extends Box implements Listener {
               && !KoLCharacter.getLimitMode().limitZone("Town")
               && !KoLCharacter.inBadMoon()
               && Preferences.getBoolean("ownsSpeakeasy");
-      boolean cy =
-          StandardRequest.isAllowed(RestrictedItemType.SKILLS, "OVERCLOCK(10)");
+      boolean cy = StandardRequest.isAllowed(RestrictedItemType.SKILLS, "OVERCLOCK(10)");
 
       StringBuilder buffer = new StringBuilder();
       count = 0;

@@ -8881,19 +8881,19 @@ public abstract class ChoiceControl {
 
       case 1545 -> {
         // Cyber 1 - Halfway
-          Preferences.increment("_cyberRealmFreeTurnsUsed", 1, 10, false);
+        Preferences.increment("_cyberRealmFreeTurnsUsed", 1, 10, false);
         break;
       }
 
       case 1547 -> {
         // Cyber 2 - Halfway
-          Preferences.increment("_cyberRealmFreeTurnsUsed", 1, 10, false);
+        Preferences.increment("_cyberRealmFreeTurnsUsed", 1, 10, false);
         break;
       }
 
       case 1549 -> {
         // Cyber 3 - Halfway
-          Preferences.increment("_cyberRealmFreeTurnsUsed", 1, 10, false);
+        Preferences.increment("_cyberRealmFreeTurnsUsed", 1, 10, false);
         break;
       }
     }
