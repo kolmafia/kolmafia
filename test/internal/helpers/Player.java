@@ -2655,6 +2655,12 @@ public class Player {
     return new Cleanups(() -> data.setDisabled(false));
   }
 
+  public static Cleanups withZonelessCoinmaster(CoinmasterData data) {
+    String zone = data.getZone();
+    data.inZone(null).getRootZone();
+    return new Cleanups(() -> data.inZone(zone));
+  }
+
   public static Cleanups withoutCoinmasterBuyItem(CoinmasterData data, AdventureResult item) {
     List<AdventureResult> buyItems = data.getBuyItems();
     if (!buyItems.contains(item)) {

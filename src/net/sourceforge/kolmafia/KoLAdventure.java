@@ -4177,7 +4177,11 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     new AdventureFailure(
         "Looks like peace has broken out in this area",
         "The balance of power has shifted, you can no longer fight here",
-        MafiaState.PENDING)
+        MafiaState.PENDING),
+
+    // CyberRealm zones
+    new AdventureFailure(
+        "You've already hacked this system.", "Nothing more to do here.", MafiaState.PENDING),
   };
 
   private static final Pattern CRIMBO21_COLD_RES =
