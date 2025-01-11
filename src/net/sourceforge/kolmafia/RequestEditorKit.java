@@ -1139,6 +1139,15 @@ public class RequestEditorKit extends HTMLEditorKit {
         }
       }
     }
+
+    // KoL does not currently provide a link back to the CyberRealm Map for zones 2 and 3
+    if (buffer.indexOf("You've already hacked this system.") != -1) {
+      // But if they fix it and it now adds one, cool.
+      String url = "place.php?whichplace=cyberrealm";
+      if (buffer.indexOf(url) == -1) {
+        RequestEditorKit.addAdventureAgainSection(buffer, url, "Back to the Network Map");
+      }
+    }
   }
 
   // *******************************************************************

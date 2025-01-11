@@ -806,6 +806,10 @@ public class CharPaneDecorator {
           effects,
           "<font size=2>Everything Looks Purple ",
           "<font size=2 color=purple>Everything Looks Purple ");
+      StringUtilities.singleStringReplace(
+          effects,
+          "<font size=2>Everything looks Beige ",
+          "<font size=2 color=burlywood>Everything looks Beige ");
     }
 
     if (effectText != null) {

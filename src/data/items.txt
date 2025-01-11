@@ -11223,7 +11223,7 @@
 11195	replica miniature gravy-covered maypole	436493832	maypole.gif	familiar	q	0
 11196	replica wax lips	673520346	waxlips.gif	familiar	q	0
 11197	replica Tome of Snowcone Summoning	329232343	book.gif	usable	q	0
-11198	dedigitizer schematic: cybeer	691441855	cr_schematic.gif	none	t,d	20	dedigitizer schematics for cybeer
+11198	dedigitizer schematic: cybeer	691441855	cr_schematic.gif	none	t,d	20	dedigitizer schematics for cybeers
 11199	replica jewel-eyed wizard hat	244839212	wizhat.gif	hat	q	0
 11200	replica bottle-rocket crossbow	503354088	brcrossbow.gif	weapon	q	0
 11201	replica navel ring of navel gazing	974079701	navelring.gif	accessory	q	0
@@ -11559,7 +11559,7 @@
 11531	petrified wood water purifier	791540752	pwoodpurifier.gif	offhand		0
 11532	petrified wood whoopie panama	439261300	pwoodhat.gif	hat		0
 11533	petrified wood walking pants	587162395	pwoodpants.gif	pants		0	pairs of petrified wood walking/pacing pants
-11534	petrified wood waste parts	230241539	pwoodbits.gif	spleen, usable		0
+11534	petrified wood waste parts	230241539	pwoodbits.gif	spleen, usable		0	piles of petrified wood waste part pieces
 11535	petrified wood wafer praline	544944743	pwoodcandy.gif	potion, usable, candy	t,d	15
 11536	cybeer	356688730	cr_beer.gif	drink	t,d	10
 11537	ICEbox	740625826	cr_icebox.gif	usable	t,d	10	ICEboxes
@@ -11835,7 +11835,7 @@
 11807	CyberRealm keycode	211842512	cr_keycode.gif	usable	t	0
 11808	server room key	865269521	cr_key.gif	none		0
 11809	3d printed server room key	411166757	cr_3dkey.gif	usable	t	0
-11810	dedigitizer schematic: 3d printed server room key	600797572	cr_schematic.gif	none	t,d	25	dedigitizer schematics for 3d printed server room
+11810	dedigitizer schematic: 3d printed server room key	600797572	cr_schematic.gif	none	t,d	25	dedigitizer schematics for 3d printed server keys
 11811	logic grenade	782107563	cr_grenade.gif	none, combat	t,d	30
 11812	psilocyber mushroom	546956019	cr_shroom.gif	spleen, usable	t,d	10
 11813	dedigitizer schematic: SLEEP(5) rom chip	216913421	cr_schematic.gif	none	t	0	dedigitizer schematics for SLEEP(5) rom chips

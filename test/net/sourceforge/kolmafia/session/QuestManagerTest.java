@@ -3153,7 +3153,7 @@ public class QuestManagerTest {
     }
 
     @ParameterizedTest
-    @CsvSource({"frAlways, _frToday", "prAlways, _prToday"})
+    @CsvSource({"frAlways, _frToday", "prAlways, _prToday", "crAlways, _crToday"})
     public void checkDayPassesInMonorail(String always, String today) {
       var html = html("request/test_visit_monorail.html");
       // If we have always access, we don't have today access
@@ -3723,6 +3723,40 @@ public class QuestManagerTest {
         String responseText = html("request/test_barrow_wraith_win.html");
         QuestManager.updateQuestData(responseText, "barrow wraith?");
         assertEquals(Preferences.getString("_frMonstersKilled"), "barrow wraith?:1,");
+      }
+    }
+  }
+
+  @Nested
+  class ServerRoom {
+    @Test
+    public void canParseFileDrawer() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withProperty("_cyberZone1Owner", ""),
+              withProperty("_cyberZone1Defense", ""),
+              withProperty("_cyberZone1Hacker", ""),
+              withProperty("_cyberZone2Owner", ""),
+              withProperty("_cyberZone2Defense", ""),
+              withProperty("_cyberZone2Hacker", ""),
+              withProperty("_cyberZone3Owner", ""),
+              withProperty("_cyberZone3Defense", ""),
+              withProperty("_cyberZone3Hacker", ""));
+      try (cleanups) {
+        builder.client.addResponse(200, html("request/test_place_serverroom_filedrawer.html"));
+        var request = new PlaceRequest("serverroom", "serverroom_filedrawer");
+        request.run();
+        assertThat("_cyberZone1Owner", isSetTo("Century-Price Quasi-Marketing Companies"));
+        assertThat("_cyberZone1Defense", isSetTo("null container"));
+        assertThat("_cyberZone1Hacker", isSetTo("blackhat"));
+        assertThat("_cyberZone2Owner", isSetTo("Taking Compu-Equipment"));
+        assertThat("_cyberZone2Defense", isSetTo("parental controls"));
+        assertThat("_cyberZone2Hacker", isSetTo("blackhat"));
+        assertThat("_cyberZone3Owner", isSetTo("United Kingdom Compu-Industry"));
+        assertThat("_cyberZone3Defense", isSetTo("ICE barrier"));
+        assertThat("_cyberZone3Hacker", isSetTo("redhat"));
       }
     }
   }
