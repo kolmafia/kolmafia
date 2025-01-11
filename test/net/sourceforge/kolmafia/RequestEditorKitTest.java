@@ -584,6 +584,26 @@ public class RequestEditorKitTest {
         assertFalse(contents.contains("cyberit"));
       }
     }
+
+    @Test
+    void canDetectExistingReturnToNetworkMap() {
+      var buffer = new StringBuffer(html("request/test_adventure_hacked_cyberrealm_zone1.html"));
+      var original = buffer.toString();
+      RequestEditorKit.getFeatureRichHTML("adventure.php?snarfblat=585", buffer, true);
+      var contents = buffer.toString();
+      assertTrue(original.contains("Back to the Network Map"));
+      assertTrue(contents.contains("Back to the Network Map"));
+    }
+
+    @Test
+    void canInsertNewReturnToNetworkMap() {
+      var buffer = new StringBuffer(html("request/test_adventure_hacked_cyberrealm_zone2.html"));
+      var original = buffer.toString();
+      RequestEditorKit.getFeatureRichHTML("adventure.php?snarfblat=586", buffer, true);
+      var contents = buffer.toString();
+      assertFalse(original.contains("Back to the Network Map"));
+      assertTrue(contents.contains("Back to the Network Map"));
+    }
   }
 
   @Test

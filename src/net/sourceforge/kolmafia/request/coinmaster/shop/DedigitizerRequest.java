@@ -2,8 +2,8 @@ package net.sourceforge.kolmafia.request.coinmaster.shop;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
-import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.shop.ShopRow;
@@ -48,11 +48,10 @@ public class DedigitizerRequest extends CoinMasterRequest {
   }
 
   public static String accessible() {
-    int serverRoomKey = SERVER_ROOM_KEY.getCount(KoLConstants.inventory);
-    if (serverRoomKey == 0) {
-      return "You don't have a server room key in inventory.";
+    if (Preferences.getBoolean("crAlways") || Preferences.getBoolean("_crToday")) {
+      return null;
     }
-    return null;
+    return "You can't access the server room.";
   }
 
   public static final boolean registerRequest(final String urlString) {
