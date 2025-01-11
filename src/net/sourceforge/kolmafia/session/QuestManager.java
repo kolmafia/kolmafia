@@ -882,7 +882,15 @@ public class QuestManager {
           while (matcher.find()) {
             String owner = matcher.group(1);
             String defense = matcher.group(3);
-            String hacker = matcher.group(4);
+            String hacker =
+                switch (matcher.group(4)) {
+                  case "redhat" -> "redhat hacker";
+                  case "bluehat" -> "bluehat hacker";
+                  case "greenhat" -> "greenhat hacker";
+                  case "purplehat" -> "purpleat hacker";
+                  case "blackhat" -> "greyhat hacker";
+                  default -> matcher.group(4);
+                };
             String prefix = "_cyberZone" + matcher.group(2);
             Preferences.setString(prefix + "Owner", owner);
             Preferences.setString(prefix + "Defense", defense);
