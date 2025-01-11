@@ -887,7 +887,7 @@ public class QuestManager {
                   case "redhat" -> "redhat hacker";
                   case "bluehat" -> "bluehat hacker";
                   case "greenhat" -> "greenhat hacker";
-                  case "purplehat" -> "purpleat hacker";
+                  case "purplehat" -> "purplehat hacker";
                   case "blackhat" -> "greyhat hacker";
                   default -> matcher.group(4);
                 };
