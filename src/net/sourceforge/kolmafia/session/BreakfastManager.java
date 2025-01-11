@@ -107,6 +107,7 @@ public class BreakfastManager {
           BreakfastManager::haveBoxingDaydream,
           BreakfastManager::useToys,
           BreakfastManager::collectAnticheese,
+          BreakfastManager::collectCyberTrash,
           BreakfastManager::collectSeaJelly,
           BreakfastManager::harvestBatteries,
           BreakfastManager::useBookOfEverySkill,
@@ -835,6 +836,13 @@ public class BreakfastManager {
     if (KoLCharacter.desertBeachAccessible()
         && KoLCharacter.getCurrentDays() >= Preferences.getInteger("lastAnticheeseDay") + 5) {
       RequestThread.postRequest(new PlaceRequest("desertbeach", "db_nukehouse"));
+    }
+  }
+
+  private static void collectCyberTrash() {
+    if ((Preferences.getBoolean("crAlways") || Preferences.getBoolean("_crToday"))
+        && !Preferences.getBoolean("_cyberTrashCollected")) {
+      RequestThread.postRequest(new PlaceRequest("serverroom", "serverroom_trash1"));
     }
   }
 

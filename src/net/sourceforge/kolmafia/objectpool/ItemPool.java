@@ -3810,6 +3810,7 @@ public class ItemPool {
   public static final int FLAGELLATE_SOUP = 11623;
   public static final int ELBOW_SOUP = 11624;
   public static final int LIP_SOUP = 11625;
+  public static final int TEARAWAY_PANTS = 11630;
   public static final int SEPTEMBER_CENSER = 11642;
   public static final int MINIATURE_EMBERING_HULK = 11644;
   public static final int STRUCTURAL_EMBER = 11647;
@@ -3852,6 +3853,7 @@ public class ItemPool {
   public static final int ZERO = 11789;
   public static final int CR_KEYCODE = 11807;
   public static final int SERVER_KEY = 11808;
+  public static final int PRINTED_SERVER_KEY = 11809;
 
   private ItemPool() {}
 
