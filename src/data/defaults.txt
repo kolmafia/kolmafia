@@ -1952,7 +1952,7 @@ user	_crimboTree	false
 user	_currentDartboard
 user	_cursedKegUsed	false
 user	_cursedMicrowaveUsed	false
-user	_cyberRealmFreeTurnsUsed    false
+user	_cyberRealmFreeTurnsUsed	false
 user	_dailyDungeonMalwareUsed	false
 user	_dailySpecial
 user	_dailySpecialPrice	0
