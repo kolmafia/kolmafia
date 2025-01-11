@@ -168,7 +168,7 @@ Item	crown-shaped beanie	Slime Resistance: +1, Food Drop: +20, Initiative: +20, 
 Item	crumpled felt fedora	Familiar Weight: +10, Muscle Percent: +5, Familiar Effect: "0.75xVolley, 0.75xLep"
 Item	cursed eyepatch	Mysticality: +15, Familiar Effect: "spooky atk, 1xBarrr"
 Item	cursed tricorn hat	Mysticality: +25, Experience: +10, PvP Fights: +5
-# cybervisor: +3 RAM
+Item	cybervisor	RAM: +3
 # Daylight Shavings Helmet: Keeps your facial hair stylish at all times
 Item	Daylight Shavings Helmet	Experience: +3, Adventures: +5, Familiar Weight: +5
 Item	demon-horned hat	Moxie: +4, Familiar Effect: "hot atk, 1xLep, cap 17"
@@ -3044,7 +3044,7 @@ Item	dark baconstone ring	Mysticality: +15
 Item	dark hamethyst ring	Muscle: +15
 # dark porquoise ring: Makes Deleveling More Effective
 Item	dark porquoise ring	Moxie: +15
-# datastick: +1 RAM
+Item	datastick	RAM: +1
 Item	dead guy's memento	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Adventures: +5, Single Equip, Nonstackable Watch
 Item	dead guy's watch	Adventures: +1, Single Equip, Nonstackable Watch
 Item	deep-fried key	Sleaze Resistance: +3, Sleaze Damage: +15, Sleaze Spell Damage: +30
@@ -5900,7 +5900,7 @@ Effect	Cut But Not Dried	Muscle Percent: +20, Moxie Percent: -20, Experience (Mu
 Effect	Cute Vision	Familiar Weight: +5
 Effect	Cuts Like a Buttered Knife	Sleaze Damage: +50
 Effect	Cuts Like a Lightly-Buttered Knife	Sleaze Damage: +5
-# Cyber Memory Boost: +3 RAM
+Effect	Cyber Memory Boost	RAM: +3
 Effect	Cyber Resist x2000	Hot Resistance: +5, Cold Resistance: +5, Spooky Resistance: +5, Stench Resistance: +5, Sleaze Resistance: +5
 # Cyber Slicer: Cyber attacks deal more damage
 Effect	Cyber-Robo-Steam-Whatever Costume	Avatar: "super-sized Cola Wars soldier"
