@@ -2880,6 +2880,9 @@ public abstract class RuntimeLibrary {
     params = List.of(namedParam("monster", DataTypes.MONSTER_TYPE));
     functions.add(new LibraryFunction("is_banished", DataTypes.BOOLEAN_TYPE, params));
 
+    params = List.of(namedParam("phylum", DataTypes.PHYLUM_TYPE));
+    functions.add(new LibraryFunction("is_banished", DataTypes.BOOLEAN_TYPE, params));
+
     params = List.of(namedParam("monster", DataTypes.MONSTER_TYPE));
     functions.add(
         new LibraryFunction("banished_by", new AggregateType(DataTypes.STRING_TYPE, 0), params));
@@ -9808,11 +9811,21 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value is_banished(ScriptRuntime controller, final Value arg) {
-    MonsterData monster = (MonsterData) arg.rawValue();
-    if (monster == null) {
+    if (arg.getType().equals(TypeSpec.MONSTER)) {
+      MonsterData monster = (MonsterData) arg.rawValue();
+      if (monster == null) {
+        return DataTypes.FALSE_VALUE;
+      }
+      return DataTypes.makeBooleanValue(BanishManager.isBanished(monster.getName()));
+    } else if (arg.getType().equals(TypeSpec.PHYLUM)) {
+      Phylum phylum = (Phylum) arg.rawValue();
+      if (phylum == null) {
+        return DataTypes.FALSE_VALUE;
+      }
+      return DataTypes.makeBooleanValue(BanishManager.isBanishedPhylum(phylum));
+    } else {
       return DataTypes.FALSE_VALUE;
     }
-    return DataTypes.makeBooleanValue(BanishManager.isBanished(monster.getName()));
   }
 
   public static Value banished_by(ScriptRuntime controller, final Value arg) {
