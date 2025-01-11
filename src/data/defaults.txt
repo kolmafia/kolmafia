@@ -2194,6 +2194,7 @@ user	_jiggleSteak	0
 user	_jingleBellUsed	false
 user	_jitbCharge	0
 user	_jukebox	false
+user	_juneCleaverAdvs	0
 user	_juneCleaverFightsLeft	1
 user	_juneCleaverEncounters	0
 user	_juneCleaverStench	1

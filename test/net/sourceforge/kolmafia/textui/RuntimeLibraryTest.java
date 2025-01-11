@@ -8,7 +8,9 @@ import static internal.helpers.Networking.html;
 import static internal.helpers.Networking.json;
 import static internal.helpers.Player.withAdventuresLeft;
 import static internal.helpers.Player.withAdventuresSpent;
+import static internal.helpers.Player.withBanishedPhyla;
 import static internal.helpers.Player.withClass;
+import static internal.helpers.Player.withCurrentRun;
 import static internal.helpers.Player.withDay;
 import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withEquippableItem;
@@ -1835,6 +1837,21 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       assertThat(execute("free_cooks()").trim(), is("Returned: 1"));
       assertThat(execute("free_mixes()").trim(), is("Returned: 2"));
       assertThat(execute("free_smiths()").trim(), is("Returned: 9"));
+    }
+  }
+
+  @Test
+  void determinesBanishes() {
+    var cleanups =
+        new Cleanups(withCurrentRun(128), withBanishedPhyla("undead:Patriotic Screech:119"));
+
+    try (cleanups) {
+      assertThat(execute("is_banished($monster[ghuol])").trim(), is("Returned: true"));
+      assertThat(execute("is_banished($phylum[undead])").trim(), is("Returned: true"));
+      assertThat(execute("is_banished($monster[zombie process])").trim(), is("Returned: false"));
+      assertThat(execute("is_banished($phylum[construct])").trim(), is("Returned: false"));
+      assertThat(execute("is_banished($monster[none])").trim(), is("Returned: false"));
+      assertThat(execute("is_banished($phylum[none])").trim(), is("Returned: false"));
     }
   }
 }
