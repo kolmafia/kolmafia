@@ -248,6 +248,7 @@ public class Preferences {
         "currentSpecialBountyItem",
         "currentSITSkill",
         "cursedMagnifyingGlassCount",
+        "cyberDatastickCollected",
         "cyrusAdjectives",
         "dampOldBootPurchased",
         "dartsThrown",

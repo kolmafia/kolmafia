@@ -6267,9 +6267,7 @@ public class UseItemRequest extends GenericRequest {
         break;
 
       case ItemPool.PRINTED_SERVER_KEY:
-        if (Preferences.getBoolean("crAlways")) {
-          // If you already have access it is not consumed
-          // We assume.
+        if (responseText.contains("You've already got access to the server room.")) {
           return;
         }
         Preferences.setBoolean("_crToday", true);
