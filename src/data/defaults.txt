@@ -563,6 +563,7 @@ user	currentSpecialBountyItem
 user	currentSITSkill	none
 user	cursedMagnifyingGlassCount	0
 user	customCombatScript	default
+user	cyberDatastickCollected	false
 user	cyrptAlcoveEvilness	0
 user	cyrptCrannyEvilness	0
 user	cyrptNicheEvilness	0
@@ -1954,6 +1955,20 @@ user	_crToday	false
 user	_currentDartboard
 user	_cursedKegUsed	false
 user	_cursedMicrowaveUsed	false
+user	_cyberFreeFights	0
+user	_cyberTrashCollected	false
+user	_cyberZone1Defense
+user	_cyberZone1Hacker
+user	_cyberZone1Owner
+user	_cyberZone1Turns	0
+user	_cyberZone2Defense
+user	_cyberZone2Hacker
+user	_cyberZone2Owner
+user	_cyberZone2Turns	0
+user	_cyberZone3Defense
+user	_cyberZone3Hacker
+user	_cyberZone3Owner
+user	_cyberZone3Turns	0
 user	_dailyDungeonMalwareUsed	false
 user	_dailySpecial
 user	_dailySpecialPrice	0

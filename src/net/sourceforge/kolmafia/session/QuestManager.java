@@ -860,6 +860,42 @@ public class QuestManager {
     }
   }
 
+  // <b>Owner:</b> Century-Price Quasi-Marketing Companies<br>Security Level: 1<br>Countermeasures:
+  // null container<br>Active Intrusion: blackhat<br>
+  private static final Pattern FILE_DRAWER_PATTERN =
+      Pattern.compile(
+          "<b>Owner:</b> *(.*?)<br>Security Level: (\\d)<br>Countermeasures: (.*?)<br>Active Intrusion: (.*?)<br>",
+          Pattern.DOTALL);
+
+  public static void handleServerRoom(final String location, final String responseText) {
+    String action = GenericRequest.getAction(location);
+    if (action != null) {
+      switch (action) {
+        case "serverroom_drawer1" -> {}
+        case "serverroom_drawer2" -> {}
+        case "serverroom_drawer3" -> {}
+        case "serverroom_chipdrawer" -> {
+          Preferences.setBoolean("cyberDatastickCollected", true);
+        }
+        case "serverroom_filedrawer" -> {
+          Matcher matcher = FILE_DRAWER_PATTERN.matcher(responseText);
+          while (matcher.find()) {
+            String owner = matcher.group(1);
+            String defense = matcher.group(3);
+            String hacker = matcher.group(4);
+            String prefix = "_cyberZone" + matcher.group(2);
+            Preferences.setString(prefix + "Owner", owner);
+            Preferences.setString(prefix + "Defense", defense);
+            Preferences.setString(prefix + "Hacker", hacker);
+          }
+        }
+        case "serverroom_trash1", "serverroom_trash2" -> {
+          Preferences.setBoolean("_cyberTrashCollected", true);
+        }
+      }
+    }
+  }
+
   private static void handleBilliardsRoomChange(final String responseText) {
     if (responseText.contains("That's Your Cue")) {
       QuestDatabase.setQuestProgress(Quest.SPOOKYRAVEN_NECKLACE, "step2");

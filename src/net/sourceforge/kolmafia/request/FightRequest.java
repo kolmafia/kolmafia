@@ -2189,6 +2189,15 @@ public class FightRequest extends GenericRequest {
           Preferences.increment("_shadowRiftCombats");
           MonsterStatusTracker.recalculateOriginalStats();
         }
+        case AdventurePool.CYBER_ZONE_1 -> {
+          Preferences.increment("_cyberZone1Turns");
+        }
+        case AdventurePool.CYBER_ZONE_2 -> {
+          Preferences.increment("_cyberZone2Turns");
+        }
+        case AdventurePool.CYBER_ZONE_3 -> {
+          Preferences.increment("_cyberZone3Turns");
+        }
       }
 
       // Wearing any piece of papier equipment really messes up the results
