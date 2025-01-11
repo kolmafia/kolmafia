@@ -1311,7 +1311,7 @@ The Dedigitizer	ROW1562	cryptocloak	1 (64)	0 (32)	dedigitizer schematic: cryptoc
 The Dedigitizer	ROW1552	cybervisor	1 (64)	0 (32)	dedigitizer schematic: cybervisor
 The Dedigitizer	ROW1555	malware injector	1 (64)	0 (32)	dedigitizer schematic: malware injector
 The Dedigitizer	ROW1564	trojan horseshoe	1 (128)	0 (32)	dedigitizer schematic: trojan horseshoe
-# The Dedigitizer	ROW1579	3d printed server room key	1 (X)	0 (X)	dedigitizer schematic: 3d printed server room key
+The Dedigitizer	ROW1579	3d printed server room key	1 (128)	0 (32)	dedigitizer schematic: 3d printed server room key
 The Dedigitizer	ROW1553	retro floppy disk	1 (128)	0 (64)	dedigitizer schematic: retro floppy disk
 The Dedigitizer	ROW1574	geofencing rapier	1 (256)	dedigitizer schematic: geofencing rapier
 The Dedigitizer	ROW1575	geofencing shield	1 (256)	dedigitizer schematic: geofencing shield

@@ -302,6 +302,9 @@ public class AdventurePool {
   public static final int CRIMBO23_BAR = 577;
   public static final int CRIMBO23_CAFE = 578;
   public static final int CRIMBO23_ARMORY = 579;
+  public static final int CYBER_ZONE_1 = 585;
+  public static final int CYBER_ZONE_2 = 586;
+  public static final int CYBER_ZONE_3 = 587;
 
   private AdventurePool() {}
 }

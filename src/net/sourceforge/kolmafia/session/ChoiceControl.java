@@ -8878,6 +8878,25 @@ public abstract class ChoiceControl {
           ConcoctionDatabase.refreshConcoctions();
         }
       }
+
+      case 1545 -> { // Cyberzone 1 Half-Way
+        Preferences.setInteger("_cyberZone1Turns", 10);
+      }
+      case 1546 -> { // Cyberzone 1 Final
+        Preferences.setInteger("_cyberZone1Turns", 20);
+      }
+      case 1547 -> { // Cyberzone 2 Half-Way
+        Preferences.setInteger("_cyberZone2Turns", 10);
+      }
+      case 1548 -> { // Cyberzone 2 Final
+        Preferences.setInteger("_cyberZone2Turns", 20);
+      }
+      case 1549 -> { // Cyberzone 3 Half-Way
+        Preferences.setInteger("_cyberZone3Turns", 10);
+      }
+      case 1550 -> { // Cyberzone 3 Final
+        Preferences.setInteger("_cyberZone3Turns", 20);
+      }
     }
   }
 

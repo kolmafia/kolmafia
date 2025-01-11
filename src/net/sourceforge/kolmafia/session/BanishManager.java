@@ -17,6 +17,7 @@ import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
+import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -503,9 +504,13 @@ public class BanishManager {
     if (data.isNoBanish()) {
       return false;
     }
+    return isBanishedPhylum(data.getPhylum());
+  }
+
+  public static boolean isBanishedPhylum(final Phylum phylum) {
     return banishedPhyla.stream()
         .filter(m -> m.banisher().isEffective())
-        .anyMatch(m -> m.banished().equalsIgnoreCase(data.getPhylum().toString()));
+        .anyMatch(m -> m.banished().equalsIgnoreCase(phylum.toString()));
   }
 
   public static Banisher[] banishedBy(final MonsterData data) {
