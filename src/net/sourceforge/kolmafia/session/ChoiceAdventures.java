@@ -6346,6 +6346,51 @@ public abstract class ChoiceAdventures {
         new ChoiceOption("fight \"Santa Claus\"", 1),
         new ChoiceOption("get Spirits of Christmas scaling with spooky resistance", 2),
         new ChoiceOption("skip adventure", 3));
+
+    // ... something...
+    new ChoiceAdventure(
+        1545,
+        "Server Room",
+        "CyberRealm Zone 1 Half-Way",
+        new ChoiceOption("get 0 (8) and take elemental damage", 1),
+        new ChoiceOption("no bits, no damage", 2));
+
+    // The Final Node
+    new ChoiceAdventure(
+        1546,
+        "Server Room",
+        "CyberRealm Zone 1 Finished",
+        new ChoiceOption("get a dedigitizer schematic", 1));
+
+    // ... something...
+    new ChoiceAdventure(
+        1547,
+        "Server Room",
+        "CyberRealm Zone 2 Half-Way",
+        new ChoiceOption("get 0 (16) and take elemental damage", 1),
+        new ChoiceOption("no bits, no damage", 2));
+
+    // The Final Node
+    new ChoiceAdventure(
+        1548,
+        "Server Room",
+        "CyberRealm Zone 2 Finished",
+        new ChoiceOption("get a dedigitizer schematic", 1));
+
+    // ... something...
+    new ChoiceAdventure(
+        1549,
+        "Server Room",
+        "CyberRealm Zone 3 Half-Way",
+        new ChoiceOption("get 0 (32) and take elemental damage", 1),
+        new ChoiceOption("no bits, no damage", 2));
+
+    // The Final Node
+    new ChoiceAdventure(
+        1550,
+        "Server Room",
+        "CyberRealm Zone 3 Finished",
+        new ChoiceOption("get a dedigitizer schematic", 1));
   }
 
   // This array is used by the ChoiceOptionsPanel to provide all the GUI configurable choices.
@@ -7052,6 +7097,15 @@ public abstract class ChoiceAdventures {
       case 1499 ->
       // A Labyrinth of Shadows
       dynamicChoiceSpoilers(choice, "A Labyrinth of Shadows");
+      case 1545 ->
+      // CyberRealm Zone 1 Half-Way
+      dynamicChoiceSpoilers(choice, "CyberRealm Zone 1 Half-Way");
+      case 1547 ->
+      // CyberRealm Zone 2 Half-Way
+      dynamicChoiceSpoilers(choice, "CyberRealm Zone 2 Half-Way");
+      case 1549 ->
+      // CyberRealm Zone 2 Half-Way
+      dynamicChoiceSpoilers(choice, "CyberRealm Zone 2 Half-Way");
       default -> null;
     };
   }
@@ -8988,8 +9042,53 @@ public abstract class ChoiceAdventures {
 
           return result;
         }
+
+      case 1545:
+        {
+          // CyberRealm Zone 1 Half-Way
+          String element = cyberDefenseElement("_cyberZone1Defense");
+          String message = "Get 0 (8) and suffer " + element + " damage";
+          result = new ChoiceOption[2];
+          result[0] = new ChoiceOption(message);
+          result[1] = new ChoiceOption("no reward, no damage");
+          return result;
+        }
+
+      case 1547:
+        {
+          // CyberRealm Zone 2 Half-Way
+          String element = cyberDefenseElement("_cyberZone2Defense");
+          String message = "Get 0 (16) and suffer " + element + " damage";
+          result = new ChoiceOption[2];
+          result[0] = new ChoiceOption(message);
+          result[1] = new ChoiceOption("no reward, no damage");
+          return result;
+        }
+
+      case 1549:
+        {
+          // CyberRealm Zone 3 Half-Way
+          String element = cyberDefenseElement("_cyberZone3Defense");
+          String message = "Get 0 (32) and suffer " + element + " damage";
+          result = new ChoiceOption[2];
+          result[0] = new ChoiceOption(message);
+          result[1] = new ChoiceOption("no reward, no damage");
+          return result;
+        }
     }
     return null;
+  }
+
+  private static String cyberDefenseElement(String property) {
+    String value = Preferences.getString(property);
+    return switch (value) {
+      case "firewall" -> "hot";
+      case "ICE barrier" -> "cold";
+      case "corruption quarantine" -> "stench";
+      case "parental controls" -> "sleaze";
+      case "null container" -> "spooky";
+      default -> "elemental";
+    };
   }
 
   private static ChoiceOption booPeakDamage() {

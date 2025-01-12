@@ -1379,5 +1379,32 @@ Crimbo24 Factory	ROW1546	nylon Christmas stockings	Spirit of Veteran's Day (200)
 Crimbo24 Factory	ROW1547	tattoo of two turkeys	Spirit of Thanksgiving (300)	Spirit of Christmas (300)
 Crimbo24 Factory	ROW1548	Hoyle's Guide to Reindeer Games	Spirit of Christmas (500)
 Hack Market	ROW1549	Synapse Blaster	500 Meat
+The Dedigitizer	ROW1550	brute force hammer	1 (32)	0 (8)	dedigitizer schematic: brute force hammer
+The Dedigitizer	ROW1552	cybervisor	1 (64)	0 (32)	dedigitizer schematic: cybervisor
+The Dedigitizer	ROW1553	retro floppy disk	1 (128)	0 (64)	dedigitizer schematic: retro floppy disk
+The Dedigitizer	ROW1554	pocket GPU	1 (32)	0 (16)	dedigitizer schematic: pocket GPU
+The Dedigitizer	ROW1555	malware injector	1 (64)	0 (32)	dedigitizer schematic: malware injector
 Hack Market	ROW1556	eXpand	500 Meat
 Hack Market	ROW1557	drenchrome 2.0	500 Meat
+The Dedigitizer	ROW1558	visual packet sniffer	1 (16)
+The Dedigitizer	ROW1559	encrypted shuriken	1 (16)
+The Dedigitizer	ROW1560	wired underwear	1 (8)
+The Dedigitizer	ROW1561	digibritches	1 (32)	0 (16)	dedigitizer schematic: digibritches
+The Dedigitizer	ROW1562	cryptocloak	1 (64)	0 (32)	dedigitizer schematic: cryptocloak
+The Dedigitizer	ROW1563	zero-trust tanktop	1 (32)	0 (32)	dedigitizer schematic: zero-trust tanktop
+The Dedigitizer	ROW1564	trojan horseshoe	1 (128)	0 (32)	dedigitizer schematic: trojan horseshoe
+The Dedigitizer	ROW1565	familiar-in-the-middle wrapper	1 (64)	0 (16)	dedigitizer schematic: familiar-in-the-middle wrapper
+The Dedigitizer	ROW1566	cyburger	1 (32)	dedigitizer schematic: cyburger
+The Dedigitizer	ROW1567	cybeer	1 (32)	dedigitizer schematic: cybeer
+The Dedigitizer	ROW1568	psilocyber mushroom	1 (32)	dedigitizer schematic: psilocyber mushroom
+The Dedigitizer	ROW1569	SLEEP(5) rom chip	1 (256)	0 (64)	dedigitizer schematic: SLEEP(5) rom chip
+The Dedigitizer	ROW1570	OVERCLOCK(10) rom chip	1 (256)	0 (64)	dedigitizer schematic: OVERCLOCK(10) rom chip
+The Dedigitizer	ROW1571	STATS+++ rom chip	1 (256)	0 (64)	dedigitizer schematic: STATS+++ rom chip
+The Dedigitizer	ROW1572	insignificant bit	1 (256)	dedigitizer schematic: insignificant bit
+The Dedigitizer	ROW1573	hashing vise	1 (256)	dedigitizer schematic: hashing vise
+The Dedigitizer	ROW1574	geofencing rapier	1 (256)	dedigitizer schematic: geofencing rapier
+The Dedigitizer	ROW1575	geofencing shield	1 (256)	dedigitizer schematic: geofencing shield
+The Dedigitizer	ROW1576	virtual cybertattoo	1 (512)	0 (128)	dedigitizer schematic: virtual cybertattoo
+The Dedigitizer	ROW1577	synthetic coffee	1 (8)	0 (8)
+The Dedigitizer	ROW1578	iDrops	1 (16)	0 (16)
+The Dedigitizer	ROW1579	3d printed server room key	1 (128)	0 (32)	dedigitizer schematic: 3d printed server room key
