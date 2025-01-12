@@ -267,7 +267,7 @@ public class NPCStoreDatabase {
         return false;
       }
       case "cyber_hackmarket" -> {
-        return InventoryManager.getCount(ItemPool.SERVER_KEY) > 0;
+        return Preferences.getBoolean("crAlways") || Preferences.getBoolean("_crToday");
       }
       case "doc" -> {
         // Doc Galaktik's Medicine Show

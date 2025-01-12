@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia.request;
 
+import static internal.helpers.Networking.assertGetRequest;
+import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.*;
 import static internal.matchers.Item.isInInventory;
@@ -9,6 +11,7 @@ import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.startsWith;
@@ -42,6 +45,7 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
@@ -3165,6 +3169,49 @@ public class FightRequestTest {
 
       assertThat(
           "banishedMonsters", hasStringValue(startsWith("network worm:Deploy Glitched Malware:")));
+    }
+  }
+
+  @Nested
+  class CyberRealm {
+    @ParameterizedTest
+    @ValueSource(ints = {1, 2, 3})
+    public void cyberRealmFightsIncrementTurns(int securityLevel) {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      String adventureName = "Cyberzone " + securityLevel;
+      String fileName = "request/test_cyber_zone" + securityLevel + "_fight.html";
+      String property = "_cyberZone" + securityLevel + "Turns";
+      KoLAdventure adventure = AdventureDatabase.getAdventureByName(adventureName);
+      int snarfblat = adventure.getSnarfblat();
+      String html = html(fileName);
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withFight(0),
+              withProperty("_cyberZone1Turns", 4),
+              withProperty("_cyberZone2Turns", 4),
+              withProperty("_cyberZone3Turns", 4));
+      try (cleanups) {
+        client.addResponse(
+            302, Map.of("location", List.of("fight.php?ireallymeanit=1667327836")), "");
+        client.addResponse(200, html);
+        client.addResponse(200, ""); // api.php
+
+        var request = new GenericRequest("adventure.php?snarfblat=" + snarfblat);
+        request.run();
+
+        assertThat("_cyberZone1Turns", isSetTo(securityLevel == 1 ? 5 : 4));
+        assertThat("_cyberZone2Turns", isSetTo(securityLevel == 2 ? 5 : 4));
+        assertThat("_cyberZone3Turns", isSetTo(securityLevel == 3 ? 5 : 4));
+
+        var requests = client.getRequests();
+
+        assertThat(requests, hasSize(3));
+        assertPostRequest(requests.get(0), "/adventure.php", "snarfblat=" + snarfblat);
+        assertGetRequest(requests.get(1), "/fight.php", "ireallymeanit=1667327836");
+        assertPostRequest(requests.get(2), "/api.php", "what=status&for=KoLmafia");
+      }
     }
   }
 }

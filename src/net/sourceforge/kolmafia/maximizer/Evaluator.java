@@ -151,7 +151,6 @@ public class Evaluator {
   // otherwise be no suitable weapons to go with that off-hand.
   static final Slot OFFHAND_MELEE = Slot.ACCESSORY2;
   static final Slot OFFHAND_RANGED = Slot.ACCESSORY3;
-  static final Slot WATCHES = Slot.STICKER2;
   static final Slot WEAPON_1H = Slot.STICKER3;
 
   // Slots starting with EquipmentSlot.ALL_SLOTS are equipment
@@ -196,7 +195,6 @@ public class Evaluator {
         switch (slot) {
           case /* Evaluator.OFFHAND_MELEE */ ACCESSORY2, /* Evaluator.OFFHAND_RANGED */
               ACCESSORY3 -> Slot.OFFHAND;
-          case /* Evaluator.WATCHES */ STICKER2 -> Slot.ACCESSORY1;
           case /* Evaluator.WEAPON_1H */ STICKER3 -> Slot.WEAPON;
           default -> slot;
         };
@@ -1456,10 +1454,6 @@ public class Evaluator {
           modeablesNeeded.put(modeable, slotWeightings.stream().anyMatch(s -> s >= 0));
         }
 
-        if (mods.getBoolean(BooleanModifier.NONSTACKABLE_WATCH)) {
-          slot = Evaluator.WATCHES;
-        }
-
         if (this.posEquip.contains(item)) {
           item.automaticFlag = true;
           item.requiredFlag = true;
@@ -2226,7 +2220,6 @@ public class Evaluator {
       }
     }
 
-    automatic.get(Slot.ACCESSORY1).addAll(automatic.get(Evaluator.WATCHES));
     automatic.get(Slot.WEAPON).addAll(automatic.get(Evaluator.WEAPON_1H));
     automatic.get(Evaluator.OFFHAND_MELEE).addAll(automatic.get(Slot.OFFHAND));
     automatic.get(Evaluator.OFFHAND_RANGED).addAll(automatic.get(Slot.OFFHAND));

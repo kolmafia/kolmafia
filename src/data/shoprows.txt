@@ -1548,11 +1548,33 @@
 1547	row	tattoo of two turkeys	Crimbo24 Factory
 1548	row	Hoyle's Guide to Reindeer Games	Crimbo24 Factory
 1549	npc	Synapse Blaster	Hack Market
-1550
+1550	row	brute force hammer	The Dedigitizer
 1551
-1552
-1553
-1554
-1555
+1552	row	cybervisor	The Dedigitizer
+1553	row	retro floppy disk	The Dedigitizer
+1554	row	pocket GPU	The Dedigitizer
+1555	row	malware injector	The Dedigitizer
 1556	npc	eXpand	Hack Market
 1557	npc	drenchrome 2.0	Hack Market
+1558	row	visual packet sniffer	The Dedigitizer
+1559	row	encrypted shuriken	The Dedigitizer
+1560	row	wired underwear	The Dedigitizer
+1561	row	digibritches	The Dedigitizer
+1562	row	cryptocloak	The Dedigitizer
+1563	row	zero-trust tanktop	The Dedigitizer
+1564	row	trojan horseshoe	The Dedigitizer
+1565	row	familiar-in-the-middle wrapper	The Dedigitizer
+1566	row	cyburger	The Dedigitizer
+1567	row	cybeer	The Dedigitizer
+1568	row	psilocyber mushroom	The Dedigitizer
+1569	row	SLEEP(5) rom chip	The Dedigitizer
+1570	row	OVERCLOCK(10) rom chip	The Dedigitizer
+1571	row	STATS+++ rom chip	The Dedigitizer
+1572	row	insignificant bit	The Dedigitizer
+1573	row	hashing vise	The Dedigitizer
+1574	row	geofencing rapier	The Dedigitizer
+1575	row	geofencing shield	The Dedigitizer
+1576	row	virtual cybertattoo	The Dedigitizer
+1577	row	synthetic coffee	The Dedigitizer
+1578	row	iDrops	The Dedigitizer
+1579	row	3d printed server room key	The Dedigitizer
