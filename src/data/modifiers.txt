@@ -9052,6 +9052,8 @@ MutexI	V for Vivala mask/Juju Mojo Mask/replica V for Vivala mask/replica Juju M
 MutexI	shining halo/furry halo/frosty halo/time halo	none
 MutexI	work boots/fancy boots	none
 MutexI	booze drive button/candy drive button/food drive button	none
+MutexI	baywatch/Counterclockwise Watch/Crimbolex watch/dead guy's memento/dead guy's watch/glow-in-the-dark wristwatch/grandfather watch/imitation nice watch/Sasq&trade; watch/wristwatch of the white knight	none
+
 
 # Mutually exclusive effects section of modifiers.txt
 # Same as above
