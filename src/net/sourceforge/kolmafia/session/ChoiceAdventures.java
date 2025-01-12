@@ -6367,7 +6367,7 @@ public abstract class ChoiceAdventures {
         1547,
         "Server Room",
         "CyberRealm Zone 2 Half-Way",
-        new ChoiceOption("get 0 (16) and take 30 elemental damage", 1),
+        new ChoiceOption("get 0 (16) and take elemental damage", 1),
         new ChoiceOption("no bits, no damage", 2));
 
     // The Final Node
@@ -6382,7 +6382,7 @@ public abstract class ChoiceAdventures {
         1549,
         "Server Room",
         "CyberRealm Zone 3 Half-Way",
-        new ChoiceOption("get 0 (32) and take 30 elemental damage", 1),
+        new ChoiceOption("get 0 (32) and take elemental damage", 1),
         new ChoiceOption("no bits, no damage", 2));
 
     // The Final Node
