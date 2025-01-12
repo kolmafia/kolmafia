@@ -1163,4 +1163,45 @@ class ChoiceControlTest {
       assertThat(InventoryManager.getCount(ItemPool.BLACK_CANDY_HEART), is(2));
     }
   }
+
+  @Nested
+  class CyberRealm {
+    @ParameterizedTest
+    @CsvSource({"1, 1545", "2, 1547", "3, 1549"})
+    public void cyberRealmHalfWaySetsTurns(int securityLevel, int choice) {
+      String fileName = "request/test_cyber_zone" + securityLevel + "_choice1.html";
+      String property = "_cyberZone" + securityLevel + "Turns";
+      String html = html(fileName);
+      var cleanups =
+          new Cleanups(
+              withProperty("_cyberZone1Turns", 5),
+              withProperty("_cyberZone2Turns", 6),
+              withProperty("_cyberZone3Turns", 7),
+              withChoice(choice, html));
+      try (cleanups) {
+        assertThat("_cyberZone1Turns", isSetTo(securityLevel == 1 ? 10 : 5));
+        assertThat("_cyberZone2Turns", isSetTo(securityLevel == 2 ? 10 : 6));
+        assertThat("_cyberZone3Turns", isSetTo(securityLevel == 3 ? 10 : 7));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({"1, 1546", "2, 1548", "3, 1550"})
+    public void cyberRealmFinalSetsTurns(int securityLevel, int choice) {
+      String fileName = "request/test_cyber_zone" + securityLevel + "_choice1.html";
+      String property = "_cyberZone" + securityLevel + "Turns";
+      String html = html(fileName);
+      var cleanups =
+          new Cleanups(
+              withProperty("_cyberZone1Turns", 15),
+              withProperty("_cyberZone2Turns", 16),
+              withProperty("_cyberZone3Turns", 17),
+              withChoice(choice, html));
+      try (cleanups) {
+        assertThat("_cyberZone1Turns", isSetTo(securityLevel == 1 ? 20 : 15));
+        assertThat("_cyberZone2Turns", isSetTo(securityLevel == 2 ? 20 : 16));
+        assertThat("_cyberZone3Turns", isSetTo(securityLevel == 3 ? 20 : 17));
+      }
+    }
+  }
 }
