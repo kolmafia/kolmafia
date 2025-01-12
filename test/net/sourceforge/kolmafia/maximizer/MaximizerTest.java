@@ -2266,7 +2266,6 @@ public class MaximizerTest {
 
   @Nested
   class watches {
-    @Disabled("Error")
     @Test
     void suggestsReplacingExistingWatch() {
       var cleanups =
