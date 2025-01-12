@@ -1038,7 +1038,7 @@ public class EatItemRequest extends UseItemRequest {
       }
       Preferences.decrement("miniKiwiAiolisUsed", chargesUsed);
     }
-    
+
     // You slather the chocolate chip muffin with festive Christmas jelly.
     if (responseText.contains("festive Christmas jelly")) {
       EatItemRequest.logConsumption("Your Bowl of Infinite Jelly kicked in");
