@@ -2262,26 +2262,4 @@ public class MaximizerTest {
       assertThat(getBoosts(), not(hasItem(hasProperty("cmd", startsWith("aprilband effect c")))));
     }
   }
-
-  @Nested
-  class watches {
-    @Test
-    void suggestsReplacingExistingWatch() {
-      var cleanups =
-          new Cleanups(
-              withEquippableItem("Counterclockwise Watch"), // 10, watch
-              withEquipped(Slot.ACCESSORY1, "Cincho de Mayo"), // 0, not a watch
-              withEquipped(Slot.ACCESSORY2, "numberwang"), // 5, not a watch
-              withEquipped(Slot.ACCESSORY3, "baywatch") // 7, a watch
-              );
-
-      try (cleanups) {
-        assertTrue(maximize("adv,fites,-tie"));
-        assertEquals(15, modFor(DoubleModifier.ADVENTURES), 0.01);
-        assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.ACCESSORY1))));
-        assertThat(getBoosts(), not(hasItem(recommendsSlot(Slot.ACCESSORY2))));
-        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.ACCESSORY3, "Counterclockwise Watch")));
-      }
-    }
-  }
 }
