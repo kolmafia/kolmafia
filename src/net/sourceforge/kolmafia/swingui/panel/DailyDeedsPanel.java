@@ -2886,10 +2886,11 @@ public class DailyDeedsPanel extends Box implements Listener {
       addFreeFightEquipment(text, ItemPool.JUNE_CLEAVER, "_juneCleaverAdvs", "june cleaver");
 
       if (Preferences.getInteger("_spiritOfTheMountainsAdvs") > 0
-          || KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.SPIRIT_OF_THE_MOUNTAINS))) {
+          || KoLConstants.activeEffects.contains(
+              EffectPool.get(EffectPool.SPIRIT_OF_THE_MOUNTAINS))) {
         text.add(Preferences.getInteger("_spiritOfTheMountainsAdvs") + " spirit of the mountains");
       }
-      
+
       addFreeFightEquipment(text, ItemPool.TEARAWAY_PANTS, "_tearawayPantsAdvs", "tearaway pants");
       addFreeFightEquipment(text, ItemPool.BAT_WINGS, "_batWingsFreeFights", "bat wings");
 
