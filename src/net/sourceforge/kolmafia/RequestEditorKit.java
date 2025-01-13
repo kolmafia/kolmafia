@@ -302,6 +302,7 @@ public class RequestEditorKit extends HTMLEditorKit {
       // bug report form.
       RequestEditorKit.addBugReportWarning(buffer);
     } else if (location.startsWith("adventure.php")) {
+      RequestEditorKit.fixCyberRealm(buffer);
       RequestEditorKit.fixTavernCellar(buffer);
       RequestEditorKit.fixBallroom1(buffer);
       RequestEditorKit.fixDucks(buffer);
@@ -309,7 +310,6 @@ public class RequestEditorKit extends HTMLEditorKit {
       StationaryButtonDecorator.decorate(location, buffer);
       RequestEditorKit.fixBallroom2(buffer);
       RequestEditorKit.fixGovernmentLab(buffer);
-      RequestEditorKit.fixCyberRealm(buffer);
     } else if (location.startsWith("ascend.php")) {
       ValhallaDecorator.decorateGashJump(location, buffer);
     } else if (location.startsWith("ascensionhistory.php")) {
@@ -346,11 +346,11 @@ public class RequestEditorKit extends HTMLEditorKit {
     } else if (location.startsWith("cave.php")) {
       NemesisManager.decorate(location, buffer);
     } else if (location.startsWith("choice.php")) {
+      RequestEditorKit.fixCyberRealm(buffer);
       RequestEditorKit.fixTavernCellar(buffer);
       StationaryButtonDecorator.decorate(location, buffer);
       RequestEditorKit.addChoiceSpoilers(location, buffer, addComplexFeatures);
       RequestEditorKit.addBarrelSounds(buffer);
-      RequestEditorKit.fixCyberRealm(buffer);
     } else if (location.startsWith("clan_hobopolis.php")) {
       HobopolisDecorator.decorate(location, buffer);
     } else if (location.startsWith("clan_viplounge.php?preaction=testlove")) {
@@ -1125,6 +1125,10 @@ public class RequestEditorKit extends HTMLEditorKit {
       Matcher darkMatcher = CYBER_REALM_DARK_MODE_PATTERN.matcher(buffer);
       if (darkMatcher.find()) {
         StringUtilities.singleStringReplace(buffer, darkMatcher.group(0), "");
+        StringUtilities.globalStringReplace(
+            buffer, "style=\"background-color: green\"", "style=\"background-color: blue\"");
+        StringUtilities.globalStringReplace(
+            buffer, "style=\"color: black\"", "style=\"color: white\"");
       }
     }
 

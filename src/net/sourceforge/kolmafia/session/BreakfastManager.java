@@ -107,7 +107,7 @@ public class BreakfastManager {
           BreakfastManager::haveBoxingDaydream,
           BreakfastManager::useToys,
           BreakfastManager::collectAnticheese,
-          BreakfastManager::collectCyberTrash,
+          BreakfastManager::visitServerRoom,
           BreakfastManager::collectSeaJelly,
           BreakfastManager::harvestBatteries,
           BreakfastManager::useBookOfEverySkill,
@@ -839,10 +839,17 @@ public class BreakfastManager {
     }
   }
 
-  private static void collectCyberTrash() {
-    if ((Preferences.getBoolean("crAlways") || Preferences.getBoolean("_crToday"))
-        && !Preferences.getBoolean("_cyberTrashCollected")) {
-      RequestThread.postRequest(new PlaceRequest("serverroom", "serverroom_trash1"));
+  private static void visitServerRoom() {
+    if (Preferences.getBoolean("crAlways") || Preferences.getBoolean("_crToday")) {
+      if (!Preferences.getBoolean("_cyberTrashCollected")) {
+        RequestThread.postRequest(new PlaceRequest("serverroom", "serverroom_trash1"));
+      }
+      if (!Preferences.getBoolean("cyberDatastickCollected")) {
+        RequestThread.postRequest(new PlaceRequest("serverroom", "serverroom_chipdrawer"));
+      }
+      if (Preferences.getString("_cyberZone1Owner").equals("")) {
+        RequestThread.postRequest(new PlaceRequest("serverroom", "serverroom_filedrawer"));
+      }
     }
   }
 

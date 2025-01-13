@@ -584,7 +584,8 @@ public enum DoubleModifier implements Modifier {
   UNDEAD_DAMAGE(
       "Damage vs. Undead",
       Pattern.compile("([+-]\\d+) Damage vs. Undead"),
-      Pattern.compile("Damage vs. Undead: " + EXPR));
+      Pattern.compile("Damage vs. Undead: " + EXPR)),
+  RAM("RAM", Pattern.compile("([+-]\\d+) RAM"), Pattern.compile("RAM: " + EXPR));
 
   private final String name;
   private final Pattern[] descPatterns;

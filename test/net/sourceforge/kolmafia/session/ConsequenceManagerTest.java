@@ -9,10 +9,13 @@ import static org.hamcrest.Matchers.is;
 
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.ModifierType;
+import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import org.junit.jupiter.api.BeforeEach;
@@ -232,5 +235,17 @@ public class ConsequenceManagerTest {
         assertThat("romanCandelabraPurpleCasts", isSetTo(2));
       }
     }
+  }
+
+  @Test
+  void parsesKgb() {
+    var descid = ItemDatabase.getDescriptionId(ItemPool.KREMLIN_BRIEFCASE);
+    var responseText = html("request/test_consequences_kgb_adv.html");
+
+    assertThat(ConsequenceManager.parseItemDesc(descid, responseText), is(true));
+    assertThat(
+        ModifierDatabase.getNumericModifier(
+            ModifierType.ITEM, ItemPool.KREMLIN_BRIEFCASE, DoubleModifier.ADVENTURES),
+        equalTo(5.0));
   }
 }
