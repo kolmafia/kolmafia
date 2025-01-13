@@ -25,6 +25,9 @@ public class DataFileMechanicsTest {
     return Stream.of(
         // file name, version number, low field count, high field count
         Arguments.of("adventures.txt", 6, 4, 5),
+        Arguments.of("allshoprows.txt", 1, 3, 8),
+        Arguments.of("bastille.txt", 1, 11, 11),
+        Arguments.of("bookoffacts.txt", 1, 3, 9),
         Arguments.of("bounty.txt", 2, 7, 7),
         Arguments.of("buffbots.txt", 1, 3, 3),
         Arguments.of("cafe_booze.txt", 1, 2, 2),
@@ -36,6 +39,7 @@ public class DataFileMechanicsTest {
         // concoctions.txt too complex
         // consequences.txt too complex
         // cultshorts.txt too complex
+        Arguments.of("dailylimits.txt", 1, 3, 4),
         Arguments.of("defaults.txt", 1, 2, 3),
         Arguments.of("encounters.txt", 1, 3, 3),
         Arguments.of("equipment.txt", 2, 3, 4),
@@ -46,12 +50,13 @@ public class DataFileMechanicsTest {
         Arguments.of("fullness.txt", 2, 8, 9),
         Arguments.of("inebriety.txt", 2, 8, 10),
         Arguments.of("items.txt", 1, 7, 8),
-        // mallprices.txt is no longer bundled
+        Arguments.of("journeyman.txt", 0, 4, 4),
         // modifiers.txt is too complex
+        Arguments.of("monsterparts.txt", 1, 2, 10),
         // monsters.txt is too complex
         Arguments.of("nonfilling.txt", 1, 2, 3),
         Arguments.of("npcstores.txt", 2, 4, 5),
-        // Trick-or-treat candy is optional if too complicated
+        Arguments.of("ocean.txt", 1, 3, 3),
         Arguments.of("outfits.txt", 3, 4, 5),
         Arguments.of("packages.txt", 1, 4, 4),
         Arguments.of("pulverize.txt", 2, 2, 2),
@@ -59,9 +64,14 @@ public class DataFileMechanicsTest {
         // questslogs.txt is too complex
         Arguments.of("restores.txt", 2, 7, 8),
         Arguments.of("spleenhit.txt", 3, 8, 9),
+        Arguments.of("standard-pulverized.txt", 1, 4, 4),
+        Arguments.of("standard-rewards.txt", 1, 6, 6),
         Arguments.of("statuseffects.txt", 4, 6, 7),
         Arguments.of("TCRS.astral_consumables.txt", 0, 4, 4),
         Arguments.of("TCRS.astral_pets.txt", 0, 4, 4),
+        // volcanomaze.txt is too complex),
+        Arguments.of("wereprofessor.txt", 1, 6, 6),
+        // witches-solution.txt is too complex
         // zapgroups.txt is too simple
         Arguments.of("zonelist.txt", 2, 3, 4));
   }
