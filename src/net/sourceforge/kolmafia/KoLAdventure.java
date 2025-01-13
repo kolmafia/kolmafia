@@ -2208,7 +2208,19 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     if (this.zone.equals("Server Room")) {
-      return (Preferences.getBoolean("crAlways") || Preferences.getBoolean("_crToday"));
+      if (Preferences.getBoolean("crAlways") || Preferences.getBoolean("_crToday")) {
+        String property =
+            switch (this.adventureNumber) {
+              case AdventurePool.CYBER_ZONE_1 -> "_cyberZone1Turns";
+              case AdventurePool.CYBER_ZONE_2 -> "_cyberZone2Turns";
+              case AdventurePool.CYBER_ZONE_3 -> "_cyberZone3Turns";
+              default -> null;
+            };
+        if (property != null) {
+          return Preferences.getInteger(property) < 20;
+        }
+      }
+      return false;
     }
 
     if (this.zone.equals("Speakeasy")) {
