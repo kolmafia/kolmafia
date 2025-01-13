@@ -7,7 +7,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -5765,9 +5764,8 @@ public class FightRequest extends GenericRequest {
     // <center><b>a fleet woodsman's Team:</b>
 
     for (Element bnode : node.children().select("b")) {
-      // something is very weird with this cleaning
       var parent = bnode.parent();
-      if (getContentNodeText(parent).contains(" Team:")) {
+      if (bnode.wholeText().contains(" Team:")) {
         return parent;
       }
     }
@@ -5790,24 +5788,11 @@ public class FightRequest extends GenericRequest {
     // allow regular node processing to glean whatever it wants
     // from what remains.
 
-    Iterator<? extends Node> it = node.childNodes().iterator();
     boolean done = false;
     int pokindex = 0;
-    while (it.hasNext() && !done) {
-      Node child = it.next();
-      if (child instanceof Element tnode) {
-        String name = tnode.tagName();
-
-        // Each familiar is in a table
-        if (name.equals("table")) {
-          FightRequest.processPokefam(++pokindex, tnode, status);
-        } else if (name.equals("b")) {
-          if (tnode.wholeText().equals("Your Team")) {
-            done = true;
-          }
-        }
-      }
-      it.remove();
+    // Each familiar is in a table
+    for (var child : node.select("table")) {
+      FightRequest.processPokefam(++pokindex, child, status);
     }
 
     HTMLParserUtils.logHTML(node);
