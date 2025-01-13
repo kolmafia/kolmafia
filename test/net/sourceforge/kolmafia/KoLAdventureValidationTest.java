@@ -6855,13 +6855,6 @@ public class KoLAdventureValidationTest {
 
   @Nested
   class CyberRealm {
-    private static final KoLAdventure CYBER_ZONE_1 =
-        AdventureDatabase.getAdventure(AdventurePool.CYBER_ZONE_1);
-    private static final KoLAdventure CYBER_ZONE_2 =
-        AdventureDatabase.getAdventure(AdventurePool.CYBER_ZONE_2);
-    private static final KoLAdventure CYBER_ZONE_3 =
-        AdventureDatabase.getAdventure(AdventurePool.CYBER_ZONE_3);
-
     private int levelToSnarfblat(int level) {
       return switch (level) {
         case 1 -> AdventurePool.CYBER_ZONE_1;
