@@ -3731,7 +3731,7 @@ public class QuestManagerTest {
   class CyberRealm {
     @ParameterizedTest
     @ValueSource(ints = {1, 2, 3})
-    public void canAdventureAlwaysWithTurnsLeft(int level) {
+    public void canDetectWhenZoneFinished(int level) {
       var builder = new FakeHttpClientBuilder();
       int snarfblat =
           switch (level) {
