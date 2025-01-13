@@ -7104,8 +7104,8 @@ public abstract class ChoiceAdventures {
       // CyberRealm Zone 2 Half-Way
       dynamicChoiceSpoilers(choice, "CyberRealm Zone 2 Half-Way");
       case 1549 ->
-      // CyberRealm Zone 2 Half-Way
-      dynamicChoiceSpoilers(choice, "CyberRealm Zone 2 Half-Way");
+      // CyberRealm Zone 3 Half-Way
+      dynamicChoiceSpoilers(choice, "CyberRealm Zone 3 Half-Way");
       default -> null;
     };
   }
@@ -9079,16 +9079,39 @@ public abstract class ChoiceAdventures {
     return null;
   }
 
+  private static Map<String, String> defenseToElement =
+      Map.ofEntries(
+          Map.entry("firewall", "hot"),
+          Map.entry("ICE barrier", "cold"),
+          Map.entry("corruption quarantine", "stench"),
+          Map.entry("parental controls", "sleaze"),
+          Map.entry("null container", "spooky"));
+
+  // This is incomplete
+  private static Map<String, String> encounterToElement =
+      Map.ofEntries(
+          Map.entry("Ice Cream Antisocial", "cold"),
+          Map.entry("A Breezy System", "cold"),
+          Map.entry("One Man's TRS-80", "stench"),
+          Map.entry("Arsenic & Old Spice", "stench"),
+          Map.entry("I Live, You Live...", "sleaze"),
+          Map.entry("The Skeleton Dance", "spooky"),
+          Map.entry("Grave Secrets", "spooky"));
+
   private static String cyberDefenseElement(String property) {
-    String value = Preferences.getString(property);
-    return switch (value) {
-      case "firewall" -> "hot";
-      case "ICE barrier" -> "cold";
-      case "corruption quarantine" -> "stench";
-      case "parental controls" -> "sleaze";
-      case "null container" -> "spooky";
-      default -> "elemental";
-    };
+    // The element is detectable from the file drawer.
+    String defense = Preferences.getString(property);
+    String element = defenseToElement.get(defense);
+    if (element != null) {
+      return element;
+    }
+    // Alternatively, we may be able to deduce it from encounter name
+    String encounter = Preferences.getString("lastEncounter");
+    element = encounterToElement.get(encounter);
+    if (element != null) {
+      return element;
+    }
+    return "elemental";
   }
 
   private static ChoiceOption booPeakDamage() {
