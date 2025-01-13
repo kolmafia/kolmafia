@@ -133,10 +133,20 @@ class ChoiceAdventuresTest {
     @ParameterizedTest
     @ValueSource(ints = {1, 2, 3})
     public void canDynamicallyGenerateChoiceSpoilersFromEncounter(int level) {
+      checkEncounterChoiceSpoilers(level, "A Funny Thing Happened...", "hot");
+      checkEncounterChoiceSpoilers(level, "A Turboclocked System", "hot");
       checkEncounterChoiceSpoilers(level, "A Breezy System", "cold");
+      checkEncounterChoiceSpoilers(level, "A Frozen Network", "cold");
+      checkEncounterChoiceSpoilers(level, "A Severely Underclocked Network", "cold");
+      checkEncounterChoiceSpoilers(level, "Ice Cream Antisocial", "cold");
       checkEncounterChoiceSpoilers(level, "Arsenic & Old Spice", "stench");
+      checkEncounterChoiceSpoilers(level, "One Man's TRS-80", "stench");
       checkEncounterChoiceSpoilers(level, "I Live, You Live...", "sleaze");
+      checkEncounterChoiceSpoilers(level, "pr0n Central", "sleaze");
+      checkEncounterChoiceSpoilers(level, "A spooky encounter", "spooky");
       checkEncounterChoiceSpoilers(level, "Grave Secrets", "spooky");
+      checkEncounterChoiceSpoilers(level, "The Fall of the Homepage of Usher", "spooky");
+      checkEncounterChoiceSpoilers(level, "The Skeleton Dance", "spooky");
       checkEncounterChoiceSpoilers(level, "Unknown Encounter", "elemental");
     }
   }
