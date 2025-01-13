@@ -237,6 +237,11 @@ public class QuestManager {
         case AdventurePool.DARK_NECK_OF_THE_WOODS:
           handleFriarsCopseChange(locationId, responseText);
           break;
+        case AdventurePool.CYBER_ZONE_1:
+        case AdventurePool.CYBER_ZONE_2:
+        case AdventurePool.CYBER_ZONE_3:
+          handleCyberRealmChange(locationId, responseText);
+          break;
         default:
           if (KoLCharacter.getInebriety() > 25) {
             handleSneakyPeteChange(responseText);
@@ -856,6 +861,24 @@ public class QuestManager {
       }
       if (responseText.contains("Swift Clipper")) {
         Preferences.setBoolean("pirateRealmUnlockedClipper", true);
+      }
+    }
+  }
+
+  private static void handleCyberRealmChange(final int locationId, final String responseText) {
+    // This called if adventuring does not redirect to a fight or a
+    // choice.  Adventuring within KoLmafia will keep the turn counter
+    // up-to-date, but if you've run turns elsewhere, update property.
+    if (responseText.contains("You've already hacked this system.")) {
+      String property =
+          switch (locationId) {
+            case AdventurePool.CYBER_ZONE_1 -> "_cyberZone1Turns";
+            case AdventurePool.CYBER_ZONE_2 -> "_cyberZone2Turns";
+            case AdventurePool.CYBER_ZONE_3 -> "_cyberZone3Turns";
+            default -> null;
+          };
+      if (property != null) {
+        Preferences.setInteger(property, 20);
       }
     }
   }
