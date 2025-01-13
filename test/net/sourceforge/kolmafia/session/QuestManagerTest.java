@@ -3750,13 +3750,13 @@ public class QuestManagerTest {
         request.run();
         assertThat("_cyberZone1Owner", isSetTo("Century-Price Quasi-Marketing Companies"));
         assertThat("_cyberZone1Defense", isSetTo("null container"));
-        assertThat("_cyberZone1Hacker", isSetTo("blackhat"));
+        assertThat("_cyberZone1Hacker", isSetTo("greyhat hacker"));
         assertThat("_cyberZone2Owner", isSetTo("Taking Compu-Equipment"));
         assertThat("_cyberZone2Defense", isSetTo("parental controls"));
-        assertThat("_cyberZone2Hacker", isSetTo("blackhat"));
+        assertThat("_cyberZone2Hacker", isSetTo("greyhat hacker"));
         assertThat("_cyberZone3Owner", isSetTo("United Kingdom Compu-Industry"));
         assertThat("_cyberZone3Defense", isSetTo("ICE barrier"));
-        assertThat("_cyberZone3Hacker", isSetTo("redhat"));
+        assertThat("_cyberZone3Hacker", isSetTo("redhat hacker"));
       }
     }
   }
