@@ -3715,7 +3715,7 @@ public class QuestManagerTest {
   @Nested
   class FantasyRealm {
     @Test
-    public void cantrackBarrwWraith() {
+    public void canTrackBarrowWraith() {
       var cleanups =
           new Cleanups(
               withLastLocation("The Barrow Mounds"), withProperty("_frMonstersKilled", ""));
@@ -3723,6 +3723,31 @@ public class QuestManagerTest {
         String responseText = html("request/test_barrow_wraith_win.html");
         QuestManager.updateQuestData(responseText, "barrow wraith?");
         assertEquals(Preferences.getString("_frMonstersKilled"), "barrow wraith?:1,");
+      }
+    }
+  }
+
+  @Nested
+  class CyberRealm {
+    @ParameterizedTest
+    @ValueSource(ints = {1, 2, 3})
+    public void canDetectWhenZoneFinished(int level) {
+      var builder = new FakeHttpClientBuilder();
+      int snarfblat =
+          switch (level) {
+            case 1 -> AdventurePool.CYBER_ZONE_1;
+            case 2 -> AdventurePool.CYBER_ZONE_2;
+            case 3 -> AdventurePool.CYBER_ZONE_3;
+            default -> 0;
+          };
+      String property = "_cyberZone" + level + "Turns";
+      String html = html("request/test_adventure_hacked_cyberrealm_zone1.html");
+      var cleanups = new Cleanups(withHttpClientBuilder(builder), withProperty(property, 10));
+      try (cleanups) {
+        builder.client.addResponse(200, html);
+        var request = new GenericRequest("adventure.php?snarfblat=" + snarfblat, true);
+        request.run();
+        assertThat(property, isSetTo(20));
       }
     }
   }
