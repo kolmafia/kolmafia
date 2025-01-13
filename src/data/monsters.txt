@@ -8,6 +8,9 @@
 # reminder that you may need to do something (like talk to Grandpa) to
 # make this item eligible to drop.
 # f - fixed rate drop, +item modifiers have no effect.
+# m - multidrop, multiple items at the same time. We assume these are not
+# pickpocketable because if you pickpocket them you get exactly 1 item and
+# they don't drop after combat, but some are pickpocketable in-game.
 # a - stealable accordion
 
 # Regular monsters
