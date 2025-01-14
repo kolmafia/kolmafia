@@ -597,8 +597,7 @@ public abstract class KoLmafia {
     BanishManager.loadBanished();
     BanishManager.resetRollover();
 
-    // Make sure Tracks are loaded before removing them
-    TrackManager.loadTracked();
+    // Remove spent tracks
     TrackManager.resetRollover();
 
     // Libram summoning skills now costs 1 MP again
