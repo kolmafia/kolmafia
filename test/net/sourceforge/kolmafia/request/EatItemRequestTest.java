@@ -10,11 +10,13 @@ import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
+import internal.helpers.RequestLoggerOutput;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -80,29 +82,20 @@ class EatItemRequestTest {
 
   @Nested
   class MiniKiwiAioli {
-    private Cleanups cleanups = new Cleanups();
-
-    @BeforeEach
-    public void beforeEach() {
-      cleanups.add(withItem(ItemPool.MINI_KIWI_AIOLI));
-      cleanups.add(withItem(ItemPool.GRAPEFRUIT));
-    }
-
-    @AfterEach
-    public void afterEach() {
-      cleanups.close();
-    }
-
     @Test
     void aioliResponseSetsPreference() {
-      assertEquals(0, Preferences.getInteger("miniKiwiAiolisUsed"));
-      Preferences.setInteger("miniKiwiAiolisUsed", 1);
+      RequestLoggerOutput.startStream();
+      var cleanups = withProperty("miniKiwiAiolisUsed", 1);
 
-      var req = new EatItemRequest(ItemPool.get(ItemPool.GRAPEFRUIT));
-      req.responseText = "Wow, that fatty kiwi flavor really kicks it up a notch.";
-      req.processResults();
+      try (cleanups) {
+        var req = new EatItemRequest(ItemPool.get(ItemPool.LEMON));
+        req.responseText = html("request/test_eat_kiwi_aioli.html");
+        req.processResults();
 
-      assertEquals(0, Preferences.getInteger("miniKiwiAiolisUsed"));
+        assertEquals(0, Preferences.getInteger("miniKiwiAiolisUsed"));
+        var text = RequestLoggerOutput.stopStream();
+        assertThat(text, containsString("You used a mini kiwi aioli charge with your food"));
+      }
     }
   }
 

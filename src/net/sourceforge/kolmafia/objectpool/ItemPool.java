@@ -144,6 +144,7 @@ public class ItemPool {
   public static final int SAUSAGE_PIZZA = 324;
   public static final int GOAT_CHEESE_PIZZA = 325;
   public static final int MUSHROOM_PIZZA = 326;
+  public static final int LEMON = 332;
   public static final int TENDER_HAMMER = 338;
   public static final int LAB_KEY = 339;
   public static final int SELTZER = 344;
