@@ -1142,6 +1142,7 @@ user	mineLayout4
 user	mineLayout5
 user	mineLayout6
 user	miniAdvClass	0
+user	miniKiwiAiolisUsed	0
 user	miniMartinisDrunk	0
 user	moleTunnelLevel	0
 user	moonTuned	false

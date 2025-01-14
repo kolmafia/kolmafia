@@ -1027,6 +1027,18 @@ public class EatItemRequest extends UseItemRequest {
       Preferences.decrement("whetstonesUsed", chargesUsed);
     }
 
+    // Wow, that fatty kiwi flavor really kicks it up a notch.
+    if (responseText.contains("that fatty kiwi flavor")) {
+      var chargesUsed = Math.min(count, Preferences.getInteger("miniKiwiAiolisUsed"));
+      if (chargesUsed > 1) {
+        EatItemRequest.logConsumption(
+            "You used " + chargesUsed + " mini kiwi aioli charges with your food");
+      } else {
+        EatItemRequest.logConsumption("You used a mini kiwi aioli charge with your food");
+      }
+      Preferences.decrement("miniKiwiAiolisUsed", chargesUsed);
+    }
+
     // You slather the chocolate chip muffin with festive Christmas jelly.
     if (responseText.contains("festive Christmas jelly")) {
       EatItemRequest.logConsumption("Your Bowl of Infinite Jelly kicked in");

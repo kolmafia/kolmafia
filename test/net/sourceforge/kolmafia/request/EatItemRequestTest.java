@@ -10,11 +10,13 @@ import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
+import internal.helpers.RequestLoggerOutput;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -75,6 +77,25 @@ class EatItemRequestTest {
 
       assertFalse(Preferences.getBoolean("_milkOfMagnesiumUsed"));
       assertFalse(Preferences.getBoolean("milkOfMagnesiumActive"));
+    }
+  }
+
+  @Nested
+  class MiniKiwiAioli {
+    @Test
+    void aioliResponseSetsPreference() {
+      RequestLoggerOutput.startStream();
+      var cleanups = withProperty("miniKiwiAiolisUsed", 1);
+
+      try (cleanups) {
+        var req = new EatItemRequest(ItemPool.get(ItemPool.LEMON));
+        req.responseText = html("request/test_eat_kiwi_aioli.html");
+        req.processResults();
+
+        assertEquals(0, Preferences.getInteger("miniKiwiAiolisUsed"));
+        var text = RequestLoggerOutput.stopStream();
+        assertThat(text, containsString("You used a mini kiwi aioli charge with your food"));
+      }
     }
   }
 
