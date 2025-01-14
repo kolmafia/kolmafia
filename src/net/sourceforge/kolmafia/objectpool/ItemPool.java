@@ -144,6 +144,7 @@ public class ItemPool {
   public static final int SAUSAGE_PIZZA = 324;
   public static final int GOAT_CHEESE_PIZZA = 325;
   public static final int MUSHROOM_PIZZA = 326;
+  public static final int LEMON = 332;
   public static final int TENDER_HAMMER = 338;
   public static final int LAB_KEY = 339;
   public static final int SELTZER = 344;
@@ -3802,6 +3803,7 @@ public class ItemPool {
   public static final int STUFFED_YAM_STINKBOMB = 11583;
   public static final int YAMTILITY_BELT = 11586;
   public static final int MINI_KIWI = 11594;
+  public static final int MINI_KIWI_AIOLI = 11598;
   public static final int MINI_KIWI_TIPI = 11600;
   public static final int MINI_KIWI_INTOXICATING_SPIRITS = 11602;
   public static final int ROMAN_CANDELABRA = 11609;
