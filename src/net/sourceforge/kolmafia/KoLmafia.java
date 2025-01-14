@@ -593,12 +593,10 @@ public abstract class KoLmafia {
     VYKEACompanionData.initialize(false);
     ConsequenceManager.updateOneDesc();
 
-    // Make sure Banishes are loaded before removing them
-    BanishManager.loadBanished();
+    // Remove spent banishes
     BanishManager.resetRollover();
 
-    // Make sure Tracks are loaded before removing them
-    TrackManager.loadTracked();
+    // Remove spent tracks
     TrackManager.resetRollover();
 
     // Libram summoning skills now costs 1 MP again
@@ -756,9 +754,6 @@ public abstract class KoLmafia {
 
     // Retrieve the contents of the closet.
     ClosetRequest.refresh();
-
-    // Load Banished monsters
-    BanishManager.loadBanished();
 
     // Retrieve Custom Outfit list
     if (!KoLCharacter.getLimitMode().limitOutfits()) {

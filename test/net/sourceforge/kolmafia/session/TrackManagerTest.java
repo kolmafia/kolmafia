@@ -21,7 +21,6 @@ import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.TrackManager.Tracker;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -34,12 +33,6 @@ class TrackManagerTest {
   public void beforeEach() {
     KoLCharacter.reset("TrackManagerTest");
     Preferences.reset("TrackManagerTest");
-    TrackManager.clearCache();
-  }
-
-  @AfterAll
-  public static void cleanup() {
-    TrackManager.clearCache();
   }
 
   private static final MonsterData CRATE = MonsterDatabase.findMonster("crate");
@@ -70,37 +63,6 @@ class TrackManagerTest {
 
   private boolean isTracked(String monster) {
     return TrackManager.countCopies(monster) > 0;
-  }
-
-  @Nested
-  class ClearCache {
-    @Test
-    void clearCache() {
-      var cleanups =
-          new Cleanups(
-              withCurrentRun(128), withTrackedMonsters("fluffy bunny:Transcendent Olfaction:119"));
-
-      try (cleanups) {
-        assertTrue(isTracked("fluffy bunny"));
-        TrackManager.clearCache();
-
-        assertFalse(isTracked("fluffy bunny"));
-      }
-    }
-
-    @Test
-    void clearCachePhyla() {
-      var cleanups =
-          new Cleanups(
-              withCurrentRun(128), withSnapper(), withTrackedPhyla("beast:Red-Nosed Snapper:119"));
-
-      try (cleanups) {
-        assertTrue(isTracked("fluffy bunny"));
-        TrackManager.clearCache();
-
-        assertFalse(isTracked("fluffy bunny"));
-      }
-    }
   }
 
   @Nested

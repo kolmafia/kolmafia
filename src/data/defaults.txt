@@ -1650,6 +1650,8 @@ user	tomeSummons	0
 user	totalCharitableDonations	0
 user	trackLightsOut	false
 user	trackVoteMonster	false
+user	trackedMonsters
+user	trackedPhyla
 user	trainsetConfiguration	
 user	trainsetPosition	0
 user	turtleBlessingTurns	0
