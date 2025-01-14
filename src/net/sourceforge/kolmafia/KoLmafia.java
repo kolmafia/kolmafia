@@ -593,8 +593,7 @@ public abstract class KoLmafia {
     VYKEACompanionData.initialize(false);
     ConsequenceManager.updateOneDesc();
 
-    // Make sure Banishes are loaded before removing them
-    BanishManager.loadBanished();
+    // Remove spent banishes
     BanishManager.resetRollover();
 
     // Remove spent tracks
@@ -755,9 +754,6 @@ public abstract class KoLmafia {
 
     // Retrieve the contents of the closet.
     ClosetRequest.refresh();
-
-    // Load Banished monsters
-    BanishManager.loadBanished();
 
     // Retrieve Custom Outfit list
     if (!KoLCharacter.getLimitMode().limitOutfits()) {

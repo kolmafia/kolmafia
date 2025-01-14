@@ -28,7 +28,6 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.BanishManager.Banisher;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -42,12 +41,6 @@ class BanishManagerTest {
   public void beforeEach() {
     KoLCharacter.reset("BanishManagerTest");
     Preferences.reset("BanishManagerTest");
-    BanishManager.clearCache();
-  }
-
-  @AfterAll
-  public static void cleanup() {
-    BanishManager.clearCache();
   }
 
   private static final MonsterData CRATE = MonsterDatabase.findMonster("crate");
@@ -62,36 +55,6 @@ class BanishManagerTest {
   private static final MonsterData TACO_CAT = MonsterDatabase.findMonster("Taco Cat");
   private static final MonsterData MAGICAL_FRUIT_BAT =
       MonsterDatabase.findMonster("magical fruit bat");
-
-  @Nested
-  class ClearCache {
-    @Test
-    void clearCache() {
-      var cleanups =
-          new Cleanups(
-              withCurrentRun(128), withBanishedMonsters("fluffy bunny:Be a Mind Master:119"));
-
-      try (cleanups) {
-        assertTrue(BanishManager.isBanished("fluffy bunny"));
-        BanishManager.clearCache();
-
-        assertFalse(BanishManager.isBanished("fluffy bunny"));
-      }
-    }
-
-    @Test
-    void clearCachePhyla() {
-      var cleanups =
-          new Cleanups(withCurrentRun(128), withBanishedPhyla("beast:Patriotic Screech:119"));
-
-      try (cleanups) {
-        assertTrue(BanishManager.isBanished("fluffy bunny"));
-        BanishManager.clearCache();
-
-        assertFalse(BanishManager.isBanished("fluffy bunny"));
-      }
-    }
-  }
 
   @Nested
   class LoadBanished {

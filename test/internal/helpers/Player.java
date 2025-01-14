@@ -56,7 +56,6 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.GenericRequest.TopMenuStyle;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.coinmaster.HermitRequest;
-import net.sourceforge.kolmafia.session.BanishManager;
 import net.sourceforge.kolmafia.session.ChoiceControl;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ClanManager;
@@ -2608,9 +2607,7 @@ public class Player {
    * @return Returns value to previous value
    */
   public static Cleanups withBanishedMonsters(String contents) {
-    var preference = withProperty("banishedMonsters", contents);
-    BanishManager.loadBanished();
-    return new Cleanups(preference, new Cleanups(BanishManager::loadBanished));
+    return withProperty("banishedMonsters", contents);
   }
 
   /**
@@ -2620,9 +2617,7 @@ public class Player {
    * @return Returns value to previous value
    */
   public static Cleanups withBanishedPhyla(String contents) {
-    var preference = withProperty("banishedPhyla", contents);
-    BanishManager.loadBanished();
-    return new Cleanups(preference, new Cleanups(BanishManager::loadBanished));
+    return withProperty("banishedPhyla", contents);
   }
 
   /**
