@@ -6936,6 +6936,10 @@ public class UseItemRequest extends GenericRequest {
         // This redirects to shop.php
         Preferences.setBoolean("_2002MrStoreCreditsCollected", true);
         break;
+
+      case ItemPool.MINI_KIWI_AIOLI:
+        Preferences.increment("miniKiwiAiolisUsed", count);
+        break;
     }
 
     if (useString == null) {

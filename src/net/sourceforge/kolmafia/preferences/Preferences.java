@@ -463,6 +463,7 @@ public class Preferences {
         "milkOfMagnesiumActive",
         "mimicEggMonsters",
         "miniAdvClass",
+        "miniKiwiAiolisUsed",
         "moonTuned",
         "motifMonster",
         "monkeyPointMonster",
