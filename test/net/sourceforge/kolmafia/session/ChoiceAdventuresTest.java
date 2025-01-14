@@ -86,17 +86,19 @@ class ChoiceAdventuresTest {
     private static final int CYBER_ZONE2_HALFWAY = 1547;
     private static final int CYBER_ZONE3_HALFWAY = 1549;
 
-    public void checkChoiceSpoilers(int level, String defense, String element) {
+    public int levelToZone(int level) {
+      return switch (level) {
+        case 1 -> CYBER_ZONE1_HALFWAY;
+        case 2 -> CYBER_ZONE2_HALFWAY;
+        case 3 -> CYBER_ZONE3_HALFWAY;
+        default -> 0;
+      };
+    }
+
+    public void checkChoiceSpoilers(int level, String property, String value, String element) {
       int bits = 8 << (level - 1);
-      String property = "_cyberZone" + level + "Defense";
-      int choice =
-          switch (level) {
-            case 1 -> CYBER_ZONE1_HALFWAY;
-            case 2 -> CYBER_ZONE2_HALFWAY;
-            case 3 -> CYBER_ZONE3_HALFWAY;
-            default -> 0;
-          };
-      var cleanups = new Cleanups(withProperty(property, defense));
+      int choice = levelToZone(level);
+      var cleanups = new Cleanups(withProperty(property, value));
       try (cleanups) {
         var options = ChoiceAdventures.dynamicChoiceOptions(choice);
         assertNotNull(options);
@@ -107,15 +109,45 @@ class ChoiceAdventuresTest {
       }
     }
 
+    public void checkDefenseChoiceSpoilers(int level, String defense, String element) {
+      String property = "_cyberZone" + level + "Defense";
+      checkChoiceSpoilers(level, property, defense, element);
+    }
+
+    public void checkEncounterChoiceSpoilers(int level, String encounter, String element) {
+      String property = "lastEncounter";
+      checkChoiceSpoilers(level, property, encounter, element);
+    }
+
     @ParameterizedTest
     @ValueSource(ints = {1, 2, 3})
-    public void canDynamicallyGenerateChoiceSpoilers(int level) {
-      checkChoiceSpoilers(level, "firewall", "hot");
-      checkChoiceSpoilers(level, "ICE barrier", "cold");
-      checkChoiceSpoilers(level, "corruption quarantine", "stench");
-      checkChoiceSpoilers(level, "parental controls", "sleaze");
-      checkChoiceSpoilers(level, "null container", "spooky");
-      checkChoiceSpoilers(level, "", "elemental");
+    public void canDynamicallyGenerateChoiceSpoilersFromDefense(int level) {
+      checkDefenseChoiceSpoilers(level, "firewall", "hot");
+      checkDefenseChoiceSpoilers(level, "ICE barrier", "cold");
+      checkDefenseChoiceSpoilers(level, "corruption quarantine", "stench");
+      checkDefenseChoiceSpoilers(level, "parental controls", "sleaze");
+      checkDefenseChoiceSpoilers(level, "null container", "spooky");
+      checkDefenseChoiceSpoilers(level, "", "elemental");
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {1, 2, 3})
+    public void canDynamicallyGenerateChoiceSpoilersFromEncounter(int level) {
+      checkEncounterChoiceSpoilers(level, "A Funny Thing Happened...", "hot");
+      checkEncounterChoiceSpoilers(level, "A Turboclocked System", "hot");
+      checkEncounterChoiceSpoilers(level, "A Breezy System", "cold");
+      checkEncounterChoiceSpoilers(level, "A Frozen Network", "cold");
+      checkEncounterChoiceSpoilers(level, "A Severely Underclocked Network", "cold");
+      checkEncounterChoiceSpoilers(level, "Ice Cream Antisocial", "cold");
+      checkEncounterChoiceSpoilers(level, "Arsenic & Old Spice", "stench");
+      checkEncounterChoiceSpoilers(level, "One Man's TRS-80", "stench");
+      checkEncounterChoiceSpoilers(level, "I Live, You Live...", "sleaze");
+      checkEncounterChoiceSpoilers(level, "pr0n Central", "sleaze");
+      checkEncounterChoiceSpoilers(level, "A spooky encounter", "spooky");
+      checkEncounterChoiceSpoilers(level, "Grave Secrets", "spooky");
+      checkEncounterChoiceSpoilers(level, "The Fall of the Homepage of Usher", "spooky");
+      checkEncounterChoiceSpoilers(level, "The Skeleton Dance", "spooky");
+      checkEncounterChoiceSpoilers(level, "Unknown Encounter", "elemental");
     }
   }
 }
