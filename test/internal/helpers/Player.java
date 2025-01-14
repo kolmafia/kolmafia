@@ -56,7 +56,6 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.GenericRequest.TopMenuStyle;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.coinmaster.HermitRequest;
-import net.sourceforge.kolmafia.session.BanishManager;
 import net.sourceforge.kolmafia.session.ChoiceControl;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ClanManager;
@@ -65,7 +64,6 @@ import net.sourceforge.kolmafia.session.EquipmentRequirement;
 import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.StoreManager;
-import net.sourceforge.kolmafia.session.TrackManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.utilities.HttpUtilities;
 import net.sourceforge.kolmafia.utilities.Statics;
@@ -2609,9 +2607,7 @@ public class Player {
    * @return Returns value to previous value
    */
   public static Cleanups withBanishedMonsters(String contents) {
-    var preference = withProperty("banishedMonsters", contents);
-    BanishManager.loadBanished();
-    return new Cleanups(preference, new Cleanups(BanishManager::loadBanished));
+    return withProperty("banishedMonsters", contents);
   }
 
   /**
@@ -2621,9 +2617,7 @@ public class Player {
    * @return Returns value to previous value
    */
   public static Cleanups withBanishedPhyla(String contents) {
-    var preference = withProperty("banishedPhyla", contents);
-    BanishManager.loadBanished();
-    return new Cleanups(preference, new Cleanups(BanishManager::loadBanished));
+    return withProperty("banishedPhyla", contents);
   }
 
   /**
@@ -2633,9 +2627,7 @@ public class Player {
    * @return Returns value to previous value
    */
   public static Cleanups withTrackedMonsters(String contents) {
-    var preference = withProperty("trackedMonsters", contents);
-    TrackManager.loadTracked();
-    return new Cleanups(preference, new Cleanups(TrackManager::loadTracked));
+    return withProperty("trackedMonsters", contents);
   }
 
   /**
@@ -2645,9 +2637,7 @@ public class Player {
    * @return Returns value to previous value
    */
   public static Cleanups withTrackedPhyla(String contents) {
-    var preference = withProperty("trackedPhyla", contents);
-    TrackManager.loadTracked();
-    return new Cleanups(preference, new Cleanups(TrackManager::loadTracked));
+    return withProperty("trackedPhyla", contents);
   }
 
   public static Cleanups withDisabledCoinmaster(CoinmasterData data) {

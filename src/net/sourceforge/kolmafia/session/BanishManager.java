@@ -6,6 +6,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.StringTokenizer;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -24,9 +25,6 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 @SuppressWarnings("incomplete-switch")
 public class BanishManager {
-  private static final Set<Banished> banishedMonsters = new LinkedHashSet<>();
-  private static final Set<Banished> banishedPhyla = new LinkedHashSet<>();
-
   private BanishManager() {}
 
   private enum BanishType {
@@ -242,38 +240,19 @@ public class BanishManager {
 
   private static Set<Banished> getBanishedSet(Banisher banisher) {
     return switch (banisher.getBanishType()) {
-      case MONSTER -> banishedMonsters;
-      case PHYLUM -> banishedPhyla;
+      case MONSTER -> prefToSet("banishedMonsters");
+      case PHYLUM -> prefToSet("banishedPhyla");
     };
   }
 
-  public static void clearCache() {
-    BanishManager.banishedMonsters.clear();
-    BanishManager.banishedPhyla.clear();
-  }
-
-  public static void loadBanished() {
-    BanishManager.loadBanishedMonsters();
-    BanishManager.loadBanishedPhyla();
-  }
-
-  static void loadBanishedMonsters() {
-    loadBanishedX("banishedMonsters", BanishManager.banishedMonsters);
-  }
-
-  static void loadBanishedPhyla() {
-    loadBanishedX("banishedPhyla", BanishManager.banishedPhyla);
-  }
-
-  private static void loadBanishedX(String prefName, Set<Banished> banished) {
-    banished.clear();
-
+  private static Set<Banished> prefToSet(String prefName) {
     String banishes = Preferences.getString(prefName);
     if (banishes.isEmpty()) {
-      return;
+      return new LinkedHashSet<>();
     }
 
     StringTokenizer tokens = new StringTokenizer(banishes, ":");
+    var set = new LinkedHashSet<Banished>();
 
     while (tokens.hasMoreTokens()) {
       String monsterName = tokens.nextToken();
@@ -289,26 +268,23 @@ public class BanishManager {
         continue;
       }
 
-      BanishManager.addBanished(monsterName, banisher, turnBanished);
+      var banished = new Banished(monsterName, banisher, turnBanished);
+      set.add(banished);
     }
+    return set;
   }
 
-  private static void saveBanishedMonsters() {
-    Preferences.setString(
-        "banishedMonsters",
-        banishedMonsters.stream()
-            .flatMap(m -> Stream.of(m.banished(), m.banisher().getName(), m.turnBanished()))
-            .map(Object::toString)
-            .collect(Collectors.joining(":")));
+  private static String setToPref(Set<Banished> banished) {
+    return banished.stream()
+        .flatMap(m -> Stream.of(m.banished(), m.banisher().getName(), m.turnBanished()))
+        .map(Object::toString)
+        .collect(Collectors.joining(":"));
   }
 
-  private static void saveBanishedPhyla() {
-    Preferences.setString(
-        "banishedPhyla",
-        banishedPhyla.stream()
-            .flatMap(m -> Stream.of(m.banished(), m.banisher().getName(), m.turnBanished()))
-            .map(Object::toString)
-            .collect(Collectors.joining(":")));
+  private static void updatePref(String pref, Consumer<Set<Banished>> func) {
+    var set = prefToSet(pref);
+    func.accept(set);
+    Preferences.setString(pref, setToPref(set));
   }
 
   /**
@@ -317,10 +293,8 @@ public class BanishManager {
    * @param predicate Predicate dictating removal
    */
   private static void resetIf(Predicate<Banished> predicate) {
-    BanishManager.banishedMonsters.removeIf(predicate);
-    BanishManager.saveBanishedMonsters();
-    BanishManager.banishedPhyla.removeIf(predicate);
-    BanishManager.saveBanishedPhyla();
+    updatePref("banishedMonsters", m -> m.removeIf(predicate));
+    updatePref("banishedPhyla", m -> m.removeIf(predicate));
   }
 
   /**
@@ -474,7 +448,12 @@ public class BanishManager {
       return;
     }
 
-    getBanishedSet(banisher).add(banished);
+    var pref =
+        switch (banisher.getBanishType()) {
+          case MONSTER -> "banishedMonsters";
+          case PHYLUM -> "banishedPhyla";
+        };
+    updatePref(pref, x -> x.add(banished));
   }
 
   public static void removeBanishByBanisher(final Banisher banisher) {
@@ -482,16 +461,21 @@ public class BanishManager {
   }
 
   private static void removeOldestBanish(final Banisher banisher) {
-    Stream.concat(banishedMonsters.stream(), banishedPhyla.stream())
+    var monsters = prefToSet("banishedMonsters");
+    var phyla = prefToSet("banishedPhyla");
+
+    Stream.concat(monsters.stream(), phyla.stream())
         .filter(b -> b.banisher() == banisher)
         .min(Comparator.comparingInt(Banished::turnBanished))
-        .ifPresent(b -> resetIf(m -> m == b));
+        .ifPresent(b -> resetIf(m -> m.equals(b)));
   }
 
   public static boolean isBanished(final String monster) {
     BanishManager.recalculate();
 
-    if (banishedMonsters.stream()
+    var monsters = prefToSet("banishedMonsters");
+
+    if (monsters.stream()
         .filter(m -> m.banisher().isEffective())
         .anyMatch(m -> m.banished().equalsIgnoreCase(monster))) {
       return true;
@@ -508,14 +492,14 @@ public class BanishManager {
   }
 
   public static boolean isBanishedPhylum(final Phylum phylum) {
-    return banishedPhyla.stream()
+    var phyla = prefToSet("banishedPhyla");
+
+    return phyla.stream()
         .filter(m -> m.banisher().isEffective())
         .anyMatch(m -> m.banished().equalsIgnoreCase(phylum.toString()));
   }
 
   public static Banisher[] banishedBy(final MonsterData data) {
-    BanishManager.recalculate();
-
     if (data == null) {
       return new Banisher[0];
     }
@@ -523,12 +507,17 @@ public class BanishManager {
       return new Banisher[0];
     }
 
+    BanishManager.recalculate();
+
+    var monsters = prefToSet("banishedMonsters");
+    var phyla = prefToSet("banishedPhyla");
+
     var monsterBanishes =
-        banishedMonsters.stream()
+        monsters.stream()
             .filter(m -> m.banisher().isEffective())
             .filter(m -> m.banished().equalsIgnoreCase(data.getName()));
     var phylaBanishes =
-        banishedPhyla.stream()
+        phyla.stream()
             .filter(m -> m.banisher().isEffective())
             .filter(m -> m.banished().equalsIgnoreCase(data.getPhylum().toString()));
     return Stream.concat(monsterBanishes, phylaBanishes)
@@ -550,13 +539,17 @@ public class BanishManager {
       BanishManager.recalculate();
     }
 
-    return banishedMonsters.stream().map(Banished::banished).collect(Collectors.toList());
+    var monsters = prefToSet("banishedMonsters");
+
+    return monsters.stream().map(Banished::banished).collect(Collectors.toList());
   }
 
   public static List<String> getBanishedPhyla() {
     BanishManager.recalculate();
 
-    return banishedPhyla.stream().map(Banished::banished).collect(Collectors.toList());
+    var phyla = prefToSet("banishedPhyla");
+
+    return phyla.stream().map(Banished::banished).collect(Collectors.toList());
   }
 
   public static List<String> getBanished(Banisher banisher) {
@@ -576,11 +569,11 @@ public class BanishManager {
   }
 
   public static String[][] getBanishedMonsterData() {
-    return getBanishedData(banishedMonsters);
+    return getBanishedData(prefToSet("banishedMonsters"));
   }
 
   public static String[][] getBanishedPhylaData() {
-    return getBanishedData(banishedPhyla);
+    return getBanishedData(prefToSet("banishedPhyla"));
   }
 
   private static String[][] getBanishedData(Set<Banished> banished) {
