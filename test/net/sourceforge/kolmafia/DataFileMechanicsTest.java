@@ -37,8 +37,8 @@ public class DataFileMechanicsTest {
         // 8 is correct if shop.php has at most 5 currencies per row.
         // combats.txt too complex
         // concoctions.txt too complex
-        // consequences.txt too complex
-        // cultshorts.txt too complex
+        Arguments.of("consequences.txt", 1, 2, 5),
+        Arguments.of("cultshorts.txt", 1, 2, 8),
         Arguments.of("dailylimits.txt", 1, 3, 4),
         Arguments.of("defaults.txt", 1, 2, 3),
         Arguments.of("encounters.txt", 1, 3, 3),
@@ -52,6 +52,7 @@ public class DataFileMechanicsTest {
         Arguments.of("items.txt", 1, 7, 8),
         Arguments.of("journeyman.txt", 0, 4, 4),
         // modifiers.txt is too complex
+        Arguments.of("modifiers.txt", 1, 2, 4),
         Arguments.of("monsterparts.txt", 1, 2, 10),
         // monsters.txt is too complex
         Arguments.of("nonfilling.txt", 1, 2, 3),
@@ -63,6 +64,7 @@ public class DataFileMechanicsTest {
         Arguments.of("questscouncil.txt", 1, 3, 5),
         // questslogs.txt is too complex
         Arguments.of("restores.txt", 2, 7, 8),
+        Arguments.of("shoprows.txt", 1, 4, 4),
         Arguments.of("spleenhit.txt", 3, 8, 9),
         Arguments.of("standard-pulverized.txt", 1, 4, 4),
         Arguments.of("standard-rewards.txt", 1, 6, 6),
