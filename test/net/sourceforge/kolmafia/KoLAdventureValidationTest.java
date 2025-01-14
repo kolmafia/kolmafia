@@ -6854,6 +6854,56 @@ public class KoLAdventureValidationTest {
   }
 
   @Nested
+  class CyberRealm {
+    private int levelToSnarfblat(int level) {
+      return switch (level) {
+        case 1 -> AdventurePool.CYBER_ZONE_1;
+        case 2 -> AdventurePool.CYBER_ZONE_2;
+        case 3 -> AdventurePool.CYBER_ZONE_3;
+        default -> 0;
+      };
+    }
+
+    public void canAdventure(int level, boolean always, boolean today, int turns) {
+      KoLAdventure adventure = AdventureDatabase.getAdventure(levelToSnarfblat(level));
+      String property = "_cyberZone" + level + "Turns";
+      var cleanups =
+          new Cleanups(
+              withProperty("crAlways", always),
+              withProperty("_crToday", today),
+              withProperty(property, turns));
+      try (cleanups) {
+        boolean expected = (always || today) && (turns < 20);
+        assertThat(adventure.canAdventure(), is(expected));
+      }
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {1, 2, 3})
+    public void canAdventureAlwaysWithTurnsLeft(int level) {
+      canAdventure(level, true, false, 5);
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {1, 2, 3})
+    public void canAdventureDailyWithTurnsLeft(int level) {
+      canAdventure(level, false, true, 5);
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {1, 2, 3})
+    public void cannotAdventureWithoutAccess(int level) {
+      canAdventure(level, false, false, 5);
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {1, 2, 3})
+    public void cannotAdventureWithoutTurnsLeft(int level) {
+      canAdventure(level, true, false, 20);
+    }
+  }
+
+  @Nested
   class TheDrip {
     private static final KoLAdventure DRIPPING_TREES =
         AdventureDatabase.getAdventureByName("The Dripping Trees");

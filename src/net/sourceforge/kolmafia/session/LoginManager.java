@@ -410,7 +410,6 @@ public class LoginManager {
     StoreManager.clearCache();
     DisplayCaseManager.clearCache();
     ClanManager.clearCache(true);
-    BanishManager.clearCache();
 
     CampgroundRequest.reset();
     ChateauRequest.reset();
