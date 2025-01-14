@@ -79,6 +79,34 @@ class EatItemRequestTest {
   }
 
   @Nested
+  class MiniKiwiAioli {
+    private Cleanups cleanups = new Cleanups();
+
+    @BeforeEach
+    public void beforeEach() {
+      cleanups.add(withItem(ItemPool.MINI_KIWI_AIOLI));
+      cleanups.add(withItem(ItemPool.GRAPEFRUIT));
+    }
+
+    @AfterEach
+    public void afterEach() {
+      cleanups.close();
+    }
+
+    @Test
+    void aioliResponseSetsPreference() {
+      assertEquals(0, Preferences.getInteger("miniKiwiAiolisUsed"));
+      Preferences.setInteger("miniKiwiAiolisUsed", 1);
+
+      var req = new EatItemRequest(ItemPool.get(ItemPool.GRAPEFRUIT));
+      req.responseText = "Wow, that fatty kiwi flavor really kicks it up a notch.";
+      req.processResults();
+
+      assertEquals(0, Preferences.getInteger("miniKiwiAiolisUsed"));
+    }
+  }
+
+  @Nested
   class Cookbookbat {
     @ParameterizedTest
     @CsvSource({
