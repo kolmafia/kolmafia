@@ -2522,6 +2522,7 @@ user	_spelunkingTalesDrops	0
 user	_spikolodonSpikeUses	0
 user	_spinmasterLatheVisited	false
 user	_spinningWheel	false
+user	_spiritOfTheMountainsAdvs	0
 user	_spookyAirportToday	false
 user	_spookyJellyUses	0
 user	_stabonicScrollUsed	false
