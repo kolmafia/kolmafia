@@ -1258,6 +1258,21 @@ public class FightRequestTest {
   }
 
   @Test
+  public void canDetectSpiritOfTheMountainsTriggered() {
+    RequestLoggerOutput.startStream();
+    var cleanups =
+        new Cleanups(
+            withEffect(EffectPool.SPIRIT_OF_THE_MOUNTAINS),
+            withProperty("_spiritOfTheMountainsAdvs", 0));
+    try (cleanups) {
+      parseCombatData("request/test_fight_spirit_of_the_mountains.html");
+      var text = RequestLoggerOutput.stopStream();
+      assertThat(text, containsString("Your soul was restored by the fresh mountain air."));
+      assertEquals(1, Preferences.getInteger("_spiritOfTheMountainsAdvs"));
+    }
+  }
+
+  @Test
   public void canDetectCanOfMixedEverythingDrops() {
     RequestLoggerOutput.startStream();
     var cleanups = new Cleanups(withEquipped(Slot.OFFHAND, "can of mixed everything"));
