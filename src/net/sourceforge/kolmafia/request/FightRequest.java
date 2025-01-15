@@ -2800,6 +2800,13 @@ public class FightRequest extends GenericRequest {
       RequestLogger.updateSessionLog("Your weighty thumb ring walloped.");
     }
 
+    // You breathe in the fresh mountain air and restore your soul.
+    if (responseText.contains("breathe in the fresh mountain air and restore your soul")) {
+      Preferences.increment("_spiritOfTheMountainsAdvs", 1);
+      RequestLogger.printLine("Your soul was restored by the fresh mountain air.");
+      RequestLogger.updateSessionLog("Your soul was restored by the fresh mountain air.");
+    }
+
     // You're really sharpening the old saw.  Looks like you've done 1 out of 14!
     if (responseText.contains("You're really sharpening the old saw.")) {
       Matcher sawMatcher = FightRequest.SHARPEN_SAW_PATTERN.matcher(responseText);

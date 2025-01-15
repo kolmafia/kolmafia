@@ -371,6 +371,7 @@ public class EffectPool {
   public static final int SHADOW_WATERS = 2806;
   public static final int OMINOUS_WISDOM = 2810;
   public static final int CITIZEN_OF_A_ZONE = 2822;
+  public static final int SPIRIT_OF_THE_MOUNTAINS = 2825;
   public static final int HEAR_ME_ROAR = 2829;
   public static final int OFFHAND_REMARKABLE = 2830;
   public static final int SERENDIPITY = 2833;
