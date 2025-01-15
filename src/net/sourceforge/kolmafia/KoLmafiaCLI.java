@@ -838,6 +838,7 @@ public class KoLmafiaCLI {
         .register("robo");
     new UseSkillCommand().register("cast").register("skill");
     new VersionCommand().register("version");
+    new ViseCommand().register("vise");
     new VisitURLCommand()
         .register("text")
         .registerPrefix("http://")

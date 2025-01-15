@@ -30,6 +30,7 @@ import internal.helpers.RequestLoggerOutput;
 import internal.network.FakeHttpClientBuilder;
 import java.util.List;
 import java.util.Map;
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.equipment.Slot;
@@ -1201,6 +1202,46 @@ class ChoiceControlTest {
         assertThat("_cyberZone1Turns", isSetTo(securityLevel == 1 ? 20 : 15));
         assertThat("_cyberZone2Turns", isSetTo(securityLevel == 2 ? 20 : 16));
         assertThat("_cyberZone3Turns", isSetTo(securityLevel == 3 ? 20 : 17));
+      }
+    }
+  }
+
+  @Nested
+  class HashingVise {
+    AdventureResult cybeer = new AdventureResult("dedigitizer schematic: cybeer", 1, false);
+    AdventureResult one = ItemPool.get(ItemPool.ONE);
+    AdventureResult zero = ItemPool.get(ItemPool.ZERO);
+
+    @Test
+    void canSmashSchematicsIntoBits() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+
+      var cleanups =
+          new Cleanups(withHttpClientBuilder(builder), withItem(cybeer), withHandlingChoice(1551));
+
+      try (cleanups) {
+        client.addResponse(200, html("request/test_choice_hashing_vise_result.html"));
+
+        // choice.php?iid=11198&pwd&whichchoice=1551&option=1
+        var request = new GenericRequest("choice.php?iid=11198&whichchoice=1551&option=1", true);
+        request.run();
+
+        // You stay in the choice
+        assertThat(ChoiceManager.handlingChoice, is(true));
+        // The hashing vise smashed the schematic
+        assertThat(InventoryManager.getCount(cybeer), is(0));
+
+        int ones = InventoryManager.getCount(one);
+        int zeroes = InventoryManager.getCount(zero);
+
+        // This particular result has 0 (2) and 1 (14)
+        assertThat((ones + zeroes), is(16));
+
+        var requests = client.getRequests();
+
+        assertThat(requests, hasSize(1));
+        assertPostRequest(requests.get(0), "/choice.php", "iid=11198&whichchoice=1551&option=1");
       }
     }
   }

@@ -657,6 +657,13 @@ public class RequestLogger extends NullStream {
       return;
     }
 
+    // The Hashing Vise is an instance of choice.php
+    if ((isExternal || request instanceof HashingViseRequest)
+        && HashingViseRequest.registerRequest(urlString)) {
+      RequestLogger.wasLastRequestSimple = false;
+      return;
+    }
+
     // Numberology is an instance of choice.php
     if ((isExternal || request instanceof NumberologyRequest)
         && NumberologyRequest.registerRequest(urlString)) {

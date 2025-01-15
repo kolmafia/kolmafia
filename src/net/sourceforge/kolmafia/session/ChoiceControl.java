@@ -4916,6 +4916,7 @@ public abstract class ChoiceControl {
         if (ChoiceManager.lastDecision != 12 && text.contains("You grab your prop")) {
           Preferences.increment("_photoBoothEquipment");
         }
+        break;
     }
   }
 
@@ -6967,6 +6968,18 @@ public abstract class ChoiceControl {
         if (text.contains("You place your candy in the deviler")) {
           Preferences.increment("_candyEggsDeviled");
           String item = request.getFormField("a");
+          try {
+            ResultProcessor.removeItem(Integer.parseInt(item));
+          } catch (NumberFormatException e) {
+            break;
+          }
+        }
+        break;
+
+      case 1551:
+        // Hashing with your vice
+        if (text.contains("You crush the schematic into little bits of checksum.")) {
+          String item = request.getFormField("iid");
           try {
             ResultProcessor.removeItem(Integer.parseInt(item));
           } catch (NumberFormatException e) {
@@ -10047,6 +10060,7 @@ public abstract class ChoiceControl {
       case 1536: // Clan Photo Booth - Take a group photo
       case 1537: // TakerSpace
       case 1544: // Devil some Candy
+      case 1551: // Hashing with your vice
         return true;
 
       default:
