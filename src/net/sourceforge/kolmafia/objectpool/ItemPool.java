@@ -829,6 +829,7 @@ public class ItemPool {
   public static final int HAND_CARVED_BOKKEN = 2719;
   public static final int HAND_CARVED_BOW = 2720;
   public static final int HAND_CARVED_STAFF = 2721;
+  public static final int STAFF_OF_THE_GRAND_FLAMBE = 2723;
   public static final int JUNIPER_BERRIES = 2726;
   public static final int PLUM_WINE = 2730;
   public static final int BUNCH_OF_SQUARE_GRAPES = 2733;
