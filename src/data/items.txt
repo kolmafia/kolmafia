@@ -11806,7 +11806,7 @@
 11778	clovermint	801500156	clovermint.gif	spleen, usable	t	0
 11779	nylon Christmas stockings	229779717	xmasstockings.gif	accessory	t	0	pairs of nylon Christmas stockings
 11780	tattoo of two turkeys	563249901	twoturkeytat.gif	usable	t	0	tattoos of two turkeys
-11781	deviled candy egg	732823232	candyegg.gif	potion	t,d	5
+11781	deviled candy egg	732823232	candyegg.gif	potion, candy	t,d	5
 11782	McHugeLarge deluxe ski set	547353933	skibag1.gif	usable	t	0
 11783	McHugeLarge duffel bag	845163862	skibag2.gif	container		0
 11784	McHugeLarge left pole	387040123	skipole1.gif	offhand	q	0
