@@ -11806,7 +11806,7 @@
 11778	clovermint	801500156	clovermint.gif	spleen, usable	t	0
 11779	nylon Christmas stockings	229779717	xmasstockings.gif	accessory	t	0	pairs of nylon Christmas stockings
 11780	tattoo of two turkeys	563249901	twoturkeytat.gif	usable	t	0	tattoos of two turkeys
-11781	deviled candy egg	732823232	candyegg.gif	potion	t,d	5
+11781	deviled candy egg	732823232	candyegg.gif	potion, candy	t,d	5
 11782	McHugeLarge deluxe ski set	547353933	skibag1.gif	usable	t	0
 11783	McHugeLarge duffel bag	845163862	skibag2.gif	container		0
 11784	McHugeLarge left pole	387040123	skipole1.gif	offhand	q	0
@@ -11851,7 +11851,7 @@
 11823	STATS+++ rom chip	935723612	cr_romchip.gif	usable	t	0
 11824	insignificant bit	979112735	cr_ibit.gif	grow	t	0
 11825	parity bit	827552498	cr_paritybit.gif	familiar	t,d	75
-11826	hashing vise	550453565	cr_vise.gif	usable	t	0
+11826	hashing vise	550453565	cr_vise.gif	reusable	t	0
 11827	geofencing rapier	244276984	cr_rapier.gif	weapon	t	0
 11828	geofencing shield	517384017	cr_shield.gif	offhand	t	0
 11829	virtual cybertattoo	757337801	cr_tat.gif	usable	t	0
