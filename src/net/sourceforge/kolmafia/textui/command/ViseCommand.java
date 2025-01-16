@@ -38,7 +38,7 @@ public class ViseCommand extends AbstractCommand {
 
       Matcher matcher = ITEM_PATTERN.matcher(itemName);
       if (!matcher.find()) {
-        RequestLogger.printLine(this.usage);
+        RequestLogger.printLine("Usage: vise" + this.usage);
         return;
       }
 
@@ -61,7 +61,7 @@ public class ViseCommand extends AbstractCommand {
     }
 
     if (items.size() == 0) {
-      RequestLogger.printLine(this.usage);
+      RequestLogger.printLine("Usage: vise" + this.usage);
       return;
     }
 

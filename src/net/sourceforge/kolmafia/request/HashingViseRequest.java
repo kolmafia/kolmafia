@@ -132,10 +132,8 @@ public class HashingViseRequest extends GenericRequest {
 
     // Smash one schematic at a time
     while (KoLmafia.permitsContinue() && needed-- > 0) {
-      KoLmafia.updateDisplay("Hashing " + item.getName());
-      // super.run();
+      super.run();
     }
-    KoLmafia.updateDisplay("Hashing complete.");
   }
 
   public static boolean registerRequest(final String urlString) {
