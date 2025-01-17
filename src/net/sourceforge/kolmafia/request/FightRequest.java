@@ -262,7 +262,8 @@ public class FightRequest extends GenericRequest {
       Pattern.compile("I shall name you &quot;(.*?),&quot; you say.");
 
   private static final Pattern TIMEPRANK_PATTERN =
-      Pattern.compile("A figure steps out from behind this morning and says, &quot;(.*?)&quot;");
+      Pattern.compile(
+          "A figure steps out from behind this morning and says, &quot;(.*?)&quot;</blockquote>");
 
   private static final Pattern NANORHINO_CHARGE1_PATTERN = Pattern.compile("(\\d+)% charge");
   private static final Pattern NANORHINO_CHARGE2_PATTERN = Pattern.compile("charge to (\\d+)%");
