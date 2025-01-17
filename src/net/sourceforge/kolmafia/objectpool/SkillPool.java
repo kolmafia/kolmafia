@@ -130,6 +130,7 @@ public class SkillPool {
   public static final int ELF_GUARD_COOKING = 229;
   public static final int OLD_SCHOOL_COCKTAILCRAFTING = 230;
   public static final int HOLIDAY_MULTITASKING = 240;
+  public static final int OVERCLOCK10 = 243;
   public static final int SUPER_ADVANCED_MEATSMITHING = 1006;
   public static final int WALRUS_TONGUE = 1010;
   public static final int BATTER_UP = 1014;
