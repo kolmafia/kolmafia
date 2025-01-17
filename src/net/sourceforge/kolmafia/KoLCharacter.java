@@ -5718,6 +5718,15 @@ public abstract class KoLCharacter {
       return;
     }
 
+    if (item.id == ItemPool.MCHUGELARGE_LEFT_POLE) {
+      // we implement the bonus as though it were an outfit bonus, but it is properly on the item
+      int mcHugeLargeLevel = getMcHugeLargeLevel(newModifiers);
+      int totalItems = newModifiers.getBitmap(BitmapModifier.MCHUGELARGE);
+      var mods = new Modifiers();
+      addMcHugeLargeModifiers(mods, mcHugeLargeLevel / totalItems);
+      addModifiersWithOffHandRemarkable(newModifiers, mods);
+    }
+
     // use sleeved card as source of modifiers if applicable
     if (item.id == ItemPool.CARD_SLEEVE) {
       item = equipment.get(Slot.CARDSLEEVE);
@@ -5919,5 +5928,11 @@ public abstract class KoLCharacter {
           default -> 0;
         };
     return itemLevel * totalItems;
+  }
+
+  private static void addMcHugeLargeModifiers(Modifiers mods, int level) {
+    mods.addDouble(DoubleModifier.COLD_RESISTANCE, level, ModifierType.OUTFIT, "McHugeLarge");
+    mods.addDouble(DoubleModifier.HOT_DAMAGE, 5 * level, ModifierType.OUTFIT, "McHugeLarge");
+    mods.addDouble(DoubleModifier.INITIATIVE, 10 * level, ModifierType.OUTFIT, "McHugeLarge");
   }
 }
