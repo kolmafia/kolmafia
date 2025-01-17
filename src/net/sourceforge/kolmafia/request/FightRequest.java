@@ -259,7 +259,7 @@ public class FightRequest extends GenericRequest {
       Pattern.compile("recovering <b>(\\d+)</b> bolts");
 
   private static final Pattern SEAHORSE_PATTERN =
-      Pattern.compile("I shall name you &quot;(.*?),&quot; you say.");
+      Pattern.compile("I shall name you \"(.*?),\" you say.");
 
   private static final Pattern TIMEPRANK_PATTERN =
       Pattern.compile(
@@ -6358,175 +6358,7 @@ public class FightRequest extends GenericRequest {
       }
       DiscoCombatHelper.parseFightRound(FightRequest.nextAction, status.macroMatcher);
     } else if (name.equals("p")) {
-      if (FightRequest.handleEldritchHorror(node, status)) {
-        return;
-      }
-
-      FightRequest.handleKisses(node, status);
-      FightRequest.handleCrimboPresent(node, status);
-
-      if (FightRequest.handleChakra(node, status)) {
-        return;
-      }
-
-      String str = FightRequest.getContentNodeText(node);
-
-      if (status.pebble) {
-        FightRequest.handleLittleRoundPebble(str, status);
-      }
-
-      // Crimbo2022 Trainbot features
-      if (won) {
-        if (status.harness) {
-          FightRequest.handleTrainbotHarness(str, status);
-        }
-
-        if (status.luggage) {
-          FightRequest.handleTrainbotLuggageHook(str, status);
-        }
-
-        if (status.armtowel) {
-          FightRequest.handleWhiteArmTowel(str, status);
-        }
-      }
-
-      if (containsMacroError(str)) {
-        FightRequest.macroErrorMessage = str;
-        Preferences.setString("lastMacroError", str);
-        return;
-      }
-
-      // Camera flashes
-      // A monster caught on the film
-      // Back to yearbook club.
-
-      if (FightRequest.haiku && str.contains("Back to yearbook club")) {
-        FightRequest.handleYearbookCamera(status);
-        return;
-      }
-
-      if (FightRequest.handleFuzzyDice(str, status)) {
-        return;
-      }
-
-      if (FightRequest.processFumble(str, status)) {
-        return;
-      }
-
-      if (FightRequest.handleEvilometer(str, status)) {
-        return;
-      }
-
-      if (FightRequest.handleKeyotron(str, status)) {
-        return;
-      }
-
-      if (FightRequest.handleSeahorse(str, status)) {
-        return;
-      }
-
-      if (FightRequest.handleMayoWasp(str, status)) {
-        return;
-      }
-
-      if (FightRequest.handleSpelunky(str, status)) {
-        return;
-      }
-
-      if (FightRequest.handleFamiliarInteraction(str, status)) {
-        return;
-      }
-
-      if (handleCosmicBowlingBall(str)) return;
-
-      // As empty track does not have an image, it is specially handled to pass it to the appropiate
-      // handler
-      if (str.equals("Your toy train moves ahead to some empty track.")) {
-        handleToyTrain("modeltrain", str, status);
-        return;
-      }
-
-      FightRequest.handleVillainLairRadio(node, status);
-
-      if (status.meteors && (str.contains("meteor") || str.contains("falling star"))) {
-        FightRequest.logText(str, status);
-      }
-
-      // Your potted plant swallows your opponent{s} whole.
-      if (status.carnivorous && str.contains("Your potted plant swallows")) {
-        Preferences.increment("_carnivorousPottedPlantWins", 1);
-        FightRequest.logText(str, status);
-      }
-
-      // You flap your bat wings gustily and launch yourself to your next adventure in an instant.
-      if (status.batwings && str.contains("You flap your bat wings gustily")) {
-        Preferences.increment("_batWingsFreeFights", 1);
-        FightRequest.logText(str, status);
-      }
-
-      if ( // KoL Con 13 Snowglobe
-      str.contains("KoL Con")
-          || str.contains("You notice some extra Meat")
-          ||
-          // Mr. Screege's spectacles
-          str.contains("You notice something valuable hidden")
-          ||
-          // Mr. Cheeng's spectacles
-          str.contains("You see a weird thing out of the corner of your eye, and you grab it")
-          || str.contains("You think you see a weird thing out of the corner of your eye")
-          ||
-          // Can of mixed everything
-          str.contains("Something falls out of your can of mixed everything.")) {
-        FightRequest.logText(str, status);
-      }
-
-      FightRequest.handleLuckyGoldRing(str, status);
-
-      // Serendipity
-      if (status.serendipity) {
-        if (str.contains("serendipitous")
-            || str.contains("luck is on your side")
-            || str.contains("How random")) {
-          FightRequest.logText(str, status);
-        }
-      }
-
-      // Research Points
-      if (status.mildManneredProfessor) {
-        FightRequest.checkResearchPoints(str, status);
-      }
-
-      // Retrospecs
-      if (str.contains("notice an item you missed earlier")) {
-        FightRequest.logText(str, status);
-      }
-
-      boolean VYKEAaction = status.VYKEACompanion != null && str.contains(status.VYKEACompanion);
-      if (VYKEAaction && status.logFamiliar) {
-        // VYKEA companion action
-        FightRequest.logText(str, status);
-      }
-
-      boolean ghostAction = status.ghost != null && str.contains(status.ghost);
-      if (ghostAction && status.logFamiliar) {
-        // Pastamancer ghost action
-        FightRequest.logText(str, status);
-      }
-
-      boolean horseAction = status.horse != null && str.contains(status.horse);
-      if (horseAction && status.logFamiliar) {
-        // Horsery horse action
-        FightRequest.logText(str, status);
-      }
-
-      int damage = FightRequest.parseNormalDamage(str);
-      if (damage != 0) {
-        FightRequest.logSpecialDamage(str, status);
-        FightRequest.logMonsterAttribute(status, damage, HEALTH);
-        MonsterStatusTracker.damageMonster(damage);
-        FightRequest.processComments(node, status);
-        return;
-      }
+      FightRequest.processP(node, status);
     }
 
     FightRequest.processChildren(node, status);
@@ -7104,6 +6936,178 @@ public class FightRequest extends GenericRequest {
     // Combat item usage: process the children of this node
     // to pick up damage to the monster and stat gains
     return true;
+  }
+
+  private static void processP(Element node, TagStatus status) {
+    if (FightRequest.handleEldritchHorror(node, status)) {
+      return;
+    }
+
+    FightRequest.handleKisses(node, status);
+    FightRequest.handleCrimboPresent(node, status);
+
+    if (FightRequest.handleChakra(node, status)) {
+      return;
+    }
+
+    String str = FightRequest.getContentNodeText(node);
+
+    if (status.pebble) {
+      FightRequest.handleLittleRoundPebble(str, status);
+    }
+
+    // Crimbo2022 Trainbot features
+    if (won) {
+      if (status.harness) {
+        FightRequest.handleTrainbotHarness(str, status);
+      }
+
+      if (status.luggage) {
+        FightRequest.handleTrainbotLuggageHook(str, status);
+      }
+
+      if (status.armtowel) {
+        FightRequest.handleWhiteArmTowel(str, status);
+      }
+    }
+
+    if (containsMacroError(str)) {
+      FightRequest.macroErrorMessage = str;
+      Preferences.setString("lastMacroError", str);
+      return;
+    }
+
+    // Camera flashes
+    // A monster caught on the film
+    // Back to yearbook club.
+
+    if (FightRequest.haiku && str.contains("Back to yearbook club")) {
+      FightRequest.handleYearbookCamera(status);
+      return;
+    }
+
+    if (FightRequest.handleFuzzyDice(str, status)) {
+      return;
+    }
+
+    if (FightRequest.processFumble(str, status)) {
+      return;
+    }
+
+    if (FightRequest.handleEvilometer(str, status)) {
+      return;
+    }
+
+    if (FightRequest.handleKeyotron(str, status)) {
+      return;
+    }
+
+    if (FightRequest.handleSeahorse(str, status)) {
+      return;
+    }
+
+    if (FightRequest.handleMayoWasp(str, status)) {
+      return;
+    }
+
+    if (FightRequest.handleSpelunky(str, status)) {
+      return;
+    }
+
+    if (FightRequest.handleFamiliarInteraction(str, status)) {
+      return;
+    }
+
+    if (handleCosmicBowlingBall(str)) return;
+
+    // As empty track does not have an image, it is specially handled to pass it to the appropiate
+    // handler
+    if (str.equals("Your toy train moves ahead to some empty track.")) {
+      handleToyTrain("modeltrain", str, status);
+      return;
+    }
+
+    FightRequest.handleVillainLairRadio(node, status);
+
+    if (status.meteors && (str.contains("meteor") || str.contains("falling star"))) {
+      FightRequest.logText(str, status);
+    }
+
+    // Your potted plant swallows your opponent{s} whole.
+    if (status.carnivorous && str.contains("Your potted plant swallows")) {
+      Preferences.increment("_carnivorousPottedPlantWins", 1);
+      FightRequest.logText(str, status);
+    }
+
+    // You flap your bat wings gustily and launch yourself to your next adventure in an instant.
+    if (status.batwings && str.contains("You flap your bat wings gustily")) {
+      Preferences.increment("_batWingsFreeFights", 1);
+      FightRequest.logText(str, status);
+    }
+
+    if ( // KoL Con 13 Snowglobe
+    str.contains("KoL Con")
+        || str.contains("You notice some extra Meat")
+        ||
+        // Mr. Screege's spectacles
+        str.contains("You notice something valuable hidden")
+        ||
+        // Mr. Cheeng's spectacles
+        str.contains("You see a weird thing out of the corner of your eye, and you grab it")
+        || str.contains("You think you see a weird thing out of the corner of your eye")
+        ||
+        // Can of mixed everything
+        str.contains("Something falls out of your can of mixed everything.")) {
+      FightRequest.logText(str, status);
+    }
+
+    FightRequest.handleLuckyGoldRing(str, status);
+
+    // Serendipity
+    if (status.serendipity) {
+      if (str.contains("serendipitous")
+          || str.contains("luck is on your side")
+          || str.contains("How random")) {
+        FightRequest.logText(str, status);
+      }
+    }
+
+    // Research Points
+    if (status.mildManneredProfessor) {
+      FightRequest.checkResearchPoints(str, status);
+    }
+
+    // Retrospecs
+    if (str.contains("notice an item you missed earlier")) {
+      FightRequest.logText(str, status);
+    }
+
+    boolean VYKEAaction = status.VYKEACompanion != null && str.contains(status.VYKEACompanion);
+    if (VYKEAaction && status.logFamiliar) {
+      // VYKEA companion action
+      FightRequest.logText(str, status);
+    }
+
+    boolean ghostAction = status.ghost != null && str.contains(status.ghost);
+    if (ghostAction && status.logFamiliar) {
+      // Pastamancer ghost action
+      FightRequest.logText(str, status);
+    }
+
+    boolean horseAction = status.horse != null && str.contains(status.horse);
+    if (horseAction && status.logFamiliar) {
+      // Horsery horse action
+      FightRequest.logText(str, status);
+    }
+
+    int damage = FightRequest.parseNormalDamage(str);
+    if (damage != 0) {
+      FightRequest.logSpecialDamage(str, status);
+      FightRequest.logMonsterAttribute(status, damage, HEALTH);
+      MonsterStatusTracker.damageMonster(damage);
+      FightRequest.processComments(node, status);
+      return;
+    }
   }
 
   private static final Pattern CANDY_PATTERN = Pattern.compile("\\+(\\d+) Candy");
