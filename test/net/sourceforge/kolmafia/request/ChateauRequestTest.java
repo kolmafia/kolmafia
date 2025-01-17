@@ -180,4 +180,19 @@ public class ChateauRequestTest {
       }
     }
   }
+
+  @ParameterizedTest
+  @CsvSource({
+    "request/test_request_chateau_no_painting.html,''",
+    "request/test_request_chateau_restbox_next_nonfree.html,ungulith",
+  })
+  public void setsMonster(String html, String monster) {
+    var cleanups = withProperty("chateauMonster", "fluffy bunny");
+    try (cleanups) {
+      ChateauRequest request = new ChateauRequest();
+      request.responseText = html(html);
+      request.processResponse();
+      assertThat("chateauMonster", isSetTo(monster));
+    }
+  }
 }

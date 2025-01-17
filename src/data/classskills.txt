@@ -1114,7 +1114,7 @@
 7544	Inject Malware	syringe.gif	combat	0	0
 7545	Encrypted Shuriken	shuriken.gif	combat	0	0
 7546	Refresh HP	cr_undies.gif	combat	0	0
-7547	Lanch Logic Grenade	cr_grenade.gif	combat	0	0
+7547	Launch Logic Grenade	cr_grenade.gif	combat	0	0
 7548	Deploy Glitched Malware	cr_malware.gif	combat	0	0
 7549	Pull down your crepe paper phrygian cap	crepehat.gif	nc,self	0	20
 7550	Look through your crepe paper pie clip	crepepin.gif	nc,self	0	20
