@@ -3159,6 +3159,7 @@ public class FightRequestTest {
         assertThat(
             FamiliarDatabase.getPokeDataById(FamiliarPool.BURLY_BODYGUARD).getMove2(),
             Is.is("Hug"));
+        assertThat(text, not(containsString("unspecified macro action")));
       }
     }
 
@@ -3302,6 +3303,44 @@ public class FightRequestTest {
 
         assertThat("_cyberFreeFights", isSetTo(5));
       }
+    }
+  }
+
+  @Test
+  public void canDetectPirateInsult() {
+    RequestLoggerOutput.startStream();
+    var cleanups = new Cleanups(withFight(), withProperty("lastPirateInsult3"));
+    try (cleanups) {
+      parseCombatData(
+          "request/test_fight_pirate_insult.html",
+          "fight.php?action=useitem&whichitem=2947&whichitem2=0");
+      assertThat("lastPirateInsult3", isSetTo(true));
+      var text = RequestLoggerOutput.stopStream();
+      assertThat(
+          text,
+          containsString(
+              """
+                  Round 1: FightRequestTest uses the The Big Book of Pirate Insults!
+                  Pirate insults known: 1 (0.00%)
+                  You acquire an effect: Embarrassed (1)"""));
+    }
+  }
+
+  @Test
+  public void canDetectTimePrankMessage() {
+    RequestLoggerOutput.startStream();
+    var cleanups = new Cleanups(withLastLocation("Noob Cave"));
+    try (cleanups) {
+      GenericRequest request = new GenericRequest("fight.php");
+      request.responseText = html("request/test_fight_time_prank.html");
+      AdventureRequest.registerEncounter(request);
+      parseCombatData("request/test_fight_time_prank.html", "fight.php?ireallymeanit=1737125012");
+      var text = RequestLoggerOutput.stopStream();
+      // the original message was !"£$%^&*()<>€ so there is some double escaping going on here
+      assertThat(
+          text,
+          containsString(
+              "Round 0: Ryo_Sangnoir says: \"!&quot;&Acirc;&pound;$%^&amp;*()&lt;&gt;&acirc;�&not;\""));
     }
   }
 }
