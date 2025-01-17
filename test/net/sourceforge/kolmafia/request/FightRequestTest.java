@@ -76,6 +76,7 @@ public class FightRequestTest {
     KoLCharacter.reset("FightRequestTest");
     KoLConstants.availableCombatSkillsList.clear();
     KoLConstants.availableCombatSkillsSet.clear();
+    KoLAdventure.setLastAdventure("None");
   }
 
   private void parseCombatData(String path, String location, String encounter) {
@@ -3226,6 +3227,80 @@ public class FightRequestTest {
         assertPostRequest(requests.get(0), "/adventure.php", "snarfblat=" + snarfblat);
         assertGetRequest(requests.get(1), "/fight.php", "ireallymeanit=1667327836");
         assertPostRequest(requests.get(2), "/api.php", "what=status&for=KoLmafia");
+      }
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {1, 2, 3})
+    public void cyberRealmFightsIncrementFreeTurns(int securityLevel) {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      String fileName = "request/test_fight_old_overclocked_win.html";
+      String html = html(fileName);
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withSkill(SkillPool.OVERCLOCK10),
+              withLastLocation("Cyberzone " + securityLevel),
+              withFight(4),
+              withProperty("_cyberFreeFights", 5));
+      try (cleanups) {
+        client.addResponse(200, html);
+        client.addResponse(200, ""); // api.php
+
+        var request = new GenericRequest("fight.php?action=skill&whichskill=4012");
+        request.run();
+
+        assertThat("_cyberFreeFights", isSetTo(6));
+      }
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {1, 2, 3})
+    public void cyberRealmFightHasFreeTurnMaximum(int securityLevel) {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      String fileName = "request/test_fight_old_overclocked_win.html";
+      String html = html(fileName);
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withSkill(SkillPool.OVERCLOCK10),
+              withLastLocation("Cyberzone " + securityLevel),
+              withFight(4),
+              withProperty("_cyberFreeFights", 10));
+      try (cleanups) {
+        client.addResponse(200, html);
+        client.addResponse(200, ""); // api.php
+
+        var request = new GenericRequest("fight.php?action=skill&whichskill=4012");
+        request.run();
+
+        assertThat("_cyberFreeFights", isSetTo(10));
+      }
+    }
+
+    @Test
+    public void nonCyberRealmFightsDoNotIncrementFreeTurns() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      String fileName = "request/test_cyrpt_boss_defeat.html";
+      String html = html(fileName);
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withSkill(SkillPool.OVERCLOCK10),
+              withLastLocation("The Defiled Cranny"),
+              withFight(1),
+              withProperty("_cyberFreeFights", 5));
+      try (cleanups) {
+        client.addResponse(200, html);
+        client.addResponse(200, ""); // api.php
+
+        var request = new GenericRequest("fight.php?action=attack");
+        request.run();
+
+        assertThat("_cyberFreeFights", isSetTo(5));
       }
     }
   }
