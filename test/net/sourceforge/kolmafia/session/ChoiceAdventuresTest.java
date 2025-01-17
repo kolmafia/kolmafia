@@ -95,15 +95,43 @@ class ChoiceAdventuresTest {
       };
     }
 
-    public void checkChoiceSpoilers(int level, String property, String value, String element) {
-      int bits = 8 << (level - 1);
+    public void checkMaxResistanceChoiceSpoilers(
+        int level, String property, String value, String element) {
+      int bits = element.equals("elemental") ? 0 : (8 << (level - 1));
+      int damage = element.equals("elemental") ? (50 * level) : (10 * level + (level - 1));
+      int choice = levelToZone(level);
+      var cleanups =
+          new Cleanups(
+              withProperty(property, value),
+              // Prismatic Resistance: +9
+              withEffect("Synthesis: Hot"),
+              withEffect("Synthesis: Cold"),
+              withEffect("Synthesis: Pungent"),
+              withEffect("Synthesis: Greasy"),
+              withEffect("Synthesis: Scary"),
+              // Prismatic Resistance: +3
+              withEquipped(Slot.OFFHAND, "six-rainbow shield"));
+      try (cleanups) {
+        var options = ChoiceAdventures.dynamicChoiceOptions(choice);
+        assertNotNull(options);
+        assertEquals(options.length, 2);
+        String expected = "Get 0 (" + bits + ") and suffer " + damage + " " + element + " damage";
+        assertThat(options[0].getName(), is(expected));
+        assertThat(options[1].getName(), is("no reward, no damage"));
+      }
+    }
+
+    public void checkNoResistanceChoiceSpoilers(
+        int level, String property, String value, String element) {
+      int bits = 0;
+      int damage = 50 * level;
       int choice = levelToZone(level);
       var cleanups = new Cleanups(withProperty(property, value));
       try (cleanups) {
         var options = ChoiceAdventures.dynamicChoiceOptions(choice);
         assertNotNull(options);
         assertEquals(options.length, 2);
-        String expected = "Get 0 (" + bits + ") and suffer " + element + " damage";
+        String expected = "Get 0 (" + bits + ") and suffer " + damage + " " + element + " damage";
         assertThat(options[0].getName(), is(expected));
         assertThat(options[1].getName(), is("no reward, no damage"));
       }
@@ -111,12 +139,14 @@ class ChoiceAdventuresTest {
 
     public void checkDefenseChoiceSpoilers(int level, String defense, String element) {
       String property = "_cyberZone" + level + "Defense";
-      checkChoiceSpoilers(level, property, defense, element);
+      checkNoResistanceChoiceSpoilers(level, property, defense, element);
+      checkMaxResistanceChoiceSpoilers(level, property, defense, element);
     }
 
     public void checkEncounterChoiceSpoilers(int level, String encounter, String element) {
       String property = "lastEncounter";
-      checkChoiceSpoilers(level, property, encounter, element);
+      checkNoResistanceChoiceSpoilers(level, property, encounter, element);
+      checkMaxResistanceChoiceSpoilers(level, property, encounter, element);
     }
 
     @ParameterizedTest
@@ -139,10 +169,14 @@ class ChoiceAdventuresTest {
       checkEncounterChoiceSpoilers(level, "A Frozen Network", "cold");
       checkEncounterChoiceSpoilers(level, "A Severely Underclocked Network", "cold");
       checkEncounterChoiceSpoilers(level, "Ice Cream Antisocial", "cold");
+      checkEncounterChoiceSpoilers(level, "A Terminal Disease", "stench");
       checkEncounterChoiceSpoilers(level, "Arsenic & Old Spice", "stench");
       checkEncounterChoiceSpoilers(level, "One Man's TRS-80", "stench");
+      checkEncounterChoiceSpoilers(level, "People Have Weird Hobbies Sometimes", "stench");
+      checkEncounterChoiceSpoilers(level, "$1.00,$1.00,$1.00", "sleaze");
       checkEncounterChoiceSpoilers(level, "I Live, You Live...", "sleaze");
       checkEncounterChoiceSpoilers(level, "pr0n Central", "sleaze");
+      checkEncounterChoiceSpoilers(level, "The Piggy Bank", "sleaze");
       checkEncounterChoiceSpoilers(level, "A spooky encounter", "spooky");
       checkEncounterChoiceSpoilers(level, "Grave Secrets", "spooky");
       checkEncounterChoiceSpoilers(level, "The Fall of the Homepage of Usher", "spooky");
