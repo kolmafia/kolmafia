@@ -1393,7 +1393,7 @@ The Dedigitizer	ROW1561	digibritches	1 (32)	0 (16)	dedigitizer schematic: digibr
 The Dedigitizer	ROW1562	cryptocloak	1 (64)	0 (32)	dedigitizer schematic: cryptocloak
 The Dedigitizer	ROW1563	zero-trust tanktop	1 (32)	0 (32)	dedigitizer schematic: zero-trust tanktop
 The Dedigitizer	ROW1564	trojan horseshoe	1 (128)	0 (32)	dedigitizer schematic: trojan horseshoe
-The Dedigitizer	ROW1565	familiar-in-the-middle wrapper	1 (64)	0 (16)	dedigitizer schematic: familiar-in-the-middle wrapper
+The Dedigitizer	ROW1565	familiar-in-the-middle wrapper	1 (64)	0 (16)	dedigitizer schematic: familiar-in-the-middle
 The Dedigitizer	ROW1566	cyburger	1 (32)	dedigitizer schematic: cyburger
 The Dedigitizer	ROW1567	cybeer	1 (32)	dedigitizer schematic: cybeer
 The Dedigitizer	ROW1568	psilocyber mushroom	1 (32)	dedigitizer schematic: psilocyber mushroom
