@@ -3108,6 +3108,7 @@ public class ItemPool {
   public static final int SPACE_BABY_CHILDRENS_BOOK = 9463;
   public static final int SPACE_BABY_BAWBAW = 9464;
   public static final int PORTABLE_SPACEGATE = 9465;
+  public static final int GLITCHED_MALWARE = 9475;
   public static final int OPEN_PORTABLE_SPACEGATE = 9477;
   public static final int NEW_YOU_CLUB_MEMBERSHIP_FORM = 9478;
   public static final int AFFIRMATION_SUPERFICIALLY_INTERESTED = 9481;
@@ -3855,6 +3856,7 @@ public class ItemPool {
   public static final int ZERO = 11789;
   public static final int CR_KEYCODE = 11807;
   public static final int SERVER_KEY = 11808;
+  public static final int LOGIC_GRENADE = 11811;
   public static final int PRINTED_SERVER_KEY = 11809;
   public static final int HASHING_VISE = 11826;
 

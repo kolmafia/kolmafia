@@ -618,7 +618,14 @@ public class SkillPool {
   public static final int MCHUGELARGE_STAB = 7539;
   public static final int MCHUGELARGE_AVALANCHE = 7540;
   public static final int MCHUGELARGE_SKI_PLOW = 7539;
+  public static final int THROW_CYBER_ROCK = 7542;
+  public static final int BRUTE_FORCE_HAMMER = 7543;
+  public static final int INJECT_MALWARE = 7544;
+  public static final int ENCRYPTED_SHURIKEN = 7545;
+  public static final int REFRESH_HP = 7546;
+  public static final int LAUNCH_LOGIC_GRENADE = 7547;
   public static final int DEPLOY_GLITCHED_MALWARE = 7548;
+  public static final int THRUST_YOUR_GEOFENCING_RAPIER = 7554;
 
   public static final int GOOD_SINGING_VOICE = 11016;
   public static final int BANISHING_SHOUT = 11020;

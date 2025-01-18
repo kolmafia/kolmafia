@@ -10561,11 +10561,63 @@ public class FightRequest extends GenericRequest {
           skillSuccess = true;
         }
       }
-      case SkillPool.DEPLOY_GLITCHED_MALWARE -> {
-        if (responseText.contains("You infect") || skillSuccess) {
-          BanishManager.banishCurrentMonster(Banisher.GLITCHED_MALWARE);
+
+        // CyberRealm skills
+      case SkillPool.THROW_CYBER_ROCK -> {
+        // RAM Cost: 0
+        // You envision some 1s in a clump and throw it at your foe for <b>10</b> damage.
+      }
+      case SkillPool.BRUTE_FORCE_HAMMER -> {
+        // RAM Cost: 3
+        // brute force hammer equipped
+
+        // *** need use message
+      }
+      case SkillPool.INJECT_MALWARE -> {
+        // RAM Cost: 1
+        // malware injector equipped
+
+        // *** need use message
+      }
+      case SkillPool.ENCRYPTED_SHURIKEN -> {
+        // RAM Cost: 2
+        // encrypted shuriken equipped
+
+        // *** need use message
+      }
+      case SkillPool.REFRESH_HP -> {
+        // RAM Cost: 1
+        // wired underwear equipped
+
+        // *** need use message
+      }
+      case SkillPool.LAUNCH_LOGIC_GRENADE -> {
+        // RAM Cost: 0
+        // logic grenade in inventory
+
+        // You arm you logic grenade and launch it into the network.
+        // Your foe is blasted into their constituent bits.
+        if (responseText.contains("launch it into the network") || skillSuccess) {
+          ResultProcessor.processResult(ItemPool.get(ItemPool.LOGIC_GRENADE, -1));
           skillSuccess = true;
         }
+      }
+      case SkillPool.DEPLOY_GLITCHED_MALWARE -> {
+        // RAM Cost: 0
+        // glitched malware in inventory
+
+        // You infect your foe with the glitched malware, that'll keep them busy for the day.
+        if (responseText.contains("You infect") || skillSuccess) {
+          BanishManager.banishCurrentMonster(Banisher.GLITCHED_MALWARE);
+          ResultProcessor.processResult(ItemPool.get(ItemPool.GLITCHED_MALWARE, -1));
+          skillSuccess = true;
+        }
+      }
+      case SkillPool.THRUST_YOUR_GEOFENCING_RAPIER -> {
+        // RAM Cost: 7
+        // geofencing rapier equipped
+
+        // *** need use message
       }
     }
 
