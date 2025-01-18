@@ -6285,6 +6285,12 @@ public class FightRequest extends GenericRequest {
       return;
     }
 
+    // inputs are only valid inside forms, so skip these too
+    // https://github.com/jhy/jsoup/issues/2260
+    if (name.equals("input") || name.equals("select")) {
+      return;
+    }
+
     /// node-specific processing
     if (name.equals("script")) {
       Matcher m = CLEESH_PATTERN.matcher(node.wholeText());
