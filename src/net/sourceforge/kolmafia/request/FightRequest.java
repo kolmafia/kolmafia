@@ -861,10 +861,7 @@ public class FightRequest extends GenericRequest {
   }
 
   public static int calculateInitialRAM() {
-    return 3
-        + (KoLCharacter.hasEquipped(ItemPool.DATASTICK) ? 1 : 0)
-        + (KoLCharacter.hasEquipped(ItemPool.CYBERVISOR) ? 3 : 0)
-        + (KoLConstants.activeEffects.contains(FightRequest.CYBER_MEMORY_BOOST) ? 3 : 0);
+    return 3 + (int) KoLCharacter.currentNumericModifier(DoubleModifier.RAM);
   }
 
   public static final boolean canPerformAdvancedResearch() {
