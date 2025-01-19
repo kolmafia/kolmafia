@@ -109,7 +109,7 @@ public class RequestEditorKit extends HTMLEditorKit {
       Pattern.compile("\\(select an outfit\\)</option>(<option.*?)<optgroup", Pattern.DOTALL);
 
   private static final Pattern ROUND_SEP_PATTERN =
-      Pattern.compile("<(?:b style=\"color: white\">Combat!</b>|hr.*?>)");
+      Pattern.compile("<(?:b style=\"color: [^\"]+\">Combat!</b>|hr.*?>)");
   private static final Pattern RCM_JS_PATTERN = Pattern.compile("rcm\\.(\\d+\\.)?js");
 
   private static final RequestViewFactory DEFAULT_FACTORY = new RequestViewFactory();
