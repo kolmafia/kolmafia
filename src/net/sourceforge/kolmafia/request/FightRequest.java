@@ -10626,16 +10626,22 @@ public class FightRequest extends GenericRequest {
       case SkillPool.ENCRYPTED_SHURIKEN -> {
         // RAM Cost: 2
         // encrypted shuriken equipped
-        // *** need use message
-        skillSuccess = true;
-        currentRAM -= 2;
+
+        // You hurl a cybershuriken at your foe for <b>20</b> damage.
+        if (responseText.contains("You hurl a cybershuriken") || skillSuccess) {
+          skillSuccess = true;
+          currentRAM -= 2;
+        }
       }
       case SkillPool.REFRESH_HP -> {
         // RAM Cost: 1
         // wired underwear equipped
-        // *** need use message
-        skillSuccess = true;
-        currentRAM -= 1;
+
+        // You remotely trigger the cooling circuits in your underwear.
+        if (responseText.contains("You remotely trigger") || skillSuccess) {
+          skillSuccess = true;
+          currentRAM -= 1;
+        }
       }
       case SkillPool.LAUNCH_LOGIC_GRENADE -> {
         // RAM Cost: 0
@@ -10652,6 +10658,7 @@ public class FightRequest extends GenericRequest {
       case SkillPool.DEPLOY_GLITCHED_MALWARE -> {
         // RAM Cost: 0
         // glitched malware in inventory
+
         // You infect your foe with the glitched malware, that'll keep them busy for the day.
         if (responseText.contains("You infect") || skillSuccess) {
           BanishManager.banishCurrentMonster(Banisher.GLITCHED_MALWARE);
