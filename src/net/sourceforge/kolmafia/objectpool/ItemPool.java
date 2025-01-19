@@ -3854,6 +3854,8 @@ public class ItemPool {
   public static final int MCHUGELARGE_RIGHT_SKI = 11787;
   public static final int ONE = 11788;
   public static final int ZERO = 11789;
+  public static final int DATASTICK = 11792;
+  public static final int CYBERVISOR = 11803;
   public static final int CR_KEYCODE = 11807;
   public static final int SERVER_KEY = 11808;
   public static final int LOGIC_GRENADE = 11811;

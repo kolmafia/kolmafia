@@ -144,6 +144,8 @@ public class FightRequest extends GenericRequest {
   public static final AdventureResult ONTHETRAIL = EffectPool.get(EffectPool.ON_THE_TRAIL);
   public static final AdventureResult INFERNO = EffectPool.get(EffectPool.TASTE_THE_INFERNO);
   public static final AdventureResult COWRRUPTION = EffectPool.get(EffectPool.COWRRUPTION, 0);
+  public static final AdventureResult CYBER_MEMORY_BOOST =
+      EffectPool.get(EffectPool.CYBER_MEMORY_BOOST);
 
   public static final AdventureResult DICTIONARY1 = ItemPool.get(ItemPool.DICTIONARY, 1);
   public static final AdventureResult DICTIONARY2 = ItemPool.get(ItemPool.FACSIMILE_DICTIONARY, 1);
@@ -369,6 +371,7 @@ public class FightRequest extends GenericRequest {
   public static boolean choiceFollowsFight = false;
   public static boolean fightFollowsChoice = false;
   public static boolean fightingCopy = false;
+  public static int currentRAM = 0;
 
   private static String nextAction = null;
   private static String macroErrorMessage = null;
@@ -849,6 +852,19 @@ public class FightRequest extends GenericRequest {
         && !IslandManager.isBattlefieldMonster()
         && !QuestDatabase.isQuestFinished(QuestDatabase.Quest.ISLAND_WAR)
         && !KoLCharacter.inGLover();
+  }
+
+  public static int getCurrentRAM() {
+    // RAM starts out at a particular value and decrements through the
+    // fight as cyber skills are used.
+    return (currentRound == 0) ? calculateInitialRAM() : currentRAM;
+  }
+
+  public static int calculateInitialRAM() {
+    return 3
+        + (KoLCharacter.hasEquipped(ItemPool.DATASTICK) ? 1 : 0)
+        + (KoLCharacter.hasEquipped(ItemPool.CYBERVISOR) ? 3 : 0)
+        + (KoLConstants.activeEffects.contains(FightRequest.CYBER_MEMORY_BOOST) ? 3 : 0);
   }
 
   public static final boolean canPerformAdvancedResearch() {
@@ -2192,12 +2208,15 @@ public class FightRequest extends GenericRequest {
         }
         case AdventurePool.CYBER_ZONE_1 -> {
           Preferences.increment("_cyberZone1Turns");
+          currentRAM = calculateInitialRAM();
         }
         case AdventurePool.CYBER_ZONE_2 -> {
           Preferences.increment("_cyberZone2Turns");
+          currentRAM = calculateInitialRAM();
         }
         case AdventurePool.CYBER_ZONE_3 -> {
           Preferences.increment("_cyberZone3Turns");
+          currentRAM = calculateInitialRAM();
         }
       }
 
@@ -10566,30 +10585,36 @@ public class FightRequest extends GenericRequest {
       case SkillPool.THROW_CYBER_ROCK -> {
         // RAM Cost: 0
         // You envision some 1s in a clump and throw it at your foe for <b>10</b> damage.
+        skillSuccess = true;
+        currentRAM -= 0;
       }
       case SkillPool.BRUTE_FORCE_HAMMER -> {
         // RAM Cost: 3
         // brute force hammer equipped
-
         // *** need use message
+        skillSuccess = true;
+        currentRAM -= 3;
       }
       case SkillPool.INJECT_MALWARE -> {
         // RAM Cost: 1
         // malware injector equipped
-
         // *** need use message
+        skillSuccess = true;
+        currentRAM -= 1;
       }
       case SkillPool.ENCRYPTED_SHURIKEN -> {
         // RAM Cost: 2
         // encrypted shuriken equipped
-
         // *** need use message
+        skillSuccess = true;
+        currentRAM -= 2;
       }
       case SkillPool.REFRESH_HP -> {
         // RAM Cost: 1
         // wired underwear equipped
-
         // *** need use message
+        skillSuccess = true;
+        currentRAM -= 1;
       }
       case SkillPool.LAUNCH_LOGIC_GRENADE -> {
         // RAM Cost: 0
@@ -10600,24 +10625,26 @@ public class FightRequest extends GenericRequest {
         if (responseText.contains("launch it into the network") || skillSuccess) {
           ResultProcessor.processResult(ItemPool.get(ItemPool.LOGIC_GRENADE, -1));
           skillSuccess = true;
+          currentRAM -= 0;
         }
       }
       case SkillPool.DEPLOY_GLITCHED_MALWARE -> {
         // RAM Cost: 0
         // glitched malware in inventory
-
         // You infect your foe with the glitched malware, that'll keep them busy for the day.
         if (responseText.contains("You infect") || skillSuccess) {
           BanishManager.banishCurrentMonster(Banisher.GLITCHED_MALWARE);
           ResultProcessor.processResult(ItemPool.get(ItemPool.GLITCHED_MALWARE, -1));
           skillSuccess = true;
+          currentRAM -= 0;
         }
       }
       case SkillPool.THRUST_YOUR_GEOFENCING_RAPIER -> {
         // RAM Cost: 7
         // geofencing rapier equipped
-
         // *** need use message
+        skillSuccess = true;
+        currentRAM -= 7;
       }
     }
 
