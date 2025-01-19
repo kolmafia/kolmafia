@@ -3346,46 +3346,65 @@ public class FightRequestTest {
     }
   }
 
-  @Test
-  public void canDetectSerendipity() {
-    RequestLoggerOutput.startStream();
-    var cleanups = new Cleanups(withFight(), withEffect(EffectPool.SERENDIPITY));
-    try (cleanups) {
-      parseCombatData("request/test_fight_haiku_serendipity.html");
-      var text = RequestLoggerOutput.stopStream();
-      assertThat(
-          text,
-          containsString(
-              "After Battle: Looks like luck is on your side, you just tripped on this:"));
+  @Nested
+  class Haiku {
+    @Test
+    public void canDetectSerendipity() {
+      RequestLoggerOutput.startStream();
+      var cleanups = new Cleanups(withFight(), withEffect(EffectPool.SERENDIPITY));
+      try (cleanups) {
+        parseCombatData("request/test_fight_haiku_serendipity.html");
+        var text = RequestLoggerOutput.stopStream();
+        assertThat(
+            text,
+            containsString(
+                "After Battle: Looks like luck is on your side, you just tripped on this:"));
+      }
     }
-  }
 
-  @Test
-  public void canDetectHaikuMonster() {
-    RequestLoggerOutput.startStream();
-    var cleanups =
-        new Cleanups(withLastLocation("The Haiku Dungeon"), withFamiliar(FamiliarPool.CAT_BURGLAR));
-    try (cleanups) {
-      var page = "request/test_fight_haiku_serendipity.html";
-      GenericRequest request = new GenericRequest("fight.php");
-      request.responseText = html(page);
-      AdventureRequest.registerEncounter(request);
-      MonsterData monster = MonsterStatusTracker.getLastMonster();
-      assertEquals("amateur ninja", monster.getName());
-      parseCombatData(page, "fight.php?ireallymeanit=1737125012");
-      var text = RequestLoggerOutput.stopStream();
-      assertThat(text, containsString("Encounter: amateur ninja"));
-      assertThat(text, containsString("Round 0: FightRequestTest wins initiative!"));
-      assertThat(text, containsString("Round 3: amateur ninja takes 1198 damage."));
-      assertThat(
-          text,
-          containsString(
-              """
-                  You gain 23 Strongness
-                  You gain 36 Magicalness
-                  You gain a Mysticality point!
-                  You gain 49 Roguishness
-                  You gain a Moxie point!"""));
+    @Test
+    public void canDetectHaikuMonster() {
+      RequestLoggerOutput.startStream();
+      var cleanups =
+          new Cleanups(
+              withLastLocation("The Haiku Dungeon"), withFamiliar(FamiliarPool.CAT_BURGLAR));
+      try (cleanups) {
+        var page = "request/test_fight_haiku_serendipity.html";
+        GenericRequest request = new GenericRequest("fight.php");
+        request.responseText = html(page);
+        AdventureRequest.registerEncounter(request);
+        MonsterData monster = MonsterStatusTracker.getLastMonster();
+        assertEquals("amateur ninja", monster.getName());
+        parseCombatData(page, "fight.php?ireallymeanit=1737125012");
+        var text = RequestLoggerOutput.stopStream();
+        assertThat(text, containsString("Encounter: amateur ninja"));
+        assertThat(text, containsString("Round 0: FightRequestTest wins initiative!"));
+        assertThat(text, containsString("Round 3: amateur ninja takes 1198 damage."));
+        assertThat(
+            text,
+            containsString(
+                """
+                    You gain 23 Strongness
+                    You gain 36 Magicalness
+                    You gain a Mysticality point!
+                    You gain 49 Roguishness
+                    You gain a Moxie point!"""));
+      }
+    }
+
+    @Test
+    public void canDetectKnobGoblinPoseur() {
+      RequestLoggerOutput.startStream();
+      var cleanups = new Cleanups(withLastLocation("The Haiku Dungeon"));
+      try (cleanups) {
+        var page = "request/test_fight_haiku_knob_goblin_poseur.html";
+        GenericRequest request = new GenericRequest("fight.php");
+        request.responseText = html(page);
+        AdventureRequest.registerEncounter(request);
+        parseCombatData(page, "fight.php?ireallymeanit=1737125012");
+        var text = RequestLoggerOutput.stopStream();
+        assertThat(text, containsString("Encounter: Knob Goblin poseur"));
+      }
     }
   }
 }

@@ -675,8 +675,11 @@ public class AdventureRequest extends GenericRequest {
     // Pocket Familiars have Pokefam battles
     // <b><center>a fleet woodsman's Team:</b>
     Pattern.compile(">([^<]*?)'s Team:<"),
+    // Knob Goblin poseur has no closing </b> tag
+    Pattern.compile(
+        "<td id='fmsg' valign=center><Table>.*?<b>(Knob Goblin poseur)", Pattern.DOTALL),
     // haiku dungeon attempt
-    Pattern.compile("<td id='fmsg' valign=center><Table>.*?<b>([^<]+</b>)", Pattern.DOTALL),
+    Pattern.compile("<td id='fmsg' valign=center><Table>.*?<b>([^<]+)</b>", Pattern.DOTALL),
     // KoL sure generates a lot of bogus HTML
     Pattern.compile("<b>.*?(<b>.*?<(/b|/td)>.*?)<(br|/td|/tr)>", Pattern.DOTALL),
   };
