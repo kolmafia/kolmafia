@@ -165,6 +165,7 @@ class ChoiceAdventuresTest {
     public void canDynamicallyGenerateChoiceSpoilersFromEncounter(int level) {
       checkEncounterChoiceSpoilers(level, "A Funny Thing Happened...", "hot");
       checkEncounterChoiceSpoilers(level, "A Turboclocked System", "hot");
+      checkEncounterChoiceSpoilers(level, "Boiling Chrome", "hot");
       checkEncounterChoiceSpoilers(level, "A Breezy System", "cold");
       checkEncounterChoiceSpoilers(level, "A Frozen Network", "cold");
       checkEncounterChoiceSpoilers(level, "A Severely Underclocked Network", "cold");
