@@ -1,0 +1,110 @@
+<html><head>
+<script language=Javascript>
+<!--
+if (parent.frames.length == 0) location.href="game.php";
+top.charpane.location.href="charpane.php";
+//-->
+</script>
+<script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/keybinds.min.2.js"></script>
+<script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/window.20111231.js"></script>
+<script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/jquery-1.3.1.min.js"></script>
+<link href="https://fonts.googleapis.com/css?family=Shadows+Into+Light" rel="stylesheet"><script language="javascript" src="https://d2uyhvukfffg5a.cloudfront.net/scripts/core.js"></script><script src="https://d2uyhvukfffg5a.cloudfront.net/scripts/fight.js"></script>
+<script>
+var onturn = 2;
+
+</script>	<link rel="stylesheet" type="text/css" href="https://d2uyhvukfffg5a.cloudfront.net/styles.20230117d.css">
+<style> body * { image-rendering: auto!important;} </style><style type='text/css'>
+.faded {
+	zoom: 1;
+	filter: alpha(opacity=35);
+	opacity: 0.35;
+	-khtml-opacity: 0.35; 
+    -moz-opacity: 0.35;
+}
+</style>
+
+</head>
+
+<body>
+	<link rel="stylesheet" href="https://unpkg.com/fixedsys-css/css/fixedsys.css">
+	<style>
+		* { font-family: 'fixedsys', "Fixedsys", monospace !important; font-size: 1.05rem; }
+		img { opacity: 0}
+		img.cybered { opacity: 1}
+		.actionbar img  { opacity: 1; filter: invert(0.8); }
+		.actionbar img.cybered  { opacity: 1; filter: invert(0); }
+		select, body{ background-color: black; color: green; }
+		body { margin-top: 8px; }
+		td{ background-color: black; color: green; }
+		input.button, button.button, .button { background-color: black; color: green; border: 1px solid green; font-size: 1.05rem }
+		a, a:link, a:visited, a:active {color: green; }
+		b {color: green; }
+		.spacer { background-color: black !important; }
+		td.page { background-color: black !important; }
+	</style>
+	<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const images = document.getElementsByTagName('img');
+	const cyberit = function () {
+		var img = this;
+		img.removeEventListener('load',cyberit);
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+
+            // Set canvas size to match image
+            canvas.width = img.naturalWidth;
+            canvas.height = img.naturalHeight;
+
+            // Draw image on canvas
+            ctx.drawImage(img, 0, 0);
+
+            // Get image data
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const data = imageData.data;
+
+            // Process pixels
+            for (let i = 0; i < data.length; i += 4) {
+                // If pixel is not white (255, 255, 255)
+                if (data[i] < 255 || data[i + 1] < 255 || data[i + 2] < 255) {
+                    data[i] = 0;
+                    data[i + 1] = 255 - data[i+1];
+                    data[i + 2] = 0; // B
+				} else {
+                    data[i] = 0;     // R
+                    data[i + 1] = 0;   // G
+                    data[i + 2] = 0; // B
+				}
+            }
+
+            // Put processed data back
+            ctx.putImageData(imageData, 0, 0);
+
+            // Replace original image with processed version
+            img.src = canvas.toDataURL();
+			img.classList.add('cybered')
+	};
+
+	var cyberprep = function () {
+		var img = this;
+		img.removeEventListener('load',cyberprep);
+		
+		console.log('cyberprepping ' + img.src.substr(0,75));
+			if (img.src.match(/iii/) || img.src.match(/^data:/)) {
+				cyberit.call(img);
+			} else {
+				var news = img.src.replace(/.*\.(com|net)/,'/iii');
+				console.log('changed '+img.src.substr(0,75)+' to '+news);
+				img.src=news+'?dammit='+Math.random();
+				img.addEventListener('load', cyberit);
+			}
+	};
+
+    Array.from(images).forEach(function (img) {
+		if (img.src.match(/blank.gif/)) return;
+		console.log(img.src,img.complete);
+		if (img.complete) cyberprep.call(img);
+		else img.addEventListener('load', cyberprep);
+    });
+});
+	</script>
+	<center><table  width=95%  cellspacing=0 cellpadding=0><tr><td style="background-color: green" align=center ><b style="color: black">Combat!</b></td></tr><tr><td style="padding: 5px; border: 1px solid green;"><center><table><tr><td><center><table><tr><td><div id=monsterpic style='position: relative;'>	<img  id='monpic'   src="https://d2uyhvukfffg5a.cloudfront.net/adventureimages/cr_hotwall.gif" width=200 height=200></div></td><td id='fmsg' valign=center>You're fighting <span id='monname'>a firewall</span></td><!-- MONSTERID: 2459 --><td width=30></td><td id='fstats'><table><tr><td width=30><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/nicesword.gif width=30 height=30 alt="Enemy's Attack Power" title="Enemy's Attack Power"></td><td width=50 valign=center align=left><b><font size=+2>1,351</font></b></td><td><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/sprocket.gif alt="This monster is a Construct" title="This monster is a Construct"></td></tr><tr><td width=30><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/whiteshield.gif width=30 height=30 alt="Enemy's Defense" title="Enemy's Defense"></td><td width=50 valign=center align=left><b><font size=+2>924</font></b></td><td><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/fire.gif width=30 height=30 alt="This monster is Hot.  Hot is weak against Sleaze and Stench." title="This monster is Hot.  Hot is weak against Sleaze and Stench."></td></tr><tr><td width=30><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/hp.gif width=30 height=30 alt="Enemy's Hit Points" title="Enemy's Hit Points"></td><td width=50 valign=center align=left><b><font size=+2>297</font></b></td><td><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/snail.gif alt="Never wins initiative" title="Never wins initiative"></td></tr></table></td></tr></table><br><script type="text/javascript">var monsterstats = {"hp":"297","def":"924","off":"1,351"};</script><table><tr><Td>You swing your hammer at your foe, smashing it for <b>40</b>bits of damage.</td></tr></table><table><tr><Td></td></tr></table><table><tr><Td><p><!--familiarmessage--><center><table><tr><td align=center valign=center><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/pokefam8675309.gif" width=30 height=30></td><td valign=center>Bodolph blasts your enemies with multicolored psychic bolts for <font color=red><b>1</b></font> (<font color=blue><b>+1</b></font>) (<font color=green><b>+1</b></font>) (<font color=gray><b>+1</b></font>) (<font color=blueviolet><b>+1</b></font>) damage!</td></tr></table></center></td></tr></table>The firewall reprograms your digital interface to overload and heat up, burning you.  The firewall burns away the least significant bits of your throughput.<center><table><tr><td><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/hp.gif" height=30 width=30></td><td valign=center class=effect>You lose 142 hit points. (<font color=red><b>hot damage</b></font>)</td></tr></table></center><p>Your zero-trust tanktop detects some untrusted code and refactors your health code.<center><table><tr><td><img src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/hp.gif" height=30 width=30></td><td valign=center class=effect>You gain 217 hit points.</td></tr></table></center><p><center><table><a name="end"></a><form name=useitem action=fight.php method=post><input type=hidden name=action value="useitem"></form><form name=skill action=fight.php method=post><input type=hidden name=action value="skill"><tr><td align=center><select name=whichskill><option value='none'>(select a skill)</option><option value="7548" picurl="cr_malware" >Deploy Glitched Malware (0 RAM)</option><option value="7547" picurl="cr_grenade" >Launch Logic Grenade (0 RAM)</option><option value="7543" picurl="cr_hammer" selected>Brute Force Hammer (3 RAM - 7/10 RAM free)</option><option value="7542" picurl="bigrock" >Throw Cyber Rock (0 RAM - 7/10 RAM free)</option></select> <input class=button type=submit onclick="return killforms(this);" value="Use Skill"></td></tr></form><form name=macro action=fight.php method=post><input type=hidden name=action value="macro"><input type="hidden" name="macrotext" value=""><tr><td align=center><select name=whichmacro><option value='0'>(select a macro)</option><option value="192478" picurl="" >Extract Jelly</option></select> <input class=button type=submit onclick="return killforms(this);" value="Execute Macro"></td></tr></form><form name=runaway action=fight.php method=post><input type=hidden name=action value="runaway"><tr><td align=center><input class=button onclick="return killforms(this);" type=submit value="Run Away"></td></tr></form></table></center></td></tr></table></center></td></tr><tr><td height=4></td></tr></table></center></body></html>
