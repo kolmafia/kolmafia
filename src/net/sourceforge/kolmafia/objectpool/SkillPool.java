@@ -130,6 +130,7 @@ public class SkillPool {
   public static final int ELF_GUARD_COOKING = 229;
   public static final int OLD_SCHOOL_COCKTAILCRAFTING = 230;
   public static final int HOLIDAY_MULTITASKING = 240;
+  public static final int OVERCLOCK10 = 243;
   public static final int SUPER_ADVANCED_MEATSMITHING = 1006;
   public static final int WALRUS_TONGUE = 1010;
   public static final int BATTER_UP = 1014;
@@ -617,7 +618,14 @@ public class SkillPool {
   public static final int MCHUGELARGE_STAB = 7539;
   public static final int MCHUGELARGE_AVALANCHE = 7540;
   public static final int MCHUGELARGE_SKI_PLOW = 7539;
+  public static final int THROW_CYBER_ROCK = 7542;
+  public static final int BRUTE_FORCE_HAMMER = 7543;
+  public static final int INJECT_MALWARE = 7544;
+  public static final int ENCRYPTED_SHURIKEN = 7545;
+  public static final int REFRESH_HP = 7546;
+  public static final int LAUNCH_LOGIC_GRENADE = 7547;
   public static final int DEPLOY_GLITCHED_MALWARE = 7548;
+  public static final int THRUST_YOUR_GEOFENCING_RAPIER = 7554;
 
   public static final int GOOD_SINGING_VOICE = 11016;
   public static final int BANISHING_SHOUT = 11020;
