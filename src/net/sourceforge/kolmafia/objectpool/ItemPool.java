@@ -3108,6 +3108,7 @@ public class ItemPool {
   public static final int SPACE_BABY_CHILDRENS_BOOK = 9463;
   public static final int SPACE_BABY_BAWBAW = 9464;
   public static final int PORTABLE_SPACEGATE = 9465;
+  public static final int GLITCHED_MALWARE = 9475;
   public static final int OPEN_PORTABLE_SPACEGATE = 9477;
   public static final int NEW_YOU_CLUB_MEMBERSHIP_FORM = 9478;
   public static final int AFFIRMATION_SUPERFICIALLY_INTERESTED = 9481;
@@ -3777,6 +3778,8 @@ public class ItemPool {
   public static final int TRICK_COIN = 11480;
   public static final int LIL_SNOWBALL_FACTORY = 11485;
   public static final int PRANK_CRIMBO_CARD = 11487;
+  public static final int WIRED_UNDERWEAR = 11538;
+  public static final int ENCRYPTED_SHURIKEN = 11539;
   public static final int MIMIC_EGG = 11542;
   public static final int SPRING_SHOES = 11546;
   public static final int SMASHED_SCIENTIFIC_EQUIPMENT = 11549;
@@ -3853,10 +3856,16 @@ public class ItemPool {
   public static final int MCHUGELARGE_RIGHT_SKI = 11787;
   public static final int ONE = 11788;
   public static final int ZERO = 11789;
+  public static final int BRUTE_FORCE_HAMMER = 11791;
+  public static final int DATASTICK = 11792;
+  public static final int CYBERVISOR = 11803;
+  public static final int MALWARE_INJECTOR = 11806;
   public static final int CR_KEYCODE = 11807;
   public static final int SERVER_KEY = 11808;
+  public static final int LOGIC_GRENADE = 11811;
   public static final int PRINTED_SERVER_KEY = 11809;
   public static final int HASHING_VISE = 11826;
+  public static final int GEOFENCING_RAPIER = 11827;
 
   private ItemPool() {}
 

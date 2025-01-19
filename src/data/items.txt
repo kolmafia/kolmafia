@@ -11836,7 +11836,7 @@
 11808	server room key	865269521	cr_key.gif	none		0
 11809	3d printed server room key	411166757	cr_3dkey.gif	usable	t	0
 11810	dedigitizer schematic: 3d printed server room key	600797572	cr_schematic.gif	none	t,d	25	dedigitizer schematics for 3d printed server keys
-11811	logic grenade	782107563	cr_grenade.gif	none, combat	t,d	30
+11811	logic grenade	782107563	cr_grenade.gif	none	t,d	30
 11812	psilocyber mushroom	546956019	cr_shroom.gif	spleen, usable	t,d	10
 11813	dedigitizer schematic: SLEEP(5) rom chip	216913421	cr_schematic.gif	none	t	0	dedigitizer schematics for SLEEP(5) rom chips
 11814	dedigitizer schematic: OVERCLOCK(10) rom chip	288551586	cr_schematic.gif	none	t	0	dedigitizer schematics for OVERCLOCK(10) rom chips

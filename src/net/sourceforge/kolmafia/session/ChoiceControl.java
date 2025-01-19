@@ -8894,22 +8894,39 @@ public abstract class ChoiceControl {
 
       case 1545 -> { // Cyberzone 1 Half-Way
         Preferences.setInteger("_cyberZone1Turns", 10);
+        incrementCyberFreeFights();
       }
       case 1546 -> { // Cyberzone 1 Final
         Preferences.setInteger("_cyberZone1Turns", 20);
       }
       case 1547 -> { // Cyberzone 2 Half-Way
         Preferences.setInteger("_cyberZone2Turns", 10);
+        incrementCyberFreeFights();
       }
       case 1548 -> { // Cyberzone 2 Final
         Preferences.setInteger("_cyberZone2Turns", 20);
       }
       case 1549 -> { // Cyberzone 3 Half-Way
         Preferences.setInteger("_cyberZone3Turns", 10);
+        incrementCyberFreeFights();
       }
       case 1550 -> { // Cyberzone 3 Final
         Preferences.setInteger("_cyberZone3Turns", 20);
       }
+    }
+  }
+
+  private static void incrementCyberFreeFights() {
+    // The CyberRealm Half-Way non-combats - which are free - consume a
+    // free fight granted by OVERCLOCK(10).
+    // This seems like a KoL bug.
+    //
+    // The CyberRealm Final non-combats are not free. I don't know if
+    // they are made free by OVERCLOCK(10), but in order to see that,
+    // you'd have to install the rom chip and learn the skill AFTER the
+    // Half-Way non-combat of a CyberRealm zone. Not going to happen.
+    if (KoLCharacter.hasSkill(SkillPool.OVERCLOCK10)) {
+      Preferences.increment("_cyberFreeFights", 1, 10, false);
     }
   }
 
