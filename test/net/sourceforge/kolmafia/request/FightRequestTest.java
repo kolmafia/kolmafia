@@ -74,6 +74,7 @@ public class FightRequestTest {
   public void beforeEach() {
     KoLCharacter.reset("");
     KoLCharacter.reset("FightRequestTest");
+    KoLCharacter.setUserId(1);
     KoLConstants.availableCombatSkillsList.clear();
     KoLConstants.availableCombatSkillsSet.clear();
     KoLAdventure.setLastAdventure("None");
@@ -3331,16 +3332,60 @@ public class FightRequestTest {
     RequestLoggerOutput.startStream();
     var cleanups = new Cleanups(withLastLocation("Noob Cave"));
     try (cleanups) {
+      var page = "request/test_fight_time_prank.html";
       GenericRequest request = new GenericRequest("fight.php");
-      request.responseText = html("request/test_fight_time_prank.html");
+      request.responseText = html(page);
       AdventureRequest.registerEncounter(request);
-      parseCombatData("request/test_fight_time_prank.html", "fight.php?ireallymeanit=1737125012");
+      parseCombatData(page, "fight.php?ireallymeanit=1737125012");
       var text = RequestLoggerOutput.stopStream();
       // the original message was !"£$%^&*()<>€ so there is some double escaping going on here
       assertThat(
           text,
           containsString(
               "Round 0: Ryo_Sangnoir says: \"!&quot;&Acirc;&pound;$%^&amp;*()&lt;&gt;&acirc;�&not;\""));
+    }
+  }
+
+  @Test
+  public void canDetectSerendipity() {
+    RequestLoggerOutput.startStream();
+    var cleanups = new Cleanups(withFight(), withEffect(EffectPool.SERENDIPITY));
+    try (cleanups) {
+      parseCombatData("request/test_fight_haiku_serendipity.html");
+      var text = RequestLoggerOutput.stopStream();
+      assertThat(
+          text,
+          containsString(
+              "After Battle: Looks like luck is on your side, you just tripped on this:"));
+    }
+  }
+
+  @Test
+  public void canDetectHaikuMonster() {
+    RequestLoggerOutput.startStream();
+    var cleanups =
+        new Cleanups(withLastLocation("The Haiku Dungeon"), withFamiliar(FamiliarPool.CAT_BURGLAR));
+    try (cleanups) {
+      var page = "request/test_fight_haiku_serendipity.html";
+      GenericRequest request = new GenericRequest("fight.php");
+      request.responseText = html(page);
+      AdventureRequest.registerEncounter(request);
+      MonsterData monster = MonsterStatusTracker.getLastMonster();
+      assertEquals("amateur ninja", monster.getName());
+      parseCombatData(page, "fight.php?ireallymeanit=1737125012");
+      var text = RequestLoggerOutput.stopStream();
+      assertThat(text, containsString("Encounter: amateur ninja"));
+      assertThat(text, containsString("Round 0: FightRequestTest wins initiative!"));
+      assertThat(text, containsString("Round 3: amateur ninja takes 1198 damage."));
+      assertThat(
+          text,
+          containsString(
+              """
+                  You gain 23 Strongness
+                  You gain 36 Magicalness
+                  You gain a Mysticality point!
+                  You gain 49 Roguishness
+                  You gain a Moxie point!"""));
     }
   }
 }

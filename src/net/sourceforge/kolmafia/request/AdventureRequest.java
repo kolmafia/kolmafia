@@ -675,6 +675,8 @@ public class AdventureRequest extends GenericRequest {
     // Pocket Familiars have Pokefam battles
     // <b><center>a fleet woodsman's Team:</b>
     Pattern.compile(">([^<]*?)'s Team:<"),
+    // haiku dungeon attempt
+    Pattern.compile("<td id='fmsg' valign=center><Table>.*?<b>([^<]+</b>)", Pattern.DOTALL),
     // KoL sure generates a lot of bogus HTML
     Pattern.compile("<b>.*?(<b>.*?<(/b|/td)>.*?)<(br|/td|/tr)>", Pattern.DOTALL),
   };
