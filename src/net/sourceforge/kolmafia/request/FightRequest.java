@@ -10591,9 +10591,12 @@ public class FightRequest extends GenericRequest {
       case SkillPool.BRUTE_FORCE_HAMMER -> {
         // RAM Cost: 3
         // brute force hammer equipped
-        // *** need use message
-        skillSuccess = true;
-        currentRAM -= 3;
+
+        // You swing your hammer at your foe, smashing it for <b>40</b>bits of damage.
+        if (responseText.contains("You swing your hammer") || skillSuccess) {
+          skillSuccess = true;
+          currentRAM -= 3;
+        }
       }
       case SkillPool.INJECT_MALWARE -> {
         // RAM Cost: 1
@@ -10642,9 +10645,13 @@ public class FightRequest extends GenericRequest {
       case SkillPool.THRUST_YOUR_GEOFENCING_RAPIER -> {
         // RAM Cost: 7
         // geofencing rapier equipped
-        // *** need use message
-        skillSuccess = true;
-        currentRAM -= 7;
+
+        // You quickly thrust your rapier deep into your foes long term storage for <b>174</b>
+        // damage.
+        if (responseText.contains("You quickly thrust") || skillSuccess) {
+          skillSuccess = true;
+          currentRAM -= 7;
+        }
       }
     }
 

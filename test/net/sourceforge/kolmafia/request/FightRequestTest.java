@@ -3304,6 +3304,117 @@ public class FightRequestTest {
         assertThat("_cyberFreeFights", isSetTo(5));
       }
     }
+
+    @Nested
+    class CombatSkills {
+      @Test
+      public void canTrackBruteForceHammer() {
+        var builder = new FakeHttpClientBuilder();
+        var client = builder.client;
+        var cleanups =
+            new Cleanups(
+                withHttpClientBuilder(builder),
+                withFight(0),
+                // RAM +3
+                withEquipped(Slot.HAT, ItemPool.CYBERVISOR),
+                // RAM +1
+                withEquipped(Slot.ACCESSORY1, ItemPool.DATASTICK),
+                // RAM +3
+                withEffect(EffectPool.CYBER_MEMORY_BOOST),
+                // Grants skill: Brute Force Hammer for 3 RAM
+                withEquipped(Slot.WEAPON, ItemPool.BRUTE_FORCE_HAMMER));
+        try (cleanups) {
+          // adventure.php?snarfblat=587
+          client.addResponse(
+              302, Map.of("location", List.of("fight.php?ireallymeanit=1737296962")), "");
+          client.addResponse(200, html("request/test_cyber_brute_force_hammer_0.html"));
+          client.addResponse(200, ""); // api.php
+          // fight.php?action=skill&whichskill=7543
+          client.addResponse(200, html("request/test_cyber_brute_force_hammer_1.html"));
+          client.addResponse(200, ""); // api.php
+          // fight.php?action=skill&whichskill=7543
+          client.addResponse(200, html("request/test_cyber_brute_force_hammer_2.html"));
+          client.addResponse(200, ""); // api.php
+          // fight.php?action=skill&whichskill=7543
+          client.addResponse(200, html("request/test_cyber_brute_force_hammer_3.html"));
+          client.addResponse(200, ""); // api.php
+
+          var request = new GenericRequest("adventure.php?snarfblat=587");
+          request.run();
+
+          // We are now in a fight.
+          assertThat(FightRequest.currentRound, is(1));
+          assertThat(FightRequest.getCurrentRAM(), is(10));
+          assertThat(KoLCharacter.hasCombatSkill(SkillPool.BRUTE_FORCE_HAMMER), is(true));
+
+          var round1 = new GenericRequest("fight.php?action=skill&whichskill=7543");
+          round1.run();
+
+          assertThat(FightRequest.currentRound, is(2));
+          assertThat(FightRequest.getCurrentRAM(), is(7));
+          assertThat(KoLCharacter.hasCombatSkill(SkillPool.BRUTE_FORCE_HAMMER), is(true));
+
+          var round2 = new GenericRequest("fight.php?action=skill&whichskill=7543");
+          round2.run();
+
+          assertThat(FightRequest.currentRound, is(3));
+          assertThat(FightRequest.getCurrentRAM(), is(4));
+          assertThat(KoLCharacter.hasCombatSkill(SkillPool.BRUTE_FORCE_HAMMER), is(true));
+
+          var round3 = new GenericRequest("fight.php?action=skill&whichskill=7543");
+          round3.run();
+
+          assertThat(FightRequest.currentRound, is(4));
+          assertThat(FightRequest.getCurrentRAM(), is(1));
+          assertThat(KoLCharacter.hasCombatSkill(SkillPool.BRUTE_FORCE_HAMMER), is(false));
+        }
+      }
+
+      @Test
+      public void canTrackThrustYourGeofencingRapier() {
+        var builder = new FakeHttpClientBuilder();
+        var client = builder.client;
+        var cleanups =
+            new Cleanups(
+                withHttpClientBuilder(builder),
+                withFight(0),
+                // RAM +3
+                withEquipped(Slot.HAT, ItemPool.CYBERVISOR),
+                // RAM +1
+                withEquipped(Slot.ACCESSORY1, ItemPool.DATASTICK),
+                // RAM +3
+                withEffect(EffectPool.CYBER_MEMORY_BOOST),
+                // Grants skill: Thrust your geofencing rapier for 7 RAM
+                withEquipped(Slot.WEAPON, ItemPool.GEOFENCING_RAPIER));
+        try (cleanups) {
+          // adventure.php?snarfblat=587
+          client.addResponse(
+              302, Map.of("location", List.of("fight.php?ireallymeanit=1737300202")), "");
+          client.addResponse(200, html("request/test_cyber_thrust_geofencing_rapier_0.html"));
+          client.addResponse(200, ""); // api.php
+          // fight.php?action=skill&whichskill=7543
+          client.addResponse(200, html("request/test_cyber_thrust_geofencing_rapier_1.html"));
+          client.addResponse(200, ""); // api.php
+
+          var request = new GenericRequest("adventure.php?snarfblat=587");
+          request.run();
+
+          // We are now in a fight.
+          assertThat(FightRequest.currentRound, is(1));
+          assertThat(FightRequest.getCurrentRAM(), is(10));
+          assertThat(
+              KoLCharacter.hasCombatSkill(SkillPool.THRUST_YOUR_GEOFENCING_RAPIER), is(true));
+
+          var round1 = new GenericRequest("fight.php?action=skill&whichskill=7554");
+          round1.run();
+
+          assertThat(FightRequest.currentRound, is(2));
+          assertThat(FightRequest.getCurrentRAM(), is(3));
+          assertThat(
+              KoLCharacter.hasCombatSkill(SkillPool.THRUST_YOUR_GEOFENCING_RAPIER), is(false));
+        }
+      }
+    }
   }
 
   @Test

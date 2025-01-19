@@ -1787,6 +1787,9 @@ public abstract class RuntimeLibrary {
     params = List.of(namedParam("skill", DataTypes.SKILL_TYPE));
     functions.add(new LibraryFunction("combat_skill_available", DataTypes.BOOLEAN_TYPE, params));
 
+    params = List.of();
+    functions.add(new LibraryFunction("my_ram", DataTypes.INT_TYPE, params));
+
     params = List.of(namedParam("skill", DataTypes.SKILL_TYPE));
     functions.add(new LibraryFunction("mp_cost", DataTypes.INT_TYPE, params));
 
@@ -7154,6 +7157,10 @@ public abstract class RuntimeLibrary {
   public static Value combat_skill_available(ScriptRuntime controller, final Value arg) {
     int skillId = (int) arg.intValue();
     return DataTypes.makeBooleanValue(KoLCharacter.hasCombatSkill(skillId));
+  }
+
+  public static Value my_ram(ScriptRuntime controller) {
+    return DataTypes.makeIntValue(FightRequest.getCurrentRAM());
   }
 
   public static Value mp_cost(ScriptRuntime controller, final Value skill) {
