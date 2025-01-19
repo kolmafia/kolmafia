@@ -3477,6 +3477,15 @@ public class FightRequest extends GenericRequest {
     boolean free = responseText.contains("FREEFREEFREE");
 
     if (zone.equals("Server Room")) {
+      // OVERCLOCK(10) gives you 10 free fights per day in the Cyber
+      // Zones. Are there other things you can do to force a free fight?
+      // Free runaway?
+      //
+      // If so, does doing such still count down OVERCLOCK(10)?
+
+      // Something like this would be nice. I submitted a report to KoL
+      // suggesting it.
+
       /*
       if (responseText.contains("...overclock is ending...")) {
         Preferences.setInteger("_cyberFreeFights", 10);
@@ -3485,16 +3494,21 @@ public class FightRequest extends GenericRequest {
       }
       */
 
-      // Something like the above would be nice, but KoL neither has
-      // special text to indicate OVERCLOCK(10) is active, nor does
-      // it include FREEFREEFREE to indicate the fight was free.
-      //
-      // I bug reported those things, but for now, workaround.
+      // KoL didn't used to include FREEFREEFREE. This was a workaround:
 
+      /*
       if (KoLCharacter.hasSkill(SkillPool.OVERCLOCK10)
           && Preferences.getInteger("_cyberFreeFights") < 10) {
         Preferences.increment("_cyberFreeFights", 1, 10, false);
         free = true;
+      }
+      */
+
+      // KoL now does include FREEFREE. Lacking special messages, assume
+      // it is a result of OVERCLOCK(10) and count it as such.
+
+      if (free) {
+        Preferences.increment("_cyberFreeFights", 1, 10, false);
       }
     }
 
@@ -10601,9 +10615,13 @@ public class FightRequest extends GenericRequest {
       case SkillPool.INJECT_MALWARE -> {
         // RAM Cost: 1
         // malware injector equipped
-        // *** need use message
-        skillSuccess = true;
-        currentRAM -= 1;
+
+        // You inject your foe with a vicious trojan from your thumb drive.  It starts slowly
+        // tearing apart their code.
+        if (responseText.contains("You inject your foe") || skillSuccess) {
+          skillSuccess = true;
+          currentRAM -= 1;
+        }
       }
       case SkillPool.ENCRYPTED_SHURIKEN -> {
         // RAM Cost: 2
