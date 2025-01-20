@@ -1306,7 +1306,7 @@ The Dedigitizer	ROW1550	brute force hammer	1 (32)	0 (8)	dedigitizer schematic: b
 The Dedigitizer	ROW1561	digibritches	1 (32)	0 (16)	dedigitizer schematic: digibritches
 The Dedigitizer	ROW1554	pocket GPU	1 (32)	0 (16)	dedigitizer schematic: pocket GPU
 The Dedigitizer	ROW1563	zero-trust tanktop	1 (32)	0 (32)	dedigitizer schematic: zero-trust tanktop
-The Dedigitizer	ROW1565	familiar-in-the-middle wrapper	1 (64)	0 (16)	dedigitizer schematic: familiar-in-the-middle wrapper
+The Dedigitizer	ROW1565	familiar-in-the-middle wrapper	1 (64)	0 (16)	dedigitizer schematic: familiar-in-the-middle
 The Dedigitizer	ROW1562	cryptocloak	1 (64)	0 (32)	dedigitizer schematic: cryptocloak
 The Dedigitizer	ROW1552	cybervisor	1 (64)	0 (32)	dedigitizer schematic: cybervisor
 The Dedigitizer	ROW1555	malware injector	1 (64)	0 (32)	dedigitizer schematic: malware injector

@@ -74,6 +74,7 @@ public class FightRequestTest {
   public void beforeEach() {
     KoLCharacter.reset("");
     KoLCharacter.reset("FightRequestTest");
+    KoLCharacter.setUserId(1);
     KoLConstants.availableCombatSkillsList.clear();
     KoLConstants.availableCombatSkillsSet.clear();
     KoLAdventure.setLastAdventure("None");
@@ -3240,7 +3241,7 @@ public class FightRequestTest {
     public void cyberRealmFightsIncrementFreeTurns(int securityLevel) {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      String fileName = "request/test_fight_old_overclocked_win.html";
+      String fileName = "request/test_fight_new_overclocked_win.html";
       String html = html(fileName);
       var cleanups =
           new Cleanups(
@@ -3265,7 +3266,7 @@ public class FightRequestTest {
     public void cyberRealmFightHasFreeTurnMaximum(int securityLevel) {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
-      String fileName = "request/test_fight_old_overclocked_win.html";
+      String fileName = "request/test_fight_new_overclocked_win.html";
       String html = html(fileName);
       var cleanups =
           new Cleanups(
@@ -3308,6 +3309,329 @@ public class FightRequestTest {
         assertThat("_cyberFreeFights", isSetTo(5));
       }
     }
+
+    @Nested
+    class CombatSkills {
+      @Test
+      public void canTrackBruteForceHammer() {
+        var builder = new FakeHttpClientBuilder();
+        var client = builder.client;
+        var cleanups =
+            new Cleanups(
+                withHttpClientBuilder(builder),
+                withFight(0),
+                // RAM +3
+                withEquipped(Slot.HAT, ItemPool.CYBERVISOR),
+                // RAM +1
+                withEquipped(Slot.ACCESSORY1, ItemPool.DATASTICK),
+                // RAM +3
+                withEffect(EffectPool.CYBER_MEMORY_BOOST),
+                // Grants skill: Brute Force Hammer for 3 RAM
+                withEquipped(Slot.WEAPON, ItemPool.BRUTE_FORCE_HAMMER));
+        try (cleanups) {
+          // adventure.php?snarfblat=587
+          client.addResponse(
+              302, Map.of("location", List.of("fight.php?ireallymeanit=1737296962")), "");
+          client.addResponse(200, html("request/test_cyber_brute_force_hammer_0.html"));
+          client.addResponse(200, ""); // api.php
+          // fight.php?action=skill&whichskill=7543
+          client.addResponse(200, html("request/test_cyber_brute_force_hammer_1.html"));
+          client.addResponse(200, ""); // api.php
+          // fight.php?action=skill&whichskill=7543
+          client.addResponse(200, html("request/test_cyber_brute_force_hammer_2.html"));
+          client.addResponse(200, ""); // api.php
+          // fight.php?action=skill&whichskill=7543
+          client.addResponse(200, html("request/test_cyber_brute_force_hammer_3.html"));
+          client.addResponse(200, ""); // api.php
+
+          var request = new GenericRequest("adventure.php?snarfblat=587");
+          request.run();
+
+          // We are now in a fight.
+          assertThat(FightRequest.currentRound, is(1));
+          assertThat(FightRequest.getCurrentRAM(), is(10));
+          assertThat(KoLCharacter.hasCombatSkill(SkillPool.BRUTE_FORCE_HAMMER), is(true));
+
+          var round1 =
+              new GenericRequest(
+                  "fight.php?action=skill&whichskill=" + SkillPool.BRUTE_FORCE_HAMMER);
+          round1.run();
+
+          assertThat(FightRequest.currentRound, is(2));
+          assertThat(FightRequest.getCurrentRAM(), is(7));
+          assertThat(KoLCharacter.hasCombatSkill(SkillPool.BRUTE_FORCE_HAMMER), is(true));
+
+          var round2 =
+              new GenericRequest(
+                  "fight.php?action=skill&whichskill=" + SkillPool.BRUTE_FORCE_HAMMER);
+          round2.run();
+
+          assertThat(FightRequest.currentRound, is(3));
+          assertThat(FightRequest.getCurrentRAM(), is(4));
+          assertThat(KoLCharacter.hasCombatSkill(SkillPool.BRUTE_FORCE_HAMMER), is(true));
+
+          var round3 =
+              new GenericRequest(
+                  "fight.php?action=skill&whichskill=" + SkillPool.BRUTE_FORCE_HAMMER);
+          round3.run();
+
+          assertThat(FightRequest.currentRound, is(4));
+          assertThat(FightRequest.getCurrentRAM(), is(1));
+          assertThat(KoLCharacter.hasCombatSkill(SkillPool.BRUTE_FORCE_HAMMER), is(false));
+        }
+      }
+
+      @Test
+      public void canTrackInjectMalware() {
+        var builder = new FakeHttpClientBuilder();
+        var client = builder.client;
+        var cleanups =
+            new Cleanups(
+                withHttpClientBuilder(builder),
+                withFight(0),
+                // RAM +3 (was active during my test)
+                withEquipped(Slot.HAT, ItemPool.CYBERVISOR),
+                // RAM +3 (was active during my test)
+                withEffect(EffectPool.CYBER_MEMORY_BOOST),
+                // Grants skill: Inkect Malware for 1 RAM
+                withEquipped(Slot.OFFHAND, ItemPool.MALWARE_INJECTOR));
+        try (cleanups) {
+          // adventure.php?snarfblat=587
+          client.addResponse(
+              302, Map.of("location", List.of("fight.php?ireallymeanit=1737306988")), "");
+          client.addResponse(200, html("request/test_cyber_inject_malware_0.html"));
+          client.addResponse(200, ""); // api.php
+          // fight.php?action=skill&whichskill=7544
+          client.addResponse(200, html("request/test_cyber_inject_malware_1.html"));
+          client.addResponse(200, ""); // api.php
+
+          var request = new GenericRequest("adventure.php?snarfblat=587");
+          request.run();
+
+          // We are now in a fight.
+          assertThat(FightRequest.currentRound, is(1));
+          assertThat(FightRequest.getCurrentRAM(), is(9));
+          assertThat(KoLCharacter.hasCombatSkill(SkillPool.INJECT_MALWARE), is(true));
+
+          var round1 =
+              new GenericRequest("fight.php?action=skill&whichskill=" + SkillPool.INJECT_MALWARE);
+          round1.run();
+
+          assertThat(FightRequest.currentRound, is(2));
+          assertThat(FightRequest.getCurrentRAM(), is(8));
+          // You have RAM enough to (pointlessly) use the skill again.
+          assertThat(KoLCharacter.hasCombatSkill(SkillPool.INJECT_MALWARE), is(true));
+        }
+      }
+
+      @Test
+      public void canTrackEncrypteShuriken() {
+        var builder = new FakeHttpClientBuilder();
+        var client = builder.client;
+        var cleanups =
+            new Cleanups(
+                withHttpClientBuilder(builder),
+                withFight(0),
+                // RAM +3 (was active during my test)
+                withEquipped(Slot.HAT, ItemPool.CYBERVISOR),
+                // RAM +3 (was active during my test)
+                withEffect(EffectPool.CYBER_MEMORY_BOOST),
+                // Grants skill: Inkect Malware for 1 RAM
+                withEquipped(Slot.WEAPON, ItemPool.ENCRYPTED_SHURIKEN));
+        try (cleanups) {
+          // adventure.php?snarfblat=586
+          client.addResponse(
+              302, Map.of("location", List.of("fight.php?ireallymeanit=1737308332")), "");
+          client.addResponse(200, html("request/test_cyber_encrypted_shuriken_0.html"));
+          client.addResponse(200, ""); // api.php
+          // fight.php?action=skill&whichskill=7544
+          client.addResponse(200, html("request/test_cyber_encrypted_shuriken_1.html"));
+          client.addResponse(200, ""); // api.php
+
+          var request = new GenericRequest("adventure.php?snarfblat=586");
+          request.run();
+
+          // We are now in a fight.
+          assertThat(FightRequest.currentRound, is(1));
+          assertThat(FightRequest.getCurrentRAM(), is(9));
+          assertThat(KoLCharacter.hasCombatSkill(SkillPool.ENCRYPTED_SHURIKEN), is(true));
+
+          var round1 =
+              new GenericRequest(
+                  "fight.php?action=skill&whichskill=" + SkillPool.ENCRYPTED_SHURIKEN);
+          round1.run();
+
+          assertThat(FightRequest.currentRound, is(2));
+          assertThat(FightRequest.getCurrentRAM(), is(7));
+          assertThat(KoLCharacter.hasCombatSkill(SkillPool.ENCRYPTED_SHURIKEN), is(true));
+        }
+      }
+
+      @Test
+      public void canTrackRefreshHP() {
+        var builder = new FakeHttpClientBuilder();
+        var client = builder.client;
+        var cleanups =
+            new Cleanups(
+                withHttpClientBuilder(builder),
+                withFight(0),
+                // RAM +3 (was active during my test)
+                withEquipped(Slot.HAT, ItemPool.CYBERVISOR),
+                // RAM +3 (was active during my test)
+                withEffect(EffectPool.CYBER_MEMORY_BOOST),
+                // Grants skill: Inkect Malware for 1 RAM
+                withEquipped(Slot.PANTS, ItemPool.WIRED_UNDERWEAR));
+        try (cleanups) {
+          // adventure.php?snarfblat=585
+          client.addResponse(
+              302, Map.of("location", List.of("fight.php?ireallymeanit=1737309108")), "");
+          client.addResponse(200, html("request/test_cyber_refresh_hp_0.html"));
+          client.addResponse(200, ""); // api.php
+          // fight.php?action=skill&whichskill=7544
+          client.addResponse(200, html("request/test_cyber_refresh_hp_1.html"));
+          client.addResponse(200, ""); // api.php
+
+          var request = new GenericRequest("adventure.php?snarfblat=586");
+          request.run();
+
+          // We are now in a fight.
+          assertThat(FightRequest.currentRound, is(1));
+          assertThat(FightRequest.getCurrentRAM(), is(9));
+          assertThat(KoLCharacter.hasCombatSkill(SkillPool.REFRESH_HP), is(true));
+
+          var round1 =
+              new GenericRequest("fight.php?action=skill&whichskill=" + SkillPool.REFRESH_HP);
+          round1.run();
+
+          assertThat(FightRequest.currentRound, is(2));
+          assertThat(FightRequest.getCurrentRAM(), is(8));
+          assertThat(KoLCharacter.hasCombatSkill(SkillPool.REFRESH_HP), is(true));
+        }
+      }
+
+      @Test
+      public void canTrackLaunchLogicGrenade() {
+        var builder = new FakeHttpClientBuilder();
+        var client = builder.client;
+        var cleanups =
+            new Cleanups(
+                withHttpClientBuilder(builder),
+                withFight(0),
+                // Grants skill: Launch Logic Grenade for 0 RAM
+                withItem(ItemPool.LOGIC_GRENADE, 25));
+        try (cleanups) {
+          // adventure.php?snarfblat=587
+          client.addResponse(
+              302, Map.of("location", List.of("fight.php?ireallymeanit=1737310026")), "");
+          client.addResponse(200, html("request/test_cyber_launch_logic_grenade_0.html"));
+          client.addResponse(200, ""); // api.php
+          // fight.php?action=skill&whichskill=7547
+          client.addResponse(200, html("request/test_cyber_launch_logic_grenade_1.html"));
+          client.addResponse(200, ""); // api.php
+
+          var request = new GenericRequest("adventure.php?snarfblat=587");
+          request.run();
+
+          // We are now in a fight.
+          assertThat(FightRequest.currentRound, is(1));
+          assertThat(KoLCharacter.hasCombatSkill(SkillPool.LAUNCH_LOGIC_GRENADE), is(true));
+
+          var round1 =
+              new GenericRequest(
+                  "fight.php?action=skill&whichskill=" + SkillPool.LAUNCH_LOGIC_GRENADE);
+          round1.run();
+
+          // Consumes item for an instakill
+          assertThat(FightRequest.currentRound, is(0));
+          assertEquals(24, InventoryManager.getCount(ItemPool.LOGIC_GRENADE));
+        }
+      }
+
+      @Test
+      public void canTrackDeployGlitchedMalware() {
+        var builder = new FakeHttpClientBuilder();
+        var client = builder.client;
+        var cleanups =
+            new Cleanups(
+                withHttpClientBuilder(builder),
+                withFight(0),
+                // Grants skill: Deploy Glitched Malware for 0 RAM
+                withItem(ItemPool.GLITCHED_MALWARE, 8));
+        try (cleanups) {
+          // adventure.php?snarfblat=587
+          client.addResponse(
+              302, Map.of("location", List.of("fight.php?ireallymeanit=1737310597")), "");
+          client.addResponse(200, html("request/test_cyber_deploy_glitched_malware_0.html"));
+          client.addResponse(200, ""); // api.php
+          // fight.php?action=skill&whichskill=7548
+          client.addResponse(200, html("request/test_cyber_deploy_glitched_malware_1.html"));
+          client.addResponse(200, ""); // api.php
+
+          var request = new GenericRequest("adventure.php?snarfblat=587");
+          request.run();
+
+          // We are now in a fight.
+          assertThat(FightRequest.currentRound, is(1));
+          assertThat(KoLCharacter.hasCombatSkill(SkillPool.DEPLOY_GLITCHED_MALWARE), is(true));
+
+          var round1 =
+              new GenericRequest(
+                  "fight.php?action=skill&whichskill=" + SkillPool.DEPLOY_GLITCHED_MALWARE);
+          round1.run();
+
+          // Consumes item for a banish
+          assertThat(FightRequest.currentRound, is(0));
+          assertEquals(7, InventoryManager.getCount(ItemPool.GLITCHED_MALWARE));
+        }
+      }
+
+      @Test
+      public void canTrackThrustYourGeofencingRapier() {
+        var builder = new FakeHttpClientBuilder();
+        var client = builder.client;
+        var cleanups =
+            new Cleanups(
+                withHttpClientBuilder(builder),
+                withFight(0),
+                // RAM +3
+                withEquipped(Slot.HAT, ItemPool.CYBERVISOR),
+                // RAM +1
+                withEquipped(Slot.ACCESSORY1, ItemPool.DATASTICK),
+                // RAM +3
+                withEffect(EffectPool.CYBER_MEMORY_BOOST),
+                // Grants skill: Thrust your geofencing rapier for 7 RAM
+                withEquipped(Slot.WEAPON, ItemPool.GEOFENCING_RAPIER));
+        try (cleanups) {
+          // adventure.php?snarfblat=587
+          client.addResponse(
+              302, Map.of("location", List.of("fight.php?ireallymeanit=1737300202")), "");
+          client.addResponse(200, html("request/test_cyber_thrust_geofencing_rapier_0.html"));
+          client.addResponse(200, ""); // api.php
+          // fight.php?action=skill&whichskill=7543
+          client.addResponse(200, html("request/test_cyber_thrust_geofencing_rapier_1.html"));
+          client.addResponse(200, ""); // api.php
+
+          var request = new GenericRequest("adventure.php?snarfblat=587");
+          request.run();
+
+          // We are now in a fight.
+          assertThat(FightRequest.currentRound, is(1));
+          assertThat(FightRequest.getCurrentRAM(), is(10));
+          assertThat(
+              KoLCharacter.hasCombatSkill(SkillPool.THRUST_YOUR_GEOFENCING_RAPIER), is(true));
+
+          var round1 =
+              new GenericRequest(
+                  "fight.php?action=skill&whichskill=" + SkillPool.THRUST_YOUR_GEOFENCING_RAPIER);
+          round1.run();
+
+          assertThat(FightRequest.currentRound, is(2));
+          assertThat(FightRequest.getCurrentRAM(), is(3));
+          assertThat(
+              KoLCharacter.hasCombatSkill(SkillPool.THRUST_YOUR_GEOFENCING_RAPIER), is(false));
+        }
+      }
+    }
   }
 
   @Test
@@ -3335,16 +3659,79 @@ public class FightRequestTest {
     RequestLoggerOutput.startStream();
     var cleanups = new Cleanups(withLastLocation("Noob Cave"));
     try (cleanups) {
+      var page = "request/test_fight_time_prank.html";
       GenericRequest request = new GenericRequest("fight.php");
-      request.responseText = html("request/test_fight_time_prank.html");
+      request.responseText = html(page);
       AdventureRequest.registerEncounter(request);
-      parseCombatData("request/test_fight_time_prank.html", "fight.php?ireallymeanit=1737125012");
+      parseCombatData(page, "fight.php?ireallymeanit=1737125012");
       var text = RequestLoggerOutput.stopStream();
       // the original message was !"£$%^&*()<>€ so there is some double escaping going on here
       assertThat(
           text,
           containsString(
               "Round 0: Ryo_Sangnoir says: \"!&quot;&Acirc;&pound;$%^&amp;*()&lt;&gt;&acirc;�&not;\""));
+    }
+  }
+
+  @Nested
+  class Haiku {
+    @Test
+    public void canDetectSerendipity() {
+      RequestLoggerOutput.startStream();
+      var cleanups = new Cleanups(withFight(), withEffect(EffectPool.SERENDIPITY));
+      try (cleanups) {
+        parseCombatData("request/test_fight_haiku_serendipity.html");
+        var text = RequestLoggerOutput.stopStream();
+        assertThat(
+            text,
+            containsString(
+                "After Battle: Looks like luck is on your side, you just tripped on this:"));
+      }
+    }
+
+    @Test
+    public void canDetectHaikuMonster() {
+      RequestLoggerOutput.startStream();
+      var cleanups =
+          new Cleanups(
+              withLastLocation("The Haiku Dungeon"), withFamiliar(FamiliarPool.CAT_BURGLAR));
+      try (cleanups) {
+        var page = "request/test_fight_haiku_serendipity.html";
+        GenericRequest request = new GenericRequest("fight.php");
+        request.responseText = html(page);
+        AdventureRequest.registerEncounter(request);
+        MonsterData monster = MonsterStatusTracker.getLastMonster();
+        assertEquals("amateur ninja", monster.getName());
+        parseCombatData(page, "fight.php?ireallymeanit=1737125012");
+        var text = RequestLoggerOutput.stopStream();
+        assertThat(text, containsString("Encounter: amateur ninja"));
+        assertThat(text, containsString("Round 0: FightRequestTest wins initiative!"));
+        assertThat(text, containsString("Round 3: amateur ninja takes 1198 damage."));
+        assertThat(
+            text,
+            containsString(
+                """
+                    You gain 23 Strongness
+                    You gain 36 Magicalness
+                    You gain a Mysticality point!
+                    You gain 49 Roguishness
+                    You gain a Moxie point!"""));
+      }
+    }
+
+    @Test
+    public void canDetectKnobGoblinPoseur() {
+      RequestLoggerOutput.startStream();
+      var cleanups = new Cleanups(withLastLocation("The Haiku Dungeon"));
+      try (cleanups) {
+        var page = "request/test_fight_haiku_knob_goblin_poseur.html";
+        GenericRequest request = new GenericRequest("fight.php");
+        request.responseText = html(page);
+        AdventureRequest.registerEncounter(request);
+        parseCombatData(page, "fight.php?ireallymeanit=1737125012");
+        var text = RequestLoggerOutput.stopStream();
+        assertThat(text, containsString("Encounter: Knob Goblin poseur"));
+      }
     }
   }
 }
