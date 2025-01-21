@@ -4265,7 +4265,10 @@ public class FightRequest extends GenericRequest {
         case "wumpus" -> WumpusManager.reset();
         case "Baron von Ratsworth" -> TavernRequest.addTavernLocation('6');
         case "the invader" -> Preferences.setBoolean("spaceInvaderDefeated", true);
-        case "Eldritch Tentacle" -> Preferences.increment("eldritchTentaclesFought", 1);
+        case "Eldritch Tentacle" -> {
+          Preferences.increment("eldritchTentaclesFought", 1);
+          Preferences.increment("_eldritchTentaclesFoughtToday", 1);
+        }
         case "Glass Jack Hummel" -> {
           Preferences.setBoolean("pirateRealmUnlockedSpyglass", true);
           QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, 16);
