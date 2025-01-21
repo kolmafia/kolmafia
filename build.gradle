@@ -281,6 +281,10 @@ task gitUpdate() {
 java {
 	sourceCompatibility = JavaVersion.toVersion(javaSourceCompatibility)
 	targetCompatibility = JavaVersion.toVersion(javaTargetCompatibility)
+
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(javaTargetCompatibility)
+	}
 }
 
 tasks.withType(JavaCompile) {
