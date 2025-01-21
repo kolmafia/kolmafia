@@ -1,7 +1,12 @@
 package net.sourceforge.kolmafia.swingui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Desktop;
 import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.net.URI;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
@@ -126,7 +131,47 @@ public class LoginFrame extends GenericFrame {
 
     JPanel containerPanel = new JPanel(new BorderLayout());
     containerPanel.add(imagePanel, BorderLayout.NORTH);
-    containerPanel.add(this.loginPanel, BorderLayout.CENTER);
+
+    if (Runtime.version().feature() < KoLmafia.RECOMMENDED_JAVA_VERSION) {
+      JPanel warningPanel = new JPanel(new GridLayout(3, 1));
+      JLabel versionLabel =
+          new JLabel("Warning! You are using Java " + System.getProperty("java.version"));
+      JLabel updateLabel =
+          new JLabel(
+              "KoLMafia will soon require a minimum version of "
+                  + KoLmafia.RECOMMENDED_JAVA_VERSION);
+      JLabel linkLabel =
+          new JLabel("Java can be downloaded from https://adoptium.net/temurin/releases/");
+
+      updateLabel.setHorizontalAlignment(SwingConstants.CENTER);
+      versionLabel.setHorizontalAlignment(SwingConstants.CENTER);
+      linkLabel.setHorizontalAlignment(SwingConstants.CENTER);
+
+      versionLabel.setForeground(Color.RED);
+      updateLabel.setForeground(Color.RED);
+      linkLabel.setForeground(Color.BLUE);
+
+      // Make the link clickable
+      linkLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+      linkLabel.addMouseListener(
+          new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+              try {
+                Desktop.getDesktop().browse(new URI("https://adoptium.net/temurin/releases/"));
+              } catch (Exception ex) {
+                StaticEntity.printStackTrace(ex, "Error clicking on link");
+              }
+            }
+          });
+
+      warningPanel.add(versionLabel);
+      warningPanel.add(updateLabel);
+      warningPanel.add(linkLabel);
+
+      containerPanel.add(warningPanel, BorderLayout.CENTER);
+    }
+
+    containerPanel.add(this.loginPanel, BorderLayout.SOUTH);
     return containerPanel;
   }
 
