@@ -322,7 +322,7 @@
 290	Hobo in Sheep's Clothing	hobosheep.gif	stat0,item0,drop	unoccupied sheep suit	half-height cigar	1	3	3	2	haseyes,wearsclothes
 291	Pixel Rock	pixelrock.gif	none	pixel rock		0	0	0	0	mineral,cute,haseyes,hard
 292
-293	Patriotic Eagle	pateagle.gif	combat0,stat1,mp0	sleeping patriotic eagle	claw-held flag	0	0	0	0
+293	Patriotic Eagle	pateagle.gif	combat0,stat1,mp0	sleeping patriotic eagle	claw-held flag	3	3	1	2
 294	Jill-of-All-Trades	darkjill2f.gif	stat0,stat1,item0,meat0,combat0,drop,block,delevel,hp0,meat1,hp1,mp1,variable	Dark Jill-of-All-Trades	LED candle	1	2	3	3	organic,sentient,orb,haseyes,object,vegetable,food,edible,evil,spooky,hot,bite
 295	Flaming Leafcutter Ant	al_ant.gif	hp1,mp1,combat1	smoldering leafcutter ant egg		2	3	3	1	insect,haseyes,animal,bite,hot
 296	Rigging Snake	rigsnake.gif	combat0,delevel	baby rigging snake	rigging knot	3	1	1	1
@@ -335,7 +335,7 @@
 303	Burly Bodyguard	bodyguard.gif	combat0,block	baby bodyguard	bodyguard badge	0	0	0	0
 304	Doll Moll	molldoll.gif	combat0,meat	Doll Moll violin case	tiny Tina gun	3	3	2	2
 305	Emberiza Aureola	emberbird.gif	combat1	ember egg	tiny ember	0	0	0	0
-306	Peace Turkey	pto_fam.gif	drop,delevel,block,passive,other1,hp1,mp1	peace turkey outline	tie-dye headband	0	0	0	0
+306	Peace Turkey	pto_fam.gif	drop,delevel,block,passive,other1,hp1,mp1	peace turkey outline	tie-dye headband	0	3	1	3
 307	quantum entangler	qf.gif	block	quantized familiar	quantum watch	2	2	2	3	object
 308	golden pet rock	ts_goldrock.gif	none	golden pet rock		0	0	0	0
 309
