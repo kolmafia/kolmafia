@@ -1854,4 +1854,10 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       assertThat(execute("is_banished($phylum[none])").trim(), is("Returned: false"));
     }
   }
+  @Test
+  public void itShouldRecognizeJackingAsLocation() {
+    String name = "Professor Jacking\'s Huge-A-Ma-Tron";
+    String output = execute("get_location($location[none])");
+    assertTrue(false);
+  }
 }
