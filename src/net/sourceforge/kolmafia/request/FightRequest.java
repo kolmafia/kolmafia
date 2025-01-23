@@ -4107,6 +4107,13 @@ public class FightRequest extends GenericRequest {
                   && questLastLocation.equals(location.getAdventureName());
           Preferences.decrement("_cookbookbatCombatsUntilNewQuest", 1, inSuggestedLocation ? 1 : 0);
         }
+        case FamiliarPool.EVOLVING_ORGANISM -> {
+          if (responseText.contains("expends all their experience and evolves")) {
+            // Resets familiar experience to 0.
+            KoLCharacter.getFamiliar().setExperience(0);
+            // *** We could parse the message and track the evolved abilities
+          }
+        }
       }
 
       if (KoLCharacter.inRaincore()) {
@@ -4262,7 +4269,10 @@ public class FightRequest extends GenericRequest {
         case "wumpus" -> WumpusManager.reset();
         case "Baron von Ratsworth" -> TavernRequest.addTavernLocation('6');
         case "the invader" -> Preferences.setBoolean("spaceInvaderDefeated", true);
-        case "Eldritch Tentacle" -> Preferences.increment("eldritchTentaclesFought", 1);
+        case "Eldritch Tentacle" -> {
+          Preferences.increment("eldritchTentaclesFought", 1);
+          Preferences.increment("_eldritchTentaclesFoughtToday", 1);
+        }
         case "Glass Jack Hummel" -> {
           Preferences.setBoolean("pirateRealmUnlockedSpyglass", true);
           QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, 16);
