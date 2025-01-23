@@ -2411,6 +2411,7 @@ public class FightRequestTest {
 
   @Test
   public void canDetectEagleScreech() {
+    RequestLoggerOutput.startStream();
     var cleanups =
         new Cleanups(
             withFight(),
@@ -2424,6 +2425,9 @@ public class FightRequestTest {
 
       assertThat("screechCombats", isSetTo(11));
       assertThat("banishedPhyla", hasStringValue(startsWith("beast:Patriotic Screech:")));
+
+      var text = RequestLoggerOutput.stopStream();
+      assertThat(text, not(containsString("fire a Red, White and Blue Blast (0 Mojo Points)")));
     }
   }
 
