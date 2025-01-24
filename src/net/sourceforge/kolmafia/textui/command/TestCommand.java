@@ -82,6 +82,7 @@ import net.sourceforge.kolmafia.session.NumberologyManager;
 import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.RumpleManager;
+import net.sourceforge.kolmafia.shop.ShopDatabase;
 import net.sourceforge.kolmafia.shop.ShopRow;
 import net.sourceforge.kolmafia.shop.ShopRowDatabase;
 import net.sourceforge.kolmafia.swingui.ShowHTMLFrame;
@@ -892,6 +893,16 @@ public class TestCommand extends AbstractCommand {
       } finally {
         Preferences.setString("parkaMode", parkaMode);
       }
+      return;
+    }
+
+    if (command.equals("write-shops")) {
+      // Ensure that the three databases that register ShopRowData entries are loaded
+      ConcoctionDatabase.singleUseCreation(0);
+      CoinmasterRegistry.reset();
+      NPCStoreDatabase.contains(0);
+
+      ShopDatabase.writeShopFile();
       return;
     }
 

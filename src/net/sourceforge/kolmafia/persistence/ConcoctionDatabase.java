@@ -63,6 +63,7 @@ import net.sourceforge.kolmafia.request.concoction.StillSuitRequest;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.shop.ShopDatabase;
 import net.sourceforge.kolmafia.shop.ShopRow;
 import net.sourceforge.kolmafia.shop.ShopRowDatabase;
 import net.sourceforge.kolmafia.swingui.ItemManageFrame;
@@ -208,6 +209,8 @@ public class ConcoctionDatabase {
     } catch (IOException e) {
       StaticEntity.printStackTrace(e);
     }
+
+    addShops();
   }
 
   static {
@@ -314,6 +317,36 @@ public class ConcoctionDatabase {
         ConcoctionDatabase.noodles.put(concoction.getItemId(), concoction);
       }
     }
+  }
+
+  private static void addShops() {
+    // Mixing methods that use shop.php
+
+    ShopDatabase.registerConcShop("5dprinter", "Xiblaxian 5D printer");
+    ShopDatabase.registerConcShop("airport", "Elemental Duty Free, Inc.");
+    ShopDatabase.registerConcShop("beergarden", "Let's Brew!");
+    ShopDatabase.registerConcShop("crimbo12", "Uncle Crimbo's Futuristic Trailer");
+    ShopDatabase.registerConcShop("crimbo16", "Crimbo Lumps Shop");
+    ShopDatabase.registerConcShop("crimbo19toys", "The H. M. S. Kringle's Workshop");
+    ShopDatabase.registerConcShop("fixodent", "Craft with Teeth");
+    ShopDatabase.registerConcShop("grandma", "Grandma Sea Monkey");
+    ShopDatabase.registerConcShop("jarl", "Jarlsberg's Cosmic Kitchen");
+    ShopDatabase.registerConcShop("junkmagazine", "Worse Homes and Gardens");
+    ShopDatabase.registerConcShop("kiwi", "Kiwi Kwiki Mart");
+    ShopDatabase.registerConcShop("kolhs_art", "Art Class (After School)");
+    ShopDatabase.registerConcShop("kolhs_chem", "Chemistry Class (After School)");
+    ShopDatabase.registerConcShop("kolhs_shop", "Shop Class (After School)");
+    ShopDatabase.registerConcShop("mystic", "The Crackpot Mystic's Shed");
+    ShopDatabase.registerConcShop("rumple", "Your Workshop");
+    ShopDatabase.registerConcShop("shadowforge", "The Shadow Forge");
+    ShopDatabase.registerConcShop("snowgarden", "Winter Gardening");
+    ShopDatabase.registerConcShop("spant", "Spant Bit Assembly");
+    ShopDatabase.registerConcShop("starchart", "A Star Chart");
+    ShopDatabase.registerConcShop("still", "Nash Crosby's Still");
+    ShopDatabase.registerConcShop("sugarsheets", "Sugar Sheet Folding");
+    ShopDatabase.registerConcShop("voteslime", "Mad Sliemce");
+    ShopDatabase.registerConcShop("wereprofessor_tinker", "Tinkering Bench");
+    ShopDatabase.registerConcShop("xo", "XO Shop");
   }
 
   public static Concoction chefStaffCreation(final int itemId) {

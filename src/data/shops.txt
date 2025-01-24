@@ -1,0 +1,139 @@
+1
+5dprinter	conc	Xiblaxian 5D printer
+airport	conc	Elemental Duty Free, Inc.
+applestore	coin	The Applecalypse Store
+arcade	coin	Arcade Ticket Counter
+armory	coin	Armory and Leggery
+bacon	coin	Internet Meme Shop
+bartender	npc	The Typical Tavern
+bartlebys	npc	Barrrtleby's Barrrgain Books
+batman_cave	coin	Bat-Fabricator
+batman_chemicorp	coin	ChemiCorp
+batman_orphanage	coin	Gotpork Orphanage
+batman_pd	coin	Gotpork P. D.
+beergarden	conc	Let's Brew!
+blackmarket	coin	The Black Market
+boutique	coin	Paul's Boutique
+brogurt	coin	The Frozen Brogurt Stand
+bugbear	npc	Bugbear Bakery
+campfire	coin	Your Campfire
+canteen	coin	The Canteen
+caveshop	coin	The Neandermall
+chateau	npc	Chateau Mantenga Gift Shop
+chinatown	npc	Chinatown Shops
+conmerch	coin	KoL Con 13 Merch Table
+crimbo12	conc	Uncle Crimbo's Futuristic Trailer
+crimbo14	coin	Crimbo 2014
+crimbo16	conc	Crimbo Lumps Shop
+crimbo17	coin	Cheer-o-Vend 3000
+crimbo18	npc	The Crimbo Cafe
+crimbo18giftomat	npc	Crimbo Town Gift-O-Mat
+crimbo19	npc	The Crimbo Cafe
+crimbo19toys	conc	The H. M. S. Kringle's Workshop
+crimbo20blackmarket	npc	The Black and White and Red All Over Market
+crimbo20booze	coin	Elf Booze Drive
+crimbo20cafe	npc	The Crimbo Cafe
+crimbo20candy	coin	Elf Candy Drive
+crimbo20food	coin	Elf Food Drive
+crimbo21cafe	npc	The Crimbo Cafe
+crimbo21ornaments	npc	Ornament Stand
+crimbo23_elf_armory	coin	Elf Guard Armory
+crimbo23_elf_bar	coin	Elf Guard Officers' Club
+crimbo23_elf_cafe	coin	Elf Guard Mess Hall
+crimbo23_elf_factory	coin	Elf Guard Toy and Munitions Factory
+crimbo23_pirate_armory	coin	Crimbuccaneer Junkworks
+crimbo23_pirate_bar	coin	Crimbuccaneer Bar
+crimbo23_pirate_cafe	coin	Crimbuccaneer Grub Hall
+crimbo23_pirate_factory	coin	Crimbuccaneer Foundry
+crimbo24_bar	coin	Crimbo24 Bar
+crimbo24_cafe	coin	Crimbo24 Cafe
+crimbo24_factory	coin	Crimbo24 Factory
+cyber_dedigitizer	coin	The Dedigitizer
+cyber_hackmarket	npc	Hack Market
+detective	coin	Precinct Materiel Division
+dino	coin	Dino World Gift Shop (The Dinostaur)
+doc	npc	Doc Galaktik's Medicine Show
+dollhawker	coin	Dollhawker's Emporium
+dreadsylvania	coin	The Terrified Eagle Inn
+driparmory	coin	Drip Institute Armory
+dripcafeteria	npc	Drip Institute Cafeteria
+edunder_shopshop	coin	Everything Under the World
+exploathing	coin	Cosmic Ray's Bazaar
+fantasyrealm	coin	FantasyRealm Rubee&trade; Store
+fdkol	coin	FDKOL Tent
+fishbones	coin	Freshwater Fishbonery
+fixodent	conc	Craft with Teeth
+fwshop	npc	Clan Underground Fireworks Shop
+generalstore	npc	The General Store
+glaciest	coin	Wal-Mart
+glover	coin	G-Mart
+gnoll	npc	Degrassi Knoll Bakery and Hardware Store
+gnomart	npc	Gno-Mart
+grandma	conc	Grandma Sea Monkey
+guildstore1	npc	Shadowy Store
+guildstore2	npc	Gouda's Grimoire and Grocery
+guildstore3	npc	Smacketeria
+guzzlr	coin	Guzzlr Company Store Website
+hiddentavern	npc	The Hidden Tavern
+hippy	npc	Hippy Store (Pre-War)
+infernodisco	coin	Disco GiftCo
+isotopesmithery	coin	Isotope Smithery
+jarl	conc	Jarlsberg's Cosmic Kitchen
+jewelers	npc	Little Canadia Jewelers
+junkmagazine	conc	Worse Homes and Gardens
+kiwi	conc	Kiwi Kwiki Mart
+knobdisp	npc	The Knob Dispensary
+kolhs_art	conc	Art Class (After School)
+kolhs_chem	conc	Chemistry Class (After School)
+kolhs_shop	conc	Shop Class (After School)
+landfillstore	coin	The Dinsey Company Store
+lathe	coin	Your SpinMaster&trade; lathe
+ltt	coin	LT&T Gift Shop
+lunarlunch	coin	Lunar Lunch-o-Mat
+madeline	npc	Madeline's Baking Supply
+mariogear	coin	Mushroom District Gear Shop
+marioitems	coin	Mushroom District Item Shop
+mayoclinic	npc	The Mayo Clinic
+meatsmith	npc	Meatsmith's Shop
+mrreplica	coin	Replica Mr. Store
+mrstore2002	coin	Mr. Store 2002
+mystic	conc	The Crackpot Mystic's Shed
+nerve	npc	Nervewrecker's Store
+nina	coin	Ni&ntilde;a Store
+olivers	coin	Fancy Dan the Cocktail Man
+piraterealm	coin	PirateRealm Fun-a-Log
+pokefam	coin	The Pok&eacute;mporium
+rumple	conc	Your Workshop
+sbb_jimmy	coin	Buff Jimmy's Souvenir Shop
+september	coin	Sept-Ember Censer
+shadowforge	conc	The Shadow Forge
+shakeshop	coin	Ye Newe Souvenir Shoppe
+shoeshop	coin	Legitimate Shoe Repair, Inc.
+shore	coin	The Shore, Inc. Gift Shop
+si_shop1	coin	The SHAWARMA Initiative
+snackbar	npc	Huggler Memorial Colosseum Snack Bar
+snowgarden	conc	Winter Gardening
+spacegate	coin	Spacegate Fabrication Facility
+spant	conc	Spant Bit Assembly
+starchart	conc	A Star Chart
+still	conc	Nash Crosby's Still
+sugarsheets	conc	Sugar Sheet Folding
+taco_dan	coin	Taco Dan's Taco Stand
+thankshop	coin	A traveling Thanksgiving salesman
+topiary	coin	Topiary Nuggletcrafting
+town_giftshop.php	npc	Gift Shop
+toxic	coin	Toxic Chemistry
+trapper	coin	The Trapper
+tweedle	npc	The Tweedleporium
+twitchsoup	coin	The Primordial Soup Kitchen
+unclep	npc	Uncle P's Antiques
+vault1	npc	Fallout Shelter Medical Supply
+vault2	npc	Fallout Shelter Electronics Supply
+vault3	npc	Underground Record Store
+vendingmachine	coin	Vending Machine
+voteslime	conc	Mad Sliemce
+warbear	coin	Warbear Black Box
+wereprofessor_tinker	conc	Tinkering Bench
+whitecitadel	npc	White Citadel
+wildfire	npc	FDKOL Auxiliary
+xo	conc	XO Shop

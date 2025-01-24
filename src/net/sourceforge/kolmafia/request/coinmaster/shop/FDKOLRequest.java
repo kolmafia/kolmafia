@@ -18,7 +18,7 @@ public class FDKOLRequest extends CoinMasterRequest {
   private static final Pattern TOKEN_PATTERN = Pattern.compile("<td>([\\d,]+) FDKOL commendation");
 
   public static final CoinmasterData FDKOL =
-      new CoinmasterData(master, "FDKOL", FDKOLRequest.class)
+      new CoinmasterData(master, "fdkol", FDKOLRequest.class)
           .withToken("FDKOL commendation")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(FDKOL_TOKEN)

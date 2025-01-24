@@ -21,7 +21,7 @@ public class MrStore2002Request extends CoinMasterRequest {
       Pattern.compile("<b>You have ([\\d,]+) Mr. Store 2002 Credit");
 
   public static final CoinmasterData MR_STORE_2002 =
-      new CoinmasterData(master, "Mr. Store 2002", MrStore2002Request.class)
+      new CoinmasterData(master, "mrstore2002", MrStore2002Request.class)
           .withToken("Mr. Store 2002 Credit")
           .withTokenPattern(TOKEN_PATTERN)
           .withProperty("availableMrStore2002Credits")

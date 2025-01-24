@@ -27,6 +27,7 @@ import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.shop.ShopDatabase;
 import net.sourceforge.kolmafia.shop.ShopRow;
 import net.sourceforge.kolmafia.shop.ShopRowDatabase;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
@@ -53,6 +54,7 @@ public class NPCStoreDatabase {
 
         String storeName = data[0];
         String storeId = data[1];
+        ShopDatabase.registerNPCShop(storeId, storeName);
         if (!storeId.equals("bartlebys")) {
           NPCStoreDatabase.storeNameById.put(storeId, storeName);
         }

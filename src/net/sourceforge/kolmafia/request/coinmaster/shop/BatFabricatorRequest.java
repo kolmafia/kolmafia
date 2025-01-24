@@ -18,7 +18,7 @@ public class BatFabricatorRequest extends CoinMasterRequest {
   public static final AdventureResult EXPLOSIVES = ItemPool.get(ItemPool.HIGH_GRADE_EXPLOSIVES, 1);
 
   public static final CoinmasterData BAT_FABRICATOR =
-      new CoinmasterData(master, "Bat-Fabricator", BatFabricatorRequest.class)
+      new CoinmasterData(master, "batman_cave", BatFabricatorRequest.class)
           .withShopRowFields(master, "batman_cave")
           .withItemBuyPrice(BatFabricatorRequest::itemBuyPrice);
 
