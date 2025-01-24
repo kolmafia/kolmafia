@@ -1857,7 +1857,10 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
   @Test
   public void itShouldRecognizeJackingAsLocation() {
     String name = "Professor Jacking\'s Huge-A-Ma-Tron";
-    String output = execute("get_location($location[none])");
-    assertTrue(false);
+    //name = "The Haunted Gallery";
+    //String output = execute("to_location("+name+")");
+    //assertTrue(false);
+    var parsed = DataTypes.parseLocationValue(name, false);
+    assertTrue(name.equals(parsed.toString()));
   }
 }
