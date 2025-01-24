@@ -78,6 +78,7 @@ import net.sourceforge.kolmafia.request.coinmaster.shop.NinjaStoreRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.NuggletCraftingRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.PokemporiumRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.PrecinctRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.PrimordialSoupKitchenRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ReplicaMrStoreRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.RubeeRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.SHAWARMARequest;
@@ -1552,6 +1553,12 @@ public class RequestLogger extends NullStream {
 
     if ((isExternal || request instanceof PrecinctRequest)
         && PrecinctRequest.registerRequest(urlString)) {
+      RequestLogger.wasLastRequestSimple = false;
+      return;
+    }
+
+    if ((isExternal || request instanceof PrimordialSoupKitchenRequest)
+        && PrimordialSoupKitchenRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }

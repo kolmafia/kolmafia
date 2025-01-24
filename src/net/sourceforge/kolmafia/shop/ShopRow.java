@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AdventureResult.MeatResult;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
@@ -487,6 +488,10 @@ public class ShopRow implements Comparable<ShopRow> {
     List<AdventureResult> costs = new ArrayList<>();
     for (int index = 3; index < data.length; ++index) {
       AdventureResult cost = AdventureResult.parseItem(data[index], true);
+      if (cost == null) {
+        RequestLogger.printLine(master + " (ROW" + row + "): bad cost '" + data[index] + "'");
+        continue;
+      }
       costs.add(cost);
     }
     return new ShopRow(row, item, costs.toArray(new AdventureResult[0]));

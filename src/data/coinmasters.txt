@@ -1232,7 +1232,6 @@ Elf Guard Toy and Munitions Factory	buy	400	Lil' Snowball Factory	ROW1429
 Elf Guard Toy and Munitions Factory	buy	1000	Elf Guard safety bear	ROW1440
 Elf Guard Toy and Munitions Factory	buy	2000	Elf Guard temporary (permanent) tattoo	ROW1430
 
-
 # Crimbo 2024
 
 Crimbo24 Cafe	ROW1527	chocolate ostrich egg	Spirit of Easter (15)
@@ -1278,6 +1277,8 @@ Sept-Ember Censer	buy	2	Septapus summoning charm	ROW1513
 Sept-Ember Censer	buy	2	throwin' ember	ROW1519
 Sept-Ember Censer	buy	4	structural ember	ROW1514
 Sept-Ember Censer	buy	6	miniature Embering Hulk	ROW1511
+
+# CyberRealm
 
 The Dedigitizer	ROW1560	wired underwear	1 (8)
 The Dedigitizer	ROW1559	encrypted shuriken	1 (16)
@@ -1341,22 +1342,3 @@ Kiwi Kwiki Mart	ROW1483	mini kiwi tipi	mini kiwi
 Kiwi Kwiki Mart	ROW1489	mini kiwi-flavored aspirin-injecting lipstick	mini kiwi (3)
 Kiwi Kwiki Mart	ROW1481	mini kiwi aioli	mini kiwi (5)
 Kiwi Kwiki Mart	ROW1490	mini kiwi digitized cookies	mini kiwi (3)
-
-The Primordial Soup Kitchen	ROW1491	bacteria bisque	Chroner (10)
-The Primordial Soup Kitchen	ROW1492	ciliophora chowder	Chroner (10)
-The Primordial Soup Kitchen	ROW1493	cream of chloroplasts	Chroner (10)	
-The Primordial Soup Kitchen	ROW1499	elbow soup	bacteria bisque	protogenetic chunklet (elbow)
-The Primordial Soup Kitchen	ROW1498	elbow soup	ciliophora chowder	protogenetic chunklet (elbow)
-The Primordial Soup Kitchen	ROW1497	elbow soup	cream of chloroplasts	protogenetic chunklet (elbow)
-The Primordial Soup Kitchen	ROW1502	flagellate soup	bacteria bisque	protogenetic chunklet (flagellum)
-The Primordial Soup Kitchen	ROW1500	flagellate soup	ciliophora chowder	protogenetic chunklet (flagellum)
-The Primordial Soup Kitchen	ROW1501	flagellate soup	cream of chloroplasts	protogenetic chunklet (flagellum)
-The Primordial Soup Kitchen	ROW1496	lip soup	bacteria bisque	protogenetic chunklet (lips)
-The Primordial Soup Kitchen	ROW1495	lip soup	ciliophora chowder	protogenetic chunklet (lips)
-The Primordial Soup Kitchen	ROW1494	lip soup	cream of chloroplasts	protogenetic chunklet (lips)
-The Primordial Soup Kitchen	ROW1505	muscular soup	bacteria bisque	protogenetic chunklet (muscle)
-The Primordial Soup Kitchen	ROW1504	muscular soup	ciliophora chowder	protogenetic chunklet (muscle)
-The Primordial Soup Kitchen	ROW1503	muscular soup	cream of chloroplasts	protogenetic chunklet (muscle)
-The Primordial Soup Kitchen	ROW1508	synaptic soup	bacteria bisque	protogenetic chunklet (synapse)
-The Primordial Soup Kitchen	ROW1507	synaptic soup	ciliophora chowder	protogenetic chunklet (synapse)
-The Primordial Soup Kitchen	ROW1506	synaptic soup	cream of chloroplasts	protogenetic chunklet (synapse)

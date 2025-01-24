@@ -13,6 +13,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
@@ -184,6 +185,10 @@ public class CoinmastersDatabase {
           ShopRowDatabase.registerShopRow(shopRow, "row", master);
           int row = shopRow.getRow();
           List<ShopRow> rows = shopRows.get(master);
+          if (rowShop.containsKey(row)) {
+            RequestLogger.printLine("Duplicate ROW" + row + " in " + master);
+            continue;
+          }
           if (rows == null) {
             // Get a LockableListModel if we are running in a Swing environment,
             // since these lists will be the models for GUI elements

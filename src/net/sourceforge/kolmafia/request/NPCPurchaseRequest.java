@@ -80,6 +80,7 @@ import net.sourceforge.kolmafia.request.coinmaster.shop.PlumberGearRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.PlumberItemRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.PokemporiumRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.PrecinctRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.PrimordialSoupKitchenRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ReplicaMrStoreRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.RubeeRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.SHAWARMARequest;
@@ -802,6 +803,11 @@ public class NPCPurchaseRequest extends PurchaseRequest {
       return;
     }
 
+    if (shopId.equals("twitchsoup")) {
+      PrimordialSoupKitchenRequest.parseResponse(urlString, responseText);
+      return;
+    }
+
     if (shopId.equals("topiary")) {
       NuggletCraftingRequest.parseResponse(urlString, responseText);
       return;
@@ -1485,6 +1491,10 @@ public class NPCPurchaseRequest extends PurchaseRequest {
 
       if (shopId.equals("conmerch")) {
         return MerchTableRequest.registerRequest(urlString);
+      }
+
+      if (shopId.equals("twitchsoup")) {
+        return PrimordialSoupKitchenRequest.registerRequest(urlString);
       }
 
       if (shopId.equals("arcade")) {

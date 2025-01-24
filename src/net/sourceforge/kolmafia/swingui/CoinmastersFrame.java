@@ -106,6 +106,7 @@ import net.sourceforge.kolmafia.request.coinmaster.shop.PlumberGearRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.PlumberItemRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.PokemporiumRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.PrecinctRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.PrimordialSoupKitchenRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ReplicaMrStoreRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.RubeeRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.SHAWARMARequest;
@@ -226,6 +227,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
   private CoinmasterPanel toxicChemistryPanel = null;
   private CoinmasterPanel trapperPanel = null;
   private CoinmasterPanel travelerPanel = null;
+  private CoinmasterPanel twitchSoupPanel = null;
   private CoinmasterPanel vendingMachinePanel = null;
   private CoinmasterPanel walmartPanel = null;
   private CoinmasterPanel warbearBoxPanel = null;
@@ -587,7 +589,10 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     panel.add(merchTablePanel);
     this.selectorPanel.addPanel(merchTablePanel.getPanelSelector(), panel);
 
-    // *** Primordial Soup Kitchen goes here
+    panel = new JPanel(new BorderLayout());
+    twitchSoupPanel = new TwitchSoupPanel();
+    panel.add(twitchSoupPanel);
+    this.selectorPanel.addPanel(twitchSoupPanel.getPanelSelector(), panel);
 
     // Events coinmasters
     this.selectorPanel.addSeparator();
@@ -1007,6 +1012,12 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
       buffer.append(" (");
       buffer.append(InventoryManager.getCount(MerchTableRequest.CHRONER));
       buffer.append(" Chroner)");
+    }
+  }
+
+  public class TwitchSoupPanel extends TwitchPanel {
+    public TwitchSoupPanel() {
+      super(PrimordialSoupKitchenRequest.DATA);
     }
   }
 
