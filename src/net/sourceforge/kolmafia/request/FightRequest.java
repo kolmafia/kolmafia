@@ -7,7 +7,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -123,11 +122,12 @@ import net.sourceforge.kolmafia.webui.DiscoCombatHelper;
 import net.sourceforge.kolmafia.webui.HobopolisDecorator;
 import net.sourceforge.kolmafia.webui.NemesisDecorator;
 import net.sourceforge.kolmafia.webui.VillainLairDecorator;
-import org.htmlcleaner.BaseToken;
-import org.htmlcleaner.CommentNode;
-import org.htmlcleaner.ContentNode;
-import org.htmlcleaner.HtmlCleaner;
-import org.htmlcleaner.TagNode;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Comment;
+import org.jsoup.nodes.Element;
+import org.jsoup.nodes.Node;
+import org.jsoup.nodes.TextNode;
+import org.jsoup.select.Elements;
 
 @SuppressWarnings("incomplete-switch")
 public class FightRequest extends GenericRequest {
@@ -261,7 +261,7 @@ public class FightRequest extends GenericRequest {
       Pattern.compile("recovering <b>(\\d+)</b> bolts");
 
   private static final Pattern SEAHORSE_PATTERN =
-      Pattern.compile("I shall name you &quot;(.*?),&quot; you say.");
+      Pattern.compile("I shall name you \"(.*?),\" you say.");
 
   private static final Pattern TIMEPRANK_PATTERN =
       Pattern.compile(
@@ -721,9 +721,6 @@ public class FightRequest extends GenericRequest {
   static {
     FightRequest.COMBAT_START.setTimeZone(TimeZone.getTimeZone("GMT"));
   }
-
-  // Make an HTML cleaner
-  private static final HtmlCleaner cleaner = HTMLParserUtils.configureDefaultParser();
 
   /**
    * Constructs a new <code>FightRequest</code>. User settings will be used to determine the kind of
@@ -5127,9 +5124,9 @@ public class FightRequest extends GenericRequest {
   }
 
   private static boolean extractVerse(
-      final TagNode node, final StringBuffer buffer, final String tag) {
+      final Element node, final StringBuffer buffer, final String tag) {
     boolean hasTag = false;
-    String nodeName = node.getName();
+    String nodeName = node.tagName();
 
     if (nodeName.equals("br")) {
       buffer.append(" / ");
@@ -5139,10 +5136,10 @@ public class FightRequest extends GenericRequest {
       hasTag = true;
     }
 
-    for (BaseToken child : node.getAllChildren()) {
-      if (child instanceof ContentNode cn) {
-        buffer.append(cn.getContent());
-      } else if (child instanceof TagNode tn) {
+    for (Node child : node.childNodes()) {
+      if (child instanceof TextNode cn) {
+        buffer.append(cn.getWholeText());
+      } else if (child instanceof Element tn) {
         hasTag |= FightRequest.extractVerse(tn, buffer, tag);
       }
     }
@@ -5151,7 +5148,7 @@ public class FightRequest extends GenericRequest {
   }
 
   private static void processHaikuResult(
-      final TagNode node, final TagNode inode, final String image, final TagStatus status) {
+      final Element node, final Element inode, final String image, final TagStatus status) {
     if (image.equals(status.familiar)
         || image.equals(status.enthroned)
         || image.equals(status.bjorned)) {
@@ -5301,7 +5298,7 @@ public class FightRequest extends GenericRequest {
   }
 
   private static void processMachineElfResult(
-      final TagNode node, final TagNode inode, final String image, final TagStatus status) {
+      final Element node, final Element inode, final String image, final TagStatus status) {
     if (image.equals(status.familiar)
         || image.equals(status.enthroned)
         || image.equals(status.bjorned)) {
@@ -5378,7 +5375,7 @@ public class FightRequest extends GenericRequest {
     }
   }
 
-  private static int parseVerseDamage(final TagNode inode) {
+  private static int parseVerseDamage(final Element inode) {
     if (inode == null) {
       return 0;
     }
@@ -5389,8 +5386,8 @@ public class FightRequest extends GenericRequest {
     }
 
     // Look for Damage: title in the image
-    String title = inode.getAttributeByName("title");
-    if (title == null || !title.startsWith("Damage: ")) {
+    String title = inode.attr("title");
+    if (!title.startsWith("Damage: ")) {
       return 0;
     }
 
@@ -5404,7 +5401,7 @@ public class FightRequest extends GenericRequest {
     return damage;
   }
 
-  private static boolean foundVerseDamage(final TagNode inode, final TagStatus status) {
+  private static boolean foundVerseDamage(final Element inode, final TagStatus status) {
     int damage = parseVerseDamage(inode);
     if (damage == 0) {
       return false;
@@ -5417,7 +5414,7 @@ public class FightRequest extends GenericRequest {
   }
 
   private static void processAnapestResult(
-      final TagNode node, final TagNode inode, final String image, final TagStatus status) {
+      final Element node, final Element inode, final String image, final TagStatus status) {
     if (image.equals(status.familiar)
         || image.equals(status.enthroned)
         || image.equals(status.bjorned)) {
@@ -5787,7 +5784,7 @@ public class FightRequest extends GenericRequest {
   }
 
   private static void processNormalResults(final String text, final Matcher macroMatcher) {
-    TagNode fight =
+    Element fight =
         FightRequest.pokefam ? parseFamBattleHTML(text, true) : parseFightHTML(text, true);
     if (fight == null) {
       // Do normal result processing and hope for the best.
@@ -5815,15 +5812,15 @@ public class FightRequest extends GenericRequest {
   }
 
   public static final void parseFamBattleHTML(final String text) {
-    TagNode node = FightRequest.parseFamBattleHTML(text, false);
+    Element node = FightRequest.parseFamBattleHTML(text, false);
     HTMLParserUtils.logHTML(node);
     FightRequest.processFamBattle(node, new TagStatus());
     HTMLParserUtils.logHTML(node);
   }
 
-  private static TagNode parseFamBattleHTML(String text, boolean logIt) {
+  private static Element parseFamBattleHTML(String text, boolean logIt) {
     // Clean the HTML on the Fight page
-    TagNode node = FightRequest.cleanFightHTML(text);
+    Element node = FightRequest.cleanFightHTML(text);
     if (node == null) {
       if (logIt) {
         RequestLogger.printLine("HTML cleaning failed.");
@@ -5837,21 +5834,17 @@ public class FightRequest extends GenericRequest {
     //
     // <center><b>a fleet woodsman's Team:</b>
 
-    for (Object bnode : node.getElementListByName("b", true)) {
-      // Should be unnecessary. We need a more modern version of this package
-      if (bnode instanceof TagNode b) {
-        // something is very weird with this cleaning
-        var parent = b.getParent();
-        if (getContentNodeText(parent).contains(" Team:")) {
-          return parent;
-        }
+    for (Element bnode : node.children().select("b")) {
+      var parent = bnode.parent();
+      if (bnode.wholeText().contains(" Team:")) {
+        return parent;
       }
     }
 
     return null;
   }
 
-  public static final void processFamBattle(final TagNode node, final TagStatus status) {
+  public static final void processFamBattle(final Element node, final TagStatus status) {
     // The node is a "center" node with the following children:
     //
     // <b>XXX's Team:</b>
@@ -5866,24 +5859,19 @@ public class FightRequest extends GenericRequest {
     // allow regular node processing to glean whatever it wants
     // from what remains.
 
-    Iterator<? extends BaseToken> it = node.getAllChildren().iterator();
     boolean done = false;
     int pokindex = 0;
-    while (it.hasNext() && !done) {
-      BaseToken child = it.next();
-      if (child instanceof TagNode tnode) {
-        String name = tnode.getName();
-
-        // Each familiar is in a table
-        if (name.equals("table")) {
-          FightRequest.processPokefam(++pokindex, tnode, status);
-        } else if (name.equals("b")) {
-          if (tnode.getText().toString().equals("Your Team")) {
-            done = true;
-          }
+    // Each familiar is in a table
+    for (var child : node.select("table")) {
+      FightRequest.processPokefam(++pokindex, child, status);
+    }
+    for (var child : node.childNodes()) {
+      child.remove();
+      if (child instanceof Element e) {
+        if (e.tagName().equals("b") && e.wholeText().equals("Your Team")) {
+          break;
         }
       }
-      it.remove();
     }
 
     HTMLParserUtils.logHTML(node);
@@ -5961,18 +5949,15 @@ public class FightRequest extends GenericRequest {
              &nbsp;
   */
 
-  public static final String imgToString(final TagNode node) {
+  public static final String imgToString(final Element node) {
     if (node == null) {
       return "";
     }
 
-    if (!node.getName().equals("img")) {
+    if (!node.tagName().equals("img")) {
       return "";
     }
-    String src = node.getAttributeByName("src");
-    if (src == null) {
-      return "";
-    }
+    String src = node.attr("src");
     int index = src.lastIndexOf("/");
     if (index == -1) {
       return src;
@@ -5983,7 +5968,7 @@ public class FightRequest extends GenericRequest {
   private static final int ULTIMATE = "ULTIMATE: ".length();
 
   public static final void processPokefam(
-      final int index, final TagNode node, final TagStatus status) {
+      final int index, final Element node, final TagStatus status) {
     // For now only look at the familiar at the very beginning of the fight.
     //
     // Certainly, don't call FamiliarDatabase to check the attributes of a familiar
@@ -6009,9 +5994,9 @@ public class FightRequest extends GenericRequest {
     FightRequest.parsePokefam(node, myteam, !myteam);
   }
 
-  public static final void parsePokefam(final TagNode node, boolean myFamiliar, boolean moveSpans) {
+  public static final void parsePokefam(final Element node, boolean myFamiliar, boolean moveSpans) {
     // Get all the rows from the table
-    TagNode[] rows = node.getElementsByName("tr", true);
+    Elements rows = node.children().select("tr");
 
     // Row 1: familiar image, familiar name, power, attribute, hp
     String image = "";
@@ -6021,29 +6006,29 @@ public class FightRequest extends GenericRequest {
     String attribute = "None";
     int hp = 0;
 
-    TagNode[] row1Tags = rows[0].getChildTags();
+    Elements row1Tags = rows.get(0).children();
     int td = 1;
-    for (TagNode tdnode : row1Tags) {
+    for (Element tdnode : row1Tags) {
       switch (td++) {
         case 1 -> {
           // Familiar Image:
-          TagNode inode = tdnode.findElementByName("img", true);
+          Element inode = tdnode.children().select("img").first();
           image = imgToString(inode);
         }
         case 2 -> {
           // Familiar name
-          name = tdnode.getText().toString();
+          name = tdnode.wholeText();
         }
         case 3 -> {
           // Familiar power: one image (blacksword.gif) per
-          power = tdnode.getElementsByName("img", true).length;
+          power = tdnode.children().select("img").size();
         }
         case 4 -> {
           // Familiar attribute: distinct images, can have two
-          TagNode[] inodes = tdnode.getElementsByName("img", true);
-          for (TagNode inode : inodes) {
-            String title = inode.getAttributeByName("title");
-            if (title != null) {
+          Elements inodes = tdnode.children().select("img");
+          for (Element inode : inodes) {
+            String title = inode.attr("title");
+            if (!title.isEmpty()) {
               int colon = title.indexOf(":");
               String aname = title.substring(0, colon);
               attributes.add(aname);
@@ -6052,7 +6037,7 @@ public class FightRequest extends GenericRequest {
         }
         case 5 -> {
           // Familiar HP: one image (blackheart.gif) per
-          hp = tdnode.getElementsByName("img", true).length;
+          hp = tdnode.children().select("img").size();
         }
       }
     }
@@ -6061,9 +6046,9 @@ public class FightRequest extends GenericRequest {
     int level = 0;
     String race = "";
 
-    TagNode[] row2Tags = rows[1].getChildTags();
-    if (row2Tags.length > 0) {
-      String famtype = row2Tags[0].getText().toString();
+    Elements row2Tags = rows.get(1).children();
+    if (row2Tags.size() > 0) {
+      String famtype = row2Tags.get(0).wholeText();
       level = StringUtilities.parseInt(famtype.substring(4, 5));
       race = famtype.substring(6);
     }
@@ -6089,29 +6074,29 @@ public class FightRequest extends GenericRequest {
     String[] actions = new String[3];
     String[] descriptions = new String[3];
 
-    TagNode[] row4Tags = rows[3].getChildTags();
-    if (row4Tags.length > 1) {
-      TagNode tdnode = row4Tags[1];
+    Elements row4Tags = rows.get(3).children();
+    if (row4Tags.size() > 1) {
+      Element tdnode = row4Tags.get(1);
       if (moveSpans) {
         // Enemy team
         // <span title="Deal 5 damage to the frontmost enemy.">
         //  [ULTIMATE: Deluxe Impale]
         // also used on famteam.php for your own team
-        TagNode[] spans = tdnode.getElementsByName("span", false);
-        for (int i = 0; i < spans.length; ++i) {
+        Elements spans = tdnode.select(">span");
+        for (int i = 0; i < spans.size(); ++i) {
           // <span style="background-color: lightblue;">
           //   <b>
           //     <span title="Heal the frontmost ally by [power]. (This is what the enemy team will
           // do next round.)">
           //        [Hug]
 
-          TagNode span = spans[i];
-          if (span.getAttributeByName("title") == null) {
+          Element span = spans.get(i);
+          if (span.attr("title").isEmpty()) {
             // Next action is nested
             // *** remember that this is the designated enemy move?
-            span = span.findElementByName("span", true);
+            span = span.children().select("span").first();
           }
-          String str = span.getText().toString();
+          String str = span.wholeText();
           if (str.startsWith("[")) {
             int start = 1 + (i == 2 ? ULTIMATE : 0);
             moves[i] = str.substring(start, str.length() - 1);
@@ -6122,20 +6107,20 @@ public class FightRequest extends GenericRequest {
         // Your team
         // <input title="Knock the frontmost enemy to the back." class="button skb" type="submit"
         // value="Tackle" name="famaction[tackle-7]">
-        TagNode[] inputs = rows[3].getElementsByName("input", true);
+        Elements inputs = rows.get(3).children().select("input");
         int move = 0;
-        for (TagNode input : inputs) {
-          String type = input.getAttributeByName("class");
-          if (type == null || !type.startsWith("button")) {
+        for (Element input : inputs) {
+          String type = input.attr("class");
+          if (!type.startsWith("button")) {
             continue;
           }
-          String str = input.getAttributeByName("value");
-          String action = input.getAttributeByName("name");
-          String description = input.getAttributeByName("title");
+          String str = input.attr("value");
+          String action = input.attr("name");
+          String description = input.attr("title");
           if (move == 2) {
             str = str.substring(ULTIMATE);
           }
-          if (action != null) {
+          if (!action.isEmpty()) {
             // "famaction[tackle-7]"
             int lb = action.indexOf("[");
             int dash = action.indexOf("-");
@@ -6177,9 +6162,9 @@ public class FightRequest extends GenericRequest {
     HTMLParserUtils.logHTML(parseFightHTML(text, false));
   }
 
-  private static TagNode parseFightHTML(String text, boolean logIt) {
+  private static Element parseFightHTML(String text, boolean logIt) {
     // Clean the HTML on the Fight page
-    TagNode node = FightRequest.cleanFightHTML(text);
+    Element node = FightRequest.cleanFightHTML(text);
     if (node == null) {
       if (logIt) {
         RequestLogger.printLine("HTML cleaning failed.");
@@ -6188,7 +6173,7 @@ public class FightRequest extends GenericRequest {
     }
 
     // Find the monster tag
-    TagNode mon = findMonsterTag(node, logIt);
+    Element mon = findMonsterTag(node, logIt);
     if (mon != null) {
       return findFightNode(mon, logIt);
     }
@@ -6201,9 +6186,9 @@ public class FightRequest extends GenericRequest {
     // We (probably) want the second <center> tag; the first one
     // holds the whole combat table
 
-    TagNode[] nodes = node.getElementsByName("center", true);
-    if (nodes != null && nodes.length >= 2) {
-      return nodes[1].getParent();
+    Elements nodes = node.children().select("center");
+    if (nodes.size() >= 2) {
+      return nodes.get(1).parent();
     }
 
     if (logIt) {
@@ -6213,19 +6198,19 @@ public class FightRequest extends GenericRequest {
     return null;
   }
 
-  private static TagNode cleanFightHTML(final String text) {
+  private static Element cleanFightHTML(final String text) {
     // Clean the HTML on this fight response page
-    return cleaner.clean(text);
+    return Jsoup.parse(text);
   }
 
-  private static TagNode findMonsterTag(final TagNode node, final boolean logIt) {
+  private static Element findMonsterTag(final Element node, final boolean logIt) {
     // Look first for 'monpic' image.
     // All haiku monsters and most normal monsters have that.
-    TagNode mon = node.findElementByAttValue("id", "monpic", true, false);
+    Element mon = node.selectFirst("#monpic");
 
     // If that fails, look for 'monname' span.
     if (mon == null) {
-      mon = node.findElementByAttValue("id", "monname", true, false);
+      mon = node.selectFirst("#monname");
     }
 
     if (mon == null && logIt) {
@@ -6235,17 +6220,17 @@ public class FightRequest extends GenericRequest {
     return mon;
   }
 
-  private static TagNode findFightNode(final TagNode mon, final boolean logIt) {
+  private static Element findFightNode(final Element mon, final boolean logIt) {
     // Walk up the tree and find <center>
     //
     // The parent of that node has everything interesting about the
     // fight.
-    TagNode fight = mon;
+    Element fight = mon;
     while (fight != null) {
-      fight = fight.getParent();
-      if (fight != null && fight.getName().equals("center")) {
+      fight = fight.parent();
+      if (fight != null && fight.tagName().equals("center")) {
         // One more level
-        return fight.getParent();
+        return fight.parent();
       }
     }
 
@@ -6256,13 +6241,13 @@ public class FightRequest extends GenericRequest {
     return null;
   }
 
-  // Utility to reproduce the behavior of TagNode.getText() from the
+  // Utility to reproduce the behavior of Element.getText() from the
   // earlier version we upgraded from.
-  private static String getContentNodeText(TagNode node) {
+  private static String getContentNodeText(Element node) {
     StringBuilder text = new StringBuilder();
-    for (Object item : node.getAllChildren()) {
-      if (item instanceof ContentNode cn) {
-        text.append(cn.getContent());
+    for (Node item : node.childNodes()) {
+      if (item instanceof TextNode cn) {
+        text.append(cn.getWholeText());
       }
     }
     return text.toString();
@@ -6325,8 +6310,8 @@ public class FightRequest extends GenericRequest {
     }
   }
 
-  private static void processNode(final TagNode node, final TagStatus status) {
-    String name = node.getName();
+  private static void processNode(final Element node, final TagStatus status) {
+    String name = node.tagName();
     // StringBuffer action = status.action;
 
     // Skip html links
@@ -6340,9 +6325,15 @@ public class FightRequest extends GenericRequest {
       return;
     }
 
+    // inputs are only valid inside forms, so skip these too
+    // https://github.com/jhy/jsoup/issues/2260
+    if (name.equals("input") || name.equals("select")) {
+      return;
+    }
+
     /// node-specific processing
     if (name.equals("script")) {
-      Matcher m = CLEESH_PATTERN.matcher(node.getText());
+      Matcher m = CLEESH_PATTERN.matcher(node.wholeText());
       if (!m.find()) {
         return;
       }
@@ -6362,40 +6353,40 @@ public class FightRequest extends GenericRequest {
     }
 
     if (name.equals("table")) {
-      String id = node.getAttributeByName("id");
-      if (id != null && id.equals("monpic")) {
+      String id = node.attr("id");
+      if (id.equals("monpic")) {
         // Don't process the monster picture
         return;
       }
 
       // Items have "rel" strings.
-      String cl = node.getAttributeByName("class");
-      String rel = node.getAttributeByName("rel");
-      if (cl != null && cl.equals("item") && rel != null) {
+      String cl = node.attr("class");
+      String rel = node.attr("rel");
+      if (cl.equals("item") && !rel.isEmpty()) {
         AdventureResult result = ItemDatabase.itemFromRelString(rel);
         ResultProcessor.processItem(true, "You acquire an item:", result, null);
-        if (node.getText().toString().startsWith("Item unequipped")) {
+        if (node.wholeText().startsWith("Item unequipped")) {
           EquipmentManager.discardEquipment(result);
         }
         return;
       }
 
       if (status.famaction) {
-        TagNode inode = node.findElementByName("img", true);
+        Element inode = node.children().select("img").first();
         FightRequest.processFamiliarAction(node, inode, status);
         return;
       }
 
-      TagNode[] tables = node.getElementsByName("table", true);
-      for (TagNode table : tables) {
-        table.getParent().removeChild(table);
+      Elements tables = node.children().select("table");
+      for (Element table : tables) {
+        table.remove();
       }
 
       if (FightRequest.processTable(node, status)) {
         FightRequest.processChildren(node, status);
       }
 
-      for (TagNode table : tables) {
+      for (Element table : tables) {
         FightRequest.processNode(table, status);
       }
 
@@ -6413,190 +6404,22 @@ public class FightRequest extends GenericRequest {
       }
       DiscoCombatHelper.parseFightRound(FightRequest.nextAction, status.macroMatcher);
     } else if (name.equals("p")) {
-      if (FightRequest.handleEldritchHorror(node, status)) {
-        return;
-      }
-
-      FightRequest.handleKisses(node, status);
-      FightRequest.handleCrimboPresent(node, status);
-
-      if (FightRequest.handleChakra(node, status)) {
-        return;
-      }
-
-      String str = FightRequest.getContentNodeText(node);
-
-      if (status.pebble) {
-        FightRequest.handleLittleRoundPebble(str, status);
-      }
-
-      // Crimbo2022 Trainbot features
-      if (won) {
-        if (status.harness) {
-          FightRequest.handleTrainbotHarness(str, status);
-        }
-
-        if (status.luggage) {
-          FightRequest.handleTrainbotLuggageHook(str, status);
-        }
-
-        if (status.armtowel) {
-          FightRequest.handleWhiteArmTowel(str, status);
-        }
-      }
-
-      if (containsMacroError(str)) {
-        FightRequest.macroErrorMessage = str;
-        Preferences.setString("lastMacroError", str);
-        return;
-      }
-
-      // Camera flashes
-      // A monster caught on the film
-      // Back to yearbook club.
-
-      if (FightRequest.haiku && str.contains("Back to yearbook club")) {
-        FightRequest.handleYearbookCamera(status);
-        return;
-      }
-
-      if (FightRequest.handleFuzzyDice(str, status)) {
-        return;
-      }
-
-      if (FightRequest.processFumble(str, status)) {
-        return;
-      }
-
-      if (FightRequest.handleEvilometer(str, status)) {
-        return;
-      }
-
-      if (FightRequest.handleKeyotron(str, status)) {
-        return;
-      }
-
-      if (FightRequest.handleSeahorse(str, status)) {
-        return;
-      }
-
-      if (FightRequest.handleMayoWasp(str, status)) {
-        return;
-      }
-
-      if (FightRequest.handleSpelunky(str, status)) {
-        return;
-      }
-
-      if (FightRequest.handleFamiliarInteraction(str, status)) {
-        return;
-      }
-
-      if (handleCosmicBowlingBall(str)) return;
-
-      // As empty track does not have an image, it is specially handled to pass it to the appropiate
-      // handler
-      if (str.equals("Your toy train moves ahead to some empty track.")) {
-        handleToyTrain("modeltrain", str, status);
-        return;
-      }
-
-      FightRequest.handleVillainLairRadio(node, status);
-
-      if (status.meteors && (str.contains("meteor") || str.contains("falling star"))) {
-        FightRequest.logText(str, status);
-      }
-
-      // Your potted plant swallows your opponent{s} whole.
-      if (status.carnivorous && str.contains("Your potted plant swallows")) {
-        Preferences.increment("_carnivorousPottedPlantWins", 1);
-        FightRequest.logText(str, status);
-      }
-
-      // You flap your bat wings gustily and launch yourself to your next adventure in an instant.
-      if (status.batwings && str.contains("You flap your bat wings gustily")) {
-        Preferences.increment("_batWingsFreeFights", 1);
-        FightRequest.logText(str, status);
-      }
-
-      if ( // KoL Con 13 Snowglobe
-      str.contains("KoL Con")
-          || str.contains("You notice some extra Meat")
-          ||
-          // Mr. Screege's spectacles
-          str.contains("You notice something valuable hidden")
-          ||
-          // Mr. Cheeng's spectacles
-          str.contains("You see a weird thing out of the corner of your eye, and you grab it")
-          || str.contains("You think you see a weird thing out of the corner of your eye")
-          ||
-          // Can of mixed everything
-          str.contains("Something falls out of your can of mixed everything.")) {
-        FightRequest.logText(str, status);
-      }
-
-      FightRequest.handleLuckyGoldRing(str, status);
-
-      // Serendipity
-      if (status.serendipity) {
-        if (str.contains("serendipitous")
-            || str.contains("luck is on your side")
-            || str.contains("How random")) {
-          FightRequest.logText(str, status);
-        }
-      }
-
-      // Research Points
-      if (status.mildManneredProfessor) {
-        FightRequest.checkResearchPoints(str, status);
-      }
-
-      // Retrospecs
-      if (str.contains("notice an item you missed earlier")) {
-        FightRequest.logText(str, status);
-      }
-
-      boolean VYKEAaction = status.VYKEACompanion != null && str.contains(status.VYKEACompanion);
-      if (VYKEAaction && status.logFamiliar) {
-        // VYKEA companion action
-        FightRequest.logText(str, status);
-      }
-
-      boolean ghostAction = status.ghost != null && str.contains(status.ghost);
-      if (ghostAction && status.logFamiliar) {
-        // Pastamancer ghost action
-        FightRequest.logText(str, status);
-      }
-
-      boolean horseAction = status.horse != null && str.contains(status.horse);
-      if (horseAction && status.logFamiliar) {
-        // Horsery horse action
-        FightRequest.logText(str, status);
-      }
-
-      int damage = FightRequest.parseNormalDamage(str);
-      if (damage != 0) {
-        FightRequest.logSpecialDamage(str, status);
-        FightRequest.logMonsterAttribute(status, damage, HEALTH);
-        MonsterStatusTracker.damageMonster(damage);
-        FightRequest.processComments(node, status);
-        return;
-      }
+      FightRequest.processP(node, status);
     }
 
     FightRequest.processChildren(node, status);
   }
 
-  private static void processChildren(final TagNode node, final TagStatus status) {
+  private static void processChildren(final Element node, final TagStatus status) {
     StringBuffer action = status.action;
-    for (BaseToken child : node.getAllChildren()) {
-      if (child instanceof CommentNode object) {
+    for (Node child : node.childNodes()) {
+      if (child instanceof Comment object) {
         FightRequest.processComment(object, status);
         continue;
       }
 
-      if (child instanceof ContentNode object) {
-        String str = object.getContent().trim();
+      if (child instanceof TextNode object) {
+        String str = object.getWholeText().trim();
 
         if (str.isEmpty()) {
           continue;
@@ -6652,9 +6475,9 @@ public class FightRequest extends GenericRequest {
         }
 
         if (str.startsWith("You acquire a skill")) {
-          TagNode bnode = node.findElementByName("b", true);
+          Element bnode = node.children().select("b").first();
           if (bnode != null) {
-            String skill = bnode.getText().toString();
+            String skill = bnode.wholeText();
             FightRequest.logSkillAcquisition(skill, status);
             ResponseTextParser.learnSkill(skill);
           }
@@ -6675,33 +6498,33 @@ public class FightRequest extends GenericRequest {
         continue;
       }
 
-      if (child instanceof TagNode object) {
+      if (child instanceof Element object) {
         FightRequest.processNode(object, status);
       }
     }
   }
 
-  private static boolean processTable(TagNode node, TagStatus status) {
+  private static boolean processTable(Element node, TagStatus status) {
     // Tables often appear in fight results to hold images.
-    TagNode inode = node.findElementByName("img", true);
-    String onclick = null;
+    Element inode = node.children().select("img").first();
+    String onclick = "";
 
     if (inode != null) {
-      var src = inode.getAttributeByName("src");
-      String alt = inode.getAttributeByName("alt");
-      if (alt != null && alt.startsWith("Enemy's")) {
+      var src = inode.attr("src");
+      String alt = inode.attr("alt");
+      if (alt.startsWith("Enemy's")) {
         // This is Monster Manuel stuff
         int attack = 0, defense = 0, hp = 0;
-        TagNode[] cells = node.getElementsByName("td", true);
-        for (int i = 0; i < cells.length; i++) {
-          TagNode cell = cells[i];
-          TagNode img = cell.findElementByName("img", false);
+        Elements cells = node.children().select("td");
+        for (int i = 0; i < cells.size(); i++) {
+          Element cell = cells.get(i);
+          Element img = cell.selectFirst(">img");
           if (img == null) continue;
-          String stat = img.getAttributeByName("alt");
-          if (stat == null || !stat.startsWith("Enemy's")) continue;
+          String stat = img.attr("alt");
+          if (!stat.startsWith("Enemy's")) continue;
           i++;
-          cell = cells[i];
-          int value = StringUtilities.parseInt(cell.getText().toString());
+          cell = cells.get(i);
+          int value = StringUtilities.parseInt(cell.wholeText());
           switch (stat) {
             case "Enemy's Attack Power" -> attack = value;
             case "Enemy's Defense" -> defense = value;
@@ -6712,13 +6535,13 @@ public class FightRequest extends GenericRequest {
         return false;
       }
 
-      onclick = inode.getAttributeByName("onclick");
+      onclick = inode.attr("onclick");
     }
 
     if (status.dolphin) {
       status.dolphin = false;
 
-      if (onclick == null) {
+      if (onclick.isEmpty()) {
         return false;
       }
 
@@ -6748,7 +6571,7 @@ public class FightRequest extends GenericRequest {
     }
 
     StringBuffer action = status.action;
-    String str = node.getText().toString();
+    String str = node.wholeText();
 
     if (inode == null) {
       FightRequest.handleRaver(str, status);
@@ -6801,7 +6624,7 @@ public class FightRequest extends GenericRequest {
     }
 
     // Look for items and effects first
-    if (onclick != null) {
+    if (!onclick.isEmpty()) {
       if (onclick.startsWith("descitem") && !str.contains("An item drops:")) {
         Matcher m = INT_PATTERN.matcher(onclick);
         if (!m.find()) {
@@ -6827,9 +6650,9 @@ public class FightRequest extends GenericRequest {
 
       if (onclick.contains("desc_skill.php")) {
         if (str.startsWith("You acquire a skill")) {
-          TagNode bnode = node.findElementByName("b", true);
+          Element bnode = node.children().select("b").first();
           if (bnode != null) {
-            String skill = bnode.getText().toString();
+            String skill = bnode.wholeText();
             FightRequest.logSkillAcquisition(skill, status);
             ResponseTextParser.learnSkill(skill);
           }
@@ -6903,9 +6726,9 @@ public class FightRequest extends GenericRequest {
       }
     }
 
-    String src = inode.getAttributeByName("src");
+    String src = inode.attr("src");
 
-    if (src == null) return false;
+    if (src.isEmpty()) return false;
 
     String image = src.substring(src.lastIndexOf("/") + 1);
 
@@ -6918,10 +6741,12 @@ public class FightRequest extends GenericRequest {
     }
 
     // Attempt to identify combat items
-    String itemName = inode.getAttributeByName("title");
-    int itemId = ItemDatabase.getItemId(itemName);
-    if (itemId != -1 && image.equals(ItemDatabase.getImage(itemId))) {
-      status.lastCombatItem = itemId;
+    String itemName = inode.attr("title");
+    if (!itemName.isEmpty()) {
+      int itemId = ItemDatabase.getItemId(itemName);
+      if (itemId != -1 && image.equals(ItemDatabase.getImage(itemId))) {
+        status.lastCombatItem = itemId;
+      }
     }
 
     if (status.limitmode == LimitMode.BATMAN
@@ -7159,21 +6984,193 @@ public class FightRequest extends GenericRequest {
     return true;
   }
 
+  private static void processP(Element node, TagStatus status) {
+    if (FightRequest.handleEldritchHorror(node, status)) {
+      return;
+    }
+
+    FightRequest.handleKisses(node, status);
+    FightRequest.handleCrimboPresent(node, status);
+
+    if (FightRequest.handleChakra(node, status)) {
+      return;
+    }
+
+    String str = FightRequest.getContentNodeText(node);
+
+    if (status.pebble) {
+      FightRequest.handleLittleRoundPebble(str, status);
+    }
+
+    // Crimbo2022 Trainbot features
+    if (won) {
+      if (status.harness) {
+        FightRequest.handleTrainbotHarness(str, status);
+      }
+
+      if (status.luggage) {
+        FightRequest.handleTrainbotLuggageHook(str, status);
+      }
+
+      if (status.armtowel) {
+        FightRequest.handleWhiteArmTowel(str, status);
+      }
+    }
+
+    if (containsMacroError(str)) {
+      FightRequest.macroErrorMessage = str;
+      Preferences.setString("lastMacroError", str);
+      return;
+    }
+
+    // Camera flashes
+    // A monster caught on the film
+    // Back to yearbook club.
+
+    if (FightRequest.haiku && str.contains("Back to yearbook club")) {
+      FightRequest.handleYearbookCamera(status);
+      return;
+    }
+
+    if (FightRequest.handleFuzzyDice(str, status)) {
+      return;
+    }
+
+    if (FightRequest.processFumble(str, status)) {
+      return;
+    }
+
+    if (FightRequest.handleEvilometer(str, status)) {
+      return;
+    }
+
+    if (FightRequest.handleKeyotron(str, status)) {
+      return;
+    }
+
+    if (FightRequest.handleSeahorse(str, status)) {
+      return;
+    }
+
+    if (FightRequest.handleMayoWasp(str, status)) {
+      return;
+    }
+
+    if (FightRequest.handleSpelunky(str, status)) {
+      return;
+    }
+
+    if (FightRequest.handleFamiliarInteraction(str, status)) {
+      return;
+    }
+
+    if (handleCosmicBowlingBall(str)) return;
+
+    // As empty track does not have an image, it is specially handled to pass it to the appropiate
+    // handler
+    if (str.equals("Your toy train moves ahead to some empty track.")) {
+      handleToyTrain("modeltrain", str, status);
+      return;
+    }
+
+    FightRequest.handleVillainLairRadio(node, status);
+
+    if (status.meteors && (str.contains("meteor") || str.contains("falling star"))) {
+      FightRequest.logText(str, status);
+    }
+
+    // Your potted plant swallows your opponent{s} whole.
+    if (status.carnivorous && str.contains("Your potted plant swallows")) {
+      Preferences.increment("_carnivorousPottedPlantWins", 1);
+      FightRequest.logText(str, status);
+    }
+
+    // You flap your bat wings gustily and launch yourself to your next adventure in an instant.
+    if (status.batwings && str.contains("You flap your bat wings gustily")) {
+      Preferences.increment("_batWingsFreeFights", 1);
+      FightRequest.logText(str, status);
+    }
+
+    if ( // KoL Con 13 Snowglobe
+    str.contains("KoL Con")
+        || str.contains("You notice some extra Meat")
+        ||
+        // Mr. Screege's spectacles
+        str.contains("You notice something valuable hidden")
+        ||
+        // Mr. Cheeng's spectacles
+        str.contains("You see a weird thing out of the corner of your eye, and you grab it")
+        || str.contains("You think you see a weird thing out of the corner of your eye")
+        ||
+        // Can of mixed everything
+        str.contains("Something falls out of your can of mixed everything.")) {
+      FightRequest.logText(str, status);
+    }
+
+    FightRequest.handleLuckyGoldRing(str, status);
+
+    // Serendipity
+    if (status.serendipity) {
+      if (str.contains("serendipitous")
+          || str.contains("luck is on your side")
+          || str.contains("How random")) {
+        FightRequest.logText(str, status);
+      }
+    }
+
+    // Research Points
+    if (status.mildManneredProfessor) {
+      FightRequest.checkResearchPoints(str, status);
+    }
+
+    // Retrospecs
+    if (str.contains("notice an item you missed earlier")) {
+      FightRequest.logText(str, status);
+    }
+
+    boolean VYKEAaction = status.VYKEACompanion != null && str.contains(status.VYKEACompanion);
+    if (VYKEAaction && status.logFamiliar) {
+      // VYKEA companion action
+      FightRequest.logText(str, status);
+    }
+
+    boolean ghostAction = status.ghost != null && str.contains(status.ghost);
+    if (ghostAction && status.logFamiliar) {
+      // Pastamancer ghost action
+      FightRequest.logText(str, status);
+    }
+
+    boolean horseAction = status.horse != null && str.contains(status.horse);
+    if (horseAction && status.logFamiliar) {
+      // Horsery horse action
+      FightRequest.logText(str, status);
+    }
+
+    int damage = FightRequest.parseNormalDamage(str);
+    if (damage != 0) {
+      FightRequest.logSpecialDamage(str, status);
+      FightRequest.logMonsterAttribute(status, damage, HEALTH);
+      MonsterStatusTracker.damageMonster(damage);
+      FightRequest.processComments(node, status);
+      return;
+    }
+  }
+
   private static final Pattern CANDY_PATTERN = Pattern.compile("\\+(\\d+) Candy");
   private static final Pattern PIGS_PATTERN = Pattern.compile("\\+(\\d+) Pigs Evicted!");
   private static final Pattern SECONDS_PATTERN = Pattern.compile("(\\d+)\\.(\\d+) Seconds Saved!");
 
   private static boolean handleGrimstone(
-      final TagNode node, final TagNode inode, final TagStatus status) {
+      final Element node, final Element inode, final TagStatus status) {
 
     if (!status.won) return false;
     if (inode == null) return false;
 
-    String src = inode.getAttributeByName("src");
-    if (src == null) return false;
+    String src = inode.attr("src");
+    if (src.isEmpty()) return false;
 
     String image = src.substring(src.lastIndexOf("/") + 1);
-    String text = node.getText().toString();
+    String text = node.wholeText();
 
     switch (image) {
       case "trophy.gif" -> {
@@ -7299,12 +7296,12 @@ public class FightRequest extends GenericRequest {
     }
   }
 
-  private static boolean handleEldritchHorror(TagNode node, TagStatus status) {
+  private static boolean handleEldritchHorror(Element node, TagStatus status) {
     if (!status.eldritchHorror) {
       return false;
     }
 
-    String str = node.getText().toString();
+    String str = node.wholeText();
 
     if (str.startsWith("You hear in your mind")
         || str.startsWith("Sssshhsssblllrrggghsssssggggrrgglsssshhssslblgl is done with you")) {
@@ -7379,14 +7376,14 @@ public class FightRequest extends GenericRequest {
   public static final Pattern KISS_PATTERN =
       Pattern.compile("(\\d+) kiss(?:es)? for winning(?: \\+(\\d+) for difficulty)?");
 
-  private static boolean handleKisses(TagNode node, TagStatus status) {
-    TagNode span = node.findElementByName("span", true);
+  private static boolean handleKisses(Element node, TagStatus status) {
+    Element span = node.children().select("span").first();
     if (span == null) {
       return false;
     }
 
-    String title = span.getAttributeByName("title");
-    if (title == null || !title.contains("kiss")) {
+    String title = span.attr("title");
+    if (!title.contains("kiss")) {
       return false;
     }
 
@@ -7395,7 +7392,7 @@ public class FightRequest extends GenericRequest {
       return true;
     }
 
-    String str = span.getText().toString();
+    String str = span.wholeText();
 
     // Log the actual kiss message
     FightRequest.logText(str, status);
@@ -7436,12 +7433,12 @@ public class FightRequest extends GenericRequest {
 
   public static final Pattern CRIMBO_PATTERN = Pattern.compile("It's from (.*?)!");
 
-  private static boolean handleCrimboPresent(TagNode node, TagStatus status) {
+  private static boolean handleCrimboPresent(Element node, TagStatus status) {
     if (!status.crimbo) {
       return false;
     }
 
-    String str = node.getText().toString();
+    String str = node.wholeText();
 
     Matcher matcher = FightRequest.CRIMBO_PATTERN.matcher(str);
     if (!matcher.find()) {
@@ -7455,8 +7452,8 @@ public class FightRequest extends GenericRequest {
 
   public static final Pattern CHAKRA_PATTERN = Pattern.compile("This Chakra is now (\\d+)% clean.");
 
-  private static boolean handleChakra(TagNode node, TagStatus status) {
-    String str = node.getText().toString();
+  private static boolean handleChakra(Element node, TagStatus status) {
+    String str = node.wholeText();
 
     Matcher matcher = FightRequest.CHAKRA_PATTERN.matcher(str);
     if (!matcher.find()) {
@@ -7501,14 +7498,14 @@ public class FightRequest extends GenericRequest {
     return true;
   }
 
-  private static void handleVillainLairRadio(TagNode node, TagStatus status) {
+  private static void handleVillainLairRadio(Element node, TagStatus status) {
     if (!KoLCharacter.inBondcore()) {
       return;
     }
     if (!status.location.equals("Super Villain's Lair")) {
       return;
     }
-    String str = node.getText().toString();
+    String str = node.wholeText();
     if (str.contains("crackle")) {
       FightRequest.logText(str);
       VillainLairDecorator.parseColorClue(str);
@@ -7578,8 +7575,8 @@ public class FightRequest extends GenericRequest {
     }
   }
 
-  private static boolean handleProselytization(TagNode node, TagStatus status) {
-    String str = node.getText().toString();
+  private static boolean handleProselytization(Element node, TagStatus status) {
+    String str = node.wholeText();
 
     Matcher matcher = FightRequest.PROSELYTIZATION_PATTERN.matcher(str);
     if (!matcher.find()) {
@@ -7596,16 +7593,16 @@ public class FightRequest extends GenericRequest {
     return true;
   }
 
-  private static void processComments(TagNode node, TagStatus status) {
-    for (BaseToken child : node.getAllChildren()) {
-      if (child instanceof CommentNode object) {
+  private static void processComments(Element node, TagStatus status) {
+    for (Node child : node.childNodes()) {
+      if (child instanceof Comment object) {
         FightRequest.processComment(object, status);
       }
     }
   }
 
-  private static void processComment(CommentNode object, TagStatus status) {
-    String content = object.getContent().trim();
+  private static void processComment(Comment object, TagStatus status) {
+    String content = object.getData().trim();
     if (content.equals("familiarmessage")) {
       status.famaction = true;
     } else if (content.equals("WINWINWIN")) {
@@ -7634,7 +7631,7 @@ public class FightRequest extends GenericRequest {
     // macroaction: comment handled elsewhere
   }
 
-  private static void processFamiliarAction(TagNode node, TagNode inode, TagStatus status) {
+  private static void processFamiliarAction(Element node, Element inode, TagStatus status) {
     status.famaction = false;
 
     String image = imgToString(inode);
@@ -7655,9 +7652,9 @@ public class FightRequest extends GenericRequest {
     // This will also remove the table text from the node text and
     // thus improve the message we log.
 
-    TagNode[] tables = node.getElementsByName("table", true);
-    for (TagNode table : tables) {
-      table.getParent().removeChild(table);
+    Elements tables = node.children().select("table");
+    for (Element table : tables) {
+      table.remove();
     }
 
     // Always separate multiple lines with slashes
@@ -7672,10 +7669,10 @@ public class FightRequest extends GenericRequest {
 
     // For some unknown reason, gladiator moves are tagged as <!--familiarmessage-->
     if (str.startsWith("New Special Move Unlocked")) {
-      TagNode bnode = node.findElementByName("b", true);
+      Element bnode = node.children().select("b").first();
       if (bnode != null) {
         FightRequest.logText(text, status);
-        String skill = bnode.getText().toString();
+        String skill = bnode.wholeText();
         ResponseTextParser.learnCombatMove(skill);
       }
       return;
@@ -7749,7 +7746,7 @@ public class FightRequest extends GenericRequest {
     }
 
     // Now process additional familiar actions
-    for (TagNode table : tables) {
+    for (Element table : tables) {
       FightRequest.processNode(table, status);
     }
   }
@@ -11290,7 +11287,7 @@ public class FightRequest extends GenericRequest {
   }
 
   public static void registerPokefamMove(int num, String move, String action, String description) {
-    if (action == null) {
+    if (action == null || action.isEmpty()) {
       return;
     }
 
