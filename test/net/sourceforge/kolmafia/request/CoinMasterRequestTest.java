@@ -7,6 +7,7 @@ import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withZonelessCoinmaster;
 import static internal.helpers.Player.withoutCoinmasterBuyItem;
 import static internal.helpers.Player.withoutCoinmasterSellItem;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -22,6 +23,7 @@ import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo23ElfArmoryRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -97,6 +99,7 @@ public class CoinMasterRequestTest {
               withHttpClientBuilder(builder),
               withPath(Path.STANDARD),
               withDisabledCoinmaster(Crimbo23ElfArmoryRequest.DATA),
+              withZonelessCoinmaster(Crimbo23ElfArmoryRequest.DATA),
               withProperty("crimbo23ArmoryControl", "elf"));
       try (cleanups) {
         client.addResponse(200, html("request/test_armory_elf_visit.html"));
@@ -140,6 +143,7 @@ public class CoinMasterRequestTest {
                   Crimbo23ElfArmoryRequest.DATA, ItemPool.get(ItemPool.KELFLAR_VEST)),
               withoutCoinmasterBuyItem(
                   Crimbo23ElfArmoryRequest.DATA, ItemPool.get(ItemPool.ELF_GUARD_HONOR_PRESENT)),
+              withZonelessCoinmaster(Crimbo23ElfArmoryRequest.DATA),
               withProperty("crimbo23ArmoryControl", "elf"));
       try (cleanups) {
         client.addResponse(200, html("request/test_armory_elf_visit.html"));
@@ -152,15 +156,9 @@ public class CoinMasterRequestTest {
             text.contains("Elf Guard Armory\tsell\t3\tElf Guard commandeering gloves\tROW1412"));
         assertFalse(
             text.contains("Elf Guard Armory\tsell\t3\tElf Guard officer's sidearm\tROW1413"));
-        // assertTrue(text.contains("Elf Guard Armory\tsell\t3\tKelflar vest\tROW1415"));
-        assertTrue(
-            text.contains("Elf Guard Armory\tROW1415\tElf Army machine parts (3)\tKelflar vest"));
+        assertTrue(text.contains("Elf Guard Armory\tsell\t3\tKelflar vest\tROW1415"));
         assertFalse(text.contains("Elf Guard Armory\tsell\t3\tElf Guard mouthknife\tROW1416"));
-        // assertTrue(text.contains("Elf Guard Armory\tbuy\t200\tElf Guard honor
-        // present\tROW1411"));
-        assertTrue(
-            text.contains(
-                "Elf Guard Armory\tROW1411\tElf Guard honor present\tElf Army machine parts"));
+        assertTrue(text.contains("Elf Guard Armory\tbuy\t200\tElf Guard honor present\tROW1411"));
 
         var requests = client.getRequests();
         assertThat(requests, hasSize(1));
@@ -200,6 +198,7 @@ public class CoinMasterRequestTest {
           new Cleanups(
               withHttpClientBuilder(builder),
               withPath(Path.STANDARD),
+              withZonelessCoinmaster(Crimbo23ElfArmoryRequest.DATA),
               withProperty("crimbo23ArmoryControl", "elf"),
               withItem(ItemPool.ELF_GUARD_COMMANDEERING_GLOVES, 14),
               withItem(ItemPool.KELFLAR_VEST, 25),
@@ -236,6 +235,7 @@ public class CoinMasterRequestTest {
           new Cleanups(
               withHttpClientBuilder(builder),
               withPath(Path.STANDARD),
+              withZonelessCoinmaster(Crimbo23ElfArmoryRequest.DATA),
               withProperty("crimbo23ArmoryControl", "elf"),
               withItem(ItemPool.ELF_GUARD_COMMANDEERING_GLOVES, 14),
               withItem(ItemPool.KELFLAR_VEST, 25),
@@ -273,6 +273,7 @@ public class CoinMasterRequestTest {
           new Cleanups(
               withHttpClientBuilder(builder),
               withPath(Path.STANDARD),
+              withZonelessCoinmaster(Crimbo23ElfArmoryRequest.DATA),
               withProperty("crimbo23ArmoryControl", "elf"),
               withItem(ItemPool.ELF_GUARD_HONOR_PRESENT, 0),
               withItem(ItemPool.ELF_ARMY_MACHINE_PARTS, 277));
@@ -319,6 +320,7 @@ public class CoinMasterRequestTest {
           new Cleanups(
               withHttpClientBuilder(builder),
               withPath(Path.STANDARD),
+              withZonelessCoinmaster(Crimbo23ElfArmoryRequest.DATA),
               withProperty("crimbo23ArmoryControl", "elf"),
               withItem(ItemPool.ELF_GUARD_HONOR_PRESENT, 0),
               withItem(ItemPool.ELF_ARMY_MACHINE_PARTS, 277));
@@ -366,6 +368,7 @@ public class CoinMasterRequestTest {
           new Cleanups(
               withHttpClientBuilder(builder),
               withPath(Path.STANDARD),
+              withZonelessCoinmaster(Crimbo23ElfArmoryRequest.DATA),
               withProperty("crimbo23ArmoryControl", "elf"),
               withItem(ItemPool.ELF_GUARD_COMMANDEERING_GLOVES, 14),
               withItem(ItemPool.ELF_ARMY_MACHINE_PARTS, 49));
@@ -413,6 +416,7 @@ public class CoinMasterRequestTest {
           new Cleanups(
               withHttpClientBuilder(builder),
               withPath(Path.STANDARD),
+              withZonelessCoinmaster(Crimbo23ElfArmoryRequest.DATA),
               withProperty("crimbo23ArmoryControl", "elf"),
               withItem(ItemPool.ELF_GUARD_COMMANDEERING_GLOVES, 14),
               withItem(ItemPool.ELF_ARMY_MACHINE_PARTS, 49));

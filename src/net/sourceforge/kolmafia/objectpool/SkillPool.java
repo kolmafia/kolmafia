@@ -127,6 +127,10 @@ public class SkillPool {
   public static final int PERPETRATE_MILD_EVIL = 226;
   public static final int CHITINOUS_SOUL = 227;
   public static final int JUST_THE_FACTS = 228;
+  public static final int ELF_GUARD_COOKING = 229;
+  public static final int OLD_SCHOOL_COCKTAILCRAFTING = 230;
+  public static final int HOLIDAY_MULTITASKING = 240;
+  public static final int OVERCLOCK10 = 243;
   public static final int SUPER_ADVANCED_MEATSMITHING = 1006;
   public static final int WALRUS_TONGUE = 1010;
   public static final int BATTER_UP = 1014;
@@ -605,6 +609,23 @@ public class SkillPool {
   public static final int SWOOP_LIKE_A_BAT = 7530;
   public static final int SUMMON_CAULDRON_OF_BATS = 7531;
   public static final int ASSERT_YOUR_AUTHORITY = 7532;
+  public static final int CHECK_FOR_PHOTOBOOTH_SUPPLIES = 7533;
+  public static final int IRON_TRICORN_HEADBUTT = 7534;
+  public static final int THROW_MILITARY_ORB = 7535;
+  public static final int PLACE_YOUR_HAT_ON_THEIR_HEAD = 7536;
+  public static final int EGG_THE_FACE = 7537;
+  public static final int MCHUGELARGE_SLASH = 7538;
+  public static final int MCHUGELARGE_STAB = 7539;
+  public static final int MCHUGELARGE_AVALANCHE = 7540;
+  public static final int MCHUGELARGE_SKI_PLOW = 7539;
+  public static final int THROW_CYBER_ROCK = 7542;
+  public static final int BRUTE_FORCE_HAMMER = 7543;
+  public static final int INJECT_MALWARE = 7544;
+  public static final int ENCRYPTED_SHURIKEN = 7545;
+  public static final int REFRESH_HP = 7546;
+  public static final int LAUNCH_LOGIC_GRENADE = 7547;
+  public static final int DEPLOY_GLITCHED_MALWARE = 7548;
+  public static final int THRUST_YOUR_GEOFENCING_RAPIER = 7554;
 
   public static final int GOOD_SINGING_VOICE = 11016;
   public static final int BANISHING_SHOUT = 11020;

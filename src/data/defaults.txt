@@ -509,6 +509,7 @@ user	cozyCounter6334	0
 user	craftingClay	-1
 user	craftingLeather	-1
 user	craftingStraw	-1
+user	crAlways	false
 user	crappyCameraMonster
 user	crimbo16BeardChakraCleanliness	0
 user	crimbo16BootsChakraCleanliness	0
@@ -562,6 +563,7 @@ user	currentSpecialBountyItem
 user	currentSITSkill	none
 user	cursedMagnifyingGlassCount	0
 user	customCombatScript	default
+user	cyberDatastickCollected	false
 user	cyrptAlcoveEvilness	0
 user	cyrptCrannyEvilness	0
 user	cyrptNicheEvilness	0
@@ -657,6 +659,7 @@ user	encountersUntilNEPChoice	7
 user	encountersUntilSRChoice	11
 user	enamorangMonster
 user	enamorangMonsterTurn
+user	enqueueForConsumption	true
 user	ensorcelee
 user	ensorceleeLevel	0
 user	entauntaunedColdRes	0
@@ -1139,6 +1142,7 @@ user	mineLayout4
 user	mineLayout5
 user	mineLayout6
 user	miniAdvClass	0
+user	miniKiwiAiolisUsed	0
 user	miniMartinisDrunk	0
 user	moleTunnelLevel	0
 user	moonTuned	false
@@ -1268,6 +1272,7 @@ user	primaryLabCheerCoreGrabbed	false
 user	prismaticSummons	0
 user	procrastinatorLanguageFluency	0
 user	promptAboutCrafting	1
+user	pumpkinSpiceWhorlUsed	false
 user	puzzleChampBonus	5
 user	pyramidPosition	1
 user	pyramidBombUsed	false
@@ -1479,6 +1484,8 @@ user	skillBurn90	-100
 user	skillBurn153	-100
 user	skillBurn154	-100
 user	skillBurn155	-100
+user	skillBurn236	-100
+user	skillBurn237	-100
 user	skillBurn1019	-100
 user	skillBurn5017	-100
 user	skillBurn6014	-100
@@ -1606,6 +1613,8 @@ user	sugarCounter4191	0
 user	summonAnnoyanceCost	11
 user	superconductorDefeated	false
 user	superficiallyInterestedMonster
+user	suppressCyberRealmDarkMode	false
+user	suppressCyberRealmGreenImages	false
 user	suppressInappropriateNags	false
 user	suppressPowerPixellation	false
 user	suppressMallPriceCacheMessages	true
@@ -1641,6 +1650,8 @@ user	tomeSummons	0
 user	totalCharitableDonations	0
 user	trackLightsOut	false
 user	trackVoteMonster	false
+user	trackedMonsters
+user	trackedPhyla
 user	trainsetConfiguration	
 user	trainsetPosition	0
 user	turtleBlessingTurns	0
@@ -1875,6 +1886,7 @@ user	_candyCaneSwordOvergrownShrine	false
 user	_candyCaneSwordPalindome	false
 user	_candyCaneSwordSouthOfTheBorder	false
 user	_candyCaneSwordSpookyForest	false
+user	_candyEggsDeviled	0
 user	_candySummons	0
 user	_captainHagnkUsed	0
 user	_carboLoaded	false
@@ -1942,9 +1954,24 @@ user	_creepyVoodooDollUsed	false
 user	_crimbo21ColdResistance	0
 user	_crimboTraining	false
 user	_crimboTree	false
+user	_crToday	false
 user	_currentDartboard
 user	_cursedKegUsed	false
 user	_cursedMicrowaveUsed	false
+user	_cyberFreeFights	0
+user	_cyberTrashCollected	false
+user	_cyberZone1Defense
+user	_cyberZone1Hacker
+user	_cyberZone1Owner
+user	_cyberZone1Turns	0
+user	_cyberZone2Defense
+user	_cyberZone2Hacker
+user	_cyberZone2Owner
+user	_cyberZone2Turns	0
+user	_cyberZone3Defense
+user	_cyberZone3Hacker
+user	_cyberZone3Owner
+user	_cyberZone3Turns	0
 user	_dailyDungeonMalwareUsed	false
 user	_dailySpecial
 user	_dailySpecialPrice	0
@@ -1987,6 +2014,8 @@ user	_edDefeats	0
 user	_edLashCount	0
 user	_eldritchHorrorEvoked	false
 user	_eldritchTentacleFought	false
+user	_eldritchTentaclesFoughtToday	0
+user	_elfGuardCookingUsed	0
 user	_elronsCasts	0
 user	_emberingHulkFought	false
 user	_enamorangs	0
@@ -2111,6 +2140,7 @@ user	_hobbyHorseUsed	false
 user	_hoboUnderlingSummons	0
 user	_hodgmansBlanketDrunk	false
 user	_holidayFunUsed	false
+user	_holidayMultitaskingUsed	0
 user	_holoWristCrystal	false
 user	_holoWristDrops	0
 user	_holoWristProgress	0
@@ -2135,6 +2165,7 @@ user	_iceHotelRoomsRaided	false
 user	_iceSculptureUsed	false
 user	_incredibleSelfEsteemCast	false
 user	_infernoDiscoVisited	false
+user	_infiniteJellyUsed	false
 user	_inigosCasts	0
 user	_internetDailyDungeonMalwareBought	false
 user	_internetGallonOfMilkBought	false
@@ -2146,6 +2177,7 @@ user	_interviewMasquerade	false
 user	_interviewVlad	false
 user	_inquisitorsUnidentifiableObjectUsed	false
 user	_ironicMoustache	false
+user	_ironTricornHeadbuttUsed	0
 user	_jackassPlumberGame	false
 user	_jarlsCheeseSummoned	false
 user	_jarlsCreamSummoned	false
@@ -2166,6 +2198,7 @@ user	_jiggleSteak	0
 user	_jingleBellUsed	false
 user	_jitbCharge	0
 user	_jukebox	false
+user	_juneCleaverAdvs	0
 user	_juneCleaverFightsLeft	1
 user	_juneCleaverEncounters	0
 user	_juneCleaverStench	1
@@ -2255,6 +2288,9 @@ user	_mayflowerDrops	0
 user	_mayflySummons	0
 user	_mayoDeviceRented	false
 user	_mayoTankSoaked	false
+user	_mcHugeLargeAvalancheUses	0
+user	_mcHugeLargeSkiPlowUses	0
+user	_mcHugeLargeSlashUses	0
 user	_meatballMachineUsed	false
 user	_meatifyMatterUsed	false
 user	_mediumSiphons	0
@@ -2302,6 +2338,7 @@ user	_noHatModifier
 user	_noobSkillCount	0
 user	_nuclearStockpileUsed	0
 user	_oilExtracted	0
+user	_oldSchoolCocktailCraftingUsed	0
 user	_olfactionsUsed	0
 user	_olympicSwimmingPool	false
 user	_olympicSwimmingPoolItemFound	false
@@ -2334,6 +2371,7 @@ user	_pieDrops	0
 user	_piePartsCount	0
 user	_pingPongGame	false
 user	_pirateBellowUsed	false
+user	_pirateDinghyUsed	false
 user	_pirateForkUsed	false
 user	_pirateRealmCrewmate
 user	_pirateRealmCrewmate1
@@ -2447,6 +2485,7 @@ user	_snokebombUsed	0
 user	_snowballFactoryUsed	false
 user	_snowconeSummons	0
 user	_snowglobeDrops	0
+user	_snowmanHatPlaceUsed	0
 user	_snowSuitCount	0
 user	_sobrieTeaUsed	false
 user	_softwareGlitchTurnReceived	false
@@ -2484,6 +2523,7 @@ user	_spelunkingTalesDrops	0
 user	_spikolodonSpikeUses	0
 user	_spinmasterLatheVisited	false
 user	_spinningWheel	false
+user	_spiritOfTheMountainsAdvs	0
 user	_spookyAirportToday	false
 user	_spookyJellyUses	0
 user	_stabonicScrollUsed	false
@@ -3398,6 +3438,13 @@ user	choiceAdventure1539	2
 user	choiceAdventure1540	2
 user	choiceAdventure1541	2
 user	choiceAdventure1542	2
+user	choiceAdventure1545	1
+user	choiceAdventure1546	1
+user	choiceAdventure1547	1
+user	choiceAdventure1548	1
+user	choiceAdventure1549	1
+user	choiceAdventure1550	1
+
 user	lockedItem4637	true
 user	lockedItem4638	true
 user	lockedItem4639	true

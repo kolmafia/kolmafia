@@ -22,6 +22,7 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.moods.ManaBurnManager;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
@@ -48,6 +49,14 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.persistence.RestoresDatabase;
 import net.sourceforge.kolmafia.persistence.TCRSDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.coinmaster.AWOLQuartermasterRequest;
+import net.sourceforge.kolmafia.request.coinmaster.BURTRequest;
+import net.sourceforge.kolmafia.request.coinmaster.FudgeWandRequest;
+import net.sourceforge.kolmafia.request.coinmaster.HermitRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.FDKOLRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.MrStore2002Request;
+import net.sourceforge.kolmafia.request.concoction.MultiUseRequest;
+import net.sourceforge.kolmafia.request.concoction.SingleUseRequest;
 import net.sourceforge.kolmafia.session.BugbearManager;
 import net.sourceforge.kolmafia.session.BugbearManager.Bugbear;
 import net.sourceforge.kolmafia.session.ChoiceControl;
@@ -139,7 +148,7 @@ public class UseItemRequest extends GenericRequest {
   // that we want to display to the user, if item usage is from the GUI.
   protected boolean showHTML = true;
 
-  protected static AdventureResult lastItemUsed = null;
+  public static AdventureResult lastItemUsed = null;
   protected static AdventureResult lastHelperUsed = null;
   protected static String currentURL = "";
   private static int currentItemId = -1;
@@ -6233,6 +6242,37 @@ public class UseItemRequest extends GenericRequest {
       case ItemPool.STRUCTURAL_EMBER:
         Preferences.setBoolean("_structuralEmberUsed", true);
         break;
+      case ItemPool.PIRATE_DINGHY:
+        Preferences.setBoolean("_pirateDinghyUsed", true);
+        Preferences.setInteger("lastIslandUnlock", KoLCharacter.getAscensions());
+        break;
+      case ItemPool.PUMPKIN_SPICE_WHORL:
+        Preferences.setBoolean("pumpkinSpiceWhorlUsed", true);
+        if (responseText.contains("You can't add any more")) {
+          return;
+        }
+        break;
+
+      case ItemPool.CR_KEYCODE:
+
+        // You take the keycode to your friendly neighborhood
+        // locksmith and do some social engineering to convince the
+        // kid behind the counter to cut you a new key.
+
+        Preferences.setBoolean("crAlways", true);
+        if (!responseText.contains("cut you a new key")) {
+          return;
+        }
+        NamedListenerRegistry.fireChange("(coinmaster)");
+        break;
+
+      case ItemPool.PRINTED_SERVER_KEY:
+        if (responseText.contains("You've already got access to the server room.")) {
+          return;
+        }
+        Preferences.setBoolean("_crToday", true);
+        NamedListenerRegistry.fireChange("(coinmaster)");
+        break;
     }
 
     if (CampgroundRequest.isWorkshedItem(itemId)) {
@@ -6895,6 +6935,10 @@ public class UseItemRequest extends GenericRequest {
       case ItemPool.REPLICA_MR_STORE_2002_CATALOG:
         // This redirects to shop.php
         Preferences.setBoolean("_2002MrStoreCreditsCollected", true);
+        break;
+
+      case ItemPool.MINI_KIWI_AIOLI:
+        Preferences.increment("miniKiwiAiolisUsed", count);
         break;
     }
 

@@ -2,7 +2,9 @@ package net.sourceforge.kolmafia;
 
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withEquipped;
+import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withNextMonster;
+import static internal.helpers.Player.withPasswordHash;
 import static internal.helpers.Player.withProperty;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
@@ -15,6 +17,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.CryptManager;
@@ -473,6 +476,133 @@ public class RequestEditorKitTest {
             modifiers,
             containsInAnyOrder("appendimg:adventureimages\\/ol_drunk.gif:0:0", "floating"));
       }
+    }
+  }
+
+  @Nested
+  class RelayDecorations {
+    @Test
+    void decoratesNewAreaUnlocked() {
+      var buffer = new StringBuffer(html("request/test_place_mclargehuge_trapper_give_quest.html"));
+      RequestEditorKit.getFeatureRichHTML(
+          "place.php?whichplace=mclargehuge&action=trappercabin", buffer, true);
+      var contents = buffer.toString();
+      // This is not the best example of why we add links, since KoL
+      // itself shows you the updated Mt. McLargeHuge, but we add links
+      // to both locations, anyway.
+      assertThat(
+          contents,
+          containsString(
+              "<a class=nounder href=\"adventure.php?snarfblat=271\"><b>The Goatlet</b></a>"));
+      assertThat(
+          contents,
+          containsString(
+              "<a class=nounder href=\"adventure.php?snarfblat=270\"><b>Itznotyerzitz Mine</b>"));
+    }
+
+    @Test
+    void decoratesABooPeakTheHorror() {
+      var cleanups =
+          new Cleanups(
+              withProperty("relayShowSpoilers", true),
+              withItem(ItemPool.BOO_CLUE),
+              withPasswordHash("BOO"));
+      try (cleanups) {
+        var buffer = new StringBuffer(html("request/test_aboo_peak_flee_the_horror.html"));
+        RequestEditorKit.getFeatureRichHTML("choice.php?whichchoice=611&option=2", buffer, true);
+        var contents = buffer.toString();
+        var expected =
+            "<a href=\"javascript:singleUse('inv_use.php','which=3&whichitem="
+                + ItemPool.BOO_CLUE
+                + "&pwd=BOO&ajax=1');void(0);\">Use another A-Boo Clue</a>";
+        assertThat(contents, containsString(expected));
+      }
+    }
+
+    @Test
+    void decoratesHauntedBallroomRottingMatilda() {
+      var cleanups =
+          new Cleanups(
+              withProperty("relayShowSpoilers", true),
+              withItem(ItemPool.DANCE_CARD),
+              withPasswordHash("DANCE"));
+      try (cleanups) {
+        var buffer = new StringBuffer(html("request/test_haunted_ballroom_rotting_matilda.html"));
+        RequestEditorKit.getFeatureRichHTML(
+            "adventure.php?snarfblat=" + AdventurePool.HAUNTED_BALLROOM, buffer, true);
+        var contents = buffer.toString();
+        var expected =
+            "<a href=\"javascript:singleUse('inv_use.php','which=3&whichitem="
+                + ItemPool.DANCE_CARD
+                + "&pwd=DANCE&ajax=1');void(0);\">Use another dance card</a>";
+        assertThat(contents, containsString(expected));
+      }
+    }
+  }
+
+  @Nested
+  class CyberRealm {
+    @Test
+    void decorationControlledBySettings() {
+      var cleanups =
+          new Cleanups(
+              withProperty("suppressCyberRealmDarkMode", false),
+              withProperty("suppressCyberRealmGreenImages", false));
+      try (cleanups) {
+        var buffer = new StringBuffer(html("request/test_fight_cyberrealm.html"));
+        RequestEditorKit.getFeatureRichHTML("fight.php", buffer, true);
+        var contents = buffer.toString();
+        assertTrue(contents.contains("fixedsys"));
+        assertTrue(contents.contains("cyberit"));
+      }
+    }
+
+    @Test
+    void canSuppressDarkMode() {
+      var cleanups =
+          new Cleanups(
+              withProperty("suppressCyberRealmDarkMode", true),
+              withProperty("suppressCyberRealmGreenImages", false));
+      try (cleanups) {
+        var buffer = new StringBuffer(html("request/test_fight_cyberrealm.html"));
+        RequestEditorKit.getFeatureRichHTML("fight.php", buffer, true);
+        var contents = buffer.toString();
+        assertFalse(contents.contains("fixedsys"));
+      }
+    }
+
+    @Test
+    void canSuppressGreenImages() {
+      var cleanups =
+          new Cleanups(
+              withProperty("suppressCyberRealmDarkMode", false),
+              withProperty("suppressCyberRealmGreenImages", true));
+      try (cleanups) {
+        var buffer = new StringBuffer(html("request/test_fight_cyberrealm.html"));
+        RequestEditorKit.getFeatureRichHTML("fight.php", buffer, true);
+        var contents = buffer.toString();
+        assertFalse(contents.contains("cyberit"));
+      }
+    }
+
+    @Test
+    void canDetectExistingReturnToNetworkMap() {
+      var buffer = new StringBuffer(html("request/test_adventure_hacked_cyberrealm_zone1.html"));
+      var original = buffer.toString();
+      RequestEditorKit.getFeatureRichHTML("adventure.php?snarfblat=585", buffer, true);
+      var contents = buffer.toString();
+      assertTrue(original.contains("Back to the Network Map"));
+      assertTrue(contents.contains("Back to the Network Map"));
+    }
+
+    @Test
+    void canInsertNewReturnToNetworkMap() {
+      var buffer = new StringBuffer(html("request/test_adventure_hacked_cyberrealm_zone2.html"));
+      var original = buffer.toString();
+      RequestEditorKit.getFeatureRichHTML("adventure.php?snarfblat=586", buffer, true);
+      var contents = buffer.toString();
+      assertFalse(original.contains("Back to the Network Map"));
+      assertTrue(contents.contains("Back to the Network Map"));
     }
   }
 

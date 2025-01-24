@@ -670,6 +670,33 @@ public class EquipmentManager {
       case ItemPool.SHERIFF_BADGE, ItemPool.SHERIFF_PISTOL, ItemPool.SHERIFF_MOUSTACHE -> {
         KoLCharacter.removeAvailableSkill(SkillPool.ASSERT_YOUR_AUTHORITY);
       }
+      case ItemPool.PHOTO_BOOTH_SUPPLY_LIST -> {
+        KoLCharacter.removeAvailableSkill(SkillPool.CHECK_FOR_PHOTOBOOTH_SUPPLIES);
+      }
+      case ItemPool.IRON_TRICORN_HAT -> {
+        KoLCharacter.removeAvailableSkill(SkillPool.IRON_TRICORN_HEADBUTT);
+      }
+      case ItemPool.MILITARY_ORB -> {
+        KoLCharacter.removeAvailableSkill(SkillPool.THROW_MILITARY_ORB);
+      }
+      case ItemPool.SNOWMAN_ENCHANTING_TOPHAT -> {
+        KoLCharacter.removeAvailableSkill(SkillPool.PLACE_YOUR_HAT_ON_THEIR_HEAD);
+      }
+      case ItemPool.EGG_GUN -> {
+        KoLCharacter.removeAvailableSkill(SkillPool.EGG_THE_FACE);
+      }
+      case ItemPool.MCHUGELARGE_LEFT_POLE -> {
+        KoLCharacter.removeAvailableSkill(SkillPool.MCHUGELARGE_SLASH);
+      }
+      case ItemPool.MCHUGELARGE_RIGHT_POLE -> {
+        KoLCharacter.removeAvailableSkill(SkillPool.MCHUGELARGE_STAB);
+      }
+      case ItemPool.MCHUGELARGE_LEFT_SKI -> {
+        KoLCharacter.removeAvailableSkill(SkillPool.MCHUGELARGE_AVALANCHE);
+      }
+      case ItemPool.MCHUGELARGE_RIGHT_SKI -> {
+        KoLCharacter.removeAvailableSkill(SkillPool.MCHUGELARGE_SKI_PLOW);
+      }
     }
   }
 
@@ -944,6 +971,33 @@ public class EquipmentManager {
             && KoLCharacter.hasEquipped(ItemPool.SHERIFF_PISTOL)) {
           KoLCharacter.addAvailableSkill(SkillPool.ASSERT_YOUR_AUTHORITY);
         }
+      }
+      case ItemPool.PHOTO_BOOTH_SUPPLY_LIST -> {
+        KoLCharacter.addAvailableSkill(SkillPool.CHECK_FOR_PHOTOBOOTH_SUPPLIES);
+      }
+      case ItemPool.IRON_TRICORN_HAT -> {
+        KoLCharacter.addAvailableSkill(SkillPool.IRON_TRICORN_HEADBUTT);
+      }
+      case ItemPool.MILITARY_ORB -> {
+        KoLCharacter.addAvailableSkill(SkillPool.THROW_MILITARY_ORB);
+      }
+      case ItemPool.SNOWMAN_ENCHANTING_TOPHAT -> {
+        KoLCharacter.addAvailableSkill(SkillPool.PLACE_YOUR_HAT_ON_THEIR_HEAD);
+      }
+      case ItemPool.EGG_GUN -> {
+        KoLCharacter.addAvailableSkill(SkillPool.EGG_THE_FACE);
+      }
+      case ItemPool.MCHUGELARGE_LEFT_POLE -> {
+        KoLCharacter.addAvailableSkill(SkillPool.MCHUGELARGE_SLASH);
+      }
+      case ItemPool.MCHUGELARGE_RIGHT_POLE -> {
+        KoLCharacter.addAvailableSkill(SkillPool.MCHUGELARGE_STAB);
+      }
+      case ItemPool.MCHUGELARGE_LEFT_SKI -> {
+        KoLCharacter.addAvailableSkill(SkillPool.MCHUGELARGE_AVALANCHE);
+      }
+      case ItemPool.MCHUGELARGE_RIGHT_SKI -> {
+        KoLCharacter.addAvailableSkill(SkillPool.MCHUGELARGE_SKI_PLOW);
       }
     }
   }

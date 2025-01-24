@@ -766,6 +766,10 @@ PirateRealm Island	adventure=531	DiffLevel: mid Env: outdoor Stat: 0 nowander	Re
 PirateRealm Island	adventure=531	DiffLevel: mid Env: outdoor Stat: 0 nowander	Jack's Hideout
 PirateRealm Island	adventure=531	DiffLevel: mid Env: outdoor Stat: 0 nowander	The Temple
 
+Server Room	adventure=585	DiffLevel: unknown Env: indoor Stat: 0	Cyberzone 1
+Server Room	adventure=586	DiffLevel: unknown Env: indoor Stat: 0	Cyberzone 2
+Server Room	adventure=587	DiffLevel: unknown Env: indoor Stat: 0	Cyberzone 3
+
 # Obsolete areas that nevertheless are reported as possibilities for the autumnaton
 Obsolete	adventure=18	DiffLevel: unknown Env: unknown Stat: 10	Degrassi Knoll
 Obsolete	adventure=99	DiffLevel: unknown Env: unknown Stat: 20	The Road to White Citadel

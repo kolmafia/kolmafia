@@ -20,18 +20,18 @@ import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.BarrelShrineRequest;
-import net.sourceforge.kolmafia.request.BurningLeavesRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest.SpeakeasyDrink;
-import net.sourceforge.kolmafia.request.CombineMeatRequest;
-import net.sourceforge.kolmafia.request.CreateItemRequest;
-import net.sourceforge.kolmafia.request.MayamRequest;
-import net.sourceforge.kolmafia.request.PhotoBoothRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
-import net.sourceforge.kolmafia.request.StillSuitRequest;
-import net.sourceforge.kolmafia.request.TakerSpaceRequest;
-import net.sourceforge.kolmafia.request.TinkeringBenchRequest;
+import net.sourceforge.kolmafia.request.concoction.BarrelShrineRequest;
+import net.sourceforge.kolmafia.request.concoction.BurningLeavesRequest;
+import net.sourceforge.kolmafia.request.concoction.CombineMeatRequest;
+import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
+import net.sourceforge.kolmafia.request.concoction.MayamRequest;
+import net.sourceforge.kolmafia.request.concoction.PhotoBoothRequest;
+import net.sourceforge.kolmafia.request.concoction.StillSuitRequest;
+import net.sourceforge.kolmafia.request.concoction.TakerSpaceRequest;
+import net.sourceforge.kolmafia.request.concoction.shop.TinkeringBenchRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -1234,6 +1234,11 @@ public class Concoction implements Comparable<Concoction> {
             turnFreeOnly
                 ? ConcoctionDatabase.turnFreeCookingLimit
                 : ConcoctionDatabase.cookingLimit;
+      } else if (this.mixingMethod == CraftingType.MIX_FANCY) {
+        c =
+            turnFreeOnly
+                ? ConcoctionDatabase.turnFreeCocktailcraftingLimit
+                : ConcoctionDatabase.cocktailcraftingLimit;
       } else {
         c = (turnFreeOnly ? ConcoctionDatabase.turnFreeLimit : ConcoctionDatabase.adventureLimit);
       }
@@ -1408,6 +1413,9 @@ public class Concoction implements Comparable<Concoction> {
     }
     if (this.mixingMethod == CraftingType.COOK_FANCY) {
       freeCrafts += ConcoctionDatabase.getFreeCookingTurns();
+    }
+    if (this.mixingMethod == CraftingType.MIX_FANCY) {
+      freeCrafts += ConcoctionDatabase.getFreeCocktailcraftingTurns();
     }
     return Math.max(runningTotal - freeCrafts, 0);
   }

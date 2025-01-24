@@ -292,22 +292,41 @@ public class MallSearchFrame extends GenericPanelFrame {
       return "";
     }
 
-    long totalPrice = 0;
-    int totalPurchases = 0;
     PurchaseRequest currentPurchase = null;
+    int totalPurchases = 0;
+    long totalPrice = 0;
+    String currency = "";
 
-    for (int i = 0; i < purchases.length; ++i) {
-      currentPurchase = purchases[i];
-      totalPurchases += currentPurchase.getLimit();
-      totalPrice += (long) currentPurchase.getLimit() * (long) currentPurchase.getPrice();
+    if (purchases.length == 1) {
+      // Accommodate currencies which are not Meat
+      currentPurchase = purchases[0];
+      totalPurchases = currentPurchase.getLimit();
+      currency = currentPurchase.getCurrency(totalPurchases);
+      if (!currency.startsWith("(")) {
+        totalPrice = totalPurchases * currentPurchase.getPrice();
+      }
+    } else {
+      // With multiple shops selected, what to do if one is a coinmaster
+      // and the rest sell for Meat?
+      for (int i = 0; i < purchases.length; ++i) {
+        currentPurchase = purchases[i];
+        totalPurchases += currentPurchase.getLimit();
+        totalPrice += (long) currentPurchase.getLimit() * (long) currentPurchase.getPrice();
+      }
+      currency = currentPurchase.getCurrency(totalPrice);
     }
 
-    return KoLConstants.COMMA_FORMAT.format(totalPurchases)
-        + " "
-        + currentPurchase.getItem().getPluralName(totalPurchases)
-        + " for "
-        + KoLConstants.COMMA_FORMAT.format(totalPrice)
-        + " "
-        + currentPurchase.getCurrency(totalPrice);
+    StringBuilder buf = new StringBuilder();
+    buf.append(KoLConstants.COMMA_FORMAT.format(totalPurchases));
+    buf.append(" ");
+    buf.append(currentPurchase.getItem().getPluralName(totalPurchases));
+    buf.append(" for ");
+    if (totalPrice > 0) {
+      buf.append(KoLConstants.COMMA_FORMAT.format(totalPrice));
+      buf.append(" ");
+    }
+    buf.append(currency);
+
+    return buf.toString();
   }
 }

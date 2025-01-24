@@ -363,13 +363,13 @@ public class MushroomScriptPanel extends JPanel {
         case 0:
           if (MushroomScriptPanel.this.originalData[this.dayIndex][this.squareIndex].equals("__")) {
             this.loopIndex = 1;
+            return "kb";
           } else {
             return "__";
           }
 
           // In all other cases, return the next element
           // in the mushroom toggle cycle.
-
         case 1:
           return "kb";
         case 2:

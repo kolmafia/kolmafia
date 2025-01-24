@@ -32,7 +32,7 @@ public class DataFileTest {
             }),
         Arguments.of(
             "statuseffects.txt",
-            1,
+            4,
             new String[] {
               "\\d+", // effectid
               ".+", // name
@@ -71,7 +71,7 @@ public class DataFileTest {
             }),
         Arguments.of(
             "spleenhit.txt",
-            2,
+            3,
             new String[] {
               ".+", // name
               "\\d+", // fullness

@@ -282,13 +282,14 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
         UseSkillRequest.REPLICA_POWERFUL_GLOVE,
         UseSkillRequest.DESIGNER_SWEATPANTS,
         UseSkillRequest.REPLICA_DESIGNER_SWEATPANTS,
+        UseSkillRequest.BAT_WINGS,
       };
 
   // The number of items at the end of AVOID_REMOVAL that are simply
   // there to avoid removal - there's no point in equipping them
   // temporarily during casting:
 
-  private static final int AVOID_REMOVAL_ONLY = 6;
+  private static final int AVOID_REMOVAL_ONLY = 7;
 
   private enum SkillStatus {
     // The skill was used successfully.
@@ -852,6 +853,15 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
             ItemDatabase.getConsumptionType(item.getItemId()));
 
     if (slotType != Slot.ACCESSORY1) {
+      if (skillId == SkillPool.REST_UPSIDE_DOWN) {
+        // this is a HP restore, so we need to ensure that the current back item doesn't have +HP
+        if (!UseSkillRequest.isValidSwitch(Slot.CONTAINER, item, skillId)) {
+          KoLmafia.updateDisplay(
+              MafiaState.ERROR,
+              "Replacing back item with bat wings will reduce max HP and may loop.");
+          return;
+        }
+      }
       (new EquipmentRequest(item, slotType)).run();
       return;
     }

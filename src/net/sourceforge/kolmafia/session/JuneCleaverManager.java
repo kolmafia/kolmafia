@@ -95,6 +95,10 @@ public class JuneCleaverManager {
     } else if (option == 1 || option == 2 || option == 3) {
       Preferences.increment("_juneCleaverEncounters");
       Preferences.setInteger("_juneCleaverFightsLeft", fightsLeft(false));
+      if (id == 1467 && option == 3) {
+        // track advenutures gained from Poetic Justice
+        Preferences.increment("_juneCleaverAdvs", 5);
+      }
     }
   }
 }

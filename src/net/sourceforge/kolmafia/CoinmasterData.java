@@ -14,12 +14,15 @@ import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.HermitRequest;
+import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
+import net.sourceforge.kolmafia.request.coinmaster.HermitRequest;
+import net.sourceforge.kolmafia.shop.ShopRow;
+import net.sourceforge.kolmafia.shop.ShopRowDatabase;
 
 public class CoinmasterData implements Comparable<CoinmasterData> {
 
@@ -52,6 +55,7 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   private Pattern tokenPattern = null;
   private AdventureResult item = null;
   private String property = null;
+  private String zone = null;
 
   // For (old style) Coinmasters that deal with "rows", a map from item id to row number
   private Map<Integer, Integer> itemRows = null;
@@ -88,6 +92,7 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   public String pluralToken = null;
   private AdventureResult tokenItem = null;
   private Set<AdventureResult> currencies = null;
+  private String rootZone = null;
 
   // Functional fields to obviate overriding methods
   private Function<Integer, Integer> getBuyPrice = this::getBuyPriceInternal;
@@ -712,6 +717,11 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
         .withCountPattern(GenericRequest.QUANTITY_PATTERN);
   }
 
+  public CoinmasterData inZone(String zone) {
+    this.zone = zone;
+    return this;
+  }
+
   // Getters for mandatory fields
 
   public final String getMaster() {
@@ -765,11 +775,31 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
     return this.shopRows;
   }
 
+  public final ShopRow getShopRow(int itemId) {
+    if (this.shopRows == null) {
+      return null;
+    }
+    for (ShopRow shopRow : this.shopRows) {
+      if (shopRow.getItem().getItemId() == itemId) {
+        return shopRow;
+      }
+    }
+    return null;
+  }
+
   public Map<Integer, Integer> getRows() {
     return this.itemRows;
   }
 
   public final Integer getRow(int itemId) {
+    if (this.itemRows == null) {
+      return 0;
+    }
+    Integer row = this.itemRows.get(itemId);
+    return row;
+  }
+
+  public final Integer getItemIdOrRow(int itemId) {
     if (this.itemRows == null) {
       return itemId;
     }
@@ -1068,7 +1098,23 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
     }
 
     if (this.shopRows != null) {
+      Set<AdventureResult> currencies = this.currencies();
       for (ShopRow row : this.shopRows) {
+        AdventureResult item = row.getItem();
+
+        // If the item is a currency and you get more than one when you
+        // buy it with this row, it is conceptually a "sell" request.
+        //
+        // A coinmaster can both create an item and use such an item to
+        // make another item - for example, Grandma Sea Monkey with a
+        // Mer-kin gladiator mask or a Mer-kin scholar mask - and if the
+        // yield of the "currency" is 1, we want treat those as "buys".
+
+        if (item.getCount() > 1 && currencies.contains(item)) {
+          // Do not make a PurchaseRequest for a "sell"
+          continue;
+        }
+
         CoinmastersDatabase.registerPurchaseRequest(this, row);
       }
       return;
@@ -1081,11 +1127,58 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
     }
   }
 
+  public void registerCurrencies() {
+    for (AdventureResult currency : this.currencies()) {
+      if (currency.isItem()) {
+        CoinmastersDatabase.registerCurrency(currency);
+      }
+    }
+  }
+
+  public void registerShopRows() {
+    if (this.buyItems != null) {
+      for (AdventureResult item : this.buyItems) {
+        int itemId = item.getItemId();
+        int row = this.getRow(itemId);
+        if (row != 0) {
+          AdventureResult price = this.itemBuyPrice(itemId);
+          ShopRow shopRow = new ShopRow(row, item.getInstance(1), price);
+          ShopRowDatabase.registerShopRow(shopRow, "buy", this.master);
+        }
+      }
+    }
+    if (this.sellItems != null) {
+      for (AdventureResult item : this.sellItems) {
+        int itemId = item.getItemId();
+        int row = this.getRow(itemId);
+        if (row != 0) {
+          AdventureResult price = this.itemSellPrice(itemId);
+          ShopRow shopRow = new ShopRow(row, price, item);
+          ShopRowDatabase.registerShopRow(shopRow, "sell", this.master);
+        }
+      }
+    }
+  }
+
   public void registerPropertyToken() {
     if (this.property == null) {
       return;
     }
     ConcoctionPool.set(new Concoction(this.token, this.property));
+  }
+
+  public String getZone() {
+    return this.zone;
+  }
+
+  public String getRootZone() {
+    if (this.zone == null) {
+      // Reset, for testing
+      this.rootZone = null;
+    } else if (this.rootZone == null) {
+      this.rootZone = AdventureDatabase.getRootZone(this.zone);
+    }
+    return this.rootZone;
   }
 
   @Override
@@ -1164,6 +1257,9 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
 
   public String accessible() {
     // Returns an error reason or null
+    if ("Removed".equals(this.getRootZone())) {
+      return "Zone is no longer accessible";
+    }
 
     Class<? extends CoinMasterRequest> requestClass = this.getRequestClass();
     Class<?>[] parameters = new Class<?>[0];

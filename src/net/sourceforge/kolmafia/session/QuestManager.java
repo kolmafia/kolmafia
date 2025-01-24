@@ -29,9 +29,7 @@ import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.*;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.AWOLQuartermasterRequest;
 import net.sourceforge.kolmafia.request.AdventureRequest;
-import net.sourceforge.kolmafia.request.BURTRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -40,6 +38,8 @@ import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
 import net.sourceforge.kolmafia.request.UpdateSuppressedRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.request.coinmaster.AWOLQuartermasterRequest;
+import net.sourceforge.kolmafia.request.coinmaster.BURTRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class QuestManager {
@@ -236,6 +236,11 @@ public class QuestManager {
         case AdventurePool.DARK_HEART_OF_THE_WOODS:
         case AdventurePool.DARK_NECK_OF_THE_WOODS:
           handleFriarsCopseChange(locationId, responseText);
+          break;
+        case AdventurePool.CYBER_ZONE_1:
+        case AdventurePool.CYBER_ZONE_2:
+        case AdventurePool.CYBER_ZONE_3:
+          handleCyberRealmChange(locationId, responseText);
           break;
         default:
           if (KoLCharacter.getInebriety() > 25) {
@@ -528,6 +533,9 @@ public class QuestManager {
     }
     if (responseText.contains("PirateRealm") && !Preferences.getBoolean("prAlways")) {
       Preferences.setBoolean("_prToday", true);
+    }
+    if (responseText.contains("Server Room") && !Preferences.getBoolean("crAlways")) {
+      Preferences.setBoolean("_crToday", true);
     }
   }
 
@@ -853,6 +861,68 @@ public class QuestManager {
       }
       if (responseText.contains("Swift Clipper")) {
         Preferences.setBoolean("pirateRealmUnlockedClipper", true);
+      }
+    }
+  }
+
+  private static void handleCyberRealmChange(final int locationId, final String responseText) {
+    // This called if adventuring does not redirect to a fight or a
+    // choice.  Adventuring within KoLmafia will keep the turn counter
+    // up-to-date, but if you've run turns elsewhere, update property.
+    if (responseText.contains("You've already hacked this system.")) {
+      String property =
+          switch (locationId) {
+            case AdventurePool.CYBER_ZONE_1 -> "_cyberZone1Turns";
+            case AdventurePool.CYBER_ZONE_2 -> "_cyberZone2Turns";
+            case AdventurePool.CYBER_ZONE_3 -> "_cyberZone3Turns";
+            default -> null;
+          };
+      if (property != null) {
+        Preferences.setInteger(property, 20);
+      }
+    }
+  }
+
+  // <b>Owner:</b> Century-Price Quasi-Marketing Companies<br>Security Level: 1<br>Countermeasures:
+  // null container<br>Active Intrusion: blackhat<br>
+  private static final Pattern FILE_DRAWER_PATTERN =
+      Pattern.compile(
+          "<b>Owner:</b> *(.*?)<br>Security Level: (\\d)<br>Countermeasures: (.*?)<br>Active Intrusion: (.*?)<br>",
+          Pattern.DOTALL);
+
+  public static void handleServerRoom(final String location, final String responseText) {
+    String action = GenericRequest.getAction(location);
+    if (action != null) {
+      switch (action) {
+        case "serverroom_drawer1" -> {}
+        case "serverroom_drawer2" -> {}
+        case "serverroom_drawer3" -> {}
+        case "serverroom_chipdrawer" -> {
+          Preferences.setBoolean("cyberDatastickCollected", true);
+        }
+        case "serverroom_filedrawer" -> {
+          Matcher matcher = FILE_DRAWER_PATTERN.matcher(responseText);
+          while (matcher.find()) {
+            String owner = matcher.group(1);
+            String defense = matcher.group(3);
+            String hacker =
+                switch (matcher.group(4)) {
+                  case "redhat" -> "redhat hacker";
+                  case "bluehat" -> "bluehat hacker";
+                  case "greenhat" -> "greenhat hacker";
+                  case "purplehat" -> "purplehat hacker";
+                  case "blackhat" -> "greyhat hacker";
+                  default -> matcher.group(4);
+                };
+            String prefix = "_cyberZone" + matcher.group(2);
+            Preferences.setString(prefix + "Owner", owner);
+            Preferences.setString(prefix + "Defense", defense);
+            Preferences.setString(prefix + "Hacker", hacker);
+          }
+        }
+        case "serverroom_trash1", "serverroom_trash2" -> {
+          Preferences.setBoolean("_cyberTrashCollected", true);
+        }
       }
     }
   }

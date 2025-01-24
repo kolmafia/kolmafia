@@ -59,7 +59,6 @@ public class ResultProcessorTest {
   public void beforeEach() {
     KoLCharacter.reset("ResultProcessorTest");
     Preferences.reset("ResultProcessorTest");
-    BanishManager.clearCache();
     InventoryManager.resetInventory();
   }
 

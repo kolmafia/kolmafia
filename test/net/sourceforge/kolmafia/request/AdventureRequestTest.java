@@ -501,16 +501,26 @@ public class AdventureRequestTest {
     }
   }
 
-  @Test
-  public void canParseDec2024Choice() {
-    var encounter = AdventureRequest.parseEncounter(html("request/test_choice_dec2024.html"));
-    assertThat(encounter, equalTo("Dr. Gordon Stuart, a Scientist"));
-  }
+  @Nested
+  class ParseEncounter {
+    @Test
+    public void canParseDec2024Choice() {
+      var encounter = AdventureRequest.parseEncounter(html("request/test_choice_dec2024.html"));
+      assertThat(encounter, equalTo("Dr. Gordon Stuart, a Scientist"));
+    }
 
-  @Test
-  public void canParseDec2024Noncombat() {
-    var encounter = AdventureRequest.parseEncounter(html("request/test_noncombat_dec2024.html"));
-    assertThat(encounter, equalTo("Cards with Bards"));
+    @Test
+    public void canParseDec2024Noncombat() {
+      var encounter = AdventureRequest.parseEncounter(html("request/test_noncombat_dec2024.html"));
+      assertThat(encounter, equalTo("Cards with Bards"));
+    }
+
+    @Test
+    public void canParseCyberRealmChoice() {
+      var encounter =
+          AdventureRequest.parseEncounter(html("request/test_cyber_zone2_choice1.html"));
+      assertThat(encounter, equalTo("I Live, You Live..."));
+    }
   }
 
   @Test

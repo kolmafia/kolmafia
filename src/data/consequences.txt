@@ -100,7 +100,7 @@ DESC_ITEM	no hat		_noHatModifier=mods
 DESC_ITEM	Sword of Procedural Generation		jickSwordModifier=mods
 DESC_ITEM	pantogram pants		_pantogramModifier=mods
 DESC_ITEM	latte lovers member's mug		latteModifier=mods
-DESC_ITEM	Kremlin's Greatest Briefcase
+DESC_ITEM	Kremlin's Greatest Briefcase		
 DESC_ITEM	fresh coat of paint		_coatOfPaintModifier=mods
 DESC_ITEM	futuristic shirt		_futuristicShirtModifier=mods
 DESC_ITEM	futuristic hat		_futuristicHatModifier=mods

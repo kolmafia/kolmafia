@@ -210,7 +210,7 @@ public class DataFileConsistencyTest {
 
   @Test
   public void testCoinmasterBuyables() throws IOException {
-    var buyables = datafileItems("coinmasters.txt", 2, 3);
+    var buyables = datafileItems("coinmasters.txt", 3, 3);
 
     Pattern withNum = Pattern.compile("(.*) \\(\\d+\\)");
 

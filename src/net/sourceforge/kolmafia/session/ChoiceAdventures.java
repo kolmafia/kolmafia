@@ -6346,6 +6346,51 @@ public abstract class ChoiceAdventures {
         new ChoiceOption("fight \"Santa Claus\"", 1),
         new ChoiceOption("get Spirits of Christmas scaling with spooky resistance", 2),
         new ChoiceOption("skip adventure", 3));
+
+    // ... something...
+    new ChoiceAdventure(
+        1545,
+        "Server Room",
+        "CyberRealm Zone 1 Half-Way",
+        new ChoiceOption("get 0 (8) and take elemental damage", 1),
+        new ChoiceOption("no bits, no damage", 2));
+
+    // The Final Node
+    new ChoiceAdventure(
+        1546,
+        "Server Room",
+        "CyberRealm Zone 1 Finished",
+        new ChoiceOption("get a dedigitizer schematic", 1));
+
+    // ... something...
+    new ChoiceAdventure(
+        1547,
+        "Server Room",
+        "CyberRealm Zone 2 Half-Way",
+        new ChoiceOption("get 0 (16) and take elemental damage", 1),
+        new ChoiceOption("no bits, no damage", 2));
+
+    // The Final Node
+    new ChoiceAdventure(
+        1548,
+        "Server Room",
+        "CyberRealm Zone 2 Finished",
+        new ChoiceOption("get a dedigitizer schematic", 1));
+
+    // ... something...
+    new ChoiceAdventure(
+        1549,
+        "Server Room",
+        "CyberRealm Zone 3 Half-Way",
+        new ChoiceOption("get 0 (32) and take elemental damage", 1),
+        new ChoiceOption("no bits, no damage", 2));
+
+    // The Final Node
+    new ChoiceAdventure(
+        1550,
+        "Server Room",
+        "CyberRealm Zone 3 Finished",
+        new ChoiceOption("get a dedigitizer schematic", 1));
   }
 
   // This array is used by the ChoiceOptionsPanel to provide all the GUI configurable choices.
@@ -7052,6 +7097,15 @@ public abstract class ChoiceAdventures {
       case 1499 ->
       // A Labyrinth of Shadows
       dynamicChoiceSpoilers(choice, "A Labyrinth of Shadows");
+      case 1545 ->
+      // CyberRealm Zone 1 Half-Way
+      dynamicChoiceSpoilers(choice, "CyberRealm Zone 1 Half-Way");
+      case 1547 ->
+      // CyberRealm Zone 2 Half-Way
+      dynamicChoiceSpoilers(choice, "CyberRealm Zone 2 Half-Way");
+      case 1549 ->
+      // CyberRealm Zone 3 Half-Way
+      dynamicChoiceSpoilers(choice, "CyberRealm Zone 3 Half-Way");
       default -> null;
     };
   }
@@ -8988,8 +9042,151 @@ public abstract class ChoiceAdventures {
 
           return result;
         }
+
+      case 1545:
+        {
+          // CyberRealm Zone 1 Half-Way
+          String element = cyberDefenseElement("_cyberZone1Defense");
+          String message = cyberHalfWayMessage(1, element);
+          result = new ChoiceOption[2];
+          result[0] = new ChoiceOption(message);
+          result[1] = new ChoiceOption("no reward, no damage");
+          return result;
+        }
+
+      case 1547:
+        {
+          // CyberRealm Zone 2 Half-Way
+          String element = cyberDefenseElement("_cyberZone2Defense");
+          String message = cyberHalfWayMessage(2, element);
+          result = new ChoiceOption[2];
+          result[0] = new ChoiceOption(message);
+          result[1] = new ChoiceOption("no reward, no damage");
+          return result;
+        }
+
+      case 1549:
+        {
+          // CyberRealm Zone 3 Half-Way
+          String element = cyberDefenseElement("_cyberZone3Defense");
+          String message = cyberHalfWayMessage(3, element);
+          result = new ChoiceOption[2];
+          result[0] = new ChoiceOption(message);
+          result[1] = new ChoiceOption("no reward, no damage");
+          return result;
+        }
     }
     return null;
+  }
+
+  private static Map<String, String> defenseToElement =
+      Map.ofEntries(
+          Map.entry("firewall", "hot"),
+          Map.entry("ICE barrier", "cold"),
+          Map.entry("corruption quarantine", "stench"),
+          Map.entry("parental controls", "sleaze"),
+          Map.entry("null container", "spooky"));
+
+  // This is almost certainly incomplete.
+  private static Map<String, String> encounterToElement =
+      Map.ofEntries(
+          Map.entry("A Funny Thing Happened...", "hot"),
+          Map.entry("A Turboclocked System", "hot"),
+          Map.entry("Boiling Chrome", "hot"),
+          Map.entry("Cracklin' Node", "hot"),
+          Map.entry("A Breezy System", "cold"),
+          Map.entry("A Frozen Network", "cold"),
+          Map.entry("A Severely Underclocked Network", "cold"),
+          Map.entry("Ice Cream Antisocial", "cold"),
+          Map.entry("A Terminal Disease", "stench"),
+          Map.entry("Arsenic & Old Spice", "stench"),
+          Map.entry("One Man's TRS-80", "stench"),
+          Map.entry("People Have Weird Hobbies Sometimes", "stench"),
+          Map.entry("$1.00,$1.00,$1.00", "sleaze"),
+          Map.entry("I Live, You Live...", "sleaze"),
+          Map.entry("pr0n Central", "sleaze"),
+          Map.entry("The Piggy Bank", "sleaze"),
+          Map.entry("A spooky encounter", "spooky"),
+          Map.entry("Grave Secrets", "spooky"),
+          Map.entry("The Fall of the Homepage of Usher", "spooky"),
+          Map.entry("The Skeleton Dance", "spooky"));
+
+  private static String cyberDefenseElement(String property) {
+    // The element is detectable from the file drawer.
+    String defense = Preferences.getString(property);
+    String element = defenseToElement.get(defense);
+    if (element != null) {
+      return element;
+    }
+    // Alternatively, we may be able to deduce it from encounter name
+    String encounter = Preferences.getString("lastEncounter");
+    element = encounterToElement.get(encounter);
+    if (element != null) {
+      return element;
+    }
+    return "elemental";
+  }
+
+  public static String cyberHalfWayMessage(int zone, String element) {
+    // "Get 0 (32) and suffer 22 hot damage";
+    int resist = elementalResistance(element);
+    int yield = cyberZeroYield(zone, resist);
+    int damage = cyberElementalDamage(zone, resist);
+
+    StringBuilder buf = new StringBuilder();
+    buf.append("Get 0 (");
+    buf.append(yield);
+    buf.append(") and suffer ");
+    buf.append(damage);
+    buf.append(" ");
+    buf.append(element);
+    buf.append(" damage");
+    return buf.toString();
+  }
+
+  private static int elementalResistance(String element) {
+    DoubleModifier resistModifier =
+        switch (element) {
+          case "hot" -> DoubleModifier.HOT_RESISTANCE;
+          case "cold" -> DoubleModifier.COLD_RESISTANCE;
+          case "stench" -> DoubleModifier.STENCH_RESISTANCE;
+          case "spooky" -> DoubleModifier.SPOOKY_RESISTANCE;
+          case "sleaze" -> DoubleModifier.SLEAZE_RESISTANCE;
+          default -> null;
+        };
+
+    if (resistModifier == null) {
+      return 0;
+    }
+
+    return (int) KoLCharacter.currentNumericModifier(resistModifier);
+  }
+
+  private static int cyberZeroYield(int zone, int resist) {
+    // cannonfire40 dev leaked:
+    //
+    // zone 1 gives min(1*eleres, 8)
+    // zone 2 gives min(2*eleres, 16)
+    // zone 3 gives min(3*eleres, 32)
+    // So you need 8 res for zone 1/2, and 11 for zone 3.
+
+    return switch (zone) {
+      case 1 -> Math.min(1 * resist, 8);
+      case 2 -> Math.min(2 * resist, 16);
+      case 3 -> Math.min(3 * resist, 32);
+      default -> 0;
+    };
+  }
+
+  private static int cyberElementalDamage(int zone, int resist) {
+    int baseDamage = 50 * zone;
+
+    if (resist == 0) {
+      return baseDamage;
+    }
+
+    double percent = KoLCharacter.elementalResistanceByLevel(resist);
+    return (int) ((1.0 - percent / 100.0) * baseDamage);
   }
 
   private static ChoiceOption booPeakDamage() {

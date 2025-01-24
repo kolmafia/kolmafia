@@ -9,7 +9,8 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
-import net.sourceforge.kolmafia.request.CoinMasterRequest;
+import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
+import net.sourceforge.kolmafia.shop.ShopRow;
 
 public class CoinmasterCommand extends AbstractCommand {
   public CoinmasterCommand() {
@@ -101,8 +102,17 @@ public class CoinmasterCommand extends AbstractCommand {
       }
     }
 
-    CoinMasterRequest request = data.getRequest(isBuy, itemList);
-
-    RequestThread.postRequest(request);
+    if (data.getShopRows() != null) {
+      for (AdventureResult item : itemList) {
+        ShopRow shopRow = data.getShopRow(item.getItemId());
+        if (shopRow != null) {
+          CoinMasterRequest request = data.getRequest(shopRow, item.getCount());
+          RequestThread.postRequest(request);
+        }
+      }
+    } else {
+      CoinMasterRequest request = data.getRequest(isBuy, itemList);
+      RequestThread.postRequest(request);
+    }
   }
 }

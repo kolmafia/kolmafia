@@ -23,7 +23,6 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.ShopRow;
 import net.sourceforge.kolmafia.listener.Listener;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
@@ -34,7 +33,100 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.*;
 import net.sourceforge.kolmafia.request.StorageRequest.StorageRequestType;
+import net.sourceforge.kolmafia.request.coinmaster.AWOLQuartermasterRequest;
+import net.sourceforge.kolmafia.request.coinmaster.AltarOfBonesRequest;
+import net.sourceforge.kolmafia.request.coinmaster.BURTRequest;
+import net.sourceforge.kolmafia.request.coinmaster.BigBrotherRequest;
+import net.sourceforge.kolmafia.request.coinmaster.BountyHunterHunterRequest;
+import net.sourceforge.kolmafia.request.coinmaster.CRIMBCOGiftShopRequest;
+import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
+import net.sourceforge.kolmafia.request.coinmaster.Crimbo11Request;
+import net.sourceforge.kolmafia.request.coinmaster.CrimboCartelRequest;
+import net.sourceforge.kolmafia.request.coinmaster.DimemasterRequest;
+import net.sourceforge.kolmafia.request.coinmaster.FreeSnackRequest;
+import net.sourceforge.kolmafia.request.coinmaster.FudgeWandRequest;
+import net.sourceforge.kolmafia.request.coinmaster.GameShoppeRequest;
+import net.sourceforge.kolmafia.request.coinmaster.HermitRequest;
+import net.sourceforge.kolmafia.request.coinmaster.MrStoreRequest;
+import net.sourceforge.kolmafia.request.coinmaster.QuartersmasterRequest;
+import net.sourceforge.kolmafia.request.coinmaster.TicketCounterRequest;
+import net.sourceforge.kolmafia.request.coinmaster.TravelingTraderRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.AppleStoreRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.ArmoryAndLeggeryRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.ArmoryRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.BatFabricatorRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.BlackMarketRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.BoutiqueRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.BrogurtRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.BuffJimmyRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.CanteenRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.ChemiCorpRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.CosmicRaysBazaarRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo14Request;
+import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo17Request;
+import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo20BoozeRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo20CandyRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo20FoodRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo23ElfArmoryRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo23ElfBarRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo23ElfCafeRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo23ElfFactoryRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo23PirateArmoryRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo23PirateBarRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo23PirateCafeRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo23PirateFactoryRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo24BarRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo24CafeRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo24FactoryRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.DedigitizerRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.DinostaurRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.DinseyCompanyStoreRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.DiscoGiftCoRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.DollHawkerRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.DripArmoryRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.EdShopRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.FDKOLRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.FancyDanRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.FishboneryRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.FunALogRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.GMartRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.GotporkOrphanageRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.GotporkPDRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.GuzzlrRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.IsotopeSmitheryRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.LTTRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.LunarLunchRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.MemeShopRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.MerchTableRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.MrStore2002Request;
+import net.sourceforge.kolmafia.request.coinmaster.shop.NeandermallRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.NinjaStoreRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.NuggletCraftingRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.PlumberGearRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.PlumberItemRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.PokemporiumRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.PrecinctRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.ReplicaMrStoreRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.RubeeRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.SHAWARMARequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.SeptEmberCenserRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.ShoeRepairRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.ShoreGiftShopRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.SpacegateFabricationRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.SpinMasterLatheRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.SwaggerShopRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.TacoDanRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.TerrifiedEagleInnRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.ThankShopRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.ToxicChemistryRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.TrapperRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.VendingMachineRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.WalMartRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.WarbearBoxRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.YeNeweSouvenirShoppeRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.YourCampfireRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.shop.ShopRow;
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.panel.CardLayoutSelectorPanel;
@@ -86,6 +178,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
   private CoinmasterPanel crimbo24CafePanel = null;
   private CoinmasterPanel crimbo24FactoryPanel = null;
   private CoinmasterPanel crimboCartelPanel = null;
+  private CoinmasterPanel dedigitizerPanel = null;
   private CoinmasterPanel dimemasterPanel = null;
   private CoinmasterPanel dinostaurPanel = null;
   private CoinmasterPanel dinseyCompanyStorePanel = null;
@@ -277,6 +370,11 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     this.selectorPanel.addPanel(bigBrotherPanel.getPanelSelector(), panel);
 
     panel = new JPanel(new BorderLayout());
+    dedigitizerPanel = new DedigitizerPanel();
+    panel.add(dedigitizerPanel);
+    this.selectorPanel.addPanel(dedigitizerPanel.getPanelSelector(), panel);
+
+    panel = new JPanel(new BorderLayout());
     terrifiedEagleInnPanel = new TerrifiedEagleInnPanel();
     panel.add(terrifiedEagleInnPanel);
     this.selectorPanel.addPanel(terrifiedEagleInnPanel.getPanelSelector(), panel);
@@ -455,19 +553,9 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     panel.add(septEmberPanel);
     this.selectorPanel.addPanel(septEmberPanel.getPanelSelector(), panel);
 
-    // Events coinmasters
+    // Twitch coinmasters
     this.selectorPanel.addSeparator();
-    this.selectorPanel.addCategory("Special Events");
-
-    panel = new JPanel(new BorderLayout());
-    awolPanel = new CommendationPanel();
-    panel.add(awolPanel);
-    this.selectorPanel.addPanel(awolPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    fudgeWandPanel = new FudgeWandPanel();
-    panel.add(fudgeWandPanel);
-    this.selectorPanel.addPanel(fudgeWandPanel.getPanelSelector(), panel);
+    this.selectorPanel.addCategory("Twitch");
 
     panel = new JPanel(new BorderLayout());
     neandermallPanel = new NeandermallPanel();
@@ -499,6 +587,22 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     panel.add(merchTablePanel);
     this.selectorPanel.addPanel(merchTablePanel.getPanelSelector(), panel);
 
+    // *** Primordial Soup Kitchen goes here
+
+    // Events coinmasters
+    this.selectorPanel.addSeparator();
+    this.selectorPanel.addCategory("Special Events");
+
+    panel = new JPanel(new BorderLayout());
+    awolPanel = new CommendationPanel();
+    panel.add(awolPanel);
+    this.selectorPanel.addPanel(awolPanel.getPanelSelector(), panel);
+
+    panel = new JPanel(new BorderLayout());
+    fudgeWandPanel = new FudgeWandPanel();
+    panel.add(fudgeWandPanel);
+    this.selectorPanel.addPanel(fudgeWandPanel.getPanelSelector(), panel);
+
     panel = new JPanel(new BorderLayout());
     travelerPanel = new TravelingTraderPanel();
     panel.add(travelerPanel);
@@ -513,6 +617,55 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     warbearBoxPanel = new WarbearBoxPanel();
     panel.add(warbearBoxPanel);
     this.selectorPanel.addPanel(warbearBoxPanel.getPanelSelector(), panel);
+
+    // Removed coinmasters
+    this.selectorPanel.addSeparator();
+    this.selectorPanel.addCategory("Removed");
+
+    panel = new JPanel(new BorderLayout());
+    altarOfBonesPanel = new AltarOfBonesPanel();
+    panel.add(altarOfBonesPanel);
+    this.selectorPanel.addPanel(altarOfBonesPanel.getPanelSelector(), panel);
+
+    panel = new JPanel(new BorderLayout());
+    crimboCartelPanel = new CrimboCartelPanel();
+    panel.add(crimboCartelPanel);
+    this.selectorPanel.addPanel(crimboCartelPanel.getPanelSelector(), panel);
+
+    panel = new JPanel(new BorderLayout());
+    CRIMBCOGiftShopPanel = new CRIMBCOGiftShopPanel();
+    panel.add(CRIMBCOGiftShopPanel);
+    this.selectorPanel.addPanel(CRIMBCOGiftShopPanel.getPanelSelector(), panel);
+
+    panel = new JPanel(new BorderLayout());
+    crimbo11Panel = new Crimbo11Panel();
+    panel.add(crimbo11Panel);
+    this.selectorPanel.addPanel(crimbo11Panel.getPanelSelector(), panel);
+
+    panel = new JPanel(new BorderLayout());
+    crimbo14Panel = new Crimbo14Panel();
+    panel.add(crimbo14Panel);
+    this.selectorPanel.addPanel(crimbo14Panel.getPanelSelector(), panel);
+
+    panel = new JPanel(new BorderLayout());
+    crimbo17Panel = new Crimbo17Panel();
+    panel.add(crimbo17Panel);
+    this.selectorPanel.addPanel(crimbo17Panel.getPanelSelector(), panel);
+
+    panel = new JPanel(new BorderLayout());
+    crimbo20boozePanel = new Crimbo20BoozePanel();
+    panel.add(crimbo20boozePanel);
+    this.selectorPanel.addPanel(crimbo20boozePanel.getPanelSelector(), panel);
+
+    panel = new JPanel(new BorderLayout());
+    crimbo20candyPanel = new Crimbo20CandyPanel();
+    panel.add(crimbo20candyPanel);
+    this.selectorPanel.addPanel(crimbo20candyPanel.getPanelSelector(), panel);
+
+    panel = new JPanel(new BorderLayout());
+    crimbo20foodPanel = new Crimbo20FoodPanel();
+    panel.add(crimbo20foodPanel);
+    this.selectorPanel.addPanel(crimbo20foodPanel.getPanelSelector(), panel);
 
     panel = new JPanel(new BorderLayout());
     crimbo23ElfBarPanel = new Crimbo23ElfBarPanel();
@@ -568,55 +721,6 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     crimbo24FactoryPanel = new Crimbo24FactoryPanel();
     panel.add(crimbo24FactoryPanel);
     this.selectorPanel.addPanel(crimbo24FactoryPanel.getPanelSelector(), panel);
-
-    // Removed coinmasters
-    this.selectorPanel.addSeparator();
-    this.selectorPanel.addCategory("Removed");
-
-    panel = new JPanel(new BorderLayout());
-    altarOfBonesPanel = new AltarOfBonesPanel();
-    panel.add(altarOfBonesPanel);
-    this.selectorPanel.addPanel(altarOfBonesPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    crimboCartelPanel = new CrimboCartelPanel();
-    panel.add(crimboCartelPanel);
-    this.selectorPanel.addPanel(crimboCartelPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    CRIMBCOGiftShopPanel = new CRIMBCOGiftShopPanel();
-    panel.add(CRIMBCOGiftShopPanel);
-    this.selectorPanel.addPanel(CRIMBCOGiftShopPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    crimbo11Panel = new Crimbo11Panel();
-    panel.add(crimbo11Panel);
-    this.selectorPanel.addPanel(crimbo11Panel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    crimbo14Panel = new Crimbo14Panel();
-    panel.add(crimbo14Panel);
-    this.selectorPanel.addPanel(crimbo14Panel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    crimbo17Panel = new Crimbo17Panel();
-    panel.add(crimbo17Panel);
-    this.selectorPanel.addPanel(crimbo17Panel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    crimbo20boozePanel = new Crimbo20BoozePanel();
-    panel.add(crimbo20boozePanel);
-    this.selectorPanel.addPanel(crimbo20boozePanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    crimbo20candyPanel = new Crimbo20CandyPanel();
-    panel.add(crimbo20candyPanel);
-    this.selectorPanel.addPanel(crimbo20candyPanel.getPanelSelector(), panel);
-
-    panel = new JPanel(new BorderLayout());
-    crimbo20foodPanel = new Crimbo20FoodPanel();
-    panel.add(crimbo20foodPanel);
-    this.selectorPanel.addPanel(crimbo20foodPanel.getPanelSelector(), panel);
 
     this.selectorPanel.addChangeListener(this);
     this.selectorPanel.setSelectedIndex(Preferences.getInteger("coinMasterIndex"));
@@ -880,6 +984,18 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     }
   }
 
+  public class NinjaPanel extends TwitchPanel {
+    public NinjaPanel() {
+      super(NinjaStoreRequest.NINJA_STORE);
+    }
+  }
+
+  public class ShakeShopPanel extends TwitchPanel {
+    public ShakeShopPanel() {
+      super(YeNeweSouvenirShoppeRequest.SHAKE_SHOP);
+    }
+  }
+
   public class MerchTablePanel extends TwitchPanel {
     public MerchTablePanel() {
       super(MerchTableRequest.MERCH_TABLE);
@@ -891,18 +1007,6 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
       buffer.append(" (");
       buffer.append(InventoryManager.getCount(MerchTableRequest.CHRONER));
       buffer.append(" Chroner)");
-    }
-  }
-
-  public class ShakeShopPanel extends TwitchPanel {
-    public ShakeShopPanel() {
-      super(YeNeweSouvenirShoppeRequest.SHAKE_SHOP);
-    }
-  }
-
-  public class NinjaPanel extends TwitchPanel {
-    public NinjaPanel() {
-      super(NinjaStoreRequest.NINJA_STORE);
     }
   }
 
@@ -928,6 +1032,37 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
   private class BigBrotherPanel extends CoinmasterPanel {
     public BigBrotherPanel() {
       super(BigBrotherRequest.BIG_BROTHER);
+    }
+  }
+
+  private class DedigitizerPanel extends CoinmasterPanel {
+    private static AdventureResult ONE = ItemPool.get(ItemPool.ONE);
+    private static AdventureResult ZERO = ItemPool.get(ItemPool.ZERO);
+
+    public DedigitizerPanel() {
+      super(DedigitizerRequest.DATA);
+    }
+
+    @Override
+    public void setTitle(final StringBuffer buffer) {
+      this.standardTitle(buffer);
+
+      // Only show 0's and 1's. All but 5 also require a schematic,
+      // but there are 22 of them and the title will be cluttered. Rows
+      // will be greyed out if you don't have the required schematic
+
+      int count1 = InventoryManager.getCount(ONE);
+      buffer.append(" (");
+      buffer.append(count1);
+      buffer.append(" ");
+      buffer.append(ONE.getPluralName(count1));
+      buffer.append(")");
+      int count0 = InventoryManager.getCount(ZERO);
+      buffer.append(" (");
+      buffer.append(count0);
+      buffer.append(" ");
+      buffer.append(ZERO.getPluralName(count0));
+      buffer.append(")");
     }
   }
 
@@ -1593,10 +1728,11 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     public void setTitle(final StringBuffer buffer) {
       this.standardTitle(buffer);
       for (AdventureResult currency : this.data.currencies()) {
+        int count = InventoryManager.getCount(currency);
         buffer.append(" (");
-        buffer.append(InventoryManager.getCount(currency));
+        buffer.append(count);
         buffer.append(" ");
-        buffer.append(currency.getPluralName());
+        buffer.append(currency.getPluralName(count));
         buffer.append(")");
       }
     }
@@ -2388,7 +2524,6 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
         stringForm.append("<font color=gray>");
       }
       stringForm.append(ar.getName());
-      stringForm.append(" ");
       int count = ar.getCount();
       if (count == -1) {
         stringForm.append(" (unknown)");
@@ -2397,6 +2532,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
         stringForm.append(KoLConstants.COMMA_FORMAT.format(count));
         stringForm.append(")");
       }
+      stringForm.append(" ");
       stringForm.append(costString);
       if (!show) {
         stringForm.append("</font>");

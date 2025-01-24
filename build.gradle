@@ -19,6 +19,12 @@ plugins {
 	id 'org.ajoberstar.grgit' version '5.2.2'
 	id 'org.panteleyev.jpackageplugin' version '1.6.0'
 	id "com.github.ben-manes.versions" version "0.51.0" // enables ./gradlew dependencyUpdates for outdated
+
+	id 'checkstyle'
+}
+
+checkstyle {
+	toolVersion = '10.21.1'
 }
 
 sourceSets {
@@ -86,18 +92,21 @@ dependencies {
 	}
 
 	implementation 'net.sourceforge.htmlcleaner:htmlcleaner:2.29'
+	implementation 'org.jsoup:jsoup:1.18.3'
 	implementation('org.eclipse.lsp4j:org.eclipse.lsp4j:0.23.1') {
 		exclude group: 'org.eclipse.xtend', module: 'org.eclipse.xtend.lib'
 	}
 	implementation 'org.slf4j:slf4j-nop:2.0.16'
 	implementation 'org.fusesource.jansi:jansi:2.4.1'
 	implementation 'com.alibaba.fastjson2:fastjson2:2.0.53'
-	implementation 'org.mozilla:rhino:1.7.15'
+	implementation 'org.mozilla:rhino:1.8.0'
 	implementation 'org.swinglabs:swingx:1.0'
 	implementation 'org.tmatesoft.svnkit:svnkit:1.10.11'
 	implementation 'com.jgoodies:jgoodies-binding:2.13.0'
 	implementation 'org.eclipse.jgit:org.eclipse.jgit:6.10.0.202406032230-r'
 	implementation 'org.eclipse.jgit:org.eclipse.jgit.ssh.apache:6.10.0.202406032230-r'
+
+	checkstyle "com.puppycrawl.tools:checkstyle:${checkstyle.toolVersion}"
 }
 
 application {
@@ -273,6 +282,14 @@ task gitUpdate() {
 java {
 	sourceCompatibility = JavaVersion.toVersion(javaSourceCompatibility)
 	targetCompatibility = JavaVersion.toVersion(javaTargetCompatibility)
+
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(javaTargetCompatibility)
+	}
+}
+
+tasks.withType(Checkstyle).configureEach {
+	maxHeapSize = '2g'
 }
 
 tasks.withType(JavaCompile) {

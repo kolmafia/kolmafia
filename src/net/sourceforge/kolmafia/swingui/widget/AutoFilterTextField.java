@@ -14,15 +14,15 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLAdventure;
-import net.sourceforge.kolmafia.ShopRow;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase.QueuedConcoction;
 import net.sourceforge.kolmafia.persistence.FaxBotDatabase.Monster;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Script;
-import net.sourceforge.kolmafia.request.CreateItemRequest;
+import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
 import net.sourceforge.kolmafia.session.StoreManager.StoreLogEntry;
+import net.sourceforge.kolmafia.shop.ShopRow;
 import net.sourceforge.kolmafia.utilities.LowerCaseEntry;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 

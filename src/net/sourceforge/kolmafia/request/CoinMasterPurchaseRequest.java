@@ -6,8 +6,9 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.ShopRow;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
+import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
+import net.sourceforge.kolmafia.shop.ShopRow;
 
 public class CoinMasterPurchaseRequest extends PurchaseRequest {
   private final CoinmasterData data;
@@ -82,7 +83,7 @@ public class CoinMasterPurchaseRequest extends PurchaseRequest {
   @Override
   public String getPriceString() {
     if (this.shopRow != null) {
-      return this.shopRow.costString();
+      return this.shopRow.costString(1);
     }
     long price =
         this.cost.isMeat() ? NPCPurchaseRequest.currentDiscountedPrice(this.price) : this.price;
@@ -103,7 +104,7 @@ public class CoinMasterPurchaseRequest extends PurchaseRequest {
   @Override
   public String getCurrency(final long count) {
     if (this.shopRow != null) {
-      return this.shopRow.costString();
+      return this.shopRow.costString(count);
     }
     return this.cost.getPluralName(this.price);
   }

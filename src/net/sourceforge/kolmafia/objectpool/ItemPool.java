@@ -144,6 +144,7 @@ public class ItemPool {
   public static final int SAUSAGE_PIZZA = 324;
   public static final int GOAT_CHEESE_PIZZA = 325;
   public static final int MUSHROOM_PIZZA = 326;
+  public static final int LEMON = 332;
   public static final int TENDER_HAMMER = 338;
   public static final int LAB_KEY = 339;
   public static final int SELTZER = 344;
@@ -554,6 +555,7 @@ public class ItemPool {
   public static final int BUBBLEWRAP_ORE = 1677;
   public static final int GROUCHO_DISGUISE = 1678;
   public static final int EXPRESS_CARD = 1687;
+  public static final int FLAMING_CARDBOARD_SWORD = 1706;
   public static final int MUCULENT_MACHETE = 1721;
   public static final int SWORD_PREPOSITIONS = 1734;
   public static final int GOULAUNCHER = 1748;
@@ -902,6 +904,7 @@ public class ItemPool {
   public static final int FOIL_BOW = 3043;
   public static final int FOIL_RADAR = 3044;
   public static final int POWER_SPHERE = 3049;
+  public static final int BLACK_CANDY_HEART = 3054;
   public static final int FOIL_CAT_EARS = 3056;
   public static final int LASER_CANON = 3069;
   public static final int CHIN_STRAP = 3070;
@@ -3105,6 +3108,7 @@ public class ItemPool {
   public static final int SPACE_BABY_CHILDRENS_BOOK = 9463;
   public static final int SPACE_BABY_BAWBAW = 9464;
   public static final int PORTABLE_SPACEGATE = 9465;
+  public static final int GLITCHED_MALWARE = 9475;
   public static final int OPEN_PORTABLE_SPACEGATE = 9477;
   public static final int NEW_YOU_CLUB_MEMBERSHIP_FORM = 9478;
   public static final int AFFIRMATION_SUPERFICIALLY_INTERESTED = 9481;
@@ -3774,6 +3778,8 @@ public class ItemPool {
   public static final int TRICK_COIN = 11480;
   public static final int LIL_SNOWBALL_FACTORY = 11485;
   public static final int PRANK_CRIMBO_CARD = 11487;
+  public static final int WIRED_UNDERWEAR = 11538;
+  public static final int ENCRYPTED_SHURIKEN = 11539;
   public static final int MIMIC_EGG = 11542;
   public static final int SPRING_SHOES = 11546;
   public static final int SMASHED_SCIENTIFIC_EQUIPMENT = 11549;
@@ -3800,6 +3806,7 @@ public class ItemPool {
   public static final int STUFFED_YAM_STINKBOMB = 11583;
   public static final int YAMTILITY_BELT = 11586;
   public static final int MINI_KIWI = 11594;
+  public static final int MINI_KIWI_AIOLI = 11598;
   public static final int MINI_KIWI_TIPI = 11600;
   public static final int MINI_KIWI_INTOXICATING_SPIRITS = 11602;
   public static final int ROMAN_CANDELABRA = 11609;
@@ -3808,6 +3815,7 @@ public class ItemPool {
   public static final int FLAGELLATE_SOUP = 11623;
   public static final int ELBOW_SOUP = 11624;
   public static final int LIP_SOUP = 11625;
+  public static final int TEARAWAY_PANTS = 11630;
   public static final int SEPTEMBER_CENSER = 11642;
   public static final int MINIATURE_EMBERING_HULK = 11644;
   public static final int STRUCTURAL_EMBER = 11647;
@@ -3816,6 +3824,7 @@ public class ItemPool {
   public static final int SHERIFF_BADGE = 11668;
   public static final int SHERIFF_PISTOL = 11669;
   public static final int SHERIFF_MOUSTACHE = 11670;
+  public static final int PHOTO_BOOTH_SUPPLY_LIST = 11671;
   public static final int SPLIT_PEA_SOUP = 11685;
   public static final int TAKERSPACE_LETTER_OF_MARQUE = 11687;
   public static final int DEFT_PIRATE_HOOK = 11688;
@@ -3835,11 +3844,28 @@ public class ItemPool {
   public static final int PIRATE_DINGHY = 11705;
   public static final int ANCHOR_BOMB = 11706;
   public static final int SILKY_PIRATE_DRAWERS = 11707;
-  public static final int SPIRIT_OF_EASTER = 11717;
-  public static final int SPIRIT_OF_ST_PATRICKS_DAY = 11718;
-  public static final int SPIRIT_OF_VETERANS_DAY = 11719;
-  public static final int SPIRIT_OF_THANKSGIVING = 11720;
-  public static final int SPIRIT_OF_CHRISTMAS = 11721;
+  public static final int MILITARY_ORB = 11731;
+  public static final int SNOWMAN_ENCHANTING_TOPHAT = 11743;
+  public static final int PUMPKIN_SPICE_WHORL = 11746;
+  public static final int EGG_GUN = 11772;
+  public static final int CANDY_EGG_DEVILER = 11774;
+  public static final int MCHUGELARGE_DUFFEL_BAG = 11783;
+  public static final int MCHUGELARGE_LEFT_POLE = 11784;
+  public static final int MCHUGELARGE_RIGHT_POLE = 11785;
+  public static final int MCHUGELARGE_LEFT_SKI = 11786;
+  public static final int MCHUGELARGE_RIGHT_SKI = 11787;
+  public static final int ONE = 11788;
+  public static final int ZERO = 11789;
+  public static final int BRUTE_FORCE_HAMMER = 11791;
+  public static final int DATASTICK = 11792;
+  public static final int CYBERVISOR = 11803;
+  public static final int MALWARE_INJECTOR = 11806;
+  public static final int CR_KEYCODE = 11807;
+  public static final int SERVER_KEY = 11808;
+  public static final int LOGIC_GRENADE = 11811;
+  public static final int PRINTED_SERVER_KEY = 11809;
+  public static final int HASHING_VISE = 11826;
+  public static final int GEOFENCING_RAPIER = 11827;
 
   private ItemPool() {}
 

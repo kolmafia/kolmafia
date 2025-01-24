@@ -7,6 +7,7 @@ import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.nullValue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
@@ -19,6 +20,7 @@ import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -353,6 +355,51 @@ public class GenericRequestTest {
 
       assertEquals(encounterName, Preferences.getString("lastEncounter"));
       assertThat(property, isSetTo(expected));
+    }
+  }
+
+  @Nested
+  class LocationReset {
+    @ParameterizedTest
+    @CsvSource(
+        value = {
+          "test_fight_rainman_monster.html,970,1,",
+          "test_fight_numberology_151.html,1103,1,num=98",
+          "test_fight_science_tent_tentacle.html,1201,1,",
+          "test_fight_cargo_dairy_goat.html,1420,1,pocket=47",
+          "test_fight_start_locket_fight_with_elf.html,1463,1,mid=1201",
+          "test_fight_burning_leaves_flaming_monstera.html,1510,1,leaves=11",
+          "test_fight_start.html,1516,1,"
+        })
+    public void choiceRedirectionResetsLocation(
+        String htmlName, int choiceId, int choice, String suffix) {
+      var cleanups =
+          new Cleanups(
+              withLevel(14),
+              withSpleenUse(0),
+              withAdventuresLeft(127),
+              withSign(ZodiacSign.PLATYPUS),
+              withLastLocation("Noob Cave"),
+              withNextResponse(
+                  new FakeHttpResponse<>(
+                      302, Map.of("location", List.of("fight.php?ireallymeanit=99999999")), ""),
+                  new FakeHttpResponse<>(200, html("request/" + htmlName))));
+      try (cleanups) {
+        String urlString =
+            "choice.php?pwd&whichchoice="
+                + choiceId
+                + "&choice="
+                + choice
+                + (suffix == null ? "" : "&" + suffix);
+        GenericRequest request = new GenericRequest(urlString);
+        request.run();
+
+        assertThat(KoLAdventure.lastVisitedLocation(), nullValue());
+        assertThat(KoLAdventure.lastLocationName, nullValue());
+        assertThat(KoLAdventure.lastLocationURL, nullValue());
+        assertThat("lastAdventure", isSetTo("None"));
+        assertThat("nextAdventure", isSetTo("None"));
+      }
     }
   }
 }

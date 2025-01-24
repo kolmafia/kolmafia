@@ -3,21 +3,24 @@ package net.sourceforge.kolmafia.persistence;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.TreeMap;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
-import net.sourceforge.kolmafia.ShopRow;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.CoinMasterPurchaseRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
+import net.sourceforge.kolmafia.shop.ShopRow;
+import net.sourceforge.kolmafia.shop.ShopRowDatabase;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -54,6 +57,21 @@ public class CoinmastersDatabase {
 
   public static final String getRowShop(final int row) {
     return rowShop.get(row);
+  }
+
+  // All items that are used as a "currency": traded in to acquire a different item.
+  public static final Set<Integer> allCurrencies = new HashSet<>();
+
+  public static void registerCurrency(final AdventureResult currency) {
+    allCurrencies.add(currency.getItemId());
+  }
+
+  public static boolean isCurrency(final AdventureResult item) {
+    return isCurrency(item.getItemId());
+  }
+
+  public static boolean isCurrency(final int itemId) {
+    return allCurrencies.contains(itemId);
   }
 
   // *** Old style "shop.php" (and other) Coinmasters
@@ -163,6 +181,7 @@ public class CoinmastersDatabase {
             // *** error
             continue;
           }
+          ShopRowDatabase.registerShopRow(shopRow, "row", master);
           int row = shopRow.getRow();
           List<ShopRow> rows = shopRows.get(master);
           if (rows == null) {

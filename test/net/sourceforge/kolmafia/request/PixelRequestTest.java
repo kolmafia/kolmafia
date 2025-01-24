@@ -9,6 +9,7 @@ import java.util.Set;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.request.concoction.shop.PixelRequest;
 import org.junit.jupiter.api.Test;
 
 public class PixelRequestTest {

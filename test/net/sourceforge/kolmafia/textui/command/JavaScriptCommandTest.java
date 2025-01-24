@@ -120,8 +120,7 @@ public class JavaScriptCommandTest extends AbstractCommandTestBase {
 
     @Test
     public void nullCoalescing() {
-      // Rhino doesn't support `a ?? b` yet.
-      String output = execute("null || true");
+      String output = execute("null ?? true");
 
       assertThat(output, equalTo("""
               Returned: true

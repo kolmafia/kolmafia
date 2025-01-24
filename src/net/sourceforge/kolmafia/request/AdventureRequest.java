@@ -675,6 +675,11 @@ public class AdventureRequest extends GenericRequest {
     // Pocket Familiars have Pokefam battles
     // <b><center>a fleet woodsman's Team:</b>
     Pattern.compile(">([^<]*?)'s Team:<"),
+    // Knob Goblin poseur has no closing </b> tag
+    Pattern.compile(
+        "<td id='fmsg' valign=center><Table>.*?<b>(Knob Goblin poseur)", Pattern.DOTALL),
+    // haiku dungeon attempt
+    Pattern.compile("<td id='fmsg' valign=center><Table>.*?<b>([^<]+)</b>", Pattern.DOTALL),
     // KoL sure generates a lot of bogus HTML
     Pattern.compile("<b>.*?(<b>.*?<(/b|/td)>.*?)<(br|/td|/tr)>", Pattern.DOTALL),
   };
@@ -1010,7 +1015,8 @@ public class AdventureRequest extends GenericRequest {
     return parseEncounter(responseText);
   }
 
-  private static final Pattern BOLD_ENCOUNTER = Pattern.compile("<b(?:| [^>]*)>(.*?)</b>");
+  private static final Pattern BOLD_ENCOUNTER =
+      Pattern.compile("<b(?:| [^>]*)>(.*?)</b>", Pattern.DOTALL);
 
   public static String parseEncounter(final String responseText) {
     // Look only in HTML body; the header can have scripts with
@@ -1041,7 +1047,7 @@ public class AdventureRequest extends GenericRequest {
       return "";
     }
 
-    return ChoiceUtilities.stripDevReadout(boldMatch.group(1));
+    return ChoiceUtilities.stripDevReadout(boldMatch.group(1).trim());
   }
 
   public static int parseArea(final String urlString) {

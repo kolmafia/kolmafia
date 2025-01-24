@@ -488,7 +488,7 @@ public class IslandDecorator {
 
     int tableIndex =
         buffer.indexOf(
-            "<tr><td style=\"color: white;\" align=center bgcolor=blue><b>Our Lady of Perpetual Indecision</b></td>");
+            "<tr><td style=\"background-color: blue\" align=center ><b style=\"color: white\">Our Lady of Perpetual Indecision</b></td>");
     if (tableIndex == -1) {
       return;
     }

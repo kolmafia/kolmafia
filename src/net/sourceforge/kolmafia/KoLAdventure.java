@@ -36,7 +36,6 @@ import net.sourceforge.kolmafia.request.AdventureRequest.ShadowRift;
 import net.sourceforge.kolmafia.request.BasementRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
-import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
@@ -50,6 +49,7 @@ import net.sourceforge.kolmafia.request.SpelunkyRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
+import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 import net.sourceforge.kolmafia.session.BatManager;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.CryptManager;
@@ -633,6 +633,9 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       case "PirateRealm":
         // One daily visit if available
         return checkZone("prAlways", "_prToday", "monorail");
+      case "Server Room":
+        // One daily visit if available
+        return checkZone("crAlways", "_crToday", "monorail");
       case "Tunnel of L.O.V.E.":
         return checkZone("loveTunnelAvailable", "_loveTunnelToday", "town_wrong");
       case "Twitch":
@@ -2204,6 +2207,22 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       return Preferences.getString("_lastPirateRealmIsland").equals(this.adventureName);
     }
 
+    if (this.zone.equals("Server Room")) {
+      if (Preferences.getBoolean("crAlways") || Preferences.getBoolean("_crToday")) {
+        String property =
+            switch (this.adventureNumber) {
+              case AdventurePool.CYBER_ZONE_1 -> "_cyberZone1Turns";
+              case AdventurePool.CYBER_ZONE_2 -> "_cyberZone2Turns";
+              case AdventurePool.CYBER_ZONE_3 -> "_cyberZone3Turns";
+              default -> null;
+            };
+        if (property != null) {
+          return Preferences.getInteger(property) < 20;
+        }
+      }
+      return false;
+    }
+
     if (this.zone.equals("Speakeasy")) {
       return (Preferences.getBoolean("ownsSpeakeasy"));
     }
@@ -3406,6 +3425,11 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     NamedListenerRegistry.fireChange("(koladventure)");
   }
 
+  public static void clearLocation() {
+    KoLAdventure.setLastAdventure("None");
+    KoLAdventure.setNextAdventure("None");
+  }
+
   public static KoLAdventure lastVisitedLocation() {
     return KoLAdventure.lastVisitedLocation;
   }
@@ -4172,7 +4196,11 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     new AdventureFailure(
         "Looks like peace has broken out in this area",
         "The balance of power has shifted, you can no longer fight here",
-        MafiaState.PENDING)
+        MafiaState.PENDING),
+
+    // CyberRealm zones
+    new AdventureFailure(
+        "You've already hacked this system.", "Nothing more to do here.", MafiaState.PENDING),
   };
 
   private static final Pattern CRIMBO21_COLD_RES =

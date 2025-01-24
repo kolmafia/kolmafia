@@ -141,6 +141,8 @@ import net.sourceforge.kolmafia.request.ClosetRequest.ClosetRequestType;
 import net.sourceforge.kolmafia.request.DeckOfEveryCardRequest.EveryCard;
 import net.sourceforge.kolmafia.request.FloristRequest.Florist;
 import net.sourceforge.kolmafia.request.StorageRequest.StorageRequestType;
+import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
+import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 import net.sourceforge.kolmafia.scripts.git.GitManager;
 import net.sourceforge.kolmafia.scripts.svn.SVNManager;
 import net.sourceforge.kolmafia.session.AutumnatonManager;
@@ -1785,6 +1787,9 @@ public abstract class RuntimeLibrary {
     params = List.of(namedParam("skill", DataTypes.SKILL_TYPE));
     functions.add(new LibraryFunction("combat_skill_available", DataTypes.BOOLEAN_TYPE, params));
 
+    params = List.of();
+    functions.add(new LibraryFunction("my_ram", DataTypes.INT_TYPE, params));
+
     params = List.of(namedParam("skill", DataTypes.SKILL_TYPE));
     functions.add(new LibraryFunction("mp_cost", DataTypes.INT_TYPE, params));
 
@@ -2878,6 +2883,9 @@ public abstract class RuntimeLibrary {
     params = List.of(namedParam("monster", DataTypes.MONSTER_TYPE));
     functions.add(new LibraryFunction("is_banished", DataTypes.BOOLEAN_TYPE, params));
 
+    params = List.of(namedParam("phylum", DataTypes.PHYLUM_TYPE));
+    functions.add(new LibraryFunction("is_banished", DataTypes.BOOLEAN_TYPE, params));
+
     params = List.of(namedParam("monster", DataTypes.MONSTER_TYPE));
     functions.add(
         new LibraryFunction("banished_by", new AggregateType(DataTypes.STRING_TYPE, 0), params));
@@ -3642,6 +3650,18 @@ public abstract class RuntimeLibrary {
 
     params = List.of();
     functions.add(new LibraryFunction("get_title", DataTypes.STRING_TYPE, params));
+
+    params = List.of();
+    functions.add(new LibraryFunction("free_crafts", DataTypes.INT_TYPE, params));
+
+    params = List.of();
+    functions.add(new LibraryFunction("free_cooks", DataTypes.INT_TYPE, params));
+
+    params = List.of();
+    functions.add(new LibraryFunction("free_mixes", DataTypes.INT_TYPE, params));
+
+    params = List.of();
+    functions.add(new LibraryFunction("free_smiths", DataTypes.INT_TYPE, params));
   }
 
   public static Method findMethod(final String name, final Class<?>[] args)
@@ -5913,7 +5933,7 @@ public abstract class RuntimeLibrary {
 
     FaxBotDatabase.configure();
 
-    String actualName = monster.getName();
+    int monsterId = monster.getId();
     for (FaxBot bot : FaxBotDatabase.faxbots) {
       if (bot == null) {
         continue;
@@ -5924,7 +5944,7 @@ public abstract class RuntimeLibrary {
         continue;
       }
 
-      Monster monsterObject = bot.getMonsterByActualName(actualName);
+      Monster monsterObject = bot.getMonsterByMonsterId(monsterId);
       if (monsterObject == null) {
         continue;
       }
@@ -7137,6 +7157,10 @@ public abstract class RuntimeLibrary {
   public static Value combat_skill_available(ScriptRuntime controller, final Value arg) {
     int skillId = (int) arg.intValue();
     return DataTypes.makeBooleanValue(KoLCharacter.hasCombatSkill(skillId));
+  }
+
+  public static Value my_ram(ScriptRuntime controller) {
+    return DataTypes.makeIntValue(FightRequest.getCurrentRAM());
   }
 
   public static Value mp_cost(ScriptRuntime controller, final Value skill) {
@@ -9794,11 +9818,21 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value is_banished(ScriptRuntime controller, final Value arg) {
-    MonsterData monster = (MonsterData) arg.rawValue();
-    if (monster == null) {
+    if (arg.getType().equals(TypeSpec.MONSTER)) {
+      MonsterData monster = (MonsterData) arg.rawValue();
+      if (monster == null) {
+        return DataTypes.FALSE_VALUE;
+      }
+      return DataTypes.makeBooleanValue(BanishManager.isBanished(monster.getName()));
+    } else if (arg.getType().equals(TypeSpec.PHYLUM)) {
+      Phylum phylum = (Phylum) arg.rawValue();
+      if (phylum == null) {
+        return DataTypes.FALSE_VALUE;
+      }
+      return DataTypes.makeBooleanValue(BanishManager.isBanishedPhylum(phylum));
+    } else {
       return DataTypes.FALSE_VALUE;
     }
-    return DataTypes.makeBooleanValue(BanishManager.isBanished(monster.getName()));
   }
 
   public static Value banished_by(ScriptRuntime controller, final Value arg) {
@@ -11356,5 +11390,21 @@ public abstract class RuntimeLibrary {
 
   public static Value get_title(ScriptRuntime controller) {
     return DataTypes.makeStringValue(KoLCharacter.getTitle());
+  }
+
+  public static Value free_crafts(ScriptRuntime controller) {
+    return DataTypes.makeIntValue(ConcoctionDatabase.getFreeCraftingTurns());
+  }
+
+  public static Value free_cooks(ScriptRuntime controller) {
+    return DataTypes.makeIntValue(ConcoctionDatabase.getFreeCookingTurns());
+  }
+
+  public static Value free_mixes(ScriptRuntime controller) {
+    return DataTypes.makeIntValue(ConcoctionDatabase.getFreeCocktailcraftingTurns());
+  }
+
+  public static Value free_smiths(ScriptRuntime controller) {
+    return DataTypes.makeIntValue(ConcoctionDatabase.getFreeSmithingTurns());
   }
 }

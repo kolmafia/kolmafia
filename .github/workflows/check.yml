@@ -12,7 +12,7 @@ jobs:
     strategy:
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
-        java: [17, 21]
+        java: [21]
 
     name: Run Checks
 
@@ -48,14 +48,14 @@ jobs:
         env:
           ORG_GRADLE_PROJECT_javaSourceCompatibility: ${{ matrix.java }}
           ORG_GRADLE_PROJECT_javaTargetCompatibility: ${{ matrix.java }}
-        run: xvfb-run ./gradlew --no-daemon check jacocoTestReport
+        run: xvfb-run ./gradlew -S --no-daemon check jacocoTestReport
 
       - name: Run Java checks (including tests)
         if: matrix.os != 'ubuntu-latest'
         env:
           ORG_GRADLE_PROJECT_javaSourceCompatibility: ${{ matrix.java }}
           ORG_GRADLE_PROJECT_javaTargetCompatibility: ${{ matrix.java }}
-        run: ./gradlew --no-daemon check jacocoTestReport
+        run: ./gradlew -S --no-daemon check jacocoTestReport
 
       - name: Publish Test Report
         uses: mikepenz/action-junit-report@v5
@@ -65,11 +65,11 @@ jobs:
           report_paths: "**/build/test-results/test/TEST-*.xml"
 
       - name: Publish Coverage Report
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v5
         if: always()
         with:
           env_vars: OS,JAVA
           name: coverage-${{ matrix.os }}-java-${{ matrix.java }}
-          file: ./build/reports/jacoco/test/jacocoTestReport.xml
+          files: ./build/reports/jacoco/test/jacocoTestReport.xml
           token: ${{secrets.CODECOV_TOKEN}}
 

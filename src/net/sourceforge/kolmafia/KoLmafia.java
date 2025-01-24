@@ -50,7 +50,6 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.persistence.TCRSDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ApiRequest;
-import net.sourceforge.kolmafia.request.BountyHunterHunterRequest;
 import net.sourceforge.kolmafia.request.CafeRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CargoCultistShortsRequest;
@@ -60,7 +59,6 @@ import net.sourceforge.kolmafia.request.ChateauRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
-import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.CustomOutfitRequest;
 import net.sourceforge.kolmafia.request.EdBaseRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -70,7 +68,6 @@ import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.FloristRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.InternalChatRequest;
 import net.sourceforge.kolmafia.request.MoonPhaseRequest;
 import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
@@ -81,13 +78,16 @@ import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
 import net.sourceforge.kolmafia.request.RichardRequest;
 import net.sourceforge.kolmafia.request.ScrapheapRequest;
-import net.sourceforge.kolmafia.request.SeptEmberCenserRequest;
 import net.sourceforge.kolmafia.request.SpelunkyRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.TrendyRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.WildfireCampRequest;
+import net.sourceforge.kolmafia.request.coinmaster.BountyHunterHunterRequest;
+import net.sourceforge.kolmafia.request.coinmaster.HermitRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.SeptEmberCenserRequest;
+import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 import net.sourceforge.kolmafia.session.BanishManager;
 import net.sourceforge.kolmafia.session.BatManager;
 import net.sourceforge.kolmafia.session.ChoiceManager;
@@ -593,12 +593,10 @@ public abstract class KoLmafia {
     VYKEACompanionData.initialize(false);
     ConsequenceManager.updateOneDesc();
 
-    // Make sure Banishes are loaded before removing them
-    BanishManager.loadBanished();
+    // Remove spent banishes
     BanishManager.resetRollover();
 
-    // Make sure Tracks are loaded before removing them
-    TrackManager.loadTracked();
+    // Remove spent tracks
     TrackManager.resetRollover();
 
     // Libram summoning skills now costs 1 MP again
@@ -756,9 +754,6 @@ public abstract class KoLmafia {
 
     // Retrieve the contents of the closet.
     ClosetRequest.refresh();
-
-    // Load Banished monsters
-    BanishManager.loadBanished();
 
     // Retrieve Custom Outfit list
     if (!KoLCharacter.getLimitMode().limitOutfits()) {

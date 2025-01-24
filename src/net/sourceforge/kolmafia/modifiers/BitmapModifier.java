@@ -27,6 +27,7 @@ public enum BitmapModifier implements Modifier {
       Pattern.compile("Makes you look (\\d+)% clowny"),
       Pattern.compile("Clowniness: " + EXPR)),
   RAVEOSITY("Raveosity", Pattern.compile("Raveosity: (\\+?\\d+)")),
+  MCHUGELARGE("McHugeLarge", Pattern.compile("McHugeLarge")),
   MUTEX("Mutually Exclusive", null),
   MUTEX_VIOLATIONS("Mutex Violations", null);
   private final String name;

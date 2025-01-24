@@ -120,6 +120,10 @@ Crimbo's Jelly	100	bottle of cheap whiskey	the abstract concept of poverty	pengu
 Crimbo's Reindeer	100	the Crimborg	the abstract concept of poverty	simple hobo
 Crimbo's Sack	100	endless winter	penguin mafioso	simple hobo
 Crimborg Collective Factory	100	<s>Killer</s> Festive Arc-Welding Elfbot	<s>Killer</s> Festive Decal-Applying Elfbot	<s>Killer</s> Festive Laser-Calibrating Elfbot	<s>Killer</s> Festive Weapons-Assembly Elfbot	Rudolphus of Crimborg
+# all the cyberzones have the common viruses, then one of the rare viruses and one hacker
+Cyberzone 1	100	zombie process	botfly	network worm	ICE man	rat (remote access trojan)
+Cyberzone 2	100	zombie process	botfly	network worm	ICE man	rat (remote access trojan)
+Cyberzone 3	100	zombie process	botfly	network worm	ICE man	rat (remote access trojan)
 Domed City of Grimacia	100	alielf	cat-alien	dog-alien	grizzled survivor	unhinged survivor	whiny survivor
 Domed City of Ronaldus	100	dogcat	ferrelf	hamsterpus	overarmed survivor	primitive survivor	unlikely survivor
 Doubt Man's Level	100	judgmental eye	reproachful heart	work hat	Doubt Man: 0

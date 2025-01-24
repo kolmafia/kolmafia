@@ -5,6 +5,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.request.concoction.MultiUseRequest;
 
 public class PalmFrondRequest extends MultiUseRequest {
   public static final AdventureResult MANUAL = ItemPool.get(ItemPool.WEAVING_MANUAL);

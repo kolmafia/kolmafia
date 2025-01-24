@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.TreeMap;
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.AdventureResult.MeatResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -26,6 +27,8 @@ import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.shop.ShopRow;
+import net.sourceforge.kolmafia.shop.ShopRowDatabase;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.HashMultimap;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -66,6 +69,13 @@ public class NPCStoreDatabase {
             (data.length > 4 && data[4].startsWith("ROW"))
                 ? StringUtilities.parseInt(data[4].substring(3))
                 : 0;
+
+        if (row != 0) {
+          AdventureResult item = new AdventureResult(itemName, 1, false);
+          AdventureResult cost = new MeatResult(price);
+          ShopRow shopRow = new ShopRow(row, item, cost);
+          ShopRowDatabase.registerShopRow(shopRow, "npc", storeName);
+        }
 
         // Make the purchase request for this item
         int quantity = NPCStoreDatabase.limitQuantity(itemId);
@@ -255,6 +265,9 @@ public class NPCStoreDatabase {
         // The Crimbo Cafe
         // Ornament Stand
         return false;
+      }
+      case "cyber_hackmarket" -> {
+        return Preferences.getBoolean("crAlways") || Preferences.getBoolean("_crToday");
       }
       case "doc" -> {
         // Doc Galaktik's Medicine Show

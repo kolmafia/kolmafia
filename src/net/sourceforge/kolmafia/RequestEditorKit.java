@@ -109,7 +109,7 @@ public class RequestEditorKit extends HTMLEditorKit {
       Pattern.compile("\\(select an outfit\\)</option>(<option.*?)<optgroup", Pattern.DOTALL);
 
   private static final Pattern ROUND_SEP_PATTERN =
-      Pattern.compile("<(?:b style=\"color: white\">Combat!</b>|hr.*?>)");
+      Pattern.compile("<(?:b style=\"color: [^\"]+\">Combat!</b>|hr.*?>)");
   private static final Pattern RCM_JS_PATTERN = Pattern.compile("rcm\\.(\\d+\\.)?js");
 
   private static final RequestViewFactory DEFAULT_FACTORY = new RequestViewFactory();
@@ -302,6 +302,7 @@ public class RequestEditorKit extends HTMLEditorKit {
       // bug report form.
       RequestEditorKit.addBugReportWarning(buffer);
     } else if (location.startsWith("adventure.php")) {
+      RequestEditorKit.fixCyberRealm(buffer);
       RequestEditorKit.fixTavernCellar(buffer);
       RequestEditorKit.fixBallroom1(buffer);
       RequestEditorKit.fixDucks(buffer);
@@ -345,6 +346,7 @@ public class RequestEditorKit extends HTMLEditorKit {
     } else if (location.startsWith("cave.php")) {
       NemesisManager.decorate(location, buffer);
     } else if (location.startsWith("choice.php")) {
+      RequestEditorKit.fixCyberRealm(buffer);
       RequestEditorKit.fixTavernCellar(buffer);
       StationaryButtonDecorator.decorate(location, buffer);
       RequestEditorKit.addChoiceSpoilers(location, buffer, addComplexFeatures);
@@ -365,6 +367,7 @@ public class RequestEditorKit extends HTMLEditorKit {
 
       RequestEditorKit.suppressInappropriateNags(buffer);
       RequestEditorKit.suppressPowerPixellation(buffer);
+      RequestEditorKit.fixCyberRealm(buffer);
       RequestEditorKit.fixTavernCellar(buffer);
 
       // Decorate end of fight before stationary buttons
@@ -791,14 +794,16 @@ public class RequestEditorKit extends HTMLEditorKit {
     buffer.insert(index + test.length(), link.getItemHTML());
   }
 
-  // <table  width=400  cellspacing=0 cellpadding=0><tr><td style="color: white;" align=center
-  // bgcolor=blue>f<b>New Area Unlocked</b></td></tr><tr><td style="padding: 5px; border: 1px solid
-  // blue;"><center><table><tr><td><center><table><tr><td valign=center><img
-  // src="http://images.kingdomofloathing.com/adventureimages/../otherimages/ocean/corrala.gif"></td><td valign=center class=small><b>The Coral Corral</b>, on <a class=nounder href=seafloor.php><b>The Sea Floor</b></a>.</td></tr></table></center></td></tr></table></center></td></tr><tr><td height=4></td></tr></table>
+  // <table  width=400  cellspacing=0 cellpadding=0><tr><td style="background-color: blue"
+  // align=center ><b style="color: white">New Area Unlocked</b></td></tr><tr><td style="padding:
+  // 5px; border: 1px solid blue;"><center><table><tr><td><center><table><tr><td valign=center><img
+  // src="https://d2uyhvukfffg5a.cloudfront.net/adventureimages/biggoat.gif"></td><td valign=center
+  // class=small><b>The Goatlet</b>, on <a href=place.php?whichplace=mclargehuge><b>Mt.
+  // McLargeHuge</b></a>.</td></tr></table>
 
   private static final Pattern NEW_LOCATION_PATTERN =
       Pattern.compile(
-          "<table.*?<b>New Area Unlocked</b>.*?(<img[^>]*>).*?(<b>(.*?)</b>)", Pattern.DOTALL);
+          "<table.*?<b.*?>New Area Unlocked</b>.*?(<img[^>]*>).*?(<b>(.*?)</b>)", Pattern.DOTALL);
 
   public static final void addNewLocationLinks(final StringBuffer buffer) {
     if (buffer.indexOf("New Area Unlocked") == -1) {
@@ -1085,6 +1090,67 @@ public class RequestEditorKit extends HTMLEditorKit {
       buffer.insert(
           buffer.indexOf("</head>"),
           "<script>var ocrs = [" + replacementModifierString + "];</script>");
+    }
+  }
+
+  /*
+  <link rel="stylesheet" href="https://unpkg.com/fixedsys-css/css/fixedsys.css">
+  <style>
+  	* { font-family: 'fixedsys', "Fixedsys", monospace !important; font-size: 1.05rem; }
+  	img { opacity: 0}
+  	img.cybered { opacity: 1}
+  	.actionbar img  { opacity: 1; filter: invert(0.8); }
+  	.actionbar img.cybered  { opacity: 1; filter: invert(0); }
+  	select, body{ background-color: black; color: green; }
+  	body { margin-top: 8px; }
+  	td{ background-color: black; color: green; }
+  	input.button, button.button, .button { background-color: black; color: green; border: 1px solid green; font-size: 1.05rem }
+  	a, a:link, a:visited, a:active {color: green; }
+  	b {color: green; }
+  	.spacer { background-color: black !important; }
+  	td.page { background-color: black !important; }
+  </style>
+   */
+
+  private static final Pattern CYBER_REALM_DARK_MODE_PATTERN =
+      Pattern.compile(
+          "<link rel=\"stylesheet\" href=\"https://unpkg.com/fixedsys-css/css/fixedsys.css\">.*?<style>.*?</style>",
+          Pattern.DOTALL);
+  private static final Pattern SCRIPT_PATTERN =
+      Pattern.compile("<script.*?</script>", Pattern.DOTALL);
+
+  protected static void fixCyberRealm(final StringBuffer buffer) {
+    boolean suppressDarkMode = Preferences.getBoolean("suppressCyberRealmDarkMode");
+    if (suppressDarkMode) {
+      Matcher darkMatcher = CYBER_REALM_DARK_MODE_PATTERN.matcher(buffer);
+      if (darkMatcher.find()) {
+        StringUtilities.singleStringReplace(buffer, darkMatcher.group(0), "");
+        StringUtilities.globalStringReplace(
+            buffer, "style=\"background-color: green\"", "style=\"background-color: blue\"");
+        StringUtilities.globalStringReplace(
+            buffer, "style=\"color: black\"", "style=\"color: white\"");
+      }
+    }
+
+    boolean suppressGreenImages = Preferences.getBoolean("suppressCyberRealmGreenImages");
+    if (suppressGreenImages) {
+      Matcher scriptMatcher = SCRIPT_PATTERN.matcher(buffer);
+      while (scriptMatcher.find()) {
+        String text = scriptMatcher.group(0);
+        if (text.contains("cyberit = function ()")) {
+          StringUtilities.singleStringReplace(buffer, text, "");
+          break;
+        }
+      }
+    }
+
+    // KoL does not currently provide a link back to the CyberRealm Map for zones 2 and 3
+    if (buffer.indexOf("You've already hacked this system.") != -1) {
+      // But if they fix it and it now adds one, cool.
+      String url = "place.php?whichplace=cyberrealm";
+      if (buffer.indexOf(url) == -1) {
+        RequestEditorKit.addAdventureAgainSection(buffer, url, "Back to the Network Map");
+      }
     }
   }
 
@@ -1954,9 +2020,8 @@ public class RequestEditorKit extends HTMLEditorKit {
       case 579:
         // Such Great Heights
         if (option == 3) {
-          int index =
-              buffer.indexOf(
-                  "<p><a href=\"adventure.php?snarfblat=280\">Adventure Again (The Hidden Temple)</a>");
+          String adventureAgain = adventureAgainSection(AdventurePool.HIDDEN_TEMPLE);
+          int index = buffer.indexOf(adventureAgain);
           if (index == -1) {
             break;
           }
@@ -1983,9 +2048,8 @@ public class RequestEditorKit extends HTMLEditorKit {
       case 611:
         {
           // The Horror...
-          int index =
-              buffer.indexOf(
-                  "<p><a href=\"adventure.php?snarfblat=296\">Adventure Again (A-Boo Peak)</a>");
+          String adventureAgain = adventureAgainSection(AdventurePool.ABOO_PEAK);
+          int index = buffer.indexOf(adventureAgain);
           if (index == -1) {
             break;
           }
@@ -2222,6 +2286,14 @@ public class RequestEditorKit extends HTMLEditorKit {
     RequestEditorKit.addAdventureAgainSection(buffer, url, "Go to your El Vibrato portal");
   }
 
+  public static String adventureAgainSection(final int snarfblat) {
+    StringBuilder buf = new StringBuilder();
+    buf.append("<p><a href=\"adventure.php?snarfblat=");
+    buf.append(snarfblat);
+    buf.append("\" id='againlink'>");
+    return buf.toString();
+  }
+
   public static final void addAdventureAgainSection(
       final StringBuffer buffer, final String link, final String tag) {
     int index = buffer.indexOf("</center></td></tr><tr><td height=4></td></tr></table>");
@@ -2240,8 +2312,7 @@ public class RequestEditorKit extends HTMLEditorKit {
       return;
     }
 
-    String adventureAgain =
-        "<p><a href=\"adventure.php?snarfblat=" + AdventurePool.HAUNTED_BALLROOM + "\">";
+    String adventureAgain = adventureAgainSection(AdventurePool.HAUNTED_BALLROOM);
     int index = buffer.indexOf(adventureAgain);
     if (index == -1) {
       return;
@@ -2271,7 +2342,8 @@ public class RequestEditorKit extends HTMLEditorKit {
       return;
     }
 
-    int index = buffer.indexOf("<p><a href=\"adventure.php?snarfblat=395\">");
+    String adventureAgain = adventureAgainSection(AdventurePool.HAUNTED_BALLROOM);
+    int index = buffer.indexOf(adventureAgain);
     if (index == -1) {
       return;
     }

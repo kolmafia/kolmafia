@@ -12,7 +12,6 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.ShopRow;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
@@ -28,9 +27,87 @@ import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.coinmaster.TicketCounterRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.AppleStoreRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.ArmoryAndLeggeryRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.ArmoryRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.BatFabricatorRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.BlackMarketRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.BoutiqueRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.BrogurtRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.BuffJimmyRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.CanteenRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.ChemiCorpRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.CosmicRaysBazaarRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo14Request;
+import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo17Request;
+import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo20BoozeRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo20CandyRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo20FoodRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo23ElfArmoryRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo23ElfBarRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo23ElfCafeRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo23ElfFactoryRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo23PirateArmoryRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo23PirateBarRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo23PirateCafeRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo23PirateFactoryRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo24BarRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo24CafeRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo24FactoryRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.DedigitizerRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.DinostaurRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.DinseyCompanyStoreRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.DiscoGiftCoRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.DripArmoryRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.EdShopRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.FDKOLRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.FancyDanRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.FishboneryRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.FunALogRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.GMartRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.GotporkOrphanageRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.GotporkPDRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.GuzzlrRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.LTTRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.MemeShopRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.MerchTableRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.MrStore2002Request;
+import net.sourceforge.kolmafia.request.coinmaster.shop.NeandermallRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.NinjaStoreRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.NuggletCraftingRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.PlumberGearRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.PlumberItemRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.PokemporiumRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.PrecinctRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.ReplicaMrStoreRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.RubeeRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.SHAWARMARequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.SeptEmberCenserRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.ShoeRepairRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.ShoreGiftShopRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.SpacegateFabricationRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.SpinMasterLatheRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.TacoDanRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.TerrifiedEagleInnRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.ThankShopRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.ToxicChemistryRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.TrapperRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.VendingMachineRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.WalMartRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.YeNeweSouvenirShoppeRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.YourCampfireRequest;
+import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
+import net.sourceforge.kolmafia.request.concoction.shop.FiveDPrinterRequest;
+import net.sourceforge.kolmafia.request.concoction.shop.JarlsbergRequest;
+import net.sourceforge.kolmafia.request.concoction.shop.KiwiKwikiMartRequest;
+import net.sourceforge.kolmafia.request.concoction.shop.StarChartRequest;
+import net.sourceforge.kolmafia.request.concoction.shop.StillRequest;
+import net.sourceforge.kolmafia.request.concoction.shop.SugarSheetRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.shop.ShopRow;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class NPCPurchaseRequest extends PurchaseRequest {
@@ -429,10 +506,6 @@ public class NPCPurchaseRequest extends PurchaseRequest {
     }
   }
 
-  private static final Pattern SHOP_NAME_PATTERN =
-      Pattern.compile(
-          "<td style=\"background-color: blue\" align=center ><b style=\"color: white\">(.*?)</b>",
-          Pattern.DOTALL);
   private static final Pattern BLOOD_MAYO_PATTERN =
       Pattern.compile("blood mayonnaise concentration: (\\d+) mayograms");
 
@@ -454,18 +527,6 @@ public class NPCPurchaseRequest extends PurchaseRequest {
         || shopId.equals("wereprofessor_tinker")
         || shopId.equals("xo");
   }
-
-  // <tr rel="7567"><td valign=center></td><td><img
-  // src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/chroner.gif" class="hand pop"
-  // rel="desc_item.php?whichitem=783338147" onClick='javascript:descitem(783338147)'></td><td
-  // valign=center><a
-  // onClick='javascript:descitem(783338147)'><b>Chroner</b>&nbsp;<b>(15)</b>&nbsp;&nbsp;&nbsp;&nbsp;</a></td><td><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/twitchtulip.gif width=30 height=30 onClick='javascript:descitem(973996072)' alt="red tulip" title="red tulip"></td><td><b>1</b></td><td valign=center class=tiny>red tulip</td><td></td><td></td><td valign=center class=tiny></td><td></td><td></td><td valign=center class=tiny></td><td></td><td></td><td valign=center class=tiny></td><td></td><td></td><td valign=center class=tiny></td><td valign=center><input class="button doit multibuy "  type=button rel='shop.php?whichshop=flowertradein&action=buyitem&quantity=1&whichrow=760&pwd=173b4446c2dd92d83eb3ce2af0de1289' value='Trade In'></td></tr>
-  //
-  // <b>Chroner</b>&nbsp;<b>(15)</b>&nbsp;
-  private static final Pattern ITEM_PATTERN =
-      Pattern.compile(
-          "<tr rel=\\\"(\\d+).*?descitem.(\\d+)\\)'><b>(.*?)(?:<font.*)?</b>(&nbsp;<b>\\((\\d+)\\)</b>&nbsp;)?.*?title=\\\"(.*?)\\\">.*?<b>(.*?)</b>.*?whichrow=(\\d+)",
-          Pattern.DOTALL);
 
   public static final void parseShopResponse(final String urlString, final String responseText) {
     if (!urlString.startsWith("shop.php")) {
@@ -817,6 +878,10 @@ public class NPCPurchaseRequest extends PurchaseRequest {
       Crimbo24FactoryRequest.parseResponse(urlString, responseText);
     }
 
+    if (shopId.equals("cyber_dedigitizer")) {
+      DedigitizerRequest.parseResponse(urlString, responseText);
+    }
+
     if (shopId.equals("edunder_shopshop")) {
       EdShopRequest.parseResponse(urlString, responseText);
       return;
@@ -1075,7 +1140,7 @@ public class NPCPurchaseRequest extends PurchaseRequest {
         continue;
       }
 
-      if (costs.length == 1 && costs[0].equals("Meat")) {
+      if (costs.length == 1 && costs[0].isMeat()) {
         int cost = costs[0].getCount();
         newShopItems |= learnNPCStoreItem(shopId, shopName, item, cost, row, newShopItems, force);
         continue;
@@ -1496,6 +1561,10 @@ public class NPCPurchaseRequest extends PurchaseRequest {
 
       if (shopId.equals("crimbo24_factory")) {
         Crimbo24FactoryRequest.registerRequest(urlString);
+      }
+
+      if (shopId.equals("cyber_dedigitizer")) {
+        DedigitizerRequest.registerRequest(urlString);
       }
 
       if (shopId.equals("edunder_shopshop")) {
