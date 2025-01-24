@@ -3,6 +3,8 @@ package net.sourceforge.kolmafia.swingui;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import javax.swing.DefaultListCellRenderer;
@@ -30,6 +32,7 @@ import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.*;
 import net.sourceforge.kolmafia.request.StorageRequest.StorageRequestType;
@@ -1018,6 +1021,34 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
   public class TwitchSoupPanel extends TwitchPanel {
     public TwitchSoupPanel() {
       super(PrimordialSoupKitchenRequest.DATA);
+    }
+
+    static List<Map.Entry<String, String>> currencies = new ArrayList<>();
+
+    static {
+      currencies.add(Map.entry("Chroner", "Chroner"));
+      currencies.add(Map.entry("bacteria bisque", "bisque"));
+      currencies.add(Map.entry("ciliophora chowder", "chowder"));
+      currencies.add(Map.entry("cream of chloroplasts", "cream"));
+      currencies.add(Map.entry("protogenetic chunklet (elbow)", "elbow"));
+      currencies.add(Map.entry("protogenetic chunklet (flagellum)", "flagellum"));
+      currencies.add(Map.entry("protogenetic chunklet (lips)", "lips"));
+      currencies.add(Map.entry("protogenetic chunklet (muscle)", "muscle"));
+      currencies.add(Map.entry("protogenetic chunklet (synapse)", "synapse"));
+    }
+
+    @Override
+    public void setTitle(final StringBuffer buffer) {
+      this.standardTitle(buffer);
+      for (var entry : currencies) {
+        int itemId = ItemDatabase.getItemId(entry.getKey());
+        int count = InventoryManager.getCount(itemId);
+        buffer.append(" (");
+        buffer.append(count);
+        buffer.append(" ");
+        buffer.append(entry.getValue());
+        buffer.append(")");
+      }
     }
   }
 

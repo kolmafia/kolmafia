@@ -23,6 +23,7 @@ import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.shop.ShopRow;
 import net.sourceforge.kolmafia.shop.ShopRowDatabase;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.HashMultimap;
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -80,7 +81,8 @@ public class CoinmastersDatabase {
   // sell using sellItems and sellPrices.
 
   // Map from Integer( itemId ) -> CoinMasterPurchaseRequest
-  public static final Map<Integer, CoinMasterPurchaseRequest> COINMASTER_ITEMS = new HashMap<>();
+  public static final HashMultimap<CoinMasterPurchaseRequest> COINMASTER_ITEMS =
+      new HashMultimap<>();
 
   // Map from Integer( row ) -> CoinMasterPurchaseRequest
   public static final Map<Integer, CoinMasterPurchaseRequest> COINMASTER_ROWS = new HashMap<>();
@@ -256,8 +258,10 @@ public class CoinmastersDatabase {
 
   public static final void clearPurchaseRequests(CoinmasterData data) {
     // Clear all purchase requests for a particular Coin Master
-    COINMASTER_ITEMS.values().removeIf(request -> request.getData() == data);
-    COINMASTER_ROWS.values().removeIf(request -> request.getData() == data);
+    for (List<CoinMasterPurchaseRequest> list : COINMASTER_ITEMS.values()) {
+      list.removeIf(request -> request.getData() == data);
+    }
+    COINMASTER_ROWS.values();
   }
 
   public static final void registerPurchaseRequest(
@@ -332,8 +336,28 @@ public class CoinmastersDatabase {
     }
   }
 
+  public static final List<CoinMasterPurchaseRequest> getPurchaseRequests(final int itemId) {
+    List<CoinMasterPurchaseRequest> items = COINMASTER_ITEMS.get(itemId);
+    if (items == null || items.size() == 0) {
+      return null;
+    }
+
+    for (var request : items) {
+      request.setLimit(request.affordableCount());
+      request.setCanPurchase();
+    }
+
+    return items;
+  }
+
   public static final CoinMasterPurchaseRequest getPurchaseRequest(final int itemId) {
-    return getPurchaseRequest(COINMASTER_ITEMS.get(itemId));
+    List<CoinMasterPurchaseRequest> items = getPurchaseRequests(itemId);
+    if (items == null) {
+      return null;
+    }
+
+    // *** If you only want one, use the first.
+    return getPurchaseRequest(items.get(0));
   }
 
   public static final CoinMasterPurchaseRequest getPurchaseRequest(final ShopRow shopRow) {
@@ -368,7 +392,11 @@ public class CoinmastersDatabase {
 
   // *** For testing
   public static final CoinMasterPurchaseRequest findPurchaseRequest(final AdventureResult item) {
-    return COINMASTER_ITEMS.get(item.getItemId());
+    List<CoinMasterPurchaseRequest> items = COINMASTER_ITEMS.get(item.getItemId());
+    if (items == null || items.size() == 0) {
+      return null;
+    }
+    return items.get(0);
   }
 
   public static final void addPurchaseRequest(
