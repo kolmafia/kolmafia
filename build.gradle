@@ -288,6 +288,10 @@ java {
 	}
 }
 
+tasks.withType(Checkstyle).configureEach {
+	maxHeapSize = '2g'
+}
+
 tasks.withType(JavaCompile) {
 	options.encoding = 'UTF-8'
 }
