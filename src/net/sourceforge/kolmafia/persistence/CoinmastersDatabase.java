@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -336,48 +337,48 @@ public class CoinmastersDatabase {
     }
   }
 
-  public static final List<CoinMasterPurchaseRequest> getPurchaseRequests(final int itemId) {
+  public static final List<CoinMasterPurchaseRequest> getAllPurchaseRequests(final int itemId) {
     List<CoinMasterPurchaseRequest> items = COINMASTER_ITEMS.get(itemId);
     if (items == null || items.size() == 0) {
       return null;
     }
 
+    List<CoinMasterPurchaseRequest> result = new ArrayList<>();
+
     for (var request : items) {
+      // *** For testing
+      if (request.getData().isDisabled()) {
+        continue;
+      }
+
       request.setLimit(request.affordableCount());
       request.setCanPurchase();
+      result.add(request);
     }
 
-    return items;
+    return (result.size() > 0) ? result : null;
   }
 
-  public static final CoinMasterPurchaseRequest getPurchaseRequest(final int itemId) {
-    List<CoinMasterPurchaseRequest> items = getPurchaseRequests(itemId);
+  public static final CoinMasterPurchaseRequest getFirstPurchaseRequest(final int itemId) {
+    List<CoinMasterPurchaseRequest> items = getAllPurchaseRequests(itemId);
     if (items == null) {
       return null;
     }
 
-    // *** If you only want one, use the first.
-    return getPurchaseRequest(items.get(0));
+    return items.get(0);
   }
 
   public static final CoinMasterPurchaseRequest getPurchaseRequest(final ShopRow shopRow) {
-    return getPurchaseRequest(COINMASTER_ROWS.get(shopRow));
-  }
+    var request = COINMASTER_ROWS.get(shopRow);
+    if (request != null) {
+      // *** For testing
+      if (!request.getData().isDisabled()) {
+        return null;
+      }
 
-  public static final CoinMasterPurchaseRequest getPurchaseRequest(
-      CoinMasterPurchaseRequest request) {
-    if (request == null) {
-      return null;
+      request.setLimit(request.affordableCount());
+      request.setCanPurchase();
     }
-
-    // *** For testing
-    if (request.getData().isDisabled()) {
-      return null;
-    }
-
-    request.setLimit(request.affordableCount());
-    request.setCanPurchase();
-
     return request;
   }
 
@@ -386,7 +387,7 @@ public class CoinmastersDatabase {
   }
 
   public static final boolean contains(final int itemId, boolean validate) {
-    CoinMasterPurchaseRequest item = getPurchaseRequest(itemId);
+    CoinMasterPurchaseRequest item = getFirstPurchaseRequest(itemId);
     return item != null && (!validate || item.availableItem());
   }
 

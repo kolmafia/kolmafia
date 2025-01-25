@@ -1130,8 +1130,8 @@ public class NPCPurchaseRequest extends PurchaseRequest {
         continue;
       }
 
-      // *** CoinmastersDatabase assumes that only a single store sells a particular item.
-      if (CoinmastersDatabase.getPurchaseRequest(id) != null && !force) {
+      // *** CoinmastersDatabase assumes that multiple stores can sell a particular item.
+      if (CoinmastersDatabase.getAllPurchaseRequests(id) != null && !force) {
         continue;
       }
 
