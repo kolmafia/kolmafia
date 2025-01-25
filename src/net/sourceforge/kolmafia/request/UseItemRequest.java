@@ -2864,11 +2864,37 @@ public class UseItemRequest extends GenericRequest {
       case ItemPool.MANUAL_OF_LOCK_PICKING:
       case ItemPool.SPINAL_FLUID_COVERED_EMOTION_CHIP:
       case ItemPool.REPLICA_EMOTION_CHIP:
+      case ItemPool.MANUAL_OF_SECRET_DOOR_AWARENESS:
       case ItemPool.POCKET_GUIDE_TO_MILD_EVIL:
       case ItemPool.POCKET_GUIDE_TO_MILD_EVIL_USED:
       case ItemPool.RESIDUAL_CHITIN_PASTE:
+      case ItemPool.ELF_GUARD_FIELD_MANUAL_CULINARY_ARTS:
+      case ItemPool.COCKTAILS_OF_THE_AGE_OF_SAIL:
+      case ItemPool.ELF_GUARD_FIELD_MANUAL_EXTORTION:
+      case ItemPool.THE_ENCYCLOPEDIA_OF_FRUIT:
+      case ItemPool.ELF_GUARD_FIELD_MANUAL_WILDERNESS_SLEEPING:
+      case ItemPool.ELF_GUARD_FIELD_MANUAL_CULINARY_ARTS_USED:
+      case ItemPool.COCKTAILS_OF_THE_AGE_OF_SAIL_USED:
+      case ItemPool.ELF_GUARD_FIELD_MANUAL_EXTORTION_USED:
+      case ItemPool.THE_ENCYCLOPEDIA_OF_FRUIT_USED:
+      case ItemPool.ELF_GUARD_FIELD_MANUAL_WILDERNESS_SLEEPING_USED:
       case ItemPool.BOOK_OF_FACTS:
       case ItemPool.BOOK_OF_FACTS_DOG_EARED:
+      case ItemPool.TOO_COLD_TO_HOLD:
+      case ItemPool.TOO_COLD_TO_HOLD_USED:
+      case ItemPool.SECRETS_OF_THE_MASTER_EGG_HUNTERS:
+      case ItemPool.SECRETS_OF_THE_MASTER_EGG_HUNTERS_USED:
+      case ItemPool.HOW_TO_LOSE_FRIENDS_AND_ATTRACT_SNAKES:
+      case ItemPool.HOW_TO_LOSE_FRIENDS_AND_ATTRACT_SNAKES_USED:
+      case ItemPool.COVERT_OPS_FOR_KIDS:
+      case ItemPool.COVERT_OPS_FOR_KIDS_USED:
+      case ItemPool.HOLIDAY_MULTITASKING:
+      case ItemPool.HOLIDAY_MULTITASKING_USED:
+      case ItemPool.HOYLES_GUIDE_TO_REINDEER_GAMES:
+      case ItemPool.HOYLES_GUIDE_TO_REINDEER_GAMES_USED:
+      case ItemPool.SLEEP_ROM_CHIP:
+      case ItemPool.OVERCLOCK_ROM_CHIP:
+      case ItemPool.STATS_ROM_CHIP:
         {
           // You insert the ROM in to your... ROM receptacle and
           // absorb the knowledge of optimality. You suspect you
