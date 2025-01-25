@@ -48,14 +48,14 @@ jobs:
         env:
           ORG_GRADLE_PROJECT_javaSourceCompatibility: ${{ matrix.java }}
           ORG_GRADLE_PROJECT_javaTargetCompatibility: ${{ matrix.java }}
-        run: xvfb-run ./gradlew --no-daemon check jacocoTestReport
+        run: xvfb-run ./gradlew -S --no-daemon check jacocoTestReport
 
       - name: Run Java checks (including tests)
         if: matrix.os != 'ubuntu-latest'
         env:
           ORG_GRADLE_PROJECT_javaSourceCompatibility: ${{ matrix.java }}
           ORG_GRADLE_PROJECT_javaTargetCompatibility: ${{ matrix.java }}
-        run: ./gradlew --no-daemon check jacocoTestReport
+        run: ./gradlew -S --no-daemon check jacocoTestReport
 
       - name: Publish Test Report
         uses: mikepenz/action-junit-report@v5

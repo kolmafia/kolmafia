@@ -727,6 +727,38 @@ public class FightRequestTest {
     }
   }
 
+  @Nested
+  class EvolvingOrganism {
+    @Test
+    public void resetsFamiliarExperienceWhenEvolves() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              // I trained this familiar from 100 experience to 501 experience
+              // in the Cake Shaped Arena. Apparently, it does not evolve there.
+              withFamiliar(FamiliarPool.EVOLVING_ORGANISM, 501));
+      try (cleanups) {
+        client.addResponse(
+            302, Map.of("location", List.of("fight.php?ireallymeanit=1677340903")), "");
+        client.addResponse(200, html("request/test_fight_evolving_organism_0.html"));
+        client.addResponse(200, ""); // api.php
+        client.addResponse(200, html("request/test_fight_evolving_organism_1.html"));
+        client.addResponse(200, ""); // api.php
+
+        var request = new GenericRequest("adventure.php?snarfblat=443");
+        request.run();
+        // Honathan has evolved a rather noxious odor.
+
+        var fight = new GenericRequest("fight.php?action=attack");
+        fight.run();
+        // Honathan expends all their experience and evolves some sort of exothermic process.
+        assertThat(KoLCharacter.getFamiliar().getTotalExperience(), is(0));
+      }
+    }
+  }
+
   @Test
   public void canFindItemsAfterSlayTheDead() {
     var cleanups =
@@ -2379,6 +2411,7 @@ public class FightRequestTest {
 
   @Test
   public void canDetectEagleScreech() {
+    RequestLoggerOutput.startStream();
     var cleanups =
         new Cleanups(
             withFight(),
@@ -2392,6 +2425,9 @@ public class FightRequestTest {
 
       assertThat("screechCombats", isSetTo(11));
       assertThat("banishedPhyla", hasStringValue(startsWith("beast:Patriotic Screech:")));
+
+      var text = RequestLoggerOutput.stopStream();
+      assertThat(text, not(containsString("fire a Red, White and Blue Blast (0 Mojo Points)")));
     }
   }
 
