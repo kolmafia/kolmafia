@@ -69,6 +69,7 @@ import net.sourceforge.kolmafia.request.coinmaster.shop.GMartRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.GotporkOrphanageRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.GotporkPDRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.GuzzlrRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.KiwiKwikiMartRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.LTTRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.MemeShopRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.MerchTableRequest;
@@ -101,7 +102,6 @@ import net.sourceforge.kolmafia.request.coinmaster.shop.YourCampfireRequest;
 import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 import net.sourceforge.kolmafia.request.concoction.shop.FiveDPrinterRequest;
 import net.sourceforge.kolmafia.request.concoction.shop.JarlsbergRequest;
-import net.sourceforge.kolmafia.request.concoction.shop.KiwiKwikiMartRequest;
 import net.sourceforge.kolmafia.request.concoction.shop.StarChartRequest;
 import net.sourceforge.kolmafia.request.concoction.shop.StillRequest;
 import net.sourceforge.kolmafia.request.concoction.shop.SugarSheetRequest;
@@ -1643,6 +1643,10 @@ public class NPCPurchaseRequest extends PurchaseRequest {
 
       if (shopId.equals("mrstore2022")) {
         return MrStore2002Request.registerRequest(urlString);
+      }
+
+      if (shopId.equals("kiwi")) {
+        return KiwiKwikiMartRequest.registerRequest(urlString);
       }
 
       if (shopId.equals("september")) {

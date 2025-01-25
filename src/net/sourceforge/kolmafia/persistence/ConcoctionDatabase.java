@@ -332,7 +332,6 @@ public class ConcoctionDatabase {
     ShopDatabase.registerConcShop("grandma", "Grandma Sea Monkey");
     ShopDatabase.registerConcShop("jarl", "Jarlsberg's Cosmic Kitchen");
     ShopDatabase.registerConcShop("junkmagazine", "Worse Homes and Gardens");
-    ShopDatabase.registerConcShop("kiwi", "Kiwi Kwiki Mart");
     ShopDatabase.registerConcShop("kolhs_art", "Art Class (After School)");
     ShopDatabase.registerConcShop("kolhs_chem", "Chemistry Class (After School)");
     ShopDatabase.registerConcShop("kolhs_shop", "Shop Class (After School)");
@@ -2092,9 +2091,6 @@ public class ConcoctionDatabase {
           "Only a mild-mannered professor can work at their Tinkering Bench.");
     }
 
-    // Making stuff with mini kiwis is always allowed
-    permitNoCost(CraftingType.KIWI);
-
     // Other creatability flags
 
     if (KoLCharacter.isTorsoAware()) {
@@ -2511,7 +2507,6 @@ public class ConcoctionDatabase {
       case BURNING_LEAVES -> result.append("Pile of Burning Leaves");
       case TINKERING_BENCH -> result.append("Tinkering Bench");
       case MAYAM -> result.append("Mayam Calendar");
-      case KIWI -> result.append("Kiwi Kwiki Mart");
       case PHOTO_BOOTH -> result.append("Clan Photo Booth");
       case TAKERSPACE -> result.append("TakerSpace");
     }
@@ -2950,7 +2945,6 @@ public class ConcoctionDatabase {
       case "BURNING_LEAVES" -> ConcoctionDatabase.mixingMethod = CraftingType.BURNING_LEAVES;
       case "TINKERING_BENCH" -> ConcoctionDatabase.mixingMethod = CraftingType.TINKERING_BENCH;
       case "MAYAM" -> ConcoctionDatabase.mixingMethod = CraftingType.MAYAM;
-      case "KIWI" -> ConcoctionDatabase.mixingMethod = CraftingType.KIWI;
       case "PHOTO_BOOTH" -> ConcoctionDatabase.mixingMethod = CraftingType.PHOTO_BOOTH;
       case "TAKERSPACE" -> ConcoctionDatabase.mixingMethod = CraftingType.TAKERSPACE;
       default -> {

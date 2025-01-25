@@ -97,6 +97,7 @@ import net.sourceforge.kolmafia.request.coinmaster.shop.GotporkOrphanageRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.GotporkPDRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.GuzzlrRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.IsotopeSmitheryRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.KiwiKwikiMartRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.LTTRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.LunarLunchRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.MemeShopRequest;
@@ -203,6 +204,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
   private CoinmasterPanel guzzlrPanel = null;
   private CoinmasterPanel hermitPanel = null;
   private CoinmasterPanel isotopeSmitheryPanel = null;
+  private CoinmasterPanel kiwiKwikiMartPanel = null;
   private CoinmasterPanel lttPanel = null;
   private CoinmasterPanel lunarLunchPanel = null;
   private CoinmasterPanel merchTablePanel = null;
@@ -552,6 +554,11 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     mrStore2002Panel = new MrStore2002Panel();
     panel.add(mrStore2002Panel);
     this.selectorPanel.addPanel(mrStore2002Panel.getPanelSelector(), panel);
+
+    panel = new JPanel(new BorderLayout());
+    kiwiKwikiMartPanel = new KiwiKwikiMartPanel();
+    panel.add(kiwiKwikiMartPanel);
+    this.selectorPanel.addPanel(kiwiKwikiMartPanel.getPanelSelector(), panel);
 
     panel = new JPanel(new BorderLayout());
     septEmberPanel = new SeptEmberPanel();
@@ -1795,6 +1802,20 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
   private class Crimbo24FactoryPanel extends Crimbo24Panel {
     public Crimbo24FactoryPanel() {
       super(Crimbo24FactoryRequest.DATA);
+    }
+  }
+
+  private class KiwiKwikiMartPanel extends CoinmasterPanel {
+    public KiwiKwikiMartPanel() {
+      super(KiwiKwikiMartRequest.DATA);
+    }
+
+    @Override
+    public int buyMax(final AdventureResult item, final int max) {
+      return switch (item.getItemId()) {
+        case ItemPool.MINI_KIWI_INTOXICATING_SPIRITS -> 1;
+        default -> max;
+      };
     }
   }
 

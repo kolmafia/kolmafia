@@ -1264,6 +1264,23 @@ Crimbo24 Factory	ROW1535	Covert Ops for Kids	Spirit of Veteran's Day (500)
 Crimbo24 Factory	ROW1536	Holiday Multitasking	Spirit of Thanksgiving (500)
 Crimbo24 Factory	ROW1548	Hoyle's Guide to Reindeer Games	Spirit of Christmas (500)
 
+# Mini Kiwi
+
+Kiwi Kwiki Mart	ROW1477	mini kiwi bikini	mini kiwi (2)
+Kiwi Kwiki Mart	ROW1488	mini kiwi icepick	mini kiwi (4)
+Kiwi Kwiki Mart	ROW1487	mini kiwi whipping stick	mini kiwi (4)
+Kiwi Kwiki Mart	ROW1480	mini kiwi invisible dirigible	mini kiwi (3)
+Kiwi Kwiki Mart	ROW1482	mini kiwi silicon tiepin	mini kiwi (3)
+Kiwi Kwiki Mart	ROW1484	mini kiwi intoxicating spirits	mini kiwi (3)
+Kiwi Kwiki Mart	ROW1478	mini kiwitini	mini kiwi	bottle of vodka
+Kiwi Kwiki Mart	ROW1479	mini kiwitini	mini kiwi	bottle of gin
+Kiwi Kwiki Mart	ROW1486	mini kiwi antimilitaristic hippy petition	mini kiwi (3)
+Kiwi Kwiki Mart	ROW1485	mini kiwi illicit antibiotic	mini kiwi (3)
+Kiwi Kwiki Mart	ROW1483	mini kiwi tipi	mini kiwi
+Kiwi Kwiki Mart	ROW1489	mini kiwi-flavored aspirin-injecting lipstick	mini kiwi (3)
+Kiwi Kwiki Mart	ROW1481	mini kiwi aioli	mini kiwi (5)
+Kiwi Kwiki Mart	ROW1490	mini kiwi digitized cookies	mini kiwi (3)
+
 # Sept-Ember Censer
 
 Sept-Ember Censer	buy	1	bembershoot	ROW1516
@@ -1327,18 +1344,3 @@ Grandma Sea Monkey	ROW120	sea mantle	pristine fish scale (5)
 Grandma Sea Monkey	ROW121	sea shawl	pristine fish scale (5)
 Grandma Sea Monkey	ROW122	sea cape	pristine fish scale (5)
 Grandma Sea Monkey	ROW123	saltwaterbed	sea leather (15)
-
-Kiwi Kwiki Mart	ROW1477	mini kiwi bikini	mini kiwi (2)
-Kiwi Kwiki Mart	ROW1488	mini kiwi icepick	mini kiwi (4)
-Kiwi Kwiki Mart	ROW1487	mini kiwi whipping stick	mini kiwi (4)
-Kiwi Kwiki Mart	ROW1480	mini kiwi invisible dirigible	mini kiwi (3)
-Kiwi Kwiki Mart	ROW1482	mini kiwi silicon tiepin	mini kiwi (3)
-Kiwi Kwiki Mart	ROW1484	mini kiwi intoxicating spirits	mini kiwi (3)
-Kiwi Kwiki Mart	ROW1478	mini kiwitini	mini kiwi	bottle of vodka
-Kiwi Kwiki Mart	ROW1479	mini kiwitini	mini kiwi	bottle of gin
-Kiwi Kwiki Mart	ROW1486	mini kiwi antimilitaristic hippy petition	mini kiwi (3)
-Kiwi Kwiki Mart	ROW1485	mini kiwi illicit antibiotic	mini kiwi (3)
-Kiwi Kwiki Mart	ROW1483	mini kiwi tipi	mini kiwi
-Kiwi Kwiki Mart	ROW1489	mini kiwi-flavored aspirin-injecting lipstick	mini kiwi (3)
-Kiwi Kwiki Mart	ROW1481	mini kiwi aioli	mini kiwi (5)
-Kiwi Kwiki Mart	ROW1490	mini kiwi digitized cookies	mini kiwi (3)

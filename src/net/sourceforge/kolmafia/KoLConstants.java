@@ -526,7 +526,6 @@ public interface KoLConstants extends UtilityConstants {
     BURNING_LEAVES, // Items made at the Pile of Burning Leaves
     TINKERING_BENCH, // Items made at the Tinkering Bench
     MAYAM, // Items made at the Mayam Calendar
-    KIWI, // Items bought at Kiwi Kwiki Mart
     PHOTO_BOOTH, // Items made at the Clan Photo Booth
     TAKERSPACE, // Items made at the TakerSpace
   }

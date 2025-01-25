@@ -40,7 +40,6 @@ import net.sourceforge.kolmafia.request.concoction.shop.GrandmaRequest;
 import net.sourceforge.kolmafia.request.concoction.shop.JarlsbergRequest;
 import net.sourceforge.kolmafia.request.concoction.shop.JunkMagazineRequest;
 import net.sourceforge.kolmafia.request.concoction.shop.KOLHSRequest;
-import net.sourceforge.kolmafia.request.concoction.shop.KiwiKwikiMartRequest;
 import net.sourceforge.kolmafia.request.concoction.shop.KringleRequest;
 import net.sourceforge.kolmafia.request.concoction.shop.PixelRequest;
 import net.sourceforge.kolmafia.request.concoction.shop.RumpleRequest;
@@ -279,7 +278,6 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
       case BURNING_LEAVES -> new BurningLeavesRequest(conc);
       case TINKERING_BENCH -> new TinkeringBenchRequest(conc);
       case MAYAM -> new MayamRequest(conc);
-      case KIWI -> new KiwiKwikiMartRequest(conc);
       case PHOTO_BOOTH -> new PhotoBoothRequest(conc);
       case TAKERSPACE -> new TakerSpaceRequest(conc);
       default -> new CreateItemRequest(conc);
