@@ -134,6 +134,7 @@ public class FamiliarPool {
   public static final int PATRIOTIC_EAGLE = 293;
   public static final int JILL_OF_ALL_TRADES = 294;
   public static final int MINI_KIWI = 300;
+  public static final int EVOLVING_ORGANISM = 302;
   public static final int BURLY_BODYGUARD = 303;
   public static final int PEACE_TURKEY = 306;
 

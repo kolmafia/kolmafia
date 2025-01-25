@@ -5933,7 +5933,7 @@ public abstract class RuntimeLibrary {
 
     FaxBotDatabase.configure();
 
-    String actualName = monster.getName();
+    int monsterId = monster.getId();
     for (FaxBot bot : FaxBotDatabase.faxbots) {
       if (bot == null) {
         continue;
@@ -5944,7 +5944,7 @@ public abstract class RuntimeLibrary {
         continue;
       }
 
-      Monster monsterObject = bot.getMonsterByActualName(actualName);
+      Monster monsterObject = bot.getMonsterByMonsterId(monsterId);
       if (monsterObject == null) {
         continue;
       }
