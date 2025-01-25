@@ -1,17 +1,15 @@
 package net.sourceforge.kolmafia.textui;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import net.sourceforge.kolmafia.textui.parsetree.Value;
+import org.junit.jupiter.api.Test;
 
 class DataTypesTest {
   @Test
   public void itShouldRecognizeJackingAsLocation() {
-    String name = "Professor Jacking\'s Huge-A-Ma-Tron";
-    name = "The Haunted Gallery";
-    var parsed = DataTypes.parseLocationValue(name, false);
-    String xxx = parsed.toString();
-    assertTrue(name.equals(parsed.toString()));
+    String name = "Professor Jacking's Huge-A-Ma-Tron";
+    Value parsed = DataTypes.parseLocationValue(name, false);
+    assertEquals(name, parsed.toString());
   }
-
 }
