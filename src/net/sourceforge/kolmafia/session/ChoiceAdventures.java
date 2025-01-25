@@ -9093,7 +9093,7 @@ public abstract class ChoiceAdventures {
           Map.entry("A Funny Thing Happened...", "hot"),
           Map.entry("A Turboclocked System", "hot"),
           Map.entry("Boiling Chrome", "hot"),
-          // One more hot encounters expected.
+          Map.entry("Cracklin' Node", "hot"),
           Map.entry("A Breezy System", "cold"),
           Map.entry("A Frozen Network", "cold"),
           Map.entry("A Severely Underclocked Network", "cold"),
