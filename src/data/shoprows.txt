@@ -1475,20 +1475,20 @@
 1474	conc	quick-release utility belt	TINKERING_BENCH
 1475	conc	motion sensor	TINKERING_BENCH
 1476	conc	focused magnetron pistol	TINKERING_BENCH
-1477	conc	mini kiwi bikini	KIWI
-1478	conc	mini kiwitini	KIWI
-1479	conc	mini kiwitini	KIWI
-1480	conc	mini kiwi invisible dirigible	KIWI
-1481	conc	mini kiwi aioli	KIWI
-1482	conc	mini kiwi silicon tiepin	KIWI
-1483	conc	mini kiwi tipi	KIWI
-1484	conc	mini kiwi intoxicating spirits	KIWI
-1485	conc	mini kiwi illicit antibiotic	KIWI
-1486	conc	mini kiwi antimilitaristic hippy petition	KIWI
-1487	conc	mini kiwi whipping stick	KIWI
-1488	conc	mini kiwi icepick	KIWI
-1489	conc	mini kiwi-flavored aspirin-injecting lipstick	KIWI
-1490	conc	mini kiwi digitized cookies	KIWI
+1477	coin	mini kiwi bikini	Kiwi Kwiki Mart
+1478	coin	mini kiwitini	Kiwi Kwiki Mart
+1479	coin	mini kiwitini	Kiwi Kwiki Mart
+1480	coin	mini kiwi invisible dirigible	Kiwi Kwiki Mart
+1481	coin	mini kiwi aioli	Kiwi Kwiki Mart
+1482	coin	mini kiwi silicon tiepin	Kiwi Kwiki Mart
+1483	coin	mini kiwi tipi	Kiwi Kwiki Mart
+1484	coin	mini kiwi intoxicating spirits	Kiwi Kwiki Mart
+1485	coin	mini kiwi illicit antibiotic	Kiwi Kwiki Mart
+1486	coin	mini kiwi antimilitaristic hippy petition	Kiwi Kwiki Mart
+1487	coin	mini kiwi whipping stick	Kiwi Kwiki Mart
+1488	coin	mini kiwi icepick	Kiwi Kwiki Mart
+1489	coin	mini kiwi-flavored aspirin-injecting lipstick	Kiwi Kwiki Mart
+1490	coin	mini kiwi digitized cookies	Kiwi Kwiki Mart
 1491	row	bacteria bisque	The Primordial Soup Kitchen
 1492	row	ciliophora chowder	The Primordial Soup Kitchen
 1493	row	cream of chloroplasts	The Primordial Soup Kitchen

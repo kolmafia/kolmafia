@@ -81,7 +81,7 @@ isotopesmithery	coin	Isotope Smithery
 jarl	conc	Jarlsberg's Cosmic Kitchen
 jewelers	npc	Little Canadia Jewelers
 junkmagazine	conc	Worse Homes and Gardens
-kiwi	conc	Kiwi Kwiki Mart
+kiwi	coin	Kiwi Kwiki Mart
 knobdisp	npc	The Knob Dispensary
 kolhs_art	conc	Art Class (After School)
 kolhs_chem	conc	Chemistry Class (After School)
