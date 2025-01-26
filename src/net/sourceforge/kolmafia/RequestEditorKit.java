@@ -1439,11 +1439,51 @@ public class RequestEditorKit extends HTMLEditorKit {
         + "% of the necessary advertising.";
   }
 
+  // You're fighting <span id='monname'>the darkness</span>
+  private static final Pattern MONNAME_PATTERN = Pattern.compile("<span id='monname'>(.*?)</span>");
+
   private static void annotateMonster(final StringBuffer buffer) {
     MonsterData monster = MonsterStatusTracker.getLastMonster();
 
     if (monster == null) {
       return;
+    }
+
+    // KoL now annotates all monsters with an HTML comment with MONSTERID
+    // FightRequest extracts this and sets it in MonsterStatusTracker.
+
+    // KoL has some buggy situations (an army of toddlers killing
+    // the monster, for example) where there is no monster image.
+    // Don't bother annotating in such cases
+
+    Matcher matcher = MONNAME_PATTERN.matcher(buffer);
+    if (!matcher.find()) {
+      return;
+    }
+
+    int spanIndex = matcher.start();
+    int spanEnd = matcher.end();
+
+    // The name KoL is showing us
+    String name = matcher.group(1);
+
+    int nameIndex = matcher.start(1);
+    int nameEnd = matcher.end(1);
+
+    // The actual name of the monster
+    String monsterName = monster.getName();
+
+    if (name.equals("the darkness")) {
+      StringBuilder darkBuffer = new StringBuilder();
+      String article = monster.getArticle();
+      if (!article.isEmpty()) {
+        darkBuffer.append(article);
+        darkBuffer.append(" ");
+      }
+      darkBuffer.append(monsterName);
+      darkBuffer.append(" hiding in ");
+      buffer.insert(nameIndex, darkBuffer.toString());
+      spanEnd += darkBuffer.length();
     }
 
     // Don't show monster unless we know combat stats or items
@@ -1454,20 +1494,6 @@ public class RequestEditorKit extends HTMLEditorKit {
       return;
     }
 
-    // KoL has some buggy situations (an army of toddlers killing
-    // the monster, for example) where there is no monster image.
-    // Don't bother annotating in such cases
-    int nameIndex = buffer.indexOf("<span id='monname");
-    if (nameIndex == -1) {
-      return;
-    }
-
-    int combatIndex = buffer.indexOf("</span>", nameIndex);
-    if (combatIndex == -1) {
-      return;
-    }
-    int insertionPointForData = combatIndex + 7;
-
     StringBuilder monsterData = new StringBuilder("<font size=2 color=gray>");
     monsterData.append("<br />HP: ");
     monsterData.append(MonsterStatusTracker.getMonsterHealth());
@@ -1477,8 +1503,6 @@ public class RequestEditorKit extends HTMLEditorKit {
     monsterData.append(MonsterStatusTracker.getMonsterDefense());
     monsterData.append(", Type: ");
     monsterData.append(MonsterStatusTracker.getMonsterPhylum().toString());
-
-    String monsterName = monster.getName();
 
     if (FightRequest.isPirate(monster)) {
       int count = BeerPongRequest.countPirateInsults();
@@ -1518,13 +1542,13 @@ public class RequestEditorKit extends HTMLEditorKit {
     }
 
     monsterData.append("</font>");
-    buffer.insert(insertionPointForData, monsterData);
+
+    buffer.insert(spanEnd, monsterData);
 
     // Insert color for monster element
     MonsterDatabase.Element monsterElement = monster.getDefenseElement();
     if (monsterElement != MonsterDatabase.Element.NONE) {
-      int insertionPointForElement = nameIndex + 6;
-      buffer.insert(insertionPointForElement, "class=\"element" + monsterElement + "\" ");
+      buffer.insert(spanIndex + 6, "class=\"element" + monsterElement + "\" ");
     }
   }
 
