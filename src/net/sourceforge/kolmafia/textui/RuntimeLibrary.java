@@ -11101,9 +11101,7 @@ public abstract class RuntimeLibrary {
     ArrayValue value = new ArrayValue(type);
 
     int i = 0;
-    for (var id : locs) {
-      var adv = AdventureDatabase.getAdventure(id);
-      if (adv == null) continue;
+    for (var adv : locs) {
       Value location = DataTypes.makeLocationValue(adv);
       value.aset(DataTypes.makeIntValue(i++), location);
     }
