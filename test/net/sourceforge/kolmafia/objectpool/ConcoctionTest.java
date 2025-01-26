@@ -321,11 +321,12 @@ public class ConcoctionTest {
     void cannotBuyIntoxicatingSpiritsWithoutKiwis() {
       var cleanups =
           new Cleanups(
-              withItem(ItemPool.MINI_KIWI), withProperty("autoSatisfyWithCoinmasters", true));
+              withItem(ItemPool.MINI_KIWI),
+              withProperty("autoSatisfyWithCoinmasters", true),
+              // Kiwi Kwiki Mart is now a coinmaster.
+              withConcoctionRefresh());
 
       try (cleanups) {
-        // Kiwi Kwiki Mart is now a coinmaster.
-        ConcoctionDatabase.refreshConcoctionsNow();
         var conc = ConcoctionPool.get(ItemPool.MINI_KIWI_INTOXICATING_SPIRITS);
         conc.calculate3();
         assertThat(conc.freeTotal, is(0));
@@ -338,12 +339,12 @@ public class ConcoctionTest {
       var cleanups =
           new Cleanups(
               withItem(ItemPool.MINI_KIWI, 3),
+              withProperty("_miniKiwiIntoxicatingSpiritsBought", haveBought),
               withProperty("autoSatisfyWithCoinmasters", true),
-              withProperty("_miniKiwiIntoxicatingSpiritsBought", haveBought));
+              // Kiwi Kwiki Mart is now a coinmaster.
+              withConcoctionRefresh());
 
       try (cleanups) {
-        // Kiwi Kwiki Mart is now a coinmaster.
-        ConcoctionDatabase.refreshConcoctionsNow();
         var conc = ConcoctionPool.get(ItemPool.MINI_KIWI_INTOXICATING_SPIRITS);
         conc.calculate3();
         assertThat(conc.freeTotal, is(haveBought ? 0 : 1));
