@@ -125,8 +125,8 @@ class AutumnatonManagerTest {
   public void canParseLocations() {
     var locs =
         AutumnatonManager.parseLocations(html("request/test_choice_autumnaton_all_upgrades.html"));
-    assertThat(locs, hasItem(258));
-    assertThat(locs, hasItem(439));
-    assertThat(locs, not(hasItem(11)));
+    assertThat(locs, hasItem(AdventureDatabase.getAdventure(258)));
+    assertThat(locs, hasItem(AdventureDatabase.getAdventure(439)));
+    assertThat(locs, not(hasItem(AdventureDatabase.getAdventure(11))));
   }
 }
