@@ -366,7 +366,13 @@ public class CoinmastersDatabase {
       return null;
     }
 
-    return items.get(0);
+    for (var request : items) {
+      if (request.getData().accessible() == null) {
+        return request;
+      }
+    }
+
+    return null;
   }
 
   public static final CoinMasterPurchaseRequest getPurchaseRequest(final ShopRow shopRow) {

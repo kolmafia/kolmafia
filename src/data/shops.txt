@@ -50,6 +50,7 @@ crimbo24_cafe	COIN	Crimbo24 Cafe
 crimbo24_factory	COIN	Crimbo24 Factory
 cyber_dedigitizer	COIN	The Dedigitizer
 cyber_hackmarket	NPC	Hack Market
+damachine	COIN	Vending Machine
 detective	COIN	Precinct Materiel Division
 dino	COIN	Dino World Gift Shop (The Dinostaur)
 doc	NPC	Doc Galaktik's Medicine Show
@@ -130,7 +131,6 @@ unclep	NPC	Uncle P's Antiques
 vault1	NPC	Fallout Shelter Medical Supply
 vault2	NPC	Fallout Shelter Electronics Supply
 vault3	NPC	Underground Record Store
-vendingmachine	COIN	Vending Machine
 voteslime	CONC	Mad Sliemce
 warbear	COIN	Warbear Black Box
 wereprofessor_tinker	CONC	Tinkering Bench
