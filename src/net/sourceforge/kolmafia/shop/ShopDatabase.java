@@ -7,10 +7,9 @@ import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.TreeMap;
-import java.util.TreeSet;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.LogStream;
@@ -20,7 +19,6 @@ public class ShopDatabase {
   public static final Map<String, String> shopIdToShopName = new TreeMap<>();
   public static final Map<String, String> shopNameToShopId = new HashMap<>();
 
-  // *** Do we need this?
   public enum SHOP {
     NONE, // Unsupported
     CONC, // Supported as a mixing method
@@ -28,27 +26,7 @@ public class ShopDatabase {
     NPC // Supported as an NPC store
   }
 
-  public static final Set<String> coinShops = new TreeSet<>();
-  public static final Set<String> concShops = new TreeSet<>();
-  public static final Set<String> npcShops = new TreeSet<>();
-  public static final Set<String> unknownShops = new TreeSet<>();
-
-  private static Map<String, String> shopIdToType = new HashMap<>();
-
-  private static SHOP shopIdToType(String shopId) {
-    return coinShops.contains(shopId)
-        ? SHOP.COIN
-        : concShops.contains(shopId) ? SHOP.CONC : npcShops.contains(shopId) ? SHOP.NPC : SHOP.NONE;
-  }
-
-  private static Set<String> shopTypeToSet(SHOP shopType) {
-    return switch (shopType) {
-      case NONE -> unknownShops;
-      case COIN -> coinShops;
-      case CONC -> concShops;
-      case NPC -> npcShops;
-    };
-  }
+  public static final Map<String, SHOP> shopIdToShopType = new TreeMap<>();
 
   private ShopDatabase() {}
 
@@ -77,15 +55,54 @@ public class ShopDatabase {
       final String shopId, final String shopName, final SHOP shopType) {
     // Return true if this shop is not previously known
     if (shopIdToShopName.containsKey(shopId)) {
+      // The shopId is already registered. The shopName can differ;
+      // KoL has duplicates, and KoLmafia will internally rename it.
+      //
+      // Visiting a shop will register it as NONE. That's OK.
+      // Some shops are implemented as both NPC and COIN.
+      // Other combos are no good.
+      SHOP existingShopType = shopIdToShopType.get(shopId);
+      if (shopType != existingShopType) {
+        boolean ok =
+            switch (shopType) {
+              case NONE -> true;
+              case NPC -> existingShopType == SHOP.COIN;
+              case COIN -> existingShopType == SHOP.NPC;
+              case CONC -> false;
+            };
+        if (!ok) {
+          String printMe =
+              "Shop id '"
+                  + shopId
+                  + "' of type "
+                  + shopType
+                  + " already registered as "
+                  + existingShopType;
+          RequestLogger.printLine(printMe);
+          RequestLogger.updateSessionLog(printMe);
+        }
+      }
       return false;
     }
 
     shopIdToShopName.put(shopId, shopName);
-    shopNameToShopId.put(shopName, shopId);
+    // KoL has duplicate names for shops, but we should not.
+    String existingShopId = shopNameToShopId.get(shopName);
+    if (existingShopId == null) {
+      shopNameToShopId.put(shopName, shopId);
+    } else {
+      String printMe =
+          "Shop name '"
+              + shopName
+              + "' for shop id ' "
+              + shopId
+              + " already used for "
+              + existingShopId;
+      RequestLogger.printLine(printMe);
+      RequestLogger.updateSessionLog(printMe);
+    }
 
-    // *** Do we need this?
-    Set<String> typeSet = shopTypeToSet(shopType);
-    typeSet.add(shopId);
+    shopIdToShopType.put(shopId, shopType);
 
     return true;
   }
@@ -109,7 +126,7 @@ public class ShopDatabase {
       for (Entry<String, String> entry : shopIdToShopName.entrySet()) {
         String shopId = entry.getKey();
         String shopName = entry.getValue();
-        SHOP shopType = shopIdToType(shopId);
+        SHOP shopType = shopIdToShopType.get(shopId);
         writer.println(toData(shopId, shopName, shopType));
       }
     } finally {
