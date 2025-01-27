@@ -108,6 +108,8 @@ import net.sourceforge.kolmafia.request.concoction.shop.SugarSheetRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.shop.ShopDatabase;
+import net.sourceforge.kolmafia.shop.ShopDatabase.SHOP;
 import net.sourceforge.kolmafia.shop.ShopRow;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -1088,6 +1090,14 @@ public class NPCPurchaseRequest extends PurchaseRequest {
     // This will register all previously unknown items.
 
     String shopName = ShopRow.parseShopName(responseText);
+
+    // Register this shop, in case it is unknown
+    if (ShopDatabase.registerShop(shopId, shopName, SHOP.NONE)) {
+      String printMe = "New shop.php: " + ShopDatabase.toData(shopId, shopName, SHOP.NONE);
+      RequestLogger.printLine(printMe);
+      RequestLogger.updateSessionLog(printMe);
+    }
+
     List<ShopRow> shopRows = ShopRow.parseShop(responseText, true);
 
     // Certain existing shops with mixed currencies are implemented as

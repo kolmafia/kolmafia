@@ -19,9 +19,36 @@ public class ShopDatabase {
 
   public static final Map<String, String> shopIdToShopName = new TreeMap<>();
   public static final Map<String, String> shopNameToShopId = new HashMap<>();
+
+  // *** Do we need this?
+  public enum SHOP {
+    NONE, // Unsupported
+    CONC, // Supported as a mixing method
+    COIN, // Supported as a cooinmaster
+    NPC // Supported as an NPC store
+  }
+
   public static final Set<String> coinShops = new TreeSet<>();
   public static final Set<String> concShops = new TreeSet<>();
   public static final Set<String> npcShops = new TreeSet<>();
+  public static final Set<String> unknownShops = new TreeSet<>();
+
+  private static Map<String, String> shopIdToType = new HashMap<>();
+
+  private static SHOP shopIdToType(String shopId) {
+    return coinShops.contains(shopId)
+        ? SHOP.COIN
+        : concShops.contains(shopId) ? SHOP.CONC : npcShops.contains(shopId) ? SHOP.NPC : SHOP.NONE;
+  }
+
+  private static Set<String> shopTypeToSet(SHOP shopType) {
+    return switch (shopType) {
+      case NONE -> unknownShops;
+      case COIN -> coinShops;
+      case CONC -> concShops;
+      case NPC -> npcShops;
+    };
+  }
 
   private ShopDatabase() {}
 
@@ -39,41 +66,38 @@ public class ShopDatabase {
         String shopType = data[1];
         String shopName = data[2];
 
-        shopIdToShopName.put(shopId, shopName);
-        shopNameToShopId.put(shopName, shopId);
-        switch (shopType) {
-          case "coin" -> coinShops.add(shopId);
-          case "conc" -> concShops.add(shopId);
-          case "npc" -> npcShops.add(shopId);
-        }
+        registerShop(shopId, shopName, Enum.valueOf(SHOP.class, shopType));
       }
     } catch (IOException e) {
       StaticEntity.printStackTrace(e);
     }
   }
 
-  public static void registerCoinShop(String shopId, String shopName) {
-    if (!coinShops.contains(shopId)) {
-      shopIdToShopName.put(shopId, shopName);
-      shopNameToShopId.put(shopName, shopId);
-      coinShops.add(shopId);
+  public static boolean registerShop(
+      final String shopId, final String shopName, final SHOP shopType) {
+    // Return true if this shop is not previously known
+    if (shopIdToShopName.containsKey(shopId)) {
+      return false;
     }
+
+    shopIdToShopName.put(shopId, shopName);
+    shopNameToShopId.put(shopName, shopId);
+
+    // *** Do we need this?
+    Set<String> typeSet = shopTypeToSet(shopType);
+    typeSet.add(shopId);
+
+    return true;
   }
 
-  public static void registerConcShop(String shopId, String shopName) {
-    if (!concShops.contains(shopId)) {
-      shopIdToShopName.put(shopId, shopName);
-      shopNameToShopId.put(shopName, shopId);
-      concShops.add(shopId);
-    }
-  }
-
-  public static void registerNPCShop(String shopId, String shopName) {
-    if (!npcShops.contains(shopId)) {
-      shopIdToShopName.put(shopId, shopName);
-      shopNameToShopId.put(shopName, shopId);
-      npcShops.add(shopId);
-    }
+  public static String toData(final String shopId, final String shopName, SHOP shopType) {
+    StringBuilder buf = new StringBuilder();
+    buf.append(shopId);
+    buf.append("\t");
+    buf.append(shopType);
+    buf.append("\t");
+    buf.append(shopName);
+    return buf.toString();
   }
 
   public static void writeShopFile() {
@@ -85,13 +109,8 @@ public class ShopDatabase {
       for (Entry<String, String> entry : shopIdToShopName.entrySet()) {
         String shopId = entry.getKey();
         String shopName = entry.getValue();
-        String shopType =
-            coinShops.contains(shopId)
-                ? "coin"
-                : concShops.contains(shopId)
-                    ? "conc"
-                    : npcShops.contains(shopId) ? "npc" : "unknown";
-        writer.println(shopId + "\t" + shopType + "\t" + shopName);
+        SHOP shopType = shopIdToType(shopId);
+        writer.println(toData(shopId, shopName, shopType));
       }
     } finally {
       writer.close();

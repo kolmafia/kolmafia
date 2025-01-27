@@ -22,6 +22,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.coinmaster.HermitRequest;
 import net.sourceforge.kolmafia.shop.ShopDatabase;
+import net.sourceforge.kolmafia.shop.ShopDatabase.SHOP;
 import net.sourceforge.kolmafia.shop.ShopRow;
 import net.sourceforge.kolmafia.shop.ShopRowDatabase;
 
@@ -1138,7 +1139,7 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
 
   public void registerShop() {
     if (this.buyURL.startsWith("shop.php")) {
-      ShopDatabase.registerCoinShop(this.nickname, this.master);
+      ShopDatabase.registerShop(this.nickname, this.master, SHOP.COIN);
     }
   }
 
