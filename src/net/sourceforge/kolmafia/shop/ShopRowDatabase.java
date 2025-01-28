@@ -123,7 +123,7 @@ public class ShopRowDatabase {
 
       while ((data = FileUtilities.readData(reader)) != null) {
         ShopRowData rowData = parseShopRowData(data);
-        if (shopRowData == null) {
+        if (rowData == null) {
           continue;
         }
 
@@ -166,6 +166,28 @@ public class ShopRowDatabase {
       }
     } finally {
       writer.close();
+    }
+  }
+
+  public static void readShopRowFile() {
+    try (BufferedReader reader =
+        FileUtilities.getVersionedReader("allshoprows.txt", KoLConstants.SHOPROWS_VERSION)) {
+      String[] data;
+
+      while ((data = FileUtilities.readData(reader)) != null) {
+        if (data.length < 4) {
+          continue;
+        }
+
+        String shopName = data[0];
+        ShopRow shopRow = ShopRow.fromData(data);
+        int row = shopRow.getRow();
+
+        allShopRows.put(row, shopRow);
+        allShopRowShops.put(row, shopName);
+      }
+    } catch (IOException e) {
+      StaticEntity.printStackTrace(e);
     }
   }
 

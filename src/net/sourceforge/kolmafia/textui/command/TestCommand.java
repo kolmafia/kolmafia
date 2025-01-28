@@ -91,6 +91,7 @@ import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
 import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.HTMLParserUtils;
+import net.sourceforge.kolmafia.utilities.HashMultimap;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.utilities.WikiUtilities;
 import net.sourceforge.kolmafia.utilities.WikiUtilities.WikiType;
@@ -696,6 +697,27 @@ public class TestCommand extends AbstractCommand {
               + ") "
               + (concoction == null ? "IS NOT" : "is")
               + " a known concoction");
+      return;
+    }
+
+    if (command.equals("row-duplicate-items")) {
+      ShopRowDatabase.readShopRowFile();
+
+      HashMultimap<ShopRow> items = new HashMultimap<>();
+      for (var shopRow : ShopRowDatabase.allShopRows.values()) {
+        int itemId = shopRow.getItem().getItemId();
+        items.put(itemId, shopRow);
+      }
+      for (List<ShopRow> list : items.values()) {
+        if (list.size() > 1) {
+          RequestLogger.updateSessionLog("------");
+          for (var shopRow : list) {
+            int row = shopRow.getRow();
+            String shopName = ShopRowDatabase.allShopRowShops.get(row);
+            RequestLogger.updateSessionLog(shopRow.toData(shopName));
+          }
+        }
+      }
       return;
     }
 
