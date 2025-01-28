@@ -64,7 +64,6 @@ import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.shop.ShopDatabase;
-import net.sourceforge.kolmafia.shop.ShopDatabase.SHOP;
 import net.sourceforge.kolmafia.shop.ShopRow;
 import net.sourceforge.kolmafia.shop.ShopRowDatabase;
 import net.sourceforge.kolmafia.swingui.ItemManageFrame;
@@ -169,6 +168,38 @@ public class ConcoctionDatabase {
 
   private ConcoctionDatabase() {}
 
+  public static void registerShops() {
+    // Mixing methods that use shop.php
+    ShopDatabase.registerShop("5dprinter", "Xiblaxian 5D printer", CraftingType.FIVE_D);
+    ShopDatabase.registerShop("airport", "Elemental Duty Free, Inc.", CraftingType.DUTYFREE);
+    ShopDatabase.registerShop("beergarden", "Beer Garden", CraftingType.BEER);
+    ShopDatabase.registerShop(
+        "crimbo12", "Uncle Crimbo's Futuristic Trailer", CraftingType.CRIMBO12);
+    ShopDatabase.registerShop("crimbo16", "Crimbo Lumps Shop", CraftingType.CRIMBO16);
+    ShopDatabase.registerShop(
+        "crimbo19toys", "The H. M. S. Kringle's Workshop", CraftingType.KRINGLE);
+    ShopDatabase.registerShop("fixodent", "Craft with Teeth", CraftingType.FIXODENT);
+    ShopDatabase.registerShop("grandma", "Grandma Sea Monkey", CraftingType.GRANDMA);
+    ShopDatabase.registerShop("jarl", "Jarlsberg's Cosmic Kitchen", CraftingType.JARLS);
+    ShopDatabase.registerShop("junkmagazine", "Worse Homes and Gardens", CraftingType.JUNK);
+    ShopDatabase.registerShop("kolhs_art", "Art Class (After School)", CraftingType.ARTCLASS);
+    ShopDatabase.registerShop(
+        "kolhs_chem", "Chemistry Class (After School)", CraftingType.CHEMCLASS);
+    ShopDatabase.registerShop("kolhs_shop", "Shop Class (After School)", CraftingType.SHOPCLASS);
+    ShopDatabase.registerShop("mystic", "The Crackpot Mystic's Shed", CraftingType.PIXEL);
+    ShopDatabase.registerShop("rumple", "Rumplestiltskin's Workshop", CraftingType.RUMPLE);
+    ShopDatabase.registerShop("shadowforge", "The Shadow Forge", CraftingType.SHADOW_FORGE);
+    ShopDatabase.registerShop("snowgarden", "Winter Gardening", CraftingType.WINTER);
+    ShopDatabase.registerShop("spant", "Spant Bit Assembly", CraftingType.SPANT);
+    ShopDatabase.registerShop("starchart", "A Star Chart", CraftingType.STARCHART);
+    ShopDatabase.registerShop("still", "Nash Crosby's Still", CraftingType.STILL);
+    ShopDatabase.registerShop("sugarsheets", "Sugar Sheet Folding", CraftingType.SUGAR_FOLDING);
+    ShopDatabase.registerShop("voteslime", "Mad Sliemce", CraftingType.SLIEMCE);
+    ShopDatabase.registerShop(
+        "wereprofessor_tinker", "Tinkering Bench", CraftingType.TINKERING_BENCH);
+    ShopDatabase.registerShop("xo", "XO Shop", CraftingType.XO);
+  }
+
   public static final void resetQueue() {
     LockableListModel<QueuedConcoction> queue = ConcoctionDatabase.queuedFood;
     while (queue.size() > 0) {
@@ -196,6 +227,9 @@ public class ConcoctionDatabase {
   }
 
   private static void reset() {
+    // Register shops first so we can translate mixing type to shopid
+    registerShops();
+
     // This begins by opening up the data file and preparing
     // a buffered reader; once this is done, every line is
     // examined and float-referenced: once in the name-lookup,
@@ -210,8 +244,6 @@ public class ConcoctionDatabase {
     } catch (IOException e) {
       StaticEntity.printStackTrace(e);
     }
-
-    addShops();
   }
 
   static {
@@ -296,7 +328,7 @@ public class ConcoctionDatabase {
 
       if (row != 0) {
         ShopRow shopRow = new ShopRow(row, item, concoction.getIngredients());
-        ShopRowDatabase.registerShopRow(shopRow, "conc", mixingMethod.toString());
+        ShopRowDatabase.registerShopRow(shopRow, "conc", mixingMethod);
       }
 
       Concoction existing = ConcoctionPool.get(item);
@@ -318,35 +350,6 @@ public class ConcoctionDatabase {
         ConcoctionDatabase.noodles.put(concoction.getItemId(), concoction);
       }
     }
-  }
-
-  private static void addShops() {
-    // Mixing methods that use shop.php
-
-    ShopDatabase.registerShop("5dprinter", "Xiblaxian 5D printer", SHOP.CONC);
-    ShopDatabase.registerShop("airport", "Elemental Duty Free, Inc.", SHOP.CONC);
-    ShopDatabase.registerShop("beergarden", "Let's Brew!", SHOP.CONC);
-    ShopDatabase.registerShop("crimbo12", "Uncle Crimbo's Futuristic Trailer", SHOP.CONC);
-    ShopDatabase.registerShop("crimbo16", "Crimbo Lumps Shop", SHOP.CONC);
-    ShopDatabase.registerShop("crimbo19toys", "The H. M. S. Kringle's Workshop", SHOP.CONC);
-    ShopDatabase.registerShop("fixodent", "Craft with Teeth", SHOP.CONC);
-    ShopDatabase.registerShop("grandma", "Grandma Sea Monkey", SHOP.CONC);
-    ShopDatabase.registerShop("jarl", "Jarlsberg's Cosmic Kitchen", SHOP.CONC);
-    ShopDatabase.registerShop("junkmagazine", "Worse Homes and Gardens", SHOP.CONC);
-    ShopDatabase.registerShop("kolhs_art", "Art Class (After School)", SHOP.CONC);
-    ShopDatabase.registerShop("kolhs_chem", "Chemistry Class (After School)", SHOP.CONC);
-    ShopDatabase.registerShop("kolhs_shop", "Shop Class (After School)", SHOP.CONC);
-    ShopDatabase.registerShop("mystic", "The Crackpot Mystic's Shed", SHOP.CONC);
-    ShopDatabase.registerShop("rumple", "Your Workshop", SHOP.CONC);
-    ShopDatabase.registerShop("shadowforge", "The Shadow Forge", SHOP.CONC);
-    ShopDatabase.registerShop("snowgarden", "Winter Gardening", SHOP.CONC);
-    ShopDatabase.registerShop("spant", "Spant Bit Assembly", SHOP.CONC);
-    ShopDatabase.registerShop("starchart", "A Star Chart", SHOP.CONC);
-    ShopDatabase.registerShop("still", "Nash Crosby's Still", SHOP.CONC);
-    ShopDatabase.registerShop("sugarsheets", "Sugar Sheet Folding", SHOP.CONC);
-    ShopDatabase.registerShop("voteslime", "Mad Sliemce", SHOP.CONC);
-    ShopDatabase.registerShop("wereprofessor_tinker", "Tinkering Bench", SHOP.CONC);
-    ShopDatabase.registerShop("xo", "XO Shop", SHOP.CONC);
   }
 
   public static Concoction chefStaffCreation(final int itemId) {

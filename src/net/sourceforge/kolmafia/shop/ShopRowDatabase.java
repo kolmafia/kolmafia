@@ -14,6 +14,7 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AdventureResult.MeatResult;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
@@ -53,6 +54,11 @@ public class ShopRowDatabase {
   }
 
   public static Map<Integer, ShopRowData> shopRowData = new TreeMap<>();
+
+  public static void registerShopRow(ShopRow shopRow, String type, CraftingType craftingType) {
+    String shopName = ShopDatabase.getShopName(craftingType);
+    registerShopRow(shopRow, type, shopName);
+  }
 
   public static void registerShopRow(ShopRow shopRow, String type, String shopName) {
     if (mode == Mode.BUILD) {

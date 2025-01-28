@@ -11,7 +11,7 @@ batman_cave	COIN	Bat-Fabricator
 batman_chemicorp	COIN	ChemiCorp
 batman_orphanage	COIN	Gotpork Orphanage
 batman_pd	COIN	Gotpork P. D.
-beergarden	CONC	Let's Brew!
+beergarden	CONC	Beer Garden
 blackmarket	COIN	The Black Market
 boutique	COIN	Paul's Boutique
 brogurt	COIN	The Frozen Brogurt Stand
@@ -104,7 +104,7 @@ nina	COIN	Ni&ntilde;a Store
 olivers	COIN	Fancy Dan the Cocktail Man
 piraterealm	COIN	PirateRealm Fun-a-Log
 pokefam	COIN	The Pok&eacute;mporium
-rumple	CONC	Your Workshop
+rumple	CONC	Rumplestiltskin's Workshop
 sbb_jimmy	COIN	Buff Jimmy's Souvenir Shop
 september	COIN	Sept-Ember Censer
 shadowforge	CONC	The Shadow Forge

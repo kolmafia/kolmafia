@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
@@ -27,6 +28,16 @@ public class ShopDatabase {
   }
 
   public static final Map<String, SHOP> shopIdToShopType = new TreeMap<>();
+
+  // Concoctions
+
+  public static final Map<String, CraftingType> shopIdToCraftingType = new TreeMap<>();
+  public static final Map<CraftingType, String> craftingTypeToShopId = new HashMap<>();
+
+  public static String getShopName(CraftingType craftingType) {
+    String shopId = craftingTypeToShopId.get(craftingType);
+    return (shopId != null) ? shopIdToShopName.get(shopId) : craftingType.toString();
+  }
 
   private ShopDatabase() {}
 
@@ -49,6 +60,13 @@ public class ShopDatabase {
     } catch (IOException e) {
       StaticEntity.printStackTrace(e);
     }
+  }
+
+  public static void registerShop(
+      final String shopId, final String shopName, final CraftingType type) {
+    registerShop(shopId, shopName, SHOP.CONC);
+    shopIdToCraftingType.put(shopId, type);
+    craftingTypeToShopId.put(type, shopId);
   }
 
   public static boolean registerShop(
