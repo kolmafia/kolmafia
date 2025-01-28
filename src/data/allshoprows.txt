@@ -899,8 +899,8 @@ G-Mart	ROW1024	gaseous gravy	G
 Mad Sliemce	ROW1025	slime fedora	black slime glob	orange slime glob (100)	green slime glob (10)
 Mad Sliemce	ROW1026	slime knuckles	black slime glob	orange slime glob (50)	green slime glob (20)
 Mad Sliemce	ROW1027	slime waders	black slime glob	orange slime glob (10)	green slime glob (30)
-The Crimbo Cafe	ROW1029	yule gruel	50 Meat
-The Crimbo Cafe	ROW1030	hot watered rum	50 Meat
+The Crimbo Cafe (2018)	ROW1029	yule gruel	50 Meat
+The Crimbo Cafe (2018)	ROW1030	hot watered rum	50 Meat
 Crimbo Town Gift-O-Mat	ROW1031	bottle of Crimbognac	100,000 Meat
 Crimbo Town Gift-O-Mat	ROW1032	Crimboysters Rockefeller	100,000 Meat
 Crimbo Town Gift-O-Mat	ROW1033	Crimbeau de toilette	100,000 Meat
@@ -969,9 +969,9 @@ Cosmic Ray's Bazaar	ROW1097	antique accordion	rare Meat isotope (10)
 Cosmic Ray's Bazaar	ROW1098	space chowder	rare Meat isotope (5)
 Cosmic Ray's Bazaar	ROW1099	space wine	rare Meat isotope (5)
 Cosmic Ray's Bazaar	ROW1100	lucky-ish pill	rare Meat isotope (20)
-The Crimbo Cafe	ROW1101	bowl of mernudo	50 Meat
-The Crimbo Cafe	ROW1103	fishelada	50 Meat
-The Crimbo Cafe	ROW1104	ojo de pez burrito	50 Meat
+The Crimbo Cafe (2019)	ROW1101	bowl of mernudo	50 Meat
+The Crimbo Cafe (2019)	ROW1103	fishelada	50 Meat
+The Crimbo Cafe (2019)	ROW1104	ojo de pez burrito	50 Meat
 The H. M. S. Kringle's Workshop	ROW1105	antique nutcracker hat	waterlogged cloth (3)	waterlogged stuffing (3)
 The H. M. S. Kringle's Workshop	ROW1106	antique nutcracker cape	waterlogged cloth (3)
 The H. M. S. Kringle's Workshop	ROW1107	antique nutcracker waistcoat	waterlogged cloth (3)	waterlogged stuffing (3)	waterlogged leather (3)
@@ -1065,8 +1065,8 @@ Elf Food Drive	ROW1196	The Night Before Crimbo, Ch. 2	donated food (3,000)
 Elf Booze Drive	ROW1197	The Night Before Crimbo, Ch. 3	donated booze (3,000)
 Elf Booze Drive	ROW1198	The Night Before Crimbo, Ch. 4	donated booze (3,000)
 Elf Candy Drive	ROW1199	The Night Before Crimbo, Ch. 5	donated candy (3,000)
-The Crimbo Cafe	ROW1201	stuffed red and green pepper (stale)	300 Meat
-The Crimbo Cafe	ROW1202	cranberry margarita (brackish)	300 Meat
+The Crimbo Cafe (2020)	ROW1201	stuffed red and green pepper (stale)	300 Meat
+The Crimbo Cafe (2020)	ROW1202	cranberry margarita (brackish)	300 Meat
 Elf Booze Drive	ROW1204	miniature goose mask	donated booze (500)
 Elf Food Drive	ROW1205	tiny glowing red nose	donated food (500)
 Elf Candy Drive	ROW1206	fuzzy polar bear ears	donated candy (500)
@@ -1102,8 +1102,8 @@ FDKOL Auxiliary	ROW1259	rusty empty nacho cheese can	1,000 Meat
 FDKOL Auxiliary	ROW1260	literal bucket hat	5,000 Meat
 FDKOL Auxiliary	ROW1261	rainproof barrel caulk	5,000 Meat
 FDKOL Auxiliary	ROW1262	pump grease	5,000 Meat
-The Crimbo Cafe	ROW1263	bread pie	50 Meat
-The Crimbo Cafe	ROW1264	clear Russian	50 Meat
+The Crimbo Cafe (2021)	ROW1263	bread pie	50 Meat
+The Crimbo Cafe (2021)	ROW1264	clear Russian	50 Meat
 Ornament Stand	ROW1265	black Crimbo ball	100 Meat
 Ornament Stand	ROW1266	white Crimbo ball	100 Meat
 Armory & Leggery	ROW1267	velour voulge	loofah lumps

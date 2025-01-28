@@ -1027,8 +1027,8 @@
 1026	conc	slime knuckles	Mad Sliemce
 1027	conc	slime waders	Mad Sliemce
 1028
-1029	npc	yule gruel	The Crimbo Cafe
-1030	npc	hot watered rum	The Crimbo Cafe
+1029	npc	yule gruel	The Crimbo Cafe (2018)
+1030	npc	hot watered rum	The Crimbo Cafe (2018)
 1031	npc	bottle of Crimbognac	Crimbo Town Gift-O-Mat
 1032	npc	Crimboysters Rockefeller	Crimbo Town Gift-O-Mat
 1033	npc	Crimbeau de toilette	Crimbo Town Gift-O-Mat
@@ -1099,10 +1099,10 @@
 1098	buy	space chowder	Cosmic Ray's Bazaar
 1099	buy	space wine	Cosmic Ray's Bazaar
 1100	buy	lucky-ish pill	Cosmic Ray's Bazaar
-1101	npc	bowl of mernudo	The Crimbo Cafe
+1101	npc	bowl of mernudo	The Crimbo Cafe (2019)
 1102
-1103	npc	fishelada	The Crimbo Cafe
-1104	npc	ojo de pez burrito	The Crimbo Cafe
+1103	npc	fishelada	The Crimbo Cafe (2019)
+1104	npc	ojo de pez burrito	The Crimbo Cafe (2019)
 1105	conc	antique nutcracker hat	The H. M. S. Kringle's Workshop
 1106	conc	antique nutcracker cape	The H. M. S. Kringle's Workshop
 1107	conc	antique nutcracker waistcoat	The H. M. S. Kringle's Workshop
@@ -1199,8 +1199,8 @@
 1198	buy	The Night Before Crimbo, Ch. 4	Elf Booze Drive
 1199	buy	The Night Before Crimbo, Ch. 5	Elf Candy Drive
 1200
-1201	npc	stuffed red and green pepper (stale)	The Crimbo Cafe
-1202	npc	cranberry margarita (brackish)	The Crimbo Cafe
+1201	npc	stuffed red and green pepper (stale)	The Crimbo Cafe (2020)
+1202	npc	cranberry margarita (brackish)	The Crimbo Cafe (2020)
 1203
 1204	buy	miniature goose mask	Elf Booze Drive
 1205	buy	tiny glowing red nose	Elf Food Drive
@@ -1261,8 +1261,8 @@
 1260	npc	literal bucket hat	FDKOL Auxiliary
 1261	npc	rainproof barrel caulk	FDKOL Auxiliary
 1262	npc	pump grease	FDKOL Auxiliary
-1263	npc	bread pie	The Crimbo Cafe
-1264	npc	clear Russian	The Crimbo Cafe
+1263	npc	bread pie	The Crimbo Cafe (2021)
+1264	npc	clear Russian	The Crimbo Cafe (2021)
 1265	npc	black Crimbo ball	Ornament Stand
 1266	npc	white Crimbo ball	Ornament Stand
 1267	buy	velour voulge	Armory & Leggery

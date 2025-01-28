@@ -26,16 +26,16 @@ crimbo12	CONC	Uncle Crimbo's Futuristic Trailer
 crimbo14	COIN	Crimbo 2014
 crimbo16	CONC	Crimbo Lumps Shop
 crimbo17	COIN	Cheer-o-Vend 3000
-crimbo18	NPC	The Crimbo Cafe
+crimbo18	NPC	The Crimbo Cafe (2018)
 crimbo18giftomat	NPC	Crimbo Town Gift-O-Mat
-crimbo19	NPC	The Crimbo Cafe
+crimbo19	NPC	The Crimbo Cafe (2019)
 crimbo19toys	CONC	The H. M. S. Kringle's Workshop
 crimbo20blackmarket	NPC	The Black and White and Red All Over Market
 crimbo20booze	COIN	Elf Booze Drive
-crimbo20cafe	NPC	The Crimbo Cafe
+crimbo20cafe	NPC	The Crimbo Cafe (2020)
 crimbo20candy	COIN	Elf Candy Drive
 crimbo20food	COIN	Elf Food Drive
-crimbo21cafe	NPC	The Crimbo Cafe
+crimbo21cafe	NPC	The Crimbo Cafe (2021)
 crimbo21ornaments	NPC	Ornament Stand
 crimbo23_elf_armory	COIN	Elf Guard Armory
 crimbo23_elf_bar	COIN	Elf Guard Officers' Club
