@@ -20,14 +20,26 @@ public class ShopDatabase {
   public static final Map<String, String> shopIdToShopName = new TreeMap<>();
   public static final Map<String, String> shopNameToShopId = new HashMap<>();
 
+  public static String getShopName(String shopId) {
+    return shopIdToShopName.get(shopId);
+  }
+
+  public static String getShopId(String shopName) {
+    return shopNameToShopId.get(shopName);
+  }
+
   public enum SHOP {
     NONE, // Unsupported
     CONC, // Supported as a mixing method
-    COIN, // Supported as a cooinmaster
+    COIN, // Supported as a coinmaster
     NPC // Supported as an NPC store
   }
 
   public static final Map<String, SHOP> shopIdToShopType = new TreeMap<>();
+
+  public static SHOP getShopType(String shopId) {
+    return shopIdToShopType.getOrDefault(shopId, SHOP.NONE);
+  }
 
   // Concoctions
 

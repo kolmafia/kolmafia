@@ -97,22 +97,6 @@ public class ShopRow implements Comparable<ShopRow> {
     return buf.toString();
   }
 
-  // <b style="color: white">Crimbo Factory</b>
-  private static final Pattern SHOP_PATTERN = Pattern.compile("<table.*?<b.*?>(.*?)</b>");
-
-  public static String parseShopName(final String html) {
-    Matcher m = SHOP_PATTERN.matcher(html);
-    return m.find() ? m.group(1) : "";
-  }
-
-  // name=whichshop value="grandma"
-  private static final Pattern SHOP_ID_PATTERN = Pattern.compile("name=whichshop value=\"(.*?)\"");
-
-  public static String parseShopId(final String html) {
-    Matcher m = SHOP_ID_PATTERN.matcher(html);
-    return m.find() ? m.group(1) : "";
-  }
-
   /* The Armory and Leggery: Meat
     <tr rel="634">
       <td valign=center></td>

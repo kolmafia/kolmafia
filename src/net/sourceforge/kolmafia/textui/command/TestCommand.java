@@ -83,6 +83,7 @@ import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.RumpleManager;
 import net.sourceforge.kolmafia.shop.ShopDatabase;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 import net.sourceforge.kolmafia.shop.ShopRow;
 import net.sourceforge.kolmafia.shop.ShopRowDatabase;
 import net.sourceforge.kolmafia.swingui.ShowHTMLFrame;
@@ -1180,9 +1181,9 @@ public class TestCommand extends AbstractCommand {
     }
 
     if (command.equals("shoprows")) {
-      String shop = ShopRow.parseShopName(TestCommand.contents);
-      String shopId = ShopRow.parseShopId(TestCommand.contents);
-      NPCPurchaseRequest.parseShopInventory(shopId, TestCommand.contents, true);
+      String shop = ShopRequest.parseShopName(TestCommand.contents);
+      String shopId = ShopRequest.parseShopId(TestCommand.contents);
+      ShopRequest.parseShopInventory(shopId, TestCommand.contents, true);
       TestCommand.contents = null;
       return;
     }
@@ -1270,7 +1271,7 @@ public class TestCommand extends AbstractCommand {
     }
 
     if (command.equals("shoprows")) {
-      String shop = ShopRow.parseShopName(TestCommand.contents);
+      String shop = ShopRequest.parseShopName(TestCommand.contents);
       List<ShopRow> rows = ShopRow.parseShop(TestCommand.contents, true);
       TestCommand.contents = null;
       RequestLogger.printLine("shop '" + shop + "' offers " + rows.size() + " items.");

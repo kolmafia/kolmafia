@@ -37,6 +37,10 @@ public class ShopRowDatabase {
   public static final Map<Integer, ShopRow> allShopRows = new HashMap<>();
   public static final Map<Integer, String> allShopRowShops = new HashMap<>();
 
+  public static ShopRow getShopRow(final int row) {
+    return allShopRows.get(row);
+  }
+
   private ShopRowDatabase() {}
 
   record ShopRowData(int row, String type, AdventureResult item, String shopName) {

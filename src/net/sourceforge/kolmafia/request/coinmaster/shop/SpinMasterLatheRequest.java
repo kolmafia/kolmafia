@@ -12,10 +12,10 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class SpinMasterLatheRequest extends CoinMasterRequest {
@@ -143,7 +143,7 @@ public class SpinMasterLatheRequest extends CoinMasterRequest {
         AdventureResult[] costs = new AdventureResult[1];
         costs[0] = cost;
         String nickname = data.getNickname();
-        NPCPurchaseRequest.learnCoinmasterItem(
+        ShopRequest.learnCoinmasterItem(
             nickname, master, ItemPool.get(itemId, 1), costs, row, true, false);
         CoinmastersDatabase.registerPurchaseRequest(data, item, cost);
         changed = true;
