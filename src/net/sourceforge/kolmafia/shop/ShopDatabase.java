@@ -42,6 +42,15 @@ public class ShopDatabase {
     return shopIdToShopType.getOrDefault(shopId, SHOP.NONE);
   }
 
+  public static SHOP parseShopType(String type) {
+    try {
+      SHOP shopType = Enum.valueOf(SHOP.class, type.toUpperCase());
+      return shopType;
+    } catch (IllegalArgumentException e) {
+      return SHOP.NONE;
+    }
+  }
+
   // Concoctions
 
   public static final Map<String, CraftingType> shopIdToCraftingType = new TreeMap<>();
@@ -66,7 +75,7 @@ public class ShopDatabase {
 
         String shopId = data[0];
         String shopTypeName = data[1];
-        SHOP shopType = Enum.valueOf(SHOP.class, shopTypeName);
+        SHOP shopType = parseShopType(shopTypeName);
         String shopName = data[2];
 
         if (shopType == SHOP.CONC) {

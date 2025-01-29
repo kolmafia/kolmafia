@@ -292,7 +292,7 @@ public class ConcoctionDatabase {
 
       if (row != 0) {
         ShopRow shopRow = new ShopRow(row, item, concoction.getIngredients());
-        ShopRowDatabase.registerShopRow(shopRow, "conc", mixingMethod);
+        ShopRowDatabase.registerShopRow(shopRow, mixingMethod);
       }
 
       Concoction existing = ConcoctionPool.get(item);
