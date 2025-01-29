@@ -63,7 +63,7 @@ public class DataFileMechanicsTest {
         Arguments.of("questscouncil.txt", 1, 3, 5),
         // questslogs.txt is too complex
         Arguments.of("restores.txt", 2, 7, 8),
-        Arguments.of("shoprows.txt", 2, 5, 9),
+        Arguments.of("shoprows.txt", 2, 4, 9),
         Arguments.of("spleenhit.txt", 3, 8, 9),
         Arguments.of("standard-pulverized.txt", 1, 4, 4),
         Arguments.of("standard-rewards.txt", 1, 6, 6),
