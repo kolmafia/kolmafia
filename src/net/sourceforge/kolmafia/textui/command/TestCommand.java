@@ -899,7 +899,8 @@ public class TestCommand extends AbstractCommand {
     }
 
     if (command.equals("write-shoprows")) {
-      // Ensure that the three databases that register ShopRowData entries are loaded
+
+      // Ensure that the three databases that register ShopRow entries are loaded
       ConcoctionDatabase.singleUseCreation(0);
       CoinmasterRegistry.reset();
       NPCStoreDatabase.contains(0);
@@ -920,11 +921,13 @@ public class TestCommand extends AbstractCommand {
     }
 
     if (command.equals("write-shops")) {
-      // Ensure that the three databases that register ShopRowData entries are loaded
-      ConcoctionDatabase.singleUseCreation(0);
+      // Ensure that the two databases that register ShopRow entries are loaded
       CoinmasterRegistry.reset();
       NPCStoreDatabase.contains(0);
+      // Ditto for the Armory & Leggery, which registers standard rewards.
+      ArmoryAndLeggeryRequest.parseResponse("", "");
 
+      // Write a new shop.txt file
       ShopDatabase.writeShopFile();
       return;
     }

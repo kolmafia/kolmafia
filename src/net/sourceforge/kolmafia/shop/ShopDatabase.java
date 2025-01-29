@@ -31,8 +31,9 @@ public class ShopDatabase {
   public enum SHOP {
     NONE, // Unsupported
     CONC, // Supported as a mixing method
+    NPC, // Supported as an NPC store
     COIN, // Supported as a coinmaster
-    NPC // Supported as an NPC store
+    COINNPC // Supported as both an NPC Store and a coinmaster
   }
 
   public static final Map<String, SHOP> shopIdToShopType = new TreeMap<>();
@@ -64,10 +65,31 @@ public class ShopDatabase {
         }
 
         String shopId = data[0];
-        String shopType = data[1];
+        String shopTypeName = data[1];
+        SHOP shopType = Enum.valueOf(SHOP.class, shopTypeName);
         String shopName = data[2];
 
-        registerShop(shopId, shopName, Enum.valueOf(SHOP.class, shopType));
+        if (shopType == SHOP.CONC) {
+          if (data.length > 3) {
+            String craftingTypeName = data[3];
+            try {
+              CraftingType craftingType = Enum.valueOf(CraftingType.class, craftingTypeName);
+              registerShop(shopId, shopName, craftingType);
+            } catch (IllegalArgumentException e) {
+              RequestLogger.printLine(
+                  "shopId "
+                      + shopId
+                      + " is a CONC, but "
+                      + craftingTypeName
+                      + " is an unknown CraftingType.");
+            }
+          } else {
+            RequestLogger.printLine(
+                "shopId " + shopId + " is a CONC, but CraftingType is not specified.");
+          }
+        } else {
+          registerShop(shopId, shopName, shopType);
+        }
       }
     } catch (IOException e) {
       StaticEntity.printStackTrace(e);
@@ -81,8 +103,7 @@ public class ShopDatabase {
     craftingTypeToShopId.put(type, shopId);
   }
 
-  public static boolean registerShop(
-      final String shopId, final String shopName, final SHOP shopType) {
+  public static boolean registerShop(final String shopId, final String shopName, SHOP shopType) {
     // Return true if this shop is not previously known
     if (shopIdToShopName.containsKey(shopId)) {
       // The shopId is already registered. The shopName can differ;
@@ -92,14 +113,26 @@ public class ShopDatabase {
       // Some shops are implemented as both NPC and COIN.
       // Other combos are no good.
       SHOP existingShopType = shopIdToShopType.get(shopId);
-      if (shopType != existingShopType) {
-        boolean ok =
-            switch (shopType) {
-              case NONE -> true;
-              case NPC -> existingShopType == SHOP.COIN;
-              case COIN -> existingShopType == SHOP.NPC;
-              case CONC -> false;
-            };
+      boolean changed = false;
+      if (shopType != SHOP.NONE && shopType != existingShopType) {
+        // CONC shops cannot have multiple types
+        boolean ok = existingShopType != SHOP.CONC;
+        switch (shopType) {
+          case NPC -> {
+            if (existingShopType == SHOP.COIN) {
+              // COIN -> COINNPC
+              shopType = SHOP.COINNPC;
+              changed = true;
+            }
+          }
+          case COIN -> {
+            // NPC -> COINNPC
+            if (existingShopType == SHOP.NPC) {
+              shopType = SHOP.COINNPC;
+              changed = true;
+            }
+          }
+        }
         if (!ok) {
           String printMe =
               "Shop id '"
@@ -112,7 +145,9 @@ public class ShopDatabase {
           RequestLogger.updateSessionLog(printMe);
         }
       }
-      return false;
+      if (!changed) {
+        return false;
+      }
     }
 
     shopIdToShopName.put(shopId, shopName);
@@ -120,7 +155,7 @@ public class ShopDatabase {
     String existingShopId = shopNameToShopId.get(shopName);
     if (existingShopId == null) {
       shopNameToShopId.put(shopName, shopId);
-    } else {
+    } else if (shopType != SHOP.COINNPC) {
       String printMe =
           "Shop name '"
               + shopName
@@ -137,10 +172,6 @@ public class ShopDatabase {
     return true;
   }
 
-  public static String toData(final String shopId, final String shopName, SHOP shopType) {
-    return shopId + "\t" + shopType + "\t" + shopName;
-  }
-
   public static void writeShopFile() {
     File output = new File(KoLConstants.DATA_LOCATION, "shops.txt");
     PrintStream writer = LogStream.openStream(output, true);
@@ -151,7 +182,12 @@ public class ShopDatabase {
         String shopId = entry.getKey();
         String shopName = entry.getValue();
         SHOP shopType = shopIdToShopType.get(shopId);
-        writer.println(toData(shopId, shopName, shopType));
+        String line = shopId + "\t" + shopType + "\t" + shopName;
+        CraftingType craftingType = shopIdToCraftingType.get(shopId);
+        if (craftingType != null) {
+          line += "\t" + craftingType.name();
+        }
+        writer.println(line);
       }
     }
   }

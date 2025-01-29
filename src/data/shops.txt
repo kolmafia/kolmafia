@@ -1,9 +1,9 @@
-1
-5dprinter	CONC	Xiblaxian 5D printer
-airport	CONC	Elemental Duty Free, Inc.
+2
+5dprinter	CONC	Xiblaxian 5D printer	FIVE_D
+airport	CONC	Elemental Duty Free, Inc.	DUTYFREE
 applestore	COIN	The Applecalypse Store
 arcade	COIN	Arcade Ticket Counter
-armory	COIN	The Armory
+armory	COINNPC	Armory and Leggery
 bacon	COIN	Internet Meme Shop
 bartender	NPC	The Typical Tavern
 bartlebys	NPC	Barrrtleby's Barrrgain Books
@@ -11,8 +11,8 @@ batman_cave	COIN	Bat-Fabricator
 batman_chemicorp	COIN	ChemiCorp
 batman_orphanage	COIN	Gotpork Orphanage
 batman_pd	COIN	Gotpork P. D.
-beergarden	CONC	Beer Garden
-blackmarket	COIN	The Black Market
+beergarden	CONC	Beer Garden	BEER
+blackmarket	COINNPC	The Black Market
 boutique	COIN	Paul's Boutique
 brogurt	COIN	The Frozen Brogurt Stand
 bugbear	NPC	Bugbear Bakery
@@ -22,14 +22,14 @@ caveshop	COIN	The Neandermall
 chateau	NPC	Chateau Mantegna Gift Shop
 chinatown	NPC	Chinatown Shops
 conmerch	COIN	KoL Con 13 Merch Table
-crimbo12	CONC	Uncle Crimbo's Futuristic Trailer
+crimbo12	CONC	Uncle Crimbo's Futuristic Trailer	CRIMBO12
 crimbo14	COIN	Crimbo 2014
-crimbo16	CONC	Crimbo Lumps Shop
+crimbo16	CONC	Crimbo Lumps Shop	CRIMBO16
 crimbo17	COIN	Cheer-o-Vend 3000
 crimbo18	NPC	The Crimbo Cafe (2018)
 crimbo18giftomat	NPC	Crimbo Town Gift-O-Mat
 crimbo19	NPC	The Crimbo Cafe (2019)
-crimbo19toys	CONC	The H. M. S. Kringle's Workshop
+crimbo19toys	CONC	The H. M. S. Kringle's Workshop	KRINGLE
 crimbo20blackmarket	NPC	The Black and White and Red All Over Market
 crimbo20booze	COIN	Elf Booze Drive
 crimbo20cafe	NPC	The Crimbo Cafe (2020)
@@ -56,21 +56,21 @@ dino	COIN	Dino World Gift Shop (The Dinostaur)
 doc	NPC	Doc Galaktik's Medicine Show
 dollhawker	COIN	Dollhawker's Emporium
 dreadsylvania	COIN	The Terrified Eagle Inn
-driparmory	COIN	Drip Institute Armory
+driparmory	COINNPC	Drip Institute Armory
 dripcafeteria	NPC	Drip Institute Cafeteria
 edunder_shopshop	COIN	Everything Under the World
 exploathing	COIN	Cosmic Ray's Bazaar
 fantasyrealm	COIN	FantasyRealm Rubee&trade; Store
-fdkol	COIN	FDKOL Tent
+fdkol	COINNPC	FDKOL Requisitions Tent
 fishbones	COIN	Freshwater Fishbonery
-fixodent	CONC	Craft with Teeth
+fixodent	CONC	Craft with Teeth	FIXODENT
 fwshop	NPC	Clan Underground Fireworks Shop
 generalstore	NPC	The General Store
 glaciest	COIN	Wal-Mart
 glover	COIN	G-Mart
 gnoll	NPC	Degrassi Knoll Bakery and Hardware Store
 gnomart	NPC	Gno-Mart
-grandma	CONC	Grandma Sea Monkey
+grandma	CONC	Grandma Sea Monkey	GRANDMA
 guildstore1	NPC	Shadowy Store
 guildstore2	NPC	Gouda's Grimoire and Grocery
 guildstore3	NPC	Smacketeria
@@ -79,14 +79,14 @@ hiddentavern	NPC	The Hidden Tavern
 hippy	NPC	Hippy Store (Pre-War)
 infernodisco	COIN	Disco GiftCo
 isotopesmithery	COIN	Isotope Smithery
-jarl	CONC	Jarlsberg's Cosmic Kitchen
+jarl	CONC	Jarlsberg's Cosmic Kitchen	JARLS
 jewelers	NPC	Little Canadia Jewelers
-junkmagazine	CONC	Worse Homes and Gardens
+junkmagazine	CONC	Worse Homes and Gardens	JUNK
 kiwi	COIN	Kiwi Kwiki Mart
 knobdisp	NPC	The Knob Dispensary
-kolhs_art	CONC	Art Class (After School)
-kolhs_chem	CONC	Chemistry Class (After School)
-kolhs_shop	CONC	Shop Class (After School)
+kolhs_art	CONC	Art Class (After School)	ARTCLASS
+kolhs_chem	CONC	Chemistry Class (After School)	CHEMCLASS
+kolhs_shop	CONC	Shop Class (After School)	SHOPCLASS
 landfillstore	COIN	The Dinsey Company Store
 lathe	COIN	Your SpinMaster&trade; lathe
 ltt	COIN	LT&T Gift Shop
@@ -98,27 +98,27 @@ mayoclinic	NPC	The Mayo Clinic
 meatsmith	NPC	Meatsmith's Shop
 mrreplica	COIN	Replica Mr. Store
 mrstore2002	COIN	Mr. Store 2002
-mystic	CONC	The Crackpot Mystic's Shed
+mystic	CONC	The Crackpot Mystic's Shed	PIXEL
 nerve	NPC	Nervewrecker's Store
 nina	COIN	Ni&ntilde;a Store
 olivers	COIN	Fancy Dan the Cocktail Man
 piraterealm	COIN	PirateRealm Fun-a-Log
 pokefam	COIN	The Pok&eacute;mporium
-rumple	CONC	Rumplestiltskin's Workshop
+rumple	CONC	Rumplestiltskin's Workshop	RUMPLE
 sbb_jimmy	COIN	Buff Jimmy's Souvenir Shop
 september	COIN	Sept-Ember Censer
-shadowforge	CONC	The Shadow Forge
+shadowforge	CONC	The Shadow Forge	SHADOW_FORGE
 shakeshop	COIN	Ye Newe Souvenir Shoppe
 shoeshop	COIN	Legitimate Shoe Repair, Inc.
 shore	COIN	The Shore, Inc. Gift Shop
 si_shop1	COIN	The SHAWARMA Initiative
 snackbar	NPC	Huggler Memorial Colosseum Snack Bar
-snowgarden	CONC	Winter Gardening
+snowgarden	CONC	Winter Gardening	WINTER
 spacegate	COIN	Spacegate Fabrication Facility
-spant	CONC	Spant Bit Assembly
-starchart	CONC	A Star Chart
-still	CONC	Nash Crosby's Still
-sugarsheets	CONC	Sugar Sheet Folding
+spant	CONC	Spant Bit Assembly	SPANT
+starchart	CONC	A Star Chart	STARCHART
+still	CONC	Nash Crosby's Still	STILL
+sugarsheets	CONC	Sugar Sheet Folding	SUGAR_FOLDING
 taco_dan	COIN	Taco Dan's Taco Stand
 thankshop	COIN	A traveling Thanksgiving salesman
 topiary	COIN	Topiary Nuggletcrafting
@@ -131,9 +131,9 @@ unclep	NPC	Uncle P's Antiques
 vault1	NPC	Fallout Shelter Medical Supply
 vault2	NPC	Fallout Shelter Electronics Supply
 vault3	NPC	Underground Record Store
-voteslime	CONC	Mad Sliemce
+voteslime	CONC	Mad Sliemce	SLIEMCE
 warbear	COIN	Warbear Black Box
-wereprofessor_tinker	CONC	Tinkering Bench
+wereprofessor_tinker	CONC	Tinkering Bench	TINKERING_BENCH
 whitecitadel	NPC	White Citadel
 wildfire	NPC	FDKOL Auxiliary
-xo	CONC	XO Shop
+xo	CONC	XO Shop	XO
