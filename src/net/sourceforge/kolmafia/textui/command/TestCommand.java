@@ -1263,10 +1263,14 @@ public class TestCommand extends AbstractCommand {
     }
 
     if (command.equals("shoprows")) {
+      boolean force = (split.length < 2) ? false : split[1].trim().equals("true");
       String shop = ShopRequest.parseShopName(TestCommand.contents);
-      List<ShopRow> rows = ShopRow.parseShop(TestCommand.contents, true);
+      String shopId = ShopRequest.parseShopId(TestCommand.contents);
+      List<ShopRow> rows = ShopRequest.parseShopInventory(shopId, TestCommand.contents, force);
       TestCommand.contents = null;
-      RequestLogger.printLine("shop '" + shop + "' offers " + rows.size() + " items.");
+
+      RequestLogger.printLine(
+          "shop " + shopId + " (" + shop + ") offers " + rows.size() + " items.");
       for (ShopRow row : rows) {
         RequestLogger.printLine("row = " + row.getRow() + " item = " + row.getItem());
         for (AdventureResult cost : row.getCosts()) {

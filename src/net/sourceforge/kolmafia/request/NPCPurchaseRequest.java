@@ -242,15 +242,35 @@ public class NPCPurchaseRequest extends PurchaseRequest {
     return (this.price * factor) / 100;
   }
 
+  public static int priceFactor(String npcStoreId) {
+    int factor = 100;
+    if (NPCPurchaseRequest.usingTrousers(npcStoreId)) factor -= 5;
+    if (KoLCharacter.hasSkill(SkillPool.FIVE_FINGER_DISCOUNT)) factor -= 5;
+    return factor;
+  }
+
   public static int currentDiscountedPrice(long price) {
     return currentDiscountedPrice(null, price);
   }
 
   public static int currentDiscountedPrice(String npcStoreId, long price) {
-    long factor = 100;
-    if (NPCPurchaseRequest.usingTrousers(npcStoreId)) factor -= 5;
-    if (KoLCharacter.hasSkill(SkillPool.FIVE_FINGER_DISCOUNT)) factor -= 5;
+    int factor = priceFactor(npcStoreId);
+    if (factor == 100) {
+      return (int) price;
+    }
     return (int) ((price * factor) / 100);
+  }
+
+  public static int currentUnDiscountedPrice(long price) {
+    return currentUnDiscountedPrice(null, price);
+  }
+
+  public static int currentUnDiscountedPrice(String npcStoreId, long price) {
+    int factor = priceFactor(npcStoreId);
+    if (factor == 100) {
+      return (int) price;
+    }
+    return (int) Math.ceil(price / (factor / 100.0));
   }
 
   private static boolean usingTrousers(String npcStoreId) {

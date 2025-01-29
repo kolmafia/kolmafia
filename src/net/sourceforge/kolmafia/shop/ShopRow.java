@@ -330,7 +330,8 @@ public class ShopRow implements Comparable<ShopRow> {
             }
             // We have found an ingredient. Do we know what it is?
             if (isMeat) {
-              AdventureResult cost = new MeatResult(icount);
+              int price = NPCPurchaseRequest.currentUnDiscountedPrice(icount);
+              AdventureResult cost = new MeatResult(price);
               ingredients.add(cost);
             } else if (idescid != null) {
               // Ingredient is an actual item
