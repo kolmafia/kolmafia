@@ -87,7 +87,7 @@ public class ShopRowTest {
       String html = html("request/test_shop_grandma.html");
       var inventory = ShopRow.parseShop(html, true);
       var currencies = currencies(inventory);
-      assertEquals(15, inventory.size());
+      assertEquals(17, inventory.size());
       assertEquals(1, currencies.get(helmet));
       assertEquals(2, currencies.get(mask));
       assertEquals(2, currencies.get(tailpiece));
@@ -205,10 +205,10 @@ public class ShopRowTest {
     @Test
     public void canParsePrimordialSoupKitchen() {
       String html = html("request/test_shop_twitchsoup.html");
-      var shopName = ShopRow.parseShopName(html);
+      var shopName = ShopRequest.parseShopName(html);
       assertEquals("The Primordial Soup Kitchen", shopName);
 
-      var shopId = ShopRow.parseShopId(html);
+      var shopId = ShopRequest.parseShopId(html);
       assertEquals("twitchsoup", shopId);
 
       var shopRows = ShopRow.parseShop(html, true);

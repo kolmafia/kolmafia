@@ -349,16 +349,16 @@ The Hidden Tavern	hiddentavern	Fog Murderer	500	ROW175
 The Hidden Tavern	hiddentavern	Cursed Punch	500	ROW173
 The Hidden Tavern	hiddentavern	Bowl of Scorpions	500	ROW174
 
-Chateau Mantenga Gift Shop	chateau	electric muscle stimulator	500	ROW411
-Chateau Mantenga Gift Shop	chateau	foreign language tapes	500	ROW412
-Chateau Mantenga Gift Shop	chateau	bowl of potpourri	500	ROW413
-Chateau Mantenga Gift Shop	chateau	antler chandelier	1500	ROW415
-Chateau Mantenga Gift Shop	chateau	artificial skylight	1500	ROW416
-Chateau Mantenga Gift Shop	chateau	ceiling fan	1500	ROW414
-Chateau Mantenga Gift Shop	chateau	continental juice bar	1500	ROW418
-Chateau Mantenga Gift Shop	chateau	fancy stationery set	1500	ROW419
-Chateau Mantenga Gift Shop	chateau	Swiss piggy bank	1500	ROW417
-Chateau Mantenga Gift Shop	chateau	alpine watercolor set	5000	ROW420
+Chateau Mantegna Gift Shop	chateau	electric muscle stimulator	500	ROW411
+Chateau Mantegna Gift Shop	chateau	foreign language tapes	500	ROW412
+Chateau Mantegna Gift Shop	chateau	bowl of potpourri	500	ROW413
+Chateau Mantegna Gift Shop	chateau	antler chandelier	1500	ROW415
+Chateau Mantegna Gift Shop	chateau	artificial skylight	1500	ROW416
+Chateau Mantegna Gift Shop	chateau	ceiling fan	1500	ROW414
+Chateau Mantegna Gift Shop	chateau	continental juice bar	1500	ROW418
+Chateau Mantegna Gift Shop	chateau	fancy stationery set	1500	ROW419
+Chateau Mantegna Gift Shop	chateau	Swiss piggy bank	1500	ROW417
+Chateau Mantegna Gift Shop	chateau	alpine watercolor set	5000	ROW420
 
 Chinatown Shops	chinatown	fortune cookie	40	ROW568
 Chinatown Shops	chinatown	brass abacus	150	ROW569
@@ -402,8 +402,8 @@ Underground Record Store	vault3	The Pigs holo-record	1000	ROW880
 Underground Record Store	vault3	li'l liberty costume	1000	ROW894
 Underground Record Store	vault3	li'l unicorn costume	1000	ROW897
 
-The Crimbo Cafe	crimbo18	hot watered rum	50	ROW1030
-The Crimbo Cafe	crimbo18	yule gruel	50	ROW1029
+The Crimbo Cafe (2018)	crimbo18	hot watered rum	50	ROW1030
+The Crimbo Cafe (2018)	crimbo18	yule gruel	50	ROW1029
 
 Crimbo Town Gift-O-Mat	crimbo18giftomat	bottle of Crimbognac	100000	ROW1031
 Crimbo Town Gift-O-Mat	crimbo18giftomat	Crimboysters Rockefeller	100000	ROW1032
@@ -415,9 +415,9 @@ Crimbo Town Gift-O-Mat	crimbo18giftomat	Carol of the Thrills	500000	ROW1037
 Crimbo Town Gift-O-Mat	crimbo18giftomat	Crimbolex watch	1000000	ROW1039
 Crimbo Town Gift-O-Mat	crimbo18giftomat	Crimbo tattoo kit	1000000	ROW1040
 
-The Crimbo Cafe	crimbo19	fishelada	50	ROW1103
-The Crimbo Cafe	crimbo19	bowl of mernudo	50	ROW1101
-The Crimbo Cafe	crimbo19	ojo de pez burrito	50	ROW1104
+The Crimbo Cafe (2019)	crimbo19	fishelada	50	ROW1103
+The Crimbo Cafe (2019)	crimbo19	bowl of mernudo	50	ROW1101
+The Crimbo Cafe (2019)	crimbo19	ojo de pez burrito	50	ROW1104
 
 Drip Institute Cafeteria	dripcafeteria	drippy nugget	10000	ROW1131
 Drip Institute Cafeteria	dripcafeteria	glass of drippy wine	10000	ROW1151
@@ -427,8 +427,8 @@ Drip Institute Cafeteria	dripcafeteria	Drip Institute petri dish	5000	ROW1159
 Drip Institute Armory	driparmory	Drip harness	50000	ROW1128
 Drip Institute Armory	driparmory	drippy truncheon	20000	ROW1129
 
-The Crimbo Cafe	crimbo20cafe	stuffed red and green pepper (stale)	300	ROW1201
-The Crimbo Cafe	crimbo20cafe	cranberry margarita (brackish)	300	ROW1202
+The Crimbo Cafe (2020)	crimbo20cafe	stuffed red and green pepper (stale)	300	ROW1201
+The Crimbo Cafe (2020)	crimbo20cafe	cranberry margarita (brackish)	300	ROW1202
 
 The Black and White and Red All Over Market	crimbo20blackmarket	&quot;reusable&quot; grocery bag	5000	ROW1171
 The Black and White and Red All Over Market	crimbo20blackmarket	cardboard wine carrier	5000	ROW1172
@@ -461,8 +461,8 @@ FDKOL Auxiliary	wildfire	pump grease	5000	ROW1262
 FDKOL Auxiliary	wildfire	rainproof barrel caulk	5000	ROW1261
 FDKOL Auxiliary	wildfire	literal bucket hat	5000	ROW1260
 
-The Crimbo Cafe	crimbo21cafe	bread pie	50	ROW1263
-The Crimbo Cafe	crimbo21cafe	clear Russian	50	ROW1264
+The Crimbo Cafe (2021)	crimbo21cafe	bread pie	50	ROW1263
+The Crimbo Cafe (2021)	crimbo21cafe	clear Russian	50	ROW1264
 
 Ornament Stand	crimbo21ornaments	black Crimbo ball	100	ROW1265
 Ornament Stand	crimbo21ornaments	white Crimbo ball	100	ROW1266

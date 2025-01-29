@@ -3,6 +3,8 @@ package net.sourceforge.kolmafia.swingui;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import javax.swing.DefaultListCellRenderer;
@@ -30,6 +32,7 @@ import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.*;
 import net.sourceforge.kolmafia.request.StorageRequest.StorageRequestType;
@@ -94,6 +97,7 @@ import net.sourceforge.kolmafia.request.coinmaster.shop.GotporkOrphanageRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.GotporkPDRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.GuzzlrRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.IsotopeSmitheryRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.KiwiKwikiMartRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.LTTRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.LunarLunchRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.MemeShopRequest;
@@ -106,6 +110,7 @@ import net.sourceforge.kolmafia.request.coinmaster.shop.PlumberGearRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.PlumberItemRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.PokemporiumRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.PrecinctRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.PrimordialSoupKitchenRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ReplicaMrStoreRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.RubeeRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.SHAWARMARequest;
@@ -199,6 +204,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
   private CoinmasterPanel guzzlrPanel = null;
   private CoinmasterPanel hermitPanel = null;
   private CoinmasterPanel isotopeSmitheryPanel = null;
+  private CoinmasterPanel kiwiKwikiMartPanel = null;
   private CoinmasterPanel lttPanel = null;
   private CoinmasterPanel lunarLunchPanel = null;
   private CoinmasterPanel merchTablePanel = null;
@@ -226,6 +232,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
   private CoinmasterPanel toxicChemistryPanel = null;
   private CoinmasterPanel trapperPanel = null;
   private CoinmasterPanel travelerPanel = null;
+  private CoinmasterPanel twitchSoupPanel = null;
   private CoinmasterPanel vendingMachinePanel = null;
   private CoinmasterPanel walmartPanel = null;
   private CoinmasterPanel warbearBoxPanel = null;
@@ -549,6 +556,11 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     this.selectorPanel.addPanel(mrStore2002Panel.getPanelSelector(), panel);
 
     panel = new JPanel(new BorderLayout());
+    kiwiKwikiMartPanel = new KiwiKwikiMartPanel();
+    panel.add(kiwiKwikiMartPanel);
+    this.selectorPanel.addPanel(kiwiKwikiMartPanel.getPanelSelector(), panel);
+
+    panel = new JPanel(new BorderLayout());
     septEmberPanel = new SeptEmberPanel();
     panel.add(septEmberPanel);
     this.selectorPanel.addPanel(septEmberPanel.getPanelSelector(), panel);
@@ -587,7 +599,10 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     panel.add(merchTablePanel);
     this.selectorPanel.addPanel(merchTablePanel.getPanelSelector(), panel);
 
-    // *** Primordial Soup Kitchen goes here
+    panel = new JPanel(new BorderLayout());
+    twitchSoupPanel = new TwitchSoupPanel();
+    panel.add(twitchSoupPanel);
+    this.selectorPanel.addPanel(twitchSoupPanel.getPanelSelector(), panel);
 
     // Events coinmasters
     this.selectorPanel.addSeparator();
@@ -1007,6 +1022,40 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
       buffer.append(" (");
       buffer.append(InventoryManager.getCount(MerchTableRequest.CHRONER));
       buffer.append(" Chroner)");
+    }
+  }
+
+  public class TwitchSoupPanel extends TwitchPanel {
+    public TwitchSoupPanel() {
+      super(PrimordialSoupKitchenRequest.DATA);
+    }
+
+    static List<Map.Entry<String, String>> currencies = new ArrayList<>();
+
+    static {
+      currencies.add(Map.entry("Chroner", "Chroner"));
+      currencies.add(Map.entry("bacteria bisque", "bisque"));
+      currencies.add(Map.entry("ciliophora chowder", "chowder"));
+      currencies.add(Map.entry("cream of chloroplasts", "cream"));
+      currencies.add(Map.entry("protogenetic chunklet (elbow)", "elbow"));
+      currencies.add(Map.entry("protogenetic chunklet (flagellum)", "flagellum"));
+      currencies.add(Map.entry("protogenetic chunklet (lips)", "lips"));
+      currencies.add(Map.entry("protogenetic chunklet (muscle)", "muscle"));
+      currencies.add(Map.entry("protogenetic chunklet (synapse)", "synapse"));
+    }
+
+    @Override
+    public void setTitle(final StringBuffer buffer) {
+      this.standardTitle(buffer);
+      for (var entry : currencies) {
+        int itemId = ItemDatabase.getItemId(entry.getKey());
+        int count = InventoryManager.getCount(itemId);
+        buffer.append(" (");
+        buffer.append(count);
+        buffer.append(" ");
+        buffer.append(entry.getValue());
+        buffer.append(")");
+      }
     }
   }
 
@@ -1753,6 +1802,20 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
   private class Crimbo24FactoryPanel extends Crimbo24Panel {
     public Crimbo24FactoryPanel() {
       super(Crimbo24FactoryRequest.DATA);
+    }
+  }
+
+  private class KiwiKwikiMartPanel extends CoinmasterPanel {
+    public KiwiKwikiMartPanel() {
+      super(KiwiKwikiMartRequest.DATA);
+    }
+
+    @Override
+    public int buyMax(final AdventureResult item, final int max) {
+      return switch (item.getItemId()) {
+        case ItemPool.MINI_KIWI_INTOXICATING_SPIRITS -> 1;
+        default -> max;
+      };
     }
   }
 

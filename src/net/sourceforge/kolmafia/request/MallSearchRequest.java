@@ -512,11 +512,9 @@ public class MallSearchRequest extends GenericRequest {
   }
 
   private void addCoinMasterItem(final int itemId) {
-    PurchaseRequest item = CoinmastersDatabase.getPurchaseRequest(itemId);
-    if (item != null) {
-      if (!this.results.contains(item)) {
-        this.results.add(item);
-      }
+    var items = CoinmastersDatabase.getAllPurchaseRequests(itemId);
+    if (items != null) {
+      this.results.addAll(items);
     }
   }
 

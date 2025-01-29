@@ -16,7 +16,7 @@ public class DiscoGiftCoRequest extends CoinMasterRequest {
   public static final AdventureResult COIN = ItemPool.get(ItemPool.VOLCOINO, 1);
 
   public static final CoinmasterData DISCO_GIFTCO =
-      new CoinmasterData(master, "DiscoGiftCo", DiscoGiftCoRequest.class)
+      new CoinmasterData(master, "infernodisco", DiscoGiftCoRequest.class)
           .withToken("Volcoino")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)

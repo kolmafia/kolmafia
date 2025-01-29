@@ -15,7 +15,7 @@ public class NuggletCraftingRequest extends CoinMasterRequest {
   public static final AdventureResult TOPIARY_NUGGLET = ItemPool.get(ItemPool.TOPIARY_NUGGLET, 1);
 
   public static final CoinmasterData NUGGLETCRAFTING =
-      new CoinmasterData(master, "NuggletCrafting", NuggletCraftingRequest.class)
+      new CoinmasterData(master, "topiary", NuggletCraftingRequest.class)
           .withToken("topiary nugglet")
           .withTokenTest("no topiary nugglets")
           .withTokenPattern(TOKEN_PATTERN)
