@@ -263,7 +263,7 @@ public class CoinmastersDatabase {
     for (List<CoinMasterPurchaseRequest> list : COINMASTER_ITEMS.values()) {
       list.removeIf(request -> request.getData() == data);
     }
-    COINMASTER_ROWS.values();
+    COINMASTER_ROWS.values().removeIf(request -> request.getData() == data);
   }
 
   public static final void registerPurchaseRequest(

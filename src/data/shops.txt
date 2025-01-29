@@ -19,7 +19,7 @@ bugbear	NPC	Bugbear Bakery
 campfire	COIN	Your Campfire
 canteen	COIN	The Canteen
 caveshop	COIN	The Neandermall
-chateau	NPC	Chateau Mantenga Gift Shop
+chateau	NPC	Chateau Mantegna Gift Shop
 chinatown	NPC	Chinatown Shops
 conmerch	COIN	KoL Con 13 Merch Table
 crimbo12	CONC	Uncle Crimbo's Futuristic Trailer

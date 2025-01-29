@@ -138,19 +138,13 @@ public class ShopDatabase {
   }
 
   public static String toData(final String shopId, final String shopName, SHOP shopType) {
-    StringBuilder buf = new StringBuilder();
-    buf.append(shopId);
-    buf.append("\t");
-    buf.append(shopType);
-    buf.append("\t");
-    buf.append(shopName);
-    return buf.toString();
+    return shopId + "\t" + shopType + "\t" + shopName;
   }
 
   public static void writeShopFile() {
     File output = new File(KoLConstants.DATA_LOCATION, "shops.txt");
     PrintStream writer = LogStream.openStream(output, true);
-    try {
+    try (writer) {
       writer.println(KoLConstants.SHOPS_VERSION);
 
       for (Entry<String, String> entry : shopIdToShopName.entrySet()) {
@@ -159,8 +153,6 @@ public class ShopDatabase {
         SHOP shopType = shopIdToShopType.get(shopId);
         writer.println(toData(shopId, shopName, shopType));
       }
-    } finally {
-      writer.close();
     }
   }
 }

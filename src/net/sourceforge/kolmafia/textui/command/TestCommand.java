@@ -1180,14 +1180,6 @@ public class TestCommand extends AbstractCommand {
       return;
     }
 
-    if (command.equals("shoprows")) {
-      String shop = ShopRequest.parseShopName(TestCommand.contents);
-      String shopId = ShopRequest.parseShopId(TestCommand.contents);
-      ShopRequest.parseShopInventory(shopId, TestCommand.contents, true);
-      TestCommand.contents = null;
-      return;
-    }
-
     if (command.equals("location")) {
       StringBuffer buffer = new StringBuffer(TestCommand.contents);
       TestCommand.contents = null;
