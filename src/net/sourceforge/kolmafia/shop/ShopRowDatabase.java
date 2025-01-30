@@ -17,7 +17,6 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.shop.ShopDatabase.SHOP;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -35,15 +34,12 @@ public class ShopRowDatabase {
   // recompile, log in, and "test write-shoprows"
   public static Mode mode = Mode.READ;
 
-  public record ShopRowData(
-      int row, String shopId, SHOP shopType, AdventureResult item, AdventureResult[] costs) {
+  public record ShopRowData(int row, String shopId, AdventureResult item, AdventureResult[] costs) {
     public String dataString() {
       StringBuilder buf = new StringBuilder();
       buf.append(String.valueOf(row));
       buf.append("\t");
       buf.append(shopId);
-      buf.append("\t");
-      buf.append(shopType);
       buf.append("\t");
       buf.append(item.toString());
       for (AdventureResult cost : costs) {
@@ -73,21 +69,20 @@ public class ShopRowDatabase {
   public static void registerShopRow(ShopRow shopRow, CraftingType craftingType) {
     String shopName = ShopDatabase.getShopName(craftingType);
     String shopId = ShopDatabase.getShopId(shopName);
-    registerShopRow(shopRow, shopId, "conc");
+    registerShopRow(shopRow, shopId);
   }
 
-  public static void registerShopRow(ShopRow shopRow, String shopId, String type) {
+  public static void registerShopRow(ShopRow shopRow, String shopId) {
     if (mode == Mode.BUILD) {
       int row = shopRow.getRow();
       if (shopRowData.containsKey(row)) {
         // *** log it
         return;
       }
-      SHOP shopType = ShopDatabase.getShopType(shopId);
       AdventureResult item = shopRow.getItem();
       AdventureResult[] costs = shopRow.getCosts();
 
-      ShopRowData data = new ShopRowData(row, shopId, shopType, item, costs);
+      ShopRowData data = new ShopRowData(row, shopId, item, costs);
       shopRowData.put(row, data);
     }
   }
@@ -103,23 +98,22 @@ public class ShopRowDatabase {
   }
 
   public static ShopRowData parseShopRowData(String[] data) {
-    // row	shopId	shopType	item	costs...
+    // row	shopId	item	costs...
 
-    if (data.length < 5) {
+    if (data.length < 3) {
       return null;
     }
 
     int row = StringUtilities.parseInt(data[0]);
     String shopId = data[1];
-    SHOP shopType = ShopDatabase.parseShopType(data[2]);
-    AdventureResult item = parseItemOrMeat(data[3]);
+    AdventureResult item = parseItemOrMeat(data[2]);
     ArrayList<AdventureResult> costList = new ArrayList<>();
-    for (int index = 4; index < data.length; index++) {
+    for (int index = 3; index < data.length; index++) {
       AdventureResult cost = parseItemOrMeat(data[index]);
       costList.add(cost);
     }
     AdventureResult[] costs = costList.toArray(new AdventureResult[0]);
-    return new ShopRowData(row, shopId, shopType, item, costs);
+    return new ShopRowData(row, shopId, item, costs);
   }
 
   static {

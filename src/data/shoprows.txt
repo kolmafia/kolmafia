@@ -1,19 +1,19 @@
 2
 1
 2
-3	fdkol	COINNPC	FDKOL tattoo	FDKOL commendation (100)
-4	fdkol	COINNPC	fireman's helmet	FDKOL commendation (500)
+3	fdkol	FDKOL tattoo	FDKOL commendation (100)
+4	fdkol	fireman's helmet	FDKOL commendation (500)
 5
 6
-7	fdkol	COINNPC	fire axe	FDKOL commendation (1,500)
-8	fdkol	COINNPC	enchanted fire extinguisher	FDKOL commendation (1,500)
-9	fdkol	COINNPC	Hjodor's Guide to Arctic Dalmatians	FDKOL commendation (3,500)
+7	fdkol	fire axe	FDKOL commendation (1,500)
+8	fdkol	enchanted fire extinguisher	FDKOL commendation (1,500)
+9	fdkol	Hjodor's Guide to Arctic Dalmatians	FDKOL commendation (3,500)
 10
-11	fdkol	COINNPC	FDKOL fire hose	FDKOL commendation (1,500)
-12	fdkol	COINNPC	bottle of fire	FDKOL commendation (3)
-13	trapper	COIN	penguin skin	yeti fur (5)
-14	trapper	COIN	yak skin	yeti fur
-15	trapper	COIN	hippopotamus skin	yeti fur (3)
+11	fdkol	FDKOL fire hose	FDKOL commendation (1,500)
+12	fdkol	bottle of fire	FDKOL commendation (3)
+13	trapper	penguin skin	yeti fur (5)
+14	trapper	yak skin	yeti fur
+15	trapper	hippopotamus skin	yeti fur (3)
 16
 17
 18
@@ -24,240 +24,240 @@
 23
 24
 25
-26	mystic	CONC	white pixel	red pixel	green pixel	blue pixel
-27	mystic	CONC	red pixel potion	black pixel (3)	red pixel (2)
-28	mystic	CONC	blue pixel potion	black pixel (3)	blue pixel (2)
-29	mystic	CONC	green pixel potion	black pixel (4)	green pixel (3)
-30	mystic	CONC	purple pixel pie	white pixel (5)	red pixel (2)	blue pixel (2)
-31	mystic	CONC	monster bait	red pixel (20)	white pixel (15)
-32	mystic	CONC	pixel shield	red pixel (20)	black pixel (10)	white pixel (10)
-33	mystic	CONC	pixel hat	white pixel (10)	green pixel (15)
-34	mystic	CONC	pixel pants	black pixel (10)	red pixel (20)
-35	mystic	CONC	pixel sword	white pixel (20)	black pixel (10)	blue pixel (10)
+26	mystic	white pixel	red pixel	green pixel	blue pixel
+27	mystic	red pixel potion	black pixel (3)	red pixel (2)
+28	mystic	blue pixel potion	black pixel (3)	blue pixel (2)
+29	mystic	green pixel potion	black pixel (4)	green pixel (3)
+30	mystic	purple pixel pie	white pixel (5)	red pixel (2)	blue pixel (2)
+31	mystic	monster bait	red pixel (20)	white pixel (15)
+32	mystic	pixel shield	red pixel (20)	black pixel (10)	white pixel (10)
+33	mystic	pixel hat	white pixel (10)	green pixel (15)
+34	mystic	pixel pants	black pixel (10)	red pixel (20)
+35	mystic	pixel sword	white pixel (20)	black pixel (10)	blue pixel (10)
 36
-37	mystic	CONC	pixel boomerang	black pixel (10)	white pixel (10)	blue pixel (20)
-38	mystic	CONC	pixel whip	brown pixel (10)
-39	mystic	CONC	pixel pill	red pixel (20)	white pixel (20)
-40	mystic	CONC	pixel energy tank	blue pixel (40)	white pixel (10)
-41	mystic	CONC	pixel grappling hook	white pixel (50)	black pixel (50)
-42	jarl	CONC	consummate hard-boiled egg	cosmic egg
-43	jarl	CONC	consummate fried egg	cosmic egg
-44	jarl	CONC	consummate egg salad	cosmic egg
-45	jarl	CONC	consummate bagel	cosmic dough
-46	jarl	CONC	consummate sliced bread	cosmic dough
-47	jarl	CONC	consummate hot dog bun	cosmic dough
-48	jarl	CONC	consummate brownie	cosmic dough
-49	jarl	CONC	consummate toast	cosmic dough
-50	jarl	CONC	passable stout	cosmic dough
-51	jarl	CONC	consummate soup	cosmic vegetable
-52	jarl	CONC	consummate corn chips	cosmic vegetable
-53	jarl	CONC	consummate salad	cosmic vegetable
-54	jarl	CONC	consummate salsa	cosmic vegetable
-55	jarl	CONC	consummate sauerkraut	cosmic vegetable
-56	jarl	CONC	consummate cheese slice	cosmic cheese
-57	jarl	CONC	consummate melted cheese	cosmic cheese
-58	jarl	CONC	consummate bacon	cosmic potted meat product
-59	jarl	CONC	consummate meatloaf	cosmic potted meat product
-60	jarl	CONC	consummate steak	cosmic potted meat product
-61	jarl	CONC	consummate cold cuts	cosmic potted meat product
-62	jarl	CONC	consummate frankfurter	cosmic potted meat product
-63	jarl	CONC	consummate french fries	cosmic potato
-64	jarl	CONC	consummate baked potato	cosmic potato
-65	jarl	CONC	acceptable vodka	cosmic potato
-66	jarl	CONC	consummate ice cream	cosmic cream
-67	jarl	CONC	consummate whipped cream	cosmic cream
-68	jarl	CONC	consummate sour cream	cosmic cream
-69	jarl	CONC	consummate strawberries	cosmic fruit
-70	jarl	CONC	consummate sorbet	cosmic fruit
-71	jarl	CONC	adequate rum	cosmic fruit
-72	jarl	CONC	immaculate grilled cheese	consummate toast	consummate cheese slice
-73	jarl	CONC	immaculate ice cream sandwich	consummate ice cream	consummate brownie
-74	jarl	CONC	immaculate hot dog	consummate hot dog bun	consummate frankfurter
-75	jarl	CONC	immaculate egg salad sandwich	consummate egg salad	consummate sliced bread
-76	jarl	CONC	perfect sandwich	consummate sliced bread	consummate cheese slice	consummate cold cuts
-77	jarl	CONC	perfect chef salad	consummate salad	consummate hard-boiled egg	consummate cold cuts
-78	jarl	CONC	perfect breakfast	consummate fried egg	consummate bacon	consummate toast
-79	jarl	CONC	sublime deluxe hot dog	consummate hot dog bun	consummate frankfurter	consummate sauerkraut
-80	jarl	CONC	sublime stew	consummate soup	consummate steak	consummate baked potato
-81	jarl	CONC	sublime nachos	consummate corn chips	consummate salsa	consummate melted cheese	consummate sour cream
-82	jarl	CONC	Ultimate Breakfast Sandwich	consummate fried egg	consummate bagel	consummate cheese slice	consummate bacon
-83	jarl	CONC	Loaded Baked Potato	consummate baked potato	consummate bacon	consummate melted cheese	consummate sour cream
-84	jarl	CONC	Omega Sundae	consummate ice cream	consummate whipped cream	consummate strawberries	consummate brownie
-85	jarl	CONC	Das Sauerlager	mediocre lager	consummate sauerkraut
-86	jarl	CONC	Bologna Lambic	passable stout	consummate cold cuts
-87	jarl	CONC	Vodka Dog	acceptable vodka	consummate hot dog bun
-88	jarl	CONC	Disappointed Russian	acceptable vodka	consummate sour cream
-89	jarl	CONC	Chunky Mary	acceptable vodka	consummate salsa
-90	jarl	CONC	Nachojito	adequate rum	consummate melted cheese
-91	jarl	CONC	Le Roi	adequate rum	consummate french fries
-92	jarl	CONC	Over Easy Rider	adequate rum	consummate fried egg
-93	damachine	COIN	Boris's key	fat loot token
-94	damachine	COIN	Jarlsberg's key	fat loot token
-95	damachine	COIN	Sneaky Pete's key	fat loot token
-96	damachine	COIN	Boris's ring	fat loot token
-97	damachine	COIN	Jarlsberg's earring	fat loot token
-98	damachine	COIN	Sneaky Pete's breath spray	fat loot token
-99	damachine	COIN	potato sprout	fat loot token
-100	damachine	COIN	dried gelatinous cube	fat loot token (27)
-101	damachine	COIN	Spellbook: Walberg's Dim Bulb	fat loot token (15)
-102	damachine	COIN	Spellbook: Singer's Faithful Ocelot	fat loot token (15)
-103	damachine	COIN	Spellbook: Drescher's Annoying Noise	fat loot token (15)
-104	jarl	CONC	Staff of the Healthy Breakfast	cosmic egg
-105	jarl	CONC	Staff of the Staff of Life	cosmic dough
-106	jarl	CONC	Staff of the Light Lunch	cosmic vegetable
-107	jarl	CONC	Staff of the Standalone Cheese	cosmic cheese
-108	jarl	CONC	Staff of the Hearty Dinner	cosmic potato
-109	jarl	CONC	Staff of the All-Steak	cosmic potted meat product
-110	jarl	CONC	Staff of Fruit Salad	cosmic fruit
-111	jarl	CONC	Staff of the Cream of the Cream	cosmic cream
-112	jarl	CONC	cosmic six-pack
+37	mystic	pixel boomerang	black pixel (10)	white pixel (10)	blue pixel (20)
+38	mystic	pixel whip	brown pixel (10)
+39	mystic	pixel pill	red pixel (20)	white pixel (20)
+40	mystic	pixel energy tank	blue pixel (40)	white pixel (10)
+41	mystic	pixel grappling hook	white pixel (50)	black pixel (50)
+42	jarl	consummate hard-boiled egg	cosmic egg
+43	jarl	consummate fried egg	cosmic egg
+44	jarl	consummate egg salad	cosmic egg
+45	jarl	consummate bagel	cosmic dough
+46	jarl	consummate sliced bread	cosmic dough
+47	jarl	consummate hot dog bun	cosmic dough
+48	jarl	consummate brownie	cosmic dough
+49	jarl	consummate toast	cosmic dough
+50	jarl	passable stout	cosmic dough
+51	jarl	consummate soup	cosmic vegetable
+52	jarl	consummate corn chips	cosmic vegetable
+53	jarl	consummate salad	cosmic vegetable
+54	jarl	consummate salsa	cosmic vegetable
+55	jarl	consummate sauerkraut	cosmic vegetable
+56	jarl	consummate cheese slice	cosmic cheese
+57	jarl	consummate melted cheese	cosmic cheese
+58	jarl	consummate bacon	cosmic potted meat product
+59	jarl	consummate meatloaf	cosmic potted meat product
+60	jarl	consummate steak	cosmic potted meat product
+61	jarl	consummate cold cuts	cosmic potted meat product
+62	jarl	consummate frankfurter	cosmic potted meat product
+63	jarl	consummate french fries	cosmic potato
+64	jarl	consummate baked potato	cosmic potato
+65	jarl	acceptable vodka	cosmic potato
+66	jarl	consummate ice cream	cosmic cream
+67	jarl	consummate whipped cream	cosmic cream
+68	jarl	consummate sour cream	cosmic cream
+69	jarl	consummate strawberries	cosmic fruit
+70	jarl	consummate sorbet	cosmic fruit
+71	jarl	adequate rum	cosmic fruit
+72	jarl	immaculate grilled cheese	consummate toast	consummate cheese slice
+73	jarl	immaculate ice cream sandwich	consummate ice cream	consummate brownie
+74	jarl	immaculate hot dog	consummate hot dog bun	consummate frankfurter
+75	jarl	immaculate egg salad sandwich	consummate egg salad	consummate sliced bread
+76	jarl	perfect sandwich	consummate sliced bread	consummate cheese slice	consummate cold cuts
+77	jarl	perfect chef salad	consummate salad	consummate hard-boiled egg	consummate cold cuts
+78	jarl	perfect breakfast	consummate fried egg	consummate bacon	consummate toast
+79	jarl	sublime deluxe hot dog	consummate hot dog bun	consummate frankfurter	consummate sauerkraut
+80	jarl	sublime stew	consummate soup	consummate steak	consummate baked potato
+81	jarl	sublime nachos	consummate corn chips	consummate salsa	consummate melted cheese	consummate sour cream
+82	jarl	Ultimate Breakfast Sandwich	consummate fried egg	consummate bagel	consummate cheese slice	consummate bacon
+83	jarl	Loaded Baked Potato	consummate baked potato	consummate bacon	consummate melted cheese	consummate sour cream
+84	jarl	Omega Sundae	consummate ice cream	consummate whipped cream	consummate strawberries	consummate brownie
+85	jarl	Das Sauerlager	mediocre lager	consummate sauerkraut
+86	jarl	Bologna Lambic	passable stout	consummate cold cuts
+87	jarl	Vodka Dog	acceptable vodka	consummate hot dog bun
+88	jarl	Disappointed Russian	acceptable vodka	consummate sour cream
+89	jarl	Chunky Mary	acceptable vodka	consummate salsa
+90	jarl	Nachojito	adequate rum	consummate melted cheese
+91	jarl	Le Roi	adequate rum	consummate french fries
+92	jarl	Over Easy Rider	adequate rum	consummate fried egg
+93	damachine	Boris's key	fat loot token
+94	damachine	Jarlsberg's key	fat loot token
+95	damachine	Sneaky Pete's key	fat loot token
+96	damachine	Boris's ring	fat loot token
+97	damachine	Jarlsberg's earring	fat loot token
+98	damachine	Sneaky Pete's breath spray	fat loot token
+99	damachine	potato sprout	fat loot token
+100	damachine	dried gelatinous cube	fat loot token (27)
+101	damachine	Spellbook: Walberg's Dim Bulb	fat loot token (15)
+102	damachine	Spellbook: Singer's Faithful Ocelot	fat loot token (15)
+103	damachine	Spellbook: Drescher's Annoying Noise	fat loot token (15)
+104	jarl	Staff of the Healthy Breakfast	cosmic egg
+105	jarl	Staff of the Staff of Life	cosmic dough
+106	jarl	Staff of the Light Lunch	cosmic vegetable
+107	jarl	Staff of the Standalone Cheese	cosmic cheese
+108	jarl	Staff of the Hearty Dinner	cosmic potato
+109	jarl	Staff of the All-Steak	cosmic potted meat product
+110	jarl	Staff of Fruit Salad	cosmic fruit
+111	jarl	Staff of the Cream of the Cream	cosmic cream
+112	jarl	cosmic six-pack
 113
 114
 115
-116	grandma	CONC	sushi doily	sea lace
-117	grandma	CONC	scimitar cozy	sea lace (3)	pristine fish scale
-118	grandma	CONC	fish stick cozy	sea lace (3)	pristine fish scale
-119	grandma	CONC	bazooka cozy	sea lace (3)	pristine fish scale
-120	grandma	CONC	sea mantle	pristine fish scale (5)
-121	grandma	CONC	sea shawl	pristine fish scale (5)
-122	grandma	CONC	sea cape	pristine fish scale (5)
-123	grandma	CONC	saltwaterbed	sea leather (15)
-124	grandma	CONC	crappy Mer-kin mask	aerated diving helmet	pristine fish scale (3)
-125	grandma	CONC	crappy Mer-kin tailpiece	sea chaps	teflon swim fins	pristine fish scale (3)
-126	grandma	CONC	Mer-kin gladiator mask	crappy Mer-kin mask	Mer-kin headguard
-127	grandma	CONC	Mer-kin gladiator tailpiece	crappy Mer-kin tailpiece	Mer-kin thighguard
-128	grandma	CONC	crappy Mer-kin mask	Mer-kin gladiator mask
-129	grandma	CONC	Mer-kin scholar mask	crappy Mer-kin mask	Mer-kin facecowl
-130	grandma	CONC	Mer-kin scholar tailpiece	crappy Mer-kin tailpiece	Mer-kin waistrope
-131	grandma	CONC	crappy Mer-kin mask	Mer-kin scholar mask
-132	grandma	CONC	scale-mail underwear	dull fish scale (25)	pristine fish scale
-133	starchart	CONC	star sword	star chart	star (7)	line (4)
-134	starchart	CONC	star crossbow	star chart	star (5)	line (6)
-135	starchart	CONC	star staff	star chart	star (6)	line (5)
-136	starchart	CONC	star pants	star chart	star (7)	line (7)
-137	starchart	CONC	star hat	star chart	star (5)	line (3)
-138	starchart	CONC	star buckler	star chart	star (4)	line (6)
-139	starchart	CONC	star throwing star	star chart	star (4)	line (2)
-140	starchart	CONC	star starfish	star chart	star (6)	line (4)
-141	starchart	CONC	Richard's star key	star chart	star (8)	line (7)
-142	starchart	CONC	star shirt	star chart	star (15)	line (15)
-143	starchart	CONC	star stiletto	star chart	star (5)	line (4)
-144	starchart	CONC	star boomerang	star chart	star (4)	line (5)
-145	starchart	CONC	star spatula	star chart	star (5)	line (5)
-146	dreadsylvania	COIN	Tales of Dread	Freddy Kruegerand (250)
-147	dreadsylvania	COIN	Dreadsylvanian skeleton key	Freddy Kruegerand (25)
-148	dreadsylvania	COIN	Official Seal of Dreadsylvania	Freddy Kruegerand (1,000)
-149	dreadsylvania	COIN	Dreadsylvanian stew	Freddy Kruegerand (10)
-150	dreadsylvania	COIN	white Dreadsylvanian	Freddy Kruegerand (10)
-151	dreadsylvania	COIN	brass Dreadsylvanian flask	Freddy Kruegerand (100)
-152	dreadsylvania	COIN	silver Dreadsylvanian flask	Freddy Kruegerand (100)
-153	dreadsylvania	COIN	dreadful fedora	Freddy Kruegerand (500)
-154	dreadsylvania	COIN	dreadful sweater	Freddy Kruegerand (500)
-155	dreadsylvania	COIN	dreadful glove	Freddy Kruegerand (500)
-156	dreadsylvania	COIN	hot Dreadsylvanian cocoa	Freddy Kruegerand
-157	dreadsylvania	COIN	folder (tranquil landscape)	Freddy Kruegerand (25)
-158	kolhs_shop	CONC	miniature suspension bridge	wood screw (4)	balsa plank (4)	blob of wood glue (2)	surgical tape
-159	kolhs_shop	CONC	Staff of the Lunch Lady	jigsaw blade (2)	balsa plank (6)	blob of wood glue (4)
-160	kolhs_shop	CONC	universal key	jigsaw blade (4)	wood screw (4)	blob of wood glue (8)	surgical tape	scrap metal
-161	kolhs_shop	CONC	world's most dangerous birdhouse	jigsaw blade (4)	wood screw (4)	balsa plank (2)	blob of wood glue (2)	illegal firecracker (2)
-162	kolhs_shop	CONC	deathchucks	jigsaw blade (4)	wood screw (2)	balsa plank (2)	scrap metal
-163	kolhs_art	CONC	giant eraser	eraser nubbin (4)
-164	kolhs_art	CONC	quasireligious sculpture	lump of clay (2)	twisted piece of wire (6)	angry inch (4)	Mountain Stream Code Black Alert
-165	kolhs_art	CONC	giant Faraday cage	twisted piece of wire (8)	angry inch (2)	eraser nubbin (2)	Mountain Stream Code Black Alert
-166	kolhs_art	CONC	modeling claymore	lump of clay (6)	twisted piece of wire (2)	angry inch (4)	eraser nubbin (2)	illegal firecracker (2)
-167	kolhs_art	CONC	sticky clay homunculus	lump of clay (4)	twisted piece of wire (2)	angry inch (2)	Mountain Stream Code Black Alert
-168	kolhs_chem	CONC	sodium pentasomething	nugget of sodium (2)	mysterious chemical residue (4)	Mountain Stream Code Black Alert
-169	kolhs_chem	CONC	grains of salt	chlorine crystal (2)	nugget of sodium (2)
-170	kolhs_chem	CONC	yellowcake bomb	chlorine crystal (4)	ph balancer (4)	mysterious chemical residue (4)	surgical tape	illegal firecracker
-171	kolhs_chem	CONC	dirty stinkbomb	chlorine crystal (2)	ph balancer (2)	nugget of sodium (4)	surgical tape	illegal firecracker
-172	kolhs_chem	CONC	superwater	ph balancer (6)	mysterious chemical residue (2)	Mountain Stream Code Black Alert
-173	hiddentavern	NPC	Cursed Punch	500 Meat
-174	hiddentavern	NPC	Bowl of Scorpions	500 Meat
-175	hiddentavern	NPC	Fog Murderer	500 Meat
-176	shore	COIN	dinghy plans	Shore Inc. Ship Trip Scrip (3)
-177	shore	COIN	fuzzy dice	Shore Inc. Ship Trip Scrip (5)
-178	shore	COIN	meat globe	Shore Inc. Ship Trip Scrip
-179	shore	COIN	cheap toaster	Shore Inc. Ship Trip Scrip (3)
-180	shore	COIN	dude ranch souvenir crate	Shore Inc. Ship Trip Scrip
-181	shore	COIN	tropical island souvenir crate	Shore Inc. Ship Trip Scrip
-182	shore	COIN	ski resort souvenir crate	Shore Inc. Ship Trip Scrip
-183	shore	COIN	UV-resistant compass	Shore Inc. Ship Trip Scrip
-184	junkmagazine	CONC	junk junk	old claw-foot bathtub	old clothesline pole	antique cigar sign
-185	junkmagazine	CONC	junk band	bent scrap metal	molten scrap metal (2)	tangle of copper wire	Junk-Bond
-186	junkmagazine	CONC	junk trunks	jagged scrap metal (2)	bent scrap metal	tangle of copper wire
-187	junkmagazine	CONC	junk-mail shirt	jagged scrap metal	bent scrap metal (2)	Junk-Bond
-188	junkmagazine	CONC	junk food	jagged scrap metal	bent scrap metal	molten scrap metal
-189	junkmagazine	CONC	junk yard	jagged scrap metal	bent scrap metal	molten scrap metal
-190	junkmagazine	CONC	swordzall	jagged scrap metal (2)	tangle of copper wire	Junk-Bond	eternal car battery
-191	junkmagazine	CONC	arm buzzer	bent scrap metal (2)	tangle of copper wire	Junk-Bond	eternal car battery
-192	junkmagazine	CONC	boilgun	molten scrap metal (2)	tangle of copper wire	Junk-Bond	eternal car battery
-193	isotopesmithery	COIN	Mint-in-box Moonthril Circlet	lunar isotope (1,000)
-194	isotopesmithery	COIN	Mint-in-box Moonthril Flamberge	lunar isotope (1,250)
-195	isotopesmithery	COIN	Mint-in-box Moonthril Longbow	lunar isotope (1,500)
-196	isotopesmithery	COIN	Mint-in-box Moonthril Greaves	lunar isotope (1,750)
-197	isotopesmithery	COIN	Mint-in-box Moonthril Cuirass	lunar isotope (2,000)
-198	dollhawker	COIN	plush alielf	lunar isotope (100)
-199	dollhawker	COIN	plush dogcat	lunar isotope (150)
-200	dollhawker	COIN	plush hamsterpus	lunar isotope (200)
-201	dollhawker	COIN	plush ferrelf	lunar isotope (300)
-202	dollhawker	COIN	plush mutated alielf	lunar isotope (400)
-203	dollhawker	COIN	plush alien hamsterpus	lunar isotope (500)
-204	dollhawker	COIN	plush mutated alielephant	lunar isotope (1,000)
-205	lunarlunch	COIN	Saison du Lune	lunar isotope (10)
-206	lunarlunch	COIN	Moonthril Schnapps	lunar isotope (50)
-207	lunarlunch	COIN	Wrecked Generator	lunar isotope (100)
-208	lunarlunch	COIN	Spaghetti with Moonballs	lunar isotope (10)
-209	lunarlunch	COIN	Crepes a la Lune	lunar isotope (50)
-210	lunarlunch	COIN	Moon Pie	lunar isotope (100)
-211	lunarlunch	COIN	Comet Pop	lunar isotope
-212	lunarlunch	COIN	Flan in the Moon	lunar isotope (5)
-213	lunarlunch	COIN	1/6th Pound Cake	lunar isotope (10)
-214	beergarden	CONC	can of Br&uuml;talbr&auml;u	handful of barley	cluster of hops
-215	beergarden	CONC	can of Drooling Monk	handful of barley	cluster of hops
-216	beergarden	CONC	can of Impetuous Scofflaw	handful of barley	cluster of hops
-217	beergarden	CONC	bottle of Old Pugilist	handful of barley	cluster of hops	fancy beer bottle	fancy beer label
-218	beergarden	CONC	bottle of Professor Beer	handful of barley	cluster of hops	fancy beer bottle	fancy beer label
-219	beergarden	CONC	bottle of Rapier Witbier	handful of barley	cluster of hops	fancy beer bottle	fancy beer label
-220	beergarden	CONC	artisanal homebrew gift package	handful of barley (3)	cluster of hops (3)	fancy beer bottle (3)	fancy beer label (3)
-221	warbear	COIN	warbear helm fragment	warbear whosit (50)
-222	warbear	COIN	warbear trouser fragment	warbear whosit (50)
-223	warbear	COIN	warbear accoutrements chunk	warbear whosit (50)
-224	warbear	COIN	blind-packed die-cast metal toy	warbear whosit (10)
-225	warbear	COIN	warbear requisition box	warbear whosit (100)
-226	warbear	COIN	warbear officer requisition box	warbear whosit (500)
-227	snowgarden	CONC	snow cleats	snow berries
-228	snowgarden	CONC	liquid ice pack	ice harvest
-229	snowgarden	CONC	snow boards	snow berries (2)
-230	snowgarden	CONC	snow crab	snow berries (2)
-231	snowgarden	CONC	Ice Island Long Tea	snow berries	ice harvest (3)
-232	snowgarden	CONC	unfinished ice sculpture	snow berries (3)	ice harvest (3)
-233	snowgarden	CONC	ice house	ice harvest (8)
-234	snowgarden	CONC	snow machine	snow berries (30)	ice harvest (30)
-235	snowgarden	CONC	snow mobile	snow berries (3)	ice harvest (2)
-236	snowgarden	CONC	ice bucket	ice harvest (3)
-237	snowgarden	CONC	snow shovel	snow berries (4)	ice harvest
-238	snowgarden	CONC	bod-ice	snow berries	ice harvest (4)
-239	snowgarden	CONC	snow belt	snow berries (7)	ice harvest
-240	snowgarden	CONC	ice nine	ice harvest (9)
-241	snowgarden	CONC	snow fort	snow berries (9)
-242	warbear	COIN	warbear dress greaves	warbear whosit (200)
-243	warbear	COIN	warbear dress bracers	warbear whosit (300)
-244	warbear	COIN	warbear dress helmet	warbear whosit (400)
-245	boutique	COIN	cinnamon cannoli	odd silver coin (2)
-246	boutique	COIN	expensive champagne	odd silver coin (3)
-247	boutique	COIN	polo trophy	odd silver coin (3)
-248	boutique	COIN	fancy oil painting	odd silver coin (4)
-249	boutique	COIN	solid gold rosary	odd silver coin (5)
-250	boutique	COIN	ornate dowsing rod	odd silver coin (5)
-251	rumple	CONC	smudge stick	straw	leather
-252	rumple	CONC	portable wall	straw	clay
-253	rumple	CONC	large tankard of ale	leather	clay
-254	rumple	CONC	scroll case	straw	parchment
-255	rumple	CONC	jug of &quot;wine&quot;	straw	glass
-256	rumple	CONC	juggling ball	leather	filling
-257	rumple	CONC	crappy camera	leather	glass
-258	rumple	CONC	humble pie	clay	filling
-259	rumple	CONC	small golem	clay	parchment
+116	grandma	sushi doily	sea lace
+117	grandma	scimitar cozy	sea lace (3)	pristine fish scale
+118	grandma	fish stick cozy	sea lace (3)	pristine fish scale
+119	grandma	bazooka cozy	sea lace (3)	pristine fish scale
+120	grandma	sea mantle	pristine fish scale (5)
+121	grandma	sea shawl	pristine fish scale (5)
+122	grandma	sea cape	pristine fish scale (5)
+123	grandma	saltwaterbed	sea leather (15)
+124	grandma	crappy Mer-kin mask	aerated diving helmet	pristine fish scale (3)
+125	grandma	crappy Mer-kin tailpiece	sea chaps	teflon swim fins	pristine fish scale (3)
+126	grandma	Mer-kin gladiator mask	crappy Mer-kin mask	Mer-kin headguard
+127	grandma	Mer-kin gladiator tailpiece	crappy Mer-kin tailpiece	Mer-kin thighguard
+128	grandma	crappy Mer-kin mask	Mer-kin gladiator mask
+129	grandma	Mer-kin scholar mask	crappy Mer-kin mask	Mer-kin facecowl
+130	grandma	Mer-kin scholar tailpiece	crappy Mer-kin tailpiece	Mer-kin waistrope
+131	grandma	crappy Mer-kin mask	Mer-kin scholar mask
+132	grandma	scale-mail underwear	dull fish scale (25)	pristine fish scale
+133	starchart	star sword	star chart	star (7)	line (4)
+134	starchart	star crossbow	star chart	star (5)	line (6)
+135	starchart	star staff	star chart	star (6)	line (5)
+136	starchart	star pants	star chart	star (7)	line (7)
+137	starchart	star hat	star chart	star (5)	line (3)
+138	starchart	star buckler	star chart	star (4)	line (6)
+139	starchart	star throwing star	star chart	star (4)	line (2)
+140	starchart	star starfish	star chart	star (6)	line (4)
+141	starchart	Richard's star key	star chart	star (8)	line (7)
+142	starchart	star shirt	star chart	star (15)	line (15)
+143	starchart	star stiletto	star chart	star (5)	line (4)
+144	starchart	star boomerang	star chart	star (4)	line (5)
+145	starchart	star spatula	star chart	star (5)	line (5)
+146	dreadsylvania	Tales of Dread	Freddy Kruegerand (250)
+147	dreadsylvania	Dreadsylvanian skeleton key	Freddy Kruegerand (25)
+148	dreadsylvania	Official Seal of Dreadsylvania	Freddy Kruegerand (1,000)
+149	dreadsylvania	Dreadsylvanian stew	Freddy Kruegerand (10)
+150	dreadsylvania	white Dreadsylvanian	Freddy Kruegerand (10)
+151	dreadsylvania	brass Dreadsylvanian flask	Freddy Kruegerand (100)
+152	dreadsylvania	silver Dreadsylvanian flask	Freddy Kruegerand (100)
+153	dreadsylvania	dreadful fedora	Freddy Kruegerand (500)
+154	dreadsylvania	dreadful sweater	Freddy Kruegerand (500)
+155	dreadsylvania	dreadful glove	Freddy Kruegerand (500)
+156	dreadsylvania	hot Dreadsylvanian cocoa	Freddy Kruegerand
+157	dreadsylvania	folder (tranquil landscape)	Freddy Kruegerand (25)
+158	kolhs_shop	miniature suspension bridge	wood screw (4)	balsa plank (4)	blob of wood glue (2)	surgical tape
+159	kolhs_shop	Staff of the Lunch Lady	jigsaw blade (2)	balsa plank (6)	blob of wood glue (4)
+160	kolhs_shop	universal key	jigsaw blade (4)	wood screw (4)	blob of wood glue (8)	surgical tape	scrap metal
+161	kolhs_shop	world's most dangerous birdhouse	jigsaw blade (4)	wood screw (4)	balsa plank (2)	blob of wood glue (2)	illegal firecracker (2)
+162	kolhs_shop	deathchucks	jigsaw blade (4)	wood screw (2)	balsa plank (2)	scrap metal
+163	kolhs_art	giant eraser	eraser nubbin (4)
+164	kolhs_art	quasireligious sculpture	lump of clay (2)	twisted piece of wire (6)	angry inch (4)	Mountain Stream Code Black Alert
+165	kolhs_art	giant Faraday cage	twisted piece of wire (8)	angry inch (2)	eraser nubbin (2)	Mountain Stream Code Black Alert
+166	kolhs_art	modeling claymore	lump of clay (6)	twisted piece of wire (2)	angry inch (4)	eraser nubbin (2)	illegal firecracker (2)
+167	kolhs_art	sticky clay homunculus	lump of clay (4)	twisted piece of wire (2)	angry inch (2)	Mountain Stream Code Black Alert
+168	kolhs_chem	sodium pentasomething	nugget of sodium (2)	mysterious chemical residue (4)	Mountain Stream Code Black Alert
+169	kolhs_chem	grains of salt	chlorine crystal (2)	nugget of sodium (2)
+170	kolhs_chem	yellowcake bomb	chlorine crystal (4)	ph balancer (4)	mysterious chemical residue (4)	surgical tape	illegal firecracker
+171	kolhs_chem	dirty stinkbomb	chlorine crystal (2)	ph balancer (2)	nugget of sodium (4)	surgical tape	illegal firecracker
+172	kolhs_chem	superwater	ph balancer (6)	mysterious chemical residue (2)	Mountain Stream Code Black Alert
+173	hiddentavern	Cursed Punch	500 Meat
+174	hiddentavern	Bowl of Scorpions	500 Meat
+175	hiddentavern	Fog Murderer	500 Meat
+176	shore	dinghy plans	Shore Inc. Ship Trip Scrip (3)
+177	shore	fuzzy dice	Shore Inc. Ship Trip Scrip (5)
+178	shore	meat globe	Shore Inc. Ship Trip Scrip
+179	shore	cheap toaster	Shore Inc. Ship Trip Scrip (3)
+180	shore	dude ranch souvenir crate	Shore Inc. Ship Trip Scrip
+181	shore	tropical island souvenir crate	Shore Inc. Ship Trip Scrip
+182	shore	ski resort souvenir crate	Shore Inc. Ship Trip Scrip
+183	shore	UV-resistant compass	Shore Inc. Ship Trip Scrip
+184	junkmagazine	junk junk	old claw-foot bathtub	old clothesline pole	antique cigar sign
+185	junkmagazine	junk band	bent scrap metal	molten scrap metal (2)	tangle of copper wire	Junk-Bond
+186	junkmagazine	junk trunks	jagged scrap metal (2)	bent scrap metal	tangle of copper wire
+187	junkmagazine	junk-mail shirt	jagged scrap metal	bent scrap metal (2)	Junk-Bond
+188	junkmagazine	junk food	jagged scrap metal	bent scrap metal	molten scrap metal
+189	junkmagazine	junk yard	jagged scrap metal	bent scrap metal	molten scrap metal
+190	junkmagazine	swordzall	jagged scrap metal (2)	tangle of copper wire	Junk-Bond	eternal car battery
+191	junkmagazine	arm buzzer	bent scrap metal (2)	tangle of copper wire	Junk-Bond	eternal car battery
+192	junkmagazine	boilgun	molten scrap metal (2)	tangle of copper wire	Junk-Bond	eternal car battery
+193	isotopesmithery	Mint-in-box Moonthril Circlet	lunar isotope (1,000)
+194	isotopesmithery	Mint-in-box Moonthril Flamberge	lunar isotope (1,250)
+195	isotopesmithery	Mint-in-box Moonthril Longbow	lunar isotope (1,500)
+196	isotopesmithery	Mint-in-box Moonthril Greaves	lunar isotope (1,750)
+197	isotopesmithery	Mint-in-box Moonthril Cuirass	lunar isotope (2,000)
+198	dollhawker	plush alielf	lunar isotope (100)
+199	dollhawker	plush dogcat	lunar isotope (150)
+200	dollhawker	plush hamsterpus	lunar isotope (200)
+201	dollhawker	plush ferrelf	lunar isotope (300)
+202	dollhawker	plush mutated alielf	lunar isotope (400)
+203	dollhawker	plush alien hamsterpus	lunar isotope (500)
+204	dollhawker	plush mutated alielephant	lunar isotope (1,000)
+205	lunarlunch	Saison du Lune	lunar isotope (10)
+206	lunarlunch	Moonthril Schnapps	lunar isotope (50)
+207	lunarlunch	Wrecked Generator	lunar isotope (100)
+208	lunarlunch	Spaghetti with Moonballs	lunar isotope (10)
+209	lunarlunch	Crepes a la Lune	lunar isotope (50)
+210	lunarlunch	Moon Pie	lunar isotope (100)
+211	lunarlunch	Comet Pop	lunar isotope
+212	lunarlunch	Flan in the Moon	lunar isotope (5)
+213	lunarlunch	1/6th Pound Cake	lunar isotope (10)
+214	beergarden	can of Br&uuml;talbr&auml;u	handful of barley	cluster of hops
+215	beergarden	can of Drooling Monk	handful of barley	cluster of hops
+216	beergarden	can of Impetuous Scofflaw	handful of barley	cluster of hops
+217	beergarden	bottle of Old Pugilist	handful of barley	cluster of hops	fancy beer bottle	fancy beer label
+218	beergarden	bottle of Professor Beer	handful of barley	cluster of hops	fancy beer bottle	fancy beer label
+219	beergarden	bottle of Rapier Witbier	handful of barley	cluster of hops	fancy beer bottle	fancy beer label
+220	beergarden	artisanal homebrew gift package	handful of barley (3)	cluster of hops (3)	fancy beer bottle (3)	fancy beer label (3)
+221	warbear	warbear helm fragment	warbear whosit (50)
+222	warbear	warbear trouser fragment	warbear whosit (50)
+223	warbear	warbear accoutrements chunk	warbear whosit (50)
+224	warbear	blind-packed die-cast metal toy	warbear whosit (10)
+225	warbear	warbear requisition box	warbear whosit (100)
+226	warbear	warbear officer requisition box	warbear whosit (500)
+227	snowgarden	snow cleats	snow berries
+228	snowgarden	liquid ice pack	ice harvest
+229	snowgarden	snow boards	snow berries (2)
+230	snowgarden	snow crab	snow berries (2)
+231	snowgarden	Ice Island Long Tea	snow berries	ice harvest (3)
+232	snowgarden	unfinished ice sculpture	snow berries (3)	ice harvest (3)
+233	snowgarden	ice house	ice harvest (8)
+234	snowgarden	snow machine	snow berries (30)	ice harvest (30)
+235	snowgarden	snow mobile	snow berries (3)	ice harvest (2)
+236	snowgarden	ice bucket	ice harvest (3)
+237	snowgarden	snow shovel	snow berries (4)	ice harvest
+238	snowgarden	bod-ice	snow berries	ice harvest (4)
+239	snowgarden	snow belt	snow berries (7)	ice harvest
+240	snowgarden	ice nine	ice harvest (9)
+241	snowgarden	snow fort	snow berries (9)
+242	warbear	warbear dress greaves	warbear whosit (200)
+243	warbear	warbear dress bracers	warbear whosit (300)
+244	warbear	warbear dress helmet	warbear whosit (400)
+245	boutique	cinnamon cannoli	odd silver coin (2)
+246	boutique	expensive champagne	odd silver coin (3)
+247	boutique	polo trophy	odd silver coin (3)
+248	boutique	fancy oil painting	odd silver coin (4)
+249	boutique	solid gold rosary	odd silver coin (5)
+250	boutique	ornate dowsing rod	odd silver coin (5)
+251	rumple	smudge stick	straw	leather
+252	rumple	portable wall	straw	clay
+253	rumple	large tankard of ale	leather	clay
+254	rumple	scroll case	straw	parchment
+255	rumple	jug of &quot;wine&quot;	straw	glass
+256	rumple	juggling ball	leather	filling
+257	rumple	crappy camera	leather	glass
+258	rumple	humble pie	clay	filling
+259	rumple	small golem	clay	parchment
 260
 261
 262
@@ -265,118 +265,118 @@
 264
 265
 266
-267	still	CONC	bottle of Calcutta Emerald	bottle of gin
-268	still	CONC	bottle of Lieutenant Freeman	bottle of rum
-269	still	CONC	bottle of Jorge Sinsonte	bottle of tequila
-270	still	CONC	bottle of Definit	bottle of vodka
-271	still	CONC	bottle of Domesticated Turkey	bottle of whiskey
-272	still	CONC	boxed champagne	boxed wine
-273	still	CONC	bottle of Ooze-O	bottle of sewage schnapps
-274	still	CONC	bottle of Pete's Sake	bottle of sake
-275	still	CONC	tangerine	grapefruit
-276	still	CONC	kiwi	lemon
-277	still	CONC	cocktail onion	olive
-278	still	CONC	kumquat	orange
-279	still	CONC	tonic water	soda water
-280	still	CONC	raspberry	strawberry
-281	blackmarket	COINNPC	forged identification documents	5,000 Meat
-282	blackmarket	COINNPC	can of black paint	1,000 Meat
-283	blackmarket	COINNPC	black cherry soda	80 Meat
-284	blackmarket	COINNPC	black facepaint	300 Meat
-285	blackmarket	COINNPC	black sheepskin diploma	300 Meat
-286	blackmarket	COINNPC	Black Body&trade; spray	300 Meat
-287	blackmarket	COINNPC	exotic parrot egg	500,000 Meat
-288	blackmarket	COINNPC	spare kidney	2,000 Meat
-289	blackmarket	COINNPC	Red Zeppelin ticket	5,000 Meat
-290	blackmarket	COINNPC	Red Zeppelin ticket	priceless diamond
-291	beergarden	CONC	liquid bread	handful of barley	cluster of hops
-292	damachine	COIN	sewing kit	fat loot token
-293	brogurt	COIN	regular-size brogurt	Beach Buck
-294	brogurt	COIN	super-size brogurt	Beach Buck (3)
-295	brogurt	COIN	broberry brogurt	Beach Buck (10)
-296	brogurt	COIN	brocolate brogurt	Beach Buck (10)
-297	brogurt	COIN	French bronilla brogurt	Beach Buck (10)
-298	taco_dan	COIN	Taco Dan's Basic Taco Dan Taco	Beach Buck
-299	taco_dan	COIN	Pastaco shell	Beach Buck
-300	taco_dan	COIN	Taco Dan's Super Taco-Riffic Taco Sauce!	Beach Buck (3)
-301	taco_dan	COIN	Taco Dan's Taco Fish Fish Taco	Beach Buck (2)
-302	sbb_jimmy	COIN	History's Most Offensive Jokes, Vol. IX	Beach Buck (300)
-303	sbb_jimmy	COIN	Now You're Cooking With Grease	Beach Buck (300)
-304	sbb_jimmy	COIN	Sloppy Seconds Diner Employee Handbook	Beach Buck (300)
-305	sbb_jimmy	COIN	Brogre brorts	Beach Buck (200)
-306	sbb_jimmy	COIN	Brogre brolo shirt	Beach Buck (200)
-307	sbb_jimmy	COIN	Brogre bucket hat	Beach Buck (200)
-308	sbb_jimmy	COIN	Spring Break Beach tattoo coupon	Beach Buck (1,000)
-309	sbb_jimmy	COIN	one-day ticket to Spring Break Beach	Beach Buck (100)
-310	sbb_jimmy	COIN	industrial strength anti-fungal spray	Beach Buck (15)
-311	caveshop	COIN	strange helix fossil	Chroner (300)
-312	caveshop	COIN	rack of dinosaur ribs	Chroner (25)
-313	caveshop	COIN	scotch on the rocks	Chroner (25)
-314	caveshop	COIN	yabba dabba doo rag	Chroner (100)
-315	caveshop	COIN	wooly loincloth	Chroner (100)
-316	shoeshop	COIN	dog ointment	Chroner (25)
-317	shoeshop	COIN	gumshoes	Chroner (200)
-318	shoeshop	COIN	flapper floppers	Chroner (400)
-319	shoeshop	COIN	sneakeasies	Chroner (600)
-320	fishbones	COIN	fishbone catcher's mitt	freshwater fishbone (30)
-321	fishbones	COIN	fishbone kneepads	freshwater fishbone (15)
-322	fishbones	COIN	fishbone corset	freshwater fishbone (10)
-323	fishbones	COIN	fishbone fins	freshwater fishbone (20)
-324	fishbones	COIN	fishbone facemask	freshwater fishbone (5)
-325	fishbones	COIN	fishbone bracers	freshwater fishbone (5)
-326	fishbones	COIN	fishbone belt	freshwater fishbone (5)
-327	sugarsheets	CONC	sugar shotgun	sugar sheet
-328	sugarsheets	CONC	sugar shillelagh	sugar sheet
-329	sugarsheets	CONC	sugar shank	sugar sheet
-330	sugarsheets	CONC	sugar chapeau	sugar sheet
-331	sugarsheets	CONC	sugar shorts	sugar sheet
-332	sugarsheets	CONC	sugar shield	sugar sheet
-333	sugarsheets	CONC	sugar shirt	sugar sheet
-334	5dprinter	CONC	Xiblaxian stealth cowl	Xiblaxian circuitry (4)	Xiblaxian polymer (9)	Xiblaxian alloy (5)
-335	5dprinter	CONC	Xiblaxian stealth trousers	Xiblaxian circuitry (9)	Xiblaxian polymer (4)	Xiblaxian alloy (5)
-336	5dprinter	CONC	Xiblaxian stealth vest	Xiblaxian circuitry (5)	Xiblaxian polymer (4)	Xiblaxian alloy (9)
-337	5dprinter	CONC	Xiblaxian xeno-detection goggles	Xiblaxian polymer (4)	Xiblaxian crystal (2)
-338	5dprinter	CONC	Xiblaxian space-whiskey	Xiblaxian circuitry (3)	Xiblaxian polymer	Xiblaxian alloy
-339	5dprinter	CONC	Xiblaxian ultraburrito	Xiblaxian circuitry	Xiblaxian polymer	Xiblaxian alloy (3)
-340	5dprinter	CONC	Xiblaxian residence-cube	Xiblaxian circuitry (11)	Xiblaxian polymer (11)	Xiblaxian alloy (11)	Xiblaxian crystal (3)
-341	si_shop1	COIN	warm war shawarma	Coinspiracy (4)
-342	si_shop1	COIN	initiative shawarma	Coinspiracy (2)
-343	si_shop1	COIN	karma shawarma	Coinspiracy (7)
-344	canteen	COIN	Jungle Juice	Coinspiracy
-345	canteen	COIN	Amnesiac Ale	Coinspiracy (3)
-346	canteen	COIN	Highest Bitter	Coinspiracy (6)
-347	armory	COINNPC	mercenary pistol	Coinspiracy (50)
-348	armory	COINNPC	mercenary rifle	Coinspiracy (50)
-349	armory	COINNPC	specialty ammo bandolier	Coinspiracy
-350	armory	COINNPC	Merc Core deployment orders	Coinspiracy (100)
-351	armory	COINNPC	Merc Core Field Manual: Sanity Maintenance	Coinspiracy (300)
-352	armory	COINNPC	Merc Core Field Manual: Intimidation Techniques	Coinspiracy (300)
-353	armory	COINNPC	Merc Core challenge coin	Coinspiracy (1,000)
-354	applestore	COIN	unidentifiable dried fruit	Chroner (25)
-355	applestore	COIN	flat cider	Chroner (50)
-356	applestore	COIN	iShield	Chroner (300)
-357	applestore	COIN	white earbuds	Chroner (600)
-358	applestore	COIN	iFlail	Chroner (900)
-359	arcade	COIN	finger cuffs	Game Grid ticket
-360	arcade	COIN	little parachute guy	Game Grid ticket (2)
-361	arcade	COIN	superduperball	Game Grid ticket (5)
+267	still	bottle of Calcutta Emerald	bottle of gin
+268	still	bottle of Lieutenant Freeman	bottle of rum
+269	still	bottle of Jorge Sinsonte	bottle of tequila
+270	still	bottle of Definit	bottle of vodka
+271	still	bottle of Domesticated Turkey	bottle of whiskey
+272	still	boxed champagne	boxed wine
+273	still	bottle of Ooze-O	bottle of sewage schnapps
+274	still	bottle of Pete's Sake	bottle of sake
+275	still	tangerine	grapefruit
+276	still	kiwi	lemon
+277	still	cocktail onion	olive
+278	still	kumquat	orange
+279	still	tonic water	soda water
+280	still	raspberry	strawberry
+281	blackmarket	forged identification documents	5,000 Meat
+282	blackmarket	can of black paint	1,000 Meat
+283	blackmarket	black cherry soda	80 Meat
+284	blackmarket	black facepaint	300 Meat
+285	blackmarket	black sheepskin diploma	300 Meat
+286	blackmarket	Black Body&trade; spray	300 Meat
+287	blackmarket	exotic parrot egg	500,000 Meat
+288	blackmarket	spare kidney	2,000 Meat
+289	blackmarket	Red Zeppelin ticket	5,000 Meat
+290	blackmarket	Red Zeppelin ticket	priceless diamond
+291	beergarden	liquid bread	handful of barley	cluster of hops
+292	damachine	sewing kit	fat loot token
+293	brogurt	regular-size brogurt	Beach Buck
+294	brogurt	super-size brogurt	Beach Buck (3)
+295	brogurt	broberry brogurt	Beach Buck (10)
+296	brogurt	brocolate brogurt	Beach Buck (10)
+297	brogurt	French bronilla brogurt	Beach Buck (10)
+298	taco_dan	Taco Dan's Basic Taco Dan Taco	Beach Buck
+299	taco_dan	Pastaco shell	Beach Buck
+300	taco_dan	Taco Dan's Super Taco-Riffic Taco Sauce!	Beach Buck (3)
+301	taco_dan	Taco Dan's Taco Fish Fish Taco	Beach Buck (2)
+302	sbb_jimmy	History's Most Offensive Jokes, Vol. IX	Beach Buck (300)
+303	sbb_jimmy	Now You're Cooking With Grease	Beach Buck (300)
+304	sbb_jimmy	Sloppy Seconds Diner Employee Handbook	Beach Buck (300)
+305	sbb_jimmy	Brogre brorts	Beach Buck (200)
+306	sbb_jimmy	Brogre brolo shirt	Beach Buck (200)
+307	sbb_jimmy	Brogre bucket hat	Beach Buck (200)
+308	sbb_jimmy	Spring Break Beach tattoo coupon	Beach Buck (1,000)
+309	sbb_jimmy	one-day ticket to Spring Break Beach	Beach Buck (100)
+310	sbb_jimmy	industrial strength anti-fungal spray	Beach Buck (15)
+311	caveshop	strange helix fossil	Chroner (300)
+312	caveshop	rack of dinosaur ribs	Chroner (25)
+313	caveshop	scotch on the rocks	Chroner (25)
+314	caveshop	yabba dabba doo rag	Chroner (100)
+315	caveshop	wooly loincloth	Chroner (100)
+316	shoeshop	dog ointment	Chroner (25)
+317	shoeshop	gumshoes	Chroner (200)
+318	shoeshop	flapper floppers	Chroner (400)
+319	shoeshop	sneakeasies	Chroner (600)
+320	fishbones	fishbone catcher's mitt	freshwater fishbone (30)
+321	fishbones	fishbone kneepads	freshwater fishbone (15)
+322	fishbones	fishbone corset	freshwater fishbone (10)
+323	fishbones	fishbone fins	freshwater fishbone (20)
+324	fishbones	fishbone facemask	freshwater fishbone (5)
+325	fishbones	fishbone bracers	freshwater fishbone (5)
+326	fishbones	fishbone belt	freshwater fishbone (5)
+327	sugarsheets	sugar shotgun	sugar sheet
+328	sugarsheets	sugar shillelagh	sugar sheet
+329	sugarsheets	sugar shank	sugar sheet
+330	sugarsheets	sugar chapeau	sugar sheet
+331	sugarsheets	sugar shorts	sugar sheet
+332	sugarsheets	sugar shield	sugar sheet
+333	sugarsheets	sugar shirt	sugar sheet
+334	5dprinter	Xiblaxian stealth cowl	Xiblaxian circuitry (4)	Xiblaxian polymer (9)	Xiblaxian alloy (5)
+335	5dprinter	Xiblaxian stealth trousers	Xiblaxian circuitry (9)	Xiblaxian polymer (4)	Xiblaxian alloy (5)
+336	5dprinter	Xiblaxian stealth vest	Xiblaxian circuitry (5)	Xiblaxian polymer (4)	Xiblaxian alloy (9)
+337	5dprinter	Xiblaxian xeno-detection goggles	Xiblaxian polymer (4)	Xiblaxian crystal (2)
+338	5dprinter	Xiblaxian space-whiskey	Xiblaxian circuitry (3)	Xiblaxian polymer	Xiblaxian alloy
+339	5dprinter	Xiblaxian ultraburrito	Xiblaxian circuitry	Xiblaxian polymer	Xiblaxian alloy (3)
+340	5dprinter	Xiblaxian residence-cube	Xiblaxian circuitry (11)	Xiblaxian polymer (11)	Xiblaxian alloy (11)	Xiblaxian crystal (3)
+341	si_shop1	warm war shawarma	Coinspiracy (4)
+342	si_shop1	initiative shawarma	Coinspiracy (2)
+343	si_shop1	karma shawarma	Coinspiracy (7)
+344	canteen	Jungle Juice	Coinspiracy
+345	canteen	Amnesiac Ale	Coinspiracy (3)
+346	canteen	Highest Bitter	Coinspiracy (6)
+347	armory	mercenary pistol	Coinspiracy (50)
+348	armory	mercenary rifle	Coinspiracy (50)
+349	armory	specialty ammo bandolier	Coinspiracy
+350	armory	Merc Core deployment orders	Coinspiracy (100)
+351	armory	Merc Core Field Manual: Sanity Maintenance	Coinspiracy (300)
+352	armory	Merc Core Field Manual: Intimidation Techniques	Coinspiracy (300)
+353	armory	Merc Core challenge coin	Coinspiracy (1,000)
+354	applestore	unidentifiable dried fruit	Chroner (25)
+355	applestore	flat cider	Chroner (50)
+356	applestore	iShield	Chroner (300)
+357	applestore	white earbuds	Chroner (600)
+358	applestore	iFlail	Chroner (900)
+359	arcade	finger cuffs	Game Grid ticket
+360	arcade	little parachute guy	Game Grid ticket (2)
+361	arcade	superduperball	Game Grid ticket (5)
 362
-363	arcade	COIN	coffee pixie stick	Game Grid ticket (10)
-364	arcade	COIN	plastic spider ring	Game Grid ticket (25)
-365	arcade	COIN	sinister demon mask	Game Grid ticket (1,000)
-366	arcade	COIN	cheap plastic kazoo	Game Grid ticket (100)
-367	arcade	COIN	inflatable baseball bat	Game Grid ticket (100)
-368	arcade	COIN	googly-star hat	Game Grid ticket (250)
-369	arcade	COIN	googly-ball hat	Game Grid ticket (250)
-370	arcade	COIN	googly-heart hat	Game Grid ticket (250)
-371	arcade	COIN	Game Grid valued membership card	Game Grid ticket (2,000)
-372	arcade	COIN	super-sweet boom box	Game Grid ticket (5,000)
-373	arcade	COIN	Space Trip safety headphones	Game Grid ticket (1,000)
-374	arcade	COIN	Dungeon Fist gauntlet	Game Grid ticket (1,000)
-375	arcade	COIN	streetfighting champion's belt	Game Grid ticket (1,000)
-376	arcade	COIN	Meteoid ice beam	Game Grid ticket (1,000)
-377	arcade	COIN	folder (Jackass Plumber)	Game Grid ticket (50)
-378	armory	COINNPC	Agent Mauve	Coinspiracy (15)
+363	arcade	coffee pixie stick	Game Grid ticket (10)
+364	arcade	plastic spider ring	Game Grid ticket (25)
+365	arcade	sinister demon mask	Game Grid ticket (1,000)
+366	arcade	cheap plastic kazoo	Game Grid ticket (100)
+367	arcade	inflatable baseball bat	Game Grid ticket (100)
+368	arcade	googly-star hat	Game Grid ticket (250)
+369	arcade	googly-ball hat	Game Grid ticket (250)
+370	arcade	googly-heart hat	Game Grid ticket (250)
+371	arcade	Game Grid valued membership card	Game Grid ticket (2,000)
+372	arcade	super-sweet boom box	Game Grid ticket (5,000)
+373	arcade	Space Trip safety headphones	Game Grid ticket (1,000)
+374	arcade	Dungeon Fist gauntlet	Game Grid ticket (1,000)
+375	arcade	streetfighting champion's belt	Game Grid ticket (1,000)
+376	arcade	Meteoid ice beam	Game Grid ticket (1,000)
+377	arcade	folder (Jackass Plumber)	Game Grid ticket (50)
+378	armory	Agent Mauve	Coinspiracy (15)
 379
 380
 381
@@ -387,57 +387,57 @@
 386
 387
 388
-389	crimbo14	COIN	Crimbo Credit	recovered elf magazine
-390	crimbo14	COIN	Crimbo Credit	recovered elf toothbrush
-391	crimbo14	COIN	Crimbo Credit (2)	recovered elf sleeping pills
-392	crimbo14	COIN	Crimbo Credit (2)	recovered elf underpants
-393	crimbo14	COIN	Crimbo Credit (3)	recovered elf wallet
-394	crimbo14	COIN	Crimbo Credit (3)	recovered elf pocketwatch
-395	crimbo14	COIN	Crimbo Credit (4)	recovered elf photo album
-396	crimbo14	COIN	Crimbo Credit (5)	recovered elf smartphone
-397	crimbo14	COIN	Crimbo Credit	peppermint tailings (10)
-398	crimbo14	COIN	choco-Crimbot	Crimbo Credit (5)
-399	crimbo14	COIN	smart watch	Crimbo Credit (10)
-400	crimbo14	COIN	augmented-reality shades	Crimbo Credit (10)
-401	crimbo14	COIN	toy Crimbot mega face	Crimbo Credit (75)
-402	crimbo14	COIN	toy Crimbot power glove	Crimbo Credit (75)
-403	crimbo14	COIN	toy Crimbot super fist	Crimbo Credit (75)
-404	crimbo14	COIN	toy Crimbot rocket legs	Crimbo Credit (75)
-405	crimbo14	COIN	Crimbot battery	Crimbo Credit (5)
-406	crimbo14	COIN	Crimbot ROM: Rapid Prototyping	Crimbo Credit (300)
-407	crimbo14	COIN	Crimbot ROM: Mathematical Precision	Crimbo Credit (300)
-408	crimbo14	COIN	Crimbot ROM: Ruthless Efficiency	Crimbo Credit (300)
-409	crimbo14	COIN	Mini-Crimbot crate	Crimbo Credit (500)
-410	crimbo14	COIN	fitness wristband	Crimbo Credit (10)
-411	chateau	NPC	electric muscle stimulator	500 Meat
-412	chateau	NPC	foreign language tapes	500 Meat
-413	chateau	NPC	bowl of potpourri	500 Meat
-414	chateau	NPC	ceiling fan	1,500 Meat
-415	chateau	NPC	antler chandelier	1,500 Meat
-416	chateau	NPC	artificial skylight	1,500 Meat
-417	chateau	NPC	Swiss piggy bank	1,500 Meat
-418	chateau	NPC	continental juice bar	1,500 Meat
-419	chateau	NPC	fancy stationery set	1,500 Meat
-420	chateau	NPC	alpine watercolor set	5,000 Meat
-421	topiary	COIN	tope&eacute;	topiary nugglet (6)
-422	topiary	COIN	topiary necktie	topiary nugglet (6)
-423	topiary	COIN	topiary tights	topiary nugglet (6)
-424	topiary	COIN	bowl of topioca	topiary nugglet (3)
-425	topiary	COIN	topiary skunk	topiary nugglet (15)
-426	edunder_shopshop	COIN	mummified fig	Ka coin (5)
-427	edunder_shopshop	COIN	mummified loaf of bread	Ka coin (10)
-428	edunder_shopshop	COIN	mummified beef haunch	Ka coin (15)
-429	edunder_shopshop	COIN	linen bandages	Ka coin
-430	edunder_shopshop	COIN	cotton bandages	Ka coin (3)
-431	edunder_shopshop	COIN	silk bandages	Ka coin (5)
-432	edunder_shopshop	COIN	spirit beer	Ka coin (2)
-433	edunder_shopshop	COIN	sacramental wine	Ka coin (3)
-434	edunder_shopshop	COIN	talisman of Thoth	Ka coin (2)
-435	edunder_shopshop	COIN	ancient cure-all	Ka coin (3)
-436	edunder_shopshop	COIN	holy spring water	Ka coin
+389	crimbo14	Crimbo Credit	recovered elf magazine
+390	crimbo14	Crimbo Credit	recovered elf toothbrush
+391	crimbo14	Crimbo Credit (2)	recovered elf sleeping pills
+392	crimbo14	Crimbo Credit (2)	recovered elf underpants
+393	crimbo14	Crimbo Credit (3)	recovered elf wallet
+394	crimbo14	Crimbo Credit (3)	recovered elf pocketwatch
+395	crimbo14	Crimbo Credit (4)	recovered elf photo album
+396	crimbo14	Crimbo Credit (5)	recovered elf smartphone
+397	crimbo14	Crimbo Credit	peppermint tailings (10)
+398	crimbo14	choco-Crimbot	Crimbo Credit (5)
+399	crimbo14	smart watch	Crimbo Credit (10)
+400	crimbo14	augmented-reality shades	Crimbo Credit (10)
+401	crimbo14	toy Crimbot mega face	Crimbo Credit (75)
+402	crimbo14	toy Crimbot power glove	Crimbo Credit (75)
+403	crimbo14	toy Crimbot super fist	Crimbo Credit (75)
+404	crimbo14	toy Crimbot rocket legs	Crimbo Credit (75)
+405	crimbo14	Crimbot battery	Crimbo Credit (5)
+406	crimbo14	Crimbot ROM: Rapid Prototyping	Crimbo Credit (300)
+407	crimbo14	Crimbot ROM: Mathematical Precision	Crimbo Credit (300)
+408	crimbo14	Crimbot ROM: Ruthless Efficiency	Crimbo Credit (300)
+409	crimbo14	Mini-Crimbot crate	Crimbo Credit (500)
+410	crimbo14	fitness wristband	Crimbo Credit (10)
+411	chateau	electric muscle stimulator	500 Meat
+412	chateau	foreign language tapes	500 Meat
+413	chateau	bowl of potpourri	500 Meat
+414	chateau	ceiling fan	1,500 Meat
+415	chateau	antler chandelier	1,500 Meat
+416	chateau	artificial skylight	1,500 Meat
+417	chateau	Swiss piggy bank	1,500 Meat
+418	chateau	continental juice bar	1,500 Meat
+419	chateau	fancy stationery set	1,500 Meat
+420	chateau	alpine watercolor set	5,000 Meat
+421	topiary	tope&eacute;	topiary nugglet (6)
+422	topiary	topiary necktie	topiary nugglet (6)
+423	topiary	topiary tights	topiary nugglet (6)
+424	topiary	bowl of topioca	topiary nugglet (3)
+425	topiary	topiary skunk	topiary nugglet (15)
+426	edunder_shopshop	mummified fig	Ka coin (5)
+427	edunder_shopshop	mummified loaf of bread	Ka coin (10)
+428	edunder_shopshop	mummified beef haunch	Ka coin (15)
+429	edunder_shopshop	linen bandages	Ka coin
+430	edunder_shopshop	cotton bandages	Ka coin (3)
+431	edunder_shopshop	silk bandages	Ka coin (5)
+432	edunder_shopshop	spirit beer	Ka coin (2)
+433	edunder_shopshop	sacramental wine	Ka coin (3)
+434	edunder_shopshop	talisman of Thoth	Ka coin (2)
+435	edunder_shopshop	ancient cure-all	Ka coin (3)
+436	edunder_shopshop	holy spring water	Ka coin
 437
 438
-439	edunder_shopshop	COIN	talisman of Renenutet	Ka coin
+439	edunder_shopshop	talisman of Renenutet	Ka coin
 440
 441
 442
@@ -464,392 +464,392 @@
 463
 464
 465
-466	armory	COINNPC	suede shortsword	300 Meat
-467	armory	COINNPC	bamboo bokuto	750 Meat
-468	armory	COINNPC	25-meat staff	525 Meat
-469	armory	COINNPC	two-handed depthsword	900 Meat
-470	armory	COINNPC	bill bec-de-bardiche glaive-guisarme	1,125 Meat
-471	armory	COINNPC	lead yo-yo	600 Meat
-472	armory	COINNPC	slightly peevedbow	450 Meat
-473	armory	COINNPC	sack of doorknobs	825 Meat
-474	armory	COINNPC	lucky ball-and-chain	975 Meat
-475	armory	COINNPC	automatic catapult	1,125 Meat
-476	armory	COINNPC	pentacorn hat	300 Meat
-477	armory	COINNPC	goofily-plumed helmet	525 Meat
-478	armory	COINNPC	yellow plastic hard hat	675 Meat
-479	armory	COINNPC	wooden salad bowl	900 Meat
-480	armory	COINNPC	football helmet	1,125 Meat
-481	armory	COINNPC	chain-mail monokini	225 Meat
-482	armory	COINNPC	union scalemail pants	375 Meat
-483	armory	COINNPC	paper-plate-mail pants	600 Meat
-484	armory	COINNPC	troutpiece	825 Meat
-485	armory	COINNPC	alpha-mail pants	1,050 Meat
-486	armory	COINNPC	Kentucky-style derby	50 Meat
-487	armory	COINNPC	cool whip	30 Meat
-488	armory	COINNPC	snorkel	30 Meat
-489	armory	COINNPC	studded leather boxer shorts	50 Meat
-490	armory	COINNPC	sweet ninja sword	50 Meat
-491	armory	COINNPC	toy accordion	150 Meat
-492	meatsmith	NPC	sword hilt	100 Meat
-493	meatsmith	NPC	helmet recipe	100 Meat
-494	meatsmith	NPC	pants kit	100 Meat
-495	meatsmith	NPC	meatsmithing guide	50 Meat
-496	meatsmith	NPC	big stick	100 Meat
-497	meatsmith	NPC	crossbow string	100 Meat
-498	meatsmith	NPC	tenderizing hammer	1,000 Meat
-499	meatsmith	NPC	whip kit	100 Meat
-500	meatsmith	NPC	buckler buckle	100 Meat
-501	meatsmith	NPC	skirt / kilt kit	100 Meat
-502	meatsmith	NPC	bigger stick	1,000 Meat
-503	meatsmith	NPC	sinewy crossbow string	1,000 Meat
-504	meatsmith	NPC	sturdy sword hilt	1,000 Meat
-505	meatsmith	NPC	shirt kit	100 Meat
-506	unclep	NPC	fancy tophat	1,000,000 Meat
-507	unclep	NPC	'Villa' document	100,000,000 Meat
-508	unclep	NPC	fancy black tie	1,000,000 Meat
-509	unclep	NPC	fancy tuxedo pants	1,000,000 Meat
+466	armory	suede shortsword	300 Meat
+467	armory	bamboo bokuto	750 Meat
+468	armory	25-meat staff	525 Meat
+469	armory	two-handed depthsword	900 Meat
+470	armory	bill bec-de-bardiche glaive-guisarme	1,125 Meat
+471	armory	lead yo-yo	600 Meat
+472	armory	slightly peevedbow	450 Meat
+473	armory	sack of doorknobs	825 Meat
+474	armory	lucky ball-and-chain	975 Meat
+475	armory	automatic catapult	1,125 Meat
+476	armory	pentacorn hat	300 Meat
+477	armory	goofily-plumed helmet	525 Meat
+478	armory	yellow plastic hard hat	675 Meat
+479	armory	wooden salad bowl	900 Meat
+480	armory	football helmet	1,125 Meat
+481	armory	chain-mail monokini	225 Meat
+482	armory	union scalemail pants	375 Meat
+483	armory	paper-plate-mail pants	600 Meat
+484	armory	troutpiece	825 Meat
+485	armory	alpha-mail pants	1,050 Meat
+486	armory	Kentucky-style derby	50 Meat
+487	armory	cool whip	30 Meat
+488	armory	snorkel	30 Meat
+489	armory	studded leather boxer shorts	50 Meat
+490	armory	sweet ninja sword	50 Meat
+491	armory	toy accordion	150 Meat
+492	meatsmith	sword hilt	100 Meat
+493	meatsmith	helmet recipe	100 Meat
+494	meatsmith	pants kit	100 Meat
+495	meatsmith	meatsmithing guide	50 Meat
+496	meatsmith	big stick	100 Meat
+497	meatsmith	crossbow string	100 Meat
+498	meatsmith	tenderizing hammer	1,000 Meat
+499	meatsmith	whip kit	100 Meat
+500	meatsmith	buckler buckle	100 Meat
+501	meatsmith	skirt / kilt kit	100 Meat
+502	meatsmith	bigger stick	1,000 Meat
+503	meatsmith	sinewy crossbow string	1,000 Meat
+504	meatsmith	sturdy sword hilt	1,000 Meat
+505	meatsmith	shirt kit	100 Meat
+506	unclep	fancy tophat	1,000,000 Meat
+507	unclep	'Villa' document	100,000,000 Meat
+508	unclep	fancy black tie	1,000,000 Meat
+509	unclep	fancy tuxedo pants	1,000,000 Meat
 510
-511	unclep	NPC	Clancy's crumhorn	2,500 Meat
+511	unclep	Clancy's crumhorn	2,500 Meat
 512
-513	knobdisp	NPC	Knob Goblin nasal spray	150 Meat
-514	knobdisp	NPC	Knob Goblin eyedrops	200 Meat
-515	knobdisp	NPC	Knob Goblin learning pill	300 Meat
-516	knobdisp	NPC	Knob Goblin steroids	250 Meat
-517	knobdisp	NPC	Knob Goblin love potion	170 Meat
-518	knobdisp	NPC	Knob Goblin stink bomb	130 Meat
-519	knobdisp	NPC	Knob Goblin sharpening spray	230 Meat
-520	knobdisp	NPC	Knob Goblin pet-buffing spray	250 Meat
-521	knobdisp	NPC	Knob Goblin seltzer	80 Meat
-522	guildstore1	NPC	ye olde golde frontes	1,500 Meat
-523	guildstore1	NPC	bejeweled accordion strap	2,000 Meat
-524	guildstore1	NPC	moxie magnet	3,000 Meat
-525	guildstore2	NPC	Gazpacho's Glacial Grimoire	4,000 Meat
-526	guildstore2	NPC	Codex of Capsaicin Conjuration	4,000 Meat
-527	guildstore2	NPC	magical mystery juice	100 Meat
-528	guildstore2	NPC	kickback cookbook	4,000 Meat
-529	guildstore2	NPC	special sauce glove	5,000 Meat
-530	guildstore2	NPC	ladle of mystery	3,000 Meat
-531	guildstore2	NPC	delectable catalyst	1,000 Meat
-532	guildstore2	NPC	MSG	1,000 Meat
-533	guildstore2	NPC	big stirring stick	1,500 Meat
-534	guildstore3	NPC	enchanted brass knuckles	1,000 Meat
-535	guildstore3	NPC	blood of the Wereseal	500 Meat
-536	guildstore3	NPC	Medicinal Herb's medicinal herbs	100 Meat
-537	guildstore3	NPC	cheap wind-up clock	200 Meat
-538	guildstore3	NPC	turtle pheromones	50 Meat
-539	guildstore3	NPC	seal-blubber candle	100 Meat
-540	guildstore3	NPC	figurine of a wretched-looking seal	150 Meat
-541	guildstore3	NPC	figurine of a cute baby seal	250 Meat
-542	guildstore3	NPC	figurine of an armored seal	500 Meat
-543	guildstore3	NPC	turtling rod	500 Meat
-544	jewelers	NPC	piercing post	64 Meat
-545	jewelers	NPC	necklace chain	70 Meat
-546	jewelers	NPC	ring setting	200 Meat
-547	jewelers	NPC	jewelry-making pliers	1,000 Meat
-548	jewelers	NPC	Really Expensive Jewelry and You	5,000 Meat
-549	jewelers	NPC	extra-fancy ring setting	1,000 Meat
-550	jewelers	NPC	precious piercing post	1,000 Meat
-551	jewelers	NPC	heavy necklace chain	1,000 Meat
-552	gnomart	NPC	lime-and-chile-flavored chewing gum	200 Meat
-553	gnomart	NPC	jaba&ntilde;ero-flavored chewing gum	200 Meat
-554	gnomart	NPC	tamarind-flavored chewing gum	200 Meat
-555	gnomart	NPC	pickle-flavored chewing gum	200 Meat
-556	gnomart	NPC	handsomeness potion	300 Meat
-557	gnomart	NPC	Meleegra&trade; pills	300 Meat
-558	gnomart	NPC	marzipan skull	300 Meat
-559	gnomart	NPC	vial of Gnomochloric acid	500 Meat
-560	gnomart	NPC	flask of Gnomochloric acid	1,000 Meat
-561	gnomart	NPC	jug of Gnomochloric acid	5,000 Meat
-562	bartender	NPC	day-old beer	25 Meat
-563	bartender	NPC	plain old beer	50 Meat
-564	bartender	NPC	overpriced &quot;imported&quot; beer	100 Meat
-565	snackbar	NPC	Hatorade	500 Meat
-566	snackbar	NPC	nailswurst	500 Meat
-567	snackbar	NPC	used beer	500 Meat
-568	chinatown	NPC	fortune cookie	40 Meat
-569	chinatown	NPC	brass abacus	150 Meat
-570	chinatown	NPC	cheap Chinese beer	250 Meat
-571	chinatown	NPC	bottle of limeade	300 Meat
-572	chinatown	NPC	rhinoceros horn	375 Meat
-573	chinatown	NPC	furry pink pillow	500 Meat
-574	chinatown	NPC	novelty tattoo sleeves	1,000 Meat
-575	chinatown	NPC	toy taijijian	1,000 Meat
-576	chinatown	NPC	bonsai tree	1,500 Meat
-577	chinatown	NPC	lucky cat statue	2,000 Meat
-578	tweedle	NPC	puff of smoke	100 Meat
-579	tweedle	NPC	stuffed pocketwatch	10,000 Meat
-580	tweedle	NPC	stuffed caterpillar	10,000 Meat
-581	tweedle	NPC	stuffed carpenter	10,000 Meat
-582	tweedle	NPC	stuffed porpoise	10,000 Meat
-583	tweedle	NPC	stuffed bandersnatch	10,000 Meat
-584	tweedle	NPC	stuffed walrus	10,000 Meat
-585	tweedle	NPC	stuffed dodo	10,000 Meat
-586	tweedle	NPC	insane tophat	20,000 Meat
-587	tweedle	NPC	helm of the white knight	30,000 Meat
-588	tweedle	NPC	trousers of the white knight	30,000 Meat
-589	tweedle	NPC	wristwatch of the white knight	30,000 Meat
+513	knobdisp	Knob Goblin nasal spray	150 Meat
+514	knobdisp	Knob Goblin eyedrops	200 Meat
+515	knobdisp	Knob Goblin learning pill	300 Meat
+516	knobdisp	Knob Goblin steroids	250 Meat
+517	knobdisp	Knob Goblin love potion	170 Meat
+518	knobdisp	Knob Goblin stink bomb	130 Meat
+519	knobdisp	Knob Goblin sharpening spray	230 Meat
+520	knobdisp	Knob Goblin pet-buffing spray	250 Meat
+521	knobdisp	Knob Goblin seltzer	80 Meat
+522	guildstore1	ye olde golde frontes	1,500 Meat
+523	guildstore1	bejeweled accordion strap	2,000 Meat
+524	guildstore1	moxie magnet	3,000 Meat
+525	guildstore2	Gazpacho's Glacial Grimoire	4,000 Meat
+526	guildstore2	Codex of Capsaicin Conjuration	4,000 Meat
+527	guildstore2	magical mystery juice	100 Meat
+528	guildstore2	kickback cookbook	4,000 Meat
+529	guildstore2	special sauce glove	5,000 Meat
+530	guildstore2	ladle of mystery	3,000 Meat
+531	guildstore2	delectable catalyst	1,000 Meat
+532	guildstore2	MSG	1,000 Meat
+533	guildstore2	big stirring stick	1,500 Meat
+534	guildstore3	enchanted brass knuckles	1,000 Meat
+535	guildstore3	blood of the Wereseal	500 Meat
+536	guildstore3	Medicinal Herb's medicinal herbs	100 Meat
+537	guildstore3	cheap wind-up clock	200 Meat
+538	guildstore3	turtle pheromones	50 Meat
+539	guildstore3	seal-blubber candle	100 Meat
+540	guildstore3	figurine of a wretched-looking seal	150 Meat
+541	guildstore3	figurine of a cute baby seal	250 Meat
+542	guildstore3	figurine of an armored seal	500 Meat
+543	guildstore3	turtling rod	500 Meat
+544	jewelers	piercing post	64 Meat
+545	jewelers	necklace chain	70 Meat
+546	jewelers	ring setting	200 Meat
+547	jewelers	jewelry-making pliers	1,000 Meat
+548	jewelers	Really Expensive Jewelry and You	5,000 Meat
+549	jewelers	extra-fancy ring setting	1,000 Meat
+550	jewelers	precious piercing post	1,000 Meat
+551	jewelers	heavy necklace chain	1,000 Meat
+552	gnomart	lime-and-chile-flavored chewing gum	200 Meat
+553	gnomart	jaba&ntilde;ero-flavored chewing gum	200 Meat
+554	gnomart	tamarind-flavored chewing gum	200 Meat
+555	gnomart	pickle-flavored chewing gum	200 Meat
+556	gnomart	handsomeness potion	300 Meat
+557	gnomart	Meleegra&trade; pills	300 Meat
+558	gnomart	marzipan skull	300 Meat
+559	gnomart	vial of Gnomochloric acid	500 Meat
+560	gnomart	flask of Gnomochloric acid	1,000 Meat
+561	gnomart	jug of Gnomochloric acid	5,000 Meat
+562	bartender	day-old beer	25 Meat
+563	bartender	plain old beer	50 Meat
+564	bartender	overpriced &quot;imported&quot; beer	100 Meat
+565	snackbar	Hatorade	500 Meat
+566	snackbar	nailswurst	500 Meat
+567	snackbar	used beer	500 Meat
+568	chinatown	fortune cookie	40 Meat
+569	chinatown	brass abacus	150 Meat
+570	chinatown	cheap Chinese beer	250 Meat
+571	chinatown	bottle of limeade	300 Meat
+572	chinatown	rhinoceros horn	375 Meat
+573	chinatown	furry pink pillow	500 Meat
+574	chinatown	novelty tattoo sleeves	1,000 Meat
+575	chinatown	toy taijijian	1,000 Meat
+576	chinatown	bonsai tree	1,500 Meat
+577	chinatown	lucky cat statue	2,000 Meat
+578	tweedle	puff of smoke	100 Meat
+579	tweedle	stuffed pocketwatch	10,000 Meat
+580	tweedle	stuffed caterpillar	10,000 Meat
+581	tweedle	stuffed carpenter	10,000 Meat
+582	tweedle	stuffed porpoise	10,000 Meat
+583	tweedle	stuffed bandersnatch	10,000 Meat
+584	tweedle	stuffed walrus	10,000 Meat
+585	tweedle	stuffed dodo	10,000 Meat
+586	tweedle	insane tophat	20,000 Meat
+587	tweedle	helm of the white knight	30,000 Meat
+588	tweedle	trousers of the white knight	30,000 Meat
+589	tweedle	wristwatch of the white knight	30,000 Meat
 590
-591	nerve	NPC	Dramatic&trade; range	500 Meat
-592	nerve	NPC	Queue Du Coq cocktailcrafting kit	500 Meat
-593	nerve	NPC	tenderizing hammer	500 Meat
-594	gnoll	NPC	sprocket	20 Meat
-595	gnoll	NPC	empty meat tank	20 Meat
-596	gnoll	NPC	spring	20 Meat
-597	gnoll	NPC	cog	20 Meat
-598	gnoll	NPC	tires	28 Meat
-599	gnoll	NPC	Gnollish pie tin	30 Meat
-600	gnoll	NPC	wad of dough	50 Meat
-601	gnoll	NPC	bugbear beanie	70 Meat
-602	gnoll	NPC	bugbear bungguard	70 Meat
-603	gnoll	NPC	flat dough	70 Meat
-604	gnoll	NPC	skewer	80 Meat
-605	gnoll	NPC	Gnollish plunger	80 Meat
-606	gnoll	NPC	taco shell	80 Meat
-607	gnoll	NPC	maiden wig	80 Meat
-608	gnoll	NPC	Gnollish flyswatter	80 Meat
-609	gnoll	NPC	frilly skirt	80 Meat
-610	gnoll	NPC	Gnollish casserole dish	150 Meat
-611	gnoll	NPC	detuned radio	300 Meat
-612	bartlebys	NPC	pirate brochure	300 Meat
-613	bartlebys	NPC	pirate pamphlet	300 Meat
-614	bartlebys	NPC	pirate tract	300 Meat
-615	bartlebys	NPC	The Big Book of Pirate Insults	500 Meat
-616	bartlebys	NPC	Massive Manual of Marauder Mockery	500 Meat
+591	nerve	Dramatic&trade; range	500 Meat
+592	nerve	Queue Du Coq cocktailcrafting kit	500 Meat
+593	nerve	tenderizing hammer	500 Meat
+594	gnoll	sprocket	20 Meat
+595	gnoll	empty meat tank	20 Meat
+596	gnoll	spring	20 Meat
+597	gnoll	cog	20 Meat
+598	gnoll	tires	28 Meat
+599	gnoll	Gnollish pie tin	30 Meat
+600	gnoll	wad of dough	50 Meat
+601	gnoll	bugbear beanie	70 Meat
+602	gnoll	bugbear bungguard	70 Meat
+603	gnoll	flat dough	70 Meat
+604	gnoll	skewer	80 Meat
+605	gnoll	Gnollish plunger	80 Meat
+606	gnoll	taco shell	80 Meat
+607	gnoll	maiden wig	80 Meat
+608	gnoll	Gnollish flyswatter	80 Meat
+609	gnoll	frilly skirt	80 Meat
+610	gnoll	Gnollish casserole dish	150 Meat
+611	gnoll	detuned radio	300 Meat
+612	bartlebys	pirate brochure	300 Meat
+613	bartlebys	pirate pamphlet	300 Meat
+614	bartlebys	pirate tract	300 Meat
+615	bartlebys	The Big Book of Pirate Insults	500 Meat
+616	bartlebys	Massive Manual of Marauder Mockery	500 Meat
 617
-618	whitecitadel	NPC	White Citadel fries	80 Meat
-619	whitecitadel	NPC	onion shurikens	80 Meat
-620	whitecitadel	NPC	Diet Cloaca Cola	80 Meat
-621	whitecitadel	NPC	Cherry Cloaca Cola	80 Meat
-622	whitecitadel	NPC	Regular Cloaca Cola	80 Meat
-623	whitecitadel	NPC	White Citadel burger	100 Meat
+618	whitecitadel	White Citadel fries	80 Meat
+619	whitecitadel	onion shurikens	80 Meat
+620	whitecitadel	Diet Cloaca Cola	80 Meat
+621	whitecitadel	Cherry Cloaca Cola	80 Meat
+622	whitecitadel	Regular Cloaca Cola	80 Meat
+623	whitecitadel	White Citadel burger	100 Meat
 624
-625	generalstore	NPC	water wings for babies	50 Meat
-626	generalstore	NPC	miniature life preserver	100 Meat
-627	generalstore	NPC	heavy duty umbrella	300 Meat
-628	generalstore	NPC	pool skimmer	500 Meat
-629	generalstore	NPC	glittery mascara	24 Meat
-630	generalstore	NPC	Ben-Gal&trade; Balm	24 Meat
-631	generalstore	NPC	hair spray	24 Meat
-632	generalstore	NPC	loose purse strings	100 Meat
-633	generalstore	NPC	third-hand lantern	100 Meat
-634	generalstore	NPC	folder (red)	10 Meat
-635	generalstore	NPC	folder (green)	10 Meat
-636	generalstore	NPC	folder (blue)	10 Meat
-637	generalstore	NPC	snake	300 Meat
-638	generalstore	NPC	sparkler	300 Meat
-639	generalstore	NPC	M-242	300 Meat
+625	generalstore	water wings for babies	50 Meat
+626	generalstore	miniature life preserver	100 Meat
+627	generalstore	heavy duty umbrella	300 Meat
+628	generalstore	pool skimmer	500 Meat
+629	generalstore	glittery mascara	24 Meat
+630	generalstore	Ben-Gal&trade; Balm	24 Meat
+631	generalstore	hair spray	24 Meat
+632	generalstore	loose purse strings	100 Meat
+633	generalstore	third-hand lantern	100 Meat
+634	generalstore	folder (red)	10 Meat
+635	generalstore	folder (green)	10 Meat
+636	generalstore	folder (blue)	10 Meat
+637	generalstore	snake	300 Meat
+638	generalstore	sparkler	300 Meat
+639	generalstore	M-242	300 Meat
 640
 641
-642	generalstore	NPC	Queue Du Coq cocktailcrafting kit	1,000 Meat
-643	generalstore	NPC	Dramatic&trade; range	1,000 Meat
-644	generalstore	NPC	cup of lukewarm tea	40 Meat
-645	generalstore	NPC	fortune cookie	40 Meat
-646	generalstore	NPC	pickled egg	40 Meat
+642	generalstore	Queue Du Coq cocktailcrafting kit	1,000 Meat
+643	generalstore	Dramatic&trade; range	1,000 Meat
+644	generalstore	cup of lukewarm tea	40 Meat
+645	generalstore	fortune cookie	40 Meat
+646	generalstore	pickled egg	40 Meat
 647
-648	generalstore	NPC	chewing gum on a string	50 Meat
-649	generalstore	NPC	fermenting powder	70 Meat
-650	generalstore	NPC	soda water	70 Meat
-651	generalstore	NPC	casino pass	100 Meat
-652	generalstore	NPC	hermit permit	100 Meat
-653	generalstore	NPC	sweet rims	300 Meat
-654	generalstore	NPC	party hat	300 Meat
-655	generalstore	NPC	dingy planks	400 Meat
-656	generalstore	NPC	Familiar-Gro&trade; Terrarium	500 Meat
-657	generalstore	NPC	Desert Bus pass	5,000 Meat
-658	generalstore	NPC	oyster basket	300 Meat
-659	generalstore	NPC	inflatable duck	300 Meat
-660	generalstore	NPC	foam noodle	300 Meat
-661	generalstore	NPC	water wings	300 Meat
-662	generalstore	NPC	marshmallow	100 Meat
-663	hippy	NPC	herbs	64 Meat
-664	hippy	NPC	lemon	70 Meat
-665	hippy	NPC	orange	70 Meat
-666	hippy	NPC	grapes	70 Meat
-667	hippy	NPC	tomato	70 Meat
-668	hippy	NPC	strawberry	70 Meat
-669	hippy	NPC	grapefruit	70 Meat
-670	hippy	NPC	olive	70 Meat
-671	hippy	NPC	cob of corn	300 Meat
-672	hippy	NPC	plum	300 Meat
-673	hippy	NPC	peach	300 Meat
-674	hippy	NPC	bowl of rye sprouts	300 Meat
-675	hippy	NPC	juniper berries	300 Meat
-676	hippy	NPC	pear	300 Meat
-677	bugbear	NPC	Gnollish pie tin	30 Meat
-678	bugbear	NPC	wad of dough	50 Meat
-679	bugbear	NPC	taco shell	80 Meat
-680	bugbear	NPC	skewer	80 Meat
-681	bugbear	NPC	Gnollish casserole dish	150 Meat
-682	bugbear	NPC	unrolling pin	500 Meat
-683	bugbear	NPC	rolling pin	500 Meat
-684	armory	COINNPC	rubber spatula	150 Meat
-685	armory	COINNPC	wooden spoon	300 Meat
-686	armory	COINNPC	crystalline reamer	525 Meat
-687	armory	COINNPC	macroplane grater	750 Meat
-688	armory	COINNPC	bastard baster	900 Meat
-689	armory	COINNPC	obsidian nutcracker	1,125 Meat
-690	nina	COIN	invisible potion	Chroner (10)
-691	nina	COIN	time shuriken	Chroner (200)
-692	nina	COIN	ninjammies	Chroner (1,000)
-693	edunder_shopshop	COIN	talisman of Horus	Ka coin (5)
-694	doc	NPC	anti-anti-antidote	30 Meat
-695	doc	NPC	Doc Galaktik's Pungent Unguent	30 Meat
-696	doc	NPC	Doc Galaktik's Homeopathic Elixir	120 Meat
-697	doc	NPC	Doc Galaktik's Invigorating Tonic	90 Meat
-698	doc	NPC	Doc Galaktik's Vitality Serum	60 Meat
-699	landfillstore	COIN	Dinsey food-cone	FunFunds&trade; (2)
-700	landfillstore	COIN	Dinsey Whinskey	FunFunds&trade; (2)
-701	landfillstore	COIN	Dinsey face paint	FunFunds&trade;
-702	landfillstore	COIN	stinky fannypack	FunFunds&trade; (25)
-703	landfillstore	COIN	garbage sticker	FunFunds&trade; (25)
-704	landfillstore	COIN	hazmat helmet	FunFunds&trade; (25)
-705	landfillstore	COIN	Scratch-and-Sniff Guide to Dinseylandfill	FunFunds&trade; (50)
-706	landfillstore	COIN	Trash, a Memoir	FunFunds&trade; (50)
-707	landfillstore	COIN	Dinsey Maintenance Manual	FunFunds&trade; (50)
-708	landfillstore	COIN	Dinsey tattoo kit	FunFunds&trade; (100)
-709	toxic	COIN	toxo	toxic globule (5)
-710	toxic	COIN	Lemonade-235	toxic globule (5)
-711	toxic	COIN	isotophat	toxic globule (50)
-712	toxic	COIN	Three Mile Island shorts	toxic globule (50)
-713	toxic	COIN	toxic mop	toxic globule (50)
-714	toxic	COIN	inert sludgepuppy	toxic globule (500)
-715	landfillstore	COIN	one-day ticket to Dinseylandfill	FunFunds&trade; (20)
-716	mayoclinic	NPC	Mayonex	1,000 Meat
-717	mayoclinic	NPC	Mayodiol	1,000 Meat
-718	mayoclinic	NPC	Mayostat	1,000 Meat
-719	mayoclinic	NPC	Mayozapine	1,000 Meat
-720	mayoclinic	NPC	Mayoflex	1,000 Meat
-721	mayoclinic	NPC	miracle whip	10,000 Meat
-722	mayoclinic	NPC	sphygmayomanometer	2,500 Meat
-723	mayoclinic	NPC	tomayohawk-style reflex hammer	2,500 Meat
-724	mayoclinic	NPC	mayo lance	2,500 Meat
-725	mayoclinic	NPC	Mayo Minder&trade;	99 Meat
-726	mystic	CONC	pixel coin	yellow pixel (10)
+648	generalstore	chewing gum on a string	50 Meat
+649	generalstore	fermenting powder	70 Meat
+650	generalstore	soda water	70 Meat
+651	generalstore	casino pass	100 Meat
+652	generalstore	hermit permit	100 Meat
+653	generalstore	sweet rims	300 Meat
+654	generalstore	party hat	300 Meat
+655	generalstore	dingy planks	400 Meat
+656	generalstore	Familiar-Gro&trade; Terrarium	500 Meat
+657	generalstore	Desert Bus pass	5,000 Meat
+658	generalstore	oyster basket	300 Meat
+659	generalstore	inflatable duck	300 Meat
+660	generalstore	foam noodle	300 Meat
+661	generalstore	water wings	300 Meat
+662	generalstore	marshmallow	100 Meat
+663	hippy	herbs	64 Meat
+664	hippy	lemon	70 Meat
+665	hippy	orange	70 Meat
+666	hippy	grapes	70 Meat
+667	hippy	tomato	70 Meat
+668	hippy	strawberry	70 Meat
+669	hippy	grapefruit	70 Meat
+670	hippy	olive	70 Meat
+671	hippy	cob of corn	300 Meat
+672	hippy	plum	300 Meat
+673	hippy	peach	300 Meat
+674	hippy	bowl of rye sprouts	300 Meat
+675	hippy	juniper berries	300 Meat
+676	hippy	pear	300 Meat
+677	bugbear	Gnollish pie tin	30 Meat
+678	bugbear	wad of dough	50 Meat
+679	bugbear	taco shell	80 Meat
+680	bugbear	skewer	80 Meat
+681	bugbear	Gnollish casserole dish	150 Meat
+682	bugbear	unrolling pin	500 Meat
+683	bugbear	rolling pin	500 Meat
+684	armory	rubber spatula	150 Meat
+685	armory	wooden spoon	300 Meat
+686	armory	crystalline reamer	525 Meat
+687	armory	macroplane grater	750 Meat
+688	armory	bastard baster	900 Meat
+689	armory	obsidian nutcracker	1,125 Meat
+690	nina	invisible potion	Chroner (10)
+691	nina	time shuriken	Chroner (200)
+692	nina	ninjammies	Chroner (1,000)
+693	edunder_shopshop	talisman of Horus	Ka coin (5)
+694	doc	anti-anti-antidote	30 Meat
+695	doc	Doc Galaktik's Pungent Unguent	30 Meat
+696	doc	Doc Galaktik's Homeopathic Elixir	120 Meat
+697	doc	Doc Galaktik's Invigorating Tonic	90 Meat
+698	doc	Doc Galaktik's Vitality Serum	60 Meat
+699	landfillstore	Dinsey food-cone	FunFunds&trade; (2)
+700	landfillstore	Dinsey Whinskey	FunFunds&trade; (2)
+701	landfillstore	Dinsey face paint	FunFunds&trade;
+702	landfillstore	stinky fannypack	FunFunds&trade; (25)
+703	landfillstore	garbage sticker	FunFunds&trade; (25)
+704	landfillstore	hazmat helmet	FunFunds&trade; (25)
+705	landfillstore	Scratch-and-Sniff Guide to Dinseylandfill	FunFunds&trade; (50)
+706	landfillstore	Trash, a Memoir	FunFunds&trade; (50)
+707	landfillstore	Dinsey Maintenance Manual	FunFunds&trade; (50)
+708	landfillstore	Dinsey tattoo kit	FunFunds&trade; (100)
+709	toxic	toxo	toxic globule (5)
+710	toxic	Lemonade-235	toxic globule (5)
+711	toxic	isotophat	toxic globule (50)
+712	toxic	Three Mile Island shorts	toxic globule (50)
+713	toxic	toxic mop	toxic globule (50)
+714	toxic	inert sludgepuppy	toxic globule (500)
+715	landfillstore	one-day ticket to Dinseylandfill	FunFunds&trade; (20)
+716	mayoclinic	Mayonex	1,000 Meat
+717	mayoclinic	Mayodiol	1,000 Meat
+718	mayoclinic	Mayostat	1,000 Meat
+719	mayoclinic	Mayozapine	1,000 Meat
+720	mayoclinic	Mayoflex	1,000 Meat
+721	mayoclinic	miracle whip	10,000 Meat
+722	mayoclinic	sphygmayomanometer	2,500 Meat
+723	mayoclinic	tomayohawk-style reflex hammer	2,500 Meat
+724	mayoclinic	mayo lance	2,500 Meat
+725	mayoclinic	Mayo Minder&trade;	99 Meat
+726	mystic	pixel coin	yellow pixel (10)
 727
-728	mystic	CONC	pixel star	yellow pixel (15)	black pixel (2)
-729	mystic	CONC	pixel banana	yellow pixel (10)	black pixel
-730	mystic	CONC	pixel beer	yellow pixel (10)	white pixel (5)
-731	mystic	CONC	yellow submarine	yellow pixel (50)	red pixel (5)	green pixel (5)	blue pixel (5)
-732	mystic	CONC	pixel lemon	yellow pixel (10)
-733	mystic	CONC	pixel daiquiri	yellow pixel (10)
-734	mystic	CONC	miniature power pill	yellow pixel (15)
-735	mystic	CONC	yellow pixel potion	yellow pixel (10)
-736	madeline	NPC	Gnollish pie tin	25 Meat
-737	madeline	NPC	wad of dough	40 Meat
-738	madeline	NPC	taco shell	60 Meat
-739	madeline	NPC	skewer	60 Meat
-740	madeline	NPC	Gnollish casserole dish	100 Meat
-741	madeline	NPC	rolling pin	400 Meat
-742	madeline	NPC	unrolling pin	400 Meat
+728	mystic	pixel star	yellow pixel (15)	black pixel (2)
+729	mystic	pixel banana	yellow pixel (10)	black pixel
+730	mystic	pixel beer	yellow pixel (10)	white pixel (5)
+731	mystic	yellow submarine	yellow pixel (50)	red pixel (5)	green pixel (5)	blue pixel (5)
+732	mystic	pixel lemon	yellow pixel (10)
+733	mystic	pixel daiquiri	yellow pixel (10)
+734	mystic	miniature power pill	yellow pixel (15)
+735	mystic	yellow pixel potion	yellow pixel (10)
+736	madeline	Gnollish pie tin	25 Meat
+737	madeline	wad of dough	40 Meat
+738	madeline	taco shell	60 Meat
+739	madeline	skewer	60 Meat
+740	madeline	Gnollish casserole dish	100 Meat
+741	madeline	rolling pin	400 Meat
+742	madeline	unrolling pin	400 Meat
 743
-744	infernodisco	COIN	liquid rhinestones	Volcoino
-745	infernodisco	COIN	disco biscuit	Volcoino
-746	infernodisco	COIN	Quaatorade&trade;	Volcoino
-747	infernodisco	COIN	biker's hat	Volcoino (5)
-748	infernodisco	COIN	feathered headdress	Volcoino (5)
-749	infernodisco	COIN	electrician's hardhat	Volcoino (5)
-750	infernodisco	COIN	Lava Miner's Daughter	Volcoino (10)
-751	infernodisco	COIN	Psycho From The Heat	Volcoino (10)
-752	infernodisco	COIN	The Firegate Tapes	Volcoino (10)
-753	infernodisco	COIN	&quot;DEBBIE&quot; tattoo kit	Volcoino (30)
-754	infernodisco	COIN	one-day ticket to That 70s Volcano	Volcoino (3)
-755	shakeshop	COIN	portable Othello set	Chroner (100)
-756	shakeshop	COIN	rotten tomato	Chroner (25)
-757	shakeshop	COIN	Twelve Night Energy	Chroner (250)
-758	shakeshop	COIN	Yorick	Chroner (1,000)
+744	infernodisco	liquid rhinestones	Volcoino
+745	infernodisco	disco biscuit	Volcoino
+746	infernodisco	Quaatorade&trade;	Volcoino
+747	infernodisco	biker's hat	Volcoino (5)
+748	infernodisco	feathered headdress	Volcoino (5)
+749	infernodisco	electrician's hardhat	Volcoino (5)
+750	infernodisco	Lava Miner's Daughter	Volcoino (10)
+751	infernodisco	Psycho From The Heat	Volcoino (10)
+752	infernodisco	The Firegate Tapes	Volcoino (10)
+753	infernodisco	&quot;DEBBIE&quot; tattoo kit	Volcoino (30)
+754	infernodisco	one-day ticket to That 70s Volcano	Volcoino (3)
+755	shakeshop	portable Othello set	Chroner (100)
+756	shakeshop	rotten tomato	Chroner (25)
+757	shakeshop	Twelve Night Energy	Chroner (250)
+758	shakeshop	Yorick	Chroner (1,000)
 759
 760
 761
 762
-763	glaciest	COIN	shoulder-warming lotion	Wal-Mart gift certificate (5)
-764	glaciest	COIN	iceberg lettuce	Wal-Mart gift certificate (15)
-765	glaciest	COIN	ice wine	Wal-Mart gift certificate (15)
-766	glaciest	COIN	Wal-Mart snowglobe	Wal-Mart gift certificate (75)
-767	glaciest	COIN	Wal-Mart nametag	Wal-Mart gift certificate (75)
-768	glaciest	COIN	Wal-Mart overalls	Wal-Mart gift certificate (75)
-769	glaciest	COIN	To Build an Igloo	Wal-Mart gift certificate (150)
-770	glaciest	COIN	The Chill of the Wild	Wal-Mart gift certificate (150)
-771	glaciest	COIN	Wal-Mart tattoo kit	Wal-Mart gift certificate (250)
-772	glaciest	COIN	Cold Fang	Wal-Mart gift certificate (150)
-773	glaciest	COIN	one-day ticket to The Glaciest	Wal-Mart gift certificate (50)
-774	dreadsylvania	COIN	bottle of Bloodweiser	Freddy Kruegerand (200)
-775	dreadsylvania	COIN	electric Kool-Aid	Freddy Kruegerand (200)
-776	airport	CONC	That 70s Cologne	Volcoino (5)
-777	airport	CONC	Wal-Mart &quot;diamond&quot; ring	Wal-Mart gift certificate (50)
-778	airport	CONC	Puffstone cigar	FunFunds&trade; (20)
-779	airport	CONC	Conspiracy&trade; mascara	Coinspiracy (75)
-780	airport	CONC	Spring Break Beach &quot;swimsuit&quot;	Beach Buck (125)
-781	airport	CONC	airplane tattoo	Volcoino (20)	FunFunds&trade; (80)	Wal-Mart gift certificate (200)	Coinspiracy (300)	Beach Buck (500)
-782	batman_cave	COIN	bat-oomerang	high-grade metal (3)
-783	batman_cave	COIN	bat-jute	high-tensile-strength fibers (3)
-784	batman_cave	COIN	bat-o-mite	high-grade explosives (3)
-785	batman_chemicorp	COIN	experimental gene therapy	dangerous chemicals (3)
+763	glaciest	shoulder-warming lotion	Wal-Mart gift certificate (5)
+764	glaciest	iceberg lettuce	Wal-Mart gift certificate (15)
+765	glaciest	ice wine	Wal-Mart gift certificate (15)
+766	glaciest	Wal-Mart snowglobe	Wal-Mart gift certificate (75)
+767	glaciest	Wal-Mart nametag	Wal-Mart gift certificate (75)
+768	glaciest	Wal-Mart overalls	Wal-Mart gift certificate (75)
+769	glaciest	To Build an Igloo	Wal-Mart gift certificate (150)
+770	glaciest	The Chill of the Wild	Wal-Mart gift certificate (150)
+771	glaciest	Wal-Mart tattoo kit	Wal-Mart gift certificate (250)
+772	glaciest	Cold Fang	Wal-Mart gift certificate (150)
+773	glaciest	one-day ticket to The Glaciest	Wal-Mart gift certificate (50)
+774	dreadsylvania	bottle of Bloodweiser	Freddy Kruegerand (200)
+775	dreadsylvania	electric Kool-Aid	Freddy Kruegerand (200)
+776	airport	That 70s Cologne	Volcoino (5)
+777	airport	Wal-Mart &quot;diamond&quot; ring	Wal-Mart gift certificate (50)
+778	airport	Puffstone cigar	FunFunds&trade; (20)
+779	airport	Conspiracy&trade; mascara	Coinspiracy (75)
+780	airport	Spring Break Beach &quot;swimsuit&quot;	Beach Buck (125)
+781	airport	airplane tattoo	Volcoino (20)	FunFunds&trade; (80)	Wal-Mart gift certificate (200)	Coinspiracy (300)	Beach Buck (500)
+782	batman_cave	bat-oomerang	high-grade metal (3)
+783	batman_cave	bat-jute	high-tensile-strength fibers (3)
+784	batman_cave	bat-o-mite	high-grade explosives (3)
+785	batman_chemicorp	experimental gene therapy	dangerous chemicals (3)
 786
-787	batman_chemicorp	COIN	ultracoagulator	dangerous chemicals
-788	batman_pd	COIN	self-defense training	incriminating evidence (3)
-789	batman_pd	COIN	fingerprint dusting kit	incriminating evidence
-790	batman_orphanage	COIN	confidence-building hug	kidnapped orphan (3)
-791	batman_orphanage	COIN	exploding kickball	kidnapped orphan
-792	ltt	COIN	western-style skinning knife	buffalo dime (10)
-793	ltt	COIN	Shrub's Premium Baked Beans	buffalo dime (3)
-794	ltt	COIN	reliable sixgun	buffalo dime (3)
-795	ltt	COIN	steel knuckles	buffalo dime (3)
-796	ltt	COIN	Tales of Western Braggadoccio	buffalo dime (40)
-797	ltt	COIN	Hell and How I Bent It	buffalo dime (20)
-798	ltt	COIN	The Western Look	buffalo dime (60)
-799	ltt	COIN	LT&T tattoo kit	buffalo dime (100)
-800	ltt	COIN	Western Slang Vol. 1: Violence	buffalo dime (15)
-801	ltt	COIN	Western Slang Vol. 2: Cooking	buffalo dime (15)
-802	ltt	COIN	Western Slang Vol. 3: Fraud	buffalo dime (15)
-803	ltt	COIN	inflatable LT&T telegraph office	buffalo dime (10)
-804	armory	COINNPC	wicker slicker	aerosolized aerogel
-805	armory	COINNPC	polyester pad	wickerbits
-806	armory	COINNPC	polyester peeler	wickerbits
-807	armory	COINNPC	polyester pettipants	wickerbits
-808	armory	COINNPC	polyester panama hat	wickerbits
-809	armory	COINNPC	polyester pulsera	wickerbits
-810	armory	COINNPC	porcelain police baton	bakelite bits
-811	armory	COINNPC	porcelain plus-fours	bakelite bits
-812	armory	COINNPC	porcelain porkpie	bakelite bits
-813	armory	COINNPC	porcelain pepper mill	bakelite bits
-814	armory	COINNPC	porcelain pelerine	bakelite bits
-815	armory	COINNPC	porcelain phantom mask	bakelite bits
+787	batman_chemicorp	ultracoagulator	dangerous chemicals
+788	batman_pd	self-defense training	incriminating evidence (3)
+789	batman_pd	fingerprint dusting kit	incriminating evidence
+790	batman_orphanage	confidence-building hug	kidnapped orphan (3)
+791	batman_orphanage	exploding kickball	kidnapped orphan
+792	ltt	western-style skinning knife	buffalo dime (10)
+793	ltt	Shrub's Premium Baked Beans	buffalo dime (3)
+794	ltt	reliable sixgun	buffalo dime (3)
+795	ltt	steel knuckles	buffalo dime (3)
+796	ltt	Tales of Western Braggadoccio	buffalo dime (40)
+797	ltt	Hell and How I Bent It	buffalo dime (20)
+798	ltt	The Western Look	buffalo dime (60)
+799	ltt	LT&T tattoo kit	buffalo dime (100)
+800	ltt	Western Slang Vol. 1: Violence	buffalo dime (15)
+801	ltt	Western Slang Vol. 2: Cooking	buffalo dime (15)
+802	ltt	Western Slang Vol. 3: Fraud	buffalo dime (15)
+803	ltt	inflatable LT&T telegraph office	buffalo dime (10)
+804	armory	wicker slicker	aerosolized aerogel
+805	armory	polyester pad	wickerbits
+806	armory	polyester peeler	wickerbits
+807	armory	polyester pettipants	wickerbits
+808	armory	polyester panama hat	wickerbits
+809	armory	polyester pulsera	wickerbits
+810	armory	porcelain police baton	bakelite bits
+811	armory	porcelain plus-fours	bakelite bits
+812	armory	porcelain porkpie	bakelite bits
+813	armory	porcelain pepper mill	bakelite bits
+814	armory	porcelain pelerine	bakelite bits
+815	armory	porcelain phantom mask	bakelite bits
 816
-817	generalstore	NPC	high-test fishing line	2,500 Meat
-818	armory	COINNPC	fishin' hat	10,000 Meat
+817	generalstore	high-test fishing line	2,500 Meat
+818	armory	fishin' hat	10,000 Meat
 819
 820
-821	bacon	COIN	viral video	BACON (20)
-822	bacon	COIN	internet point	BACON (37)
-823	bacon	COIN	meme generator	BACON (50)
-824	bacon	COIN	plus one	BACON (74)
-825	bacon	COIN	gallon of milk	BACON (100)
-826	bacon	COIN	print screen button	BACON (111)
-827	bacon	COIN	daily dungeon malware	BACON (150)
-828	bacon	COIN	infinite BACON machine	BACON (5,000)
-829	bacon	COIN	First Post shirt package	BACON (150,000)
-830	detective	COIN	detective roscoe	cop dollar (50)
+821	bacon	viral video	BACON (20)
+822	bacon	internet point	BACON (37)
+823	bacon	meme generator	BACON (50)
+824	bacon	plus one	BACON (74)
+825	bacon	gallon of milk	BACON (100)
+826	bacon	print screen button	BACON (111)
+827	bacon	daily dungeon malware	BACON (150)
+828	bacon	infinite BACON machine	BACON (5,000)
+829	bacon	First Post shirt package	BACON (150,000)
+830	detective	detective roscoe	cop dollar (50)
 831
 832
 833
-834	detective	COIN	shoe gum	cop dollar (10)
-835	detective	COIN	Falcon&trade; Maltese Liquor	cop dollar (4)
-836	detective	COIN	noir fedora	cop dollar (200)
-837	detective	COIN	trench coat	cop dollar (200)
-838	detective	COIN	detective tattoo	cop dollar (1,000)
-839	detective	COIN	hardboiled egg	cop dollar (4)
+834	detective	shoe gum	cop dollar (10)
+835	detective	Falcon&trade; Maltese Liquor	cop dollar (4)
+836	detective	noir fedora	cop dollar (200)
+837	detective	trench coat	cop dollar (200)
+838	detective	detective tattoo	cop dollar (1,000)
+839	detective	hardboiled egg	cop dollar (4)
 840
 841
 842
-843	vault1	NPC	lead umbrella	2,500 Meat
-844	vault1	NPC	Rad-B-Gone (1 lb.)	3,000 Meat
-845	vault1	NPC	Rad-Pro (1 oz.)	500 Meat
-846	vault2	NPC	Wrist-Boy	5,000 Meat
-847	vault2	NPC	Shrieking Weasel holo-record	300 Meat
-848	vault2	NPC	Power-Guy 2000 holo-record	300 Meat
-849	vault2	NPC	Superdrifter holo-record	300 Meat
-850	vault3	NPC	Lucky Strikes holo-record	300 Meat
-851	vault3	NPC	EMD holo-record	300 Meat
+843	vault1	lead umbrella	2,500 Meat
+844	vault1	Rad-B-Gone (1 lb.)	3,000 Meat
+845	vault1	Rad-Pro (1 oz.)	500 Meat
+846	vault2	Wrist-Boy	5,000 Meat
+847	vault2	Shrieking Weasel holo-record	300 Meat
+848	vault2	Power-Guy 2000 holo-record	300 Meat
+849	vault2	Superdrifter holo-record	300 Meat
+850	vault3	Lucky Strikes holo-record	300 Meat
+851	vault3	EMD holo-record	300 Meat
 852
 853
 854
@@ -878,338 +878,338 @@
 877
 878
 879
-880	vault3	NPC	The Pigs holo-record	1,000 Meat
-881	vault3	NPC	Drunk Uncles holo-record	1,000 Meat
+880	vault3	The Pigs holo-record	1,000 Meat
+881	vault3	Drunk Uncles holo-record	1,000 Meat
 882
-883	conmerch	COIN	KoL Con 13 snowglobe	Mr. Accessory (3)
-884	conmerch	COIN	potted tea tree	Mr. Accessory (4)
-885	conmerch	COIN	Xi Receiver Unit	Mr. Accessory (5)
-886	conmerch	COIN	Gordon Beer's Beer Garden Catalog	Mr. Accessory (6)
-887	conmerch	COIN	Tome of Rad Libs	Mr. Accessory (7)
-888	conmerch	COIN	Gygaxian Libram	Mr. Accessory (8)
-889	conmerch	COIN	hippo tutu	Mr. Accessory (9)
-890	generalstore	NPC	li'l unicorn costume	1,000 Meat
-891	generalstore	NPC	li'l candy corn costume	1,000 Meat
-892	vault1	NPC	li'l eyeball costume	1,000 Meat
-893	vault2	NPC	li'l robot costume	1,000 Meat
-894	vault3	NPC	li'l liberty costume	1,000 Meat
-895	conmerch	COIN	Twitching Television Tattoo	Chroner (1,111)
-896	vault1	NPC	li'l candy corn costume	1,000 Meat
-897	vault3	NPC	li'l unicorn costume	1,000 Meat
-898	vault2	NPC	li'l knight costume	1,000 Meat
-899	thankshop	COIN	mini-marshmallow dispenser	cashew (2)
-900	thankshop	COIN	glass casserole dish	cashew
-901	thankshop	COIN	stuffing fluffer	cashew (3)
-902	thankshop	COIN	can opener	cashew
-903	thankshop	COIN	turkey blaster	cashew (3)
-904	thankshop	COIN	glass pie plate	cashew (2)
-905	thankshop	COIN	potato masher	cashew
-906	thankshop	COIN	gravy boat	cashew (3)
-907	thankshop	COIN	bread mold	cashew (2)
-908	unclep	NPC	antique accordion	2,500 Meat
+883	conmerch	KoL Con 13 snowglobe	Mr. Accessory (3)
+884	conmerch	potted tea tree	Mr. Accessory (4)
+885	conmerch	Xi Receiver Unit	Mr. Accessory (5)
+886	conmerch	Gordon Beer's Beer Garden Catalog	Mr. Accessory (6)
+887	conmerch	Tome of Rad Libs	Mr. Accessory (7)
+888	conmerch	Gygaxian Libram	Mr. Accessory (8)
+889	conmerch	hippo tutu	Mr. Accessory (9)
+890	generalstore	li'l unicorn costume	1,000 Meat
+891	generalstore	li'l candy corn costume	1,000 Meat
+892	vault1	li'l eyeball costume	1,000 Meat
+893	vault2	li'l robot costume	1,000 Meat
+894	vault3	li'l liberty costume	1,000 Meat
+895	conmerch	Twitching Television Tattoo	Chroner (1,111)
+896	vault1	li'l candy corn costume	1,000 Meat
+897	vault3	li'l unicorn costume	1,000 Meat
+898	vault2	li'l knight costume	1,000 Meat
+899	thankshop	mini-marshmallow dispenser	cashew (2)
+900	thankshop	glass casserole dish	cashew
+901	thankshop	stuffing fluffer	cashew (3)
+902	thankshop	can opener	cashew
+903	thankshop	turkey blaster	cashew (3)
+904	thankshop	glass pie plate	cashew (2)
+905	thankshop	potato masher	cashew
+906	thankshop	gravy boat	cashew (3)
+907	thankshop	bread mold	cashew (2)
+908	unclep	antique accordion	2,500 Meat
 909
 910
-911	crimbo16	CONC	hambrosier	negative lump (10)
-912	crimbo16	CONC	chakra-mental wine	negative lump (10)
-913	crimbo16	CONC	chakra malt	negative lump (10)
-914	crimbo16	CONC	Black Angus blackburger	negative lump (20)	chakra sludge
-915	crimbo16	CONC	black brandy	negative lump (20)	chakra sludge
-916	crimbo16	CONC	potion of spiritual gunkifying	negative lump (20)	chakra sludge
-917	crimbo16	CONC	bad vibroknife	negative lump (100)	chakra sludge (10)
-918	crimbo16	CONC	crystal belt buckle	negative lump (100)	chakra sludge (10)
-919	crimbo16	CONC	saffron antaravasaka	negative lump (200)	chakra sludge (20)
-920	crimbo16	CONC	saffron uttarasanga	negative lump (200)	chakra sludge (20)
-921	crimbo16	CONC	Lump-Stacking for Beginners	negative lump (1,000)	chakra sludge (30)
-922	crimbo16	CONC	pet bad vibe	negative lump (2,000)	chakra sludge (50)
-923	crimbo16	CONC	Rethinking Candy	negative lump (4,000)	chakra sludge (75)
-924	crimbo16	CONC	eternal knot tattoo	negative lump (8,000)	chakra sludge (100)
-925	armory	COINNPC	wicker knickers	aerosolized aerogel
-926	armory	COINNPC	wicker kickers	aerosolized aerogel
-927	armory	COINNPC	wicker ticker	aerosolized aerogel
-928	armory	COINNPC	wicker sticker	aerosolized aerogel
-929	armory	COINNPC	wicker clicker	aerosolized aerogel
-930	armory	COINNPC	bakelite belt	wrought-iron flakes
-931	armory	COINNPC	polyester parachute	wickerbits
-932	armory	COINNPC	bakelite badge	wrought-iron flakes
-933	armory	COINNPC	bakelite bowl	wrought-iron flakes
-934	armory	COINNPC	bakelite brooch	wrought-iron flakes
-935	armory	COINNPC	bakelite breeches	wrought-iron flakes
-936	armory	COINNPC	bakelite backpack	wrought-iron flakes
+911	crimbo16	hambrosier	negative lump (10)
+912	crimbo16	chakra-mental wine	negative lump (10)
+913	crimbo16	chakra malt	negative lump (10)
+914	crimbo16	Black Angus blackburger	negative lump (20)	chakra sludge
+915	crimbo16	black brandy	negative lump (20)	chakra sludge
+916	crimbo16	potion of spiritual gunkifying	negative lump (20)	chakra sludge
+917	crimbo16	bad vibroknife	negative lump (100)	chakra sludge (10)
+918	crimbo16	crystal belt buckle	negative lump (100)	chakra sludge (10)
+919	crimbo16	saffron antaravasaka	negative lump (200)	chakra sludge (20)
+920	crimbo16	saffron uttarasanga	negative lump (200)	chakra sludge (20)
+921	crimbo16	Lump-Stacking for Beginners	negative lump (1,000)	chakra sludge (30)
+922	crimbo16	pet bad vibe	negative lump (2,000)	chakra sludge (50)
+923	crimbo16	Rethinking Candy	negative lump (4,000)	chakra sludge (75)
+924	crimbo16	eternal knot tattoo	negative lump (8,000)	chakra sludge (100)
+925	armory	wicker knickers	aerosolized aerogel
+926	armory	wicker kickers	aerosolized aerogel
+927	armory	wicker ticker	aerosolized aerogel
+928	armory	wicker sticker	aerosolized aerogel
+929	armory	wicker clicker	aerosolized aerogel
+930	armory	bakelite belt	wrought-iron flakes
+931	armory	polyester parachute	wickerbits
+932	armory	bakelite badge	wrought-iron flakes
+933	armory	bakelite bowl	wrought-iron flakes
+934	armory	bakelite brooch	wrought-iron flakes
+935	armory	bakelite breeches	wrought-iron flakes
+936	armory	bakelite backpack	wrought-iron flakes
 937
 938
-939	spant	CONC	spants	spant chitin (7)	spant tendon (3)
-940	spant	CONC	spant shield	spant chitin (6)	spant tendon (4)
-941	spant	CONC	spant shoulderpads	spant chitin (3)	spant tendon (7)
-942	spant	CONC	spant backplate	spant chitin (4)	spant tendon (6)
-943	spacegate	COIN	Aldebaran sardines	Spacegate Research (50)
-944	spacegate	COIN	Centauri fish wine	Spacegate Research (50)
-945	spacegate	COIN	powdered oxygen	Spacegate Research (100)
+939	spant	spants	spant chitin (7)	spant tendon (3)
+940	spant	spant shield	spant chitin (6)	spant tendon (4)
+941	spant	spant shoulderpads	spant chitin (3)	spant tendon (7)
+942	spant	spant backplate	spant chitin (4)	spant tendon (6)
+943	spacegate	Aldebaran sardines	Spacegate Research (50)
+944	spacegate	Centauri fish wine	Spacegate Research (50)
+945	spacegate	powdered oxygen	Spacegate Research (100)
 946
-947	spacegate	COIN	portable Spacegate	Spacegate Research (1,000)
-948	spacegate	COIN	Spacegate scientist's insignia	Spacegate Research (3,000)
-949	spacegate	COIN	Spacegate military insignia	Spacegate Research (3,000)
-950	spacegate	COIN	Spacegate diplomat's insignia	Spacegate Research (3,000)
-951	spacegate	COIN	Spacegate emergency disintegrator	Spacegate Research (5,000)
-952	spacegate	COIN	Spacegate Initiative tattoo unit	Spacegate Research (10,000)
-953	xo	CONC	pair of candy glasses	O (2)
+947	spacegate	portable Spacegate	Spacegate Research (1,000)
+948	spacegate	Spacegate scientist's insignia	Spacegate Research (3,000)
+949	spacegate	Spacegate military insignia	Spacegate Research (3,000)
+950	spacegate	Spacegate diplomat's insignia	Spacegate Research (3,000)
+951	spacegate	Spacegate emergency disintegrator	Spacegate Research (5,000)
+952	spacegate	Spacegate Initiative tattoo unit	Spacegate Research (10,000)
+953	xo	pair of candy glasses	O (2)
 954
-955	xo	CONC	jug of booze	X (3)
-956	xo	CONC	Hide-rox&trade; cookie	O (3)
-957	xo	CONC	temporary X tattoos	X (2)
-958	xo	CONC	glyph of athleticism	O (5)
-959	xo	CONC	pair of scissors	O (2)	X
-960	xo	CONC	new habit	X (31)
-961	xo	CONC	bridge truss	X (23)
-962	xo	CONC	pearl necklace	O (37)
-963	xo	CONC	amorphous blob	X (111)	O (111)
-964	xo	CONC	giant amorphous blob	giant X (11)	giant O (11)
+955	xo	jug of booze	X (3)
+956	xo	Hide-rox&trade; cookie	O (3)
+957	xo	temporary X tattoos	X (2)
+958	xo	glyph of athleticism	O (5)
+959	xo	pair of scissors	O (2)	X
+960	xo	new habit	X (31)
+961	xo	bridge truss	X (23)
+962	xo	pearl necklace	O (37)
+963	xo	amorphous blob	X (111)	O (111)
+964	xo	giant amorphous blob	giant X (11)	giant O (11)
 965
-966	crimbo17	COIN	stale cheer wine	crystalline cheer (10)
-967	crimbo17	COIN	stale Cheer-E-Os	crystalline cheer (10)
-968	crimbo17	COIN	Cheer-Up soda	crystalline cheer (5)
-969	crimbo17	COIN	cheer-o-gram	crystalline cheer (15)
-970	crimbo17	COIN	cheerful antler hat	crystalline cheer (100)
-971	crimbo17	COIN	cheerful Crimbo sweater	crystalline cheer (100)
-972	crimbo17	COIN	cheerful pajama pants	crystalline cheer (100)
-973	crimbo17	COIN	The Journal of Mime Science Vol. 1	crystalline cheer (1,000)
-974	crimbo17	COIN	The Journal of Mime Science Vol. 2	crystalline cheer (1,000)
-975	crimbo17	COIN	The Journal of Mime Science Vol. 3	crystalline cheer (1,000)
-976	crimbo17	COIN	The Journal of Mime Science Vol. 4	crystalline cheer (1,000)
-977	crimbo17	COIN	The Journal of Mime Science Vol. 5	crystalline cheer (1,000)
-978	crimbo17	COIN	The Journal of Mime Science Vol. 6	crystalline cheer (1,000)
+966	crimbo17	stale cheer wine	crystalline cheer (10)
+967	crimbo17	stale Cheer-E-Os	crystalline cheer (10)
+968	crimbo17	Cheer-Up soda	crystalline cheer (5)
+969	crimbo17	cheer-o-gram	crystalline cheer (15)
+970	crimbo17	cheerful antler hat	crystalline cheer (100)
+971	crimbo17	cheerful Crimbo sweater	crystalline cheer (100)
+972	crimbo17	cheerful pajama pants	crystalline cheer (100)
+973	crimbo17	The Journal of Mime Science Vol. 1	crystalline cheer (1,000)
+974	crimbo17	The Journal of Mime Science Vol. 2	crystalline cheer (1,000)
+975	crimbo17	The Journal of Mime Science Vol. 3	crystalline cheer (1,000)
+976	crimbo17	The Journal of Mime Science Vol. 4	crystalline cheer (1,000)
+977	crimbo17	The Journal of Mime Science Vol. 5	crystalline cheer (1,000)
+978	crimbo17	The Journal of Mime Science Vol. 6	crystalline cheer (1,000)
 979
-980	armory	COINNPC	aerogel anvil	gabardine smithereens
-981	armory	COINNPC	aerogel akubra	gabardine smithereens
-982	armory	COINNPC	aerogel apron	gabardine smithereens
-983	armory	COINNPC	aerogel ascot	gabardine smithereens
-984	armory	COINNPC	aerogel attache case	gabardine smithereens
-985	armory	COINNPC	aerogel accordion	gabardine smithereens
-986	armory	COINNPC	wrought-iron wig	fiberglass fibers
-987	armory	COINNPC	wrought-iron winch crank	fiberglass fibers
-988	armory	COINNPC	wrought-iron widget	fiberglass fibers
-989	armory	COINNPC	wrought-iron whisk	fiberglass fibers
-990	armory	COINNPC	wrought-iron walker	fiberglass fibers
-991	armory	COINNPC	wrought-iron waders	fiberglass fibers
-992	pokefam	COIN	metandienone	1,960 pok&eacute;dollar bill (5)
-993	pokefam	COIN	riboflavin	1,960 pok&eacute;dollar bill (5)
-994	pokefam	COIN	bronze	1,960 pok&eacute;dollar bill (5)
-995	pokefam	COIN	piracetam	1,960 pok&eacute;dollar bill (5)
-996	pokefam	COIN	ultracalcium	1,960 pok&eacute;dollar bill (5)
-997	pokefam	COIN	ginseng	1,960 pok&eacute;dollar bill (5)
-998	pokefam	COIN	Team Avarice cap	1,960 pok&eacute;dollar bill (50)
-999	pokefam	COIN	Team Sloth cap	1,960 pok&eacute;dollar bill (50)
-1000	pokefam	COIN	Team Wrath cap	1,960 pok&eacute;dollar bill (50)
-1001	pokefam	COIN	Mu cap	1,960 pok&eacute;dollar bill (50)
-1002	generalstore	NPC	green rocket	600 Meat
-1003	fantasyrealm	COIN	FantasyRealm key	Rubee&trade; (10)
-1004	fantasyrealm	COIN	LyleCo premium pickaxe	Rubee&trade; (300)
-1005	fantasyrealm	COIN	LyleCo premium rope	Rubee&trade; (300)
+980	armory	aerogel anvil	gabardine smithereens
+981	armory	aerogel akubra	gabardine smithereens
+982	armory	aerogel apron	gabardine smithereens
+983	armory	aerogel ascot	gabardine smithereens
+984	armory	aerogel attache case	gabardine smithereens
+985	armory	aerogel accordion	gabardine smithereens
+986	armory	wrought-iron wig	fiberglass fibers
+987	armory	wrought-iron winch crank	fiberglass fibers
+988	armory	wrought-iron widget	fiberglass fibers
+989	armory	wrought-iron whisk	fiberglass fibers
+990	armory	wrought-iron walker	fiberglass fibers
+991	armory	wrought-iron waders	fiberglass fibers
+992	pokefam	metandienone	1,960 pok&eacute;dollar bill (5)
+993	pokefam	riboflavin	1,960 pok&eacute;dollar bill (5)
+994	pokefam	bronze	1,960 pok&eacute;dollar bill (5)
+995	pokefam	piracetam	1,960 pok&eacute;dollar bill (5)
+996	pokefam	ultracalcium	1,960 pok&eacute;dollar bill (5)
+997	pokefam	ginseng	1,960 pok&eacute;dollar bill (5)
+998	pokefam	Team Avarice cap	1,960 pok&eacute;dollar bill (50)
+999	pokefam	Team Sloth cap	1,960 pok&eacute;dollar bill (50)
+1000	pokefam	Team Wrath cap	1,960 pok&eacute;dollar bill (50)
+1001	pokefam	Mu cap	1,960 pok&eacute;dollar bill (50)
+1002	generalstore	green rocket	600 Meat
+1003	fantasyrealm	FantasyRealm key	Rubee&trade; (10)
+1004	fantasyrealm	LyleCo premium pickaxe	Rubee&trade; (300)
+1005	fantasyrealm	LyleCo premium rope	Rubee&trade; (300)
 1006
-1007	fantasyrealm	COIN	LyleCo premium monocle	Rubee&trade; (150)
-1008	fantasyrealm	COIN	LyleCo premium magnifying glass	Rubee&trade; (150)
-1009	fantasyrealm	COIN	FantasyRealm tattoo kit	Rubee&trade; (10,000)
-1010	fantasyrealm	COIN	LyleCo Contractor's Manual	Rubee&trade; (3,000)
-1011	fantasyrealm	COIN	FantasyRealm turkey leg	Rubee&trade; (100)
-1012	fantasyrealm	COIN	FantasyRealm mead	Rubee&trade; (100)
-1013	fantasyrealm	COIN	map to the Towering Mountains	Rubee&trade; (500)
-1014	fantasyrealm	COIN	map to the Mystic Wood	Rubee&trade; (500)
-1015	fantasyrealm	COIN	map to the Putrid Swamp	Rubee&trade; (500)
-1016	fantasyrealm	COIN	map to the Cursed Village	Rubee&trade; (500)
-1017	fantasyrealm	COIN	map to the Sprawling Cemetery	Rubee&trade; (500)
-1018	fantasyrealm	COIN	FantasyRealm guest pass	Rubee&trade; (350)
-1019	glover	COIN	gattoo	G (11)
-1020	glover	COIN	A-Boo glue	G
-1021	glover	COIN	crude oil congealer	G (3)
-1022	glover	COIN	good guava	G
-1023	glover	COIN	gin and ginger	G
-1024	glover	COIN	gaseous gravy	G
-1025	voteslime	CONC	slime fedora	black slime glob	orange slime glob (100)	green slime glob (10)
-1026	voteslime	CONC	slime knuckles	black slime glob	orange slime glob (50)	green slime glob (20)
-1027	voteslime	CONC	slime waders	black slime glob	orange slime glob (10)	green slime glob (30)
+1007	fantasyrealm	LyleCo premium monocle	Rubee&trade; (150)
+1008	fantasyrealm	LyleCo premium magnifying glass	Rubee&trade; (150)
+1009	fantasyrealm	FantasyRealm tattoo kit	Rubee&trade; (10,000)
+1010	fantasyrealm	LyleCo Contractor's Manual	Rubee&trade; (3,000)
+1011	fantasyrealm	FantasyRealm turkey leg	Rubee&trade; (100)
+1012	fantasyrealm	FantasyRealm mead	Rubee&trade; (100)
+1013	fantasyrealm	map to the Towering Mountains	Rubee&trade; (500)
+1014	fantasyrealm	map to the Mystic Wood	Rubee&trade; (500)
+1015	fantasyrealm	map to the Putrid Swamp	Rubee&trade; (500)
+1016	fantasyrealm	map to the Cursed Village	Rubee&trade; (500)
+1017	fantasyrealm	map to the Sprawling Cemetery	Rubee&trade; (500)
+1018	fantasyrealm	FantasyRealm guest pass	Rubee&trade; (350)
+1019	glover	gattoo	G (11)
+1020	glover	A-Boo glue	G
+1021	glover	crude oil congealer	G (3)
+1022	glover	good guava	G
+1023	glover	gin and ginger	G
+1024	glover	gaseous gravy	G
+1025	voteslime	slime fedora	black slime glob	orange slime glob (100)	green slime glob (10)
+1026	voteslime	slime knuckles	black slime glob	orange slime glob (50)	green slime glob (20)
+1027	voteslime	slime waders	black slime glob	orange slime glob (10)	green slime glob (30)
 1028
-1029	crimbo18	NPC	yule gruel	50 Meat
-1030	crimbo18	NPC	hot watered rum	50 Meat
-1031	crimbo18giftomat	NPC	bottle of Crimbognac	100,000 Meat
-1032	crimbo18giftomat	NPC	Crimboysters Rockefeller	100,000 Meat
-1033	crimbo18giftomat	NPC	Crimbeau de toilette	100,000 Meat
-1034	crimbo18giftomat	NPC	Crimbo candle	250,000 Meat
-1035	crimbo18giftomat	NPC	Carol of the Bulls	500,000 Meat
-1036	crimbo18giftomat	NPC	Carol of the Hells	500,000 Meat
-1037	crimbo18giftomat	NPC	Carol of the Thrills	500,000 Meat
+1029	crimbo18	yule gruel	50 Meat
+1030	crimbo18	hot watered rum	50 Meat
+1031	crimbo18giftomat	bottle of Crimbognac	100,000 Meat
+1032	crimbo18giftomat	Crimboysters Rockefeller	100,000 Meat
+1033	crimbo18giftomat	Crimbeau de toilette	100,000 Meat
+1034	crimbo18giftomat	Crimbo candle	250,000 Meat
+1035	crimbo18giftomat	Carol of the Bulls	500,000 Meat
+1036	crimbo18giftomat	Carol of the Hells	500,000 Meat
+1037	crimbo18giftomat	Carol of the Thrills	500,000 Meat
 1038
-1039	crimbo18giftomat	NPC	Crimbolex watch	1,000,000 Meat
-1040	crimbo18giftomat	NPC	Crimbo tattoo kit	1,000,000 Meat
-1041	armory	COINNPC	gabardine gaiters	chalk chunks
-1042	armory	COINNPC	gabardine garland	chalk chunks
-1043	armory	COINNPC	gabardine gunnysack	chalk chunks
-1044	armory	COINNPC	gabardine garibaldi	chalk chunks
-1045	armory	COINNPC	gabardine girdle	chalk chunks
-1046	armory	COINNPC	gabardine gloves	chalk chunks
-1047	armory	COINNPC	fiberglass fetish	marble molecules
-1048	armory	COINNPC	fiberglass foil	marble molecules
-1049	armory	COINNPC	fiberglass fannypack	marble molecules
-1050	armory	COINNPC	fiberglass frock	marble molecules
-1051	armory	COINNPC	fiberglass fingerguard	marble molecules
-1052	armory	COINNPC	fiberglass fedora	marble molecules
-1053	piraterealm	COIN	crabsicle	FunPoint (100)
-1054	piraterealm	COIN	bottle of dark rhum	FunPoint (100)
-1055	piraterealm	COIN	bottle of extra-dark rhum	FunPoint (100)
-1056	piraterealm	COIN	bottle of super-extra-dark rhum	FunPoint (100)
-1057	piraterealm	COIN	pirate shaving cream	FunPoint (100)
-1058	piraterealm	COIN	conquistador's breastplate	FunPoint (1,000)
-1059	piraterealm	COIN	pirate radio ring	FunPoint (1,000)
-1060	piraterealm	COIN	Island Drinkin', a Tiki Mixology Odyssey	FunPoint (3,000)
-1061	piraterealm	COIN	Red Roger tattoo kit	FunPoint (5,000)
-1062	piraterealm	COIN	plush sea serpent	FunPoint (1,000)
-1063	piraterealm	COIN	piratical blunderbuss	FunPoint (1,000)
-1064	piraterealm	COIN	PirateRealm party hat	FunPoint (20)
-1065	piraterealm	COIN	pirate fork	FunPoint (2,000)
-1066	piraterealm	COIN	Scurvy and Sobriety Prevention	FunPoint (2,000)
-1067	piraterealm	COIN	PirateRealm guest pass	FunPoint (600)
-1068	piraterealm	COIN	lucky gold ring	FunPoint (2,000)
-1069	campfire	COIN	whittled flail	stick of firewood (5)
-1070	campfire	COIN	whittled wand	stick of firewood (5)
-1071	campfire	COIN	whittled flute	stick of firewood (5)
-1072	campfire	COIN	whittled bear figurine	stick of firewood (10)
-1073	campfire	COIN	whittled owl figurine	stick of firewood (10)
-1074	campfire	COIN	whittled fox figurine	stick of firewood (10)
-1075	campfire	COIN	whittled walking stick	stick of firewood (100)
-1076	campfire	COIN	campfire hot dog	stick of firewood
-1077	campfire	COIN	campfire baked potato	stick of firewood (2)
-1078	campfire	COIN	campfire s'more	stick of firewood (2)
-1079	campfire	COIN	campfire beans	stick of firewood
-1080	campfire	COIN	campfire stew	stick of firewood (2)
-1081	campfire	COIN	campfire coffee	stick of firewood
+1039	crimbo18giftomat	Crimbolex watch	1,000,000 Meat
+1040	crimbo18giftomat	Crimbo tattoo kit	1,000,000 Meat
+1041	armory	gabardine gaiters	chalk chunks
+1042	armory	gabardine garland	chalk chunks
+1043	armory	gabardine gunnysack	chalk chunks
+1044	armory	gabardine garibaldi	chalk chunks
+1045	armory	gabardine girdle	chalk chunks
+1046	armory	gabardine gloves	chalk chunks
+1047	armory	fiberglass fetish	marble molecules
+1048	armory	fiberglass foil	marble molecules
+1049	armory	fiberglass fannypack	marble molecules
+1050	armory	fiberglass frock	marble molecules
+1051	armory	fiberglass fingerguard	marble molecules
+1052	armory	fiberglass fedora	marble molecules
+1053	piraterealm	crabsicle	FunPoint (100)
+1054	piraterealm	bottle of dark rhum	FunPoint (100)
+1055	piraterealm	bottle of extra-dark rhum	FunPoint (100)
+1056	piraterealm	bottle of super-extra-dark rhum	FunPoint (100)
+1057	piraterealm	pirate shaving cream	FunPoint (100)
+1058	piraterealm	conquistador's breastplate	FunPoint (1,000)
+1059	piraterealm	pirate radio ring	FunPoint (1,000)
+1060	piraterealm	Island Drinkin', a Tiki Mixology Odyssey	FunPoint (3,000)
+1061	piraterealm	Red Roger tattoo kit	FunPoint (5,000)
+1062	piraterealm	plush sea serpent	FunPoint (1,000)
+1063	piraterealm	piratical blunderbuss	FunPoint (1,000)
+1064	piraterealm	PirateRealm party hat	FunPoint (20)
+1065	piraterealm	pirate fork	FunPoint (2,000)
+1066	piraterealm	Scurvy and Sobriety Prevention	FunPoint (2,000)
+1067	piraterealm	PirateRealm guest pass	FunPoint (600)
+1068	piraterealm	lucky gold ring	FunPoint (2,000)
+1069	campfire	whittled flail	stick of firewood (5)
+1070	campfire	whittled wand	stick of firewood (5)
+1071	campfire	whittled flute	stick of firewood (5)
+1072	campfire	whittled bear figurine	stick of firewood (10)
+1073	campfire	whittled owl figurine	stick of firewood (10)
+1074	campfire	whittled fox figurine	stick of firewood (10)
+1075	campfire	whittled walking stick	stick of firewood (100)
+1076	campfire	campfire hot dog	stick of firewood
+1077	campfire	campfire baked potato	stick of firewood (2)
+1078	campfire	campfire s'more	stick of firewood (2)
+1079	campfire	campfire beans	stick of firewood
+1080	campfire	campfire stew	stick of firewood (2)
+1081	campfire	campfire coffee	stick of firewood
 1082
-1083	campfire	COIN	burnt stick	stick of firewood
-1084	campfire	COIN	whittled tiara	stick of firewood (5)
-1085	campfire	COIN	whittled shorts	stick of firewood (5)
-1086	campfire	COIN	bundle of firewood	stick of firewood (10)
-1087	campfire	COIN	campfire smoke	stick of firewood
-1088	exploathing	COIN	space shield	rare Meat isotope (25)
-1089	exploathing	COIN	signal jammer	rare Meat isotope (25)
-1090	exploathing	COIN	digital key	white pixel (30)
-1091	exploathing	COIN	low-pressure oxygen tank	rare Meat isotope (10)
-1092	exploathing	COIN	Wand of Nagamar	rare Meat isotope (30)
-1093	exploathing	COIN	Boris's key	fat loot token
-1094	exploathing	COIN	Jarlsberg's key	fat loot token
-1095	exploathing	COIN	Sneaky Pete's key	fat loot token
-1096	exploathing	COIN	rare Meat isotope	1000 Meat
-1097	exploathing	COIN	antique accordion	rare Meat isotope (10)
-1098	exploathing	COIN	space chowder	rare Meat isotope (5)
-1099	exploathing	COIN	space wine	rare Meat isotope (5)
-1100	exploathing	COIN	lucky-ish pill	rare Meat isotope (20)
-1101	crimbo19	NPC	bowl of mernudo	50 Meat
+1083	campfire	burnt stick	stick of firewood
+1084	campfire	whittled tiara	stick of firewood (5)
+1085	campfire	whittled shorts	stick of firewood (5)
+1086	campfire	bundle of firewood	stick of firewood (10)
+1087	campfire	campfire smoke	stick of firewood
+1088	exploathing	space shield	rare Meat isotope (25)
+1089	exploathing	signal jammer	rare Meat isotope (25)
+1090	exploathing	digital key	white pixel (30)
+1091	exploathing	low-pressure oxygen tank	rare Meat isotope (10)
+1092	exploathing	Wand of Nagamar	rare Meat isotope (30)
+1093	exploathing	Boris's key	fat loot token
+1094	exploathing	Jarlsberg's key	fat loot token
+1095	exploathing	Sneaky Pete's key	fat loot token
+1096	exploathing	rare Meat isotope	1000 Meat
+1097	exploathing	antique accordion	rare Meat isotope (10)
+1098	exploathing	space chowder	rare Meat isotope (5)
+1099	exploathing	space wine	rare Meat isotope (5)
+1100	exploathing	lucky-ish pill	rare Meat isotope (20)
+1101	crimbo19	bowl of mernudo	50 Meat
 1102
-1103	crimbo19	NPC	fishelada	50 Meat
-1104	crimbo19	NPC	ojo de pez burrito	50 Meat
-1105	crimbo19toys	CONC	antique nutcracker hat	waterlogged cloth (3)	waterlogged stuffing (3)
-1106	crimbo19toys	CONC	antique nutcracker cape	waterlogged cloth (3)
-1107	crimbo19toys	CONC	antique nutcracker waistcoat	waterlogged cloth (3)	waterlogged stuffing (3)	waterlogged leather (3)
-1108	crimbo19toys	CONC	antique nutcracker boots	waterlogged leather (3)	waterlogged metal (3)
-1109	crimbo19toys	CONC	antique nutcracker sword	waterlogged wood (3)	waterlogged metal (3)
-1110	crimbo19toys	CONC	antique nutcracker beard	waterlogged stuffing (3)
-1111	crimbo19toys	CONC	antique nutcracker epaulets	waterlogged wood (3)	waterlogged metal (3)
-1112	crimbo19toys	CONC	antique nutcracker drumstick	waterlogged wood (3)	waterlogged stuffing (3)	waterlogged leather (3)
-1113	crimbo19toys	CONC	antique nutcracker figurine	waterlogged wood (3)
-1114	crimbo19toys	CONC	antique nutcracker pants	waterlogged cloth (3)	waterlogged leather (3)	waterlogged metal (3)
+1103	crimbo19	fishelada	50 Meat
+1104	crimbo19	ojo de pez burrito	50 Meat
+1105	crimbo19toys	antique nutcracker hat	waterlogged cloth (3)	waterlogged stuffing (3)
+1106	crimbo19toys	antique nutcracker cape	waterlogged cloth (3)
+1107	crimbo19toys	antique nutcracker waistcoat	waterlogged cloth (3)	waterlogged stuffing (3)	waterlogged leather (3)
+1108	crimbo19toys	antique nutcracker boots	waterlogged leather (3)	waterlogged metal (3)
+1109	crimbo19toys	antique nutcracker sword	waterlogged wood (3)	waterlogged metal (3)
+1110	crimbo19toys	antique nutcracker beard	waterlogged stuffing (3)
+1111	crimbo19toys	antique nutcracker epaulets	waterlogged wood (3)	waterlogged metal (3)
+1112	crimbo19toys	antique nutcracker drumstick	waterlogged wood (3)	waterlogged stuffing (3)	waterlogged leather (3)
+1113	crimbo19toys	antique nutcracker figurine	waterlogged wood (3)
+1114	crimbo19toys	antique nutcracker pants	waterlogged cloth (3)	waterlogged leather (3)	waterlogged metal (3)
 1115
-1116	armory	COINNPC	chalk chlamys	paraffin pieces
-1117	armory	COINNPC	chalk chain	paraffin pieces
-1118	armory	COINNPC	chalk chalice	paraffin pieces
-1119	armory	COINNPC	chalk chinos	paraffin pieces
-1120	armory	COINNPC	chalk chapeau	paraffin pieces
-1121	armory	COINNPC	chalk choker	paraffin pieces
-1122	armory	COINNPC	marble maebari	terra cotta tidbits
-1123	armory	COINNPC	marble mantle	terra cotta tidbits
-1124	armory	COINNPC	marble magnet	terra cotta tidbits
-1125	armory	COINNPC	marble mignonette bowl	terra cotta tidbits
-1126	armory	COINNPC	marble medallion	terra cotta tidbits
-1127	armory	COINNPC	marble mariachi hat	terra cotta tidbits
-1128	driparmory	COINNPC	Drip harness	50,000 Meat
-1129	driparmory	COINNPC	drippy truncheon	20,000 Meat
-1130	driparmory	COINNPC	drippy khakis	Driplet (30)
-1131	dripcafeteria	NPC	drippy nugget	10,000 Meat
-1132	driparmory	COINNPC	drippy shield	Driplet (50)
-1133	marioitems	COIN	deluxe mushroom	coin (10)
-1134	marioitems	COIN	mushroom	coin (5)
-1135	marioitems	COIN	super deluxe mushroom	coin (20)
-1136	marioitems	COIN	fizzy soda	coin (15)
-1137	marioitems	COIN	healthy juice	coin (15)
-1138	mariogear	COIN	hammer	coin (20)
-1139	mariogear	COIN	heavy hammer	coin (300)
-1140	mariogear	COIN	fire flower	coin (20)
-1141	mariogear	COIN	bonfire flower	coin (300)
+1116	armory	chalk chlamys	paraffin pieces
+1117	armory	chalk chain	paraffin pieces
+1118	armory	chalk chalice	paraffin pieces
+1119	armory	chalk chinos	paraffin pieces
+1120	armory	chalk chapeau	paraffin pieces
+1121	armory	chalk choker	paraffin pieces
+1122	armory	marble maebari	terra cotta tidbits
+1123	armory	marble mantle	terra cotta tidbits
+1124	armory	marble magnet	terra cotta tidbits
+1125	armory	marble mignonette bowl	terra cotta tidbits
+1126	armory	marble medallion	terra cotta tidbits
+1127	armory	marble mariachi hat	terra cotta tidbits
+1128	driparmory	Drip harness	50,000 Meat
+1129	driparmory	drippy truncheon	20,000 Meat
+1130	driparmory	drippy khakis	Driplet (30)
+1131	dripcafeteria	drippy nugget	10,000 Meat
+1132	driparmory	drippy shield	Driplet (50)
+1133	marioitems	deluxe mushroom	coin (10)
+1134	marioitems	mushroom	coin (5)
+1135	marioitems	super deluxe mushroom	coin (20)
+1136	marioitems	fizzy soda	coin (15)
+1137	marioitems	healthy juice	coin (15)
+1138	mariogear	hammer	coin (20)
+1139	mariogear	heavy hammer	coin (300)
+1140	mariogear	fire flower	coin (20)
+1141	mariogear	bonfire flower	coin (300)
 1142
-1143	mariogear	COIN	fancy boots	coin (300)
-1144	mariogear	COIN	cape	coin (200)
-1145	mariogear	COIN	back shell	coin (100)
-1146	mariogear	COIN	spiky back shell	coin (100)
-1147	mariogear	COIN	power pants	coin (300)
-1148	mariogear	COIN	bony back shell	coin (100)
-1149	mariogear	COIN	frosty button	coin (100)
-1150	marioitems	COIN	blooper ink	coin (15)
-1151	dripcafeteria	NPC	glass of drippy wine	10,000 Meat
-1152	dripcafeteria	NPC	drippy caviar	1,000,000 Meat
-1153	guzzlr	COIN	Guzzlr hat	Guzzlrbuck (100)
-1154	guzzlr	COIN	Guzzlr shoes	Guzzlrbuck (100)
-1155	guzzlr	COIN	Guzzlr pants	Guzzlrbuck (100)
-1156	guzzlr	COIN	Guzzlr souvenir stein	Guzzlrbuck (500)
-1157	guzzlr	COIN	Guzzlr tattoo kit	Guzzlrbuck (2,000)
-1158	guzzlr	COIN	Never Don't Stop Not Striving	Guzzlrbuck (1,000)
-1159	dripcafeteria	NPC	Drip Institute petri dish	5,000 Meat
-1160	lathe	COIN	birch battery	flimsy hardwood scraps
-1161	lathe	COIN	ebony epee	flimsy hardwood scraps
-1162	lathe	COIN	weeping willow wand	flimsy hardwood scraps
-1163	lathe	COIN	beechwood blowgun	flimsy hardwood scraps
-1164	lathe	COIN	maple magnet	flimsy hardwood scraps
-1165	lathe	COIN	hemlock helm	Dreadsylvanian hemlock
-1166	lathe	COIN	balsam barrel	sweaty balsam
-1167	lathe	COIN	redwood rain stick	ancient redwood
-1168	lathe	COIN	purpleheart &quot;pants&quot;	purpleheart logs
-1169	lathe	COIN	wormwood wedding ring	wormwood stick
-1170	lathe	COIN	drippy diadem	Dripwood slab
-1171	crimbo20blackmarket	NPC	&quot;reusable&quot; grocery bag	5,000 Meat
-1172	crimbo20blackmarket	NPC	cardboard wine carrier	5,000 Meat
-1173	crimbo20blackmarket	NPC	antique candy bucket	5,000 Meat
-1174	crimbo20blackmarket	NPC	prescription teeth whitener	10,000 Meat
-1175	crimbo20blackmarket	NPC	imported lemon lozenge	10,000 Meat
-1176	crimbo20blackmarket	NPC	hermedisiac cologne	10,000 Meat
-1177	crimbo20blackmarket	NPC	government food shipment	100,000 Meat
-1178	crimbo20blackmarket	NPC	government booze shipment	100,000 Meat
-1179	crimbo20blackmarket	NPC	government candy shipment	100,000 Meat
-1180	crimbo20blackmarket	NPC	Crimbo Cheer tattoo kit	1,000,000 Meat
-1181	crimbo20blackmarket	NPC	Crimbo Carol tattoo kit	1,000,000 Meat
-1182	crimbo20blackmarket	NPC	Crimbo Commerce tattoo kit	1,000,000 Meat
-1183	crimbo20food	COIN	food drive button	donated food (30)
-1184	crimbo20booze	COIN	booze drive button	donated booze (30)
-1185	crimbo20candy	COIN	candy drive button	donated candy (30)
-1186	crimbo20food	COIN	food mailing list	donated food (300)
-1187	crimbo20booze	COIN	booze mailing list	donated booze (300)
-1188	crimbo20candy	COIN	candy mailing list	donated candy (300)
-1189	crimbo20candy	COIN	fruit bat	donated candy (1,000)
-1190	crimbo20candy	COIN	tinsel orb	donated candy (1,000)
-1191	crimbo20booze	COIN	Crimbo stockings	donated booze (1,000)
-1192	crimbo20booze	COIN	poncho de azucar	donated booze (1,000)
-1193	crimbo20food	COIN	snowpack	donated food (1,000)
-1194	crimbo20food	COIN	Satan hat	donated food (1,000)
-1195	crimbo20food	COIN	The Night Before Crimbo, Ch. 1	donated food (3,000)
-1196	crimbo20food	COIN	The Night Before Crimbo, Ch. 2	donated food (3,000)
-1197	crimbo20booze	COIN	The Night Before Crimbo, Ch. 3	donated booze (3,000)
-1198	crimbo20booze	COIN	The Night Before Crimbo, Ch. 4	donated booze (3,000)
-1199	crimbo20candy	COIN	The Night Before Crimbo, Ch. 5	donated candy (3,000)
+1143	mariogear	fancy boots	coin (300)
+1144	mariogear	cape	coin (200)
+1145	mariogear	back shell	coin (100)
+1146	mariogear	spiky back shell	coin (100)
+1147	mariogear	power pants	coin (300)
+1148	mariogear	bony back shell	coin (100)
+1149	mariogear	frosty button	coin (100)
+1150	marioitems	blooper ink	coin (15)
+1151	dripcafeteria	glass of drippy wine	10,000 Meat
+1152	dripcafeteria	drippy caviar	1,000,000 Meat
+1153	guzzlr	Guzzlr hat	Guzzlrbuck (100)
+1154	guzzlr	Guzzlr shoes	Guzzlrbuck (100)
+1155	guzzlr	Guzzlr pants	Guzzlrbuck (100)
+1156	guzzlr	Guzzlr souvenir stein	Guzzlrbuck (500)
+1157	guzzlr	Guzzlr tattoo kit	Guzzlrbuck (2,000)
+1158	guzzlr	Never Don't Stop Not Striving	Guzzlrbuck (1,000)
+1159	dripcafeteria	Drip Institute petri dish	5,000 Meat
+1160	lathe	birch battery	flimsy hardwood scraps
+1161	lathe	ebony epee	flimsy hardwood scraps
+1162	lathe	weeping willow wand	flimsy hardwood scraps
+1163	lathe	beechwood blowgun	flimsy hardwood scraps
+1164	lathe	maple magnet	flimsy hardwood scraps
+1165	lathe	hemlock helm	Dreadsylvanian hemlock
+1166	lathe	balsam barrel	sweaty balsam
+1167	lathe	redwood rain stick	ancient redwood
+1168	lathe	purpleheart &quot;pants&quot;	purpleheart logs
+1169	lathe	wormwood wedding ring	wormwood stick
+1170	lathe	drippy diadem	Dripwood slab
+1171	crimbo20blackmarket	&quot;reusable&quot; grocery bag	5,000 Meat
+1172	crimbo20blackmarket	cardboard wine carrier	5,000 Meat
+1173	crimbo20blackmarket	antique candy bucket	5,000 Meat
+1174	crimbo20blackmarket	prescription teeth whitener	10,000 Meat
+1175	crimbo20blackmarket	imported lemon lozenge	10,000 Meat
+1176	crimbo20blackmarket	hermedisiac cologne	10,000 Meat
+1177	crimbo20blackmarket	government food shipment	100,000 Meat
+1178	crimbo20blackmarket	government booze shipment	100,000 Meat
+1179	crimbo20blackmarket	government candy shipment	100,000 Meat
+1180	crimbo20blackmarket	Crimbo Cheer tattoo kit	1,000,000 Meat
+1181	crimbo20blackmarket	Crimbo Carol tattoo kit	1,000,000 Meat
+1182	crimbo20blackmarket	Crimbo Commerce tattoo kit	1,000,000 Meat
+1183	crimbo20food	food drive button	donated food (30)
+1184	crimbo20booze	booze drive button	donated booze (30)
+1185	crimbo20candy	candy drive button	donated candy (30)
+1186	crimbo20food	food mailing list	donated food (300)
+1187	crimbo20booze	booze mailing list	donated booze (300)
+1188	crimbo20candy	candy mailing list	donated candy (300)
+1189	crimbo20candy	fruit bat	donated candy (1,000)
+1190	crimbo20candy	tinsel orb	donated candy (1,000)
+1191	crimbo20booze	Crimbo stockings	donated booze (1,000)
+1192	crimbo20booze	poncho de azucar	donated booze (1,000)
+1193	crimbo20food	snowpack	donated food (1,000)
+1194	crimbo20food	Satan hat	donated food (1,000)
+1195	crimbo20food	The Night Before Crimbo, Ch. 1	donated food (3,000)
+1196	crimbo20food	The Night Before Crimbo, Ch. 2	donated food (3,000)
+1197	crimbo20booze	The Night Before Crimbo, Ch. 3	donated booze (3,000)
+1198	crimbo20booze	The Night Before Crimbo, Ch. 4	donated booze (3,000)
+1199	crimbo20candy	The Night Before Crimbo, Ch. 5	donated candy (3,000)
 1200
-1201	crimbo20cafe	NPC	stuffed red and green pepper (stale)	300 Meat
-1202	crimbo20cafe	NPC	cranberry margarita (brackish)	300 Meat
+1201	crimbo20cafe	stuffed red and green pepper (stale)	300 Meat
+1202	crimbo20cafe	cranberry margarita (brackish)	300 Meat
 1203
-1204	crimbo20booze	COIN	miniature goose mask	donated booze (500)
-1205	crimbo20food	COIN	tiny glowing red nose	donated food (500)
-1206	crimbo20candy	COIN	fuzzy polar bear ears	donated candy (500)
-1207	crimbo20candy	COIN	The Night Before Crimbo, Ch. 6	donated candy (3,000)
+1204	crimbo20booze	miniature goose mask	donated booze (500)
+1205	crimbo20food	tiny glowing red nose	donated food (500)
+1206	crimbo20candy	fuzzy polar bear ears	donated candy (500)
+1207	crimbo20candy	The Night Before Crimbo, Ch. 6	donated candy (3,000)
 1208
-1209	crimbo20food	COIN	drive-thru burger	donated food (50)
-1210	crimbo20booze	COIN	Boulevardier cocktail	donated booze (50)
-1211	crimbo20candy	COIN	Hotwire&trade; brand candy rope	donated candy (50)
+1209	crimbo20food	drive-thru burger	donated food (50)
+1210	crimbo20booze	Boulevardier cocktail	donated booze (50)
+1211	crimbo20candy	Hotwire&trade; brand candy rope	donated candy (50)
 1212
 1213
 1214
@@ -1233,348 +1233,348 @@
 1232
 1233
 1234
-1235	armory	COINNPC	paraffin punching bag	velour veneer
-1236	armory	COINNPC	paraffin pith helmet	velour veneer
-1237	armory	COINNPC	paraffin poncho	velour veneer
-1238	armory	COINNPC	paraffin pendant	velour veneer
-1239	armory	COINNPC	paraffin palazzos	velour veneer
-1240	armory	COINNPC	paraffin pseudoaccordion	velour veneer
-1241	armory	COINNPC	terra cotta truss	stained glass shards
-1242	armory	COINNPC	terra cotta trousers	stained glass shards
-1243	armory	COINNPC	terra cotta tongs	stained glass shards
-1244	armory	COINNPC	terra cotta train	stained glass shards
-1245	armory	COINNPC	terra cotta tie tack	stained glass shards
-1246	armory	COINNPC	terra cotta tambourine	stained glass shards
-1247	fwshop	NPC	fedora-mounted fountain	500 Meat
-1248	fwshop	NPC	sombrero-mounted sparkler	500 Meat
-1249	fwshop	NPC	porkpie-mounted popper	500 Meat
-1250	fwshop	NPC	yellow rocket	250 Meat
-1251	fwshop	NPC	blue rocket	250 Meat
-1252	fwshop	NPC	red rocket	250 Meat
-1253	fwshop	NPC	fire crackers	100 Meat
-1254	fwshop	NPC	Arr, M80	100 Meat
-1255	fwshop	NPC	Catherine Wheel	1,000 Meat
-1256	fwshop	NPC	rocket boots	1,000 Meat
-1257	fwshop	NPC	oversized sparkler	1,000 Meat
-1258	wildfire	NPC	B. L. A. R. T.	10,000 Meat
-1259	wildfire	NPC	rusty empty nacho cheese can	1,000 Meat
-1260	wildfire	NPC	literal bucket hat	5,000 Meat
-1261	wildfire	NPC	rainproof barrel caulk	5,000 Meat
-1262	wildfire	NPC	pump grease	5,000 Meat
-1263	crimbo21cafe	NPC	bread pie	50 Meat
-1264	crimbo21cafe	NPC	clear Russian	50 Meat
-1265	crimbo21ornaments	NPC	black Crimbo ball	100 Meat
-1266	crimbo21ornaments	NPC	white Crimbo ball	100 Meat
-1267	armory	COINNPC	velour voulge	loofah lumps
-1268	armory	COINNPC	velour vambraces	loofah lumps
-1269	armory	COINNPC	velour veil	loofah lumps
-1270	armory	COINNPC	velour viscometer	loofah lumps
-1271	armory	COINNPC	velour valise	loofah lumps
-1272	armory	COINNPC	velour vaqueros	loofah lumps
-1273	armory	COINNPC	stained glass suspenders	flagstone flagments
-1274	armory	COINNPC	stained glass shield	flagstone flagments
-1275	armory	COINNPC	stained glass stetson	flagstone flagments
-1276	armory	COINNPC	stained glass spectacles	flagstone flagments
-1277	armory	COINNPC	stained glass shiv	flagstone flagments
-1278	armory	COINNPC	stained glass serape	flagstone flagments
-1279	dino	COIN	dinosaur pheromone kit	Dinodollar (5)
-1280	dino	COIN	pterodactyl rifle	Dinodollar (50)
-1281	dino	COIN	birdseed hat	Dinodollar (20)
-1282	dino	COIN	flatusaur gasmask	Dinodollar (30)
-1283	dino	COIN	dinosaur dart	Dinodollar (3)
-1284	dino	COIN	Dino DNAde&trade;	Dinodollar
-1285	dino	COIN	dinosaur repellent	Dinodollar (5)
-1286	dino	COIN	camouflage vest	Dinodollar (25)
-1287	dino	COIN	reflective vest	Dinodollar (25)
-1288	dino	COIN	stuffed dinosaur	Dinodollar (500)
-1289	olivers	COIN	Charleston Choo-Choo	drink chit
-1290	olivers	COIN	Velvet Veil	drink chit
-1291	olivers	COIN	Marltini	drink chit
-1292	olivers	COIN	Strong, Silent Type	milk cap
-1293	olivers	COIN	Mysterious Stranger	milk cap
-1294	olivers	COIN	Champagne Shimmy	milk cap
-1295	armory	COINNPC	chiffon chapeau	moss mulch
-1296	armory	COINNPC	chiffon chevrons	moss mulch
-1297	armory	COINNPC	loofah lederhosen	chiffon carbage
-1298	armory	COINNPC	loofah ladle	chiffon carbage
-1299	armory	COINNPC	loofah legwarmers	chiffon carbage
-1300	armory	COINNPC	loofah lavalier	chiffon carbage
-1301	armory	COINNPC	flagstone flag	ceramic scree
-1302	armory	COINNPC	flagstone flail	ceramic scree
-1303	armory	COINNPC	flagstone flip-flops	ceramic scree
-1304	armory	COINNPC	flagstone fez	ceramic scree
-1305	armory	COINNPC	flagstone fleece	ceramic scree
-1306	armory	COINNPC	flagstone fringe	ceramic scree
-1307	mystic	CONC	pixel bread	white pixel (5)	brown pixel (5)
-1308	mystic	CONC	pixel whiskey	white pixel (5)	brown pixel (5)
-1309	shadowforge	CONC	shadow chef's hat	shadow skin (3)	shadow bread (2)
-1310	shadowforge	CONC	shadow trousers	shadow skin (3)	shadow sinew (2)
-1311	shadowforge	CONC	shadow hammer	shadow brick (3)	shadow stick (3)
-1312	shadowforge	CONC	shadow monocle	shadow brick	shadow glass (3)	shadow ice (2)
-1313	shadowforge	CONC	shadow candle	shadow sausage (3)	shadow sinew (2)	shadow flame
+1235	armory	paraffin punching bag	velour veneer
+1236	armory	paraffin pith helmet	velour veneer
+1237	armory	paraffin poncho	velour veneer
+1238	armory	paraffin pendant	velour veneer
+1239	armory	paraffin palazzos	velour veneer
+1240	armory	paraffin pseudoaccordion	velour veneer
+1241	armory	terra cotta truss	stained glass shards
+1242	armory	terra cotta trousers	stained glass shards
+1243	armory	terra cotta tongs	stained glass shards
+1244	armory	terra cotta train	stained glass shards
+1245	armory	terra cotta tie tack	stained glass shards
+1246	armory	terra cotta tambourine	stained glass shards
+1247	fwshop	fedora-mounted fountain	500 Meat
+1248	fwshop	sombrero-mounted sparkler	500 Meat
+1249	fwshop	porkpie-mounted popper	500 Meat
+1250	fwshop	yellow rocket	250 Meat
+1251	fwshop	blue rocket	250 Meat
+1252	fwshop	red rocket	250 Meat
+1253	fwshop	fire crackers	100 Meat
+1254	fwshop	Arr, M80	100 Meat
+1255	fwshop	Catherine Wheel	1,000 Meat
+1256	fwshop	rocket boots	1,000 Meat
+1257	fwshop	oversized sparkler	1,000 Meat
+1258	wildfire	B. L. A. R. T.	10,000 Meat
+1259	wildfire	rusty empty nacho cheese can	1,000 Meat
+1260	wildfire	literal bucket hat	5,000 Meat
+1261	wildfire	rainproof barrel caulk	5,000 Meat
+1262	wildfire	pump grease	5,000 Meat
+1263	crimbo21cafe	bread pie	50 Meat
+1264	crimbo21cafe	clear Russian	50 Meat
+1265	crimbo21ornaments	black Crimbo ball	100 Meat
+1266	crimbo21ornaments	white Crimbo ball	100 Meat
+1267	armory	velour voulge	loofah lumps
+1268	armory	velour vambraces	loofah lumps
+1269	armory	velour veil	loofah lumps
+1270	armory	velour viscometer	loofah lumps
+1271	armory	velour valise	loofah lumps
+1272	armory	velour vaqueros	loofah lumps
+1273	armory	stained glass suspenders	flagstone flagments
+1274	armory	stained glass shield	flagstone flagments
+1275	armory	stained glass stetson	flagstone flagments
+1276	armory	stained glass spectacles	flagstone flagments
+1277	armory	stained glass shiv	flagstone flagments
+1278	armory	stained glass serape	flagstone flagments
+1279	dino	dinosaur pheromone kit	Dinodollar (5)
+1280	dino	pterodactyl rifle	Dinodollar (50)
+1281	dino	birdseed hat	Dinodollar (20)
+1282	dino	flatusaur gasmask	Dinodollar (30)
+1283	dino	dinosaur dart	Dinodollar (3)
+1284	dino	Dino DNAde&trade;	Dinodollar
+1285	dino	dinosaur repellent	Dinodollar (5)
+1286	dino	camouflage vest	Dinodollar (25)
+1287	dino	reflective vest	Dinodollar (25)
+1288	dino	stuffed dinosaur	Dinodollar (500)
+1289	olivers	Charleston Choo-Choo	drink chit
+1290	olivers	Velvet Veil	drink chit
+1291	olivers	Marltini	drink chit
+1292	olivers	Strong, Silent Type	milk cap
+1293	olivers	Mysterious Stranger	milk cap
+1294	olivers	Champagne Shimmy	milk cap
+1295	armory	chiffon chapeau	moss mulch
+1296	armory	chiffon chevrons	moss mulch
+1297	armory	loofah lederhosen	chiffon carbage
+1298	armory	loofah ladle	chiffon carbage
+1299	armory	loofah legwarmers	chiffon carbage
+1300	armory	loofah lavalier	chiffon carbage
+1301	armory	flagstone flag	ceramic scree
+1302	armory	flagstone flail	ceramic scree
+1303	armory	flagstone flip-flops	ceramic scree
+1304	armory	flagstone fez	ceramic scree
+1305	armory	flagstone fleece	ceramic scree
+1306	armory	flagstone fringe	ceramic scree
+1307	mystic	pixel bread	white pixel (5)	brown pixel (5)
+1308	mystic	pixel whiskey	white pixel (5)	brown pixel (5)
+1309	shadowforge	shadow chef's hat	shadow skin (3)	shadow bread (2)
+1310	shadowforge	shadow trousers	shadow skin (3)	shadow sinew (2)
+1311	shadowforge	shadow hammer	shadow brick (3)	shadow stick (3)
+1312	shadowforge	shadow monocle	shadow brick	shadow glass (3)	shadow ice (2)
+1313	shadowforge	shadow candle	shadow sausage (3)	shadow sinew (2)	shadow flame
 1314
-1315	shadowforge	CONC	shadow hot dog	shadow sausage	shadow bread	shadow venom
-1316	shadowforge	CONC	shadow martini	shadow glass	shadow ice	shadow nectar
-1317	shadowforge	CONC	shadow pill	shadow fluid	shadow flame
-1318	shadowforge	CONC	shadow needle	shadow stick (13)	shadow fluid (13)	shadow venom (13)	shadow nectar (13)
-1319	mrreplica	COIN	replica Dark Jill-O-Lantern	replica Mr. Accessory
-1320	mrreplica	COIN	replica hand turkey outline	replica Mr. Accessory
-1321	mrreplica	COIN	replica crimbo elfling	replica Mr. Accessory
-1322	mrreplica	COIN	replica pygmy bugbear shaman	replica Mr. Accessory
-1323	mrreplica	COIN	replica miniature gravy-covered maypole	replica Mr. Accessory
-1324	mrreplica	COIN	replica wax lips	replica Mr. Accessory
-1325	mrreplica	COIN	replica Tome of Snowcone Summoning	replica Mr. Accessory
-1326	mrreplica	COIN	replica plastic pumpkin bucket	replica Mr. Accessory
+1315	shadowforge	shadow hot dog	shadow sausage	shadow bread	shadow venom
+1316	shadowforge	shadow martini	shadow glass	shadow ice	shadow nectar
+1317	shadowforge	shadow pill	shadow fluid	shadow flame
+1318	shadowforge	shadow needle	shadow stick (13)	shadow fluid (13)	shadow venom (13)	shadow nectar (13)
+1319	mrreplica	replica Dark Jill-O-Lantern	replica Mr. Accessory
+1320	mrreplica	replica hand turkey outline	replica Mr. Accessory
+1321	mrreplica	replica crimbo elfling	replica Mr. Accessory
+1322	mrreplica	replica pygmy bugbear shaman	replica Mr. Accessory
+1323	mrreplica	replica miniature gravy-covered maypole	replica Mr. Accessory
+1324	mrreplica	replica wax lips	replica Mr. Accessory
+1325	mrreplica	replica Tome of Snowcone Summoning	replica Mr. Accessory
+1326	mrreplica	replica plastic pumpkin bucket	replica Mr. Accessory
 1327
-1328	mrreplica	COIN	replica jewel-eyed wizard hat	replica Mr. Accessory
-1329	mrreplica	COIN	replica bottle-rocket crossbow	replica Mr. Accessory
-1330	mrreplica	COIN	replica navel ring of navel gazing	replica Mr. Accessory
-1331	mrreplica	COIN	replica V for Vivala mask	replica Mr. Accessory
-1332	mrreplica	COIN	replica little box of fireworks	replica Mr. Accessory
-1333	mrreplica	COIN	replica Libram of Resolutions	replica Mr. Accessory
-1334	mrreplica	COIN	replica cotton candy cocoon	replica Mr. Accessory
-1335	mrreplica	COIN	replica Elvish sunglasses	replica Mr. Accessory
-1336	mrreplica	COIN	replica Greatest American Pants	replica Mr. Accessory
-1337	mrreplica	COIN	replica organ grinder	replica Mr. Accessory
-1338	mrreplica	COIN	replica Juju Mojo Mask	replica Mr. Accessory
-1339	mrreplica	COIN	replica cute angel	replica Mr. Accessory
-1340	mrreplica	COIN	replica Camp Scout backpack	replica Mr. Accessory
-1341	mrreplica	COIN	replica deactivated nanobots	replica Mr. Accessory
-1342	mrreplica	COIN	replica haiku katana	replica Mr. Accessory
-1343	mrreplica	COIN	replica Apathargic Bandersnatch	replica Mr. Accessory
-1344	mrreplica	COIN	replica squamous polyp	replica Mr. Accessory
-1345	mrreplica	COIN	replica Operation Patriot Shield	replica Mr. Accessory
-1346	mrreplica	COIN	replica plastic vampire fangs	replica Mr. Accessory
-1347	mrreplica	COIN	replica Smith's Tome	replica Mr. Accessory
-1348	mrreplica	COIN	replica over-the-shoulder Folder Holder	replica Mr. Accessory
-1349	mrreplica	COIN	replica Order of the Green Thumb Order Form	replica Mr. Accessory
-1350	mrreplica	COIN	replica Little Geneticist DNA-Splicing Lab	replica Mr. Accessory
-1351	mrreplica	COIN	replica still grill	replica Mr. Accessory
-1352	mrreplica	COIN	replica Crimbo sapling	replica Mr. Accessory
-1353	mrreplica	COIN	replica yellow puck	replica Mr. Accessory
-1354	mrreplica	COIN	replica Chateau Mantegna room key	replica Mr. Accessory
-1355	mrreplica	COIN	replica Deck of Every Card	replica Mr. Accessory
-1356	mrreplica	COIN	replica Source terminal	replica Mr. Accessory
-1357	mrreplica	COIN	replica disconnected intergnat	replica Mr. Accessory
-1358	mrreplica	COIN	replica Witchess Set	replica Mr. Accessory
-1359	mrreplica	COIN	replica genie bottle	replica Mr. Accessory
-1360	mrreplica	COIN	replica space planula	replica Mr. Accessory
-1361	mrreplica	COIN	replica unpowered Robortender	replica Mr. Accessory
-1362	mrreplica	COIN	replica Neverending Party invitation envelope	replica Mr. Accessory
-1363	mrreplica	COIN	replica January's Garbage Tote	replica Mr. Accessory
-1364	mrreplica	COIN	replica God Lobster Egg	replica Mr. Accessory
-1365	mrreplica	COIN	replica Kramco Sausage-o-Matic&trade;	replica Mr. Accessory
-1366	mrreplica	COIN	replica Fourth of May Cosplay Saber	replica Mr. Accessory
-1367	mrreplica	COIN	replica hewn moon-rune spoon	replica Mr. Accessory
-1368	mrreplica	COIN	replica baby camelCalf	replica Mr. Accessory
-1369	mrreplica	COIN	replica Powerful Glove	replica Mr. Accessory
-1370	mrreplica	COIN	replica Cargo Cultist Shorts	replica Mr. Accessory
-1371	mrreplica	COIN	replica emotion chip	replica Mr. Accessory
-1372	mrreplica	COIN	replica miniature crystal ball	replica Mr. Accessory
-1373	mrreplica	COIN	replica industrial fire extinguisher	replica Mr. Accessory
-1374	mrreplica	COIN	replica Jurassic Parka	replica Mr. Accessory
-1375	mrreplica	COIN	replica grey gosling	replica Mr. Accessory
-1376	mrreplica	COIN	replica designer sweatpants	replica Mr. Accessory
-1377	mrreplica	COIN	replica Cincho de Mayo	replica Mr. Accessory
-1378	mrstore2002	COIN	&quot;I survived Y2K&quot; T-Shirt	Mr. Store 2002 Credit
-1379	mrstore2002	COIN	Spooky VHS Tape	Mr. Store 2002 Credit
-1380	mrstore2002	COIN	Letter from Carrie Bradshaw	Mr. Store 2002 Credit
-1381	mrstore2002	COIN	pro skateboard	Mr. Store 2002 Credit
-1382	mrstore2002	COIN	Mr. Accessaturday	Mr. Store 2002 Credit
-1383	mrstore2002	COIN	Meat Butler	Mr. Store 2002 Credit
-1384	mrstore2002	COIN	Loathing Idol Microphone	Mr. Store 2002 Credit
-1385	mrstore2002	COIN	Charter: Nellyville	Mr. Store 2002 Credit
-1386	mrstore2002	COIN	Manual of Secret Door Detection	Mr. Store 2002 Credit
-1387	mrstore2002	COIN	Flash Liquidizer Ultra Dousing Accessory	Mr. Store 2002 Credit
-1388	mrstore2002	COIN	Amulet of Perpetual Darkness	Mr. Store 2002 Credit
-1389	mrstore2002	COIN	Giant black monolith	Mr. Store 2002 Credit
-1390	mrstore2002	COIN	Crimbo cookie sheet	Mr. Store 2002 Credit
-1391	mrreplica	COIN	Replica 2002 Mr. Store Catalog	replica Mr. Accessory
-1392	mrreplica	COIN	replica sleeping patriotic eagle	replica Mr. Accessory
-1393	fixodent	CONC	cat o' nine teeth	fixodent	loose teeth (9)
-1394	fixodent	CONC	toothy trousers	fixodent	loose teeth (6)
-1395	fixodent	CONC	tooth cap	fixodent	loose teeth (3)
-1396	mrreplica	COIN	replica august scepter	replica Mr. Accessory
-1397	conmerch	COIN	crated wardrobe-o-matic	Mr. Accessory (2)
+1328	mrreplica	replica jewel-eyed wizard hat	replica Mr. Accessory
+1329	mrreplica	replica bottle-rocket crossbow	replica Mr. Accessory
+1330	mrreplica	replica navel ring of navel gazing	replica Mr. Accessory
+1331	mrreplica	replica V for Vivala mask	replica Mr. Accessory
+1332	mrreplica	replica little box of fireworks	replica Mr. Accessory
+1333	mrreplica	replica Libram of Resolutions	replica Mr. Accessory
+1334	mrreplica	replica cotton candy cocoon	replica Mr. Accessory
+1335	mrreplica	replica Elvish sunglasses	replica Mr. Accessory
+1336	mrreplica	replica Greatest American Pants	replica Mr. Accessory
+1337	mrreplica	replica organ grinder	replica Mr. Accessory
+1338	mrreplica	replica Juju Mojo Mask	replica Mr. Accessory
+1339	mrreplica	replica cute angel	replica Mr. Accessory
+1340	mrreplica	replica Camp Scout backpack	replica Mr. Accessory
+1341	mrreplica	replica deactivated nanobots	replica Mr. Accessory
+1342	mrreplica	replica haiku katana	replica Mr. Accessory
+1343	mrreplica	replica Apathargic Bandersnatch	replica Mr. Accessory
+1344	mrreplica	replica squamous polyp	replica Mr. Accessory
+1345	mrreplica	replica Operation Patriot Shield	replica Mr. Accessory
+1346	mrreplica	replica plastic vampire fangs	replica Mr. Accessory
+1347	mrreplica	replica Smith's Tome	replica Mr. Accessory
+1348	mrreplica	replica over-the-shoulder Folder Holder	replica Mr. Accessory
+1349	mrreplica	replica Order of the Green Thumb Order Form	replica Mr. Accessory
+1350	mrreplica	replica Little Geneticist DNA-Splicing Lab	replica Mr. Accessory
+1351	mrreplica	replica still grill	replica Mr. Accessory
+1352	mrreplica	replica Crimbo sapling	replica Mr. Accessory
+1353	mrreplica	replica yellow puck	replica Mr. Accessory
+1354	mrreplica	replica Chateau Mantegna room key	replica Mr. Accessory
+1355	mrreplica	replica Deck of Every Card	replica Mr. Accessory
+1356	mrreplica	replica Source terminal	replica Mr. Accessory
+1357	mrreplica	replica disconnected intergnat	replica Mr. Accessory
+1358	mrreplica	replica Witchess Set	replica Mr. Accessory
+1359	mrreplica	replica genie bottle	replica Mr. Accessory
+1360	mrreplica	replica space planula	replica Mr. Accessory
+1361	mrreplica	replica unpowered Robortender	replica Mr. Accessory
+1362	mrreplica	replica Neverending Party invitation envelope	replica Mr. Accessory
+1363	mrreplica	replica January's Garbage Tote	replica Mr. Accessory
+1364	mrreplica	replica God Lobster Egg	replica Mr. Accessory
+1365	mrreplica	replica Kramco Sausage-o-Matic&trade;	replica Mr. Accessory
+1366	mrreplica	replica Fourth of May Cosplay Saber	replica Mr. Accessory
+1367	mrreplica	replica hewn moon-rune spoon	replica Mr. Accessory
+1368	mrreplica	replica baby camelCalf	replica Mr. Accessory
+1369	mrreplica	replica Powerful Glove	replica Mr. Accessory
+1370	mrreplica	replica Cargo Cultist Shorts	replica Mr. Accessory
+1371	mrreplica	replica emotion chip	replica Mr. Accessory
+1372	mrreplica	replica miniature crystal ball	replica Mr. Accessory
+1373	mrreplica	replica industrial fire extinguisher	replica Mr. Accessory
+1374	mrreplica	replica Jurassic Parka	replica Mr. Accessory
+1375	mrreplica	replica grey gosling	replica Mr. Accessory
+1376	mrreplica	replica designer sweatpants	replica Mr. Accessory
+1377	mrreplica	replica Cincho de Mayo	replica Mr. Accessory
+1378	mrstore2002	&quot;I survived Y2K&quot; T-Shirt	Mr. Store 2002 Credit
+1379	mrstore2002	Spooky VHS Tape	Mr. Store 2002 Credit
+1380	mrstore2002	Letter from Carrie Bradshaw	Mr. Store 2002 Credit
+1381	mrstore2002	pro skateboard	Mr. Store 2002 Credit
+1382	mrstore2002	Mr. Accessaturday	Mr. Store 2002 Credit
+1383	mrstore2002	Meat Butler	Mr. Store 2002 Credit
+1384	mrstore2002	Loathing Idol Microphone	Mr. Store 2002 Credit
+1385	mrstore2002	Charter: Nellyville	Mr. Store 2002 Credit
+1386	mrstore2002	Manual of Secret Door Detection	Mr. Store 2002 Credit
+1387	mrstore2002	Flash Liquidizer Ultra Dousing Accessory	Mr. Store 2002 Credit
+1388	mrstore2002	Amulet of Perpetual Darkness	Mr. Store 2002 Credit
+1389	mrstore2002	Giant black monolith	Mr. Store 2002 Credit
+1390	mrstore2002	Crimbo cookie sheet	Mr. Store 2002 Credit
+1391	mrreplica	Replica 2002 Mr. Store Catalog	replica Mr. Accessory
+1392	mrreplica	replica sleeping patriotic eagle	replica Mr. Accessory
+1393	fixodent	cat o' nine teeth	fixodent	loose teeth (9)
+1394	fixodent	toothy trousers	fixodent	loose teeth (6)
+1395	fixodent	tooth cap	fixodent	loose teeth (3)
+1396	mrreplica	replica august scepter	replica Mr. Accessory
+1397	conmerch	crated wardrobe-o-matic	Mr. Accessory (2)
 1398
-1399	crimbo23_elf_cafe	COIN	sugarplum ration	Elf Guard MPC (5)
-1400	crimbo23_elf_cafe	COIN	gingerbread nylons	Elf Guard MPC (20)
-1401	crimbo23_elf_cafe	COIN	rum-soaked fruitcake	Elf Guard MPC (10)
-1402	crimbo23_pirate_cafe	COIN	candied lime	Crimbuccaneer piece of 12 (5)
-1403	crimbo23_pirate_cafe	COIN	gingerbread pirate	Crimbuccaneer piece of 12 (20)
-1404	crimbo23_pirate_cafe	COIN	fruit-stuffed rumcake	Crimbuccaneer piece of 12 (10)
-1405	crimbo23_elf_bar	COIN	mulled wine	Elf Guard MPC (5)
-1406	crimbo23_elf_bar	COIN	Swedish coffee	Elf Guard MPC (20)
-1407	crimbo23_elf_bar	COIN	canteen of eggnog	Elf Guard MPC (10)
-1408	crimbo23_pirate_bar	COIN	hot wine	Crimbuccaneer piece of 12 (5)
-1409	crimbo23_pirate_bar	COIN	Jamaican coffee	Crimbuccaneer piece of 12 (20)
-1410	crimbo23_pirate_bar	COIN	flask of egggrog	Crimbuccaneer piece of 12 (10)
-1411	crimbo23_elf_armory	COIN	Elf Guard honor present	Elf Army machine parts (200)
-1412	crimbo23_elf_armory	COIN	Elf Army machine parts (3)	Elf Guard commandeering gloves
-1413	crimbo23_elf_armory	COIN	Elf Army machine parts (3)	Elf Guard officer's sidearm
+1399	crimbo23_elf_cafe	sugarplum ration	Elf Guard MPC (5)
+1400	crimbo23_elf_cafe	gingerbread nylons	Elf Guard MPC (20)
+1401	crimbo23_elf_cafe	rum-soaked fruitcake	Elf Guard MPC (10)
+1402	crimbo23_pirate_cafe	candied lime	Crimbuccaneer piece of 12 (5)
+1403	crimbo23_pirate_cafe	gingerbread pirate	Crimbuccaneer piece of 12 (20)
+1404	crimbo23_pirate_cafe	fruit-stuffed rumcake	Crimbuccaneer piece of 12 (10)
+1405	crimbo23_elf_bar	mulled wine	Elf Guard MPC (5)
+1406	crimbo23_elf_bar	Swedish coffee	Elf Guard MPC (20)
+1407	crimbo23_elf_bar	canteen of eggnog	Elf Guard MPC (10)
+1408	crimbo23_pirate_bar	hot wine	Crimbuccaneer piece of 12 (5)
+1409	crimbo23_pirate_bar	Jamaican coffee	Crimbuccaneer piece of 12 (20)
+1410	crimbo23_pirate_bar	flask of egggrog	Crimbuccaneer piece of 12 (10)
+1411	crimbo23_elf_armory	Elf Guard honor present	Elf Army machine parts (200)
+1412	crimbo23_elf_armory	Elf Army machine parts (3)	Elf Guard commandeering gloves
+1413	crimbo23_elf_armory	Elf Army machine parts (3)	Elf Guard officer's sidearm
 1414
-1415	crimbo23_elf_armory	COIN	Elf Army machine parts (3)	Kelflar vest
-1416	crimbo23_elf_armory	COIN	Elf Army machine parts (3)	Elf Guard mouthknife
-1417	crimbo23_pirate_armory	COIN	Crimbuccaneer premium booty sack	Crimbuccaneer flotsam (200)
-1418	crimbo23_pirate_armory	COIN	Crimbuccaneer flotsam (3)	Crimbuccaneer shirt
+1415	crimbo23_elf_armory	Elf Army machine parts (3)	Kelflar vest
+1416	crimbo23_elf_armory	Elf Army machine parts (3)	Elf Guard mouthknife
+1417	crimbo23_pirate_armory	Crimbuccaneer premium booty sack	Crimbuccaneer flotsam (200)
+1418	crimbo23_pirate_armory	Crimbuccaneer flotsam (3)	Crimbuccaneer shirt
 1419
-1420	crimbo23_pirate_armory	COIN	Crimbuccaneer flotsam (3)	sawed-off blunderbuss
-1421	crimbo23_pirate_armory	COIN	Crimbuccaneer flotsam (3)	shipwright's hammer
-1422	crimbo23_pirate_armory	COIN	Crimbuccaneer flotsam (3)	pegfinger
+1420	crimbo23_pirate_armory	Crimbuccaneer flotsam (3)	sawed-off blunderbuss
+1421	crimbo23_pirate_armory	Crimbuccaneer flotsam (3)	shipwright's hammer
+1422	crimbo23_pirate_armory	Crimbuccaneer flotsam (3)	pegfinger
 1423
-1424	crimbo23_elf_factory	COIN	trick coin	Elf Guard MPC (10)
-1425	crimbo23_elf_factory	COIN	Elf Guard squirtgun	Elf Guard MPC (20)
-1426	crimbo23_elf_factory	COIN	chest of &quot;pirate gold&quot;	Elf Guard MPC (40)
-1427	crimbo23_elf_factory	COIN	sequin-encrusted sweater	Elf Guard MPC (80)
-1428	crimbo23_elf_factory	COIN	replica Elf Guard medal	Elf Guard MPC (150)
-1429	crimbo23_elf_factory	COIN	Lil' Snowball Factory	Elf Guard MPC (400)
-1430	crimbo23_elf_factory	COIN	Elf Guard temporary (permanent) tattoo	Elf Guard MPC (2,000)
-1431	crimbo23_pirate_factory	COIN	prank Crimbo card	Crimbuccaneer piece of 12 (10)
-1432	crimbo23_pirate_factory	COIN	Crimbuccaneer squirtblunderbuss	Crimbuccaneer piece of 12 (20)
-1433	crimbo23_pirate_factory	COIN	My First Paycheck envelope	Crimbuccaneer piece of 12 (40)
-1434	crimbo23_pirate_factory	COIN	barnacle-encrusted sweater	Crimbuccaneer piece of 12 (80)
-1435	crimbo23_pirate_factory	COIN	Crimbuccaneer nose ring	Crimbuccaneer piece of 12 (150)
-1436	crimbo23_pirate_factory	COIN	pet anchor	Crimbuccaneer piece of 12 (400)
-1437	crimbo23_pirate_factory	COIN	Crimbuccaneer tattoo gift certificate	Crimbuccaneer piece of 12 (2,000)
+1424	crimbo23_elf_factory	trick coin	Elf Guard MPC (10)
+1425	crimbo23_elf_factory	Elf Guard squirtgun	Elf Guard MPC (20)
+1426	crimbo23_elf_factory	chest of &quot;pirate gold&quot;	Elf Guard MPC (40)
+1427	crimbo23_elf_factory	sequin-encrusted sweater	Elf Guard MPC (80)
+1428	crimbo23_elf_factory	replica Elf Guard medal	Elf Guard MPC (150)
+1429	crimbo23_elf_factory	Lil' Snowball Factory	Elf Guard MPC (400)
+1430	crimbo23_elf_factory	Elf Guard temporary (permanent) tattoo	Elf Guard MPC (2,000)
+1431	crimbo23_pirate_factory	prank Crimbo card	Crimbuccaneer piece of 12 (10)
+1432	crimbo23_pirate_factory	Crimbuccaneer squirtblunderbuss	Crimbuccaneer piece of 12 (20)
+1433	crimbo23_pirate_factory	My First Paycheck envelope	Crimbuccaneer piece of 12 (40)
+1434	crimbo23_pirate_factory	barnacle-encrusted sweater	Crimbuccaneer piece of 12 (80)
+1435	crimbo23_pirate_factory	Crimbuccaneer nose ring	Crimbuccaneer piece of 12 (150)
+1436	crimbo23_pirate_factory	pet anchor	Crimbuccaneer piece of 12 (400)
+1437	crimbo23_pirate_factory	Crimbuccaneer tattoo gift certificate	Crimbuccaneer piece of 12 (2,000)
 1438
 1439
-1440	crimbo23_elf_factory	COIN	Elf Guard safety bear	Elf Guard MPC (1,000)
-1441	crimbo23_pirate_factory	COIN	stuffed kraken	Crimbuccaneer piece of 12 (1,000)
-1442	armory	COINNPC	chiffon chamberpot	moss mulch
-1443	armory	COINNPC	chiffon chemise	moss mulch
-1444	armory	COINNPC	chiffon chakram	moss mulch
-1445	armory	COINNPC	chiffon chaps	moss mulch
-1446	armory	COINNPC	loofah lumberjack's hat	chiffon carbage
-1447	armory	COINNPC	loofah lei	chiffon carbage
-1448	armory	COINNPC	ceramic cestus	adobe assortment
-1449	armory	COINNPC	ceramic centurion shield	adobe assortment
-1450	armory	COINNPC	ceramic celery grater	adobe assortment
-1451	armory	COINNPC	ceramic celsiturometer	adobe assortment
-1452	armory	COINNPC	ceramic cerecloth belt	adobe assortment
-1453	armory	COINNPC	ceramic cenobite's robe	adobe assortment
-1454	armory	COINNPC	moss mace	crepe paper pared cuttings
-1455	armory	COINNPC	moss megaphone	crepe paper pared cuttings
-1456	armory	COINNPC	moss medal	crepe paper pared cuttings
-1457	armory	COINNPC	moss mitre	crepe paper pared cuttings
-1458	armory	COINNPC	moss mantle	crepe paper pared cuttings
-1459	armory	COINNPC	moss marlinspike	crepe paper pared cuttings
-1460	armory	COINNPC	adobe arsecover	petrified wood waste parts
-1461	armory	COINNPC	adobe adze	petrified wood waste parts
-1462	armory	COINNPC	adobe abacus	petrified wood waste parts
-1463	armory	COINNPC	adobe ayam	petrified wood waste parts
-1464	armory	COINNPC	adobe ascot	petrified wood waste parts
-1465	armory	COINNPC	adobe abaya	petrified wood waste parts
+1440	crimbo23_elf_factory	Elf Guard safety bear	Elf Guard MPC (1,000)
+1441	crimbo23_pirate_factory	stuffed kraken	Crimbuccaneer piece of 12 (1,000)
+1442	armory	chiffon chamberpot	moss mulch
+1443	armory	chiffon chemise	moss mulch
+1444	armory	chiffon chakram	moss mulch
+1445	armory	chiffon chaps	moss mulch
+1446	armory	loofah lumberjack's hat	chiffon carbage
+1447	armory	loofah lei	chiffon carbage
+1448	armory	ceramic cestus	adobe assortment
+1449	armory	ceramic centurion shield	adobe assortment
+1450	armory	ceramic celery grater	adobe assortment
+1451	armory	ceramic celsiturometer	adobe assortment
+1452	armory	ceramic cerecloth belt	adobe assortment
+1453	armory	ceramic cenobite's robe	adobe assortment
+1454	armory	moss mace	crepe paper pared cuttings
+1455	armory	moss megaphone	crepe paper pared cuttings
+1456	armory	moss medal	crepe paper pared cuttings
+1457	armory	moss mitre	crepe paper pared cuttings
+1458	armory	moss mantle	crepe paper pared cuttings
+1459	armory	moss marlinspike	crepe paper pared cuttings
+1460	armory	adobe arsecover	petrified wood waste parts
+1461	armory	adobe adze	petrified wood waste parts
+1462	armory	adobe abacus	petrified wood waste parts
+1463	armory	adobe ayam	petrified wood waste parts
+1464	armory	adobe ascot	petrified wood waste parts
+1465	armory	adobe abaya	petrified wood waste parts
 1466
-1467	wereprofessor_tinker	CONC	biphasic molecular oculus	smashed scientific equipment
-1468	wereprofessor_tinker	CONC	triphasic molecular oculus	biphasic molecular oculus	smashed scientific equipment
-1469	wereprofessor_tinker	CONC	high-tension exoskeleton	smashed scientific equipment
-1470	wereprofessor_tinker	CONC	ultra-high-tension exoskeleton	high-tension exoskeleton	smashed scientific equipment
-1471	wereprofessor_tinker	CONC	irresponsible-tension exoskeleton	ultra-high-tension exoskeleton	smashed scientific equipment
-1472	wereprofessor_tinker	CONC	quick-release belt pouch	smashed scientific equipment
-1473	wereprofessor_tinker	CONC	quick-release fannypack	quick-release belt pouch	smashed scientific equipment
-1474	wereprofessor_tinker	CONC	quick-release utility belt	quick-release fannypack	smashed scientific equipment
-1475	wereprofessor_tinker	CONC	motion sensor	smashed scientific equipment
-1476	wereprofessor_tinker	CONC	focused magnetron pistol	smashed scientific equipment
-1477	kiwi	COIN	mini kiwi bikini	mini kiwi (2)
-1478	kiwi	COIN	mini kiwitini	mini kiwi	bottle of vodka
-1479	kiwi	COIN	mini kiwitini	mini kiwi	bottle of gin
-1480	kiwi	COIN	mini kiwi invisible dirigible	mini kiwi (3)
-1481	kiwi	COIN	mini kiwi aioli	mini kiwi (5)
-1482	kiwi	COIN	mini kiwi silicon tiepin	mini kiwi (3)
-1483	kiwi	COIN	mini kiwi tipi	mini kiwi
-1484	kiwi	COIN	mini kiwi intoxicating spirits	mini kiwi (3)
-1485	kiwi	COIN	mini kiwi illicit antibiotic	mini kiwi (3)
-1486	kiwi	COIN	mini kiwi antimilitaristic hippy petition	mini kiwi (3)
-1487	kiwi	COIN	mini kiwi whipping stick	mini kiwi (4)
-1488	kiwi	COIN	mini kiwi icepick	mini kiwi (4)
-1489	kiwi	COIN	mini kiwi-flavored aspirin-injecting lipstick	mini kiwi (3)
-1490	kiwi	COIN	mini kiwi digitized cookies	mini kiwi (3)
-1491	twitchsoup	COIN	bacteria bisque	Chroner (10)
-1492	twitchsoup	COIN	ciliophora chowder	Chroner (10)
-1493	twitchsoup	COIN	cream of chloroplasts	Chroner (10)
-1494	twitchsoup	COIN	lip soup	cream of chloroplasts	protogenetic chunklet (lips)
-1495	twitchsoup	COIN	lip soup	ciliophora chowder	protogenetic chunklet (lips)
-1496	twitchsoup	COIN	lip soup	bacteria bisque	protogenetic chunklet (lips)
-1497	twitchsoup	COIN	elbow soup	cream of chloroplasts	protogenetic chunklet (elbow)
-1498	twitchsoup	COIN	elbow soup	ciliophora chowder	protogenetic chunklet (elbow)
-1499	twitchsoup	COIN	elbow soup	bacteria bisque	protogenetic chunklet (elbow)
-1500	twitchsoup	COIN	flagellate soup	ciliophora chowder	protogenetic chunklet (flagellum)
-1501	twitchsoup	COIN	flagellate soup	cream of chloroplasts	protogenetic chunklet (flagellum)
-1502	twitchsoup	COIN	flagellate soup	bacteria bisque	protogenetic chunklet (flagellum)
-1503	twitchsoup	COIN	muscular soup	cream of chloroplasts	protogenetic chunklet (muscle)
-1504	twitchsoup	COIN	muscular soup	ciliophora chowder	protogenetic chunklet (muscle)
-1505	twitchsoup	COIN	muscular soup	bacteria bisque	protogenetic chunklet (muscle)
-1506	twitchsoup	COIN	synaptic soup	cream of chloroplasts	protogenetic chunklet (synapse)
-1507	twitchsoup	COIN	synaptic soup	ciliophora chowder	protogenetic chunklet (synapse)
-1508	twitchsoup	COIN	synaptic soup	bacteria bisque	protogenetic chunklet (synapse)
-1509	conmerch	COIN	unevolved organism	Mr. Accessory
-1510	september	COIN	blade of dismemberment	Ember
-1511	september	COIN	miniature Embering Hulk	Ember (6)
-1512	september	COIN	Mmm-brr! brand mouthwash	Ember (2)
-1513	september	COIN	Septapus summoning charm	Ember (2)
-1514	september	COIN	structural ember	Ember (4)
-1515	september	COIN	embers-only jacket	Ember
-1516	september	COIN	bembershoot	Ember
-1517	september	COIN	wheel of camembert	Ember
-1518	september	COIN	hat of remembering	Ember
-1519	september	COIN	throwin' ember	Ember (2)
-1520	september	COIN	head of emberg lettuce	Ember (2)
-1521	crimbo24_bar	COIN	Easter grasshopper	Spirit of Easter (15)
-1522	crimbo24_bar	COIN	Irish eggnog	Spirit of St. Patrick's Day (15)
-1523	crimbo24_bar	COIN	canteen of jungle juice	Spirit of Veteran's Day (15)
-1524	crimbo24_bar	COIN	turchucken	Spirit of Thanksgiving (15)
-1525	crimbo24_bar	COIN	mechanically-mulled cider	Spirit of Christmas (15)
-1526	crimbo24_bar	COIN	holiday trip around the world	Spirit of Easter (15)	Spirit of St. Patrick's Day (15)	Spirit of Veteran's Day (15)	Spirit of Thanksgiving (15)	Spirit of Christmas (15)
-1527	crimbo24_cafe	COIN	chocolate ostrich egg	Spirit of Easter (15)
-1528	crimbo24_cafe	COIN	candied beef and cabbage	Spirit of St. Patrick's Day (15)
-1529	crimbo24_cafe	COIN	candy rations	Spirit of Veteran's Day (15)
-1530	crimbo24_cafe	COIN	double-candied yams	Spirit of Thanksgiving (15)
-1531	crimbo24_cafe	COIN	Christmas ham	Spirit of Christmas (15)
-1532	crimbo24_cafe	COIN	holiday smorgasbord	Spirit of Easter (15)	Spirit of St. Patrick's Day (15)	Spirit of Veteran's Day (15)	Spirit of Thanksgiving (15)	Spirit of Christmas (15)
-1533	crimbo24_factory	COIN	Secrets of the Master Egg Hunters	Spirit of Easter (500)
-1534	crimbo24_factory	COIN	How to Lose Friends and Attract Snakes	Spirit of St. Patrick's Day (500)
-1535	crimbo24_factory	COIN	Covert Ops for Kids	Spirit of Veteran's Day (500)
-1536	crimbo24_factory	COIN	Holiday Multitasking	Spirit of Thanksgiving (500)
-1537	crimbo24_factory	COIN	egg gun	Spirit of Easter (200)	Spirit of Veteran's Day (200)
-1538	crimbo24_factory	COIN	lucky moai statuette	Spirit of Easter (50)	Spirit of St. Patrick's Day (50)
+1467	wereprofessor_tinker	biphasic molecular oculus	smashed scientific equipment
+1468	wereprofessor_tinker	triphasic molecular oculus	biphasic molecular oculus	smashed scientific equipment
+1469	wereprofessor_tinker	high-tension exoskeleton	smashed scientific equipment
+1470	wereprofessor_tinker	ultra-high-tension exoskeleton	high-tension exoskeleton	smashed scientific equipment
+1471	wereprofessor_tinker	irresponsible-tension exoskeleton	ultra-high-tension exoskeleton	smashed scientific equipment
+1472	wereprofessor_tinker	quick-release belt pouch	smashed scientific equipment
+1473	wereprofessor_tinker	quick-release fannypack	quick-release belt pouch	smashed scientific equipment
+1474	wereprofessor_tinker	quick-release utility belt	quick-release fannypack	smashed scientific equipment
+1475	wereprofessor_tinker	motion sensor	smashed scientific equipment
+1476	wereprofessor_tinker	focused magnetron pistol	smashed scientific equipment
+1477	kiwi	mini kiwi bikini	mini kiwi (2)
+1478	kiwi	mini kiwitini	mini kiwi	bottle of vodka
+1479	kiwi	mini kiwitini	mini kiwi	bottle of gin
+1480	kiwi	mini kiwi invisible dirigible	mini kiwi (3)
+1481	kiwi	mini kiwi aioli	mini kiwi (5)
+1482	kiwi	mini kiwi silicon tiepin	mini kiwi (3)
+1483	kiwi	mini kiwi tipi	mini kiwi
+1484	kiwi	mini kiwi intoxicating spirits	mini kiwi (3)
+1485	kiwi	mini kiwi illicit antibiotic	mini kiwi (3)
+1486	kiwi	mini kiwi antimilitaristic hippy petition	mini kiwi (3)
+1487	kiwi	mini kiwi whipping stick	mini kiwi (4)
+1488	kiwi	mini kiwi icepick	mini kiwi (4)
+1489	kiwi	mini kiwi-flavored aspirin-injecting lipstick	mini kiwi (3)
+1490	kiwi	mini kiwi digitized cookies	mini kiwi (3)
+1491	twitchsoup	bacteria bisque	Chroner (10)
+1492	twitchsoup	ciliophora chowder	Chroner (10)
+1493	twitchsoup	cream of chloroplasts	Chroner (10)
+1494	twitchsoup	lip soup	cream of chloroplasts	protogenetic chunklet (lips)
+1495	twitchsoup	lip soup	ciliophora chowder	protogenetic chunklet (lips)
+1496	twitchsoup	lip soup	bacteria bisque	protogenetic chunklet (lips)
+1497	twitchsoup	elbow soup	cream of chloroplasts	protogenetic chunklet (elbow)
+1498	twitchsoup	elbow soup	ciliophora chowder	protogenetic chunklet (elbow)
+1499	twitchsoup	elbow soup	bacteria bisque	protogenetic chunklet (elbow)
+1500	twitchsoup	flagellate soup	ciliophora chowder	protogenetic chunklet (flagellum)
+1501	twitchsoup	flagellate soup	cream of chloroplasts	protogenetic chunklet (flagellum)
+1502	twitchsoup	flagellate soup	bacteria bisque	protogenetic chunklet (flagellum)
+1503	twitchsoup	muscular soup	cream of chloroplasts	protogenetic chunklet (muscle)
+1504	twitchsoup	muscular soup	ciliophora chowder	protogenetic chunklet (muscle)
+1505	twitchsoup	muscular soup	bacteria bisque	protogenetic chunklet (muscle)
+1506	twitchsoup	synaptic soup	cream of chloroplasts	protogenetic chunklet (synapse)
+1507	twitchsoup	synaptic soup	ciliophora chowder	protogenetic chunklet (synapse)
+1508	twitchsoup	synaptic soup	bacteria bisque	protogenetic chunklet (synapse)
+1509	conmerch	unevolved organism	Mr. Accessory
+1510	september	blade of dismemberment	Ember
+1511	september	miniature Embering Hulk	Ember (6)
+1512	september	Mmm-brr! brand mouthwash	Ember (2)
+1513	september	Septapus summoning charm	Ember (2)
+1514	september	structural ember	Ember (4)
+1515	september	embers-only jacket	Ember
+1516	september	bembershoot	Ember
+1517	september	wheel of camembert	Ember
+1518	september	hat of remembering	Ember
+1519	september	throwin' ember	Ember (2)
+1520	september	head of emberg lettuce	Ember (2)
+1521	crimbo24_bar	Easter grasshopper	Spirit of Easter (15)
+1522	crimbo24_bar	Irish eggnog	Spirit of St. Patrick's Day (15)
+1523	crimbo24_bar	canteen of jungle juice	Spirit of Veteran's Day (15)
+1524	crimbo24_bar	turchucken	Spirit of Thanksgiving (15)
+1525	crimbo24_bar	mechanically-mulled cider	Spirit of Christmas (15)
+1526	crimbo24_bar	holiday trip around the world	Spirit of Easter (15)	Spirit of St. Patrick's Day (15)	Spirit of Veteran's Day (15)	Spirit of Thanksgiving (15)	Spirit of Christmas (15)
+1527	crimbo24_cafe	chocolate ostrich egg	Spirit of Easter (15)
+1528	crimbo24_cafe	candied beef and cabbage	Spirit of St. Patrick's Day (15)
+1529	crimbo24_cafe	candy rations	Spirit of Veteran's Day (15)
+1530	crimbo24_cafe	double-candied yams	Spirit of Thanksgiving (15)
+1531	crimbo24_cafe	Christmas ham	Spirit of Christmas (15)
+1532	crimbo24_cafe	holiday smorgasbord	Spirit of Easter (15)	Spirit of St. Patrick's Day (15)	Spirit of Veteran's Day (15)	Spirit of Thanksgiving (15)	Spirit of Christmas (15)
+1533	crimbo24_factory	Secrets of the Master Egg Hunters	Spirit of Easter (500)
+1534	crimbo24_factory	How to Lose Friends and Attract Snakes	Spirit of St. Patrick's Day (500)
+1535	crimbo24_factory	Covert Ops for Kids	Spirit of Veteran's Day (500)
+1536	crimbo24_factory	Holiday Multitasking	Spirit of Thanksgiving (500)
+1537	crimbo24_factory	egg gun	Spirit of Easter (200)	Spirit of Veteran's Day (200)
+1538	crimbo24_factory	lucky moai statuette	Spirit of Easter (50)	Spirit of St. Patrick's Day (50)
 1539
-1540	crimbo24_factory	COIN	lucky army helmet	Spirit of St. Patrick's Day (350)	Spirit of Veteran's Day (75)
-1541	crimbo24_factory	COIN	candy egg deviler	Spirit of Easter (200)	Spirit of Thanksgiving (125)
-1542	crimbo24_factory	COIN	lucky napkin	Spirit of St. Patrick's Day (50)	Spirit of Thanksgiving (25)
-1543	crimbo24_factory	COIN	Thanksgiving ration	Spirit of Veteran's Day (25)	Spirit of Thanksgiving (50)
-1544	crimbo24_factory	COIN	Easter eggnog	Spirit of Easter (50)	Spirit of Christmas (25)
-1545	crimbo24_factory	COIN	clovermint	Spirit of St. Patrick's Day (50)	Spirit of Christmas (25)
-1546	crimbo24_factory	COIN	nylon Christmas stockings	Spirit of Veteran's Day (200)	Spirit of Christmas (150)
-1547	crimbo24_factory	COIN	tattoo of two turkeys	Spirit of Thanksgiving (300)	Spirit of Christmas (300)
-1548	crimbo24_factory	COIN	Hoyle's Guide to Reindeer Games	Spirit of Christmas (500)
-1549	cyber_hackmarket	NPC	Synapse Blaster	500 Meat
-1550	cyber_dedigitizer	COIN	brute force hammer	1 (32)	0 (8)	dedigitizer schematic: brute force hammer
+1540	crimbo24_factory	lucky army helmet	Spirit of St. Patrick's Day (350)	Spirit of Veteran's Day (75)
+1541	crimbo24_factory	candy egg deviler	Spirit of Easter (200)	Spirit of Thanksgiving (125)
+1542	crimbo24_factory	lucky napkin	Spirit of St. Patrick's Day (50)	Spirit of Thanksgiving (25)
+1543	crimbo24_factory	Thanksgiving ration	Spirit of Veteran's Day (25)	Spirit of Thanksgiving (50)
+1544	crimbo24_factory	Easter eggnog	Spirit of Easter (50)	Spirit of Christmas (25)
+1545	crimbo24_factory	clovermint	Spirit of St. Patrick's Day (50)	Spirit of Christmas (25)
+1546	crimbo24_factory	nylon Christmas stockings	Spirit of Veteran's Day (200)	Spirit of Christmas (150)
+1547	crimbo24_factory	tattoo of two turkeys	Spirit of Thanksgiving (300)	Spirit of Christmas (300)
+1548	crimbo24_factory	Hoyle's Guide to Reindeer Games	Spirit of Christmas (500)
+1549	cyber_hackmarket	Synapse Blaster	500 Meat
+1550	cyber_dedigitizer	brute force hammer	1 (32)	0 (8)	dedigitizer schematic: brute force hammer
 1551
-1552	cyber_dedigitizer	COIN	cybervisor	1 (64)	0 (32)	dedigitizer schematic: cybervisor
-1553	cyber_dedigitizer	COIN	retro floppy disk	1 (128)	0 (64)	dedigitizer schematic: retro floppy disk
-1554	cyber_dedigitizer	COIN	pocket GPU	1 (32)	0 (16)	dedigitizer schematic: pocket GPU
-1555	cyber_dedigitizer	COIN	malware injector	1 (64)	0 (32)	dedigitizer schematic: malware injector
-1556	cyber_hackmarket	NPC	eXpand	500 Meat
-1557	cyber_hackmarket	NPC	drenchrome 2.0	500 Meat
-1558	cyber_dedigitizer	COIN	visual packet sniffer	1 (16)
-1559	cyber_dedigitizer	COIN	encrypted shuriken	1 (16)
-1560	cyber_dedigitizer	COIN	wired underwear	1 (8)
-1561	cyber_dedigitizer	COIN	digibritches	1 (32)	0 (16)	dedigitizer schematic: digibritches
-1562	cyber_dedigitizer	COIN	cryptocloak	1 (64)	0 (32)	dedigitizer schematic: cryptocloak
-1563	cyber_dedigitizer	COIN	zero-trust tanktop	1 (32)	0 (32)	dedigitizer schematic: zero-trust tanktop
-1564	cyber_dedigitizer	COIN	trojan horseshoe	1 (128)	0 (32)	dedigitizer schematic: trojan horseshoe
-1565	cyber_dedigitizer	COIN	familiar-in-the-middle wrapper	1 (64)	0 (16)	dedigitizer schematic: familiar-in-the-middle
-1566	cyber_dedigitizer	COIN	cyburger	1 (32)	dedigitizer schematic: cyburger
-1567	cyber_dedigitizer	COIN	cybeer	1 (32)	dedigitizer schematic: cybeer
-1568	cyber_dedigitizer	COIN	psilocyber mushroom	1 (32)	dedigitizer schematic: psilocyber mushroom
-1569	cyber_dedigitizer	COIN	SLEEP(5) rom chip	1 (256)	0 (64)	dedigitizer schematic: SLEEP(5) rom chip
-1570	cyber_dedigitizer	COIN	OVERCLOCK(10) rom chip	1 (256)	0 (64)	dedigitizer schematic: OVERCLOCK(10) rom chip
-1571	cyber_dedigitizer	COIN	STATS+++ rom chip	1 (256)	0 (64)	dedigitizer schematic: STATS+++ rom chip
-1572	cyber_dedigitizer	COIN	insignificant bit	1 (256)	dedigitizer schematic: insignificant bit
-1573	cyber_dedigitizer	COIN	hashing vise	1 (256)	dedigitizer schematic: hashing vise
-1574	cyber_dedigitizer	COIN	geofencing rapier	1 (256)	dedigitizer schematic: geofencing rapier
-1575	cyber_dedigitizer	COIN	geofencing shield	1 (256)	dedigitizer schematic: geofencing shield
-1576	cyber_dedigitizer	COIN	virtual cybertattoo	1 (512)	0 (128)	dedigitizer schematic: virtual cybertattoo
-1577	cyber_dedigitizer	COIN	synthetic coffee	1 (8)	0 (8)
-1578	cyber_dedigitizer	COIN	iDrops	1 (16)	0 (16)
-1579	cyber_dedigitizer	COIN	3d printed server room key	1 (128)	0 (32)	dedigitizer schematic: 3d printed server room key
+1552	cyber_dedigitizer	cybervisor	1 (64)	0 (32)	dedigitizer schematic: cybervisor
+1553	cyber_dedigitizer	retro floppy disk	1 (128)	0 (64)	dedigitizer schematic: retro floppy disk
+1554	cyber_dedigitizer	pocket GPU	1 (32)	0 (16)	dedigitizer schematic: pocket GPU
+1555	cyber_dedigitizer	malware injector	1 (64)	0 (32)	dedigitizer schematic: malware injector
+1556	cyber_hackmarket	eXpand	500 Meat
+1557	cyber_hackmarket	drenchrome 2.0	500 Meat
+1558	cyber_dedigitizer	visual packet sniffer	1 (16)
+1559	cyber_dedigitizer	encrypted shuriken	1 (16)
+1560	cyber_dedigitizer	wired underwear	1 (8)
+1561	cyber_dedigitizer	digibritches	1 (32)	0 (16)	dedigitizer schematic: digibritches
+1562	cyber_dedigitizer	cryptocloak	1 (64)	0 (32)	dedigitizer schematic: cryptocloak
+1563	cyber_dedigitizer	zero-trust tanktop	1 (32)	0 (32)	dedigitizer schematic: zero-trust tanktop
+1564	cyber_dedigitizer	trojan horseshoe	1 (128)	0 (32)	dedigitizer schematic: trojan horseshoe
+1565	cyber_dedigitizer	familiar-in-the-middle wrapper	1 (64)	0 (16)	dedigitizer schematic: familiar-in-the-middle
+1566	cyber_dedigitizer	cyburger	1 (32)	dedigitizer schematic: cyburger
+1567	cyber_dedigitizer	cybeer	1 (32)	dedigitizer schematic: cybeer
+1568	cyber_dedigitizer	psilocyber mushroom	1 (32)	dedigitizer schematic: psilocyber mushroom
+1569	cyber_dedigitizer	SLEEP(5) rom chip	1 (256)	0 (64)	dedigitizer schematic: SLEEP(5) rom chip
+1570	cyber_dedigitizer	OVERCLOCK(10) rom chip	1 (256)	0 (64)	dedigitizer schematic: OVERCLOCK(10) rom chip
+1571	cyber_dedigitizer	STATS+++ rom chip	1 (256)	0 (64)	dedigitizer schematic: STATS+++ rom chip
+1572	cyber_dedigitizer	insignificant bit	1 (256)	dedigitizer schematic: insignificant bit
+1573	cyber_dedigitizer	hashing vise	1 (256)	dedigitizer schematic: hashing vise
+1574	cyber_dedigitizer	geofencing rapier	1 (256)	dedigitizer schematic: geofencing rapier
+1575	cyber_dedigitizer	geofencing shield	1 (256)	dedigitizer schematic: geofencing shield
+1576	cyber_dedigitizer	virtual cybertattoo	1 (512)	0 (128)	dedigitizer schematic: virtual cybertattoo
+1577	cyber_dedigitizer	synthetic coffee	1 (8)	0 (8)
+1578	cyber_dedigitizer	iDrops	1 (16)	0 (16)
+1579	cyber_dedigitizer	3d printed server room key	1 (128)	0 (32)	dedigitizer schematic: 3d printed server room key
