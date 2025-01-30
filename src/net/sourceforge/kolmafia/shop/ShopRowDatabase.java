@@ -32,7 +32,7 @@ public class ShopRowDatabase {
   // If we eventually need this internally, set to Mode.READ
   // If you want to regenerate the data file, set to Mode.BUILD
   // recompile, log in, and "test write-shoprows"
-  public static Mode mode = Mode.READ;
+  public static Mode mode = Mode.NONE;
 
   public record ShopRowData(int row, String shopId, AdventureResult item, AdventureResult[] costs) {
     public String dataString() {

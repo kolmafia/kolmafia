@@ -29,7 +29,7 @@ crimbo17	Cheer-o-Vend 3000	COIN
 crimbo18	The Crimbo Cafe (2018)	NPC
 crimbo18giftomat	Crimbo Town Gift-O-Mat	NPC
 crimbo19	The Crimbo Cafe (2019)	NPC
-crimbo19toys	The H. M. S. Kringle's Workshop	KRINGLE	CONC
+crimbo19toys	The H. M. S. Kringle's Workshop	CONC	KRINGLE
 crimbo20blackmarket	The Black and White and Red All Over Market	NPC
 crimbo20booze	Elf Booze Drive	COIN
 crimbo20cafe	The Crimbo Cafe (2020)	NPC
