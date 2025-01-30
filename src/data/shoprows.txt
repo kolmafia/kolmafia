@@ -144,18 +144,18 @@
 143	starchart	star stiletto	star chart	star (5)	line (4)
 144	starchart	star boomerang	star chart	star (4)	line (5)
 145	starchart	star spatula	star chart	star (5)	line (5)
-146	dreadsylvania	Tales of Dread	Freddy Kruegerand (250)
-147	dreadsylvania	Dreadsylvanian skeleton key	Freddy Kruegerand (25)
-148	dreadsylvania	Official Seal of Dreadsylvania	Freddy Kruegerand (1,000)
-149	dreadsylvania	Dreadsylvanian stew	Freddy Kruegerand (10)
-150	dreadsylvania	white Dreadsylvanian	Freddy Kruegerand (10)
-151	dreadsylvania	brass Dreadsylvanian flask	Freddy Kruegerand (100)
-152	dreadsylvania	silver Dreadsylvanian flask	Freddy Kruegerand (100)
-153	dreadsylvania	dreadful fedora	Freddy Kruegerand (500)
-154	dreadsylvania	dreadful sweater	Freddy Kruegerand (500)
-155	dreadsylvania	dreadful glove	Freddy Kruegerand (500)
-156	dreadsylvania	hot Dreadsylvanian cocoa	Freddy Kruegerand
-157	dreadsylvania	folder (tranquil landscape)	Freddy Kruegerand (25)
+146	dv	Tales of Dread	Freddy Kruegerand (250)
+147	dv	Dreadsylvanian skeleton key	Freddy Kruegerand (25)
+148	dv	Official Seal of Dreadsylvania	Freddy Kruegerand (1,000)
+149	dv	Dreadsylvanian stew	Freddy Kruegerand (10)
+150	dv	white Dreadsylvanian	Freddy Kruegerand (10)
+151	dv	brass Dreadsylvanian flask	Freddy Kruegerand (100)
+152	dv	silver Dreadsylvanian flask	Freddy Kruegerand (100)
+153	dv	dreadful fedora	Freddy Kruegerand (500)
+154	dv	dreadful sweater	Freddy Kruegerand (500)
+155	dv	dreadful glove	Freddy Kruegerand (500)
+156	dv	hot Dreadsylvanian cocoa	Freddy Kruegerand
+157	dv	folder (tranquil landscape)	Freddy Kruegerand (25)
 158	kolhs_shop	miniature suspension bridge	wood screw (4)	balsa plank (4)	blob of wood glue (2)	surgical tape
 159	kolhs_shop	Staff of the Lunch Lady	jigsaw blade (2)	balsa plank (6)	blob of wood glue (4)
 160	kolhs_shop	universal key	jigsaw blade (4)	wood screw (4)	blob of wood glue (8)	surgical tape	scrap metal
@@ -191,27 +191,27 @@
 190	junkmagazine	swordzall	jagged scrap metal (2)	tangle of copper wire	Junk-Bond	eternal car battery
 191	junkmagazine	arm buzzer	bent scrap metal (2)	tangle of copper wire	Junk-Bond	eternal car battery
 192	junkmagazine	boilgun	molten scrap metal (2)	tangle of copper wire	Junk-Bond	eternal car battery
-193	isotopesmithery	Mint-in-box Moonthril Circlet	lunar isotope (1,000)
-194	isotopesmithery	Mint-in-box Moonthril Flamberge	lunar isotope (1,250)
-195	isotopesmithery	Mint-in-box Moonthril Longbow	lunar isotope (1,500)
-196	isotopesmithery	Mint-in-box Moonthril Greaves	lunar isotope (1,750)
-197	isotopesmithery	Mint-in-box Moonthril Cuirass	lunar isotope (2,000)
-198	dollhawker	plush alielf	lunar isotope (100)
-199	dollhawker	plush dogcat	lunar isotope (150)
-200	dollhawker	plush hamsterpus	lunar isotope (200)
-201	dollhawker	plush ferrelf	lunar isotope (300)
-202	dollhawker	plush mutated alielf	lunar isotope (400)
-203	dollhawker	plush alien hamsterpus	lunar isotope (500)
-204	dollhawker	plush mutated alielephant	lunar isotope (1,000)
-205	lunarlunch	Saison du Lune	lunar isotope (10)
-206	lunarlunch	Moonthril Schnapps	lunar isotope (50)
-207	lunarlunch	Wrecked Generator	lunar isotope (100)
-208	lunarlunch	Spaghetti with Moonballs	lunar isotope (10)
-209	lunarlunch	Crepes a la Lune	lunar isotope (50)
-210	lunarlunch	Moon Pie	lunar isotope (100)
-211	lunarlunch	Comet Pop	lunar isotope
-212	lunarlunch	Flan in the Moon	lunar isotope (5)
-213	lunarlunch	1/6th Pound Cake	lunar isotope (10)
+193	elvishp1	Mint-in-box Moonthril Circlet	lunar isotope (1,000)
+194	elvishp1	Mint-in-box Moonthril Flamberge	lunar isotope (1,250)
+195	elvishp1	Mint-in-box Moonthril Longbow	lunar isotope (1,500)
+196	elvishp1	Mint-in-box Moonthril Greaves	lunar isotope (1,750)
+197	elvishp1	Mint-in-box Moonthril Cuirass	lunar isotope (2,000)
+198	elvishp2	plush alielf	lunar isotope (100)
+199	elvishp2	plush dogcat	lunar isotope (150)
+200	elvishp2	plush hamsterpus	lunar isotope (200)
+201	elvishp2	plush ferrelf	lunar isotope (300)
+202	elvishp2	plush mutated alielf	lunar isotope (400)
+203	elvishp2	plush alien hamsterpus	lunar isotope (500)
+204	elvishp2	plush mutated alielephant	lunar isotope (1,000)
+205	elvishp3	Saison du Lune	lunar isotope (10)
+206	elvishp3	Moonthril Schnapps	lunar isotope (50)
+207	elvishp3	Wrecked Generator	lunar isotope (100)
+208	elvishp3	Spaghetti with Moonballs	lunar isotope (10)
+209	elvishp3	Crepes a la Lune	lunar isotope (50)
+210	elvishp3	Moon Pie	lunar isotope (100)
+211	elvishp3	Comet Pop	lunar isotope
+212	elvishp3	Flan in the Moon	lunar isotope (5)
+213	elvishp3	1/6th Pound Cake	lunar isotope (10)
 214	beergarden	can of Br&uuml;talbr&auml;u	handful of barley	cluster of hops
 215	beergarden	can of Drooling Monk	handful of barley	cluster of hops
 216	beergarden	can of Impetuous Scofflaw	handful of barley	cluster of hops
@@ -243,12 +243,12 @@
 242	warbear	warbear dress greaves	warbear whosit (200)
 243	warbear	warbear dress bracers	warbear whosit (300)
 244	warbear	warbear dress helmet	warbear whosit (400)
-245	boutique	cinnamon cannoli	odd silver coin (2)
-246	boutique	expensive champagne	odd silver coin (3)
-247	boutique	polo trophy	odd silver coin (3)
-248	boutique	fancy oil painting	odd silver coin (4)
-249	boutique	solid gold rosary	odd silver coin (5)
-250	boutique	ornate dowsing rod	odd silver coin (5)
+245	cindy	cinnamon cannoli	odd silver coin (2)
+246	cindy	expensive champagne	odd silver coin (3)
+247	cindy	polo trophy	odd silver coin (3)
+248	cindy	fancy oil painting	odd silver coin (4)
+249	cindy	solid gold rosary	odd silver coin (5)
+250	cindy	ornate dowsing rod	odd silver coin (5)
 251	rumple	smudge stick	straw	leather
 252	rumple	portable wall	straw	clay
 253	rumple	large tankard of ale	leather	clay
@@ -291,15 +291,15 @@
 290	blackmarket	Red Zeppelin ticket	priceless diamond
 291	beergarden	liquid bread	handful of barley	cluster of hops
 292	damachine	sewing kit	fat loot token
-293	brogurt	regular-size brogurt	Beach Buck
-294	brogurt	super-size brogurt	Beach Buck (3)
-295	brogurt	broberry brogurt	Beach Buck (10)
-296	brogurt	brocolate brogurt	Beach Buck (10)
-297	brogurt	French bronilla brogurt	Beach Buck (10)
-298	taco_dan	Taco Dan's Basic Taco Dan Taco	Beach Buck
-299	taco_dan	Pastaco shell	Beach Buck
-300	taco_dan	Taco Dan's Super Taco-Riffic Taco Sauce!	Beach Buck (3)
-301	taco_dan	Taco Dan's Taco Fish Fish Taco	Beach Buck (2)
+293	sbb_brogurt	regular-size brogurt	Beach Buck
+294	sbb_brogurt	super-size brogurt	Beach Buck (3)
+295	sbb_brogurt	broberry brogurt	Beach Buck (10)
+296	sbb_brogurt	brocolate brogurt	Beach Buck (10)
+297	sbb_brogurt	French bronilla brogurt	Beach Buck (10)
+298	sbb_taco	Taco Dan's Basic Taco Dan Taco	Beach Buck
+299	sbb_taco	Pastaco shell	Beach Buck
+300	sbb_taco	Taco Dan's Super Taco-Riffic Taco Sauce!	Beach Buck (3)
+301	sbb_taco	Taco Dan's Taco Fish Fish Taco	Beach Buck (2)
 302	sbb_jimmy	History's Most Offensive Jokes, Vol. IX	Beach Buck (300)
 303	sbb_jimmy	Now You're Cooking With Grease	Beach Buck (300)
 304	sbb_jimmy	Sloppy Seconds Diner Employee Handbook	Beach Buck (300)
@@ -342,16 +342,16 @@
 341	si_shop1	warm war shawarma	Coinspiracy (4)
 342	si_shop1	initiative shawarma	Coinspiracy (2)
 343	si_shop1	karma shawarma	Coinspiracy (7)
-344	canteen	Jungle Juice	Coinspiracy
-345	canteen	Amnesiac Ale	Coinspiracy (3)
-346	canteen	Highest Bitter	Coinspiracy (6)
-347	armory	mercenary pistol	Coinspiracy (50)
-348	armory	mercenary rifle	Coinspiracy (50)
-349	armory	specialty ammo bandolier	Coinspiracy
-350	armory	Merc Core deployment orders	Coinspiracy (100)
-351	armory	Merc Core Field Manual: Sanity Maintenance	Coinspiracy (300)
-352	armory	Merc Core Field Manual: Intimidation Techniques	Coinspiracy (300)
-353	armory	Merc Core challenge coin	Coinspiracy (1,000)
+344	si_shop2	Jungle Juice	Coinspiracy
+345	si_shop2	Amnesiac Ale	Coinspiracy (3)
+346	si_shop2	Highest Bitter	Coinspiracy (6)
+347	si_shop3	mercenary pistol	Coinspiracy (50)
+348	si_shop3	mercenary rifle	Coinspiracy (50)
+349	si_shop3	specialty ammo bandolier	Coinspiracy
+350	si_shop3	Merc Core deployment orders	Coinspiracy (100)
+351	si_shop3	Merc Core Field Manual: Sanity Maintenance	Coinspiracy (300)
+352	si_shop3	Merc Core Field Manual: Intimidation Techniques	Coinspiracy (300)
+353	si_shop3	Merc Core challenge coin	Coinspiracy (1,000)
 354	applestore	unidentifiable dried fruit	Chroner (25)
 355	applestore	flat cider	Chroner (50)
 356	applestore	iShield	Chroner (300)
@@ -376,7 +376,7 @@
 375	arcade	streetfighting champion's belt	Game Grid ticket (1,000)
 376	arcade	Meteoid ice beam	Game Grid ticket (1,000)
 377	arcade	folder (Jackass Plumber)	Game Grid ticket (50)
-378	armory	Agent Mauve	Coinspiracy (15)
+378	si_shop3	Agent Mauve	Coinspiracy (15)
 379
 380
 381
@@ -772,8 +772,8 @@
 771	glaciest	Wal-Mart tattoo kit	Wal-Mart gift certificate (250)
 772	glaciest	Cold Fang	Wal-Mart gift certificate (150)
 773	glaciest	one-day ticket to The Glaciest	Wal-Mart gift certificate (50)
-774	dreadsylvania	bottle of Bloodweiser	Freddy Kruegerand (200)
-775	dreadsylvania	electric Kool-Aid	Freddy Kruegerand (200)
+774	dv	bottle of Bloodweiser	Freddy Kruegerand (200)
+775	dv	electric Kool-Aid	Freddy Kruegerand (200)
 776	airport	That 70s Cologne	Volcoino (5)
 777	airport	Wal-Mart &quot;diamond&quot; ring	Wal-Mart gift certificate (50)
 778	airport	Puffstone cigar	FunFunds&trade; (20)
