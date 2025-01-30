@@ -358,14 +358,14 @@ public class CoinmastersDatabase {
     return (result.size() > 0) ? result : null;
   }
 
-  public static final CoinMasterPurchaseRequest getFirstPurchaseRequest(final int itemId) {
+  public static final CoinMasterPurchaseRequest getAccessiblePurchaseRequest(final int itemId) {
     List<CoinMasterPurchaseRequest> items = getAllPurchaseRequests(itemId);
     if (items == null) {
       return null;
     }
 
     for (var request : items) {
-      if (request.getData().accessible() == null) {
+      if (request.getData().isAccessible()) {
         return request;
       }
     }
@@ -392,8 +392,19 @@ public class CoinmastersDatabase {
   }
 
   public static final boolean contains(final int itemId, boolean validate) {
-    CoinMasterPurchaseRequest item = getFirstPurchaseRequest(itemId);
-    return item != null && (!validate || item.availableItem());
+    List<CoinMasterPurchaseRequest> items = getAllPurchaseRequests(itemId);
+    if (items == null || items.size() == 0) {
+      return false;
+    }
+    if (!validate) {
+      return true;
+    }
+    for (var item : items) {
+      if (item.availableItem()) {
+        return true;
+      }
+    }
+    return false;
   }
 
   // *** For testing
