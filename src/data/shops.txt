@@ -3,7 +3,7 @@
 airport	Elemental Duty Free, Inc.	CONC	DUTYFREE
 applestore	The Applecalypse Store	COIN
 arcade	Arcade Ticket Counter	COIN
-armory	Armory and Leggery	COINNPC
+armory	Armory and Leggery	NPCCOIN
 bacon	Internet Meme Shop	COIN
 bartender	The Typical Tavern	NPC
 bartlebys	Barrrtleby's Barrrgain Books	NPC
@@ -12,7 +12,7 @@ batman_chemicorp	ChemiCorp	COIN
 batman_orphanage	Gotpork Orphanage	COIN
 batman_pd	Gotpork P. D.	COIN
 beergarden	Beer Garden	CONC	BEER
-blackmarket	The Black Market	COINNPC
+blackmarket	The Black Market	NPCCOIN
 boutique	Paul's Boutique	COIN
 brogurt	The Frozen Brogurt Stand	COIN
 bugbear	Bugbear Bakery	NPC
@@ -56,12 +56,12 @@ dino	Dino World Gift Shop (The Dinostaur)	COIN
 doc	Doc Galaktik's Medicine Show	NPC
 dollhawker	Dollhawker's Emporium	COIN
 dreadsylvania	The Terrified Eagle Inn	COIN
-driparmory	Drip Institute Armory	COINNPC
+driparmory	Drip Institute Armory	NPCCOIN
 dripcafeteria	Drip Institute Cafeteria	NPC
 edunder_shopshop	Everything Under the World	COIN
 exploathing	Cosmic Ray's Bazaar	COIN
 fantasyrealm	FantasyRealm Rubee&trade; Store	COIN
-fdkol	FDKOL Requisitions Tent	COINNPC
+fdkol	FDKOL Requisitions Tent	NPCCOIN
 fishbones	Freshwater Fishbonery	COIN
 fixodent	Craft with Teeth	CONC	FIXODENT
 fwshop	Clan Underground Fireworks Shop	NPC

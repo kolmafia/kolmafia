@@ -33,7 +33,7 @@ public class ShopDatabase {
     CONC, // Supported as a mixing method
     NPC, // Supported as an NPC store
     COIN, // Supported as a coinmaster
-    COINNPC // Supported as both an NPC Store and a coinmaster
+    NPCCOIN // Supported as both an NPC Store and a coinmaster
   }
 
   public static final Map<String, SHOP> shopIdToShopType = new TreeMap<>();
@@ -129,15 +129,15 @@ public class ShopDatabase {
         switch (shopType) {
           case NPC -> {
             if (existingShopType == SHOP.COIN) {
-              // COIN -> COINNPC
-              shopType = SHOP.COINNPC;
+              // COIN -> NPCCOIN
+              shopType = SHOP.NPCCOIN;
               changed = true;
             }
           }
           case COIN -> {
-            // NPC -> COINNPC
+            // NPC -> NPCCOIN
             if (existingShopType == SHOP.NPC) {
-              shopType = SHOP.COINNPC;
+              shopType = SHOP.NPCCOIN;
               changed = true;
             }
           }
@@ -164,7 +164,7 @@ public class ShopDatabase {
     String existingShopId = shopNameToShopId.get(shopName);
     if (existingShopId == null) {
       shopNameToShopId.put(shopName, shopId);
-    } else if (shopType != SHOP.COINNPC) {
+    } else if (shopType != SHOP.NPCCOIN) {
       String printMe =
           "Shop name '"
               + shopName
