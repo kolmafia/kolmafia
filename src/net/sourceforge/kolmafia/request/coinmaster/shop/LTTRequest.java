@@ -14,7 +14,7 @@ public class LTTRequest extends CoinMasterRequest {
   public static final AdventureResult COIN = ItemPool.get(ItemPool.BUFFALO_DIME, 1);
 
   public static final CoinmasterData LTT =
-      new CoinmasterData(master, "ltt", LTTRequest.class)
+      new CoinmasterData(master, "LT&T Gift Shop", LTTRequest.class)
           .withToken("buffalo dime")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)

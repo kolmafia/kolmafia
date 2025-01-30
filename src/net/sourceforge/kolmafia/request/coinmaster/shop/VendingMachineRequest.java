@@ -16,7 +16,7 @@ public class VendingMachineRequest extends CoinMasterRequest {
   public static final AdventureResult FAT_LOOT_TOKEN = ItemPool.get(ItemPool.FAT_LOOT_TOKEN, 1);
 
   public static final CoinmasterData VENDING_MACHINE =
-      new CoinmasterData(master, "damachine", VendingMachineRequest.class)
+      new CoinmasterData(master, "vendingmachine", VendingMachineRequest.class)
           .withToken("fat loot token")
           .withTokenTest("no fat loot tokens")
           .withTokenPattern(TOKEN_PATTERN)

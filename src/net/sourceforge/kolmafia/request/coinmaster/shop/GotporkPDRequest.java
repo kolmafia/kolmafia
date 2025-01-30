@@ -19,7 +19,7 @@ public class GotporkPDRequest extends CoinMasterRequest {
   public static final AdventureResult COIN = ItemPool.get(ItemPool.INCRIMINATING_EVIDENCE, 1);
 
   public static final CoinmasterData GOTPORK_PD =
-      new CoinmasterData(master, "batman_pd", GotporkPDRequest.class)
+      new CoinmasterData(master, "Gotpork P. D.", GotporkPDRequest.class)
           .withToken("incriminating evidence")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)

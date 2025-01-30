@@ -15,7 +15,7 @@ public class DinostaurRequest extends CoinMasterRequest {
   public static final AdventureResult COIN = ItemPool.get(ItemPool.DINODOLLAR, 1);
 
   public static final CoinmasterData DINOSTAUR =
-      new CoinmasterData(master, "dino", DinostaurRequest.class)
+      new CoinmasterData(master, "Dinostaur", DinostaurRequest.class)
           .withToken("Dinodollar")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)

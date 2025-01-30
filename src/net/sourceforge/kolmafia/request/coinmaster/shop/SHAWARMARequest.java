@@ -16,7 +16,7 @@ public class SHAWARMARequest extends CoinMasterRequest {
   public static final AdventureResult COIN = ItemPool.get(ItemPool.COINSPIRACY, 1);
 
   public static final CoinmasterData SHAWARMA =
-      new CoinmasterData(master, "si_shop1", SHAWARMARequest.class)
+      new CoinmasterData(master, "SHAWARMA", SHAWARMARequest.class)
           .withToken("Coinspiracy")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)

@@ -19,7 +19,7 @@ public class RubeeRequest extends CoinMasterRequest {
   public static final AdventureResult COIN = ItemPool.get(ItemPool.RUBEE, 1);
 
   public static final CoinmasterData RUBEE =
-      new CoinmasterData(master, "fantasyrealm", RubeeRequest.class)
+      new CoinmasterData(master, "FantasyRealm Store", RubeeRequest.class)
           .withToken("Rubee&trade;")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)
