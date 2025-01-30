@@ -1165,14 +1165,17 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
 
   public void registerShop() {
     if (this.buyURL.startsWith("shop.php")) {
-      ShopDatabase.registerShop(this.nickname, this.master, SHOP.COIN);
+      ShopDatabase.registerShop(this.shopId, this.master, SHOP.COIN);
     }
   }
 
   public void registerShopRows() {
+    if (this.shopId == null) {
+      return;
+    }
     if (this.shopRows != null) {
       for (ShopRow shopRow : this.shopRows) {
-        ShopRowDatabase.registerShopRow(shopRow, this.nickname);
+        ShopRowDatabase.registerShopRow(shopRow, this.shopId);
       }
     }
     if (this.buyItems != null) {
@@ -1182,7 +1185,7 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
         if (row != 0) {
           AdventureResult price = this.itemBuyPrice(itemId);
           ShopRow shopRow = new ShopRow(row, item.getInstance(1), price);
-          ShopRowDatabase.registerShopRow(shopRow, this.nickname);
+          ShopRowDatabase.registerShopRow(shopRow, this.shopId);
         }
       }
     }
@@ -1193,7 +1196,7 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
         if (row != 0) {
           AdventureResult price = this.itemSellPrice(itemId);
           ShopRow shopRow = new ShopRow(row, price, item);
-          ShopRowDatabase.registerShopRow(shopRow, this.nickname);
+          ShopRowDatabase.registerShopRow(shopRow, this.shopId);
         }
       }
     }

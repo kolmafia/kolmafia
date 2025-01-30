@@ -13,14 +13,12 @@ batman_orphanage	Gotpork Orphanage	COIN
 batman_pd	Gotpork P. D.	COIN
 beergarden	Beer Garden	CONC	BEER
 blackmarket	The Black Market	NPCCOIN
-boutique	Paul's Boutique	COIN
-brogurt	The Frozen Brogurt Stand	COIN
 bugbear	Bugbear Bakery	NPC
 campfire	Your Campfire	COIN
-canteen	The Canteen	COIN
 caveshop	The Neandermall	COIN
 chateau	Chateau Mantegna Gift Shop	NPC
 chinatown	Chinatown Shops	NPC
+cindy	Paul's Boutique	COIN
 conmerch	KoL Con 13 Merch Table	COIN
 crimbo12	Uncle Crimbo's Futuristic Trailer	CONC	CRIMBO12
 crimbo14	Crimbo 2014	COIN
@@ -54,11 +52,13 @@ damachine	Vending Machine	COIN
 detective	Precinct Materiel Division	COIN
 dino	Dino World Gift Shop (The Dinostaur)	COIN
 doc	Doc Galaktik's Medicine Show	NPC
-dollhawker	Dollhawker's Emporium	COIN
-dreadsylvania	The Terrified Eagle Inn	COIN
 driparmory	Drip Institute Armory	NPCCOIN
 dripcafeteria	Drip Institute Cafeteria	NPC
+dv	The Terrified Eagle Inn	COIN
 edunder_shopshop	Everything Under the World	COIN
+elvishp1	Isotope Smithery	COIN
+elvishp2	Dollhawker's Emporium	COIN
+elvishp3	Lunar Lunch-o-Mat	COIN
 exploathing	Cosmic Ray's Bazaar	COIN
 fantasyrealm	FantasyRealm Rubee&trade; Store	COIN
 fdkol	FDKOL Requisitions Tent	NPCCOIN
@@ -78,7 +78,6 @@ guzzlr	Guzzlr Company Store Website	COIN
 hiddentavern	The Hidden Tavern	NPC
 hippy	Hippy Store (Pre-War)	NPC
 infernodisco	Disco GiftCo	COIN
-isotopesmithery	Isotope Smithery	COIN
 jarl	Jarlsberg's Cosmic Kitchen	CONC	JARLS
 jewelers	Little Canadia Jewelers	NPC
 junkmagazine	Worse Homes and Gardens	CONC	JUNK
@@ -90,7 +89,6 @@ kolhs_shop	Shop Class (After School)	CONC	SHOPCLASS
 landfillstore	The Dinsey Company Store	COIN
 lathe	Your SpinMaster&trade; lathe	COIN
 ltt	LT&T Gift Shop	COIN
-lunarlunch	Lunar Lunch-o-Mat	COIN
 madeline	Madeline's Baking Supply	NPC
 mariogear	Mushroom District Gear Shop	COIN
 marioitems	Mushroom District Item Shop	COIN
@@ -105,13 +103,16 @@ olivers	Fancy Dan the Cocktail Man	COIN
 piraterealm	PirateRealm Fun-a-Log	COIN
 pokefam	The Pok&eacute;mporium	COIN
 rumple	Rumplestiltskin's Workshop	CONC	RUMPLE
+sbb_brogurt	The Frozen Brogurt Stand	COIN
 sbb_jimmy	Buff Jimmy's Souvenir Shop	COIN
+sbb_taco	Taco Dan's Taco Stand	COIN
 september	Sept-Ember Censer	COIN
 shadowforge	The Shadow Forge	CONC	SHADOW_FORGE
 shakeshop	Ye Newe Souvenir Shoppe	COIN
 shoeshop	Legitimate Shoe Repair, Inc.	COIN
 shore	The Shore, Inc. Gift Shop	COIN
 si_shop1	The SHAWARMA Initiative	COIN
+si_shop2	The Canteen	COIN
 snackbar	Huggler Memorial Colosseum Snack Bar	NPC
 snowgarden	Winter Gardening	CONC	WINTER
 spacegate	Spacegate Fabrication Facility	COIN
@@ -119,7 +120,6 @@ spant	Spant Bit Assembly	CONC	SPANT
 starchart	A Star Chart	CONC	STARCHART
 still	Nash Crosby's Still	CONC	STILL
 sugarsheets	Sugar Sheet Folding	CONC	SUGAR_FOLDING
-taco_dan	Taco Dan's Taco Stand	COIN
 thankshop	A traveling Thanksgiving salesman	COIN
 topiary	Topiary Nuggletcrafting	COIN
 town_giftshop.php	Gift Shop	NPC

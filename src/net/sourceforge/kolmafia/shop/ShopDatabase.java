@@ -168,10 +168,11 @@ public class ShopDatabase {
       String printMe =
           "Shop name '"
               + shopName
-              + "' for shop id ' "
+              + "' for shop id '"
               + shopId
-              + " already used for "
-              + existingShopId;
+              + "' already used for '"
+              + existingShopId
+              + "'";
       RequestLogger.printLine(printMe);
       RequestLogger.updateSessionLog(printMe);
     }
