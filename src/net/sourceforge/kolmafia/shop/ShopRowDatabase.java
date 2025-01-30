@@ -4,11 +4,11 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -34,50 +34,55 @@ public class ShopRowDatabase {
   // recompile, log in, and "test write-shoprows"
   public static Mode mode = Mode.NONE;
 
-  public static final Map<Integer, ShopRow> allShopRows = new HashMap<>();
-  public static final Map<Integer, String> allShopRowShops = new HashMap<>();
-
-  public static ShopRow getShopRow(final int row) {
-    return allShopRows.get(row);
-  }
-
-  private ShopRowDatabase() {}
-
-  record ShopRowData(int row, String type, AdventureResult item, String shopName) {
+  public record ShopRowData(int row, String shopId, AdventureResult item, AdventureResult[] costs) {
     public String dataString() {
       StringBuilder buf = new StringBuilder();
       buf.append(String.valueOf(row));
       buf.append("\t");
-      buf.append(type);
+      buf.append(shopId);
       buf.append("\t");
       buf.append(item.toString());
-      buf.append("\t");
-      buf.append(shopName);
+      for (AdventureResult cost : costs) {
+        buf.append("\t");
+        buf.append(cost.toString());
+      }
       return buf.toString();
     }
   }
 
-  public static Map<Integer, ShopRowData> shopRowData = new TreeMap<>();
+  public static final Map<Integer, ShopRowData> shopRowData = new HashMap<>();
 
-  public static void registerShopRow(ShopRow shopRow, String type, CraftingType craftingType) {
-    String shopName = ShopDatabase.getShopName(craftingType);
-    registerShopRow(shopRow, type, shopName);
+  public static ShopRowData getShopRowData(final int row) {
+    return shopRowData.get(row);
   }
 
-  public static void registerShopRow(ShopRow shopRow, String type, String shopName) {
+  public static ShopRow getShopRow(final int row) {
+    return getShopRow(getShopRowData(row));
+  }
+
+  public static ShopRow getShopRow(ShopRowData data) {
+    return data != null ? new ShopRow(data.row(), data.item(), data.costs()) : null;
+  }
+
+  private ShopRowDatabase() {}
+
+  public static void registerShopRow(ShopRow shopRow, CraftingType craftingType) {
+    String shopName = ShopDatabase.getShopName(craftingType);
+    String shopId = ShopDatabase.getShopId(shopName);
+    registerShopRow(shopRow, shopId);
+  }
+
+  public static void registerShopRow(ShopRow shopRow, String shopId) {
     if (mode == Mode.BUILD) {
       int row = shopRow.getRow();
-      if (allShopRows.containsKey(row)) {
+      if (shopRowData.containsKey(row)) {
         // *** log it
         return;
       }
-      allShopRows.put(row, shopRow);
-      allShopRowShops.put(row, shopName);
       AdventureResult item = shopRow.getItem();
-      if (type.equals("sell")) {
-        item = shopRow.getCosts()[0];
-      }
-      ShopRowData data = new ShopRowData(row, type, item, shopName);
+      AdventureResult[] costs = shopRow.getCosts();
+
+      ShopRowData data = new ShopRowData(row, shopId, item, costs);
       shopRowData.put(row, data);
     }
   }
@@ -89,20 +94,26 @@ public class ShopRowDatabase {
     if (meatMatcher.find()) {
       return new MeatResult(StringUtilities.parseInt(meatMatcher.group(1)));
     }
-    return AdventureResult.parseItem(s, false);
+    return AdventureResult.parseItem(s, true);
   }
 
   public static ShopRowData parseShopRowData(String[] data) {
-    if (data.length < 4) {
+    // row	shopId	item	costs...
+
+    if (data.length < 3) {
       return null;
     }
 
     int row = StringUtilities.parseInt(data[0]);
-    String type = data[1];
+    String shopId = data[1];
     AdventureResult item = parseItemOrMeat(data[2]);
-    String shopName = data[3];
-
-    return new ShopRowData(row, type, item, shopName);
+    ArrayList<AdventureResult> costList = new ArrayList<>();
+    for (int index = 3; index < data.length; index++) {
+      AdventureResult cost = parseItemOrMeat(data[index]);
+      costList.add(cost);
+    }
+    AdventureResult[] costs = costList.toArray(new AdventureResult[0]);
+    return new ShopRowData(row, shopId, item, costs);
   }
 
   static {
@@ -114,7 +125,6 @@ public class ShopRowDatabase {
       case BUILD -> {
         // Create empty data file
         writeShopRowDataFile();
-        writeShopRowFile();
       }
       case NONE -> {}
     }
@@ -123,6 +133,8 @@ public class ShopRowDatabase {
   public static void readShopRowDataFile() {
     try (BufferedReader reader =
         FileUtilities.getVersionedReader("shoprows.txt", KoLConstants.SHOPROWS_VERSION)) {
+      shopRowData.clear();
+
       String[] data;
 
       while ((data = FileUtilities.readData(reader)) != null) {
@@ -167,49 +179,6 @@ public class ShopRowDatabase {
         lastRow = row + 1;
 
         writer.println(value.dataString());
-      }
-    } finally {
-      writer.close();
-    }
-  }
-
-  public static void readShopRowFile() {
-    try (BufferedReader reader =
-        FileUtilities.getVersionedReader("allshoprows.txt", KoLConstants.SHOPROWS_VERSION)) {
-      String[] data;
-
-      while ((data = FileUtilities.readData(reader)) != null) {
-        if (data.length < 4) {
-          continue;
-        }
-
-        String shopName = data[0];
-        ShopRow shopRow = ShopRow.fromData(data);
-        int row = shopRow.getRow();
-
-        allShopRows.put(row, shopRow);
-        allShopRowShops.put(row, shopName);
-      }
-    } catch (IOException e) {
-      StaticEntity.printStackTrace(e);
-    }
-  }
-
-  public static void writeShopRowFile() {
-    File output = new File(KoLConstants.DATA_LOCATION, "allshoprows.txt");
-    PrintStream writer = LogStream.openStream(output, true);
-    try {
-      writer.println(KoLConstants.SHOPROWS_VERSION);
-
-      Iterator<Entry<Integer, ShopRow>> it = allShopRows.entrySet().iterator();
-      while (it.hasNext()) {
-        Entry<Integer, ShopRow> entry = it.next();
-
-        ShopRow value = entry.getValue();
-        int row = value.getRow();
-        String shopName = allShopRowShops.get(row);
-
-        writer.println(value.toData(shopName));
       }
     } finally {
       writer.close();

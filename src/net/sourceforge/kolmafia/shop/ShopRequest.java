@@ -121,7 +121,7 @@ public class ShopRequest extends GenericRequest {
     parseShopRowResponse(urlString, responseText);
   }
 
-  public static final void parseShopInventory(
+  public static final List<ShopRow> parseShopInventory(
       final String shopId, final String responseText, boolean force) {
 
     // Parse the entire shop inventory, including items that sell for Meat
@@ -131,7 +131,7 @@ public class ShopRequest extends GenericRequest {
 
     // Register this shop, in case it is unknown
     if (ShopDatabase.registerShop(shopId, shopName, SHOP.NONE)) {
-      String printMe = "New shop.php: " + ShopDatabase.toData(shopId, shopName, SHOP.NONE);
+      String printMe = "New shop: (" + shopId + ", \"" + shopName + "\")";
       RequestLogger.printLine(printMe);
       RequestLogger.updateSessionLog(printMe);
     }
@@ -208,6 +208,8 @@ public class ShopRequest extends GenericRequest {
       RequestLogger.printLine(printMe);
       RequestLogger.updateSessionLog(printMe);
     }
+
+    return shopRows;
   }
 
   public static final boolean learnNPCStoreItem(

@@ -71,7 +71,7 @@ public class ArmoryAndLeggeryRequest extends CoinMasterRequest {
 
       if (row != 0) {
         ShopRow shopRow = new ShopRow(row, item.getInstance(1), cost);
-        ShopRowDatabase.registerShopRow(shopRow, "buy", master);
+        ShopRowDatabase.registerShopRow(shopRow, "armory");
       }
     }
 

@@ -9,6 +9,7 @@ import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.stream.Collectors;
 import net.java.dev.spellcast.utilities.DataUtilities;
@@ -86,6 +87,7 @@ import net.sourceforge.kolmafia.shop.ShopDatabase;
 import net.sourceforge.kolmafia.shop.ShopRequest;
 import net.sourceforge.kolmafia.shop.ShopRow;
 import net.sourceforge.kolmafia.shop.ShopRowDatabase;
+import net.sourceforge.kolmafia.shop.ShopRowDatabase.ShopRowData;
 import net.sourceforge.kolmafia.swingui.ShowHTMLFrame;
 import net.sourceforge.kolmafia.swingui.SkillBuffFrame;
 import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
@@ -702,19 +704,23 @@ public class TestCommand extends AbstractCommand {
     }
 
     if (command.equals("row-duplicate-items")) {
-      ShopRowDatabase.readShopRowFile();
+      ShopRowDatabase.readShopRowDataFile();
 
-      HashMultimap<ShopRow> items = new HashMultimap<>();
-      for (var shopRow : ShopRowDatabase.allShopRows.values()) {
-        int itemId = shopRow.getItem().getItemId();
-        items.put(itemId, shopRow);
+      HashMultimap<ShopRowData> items = new HashMultimap<>();
+      for (Entry<Integer, ShopRowData> entry : ShopRowDatabase.shopRowData.entrySet()) {
+        ShopRowData shopRowData = entry.getValue();
+        AdventureResult item = shopRowData.item();
+        int itemId = item.getItemId();
+        if (itemId > 0) {
+          items.put(itemId, shopRowData);
+        }
       }
-      for (List<ShopRow> list : items.values()) {
+      for (List<ShopRowData> list : items.values()) {
         if (list.size() > 1) {
           RequestLogger.updateSessionLog("------");
-          for (var shopRow : list) {
-            int row = shopRow.getRow();
-            String shopName = ShopRowDatabase.allShopRowShops.get(row);
+          for (var data : list) {
+            String shopName = ShopDatabase.getShopName(data.shopId());
+            ShopRow shopRow = ShopRowDatabase.getShopRow(data);
             RequestLogger.updateSessionLog(shopRow.toData(shopName));
           }
         }
@@ -899,7 +905,8 @@ public class TestCommand extends AbstractCommand {
     }
 
     if (command.equals("write-shoprows")) {
-      // Ensure that the three databases that register ShopRowData entries are loaded
+
+      // Ensure that the three databases that register ShopRow entries are loaded
       ConcoctionDatabase.singleUseCreation(0);
       CoinmasterRegistry.reset();
       NPCStoreDatabase.contains(0);
@@ -912,7 +919,6 @@ public class TestCommand extends AbstractCommand {
       try {
         Preferences.setString("parkaMode", "");
         ShopRowDatabase.writeShopRowDataFile();
-        ShopRowDatabase.writeShopRowFile();
       } finally {
         Preferences.setString("parkaMode", parkaMode);
       }
@@ -920,11 +926,13 @@ public class TestCommand extends AbstractCommand {
     }
 
     if (command.equals("write-shops")) {
-      // Ensure that the three databases that register ShopRowData entries are loaded
-      ConcoctionDatabase.singleUseCreation(0);
+      // Ensure that the two databases that register ShopRow entries are loaded
       CoinmasterRegistry.reset();
       NPCStoreDatabase.contains(0);
+      // Ditto for the Armory & Leggery, which registers standard rewards.
+      ArmoryAndLeggeryRequest.parseResponse("", "");
 
+      // Write a new shop.txt file
       ShopDatabase.writeShopFile();
       return;
     }
@@ -1263,10 +1271,14 @@ public class TestCommand extends AbstractCommand {
     }
 
     if (command.equals("shoprows")) {
+      boolean force = (split.length < 2) ? false : split[1].trim().equals("true");
       String shop = ShopRequest.parseShopName(TestCommand.contents);
-      List<ShopRow> rows = ShopRow.parseShop(TestCommand.contents, true);
+      String shopId = ShopRequest.parseShopId(TestCommand.contents);
+      List<ShopRow> rows = ShopRequest.parseShopInventory(shopId, TestCommand.contents, force);
       TestCommand.contents = null;
-      RequestLogger.printLine("shop '" + shop + "' offers " + rows.size() + " items.");
+
+      RequestLogger.printLine(
+          "shop " + shopId + " (" + shop + ") offers " + rows.size() + " items.");
       for (ShopRow row : rows) {
         RequestLogger.printLine("row = " + row.getRow() + " item = " + row.getItem());
         for (AdventureResult cost : row.getCosts()) {

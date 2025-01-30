@@ -77,7 +77,7 @@ public class NPCStoreDatabase {
           AdventureResult item = new AdventureResult(itemName, 1, false);
           AdventureResult cost = new MeatResult(price);
           ShopRow shopRow = new ShopRow(row, item, cost);
-          ShopRowDatabase.registerShopRow(shopRow, "npc", storeName);
+          ShopRowDatabase.registerShopRow(shopRow, storeId);
         }
 
         // Make the purchase request for this item

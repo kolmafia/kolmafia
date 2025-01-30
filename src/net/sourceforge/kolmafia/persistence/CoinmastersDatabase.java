@@ -22,7 +22,6 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.CoinMasterPurchaseRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.shop.ShopRow;
-import net.sourceforge.kolmafia.shop.ShopRowDatabase;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.HashMultimap;
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
@@ -185,7 +184,6 @@ public class CoinmastersDatabase {
             // *** error
             continue;
           }
-          ShopRowDatabase.registerShopRow(shopRow, "row", master);
           int row = shopRow.getRow();
           List<ShopRow> rows = shopRows.get(master);
           if (rowShop.containsKey(row)) {
