@@ -16,7 +16,7 @@ public class BuffJimmyRequest extends CoinMasterRequest {
   public static final AdventureResult COIN = ItemPool.get(ItemPool.BEACH_BUCK, 1);
 
   public static final CoinmasterData BUFF_JIMMY =
-      new CoinmasterData(master, "BuffJimmy", BuffJimmyRequest.class)
+      new CoinmasterData(master, "sbb_jimmy", BuffJimmyRequest.class)
           .withToken("Beach Buck")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)

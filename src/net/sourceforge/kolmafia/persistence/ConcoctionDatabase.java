@@ -63,6 +63,7 @@ import net.sourceforge.kolmafia.request.concoction.StillSuitRequest;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.shop.ShopDatabase;
 import net.sourceforge.kolmafia.shop.ShopRow;
 import net.sourceforge.kolmafia.shop.ShopRowDatabase;
 import net.sourceforge.kolmafia.swingui.ItemManageFrame;
@@ -167,6 +168,38 @@ public class ConcoctionDatabase {
 
   private ConcoctionDatabase() {}
 
+  public static void registerShops() {
+    // Mixing methods that use shop.php
+    ShopDatabase.registerShop("5dprinter", "Xiblaxian 5D printer", CraftingType.FIVE_D);
+    ShopDatabase.registerShop("airport", "Elemental Duty Free, Inc.", CraftingType.DUTYFREE);
+    ShopDatabase.registerShop("beergarden", "Beer Garden", CraftingType.BEER);
+    ShopDatabase.registerShop(
+        "crimbo12", "Uncle Crimbo's Futuristic Trailer", CraftingType.CRIMBO12);
+    ShopDatabase.registerShop("crimbo16", "Crimbo Lumps Shop", CraftingType.CRIMBO16);
+    ShopDatabase.registerShop(
+        "crimbo19toys", "The H. M. S. Kringle's Workshop", CraftingType.KRINGLE);
+    ShopDatabase.registerShop("fixodent", "Craft with Teeth", CraftingType.FIXODENT);
+    ShopDatabase.registerShop("grandma", "Grandma Sea Monkey", CraftingType.GRANDMA);
+    ShopDatabase.registerShop("jarl", "Jarlsberg's Cosmic Kitchen", CraftingType.JARLS);
+    ShopDatabase.registerShop("junkmagazine", "Worse Homes and Gardens", CraftingType.JUNK);
+    ShopDatabase.registerShop("kolhs_art", "Art Class (After School)", CraftingType.ARTCLASS);
+    ShopDatabase.registerShop(
+        "kolhs_chem", "Chemistry Class (After School)", CraftingType.CHEMCLASS);
+    ShopDatabase.registerShop("kolhs_shop", "Shop Class (After School)", CraftingType.SHOPCLASS);
+    ShopDatabase.registerShop("mystic", "The Crackpot Mystic's Shed", CraftingType.PIXEL);
+    ShopDatabase.registerShop("rumple", "Rumplestiltskin's Workshop", CraftingType.RUMPLE);
+    ShopDatabase.registerShop("shadowforge", "The Shadow Forge", CraftingType.SHADOW_FORGE);
+    ShopDatabase.registerShop("snowgarden", "Winter Gardening", CraftingType.WINTER);
+    ShopDatabase.registerShop("spant", "Spant Bit Assembly", CraftingType.SPANT);
+    ShopDatabase.registerShop("starchart", "A Star Chart", CraftingType.STARCHART);
+    ShopDatabase.registerShop("still", "Nash Crosby's Still", CraftingType.STILL);
+    ShopDatabase.registerShop("sugarsheets", "Sugar Sheet Folding", CraftingType.SUGAR_FOLDING);
+    ShopDatabase.registerShop("voteslime", "Mad Sliemce", CraftingType.SLIEMCE);
+    ShopDatabase.registerShop(
+        "wereprofessor_tinker", "Tinkering Bench", CraftingType.TINKERING_BENCH);
+    ShopDatabase.registerShop("xo", "XO Shop", CraftingType.XO);
+  }
+
   public static final void resetQueue() {
     LockableListModel<QueuedConcoction> queue = ConcoctionDatabase.queuedFood;
     while (queue.size() > 0) {
@@ -194,6 +227,9 @@ public class ConcoctionDatabase {
   }
 
   private static void reset() {
+    // Register shops first so we can translate mixing type to shopid
+    registerShops();
+
     // This begins by opening up the data file and preparing
     // a buffered reader; once this is done, every line is
     // examined and float-referenced: once in the name-lookup,
@@ -292,7 +328,7 @@ public class ConcoctionDatabase {
 
       if (row != 0) {
         ShopRow shopRow = new ShopRow(row, item, concoction.getIngredients());
-        ShopRowDatabase.registerShopRow(shopRow, "conc", mixingMethod.toString());
+        ShopRowDatabase.registerShopRow(shopRow, "conc", mixingMethod);
       }
 
       Concoction existing = ConcoctionPool.get(item);
@@ -2059,9 +2095,6 @@ public class ConcoctionDatabase {
           "Only a mild-mannered professor can work at their Tinkering Bench.");
     }
 
-    // Making stuff with mini kiwis is always allowed
-    permitNoCost(CraftingType.KIWI);
-
     // Other creatability flags
 
     if (KoLCharacter.isTorsoAware()) {
@@ -2478,7 +2511,6 @@ public class ConcoctionDatabase {
       case BURNING_LEAVES -> result.append("Pile of Burning Leaves");
       case TINKERING_BENCH -> result.append("Tinkering Bench");
       case MAYAM -> result.append("Mayam Calendar");
-      case KIWI -> result.append("Kiwi Kwiki Mart");
       case PHOTO_BOOTH -> result.append("Clan Photo Booth");
       case TAKERSPACE -> result.append("TakerSpace");
     }
@@ -2917,7 +2949,6 @@ public class ConcoctionDatabase {
       case "BURNING_LEAVES" -> ConcoctionDatabase.mixingMethod = CraftingType.BURNING_LEAVES;
       case "TINKERING_BENCH" -> ConcoctionDatabase.mixingMethod = CraftingType.TINKERING_BENCH;
       case "MAYAM" -> ConcoctionDatabase.mixingMethod = CraftingType.MAYAM;
-      case "KIWI" -> ConcoctionDatabase.mixingMethod = CraftingType.KIWI;
       case "PHOTO_BOOTH" -> ConcoctionDatabase.mixingMethod = CraftingType.PHOTO_BOOTH;
       case "TAKERSPACE" -> ConcoctionDatabase.mixingMethod = CraftingType.TAKERSPACE;
       default -> {

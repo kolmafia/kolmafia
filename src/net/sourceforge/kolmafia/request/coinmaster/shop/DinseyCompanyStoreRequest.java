@@ -16,7 +16,7 @@ public class DinseyCompanyStoreRequest extends CoinMasterRequest {
   public static final AdventureResult COIN = ItemPool.get(ItemPool.FUNFUNDS, 1);
 
   public static final CoinmasterData DINSEY_COMPANY_STORE =
-      new CoinmasterData(master, "DinsyStore", DinseyCompanyStoreRequest.class)
+      new CoinmasterData(master, "landfillstore", DinseyCompanyStoreRequest.class)
           .withToken("FunFunds&trade;")
           .withPluralToken("FunFunds&trade;")
           .withTokenPattern(TOKEN_PATTERN)

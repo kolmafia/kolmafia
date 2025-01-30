@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AdventureResult.MeatResult;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
@@ -94,22 +95,6 @@ public class ShopRow implements Comparable<ShopRow> {
     }
     buf.append(")");
     return buf.toString();
-  }
-
-  // <b style="color: white">Crimbo Factory</b>
-  private static final Pattern SHOP_PATTERN = Pattern.compile("<table.*?<b.*?>(.*?)</b>");
-
-  public static String parseShopName(final String html) {
-    Matcher m = SHOP_PATTERN.matcher(html);
-    return m.find() ? m.group(1) : "";
-  }
-
-  // name=whichshop value="grandma"
-  private static final Pattern SHOP_ID_PATTERN = Pattern.compile("name=whichshop value=\"(.*?)\"");
-
-  public static String parseShopId(final String html) {
-    Matcher m = SHOP_ID_PATTERN.matcher(html);
-    return m.find() ? m.group(1) : "";
   }
 
   /* The Armory and Leggery: Meat
@@ -487,6 +472,10 @@ public class ShopRow implements Comparable<ShopRow> {
     List<AdventureResult> costs = new ArrayList<>();
     for (int index = 3; index < data.length; ++index) {
       AdventureResult cost = AdventureResult.parseItem(data[index], true);
+      if (cost == null) {
+        RequestLogger.printLine(master + " (ROW" + row + "): bad cost '" + data[index] + "'");
+        continue;
+      }
       costs.add(cost);
     }
     return new ShopRow(row, item, costs.toArray(new AdventureResult[0]));

@@ -17,7 +17,7 @@ public class WalMartRequest extends CoinMasterRequest {
   public static final AdventureResult COIN = ItemPool.get(ItemPool.WALMART_GIFT_CERTIFICATE, 1);
 
   public static final CoinmasterData WALMART =
-      new CoinmasterData(master, "Wal-Mart", WalMartRequest.class)
+      new CoinmasterData(master, "glaciest", WalMartRequest.class)
           .withToken("Wal-Mart gift certificate")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)

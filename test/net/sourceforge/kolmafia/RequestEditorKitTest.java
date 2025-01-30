@@ -615,4 +615,25 @@ public class RequestEditorKitTest {
     assertThat(str, containsString("Round 1!"));
     assertThat(str, containsString("Round 2!"));
   }
+
+  @Nested
+  class Darkness {
+    @Test
+    void decoratesDarnessFightWithActualMonsterName() {
+      var cleanups =
+          new Cleanups(withProperty("relayShowSpoilers", true), withNextMonster("The Bush"));
+      try (cleanups) {
+        var buffer = new StringBuffer(html("request/test_fight_the_darkness.html"));
+        var original = buffer.toString();
+        assertThat(original, containsString("<span id='monname'>the darkness</span>"));
+        assertThat(original, containsString("<!-- MONSTERID: 537 -->"));
+
+        RequestEditorKit.getFeatureRichHTML("fight.php?ireallymeanit=1737917117", buffer, true);
+        var contents = buffer.toString();
+        var expected =
+            "<span class=\"elementsleaze\" id='monname'>The Bush hiding in the darkness</span>";
+        assertThat(contents, containsString(expected));
+      }
+    }
+  }
 }

@@ -24,6 +24,7 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.TransferItemRequest;
 import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 import net.sourceforge.kolmafia.shop.ShopRow;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -559,40 +560,6 @@ public class CoinMasterRequest extends GenericRequest {
             + (storage ? " from storage" : ""));
   }
 
-  public static final void buyStuff(
-      final CoinmasterData data, final ShopRow shopRow, final int count) {
-
-    StringBuilder buf = new StringBuilder();
-    buf.append("trading ");
-
-    AdventureResult[] costs = shopRow.getCosts();
-    for (int i = 0; i < costs.length; ++i) {
-      AdventureResult cost = costs[i];
-      if (i > 0) {
-        buf.append(", ");
-      }
-      int price = cost.getCount() * count;
-      if (cost.isMeat()) {
-        price = NPCPurchaseRequest.currentDiscountedPrice(price);
-      }
-      buf.append(price);
-      buf.append(" ");
-      if (cost.isMeat()) {
-        buf.append("Meat");
-      } else {
-        buf.append(cost.getPluralName(price));
-      }
-    }
-    buf.append(" for ");
-    AdventureResult item = shopRow.getItem();
-    buf.append(count * item.getCount());
-    buf.append(" ");
-    buf.append(item.getPluralName(count));
-
-    RequestLogger.updateSessionLog();
-    RequestLogger.updateSessionLog(buf.toString());
-  }
-
   public static final void completePurchase(final CoinmasterData data, final String urlString) {
     if (data == null) {
       return;
@@ -767,7 +734,7 @@ public class CoinMasterRequest extends GenericRequest {
       if (shopRow == null) {
         return false;
       }
-      buyStuff(data, shopRow, count);
+      ShopRequest.buyStuff(shopRow, count);
       return true;
     }
 
