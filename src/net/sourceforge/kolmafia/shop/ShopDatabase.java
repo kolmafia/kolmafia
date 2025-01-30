@@ -74,9 +74,9 @@ public class ShopDatabase {
         }
 
         String shopId = data[0];
-        String shopTypeName = data[1];
+        String shopName = data[1];
+        String shopTypeName = data[2];
         SHOP shopType = parseShopType(shopTypeName);
-        String shopName = data[2];
 
         if (shopType == SHOP.CONC) {
           if (data.length > 3) {
@@ -191,7 +191,7 @@ public class ShopDatabase {
         String shopId = entry.getKey();
         String shopName = entry.getValue();
         SHOP shopType = shopIdToShopType.get(shopId);
-        String line = shopId + "\t" + shopType + "\t" + shopName;
+        String line = shopId + "\t" + shopName + "\t" + shopType;
         CraftingType craftingType = shopIdToCraftingType.get(shopId);
         if (craftingType != null) {
           line += "\t" + craftingType.name();
