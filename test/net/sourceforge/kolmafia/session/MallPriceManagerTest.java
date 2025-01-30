@@ -184,7 +184,7 @@ public class MallPriceManagerTest {
   }
 
   private void addCoinMasterItem(int itemId, List<PurchaseRequest> list) {
-    PurchaseRequest item = CoinmastersDatabase.getPurchaseRequest(itemId);
+    PurchaseRequest item = CoinmastersDatabase.getFirstPurchaseRequest(itemId);
     if (item != null) {
       list.add(item);
     }

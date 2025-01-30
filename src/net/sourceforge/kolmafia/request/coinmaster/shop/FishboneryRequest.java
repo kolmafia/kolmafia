@@ -16,7 +16,7 @@ public class FishboneryRequest extends CoinMasterRequest {
       ItemPool.get(ItemPool.FRESHWATER_FISHBONE);
 
   public static final CoinmasterData FISHBONERY =
-      new CoinmasterData(master, "Fishbonery", FishboneryRequest.class)
+      new CoinmasterData(master, "fishbones", FishboneryRequest.class)
           .withToken("freshwater fishbone")
           .withTokenTest("no freshwater fishbones")
           .withTokenPattern(TOKEN_PATTERN)

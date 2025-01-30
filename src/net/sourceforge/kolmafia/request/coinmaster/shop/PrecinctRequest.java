@@ -14,7 +14,7 @@ public class PrecinctRequest extends CoinMasterRequest {
   public static final AdventureResult DOLLAR = ItemPool.get(ItemPool.COP_DOLLAR, 1);
 
   public static final CoinmasterData PRECINCT =
-      new CoinmasterData(master, "Precinct Materiel Division", PrecinctRequest.class)
+      new CoinmasterData(master, "detective", PrecinctRequest.class)
           .withToken("cop dollar")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(DOLLAR)

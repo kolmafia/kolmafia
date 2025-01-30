@@ -334,9 +334,10 @@ public abstract class PurchaseRequest extends GenericRequest
 
   @Override
   public boolean equals(final Object o) {
-    return o instanceof PurchaseRequest
-        && this.shopName.equals(((PurchaseRequest) o).shopName)
-        && this.item.getItemId() == ((PurchaseRequest) o).item.getItemId();
+    // Assumption: a shop only has one instance of an item
+    return o instanceof PurchaseRequest opr
+        && this.shopName.equals(opr.shopName)
+        && this.item.getItemId() == opr.item.getItemId();
   }
 
   @Override

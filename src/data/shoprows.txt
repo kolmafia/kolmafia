@@ -24,73 +24,73 @@
 23
 24
 25
-26	conc	white pixel	PIXEL
-27	conc	red pixel potion	PIXEL
-28	conc	blue pixel potion	PIXEL
-29	conc	green pixel potion	PIXEL
-30	conc	purple pixel pie	PIXEL
-31	conc	monster bait	PIXEL
-32	conc	pixel shield	PIXEL
-33	conc	pixel hat	PIXEL
-34	conc	pixel pants	PIXEL
-35	conc	pixel sword	PIXEL
+26	conc	white pixel	The Crackpot Mystic's Shed
+27	conc	red pixel potion	The Crackpot Mystic's Shed
+28	conc	blue pixel potion	The Crackpot Mystic's Shed
+29	conc	green pixel potion	The Crackpot Mystic's Shed
+30	conc	purple pixel pie	The Crackpot Mystic's Shed
+31	conc	monster bait	The Crackpot Mystic's Shed
+32	conc	pixel shield	The Crackpot Mystic's Shed
+33	conc	pixel hat	The Crackpot Mystic's Shed
+34	conc	pixel pants	The Crackpot Mystic's Shed
+35	conc	pixel sword	The Crackpot Mystic's Shed
 36
-37	conc	pixel boomerang	PIXEL
-38	conc	pixel whip	PIXEL
-39	conc	pixel pill	PIXEL
-40	conc	pixel energy tank	PIXEL
-41	conc	pixel grappling hook	PIXEL
-42	conc	consummate hard-boiled egg	JARLS
-43	conc	consummate fried egg	JARLS
-44	conc	consummate egg salad	JARLS
-45	conc	consummate bagel	JARLS
-46	conc	consummate sliced bread	JARLS
-47	conc	consummate hot dog bun	JARLS
-48	conc	consummate brownie	JARLS
-49	conc	consummate toast	JARLS
-50	conc	passable stout	JARLS
-51	conc	consummate soup	JARLS
-52	conc	consummate corn chips	JARLS
-53	conc	consummate salad	JARLS
-54	conc	consummate salsa	JARLS
-55	conc	consummate sauerkraut	JARLS
-56	conc	consummate cheese slice	JARLS
-57	conc	consummate melted cheese	JARLS
-58	conc	consummate bacon	JARLS
-59	conc	consummate meatloaf	JARLS
-60	conc	consummate steak	JARLS
-61	conc	consummate cold cuts	JARLS
-62	conc	consummate frankfurter	JARLS
-63	conc	consummate french fries	JARLS
-64	conc	consummate baked potato	JARLS
-65	conc	acceptable vodka	JARLS
-66	conc	consummate ice cream	JARLS
-67	conc	consummate whipped cream	JARLS
-68	conc	consummate sour cream	JARLS
-69	conc	consummate strawberries	JARLS
-70	conc	consummate sorbet	JARLS
-71	conc	adequate rum	JARLS
-72	conc	immaculate grilled cheese	JARLS
-73	conc	immaculate ice cream sandwich	JARLS
-74	conc	immaculate hot dog	JARLS
-75	conc	immaculate egg salad sandwich	JARLS
-76	conc	perfect sandwich	JARLS
-77	conc	perfect chef salad	JARLS
-78	conc	perfect breakfast	JARLS
-79	conc	sublime deluxe hot dog	JARLS
-80	conc	sublime stew	JARLS
-81	conc	sublime nachos	JARLS
-82	conc	Ultimate Breakfast Sandwich	JARLS
-83	conc	Loaded Baked Potato	JARLS
-84	conc	Omega Sundae	JARLS
-85	conc	Das Sauerlager	JARLS
-86	conc	Bologna Lambic	JARLS
-87	conc	Vodka Dog	JARLS
-88	conc	Disappointed Russian	JARLS
-89	conc	Chunky Mary	JARLS
-90	conc	Nachojito	JARLS
-91	conc	Le Roi	JARLS
-92	conc	Over Easy Rider	JARLS
+37	conc	pixel boomerang	The Crackpot Mystic's Shed
+38	conc	pixel whip	The Crackpot Mystic's Shed
+39	conc	pixel pill	The Crackpot Mystic's Shed
+40	conc	pixel energy tank	The Crackpot Mystic's Shed
+41	conc	pixel grappling hook	The Crackpot Mystic's Shed
+42	conc	consummate hard-boiled egg	Jarlsberg's Cosmic Kitchen
+43	conc	consummate fried egg	Jarlsberg's Cosmic Kitchen
+44	conc	consummate egg salad	Jarlsberg's Cosmic Kitchen
+45	conc	consummate bagel	Jarlsberg's Cosmic Kitchen
+46	conc	consummate sliced bread	Jarlsberg's Cosmic Kitchen
+47	conc	consummate hot dog bun	Jarlsberg's Cosmic Kitchen
+48	conc	consummate brownie	Jarlsberg's Cosmic Kitchen
+49	conc	consummate toast	Jarlsberg's Cosmic Kitchen
+50	conc	passable stout	Jarlsberg's Cosmic Kitchen
+51	conc	consummate soup	Jarlsberg's Cosmic Kitchen
+52	conc	consummate corn chips	Jarlsberg's Cosmic Kitchen
+53	conc	consummate salad	Jarlsberg's Cosmic Kitchen
+54	conc	consummate salsa	Jarlsberg's Cosmic Kitchen
+55	conc	consummate sauerkraut	Jarlsberg's Cosmic Kitchen
+56	conc	consummate cheese slice	Jarlsberg's Cosmic Kitchen
+57	conc	consummate melted cheese	Jarlsberg's Cosmic Kitchen
+58	conc	consummate bacon	Jarlsberg's Cosmic Kitchen
+59	conc	consummate meatloaf	Jarlsberg's Cosmic Kitchen
+60	conc	consummate steak	Jarlsberg's Cosmic Kitchen
+61	conc	consummate cold cuts	Jarlsberg's Cosmic Kitchen
+62	conc	consummate frankfurter	Jarlsberg's Cosmic Kitchen
+63	conc	consummate french fries	Jarlsberg's Cosmic Kitchen
+64	conc	consummate baked potato	Jarlsberg's Cosmic Kitchen
+65	conc	acceptable vodka	Jarlsberg's Cosmic Kitchen
+66	conc	consummate ice cream	Jarlsberg's Cosmic Kitchen
+67	conc	consummate whipped cream	Jarlsberg's Cosmic Kitchen
+68	conc	consummate sour cream	Jarlsberg's Cosmic Kitchen
+69	conc	consummate strawberries	Jarlsberg's Cosmic Kitchen
+70	conc	consummate sorbet	Jarlsberg's Cosmic Kitchen
+71	conc	adequate rum	Jarlsberg's Cosmic Kitchen
+72	conc	immaculate grilled cheese	Jarlsberg's Cosmic Kitchen
+73	conc	immaculate ice cream sandwich	Jarlsberg's Cosmic Kitchen
+74	conc	immaculate hot dog	Jarlsberg's Cosmic Kitchen
+75	conc	immaculate egg salad sandwich	Jarlsberg's Cosmic Kitchen
+76	conc	perfect sandwich	Jarlsberg's Cosmic Kitchen
+77	conc	perfect chef salad	Jarlsberg's Cosmic Kitchen
+78	conc	perfect breakfast	Jarlsberg's Cosmic Kitchen
+79	conc	sublime deluxe hot dog	Jarlsberg's Cosmic Kitchen
+80	conc	sublime stew	Jarlsberg's Cosmic Kitchen
+81	conc	sublime nachos	Jarlsberg's Cosmic Kitchen
+82	conc	Ultimate Breakfast Sandwich	Jarlsberg's Cosmic Kitchen
+83	conc	Loaded Baked Potato	Jarlsberg's Cosmic Kitchen
+84	conc	Omega Sundae	Jarlsberg's Cosmic Kitchen
+85	conc	Das Sauerlager	Jarlsberg's Cosmic Kitchen
+86	conc	Bologna Lambic	Jarlsberg's Cosmic Kitchen
+87	conc	Vodka Dog	Jarlsberg's Cosmic Kitchen
+88	conc	Disappointed Russian	Jarlsberg's Cosmic Kitchen
+89	conc	Chunky Mary	Jarlsberg's Cosmic Kitchen
+90	conc	Nachojito	Jarlsberg's Cosmic Kitchen
+91	conc	Le Roi	Jarlsberg's Cosmic Kitchen
+92	conc	Over Easy Rider	Jarlsberg's Cosmic Kitchen
 93	buy	Boris's key	Vending Machine
 94	buy	Jarlsberg's key	Vending Machine
 95	buy	Sneaky Pete's key	Vending Machine
@@ -102,48 +102,48 @@
 101	buy	Spellbook: Walberg's Dim Bulb	Vending Machine
 102	buy	Spellbook: Singer's Faithful Ocelot	Vending Machine
 103	buy	Spellbook: Drescher's Annoying Noise	Vending Machine
-104	conc	Staff of the Healthy Breakfast	JARLS
-105	conc	Staff of the Staff of Life	JARLS
-106	conc	Staff of the Light Lunch	JARLS
-107	conc	Staff of the Standalone Cheese	JARLS
-108	conc	Staff of the Hearty Dinner	JARLS
-109	conc	Staff of the All-Steak	JARLS
-110	conc	Staff of Fruit Salad	JARLS
-111	conc	Staff of the Cream of the Cream	JARLS
-112	conc	cosmic six-pack	JARLS
+104	conc	Staff of the Healthy Breakfast	Jarlsberg's Cosmic Kitchen
+105	conc	Staff of the Staff of Life	Jarlsberg's Cosmic Kitchen
+106	conc	Staff of the Light Lunch	Jarlsberg's Cosmic Kitchen
+107	conc	Staff of the Standalone Cheese	Jarlsberg's Cosmic Kitchen
+108	conc	Staff of the Hearty Dinner	Jarlsberg's Cosmic Kitchen
+109	conc	Staff of the All-Steak	Jarlsberg's Cosmic Kitchen
+110	conc	Staff of Fruit Salad	Jarlsberg's Cosmic Kitchen
+111	conc	Staff of the Cream of the Cream	Jarlsberg's Cosmic Kitchen
+112	conc	cosmic six-pack	Jarlsberg's Cosmic Kitchen
 113
 114
 115
-116	conc	sushi doily	GRANDMA
-117	conc	scimitar cozy	GRANDMA
-118	conc	fish stick cozy	GRANDMA
-119	conc	bazooka cozy	GRANDMA
-120	conc	sea mantle	GRANDMA
-121	conc	sea shawl	GRANDMA
-122	conc	sea cape	GRANDMA
-123	conc	saltwaterbed	GRANDMA
-124	conc	crappy Mer-kin mask	GRANDMA
-125	conc	crappy Mer-kin tailpiece	GRANDMA
-126	conc	Mer-kin gladiator mask	GRANDMA
-127	conc	Mer-kin gladiator tailpiece	GRANDMA
-128	conc	crappy Mer-kin mask	GRANDMA
-129	conc	Mer-kin scholar mask	GRANDMA
-130	conc	Mer-kin scholar tailpiece	GRANDMA
-131	conc	crappy Mer-kin mask	GRANDMA
-132	conc	scale-mail underwear	GRANDMA
-133	conc	star sword	STARCHART
-134	conc	star crossbow	STARCHART
-135	conc	star staff	STARCHART
-136	conc	star pants	STARCHART
-137	conc	star hat	STARCHART
-138	conc	star buckler	STARCHART
-139	conc	star throwing star	STARCHART
-140	conc	star starfish	STARCHART
-141	conc	Richard's star key	STARCHART
-142	conc	star shirt	STARCHART
-143	conc	star stiletto	STARCHART
-144	conc	star boomerang	STARCHART
-145	conc	star spatula	STARCHART
+116	conc	sushi doily	Grandma Sea Monkey
+117	conc	scimitar cozy	Grandma Sea Monkey
+118	conc	fish stick cozy	Grandma Sea Monkey
+119	conc	bazooka cozy	Grandma Sea Monkey
+120	conc	sea mantle	Grandma Sea Monkey
+121	conc	sea shawl	Grandma Sea Monkey
+122	conc	sea cape	Grandma Sea Monkey
+123	conc	saltwaterbed	Grandma Sea Monkey
+124	conc	crappy Mer-kin mask	Grandma Sea Monkey
+125	conc	crappy Mer-kin tailpiece	Grandma Sea Monkey
+126	conc	Mer-kin gladiator mask	Grandma Sea Monkey
+127	conc	Mer-kin gladiator tailpiece	Grandma Sea Monkey
+128	conc	crappy Mer-kin mask	Grandma Sea Monkey
+129	conc	Mer-kin scholar mask	Grandma Sea Monkey
+130	conc	Mer-kin scholar tailpiece	Grandma Sea Monkey
+131	conc	crappy Mer-kin mask	Grandma Sea Monkey
+132	conc	scale-mail underwear	Grandma Sea Monkey
+133	conc	star sword	A Star Chart
+134	conc	star crossbow	A Star Chart
+135	conc	star staff	A Star Chart
+136	conc	star pants	A Star Chart
+137	conc	star hat	A Star Chart
+138	conc	star buckler	A Star Chart
+139	conc	star throwing star	A Star Chart
+140	conc	star starfish	A Star Chart
+141	conc	Richard's star key	A Star Chart
+142	conc	star shirt	A Star Chart
+143	conc	star stiletto	A Star Chart
+144	conc	star boomerang	A Star Chart
+145	conc	star spatula	A Star Chart
 146	buy	Tales of Dread	The Terrified Eagle Inn
 147	buy	Dreadsylvanian skeleton key	The Terrified Eagle Inn
 148	buy	Official Seal of Dreadsylvania	The Terrified Eagle Inn
@@ -156,21 +156,21 @@
 155	buy	dreadful glove	The Terrified Eagle Inn
 156	buy	hot Dreadsylvanian cocoa	The Terrified Eagle Inn
 157	buy	folder (tranquil landscape)	The Terrified Eagle Inn
-158	conc	miniature suspension bridge	SHOPCLASS
-159	conc	Staff of the Lunch Lady	SHOPCLASS
-160	conc	universal key	SHOPCLASS
-161	conc	world's most dangerous birdhouse	SHOPCLASS
-162	conc	deathchucks	SHOPCLASS
-163	conc	giant eraser	ARTCLASS
-164	conc	quasireligious sculpture	ARTCLASS
-165	conc	giant Faraday cage	ARTCLASS
-166	conc	modeling claymore	ARTCLASS
-167	conc	sticky clay homunculus	ARTCLASS
-168	conc	sodium pentasomething	CHEMCLASS
-169	conc	grains of salt	CHEMCLASS
-170	conc	yellowcake bomb	CHEMCLASS
-171	conc	dirty stinkbomb	CHEMCLASS
-172	conc	superwater	CHEMCLASS
+158	conc	miniature suspension bridge	Shop Class (After School)
+159	conc	Staff of the Lunch Lady	Shop Class (After School)
+160	conc	universal key	Shop Class (After School)
+161	conc	world's most dangerous birdhouse	Shop Class (After School)
+162	conc	deathchucks	Shop Class (After School)
+163	conc	giant eraser	Art Class (After School)
+164	conc	quasireligious sculpture	Art Class (After School)
+165	conc	giant Faraday cage	Art Class (After School)
+166	conc	modeling claymore	Art Class (After School)
+167	conc	sticky clay homunculus	Art Class (After School)
+168	conc	sodium pentasomething	Chemistry Class (After School)
+169	conc	grains of salt	Chemistry Class (After School)
+170	conc	yellowcake bomb	Chemistry Class (After School)
+171	conc	dirty stinkbomb	Chemistry Class (After School)
+172	conc	superwater	Chemistry Class (After School)
 173	npc	Cursed Punch	The Hidden Tavern
 174	npc	Bowl of Scorpions	The Hidden Tavern
 175	npc	Fog Murderer	The Hidden Tavern
@@ -182,15 +182,15 @@
 181	buy	tropical island souvenir crate	The Shore, Inc. Gift Shop
 182	buy	ski resort souvenir crate	The Shore, Inc. Gift Shop
 183	buy	UV-resistant compass	The Shore, Inc. Gift Shop
-184	conc	junk junk	JUNK
-185	conc	junk band	JUNK
-186	conc	junk trunks	JUNK
-187	conc	junk-mail shirt	JUNK
-188	conc	junk food	JUNK
-189	conc	junk yard	JUNK
-190	conc	swordzall	JUNK
-191	conc	arm buzzer	JUNK
-192	conc	boilgun	JUNK
+184	conc	junk junk	Worse Homes and Gardens
+185	conc	junk band	Worse Homes and Gardens
+186	conc	junk trunks	Worse Homes and Gardens
+187	conc	junk-mail shirt	Worse Homes and Gardens
+188	conc	junk food	Worse Homes and Gardens
+189	conc	junk yard	Worse Homes and Gardens
+190	conc	swordzall	Worse Homes and Gardens
+191	conc	arm buzzer	Worse Homes and Gardens
+192	conc	boilgun	Worse Homes and Gardens
 193	buy	Mint-in-box Moonthril Circlet	Isotope Smithery
 194	buy	Mint-in-box Moonthril Flamberge	Isotope Smithery
 195	buy	Mint-in-box Moonthril Longbow	Isotope Smithery
@@ -212,34 +212,34 @@
 211	buy	Comet Pop	Lunar Lunch-o-Mat
 212	buy	Flan in the Moon	Lunar Lunch-o-Mat
 213	buy	1/6th Pound Cake	Lunar Lunch-o-Mat
-214	conc	can of Br&uuml;talbr&auml;u	BEER
-215	conc	can of Drooling Monk	BEER
-216	conc	can of Impetuous Scofflaw	BEER
-217	conc	bottle of Old Pugilist	BEER
-218	conc	bottle of Professor Beer	BEER
-219	conc	bottle of Rapier Witbier	BEER
-220	conc	artisanal homebrew gift package	BEER
+214	conc	can of Br&uuml;talbr&auml;u	Beer Garden
+215	conc	can of Drooling Monk	Beer Garden
+216	conc	can of Impetuous Scofflaw	Beer Garden
+217	conc	bottle of Old Pugilist	Beer Garden
+218	conc	bottle of Professor Beer	Beer Garden
+219	conc	bottle of Rapier Witbier	Beer Garden
+220	conc	artisanal homebrew gift package	Beer Garden
 221	buy	warbear helm fragment	Warbear Black Box
 222	buy	warbear trouser fragment	Warbear Black Box
 223	buy	warbear accoutrements chunk	Warbear Black Box
 224	buy	blind-packed die-cast metal toy	Warbear Black Box
 225	buy	warbear requisition box	Warbear Black Box
 226	buy	warbear officer requisition box	Warbear Black Box
-227	conc	snow cleats	WINTER
-228	conc	liquid ice pack	WINTER
-229	conc	snow boards	WINTER
-230	conc	snow crab	WINTER
-231	conc	Ice Island Long Tea	WINTER
-232	conc	unfinished ice sculpture	WINTER
-233	conc	ice house	WINTER
-234	conc	snow machine	WINTER
-235	conc	snow mobile	WINTER
-236	conc	ice bucket	WINTER
-237	conc	snow shovel	WINTER
-238	conc	bod-ice	WINTER
-239	conc	snow belt	WINTER
-240	conc	ice nine	WINTER
-241	conc	snow fort	WINTER
+227	conc	snow cleats	Winter Gardening
+228	conc	liquid ice pack	Winter Gardening
+229	conc	snow boards	Winter Gardening
+230	conc	snow crab	Winter Gardening
+231	conc	Ice Island Long Tea	Winter Gardening
+232	conc	unfinished ice sculpture	Winter Gardening
+233	conc	ice house	Winter Gardening
+234	conc	snow machine	Winter Gardening
+235	conc	snow mobile	Winter Gardening
+236	conc	ice bucket	Winter Gardening
+237	conc	snow shovel	Winter Gardening
+238	conc	bod-ice	Winter Gardening
+239	conc	snow belt	Winter Gardening
+240	conc	ice nine	Winter Gardening
+241	conc	snow fort	Winter Gardening
 242	buy	warbear dress greaves	Warbear Black Box
 243	buy	warbear dress bracers	Warbear Black Box
 244	buy	warbear dress helmet	Warbear Black Box
@@ -249,15 +249,15 @@
 248	buy	fancy oil painting	Paul's Boutique
 249	buy	solid gold rosary	Paul's Boutique
 250	buy	ornate dowsing rod	Paul's Boutique
-251	conc	smudge stick	RUMPLE
-252	conc	portable wall	RUMPLE
-253	conc	large tankard of ale	RUMPLE
-254	conc	scroll case	RUMPLE
-255	conc	jug of &quot;wine&quot;	RUMPLE
-256	conc	juggling ball	RUMPLE
-257	conc	crappy camera	RUMPLE
-258	conc	humble pie	RUMPLE
-259	conc	small golem	RUMPLE
+251	conc	smudge stick	Rumplestiltskin's Workshop
+252	conc	portable wall	Rumplestiltskin's Workshop
+253	conc	large tankard of ale	Rumplestiltskin's Workshop
+254	conc	scroll case	Rumplestiltskin's Workshop
+255	conc	jug of &quot;wine&quot;	Rumplestiltskin's Workshop
+256	conc	juggling ball	Rumplestiltskin's Workshop
+257	conc	crappy camera	Rumplestiltskin's Workshop
+258	conc	humble pie	Rumplestiltskin's Workshop
+259	conc	small golem	Rumplestiltskin's Workshop
 260
 261
 262
@@ -265,20 +265,20 @@
 264
 265
 266
-267	conc	bottle of Calcutta Emerald	STILL
-268	conc	bottle of Lieutenant Freeman	STILL
-269	conc	bottle of Jorge Sinsonte	STILL
-270	conc	bottle of Definit	STILL
-271	conc	bottle of Domesticated Turkey	STILL
-272	conc	boxed champagne	STILL
-273	conc	bottle of Ooze-O	STILL
-274	conc	bottle of Pete's Sake	STILL
-275	conc	tangerine	STILL
-276	conc	kiwi	STILL
-277	conc	cocktail onion	STILL
-278	conc	kumquat	STILL
-279	conc	tonic water	STILL
-280	conc	raspberry	STILL
+267	conc	bottle of Calcutta Emerald	Nash Crosby's Still
+268	conc	bottle of Lieutenant Freeman	Nash Crosby's Still
+269	conc	bottle of Jorge Sinsonte	Nash Crosby's Still
+270	conc	bottle of Definit	Nash Crosby's Still
+271	conc	bottle of Domesticated Turkey	Nash Crosby's Still
+272	conc	boxed champagne	Nash Crosby's Still
+273	conc	bottle of Ooze-O	Nash Crosby's Still
+274	conc	bottle of Pete's Sake	Nash Crosby's Still
+275	conc	tangerine	Nash Crosby's Still
+276	conc	kiwi	Nash Crosby's Still
+277	conc	cocktail onion	Nash Crosby's Still
+278	conc	kumquat	Nash Crosby's Still
+279	conc	tonic water	Nash Crosby's Still
+280	conc	raspberry	Nash Crosby's Still
 281	npc	forged identification documents	The Black Market
 282	npc	can of black paint	The Black Market
 283	npc	black cherry soda	The Black Market
@@ -289,7 +289,7 @@
 288	npc	spare kidney	The Black Market
 289	npc	Red Zeppelin ticket	The Black Market
 290	buy	Red Zeppelin ticket	The Black Market
-291	conc	liquid bread	BEER
+291	conc	liquid bread	Beer Garden
 292	buy	sewing kit	Vending Machine
 293	buy	regular-size brogurt	The Frozen Brogurt Stand
 294	buy	super-size brogurt	The Frozen Brogurt Stand
@@ -325,20 +325,20 @@
 324	buy	fishbone facemask	Freshwater Fishbonery
 325	buy	fishbone bracers	Freshwater Fishbonery
 326	buy	fishbone belt	Freshwater Fishbonery
-327	conc	sugar shotgun	SUGAR_FOLDING
-328	conc	sugar shillelagh	SUGAR_FOLDING
-329	conc	sugar shank	SUGAR_FOLDING
-330	conc	sugar chapeau	SUGAR_FOLDING
-331	conc	sugar shorts	SUGAR_FOLDING
-332	conc	sugar shield	SUGAR_FOLDING
-333	conc	sugar shirt	SUGAR_FOLDING
-334	conc	Xiblaxian stealth cowl	FIVE_D
-335	conc	Xiblaxian stealth trousers	FIVE_D
-336	conc	Xiblaxian stealth vest	FIVE_D
-337	conc	Xiblaxian xeno-detection goggles	FIVE_D
-338	conc	Xiblaxian space-whiskey	FIVE_D
-339	conc	Xiblaxian ultraburrito	FIVE_D
-340	conc	Xiblaxian residence-cube	FIVE_D
+327	conc	sugar shotgun	Sugar Sheet Folding
+328	conc	sugar shillelagh	Sugar Sheet Folding
+329	conc	sugar shank	Sugar Sheet Folding
+330	conc	sugar chapeau	Sugar Sheet Folding
+331	conc	sugar shorts	Sugar Sheet Folding
+332	conc	sugar shield	Sugar Sheet Folding
+333	conc	sugar shirt	Sugar Sheet Folding
+334	conc	Xiblaxian stealth cowl	Xiblaxian 5D printer
+335	conc	Xiblaxian stealth trousers	Xiblaxian 5D printer
+336	conc	Xiblaxian stealth vest	Xiblaxian 5D printer
+337	conc	Xiblaxian xeno-detection goggles	Xiblaxian 5D printer
+338	conc	Xiblaxian space-whiskey	Xiblaxian 5D printer
+339	conc	Xiblaxian ultraburrito	Xiblaxian 5D printer
+340	conc	Xiblaxian residence-cube	Xiblaxian 5D printer
 341	buy	warm war shawarma	The SHAWARMA Initiative
 342	buy	initiative shawarma	The SHAWARMA Initiative
 343	buy	karma shawarma	The SHAWARMA Initiative
@@ -724,16 +724,16 @@
 723	npc	tomayohawk-style reflex hammer	The Mayo Clinic
 724	npc	mayo lance	The Mayo Clinic
 725	npc	Mayo Minder&trade;	The Mayo Clinic
-726	conc	pixel coin	PIXEL
+726	conc	pixel coin	The Crackpot Mystic's Shed
 727
-728	conc	pixel star	PIXEL
-729	conc	pixel banana	PIXEL
-730	conc	pixel beer	PIXEL
-731	conc	yellow submarine	PIXEL
-732	conc	pixel lemon	PIXEL
-733	conc	pixel daiquiri	PIXEL
-734	conc	miniature power pill	PIXEL
-735	conc	yellow pixel potion	PIXEL
+728	conc	pixel star	The Crackpot Mystic's Shed
+729	conc	pixel banana	The Crackpot Mystic's Shed
+730	conc	pixel beer	The Crackpot Mystic's Shed
+731	conc	yellow submarine	The Crackpot Mystic's Shed
+732	conc	pixel lemon	The Crackpot Mystic's Shed
+733	conc	pixel daiquiri	The Crackpot Mystic's Shed
+734	conc	miniature power pill	The Crackpot Mystic's Shed
+735	conc	yellow pixel potion	The Crackpot Mystic's Shed
 736	npc	Gnollish pie tin	Madeline's Baking Supply
 737	npc	wad of dough	Madeline's Baking Supply
 738	npc	taco shell	Madeline's Baking Supply
@@ -774,12 +774,12 @@
 773	buy	one-day ticket to The Glaciest	Wal-Mart
 774	buy	bottle of Bloodweiser	The Terrified Eagle Inn
 775	buy	electric Kool-Aid	The Terrified Eagle Inn
-776	conc	That 70s Cologne	DUTYFREE
-777	conc	Wal-Mart &quot;diamond&quot; ring	DUTYFREE
-778	conc	Puffstone cigar	DUTYFREE
-779	conc	Conspiracy&trade; mascara	DUTYFREE
-780	conc	Spring Break Beach &quot;swimsuit&quot;	DUTYFREE
-781	conc	airplane tattoo	DUTYFREE
+776	conc	That 70s Cologne	Elemental Duty Free, Inc.
+777	conc	Wal-Mart &quot;diamond&quot; ring	Elemental Duty Free, Inc.
+778	conc	Puffstone cigar	Elemental Duty Free, Inc.
+779	conc	Conspiracy&trade; mascara	Elemental Duty Free, Inc.
+780	conc	Spring Break Beach &quot;swimsuit&quot;	Elemental Duty Free, Inc.
+781	conc	airplane tattoo	Elemental Duty Free, Inc.
 782	buy	bat-oomerang	Bat-Fabricator
 783	buy	bat-jute	Bat-Fabricator
 784	buy	bat-o-mite	Bat-Fabricator
@@ -909,20 +909,20 @@
 908	npc	antique accordion	Uncle P's Antiques
 909
 910
-911	conc	hambrosier	CRIMBO16
-912	conc	chakra-mental wine	CRIMBO16
-913	conc	chakra malt	CRIMBO16
-914	conc	Black Angus blackburger	CRIMBO16
-915	conc	black brandy	CRIMBO16
-916	conc	potion of spiritual gunkifying	CRIMBO16
-917	conc	bad vibroknife	CRIMBO16
-918	conc	crystal belt buckle	CRIMBO16
-919	conc	saffron antaravasaka	CRIMBO16
-920	conc	saffron uttarasanga	CRIMBO16
-921	conc	Lump-Stacking for Beginners	CRIMBO16
-922	conc	pet bad vibe	CRIMBO16
-923	conc	Rethinking Candy	CRIMBO16
-924	conc	eternal knot tattoo	CRIMBO16
+911	conc	hambrosier	Crimbo Lumps Shop
+912	conc	chakra-mental wine	Crimbo Lumps Shop
+913	conc	chakra malt	Crimbo Lumps Shop
+914	conc	Black Angus blackburger	Crimbo Lumps Shop
+915	conc	black brandy	Crimbo Lumps Shop
+916	conc	potion of spiritual gunkifying	Crimbo Lumps Shop
+917	conc	bad vibroknife	Crimbo Lumps Shop
+918	conc	crystal belt buckle	Crimbo Lumps Shop
+919	conc	saffron antaravasaka	Crimbo Lumps Shop
+920	conc	saffron uttarasanga	Crimbo Lumps Shop
+921	conc	Lump-Stacking for Beginners	Crimbo Lumps Shop
+922	conc	pet bad vibe	Crimbo Lumps Shop
+923	conc	Rethinking Candy	Crimbo Lumps Shop
+924	conc	eternal knot tattoo	Crimbo Lumps Shop
 925	buy	wicker knickers	Armory & Leggery
 926	buy	wicker kickers	Armory & Leggery
 927	buy	wicker ticker	Armory & Leggery
@@ -937,10 +937,10 @@
 936	buy	bakelite backpack	Armory & Leggery
 937
 938
-939	conc	spants	SPANT
-940	conc	spant shield	SPANT
-941	conc	spant shoulderpads	SPANT
-942	conc	spant backplate	SPANT
+939	conc	spants	Spant Bit Assembly
+940	conc	spant shield	Spant Bit Assembly
+941	conc	spant shoulderpads	Spant Bit Assembly
+942	conc	spant backplate	Spant Bit Assembly
 943	buy	Aldebaran sardines	Spacegate Fabrication Facility
 944	buy	Centauri fish wine	Spacegate Fabrication Facility
 945	buy	powdered oxygen	Spacegate Fabrication Facility
@@ -951,18 +951,18 @@
 950	buy	Spacegate diplomat's insignia	Spacegate Fabrication Facility
 951	buy	Spacegate emergency disintegrator	Spacegate Fabrication Facility
 952	buy	Spacegate Initiative tattoo unit	Spacegate Fabrication Facility
-953	conc	pair of candy glasses	XO
+953	conc	pair of candy glasses	XO Shop
 954
-955	conc	jug of booze	XO
-956	conc	Hide-rox&trade; cookie	XO
-957	conc	temporary X tattoos	XO
-958	conc	glyph of athleticism	XO
-959	conc	pair of scissors	XO
-960	conc	new habit	XO
-961	conc	bridge truss	XO
-962	conc	pearl necklace	XO
-963	conc	amorphous blob	XO
-964	conc	giant amorphous blob	XO
+955	conc	jug of booze	XO Shop
+956	conc	Hide-rox&trade; cookie	XO Shop
+957	conc	temporary X tattoos	XO Shop
+958	conc	glyph of athleticism	XO Shop
+959	conc	pair of scissors	XO Shop
+960	conc	new habit	XO Shop
+961	conc	bridge truss	XO Shop
+962	conc	pearl necklace	XO Shop
+963	conc	amorphous blob	XO Shop
+964	conc	giant amorphous blob	XO Shop
 965
 966	buy	stale cheer wine	Cheer-o-Vend 3000
 967	buy	stale Cheer-E-Os	Cheer-o-Vend 3000
@@ -1023,12 +1023,12 @@
 1022	buy	good guava	G-Mart
 1023	buy	gin and ginger	G-Mart
 1024	buy	gaseous gravy	G-Mart
-1025	conc	slime fedora	SLIEMCE
-1026	conc	slime knuckles	SLIEMCE
-1027	conc	slime waders	SLIEMCE
+1025	conc	slime fedora	Mad Sliemce
+1026	conc	slime knuckles	Mad Sliemce
+1027	conc	slime waders	Mad Sliemce
 1028
-1029	npc	yule gruel	The Crimbo Cafe
-1030	npc	hot watered rum	The Crimbo Cafe
+1029	npc	yule gruel	The Crimbo Cafe (2018)
+1030	npc	hot watered rum	The Crimbo Cafe (2018)
 1031	npc	bottle of Crimbognac	Crimbo Town Gift-O-Mat
 1032	npc	Crimboysters Rockefeller	Crimbo Town Gift-O-Mat
 1033	npc	Crimbeau de toilette	Crimbo Town Gift-O-Mat
@@ -1099,20 +1099,20 @@
 1098	buy	space chowder	Cosmic Ray's Bazaar
 1099	buy	space wine	Cosmic Ray's Bazaar
 1100	buy	lucky-ish pill	Cosmic Ray's Bazaar
-1101	npc	bowl of mernudo	The Crimbo Cafe
+1101	npc	bowl of mernudo	The Crimbo Cafe (2019)
 1102
-1103	npc	fishelada	The Crimbo Cafe
-1104	npc	ojo de pez burrito	The Crimbo Cafe
-1105	conc	antique nutcracker hat	KRINGLE
-1106	conc	antique nutcracker cape	KRINGLE
-1107	conc	antique nutcracker waistcoat	KRINGLE
-1108	conc	antique nutcracker boots	KRINGLE
-1109	conc	antique nutcracker sword	KRINGLE
-1110	conc	antique nutcracker beard	KRINGLE
-1111	conc	antique nutcracker epaulets	KRINGLE
-1112	conc	antique nutcracker drumstick	KRINGLE
-1113	conc	antique nutcracker figurine	KRINGLE
-1114	conc	antique nutcracker pants	KRINGLE
+1103	npc	fishelada	The Crimbo Cafe (2019)
+1104	npc	ojo de pez burrito	The Crimbo Cafe (2019)
+1105	conc	antique nutcracker hat	The H. M. S. Kringle's Workshop
+1106	conc	antique nutcracker cape	The H. M. S. Kringle's Workshop
+1107	conc	antique nutcracker waistcoat	The H. M. S. Kringle's Workshop
+1108	conc	antique nutcracker boots	The H. M. S. Kringle's Workshop
+1109	conc	antique nutcracker sword	The H. M. S. Kringle's Workshop
+1110	conc	antique nutcracker beard	The H. M. S. Kringle's Workshop
+1111	conc	antique nutcracker epaulets	The H. M. S. Kringle's Workshop
+1112	conc	antique nutcracker drumstick	The H. M. S. Kringle's Workshop
+1113	conc	antique nutcracker figurine	The H. M. S. Kringle's Workshop
+1114	conc	antique nutcracker pants	The H. M. S. Kringle's Workshop
 1115
 1116	buy	chalk chlamys	Armory & Leggery
 1117	buy	chalk chain	Armory & Leggery
@@ -1199,8 +1199,8 @@
 1198	buy	The Night Before Crimbo, Ch. 4	Elf Booze Drive
 1199	buy	The Night Before Crimbo, Ch. 5	Elf Candy Drive
 1200
-1201	npc	stuffed red and green pepper (stale)	The Crimbo Cafe
-1202	npc	cranberry margarita (brackish)	The Crimbo Cafe
+1201	npc	stuffed red and green pepper (stale)	The Crimbo Cafe (2020)
+1202	npc	cranberry margarita (brackish)	The Crimbo Cafe (2020)
 1203
 1204	buy	miniature goose mask	Elf Booze Drive
 1205	buy	tiny glowing red nose	Elf Food Drive
@@ -1261,8 +1261,8 @@
 1260	npc	literal bucket hat	FDKOL Auxiliary
 1261	npc	rainproof barrel caulk	FDKOL Auxiliary
 1262	npc	pump grease	FDKOL Auxiliary
-1263	npc	bread pie	The Crimbo Cafe
-1264	npc	clear Russian	The Crimbo Cafe
+1263	npc	bread pie	The Crimbo Cafe (2021)
+1264	npc	clear Russian	The Crimbo Cafe (2021)
 1265	npc	black Crimbo ball	Ornament Stand
 1266	npc	white Crimbo ball	Ornament Stand
 1267	buy	velour voulge	Armory & Leggery
@@ -1305,18 +1305,18 @@
 1304	buy	flagstone fez	Armory & Leggery
 1305	buy	flagstone fleece	Armory & Leggery
 1306	buy	flagstone fringe	Armory & Leggery
-1307	conc	pixel bread	PIXEL
-1308	conc	pixel whiskey	PIXEL
-1309	conc	shadow chef's hat	SHADOW_FORGE
-1310	conc	shadow trousers	SHADOW_FORGE
-1311	conc	shadow hammer	SHADOW_FORGE
-1312	conc	shadow monocle	SHADOW_FORGE
-1313	conc	shadow candle	SHADOW_FORGE
+1307	conc	pixel bread	The Crackpot Mystic's Shed
+1308	conc	pixel whiskey	The Crackpot Mystic's Shed
+1309	conc	shadow chef's hat	The Shadow Forge
+1310	conc	shadow trousers	The Shadow Forge
+1311	conc	shadow hammer	The Shadow Forge
+1312	conc	shadow monocle	The Shadow Forge
+1313	conc	shadow candle	The Shadow Forge
 1314
-1315	conc	shadow hot dog	SHADOW_FORGE
-1316	conc	shadow martini	SHADOW_FORGE
-1317	conc	shadow pill	SHADOW_FORGE
-1318	conc	shadow needle	SHADOW_FORGE
+1315	conc	shadow hot dog	The Shadow Forge
+1316	conc	shadow martini	The Shadow Forge
+1317	conc	shadow pill	The Shadow Forge
+1318	conc	shadow needle	The Shadow Forge
 1319	buy	replica Dark Jill-O-Lantern	Replica Mr. Store
 1320	buy	replica hand turkey outline	Replica Mr. Store
 1321	buy	replica crimbo elfling	Replica Mr. Store
@@ -1391,9 +1391,9 @@
 1390	buy	Crimbo cookie sheet	Mr. Store 2002
 1391	buy	Replica 2002 Mr. Store Catalog	Replica Mr. Store
 1392	buy	replica sleeping patriotic eagle	Replica Mr. Store
-1393	conc	cat o' nine teeth	FIXODENT
-1394	conc	toothy trousers	FIXODENT
-1395	conc	tooth cap	FIXODENT
+1393	conc	cat o' nine teeth	Craft with Teeth
+1394	conc	toothy trousers	Craft with Teeth
+1395	conc	tooth cap	Craft with Teeth
 1396	buy	replica august scepter	Replica Mr. Store
 1397	buy	crated wardrobe-o-matic	KoL Con 13 Merch Table
 1398
@@ -1465,30 +1465,30 @@
 1464	buy	adobe ascot	Armory & Leggery
 1465	buy	adobe abaya	Armory & Leggery
 1466
-1467	conc	biphasic molecular oculus	TINKERING_BENCH
-1468	conc	triphasic molecular oculus	TINKERING_BENCH
-1469	conc	high-tension exoskeleton	TINKERING_BENCH
-1470	conc	ultra-high-tension exoskeleton	TINKERING_BENCH
-1471	conc	irresponsible-tension exoskeleton	TINKERING_BENCH
-1472	conc	quick-release belt pouch	TINKERING_BENCH
-1473	conc	quick-release fannypack	TINKERING_BENCH
-1474	conc	quick-release utility belt	TINKERING_BENCH
-1475	conc	motion sensor	TINKERING_BENCH
-1476	conc	focused magnetron pistol	TINKERING_BENCH
-1477	conc	mini kiwi bikini	KIWI
-1478	conc	mini kiwitini	KIWI
-1479	conc	mini kiwitini	KIWI
-1480	conc	mini kiwi invisible dirigible	KIWI
-1481	conc	mini kiwi aioli	KIWI
-1482	conc	mini kiwi silicon tiepin	KIWI
-1483	conc	mini kiwi tipi	KIWI
-1484	conc	mini kiwi intoxicating spirits	KIWI
-1485	conc	mini kiwi illicit antibiotic	KIWI
-1486	conc	mini kiwi antimilitaristic hippy petition	KIWI
-1487	conc	mini kiwi whipping stick	KIWI
-1488	conc	mini kiwi icepick	KIWI
-1489	conc	mini kiwi-flavored aspirin-injecting lipstick	KIWI
-1490	conc	mini kiwi digitized cookies	KIWI
+1467	conc	biphasic molecular oculus	Tinkering Bench
+1468	conc	triphasic molecular oculus	Tinkering Bench
+1469	conc	high-tension exoskeleton	Tinkering Bench
+1470	conc	ultra-high-tension exoskeleton	Tinkering Bench
+1471	conc	irresponsible-tension exoskeleton	Tinkering Bench
+1472	conc	quick-release belt pouch	Tinkering Bench
+1473	conc	quick-release fannypack	Tinkering Bench
+1474	conc	quick-release utility belt	Tinkering Bench
+1475	conc	motion sensor	Tinkering Bench
+1476	conc	focused magnetron pistol	Tinkering Bench
+1477	row	mini kiwi bikini	Kiwi Kwiki Mart
+1478	row	mini kiwitini	Kiwi Kwiki Mart
+1479	row	mini kiwitini	Kiwi Kwiki Mart
+1480	row	mini kiwi invisible dirigible	Kiwi Kwiki Mart
+1481	row	mini kiwi aioli	Kiwi Kwiki Mart
+1482	row	mini kiwi silicon tiepin	Kiwi Kwiki Mart
+1483	row	mini kiwi tipi	Kiwi Kwiki Mart
+1484	row	mini kiwi intoxicating spirits	Kiwi Kwiki Mart
+1485	row	mini kiwi illicit antibiotic	Kiwi Kwiki Mart
+1486	row	mini kiwi antimilitaristic hippy petition	Kiwi Kwiki Mart
+1487	row	mini kiwi whipping stick	Kiwi Kwiki Mart
+1488	row	mini kiwi icepick	Kiwi Kwiki Mart
+1489	row	mini kiwi-flavored aspirin-injecting lipstick	Kiwi Kwiki Mart
+1490	row	mini kiwi digitized cookies	Kiwi Kwiki Mart
 1491	row	bacteria bisque	The Primordial Soup Kitchen
 1492	row	ciliophora chowder	The Primordial Soup Kitchen
 1493	row	cream of chloroplasts	The Primordial Soup Kitchen

@@ -319,7 +319,12 @@ public class ConcoctionTest {
   class Kiwi {
     @Test
     void cannotBuyIntoxicatingSpiritsWithoutKiwis() {
-      var cleanups = withItem(ItemPool.MINI_KIWI);
+      var cleanups =
+          new Cleanups(
+              withItem(ItemPool.MINI_KIWI),
+              withProperty("autoSatisfyWithCoinmasters", true),
+              // Kiwi Kwiki Mart is now a coinmaster.
+              withConcoctionRefresh());
 
       try (cleanups) {
         var conc = ConcoctionPool.get(ItemPool.MINI_KIWI_INTOXICATING_SPIRITS);
@@ -334,7 +339,10 @@ public class ConcoctionTest {
       var cleanups =
           new Cleanups(
               withItem(ItemPool.MINI_KIWI, 3),
-              withProperty("_miniKiwiIntoxicatingSpiritsBought", haveBought));
+              withProperty("_miniKiwiIntoxicatingSpiritsBought", haveBought),
+              withProperty("autoSatisfyWithCoinmasters", true),
+              // Kiwi Kwiki Mart is now a coinmaster.
+              withConcoctionRefresh());
 
       try (cleanups) {
         var conc = ConcoctionPool.get(ItemPool.MINI_KIWI_INTOXICATING_SPIRITS);

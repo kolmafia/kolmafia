@@ -16,7 +16,7 @@ public class FunALogRequest extends CoinMasterRequest {
       Pattern.compile("<b>You have ([\\d,]+) FunPoints?\\.</b>");
 
   public static final CoinmasterData FUN_A_LOG =
-      new CoinmasterData(master, "Fun-a-Log", FunALogRequest.class)
+      new CoinmasterData(master, "piraterealm", FunALogRequest.class)
           .withToken("FunPoint")
           .withTokenTest("You have no FunPoints")
           .withTokenPattern(TOKEN_PATTERN)
