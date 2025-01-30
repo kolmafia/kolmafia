@@ -50,6 +50,10 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   private final Class<? extends CoinMasterRequest> requestClass;
 
   // Optional fields
+
+  // For shop.php Coinmasters
+  private String shopId = null;
+
   // The token(s) that you exchange for items.
   private String token = null;
   private String tokenTest = null;
@@ -115,6 +119,20 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   }
 
   // Fluid field construction
+
+  /**
+   * Defines the token used by the coinmaster,
+   *
+   * <p>A coinmaster deals in currencies other than Meat. If there is only one such currency, we
+   * call it the "token"
+   *
+   * @param token - Token used
+   * @return this - Allows fluid chaining of fields
+   */
+  public CoinmasterData withShopId(String shopId) {
+    this.shopId = shopId;
+    return this;
+  }
 
   /**
    * Defines the token used by the coinmaster,
@@ -657,9 +675,10 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   }
 
   /**
-   * Populates the nine fields for a standard <code>shop.php</code> coinmaster that uses row #s.
+   * Populates the ten fields for a standard <code>shop.php</code> coinmaster that uses row #s.
    *
    * <ul>
+   *   <li>shopId
    *   <li>itemRows
    *   <li>buyURL
    *   <li>buyAction
@@ -681,7 +700,8 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
    * @return this - Allows fluid chaining of fields
    */
   public CoinmasterData withShopRowFields(String master, String shopId) {
-    return this.withItemRows(master)
+    return this.withShopId(shopId)
+        .withItemRows(master)
         .withBuyURL("shop.php?whichshop=" + shopId)
         .withBuyAction("buyitem")
         .withBuyItems(master)
@@ -693,9 +713,10 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   }
 
   /**
-   * Populates the seven fields for a new <code>shop.php</code> coinmaster that uses row #s.
+   * Populates the eight fields for a new <code>shop.php</code> coinmaster that uses row #s.
    *
    * <ul>
+   *   <li>shopId
    *   <li>shopRows from <code>coinmasters.txt</code>
    *   <li>buyURL
    *   <li>buyAction
@@ -710,7 +731,8 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
    * @return this - Allows fluid chaining of fields
    */
   public CoinmasterData withNewShopRowFields(String master, String shopId) {
-    return this.withShopRows(master)
+    return this.withShopId(shopId)
+        .withShopRows(master)
         .withBuyURL("shop.php?whichshop=" + shopId)
         .withBuyAction("buyitem")
         .withItemField("whichrow")
@@ -748,6 +770,10 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   }
 
   // Getters for optional fields
+
+  public final String getShopId() {
+    return this.shopId;
+  }
 
   public final String getTokenTest() {
     return this.tokenTest;

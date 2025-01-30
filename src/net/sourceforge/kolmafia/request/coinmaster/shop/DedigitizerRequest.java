@@ -31,7 +31,7 @@ public class DedigitizerRequest extends CoinMasterRequest {
   }
 
   public static void parseResponse(final String location, final String responseText) {
-    if (!location.contains("whichshop=" + DATA.getNickname())) {
+    if (!location.contains("whichshop=" + DATA.getShopId())) {
       return;
     }
 
@@ -55,8 +55,7 @@ public class DedigitizerRequest extends CoinMasterRequest {
   }
 
   public static final boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php")
-        || !urlString.contains("whichshop=" + DATA.getNickname())) {
+    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=" + DATA.getShopId())) {
       return false;
     }
 

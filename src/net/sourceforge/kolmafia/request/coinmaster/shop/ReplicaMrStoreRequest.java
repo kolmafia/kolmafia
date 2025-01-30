@@ -23,7 +23,7 @@ public class ReplicaMrStoreRequest extends CoinMasterRequest {
   public static final AdventureResult COIN = ItemPool.get(ItemPool.REPLICA_MR_ACCESSORY, 1);
 
   public static final CoinmasterData REPLICA_MR_STORE =
-      new CoinmasterData(master, "mrreplica", ReplicaMrStoreRequest.class)
+      new CoinmasterData(master, "Replica Mr. Store", ReplicaMrStoreRequest.class)
           .withToken("replica Mr. Accessory")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)

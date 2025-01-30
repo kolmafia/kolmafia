@@ -43,7 +43,7 @@ public class FancyDanRequest extends CoinMasterRequest {
   }
 
   public static final CoinmasterData FANCY_DAN =
-      new CoinmasterData(master, "olivers", FancyDanRequest.class)
+      new CoinmasterData(master, "Speakeasy", FancyDanRequest.class)
           .withShopRowFields(master, "olivers")
           .withBuyPrices()
           .withItemBuyPrice(FancyDanRequest::itemBuyPrice)

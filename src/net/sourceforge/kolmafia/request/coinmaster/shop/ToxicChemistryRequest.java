@@ -15,7 +15,7 @@ public class ToxicChemistryRequest extends CoinMasterRequest {
   public static final AdventureResult TOXIC_GLOBULE = ItemPool.get(ItemPool.TOXIC_GLOBULE, 1);
 
   public static final CoinmasterData TOXIC_CHEMISTRY =
-      new CoinmasterData(master, "toxic", ToxicChemistryRequest.class)
+      new CoinmasterData(master, "ToxicChemistry", ToxicChemistryRequest.class)
           .withToken("toxic globule")
           .withTokenTest("no toxic globules")
           .withTokenPattern(TOKEN_PATTERN)

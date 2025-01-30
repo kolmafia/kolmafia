@@ -18,7 +18,7 @@ public class ChemiCorpRequest extends CoinMasterRequest {
   public static final AdventureResult COIN = ItemPool.get(ItemPool.DANGEROUS_CHEMICALS, 1);
 
   public static final CoinmasterData CHEMICORP =
-      new CoinmasterData(master, "batman_chemicorp", ChemiCorpRequest.class)
+      new CoinmasterData(master, "ChemiCorp", ChemiCorpRequest.class)
           .withToken("dangerous chemicals")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)

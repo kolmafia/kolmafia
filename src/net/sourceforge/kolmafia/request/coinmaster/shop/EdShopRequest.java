@@ -16,7 +16,7 @@ public class EdShopRequest extends CoinMasterRequest {
   public static final AdventureResult KA = ItemPool.get(ItemPool.KA_COIN, 1);
 
   public static final CoinmasterData EDSHOP =
-      new CoinmasterData(master, "edunder_shopshop", EdShopRequest.class)
+      new CoinmasterData(master, "Everything Under the World", EdShopRequest.class)
           .withToken("Ka coin")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(KA)

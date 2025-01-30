@@ -18,7 +18,7 @@ public class GotporkOrphanageRequest extends CoinMasterRequest {
   public static final AdventureResult COIN = ItemPool.get(ItemPool.KIDNAPPED_ORPHAN, 1);
 
   public static final CoinmasterData GOTPORK_ORPHANAGE =
-      new CoinmasterData(master, "batman_orphanage", GotporkOrphanageRequest.class)
+      new CoinmasterData(master, "Gotpork Orphanage", GotporkOrphanageRequest.class)
           .withToken("kidnapped orphan")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)
