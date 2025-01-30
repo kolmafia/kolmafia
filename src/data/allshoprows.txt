@@ -9,72 +9,72 @@ FDKOL Tent	ROW12	bottle of fire	FDKOL commendation (3)
 The Trapper	ROW13	penguin skin	yeti fur (5)
 The Trapper	ROW14	yak skin	yeti fur
 The Trapper	ROW15	hippopotamus skin	yeti fur (3)
-PIXEL	ROW26	white pixel	red pixel	green pixel	blue pixel
-PIXEL	ROW27	red pixel potion	black pixel (3)	red pixel (2)
-PIXEL	ROW28	blue pixel potion	black pixel (3)	blue pixel (2)
-PIXEL	ROW29	green pixel potion	black pixel (4)	green pixel (3)
-PIXEL	ROW30	purple pixel pie	white pixel (5)	red pixel (2)	blue pixel (2)
-PIXEL	ROW31	monster bait	red pixel (20)	white pixel (15)
-PIXEL	ROW32	pixel shield	red pixel (20)	black pixel (10)	white pixel (10)
-PIXEL	ROW33	pixel hat	white pixel (10)	green pixel (15)
-PIXEL	ROW34	pixel pants	black pixel (10)	red pixel (20)
-PIXEL	ROW35	pixel sword	white pixel (20)	black pixel (10)	blue pixel (10)
-PIXEL	ROW37	pixel boomerang	black pixel (10)	white pixel (10)	blue pixel (20)
-PIXEL	ROW38	pixel whip	brown pixel (10)
-PIXEL	ROW39	pixel pill	red pixel (20)	white pixel (20)
-PIXEL	ROW40	pixel energy tank	blue pixel (40)	white pixel (10)
-PIXEL	ROW41	pixel grappling hook	white pixel (50)	black pixel (50)
-JARLS	ROW42	consummate hard-boiled egg	cosmic egg
-JARLS	ROW43	consummate fried egg	cosmic egg
-JARLS	ROW44	consummate egg salad	cosmic egg
-JARLS	ROW45	consummate bagel	cosmic dough
-JARLS	ROW46	consummate sliced bread	cosmic dough
-JARLS	ROW47	consummate hot dog bun	cosmic dough
-JARLS	ROW48	consummate brownie	cosmic dough
-JARLS	ROW49	consummate toast	cosmic dough
-JARLS	ROW50	passable stout	cosmic dough
-JARLS	ROW51	consummate soup	cosmic vegetable
-JARLS	ROW52	consummate corn chips	cosmic vegetable
-JARLS	ROW53	consummate salad	cosmic vegetable
-JARLS	ROW54	consummate salsa	cosmic vegetable
-JARLS	ROW55	consummate sauerkraut	cosmic vegetable
-JARLS	ROW56	consummate cheese slice	cosmic cheese
-JARLS	ROW57	consummate melted cheese	cosmic cheese
-JARLS	ROW58	consummate bacon	cosmic potted meat product
-JARLS	ROW59	consummate meatloaf	cosmic potted meat product
-JARLS	ROW60	consummate steak	cosmic potted meat product
-JARLS	ROW61	consummate cold cuts	cosmic potted meat product
-JARLS	ROW62	consummate frankfurter	cosmic potted meat product
-JARLS	ROW63	consummate french fries	cosmic potato
-JARLS	ROW64	consummate baked potato	cosmic potato
-JARLS	ROW65	acceptable vodka	cosmic potato
-JARLS	ROW66	consummate ice cream	cosmic cream
-JARLS	ROW67	consummate whipped cream	cosmic cream
-JARLS	ROW68	consummate sour cream	cosmic cream
-JARLS	ROW69	consummate strawberries	cosmic fruit
-JARLS	ROW70	consummate sorbet	cosmic fruit
-JARLS	ROW71	adequate rum	cosmic fruit
-JARLS	ROW72	immaculate grilled cheese	consummate toast	consummate cheese slice
-JARLS	ROW73	immaculate ice cream sandwich	consummate ice cream	consummate brownie
-JARLS	ROW74	immaculate hot dog	consummate hot dog bun	consummate frankfurter
-JARLS	ROW75	immaculate egg salad sandwich	consummate egg salad	consummate sliced bread
-JARLS	ROW76	perfect sandwich	consummate sliced bread	consummate cheese slice	consummate cold cuts
-JARLS	ROW77	perfect chef salad	consummate salad	consummate hard-boiled egg	consummate cold cuts
-JARLS	ROW78	perfect breakfast	consummate fried egg	consummate bacon	consummate toast
-JARLS	ROW79	sublime deluxe hot dog	consummate hot dog bun	consummate frankfurter	consummate sauerkraut
-JARLS	ROW80	sublime stew	consummate soup	consummate steak	consummate baked potato
-JARLS	ROW81	sublime nachos	consummate corn chips	consummate salsa	consummate melted cheese	consummate sour cream
-JARLS	ROW82	Ultimate Breakfast Sandwich	consummate fried egg	consummate bagel	consummate cheese slice	consummate bacon
-JARLS	ROW83	Loaded Baked Potato	consummate baked potato	consummate bacon	consummate melted cheese	consummate sour cream
-JARLS	ROW84	Omega Sundae	consummate ice cream	consummate whipped cream	consummate strawberries	consummate brownie
-JARLS	ROW85	Das Sauerlager	mediocre lager	consummate sauerkraut
-JARLS	ROW86	Bologna Lambic	passable stout	consummate cold cuts
-JARLS	ROW87	Vodka Dog	acceptable vodka	consummate hot dog bun
-JARLS	ROW88	Disappointed Russian	acceptable vodka	consummate sour cream
-JARLS	ROW89	Chunky Mary	acceptable vodka	consummate salsa
-JARLS	ROW90	Nachojito	adequate rum	consummate melted cheese
-JARLS	ROW91	Le Roi	adequate rum	consummate french fries
-JARLS	ROW92	Over Easy Rider	adequate rum	consummate fried egg
+The Crackpot Mystic's Shed	ROW26	white pixel	red pixel	green pixel	blue pixel
+The Crackpot Mystic's Shed	ROW27	red pixel potion	black pixel (3)	red pixel (2)
+The Crackpot Mystic's Shed	ROW28	blue pixel potion	black pixel (3)	blue pixel (2)
+The Crackpot Mystic's Shed	ROW29	green pixel potion	black pixel (4)	green pixel (3)
+The Crackpot Mystic's Shed	ROW30	purple pixel pie	white pixel (5)	red pixel (2)	blue pixel (2)
+The Crackpot Mystic's Shed	ROW31	monster bait	red pixel (20)	white pixel (15)
+The Crackpot Mystic's Shed	ROW32	pixel shield	red pixel (20)	black pixel (10)	white pixel (10)
+The Crackpot Mystic's Shed	ROW33	pixel hat	white pixel (10)	green pixel (15)
+The Crackpot Mystic's Shed	ROW34	pixel pants	black pixel (10)	red pixel (20)
+The Crackpot Mystic's Shed	ROW35	pixel sword	white pixel (20)	black pixel (10)	blue pixel (10)
+The Crackpot Mystic's Shed	ROW37	pixel boomerang	black pixel (10)	white pixel (10)	blue pixel (20)
+The Crackpot Mystic's Shed	ROW38	pixel whip	brown pixel (10)
+The Crackpot Mystic's Shed	ROW39	pixel pill	red pixel (20)	white pixel (20)
+The Crackpot Mystic's Shed	ROW40	pixel energy tank	blue pixel (40)	white pixel (10)
+The Crackpot Mystic's Shed	ROW41	pixel grappling hook	white pixel (50)	black pixel (50)
+Jarlsberg's Cosmic Kitchen	ROW42	consummate hard-boiled egg	cosmic egg
+Jarlsberg's Cosmic Kitchen	ROW43	consummate fried egg	cosmic egg
+Jarlsberg's Cosmic Kitchen	ROW44	consummate egg salad	cosmic egg
+Jarlsberg's Cosmic Kitchen	ROW45	consummate bagel	cosmic dough
+Jarlsberg's Cosmic Kitchen	ROW46	consummate sliced bread	cosmic dough
+Jarlsberg's Cosmic Kitchen	ROW47	consummate hot dog bun	cosmic dough
+Jarlsberg's Cosmic Kitchen	ROW48	consummate brownie	cosmic dough
+Jarlsberg's Cosmic Kitchen	ROW49	consummate toast	cosmic dough
+Jarlsberg's Cosmic Kitchen	ROW50	passable stout	cosmic dough
+Jarlsberg's Cosmic Kitchen	ROW51	consummate soup	cosmic vegetable
+Jarlsberg's Cosmic Kitchen	ROW52	consummate corn chips	cosmic vegetable
+Jarlsberg's Cosmic Kitchen	ROW53	consummate salad	cosmic vegetable
+Jarlsberg's Cosmic Kitchen	ROW54	consummate salsa	cosmic vegetable
+Jarlsberg's Cosmic Kitchen	ROW55	consummate sauerkraut	cosmic vegetable
+Jarlsberg's Cosmic Kitchen	ROW56	consummate cheese slice	cosmic cheese
+Jarlsberg's Cosmic Kitchen	ROW57	consummate melted cheese	cosmic cheese
+Jarlsberg's Cosmic Kitchen	ROW58	consummate bacon	cosmic potted meat product
+Jarlsberg's Cosmic Kitchen	ROW59	consummate meatloaf	cosmic potted meat product
+Jarlsberg's Cosmic Kitchen	ROW60	consummate steak	cosmic potted meat product
+Jarlsberg's Cosmic Kitchen	ROW61	consummate cold cuts	cosmic potted meat product
+Jarlsberg's Cosmic Kitchen	ROW62	consummate frankfurter	cosmic potted meat product
+Jarlsberg's Cosmic Kitchen	ROW63	consummate french fries	cosmic potato
+Jarlsberg's Cosmic Kitchen	ROW64	consummate baked potato	cosmic potato
+Jarlsberg's Cosmic Kitchen	ROW65	acceptable vodka	cosmic potato
+Jarlsberg's Cosmic Kitchen	ROW66	consummate ice cream	cosmic cream
+Jarlsberg's Cosmic Kitchen	ROW67	consummate whipped cream	cosmic cream
+Jarlsberg's Cosmic Kitchen	ROW68	consummate sour cream	cosmic cream
+Jarlsberg's Cosmic Kitchen	ROW69	consummate strawberries	cosmic fruit
+Jarlsberg's Cosmic Kitchen	ROW70	consummate sorbet	cosmic fruit
+Jarlsberg's Cosmic Kitchen	ROW71	adequate rum	cosmic fruit
+Jarlsberg's Cosmic Kitchen	ROW72	immaculate grilled cheese	consummate toast	consummate cheese slice
+Jarlsberg's Cosmic Kitchen	ROW73	immaculate ice cream sandwich	consummate ice cream	consummate brownie
+Jarlsberg's Cosmic Kitchen	ROW74	immaculate hot dog	consummate hot dog bun	consummate frankfurter
+Jarlsberg's Cosmic Kitchen	ROW75	immaculate egg salad sandwich	consummate egg salad	consummate sliced bread
+Jarlsberg's Cosmic Kitchen	ROW76	perfect sandwich	consummate sliced bread	consummate cheese slice	consummate cold cuts
+Jarlsberg's Cosmic Kitchen	ROW77	perfect chef salad	consummate salad	consummate hard-boiled egg	consummate cold cuts
+Jarlsberg's Cosmic Kitchen	ROW78	perfect breakfast	consummate fried egg	consummate bacon	consummate toast
+Jarlsberg's Cosmic Kitchen	ROW79	sublime deluxe hot dog	consummate hot dog bun	consummate frankfurter	consummate sauerkraut
+Jarlsberg's Cosmic Kitchen	ROW80	sublime stew	consummate soup	consummate steak	consummate baked potato
+Jarlsberg's Cosmic Kitchen	ROW81	sublime nachos	consummate corn chips	consummate salsa	consummate melted cheese	consummate sour cream
+Jarlsberg's Cosmic Kitchen	ROW82	Ultimate Breakfast Sandwich	consummate fried egg	consummate bagel	consummate cheese slice	consummate bacon
+Jarlsberg's Cosmic Kitchen	ROW83	Loaded Baked Potato	consummate baked potato	consummate bacon	consummate melted cheese	consummate sour cream
+Jarlsberg's Cosmic Kitchen	ROW84	Omega Sundae	consummate ice cream	consummate whipped cream	consummate strawberries	consummate brownie
+Jarlsberg's Cosmic Kitchen	ROW85	Das Sauerlager	mediocre lager	consummate sauerkraut
+Jarlsberg's Cosmic Kitchen	ROW86	Bologna Lambic	passable stout	consummate cold cuts
+Jarlsberg's Cosmic Kitchen	ROW87	Vodka Dog	acceptable vodka	consummate hot dog bun
+Jarlsberg's Cosmic Kitchen	ROW88	Disappointed Russian	acceptable vodka	consummate sour cream
+Jarlsberg's Cosmic Kitchen	ROW89	Chunky Mary	acceptable vodka	consummate salsa
+Jarlsberg's Cosmic Kitchen	ROW90	Nachojito	adequate rum	consummate melted cheese
+Jarlsberg's Cosmic Kitchen	ROW91	Le Roi	adequate rum	consummate french fries
+Jarlsberg's Cosmic Kitchen	ROW92	Over Easy Rider	adequate rum	consummate fried egg
 Vending Machine	ROW93	Boris's key	fat loot token
 Vending Machine	ROW94	Jarlsberg's key	fat loot token
 Vending Machine	ROW95	Sneaky Pete's key	fat loot token
@@ -86,45 +86,45 @@ Vending Machine	ROW100	dried gelatinous cube	fat loot token (27)
 Vending Machine	ROW101	Spellbook: Walberg's Dim Bulb	fat loot token (15)
 Vending Machine	ROW102	Spellbook: Singer's Faithful Ocelot	fat loot token (15)
 Vending Machine	ROW103	Spellbook: Drescher's Annoying Noise	fat loot token (15)
-JARLS	ROW104	Staff of the Healthy Breakfast	cosmic egg
-JARLS	ROW105	Staff of the Staff of Life	cosmic dough
-JARLS	ROW106	Staff of the Light Lunch	cosmic vegetable
-JARLS	ROW107	Staff of the Standalone Cheese	cosmic cheese
-JARLS	ROW108	Staff of the Hearty Dinner	cosmic potato
-JARLS	ROW109	Staff of the All-Steak	cosmic potted meat product
-JARLS	ROW110	Staff of Fruit Salad	cosmic fruit
-JARLS	ROW111	Staff of the Cream of the Cream	cosmic cream
-JARLS	ROW112	cosmic six-pack
-GRANDMA	ROW116	sushi doily	sea lace
-GRANDMA	ROW117	scimitar cozy	sea lace (3)	pristine fish scale
-GRANDMA	ROW118	fish stick cozy	sea lace (3)	pristine fish scale
-GRANDMA	ROW119	bazooka cozy	sea lace (3)	pristine fish scale
-GRANDMA	ROW120	sea mantle	pristine fish scale (5)
-GRANDMA	ROW121	sea shawl	pristine fish scale (5)
-GRANDMA	ROW122	sea cape	pristine fish scale (5)
-GRANDMA	ROW123	saltwaterbed	sea leather (15)
-GRANDMA	ROW124	crappy Mer-kin mask	aerated diving helmet	pristine fish scale (3)
-GRANDMA	ROW125	crappy Mer-kin tailpiece	sea chaps	teflon swim fins	pristine fish scale (3)
-GRANDMA	ROW126	Mer-kin gladiator mask	crappy Mer-kin mask	Mer-kin headguard
-GRANDMA	ROW127	Mer-kin gladiator tailpiece	crappy Mer-kin tailpiece	Mer-kin thighguard
-GRANDMA	ROW128	crappy Mer-kin mask	Mer-kin gladiator mask
-GRANDMA	ROW129	Mer-kin scholar mask	crappy Mer-kin mask	Mer-kin facecowl
-GRANDMA	ROW130	Mer-kin scholar tailpiece	crappy Mer-kin tailpiece	Mer-kin waistrope
-GRANDMA	ROW131	crappy Mer-kin mask	Mer-kin scholar mask
-GRANDMA	ROW132	scale-mail underwear	dull fish scale (25)	pristine fish scale
-STARCHART	ROW133	star sword	star chart	star (7)	line (4)
-STARCHART	ROW134	star crossbow	star chart	star (5)	line (6)
-STARCHART	ROW135	star staff	star chart	star (6)	line (5)
-STARCHART	ROW136	star pants	star chart	star (7)	line (7)
-STARCHART	ROW137	star hat	star chart	star (5)	line (3)
-STARCHART	ROW138	star buckler	star chart	star (4)	line (6)
-STARCHART	ROW139	star throwing star	star chart	star (4)	line (2)
-STARCHART	ROW140	star starfish	star chart	star (6)	line (4)
-STARCHART	ROW141	Richard's star key	star chart	star (8)	line (7)
-STARCHART	ROW142	star shirt	star chart	star (15)	line (15)
-STARCHART	ROW143	star stiletto	star chart	star (5)	line (4)
-STARCHART	ROW144	star boomerang	star chart	star (4)	line (5)
-STARCHART	ROW145	star spatula	star chart	star (5)	line (5)
+Jarlsberg's Cosmic Kitchen	ROW104	Staff of the Healthy Breakfast	cosmic egg
+Jarlsberg's Cosmic Kitchen	ROW105	Staff of the Staff of Life	cosmic dough
+Jarlsberg's Cosmic Kitchen	ROW106	Staff of the Light Lunch	cosmic vegetable
+Jarlsberg's Cosmic Kitchen	ROW107	Staff of the Standalone Cheese	cosmic cheese
+Jarlsberg's Cosmic Kitchen	ROW108	Staff of the Hearty Dinner	cosmic potato
+Jarlsberg's Cosmic Kitchen	ROW109	Staff of the All-Steak	cosmic potted meat product
+Jarlsberg's Cosmic Kitchen	ROW110	Staff of Fruit Salad	cosmic fruit
+Jarlsberg's Cosmic Kitchen	ROW111	Staff of the Cream of the Cream	cosmic cream
+Jarlsberg's Cosmic Kitchen	ROW112	cosmic six-pack
+Grandma Sea Monkey	ROW116	sushi doily	sea lace
+Grandma Sea Monkey	ROW117	scimitar cozy	sea lace (3)	pristine fish scale
+Grandma Sea Monkey	ROW118	fish stick cozy	sea lace (3)	pristine fish scale
+Grandma Sea Monkey	ROW119	bazooka cozy	sea lace (3)	pristine fish scale
+Grandma Sea Monkey	ROW120	sea mantle	pristine fish scale (5)
+Grandma Sea Monkey	ROW121	sea shawl	pristine fish scale (5)
+Grandma Sea Monkey	ROW122	sea cape	pristine fish scale (5)
+Grandma Sea Monkey	ROW123	saltwaterbed	sea leather (15)
+Grandma Sea Monkey	ROW124	crappy Mer-kin mask	aerated diving helmet	pristine fish scale (3)
+Grandma Sea Monkey	ROW125	crappy Mer-kin tailpiece	sea chaps	teflon swim fins	pristine fish scale (3)
+Grandma Sea Monkey	ROW126	Mer-kin gladiator mask	crappy Mer-kin mask	Mer-kin headguard
+Grandma Sea Monkey	ROW127	Mer-kin gladiator tailpiece	crappy Mer-kin tailpiece	Mer-kin thighguard
+Grandma Sea Monkey	ROW128	crappy Mer-kin mask	Mer-kin gladiator mask
+Grandma Sea Monkey	ROW129	Mer-kin scholar mask	crappy Mer-kin mask	Mer-kin facecowl
+Grandma Sea Monkey	ROW130	Mer-kin scholar tailpiece	crappy Mer-kin tailpiece	Mer-kin waistrope
+Grandma Sea Monkey	ROW131	crappy Mer-kin mask	Mer-kin scholar mask
+Grandma Sea Monkey	ROW132	scale-mail underwear	dull fish scale (25)	pristine fish scale
+A Star Chart	ROW133	star sword	star chart	star (7)	line (4)
+A Star Chart	ROW134	star crossbow	star chart	star (5)	line (6)
+A Star Chart	ROW135	star staff	star chart	star (6)	line (5)
+A Star Chart	ROW136	star pants	star chart	star (7)	line (7)
+A Star Chart	ROW137	star hat	star chart	star (5)	line (3)
+A Star Chart	ROW138	star buckler	star chart	star (4)	line (6)
+A Star Chart	ROW139	star throwing star	star chart	star (4)	line (2)
+A Star Chart	ROW140	star starfish	star chart	star (6)	line (4)
+A Star Chart	ROW141	Richard's star key	star chart	star (8)	line (7)
+A Star Chart	ROW142	star shirt	star chart	star (15)	line (15)
+A Star Chart	ROW143	star stiletto	star chart	star (5)	line (4)
+A Star Chart	ROW144	star boomerang	star chart	star (4)	line (5)
+A Star Chart	ROW145	star spatula	star chart	star (5)	line (5)
 The Terrified Eagle Inn	ROW146	Tales of Dread	Freddy Kruegerand (250)
 The Terrified Eagle Inn	ROW147	Dreadsylvanian skeleton key	Freddy Kruegerand (25)
 The Terrified Eagle Inn	ROW148	Official Seal of Dreadsylvania	Freddy Kruegerand (1,000)
@@ -137,21 +137,21 @@ The Terrified Eagle Inn	ROW154	dreadful sweater	Freddy Kruegerand (500)
 The Terrified Eagle Inn	ROW155	dreadful glove	Freddy Kruegerand (500)
 The Terrified Eagle Inn	ROW156	hot Dreadsylvanian cocoa	Freddy Kruegerand
 The Terrified Eagle Inn	ROW157	folder (tranquil landscape)	Freddy Kruegerand (25)
-SHOPCLASS	ROW158	miniature suspension bridge	wood screw (4)	balsa plank (4)	blob of wood glue (2)	surgical tape
-SHOPCLASS	ROW159	Staff of the Lunch Lady	jigsaw blade (2)	balsa plank (6)	blob of wood glue (4)
-SHOPCLASS	ROW160	universal key	jigsaw blade (4)	wood screw (4)	blob of wood glue (8)	surgical tape	scrap metal
-SHOPCLASS	ROW161	world's most dangerous birdhouse	jigsaw blade (4)	wood screw (4)	balsa plank (2)	blob of wood glue (2)	illegal firecracker (2)
-SHOPCLASS	ROW162	deathchucks	jigsaw blade (4)	wood screw (2)	balsa plank (2)	scrap metal
-ARTCLASS	ROW163	giant eraser	eraser nubbin (4)
-ARTCLASS	ROW164	quasireligious sculpture	lump of clay (2)	twisted piece of wire (6)	angry inch (4)	Mountain Stream Code Black Alert
-ARTCLASS	ROW165	giant Faraday cage	twisted piece of wire (8)	angry inch (2)	eraser nubbin (2)	Mountain Stream Code Black Alert
-ARTCLASS	ROW166	modeling claymore	lump of clay (6)	twisted piece of wire (2)	angry inch (4)	eraser nubbin (2)	illegal firecracker (2)
-ARTCLASS	ROW167	sticky clay homunculus	lump of clay (4)	twisted piece of wire (2)	angry inch (2)	Mountain Stream Code Black Alert
-CHEMCLASS	ROW168	sodium pentasomething	nugget of sodium (2)	mysterious chemical residue (4)	Mountain Stream Code Black Alert
-CHEMCLASS	ROW169	grains of salt	chlorine crystal (2)	nugget of sodium (2)
-CHEMCLASS	ROW170	yellowcake bomb	chlorine crystal (4)	ph balancer (4)	mysterious chemical residue (4)	surgical tape	illegal firecracker
-CHEMCLASS	ROW171	dirty stinkbomb	chlorine crystal (2)	ph balancer (2)	nugget of sodium (4)	surgical tape	illegal firecracker
-CHEMCLASS	ROW172	superwater	ph balancer (6)	mysterious chemical residue (2)	Mountain Stream Code Black Alert
+Shop Class (After School)	ROW158	miniature suspension bridge	wood screw (4)	balsa plank (4)	blob of wood glue (2)	surgical tape
+Shop Class (After School)	ROW159	Staff of the Lunch Lady	jigsaw blade (2)	balsa plank (6)	blob of wood glue (4)
+Shop Class (After School)	ROW160	universal key	jigsaw blade (4)	wood screw (4)	blob of wood glue (8)	surgical tape	scrap metal
+Shop Class (After School)	ROW161	world's most dangerous birdhouse	jigsaw blade (4)	wood screw (4)	balsa plank (2)	blob of wood glue (2)	illegal firecracker (2)
+Shop Class (After School)	ROW162	deathchucks	jigsaw blade (4)	wood screw (2)	balsa plank (2)	scrap metal
+Art Class (After School)	ROW163	giant eraser	eraser nubbin (4)
+Art Class (After School)	ROW164	quasireligious sculpture	lump of clay (2)	twisted piece of wire (6)	angry inch (4)	Mountain Stream Code Black Alert
+Art Class (After School)	ROW165	giant Faraday cage	twisted piece of wire (8)	angry inch (2)	eraser nubbin (2)	Mountain Stream Code Black Alert
+Art Class (After School)	ROW166	modeling claymore	lump of clay (6)	twisted piece of wire (2)	angry inch (4)	eraser nubbin (2)	illegal firecracker (2)
+Art Class (After School)	ROW167	sticky clay homunculus	lump of clay (4)	twisted piece of wire (2)	angry inch (2)	Mountain Stream Code Black Alert
+Chemistry Class (After School)	ROW168	sodium pentasomething	nugget of sodium (2)	mysterious chemical residue (4)	Mountain Stream Code Black Alert
+Chemistry Class (After School)	ROW169	grains of salt	chlorine crystal (2)	nugget of sodium (2)
+Chemistry Class (After School)	ROW170	yellowcake bomb	chlorine crystal (4)	ph balancer (4)	mysterious chemical residue (4)	surgical tape	illegal firecracker
+Chemistry Class (After School)	ROW171	dirty stinkbomb	chlorine crystal (2)	ph balancer (2)	nugget of sodium (4)	surgical tape	illegal firecracker
+Chemistry Class (After School)	ROW172	superwater	ph balancer (6)	mysterious chemical residue (2)	Mountain Stream Code Black Alert
 The Hidden Tavern	ROW173	Cursed Punch	500 Meat
 The Hidden Tavern	ROW174	Bowl of Scorpions	500 Meat
 The Hidden Tavern	ROW175	Fog Murderer	500 Meat
@@ -163,15 +163,15 @@ The Shore, Inc. Gift Shop	ROW180	dude ranch souvenir crate	Shore Inc. Ship Trip 
 The Shore, Inc. Gift Shop	ROW181	tropical island souvenir crate	Shore Inc. Ship Trip Scrip
 The Shore, Inc. Gift Shop	ROW182	ski resort souvenir crate	Shore Inc. Ship Trip Scrip
 The Shore, Inc. Gift Shop	ROW183	UV-resistant compass	Shore Inc. Ship Trip Scrip
-JUNK	ROW184	junk junk	old claw-foot bathtub	old clothesline pole	antique cigar sign
-JUNK	ROW185	junk band	bent scrap metal	molten scrap metal (2)	tangle of copper wire	Junk-Bond
-JUNK	ROW186	junk trunks	jagged scrap metal (2)	bent scrap metal	tangle of copper wire
-JUNK	ROW187	junk-mail shirt	jagged scrap metal	bent scrap metal (2)	Junk-Bond
-JUNK	ROW188	junk food	jagged scrap metal	bent scrap metal	molten scrap metal
-JUNK	ROW189	junk yard	jagged scrap metal	bent scrap metal	molten scrap metal
-JUNK	ROW190	swordzall	jagged scrap metal (2)	tangle of copper wire	Junk-Bond	eternal car battery
-JUNK	ROW191	arm buzzer	bent scrap metal (2)	tangle of copper wire	Junk-Bond	eternal car battery
-JUNK	ROW192	boilgun	molten scrap metal (2)	tangle of copper wire	Junk-Bond	eternal car battery
+Worse Homes and Gardens	ROW184	junk junk	old claw-foot bathtub	old clothesline pole	antique cigar sign
+Worse Homes and Gardens	ROW185	junk band	bent scrap metal	molten scrap metal (2)	tangle of copper wire	Junk-Bond
+Worse Homes and Gardens	ROW186	junk trunks	jagged scrap metal (2)	bent scrap metal	tangle of copper wire
+Worse Homes and Gardens	ROW187	junk-mail shirt	jagged scrap metal	bent scrap metal (2)	Junk-Bond
+Worse Homes and Gardens	ROW188	junk food	jagged scrap metal	bent scrap metal	molten scrap metal
+Worse Homes and Gardens	ROW189	junk yard	jagged scrap metal	bent scrap metal	molten scrap metal
+Worse Homes and Gardens	ROW190	swordzall	jagged scrap metal (2)	tangle of copper wire	Junk-Bond	eternal car battery
+Worse Homes and Gardens	ROW191	arm buzzer	bent scrap metal (2)	tangle of copper wire	Junk-Bond	eternal car battery
+Worse Homes and Gardens	ROW192	boilgun	molten scrap metal (2)	tangle of copper wire	Junk-Bond	eternal car battery
 Isotope Smithery	ROW193	Mint-in-box Moonthril Circlet	lunar isotope (1,000)
 Isotope Smithery	ROW194	Mint-in-box Moonthril Flamberge	lunar isotope (1,250)
 Isotope Smithery	ROW195	Mint-in-box Moonthril Longbow	lunar isotope (1,500)
@@ -193,34 +193,34 @@ Lunar Lunch-o-Mat	ROW210	Moon Pie	lunar isotope (100)
 Lunar Lunch-o-Mat	ROW211	Comet Pop	lunar isotope
 Lunar Lunch-o-Mat	ROW212	Flan in the Moon	lunar isotope (5)
 Lunar Lunch-o-Mat	ROW213	1/6th Pound Cake	lunar isotope (10)
-BEER	ROW214	can of Br&uuml;talbr&auml;u	handful of barley	cluster of hops
-BEER	ROW215	can of Drooling Monk	handful of barley	cluster of hops
-BEER	ROW216	can of Impetuous Scofflaw	handful of barley	cluster of hops
-BEER	ROW217	bottle of Old Pugilist	handful of barley	cluster of hops	fancy beer bottle	fancy beer label
-BEER	ROW218	bottle of Professor Beer	handful of barley	cluster of hops	fancy beer bottle	fancy beer label
-BEER	ROW219	bottle of Rapier Witbier	handful of barley	cluster of hops	fancy beer bottle	fancy beer label
-BEER	ROW220	artisanal homebrew gift package	handful of barley (3)	cluster of hops (3)	fancy beer bottle (3)	fancy beer label (3)
+Beer Garden	ROW214	can of Br&uuml;talbr&auml;u	handful of barley	cluster of hops
+Beer Garden	ROW215	can of Drooling Monk	handful of barley	cluster of hops
+Beer Garden	ROW216	can of Impetuous Scofflaw	handful of barley	cluster of hops
+Beer Garden	ROW217	bottle of Old Pugilist	handful of barley	cluster of hops	fancy beer bottle	fancy beer label
+Beer Garden	ROW218	bottle of Professor Beer	handful of barley	cluster of hops	fancy beer bottle	fancy beer label
+Beer Garden	ROW219	bottle of Rapier Witbier	handful of barley	cluster of hops	fancy beer bottle	fancy beer label
+Beer Garden	ROW220	artisanal homebrew gift package	handful of barley (3)	cluster of hops (3)	fancy beer bottle (3)	fancy beer label (3)
 Warbear Black Box	ROW221	warbear helm fragment	warbear whosit (50)
 Warbear Black Box	ROW222	warbear trouser fragment	warbear whosit (50)
 Warbear Black Box	ROW223	warbear accoutrements chunk	warbear whosit (50)
 Warbear Black Box	ROW224	blind-packed die-cast metal toy	warbear whosit (10)
 Warbear Black Box	ROW225	warbear requisition box	warbear whosit (100)
 Warbear Black Box	ROW226	warbear officer requisition box	warbear whosit (500)
-WINTER	ROW227	snow cleats	snow berries
-WINTER	ROW228	liquid ice pack	ice harvest
-WINTER	ROW229	snow boards	snow berries (2)
-WINTER	ROW230	snow crab	snow berries (2)
-WINTER	ROW231	Ice Island Long Tea	snow berries	ice harvest (3)
-WINTER	ROW232	unfinished ice sculpture	snow berries (3)	ice harvest (3)
-WINTER	ROW233	ice house	ice harvest (8)
-WINTER	ROW234	snow machine	snow berries (30)	ice harvest (30)
-WINTER	ROW235	snow mobile	snow berries (3)	ice harvest (2)
-WINTER	ROW236	ice bucket	ice harvest (3)
-WINTER	ROW237	snow shovel	snow berries (4)	ice harvest
-WINTER	ROW238	bod-ice	snow berries	ice harvest (4)
-WINTER	ROW239	snow belt	snow berries (7)	ice harvest
-WINTER	ROW240	ice nine	ice harvest (9)
-WINTER	ROW241	snow fort	snow berries (9)
+Winter Gardening	ROW227	snow cleats	snow berries
+Winter Gardening	ROW228	liquid ice pack	ice harvest
+Winter Gardening	ROW229	snow boards	snow berries (2)
+Winter Gardening	ROW230	snow crab	snow berries (2)
+Winter Gardening	ROW231	Ice Island Long Tea	snow berries	ice harvest (3)
+Winter Gardening	ROW232	unfinished ice sculpture	snow berries (3)	ice harvest (3)
+Winter Gardening	ROW233	ice house	ice harvest (8)
+Winter Gardening	ROW234	snow machine	snow berries (30)	ice harvest (30)
+Winter Gardening	ROW235	snow mobile	snow berries (3)	ice harvest (2)
+Winter Gardening	ROW236	ice bucket	ice harvest (3)
+Winter Gardening	ROW237	snow shovel	snow berries (4)	ice harvest
+Winter Gardening	ROW238	bod-ice	snow berries	ice harvest (4)
+Winter Gardening	ROW239	snow belt	snow berries (7)	ice harvest
+Winter Gardening	ROW240	ice nine	ice harvest (9)
+Winter Gardening	ROW241	snow fort	snow berries (9)
 Warbear Black Box	ROW242	warbear dress greaves	warbear whosit (200)
 Warbear Black Box	ROW243	warbear dress bracers	warbear whosit (300)
 Warbear Black Box	ROW244	warbear dress helmet	warbear whosit (400)
@@ -230,29 +230,29 @@ Paul's Boutique	ROW247	polo trophy	odd silver coin (3)
 Paul's Boutique	ROW248	fancy oil painting	odd silver coin (4)
 Paul's Boutique	ROW249	solid gold rosary	odd silver coin (5)
 Paul's Boutique	ROW250	ornate dowsing rod	odd silver coin (5)
-RUMPLE	ROW251	smudge stick	straw	leather
-RUMPLE	ROW252	portable wall	straw	clay
-RUMPLE	ROW253	large tankard of ale	leather	clay
-RUMPLE	ROW254	scroll case	straw	parchment
-RUMPLE	ROW255	jug of &quot;wine&quot;	straw	glass
-RUMPLE	ROW256	juggling ball	leather	filling
-RUMPLE	ROW257	crappy camera	leather	glass
-RUMPLE	ROW258	humble pie	clay	filling
-RUMPLE	ROW259	small golem	clay	parchment
-STILL	ROW267	bottle of Calcutta Emerald	bottle of gin
-STILL	ROW268	bottle of Lieutenant Freeman	bottle of rum
-STILL	ROW269	bottle of Jorge Sinsonte	bottle of tequila
-STILL	ROW270	bottle of Definit	bottle of vodka
-STILL	ROW271	bottle of Domesticated Turkey	bottle of whiskey
-STILL	ROW272	boxed champagne	boxed wine
-STILL	ROW273	bottle of Ooze-O	bottle of sewage schnapps
-STILL	ROW274	bottle of Pete's Sake	bottle of sake
-STILL	ROW275	tangerine	grapefruit
-STILL	ROW276	kiwi	lemon
-STILL	ROW277	cocktail onion	olive
-STILL	ROW278	kumquat	orange
-STILL	ROW279	tonic water	soda water
-STILL	ROW280	raspberry	strawberry
+Rumplestiltskin's Workshop	ROW251	smudge stick	straw	leather
+Rumplestiltskin's Workshop	ROW252	portable wall	straw	clay
+Rumplestiltskin's Workshop	ROW253	large tankard of ale	leather	clay
+Rumplestiltskin's Workshop	ROW254	scroll case	straw	parchment
+Rumplestiltskin's Workshop	ROW255	jug of &quot;wine&quot;	straw	glass
+Rumplestiltskin's Workshop	ROW256	juggling ball	leather	filling
+Rumplestiltskin's Workshop	ROW257	crappy camera	leather	glass
+Rumplestiltskin's Workshop	ROW258	humble pie	clay	filling
+Rumplestiltskin's Workshop	ROW259	small golem	clay	parchment
+Nash Crosby's Still	ROW267	bottle of Calcutta Emerald	bottle of gin
+Nash Crosby's Still	ROW268	bottle of Lieutenant Freeman	bottle of rum
+Nash Crosby's Still	ROW269	bottle of Jorge Sinsonte	bottle of tequila
+Nash Crosby's Still	ROW270	bottle of Definit	bottle of vodka
+Nash Crosby's Still	ROW271	bottle of Domesticated Turkey	bottle of whiskey
+Nash Crosby's Still	ROW272	boxed champagne	boxed wine
+Nash Crosby's Still	ROW273	bottle of Ooze-O	bottle of sewage schnapps
+Nash Crosby's Still	ROW274	bottle of Pete's Sake	bottle of sake
+Nash Crosby's Still	ROW275	tangerine	grapefruit
+Nash Crosby's Still	ROW276	kiwi	lemon
+Nash Crosby's Still	ROW277	cocktail onion	olive
+Nash Crosby's Still	ROW278	kumquat	orange
+Nash Crosby's Still	ROW279	tonic water	soda water
+Nash Crosby's Still	ROW280	raspberry	strawberry
 The Black Market	ROW281	forged identification documents	5,000 Meat
 The Black Market	ROW282	can of black paint	1,000 Meat
 The Black Market	ROW283	black cherry soda	80 Meat
@@ -263,7 +263,7 @@ The Black Market	ROW287	exotic parrot egg	500,000 Meat
 The Black Market	ROW288	spare kidney	2,000 Meat
 The Black Market	ROW289	Red Zeppelin ticket	5,000 Meat
 The Black Market	ROW290	Red Zeppelin ticket	priceless diamond
-BEER	ROW291	liquid bread	handful of barley	cluster of hops
+Beer Garden	ROW291	liquid bread	handful of barley	cluster of hops
 Vending Machine	ROW292	sewing kit	fat loot token
 The Frozen Brogurt Stand	ROW293	regular-size brogurt	Beach Buck
 The Frozen Brogurt Stand	ROW294	super-size brogurt	Beach Buck (3)
@@ -299,20 +299,20 @@ Freshwater Fishbonery	ROW323	fishbone fins	freshwater fishbone (20)
 Freshwater Fishbonery	ROW324	fishbone facemask	freshwater fishbone (5)
 Freshwater Fishbonery	ROW325	fishbone bracers	freshwater fishbone (5)
 Freshwater Fishbonery	ROW326	fishbone belt	freshwater fishbone (5)
-SUGAR_FOLDING	ROW327	sugar shotgun	sugar sheet
-SUGAR_FOLDING	ROW328	sugar shillelagh	sugar sheet
-SUGAR_FOLDING	ROW329	sugar shank	sugar sheet
-SUGAR_FOLDING	ROW330	sugar chapeau	sugar sheet
-SUGAR_FOLDING	ROW331	sugar shorts	sugar sheet
-SUGAR_FOLDING	ROW332	sugar shield	sugar sheet
-SUGAR_FOLDING	ROW333	sugar shirt	sugar sheet
-FIVE_D	ROW334	Xiblaxian stealth cowl	Xiblaxian circuitry (4)	Xiblaxian polymer (9)	Xiblaxian alloy (5)
-FIVE_D	ROW335	Xiblaxian stealth trousers	Xiblaxian circuitry (9)	Xiblaxian polymer (4)	Xiblaxian alloy (5)
-FIVE_D	ROW336	Xiblaxian stealth vest	Xiblaxian circuitry (5)	Xiblaxian polymer (4)	Xiblaxian alloy (9)
-FIVE_D	ROW337	Xiblaxian xeno-detection goggles	Xiblaxian polymer (4)	Xiblaxian crystal (2)
-FIVE_D	ROW338	Xiblaxian space-whiskey	Xiblaxian circuitry (3)	Xiblaxian polymer	Xiblaxian alloy
-FIVE_D	ROW339	Xiblaxian ultraburrito	Xiblaxian circuitry	Xiblaxian polymer	Xiblaxian alloy (3)
-FIVE_D	ROW340	Xiblaxian residence-cube	Xiblaxian circuitry (11)	Xiblaxian polymer (11)	Xiblaxian alloy (11)	Xiblaxian crystal (3)
+Sugar Sheet Folding	ROW327	sugar shotgun	sugar sheet
+Sugar Sheet Folding	ROW328	sugar shillelagh	sugar sheet
+Sugar Sheet Folding	ROW329	sugar shank	sugar sheet
+Sugar Sheet Folding	ROW330	sugar chapeau	sugar sheet
+Sugar Sheet Folding	ROW331	sugar shorts	sugar sheet
+Sugar Sheet Folding	ROW332	sugar shield	sugar sheet
+Sugar Sheet Folding	ROW333	sugar shirt	sugar sheet
+Xiblaxian 5D printer	ROW334	Xiblaxian stealth cowl	Xiblaxian circuitry (4)	Xiblaxian polymer (9)	Xiblaxian alloy (5)
+Xiblaxian 5D printer	ROW335	Xiblaxian stealth trousers	Xiblaxian circuitry (9)	Xiblaxian polymer (4)	Xiblaxian alloy (5)
+Xiblaxian 5D printer	ROW336	Xiblaxian stealth vest	Xiblaxian circuitry (5)	Xiblaxian polymer (4)	Xiblaxian alloy (9)
+Xiblaxian 5D printer	ROW337	Xiblaxian xeno-detection goggles	Xiblaxian polymer (4)	Xiblaxian crystal (2)
+Xiblaxian 5D printer	ROW338	Xiblaxian space-whiskey	Xiblaxian circuitry (3)	Xiblaxian polymer	Xiblaxian alloy
+Xiblaxian 5D printer	ROW339	Xiblaxian ultraburrito	Xiblaxian circuitry	Xiblaxian polymer	Xiblaxian alloy (3)
+Xiblaxian 5D printer	ROW340	Xiblaxian residence-cube	Xiblaxian circuitry (11)	Xiblaxian polymer (11)	Xiblaxian alloy (11)	Xiblaxian crystal (3)
 The SHAWARMA Initiative	ROW341	warm war shawarma	Coinspiracy (4)
 The SHAWARMA Initiative	ROW342	initiative shawarma	Coinspiracy (2)
 The SHAWARMA Initiative	ROW343	karma shawarma	Coinspiracy (7)
@@ -651,15 +651,15 @@ The Mayo Clinic	ROW722	sphygmayomanometer	2,500 Meat
 The Mayo Clinic	ROW723	tomayohawk-style reflex hammer	2,500 Meat
 The Mayo Clinic	ROW724	mayo lance	2,500 Meat
 The Mayo Clinic	ROW725	Mayo Minder&trade;	99 Meat
-PIXEL	ROW726	pixel coin	yellow pixel (10)
-PIXEL	ROW728	pixel star	yellow pixel (15)	black pixel (2)
-PIXEL	ROW729	pixel banana	yellow pixel (10)	black pixel
-PIXEL	ROW730	pixel beer	yellow pixel (10)	white pixel (5)
-PIXEL	ROW731	yellow submarine	yellow pixel (50)	red pixel (5)	green pixel (5)	blue pixel (5)
-PIXEL	ROW732	pixel lemon	yellow pixel (10)
-PIXEL	ROW733	pixel daiquiri	yellow pixel (10)
-PIXEL	ROW734	miniature power pill	yellow pixel (15)
-PIXEL	ROW735	yellow pixel potion	yellow pixel (10)
+The Crackpot Mystic's Shed	ROW726	pixel coin	yellow pixel (10)
+The Crackpot Mystic's Shed	ROW728	pixel star	yellow pixel (15)	black pixel (2)
+The Crackpot Mystic's Shed	ROW729	pixel banana	yellow pixel (10)	black pixel
+The Crackpot Mystic's Shed	ROW730	pixel beer	yellow pixel (10)	white pixel (5)
+The Crackpot Mystic's Shed	ROW731	yellow submarine	yellow pixel (50)	red pixel (5)	green pixel (5)	blue pixel (5)
+The Crackpot Mystic's Shed	ROW732	pixel lemon	yellow pixel (10)
+The Crackpot Mystic's Shed	ROW733	pixel daiquiri	yellow pixel (10)
+The Crackpot Mystic's Shed	ROW734	miniature power pill	yellow pixel (15)
+The Crackpot Mystic's Shed	ROW735	yellow pixel potion	yellow pixel (10)
 Madeline's Baking Supply	ROW736	Gnollish pie tin	25 Meat
 Madeline's Baking Supply	ROW737	wad of dough	40 Meat
 Madeline's Baking Supply	ROW738	taco shell	60 Meat
@@ -695,12 +695,12 @@ Wal-Mart	ROW772	Cold Fang	Wal-Mart gift certificate (150)
 Wal-Mart	ROW773	one-day ticket to The Glaciest	Wal-Mart gift certificate (50)
 The Terrified Eagle Inn	ROW774	bottle of Bloodweiser	Freddy Kruegerand (200)
 The Terrified Eagle Inn	ROW775	electric Kool-Aid	Freddy Kruegerand (200)
-DUTYFREE	ROW776	That 70s Cologne	Volcoino (5)
-DUTYFREE	ROW777	Wal-Mart &quot;diamond&quot; ring	Wal-Mart gift certificate (50)
-DUTYFREE	ROW778	Puffstone cigar	FunFunds&trade; (20)
-DUTYFREE	ROW779	Conspiracy&trade; mascara	Coinspiracy (75)
-DUTYFREE	ROW780	Spring Break Beach &quot;swimsuit&quot;	Beach Buck (125)
-DUTYFREE	ROW781	airplane tattoo	Volcoino (20)	FunFunds&trade; (80)	Wal-Mart gift certificate (200)	Coinspiracy (300)	Beach Buck (500)
+Elemental Duty Free, Inc.	ROW776	That 70s Cologne	Volcoino (5)
+Elemental Duty Free, Inc.	ROW777	Wal-Mart &quot;diamond&quot; ring	Wal-Mart gift certificate (50)
+Elemental Duty Free, Inc.	ROW778	Puffstone cigar	FunFunds&trade; (20)
+Elemental Duty Free, Inc.	ROW779	Conspiracy&trade; mascara	Coinspiracy (75)
+Elemental Duty Free, Inc.	ROW780	Spring Break Beach &quot;swimsuit&quot;	Beach Buck (125)
+Elemental Duty Free, Inc.	ROW781	airplane tattoo	Volcoino (20)	FunFunds&trade; (80)	Wal-Mart gift certificate (200)	Coinspiracy (300)	Beach Buck (500)
 Bat-Fabricator	ROW782	bat-oomerang	high-grade metal (3)
 Bat-Fabricator	ROW783	bat-jute	high-tensile-strength fibers (3)
 Bat-Fabricator	ROW784	bat-o-mite	high-grade explosives (3)
@@ -789,20 +789,20 @@ A traveling Thanksgiving salesman	ROW905	potato masher	cashew
 A traveling Thanksgiving salesman	ROW906	gravy boat	cashew (3)
 A traveling Thanksgiving salesman	ROW907	bread mold	cashew (2)
 Uncle P's Antiques	ROW908	antique accordion	2,500 Meat
-CRIMBO16	ROW911	hambrosier	negative lump (10)
-CRIMBO16	ROW912	chakra-mental wine	negative lump (10)
-CRIMBO16	ROW913	chakra malt	negative lump (10)
-CRIMBO16	ROW914	Black Angus blackburger	negative lump (20)	chakra sludge
-CRIMBO16	ROW915	black brandy	negative lump (20)	chakra sludge
-CRIMBO16	ROW916	potion of spiritual gunkifying	negative lump (20)	chakra sludge
-CRIMBO16	ROW917	bad vibroknife	negative lump (100)	chakra sludge (10)
-CRIMBO16	ROW918	crystal belt buckle	negative lump (100)	chakra sludge (10)
-CRIMBO16	ROW919	saffron antaravasaka	negative lump (200)	chakra sludge (20)
-CRIMBO16	ROW920	saffron uttarasanga	negative lump (200)	chakra sludge (20)
-CRIMBO16	ROW921	Lump-Stacking for Beginners	negative lump (1,000)	chakra sludge (30)
-CRIMBO16	ROW922	pet bad vibe	negative lump (2,000)	chakra sludge (50)
-CRIMBO16	ROW923	Rethinking Candy	negative lump (4,000)	chakra sludge (75)
-CRIMBO16	ROW924	eternal knot tattoo	negative lump (8,000)	chakra sludge (100)
+Crimbo Lumps Shop	ROW911	hambrosier	negative lump (10)
+Crimbo Lumps Shop	ROW912	chakra-mental wine	negative lump (10)
+Crimbo Lumps Shop	ROW913	chakra malt	negative lump (10)
+Crimbo Lumps Shop	ROW914	Black Angus blackburger	negative lump (20)	chakra sludge
+Crimbo Lumps Shop	ROW915	black brandy	negative lump (20)	chakra sludge
+Crimbo Lumps Shop	ROW916	potion of spiritual gunkifying	negative lump (20)	chakra sludge
+Crimbo Lumps Shop	ROW917	bad vibroknife	negative lump (100)	chakra sludge (10)
+Crimbo Lumps Shop	ROW918	crystal belt buckle	negative lump (100)	chakra sludge (10)
+Crimbo Lumps Shop	ROW919	saffron antaravasaka	negative lump (200)	chakra sludge (20)
+Crimbo Lumps Shop	ROW920	saffron uttarasanga	negative lump (200)	chakra sludge (20)
+Crimbo Lumps Shop	ROW921	Lump-Stacking for Beginners	negative lump (1,000)	chakra sludge (30)
+Crimbo Lumps Shop	ROW922	pet bad vibe	negative lump (2,000)	chakra sludge (50)
+Crimbo Lumps Shop	ROW923	Rethinking Candy	negative lump (4,000)	chakra sludge (75)
+Crimbo Lumps Shop	ROW924	eternal knot tattoo	negative lump (8,000)	chakra sludge (100)
 Armory & Leggery	ROW925	wicker knickers	aerosolized aerogel
 Armory & Leggery	ROW926	wicker kickers	aerosolized aerogel
 Armory & Leggery	ROW927	wicker ticker	aerosolized aerogel
@@ -815,10 +815,10 @@ Armory & Leggery	ROW933	bakelite bowl	wrought-iron flakes
 Armory & Leggery	ROW934	bakelite brooch	wrought-iron flakes
 Armory & Leggery	ROW935	bakelite breeches	wrought-iron flakes
 Armory & Leggery	ROW936	bakelite backpack	wrought-iron flakes
-SPANT	ROW939	spants	spant chitin (7)	spant tendon (3)
-SPANT	ROW940	spant shield	spant chitin (6)	spant tendon (4)
-SPANT	ROW941	spant shoulderpads	spant chitin (3)	spant tendon (7)
-SPANT	ROW942	spant backplate	spant chitin (4)	spant tendon (6)
+Spant Bit Assembly	ROW939	spants	spant chitin (7)	spant tendon (3)
+Spant Bit Assembly	ROW940	spant shield	spant chitin (6)	spant tendon (4)
+Spant Bit Assembly	ROW941	spant shoulderpads	spant chitin (3)	spant tendon (7)
+Spant Bit Assembly	ROW942	spant backplate	spant chitin (4)	spant tendon (6)
 Spacegate Fabrication Facility	ROW943	Aldebaran sardines	Spacegate Research (50)
 Spacegate Fabrication Facility	ROW944	Centauri fish wine	Spacegate Research (50)
 Spacegate Fabrication Facility	ROW945	powdered oxygen	Spacegate Research (100)
@@ -828,17 +828,17 @@ Spacegate Fabrication Facility	ROW949	Spacegate military insignia	Spacegate Rese
 Spacegate Fabrication Facility	ROW950	Spacegate diplomat's insignia	Spacegate Research (3,000)
 Spacegate Fabrication Facility	ROW951	Spacegate emergency disintegrator	Spacegate Research (5,000)
 Spacegate Fabrication Facility	ROW952	Spacegate Initiative tattoo unit	Spacegate Research (10,000)
-XO	ROW953	pair of candy glasses	O (2)
-XO	ROW955	jug of booze	X (3)
-XO	ROW956	Hide-rox&trade; cookie	O (3)
-XO	ROW957	temporary X tattoos	X (2)
-XO	ROW958	glyph of athleticism	O (5)
-XO	ROW959	pair of scissors	O (2)	X
-XO	ROW960	new habit	X (31)
-XO	ROW961	bridge truss	X (23)
-XO	ROW962	pearl necklace	O (37)
-XO	ROW963	amorphous blob	X (111)	O (111)
-XO	ROW964	giant amorphous blob	giant X (11)	giant O (11)
+XO Shop	ROW953	pair of candy glasses	O (2)
+XO Shop	ROW955	jug of booze	X (3)
+XO Shop	ROW956	Hide-rox&trade; cookie	O (3)
+XO Shop	ROW957	temporary X tattoos	X (2)
+XO Shop	ROW958	glyph of athleticism	O (5)
+XO Shop	ROW959	pair of scissors	O (2)	X
+XO Shop	ROW960	new habit	X (31)
+XO Shop	ROW961	bridge truss	X (23)
+XO Shop	ROW962	pearl necklace	O (37)
+XO Shop	ROW963	amorphous blob	X (111)	O (111)
+XO Shop	ROW964	giant amorphous blob	giant X (11)	giant O (11)
 Cheer-o-Vend 3000	ROW966	stale cheer wine	crystalline cheer (10)
 Cheer-o-Vend 3000	ROW967	stale Cheer-E-Os	crystalline cheer (10)
 Cheer-o-Vend 3000	ROW968	Cheer-Up soda	crystalline cheer (5)
@@ -896,11 +896,11 @@ G-Mart	ROW1021	crude oil congealer	G (3)
 G-Mart	ROW1022	good guava	G
 G-Mart	ROW1023	gin and ginger	G
 G-Mart	ROW1024	gaseous gravy	G
-SLIEMCE	ROW1025	slime fedora	black slime glob	orange slime glob (100)	green slime glob (10)
-SLIEMCE	ROW1026	slime knuckles	black slime glob	orange slime glob (50)	green slime glob (20)
-SLIEMCE	ROW1027	slime waders	black slime glob	orange slime glob (10)	green slime glob (30)
-The Crimbo Cafe	ROW1029	yule gruel	50 Meat
-The Crimbo Cafe	ROW1030	hot watered rum	50 Meat
+Mad Sliemce	ROW1025	slime fedora	black slime glob	orange slime glob (100)	green slime glob (10)
+Mad Sliemce	ROW1026	slime knuckles	black slime glob	orange slime glob (50)	green slime glob (20)
+Mad Sliemce	ROW1027	slime waders	black slime glob	orange slime glob (10)	green slime glob (30)
+The Crimbo Cafe (2018)	ROW1029	yule gruel	50 Meat
+The Crimbo Cafe (2018)	ROW1030	hot watered rum	50 Meat
 Crimbo Town Gift-O-Mat	ROW1031	bottle of Crimbognac	100,000 Meat
 Crimbo Town Gift-O-Mat	ROW1032	Crimboysters Rockefeller	100,000 Meat
 Crimbo Town Gift-O-Mat	ROW1033	Crimbeau de toilette	100,000 Meat
@@ -969,19 +969,19 @@ Cosmic Ray's Bazaar	ROW1097	antique accordion	rare Meat isotope (10)
 Cosmic Ray's Bazaar	ROW1098	space chowder	rare Meat isotope (5)
 Cosmic Ray's Bazaar	ROW1099	space wine	rare Meat isotope (5)
 Cosmic Ray's Bazaar	ROW1100	lucky-ish pill	rare Meat isotope (20)
-The Crimbo Cafe	ROW1101	bowl of mernudo	50 Meat
-The Crimbo Cafe	ROW1103	fishelada	50 Meat
-The Crimbo Cafe	ROW1104	ojo de pez burrito	50 Meat
-KRINGLE	ROW1105	antique nutcracker hat	waterlogged cloth (3)	waterlogged stuffing (3)
-KRINGLE	ROW1106	antique nutcracker cape	waterlogged cloth (3)
-KRINGLE	ROW1107	antique nutcracker waistcoat	waterlogged cloth (3)	waterlogged stuffing (3)	waterlogged leather (3)
-KRINGLE	ROW1108	antique nutcracker boots	waterlogged leather (3)	waterlogged metal (3)
-KRINGLE	ROW1109	antique nutcracker sword	waterlogged wood (3)	waterlogged metal (3)
-KRINGLE	ROW1110	antique nutcracker beard	waterlogged stuffing (3)
-KRINGLE	ROW1111	antique nutcracker epaulets	waterlogged wood (3)	waterlogged metal (3)
-KRINGLE	ROW1112	antique nutcracker drumstick	waterlogged wood (3)	waterlogged stuffing (3)	waterlogged leather (3)
-KRINGLE	ROW1113	antique nutcracker figurine	waterlogged wood (3)
-KRINGLE	ROW1114	antique nutcracker pants	waterlogged cloth (3)	waterlogged leather (3)	waterlogged metal (3)
+The Crimbo Cafe (2019)	ROW1101	bowl of mernudo	50 Meat
+The Crimbo Cafe (2019)	ROW1103	fishelada	50 Meat
+The Crimbo Cafe (2019)	ROW1104	ojo de pez burrito	50 Meat
+The H. M. S. Kringle's Workshop	ROW1105	antique nutcracker hat	waterlogged cloth (3)	waterlogged stuffing (3)
+The H. M. S. Kringle's Workshop	ROW1106	antique nutcracker cape	waterlogged cloth (3)
+The H. M. S. Kringle's Workshop	ROW1107	antique nutcracker waistcoat	waterlogged cloth (3)	waterlogged stuffing (3)	waterlogged leather (3)
+The H. M. S. Kringle's Workshop	ROW1108	antique nutcracker boots	waterlogged leather (3)	waterlogged metal (3)
+The H. M. S. Kringle's Workshop	ROW1109	antique nutcracker sword	waterlogged wood (3)	waterlogged metal (3)
+The H. M. S. Kringle's Workshop	ROW1110	antique nutcracker beard	waterlogged stuffing (3)
+The H. M. S. Kringle's Workshop	ROW1111	antique nutcracker epaulets	waterlogged wood (3)	waterlogged metal (3)
+The H. M. S. Kringle's Workshop	ROW1112	antique nutcracker drumstick	waterlogged wood (3)	waterlogged stuffing (3)	waterlogged leather (3)
+The H. M. S. Kringle's Workshop	ROW1113	antique nutcracker figurine	waterlogged wood (3)
+The H. M. S. Kringle's Workshop	ROW1114	antique nutcracker pants	waterlogged cloth (3)	waterlogged leather (3)	waterlogged metal (3)
 Armory & Leggery	ROW1116	chalk chlamys	paraffin pieces
 Armory & Leggery	ROW1117	chalk chain	paraffin pieces
 Armory & Leggery	ROW1118	chalk chalice	paraffin pieces
@@ -1065,8 +1065,8 @@ Elf Food Drive	ROW1196	The Night Before Crimbo, Ch. 2	donated food (3,000)
 Elf Booze Drive	ROW1197	The Night Before Crimbo, Ch. 3	donated booze (3,000)
 Elf Booze Drive	ROW1198	The Night Before Crimbo, Ch. 4	donated booze (3,000)
 Elf Candy Drive	ROW1199	The Night Before Crimbo, Ch. 5	donated candy (3,000)
-The Crimbo Cafe	ROW1201	stuffed red and green pepper (stale)	300 Meat
-The Crimbo Cafe	ROW1202	cranberry margarita (brackish)	300 Meat
+The Crimbo Cafe (2020)	ROW1201	stuffed red and green pepper (stale)	300 Meat
+The Crimbo Cafe (2020)	ROW1202	cranberry margarita (brackish)	300 Meat
 Elf Booze Drive	ROW1204	miniature goose mask	donated booze (500)
 Elf Food Drive	ROW1205	tiny glowing red nose	donated food (500)
 Elf Candy Drive	ROW1206	fuzzy polar bear ears	donated candy (500)
@@ -1102,8 +1102,8 @@ FDKOL Auxiliary	ROW1259	rusty empty nacho cheese can	1,000 Meat
 FDKOL Auxiliary	ROW1260	literal bucket hat	5,000 Meat
 FDKOL Auxiliary	ROW1261	rainproof barrel caulk	5,000 Meat
 FDKOL Auxiliary	ROW1262	pump grease	5,000 Meat
-The Crimbo Cafe	ROW1263	bread pie	50 Meat
-The Crimbo Cafe	ROW1264	clear Russian	50 Meat
+The Crimbo Cafe (2021)	ROW1263	bread pie	50 Meat
+The Crimbo Cafe (2021)	ROW1264	clear Russian	50 Meat
 Ornament Stand	ROW1265	black Crimbo ball	100 Meat
 Ornament Stand	ROW1266	white Crimbo ball	100 Meat
 Armory & Leggery	ROW1267	velour voulge	loofah lumps
@@ -1146,17 +1146,17 @@ Armory & Leggery	ROW1303	flagstone flip-flops	ceramic scree
 Armory & Leggery	ROW1304	flagstone fez	ceramic scree
 Armory & Leggery	ROW1305	flagstone fleece	ceramic scree
 Armory & Leggery	ROW1306	flagstone fringe	ceramic scree
-PIXEL	ROW1307	pixel bread	white pixel (5)	brown pixel (5)
-PIXEL	ROW1308	pixel whiskey	white pixel (5)	brown pixel (5)
-SHADOW_FORGE	ROW1309	shadow chef's hat	shadow skin (3)	shadow bread (2)
-SHADOW_FORGE	ROW1310	shadow trousers	shadow skin (3)	shadow sinew (2)
-SHADOW_FORGE	ROW1311	shadow hammer	shadow brick (3)	shadow stick (3)
-SHADOW_FORGE	ROW1312	shadow monocle	shadow brick	shadow glass (3)	shadow ice (2)
-SHADOW_FORGE	ROW1313	shadow candle	shadow sausage (3)	shadow sinew (2)	shadow flame
-SHADOW_FORGE	ROW1315	shadow hot dog	shadow sausage	shadow bread	shadow venom
-SHADOW_FORGE	ROW1316	shadow martini	shadow glass	shadow ice	shadow nectar
-SHADOW_FORGE	ROW1317	shadow pill	shadow fluid	shadow flame
-SHADOW_FORGE	ROW1318	shadow needle	shadow stick (13)	shadow fluid (13)	shadow venom (13)	shadow nectar (13)
+The Crackpot Mystic's Shed	ROW1307	pixel bread	white pixel (5)	brown pixel (5)
+The Crackpot Mystic's Shed	ROW1308	pixel whiskey	white pixel (5)	brown pixel (5)
+The Shadow Forge	ROW1309	shadow chef's hat	shadow skin (3)	shadow bread (2)
+The Shadow Forge	ROW1310	shadow trousers	shadow skin (3)	shadow sinew (2)
+The Shadow Forge	ROW1311	shadow hammer	shadow brick (3)	shadow stick (3)
+The Shadow Forge	ROW1312	shadow monocle	shadow brick	shadow glass (3)	shadow ice (2)
+The Shadow Forge	ROW1313	shadow candle	shadow sausage (3)	shadow sinew (2)	shadow flame
+The Shadow Forge	ROW1315	shadow hot dog	shadow sausage	shadow bread	shadow venom
+The Shadow Forge	ROW1316	shadow martini	shadow glass	shadow ice	shadow nectar
+The Shadow Forge	ROW1317	shadow pill	shadow fluid	shadow flame
+The Shadow Forge	ROW1318	shadow needle	shadow stick (13)	shadow fluid (13)	shadow venom (13)	shadow nectar (13)
 Replica Mr. Store	ROW1319	replica Dark Jill-O-Lantern	replica Mr. Accessory
 Replica Mr. Store	ROW1320	replica hand turkey outline	replica Mr. Accessory
 Replica Mr. Store	ROW1321	replica crimbo elfling	replica Mr. Accessory
@@ -1230,9 +1230,9 @@ Mr. Store 2002	ROW1389	Giant black monolith	Mr. Store 2002 Credit
 Mr. Store 2002	ROW1390	Crimbo cookie sheet	Mr. Store 2002 Credit
 Replica Mr. Store	ROW1391	Replica 2002 Mr. Store Catalog	replica Mr. Accessory
 Replica Mr. Store	ROW1392	replica sleeping patriotic eagle	replica Mr. Accessory
-FIXODENT	ROW1393	cat o' nine teeth	fixodent	loose teeth (9)
-FIXODENT	ROW1394	toothy trousers	fixodent	loose teeth (6)
-FIXODENT	ROW1395	tooth cap	fixodent	loose teeth (3)
+Craft with Teeth	ROW1393	cat o' nine teeth	fixodent	loose teeth (9)
+Craft with Teeth	ROW1394	toothy trousers	fixodent	loose teeth (6)
+Craft with Teeth	ROW1395	tooth cap	fixodent	loose teeth (3)
 Replica Mr. Store	ROW1396	replica august scepter	replica Mr. Accessory
 KoL Con 13 Merch Table	ROW1397	crated wardrobe-o-matic	Mr. Accessory (2)
 Elf Guard Mess Hall	ROW1399	sugarplum ration	Elf Guard MPC (5)
@@ -1297,30 +1297,30 @@ Armory & Leggery	ROW1462	adobe abacus	petrified wood waste parts
 Armory & Leggery	ROW1463	adobe ayam	petrified wood waste parts
 Armory & Leggery	ROW1464	adobe ascot	petrified wood waste parts
 Armory & Leggery	ROW1465	adobe abaya	petrified wood waste parts
-TINKERING_BENCH	ROW1467	biphasic molecular oculus	smashed scientific equipment
-TINKERING_BENCH	ROW1468	triphasic molecular oculus	biphasic molecular oculus	smashed scientific equipment
-TINKERING_BENCH	ROW1469	high-tension exoskeleton	smashed scientific equipment
-TINKERING_BENCH	ROW1470	ultra-high-tension exoskeleton	high-tension exoskeleton	smashed scientific equipment
-TINKERING_BENCH	ROW1471	irresponsible-tension exoskeleton	ultra-high-tension exoskeleton	smashed scientific equipment
-TINKERING_BENCH	ROW1472	quick-release belt pouch	smashed scientific equipment
-TINKERING_BENCH	ROW1473	quick-release fannypack	quick-release belt pouch	smashed scientific equipment
-TINKERING_BENCH	ROW1474	quick-release utility belt	quick-release fannypack	smashed scientific equipment
-TINKERING_BENCH	ROW1475	motion sensor	smashed scientific equipment
-TINKERING_BENCH	ROW1476	focused magnetron pistol	smashed scientific equipment
-KIWI	ROW1477	mini kiwi bikini	mini kiwi (2)
-KIWI	ROW1478	mini kiwitini	mini kiwi	bottle of vodka
-KIWI	ROW1479	mini kiwitini	mini kiwi	bottle of gin
-KIWI	ROW1480	mini kiwi invisible dirigible	mini kiwi (3)
-KIWI	ROW1481	mini kiwi aioli	mini kiwi (5)
-KIWI	ROW1482	mini kiwi silicon tiepin	mini kiwi (3)
-KIWI	ROW1483	mini kiwi tipi	mini kiwi
-KIWI	ROW1484	mini kiwi intoxicating spirits	mini kiwi (3)
-KIWI	ROW1485	mini kiwi illicit antibiotic	mini kiwi (3)
-KIWI	ROW1486	mini kiwi antimilitaristic hippy petition	mini kiwi (3)
-KIWI	ROW1487	mini kiwi whipping stick	mini kiwi (4)
-KIWI	ROW1488	mini kiwi icepick	mini kiwi (4)
-KIWI	ROW1489	mini kiwi-flavored aspirin-injecting lipstick	mini kiwi (3)
-KIWI	ROW1490	mini kiwi digitized cookies	mini kiwi (3)
+Tinkering Bench	ROW1467	biphasic molecular oculus	smashed scientific equipment
+Tinkering Bench	ROW1468	triphasic molecular oculus	biphasic molecular oculus	smashed scientific equipment
+Tinkering Bench	ROW1469	high-tension exoskeleton	smashed scientific equipment
+Tinkering Bench	ROW1470	ultra-high-tension exoskeleton	high-tension exoskeleton	smashed scientific equipment
+Tinkering Bench	ROW1471	irresponsible-tension exoskeleton	ultra-high-tension exoskeleton	smashed scientific equipment
+Tinkering Bench	ROW1472	quick-release belt pouch	smashed scientific equipment
+Tinkering Bench	ROW1473	quick-release fannypack	quick-release belt pouch	smashed scientific equipment
+Tinkering Bench	ROW1474	quick-release utility belt	quick-release fannypack	smashed scientific equipment
+Tinkering Bench	ROW1475	motion sensor	smashed scientific equipment
+Tinkering Bench	ROW1476	focused magnetron pistol	smashed scientific equipment
+Kiwi Kwiki Mart	ROW1477	mini kiwi bikini	mini kiwi (2)
+Kiwi Kwiki Mart	ROW1478	mini kiwitini	mini kiwi	bottle of vodka
+Kiwi Kwiki Mart	ROW1479	mini kiwitini	mini kiwi	bottle of gin
+Kiwi Kwiki Mart	ROW1480	mini kiwi invisible dirigible	mini kiwi (3)
+Kiwi Kwiki Mart	ROW1481	mini kiwi aioli	mini kiwi (5)
+Kiwi Kwiki Mart	ROW1482	mini kiwi silicon tiepin	mini kiwi (3)
+Kiwi Kwiki Mart	ROW1483	mini kiwi tipi	mini kiwi
+Kiwi Kwiki Mart	ROW1484	mini kiwi intoxicating spirits	mini kiwi (3)
+Kiwi Kwiki Mart	ROW1485	mini kiwi illicit antibiotic	mini kiwi (3)
+Kiwi Kwiki Mart	ROW1486	mini kiwi antimilitaristic hippy petition	mini kiwi (3)
+Kiwi Kwiki Mart	ROW1487	mini kiwi whipping stick	mini kiwi (4)
+Kiwi Kwiki Mart	ROW1488	mini kiwi icepick	mini kiwi (4)
+Kiwi Kwiki Mart	ROW1489	mini kiwi-flavored aspirin-injecting lipstick	mini kiwi (3)
+Kiwi Kwiki Mart	ROW1490	mini kiwi digitized cookies	mini kiwi (3)
 The Primordial Soup Kitchen	ROW1491	bacteria bisque	Chroner (10)
 The Primordial Soup Kitchen	ROW1492	ciliophora chowder	Chroner (10)
 The Primordial Soup Kitchen	ROW1493	cream of chloroplasts	Chroner (10)

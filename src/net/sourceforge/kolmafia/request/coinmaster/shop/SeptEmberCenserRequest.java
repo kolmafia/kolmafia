@@ -16,7 +16,7 @@ public class SeptEmberCenserRequest extends CoinMasterRequest {
   private static final Pattern TOKEN_PATTERN = Pattern.compile("<b>You have ([\\d,]+) Ember");
 
   public static final CoinmasterData SEPTEMBER_CENSER =
-      new CoinmasterData(master, "Sept-Ember Censer", SeptEmberCenserRequest.class)
+      new CoinmasterData(master, "september", SeptEmberCenserRequest.class)
           .withToken("Ember")
           .withTokenPattern(TOKEN_PATTERN)
           .withProperty("availableSeptEmbers")

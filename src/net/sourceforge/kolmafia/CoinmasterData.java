@@ -21,6 +21,8 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.coinmaster.HermitRequest;
+import net.sourceforge.kolmafia.shop.ShopDatabase;
+import net.sourceforge.kolmafia.shop.ShopDatabase.SHOP;
 import net.sourceforge.kolmafia.shop.ShopRow;
 import net.sourceforge.kolmafia.shop.ShopRowDatabase;
 
@@ -1076,6 +1078,12 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
         : this.item.getInstance(price);
   }
 
+  // Override this method if certain rows should not get a Concoction or
+  // CoinMasterPurchaseRequest.
+  public boolean manualOnlyRow(final ShopRow shopRow) {
+    return false;
+  }
+
   public void registerPurchaseRequests() {
     // If this Coin Master doesn't sell anything that goes into
     // your inventory, nothing to register
@@ -1126,6 +1134,12 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
       if (currency.isItem()) {
         CoinmastersDatabase.registerCurrency(currency);
       }
+    }
+  }
+
+  public void registerShop() {
+    if (this.buyURL.startsWith("shop.php")) {
+      ShopDatabase.registerShop(this.nickname, this.master, SHOP.COIN);
     }
   }
 

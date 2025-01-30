@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.request;
 
+import java.util.Arrays;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -159,6 +160,24 @@ public class CoinMasterPurchaseRequest extends PurchaseRequest {
   @Override
   public String accessible() {
     return this.data.accessible();
+  }
+
+  @Override
+  public boolean equals(final Object o) {
+    // Assumption: a shop can contain multiple instances of the same item
+    return o instanceof CoinMasterPurchaseRequest cpr
+        && this.shopName.equals(cpr.shopName)
+        && this.item.getItemId() == cpr.item.getItemId()
+        && Arrays.equals(this.costs, cpr.costs);
+  }
+
+  @Override
+  public int hashCode() {
+    int hash = 0;
+    hash += this.shopName != null ? this.shopName.hashCode() : 0;
+    hash += this.item != null ? this.item.hashCode() : 0;
+    hash += this.costs != null ? Arrays.hashCode(this.costs) : 0;
+    return hash;
   }
 
   @Override

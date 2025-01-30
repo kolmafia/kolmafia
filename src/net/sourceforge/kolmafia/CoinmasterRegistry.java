@@ -62,6 +62,7 @@ import net.sourceforge.kolmafia.request.coinmaster.shop.GotporkOrphanageRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.GotporkPDRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.GuzzlrRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.IsotopeSmitheryRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.KiwiKwikiMartRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.LTTRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.LunarLunchRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.MemeShopRequest;
@@ -74,6 +75,7 @@ import net.sourceforge.kolmafia.request.coinmaster.shop.PlumberGearRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.PlumberItemRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.PokemporiumRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.PrecinctRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.PrimordialSoupKitchenRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ReplicaMrStoreRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.RubeeRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.SHAWARMARequest;
@@ -154,6 +156,7 @@ public abstract class CoinmasterRegistry {
         GuzzlrRequest.GUZZLR,
         HermitRequest.HERMIT,
         IsotopeSmitheryRequest.ISOTOPE_SMITHERY,
+        KiwiKwikiMartRequest.DATA,
         LTTRequest.LTT,
         LunarLunchRequest.LUNAR_LUNCH,
         MemeShopRequest.BACON_STORE,
@@ -167,6 +170,7 @@ public abstract class CoinmasterRegistry {
         PlumberItemRequest.PLUMBER_ITEMS,
         PokemporiumRequest.POKEMPORIUM,
         PrecinctRequest.PRECINCT,
+        PrimordialSoupKitchenRequest.DATA,
         QuartersmasterRequest.FRATBOY,
         ReplicaMrStoreRequest.REPLICA_MR_STORE,
         RubeeRequest.RUBEE,
@@ -199,6 +203,7 @@ public abstract class CoinmasterRegistry {
       CoinmasterData cm = COINMASTERS[i];
       MASTERS[i] = StringUtilities.getCanonicalName(cm.getMaster());
       NICKNAMES[i] = StringUtilities.getCanonicalName(cm.getNickname());
+      cm.registerShop();
       cm.registerCurrencies();
       cm.registerShopRows();
       cm.registerPurchaseRequests();

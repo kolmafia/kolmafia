@@ -82,6 +82,8 @@ import net.sourceforge.kolmafia.session.NumberologyManager;
 import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.RumpleManager;
+import net.sourceforge.kolmafia.shop.ShopDatabase;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 import net.sourceforge.kolmafia.shop.ShopRow;
 import net.sourceforge.kolmafia.shop.ShopRowDatabase;
 import net.sourceforge.kolmafia.swingui.ShowHTMLFrame;
@@ -90,6 +92,7 @@ import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
 import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.HTMLParserUtils;
+import net.sourceforge.kolmafia.utilities.HashMultimap;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.utilities.WikiUtilities;
 import net.sourceforge.kolmafia.utilities.WikiUtilities.WikiType;
@@ -698,6 +701,27 @@ public class TestCommand extends AbstractCommand {
       return;
     }
 
+    if (command.equals("row-duplicate-items")) {
+      ShopRowDatabase.readShopRowFile();
+
+      HashMultimap<ShopRow> items = new HashMultimap<>();
+      for (var shopRow : ShopRowDatabase.allShopRows.values()) {
+        int itemId = shopRow.getItem().getItemId();
+        items.put(itemId, shopRow);
+      }
+      for (List<ShopRow> list : items.values()) {
+        if (list.size() > 1) {
+          RequestLogger.updateSessionLog("------");
+          for (var shopRow : list) {
+            int row = shopRow.getRow();
+            String shopName = ShopRowDatabase.allShopRowShops.get(row);
+            RequestLogger.updateSessionLog(shopRow.toData(shopName));
+          }
+        }
+      }
+      return;
+    }
+
     if (command.equals("showhtml")) {
       if (split.length < 2) {
         KoLmafia.updateDisplay(MafiaState.ERROR, "Load what?");
@@ -892,6 +916,16 @@ public class TestCommand extends AbstractCommand {
       } finally {
         Preferences.setString("parkaMode", parkaMode);
       }
+      return;
+    }
+
+    if (command.equals("write-shops")) {
+      // Ensure that the three databases that register ShopRowData entries are loaded
+      ConcoctionDatabase.singleUseCreation(0);
+      CoinmasterRegistry.reset();
+      NPCStoreDatabase.contains(0);
+
+      ShopDatabase.writeShopFile();
       return;
     }
 
@@ -1146,14 +1180,6 @@ public class TestCommand extends AbstractCommand {
       return;
     }
 
-    if (command.equals("shoprows")) {
-      String shop = ShopRow.parseShopName(TestCommand.contents);
-      String shopId = ShopRow.parseShopId(TestCommand.contents);
-      NPCPurchaseRequest.parseShopInventory(shopId, TestCommand.contents, true);
-      TestCommand.contents = null;
-      return;
-    }
-
     if (command.equals("location")) {
       StringBuffer buffer = new StringBuffer(TestCommand.contents);
       TestCommand.contents = null;
@@ -1237,7 +1263,7 @@ public class TestCommand extends AbstractCommand {
     }
 
     if (command.equals("shoprows")) {
-      String shop = ShopRow.parseShopName(TestCommand.contents);
+      String shop = ShopRequest.parseShopName(TestCommand.contents);
       List<ShopRow> rows = ShopRow.parseShop(TestCommand.contents, true);
       TestCommand.contents = null;
       RequestLogger.printLine("shop '" + shop + "' offers " + rows.size() + " items.");

@@ -171,13 +171,29 @@ public class AutumnatonManager {
     return request.responseText;
   }
 
-  private static final Pattern VISITABLE_LOCATION = Pattern.compile("<option +value=\"(\\d+)\">");
+  private static final Pattern VISITABLE_LOCATION =
+      Pattern.compile("<option +value=\"(\\d+)\">([^<]+)</option>");
 
-  public static Set<Integer> parseLocations(final String responseText) {
-    var locs = new HashSet<Integer>();
+  public static Set<KoLAdventure> parseLocations(final String responseText) {
+    var locs = new HashSet<KoLAdventure>();
     var m = VISITABLE_LOCATION.matcher(responseText);
     while (m.find()) {
-      locs.add(Integer.parseInt(m.group(1)));
+      var id = Integer.parseInt(m.group(1));
+      var name = m.group(2);
+      var adv = AdventureDatabase.getAdventure(id);
+      if (adv == null) {
+        var msg = "Unknown location " + name + " with id " + id + " found";
+        RequestLogger.printLine(msg);
+        RequestLogger.updateSessionLog(msg);
+        continue;
+      }
+      var mafiaName = adv.getAdventureName();
+      if (!name.equals(adv.getAdventureName())) {
+        var msg = "Location " + name + " with id " + id + " is known to Mafia as " + mafiaName;
+        RequestLogger.printLine(msg);
+        RequestLogger.updateSessionLog(msg);
+      }
+      locs.add(adv);
     }
     return locs;
   }

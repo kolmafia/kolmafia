@@ -1232,7 +1232,6 @@ Elf Guard Toy and Munitions Factory	buy	400	Lil' Snowball Factory	ROW1429
 Elf Guard Toy and Munitions Factory	buy	1000	Elf Guard safety bear	ROW1440
 Elf Guard Toy and Munitions Factory	buy	2000	Elf Guard temporary (permanent) tattoo	ROW1430
 
-
 # Crimbo 2024
 
 Crimbo24 Cafe	ROW1527	chocolate ostrich egg	Spirit of Easter (15)
@@ -1265,20 +1264,22 @@ Crimbo24 Factory	ROW1535	Covert Ops for Kids	Spirit of Veteran's Day (500)
 Crimbo24 Factory	ROW1536	Holiday Multitasking	Spirit of Thanksgiving (500)
 Crimbo24 Factory	ROW1548	Hoyle's Guide to Reindeer Games	Spirit of Christmas (500)
 
-#Kiwi Kwiki Mart	ROW1477	mini kiwi bikini	mini kiwi (2)
-#Kiwi Kwiki Mart	ROW1488	mini kiwi icepick	mini kiwi (4)
-#Kiwi Kwiki Mart	ROW1487	mini kiwi whipping stick	mini kiwi (4)
-#Kiwi Kwiki Mart	ROW1480	mini kiwi invisible dirigible	mini kiwi (3)
-#Kiwi Kwiki Mart	ROW1482	mini kiwi silicon tiepin	mini kiwi (3)
-#Kiwi Kwiki Mart	ROW1484	mini kiwi intoxicating spirits	mini kiwi (3)
-#Kiwi Kwiki Mart	ROW1478	mini kiwitini	mini kiwi	bottle of vodka
-#Kiwi Kwiki Mart	ROW1479	mini kiwitini	mini kiwi	bottle of gin
-#Kiwi Kwiki Mart	ROW1486	mini kiwi antimilitaristic hippy petition	mini kiwi (3)
-#Kiwi Kwiki Mart	ROW1485	mini kiwi illicit antibiotic	mini kiwi (3)
-#Kiwi Kwiki Mart	ROW1483	mini kiwi tipi	mini kiwi
-#Kiwi Kwiki Mart	ROW1489	mini kiwi-flavored aspirin-injecting lipstick	mini kiwi (3)
-#Kiwi Kwiki Mart	ROW1481	mini kiwi aioli	mini kiwi (5)
-#Kiwi Kwiki Mart	ROW1490	mini kiwi digitized cookies	mini kiwi (3)
+# Mini Kiwi
+
+Kiwi Kwiki Mart	ROW1477	mini kiwi bikini	mini kiwi (2)
+Kiwi Kwiki Mart	ROW1488	mini kiwi icepick	mini kiwi (4)
+Kiwi Kwiki Mart	ROW1487	mini kiwi whipping stick	mini kiwi (4)
+Kiwi Kwiki Mart	ROW1480	mini kiwi invisible dirigible	mini kiwi (3)
+Kiwi Kwiki Mart	ROW1482	mini kiwi silicon tiepin	mini kiwi (3)
+Kiwi Kwiki Mart	ROW1484	mini kiwi intoxicating spirits	mini kiwi (3)
+Kiwi Kwiki Mart	ROW1478	mini kiwitini	mini kiwi	bottle of vodka
+Kiwi Kwiki Mart	ROW1479	mini kiwitini	mini kiwi	bottle of gin
+Kiwi Kwiki Mart	ROW1486	mini kiwi antimilitaristic hippy petition	mini kiwi (3)
+Kiwi Kwiki Mart	ROW1485	mini kiwi illicit antibiotic	mini kiwi (3)
+Kiwi Kwiki Mart	ROW1483	mini kiwi tipi	mini kiwi
+Kiwi Kwiki Mart	ROW1489	mini kiwi-flavored aspirin-injecting lipstick	mini kiwi (3)
+Kiwi Kwiki Mart	ROW1481	mini kiwi aioli	mini kiwi (5)
+Kiwi Kwiki Mart	ROW1490	mini kiwi digitized cookies	mini kiwi (3)
 
 # Sept-Ember Censer
 
@@ -1293,6 +1294,8 @@ Sept-Ember Censer	buy	2	Septapus summoning charm	ROW1513
 Sept-Ember Censer	buy	2	throwin' ember	ROW1519
 Sept-Ember Censer	buy	4	structural ember	ROW1514
 Sept-Ember Censer	buy	6	miniature Embering Hulk	ROW1511
+
+# CyberRealm
 
 The Dedigitizer	ROW1560	wired underwear	1 (8)
 The Dedigitizer	ROW1559	encrypted shuriken	1 (16)
@@ -1321,3 +1324,23 @@ The Dedigitizer	ROW1570	OVERCLOCK(10) rom chip	1 (256)	0 (64)	dedigitizer schema
 The Dedigitizer	ROW1569	SLEEP(5) rom chip	1 (256)	0 (64)	dedigitizer schematic: SLEEP(5) rom chip
 The Dedigitizer	ROW1571	STATS+++ rom chip	1 (256)	0 (64)	dedigitizer schematic: STATS+++ rom chip
 The Dedigitizer	ROW1576	virtual cybertattoo	1 (512)	0 (128)	dedigitizer schematic: virtual cybertattoo
+
+# Mixing methods with multiple recipes for the same item
+
+Grandma Sea Monkey	ROW131	crappy Mer-kin mask	Mer-kin scholar mask
+Grandma Sea Monkey	ROW128	crappy Mer-kin mask	Mer-kin gladiator mask
+Grandma Sea Monkey	ROW124	crappy Mer-kin mask	aerated diving helmet	pristine fish scale (3)
+Grandma Sea Monkey	ROW125	crappy Mer-kin tailpiece	sea chaps	teflon swim fins	pristine fish scale (3)
+Grandma Sea Monkey	ROW126	Mer-kin gladiator mask	crappy Mer-kin mask	Mer-kin headguard
+Grandma Sea Monkey	ROW127	Mer-kin gladiator tailpiece	crappy Mer-kin tailpiece	Mer-kin thighguard
+Grandma Sea Monkey	ROW129	Mer-kin scholar mask	crappy Mer-kin mask	Mer-kin facecowl
+Grandma Sea Monkey	ROW130	Mer-kin scholar tailpiece	crappy Mer-kin tailpiece	Mer-kin waistrope
+Grandma Sea Monkey	ROW116	sushi doily	sea lace
+Grandma Sea Monkey	ROW117	scimitar cozy	sea lace (3)	pristine fish scale
+Grandma Sea Monkey	ROW118	fish stick cozy	sea lace (3)	pristine fish scale
+Grandma Sea Monkey	ROW119	bazooka cozy	sea lace (3)	pristine fish scale
+Grandma Sea Monkey	ROW132	scale-mail underwear	dull fish scale (25)	pristine fish scale
+Grandma Sea Monkey	ROW120	sea mantle	pristine fish scale (5)
+Grandma Sea Monkey	ROW121	sea shawl	pristine fish scale (5)
+Grandma Sea Monkey	ROW122	sea cape	pristine fish scale (5)
+Grandma Sea Monkey	ROW123	saltwaterbed	sea leather (15)
