@@ -23,7 +23,8 @@ public class BlackMarketRequest extends CoinMasterRequest {
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(TOKEN)
           .withShopRowFields(master, "blackmarket")
-          .withCanBuyItem(BlackMarketRequest::canBuyItem);
+          .withCanBuyItem(BlackMarketRequest::canBuyItem)
+          .withAccessible(BlackMarketRequest::accessible);
 
   private static Boolean canBuyItem(final Integer itemId) {
     AdventureResult item = ItemPool.get(itemId);

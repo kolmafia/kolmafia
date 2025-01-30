@@ -22,7 +22,7 @@ public class AppleStoreRequest extends CoinMasterRequest {
           .withTokenPattern(CHRONER_PATTERN)
           .withItem(CHRONER)
           .withShopRowFields(master, "applestore")
-          .withNeedsPasswordHash(true);
+          .withAccessible(AppleStoreRequest::accessible);
 
   public AppleStoreRequest() {
     super(APPLE_STORE);

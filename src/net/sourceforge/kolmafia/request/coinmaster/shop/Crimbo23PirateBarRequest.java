@@ -23,7 +23,7 @@ public class Crimbo23PirateBarRequest extends CoinMasterRequest {
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(TOKEN)
           .withShopRowFields(master, "crimbo23_pirate_bar")
-          .withNeedsPasswordHash(true);
+          .withAccessible(Crimbo23PirateBarRequest::accessible);
 
   public Crimbo23PirateBarRequest() {
     super(DATA);

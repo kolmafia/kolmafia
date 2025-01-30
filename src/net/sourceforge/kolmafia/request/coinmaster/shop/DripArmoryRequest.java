@@ -77,10 +77,6 @@ public class DripArmoryRequest extends CoinMasterRequest {
     CoinMasterRequest.parseResponse(data, location, responseText);
   }
 
-  public static String accessible() {
-    return null;
-  }
-
   public static final boolean registerRequest(final String urlString, final boolean noMeat) {
     if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=driparmory")) {
       return false;

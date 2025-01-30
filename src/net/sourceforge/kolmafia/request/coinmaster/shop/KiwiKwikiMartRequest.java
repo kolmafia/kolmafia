@@ -13,8 +13,7 @@ public class KiwiKwikiMartRequest extends CoinMasterRequest {
   public static final CoinmasterData DATA =
       new CoinmasterData(master, "kiwi", KiwiKwikiMartRequest.class)
           .withNewShopRowFields(master, "kiwi")
-          .withCanBuyItem(KiwiKwikiMartRequest::canBuyItem)
-          .withNeedsPasswordHash(true);
+          .withCanBuyItem(KiwiKwikiMartRequest::canBuyItem);
 
   public KiwiKwikiMartRequest() {
     super(DATA);
@@ -62,10 +61,6 @@ public class KiwiKwikiMartRequest extends CoinMasterRequest {
 
     // Parse current coin balances
     CoinMasterRequest.parseBalance(data, responseText);
-  }
-
-  public static String accessible() {
-    return null;
   }
 
   public static final boolean registerRequest(final String urlString) {

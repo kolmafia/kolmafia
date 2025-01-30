@@ -24,7 +24,7 @@ public class CosmicRaysBazaarRequest extends CoinMasterRequest {
           .withShopRowFields(master, "exploathing")
           .withBuyPrices()
           .withItemBuyPrice(CosmicRaysBazaarRequest::itemBuyPrice)
-          .withNeedsPasswordHash(true);
+          .withAccessible(CosmicRaysBazaarRequest::accessible);
 
   private static AdventureResult itemBuyPrice(final Integer itemId) {
     return buyCosts.get(itemId);

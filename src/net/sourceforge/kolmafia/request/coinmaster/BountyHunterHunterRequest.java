@@ -381,10 +381,6 @@ public class BountyHunterHunterRequest extends CoinMasterRequest {
     }
   }
 
-  public static String accessible() {
-    return null;
-  }
-
   public static final boolean registerRequest(final String urlString) {
     if (!urlString.startsWith("bounty.php")) {
       return false;

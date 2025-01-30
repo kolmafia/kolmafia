@@ -23,7 +23,8 @@ public class AltarOfBonesRequest extends CoinMasterRequest {
           .withBuyItems(master)
           .withBuyPrices(master)
           .withItemField("whichitem")
-          .withItemPattern(GenericRequest.WHICHITEM_PATTERN);
+          .withItemPattern(GenericRequest.WHICHITEM_PATTERN)
+          .withAccessible(AltarOfBonesRequest::accessible);
 
   public AltarOfBonesRequest() {
     super(ALTAR_OF_BONES);

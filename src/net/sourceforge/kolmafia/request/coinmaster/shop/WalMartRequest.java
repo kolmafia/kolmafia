@@ -21,7 +21,8 @@ public class WalMartRequest extends CoinMasterRequest {
           .withToken("Wal-Mart gift certificate")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)
-          .withShopRowFields(master, "glaciest");
+          .withShopRowFields(master, "glaciest")
+          .withAccessible(WalMartRequest::accessible);
 
   public WalMartRequest() {
     super(WALMART);

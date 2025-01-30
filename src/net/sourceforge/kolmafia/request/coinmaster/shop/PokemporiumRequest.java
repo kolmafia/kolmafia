@@ -31,7 +31,7 @@ public class PokemporiumRequest extends CoinMasterRequest {
           .withItem(POKEDOLLAR)
           .withShopRowFields(master, "pokefam")
           .withCanBuyItem(PokemporiumRequest::canBuyItem)
-          .withNeedsPasswordHash(true);
+          .withAccessible(PokemporiumRequest::accessible);
 
   private static Boolean canBuyItem(final Integer itemId) {
     return KoLCharacter.inPokefam();

@@ -21,6 +21,7 @@ public class BrogurtRequest extends CoinMasterRequest {
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)
           .withShopRowFields(master, "sbb_brogurt")
+          .withAccessible(BrogurtRequest::accessible)
           .withCanBuyItem(BrogurtRequest::canBuyItem);
 
   private static Boolean canBuyItem(final Integer itemId) {

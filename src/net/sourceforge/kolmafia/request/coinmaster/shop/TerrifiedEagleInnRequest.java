@@ -104,10 +104,6 @@ public class TerrifiedEagleInnRequest extends CoinMasterRequest {
     CoinMasterRequest.parseBalance(data, responseText);
   }
 
-  public static String accessible() {
-    return null;
-  }
-
   public static boolean registerRequest(final String urlString) {
     // shop.php?pwd&whichshop=dv
     if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=dv")) {

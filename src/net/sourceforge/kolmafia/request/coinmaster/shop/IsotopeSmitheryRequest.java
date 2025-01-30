@@ -14,7 +14,8 @@ public class IsotopeSmitheryRequest extends CoinMasterRequest {
           .withTokenTest("You have 0 lunar isotopes")
           .withTokenPattern(SpaaaceRequest.TOKEN_PATTERN)
           .withItem(SpaaaceRequest.ISOTOPE)
-          .withShopRowFields(master, "elvishp1");
+          .withShopRowFields(master, "elvishp1")
+          .withAccessible(SpaaaceRequest::accessible);
 
   public IsotopeSmitheryRequest() {
     super(ISOTOPE_SMITHERY);
@@ -38,10 +39,6 @@ public class IsotopeSmitheryRequest extends CoinMasterRequest {
     }
 
     return CoinMasterRequest.registerRequest(ISOTOPE_SMITHERY, urlString, true);
-  }
-
-  public static String accessible() {
-    return SpaaaceRequest.accessible();
   }
 
   @Override

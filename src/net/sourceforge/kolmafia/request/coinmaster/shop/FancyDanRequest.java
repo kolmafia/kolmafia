@@ -47,7 +47,7 @@ public class FancyDanRequest extends CoinMasterRequest {
           .withShopRowFields(master, "olivers")
           .withBuyPrices()
           .withItemBuyPrice(FancyDanRequest::itemBuyPrice)
-          .withNeedsPasswordHash(true);
+          .withAccessible(FancyDanRequest::accessible);
 
   private static AdventureResult itemBuyPrice(final Integer itemId) {
     return buyCosts.get(itemId);

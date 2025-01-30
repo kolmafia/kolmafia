@@ -23,7 +23,8 @@ public class ChemiCorpRequest extends CoinMasterRequest {
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)
           .withShopRowFields(master, "batman_chemicorp")
-          .withItemBuyPrice(ChemiCorpRequest::itemBuyPrice);
+          .withItemBuyPrice(ChemiCorpRequest::itemBuyPrice)
+          .withAccessible(ChemiCorpRequest::accessible);
 
   private static AdventureResult itemBuyPrice(final Integer itemId) {
     int price = CHEMICORP.getBuyPrices().get(itemId);

@@ -22,7 +22,7 @@ public class NinjaStoreRequest extends CoinMasterRequest {
           .withTokenPattern(CHRONER_PATTERN)
           .withItem(CHRONER)
           .withShopRowFields(master, "nina")
-          .withNeedsPasswordHash(true);
+          .withAccessible(NinjaStoreRequest::accessible);
 
   public NinjaStoreRequest() {
     super(NINJA_STORE);

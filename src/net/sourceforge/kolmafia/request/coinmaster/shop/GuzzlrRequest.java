@@ -20,7 +20,7 @@ public class GuzzlrRequest extends CoinMasterRequest {
           .withTokenPattern(GUZZLR_PATTERN)
           .withItem(GUZZLRBUCK)
           .withShopRowFields(master, "guzzlr")
-          .withNeedsPasswordHash(true);
+          .withAccessible(GuzzlrRequest::accessible);
 
   public GuzzlrRequest() {
     super(GUZZLR);
@@ -61,7 +61,7 @@ public class GuzzlrRequest extends CoinMasterRequest {
   public static String accessible() {
     return InventoryManager.getAccessibleCount(GUZZLRBUCK) > 0
         ? null
-        : "Need access to your Getaway Campsite";
+        : "You have no Guzzlrbucks to spend";
   }
 
   public static final boolean registerRequest(final String urlString) {

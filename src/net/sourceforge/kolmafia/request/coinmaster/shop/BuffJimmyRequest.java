@@ -20,7 +20,8 @@ public class BuffJimmyRequest extends CoinMasterRequest {
           .withToken("Beach Buck")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)
-          .withShopRowFields(master, "sbb_jimmy");
+          .withShopRowFields(master, "sbb_jimmy")
+          .withAccessible(BuffJimmyRequest::accessible);
 
   public BuffJimmyRequest() {
     super(BUFF_JIMMY);

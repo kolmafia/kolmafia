@@ -20,7 +20,8 @@ public class ArmoryRequest extends CoinMasterRequest {
           .withToken("Coinspiracy")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)
-          .withShopRowFields(master, "si_shop3");
+          .withShopRowFields(master, "si_shop3")
+          .withAccessible(ArmoryRequest::accessible);
 
   public ArmoryRequest() {
     super(ARMORY);

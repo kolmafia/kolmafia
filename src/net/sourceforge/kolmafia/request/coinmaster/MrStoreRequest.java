@@ -171,10 +171,6 @@ public class MrStoreRequest extends CoinMasterRequest {
     InventoryManager.countGoldenMrAccesories();
   }
 
-  public static String accessible() {
-    return null;
-  }
-
   public static boolean registerRequest(final String urlString) {
     if (!urlString.startsWith("mrstore.php")) {
       return false;

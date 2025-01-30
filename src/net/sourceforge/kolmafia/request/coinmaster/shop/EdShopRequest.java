@@ -20,7 +20,8 @@ public class EdShopRequest extends CoinMasterRequest {
           .withToken("Ka coin")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(KA)
-          .withShopRowFields(master, "edunder_shopshop");
+          .withShopRowFields(master, "edunder_shopshop")
+          .withAccessible(EdShopRequest::accessible);
 
   public EdShopRequest() {
     super(EDSHOP);

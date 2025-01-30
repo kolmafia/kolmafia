@@ -33,7 +33,9 @@ public class GameShoppeRequest extends CoinMasterRequest {
           .withItemField("whichitem")
           .withItemPattern(GenericRequest.WHICHITEM_PATTERN)
           .withCountField("quantity")
-          .withCountPattern(GenericRequest.QUANTITY_PATTERN);
+          .withCountPattern(GenericRequest.QUANTITY_PATTERN)
+          .withCanBuy(GameShoppeRequest::canBuy)
+          .withAccessible(GameShoppeRequest::accessible);
 
   public GameShoppeRequest() {
     super(GAMESHOPPE);

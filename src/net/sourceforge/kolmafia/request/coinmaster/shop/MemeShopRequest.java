@@ -20,7 +20,6 @@ public class MemeShopRequest extends CoinMasterRequest {
           .withTokenPattern(BACON_PATTERN)
           .withItem(BACON)
           .withShopRowFields(master, "bacon")
-          .withNeedsPasswordHash(true)
           .withCanBuyItem(MemeShopRequest::canBuyItem)
           .withPurchasedItem(MemeShopRequest::purchasedItem);
 

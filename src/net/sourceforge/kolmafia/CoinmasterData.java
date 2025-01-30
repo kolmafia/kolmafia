@@ -1,13 +1,13 @@
 package net.sourceforge.kolmafia;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
@@ -106,6 +106,9 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   private Function<Integer, Boolean> canBuyItem = this::canBuyItemInternal;
   private Function<Integer, Boolean> availableItem = this::availableItemInternal;
   private BiConsumer<AdventureResult, Boolean> purchasedItem = this::purchasedItemInternal;
+  private Supplier<String> canBuy = this::canBuyInternal;
+  private Supplier<String> canSell = this::canSellInternal;
+  private Supplier<String> accessible = this::accessibleInternal;
 
   // Constructor for CoinmasterData with only mandatory fields.
   // Optional fields can be added fluidly.
@@ -675,6 +678,42 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   }
 
   /**
+   * Specifies a static method that will be invoked by <code>Boolean
+   * canBuy()</code>
+   *
+   * @param supplier - a Supplier object to be called by canBuy
+   * @return this - Allows fluid chaining of fields
+   */
+  public CoinmasterData withCanBuy(Supplier<String> supplier) {
+    this.canBuy = supplier;
+    return this;
+  }
+
+  /**
+   * Specifies a static method that will be invoked by <code>Boolean
+   * canSell()</code>
+   *
+   * @param supplier - a Supplier object to be called by canSell
+   * @return this - Allows fluid chaining of fields
+   */
+  public CoinmasterData withCanSell(Supplier<String> supplier) {
+    this.canSell = supplier;
+    return this;
+  }
+
+  /**
+   * Specifies a static method that will be invoked by <code>String
+   * accessible()</code>
+   *
+   * @param supplier - a Supplier object to be called by accessible
+   * @return this - Allows fluid chaining of fields
+   */
+  public CoinmasterData withAccessible(Supplier<String> supplier) {
+    this.accessible = supplier;
+    return this;
+  }
+
+  /**
    * Populates the ten fields for a standard <code>shop.php</code> coinmaster that uses row #s.
    *
    * <ul>
@@ -709,7 +748,8 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
         .withItemField("whichrow")
         .withItemPattern(GenericRequest.WHICHROW_PATTERN)
         .withCountField("quantity")
-        .withCountPattern(GenericRequest.QUANTITY_PATTERN);
+        .withCountPattern(GenericRequest.QUANTITY_PATTERN)
+        .withNeedsPasswordHash(true);
   }
 
   /**
@@ -738,7 +778,8 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
         .withItemField("whichrow")
         .withItemPattern(GenericRequest.WHICHROW_PATTERN)
         .withCountField("quantity")
-        .withCountPattern(GenericRequest.QUANTITY_PATTERN);
+        .withCountPattern(GenericRequest.QUANTITY_PATTERN)
+        .withNeedsPasswordHash(true);
   }
 
   public CoinmasterData inZone(String zone) {
@@ -1303,46 +1344,29 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
       return "Zone is no longer accessible";
     }
 
-    Class<? extends CoinMasterRequest> requestClass = this.getRequestClass();
-    Class<?>[] parameters = new Class<?>[0];
+    return this.accessible.get();
+  }
 
-    try {
-      Method method = requestClass.getMethod("accessible", parameters);
-      Object[] args = new Object[0];
-      return (String) method.invoke(null, args);
-    } catch (Exception e) {
-      return null;
-    }
+  public String accessibleInternal() {
+    return null;
   }
 
   public String canSell() {
     // Returns an error reason or null
+    return this.canSell.get();
+  }
 
-    Class<? extends CoinMasterRequest> requestClass = this.getRequestClass();
-    Class<?>[] parameters = new Class<?>[0];
-
-    try {
-      Method method = requestClass.getMethod("canSell", parameters);
-      Object[] args = new Object[0];
-      return (String) method.invoke(null, args);
-    } catch (Exception e) {
-      return null;
-    }
+  public String canSellInternal() {
+    return null;
   }
 
   public String canBuy() {
     // Returns an error reason or null
+    return this.canBuy.get();
+  }
 
-    Class<? extends CoinMasterRequest> requestClass = this.getRequestClass();
-    Class<?>[] parameters = new Class<?>[0];
-
-    try {
-      Method method = requestClass.getMethod("canBuy", parameters);
-      Object[] args = new Object[0];
-      return (String) method.invoke(null, args);
-    } catch (Exception e) {
-      return null;
-    }
+  public String canBuyInternal() {
+    return null;
   }
 
   public void purchasedItem(final AdventureResult item, final Boolean storage) {

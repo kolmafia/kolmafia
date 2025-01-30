@@ -22,8 +22,8 @@ public class VendingMachineRequest extends CoinMasterRequest {
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(FAT_LOOT_TOKEN)
           .withShopRowFields(master, "damachine")
-          .withNeedsPasswordHash(true)
-          .withCanBuyItem(VendingMachineRequest::canBuyItem);
+          .withCanBuyItem(VendingMachineRequest::canBuyItem)
+          .withAccessible(VendingMachineRequest::accessible);
 
   private static Boolean canBuyItem(final Integer itemId) {
     AdventureResult item = ItemPool.get(itemId);

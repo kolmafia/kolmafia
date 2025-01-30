@@ -22,7 +22,8 @@ public class FunALogRequest extends CoinMasterRequest {
           .withTokenPattern(TOKEN_PATTERN)
           .withProperty("availableFunPoints")
           .withShopRowFields(master, "piraterealm")
-          .withAvailableItem(FunALogRequest::availableItem);
+          .withAvailableItem(FunALogRequest::availableItem)
+          .withAccessible(FunALogRequest::accessible);
 
   private static final Map<Integer, String> ITEM_TO_UNLOCK_PREF =
       Map.ofEntries(

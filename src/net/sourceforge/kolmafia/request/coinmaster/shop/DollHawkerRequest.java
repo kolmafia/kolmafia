@@ -14,7 +14,8 @@ public class DollHawkerRequest extends CoinMasterRequest {
           .withTokenTest("You have 0 lunar isotopes")
           .withTokenPattern(SpaaaceRequest.TOKEN_PATTERN)
           .withItem(SpaaaceRequest.ISOTOPE)
-          .withShopRowFields(master, "elvishp2");
+          .withShopRowFields(master, "elvishp2")
+          .withAccessible(SpaaaceRequest::accessible);
 
   public DollHawkerRequest() {
     super(DOLLHAWKER);
@@ -38,10 +39,6 @@ public class DollHawkerRequest extends CoinMasterRequest {
     }
 
     return CoinMasterRequest.registerRequest(DOLLHAWKER, urlString, true);
-  }
-
-  public static String accessible() {
-    return SpaaaceRequest.accessible();
   }
 
   @Override

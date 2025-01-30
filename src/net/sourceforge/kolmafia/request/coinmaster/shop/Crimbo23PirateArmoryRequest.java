@@ -29,7 +29,8 @@ public class Crimbo23PirateArmoryRequest extends CoinMasterRequest {
           .withSellURL("shop.php?whichshop=crimbo23_pirate_armory")
           .withSellAction("buyitem")
           .withSellItems(master)
-          .withSellPrices(master);
+          .withSellPrices(master)
+          .withAccessible(Crimbo23PirateArmoryRequest::accessible);
 
   public Crimbo23PirateArmoryRequest() {
     super(DATA);

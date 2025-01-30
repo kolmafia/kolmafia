@@ -19,7 +19,8 @@ public class DinostaurRequest extends CoinMasterRequest {
           .withToken("Dinodollar")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)
-          .withShopRowFields(master, "dino");
+          .withShopRowFields(master, "dino")
+          .withAccessible(DinostaurRequest::accessible);
 
   public DinostaurRequest() {
     super(DINOSTAUR);

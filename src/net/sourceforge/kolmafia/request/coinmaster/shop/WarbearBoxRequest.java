@@ -20,7 +20,8 @@ public class WarbearBoxRequest extends CoinMasterRequest {
           .withToken("warbear whosit")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(WHOSIT)
-          .withShopRowFields(master, "warbear");
+          .withShopRowFields(master, "warbear")
+          .withAccessible(WarbearBoxRequest::accessible);
 
   public WarbearBoxRequest() {
     super(WARBEARBOX);

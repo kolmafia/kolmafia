@@ -23,7 +23,8 @@ public class TrapperRequest extends CoinMasterRequest {
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(YETI_FUR)
           .withShopRowFields(master, "trapper")
-          .withBuyItems(master);
+          .withBuyItems(master)
+          .withAccessible(TrapperRequest::accessible);
 
   public TrapperRequest() {
     super(TRAPPER);
