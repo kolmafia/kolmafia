@@ -374,7 +374,7 @@ public class CoinmastersDatabase {
     var request = COINMASTER_ROWS.get(shopRow);
     if (request != null) {
       // *** For testing
-      if (!request.getData().isDisabled()) {
+      if (request.getData().isDisabled()) {
         return null;
       }
 
