@@ -108,7 +108,8 @@ public class SwaggerShopRequest extends CoinMasterRequest {
           .withItemPattern(GenericRequest.WHICHITEM_PATTERN)
           .withCanBuyItem(SwaggerShopRequest::canBuyItem)
           .withGetBuyPrice(SwaggerShopRequest::getBuyPrice)
-          .withAvailableItem(SwaggerShopRequest::availableItem);
+          .withAvailableItem(SwaggerShopRequest::availableItem)
+          .withAccessible(SwaggerShopRequest::accessible);
 
   private static Boolean canBuyItem(final Integer itemId) {
     Season season = itemIdToSeason.get(itemId);

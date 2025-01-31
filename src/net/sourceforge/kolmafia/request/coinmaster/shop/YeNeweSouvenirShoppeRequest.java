@@ -21,8 +21,8 @@ public class YeNeweSouvenirShoppeRequest extends CoinMasterRequest {
           .withTokenTest("no Chroner")
           .withTokenPattern(CHRONER_PATTERN)
           .withItem(CHRONER)
-          .withNeedsPasswordHash(true)
-          .withShopRowFields(master, "shakeshop");
+          .withShopRowFields(master, "shakeshop")
+          .withAccessible(YeNeweSouvenirShoppeRequest::accessible);
 
   public YeNeweSouvenirShoppeRequest() {
     super(SHAKE_SHOP);

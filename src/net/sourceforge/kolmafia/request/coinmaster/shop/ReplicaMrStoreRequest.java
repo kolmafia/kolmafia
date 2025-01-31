@@ -29,7 +29,8 @@ public class ReplicaMrStoreRequest extends CoinMasterRequest {
           .withItem(COIN)
           .withShopRowFields(master, "mrreplica")
           .withCanBuyItem(ReplicaMrStoreRequest::canBuyItem)
-          .withAvailableItem(ReplicaMrStoreRequest::availableItem);
+          .withAvailableItem(ReplicaMrStoreRequest::availableItem)
+          .withAccessible(ReplicaMrStoreRequest::accessible);
 
   public ReplicaMrStoreRequest() {
     super(REPLICA_MR_STORE);

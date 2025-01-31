@@ -23,7 +23,8 @@ public class RubeeRequest extends CoinMasterRequest {
           .withToken("Rubee&trade;")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)
-          .withShopRowFields(master, "fantasyrealm");
+          .withShopRowFields(master, "fantasyrealm")
+          .withAccessible(RubeeRequest::accessible);
 
   public RubeeRequest() {
     super(RUBEE);

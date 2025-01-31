@@ -23,8 +23,8 @@ public class Crimbo17Request extends CoinMasterRequest {
           .withTokenPattern(CHEER_PATTERN)
           .withItem(CHEER)
           .withShopRowFields(master, "crimbo17")
-          .withNeedsPasswordHash(true)
-          .withCanBuyItem(Crimbo17Request::canBuyItem);
+          .withCanBuyItem(Crimbo17Request::canBuyItem)
+          .withAccessible(Crimbo17Request::accessible);
 
   private static Boolean canBuyItem(final Integer itemId) {
     return switch (itemId) {

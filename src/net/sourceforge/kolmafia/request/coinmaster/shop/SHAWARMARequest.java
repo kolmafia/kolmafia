@@ -20,7 +20,8 @@ public class SHAWARMARequest extends CoinMasterRequest {
           .withToken("Coinspiracy")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)
-          .withShopRowFields(master, "si_shop1");
+          .withShopRowFields(master, "si_shop1")
+          .withAccessible(SHAWARMARequest::accessible);
 
   public SHAWARMARequest() {
     super(SHAWARMA);

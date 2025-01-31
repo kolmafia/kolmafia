@@ -24,7 +24,8 @@ public class GotporkPDRequest extends CoinMasterRequest {
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)
           .withShopRowFields(master, "batman_pd")
-          .withItemBuyPrice(GotporkPDRequest::itemBuyPrice);
+          .withItemBuyPrice(GotporkPDRequest::itemBuyPrice)
+          .withAccessible(GotporkPDRequest::accessible);
 
   private static AdventureResult itemBuyPrice(final Integer itemId) {
     int price = GOTPORK_PD.getBuyPrices().get(itemId);

@@ -12,7 +12,7 @@ public class PrimordialSoupKitchenRequest extends CoinMasterRequest {
   public static final CoinmasterData DATA =
       new CoinmasterData(master, "twitchsoup", PrimordialSoupKitchenRequest.class)
           .withNewShopRowFields(master, "twitchsoup")
-          .withNeedsPasswordHash(true);
+          .withAccessible(PrimordialSoupKitchenRequest::accessible);
 
   public PrimordialSoupKitchenRequest() {
     super(DATA);

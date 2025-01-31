@@ -23,7 +23,8 @@ public class GotporkOrphanageRequest extends CoinMasterRequest {
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)
           .withShopRowFields(master, "batman_orphanage")
-          .withItemBuyPrice(GotporkOrphanageRequest::itemBuyPrice);
+          .withItemBuyPrice(GotporkOrphanageRequest::itemBuyPrice)
+          .withAccessible(GotporkOrphanageRequest::accessible);
 
   private static AdventureResult itemBuyPrice(final Integer itemId) {
     int price = GOTPORK_ORPHANAGE.getBuyPrices().get(itemId);

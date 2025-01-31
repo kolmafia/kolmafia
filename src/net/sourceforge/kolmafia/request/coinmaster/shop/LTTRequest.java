@@ -18,7 +18,8 @@ public class LTTRequest extends CoinMasterRequest {
           .withToken("buffalo dime")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)
-          .withShopRowFields(master, "ltt");
+          .withShopRowFields(master, "ltt")
+          .withAccessible(LTTRequest::accessible);
 
   public LTTRequest() {
     super(LTT);
@@ -65,6 +66,7 @@ public class LTTRequest extends CoinMasterRequest {
   }
 
   public static String accessible() {
+    // *** Finish this.
     return null;
   }
 }

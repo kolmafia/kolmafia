@@ -27,7 +27,8 @@ public class BURTRequest extends CoinMasterRequest {
           .withBuyItems(master)
           .withBuyPrices(master)
           .withItemField("itemquantity")
-          .withItemPattern(TOBUY_PATTERN);
+          .withItemPattern(TOBUY_PATTERN)
+          .withAccessible(BURTRequest::accessible);
 
   private static final Map<Integer, Integer> itemByPrice =
       CoinmastersDatabase.invert(BURT.getBuyPrices());

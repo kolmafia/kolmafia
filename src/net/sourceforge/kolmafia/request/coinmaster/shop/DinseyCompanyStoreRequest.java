@@ -21,7 +21,8 @@ public class DinseyCompanyStoreRequest extends CoinMasterRequest {
           .withPluralToken("FunFunds&trade;")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)
-          .withShopRowFields(master, "landfillstore");
+          .withShopRowFields(master, "landfillstore")
+          .withAccessible(DinseyCompanyStoreRequest::accessible);
 
   public DinseyCompanyStoreRequest() {
     super(DINSEY_COMPANY_STORE);

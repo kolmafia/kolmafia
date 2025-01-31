@@ -44,7 +44,8 @@ public class HermitRequest extends CoinMasterRequest {
           .withItemField("whichitem")
           .withItemPattern(GenericRequest.WHICHITEM_PATTERN)
           .withCountField("quantity")
-          .withCountPattern(GenericRequest.QUANTITY_PATTERN);
+          .withCountPattern(GenericRequest.QUANTITY_PATTERN)
+          .withAccessible(HermitRequest::accessible);
 
   private static final Pattern CLOVER_PATTERN = Pattern.compile("(\\d+) left in stock for today");
 

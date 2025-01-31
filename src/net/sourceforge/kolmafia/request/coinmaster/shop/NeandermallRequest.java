@@ -22,7 +22,7 @@ public class NeandermallRequest extends CoinMasterRequest {
           .withTokenPattern(CHRONER_PATTERN)
           .withItem(CHRONER)
           .withShopRowFields(master, "caveshop")
-          .withNeedsPasswordHash(true);
+          .withAccessible(NeandermallRequest::accessible);
 
   public NeandermallRequest() {
     super(NEANDERMALL);

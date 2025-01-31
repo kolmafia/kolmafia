@@ -20,7 +20,8 @@ public class DiscoGiftCoRequest extends CoinMasterRequest {
           .withToken("Volcoino")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)
-          .withShopRowFields(master, "infernodisco");
+          .withShopRowFields(master, "infernodisco")
+          .withAccessible(DiscoGiftCoRequest::accessible);
 
   public DiscoGiftCoRequest() {
     super(DISCO_GIFTCO);

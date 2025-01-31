@@ -22,7 +22,7 @@ public class YourCampfireRequest extends CoinMasterRequest {
           .withTokenPattern(FIREWOOD_PATTERN)
           .withItem(STICK_OF_FIREWOOD)
           .withShopRowFields(master, "campfire")
-          .withNeedsPasswordHash(true);
+          .withAccessible(YourCampfireRequest::accessible);
 
   public YourCampfireRequest() {
     super(YOUR_CAMPFIRE);

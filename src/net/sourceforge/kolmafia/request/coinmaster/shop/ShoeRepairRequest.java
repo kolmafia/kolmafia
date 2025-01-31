@@ -22,7 +22,7 @@ public class ShoeRepairRequest extends CoinMasterRequest {
           .withTokenPattern(CHRONER_PATTERN)
           .withItem(CHRONER)
           .withShopRowFields(master, "shoeshop")
-          .withNeedsPasswordHash(true);
+          .withAccessible(ShoeRepairRequest::accessible);
 
   public ShoeRepairRequest() {
     super(SHOE_REPAIR);

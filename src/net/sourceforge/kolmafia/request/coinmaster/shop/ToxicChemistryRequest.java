@@ -20,7 +20,8 @@ public class ToxicChemistryRequest extends CoinMasterRequest {
           .withTokenTest("no toxic globules")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(TOXIC_GLOBULE)
-          .withShopRowFields(master, "toxic");
+          .withShopRowFields(master, "toxic")
+          .withAccessible(ToxicChemistryRequest::accessible);
 
   public ToxicChemistryRequest() {
     super(TOXIC_CHEMISTRY);

@@ -15,7 +15,7 @@ public class DedigitizerRequest extends CoinMasterRequest {
   public static final CoinmasterData DATA =
       new CoinmasterData(master, "cyber_dedigitizer", DedigitizerRequest.class)
           .withNewShopRowFields(master, "cyber_dedigitizer")
-          .withNeedsPasswordHash(true);
+          .withAccessible(DedigitizerRequest::accessible);
 
   public DedigitizerRequest() {
     super(DATA);

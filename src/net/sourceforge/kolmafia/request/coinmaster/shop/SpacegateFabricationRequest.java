@@ -22,7 +22,7 @@ public class SpacegateFabricationRequest extends CoinMasterRequest {
           .withTokenPattern(RESEARCH_PATTERN)
           .withItem(RESEARCH)
           .withShopRowFields(master, "spacegate")
-          .withNeedsPasswordHash(true);
+          .withAccessible(SpacegateFabricationRequest::accessible);
 
   public SpacegateFabricationRequest() {
     super(SPACEGATE_STORE);

@@ -20,7 +20,8 @@ public class BatFabricatorRequest extends CoinMasterRequest {
   public static final CoinmasterData BAT_FABRICATOR =
       new CoinmasterData(master, "batman_cave", BatFabricatorRequest.class)
           .withShopRowFields(master, "batman_cave")
-          .withItemBuyPrice(BatFabricatorRequest::itemBuyPrice);
+          .withItemBuyPrice(BatFabricatorRequest::itemBuyPrice)
+          .withAccessible(BatFabricatorRequest::accessible);
 
   public static AdventureResult itemBuyPrice(final Integer itemId) {
     int cost = BatManager.hasUpgrade(BatManager.IMPROVED_3D_BAT_PRINTER) ? 2 : 3;

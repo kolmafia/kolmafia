@@ -39,7 +39,8 @@ public class MerchTableRequest extends CoinMasterRequest {
           .withShopRowFields(master, "conmerch")
           .withItemRows(CoinmastersDatabase.getOrMakeRows(master))
           .withBuyPrices()
-          .withItemBuyPrice(MerchTableRequest::itemBuyPrice);
+          .withItemBuyPrice(MerchTableRequest::itemBuyPrice)
+          .withAccessible(MerchTableRequest::accessible);
 
   private static AdventureResult itemBuyPrice(final Integer itemId) {
     return buyCosts.get(itemId);

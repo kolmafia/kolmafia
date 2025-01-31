@@ -24,7 +24,7 @@ public class SpinMasterLatheRequest extends CoinMasterRequest {
           .withShopRowFields(master, "lathe")
           .withBuyPrices()
           .withItemBuyPrice(SpinMasterLatheRequest::itemBuyPrice)
-          .withNeedsPasswordHash(true);
+          .withAccessible(SpinMasterLatheRequest::accessible);
 
   private static AdventureResult itemBuyPrice(final Integer itemId) {
     return buyCosts.get(itemId);

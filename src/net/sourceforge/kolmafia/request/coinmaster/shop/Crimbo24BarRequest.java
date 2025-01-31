@@ -11,8 +11,7 @@ public class Crimbo24BarRequest extends CoinMasterRequest {
   public static final CoinmasterData DATA =
       new CoinmasterData(master, "crimbo24_bar", Crimbo24BarRequest.class)
           .inZone("Crimbo24")
-          .withNewShopRowFields(master, "crimbo24_bar")
-          .withNeedsPasswordHash(true);
+          .withNewShopRowFields(master, "crimbo24_bar");
 
   public Crimbo24BarRequest() {
     super(DATA);

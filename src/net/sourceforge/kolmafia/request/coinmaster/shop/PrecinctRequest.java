@@ -18,7 +18,8 @@ public class PrecinctRequest extends CoinMasterRequest {
           .withToken("cop dollar")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(DOLLAR)
-          .withShopRowFields(master, "detective");
+          .withShopRowFields(master, "detective")
+          .withAccessible(PrecinctRequest::accessible);
 
   public PrecinctRequest() {
     super(PRECINCT);
@@ -67,6 +68,7 @@ public class PrecinctRequest extends CoinMasterRequest {
   }
 
   public static String accessible() {
+    // *** Finish this.
     return null;
   }
 }

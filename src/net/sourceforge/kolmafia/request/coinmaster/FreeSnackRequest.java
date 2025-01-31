@@ -61,6 +61,7 @@ public class FreeSnackRequest extends CoinMasterRequest {
   }
 
   public static String accessible() {
+    // *** Finish this.
     return null;
   }
 

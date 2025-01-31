@@ -18,8 +18,7 @@ public class ThankShopRequest extends CoinMasterRequest {
           .withToken("cashew")
           .withTokenPattern(CASHEW_PATTERN)
           .withItem(CASHEW)
-          .withShopRowFields(master, "thankshop")
-          .withNeedsPasswordHash(true);
+          .withShopRowFields(master, "thankshop");
 
   public ThankShopRequest() {
     super(CASHEW_STORE);

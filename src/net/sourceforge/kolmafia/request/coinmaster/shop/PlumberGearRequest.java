@@ -21,7 +21,7 @@ public class PlumberGearRequest extends CoinMasterRequest {
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)
           .withShopRowFields(master, "mariogear")
-          .withNeedsPasswordHash(true);
+          .withAccessible(PlumberGearRequest::accessible);
 
   public PlumberGearRequest() {
     super(PLUMBER_GEAR);

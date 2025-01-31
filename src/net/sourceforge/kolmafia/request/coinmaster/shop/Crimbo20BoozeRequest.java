@@ -23,7 +23,6 @@ public class Crimbo20BoozeRequest extends CoinMasterRequest {
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(TOKEN)
           .withShopRowFields(master, "crimbo20booze")
-          .withNeedsPasswordHash(true)
           .withCanBuyItem(Crimbo20BoozeRequest::canBuyItem);
 
   private static Boolean canBuyItem(final Integer itemId) {

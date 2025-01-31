@@ -20,7 +20,8 @@ public class SeptEmberCenserRequest extends CoinMasterRequest {
           .withToken("Ember")
           .withTokenPattern(TOKEN_PATTERN)
           .withProperty("availableSeptEmbers")
-          .withShopRowFields(master, "september");
+          .withShopRowFields(master, "september")
+          .withAccessible(SeptEmberCenserRequest::accessible);
 
   public SeptEmberCenserRequest() {
     super(SEPTEMBER_CENSER);

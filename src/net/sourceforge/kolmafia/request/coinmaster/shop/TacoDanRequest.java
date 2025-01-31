@@ -21,7 +21,8 @@ public class TacoDanRequest extends CoinMasterRequest {
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)
           .withShopRowFields(master, "sbb_taco")
-          .withCanBuyItem(TacoDanRequest::canBuyItem);
+          .withCanBuyItem(TacoDanRequest::canBuyItem)
+          .withAccessible(TacoDanRequest::accessible);
 
   private static Boolean canBuyItem(final Integer itemId) {
     return switch (itemId) {

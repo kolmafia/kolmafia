@@ -25,7 +25,8 @@ public class MrStore2002Request extends CoinMasterRequest {
           .withToken("Mr. Store 2002 Credit")
           .withTokenPattern(TOKEN_PATTERN)
           .withProperty("availableMrStore2002Credits")
-          .withShopRowFields(master, "mrstore2002");
+          .withShopRowFields(master, "mrstore2002")
+          .withAccessible(MrStore2002Request::accessible);
 
   public MrStore2002Request() {
     super(MR_STORE_2002);

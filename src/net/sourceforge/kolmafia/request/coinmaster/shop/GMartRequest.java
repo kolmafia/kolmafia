@@ -20,7 +20,7 @@ public class GMartRequest extends CoinMasterRequest {
           .withTokenPattern(G_PATTERN)
           .withItem(G)
           .withShopRowFields(master, "glover")
-          .withNeedsPasswordHash(true);
+          .withAccessible(GMartRequest::accessible);
 
   public GMartRequest() {
     super(GMART);
@@ -61,6 +61,7 @@ public class GMartRequest extends CoinMasterRequest {
   }
 
   public static String accessible() {
+    // *** Finish this.
     return null;
   }
 

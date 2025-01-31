@@ -22,7 +22,7 @@ public class Crimbo23ElfBarRequest extends CoinMasterRequest {
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(TOKEN)
           .withShopRowFields(master, "crimbo23_elf_bar")
-          .withNeedsPasswordHash(true);
+          .withAccessible(Crimbo23ElfBarRequest::accessible);
 
   public Crimbo23ElfBarRequest() {
     super(DATA);

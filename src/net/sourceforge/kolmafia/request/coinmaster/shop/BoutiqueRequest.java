@@ -19,7 +19,8 @@ public class BoutiqueRequest extends CoinMasterRequest {
           .withToken("odd silver coin")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)
-          .withShopRowFields(master, "cindy");
+          .withShopRowFields(master, "cindy")
+          .withAccessible(BoutiqueRequest::accessible);
 
   public BoutiqueRequest() {
     super(BOUTIQUE);
