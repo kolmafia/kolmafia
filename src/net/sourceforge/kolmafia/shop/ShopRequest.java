@@ -173,12 +173,14 @@ public class ShopRequest extends GenericRequest {
       //
       // A shop with multiple currencies per item can be a Coinmaster
 
-      // *** NPCStoreDatabase assumes that only a single store sells a particular item.
-      if (NPCStoreDatabase.getPurchaseRequest(id) != null && !force) {
+      // *** NPCStoreDatabase assumes that multiple stores can sell a particular item.
+      if (NPCStoreDatabase.contains(id, false) && !force) {
         continue;
       }
 
       // *** CoinmastersDatabase assumes that multiple stores can sell a particular item.
+      // The following does not account for "disabled" coinmasters - a testing feature.
+      //    if (CoinmastersDatabase.contains(id, false) && !force) {
       if (CoinmastersDatabase.getAllPurchaseRequests(id).size() > 0 && !force) {
         continue;
       }

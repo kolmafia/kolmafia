@@ -503,13 +503,17 @@ public class MallSearchRequest extends GenericRequest {
   }
 
   private void addNPCStoreItem(final int itemId) {
-    var items = NPCStoreDatabase.getAvailablePurchaseRequests(itemId);
-    this.results.addAll(items);
+    if (NPCStoreDatabase.contains(itemId, false)) {
+      var items = NPCStoreDatabase.getAvailablePurchaseRequests(itemId);
+      this.results.addAll(items);
+    }
   }
 
   private void addCoinMasterItem(final int itemId) {
-    var items = CoinmastersDatabase.getAllPurchaseRequests(itemId);
-    this.results.addAll(items);
+    if (CoinmastersDatabase.contains(itemId, false)) {
+      var items = CoinmastersDatabase.getAllPurchaseRequests(itemId);
+      this.results.addAll(items);
+    }
   }
 
   private void finalizeList(final List<String> itemNames) {

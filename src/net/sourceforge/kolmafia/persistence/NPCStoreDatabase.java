@@ -660,8 +660,11 @@ public class NPCStoreDatabase {
   }
 
   public static final boolean contains(final int itemId, boolean validate) {
+    if (!validate) {
+      return NPC_ITEMS.containsKey(itemId) && NPC_ITEMS.get(itemId).size() > 0;
+    }
     PurchaseRequest item = NPCStoreDatabase.getPurchaseRequest(itemId);
-    return item != null && (!validate || item.canPurchaseIgnoringMeat());
+    return item != null && item.canPurchaseIgnoringMeat();
   }
 
   public static void reset() {
