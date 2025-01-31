@@ -337,12 +337,12 @@ public class CoinmastersDatabase {
   }
 
   public static final List<CoinMasterPurchaseRequest> getAllPurchaseRequests(final int itemId) {
+    List<CoinMasterPurchaseRequest> result = new ArrayList<>();
+
     List<CoinMasterPurchaseRequest> items = COINMASTER_ITEMS.get(itemId);
     if (items == null || items.size() == 0) {
-      return null;
+      return result;
     }
-
-    List<CoinMasterPurchaseRequest> result = new ArrayList<>();
 
     for (var request : items) {
       // *** For testing
@@ -355,7 +355,7 @@ public class CoinmastersDatabase {
       result.add(request);
     }
 
-    return (result.size() > 0) ? result : null;
+    return result;
   }
 
   public static final CoinMasterPurchaseRequest getAccessiblePurchaseRequest(final int itemId) {

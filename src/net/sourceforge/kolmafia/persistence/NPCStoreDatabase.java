@@ -110,22 +110,22 @@ public class NPCStoreDatabase {
   }
 
   public static final List<NPCPurchaseRequest> getAvailablePurchaseRequests(final int itemId) {
+    List<NPCPurchaseRequest> result = new ArrayList<>();
+
     List<NPCPurchaseRequest> items = NPCStoreDatabase.NPC_ITEMS.get(itemId);
     if (items == null || items.size() == 0) {
-      return null;
+      return result;
     }
-
-    List<NPCPurchaseRequest> result = new ArrayList<>();
 
     for (var item : items) {
       boolean canPurchase = canPurchase(item.getStoreId(), item.getShopName(), itemId);
-      item.setCanPurchase(canPurchase);
       if (canPurchase) {
+        item.setCanPurchase(true);
         result.add(item);
       }
     }
 
-    return (result.size() > 0) ? result : null;
+    return result;
   }
 
   public static final PurchaseRequest getPurchaseRequest(final int itemId) {
