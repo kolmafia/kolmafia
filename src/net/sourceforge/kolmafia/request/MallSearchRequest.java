@@ -503,11 +503,9 @@ public class MallSearchRequest extends GenericRequest {
   }
 
   private void addNPCStoreItem(final int itemId) {
-    if (NPCStoreDatabase.contains(itemId, false)) {
-      PurchaseRequest item = NPCStoreDatabase.getPurchaseRequest(itemId);
-      if (!this.results.contains(item)) {
-        this.results.add(item);
-      }
+    var items = NPCStoreDatabase.getAvailablePurchaseRequests(itemId);
+    if (items != null) {
+      this.results.addAll(items);
     }
   }
 
