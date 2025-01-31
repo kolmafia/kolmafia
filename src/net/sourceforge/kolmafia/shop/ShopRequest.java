@@ -179,7 +179,7 @@ public class ShopRequest extends GenericRequest {
       }
 
       // *** CoinmastersDatabase assumes that multiple stores can sell a particular item.
-      if (CoinmastersDatabase.getAllPurchaseRequests(id) != null && !force) {
+      if (CoinmastersDatabase.getAllPurchaseRequests(id).size() > 0 && !force) {
         continue;
       }
 

@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -106,6 +107,25 @@ public class NPCStoreDatabase {
             ? "Barrrtleby's Barrrgain Books (Bees Hate You)"
             : "Barrrtleby's Barrrgain Books")
         : NPCStoreDatabase.storeNameById.get(storeId);
+  }
+
+  public static final List<NPCPurchaseRequest> getAvailablePurchaseRequests(final int itemId) {
+    List<NPCPurchaseRequest> result = new ArrayList<>();
+
+    List<NPCPurchaseRequest> items = NPCStoreDatabase.NPC_ITEMS.get(itemId);
+    if (items == null || items.size() == 0) {
+      return result;
+    }
+
+    for (var item : items) {
+      boolean canPurchase = canPurchase(item.getStoreId(), item.getShopName(), itemId);
+      if (canPurchase) {
+        item.setCanPurchase(true);
+        result.add(item);
+      }
+    }
+
+    return result;
   }
 
   public static final PurchaseRequest getPurchaseRequest(final int itemId) {
