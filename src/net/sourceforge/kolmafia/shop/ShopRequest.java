@@ -179,7 +179,9 @@ public class ShopRequest extends GenericRequest {
       }
 
       // *** CoinmastersDatabase assumes that multiple stores can sell a particular item.
-      if (CoinmastersDatabase.contains(id, false) && !force) {
+      // The following does not account for "disabled" coinmasters - a testing feature.
+      //    if (CoinmastersDatabase.contains(id, false) && !force) {
+      if (CoinmastersDatabase.getAllPurchaseRequests(id).size() > 0 && !force) {
         continue;
       }
 
