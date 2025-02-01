@@ -312,7 +312,7 @@ public class ShopRequest extends GenericRequest {
 
   public static final boolean buyStuff(final ShopRow shopRow, final int count) {
     StringBuilder buf = new StringBuilder();
-    buf.append("Trading ");
+    buf.append("Trade ");
 
     AdventureResult[] costs = shopRow.getCosts();
     for (int i = 0; i < costs.length; ++i) {
@@ -389,7 +389,7 @@ public class ShopRequest extends GenericRequest {
     }
 
     StringBuilder buffer = new StringBuilder();
-    buffer.append("Using ");
+    buffer.append("Use ");
 
     AdventureResult[] ingredients = ConcoctionDatabase.getIngredients(itemId);
     for (int i = 0; i < ingredients.length; ++i) {
