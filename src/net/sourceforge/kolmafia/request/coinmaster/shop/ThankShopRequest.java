@@ -18,8 +18,7 @@ public class ThankShopRequest extends CoinMasterRequest {
           .withToken("cashew")
           .withTokenPattern(CASHEW_PATTERN)
           .withItem(CASHEW)
-          .withShopRowFields(master, "thankshop")
-          .withNeedsPasswordHash(true);
+          .withShopRowFields(master, "thankshop");
 
   public ThankShopRequest() {
     super(CASHEW_STORE);
@@ -57,13 +56,5 @@ public class ThankShopRequest extends CoinMasterRequest {
 
     // Parse current coin balances
     CoinMasterRequest.parseBalance(data, responseText);
-  }
-
-  public static final boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=thankshop")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(CASHEW_STORE, urlString, true);
   }
 }

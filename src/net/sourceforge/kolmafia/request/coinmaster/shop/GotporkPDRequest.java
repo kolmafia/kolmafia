@@ -19,12 +19,13 @@ public class GotporkPDRequest extends CoinMasterRequest {
   public static final AdventureResult COIN = ItemPool.get(ItemPool.INCRIMINATING_EVIDENCE, 1);
 
   public static final CoinmasterData GOTPORK_PD =
-      new CoinmasterData(master, "batman_pd", GotporkPDRequest.class)
+      new CoinmasterData(master, "Gotpork P. D.", GotporkPDRequest.class)
           .withToken("incriminating evidence")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)
           .withShopRowFields(master, "batman_pd")
-          .withItemBuyPrice(GotporkPDRequest::itemBuyPrice);
+          .withItemBuyPrice(GotporkPDRequest::itemBuyPrice)
+          .withAccessible(GotporkPDRequest::accessible);
 
   private static AdventureResult itemBuyPrice(final Integer itemId) {
     int price = GOTPORK_PD.getBuyPrices().get(itemId);
@@ -75,14 +76,6 @@ public class GotporkPDRequest extends CoinMasterRequest {
 
     // Parse current coin balances
     CoinMasterRequest.parseBalance(data, responseText);
-  }
-
-  public static boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=batman_pd")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(GOTPORK_PD, urlString, true);
   }
 
   public static String accessible() {

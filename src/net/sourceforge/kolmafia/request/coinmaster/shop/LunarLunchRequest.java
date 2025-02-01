@@ -17,7 +17,8 @@ public class LunarLunchRequest extends CoinMasterRequest {
           .withTokenTest("You have 0 lunar isotopes")
           .withTokenPattern(SpaaaceRequest.TOKEN_PATTERN)
           .withItem(SpaaaceRequest.ISOTOPE)
-          .withShopRowFields(master, "elvishp3");
+          .withShopRowFields(master, "elvishp3")
+          .withAccessible(LunarLunchRequest::accessible);
 
   public LunarLunchRequest() {
     super(LUNAR_LUNCH);
@@ -37,14 +38,6 @@ public class LunarLunchRequest extends CoinMasterRequest {
 
   public static final void buy(final int itemId, final int count) {
     RequestThread.postRequest(new LunarLunchRequest(true, itemId, count));
-  }
-
-  public static final boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || urlString.indexOf("whichshop=elvishp3") == -1) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(LUNAR_LUNCH, urlString, true);
   }
 
   public static String accessible() {

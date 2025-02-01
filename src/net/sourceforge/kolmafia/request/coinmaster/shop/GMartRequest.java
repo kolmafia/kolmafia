@@ -20,7 +20,7 @@ public class GMartRequest extends CoinMasterRequest {
           .withTokenPattern(G_PATTERN)
           .withItem(G)
           .withShopRowFields(master, "glover")
-          .withNeedsPasswordHash(true);
+          .withAccessible(GMartRequest::accessible);
 
   public GMartRequest() {
     super(GMART);
@@ -61,14 +61,7 @@ public class GMartRequest extends CoinMasterRequest {
   }
 
   public static String accessible() {
+    // *** Finish this.
     return null;
-  }
-
-  public static final boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=glover")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(GMART, urlString, true);
   }
 }

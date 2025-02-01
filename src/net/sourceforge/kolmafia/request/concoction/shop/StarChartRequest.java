@@ -1,17 +1,11 @@
 package net.sourceforge.kolmafia.request.concoction.shop;
 
-import java.util.regex.Matcher;
-import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
-import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
-import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class StarChartRequest extends CreateItemRequest {
   public StarChartRequest(final Concoction conc) {
@@ -61,48 +55,5 @@ public class StarChartRequest extends CreateItemRequest {
     }
 
     NPCPurchaseRequest.parseShopRowResponse(urlString, responseText);
-  }
-
-  public static final boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=starchart")) {
-      return false;
-    }
-
-    Matcher rowMatcher = GenericRequest.WHICHROW_PATTERN.matcher(urlString);
-    if (!rowMatcher.find()) {
-      return true;
-    }
-
-    int row = StringUtilities.parseInt(rowMatcher.group(1));
-    int itemId = ConcoctionPool.rowToId(row);
-
-    CreateItemRequest item = CreateItemRequest.getInstance(itemId);
-    if (item == null) {
-      return true; // this is an unknown item
-    }
-
-    // The quantity is always 1
-    if (item.getQuantityPossible() < 1) {
-      return true; // attempt will fail
-    }
-
-    StringBuilder buffer = new StringBuilder();
-    buffer.append("Trade ");
-
-    AdventureResult[] ingredients = ConcoctionDatabase.getIngredients(itemId);
-    for (int i = 0; i < ingredients.length; ++i) {
-      if (i > 0) {
-        buffer.append(", ");
-      }
-
-      buffer.append(ingredients[i].getCount());
-      buffer.append(" ");
-      buffer.append(ingredients[i].getName());
-    }
-
-    RequestLogger.updateSessionLog();
-    RequestLogger.updateSessionLog(buffer.toString());
-
-    return true;
   }
 }

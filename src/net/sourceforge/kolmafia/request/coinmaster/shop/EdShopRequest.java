@@ -16,11 +16,12 @@ public class EdShopRequest extends CoinMasterRequest {
   public static final AdventureResult KA = ItemPool.get(ItemPool.KA_COIN, 1);
 
   public static final CoinmasterData EDSHOP =
-      new CoinmasterData(master, "edunder_shopshop", EdShopRequest.class)
+      new CoinmasterData(master, "Everything Under the World", EdShopRequest.class)
           .withToken("Ka coin")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(KA)
-          .withShopRowFields(master, "edunder_shopshop");
+          .withShopRowFields(master, "edunder_shopshop")
+          .withAccessible(EdShopRequest::accessible);
 
   public EdShopRequest() {
     super(EDSHOP);
@@ -68,13 +69,5 @@ public class EdShopRequest extends CoinMasterRequest {
       return "You must be in the Underworld to shop here.";
     }
     return null;
-  }
-
-  public static final boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=edunder_shopshop")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(EDSHOP, urlString, true);
   }
 }

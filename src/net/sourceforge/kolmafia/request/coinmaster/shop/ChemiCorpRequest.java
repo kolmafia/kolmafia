@@ -18,12 +18,13 @@ public class ChemiCorpRequest extends CoinMasterRequest {
   public static final AdventureResult COIN = ItemPool.get(ItemPool.DANGEROUS_CHEMICALS, 1);
 
   public static final CoinmasterData CHEMICORP =
-      new CoinmasterData(master, "batman_chemicorp", ChemiCorpRequest.class)
+      new CoinmasterData(master, "ChemiCorp", ChemiCorpRequest.class)
           .withToken("dangerous chemicals")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)
           .withShopRowFields(master, "batman_chemicorp")
-          .withItemBuyPrice(ChemiCorpRequest::itemBuyPrice);
+          .withItemBuyPrice(ChemiCorpRequest::itemBuyPrice)
+          .withAccessible(ChemiCorpRequest::accessible);
 
   private static AdventureResult itemBuyPrice(final Integer itemId) {
     int price = CHEMICORP.getBuyPrices().get(itemId);
@@ -74,14 +75,6 @@ public class ChemiCorpRequest extends CoinMasterRequest {
 
     // Parse current coin balances
     CoinMasterRequest.parseBalance(data, responseText);
-  }
-
-  public static boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=batman_chemicorp")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(CHEMICORP, urlString, true);
   }
 
   public static String accessible() {

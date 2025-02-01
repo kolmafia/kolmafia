@@ -58,12 +58,4 @@ public class StillRequest extends CreateItemRequest {
 
     NPCPurchaseRequest.parseShopRowResponse(urlString, responseText);
   }
-
-  public static final boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=still")) {
-      return false;
-    }
-
-    return NPCPurchaseRequest.registerShopRowRequest(urlString);
-  }
 }

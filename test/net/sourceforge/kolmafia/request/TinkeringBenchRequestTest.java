@@ -231,7 +231,7 @@ public class TinkeringBenchRequestTest {
       request.run();
 
       var text = SessionLoggerOutput.stopStream();
-      assertTrue(text.contains("Trade 1 quick-release fannypack, 1 smashed scientific equipment"));
+      assertTrue(text.contains("Use 1 quick-release fannypack, 1 smashed scientific equipment"));
 
       assertThat(InventoryManager.getCount(ItemPool.SMASHED_SCIENTIFIC_EQUIPMENT), is(1));
       assertThat(InventoryManager.getCount(ItemPool.QUICK_RELEASE_FANNYPACK), is(0));
@@ -287,7 +287,7 @@ public class TinkeringBenchRequestTest {
       buy.run();
 
       var text = SessionLoggerOutput.stopStream();
-      assertTrue(text.contains("Trade 1 quick-release fannypack, 1 smashed scientific equipment"));
+      assertTrue(text.contains("Use 1 quick-release fannypack, 1 smashed scientific equipment"));
 
       assertThat(InventoryManager.getCount(ItemPool.SMASHED_SCIENTIFIC_EQUIPMENT), is(1));
       assertThat(InventoryManager.getCount(ItemPool.QUICK_RELEASE_FANNYPACK), is(0));

@@ -23,7 +23,7 @@ public class Crimbo23PirateCafeRequest extends CoinMasterRequest {
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(TOKEN)
           .withShopRowFields(master, "crimbo23_pirate_cafe")
-          .withNeedsPasswordHash(true);
+          .withAccessible(Crimbo23PirateCafeRequest::accessible);
 
   public Crimbo23PirateCafeRequest() {
     super(DATA);
@@ -47,7 +47,7 @@ public class Crimbo23PirateCafeRequest extends CoinMasterRequest {
   }
 
   public static void parseResponse(final String location, final String responseText) {
-    if (!location.contains("whichshop=" + DATA.getNickname())) {
+    if (!location.contains("whichshop=" + DATA.getShopId())) {
       return;
     }
 
@@ -75,14 +75,5 @@ public class Crimbo23PirateCafeRequest extends CoinMasterRequest {
       case "contested" -> "The elves and pirates are fighting for control of the cafe";
       default -> null;
     };
-  }
-
-  public static final boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php")
-        || !urlString.contains("whichshop=" + DATA.getNickname())) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(DATA, urlString, true);
   }
 }

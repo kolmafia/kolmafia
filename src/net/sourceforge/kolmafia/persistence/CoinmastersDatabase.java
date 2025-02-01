@@ -22,7 +22,6 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.CoinMasterPurchaseRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.shop.ShopRow;
-import net.sourceforge.kolmafia.shop.ShopRowDatabase;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.HashMultimap;
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
@@ -185,7 +184,6 @@ public class CoinmastersDatabase {
             // *** error
             continue;
           }
-          ShopRowDatabase.registerShopRow(shopRow, "row", master);
           int row = shopRow.getRow();
           List<ShopRow> rows = shopRows.get(master);
           if (rowShop.containsKey(row)) {
@@ -339,12 +337,12 @@ public class CoinmastersDatabase {
   }
 
   public static final List<CoinMasterPurchaseRequest> getAllPurchaseRequests(final int itemId) {
+    List<CoinMasterPurchaseRequest> result = new ArrayList<>();
+
     List<CoinMasterPurchaseRequest> items = COINMASTER_ITEMS.get(itemId);
     if (items == null || items.size() == 0) {
-      return null;
+      return result;
     }
-
-    List<CoinMasterPurchaseRequest> result = new ArrayList<>();
 
     for (var request : items) {
       // *** For testing
@@ -357,17 +355,14 @@ public class CoinmastersDatabase {
       result.add(request);
     }
 
-    return (result.size() > 0) ? result : null;
+    return result;
   }
 
-  public static final CoinMasterPurchaseRequest getFirstPurchaseRequest(final int itemId) {
+  public static final CoinMasterPurchaseRequest getAccessiblePurchaseRequest(final int itemId) {
     List<CoinMasterPurchaseRequest> items = getAllPurchaseRequests(itemId);
-    if (items == null) {
-      return null;
-    }
 
     for (var request : items) {
-      if (request.getData().accessible() == null) {
+      if (request.getData().isAccessible()) {
         return request;
       }
     }
@@ -379,7 +374,7 @@ public class CoinmastersDatabase {
     var request = COINMASTER_ROWS.get(shopRow);
     if (request != null) {
       // *** For testing
-      if (!request.getData().isDisabled()) {
+      if (request.getData().isDisabled()) {
         return null;
       }
 
@@ -394,8 +389,17 @@ public class CoinmastersDatabase {
   }
 
   public static final boolean contains(final int itemId, boolean validate) {
-    CoinMasterPurchaseRequest item = getFirstPurchaseRequest(itemId);
-    return item != null && (!validate || item.availableItem());
+    if (!validate) {
+      return COINMASTER_ITEMS.containsKey(itemId) && COINMASTER_ITEMS.get(itemId).size() > 0;
+    }
+
+    List<CoinMasterPurchaseRequest> items = getAllPurchaseRequests(itemId);
+    for (var item : items) {
+      if (item.availableItem()) {
+        return true;
+      }
+    }
+    return false;
   }
 
   // *** For testing

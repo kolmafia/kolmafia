@@ -6682,7 +6682,7 @@ public class UseItemRequest extends GenericRequest {
         return BURTRequest.registerRequest(urlString);
 
       case ItemPool.FDKOL_COMMENDATION:
-        return FDKOLRequest.registerRequest(urlString, false);
+        return FDKOLRequest.registerRequest(urlString);
 
       case ItemPool.FUDGE_WAND:
         return FudgeWandRequest.registerRequest(urlString);

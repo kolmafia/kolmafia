@@ -22,7 +22,7 @@ public class ShoeRepairRequest extends CoinMasterRequest {
           .withTokenPattern(CHRONER_PATTERN)
           .withItem(CHRONER)
           .withShopRowFields(master, "shoeshop")
-          .withNeedsPasswordHash(true);
+          .withAccessible(ShoeRepairRequest::accessible);
 
   public ShoeRepairRequest() {
     super(SHOE_REPAIR);
@@ -74,13 +74,5 @@ public class ShoeRepairRequest extends CoinMasterRequest {
       return "You can't get to the Shoe Repair Shop";
     }
     return null;
-  }
-
-  public static final boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=shoeshop")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(SHOE_REPAIR, urlString, true);
   }
 }

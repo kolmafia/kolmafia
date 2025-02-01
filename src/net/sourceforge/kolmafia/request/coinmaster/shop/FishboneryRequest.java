@@ -16,12 +16,13 @@ public class FishboneryRequest extends CoinMasterRequest {
       ItemPool.get(ItemPool.FRESHWATER_FISHBONE);
 
   public static final CoinmasterData FISHBONERY =
-      new CoinmasterData(master, "fishbones", FishboneryRequest.class)
+      new CoinmasterData(master, "Fishbonery", FishboneryRequest.class)
           .withToken("freshwater fishbone")
           .withTokenTest("no freshwater fishbones")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(FRESHWATER_FISHBONE)
-          .withShopRowFields(master, "fishbones");
+          .withShopRowFields(master, "fishbones")
+          .withAccessible(FishboneryRequest::accessible);
 
   public FishboneryRequest() {
     super(FISHBONERY);
@@ -66,14 +67,5 @@ public class FishboneryRequest extends CoinMasterRequest {
       return "You do not have a freshwater fishbone in inventory";
     }
     return null;
-  }
-
-  public static final boolean registerRequest(final String urlString) {
-    // shop.php?pwd&whichshop=fishbones
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=fishbones")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(FISHBONERY, urlString, true);
   }
 }

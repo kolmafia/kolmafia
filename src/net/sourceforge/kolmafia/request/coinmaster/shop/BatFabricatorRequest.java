@@ -20,7 +20,8 @@ public class BatFabricatorRequest extends CoinMasterRequest {
   public static final CoinmasterData BAT_FABRICATOR =
       new CoinmasterData(master, "batman_cave", BatFabricatorRequest.class)
           .withShopRowFields(master, "batman_cave")
-          .withItemBuyPrice(BatFabricatorRequest::itemBuyPrice);
+          .withItemBuyPrice(BatFabricatorRequest::itemBuyPrice)
+          .withAccessible(BatFabricatorRequest::accessible);
 
   public static AdventureResult itemBuyPrice(final Integer itemId) {
     int cost = BatManager.hasUpgrade(BatManager.IMPROVED_3D_BAT_PRINTER) ? 2 : 3;
@@ -68,14 +69,6 @@ public class BatFabricatorRequest extends CoinMasterRequest {
 
     // Parse current coin balances
     CoinMasterRequest.parseBalance(data, responseText);
-  }
-
-  public static boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=batman_cave")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(BAT_FABRICATOR, urlString, true);
   }
 
   public static String accessible() {

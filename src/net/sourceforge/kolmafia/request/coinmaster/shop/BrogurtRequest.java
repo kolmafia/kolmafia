@@ -21,6 +21,7 @@ public class BrogurtRequest extends CoinMasterRequest {
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)
           .withShopRowFields(master, "sbb_brogurt")
+          .withAccessible(BrogurtRequest::accessible)
           .withCanBuyItem(BrogurtRequest::canBuyItem);
 
   private static Boolean canBuyItem(final Integer itemId) {
@@ -72,14 +73,6 @@ public class BrogurtRequest extends CoinMasterRequest {
 
     // Parse current coin balances
     CoinMasterRequest.parseBalance(data, responseText);
-  }
-
-  public static boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=sbb_brogurt")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(BROGURT, urlString, true);
   }
 
   public static String accessible() {

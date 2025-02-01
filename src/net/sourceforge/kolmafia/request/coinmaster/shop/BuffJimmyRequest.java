@@ -16,11 +16,12 @@ public class BuffJimmyRequest extends CoinMasterRequest {
   public static final AdventureResult COIN = ItemPool.get(ItemPool.BEACH_BUCK, 1);
 
   public static final CoinmasterData BUFF_JIMMY =
-      new CoinmasterData(master, "sbb_jimmy", BuffJimmyRequest.class)
+      new CoinmasterData(master, "BuffJimmy", BuffJimmyRequest.class)
           .withToken("Beach Buck")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)
-          .withShopRowFields(master, "sbb_jimmy");
+          .withShopRowFields(master, "sbb_jimmy")
+          .withAccessible(BuffJimmyRequest::accessible);
 
   public BuffJimmyRequest() {
     super(BUFF_JIMMY);
@@ -58,14 +59,6 @@ public class BuffJimmyRequest extends CoinMasterRequest {
 
     // Parse current coin balances
     CoinMasterRequest.parseBalance(data, responseText);
-  }
-
-  public static boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=sbb_jimmy")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(BUFF_JIMMY, urlString, true);
   }
 
   public static String accessible() {

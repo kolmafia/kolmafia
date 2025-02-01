@@ -1903,6 +1903,7 @@ public class ProxyRecordValue extends RecordValue {
             .add("buys", DataTypes.BOOLEAN_TYPE)
             .add("sells", DataTypes.BOOLEAN_TYPE)
             .add("nickname", DataTypes.STRING_TYPE)
+            .add("shopid", DataTypes.STRING_TYPE)
             .finish("coinmaster proxy");
 
     public CoinmasterProxy(Value obj) {
@@ -1940,6 +1941,10 @@ public class ProxyRecordValue extends RecordValue {
 
     public String get_nickname() {
       return this.content != null ? ((CoinmasterData) this.content).getNickname() : "";
+    }
+
+    public String get_shopid() {
+      return this.content != null ? ((CoinmasterData) this.content).getShopId() : "";
     }
   }
 

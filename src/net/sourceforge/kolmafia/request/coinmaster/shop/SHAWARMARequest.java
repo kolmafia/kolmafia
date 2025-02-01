@@ -16,11 +16,12 @@ public class SHAWARMARequest extends CoinMasterRequest {
   public static final AdventureResult COIN = ItemPool.get(ItemPool.COINSPIRACY, 1);
 
   public static final CoinmasterData SHAWARMA =
-      new CoinmasterData(master, "si_shop1", SHAWARMARequest.class)
+      new CoinmasterData(master, "SHAWARMA", SHAWARMARequest.class)
           .withToken("Coinspiracy")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)
-          .withShopRowFields(master, "si_shop1");
+          .withShopRowFields(master, "si_shop1")
+          .withAccessible(SHAWARMARequest::accessible);
 
   public SHAWARMARequest() {
     super(SHAWARMA);
@@ -58,14 +59,6 @@ public class SHAWARMARequest extends CoinMasterRequest {
 
     // Parse current coin balances
     CoinMasterRequest.parseBalance(data, responseText);
-  }
-
-  public static boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=si_shop1")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(SHAWARMA, urlString, true);
   }
 
   public static String accessible() {

@@ -14,11 +14,12 @@ public class PrecinctRequest extends CoinMasterRequest {
   public static final AdventureResult DOLLAR = ItemPool.get(ItemPool.COP_DOLLAR, 1);
 
   public static final CoinmasterData PRECINCT =
-      new CoinmasterData(master, "detective", PrecinctRequest.class)
+      new CoinmasterData(master, "Precinct Materiel Division", PrecinctRequest.class)
           .withToken("cop dollar")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(DOLLAR)
-          .withShopRowFields(master, "detective");
+          .withShopRowFields(master, "detective")
+          .withAccessible(PrecinctRequest::accessible);
 
   public PrecinctRequest() {
     super(PRECINCT);
@@ -58,15 +59,8 @@ public class PrecinctRequest extends CoinMasterRequest {
     CoinMasterRequest.parseBalance(data, responseText);
   }
 
-  public static boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=detective")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(PRECINCT, urlString, true);
-  }
-
   public static String accessible() {
+    // *** Finish this.
     return null;
   }
 }

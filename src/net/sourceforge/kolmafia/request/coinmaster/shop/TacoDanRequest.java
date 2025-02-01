@@ -21,7 +21,8 @@ public class TacoDanRequest extends CoinMasterRequest {
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)
           .withShopRowFields(master, "sbb_taco")
-          .withCanBuyItem(TacoDanRequest::canBuyItem);
+          .withCanBuyItem(TacoDanRequest::canBuyItem)
+          .withAccessible(TacoDanRequest::accessible);
 
   private static Boolean canBuyItem(final Integer itemId) {
     return switch (itemId) {
@@ -68,14 +69,6 @@ public class TacoDanRequest extends CoinMasterRequest {
 
     // Parse current coin balances
     CoinMasterRequest.parseBalance(data, responseText);
-  }
-
-  public static boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=sbb_taco")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(TACO_DAN, urlString, true);
   }
 
   public static String accessible() {

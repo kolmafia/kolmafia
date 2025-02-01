@@ -1,13 +1,13 @@
 package net.sourceforge.kolmafia;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
@@ -50,6 +50,10 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   private final Class<? extends CoinMasterRequest> requestClass;
 
   // Optional fields
+
+  // For shop.php Coinmasters
+  private String shopId = null;
+
   // The token(s) that you exchange for items.
   private String token = null;
   private String tokenTest = null;
@@ -102,6 +106,9 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   private Function<Integer, Boolean> canBuyItem = this::canBuyItemInternal;
   private Function<Integer, Boolean> availableItem = this::availableItemInternal;
   private BiConsumer<AdventureResult, Boolean> purchasedItem = this::purchasedItemInternal;
+  private Supplier<String> canBuy = this::canBuyInternal;
+  private Supplier<String> canSell = this::canSellInternal;
+  private Supplier<String> accessible = this::accessibleInternal;
 
   // Constructor for CoinmasterData with only mandatory fields.
   // Optional fields can be added fluidly.
@@ -115,6 +122,20 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   }
 
   // Fluid field construction
+
+  /**
+   * Defines the token used by the coinmaster,
+   *
+   * <p>A coinmaster deals in currencies other than Meat. If there is only one such currency, we
+   * call it the "token"
+   *
+   * @param token - Token used
+   * @return this - Allows fluid chaining of fields
+   */
+  public CoinmasterData withShopId(String shopId) {
+    this.shopId = shopId;
+    return this;
+  }
 
   /**
    * Defines the token used by the coinmaster,
@@ -657,9 +678,46 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   }
 
   /**
-   * Populates the nine fields for a standard <code>shop.php</code> coinmaster that uses row #s.
+   * Specifies a static method that will be invoked by <code>Boolean
+   * canBuy()</code>
+   *
+   * @param supplier - a Supplier object to be called by canBuy
+   * @return this - Allows fluid chaining of fields
+   */
+  public CoinmasterData withCanBuy(Supplier<String> supplier) {
+    this.canBuy = supplier;
+    return this;
+  }
+
+  /**
+   * Specifies a static method that will be invoked by <code>Boolean
+   * canSell()</code>
+   *
+   * @param supplier - a Supplier object to be called by canSell
+   * @return this - Allows fluid chaining of fields
+   */
+  public CoinmasterData withCanSell(Supplier<String> supplier) {
+    this.canSell = supplier;
+    return this;
+  }
+
+  /**
+   * Specifies a static method that will be invoked by <code>String
+   * accessible()</code>
+   *
+   * @param supplier - a Supplier object to be called by accessible
+   * @return this - Allows fluid chaining of fields
+   */
+  public CoinmasterData withAccessible(Supplier<String> supplier) {
+    this.accessible = supplier;
+    return this;
+  }
+
+  /**
+   * Populates the ten fields for a standard <code>shop.php</code> coinmaster that uses row #s.
    *
    * <ul>
+   *   <li>shopId
    *   <li>itemRows
    *   <li>buyURL
    *   <li>buyAction
@@ -681,7 +739,8 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
    * @return this - Allows fluid chaining of fields
    */
   public CoinmasterData withShopRowFields(String master, String shopId) {
-    return this.withItemRows(master)
+    return this.withShopId(shopId)
+        .withItemRows(master)
         .withBuyURL("shop.php?whichshop=" + shopId)
         .withBuyAction("buyitem")
         .withBuyItems(master)
@@ -689,13 +748,15 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
         .withItemField("whichrow")
         .withItemPattern(GenericRequest.WHICHROW_PATTERN)
         .withCountField("quantity")
-        .withCountPattern(GenericRequest.QUANTITY_PATTERN);
+        .withCountPattern(GenericRequest.QUANTITY_PATTERN)
+        .withNeedsPasswordHash(true);
   }
 
   /**
-   * Populates the seven fields for a new <code>shop.php</code> coinmaster that uses row #s.
+   * Populates the eight fields for a new <code>shop.php</code> coinmaster that uses row #s.
    *
    * <ul>
+   *   <li>shopId
    *   <li>shopRows from <code>coinmasters.txt</code>
    *   <li>buyURL
    *   <li>buyAction
@@ -710,13 +771,15 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
    * @return this - Allows fluid chaining of fields
    */
   public CoinmasterData withNewShopRowFields(String master, String shopId) {
-    return this.withShopRows(master)
+    return this.withShopId(shopId)
+        .withShopRows(master)
         .withBuyURL("shop.php?whichshop=" + shopId)
         .withBuyAction("buyitem")
         .withItemField("whichrow")
         .withItemPattern(GenericRequest.WHICHROW_PATTERN)
         .withCountField("quantity")
-        .withCountPattern(GenericRequest.QUANTITY_PATTERN);
+        .withCountPattern(GenericRequest.QUANTITY_PATTERN)
+        .withNeedsPasswordHash(true);
   }
 
   public CoinmasterData inZone(String zone) {
@@ -748,6 +811,10 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   }
 
   // Getters for optional fields
+
+  public final String getShopId() {
+    return this.shopId;
+  }
 
   public final String getTokenTest() {
     return this.tokenTest;
@@ -1139,11 +1206,20 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
 
   public void registerShop() {
     if (this.buyURL.startsWith("shop.php")) {
-      ShopDatabase.registerShop(this.nickname, this.master, SHOP.COIN);
+      ShopDatabase.registerShop(this.shopId, this.master, SHOP.COIN);
+      ShopDatabase.setLogVisits(shopId);
     }
   }
 
   public void registerShopRows() {
+    if (this.shopId == null) {
+      return;
+    }
+    if (this.shopRows != null) {
+      for (ShopRow shopRow : this.shopRows) {
+        ShopRowDatabase.registerShopRow(shopRow, this.shopId);
+      }
+    }
     if (this.buyItems != null) {
       for (AdventureResult item : this.buyItems) {
         int itemId = item.getItemId();
@@ -1151,7 +1227,7 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
         if (row != 0) {
           AdventureResult price = this.itemBuyPrice(itemId);
           ShopRow shopRow = new ShopRow(row, item.getInstance(1), price);
-          ShopRowDatabase.registerShopRow(shopRow, "buy", this.master);
+          ShopRowDatabase.registerShopRow(shopRow, this.shopId);
         }
       }
     }
@@ -1162,7 +1238,7 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
         if (row != 0) {
           AdventureResult price = this.itemSellPrice(itemId);
           ShopRow shopRow = new ShopRow(row, price, item);
-          ShopRowDatabase.registerShopRow(shopRow, "sell", this.master);
+          ShopRowDatabase.registerShopRow(shopRow, this.shopId);
         }
       }
     }
@@ -1269,46 +1345,29 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
       return "Zone is no longer accessible";
     }
 
-    Class<? extends CoinMasterRequest> requestClass = this.getRequestClass();
-    Class<?>[] parameters = new Class<?>[0];
+    return this.accessible.get();
+  }
 
-    try {
-      Method method = requestClass.getMethod("accessible", parameters);
-      Object[] args = new Object[0];
-      return (String) method.invoke(null, args);
-    } catch (Exception e) {
-      return null;
-    }
+  public String accessibleInternal() {
+    return null;
   }
 
   public String canSell() {
     // Returns an error reason or null
+    return this.canSell.get();
+  }
 
-    Class<? extends CoinMasterRequest> requestClass = this.getRequestClass();
-    Class<?>[] parameters = new Class<?>[0];
-
-    try {
-      Method method = requestClass.getMethod("canSell", parameters);
-      Object[] args = new Object[0];
-      return (String) method.invoke(null, args);
-    } catch (Exception e) {
-      return null;
-    }
+  public String canSellInternal() {
+    return null;
   }
 
   public String canBuy() {
     // Returns an error reason or null
+    return this.canBuy.get();
+  }
 
-    Class<? extends CoinMasterRequest> requestClass = this.getRequestClass();
-    Class<?>[] parameters = new Class<?>[0];
-
-    try {
-      Method method = requestClass.getMethod("canBuy", parameters);
-      Object[] args = new Object[0];
-      return (String) method.invoke(null, args);
-    } catch (Exception e) {
-      return null;
-    }
+  public String canBuyInternal() {
+    return null;
   }
 
   public void purchasedItem(final AdventureResult item, final Boolean storage) {
