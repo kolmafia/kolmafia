@@ -435,7 +435,7 @@ public class ShopRequest extends GenericRequest {
     return buyStuff(shopRow, quantity);
   }
 
-  public static final boolean registerShopRequest(final String urlString, boolean meatOnly) {
+  public static final boolean registerRequest(final String urlString) {
     if (!urlString.startsWith("shop.php")) {
       return false;
     }
@@ -446,7 +446,7 @@ public class ShopRequest extends GenericRequest {
     }
 
     String action = GenericRequest.getAction(urlString);
-    if (action == null || !action.equals("buyitems")) {
+    if (action == null || !action.equals("buyitem")) {
       // Just visiting the shop
       if (ShopDatabase.logVisits(shopId)) {
         String shopName = ShopDatabase.getShopName(shopId);
@@ -458,7 +458,6 @@ public class ShopRequest extends GenericRequest {
 
     int row = parseWhichRow(urlString);
     int quantity = parseQuantity(urlString);
-
     SHOP shopType = ShopDatabase.getShopType(shopId);
 
     if (shopType == SHOP.CONC) {
