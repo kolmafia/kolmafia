@@ -13,7 +13,6 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
-import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 import net.sourceforge.kolmafia.shop.ShopDatabase.SHOP;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -367,31 +366,13 @@ public class ShopRequest extends GenericRequest {
   }
 
   public static final boolean registerConcoction(
-      final String shopId, final int row, final int quantity) {
-    ShopRow shopRow = ShopRowDatabase.getShopRow(row);
-    if (shopRow == null) {
-      // Huh?
-      return false;
-    }
-
+      final String shopId, final ShopRow shopRow, final int quantity) {
     int itemId = shopRow.getItem().getItemId();
-
-    // *** Use ShopRowDatabase
-    CreateItemRequest request = CreateItemRequest.getInstance(itemId, false);
-    if (request == null) {
-      return false; // this is an unknown item
-    }
-
-    int possible = request.getQuantityPossible();
-
-    if (quantity > possible) {
-      return true; // attempt will fail
-    }
 
     StringBuilder buffer = new StringBuilder();
     buffer.append("Use ");
 
-    AdventureResult[] ingredients = ConcoctionDatabase.getIngredients(itemId);
+    AdventureResult[] ingredients = shopRow.getCosts();
     for (int i = 0; i < ingredients.length; ++i) {
       if (i > 0) {
         buffer.append(", ");
@@ -414,11 +395,8 @@ public class ShopRequest extends GenericRequest {
     return true;
   }
 
-  public static final boolean registerShop(final String shopId, final int row, final int quantity) {
-    ShopRow shopRow = ShopRowDatabase.getShopRow(row);
-    if (shopRow == null) {
-      return false;
-    }
+  public static final boolean registerShop(
+      final String shopId, final ShopRow shopRow, final int quantity) {
     var costs = shopRow.getCosts();
     if (costs != null && costs.length == 1 && costs[0].isMeat()) {
       return buyWithMeat(shopId, shopRow, quantity);
@@ -448,14 +426,19 @@ public class ShopRequest extends GenericRequest {
     }
 
     int row = parseWhichRow(urlString);
+    ShopRow shopRow = ShopRowDatabase.getShopRow(row);
+    if (shopRow == null) {
+      return false;
+    }
+
     int quantity = parseQuantity(urlString);
     SHOP shopType = ShopDatabase.getShopType(shopId);
 
     if (shopType == SHOP.CONC) {
-      return registerConcoction(shopId, row, quantity);
+      return registerConcoction(shopId, shopRow, quantity);
     }
 
     // log as an NPC Store or as a Coinmaster depending on costs.
-    return registerShop(shopId, row, quantity);
+    return registerShop(shopId, shopRow, quantity);
   }
 }
