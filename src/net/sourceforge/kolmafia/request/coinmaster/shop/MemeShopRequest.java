@@ -93,12 +93,4 @@ public class MemeShopRequest extends CoinMasterRequest {
     // Parse current coin balances
     CoinMasterRequest.parseBalance(data, responseText);
   }
-
-  public static final boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=bacon")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(BACON_STORE, urlString, true);
-  }
 }

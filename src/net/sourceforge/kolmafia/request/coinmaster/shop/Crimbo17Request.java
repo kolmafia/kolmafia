@@ -83,12 +83,4 @@ public class Crimbo17Request extends CoinMasterRequest {
     }
     return null;
   }
-
-  public static final boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=crimbo17")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(CRIMBO17, urlString, true);
-  }
 }

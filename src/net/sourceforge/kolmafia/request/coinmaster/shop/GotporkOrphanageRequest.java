@@ -77,14 +77,6 @@ public class GotporkOrphanageRequest extends CoinMasterRequest {
     CoinMasterRequest.parseBalance(data, responseText);
   }
 
-  public static boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=batman_orphanage")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(GOTPORK_ORPHANAGE, urlString, true);
-  }
-
   public static String accessible() {
     if (KoLCharacter.getLimitMode() != LimitMode.BATMAN) {
       return "Only Batfellow can go to the Gotpork Orphanage.";

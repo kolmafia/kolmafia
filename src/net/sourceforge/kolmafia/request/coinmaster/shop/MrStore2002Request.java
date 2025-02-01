@@ -135,14 +135,6 @@ public class MrStore2002Request extends CoinMasterRequest {
     CoinMasterRequest.parseBalance(MR_STORE_2002, responseText);
   }
 
-  public static boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=mrstore2002")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(MR_STORE_2002, urlString, true);
-  }
-
   public static String accessible() {
     if (catalogToUse() != 0) {
       return null;

@@ -6,7 +6,6 @@ import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
-import net.sourceforge.kolmafia.shop.ShopRequest;
 
 public class StarChartRequest extends CreateItemRequest {
   public StarChartRequest(final Concoction conc) {
@@ -56,13 +55,5 @@ public class StarChartRequest extends CreateItemRequest {
     }
 
     NPCPurchaseRequest.parseShopRowResponse(urlString, responseText);
-  }
-
-  public static final boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=starchart")) {
-      return false;
-    }
-
-    return ShopRequest.registerConcoction(urlString);
   }
 }

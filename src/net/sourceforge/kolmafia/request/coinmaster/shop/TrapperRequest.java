@@ -56,15 +56,6 @@ public class TrapperRequest extends CoinMasterRequest {
     CoinMasterRequest.parseResponse(TRAPPER, urlString, responseText);
   }
 
-  public static final boolean registerRequest(final String urlString) {
-    // shop.php?pwd&whichshop=trapper
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=trapper")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(TRAPPER, urlString);
-  }
-
   public static String accessible() {
     if (KoLCharacter.getLevel() < 8) {
       return "You haven't met the Trapper yet";

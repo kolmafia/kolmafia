@@ -71,14 +71,6 @@ public class TacoDanRequest extends CoinMasterRequest {
     CoinMasterRequest.parseBalance(data, responseText);
   }
 
-  public static boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=sbb_taco")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(TACO_DAN, urlString, true);
-  }
-
   public static String accessible() {
     if (!Preferences.getBoolean("_sleazeAirportToday")
         && !Preferences.getBoolean("sleazeAirportAlways")) {

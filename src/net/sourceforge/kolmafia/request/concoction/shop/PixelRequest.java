@@ -8,7 +8,6 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.shop.ShopRequest;
 
 public class PixelRequest extends CreateItemRequest {
   public PixelRequest(final Concoction conc) {
@@ -62,13 +61,5 @@ public class PixelRequest extends CreateItemRequest {
     }
 
     NPCPurchaseRequest.parseShopRowResponse(urlString, responseText);
-  }
-
-  public static final boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=mystic")) {
-      return false;
-    }
-
-    return ShopRequest.registerConcoction(urlString);
   }
 }

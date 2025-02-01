@@ -59,14 +59,6 @@ public class ArmoryRequest extends CoinMasterRequest {
     CoinMasterRequest.parseBalance(ARMORY, responseText);
   }
 
-  public static boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=si_shop3")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(ARMORY, urlString, true);
-  }
-
   public static String accessible() {
     if (!Preferences.getBoolean("_spookyAirportToday")
         && !Preferences.getBoolean("spookyAirportAlways")) {

@@ -67,13 +67,4 @@ public class ToxicChemistryRequest extends CoinMasterRequest {
     }
     return null;
   }
-
-  public static final boolean registerRequest(final String urlString) {
-    // shop.php?pwd&whichshop=toxic
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=toxic")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(TOXIC_CHEMISTRY, urlString, true);
-  }
 }

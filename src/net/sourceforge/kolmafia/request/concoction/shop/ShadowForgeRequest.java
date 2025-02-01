@@ -8,7 +8,6 @@ import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
-import net.sourceforge.kolmafia.shop.ShopRequest;
 
 public class ShadowForgeRequest extends CreateItemRequest {
   public ShadowForgeRequest(final Concoction conc) {
@@ -58,13 +57,5 @@ public class ShadowForgeRequest extends CreateItemRequest {
     }
 
     NPCPurchaseRequest.parseShopRowResponse(urlString, responseText);
-  }
-
-  public static final boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=shadowforge")) {
-      return false;
-    }
-
-    return ShopRequest.registerConcoction(urlString);
   }
 }

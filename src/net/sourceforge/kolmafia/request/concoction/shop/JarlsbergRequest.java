@@ -10,7 +10,6 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 import net.sourceforge.kolmafia.session.ResultProcessor;
-import net.sourceforge.kolmafia.shop.ShopRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class JarlsbergRequest extends CreateItemRequest {
@@ -84,13 +83,5 @@ public class JarlsbergRequest extends CreateItemRequest {
       ResultProcessor.processResult(
           ingredients[i].getInstance(-1 * ingredients[i].getCount() * quantity));
     }
-  }
-
-  public static final boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=jarl")) {
-      return false;
-    }
-
-    return ShopRequest.registerConcoction(urlString);
   }
 }

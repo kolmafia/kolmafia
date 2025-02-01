@@ -62,14 +62,6 @@ public class WalMartRequest extends CoinMasterRequest {
     CoinMasterRequest.parseBalance(data, responseText);
   }
 
-  public static boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=glaciest")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(WALMART, urlString, true);
-  }
-
   public static String accessible() {
     if (!Preferences.getBoolean("_coldAirportToday")
         && !Preferences.getBoolean("coldAirportAlways")) {

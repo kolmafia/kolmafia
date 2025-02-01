@@ -81,12 +81,4 @@ public class Crimbo23ElfArmoryRequest extends CoinMasterRequest {
       default -> null;
     };
   }
-
-  public static final boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=" + DATA.getShopId())) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(DATA, urlString, true);
-  }
 }

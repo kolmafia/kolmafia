@@ -61,14 +61,6 @@ public class BuffJimmyRequest extends CoinMasterRequest {
     CoinMasterRequest.parseBalance(data, responseText);
   }
 
-  public static boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=sbb_jimmy")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(BUFF_JIMMY, urlString, true);
-  }
-
   public static String accessible() {
     if (!Preferences.getBoolean("_sleazeAirportToday")
         && !Preferences.getBoolean("sleazeAirportAlways")) {

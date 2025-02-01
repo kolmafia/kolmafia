@@ -61,14 +61,6 @@ public class SHAWARMARequest extends CoinMasterRequest {
     CoinMasterRequest.parseBalance(data, responseText);
   }
 
-  public static boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=si_shop1")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(SHAWARMA, urlString, true);
-  }
-
   public static String accessible() {
     if (!Preferences.getBoolean("_spookyAirportToday")
         && !Preferences.getBoolean("spookyAirportAlways")) {

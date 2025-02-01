@@ -68,13 +68,4 @@ public class FishboneryRequest extends CoinMasterRequest {
     }
     return null;
   }
-
-  public static final boolean registerRequest(final String urlString) {
-    // shop.php?pwd&whichshop=fishbones
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=fishbones")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(FISHBONERY, urlString, true);
-  }
 }

@@ -6,7 +6,6 @@ import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
-import net.sourceforge.kolmafia.shop.ShopRequest;
 
 public class WinterGardenRequest extends CreateItemRequest {
   public WinterGardenRequest(final Concoction conc) {
@@ -50,13 +49,5 @@ public class WinterGardenRequest extends CreateItemRequest {
     }
 
     NPCPurchaseRequest.parseShopRowResponse(urlString, responseText);
-  }
-
-  public static final boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=snowgarden")) {
-      return false;
-    }
-
-    return ShopRequest.registerConcoction(urlString);
   }
 }

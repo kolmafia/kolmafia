@@ -65,12 +65,4 @@ public class PlumberGearRequest extends CoinMasterRequest {
     }
     return null;
   }
-
-  public static final boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=mariogear")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(PLUMBER_GEAR, urlString, true);
-  }
 }

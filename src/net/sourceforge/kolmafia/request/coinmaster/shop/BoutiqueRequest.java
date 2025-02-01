@@ -60,14 +60,6 @@ public class BoutiqueRequest extends CoinMasterRequest {
     CoinMasterRequest.parseBalance(data, responseText);
   }
 
-  public static boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=cindy")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(BOUTIQUE, urlString, true);
-  }
-
   public static String accessible() {
     int coin = COIN.getCount(KoLConstants.inventory);
     if (coin == 0) {

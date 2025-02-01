@@ -65,12 +65,4 @@ public class YourCampfireRequest extends CoinMasterRequest {
   public static String accessible() {
     return CampAwayRequest.campAwayTentAvailable() ? null : "Need access to your Getaway Campsite";
   }
-
-  public static final boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=campfire")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(YOUR_CAMPFIRE, urlString, true);
-  }
 }

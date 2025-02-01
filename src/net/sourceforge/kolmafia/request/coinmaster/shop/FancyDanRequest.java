@@ -100,12 +100,4 @@ public class FancyDanRequest extends CoinMasterRequest {
 
     return null;
   }
-
-  public static boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=olivers")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(FANCY_DAN, urlString, true);
-  }
 }

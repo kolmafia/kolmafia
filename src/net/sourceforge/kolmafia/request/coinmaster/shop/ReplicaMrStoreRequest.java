@@ -167,14 +167,6 @@ public class ReplicaMrStoreRequest extends CoinMasterRequest {
     CoinMasterRequest.parseBalance(REPLICA_MR_STORE, responseText);
   }
 
-  public static boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=mrreplica")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(REPLICA_MR_STORE, urlString, true);
-  }
-
   public static String accessible() {
     if (!KoLCharacter.inLegacyOfLoathing()) {
       return "Only Legacy Loathers can buy replica Mr. Items";

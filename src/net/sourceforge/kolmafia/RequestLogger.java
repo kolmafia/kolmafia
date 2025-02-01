@@ -25,6 +25,7 @@ import net.sourceforge.kolmafia.request.coinmaster.GameShoppeRequest;
 import net.sourceforge.kolmafia.request.coinmaster.HermitRequest;
 import net.sourceforge.kolmafia.request.coinmaster.MrStoreRequest;
 import net.sourceforge.kolmafia.request.coinmaster.QuartersmasterRequest;
+import net.sourceforge.kolmafia.request.coinmaster.SwaggerShopRequest;
 import net.sourceforge.kolmafia.request.coinmaster.TicketCounterRequest;
 import net.sourceforge.kolmafia.request.coinmaster.TravelingTraderRequest;
 import net.sourceforge.kolmafia.request.concoction.BurningLeavesRequest;
@@ -1190,6 +1191,12 @@ public class RequestLogger extends NullStream {
 
     if ((isExternal || request instanceof SuburbanDisRequest)
         && SuburbanDisRequest.registerRequest(urlString)) {
+      RequestLogger.wasLastRequestSimple = false;
+      return;
+    }
+
+    if ((isExternal || request instanceof SwaggerShopRequest)
+        && SwaggerShopRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }

@@ -11,7 +11,6 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
-import net.sourceforge.kolmafia.shop.ShopRequest;
 
 public class FiveDPrinterRequest extends CreateItemRequest {
   public FiveDPrinterRequest(final Concoction conc) {
@@ -69,13 +68,5 @@ public class FiveDPrinterRequest extends CreateItemRequest {
     }
 
     NPCPurchaseRequest.parseShopRowResponse(urlString, responseText);
-  }
-
-  public static final boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=5dprinter")) {
-      return false;
-    }
-
-    return ShopRequest.registerConcoction(urlString);
   }
 }

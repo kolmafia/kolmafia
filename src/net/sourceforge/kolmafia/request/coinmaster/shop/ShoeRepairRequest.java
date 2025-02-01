@@ -75,12 +75,4 @@ public class ShoeRepairRequest extends CoinMasterRequest {
     }
     return null;
   }
-
-  public static final boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=shoeshop")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(SHOE_REPAIR, urlString, true);
-  }
 }

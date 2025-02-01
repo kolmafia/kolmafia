@@ -67,13 +67,4 @@ public class NuggletCraftingRequest extends CoinMasterRequest {
     }
     return null;
   }
-
-  public static final boolean registerRequest(final String urlString) {
-    // shop.php?pwd&whichshop=topiary
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=topiary")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(NUGGLETCRAFTING, urlString, true);
-  }
 }

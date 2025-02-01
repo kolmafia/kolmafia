@@ -75,12 +75,4 @@ public class NinjaStoreRequest extends CoinMasterRequest {
     }
     return null;
   }
-
-  public static final boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=nina")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(NINJA_STORE, urlString, true);
-  }
 }

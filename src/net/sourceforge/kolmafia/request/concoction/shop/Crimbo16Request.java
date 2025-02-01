@@ -6,7 +6,6 @@ import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
-import net.sourceforge.kolmafia.shop.ShopRequest;
 
 public class Crimbo16Request extends CreateItemRequest {
   public Crimbo16Request(final Concoction conc) {
@@ -51,14 +50,6 @@ public class Crimbo16Request extends CreateItemRequest {
     }
 
     NPCPurchaseRequest.parseShopRowResponse(urlString, responseText);
-  }
-
-  public static final boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=crimbo16")) {
-      return false;
-    }
-
-    return ShopRequest.registerConcoction(urlString);
   }
 
   public static String accessible() {

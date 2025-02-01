@@ -89,12 +89,4 @@ public class ShoreGiftShopRequest extends CoinMasterRequest {
     }
     return null;
   }
-
-  public static final boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=shore")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(SHORE_GIFT_SHOP, urlString, true);
-  }
 }

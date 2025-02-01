@@ -75,12 +75,4 @@ public class NeandermallRequest extends CoinMasterRequest {
     }
     return null;
   }
-
-  public static final boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=caveshop")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(NEANDERMALL, urlString, true);
-  }
 }
