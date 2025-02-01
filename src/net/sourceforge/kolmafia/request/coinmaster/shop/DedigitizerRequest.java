@@ -53,12 +53,4 @@ public class DedigitizerRequest extends CoinMasterRequest {
     }
     return "You can't access the server room.";
   }
-
-  public static final boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=" + DATA.getShopId())) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(DATA, urlString, true);
-  }
 }

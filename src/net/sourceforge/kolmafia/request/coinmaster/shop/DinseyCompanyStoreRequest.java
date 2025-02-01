@@ -62,14 +62,6 @@ public class DinseyCompanyStoreRequest extends CoinMasterRequest {
     CoinMasterRequest.parseBalance(data, responseText);
   }
 
-  public static boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=landfillstore")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(DINSEY_COMPANY_STORE, urlString, true);
-  }
-
   public static String accessible() {
     if (!Preferences.getBoolean("_stenchAirportToday")
         && !Preferences.getBoolean("stenchAirportAlways")) {

@@ -1,4 +1,4 @@
-package net.sourceforge.kolmafia.request.coinmaster.shop;
+package net.sourceforge.kolmafia.request.coinmaster;
 
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -17,7 +17,6 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class SwaggerShopRequest extends CoinMasterRequest {

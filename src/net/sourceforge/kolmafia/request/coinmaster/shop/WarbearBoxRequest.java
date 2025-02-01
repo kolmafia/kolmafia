@@ -61,14 +61,6 @@ public class WarbearBoxRequest extends CoinMasterRequest {
     CoinMasterRequest.parseBalance(data, responseText);
   }
 
-  public static boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=warbear")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(WARBEARBOX, urlString, true);
-  }
-
   public static String accessible() {
     int wand = BLACKBOX.getCount(KoLConstants.inventory);
     if (wand == 0) {

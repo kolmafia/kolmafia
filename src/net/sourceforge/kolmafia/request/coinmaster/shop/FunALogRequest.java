@@ -100,14 +100,6 @@ public class FunALogRequest extends CoinMasterRequest {
     CoinMasterRequest.parseResponse(FUN_A_LOG, urlString, responseText);
   }
 
-  public static boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=piraterealm")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(FUN_A_LOG, urlString, true);
-  }
-
   public static String accessible() {
     // You have to have the Fun-A-Log in your inventory in order to
     // purchase from it.  It is a quest item, so if you have it, it

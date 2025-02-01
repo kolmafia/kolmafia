@@ -60,14 +60,6 @@ public class SeptEmberCenserRequest extends CoinMasterRequest {
     Preferences.setBoolean("_septEmberBalanceChecked", true);
   }
 
-  public static boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=september")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(SEPTEMBER_CENSER, urlString, true);
-  }
-
   public static String accessible() {
     if (InventoryManager.hasItem(ItemPool.SEPTEMBER_CENSER)) {
       return null;

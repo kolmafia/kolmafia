@@ -68,12 +68,4 @@ public class SpacegateFabricationRequest extends CoinMasterRequest {
     }
     return null;
   }
-
-  public static final boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=spacegate")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(SPACEGATE_STORE, urlString, true);
-  }
 }

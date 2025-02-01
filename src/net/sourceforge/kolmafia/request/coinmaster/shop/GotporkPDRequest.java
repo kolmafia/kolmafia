@@ -78,14 +78,6 @@ public class GotporkPDRequest extends CoinMasterRequest {
     CoinMasterRequest.parseBalance(data, responseText);
   }
 
-  public static boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=batman_pd")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(GOTPORK_PD, urlString, true);
-  }
-
   public static String accessible() {
     if (KoLCharacter.getLimitMode() != LimitMode.BATMAN) {
       return "Only Batfellow can go to the Gotpork P. D.";

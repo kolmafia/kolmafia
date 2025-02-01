@@ -63,12 +63,4 @@ public class GuzzlrRequest extends CoinMasterRequest {
         ? null
         : "You have no Guzzlrbucks to spend";
   }
-
-  public static final boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=guzzlr")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(GUZZLR, urlString, true);
-  }
 }

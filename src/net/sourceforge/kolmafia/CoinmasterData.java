@@ -1207,6 +1207,7 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   public void registerShop() {
     if (this.buyURL.startsWith("shop.php")) {
       ShopDatabase.registerShop(this.shopId, this.master, SHOP.COIN);
+      ShopDatabase.setLogVisits(shopId);
     }
   }
 

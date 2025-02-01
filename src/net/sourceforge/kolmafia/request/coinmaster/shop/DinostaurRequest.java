@@ -58,14 +58,6 @@ public class DinostaurRequest extends CoinMasterRequest {
     CoinMasterRequest.parseBalance(DINOSTAUR, responseText);
   }
 
-  public static boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=dino")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(DINOSTAUR, urlString, true);
-  }
-
   public static String accessible() {
     if (!KoLCharacter.inDinocore()) {
       return "Dino World is not available";

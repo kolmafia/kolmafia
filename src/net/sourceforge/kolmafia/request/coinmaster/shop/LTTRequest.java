@@ -57,14 +57,6 @@ public class LTTRequest extends CoinMasterRequest {
     CoinMasterRequest.parseBalance(LTT, responseText);
   }
 
-  public static boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=ltt")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(LTT, urlString, true);
-  }
-
   public static String accessible() {
     // *** Finish this.
     return null;

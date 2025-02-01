@@ -70,12 +70,4 @@ public class EdShopRequest extends CoinMasterRequest {
     }
     return null;
   }
-
-  public static final boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=edunder_shopshop")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(EDSHOP, urlString, true);
-  }
 }
