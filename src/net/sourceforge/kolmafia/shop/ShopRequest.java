@@ -13,6 +13,7 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
+import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 import net.sourceforge.kolmafia.shop.ShopDatabase.SHOP;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -94,10 +95,10 @@ public class ShopRequest extends GenericRequest {
     return StringUtilities.parseInt(matcher.group(1));
   }
 
-  public static final int parseQuantity(final String urlString) {
-    Matcher matcher = GenericRequest.QUANTITY_PATTERN.matcher(urlString);
+  public static int parseQuantity(final String urlString) {
+    Matcher matcher = QUANTITY_PATTERN.matcher(urlString);
     if (!matcher.find()) {
-      return 1;
+      return -1;
     }
 
     return StringUtilities.parseInt(matcher.group(1));
@@ -309,9 +310,9 @@ public class ShopRequest extends GenericRequest {
     // *** Do we want to put shop-specific stuff in here?
   }
 
-  public static final void buyStuff(final ShopRow shopRow, final int count) {
+  public static final boolean buyStuff(final ShopRow shopRow, final int count) {
     StringBuilder buf = new StringBuilder();
-    buf.append("trading ");
+    buf.append("Trading ");
 
     AdventureResult[] costs = shopRow.getCosts();
     for (int i = 0; i < costs.length; ++i) {
@@ -339,6 +340,99 @@ public class ShopRequest extends GenericRequest {
 
     RequestLogger.updateSessionLog();
     RequestLogger.updateSessionLog(buf.toString());
+
+    return true;
+  }
+
+  public static final boolean buyWithMeat(
+      final String shopId, final ShopRow shopRow, final int count) {
+    // Sanity check
+    AdventureResult item = shopRow.getItem();
+    AdventureResult[] costs = shopRow.getCosts();
+    int price = NPCPurchaseRequest.currentDiscountedPrice(shopId, costs[0].getCount());
+
+    StringBuilder buf = new StringBuilder();
+    buf.append("buy ");
+    buf.append(count);
+    buf.append(" ");
+    buf.append(item.getPluralName(count));
+    buf.append(" for ");
+    buf.append(price);
+    buf.append(" each from ");
+    buf.append(ShopDatabase.getShopName(shopId));
+
+    RequestLogger.updateSessionLog();
+    RequestLogger.updateSessionLog(buf.toString());
+
+    return true;
+  }
+
+  public static final boolean registerConcoction(final String urlString) {
+    // *** This is for CreateItemRequests
+    String shopId = parseShopId(urlString);
+    int row = parseWhichRow(urlString);
+    int quantity = parseQuantity(urlString);
+    return registerConcoction(shopId, row, quantity);
+  }
+
+  public static final boolean registerConcoction(
+      final String shopId, final int row, final int quantity) {
+    ShopRow shopRow = ShopRowDatabase.getShopRow(row);
+    if (shopRow == null) {
+      // Huh?
+      return false;
+    }
+
+    int itemId = shopRow.getItem().getItemId();
+
+    // *** Use ShopRowDatabase
+    CreateItemRequest request = CreateItemRequest.getInstance(itemId, false);
+    if (request == null) {
+      return false; // this is an unknown item
+    }
+
+    int possible = request.getQuantityPossible();
+
+    if (quantity > possible) {
+      return true; // attempt will fail
+    }
+
+    StringBuilder buffer = new StringBuilder();
+    buffer.append("Using ");
+
+    AdventureResult[] ingredients = ConcoctionDatabase.getIngredients(itemId);
+    for (int i = 0; i < ingredients.length; ++i) {
+      if (i > 0) {
+        buffer.append(", ");
+      }
+
+      int count = ingredients[i].getCount() * quantity;
+      buffer.append(count);
+      buffer.append(" ");
+      buffer.append(ingredients[i].getPluralName(count));
+    }
+
+    buffer.append(" to make ");
+    buffer.append(quantity);
+    buffer.append(" ");
+    buffer.append(shopRow.getItem().getPluralName(quantity));
+
+    RequestLogger.updateSessionLog();
+    RequestLogger.updateSessionLog(buffer.toString());
+
+    return true;
+  }
+
+  public static final boolean registerShop(final String shopId, final int row, final int quantity) {
+    ShopRow shopRow = ShopRowDatabase.getShopRow(row);
+    if (shopRow == null) {
+      return false;
+    }
+    var costs = shopRow.getCosts();
+    if (costs != null && costs.length == 1 && costs[0].isMeat()) {
+      return buyWithMeat(shopId, shopRow, quantity);
+    }
+    return buyStuff(shopRow, quantity);
   }
 
   public static final boolean registerShopRequest(final String urlString, boolean meatOnly) {
@@ -354,17 +448,24 @@ public class ShopRequest extends GenericRequest {
     String action = GenericRequest.getAction(urlString);
     if (action == null || !action.equals("buyitems")) {
       // Just visiting the shop
-      // String shopName = ShopDatabase.getShopName(shopId);
+      if (ShopDatabase.logVisits(shopId)) {
+        String shopName = ShopDatabase.getShopName(shopId);
+        RequestLogger.updateSessionLog();
+        RequestLogger.updateSessionLog("Visiting " + shopName);
+      }
       return true;
     }
 
-    // *** In order for this to work, ShopRowDatabase has to be in READ mode.
     int row = parseWhichRow(urlString);
-    ShopRow shopRow = ShopRowDatabase.getShopRow(row);
-    int count = parseQuantity(urlString);
+    int quantity = parseQuantity(urlString);
 
-    buyStuff(shopRow, count);
+    SHOP shopType = ShopDatabase.getShopType(shopId);
 
-    return true;
+    if (shopType == SHOP.CONC) {
+      return registerConcoction(shopId, row, quantity);
+    }
+
+    // log as an NPC Store or as a Coinmaster depending on costs.
+    return registerShop(shopId, row, quantity);
   }
 }

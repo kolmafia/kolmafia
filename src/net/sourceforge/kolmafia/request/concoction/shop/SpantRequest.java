@@ -6,6 +6,7 @@ import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 
 public class SpantRequest extends CreateItemRequest {
   public SpantRequest(final Concoction conc) {
@@ -57,6 +58,6 @@ public class SpantRequest extends CreateItemRequest {
       return false;
     }
 
-    return NPCPurchaseRequest.registerShopRowRequest(urlString);
+    return ShopRequest.registerConcoction(urlString);
   }
 }

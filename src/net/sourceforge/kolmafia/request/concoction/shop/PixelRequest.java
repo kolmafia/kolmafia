@@ -8,6 +8,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 
 public class PixelRequest extends CreateItemRequest {
   public PixelRequest(final Concoction conc) {
@@ -68,6 +69,6 @@ public class PixelRequest extends CreateItemRequest {
       return false;
     }
 
-    return NPCPurchaseRequest.registerShopRowRequest(urlString);
+    return ShopRequest.registerConcoction(urlString);
   }
 }

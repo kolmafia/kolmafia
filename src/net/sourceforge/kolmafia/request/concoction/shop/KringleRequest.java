@@ -6,6 +6,7 @@ import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 
 public class KringleRequest extends CreateItemRequest {
   public KringleRequest(final Concoction conc) {
@@ -56,6 +57,6 @@ public class KringleRequest extends CreateItemRequest {
       return false;
     }
 
-    return NPCPurchaseRequest.registerShopRowRequest(urlString);
+    return ShopRequest.registerConcoction(urlString);
   }
 }

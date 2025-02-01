@@ -4,13 +4,13 @@ import java.util.regex.Matcher;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class JarlsbergRequest extends CreateItemRequest {
@@ -91,53 +91,6 @@ public class JarlsbergRequest extends CreateItemRequest {
       return false;
     }
 
-    Matcher rowMatcher = GenericRequest.WHICHROW_PATTERN.matcher(urlString);
-    if (!rowMatcher.find()) {
-      return true;
-    }
-
-    int row = StringUtilities.parseInt(rowMatcher.group(1));
-    int itemId = ConcoctionPool.rowToId(row);
-
-    CreateItemRequest item = CreateItemRequest.getInstance(itemId);
-    if (item == null) {
-      return true; // this is an unknown item
-    }
-
-    int quantity = 1;
-    if (urlString.contains("buymax=")) {
-      quantity = item.getQuantityPossible();
-    } else {
-      Matcher quantityMatcher = GenericRequest.QUANTITY_PATTERN.matcher(urlString);
-      if (quantityMatcher.find()) {
-        String quantityString = quantityMatcher.group(1).trim();
-        quantity = quantityString.length() == 0 ? 1 : StringUtilities.parseInt(quantityString);
-      }
-    }
-
-    AdventureResult[] ingredients = ConcoctionDatabase.getIngredients(itemId);
-
-    StringBuilder buffer = new StringBuilder();
-    buffer.append("Using ");
-
-    for (int i = 0; i < ingredients.length; ++i) {
-      if (i > 0) {
-        buffer.append(" + ");
-      }
-
-      buffer.append(ingredients[i].getCount() * quantity);
-      buffer.append(" ");
-      buffer.append(ingredients[i].getName());
-    }
-
-    buffer.append(" to make ");
-    buffer.append(quantity);
-    buffer.append(" ");
-    buffer.append(item.getName());
-
-    RequestLogger.updateSessionLog();
-    RequestLogger.updateSessionLog(buffer.toString());
-
-    return true;
+    return ShopRequest.registerConcoction(urlString);
   }
 }
