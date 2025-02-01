@@ -23,8 +23,8 @@ public class Crimbo17Request extends CoinMasterRequest {
           .withTokenPattern(CHEER_PATTERN)
           .withItem(CHEER)
           .withShopRowFields(master, "crimbo17")
-          .withNeedsPasswordHash(true)
-          .withCanBuyItem(Crimbo17Request::canBuyItem);
+          .withCanBuyItem(Crimbo17Request::canBuyItem)
+          .withAccessible(Crimbo17Request::accessible);
 
   private static Boolean canBuyItem(final Integer itemId) {
     return switch (itemId) {
@@ -82,13 +82,5 @@ public class Crimbo17Request extends CoinMasterRequest {
       return "You need some crystalline cheer.";
     }
     return null;
-  }
-
-  public static final boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=crimbo17")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(CRIMBO17, urlString, true);
   }
 }

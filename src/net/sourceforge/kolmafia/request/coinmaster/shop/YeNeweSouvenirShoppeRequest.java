@@ -21,8 +21,8 @@ public class YeNeweSouvenirShoppeRequest extends CoinMasterRequest {
           .withTokenTest("no Chroner")
           .withTokenPattern(CHRONER_PATTERN)
           .withItem(CHRONER)
-          .withNeedsPasswordHash(true)
-          .withShopRowFields(master, "shakeshop");
+          .withShopRowFields(master, "shakeshop")
+          .withAccessible(YeNeweSouvenirShoppeRequest::accessible);
 
   public YeNeweSouvenirShoppeRequest() {
     super(SHAKE_SHOP);
@@ -74,13 +74,5 @@ public class YeNeweSouvenirShoppeRequest extends CoinMasterRequest {
       return "You can't get to Ye Newe Souvenir Shoppe";
     }
     return null;
-  }
-
-  public static final boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=shakeshop")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(SHAKE_SHOP, urlString, true);
   }
 }

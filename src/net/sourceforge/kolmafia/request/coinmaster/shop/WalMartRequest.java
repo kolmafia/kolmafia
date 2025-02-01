@@ -17,11 +17,12 @@ public class WalMartRequest extends CoinMasterRequest {
   public static final AdventureResult COIN = ItemPool.get(ItemPool.WALMART_GIFT_CERTIFICATE, 1);
 
   public static final CoinmasterData WALMART =
-      new CoinmasterData(master, "glaciest", WalMartRequest.class)
+      new CoinmasterData(master, "Wal-Mart", WalMartRequest.class)
           .withToken("Wal-Mart gift certificate")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)
-          .withShopRowFields(master, "glaciest");
+          .withShopRowFields(master, "glaciest")
+          .withAccessible(WalMartRequest::accessible);
 
   public WalMartRequest() {
     super(WALMART);
@@ -59,14 +60,6 @@ public class WalMartRequest extends CoinMasterRequest {
 
     // Parse current coin balances
     CoinMasterRequest.parseBalance(data, responseText);
-  }
-
-  public static boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=glaciest")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(WALMART, urlString, true);
   }
 
   public static String accessible() {

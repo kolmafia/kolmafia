@@ -30,7 +30,8 @@ public class AWOLQuartermasterRequest extends CoinMasterRequest {
           .withItemField("tobuy")
           .withItemPattern(TOBUY_PATTERN)
           .withCountField("howmany")
-          .withCountPattern(GenericRequest.HOWMANY_PATTERN);
+          .withCountPattern(GenericRequest.HOWMANY_PATTERN)
+          .withAccessible(AWOLQuartermasterRequest::accessible);
 
   private static String lastURL = null;
 

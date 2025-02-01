@@ -29,7 +29,8 @@ public class Crimbo23PirateArmoryRequest extends CoinMasterRequest {
           .withSellURL("shop.php?whichshop=crimbo23_pirate_armory")
           .withSellAction("buyitem")
           .withSellItems(master)
-          .withSellPrices(master);
+          .withSellPrices(master)
+          .withAccessible(Crimbo23PirateArmoryRequest::accessible);
 
   public Crimbo23PirateArmoryRequest() {
     super(DATA);
@@ -53,7 +54,7 @@ public class Crimbo23PirateArmoryRequest extends CoinMasterRequest {
   }
 
   public static void parseResponse(final String location, final String responseText) {
-    if (!location.contains("whichshop=" + DATA.getNickname())) {
+    if (!location.contains("whichshop=" + DATA.getShopId())) {
       return;
     }
 
@@ -79,14 +80,5 @@ public class Crimbo23PirateArmoryRequest extends CoinMasterRequest {
       case "contested" -> "The elves and pirates are fighting for control of the armory";
       default -> null;
     };
-  }
-
-  public static final boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php")
-        || !urlString.contains("whichshop=" + DATA.getNickname())) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(DATA, urlString, true);
   }
 }

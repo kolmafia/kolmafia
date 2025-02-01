@@ -18,12 +18,13 @@ public class GotporkOrphanageRequest extends CoinMasterRequest {
   public static final AdventureResult COIN = ItemPool.get(ItemPool.KIDNAPPED_ORPHAN, 1);
 
   public static final CoinmasterData GOTPORK_ORPHANAGE =
-      new CoinmasterData(master, "batman_orphanage", GotporkOrphanageRequest.class)
+      new CoinmasterData(master, "Gotpork Orphanage", GotporkOrphanageRequest.class)
           .withToken("kidnapped orphan")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)
           .withShopRowFields(master, "batman_orphanage")
-          .withItemBuyPrice(GotporkOrphanageRequest::itemBuyPrice);
+          .withItemBuyPrice(GotporkOrphanageRequest::itemBuyPrice)
+          .withAccessible(GotporkOrphanageRequest::accessible);
 
   private static AdventureResult itemBuyPrice(final Integer itemId) {
     int price = GOTPORK_ORPHANAGE.getBuyPrices().get(itemId);
@@ -74,14 +75,6 @@ public class GotporkOrphanageRequest extends CoinMasterRequest {
 
     // Parse current coin balances
     CoinMasterRequest.parseBalance(data, responseText);
-  }
-
-  public static boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=batman_orphanage")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(GOTPORK_ORPHANAGE, urlString, true);
   }
 
   public static String accessible() {

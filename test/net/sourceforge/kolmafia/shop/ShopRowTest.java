@@ -1,11 +1,16 @@
 package net.sourceforge.kolmafia.shop;
 
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withSkill;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
 
+import internal.helpers.Cleanups;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AdventureResult.MeatResult;
 import org.junit.jupiter.api.Nested;
@@ -231,6 +236,43 @@ public class ShopRowTest {
       assertTrue(derivedCurrencies.contains(synapse));
 
       assertEquals(derivedCurrencies, parsedCurrencies);
+    }
+  }
+
+  @Nested
+  class NPCStores {
+    // shop.php?whichshop=madeline
+    // test_shop_madeline.html
+
+    @Test
+    public void canParseMadelineAtDiscountedPrice() {
+      // I visited Madeline with the Five Fingered Discount skill.
+      var cleanups = new Cleanups(withSkill("Five Finger Discount"));
+      try (cleanups) {
+        String html = html("request/test_shop_madeline.html");
+        var inventory = ShopRow.parseShop(html, true);
+        String prices =
+            inventory.stream()
+                .map((ShopRow sr) -> sr.getCosts()[0].getCount())
+                .map(String::valueOf)
+                .collect(Collectors.joining(","));
+        // These are the actual prices Madeline charges.
+        assertThat(prices, is("25,40,60,60,100,400,400"));
+      }
+    }
+
+    @Test
+    public void canParseMadelineAtFullPrice() {
+      // I visited Madeline with the Five Fingered Discount skill.
+      String html = html("request/test_shop_madeline.html");
+      var inventory = ShopRow.parseShop(html, true);
+      String prices =
+          inventory.stream()
+              .map((ShopRow sr) -> sr.getCosts()[0].getCount())
+              .map(String::valueOf)
+              .collect(Collectors.joining(","));
+      // These are the discounted prices Madeline quoted.
+      assertThat(prices, is("23,38,57,57,95,380,380"));
     }
   }
 }

@@ -23,7 +23,8 @@ public class TrapperRequest extends CoinMasterRequest {
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(YETI_FUR)
           .withShopRowFields(master, "trapper")
-          .withBuyItems(master);
+          .withBuyItems(master)
+          .withAccessible(TrapperRequest::accessible);
 
   public TrapperRequest() {
     super(TRAPPER);
@@ -53,15 +54,6 @@ public class TrapperRequest extends CoinMasterRequest {
       QuestDatabase.setQuestProgress(Quest.TRAPPER, QuestDatabase.FINISHED);
     }
     CoinMasterRequest.parseResponse(TRAPPER, urlString, responseText);
-  }
-
-  public static final boolean registerRequest(final String urlString) {
-    // shop.php?pwd&whichshop=trapper
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=trapper")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(TRAPPER, urlString);
   }
 
   public static String accessible() {

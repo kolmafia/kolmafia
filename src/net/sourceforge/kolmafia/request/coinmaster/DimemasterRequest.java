@@ -38,7 +38,8 @@ public class DimemasterRequest extends CoinMasterRequest {
           .withItemPattern(GenericRequest.WHICHITEM_PATTERN)
           .withCountField("quantity")
           .withCountPattern(GenericRequest.QUANTITY_PATTERN)
-          .withCanBuyItem(DimemasterRequest::canBuyItem);
+          .withCanBuyItem(DimemasterRequest::canBuyItem)
+          .withAccessible(DimemasterRequest::accessible);
 
   private static Boolean canBuyItem(final Integer itemId) {
     return switch (itemId) {

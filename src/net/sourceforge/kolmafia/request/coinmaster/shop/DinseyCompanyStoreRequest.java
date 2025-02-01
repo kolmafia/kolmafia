@@ -16,12 +16,13 @@ public class DinseyCompanyStoreRequest extends CoinMasterRequest {
   public static final AdventureResult COIN = ItemPool.get(ItemPool.FUNFUNDS, 1);
 
   public static final CoinmasterData DINSEY_COMPANY_STORE =
-      new CoinmasterData(master, "landfillstore", DinseyCompanyStoreRequest.class)
+      new CoinmasterData(master, "DinseyStore", DinseyCompanyStoreRequest.class)
           .withToken("FunFunds&trade;")
           .withPluralToken("FunFunds&trade;")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)
-          .withShopRowFields(master, "landfillstore");
+          .withShopRowFields(master, "landfillstore")
+          .withAccessible(DinseyCompanyStoreRequest::accessible);
 
   public DinseyCompanyStoreRequest() {
     super(DINSEY_COMPANY_STORE);
@@ -59,14 +60,6 @@ public class DinseyCompanyStoreRequest extends CoinMasterRequest {
 
     // Parse current coin balances
     CoinMasterRequest.parseBalance(data, responseText);
-  }
-
-  public static boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=landfillstore")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(DINSEY_COMPANY_STORE, urlString, true);
   }
 
   public static String accessible() {

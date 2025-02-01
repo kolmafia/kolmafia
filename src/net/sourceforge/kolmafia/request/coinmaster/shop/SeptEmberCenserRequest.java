@@ -16,11 +16,12 @@ public class SeptEmberCenserRequest extends CoinMasterRequest {
   private static final Pattern TOKEN_PATTERN = Pattern.compile("<b>You have ([\\d,]+) Ember");
 
   public static final CoinmasterData SEPTEMBER_CENSER =
-      new CoinmasterData(master, "september", SeptEmberCenserRequest.class)
+      new CoinmasterData(master, "Sept-Ember Censer", SeptEmberCenserRequest.class)
           .withToken("Ember")
           .withTokenPattern(TOKEN_PATTERN)
           .withProperty("availableSeptEmbers")
-          .withShopRowFields(master, "september");
+          .withShopRowFields(master, "september")
+          .withAccessible(SeptEmberCenserRequest::accessible);
 
   public SeptEmberCenserRequest() {
     super(SEPTEMBER_CENSER);
@@ -57,14 +58,6 @@ public class SeptEmberCenserRequest extends CoinMasterRequest {
     // Parse current coin balances
     CoinMasterRequest.parseBalance(SEPTEMBER_CENSER, responseText);
     Preferences.setBoolean("_septEmberBalanceChecked", true);
-  }
-
-  public static boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=september")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(SEPTEMBER_CENSER, urlString, true);
   }
 
   public static String accessible() {

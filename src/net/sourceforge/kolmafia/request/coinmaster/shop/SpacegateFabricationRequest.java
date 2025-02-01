@@ -22,7 +22,7 @@ public class SpacegateFabricationRequest extends CoinMasterRequest {
           .withTokenPattern(RESEARCH_PATTERN)
           .withItem(RESEARCH)
           .withShopRowFields(master, "spacegate")
-          .withNeedsPasswordHash(true);
+          .withAccessible(SpacegateFabricationRequest::accessible);
 
   public SpacegateFabricationRequest() {
     super(SPACEGATE_STORE);
@@ -67,13 +67,5 @@ public class SpacegateFabricationRequest extends CoinMasterRequest {
       return "You can't get to the Spacegate.";
     }
     return null;
-  }
-
-  public static final boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=spacegate")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(SPACEGATE_STORE, urlString, true);
   }
 }

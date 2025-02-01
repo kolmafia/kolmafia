@@ -15,11 +15,12 @@ public class DinostaurRequest extends CoinMasterRequest {
   public static final AdventureResult COIN = ItemPool.get(ItemPool.DINODOLLAR, 1);
 
   public static final CoinmasterData DINOSTAUR =
-      new CoinmasterData(master, "dino", DinostaurRequest.class)
+      new CoinmasterData(master, "Dinostaur", DinostaurRequest.class)
           .withToken("Dinodollar")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)
-          .withShopRowFields(master, "dino");
+          .withShopRowFields(master, "dino")
+          .withAccessible(DinostaurRequest::accessible);
 
   public DinostaurRequest() {
     super(DINOSTAUR);
@@ -55,14 +56,6 @@ public class DinostaurRequest extends CoinMasterRequest {
 
     // Parse current coin balances
     CoinMasterRequest.parseBalance(DINOSTAUR, responseText);
-  }
-
-  public static boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=dino")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(DINOSTAUR, urlString, true);
   }
 
   public static String accessible() {

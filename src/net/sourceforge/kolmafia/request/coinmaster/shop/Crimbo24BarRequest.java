@@ -11,8 +11,7 @@ public class Crimbo24BarRequest extends CoinMasterRequest {
   public static final CoinmasterData DATA =
       new CoinmasterData(master, "crimbo24_bar", Crimbo24BarRequest.class)
           .inZone("Crimbo24")
-          .withNewShopRowFields(master, "crimbo24_bar")
-          .withNeedsPasswordHash(true);
+          .withNewShopRowFields(master, "crimbo24_bar");
 
   public Crimbo24BarRequest() {
     super(DATA);
@@ -28,7 +27,7 @@ public class Crimbo24BarRequest extends CoinMasterRequest {
   }
 
   public static void parseResponse(final String location, final String responseText) {
-    if (!location.contains("whichshop=" + DATA.getNickname())) {
+    if (!location.contains("whichshop=" + DATA.getShopId())) {
       return;
     }
 
@@ -42,14 +41,5 @@ public class Crimbo24BarRequest extends CoinMasterRequest {
 
     // Parse current coin balances
     CoinMasterRequest.parseBalance(data, responseText);
-  }
-
-  public static final boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php")
-        || !urlString.contains("whichshop=" + DATA.getNickname())) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(DATA, urlString, true);
   }
 }

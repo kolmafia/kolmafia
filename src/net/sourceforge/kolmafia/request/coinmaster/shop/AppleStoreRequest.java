@@ -22,7 +22,7 @@ public class AppleStoreRequest extends CoinMasterRequest {
           .withTokenPattern(CHRONER_PATTERN)
           .withItem(CHRONER)
           .withShopRowFields(master, "applestore")
-          .withNeedsPasswordHash(true);
+          .withAccessible(AppleStoreRequest::accessible);
 
   public AppleStoreRequest() {
     super(APPLE_STORE);
@@ -72,13 +72,5 @@ public class AppleStoreRequest extends CoinMasterRequest {
       return "You can't get to The Applecalypse Store";
     }
     return null;
-  }
-
-  public static final boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=applestore")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(APPLE_STORE, urlString, true);
   }
 }

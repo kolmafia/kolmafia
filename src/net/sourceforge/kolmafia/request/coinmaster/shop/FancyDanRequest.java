@@ -43,11 +43,11 @@ public class FancyDanRequest extends CoinMasterRequest {
   }
 
   public static final CoinmasterData FANCY_DAN =
-      new CoinmasterData(master, "olivers", FancyDanRequest.class)
+      new CoinmasterData(master, "Speakeasy", FancyDanRequest.class)
           .withShopRowFields(master, "olivers")
           .withBuyPrices()
           .withItemBuyPrice(FancyDanRequest::itemBuyPrice)
-          .withNeedsPasswordHash(true);
+          .withAccessible(FancyDanRequest::accessible);
 
   private static AdventureResult itemBuyPrice(final Integer itemId) {
     return buyCosts.get(itemId);
@@ -99,13 +99,5 @@ public class FancyDanRequest extends CoinMasterRequest {
     }
 
     return null;
-  }
-
-  public static boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=olivers")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(FANCY_DAN, urlString, true);
   }
 }

@@ -23,13 +23,14 @@ public class ReplicaMrStoreRequest extends CoinMasterRequest {
   public static final AdventureResult COIN = ItemPool.get(ItemPool.REPLICA_MR_ACCESSORY, 1);
 
   public static final CoinmasterData REPLICA_MR_STORE =
-      new CoinmasterData(master, "mrreplica", ReplicaMrStoreRequest.class)
+      new CoinmasterData(master, "Replica Mr. Store", ReplicaMrStoreRequest.class)
           .withToken("replica Mr. Accessory")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)
           .withShopRowFields(master, "mrreplica")
           .withCanBuyItem(ReplicaMrStoreRequest::canBuyItem)
-          .withAvailableItem(ReplicaMrStoreRequest::availableItem);
+          .withAvailableItem(ReplicaMrStoreRequest::availableItem)
+          .withAccessible(ReplicaMrStoreRequest::accessible);
 
   public ReplicaMrStoreRequest() {
     super(REPLICA_MR_STORE);
@@ -164,14 +165,6 @@ public class ReplicaMrStoreRequest extends CoinMasterRequest {
 
     // Parse current coin balances
     CoinMasterRequest.parseBalance(REPLICA_MR_STORE, responseText);
-  }
-
-  public static boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=mrreplica")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(REPLICA_MR_STORE, urlString, true);
   }
 
   public static String accessible() {

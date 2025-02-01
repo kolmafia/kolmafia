@@ -39,7 +39,8 @@ public class MerchTableRequest extends CoinMasterRequest {
           .withShopRowFields(master, "conmerch")
           .withItemRows(CoinmastersDatabase.getOrMakeRows(master))
           .withBuyPrices()
-          .withItemBuyPrice(MerchTableRequest::itemBuyPrice);
+          .withItemBuyPrice(MerchTableRequest::itemBuyPrice)
+          .withAccessible(MerchTableRequest::accessible);
 
   private static AdventureResult itemBuyPrice(final Integer itemId) {
     return buyCosts.get(itemId);
@@ -170,13 +171,5 @@ public class MerchTableRequest extends CoinMasterRequest {
       return "You can't get to the KoL Con 13 Merch Table";
     }
     return null;
-  }
-
-  public static boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=conmerch")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(MERCH_TABLE, urlString, true);
   }
 }

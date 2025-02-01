@@ -16,13 +16,14 @@ public class FunALogRequest extends CoinMasterRequest {
       Pattern.compile("<b>You have ([\\d,]+) FunPoints?\\.</b>");
 
   public static final CoinmasterData FUN_A_LOG =
-      new CoinmasterData(master, "piraterealm", FunALogRequest.class)
+      new CoinmasterData(master, "Fun-a-Log", FunALogRequest.class)
           .withToken("FunPoint")
           .withTokenTest("You have no FunPoints")
           .withTokenPattern(TOKEN_PATTERN)
           .withProperty("availableFunPoints")
           .withShopRowFields(master, "piraterealm")
-          .withAvailableItem(FunALogRequest::availableItem);
+          .withAvailableItem(FunALogRequest::availableItem)
+          .withAccessible(FunALogRequest::accessible);
 
   private static final Map<Integer, String> ITEM_TO_UNLOCK_PREF =
       Map.ofEntries(
@@ -97,14 +98,6 @@ public class FunALogRequest extends CoinMasterRequest {
     FUN_A_LOG.registerPurchaseRequests();
 
     CoinMasterRequest.parseResponse(FUN_A_LOG, urlString, responseText);
-  }
-
-  public static boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=piraterealm")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(FUN_A_LOG, urlString, true);
   }
 
   public static String accessible() {

@@ -25,7 +25,6 @@ public class DataFileMechanicsTest {
     return Stream.of(
         // file name, version number, low field count, high field count
         Arguments.of("adventures.txt", 6, 4, 5),
-        Arguments.of("allshoprows.txt", 1, 3, 8),
         Arguments.of("bastille.txt", 1, 11, 11),
         Arguments.of("bookoffacts.txt", 1, 3, 9),
         Arguments.of("bounty.txt", 2, 7, 7),
@@ -64,7 +63,7 @@ public class DataFileMechanicsTest {
         Arguments.of("questscouncil.txt", 1, 3, 5),
         // questslogs.txt is too complex
         Arguments.of("restores.txt", 2, 7, 8),
-        Arguments.of("shoprows.txt", 1, 4, 4),
+        Arguments.of("shoprows.txt", 2, 3, 8),
         Arguments.of("spleenhit.txt", 3, 8, 9),
         Arguments.of("standard-pulverized.txt", 1, 4, 4),
         Arguments.of("standard-rewards.txt", 1, 6, 6),

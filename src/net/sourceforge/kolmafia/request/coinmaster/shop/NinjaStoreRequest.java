@@ -22,7 +22,7 @@ public class NinjaStoreRequest extends CoinMasterRequest {
           .withTokenPattern(CHRONER_PATTERN)
           .withItem(CHRONER)
           .withShopRowFields(master, "nina")
-          .withNeedsPasswordHash(true);
+          .withAccessible(NinjaStoreRequest::accessible);
 
   public NinjaStoreRequest() {
     super(NINJA_STORE);
@@ -74,13 +74,5 @@ public class NinjaStoreRequest extends CoinMasterRequest {
       return "You can't get to Ni&ntilde;a Store";
     }
     return null;
-  }
-
-  public static final boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=nina")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(NINJA_STORE, urlString, true);
   }
 }

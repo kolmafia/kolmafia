@@ -16,11 +16,12 @@ public class DiscoGiftCoRequest extends CoinMasterRequest {
   public static final AdventureResult COIN = ItemPool.get(ItemPool.VOLCOINO, 1);
 
   public static final CoinmasterData DISCO_GIFTCO =
-      new CoinmasterData(master, "infernodisco", DiscoGiftCoRequest.class)
+      new CoinmasterData(master, "DiscoGiftCo", DiscoGiftCoRequest.class)
           .withToken("Volcoino")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)
-          .withShopRowFields(master, "infernodisco");
+          .withShopRowFields(master, "infernodisco")
+          .withAccessible(DiscoGiftCoRequest::accessible);
 
   public DiscoGiftCoRequest() {
     super(DISCO_GIFTCO);
@@ -58,14 +59,6 @@ public class DiscoGiftCoRequest extends CoinMasterRequest {
 
     // Parse current coin balances
     CoinMasterRequest.parseBalance(data, responseText);
-  }
-
-  public static boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=infernodisco")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(DISCO_GIFTCO, urlString, true);
   }
 
   public static String accessible() {

@@ -27,7 +27,8 @@ public class FudgeWandRequest extends CoinMasterRequest {
           .withItem(FUDGECULE)
           .withBuyURL("choice.php?whichchoice=562")
           .withBuyItems(master)
-          .withBuyPrices(master);
+          .withBuyPrices(master)
+          .withAccessible(FudgeWandRequest::accessible);
 
   private static String lastURL = null;
 

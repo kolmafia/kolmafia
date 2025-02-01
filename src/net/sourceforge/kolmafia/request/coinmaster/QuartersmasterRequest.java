@@ -38,7 +38,8 @@ public class QuartersmasterRequest extends CoinMasterRequest {
           .withItemPattern(GenericRequest.WHICHITEM_PATTERN)
           .withCountField("quantity")
           .withCountPattern(GenericRequest.QUANTITY_PATTERN)
-          .withCanBuyItem(QuartersmasterRequest::canBuyItem);
+          .withCanBuyItem(QuartersmasterRequest::canBuyItem)
+          .withAccessible(QuartersmasterRequest::accessible);
 
   private static Boolean canBuyItem(final Integer itemId) {
     return switch (itemId) {

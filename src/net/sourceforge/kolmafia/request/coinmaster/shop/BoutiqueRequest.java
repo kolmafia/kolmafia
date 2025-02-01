@@ -19,7 +19,8 @@ public class BoutiqueRequest extends CoinMasterRequest {
           .withToken("odd silver coin")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)
-          .withShopRowFields(master, "cindy");
+          .withShopRowFields(master, "cindy")
+          .withAccessible(BoutiqueRequest::accessible);
 
   public BoutiqueRequest() {
     super(BOUTIQUE);
@@ -57,14 +58,6 @@ public class BoutiqueRequest extends CoinMasterRequest {
 
     // Parse current coin balances
     CoinMasterRequest.parseBalance(data, responseText);
-  }
-
-  public static boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=cindy")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(BOUTIQUE, urlString, true);
   }
 
   public static String accessible() {

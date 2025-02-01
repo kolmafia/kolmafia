@@ -22,7 +22,7 @@ public class NeandermallRequest extends CoinMasterRequest {
           .withTokenPattern(CHRONER_PATTERN)
           .withItem(CHRONER)
           .withShopRowFields(master, "caveshop")
-          .withNeedsPasswordHash(true);
+          .withAccessible(NeandermallRequest::accessible);
 
   public NeandermallRequest() {
     super(NEANDERMALL);
@@ -74,13 +74,5 @@ public class NeandermallRequest extends CoinMasterRequest {
       return "You can't get to the Neandermall";
     }
     return null;
-  }
-
-  public static final boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=caveshop")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(NEANDERMALL, urlString, true);
   }
 }

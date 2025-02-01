@@ -31,7 +31,7 @@ public class PokemporiumRequest extends CoinMasterRequest {
           .withItem(POKEDOLLAR)
           .withShopRowFields(master, "pokefam")
           .withCanBuyItem(PokemporiumRequest::canBuyItem)
-          .withNeedsPasswordHash(true);
+          .withAccessible(PokemporiumRequest::accessible);
 
   private static Boolean canBuyItem(final Integer itemId) {
     return KoLCharacter.inPokefam();
@@ -76,13 +76,5 @@ public class PokemporiumRequest extends CoinMasterRequest {
   public static String accessible() {
     // Change after it closes
     return null;
-  }
-
-  public static final boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=pokefam")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(POKEMPORIUM, urlString, true);
   }
 }
