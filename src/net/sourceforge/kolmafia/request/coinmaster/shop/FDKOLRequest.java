@@ -6,7 +6,6 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.TransferItemRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -70,35 +69,12 @@ public class FDKOLRequest extends CoinMasterRequest {
     return null;
   }
 
-  public static final boolean registerRequest(final String urlString, final boolean noMeat) {
+  public static final boolean registerRequest(final String urlString) {
     if (urlString.startsWith("inv_use.php") && urlString.contains("whichitem=5707")) {
       // This is a simple visit to the FDKOL Requisitions Tent
       return true;
     }
 
-    // shop.php?pwd&whichshop=fdkol
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=fdkol")) {
-      return false;
-    }
-
-    Matcher m = TransferItemRequest.ITEMID_PATTERN.matcher(urlString);
-    if (!m.find()) {
-      // Just a visit
-      return true;
-    }
-
-    CoinmasterData data = FDKOL;
-    int itemId = StringUtilities.parseInt(m.group(1));
-    AdventureResult item = AdventureResult.findItem(itemId, data.getBuyItems());
-    if (item == null) {
-      // Presumably this is a purchase for Meat.
-      // If we've already checked Meat, this is an unknown item
-      if (noMeat) {
-        return false;
-      }
-      return NPCPurchaseRequest.registerShopRequest(urlString, true);
-    }
-
-    return CoinMasterRequest.registerRequest(data, urlString);
+    return false;
   }
 }

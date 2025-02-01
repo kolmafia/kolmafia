@@ -11,8 +11,6 @@ import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.StandardRewardDatabase;
-import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -170,30 +168,5 @@ public class ArmoryAndLeggeryRequest extends CoinMasterRequest {
 
     // Learn new items by simply visiting the Armory & Leggery
     CoinMasterRequest.parseResponse(data, location, responseText);
-  }
-
-  public static final boolean registerRequest(final String urlString, final boolean noMeat) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=armory")) {
-      return false;
-    }
-
-    Matcher m = GenericRequest.WHICHROW_PATTERN.matcher(urlString);
-    if (!m.find()) {
-      // Just a visit
-      return true;
-    }
-
-    int itemId = CoinMasterRequest.extractItemId(ARMORY_AND_LEGGERY, urlString);
-
-    if (itemId == -1) {
-      // Presumably this is a purchase for Meat.
-      // If we've already checked Meat, this is an unknown item
-      if (noMeat) {
-        return false;
-      }
-      return NPCPurchaseRequest.registerShopRequest(urlString, true);
-    }
-
-    return CoinMasterRequest.registerRequest(ARMORY_AND_LEGGERY, urlString, true);
   }
 }
