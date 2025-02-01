@@ -346,7 +346,6 @@ public class ShopRequest extends GenericRequest {
 
   public static final boolean buyWithMeat(
       final String shopId, final ShopRow shopRow, final int count) {
-    // Sanity check
     AdventureResult item = shopRow.getItem();
     AdventureResult[] costs = shopRow.getCosts();
     int price = NPCPurchaseRequest.currentDiscountedPrice(shopId, costs[0].getCount());
