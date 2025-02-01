@@ -16,14 +16,14 @@ public class VendingMachineRequest extends CoinMasterRequest {
   public static final AdventureResult FAT_LOOT_TOKEN = ItemPool.get(ItemPool.FAT_LOOT_TOKEN, 1);
 
   public static final CoinmasterData VENDING_MACHINE =
-      new CoinmasterData(master, "damachine", VendingMachineRequest.class)
+      new CoinmasterData(master, "vendingmachine", VendingMachineRequest.class)
           .withToken("fat loot token")
           .withTokenTest("no fat loot tokens")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(FAT_LOOT_TOKEN)
           .withShopRowFields(master, "damachine")
-          .withNeedsPasswordHash(true)
-          .withCanBuyItem(VendingMachineRequest::canBuyItem);
+          .withCanBuyItem(VendingMachineRequest::canBuyItem)
+          .withAccessible(VendingMachineRequest::accessible);
 
   private static Boolean canBuyItem(final Integer itemId) {
     AdventureResult item = ItemPool.get(itemId);
@@ -74,13 +74,5 @@ public class VendingMachineRequest extends CoinMasterRequest {
       return "The vending machine exploded";
     }
     return null;
-  }
-
-  public static final boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=damachine")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(VENDING_MACHINE, urlString, true);
   }
 }

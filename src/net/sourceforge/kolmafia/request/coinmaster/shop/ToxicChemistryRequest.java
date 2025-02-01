@@ -15,12 +15,13 @@ public class ToxicChemistryRequest extends CoinMasterRequest {
   public static final AdventureResult TOXIC_GLOBULE = ItemPool.get(ItemPool.TOXIC_GLOBULE, 1);
 
   public static final CoinmasterData TOXIC_CHEMISTRY =
-      new CoinmasterData(master, "toxic", ToxicChemistryRequest.class)
+      new CoinmasterData(master, "ToxicChemistry", ToxicChemistryRequest.class)
           .withToken("toxic globule")
           .withTokenTest("no toxic globules")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(TOXIC_GLOBULE)
-          .withShopRowFields(master, "toxic");
+          .withShopRowFields(master, "toxic")
+          .withAccessible(ToxicChemistryRequest::accessible);
 
   public ToxicChemistryRequest() {
     super(TOXIC_CHEMISTRY);
@@ -65,14 +66,5 @@ public class ToxicChemistryRequest extends CoinMasterRequest {
       return "You do not have a toxic globule in inventory";
     }
     return null;
-  }
-
-  public static final boolean registerRequest(final String urlString) {
-    // shop.php?pwd&whichshop=toxic
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=toxic")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(TOXIC_CHEMISTRY, urlString, true);
   }
 }

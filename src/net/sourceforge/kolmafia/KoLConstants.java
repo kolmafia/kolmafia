@@ -222,8 +222,8 @@ public interface KoLConstants extends UtilityConstants {
   int RESTORES_VERSION = 2;
   int QUESTSCOUNCIL_VERSION = 1;
   int QUESTSLOG_VERSION = 1;
-  int SHOPS_VERSION = 1;
-  int SHOPROWS_VERSION = 1;
+  int SHOPS_VERSION = 2;
+  int SHOPROWS_VERSION = 2;
   int SPLEENHIT_VERSION = 3;
   int STANDARD_REWARDS_VERSION = 1;
   int STANDARD_PULVERIZED_VERSION = 1;

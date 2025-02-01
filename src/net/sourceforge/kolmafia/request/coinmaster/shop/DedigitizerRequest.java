@@ -15,7 +15,7 @@ public class DedigitizerRequest extends CoinMasterRequest {
   public static final CoinmasterData DATA =
       new CoinmasterData(master, "cyber_dedigitizer", DedigitizerRequest.class)
           .withNewShopRowFields(master, "cyber_dedigitizer")
-          .withNeedsPasswordHash(true);
+          .withAccessible(DedigitizerRequest::accessible);
 
   public DedigitizerRequest() {
     super(DATA);
@@ -31,7 +31,7 @@ public class DedigitizerRequest extends CoinMasterRequest {
   }
 
   public static void parseResponse(final String location, final String responseText) {
-    if (!location.contains("whichshop=" + DATA.getNickname())) {
+    if (!location.contains("whichshop=" + DATA.getShopId())) {
       return;
     }
 
@@ -52,14 +52,5 @@ public class DedigitizerRequest extends CoinMasterRequest {
       return null;
     }
     return "You can't access the server room.";
-  }
-
-  public static final boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php")
-        || !urlString.contains("whichshop=" + DATA.getNickname())) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(DATA, urlString, true);
   }
 }

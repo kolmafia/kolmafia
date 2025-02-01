@@ -24,7 +24,7 @@ public class SpinMasterLatheRequest extends CoinMasterRequest {
           .withShopRowFields(master, "lathe")
           .withBuyPrices()
           .withItemBuyPrice(SpinMasterLatheRequest::itemBuyPrice)
-          .withNeedsPasswordHash(true);
+          .withAccessible(SpinMasterLatheRequest::accessible);
 
   private static AdventureResult itemBuyPrice(final Integer itemId) {
     return buyCosts.get(itemId);
@@ -110,13 +110,5 @@ public class SpinMasterLatheRequest extends CoinMasterRequest {
     }
 
     return null;
-  }
-
-  public static boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=lathe")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(YOUR_SPINMASTER_LATHE, urlString, true);
   }
 }

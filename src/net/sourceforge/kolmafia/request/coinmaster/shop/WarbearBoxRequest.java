@@ -20,7 +20,8 @@ public class WarbearBoxRequest extends CoinMasterRequest {
           .withToken("warbear whosit")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(WHOSIT)
-          .withShopRowFields(master, "warbear");
+          .withShopRowFields(master, "warbear")
+          .withAccessible(WarbearBoxRequest::accessible);
 
   public WarbearBoxRequest() {
     super(WARBEARBOX);
@@ -58,14 +59,6 @@ public class WarbearBoxRequest extends CoinMasterRequest {
 
     // Parse current coin balances
     CoinMasterRequest.parseBalance(data, responseText);
-  }
-
-  public static boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=warbear")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(WARBEARBOX, urlString, true);
   }
 
   public static String accessible() {

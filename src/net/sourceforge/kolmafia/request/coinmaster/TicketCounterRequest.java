@@ -101,6 +101,7 @@ public class TicketCounterRequest extends CoinMasterRequest {
   }
 
   public static String accessible() {
+    // *** Finish this.
     return null;
   }
 

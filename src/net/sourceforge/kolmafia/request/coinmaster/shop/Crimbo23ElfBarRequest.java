@@ -22,7 +22,7 @@ public class Crimbo23ElfBarRequest extends CoinMasterRequest {
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(TOKEN)
           .withShopRowFields(master, "crimbo23_elf_bar")
-          .withNeedsPasswordHash(true);
+          .withAccessible(Crimbo23ElfBarRequest::accessible);
 
   public Crimbo23ElfBarRequest() {
     super(DATA);
@@ -46,7 +46,7 @@ public class Crimbo23ElfBarRequest extends CoinMasterRequest {
   }
 
   public static void parseResponse(final String location, final String responseText) {
-    if (!location.contains("whichshop=" + DATA.getNickname())) {
+    if (!location.contains("whichshop=" + DATA.getShopId())) {
       return;
     }
 
@@ -74,14 +74,5 @@ public class Crimbo23ElfBarRequest extends CoinMasterRequest {
       case "contested" -> "The elves and pirates are fighting for control of the bar";
       default -> null;
     };
-  }
-
-  public static final boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php")
-        || !urlString.contains("whichshop=" + DATA.getNickname())) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(DATA, urlString, true);
   }
 }

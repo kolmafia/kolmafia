@@ -21,7 +21,7 @@ public class PlumberItemRequest extends CoinMasterRequest {
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)
           .withShopRowFields(master, "marioitems")
-          .withNeedsPasswordHash(true);
+          .withAccessible(PlumberItemRequest::accessible);
 
   public PlumberItemRequest() {
     super(PLUMBER_ITEMS);
@@ -64,13 +64,5 @@ public class PlumberItemRequest extends CoinMasterRequest {
       return "You are not a plumber.";
     }
     return null;
-  }
-
-  public static final boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=marioitems")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(PLUMBER_ITEMS, urlString, true);
   }
 }

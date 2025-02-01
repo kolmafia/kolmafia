@@ -20,7 +20,8 @@ public class CanteenRequest extends CoinMasterRequest {
           .withToken("Coinspiracy")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)
-          .withShopRowFields(master, "si_shop2");
+          .withShopRowFields(master, "si_shop2")
+          .withAccessible(CanteenRequest::accessible);
 
   public CanteenRequest() {
     super(CANTEEN);
@@ -58,14 +59,6 @@ public class CanteenRequest extends CoinMasterRequest {
 
     // Parse current coin balances
     CoinMasterRequest.parseBalance(data, responseText);
-  }
-
-  public static boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=si_shop2")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(CANTEEN, urlString, true);
   }
 
   public static String accessible() {

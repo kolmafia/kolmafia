@@ -23,9 +23,9 @@ public class ShoreGiftShopRequest extends CoinMasterRequest {
           .withTokenPattern(SCRIP_PATTERN)
           .withItem(SHIP_TRIP_SCRIP)
           .withShopRowFields(master, "shore")
-          .withNeedsPasswordHash(true)
           .withCanBuyItem(ShoreGiftShopRequest::canBuyItem)
-          .withPurchasedItem(ShoreGiftShopRequest::purchasedItem);
+          .withPurchasedItem(ShoreGiftShopRequest::purchasedItem)
+          .withAccessible(ShoreGiftShopRequest::accessible);
 
   private static Boolean canBuyItem(final Integer itemId) {
     AdventureResult item = ItemPool.get(itemId);
@@ -88,13 +88,5 @@ public class ShoreGiftShopRequest extends CoinMasterRequest {
       return "You can't get to the desert beach";
     }
     return null;
-  }
-
-  public static final boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=shore")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(SHORE_GIFT_SHOP, urlString, true);
   }
 }

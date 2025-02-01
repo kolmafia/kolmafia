@@ -15,12 +15,13 @@ public class NuggletCraftingRequest extends CoinMasterRequest {
   public static final AdventureResult TOPIARY_NUGGLET = ItemPool.get(ItemPool.TOPIARY_NUGGLET, 1);
 
   public static final CoinmasterData NUGGLETCRAFTING =
-      new CoinmasterData(master, "topiary", NuggletCraftingRequest.class)
+      new CoinmasterData(master, "NuggletCrafting", NuggletCraftingRequest.class)
           .withToken("topiary nugglet")
           .withTokenTest("no topiary nugglets")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(TOPIARY_NUGGLET)
-          .withShopRowFields(master, "topiary");
+          .withShopRowFields(master, "topiary")
+          .withAccessible(NuggletCraftingRequest::accessible);
 
   public NuggletCraftingRequest() {
     super(NUGGLETCRAFTING);
@@ -65,14 +66,5 @@ public class NuggletCraftingRequest extends CoinMasterRequest {
       return "You do not have a topiary nugglet in inventory";
     }
     return null;
-  }
-
-  public static final boolean registerRequest(final String urlString) {
-    // shop.php?pwd&whichshop=topiary
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=topiary")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(NUGGLETCRAFTING, urlString, true);
   }
 }

@@ -23,7 +23,6 @@ public class Crimbo20FoodRequest extends CoinMasterRequest {
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(TOKEN)
           .withShopRowFields(master, "crimbo20food")
-          .withNeedsPasswordHash(true)
           .withCanBuyItem(Crimbo20FoodRequest::canBuyItem);
 
   private static Boolean canBuyItem(final Integer itemId) {
@@ -73,13 +72,5 @@ public class Crimbo20FoodRequest extends CoinMasterRequest {
 
     // Parse current coin balances
     CoinMasterRequest.parseBalance(data, responseText);
-  }
-
-  public static final boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=crimbo20food")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(CRIMBO20FOOD, urlString, true);
   }
 }

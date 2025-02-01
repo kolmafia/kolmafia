@@ -19,11 +19,12 @@ public class RubeeRequest extends CoinMasterRequest {
   public static final AdventureResult COIN = ItemPool.get(ItemPool.RUBEE, 1);
 
   public static final CoinmasterData RUBEE =
-      new CoinmasterData(master, "fantasyrealm", RubeeRequest.class)
+      new CoinmasterData(master, "FantasyRealm Store", RubeeRequest.class)
           .withToken("Rubee&trade;")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)
-          .withShopRowFields(master, "fantasyrealm");
+          .withShopRowFields(master, "fantasyrealm")
+          .withAccessible(RubeeRequest::accessible);
 
   public RubeeRequest() {
     super(RUBEE);
@@ -61,14 +62,6 @@ public class RubeeRequest extends CoinMasterRequest {
 
     // Parse current coin balances
     CoinMasterRequest.parseBalance(data, responseText);
-  }
-
-  public static boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=fantasyrealm")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(RUBEE, urlString, true);
   }
 
   public static String accessible() {

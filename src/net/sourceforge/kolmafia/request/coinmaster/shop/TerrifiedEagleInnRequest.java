@@ -103,17 +103,4 @@ public class TerrifiedEagleInnRequest extends CoinMasterRequest {
     // Parse current coin balances
     CoinMasterRequest.parseBalance(data, responseText);
   }
-
-  public static String accessible() {
-    return null;
-  }
-
-  public static boolean registerRequest(final String urlString) {
-    // shop.php?pwd&whichshop=dv
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=dv")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(TERRIFIED_EAGLE_INN, urlString, true);
-  }
 }

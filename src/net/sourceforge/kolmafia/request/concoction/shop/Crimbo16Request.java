@@ -52,14 +52,6 @@ public class Crimbo16Request extends CreateItemRequest {
     NPCPurchaseRequest.parseShopRowResponse(urlString, responseText);
   }
 
-  public static final boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=crimbo16")) {
-      return false;
-    }
-
-    return NPCPurchaseRequest.registerShopRowRequest(urlString);
-  }
-
   public static String accessible() {
     return "Crimbo is gone";
   }

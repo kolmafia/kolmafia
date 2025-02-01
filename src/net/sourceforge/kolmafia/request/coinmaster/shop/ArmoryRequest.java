@@ -20,7 +20,8 @@ public class ArmoryRequest extends CoinMasterRequest {
           .withToken("Coinspiracy")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)
-          .withShopRowFields(master, "si_shop3");
+          .withShopRowFields(master, "si_shop3")
+          .withAccessible(ArmoryRequest::accessible);
 
   public ArmoryRequest() {
     super(ARMORY);
@@ -56,14 +57,6 @@ public class ArmoryRequest extends CoinMasterRequest {
 
     // Parse current coin balances
     CoinMasterRequest.parseBalance(ARMORY, responseText);
-  }
-
-  public static boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=si_shop3")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(ARMORY, urlString, true);
   }
 
   public static String accessible() {
