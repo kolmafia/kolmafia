@@ -366,14 +366,6 @@ public class ShopRequest extends GenericRequest {
     return true;
   }
 
-  public static final boolean registerConcoction(final String urlString) {
-    // *** This is for CreateItemRequests
-    String shopId = parseShopId(urlString);
-    int row = parseWhichRow(urlString);
-    int quantity = parseQuantity(urlString);
-    return registerConcoction(shopId, row, quantity);
-  }
-
   public static final boolean registerConcoction(
       final String shopId, final int row, final int quantity) {
     ShopRow shopRow = ShopRowDatabase.getShopRow(row);
