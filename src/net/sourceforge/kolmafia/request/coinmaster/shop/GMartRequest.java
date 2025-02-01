@@ -64,12 +64,4 @@ public class GMartRequest extends CoinMasterRequest {
     // *** Finish this.
     return null;
   }
-
-  public static final boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=glover")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(GMART, urlString, true);
-  }
 }

@@ -1,12 +1,9 @@
 package net.sourceforge.kolmafia.request.coinmaster.shop;
 
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
@@ -77,31 +74,5 @@ public class BlackMarketRequest extends CoinMasterRequest {
       return "The Black Market is not currently available";
     }
     return null;
-  }
-
-  public static final boolean registerRequest(final String urlString, final boolean noMeat) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=blackmarket")) {
-      return false;
-    }
-
-    Matcher m = GenericRequest.WHICHROW_PATTERN.matcher(urlString);
-    if (!m.find()) {
-      // Just a visit
-      return true;
-    }
-
-    CoinmasterData data = BLACK_MARKET;
-    int itemId = CoinMasterRequest.extractItemId(data, urlString);
-
-    if (itemId == -1) {
-      // Presumably this is a purchase for Meat.
-      // If we've already checked Meat, this is an unknown item
-      if (noMeat) {
-        return false;
-      }
-      return NPCPurchaseRequest.registerShopRequest(urlString, true);
-    }
-
-    return CoinMasterRequest.registerRequest(data, urlString, true);
   }
 }

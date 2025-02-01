@@ -33,14 +33,6 @@ public class DollHawkerRequest extends CoinMasterRequest {
     super(DOLLHAWKER, buying, itemId, quantity);
   }
 
-  public static final boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || urlString.indexOf("whichshop=elvishp2") == -1) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(DOLLHAWKER, urlString, true);
-  }
-
   @Override
   public void equip() {
     SpaaaceRequest.equip();

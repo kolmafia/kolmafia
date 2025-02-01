@@ -172,12 +172,4 @@ public class MerchTableRequest extends CoinMasterRequest {
     }
     return null;
   }
-
-  public static boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=conmerch")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(MERCH_TABLE, urlString, true);
-  }
 }

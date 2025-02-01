@@ -288,7 +288,7 @@ public class CoinMasterRequestTest {
         var text = SessionLoggerOutput.stopStream();
         assertTrue(
             text.contains(
-                "trading 200 piles of Elf Army machine parts for 1 Elf Guard honor present"));
+                "Trade 200 piles of Elf Army machine parts for 1 Elf Guard honor present"));
         assertFalse(
             text.contains("Elf Guard Armory\tsell\t3\tElf Guard commandeering gloves\tROW1412"));
         assertFalse(
@@ -336,7 +336,7 @@ public class CoinMasterRequestTest {
         var text = SessionLoggerOutput.stopStream();
         assertTrue(
             text.contains(
-                "trading 200 piles of Elf Army machine parts for 1 Elf Guard honor present"));
+                "Trade 200 piles of Elf Army machine parts for 1 Elf Guard honor present"));
         assertFalse(
             text.contains("Elf Guard Armory\tsell\t3\tElf Guard commandeering gloves\tROW1412"));
         assertFalse(
@@ -384,7 +384,7 @@ public class CoinMasterRequestTest {
         var text = SessionLoggerOutput.stopStream();
         assertTrue(
             text.contains(
-                "trading 13 pairs of Elf Guard commandeering gloves for 39 piles of Elf Army machine parts"));
+                "Trade 13 pairs of Elf Guard commandeering gloves for 39 piles of Elf Army machine parts"));
         assertFalse(
             text.contains("Elf Guard Armory\tsell\t3\tElf Guard commandeering gloves\tROW1412"));
         assertFalse(
@@ -432,7 +432,7 @@ public class CoinMasterRequestTest {
         var text = SessionLoggerOutput.stopStream();
         assertTrue(
             text.contains(
-                "trading 13 pairs of Elf Guard commandeering gloves for 39 piles of Elf Army machine parts"));
+                "Trade 13 pairs of Elf Guard commandeering gloves for 39 piles of Elf Army machine parts"));
         assertFalse(
             text.contains("Elf Guard Armory\tsell\t3\tElf Guard commandeering gloves\tROW1412"));
         assertFalse(

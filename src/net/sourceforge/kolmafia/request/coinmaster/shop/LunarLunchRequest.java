@@ -40,14 +40,6 @@ public class LunarLunchRequest extends CoinMasterRequest {
     RequestThread.postRequest(new LunarLunchRequest(true, itemId, count));
   }
 
-  public static final boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || urlString.indexOf("whichshop=elvishp3") == -1) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(LUNAR_LUNCH, urlString, true);
-  }
-
   public static String accessible() {
     if (!QuestDatabase.isQuestFinished(Quest.GENERATOR)) {
       return "You need to repair the Elves' Shield Generator to shop at the Lunar Lunch-o-Mat.";

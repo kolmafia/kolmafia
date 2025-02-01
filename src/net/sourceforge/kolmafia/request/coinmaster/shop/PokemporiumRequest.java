@@ -77,12 +77,4 @@ public class PokemporiumRequest extends CoinMasterRequest {
     // Change after it closes
     return null;
   }
-
-  public static final boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=pokefam")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(POKEMPORIUM, urlString, true);
-  }
 }

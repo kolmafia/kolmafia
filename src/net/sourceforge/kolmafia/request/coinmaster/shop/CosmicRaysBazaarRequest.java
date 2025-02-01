@@ -101,12 +101,4 @@ public class CosmicRaysBazaarRequest extends CoinMasterRequest {
 
     return null;
   }
-
-  public static boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=exploathing")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(COSMIC_RAYS_BAZAAR, urlString, true);
-  }
 }

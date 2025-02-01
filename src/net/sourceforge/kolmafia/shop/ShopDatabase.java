@@ -5,8 +5,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.TreeMap;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
@@ -59,6 +61,17 @@ public class ShopDatabase {
   public static String getShopName(CraftingType craftingType) {
     String shopId = craftingTypeToShopId.get(craftingType);
     return (shopId != null) ? shopIdToShopName.get(shopId) : craftingType.toString();
+  }
+
+  // Shops that want to log simple visits
+  public static final Set<String> logVisitShops = new HashSet<>();
+
+  public static void setLogVisits(final String shopId) {
+    logVisitShops.add(shopId);
+  }
+
+  public static boolean logVisits(final String shopId) {
+    return logVisitShops.contains(shopId);
   }
 
   private ShopDatabase() {}

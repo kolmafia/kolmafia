@@ -42,12 +42,4 @@ public class Crimbo24CafeRequest extends CoinMasterRequest {
     // Parse current coin balances
     CoinMasterRequest.parseBalance(data, responseText);
   }
-
-  public static final boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=" + DATA.getShopId())) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(DATA, urlString, true);
-  }
 }

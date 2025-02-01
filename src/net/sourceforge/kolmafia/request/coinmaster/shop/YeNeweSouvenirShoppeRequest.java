@@ -75,12 +75,4 @@ public class YeNeweSouvenirShoppeRequest extends CoinMasterRequest {
     }
     return null;
   }
-
-  public static final boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=shakeshop")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(SHAKE_SHOP, urlString, true);
-  }
 }

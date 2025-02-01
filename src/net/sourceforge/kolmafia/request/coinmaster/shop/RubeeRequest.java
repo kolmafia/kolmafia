@@ -64,14 +64,6 @@ public class RubeeRequest extends CoinMasterRequest {
     CoinMasterRequest.parseBalance(data, responseText);
   }
 
-  public static boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=fantasyrealm")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(RUBEE, urlString, true);
-  }
-
   public static String accessible() {
     return Preferences.getBoolean("_frToday") || Preferences.getBoolean("frAlways")
         ? null

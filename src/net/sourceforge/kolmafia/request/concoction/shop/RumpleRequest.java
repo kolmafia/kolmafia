@@ -51,12 +51,4 @@ public class RumpleRequest extends CreateItemRequest {
 
     NPCPurchaseRequest.parseShopRowResponse(urlString, responseText);
   }
-
-  public static final boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=rumple")) {
-      return false;
-    }
-
-    return NPCPurchaseRequest.registerShopRowRequest(urlString);
-  }
 }

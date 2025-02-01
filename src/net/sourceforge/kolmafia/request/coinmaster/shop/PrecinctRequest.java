@@ -59,14 +59,6 @@ public class PrecinctRequest extends CoinMasterRequest {
     CoinMasterRequest.parseBalance(data, responseText);
   }
 
-  public static boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=detective")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(PRECINCT, urlString, true);
-  }
-
   public static String accessible() {
     // *** Finish this.
     return null;

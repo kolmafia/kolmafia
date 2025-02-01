@@ -728,6 +728,21 @@ public class TestCommand extends AbstractCommand {
       return;
     }
 
+    if (command.equals("shoprow")) {
+      if (split.length < 2) {
+        RequestLogger.printLine("What row?");
+        return;
+      }
+      int row = StringUtilities.parseInt(split[1].trim());
+      var data = ShopRowDatabase.getShopRowData(row);
+      if (data == null) {
+        RequestLogger.printLine("No row data!");
+        return;
+      }
+      RequestLogger.printLine(data.dataString());
+      return;
+    }
+
     if (command.equals("showhtml")) {
       if (split.length < 2) {
         KoLmafia.updateDisplay(MafiaState.ERROR, "Load what?");

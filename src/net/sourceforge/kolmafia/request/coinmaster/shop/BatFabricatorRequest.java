@@ -71,14 +71,6 @@ public class BatFabricatorRequest extends CoinMasterRequest {
     CoinMasterRequest.parseBalance(data, responseText);
   }
 
-  public static boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=batman_cave")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(BAT_FABRICATOR, urlString, true);
-  }
-
   public static String accessible() {
     if (KoLCharacter.getLimitMode() != LimitMode.BATMAN) {
       return "Only Batfellow can use the Bat-Fabricator.";
