@@ -66,7 +66,7 @@ public class ShopRequest extends GenericRequest {
   @Override
   public void processResults() {
     String urlString = this.getURLString();
-    ShopRequest.parseShopResponse(urlString, this.responseText);
+    ShopRequest.parseResponse(urlString, this.responseText);
   }
 
   // name=whichshop value="grandma"
@@ -103,7 +103,11 @@ public class ShopRequest extends GenericRequest {
     return StringUtilities.parseInt(matcher.group(1));
   }
 
-  public static final void parseShopResponse(final String urlString, final String responseText) {
+  /*
+   * ResponseTextParser support
+   */
+
+  public static final void parseResponse(final String urlString, final String responseText) {
     if (!urlString.startsWith("shop.php")) {
       return;
     }
@@ -308,6 +312,10 @@ public class ShopRequest extends GenericRequest {
   public static final void parseShopRowResponse(final String urlString, final String responseText) {
     // *** Do we want to put shop-specific stuff in here?
   }
+
+  /*
+   * RequestLogger support
+   */
 
   public static final boolean buyStuff(final ShopRow shopRow, final int count) {
     StringBuilder buf = new StringBuilder();
