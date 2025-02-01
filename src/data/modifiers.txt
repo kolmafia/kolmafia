@@ -12218,6 +12218,7 @@ Item	Neverending Party invitation envelope	Free Pull
 # New Age healing crystal: (and briefly stuns your opponent)
 # New Age hurting crystal: Deals 500 Physical Damage and briefly stuns them
 # New Cloaca-Cola: Restores 140-160 MP
+Item	new-in-box toy Cupid bow	Free Pull
 Item	New-You Club Membership Form	Free Pull
 # NG: Deals 40-70 Physical Damage
 Item	No Hats as Art	Skill: "Ceci N'Est Pas Un Chapeau"
@@ -12799,6 +12800,10 @@ Item	Too Cold to Hold: How to Be Cool - A Memoir (read)	Skill: "Too Cool"
 Item	toothbrush	Effect: "Very Clean Teeth", Effect Duration: 10
 # top: Weakens enemies a little bit
 # toxic globule: Can be scienced into various objects
+# toy Cupid bow: Occasionally snag a missed item drop
+# toy Cupid bow: Distract foes with a plunger to the face
+# toy Cupid bow: Lets your familiar fetch their own equipment after a while
+Item	toy Cupid bow	Experience (familiar): +2, Generic
 # toy deathbot: Deals damage in exchange for some of your blood
 # toy mercenary: Charges Meat to Attack Foes
 # toy sixgun: Bang!
