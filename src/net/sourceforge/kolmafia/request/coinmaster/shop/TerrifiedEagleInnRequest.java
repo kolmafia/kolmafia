@@ -55,6 +55,6 @@ public class TerrifiedEagleInnRequest extends CoinMasterRequest {
 
   @Override
   public void processResults() {
-    ShopRequest.parseShopResponse(SHOPID, this.getURLString(), this.responseText);
+    ShopRequest.parseResponse(this.getURLString(), this.responseText);
   }
 }

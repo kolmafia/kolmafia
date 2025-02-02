@@ -61,7 +61,7 @@ public class TicketCounterRequest extends CoinMasterRequest {
 
   @Override
   public void processResults() {
-    ShopRequest.parseShopResponse(SHOPID, this.getURLString(), this.responseText);
+    ShopRequest.parseResponse(this.getURLString(), this.responseText);
   }
 
   private static final Pattern ITEM_PATTERN =

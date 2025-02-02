@@ -43,6 +43,6 @@ public class JarlsbergRequest extends CreateItemRequest {
       return;
     }
 
-    ShopRequest.parseShopResponse(SHOPID, urlString, responseText);
+    ShopRequest.parseResponse(urlString, responseText);
   }
 }

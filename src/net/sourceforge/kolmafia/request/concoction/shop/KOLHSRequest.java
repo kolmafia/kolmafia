@@ -72,6 +72,6 @@ public class KOLHSRequest extends CreateItemRequest {
       return;
     }
 
-    ShopRequest.parseShopResponse(this.shopId, urlString, responseText);
+    ShopRequest.parseResponse(urlString, responseText);
   }
 }

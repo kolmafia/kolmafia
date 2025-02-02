@@ -68,7 +68,7 @@ public class FunALogRequest extends CoinMasterRequest {
 
   @Override
   public void processResults() {
-    ShopRequest.parseShopResponse(SHOPID, this.getURLString(), this.responseText);
+    ShopRequest.parseResponse(this.getURLString(), this.responseText);
   }
 
   // <tr rel="10231"><td valign=center><input type=radio name=whichrow value=1064></td><td><img

@@ -110,7 +110,7 @@ public class ArmoryAndLeggeryRequest extends CoinMasterRequest {
 
   @Override
   public void processResults() {
-    ShopRequest.parseShopResponse(SHOPID, this.getURLString(), responseText);
+    ShopRequest.parseResponse(this.getURLString(), responseText);
   }
 
   // <tr rel="7985"><td valign=center></td><td><img

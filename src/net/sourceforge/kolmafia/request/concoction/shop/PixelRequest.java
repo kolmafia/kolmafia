@@ -45,6 +45,6 @@ public class PixelRequest extends CreateItemRequest {
       return;
     }
 
-    ShopRequest.parseShopResponse(SHOPID, urlString, responseText);
+    ShopRequest.parseResponse(urlString, responseText);
   }
 }

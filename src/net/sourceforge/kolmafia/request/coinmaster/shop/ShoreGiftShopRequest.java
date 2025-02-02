@@ -63,7 +63,7 @@ public class ShoreGiftShopRequest extends CoinMasterRequest {
 
   @Override
   public void processResults() {
-    ShopRequest.parseShopResponse(SHOPID, this.getURLString(), this.responseText);
+    ShopRequest.parseResponse(this.getURLString(), this.responseText);
   }
 
   public static void visitShop(final String responseText) {

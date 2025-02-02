@@ -55,7 +55,7 @@ public class BlackMarketRequest extends CoinMasterRequest {
 
   @Override
   public void processResults() {
-    ShopRequest.parseShopResponse(SHOPID, this.getURLString(), responseText);
+    ShopRequest.parseResponse(this.getURLString(), responseText);
   }
 
   public static void visitShop(final String responseText) {

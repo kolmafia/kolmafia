@@ -333,7 +333,7 @@ public class ShopRequest extends GenericRequest {
     return true;
   }
 
-  public static final void parseShopResponse(
+  private static final void parseShopResponse(
       final String shopId, final String urlString, final String responseText) {
     int row = parseWhichRow(urlString);
     ShopRow shopRow = ShopRowDatabase.getShopRow(row);
