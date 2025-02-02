@@ -23,6 +23,7 @@ public class FunALogRequest extends CoinMasterRequest {
           .withProperty("availableFunPoints")
           .withShopRowFields(master, "piraterealm")
           .withAvailableItem(FunALogRequest::availableItem)
+          .withVisitShop(FunALogRequest::visitShop)
           .withAccessible(FunALogRequest::accessible);
 
   private static final Map<Integer, String> ITEM_TO_UNLOCK_PREF =
@@ -79,11 +80,7 @@ public class FunALogRequest extends CoinMasterRequest {
       Pattern.compile(
           "<tr rel=\"(\\d+)\">.*?whichrow value=(\\d+)>.*?desc_item.php\\?whichitem=(\\d+).*?<b>(.*?)</b>.*?<td>F</td><td><b>([,\\d]+)</b>");
 
-  public static void parseResponse(final String urlString, final String responseText) {
-    if (!urlString.contains("whichshop=piraterealm")) {
-      return;
-    }
-
+  public static void visitShop(String responseText) {
     // Check Fun-a-Log item unlock status from visiting the shop
     var unlocked =
         ITEM_PATTERN
@@ -97,6 +94,14 @@ public class FunALogRequest extends CoinMasterRequest {
     // Register the purchase requests, now that we know what is available
     FUN_A_LOG.registerPurchaseRequests();
 
+    CoinMasterRequest.parseBalance(FUN_A_LOG, responseText);
+  }
+
+  public static void parseResponse(final String urlString, final String responseText) {
+    if (!urlString.contains("whichshop=piraterealm")) {
+      return;
+    }
+
     CoinMasterRequest.parseResponse(FUN_A_LOG, urlString, responseText);
   }
 
@@ -108,8 +113,9 @@ public class FunALogRequest extends CoinMasterRequest {
     // PirateRealm at least once to get it, but you do not need
     // current access to PirateRealm to use it.
 
-    return InventoryManager.hasItem(ItemPool.PIRATE_REALM_FUN_LOG)
-        ? null
-        : "Need PirateRealm fun-a-log";
+    if (InventoryManager.hasItem(ItemPool.PIRATE_REALM_FUN_LOG)) {
+      return null;
+    }
+    return "Need PirateRealm fun-a-log";
   }
 }

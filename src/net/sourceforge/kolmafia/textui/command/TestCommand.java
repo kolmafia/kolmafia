@@ -925,7 +925,7 @@ public class TestCommand extends AbstractCommand {
       CoinmasterRegistry.reset();
       NPCStoreDatabase.contains(0);
       // Ditto for the Armory & Leggery, which registers standard rewards.
-      ArmoryAndLeggeryRequest.parseResponse("", "");
+      new ArmoryAndLeggeryRequest();
 
       // Certain items include a "mode" in their string representation.
       // We don't want that.
@@ -944,7 +944,7 @@ public class TestCommand extends AbstractCommand {
       CoinmasterRegistry.reset();
       NPCStoreDatabase.contains(0);
       // Ditto for the Armory & Leggery, which registers standard rewards.
-      ArmoryAndLeggeryRequest.parseResponse("", "");
+      new ArmoryAndLeggeryRequest();
 
       // Write a new shop.txt file
       ShopDatabase.writeShopFile();

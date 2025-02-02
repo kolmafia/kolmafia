@@ -21,6 +21,7 @@ public class SeptEmberCenserRequest extends CoinMasterRequest {
           .withTokenPattern(TOKEN_PATTERN)
           .withProperty("availableSeptEmbers")
           .withShopRowFields(master, "september")
+          .withVisitShop(SeptEmberCenserRequest::visitShop)
           .withAccessible(SeptEmberCenserRequest::accessible);
 
   public SeptEmberCenserRequest() {
@@ -44,6 +45,12 @@ public class SeptEmberCenserRequest extends CoinMasterRequest {
     parseResponse(this.getURLString(), this.responseText);
   }
 
+  public static void visitShop(final String responseText) {
+    // Parse current coin balances
+    CoinMasterRequest.parseBalance(SEPTEMBER_CENSER, responseText);
+    Preferences.setBoolean("_septEmberBalanceChecked", true);
+  }
+
   public static void parseResponse(final String urlString, final String responseText) {
     if (!urlString.contains("whichshop=september")) {
       return;
@@ -54,10 +61,6 @@ public class SeptEmberCenserRequest extends CoinMasterRequest {
       CoinMasterRequest.parseResponse(SEPTEMBER_CENSER, urlString, responseText);
       return;
     }
-
-    // Parse current coin balances
-    CoinMasterRequest.parseBalance(SEPTEMBER_CENSER, responseText);
-    Preferences.setBoolean("_septEmberBalanceChecked", true);
   }
 
   public static String accessible() {

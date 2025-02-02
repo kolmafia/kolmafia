@@ -26,6 +26,7 @@ public class MrStore2002Request extends CoinMasterRequest {
           .withTokenPattern(TOKEN_PATTERN)
           .withProperty("availableMrStore2002Credits")
           .withShopRowFields(master, "mrstore2002")
+          .withVisitShop(MrStore2002Request::visitShop)
           .withAccessible(MrStore2002Request::accessible);
 
   public MrStore2002Request() {
@@ -120,6 +121,11 @@ public class MrStore2002Request extends CoinMasterRequest {
     parseResponse(this.getURLString(), this.responseText);
   }
 
+  public static void visitShop(final String responseText) {
+    // Parse current coin balances
+    CoinMasterRequest.parseBalance(MR_STORE_2002, responseText);
+  }
+
   public static void parseResponse(final String urlString, final String responseText) {
     if (!urlString.contains("whichshop=mrstore2002")) {
       return;
@@ -130,13 +136,10 @@ public class MrStore2002Request extends CoinMasterRequest {
       CoinMasterRequest.parseResponse(MR_STORE_2002, urlString, responseText);
       return;
     }
-
-    // Parse current coin balances
-    CoinMasterRequest.parseBalance(MR_STORE_2002, responseText);
   }
 
   public static String accessible() {
-    if (catalogToUse() != 0) {
+    if (catalogToUse() > 0) {
       return null;
     }
     return "You need a 2002 Mr. Store Catalog in order to shop here.";

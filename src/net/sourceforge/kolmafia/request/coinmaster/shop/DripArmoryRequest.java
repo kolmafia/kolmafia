@@ -7,9 +7,11 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 
 public class DripArmoryRequest extends CoinMasterRequest {
   public static final String master = "Drip Institute Armory";
+  public static final String SHOPID = "driparmory";
 
   public static final AdventureResult TOKEN = ItemPool.get(ItemPool.DRIPLET, 1);
   private static final Pattern TOKEN_PATTERN = Pattern.compile("<td>([\\d,]+) Driplet");
@@ -19,7 +21,7 @@ public class DripArmoryRequest extends CoinMasterRequest {
           .withToken("Driplet")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(TOKEN)
-          .withShopRowFields(master, "driparmory")
+          .withShopRowFields(master, SHOPID)
           .withCanBuyItem(DripArmoryRequest::canBuyItem)
           .withVisitShop(DripArmoryRequest::visitShop);
 
@@ -50,29 +52,12 @@ public class DripArmoryRequest extends CoinMasterRequest {
 
   @Override
   public void processResults() {
-    parseResponse(this.getURLString(), responseText);
+    ShopRequest.parseShopResponse(SHOPID, this.getURLString(), responseText);
   }
 
   public static void visitShop(String responseText) {
     if (responseText.contains("drippy shield")) {
       Preferences.setBoolean("drippyShieldUnlocked", true);
     }
-  }
-
-  public static void parseResponse(final String location, final String responseText) {
-    if (!location.contains("whichshop=driparmory")) {
-      return;
-    }
-
-    CoinmasterData data = DRIP_ARMORY;
-    int itemId = CoinMasterRequest.extractItemId(data, location);
-
-    if (itemId == -1) {
-      // Purchase for Meat or a simple visit
-      CoinMasterRequest.parseBalance(data, responseText);
-      return;
-    }
-
-    CoinMasterRequest.parseResponse(data, location, responseText);
   }
 }

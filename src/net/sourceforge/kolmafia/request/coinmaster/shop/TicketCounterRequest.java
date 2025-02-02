@@ -9,10 +9,12 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class TicketCounterRequest extends CoinMasterRequest {
   public static final String master = "Arcade Ticket Counter";
+  public static final String SHOPID = "arcade";
 
   private static final Pattern TOKEN_PATTERN =
       Pattern.compile("You currently have ([\\d,]+) Game Grid redemption ticket");
@@ -24,7 +26,7 @@ public class TicketCounterRequest extends CoinMasterRequest {
           .withTokenTest("You currently have no Game Grid redemption tickets")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(TICKET)
-          .withShopRowFields(master, "arcade")
+          .withShopRowFields(master, SHOPID)
           .withCanBuyItem(TicketCounterRequest::canBuyItem)
           .withVisitShop(TicketCounterRequest::visitShop);
 
@@ -59,17 +61,7 @@ public class TicketCounterRequest extends CoinMasterRequest {
 
   @Override
   public void processResults() {
-    parseResponse(this.getURLString(), this.responseText);
-  }
-
-  public static boolean parseResponse(final String urlString, final String responseText) {
-    if (!urlString.contains("whichshop=arcade")) {
-      return false;
-    }
-
-    CoinMasterRequest.parseResponse(TICKET_COUNTER, urlString, responseText);
-
-    return true;
+    ShopRequest.parseShopResponse(SHOPID, this.getURLString(), this.responseText);
   }
 
   private static final Pattern ITEM_PATTERN =
@@ -99,14 +91,5 @@ public class TicketCounterRequest extends CoinMasterRequest {
   public static String accessible() {
     // *** Finish this.
     return null;
-  }
-
-  public static final boolean registerRequest(final String urlString) {
-    // We only claim arcade.php?action=redeem
-    if (!urlString.contains("whichshop=arcade")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(TICKET_COUNTER, urlString);
   }
 }

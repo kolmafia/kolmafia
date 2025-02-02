@@ -14,18 +14,20 @@ import net.sourceforge.kolmafia.persistence.StandardRewardDatabase;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 import net.sourceforge.kolmafia.shop.ShopRow;
 import net.sourceforge.kolmafia.shop.ShopRowDatabase;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ArmoryAndLeggeryRequest extends CoinMasterRequest {
   public static final String master = "Armory & Leggery";
+  public static final String SHOPID = "armory";
 
   private static final Pattern TOKEN_PATTERN = Pattern.compile("<td>([\\d,]+) FDKOL commendation");
 
   public static final CoinmasterData ARMORY_AND_LEGGERY =
       new CoinmasterData(master, "armory", ArmoryAndLeggeryRequest.class)
-          .withShopRowFields(master, "armory")
+          .withShopRowFields(master, SHOPID)
           .withItemRows()
           .withBuyItems()
           .withBuyPrices()
@@ -108,7 +110,7 @@ public class ArmoryAndLeggeryRequest extends CoinMasterRequest {
 
   @Override
   public void processResults() {
-    parseResponse(this.getURLString(), responseText);
+    ShopRequest.parseShopResponse(SHOPID, this.getURLString(), responseText);
   }
 
   // <tr rel="7985"><td valign=center></td><td><img
@@ -149,24 +151,5 @@ public class ArmoryAndLeggeryRequest extends CoinMasterRequest {
     }
 
     return new CoinmasterItem(itemId, itemName, currency, price, row);
-  }
-
-  public static void parseResponse(final String location, final String responseText) {
-    if (!location.contains("whichshop=armory")) {
-      return;
-    }
-
-    CoinmasterData data = ARMORY_AND_LEGGERY;
-
-    int itemId = CoinMasterRequest.extractItemId(data, location);
-
-    if (itemId == -1) {
-      // Purchase for Meat or a simple visit
-      CoinMasterRequest.parseBalance(data, responseText);
-      return;
-    }
-
-    // Learn new items by simply visiting the Armory & Leggery
-    CoinMasterRequest.parseResponse(data, location, responseText);
   }
 }

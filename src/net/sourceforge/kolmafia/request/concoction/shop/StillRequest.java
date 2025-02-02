@@ -12,15 +12,17 @@ import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class StillRequest extends CreateItemRequest {
-  private static final Pattern STILLS_PATTERN = Pattern.compile("with (\\d+) bright");
+  public static final String SHOPID = "still";
+
+  private final int row;
 
   public StillRequest(final Concoction conc) {
     super("shop.php", conc);
 
-    this.addFormField("whichshop", "still");
+    this.addFormField("whichshop", SHOPID);
     this.addFormField("action", "buyitem");
-    int row = ConcoctionPool.idToRow(this.getItemId());
-    this.addFormField("whichrow", String.valueOf(row));
+    this.row = ConcoctionPool.idToRow(this.getItemId());
+    this.addFormField("whichrow", String.valueOf(this.row));
   }
 
   @Override
@@ -48,14 +50,13 @@ public class StillRequest extends CreateItemRequest {
     StillRequest.parseResponse(urlString, responseText);
   }
 
+  private static final Pattern STILLS_PATTERN = Pattern.compile("with (\\d+) bright");
+
   public static void parseResponse(final String urlString, final String responseText) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=still")) {
-      return;
-    }
     Matcher matcher = StillRequest.STILLS_PATTERN.matcher(responseText);
     int count = matcher.find() ? StringUtilities.parseInt(matcher.group(1)) : 0;
     KoLCharacter.setStillsAvailable(count);
 
-    NPCPurchaseRequest.parseShopRowResponse(urlString, responseText);
+    NPCPurchaseRequest.handleConcoction(urlString);
   }
 }

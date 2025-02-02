@@ -13,6 +13,7 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
+import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.shop.ShopDatabase.SHOP;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -112,6 +113,12 @@ public class ShopRequest extends GenericRequest {
       return;
     }
 
+    // Visiting a shop you currently can't access fails.
+    // <b style="color: white">Uh Oh!</b>
+    if (responseText.contains(">Uh Oh!</b>")) {
+      return;
+    }
+
     String action = GenericRequest.getAction(urlString);
     boolean buying = action != null && action.equals("buyitem");
     boolean ajax = urlString.contains("ajax=1");
@@ -120,7 +127,13 @@ public class ShopRequest extends GenericRequest {
     if (!ajax) {
       // Parse the inventory and learn new items for "row" (modern) shops.
       // Print npcstores.txt or coinmasters.txt entries for new rows.
+      // If it is a coinmaster, let it do extra parsing and set balances
       parseShopInventory(shopId, responseText, false);
+    }
+
+    // If we are not buying, nothing special to do
+    if (!buying) {
+      return;
     }
 
     parseShopResponse(shopId, urlString, responseText);
@@ -146,6 +159,7 @@ public class ShopRequest extends GenericRequest {
     CoinmasterData cd = ShopDatabase.getCoinmasterData(shopId);
     if (cd != null) {
       cd.visitShop(responseText);
+      CoinMasterRequest.parseBalance(cd, responseText);
     }
 
     // Find all the ShopRow objects. Register any new items seen.
@@ -321,8 +335,33 @@ public class ShopRequest extends GenericRequest {
 
   public static final void parseShopResponse(
       final String shopId, final String urlString, final String responseText) {
-    // *** For now, punt back to NPCPurchaseRequest to finish
-    NPCPurchaseRequest.parseShopResponse(shopId, urlString, responseText);
+    int row = parseWhichRow(urlString);
+    ShopRow shopRow = ShopRowDatabase.getShopRow(row);
+    if (shopRow == null) {
+      return;
+    }
+
+    if (shopRow.isMeatPurchase()) {
+      // A shop.php store that sells items for Meat will say
+      //     You spent XX Meat.
+      // Result processing handles that, so we need not process it.
+
+      // However, NPCPurchaseRequest may want to do additional actions
+      // on a per-store basis.  Punt to them.
+      NPCPurchaseRequest.parseShopResponse(shopId, shopRow, urlString, responseText);
+      return;
+    }
+
+    CoinmasterData cd = ShopDatabase.getCoinmasterData(shopId);
+    if (cd != null) {
+      // A coinmaster may also be an NPC store, but we handled that
+      // above. We know we are trading for items.
+      CoinMasterRequest.parseResponse(cd, urlString, responseText);
+      return;
+    }
+
+    // This must be a concoction. Punt to NPCPurchaseRequest to finish
+    NPCPurchaseRequest.handleConcoction(shopId, shopRow, urlString, responseText);
   }
 
   /*
