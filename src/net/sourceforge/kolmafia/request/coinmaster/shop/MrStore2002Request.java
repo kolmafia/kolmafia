@@ -12,9 +12,11 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 
 public class MrStore2002Request extends CoinMasterRequest {
   public static final String master = "Mr. Store 2002";
+  public static final String SHOPID = "mrstore2002";
 
   // <b>You have 3 Mr. Store 2002 Credits.</b>
   private static final Pattern TOKEN_PATTERN =
@@ -25,7 +27,7 @@ public class MrStore2002Request extends CoinMasterRequest {
           .withToken("Mr. Store 2002 Credit")
           .withTokenPattern(TOKEN_PATTERN)
           .withProperty("availableMrStore2002Credits")
-          .withShopRowFields(master, "mrstore2002")
+          .withShopRowFields(master, SHOPID)
           .withVisitShop(MrStore2002Request::visitShop)
           .withAccessible(MrStore2002Request::accessible);
 
@@ -118,24 +120,12 @@ public class MrStore2002Request extends CoinMasterRequest {
 
   @Override
   public void processResults() {
-    parseResponse(this.getURLString(), this.responseText);
+    ShopRequest.parseResponse(this.getURLString(), this.responseText);
   }
 
   public static void visitShop(final String responseText) {
     // Parse current coin balances
     CoinMasterRequest.parseBalance(MR_STORE_2002, responseText);
-  }
-
-  public static void parseResponse(final String urlString, final String responseText) {
-    if (!urlString.contains("whichshop=mrstore2002")) {
-      return;
-    }
-
-    String action = GenericRequest.getAction(urlString);
-    if (action != null) {
-      CoinMasterRequest.parseResponse(MR_STORE_2002, urlString, responseText);
-      return;
-    }
   }
 
   public static String accessible() {

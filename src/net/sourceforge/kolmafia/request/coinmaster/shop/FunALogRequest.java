@@ -8,9 +8,11 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 
 public class FunALogRequest extends CoinMasterRequest {
   public static final String master = "PirateRealm Fun-a-Log";
+  public static final String SHOPID = "piraterealm";
 
   private static final Pattern TOKEN_PATTERN =
       Pattern.compile("<b>You have ([\\d,]+) FunPoints?\\.</b>");
@@ -21,7 +23,7 @@ public class FunALogRequest extends CoinMasterRequest {
           .withTokenTest("You have no FunPoints")
           .withTokenPattern(TOKEN_PATTERN)
           .withProperty("availableFunPoints")
-          .withShopRowFields(master, "piraterealm")
+          .withShopRowFields(master, SHOPID)
           .withAvailableItem(FunALogRequest::availableItem)
           .withVisitShop(FunALogRequest::visitShop)
           .withAccessible(FunALogRequest::accessible);
@@ -66,7 +68,7 @@ public class FunALogRequest extends CoinMasterRequest {
 
   @Override
   public void processResults() {
-    parseResponse(this.getURLString(), this.responseText);
+    ShopRequest.parseShopResponse(SHOPID, this.getURLString(), this.responseText);
   }
 
   // <tr rel="10231"><td valign=center><input type=radio name=whichrow value=1064></td><td><img
@@ -95,14 +97,6 @@ public class FunALogRequest extends CoinMasterRequest {
     FUN_A_LOG.registerPurchaseRequests();
 
     CoinMasterRequest.parseBalance(FUN_A_LOG, responseText);
-  }
-
-  public static void parseResponse(final String urlString, final String responseText) {
-    if (!urlString.contains("whichshop=piraterealm")) {
-      return;
-    }
-
-    CoinMasterRequest.parseResponse(FUN_A_LOG, urlString, responseText);
   }
 
   public static String accessible() {

@@ -10,6 +10,7 @@ import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.concoction.shop.PixelRequest;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 import org.junit.jupiter.api.Test;
 
 public class PixelRequestTest {
@@ -32,8 +33,8 @@ public class PixelRequestTest {
         assertThat(ItemPool.get(itemId), isInInventory());
       }
 
-      final String url = "shop.php?whichshop=mystic&action=buyitem&whichrow=26&quantity=1";
-      PixelRequest.parseResponse(url, "");
+      String url = "shop.php?whichshop=mystic&action=buyitem&whichrow=26&quantity=1";
+      ShopRequest.parseResponse(url, "");
 
       for (int itemId : BASE_PIXELS) {
         assertThat(ItemPool.get(itemId), isInInventory(0));

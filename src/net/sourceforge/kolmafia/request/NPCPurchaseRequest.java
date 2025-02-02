@@ -56,7 +56,6 @@ import net.sourceforge.kolmafia.request.coinmaster.shop.EdShopRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.FDKOLRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.FancyDanRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.FishboneryRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.FunALogRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.GMartRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.GotporkOrphanageRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.GotporkPDRequest;
@@ -65,7 +64,6 @@ import net.sourceforge.kolmafia.request.coinmaster.shop.KiwiKwikiMartRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.LTTRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.MemeShopRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.MerchTableRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.MrStore2002Request;
 import net.sourceforge.kolmafia.request.coinmaster.shop.NeandermallRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.NinjaStoreRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.NuggletCraftingRequest;
@@ -798,11 +796,6 @@ public class NPCPurchaseRequest extends PurchaseRequest {
       return;
     }
 
-    if (shopId.equals("piraterealm")) {
-      FunALogRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
     if (shopId.equals("lathe")) {
       SpinMasterLatheRequest.parseResponse(urlString, responseText);
       return;
@@ -835,11 +828,6 @@ public class NPCPurchaseRequest extends PurchaseRequest {
 
     if (shopId.equals("mrreplica")) {
       ReplicaMrStoreRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("mrstore2002")) {
-      MrStore2002Request.parseResponse(urlString, responseText);
       return;
     }
 
