@@ -15,12 +15,14 @@ public class MemeShopRequest extends CoinMasterRequest {
   public static final AdventureResult BACON = ItemPool.get(ItemPool.BACON, 1);
 
   public static final CoinmasterData BACON_STORE =
-      new CoinmasterData(master, "bacon", MemeShopRequest.class) {}.withToken("BACON")
+      new CoinmasterData(master, "bacon", MemeShopRequest.class)
+          .withToken("BACON")
           .withTokenTest("Where's the bacon?")
           .withTokenPattern(BACON_PATTERN)
           .withItem(BACON)
           .withShopRowFields(master, "bacon")
           .withCanBuyItem(MemeShopRequest::canBuyItem)
+          .withVisitShop(MemeShopRequest::visitShop)
           .withPurchasedItem(MemeShopRequest::purchasedItem);
 
   private static String itemProperty(final int itemId) {
@@ -69,6 +71,16 @@ public class MemeShopRequest extends CoinMasterRequest {
     parseResponse(this.getURLString(), this.responseText);
   }
 
+  public static void visitShop(String responseText) {
+    Preferences.setBoolean("_internetViralVideoBought", !responseText.contains("viral video"));
+    Preferences.setBoolean("_internetPlusOneBought", !responseText.contains("plus one"));
+    Preferences.setBoolean("_internetGallonOfMilkBought", !responseText.contains("gallon of milk"));
+    Preferences.setBoolean(
+        "_internetPrintScreenButtonBought", !responseText.contains("print screen button"));
+    Preferences.setBoolean(
+        "_internetDailyDungeonMalwareBought", !responseText.contains("daily dungeon malware"));
+  }
+
   public static void parseResponse(final String location, final String responseText) {
     if (!location.contains("whichshop=bacon")) {
       return;
@@ -81,14 +93,6 @@ public class MemeShopRequest extends CoinMasterRequest {
       CoinMasterRequest.parseResponse(data, location, responseText);
       return;
     }
-
-    Preferences.setBoolean("_internetViralVideoBought", !responseText.contains("viral video"));
-    Preferences.setBoolean("_internetPlusOneBought", !responseText.contains("plus one"));
-    Preferences.setBoolean("_internetGallonOfMilkBought", !responseText.contains("gallon of milk"));
-    Preferences.setBoolean(
-        "_internetPrintScreenButtonBought", !responseText.contains("print screen button"));
-    Preferences.setBoolean(
-        "_internetDailyDungeonMalwareBought", !responseText.contains("daily dungeon malware"));
 
     // Parse current coin balances
     CoinMasterRequest.parseBalance(data, responseText);

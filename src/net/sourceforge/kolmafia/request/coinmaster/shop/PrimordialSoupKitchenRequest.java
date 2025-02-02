@@ -4,6 +4,7 @@ import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
+import net.sourceforge.kolmafia.session.QuestManager;
 import net.sourceforge.kolmafia.shop.ShopRow;
 
 public class PrimordialSoupKitchenRequest extends CoinMasterRequest {
@@ -12,6 +13,7 @@ public class PrimordialSoupKitchenRequest extends CoinMasterRequest {
   public static final CoinmasterData DATA =
       new CoinmasterData(master, "twitchsoup", PrimordialSoupKitchenRequest.class)
           .withNewShopRowFields(master, "twitchsoup")
+          .withVisitShop(PrimordialSoupKitchenRequest::visitShop)
           .withAccessible(PrimordialSoupKitchenRequest::accessible);
 
   public PrimordialSoupKitchenRequest() {
@@ -25,6 +27,10 @@ public class PrimordialSoupKitchenRequest extends CoinMasterRequest {
   @Override
   public void processResults() {
     parseResponse(this.getURLString(), this.responseText);
+  }
+
+  public static void visitShop(final String responseText) {
+    QuestManager.handleTimeTower(!responseText.contains("That store isn't there anymore."));
   }
 
   public static void parseResponse(final String location, final String responseText) {

@@ -621,6 +621,17 @@ public class NPCPurchaseRequest extends PurchaseRequest {
       return;
     }
 
+    if (shopId.equals("fwshop")) {
+      if (responseText.contains("<b>Combat Explosives")) {
+        Preferences.setBoolean("_fireworksShop", true);
+        Preferences.setBoolean(
+            "_fireworksShopHatBought", !responseText.contains("<b>Dangerous Hats"));
+        Preferences.setBoolean(
+            "_fireworksShopEquipmentBought", !responseText.contains("<b>Explosive Equipment"));
+      }
+      return;
+    }
+
     // The following are coinmasters
 
     if (shopId.equals("arcade")) {
@@ -680,17 +691,6 @@ public class NPCPurchaseRequest extends PurchaseRequest {
 
     if (shopId.equals("fdkol")) {
       FDKOLRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("fwshop")) {
-      if (responseText.contains("<b>Combat Explosives")) {
-        Preferences.setBoolean("_fireworksShop", true);
-        Preferences.setBoolean(
-            "_fireworksShopHatBought", !responseText.contains("<b>Dangerous Hats"));
-        Preferences.setBoolean(
-            "_fireworksShopEquipmentBought", !responseText.contains("<b>Explosive Equipment"));
-      }
       return;
     }
 

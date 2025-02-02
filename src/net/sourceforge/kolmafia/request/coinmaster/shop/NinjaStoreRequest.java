@@ -22,6 +22,7 @@ public class NinjaStoreRequest extends CoinMasterRequest {
           .withTokenPattern(CHRONER_PATTERN)
           .withItem(CHRONER)
           .withShopRowFields(master, "nina")
+          .withVisitShop(NinjaStoreRequest::visitShop)
           .withAccessible(NinjaStoreRequest::accessible);
 
   public NinjaStoreRequest() {
@@ -45,17 +46,14 @@ public class NinjaStoreRequest extends CoinMasterRequest {
     parseResponse(this.getURLString(), this.responseText);
   }
 
+  public static void visitShop(final String responseText) {
+    QuestManager.handleTimeTower(!responseText.contains("That store isn't there anymore."));
+  }
+
   public static void parseResponse(final String location, final String responseText) {
     if (!location.contains("whichshop=nina")) {
       return;
     }
-
-    if (responseText.contains("That store isn't there anymore.")) {
-      QuestManager.handleTimeTower(false);
-      return;
-    }
-
-    QuestManager.handleTimeTower(true);
 
     CoinmasterData data = NINJA_STORE;
 

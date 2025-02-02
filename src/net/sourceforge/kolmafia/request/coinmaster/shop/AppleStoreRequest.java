@@ -22,6 +22,7 @@ public class AppleStoreRequest extends CoinMasterRequest {
           .withTokenPattern(CHRONER_PATTERN)
           .withItem(CHRONER)
           .withShopRowFields(master, "applestore")
+          .withVisitShop(AppleStoreRequest::visitShop)
           .withAccessible(AppleStoreRequest::accessible);
 
   public AppleStoreRequest() {
@@ -43,6 +44,10 @@ public class AppleStoreRequest extends CoinMasterRequest {
   @Override
   public void processResults() {
     parseResponse(this.getURLString(), this.responseText);
+  }
+
+  public static void visitShop(final String responseText) {
+    QuestManager.handleTimeTower(!responseText.contains("That store isn't there anymore."));
   }
 
   public static void parseResponse(final String location, final String responseText) {

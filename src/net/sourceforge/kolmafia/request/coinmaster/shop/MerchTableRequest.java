@@ -40,6 +40,7 @@ public class MerchTableRequest extends CoinMasterRequest {
           .withItemRows(CoinmastersDatabase.getOrMakeRows(master))
           .withBuyPrices()
           .withItemBuyPrice(MerchTableRequest::itemBuyPrice)
+          .withVisitShop(MerchTableRequest::visitShop)
           .withAccessible(MerchTableRequest::accessible);
 
   private static AdventureResult itemBuyPrice(final Integer itemId) {
@@ -104,17 +105,8 @@ public class MerchTableRequest extends CoinMasterRequest {
           "<tr rel=\"(\\d+)\">.*?onClick='javascript:descitem\\((\\d+)\\)'>.*?<b>(.*?)</b>.*?title=\"(.*?)\".*?<b>([\\d,]+)</b>.*?whichrow=(\\d+)",
           Pattern.DOTALL);
 
-  public static void parseResponse(final String urlString, final String responseText) {
-    if (!urlString.contains("whichshop=conmerch")) {
-      return;
-    }
-
-    if (responseText.contains("That store isn't there anymore.")) {
-      QuestManager.handleTimeTower(false);
-      return;
-    }
-
-    QuestManager.handleTimeTower(true);
+  public static void visitShop(final String responseText) {
+    QuestManager.handleTimeTower(!responseText.contains("That store isn't there anymore."));
 
     // Learn new items by simply visiting the Merch Table
     // Refresh the Coin Master inventory every time we visit.
@@ -155,6 +147,14 @@ public class MerchTableRequest extends CoinMasterRequest {
 
     // Register the purchase requests, now that we know what is available
     data.registerPurchaseRequests();
+  }
+
+  public static void parseResponse(final String urlString, final String responseText) {
+    if (!urlString.contains("whichshop=conmerch")) {
+      return;
+    }
+
+    CoinmasterData data = MERCH_TABLE;
 
     String action = GenericRequest.getAction(urlString);
     if (action != null) {
