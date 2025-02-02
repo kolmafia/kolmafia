@@ -20,7 +20,8 @@ public class DripArmoryRequest extends CoinMasterRequest {
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(TOKEN)
           .withShopRowFields(master, "driparmory")
-          .withCanBuyItem(DripArmoryRequest::canBuyItem);
+          .withCanBuyItem(DripArmoryRequest::canBuyItem)
+          .withVisitShop(DripArmoryRequest::visitShop);
 
   private static Boolean canBuyItem(final Integer itemId) {
     AdventureResult item = ItemPool.get(itemId);
@@ -52,14 +53,15 @@ public class DripArmoryRequest extends CoinMasterRequest {
     parseResponse(this.getURLString(), responseText);
   }
 
+  public static void visitShop(String responseText) {
+    if (responseText.contains("drippy shield")) {
+      Preferences.setBoolean("drippyShieldUnlocked", true);
+    }
+  }
+
   public static void parseResponse(final String location, final String responseText) {
     if (!location.contains("whichshop=driparmory")) {
       return;
-    }
-
-    // Check for item unlocks
-    if (responseText.contains("drippy shield")) {
-      Preferences.setBoolean("drippyShieldUnlocked", true);
     }
 
     CoinmasterData data = DRIP_ARMORY;

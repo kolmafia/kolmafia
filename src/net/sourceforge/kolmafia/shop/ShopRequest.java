@@ -17,9 +17,6 @@ import net.sourceforge.kolmafia.shop.ShopDatabase.SHOP;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ShopRequest extends GenericRequest {
-  public static final Pattern SHOPID_PATTERN = Pattern.compile("whichshop=([^&]*)");
-  public static final Pattern WHICHROW_PATTERN = Pattern.compile("whichrow=(\\d+)");
-  public static final Pattern QUANTITY_PATTERN = Pattern.compile("quantity=(\\d+)");
 
   private final String shopId;
   private ShopRow shopRow = null;
@@ -41,8 +38,10 @@ public class ShopRequest extends GenericRequest {
     this.addFormField("ajax", "1");
   }
 
+  public static final Pattern WHICHSHOP_PATTERN = Pattern.compile("whichshop=([^&]*)");
+
   public static String getShopId(final String urlString) {
-    Matcher m = SHOPID_PATTERN.matcher(urlString);
+    Matcher m = WHICHSHOP_PATTERN.matcher(urlString);
     return m.find() ? m.group(1) : null;
   }
 
@@ -50,8 +49,22 @@ public class ShopRequest extends GenericRequest {
     return this.shopId;
   }
 
+  public static final Pattern WHICHROW_PATTERN = Pattern.compile("whichrow=(\\d+)");
+
+  public static final int parseWhichRow(final String urlString) {
+    Matcher m = WHICHROW_PATTERN.matcher(urlString);
+    return m.find() ? StringUtilities.parseInt(m.group(1)) : 0;
+  }
+
   public ShopRow getShopRow() {
     return this.shopRow;
+  }
+
+  public static final Pattern QUANTITY_PATTERN = Pattern.compile("quantity=(\\d+)");
+
+  public static int parseQuantity(final String urlString) {
+    Matcher m = QUANTITY_PATTERN.matcher(urlString);
+    return m.find() ? StringUtilities.parseInt(m.group(1)) : 1;
   }
 
   public int getQuantity() {
@@ -85,24 +98,6 @@ public class ShopRequest extends GenericRequest {
     return m.find() ? m.group(1) : "";
   }
 
-  public static final int parseWhichRow(final String urlString) {
-    Matcher matcher = WHICHROW_PATTERN.matcher(urlString);
-    if (!matcher.find()) {
-      return -1;
-    }
-
-    return StringUtilities.parseInt(matcher.group(1));
-  }
-
-  public static int parseQuantity(final String urlString) {
-    Matcher matcher = QUANTITY_PATTERN.matcher(urlString);
-    if (!matcher.find()) {
-      return -1;
-    }
-
-    return StringUtilities.parseInt(matcher.group(1));
-  }
-
   /*
    * ResponseTextParser support
    */
@@ -117,12 +112,18 @@ public class ShopRequest extends GenericRequest {
       return;
     }
 
-    // Parse the inventory and learn new items for "row" (modern) shops.
-    // Print npcstores.txt or coinmasters.txt entries for new rows.
+    String action = GenericRequest.getAction(urlString);
+    boolean buying = action != null && action.equals("buyitem");
+    boolean ajax = urlString.contains("ajax=1");
 
-    parseShopInventory(shopId, responseText, false);
+    // An Ajax request shows purchase results without the inventory.
+    if (!ajax) {
+      // Parse the inventory and learn new items for "row" (modern) shops.
+      // Print npcstores.txt or coinmasters.txt entries for new rows.
+      parseShopInventory(shopId, responseText, false);
+    }
 
-    parseShopRowResponse(urlString, responseText);
+    parseShopResponse(shopId, urlString, responseText);
   }
 
   public static final List<ShopRow> parseShopInventory(
@@ -140,11 +141,20 @@ public class ShopRequest extends GenericRequest {
       RequestLogger.updateSessionLog(printMe);
     }
 
+    // If this is a coinmaster, give it a chance to make its own
+    // observations of the inventory
+    CoinmasterData cd = ShopDatabase.getCoinmasterData(shopId);
+    if (cd != null) {
+      cd.visitShop(responseText);
+    }
+
+    // Find all the ShopRow objects. Register any new items seen.
     List<ShopRow> shopRows = ShopRow.parseShop(responseText, true);
 
     // Certain existing shops are implemented as mixing methods.  Since
     // KoL could add new items to such shops, detect them.
     boolean concoction = ShopDatabase.getShopType(shopId) == SHOP.CONC;
+    boolean coinmaster = (cd != null);
 
     boolean newShopItems = false;
 
@@ -154,7 +164,7 @@ public class ShopRequest extends GenericRequest {
       AdventureResult[] costs = shopRow.getCosts();
 
       // There should be from 1-5 costs.  If KoL included none (KoL
-      // bug), or parsing failed (KoLmafiq bug), skip.
+      // bug), or parsing failed (KoLmafia bug), skip.
       if (costs.length == 0) {
         // *** Perhaps log the error?
         continue;
@@ -309,8 +319,10 @@ public class ShopRequest extends GenericRequest {
     return true;
   }
 
-  public static final void parseShopRowResponse(final String urlString, final String responseText) {
-    // *** Do we want to put shop-specific stuff in here?
+  public static final void parseShopResponse(
+      final String shopId, final String urlString, final String responseText) {
+    // *** For now, punt back to NPCPurchaseRequest to finish
+    NPCPurchaseRequest.parseShopResponse(shopId, urlString, responseText);
   }
 
   /*

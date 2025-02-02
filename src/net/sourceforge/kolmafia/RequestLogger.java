@@ -26,7 +26,6 @@ import net.sourceforge.kolmafia.request.coinmaster.HermitRequest;
 import net.sourceforge.kolmafia.request.coinmaster.MrStoreRequest;
 import net.sourceforge.kolmafia.request.coinmaster.QuartersmasterRequest;
 import net.sourceforge.kolmafia.request.coinmaster.SwaggerShopRequest;
-import net.sourceforge.kolmafia.request.coinmaster.TicketCounterRequest;
 import net.sourceforge.kolmafia.request.coinmaster.TravelingTraderRequest;
 import net.sourceforge.kolmafia.request.concoction.BurningLeavesRequest;
 import net.sourceforge.kolmafia.request.concoction.BurningNewspaperRequest;
@@ -785,7 +784,7 @@ public class RequestLogger extends NullStream {
       return;
     }
 
-    if ((isExternal || request instanceof ArcadeRequest || request instanceof TicketCounterRequest)
+    if ((isExternal || request instanceof ArcadeRequest)
         && ArcadeRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
@@ -1203,12 +1202,6 @@ public class RequestLogger extends NullStream {
 
     if ((isExternal || request instanceof TavernRequest)
         && TavernRequest.registerRequest(urlString)) {
-      RequestLogger.wasLastRequestSimple = false;
-      return;
-    }
-
-    if ((isExternal || request instanceof TicketCounterRequest)
-        && TicketCounterRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }

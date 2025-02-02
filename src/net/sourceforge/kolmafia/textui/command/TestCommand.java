@@ -64,7 +64,6 @@ import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.GenericRequest.ServerCookie;
 import net.sourceforge.kolmafia.request.MonsterManuelRequest;
-import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.PlaceRequest;
 import net.sourceforge.kolmafia.request.ScrapheapRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
@@ -1280,7 +1279,7 @@ public class TestCommand extends AbstractCommand {
       }
       String name = split[1].trim();
       String urlString = "shop.php?whichshop=" + name;
-      NPCPurchaseRequest.parseShopResponse(urlString, TestCommand.contents);
+      ShopRequest.parseResponse(urlString, TestCommand.contents);
       TestCommand.contents = null;
       return;
     }

@@ -67,7 +67,6 @@ import net.sourceforge.kolmafia.request.MicroBreweryRequest;
 import net.sourceforge.kolmafia.request.MomRequest;
 import net.sourceforge.kolmafia.request.MonsterManuelRequest;
 import net.sourceforge.kolmafia.request.MushroomRequest;
-import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.NemesisRequest;
 import net.sourceforge.kolmafia.request.PandamoniumRequest;
 import net.sourceforge.kolmafia.request.PeeVPeeRequest;
@@ -110,6 +109,7 @@ import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 import net.sourceforge.kolmafia.request.concoction.GnomeTinkerRequest;
 import net.sourceforge.kolmafia.request.concoction.PhineasRequest;
 import net.sourceforge.kolmafia.request.concoction.SushiRequest;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.DiscoCombatHelper;
@@ -647,7 +647,7 @@ public class ResponseTextParser {
         SendMailRequest.parseTransfer(location, responseText);
       }
       case "shop.php" -> {
-        NPCPurchaseRequest.parseShopResponse(location, responseText);
+        ShopRequest.parseResponse(location, responseText);
       }
       case "showclan.php" -> {
         ShowClanRequest.parseResponse(location, responseText);

@@ -1,14 +1,12 @@
 package net.sourceforge.kolmafia.request.coinmaster.shop;
 
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.request.TransferItemRequest;
+import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class FDKOLRequest extends CoinMasterRequest {
   public static final String master = "FDKOL Tent";
@@ -47,19 +45,14 @@ public class FDKOLRequest extends CoinMasterRequest {
 
     CoinmasterData data = FDKOL;
 
-    Matcher m = TransferItemRequest.ITEMID_PATTERN.matcher(location);
-    if (!m.find()) {
-      CoinMasterRequest.parseBalance(data, responseText);
+    String action = GenericRequest.getAction(location);
+    if (action != null) {
+      CoinMasterRequest.parseResponse(data, location, responseText);
       return;
     }
 
-    int itemId = StringUtilities.parseInt(m.group(1));
-    AdventureResult item = AdventureResult.findItem(itemId, data.getBuyItems());
-    if (item == null) {
-      return;
-    }
-
-    CoinMasterRequest.parseResponse(data, location, responseText);
+    // Parse current coin balances
+    CoinMasterRequest.parseBalance(data, responseText);
   }
 
   public static String accessible() {

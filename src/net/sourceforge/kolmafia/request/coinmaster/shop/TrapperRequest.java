@@ -24,6 +24,7 @@ public class TrapperRequest extends CoinMasterRequest {
           .withItem(YETI_FUR)
           .withShopRowFields(master, "trapper")
           .withBuyItems(master)
+          .withVisitShop(TrapperRequest::visitShop)
           .withAccessible(TrapperRequest::accessible);
 
   public TrapperRequest() {
@@ -46,13 +47,17 @@ public class TrapperRequest extends CoinMasterRequest {
     this(true, itemId, quantity);
   }
 
-  public static void parseResponse(final String urlString, final String responseText) {
+  public static void visitShop(String responseText) {
     // I'm plumb stocked up on everythin' 'cept yeti furs, Adventurer.
     // If you've got any to trade, I'd be much obliged."
+
     if (responseText.contains("yeti furs")) {
       Preferences.setInteger("lastTr4pz0rQuest", KoLCharacter.getAscensions());
       QuestDatabase.setQuestProgress(Quest.TRAPPER, QuestDatabase.FINISHED);
     }
+  }
+
+  public static void parseResponse(final String urlString, final String responseText) {
     CoinMasterRequest.parseResponse(TRAPPER, urlString, responseText);
   }
 

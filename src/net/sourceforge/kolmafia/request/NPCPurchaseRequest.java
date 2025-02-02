@@ -23,7 +23,6 @@ import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.coinmaster.TicketCounterRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.AppleStoreRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ArmoryAndLeggeryRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ArmoryRequest;
@@ -89,6 +88,7 @@ import net.sourceforge.kolmafia.request.coinmaster.shop.SpinMasterLatheRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.TacoDanRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.TerrifiedEagleInnRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ThankShopRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.TicketCounterRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ToxicChemistryRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.TrapperRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.VendingMachineRequest;
@@ -432,20 +432,16 @@ public class NPCPurchaseRequest extends PurchaseRequest {
     String urlString = this.getURLString();
 
     if (urlString.startsWith("shop.php")) {
-      NPCPurchaseRequest.parseShopResponse(urlString, this.responseText);
+      ShopRequest.parseResponse(urlString, this.responseText);
+      // shop.php stores say "You spent xxx Meat" and that's already parsed.
+      return;
     }
 
     int quantityAcquired = this.item.getCount(KoLConstants.inventory) - this.initialCount;
 
     if (quantityAcquired > 0) {
-      // Normal NPC stores say "You spent xxx Meat" and we
-      // have already parsed that.
-      if (!urlString.startsWith("shop.php")) {
-        ResultProcessor.processMeat(-1 * this.getPrice() * quantityAcquired);
-        KoLCharacter.updateStatus();
-      }
-
-      return;
+      ResultProcessor.processMeat(-1 * this.getPrice() * quantityAcquired);
+      KoLCharacter.updateStatus();
     }
   }
 
@@ -531,20 +527,12 @@ public class NPCPurchaseRequest extends PurchaseRequest {
     return ShopDatabase.getShopType(shopId) == SHOP.CONC;
   }
 
-  public static final void parseShopResponse(final String urlString, final String responseText) {
-    if (!urlString.startsWith("shop.php")) {
-      return;
-    }
+  public static final void parseShopResponse(
+      final String shopId, final String urlString, final String responseText) {
+    // This is called from ShopRequest.parseResponse to handle things it can't.
+    // It has already validated the shopId and parsed the inventory.
 
-    String shopId = NPCPurchaseRequest.getShopId(urlString);
-    if (shopId == null) {
-      return;
-    }
-
-    // Parse the inventory and learn new items for "row" (modern) shops.
-    // Print npcstores.txt or coinmasters.txt entries for new rows.
-
-    ShopRequest.parseShopInventory(shopId, responseText, false);
+    // *** Soon: will also handle ingredients for CONC and COIN shops
 
     int boughtItemId = parseWhichRow(shopId, urlString);
 
