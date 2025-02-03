@@ -1530,7 +1530,7 @@ public class RequestEditorKit extends HTMLEditorKit {
     }
 
     monster.appendItemDrops(monsterData);
-    
+
     monster.appendFact(monsterData);
 
     monster.appendMeat(monsterData, true);

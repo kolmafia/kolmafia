@@ -12,7 +12,6 @@ import java.util.StringTokenizer;
 import java.util.TreeMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -1866,21 +1865,17 @@ public class MonsterData extends AdventureResult {
   }
 
   public void appendFact(StringBuilder buffer, boolean stateful) {
-    if (!(KoLCharacter.hasSkill(SkillPool.JUST_THE_FACTS) &&
-          StandardRequest.isAllowed(RestrictedItemType.SKILLS, "Just the Facts"))) {
+    if (!(KoLCharacter.hasSkill(SkillPool.JUST_THE_FACTS)
+        && StandardRequest.isAllowed(RestrictedItemType.SKILLS, "Just the Facts"))) {
       return;
     }
     buffer.append("<br />");
     var f =
-      FactDatabase.getFact(
-        KoLCharacter.getAscensionClass(),
-        KoLCharacter.getPath(),
-        this,
-        false);
-    buffer.append("Just the Facts: "+f.toString());
+        FactDatabase.getFact(KoLCharacter.getAscensionClass(), KoLCharacter.getPath(), this, false);
+    buffer.append("Just the Facts: " + f.toString());
     return;
   }
-  
+
   void appendMeat(StringBuilder buffer) {
     this.appendMeat(buffer, false);
   }

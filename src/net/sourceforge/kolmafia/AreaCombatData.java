@@ -949,8 +949,8 @@ public class AreaCombatData {
     }
 
     this.appendItemList(buffer, monster.getItems(), monster.getPocketRates(), fullString);
-    
-    this.appendFact(buffer,monster,fullString);
+
+    this.appendFact(buffer, monster, fullString);
 
     String bounty = BountyDatabase.getNameByMonster(monster.getName());
     if (bounty != null) {
@@ -1124,24 +1124,19 @@ public class AreaCombatData {
       }
     }
   }
-  
+
   // Append facts from the book of facts if we have it.
   private void appendFact(
-      final StringBuffer buffer,
-      final MonsterData monster,
-      boolean fullString) {
-    if (!(KoLCharacter.hasSkill(SkillPool.JUST_THE_FACTS) &&
-          StandardRequest.isAllowed(RestrictedItemType.SKILLS, "Just the Facts"))) {
+      final StringBuffer buffer, final MonsterData monster, boolean fullString) {
+    if (!(KoLCharacter.hasSkill(SkillPool.JUST_THE_FACTS)
+        && StandardRequest.isAllowed(RestrictedItemType.SKILLS, "Just the Facts"))) {
       return;
     }
     buffer.append("<br>");
     var f =
-      FactDatabase.getFact(
-        KoLCharacter.getAscensionClass(),
-        KoLCharacter.getPath(),
-        monster,
-        false);
-    buffer.append("Just the Facts: "+f.toString());
+        FactDatabase.getFact(
+            KoLCharacter.getAscensionClass(), KoLCharacter.getPath(), monster, false);
+    buffer.append("Just the Facts: " + f.toString());
   }
 
   public static double getDropRateModifier() {
