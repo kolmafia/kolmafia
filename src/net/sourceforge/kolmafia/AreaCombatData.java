@@ -33,6 +33,7 @@ import net.sourceforge.kolmafia.persistence.MonsterDrop.DropFlag;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.session.BanishManager;
 import net.sourceforge.kolmafia.session.CryptManager;
 import net.sourceforge.kolmafia.session.CrystalBallManager;
@@ -1129,7 +1130,8 @@ public class AreaCombatData {
       final StringBuffer buffer,
       final MonsterData monster,
       boolean fullString) {
-    if (!KoLCharacter.hasSkill(SkillPool.JUST_THE_FACTS)) {
+    if (!(KoLCharacter.hasSkill(SkillPool.JUST_THE_FACTS) &&
+          StandardRequest.isAllowed(RestrictedItemType.SKILLS, "Just the Facts"))) {
       return;
     }
     buffer.append("<br>");
