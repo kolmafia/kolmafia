@@ -14,6 +14,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ReplicaMrStoreRequest;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junitpioneer.jupiter.cartesian.CartesianTest;
@@ -30,7 +31,7 @@ class ReplicaMrStoreRequestTest {
     var cleanups = new Cleanups(withProperty("currentReplicaStoreYear", 2004));
     try (cleanups) {
       String responseText = html("request/test_visit_replica_mr_store.html");
-      ReplicaMrStoreRequest.parseResponse("shop.php?whichshop=mrreplica", responseText);
+      ShopRequest.parseResponse("shop.php?whichshop=mrreplica", responseText);
       assertThat("currentReplicaStoreYear", isSetTo(2007));
     }
   }
