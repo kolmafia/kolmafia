@@ -12,6 +12,7 @@ import java.util.StringTokenizer;
 import java.util.TreeMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -20,10 +21,12 @@ import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
+import net.sourceforge.kolmafia.persistence.FactDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
 import net.sourceforge.kolmafia.persistence.MonsterDrop;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.session.EncounterManager.EncounterType;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.GoalManager;
@@ -1858,6 +1861,26 @@ public class MonsterData extends AdventureResult {
     return drop.itemCount().isEmpty() ? "" : drop.itemCount() + " ";
   }
 
+  void appendFact(StringBuilder buffer) {
+    this.appendFact(buffer, false);
+  }
+
+  public void appendFact(StringBuilder buffer, boolean stateful) {
+    if (!(KoLCharacter.hasSkill(SkillPool.JUST_THE_FACTS) &&
+          StandardRequest.isAllowed(RestrictedItemType.SKILLS, "Just the Facts"))) {
+      return;
+    }
+    buffer.append("<br />");
+    var f =
+      FactDatabase.getFact(
+        KoLCharacter.getAscensionClass(),
+        KoLCharacter.getPath(),
+        this,
+        false);
+    buffer.append("Just the Facts: "+f.toString());
+    return;
+  }
+  
   void appendMeat(StringBuilder buffer) {
     this.appendMeat(buffer, false);
   }
