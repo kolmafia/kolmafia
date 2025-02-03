@@ -1860,19 +1860,28 @@ public class MonsterData extends AdventureResult {
     return drop.itemCount().isEmpty() ? "" : drop.itemCount() + " ";
   }
 
+  public String getFact() {
+    if (!(KoLCharacter.hasSkill(SkillPool.JUST_THE_FACTS)
+        && StandardRequest.isAllowed(RestrictedItemType.SKILLS, "Just the Facts"))) {
+      return null;
+    }
+    StringBuffer buffer = new StringBuffer();
+    buffer.append("<br />");
+    var f =
+        FactDatabase.getFact(KoLCharacter.getAscensionClass(), KoLCharacter.getPath(), this, false);
+    buffer.append("Just the Facts: " + f.toString());
+    return buffer.toString();
+  }
+
   void appendFact(StringBuilder buffer) {
     this.appendFact(buffer, false);
   }
 
   public void appendFact(StringBuilder buffer, boolean stateful) {
-    if (!(KoLCharacter.hasSkill(SkillPool.JUST_THE_FACTS)
-        && StandardRequest.isAllowed(RestrictedItemType.SKILLS, "Just the Facts"))) {
-      return;
+    String fact = this.getFact();
+    if (fact != null) {
+      buffer.append(fact);
     }
-    buffer.append("<br />");
-    var f =
-        FactDatabase.getFact(KoLCharacter.getAscensionClass(), KoLCharacter.getPath(), this, false);
-    buffer.append("Just the Facts: " + f.toString());
     return;
   }
 

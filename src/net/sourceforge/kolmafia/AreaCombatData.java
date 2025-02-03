@@ -16,13 +16,11 @@ import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase.Environment;
 import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
-import net.sourceforge.kolmafia.persistence.FactDatabase;
 import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
@@ -33,7 +31,6 @@ import net.sourceforge.kolmafia.persistence.MonsterDrop.DropFlag;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.session.BanishManager;
 import net.sourceforge.kolmafia.session.CryptManager;
 import net.sourceforge.kolmafia.session.CrystalBallManager;
@@ -1128,15 +1125,11 @@ public class AreaCombatData {
   // Append facts from the book of facts if we have it.
   private void appendFact(
       final StringBuffer buffer, final MonsterData monster, boolean fullString) {
-    if (!(KoLCharacter.hasSkill(SkillPool.JUST_THE_FACTS)
-        && StandardRequest.isAllowed(RestrictedItemType.SKILLS, "Just the Facts"))) {
-      return;
+    String fact = monster.getFact();
+    if (fact != null) {
+      buffer.append(fact);
     }
-    buffer.append("<br>");
-    var f =
-        FactDatabase.getFact(
-            KoLCharacter.getAscensionClass(), KoLCharacter.getPath(), monster, false);
-    buffer.append("Just the Facts: " + f.toString());
+    return;
   }
 
   public static double getDropRateModifier() {
