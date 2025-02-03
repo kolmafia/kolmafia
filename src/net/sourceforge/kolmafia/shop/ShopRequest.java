@@ -14,6 +14,11 @@ import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
+import net.sourceforge.kolmafia.request.concoction.shop.FiveDPrinterRequest;
+import net.sourceforge.kolmafia.request.concoction.shop.JunkMagazineRequest;
+import net.sourceforge.kolmafia.request.concoction.shop.StillRequest;
+import net.sourceforge.kolmafia.request.concoction.shop.SugarSheetRequest;
+import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.shop.ShopDatabase.SHOP;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -360,8 +365,43 @@ public class ShopRequest extends GenericRequest {
       return;
     }
 
-    // This must be a concoction. Punt to NPCPurchaseRequest to finish
-    NPCPurchaseRequest.handleConcoction(shopId, shopRow, urlString, responseText);
+    // This must be a concoction.
+    handleConcoction(shopId, shopRow, urlString, responseText);
+  }
+
+  public static final void handleConcoction(
+      final String shopId,
+      final ShopRow shopRow,
+      final String urlString,
+      final String responseText) {
+
+    // Certain shops want to handle Preferences and Quests.  Give them a
+    // chance to do so and finish removing ingredients when they return.
+    switch (shopId) {
+      case "junkmagazine" -> {
+        JunkMagazineRequest.parseResponse(urlString, responseText);
+        break;
+      }
+      case "still" -> {
+        StillRequest.parseResponse(urlString, responseText);
+        break;
+      }
+      case "5dprinter" -> {
+        FiveDPrinterRequest.parseResponse(urlString, responseText);
+        break;
+      }
+      case "sugarsheets" -> {
+        // Sugar Sheet folding always removes exactly one.
+        SugarSheetRequest.parseResponse(urlString, responseText);
+        return;
+      }
+    }
+
+    // Remove the consumed ingredients.
+    int quantity = ShopRequest.parseQuantity(urlString);
+    for (AdventureResult ingredient : shopRow.getCosts()) {
+      ResultProcessor.processResult(ingredient.getInstance(-1 * ingredient.getCount() * quantity));
+    }
   }
 
   /*

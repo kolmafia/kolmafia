@@ -23,15 +23,11 @@ import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.concoction.shop.FiveDPrinterRequest;
-import net.sourceforge.kolmafia.request.concoction.shop.StillRequest;
-import net.sourceforge.kolmafia.request.concoction.shop.SugarSheetRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.shop.ShopRequest;
 import net.sourceforge.kolmafia.shop.ShopRow;
-import net.sourceforge.kolmafia.shop.ShopRowDatabase;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class NPCPurchaseRequest extends PurchaseRequest {
@@ -400,52 +396,6 @@ public class NPCPurchaseRequest extends PurchaseRequest {
         "buy " + quantity + " " + itemName + " for " + priceVal + " each from " + shopName);
 
     return true;
-  }
-
-  public static final void handleConcoction(
-      final String shopId,
-      final ShopRow shopRow,
-      final String urlString,
-      final String responseText) {
-    switch (shopId) {
-      case "junkmagazine" -> {
-        if (!QuestDatabase.isQuestLaterThan(Quest.HIPPY, "step1")) {
-          QuestDatabase.setQuestProgress(Quest.HIPPY, "step2");
-        }
-        break;
-      }
-      case "sugarsheets" -> {
-        SugarSheetRequest.parseResponse(urlString, responseText);
-        return;
-      }
-      case "still" -> {
-        StillRequest.parseResponse(urlString, responseText);
-        return;
-      }
-      case "5dprinter" -> {
-        FiveDPrinterRequest.parseResponse(urlString, responseText);
-        return;
-      }
-    }
-
-    handleConcoction(shopRow, urlString);
-  }
-
-  public static final void handleConcoction(final String urlString) {
-    int row = ShopRequest.parseWhichRow(urlString);
-    ShopRow shopRow = ShopRowDatabase.getShopRow(row);
-    if (shopRow == null) {
-      return;
-    }
-
-    handleConcoction(shopRow, urlString);
-  }
-
-  public static final void handleConcoction(final ShopRow shopRow, final String urlString) {
-    int quantity = ShopRequest.parseQuantity(urlString);
-    for (AdventureResult ingredient : shopRow.getCosts()) {
-      ResultProcessor.processResult(ingredient.getInstance(-1 * ingredient.getCount() * quantity));
-    }
   }
 
   private static final Pattern BLOOD_MAYO_PATTERN =

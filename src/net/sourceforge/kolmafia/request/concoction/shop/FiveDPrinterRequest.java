@@ -9,8 +9,8 @@ import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 
 public class FiveDPrinterRequest extends CreateItemRequest {
   public static final String SHOPID = "5dprinter";
@@ -50,7 +50,7 @@ public class FiveDPrinterRequest extends CreateItemRequest {
       return;
     }
 
-    FiveDPrinterRequest.parseResponse(urlString, responseText);
+    ShopRequest.parseResponse(urlString, responseText);
   }
 
   private static final Pattern DISCOVERY_PATTERN = Pattern.compile("descitem\\((\\d+)\\)");
@@ -66,7 +66,5 @@ public class FiveDPrinterRequest extends CreateItemRequest {
         ConcoctionDatabase.setRefreshNeeded(true);
       }
     }
-
-    NPCPurchaseRequest.handleConcoction(urlString);
   }
 }

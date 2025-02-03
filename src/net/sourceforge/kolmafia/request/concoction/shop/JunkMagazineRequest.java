@@ -4,6 +4,8 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
+import net.sourceforge.kolmafia.persistence.QuestDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 import net.sourceforge.kolmafia.shop.ShopRequest;
 
@@ -43,5 +45,11 @@ public class JunkMagazineRequest extends CreateItemRequest {
     }
 
     ShopRequest.parseResponse(urlString, responseText);
+  }
+
+  public static void parseResponse(final String urlString, final String responseText) {
+    if (!QuestDatabase.isQuestLaterThan(Quest.HIPPY, "step1")) {
+      QuestDatabase.setQuestProgress(Quest.HIPPY, "step2");
+    }
   }
 }

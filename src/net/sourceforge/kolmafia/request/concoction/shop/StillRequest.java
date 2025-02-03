@@ -7,8 +7,8 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
-import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class StillRequest extends CreateItemRequest {
@@ -47,7 +47,7 @@ public class StillRequest extends CreateItemRequest {
       return;
     }
 
-    StillRequest.parseResponse(urlString, responseText);
+    ShopRequest.parseResponse(urlString, responseText);
   }
 
   private static final Pattern STILLS_PATTERN = Pattern.compile("with (\\d+) bright");
@@ -56,7 +56,5 @@ public class StillRequest extends CreateItemRequest {
     Matcher matcher = StillRequest.STILLS_PATTERN.matcher(responseText);
     int count = matcher.find() ? StringUtilities.parseInt(matcher.group(1)) : 0;
     KoLCharacter.setStillsAvailable(count);
-
-    NPCPurchaseRequest.handleConcoction(urlString);
   }
 }
