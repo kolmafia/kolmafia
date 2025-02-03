@@ -5,12 +5,13 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.QuestManager;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 
 public class NeandermallRequest extends CoinMasterRequest {
   public static final String master = "The Neandermall";
+  public static final String SHOPID = "caveshop";
 
   private static final Pattern CHRONER_PATTERN = Pattern.compile("([\\d,]+) Chroner");
   public static final AdventureResult CHRONER = ItemPool.get(ItemPool.CHRONER, 1);
@@ -21,7 +22,7 @@ public class NeandermallRequest extends CoinMasterRequest {
           .withTokenTest("no Chroner")
           .withTokenPattern(CHRONER_PATTERN)
           .withItem(CHRONER)
-          .withShopRowFields(master, "caveshop")
+          .withShopRowFields(master, SHOPID)
           .withVisitShop(NeandermallRequest::visitShop)
           .withAccessible(NeandermallRequest::accessible);
 
@@ -43,28 +44,11 @@ public class NeandermallRequest extends CoinMasterRequest {
 
   @Override
   public void processResults() {
-    parseResponse(this.getURLString(), this.responseText);
+    ShopRequest.parseResponse(this.getURLString(), this.responseText);
   }
 
   public static void visitShop(final String responseText) {
     QuestManager.handleTimeTower(!responseText.contains("That store isn't there anymore."));
-  }
-
-  public static void parseResponse(final String location, final String responseText) {
-    if (!location.contains("whichshop=caveshop")) {
-      return;
-    }
-
-    CoinmasterData data = NEANDERMALL;
-
-    String action = GenericRequest.getAction(location);
-    if (action != null) {
-      CoinMasterRequest.parseResponse(data, location, responseText);
-      return;
-    }
-
-    // Parse current coin balances
-    CoinMasterRequest.parseBalance(data, responseText);
   }
 
   public static String accessible() {

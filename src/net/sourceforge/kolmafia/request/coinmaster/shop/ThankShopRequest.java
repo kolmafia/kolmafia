@@ -4,11 +4,12 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 
 public class ThankShopRequest extends CoinMasterRequest {
   public static final String master = "A traveling Thanksgiving salesman";
+  public static final String SHOPID = "thankshop";
 
   private static final Pattern CASHEW_PATTERN = Pattern.compile("([\\d,]+) cashews");
   public static final AdventureResult CASHEW = ItemPool.get(ItemPool.CASHEW, 1);
@@ -18,7 +19,7 @@ public class ThankShopRequest extends CoinMasterRequest {
           .withToken("cashew")
           .withTokenPattern(CASHEW_PATTERN)
           .withItem(CASHEW)
-          .withShopRowFields(master, "thankshop");
+          .withShopRowFields(master, SHOPID);
 
   public ThankShopRequest() {
     super(CASHEW_STORE);
@@ -38,23 +39,6 @@ public class ThankShopRequest extends CoinMasterRequest {
 
   @Override
   public void processResults() {
-    parseResponse(this.getURLString(), this.responseText);
-  }
-
-  public static void parseResponse(final String location, final String responseText) {
-    if (!location.contains("whichshop=thankshop")) {
-      return;
-    }
-
-    CoinmasterData data = CASHEW_STORE;
-
-    String action = GenericRequest.getAction(location);
-    if (action != null) {
-      CoinMasterRequest.parseResponse(data, location, responseText);
-      return;
-    }
-
-    // Parse current coin balances
-    CoinMasterRequest.parseBalance(data, responseText);
+    ShopRequest.parseResponse(this.getURLString(), this.responseText);
   }
 }

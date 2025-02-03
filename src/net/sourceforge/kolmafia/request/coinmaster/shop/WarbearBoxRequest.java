@@ -5,11 +5,12 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 
 public class WarbearBoxRequest extends CoinMasterRequest {
   public static final String master = "Warbear Black Box";
+  public static final String SHOPID = "warbear";
 
   private static final Pattern TOKEN_PATTERN = Pattern.compile("<td>([\\d,]+) warbear whosit");
   public static final AdventureResult WHOSIT = ItemPool.get(ItemPool.WARBEAR_WHOSIT, 1);
@@ -20,7 +21,7 @@ public class WarbearBoxRequest extends CoinMasterRequest {
           .withToken("warbear whosit")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(WHOSIT)
-          .withShopRowFields(master, "warbear")
+          .withShopRowFields(master, SHOPID)
           .withAccessible(WarbearBoxRequest::accessible);
 
   public WarbearBoxRequest() {
@@ -41,24 +42,7 @@ public class WarbearBoxRequest extends CoinMasterRequest {
 
   @Override
   public void processResults() {
-    parseResponse(this.getURLString(), this.responseText);
-  }
-
-  public static void parseResponse(final String urlString, final String responseText) {
-    if (!urlString.contains("whichshop=warbear")) {
-      return;
-    }
-
-    CoinmasterData data = WARBEARBOX;
-
-    String action = GenericRequest.getAction(urlString);
-    if (action != null) {
-      CoinMasterRequest.parseResponse(data, urlString, responseText);
-      return;
-    }
-
-    // Parse current coin balances
-    CoinMasterRequest.parseBalance(data, responseText);
+    ShopRequest.parseResponse(this.getURLString(), this.responseText);
   }
 
   public static String accessible() {

@@ -1,17 +1,18 @@
 package net.sourceforge.kolmafia.request.coinmaster.shop;
 
 import net.sourceforge.kolmafia.CoinmasterData;
-import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 import net.sourceforge.kolmafia.shop.ShopRow;
 
 public class Crimbo24CafeRequest extends CoinMasterRequest {
   public static final String master = "Crimbo24 Cafe";
+  public static final String SHOPID = "crimbo24_cafe";
 
   public static final CoinmasterData DATA =
       new CoinmasterData(master, "crimbo24_cafe", Crimbo24CafeRequest.class)
           .inZone("Crimbo24")
-          .withNewShopRowFields(master, "crimbo24_cafe");
+          .withNewShopRowFields(master, SHOPID);
 
   public Crimbo24CafeRequest() {
     super(DATA);
@@ -23,23 +24,6 @@ public class Crimbo24CafeRequest extends CoinMasterRequest {
 
   @Override
   public void processResults() {
-    parseResponse(this.getURLString(), this.responseText);
-  }
-
-  public static void parseResponse(final String location, final String responseText) {
-    if (!location.contains("whichshop=" + DATA.getShopId())) {
-      return;
-    }
-
-    CoinmasterData data = DATA;
-
-    String action = GenericRequest.getAction(location);
-    if (action != null) {
-      CoinMasterRequest.parseResponse(data, location, responseText);
-      return;
-    }
-
-    // Parse current coin balances
-    CoinMasterRequest.parseBalance(data, responseText);
+    ShopRequest.parseResponse(this.getURLString(), this.responseText);
   }
 }

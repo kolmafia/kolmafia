@@ -5,12 +5,13 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 
 public class SeptEmberCenserRequest extends CoinMasterRequest {
   public static final String master = "Sept-Ember Censer";
+  public static final String SHOPID = "september";
 
   // <b>You have 8 Embers.</b>
   private static final Pattern TOKEN_PATTERN = Pattern.compile("<b>You have ([\\d,]+) Ember");
@@ -20,7 +21,7 @@ public class SeptEmberCenserRequest extends CoinMasterRequest {
           .withToken("Ember")
           .withTokenPattern(TOKEN_PATTERN)
           .withProperty("availableSeptEmbers")
-          .withShopRowFields(master, "september")
+          .withShopRowFields(master, SHOPID)
           .withVisitShop(SeptEmberCenserRequest::visitShop)
           .withAccessible(SeptEmberCenserRequest::accessible);
 
@@ -42,25 +43,13 @@ public class SeptEmberCenserRequest extends CoinMasterRequest {
 
   @Override
   public void processResults() {
-    parseResponse(this.getURLString(), this.responseText);
+    ShopRequest.parseResponse(this.getURLString(), this.responseText);
   }
 
   public static void visitShop(final String responseText) {
     // Parse current coin balances
     CoinMasterRequest.parseBalance(SEPTEMBER_CENSER, responseText);
     Preferences.setBoolean("_septEmberBalanceChecked", true);
-  }
-
-  public static void parseResponse(final String urlString, final String responseText) {
-    if (!urlString.contains("whichshop=september")) {
-      return;
-    }
-
-    String action = GenericRequest.getAction(urlString);
-    if (action != null) {
-      CoinMasterRequest.parseResponse(SEPTEMBER_CENSER, urlString, responseText);
-      return;
-    }
   }
 
   public static String accessible() {

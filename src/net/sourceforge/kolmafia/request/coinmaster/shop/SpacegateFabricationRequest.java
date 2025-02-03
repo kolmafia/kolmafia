@@ -5,11 +5,12 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 
 public class SpacegateFabricationRequest extends CoinMasterRequest {
   public static final String master = "Spacegate Fabrication Facility";
+  public static final String SHOPID = "spacegate";
 
   private static final Pattern RESEARCH_PATTERN =
       Pattern.compile("([\\d,]+) pages? of Spacegate Research");
@@ -21,7 +22,7 @@ public class SpacegateFabricationRequest extends CoinMasterRequest {
           .withTokenTest("no pages of Spacegate Research")
           .withTokenPattern(RESEARCH_PATTERN)
           .withItem(RESEARCH)
-          .withShopRowFields(master, "spacegate")
+          .withShopRowFields(master, SHOPID)
           .withAccessible(SpacegateFabricationRequest::accessible);
 
   public SpacegateFabricationRequest() {
@@ -42,24 +43,7 @@ public class SpacegateFabricationRequest extends CoinMasterRequest {
 
   @Override
   public void processResults() {
-    parseResponse(this.getURLString(), this.responseText);
-  }
-
-  public static void parseResponse(final String location, final String responseText) {
-    if (!location.contains("whichshop=spacegate")) {
-      return;
-    }
-
-    CoinmasterData data = SPACEGATE_STORE;
-
-    String action = GenericRequest.getAction(location);
-    if (action != null) {
-      CoinMasterRequest.parseResponse(data, location, responseText);
-      return;
-    }
-
-    // Parse current coin balances
-    CoinMasterRequest.parseBalance(data, responseText);
+    ShopRequest.parseResponse(this.getURLString(), this.responseText);
   }
 
   public static String accessible() {
