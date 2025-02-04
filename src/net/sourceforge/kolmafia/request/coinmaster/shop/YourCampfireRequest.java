@@ -5,11 +5,12 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.CampAwayRequest;
-import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 
 public class YourCampfireRequest extends CoinMasterRequest {
   public static final String master = "Your Campfire";
+  public static final String SHOPID = "campfire";
 
   private static final Pattern FIREWOOD_PATTERN = Pattern.compile("([\\d,]+) sticks? of firewood");
   public static final AdventureResult STICK_OF_FIREWOOD =
@@ -21,7 +22,7 @@ public class YourCampfireRequest extends CoinMasterRequest {
           .withTokenTest("no sticks of firewood")
           .withTokenPattern(FIREWOOD_PATTERN)
           .withItem(STICK_OF_FIREWOOD)
-          .withShopRowFields(master, "campfire")
+          .withShopRowFields(master, SHOPID)
           .withAccessible(YourCampfireRequest::accessible);
 
   public YourCampfireRequest() {
@@ -42,27 +43,13 @@ public class YourCampfireRequest extends CoinMasterRequest {
 
   @Override
   public void processResults() {
-    parseResponse(this.getURLString(), this.responseText);
-  }
-
-  public static void parseResponse(final String location, final String responseText) {
-    if (!location.contains("whichshop=campfire")) {
-      return;
-    }
-
-    CoinmasterData data = YOUR_CAMPFIRE;
-
-    String action = GenericRequest.getAction(location);
-    if (action != null) {
-      CoinMasterRequest.parseResponse(data, location, responseText);
-      return;
-    }
-
-    // Parse current coin balances
-    CoinMasterRequest.parseBalance(data, responseText);
+    ShopRequest.parseResponse(this.getURLString(), this.responseText);
   }
 
   public static String accessible() {
-    return CampAwayRequest.campAwayTentAvailable() ? null : "Need access to your Getaway Campsite";
+    if (CampAwayRequest.campAwayTentAvailable()) {
+      return null;
+    }
+    return "Need access to your Getaway Campsite";
   }
 }

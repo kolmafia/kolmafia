@@ -8,11 +8,12 @@ import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
-import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 
 public class CosmicRaysBazaarRequest extends CoinMasterRequest {
   public static final String master = "Cosmic Ray's Bazaar";
+  public static final String SHOPID = "exploathing";
 
   public static final AdventureResult RARE_MEAT_ISOTOPE =
       ItemPool.get(ItemPool.RARE_MEAT_ISOTOPE, 1);
@@ -21,7 +22,7 @@ public class CosmicRaysBazaarRequest extends CoinMasterRequest {
 
   public static final CoinmasterData COSMIC_RAYS_BAZAAR =
       new CoinmasterData(master, "exploathing", CosmicRaysBazaarRequest.class)
-          .withShopRowFields(master, "exploathing")
+          .withShopRowFields(master, SHOPID)
           .withBuyPrices()
           .withItemBuyPrice(CosmicRaysBazaarRequest::itemBuyPrice)
           .withAccessible(CosmicRaysBazaarRequest::accessible);
@@ -74,24 +75,7 @@ public class CosmicRaysBazaarRequest extends CoinMasterRequest {
 
   @Override
   public void processResults() {
-    parseResponse(this.getURLString(), this.responseText);
-  }
-
-  public static void parseResponse(final String location, final String responseText) {
-    if (!location.contains("whichshop=exploathing")) {
-      return;
-    }
-
-    CoinmasterData data = COSMIC_RAYS_BAZAAR;
-
-    String action = GenericRequest.getAction(location);
-    if (action != null) {
-      CoinMasterRequest.parseResponse(data, location, responseText);
-      return;
-    }
-
-    // Parse current coin balances
-    CoinMasterRequest.parseBalance(data, responseText);
+    ShopRequest.parseResponse(this.getURLString(), this.responseText);
   }
 
   public static String accessible() {

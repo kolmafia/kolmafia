@@ -13,14 +13,15 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.QuestManager;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class MerchTableRequest extends CoinMasterRequest {
   public static final String master = "KoL Con 13 Merch Table";
+  public static final String SHOPID = "conmerch";
 
   private static final Pattern MR_A_PATTERN =
       Pattern.compile("You have (\\w+) Mr. Accessor(?:y|ies) to trade.");
@@ -36,10 +37,11 @@ public class MerchTableRequest extends CoinMasterRequest {
           .withTokenTest("You have no Mr. Accessories to trade")
           .withTokenPattern(MR_A_PATTERN)
           .withItem(MR_A)
-          .withShopRowFields(master, "conmerch")
+          .withShopRowFields(master, SHOPID)
           .withItemRows(CoinmastersDatabase.getOrMakeRows(master))
           .withBuyPrices()
           .withItemBuyPrice(MerchTableRequest::itemBuyPrice)
+          .withVisitShop(MerchTableRequest::visitShop)
           .withAccessible(MerchTableRequest::accessible);
 
   private static AdventureResult itemBuyPrice(final Integer itemId) {
@@ -86,7 +88,7 @@ public class MerchTableRequest extends CoinMasterRequest {
 
   @Override
   public void processResults() {
-    parseResponse(this.getURLString(), responseText);
+    ShopRequest.parseResponse(this.getURLString(), responseText);
   }
 
   // <tr rel="9148"><td valign=center></td><td><img
@@ -104,17 +106,8 @@ public class MerchTableRequest extends CoinMasterRequest {
           "<tr rel=\"(\\d+)\">.*?onClick='javascript:descitem\\((\\d+)\\)'>.*?<b>(.*?)</b>.*?title=\"(.*?)\".*?<b>([\\d,]+)</b>.*?whichrow=(\\d+)",
           Pattern.DOTALL);
 
-  public static void parseResponse(final String urlString, final String responseText) {
-    if (!urlString.contains("whichshop=conmerch")) {
-      return;
-    }
-
-    if (responseText.contains("That store isn't there anymore.")) {
-      QuestManager.handleTimeTower(false);
-      return;
-    }
-
-    QuestManager.handleTimeTower(true);
+  public static void visitShop(final String responseText) {
+    QuestManager.handleTimeTower(!responseText.contains("That store isn't there anymore."));
 
     // Learn new items by simply visiting the Merch Table
     // Refresh the Coin Master inventory every time we visit.
@@ -155,15 +148,6 @@ public class MerchTableRequest extends CoinMasterRequest {
 
     // Register the purchase requests, now that we know what is available
     data.registerPurchaseRequests();
-
-    String action = GenericRequest.getAction(urlString);
-    if (action != null) {
-      CoinMasterRequest.parseResponse(data, urlString, responseText);
-      return;
-    }
-
-    // Parse current coin balances
-    CoinMasterRequest.parseBalance(data, responseText);
   }
 
   public static String accessible() {

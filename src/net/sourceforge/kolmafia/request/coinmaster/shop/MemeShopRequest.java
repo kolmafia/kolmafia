@@ -5,22 +5,25 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 
 public class MemeShopRequest extends CoinMasterRequest {
   public static final String master = "Internet Meme Shop";
+  public static final String SHOPID = "bacon";
 
   private static final Pattern BACON_PATTERN = Pattern.compile("([\\d,]+) BACON");
   public static final AdventureResult BACON = ItemPool.get(ItemPool.BACON, 1);
 
   public static final CoinmasterData BACON_STORE =
-      new CoinmasterData(master, "bacon", MemeShopRequest.class) {}.withToken("BACON")
+      new CoinmasterData(master, "bacon", MemeShopRequest.class)
+          .withToken("BACON")
           .withTokenTest("Where's the bacon?")
           .withTokenPattern(BACON_PATTERN)
           .withItem(BACON)
-          .withShopRowFields(master, "bacon")
+          .withShopRowFields(master, SHOPID)
           .withCanBuyItem(MemeShopRequest::canBuyItem)
+          .withVisitShop(MemeShopRequest::visitShop)
           .withPurchasedItem(MemeShopRequest::purchasedItem);
 
   private static String itemProperty(final int itemId) {
@@ -66,22 +69,10 @@ public class MemeShopRequest extends CoinMasterRequest {
 
   @Override
   public void processResults() {
-    parseResponse(this.getURLString(), this.responseText);
+    ShopRequest.parseResponse(this.getURLString(), this.responseText);
   }
 
-  public static void parseResponse(final String location, final String responseText) {
-    if (!location.contains("whichshop=bacon")) {
-      return;
-    }
-
-    CoinmasterData data = BACON_STORE;
-
-    String action = GenericRequest.getAction(location);
-    if (action != null) {
-      CoinMasterRequest.parseResponse(data, location, responseText);
-      return;
-    }
-
+  public static void visitShop(String responseText) {
     Preferences.setBoolean("_internetViralVideoBought", !responseText.contains("viral video"));
     Preferences.setBoolean("_internetPlusOneBought", !responseText.contains("plus one"));
     Preferences.setBoolean("_internetGallonOfMilkBought", !responseText.contains("gallon of milk"));
@@ -89,8 +80,5 @@ public class MemeShopRequest extends CoinMasterRequest {
         "_internetPrintScreenButtonBought", !responseText.contains("print screen button"));
     Preferences.setBoolean(
         "_internetDailyDungeonMalwareBought", !responseText.contains("daily dungeon malware"));
-
-    // Parse current coin balances
-    CoinMasterRequest.parseBalance(data, responseText);
   }
 }

@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.regex.Matcher;
@@ -106,6 +107,7 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   private Function<Integer, Boolean> canBuyItem = this::canBuyItemInternal;
   private Function<Integer, Boolean> availableItem = this::availableItemInternal;
   private BiConsumer<AdventureResult, Boolean> purchasedItem = this::purchasedItemInternal;
+  private Consumer<String> visitShop = this::visitShopInternal;
   private Supplier<String> canBuy = this::canBuyInternal;
   private Supplier<String> canSell = this::canSellInternal;
   private Supplier<String> accessible = this::accessibleInternal;
@@ -678,6 +680,20 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   }
 
   /**
+   * Specifies a static method that will be invoked by <code>void
+   * visitShop(String responseText)</code>
+   *
+   * <p>Use this if you want to, for example, check for unlocked items.
+   *
+   * @param consumer - a Consumer object to be called by visitShop
+   * @return this - Allows fluid chaining of fields
+   */
+  public CoinmasterData withVisitShop(Consumer<String> consumer) {
+    this.visitShop = consumer;
+    return this;
+  }
+
+  /**
    * Specifies a static method that will be invoked by <code>Boolean
    * canBuy()</code>
    *
@@ -1207,6 +1223,7 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   public void registerShop() {
     if (this.buyURL.startsWith("shop.php")) {
       ShopDatabase.registerShop(this.shopId, this.master, SHOP.COIN);
+      ShopDatabase.setCoinmasterData(this.shopId, this);
       ShopDatabase.setLogVisits(shopId);
     }
   }
@@ -1375,6 +1392,12 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   }
 
   private void purchasedItemInternal(AdventureResult item, boolean storage) {}
+
+  public void visitShop(final String responseText) {
+    this.visitShop.accept(responseText);
+  }
+
+  private void visitShopInternal(String responseText) {}
 
   // *** For testing
   public void setDisabled(boolean isDisabled) {

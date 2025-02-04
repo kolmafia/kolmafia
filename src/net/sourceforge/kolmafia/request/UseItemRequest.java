@@ -54,7 +54,6 @@ import net.sourceforge.kolmafia.request.coinmaster.BURTRequest;
 import net.sourceforge.kolmafia.request.coinmaster.FudgeWandRequest;
 import net.sourceforge.kolmafia.request.coinmaster.HermitRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.FDKOLRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.MrStore2002Request;
 import net.sourceforge.kolmafia.request.concoction.MultiUseRequest;
 import net.sourceforge.kolmafia.request.concoction.SingleUseRequest;
 import net.sourceforge.kolmafia.session.BugbearManager;
@@ -71,6 +70,7 @@ import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SpadingManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.textui.command.ZapCommand;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
@@ -6169,9 +6169,9 @@ public class UseItemRequest extends GenericRequest {
 
       case ItemPool.MR_STORE_2002_CATALOG:
       case ItemPool.REPLICA_MR_STORE_2002_CATALOG:
-        // Using the catalog redirects to "whichshop=mrstore2002".
+        // Using the catalog redirects to "shop.php?whichshop=mrstore2002".
         // If we followed the redirect, let MrStore2002Request handle it.
-        MrStore2002Request.parseResponse(currentURL, responseText);
+        ShopRequest.parseResponse(currentURL, responseText);
         return;
 
       case ItemPool.GIANT_BLACK_MONOLITH:

@@ -9,11 +9,12 @@ import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
-import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 
 public class RubeeRequest extends CoinMasterRequest {
   public static final String master = "FantasyRealm Rubee&trade; Store";
+  public static final String SHOPID = "fantasyrealm";
 
   private static final Pattern TOKEN_PATTERN = Pattern.compile("<td>([\\d,]+) Rubees&trade;");
   public static final AdventureResult COIN = ItemPool.get(ItemPool.RUBEE, 1);
@@ -23,7 +24,7 @@ public class RubeeRequest extends CoinMasterRequest {
           .withToken("Rubee&trade;")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)
-          .withShopRowFields(master, "fantasyrealm")
+          .withShopRowFields(master, SHOPID)
           .withAccessible(RubeeRequest::accessible);
 
   public RubeeRequest() {
@@ -44,30 +45,14 @@ public class RubeeRequest extends CoinMasterRequest {
 
   @Override
   public void processResults() {
-    parseResponse(this.getURLString(), this.responseText);
-  }
-
-  public static void parseResponse(final String urlString, final String responseText) {
-    if (!urlString.contains("whichshop=fantasyrealm")) {
-      return;
-    }
-
-    CoinmasterData data = RUBEE;
-
-    String action = GenericRequest.getAction(urlString);
-    if (action != null) {
-      CoinMasterRequest.parseResponse(data, urlString, responseText);
-      return;
-    }
-
-    // Parse current coin balances
-    CoinMasterRequest.parseBalance(data, responseText);
+    ShopRequest.parseResponse(this.getURLString(), this.responseText);
   }
 
   public static String accessible() {
-    return Preferences.getBoolean("_frToday") || Preferences.getBoolean("frAlways")
-        ? null
-        : "Need access to Fantasy Realm";
+    if (Preferences.getBoolean("_frToday") || Preferences.getBoolean("frAlways")) {
+      return null;
+    }
+    return "Need access to Fantasy Realm";
   }
 
   @Override

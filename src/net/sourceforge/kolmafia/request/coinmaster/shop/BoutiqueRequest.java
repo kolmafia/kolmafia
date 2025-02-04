@@ -5,11 +5,12 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 
 public class BoutiqueRequest extends CoinMasterRequest {
   public static final String master = "Paul's Boutique";
+  public static final String SHOPID = "cindy";
 
   private static final Pattern TOKEN_PATTERN = Pattern.compile("<td>([\\d,]+) odd silver coin");
   public static final AdventureResult COIN = ItemPool.get(ItemPool.ODD_SILVER_COIN, 1);
@@ -19,7 +20,7 @@ public class BoutiqueRequest extends CoinMasterRequest {
           .withToken("odd silver coin")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)
-          .withShopRowFields(master, "cindy")
+          .withShopRowFields(master, SHOPID)
           .withAccessible(BoutiqueRequest::accessible);
 
   public BoutiqueRequest() {
@@ -40,29 +41,12 @@ public class BoutiqueRequest extends CoinMasterRequest {
 
   @Override
   public void processResults() {
-    parseResponse(this.getURLString(), this.responseText);
-  }
-
-  public static void parseResponse(final String urlString, final String responseText) {
-    if (!urlString.contains("whichshop=cindy")) {
-      return;
-    }
-
-    CoinmasterData data = BOUTIQUE;
-
-    String action = GenericRequest.getAction(urlString);
-    if (action != null) {
-      CoinMasterRequest.parseResponse(data, urlString, responseText);
-      return;
-    }
-
-    // Parse current coin balances
-    CoinMasterRequest.parseBalance(data, responseText);
+    ShopRequest.parseResponse(this.getURLString(), this.responseText);
   }
 
   public static String accessible() {
-    int coin = COIN.getCount(KoLConstants.inventory);
-    if (coin == 0) {
+    int coins = COIN.getCount(KoLConstants.inventory);
+    if (coins == 0) {
       return "You don't have an odd silver coin.";
     }
     return null;

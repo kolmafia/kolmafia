@@ -6,11 +6,12 @@ import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 
 public class DinseyCompanyStoreRequest extends CoinMasterRequest {
   public static final String master = "The Dinsey Company Store";
+  public static final String SHOPID = "landfillstore";
 
   private static final Pattern TOKEN_PATTERN = Pattern.compile("<td>([\\d,]+) FunFunds");
   public static final AdventureResult COIN = ItemPool.get(ItemPool.FUNFUNDS, 1);
@@ -21,7 +22,7 @@ public class DinseyCompanyStoreRequest extends CoinMasterRequest {
           .withPluralToken("FunFunds&trade;")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)
-          .withShopRowFields(master, "landfillstore")
+          .withShopRowFields(master, SHOPID)
           .withAccessible(DinseyCompanyStoreRequest::accessible);
 
   public DinseyCompanyStoreRequest() {
@@ -42,24 +43,7 @@ public class DinseyCompanyStoreRequest extends CoinMasterRequest {
 
   @Override
   public void processResults() {
-    parseResponse(this.getURLString(), this.responseText);
-  }
-
-  public static void parseResponse(final String urlString, final String responseText) {
-    if (!urlString.contains("whichshop=landfillstore")) {
-      return;
-    }
-
-    CoinmasterData data = DINSEY_COMPANY_STORE;
-
-    String action = GenericRequest.getAction(urlString);
-    if (action != null) {
-      CoinMasterRequest.parseResponse(data, urlString, responseText);
-      return;
-    }
-
-    // Parse current coin balances
-    CoinMasterRequest.parseBalance(data, responseText);
+    ShopRequest.parseResponse(this.getURLString(), this.responseText);
   }
 
   public static String accessible() {

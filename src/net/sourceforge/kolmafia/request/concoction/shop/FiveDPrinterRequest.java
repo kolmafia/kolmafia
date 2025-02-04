@@ -9,16 +9,18 @@ import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 
 public class FiveDPrinterRequest extends CreateItemRequest {
+  public static final String SHOPID = "5dprinter";
+
   public FiveDPrinterRequest(final Concoction conc) {
     // shop.php?whichshop=5dprinter&action=buyitem&quantity=1&whichrow=340&pwd=15a3ed7ce8a5e0c8a6c7e08a03fca040
     // quantity field is not needed and is not used
     super("shop.php", conc);
 
-    this.addFormField("whichshop", "5dprinter");
+    this.addFormField("whichshop", SHOPID);
     this.addFormField("action", "buyitem");
     int row = ConcoctionPool.idToRow(this.getItemId());
     this.addFormField("whichrow", String.valueOf(row));
@@ -46,16 +48,12 @@ public class FiveDPrinterRequest extends CreateItemRequest {
       return;
     }
 
-    FiveDPrinterRequest.parseResponse(urlString, responseText);
+    ShopRequest.parseResponse(urlString, responseText);
   }
 
   private static final Pattern DISCOVERY_PATTERN = Pattern.compile("descitem\\((\\d+)\\)");
 
   public static void parseResponse(final String urlString, final String responseText) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=5dprinter")) {
-      return;
-    }
-
     Matcher matcher = FiveDPrinterRequest.DISCOVERY_PATTERN.matcher(responseText);
     while (matcher.find()) {
       int id = ItemDatabase.getItemIdFromDescription(matcher.group(1));
@@ -66,7 +64,5 @@ public class FiveDPrinterRequest extends CreateItemRequest {
         ConcoctionDatabase.setRefreshNeeded(true);
       }
     }
-
-    NPCPurchaseRequest.parseShopRowResponse(urlString, responseText);
   }
 }

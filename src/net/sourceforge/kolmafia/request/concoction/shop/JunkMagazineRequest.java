@@ -4,14 +4,18 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
-import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
+import net.sourceforge.kolmafia.persistence.QuestDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 
 public class JunkMagazineRequest extends CreateItemRequest {
+  public static final String SHOPID = "junkmagazine";
+
   public JunkMagazineRequest(final Concoction conc) {
     super("shop.php", conc);
 
-    this.addFormField("whichshop", "junkmagazine");
+    this.addFormField("whichshop", SHOPID);
     this.addFormField("action", "buyitem");
     int row = ConcoctionPool.idToRow(this.getItemId());
     this.addFormField("whichrow", String.valueOf(row));
@@ -40,14 +44,12 @@ public class JunkMagazineRequest extends CreateItemRequest {
       return;
     }
 
-    JunkMagazineRequest.parseResponse(urlString, responseText);
+    ShopRequest.parseResponse(urlString, responseText);
   }
 
   public static void parseResponse(final String urlString, final String responseText) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=junkmagazine")) {
-      return;
+    if (!QuestDatabase.isQuestLaterThan(Quest.HIPPY, "step1")) {
+      QuestDatabase.setQuestProgress(Quest.HIPPY, "step2");
     }
-
-    NPCPurchaseRequest.parseShopRowResponse(urlString, responseText);
   }
 }
