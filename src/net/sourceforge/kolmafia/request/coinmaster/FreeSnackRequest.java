@@ -36,14 +36,6 @@ public class FreeSnackRequest extends CoinMasterRequest {
     super(FREESNACKS, buying, attachments);
   }
 
-  public FreeSnackRequest(final boolean buying, final AdventureResult attachment) {
-    super(FREESNACKS, buying, attachment);
-  }
-
-  public FreeSnackRequest(final boolean buying, final int itemId, final int quantity) {
-    super(FREESNACKS, buying, itemId, quantity);
-  }
-
   @Override
   public void processResults() {
     GameShoppeRequest.parseResponse(this.getURLString(), this.responseText);
@@ -57,7 +49,8 @@ public class FreeSnackRequest extends CoinMasterRequest {
   }
 
   public static final void buy(final int itemId, final int count) {
-    RequestThread.postRequest(new FreeSnackRequest(true, itemId, count));
+    RequestThread.postRequest(
+        new FreeSnackRequest(true, new AdventureResult[] {ItemPool.get(itemId, count)}));
   }
 
   public static String accessible() {

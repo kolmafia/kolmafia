@@ -45,14 +45,6 @@ public class BlackMarketRequest extends CoinMasterRequest {
     super(BLACK_MARKET, buying, attachments);
   }
 
-  public BlackMarketRequest(final boolean buying, final AdventureResult attachment) {
-    super(BLACK_MARKET, buying, attachment);
-  }
-
-  public BlackMarketRequest(final boolean buying, final int itemId, final int quantity) {
-    super(BLACK_MARKET, buying, itemId, quantity);
-  }
-
   @Override
   public void processResults() {
     ShopRequest.parseResponse(this.getURLString(), responseText);

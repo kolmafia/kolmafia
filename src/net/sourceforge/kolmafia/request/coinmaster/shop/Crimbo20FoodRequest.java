@@ -45,14 +45,6 @@ public class Crimbo20FoodRequest extends CoinMasterRequest {
     super(CRIMBO20FOOD, buying, attachments);
   }
 
-  public Crimbo20FoodRequest(final boolean buying, final AdventureResult attachment) {
-    super(CRIMBO20FOOD, buying, attachment);
-  }
-
-  public Crimbo20FoodRequest(final boolean buying, final int itemId, final int quantity) {
-    super(CRIMBO20FOOD, buying, itemId, quantity);
-  }
-
   @Override
   public void processResults() {
     ShopRequest.parseResponse(this.getURLString(), this.responseText);

@@ -32,14 +32,6 @@ public class PlumberItemRequest extends CoinMasterRequest {
     super(PLUMBER_ITEMS, buying, attachments);
   }
 
-  public PlumberItemRequest(final boolean buying, final AdventureResult attachment) {
-    super(PLUMBER_ITEMS, buying, attachment);
-  }
-
-  public PlumberItemRequest(final boolean buying, final int itemId, final int quantity) {
-    super(PLUMBER_ITEMS, buying, itemId, quantity);
-  }
-
   @Override
   public void processResults() {
     ShopRequest.parseResponse(this.getURLString(), this.responseText);

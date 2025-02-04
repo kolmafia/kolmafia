@@ -42,14 +42,6 @@ public class DripArmoryRequest extends CoinMasterRequest {
     super(DRIP_ARMORY, buying, attachments);
   }
 
-  public DripArmoryRequest(final boolean buying, final AdventureResult attachment) {
-    super(DRIP_ARMORY, buying, attachment);
-  }
-
-  public DripArmoryRequest(final boolean buying, final int itemId, final int quantity) {
-    super(DRIP_ARMORY, buying, itemId, quantity);
-  }
-
   @Override
   public void processResults() {
     ShopRequest.parseResponse(this.getURLString(), responseText);

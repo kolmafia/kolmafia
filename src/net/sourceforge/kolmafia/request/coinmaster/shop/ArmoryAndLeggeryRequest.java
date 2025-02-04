@@ -100,14 +100,6 @@ public class ArmoryAndLeggeryRequest extends CoinMasterRequest {
     super(ARMORY_AND_LEGGERY, buying, attachments);
   }
 
-  public ArmoryAndLeggeryRequest(final boolean buying, final AdventureResult attachment) {
-    super(ARMORY_AND_LEGGERY, buying, attachment);
-  }
-
-  public ArmoryAndLeggeryRequest(final boolean buying, final int itemId, final int quantity) {
-    super(ARMORY_AND_LEGGERY, buying, itemId, quantity);
-  }
-
   @Override
   public void processResults() {
     ShopRequest.parseResponse(this.getURLString(), responseText);

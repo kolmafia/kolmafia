@@ -42,14 +42,6 @@ public class TacoDanRequest extends CoinMasterRequest {
     super(TACO_DAN, buying, attachments);
   }
 
-  public TacoDanRequest(final boolean buying, final AdventureResult attachment) {
-    super(TACO_DAN, buying, attachment);
-  }
-
-  public TacoDanRequest(final boolean buying, final int itemId, final int quantity) {
-    super(TACO_DAN, buying, itemId, quantity);
-  }
-
   @Override
   public void processResults() {
     ShopRequest.parseResponse(this.getURLString(), this.responseText);

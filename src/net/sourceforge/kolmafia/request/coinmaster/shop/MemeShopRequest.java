@@ -59,14 +59,6 @@ public class MemeShopRequest extends CoinMasterRequest {
     super(BACON_STORE, buying, attachments);
   }
 
-  public MemeShopRequest(final boolean buying, final AdventureResult attachment) {
-    super(BACON_STORE, buying, attachment);
-  }
-
-  public MemeShopRequest(final boolean buying, final int itemId, final int quantity) {
-    super(BACON_STORE, buying, itemId, quantity);
-  }
-
   @Override
   public void processResults() {
     ShopRequest.parseResponse(this.getURLString(), this.responseText);

@@ -48,14 +48,6 @@ public class GotporkOrphanageRequest extends CoinMasterRequest {
     super(GOTPORK_ORPHANAGE, buying, attachments);
   }
 
-  public GotporkOrphanageRequest(final boolean buying, final AdventureResult attachment) {
-    super(GOTPORK_ORPHANAGE, buying, attachment);
-  }
-
-  public GotporkOrphanageRequest(final boolean buying, final int itemId, final int quantity) {
-    super(GOTPORK_ORPHANAGE, buying, itemId, quantity);
-  }
-
   @Override
   public void processResults() {
     ShopRequest.parseResponse(this.getURLString(), this.responseText);

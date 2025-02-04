@@ -128,10 +128,9 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   /**
    * Defines the token used by the coinmaster,
    *
-   * <p>A coinmaster deals in currencies other than Meat. If there is only one such currency, we
-   * call it the "token"
+   * <p>A shop.php coinmaster needs a shopId
    *
-   * @param token - Token used
+   * @param shopId - whichshop=SHOPID
    * @return this - Allows fluid chaining of fields
    */
   public CoinmasterData withShopId(String shopId) {
@@ -1124,7 +1123,11 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   public Set<AdventureResult> currencies() {
     if (this.currencies == null) {
       this.currencies = new TreeSet<>();
-      if (this.shopRows != null) {
+      if (this.master.equals("Hermit")) {
+        // Unlike other coinmasters, buyitems is not initialized until
+        // the shop is first visited.
+        this.currencies.add(HermitRequest.WORTHLESS_ITEM);
+      } else if (this.shopRows != null) {
         for (ShopRow shopRow : this.shopRows) {
           for (AdventureResult cost : shopRow.getCosts()) {
             this.currencies.add(cost);

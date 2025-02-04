@@ -34,14 +34,6 @@ public class NinjaStoreRequest extends CoinMasterRequest {
     super(NINJA_STORE, buying, attachments);
   }
 
-  public NinjaStoreRequest(final boolean buying, final AdventureResult attachment) {
-    super(NINJA_STORE, buying, attachment);
-  }
-
-  public NinjaStoreRequest(final boolean buying, final int itemId, final int quantity) {
-    super(NINJA_STORE, buying, itemId, quantity);
-  }
-
   @Override
   public void processResults() {
     ShopRequest.parseResponse(this.getURLString(), this.responseText);

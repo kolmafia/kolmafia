@@ -30,14 +30,6 @@ public class LTTRequest extends CoinMasterRequest {
     super(LTT, buying, attachments);
   }
 
-  public LTTRequest(final boolean buying, final AdventureResult attachment) {
-    super(LTT, buying, attachment);
-  }
-
-  public LTTRequest(final boolean buying, final int itemId, final int quantity) {
-    super(LTT, buying, itemId, quantity);
-  }
-
   @Override
   public void processResults() {
     ShopRequest.parseResponse(this.getURLString(), this.responseText);

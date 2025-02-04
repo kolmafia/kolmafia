@@ -32,14 +32,6 @@ public class WarbearBoxRequest extends CoinMasterRequest {
     super(WARBEARBOX, buying, attachments);
   }
 
-  public WarbearBoxRequest(final boolean buying, final AdventureResult attachment) {
-    super(WARBEARBOX, buying, attachment);
-  }
-
-  public WarbearBoxRequest(final boolean buying, final int itemId, final int quantity) {
-    super(WARBEARBOX, buying, itemId, quantity);
-  }
-
   @Override
   public void processResults() {
     ShopRequest.parseResponse(this.getURLString(), this.responseText);

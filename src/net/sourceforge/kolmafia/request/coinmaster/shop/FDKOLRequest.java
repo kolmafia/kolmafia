@@ -31,14 +31,6 @@ public class FDKOLRequest extends CoinMasterRequest {
     super(FDKOL, buying, attachments);
   }
 
-  public FDKOLRequest(final boolean buying, final AdventureResult attachment) {
-    super(FDKOL, buying, attachment);
-  }
-
-  public FDKOLRequest(final boolean buying, final int itemId, final int quantity) {
-    super(FDKOL, buying, itemId, quantity);
-  }
-
   @Override
   public void processResults() {
     ShopRequest.parseResponse(this.getURLString(), this.responseText);

@@ -49,14 +49,6 @@ public class Crimbo11Request extends CoinMasterRequest {
     super(CRIMBO11, buying, attachments);
   }
 
-  public Crimbo11Request(final boolean buying, final AdventureResult attachment) {
-    super(CRIMBO11, buying, attachment);
-  }
-
-  public Crimbo11Request(final boolean buying, final int itemId, final int quantity) {
-    super(CRIMBO11, buying, itemId, quantity);
-  }
-
   private static String placeString(final String urlString) {
     String place = GenericRequest.getPlace(urlString);
     if (place == null) {

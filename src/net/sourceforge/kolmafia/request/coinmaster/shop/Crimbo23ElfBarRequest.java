@@ -33,14 +33,6 @@ public class Crimbo23ElfBarRequest extends CoinMasterRequest {
     super(DATA, buying, attachments);
   }
 
-  public Crimbo23ElfBarRequest(final boolean buying, final AdventureResult attachment) {
-    super(DATA, buying, attachment);
-  }
-
-  public Crimbo23ElfBarRequest(final boolean buying, final int itemId, final int quantity) {
-    super(DATA, buying, itemId, quantity);
-  }
-
   @Override
   public void processResults() {
     String responseText = this.responseText;

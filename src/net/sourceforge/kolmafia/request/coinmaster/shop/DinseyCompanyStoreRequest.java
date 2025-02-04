@@ -33,14 +33,6 @@ public class DinseyCompanyStoreRequest extends CoinMasterRequest {
     super(DINSEY_COMPANY_STORE, buying, attachments);
   }
 
-  public DinseyCompanyStoreRequest(final boolean buying, final AdventureResult attachment) {
-    super(DINSEY_COMPANY_STORE, buying, attachment);
-  }
-
-  public DinseyCompanyStoreRequest(final boolean buying, final int itemId, final int quantity) {
-    super(DINSEY_COMPANY_STORE, buying, itemId, quantity);
-  }
-
   @Override
   public void processResults() {
     ShopRequest.parseResponse(this.getURLString(), this.responseText);

@@ -37,14 +37,6 @@ public class CRIMBCOGiftShopRequest extends CoinMasterRequest {
     super(CRIMBCO_GIFT_SHOP, buying, attachments);
   }
 
-  public CRIMBCOGiftShopRequest(final boolean buying, final AdventureResult attachment) {
-    super(CRIMBCO_GIFT_SHOP, buying, attachment);
-  }
-
-  public CRIMBCOGiftShopRequest(final boolean buying, final int itemId, final int quantity) {
-    super(CRIMBCO_GIFT_SHOP, buying, itemId, quantity);
-  }
-
   @Override
   public void processResults() {
     parseResponse(this.getURLString(), this.responseText);

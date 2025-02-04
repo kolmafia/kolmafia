@@ -58,20 +58,8 @@ public class FancyDanRequest extends CoinMasterRequest {
     super(FANCY_DAN);
   }
 
-  public FancyDanRequest(final String action) {
-    super(FANCY_DAN, action);
-  }
-
   public FancyDanRequest(final boolean buying, final AdventureResult[] attachments) {
     super(FANCY_DAN, buying, attachments);
-  }
-
-  public FancyDanRequest(final boolean buying, final AdventureResult attachment) {
-    super(FANCY_DAN, buying, attachment);
-  }
-
-  public FancyDanRequest(final boolean buying, final int itemId, final int quantity) {
-    super(FANCY_DAN, buying, itemId, quantity);
   }
 
   @Override

@@ -37,16 +37,8 @@ public class TrapperRequest extends CoinMasterRequest {
     super(TRAPPER, buying, attachments);
   }
 
-  public TrapperRequest(final boolean buying, final AdventureResult attachment) {
-    super(TRAPPER, buying, attachment);
-  }
-
-  public TrapperRequest(final boolean buying, final int itemId, final int quantity) {
-    super(TRAPPER, buying, itemId, quantity);
-  }
-
   public TrapperRequest(final int itemId, final int quantity) {
-    this(true, itemId, quantity);
+    this(true, new AdventureResult[] {ItemPool.get(itemId, quantity)});
   }
 
   @Override
