@@ -1,17 +1,16 @@
 package net.sourceforge.kolmafia.request.coinmaster.shop;
 
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.request.TransferItemRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 
 public class FDKOLRequest extends CoinMasterRequest {
   public static final String master = "FDKOL Tent";
+  public static final String SHOPID = "fdkol";
 
   public static final AdventureResult FDKOL_TOKEN = ItemPool.get(ItemPool.FDKOL_COMMENDATION, 1);
   private static final Pattern TOKEN_PATTERN = Pattern.compile("<td>([\\d,]+) FDKOL commendation");
@@ -21,7 +20,7 @@ public class FDKOLRequest extends CoinMasterRequest {
           .withToken("FDKOL commendation")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(FDKOL_TOKEN)
-          .withShopRowFields(master, "fdkol")
+          .withShopRowFields(master, SHOPID)
           .withAccessible(FDKOLRequest::accessible);
 
   public FDKOLRequest() {
@@ -40,26 +39,9 @@ public class FDKOLRequest extends CoinMasterRequest {
     super(FDKOL, buying, itemId, quantity);
   }
 
-  public static void parseResponse(final String location, final String responseText) {
-    if (!location.startsWith("shop.php") || !location.contains("whichshop=fdkol")) {
-      return;
-    }
-
-    CoinmasterData data = FDKOL;
-
-    Matcher m = TransferItemRequest.ITEMID_PATTERN.matcher(location);
-    if (!m.find()) {
-      CoinMasterRequest.parseBalance(data, responseText);
-      return;
-    }
-
-    int itemId = StringUtilities.parseInt(m.group(1));
-    AdventureResult item = AdventureResult.findItem(itemId, data.getBuyItems());
-    if (item == null) {
-      return;
-    }
-
-    CoinMasterRequest.parseResponse(data, location, responseText);
+  @Override
+  public void processResults() {
+    ShopRequest.parseResponse(this.getURLString(), this.responseText);
   }
 
   public static String accessible() {

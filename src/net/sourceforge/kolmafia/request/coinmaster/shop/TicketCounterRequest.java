@@ -1,4 +1,4 @@
-package net.sourceforge.kolmafia.request.coinmaster;
+package net.sourceforge.kolmafia.request.coinmaster.shop;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -6,13 +6,15 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class TicketCounterRequest extends CoinMasterRequest {
   public static final String master = "Arcade Ticket Counter";
+  public static final String SHOPID = "arcade";
 
   private static final Pattern TOKEN_PATTERN =
       Pattern.compile("You currently have ([\\d,]+) Game Grid redemption ticket");
@@ -24,8 +26,9 @@ public class TicketCounterRequest extends CoinMasterRequest {
           .withTokenTest("You currently have no Game Grid redemption tickets")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(TICKET)
-          .withShopRowFields(master, "arcade")
-          .withCanBuyItem(TicketCounterRequest::canBuyItem);
+          .withShopRowFields(master, SHOPID)
+          .withCanBuyItem(TicketCounterRequest::canBuyItem)
+          .withVisitShop(TicketCounterRequest::visitShop);
 
   private static Boolean canBuyItem(final Integer itemId) {
     return switch (itemId) {
@@ -58,7 +61,7 @@ public class TicketCounterRequest extends CoinMasterRequest {
 
   @Override
   public void processResults() {
-    parseResponse(this.getURLString(), this.responseText);
+    ShopRequest.parseResponse(this.getURLString(), this.responseText);
   }
 
   private static final Pattern ITEM_PATTERN =
@@ -72,10 +75,7 @@ public class TicketCounterRequest extends CoinMasterRequest {
     ItemPool.DUNGEON_FIST_GAUNTLET,
   };
 
-  public static boolean parseResponse(final String urlString, final String responseText) {
-    if (!urlString.contains("whichshop=arcade")) {
-      return false;
-    }
+  public static void visitShop(String responseText) {
     // Learn new trade items by simply visiting Arcade
     Matcher matcher = ITEM_PATTERN.matcher(responseText);
     while (matcher.find()) {
@@ -83,34 +83,13 @@ public class TicketCounterRequest extends CoinMasterRequest {
       for (int i = 0; i < unlockables.length; i++) {
         if (id == unlockables[i]) {
           Preferences.setBoolean("lockedItem" + id, false);
-          break;
         }
       }
-      String desc = matcher.group(2);
-      String name = matcher.group(3).trim();
-      String data = ItemDatabase.getItemDataName(id);
-      // String price = matcher.group(4);
-      if (data == null || !data.equals(name)) {
-        ItemDatabase.registerItem(id, name, desc);
-      }
     }
-
-    CoinMasterRequest.parseResponse(TICKET_COUNTER, urlString, responseText);
-
-    return true;
   }
 
   public static String accessible() {
     // *** Finish this.
     return null;
-  }
-
-  public static final boolean registerRequest(final String urlString) {
-    // We only claim arcade.php?action=redeem
-    if (!urlString.contains("whichshop=arcade")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(TICKET_COUNTER, urlString);
   }
 }

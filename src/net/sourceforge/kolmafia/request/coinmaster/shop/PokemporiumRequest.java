@@ -5,11 +5,12 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 
 public class PokemporiumRequest extends CoinMasterRequest {
   public static final String master = "The Pok&eacute;mporium";
+  public static final String SHOPID = "pokefam";
 
   private static final Pattern POKEDOLLAR_PATTERN =
       Pattern.compile("([\\d,]+) 1,960 pok&eacute;dollar bills");
@@ -29,7 +30,7 @@ public class PokemporiumRequest extends CoinMasterRequest {
           .withTokenTest("no pok&eacute;dollar bills")
           .withTokenPattern(POKEDOLLAR_PATTERN)
           .withItem(POKEDOLLAR)
-          .withShopRowFields(master, "pokefam")
+          .withShopRowFields(master, SHOPID)
           .withCanBuyItem(PokemporiumRequest::canBuyItem)
           .withAccessible(PokemporiumRequest::accessible);
 
@@ -55,22 +56,7 @@ public class PokemporiumRequest extends CoinMasterRequest {
 
   @Override
   public void processResults() {
-    parseResponse(this.getURLString(), this.responseText);
-  }
-
-  public static void parseResponse(final String location, final String responseText) {
-    if (!location.contains("whichshop=pokefam")) {
-      return;
-    }
-
-    String action = GenericRequest.getAction(location);
-    if (action != null) {
-      CoinMasterRequest.parseResponse(POKEMPORIUM, location, responseText);
-      return;
-    }
-
-    // Parse current coin balances
-    CoinMasterRequest.parseBalance(POKEMPORIUM, responseText);
+    ShopRequest.parseResponse(this.getURLString(), this.responseText);
   }
 
   public static String accessible() {

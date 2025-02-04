@@ -4,12 +4,13 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 
 public class GuzzlrRequest extends CoinMasterRequest {
   public static final String master = "Guzzlr Company Store Website";
+  public static final String SHOPID = "guzzlr";
 
   private static final Pattern GUZZLR_PATTERN = Pattern.compile("([\\d,]+) Guzzlrbuck");
   public static final AdventureResult GUZZLRBUCK = ItemPool.get(ItemPool.GUZZLRBUCK, 1);
@@ -19,7 +20,7 @@ public class GuzzlrRequest extends CoinMasterRequest {
           .withToken("Guzzlrbuck")
           .withTokenPattern(GUZZLR_PATTERN)
           .withItem(GUZZLRBUCK)
-          .withShopRowFields(master, "guzzlr")
+          .withShopRowFields(master, SHOPID)
           .withAccessible(GuzzlrRequest::accessible);
 
   public GuzzlrRequest() {
@@ -40,27 +41,13 @@ public class GuzzlrRequest extends CoinMasterRequest {
 
   @Override
   public void processResults() {
-    parseResponse(this.getURLString(), this.responseText);
-  }
-
-  public static void parseResponse(final String location, final String responseText) {
-    if (!location.contains("whichshop=guzzlr")) {
-      return;
-    }
-
-    String action = GenericRequest.getAction(location);
-    if (action != null) {
-      CoinMasterRequest.parseResponse(GUZZLR, location, responseText);
-      return;
-    }
-
-    // Parse current coin balances
-    CoinMasterRequest.parseBalance(GUZZLR, responseText);
+    ShopRequest.parseResponse(this.getURLString(), this.responseText);
   }
 
   public static String accessible() {
-    return InventoryManager.getAccessibleCount(GUZZLRBUCK) > 0
-        ? null
-        : "You have no Guzzlrbucks to spend";
+    if (InventoryManager.getAccessibleCount(GUZZLRBUCK) > 0) {
+      return null;
+    }
+    return "You have no Guzzlrbucks to spend";
   }
 }

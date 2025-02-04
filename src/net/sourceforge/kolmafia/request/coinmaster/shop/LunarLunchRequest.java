@@ -2,14 +2,13 @@ package net.sourceforge.kolmafia.request.coinmaster.shop;
 
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
-import net.sourceforge.kolmafia.RequestThread;
-import net.sourceforge.kolmafia.persistence.QuestDatabase;
-import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 
 public class LunarLunchRequest extends CoinMasterRequest {
   public static final String master = "Lunar Lunch-o-Mat";
+  public static final String SHOPID = "elvishp3";
 
   public static final CoinmasterData LUNAR_LUNCH =
       new CoinmasterData(master, "lunarlunch", LunarLunchRequest.class)
@@ -17,8 +16,9 @@ public class LunarLunchRequest extends CoinMasterRequest {
           .withTokenTest("You have 0 lunar isotopes")
           .withTokenPattern(SpaaaceRequest.TOKEN_PATTERN)
           .withItem(SpaaaceRequest.ISOTOPE)
-          .withShopRowFields(master, "elvishp3")
-          .withAccessible(LunarLunchRequest::accessible);
+          .withShopRowFields(master, SHOPID)
+          .withVisitShop(SpaaaceRequest::visitShop)
+          .withAccessible(SpaaaceRequest::accessible);
 
   public LunarLunchRequest() {
     super(LUNAR_LUNCH);
@@ -36,15 +36,9 @@ public class LunarLunchRequest extends CoinMasterRequest {
     super(LUNAR_LUNCH, buying, itemId, quantity);
   }
 
-  public static final void buy(final int itemId, final int count) {
-    RequestThread.postRequest(new LunarLunchRequest(true, itemId, count));
-  }
-
-  public static String accessible() {
-    if (!QuestDatabase.isQuestFinished(Quest.GENERATOR)) {
-      return "You need to repair the Elves' Shield Generator to shop at the Lunar Lunch-o-Mat.";
-    }
-    return SpaaaceRequest.accessible();
+  @Override
+  public void processResults() {
+    ShopRequest.parseResponse(this.getURLString(), this.responseText);
   }
 
   @Override

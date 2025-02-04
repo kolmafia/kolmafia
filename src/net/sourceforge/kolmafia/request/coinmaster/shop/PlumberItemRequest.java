@@ -5,11 +5,12 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 
 public class PlumberItemRequest extends CoinMasterRequest {
   public static final String master = "Mushroom District Item Shop";
+  public static final String SHOPID = "marioitems";
 
   private static final Pattern TOKEN_PATTERN = Pattern.compile("([\\d,]+) coin");
   public static final AdventureResult COIN = ItemPool.get(ItemPool.COIN, 1);
@@ -20,7 +21,7 @@ public class PlumberItemRequest extends CoinMasterRequest {
           .withTokenTest("no coins")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)
-          .withShopRowFields(master, "marioitems")
+          .withShopRowFields(master, SHOPID)
           .withAccessible(PlumberItemRequest::accessible);
 
   public PlumberItemRequest() {
@@ -41,22 +42,7 @@ public class PlumberItemRequest extends CoinMasterRequest {
 
   @Override
   public void processResults() {
-    parseResponse(this.getURLString(), this.responseText);
-  }
-
-  public static void parseResponse(final String location, final String responseText) {
-    CoinmasterData data = PLUMBER_ITEMS;
-    String action = GenericRequest.getAction(location);
-    if (action == null) {
-      if (location.contains("whichshop=marioitems")) {
-        // Parse current coin balances
-        CoinMasterRequest.parseBalance(data, responseText);
-      }
-
-      return;
-    }
-
-    CoinMasterRequest.parseResponse(data, location, responseText);
+    ShopRequest.parseResponse(this.getURLString(), this.responseText);
   }
 
   public static String accessible() {

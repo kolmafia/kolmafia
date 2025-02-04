@@ -6,11 +6,12 @@ import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 
 public class CanteenRequest extends CoinMasterRequest {
   public static final String master = "The Canteen";
+  public static final String SHOPID = "si_shop2";
 
   private static final Pattern TOKEN_PATTERN = Pattern.compile("<td>([\\d,]+) Coins-spiracy");
   public static final AdventureResult COIN = ItemPool.get(ItemPool.COINSPIRACY, 1);
@@ -20,7 +21,7 @@ public class CanteenRequest extends CoinMasterRequest {
           .withToken("Coinspiracy")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)
-          .withShopRowFields(master, "si_shop2")
+          .withShopRowFields(master, SHOPID)
           .withAccessible(CanteenRequest::accessible);
 
   public CanteenRequest() {
@@ -41,24 +42,7 @@ public class CanteenRequest extends CoinMasterRequest {
 
   @Override
   public void processResults() {
-    parseResponse(this.getURLString(), this.responseText);
-  }
-
-  public static void parseResponse(final String urlString, final String responseText) {
-    if (!urlString.contains("whichshop=si_shop2")) {
-      return;
-    }
-
-    CoinmasterData data = CANTEEN;
-
-    String action = GenericRequest.getAction(urlString);
-    if (action != null) {
-      CoinMasterRequest.parseResponse(data, urlString, responseText);
-      return;
-    }
-
-    // Parse current coin balances
-    CoinMasterRequest.parseBalance(data, responseText);
+    ShopRequest.parseResponse(this.getURLString(), this.responseText);
   }
 
   public static String accessible() {

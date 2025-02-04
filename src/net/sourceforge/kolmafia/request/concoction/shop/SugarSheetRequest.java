@@ -7,14 +7,17 @@ import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 
 public class SugarSheetRequest extends CreateItemRequest {
+  public static final String SHOPID = "sugarsheets";
+
   public SugarSheetRequest(final Concoction conc) {
     // http://www.kingdomofloathing.com/shop.php?whichshop=sugarsheets&action=buyitem&quantity=1&whichrow=329
     // quantity field is not needed and is not used
     super("shop.php", conc);
 
-    this.addFormField("whichshop", "sugarsheets");
+    this.addFormField("whichshop", SHOPID);
     this.addFormField("action", "buyitem");
     int row = ConcoctionPool.idToRow(this.getItemId());
     this.addFormField("whichrow", String.valueOf(row));
@@ -49,14 +52,10 @@ public class SugarSheetRequest extends CreateItemRequest {
       return;
     }
 
-    SugarSheetRequest.parseResponse(urlString, responseText);
+    ShopRequest.parseResponse(urlString, responseText);
   }
 
   public static void parseResponse(final String urlString, final String responseText) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=sugarsheets")) {
-      return;
-    }
-
     if (!responseText.contains("quickly fold it into a new shape")) {
       return;
     }

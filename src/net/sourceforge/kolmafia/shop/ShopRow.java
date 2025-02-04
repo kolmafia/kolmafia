@@ -39,6 +39,10 @@ public class ShopRow implements Comparable<ShopRow> {
     return this.costs;
   }
 
+  public boolean isMeatPurchase() {
+    return costs.length == 1 && costs[0].isMeat();
+  }
+
   @Override
   public boolean equals(final Object o) {
     return o instanceof ShopRow data && this.row == data.row;

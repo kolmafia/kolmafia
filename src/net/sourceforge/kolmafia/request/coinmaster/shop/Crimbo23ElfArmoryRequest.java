@@ -5,11 +5,12 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 
 public class Crimbo23ElfArmoryRequest extends CoinMasterRequest {
   public static final String master = "Elf Guard Armory";
+  public static final String SHOPID = "crimbo23_elf_armory";
 
   public static final AdventureResult TOKEN = ItemPool.get(ItemPool.ELF_ARMY_MACHINE_PARTS, 1);
   private static final Pattern TOKEN_PATTERN =
@@ -22,7 +23,7 @@ public class Crimbo23ElfArmoryRequest extends CoinMasterRequest {
           .withTokenTest("no piles of Elf Army machine parts")
           .withItem(TOKEN)
           .withTokenPattern(TOKEN_PATTERN)
-          .withShopRowFields(master, "crimbo23_elf_armory")
+          .withShopRowFields(master, SHOPID)
           // In order to sell 1 item to get 3 piles of Elf Army machine parts,
           // strangely enough, KoL uses "buyitem"
           // shop.php?whichshop=crimbo23_elf_armory&action=buyitem&quantity=1&whichrow=1412&pwd
@@ -50,26 +51,10 @@ public class Crimbo23ElfArmoryRequest extends CoinMasterRequest {
 
   @Override
   public void processResults() {
-    parseResponse(this.getURLString(), this.responseText);
-  }
-
-  public static void parseResponse(final String location, final String responseText) {
-    if (!location.contains("whichshop=" + DATA.getShopId())) {
-      return;
+    String responseText = this.responseText;
+    if (!responseText.contains("War has consumed this area.")) {
+      ShopRequest.parseResponse(this.getURLString(), responseText);
     }
-
-    if (responseText.contains("War has consumed this area.")) {
-      return;
-    }
-
-    String action = GenericRequest.getAction(location);
-    if (action != null) {
-      CoinMasterRequest.parseResponse(DATA, location, responseText);
-      return;
-    }
-
-    // Parse current coin balances
-    CoinMasterRequest.parseBalance(DATA, responseText);
   }
 
   public static String accessible() {

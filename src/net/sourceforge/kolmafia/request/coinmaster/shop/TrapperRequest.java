@@ -9,9 +9,11 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 
 public class TrapperRequest extends CoinMasterRequest {
-  public static String master = "The Trapper";
+  public static final String master = "The Trapper";
+  public static final String SHOPID = "trapper";
 
   private static final Pattern TOKEN_PATTERN = Pattern.compile("([\\d,]+) yeti fur");
   public static final AdventureResult YETI_FUR = ItemPool.get(ItemPool.YETI_FUR, 1);
@@ -22,8 +24,9 @@ public class TrapperRequest extends CoinMasterRequest {
           .withTokenTest("no yeti furs")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(YETI_FUR)
-          .withShopRowFields(master, "trapper")
+          .withShopRowFields(master, SHOPID)
           .withBuyItems(master)
+          .withVisitShop(TrapperRequest::visitShop)
           .withAccessible(TrapperRequest::accessible);
 
   public TrapperRequest() {
@@ -46,14 +49,19 @@ public class TrapperRequest extends CoinMasterRequest {
     this(true, itemId, quantity);
   }
 
-  public static void parseResponse(final String urlString, final String responseText) {
+  @Override
+  public void processResults() {
+    ShopRequest.parseResponse(this.getURLString(), this.responseText);
+  }
+
+  public static void visitShop(String responseText) {
     // I'm plumb stocked up on everythin' 'cept yeti furs, Adventurer.
     // If you've got any to trade, I'd be much obliged."
+
     if (responseText.contains("yeti furs")) {
       Preferences.setInteger("lastTr4pz0rQuest", KoLCharacter.getAscensions());
       QuestDatabase.setQuestProgress(Quest.TRAPPER, QuestDatabase.FINISHED);
     }
-    CoinMasterRequest.parseResponse(TRAPPER, urlString, responseText);
   }
 
   public static String accessible() {

@@ -6,11 +6,12 @@ import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 
 public class WalMartRequest extends CoinMasterRequest {
   public static final String master = "Wal-Mart";
+  public static final String SHOPID = "glaciest";
 
   private static final Pattern TOKEN_PATTERN =
       Pattern.compile("<td>([\\d,]+) Wal-Mart gift certificates");
@@ -21,7 +22,7 @@ public class WalMartRequest extends CoinMasterRequest {
           .withToken("Wal-Mart gift certificate")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)
-          .withShopRowFields(master, "glaciest")
+          .withShopRowFields(master, SHOPID)
           .withAccessible(WalMartRequest::accessible);
 
   public WalMartRequest() {
@@ -42,24 +43,7 @@ public class WalMartRequest extends CoinMasterRequest {
 
   @Override
   public void processResults() {
-    parseResponse(this.getURLString(), this.responseText);
-  }
-
-  public static void parseResponse(final String urlString, final String responseText) {
-    if (!urlString.contains("whichshop=glaciest")) {
-      return;
-    }
-
-    CoinmasterData data = WALMART;
-
-    String action = GenericRequest.getAction(urlString);
-    if (action != null) {
-      CoinMasterRequest.parseResponse(data, urlString, responseText);
-      return;
-    }
-
-    // Parse current coin balances
-    CoinMasterRequest.parseBalance(data, responseText);
+    ShopRequest.parseResponse(this.getURLString(), this.responseText);
   }
 
   public static String accessible() {

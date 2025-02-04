@@ -8,11 +8,12 @@ import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 
 public class FancyDanRequest extends CoinMasterRequest {
   public static final String master = "Fancy Dan the Cocktail Man";
+  public static final String SHOPID = "olivers";
 
   // Since there are two different currencies, we need to have a map from
   // itemId to item/count of currency; an AdventureResult.
@@ -44,7 +45,7 @@ public class FancyDanRequest extends CoinMasterRequest {
 
   public static final CoinmasterData FANCY_DAN =
       new CoinmasterData(master, "Speakeasy", FancyDanRequest.class)
-          .withShopRowFields(master, "olivers")
+          .withShopRowFields(master, SHOPID)
           .withBuyPrices()
           .withItemBuyPrice(FancyDanRequest::itemBuyPrice)
           .withAccessible(FancyDanRequest::accessible);
@@ -75,22 +76,7 @@ public class FancyDanRequest extends CoinMasterRequest {
 
   @Override
   public void processResults() {
-    parseResponse(this.getURLString(), this.responseText);
-  }
-
-  public static void parseResponse(final String location, final String responseText) {
-    if (!location.contains("whichshop=olivers")) {
-      return;
-    }
-
-    String action = GenericRequest.getAction(location);
-    if (action != null) {
-      CoinMasterRequest.parseResponse(FANCY_DAN, location, responseText);
-      return;
-    }
-
-    // Parse current coin balances
-    CoinMasterRequest.parseBalance(FANCY_DAN, responseText);
+    ShopRequest.parseResponse(this.getURLString(), this.responseText);
   }
 
   public static String accessible() {

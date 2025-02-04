@@ -6,11 +6,12 @@ import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 
 public class Crimbo17Request extends CoinMasterRequest {
   public static final String master = "Cheer-o-Vend 3000";
+  public static final String SHOPID = "crimbo17";
 
   private static final Pattern CHEER_PATTERN = Pattern.compile("([\\d,]+) crystalline cheer");
   public static final AdventureResult CHEER = ItemPool.get(ItemPool.CRYSTALLINE_CHEER, 1);
@@ -22,7 +23,7 @@ public class Crimbo17Request extends CoinMasterRequest {
           .withTokenTest("no crystalline cheer")
           .withTokenPattern(CHEER_PATTERN)
           .withItem(CHEER)
-          .withShopRowFields(master, "crimbo17")
+          .withShopRowFields(master, SHOPID)
           .withCanBuyItem(Crimbo17Request::canBuyItem)
           .withAccessible(Crimbo17Request::accessible);
 
@@ -56,24 +57,7 @@ public class Crimbo17Request extends CoinMasterRequest {
 
   @Override
   public void processResults() {
-    parseResponse(this.getURLString(), this.responseText);
-  }
-
-  public static void parseResponse(final String location, final String responseText) {
-    if (!location.contains("whichshop=crimbo17")) {
-      return;
-    }
-
-    CoinmasterData data = CRIMBO17;
-
-    String action = GenericRequest.getAction(location);
-    if (action != null) {
-      CoinMasterRequest.parseResponse(data, location, responseText);
-      return;
-    }
-
-    // Parse current coin balances
-    CoinMasterRequest.parseBalance(data, responseText);
+    ShopRequest.parseResponse(this.getURLString(), this.responseText);
   }
 
   public static String accessible() {

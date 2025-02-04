@@ -4,14 +4,16 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
-import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 
 public class WinterGardenRequest extends CreateItemRequest {
+  public static final String SHOPID = "snowgarden";
+
   public WinterGardenRequest(final Concoction conc) {
     super("shop.php", conc);
 
-    this.addFormField("whichshop", "snowgarden");
+    this.addFormField("whichshop", SHOPID);
     this.addFormField("action", "buyitem");
     int row = ConcoctionPool.idToRow(this.getItemId());
     this.addFormField("whichrow", String.valueOf(row));
@@ -40,14 +42,6 @@ public class WinterGardenRequest extends CreateItemRequest {
       return;
     }
 
-    WinterGardenRequest.parseResponse(urlString, responseText);
-  }
-
-  public static void parseResponse(final String urlString, final String responseText) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=snowgarden")) {
-      return;
-    }
-
-    NPCPurchaseRequest.parseShopRowResponse(urlString, responseText);
+    ShopRequest.parseResponse(urlString, responseText);
   }
 }
