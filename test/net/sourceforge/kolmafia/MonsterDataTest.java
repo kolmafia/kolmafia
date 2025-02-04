@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.Set;
 import net.sourceforge.kolmafia.MonsterData.Attribute;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
@@ -422,6 +423,35 @@ public class MonsterDataTest {
       monster.appendItemDrops(builder);
 
       assertThat(builder.toString(), equalTo("<br />Drops: " + itemDropString));
+    }
+  }
+
+  @Nested
+  class JustTheFacts {
+    @Test
+    void characterWithoutFactSkillDisplaysNothing() {
+      var monster = MonsterDatabase.findMonster("fluffy bunny");
+
+      var cleanups = Player.withoutSkill(SkillPool.JUST_THE_FACTS);
+
+      try (cleanups) {
+        var builder = new StringBuilder();
+        monster.appendFact(builder, true);
+        assertThat(builder.toString(), not(containsString("Just the Facts: ")));
+      }
+    }
+
+    @Test
+    void factsAreRendered() {
+      var monster = MonsterDatabase.findMonster("fluffy bunny");
+
+      var cleanups = Player.withSkill(SkillPool.JUST_THE_FACTS);
+
+      try (cleanups) {
+        var builder = new StringBuilder();
+        monster.appendFact(builder, true);
+        assertThat(builder.toString(), containsString("Just the Facts: "));
+      }
     }
   }
 
