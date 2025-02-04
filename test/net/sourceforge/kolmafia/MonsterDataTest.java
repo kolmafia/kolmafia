@@ -2,7 +2,10 @@ package net.sourceforge.kolmafia;
 
 import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withMoxie;
+import static internal.helpers.Player.withNotAllowedInStandard;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withRestricted;
+import static internal.helpers.Player.withSkill;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.aMapWithSize;
 import static org.hamcrest.Matchers.contains;
@@ -442,15 +445,36 @@ public class MonsterDataTest {
     }
 
     @Test
-    void factsAreRendered() {
+    void factsAreRenderedIfUnrestricted() {
       var monster = MonsterDatabase.findMonster("fluffy bunny");
 
-      var cleanups = Player.withSkill(SkillPool.JUST_THE_FACTS);
+      var cleanups =
+          new Cleanups(
+              withSkill(SkillPool.JUST_THE_FACTS),
+              withNotAllowedInStandard(RestrictedItemType.SKILLS, "just the facts"),
+              withRestricted(false));
 
       try (cleanups) {
         var builder = new StringBuilder();
         monster.appendFact(builder, true);
         assertThat(builder.toString(), containsString("Just the Facts: "));
+      }
+    }
+
+    @Test
+    void factsAreNotRenderedIfRestricted() {
+      var monster = MonsterDatabase.findMonster("fluffy bunny");
+
+      var cleanups =
+          new Cleanups(
+              withSkill(SkillPool.JUST_THE_FACTS),
+              withNotAllowedInStandard(RestrictedItemType.SKILLS, "just the facts"),
+              withRestricted(true));
+
+      try (cleanups) {
+        var builder = new StringBuilder();
+        monster.appendFact(builder, true);
+        assertThat(builder.toString(), not(containsString("Just the Facts: ")));
       }
     }
   }
