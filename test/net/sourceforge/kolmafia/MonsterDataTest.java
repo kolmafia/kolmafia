@@ -432,14 +432,14 @@ public class MonsterDataTest {
   @Nested
   class JustTheFacts {
     @Test
-    void characterWithoutFactSkillDisplaysNothing() {
+    void factsAreNotRenderedWithoutSkill() {
       var monster = MonsterDatabase.findMonster("fluffy bunny");
 
       var cleanups = Player.withoutSkill(SkillPool.JUST_THE_FACTS);
 
       try (cleanups) {
         var builder = new StringBuilder();
-        monster.appendFact(builder, true);
+        monster.appendFact(builder);
         assertThat(builder.toString(), not(containsString("Just the Facts: ")));
       }
     }
@@ -456,7 +456,7 @@ public class MonsterDataTest {
 
       try (cleanups) {
         var builder = new StringBuilder();
-        monster.appendFact(builder, true);
+        monster.appendFact(builder);
         assertThat(builder.toString(), containsString("Just the Facts: "));
       }
     }
@@ -473,7 +473,7 @@ public class MonsterDataTest {
 
       try (cleanups) {
         var builder = new StringBuilder();
-        monster.appendFact(builder, true);
+        monster.appendFact(builder);
         assertThat(builder.toString(), not(containsString("Just the Facts: ")));
       }
     }

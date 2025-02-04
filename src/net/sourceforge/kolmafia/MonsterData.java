@@ -1865,19 +1865,12 @@ public class MonsterData extends AdventureResult {
         && StandardRequest.isAllowed(RestrictedItemType.SKILLS, "Just the Facts"))) {
       return null;
     }
-    StringBuffer buffer = new StringBuffer();
-    buffer.append("<br />");
     var f =
         FactDatabase.getFact(KoLCharacter.getAscensionClass(), KoLCharacter.getPath(), this, false);
-    buffer.append("Just the Facts: " + f.toString());
-    return buffer.toString();
+    return "<br />Just the Facts: " + f.toString();
   }
 
-  void appendFact(StringBuilder buffer) {
-    this.appendFact(buffer, false);
-  }
-
-  public void appendFact(StringBuilder buffer, boolean stateful) {
+  public void appendFact(StringBuilder buffer) {
     String fact = this.getFact();
     if (fact != null) {
       buffer.append(fact);
