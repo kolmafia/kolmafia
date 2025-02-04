@@ -3850,6 +3850,7 @@ public class ItemPool {
   public static final int MCHUGELARGE_RIGHT_SKI = 11787;
   public static final int CR_KEYCODE = 11807;
   public static final int SERVER_KEY = 11808;
+  public static final int TOY_CUPID_BOW = 11836;
 
   private ItemPool() {}
 

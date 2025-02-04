@@ -3167,4 +3167,17 @@ public class FightRequestTest {
           "banishedMonsters", hasStringValue(startsWith("network worm:Deploy Glitched Malware:")));
     }
   }
+
+  @Nested
+  class CupidBow {
+    @Test
+    void canDetectCupidBow() {
+      var cleanups = new Cleanups(withProperty("_cupidBowFamiliars", 0), withFight());
+      try (cleanups) {
+        parseCombatData(
+            "request/test_cupid_bow.html");
+        assertThat("_cupidBowFamiliars", isSetTo(""));
+      }
+    }
+  }
 }

@@ -2723,6 +2723,15 @@ public class FightRequest extends GenericRequest {
       JuneCleaverManager.updatePreferences(responseText);
     }
 
+    if (KoLCharacter.hasEquipped(ItemPool.TOY_CUPID_BOW)) {
+      if(Preferences.getInteger("_cupidBowLastFamiliar") == KoLCharacter.getEffectiveFamiliar().getId()) {
+        Preferences.increment("_cupidBowFights");
+      } else {
+        Preferences.setInteger("_cupidBowLastFamiliar", KoLCharacter.getEffectiveFamiliar().getId());
+        Preferences.setInteger("_cupidBowFights", 1);
+      }
+    }
+
     if (KoLCharacter.hasEquipped(ItemPool.DESIGNER_SWEATPANTS)
         || KoLCharacter.hasEquipped(ItemPool.REPLICA_DESIGNER_SWEATPANTS)) {
       Matcher lessSweatMatcher = FightRequest.DESIGNER_SWEATPANTS_LESS_SWEATY.matcher(responseText);
@@ -5570,6 +5579,7 @@ public class FightRequest extends GenericRequest {
     public boolean serendipity;
     public boolean mildManneredProfessor;
     public boolean batwings;
+    public boolean cupidbow;
 
     public TagStatus() {
       FamiliarData current = KoLCharacter.getFamiliar();
@@ -5668,6 +5678,9 @@ public class FightRequest extends GenericRequest {
 
       // If we have bat wings
       this.batwings = KoLCharacter.hasEquipped(ItemPool.BAT_WINGS);
+
+      // If we have cupid bow
+      this.cupidbow = KoLCharacter.hasEquipped(ItemPool.TOY_CUPID_BOW);
 
       this.ghost = null;
 
@@ -6438,6 +6451,19 @@ public class FightRequest extends GenericRequest {
         Preferences.increment("_batWingsFreeFights", 1);
         FightRequest.logText(str, status);
       }
+
+      // looks askance at the toy bow you've provided and shoots the plunger-arrow over the horizon, then proceeds to drag something more appropriate back.
+      if (status.cupidbow && str.contains("then proceeds to drag something more appropriate back")) {
+        String currentFamiliars = Preferences.getString("_cupidBowFamiliars");
+        String newFamiliarId = String.valueOf(KoLCharacter.getEffectiveFamiliar().getId());
+
+        // Append the new familiar ID, ensuring no leading semicolon if the list is empty
+        String updatedFamiliars = currentFamiliars.isEmpty() ? newFamiliarId : currentFamiliars + ";" + newFamiliarId;
+
+        Preferences.setString("_cupidBowFamiliars", updatedFamiliars);
+        FightRequest.logText(str, status);
+      }
+
 
       if ( // KoL Con 13 Snowglobe
       str.contains("KoL Con")
