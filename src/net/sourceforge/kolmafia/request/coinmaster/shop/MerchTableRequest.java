@@ -70,20 +70,8 @@ public class MerchTableRequest extends CoinMasterRequest {
     super(MERCH_TABLE);
   }
 
-  public MerchTableRequest(final String action) {
-    super(MERCH_TABLE, action);
-  }
-
   public MerchTableRequest(final boolean buying, final AdventureResult[] attachments) {
     super(MERCH_TABLE, buying, attachments);
-  }
-
-  public MerchTableRequest(final boolean buying, final AdventureResult attachment) {
-    super(MERCH_TABLE, buying, attachment);
-  }
-
-  public MerchTableRequest(final boolean buying, final int itemId, final int quantity) {
-    super(MERCH_TABLE, buying, itemId, quantity);
   }
 
   @Override

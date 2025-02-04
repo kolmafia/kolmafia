@@ -32,14 +32,6 @@ public class DiscoGiftCoRequest extends CoinMasterRequest {
     super(DISCO_GIFTCO, buying, attachments);
   }
 
-  public DiscoGiftCoRequest(final boolean buying, final AdventureResult attachment) {
-    super(DISCO_GIFTCO, buying, attachment);
-  }
-
-  public DiscoGiftCoRequest(final boolean buying, final int itemId, final int quantity) {
-    super(DISCO_GIFTCO, buying, itemId, quantity);
-  }
-
   @Override
   public void processResults() {
     ShopRequest.parseResponse(this.getURLString(), this.responseText);

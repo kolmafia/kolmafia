@@ -42,14 +42,6 @@ public class VendingMachineRequest extends CoinMasterRequest {
     super(VENDING_MACHINE, buying, attachments);
   }
 
-  public VendingMachineRequest(final boolean buying, final AdventureResult attachment) {
-    super(VENDING_MACHINE, buying, attachment);
-  }
-
-  public VendingMachineRequest(final boolean buying, final int itemId, final int quantity) {
-    super(VENDING_MACHINE, buying, itemId, quantity);
-  }
-
   @Override
   public void processResults() {
     ShopRequest.parseResponse(this.getURLString(), this.responseText);

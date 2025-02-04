@@ -33,14 +33,6 @@ public class YourCampfireRequest extends CoinMasterRequest {
     super(YOUR_CAMPFIRE, buying, attachments);
   }
 
-  public YourCampfireRequest(final boolean buying, final AdventureResult attachment) {
-    super(YOUR_CAMPFIRE, buying, attachment);
-  }
-
-  public YourCampfireRequest(final boolean buying, final int itemId, final int quantity) {
-    super(YOUR_CAMPFIRE, buying, itemId, quantity);
-  }
-
   @Override
   public void processResults() {
     ShopRequest.parseResponse(this.getURLString(), this.responseText);

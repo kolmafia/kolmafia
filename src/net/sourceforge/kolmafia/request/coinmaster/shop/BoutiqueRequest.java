@@ -31,14 +31,6 @@ public class BoutiqueRequest extends CoinMasterRequest {
     super(BOUTIQUE, buying, attachments);
   }
 
-  public BoutiqueRequest(final boolean buying, final AdventureResult attachment) {
-    super(BOUTIQUE, buying, attachment);
-  }
-
-  public BoutiqueRequest(final boolean buying, final int itemId, final int quantity) {
-    super(BOUTIQUE, buying, itemId, quantity);
-  }
-
   @Override
   public void processResults() {
     ShopRequest.parseResponse(this.getURLString(), this.responseText);

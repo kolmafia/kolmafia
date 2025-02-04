@@ -45,14 +45,6 @@ public class Crimbo20BoozeRequest extends CoinMasterRequest {
     super(CRIMBO20BOOZE, buying, attachments);
   }
 
-  public Crimbo20BoozeRequest(final boolean buying, final AdventureResult attachment) {
-    super(CRIMBO20BOOZE, buying, attachment);
-  }
-
-  public Crimbo20BoozeRequest(final boolean buying, final int itemId, final int quantity) {
-    super(CRIMBO20BOOZE, buying, itemId, quantity);
-  }
-
   @Override
   public void processResults() {
     ShopRequest.parseResponse(this.getURLString(), this.responseText);

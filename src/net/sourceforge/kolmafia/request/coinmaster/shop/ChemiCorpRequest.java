@@ -48,14 +48,6 @@ public class ChemiCorpRequest extends CoinMasterRequest {
     super(CHEMICORP, buying, attachments);
   }
 
-  public ChemiCorpRequest(final boolean buying, final AdventureResult attachment) {
-    super(CHEMICORP, buying, attachment);
-  }
-
-  public ChemiCorpRequest(final boolean buying, final int itemId, final int quantity) {
-    super(CHEMICORP, buying, itemId, quantity);
-  }
-
   @Override
   public void processResults() {
     ShopRequest.parseResponse(this.getURLString(), this.responseText);

@@ -47,14 +47,6 @@ public class Crimbo17Request extends CoinMasterRequest {
     super(CRIMBO17, buying, attachments);
   }
 
-  public Crimbo17Request(final boolean buying, final AdventureResult attachment) {
-    super(CRIMBO17, buying, attachment);
-  }
-
-  public Crimbo17Request(final boolean buying, final int itemId, final int quantity) {
-    super(CRIMBO17, buying, itemId, quantity);
-  }
-
   @Override
   public void processResults() {
     ShopRequest.parseResponse(this.getURLString(), this.responseText);

@@ -45,14 +45,6 @@ public class Crimbo20CandyRequest extends CoinMasterRequest {
     super(CRIMBO20CANDY, buying, attachments);
   }
 
-  public Crimbo20CandyRequest(final boolean buying, final AdventureResult attachment) {
-    super(CRIMBO20CANDY, buying, attachment);
-  }
-
-  public Crimbo20CandyRequest(final boolean buying, final int itemId, final int quantity) {
-    super(CRIMBO20CANDY, buying, itemId, quantity);
-  }
-
   @Override
   public void processResults() {
     ShopRequest.parseResponse(this.getURLString(), this.responseText);

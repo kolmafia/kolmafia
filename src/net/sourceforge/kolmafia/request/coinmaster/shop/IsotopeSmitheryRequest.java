@@ -28,14 +28,6 @@ public class IsotopeSmitheryRequest extends CoinMasterRequest {
     super(ISOTOPE_SMITHERY, buying, attachments);
   }
 
-  public IsotopeSmitheryRequest(final boolean buying, final AdventureResult attachment) {
-    super(ISOTOPE_SMITHERY, buying, attachment);
-  }
-
-  public IsotopeSmitheryRequest(final boolean buying, final int itemId, final int quantity) {
-    super(ISOTOPE_SMITHERY, buying, itemId, quantity);
-  }
-
   @Override
   public void processResults() {
     ShopRequest.parseResponse(this.getURLString(), this.responseText);

@@ -30,14 +30,6 @@ public class PrecinctRequest extends CoinMasterRequest {
     super(PRECINCT, buying, attachments);
   }
 
-  public PrecinctRequest(final boolean buying, final AdventureResult attachment) {
-    super(PRECINCT, buying, attachment);
-  }
-
-  public PrecinctRequest(final boolean buying, final int itemId, final int quantity) {
-    super(PRECINCT, buying, itemId, quantity);
-  }
-
   @Override
   public void processResults() {
     ShopRequest.parseResponse(this.getURLString(), this.responseText);

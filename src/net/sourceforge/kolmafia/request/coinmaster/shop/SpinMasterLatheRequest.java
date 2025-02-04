@@ -67,20 +67,8 @@ public class SpinMasterLatheRequest extends CoinMasterRequest {
     super(YOUR_SPINMASTER_LATHE);
   }
 
-  public SpinMasterLatheRequest(final String action) {
-    super(YOUR_SPINMASTER_LATHE, action);
-  }
-
   public SpinMasterLatheRequest(final boolean buying, final AdventureResult[] attachments) {
     super(YOUR_SPINMASTER_LATHE, buying, attachments);
-  }
-
-  public SpinMasterLatheRequest(final boolean buying, final AdventureResult attachment) {
-    super(YOUR_SPINMASTER_LATHE, buying, attachment);
-  }
-
-  public SpinMasterLatheRequest(final boolean buying, final int itemId, final int quantity) {
-    super(YOUR_SPINMASTER_LATHE, buying, itemId, quantity);
   }
 
   @Override

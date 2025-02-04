@@ -34,14 +34,6 @@ public class ShoeRepairRequest extends CoinMasterRequest {
     super(SHOE_REPAIR, buying, attachments);
   }
 
-  public ShoeRepairRequest(final boolean buying, final AdventureResult attachment) {
-    super(SHOE_REPAIR, buying, attachment);
-  }
-
-  public ShoeRepairRequest(final boolean buying, final int itemId, final int quantity) {
-    super(SHOE_REPAIR, buying, itemId, quantity);
-  }
-
   @Override
   public void processResults() {
     ShopRequest.parseResponse(this.getURLString(), this.responseText);

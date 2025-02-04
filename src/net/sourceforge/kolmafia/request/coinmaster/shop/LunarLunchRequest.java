@@ -28,14 +28,6 @@ public class LunarLunchRequest extends CoinMasterRequest {
     super(LUNAR_LUNCH, buying, attachments);
   }
 
-  public LunarLunchRequest(final boolean buying, final AdventureResult attachment) {
-    super(LUNAR_LUNCH, buying, attachment);
-  }
-
-  public LunarLunchRequest(final boolean buying, final int itemId, final int quantity) {
-    super(LUNAR_LUNCH, buying, itemId, quantity);
-  }
-
   @Override
   public void processResults() {
     ShopRequest.parseResponse(this.getURLString(), this.responseText);

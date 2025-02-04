@@ -36,12 +36,8 @@ public class FreeSnackRequest extends CoinMasterRequest {
     super(FREESNACKS, buying, attachments);
   }
 
-  public FreeSnackRequest(final boolean buying, final AdventureResult attachment) {
-    super(FREESNACKS, buying, attachment);
-  }
-
-  public FreeSnackRequest(final boolean buying, final int itemId, final int quantity) {
-    super(FREESNACKS, buying, itemId, quantity);
+  private FreeSnackRequest(final int itemId, final int quantity) {
+    super(FREESNACKS, true, itemId, quantity);
   }
 
   @Override
@@ -57,7 +53,7 @@ public class FreeSnackRequest extends CoinMasterRequest {
   }
 
   public static final void buy(final int itemId, final int count) {
-    RequestThread.postRequest(new FreeSnackRequest(true, itemId, count));
+    RequestThread.postRequest(new FreeSnackRequest(itemId, count));
   }
 
   public static String accessible() {

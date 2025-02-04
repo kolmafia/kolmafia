@@ -46,14 +46,6 @@ public class BrogurtRequest extends CoinMasterRequest {
     super(BROGURT, buying, attachments);
   }
 
-  public BrogurtRequest(final boolean buying, final AdventureResult attachment) {
-    super(BROGURT, buying, attachment);
-  }
-
-  public BrogurtRequest(final boolean buying, final int itemId, final int quantity) {
-    super(BROGURT, buying, itemId, quantity);
-  }
-
   @Override
   public void processResults() {
     ShopRequest.parseResponse(this.getURLString(), this.responseText);

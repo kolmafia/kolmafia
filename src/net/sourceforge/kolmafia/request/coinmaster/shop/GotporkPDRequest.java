@@ -49,14 +49,6 @@ public class GotporkPDRequest extends CoinMasterRequest {
     super(GOTPORK_PD, buying, attachments);
   }
 
-  public GotporkPDRequest(final boolean buying, final AdventureResult attachment) {
-    super(GOTPORK_PD, buying, attachment);
-  }
-
-  public GotporkPDRequest(final boolean buying, final int itemId, final int quantity) {
-    super(GOTPORK_PD, buying, itemId, quantity);
-  }
-
   @Override
   public void processResults() {
     ShopRequest.parseResponse(this.getURLString(), this.responseText);

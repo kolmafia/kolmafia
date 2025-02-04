@@ -43,14 +43,6 @@ public class ReplicaMrStoreRequest extends CoinMasterRequest {
     super(REPLICA_MR_STORE, buying, attachments);
   }
 
-  public ReplicaMrStoreRequest(final boolean buying, final AdventureResult attachment) {
-    super(REPLICA_MR_STORE, buying, attachment);
-  }
-
-  public ReplicaMrStoreRequest(final boolean buying, final int itemId, final int quantity) {
-    super(REPLICA_MR_STORE, buying, itemId, quantity);
-  }
-
   private static final Map<Integer, Integer> itemToYear =
       Map.ofEntries(
           Map.entry(ItemPool.REPLICA_DARK_JILL, 2004),

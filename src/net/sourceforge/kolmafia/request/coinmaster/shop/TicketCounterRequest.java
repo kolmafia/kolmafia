@@ -51,14 +51,6 @@ public class TicketCounterRequest extends CoinMasterRequest {
     super(TICKET_COUNTER, buying, attachments);
   }
 
-  public TicketCounterRequest(final boolean buying, final AdventureResult attachment) {
-    super(TICKET_COUNTER, buying, attachment);
-  }
-
-  public TicketCounterRequest(final boolean buying, final int itemId, final int quantity) {
-    super(TICKET_COUNTER, buying, itemId, quantity);
-  }
-
   @Override
   public void processResults() {
     ShopRequest.parseResponse(this.getURLString(), this.responseText);

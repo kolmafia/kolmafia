@@ -34,14 +34,6 @@ public class Crimbo23PirateCafeRequest extends CoinMasterRequest {
     super(DATA, buying, attachments);
   }
 
-  public Crimbo23PirateCafeRequest(final boolean buying, final AdventureResult attachment) {
-    super(DATA, buying, attachment);
-  }
-
-  public Crimbo23PirateCafeRequest(final boolean buying, final int itemId, final int quantity) {
-    super(DATA, buying, itemId, quantity);
-  }
-
   @Override
   public void processResults() {
     String responseText = this.responseText;

@@ -35,14 +35,6 @@ public class RubeeRequest extends CoinMasterRequest {
     super(RUBEE, buying, attachments);
   }
 
-  public RubeeRequest(final boolean buying, final AdventureResult attachment) {
-    super(RUBEE, buying, attachment);
-  }
-
-  public RubeeRequest(final boolean buying, final int itemId, final int quantity) {
-    super(RUBEE, buying, itemId, quantity);
-  }
-
   @Override
   public void processResults() {
     ShopRequest.parseResponse(this.getURLString(), this.responseText);

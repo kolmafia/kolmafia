@@ -70,14 +70,6 @@ public class FudgeWandRequest extends CoinMasterRequest {
     super(FUDGEWAND, buying, attachments);
   }
 
-  public FudgeWandRequest(final boolean buying, final AdventureResult attachment) {
-    super(FUDGEWAND, buying, attachment);
-  }
-
-  public FudgeWandRequest(final boolean buying, final int itemId, final int quantity) {
-    super(FUDGEWAND, buying, itemId, quantity);
-  }
-
   @Override
   public void setItem(final AdventureResult item) {
     int itemId = item.getItemId();

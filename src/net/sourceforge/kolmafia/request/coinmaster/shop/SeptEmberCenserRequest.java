@@ -33,14 +33,6 @@ public class SeptEmberCenserRequest extends CoinMasterRequest {
     super(SEPTEMBER_CENSER, buying, attachments);
   }
 
-  public SeptEmberCenserRequest(final boolean buying, final AdventureResult attachment) {
-    super(SEPTEMBER_CENSER, buying, attachment);
-  }
-
-  public SeptEmberCenserRequest(final boolean buying, final int itemId, final int quantity) {
-    super(SEPTEMBER_CENSER, buying, itemId, quantity);
-  }
-
   @Override
   public void processResults() {
     ShopRequest.parseResponse(this.getURLString(), this.responseText);

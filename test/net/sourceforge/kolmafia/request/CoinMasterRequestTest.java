@@ -19,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import internal.helpers.Cleanups;
 import internal.helpers.SessionLoggerOutput;
 import internal.network.FakeHttpClientBuilder;
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -282,7 +283,8 @@ public class CoinMasterRequestTest {
         client.addResponse(200, "");
 
         var buy =
-            new Crimbo23ElfArmoryRequest(true, ItemPool.get(ItemPool.ELF_GUARD_HONOR_PRESENT, 1));
+            new Crimbo23ElfArmoryRequest(
+                true, new AdventureResult[] {ItemPool.get(ItemPool.ELF_GUARD_HONOR_PRESENT, 1)});
         buy.run();
 
         var text = SessionLoggerOutput.stopStream();
@@ -378,7 +380,8 @@ public class CoinMasterRequestTest {
 
         var buy =
             new Crimbo23ElfArmoryRequest(
-                false, ItemPool.get(ItemPool.ELF_GUARD_COMMANDEERING_GLOVES, 13));
+                false,
+                new AdventureResult[] {ItemPool.get(ItemPool.ELF_GUARD_COMMANDEERING_GLOVES, 13)});
         buy.run();
 
         var text = SessionLoggerOutput.stopStream();

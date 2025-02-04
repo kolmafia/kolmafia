@@ -42,14 +42,6 @@ public class BatFabricatorRequest extends CoinMasterRequest {
     super(BAT_FABRICATOR, buying, attachments);
   }
 
-  public BatFabricatorRequest(final boolean buying, final AdventureResult attachment) {
-    super(BAT_FABRICATOR, buying, attachment);
-  }
-
-  public BatFabricatorRequest(final boolean buying, final int itemId, final int quantity) {
-    super(BAT_FABRICATOR, buying, itemId, quantity);
-  }
-
   @Override
   public void processResults() {
     ShopRequest.parseResponse(this.getURLString(), this.responseText);

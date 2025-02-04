@@ -45,14 +45,6 @@ public class TerrifiedEagleInnRequest extends CoinMasterRequest {
     super(TERRIFIED_EAGLE_INN, buying, attachments);
   }
 
-  public TerrifiedEagleInnRequest(final boolean buying, final AdventureResult attachment) {
-    super(TERRIFIED_EAGLE_INN, buying, attachment);
-  }
-
-  public TerrifiedEagleInnRequest(final boolean buying, final int itemId, final int quantity) {
-    super(TERRIFIED_EAGLE_INN, buying, itemId, quantity);
-  }
-
   @Override
   public void processResults() {
     ShopRequest.parseResponse(this.getURLString(), this.responseText);

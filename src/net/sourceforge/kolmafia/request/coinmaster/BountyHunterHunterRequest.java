@@ -52,14 +52,6 @@ public class BountyHunterHunterRequest extends CoinMasterRequest {
     super(BHH, buying, attachments);
   }
 
-  public BountyHunterHunterRequest(final boolean buying, final AdventureResult attachment) {
-    super(BHH, buying, attachment);
-  }
-
-  public BountyHunterHunterRequest(final boolean buying, final int itemId, final int quantity) {
-    super(BHH, buying, itemId, quantity);
-  }
-
   @Override
   public void processResults() {
     parseResponse(this.getURLString(), this.responseText);

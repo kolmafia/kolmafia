@@ -32,14 +32,6 @@ public class BuffJimmyRequest extends CoinMasterRequest {
     super(BUFF_JIMMY, buying, attachments);
   }
 
-  public BuffJimmyRequest(final boolean buying, final AdventureResult attachment) {
-    super(BUFF_JIMMY, buying, attachment);
-  }
-
-  public BuffJimmyRequest(final boolean buying, final int itemId, final int quantity) {
-    super(BUFF_JIMMY, buying, itemId, quantity);
-  }
-
   @Override
   public void processResults() {
     ShopRequest.parseResponse(this.getURLString(), this.responseText);

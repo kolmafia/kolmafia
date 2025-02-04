@@ -32,14 +32,6 @@ public class NuggletCraftingRequest extends CoinMasterRequest {
     super(NUGGLETCRAFTING, buying, attachments);
   }
 
-  public NuggletCraftingRequest(final boolean buying, final AdventureResult attachment) {
-    super(NUGGLETCRAFTING, buying, attachment);
-  }
-
-  public NuggletCraftingRequest(final boolean buying, final int itemId, final int quantity) {
-    super(NUGGLETCRAFTING, buying, itemId, quantity);
-  }
-
   @Override
   public void processResults() {
     ShopRequest.parseResponse(this.getURLString(), this.responseText);
