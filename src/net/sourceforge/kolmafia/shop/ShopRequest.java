@@ -69,8 +69,13 @@ public class ShopRequest extends GenericRequest {
   public static final Pattern QUANTITY_PATTERN = Pattern.compile("quantity=(\\d+)");
 
   public static int parseQuantity(final String urlString) {
+    // Absence of a quantity field - or 0 - means 1.
     Matcher m = QUANTITY_PATTERN.matcher(urlString);
-    return m.find() ? StringUtilities.parseInt(m.group(1)) : 1;
+    if (m.find()) {
+      int quantity = StringUtilities.parseInt(m.group(1));
+      return (quantity <= 0) ? 1 : quantity;
+    }
+    return 1;
   }
 
   public int getQuantity() {
@@ -375,9 +380,20 @@ public class ShopRequest extends GenericRequest {
       final String urlString,
       final String responseText) {
 
+    if (responseText.contains("You don't have enough") || responseText.contains("Huh?")) {
+      return;
+    }
+
+    // At least one shop allows you to "multi-make" but always makes one.
+    int quantity = ShopRequest.parseQuantity(urlString);
+
     // Certain shops want to handle Preferences and Quests.  Give them a
     // chance to do so and finish removing ingredients when they return.
     switch (shopId) {
+      case "starchart" -> {
+        quantity = 1;
+        break;
+      }
       case "junkmagazine" -> {
         JunkMagazineRequest.parseResponse(urlString, responseText);
         break;
@@ -398,7 +414,6 @@ public class ShopRequest extends GenericRequest {
     }
 
     // Remove the consumed ingredients.
-    int quantity = ShopRequest.parseQuantity(urlString);
     for (AdventureResult ingredient : shopRow.getCosts()) {
       ResultProcessor.processResult(ingredient.getInstance(-1 * ingredient.getCount() * quantity));
     }

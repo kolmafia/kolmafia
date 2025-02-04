@@ -14,15 +14,13 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class StillRequest extends CreateItemRequest {
   public static final String SHOPID = "still";
 
-  private final int row;
-
   public StillRequest(final Concoction conc) {
     super("shop.php", conc);
 
     this.addFormField("whichshop", SHOPID);
     this.addFormField("action", "buyitem");
-    this.row = ConcoctionPool.idToRow(this.getItemId());
-    this.addFormField("whichrow", String.valueOf(this.row));
+    int row = ConcoctionPool.idToRow(this.getItemId());
+    this.addFormField("whichrow", String.valueOf(row));
   }
 
   @Override

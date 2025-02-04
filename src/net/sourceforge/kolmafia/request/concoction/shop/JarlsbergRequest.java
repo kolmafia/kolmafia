@@ -10,16 +10,14 @@ import net.sourceforge.kolmafia.shop.ShopRequest;
 public class JarlsbergRequest extends CreateItemRequest {
   public static final String SHOPID = "jarl";
 
-  private final int row;
-
   public JarlsbergRequest(final Concoction conc) {
     // shop.php?pwd&whichshop=jarl&action=buyitem&whichrow=60&quantity=1
     super("shop.php", conc);
 
     this.addFormField("whichshop", SHOPID);
     this.addFormField("action", "buyitem");
-    this.row = ConcoctionPool.idToRow(this.getItemId());
-    this.addFormField("whichrow", String.valueOf(this.row));
+    int row = ConcoctionPool.idToRow(this.getItemId());
+    this.addFormField("whichrow", String.valueOf(row));
   }
 
   @Override

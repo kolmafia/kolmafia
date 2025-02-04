@@ -15,8 +15,6 @@ import net.sourceforge.kolmafia.shop.ShopRequest;
 public class FiveDPrinterRequest extends CreateItemRequest {
   public static final String SHOPID = "5dprinter";
 
-  private final int row;
-
   public FiveDPrinterRequest(final Concoction conc) {
     // shop.php?whichshop=5dprinter&action=buyitem&quantity=1&whichrow=340&pwd=15a3ed7ce8a5e0c8a6c7e08a03fca040
     // quantity field is not needed and is not used
@@ -24,8 +22,8 @@ public class FiveDPrinterRequest extends CreateItemRequest {
 
     this.addFormField("whichshop", SHOPID);
     this.addFormField("action", "buyitem");
-    this.row = ConcoctionPool.idToRow(this.getItemId());
-    this.addFormField("whichrow", String.valueOf(this.row));
+    int row = ConcoctionPool.idToRow(this.getItemId());
+    this.addFormField("whichrow", String.valueOf(row));
   }
 
   @Override
