@@ -77,7 +77,7 @@ public class HermitRequest extends CoinMasterRequest {
   }
 
   public HermitRequest(final int itemId, final int quantity) {
-    this(true, new AdventureResult[] {ItemPool.get(itemId, quantity)});
+    super(HERMIT, true, itemId, quantity);
   }
 
   private static void registerHermitItem(final int itemId, final int count) {

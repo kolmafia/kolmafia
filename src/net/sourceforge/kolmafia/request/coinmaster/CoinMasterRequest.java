@@ -67,6 +67,18 @@ public class CoinMasterRequest extends GenericRequest {
     this.attachments = attachments;
   }
 
+  // Convenience constructors, overridden by the handful of subclasses that need them.
+
+  public CoinMasterRequest(
+      final CoinmasterData data, final boolean buying, final AdventureResult attachment) {
+    this(data, buying, new AdventureResult[] {attachment});
+  }
+
+  public CoinMasterRequest(
+      final CoinmasterData data, final boolean buying, final int itemId, final int quantity) {
+    this(data, buying, ItemPool.get(itemId, quantity));
+  }
+
   public final void setQuantity(final int quantity) {
     this.quantity = quantity;
     if (this.attachments != null) {

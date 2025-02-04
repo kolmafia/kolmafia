@@ -38,7 +38,7 @@ public class TrapperRequest extends CoinMasterRequest {
   }
 
   public TrapperRequest(final int itemId, final int quantity) {
-    this(true, new AdventureResult[] {ItemPool.get(itemId, quantity)});
+    super(TRAPPER, true, itemId, quantity);
   }
 
   @Override
