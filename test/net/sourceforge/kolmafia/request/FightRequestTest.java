@@ -3766,4 +3766,56 @@ public class FightRequestTest {
       }
     }
   }
+
+  @Nested
+  class StillInBattle {
+    @Test
+    public void doNotThinkFightEndsEarlyWithBothCombatForms() {
+      // check that we do not mistakenly set last combat won to "false" on round 0
+      var cleanups =
+          new Cleanups(
+              withProperty("_lastCombatWon", true),
+              withProperty("serverAddsCustomCombat", true),
+              withProperty("serverAddsBothCombat", true));
+      try (cleanups) {
+        parseCombatData("request/test_fight_battle_end_both_combat_bars.html");
+        assertThat("_lastCombatWon", isSetTo(true));
+      }
+    }
+
+    @Test
+    public void runAwayEndsCombatWithBothCombatForms() {
+      var cleanups =
+          new Cleanups(
+              withProperty("_lastCombatWon", true),
+              withProperty("serverAddsCustomCombat", true),
+              withProperty("serverAddsBothCombat", true));
+      try (cleanups) {
+        parseCombatData("request/test_fight_battle_end_both_combat_bars_runaway.html");
+        assertThat("_lastCombatWon", isSetTo(false));
+      }
+    }
+
+    @Test
+    public void runAwayEndsCombatWithOldCombatForm() {
+      var cleanups =
+          new Cleanups(
+              withProperty("_lastCombatWon", true), withProperty("serverAddsCustomCombat", false));
+      try (cleanups) {
+        parseCombatData("request/test_fight_battle_end_old_combat_bar_only_runaway.html");
+        assertThat("_lastCombatWon", isSetTo(false));
+      }
+    }
+
+    @Test
+    public void runAwayEndsCombatWithNewCombatForm() {
+      var cleanups =
+          new Cleanups(
+              withProperty("_lastCombatWon", true), withProperty("serverAddsCustomCombat", true));
+      try (cleanups) {
+        parseCombatData("request/test_fight_battle_end_new_combat_bar_only_runaway.html");
+        assertThat("_lastCombatWon", isSetTo(false));
+      }
+    }
+  }
 }
