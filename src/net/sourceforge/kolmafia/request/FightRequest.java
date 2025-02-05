@@ -7095,30 +7095,6 @@ public class FightRequest extends GenericRequest {
       FightRequest.logText(str, status);
     }
 
-    // looks askance at the toy bow you've provided and shoots the plunger-arrow over the horizon,
-    // then proceeds to drag something more appropriate back.
-    if (status.cupidbow) {
-      int currentFamiliarId = KoLCharacter.getEffectiveFamiliar().getId();
-
-      if (Preferences.getInteger("cupidBowLastFamiliar") == currentFamiliarId) {
-        Preferences.increment("cupidBowFights", 1, 5, false);
-      } else {
-        Preferences.setInteger("cupidBowLastFamiliar", currentFamiliarId);
-        Preferences.setInteger("cupidBowFights", 1);
-      }
-
-      if (str.contains("looks askance at the toy bow")) {
-        String currentFams = Preferences.getString("_cupidBowFamiliars");
-        if (!currentFams.contains(String.valueOf(currentFamiliarId))) {
-          Preferences.setString(
-              "_cupidBowFamiliars",
-              (currentFams.isEmpty() ? "" : currentFams + ";") + currentFamiliarId);
-        }
-        Preferences.setInteger("cupidBowFights", 0);
-        FightRequest.logText(str, status);
-      }
-    }
-
     if ( // KoL Con 13 Snowglobe
     str.contains("KoL Con")
         || str.contains("You notice some extra Meat")
@@ -7745,6 +7721,27 @@ public class FightRequest extends GenericRequest {
 
     if (str.contains("takes a pull on the hookah")) {
       status.hookah = true;
+    }
+
+    // looks askance at the toy bow you've provided and shoots the plunger-arrow over the horizon,
+    // then proceeds to drag something more appropriate back.
+    if (status.cupidbow) {
+      int currentFamiliarId = KoLCharacter.getEffectiveFamiliar().getId();
+
+      if (Preferences.getInteger("cupidBowLastFamiliar") == currentFamiliarId) {
+        Preferences.increment("cupidBowFights", 1, 5, false);
+      } else {
+        Preferences.setInteger("cupidBowLastFamiliar", currentFamiliarId);
+        Preferences.setInteger("cupidBowFights", 1);
+      }
+      if (str.contains("looks askance at the toy bow")) {
+        String currentFams = Preferences.getString("_cupidBowFamiliars");
+        Preferences.setString(
+            "_cupidBowFamiliars",
+            (currentFams.isEmpty() ? "" : (currentFams + ";")) + currentFamiliarId);
+        Preferences.setInteger("cupidBowFights", 0);
+        FightRequest.logText(str, status);
+      }
     }
 
     if (!str.isEmpty() && !ResultProcessor.processFamiliarWeightGain(str)) {

@@ -3714,12 +3714,13 @@ public class FightRequestTest {
           new Cleanups(
               withFamiliar(FamiliarPool.MINI_KIWI),
               withEquipped(Slot.FAMILIAR, ItemPool.TOY_CUPID_BOW),
+              withProperty("_cupidBowFamiliars", ""),
               withFight());
       try (cleanups) {
         parseCombatData("request/test_cupid_bow.html");
         var text = RequestLoggerOutput.stopStream();
         assertThat(text, containsString("looks askance at the toy bow"));
-        assertThat(Preferences.getString("_cupidBowFamiliars"), equalTo("300"));
+        assertThat("_cupidBowFamiliars", isSetTo("300"));
       }
     }
   }
