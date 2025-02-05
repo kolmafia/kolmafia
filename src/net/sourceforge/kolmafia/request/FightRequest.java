@@ -7095,30 +7095,29 @@ public class FightRequest extends GenericRequest {
       FightRequest.logText(str, status);
     }
 
-    if (KoLCharacter.hasEquipped(ItemPool.TOY_CUPID_BOW)) {
-      if (Preferences.getInteger("cupidBowLastFamiliar")
-          == KoLCharacter.getEffectiveFamiliar().getId()) {
-        Preferences.increment("cupidBowFights");
-      } else {
-        Preferences.setInteger("cupidBowLastFamiliar", KoLCharacter.getEffectiveFamiliar().getId());
-        Preferences.setInteger("cupidBowFights", 1);
-      }
-    }
-
     // looks askance at the toy bow you've provided and shoots the plunger-arrow over the horizon,
     // then proceeds to drag something more appropriate back.
-    if (status.cupidbow
-        && str.contains("looks askance at the toy bow you've provided and shoots the")) {
-      String currentFamiliars = Preferences.getString("_cupidBowFamiliars");
-      String newFamiliarId = String.valueOf(KoLCharacter.getEffectiveFamiliar().getId());
+    if (status.cupidbow) {
+      if (Preferences.getInteger("cupidBowLastFamiliar")
+              == KoLCharacter.getEffectiveFamiliar().getId()
+          && Preferences.getInteger("cupidBowFights") < 5) {
+        Preferences.increment("cupidBowFights");
+      } else {
+        Preferences.setInteger("cupidBowLastFamiliar", KoLCharacter.getFamiliar().getId());
+        Preferences.setInteger("cupidBowFights", 1);
+      }
+      if (str.contains("looks askance at the toy bow you've provided and shoots the")) {
+        String currentFamiliars = Preferences.getString("_cupidBowFamiliars");
+        String newFamiliarId = String.valueOf(KoLCharacter.getEffectiveFamiliar().getId());
 
-      // Append the new familiar ID, ensuring no leading semicolon if the list is empty
-      String updatedFamiliars =
-          currentFamiliars.isEmpty() ? newFamiliarId : currentFamiliars + ";" + newFamiliarId;
+        // Append the new familiar ID, ensuring no leading semicolon if the list is empty
+        String updatedFamiliars =
+            currentFamiliars.isEmpty() ? newFamiliarId : currentFamiliars + ";" + newFamiliarId;
 
-      Preferences.setString("_cupidBowFamiliars", updatedFamiliars);
-      Preferences.setInteger("cupidBowFights", 0);
-      FightRequest.logText(str, status);
+        Preferences.setString("_cupidBowFamiliars", updatedFamiliars);
+        Preferences.setInteger("cupidBowFights", 0);
+        FightRequest.logText(str, status);
+      }
     }
 
     if ( // KoL Con 13 Snowglobe

@@ -3717,7 +3717,7 @@ public class FightRequestTest {
               withFight());
       try (cleanups) {
         parseCombatData("request/test_cupid_bow.html");
-        assertThat("_cupidBowFamiliars", !isSetTo(""));
+        assertThat("_cupidBowFamiliars", isSetTo("380"));
       }
     }
   }
