@@ -129,8 +129,6 @@ public class ShopRequest extends GenericRequest {
       return;
     }
 
-    String action = GenericRequest.getAction(urlString);
-    boolean buying = action != null && action.equals("buyitem");
     boolean ajax = urlString.contains("ajax=1");
 
     // An Ajax request shows purchase results without the inventory.
@@ -139,11 +137,6 @@ public class ShopRequest extends GenericRequest {
       // Print npcstores.txt or coinmasters.txt entries for new rows.
       // If it is a coinmaster, let it do extra parsing and set balances
       parseShopInventory(shopId, responseText, false);
-    }
-
-    // If we are not buying, nothing special to do
-    if (!buying) {
-      return;
     }
 
     parseShopResponse(shopId, urlString, responseText);
@@ -347,11 +340,11 @@ public class ShopRequest extends GenericRequest {
       final String shopId, final String urlString, final String responseText) {
     int row = parseWhichRow(urlString);
     ShopRow shopRow = ShopRowDatabase.getShopRow(row);
-    if (shopRow == null) {
-      return;
-    }
 
-    if (shopRow.isMeatPurchase()) {
+    // If shopRow is null, we are just visiting.
+    // Coinmasters have already parsed the inventory, in that case.
+    // Give NPC shops the opportunity to examine the responseText.
+    if (shopRow == null || shopRow.isMeatPurchase()) {
       // A shop.php store that sells items for Meat will say
       //     You spent XX Meat.
       // Result processing handles that, so we need not process it.
