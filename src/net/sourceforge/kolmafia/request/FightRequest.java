@@ -7098,23 +7098,22 @@ public class FightRequest extends GenericRequest {
     // looks askance at the toy bow you've provided and shoots the plunger-arrow over the horizon,
     // then proceeds to drag something more appropriate back.
     if (status.cupidbow) {
-      if (Preferences.getInteger("cupidBowLastFamiliar")
-          == KoLCharacter.getEffectiveFamiliar().getId()) {
+      int currentFamiliarId = KoLCharacter.getFamiliar().getId();
+
+      if (Preferences.getInteger("cupidBowLastFamiliar") == currentFamiliarId) {
         Preferences.increment("cupidBowFights", 1, 5, false);
       } else {
-        Preferences.setInteger("cupidBowLastFamiliar", KoLCharacter.getFamiliar().getId());
+        Preferences.setInteger("cupidBowLastFamiliar", currentFamiliarId);
         Preferences.setInteger("cupidBowFights", 1);
       }
 
       if (str.contains("looks askance at the toy bow")) {
-        String currentFamiliars = Preferences.getString("_cupidBowFamiliars");
-        String newFamiliarId = String.valueOf(KoLCharacter.getFamiliar().getId());
-
-        // Append the new familiar ID, ensuring no leading semicolon if the list is empty
-        String updatedFamiliars =
-            currentFamiliars.isEmpty() ? newFamiliarId : currentFamiliars + ";" + newFamiliarId;
-
-        Preferences.setString("_cupidBowFamiliars", updatedFamiliars);
+        Preferences.setString(
+            "_cupidBowFamiliars",
+            Preferences.getString("_cupidBowFamiliars")
+                .concat(";")
+                .concat(String.valueOf(currentFamiliarId))
+                .replaceFirst("^;", ""));
         Preferences.setInteger("cupidBowFights", 0);
         FightRequest.logText(str, status);
       }
