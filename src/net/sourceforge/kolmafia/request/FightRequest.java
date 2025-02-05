@@ -7109,9 +7109,10 @@ public class FightRequest extends GenericRequest {
 
       if (str.contains("looks askance at the toy bow")) {
         String currentFams = Preferences.getString("_cupidBowFamiliars");
-        if (!currentFams.contains(String.valueOf(currentFamiliarId))) {  
-            Preferences.setString("_cupidBowFamiliars",
-                (currentFams.isEmpty() ? "" : currentFams + ";") + currentFamiliarId);
+        if (!currentFams.contains(String.valueOf(currentFamiliarId))) {
+          Preferences.setString(
+              "_cupidBowFamiliars",
+              (currentFams.isEmpty() ? "" : currentFams + ";") + currentFamiliarId);
         }
         Preferences.setInteger("cupidBowFights", 0);
         FightRequest.logText(str, status);
