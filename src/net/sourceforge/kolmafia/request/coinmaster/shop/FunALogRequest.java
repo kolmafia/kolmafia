@@ -58,14 +58,6 @@ public class FunALogRequest extends CoinMasterRequest {
     super(FUN_A_LOG, buying, attachments);
   }
 
-  public FunALogRequest(final boolean buying, final AdventureResult attachment) {
-    super(FUN_A_LOG, buying, attachment);
-  }
-
-  public FunALogRequest(final boolean buying, final int itemId, final int quantity) {
-    super(FUN_A_LOG, buying, itemId, quantity);
-  }
-
   @Override
   public void processResults() {
     ShopRequest.parseResponse(this.getURLString(), this.responseText);

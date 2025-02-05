@@ -57,20 +57,8 @@ public class CosmicRaysBazaarRequest extends CoinMasterRequest {
     super(COSMIC_RAYS_BAZAAR);
   }
 
-  public CosmicRaysBazaarRequest(final String action) {
-    super(COSMIC_RAYS_BAZAAR, action);
-  }
-
   public CosmicRaysBazaarRequest(final boolean buying, final AdventureResult[] attachments) {
     super(COSMIC_RAYS_BAZAAR, buying, attachments);
-  }
-
-  public CosmicRaysBazaarRequest(final boolean buying, final AdventureResult attachment) {
-    super(COSMIC_RAYS_BAZAAR, buying, attachment);
-  }
-
-  public CosmicRaysBazaarRequest(final boolean buying, final int itemId, final int quantity) {
-    super(COSMIC_RAYS_BAZAAR, buying, itemId, quantity);
   }
 
   @Override

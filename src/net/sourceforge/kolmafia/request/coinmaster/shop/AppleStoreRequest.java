@@ -34,14 +34,6 @@ public class AppleStoreRequest extends CoinMasterRequest {
     super(APPLE_STORE, buying, attachments);
   }
 
-  public AppleStoreRequest(final boolean buying, final AdventureResult attachment) {
-    super(APPLE_STORE, buying, attachment);
-  }
-
-  public AppleStoreRequest(final boolean buying, final int itemId, final int quantity) {
-    super(APPLE_STORE, buying, itemId, quantity);
-  }
-
   @Override
   public void processResults() {
     ShopRequest.parseResponse(this.getURLString(), this.responseText);

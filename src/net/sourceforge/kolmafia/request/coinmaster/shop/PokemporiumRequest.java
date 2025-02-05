@@ -46,14 +46,6 @@ public class PokemporiumRequest extends CoinMasterRequest {
     super(POKEMPORIUM, buying, attachments);
   }
 
-  public PokemporiumRequest(final boolean buying, final AdventureResult attachment) {
-    super(POKEMPORIUM, buying, attachment);
-  }
-
-  public PokemporiumRequest(final boolean buying, final int itemId, final int quantity) {
-    super(POKEMPORIUM, buying, itemId, quantity);
-  }
-
   @Override
   public void processResults() {
     ShopRequest.parseResponse(this.getURLString(), this.responseText);

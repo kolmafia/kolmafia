@@ -39,14 +39,6 @@ public class MrStore2002Request extends CoinMasterRequest {
     super(MR_STORE_2002, buying, attachments);
   }
 
-  public MrStore2002Request(final boolean buying, final AdventureResult attachment) {
-    super(MR_STORE_2002, buying, attachment);
-  }
-
-  public MrStore2002Request(final boolean buying, final int itemId, final int quantity) {
-    super(MR_STORE_2002, buying, itemId, quantity);
-  }
-
   public static int catalogToUse() {
     if (InventoryManager.hasItem(ItemPool.MR_STORE_2002_CATALOG)) {
       return ItemPool.MR_STORE_2002_CATALOG;

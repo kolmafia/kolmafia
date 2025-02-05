@@ -87,14 +87,6 @@ public class BigBrotherRequest extends CoinMasterRequest {
     super(BIG_BROTHER, buying, attachments);
   }
 
-  public BigBrotherRequest(final boolean buying, final AdventureResult attachment) {
-    super(BIG_BROTHER, buying, attachment);
-  }
-
-  public BigBrotherRequest(final boolean buying, final int itemId, final int quantity) {
-    super(BIG_BROTHER, buying, itemId, quantity);
-  }
-
   @Override
   public void processResults() {
     parseResponse(this.getURLString(), this.responseText);

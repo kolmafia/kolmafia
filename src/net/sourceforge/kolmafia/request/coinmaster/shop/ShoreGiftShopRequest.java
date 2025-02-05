@@ -53,14 +53,6 @@ public class ShoreGiftShopRequest extends CoinMasterRequest {
     super(SHORE_GIFT_SHOP, buying, attachments);
   }
 
-  public ShoreGiftShopRequest(final boolean buying, final AdventureResult attachment) {
-    super(SHORE_GIFT_SHOP, buying, attachment);
-  }
-
-  public ShoreGiftShopRequest(final boolean buying, final int itemId, final int quantity) {
-    super(SHORE_GIFT_SHOP, buying, itemId, quantity);
-  }
-
   @Override
   public void processResults() {
     ShopRequest.parseResponse(this.getURLString(), this.responseText);

@@ -33,14 +33,6 @@ public class SpacegateFabricationRequest extends CoinMasterRequest {
     super(SPACEGATE_STORE, buying, attachments);
   }
 
-  public SpacegateFabricationRequest(final boolean buying, final AdventureResult attachment) {
-    super(SPACEGATE_STORE, buying, attachment);
-  }
-
-  public SpacegateFabricationRequest(final boolean buying, final int itemId, final int quantity) {
-    super(SPACEGATE_STORE, buying, itemId, quantity);
-  }
-
   @Override
   public void processResults() {
     ShopRequest.parseResponse(this.getURLString(), this.responseText);

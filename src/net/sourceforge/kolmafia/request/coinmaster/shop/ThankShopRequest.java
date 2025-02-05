@@ -29,14 +29,6 @@ public class ThankShopRequest extends CoinMasterRequest {
     super(CASHEW_STORE, buying, attachments);
   }
 
-  public ThankShopRequest(final boolean buying, final AdventureResult attachment) {
-    super(CASHEW_STORE, buying, attachment);
-  }
-
-  public ThankShopRequest(final boolean buying, final int itemId, final int quantity) {
-    super(CASHEW_STORE, buying, itemId, quantity);
-  }
-
   @Override
   public void processResults() {
     ShopRequest.parseResponse(this.getURLString(), this.responseText);

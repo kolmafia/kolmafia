@@ -58,14 +58,6 @@ public class DimemasterRequest extends CoinMasterRequest {
     super(HIPPY, buying, attachments);
   }
 
-  public DimemasterRequest(final boolean buying, final AdventureResult attachment) {
-    super(HIPPY, buying, attachment);
-  }
-
-  public DimemasterRequest(final boolean buying, final int itemId, final int quantity) {
-    super(HIPPY, buying, itemId, quantity);
-  }
-
   @Override
   public void processResults() {
     CoinMasterRequest.parseResponse(HIPPY, this.getURLString(), this.responseText);

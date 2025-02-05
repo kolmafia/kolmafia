@@ -34,14 +34,6 @@ public class YeNeweSouvenirShoppeRequest extends CoinMasterRequest {
     super(SHAKE_SHOP, buying, attachments);
   }
 
-  public YeNeweSouvenirShoppeRequest(final boolean buying, final AdventureResult attachment) {
-    super(SHAKE_SHOP, buying, attachment);
-  }
-
-  public YeNeweSouvenirShoppeRequest(final boolean buying, final int itemId, final int quantity) {
-    super(SHAKE_SHOP, buying, itemId, quantity);
-  }
-
   @Override
   public void processResults() {
     ShopRequest.parseResponse(this.getURLString(), this.responseText);

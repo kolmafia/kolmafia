@@ -32,14 +32,6 @@ public class CanteenRequest extends CoinMasterRequest {
     super(CANTEEN, buying, attachments);
   }
 
-  public CanteenRequest(final boolean buying, final AdventureResult attachment) {
-    super(CANTEEN, buying, attachment);
-  }
-
-  public CanteenRequest(final boolean buying, final int itemId, final int quantity) {
-    super(CANTEEN, buying, itemId, quantity);
-  }
-
   @Override
   public void processResults() {
     ShopRequest.parseResponse(this.getURLString(), this.responseText);

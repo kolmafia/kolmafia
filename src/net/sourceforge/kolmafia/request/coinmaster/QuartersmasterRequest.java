@@ -58,14 +58,6 @@ public class QuartersmasterRequest extends CoinMasterRequest {
     super(FRATBOY, buying, attachments);
   }
 
-  public QuartersmasterRequest(final boolean buying, final AdventureResult attachment) {
-    super(FRATBOY, buying, attachment);
-  }
-
-  public QuartersmasterRequest(final boolean buying, final int itemId, final int quantity) {
-    super(FRATBOY, buying, itemId, quantity);
-  }
-
   @Override
   public void processResults() {
     CoinMasterRequest.parseResponse(FRATBOY, this.getURLString(), this.responseText);

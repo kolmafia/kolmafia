@@ -43,14 +43,6 @@ public class AWOLQuartermasterRequest extends CoinMasterRequest {
     super(AWOL, buying, attachments);
   }
 
-  public AWOLQuartermasterRequest(final boolean buying, final AdventureResult attachment) {
-    super(AWOL, buying, attachment);
-  }
-
-  public AWOLQuartermasterRequest(final boolean buying, final int itemId, final int quantity) {
-    super(AWOL, buying, itemId, quantity);
-  }
-
   @Override
   public void run() {
     if (this.attachments != null) {

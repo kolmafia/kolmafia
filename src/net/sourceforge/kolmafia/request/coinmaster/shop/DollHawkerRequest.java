@@ -28,14 +28,6 @@ public class DollHawkerRequest extends CoinMasterRequest {
     super(DOLLHAWKER, buying, attachments);
   }
 
-  public DollHawkerRequest(final boolean buying, final AdventureResult attachment) {
-    super(DOLLHAWKER, buying, attachment);
-  }
-
-  public DollHawkerRequest(final boolean buying, final int itemId, final int quantity) {
-    super(DOLLHAWKER, buying, itemId, quantity);
-  }
-
   @Override
   public void processResults() {
     ShopRequest.parseResponse(this.getURLString(), this.responseText);

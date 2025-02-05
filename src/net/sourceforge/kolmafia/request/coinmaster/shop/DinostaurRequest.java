@@ -31,14 +31,6 @@ public class DinostaurRequest extends CoinMasterRequest {
     super(DINOSTAUR, buying, attachments);
   }
 
-  public DinostaurRequest(final boolean buying, final AdventureResult attachment) {
-    super(DINOSTAUR, buying, attachment);
-  }
-
-  public DinostaurRequest(final boolean buying, final int itemId, final int quantity) {
-    super(DINOSTAUR, buying, itemId, quantity);
-  }
-
   @Override
   public void processResults() {
     ShopRequest.parseResponse(this.getURLString(), this.responseText);

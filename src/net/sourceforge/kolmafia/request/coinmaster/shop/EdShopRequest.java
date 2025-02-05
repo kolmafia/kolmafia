@@ -32,14 +32,6 @@ public class EdShopRequest extends CoinMasterRequest {
     super(EDSHOP, buying, attachments);
   }
 
-  public EdShopRequest(final boolean buying, final AdventureResult attachment) {
-    super(EDSHOP, buying, attachment);
-  }
-
-  public EdShopRequest(final boolean buying, final int itemId, final int quantity) {
-    super(EDSHOP, buying, itemId, quantity);
-  }
-
   @Override
   public void processResults() {
     ShopRequest.parseResponse(this.getURLString(), this.responseText);

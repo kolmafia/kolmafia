@@ -32,14 +32,6 @@ public class SHAWARMARequest extends CoinMasterRequest {
     super(SHAWARMA, buying, attachments);
   }
 
-  public SHAWARMARequest(final boolean buying, final AdventureResult attachment) {
-    super(SHAWARMA, buying, attachment);
-  }
-
-  public SHAWARMARequest(final boolean buying, final int itemId, final int quantity) {
-    super(SHAWARMA, buying, itemId, quantity);
-  }
-
   @Override
   public void processResults() {
     ShopRequest.parseResponse(this.getURLString(), this.responseText);

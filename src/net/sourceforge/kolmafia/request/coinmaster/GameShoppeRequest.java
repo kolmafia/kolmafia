@@ -45,14 +45,6 @@ public class GameShoppeRequest extends CoinMasterRequest {
     super(GAMESHOPPE, buying, attachments);
   }
 
-  public GameShoppeRequest(final boolean buying, final AdventureResult attachment) {
-    super(GAMESHOPPE, buying, attachment);
-  }
-
-  public GameShoppeRequest(final boolean buying, final int itemId, final int quantity) {
-    super(GAMESHOPPE, buying, itemId, quantity);
-  }
-
   public static String canBuy() {
     if (KoLCharacter.isHardcore()) {
       return "You are in Hardcore and the credit reader is broken.";
