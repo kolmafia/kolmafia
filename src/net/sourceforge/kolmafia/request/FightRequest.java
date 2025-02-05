@@ -7098,7 +7098,7 @@ public class FightRequest extends GenericRequest {
     // looks askance at the toy bow you've provided and shoots the plunger-arrow over the horizon,
     // then proceeds to drag something more appropriate back.
     if (status.cupidbow) {
-      int currentFamiliarId = KoLCharacter.getFamiliar().getId();
+      int currentFamiliarId = KoLCharacter.getEffectiveFamiliar().getId();
 
       if (Preferences.getInteger("cupidBowLastFamiliar") == currentFamiliarId) {
         Preferences.increment("cupidBowFights", 1, 5, false);
@@ -7108,12 +7108,11 @@ public class FightRequest extends GenericRequest {
       }
 
       if (str.contains("looks askance at the toy bow")) {
-        Preferences.setString(
-            "_cupidBowFamiliars",
-            Preferences.getString("_cupidBowFamiliars")
-                .concat(";")
-                .concat(String.valueOf(currentFamiliarId))
-                .replaceFirst("^;", ""));
+        String currentFams = Preferences.getString("_cupidBowFamiliars");
+        if (!currentFams.contains(String.valueOf(currentFamiliarId))) {  
+            Preferences.setString("_cupidBowFamiliars",
+                (currentFams.isEmpty() ? "" : currentFams + ";") + currentFamiliarId);
+        }
         Preferences.setInteger("cupidBowFights", 0);
         FightRequest.logText(str, status);
       }

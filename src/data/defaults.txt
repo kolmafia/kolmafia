@@ -543,7 +543,7 @@ user	crystalBallPredictions
 user	csServicesPerformed	
 user	cubelingProgress	0
 user	cupidBowFights	0
-user	cupidBowLastFamiliar
+user	cupidBowLastFamiliar	0
 user	currentAstralTrip
 user	currentDistillateMods
 user	currentEasyBountyItem	
