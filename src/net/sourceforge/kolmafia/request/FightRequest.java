@@ -7099,16 +7099,16 @@ public class FightRequest extends GenericRequest {
     // then proceeds to drag something more appropriate back.
     if (status.cupidbow) {
       if (Preferences.getInteger("cupidBowLastFamiliar")
-              == KoLCharacter.getEffectiveFamiliar().getId()
-          && Preferences.getInteger("cupidBowFights") < 5) {
-        Preferences.increment("cupidBowFights");
+              == KoLCharacter.getEffectiveFamiliar().getId()) {
+        Preferences.increment("cupidBowFights",1,5,false);
       } else {
         Preferences.setInteger("cupidBowLastFamiliar", KoLCharacter.getFamiliar().getId());
         Preferences.setInteger("cupidBowFights", 1);
       }
-      if (str.contains("looks askance at the toy bow you've provided and shoots the")) {
+
+      if (str.contains("looks askance at the toy bow")) {
         String currentFamiliars = Preferences.getString("_cupidBowFamiliars");
-        String newFamiliarId = String.valueOf(KoLCharacter.getEffectiveFamiliar().getId());
+        String newFamiliarId = String.valueOf(KoLCharacter.getFamiliar().getId());
 
         // Append the new familiar ID, ensuring no leading semicolon if the list is empty
         String updatedFamiliars =
