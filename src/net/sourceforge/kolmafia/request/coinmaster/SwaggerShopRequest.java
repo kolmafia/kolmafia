@@ -1,4 +1,4 @@
-package net.sourceforge.kolmafia.request.coinmaster.shop;
+package net.sourceforge.kolmafia.request.coinmaster;
 
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -17,7 +17,6 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class SwaggerShopRequest extends CoinMasterRequest {
@@ -108,7 +107,8 @@ public class SwaggerShopRequest extends CoinMasterRequest {
           .withItemPattern(GenericRequest.WHICHITEM_PATTERN)
           .withCanBuyItem(SwaggerShopRequest::canBuyItem)
           .withGetBuyPrice(SwaggerShopRequest::getBuyPrice)
-          .withAvailableItem(SwaggerShopRequest::availableItem);
+          .withAvailableItem(SwaggerShopRequest::availableItem)
+          .withAccessible(SwaggerShopRequest::accessible);
 
   private static Boolean canBuyItem(final Integer itemId) {
     Season season = itemIdToSeason.get(itemId);
@@ -144,14 +144,6 @@ public class SwaggerShopRequest extends CoinMasterRequest {
 
   public SwaggerShopRequest(final boolean buying, final AdventureResult[] attachments) {
     super(SWAGGER_SHOP, buying, attachments);
-  }
-
-  public SwaggerShopRequest(final boolean buying, final AdventureResult attachment) {
-    super(SWAGGER_SHOP, buying, attachment);
-  }
-
-  public SwaggerShopRequest(final boolean buying, final int itemId, final int quantity) {
-    super(SWAGGER_SHOP, buying, itemId, quantity);
   }
 
   @Override

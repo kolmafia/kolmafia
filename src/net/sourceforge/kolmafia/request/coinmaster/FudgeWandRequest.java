@@ -27,7 +27,8 @@ public class FudgeWandRequest extends CoinMasterRequest {
           .withItem(FUDGECULE)
           .withBuyURL("choice.php?whichchoice=562")
           .withBuyItems(master)
-          .withBuyPrices(master);
+          .withBuyPrices(master)
+          .withAccessible(FudgeWandRequest::accessible);
 
   private static String lastURL = null;
 
@@ -67,14 +68,6 @@ public class FudgeWandRequest extends CoinMasterRequest {
 
   public FudgeWandRequest(final boolean buying, final AdventureResult[] attachments) {
     super(FUDGEWAND, buying, attachments);
-  }
-
-  public FudgeWandRequest(final boolean buying, final AdventureResult attachment) {
-    super(FUDGEWAND, buying, attachment);
-  }
-
-  public FudgeWandRequest(final boolean buying, final int itemId, final int quantity) {
-    super(FUDGEWAND, buying, itemId, quantity);
   }
 
   @Override

@@ -33,7 +33,9 @@ public class GameShoppeRequest extends CoinMasterRequest {
           .withItemField("whichitem")
           .withItemPattern(GenericRequest.WHICHITEM_PATTERN)
           .withCountField("quantity")
-          .withCountPattern(GenericRequest.QUANTITY_PATTERN);
+          .withCountPattern(GenericRequest.QUANTITY_PATTERN)
+          .withCanBuy(GameShoppeRequest::canBuy)
+          .withAccessible(GameShoppeRequest::accessible);
 
   public GameShoppeRequest() {
     super(GAMESHOPPE);
@@ -41,14 +43,6 @@ public class GameShoppeRequest extends CoinMasterRequest {
 
   public GameShoppeRequest(final boolean buying, final AdventureResult[] attachments) {
     super(GAMESHOPPE, buying, attachments);
-  }
-
-  public GameShoppeRequest(final boolean buying, final AdventureResult attachment) {
-    super(GAMESHOPPE, buying, attachment);
-  }
-
-  public GameShoppeRequest(final boolean buying, final int itemId, final int quantity) {
-    super(GAMESHOPPE, buying, itemId, quantity);
   }
 
   public static String canBuy() {

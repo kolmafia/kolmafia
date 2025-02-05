@@ -5,12 +5,13 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.LimitMode;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 
 public class EdShopRequest extends CoinMasterRequest {
   public static final String master = "Everything Under the World";
+  public static final String SHOPID = "edunder_shopshop";
 
   private static final Pattern TOKEN_PATTERN = Pattern.compile("<td>([\\d,]+) Ka coin");
   public static final AdventureResult KA = ItemPool.get(ItemPool.KA_COIN, 1);
@@ -20,7 +21,8 @@ public class EdShopRequest extends CoinMasterRequest {
           .withToken("Ka coin")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(KA)
-          .withShopRowFields(master, "edunder_shopshop");
+          .withShopRowFields(master, SHOPID)
+          .withAccessible(EdShopRequest::accessible);
 
   public EdShopRequest() {
     super(EDSHOP);
@@ -30,34 +32,9 @@ public class EdShopRequest extends CoinMasterRequest {
     super(EDSHOP, buying, attachments);
   }
 
-  public EdShopRequest(final boolean buying, final AdventureResult attachment) {
-    super(EDSHOP, buying, attachment);
-  }
-
-  public EdShopRequest(final boolean buying, final int itemId, final int quantity) {
-    super(EDSHOP, buying, itemId, quantity);
-  }
-
   @Override
   public void processResults() {
-    parseResponse(this.getURLString(), this.responseText);
-  }
-
-  public static void parseResponse(final String location, final String responseText) {
-    if (!location.startsWith("shop.php") || !location.contains("whichshop=edunder_shopshop")) {
-      return;
-    }
-
-    CoinmasterData data = EDSHOP;
-
-    String action = GenericRequest.getAction(location);
-    if (action != null) {
-      CoinMasterRequest.parseResponse(data, location, responseText);
-      return;
-    }
-
-    // Parse current coin balances
-    CoinMasterRequest.parseBalance(data, responseText);
+    ShopRequest.parseResponse(this.getURLString(), this.responseText);
   }
 
   public static String accessible() {
@@ -68,13 +45,5 @@ public class EdShopRequest extends CoinMasterRequest {
       return "You must be in the Underworld to shop here.";
     }
     return null;
-  }
-
-  public static final boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=edunder_shopshop")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(EDSHOP, urlString, true);
   }
 }

@@ -38,7 +38,8 @@ public class QuartersmasterRequest extends CoinMasterRequest {
           .withItemPattern(GenericRequest.WHICHITEM_PATTERN)
           .withCountField("quantity")
           .withCountPattern(GenericRequest.QUANTITY_PATTERN)
-          .withCanBuyItem(QuartersmasterRequest::canBuyItem);
+          .withCanBuyItem(QuartersmasterRequest::canBuyItem)
+          .withAccessible(QuartersmasterRequest::accessible);
 
   private static Boolean canBuyItem(final Integer itemId) {
     return switch (itemId) {
@@ -55,14 +56,6 @@ public class QuartersmasterRequest extends CoinMasterRequest {
 
   public QuartersmasterRequest(final boolean buying, final AdventureResult[] attachments) {
     super(FRATBOY, buying, attachments);
-  }
-
-  public QuartersmasterRequest(final boolean buying, final AdventureResult attachment) {
-    super(FRATBOY, buying, attachment);
-  }
-
-  public QuartersmasterRequest(final boolean buying, final int itemId, final int quantity) {
-    super(FRATBOY, buying, itemId, quantity);
   }
 
   @Override

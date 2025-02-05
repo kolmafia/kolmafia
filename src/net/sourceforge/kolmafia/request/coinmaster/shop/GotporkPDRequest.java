@@ -5,14 +5,15 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.BatManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LimitMode;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 
 public class GotporkPDRequest extends CoinMasterRequest {
   public static final String master = "Gotpork P. D.";
+  public static final String SHOPID = "batman_pd";
 
   private static final Pattern TOKEN_PATTERN =
       Pattern.compile("<td>([\\d,]+) incriminating evidence");
@@ -23,8 +24,9 @@ public class GotporkPDRequest extends CoinMasterRequest {
           .withToken("incriminating evidence")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)
-          .withShopRowFields(master, "batman_pd")
-          .withItemBuyPrice(GotporkPDRequest::itemBuyPrice);
+          .withShopRowFields(master, SHOPID)
+          .withItemBuyPrice(GotporkPDRequest::itemBuyPrice)
+          .withAccessible(GotporkPDRequest::accessible);
 
   private static AdventureResult itemBuyPrice(final Integer itemId) {
     int price = GOTPORK_PD.getBuyPrices().get(itemId);
@@ -47,42 +49,9 @@ public class GotporkPDRequest extends CoinMasterRequest {
     super(GOTPORK_PD, buying, attachments);
   }
 
-  public GotporkPDRequest(final boolean buying, final AdventureResult attachment) {
-    super(GOTPORK_PD, buying, attachment);
-  }
-
-  public GotporkPDRequest(final boolean buying, final int itemId, final int quantity) {
-    super(GOTPORK_PD, buying, itemId, quantity);
-  }
-
   @Override
   public void processResults() {
-    parseResponse(this.getURLString(), this.responseText);
-  }
-
-  public static void parseResponse(final String urlString, final String responseText) {
-    if (!urlString.contains("whichshop=batman_pd")) {
-      return;
-    }
-
-    CoinmasterData data = GOTPORK_PD;
-
-    String action = GenericRequest.getAction(urlString);
-    if (action != null) {
-      CoinMasterRequest.parseResponse(data, urlString, responseText);
-      return;
-    }
-
-    // Parse current coin balances
-    CoinMasterRequest.parseBalance(data, responseText);
-  }
-
-  public static boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=batman_pd")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(GOTPORK_PD, urlString, true);
+    ShopRequest.parseResponse(this.getURLString(), this.responseText);
   }
 
   public static String accessible() {

@@ -947,6 +947,8 @@ public class AreaCombatData {
 
     this.appendItemList(buffer, monster.getItems(), monster.getPocketRates(), fullString);
 
+    this.appendFact(buffer, monster, fullString);
+
     String bounty = BountyDatabase.getNameByMonster(monster.getName());
     if (bounty != null) {
       buffer.append("<br>").append(bounty).append(" (bounty)");
@@ -1118,6 +1120,16 @@ public class AreaCombatData {
         }
       }
     }
+  }
+
+  // Append facts from the book of facts if we have it.
+  private void appendFact(
+      final StringBuffer buffer, final MonsterData monster, boolean fullString) {
+    String fact = monster.getFact();
+    if (fact != null) {
+      buffer.append(fact);
+    }
+    return;
   }
 
   public static double getDropRateModifier() {

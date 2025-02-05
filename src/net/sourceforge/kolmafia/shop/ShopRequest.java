@@ -13,13 +13,16 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
+import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
+import net.sourceforge.kolmafia.request.concoction.shop.FiveDPrinterRequest;
+import net.sourceforge.kolmafia.request.concoction.shop.JunkMagazineRequest;
+import net.sourceforge.kolmafia.request.concoction.shop.StillRequest;
+import net.sourceforge.kolmafia.request.concoction.shop.SugarSheetRequest;
+import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.shop.ShopDatabase.SHOP;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ShopRequest extends GenericRequest {
-  public static final Pattern SHOPID_PATTERN = Pattern.compile("whichshop=([^&]*)");
-  public static final Pattern WHICHROW_PATTERN = Pattern.compile("whichrow=(\\d+)");
-  public static final Pattern QUANTITY_PATTERN = Pattern.compile("quantity=(\\d+)");
 
   private final String shopId;
   private ShopRow shopRow = null;
@@ -41,8 +44,10 @@ public class ShopRequest extends GenericRequest {
     this.addFormField("ajax", "1");
   }
 
+  public static final Pattern WHICHSHOP_PATTERN = Pattern.compile("whichshop=([^&]*)");
+
   public static String getShopId(final String urlString) {
-    Matcher m = SHOPID_PATTERN.matcher(urlString);
+    Matcher m = WHICHSHOP_PATTERN.matcher(urlString);
     return m.find() ? m.group(1) : null;
   }
 
@@ -50,8 +55,27 @@ public class ShopRequest extends GenericRequest {
     return this.shopId;
   }
 
+  public static final Pattern WHICHROW_PATTERN = Pattern.compile("whichrow=(\\d+)");
+
+  public static final int parseWhichRow(final String urlString) {
+    Matcher m = WHICHROW_PATTERN.matcher(urlString);
+    return m.find() ? StringUtilities.parseInt(m.group(1)) : 0;
+  }
+
   public ShopRow getShopRow() {
     return this.shopRow;
+  }
+
+  public static final Pattern QUANTITY_PATTERN = Pattern.compile("quantity=(\\d+)");
+
+  public static int parseQuantity(final String urlString) {
+    // Absence of a quantity field - or 0 - means 1.
+    Matcher m = QUANTITY_PATTERN.matcher(urlString);
+    if (m.find()) {
+      int quantity = StringUtilities.parseInt(m.group(1));
+      return (quantity <= 0) ? 1 : quantity;
+    }
+    return 1;
   }
 
   public int getQuantity() {
@@ -66,7 +90,7 @@ public class ShopRequest extends GenericRequest {
   @Override
   public void processResults() {
     String urlString = this.getURLString();
-    ShopRequest.parseShopResponse(urlString, this.responseText);
+    ShopRequest.parseResponse(urlString, this.responseText);
   }
 
   // name=whichshop value="grandma"
@@ -85,25 +109,11 @@ public class ShopRequest extends GenericRequest {
     return m.find() ? m.group(1) : "";
   }
 
-  public static final int parseWhichRow(final String urlString) {
-    Matcher matcher = WHICHROW_PATTERN.matcher(urlString);
-    if (!matcher.find()) {
-      return -1;
-    }
+  /*
+   * ResponseTextParser support
+   */
 
-    return StringUtilities.parseInt(matcher.group(1));
-  }
-
-  public static final int parseQuantity(final String urlString) {
-    Matcher matcher = GenericRequest.QUANTITY_PATTERN.matcher(urlString);
-    if (!matcher.find()) {
-      return 1;
-    }
-
-    return StringUtilities.parseInt(matcher.group(1));
-  }
-
-  public static final void parseShopResponse(final String urlString, final String responseText) {
+  public static final void parseResponse(final String urlString, final String responseText) {
     if (!urlString.startsWith("shop.php")) {
       return;
     }
@@ -113,12 +123,23 @@ public class ShopRequest extends GenericRequest {
       return;
     }
 
-    // Parse the inventory and learn new items for "row" (modern) shops.
-    // Print npcstores.txt or coinmasters.txt entries for new rows.
+    // Visiting a shop you currently can't access fails.
+    // <b style="color: white">Uh Oh!</b>
+    if (responseText.contains(">Uh Oh!</b>")) {
+      return;
+    }
 
-    parseShopInventory(shopId, responseText, false);
+    boolean ajax = urlString.contains("ajax=1");
 
-    parseShopRowResponse(urlString, responseText);
+    // An Ajax request shows purchase results without the inventory.
+    if (!ajax) {
+      // Parse the inventory and learn new items for "row" (modern) shops.
+      // Print npcstores.txt or coinmasters.txt entries for new rows.
+      // If it is a coinmaster, let it do extra parsing and set balances
+      parseShopInventory(shopId, responseText, false);
+    }
+
+    parseShopResponse(shopId, urlString, responseText);
   }
 
   public static final List<ShopRow> parseShopInventory(
@@ -136,11 +157,21 @@ public class ShopRequest extends GenericRequest {
       RequestLogger.updateSessionLog(printMe);
     }
 
+    // If this is a coinmaster, give it a chance to make its own
+    // observations of the inventory
+    CoinmasterData cd = ShopDatabase.getCoinmasterData(shopId);
+    if (cd != null) {
+      cd.visitShop(responseText);
+      CoinMasterRequest.parseBalance(cd, responseText);
+    }
+
+    // Find all the ShopRow objects. Register any new items seen.
     List<ShopRow> shopRows = ShopRow.parseShop(responseText, true);
 
     // Certain existing shops are implemented as mixing methods.  Since
     // KoL could add new items to such shops, detect them.
     boolean concoction = ShopDatabase.getShopType(shopId) == SHOP.CONC;
+    boolean coinmaster = (cd != null);
 
     boolean newShopItems = false;
 
@@ -150,7 +181,7 @@ public class ShopRequest extends GenericRequest {
       AdventureResult[] costs = shopRow.getCosts();
 
       // There should be from 1-5 costs.  If KoL included none (KoL
-      // bug), or parsing failed (KoLmafiq bug), skip.
+      // bug), or parsing failed (KoLmafia bug), skip.
       if (costs.length == 0) {
         // *** Perhaps log the error?
         continue;
@@ -173,13 +204,15 @@ public class ShopRequest extends GenericRequest {
       //
       // A shop with multiple currencies per item can be a Coinmaster
 
-      // *** NPCStoreDatabase assumes that only a single store sells a particular item.
-      if (NPCStoreDatabase.getPurchaseRequest(id) != null && !force) {
+      // *** NPCStoreDatabase assumes that multiple stores can sell a particular item.
+      if (NPCStoreDatabase.contains(id, false) && !force) {
         continue;
       }
 
       // *** CoinmastersDatabase assumes that multiple stores can sell a particular item.
-      if (CoinmastersDatabase.getAllPurchaseRequests(id) != null && !force) {
+      // The following does not account for "disabled" coinmasters - a testing feature.
+      //    if (CoinmastersDatabase.contains(id, false) && !force) {
+      if (CoinmastersDatabase.getAllPurchaseRequests(id).size() > 0 && !force) {
         continue;
       }
 
@@ -303,13 +336,89 @@ public class ShopRequest extends GenericRequest {
     return true;
   }
 
-  public static final void parseShopRowResponse(final String urlString, final String responseText) {
-    // *** Do we want to put shop-specific stuff in here?
+  private static final void parseShopResponse(
+      final String shopId, final String urlString, final String responseText) {
+    int row = parseWhichRow(urlString);
+    ShopRow shopRow = ShopRowDatabase.getShopRow(row);
+
+    // If shopRow is null, we are just visiting.
+    // Coinmasters have already parsed the inventory, in that case.
+    // Give NPC shops the opportunity to examine the responseText.
+    if (shopRow == null || shopRow.isMeatPurchase()) {
+      // A shop.php store that sells items for Meat will say
+      //     You spent XX Meat.
+      // Result processing handles that, so we need not process it.
+
+      // However, NPCPurchaseRequest may want to do additional actions
+      // on a per-store basis.  Punt to them.
+      NPCPurchaseRequest.parseShopResponse(shopId, shopRow, urlString, responseText);
+      return;
+    }
+
+    CoinmasterData cd = ShopDatabase.getCoinmasterData(shopId);
+    if (cd != null) {
+      // A coinmaster may also be an NPC store, but we handled that
+      // above. We know we are trading for items.
+      CoinMasterRequest.parseResponse(cd, urlString, responseText);
+      return;
+    }
+
+    // This must be a concoction.
+    handleConcoction(shopId, shopRow, urlString, responseText);
   }
 
-  public static final void buyStuff(final ShopRow shopRow, final int count) {
+  public static final void handleConcoction(
+      final String shopId,
+      final ShopRow shopRow,
+      final String urlString,
+      final String responseText) {
+
+    if (responseText.contains("You don't have enough") || responseText.contains("Huh?")) {
+      return;
+    }
+
+    // At least one shop allows you to "multi-make" but always makes one.
+    int quantity = ShopRequest.parseQuantity(urlString);
+
+    // Certain shops want to handle Preferences and Quests.  Give them a
+    // chance to do so and finish removing ingredients when they return.
+    switch (shopId) {
+      case "starchart" -> {
+        quantity = 1;
+        break;
+      }
+      case "junkmagazine" -> {
+        JunkMagazineRequest.parseResponse(urlString, responseText);
+        break;
+      }
+      case "still" -> {
+        StillRequest.parseResponse(urlString, responseText);
+        break;
+      }
+      case "5dprinter" -> {
+        FiveDPrinterRequest.parseResponse(urlString, responseText);
+        break;
+      }
+      case "sugarsheets" -> {
+        // Sugar Sheet folding always removes exactly one.
+        SugarSheetRequest.parseResponse(urlString, responseText);
+        return;
+      }
+    }
+
+    // Remove the consumed ingredients.
+    for (AdventureResult ingredient : shopRow.getCosts()) {
+      ResultProcessor.processResult(ingredient.getInstance(-1 * ingredient.getCount() * quantity));
+    }
+  }
+
+  /*
+   * RequestLogger support
+   */
+
+  public static final boolean buyStuff(final ShopRow shopRow, final int count) {
     StringBuilder buf = new StringBuilder();
-    buf.append("trading ");
+    buf.append("Trade ");
 
     AdventureResult[] costs = shopRow.getCosts();
     for (int i = 0; i < costs.length; ++i) {
@@ -337,9 +446,72 @@ public class ShopRequest extends GenericRequest {
 
     RequestLogger.updateSessionLog();
     RequestLogger.updateSessionLog(buf.toString());
+
+    return true;
   }
 
-  public static final boolean registerShopRequest(final String urlString, boolean meatOnly) {
+  public static final boolean buyWithMeat(
+      final String shopId, final ShopRow shopRow, final int count) {
+    AdventureResult item = shopRow.getItem();
+    AdventureResult[] costs = shopRow.getCosts();
+    int price = NPCPurchaseRequest.currentDiscountedPrice(shopId, costs[0].getCount());
+
+    StringBuilder buf = new StringBuilder();
+    buf.append("buy ");
+    buf.append(count);
+    buf.append(" ");
+    buf.append(item.getPluralName(count));
+    buf.append(" for ");
+    buf.append(price);
+    buf.append(" each from ");
+    buf.append(ShopDatabase.getShopName(shopId));
+
+    RequestLogger.updateSessionLog();
+    RequestLogger.updateSessionLog(buf.toString());
+
+    return true;
+  }
+
+  public static final boolean registerConcoction(
+      final String shopId, final ShopRow shopRow, final int quantity) {
+    int itemId = shopRow.getItem().getItemId();
+
+    StringBuilder buffer = new StringBuilder();
+    buffer.append("Use ");
+
+    AdventureResult[] ingredients = shopRow.getCosts();
+    for (int i = 0; i < ingredients.length; ++i) {
+      if (i > 0) {
+        buffer.append(", ");
+      }
+
+      int count = ingredients[i].getCount() * quantity;
+      buffer.append(count);
+      buffer.append(" ");
+      buffer.append(ingredients[i].getPluralName(count));
+    }
+
+    buffer.append(" to make ");
+    buffer.append(quantity);
+    buffer.append(" ");
+    buffer.append(shopRow.getItem().getPluralName(quantity));
+
+    RequestLogger.updateSessionLog();
+    RequestLogger.updateSessionLog(buffer.toString());
+
+    return true;
+  }
+
+  public static final boolean registerShop(
+      final String shopId, final ShopRow shopRow, final int quantity) {
+    var costs = shopRow.getCosts();
+    if (costs != null && costs.length == 1 && costs[0].isMeat()) {
+      return buyWithMeat(shopId, shopRow, quantity);
+    }
+    return buyStuff(shopRow, quantity);
+  }
+
+  public static final boolean registerRequest(final String urlString) {
     if (!urlString.startsWith("shop.php")) {
       return false;
     }
@@ -350,19 +522,30 @@ public class ShopRequest extends GenericRequest {
     }
 
     String action = GenericRequest.getAction(urlString);
-    if (action == null || !action.equals("buyitems")) {
+    if (action == null || !action.equals("buyitem")) {
       // Just visiting the shop
-      // String shopName = ShopDatabase.getShopName(shopId);
+      if (ShopDatabase.logVisits(shopId)) {
+        String shopName = ShopDatabase.getShopName(shopId);
+        RequestLogger.updateSessionLog();
+        RequestLogger.updateSessionLog("Visiting " + shopName);
+      }
       return true;
     }
 
-    // *** In order for this to work, ShopRowDatabase has to be in READ mode.
     int row = parseWhichRow(urlString);
     ShopRow shopRow = ShopRowDatabase.getShopRow(row);
-    int count = parseQuantity(urlString);
+    if (shopRow == null) {
+      return false;
+    }
 
-    buyStuff(shopRow, count);
+    int quantity = parseQuantity(urlString);
+    SHOP shopType = ShopDatabase.getShopType(shopId);
 
-    return true;
+    if (shopType == SHOP.CONC) {
+      return registerConcoction(shopId, shopRow, quantity);
+    }
+
+    // log as an NPC Store or as a Coinmaster depending on costs.
+    return registerShop(shopId, shopRow, quantity);
   }
 }

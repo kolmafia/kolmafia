@@ -34,7 +34,8 @@ public class TravelingTraderRequest extends CoinMasterRequest {
           .withCountField("quantity")
           .withItemPattern(GenericRequest.QUANTITY_PATTERN)
           .withStorageAction("usehagnk=1")
-          .withTradeAllAction("tradeall=1");
+          .withTradeAllAction("tradeall=1")
+          .withAccessible(TravelingTraderRequest::accessible);
 
   public TravelingTraderRequest() {
     super(TRAVELER);
@@ -42,14 +43,6 @@ public class TravelingTraderRequest extends CoinMasterRequest {
 
   public TravelingTraderRequest(final boolean buying, final AdventureResult[] attachments) {
     super(TRAVELER, buying, attachments);
-  }
-
-  public TravelingTraderRequest(final boolean buying, final AdventureResult attachment) {
-    super(TRAVELER, buying, attachment);
-  }
-
-  public TravelingTraderRequest(final boolean buying, final int itemId, final int quantity) {
-    super(TRAVELER, buying, itemId, quantity);
   }
 
   @Override
@@ -187,6 +180,7 @@ public class TravelingTraderRequest extends CoinMasterRequest {
   }
 
   public static String accessible() {
+    // *** Is there something we can do here? Like the Time Twitching Tower.
     return null;
   }
 

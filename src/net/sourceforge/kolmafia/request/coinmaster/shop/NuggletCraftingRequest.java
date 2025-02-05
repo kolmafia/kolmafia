@@ -5,11 +5,12 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 
 public class NuggletCraftingRequest extends CoinMasterRequest {
   public static final String master = "Topiary Nuggletcrafting";
+  public static final String SHOPID = "topiary";
 
   private static final Pattern TOKEN_PATTERN = Pattern.compile("<td>([\\d,]+) topiary nugglet");
   public static final AdventureResult TOPIARY_NUGGLET = ItemPool.get(ItemPool.TOPIARY_NUGGLET, 1);
@@ -20,7 +21,8 @@ public class NuggletCraftingRequest extends CoinMasterRequest {
           .withTokenTest("no topiary nugglets")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(TOPIARY_NUGGLET)
-          .withShopRowFields(master, "topiary");
+          .withShopRowFields(master, SHOPID)
+          .withAccessible(NuggletCraftingRequest::accessible);
 
   public NuggletCraftingRequest() {
     super(NUGGLETCRAFTING);
@@ -30,34 +32,9 @@ public class NuggletCraftingRequest extends CoinMasterRequest {
     super(NUGGLETCRAFTING, buying, attachments);
   }
 
-  public NuggletCraftingRequest(final boolean buying, final AdventureResult attachment) {
-    super(NUGGLETCRAFTING, buying, attachment);
-  }
-
-  public NuggletCraftingRequest(final boolean buying, final int itemId, final int quantity) {
-    super(NUGGLETCRAFTING, buying, itemId, quantity);
-  }
-
   @Override
   public void processResults() {
-    parseResponse(this.getURLString(), this.responseText);
-  }
-
-  public static void parseResponse(final String location, final String responseText) {
-    if (!location.startsWith("shop.php") || !location.contains("whichshop=topiary")) {
-      return;
-    }
-
-    CoinmasterData data = NUGGLETCRAFTING;
-
-    String action = GenericRequest.getAction(location);
-    if (action != null) {
-      CoinMasterRequest.parseResponse(data, location, responseText);
-      return;
-    }
-
-    // Parse current coin balances
-    CoinMasterRequest.parseBalance(data, responseText);
+    ShopRequest.parseResponse(this.getURLString(), this.responseText);
   }
 
   public static String accessible() {
@@ -65,14 +42,5 @@ public class NuggletCraftingRequest extends CoinMasterRequest {
       return "You do not have a topiary nugglet in inventory";
     }
     return null;
-  }
-
-  public static final boolean registerRequest(final String urlString) {
-    // shop.php?pwd&whichshop=topiary
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=topiary")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(NUGGLETCRAFTING, urlString, true);
   }
 }

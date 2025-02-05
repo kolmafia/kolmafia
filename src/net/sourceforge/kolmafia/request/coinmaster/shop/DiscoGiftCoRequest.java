@@ -6,11 +6,12 @@ import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 
 public class DiscoGiftCoRequest extends CoinMasterRequest {
   public static final String master = "Disco GiftCo";
+  public static final String SHOPID = "infernodisco";
 
   private static final Pattern TOKEN_PATTERN = Pattern.compile("<td>([\\d,]+) Volcoino");
   public static final AdventureResult COIN = ItemPool.get(ItemPool.VOLCOINO, 1);
@@ -20,7 +21,8 @@ public class DiscoGiftCoRequest extends CoinMasterRequest {
           .withToken("Volcoino")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)
-          .withShopRowFields(master, "infernodisco");
+          .withShopRowFields(master, SHOPID)
+          .withAccessible(DiscoGiftCoRequest::accessible);
 
   public DiscoGiftCoRequest() {
     super(DISCO_GIFTCO);
@@ -30,42 +32,9 @@ public class DiscoGiftCoRequest extends CoinMasterRequest {
     super(DISCO_GIFTCO, buying, attachments);
   }
 
-  public DiscoGiftCoRequest(final boolean buying, final AdventureResult attachment) {
-    super(DISCO_GIFTCO, buying, attachment);
-  }
-
-  public DiscoGiftCoRequest(final boolean buying, final int itemId, final int quantity) {
-    super(DISCO_GIFTCO, buying, itemId, quantity);
-  }
-
   @Override
   public void processResults() {
-    parseResponse(this.getURLString(), this.responseText);
-  }
-
-  public static void parseResponse(final String urlString, final String responseText) {
-    if (!urlString.contains("whichshop=infernodisco")) {
-      return;
-    }
-
-    CoinmasterData data = DISCO_GIFTCO;
-
-    String action = GenericRequest.getAction(urlString);
-    if (action != null) {
-      CoinMasterRequest.parseResponse(data, urlString, responseText);
-      return;
-    }
-
-    // Parse current coin balances
-    CoinMasterRequest.parseBalance(data, responseText);
-  }
-
-  public static boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=infernodisco")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(DISCO_GIFTCO, urlString, true);
+    ShopRequest.parseResponse(this.getURLString(), this.responseText);
   }
 
   public static String accessible() {

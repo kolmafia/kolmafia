@@ -16,6 +16,7 @@ import static org.hamcrest.Matchers.is;
 
 import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -88,7 +89,11 @@ public class MrStore2002RequestTest {
       client.addResponse(200, ""); // api.php
 
       var request =
-          new MrStore2002Request(true, ItemPool.FLASH_LIQUIDIZER_ULTRA_DOUSING_ACCESSORY, 1);
+          new MrStore2002Request(
+              true,
+              new AdventureResult[] {
+                ItemPool.get(ItemPool.FLASH_LIQUIDIZER_ULTRA_DOUSING_ACCESSORY, 1)
+              });
       request.run();
 
       assertThat("_2002MrStoreCreditsCollected", isSetTo(true));

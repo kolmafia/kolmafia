@@ -4,9 +4,11 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 
 public class DollHawkerRequest extends CoinMasterRequest {
   public static final String master = "Dollhawker's Emporium";
+  public static final String SHOPID = "elvishp2";
 
   public static final CoinmasterData DOLLHAWKER =
       new CoinmasterData(master, "dollhawker", DollHawkerRequest.class)
@@ -14,7 +16,9 @@ public class DollHawkerRequest extends CoinMasterRequest {
           .withTokenTest("You have 0 lunar isotopes")
           .withTokenPattern(SpaaaceRequest.TOKEN_PATTERN)
           .withItem(SpaaaceRequest.ISOTOPE)
-          .withShopRowFields(master, "elvishp2");
+          .withShopRowFields(master, SHOPID)
+          .withVisitShop(SpaaaceRequest::visitShop)
+          .withAccessible(SpaaaceRequest::accessible);
 
   public DollHawkerRequest() {
     super(DOLLHAWKER);
@@ -24,24 +28,9 @@ public class DollHawkerRequest extends CoinMasterRequest {
     super(DOLLHAWKER, buying, attachments);
   }
 
-  public DollHawkerRequest(final boolean buying, final AdventureResult attachment) {
-    super(DOLLHAWKER, buying, attachment);
-  }
-
-  public DollHawkerRequest(final boolean buying, final int itemId, final int quantity) {
-    super(DOLLHAWKER, buying, itemId, quantity);
-  }
-
-  public static final boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || urlString.indexOf("whichshop=elvishp2") == -1) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(DOLLHAWKER, urlString, true);
-  }
-
-  public static String accessible() {
-    return SpaaaceRequest.accessible();
+  @Override
+  public void processResults() {
+    ShopRequest.parseResponse(this.getURLString(), this.responseText);
   }
 
   @Override

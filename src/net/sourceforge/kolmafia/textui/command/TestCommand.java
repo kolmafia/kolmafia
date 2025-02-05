@@ -64,7 +64,6 @@ import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.GenericRequest.ServerCookie;
 import net.sourceforge.kolmafia.request.MonsterManuelRequest;
-import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.PlaceRequest;
 import net.sourceforge.kolmafia.request.ScrapheapRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
@@ -728,6 +727,21 @@ public class TestCommand extends AbstractCommand {
       return;
     }
 
+    if (command.equals("shoprow")) {
+      if (split.length < 2) {
+        RequestLogger.printLine("What row?");
+        return;
+      }
+      int row = StringUtilities.parseInt(split[1].trim());
+      var data = ShopRowDatabase.getShopRowData(row);
+      if (data == null) {
+        RequestLogger.printLine("No row data!");
+        return;
+      }
+      RequestLogger.printLine(data.dataString());
+      return;
+    }
+
     if (command.equals("showhtml")) {
       if (split.length < 2) {
         KoLmafia.updateDisplay(MafiaState.ERROR, "Load what?");
@@ -911,7 +925,7 @@ public class TestCommand extends AbstractCommand {
       CoinmasterRegistry.reset();
       NPCStoreDatabase.contains(0);
       // Ditto for the Armory & Leggery, which registers standard rewards.
-      ArmoryAndLeggeryRequest.parseResponse("", "");
+      new ArmoryAndLeggeryRequest();
 
       // Certain items include a "mode" in their string representation.
       // We don't want that.
@@ -930,7 +944,7 @@ public class TestCommand extends AbstractCommand {
       CoinmasterRegistry.reset();
       NPCStoreDatabase.contains(0);
       // Ditto for the Armory & Leggery, which registers standard rewards.
-      ArmoryAndLeggeryRequest.parseResponse("", "");
+      new ArmoryAndLeggeryRequest();
 
       // Write a new shop.txt file
       ShopDatabase.writeShopFile();
@@ -1265,7 +1279,7 @@ public class TestCommand extends AbstractCommand {
       }
       String name = split[1].trim();
       String urlString = "shop.php?whichshop=" + name;
-      NPCPurchaseRequest.parseShopResponse(urlString, TestCommand.contents);
+      ShopRequest.parseResponse(urlString, TestCommand.contents);
       TestCommand.contents = null;
       return;
     }

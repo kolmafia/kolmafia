@@ -24,15 +24,14 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class ShopRowDatabase {
 
   enum Mode {
-    NONE, // Do nothing
     READ, // Read data file into data structure
     BUILD // Populate data structure from other data
   }
 
-  // If we eventually need this internally, set to Mode.READ
+  // We need this data in ShopRequest.
   // If you want to regenerate the data file, set to Mode.BUILD
-  // recompile, log in, and "test write-shoprows"
-  public static Mode mode = Mode.NONE;
+  // recompile and "test write-shoprows" while not-logged in.
+  public static Mode mode = Mode.READ;
 
   public record ShopRowData(int row, String shopId, AdventureResult item, AdventureResult[] costs) {
     public String dataString() {
@@ -126,7 +125,6 @@ public class ShopRowDatabase {
         // Create empty data file
         writeShopRowDataFile();
       }
-      case NONE -> {}
     }
   }
 

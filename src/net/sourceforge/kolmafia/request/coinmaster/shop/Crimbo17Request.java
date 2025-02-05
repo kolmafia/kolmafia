@@ -6,11 +6,12 @@ import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 
 public class Crimbo17Request extends CoinMasterRequest {
   public static final String master = "Cheer-o-Vend 3000";
+  public static final String SHOPID = "crimbo17";
 
   private static final Pattern CHEER_PATTERN = Pattern.compile("([\\d,]+) crystalline cheer");
   public static final AdventureResult CHEER = ItemPool.get(ItemPool.CRYSTALLINE_CHEER, 1);
@@ -22,9 +23,9 @@ public class Crimbo17Request extends CoinMasterRequest {
           .withTokenTest("no crystalline cheer")
           .withTokenPattern(CHEER_PATTERN)
           .withItem(CHEER)
-          .withShopRowFields(master, "crimbo17")
-          .withNeedsPasswordHash(true)
-          .withCanBuyItem(Crimbo17Request::canBuyItem);
+          .withShopRowFields(master, SHOPID)
+          .withCanBuyItem(Crimbo17Request::canBuyItem)
+          .withAccessible(Crimbo17Request::accessible);
 
   private static Boolean canBuyItem(final Integer itemId) {
     return switch (itemId) {
@@ -46,34 +47,9 @@ public class Crimbo17Request extends CoinMasterRequest {
     super(CRIMBO17, buying, attachments);
   }
 
-  public Crimbo17Request(final boolean buying, final AdventureResult attachment) {
-    super(CRIMBO17, buying, attachment);
-  }
-
-  public Crimbo17Request(final boolean buying, final int itemId, final int quantity) {
-    super(CRIMBO17, buying, itemId, quantity);
-  }
-
   @Override
   public void processResults() {
-    parseResponse(this.getURLString(), this.responseText);
-  }
-
-  public static void parseResponse(final String location, final String responseText) {
-    if (!location.contains("whichshop=crimbo17")) {
-      return;
-    }
-
-    CoinmasterData data = CRIMBO17;
-
-    String action = GenericRequest.getAction(location);
-    if (action != null) {
-      CoinMasterRequest.parseResponse(data, location, responseText);
-      return;
-    }
-
-    // Parse current coin balances
-    CoinMasterRequest.parseBalance(data, responseText);
+    ShopRequest.parseResponse(this.getURLString(), this.responseText);
   }
 
   public static String accessible() {
@@ -82,13 +58,5 @@ public class Crimbo17Request extends CoinMasterRequest {
       return "You need some crystalline cheer.";
     }
     return null;
-  }
-
-  public static final boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=crimbo17")) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(CRIMBO17, urlString, true);
   }
 }

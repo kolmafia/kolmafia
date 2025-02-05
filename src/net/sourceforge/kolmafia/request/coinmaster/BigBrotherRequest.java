@@ -41,7 +41,8 @@ public class BigBrotherRequest extends CoinMasterRequest {
           .withItemPattern(GenericRequest.WHICHITEM_PATTERN)
           .withCountField("quantity")
           .withCountPattern(GenericRequest.QUANTITY_PATTERN)
-          .withCanBuyItem(BigBrotherRequest::canBuyItem);
+          .withCanBuyItem(BigBrotherRequest::canBuyItem)
+          .withAccessible(BigBrotherRequest::accessible);
 
   private static Boolean canBuyItem(final Integer itemId) {
     return switch (itemId) {
@@ -84,14 +85,6 @@ public class BigBrotherRequest extends CoinMasterRequest {
 
   public BigBrotherRequest(final boolean buying, final AdventureResult[] attachments) {
     super(BIG_BROTHER, buying, attachments);
-  }
-
-  public BigBrotherRequest(final boolean buying, final AdventureResult attachment) {
-    super(BIG_BROTHER, buying, attachment);
-  }
-
-  public BigBrotherRequest(final boolean buying, final int itemId, final int quantity) {
-    super(BIG_BROTHER, buying, itemId, quantity);
   }
 
   @Override

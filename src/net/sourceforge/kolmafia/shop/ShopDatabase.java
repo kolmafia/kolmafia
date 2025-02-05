@@ -5,9 +5,12 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.TreeMap;
+import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -59,6 +62,28 @@ public class ShopDatabase {
   public static String getShopName(CraftingType craftingType) {
     String shopId = craftingTypeToShopId.get(craftingType);
     return (shopId != null) ? shopIdToShopName.get(shopId) : craftingType.toString();
+  }
+
+  // Coinmasters
+  public static final Map<String, CoinmasterData> coinmasterData = new HashMap<>();
+
+  public static void setCoinmasterData(final String shopId, final CoinmasterData data) {
+    coinmasterData.put(shopId, data);
+  }
+
+  public static CoinmasterData getCoinmasterData(final String shopId) {
+    return coinmasterData.get(shopId);
+  }
+
+  // Shops that want to log simple visits
+  public static final Set<String> logVisitShops = new HashSet<>();
+
+  public static void setLogVisits(final String shopId) {
+    logVisitShops.add(shopId);
+  }
+
+  public static boolean logVisits(final String shopId) {
+    return logVisitShops.contains(shopId);
   }
 
   private ShopDatabase() {}

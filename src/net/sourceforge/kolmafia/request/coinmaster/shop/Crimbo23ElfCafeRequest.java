@@ -5,11 +5,12 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 
 public class Crimbo23ElfCafeRequest extends CoinMasterRequest {
   public static final String master = "Elf Guard Mess Hall";
+  public static final String SHOPID = "crimbo23_elf_cafe";
 
   private static final Pattern TOKEN_PATTERN = Pattern.compile("([\\d,]+) Elf Guard MPCs");
   public static final AdventureResult TOKEN = ItemPool.get(ItemPool.ELF_GUARD_MPC, 1);
@@ -21,8 +22,8 @@ public class Crimbo23ElfCafeRequest extends CoinMasterRequest {
           .withTokenTest("no Elf Guard MPCs")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(TOKEN)
-          .withShopRowFields(master, "crimbo23_elf_cafe")
-          .withNeedsPasswordHash(true);
+          .withShopRowFields(master, SHOPID)
+          .withAccessible(Crimbo23ElfCafeRequest::accessible);
 
   public Crimbo23ElfCafeRequest() {
     super(DATA);
@@ -32,38 +33,12 @@ public class Crimbo23ElfCafeRequest extends CoinMasterRequest {
     super(DATA, buying, attachments);
   }
 
-  public Crimbo23ElfCafeRequest(final boolean buying, final AdventureResult attachment) {
-    super(DATA, buying, attachment);
-  }
-
-  public Crimbo23ElfCafeRequest(final boolean buying, final int itemId, final int quantity) {
-    super(DATA, buying, itemId, quantity);
-  }
-
   @Override
   public void processResults() {
-    parseResponse(this.getURLString(), this.responseText);
-  }
-
-  public static void parseResponse(final String location, final String responseText) {
-    if (!location.contains("whichshop=" + DATA.getShopId())) {
-      return;
+    String responseText = this.responseText;
+    if (!responseText.contains("War has consumed this area.")) {
+      ShopRequest.parseResponse(this.getURLString(), this.responseText);
     }
-
-    if (responseText.contains("War has consumed this area.")) {
-      return;
-    }
-
-    CoinmasterData data = DATA;
-
-    String action = GenericRequest.getAction(location);
-    if (action != null) {
-      CoinMasterRequest.parseResponse(data, location, responseText);
-      return;
-    }
-
-    // Parse current coin balances
-    CoinMasterRequest.parseBalance(data, responseText);
   }
 
   public static String accessible() {
@@ -74,13 +49,5 @@ public class Crimbo23ElfCafeRequest extends CoinMasterRequest {
       case "contested" -> "The elves and pirates are fighting for control of the cafe";
       default -> null;
     };
-  }
-
-  public static final boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=" + DATA.getShopId())) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(DATA, urlString, true);
   }
 }

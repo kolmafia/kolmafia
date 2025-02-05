@@ -23,7 +23,8 @@ public class AltarOfBonesRequest extends CoinMasterRequest {
           .withBuyItems(master)
           .withBuyPrices(master)
           .withItemField("whichitem")
-          .withItemPattern(GenericRequest.WHICHITEM_PATTERN);
+          .withItemPattern(GenericRequest.WHICHITEM_PATTERN)
+          .withAccessible(AltarOfBonesRequest::accessible);
 
   public AltarOfBonesRequest() {
     super(ALTAR_OF_BONES);
@@ -33,12 +34,9 @@ public class AltarOfBonesRequest extends CoinMasterRequest {
     super(ALTAR_OF_BONES, buying, attachments);
   }
 
-  public AltarOfBonesRequest(final boolean buying, final AdventureResult attachment) {
-    super(ALTAR_OF_BONES, buying, attachment);
-  }
-
-  public AltarOfBonesRequest(final boolean buying, final int itemId, final int quantity) {
-    super(ALTAR_OF_BONES, buying, itemId, quantity);
+  @Override
+  public void processResults() {
+    parseResponse(this.getURLString(), this.responseText);
   }
 
   public static void parseResponse(final String urlString, final String responseText) {

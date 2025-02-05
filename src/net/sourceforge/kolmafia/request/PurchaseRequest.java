@@ -357,10 +357,6 @@ public abstract class PurchaseRequest extends GenericRequest
       return NPCPurchaseRequest.registerRequest(urlString);
     }
 
-    if (urlString.startsWith("shop.php")) {
-      return NPCPurchaseRequest.registerShopRequest(urlString, false);
-    }
-
     return false;
   }
 }
