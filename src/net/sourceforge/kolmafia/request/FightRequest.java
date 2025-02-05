@@ -7095,6 +7095,16 @@ public class FightRequest extends GenericRequest {
       FightRequest.logText(str, status);
     }
 
+    if (KoLCharacter.hasEquipped(ItemPool.TOY_CUPID_BOW)) {
+      if (Preferences.getInteger("cupidBowLastFamiliar")
+          == KoLCharacter.getEffectiveFamiliar().getId()) {
+        Preferences.increment("cupidBowFights");
+      } else {
+        Preferences.setInteger("cupidBowLastFamiliar", KoLCharacter.getEffectiveFamiliar().getId());
+        Preferences.setInteger("cupidBowFights", 1);
+      }
+    }
+
     // looks askance at the toy bow you've provided and shoots the plunger-arrow over the horizon,
     // then proceeds to drag something more appropriate back.
     if (status.cupidbow
@@ -7109,16 +7119,6 @@ public class FightRequest extends GenericRequest {
       Preferences.setString("_cupidBowFamiliars", updatedFamiliars);
       Preferences.setInteger("cupidBowFights", 0);
       FightRequest.logText(str, status);
-    }
-
-    if (KoLCharacter.hasEquipped(ItemPool.TOY_CUPID_BOW)) {
-      if (Preferences.getInteger("cupidBowLastFamiliar")
-          == KoLCharacter.getEffectiveFamiliar().getId()) {
-        Preferences.increment("cupidBowFights");
-      } else {
-        Preferences.setInteger("cupidBowLastFamiliar", KoLCharacter.getEffectiveFamiliar().getId());
-        Preferences.setInteger("cupidBowFights", 1);
-      }
     }
 
     if ( // KoL Con 13 Snowglobe

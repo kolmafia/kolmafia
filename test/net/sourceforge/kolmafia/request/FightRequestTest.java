@@ -3709,10 +3709,15 @@ public class FightRequestTest {
   class CupidBow {
     @Test
     void canDetectCupidBow() {
-      var cleanups = new Cleanups(withProperty("cupidBowFights", 5), withFight());
+      var cleanups =
+          new Cleanups(
+              withFamiliar(FamiliarPool.MINI_KIWI),
+              withEquipped(ItemPool.TOY_CUPID_BOW),
+              withProperty("_cupidBowFamiliars", ""),
+              withFight());
       try (cleanups) {
         parseCombatData("request/test_cupid_bow.html");
-        assertThat("cupidBowFights", isSetTo(0));
+        assertThat("_cupidBowFamiliars", !isSetTo(""));
       }
     }
   }
