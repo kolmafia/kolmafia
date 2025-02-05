@@ -3709,10 +3709,10 @@ public class FightRequestTest {
   class CupidBow {
     @Test
     void canDetectCupidBow() {
-      var cleanups = new Cleanups(withProperty("_cupidBowFamiliars", 0), withFight());
+      var cleanups = new Cleanups(withProperty("cupidBowFights", 5), withFight());
       try (cleanups) {
         parseCombatData("request/test_cupid_bow.html");
-        assertThat("_cupidBowFamiliars", isSetTo(""));
+        assertThat("cupidBowFights", isSetTo(0));
       }
     }
   }
