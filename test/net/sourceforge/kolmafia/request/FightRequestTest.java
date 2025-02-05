@@ -3766,10 +3766,10 @@ public class FightRequestTest {
               withEquipped(Slot.FAMILIAR, ItemPool.TOY_CUPID_BOW),
               withProperty("cupidBowFights", 1),
               withProperty("cupidBowLastFamiliar", 300),
-              withFight());
+              withFight(0));
       try (cleanups) {
         // Need a test that DOESN'T have the askance language
-        parseCombatData("request/test_fight_split_pea_soup.html");
+        parseCombatData("request/test_fight_run.html");
         assertThat("cupidBowLastFamiliar", isSetTo("300"));
         assertThat("cupidBowFights", isSetTo("2"));
       }
