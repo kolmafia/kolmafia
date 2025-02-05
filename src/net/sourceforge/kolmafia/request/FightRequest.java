@@ -7099,8 +7099,8 @@ public class FightRequest extends GenericRequest {
     // then proceeds to drag something more appropriate back.
     if (status.cupidbow) {
       if (Preferences.getInteger("cupidBowLastFamiliar")
-              == KoLCharacter.getEffectiveFamiliar().getId()) {
-        Preferences.increment("cupidBowFights",1,5,false);
+          == KoLCharacter.getEffectiveFamiliar().getId()) {
+        Preferences.increment("cupidBowFights", 1, 5, false);
       } else {
         Preferences.setInteger("cupidBowLastFamiliar", KoLCharacter.getFamiliar().getId());
         Preferences.setInteger("cupidBowFights", 1);
