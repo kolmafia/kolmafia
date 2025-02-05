@@ -2,7 +2,10 @@ package net.sourceforge.kolmafia;
 
 import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withMoxie;
+import static internal.helpers.Player.withNotAllowedInStandard;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withRestricted;
+import static internal.helpers.Player.withSkill;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.aMapWithSize;
 import static org.hamcrest.Matchers.contains;
@@ -24,6 +27,7 @@ import java.util.Map;
 import java.util.Set;
 import net.sourceforge.kolmafia.MonsterData.Attribute;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
@@ -422,6 +426,56 @@ public class MonsterDataTest {
       monster.appendItemDrops(builder);
 
       assertThat(builder.toString(), equalTo("<br />Drops: " + itemDropString));
+    }
+  }
+
+  @Nested
+  class JustTheFacts {
+    @Test
+    void factsAreNotRenderedWithoutSkill() {
+      var monster = MonsterDatabase.findMonster("fluffy bunny");
+
+      var cleanups = Player.withoutSkill(SkillPool.JUST_THE_FACTS);
+
+      try (cleanups) {
+        var builder = new StringBuilder();
+        monster.appendFact(builder);
+        assertThat(builder.toString(), not(containsString("Just the Facts: ")));
+      }
+    }
+
+    @Test
+    void factsAreRenderedIfUnrestricted() {
+      var monster = MonsterDatabase.findMonster("fluffy bunny");
+
+      var cleanups =
+          new Cleanups(
+              withSkill(SkillPool.JUST_THE_FACTS),
+              withNotAllowedInStandard(RestrictedItemType.SKILLS, "just the facts"),
+              withRestricted(false));
+
+      try (cleanups) {
+        var builder = new StringBuilder();
+        monster.appendFact(builder);
+        assertThat(builder.toString(), containsString("Just the Facts: "));
+      }
+    }
+
+    @Test
+    void factsAreNotRenderedIfRestricted() {
+      var monster = MonsterDatabase.findMonster("fluffy bunny");
+
+      var cleanups =
+          new Cleanups(
+              withSkill(SkillPool.JUST_THE_FACTS),
+              withNotAllowedInStandard(RestrictedItemType.SKILLS, "just the facts"),
+              withRestricted(true));
+
+      try (cleanups) {
+        var builder = new StringBuilder();
+        monster.appendFact(builder);
+        assertThat(builder.toString(), not(containsString("Just the Facts: ")));
+      }
     }
   }
 
