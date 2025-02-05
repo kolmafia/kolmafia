@@ -12,7 +12,9 @@ import static internal.helpers.Player.withMeat;
 import static internal.helpers.Player.withNPCStoreReset;
 import static internal.helpers.Player.withNextResponse;
 import static internal.helpers.Player.withPath;
+import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withQuestProgress;
+import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
@@ -246,6 +248,26 @@ class NPCPurchaseRequestTest {
         var req = NPCStoreDatabase.getPurchaseRequest(ItemPool.CHEWING_GUM);
         assertNotNull(req);
         assertFalse(req.canPurchase());
+      }
+    }
+  }
+
+  @Nested
+  class FireWorksShop {
+    public void visitingFireworksShopSetsProperties(boolean canInteract) {
+      var cleanups =
+          new Cleanups(
+              withProperty("_fireworksShop", false),
+              withProperty("_fireworksShopHatBought", false),
+              withProperty("_fireworksShopEquipmentBought", false),
+              withNextResponse(200, html("request/test_shop_fwshop.html")));
+
+      try (cleanups) {
+        var request = new GenericRequest("shop.php?whichshop=fwshop", false);
+        request.run();
+        assertThat("_fireworksShop", isSetTo(true));
+        assertThat("_fireworksShopHatBought", isSetTo(true));
+        assertThat("_fireworksShopEquipmentBought", isSetTo(false));
       }
     }
   }
