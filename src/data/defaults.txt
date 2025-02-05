@@ -1955,6 +1955,9 @@ user	_crimbo21ColdResistance	0
 user	_crimboTraining	false
 user	_crimboTree	false
 user	_crToday	false
+user	_cupidBowFamiliars
+user	_cupidBowFights	0
+user	_cupidBowLastFamiliar
 user	_currentDartboard
 user	_cursedKegUsed	false
 user	_cursedMicrowaveUsed	false

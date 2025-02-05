@@ -3706,6 +3706,18 @@ public class FightRequestTest {
   }
 
   @Nested
+  class CupidBow {
+    @Test
+    void canDetectCupidBow() {
+      var cleanups = new Cleanups(withProperty("_cupidBowFamiliars", 0), withFight());
+      try (cleanups) {
+        parseCombatData("request/test_cupid_bow.html");
+        assertThat("_cupidBowFamiliars", isSetTo(""));
+      }
+    }
+  }
+
+  @Nested
   class Haiku {
     @Test
     public void canDetectSerendipity() {

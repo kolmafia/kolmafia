@@ -5647,6 +5647,7 @@ public class FightRequest extends GenericRequest {
     public boolean serendipity;
     public boolean mildManneredProfessor;
     public boolean batwings;
+    public boolean cupidbow;
 
     public TagStatus() {
       FamiliarData current = KoLCharacter.getFamiliar();
@@ -5756,6 +5757,9 @@ public class FightRequest extends GenericRequest {
       this.location = KoLAdventure.lastLocationName == null ? "" : KoLAdventure.lastLocationName;
       this.adventure = KoLAdventure.lastVisitedLocation;
       this.grimstone = GrimstoneManager.isGrimstoneAdventure(this.adventure);
+
+      // If we have cupid bow
+      this.cupidbow = KoLCharacter.hasEquipped(ItemPool.TOY_CUPID_BOW);
     }
 
     public void nextRound() {
@@ -7089,6 +7093,32 @@ public class FightRequest extends GenericRequest {
     if (status.batwings && str.contains("You flap your bat wings gustily")) {
       Preferences.increment("_batWingsFreeFights", 1);
       FightRequest.logText(str, status);
+    }
+
+    // looks askance at the toy bow you've provided and shoots the plunger-arrow over the horizon,
+    // then proceeds to drag something more appropriate back.
+    if (status.cupidbow
+        && str.contains("looks askance at the toy bow you've provided and shoots the")) {
+      String currentFamiliars = Preferences.getString("_cupidBowFamiliars");
+      String newFamiliarId = String.valueOf(KoLCharacter.getEffectiveFamiliar().getId());
+
+      // Append the new familiar ID, ensuring no leading semicolon if the list is empty
+      String updatedFamiliars =
+          currentFamiliars.isEmpty() ? newFamiliarId : currentFamiliars + ";" + newFamiliarId;
+
+      Preferences.setString("_cupidBowFamiliars", updatedFamiliars);
+      FightRequest.logText(str, status);
+    }
+
+    if (KoLCharacter.hasEquipped(ItemPool.TOY_CUPID_BOW)) {
+      if (Preferences.getInteger("_cupidBowLastFamiliar")
+          == KoLCharacter.getEffectiveFamiliar().getId()) {
+        Preferences.increment("_cupidBowFights");
+      } else {
+        Preferences.setInteger(
+            "_cupidBowLastFamiliar", KoLCharacter.getEffectiveFamiliar().getId());
+        Preferences.setInteger("_cupidBowFights", 1);
+      }
     }
 
     if ( // KoL Con 13 Snowglobe
