@@ -3709,15 +3709,18 @@ public class FightRequestTest {
   class CupidBow {
     @Test
     void canDetectCupidBow() {
+      RequestLoggerOutput.startStream();
       var cleanups =
           new Cleanups(
               withFamiliar(FamiliarPool.MINI_KIWI),
               withEquipped(Slot.FAMILIAR, ItemPool.TOY_CUPID_BOW),
-              withProperty("_cupidBowFamiliars", ""),
+              withProperty("_cupidBowFamiliars", "111"),
               withFight());
       try (cleanups) {
         parseCombatData("request/test_cupid_bow.html");
-        assertThat("_cupidBowFamiliars", isSetTo("380"));
+        var text = RequestLoggerOutput.stopStream();
+        assertThat(text, containsString("looks askance at the toy bow"))
+        assertThat("_cupidBowFamiliars", isSetTo("111; 380"));
       }
     }
   }
