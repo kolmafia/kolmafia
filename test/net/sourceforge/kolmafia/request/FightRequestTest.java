@@ -3719,7 +3719,7 @@ public class FightRequestTest {
       try (cleanups) {
         parseCombatData("request/test_cupid_bow.html");
         var text = RequestLoggerOutput.stopStream();
-        assertThat(text, containsString("looks askance at the toy bow"))
+        assertThat(text, containsString("looks askance at the toy bow"));
         assertThat("_cupidBowFamiliars", isSetTo("111; 380"));
       }
     }
