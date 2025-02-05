@@ -3712,7 +3712,7 @@ public class FightRequestTest {
       var cleanups =
           new Cleanups(
               withFamiliar(FamiliarPool.MINI_KIWI),
-              withEquipped(Slot.CONTAINER, ItemPool.TOY_CUPID_BOW),
+              withEquipped(Slot.FAMILIAR, ItemPool.TOY_CUPID_BOW),
               withProperty("_cupidBowFamiliars", ""),
               withFight());
       try (cleanups) {
