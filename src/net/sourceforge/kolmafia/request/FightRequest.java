@@ -7107,17 +7107,17 @@ public class FightRequest extends GenericRequest {
           currentFamiliars.isEmpty() ? newFamiliarId : currentFamiliars + ";" + newFamiliarId;
 
       Preferences.setString("_cupidBowFamiliars", updatedFamiliars);
+      Preferences.setInteger("cupidBowFights", 0);
       FightRequest.logText(str, status);
     }
 
     if (KoLCharacter.hasEquipped(ItemPool.TOY_CUPID_BOW)) {
-      if (Preferences.getInteger("_cupidBowLastFamiliar")
+      if (Preferences.getInteger("cupidBowLastFamiliar")
           == KoLCharacter.getEffectiveFamiliar().getId()) {
-        Preferences.increment("_cupidBowFights");
+        Preferences.increment("cupidBowFights");
       } else {
-        Preferences.setInteger(
-            "_cupidBowLastFamiliar", KoLCharacter.getEffectiveFamiliar().getId());
-        Preferences.setInteger("_cupidBowFights", 1);
+        Preferences.setInteger("cupidBowLastFamiliar", KoLCharacter.getEffectiveFamiliar().getId());
+        Preferences.setInteger("cupidBowFights", 1);
       }
     }
 

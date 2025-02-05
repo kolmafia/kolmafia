@@ -542,6 +542,8 @@ user	crudeMonster
 user	crystalBallPredictions
 user	csServicesPerformed	
 user	cubelingProgress	0
+user	cupidBowFights	0
+user	cupidBowLastFamiliar
 user	currentAstralTrip
 user	currentDistillateMods
 user	currentEasyBountyItem	
@@ -1956,8 +1958,6 @@ user	_crimboTraining	false
 user	_crimboTree	false
 user	_crToday	false
 user	_cupidBowFamiliars
-user	_cupidBowFights	0
-user	_cupidBowLastFamiliar
 user	_currentDartboard
 user	_cursedKegUsed	false
 user	_cursedMicrowaveUsed	false
