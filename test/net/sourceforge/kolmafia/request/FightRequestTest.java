@@ -3766,4 +3766,18 @@ public class FightRequestTest {
       }
     }
   }
+
+  @Test
+  public void doNotThinkFightEndsEarlyWithBothCombatForms() {
+    // check that we do not mistakenly set last combat won to "false" on round 0
+    var cleanups =
+        new Cleanups(
+            withProperty("_lastCombatWon", true),
+            withProperty("serverAddsCustomCombat", true),
+            withProperty("serverAddsBothCombat", true));
+    try (cleanups) {
+      parseCombatData("request/test_fight_both_combat_bars.html");
+      assertThat("_lastCombatWon", isSetTo(true));
+    }
+  }
 }
