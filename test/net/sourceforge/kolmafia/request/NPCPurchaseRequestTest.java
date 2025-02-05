@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.request;
 import static internal.helpers.HttpClientWrapper.getRequests;
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withEmptyCampground;
 import static internal.helpers.Player.withEquippableItem;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withInteractivity;
@@ -254,7 +255,8 @@ class NPCPurchaseRequestTest {
 
   @Nested
   class FireWorksShop {
-    public void visitingFireworksShopSetsProperties(boolean canInteract) {
+    @Test
+    public void visitingFireworksShopSetsProperties() {
       var cleanups =
           new Cleanups(
               withProperty("_fireworksShop", false),
@@ -268,6 +270,33 @@ class NPCPurchaseRequestTest {
         assertThat("_fireworksShop", isSetTo(true));
         assertThat("_fireworksShopHatBought", isSetTo(true));
         assertThat("_fireworksShopEquipmentBought", isSetTo(false));
+      }
+    }
+  }
+
+  @Nested
+  class MayoClinic {
+    @Test
+    public void visitingMayoClinicSetsProperties() {
+      var cleanups =
+          new Cleanups(
+              withEmptyCampground(),
+              withProperty("mayoLevel", 0),
+              withProperty("_mayoDeviceRented", false),
+              withProperty("itemBoughtPerAscension8266", false),
+              withProperty("_mayoTankSoaked", false),
+              withNextResponse(200, html("request/test_shop_mayoclinic.html")));
+
+      try (cleanups) {
+        var request = new GenericRequest("shop.php?whichshop=mayoclinic", false);
+        request.run();
+        var workshedItem = CampgroundRequest.getCurrentWorkshedItem();
+        assertNotNull(workshedItem);
+        assertEquals(workshedItem.getItemId(), ItemPool.MAYO_CLINIC);
+        assertThat("mayoLevel", isSetTo(2));
+        assertThat("_mayoDeviceRented", isSetTo(false));
+        assertThat("itemBoughtPerAscension8266", isSetTo(false));
+        assertThat("_mayoTankSoaked", isSetTo(false));
       }
     }
   }
