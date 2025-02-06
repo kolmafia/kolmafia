@@ -236,6 +236,8 @@ public class Preferences {
         "crystalBallPredictions",
         "csServicesPerformed",
         "cubelingProgress",
+        "cupidBowLastFamiliar",
+        "cupidBowFights",
         "currentAstralTrip",
         "currentDistillateMods",
         "currentEasyBountyItem",
