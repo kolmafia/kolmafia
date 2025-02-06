@@ -506,53 +506,44 @@ public class ResponseTextParser {
             UseItemRequest.parseConsumption(responseText, false);
             SpadingManager.processConsumeItem(item, responseText);
           }
-        }
-
-        // If there is a consumption message, parse it
-        else if (location.contains("action=message")) {
-          AdventureResult item = UseItemRequest.getLastItemUsed();
-          UseItemRequest.parseConsumption(responseText, false);
-          AWOLQuartermasterRequest.parseResponse(responseText);
-          BURTRequest.parseResponse(responseText);
-          SpadingManager.processConsumeItem(item, responseText);
-        }
-
-        // If there is a bricko message, parse it
-        else if (location.contains("action=breakbricko")) {
-          UseItemRequest.parseBricko(responseText);
-        }
-
-        // If there is a binge message, parse it
-        else if (location.contains("action=ghost")
-            || location.contains("action=hobo")
-            || location.contains("action=slime")
-            || location.contains("action=candy")) {
-          UseItemRequest.parseBinge(location, responseText);
-        }
-
-        // Robortender consumption
-        else if (location.contains("action=robooze")) {
-          UseItemRequest.parseRobortenderBinge(location, responseText);
-        }
-
-        // If there is an absorb message, parse it
-        else if (location.contains("absorb=")) {
+        } else if (location.contains("absorb=")) {
+          // If there is an absorb message, parse it
           UseItemRequest.parseAbsorb(location, responseText);
-        }
-
-        // Closet transfers can come via inventory.php
-        else if (location.contains("action=closetpush") || location.contains("action=closetpull")) {
-          ClosetRequest.parseTransfer(location, responseText);
-        }
-
-        // Emptying storage can come via inventory.php
-        else if (location.contains("action=pullall")) {
-          StorageRequest.parseTransfer(location, responseText);
-        }
-
-        // If there is an aprilplay message, parse it
-        else if (location.contains("action=aprilplay")) {
-          UseItemRequest.parseAprilPlay(location, responseText);
+        } else {
+          String action = GenericRequest.getAction(location);
+          switch (action) {
+            case "message" -> {
+              // If there is a consumption message, parse it
+              AdventureResult item = UseItemRequest.getLastItemUsed();
+              UseItemRequest.parseConsumption(responseText, false);
+              AWOLQuartermasterRequest.parseResponse(responseText);
+              BURTRequest.parseResponse(responseText);
+              SpadingManager.processConsumeItem(item, responseText);
+            }
+            case "breakbricko" -> {
+              // If there is a bricko message, parse it
+              UseItemRequest.parseBricko(responseText);
+            }
+            case "ghost", "hobo", "slime", "candy" -> {
+              // If there is a binge message, parse it
+              UseItemRequest.parseBinge(location, responseText);
+            }
+            case "robooze" -> {
+              UseItemRequest.parseRobortenderBinge(location, responseText);
+            }
+            case "closetpush", "closetpull" -> {
+              // Closet transfers can come via inventory.php
+              ClosetRequest.parseTransfer(location, responseText);
+            }
+            case "pullall" -> {
+              // Emptying storage can come via inventory.php
+              StorageRequest.parseTransfer(location, responseText);
+            }
+            case "aprilplay" -> {
+              // If there is an aprilplay message, parse it
+              UseItemRequest.parseAprilPlay(location, responseText);
+            }
+          }
         }
       }
       case "inv_equip.php" -> {

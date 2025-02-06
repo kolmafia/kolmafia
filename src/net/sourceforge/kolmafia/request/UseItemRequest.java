@@ -1641,10 +1641,6 @@ public class UseItemRequest extends GenericRequest {
       return;
     }
 
-    if (itemId == ItemPool.APRIL_BAND_TUBA) {
-      Preferences.setBoolean("noncombatForcerActive", true);
-    }
-
     // You already seem lucky enough, maybe play a sexy sax solo later.
     if (itemId == ItemPool.APRIL_BAND_SAXOPHONE && responseText.contains("already seem lucky")) {
       return;
@@ -1659,6 +1655,39 @@ public class UseItemRequest extends GenericRequest {
     RequestLogger.printLine(message);
     RequestLogger.updateSessionLog(message);
     Preferences.increment(preference, 1, 3, false);
+
+    switch (itemId) {
+      case ItemPool.APRIL_BAND_TUBA -> {
+        Preferences.setBoolean("noncombatForcerActive", true);
+      }
+      case ItemPool.APRIL_BAND_TOM -> {
+        // "And dammit, your hooks were still on there! Oh well."
+        if (responseText.contains("hooks were still on")) {
+          if (KoLCharacter.hasEquipped(ItemPool.WORM_RIDING_HOOKS, Slot.WEAPON)) {
+            // You lose your weapon
+            EquipmentManager.discardEquipment(ItemPool.WORM_RIDING_HOOKS);
+            KoLmafia.updateDisplay("Don't forget to equip a weapon!");
+          } else {
+            // You lose your hooks
+            ResultProcessor.removeItem(ItemPool.WORM_RIDING_HOOKS);
+          }
+
+          int gnasirProgress = Preferences.getInteger("gnasirProgress");
+          gnasirProgress |= 16;
+          Preferences.setInteger("gnasirProgress", gnasirProgress);
+
+          QuestManager.incrementDesertExploration(30);
+          break;
+        }
+        // Something moves under your feet.
+        else if (responseText.contains("Something moves under your feet")) {
+          String itemName = "Apriling Band Quad Tom";
+          KoLAdventure.setLastAdventure("None");
+          KoLAdventure.setNextAdventure("None");
+          RequestLogger.registerLocation(itemName);
+        }
+      }
+    }
   }
 
   private static final Pattern HEWN_SPOON_PATTERN = Pattern.compile("whichsign=(\\d+)");
