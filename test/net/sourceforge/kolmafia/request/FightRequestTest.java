@@ -3720,7 +3720,6 @@ public class FightRequestTest {
         var text = RequestLoggerOutput.stopStream();
         assertThat(text, containsString("looks askance at the toy bow"));
         assertThat("_cupidBowFamiliars", isSetTo("300"));
-        assertThat("cupidBowFights", isSetTo("0"));
       }
     }
 

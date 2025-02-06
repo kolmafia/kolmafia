@@ -4352,7 +4352,6 @@ public class FightRequest extends GenericRequest {
         Preferences.setString(
             "_cupidBowFamiliars",
             (currentFams.isEmpty() ? "" : (currentFams + ";")) + currentFamiliarId);
-        Preferences.setInteger("cupidBowFights", 0);
       }
     }
 
