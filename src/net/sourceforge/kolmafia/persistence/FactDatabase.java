@@ -174,7 +174,12 @@ public class FactDatabase {
 
     @Override
     public String toString() {
-      return this.value;
+      return switch (this.type) {
+        case HP -> this.value + "% HP restore";
+        case MP -> this.value + "% MP restore";
+        case STATS -> this.value + " substats";
+        default -> this.value;
+      };
     }
 
     public boolean isGummi() {
