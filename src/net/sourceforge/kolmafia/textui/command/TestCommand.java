@@ -1286,8 +1286,8 @@ public class TestCommand extends AbstractCommand {
 
     if (command.equals("shoprows")) {
       boolean force = (split.length < 2) ? false : split[1].trim().equals("true");
-      String shop = ShopRequest.parseShopName(TestCommand.contents);
-      String shopId = ShopRequest.parseShopId(TestCommand.contents);
+      String shop = ShopRequest.parseShopNameInResponse(TestCommand.contents);
+      String shopId = ShopRequest.parseShopIdInResponse(TestCommand.contents);
       List<ShopRow> rows = ShopRequest.parseShopInventory(shopId, TestCommand.contents, force);
       TestCommand.contents = null;
 
