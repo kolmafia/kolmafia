@@ -5779,7 +5779,6 @@ public class FightRequest extends GenericRequest {
       this.location = KoLAdventure.lastLocationName == null ? "" : KoLAdventure.lastLocationName;
       this.adventure = KoLAdventure.lastVisitedLocation;
       this.grimstone = GrimstoneManager.isGrimstoneAdventure(this.adventure);
-
     }
 
     public void nextRound() {
