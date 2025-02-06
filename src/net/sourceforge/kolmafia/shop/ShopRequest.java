@@ -69,6 +69,7 @@ public class ShopRequest extends GenericRequest {
 
   public void setQuantity(final int quantity) {
     this.quantity = quantity;
+    request.addFormField("quantity", String.valueOf(quantity));
   }
 
   public static final Pattern WHICHSHOP_PATTERN = Pattern.compile("whichshop=([^&]*)");
