@@ -91,6 +91,7 @@ import net.sourceforge.kolmafia.session.VioletFogManager;
 import net.sourceforge.kolmafia.session.VolcanoMazeManager;
 import net.sourceforge.kolmafia.session.WumpusManager;
 import net.sourceforge.kolmafia.session.YouRobotManager;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.swingui.MallSearchFrame;
 import net.sourceforge.kolmafia.swingui.SkillBuffFrame;
@@ -290,7 +291,7 @@ public abstract class KoLCharacter {
   public static final LockableListModel<PastaThrallData> pastaThralls = new LockableListModel<>();
   public static PastaThrallData currentPastaThrall = PastaThrallData.NO_THRALL;
 
-  private static int stillsAvailable = 0;
+  public static int stillsAvailable = 0;
   private static boolean tripleReagent = false;
   private static boolean guildStoreStateKnown = false;
 
@@ -4291,7 +4292,7 @@ public abstract class KoLCharacter {
       // Avoid infinite recursion if this request fails, or indirectly
       // calls getStillsAvailable();
       KoLCharacter.stillsAvailable = 0;
-      RequestThread.postRequest(new GenericRequest("shop.php?whichshop=still"));
+      RequestThread.postRequest(new ShopRequest("still"));
     }
 
     return KoLCharacter.stillsAvailable;

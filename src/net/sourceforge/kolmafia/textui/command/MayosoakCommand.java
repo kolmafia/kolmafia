@@ -7,7 +7,7 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
-import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 
 public class MayosoakCommand extends AbstractCommand {
   public MayosoakCommand() {
@@ -25,7 +25,7 @@ public class MayosoakCommand extends AbstractCommand {
       KoLmafia.updateDisplay(MafiaState.ERROR, "Already soaked in Mayo tank today");
       return;
     }
-    GenericRequest request = new GenericRequest("shop.php?whichshop=mayoclinic&action=bacta");
+    var request = new ShopRequest("mayoclinic", "bacta");
     RequestThread.postRequest(request);
   }
 }

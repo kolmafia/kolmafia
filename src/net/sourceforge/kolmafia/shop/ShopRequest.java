@@ -20,12 +20,13 @@ import net.sourceforge.kolmafia.request.concoction.shop.StillRequest;
 import net.sourceforge.kolmafia.request.concoction.shop.SugarSheetRequest;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.shop.ShopDatabase.SHOP;
+import net.sourceforge.kolmafia.shop.ShopRowDatabase.ShopRowData;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class ShopRequest extends GenericRequest {
 
   private final String shopId;
-  private ShopRow shopRow = null;
+  private int row = 0;
   private int quantity = 0;
 
   public ShopRequest(final String shopId) {
@@ -34,25 +35,48 @@ public class ShopRequest extends GenericRequest {
     this.addFormField("whichshop", shopId);
   }
 
-  public ShopRequest(final String shopId, final ShopRow row, final int quantity) {
+  public ShopRequest(final String shopId, final String action) {
     this(shopId);
-    this.shopRow = shopRow;
-    this.quantity = quantity;
-    this.addFormField("action", "buyitem");
-    this.addFormField("whichRow", String.valueOf(shopRow.getRow()));
-    this.addFormField("quantity", String.valueOf(quantity));
-    this.addFormField("ajax", "1");
+    this.addFormField("action", action);
   }
 
-  public static final Pattern WHICHSHOP_PATTERN = Pattern.compile("whichshop=([^&]*)");
+  public static ShopRequest getInstance(final String shopId, final int row, final int quantity) {
+    ShopRowData data = ShopRowDatabase.getShopRowData(row);
+    if (data == null || !data.shopId().equals(shopId)) {
+      return null;
+    }
 
-  public static String getShopId(final String urlString) {
-    Matcher m = WHICHSHOP_PATTERN.matcher(urlString);
-    return m.find() ? m.group(1) : null;
+    ShopRequest request = new ShopRequest(shopId, "buyitem");
+    request.row = row;
+    request.quantity = quantity;
+    request.addFormField("whichRow", String.valueOf(data.row()));
+    request.addFormField("quantity", String.valueOf(quantity));
+    request.addFormField("ajax", "1");
+    return request;
   }
 
   public String getShopId() {
     return this.shopId;
+  }
+
+  public int getRow() {
+    return this.row;
+  }
+
+  public int getQuantity() {
+    return this.quantity;
+  }
+
+  public void setQuantity(final int quantity) {
+    this.quantity = quantity;
+    this.addFormField("quantity", String.valueOf(quantity));
+  }
+
+  public static final Pattern WHICHSHOP_PATTERN = Pattern.compile("whichshop=([^&]*)");
+
+  public static String parseShopId(final String urlString) {
+    Matcher m = WHICHSHOP_PATTERN.matcher(urlString);
+    return m.find() ? m.group(1) : null;
   }
 
   public static final Pattern WHICHROW_PATTERN = Pattern.compile("whichrow=(\\d+)");
@@ -60,10 +84,6 @@ public class ShopRequest extends GenericRequest {
   public static final int parseWhichRow(final String urlString) {
     Matcher m = WHICHROW_PATTERN.matcher(urlString);
     return m.find() ? StringUtilities.parseInt(m.group(1)) : 0;
-  }
-
-  public ShopRow getShopRow() {
-    return this.shopRow;
   }
 
   public static final Pattern QUANTITY_PATTERN = Pattern.compile("quantity=(\\d+)");
@@ -78,25 +98,15 @@ public class ShopRequest extends GenericRequest {
     return 1;
   }
 
-  public int getQuantity() {
-    return this.quantity;
-  }
-
-  @Override
-  public void run() {
-    super.run();
-  }
-
   @Override
   public void processResults() {
-    String urlString = this.getURLString();
-    ShopRequest.parseResponse(urlString, this.responseText);
+    ShopRequest.parseResponse(this.getURLString(), this.responseText);
   }
 
   // name=whichshop value="grandma"
   private static final Pattern SHOP_ID_PATTERN = Pattern.compile("name=whichshop value=\"(.*?)\"");
 
-  public static String parseShopId(final String html) {
+  public static String parseShopIdInResponse(final String html) {
     Matcher m = SHOP_ID_PATTERN.matcher(html);
     return m.find() ? m.group(1) : "";
   }
@@ -104,7 +114,7 @@ public class ShopRequest extends GenericRequest {
   // <b style="color: white">Crimbo Factory</b>
   private static final Pattern SHOP_PATTERN = Pattern.compile("<table.*?<b.*?>(.*?)</b>");
 
-  public static String parseShopName(final String html) {
+  public static String parseShopNameInResponse(final String html) {
     Matcher m = SHOP_PATTERN.matcher(html);
     return m.find() ? m.group(1) : "";
   }
@@ -118,7 +128,7 @@ public class ShopRequest extends GenericRequest {
       return;
     }
 
-    String shopId = getShopId(urlString);
+    String shopId = parseShopId(urlString);
     if (shopId == null) {
       return;
     }
@@ -139,8 +149,92 @@ public class ShopRequest extends GenericRequest {
       parseShopInventory(shopId, responseText, false);
     }
 
-    parseShopResponse(shopId, urlString, responseText);
+    int row = parseWhichRow(urlString);
+    ShopRow shopRow = ShopRowDatabase.getShopRow(row);
+
+    SHOP shopType = ShopDatabase.getShopType(shopId);
+    if (shopType == SHOP.CONC) {
+      // Let concoctions do what they need even for visits
+      handleConcoction(shopId, shopRow, urlString, responseText);
+      return;
+    }
+
+    // If shopRow is null, we are just visiting.
+    // Coinmasters have already parsed the inventory, in that case.
+    // Give NPC shops the opportunity to examine the responseText.
+    if (shopRow == null || shopRow.isMeatPurchase()) {
+      // A shop.php store that sells items for Meat will say
+      //     You spent XX Meat.
+      // Result processing handles that, so we need not process it.
+
+      // However, NPCPurchaseRequest may want to do additional actions
+      // on a per-store basis.  Punt to them.
+      NPCPurchaseRequest.parseShopResponse(shopId, shopRow, urlString, responseText);
+      return;
+    }
+
+    CoinmasterData cd = ShopDatabase.getCoinmasterData(shopId);
+    if (cd != null) {
+      // A coinmaster may also be an NPC store, but we handled that
+      // above. We know we are trading for items.
+      CoinMasterRequest.parseResponse(cd, urlString, responseText);
+      return;
+    }
   }
+
+  public static final void handleConcoction(
+      final String shopId,
+      final ShopRow shopRow,
+      final String urlString,
+      final String responseText) {
+
+    if (responseText.contains("You don't have enough") || responseText.contains("Huh?")) {
+      return;
+    }
+
+    // At least one shop allows you to "multi-make" but always makes one.
+    int quantity = ShopRequest.parseQuantity(urlString);
+
+    // Certain shops want to handle Preferences and Quests.  Give them a
+    // chance to do so and finish removing ingredients when they return.
+    switch (shopId) {
+      case "starchart" -> {
+        quantity = 1;
+        break;
+      }
+      case "junkmagazine" -> {
+        JunkMagazineRequest.parseResponse(urlString, responseText);
+        break;
+      }
+      case "still" -> {
+        StillRequest.parseResponse(urlString, responseText);
+        break;
+      }
+      case "5dprinter" -> {
+        FiveDPrinterRequest.parseResponse(urlString, responseText);
+        break;
+      }
+      case "sugarsheets" -> {
+        // Sugar Sheet folding always removes exactly one.
+        SugarSheetRequest.parseResponse(urlString, responseText);
+        return;
+      }
+    }
+
+    if (shopRow == null) {
+      // This was just a visit
+      return;
+    }
+
+    // Remove the consumed ingredients.
+    for (AdventureResult ingredient : shopRow.getCosts()) {
+      ResultProcessor.processResult(ingredient.getInstance(-1 * ingredient.getCount() * quantity));
+    }
+  }
+
+  /*
+   * Shop Inventory parsing
+   */
 
   public static final List<ShopRow> parseShopInventory(
       final String shopId, final String responseText, boolean force) {
@@ -148,7 +242,7 @@ public class ShopRequest extends GenericRequest {
     // Parse the entire shop inventory, including items that sell for Meat
     // This will register all previously unknown items.
 
-    String shopName = parseShopName(responseText);
+    String shopName = parseShopNameInResponse(responseText);
 
     // Register this shop, in case it is unknown
     if (ShopDatabase.registerShop(shopId, shopName, SHOP.NONE)) {
@@ -336,82 +430,6 @@ public class ShopRequest extends GenericRequest {
     return true;
   }
 
-  private static final void parseShopResponse(
-      final String shopId, final String urlString, final String responseText) {
-    int row = parseWhichRow(urlString);
-    ShopRow shopRow = ShopRowDatabase.getShopRow(row);
-
-    // If shopRow is null, we are just visiting.
-    // Coinmasters have already parsed the inventory, in that case.
-    // Give NPC shops the opportunity to examine the responseText.
-    if (shopRow == null || shopRow.isMeatPurchase()) {
-      // A shop.php store that sells items for Meat will say
-      //     You spent XX Meat.
-      // Result processing handles that, so we need not process it.
-
-      // However, NPCPurchaseRequest may want to do additional actions
-      // on a per-store basis.  Punt to them.
-      NPCPurchaseRequest.parseShopResponse(shopId, shopRow, urlString, responseText);
-      return;
-    }
-
-    CoinmasterData cd = ShopDatabase.getCoinmasterData(shopId);
-    if (cd != null) {
-      // A coinmaster may also be an NPC store, but we handled that
-      // above. We know we are trading for items.
-      CoinMasterRequest.parseResponse(cd, urlString, responseText);
-      return;
-    }
-
-    // This must be a concoction.
-    handleConcoction(shopId, shopRow, urlString, responseText);
-  }
-
-  public static final void handleConcoction(
-      final String shopId,
-      final ShopRow shopRow,
-      final String urlString,
-      final String responseText) {
-
-    if (responseText.contains("You don't have enough") || responseText.contains("Huh?")) {
-      return;
-    }
-
-    // At least one shop allows you to "multi-make" but always makes one.
-    int quantity = ShopRequest.parseQuantity(urlString);
-
-    // Certain shops want to handle Preferences and Quests.  Give them a
-    // chance to do so and finish removing ingredients when they return.
-    switch (shopId) {
-      case "starchart" -> {
-        quantity = 1;
-        break;
-      }
-      case "junkmagazine" -> {
-        JunkMagazineRequest.parseResponse(urlString, responseText);
-        break;
-      }
-      case "still" -> {
-        StillRequest.parseResponse(urlString, responseText);
-        break;
-      }
-      case "5dprinter" -> {
-        FiveDPrinterRequest.parseResponse(urlString, responseText);
-        break;
-      }
-      case "sugarsheets" -> {
-        // Sugar Sheet folding always removes exactly one.
-        SugarSheetRequest.parseResponse(urlString, responseText);
-        return;
-      }
-    }
-
-    // Remove the consumed ingredients.
-    for (AdventureResult ingredient : shopRow.getCosts()) {
-      ResultProcessor.processResult(ingredient.getInstance(-1 * ingredient.getCount() * quantity));
-    }
-  }
-
   /*
    * RequestLogger support
    */
@@ -516,7 +534,7 @@ public class ShopRequest extends GenericRequest {
       return false;
     }
 
-    String shopId = getShopId(urlString);
+    String shopId = parseShopId(urlString);
     if (shopId == null) {
       return false;
     }
