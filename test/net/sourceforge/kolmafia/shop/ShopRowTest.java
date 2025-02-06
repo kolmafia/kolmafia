@@ -210,7 +210,7 @@ public class ShopRowTest {
     @Test
     public void canParsePrimordialSoupKitchen() {
       String html = html("request/test_shop_twitchsoup.html");
-      var shopName = ShopRequest.parseShopName(html);
+      var shopName = ShopRequest.parseShopNameInResponse(html);
       assertEquals("The Primordial Soup Kitchen", shopName);
 
       var shopId = ShopRequest.parseShopId(html);
