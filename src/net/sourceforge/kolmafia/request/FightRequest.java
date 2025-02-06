@@ -5670,7 +5670,6 @@ public class FightRequest extends GenericRequest {
     public boolean serendipity;
     public boolean mildManneredProfessor;
     public boolean batwings;
-    public boolean cupidbow;
 
     public TagStatus() {
       FamiliarData current = KoLCharacter.getFamiliar();
@@ -5781,8 +5780,6 @@ public class FightRequest extends GenericRequest {
       this.adventure = KoLAdventure.lastVisitedLocation;
       this.grimstone = GrimstoneManager.isGrimstoneAdventure(this.adventure);
 
-      // If we have cupid bow
-      this.cupidbow = KoLCharacter.hasEquipped(ItemPool.TOY_CUPID_BOW);
     }
 
     public void nextRound() {
