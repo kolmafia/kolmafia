@@ -1245,4 +1245,36 @@ class ChoiceControlTest {
       }
     }
   }
+
+  @Nested
+  class BoxingDaycare {
+    @Test
+    void canParseInstructorItems() {
+      var cleanups =
+          new Cleanups(
+              withPostChoice1(0, 0),
+              withProperty("daycareInstructorItem", 0),
+              withProperty("daycareInstructorItemQuantity", 0));
+      try (cleanups) {
+        var req = new GenericRequest("choice.php?whichchoice=1336");
+        req.responseText = html("request/test_choice_boxing_daycare.html");
+
+        ChoiceManager.visitChoice(req);
+        assertThat("daycareInstructorItem", isSetTo(5816));
+        assertThat("daycareInstructorItemQuantity", isSetTo(11));
+      }
+    }
+
+    @Test
+    void canParseRecruits() {
+      var cleanups = new Cleanups(withPostChoice1(0, 0), withProperty("_daycareRecruits", 0));
+      try (cleanups) {
+        var req = new GenericRequest("choice.php?whichchoice=1336");
+        req.responseText = html("request/test_choice_boxing_daycare.html");
+
+        ChoiceManager.visitChoice(req);
+        assertThat("_daycareRecruits", isSetTo(1));
+      }
+    }
+  }
 }

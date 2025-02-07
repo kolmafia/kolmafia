@@ -577,6 +577,8 @@ user	dampOldBootPurchased	false
 user	darkGyfftePoints	0
 user	dartsThrown	0
 user	daycareEquipment	0
+user	daycareInstructorItem	0
+user	daycareInstructorItemQuantity	0
 user	daycareInstructors	0
 user	daycareLastScavenge	0
 user	daycareOpen	false
