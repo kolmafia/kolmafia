@@ -1276,5 +1276,34 @@ class ChoiceControlTest {
         assertThat("_daycareRecruits", isSetTo(1));
       }
     }
+
+    @Test
+    void handlesBrokenReturnRecruits() {
+      var cleanups = new Cleanups(withPostChoice1(0, 0), withProperty("_daycareRecruits", 11));
+      try (cleanups) {
+        var req = new GenericRequest("choice.php?whichchoice=1336");
+        req.responseText = "";
+
+        ChoiceManager.visitChoice(req);
+        assertThat("_daycareRecruits", isSetTo(11));
+      }
+    }
+
+    @Test
+    void handlesBrokenReturnInstructorCost() {
+      var cleanups =
+          new Cleanups(
+              withPostChoice1(0, 0),
+              withProperty("daycareInstructorItem", 11),
+              withProperty("daycareInstructorItemQuantity", 69));
+      try (cleanups) {
+        var req = new GenericRequest("choice.php?whichchoice=1336");
+        req.responseText = "";
+
+        ChoiceManager.visitChoice(req);
+        assertThat("daycareInstructorItem", isSetTo(11));
+        assertThat("daycareInstructorItemQuantity", isSetTo(69));
+      }
+    }
   }
 }
