@@ -2,15 +2,13 @@ package net.sourceforge.kolmafia.request.coinmaster.shop;
 
 import java.util.Map;
 import java.util.regex.Pattern;
-import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.shop.ShopRequest;
 
-public class FunALogRequest extends CoinMasterRequest {
+public abstract class FunALogRequest extends CoinMasterShopRequest {
   public static final String master = "PirateRealm Fun-a-Log";
   public static final String SHOPID = "piraterealm";
 
@@ -48,19 +46,6 @@ public class FunALogRequest extends CoinMasterRequest {
   private static Boolean availableItem(final Integer itemId) {
     var pref = ITEM_TO_UNLOCK_PREF.getOrDefault(itemId, null);
     return pref == null || Preferences.getBoolean(pref);
-  }
-
-  public FunALogRequest() {
-    super(FUN_A_LOG);
-  }
-
-  public FunALogRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(FUN_A_LOG, buying, attachments);
-  }
-
-  @Override
-  public void processResults() {
-    ShopRequest.parseResponse(this.getURLString(), this.responseText);
   }
 
   // <tr rel="10231"><td valign=center><input type=radio name=whichrow value=1064></td><td><img

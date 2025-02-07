@@ -4,11 +4,8 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
-import net.sourceforge.kolmafia.shop.ShopRequest;
-import net.sourceforge.kolmafia.shop.ShopRow;
 
-public class KiwiKwikiMartRequest extends CoinMasterRequest {
+public abstract class KiwiKwikiMartRequest extends CoinMasterShopRequest {
   public static final String master = "Kiwi Kwiki Mart";
   public static final String SHOPID = "kiwi";
 
@@ -19,25 +16,12 @@ public class KiwiKwikiMartRequest extends CoinMasterRequest {
           .withVisitShop(KiwiKwikiMartRequest::visitShop)
           .withPurchasedItem(KiwiKwikiMartRequest::purchasedItem);
 
-  public KiwiKwikiMartRequest() {
-    super(DATA);
-  }
-
-  public KiwiKwikiMartRequest(final ShopRow row, final int count) {
-    super(DATA, row, count);
-  }
-
   private static Boolean canBuyItem(final Integer itemId) {
     return switch (itemId) {
       case ItemPool.MINI_KIWI_INTOXICATING_SPIRITS -> !Preferences.getBoolean(
           "_miniKiwiIntoxicatingSpiritsBought");
       default -> DATA.availableItem(itemId);
     };
-  }
-
-  @Override
-  public void processResults() {
-    ShopRequest.parseResponse(this.getURLString(), this.responseText);
   }
 
   public static void visitShop(final String responseText) {

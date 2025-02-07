@@ -5,11 +5,9 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.LimitMode;
-import net.sourceforge.kolmafia.shop.ShopRequest;
 
-public class EdShopRequest extends CoinMasterRequest {
+public abstract class EdShopRequest extends CoinMasterShopRequest {
   public static final String master = "Everything Under the World";
   public static final String SHOPID = "edunder_shopshop";
 
@@ -23,19 +21,6 @@ public class EdShopRequest extends CoinMasterRequest {
           .withItem(KA)
           .withShopRowFields(master, SHOPID)
           .withAccessible(EdShopRequest::accessible);
-
-  public EdShopRequest() {
-    super(EDSHOP);
-  }
-
-  public EdShopRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(EDSHOP, buying, attachments);
-  }
-
-  @Override
-  public void processResults() {
-    ShopRequest.parseResponse(this.getURLString(), this.responseText);
-  }
 
   public static String accessible() {
     if (!KoLCharacter.isEd()) {

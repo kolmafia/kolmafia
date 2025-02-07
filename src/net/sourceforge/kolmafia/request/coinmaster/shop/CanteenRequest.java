@@ -6,10 +6,8 @@ import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
-import net.sourceforge.kolmafia.shop.ShopRequest;
 
-public class CanteenRequest extends CoinMasterRequest {
+public abstract class CanteenRequest extends CoinMasterShopRequest {
   public static final String master = "The Canteen";
   public static final String SHOPID = "si_shop2";
 
@@ -23,19 +21,6 @@ public class CanteenRequest extends CoinMasterRequest {
           .withItem(COIN)
           .withShopRowFields(master, SHOPID)
           .withAccessible(CanteenRequest::accessible);
-
-  public CanteenRequest() {
-    super(CANTEEN);
-  }
-
-  public CanteenRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(CANTEEN, buying, attachments);
-  }
-
-  @Override
-  public void processResults() {
-    ShopRequest.parseResponse(this.getURLString(), this.responseText);
-  }
 
   public static String accessible() {
     if (!Preferences.getBoolean("_spookyAirportToday")

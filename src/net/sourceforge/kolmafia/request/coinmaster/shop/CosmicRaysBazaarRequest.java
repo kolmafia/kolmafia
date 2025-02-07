@@ -8,10 +8,8 @@ import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
-import net.sourceforge.kolmafia.shop.ShopRequest;
 
-public class CosmicRaysBazaarRequest extends CoinMasterRequest {
+public abstract class CosmicRaysBazaarRequest extends CoinMasterShopRequest {
   public static final String master = "Cosmic Ray's Bazaar";
   public static final String SHOPID = "exploathing";
 
@@ -51,19 +49,6 @@ public class CosmicRaysBazaarRequest extends CoinMasterRequest {
           };
       buyCosts.put(itemId, cost);
     }
-  }
-
-  public CosmicRaysBazaarRequest() {
-    super(COSMIC_RAYS_BAZAAR);
-  }
-
-  public CosmicRaysBazaarRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(COSMIC_RAYS_BAZAAR, buying, attachments);
-  }
-
-  @Override
-  public void processResults() {
-    ShopRequest.parseResponse(this.getURLString(), this.responseText);
   }
 
   public static String accessible() {

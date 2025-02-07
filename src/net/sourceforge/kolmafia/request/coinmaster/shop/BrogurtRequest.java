@@ -6,10 +6,8 @@ import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
-import net.sourceforge.kolmafia.shop.ShopRequest;
 
-public class BrogurtRequest extends CoinMasterRequest {
+public abstract class BrogurtRequest extends CoinMasterShopRequest {
   public static final String master = "The Frozen Brogurt Stand";
   public static final String SHOPID = "sbb_brogurt";
 
@@ -36,19 +34,6 @@ public class BrogurtRequest extends CoinMasterRequest {
         yield item.getCount(BROGURT.getBuyItems()) > 0;
       }
     };
-  }
-
-  public BrogurtRequest() {
-    super(BROGURT);
-  }
-
-  public BrogurtRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(BROGURT, buying, attachments);
-  }
-
-  @Override
-  public void processResults() {
-    ShopRequest.parseResponse(this.getURLString(), this.responseText);
   }
 
   public static String accessible() {

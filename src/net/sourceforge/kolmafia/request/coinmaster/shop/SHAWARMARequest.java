@@ -6,10 +6,8 @@ import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
-import net.sourceforge.kolmafia.shop.ShopRequest;
 
-public class SHAWARMARequest extends CoinMasterRequest {
+public abstract class SHAWARMARequest extends CoinMasterShopRequest {
   public static final String master = "The SHAWARMA Initiative";
   public static final String SHOPID = "si_shop1";
 
@@ -23,19 +21,6 @@ public class SHAWARMARequest extends CoinMasterRequest {
           .withItem(COIN)
           .withShopRowFields(master, SHOPID)
           .withAccessible(SHAWARMARequest::accessible);
-
-  public SHAWARMARequest() {
-    super(SHAWARMA);
-  }
-
-  public SHAWARMARequest(final boolean buying, final AdventureResult[] attachments) {
-    super(SHAWARMA, buying, attachments);
-  }
-
-  @Override
-  public void processResults() {
-    ShopRequest.parseResponse(this.getURLString(), this.responseText);
-  }
 
   public static String accessible() {
     if (!Preferences.getBoolean("_spookyAirportToday")

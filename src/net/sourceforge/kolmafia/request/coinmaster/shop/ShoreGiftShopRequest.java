@@ -6,11 +6,9 @@ import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.shop.ShopRequest;
 
-public class ShoreGiftShopRequest extends CoinMasterRequest {
+public abstract class ShoreGiftShopRequest extends CoinMasterShopRequest {
   public static final String master = "The Shore, Inc. Gift Shop";
   public static final String SHOPID = "shore";
 
@@ -43,19 +41,6 @@ public class ShoreGiftShopRequest extends CoinMasterRequest {
     switch (itemId) {
       case ItemPool.TOASTER -> Preferences.setBoolean("itemBoughtPerAscension637", true);
     }
-  }
-
-  public ShoreGiftShopRequest() {
-    super(SHORE_GIFT_SHOP);
-  }
-
-  public ShoreGiftShopRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(SHORE_GIFT_SHOP, buying, attachments);
-  }
-
-  @Override
-  public void processResults() {
-    ShopRequest.parseResponse(this.getURLString(), this.responseText);
   }
 
   public static void visitShop(final String responseText) {

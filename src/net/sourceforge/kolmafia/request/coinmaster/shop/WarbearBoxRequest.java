@@ -5,10 +5,8 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
-import net.sourceforge.kolmafia.shop.ShopRequest;
 
-public class WarbearBoxRequest extends CoinMasterRequest {
+public abstract class WarbearBoxRequest extends CoinMasterShopRequest {
   public static final String master = "Warbear Black Box";
   public static final String SHOPID = "warbear";
 
@@ -23,19 +21,6 @@ public class WarbearBoxRequest extends CoinMasterRequest {
           .withItem(WHOSIT)
           .withShopRowFields(master, SHOPID)
           .withAccessible(WarbearBoxRequest::accessible);
-
-  public WarbearBoxRequest() {
-    super(WARBEARBOX);
-  }
-
-  public WarbearBoxRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(WARBEARBOX, buying, attachments);
-  }
-
-  @Override
-  public void processResults() {
-    ShopRequest.parseResponse(this.getURLString(), this.responseText);
-  }
 
   public static String accessible() {
     int wand = BLACKBOX.getCount(KoLConstants.inventory);

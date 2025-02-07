@@ -6695,14 +6695,6 @@ public class UseItemRequest extends GenericRequest {
 
     int itemId = item.getItemId();
 
-    boolean isSealFigurine = ItemDatabase.isSealFigurine(itemId);
-    boolean isBRICKOMonster = ItemDatabase.isBRICKOMonster(itemId);
-
-    if ((isSealFigurine || isBRICKOMonster) && !urlString.contains("checked=1")) {
-      // Only log the second "use" that actually leads to a fight.
-      return true;
-    }
-
     switch (itemId) {
       case ItemPool.AWOL_COMMENDATION:
         return AWOLQuartermasterRequest.registerRequest(urlString);
@@ -6715,6 +6707,14 @@ public class UseItemRequest extends GenericRequest {
 
       case ItemPool.FUDGE_WAND:
         return FudgeWandRequest.registerRequest(urlString);
+    }
+
+    boolean isSealFigurine = ItemDatabase.isSealFigurine(itemId);
+    boolean isBRICKOMonster = ItemDatabase.isBRICKOMonster(itemId);
+
+    if ((isSealFigurine || isBRICKOMonster) && !urlString.contains("checked=1")) {
+      // Only log the second "use" that actually leads to a fight.
+      return true;
     }
 
     // Everything below here will work with the item we extracted

@@ -5,10 +5,8 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
-import net.sourceforge.kolmafia.shop.ShopRequest;
 
-public class ToxicChemistryRequest extends CoinMasterRequest {
+public abstract class ToxicChemistryRequest extends CoinMasterShopRequest {
   public static final String master = "Toxic Chemistry";
   public static final String SHOPID = "toxic";
 
@@ -23,19 +21,6 @@ public class ToxicChemistryRequest extends CoinMasterRequest {
           .withItem(TOXIC_GLOBULE)
           .withShopRowFields(master, SHOPID)
           .withAccessible(ToxicChemistryRequest::accessible);
-
-  public ToxicChemistryRequest() {
-    super(TOXIC_CHEMISTRY);
-  }
-
-  public ToxicChemistryRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(TOXIC_CHEMISTRY, buying, attachments);
-  }
-
-  @Override
-  public void processResults() {
-    ShopRequest.parseResponse(this.getURLString(), this.responseText);
-  }
 
   public static String accessible() {
     if (TOXIC_GLOBULE.getCount(KoLConstants.inventory) == 0) {

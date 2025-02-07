@@ -1,12 +1,9 @@
 package net.sourceforge.kolmafia.request.coinmaster.shop;
 
-import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
-import net.sourceforge.kolmafia.shop.ShopRequest;
 
-public class LunarLunchRequest extends CoinMasterRequest {
+public abstract class LunarLunchRequest extends CoinMasterShopRequest {
   public static final String master = "Lunar Lunch-o-Mat";
   public static final String SHOPID = "elvishp3";
 
@@ -18,23 +15,6 @@ public class LunarLunchRequest extends CoinMasterRequest {
           .withItem(SpaaaceRequest.ISOTOPE)
           .withShopRowFields(master, SHOPID)
           .withVisitShop(SpaaaceRequest::visitShop)
+          .withEquip(SpaaaceRequest::equip)
           .withAccessible(SpaaaceRequest::accessible);
-
-  public LunarLunchRequest() {
-    super(LUNAR_LUNCH);
-  }
-
-  public LunarLunchRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(LUNAR_LUNCH, buying, attachments);
-  }
-
-  @Override
-  public void processResults() {
-    ShopRequest.parseResponse(this.getURLString(), this.responseText);
-  }
-
-  @Override
-  public void equip() {
-    SpaaaceRequest.equip();
-  }
 }

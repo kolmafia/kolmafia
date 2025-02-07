@@ -5,10 +5,8 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
-import net.sourceforge.kolmafia.shop.ShopRequest;
 
-public class BoutiqueRequest extends CoinMasterRequest {
+public abstract class BoutiqueRequest extends CoinMasterShopRequest {
   public static final String master = "Paul's Boutique";
   public static final String SHOPID = "cindy";
 
@@ -22,19 +20,6 @@ public class BoutiqueRequest extends CoinMasterRequest {
           .withItem(COIN)
           .withShopRowFields(master, SHOPID)
           .withAccessible(BoutiqueRequest::accessible);
-
-  public BoutiqueRequest() {
-    super(BOUTIQUE);
-  }
-
-  public BoutiqueRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(BOUTIQUE, buying, attachments);
-  }
-
-  @Override
-  public void processResults() {
-    ShopRequest.parseResponse(this.getURLString(), this.responseText);
-  }
 
   public static String accessible() {
     int coins = COIN.getCount(KoLConstants.inventory);

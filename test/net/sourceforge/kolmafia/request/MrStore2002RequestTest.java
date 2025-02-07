@@ -54,7 +54,7 @@ public class MrStore2002RequestTest {
       client.addResponse(200, html("request/test_use_mr_store_2002_catalog.html"));
       client.addResponse(200, html("request/test_visit_mr_store_2002.html"));
 
-      var request = new MrStore2002Request();
+      var request = MrStore2002Request.MR_STORE_2002.getRequest();
       request.run();
 
       assertThat("_2002MrStoreCreditsCollected", isSetTo(true));
@@ -89,7 +89,7 @@ public class MrStore2002RequestTest {
       client.addResponse(200, ""); // api.php
 
       var request =
-          new MrStore2002Request(
+          MrStore2002Request.MR_STORE_2002.getRequest(
               true,
               new AdventureResult[] {
                 ItemPool.get(ItemPool.FLASH_LIQUIDIZER_ULTRA_DOUSING_ACCESSORY, 1)
@@ -134,7 +134,7 @@ public class MrStore2002RequestTest {
       client.addResponse(200, html("request/test_use_mr_store_2002_catalog.html"));
       client.addResponse(200, html("request/test_visit_mr_store_2002.html"));
 
-      var request = new MrStore2002Request();
+      var request = MrStore2002Request.MR_STORE_2002.getRequest();
       request.run();
 
       assertThat(InventoryManager.hasItem(ItemPool.MR_STORE_2002_CATALOG), is(true));
@@ -169,7 +169,7 @@ public class MrStore2002RequestTest {
       client.addResponse(200, html("request/test_use_mr_store_2002_catalog.html"));
       client.addResponse(200, html("request/test_visit_mr_store_2002.html"));
 
-      var request = new MrStore2002Request();
+      var request = MrStore2002Request.MR_STORE_2002.getRequest();
       request.run();
 
       assertThat("_2002MrStoreCreditsCollected", isSetTo(true));
@@ -201,7 +201,7 @@ public class MrStore2002RequestTest {
       client.addResponse(200, html("request/test_use_mr_store_2002_catalog.html"));
       client.addResponse(200, html("request/test_visit_mr_store_2002.html"));
 
-      var request = new MrStore2002Request();
+      var request = MrStore2002Request.MR_STORE_2002.getRequest();
       request.run();
 
       assertThat("_2002MrStoreCreditsCollected", isSetTo(true));
@@ -231,7 +231,7 @@ public class MrStore2002RequestTest {
       client.addResponse(200, html("request/test_use_mr_store_2002_catalog_fails.html"));
       client.addResponse(200, "");
 
-      var request = new MrStore2002Request();
+      var request = MrStore2002Request.MR_STORE_2002.getRequest();
       request.run();
 
       assertThat("_2002MrStoreCreditsCollected", isSetTo(false));

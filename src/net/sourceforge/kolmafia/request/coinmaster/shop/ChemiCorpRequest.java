@@ -5,13 +5,11 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.BatManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LimitMode;
-import net.sourceforge.kolmafia.shop.ShopRequest;
 
-public class ChemiCorpRequest extends CoinMasterRequest {
+public abstract class ChemiCorpRequest extends CoinMasterShopRequest {
   public static final String master = "ChemiCorp";
   public static final String SHOPID = "batman_chemicorp";
 
@@ -38,19 +36,6 @@ public class ChemiCorpRequest extends CoinMasterRequest {
       price = 3 * (count + 1);
     }
     return COIN.getInstance(price);
-  }
-
-  public ChemiCorpRequest() {
-    super(CHEMICORP);
-  }
-
-  public ChemiCorpRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(CHEMICORP, buying, attachments);
-  }
-
-  @Override
-  public void processResults() {
-    ShopRequest.parseResponse(this.getURLString(), this.responseText);
   }
 
   public static String accessible() {

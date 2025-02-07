@@ -5,10 +5,8 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
-import net.sourceforge.kolmafia.shop.ShopRequest;
 
-public class DinostaurRequest extends CoinMasterRequest {
+public abstract class DinostaurRequest extends CoinMasterShopRequest {
   public static final String master = "Dino World Gift Shop (The Dinostaur)";
   public static final String SHOPID = "dino";
 
@@ -22,19 +20,6 @@ public class DinostaurRequest extends CoinMasterRequest {
           .withItem(COIN)
           .withShopRowFields(master, SHOPID)
           .withAccessible(DinostaurRequest::accessible);
-
-  public DinostaurRequest() {
-    super(DINOSTAUR);
-  }
-
-  public DinostaurRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(DINOSTAUR, buying, attachments);
-  }
-
-  @Override
-  public void processResults() {
-    ShopRequest.parseResponse(this.getURLString(), this.responseText);
-  }
 
   public static String accessible() {
     if (!KoLCharacter.inDinocore()) {

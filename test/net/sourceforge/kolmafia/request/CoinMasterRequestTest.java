@@ -209,7 +209,7 @@ public class CoinMasterRequestTest {
       try (cleanups) {
         client.addResponse(200, html("request/test_armory_elf_visit.html"));
 
-        var visit = new Crimbo23ElfArmoryRequest();
+        var visit = Crimbo23ElfArmoryRequest.DATA.getRequest();
         visit.run();
 
         var text = SessionLoggerOutput.stopStream();
@@ -283,7 +283,7 @@ public class CoinMasterRequestTest {
         client.addResponse(200, "");
 
         var buy =
-            new Crimbo23ElfArmoryRequest(
+            Crimbo23ElfArmoryRequest.DATA.getRequest(
                 true, new AdventureResult[] {ItemPool.get(ItemPool.ELF_GUARD_HONOR_PRESENT, 1)});
         buy.run();
 
@@ -379,7 +379,7 @@ public class CoinMasterRequestTest {
         client.addResponse(200, "");
 
         var buy =
-            new Crimbo23ElfArmoryRequest(
+            Crimbo23ElfArmoryRequest.DATA.getRequest(
                 false,
                 new AdventureResult[] {ItemPool.get(ItemPool.ELF_GUARD_COMMANDEERING_GLOVES, 13)});
         buy.run();

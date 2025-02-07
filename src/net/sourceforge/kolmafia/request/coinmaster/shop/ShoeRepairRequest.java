@@ -5,11 +5,9 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.QuestManager;
-import net.sourceforge.kolmafia.shop.ShopRequest;
 
-public class ShoeRepairRequest extends CoinMasterRequest {
+public abstract class ShoeRepairRequest extends CoinMasterShopRequest {
   public static final String master = "Legitimate Shoe Repair, Inc.";
   public static final String SHOPID = "shoeshop";
 
@@ -25,19 +23,6 @@ public class ShoeRepairRequest extends CoinMasterRequest {
           .withShopRowFields(master, SHOPID)
           .withVisitShop(ShoeRepairRequest::visitShop)
           .withAccessible(ShoeRepairRequest::accessible);
-
-  public ShoeRepairRequest() {
-    super(SHOE_REPAIR);
-  }
-
-  public ShoeRepairRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(SHOE_REPAIR, buying, attachments);
-  }
-
-  @Override
-  public void processResults() {
-    ShopRequest.parseResponse(this.getURLString(), this.responseText);
-  }
 
   public static void visitShop(final String responseText) {
     QuestManager.handleTimeTower(!responseText.contains("That store isn't there anymore."));

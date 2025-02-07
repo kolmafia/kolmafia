@@ -5,10 +5,8 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
-import net.sourceforge.kolmafia.shop.ShopRequest;
 
-public class FishboneryRequest extends CoinMasterRequest {
+public abstract class FishboneryRequest extends CoinMasterShopRequest {
   public static final String master = "Freshwater Fishbonery";
   public static final String SHOPID = "fishbones";
 
@@ -24,19 +22,6 @@ public class FishboneryRequest extends CoinMasterRequest {
           .withItem(FRESHWATER_FISHBONE)
           .withShopRowFields(master, SHOPID)
           .withAccessible(FishboneryRequest::accessible);
-
-  public FishboneryRequest() {
-    super(FISHBONERY);
-  }
-
-  public FishboneryRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(FISHBONERY, buying, attachments);
-  }
-
-  @Override
-  public void processResults() {
-    ShopRequest.parseResponse(this.getURLString(), this.responseText);
-  }
 
   public static String accessible() {
     if (FRESHWATER_FISHBONE.getCount(KoLConstants.inventory) == 0) {

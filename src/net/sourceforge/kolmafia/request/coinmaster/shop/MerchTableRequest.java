@@ -14,12 +14,10 @@ import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.QuestManager;
-import net.sourceforge.kolmafia.shop.ShopRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-public class MerchTableRequest extends CoinMasterRequest {
+public abstract class MerchTableRequest extends CoinMasterShopRequest {
   public static final String master = "KoL Con 13 Merch Table";
   public static final String SHOPID = "conmerch";
 
@@ -64,19 +62,6 @@ public class MerchTableRequest extends CoinMasterRequest {
           };
       buyCosts.put(itemId, cost);
     }
-  }
-
-  public MerchTableRequest() {
-    super(MERCH_TABLE);
-  }
-
-  public MerchTableRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(MERCH_TABLE, buying, attachments);
-  }
-
-  @Override
-  public void processResults() {
-    ShopRequest.parseResponse(this.getURLString(), responseText);
   }
 
   // <tr rel="9148"><td valign=center></td><td><img
