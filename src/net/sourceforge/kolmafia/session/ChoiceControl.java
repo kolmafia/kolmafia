@@ -8461,7 +8461,6 @@ public abstract class ChoiceControl {
                 "daycareInstructorItem", ItemDatabase.getItemId(instructorItem.group(2), quantity));
           }
           // *** Update _daycareScavenges
-          // *** Update daycareInstructorCost (new)
         }
       }
 
