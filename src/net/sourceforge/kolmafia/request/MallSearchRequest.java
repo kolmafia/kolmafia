@@ -380,7 +380,8 @@ public class MallSearchRequest extends GenericRequest {
 
   private static final Pattern ITEMDETAIL_PATTERN =
       Pattern.compile(
-          "<table class=\"itemtable\".*?item_(\\d+).*?descitem\\((\\d+)\\).*?<a[^>]*>(.*?)</a>(.*?)</table>");
+          "<table class=\"itemtable\".*?item_(\\d+).*?descitem\\((\\d+)\\).*?<a[^>]*>(.*?)</a>(.*?)</table>",
+          Pattern.DOTALL);
   private static final Pattern STOREDETAIL_PATTERN =
       Pattern.compile("<tr class=\"graybelow.+?</tr>");
   private static final Pattern LISTQUANTITY_PATTERN = Pattern.compile("stock\">([\\d,]+)<");
