@@ -1278,6 +1278,30 @@ class ChoiceControlTest {
     }
 
     @Test
+    void canParseToddlersLate() {
+      var cleanups = new Cleanups(withPostChoice1(0, 0), withProperty("daycareToddlers", 0));
+      try (cleanups) {
+        var req = new GenericRequest("choice.php?whichchoice=1336");
+        req.responseText = html("request/test_choice_boxing_daycare.html");
+
+        ChoiceManager.visitChoice(req);
+        assertThat("daycareToddlers", isSetTo(2782));
+      }
+    }
+
+    @Test
+    void canParseGymEquipment() {
+      var cleanups = new Cleanups(withPostChoice1(0, 0), withProperty("daycareEquipment", 0));
+      try (cleanups) {
+        var req = new GenericRequest("choice.php?whichchoice=1336");
+        req.responseText = html("request/test_choice_boxing_daycare.html");
+
+        ChoiceManager.visitChoice(req);
+        assertThat("daycareEquipment", isSetTo(2875));
+      }
+    }
+
+    @Test
     void handlesBrokenReturnRecruits() {
       var cleanups = new Cleanups(withPostChoice1(0, 0), withProperty("_daycareRecruits", 11));
       try (cleanups) {
