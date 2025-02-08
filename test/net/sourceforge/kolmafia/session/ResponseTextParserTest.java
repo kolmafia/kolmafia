@@ -285,22 +285,25 @@ class ResponseTextParserTest {
                 withHttpClientBuilder(builder),
                 withProperty("_aprilBandTomTomUses", "0"),
                 withCurrentRun(700),
-                withLastLocation("Cyberzone 1"));
+                withLastLocation("Cyberzone 1"),
+                // Stupid stuff to match the api.php I included.
+                // Without this, extra requests are generated
+                withGender(Gender.FEMALE));
         try (cleanups) {
           client.addResponse(200, html("request/test_play_april_tomtom_1.html"));
-          client.addResponse(200, ""); // api.php
+          client.addResponse(200, html("request/test_play_april_tomtom_1_api.json")); // api.php
           client.addResponse(200, html("request/test_play_april_tomtom_2.html"));
           client.addResponse(200, ""); // api.php
           client.addResponse(200, html("request/test_play_april_tomtom_3.html"));
           client.addResponse(200, ""); // api.php
 
+          KoLCharacter.setGuildStoreOpen(false);
           assertThat("lastAdventure", isSetTo("Cyberzone 1"));
           var request1 = new GenericRequest("inventory.php?iid=11567&action=aprilplay");
           request1.run();
           assertThat("lastAdventure", isSetTo("None"));
           assertThat("_aprilBandTomUses", isSetTo(1));
-          // Can we check that we have no choice but to fight?
-          assertTrue(request1.responseText.contains(("<a href='fight.php'>")));
+          assertTrue(KoLCharacter.inFight());
 
           // Just for fun, let's finish off the fight.
           var request2 = new GenericRequest("fight.php");
@@ -308,7 +311,7 @@ class ResponseTextParserTest {
           assertThat(FightRequest.currentRound, greaterThan(0));
 
           var request3 = new GenericRequest("fight.php?action=skill&whichskill=7514", true);
-          request2.run();
+          request3.run();
           assertThat(FightRequest.currentRound, is(0));
           // Free fight
           assertThat(KoLCharacter.getCurrentRun(), is(700));
