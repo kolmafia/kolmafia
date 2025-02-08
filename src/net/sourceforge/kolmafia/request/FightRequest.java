@@ -244,8 +244,6 @@ public class FightRequest extends GenericRequest {
   private static final Pattern SLIMED_PATTERN =
       Pattern.compile(
           "it blasts you with a massive loogie that sticks to your (.*?), pulls it off of you");
-  private static final Pattern MULTIFIGHT_PATTERN = Pattern.compile("href=\"?/?fight.php");
-  private static final Pattern FIGHTCHOICE_PATTERN = Pattern.compile("href=\"?choice.php");
 
   private static final Pattern KEYOTRON_PATTERN = Pattern.compile("key-o-tron emits (\\d) short");
 
@@ -1753,7 +1751,7 @@ public class FightRequest extends GenericRequest {
     String url = FightRequest.inMultiFight ? "fight.php" : redirectLocation;
 
     if (url != null) {
-      // A multifight starts with am unadorned call to
+      // A multifight starts with an unadorned call to
       // fight.php.
       //
       // A non-multifight starts with a redirect to
@@ -2586,6 +2584,18 @@ public class FightRequest extends GenericRequest {
     return false;
   }
 
+  private static final Pattern MULTIFIGHT_PATTERN = Pattern.compile("href=['\"]?/?fight.php");
+
+  public static void checkForMultiFight(final boolean won, final String responseText) {
+    FightRequest.inMultiFight = won && MULTIFIGHT_PATTERN.matcher(responseText).find();
+  }
+
+  private static final Pattern FIGHTCHOICE_PATTERN = Pattern.compile("href=\"?choice.php");
+
+  public static void checkForChoiceFollowsFight(final String responseText) {
+    FightRequest.choiceFollowsFight = FIGHTCHOICE_PATTERN.matcher(responseText).find();
+  }
+
   // This performs checks that have to be applied to a single round of
   // combat results, and that aren't (yet) part of the
   // processNormalResults loop.  responseText will be a fragment of the
@@ -2659,9 +2669,9 @@ public class FightRequest extends GenericRequest {
 
       FightRequest.clearInstanceData();
       FightRequest.won = won;
-      FightRequest.inMultiFight = FightRequest.MULTIFIGHT_PATTERN.matcher(responseText).find();
-      FightRequest.choiceFollowsFight =
-          FightRequest.FIGHTCHOICE_PATTERN.matcher(responseText).find();
+
+      FightRequest.checkForMultiFight(won, responseText);
+      FightRequest.checkForChoiceFollowsFight(responseText);
 
       return;
     }
@@ -4358,8 +4368,8 @@ public class FightRequest extends GenericRequest {
     // Handle autumnaton checking (this happens whether the fight is won or lost)
     AutumnatonManager.parseFight(responseText);
 
-    FightRequest.inMultiFight = won && FightRequest.MULTIFIGHT_PATTERN.matcher(responseText).find();
-    FightRequest.choiceFollowsFight = FightRequest.FIGHTCHOICE_PATTERN.matcher(responseText).find();
+    FightRequest.checkForMultiFight(won, responseText);
+    FightRequest.checkForChoiceFollowsFight(responseText);
 
     // Do this AFTER we set the above so it does not continue
     // logging in if you are still in a fight or choice
