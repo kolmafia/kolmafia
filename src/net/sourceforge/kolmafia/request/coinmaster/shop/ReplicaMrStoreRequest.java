@@ -10,12 +10,10 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.shop.ShopRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-public class ReplicaMrStoreRequest extends CoinMasterRequest {
+public abstract class ReplicaMrStoreRequest extends CoinMasterShopRequest {
   public static final String master = "Replica Mr. Store";
   public static final String SHOPID = "mrreplica";
 
@@ -34,14 +32,6 @@ public class ReplicaMrStoreRequest extends CoinMasterRequest {
           .withVisitShop(ReplicaMrStoreRequest::visitShop)
           .withPurchasedItem(ReplicaMrStoreRequest::purchasedItem)
           .withAccessible(ReplicaMrStoreRequest::accessible);
-
-  public ReplicaMrStoreRequest() {
-    super(REPLICA_MR_STORE);
-  }
-
-  public ReplicaMrStoreRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(REPLICA_MR_STORE, buying, attachments);
-  }
 
   private static final Map<Integer, Integer> itemToYear =
       Map.ofEntries(
@@ -129,11 +119,6 @@ public class ReplicaMrStoreRequest extends CoinMasterRequest {
       return true;
     }
     return false;
-  }
-
-  @Override
-  public void processResults() {
-    ShopRequest.parseResponse(this.getURLString(), this.responseText);
   }
 
   // <td colspan=14 align=center>&mdash; <b>2007</b> &mdash;</td>

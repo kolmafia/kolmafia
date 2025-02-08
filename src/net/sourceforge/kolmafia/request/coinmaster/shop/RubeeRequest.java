@@ -9,10 +9,8 @@ import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
-import net.sourceforge.kolmafia.shop.ShopRequest;
 
-public class RubeeRequest extends CoinMasterRequest {
+public abstract class RubeeRequest extends CoinMasterShopRequest {
   public static final String master = "FantasyRealm Rubee&trade; Store";
   public static final String SHOPID = "fantasyrealm";
 
@@ -25,20 +23,8 @@ public class RubeeRequest extends CoinMasterRequest {
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)
           .withShopRowFields(master, SHOPID)
+          .withEquip(RubeeRequest::equip)
           .withAccessible(RubeeRequest::accessible);
-
-  public RubeeRequest() {
-    super(RUBEE);
-  }
-
-  public RubeeRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(RUBEE, buying, attachments);
-  }
-
-  @Override
-  public void processResults() {
-    ShopRequest.parseResponse(this.getURLString(), this.responseText);
-  }
 
   public static String accessible() {
     if (Preferences.getBoolean("_frToday") || Preferences.getBoolean("frAlways")) {
@@ -47,12 +33,12 @@ public class RubeeRequest extends CoinMasterRequest {
     return "Need access to Fantasy Realm";
   }
 
-  @Override
-  public void equip() {
+  public static Boolean equip() {
     if (!KoLCharacter.hasEquipped(ItemPool.FANTASY_REALM_GEM)) {
       EquipmentRequest request =
           new EquipmentRequest(ItemPool.get(ItemPool.FANTASY_REALM_GEM), Slot.ACCESSORY3);
       RequestThread.postRequest(request);
     }
+    return true;
   }
 }

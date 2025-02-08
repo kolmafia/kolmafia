@@ -4,12 +4,10 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.BatManager;
 import net.sourceforge.kolmafia.session.LimitMode;
-import net.sourceforge.kolmafia.shop.ShopRequest;
 
-public class BatFabricatorRequest extends CoinMasterRequest {
+public abstract class BatFabricatorRequest extends CoinMasterShopRequest {
   public static final String master = "Bat-Fabricator";
   public static final String SHOPID = "batman_cave";
 
@@ -32,19 +30,6 @@ public class BatFabricatorRequest extends CoinMasterRequest {
       case ItemPool.BAT_O_MITE -> EXPLOSIVES.getInstance(cost);
       default -> null;
     };
-  }
-
-  public BatFabricatorRequest() {
-    super(BAT_FABRICATOR);
-  }
-
-  public BatFabricatorRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(BAT_FABRICATOR, buying, attachments);
-  }
-
-  @Override
-  public void processResults() {
-    ShopRequest.parseResponse(this.getURLString(), this.responseText);
   }
 
   public static String accessible() {

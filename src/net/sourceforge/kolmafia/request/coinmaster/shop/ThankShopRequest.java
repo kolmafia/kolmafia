@@ -4,10 +4,8 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
-import net.sourceforge.kolmafia.shop.ShopRequest;
 
-public class ThankShopRequest extends CoinMasterRequest {
+public abstract class ThankShopRequest extends CoinMasterShopRequest {
   public static final String master = "A traveling Thanksgiving salesman";
   public static final String SHOPID = "thankshop";
 
@@ -20,17 +18,4 @@ public class ThankShopRequest extends CoinMasterRequest {
           .withTokenPattern(CASHEW_PATTERN)
           .withItem(CASHEW)
           .withShopRowFields(master, SHOPID);
-
-  public ThankShopRequest() {
-    super(CASHEW_STORE);
-  }
-
-  public ThankShopRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(CASHEW_STORE, buying, attachments);
-  }
-
-  @Override
-  public void processResults() {
-    ShopRequest.parseResponse(this.getURLString(), this.responseText);
-  }
 }

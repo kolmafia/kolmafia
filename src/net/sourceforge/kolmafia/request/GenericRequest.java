@@ -357,6 +357,8 @@ public class GenericRequest implements Runnable {
     return GenericRequest.KOL_HOST;
   }
 
+  public GenericRequest() {}
+
   /**
    * Constructs a new GenericRequest which will notify the given client of any changes and will use
    * the given URL for data submission.
@@ -2490,13 +2492,6 @@ public class GenericRequest implements Runnable {
       }
       case ItemPool.DRUM_MACHINE -> {
         itemName = "Drum Machine";
-        consumed = true;
-      }
-      case ItemPool.APRIL_BAND_TOM -> {
-        if (InventoryManager.hasItem(ItemPool.WORM_RIDING_HOOKS)) {
-          return;
-        }
-        itemName = "Apriling Band Quad Tom";
         consumed = true;
       }
       case ItemPool.DOLPHIN_WHISTLE -> {

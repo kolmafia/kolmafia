@@ -4,10 +4,8 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
-import net.sourceforge.kolmafia.shop.ShopRequest;
 
-public class LTTRequest extends CoinMasterRequest {
+public abstract class LTTRequest extends CoinMasterShopRequest {
   public static final String master = "LT&T Gift Shop";
   public static final String SHOPID = "ltt";
 
@@ -21,19 +19,6 @@ public class LTTRequest extends CoinMasterRequest {
           .withItem(COIN)
           .withShopRowFields(master, SHOPID)
           .withAccessible(LTTRequest::accessible);
-
-  public LTTRequest() {
-    super(LTT);
-  }
-
-  public LTTRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(LTT, buying, attachments);
-  }
-
-  @Override
-  public void processResults() {
-    ShopRequest.parseResponse(this.getURLString(), this.responseText);
-  }
 
   public static String accessible() {
     // *** Finish this.

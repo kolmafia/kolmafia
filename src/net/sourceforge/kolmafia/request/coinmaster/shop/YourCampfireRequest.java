@@ -5,10 +5,8 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.CampAwayRequest;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
-import net.sourceforge.kolmafia.shop.ShopRequest;
 
-public class YourCampfireRequest extends CoinMasterRequest {
+public abstract class YourCampfireRequest extends CoinMasterShopRequest {
   public static final String master = "Your Campfire";
   public static final String SHOPID = "campfire";
 
@@ -24,19 +22,6 @@ public class YourCampfireRequest extends CoinMasterRequest {
           .withItem(STICK_OF_FIREWOOD)
           .withShopRowFields(master, SHOPID)
           .withAccessible(YourCampfireRequest::accessible);
-
-  public YourCampfireRequest() {
-    super(YOUR_CAMPFIRE);
-  }
-
-  public YourCampfireRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(YOUR_CAMPFIRE, buying, attachments);
-  }
-
-  @Override
-  public void processResults() {
-    ShopRequest.parseResponse(this.getURLString(), this.responseText);
-  }
 
   public static String accessible() {
     if (CampAwayRequest.campAwayTentAvailable()) {

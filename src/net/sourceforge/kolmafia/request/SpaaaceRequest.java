@@ -62,12 +62,13 @@ public class SpaaaceRequest extends GenericRequest {
     QuestDatabase.setQuestIfBetter(Quest.GENERATOR, QuestDatabase.STARTED);
   }
 
-  public static void equip() {
+  public static Boolean equip() {
     update();
     if (!isTranspondent && hasTransponders) {
       UseItemRequest request = UseItemRequest.getInstance(SpaaaceRequest.TRANSPONDER);
       RequestThread.postRequest(request);
     }
+    return true;
   }
 
   // Porko support

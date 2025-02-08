@@ -45,7 +45,7 @@ public class LootTrapperMenuItem extends ThreadedMenuItem {
       }
 
       KoLmafia.updateDisplay("Visiting the trapper...");
-      RequestThread.postRequest(new TrapperRequest(selected, tradeCount));
+      RequestThread.postRequest(TrapperRequest.getRequest(selected, tradeCount));
     }
   }
 }

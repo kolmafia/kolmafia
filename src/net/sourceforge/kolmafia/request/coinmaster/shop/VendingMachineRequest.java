@@ -5,11 +5,9 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.shop.ShopRequest;
 
-public class VendingMachineRequest extends CoinMasterRequest {
+public abstract class VendingMachineRequest extends CoinMasterShopRequest {
   public static final String master = "Vending Machine";
   public static final String SHOPID = "damachine";
 
@@ -32,19 +30,6 @@ public class VendingMachineRequest extends CoinMasterRequest {
       case ItemPool.SEWING_KIT -> InventoryManager.getCount(item) == 0;
       default -> item.getCount(VENDING_MACHINE.getBuyItems()) > 0;
     };
-  }
-
-  public VendingMachineRequest() {
-    super(VENDING_MACHINE);
-  }
-
-  public VendingMachineRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(VENDING_MACHINE, buying, attachments);
-  }
-
-  @Override
-  public void processResults() {
-    ShopRequest.parseResponse(this.getURLString(), this.responseText);
   }
 
   public static String accessible() {

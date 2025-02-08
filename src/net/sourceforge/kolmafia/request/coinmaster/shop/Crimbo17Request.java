@@ -6,10 +6,8 @@ import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
-import net.sourceforge.kolmafia.shop.ShopRequest;
 
-public class Crimbo17Request extends CoinMasterRequest {
+public abstract class Crimbo17Request extends CoinMasterShopRequest {
   public static final String master = "Cheer-o-Vend 3000";
   public static final String SHOPID = "crimbo17";
 
@@ -37,19 +35,6 @@ public class Crimbo17Request extends CoinMasterRequest {
       case ItemPool.MIME_SCIENCE_VOL_6 -> KoLCharacter.isAccordionThief();
       default -> ItemPool.get(itemId).getCount(CRIMBO17.getBuyItems()) > 0;
     };
-  }
-
-  public Crimbo17Request() {
-    super(CRIMBO17);
-  }
-
-  public Crimbo17Request(final boolean buying, final AdventureResult[] attachments) {
-    super(CRIMBO17, buying, attachments);
-  }
-
-  @Override
-  public void processResults() {
-    ShopRequest.parseResponse(this.getURLString(), this.responseText);
   }
 
   public static String accessible() {

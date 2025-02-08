@@ -12,9 +12,8 @@ import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.shop.ShopRequest;
 
-public class MrStore2002Request extends CoinMasterRequest {
+public abstract class MrStore2002Request extends CoinMasterShopRequest {
   public static final String master = "Mr. Store 2002";
   public static final String SHOPID = "mrstore2002";
 
@@ -29,6 +28,7 @@ public class MrStore2002Request extends CoinMasterRequest {
           .withProperty("availableMrStore2002Credits")
           .withShopRowFields(master, SHOPID)
           .withVisitShop(MrStore2002Request::visitShop)
+          .withEquip(MrStore2002Request::equip)
           .withAccessible(MrStore2002Request::accessible);
 
   public MrStore2002Request() {
@@ -73,19 +73,18 @@ public class MrStore2002Request extends CoinMasterRequest {
     return request;
   }
 
-  @Override
-  public void run() {
+  public static boolean equip() {
     // Make sure we have a Mr. Store 2002 catalog
     int catalog = catalogToUse();
     if (catalog == 0) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "You have no 2002 Mr. Store Catalog available.");
-      return;
+      return false;
     }
 
     // Make sure it is in inventory
     if (!InventoryManager.retrieveItem(catalog)) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "Unable to put catalog into inventory.");
-      return;
+      return false;
     }
 
     // If we have not yet obtained today's store credits, "visit" by
@@ -102,17 +101,10 @@ public class MrStore2002Request extends CoinMasterRequest {
           || !redirectLocation.startsWith("shop.php")
           || !redirectLocation.contains("whichshop=mrstore2002")) {
         KoLmafia.updateDisplay(MafiaState.ERROR, "Failed to redirect to shop.php.");
-        return;
+        return false;
       }
     }
-
-    // Now run the shop.php request
-    super.run();
-  }
-
-  @Override
-  public void processResults() {
-    ShopRequest.parseResponse(this.getURLString(), this.responseText);
+    return true;
   }
 
   public static void visitShop(final String responseText) {

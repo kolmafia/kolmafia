@@ -8,11 +8,9 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.shop.ShopRequest;
 
-public class BlackMarketRequest extends CoinMasterRequest {
+public abstract class BlackMarketRequest extends CoinMasterShopRequest {
   public static final String master = "The Black Market";
   public static final String SHOPID = "blackmarket";
 
@@ -35,19 +33,6 @@ public class BlackMarketRequest extends CoinMasterRequest {
       case ItemPool.ZEPPELIN_TICKET -> InventoryManager.getCount(item) == 0;
       default -> item.getCount(BLACK_MARKET.getBuyItems()) > 0;
     };
-  }
-
-  public BlackMarketRequest() {
-    super(BLACK_MARKET);
-  }
-
-  public BlackMarketRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(BLACK_MARKET, buying, attachments);
-  }
-
-  @Override
-  public void processResults() {
-    ShopRequest.parseResponse(this.getURLString(), responseText);
   }
 
   public static void visitShop(final String responseText) {

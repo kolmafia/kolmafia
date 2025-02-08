@@ -5,10 +5,8 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
-import net.sourceforge.kolmafia.shop.ShopRequest;
 
-public class FDKOLRequest extends CoinMasterRequest {
+public abstract class FDKOLRequest extends CoinMasterShopRequest {
   public static final String master = "FDKOL Tent";
   public static final String SHOPID = "fdkol";
 
@@ -22,19 +20,6 @@ public class FDKOLRequest extends CoinMasterRequest {
           .withItem(FDKOL_TOKEN)
           .withShopRowFields(master, SHOPID)
           .withAccessible(FDKOLRequest::accessible);
-
-  public FDKOLRequest() {
-    super(FDKOL);
-  }
-
-  public FDKOLRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(FDKOL, buying, attachments);
-  }
-
-  @Override
-  public void processResults() {
-    ShopRequest.parseResponse(this.getURLString(), this.responseText);
-  }
 
   public static String accessible() {
     if (FDKOL_TOKEN.getCount(KoLConstants.inventory) == 0) {

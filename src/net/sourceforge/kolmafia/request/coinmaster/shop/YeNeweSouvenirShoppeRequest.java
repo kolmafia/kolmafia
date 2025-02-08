@@ -5,11 +5,9 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.QuestManager;
-import net.sourceforge.kolmafia.shop.ShopRequest;
 
-public class YeNeweSouvenirShoppeRequest extends CoinMasterRequest {
+public abstract class YeNeweSouvenirShoppeRequest extends CoinMasterShopRequest {
   public static final String master = "Ye Newe Souvenir Shoppe";
   public static final String SHOPID = "shakeshop";
 
@@ -25,19 +23,6 @@ public class YeNeweSouvenirShoppeRequest extends CoinMasterRequest {
           .withShopRowFields(master, SHOPID)
           .withVisitShop(YeNeweSouvenirShoppeRequest::visitShop)
           .withAccessible(YeNeweSouvenirShoppeRequest::accessible);
-
-  public YeNeweSouvenirShoppeRequest() {
-    super(SHAKE_SHOP);
-  }
-
-  public YeNeweSouvenirShoppeRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(SHAKE_SHOP, buying, attachments);
-  }
-
-  @Override
-  public void processResults() {
-    ShopRequest.parseResponse(this.getURLString(), this.responseText);
-  }
 
   public static void visitShop(final String responseText) {
     QuestManager.handleTimeTower(!responseText.contains("That store isn't there anymore."));

@@ -31,6 +31,10 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 public class CoinMasterRequest extends GenericRequest {
   protected final CoinmasterData data;
 
+  public CoinMasterRequest() {
+    this.data = null;
+  }
+
   protected String action = null;
   protected AdventureResult[] attachments;
   protected ShopRow row = null;
@@ -214,7 +218,9 @@ public class CoinMasterRequest extends GenericRequest {
 
     try (Checkpoint checkpoint = new Checkpoint()) {
       // Suit up for a visit
-      this.equip();
+      if (!data.equip()) {
+        return;
+      }
 
       String master = data.getMaster();
 
@@ -231,7 +237,7 @@ public class CoinMasterRequest extends GenericRequest {
         KoLmafia.updateDisplay(master + " successfully looted!");
       }
     } finally {
-      this.unequip();
+      data.unequip();
     }
   }
 
@@ -303,10 +309,6 @@ public class CoinMasterRequest extends GenericRequest {
       }
     }
   }
-
-  public void equip() {}
-
-  public void unequip() {}
 
   @Override
   public void processResults() {

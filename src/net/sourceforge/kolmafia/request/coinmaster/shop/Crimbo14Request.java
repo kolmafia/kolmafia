@@ -4,10 +4,8 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
-import net.sourceforge.kolmafia.shop.ShopRequest;
 
-public class Crimbo14Request extends CoinMasterRequest {
+public abstract class Crimbo14Request extends CoinMasterShopRequest {
   public static final String master = "Crimbo 2014";
   public static final String SHOPID = "crimbo14";
 
@@ -26,17 +24,4 @@ public class Crimbo14Request extends CoinMasterRequest {
           .withSellAction("buyitem")
           .withSellItems(master)
           .withSellPrices(master);
-
-  public Crimbo14Request() {
-    super(CRIMBO14);
-  }
-
-  public Crimbo14Request(final boolean buying, final AdventureResult[] attachments) {
-    super(CRIMBO14, buying, attachments);
-  }
-
-  @Override
-  public void processResults() {
-    ShopRequest.parseResponse(this.getURLString(), this.responseText);
-  }
 }

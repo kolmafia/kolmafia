@@ -5,11 +5,9 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.QuestManager;
-import net.sourceforge.kolmafia.shop.ShopRequest;
 
-public class AppleStoreRequest extends CoinMasterRequest {
+public abstract class AppleStoreRequest extends CoinMasterShopRequest {
   public static final String master = "The Applecalypse Store";
   public static final String SHOPID = "applestore";
 
@@ -25,19 +23,6 @@ public class AppleStoreRequest extends CoinMasterRequest {
           .withShopRowFields(master, SHOPID)
           .withVisitShop(AppleStoreRequest::visitShop)
           .withAccessible(AppleStoreRequest::accessible);
-
-  public AppleStoreRequest() {
-    super(APPLE_STORE);
-  }
-
-  public AppleStoreRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(APPLE_STORE, buying, attachments);
-  }
-
-  @Override
-  public void processResults() {
-    ShopRequest.parseResponse(this.getURLString(), this.responseText);
-  }
 
   public static void visitShop(final String responseText) {
     QuestManager.handleTimeTower(!responseText.contains("That store isn't there anymore."));

@@ -5,10 +5,8 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
-import net.sourceforge.kolmafia.shop.ShopRequest;
 
-public class Crimbo23ElfCafeRequest extends CoinMasterRequest {
+public abstract class Crimbo23ElfCafeRequest extends CoinMasterShopRequest {
   public static final String master = "Elf Guard Mess Hall";
   public static final String SHOPID = "crimbo23_elf_cafe";
 
@@ -24,22 +22,6 @@ public class Crimbo23ElfCafeRequest extends CoinMasterRequest {
           .withItem(TOKEN)
           .withShopRowFields(master, SHOPID)
           .withAccessible(Crimbo23ElfCafeRequest::accessible);
-
-  public Crimbo23ElfCafeRequest() {
-    super(DATA);
-  }
-
-  public Crimbo23ElfCafeRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(DATA, buying, attachments);
-  }
-
-  @Override
-  public void processResults() {
-    String responseText = this.responseText;
-    if (!responseText.contains("War has consumed this area.")) {
-      ShopRequest.parseResponse(this.getURLString(), this.responseText);
-    }
-  }
 
   public static String accessible() {
     return switch (Preferences.getString("crimbo23CafeControl")) {

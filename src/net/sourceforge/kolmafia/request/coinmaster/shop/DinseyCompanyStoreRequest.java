@@ -6,10 +6,8 @@ import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
-import net.sourceforge.kolmafia.shop.ShopRequest;
 
-public class DinseyCompanyStoreRequest extends CoinMasterRequest {
+public abstract class DinseyCompanyStoreRequest extends CoinMasterShopRequest {
   public static final String master = "The Dinsey Company Store";
   public static final String SHOPID = "landfillstore";
 
@@ -24,19 +22,6 @@ public class DinseyCompanyStoreRequest extends CoinMasterRequest {
           .withItem(COIN)
           .withShopRowFields(master, SHOPID)
           .withAccessible(DinseyCompanyStoreRequest::accessible);
-
-  public DinseyCompanyStoreRequest() {
-    super(DINSEY_COMPANY_STORE);
-  }
-
-  public DinseyCompanyStoreRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(DINSEY_COMPANY_STORE, buying, attachments);
-  }
-
-  @Override
-  public void processResults() {
-    ShopRequest.parseResponse(this.getURLString(), this.responseText);
-  }
 
   public static String accessible() {
     if (!Preferences.getBoolean("_stenchAirportToday")

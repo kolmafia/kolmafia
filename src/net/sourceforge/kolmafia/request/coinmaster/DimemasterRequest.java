@@ -39,6 +39,7 @@ public class DimemasterRequest extends CoinMasterRequest {
           .withCountField("quantity")
           .withCountPattern(GenericRequest.QUANTITY_PATTERN)
           .withCanBuyItem(DimemasterRequest::canBuyItem)
+          .withEquip(DimemasterRequest::equip)
           .withAccessible(DimemasterRequest::accessible);
 
   private static Boolean canBuyItem(final Integer itemId) {
@@ -84,12 +85,12 @@ public class DimemasterRequest extends CoinMasterRequest {
     return null;
   }
 
-  @Override
-  public void equip() {
+  public static Boolean equip() {
     if (!EquipmentManager.isWearingOutfit(OutfitPool.WAR_HIPPY_OUTFIT)) {
       SpecialOutfit outfit = EquipmentDatabase.getOutfit(OutfitPool.WAR_HIPPY_OUTFIT);
       EquipmentRequest request = new EquipmentRequest(outfit);
       RequestThread.postRequest(request);
     }
+    return true;
   }
 }

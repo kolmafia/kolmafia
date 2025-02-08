@@ -6,10 +6,8 @@ import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
-import net.sourceforge.kolmafia.shop.ShopRequest;
 
-public class DiscoGiftCoRequest extends CoinMasterRequest {
+public abstract class DiscoGiftCoRequest extends CoinMasterShopRequest {
   public static final String master = "Disco GiftCo";
   public static final String SHOPID = "infernodisco";
 
@@ -23,19 +21,6 @@ public class DiscoGiftCoRequest extends CoinMasterRequest {
           .withItem(COIN)
           .withShopRowFields(master, SHOPID)
           .withAccessible(DiscoGiftCoRequest::accessible);
-
-  public DiscoGiftCoRequest() {
-    super(DISCO_GIFTCO);
-  }
-
-  public DiscoGiftCoRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(DISCO_GIFTCO, buying, attachments);
-  }
-
-  @Override
-  public void processResults() {
-    ShopRequest.parseResponse(this.getURLString(), this.responseText);
-  }
 
   public static String accessible() {
     if (!Preferences.getBoolean("_hotAirportToday")

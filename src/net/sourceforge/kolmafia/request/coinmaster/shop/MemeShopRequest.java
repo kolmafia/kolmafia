@@ -5,10 +5,8 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
-import net.sourceforge.kolmafia.shop.ShopRequest;
 
-public class MemeShopRequest extends CoinMasterRequest {
+public abstract class MemeShopRequest extends CoinMasterShopRequest {
   public static final String master = "Internet Meme Shop";
   public static final String SHOPID = "bacon";
 
@@ -49,19 +47,6 @@ public class MemeShopRequest extends CoinMasterRequest {
     if (property != null) {
       Preferences.setBoolean(property, true);
     }
-  }
-
-  public MemeShopRequest() {
-    super(BACON_STORE);
-  }
-
-  public MemeShopRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(BACON_STORE, buying, attachments);
-  }
-
-  @Override
-  public void processResults() {
-    ShopRequest.parseResponse(this.getURLString(), this.responseText);
   }
 
   public static void visitShop(String responseText) {

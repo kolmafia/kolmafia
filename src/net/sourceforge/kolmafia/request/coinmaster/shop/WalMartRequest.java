@@ -6,10 +6,8 @@ import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
-import net.sourceforge.kolmafia.shop.ShopRequest;
 
-public class WalMartRequest extends CoinMasterRequest {
+public abstract class WalMartRequest extends CoinMasterShopRequest {
   public static final String master = "Wal-Mart";
   public static final String SHOPID = "glaciest";
 
@@ -24,19 +22,6 @@ public class WalMartRequest extends CoinMasterRequest {
           .withItem(COIN)
           .withShopRowFields(master, SHOPID)
           .withAccessible(WalMartRequest::accessible);
-
-  public WalMartRequest() {
-    super(WALMART);
-  }
-
-  public WalMartRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(WALMART, buying, attachments);
-  }
-
-  @Override
-  public void processResults() {
-    ShopRequest.parseResponse(this.getURLString(), this.responseText);
-  }
 
   public static String accessible() {
     if (!Preferences.getBoolean("_coldAirportToday")

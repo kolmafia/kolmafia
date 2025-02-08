@@ -5,10 +5,8 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
-import net.sourceforge.kolmafia.shop.ShopRequest;
 
-public class NuggletCraftingRequest extends CoinMasterRequest {
+public abstract class NuggletCraftingRequest extends CoinMasterShopRequest {
   public static final String master = "Topiary Nuggletcrafting";
   public static final String SHOPID = "topiary";
 
@@ -23,19 +21,6 @@ public class NuggletCraftingRequest extends CoinMasterRequest {
           .withItem(TOPIARY_NUGGLET)
           .withShopRowFields(master, SHOPID)
           .withAccessible(NuggletCraftingRequest::accessible);
-
-  public NuggletCraftingRequest() {
-    super(NUGGLETCRAFTING);
-  }
-
-  public NuggletCraftingRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(NUGGLETCRAFTING, buying, attachments);
-  }
-
-  @Override
-  public void processResults() {
-    ShopRequest.parseResponse(this.getURLString(), this.responseText);
-  }
 
   public static String accessible() {
     if (TOPIARY_NUGGLET.getCount(KoLConstants.inventory) == 0) {
