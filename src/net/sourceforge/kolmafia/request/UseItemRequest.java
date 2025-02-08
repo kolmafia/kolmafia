@@ -1685,6 +1685,8 @@ public class UseItemRequest extends GenericRequest {
           KoLAdventure.setLastAdventure("None");
           KoLAdventure.setNextAdventure("None");
           RequestLogger.registerLocation(itemName);
+          // This will be a forced fight. Treat it like a multi fight.
+          FightRequest.checkForMultiFight(true, responseText);
         }
       }
     }

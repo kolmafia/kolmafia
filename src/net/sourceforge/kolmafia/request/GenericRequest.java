@@ -2494,13 +2494,6 @@ public class GenericRequest implements Runnable {
         itemName = "Drum Machine";
         consumed = true;
       }
-      case ItemPool.APRIL_BAND_TOM -> {
-        if (InventoryManager.hasItem(ItemPool.WORM_RIDING_HOOKS)) {
-          return;
-        }
-        itemName = "Apriling Band Quad Tom";
-        consumed = true;
-      }
       case ItemPool.DOLPHIN_WHISTLE -> {
         itemName = "Dolphin Whistle";
         consumed = true;
