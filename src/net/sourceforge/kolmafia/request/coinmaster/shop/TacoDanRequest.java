@@ -6,10 +6,8 @@ import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
-import net.sourceforge.kolmafia.shop.ShopRequest;
 
-public class TacoDanRequest extends CoinMasterRequest {
+public abstract class TacoDanRequest extends CoinMasterShopRequest {
   public static final String master = "Taco Dan's Taco Stand";
   public static final String SHOPID = "sbb_taco";
 
@@ -32,19 +30,6 @@ public class TacoDanRequest extends CoinMasterRequest {
           .equals("finished");
       default -> ItemPool.get(itemId).getCount(TACO_DAN.getBuyItems()) > 0;
     };
-  }
-
-  public TacoDanRequest() {
-    super(TACO_DAN);
-  }
-
-  public TacoDanRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(TACO_DAN, buying, attachments);
-  }
-
-  @Override
-  public void processResults() {
-    ShopRequest.parseResponse(this.getURLString(), this.responseText);
   }
 
   public static String accessible() {

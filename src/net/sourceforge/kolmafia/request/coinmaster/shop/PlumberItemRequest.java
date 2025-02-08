@@ -5,10 +5,8 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
-import net.sourceforge.kolmafia.shop.ShopRequest;
 
-public class PlumberItemRequest extends CoinMasterRequest {
+public abstract class PlumberItemRequest extends CoinMasterShopRequest {
   public static final String master = "Mushroom District Item Shop";
   public static final String SHOPID = "marioitems";
 
@@ -23,19 +21,6 @@ public class PlumberItemRequest extends CoinMasterRequest {
           .withItem(COIN)
           .withShopRowFields(master, SHOPID)
           .withAccessible(PlumberItemRequest::accessible);
-
-  public PlumberItemRequest() {
-    super(PLUMBER_ITEMS);
-  }
-
-  public PlumberItemRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(PLUMBER_ITEMS, buying, attachments);
-  }
-
-  @Override
-  public void processResults() {
-    ShopRequest.parseResponse(this.getURLString(), this.responseText);
-  }
 
   public static String accessible() {
     if (!KoLCharacter.isPlumber()) {

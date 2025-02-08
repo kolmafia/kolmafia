@@ -357,6 +357,8 @@ public class GenericRequest implements Runnable {
     return GenericRequest.KOL_HOST;
   }
 
+  public GenericRequest() {}
+
   /**
    * Constructs a new GenericRequest which will notify the given client of any changes and will use
    * the given URL for data submission.

@@ -4,11 +4,9 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.shop.ShopRequest;
 
-public class GuzzlrRequest extends CoinMasterRequest {
+public abstract class GuzzlrRequest extends CoinMasterShopRequest {
   public static final String master = "Guzzlr Company Store Website";
   public static final String SHOPID = "guzzlr";
 
@@ -22,19 +20,6 @@ public class GuzzlrRequest extends CoinMasterRequest {
           .withItem(GUZZLRBUCK)
           .withShopRowFields(master, SHOPID)
           .withAccessible(GuzzlrRequest::accessible);
-
-  public GuzzlrRequest() {
-    super(GUZZLR);
-  }
-
-  public GuzzlrRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(GUZZLR, buying, attachments);
-  }
-
-  @Override
-  public void processResults() {
-    ShopRequest.parseResponse(this.getURLString(), this.responseText);
-  }
 
   public static String accessible() {
     if (InventoryManager.getAccessibleCount(GUZZLRBUCK) > 0) {

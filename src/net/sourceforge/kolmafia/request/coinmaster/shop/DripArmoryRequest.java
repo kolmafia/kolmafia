@@ -5,11 +5,9 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.shop.ShopRequest;
 
-public class DripArmoryRequest extends CoinMasterRequest {
+public abstract class DripArmoryRequest extends CoinMasterShopRequest {
   public static final String master = "Drip Institute Armory";
   public static final String SHOPID = "driparmory";
 
@@ -32,19 +30,6 @@ public class DripArmoryRequest extends CoinMasterRequest {
           && !InventoryManager.hasItem(item);
       default -> item.getCount(DRIP_ARMORY.getBuyItems()) > 0;
     };
-  }
-
-  public DripArmoryRequest() {
-    super(DRIP_ARMORY);
-  }
-
-  public DripArmoryRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(DRIP_ARMORY, buying, attachments);
-  }
-
-  @Override
-  public void processResults() {
-    ShopRequest.parseResponse(this.getURLString(), responseText);
   }
 
   public static void visitShop(String responseText) {

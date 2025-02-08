@@ -22,6 +22,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.coinmaster.HermitRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.CoinMasterShopRequest;
 import net.sourceforge.kolmafia.shop.ShopDatabase;
 import net.sourceforge.kolmafia.shop.ShopDatabase.SHOP;
 import net.sourceforge.kolmafia.shop.ShopRow;
@@ -111,6 +112,8 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   private Supplier<String> canBuy = this::canBuyInternal;
   private Supplier<String> canSell = this::canSellInternal;
   private Supplier<String> accessible = this::accessibleInternal;
+  private Supplier<Boolean> equip = this::equipInternal;
+  private Supplier<Boolean> unequip = this::unequipInternal;
 
   // Constructor for CoinmasterData with only mandatory fields.
   // Optional fields can be added fluidly.
@@ -729,6 +732,30 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   }
 
   /**
+   * Specifies a static method that will be invoked by <code>String
+   * equip()</code>
+   *
+   * @param supplier - a Supplier object to be called by equip
+   * @return this - Allows fluid chaining of fields
+   */
+  public CoinmasterData withEquip(Supplier<Boolean> supplier) {
+    this.equip = supplier;
+    return this;
+  }
+
+  /**
+   * Specifies a static method that will be invoked by <code>String
+   * unequip()</code>
+   *
+   * @param supplier - a Supplier object to be called by equip
+   * @return this - Allows fluid chaining of fields
+   */
+  public CoinmasterData withUnequip(Supplier<Boolean> supplier) {
+    this.unequip = supplier;
+    return this;
+  }
+
+  /**
    * Populates the ten fields for a standard <code>shop.php</code> coinmaster that uses row #s.
    *
    * <ul>
@@ -1306,6 +1333,10 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   }
 
   public CoinMasterRequest getRequest() {
+    if (this.shopId != null) {
+      return new CoinMasterShopRequest(this);
+    }
+
     Class<? extends CoinMasterRequest> requestClass = this.getRequestClass();
     Class<?>[] parameters = new Class<?>[0];
 
@@ -1320,6 +1351,10 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   }
 
   public CoinMasterRequest getRequest(final boolean buying, final AdventureResult[] items) {
+    if (this.shopId != null) {
+      return new CoinMasterShopRequest(this, buying, items);
+    }
+
     Class<? extends CoinMasterRequest> requestClass = this.getRequestClass();
     Class<?>[] parameters = new Class<?>[2];
     parameters[0] = boolean.class;
@@ -1338,21 +1373,11 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   }
 
   public CoinMasterRequest getRequest(final ShopRow row, final int quantity) {
-    Class<? extends CoinMasterRequest> requestClass = this.getRequestClass();
-    Class<?>[] parameters = new Class<?>[2];
-    parameters[0] = ShopRow.class;
-    parameters[1] = int.class;
-
-    try {
-      Constructor<? extends CoinMasterRequest> constructor =
-          requestClass.getConstructor(parameters);
-      Object[] initargs = new Object[2];
-      initargs[0] = row;
-      initargs[1] = quantity;
-      return constructor.newInstance(initargs);
-    } catch (Exception e) {
-      return null;
+    if (this.shopId != null) {
+      return new CoinMasterShopRequest(this, row, quantity);
     }
+    // If you are not using shop.php, you don't use ShopRows
+    return null;
   }
 
   public boolean isAccessible() {
@@ -1401,6 +1426,22 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   }
 
   private void visitShopInternal(String responseText) {}
+
+  public Boolean equip() {
+    return this.equip.get();
+  }
+
+  public Boolean equipInternal() {
+    return true;
+  }
+
+  public Boolean unequip() {
+    return this.unequip.get();
+  }
+
+  public Boolean unequipInternal() {
+    return true;
+  }
 
   // *** For testing
   public void setDisabled(boolean isDisabled) {

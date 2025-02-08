@@ -7,12 +7,10 @@ import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
-import net.sourceforge.kolmafia.shop.ShopRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-public class TicketCounterRequest extends CoinMasterRequest {
+public abstract class TicketCounterRequest extends CoinMasterShopRequest {
   public static final String master = "Arcade Ticket Counter";
   public static final String SHOPID = "arcade";
 
@@ -41,19 +39,6 @@ public class TicketCounterRequest extends CoinMasterRequest {
           ItemPool.METEOID_ICE_BEAM -> !Preferences.getBoolean("lockedItem" + itemId);
       default -> ItemPool.get(itemId).getCount(TICKET_COUNTER.getBuyItems()) > 0;
     };
-  }
-
-  public TicketCounterRequest() {
-    super(TICKET_COUNTER);
-  }
-
-  public TicketCounterRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(TICKET_COUNTER, buying, attachments);
-  }
-
-  @Override
-  public void processResults() {
-    ShopRequest.parseResponse(this.getURLString(), this.responseText);
   }
 
   private static final Pattern ITEM_PATTERN =

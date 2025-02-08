@@ -5,11 +5,9 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.QuestManager;
-import net.sourceforge.kolmafia.shop.ShopRequest;
 
-public class NeandermallRequest extends CoinMasterRequest {
+public abstract class NeandermallRequest extends CoinMasterShopRequest {
   public static final String master = "The Neandermall";
   public static final String SHOPID = "caveshop";
 
@@ -25,19 +23,6 @@ public class NeandermallRequest extends CoinMasterRequest {
           .withShopRowFields(master, SHOPID)
           .withVisitShop(NeandermallRequest::visitShop)
           .withAccessible(NeandermallRequest::accessible);
-
-  public NeandermallRequest() {
-    super(NEANDERMALL);
-  }
-
-  public NeandermallRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(NEANDERMALL, buying, attachments);
-  }
-
-  @Override
-  public void processResults() {
-    ShopRequest.parseResponse(this.getURLString(), this.responseText);
-  }
 
   public static void visitShop(final String responseText) {
     QuestManager.handleTimeTower(!responseText.contains("That store isn't there anymore."));

@@ -6,10 +6,8 @@ import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
-import net.sourceforge.kolmafia.shop.ShopRequest;
 
-public class BuffJimmyRequest extends CoinMasterRequest {
+public abstract class BuffJimmyRequest extends CoinMasterShopRequest {
   public static final String master = "Buff Jimmy's Souvenir Shop";
   public static final String SHOPID = "sbb_jimmy";
 
@@ -23,19 +21,6 @@ public class BuffJimmyRequest extends CoinMasterRequest {
           .withItem(COIN)
           .withShopRowFields(master, SHOPID)
           .withAccessible(BuffJimmyRequest::accessible);
-
-  public BuffJimmyRequest() {
-    super(BUFF_JIMMY);
-  }
-
-  public BuffJimmyRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(BUFF_JIMMY, buying, attachments);
-  }
-
-  @Override
-  public void processResults() {
-    ShopRequest.parseResponse(this.getURLString(), this.responseText);
-  }
 
   public static String accessible() {
     if (!Preferences.getBoolean("_sleazeAirportToday")

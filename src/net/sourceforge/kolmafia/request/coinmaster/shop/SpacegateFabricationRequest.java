@@ -5,10 +5,8 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
-import net.sourceforge.kolmafia.shop.ShopRequest;
 
-public class SpacegateFabricationRequest extends CoinMasterRequest {
+public abstract class SpacegateFabricationRequest extends CoinMasterShopRequest {
   public static final String master = "Spacegate Fabrication Facility";
   public static final String SHOPID = "spacegate";
 
@@ -24,19 +22,6 @@ public class SpacegateFabricationRequest extends CoinMasterRequest {
           .withItem(RESEARCH)
           .withShopRowFields(master, SHOPID)
           .withAccessible(SpacegateFabricationRequest::accessible);
-
-  public SpacegateFabricationRequest() {
-    super(SPACEGATE_STORE);
-  }
-
-  public SpacegateFabricationRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(SPACEGATE_STORE, buying, attachments);
-  }
-
-  @Override
-  public void processResults() {
-    ShopRequest.parseResponse(this.getURLString(), this.responseText);
-  }
 
   public static String accessible() {
     if (!Preferences.getBoolean("_spacegateToday") && !Preferences.getBoolean("spacegateAlways")) {

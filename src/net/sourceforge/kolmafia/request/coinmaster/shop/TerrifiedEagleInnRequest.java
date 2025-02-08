@@ -6,11 +6,9 @@ import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
-import net.sourceforge.kolmafia.shop.ShopRequest;
 
-public class TerrifiedEagleInnRequest extends CoinMasterRequest {
+public abstract class TerrifiedEagleInnRequest extends CoinMasterShopRequest {
   public static final String master = "The Terrified Eagle Inn";
   public static final String SHOPID = "dv";
 
@@ -35,18 +33,5 @@ public class TerrifiedEagleInnRequest extends CoinMasterRequest {
           || KoLCharacter.hasEquipped(EquipmentManager.REPLICA_FOLDER_HOLDER);
       default -> ItemPool.get(itemId).getCount(TERRIFIED_EAGLE_INN.getBuyItems()) > 0;
     };
-  }
-
-  public TerrifiedEagleInnRequest() {
-    super(TERRIFIED_EAGLE_INN);
-  }
-
-  public TerrifiedEagleInnRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(TERRIFIED_EAGLE_INN, buying, attachments);
-  }
-
-  @Override
-  public void processResults() {
-    ShopRequest.parseResponse(this.getURLString(), this.responseText);
   }
 }

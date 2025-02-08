@@ -12,14 +12,12 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.StandardRewardDatabase;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.shop.ShopRequest;
 import net.sourceforge.kolmafia.shop.ShopRow;
 import net.sourceforge.kolmafia.shop.ShopRowDatabase;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-public class ArmoryAndLeggeryRequest extends CoinMasterRequest {
+public abstract class ArmoryAndLeggeryRequest extends CoinMasterShopRequest {
   public static final String master = "Armory & Leggery";
   public static final String SHOPID = "armory";
 
@@ -42,7 +40,7 @@ public class ArmoryAndLeggeryRequest extends CoinMasterRequest {
     ArmoryAndLeggeryRequest.initializeCoinMasterInventory();
   }
 
-  private static void initializeCoinMasterInventory() {
+  public static void initializeCoinMasterInventory() {
     CoinmasterData data = ARMORY_AND_LEGGERY;
 
     List<AdventureResult> items = new ArrayList<>();
@@ -90,19 +88,6 @@ public class ArmoryAndLeggeryRequest extends CoinMasterRequest {
   private static Boolean canBuyItem(final Integer itemId) {
     AdventureResult cost = itemBuyPrice(itemId);
     return cost != null && InventoryManager.getCount(cost.getItemId()) > 0;
-  }
-
-  public ArmoryAndLeggeryRequest() {
-    super(ARMORY_AND_LEGGERY);
-  }
-
-  public ArmoryAndLeggeryRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(ARMORY_AND_LEGGERY, buying, attachments);
-  }
-
-  @Override
-  public void processResults() {
-    ShopRequest.parseResponse(this.getURLString(), responseText);
   }
 
   // <tr rel="7985"><td valign=center></td><td><img

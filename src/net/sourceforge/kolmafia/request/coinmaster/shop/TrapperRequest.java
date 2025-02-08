@@ -8,10 +8,8 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
-import net.sourceforge.kolmafia.shop.ShopRequest;
 
-public class TrapperRequest extends CoinMasterRequest {
+public abstract class TrapperRequest extends CoinMasterShopRequest {
   public static final String master = "The Trapper";
   public static final String SHOPID = "trapper";
 
@@ -29,21 +27,8 @@ public class TrapperRequest extends CoinMasterRequest {
           .withVisitShop(TrapperRequest::visitShop)
           .withAccessible(TrapperRequest::accessible);
 
-  public TrapperRequest() {
-    super(TRAPPER);
-  }
-
-  public TrapperRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(TRAPPER, buying, attachments);
-  }
-
-  public TrapperRequest(final int itemId, final int quantity) {
-    super(TRAPPER, true, itemId, quantity);
-  }
-
-  @Override
-  public void processResults() {
-    ShopRequest.parseResponse(this.getURLString(), this.responseText);
+  public static CoinMasterShopRequest getRequest(final int itemId, final int quantity) {
+    return CoinMasterShopRequest.getRequest(TRAPPER, true, itemId, quantity);
   }
 
   public static void visitShop(String responseText) {

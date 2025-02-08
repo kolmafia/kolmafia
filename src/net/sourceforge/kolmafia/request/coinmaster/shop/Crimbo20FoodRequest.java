@@ -5,10 +5,8 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
-import net.sourceforge.kolmafia.shop.ShopRequest;
 
-public class Crimbo20FoodRequest extends CoinMasterRequest {
+public abstract class Crimbo20FoodRequest extends CoinMasterShopRequest {
   public static final String master = "Elf Food Drive";
   public static final String SHOPID = "crimbo20food";
 
@@ -35,18 +33,5 @@ public class Crimbo20FoodRequest extends CoinMasterRequest {
           == 0;
       default -> item.getCount(CRIMBO20FOOD.getBuyItems()) > 0;
     };
-  }
-
-  public Crimbo20FoodRequest() {
-    super(CRIMBO20FOOD);
-  }
-
-  public Crimbo20FoodRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(CRIMBO20FOOD, buying, attachments);
-  }
-
-  @Override
-  public void processResults() {
-    ShopRequest.parseResponse(this.getURLString(), this.responseText);
   }
 }

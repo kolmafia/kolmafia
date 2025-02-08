@@ -5,10 +5,8 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
-import net.sourceforge.kolmafia.shop.ShopRequest;
 
-public class PokemporiumRequest extends CoinMasterRequest {
+public abstract class PokemporiumRequest extends CoinMasterShopRequest {
   public static final String master = "The Pok&eacute;mporium";
   public static final String SHOPID = "pokefam";
 
@@ -36,19 +34,6 @@ public class PokemporiumRequest extends CoinMasterRequest {
 
   private static Boolean canBuyItem(final Integer itemId) {
     return KoLCharacter.inPokefam();
-  }
-
-  public PokemporiumRequest() {
-    super(POKEMPORIUM);
-  }
-
-  public PokemporiumRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(POKEMPORIUM, buying, attachments);
-  }
-
-  @Override
-  public void processResults() {
-    ShopRequest.parseResponse(this.getURLString(), this.responseText);
   }
 
   public static String accessible() {

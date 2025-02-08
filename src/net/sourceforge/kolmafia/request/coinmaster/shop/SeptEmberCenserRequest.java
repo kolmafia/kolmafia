@@ -1,15 +1,13 @@
 package net.sourceforge.kolmafia.request.coinmaster.shop;
 
 import java.util.regex.Pattern;
-import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.shop.ShopRequest;
 
-public class SeptEmberCenserRequest extends CoinMasterRequest {
+public abstract class SeptEmberCenserRequest extends CoinMasterShopRequest {
   public static final String master = "Sept-Ember Censer";
   public static final String SHOPID = "september";
 
@@ -25,17 +23,8 @@ public class SeptEmberCenserRequest extends CoinMasterRequest {
           .withVisitShop(SeptEmberCenserRequest::visitShop)
           .withAccessible(SeptEmberCenserRequest::accessible);
 
-  public SeptEmberCenserRequest() {
-    super(SEPTEMBER_CENSER);
-  }
-
-  public SeptEmberCenserRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(SEPTEMBER_CENSER, buying, attachments);
-  }
-
-  @Override
-  public void processResults() {
-    ShopRequest.parseResponse(this.getURLString(), this.responseText);
+  public static CoinMasterShopRequest getRequest() {
+    return CoinMasterShopRequest.getRequest(SEPTEMBER_CENSER);
   }
 
   public static void visitShop(final String responseText) {

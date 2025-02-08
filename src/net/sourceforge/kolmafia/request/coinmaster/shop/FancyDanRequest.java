@@ -8,10 +8,8 @@ import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
-import net.sourceforge.kolmafia.shop.ShopRequest;
 
-public class FancyDanRequest extends CoinMasterRequest {
+public abstract class FancyDanRequest extends CoinMasterShopRequest {
   public static final String master = "Fancy Dan the Cocktail Man";
   public static final String SHOPID = "olivers";
 
@@ -52,19 +50,6 @@ public class FancyDanRequest extends CoinMasterRequest {
 
   private static AdventureResult itemBuyPrice(final Integer itemId) {
     return buyCosts.get(itemId);
-  }
-
-  public FancyDanRequest() {
-    super(FANCY_DAN);
-  }
-
-  public FancyDanRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(FANCY_DAN, buying, attachments);
-  }
-
-  @Override
-  public void processResults() {
-    ShopRequest.parseResponse(this.getURLString(), this.responseText);
   }
 
   public static String accessible() {

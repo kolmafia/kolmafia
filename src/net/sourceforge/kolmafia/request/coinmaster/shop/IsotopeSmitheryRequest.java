@@ -1,12 +1,9 @@
 package net.sourceforge.kolmafia.request.coinmaster.shop;
 
-import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
-import net.sourceforge.kolmafia.shop.ShopRequest;
 
-public class IsotopeSmitheryRequest extends CoinMasterRequest {
+public abstract class IsotopeSmitheryRequest extends CoinMasterShopRequest {
   public static final String master = "Isotope Smithery";
   public static final String SHOPID = "elvishp1";
 
@@ -18,23 +15,6 @@ public class IsotopeSmitheryRequest extends CoinMasterRequest {
           .withItem(SpaaaceRequest.ISOTOPE)
           .withShopRowFields(master, SHOPID)
           .withVisitShop(SpaaaceRequest::visitShop)
+          .withEquip(SpaaaceRequest::equip)
           .withAccessible(SpaaaceRequest::accessible);
-
-  public IsotopeSmitheryRequest() {
-    super(ISOTOPE_SMITHERY);
-  }
-
-  public IsotopeSmitheryRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(ISOTOPE_SMITHERY, buying, attachments);
-  }
-
-  @Override
-  public void processResults() {
-    ShopRequest.parseResponse(this.getURLString(), this.responseText);
-  }
-
-  @Override
-  public void equip() {
-    SpaaaceRequest.equip();
-  }
 }

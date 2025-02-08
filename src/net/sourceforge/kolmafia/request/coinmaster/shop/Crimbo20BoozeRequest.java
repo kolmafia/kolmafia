@@ -5,10 +5,8 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
-import net.sourceforge.kolmafia.shop.ShopRequest;
 
-public class Crimbo20BoozeRequest extends CoinMasterRequest {
+public abstract class Crimbo20BoozeRequest extends CoinMasterShopRequest {
   public static final String master = "Elf Booze Drive";
   public static final String SHOPID = "crimbo20booze";
 
@@ -35,18 +33,5 @@ public class Crimbo20BoozeRequest extends CoinMasterRequest {
           == 0;
       default -> item.getCount(CRIMBO20BOOZE.getBuyItems()) > 0;
     };
-  }
-
-  public Crimbo20BoozeRequest() {
-    super(CRIMBO20BOOZE);
-  }
-
-  public Crimbo20BoozeRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(CRIMBO20BOOZE, buying, attachments);
-  }
-
-  @Override
-  public void processResults() {
-    ShopRequest.parseResponse(this.getURLString(), this.responseText);
   }
 }
