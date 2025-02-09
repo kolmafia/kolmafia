@@ -81,11 +81,11 @@ public class MrStore2002RequestTest {
             withPath(Path.STANDARD),
             withNoItems(),
             withItem(ItemPool.MR_STORE_2002_CATALOG),
-            withProperty("availableMrStore2002Credits", 1),
+            withProperty("availableMrStore2002Credits", 3),
             withProperty("_2002MrStoreCreditsCollected", false));
     try (cleanups) {
       client.addResponse(200, html("request/test_use_mr_store_2002_catalog.html"));
-      client.addResponse(200, html("request/test_buy_from_mr_store_2002.html"));
+      client.addResponse(200, html("request/test_buy_from_mr_store_2002_ajax.html"));
       client.addResponse(200, ""); // api.php
 
       var request =
