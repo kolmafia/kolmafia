@@ -307,7 +307,7 @@ public class CoinMasterRequestTest {
         assertPostRequest(
             requests.get(0),
             "/shop.php",
-            "whichshop=crimbo23_elf_armory&action=buyitem&quantity=1&whichrow=1411");
+            "whichshop=crimbo23_elf_armory&action=buyitem&ajax=1&quantity=1&whichrow=1411");
         assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
       }
     }
@@ -404,7 +404,7 @@ public class CoinMasterRequestTest {
         assertPostRequest(
             requests.get(0),
             "/shop.php",
-            "whichshop=crimbo23_elf_armory&action=buyitem&quantity=13&whichrow=1412");
+            "whichshop=crimbo23_elf_armory&action=buyitem&ajax=1&quantity=13&whichrow=1412");
         assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
       }
     }
