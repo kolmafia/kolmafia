@@ -52,13 +52,6 @@ public class CoinMasterRequest extends GenericRequest {
     this.action = action;
   }
 
-  public CoinMasterRequest(final CoinmasterData data, final ShopRow row, final int quantity) {
-    this(data, data.getBuyAction());
-    this.row = row;
-    this.addFormField("whichrow", String.valueOf(row.getRow()));
-    this.quantity = quantity;
-  }
-
   public CoinMasterRequest(
       final CoinmasterData data, final boolean buying, final AdventureResult[] attachments) {
     super(buying ? data.getBuyURL() : data.getSellURL());

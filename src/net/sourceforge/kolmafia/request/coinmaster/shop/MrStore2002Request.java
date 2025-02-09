@@ -1,7 +1,6 @@
 package net.sourceforge.kolmafia.request.coinmaster.shop;
 
 import java.util.regex.Pattern;
-import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
@@ -30,14 +29,6 @@ public abstract class MrStore2002Request extends CoinMasterShopRequest {
           .withVisitShop(MrStore2002Request::visitShop)
           .withEquip(MrStore2002Request::equip)
           .withAccessible(MrStore2002Request::accessible);
-
-  public MrStore2002Request() {
-    super(MR_STORE_2002);
-  }
-
-  public MrStore2002Request(final boolean buying, final AdventureResult[] attachments) {
-    super(MR_STORE_2002, buying, attachments);
-  }
 
   public static int catalogToUse() {
     if (InventoryManager.hasItem(ItemPool.MR_STORE_2002_CATALOG)) {
