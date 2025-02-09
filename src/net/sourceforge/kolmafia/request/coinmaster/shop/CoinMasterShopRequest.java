@@ -8,8 +8,6 @@ import net.sourceforge.kolmafia.shop.ShopRequest;
 import net.sourceforge.kolmafia.shop.ShopRow;
 
 public class CoinMasterShopRequest extends CoinMasterRequest {
-  protected ShopRow row = null;
-
   public CoinMasterShopRequest() {}
 
   public CoinMasterShopRequest(final CoinmasterData data) {
@@ -21,15 +19,18 @@ public class CoinMasterShopRequest extends CoinMasterRequest {
   }
 
   public CoinMasterShopRequest(final CoinmasterData data, final ShopRow row, final int quantity) {
-    super(data);
+    super(data, "buyitem");
     this.row = row;
     this.quantity = quantity;
     this.addFormField("whichrow", String.valueOf(row.getRow()));
+    this.addFormField("quantity", String.valueOf(quantity));
+    this.addFormField("ajax", "1");
   }
 
   public CoinMasterShopRequest(
       final CoinmasterData data, final boolean buying, final AdventureResult[] attachments) {
     super(data, buying, attachments);
+    this.addFormField("ajax", "1");
   }
 
   // Convenience constructors, overridden by the handful of subclasses that need them.

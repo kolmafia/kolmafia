@@ -81,11 +81,11 @@ public class MrStore2002RequestTest {
             withPath(Path.STANDARD),
             withNoItems(),
             withItem(ItemPool.MR_STORE_2002_CATALOG),
-            withProperty("availableMrStore2002Credits", 1),
+            withProperty("availableMrStore2002Credits", 3),
             withProperty("_2002MrStoreCreditsCollected", false));
     try (cleanups) {
       client.addResponse(200, html("request/test_use_mr_store_2002_catalog.html"));
-      client.addResponse(200, html("request/test_buy_from_mr_store_2002.html"));
+      client.addResponse(200, html("request/test_buy_from_mr_store_2002_ajax.html"));
       client.addResponse(200, ""); // api.php
 
       var request =
@@ -110,7 +110,7 @@ public class MrStore2002RequestTest {
       assertPostRequest(
           requests.get(1),
           "/shop.php",
-          "whichshop=mrstore2002&action=buyitem&quantity=1&whichrow=1387");
+          "whichshop=mrstore2002&action=buyitem&ajax=1&quantity=1&whichrow=1387");
       assertPostRequest(requests.get(2), "/api.php", "what=status&for=KoLmafia");
     }
   }
