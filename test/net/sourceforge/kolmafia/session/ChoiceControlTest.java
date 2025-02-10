@@ -1245,4 +1245,89 @@ class ChoiceControlTest {
       }
     }
   }
+
+  @Nested
+  class BoxingDaycare {
+    @Test
+    void canParseInstructorItems() {
+      var cleanups =
+          new Cleanups(
+              withPostChoice1(0, 0),
+              withProperty("daycareInstructorItem", 0),
+              withProperty("daycareInstructorItemQuantity", 0));
+      try (cleanups) {
+        var req = new GenericRequest("choice.php?whichchoice=1336");
+        req.responseText = html("request/test_choice_boxing_daycare.html");
+
+        ChoiceManager.visitChoice(req);
+        assertThat("daycareInstructorItem", isSetTo(5816));
+        assertThat("daycareInstructorItemQuantity", isSetTo(11));
+      }
+    }
+
+    @Test
+    void canParseRecruits() {
+      var cleanups = new Cleanups(withPostChoice1(0, 0), withProperty("_daycareRecruits", 0));
+      try (cleanups) {
+        var req = new GenericRequest("choice.php?whichchoice=1336");
+        req.responseText = html("request/test_choice_boxing_daycare.html");
+
+        ChoiceManager.visitChoice(req);
+        assertThat("_daycareRecruits", isSetTo(1));
+      }
+    }
+
+    @Test
+    void canParseToddlersLate() {
+      var cleanups = new Cleanups(withPostChoice1(0, 0), withProperty("daycareToddlers", 0));
+      try (cleanups) {
+        var req = new GenericRequest("choice.php?whichchoice=1336");
+        req.responseText = html("request/test_choice_boxing_daycare.html");
+
+        ChoiceManager.visitChoice(req);
+        assertThat("daycareToddlers", isSetTo(2782));
+      }
+    }
+
+    @Test
+    void canParseGymEquipment() {
+      var cleanups = new Cleanups(withPostChoice1(0, 0), withProperty("daycareEquipment", 0));
+      try (cleanups) {
+        var req = new GenericRequest("choice.php?whichchoice=1336");
+        req.responseText = html("request/test_choice_boxing_daycare.html");
+
+        ChoiceManager.visitChoice(req);
+        assertThat("daycareEquipment", isSetTo(2875));
+      }
+    }
+
+    @Test
+    void handlesBrokenReturnRecruits() {
+      var cleanups = new Cleanups(withPostChoice1(0, 0), withProperty("_daycareRecruits", 11));
+      try (cleanups) {
+        var req = new GenericRequest("choice.php?whichchoice=1336");
+        req.responseText = "";
+
+        ChoiceManager.visitChoice(req);
+        assertThat("_daycareRecruits", isSetTo(11));
+      }
+    }
+
+    @Test
+    void handlesBrokenReturnInstructorCost() {
+      var cleanups =
+          new Cleanups(
+              withPostChoice1(0, 0),
+              withProperty("daycareInstructorItem", 11),
+              withProperty("daycareInstructorItemQuantity", 69));
+      try (cleanups) {
+        var req = new GenericRequest("choice.php?whichchoice=1336");
+        req.responseText = "";
+
+        ChoiceManager.visitChoice(req);
+        assertThat("daycareInstructorItem", isSetTo(11));
+        assertThat("daycareInstructorItemQuantity", isSetTo(69));
+      }
+    }
+  }
 }

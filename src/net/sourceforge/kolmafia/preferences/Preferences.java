@@ -255,6 +255,8 @@ public class Preferences {
         "dampOldBootPurchased",
         "dartsThrown",
         "daycareEquipment",
+        "daycareInstructorItem",
+        "daycareInstructorItemQuantity",
         "daycareInstructors",
         "daycareToddlers",
         "deepDishOfLegendEaten",

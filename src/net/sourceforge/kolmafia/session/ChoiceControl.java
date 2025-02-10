@@ -7025,7 +7025,10 @@ public abstract class ChoiceControl {
       Pattern.compile(
           "(?:Looks like|Probably around) (.*?) pieces in all. (.*?) toddlers are training with (.*?) instructor");
   private static final Pattern DAYCARE_RECRUITS_PATTERN =
-      Pattern.compile("<font color=blue><b>[(.*?) Meat]</b></font>");
+      Pattern.compile("<font color=blue><b>\\[(.*?) Meat\\]</b></font>");
+  private static final Pattern DAYCARE_INSTRUCTOR_ITEM_PATTERN =
+      Pattern.compile(
+          "<input  class=button type=submit value=\"Hire an instructor \"></td><td valign=center><font color=blue><b>\\[(\\d*) (.*?)\\]</b>");
   private static final Pattern DINSEY_ROLLERCOASTER_PATTERN =
       Pattern.compile("rollercoaster is currently set to (.*?) Mode");
   private static final Pattern DINSEY_PIRATE_PATTERN =
@@ -8445,12 +8448,19 @@ public abstract class ChoiceControl {
             }
           }
           Matcher recruitsToday = DAYCARE_RECRUITS_PATTERN.matcher(text);
-          if (matcher.find()) {
+          if (recruitsToday.find()) {
             Preferences.setInteger(
                 "_daycareRecruits", (recruitsToday.group(1).replaceAll(",", "")).length() - 3);
           }
+          Matcher instructorItem = DAYCARE_INSTRUCTOR_ITEM_PATTERN.matcher(text);
+          Preferences.setInteger("daycareInstructorItem", 69);
+          if (instructorItem.find()) {
+            int quantity = Integer.parseInt(instructorItem.group(1).replaceAll(",", ""));
+            Preferences.setInteger("daycareInstructorItemQuantity", quantity);
+            Preferences.setInteger(
+                "daycareInstructorItem", ItemDatabase.getItemId(instructorItem.group(2), quantity));
+          }
           // *** Update _daycareScavenges
-          // *** Update daycareInstructorCost (new)
         }
       }
 
