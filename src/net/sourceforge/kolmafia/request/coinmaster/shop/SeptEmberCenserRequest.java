@@ -28,9 +28,11 @@ public abstract class SeptEmberCenserRequest extends CoinMasterShopRequest {
   }
 
   public static void visitShop(final String responseText) {
-    // Parse current coin balances
-    CoinMasterRequest.parseBalance(SEPTEMBER_CENSER, responseText);
-    Preferences.setBoolean("_septEmberBalanceChecked", true);
+    if (!Preferences.getBoolean("_septEmberBalanceChecked")) {
+      // Parse current coin balances
+      CoinMasterRequest.parseBalance(SEPTEMBER_CENSER, responseText);
+      Preferences.setBoolean("_septEmberBalanceChecked", true);
+    }
   }
 
   public static String accessible() {
