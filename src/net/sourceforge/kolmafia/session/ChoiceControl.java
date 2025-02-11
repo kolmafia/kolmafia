@@ -8453,7 +8453,6 @@ public abstract class ChoiceControl {
                 "_daycareRecruits", (recruitsToday.group(1).replaceAll(",", "")).length() - 3);
           }
           Matcher instructorItem = DAYCARE_INSTRUCTOR_ITEM_PATTERN.matcher(text);
-          Preferences.setInteger("daycareInstructorItem", 69);
           if (instructorItem.find()) {
             int quantity = Integer.parseInt(instructorItem.group(1).replaceAll(",", ""));
             Preferences.setInteger("daycareInstructorItemQuantity", quantity);
