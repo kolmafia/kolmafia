@@ -829,6 +829,42 @@ LT&T Gift Shop	buy	15	Western Slang Vol. 1: Violence	ROW800
 LT&T Gift Shop	buy	15	Western Slang Vol. 2: Cooking	ROW801
 LT&T Gift Shop	buy	15	Western Slang Vol. 3: Fraud	ROW802
 
+# Things you can buy with rads
+
+# --- Strength ---
+Fiddling With Your Genes	ROW852	Boiling Tear Ducts	rad (30)
+Fiddling With Your Genes	ROW856	Projectile Salivary Glands	rad (30)
+Fiddling With Your Genes	ROW855	Translucent Skin	rad (30)
+Fiddling With Your Genes	ROW854	Skunk Glands	rad (30)
+Fiddling With Your Genes	ROW853	Throat Refrigerant	rad (30)
+Fiddling With Your Genes	ROW869	Steroid Bladder	rad (60)
+Fiddling With Your Genes	ROW861	Extra Muscles	rad (90)
+# --- Endurance ---
+Fiddling With Your Genes	ROW868	Magic Sweat	rad (60)
+Fiddling With Your Genes	ROW867	Flappy Ears	rad (60)
+Fiddling With Your Genes	ROW860	Adipose Polymers	rad (90)
+Fiddling With Your Genes	ROW859	Metallic Skin	rad (90)
+# --- Charisma ---
+Fiddling With Your Genes	ROW863	Hypno-Eyes	rad (90)
+Fiddling With Your Genes	ROW871	Self-Combing Hair	rad (60)
+Fiddling With Your Genes	ROW876	Extremely Punchable Face	rad (90)
+# --- Intelligence ---
+Fiddling With Your Genes	ROW870	Intracranial Eye	rad (60)
+Fiddling With Your Genes	ROW857	Mind Bullets	rad (60)
+Fiddling With Your Genes	ROW862	Extra Brain	rad (90)
+# --- Luck ---
+Fiddling With Your Genes	ROW879	Internal Soda Machine	rad (30)
+Fiddling With Your Genes	ROW878	Extra Kidney	rad (60)
+Fiddling With Your Genes	ROW877	Extra Gall Bladder	rad (60)
+# --- Perception ---
+Fiddling With Your Genes	ROW873	Magnetic Ears	rad (90)
+Fiddling With Your Genes	ROW865	Sucker Fingers	rad (120)
+# --- Agility ---
+Fiddling With Your Genes	ROW874	Firefly Abdomen	rad (90)
+Fiddling With Your Genes	ROW872	Bone Springs	rad (90)
+Fiddling With Your Genes	ROW875	Squid Glands	rad (90)
+Fiddling With Your Genes	ROW864	Backwards Knees	rad (120)
+
 # BACON
 Internet Meme Shop	buy	20	viral video	ROW821
 Internet Meme Shop	buy	74	plus one	ROW824
