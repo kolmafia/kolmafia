@@ -145,7 +145,7 @@ public class ShopRequest extends GenericRequest {
     if (!ajax) {
       // Parse the inventory and learn new items for "row" (modern) shops.
       // Print npcstores.txt or coinmasters.txt entries for new rows.
-      // If it is a coinmaster, let it do extra parsing and set balances
+      // If it is a coinmaster, let it do extra parsing.
       parseShopInventory(shopId, responseText, false);
     }
 
@@ -162,7 +162,7 @@ public class ShopRequest extends GenericRequest {
     // If shopRow is null, we are just visiting.
     // Coinmasters have already parsed the inventory, in that case.
     // Give NPC shops the opportunity to examine the responseText.
-    if (shopRow == null || shopRow.isMeatPurchase()) {
+    if (shopType == SHOP.NPC || (shopRow != null && shopRow.isMeatPurchase())) {
       // A shop.php store that sells items for Meat will say
       //     You spent XX Meat.
       // Result processing handles that, so we need not process it.
@@ -256,7 +256,6 @@ public class ShopRequest extends GenericRequest {
     CoinmasterData cd = ShopDatabase.getCoinmasterData(shopId);
     if (cd != null) {
       cd.visitShop(responseText);
-      CoinMasterRequest.parseBalance(cd, responseText);
     }
 
     // Find all the ShopRow objects. Register any new items seen.

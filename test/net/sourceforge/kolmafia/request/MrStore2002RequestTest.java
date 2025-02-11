@@ -110,7 +110,7 @@ public class MrStore2002RequestTest {
       assertPostRequest(
           requests.get(1),
           "/shop.php",
-          "whichshop=mrstore2002&action=buyitem&ajax=1&quantity=1&whichrow=1387");
+          "whichshop=mrstore2002&action=buyitem&quantity=1&whichrow=1387");
       assertPostRequest(requests.get(2), "/api.php", "what=status&for=KoLmafia");
     }
   }

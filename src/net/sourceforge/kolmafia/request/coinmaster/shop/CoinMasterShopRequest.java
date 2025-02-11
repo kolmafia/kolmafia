@@ -24,13 +24,19 @@ public class CoinMasterShopRequest extends CoinMasterRequest {
     this.quantity = quantity;
     this.addFormField("whichrow", String.valueOf(row.getRow()));
     this.addFormField("quantity", String.valueOf(quantity));
-    this.addFormField("ajax", "1");
+    // We want to parse the balance for virtual currencies
+    if (data.getProperty() == null) {
+      this.addFormField("ajax", "1");
+    }
   }
 
   public CoinMasterShopRequest(
       final CoinmasterData data, final boolean buying, final AdventureResult[] attachments) {
     super(data, buying, attachments);
-    this.addFormField("ajax", "1");
+    // We want to parse the balance for virtual currencies
+    if (data.getProperty() == null) {
+      this.addFormField("ajax", "1");
+    }
   }
 
   // Convenience constructors, overridden by the handful of subclasses that need them.

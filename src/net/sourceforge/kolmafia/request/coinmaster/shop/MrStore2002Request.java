@@ -9,7 +9,6 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
 public abstract class MrStore2002Request extends CoinMasterShopRequest {
@@ -26,7 +25,6 @@ public abstract class MrStore2002Request extends CoinMasterShopRequest {
           .withTokenPattern(TOKEN_PATTERN)
           .withProperty("availableMrStore2002Credits")
           .withShopRowFields(master, SHOPID)
-          .withVisitShop(MrStore2002Request::visitShop)
           .withEquip(MrStore2002Request::equip)
           .withAccessible(MrStore2002Request::accessible);
 
@@ -94,13 +92,11 @@ public abstract class MrStore2002Request extends CoinMasterShopRequest {
         KoLmafia.updateDisplay(MafiaState.ERROR, "Failed to redirect to shop.php.");
         return false;
       }
+      // The credits regenerate at rollover.  Since we have (supposedly)
+      // not visited this shop yet today, assume we have the full balance.
+      Preferences.setInteger("availableMrStore2002Credits", 3);
     }
     return true;
-  }
-
-  public static void visitShop(final String responseText) {
-    // Parse current coin balances
-    CoinMasterRequest.parseBalance(MR_STORE_2002, responseText);
   }
 
   public static String accessible() {
