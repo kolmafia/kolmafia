@@ -1087,7 +1087,8 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   private Boolean availableItemInternal(final Integer itemId) {
     if (this.shopRows != null) {
       for (ShopRow shopRow : this.shopRows) {
-        if (shopRow.getItem().getItemId() == itemId) {
+        AdventureResult item = shopRow.getItem();
+        if (item.isItem() && item.getItemId() == itemId) {
           return true;
         }
       }
@@ -1108,7 +1109,8 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   public Boolean canBuyItemInternal(final Integer itemId) {
     if (this.shopRows != null) {
       for (ShopRow shopRow : this.shopRows) {
-        if (shopRow.getItem().getItemId() == itemId) {
+        AdventureResult item = shopRow.getItem();
+        if (item.isItem() && item.getItemId() == itemId) {
           return true;
         }
       }

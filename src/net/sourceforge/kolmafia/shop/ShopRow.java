@@ -503,7 +503,7 @@ public class ShopRow implements Comparable<ShopRow> {
 
     String master = data[0];
     int row = Integer.valueOf(data[1].substring(3));
-    AdventureResult item = AdventureResult.parseItem(data[2], true);
+    AdventureResult item = ShopRowDatabase.parseItemOrMeatOrSkill(data[2]);
     List<AdventureResult> costs = new ArrayList<>();
     for (int index = 3; index < data.length; ++index) {
       AdventureResult cost = AdventureResult.parseItem(data[index], true);
