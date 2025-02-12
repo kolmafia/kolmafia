@@ -188,8 +188,8 @@ public class TrainsetManager {
         // Get the expected laps remaining, and actual laps remaining
         int expectedLapsRemaining = (int) Math.ceil((expectedTurnConfigurable - lastPosition) / 8D);
         String matchGroup = laps.group(1);
-        // The capture group only exists for the multiple-lap version of the pattern
-        // When only a single lap remains, the .find() will still return true, but the group will be empty
+        // The capture group only exists for the multiple-lap version of the pattern. When only a
+        // single lap remains, the .find() will still return true, but the group will be empty
         int actualLapsRemaining = matchGroup == null ? 1 : Integer.parseInt(laps.group(1));
 
         // If the expected laps is different from the actual laps
