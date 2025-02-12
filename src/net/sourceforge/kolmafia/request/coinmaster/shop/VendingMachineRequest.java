@@ -5,12 +5,11 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
-public class VendingMachineRequest extends CoinMasterRequest {
+public abstract class VendingMachineRequest extends CoinMasterShopRequest {
   public static final String master = "Vending Machine";
+  public static final String SHOPID = "damachine";
 
   private static final Pattern TOKEN_PATTERN = Pattern.compile("(\\d+) fat loot token");
   public static final AdventureResult FAT_LOOT_TOKEN = ItemPool.get(ItemPool.FAT_LOOT_TOKEN, 1);
@@ -21,7 +20,7 @@ public class VendingMachineRequest extends CoinMasterRequest {
           .withTokenTest("no fat loot tokens")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(FAT_LOOT_TOKEN)
-          .withShopRowFields(master, "damachine")
+          .withShopRowFields(master, SHOPID)
           .withCanBuyItem(VendingMachineRequest::canBuyItem)
           .withAccessible(VendingMachineRequest::accessible);
 
@@ -31,42 +30,6 @@ public class VendingMachineRequest extends CoinMasterRequest {
       case ItemPool.SEWING_KIT -> InventoryManager.getCount(item) == 0;
       default -> item.getCount(VENDING_MACHINE.getBuyItems()) > 0;
     };
-  }
-
-  public VendingMachineRequest() {
-    super(VENDING_MACHINE);
-  }
-
-  public VendingMachineRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(VENDING_MACHINE, buying, attachments);
-  }
-
-  public VendingMachineRequest(final boolean buying, final AdventureResult attachment) {
-    super(VENDING_MACHINE, buying, attachment);
-  }
-
-  public VendingMachineRequest(final boolean buying, final int itemId, final int quantity) {
-    super(VENDING_MACHINE, buying, itemId, quantity);
-  }
-
-  @Override
-  public void processResults() {
-    parseResponse(this.getURLString(), this.responseText);
-  }
-
-  public static void parseResponse(final String location, final String responseText) {
-    CoinmasterData data = VENDING_MACHINE;
-    String action = GenericRequest.getAction(location);
-    if (action == null) {
-      if (location.contains("whichshop=damachine")) {
-        // Parse current coin balances
-        CoinMasterRequest.parseBalance(data, responseText);
-      }
-
-      return;
-    }
-
-    CoinMasterRequest.parseResponse(data, location, responseText);
   }
 
   public static String accessible() {

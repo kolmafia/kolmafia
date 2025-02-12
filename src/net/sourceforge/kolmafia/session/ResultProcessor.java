@@ -1113,11 +1113,11 @@ public class ResultProcessor {
 
     if (result.isItem()) {
       // Do special processing when you get certain items
-      ResultProcessor.gainItem(adventureResults, result);
-
       if (HermitRequest.isWorthlessItem(result.getItemId())) {
         result = HermitRequest.WORTHLESS_ITEM.getInstance(result.getCount());
       }
+
+      ResultProcessor.gainItem(adventureResults, result);
 
       return false;
     }

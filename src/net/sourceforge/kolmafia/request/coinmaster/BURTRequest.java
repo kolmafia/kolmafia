@@ -51,14 +51,6 @@ public class BURTRequest extends CoinMasterRequest {
     super(BURT, buying, attachments);
   }
 
-  public BURTRequest(final boolean buying, final AdventureResult attachment) {
-    super(BURT, buying, attachment);
-  }
-
-  public BURTRequest(final boolean buying, final int itemId, final int quantity) {
-    super(BURT, buying, itemId, quantity);
-  }
-
   @Override
   public void setItem(final AdventureResult item) {
     // The item field is the buy price; the number of BURTS spent

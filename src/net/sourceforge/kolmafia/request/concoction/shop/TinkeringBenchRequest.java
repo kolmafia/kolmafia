@@ -8,11 +8,12 @@ import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 
 public class TinkeringBenchRequest extends CreateItemRequest {
+  public static final String SHOPID = "wereprofessor_tinker";
 
   // There are 10 items you can make at the Tinkering Bench.
   // You can only ever make one of each, even if you've upgraded.
@@ -88,7 +89,7 @@ public class TinkeringBenchRequest extends CreateItemRequest {
   public TinkeringBenchRequest(final Concoction conc) {
     super("shop.php", conc);
 
-    this.addFormField("whichshop", "wereprofessor_tinker");
+    this.addFormField("whichshop", SHOPID);
     this.addFormField("action", "buyitem");
     int row = ConcoctionPool.idToRow(this.getItemId());
     this.addFormField("whichrow", String.valueOf(row));
@@ -128,15 +129,6 @@ public class TinkeringBenchRequest extends CreateItemRequest {
       return;
     }
 
-    TinkeringBenchRequest.parseResponse(urlString, responseText);
-  }
-
-  public static void parseResponse(final String urlString, final String responseText) {
-    if (!urlString.startsWith("shop.php")
-        || !urlString.contains("whichshop=wereprofessor_tinker")) {
-      return;
-    }
-
-    NPCPurchaseRequest.parseShopRowResponse(urlString, responseText);
+    ShopRequest.parseResponse(urlString, responseText);
   }
 }

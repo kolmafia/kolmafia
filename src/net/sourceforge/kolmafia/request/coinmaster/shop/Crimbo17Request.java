@@ -6,11 +6,10 @@ import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 
-public class Crimbo17Request extends CoinMasterRequest {
+public abstract class Crimbo17Request extends CoinMasterShopRequest {
   public static final String master = "Cheer-o-Vend 3000";
+  public static final String SHOPID = "crimbo17";
 
   private static final Pattern CHEER_PATTERN = Pattern.compile("([\\d,]+) crystalline cheer");
   public static final AdventureResult CHEER = ItemPool.get(ItemPool.CRYSTALLINE_CHEER, 1);
@@ -22,7 +21,7 @@ public class Crimbo17Request extends CoinMasterRequest {
           .withTokenTest("no crystalline cheer")
           .withTokenPattern(CHEER_PATTERN)
           .withItem(CHEER)
-          .withShopRowFields(master, "crimbo17")
+          .withShopRowFields(master, SHOPID)
           .withCanBuyItem(Crimbo17Request::canBuyItem)
           .withAccessible(Crimbo17Request::accessible);
 
@@ -36,44 +35,6 @@ public class Crimbo17Request extends CoinMasterRequest {
       case ItemPool.MIME_SCIENCE_VOL_6 -> KoLCharacter.isAccordionThief();
       default -> ItemPool.get(itemId).getCount(CRIMBO17.getBuyItems()) > 0;
     };
-  }
-
-  public Crimbo17Request() {
-    super(CRIMBO17);
-  }
-
-  public Crimbo17Request(final boolean buying, final AdventureResult[] attachments) {
-    super(CRIMBO17, buying, attachments);
-  }
-
-  public Crimbo17Request(final boolean buying, final AdventureResult attachment) {
-    super(CRIMBO17, buying, attachment);
-  }
-
-  public Crimbo17Request(final boolean buying, final int itemId, final int quantity) {
-    super(CRIMBO17, buying, itemId, quantity);
-  }
-
-  @Override
-  public void processResults() {
-    parseResponse(this.getURLString(), this.responseText);
-  }
-
-  public static void parseResponse(final String location, final String responseText) {
-    if (!location.contains("whichshop=crimbo17")) {
-      return;
-    }
-
-    CoinmasterData data = CRIMBO17;
-
-    String action = GenericRequest.getAction(location);
-    if (action != null) {
-      CoinMasterRequest.parseResponse(data, location, responseText);
-      return;
-    }
-
-    // Parse current coin balances
-    CoinMasterRequest.parseBalance(data, responseText);
   }
 
   public static String accessible() {

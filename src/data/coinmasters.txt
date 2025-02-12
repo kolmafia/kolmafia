@@ -829,6 +829,42 @@ LT&T Gift Shop	buy	15	Western Slang Vol. 1: Violence	ROW800
 LT&T Gift Shop	buy	15	Western Slang Vol. 2: Cooking	ROW801
 LT&T Gift Shop	buy	15	Western Slang Vol. 3: Fraud	ROW802
 
+# Things you can buy with rads
+
+# --- Strength ---
+Genetic Fiddling	ROW852	Boiling Tear Ducts	rad (30)
+Genetic Fiddling	ROW856	Projectile Salivary Glands	rad (30)
+Genetic Fiddling	ROW855	Translucent Skin	rad (30)
+Genetic Fiddling	ROW854	Skunk Glands	rad (30)
+Genetic Fiddling	ROW853	Throat Refrigerant	rad (30)
+Genetic Fiddling	ROW869	Steroid Bladder	rad (60)
+Genetic Fiddling	ROW861	Extra Muscles	rad (90)
+# --- Endurance ---
+Genetic Fiddling	ROW868	Magic Sweat	rad (60)
+Genetic Fiddling	ROW867	Flappy Ears	rad (60)
+Genetic Fiddling	ROW860	Adipose Polymers	rad (90)
+Genetic Fiddling	ROW859	Metallic Skin	rad (90)
+# --- Charisma ---
+Genetic Fiddling	ROW863	Hypno-Eyes	rad (90)
+Genetic Fiddling	ROW871	Self-Combing Hair	rad (60)
+Genetic Fiddling	ROW876	Extremely Punchable Face	rad (90)
+# --- Intelligence ---
+Genetic Fiddling	ROW870	Intracranial Eye	rad (60)
+Genetic Fiddling	ROW857	Mind Bullets	rad (60)
+Genetic Fiddling	ROW862	Extra Brain	rad (90)
+# --- Luck ---
+Genetic Fiddling	ROW879	Internal Soda Machine	rad (30)
+Genetic Fiddling	ROW878	Extra Kidney	rad (60)
+Genetic Fiddling	ROW877	Extra Gall Bladder	rad (60)
+# --- Perception ---
+Genetic Fiddling	ROW873	Magnetic Ears	rad (90)
+Genetic Fiddling	ROW865	Sucker Fingers	rad (120)
+# --- Agility ---
+Genetic Fiddling	ROW874	Firefly Abdomen	rad (90)
+Genetic Fiddling	ROW872	Bone Springs	rad (90)
+Genetic Fiddling	ROW875	Squid Glands	rad (90)
+Genetic Fiddling	ROW864	Backwards Knees	rad (120)
+
 # BACON
 Internet Meme Shop	buy	20	viral video	ROW821
 Internet Meme Shop	buy	74	plus one	ROW824

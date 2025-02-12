@@ -64,7 +64,6 @@ import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.GenericRequest.ServerCookie;
 import net.sourceforge.kolmafia.request.MonsterManuelRequest;
-import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.PlaceRequest;
 import net.sourceforge.kolmafia.request.ScrapheapRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
@@ -926,7 +925,7 @@ public class TestCommand extends AbstractCommand {
       CoinmasterRegistry.reset();
       NPCStoreDatabase.contains(0);
       // Ditto for the Armory & Leggery, which registers standard rewards.
-      ArmoryAndLeggeryRequest.parseResponse("", "");
+      ArmoryAndLeggeryRequest.initializeCoinMasterInventory();
 
       // Certain items include a "mode" in their string representation.
       // We don't want that.
@@ -945,7 +944,7 @@ public class TestCommand extends AbstractCommand {
       CoinmasterRegistry.reset();
       NPCStoreDatabase.contains(0);
       // Ditto for the Armory & Leggery, which registers standard rewards.
-      ArmoryAndLeggeryRequest.parseResponse("", "");
+      ArmoryAndLeggeryRequest.initializeCoinMasterInventory();
 
       // Write a new shop.txt file
       ShopDatabase.writeShopFile();
@@ -1280,15 +1279,15 @@ public class TestCommand extends AbstractCommand {
       }
       String name = split[1].trim();
       String urlString = "shop.php?whichshop=" + name;
-      NPCPurchaseRequest.parseShopResponse(urlString, TestCommand.contents);
+      ShopRequest.parseResponse(urlString, TestCommand.contents);
       TestCommand.contents = null;
       return;
     }
 
     if (command.equals("shoprows")) {
       boolean force = (split.length < 2) ? false : split[1].trim().equals("true");
-      String shop = ShopRequest.parseShopName(TestCommand.contents);
-      String shopId = ShopRequest.parseShopId(TestCommand.contents);
+      String shop = ShopRequest.parseShopNameInResponse(TestCommand.contents);
+      String shopId = ShopRequest.parseShopIdInResponse(TestCommand.contents);
       List<ShopRow> rows = ShopRequest.parseShopInventory(shopId, TestCommand.contents, force);
       TestCommand.contents = null;
 

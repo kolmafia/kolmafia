@@ -2,15 +2,15 @@ package net.sourceforge.kolmafia.request.coinmaster.shop;
 
 import java.util.Map;
 import java.util.regex.Pattern;
-import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
-public class FunALogRequest extends CoinMasterRequest {
+public abstract class FunALogRequest extends CoinMasterShopRequest {
   public static final String master = "PirateRealm Fun-a-Log";
+  public static final String SHOPID = "piraterealm";
 
   private static final Pattern TOKEN_PATTERN =
       Pattern.compile("<b>You have ([\\d,]+) FunPoints?\\.</b>");
@@ -21,8 +21,9 @@ public class FunALogRequest extends CoinMasterRequest {
           .withTokenTest("You have no FunPoints")
           .withTokenPattern(TOKEN_PATTERN)
           .withProperty("availableFunPoints")
-          .withShopRowFields(master, "piraterealm")
+          .withShopRowFields(master, SHOPID)
           .withAvailableItem(FunALogRequest::availableItem)
+          .withVisitShop(FunALogRequest::visitShop)
           .withAccessible(FunALogRequest::accessible);
 
   private static final Map<Integer, String> ITEM_TO_UNLOCK_PREF =
@@ -47,27 +48,6 @@ public class FunALogRequest extends CoinMasterRequest {
     return pref == null || Preferences.getBoolean(pref);
   }
 
-  public FunALogRequest() {
-    super(FUN_A_LOG);
-  }
-
-  public FunALogRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(FUN_A_LOG, buying, attachments);
-  }
-
-  public FunALogRequest(final boolean buying, final AdventureResult attachment) {
-    super(FUN_A_LOG, buying, attachment);
-  }
-
-  public FunALogRequest(final boolean buying, final int itemId, final int quantity) {
-    super(FUN_A_LOG, buying, itemId, quantity);
-  }
-
-  @Override
-  public void processResults() {
-    parseResponse(this.getURLString(), this.responseText);
-  }
-
   // <tr rel="10231"><td valign=center><input type=radio name=whichrow value=1064></td><td><img
   // src="https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/pr_partyhat.gif"
   // class="hand pop" rel="desc_item.php?whichitem=971293634"
@@ -79,11 +59,7 @@ public class FunALogRequest extends CoinMasterRequest {
       Pattern.compile(
           "<tr rel=\"(\\d+)\">.*?whichrow value=(\\d+)>.*?desc_item.php\\?whichitem=(\\d+).*?<b>(.*?)</b>.*?<td>F</td><td><b>([,\\d]+)</b>");
 
-  public static void parseResponse(final String urlString, final String responseText) {
-    if (!urlString.contains("whichshop=piraterealm")) {
-      return;
-    }
-
+  public static void visitShop(String responseText) {
     // Check Fun-a-Log item unlock status from visiting the shop
     var unlocked =
         ITEM_PATTERN
@@ -97,7 +73,7 @@ public class FunALogRequest extends CoinMasterRequest {
     // Register the purchase requests, now that we know what is available
     FUN_A_LOG.registerPurchaseRequests();
 
-    CoinMasterRequest.parseResponse(FUN_A_LOG, urlString, responseText);
+    CoinMasterRequest.parseBalance(FUN_A_LOG, responseText);
   }
 
   public static String accessible() {
@@ -108,8 +84,9 @@ public class FunALogRequest extends CoinMasterRequest {
     // PirateRealm at least once to get it, but you do not need
     // current access to PirateRealm to use it.
 
-    return InventoryManager.hasItem(ItemPool.PIRATE_REALM_FUN_LOG)
-        ? null
-        : "Need PirateRealm fun-a-log";
+    if (InventoryManager.hasItem(ItemPool.PIRATE_REALM_FUN_LOG)) {
+      return null;
+    }
+    return "Need PirateRealm fun-a-log";
   }
 }

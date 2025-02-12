@@ -5,8 +5,8 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
-import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 
 public class KOLHSRequest extends CreateItemRequest {
   public static final boolean isKOLHSLocation(final int adventureId) {
@@ -38,9 +38,12 @@ public class KOLHSRequest extends CreateItemRequest {
     };
   }
 
+  private final String shopId;
+
   public KOLHSRequest(final Concoction conc) {
     super("shop.php", conc);
-    this.addFormField("whichshop", KOLHSRequest.getShopId(conc));
+    this.shopId = KOLHSRequest.getShopId(conc);
+    this.addFormField("whichshop", this.shopId);
     this.addFormField("action", "buyitem");
     int row = ConcoctionPool.idToRow(this.getItemId());
     this.addFormField("whichrow", String.valueOf(row));
@@ -53,8 +56,7 @@ public class KOLHSRequest extends CreateItemRequest {
       return;
     }
 
-    String shopID = NPCPurchaseRequest.getShopId(this.getURLString());
-    String className = KOLHSRequest.shopIDToClassName(shopID);
+    String className = shopIDToClassName(this.shopId);
     KoLmafia.updateDisplay("Visit the " + className + " after school to make that.");
   }
 
@@ -64,21 +66,12 @@ public class KOLHSRequest extends CreateItemRequest {
     String responseText = this.responseText;
 
     if (urlString.contains("action=buyitem") && !responseText.contains("You acquire")) {
-      String shopID = NPCPurchaseRequest.getShopId(urlString);
-      String className = KOLHSRequest.shopIDToClassName(shopID);
+      String className = shopIDToClassName(this.shopId);
       KoLmafia.updateDisplay(
           KoLConstants.MafiaState.ERROR, className + " creation was unsuccessful.");
       return;
     }
 
-    KOLHSRequest.parseResponse(urlString, responseText);
-  }
-
-  public static void parseResponse(final String urlString, final String responseText) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=kolhs_")) {
-      return;
-    }
-
-    NPCPurchaseRequest.parseShopRowResponse(urlString, responseText);
+    ShopRequest.parseResponse(urlString, responseText);
   }
 }

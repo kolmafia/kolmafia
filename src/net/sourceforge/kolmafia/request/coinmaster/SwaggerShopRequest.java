@@ -146,14 +146,6 @@ public class SwaggerShopRequest extends CoinMasterRequest {
     super(SWAGGER_SHOP, buying, attachments);
   }
 
-  public SwaggerShopRequest(final boolean buying, final AdventureResult attachment) {
-    super(SWAGGER_SHOP, buying, attachment);
-  }
-
-  public SwaggerShopRequest(final boolean buying, final int itemId, final int quantity) {
-    super(SWAGGER_SHOP, buying, itemId, quantity);
-  }
-
   @Override
   public void run() {
     if (this.action != null) {

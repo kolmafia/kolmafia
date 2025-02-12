@@ -1,27 +1,20 @@
 package net.sourceforge.kolmafia.request.coinmaster.shop;
 
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
-import net.sourceforge.kolmafia.shop.ShopRow;
 
-public class KiwiKwikiMartRequest extends CoinMasterRequest {
+public abstract class KiwiKwikiMartRequest extends CoinMasterShopRequest {
   public static final String master = "Kiwi Kwiki Mart";
+  public static final String SHOPID = "kiwi";
 
   public static final CoinmasterData DATA =
       new CoinmasterData(master, "kiwi", KiwiKwikiMartRequest.class)
-          .withNewShopRowFields(master, "kiwi")
-          .withCanBuyItem(KiwiKwikiMartRequest::canBuyItem);
-
-  public KiwiKwikiMartRequest() {
-    super(DATA);
-  }
-
-  public KiwiKwikiMartRequest(final ShopRow row, final int count) {
-    super(DATA, row, count);
-  }
+          .withNewShopRowFields(master, SHOPID)
+          .withCanBuyItem(KiwiKwikiMartRequest::canBuyItem)
+          .withVisitShop(KiwiKwikiMartRequest::visitShop)
+          .withPurchasedItem(KiwiKwikiMartRequest::purchasedItem);
 
   private static Boolean canBuyItem(final Integer itemId) {
     return switch (itemId) {
@@ -31,43 +24,16 @@ public class KiwiKwikiMartRequest extends CoinMasterRequest {
     };
   }
 
-  @Override
-  public void processResults() {
-    parseResponse(this.getURLString(), this.responseText);
+  public static void visitShop(final String responseText) {
+    Preferences.setBoolean(
+        "_miniKiwiIntoxicatingSpiritsBought",
+        !responseText.contains("mini kiwi intoxicating spirits"));
   }
 
-  public static void parseResponse(final String location, final String responseText) {
-    if (!location.contains("whichshop=" + DATA.getShopId())) {
-      return;
-    }
-
-    if (!location.contains("ajax=1")) {
-      Preferences.setBoolean(
-          "_miniKiwiIntoxicatingSpiritsBought",
-          !responseText.contains("mini kiwi intoxicating spirits"));
-    }
-
-    if (responseText.contains("Kingdom regulations prevent the purchase")) {
+  public static void purchasedItem(final AdventureResult item, final Boolean storage) {
+    // Purchasing certain items makes them unavailable
+    if (item.getItemId() == ItemPool.MINI_KIWI_INTOXICATING_SPIRITS) {
       Preferences.setBoolean("_miniKiwiIntoxicatingSpiritsBought", true);
     }
-
-    CoinmasterData data = DATA;
-
-    String action = GenericRequest.getAction(location);
-    if (action != null) {
-      CoinMasterRequest.parseResponse(data, location, responseText);
-      return;
-    }
-
-    // Parse current coin balances
-    CoinMasterRequest.parseBalance(data, responseText);
-  }
-
-  public static final boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=" + DATA.getShopId())) {
-      return false;
-    }
-
-    return CoinMasterRequest.registerRequest(DATA, urlString, true);
   }
 }

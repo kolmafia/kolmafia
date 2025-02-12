@@ -8,10 +8,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AdventureResult.MeatResult;
+import net.sourceforge.kolmafia.AdventureResult.SkillResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -37,6 +39,10 @@ public class ShopRow implements Comparable<ShopRow> {
 
   public AdventureResult[] getCosts() {
     return this.costs;
+  }
+
+  public boolean isMeatPurchase() {
+    return costs.length == 1 && costs[0].isMeat();
   }
 
   @Override
@@ -242,7 +248,10 @@ public class ShopRow implements Comparable<ShopRow> {
   private static final Pattern TD_PATTERN = Pattern.compile("<td.*?>(.*?)</td>");
   private static final Pattern TD2_PATTERN =
       Pattern.compile("itemimages/(.*?)\\..*?descitem\\((\\d*)\\)");
+  private static final Pattern TD2A_PATTERN =
+      Pattern.compile("itemimages/(.*?)\\..*?whichskill=(\\d+)");
   private static final Pattern TD3_PATTERN = Pattern.compile("<b>\\(?(.*?)\\)?</b>");
+  private static final Pattern TD3A_PATTERN = Pattern.compile("<b>(.*?)</b>");
   private static final Pattern IEVEN_PATTERN =
       Pattern.compile("itemimages/(.*?)\\.(?:.*?descitem\\((.*?)\\))?");
   private static final Pattern IODD_PATTERN = Pattern.compile("<b>([\\d,]+)</b>");
@@ -266,6 +275,7 @@ public class ShopRow implements Comparable<ShopRow> {
       String iimage = null;
       String idescid = null;
       boolean isMeat = false;
+      boolean isSkill = false;
       boolean skip = false;
 
       Matcher td = TD_PATTERN.matcher(m.group(2));
@@ -281,6 +291,14 @@ public class ShopRow implements Comparable<ShopRow> {
             if (m2.find()) {
               image = m2.group(1);
               descid = m2.group(2);
+              continue;
+            }
+            Matcher m2a = TD2A_PATTERN.matcher(text);
+            if (m2a.find()) {
+              image = m2a.group(1);
+              descid = m2a.group(2);
+              isSkill = true;
+              continue;
             }
           }
           case 3 -> {
@@ -288,6 +306,22 @@ public class ShopRow implements Comparable<ShopRow> {
             if (descid == null) {
               continue;
             }
+
+            if (isSkill) {
+              int skillId = StringUtilities.parseInt(descid);
+              Matcher m3a = TD3A_PATTERN.matcher(text);
+              name = m3a.find() ? m3a.group(1) : "";
+
+              // We have found the skill. Do we know what it is?
+              String skillName = SkillDatabase.getSkillName(skillId);
+              if (skillName == null) {
+                // No. Register it by looking at the item description
+                SkillDatabase.registerSkill(skillId, name);
+              }
+              item = new SkillResult(name, skillId);
+              continue;
+            }
+
             Matcher m3 = TD3_PATTERN.matcher(text);
             name = m3.find() ? m3.group(1) : "";
             count = m3.find() ? Integer.valueOf(m3.group(1)) : 1;
@@ -469,7 +503,7 @@ public class ShopRow implements Comparable<ShopRow> {
 
     String master = data[0];
     int row = Integer.valueOf(data[1].substring(3));
-    AdventureResult item = AdventureResult.parseItem(data[2], true);
+    AdventureResult item = ShopRowDatabase.parseItemOrMeatOrSkill(data[2]);
     List<AdventureResult> costs = new ArrayList<>();
     for (int index = 3; index < data.length; ++index) {
       AdventureResult cost = AdventureResult.parseItem(data[index], true);

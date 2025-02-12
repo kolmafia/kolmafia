@@ -5,14 +5,13 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.BatManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LimitMode;
 
-public class ChemiCorpRequest extends CoinMasterRequest {
+public abstract class ChemiCorpRequest extends CoinMasterShopRequest {
   public static final String master = "ChemiCorp";
+  public static final String SHOPID = "batman_chemicorp";
 
   private static final Pattern TOKEN_PATTERN = Pattern.compile("<td>([\\d,]+) dangerous chemicals");
   public static final AdventureResult COIN = ItemPool.get(ItemPool.DANGEROUS_CHEMICALS, 1);
@@ -22,7 +21,7 @@ public class ChemiCorpRequest extends CoinMasterRequest {
           .withToken("dangerous chemicals")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)
-          .withShopRowFields(master, "batman_chemicorp")
+          .withShopRowFields(master, SHOPID)
           .withItemBuyPrice(ChemiCorpRequest::itemBuyPrice)
           .withAccessible(ChemiCorpRequest::accessible);
 
@@ -37,44 +36,6 @@ public class ChemiCorpRequest extends CoinMasterRequest {
       price = 3 * (count + 1);
     }
     return COIN.getInstance(price);
-  }
-
-  public ChemiCorpRequest() {
-    super(CHEMICORP);
-  }
-
-  public ChemiCorpRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(CHEMICORP, buying, attachments);
-  }
-
-  public ChemiCorpRequest(final boolean buying, final AdventureResult attachment) {
-    super(CHEMICORP, buying, attachment);
-  }
-
-  public ChemiCorpRequest(final boolean buying, final int itemId, final int quantity) {
-    super(CHEMICORP, buying, itemId, quantity);
-  }
-
-  @Override
-  public void processResults() {
-    parseResponse(this.getURLString(), this.responseText);
-  }
-
-  public static void parseResponse(final String urlString, final String responseText) {
-    if (!urlString.contains("whichshop=batman_chemicorp")) {
-      return;
-    }
-
-    CoinmasterData data = CHEMICORP;
-
-    String action = GenericRequest.getAction(urlString);
-    if (action != null) {
-      CoinMasterRequest.parseResponse(data, urlString, responseText);
-      return;
-    }
-
-    // Parse current coin balances
-    CoinMasterRequest.parseBalance(data, responseText);
   }
 
   public static String accessible() {

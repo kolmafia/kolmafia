@@ -8,11 +8,10 @@ import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 
-public class FancyDanRequest extends CoinMasterRequest {
+public abstract class FancyDanRequest extends CoinMasterShopRequest {
   public static final String master = "Fancy Dan the Cocktail Man";
+  public static final String SHOPID = "olivers";
 
   // Since there are two different currencies, we need to have a map from
   // itemId to item/count of currency; an AdventureResult.
@@ -44,53 +43,13 @@ public class FancyDanRequest extends CoinMasterRequest {
 
   public static final CoinmasterData FANCY_DAN =
       new CoinmasterData(master, "Speakeasy", FancyDanRequest.class)
-          .withShopRowFields(master, "olivers")
+          .withShopRowFields(master, SHOPID)
           .withBuyPrices()
           .withItemBuyPrice(FancyDanRequest::itemBuyPrice)
           .withAccessible(FancyDanRequest::accessible);
 
   private static AdventureResult itemBuyPrice(final Integer itemId) {
     return buyCosts.get(itemId);
-  }
-
-  public FancyDanRequest() {
-    super(FANCY_DAN);
-  }
-
-  public FancyDanRequest(final String action) {
-    super(FANCY_DAN, action);
-  }
-
-  public FancyDanRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(FANCY_DAN, buying, attachments);
-  }
-
-  public FancyDanRequest(final boolean buying, final AdventureResult attachment) {
-    super(FANCY_DAN, buying, attachment);
-  }
-
-  public FancyDanRequest(final boolean buying, final int itemId, final int quantity) {
-    super(FANCY_DAN, buying, itemId, quantity);
-  }
-
-  @Override
-  public void processResults() {
-    parseResponse(this.getURLString(), this.responseText);
-  }
-
-  public static void parseResponse(final String location, final String responseText) {
-    if (!location.contains("whichshop=olivers")) {
-      return;
-    }
-
-    String action = GenericRequest.getAction(location);
-    if (action != null) {
-      CoinMasterRequest.parseResponse(FANCY_DAN, location, responseText);
-      return;
-    }
-
-    // Parse current coin balances
-    CoinMasterRequest.parseBalance(FANCY_DAN, responseText);
   }
 
   public static String accessible() {

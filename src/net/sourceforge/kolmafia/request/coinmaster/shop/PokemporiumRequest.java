@@ -5,11 +5,10 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 
-public class PokemporiumRequest extends CoinMasterRequest {
+public abstract class PokemporiumRequest extends CoinMasterShopRequest {
   public static final String master = "The Pok&eacute;mporium";
+  public static final String SHOPID = "pokefam";
 
   private static final Pattern POKEDOLLAR_PATTERN =
       Pattern.compile("([\\d,]+) 1,960 pok&eacute;dollar bills");
@@ -29,48 +28,12 @@ public class PokemporiumRequest extends CoinMasterRequest {
           .withTokenTest("no pok&eacute;dollar bills")
           .withTokenPattern(POKEDOLLAR_PATTERN)
           .withItem(POKEDOLLAR)
-          .withShopRowFields(master, "pokefam")
+          .withShopRowFields(master, SHOPID)
           .withCanBuyItem(PokemporiumRequest::canBuyItem)
           .withAccessible(PokemporiumRequest::accessible);
 
   private static Boolean canBuyItem(final Integer itemId) {
     return KoLCharacter.inPokefam();
-  }
-
-  public PokemporiumRequest() {
-    super(POKEMPORIUM);
-  }
-
-  public PokemporiumRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(POKEMPORIUM, buying, attachments);
-  }
-
-  public PokemporiumRequest(final boolean buying, final AdventureResult attachment) {
-    super(POKEMPORIUM, buying, attachment);
-  }
-
-  public PokemporiumRequest(final boolean buying, final int itemId, final int quantity) {
-    super(POKEMPORIUM, buying, itemId, quantity);
-  }
-
-  @Override
-  public void processResults() {
-    parseResponse(this.getURLString(), this.responseText);
-  }
-
-  public static void parseResponse(final String location, final String responseText) {
-    if (!location.contains("whichshop=pokefam")) {
-      return;
-    }
-
-    String action = GenericRequest.getAction(location);
-    if (action != null) {
-      CoinMasterRequest.parseResponse(POKEMPORIUM, location, responseText);
-      return;
-    }
-
-    // Parse current coin balances
-    CoinMasterRequest.parseBalance(POKEMPORIUM, responseText);
   }
 
   public static String accessible() {

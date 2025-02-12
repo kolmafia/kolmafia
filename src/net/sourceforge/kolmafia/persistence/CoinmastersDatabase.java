@@ -305,11 +305,16 @@ public class CoinmastersDatabase {
       return;
     }
 
+    // Coinmasters can sell items OR skills.
+    AdventureResult item = shopRow.getItem();
+    if (!item.isItem()) {
+      return;
+    }
+
     // Register a purchase request
     CoinMasterPurchaseRequest request = new CoinMasterPurchaseRequest(data, shopRow);
     COINMASTER_ROWS.put(shopRow.getRow(), request);
 
-    AdventureResult item = shopRow.getItem();
     int itemId = item.getItemId();
     int count = item.getCount();
     COINMASTER_ITEMS.put(itemId, request);

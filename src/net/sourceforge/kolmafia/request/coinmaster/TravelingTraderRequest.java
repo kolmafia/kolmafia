@@ -45,14 +45,6 @@ public class TravelingTraderRequest extends CoinMasterRequest {
     super(TRAVELER, buying, attachments);
   }
 
-  public TravelingTraderRequest(final boolean buying, final AdventureResult attachment) {
-    super(TRAVELER, buying, attachment);
-  }
-
-  public TravelingTraderRequest(final boolean buying, final int itemId, final int quantity) {
-    super(TRAVELER, buying, itemId, quantity);
-  }
-
   @Override
   public void processResults() {
     if (this.responseText.length() == 0) {

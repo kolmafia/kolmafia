@@ -19,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import internal.helpers.Cleanups;
 import internal.helpers.SessionLoggerOutput;
 import internal.network.FakeHttpClientBuilder;
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -208,7 +209,7 @@ public class CoinMasterRequestTest {
       try (cleanups) {
         client.addResponse(200, html("request/test_armory_elf_visit.html"));
 
-        var visit = new Crimbo23ElfArmoryRequest();
+        var visit = Crimbo23ElfArmoryRequest.DATA.getRequest();
         visit.run();
 
         var text = SessionLoggerOutput.stopStream();
@@ -282,7 +283,8 @@ public class CoinMasterRequestTest {
         client.addResponse(200, "");
 
         var buy =
-            new Crimbo23ElfArmoryRequest(true, ItemPool.get(ItemPool.ELF_GUARD_HONOR_PRESENT, 1));
+            Crimbo23ElfArmoryRequest.DATA.getRequest(
+                true, new AdventureResult[] {ItemPool.get(ItemPool.ELF_GUARD_HONOR_PRESENT, 1)});
         buy.run();
 
         var text = SessionLoggerOutput.stopStream();
@@ -305,7 +307,7 @@ public class CoinMasterRequestTest {
         assertPostRequest(
             requests.get(0),
             "/shop.php",
-            "whichshop=crimbo23_elf_armory&action=buyitem&quantity=1&whichrow=1411");
+            "whichshop=crimbo23_elf_armory&action=buyitem&ajax=1&quantity=1&whichrow=1411");
         assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
       }
     }
@@ -377,8 +379,9 @@ public class CoinMasterRequestTest {
         client.addResponse(200, "");
 
         var buy =
-            new Crimbo23ElfArmoryRequest(
-                false, ItemPool.get(ItemPool.ELF_GUARD_COMMANDEERING_GLOVES, 13));
+            Crimbo23ElfArmoryRequest.DATA.getRequest(
+                false,
+                new AdventureResult[] {ItemPool.get(ItemPool.ELF_GUARD_COMMANDEERING_GLOVES, 13)});
         buy.run();
 
         var text = SessionLoggerOutput.stopStream();
@@ -401,7 +404,7 @@ public class CoinMasterRequestTest {
         assertPostRequest(
             requests.get(0),
             "/shop.php",
-            "whichshop=crimbo23_elf_armory&action=buyitem&quantity=13&whichrow=1412");
+            "whichshop=crimbo23_elf_armory&action=buyitem&ajax=1&quantity=13&whichrow=1412");
         assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
       }
     }
