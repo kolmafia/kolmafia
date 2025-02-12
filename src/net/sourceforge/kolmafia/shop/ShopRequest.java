@@ -280,6 +280,12 @@ public class ShopRequest extends GenericRequest {
         continue;
       }
 
+      // Shops can sell skills
+      if (item.isSkill()) {
+        newShopItems |= learnSkill(shopId, shopName, item, costs, row, newShopItems, force);
+        continue;
+      }
+
       // Shops can yield more than one of an item
       // Shops can yield the same item with multiple costs
       // Shops can accept up to five currencies per item.
@@ -336,6 +342,28 @@ public class ShopRequest extends GenericRequest {
     }
 
     return shopRows;
+  }
+
+  public static final boolean learnSkill(
+      final String shopId,
+      final String shopName,
+      final AdventureResult item,
+      final AdventureResult[] costs,
+      final int row,
+      final boolean newShopItems,
+      boolean force) {
+    String printMe;
+    if (!newShopItems) {
+      printMe = "--------------------";
+      RequestLogger.printLine(printMe);
+      RequestLogger.updateSessionLog(printMe);
+    }
+    // Assume this will be a coinmaster
+    ShopRow shopRow = new ShopRow(row, item, costs);
+    printMe = shopRow.toData(shopName);
+    RequestLogger.printLine(printMe);
+    RequestLogger.updateSessionLog(printMe);
+    return true;
   }
 
   public static final boolean learnNPCStoreItem(

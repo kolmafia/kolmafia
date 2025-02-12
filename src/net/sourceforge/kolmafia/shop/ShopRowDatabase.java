@@ -13,10 +13,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AdventureResult.MeatResult;
+import net.sourceforge.kolmafia.AdventureResult.SkillResult;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -88,6 +90,14 @@ public class ShopRowDatabase {
 
   private static final Pattern MEAT_PATTERN = Pattern.compile("([\\d,]+) Meat");
 
+  public static AdventureResult parseItemOrMeatOrSkill(final String s) {
+    int skillId = SkillDatabase.getSkillId(s, true);
+    if (skillId != -1) {
+      return new SkillResult(s, skillId);
+    }
+    return parseItemOrMeat(s);
+  }
+
   public static AdventureResult parseItemOrMeat(final String s) {
     Matcher meatMatcher = MEAT_PATTERN.matcher(s);
     if (meatMatcher.find()) {
@@ -105,7 +115,7 @@ public class ShopRowDatabase {
 
     int row = StringUtilities.parseInt(data[0]);
     String shopId = data[1];
-    AdventureResult item = parseItemOrMeat(data[2]);
+    AdventureResult item = parseItemOrMeatOrSkill(data[2]);
     ArrayList<AdventureResult> costList = new ArrayList<>();
     for (int index = 3; index < data.length; index++) {
       AdventureResult cost = parseItemOrMeat(data[index]);
