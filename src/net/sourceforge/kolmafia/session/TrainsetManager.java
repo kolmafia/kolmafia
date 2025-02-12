@@ -189,7 +189,8 @@ public class TrainsetManager {
         int expectedLapsRemaining = (int) Math.ceil((expectedTurnConfigurable - lastPosition) / 8D);
         // The capture group captures the word "this" when only one lap remains, and otherwise
         // captures the number of laps
-        int actualLapsRemaining = laps.group(1) == "this" ? 1 : Integer.parseInt(laps.group(1));
+        int actualLapsRemaining =
+            laps.group(1).equals("this") ? 1 : Integer.parseInt(laps.group(1));
 
         // If the expected laps is different from the actual laps
         // Or if the configuration should've been older
