@@ -86,7 +86,7 @@ public class TrainsetManager {
       Pattern.compile("<br>Your train is about to pass station (\\d)\\.<");
   private static final Pattern LAPS_BEFORE_RECONFIGURE =
       Pattern.compile(
-          "Let the train finish (?:(\\d) more laps|this lap) before rearranging it.</p>");
+          "Let the train finish (\\d|this) (?:more laps|this lap) before rearranging it.</p>");
   private static final int TURNS_BETWEEN_CONFIGURE = 40;
 
   private TrainsetManager() {}
@@ -187,10 +187,9 @@ public class TrainsetManager {
 
         // Get the expected laps remaining, and actual laps remaining
         int expectedLapsRemaining = (int) Math.ceil((expectedTurnConfigurable - lastPosition) / 8D);
-        String matchGroup = laps.group(1);
-        // The capture group only exists for the multiple-lap version of the pattern. When only a
-        // single lap remains, the .find() will still return true, but the group will be empty
-        int actualLapsRemaining = matchGroup == null ? 1 : Integer.parseInt(laps.group(1));
+        // The capture group captures the word "this" when only one lap remains, and otherwise
+        // captures the number of laps
+        int actualLapsRemaining = laps.group(1) == "this" ? 1 : Integer.parseInt(laps.group(1));
 
         // If the expected laps is different from the actual laps
         // Or if the configuration should've been older
