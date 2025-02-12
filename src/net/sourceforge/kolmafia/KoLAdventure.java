@@ -57,6 +57,7 @@ import net.sourceforge.kolmafia.session.EncounterManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LimitMode;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 @SuppressWarnings("incomplete-switch")
@@ -3058,8 +3059,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         RequestThread.postRequest(UseItemRequest.getInstance(BONE_WITH_A_PRICE_TAG));
       } else {
         // Otherwise, visit the Meatsmith and start the quest.
-        RequestThread.postRequest(new GenericRequest("shop.php?whichshop=meatsmith"));
-        RequestThread.postRequest(new GenericRequest("shop.php?whichshop=meatsmith&action=talk"));
+        RequestThread.postRequest(new ShopRequest("meatsmith"));
+        RequestThread.postRequest(new ShopRequest("meatsmith", "talk"));
         RequestThread.postRequest(new GenericRequest("choice.php?whichchoice=1059&option=1"));
       }
 
@@ -3077,8 +3078,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         RequestThread.postRequest(UseItemRequest.getInstance(HYPNOTIC_BREADCRUMBS));
       } else {
         // Otherwise, visit the Armorer and start the quest.
-        RequestThread.postRequest(new GenericRequest("shop.php?whichshop=armory"));
-        RequestThread.postRequest(new GenericRequest("shop.php?whichshop=armory&action=talk"));
+        RequestThread.postRequest(new ShopRequest("armory"));
+        RequestThread.postRequest(new ShopRequest("armory", "talk"));
         RequestThread.postRequest(new GenericRequest("choice.php?whichchoice=1065&option=1"));
       }
 
@@ -3096,8 +3097,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         RequestThread.postRequest(UseItemRequest.getInstance(BOOZE_MAP));
       } else {
         // Otherwise, visit Doc Galaktik and start the quest.
-        RequestThread.postRequest(new GenericRequest("shop.php?whichshop=doc"));
-        RequestThread.postRequest(new GenericRequest("shop.php?whichshop=doc&action=talk"));
+        RequestThread.postRequest(new ShopRequest("doc"));
+        RequestThread.postRequest(new ShopRequest("doc", "talk"));
         RequestThread.postRequest(new GenericRequest("choice.php?whichchoice=1064&option=1"));
       }
 

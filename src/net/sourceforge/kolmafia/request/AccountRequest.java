@@ -202,6 +202,8 @@ public class AccountRequest extends PasswordHashRequest {
 
     boolean checked = AccountRequest.getCheckbox("flag_wowbar", responseText);
     Preferences.setBoolean("serverAddsCustomCombat", checked);
+    checked = AccountRequest.getCheckbox("flag_bothcombatinterf", responseText);
+    Preferences.setBoolean("serverAddsBothCombat", checked);
 
     int autoAttackAction = 0;
 

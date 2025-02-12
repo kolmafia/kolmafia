@@ -1,23 +1,20 @@
 package net.sourceforge.kolmafia.request.concoction.shop;
 
-import java.util.regex.Matcher;
-import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
-import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
-import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
-import net.sourceforge.kolmafia.session.ResultProcessor;
-import net.sourceforge.kolmafia.utilities.StringUtilities;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 
 public class JarlsbergRequest extends CreateItemRequest {
+  public static final String SHOPID = "jarl";
+
   public JarlsbergRequest(final Concoction conc) {
     // shop.php?pwd&whichshop=jarl&action=buyitem&whichrow=60&quantity=1
     super("shop.php", conc);
 
-    this.addFormField("whichshop", "jarl");
+    this.addFormField("whichshop", SHOPID);
     this.addFormField("action", "buyitem");
     int row = ConcoctionPool.idToRow(this.getItemId());
     this.addFormField("whichrow", String.valueOf(row));
@@ -36,52 +33,14 @@ public class JarlsbergRequest extends CreateItemRequest {
 
   @Override
   public void processResults() {
-    JarlsbergRequest.parseResponse(this.getURLString(), this.responseText);
-  }
+    String urlString = this.getURLString();
+    String responseText = this.responseText;
 
-  public static final void parseResponse(final String urlString, final String responseText) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=jarl")) {
-      return;
-    }
-
-    if (urlString.indexOf("action=buyitem") == -1) {
-      return;
-    }
-
-    if (responseText.indexOf("You acquire") == -1) {
+    if (!responseText.contains("You acquire")) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "Cosmic shopping was unsuccessful.");
       return;
     }
 
-    Matcher rowMatcher = GenericRequest.WHICHROW_PATTERN.matcher(urlString);
-    if (!rowMatcher.find()) {
-      return;
-    }
-
-    int row = StringUtilities.parseInt(rowMatcher.group(1));
-    int itemId = ConcoctionPool.rowToId(row);
-
-    CreateItemRequest jarlsItem = CreateItemRequest.getInstance(itemId);
-    if (jarlsItem == null) {
-      return; // this is an unknown item
-    }
-
-    int quantity = 1;
-    if (urlString.contains("buymax=")) {
-      quantity = jarlsItem.getQuantityPossible();
-    } else {
-      Matcher quantityMatcher = GenericRequest.QUANTITY_PATTERN.matcher(urlString);
-      if (quantityMatcher.find()) {
-        String quantityString = quantityMatcher.group(1).trim();
-        quantity = quantityString.length() == 0 ? 1 : StringUtilities.parseInt(quantityString);
-      }
-    }
-
-    AdventureResult[] ingredients = ConcoctionDatabase.getIngredients(itemId);
-
-    for (int i = 0; i < ingredients.length; ++i) {
-      ResultProcessor.processResult(
-          ingredients[i].getInstance(-1 * ingredients[i].getCount() * quantity));
-    }
+    ShopRequest.parseResponse(urlString, responseText);
   }
 }

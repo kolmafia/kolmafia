@@ -54,7 +54,6 @@ import net.sourceforge.kolmafia.request.coinmaster.BURTRequest;
 import net.sourceforge.kolmafia.request.coinmaster.FudgeWandRequest;
 import net.sourceforge.kolmafia.request.coinmaster.HermitRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.FDKOLRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.MrStore2002Request;
 import net.sourceforge.kolmafia.request.concoction.MultiUseRequest;
 import net.sourceforge.kolmafia.request.concoction.SingleUseRequest;
 import net.sourceforge.kolmafia.session.BugbearManager;
@@ -71,6 +70,7 @@ import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.SpadingManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.textui.command.ZapCommand;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
@@ -1641,10 +1641,6 @@ public class UseItemRequest extends GenericRequest {
       return;
     }
 
-    if (itemId == ItemPool.APRIL_BAND_TUBA) {
-      Preferences.setBoolean("noncombatForcerActive", true);
-    }
-
     // You already seem lucky enough, maybe play a sexy sax solo later.
     if (itemId == ItemPool.APRIL_BAND_SAXOPHONE && responseText.contains("already seem lucky")) {
       return;
@@ -1659,6 +1655,41 @@ public class UseItemRequest extends GenericRequest {
     RequestLogger.printLine(message);
     RequestLogger.updateSessionLog(message);
     Preferences.increment(preference, 1, 3, false);
+
+    switch (itemId) {
+      case ItemPool.APRIL_BAND_TUBA -> {
+        Preferences.setBoolean("noncombatForcerActive", true);
+      }
+      case ItemPool.APRIL_BAND_TOM -> {
+        // "And dammit, your hooks were still on there! Oh well."
+        if (responseText.contains("hooks were still on")) {
+          if (KoLCharacter.hasEquipped(ItemPool.WORM_RIDING_HOOKS, Slot.WEAPON)) {
+            // You lose your weapon
+            EquipmentManager.discardEquipment(ItemPool.WORM_RIDING_HOOKS);
+            KoLmafia.updateDisplay("Don't forget to equip a weapon!");
+          } else {
+            // You lose your hooks
+            ResultProcessor.removeItem(ItemPool.WORM_RIDING_HOOKS);
+          }
+
+          int gnasirProgress = Preferences.getInteger("gnasirProgress");
+          gnasirProgress |= 16;
+          Preferences.setInteger("gnasirProgress", gnasirProgress);
+
+          QuestManager.incrementDesertExploration(30);
+          break;
+        }
+        // Something moves under your feet.
+        else if (responseText.contains("Something moves under your feet")) {
+          String itemName = "Apriling Band Quad Tom";
+          KoLAdventure.setLastAdventure("None");
+          KoLAdventure.setNextAdventure("None");
+          RequestLogger.registerLocation(itemName);
+          // This will be a forced fight. Treat it like a multi fight.
+          FightRequest.checkForMultiFight(true, responseText);
+        }
+      }
+    }
   }
 
   private static final Pattern HEWN_SPOON_PATTERN = Pattern.compile("whichsign=(\\d+)");
@@ -6169,9 +6200,9 @@ public class UseItemRequest extends GenericRequest {
 
       case ItemPool.MR_STORE_2002_CATALOG:
       case ItemPool.REPLICA_MR_STORE_2002_CATALOG:
-        // Using the catalog redirects to "whichshop=mrstore2002".
+        // Using the catalog redirects to "shop.php?whichshop=mrstore2002".
         // If we followed the redirect, let MrStore2002Request handle it.
-        MrStore2002Request.parseResponse(currentURL, responseText);
+        ShopRequest.parseResponse(currentURL, responseText);
         return;
 
       case ItemPool.GIANT_BLACK_MONOLITH:
@@ -6666,14 +6697,6 @@ public class UseItemRequest extends GenericRequest {
 
     int itemId = item.getItemId();
 
-    boolean isSealFigurine = ItemDatabase.isSealFigurine(itemId);
-    boolean isBRICKOMonster = ItemDatabase.isBRICKOMonster(itemId);
-
-    if ((isSealFigurine || isBRICKOMonster) && !urlString.contains("checked=1")) {
-      // Only log the second "use" that actually leads to a fight.
-      return true;
-    }
-
     switch (itemId) {
       case ItemPool.AWOL_COMMENDATION:
         return AWOLQuartermasterRequest.registerRequest(urlString);
@@ -6686,6 +6709,14 @@ public class UseItemRequest extends GenericRequest {
 
       case ItemPool.FUDGE_WAND:
         return FudgeWandRequest.registerRequest(urlString);
+    }
+
+    boolean isSealFigurine = ItemDatabase.isSealFigurine(itemId);
+    boolean isBRICKOMonster = ItemDatabase.isBRICKOMonster(itemId);
+
+    if ((isSealFigurine || isBRICKOMonster) && !urlString.contains("checked=1")) {
+      // Only log the second "use" that actually leads to a fight.
+      return true;
     }
 
     // Everything below here will work with the item we extracted

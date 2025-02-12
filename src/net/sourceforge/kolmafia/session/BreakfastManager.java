@@ -48,6 +48,7 @@ import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.coinmaster.HermitRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.MrStore2002Request;
 import net.sourceforge.kolmafia.request.coinmaster.shop.SpinMasterLatheRequest;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 
 public class BreakfastManager {
   private static final AdventureResult[] toys =
@@ -413,7 +414,7 @@ public class BreakfastManager {
     }
 
     KoLmafia.updateDisplay("Getting 2002 Mr Store Credits...");
-    RequestThread.postRequest(new MrStore2002Request());
+    MrStore2002Request.equip();
   }
 
   public static void useSpinningWheel() {
@@ -790,7 +791,7 @@ public class BreakfastManager {
       return;
     }
     KoLmafia.updateDisplay("Collecting cut of hippy profits...");
-    RequestThread.postRequest(new GenericRequest("shop.php?whichshop=hippy"));
+    RequestThread.postRequest(new ShopRequest("hippy"));
     BreakfastManager.ignoreErrors();
   }
 

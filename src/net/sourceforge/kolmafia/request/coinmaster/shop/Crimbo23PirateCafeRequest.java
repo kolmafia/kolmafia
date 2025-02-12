@@ -5,11 +5,10 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 
-public class Crimbo23PirateCafeRequest extends CoinMasterRequest {
+public abstract class Crimbo23PirateCafeRequest extends CoinMasterShopRequest {
   public static final String master = "Crimbuccaneer Grub Hall";
+  public static final String SHOPID = "crimbo23_pirate_cafe";
 
   private static final Pattern TOKEN_PATTERN =
       Pattern.compile("([\\d,]+) Crimbuccaneer pieces? of 12");
@@ -22,50 +21,8 @@ public class Crimbo23PirateCafeRequest extends CoinMasterRequest {
           .withTokenTest("no Crimbuccaneer pieces of 12")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(TOKEN)
-          .withShopRowFields(master, "crimbo23_pirate_cafe")
+          .withShopRowFields(master, SHOPID)
           .withAccessible(Crimbo23PirateCafeRequest::accessible);
-
-  public Crimbo23PirateCafeRequest() {
-    super(DATA);
-  }
-
-  public Crimbo23PirateCafeRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(DATA, buying, attachments);
-  }
-
-  public Crimbo23PirateCafeRequest(final boolean buying, final AdventureResult attachment) {
-    super(DATA, buying, attachment);
-  }
-
-  public Crimbo23PirateCafeRequest(final boolean buying, final int itemId, final int quantity) {
-    super(DATA, buying, itemId, quantity);
-  }
-
-  @Override
-  public void processResults() {
-    parseResponse(this.getURLString(), this.responseText);
-  }
-
-  public static void parseResponse(final String location, final String responseText) {
-    if (!location.contains("whichshop=" + DATA.getShopId())) {
-      return;
-    }
-
-    if (responseText.contains("War has consumed this area.")) {
-      return;
-    }
-
-    CoinmasterData data = DATA;
-
-    String action = GenericRequest.getAction(location);
-    if (action != null) {
-      CoinMasterRequest.parseResponse(data, location, responseText);
-      return;
-    }
-
-    // Parse current coin balances
-    CoinMasterRequest.parseBalance(data, responseText);
-  }
 
   public static String accessible() {
     return switch (Preferences.getString("crimbo23CafeControl")) {

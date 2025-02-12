@@ -357,6 +357,8 @@ public class GenericRequest implements Runnable {
     return GenericRequest.KOL_HOST;
   }
 
+  public GenericRequest() {}
+
   /**
    * Constructs a new GenericRequest which will notify the given client of any changes and will use
    * the given URL for data submission.
@@ -2484,17 +2486,15 @@ public class GenericRequest implements Runnable {
     String nextAdventure = null;
 
     switch (itemId) {
-      case ItemPool.BLACK_PUDDING:
+      case ItemPool.BLACK_PUDDING -> {
         itemName = "Black Pudding";
         consumed = true;
-        break;
-
-      case ItemPool.DRUM_MACHINE:
+      }
+      case ItemPool.DRUM_MACHINE -> {
         itemName = "Drum Machine";
         consumed = true;
-        break;
-
-      case ItemPool.DOLPHIN_WHISTLE:
+      }
+      case ItemPool.DOLPHIN_WHISTLE -> {
         itemName = "Dolphin Whistle";
         consumed = true;
         MonsterData m = MonsterDatabase.findMonster("rotten dolphin thief");
@@ -2507,159 +2507,139 @@ public class GenericRequest implements Runnable {
           m.doneWithItems();
         }
         Preferences.setString("dolphinItem", "");
-        break;
-
-      case ItemPool.CARONCH_MAP:
+      }
+      case ItemPool.CARONCH_MAP -> {
         itemName = "Cap'm Caronch's Map";
-        break;
-
-      case ItemPool.FRATHOUSE_BLUEPRINTS:
+      }
+      case ItemPool.FRATHOUSE_BLUEPRINTS -> {
         itemName = "Orcish Frat House blueprints";
-        break;
-
-      case ItemPool.CURSED_PIECE_OF_THIRTEEN:
+      }
+      case ItemPool.CURSED_PIECE_OF_THIRTEEN -> {
         itemName = "Cursed Piece of Thirteen";
-        break;
-
-      case ItemPool.SPOOKY_PUTTY_MONSTER:
+      }
+      case ItemPool.SPOOKY_PUTTY_MONSTER -> {
         itemName = "Spooky Putty Monster";
         Preferences.setString("spookyPuttyMonster", "");
         ResultProcessor.processItem(ItemPool.SPOOKY_PUTTY_SHEET, 1);
         consumed = true;
         EncounterManager.ignoreSpecialMonsters();
-        break;
-
-      case ItemPool.RAIN_DOH_MONSTER:
+      }
+      case ItemPool.RAIN_DOH_MONSTER -> {
         itemName = "Rain-Doh box full of monster";
         Preferences.setString("rainDohMonster", "");
         ResultProcessor.processItem(ItemPool.RAIN_DOH_BOX, 1);
         consumed = true;
         EncounterManager.ignoreSpecialMonsters();
-        break;
-
-      case ItemPool.SHAKING_CAMERA:
+      }
+      case ItemPool.SHAKING_CAMERA -> {
         itemName = "shaking 4-D camera";
         Preferences.setString("cameraMonster", "");
         Preferences.setBoolean("_cameraUsed", true);
         consumed = true;
         EncounterManager.ignoreSpecialMonsters();
-        break;
-
-      case ItemPool.SHAKING_CRAPPY_CAMERA:
+      }
+      case ItemPool.SHAKING_CRAPPY_CAMERA -> {
         itemName = "Shaking crappy camera";
         Preferences.setString("crappyCameraMonster", "");
         Preferences.setBoolean("_crappyCameraUsed", true);
         consumed = true;
         EncounterManager.ignoreSpecialMonsters();
-        break;
-
-      case ItemPool.ICE_SCULPTURE:
+      }
+      case ItemPool.ICE_SCULPTURE -> {
         itemName = "ice sculpture";
         Preferences.setString("iceSculptureMonster", "");
         Preferences.setBoolean("_iceSculptureUsed", true);
         consumed = true;
         EncounterManager.ignoreSpecialMonsters();
-        break;
-
-      case ItemPool.PHOTOCOPIED_MONSTER:
+      }
+      case ItemPool.PHOTOCOPIED_MONSTER -> {
         itemName = "photocopied monster";
         Preferences.setString("photocopyMonster", "");
         Preferences.setBoolean("_photocopyUsed", true);
         consumed = true;
         EncounterManager.ignoreSpecialMonsters();
-        break;
-
-      case ItemPool.WAX_BUGBEAR:
+      }
+      case ItemPool.WAX_BUGBEAR -> {
         itemName = "wax bugbear";
         Preferences.setString("waxMonster", "");
         consumed = true;
         EncounterManager.ignoreSpecialMonsters();
-        break;
-
-      case ItemPool.ENVYFISH_EGG:
+      }
+      case ItemPool.ENVYFISH_EGG -> {
         itemName = "envyfish egg";
         Preferences.setString("envyfishMonster", "");
         Preferences.setBoolean("_envyfishEggUsed", true);
         consumed = true;
         EncounterManager.ignoreSpecialMonsters();
-        break;
-
-      case ItemPool.CRUDE_SCULPTURE:
+      }
+      case ItemPool.CRUDE_SCULPTURE -> {
         itemName = "crude monster sculpture";
         Preferences.setString("crudeMonster", "");
         consumed = true;
         EncounterManager.ignoreSpecialMonsters();
-        break;
-
-      case ItemPool.DEPLETED_URANIUM_SEAL:
+      }
+      case ItemPool.DEPLETED_URANIUM_SEAL -> {
         itemName = "Infernal Seal Ritual";
         Preferences.increment("_sealsSummoned", 1);
         ResultProcessor.processResult(GenericRequest.sealRitualCandles(itemId));
         // Why do we count this?
         Preferences.increment("_sealFigurineUses", 1);
-        break;
-
-      case ItemPool.WRETCHED_SEAL:
-      case ItemPool.CUTE_BABY_SEAL:
-      case ItemPool.ARMORED_SEAL:
-      case ItemPool.ANCIENT_SEAL:
-      case ItemPool.SLEEK_SEAL:
-      case ItemPool.SHADOWY_SEAL:
-      case ItemPool.STINKING_SEAL:
-      case ItemPool.CHARRED_SEAL:
-      case ItemPool.COLD_SEAL:
-      case ItemPool.SLIPPERY_SEAL:
+      }
+      case ItemPool.WRETCHED_SEAL,
+          ItemPool.CUTE_BABY_SEAL,
+          ItemPool.ARMORED_SEAL,
+          ItemPool.ANCIENT_SEAL,
+          ItemPool.SLEEK_SEAL,
+          ItemPool.SHADOWY_SEAL,
+          ItemPool.STINKING_SEAL,
+          ItemPool.CHARRED_SEAL,
+          ItemPool.COLD_SEAL,
+          ItemPool.SLIPPERY_SEAL -> {
         itemName = "Infernal Seal Ritual";
         consumed = true;
         Preferences.increment("_sealsSummoned", 1);
         ResultProcessor.processResult(GenericRequest.sealRitualCandles(itemId));
-        break;
-
-      case ItemPool.BRICKO_OOZE:
-      case ItemPool.BRICKO_BAT:
-      case ItemPool.BRICKO_OYSTER:
-      case ItemPool.BRICKO_TURTLE:
-      case ItemPool.BRICKO_ELEPHANT:
-      case ItemPool.BRICKO_OCTOPUS:
-      case ItemPool.BRICKO_PYTHON:
-      case ItemPool.BRICKO_VACUUM_CLEANER:
-      case ItemPool.BRICKO_AIRSHIP:
-      case ItemPool.BRICKO_CATHEDRAL:
-      case ItemPool.BRICKO_CHICKEN:
+      }
+      case ItemPool.BRICKO_OOZE,
+          ItemPool.BRICKO_BAT,
+          ItemPool.BRICKO_OYSTER,
+          ItemPool.BRICKO_TURTLE,
+          ItemPool.BRICKO_ELEPHANT,
+          ItemPool.BRICKO_OCTOPUS,
+          ItemPool.BRICKO_PYTHON,
+          ItemPool.BRICKO_VACUUM_CLEANER,
+          ItemPool.BRICKO_AIRSHIP,
+          ItemPool.BRICKO_CATHEDRAL,
+          ItemPool.BRICKO_CHICKEN -> {
         itemName = item.getName();
         Preferences.increment("_brickoFights", 1);
         consumed = true;
-        break;
-
-      case ItemPool.FOSSILIZED_BAT_SKULL:
+      }
+      case ItemPool.FOSSILIZED_BAT_SKULL -> {
         itemName = "Fossilized Bat Skull";
         consumed = true;
         ResultProcessor.processItem(ItemPool.FOSSILIZED_WING, -2);
-        break;
-
-      case ItemPool.FOSSILIZED_BABOON_SKULL:
+      }
+      case ItemPool.FOSSILIZED_BABOON_SKULL -> {
         itemName = "Fossilized Baboon Skull";
         consumed = true;
         ResultProcessor.processItem(ItemPool.FOSSILIZED_TORSO, -1);
         ResultProcessor.processItem(ItemPool.FOSSILIZED_LIMB, -4);
-        break;
-
-      case ItemPool.FOSSILIZED_SERPENT_SKULL:
+      }
+      case ItemPool.FOSSILIZED_SERPENT_SKULL -> {
         itemName = "Fossilized Serpent Skull";
         consumed = true;
         ResultProcessor.processItem(ItemPool.FOSSILIZED_SPINE, -3);
-        break;
-
-      case ItemPool.FOSSILIZED_WYRM_SKULL:
+      }
+      case ItemPool.FOSSILIZED_WYRM_SKULL -> {
         itemName = "Fossilized Wyrm Skull";
         consumed = true;
         ResultProcessor.processItem(ItemPool.FOSSILIZED_TORSO, -1);
         ResultProcessor.processItem(ItemPool.FOSSILIZED_LIMB, -2);
         ResultProcessor.processItem(ItemPool.FOSSILIZED_WING, -2);
         ResultProcessor.processItem(ItemPool.FOSSILIZED_SPINE, -3);
-        break;
-
-      case ItemPool.FOSSILIZED_DEMON_SKULL:
+      }
+      case ItemPool.FOSSILIZED_DEMON_SKULL -> {
         itemName = "Fossilized Demon Skull";
         consumed = true;
         ResultProcessor.processItem(ItemPool.FOSSILIZED_TORSO, -1);
@@ -2667,39 +2647,32 @@ public class GenericRequest implements Runnable {
         ResultProcessor.processItem(ItemPool.FOSSILIZED_LIMB, -4);
         ResultProcessor.processItem(ItemPool.FOSSILIZED_WING, -2);
         ResultProcessor.processItem(ItemPool.FOSSILIZED_SPINE, -1);
-        break;
-
-      case ItemPool.FOSSILIZED_SPIDER_SKULL:
+      }
+      case ItemPool.FOSSILIZED_SPIDER_SKULL -> {
         itemName = "Fossilized Spider Skull";
         consumed = true;
         ResultProcessor.processItem(ItemPool.FOSSILIZED_TORSO, -1);
         ResultProcessor.processItem(ItemPool.FOSSILIZED_LIMB, -8);
         ResultProcessor.processItem(ItemPool.FOSSILIZED_SPIKE, -8);
-        break;
-
-      case ItemPool.RONALD_SHELTER_MAP:
-      case ItemPool.GRIMACE_SHELTER_MAP:
+      }
+      case ItemPool.RONALD_SHELTER_MAP, ItemPool.GRIMACE_SHELTER_MAP -> {
         itemName = item.getName();
         consumed = true;
-        break;
-
-      case ItemPool.WHITE_PAGE:
+      }
+      case ItemPool.WHITE_PAGE -> {
         itemName = "white page";
         consumed = true;
         nextAdventure = "Whitey's Grove";
-        break;
-
-      case ItemPool.XIBLAXIAN_HOLOTRAINING_SIMCODE:
+      }
+      case ItemPool.XIBLAXIAN_HOLOTRAINING_SIMCODE -> {
         itemName = "Xiblaxian holo-training simcode";
         consumed = true;
-        break;
-
-      case ItemPool.XIBLAXIAN_POLITICAL_PRISONER:
+      }
+      case ItemPool.XIBLAXIAN_POLITICAL_PRISONER -> {
         itemName = "Xiblaxian encrypted political prisoner";
         consumed = true;
-        break;
-
-      case ItemPool.D10:
+      }
+      case ItemPool.D10 -> {
         // Using a single D10 generates a monster.
         if (item.getCount() != 1) {
           return;
@@ -2709,95 +2682,76 @@ public class GenericRequest implements Runnable {
         // redirect to fight.php. Instead, the response text
         // includes Javascript to request fight.php
         consumed = false;
-        break;
-
-      case ItemPool.SHAKING_SKULL:
+      }
+      case ItemPool.SHAKING_SKULL -> {
         itemName = "shaking skull";
         consumed = true;
-        break;
-
-      case ItemPool.ABYSSAL_BATTLE_PLANS:
+      }
+      case ItemPool.ABYSSAL_BATTLE_PLANS -> {
         itemName = "abyssal battle plans";
-        break;
-
-      case ItemPool.SUSPICIOUS_ADDRESS:
+      }
+      case ItemPool.SUSPICIOUS_ADDRESS -> {
         itemName = "a suspicious address";
-        break;
-
-      case ItemPool.CHEF_BOY_BUSINESS_CARD:
+      }
+      case ItemPool.CHEF_BOY_BUSINESS_CARD -> {
         itemName = "Chef Boy, R&D's business card";
-        break;
-
-      case ItemPool.RUSTY_HEDGE_TRIMMERS:
+      }
+      case ItemPool.RUSTY_HEDGE_TRIMMERS -> {
         itemName = "rusty hedge trimmers";
         consumed = true;
         nextAdventure = "Twin Peak";
-        break;
-
-      case ItemPool.LYNYRD_SNARE:
+      }
+      case ItemPool.LYNYRD_SNARE -> {
         itemName = "lynyrd snare";
         consumed = true;
         nextAdventure = "A Mob of Zeppelin Protesters";
         Preferences.increment("_lynyrdSnareUses");
-        break;
-
-      case ItemPool.CHATEAU_WATERCOLOR:
+      }
+      case ItemPool.CHATEAU_WATERCOLOR -> {
         itemName = "Chateau Painting";
         consumed = false;
         Preferences.setBoolean("_chateauMonsterFought", true);
         EncounterManager.ignoreSpecialMonsters();
-        break;
-
-      case ItemPool.DECK_OF_EVERY_CARD:
+      }
+      case ItemPool.DECK_OF_EVERY_CARD -> {
         itemName = "Deck of Every Card";
         // Do not ignore special monsters here. That is handled
         // elsewhere, just for the cases that will be a combat.
-        break;
-
-      case ItemPool.GIFT_CARD:
+      }
+      case ItemPool.GIFT_CARD -> {
         itemName = "gift card";
         consumed = true;
         // Do not ignore special monsters here. That is handled
         // elsewhere, just for the cases that will be a combat.
-        break;
-
-      case ItemPool.BARREL_MAP:
+      }
+      case ItemPool.BARREL_MAP -> {
         itemName = "map to the Biggest Barrel";
         consumed = true;
-        break;
-
-      case ItemPool.VYKEA_INSTRUCTIONS:
+      }
+      case ItemPool.VYKEA_INSTRUCTIONS -> {
         itemName = "VYKEA instructions";
-        break;
-
-      case ItemPool.TONIC_DJINN:
+      }
+      case ItemPool.TONIC_DJINN -> {
         itemName = "tonic djinn";
-        break;
-
-      case ItemPool.SCREENCAPPED_MONSTER:
+      }
+      case ItemPool.SCREENCAPPED_MONSTER -> {
         itemName = "screencapped monster";
         consumed = true;
         EncounterManager.ignoreSpecialMonsters();
         Preferences.setString("screencappedMonster", "");
-        break;
-
-      case ItemPool.TIME_RESIDUE:
+      }
+      case ItemPool.TIME_RESIDUE -> {
         itemName = "time residue";
         consumed = true;
-        break;
-
-      case ItemPool.TIME_SPINNER:
+      }
+      case ItemPool.TIME_SPINNER -> {
         itemName = "Time-Spinner";
-        break;
-
-      case ItemPool.MEGACOPIA:
+      }
+      case ItemPool.MEGACOPIA -> {
         itemName = "megacopia";
         consumed = true;
-        break;
-
-      case ItemPool.GENIE_BOTTLE:
-      case ItemPool.POCKET_WISH:
-      case ItemPool.REPLICA_GENIE_BOTTLE:
+      }
+      case ItemPool.GENIE_BOTTLE, ItemPool.POCKET_WISH, ItemPool.REPLICA_GENIE_BOTTLE -> {
         // Do not ignore special monsters here. That is handled
         // elsewhere, just for the cases that will be a combat.
 
@@ -2807,76 +2761,70 @@ public class GenericRequest implements Runnable {
         // Lastly, do not log item usage with a turn counter,
         // since only combats will use a turn.
         return;
-
-      case ItemPool.CLARIFIED_BUTTER:
+      }
+      case ItemPool.CLARIFIED_BUTTER -> {
         itemName = "Dish of Clarified Butter";
         Preferences.increment("_godLobsterFights", 1, 3, false);
         consumed = true;
-        break;
-
-      case ItemPool.AMORPHOUS_BLOB:
+      }
+      case ItemPool.AMORPHOUS_BLOB -> {
         itemName = "amorphous blob";
         consumed = true;
-        break;
-
-      case ItemPool.GIANT_AMORPHOUS_BLOB:
+      }
+      case ItemPool.GIANT_AMORPHOUS_BLOB -> {
         itemName = "giant amorphous blob";
         consumed = true;
-        break;
-
-      case ItemPool.GLITCH_ITEM:
+      }
+      case ItemPool.GLITCH_ITEM -> {
         if (!location.startsWith("inv_eat.php")) {
           return;
         }
         itemName = "[glitch season reward name]";
-        break;
-
-      case ItemPool.SIZZLING_DESK_BELL:
-      case ItemPool.FROST_RIMED_DESK_BELL:
-      case ItemPool.UNCANNY_DESK_BELL:
-      case ItemPool.NASTY_DESK_BELL:
-      case ItemPool.GREASY_DESK_BELL:
-      case ItemPool.BASTILLE_LOANER_VOUCHER:
+      }
+      case ItemPool.SIZZLING_DESK_BELL,
+          ItemPool.FROST_RIMED_DESK_BELL,
+          ItemPool.UNCANNY_DESK_BELL,
+          ItemPool.NASTY_DESK_BELL,
+          ItemPool.GREASY_DESK_BELL,
+          ItemPool.BASTILLE_LOANER_VOUCHER -> {
         itemName = item.getName();
         consumed = true;
-        break;
-
-      case ItemPool.MOLEHILL_MOUNTAIN:
+      }
+      case ItemPool.MOLEHILL_MOUNTAIN -> {
         itemName = item.getName();
         Preferences.setBoolean("_molehillMountainUsed", true);
-        break;
-
-      case ItemPool.TIED_UP_LEAFLET:
+      }
+      case ItemPool.TIED_UP_LEAFLET -> {
         itemName = item.getName();
         Preferences.setBoolean("_tiedUpFlamingLeafletFought", true);
         consumed = true;
         EncounterManager.ignoreSpecialMonsters();
-        break;
-      case ItemPool.TIED_UP_MONSTERA:
+      }
+      case ItemPool.TIED_UP_MONSTERA -> {
         itemName = item.getName();
         Preferences.setBoolean("_tiedUpFlamingMonsteraFought", true);
         consumed = true;
         EncounterManager.ignoreSpecialMonsters();
-        break;
-      case ItemPool.TIED_UP_LEAVIATHAN:
+      }
+      case ItemPool.TIED_UP_LEAVIATHAN -> {
         itemName = item.getName();
         Preferences.setBoolean("_tiedUpLeaviathanFought", true);
         consumed = true;
         EncounterManager.ignoreSpecialMonsters();
-        break;
-      case ItemPool.MAP_TO_A_CANDY_RICH_BLOCK:
+      }
+      case ItemPool.MAP_TO_A_CANDY_RICH_BLOCK -> {
         itemName = item.getName();
         Preferences.setBoolean("_mapToACandyRichBlockUsed", true);
         consumed = true;
-        break;
-      case ItemPool.MINIATURE_EMBERING_HULK:
+      }
+      case ItemPool.MINIATURE_EMBERING_HULK -> {
         itemName = item.getName();
         Preferences.setBoolean("_emberingHulkFought", true);
         consumed = true;
-        break;
-
-      default:
+      }
+      default -> {
         return;
+      }
     }
 
     if (consumed) {

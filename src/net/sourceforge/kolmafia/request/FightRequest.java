@@ -244,8 +244,6 @@ public class FightRequest extends GenericRequest {
   private static final Pattern SLIMED_PATTERN =
       Pattern.compile(
           "it blasts you with a massive loogie that sticks to your (.*?), pulls it off of you");
-  private static final Pattern MULTIFIGHT_PATTERN = Pattern.compile("href=\"?/?fight.php");
-  private static final Pattern FIGHTCHOICE_PATTERN = Pattern.compile("href=\"?choice.php");
 
   private static final Pattern KEYOTRON_PATTERN = Pattern.compile("key-o-tron emits (\\d) short");
 
@@ -1753,7 +1751,7 @@ public class FightRequest extends GenericRequest {
     String url = FightRequest.inMultiFight ? "fight.php" : redirectLocation;
 
     if (url != null) {
-      // A multifight starts with am unadorned call to
+      // A multifight starts with an unadorned call to
       // fight.php.
       //
       // A non-multifight starts with a redirect to
@@ -2586,6 +2584,18 @@ public class FightRequest extends GenericRequest {
     return false;
   }
 
+  private static final Pattern MULTIFIGHT_PATTERN = Pattern.compile("href=['\"]?/?fight.php");
+
+  public static void checkForMultiFight(final boolean won, final String responseText) {
+    FightRequest.inMultiFight = won && MULTIFIGHT_PATTERN.matcher(responseText).find();
+  }
+
+  private static final Pattern FIGHTCHOICE_PATTERN = Pattern.compile("href=\"?choice.php");
+
+  public static void checkForChoiceFollowsFight(final String responseText) {
+    FightRequest.choiceFollowsFight = FIGHTCHOICE_PATTERN.matcher(responseText).find();
+  }
+
   // This performs checks that have to be applied to a single round of
   // combat results, and that aren't (yet) part of the
   // processNormalResults loop.  responseText will be a fragment of the
@@ -2628,12 +2638,15 @@ public class FightRequest extends GenericRequest {
     boolean stillInBattle =
         finalRound
             && !won
+            && !lost
             && (FightRequest.pokefam
                 ? responseText.contains("action=fambattle.php")
                 : (limitmode == LimitMode.BATMAN || FightRequest.innerWolf)
                     ? responseText.contains("action=\"fight.php\"")
                     : Preferences.getBoolean("serverAddsCustomCombat")
-                        ? responseText.contains("(show old combat form)")
+                        ? (Preferences.getBoolean("serverAddsBothCombat")
+                            ? !responseText.contains("window.fightover = true")
+                            : responseText.contains("(show old combat form)"))
                         : KoLCharacter.inDisguise() ? fightCount > 1 : fightCount > 0);
 
     if (limitmode == LimitMode.BATMAN || limitmode == LimitMode.SPELUNKY) {
@@ -2656,9 +2669,9 @@ public class FightRequest extends GenericRequest {
 
       FightRequest.clearInstanceData();
       FightRequest.won = won;
-      FightRequest.inMultiFight = FightRequest.MULTIFIGHT_PATTERN.matcher(responseText).find();
-      FightRequest.choiceFollowsFight =
-          FightRequest.FIGHTCHOICE_PATTERN.matcher(responseText).find();
+
+      FightRequest.checkForMultiFight(won, responseText);
+      FightRequest.checkForChoiceFollowsFight(responseText);
 
       return;
     }
@@ -4333,11 +4346,30 @@ public class FightRequest extends GenericRequest {
     // Handle incrementing stillsuit sweat (this happens whether the fight is won or lost)
     StillSuitManager.handleSweat(responseText);
 
+    // looks askance at the toy bow you've provided and shoots the plunger-arrow over the horizon,
+    // then proceeds to drag something more appropriate back.
+    if (KoLCharacter.hasEquipped(ItemPool.TOY_CUPID_BOW, Slot.FAMILIAR)) {
+      int currentFamiliarId = KoLCharacter.getEffectiveFamiliar().getId();
+
+      if (Preferences.getInteger("cupidBowLastFamiliar") == currentFamiliarId) {
+        Preferences.increment("cupidBowFights", 1, 5, false);
+      } else {
+        Preferences.setInteger("cupidBowLastFamiliar", currentFamiliarId);
+        Preferences.setInteger("cupidBowFights", 1);
+      }
+      if (responseText.contains("looks askance at the toy bow")) {
+        String currentFams = Preferences.getString("_cupidBowFamiliars");
+        Preferences.setString(
+            "_cupidBowFamiliars",
+            (currentFams.isEmpty() ? "" : (currentFams + ";")) + currentFamiliarId);
+      }
+    }
+
     // Handle autumnaton checking (this happens whether the fight is won or lost)
     AutumnatonManager.parseFight(responseText);
 
-    FightRequest.inMultiFight = won && FightRequest.MULTIFIGHT_PATTERN.matcher(responseText).find();
-    FightRequest.choiceFollowsFight = FightRequest.FIGHTCHOICE_PATTERN.matcher(responseText).find();
+    FightRequest.checkForMultiFight(won, responseText);
+    FightRequest.checkForChoiceFollowsFight(responseText);
 
     // Do this AFTER we set the above so it does not continue
     // logging in if you are still in a fight or choice

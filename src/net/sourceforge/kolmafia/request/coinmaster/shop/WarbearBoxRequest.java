@@ -5,11 +5,10 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 
-public class WarbearBoxRequest extends CoinMasterRequest {
+public abstract class WarbearBoxRequest extends CoinMasterShopRequest {
   public static final String master = "Warbear Black Box";
+  public static final String SHOPID = "warbear";
 
   private static final Pattern TOKEN_PATTERN = Pattern.compile("<td>([\\d,]+) warbear whosit");
   public static final AdventureResult WHOSIT = ItemPool.get(ItemPool.WARBEAR_WHOSIT, 1);
@@ -20,46 +19,8 @@ public class WarbearBoxRequest extends CoinMasterRequest {
           .withToken("warbear whosit")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(WHOSIT)
-          .withShopRowFields(master, "warbear")
+          .withShopRowFields(master, SHOPID)
           .withAccessible(WarbearBoxRequest::accessible);
-
-  public WarbearBoxRequest() {
-    super(WARBEARBOX);
-  }
-
-  public WarbearBoxRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(WARBEARBOX, buying, attachments);
-  }
-
-  public WarbearBoxRequest(final boolean buying, final AdventureResult attachment) {
-    super(WARBEARBOX, buying, attachment);
-  }
-
-  public WarbearBoxRequest(final boolean buying, final int itemId, final int quantity) {
-    super(WARBEARBOX, buying, itemId, quantity);
-  }
-
-  @Override
-  public void processResults() {
-    parseResponse(this.getURLString(), this.responseText);
-  }
-
-  public static void parseResponse(final String urlString, final String responseText) {
-    if (!urlString.contains("whichshop=warbear")) {
-      return;
-    }
-
-    CoinmasterData data = WARBEARBOX;
-
-    String action = GenericRequest.getAction(urlString);
-    if (action != null) {
-      CoinMasterRequest.parseResponse(data, urlString, responseText);
-      return;
-    }
-
-    // Parse current coin balances
-    CoinMasterRequest.parseBalance(data, responseText);
-  }
 
   public static String accessible() {
     int wand = BLACKBOX.getCount(KoLConstants.inventory);

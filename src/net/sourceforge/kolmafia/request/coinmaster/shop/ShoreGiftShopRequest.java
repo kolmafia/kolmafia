@@ -6,12 +6,11 @@ import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
-public class ShoreGiftShopRequest extends CoinMasterRequest {
+public abstract class ShoreGiftShopRequest extends CoinMasterShopRequest {
   public static final String master = "The Shore, Inc. Gift Shop";
+  public static final String SHOPID = "shore";
 
   private static final Pattern SCRIP_PATTERN = Pattern.compile("(\\d+) Shore Inc. Ship Trip Scrip");
   public static final AdventureResult SHIP_TRIP_SCRIP = ItemPool.get(ItemPool.SHIP_TRIP_SCRIP, 1);
@@ -22,9 +21,10 @@ public class ShoreGiftShopRequest extends CoinMasterRequest {
           .withTokenTest("no Shore Inc. Ship Trip Scrip")
           .withTokenPattern(SCRIP_PATTERN)
           .withItem(SHIP_TRIP_SCRIP)
-          .withShopRowFields(master, "shore")
+          .withShopRowFields(master, SHOPID)
           .withCanBuyItem(ShoreGiftShopRequest::canBuyItem)
           .withPurchasedItem(ShoreGiftShopRequest::purchasedItem)
+          .withVisitShop(ShoreGiftShopRequest::visitShop)
           .withAccessible(ShoreGiftShopRequest::accessible);
 
   private static Boolean canBuyItem(final Integer itemId) {
@@ -43,44 +43,8 @@ public class ShoreGiftShopRequest extends CoinMasterRequest {
     }
   }
 
-  public ShoreGiftShopRequest() {
-    super(SHORE_GIFT_SHOP);
-  }
-
-  public ShoreGiftShopRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(SHORE_GIFT_SHOP, buying, attachments);
-  }
-
-  public ShoreGiftShopRequest(final boolean buying, final AdventureResult attachment) {
-    super(SHORE_GIFT_SHOP, buying, attachment);
-  }
-
-  public ShoreGiftShopRequest(final boolean buying, final int itemId, final int quantity) {
-    super(SHORE_GIFT_SHOP, buying, itemId, quantity);
-  }
-
-  @Override
-  public void processResults() {
-    parseResponse(this.getURLString(), this.responseText);
-  }
-
-  public static void parseResponse(final String location, final String responseText) {
-    if (!location.contains("whichshop=shore")) {
-      return;
-    }
-
-    CoinmasterData data = SHORE_GIFT_SHOP;
-
-    String action = GenericRequest.getAction(location);
-    if (action != null) {
-      CoinMasterRequest.parseResponse(data, location, responseText);
-      return;
-    }
-
+  public static void visitShop(final String responseText) {
     Preferences.setBoolean("itemBoughtPerAscension637", !responseText.contains("cheap toaster"));
-
-    // Parse current coin balances
-    CoinMasterRequest.parseBalance(data, responseText);
   }
 
   public static String accessible() {

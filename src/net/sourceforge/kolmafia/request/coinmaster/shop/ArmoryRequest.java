@@ -6,11 +6,10 @@ import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 
-public class ArmoryRequest extends CoinMasterRequest {
+public abstract class ArmoryRequest extends CoinMasterShopRequest {
   public static final String master = "The Armory";
+  public static final String SHOPID = "si_shop3";
 
   private static final Pattern TOKEN_PATTERN = Pattern.compile("<td>([\\d,]+) Coins-spiracy");
   public static final AdventureResult COIN = ItemPool.get(ItemPool.COINSPIRACY, 1);
@@ -20,44 +19,8 @@ public class ArmoryRequest extends CoinMasterRequest {
           .withToken("Coinspiracy")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)
-          .withShopRowFields(master, "si_shop3")
+          .withShopRowFields(master, SHOPID)
           .withAccessible(ArmoryRequest::accessible);
-
-  public ArmoryRequest() {
-    super(ARMORY);
-  }
-
-  public ArmoryRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(ARMORY, buying, attachments);
-  }
-
-  public ArmoryRequest(final boolean buying, final AdventureResult attachment) {
-    super(ARMORY, buying, attachment);
-  }
-
-  public ArmoryRequest(final boolean buying, final int itemId, final int quantity) {
-    super(ARMORY, buying, itemId, quantity);
-  }
-
-  @Override
-  public void processResults() {
-    parseResponse(this.getURLString(), this.responseText);
-  }
-
-  public static void parseResponse(final String urlString, final String responseText) {
-    if (!urlString.contains("whichshop=si_shop3")) {
-      return;
-    }
-
-    String action = GenericRequest.getAction(urlString);
-    if (action != null) {
-      CoinMasterRequest.parseResponse(ARMORY, urlString, responseText);
-      return;
-    }
-
-    // Parse current coin balances
-    CoinMasterRequest.parseBalance(ARMORY, responseText);
-  }
 
   public static String accessible() {
     if (!Preferences.getBoolean("_spookyAirportToday")

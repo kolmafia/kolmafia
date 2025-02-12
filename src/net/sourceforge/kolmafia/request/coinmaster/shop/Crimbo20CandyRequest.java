@@ -5,11 +5,10 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 
-public class Crimbo20CandyRequest extends CoinMasterRequest {
+public abstract class Crimbo20CandyRequest extends CoinMasterShopRequest {
   public static final String master = "Elf Candy Drive";
+  public static final String SHOPID = "crimbo20candy";
 
   private static final Pattern TOKEN_PATTERN =
       Pattern.compile("([\\d,]+) (boxes of )?donated candy");
@@ -22,7 +21,7 @@ public class Crimbo20CandyRequest extends CoinMasterRequest {
           .withTokenTest("no boxes of donated candy")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(TOKEN)
-          .withShopRowFields(master, "crimbo20candy")
+          .withShopRowFields(master, SHOPID)
           .withCanBuyItem(Crimbo20CandyRequest::canBuyItem);
 
   private static Boolean canBuyItem(final Integer itemId) {
@@ -34,43 +33,5 @@ public class Crimbo20CandyRequest extends CoinMasterRequest {
           == 0;
       default -> item.getCount(CRIMBO20CANDY.getBuyItems()) > 0;
     };
-  }
-
-  public Crimbo20CandyRequest() {
-    super(CRIMBO20CANDY);
-  }
-
-  public Crimbo20CandyRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(CRIMBO20CANDY, buying, attachments);
-  }
-
-  public Crimbo20CandyRequest(final boolean buying, final AdventureResult attachment) {
-    super(CRIMBO20CANDY, buying, attachment);
-  }
-
-  public Crimbo20CandyRequest(final boolean buying, final int itemId, final int quantity) {
-    super(CRIMBO20CANDY, buying, itemId, quantity);
-  }
-
-  @Override
-  public void processResults() {
-    parseResponse(this.getURLString(), this.responseText);
-  }
-
-  public static void parseResponse(final String location, final String responseText) {
-    if (!location.contains("whichshop=crimbo20candy")) {
-      return;
-    }
-
-    CoinmasterData data = CRIMBO20CANDY;
-
-    String action = GenericRequest.getAction(location);
-    if (action != null) {
-      CoinMasterRequest.parseResponse(data, location, responseText);
-      return;
-    }
-
-    // Parse current coin balances
-    CoinMasterRequest.parseBalance(data, responseText);
   }
 }

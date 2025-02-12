@@ -20,6 +20,7 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -954,7 +955,7 @@ public class CampgroundRequest extends GenericRequest {
   public static void parseResponse(final String urlString, final String responseText) {
     // Workshed may redirect to shop.php
     if (urlString.startsWith("shop.php")) {
-      NPCPurchaseRequest.parseShopResponse(urlString, responseText);
+      ShopRequest.parseResponse(urlString, responseText);
       return;
     }
 

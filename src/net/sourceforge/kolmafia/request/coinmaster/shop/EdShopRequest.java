@@ -5,12 +5,11 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.LimitMode;
 
-public class EdShopRequest extends CoinMasterRequest {
+public abstract class EdShopRequest extends CoinMasterShopRequest {
   public static final String master = "Everything Under the World";
+  public static final String SHOPID = "edunder_shopshop";
 
   private static final Pattern TOKEN_PATTERN = Pattern.compile("<td>([\\d,]+) Ka coin");
   public static final AdventureResult KA = ItemPool.get(ItemPool.KA_COIN, 1);
@@ -20,46 +19,8 @@ public class EdShopRequest extends CoinMasterRequest {
           .withToken("Ka coin")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(KA)
-          .withShopRowFields(master, "edunder_shopshop")
+          .withShopRowFields(master, SHOPID)
           .withAccessible(EdShopRequest::accessible);
-
-  public EdShopRequest() {
-    super(EDSHOP);
-  }
-
-  public EdShopRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(EDSHOP, buying, attachments);
-  }
-
-  public EdShopRequest(final boolean buying, final AdventureResult attachment) {
-    super(EDSHOP, buying, attachment);
-  }
-
-  public EdShopRequest(final boolean buying, final int itemId, final int quantity) {
-    super(EDSHOP, buying, itemId, quantity);
-  }
-
-  @Override
-  public void processResults() {
-    parseResponse(this.getURLString(), this.responseText);
-  }
-
-  public static void parseResponse(final String location, final String responseText) {
-    if (!location.startsWith("shop.php") || !location.contains("whichshop=edunder_shopshop")) {
-      return;
-    }
-
-    CoinmasterData data = EDSHOP;
-
-    String action = GenericRequest.getAction(location);
-    if (action != null) {
-      CoinMasterRequest.parseResponse(data, location, responseText);
-      return;
-    }
-
-    // Parse current coin balances
-    CoinMasterRequest.parseBalance(data, responseText);
-  }
 
   public static String accessible() {
     if (!KoLCharacter.isEd()) {

@@ -432,7 +432,7 @@ public abstract class MallPriceManager {
           "  "
               + KoLConstants.COMMA_FORMAT.format(prices.get(priceArray[i]).intValue())
               + " @ "
-              + KoLConstants.COMMA_FORMAT.format(priceArray[i].intValue())
+              + KoLConstants.COMMA_FORMAT.format(priceArray[i])
               + " meat");
     }
   }

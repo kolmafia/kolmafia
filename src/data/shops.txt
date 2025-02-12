@@ -96,6 +96,7 @@ mayoclinic	The Mayo Clinic	NPC
 meatsmith	Meatsmith's Shop	NPC
 mrreplica	Replica Mr. Store	COIN
 mrstore2002	Mr. Store 2002	COIN
+mutate	Genetic Fiddling	COIN
 mystic	The Crackpot Mystic's Shed	CONC	PIXEL
 nerve	Nervewrecker's Store	NPC
 nina	Ni&ntilde;a Store	COIN

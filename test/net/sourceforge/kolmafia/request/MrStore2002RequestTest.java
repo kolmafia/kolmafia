@@ -16,6 +16,7 @@ import static org.hamcrest.Matchers.is;
 
 import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -53,7 +54,7 @@ public class MrStore2002RequestTest {
       client.addResponse(200, html("request/test_use_mr_store_2002_catalog.html"));
       client.addResponse(200, html("request/test_visit_mr_store_2002.html"));
 
-      var request = new MrStore2002Request();
+      var request = MrStore2002Request.MR_STORE_2002.getRequest();
       request.run();
 
       assertThat("_2002MrStoreCreditsCollected", isSetTo(true));
@@ -80,15 +81,19 @@ public class MrStore2002RequestTest {
             withPath(Path.STANDARD),
             withNoItems(),
             withItem(ItemPool.MR_STORE_2002_CATALOG),
-            withProperty("availableMrStore2002Credits", 1),
+            withProperty("availableMrStore2002Credits", 3),
             withProperty("_2002MrStoreCreditsCollected", false));
     try (cleanups) {
       client.addResponse(200, html("request/test_use_mr_store_2002_catalog.html"));
-      client.addResponse(200, html("request/test_buy_from_mr_store_2002.html"));
+      client.addResponse(200, html("request/test_buy_from_mr_store_2002_ajax.html"));
       client.addResponse(200, ""); // api.php
 
       var request =
-          new MrStore2002Request(true, ItemPool.FLASH_LIQUIDIZER_ULTRA_DOUSING_ACCESSORY, 1);
+          MrStore2002Request.MR_STORE_2002.getRequest(
+              true,
+              new AdventureResult[] {
+                ItemPool.get(ItemPool.FLASH_LIQUIDIZER_ULTRA_DOUSING_ACCESSORY, 1)
+              });
       request.run();
 
       assertThat("_2002MrStoreCreditsCollected", isSetTo(true));
@@ -129,7 +134,7 @@ public class MrStore2002RequestTest {
       client.addResponse(200, html("request/test_use_mr_store_2002_catalog.html"));
       client.addResponse(200, html("request/test_visit_mr_store_2002.html"));
 
-      var request = new MrStore2002Request();
+      var request = MrStore2002Request.MR_STORE_2002.getRequest();
       request.run();
 
       assertThat(InventoryManager.hasItem(ItemPool.MR_STORE_2002_CATALOG), is(true));
@@ -164,7 +169,7 @@ public class MrStore2002RequestTest {
       client.addResponse(200, html("request/test_use_mr_store_2002_catalog.html"));
       client.addResponse(200, html("request/test_visit_mr_store_2002.html"));
 
-      var request = new MrStore2002Request();
+      var request = MrStore2002Request.MR_STORE_2002.getRequest();
       request.run();
 
       assertThat("_2002MrStoreCreditsCollected", isSetTo(true));
@@ -196,7 +201,7 @@ public class MrStore2002RequestTest {
       client.addResponse(200, html("request/test_use_mr_store_2002_catalog.html"));
       client.addResponse(200, html("request/test_visit_mr_store_2002.html"));
 
-      var request = new MrStore2002Request();
+      var request = MrStore2002Request.MR_STORE_2002.getRequest();
       request.run();
 
       assertThat("_2002MrStoreCreditsCollected", isSetTo(true));
@@ -226,7 +231,7 @@ public class MrStore2002RequestTest {
       client.addResponse(200, html("request/test_use_mr_store_2002_catalog_fails.html"));
       client.addResponse(200, "");
 
-      var request = new MrStore2002Request();
+      var request = MrStore2002Request.MR_STORE_2002.getRequest();
       request.run();
 
       assertThat("_2002MrStoreCreditsCollected", isSetTo(false));

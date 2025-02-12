@@ -4,14 +4,16 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
-import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 
 public class SliemceRequest extends CreateItemRequest {
+  public static final String SHOPID = "voteslime";
+
   public SliemceRequest(final Concoction conc) {
     super("shop.php", conc);
 
-    this.addFormField("whichshop", "voteslime");
+    this.addFormField("whichshop", SHOPID);
     this.addFormField("action", "buyitem");
     int row = ConcoctionPool.idToRow(this.getItemId());
     this.addFormField("whichrow", String.valueOf(row));
@@ -41,14 +43,6 @@ public class SliemceRequest extends CreateItemRequest {
       return;
     }
 
-    SliemceRequest.parseResponse(urlString, responseText);
-  }
-
-  public static void parseResponse(final String urlString, final String responseText) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=voteslime")) {
-      return;
-    }
-
-    NPCPurchaseRequest.parseShopRowResponse(urlString, responseText);
+    ShopRequest.parseResponse(urlString, responseText);
   }
 }

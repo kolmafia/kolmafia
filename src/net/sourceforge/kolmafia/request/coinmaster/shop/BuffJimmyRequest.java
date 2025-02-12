@@ -6,11 +6,10 @@ import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 
-public class BuffJimmyRequest extends CoinMasterRequest {
+public abstract class BuffJimmyRequest extends CoinMasterShopRequest {
   public static final String master = "Buff Jimmy's Souvenir Shop";
+  public static final String SHOPID = "sbb_jimmy";
 
   private static final Pattern TOKEN_PATTERN = Pattern.compile("<td>([\\d,]+) Beach Bucks");
   public static final AdventureResult COIN = ItemPool.get(ItemPool.BEACH_BUCK, 1);
@@ -20,46 +19,8 @@ public class BuffJimmyRequest extends CoinMasterRequest {
           .withToken("Beach Buck")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)
-          .withShopRowFields(master, "sbb_jimmy")
+          .withShopRowFields(master, SHOPID)
           .withAccessible(BuffJimmyRequest::accessible);
-
-  public BuffJimmyRequest() {
-    super(BUFF_JIMMY);
-  }
-
-  public BuffJimmyRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(BUFF_JIMMY, buying, attachments);
-  }
-
-  public BuffJimmyRequest(final boolean buying, final AdventureResult attachment) {
-    super(BUFF_JIMMY, buying, attachment);
-  }
-
-  public BuffJimmyRequest(final boolean buying, final int itemId, final int quantity) {
-    super(BUFF_JIMMY, buying, itemId, quantity);
-  }
-
-  @Override
-  public void processResults() {
-    parseResponse(this.getURLString(), this.responseText);
-  }
-
-  public static void parseResponse(final String urlString, final String responseText) {
-    if (!urlString.contains("whichshop=sbb_jimmy")) {
-      return;
-    }
-
-    CoinmasterData data = BUFF_JIMMY;
-
-    String action = GenericRequest.getAction(urlString);
-    if (action != null) {
-      CoinMasterRequest.parseResponse(data, urlString, responseText);
-      return;
-    }
-
-    // Parse current coin balances
-    CoinMasterRequest.parseBalance(data, responseText);
-  }
 
   public static String accessible() {
     if (!Preferences.getBoolean("_sleazeAirportToday")

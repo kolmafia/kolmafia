@@ -106,7 +106,15 @@ class FactDatabaseTest {
     "SEAL_CLUBBER, NONE, Octorok, EFFECT, Egg-stortionary Tactics (10)",
     "PASTAMANCER, NONE, Jacob's adder, EFFECT, Egg-stortionary Tactics (10)",
     "PASTAMANCER, NONE, Black Crayon Penguin, MEAT, 149 Meat",
-    "DISCO_BANDIT, SMALL, Bob Racecar, EFFECT, Feeling Excited (15)"
+    "DISCO_BANDIT, SMALL, Bob Racecar, EFFECT, Feeling Excited (15)",
+    "SEAL_CLUBBER, NONE, BASIC Elemental, STATS, +1 all substats",
+    "SEAL_CLUBBER, NONE, poutine ooze, STATS, +3 all substats",
+    "SEAL_CLUBBER, NONE, Assembly Elemental, STATS, +3 muscle substats",
+    "SEAL_CLUBBER, NONE, amorphous blob, MODIFIER, Experience (familiar): +1",
+    "SEAL_CLUBBER, NONE, Alphabet Giant, MODIFIER, Item Drop: +25",
+    "SEAL_CLUBBER, NONE, Family Jewels, ITEM, line (3)",
+    "SEAL_CLUBBER, NONE, angry mushroom guy, HP, 50% HP restore",
+    "SEAL_CLUBBER, NONE, ancestral Spookyraven portrait, MP, 20% MP restore",
   })
   void picksCorrectFact(
       final AscensionClass ascensionClass,

@@ -23,89 +23,11 @@ import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.coinmaster.TicketCounterRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.AppleStoreRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.ArmoryAndLeggeryRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.ArmoryRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.BatFabricatorRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.BlackMarketRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.BoutiqueRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.BrogurtRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.BuffJimmyRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.CanteenRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.ChemiCorpRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.CosmicRaysBazaarRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo14Request;
-import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo17Request;
-import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo20BoozeRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo20CandyRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo20FoodRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo23ElfArmoryRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo23ElfBarRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo23ElfCafeRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo23ElfFactoryRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo23PirateArmoryRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo23PirateBarRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo23PirateCafeRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo23PirateFactoryRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo24BarRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo24CafeRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo24FactoryRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.DedigitizerRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.DinostaurRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.DinseyCompanyStoreRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.DiscoGiftCoRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.DripArmoryRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.EdShopRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.FDKOLRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.FancyDanRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.FishboneryRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.FunALogRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.GMartRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.GotporkOrphanageRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.GotporkPDRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.GuzzlrRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.KiwiKwikiMartRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.LTTRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.MemeShopRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.MerchTableRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.MrStore2002Request;
-import net.sourceforge.kolmafia.request.coinmaster.shop.NeandermallRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.NinjaStoreRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.NuggletCraftingRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.PlumberGearRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.PlumberItemRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.PokemporiumRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.PrecinctRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.PrimordialSoupKitchenRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.ReplicaMrStoreRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.RubeeRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.SHAWARMARequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.SeptEmberCenserRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.ShoeRepairRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.ShoreGiftShopRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.SpacegateFabricationRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.SpinMasterLatheRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.TacoDanRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.TerrifiedEagleInnRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.ThankShopRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.ToxicChemistryRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.TrapperRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.VendingMachineRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.WalMartRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.YeNeweSouvenirShoppeRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.YourCampfireRequest;
-import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
-import net.sourceforge.kolmafia.request.concoction.shop.FiveDPrinterRequest;
-import net.sourceforge.kolmafia.request.concoction.shop.JarlsbergRequest;
-import net.sourceforge.kolmafia.request.concoction.shop.StillRequest;
-import net.sourceforge.kolmafia.request.concoction.shop.SugarSheetRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
-import net.sourceforge.kolmafia.shop.ShopDatabase;
-import net.sourceforge.kolmafia.shop.ShopDatabase.SHOP;
 import net.sourceforge.kolmafia.shop.ShopRequest;
+import net.sourceforge.kolmafia.shop.ShopRow;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class NPCPurchaseRequest extends PurchaseRequest {
@@ -432,20 +354,16 @@ public class NPCPurchaseRequest extends PurchaseRequest {
     String urlString = this.getURLString();
 
     if (urlString.startsWith("shop.php")) {
-      NPCPurchaseRequest.parseShopResponse(urlString, this.responseText);
+      ShopRequest.parseResponse(urlString, this.responseText);
+      // shop.php stores say "You spent xxx Meat" and that's already parsed.
+      return;
     }
 
     int quantityAcquired = this.item.getCount(KoLConstants.inventory) - this.initialCount;
 
     if (quantityAcquired > 0) {
-      // Normal NPC stores say "You spent xxx Meat" and we
-      // have already parsed that.
-      if (!urlString.startsWith("shop.php")) {
-        ResultProcessor.processMeat(-1 * this.getPrice() * quantityAcquired);
-        KoLCharacter.updateStatus();
-      }
-
-      return;
+      ResultProcessor.processMeat(-1 * this.getPrice() * quantityAcquired);
+      KoLCharacter.updateStatus();
     }
   }
 
@@ -480,106 +398,19 @@ public class NPCPurchaseRequest extends PurchaseRequest {
     return true;
   }
 
-  public static final int parseWhichRow(final String urlString) {
-    String shopId = NPCPurchaseRequest.getShopId(urlString);
-    return parseWhichRow(shopId, urlString);
-  }
-
-  public static final int parseWhichRow(final String shopId, final String urlString) {
-    Matcher rowMatcher = GenericRequest.WHICHROW_PATTERN.matcher(urlString);
-    if (!rowMatcher.find()) {
-      return -1;
-    }
-
-    int row = StringUtilities.parseInt(rowMatcher.group(1));
-    return NPCStoreDatabase.itemIdByRow(shopId, row);
-  }
-
-  public static final void parseShopRowResponse(final String urlString, final String responseText) {
-    int itemId = parseWhichRow(urlString);
-
-    if (itemId == -1) {
-      return;
-    }
-
-    CreateItemRequest item = CreateItemRequest.getInstance(itemId, false);
-    if (item == null) {
-      return; // this is an unknown item
-    }
-
-    int quantity = 1;
-    if (urlString.contains("buymax=")) {
-      quantity = item.getQuantityPossible();
-    } else {
-      Matcher quantityMatcher = GenericRequest.QUANTITY_PATTERN.matcher(urlString);
-      if (quantityMatcher.find()) {
-        String quantityString = quantityMatcher.group(1).trim();
-        quantity = quantityString.length() == 0 ? 1 : StringUtilities.parseInt(quantityString);
-      }
-    }
-
-    AdventureResult[] ingredients = ConcoctionDatabase.getIngredients(itemId);
-    for (AdventureResult ingredient : ingredients) {
-      ResultProcessor.processResult(ingredient.getInstance(-1 * ingredient.getCount() * quantity));
-    }
-  }
-
   private static final Pattern BLOOD_MAYO_PATTERN =
       Pattern.compile("blood mayonnaise concentration: (\\d+) mayograms");
 
-  public static boolean isConcoction(final String shopId) {
-    return ShopDatabase.getShopType(shopId) == SHOP.CONC;
-  }
+  public static final void parseShopResponse(
+      final String shopId,
+      final ShopRow shopRow,
+      final String urlString,
+      final String responseText) {
 
-  public static final void parseShopResponse(final String urlString, final String responseText) {
-    if (!urlString.startsWith("shop.php")) {
-      return;
-    }
+    // This is called from ShopRequest.parseResponse to handle things it can't.
+    // It has already validated the shopId and parsed the inventory.
 
-    String shopId = NPCPurchaseRequest.getShopId(urlString);
-    if (shopId == null) {
-      return;
-    }
-
-    // Parse the inventory and learn new items for "row" (modern) shops.
-    // Print npcstores.txt or coinmasters.txt entries for new rows.
-
-    ShopRequest.parseShopInventory(shopId, responseText, false);
-
-    int boughtItemId = parseWhichRow(shopId, urlString);
-
-    // Quest tracker update
-    if (shopId.equals("junkmagazine")) {
-      if (!QuestDatabase.isQuestLaterThan(Quest.HIPPY, "step1")) {
-        QuestDatabase.setQuestProgress(Quest.HIPPY, "step2");
-      }
-    }
-
-    // The following trade collections of ingredients for an item
-    switch (shopId) {
-      case "sugarsheets" -> {
-        SugarSheetRequest.parseResponse(urlString, responseText);
-        return;
-      }
-      case "still" -> {
-        StillRequest.parseResponse(urlString, responseText);
-        return;
-      }
-      case "5dprinter" -> {
-        FiveDPrinterRequest.parseResponse(urlString, responseText);
-        return;
-      }
-      case "jarl" -> {
-        JarlsbergRequest.parseResponse(urlString, responseText);
-        return;
-      }
-    }
-
-    // Handle all other concoctions elsewhere.
-    if (isConcoction(shopId)) {
-      NPCPurchaseRequest.parseShopRowResponse(urlString, responseText);
-      return;
-    }
+    // The following are normal NPC shops
 
     if (shopId.equals("chateau")) {
       ChateauRequest.parseShopResponse(urlString, responseText);
@@ -633,68 +464,6 @@ public class NPCPurchaseRequest extends PurchaseRequest {
       return;
     }
 
-    // The following are coinmasters
-
-    if (shopId.equals("arcade")) {
-      TicketCounterRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("armory")) {
-      ArmoryAndLeggeryRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("blackmarket")) {
-      // If Black Market not already unlocked, unlock it
-      if (!QuestLogRequest.isBlackMarketAvailable()) {
-        QuestDatabase.setQuestProgress(Quest.MACGUFFIN, "step1");
-        ConcoctionDatabase.setRefreshNeeded(true);
-      }
-      BlackMarketRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("damachine")) {
-      VendingMachineRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("driparmory")) {
-      DripArmoryRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("shore")) {
-      ShoreGiftShopRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("dv")) {
-      TerrifiedEagleInnRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("guzzlr")) {
-      GuzzlrRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("trapper")) {
-      TrapperRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("cindy")) {
-      BoutiqueRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("fdkol")) {
-      FDKOLRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
     if (shopId.equals("fwshop")) {
       if (responseText.contains("<b>Combat Explosives")) {
         Preferences.setBoolean("_fireworksShop", true);
@@ -706,291 +475,10 @@ public class NPCPurchaseRequest extends PurchaseRequest {
       return;
     }
 
-    if (shopId.equals("elvishp1") || shopId.equals("elvishp2") || shopId.equals("elvishp3")) {
-      SpaaaceRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    // Spring Break Beach shops
-
-    if (shopId.equals("sbb_jimmy")) {
-      BuffJimmyRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("sbb_taco")) {
-      TacoDanRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("sbb_brogurt")) {
-      BrogurtRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    // Conspiracy Island shops
-
-    if (shopId.equals("si_shop1")) {
-      SHAWARMARequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("si_shop2")) {
-      CanteenRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("si_shop3")) {
-      ArmoryRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    // That 70s Volcano shops
-
-    if (shopId.equals("infernodisco")) {
-      DiscoGiftCoRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    // Dinsey Landfill shops
-
-    if (shopId.equals("landfillstore")) {
-      DinseyCompanyStoreRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("toxic")) {
-      ToxicChemistryRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    // The Glaciest shops
-
-    if (shopId.equals("glaciest")) {
-      WalMartRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    // Twitch Shops
-
-    if (shopId.equals("caveshop")) {
-      NeandermallRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("shoeshop")) {
-      ShoeRepairRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("applestore")) {
-      AppleStoreRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("nina")) {
-      NinjaStoreRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("shakeshop")) {
-      YeNeweSouvenirShoppeRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("conmerch")) {
-      MerchTableRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("twitchsoup")) {
-      PrimordialSoupKitchenRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("topiary")) {
-      NuggletCraftingRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("fishbones")) {
-      FishboneryRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.startsWith("crimbo14")) {
-      Crimbo14Request.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("crimbo17")) {
-      Crimbo17Request.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.startsWith("crimbo20booze")) {
-      Crimbo20BoozeRequest.parseResponse(urlString, responseText);
-    }
-
-    if (shopId.startsWith("crimbo20candy")) {
-      Crimbo20CandyRequest.parseResponse(urlString, responseText);
-    }
-
-    if (shopId.startsWith("crimbo20food")) {
-      Crimbo20FoodRequest.parseResponse(urlString, responseText);
-    }
-
-    if (shopId.equals("crimbo23_elf_armory")) {
-      Crimbo23ElfArmoryRequest.parseResponse(urlString, responseText);
-    }
-
-    if (shopId.equals("crimbo23_elf_bar")) {
-      Crimbo23ElfBarRequest.parseResponse(urlString, responseText);
-    }
-
-    if (shopId.equals("crimbo23_elf_cafe")) {
-      Crimbo23ElfCafeRequest.parseResponse(urlString, responseText);
-    }
-
-    if (shopId.equals("crimbo23_elf_factory")) {
-      Crimbo23ElfFactoryRequest.parseResponse(urlString, responseText);
-    }
-
-    if (shopId.equals("crimbo23_pirate_armory")) {
-      Crimbo23PirateArmoryRequest.parseResponse(urlString, responseText);
-    }
-
-    if (shopId.startsWith("crimbo23_pirate_bar")) {
-      Crimbo23PirateBarRequest.parseResponse(urlString, responseText);
-    }
-
-    if (shopId.startsWith("crimbo23_pirate_cafe")) {
-      Crimbo23PirateCafeRequest.parseResponse(urlString, responseText);
-    }
-
-    if (shopId.startsWith("crimbo23_pirate_factory")) {
-      Crimbo23PirateFactoryRequest.parseResponse(urlString, responseText);
-    }
-
-    if (shopId.equals("crimbo24_bar")) {
-      Crimbo24BarRequest.parseResponse(urlString, responseText);
-    }
-
-    if (shopId.equals("crimbo24_cafe")) {
-      Crimbo24CafeRequest.parseResponse(urlString, responseText);
-    }
-
-    if (shopId.equals("crimbo24_factory")) {
-      Crimbo24FactoryRequest.parseResponse(urlString, responseText);
-    }
-
-    if (shopId.equals("cyber_dedigitizer")) {
-      DedigitizerRequest.parseResponse(urlString, responseText);
-    }
-
-    if (shopId.equals("edunder_shopshop")) {
-      EdShopRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("batman_cave")) {
-      BatFabricatorRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("batman_chemicorp")) {
-      ChemiCorpRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("batman_orphanage")) {
-      GotporkOrphanageRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("batman_pd")) {
-      GotporkPDRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("ltt")) {
-      LTTRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("bacon")) {
-      MemeShopRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("pokefam")) {
-      PokemporiumRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("detective")) {
-      PrecinctRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("thankshop")) {
-      ThankShopRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("olivers")) {
-      FancyDanRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("spacegate")) {
-      SpacegateFabricationRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("fantasyrealm")) {
-      RubeeRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("glover")) {
-      GMartRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("piraterealm")) {
-      FunALogRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("lathe")) {
-      SpinMasterLatheRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("campfire")) {
-      YourCampfireRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("exploathing")) {
-      CosmicRaysBazaarRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("mariogear")) {
-      PlumberGearRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("marioitems")) {
-      PlumberItemRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
     if (shopId.equals("wildfire")) {
       if (responseText.contains("You acquire an item")) {
-        switch (boughtItemId) {
+        int itemId = shopRow.getItem().getItemId();
+        switch (itemId) {
           case ItemPool.BLART -> Preferences.setBoolean("itemBoughtPerAscension10790", true);
           case ItemPool.RAINPROOF_BARREL_CAULK -> Preferences.setBoolean(
               "itemBoughtPerAscension10794", true);
@@ -1010,31 +498,6 @@ public class NPCPurchaseRequest extends PurchaseRequest {
             "itemBoughtPerAscension10795", !responseText.contains("<tr rel=\"10795\">"));
         return;
       }
-    }
-
-    if (shopId.equals("dino")) {
-      DinostaurRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("mrreplica")) {
-      ReplicaMrStoreRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("mrstore2002")) {
-      MrStore2002Request.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("kiwi")) {
-      KiwiKwikiMartRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("september")) {
-      SeptEmberCenserRequest.parseResponse(urlString, responseText);
-      return;
     }
 
     // When we purchase items from NPC stores using ajax, the

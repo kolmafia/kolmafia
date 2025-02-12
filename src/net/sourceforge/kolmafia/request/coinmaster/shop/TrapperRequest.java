@@ -8,10 +8,10 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 
-public class TrapperRequest extends CoinMasterRequest {
-  public static String master = "The Trapper";
+public abstract class TrapperRequest extends CoinMasterShopRequest {
+  public static final String master = "The Trapper";
+  public static final String SHOPID = "trapper";
 
   private static final Pattern TOKEN_PATTERN = Pattern.compile("([\\d,]+) yeti fur");
   public static final AdventureResult YETI_FUR = ItemPool.get(ItemPool.YETI_FUR, 1);
@@ -22,38 +22,23 @@ public class TrapperRequest extends CoinMasterRequest {
           .withTokenTest("no yeti furs")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(YETI_FUR)
-          .withShopRowFields(master, "trapper")
+          .withShopRowFields(master, SHOPID)
           .withBuyItems(master)
+          .withVisitShop(TrapperRequest::visitShop)
           .withAccessible(TrapperRequest::accessible);
 
-  public TrapperRequest() {
-    super(TRAPPER);
+  public static CoinMasterShopRequest getRequest(final int itemId, final int quantity) {
+    return CoinMasterShopRequest.getRequest(TRAPPER, true, itemId, quantity);
   }
 
-  public TrapperRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(TRAPPER, buying, attachments);
-  }
-
-  public TrapperRequest(final boolean buying, final AdventureResult attachment) {
-    super(TRAPPER, buying, attachment);
-  }
-
-  public TrapperRequest(final boolean buying, final int itemId, final int quantity) {
-    super(TRAPPER, buying, itemId, quantity);
-  }
-
-  public TrapperRequest(final int itemId, final int quantity) {
-    this(true, itemId, quantity);
-  }
-
-  public static void parseResponse(final String urlString, final String responseText) {
+  public static void visitShop(String responseText) {
     // I'm plumb stocked up on everythin' 'cept yeti furs, Adventurer.
     // If you've got any to trade, I'd be much obliged."
+
     if (responseText.contains("yeti furs")) {
       Preferences.setInteger("lastTr4pz0rQuest", KoLCharacter.getAscensions());
       QuestDatabase.setQuestProgress(Quest.TRAPPER, QuestDatabase.FINISHED);
     }
-    CoinMasterRequest.parseResponse(TRAPPER, urlString, responseText);
   }
 
   public static String accessible() {
