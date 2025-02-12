@@ -228,4 +228,16 @@ public class TrainsetManagerTest {
       assertThat("lastTrainsetConfiguration", isSetTo(0));
     }
   }
+
+  @Test
+  void canParseOneLapRemaining() {
+    var cleanups =
+        new Cleanups(
+            withProperty("lastTrainsetConfiguration", -40),
+            withProperty("TrainsetPosition", 7),
+            withChoice(1485, html("request/test_trainset_one_lap.html")));
+    try (cleanups) {
+      assertThat("lastTrainsetConfiguration", isSetTo(-33));
+    }
+  }
 }
