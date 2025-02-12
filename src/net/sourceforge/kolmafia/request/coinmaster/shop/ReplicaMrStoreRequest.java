@@ -10,13 +10,12 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-public class ReplicaMrStoreRequest extends CoinMasterRequest {
+public abstract class ReplicaMrStoreRequest extends CoinMasterShopRequest {
   public static final String master = "Replica Mr. Store";
+  public static final String SHOPID = "mrreplica";
 
   private static final Pattern TOKEN_PATTERN =
       Pattern.compile("<td>([\\d,]+) Replica Mr. Accessor");
@@ -27,26 +26,12 @@ public class ReplicaMrStoreRequest extends CoinMasterRequest {
           .withToken("replica Mr. Accessory")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)
-          .withShopRowFields(master, "mrreplica")
+          .withShopRowFields(master, SHOPID)
           .withCanBuyItem(ReplicaMrStoreRequest::canBuyItem)
           .withAvailableItem(ReplicaMrStoreRequest::availableItem)
+          .withVisitShop(ReplicaMrStoreRequest::visitShop)
+          .withPurchasedItem(ReplicaMrStoreRequest::purchasedItem)
           .withAccessible(ReplicaMrStoreRequest::accessible);
-
-  public ReplicaMrStoreRequest() {
-    super(REPLICA_MR_STORE);
-  }
-
-  public ReplicaMrStoreRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(REPLICA_MR_STORE, buying, attachments);
-  }
-
-  public ReplicaMrStoreRequest(final boolean buying, final AdventureResult attachment) {
-    super(REPLICA_MR_STORE, buying, attachment);
-  }
-
-  public ReplicaMrStoreRequest(final boolean buying, final int itemId, final int quantity) {
-    super(REPLICA_MR_STORE, buying, itemId, quantity);
-  }
 
   private static final Map<Integer, Integer> itemToYear =
       Map.ofEntries(
@@ -136,35 +121,20 @@ public class ReplicaMrStoreRequest extends CoinMasterRequest {
     return false;
   }
 
-  @Override
-  public void processResults() {
-    parseResponse(this.getURLString(), this.responseText);
-  }
-
   // <td colspan=14 align=center>&mdash; <b>2007</b> &mdash;</td>
   private static final Pattern YEAR_PATTERN = Pattern.compile("&mdash; <b>(\\d+)</b> &mdash;");
 
-  public static void parseResponse(final String urlString, final String responseText) {
-    if (!urlString.contains("whichshop=mrreplica")) {
-      return;
-    }
-
+  public static void visitShop(final String responseText) {
     Matcher yearMatcher = YEAR_PATTERN.matcher(responseText);
     if (yearMatcher.find()) {
       int year = StringUtilities.parseInt(yearMatcher.group(1));
       Preferences.setInteger("currentReplicaStoreYear", year);
     }
+  }
 
-    String action = GenericRequest.getAction(urlString);
-    if (action != null) {
-      CoinMasterRequest.parseResponse(REPLICA_MR_STORE, urlString, responseText);
-      // Purchasing certain items makes them unavailable
-      NamedListenerRegistry.fireChange("(coinmaster)");
-      return;
-    }
-
-    // Parse current coin balances
-    CoinMasterRequest.parseBalance(REPLICA_MR_STORE, responseText);
+  public static void purchasedItem(final AdventureResult item, final Boolean storage) {
+    // Purchasing certain items makes them unavailable
+    NamedListenerRegistry.fireChange("(coinmaster)");
   }
 
   public static String accessible() {

@@ -11859,7 +11859,7 @@
 11831	ninja crampons	876430936	crampons.gif	none	q	0
 11832	ninja carabiner	128846387	carabiner.gif	none	q	0
 11833	synthetic coffee	348642138	coffeecup.gif	potion, usable	t,d	1
-11834	iDrops	129405226	blackdrops.gif	potion, usable	t,d	1
+11834	iDrops	129405226	blackdrops.gif	potion	t,d	1
 11835
 11836	new-in-box toy Cupid bow	829241057	plungebow_box.gif	usable	t	0
 11837	toy Cupid bow	892523678	plungebow.gif	familiar		0

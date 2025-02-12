@@ -5,11 +5,10 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 
-public class SpacegateFabricationRequest extends CoinMasterRequest {
+public abstract class SpacegateFabricationRequest extends CoinMasterShopRequest {
   public static final String master = "Spacegate Fabrication Facility";
+  public static final String SHOPID = "spacegate";
 
   private static final Pattern RESEARCH_PATTERN =
       Pattern.compile("([\\d,]+) pages? of Spacegate Research");
@@ -21,46 +20,8 @@ public class SpacegateFabricationRequest extends CoinMasterRequest {
           .withTokenTest("no pages of Spacegate Research")
           .withTokenPattern(RESEARCH_PATTERN)
           .withItem(RESEARCH)
-          .withShopRowFields(master, "spacegate")
+          .withShopRowFields(master, SHOPID)
           .withAccessible(SpacegateFabricationRequest::accessible);
-
-  public SpacegateFabricationRequest() {
-    super(SPACEGATE_STORE);
-  }
-
-  public SpacegateFabricationRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(SPACEGATE_STORE, buying, attachments);
-  }
-
-  public SpacegateFabricationRequest(final boolean buying, final AdventureResult attachment) {
-    super(SPACEGATE_STORE, buying, attachment);
-  }
-
-  public SpacegateFabricationRequest(final boolean buying, final int itemId, final int quantity) {
-    super(SPACEGATE_STORE, buying, itemId, quantity);
-  }
-
-  @Override
-  public void processResults() {
-    parseResponse(this.getURLString(), this.responseText);
-  }
-
-  public static void parseResponse(final String location, final String responseText) {
-    if (!location.contains("whichshop=spacegate")) {
-      return;
-    }
-
-    CoinmasterData data = SPACEGATE_STORE;
-
-    String action = GenericRequest.getAction(location);
-    if (action != null) {
-      CoinMasterRequest.parseResponse(data, location, responseText);
-      return;
-    }
-
-    // Parse current coin balances
-    CoinMasterRequest.parseBalance(data, responseText);
-  }
 
   public static String accessible() {
     if (!Preferences.getBoolean("_spacegateToday") && !Preferences.getBoolean("spacegateAlways")) {

@@ -5,14 +5,13 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.BatManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LimitMode;
 
-public class GotporkOrphanageRequest extends CoinMasterRequest {
+public abstract class GotporkOrphanageRequest extends CoinMasterShopRequest {
   public static final String master = "Gotpork Orphanage";
+  public static final String SHOPID = "batman_orphanage";
 
   private static final Pattern TOKEN_PATTERN = Pattern.compile("<td>([\\d,]+) kidnapped orphan");
   public static final AdventureResult COIN = ItemPool.get(ItemPool.KIDNAPPED_ORPHAN, 1);
@@ -22,7 +21,7 @@ public class GotporkOrphanageRequest extends CoinMasterRequest {
           .withToken("kidnapped orphan")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)
-          .withShopRowFields(master, "batman_orphanage")
+          .withShopRowFields(master, SHOPID)
           .withItemBuyPrice(GotporkOrphanageRequest::itemBuyPrice)
           .withAccessible(GotporkOrphanageRequest::accessible);
 
@@ -37,44 +36,6 @@ public class GotporkOrphanageRequest extends CoinMasterRequest {
       price = 3 * (count + 1);
     }
     return COIN.getInstance(price);
-  }
-
-  public GotporkOrphanageRequest() {
-    super(GOTPORK_ORPHANAGE);
-  }
-
-  public GotporkOrphanageRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(GOTPORK_ORPHANAGE, buying, attachments);
-  }
-
-  public GotporkOrphanageRequest(final boolean buying, final AdventureResult attachment) {
-    super(GOTPORK_ORPHANAGE, buying, attachment);
-  }
-
-  public GotporkOrphanageRequest(final boolean buying, final int itemId, final int quantity) {
-    super(GOTPORK_ORPHANAGE, buying, itemId, quantity);
-  }
-
-  @Override
-  public void processResults() {
-    parseResponse(this.getURLString(), this.responseText);
-  }
-
-  public static void parseResponse(final String urlString, final String responseText) {
-    if (!urlString.contains("whichshop=batman_orphanage")) {
-      return;
-    }
-
-    CoinmasterData data = GOTPORK_ORPHANAGE;
-
-    String action = GenericRequest.getAction(urlString);
-    if (action != null) {
-      CoinMasterRequest.parseResponse(data, urlString, responseText);
-      return;
-    }
-
-    // Parse current coin balances
-    CoinMasterRequest.parseBalance(data, responseText);
   }
 
   public static String accessible() {

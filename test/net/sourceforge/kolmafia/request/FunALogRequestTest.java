@@ -8,7 +8,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.coinmaster.shop.FunALogRequest;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -30,8 +30,9 @@ class FunALogRequestTest {
             withProperty("pirateRealmUnlockedShavingCream", false),
             withProperty("pirateRealmUnlockedScurvySkillbook", false));
     try (cleanups) {
+      var url = "shop.php?whichshop=piraterealm";
       var responseText = html("request/test_shop_funalog.html");
-      FunALogRequest.parseResponse("shop.php?whichshop=piraterealm", responseText);
+      ShopRequest.parseResponse(url, responseText);
       assertThat("pirateRealmUnlockedCrabsicle", isSetTo(true));
       assertThat("pirateRealmUnlockedRhum", isSetTo(true));
       assertThat("pirateRealmUnlockedShavingCream", isSetTo(true));

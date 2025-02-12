@@ -8,12 +8,11 @@ import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
-public class SpinMasterLatheRequest extends CoinMasterRequest {
+public abstract class SpinMasterLatheRequest extends CoinMasterShopRequest {
   public static final String master = "Your SpinMaster&trade; lathe";
+  public static String SHOPID = "lathe";
 
   // Since there are seven different currencies, we need to have a map from
   // itemId to item/count of currency; an AdventureResult.
@@ -21,14 +20,11 @@ public class SpinMasterLatheRequest extends CoinMasterRequest {
 
   public static final CoinmasterData YOUR_SPINMASTER_LATHE =
       new CoinmasterData(master, "lathe", SpinMasterLatheRequest.class)
-          .withShopRowFields(master, "lathe")
+          .withShopRowFields(master, SHOPID)
           .withBuyPrices()
           .withItemBuyPrice(SpinMasterLatheRequest::itemBuyPrice)
+          .withVisitShop(SpinMasterLatheRequest::visitShop)
           .withAccessible(SpinMasterLatheRequest::accessible);
-
-  private static AdventureResult itemBuyPrice(final Integer itemId) {
-    return buyCosts.get(itemId);
-  }
 
   public static final AdventureResult SPINMASTER = ItemPool.get(ItemPool.SPINMASTER, 1);
   public static final AdventureResult FLIMSY_HARDWOOD_SCRAPS =
@@ -61,47 +57,12 @@ public class SpinMasterLatheRequest extends CoinMasterRequest {
     }
   }
 
-  public SpinMasterLatheRequest() {
-    super(YOUR_SPINMASTER_LATHE);
+  private static AdventureResult itemBuyPrice(final Integer itemId) {
+    return buyCosts.get(itemId);
   }
 
-  public SpinMasterLatheRequest(final String action) {
-    super(YOUR_SPINMASTER_LATHE, action);
-  }
-
-  public SpinMasterLatheRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(YOUR_SPINMASTER_LATHE, buying, attachments);
-  }
-
-  public SpinMasterLatheRequest(final boolean buying, final AdventureResult attachment) {
-    super(YOUR_SPINMASTER_LATHE, buying, attachment);
-  }
-
-  public SpinMasterLatheRequest(final boolean buying, final int itemId, final int quantity) {
-    super(YOUR_SPINMASTER_LATHE, buying, itemId, quantity);
-  }
-
-  @Override
-  public void processResults() {
-    parseResponse(this.getURLString(), this.responseText);
-  }
-
-  public static void parseResponse(final String location, final String responseText) {
-    if (!location.contains("whichshop=lathe")) {
-      return;
-    }
-
-    CoinmasterData data = YOUR_SPINMASTER_LATHE;
+  public static void visitShop(final String responseText) {
     Preferences.setBoolean("_spinmasterLatheVisited", true);
-
-    String action = GenericRequest.getAction(location);
-    if (action == null) {
-      // Parse current coin balances
-      CoinMasterRequest.parseBalance(data, responseText);
-      return;
-    }
-
-    CoinMasterRequest.parseResponse(data, location, responseText);
   }
 
   public static String accessible() {

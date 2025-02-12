@@ -18,7 +18,6 @@ import net.sourceforge.kolmafia.request.coinmaster.HermitRequest;
 import net.sourceforge.kolmafia.request.coinmaster.MrStoreRequest;
 import net.sourceforge.kolmafia.request.coinmaster.QuartersmasterRequest;
 import net.sourceforge.kolmafia.request.coinmaster.SwaggerShopRequest;
-import net.sourceforge.kolmafia.request.coinmaster.TicketCounterRequest;
 import net.sourceforge.kolmafia.request.coinmaster.TravelingTraderRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.AppleStoreRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ArmoryAndLeggeryRequest;
@@ -59,6 +58,7 @@ import net.sourceforge.kolmafia.request.coinmaster.shop.FancyDanRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.FishboneryRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.FunALogRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.GMartRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.GeneticFiddlingRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.GotporkOrphanageRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.GotporkPDRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.GuzzlrRequest;
@@ -88,6 +88,7 @@ import net.sourceforge.kolmafia.request.coinmaster.shop.SpinMasterLatheRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.TacoDanRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.TerrifiedEagleInnRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ThankShopRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.TicketCounterRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ToxicChemistryRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.TrapperRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.VendingMachineRequest;
@@ -151,6 +152,7 @@ public abstract class CoinmasterRegistry {
         FunALogRequest.FUN_A_LOG,
         GameShoppeRequest.GAMESHOPPE,
         GMartRequest.GMART,
+        GeneticFiddlingRequest.DATA,
         GotporkOrphanageRequest.GOTPORK_ORPHANAGE,
         GotporkPDRequest.GOTPORK_PD,
         GuzzlrRequest.GUZZLR,

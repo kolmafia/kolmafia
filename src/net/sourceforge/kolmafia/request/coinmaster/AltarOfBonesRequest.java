@@ -34,12 +34,9 @@ public class AltarOfBonesRequest extends CoinMasterRequest {
     super(ALTAR_OF_BONES, buying, attachments);
   }
 
-  public AltarOfBonesRequest(final boolean buying, final AdventureResult attachment) {
-    super(ALTAR_OF_BONES, buying, attachment);
-  }
-
-  public AltarOfBonesRequest(final boolean buying, final int itemId, final int quantity) {
-    super(ALTAR_OF_BONES, buying, itemId, quantity);
+  @Override
+  public void processResults() {
+    parseResponse(this.getURLString(), this.responseText);
   }
 
   public static void parseResponse(final String urlString, final String responseText) {

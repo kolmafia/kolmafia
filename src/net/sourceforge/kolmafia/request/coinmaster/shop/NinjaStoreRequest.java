@@ -5,12 +5,11 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.QuestManager;
 
-public class NinjaStoreRequest extends CoinMasterRequest {
+public abstract class NinjaStoreRequest extends CoinMasterShopRequest {
   public static final String master = "Ni&ntilde;a Store";
+  public static final String SHOPID = "nina";
 
   private static final Pattern CHRONER_PATTERN = Pattern.compile("([\\d,]+) Chroner");
   public static final AdventureResult CHRONER = ItemPool.get(ItemPool.CHRONER, 1);
@@ -21,52 +20,12 @@ public class NinjaStoreRequest extends CoinMasterRequest {
           .withTokenTest("no Chroner")
           .withTokenPattern(CHRONER_PATTERN)
           .withItem(CHRONER)
-          .withShopRowFields(master, "nina")
+          .withShopRowFields(master, SHOPID)
+          .withVisitShop(NinjaStoreRequest::visitShop)
           .withAccessible(NinjaStoreRequest::accessible);
 
-  public NinjaStoreRequest() {
-    super(NINJA_STORE);
-  }
-
-  public NinjaStoreRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(NINJA_STORE, buying, attachments);
-  }
-
-  public NinjaStoreRequest(final boolean buying, final AdventureResult attachment) {
-    super(NINJA_STORE, buying, attachment);
-  }
-
-  public NinjaStoreRequest(final boolean buying, final int itemId, final int quantity) {
-    super(NINJA_STORE, buying, itemId, quantity);
-  }
-
-  @Override
-  public void processResults() {
-    parseResponse(this.getURLString(), this.responseText);
-  }
-
-  public static void parseResponse(final String location, final String responseText) {
-    if (!location.contains("whichshop=nina")) {
-      return;
-    }
-
-    if (responseText.contains("That store isn't there anymore.")) {
-      QuestManager.handleTimeTower(false);
-      return;
-    }
-
-    QuestManager.handleTimeTower(true);
-
-    CoinmasterData data = NINJA_STORE;
-
-    String action = GenericRequest.getAction(location);
-    if (action != null) {
-      CoinMasterRequest.parseResponse(data, location, responseText);
-      return;
-    }
-
-    // Parse current coin balances
-    CoinMasterRequest.parseBalance(data, responseText);
+  public static void visitShop(final String responseText) {
+    QuestManager.handleTimeTower(!responseText.contains("That store isn't there anymore."));
   }
 
   public static String accessible() {

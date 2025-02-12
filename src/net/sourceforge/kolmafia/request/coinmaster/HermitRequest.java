@@ -76,16 +76,8 @@ public class HermitRequest extends CoinMasterRequest {
     super(HERMIT, buying, attachments);
   }
 
-  public HermitRequest(final boolean buying, final AdventureResult attachment) {
-    super(HERMIT, buying, attachment);
-  }
-
-  public HermitRequest(final boolean buying, final int itemId, final int quantity) {
-    super(HERMIT, buying, itemId, quantity);
-  }
-
   public HermitRequest(final int itemId, final int quantity) {
-    this(true, itemId, quantity);
+    super(HERMIT, true, itemId, quantity);
   }
 
   private static void registerHermitItem(final int itemId, final int count) {

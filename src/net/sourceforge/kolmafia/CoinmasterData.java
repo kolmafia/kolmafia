@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.regex.Matcher;
@@ -21,6 +22,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.coinmaster.HermitRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.CoinMasterShopRequest;
 import net.sourceforge.kolmafia.shop.ShopDatabase;
 import net.sourceforge.kolmafia.shop.ShopDatabase.SHOP;
 import net.sourceforge.kolmafia.shop.ShopRow;
@@ -106,9 +108,12 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   private Function<Integer, Boolean> canBuyItem = this::canBuyItemInternal;
   private Function<Integer, Boolean> availableItem = this::availableItemInternal;
   private BiConsumer<AdventureResult, Boolean> purchasedItem = this::purchasedItemInternal;
+  private Consumer<String> visitShop = this::visitShopInternal;
   private Supplier<String> canBuy = this::canBuyInternal;
   private Supplier<String> canSell = this::canSellInternal;
   private Supplier<String> accessible = this::accessibleInternal;
+  private Supplier<Boolean> equip = this::equipInternal;
+  private Supplier<Boolean> unequip = this::unequipInternal;
 
   // Constructor for CoinmasterData with only mandatory fields.
   // Optional fields can be added fluidly.
@@ -126,10 +131,9 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   /**
    * Defines the token used by the coinmaster,
    *
-   * <p>A coinmaster deals in currencies other than Meat. If there is only one such currency, we
-   * call it the "token"
+   * <p>A shop.php coinmaster needs a shopId
    *
-   * @param token - Token used
+   * @param shopId - whichshop=SHOPID
    * @return this - Allows fluid chaining of fields
    */
   public CoinmasterData withShopId(String shopId) {
@@ -678,6 +682,20 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   }
 
   /**
+   * Specifies a static method that will be invoked by <code>void
+   * visitShop(String responseText)</code>
+   *
+   * <p>Use this if you want to, for example, check for unlocked items.
+   *
+   * @param consumer - a Consumer object to be called by visitShop
+   * @return this - Allows fluid chaining of fields
+   */
+  public CoinmasterData withVisitShop(Consumer<String> consumer) {
+    this.visitShop = consumer;
+    return this;
+  }
+
+  /**
    * Specifies a static method that will be invoked by <code>Boolean
    * canBuy()</code>
    *
@@ -710,6 +728,30 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
    */
   public CoinmasterData withAccessible(Supplier<String> supplier) {
     this.accessible = supplier;
+    return this;
+  }
+
+  /**
+   * Specifies a static method that will be invoked by <code>String
+   * equip()</code>
+   *
+   * @param supplier - a Supplier object to be called by equip
+   * @return this - Allows fluid chaining of fields
+   */
+  public CoinmasterData withEquip(Supplier<Boolean> supplier) {
+    this.equip = supplier;
+    return this;
+  }
+
+  /**
+   * Specifies a static method that will be invoked by <code>String
+   * unequip()</code>
+   *
+   * @param supplier - a Supplier object to be called by equip
+   * @return this - Allows fluid chaining of fields
+   */
+  public CoinmasterData withUnequip(Supplier<Boolean> supplier) {
+    this.unequip = supplier;
     return this;
   }
 
@@ -1045,7 +1087,8 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   private Boolean availableItemInternal(final Integer itemId) {
     if (this.shopRows != null) {
       for (ShopRow shopRow : this.shopRows) {
-        if (shopRow.getItem().getItemId() == itemId) {
+        AdventureResult item = shopRow.getItem();
+        if (item.isItem() && item.getItemId() == itemId) {
           return true;
         }
       }
@@ -1066,7 +1109,8 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   public Boolean canBuyItemInternal(final Integer itemId) {
     if (this.shopRows != null) {
       for (ShopRow shopRow : this.shopRows) {
-        if (shopRow.getItem().getItemId() == itemId) {
+        AdventureResult item = shopRow.getItem();
+        if (item.isItem() && item.getItemId() == itemId) {
           return true;
         }
       }
@@ -1108,7 +1152,11 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   public Set<AdventureResult> currencies() {
     if (this.currencies == null) {
       this.currencies = new TreeSet<>();
-      if (this.shopRows != null) {
+      if (this.master.equals("Hermit")) {
+        // Unlike other coinmasters, buyitems is not initialized until
+        // the shop is first visited.
+        this.currencies.add(HermitRequest.WORTHLESS_ITEM);
+      } else if (this.shopRows != null) {
         for (ShopRow shopRow : this.shopRows) {
           for (AdventureResult cost : shopRow.getCosts()) {
             this.currencies.add(cost);
@@ -1207,6 +1255,7 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   public void registerShop() {
     if (this.buyURL.startsWith("shop.php")) {
       ShopDatabase.registerShop(this.shopId, this.master, SHOP.COIN);
+      ShopDatabase.setCoinmasterData(this.shopId, this);
       ShopDatabase.setLogVisits(shopId);
     }
   }
@@ -1286,6 +1335,10 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   }
 
   public CoinMasterRequest getRequest() {
+    if (this.shopId != null) {
+      return new CoinMasterShopRequest(this);
+    }
+
     Class<? extends CoinMasterRequest> requestClass = this.getRequestClass();
     Class<?>[] parameters = new Class<?>[0];
 
@@ -1300,6 +1353,10 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   }
 
   public CoinMasterRequest getRequest(final boolean buying, final AdventureResult[] items) {
+    if (this.shopId != null) {
+      return new CoinMasterShopRequest(this, buying, items);
+    }
+
     Class<? extends CoinMasterRequest> requestClass = this.getRequestClass();
     Class<?>[] parameters = new Class<?>[2];
     parameters[0] = boolean.class;
@@ -1318,21 +1375,11 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   }
 
   public CoinMasterRequest getRequest(final ShopRow row, final int quantity) {
-    Class<? extends CoinMasterRequest> requestClass = this.getRequestClass();
-    Class<?>[] parameters = new Class<?>[2];
-    parameters[0] = ShopRow.class;
-    parameters[1] = int.class;
-
-    try {
-      Constructor<? extends CoinMasterRequest> constructor =
-          requestClass.getConstructor(parameters);
-      Object[] initargs = new Object[2];
-      initargs[0] = row;
-      initargs[1] = quantity;
-      return constructor.newInstance(initargs);
-    } catch (Exception e) {
-      return null;
+    if (this.shopId != null) {
+      return new CoinMasterShopRequest(this, row, quantity);
     }
+    // If you are not using shop.php, you don't use ShopRows
+    return null;
   }
 
   public boolean isAccessible() {
@@ -1375,6 +1422,28 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   }
 
   private void purchasedItemInternal(AdventureResult item, boolean storage) {}
+
+  public void visitShop(final String responseText) {
+    this.visitShop.accept(responseText);
+  }
+
+  private void visitShopInternal(String responseText) {}
+
+  public Boolean equip() {
+    return this.equip.get();
+  }
+
+  public Boolean equipInternal() {
+    return true;
+  }
+
+  public Boolean unequip() {
+    return this.unequip.get();
+  }
+
+  public Boolean unequipInternal() {
+    return true;
+  }
 
   // *** For testing
   public void setDisabled(boolean isDisabled) {

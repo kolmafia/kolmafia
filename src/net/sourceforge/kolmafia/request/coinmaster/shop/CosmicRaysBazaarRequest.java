@@ -8,11 +8,10 @@ import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
-import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 
-public class CosmicRaysBazaarRequest extends CoinMasterRequest {
+public abstract class CosmicRaysBazaarRequest extends CoinMasterShopRequest {
   public static final String master = "Cosmic Ray's Bazaar";
+  public static final String SHOPID = "exploathing";
 
   public static final AdventureResult RARE_MEAT_ISOTOPE =
       ItemPool.get(ItemPool.RARE_MEAT_ISOTOPE, 1);
@@ -21,7 +20,7 @@ public class CosmicRaysBazaarRequest extends CoinMasterRequest {
 
   public static final CoinmasterData COSMIC_RAYS_BAZAAR =
       new CoinmasterData(master, "exploathing", CosmicRaysBazaarRequest.class)
-          .withShopRowFields(master, "exploathing")
+          .withShopRowFields(master, SHOPID)
           .withBuyPrices()
           .withItemBuyPrice(CosmicRaysBazaarRequest::itemBuyPrice)
           .withAccessible(CosmicRaysBazaarRequest::accessible);
@@ -50,48 +49,6 @@ public class CosmicRaysBazaarRequest extends CoinMasterRequest {
           };
       buyCosts.put(itemId, cost);
     }
-  }
-
-  public CosmicRaysBazaarRequest() {
-    super(COSMIC_RAYS_BAZAAR);
-  }
-
-  public CosmicRaysBazaarRequest(final String action) {
-    super(COSMIC_RAYS_BAZAAR, action);
-  }
-
-  public CosmicRaysBazaarRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(COSMIC_RAYS_BAZAAR, buying, attachments);
-  }
-
-  public CosmicRaysBazaarRequest(final boolean buying, final AdventureResult attachment) {
-    super(COSMIC_RAYS_BAZAAR, buying, attachment);
-  }
-
-  public CosmicRaysBazaarRequest(final boolean buying, final int itemId, final int quantity) {
-    super(COSMIC_RAYS_BAZAAR, buying, itemId, quantity);
-  }
-
-  @Override
-  public void processResults() {
-    parseResponse(this.getURLString(), this.responseText);
-  }
-
-  public static void parseResponse(final String location, final String responseText) {
-    if (!location.contains("whichshop=exploathing")) {
-      return;
-    }
-
-    CoinmasterData data = COSMIC_RAYS_BAZAAR;
-
-    String action = GenericRequest.getAction(location);
-    if (action != null) {
-      CoinMasterRequest.parseResponse(data, location, responseText);
-      return;
-    }
-
-    // Parse current coin balances
-    CoinMasterRequest.parseBalance(data, responseText);
   }
 
   public static String accessible() {

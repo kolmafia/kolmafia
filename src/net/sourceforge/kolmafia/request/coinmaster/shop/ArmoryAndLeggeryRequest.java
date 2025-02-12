@@ -12,20 +12,20 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.StandardRewardDatabase;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.shop.ShopRow;
 import net.sourceforge.kolmafia.shop.ShopRowDatabase;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
-public class ArmoryAndLeggeryRequest extends CoinMasterRequest {
+public abstract class ArmoryAndLeggeryRequest extends CoinMasterShopRequest {
   public static final String master = "Armory & Leggery";
+  public static final String SHOPID = "armory";
 
   private static final Pattern TOKEN_PATTERN = Pattern.compile("<td>([\\d,]+) FDKOL commendation");
 
   public static final CoinmasterData ARMORY_AND_LEGGERY =
       new CoinmasterData(master, "armory", ArmoryAndLeggeryRequest.class)
-          .withShopRowFields(master, "armory")
+          .withShopRowFields(master, SHOPID)
           .withItemRows()
           .withBuyItems()
           .withBuyPrices()
@@ -40,7 +40,7 @@ public class ArmoryAndLeggeryRequest extends CoinMasterRequest {
     ArmoryAndLeggeryRequest.initializeCoinMasterInventory();
   }
 
-  private static void initializeCoinMasterInventory() {
+  public static void initializeCoinMasterInventory() {
     CoinmasterData data = ARMORY_AND_LEGGERY;
 
     List<AdventureResult> items = new ArrayList<>();
@@ -90,27 +90,6 @@ public class ArmoryAndLeggeryRequest extends CoinMasterRequest {
     return cost != null && InventoryManager.getCount(cost.getItemId()) > 0;
   }
 
-  public ArmoryAndLeggeryRequest() {
-    super(ARMORY_AND_LEGGERY);
-  }
-
-  public ArmoryAndLeggeryRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(ARMORY_AND_LEGGERY, buying, attachments);
-  }
-
-  public ArmoryAndLeggeryRequest(final boolean buying, final AdventureResult attachment) {
-    super(ARMORY_AND_LEGGERY, buying, attachment);
-  }
-
-  public ArmoryAndLeggeryRequest(final boolean buying, final int itemId, final int quantity) {
-    super(ARMORY_AND_LEGGERY, buying, itemId, quantity);
-  }
-
-  @Override
-  public void processResults() {
-    parseResponse(this.getURLString(), responseText);
-  }
-
   // <tr rel="7985"><td valign=center></td><td><img
   // src="https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/polyparachute.gif"
   // class=hand onClick='javascript:descitem(973760204)'></td><td valign=center><a
@@ -149,24 +128,5 @@ public class ArmoryAndLeggeryRequest extends CoinMasterRequest {
     }
 
     return new CoinmasterItem(itemId, itemName, currency, price, row);
-  }
-
-  public static void parseResponse(final String location, final String responseText) {
-    if (!location.contains("whichshop=armory")) {
-      return;
-    }
-
-    CoinmasterData data = ARMORY_AND_LEGGERY;
-
-    int itemId = CoinMasterRequest.extractItemId(data, location);
-
-    if (itemId == -1) {
-      // Purchase for Meat or a simple visit
-      CoinMasterRequest.parseBalance(data, responseText);
-      return;
-    }
-
-    // Learn new items by simply visiting the Armory & Leggery
-    CoinMasterRequest.parseResponse(data, location, responseText);
   }
 }

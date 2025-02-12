@@ -542,6 +542,8 @@ user	crudeMonster
 user	crystalBallPredictions
 user	csServicesPerformed	
 user	cubelingProgress	0
+user	cupidBowFights	0
+user	cupidBowLastFamiliar	0
 user	currentAstralTrip
 user	currentDistillateMods
 user	currentEasyBountyItem	
@@ -575,6 +577,8 @@ user	dampOldBootPurchased	false
 user	darkGyfftePoints	0
 user	dartsThrown	0
 user	daycareEquipment	0
+user	daycareInstructorItem	0
+user	daycareInstructorItemQuantity	0
 user	daycareInstructors	0
 user	daycareLastScavenge	0
 user	daycareOpen	false
@@ -1453,6 +1457,7 @@ user	seahorseName
 user	seaodesFound	0
 user	SeasoningSwagger	0
 user	serverAddsCustomCombat	false
+user	serverAddsBothCombat	false
 user	sexChanges	0
 user	shadowLabyrinthGoal	browser
 user	shadowRiftIngress
@@ -1955,6 +1960,7 @@ user	_crimbo21ColdResistance	0
 user	_crimboTraining	false
 user	_crimboTree	false
 user	_crToday	false
+user	_cupidBowFamiliars
 user	_currentDartboard
 user	_cursedKegUsed	false
 user	_cursedMicrowaveUsed	false

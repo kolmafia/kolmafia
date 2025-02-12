@@ -1,16 +1,15 @@
 package net.sourceforge.kolmafia.request.coinmaster.shop;
 
 import java.util.regex.Pattern;
-import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
-public class SeptEmberCenserRequest extends CoinMasterRequest {
+public abstract class SeptEmberCenserRequest extends CoinMasterShopRequest {
   public static final String master = "Sept-Ember Censer";
+  public static final String SHOPID = "september";
 
   // <b>You have 8 Embers.</b>
   private static final Pattern TOKEN_PATTERN = Pattern.compile("<b>You have ([\\d,]+) Ember");
@@ -20,44 +19,20 @@ public class SeptEmberCenserRequest extends CoinMasterRequest {
           .withToken("Ember")
           .withTokenPattern(TOKEN_PATTERN)
           .withProperty("availableSeptEmbers")
-          .withShopRowFields(master, "september")
+          .withShopRowFields(master, SHOPID)
+          .withVisitShop(SeptEmberCenserRequest::visitShop)
           .withAccessible(SeptEmberCenserRequest::accessible);
 
-  public SeptEmberCenserRequest() {
-    super(SEPTEMBER_CENSER);
+  public static CoinMasterShopRequest getRequest() {
+    return CoinMasterShopRequest.getRequest(SEPTEMBER_CENSER);
   }
 
-  public SeptEmberCenserRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(SEPTEMBER_CENSER, buying, attachments);
-  }
-
-  public SeptEmberCenserRequest(final boolean buying, final AdventureResult attachment) {
-    super(SEPTEMBER_CENSER, buying, attachment);
-  }
-
-  public SeptEmberCenserRequest(final boolean buying, final int itemId, final int quantity) {
-    super(SEPTEMBER_CENSER, buying, itemId, quantity);
-  }
-
-  @Override
-  public void processResults() {
-    parseResponse(this.getURLString(), this.responseText);
-  }
-
-  public static void parseResponse(final String urlString, final String responseText) {
-    if (!urlString.contains("whichshop=september")) {
-      return;
+  public static void visitShop(final String responseText) {
+    if (!Preferences.getBoolean("_septEmberBalanceChecked")) {
+      // Parse current coin balances
+      CoinMasterRequest.parseBalance(SEPTEMBER_CENSER, responseText);
+      Preferences.setBoolean("_septEmberBalanceChecked", true);
     }
-
-    String action = GenericRequest.getAction(urlString);
-    if (action != null) {
-      CoinMasterRequest.parseResponse(SEPTEMBER_CENSER, urlString, responseText);
-      return;
-    }
-
-    // Parse current coin balances
-    CoinMasterRequest.parseBalance(SEPTEMBER_CENSER, responseText);
-    Preferences.setBoolean("_septEmberBalanceChecked", true);
   }
 
   public static String accessible() {

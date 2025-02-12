@@ -5,14 +5,13 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.BatManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LimitMode;
 
-public class GotporkPDRequest extends CoinMasterRequest {
+public abstract class GotporkPDRequest extends CoinMasterShopRequest {
   public static final String master = "Gotpork P. D.";
+  public static final String SHOPID = "batman_pd";
 
   private static final Pattern TOKEN_PATTERN =
       Pattern.compile("<td>([\\d,]+) incriminating evidence");
@@ -23,7 +22,7 @@ public class GotporkPDRequest extends CoinMasterRequest {
           .withToken("incriminating evidence")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)
-          .withShopRowFields(master, "batman_pd")
+          .withShopRowFields(master, SHOPID)
           .withItemBuyPrice(GotporkPDRequest::itemBuyPrice)
           .withAccessible(GotporkPDRequest::accessible);
 
@@ -38,44 +37,6 @@ public class GotporkPDRequest extends CoinMasterRequest {
       price = 3 * (count + 1);
     }
     return COIN.getInstance(price);
-  }
-
-  public GotporkPDRequest() {
-    super(GOTPORK_PD);
-  }
-
-  public GotporkPDRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(GOTPORK_PD, buying, attachments);
-  }
-
-  public GotporkPDRequest(final boolean buying, final AdventureResult attachment) {
-    super(GOTPORK_PD, buying, attachment);
-  }
-
-  public GotporkPDRequest(final boolean buying, final int itemId, final int quantity) {
-    super(GOTPORK_PD, buying, itemId, quantity);
-  }
-
-  @Override
-  public void processResults() {
-    parseResponse(this.getURLString(), this.responseText);
-  }
-
-  public static void parseResponse(final String urlString, final String responseText) {
-    if (!urlString.contains("whichshop=batman_pd")) {
-      return;
-    }
-
-    CoinmasterData data = GOTPORK_PD;
-
-    String action = GenericRequest.getAction(urlString);
-    if (action != null) {
-      CoinMasterRequest.parseResponse(data, urlString, responseText);
-      return;
-    }
-
-    // Parse current coin balances
-    CoinMasterRequest.parseBalance(data, responseText);
   }
 
   public static String accessible() {

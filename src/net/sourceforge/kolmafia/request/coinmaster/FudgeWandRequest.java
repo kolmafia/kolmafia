@@ -28,6 +28,8 @@ public class FudgeWandRequest extends CoinMasterRequest {
           .withBuyURL("choice.php?whichchoice=562")
           .withBuyItems(master)
           .withBuyPrices(master)
+          .withEquip(FudgeWandRequest::equip)
+          .withUnequip(FudgeWandRequest::unequip)
           .withAccessible(FudgeWandRequest::accessible);
 
   private static String lastURL = null;
@@ -68,14 +70,6 @@ public class FudgeWandRequest extends CoinMasterRequest {
 
   public FudgeWandRequest(final boolean buying, final AdventureResult[] attachments) {
     super(FUDGEWAND, buying, attachments);
-  }
-
-  public FudgeWandRequest(final boolean buying, final AdventureResult attachment) {
-    super(FUDGEWAND, buying, attachment);
-  }
-
-  public FudgeWandRequest(final boolean buying, final int itemId, final int quantity) {
-    super(FUDGEWAND, buying, itemId, quantity);
   }
 
   @Override
@@ -166,14 +160,14 @@ public class FudgeWandRequest extends CoinMasterRequest {
     return null;
   }
 
-  @Override
-  public void equip() {
+  public static Boolean equip() {
     // Use the wand of fudge control
     RequestThread.postRequest(new GenericRequest("inv_use.php?whichitem=5441"));
+    return true;
   }
 
-  @Override
-  public void unequip() {
+  public static Boolean unequip() {
     RequestThread.postRequest(new GenericRequest("choice.php?whichchoice=562&option=6"));
+    return true;
   }
 }

@@ -39,6 +39,7 @@ public class QuartersmasterRequest extends CoinMasterRequest {
           .withCountField("quantity")
           .withCountPattern(GenericRequest.QUANTITY_PATTERN)
           .withCanBuyItem(QuartersmasterRequest::canBuyItem)
+          .withEquip(QuartersmasterRequest::equip)
           .withAccessible(QuartersmasterRequest::accessible);
 
   private static Boolean canBuyItem(final Integer itemId) {
@@ -56,14 +57,6 @@ public class QuartersmasterRequest extends CoinMasterRequest {
 
   public QuartersmasterRequest(final boolean buying, final AdventureResult[] attachments) {
     super(FRATBOY, buying, attachments);
-  }
-
-  public QuartersmasterRequest(final boolean buying, final AdventureResult attachment) {
-    super(FRATBOY, buying, attachment);
-  }
-
-  public QuartersmasterRequest(final boolean buying, final int itemId, final int quantity) {
-    super(FRATBOY, buying, itemId, quantity);
   }
 
   @Override
@@ -92,12 +85,12 @@ public class QuartersmasterRequest extends CoinMasterRequest {
     return null;
   }
 
-  @Override
-  public void equip() {
+  public static Boolean equip() {
     if (!EquipmentManager.isWearingOutfit(OutfitPool.WAR_FRAT_OUTFIT)) {
       SpecialOutfit outfit = EquipmentDatabase.getOutfit(OutfitPool.WAR_FRAT_OUTFIT);
       EquipmentRequest request = new EquipmentRequest(outfit);
       RequestThread.postRequest(request);
     }
+    return true;
   }
 }

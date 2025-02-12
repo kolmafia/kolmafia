@@ -6,11 +6,10 @@ import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 
-public class BrogurtRequest extends CoinMasterRequest {
+public abstract class BrogurtRequest extends CoinMasterShopRequest {
   public static final String master = "The Frozen Brogurt Stand";
+  public static final String SHOPID = "sbb_brogurt";
 
   private static final Pattern TOKEN_PATTERN = Pattern.compile("<td>([\\d,]+) Beach Bucks");
   public static final AdventureResult COIN = ItemPool.get(ItemPool.BEACH_BUCK, 1);
@@ -20,7 +19,7 @@ public class BrogurtRequest extends CoinMasterRequest {
           .withToken("Beach Buck")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)
-          .withShopRowFields(master, "sbb_brogurt")
+          .withShopRowFields(master, SHOPID)
           .withAccessible(BrogurtRequest::accessible)
           .withCanBuyItem(BrogurtRequest::canBuyItem);
 
@@ -35,44 +34,6 @@ public class BrogurtRequest extends CoinMasterRequest {
         yield item.getCount(BROGURT.getBuyItems()) > 0;
       }
     };
-  }
-
-  public BrogurtRequest() {
-    super(BROGURT);
-  }
-
-  public BrogurtRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(BROGURT, buying, attachments);
-  }
-
-  public BrogurtRequest(final boolean buying, final AdventureResult attachment) {
-    super(BROGURT, buying, attachment);
-  }
-
-  public BrogurtRequest(final boolean buying, final int itemId, final int quantity) {
-    super(BROGURT, buying, itemId, quantity);
-  }
-
-  @Override
-  public void processResults() {
-    parseResponse(this.getURLString(), this.responseText);
-  }
-
-  public static void parseResponse(final String urlString, final String responseText) {
-    if (!urlString.contains("whichshop=sbb_brogurt")) {
-      return;
-    }
-
-    CoinmasterData data = BROGURT;
-
-    String action = GenericRequest.getAction(urlString);
-    if (action != null) {
-      CoinMasterRequest.parseResponse(data, urlString, responseText);
-      return;
-    }
-
-    // Parse current coin balances
-    CoinMasterRequest.parseBalance(data, responseText);
   }
 
   public static String accessible() {

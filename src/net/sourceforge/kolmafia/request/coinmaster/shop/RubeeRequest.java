@@ -9,11 +9,10 @@ import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
-import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 
-public class RubeeRequest extends CoinMasterRequest {
+public abstract class RubeeRequest extends CoinMasterShopRequest {
   public static final String master = "FantasyRealm Rubee&trade; Store";
+  public static final String SHOPID = "fantasyrealm";
 
   private static final Pattern TOKEN_PATTERN = Pattern.compile("<td>([\\d,]+) Rubees&trade;");
   public static final AdventureResult COIN = ItemPool.get(ItemPool.RUBEE, 1);
@@ -23,59 +22,23 @@ public class RubeeRequest extends CoinMasterRequest {
           .withToken("Rubee&trade;")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(COIN)
-          .withShopRowFields(master, "fantasyrealm")
+          .withShopRowFields(master, SHOPID)
+          .withEquip(RubeeRequest::equip)
           .withAccessible(RubeeRequest::accessible);
 
-  public RubeeRequest() {
-    super(RUBEE);
-  }
-
-  public RubeeRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(RUBEE, buying, attachments);
-  }
-
-  public RubeeRequest(final boolean buying, final AdventureResult attachment) {
-    super(RUBEE, buying, attachment);
-  }
-
-  public RubeeRequest(final boolean buying, final int itemId, final int quantity) {
-    super(RUBEE, buying, itemId, quantity);
-  }
-
-  @Override
-  public void processResults() {
-    parseResponse(this.getURLString(), this.responseText);
-  }
-
-  public static void parseResponse(final String urlString, final String responseText) {
-    if (!urlString.contains("whichshop=fantasyrealm")) {
-      return;
-    }
-
-    CoinmasterData data = RUBEE;
-
-    String action = GenericRequest.getAction(urlString);
-    if (action != null) {
-      CoinMasterRequest.parseResponse(data, urlString, responseText);
-      return;
-    }
-
-    // Parse current coin balances
-    CoinMasterRequest.parseBalance(data, responseText);
-  }
-
   public static String accessible() {
-    return Preferences.getBoolean("_frToday") || Preferences.getBoolean("frAlways")
-        ? null
-        : "Need access to Fantasy Realm";
+    if (Preferences.getBoolean("_frToday") || Preferences.getBoolean("frAlways")) {
+      return null;
+    }
+    return "Need access to Fantasy Realm";
   }
 
-  @Override
-  public void equip() {
+  public static Boolean equip() {
     if (!KoLCharacter.hasEquipped(ItemPool.FANTASY_REALM_GEM)) {
       EquipmentRequest request =
           new EquipmentRequest(ItemPool.get(ItemPool.FANTASY_REALM_GEM), Slot.ACCESSORY3);
       RequestThread.postRequest(request);
     }
+    return true;
   }
 }
