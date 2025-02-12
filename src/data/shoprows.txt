@@ -850,34 +850,34 @@
 849	vault2	Superdrifter holo-record	300 Meat
 850	vault3	Lucky Strikes holo-record	300 Meat
 851	vault3	EMD holo-record	300 Meat
-852
-853
-854
-855
-856
-857
+852	mutate	Boiling Tear Ducts	rad (30)
+853	mutate	Throat Refrigerant	rad (30)
+854	mutate	Skunk Glands	rad (30)
+855	mutate	Translucent Skin	rad (30)
+856	mutate	Projectile Salivary Glands	rad (30)
+857	mutate	Mind Bullets	rad (60)
 858
-859
-860
-861
-862
-863
-864
-865
+859	mutate	Metallic Skin	rad (90)
+860	mutate	Adipose Polymers	rad (90)
+861	mutate	Extra Muscles	rad (90)
+862	mutate	Extra Brain	rad (90)
+863	mutate	Hypno-Eyes	rad (90)
+864	mutate	Backwards Knees	rad (120)
+865	mutate	Sucker Fingers	rad (120)
 866
-867
-868
-869
-870
-871
-872
-873
-874
-875
-876
-877
-878
-879
+867	mutate	Flappy Ears	rad (60)
+868	mutate	Magic Sweat	rad (60)
+869	mutate	Steroid Bladder	rad (60)
+870	mutate	Intracranial Eye	rad (60)
+871	mutate	Self-Combing Hair	rad (60)
+872	mutate	Bone Springs	rad (90)
+873	mutate	Magnetic Ears	rad (90)
+874	mutate	Firefly Abdomen	rad (90)
+875	mutate	Squid Glands	rad (90)
+876	mutate	Extremely Punchable Face	rad (90)
+877	mutate	Extra Gall Bladder	rad (60)
+878	mutate	Extra Kidney	rad (60)
+879	mutate	Internal Soda Machine	rad (30)
 880	vault3	The Pigs holo-record	1,000 Meat
 881	vault3	Drunk Uncles holo-record	1,000 Meat
 882
