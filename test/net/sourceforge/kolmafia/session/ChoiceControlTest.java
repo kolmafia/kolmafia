@@ -945,7 +945,7 @@ class ChoiceControlTest {
                   html("request/test_halloween_starhouse.html")));
 
       try (cleanups) {
-        assertThat("encountersUntilSRChoice ", isSetTo(10));
+        assertThat("encountersUntilSRChoice", isSetTo(10));
       }
     }
   }
