@@ -24,6 +24,7 @@ import static internal.matchers.Quest.isStep;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 
 import internal.helpers.Cleanups;
 import internal.helpers.RequestLoggerOutput;
@@ -32,11 +33,13 @@ import java.util.List;
 import java.util.Map;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionPath.Path;
+import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -924,6 +927,39 @@ class ChoiceControlTest {
 
       try (cleanups) {
         assertThat("_trickOrTreatBlock", isSetTo("DLdLLLDLLDDL"));
+      }
+    }
+
+    // Using this as an example of a pref that would be errantly incremented if the zone wasn't
+    // cleared
+    @Test
+    void doesntIncrementShadowRiftPrefsOnSelection() {
+      var cleanups =
+          new Cleanups(
+              withProperty("encountersUntilSRChoice", 10),
+              withProperty("_trickOrTreatBlock", "DLDLLLDLLDDL"),
+              withLastLocation(AdventureDatabase.getAdventureByName("Shadow Rift (Desert Beach)")),
+              withChoice(
+                  (url, req) -> ChoiceControl.preChoice(req),
+                  804,
+                  3,
+                  "whichhouse=2",
+                  html("request/test_halloween_starhouse.html")));
+
+      try (cleanups) {
+        assertThat("encountersUntilSRChoice", isSetTo(10));
+      }
+    }
+
+    @Test
+    void clearsZone() {
+      var cleanups =
+          new Cleanups(
+              withProperty("_trickOrTreatBlock", "DLDLLLDLLDDL"),
+              withChoice((url, req) -> ChoiceControl.preChoice(req), 804, 3, "whichhouse=2", ""));
+
+      try (cleanups) {
+        assertThat(KoLAdventure.lastVisitedLocation, nullValue());
       }
     }
   }
