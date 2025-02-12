@@ -86,7 +86,7 @@ public class TrainsetManager {
       Pattern.compile("<br>Your train is about to pass station (\\d)\\.<");
   private static final Pattern LAPS_BEFORE_RECONFIGURE =
       Pattern.compile(
-          "Let the train finish (\\d|this) (?:more laps|this lap) before rearranging it.</p>");
+          "Let the train finish (\\d|this) (?:more laps|lap) before rearranging it.</p>");
   private static final int TURNS_BETWEEN_CONFIGURE = 40;
 
   private TrainsetManager() {}
