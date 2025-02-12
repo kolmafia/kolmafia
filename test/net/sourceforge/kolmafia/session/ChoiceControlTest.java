@@ -937,6 +937,7 @@ class ChoiceControlTest {
       var cleanups =
           new Cleanups(
               withProperty("encountersUntilSRChoice", 10),
+              withProperty("_trickOrTreatBlock", "DLDLLLDLLDDL"),
               withLastLocation(AdventureDatabase.getAdventureByName("Shadow Rift (Desert Beach)")),
               withChoice(
                   (url, req) -> ChoiceControl.preChoice(req),

@@ -229,6 +229,7 @@ public abstract class ChoiceControl {
             var state = Preferences.getString("_trickOrTreatBlock").toCharArray();
             state[house] = Character.toLowerCase(state[house]);
             Preferences.setString("_trickOrTreatBlock", String.valueOf(state));
+            KoLAdventure.clearLocation();
           }
         }
       }
@@ -1851,13 +1852,6 @@ public abstract class ChoiceControl {
           Preferences.setInteger("reanimatorWings", 0);
         }
         return;
-
-      case 804:
-        if (ChoiceManager.lastDecision == 3) {
-          // Approach a house (light or dark)
-          KoLAdventure.clearLocation();
-        }
-        break;
 
       case 805:
         // A Sietch in Time
