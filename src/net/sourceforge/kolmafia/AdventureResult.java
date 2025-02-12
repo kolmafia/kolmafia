@@ -277,6 +277,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
             "Item database error: id = " + this.id + " name = \"" + this.name + "\"");
       }
     } else {
+      StaticEntity.printStackTrace();
       RequestLogger.printLine("Unknown item found: " + this.name);
     }
   }

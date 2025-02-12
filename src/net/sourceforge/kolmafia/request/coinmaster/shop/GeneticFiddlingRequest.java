@@ -1,16 +1,21 @@
 package net.sourceforge.kolmafia.request.coinmaster.shop;
 
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 
-public abstract class GeneFiddlingRequest extends CoinMasterShopRequest {
-  public static final String master = "Fiddling With Your Genes";
+public abstract class GeneticFiddlingRequest extends CoinMasterShopRequest {
+  public static final String master = "Genetic Fiddling";
   public static final String SHOPID = "mutate";
 
+  public static final AdventureResult COIN = ItemPool.get(ItemPool.RAD, 1);
+
   public static final CoinmasterData DATA =
-      new CoinmasterData(master, "GeneFiddling", GeneFiddlingRequest.class)
+      new CoinmasterData(master, "GeneticFiddling", GeneticFiddlingRequest.class)
           .withNewShopRowFields(master, SHOPID)
-          .withAccessible(GeneFiddlingRequest::accessible);
+          .withItem(COIN)
+          .withAccessible(GeneticFiddlingRequest::accessible);
 
   // More work will be needed to make this fully functional.
   //
