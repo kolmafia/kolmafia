@@ -1852,6 +1852,13 @@ public abstract class ChoiceControl {
         }
         return;
 
+      case 804:
+        if (ChoiceManager.lastDecision == 3) {
+          // Approach a house (light or dark)
+          KoLAdventure.clearLocation();
+        }
+        break;
+
       case 805:
         // A Sietch in Time
         int gnasirProgress = Preferences.getInteger("gnasirProgress");
