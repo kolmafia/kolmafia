@@ -3709,6 +3709,23 @@ public class RelayRequest extends PasswordHashRequest {
     }
   }
 
+  private static Pattern GO_CMD =
+      Pattern.compile("\"<font color=green>Sending you to (.*?)\\.<!--js\\((.*?)\\)-->");
+
+  private static String decorateGoCommands(String chatText) {
+    var matcher = GO_CMD.matcher(chatText);
+
+    if (!matcher.find()) return chatText;
+
+    return chatText.substring(0, matcher.start(1))
+        + "<span style=\\\"cursor:pointer;\\\" onclick=\\\""
+        + matcher.group(2)
+        + ";\\\">"
+        + matcher.group(1)
+        + "</span>"
+        + chatText.substring(matcher.end(1));
+  }
+
   private void handleChat() {
     String path = this.getPath();
     boolean tabbedChat = path.contains("j=1");
@@ -3728,6 +3745,8 @@ public class RelayRequest extends PasswordHashRequest {
       if (tabbedChat && chatText.startsWith("{")) {
         ChatPoller.handleNewChat(chatText, this.getFormField("graf"), ChatPoller.localLastSeen);
       }
+
+      chatText = decorateGoCommands(chatText);
     }
 
     if (Preferences.getBoolean("relayFormatsChatText")) {

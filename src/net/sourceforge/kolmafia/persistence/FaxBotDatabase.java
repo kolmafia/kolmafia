@@ -66,6 +66,11 @@ public class FaxBotDatabase {
     FaxBotDatabase.configureFaxBots();
   }
 
+  // visible for testing.  used to force download and read.
+  static void resetInitialization() {
+    isInitialized = false;
+  }
+
   private static void readFaxbotConfig() {
     FaxBotDatabase.botData.clear();
 
