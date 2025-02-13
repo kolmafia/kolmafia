@@ -666,8 +666,14 @@ public class RelayRequestTest {
       ;
     }
 
-    @Test
-    public void decoratesGoCommands() {
+    @ParameterizedTest
+    @CsvSource(
+        delimiter = '|',
+        value = {
+          "{\"output\":\"<font color=green>Sending you to Kremlin's Greatest Briefcase.<!--js(top.mainpane.location.href='/place.php?whichplace=kgb')--></font>\",\"msgs\":[]}|{\"output\":\"<font color=green>Sending you to <span style=\\\"cursor:pointer;\\\" onclick=\\\"top.mainpane.location.href='/place.php?whichplace=kgb';\\\">Kremlin's Greatest Briefcase</span>.<!--js(top.mainpane.location.href='/place.php?whichplace=kgb')--></font>\",\"msgs\":[]}",
+          "{\"output\":\"<font color=green>Sorry, I don't know how to take you to 'ssdjhfjksdfhsd' (or Funkytown, for that matter.)</font>\",\"msgs\":[]}|{\"output\":\"<font color=green>Sorry, I don't know how to take you to 'ssdjhfjksdfhsd' (or Funkytown, for that matter.)</font>\",\"msgs\":[]}"
+        })
+    public void decoratesGoCommands(final String input, final String expected) {
       var builder = new FakeHttpClientBuilder();
       var cleanups =
           new Cleanups(
@@ -675,9 +681,7 @@ public class RelayRequestTest {
               withChatChannel("clan"),
               withProperty("chatLiterate", true));
 
-      builder.client.addResponse(
-          200,
-          "{\"output\":\"<font color=green>Sending you to Kremlin's Greatest Briefcase.<!--js(top.mainpane.location.href='/place.php?whichplace=kgb')--></font>\",\"msgs\":[]}");
+      builder.client.addResponse(200, input);
 
       try (cleanups) {
         var req = new RelayRequest(false);
@@ -685,10 +689,7 @@ public class RelayRequestTest {
         req.addFormField("graf", "/go test");
         req.run();
 
-        assertThat(
-            req.responseText,
-            equalTo(
-                "{\"output\":\"<font color=green>Sending you to <span style=\\\"cursor:pointer;\\\" onclick=\\\"top.mainpane.location.href='/place.php?whichplace=kgb';\\\">Kremlin's Greatest Briefcase</span>.<!--js(top.mainpane.location.href='/place.php?whichplace=kgb')--></font>\",\"msgs\":[]}"));
+        assertThat(req.responseText, equalTo(expected));
       }
     }
   }
