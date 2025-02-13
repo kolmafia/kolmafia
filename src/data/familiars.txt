@@ -336,8 +336,8 @@
 304	Doll Moll	molldoll.gif	combat0,meat	Doll Moll violin case	tiny Tina gun	3	3	2	2
 305	Emberiza Aureola	emberbird.gif	combat1	ember egg	tiny ember	0	1	2	3
 306	Peace Turkey	pto_fam.gif	drop,delevel,block,passive,other1,hp1,mp1	peace turkey outline	tie-dye headband	0	3	1	3
-307	quantum entangler	qf.gif	block	quantized familiar	quantum watch	2	2	2	3	object
-308	golden pet rock	ts_goldrock.gif	none	golden pet rock		0	0	0	0
+307	Quantum Entangler	qf.gif	block	quantized familiar	quantum watch	2	2	2	3	object
+308	Golden Pet Rock	ts_goldrock.gif	none	golden pet rock		0	0	0	0
 309
 310	Profane Parrot	ts_parrot2.gif	block,combat1	sleeping profane parrot	profane eye patch	2	3	2	2
 311	Significant Bit	cr_sbit.gif	variable	insignificant bit	parity bit	1	1	1	3
