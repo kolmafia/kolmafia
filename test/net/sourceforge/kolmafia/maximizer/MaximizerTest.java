@@ -28,8 +28,8 @@ import static internal.helpers.Player.withRestricted;
 import static internal.helpers.Player.withSign;
 import static internal.helpers.Player.withSkill;
 import static internal.helpers.Player.withStats;
-import static internal.matchers.Maximizer.*;
 import static internal.matchers.Maximizer.recommends;
+import static internal.matchers.Maximizer.recommendsSlot;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
@@ -898,6 +898,32 @@ public class MaximizerTest {
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "eldritch hat")));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.WEAPON, "bounty-hunting rifle")));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.PANTS, "eldritch pants")));
+      }
+    }
+
+    @Test
+    public void itShouldKeepSlimeOutfit() {
+      final var cleanups =
+          new Cleanups(
+              withItem("Bonestabber"),
+              withItem("Scepter of Loathing"),
+              withItem("marble medallion"),
+              withItem("white earbuds"),
+              withEquippableItem("hardened slime hat"),
+              withEquippableItem(ItemPool.STAFF_OF_THE_GRAND_FLAMBE),
+              withEquippableItem("Stick-Knife of Loathing"),
+              withEquippableItem("unwrapped knock-off retro superhero cape"),
+              withEquippableItem("Hodgman's disgusting technicolor overcoat"),
+              withEquippableItem("hardened slime pants"),
+              withEquippableItem("Pocket Square of Loathing"),
+              withEquippableItem("perfect Christmas scarf"),
+              withEquippableItem("hardened slime belt"));
+
+      try (cleanups) {
+        maximizeAny("spooky resistance");
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "hardened slime hat")));
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.PANTS, "hardened slime pants")));
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.ACCESSORY3, "hardened slime belt")));
       }
     }
   }
