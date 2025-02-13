@@ -26,7 +26,8 @@ public abstract class TicketCounterRequest extends CoinMasterShopRequest {
           .withItem(TICKET)
           .withShopRowFields(master, SHOPID)
           .withCanBuyItem(TicketCounterRequest::canBuyItem)
-          .withVisitShop(TicketCounterRequest::visitShop);
+          .withVisitShop(TicketCounterRequest::visitShop)
+          .withAccessible(TicketCounterRequest::accessible);
 
   private static Boolean canBuyItem(final Integer itemId) {
     return switch (itemId) {

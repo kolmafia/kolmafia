@@ -107,6 +107,7 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   private Function<Integer, AdventureResult> itemBuyPrice = this::itemBuyPriceInternal;
   private Function<Integer, Boolean> canBuyItem = this::canBuyItemInternal;
   private Function<Integer, Boolean> availableItem = this::availableItemInternal;
+  private Function<Integer, Boolean> availableSkill = this::availableSkillInternal;
   private BiConsumer<AdventureResult, Boolean> purchasedItem = this::purchasedItemInternal;
   private Consumer<String> visitShop = this::visitShopInternal;
   private Supplier<String> canBuy = this::canBuyInternal;
@@ -646,7 +647,7 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   /**
    * Specifies a static method that will be invoked by <code>boolean canBuyItem(int itemId)</code>
    *
-   * @param function - a Function object to be called by getBuyPrice
+   * @param function - a Function object to be called by canBuyItem
    * @return this - Allows fluid chaining of fields
    */
   public CoinmasterData withCanBuyItem(Function<Integer, Boolean> function) {
@@ -663,6 +664,18 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
    */
   public CoinmasterData withAvailableItem(Function<Integer, Boolean> function) {
     this.availableItem = function;
+    return this;
+  }
+
+  /**
+   * Specifies a static method that will be invoked by <code>boolean availableSkill(int skillId)
+   * </code>
+   *
+   * @param function - a Function object to be called by availableSkill
+   * @return this - Allows fluid chaining of fields
+   */
+  public CoinmasterData withAvailableSkill(Function<Integer, Boolean> function) {
+    this.availableSkill = function;
     return this;
   }
 
@@ -1102,6 +1115,26 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
     return (this.buyItems.contains(item));
   }
 
+  public Boolean availableSkill(final Integer skillId) {
+    return this.availableSkill.apply(skillId);
+  }
+
+  private Boolean availableSkillInternal(final Integer skillId) {
+    if (this.shopRows == null) {
+      return false;
+    }
+
+    for (ShopRow shopRow : this.shopRows) {
+      AdventureResult item = shopRow.getItem();
+      if (item.isSkill() && item.getSkillId() == skillId) {
+        // The Coinmaster may have additional restrictions, but by
+        // default, if they sell it and you don't have it, cool.
+        return !KoLCharacter.hasSkill(skillId);
+      }
+    }
+    return false;
+  }
+
   public Boolean canBuyItem(final Integer itemId) {
     return this.canBuyItem.apply(itemId);
   }
@@ -1147,6 +1180,21 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
     return this.item == null
         ? this.getTokenItem().getInstance(price)
         : this.item.getInstance(price);
+  }
+
+  public AdventureResult skillBuyPrice(final Integer skillId) {
+    // We only support "modern" shop coinmasters for skills
+    if (this.shopRows == null) {
+      return null;
+    }
+    for (ShopRow shopRow : this.shopRows) {
+      AdventureResult item = shopRow.getItem();
+      if (item.isSkill() && item.getSkillId() == skillId) {
+        AdventureResult[] costs = shopRow.getCosts();
+        return (costs.length == 1) ? costs[0] : null;
+      }
+    }
+    return null;
   }
 
   public Set<AdventureResult> currencies() {
