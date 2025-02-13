@@ -3,7 +3,9 @@ package net.sourceforge.kolmafia.request;
 import static internal.helpers.Networking.bytes;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withAdventuresSpent;
+import static internal.helpers.Player.withChatChannel;
 import static internal.helpers.Player.withEquipped;
+import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withMeat;
 import static internal.helpers.Player.withProperty;
@@ -11,6 +13,7 @@ import static internal.helpers.Player.withTurnsPlayed;
 import static internal.helpers.Utilities.deleteSerFiles;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.emptyOrNullString;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
@@ -22,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import internal.helpers.Cleanups;
+import internal.network.FakeHttpClientBuilder;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.FileAlreadyExistsException;
@@ -651,6 +655,42 @@ public class RelayRequestTest {
       assertThat(rr.statusLine, is("HTTP/1.1 400 Bad Request"));
       assertThat(rr.responseCode, is(400));
       assertThat(JSON.parse(rr.responseText), is(expected));
+    }
+  }
+
+  @Nested
+  class ChatDecoration {
+    @BeforeAll
+    public static void beforeAll() {
+      Preferences.reset("RelayRequestTest.ChatDecoration");
+      ;
+    }
+
+    @ParameterizedTest
+    @CsvSource(
+        delimiter = '|',
+        value = {
+          "{\"output\":\"<font color=green>Sending you to Kremlin's Greatest Briefcase.<!--js(top.mainpane.location.href='/place.php?whichplace=kgb')--></font>\",\"msgs\":[]}|{\"output\":\"<font color=green>Sending you to <span style=\\\"cursor:pointer;\\\" onclick=\\\"top.mainpane.location.href='/place.php?whichplace=kgb';\\\">Kremlin's Greatest Briefcase</span>.<!--js(top.mainpane.location.href='/place.php?whichplace=kgb')--></font>\",\"msgs\":[]}",
+          "{\"output\":\"<font color=green>Sorry, I don't know how to take you to 'ssdjhfjksdfhsd' (or Funkytown, for that matter.)</font>\",\"msgs\":[]}|{\"output\":\"<font color=green>Sorry, I don't know how to take you to 'ssdjhfjksdfhsd' (or Funkytown, for that matter.)</font>\",\"msgs\":[]}"
+        })
+    public void decoratesGoCommands(final String input, final String expected) {
+      var builder = new FakeHttpClientBuilder();
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withChatChannel("clan"),
+              withProperty("chatLiterate", true));
+
+      builder.client.addResponse(200, input);
+
+      try (cleanups) {
+        var req = new RelayRequest(false);
+        req.constructURLString("submitnewchat.php", true);
+        req.addFormField("graf", "/go test");
+        req.run();
+
+        assertThat(req.responseText, equalTo(expected));
+      }
     }
   }
 }
