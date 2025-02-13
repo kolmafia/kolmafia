@@ -68,7 +68,8 @@ public class UserDefinedFunction extends Function {
   }
 
   @Override
-  public Value execute(final AshRuntime interpreter, Object[] values) {
+  public Value execute(
+      final AshRuntime interpreter, Object[] values, boolean ignoreContinuationState) {
     if (StaticEntity.isDisabled(this.getName())) {
       this.printDisabledMessage(interpreter);
       return this.type.initialValue();

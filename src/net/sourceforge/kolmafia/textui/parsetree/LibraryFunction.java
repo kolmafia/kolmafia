@@ -51,8 +51,9 @@ public class LibraryFunction extends Function {
   }
 
   @Override
-  public Value execute(final AshRuntime interpreter, Object[] values) {
-    if (!KoLmafia.permitsContinue()) {
+  public Value execute(
+      final AshRuntime interpreter, Object[] values, boolean ignoreContinuationState) {
+    if (!ignoreContinuationState && !KoLmafia.permitsContinue()) {
       interpreter.setState(ScriptRuntime.State.EXIT);
       return null;
     }

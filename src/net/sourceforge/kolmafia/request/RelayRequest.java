@@ -3653,7 +3653,8 @@ public class RelayRequest extends PasswordHashRequest {
           var returnValue =
               function.execute(
                   runtime,
-                  Stream.concat(Stream.of(runtime), transformedArguments.stream()).toArray());
+                  Stream.concat(Stream.of(runtime), transformedArguments.stream()).toArray(),
+                  true);
 
           functionsResult.add(JSONValueConverter.asJSON(returnValue));
         } catch (ValueConverter.ValueConverterException e) {

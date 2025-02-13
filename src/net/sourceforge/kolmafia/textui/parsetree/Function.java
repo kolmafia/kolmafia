@@ -359,7 +359,22 @@ public abstract class Function extends Symbol {
     return this.execute(interpreter, values);
   }
 
-  public abstract Value execute(final AshRuntime interpreter, Object[] values);
+  public Value execute(final AshRuntime interpreter, Object[] values) {
+    return this.execute(interpreter, values, false);
+  }
+
+  /**
+   * Abstract method to execute the function in an ASH interpreter.
+   *
+   * @param interpreter Host ASH interpreter
+   * @param values Argument values
+   * @param ignoreContinuationState If true, ignore whether Mafia has an abort or error state set.
+   *     This should only be used in execution contexts not directly initiated by the user (e.g. by
+   *     a request to the relay APIs)
+   * @return Return value of the executed function.
+   */
+  public abstract Value execute(
+      final AshRuntime interpreter, Object[] values, boolean ignoreContinuationState);
 
   @Override
   public void print(final PrintStream stream, final int indent) {
