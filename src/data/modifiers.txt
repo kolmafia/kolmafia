@@ -4874,6 +4874,7 @@ Throne	Cymbal-Playing Monkey	Experience (Moxie): +2
 Throne	Dancing Frog	Meat Drop: +20
 Throne	Dandy Lion	HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8
 Throne	Dataspider	MP Regen Min: 3, MP Regen Max: 5, Spell Damage Percent: +10
+Throne	Doll Moll	Meat Drop: +10
 Throne	Dramatic Hedgehog	Experience (Mysticality): +2, HP Regen Min: 2, HP Regen Max: 3
 Throne	El Vibrato Megadrone	Monster Level: +10, MP Regen Min: 10, MP Regen Max: 15
 Throne	Emberiza Aureola	Cold Resistance: +2
