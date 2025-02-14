@@ -4856,6 +4856,7 @@ Throne	Bulky Buddy Box	Hot Resistance: +2, Cold Resistance: +2, Stench Resistanc
 Throne	Casagnova Gnome	Meat Drop: +20, HP Regen Min: 16, HP Regen Max: 20, MP Regen Min: 9, MP Regen Max: 11
 Throne	Cat Burglar	Item Drop: +10
 Throne	Chauvinist Pig	Experience (Muscle): +2
+Throne	Chest Mimic	Experience Maximum HP: +20
 Throne	Cheshire Bat	Experience (Mysticality): +2, HP Regen Min: 8, HP Regen Max: 10
 Throne	Chocolate Lab	Weapon Damage: +15
 Throne	Choctopus	Maximum HP: 15, Maximum MP: 15, HP Regen Min: 3, HP Regen Max: 5, MP Regen Min: 3, MP Regen Max: 5
@@ -4875,6 +4876,7 @@ Throne	Dandy Lion	HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Ma
 Throne	Dataspider	MP Regen Min: 3, MP Regen Max: 5, Spell Damage Percent: +10
 Throne	Dramatic Hedgehog	Experience (Mysticality): +2, HP Regen Min: 2, HP Regen Max: 3
 Throne	El Vibrato Megadrone	Monster Level: +10, MP Regen Min: 10, MP Regen Max: 15
+Throne	Emberiza Aureola	Cold Resistance: +2
 Throne	Emo Squid	Initiative: +20
 Throne	Evil Teddy Bear	Initiative: +20
 Throne	Exotic Parrot	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
@@ -4944,6 +4946,7 @@ Throne	Mini-Crimbot	Cold Damage: +15
 Throne	Mini-Hipster	Muscle: +10, Mysticality: +10, Moxie: +10, HP Regen Min: 10, HP Regen Max: 15, MP Regen Min: 8, MP Regen Max: 10
 Throne	Mini-Skulldozer	Initiative: +20
 Throne	Mini-Trainbot	Maximum HP: +10, Maximum MP: +10
+Throne	Mini Kiwi	Initiative: +30
 Throne	MiniMechaElf	Muscle Percent: +15
 Throne	Misshapen Animal Skeleton	Familiar Weight: +5, Drops Meat
 Throne	Mosquito	Weapon Damage Percent: +20, MP Regen Min: 5, MP Regen Max: 6
@@ -4965,9 +4968,11 @@ Throne	Pair of Ragged Claws	Familiar Weight: +5
 Throne	Pair of Stomping Boots	Weapon Damage Percent: +10
 Throne	Party Mouse	Booze Drop: +25, Drops Items
 Throne	Patriotic Eagle	Monster Level: +10
+Throne	Peace Turkey	Combat Rate: -5
 Throne	Penguin Goodfella	Familiar Weight: +5
 Throne	Peppermint Rhino	Weapon Damage Percent: +10, HP Regen Min: 5, HP Regen Max: 6, MP Regen Min: 3, MP Regen Max: 4
 Throne	Personal Raincloud	Muscle: +10, Mysticality: +10, Moxie: +10
+Throne	Pet Anchor	Damage Reduction: 10
 Throne	Pet Cheezling	Spell Damage Percent: +15, HP Regen Min: 5, HP Regen Max: 15, MP Regen Min: 2, MP Regen Max: 8
 Throne	Pet Coral	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Throne	Pet Rock	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
@@ -4988,6 +4993,7 @@ Throne	Reassembled Blackbird	Item Drop: +10, Drops Items
 Throne	Reconstituted Crow	Item Drop: +10, Drops Items
 Throne	Red-Nosed Snapper	Experience: +1
 Throne	Restless Cow Skull	Spooky Damage: +15
+Throne	Rigging Snake	Maximum HP: +20
 Throne	RoboGoose	Muscle: +10, Mysticality: +10, Moxie: +10
 Throne	Robot Reindeer	Muscle: +10, Mysticality: +10, Moxie: +10, Drops Items
 Throne	Robortender	Meat Drop: +20
