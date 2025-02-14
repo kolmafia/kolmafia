@@ -671,7 +671,8 @@ public class RelayRequestTest {
         delimiter = '|',
         value = {
           "{\"output\":\"<font color=green>Sending you to Kremlin's Greatest Briefcase.<!--js(top.mainpane.location.href='/place.php?whichplace=kgb')--></font>\",\"msgs\":[]}|{\"output\":\"<font color=green>Sending you to <span style=\\\"cursor:pointer;\\\" onclick=\\\"top.mainpane.location.href='/place.php?whichplace=kgb';\\\">Kremlin's Greatest Briefcase</span>.<!--js(top.mainpane.location.href='/place.php?whichplace=kgb')--></font>\",\"msgs\":[]}",
-          "{\"output\":\"<font color=green>Sorry, I don't know how to take you to 'ssdjhfjksdfhsd' (or Funkytown, for that matter.)</font>\",\"msgs\":[]}|{\"output\":\"<font color=green>Sorry, I don't know how to take you to 'ssdjhfjksdfhsd' (or Funkytown, for that matter.)</font>\",\"msgs\":[]}"
+          "{\"output\":\"<font color=green>Sorry, I don't know how to take you to 'ssdjhfjksdfhsd' (or Funkytown, for that matter.)</font>\",\"msgs\":[]}|{\"output\":\"<font color=green>Sorry, I don't know how to take you to 'ssdjhfjksdfhsd' (or Funkytown, for that matter.)</font>\",\"msgs\":[]}",
+          "{\"output\":\"<font color=green>Loading \"backoffice.php?which=3\".<!--js(top.mainpane.location='backoffice.php?which=3')--></font><br />\",\"msgs\":[]}|{\"output\":\"<font color=green>Loading <span style=\\\"cursor:pointer;\\\" onclick=\\\"top.mainpane.location='backoffice.php?which=3';\\\">\"backoffice.php?which=3\"</span>.<!--js(top.mainpane.location='backoffice.php?which=3')--></font><br />\",\"msgs\":[]}"
         })
     public void decoratesGoCommands(final String input, final String expected) {
       var builder = new FakeHttpClientBuilder();
