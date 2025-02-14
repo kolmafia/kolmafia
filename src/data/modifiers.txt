@@ -4856,7 +4856,7 @@ Throne	Bulky Buddy Box	Hot Resistance: +2, Cold Resistance: +2, Stench Resistanc
 Throne	Casagnova Gnome	Meat Drop: +20, HP Regen Min: 16, HP Regen Max: 20, MP Regen Min: 9, MP Regen Max: 11
 Throne	Cat Burglar	Item Drop: +10
 Throne	Chauvinist Pig	Experience (Muscle): +2
-Throne	Chest Mimic	Experience Maximum HP: +20
+Throne	Chest Mimic	Maximum HP: +5
 Throne	Cheshire Bat	Experience (Mysticality): +2, HP Regen Min: 8, HP Regen Max: 10
 Throne	Chocolate Lab	Weapon Damage: +15
 Throne	Choctopus	Maximum HP: 15, Maximum MP: 15, HP Regen Min: 3, HP Regen Max: 5, MP Regen Min: 3, MP Regen Max: 5
