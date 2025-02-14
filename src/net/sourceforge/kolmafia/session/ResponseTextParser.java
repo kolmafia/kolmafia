@@ -929,40 +929,6 @@ public class ResponseTextParser {
       }
     }
 
-    if (KoLCharacter.inNuclearAutumn()) {
-      int cost =
-          switch (skillId) {
-            case SkillPool.BOILING_TEAR_DUCTS,
-                SkillPool.PROJECTILE_SALIVARY_GLANDS,
-                SkillPool.TRANSLUCENT_SKIN,
-                SkillPool.SKUNK_GLANDS,
-                SkillPool.THROAT_REFRIDGERANT,
-                SkillPool.INTERNAL_SODA_MACHINE -> 30;
-            case SkillPool.STEROID_BLADDER,
-                SkillPool.MAGIC_SWEAT,
-                SkillPool.FLAPPY_EARS,
-                SkillPool.SELF_COMBING_HAIR,
-                SkillPool.INTRACRANIAL_EYE,
-                SkillPool.MIND_BULLETS,
-                SkillPool.EXTRA_KIDNEY,
-                SkillPool.EXTRA_GALL_BLADDER -> 60;
-            case SkillPool.EXTRA_MUSCLES,
-                SkillPool.ADIPOSE_POLYMERS,
-                SkillPool.METALLIC_SKIN,
-                SkillPool.HYPNO_EYES,
-                SkillPool.EXTRA_BRAIN,
-                SkillPool.MAGNETIC_EARS,
-                SkillPool.EXTREMELY_PUNCHABLE_FACE,
-                SkillPool.FIREFLY_ABDOMEN,
-                SkillPool.BONE_SPRINGS,
-                SkillPool.SQUID_GLANDS -> 90;
-            case SkillPool.SUCKER_FINGERS, SkillPool.BACKWARDS_KNEES -> 120;
-            default -> 0;
-          };
-
-      ResultProcessor.processResult(ItemPool.get(ItemPool.RAD, -cost));
-    }
-
     UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance(skillId);
     if (skill == null) {
       SkillDatabase.registerSkill(skillId);

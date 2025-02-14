@@ -45,8 +45,4 @@ public class Crimbo16Request extends CreateItemRequest {
 
     ShopRequest.parseResponse(urlString, responseText);
   }
-
-  public static String accessible() {
-    return "Crimbo is gone";
-  }
 }
