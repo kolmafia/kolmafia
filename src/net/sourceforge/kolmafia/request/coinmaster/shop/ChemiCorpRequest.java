@@ -26,7 +26,7 @@ public abstract class ChemiCorpRequest extends CoinMasterShopRequest {
           .withAccessible(ChemiCorpRequest::accessible);
 
   private static AdventureResult itemBuyPrice(final Integer itemId) {
-    int price = CHEMICORP.getBuyPrices().get(itemId);
+    int price = CHEMICORP.getBuyPrice(itemId);
     if (price == 1) {
       return COIN;
     }

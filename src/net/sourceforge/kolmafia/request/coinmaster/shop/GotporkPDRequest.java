@@ -27,7 +27,7 @@ public abstract class GotporkPDRequest extends CoinMasterShopRequest {
           .withAccessible(GotporkPDRequest::accessible);
 
   private static AdventureResult itemBuyPrice(final Integer itemId) {
-    int price = GOTPORK_PD.getBuyPrices().get(itemId);
+    int price = GOTPORK_PD.getBuyPrice(itemId);
     if (price == 1) {
       return COIN;
     }
