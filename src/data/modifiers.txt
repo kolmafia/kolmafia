@@ -421,8 +421,7 @@ Item	party hat	MP Regen Min: [3*J], MP Regen Max: [5*J], Mysticality: +3, Famili
 Item	passable elf mask	Familiar Effect: "atk, cap 2"
 Item	pentacorn hat	Familiar Effect: "atk, cap 10"
 Item	pentagram bandana	Mysticality: +15, Maximum MP: +15
-# petrified wood whoopie panama: Headbutt attacking foes
-Item	petrified wood whoopie panama	Moxie Percent: +20, Critical Hit Percent: +10
+Item	petrified wood whoopie panama	Moxie Percent: +20, Critical Hit Percent: +10, Thorns: 1
 Item	pickelhaube	Weapon Damage: +5, Weapon Damage Percent: +10, Familiar Effect: "atk, 1xFairy, cap 18"
 Item	pig-iron helm	Muscle: +7, Weapon Damage: +10, Familiar Effect: "1xFairy, cap 22"
 Item	pimpin' meat hat	Muscle: +2, Moxie: +2, Familiar Effect: "sleaze atk, 1xVolley, cap 13"
@@ -3514,8 +3513,7 @@ Item	perfect Christmas scarf	Adventures: [+9*event(December)], Cold Resistance: 
 Item	perfume-soaked bandana	Stench Resistance: +4, Spooky Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Single Equip
 # Personal Ventilation Unit: Allows Safe Access to Secret Government Lab
 Item	Personal Ventilation Unit	Muscle Limit: 100, Mysticality Limit: 100, Moxie Limit: 100, Single Equip
-# petrified wood waist protector: Makes opponents miss their first attack
-Item	petrified wood waist protector	Experience (Muscle): +3, Adventures: +5, Single Equip
+Item	petrified wood waist protector	Experience (Muscle): +3, Adventures: +5, Avoid Attack: 1, Single Equip
 # petrified wood wizard's pouch: Adds hot and physical damage to spells
 Item	petrified wood wizard's pouch	Mysticality Percent: +20, Item Drop: +10, Single Equip
 # phase-tuned shield generator belt: +10 Damage Reduction vs. Bugbears
@@ -6776,7 +6774,7 @@ Effect	Larger	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +1
 Effect	Latency	Muscle: [-3*pref(sourceAgentsDefeated)], Mysticality: [-3*pref(sourceAgentsDefeated)], Moxie: [-3*pref(sourceAgentsDefeated)], Cold Resistance: [-pref(sourceAgentsDefeated)], Hot Resistance: [-pref(sourceAgentsDefeated)], Sleaze Resistance: [-pref(sourceAgentsDefeated)], Spooky Resistance: [-pref(sourceAgentsDefeated)], Stench Resistance: [-pref(sourceAgentsDefeated)]
 Effect	Latently Energized	MP Regen Min: 20, MP Regen Max: 30
 Effect	Leash of Linguini	Familiar Weight: +5
-# Leaving Nothing to the Imagination: Distract foes on the first round of combat
+Effect	Leaving Nothing to the Imagination	Avoid Attack: 1
 Effect	Leisurely Amblin'	Meat Drop: +100
 Effect	Lemon Enlightenment	Mysticality Percent: +10, Spell Damage Percent: +15
 Effect	Lemony Goodness	Muscle: +10, Mysticality: +10, Moxie: +10
