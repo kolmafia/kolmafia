@@ -64,6 +64,8 @@ Clan Basement	Clan Basement	Clan Basement
 Hobopolis	Clan Basement	Hobopolis
 Dreadsylvania	Clan Basement	Dreadsylvania
 
+Clan VIP Lounge	Clan VIP Lounge	Clan VIP Lounge
+
 # Nemesis
 
 Nemesis Cave	Mountain	Nemesis Cave
@@ -165,6 +167,7 @@ Downtown	Batfellow Area	Downtown
 FantasyRealm	A Monorail Station	FantasyRealm	FantasyRealm membership packet
 PirateRealm	A Monorail Station	PirateRealm	PirateRealm membership packet
 PirateRealm Island	PirateRealm	PirateRealm Island
+Server Room	A Monorail Station	CyberRealm	CyberRealm keycode
 
 # The following zones do not sort into a higher-level zone
 
@@ -178,7 +181,6 @@ Override	Unsorted	Discoveries
 Events	Events	Events
 
 Twitch	Town	Time-Twitching Tower
-Crimbo23	Holiday	Christmas 2023
 
 # The following zones are all retired Events or Holidays
 
@@ -205,5 +207,8 @@ Crimbo19	Removed	Christmas 2019
 Tammy's Offshore Platform	Crimbo19	Crimbo 19 Underwater
 Crimbo21	Removed	Christmas 2021
 Crimbo22	Removed	Christmas 2022
+Crimbo23	Removed	Christmas 2023
+Crimbo24	Removed	Christmas 2024
+Holiday Islands	Crimbo24	Holiday Islands
 
 Obsolete	Removed	Retired zones

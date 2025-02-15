@@ -55,6 +55,10 @@ public class ItemListManagePanel<E> extends ItemManagePanel<E, ShowDescriptionLi
     return this.scrollComponent;
   }
 
+  public E getSelectedValue() {
+    return this.getElementList().getSelectedValue();
+  }
+
   @Override
   public List<E> getSelectedValues() {
     return this.getElementList().getSelectedValuesList();

@@ -8,7 +8,9 @@ import static internal.helpers.Networking.html;
 import static internal.helpers.Networking.json;
 import static internal.helpers.Player.withAdventuresLeft;
 import static internal.helpers.Player.withAdventuresSpent;
+import static internal.helpers.Player.withBanishedPhyla;
 import static internal.helpers.Player.withClass;
+import static internal.helpers.Player.withCurrentRun;
 import static internal.helpers.Player.withDay;
 import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withEquippableItem;
@@ -18,17 +20,28 @@ import static internal.helpers.Player.withFamiliarInTerrarium;
 import static internal.helpers.Player.withFamiliarInTerrariumWithItem;
 import static internal.helpers.Player.withFight;
 import static internal.helpers.Player.withHandlingChoice;
+import static internal.helpers.Player.withHardcore;
 import static internal.helpers.Player.withHttpClientBuilder;
+import static internal.helpers.Player.withInteractivity;
 import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withItemInCloset;
+import static internal.helpers.Player.withItemInDisplay;
+import static internal.helpers.Player.withItemInShop;
+import static internal.helpers.Player.withItemInStorage;
 import static internal.helpers.Player.withNextMonster;
 import static internal.helpers.Player.withNextResponse;
+import static internal.helpers.Player.withNoEffects;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withSign;
+import static internal.helpers.Player.withSkill;
 import static internal.helpers.Player.withStats;
 import static internal.helpers.Player.withTrackedMonsters;
 import static internal.helpers.Player.withTrackedPhyla;
 import static internal.helpers.Player.withTurnsPlayed;
+import static internal.helpers.Player.withUnequipped;
 import static internal.helpers.Player.withValueOfAdventure;
+import static internal.helpers.Utilities.deleteSerFiles;
 import static org.hamcrest.CoreMatchers.both;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.not;
@@ -48,6 +61,7 @@ import internal.network.FakeHttpClientBuilder;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.time.Month;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -56,11 +70,13 @@ import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
@@ -68,6 +84,7 @@ import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
+import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.MallPurchaseRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.session.GreyYouManager;
@@ -84,11 +101,15 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 public class RuntimeLibraryTest extends AbstractCommandTestBase {
+
+  private static final String TESTUSER = "RuntimeLibraryTestUser";
+
   @BeforeEach
   public void initEach() {
-    KoLCharacter.reset("testUser");
+    KoLCharacter.reset(TESTUSER);
+    deleteSerFiles(TESTUSER);
     KoLCharacter.reset(true);
-    Preferences.reset("testUser");
+    Preferences.reset(TESTUSER);
   }
 
   public RuntimeLibraryTest() {
@@ -1222,6 +1243,23 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
                  Unarmed =>
                  """));
     }
+
+    @Test
+    void parsesModifiersWithDifferentNamesToTags() {
+      String input =
+          "split_modifiers(\"Experience (Muscle): +11, Experience (Mysticality): +9, Experience (Moxie): +7, Damage Reduction: 24\")";
+      String output = execute(input);
+      assertThat(
+          output,
+          is(
+              """
+                 Returned: aggregate string [modifier]
+                 Damage Reduction => 24
+                 Moxie Experience => +7
+                 Muscle Experience => +11
+                 Mysticality Experience => +9
+                 """));
+    }
   }
 
   @Nested
@@ -1255,7 +1293,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
   class BookOfFacts {
     @ParameterizedTest
     @CsvSource({
-      "ACCORDION_THIEF, CRAZY_RANDOM_SUMMER, topiary golem, stats, +1 all",
+      "ACCORDION_THIEF, CRAZY_RANDOM_SUMMER, topiary golem, stats, +1 all substats",
       "TURTLE_TAMER, OXYGENARIAN, Blooper, meat, 10 Meat",
       "PASTAMANCER, COMMUNITY_SERVICE, bookbat, modifier, Experience (familiar): +1",
       "SEAL_CLUBBER, KINGDOM_OF_EXPLOATHING, Jefferson pilot, item, foon"
@@ -1451,6 +1489,85 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     }
   }
 
+  @Test
+  public void itShouldEquipCleaver() {
+    String maxStr =
+        "5item,meat,0.5initiative,0.1da 1000max,dr,0.5all res,1.5mainstat,-fumble,mox,0.4hp,0.2mp 1000max,3mp regen,0.25spell damage,1.75spell damage percent,2familiar weight,5familiar exp,10exp,5Mysticality experience percent,+200bonus spring shoes,+200bonus June cleaver,+200bonus designer sweatpants,2 dump";
+    HttpClientWrapper.setupFakeClient();
+    var cleanups =
+        new Cleanups(
+            withClass(AscensionClass.PASTAMANCER),
+            withHardcore(),
+            withPath(Path.AVANT_GUARD),
+            withSign(ZodiacSign.OPOSSUM),
+            withInteractivity(false),
+            withNoEffects(),
+            withProperty("umbrellaState", "broken"),
+            withEquipped(Slot.HAT, "Apriling band helmet"),
+            withUnequipped(Slot.WEAPON),
+            withUnequipped(Slot.OFFHAND),
+            withEquipped(Slot.SHIRT, "Jurassic Parka"),
+            withProperty("parkaMode", "kachungasaur"),
+            withEquipped(Slot.PANTS, "designer sweapants"),
+            withEquipped(Slot.CONTAINER, "bat wings"),
+            withEquipped(Slot.ACCESSORY1, "Cincho de Mayo"),
+            withEquipped(Slot.ACCESSORY2, "combat lover's locket"),
+            withEquipped(Slot.ACCESSORY3, "spring shoes"),
+            withEquippableItem("seal-skull helmet"), // 2283
+            withEquippableItem("ravioli hat"),
+            withEquippableItem("Hollandaise helmet"),
+            withEquippableItem("disco mask"),
+            withEquippableItem("mariachi hat"),
+            withEquippableItem("helmet turtle"),
+            withEquippableItem("coconut shell"),
+            withEquippableItem("Apriling band helmet"),
+            withEquippableItem("toy accordion"),
+            withEquippableItem("hobo code binder"),
+            withEquippableItem("stuffed spooky gravy fairy "),
+            withEquippableItem("stuffed astral badger"),
+            withEquippableItem("magical ice cubes"),
+            withEquippableItem("Roman Candelabra"),
+            withEquippableItem("unbreakable umbrella (broken)"),
+            withEquippableItem("august scepter"),
+            withEquippableItem("bat wings"),
+            withEquippableItem("Jurassic Parka (kachungasaur mode)"),
+            withEquippableItem("old sweatpants"),
+            withEquippableItem("tearaway pants"),
+            withEquippableItem("designer sweatpants"),
+            withEquippableItem("Everfull Dart Holster"),
+            withEquippableItem("cursed monkey's paw"),
+            withEquippableItem("astral mask"),
+            withEquippableItem("Cincho de Mayo"),
+            withEquippableItem("combat lover's locket"),
+            withEquippableItem("spring shoes"),
+            withEquippableItem("turtle totem"),
+            withEquippableItem("pasta spoon"),
+            withEquippableItem("saucepan"),
+            withEquippableItem("disco ball"),
+            withEquippableItem("little paper umbrella"),
+            withEquippableItem("candy cane sword cane"),
+            withEquippableItem("June cleaver"), // 10920
+            withEquippableItem("seal-clubbing club")); // 1
+    String out;
+    String cmd = "maximize(\"" + maxStr + "\", false)";
+    try (cleanups) {
+      out = execute(cmd);
+    }
+    assertFalse(out.isEmpty());
+    assertTrue(out.contains("Wielding June cleaver"));
+    assertTrue(out.contains("Putting on designer sweatpants..."));
+    assertContinueState();
+    var requests = getRequests();
+    assertFalse(requests.isEmpty());
+    boolean passed = false;
+    for (var req : requests) {
+      if (req.method().contains("POST")) {
+        passed = passed || getPostRequestBody(req).contains("whichitem=10920");
+      }
+    }
+    assertTrue(passed, "Did not find expected equip request.");
+  }
+
   @Nested
   class Darts {
     @Test
@@ -1616,6 +1733,263 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     void worksOnNoneValues() {
       assertThat(
           execute("$location[none].turns_until_forced_noncombat()").trim(), is("Returned: -1"));
+    }
+  }
+
+  @Nested
+  class ItemsHash {
+    @ParameterizedTest
+    @CsvSource({
+      "inventory,1,3010618080379317301",
+      "inventory,2,5098877678963069302",
+      "inventory,1|2,-5775617302849066554",
+      "inventory,1|2|3,8531806457801124500",
+      "closet,1,3010618080379317301",
+      "closet,2,5098877678963069302",
+      "storage,1,3010618080379317301",
+      "storage,2,5098877678963069302",
+      "display,1,3010618080379317301",
+      "display,2,5098877678963069302",
+      "shop,1,3366927173997222913",
+      "shop,2,-7673585838980678286"
+    })
+    void producesHashForValidItemsSource(String itemsSource, String itemIdsString, long expected) {
+      List<Integer> itemIds =
+          Arrays.stream(itemIdsString.split("\\|")).map(Integer::parseInt).toList();
+      var cleanups =
+          new Cleanups(
+              itemIds.stream()
+                  .map(
+                      itemId ->
+                          switch (itemsSource) {
+                            case "inventory" -> withItem(itemId);
+                            case "closet" -> withItemInCloset(itemId);
+                            case "storage" -> withItemInStorage(itemId);
+                            case "display" -> withItemInDisplay(itemId);
+                            case "shop" -> withItemInShop(itemId, 100, 0);
+                            default -> new Cleanups();
+                          })
+                  .toArray(Cleanups[]::new));
+      try (cleanups) {
+        assertThat(
+            execute("get_items_hash(\"%s\")".formatted(itemsSource)).trim(),
+            is("Returned: " + expected));
+        assertContinueState();
+      }
+    }
+
+    @Test
+    void errorsOnInvalidItemsSource() {
+      assertThat(
+          execute("get_items_hash(\"xxxxxx\")").trim(),
+          is(
+              "get_items_hash: Invalid items source. Valid are inventory, closet, storage, display, shop.\nReturned: -3750763034362895579"));
+    }
+  }
+
+  @Test
+  void getAvatar() {
+    KoLCharacter.setAvatar("otherimages/giant_foodie.gif");
+    assertThat(
+        execute("get_avatar()").trim(),
+        is("Returned: aggregate string [1]\n0 => otherimages/giant_foodie.gif"));
+  }
+
+  @Test
+  void getTitle() {
+    KoLCharacter.setTitle("NO PEEKING");
+    assertThat(execute("get_title()").trim(), is("Returned: NO PEEKING"));
+  }
+
+  @Nested
+  class XPath {
+    @AfterAll
+    static void reset() {
+      GenericRequest.setPasswordHash("");
+    }
+
+    private String xpath(String html, String xpath) {
+      return execute("xpath(`" + html + "`, `" + xpath + "`)");
+    }
+
+    @Test
+    void blankXpathReturnsFullHtml() {
+      var fullHtml = "<html><head><title>Hello</title></head><body>World</body></html>";
+      assertThat(
+          xpath(fullHtml, ""),
+          is(
+              """
+          Returned: aggregate string [1]
+          0 => &lt;html&gt;
+          &lt;head&gt;&lt;title&gt;Hello&lt;/title&gt;&lt;/head&gt;
+          &lt;body&gt;World&lt;/body&gt;&lt;/html&gt;
+          """));
+    }
+
+    @Test
+    void invalidXPathIsError() {
+      assertThat(xpath("<p>", "//p["), startsWith("invalid xpath expression"));
+    }
+
+    @Test
+    void xpathFullPage() {
+      var cleanups = withNextResponse(200, html("request/test_account_tab_combat.html"));
+
+      try (cleanups) {
+        assertThat(
+            execute(
+                "string page = visit_url(\"account.php?tab=combat\"); xpath(page, `//*[@id=\"opt_flag_aabosses\"]/label/input[@type='checkbox']@checked`)"),
+            is(
+                """
+                Returned: aggregate string [1]
+                0 => checked
+                """));
+      }
+    }
+
+    @Test
+    void xpathJoinsNodes() {
+      var cleanups = withNextResponse(200, html("request/test_clan_signup.html"));
+
+      try (cleanups) {
+        assertThat(
+            execute(
+                "string page = visit_url(\"clan_signup.php\"); xpath(page, `//select[@name=\"whichclan\"]//option`)"),
+            is(
+                """
+                    Returned: aggregate string [21]
+                    0 => &lt;option value=&quot;2046996836&quot;&gt;&Icirc;&copy;&Iuml;&lt;/option&gt;
+                    1 => &lt;option value=&quot;84165&quot;&gt;Alliance From Heck&lt;/option&gt;
+                    2 => &lt;option value=&quot;2046994401&quot;&gt;Black Mesa&lt;/option&gt;
+                    3 => &lt;option value=&quot;90485&quot;&gt;Bonus Adventures from Hell&lt;/option&gt;
+                    4 => &lt;option value=&quot;2047008364&quot;&gt;Collaborative Dungeon Central&lt;/option&gt;
+                    5 => &lt;option value=&quot;2047008362&quot;&gt;Collaborative Dungeon Running 1&lt;/option&gt;
+                    6 => &lt;option value=&quot;2047008363&quot;&gt;Collaborative Dungeon Running 2&lt;/option&gt;
+                    7 => &lt;option value=&quot;2046987880&quot;&gt;Easter Pink&lt;/option&gt;
+                    8 => &lt;option value=&quot;18112&quot;&gt;Evil for Fun and Profit&lt;/option&gt;
+                    9 => &lt;option value=&quot;2047004665&quot;&gt;factnet_0136&lt;/option&gt;
+                    10 => &lt;option value=&quot;52111&quot;&gt;First Lives Club&lt;/option&gt;
+                    11 => &lt;option value=&quot;2046994693&quot;&gt;From the Ashes&lt;/option&gt;
+                    12 => &lt;option value=&quot;2047005067&quot;&gt;Funking Good&lt;/option&gt;
+                    13 => &lt;option value=&quot;2047009544&quot;&gt;LUPO&lt;/option&gt;
+                    14 => &lt;option value=&quot;2046987019&quot;&gt;Not Dead Yet&lt;/option&gt;
+                    15 => &lt;option value=&quot;83922&quot;&gt;Prinny Land&lt;/option&gt;
+                    16 => &lt;option value=&quot;2047000135&quot;&gt;Reddit United&lt;/option&gt;
+                    17 => &lt;option value=&quot;2046997154&quot;&gt;The Fax Dump&lt;/option&gt;
+                    18 => &lt;option value=&quot;2046986725&quot;&gt;The Meowing Squirrel&lt;/option&gt;
+                    19 => &lt;option value=&quot;20655&quot;&gt;The Ugly Ducklings&lt;/option&gt;
+                    20 => &lt;option value=&quot;2046997063&quot;&gt;Ultimate Durs&lt;/option&gt;
+                    """));
+      }
+    }
+
+    @Test
+    void xpathWorksWithFragments() {
+      var fragment = "<select><option value=\"90485\">Bonus Adventures from Hell</option></select>";
+      assertThat(
+          xpath(fragment, "//@value"),
+          is("""
+          Returned: aggregate string [1]
+          0 => 90485
+          """));
+      assertThat(
+          xpath(fragment, "//text()"),
+          is(
+              """
+          Returned: aggregate string [1]
+          0 => Bonus Adventures from Hell
+          """));
+    }
+  }
+
+  @Test
+  void computesFreeCrafts() {
+    var cleanups =
+        new Cleanups(
+            withEffect(EffectPool.INIGOS, 6),
+            withEffect(EffectPool.COOKING_CONCENTRATE, 7),
+            withItem(ItemPool.THORS_PLIERS),
+            withSkill(SkillPool.RAPID_PROTOTYPING),
+            withSkill(SkillPool.HOLIDAY_MULTITASKING),
+            withSkill(SkillPool.OLD_SCHOOL_COCKTAILCRAFTING),
+            withProperty("_thorsPliersCrafting", 1),
+            withProperty("_rapidPrototypingUsed", 5),
+            withProperty("_oldSchoolCocktailCraftingUsed", 1),
+            withProperty("_holidayMultitaskingUsed"));
+
+    try (cleanups) {
+      assertThat(execute("free_crafts()").trim(), is("Returned: 4"));
+      assertThat(execute("free_cooks()").trim(), is("Returned: 1"));
+      assertThat(execute("free_mixes()").trim(), is("Returned: 2"));
+      assertThat(execute("free_smiths()").trim(), is("Returned: 9"));
+    }
+  }
+
+  @Test
+  void determinesBanishes() {
+    var cleanups =
+        new Cleanups(withCurrentRun(128), withBanishedPhyla("undead:Patriotic Screech:119"));
+
+    try (cleanups) {
+      assertThat(execute("is_banished($monster[ghuol])").trim(), is("Returned: true"));
+      assertThat(execute("is_banished($phylum[undead])").trim(), is("Returned: true"));
+      assertThat(execute("is_banished($monster[zombie process])").trim(), is("Returned: false"));
+      assertThat(execute("is_banished($phylum[construct])").trim(), is("Returned: false"));
+      assertThat(execute("is_banished($monster[none])").trim(), is("Returned: false"));
+      assertThat(execute("is_banished($phylum[none])").trim(), is("Returned: false"));
+    }
+  }
+
+  @Nested
+  class SkillCoinmasters {
+    @Test
+    void sellsSkillWorks() {
+      assertThat(
+          execute("sells_skill($coinmaster[Genetic Fiddling], $skill[Boiling Tear Ducts])").trim(),
+          is("Returned: true"));
+      assertThat(
+          execute("sells_skill($coinmaster[Genetic Fiddling], $skill[Magic Sweat])").trim(),
+          is("Returned: true"));
+      assertThat(
+          execute("sells_skill($coinmaster[Genetic Fiddling], $skill[Extra Brain])").trim(),
+          is("Returned: true"));
+      assertThat(
+          execute("sells_skill($coinmaster[Genetic Fiddling], $skill[Sucker Fingers])").trim(),
+          is("Returned: true"));
+      assertThat(
+          execute("sells_skill($coinmaster[Genetic Fiddling], $skill[Stream of sauce])").trim(),
+          is("Returned: false"));
+      assertThat(
+          execute("sells_skill($coinmaster[Kiwi Kwiki Mart], $skill[Boiling Tear Ducts])").trim(),
+          is("Returned: false"));
+    }
+
+    @Test
+    void sellPriceWorks() {
+      assertThat(
+          execute("sell_price($coinmaster[Genetic Fiddling], $skill[Boiling Tear Ducts])").trim(),
+          is("Returned: 30"));
+      assertThat(
+          execute("sell_price($coinmaster[Genetic Fiddling], $skill[Magic Sweat])").trim(),
+          is("Returned: 60"));
+      assertThat(
+          execute("sell_price($coinmaster[Genetic Fiddling], $skill[Extra Brain])").trim(),
+          is("Returned: 90"));
+      assertThat(
+          execute("sell_price($coinmaster[Genetic Fiddling], $skill[Sucker Fingers])").trim(),
+          is("Returned: 120"));
+      assertThat(
+          execute("sell_price($coinmaster[Genetic Fiddling], $skill[Stream of sauce])").trim(),
+          is("Returned: 0"));
+      assertThat(
+          execute("sell_price($coinmaster[Kiwi Kwiki Mart], $skill[Boiling Tear Ducts])").trim(),
+          is("Returned: 0"));
+      assertThat(
+          execute("sell_price($coinmaster[ChemiCorp], $item[seal-clubbing club])").trim(),
+          is("Returned: 0"));
+      assertThat(
+          execute("sell_price($coinmaster[ChemiCorp], $item[ultracoagulator])").trim(),
+          is("Returned: 1"));
     }
   }
 }

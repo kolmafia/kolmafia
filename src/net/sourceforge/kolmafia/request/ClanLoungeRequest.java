@@ -1539,11 +1539,11 @@ public class ClanLoungeRequest extends GenericRequest {
 
   private static final Pattern LOUNGE_PATTERN =
       Pattern.compile(
-          "<table.*?<b>Clan VIP Lounge \\(Ground Floor\\)</b>.*?<center><b>(?:<a.*?>)?(.*?)(?:</a>)?</b>.*?</center>(<table.*?</table>)",
+          "<table.*?<b style=\"color: white\">Clan VIP Lounge \\(Ground Floor\\)</b>.*?<center><b>(?:<a.*?>)?(.*?)(?:</a>)?</b>.*?</center>(<table.*?</table>)",
           Pattern.DOTALL);
   private static final Pattern LOUNGE2_PATTERN =
       Pattern.compile(
-          "<table.*?<b>Clan VIP Lounge \\(Attic\\)</b>.*?<center><b>(?:<a.*?>)?(.*?)(?:</a>)?</b>.*?</center>(<table.*?</table>)",
+          "<table.*?<b style=\"color: white\">Clan VIP Lounge \\(Attic\\)</b>.*?<center><b>(?:<a.*?>)?(.*?)(?:</a>)?</b>.*?</center>(<table.*?</table>)",
           Pattern.DOTALL);
 
   public static void parseResponse(final String urlString, final String responseText) {

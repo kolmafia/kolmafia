@@ -2,11 +2,18 @@ package net.sourceforge.kolmafia;
 
 import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withMoxie;
+import static internal.helpers.Player.withNotAllowedInStandard;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withRestricted;
+import static internal.helpers.Player.withSkill;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.aMapWithSize;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -20,6 +27,7 @@ import java.util.Map;
 import java.util.Set;
 import net.sourceforge.kolmafia.MonsterData.Attribute;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
@@ -133,36 +141,76 @@ public class MonsterDataTest {
       assertEquals(attributes, normalized);
     }
 
-    @Test
-    public void canHandleElementalAttack() {
-      String name = "scary monster";
-      // No elemental attack
-      String attributes = "";
-      Map<Attribute, Object> attributeMap = MonsterData.attributeStringToMap(name, attributes);
-      assertEquals(0, attributeMap.size());
+    @Nested
+    class ElementalAttack {
+      @Test
+      public void canHandleNoElementalAttack() {
+        var attributes = "";
+        var attributeMap = MonsterData.attributeStringToMap("No-Attack Monster", attributes);
+        assertEquals(0, attributeMap.size());
+      }
 
-      // One elemental attack
-      attributes = "EA: spooky";
-      attributeMap = MonsterData.attributeStringToMap(name, attributes);
-      assertEquals(1, attributeMap.size());
-      Object EA = attributeMap.get(Attribute.EA);
-      assertTrue(EA instanceof Element);
-      assertEquals(Element.SPOOKY, (Element) EA);
-      String normalized = MonsterData.attributeMapToString(attributeMap);
-      assertEquals(attributes, normalized);
+      @Test
+      public void canHandleOneElementalAttack() {
+        var attributes = "EA: spooky";
+        var attributeMap =
+            MonsterData.attributeStringToMap("One Element Attack Monster", attributes);
+        assertThat(attributeMap, aMapWithSize(1));
+        var EA = attributeMap.get(Attribute.EA);
+        assertThat(EA, instanceOf(Element.class));
+        assertThat(EA, is(Element.SPOOKY));
+        String normalized = MonsterData.attributeMapToString(attributeMap);
+        assertThat(normalized, equalTo(attributes));
+      }
 
-      // Two elemental attack
-      attributes = "EA: spooky EA: sleaze";
-      attributeMap = MonsterData.attributeStringToMap(name, attributes);
-      assertEquals(1, attributeMap.size());
-      EA = attributeMap.get(Attribute.EA);
-      assertTrue(EA instanceof EnumSet);
-      EnumSet<Element> elements = (EnumSet<Element>) EA;
-      assertEquals(2, elements.size());
-      assertTrue(elements.contains(Element.SPOOKY));
-      assertTrue(elements.contains(Element.SLEAZE));
-      normalized = MonsterData.attributeMapToString(attributeMap);
-      assertEquals("EA: sleaze EA: spooky", normalized);
+      @Test
+      public void canHandleTwoElementalAttack() {
+        var attributes = "EA: spooky EA: sleaze";
+        var attributeMap =
+            MonsterData.attributeStringToMap("Two Element Attack Monster", attributes);
+        assertThat(attributeMap, aMapWithSize(1));
+        var EA = attributeMap.get(Attribute.EA);
+        assertThat(EA, instanceOf(EnumSet.class));
+        @SuppressWarnings("unchecked")
+        EnumSet<Element> elements = (EnumSet<Element>) EA;
+        assertThat(elements, hasSize(2));
+        assertThat(elements, hasItem(Element.SPOOKY));
+        assertThat(elements, hasItem(Element.SLEAZE));
+        var normalized = MonsterData.attributeMapToString(attributeMap);
+        assertThat(normalized, equalTo("EA: sleaze EA: spooky"));
+      }
+
+      @Test
+      public void canHandleNonElementalAttack() {
+        var attributes = "EA: sleaze EA: none";
+        var attributeMap = MonsterData.attributeStringToMap("Physical Attack Monster", attributes);
+        assertThat(attributeMap, aMapWithSize(1));
+        var EA = attributeMap.get(Attribute.EA);
+        assertThat(EA, instanceOf(EnumSet.class));
+        @SuppressWarnings("unchecked")
+        EnumSet<Element> elements = (EnumSet<Element>) EA;
+        assertThat(elements, hasSize(2));
+        assertThat(elements, hasItem(Element.NONE));
+        assertThat(elements, hasItem(Element.SLEAZE));
+        var normalized = MonsterData.attributeMapToString(attributeMap);
+        assertThat(normalized, equalTo("EA: none EA: sleaze"));
+      }
+
+      @Test
+      public void canHandleUnrecognisedElementalAttack() {
+        var attributes = "EA: hot EA: cold EA: yes EA: no";
+        var attributeMap =
+            MonsterData.attributeStringToMap("Unknown Element Attack Monster", attributes);
+        assertThat(attributeMap, aMapWithSize(1));
+        var EA = attributeMap.get(Attribute.EA);
+        assertThat(EA, instanceOf(EnumSet.class));
+        @SuppressWarnings("unchecked")
+        EnumSet<Element> elements = (EnumSet<Element>) EA;
+        assertThat(elements, hasSize(2));
+        assertThat(elements, hasItem(Element.HOT));
+        assertThat(elements, hasItem(Element.COLD));
+        var normalized = MonsterData.attributeMapToString(attributeMap);
+      }
     }
 
     @Test
@@ -378,6 +426,56 @@ public class MonsterDataTest {
       monster.appendItemDrops(builder);
 
       assertThat(builder.toString(), equalTo("<br />Drops: " + itemDropString));
+    }
+  }
+
+  @Nested
+  class JustTheFacts {
+    @Test
+    void factsAreNotRenderedWithoutSkill() {
+      var monster = MonsterDatabase.findMonster("fluffy bunny");
+
+      var cleanups = Player.withoutSkill(SkillPool.JUST_THE_FACTS);
+
+      try (cleanups) {
+        var builder = new StringBuilder();
+        monster.appendFact(builder);
+        assertThat(builder.toString(), not(containsString("Just the Facts: ")));
+      }
+    }
+
+    @Test
+    void factsAreRenderedIfUnrestricted() {
+      var monster = MonsterDatabase.findMonster("fluffy bunny");
+
+      var cleanups =
+          new Cleanups(
+              withSkill(SkillPool.JUST_THE_FACTS),
+              withNotAllowedInStandard(RestrictedItemType.SKILLS, "just the facts"),
+              withRestricted(false));
+
+      try (cleanups) {
+        var builder = new StringBuilder();
+        monster.appendFact(builder);
+        assertThat(builder.toString(), containsString("Just the Facts: "));
+      }
+    }
+
+    @Test
+    void factsAreNotRenderedIfRestricted() {
+      var monster = MonsterDatabase.findMonster("fluffy bunny");
+
+      var cleanups =
+          new Cleanups(
+              withSkill(SkillPool.JUST_THE_FACTS),
+              withNotAllowedInStandard(RestrictedItemType.SKILLS, "just the facts"),
+              withRestricted(true));
+
+      try (cleanups) {
+        var builder = new StringBuilder();
+        monster.appendFact(builder);
+        assertThat(builder.toString(), not(containsString("Just the Facts: ")));
+      }
     }
   }
 

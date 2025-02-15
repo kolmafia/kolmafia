@@ -24,12 +24,12 @@ import net.sourceforge.kolmafia.request.CharPaneRequest;
 import net.sourceforge.kolmafia.request.ChateauRequest;
 import net.sourceforge.kolmafia.request.FalloutShelterRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.LoginRequest;
 import net.sourceforge.kolmafia.request.LogoutRequest;
 import net.sourceforge.kolmafia.request.MallPurchaseRequest;
 import net.sourceforge.kolmafia.request.PasswordHashRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
+import net.sourceforge.kolmafia.request.coinmaster.HermitRequest;
 import net.sourceforge.kolmafia.scripts.git.GitManager;
 import net.sourceforge.kolmafia.scripts.svn.SVNManager;
 import net.sourceforge.kolmafia.session.PingManager.PingAbortTrigger;
@@ -410,7 +410,6 @@ public class LoginManager {
     StoreManager.clearCache();
     DisplayCaseManager.clearCache();
     ClanManager.clearCache(true);
-    BanishManager.clearCache();
 
     CampgroundRequest.reset();
     ChateauRequest.reset();
@@ -476,6 +475,8 @@ public class LoginManager {
     if (MailManager.hasNewMessages()) {
       KoLmafia.updateDisplay("You have new mail.");
     }
+
+    printWarningMessages();
   }
 
   public static String getCurrentHoliday() {
@@ -491,5 +492,14 @@ public class LoginManager {
 
   public static boolean isSvnLoginUpdateUnfinished() {
     return svnLoginUpdateNotFinished;
+  }
+
+  private static void printWarningMessages() {
+    var version = Runtime.version();
+    if (version.feature() < 21) {
+      KoLmafia.updateDisplay("Java versions lower than 21 will stop being supported by KoLMafia.");
+      KoLmafia.updateDisplay(
+          "You are running a version of Java lower than 21. Visit https://adoptium.net/ to download a newer version of Java.");
+    }
   }
 }

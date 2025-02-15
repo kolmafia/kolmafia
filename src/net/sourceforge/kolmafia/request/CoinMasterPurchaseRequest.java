@@ -1,15 +1,21 @@
 package net.sourceforge.kolmafia.request;
 
+import java.util.Arrays;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
+import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
+import net.sourceforge.kolmafia.shop.ShopRow;
 
 public class CoinMasterPurchaseRequest extends PurchaseRequest {
   private final CoinmasterData data;
+  private final ShopRow shopRow;
   private final AdventureResult cost;
+  private final AdventureResult[] costs;
   private final CoinMasterRequest request;
 
   /**
@@ -21,9 +27,14 @@ public class CoinMasterPurchaseRequest extends PurchaseRequest {
     super(""); // We do not run this request itself
 
     this.shopName = data.getMaster();
+    this.shopRow = null;
+
     this.item = item.getInstance(1);
-    this.price = price.getCount();
     this.quantity = item.getCount();
+
+    this.costs = new AdventureResult[] {price};
+    this.cost = price;
+    this.price = price.getCount();
 
     this.limit = this.quantity;
     this.canPurchase = true;
@@ -31,8 +42,34 @@ public class CoinMasterPurchaseRequest extends PurchaseRequest {
     this.timestamp = 0L;
 
     this.data = data;
-    this.cost = price;
     this.request = data.getRequest(true, new AdventureResult[] {this.item});
+  }
+
+  public CoinMasterPurchaseRequest(final CoinmasterData data, final ShopRow row) {
+    super(""); // We do not run this request itself
+
+    this.shopName = data.getMaster();
+    this.shopRow = row;
+
+    AdventureResult item = row.getItem();
+    this.item = item.getInstance(1);
+    this.quantity = CoinmastersDatabase.purchaseLimit(item.getItemId());
+
+    // PurchaseRequest.orice is Meat. In this class, it is the quantity
+    // of the "cost" - the traded token. In a ShopRow, there can be
+    // multiple costs. Kludge: use the first cost.
+    this.costs = row.getCosts();
+    this.cost = costs[0];
+    this.price = cost.getCount();
+
+    this.limit = this.quantity;
+    this.canPurchase = true;
+
+    this.timestamp = 0L;
+
+    this.data = data;
+
+    this.request = data.getRequest(row, 1);
   }
 
   @Override
@@ -46,10 +83,13 @@ public class CoinMasterPurchaseRequest extends PurchaseRequest {
 
   @Override
   public String getPriceString() {
+    if (this.shopRow != null) {
+      return this.shopRow.costString(1);
+    }
     long price =
         this.cost.isMeat() ? NPCPurchaseRequest.currentDiscountedPrice(this.price) : this.price;
 
-    return KoLConstants.COMMA_FORMAT.format(price) + " " + this.cost.getPluralName(price);
+    return KoLConstants.COMMA_FORMAT.format(price) + " " + this.cost.getPluralName(this.price);
   }
 
   @Override
@@ -58,7 +98,15 @@ public class CoinMasterPurchaseRequest extends PurchaseRequest {
   }
 
   @Override
+  public AdventureResult[] getCosts() {
+    return this.costs;
+  }
+
+  @Override
   public String getCurrency(final long count) {
+    if (this.shopRow != null) {
+      return this.shopRow.costString(count);
+    }
     return this.cost.getPluralName(this.price);
   }
 
@@ -68,6 +116,10 @@ public class CoinMasterPurchaseRequest extends PurchaseRequest {
 
   @Override
   public int affordableCount() {
+    if (this.shopRow != null) {
+      return this.shopRow.getAffordableCount();
+    }
+
     int tokens = this.data.affordableTokens(this.cost);
     long price = this.price;
     return price == 0 ? 0 : (int) (tokens / price);
@@ -111,6 +163,24 @@ public class CoinMasterPurchaseRequest extends PurchaseRequest {
   }
 
   @Override
+  public boolean equals(final Object o) {
+    // Assumption: a shop can contain multiple instances of the same item
+    return o instanceof CoinMasterPurchaseRequest cpr
+        && this.shopName.equals(cpr.shopName)
+        && this.item.getItemId() == cpr.item.getItemId()
+        && Arrays.equals(this.costs, cpr.costs);
+  }
+
+  @Override
+  public int hashCode() {
+    int hash = 0;
+    hash += this.shopName != null ? this.shopName.hashCode() : 0;
+    hash += this.item != null ? this.item.hashCode() : 0;
+    hash += this.costs != null ? Arrays.hashCode(this.costs) : 0;
+    return hash;
+  }
+
+  @Override
   public void run() {
     if (this.request == null) {
       return;
@@ -121,7 +191,8 @@ public class CoinMasterPurchaseRequest extends PurchaseRequest {
     }
 
     // Make sure we have enough tokens to buy what we want.
-    if (this.data.availableTokens(this.cost) < this.limit * this.price) {
+    if (this.affordableCount() < this.limit) {
+      // if (this.data.availableTokens(this.cost) < this.limit * this.price) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "You can't afford that.");
       return;
     }

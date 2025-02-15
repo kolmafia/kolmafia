@@ -335,7 +335,8 @@ public class MallSearchRequest extends GenericRequest {
     }
   }
 
-  private static final Pattern STOREID_PATTERN = Pattern.compile("<b>(.*?) \\(<a.*?who=(\\d+)\"");
+  private static final Pattern STOREID_PATTERN =
+      Pattern.compile("<b style=\"color: [^\"]+\">(.*?) \\(<a.*?who=(\\d+)\"");
   private static final Pattern STOREPRICE_PATTERN =
       Pattern.compile("radio value=([\\d.]+).*?<b>(.*?)</b> \\(([\\d,]+)\\)(.*?)</td>");
   private static final Pattern STORELIMIT_PATTERN = Pattern.compile("Limit ([\\d,]+) /");
@@ -379,14 +380,17 @@ public class MallSearchRequest extends GenericRequest {
 
   private static final Pattern ITEMDETAIL_PATTERN =
       Pattern.compile(
-          "<table class=\"itemtable\".*?item_(\\d+).*?descitem\\((\\d+)\\).*?<a[^>]*>(.*?)</a>(.*?)</table>");
+          "<table class=\"itemtable\".*?item_(\\d+).*?descitem\\((\\d+)\\).*?<a[^>]*>(.*?)</a>(.*?)</table>",
+          Pattern.DOTALL);
   private static final Pattern STOREDETAIL_PATTERN =
-      Pattern.compile("<tr class=\"graybelow.+?</tr>");
+      Pattern.compile("<tr class=\"graybelow.+?</tr>", Pattern.DOTALL);
   private static final Pattern LISTQUANTITY_PATTERN = Pattern.compile("stock\">([\\d,]+)<");
   private static final Pattern LISTLIMIT_PATTERN =
       Pattern.compile("([\\d,]+)\\&nbsp;\\/\\&nbsp;day");
   private static final Pattern LISTDETAIL_PATTERN =
-      Pattern.compile("whichstore=(\\d+)\\&searchitem=(\\d+)\\&searchprice=(\\d+)\"><b>(.*?)</b>");
+      Pattern.compile(
+          "whichstore=(\\d+)\\&searchitem=(\\d+)\\&searchprice=(\\d+)\"><b>(.*?)</b>",
+          Pattern.DOTALL);
 
   private void searchMall() {
     List<String> itemNames =
@@ -503,19 +507,15 @@ public class MallSearchRequest extends GenericRequest {
 
   private void addNPCStoreItem(final int itemId) {
     if (NPCStoreDatabase.contains(itemId, false)) {
-      PurchaseRequest item = NPCStoreDatabase.getPurchaseRequest(itemId);
-      if (!this.results.contains(item)) {
-        this.results.add(item);
-      }
+      var items = NPCStoreDatabase.getAvailablePurchaseRequests(itemId);
+      this.results.addAll(items);
     }
   }
 
   private void addCoinMasterItem(final int itemId) {
-    PurchaseRequest item = CoinmastersDatabase.getPurchaseRequest(itemId);
-    if (item != null) {
-      if (!this.results.contains(item)) {
-        this.results.add(item);
-      }
+    if (CoinmastersDatabase.contains(itemId, false)) {
+      var items = CoinmastersDatabase.getAllPurchaseRequests(itemId);
+      this.results.addAll(items);
     }
   }
 

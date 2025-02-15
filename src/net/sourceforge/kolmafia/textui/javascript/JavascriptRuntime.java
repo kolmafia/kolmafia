@@ -124,7 +124,8 @@ public class JavascriptRuntime extends AbstractRuntime {
     return functions;
   }
 
-  private Scriptable initRuntimeLibrary(Context cx, Scriptable scope, File scriptFile) {
+  // Public only for testing.
+  public Scriptable initRuntimeLibrary(Context cx, Scriptable scope, File scriptFile) {
     var addToTopScope = scriptFile == null;
 
     Set<String> uniqueFunctionNames =

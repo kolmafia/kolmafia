@@ -20,6 +20,7 @@ import net.sourceforge.kolmafia.Modeable;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.equipment.SlotSet;
@@ -46,15 +47,17 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
-import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.QuantumTerrariumRequest;
 import net.sourceforge.kolmafia.request.SkateParkRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 import net.sourceforge.kolmafia.session.BeachManager;
 import net.sourceforge.kolmafia.session.BeachManager.BeachHead;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -81,6 +84,7 @@ public class Maximizer {
     "_folderholder",
     "_cardsleeve",
     "_smithsness",
+    "_mcHugeLarge",
   };
 
   static MaximizerSpeculation best;
@@ -133,6 +137,12 @@ public class Maximizer {
       return;
     }
 
+    // ensure character state is updated
+    if (KoLCharacter.inQuantum()) {
+      RequestThread.postRequest(new QuantumTerrariumRequest());
+    }
+    // catch passive skills
+    ApiRequest.updateStatus();
     // ensure current modifiers are up-to-date
     KoLCharacter.recalculateAdjustments();
     double current =
@@ -1296,6 +1306,25 @@ public class Maximizer {
           duration = 30;
         } else if (cmd.startsWith("aprilband ")) {
           item = ItemPool.get(ItemPool.APRILING_BAND_HELMET, 1);
+        } else if (cmd.startsWith("mayam ")) {
+          item = ItemPool.get(ItemPool.MAYAM_CALENDAR, 1);
+        } else if (cmd.startsWith("photobooth effect ")) {
+          if (KoLCharacter.inBadMoon()) {
+            continue;
+          } else if (!StandardRequest.isAllowed(RestrictedItemType.CLAN_ITEMS, "Photo Booth")) {
+            continue;
+          } else if (limitMode.limitClan()) {
+            continue;
+          } else if (!haveVipKey) {
+            if (includeAll) {
+              text = "( get access to the VIP lounge )";
+              cmd = "";
+            } else continue;
+          } else if (Preferences.getInteger("_photoBoothEffects") >= 3) {
+            cmd = "";
+          }
+          duration = 50;
+          usesRemaining = 3 - Preferences.getInteger("_photoBoothEffects");
         }
 
         if (item != null) {

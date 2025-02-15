@@ -8,7 +8,7 @@ import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.request.ArmoryAndLeggeryRequest.CoinmasterItem;
+import net.sourceforge.kolmafia.request.coinmaster.shop.ArmoryAndLeggeryRequest.CoinmasterItem;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -220,6 +220,11 @@ public class StandardRewardDatabase {
     }
 
     StandardPulverized pulverized = pulverizedByItemid.get(currency);
+    if (pulverized == null) {
+      RequestLogger.printLine(
+          "currency '" + reward.currency() + "' is not registered yet as a currency.");
+      return null;
+    }
 
     int itemId = reward.itemId();
     String itemName = reward.itemName();

@@ -8,6 +8,7 @@ import static internal.helpers.Player.withItemInStash;
 import static internal.helpers.Player.withItemInStorage;
 import static internal.helpers.Player.withNextResponse;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withWorkshedItem;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.not;
@@ -172,6 +173,64 @@ class ValhallaDecoratorTest {
                 "<input type=submit class=button value=\"Ascend\"> <input type=checkbox name=confirm> (confirm) <input type=checkbox name=confirm2> (seriously)");
         ValhallaDecorator.decorateGashJump("ascend.php", buffer);
         assertThat(buffer.toString(), not(containsString("shop.php?whichshop=september")));
+      }
+    }
+  }
+
+  @Nested
+  class TakerSpace {
+    @Test
+    public void decoratesWithIngredients() {
+      var cleanups =
+          new Cleanups(
+              // trophy check
+              withNextResponse(200, ""),
+              withWorkshedItem(ItemPool.TAKERSPACE_LETTER_OF_MARQUE),
+              withProperty("takerSpaceSpice", 1),
+              withProperty("takerSpaceAnchor", 1),
+              withProperty("takerSpaceSilk", 1));
+
+      try (cleanups) {
+        var buffer =
+            new StringBuffer(
+                "<input type=submit class=button value=\"Ascend\"> <input type=checkbox name=confirm> (confirm) <input type=checkbox name=confirm2> (seriously)");
+        ValhallaDecorator.decorateGashJump("ascend.php", buffer);
+        assertThat(
+            buffer.toString(),
+            containsString(
+                "<a href=\"campground.php?action=workshed\">Spend remaining TakerSpace ingredients (1 spice / 0 rum / 1 anchor / 0 mast / 1 silk / 0 gold)</a>"));
+      }
+    }
+
+    @Test
+    public void doesNotDecorateWithoutWorkshed() {
+      var cleanups =
+          new Cleanups(
+              // trophy check
+              withNextResponse(200, ""), withProperty("takerSpaceSilk", 1));
+
+      try (cleanups) {
+        var buffer =
+            new StringBuffer(
+                "<input type=submit class=button value=\"Ascend\"> <input type=checkbox name=confirm> (confirm) <input type=checkbox name=confirm2> (seriously)");
+        ValhallaDecorator.decorateGashJump("ascend.php", buffer);
+        assertThat(buffer.toString(), not(containsString("campground.php?action=workshed")));
+      }
+    }
+
+    @Test
+    public void doesNotDecorateWithoutIngredients() {
+      var cleanups =
+          new Cleanups(
+              // trophy check
+              withNextResponse(200, ""), withWorkshedItem(ItemPool.TAKERSPACE_LETTER_OF_MARQUE));
+
+      try (cleanups) {
+        var buffer =
+            new StringBuffer(
+                "<input type=submit class=button value=\"Ascend\"> <input type=checkbox name=confirm> (confirm) <input type=checkbox name=confirm2> (seriously)");
+        ValhallaDecorator.decorateGashJump("ascend.php", buffer);
+        assertThat(buffer.toString(), not(containsString("campground.php?action=workshed")));
       }
     }
   }

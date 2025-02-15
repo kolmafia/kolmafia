@@ -22,6 +22,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -230,7 +231,7 @@ public class TinkeringBenchRequestTest {
       request.run();
 
       var text = SessionLoggerOutput.stopStream();
-      assertTrue(text.contains("Trade 1 quick-release fannypack, 1 smashed scientific equipment"));
+      assertTrue(text.contains("Use 1 quick-release fannypack, 1 smashed scientific equipment"));
 
       assertThat(InventoryManager.getCount(ItemPool.SMASHED_SCIENTIFIC_EQUIPMENT), is(1));
       assertThat(InventoryManager.getCount(ItemPool.QUICK_RELEASE_FANNYPACK), is(0));
@@ -286,7 +287,7 @@ public class TinkeringBenchRequestTest {
       buy.run();
 
       var text = SessionLoggerOutput.stopStream();
-      assertTrue(text.contains("Trade 1 quick-release fannypack, 1 smashed scientific equipment"));
+      assertTrue(text.contains("Use 1 quick-release fannypack, 1 smashed scientific equipment"));
 
       assertThat(InventoryManager.getCount(ItemPool.SMASHED_SCIENTIFIC_EQUIPMENT), is(1));
       assertThat(InventoryManager.getCount(ItemPool.QUICK_RELEASE_FANNYPACK), is(0));

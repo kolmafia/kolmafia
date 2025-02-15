@@ -9,6 +9,7 @@ import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -115,6 +116,7 @@ public class Preferences {
         "aminoAcidsUsed",
         "antiScientificMethod",
         "asolDeferredPoints",
+        "autopsyTweezersUsed",
         "autumnatonQuestLocation",
         "autumnatonQuestTurn",
         "autumnatonUpgrades",
@@ -139,6 +141,7 @@ public class Preferences {
         "beGregariousFightsLeft",
         "bigBrotherRescued",
         "blankOutUsed",
+        "bodyguardCharge",
         "bondAdv",
         "bondBeach",
         "bondBeat",
@@ -217,6 +220,7 @@ public class Preferences {
         "commaFamiliar",
         "commerceGhostCombats",
         "commerceGhostItem",
+        "cookbookbatIngredientsCharge",
         "copperheadClubHazard",
         "cornucopiasOpened",
         "cosmicBowlingBallReturnCombats",
@@ -232,6 +236,8 @@ public class Preferences {
         "crystalBallPredictions",
         "csServicesPerformed",
         "cubelingProgress",
+        "cupidBowLastFamiliar",
+        "cupidBowFights",
         "currentAstralTrip",
         "currentDistillateMods",
         "currentEasyBountyItem",
@@ -244,10 +250,13 @@ public class Preferences {
         "currentSpecialBountyItem",
         "currentSITSkill",
         "cursedMagnifyingGlassCount",
+        "cyberDatastickCollected",
         "cyrusAdjectives",
         "dampOldBootPurchased",
         "dartsThrown",
         "daycareEquipment",
+        "daycareInstructorItem",
+        "daycareInstructorItemQuantity",
         "daycareInstructors",
         "daycareToddlers",
         "deepDishOfLegendEaten",
@@ -267,6 +276,7 @@ public class Preferences {
         "drippingHallAdventuresSinceAscension",
         "drippingTreesAdventuresSinceAscension",
         "drippyJuice",
+        "droneSelfDestructChipsUsed",
         "duckAreasCleared",
         "duckAreasSelected",
         "edPiece",
@@ -361,6 +371,7 @@ public class Preferences {
         "itemBoughtPerAscension10795",
         "itemBoughtPerAscension637",
         "itemBoughtPerAscension8266",
+        "juicyGarbageUsed",
         "juneCleaverQueue",
         "jungCharge",
         "lassoTraining",
@@ -373,6 +384,35 @@ public class Preferences {
         "lastFriarsElbowNC",
         "lastFriarsHeartNC",
         "lastFriarsNeckNC",
+        "lastNoncombat15",
+        "lastNoncombat257",
+        "lastNoncombat270",
+        "lastNoncombat273",
+        "lastNoncombat280",
+        "lastNoncombat297",
+        "lastNoncombat322",
+        "lastNoncombat323",
+        "lastNoncombat324",
+        "lastNoncombat341",
+        "lastNoncombat343",
+        "lastNoncombat384",
+        "lastNoncombat386",
+        "lastNoncombat391",
+        "lastNoncombat405",
+        "lastNoncombat406",
+        "lastNoncombat439",
+        "lastNoncombat440",
+        "lastNoncombat441",
+        "lastNoncombat450",
+        "lastNoncombat533",
+        "lastNoncombat539",
+        "lastNoncombat540",
+        "lastNoncombat541",
+        "lastNoncombat588",
+        "lastNoncombat589",
+        "lastNoncombat590",
+        "lastNoncombat591",
+        "lastNoncombat592",
         "lastShadowForgeUnlockAdventure",
         "lastTrainsetConfiguration",
         "lastZapperWandExplosionDay",
@@ -423,10 +463,12 @@ public class Preferences {
         "milkOfMagnesiumActive",
         "mimicEggMonsters",
         "miniAdvClass",
+        "miniKiwiAiolisUsed",
         "moonTuned",
         "motifMonster",
         "monkeyPointMonster",
         "mushroomGardenCropLevel",
+        "nanopolymerSpiderWebsUsed",
         "nextAprilBandTurn",
         "nextDistillateMods",
         "nextParanormalActivity",
@@ -452,6 +494,7 @@ public class Preferences {
         "pastaThrall6",
         "pastaThrall7",
         "pastaThrall8",
+        "peaceTurkeyIndex",
         "pendingMapReflections",
         "photocopyMonster",
         "pingpongSkill",
@@ -463,6 +506,7 @@ public class Preferences {
         "plumberCostumeWorn",
         "pokefamBoosts",
         "popularTartUnlocked",
+        "powerPillProgress",
         "prayedForGlamour",
         "prayedForProtection",
         "prayedForVigor",
@@ -526,6 +570,12 @@ public class Preferences {
         "sugarCounter4191",
         "superficiallyInterestedMonster",
         "sweat",
+        "takerSpaceAnchor",
+        "takerSpaceGold",
+        "takerSpaceMast",
+        "takerSpaceRum",
+        "takerSpaceSilk",
+        "takerSpaceSpice",
         "telescope1",
         "telescope2",
         "telescope3",
@@ -576,6 +626,9 @@ public class Preferences {
         "youRobotScavenged",
         "youRobotTop",
       };
+
+  private static final Set<String> resetOnAscensionSet =
+      new HashSet<>(Arrays.asList(resetOnAscension));
 
   // Obsolete properties.
   private static final String[] obsoleteProperties =
@@ -1399,6 +1452,14 @@ public class Preferences {
   public static boolean isDaily(String name) {
     return (name.startsWith("_") && !legacyNonDailies.contains(name))
         || legacyDailies.contains(name);
+  }
+
+  public static boolean isResetOnAscension(String name) {
+    // yearbookCameraUpgrades and deferred points prefs are not really reset on ascension, just
+    // incremented.
+    return name.equals("muffinOnOrder")
+        || name.equals("bwApronMealsEaten")
+        || resetOnAscensionSet.contains(name);
   }
 
   private static void deferredPoints(String prop, String defprop, int max) {

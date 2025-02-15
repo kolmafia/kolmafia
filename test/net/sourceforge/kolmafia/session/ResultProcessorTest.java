@@ -59,7 +59,6 @@ public class ResultProcessorTest {
   public void beforeEach() {
     KoLCharacter.reset("ResultProcessorTest");
     Preferences.reset("ResultProcessorTest");
-    BanishManager.clearCache();
     InventoryManager.resetInventory();
   }
 
@@ -519,6 +518,24 @@ public class ResultProcessorTest {
           not(
               containsString(
                   "Could not parse: You lose control of your legs, and begin running as fast as you can in a random direction")));
+    }
+  }
+
+  @Nested
+  class PowerPill {
+    @ParameterizedTest
+    @ValueSource(ints = {FamiliarPool.PUCK_MAN, FamiliarPool.MS_PUCK_MAN})
+    void processesDrop(int familiar) {
+      var cleanups =
+          new Cleanups(
+              withFamiliar(familiar),
+              withProperty("powerPillProgress", 12),
+              withProperty("_powerPillDrops", 1));
+      try (cleanups) {
+        ResultProcessor.processResults(true, html("request/test_fight_power_pill_drop.html"));
+        assertThat("powerPillProgress", isSetTo(0));
+        assertThat("_powerPillDrops", isSetTo(2));
+      }
     }
   }
 }

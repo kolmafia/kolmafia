@@ -12,6 +12,7 @@ import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -21,9 +22,12 @@ import java.io.IOException;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.StringTokenizer;
 import java.util.function.Function;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.AscensionPath.Path;
@@ -210,7 +214,7 @@ public class DataFileConsistencyTest {
 
   @Test
   public void testCoinmasterBuyables() throws IOException {
-    var buyables = datafileItems("coinmasters.txt", 2, 3);
+    var buyables = datafileItems("coinmasters.txt", 3, 3);
 
     Pattern withNum = Pattern.compile("(.*) \\(\\d+\\)");
 
@@ -600,12 +604,13 @@ public class DataFileConsistencyTest {
   }
 
   @Test
-  public void everyForceNoncombatZoneHasDefault() {
+  public void everyForceNoncombatZoneHasDefaultAndResetsOnAscension() {
     for (var adventure : AdventureDatabase.getAsLockableListModel()) {
       if (adventure.getAdventureNumber() < 0) continue;
 
       var pref = "lastNoncombat" + adventure.getAdventureNumber();
       assertThat(Preferences.containsDefault(pref), is(adventure.getForceNoncombat() > 0));
+      assertThat(Preferences.isResetOnAscension(pref), is(adventure.getForceNoncombat() > 0));
     }
   }
 
@@ -623,6 +628,74 @@ public class DataFileConsistencyTest {
       }
     } catch (IOException e) {
       fail("Couldn't read from encounters.txt");
+    }
+  }
+
+  @Test
+  public void monsterElementsAreValid() {
+    try (BufferedReader reader =
+        FileUtilities.getVersionedReader("monsters.txt", KoLConstants.MONSTERS_VERSION)) {
+      String[] data;
+
+      while ((data = FileUtilities.readData(reader)) != null) {
+        StringTokenizer tokens = new StringTokenizer(data[3], " ");
+        while (tokens.hasMoreTokens()) {
+          var value = tokens.nextToken();
+          var attribute = MonsterData.Attribute.find(value);
+          var elemental =
+              value.equals("E:")
+                  || attribute == MonsterData.Attribute.EA
+                  || attribute == MonsterData.Attribute.ED;
+
+          if (!elemental) continue;
+          if (!tokens.hasMoreTokens()) continue;
+
+          String next = MonsterData.parseString(tokens.nextToken(), tokens);
+          var element = MonsterData.parseElement(next);
+          assertThat(
+              "Monster" + data[0] + " references an invalid element \"" + next + "\"",
+              element,
+              notNullValue());
+        }
+      }
+    } catch (IOException e) {
+      fail("Couldn't read from monsters.txt");
+    }
+  }
+
+  @Test
+  public void everyFamiliarHasAThroneModifier() {
+    var allFamiliars =
+        FamiliarDatabase.entrySet().stream()
+            .map(Map.Entry::getKey)
+            // Ignore Pokefam-exclusive familiars
+            .filter(id -> !FamiliarDatabase.hasAttribute(id, "pokefam"))
+            // Ignore familiars with no hatchling (currently April Fools familiars, but may also
+            // catch future weirdos
+            .filter(id -> FamiliarDatabase.getFamiliarLarva(id) > 0)
+            .collect(Collectors.toSet());
+    String file = "modifiers.txt";
+    int version = 3;
+    String[] fields;
+    try (BufferedReader reader = FileUtilities.getVersionedReader(file, version)) {
+      while ((fields = FileUtilities.readData(reader)) != null) {
+        String identifier = fields[0];
+        if (!identifier.equals("Throne")) continue;
+        var name = fields[1];
+        var id = FamiliarDatabase.getFamiliarId(name, false);
+        allFamiliars.remove(id);
+      }
+    } catch (IOException e) {
+      fail("Couldn't read from " + file);
+    }
+
+    if (!allFamiliars.isEmpty()) {
+      fail(
+          "No throne data for "
+              + allFamiliars.stream()
+                  .map(FamiliarDatabase::getFamiliarName)
+                  .collect(Collectors.joining(", "))
+              + " found");
     }
   }
 }

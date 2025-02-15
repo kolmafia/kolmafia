@@ -515,6 +515,38 @@ public class EquipmentManager {
         }
       }
       case ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE -> ItemDatabase.setCapeSkills();
+      case ItemPool.SHERIFF_BADGE, ItemPool.SHERIFF_PISTOL, ItemPool.SHERIFF_MOUSTACHE -> {
+        if (KoLCharacter.hasEquipped(ItemPool.SHERIFF_PISTOL) && KoLCharacter.hasEquipped(ItemPool.SHERIFF_BADGE) && KoLCharacter.hasEquipped(ItemPool.SHERIFF_MOUSTACHE)) {
+          cb.accept(SkillPool.ASSERT_YOUR_AUTHORITY);
+        }
+      }
+      case ItemPool.PHOTO_BOOTH_SUPPLY_LIST -> {
+        cb.accept(SkillPool.CHECK_FOR_PHOTOBOOTH_SUPPLIES);
+      }
+      case ItemPool.IRON_TRICORN_HAT -> {
+        cb.accept(SkillPool.IRON_TRICORN_HEADBUTT);
+      }
+      case ItemPool.MILITARY_ORB -> {
+        cb.accept(SkillPool.THROW_MILITARY_ORB);
+      }
+      case ItemPool.SNOWMAN_ENCHANTING_TOPHAT -> {
+        cb.accept(SkillPool.PLACE_YOUR_HAT_ON_THEIR_HEAD);
+      }
+      case ItemPool.EGG_GUN -> {
+        cb.accept(SkillPool.EGG_THE_FACE);
+      }
+      case ItemPool.MCHUGELARGE_LEFT_POLE -> {
+        cb.accept(SkillPool.MCHUGELARGE_SLASH);
+      }
+      case ItemPool.MCHUGELARGE_RIGHT_POLE -> {
+        cb.accept(SkillPool.MCHUGELARGE_STAB);
+      }
+      case ItemPool.MCHUGELARGE_LEFT_SKI -> {
+        cb.accept(SkillPool.MCHUGELARGE_AVALANCHE);
+      }
+      case ItemPool.MCHUGELARGE_RIGHT_SKI -> {
+        cb.accept(SkillPool.MCHUGELARGE_SKI_PLOW);
+      }
     }
   }
 

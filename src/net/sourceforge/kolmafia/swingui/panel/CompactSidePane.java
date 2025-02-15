@@ -1240,7 +1240,7 @@ public class CompactSidePane extends JPanel implements Runnable {
   private class QuantumFamiliarLabel extends FamiliarLabel {
     public QuantumFamiliarLabel() {
       this.setHorizontalTextPosition(JLabel.CENTER);
-      this.setVerticalTextPosition(JLabel.CENTER);
+      this.setVerticalTextPosition(JLabel.BOTTOM);
     }
 
     private String familiar = "none";

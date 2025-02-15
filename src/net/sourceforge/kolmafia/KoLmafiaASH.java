@@ -256,7 +256,7 @@ public abstract class KoLmafiaASH {
       if (!matches) {
         for (VariableReference ref : func.getVariableReferences()) {
           String refType = ref.getType().toString();
-          matches = refType != null && refType.contains(filter);
+          matches |= refType != null && refType.contains(filter);
         }
       }
 

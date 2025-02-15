@@ -556,9 +556,9 @@ public class FamiliarDatabase {
     return familiarId == null ? -1 : familiarId.intValue();
   }
 
-  public static final int getFamiliarLarva(final Integer familiarId) {
+  public static int getFamiliarLarva(final Integer familiarId) {
     Integer id = FamiliarDatabase.familiarLarvaById.get(familiarId);
-    return id == null ? 0 : id.intValue();
+    return id == null ? 0 : id;
   }
 
   public static final String getFamiliarType(final int familiarId) {

@@ -2,11 +2,13 @@ package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.TreeMap;
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.AdventureResult.MeatResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -26,6 +28,10 @@ import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.shop.ShopDatabase;
+import net.sourceforge.kolmafia.shop.ShopDatabase.SHOP;
+import net.sourceforge.kolmafia.shop.ShopRow;
+import net.sourceforge.kolmafia.shop.ShopRowDatabase;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.HashMultimap;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -50,6 +56,7 @@ public class NPCStoreDatabase {
 
         String storeName = data[0];
         String storeId = data[1];
+        ShopDatabase.registerShop(storeId, storeName, SHOP.NPC);
         if (!storeId.equals("bartlebys")) {
           NPCStoreDatabase.storeNameById.put(storeId, storeName);
         }
@@ -66,6 +73,13 @@ public class NPCStoreDatabase {
             (data.length > 4 && data[4].startsWith("ROW"))
                 ? StringUtilities.parseInt(data[4].substring(3))
                 : 0;
+
+        if (row != 0) {
+          AdventureResult item = new AdventureResult(itemName, 1, false);
+          AdventureResult cost = new MeatResult(price);
+          ShopRow shopRow = new ShopRow(row, item, cost);
+          ShopRowDatabase.registerShopRow(shopRow, storeId);
+        }
 
         // Make the purchase request for this item
         int quantity = NPCStoreDatabase.limitQuantity(itemId);
@@ -93,6 +107,25 @@ public class NPCStoreDatabase {
             ? "Barrrtleby's Barrrgain Books (Bees Hate You)"
             : "Barrrtleby's Barrrgain Books")
         : NPCStoreDatabase.storeNameById.get(storeId);
+  }
+
+  public static final List<NPCPurchaseRequest> getAvailablePurchaseRequests(final int itemId) {
+    List<NPCPurchaseRequest> result = new ArrayList<>();
+
+    List<NPCPurchaseRequest> items = NPCStoreDatabase.NPC_ITEMS.get(itemId);
+    if (items == null || items.size() == 0) {
+      return result;
+    }
+
+    for (var item : items) {
+      boolean canPurchase = canPurchase(item.getStoreId(), item.getShopName(), itemId);
+      if (canPurchase) {
+        item.setCanPurchase(true);
+        result.add(item);
+      }
+    }
+
+    return result;
   }
 
   public static final PurchaseRequest getPurchaseRequest(final int itemId) {
@@ -255,6 +288,9 @@ public class NPCStoreDatabase {
         // The Crimbo Cafe
         // Ornament Stand
         return false;
+      }
+      case "cyber_hackmarket" -> {
+        return Preferences.getBoolean("crAlways") || Preferences.getBoolean("_crToday");
       }
       case "doc" -> {
         // Doc Galaktik's Medicine Show
@@ -624,8 +660,11 @@ public class NPCStoreDatabase {
   }
 
   public static final boolean contains(final int itemId, boolean validate) {
+    if (!validate) {
+      return NPC_ITEMS.containsKey(itemId) && NPC_ITEMS.get(itemId).size() > 0;
+    }
     PurchaseRequest item = NPCStoreDatabase.getPurchaseRequest(itemId);
-    return item != null && (!validate || item.canPurchaseIgnoringMeat());
+    return item != null && item.canPurchaseIgnoringMeat();
   }
 
   public static void reset() {

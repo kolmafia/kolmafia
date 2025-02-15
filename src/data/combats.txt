@@ -91,6 +91,7 @@ Center Park After Dark	100	common criminal
 Chemistry Class	100	dropped base	sodium golem	Bunsen burner and beaker	possessed eyewashing station	Mrs. K, the Chemistry Teacher: 0
 Chinatown Shops	-1	grinning pork bun	lucky cat statue	roasted duck golem	yakuza courier: 0
 Chinatown Tenement	-1	desperate gold farmer	rabid MMO addict	yakuza thug	The Server: 0	White Bone Demon: 0
+Christmas Island	100	Christmas treant	magically-animated snowman	self-driving sleigh
 Cobb's Knob Barracks	85	Knob Goblin Elite Guard	off-duty Knob Goblin Elite Guard	swarm of Knob lice
 Cobb's Knob Harem	100	Knob Goblin Harem Guard	Knob Goblin Harem Girl	Knob Goblin Madam
 Cobb's Knob Kitchens	100	Cobb's Knob oven	Knob Goblin Master Chef	Knob Goblin Sous Chef	Knob Goblin Elite Guard Captain: 0
@@ -119,6 +120,10 @@ Crimbo's Jelly	100	bottle of cheap whiskey	the abstract concept of poverty	pengu
 Crimbo's Reindeer	100	the Crimborg	the abstract concept of poverty	simple hobo
 Crimbo's Sack	100	endless winter	penguin mafioso	simple hobo
 Crimborg Collective Factory	100	<s>Killer</s> Festive Arc-Welding Elfbot	<s>Killer</s> Festive Decal-Applying Elfbot	<s>Killer</s> Festive Laser-Calibrating Elfbot	<s>Killer</s> Festive Weapons-Assembly Elfbot	Rudolphus of Crimborg
+# all the cyberzones have the common viruses, then one of the rare viruses and one hacker
+Cyberzone 1	100	zombie process	botfly	network worm	ICE man	rat (remote access trojan)
+Cyberzone 2	100	zombie process	botfly	network worm	ICE man	rat (remote access trojan)
+Cyberzone 3	100	zombie process	botfly	network worm	ICE man	rat (remote access trojan)
 Domed City of Grimacia	100	alielf	cat-alien	dog-alien	grizzled survivor	unhinged survivor	whiny survivor
 Domed City of Ronaldus	100	dogcat	ferrelf	hamsterpus	overarmed survivor	primitive survivor	unlikely survivor
 Doubt Man's Level	100	judgmental eye	reproachful heart	work hat	Doubt Man: 0
@@ -127,6 +132,7 @@ Dreadsylvanian Village	-1	cold ghost	cold zombie	hot ghost	hot zombie	sleaze gho
 Dreadsylvanian Woods	-1	cold bugbear	cold werewolf	hot bugbear	hot werewolf	sleaze bugbear	sleaze werewolf	spooky bugbear	spooky werewolf	stench bugbear	stench werewolf	Great Wolf of the Air: 0	Falls-From-Sky: 0
 Duke Vampire's Chateau	0	Duke Vampire: 0
 Eager Rice Burrows	100	chocolate hare	chocolate-cherry prairie dog	Rock Pop weasel
+Easter Island	100	chocolate chicken	feral bunny	moai	Easter Island Bunny: 0
 El Vibrato Island	100	bizarre construct	hulking construct	industrious construct	lonely construct	menacing construct	towering construct
 Elf Alley	100	Hobelf	Uncle Hobo: 0
 Engineering	100	Battlesuit Bugbear Type	bugbear drone	liquid metal bugbear
@@ -215,7 +221,7 @@ Pandamonium Slums	95	Demoninja	Fallen Archfiend	G imp	Hellion	L imp	P imp	W imp	
 Pirates of the Garbage Barges	100	filthy pirate	fishy pirate	funky pirate	flashy pirate
 Porkham Asylum	100	mid-level mook	former inmate	former guard	The Author: 0
 The Junkyard	100	A.M.C. gremlin	batwinged gremlin	erudite gremlin	spider gremlin	vegetable gremlin
-Professor Jacking's Huge-A-Ma-tron	-1	Castle in the Clouds in the Sky	Fearsome Wacken: 0	loose coalition of yetis, snowmen, and goats	Spookyraven Manor	The Whole Kingdom: 0
+Professor Jacking's Huge-A-Ma-Tron	-1	Castle in the Clouds in the Sky	Fearsome Wacken: 0	loose coalition of yetis, snowmen, and goats	Spookyraven Manor	The Whole Kingdom: 0
 Professor Jacking's Small-O-Fier	-1	cruel dust mote	funk particle	jungle scabie: 0	malevolent magnetic field	smooth jazz scabie: 0
 Regret Man's Level	100	ancient ghost	contemplative ghost	lovesick ghost	Regret Man: 0
 Science Lab	100	bugbear scientist	spiderbugbear
@@ -254,12 +260,14 @@ Special Ops	-1	Black Ops Bugbear
 Spookiest Adventurer Contest	100	Ghostpuncher	Plague Chef	Batburglar	Arthur Frankenstein: 0
 Spooky Fright Factory	100	bow-making mummy	Cookie-baking Thing from Beyond Time	gift-wrapping vampire	skeletal reindeer	stocking-stuffing zombie	toy-making creature from the Gray Lagoon
 Spring Bros. Solenoids	95	Spring Bros. security robot	automated solenoid press	janitor robot
+St. Patrick's Day Island	100	giant snake	giant potato	giant potato snake
 Stinkiest Adventurer Contest	100	Granola Barbarian	Cheese Wizard	Assassin	Odorous Humongous: 0
 Strongest Adventurer Contest	100	Macho Man	Iron Chef	Entire Shoplifter	Mr. Loathing: 0
 Summoning Chamber	100	Lord Spookyraven
 Super Villain's Lair	-1	Villainous Henchperson	Villainous Minion	Villainous Villain
 Swamp Beaver Territory	-1	swamp beaver lumberjack	swamp beaver shaman	swamp beaver warrior	conservationist hippy: 0
 Sweet-Ade Lake	100	gummi plesiosaur	lemonhead minnow	school of gummi piranhas
+Thanksgiving Island	100	gravy slime	possessed can of cream of mushroom soup	possessed can of green beans	pumpkin spice wraith
 The "Fun" House	100	bugbear-in-the-box	disease-in-the-box	lemon-in-the-box	scary clown	shaky clown	creepy clown	The Clownlord Beelzebozo: 0
 The Ancient Burial Ground	100	skeleton	vampire
 The Ancient Hobo Burial Ground	-1	Spooky hobo	Zombo: 0
@@ -503,6 +511,7 @@ Uncle Gator's Country Fun-Time Liquid Waste Sluice	100	C<i>bzzt</i>er the Grisly
 Unleash Your Inner Wolf	100	befouled straw house	brick (suggestive pause) house	brick icehouse	brick kiln	brick mausoleum	brick outhouse	cold ironwood house	Dutch Angle straw house	frosty straw house	glowing ash house	oily straw house	pitch pine house	quaking aspen house	slippery elm house	steaming straw house
 Vanya's Castle	100	fleaman	ghost	medusa
 Vanya's Castle Foyer	100	fleaman	ghost	medusa
+Veterans Day Island	100	Brandonian loyalist	Section 11	spectre of war
 Video Game Level 1	-1	Video Game Minion (weak)
 Video Game Level 2	-1	Video Game Minion (moderate)	Video Game Miniboss: 0
 Video Game Level 3	-1	Video Game Minion (strong)	Video Game Miniboss: 0	Video Game Boss: 0

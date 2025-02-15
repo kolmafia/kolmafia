@@ -1,14 +1,18 @@
 package net.sourceforge.kolmafia.persistence;
 
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withNextResponse;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
 
+import internal.helpers.Cleanups;
 import internal.helpers.RequestLoggerOutput;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.io.PrintStream;
+import java.nio.file.Files;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import org.junit.jupiter.api.Disabled;
@@ -37,6 +41,39 @@ public class DebugDatabaseTest {
     public void canIdentifyQuestItems(final String itemName) {
       var access = DebugDatabase.parseAccess(html("request/test_desc_item_" + itemName + ".html"));
       assertThat(access, is("q"));
+    }
+  }
+
+  @Test
+  public void checkMuseumPlurals() {
+    // The output isn't normally pretty-printed, but this is easier for a human to interpret.
+    String fakeMuseumJson =
+        """
+        [
+            {"itemid":-999,"name":"non-existent item"},
+            {"itemid":1,"name":"misnamed seal-clubbing club"},
+            {"itemid":2,"name":"seal tooth"},
+            {"itemid":3,"name":"helmet turtle","plural":"bad plural for helmet turtle"},
+            {"itemid":8,"name":"spices","plural":"spiceses"},
+        ]
+        """;
+    File plurals = new File(KoLConstants.DATA_LOCATION, "plurals.txt");
+    try (var cleanups =
+        new Cleanups(withNextResponse(200, fakeMuseumJson), new Cleanups(plurals::delete))) {
+      DebugDatabase.checkMuseumPlurals("");
+      assertTrue(plurals.exists());
+      assertEquals(
+          Files.readString(plurals.toPath()),
+          """
+          Unrecognised item -999: "non-existent item"
+          item 1 has name "misnamed seal-clubbing club" but Mafia says "seal-clubbing club"
+          Item 2: "seal tooth" has default plural, but Mafia says "seal teeth"
+          Item 3: "helmet turtle" has plural unknown to Mafia: "bad plural for helmet turtle"
+          Item 8: "spices" has plural "spiceses" but Mafia says "spices"
+          """);
+      DebugDatabase.checkMuseumPlurals("");
+    } catch (IOException e) {
+      fail("unexpected exception: ", e);
     }
   }
 

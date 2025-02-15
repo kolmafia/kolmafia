@@ -20,10 +20,12 @@ import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
+import net.sourceforge.kolmafia.persistence.FactDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
 import net.sourceforge.kolmafia.persistence.MonsterDrop;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.session.EncounterManager.EncounterType;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.GoalManager;
@@ -129,7 +131,7 @@ public class MonsterData extends AdventureResult {
           if (tokens.hasMoreTokens()) {
             String next = tokens.nextToken();
             Element element = parseElement(next);
-            if (element != Element.NONE) {
+            if (element != null) {
               attributeMap.put(Attribute.EA, element);
               attributeMap.put(Attribute.ED, element);
             }
@@ -179,9 +181,7 @@ public class MonsterData extends AdventureResult {
             if (tokens.hasMoreTokens()) {
               String next = parseString(tokens.nextToken(), tokens);
               Element element = parseElement(next);
-              if (element == Element.NONE) {
-                continue;
-              }
+              if (element == null) continue;
               Object current = attributeMap.get(attribute);
               if (current == null) {
                 attributeMap.put(attribute, element);
@@ -196,7 +196,7 @@ public class MonsterData extends AdventureResult {
             if (tokens.hasMoreTokens()) {
               String next = tokens.nextToken();
               Element element = parseElement(next);
-              if (element != Element.NONE) {
+              if (element != null) {
                 attributeMap.put(attribute, element);
               }
             }
@@ -312,7 +312,7 @@ public class MonsterData extends AdventureResult {
     return temp.substring(1, temp.length() - 1);
   }
 
-  private static String parseString(String token, StringTokenizer tokens) {
+  protected static String parseString(String token, StringTokenizer tokens) {
     if (!token.startsWith("\"")) {
       return token;
     }
@@ -337,7 +337,7 @@ public class MonsterData extends AdventureResult {
         return elem;
       }
     }
-    return Element.NONE;
+    return null;
   }
 
   public static Phylum parsePhylum(final String s) {
@@ -1858,6 +1858,24 @@ public class MonsterData extends AdventureResult {
 
   private String makeItemCount(MonsterDrop drop) {
     return drop.itemCount().isEmpty() ? "" : drop.itemCount() + " ";
+  }
+
+  public String getFact() {
+    if (!(KoLCharacter.hasSkill(SkillPool.JUST_THE_FACTS)
+        && StandardRequest.isAllowed(RestrictedItemType.SKILLS, "Just the Facts"))) {
+      return null;
+    }
+    var f =
+        FactDatabase.getFact(KoLCharacter.getAscensionClass(), KoLCharacter.getPath(), this, false);
+    return "<br />Just the Facts: " + f.toString();
+  }
+
+  public void appendFact(StringBuilder buffer) {
+    String fact = this.getFact();
+    if (fact != null) {
+      buffer.append(fact);
+    }
+    return;
   }
 
   void appendMeat(StringBuilder buffer) {

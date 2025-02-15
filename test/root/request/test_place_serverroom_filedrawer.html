@@ -1,0 +1,170 @@
+<html><head>
+<script language=Javascript>
+<!--
+if (parent.frames.length == 0) location.href="game.php";
+//-->
+</script>
+<script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/keybinds.min.2.js"></script>
+<script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/window.20111231.js"></script>
+<script language="javascript">function chatFocus(){if(top.chatpane.document.chatform.graf) top.chatpane.document.chatform.graf.focus();}
+if (typeof defaultBind != 'undefined') { defaultBind(47, 2, chatFocus); defaultBind(190, 2, chatFocus);defaultBind(191, 2, chatFocus); defaultBind(47, 8, chatFocus);defaultBind(190, 8, chatFocus); defaultBind(191, 8, chatFocus); }</script><script language="javascript">
+	function updateParseItem(iid, field, info) {
+		var tbl = $('#ic'+iid);
+		var data = parseItem(tbl);
+		if (!data) return;
+		data[field] = info;
+		var out = [];
+		for (i in data) {
+			if (!data.hasOwnProperty(i)) continue;
+			out.push(i+'='+data[i]);
+		}
+		tbl.attr('rel', out.join('&'));
+	}
+	function parseItem(tbl) {
+		tbl = $(tbl);
+		var rel = tbl.attr('rel');
+		var data = {};
+		if (!rel) return data;
+		var parts = rel.split('&');
+		for (i in parts) {
+			if (!parts.hasOwnProperty(i)) continue;
+			var kv = parts[i].split('=');
+			tbl.data(kv[0], kv[1]);
+			data[kv[0]] = kv[1];
+		}
+		return data;
+	}
+</script><script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/jquery-1.3.1.min.js"></script>
+<script type="text/javascript" src="https://d2uyhvukfffg5a.cloudfront.net/scripts/pop_query.20230713.js"></script>
+<script type="text/javascript" src="https://d2uyhvukfffg5a.cloudfront.net/scripts/ircm.20230626.js"></script>
+<script type="text/javascript">
+var tp = top;
+function pop_ircm_contents(i, some) {
+	var contents = '',
+		shown = 0,
+		da = '&nbsp;<a href="#" rel="?" class="small dojaxy">[some]</a>&nbsp;<a href="#" rel="',
+		db = '" class="small dojaxy">[all]</a>',
+		dc = '<div style="width:100%; padding-bottom: 3px;" rel="',
+		dd = '<a href="#" rel="1" class="small dojaxy">[';
+	one = 'one'; ss=some;
+if (i.d==1 && i.s>0) { shown++; 
+contents += dc + 'sellstuff.php?action=sell&ajax=1&type=quant&whichitem%5B%5D=IID&howmany=NUM&pwd=4123ac7e104143e058d3b1e7c4d4aefd" id="pircm_'+i.id+'"><b>Auto-Sell ('+i.s+' meat):</b> '+dd+one+']</a>';
+if (ss) { contents += da + i.n + db;}
+contents += '</div>';
+}
+one = 'one'; ss=some;
+if (i.q==0) { shown++; 
+contents += dc + 'inventory.php?action=closetpush&ajax=1&whichitem=IID&qty=NUM&pwd=4123ac7e104143e058d3b1e7c4d4aefd" id="pircm_'+i.id+'"><b>Closet:</b> '+dd+one+']</a>';
+if (ss) { contents += da + i.n + db;}
+contents += '</div>';
+}
+one = 'one'; ss=some;
+if (i.q==0 && i.g==0 && i.t==1) { shown++; 
+contents += dc + 'managestore.php?action=additem&qty1=NUM&item1=IID&price1=&limit1=&ajax=1&pwd=4123ac7e104143e058d3b1e7c4d4aefd" id="pircm_'+i.id+'"><b>Stock in Mall:</b> '+dd+one+']</a>';
+if (ss) { contents += da + i.n + db;}
+contents += '</div>';
+}
+one = 'one'; ss=some;
+if (i.q==0) { shown++; 
+contents += dc + 'managecollection.php?action=put&ajax=1&whichitem1=IID&howmany1=NUM&pwd=4123ac7e104143e058d3b1e7c4d4aefd" id="pircm_'+i.id+'"><b>Add to Display Case:</b> '+dd+one+']</a>';
+if (ss) { contents += da + i.n + db;}
+contents += '</div>';
+}
+one = 'one'; ss=some;
+if (i.q==0 && i.t==1) { shown++; 
+contents += dc + 'clan_stash.php?action=addgoodies&ajax=1&item1=IID&qty1=NUM&pwd=4123ac7e104143e058d3b1e7c4d4aefd" id="pircm_'+i.id+'"><b>Contribute to Clan:</b> '+dd+one+']</a>';
+if (ss) { contents += da + i.n + db;}
+contents += '</div>';
+}
+one = 'one'; ss=some;
+if (i.u && i.u != "." && !i.ac) { shown++; 
+contents += dc + 'inv_'+(i.u=="a"?"redir":(lab=(i.u=="u"?"use":(i.u=="e"?"eat":(i.u=="b"?"booze":(i.u=="s"?"spleen":"equip"))))))+'.php?ajax=1&whichitem=IID&itemquantity=NUM&quantity=NUM'+(i.u=="q"?"&action=equip":"")+'&pwd=4123ac7e104143e058d3b1e7c4d4aefd" id="pircm_'+i.id+'"><b>'+ucfirst(unescape(i.ou ? i.ou.replace(/\+/g," ") : (lab=="booze"?"drink":lab)))+':</b> '+dd+one+']</a>';
+if (ss && i.u != 'q' && !(i.u=='u' && i.m==0)) { contents += da + i.n + db;}
+contents += '</div>';
+}
+one = 'one'; ss=some;
+if (i.u && i.u != "." && i.ac) { shown++; 
+contents += dc + 'inv_equip.php?slot=1&ajax=1&whichitem=IID&action=equip&pwd=4123ac7e104143e058d3b1e7c4d4aefd" id="pircm_'+i.id+'"><b>Equip (slot 1):</b> '+dd+one+']</a>';
+if (ss && i.u != 'q' && !(i.u=='u' && i.m==0)) { contents += da + i.n + db;}
+contents += '</div>';
+}
+one = 'one'; ss=some;
+if (i.u && i.u != "." && i.ac) { shown++; 
+contents += dc + 'inv_equip.php?slot=2&ajax=1&whichitem=IID&action=equip&pwd=4123ac7e104143e058d3b1e7c4d4aefd" id="pircm_'+i.id+'"><b>Equip (slot 2):</b> '+dd+one+']</a>';
+if (ss && i.u != 'q' && !(i.u=='u' && i.m==0)) { contents += da + i.n + db;}
+contents += '</div>';
+}
+one = 'one'; ss=some;
+if (i.u && i.u != "." && i.ac) { shown++; 
+contents += dc + 'inv_equip.php?slot=3&ajax=1&whichitem=IID&action=equip&pwd=4123ac7e104143e058d3b1e7c4d4aefd" id="pircm_'+i.id+'"><b>Equip (slot 3):</b> '+dd+one+']</a>';
+if (ss && i.u != 'q' && !(i.u=='u' && i.m==0)) { contents += da + i.n + db;}
+contents += '</div>';
+}
+
+	return [contents, shown];
+}
+tp=top
+var todo = [];
+function nextAction() {
+	var next_todo = todo.shift();
+	if (next_todo) {
+		eval(next_todo);
+	}
+}
+function dojax(dourl, afterFunc, hoverCaller, failureFunc, method, params) {
+	$.ajax({
+		type: method || 'GET', url: dourl, cache: false,
+		data: params || null,
+		global: false,
+		success: function (out) {
+			nextAction();
+			if (out.match(/no\|/)) {
+				var parts = out.split(/\|/);
+				if (failureFunc) failureFunc(parts[1]);
+				else if (window.dojaxFailure) window.dojaxFailure(parts[1]);
+				else if (tp.chatpane.handleMessage) tp.chatpane.handleMessage({type: 'event', msg: 'Oops!  Sorry, Dave, you appear to be ' + parts[1]});
+				else  $('#ChatWindow').append('<font color="green">Oops!  Sorry, Dave, you appear to be ' + parts[1] + '.</font><br />' + "\n");
+				return;
+			}
+
+			if (hoverCaller)  {
+				float_results(hoverCaller, out);
+				if (afterFunc) { afterFunc(out); }
+				return;
+			}
+$(tp.mainpane.document).find("#effdiv").remove(); if(!window.dontscroll || (window.dontscroll && dontscroll==0)) { window.scroll(0,0);}
+			var $eff = $(tp.mainpane.document).find('#effdiv');
+			if ($eff.length == 0) {
+				var d = tp.mainpane.document.createElement('DIV');
+				d.id = 'effdiv';
+				var b = tp.mainpane.document.body;
+				if ($('#content_').length > 0) {
+					b = $('#content_ div:first')[0];
+				}
+				b.insertBefore(d, b.firstChild);
+				$eff = $(d);
+			}
+			$eff.find('a[name="effdivtop"]').remove().end()
+				.prepend('<a name="effdivtop"></a><center>' + out + '</center>').css('display','block');
+			if (!window.dontscroll || (window.dontscroll && dontscroll==0)) {
+				tp.mainpane.document.location = tp.mainpane.document.location + "#effdivtop";
+			}
+			if (afterFunc) { afterFunc(out); }
+		}
+	});
+}
+</script>	<link rel="stylesheet" type="text/css" href="https://d2uyhvukfffg5a.cloudfront.net/styles.20230117d.css">
+<style> body * { image-rendering: auto!important;} </style><style type='text/css'>
+.faded {
+	zoom: 1;
+	filter: alpha(opacity=35);
+	opacity: 0.35;
+	-khtml-opacity: 0.35; 
+    -moz-opacity: 0.35;
+}
+</style>
+
+</head>
+
+<body>
+<centeR><div id="results"><table  width=95%  cellspacing=0 cellpadding=0><tr><td style="background-color: blue" align=center ><b style="color: white">Results:</b></td></tr><tr><td style="padding: 5px; border: 1px solid blue;"><center><table><tr><td>This drawer is full of hanging file folders.  You check the most recent one:<br><div style='padding: 1em; margin: 1em; border: 1px solid black; font-family: fixedsys'><center><b>Compromised Network Nodes:</b></center><P><b>Owner:</b> Century-Price Quasi-Marketing Companies<br>Security Level: 1<br>Countermeasures: null container<br>Active Intrusion: blackhat<br><p><b>Owner:</b> Taking Compu-Equipment<br>Security Level: 2<br>Countermeasures: parental controls<br>Active Intrusion: blackhat<br><p><b>Owner:</b> United Kingdom Compu-Industry<br>Security Level: 3<br>Countermeasures: ICE barrier<br>Active Intrusion: redhat<br><p></div></td></tr></table></center></td></tr><tr><td height=4></td></tr></table></div><table  width=95%  cellspacing=0 cellpadding=0><tr><td style="background-color: blue" align=center ><b style="color: white">Server Room</b></td></tr><tr><td style="padding: 5px; border: 1px solid blue;"><center><table><tr><td><center><div id=background  style='position: relative; width:350px;height:350px'  ><img id="place_bg"  src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/cyberrealm_terminal.gif" width=350 height=350 border=0><div id=serverroom_chipdrawer class="element" style=' position: absolute; top: 206; left: 231; height: 50; width: 75;'><a  href=place.php?whichplace=serverroom&action=serverroom_chipdrawer><img src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/1x1trans.gif" width=75 height=50 border=0 alt="Top Right Drawer" title="Top Right Drawer"></a></div><div id=serverroom_cyberrig class="element" style=' position: absolute; top: 23; left: 104; height: 170; width: 140;'><a  href=place.php?whichplace=cyberrealm><img src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/1x1trans.gif" width=140 height=170 border=0 alt="CyberRealm Terminal" title="CyberRealm Terminal"></a></div><div id=serverroom_degitizer class="element" style=' position: absolute; top: 93; left: 14; height: 100; width: 80;'><a  href=shop.php?whichshop=cyber_dedigitizer><img src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/1x1trans.gif" width=80 height=100 border=0 alt="Dedgitizer" title="Dedgitizer"></a></div><div id=serverroom_drawer1 class="element" style=' position: absolute; top: 206; left: 27; height: 50; width: 90;'><a  href=place.php?whichplace=serverroom&action=serverroom_drawer1><img src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/1x1trans.gif" width=90 height=50 border=0 alt="Top Left Drawer" title="Top Left Drawer"></a></div><div id=serverroom_drawer2 class="element" style=' position: absolute; top: 203; left: 125; height: 30; width: 100;'><a  href=place.php?whichplace=serverroom&action=serverroom_drawer2><img src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/1x1trans.gif" width=100 height=30 border=0 alt="MIddle Drawer" title="MIddle Drawer"></a></div><div id=serverroom_drawer3 class="element" style=' position: absolute; top: 263; left: 228; height: 55; width: 75;'><a  href=place.php?whichplace=serverroom&action=serverroom_drawer3><img src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/1x1trans.gif" width=75 height=55 border=0 alt="Bottom Right Drawer" title="Bottom Right Drawer"></a></div><div id=serverroom_filedrawer class="element" style=' position: absolute; top: 260; left: 29; height: 60; width: 90;'><a  href=place.php?whichplace=serverroom&action=serverroom_filedrawer><img src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/1x1trans.gif" width=90 height=60 border=0 alt="Bottom Left Drawer" title="Bottom Left Drawer"></a></div><div id=serverroom_shop class="element" style=' position: absolute; top: 49; left: 259; height: 110; width: 70;'><a  href=shop.php?whichshop=cyber_hackmarket><img src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/1x1trans.gif" width=70 height=110 border=0 alt="Mailroom tube" title="Mailroom tube"></a></div><div id=serverroom_trash1 class="element" style=' position: absolute; top: 264; left: 189; height: 80; width: 30;'><a  href=place.php?whichplace=serverroom&action=serverroom_trash1><img src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/1x1trans.gif" width=30 height=80 border=0 alt="Trash Can" title="Trash Can"></a></div><div id=serverroom_trash2 class="element" style=' position: absolute; top: 324; left: 221; height: 20; width: 35;'><a  href=place.php?whichplace=serverroom&action=serverroom_trash2><img src="https://d2uyhvukfffg5a.cloudfront.net/otherimages/1x1trans.gif" width=35 height=20 border=0 alt="Trash Can" title="Trash Can"></a></div></div><p><a href="place.php?whichplace=monorail">Back to Monorail Station</a></center></td></tr></table></center></td></tr><tr><td height=4></td></tr></table></center></body></html>

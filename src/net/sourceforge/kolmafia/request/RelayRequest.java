@@ -9,9 +9,7 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
@@ -23,7 +21,6 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -73,6 +70,8 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase.Category;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ResearchBenchRequest.Research;
+import net.sourceforge.kolmafia.request.coinmaster.DimemasterRequest;
+import net.sourceforge.kolmafia.request.coinmaster.QuartersmasterRequest;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EquipmentRequirement;
@@ -85,13 +84,10 @@ import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.VoteMonsterManager;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
-import net.sourceforge.kolmafia.textui.DataTypes;
+import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.RuntimeLibrary;
 import net.sourceforge.kolmafia.textui.javascript.JSONValueConverter;
-import net.sourceforge.kolmafia.textui.javascript.JavascriptRuntime;
-import net.sourceforge.kolmafia.textui.parsetree.LibraryFunction;
-import net.sourceforge.kolmafia.textui.parsetree.Type;
-import net.sourceforge.kolmafia.textui.parsetree.Value;
+import net.sourceforge.kolmafia.textui.javascript.ValueConverter;
 import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.PauseObject;
@@ -710,6 +706,14 @@ public class RelayRequest extends PasswordHashRequest {
     }
   }
 
+  private void setLastModified(final File override) {
+    long lastModified = override.lastModified();
+    long now = (new Date()).getTime();
+    long expires = now + (1000L * 60 * 60 * 24 * 30);
+    this.headers.add("Last-Modified: " + StringUtilities.formatDate(lastModified));
+    this.headers.add("Expires: " + StringUtilities.formatDate(expires));
+  }
+
   private void sendLocalFile(final String filename) {
     if (!RelayRequest.overrideMap.containsKey(filename)) {
       RelayRequest.overrideMap.put(filename, RelayRequest.findRelayFile(filename));
@@ -733,6 +737,19 @@ public class RelayRequest extends PasswordHashRequest {
     } catch (IOException e) {
     }
 
+    // If it's a binary file, send it back without loading it as a string.
+    if (!this.contentType.startsWith("text/") && !this.contentType.equals("application/json")) {
+      this.rawByteBuffer = ByteBufferUtilities.read(override);
+      if (this.rawByteBuffer.length == 0) {
+        this.sendNotFound();
+        return;
+      }
+      this.statusLine = "HTTP/1.1 200 OK";
+      this.responseCode = 200;
+      this.setLastModified(override);
+      return;
+    }
+
     // Read the file
     StringBuffer replyBuffer;
 
@@ -753,11 +770,7 @@ public class RelayRequest extends PasswordHashRequest {
         StringUtilities.globalStringReplace(
             replyBuffer, "MAFIAHIT", "pwd=" + GenericRequest.passwordHash);
       } else if (!filename.endsWith(".html")) {
-        long lastModified = override.lastModified();
-        long now = (new Date()).getTime();
-        long expires = now + (1000L * 60 * 60 * 24 * 30);
-        this.headers.add("Last-Modified: " + StringUtilities.formatDate(lastModified));
-        this.headers.add("Expires: " + StringUtilities.formatDate(expires));
+        setLastModified(override);
       }
     }
 
@@ -1646,7 +1659,11 @@ public class RelayRequest extends PasswordHashRequest {
     }
 
     // You can't equip them in Avatar of Boris, Suprising Fist or G-Lover, so no problem
-    if (KoLCharacter.inFistcore() || KoLCharacter.inAxecore() || KoLCharacter.inGLover()) {
+    // They don't help in Avant Guard, so also no problem
+    if (KoLCharacter.inFistcore()
+        || KoLCharacter.inAxecore()
+        || KoLCharacter.inGLover()
+        || KoLCharacter.inAvantGuard()) {
       return false;
     }
 
@@ -3527,54 +3544,6 @@ public class RelayRequest extends PasswordHashRequest {
     return name.replaceAll("[A-Z]", "_$0").toLowerCase();
   }
 
-  // All existing JS type names follow this pattern
-  private boolean isJavascriptTypeNameFormat(String name) {
-    var nameUpper = name.toUpperCase();
-    var nameLower = name.toLowerCase();
-    return nameUpper.substring(0, 1).equals(name.substring(0, 1))
-        && nameLower.substring(1).equals(name.substring(1));
-  }
-
-  private Value transformApiArgument(Object thing) {
-    if (thing instanceof JSONObject obj) {
-      var objectTypeObject = obj.get("objectType");
-      Type dataType;
-      if (objectTypeObject instanceof String objectType
-          && isJavascriptTypeNameFormat(objectType)
-          && ((dataType = DataTypes.enumeratedTypes.find(objectType.toLowerCase())) != null)) {
-        var identifierStringObject = obj.get("identifierString");
-        var identifierNumberObject = obj.get("identifierNumber");
-        if (identifierNumberObject instanceof Integer identifierNumber) {
-          return dataType.makeValue(identifierNumber, false);
-        } else if (identifierStringObject instanceof String identifierString) {
-          return dataType.parseValue(identifierString, false);
-        }
-        return null;
-      }
-
-      // Unable to find enumerated object.
-      return JSONValueConverter.fromJSON(thing);
-    } else return JSONValueConverter.fromJSON(thing);
-  }
-
-  // Ensure output field names are in camelCase style.
-  private Object transformResult(Object thing) {
-    if (thing instanceof JSONObject obj) {
-      var objectTypeObject = obj.get("objectType");
-      if (objectTypeObject instanceof String objectType
-          && isJavascriptTypeNameFormat(objectType)
-          && DataTypes.enumeratedTypes.find(objectType.toLowerCase()) != null) {
-        var result = new JSONObject();
-        for (var entry : obj.entrySet()) {
-          result.put(
-              JavascriptRuntime.toCamelCase(entry.getKey()), transformResult(entry.getValue()));
-        }
-        return result;
-      }
-    }
-    return thing;
-  }
-
   /**
    * Handle JSON API request.
    *
@@ -3644,49 +3613,51 @@ public class RelayRequest extends PasswordHashRequest {
       }
 
       // Everything validated. Transform all function arguments.
+      var runtime = new AshRuntime();
       var functionsResult = new JSONArray(functionsArray.size());
       for (var func : functionsArray) {
         var funcObject = (JSONObject) func;
         var name = (String) funcObject.get("name");
+        var underscore = underscoreName(name);
         var args = (JSONArray) funcObject.get("args");
-        var transformedArguments = args.stream().map(this::transformApiArgument).toList();
-        var badIndices =
-            IntStream.range(0, transformedArguments.size())
-                .filter(i -> transformedArguments.get(i) == null)
-                .toArray();
-        if (badIndices.length > 0) {
-          jsonError(
-              "Invalid arguments to "
-                  + name
-                  + ": "
-                  + JSON.toJSONString(Arrays.stream(badIndices).mapToObj(args::get).toList()));
-          return;
-        }
-
-        if (name.equals("identity") && args.size() == 1) {
-          functionsResult.add(
-              transformResult(JSONValueConverter.asJSON(transformedArguments.get(0).asProxy())));
-          continue;
-        }
-
-        Object[] argsWithRuntime =
-            Stream.concat(Stream.of(new Object[] {null}), transformedArguments.stream()).toArray();
 
         try {
-          var method = LibraryFunction.findLibraryMethod(underscoreName(name), args.size());
-          var returnValue = method.invoke(RuntimeLibrary.class, argsWithRuntime);
+          if (name.equals("identity") && args.size() == 1) {
+            try {
+              functionsResult.add(
+                  JSONValueConverter.asJSON(
+                      JSONValueConverter.fromJSON(args.get(0), null).asProxy()));
+            } catch (ValueConverter.ValueConverterException e) {
+              jsonError("Invalid argument to identity: " + JSON.toJSONString(args.get(0)));
+              return;
+            }
+            continue;
+          }
 
-          if (!(returnValue instanceof Value value)) {
-            jsonError("Function " + name + " returned something other than a value.");
+          // This method throws if any of the values fail to convert, and returns null if no
+          // matching method can be found. So if it returns and is non-null, all the arguments are
+          // good to go.
+          var functionWithArgs =
+              new JSONValueConverter()
+                  .findMatchingFunctionConvertArgs(
+                      RuntimeLibrary.getFunctions(), underscore, args.toArray());
+
+          if (functionWithArgs == null) {
+            jsonError("Unable to find method " + name + " accepting arguments " + args + ".");
             return;
           }
 
-          functionsResult.add(transformResult(JSONValueConverter.asJSON(value)));
-        } catch (NoSuchMethodException e) {
-          jsonError("Unable to find method " + name);
-          return;
-        } catch (InvocationTargetException e) {
-          jsonError("Unable to call method: " + e.getTargetException().toString());
+          var function = functionWithArgs.function();
+          var transformedArguments = functionWithArgs.ashArgs();
+
+          var returnValue =
+              function.execute(
+                  runtime,
+                  Stream.concat(Stream.of(runtime), transformedArguments.stream()).toArray());
+
+          functionsResult.add(JSONValueConverter.asJSON(returnValue));
+        } catch (ValueConverter.ValueConverterException e) {
+          jsonError("Failed to convert arguments to ASH: " + e.getMessage());
           return;
         } catch (Exception e) {
           jsonError("Exception " + e.getClass().getName() + " on " + name + ": " + e.getMessage());
@@ -3738,6 +3709,38 @@ public class RelayRequest extends PasswordHashRequest {
     }
   }
 
+  private static final Pattern GO_CMD =
+      Pattern.compile("\"<font color=green>Sending you to (.*?)\\.<!--js\\((.*?)\\)-->");
+
+  private static String decorateGoCommands(String chatText) {
+    var matcher = GO_CMD.matcher(chatText);
+
+    if (!matcher.find()) return chatText;
+
+    return makeLink(chatText, matcher);
+  }
+
+  private static final Pattern GOTO_CMD =
+      Pattern.compile("\"<font color=green>Loading (.*?)\\.<!--js\\((.*?)\\)-->");
+
+  private static String decorateGoToCommands(String chatText) {
+    var matcher = GOTO_CMD.matcher(chatText);
+
+    if (!matcher.find()) return chatText;
+
+    return makeLink(chatText, matcher);
+  }
+
+  private static String makeLink(String chatText, Matcher matcher) {
+    return chatText.substring(0, matcher.start(1))
+        + "<span style=\\\"cursor:pointer;\\\" onclick=\\\""
+        + matcher.group(2)
+        + ";\\\">"
+        + matcher.group(1)
+        + "</span>"
+        + chatText.substring(matcher.end(1));
+  }
+
   private void handleChat() {
     String path = this.getPath();
     boolean tabbedChat = path.contains("j=1");
@@ -3757,6 +3760,9 @@ public class RelayRequest extends PasswordHashRequest {
       if (tabbedChat && chatText.startsWith("{")) {
         ChatPoller.handleNewChat(chatText, this.getFormField("graf"), ChatPoller.localLastSeen);
       }
+
+      chatText = decorateGoCommands(chatText);
+      chatText = decorateGoToCommands(chatText);
     }
 
     if (Preferences.getBoolean("relayFormatsChatText")) {

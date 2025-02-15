@@ -19,9 +19,10 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase.QueuedConcoction;
 import net.sourceforge.kolmafia.persistence.FaxBotDatabase.Monster;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.Script;
-import net.sourceforge.kolmafia.request.CreateItemRequest;
+import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
 import net.sourceforge.kolmafia.session.StoreManager.StoreLogEntry;
+import net.sourceforge.kolmafia.shop.ShopRow;
 import net.sourceforge.kolmafia.utilities.LowerCaseEntry;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -166,6 +167,9 @@ public class AutoFilterTextField<E> extends AutoHighlightTextField
     if (element instanceof QueuedConcoction) {
       return ((QueuedConcoction) element).getName().toLowerCase();
     }
+    if (element instanceof ShopRow) {
+      return ((ShopRow) element).getItem().getName().toLowerCase();
+    }
     if (element instanceof SoldItem) {
       return ((SoldItem) element).getItemName().toLowerCase();
     }
@@ -213,6 +217,9 @@ public class AutoFilterTextField<E> extends AutoHighlightTextField
     }
     if (element instanceof Concoction) {
       return ((Concoction) element).getAvailable();
+    }
+    if (element instanceof ShopRow) {
+      return ((ShopRow) element).getItem().getCount();
     }
     if (element instanceof SoldItem) {
       return ((SoldItem) element).getQuantity();

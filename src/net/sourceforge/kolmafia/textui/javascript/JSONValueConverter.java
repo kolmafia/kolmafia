@@ -19,8 +19,8 @@ public class JSONValueConverter extends ValueConverter<Object> {
     return new JSONValueConverter().asJava(value);
   }
 
-  public static Value fromJSON(Object json) {
-    return new JSONValueConverter().fromJava(json);
+  public static Value fromJSON(Object json, Type typeHint) {
+    return new JSONValueConverter().fromJava(json, typeHint);
   }
 
   @Override
@@ -43,7 +43,7 @@ public class JSONValueConverter extends ValueConverter<Object> {
   }
 
   private void maybeAddIdentifiedFields(JSONObject result, Value source) {
-    if (source instanceof ProxyRecordValue proxyRecordValue) {
+    if (source.asProxy() instanceof ProxyRecordValue proxyRecordValue) {
       Type underlyingType = proxyRecordValue.getUnderlyingValue().getType();
       String typeName = underlyingType.getName();
       String typeNameCaps = Character.toUpperCase(typeName.charAt(0)) + typeName.substring(1);
@@ -60,6 +60,14 @@ public class JSONValueConverter extends ValueConverter<Object> {
     }
   }
 
+  // All existing JS type names follow this pattern
+  public static boolean isJavascriptTypeNameFormat(String name) {
+    var nameUpper = name.toUpperCase();
+    var nameLower = name.toLowerCase();
+    return nameUpper.substring(0, 1).equals(name.substring(0, 1))
+        && nameLower.substring(1).equals(name.substring(1));
+  }
+
   @Override
   protected Object asJavaObject(RecordValue recordValue) {
     JSONObject result = new JSONObject();
@@ -71,7 +79,7 @@ public class JSONValueConverter extends ValueConverter<Object> {
       } else if (!key.getType().equals(DataTypes.STRING_TYPE)) {
         throw new ValueConverterException("Records may only have string keys.");
       }
-      result.put(keyString, asJava(value));
+      result.put(JavascriptRuntime.toCamelCase(keyString), asJava(value));
     }
 
     maybeAddIdentifiedFields(result, recordValue);
@@ -103,12 +111,40 @@ public class JSONValueConverter extends ValueConverter<Object> {
         result = super.asJava(value);
       } else {
         result = new JSONObject();
-        maybeAddIdentifiedFields((JSONObject) result, underlying.asProxy());
+        maybeAddIdentifiedFields((JSONObject) result, value);
       }
       depth--;
       return result;
     } else {
       return super.asJava(value);
     }
+  }
+
+  @Override
+  public Value fromJava(Object object, Type typeHint) {
+    if (object instanceof JSONObject json) {
+      var objectTypeObject = json.get("objectType");
+      Type dataType;
+      if (objectTypeObject instanceof String objectType
+          && isJavascriptTypeNameFormat(objectType)
+          && ((dataType = DataTypes.enumeratedTypes.find(objectType.toLowerCase())) != null)) {
+        var identifierStringObject = json.get("identifierString");
+        var identifierNumberObject = json.get("identifierNumber");
+
+        Value result = null;
+        if (identifierNumberObject instanceof Integer identifierNumber) {
+          result = dataType.makeValue(identifierNumber, false);
+        } else if (identifierStringObject instanceof String identifierString) {
+          result = dataType.parseValue(identifierString, false);
+        }
+
+        if (result == null) {
+          throw new ValueConverterException("Unidentified object " + json + ".");
+        }
+        return result;
+      }
+    }
+
+    return super.fromJava(object, typeHint);
   }
 }

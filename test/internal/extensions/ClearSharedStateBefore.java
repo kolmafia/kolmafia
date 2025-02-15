@@ -71,7 +71,9 @@ public class ClearSharedStateBefore implements BeforeAllCallback {
   public static void deleteDirectoriesAndContents() {
     // These are the directories and files in test\root that are under git control.  Everything
     // else is fair game for deletion after testing.
-    String[] keepersArray = {"ccs", "data", "expected", "request", "scripts", "README"};
+    String[] keepersArray = {
+      "ccs", "data", "expected", "provided_data", "request", "scripts", "README"
+    };
     List<String> keepersList = new ArrayList<>(Arrays.asList(keepersArray));
     // Get list of things in test\root and iterate, deleting as appropriate
     File root = KoLConstants.ROOT_LOCATION;

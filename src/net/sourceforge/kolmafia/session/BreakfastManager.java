@@ -33,21 +33,22 @@ import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest.ClosetRequestType;
-import net.sourceforge.kolmafia.request.CoinMasterRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.GenieRequest;
-import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.IslandRequest;
-import net.sourceforge.kolmafia.request.MrStore2002Request;
 import net.sourceforge.kolmafia.request.PlaceRequest;
-import net.sourceforge.kolmafia.request.SpinMasterLatheRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.StorageRequest.StorageRequestType;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.request.VolcanoIslandRequest;
+import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
+import net.sourceforge.kolmafia.request.coinmaster.HermitRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.MrStore2002Request;
+import net.sourceforge.kolmafia.request.coinmaster.shop.SpinMasterLatheRequest;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 
 public class BreakfastManager {
   private static final AdventureResult[] toys =
@@ -107,6 +108,7 @@ public class BreakfastManager {
           BreakfastManager::haveBoxingDaydream,
           BreakfastManager::useToys,
           BreakfastManager::collectAnticheese,
+          BreakfastManager::visitServerRoom,
           BreakfastManager::collectSeaJelly,
           BreakfastManager::harvestBatteries,
           BreakfastManager::useBookOfEverySkill,
@@ -412,7 +414,7 @@ public class BreakfastManager {
     }
 
     KoLmafia.updateDisplay("Getting 2002 Mr Store Credits...");
-    RequestThread.postRequest(new MrStore2002Request());
+    MrStore2002Request.equip();
   }
 
   public static void useSpinningWheel() {
@@ -789,7 +791,7 @@ public class BreakfastManager {
       return;
     }
     KoLmafia.updateDisplay("Collecting cut of hippy profits...");
-    RequestThread.postRequest(new GenericRequest("shop.php?whichshop=hippy"));
+    RequestThread.postRequest(new ShopRequest("hippy"));
     BreakfastManager.ignoreErrors();
   }
 
@@ -835,6 +837,20 @@ public class BreakfastManager {
     if (KoLCharacter.desertBeachAccessible()
         && KoLCharacter.getCurrentDays() >= Preferences.getInteger("lastAnticheeseDay") + 5) {
       RequestThread.postRequest(new PlaceRequest("desertbeach", "db_nukehouse"));
+    }
+  }
+
+  private static void visitServerRoom() {
+    if (Preferences.getBoolean("crAlways") || Preferences.getBoolean("_crToday")) {
+      if (!Preferences.getBoolean("_cyberTrashCollected")) {
+        RequestThread.postRequest(new PlaceRequest("serverroom", "serverroom_trash1"));
+      }
+      if (!Preferences.getBoolean("cyberDatastickCollected")) {
+        RequestThread.postRequest(new PlaceRequest("serverroom", "serverroom_chipdrawer"));
+      }
+      if (Preferences.getString("_cyberZone1Owner").equals("")) {
+        RequestThread.postRequest(new PlaceRequest("serverroom", "serverroom_filedrawer"));
+      }
     }
   }
 

@@ -234,7 +234,7 @@ public class KoLAdventureValidationTest {
       var html = html("request/test_visit_" + place + ".html");
       // If we have always access, we don't have today access
       checkDayPasses(adventure, place, html, true, false, always, today);
-      // If we don't have always access, we might today access
+      // If we don't have always access, we might have today access
       if (!today.equals("none")) {
         checkDayPasses(adventure, place, html, false, true, always, today);
       }
@@ -265,7 +265,8 @@ public class KoLAdventureValidationTest {
     @ParameterizedTest
     @CsvSource({
       "The Bandit Crossroads, frAlways, _frToday",
-      "PirateRealm Island, prAlways, _prToday"
+      "PirateRealm Island, prAlways, _prToday",
+      "Cyberzone 1, crAlways, _crToday"
     })
     public void checkDayPassesInMonorail(String adventureName, String always, String today) {
       checkDayPasses(adventureName, "monorail", always, today);
@@ -780,6 +781,7 @@ public class KoLAdventureValidationTest {
       "The Neverending Party, neverendingPartyAlways, true",
       "The Bandit Crossroads, frAlways, true",
       "Sailing the PirateRealm Seas, prAlways, true",
+      "Cyberzone 1, crAlways, true",
       "The Tunnel of L.O.V.E., loveTunnelAvailable, true",
       "Through the Spacegate, spacegateAlways, false"
     })
@@ -3160,6 +3162,16 @@ public class KoLAdventureValidationTest {
             requests.get(1), "/inv_use.php", "whichitem=" + ItemPool.SONAR + "&ajax=1");
         assertPostRequest(
             requests.get(2), "/inv_use.php", "whichitem=" + ItemPool.SONAR + "&ajax=1");
+      }
+    }
+
+    @Test
+    public void cannotVisitBossBatLairAfterQuestFinished() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.BAT, QuestDatabase.FINISHED));
+      try (cleanups) {
+        assertThat(BATRAT.canAdventure(), is(true));
+        assertThat(BEANBAT.canAdventure(), is(true));
+        assertThat(BOSSBAT.canAdventure(), is(false));
       }
     }
   }
@@ -6838,6 +6850,56 @@ public class KoLAdventureValidationTest {
         assertPostRequest(requests.get(0), "/familiar.php", "action=putback&ajax=1");
         assertThat(success, is(true));
       }
+    }
+  }
+
+  @Nested
+  class CyberRealm {
+    private int levelToSnarfblat(int level) {
+      return switch (level) {
+        case 1 -> AdventurePool.CYBER_ZONE_1;
+        case 2 -> AdventurePool.CYBER_ZONE_2;
+        case 3 -> AdventurePool.CYBER_ZONE_3;
+        default -> 0;
+      };
+    }
+
+    public void canAdventure(int level, boolean always, boolean today, int turns) {
+      KoLAdventure adventure = AdventureDatabase.getAdventure(levelToSnarfblat(level));
+      String property = "_cyberZone" + level + "Turns";
+      var cleanups =
+          new Cleanups(
+              withProperty("crAlways", always),
+              withProperty("_crToday", today),
+              withProperty(property, turns));
+      try (cleanups) {
+        boolean expected = (always || today) && (turns < 20);
+        assertThat(adventure.canAdventure(), is(expected));
+      }
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {1, 2, 3})
+    public void canAdventureAlwaysWithTurnsLeft(int level) {
+      canAdventure(level, true, false, 5);
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {1, 2, 3})
+    public void canAdventureDailyWithTurnsLeft(int level) {
+      canAdventure(level, false, true, 5);
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {1, 2, 3})
+    public void cannotAdventureWithoutAccess(int level) {
+      canAdventure(level, false, false, 5);
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {1, 2, 3})
+    public void cannotAdventureWithoutTurnsLeft(int level) {
+      canAdventure(level, true, false, 20);
     }
   }
 

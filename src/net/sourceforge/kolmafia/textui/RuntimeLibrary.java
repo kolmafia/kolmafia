@@ -142,6 +142,8 @@ import net.sourceforge.kolmafia.request.ClosetRequest.ClosetRequestType;
 import net.sourceforge.kolmafia.request.DeckOfEveryCardRequest.EveryCard;
 import net.sourceforge.kolmafia.request.FloristRequest.Florist;
 import net.sourceforge.kolmafia.request.StorageRequest.StorageRequestType;
+import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
+import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 import net.sourceforge.kolmafia.scripts.git.GitManager;
 import net.sourceforge.kolmafia.scripts.svn.SVNManager;
 import net.sourceforge.kolmafia.session.AutumnatonManager;
@@ -1348,6 +1350,9 @@ public abstract class RuntimeLibrary {
     params = List.of();
     functions.add(new LibraryFunction("get_clan_lounge", DataTypes.ITEM_TO_INT_TYPE, params));
 
+    params = List.of(namedParam("itemsSource", DataTypes.STRING_TYPE));
+    functions.add(new LibraryFunction("get_items_hash", DataTypes.INT_TYPE, params));
+
     params = List.of();
     functions.add(
         new LibraryFunction("get_fishing_locations", DataTypes.STRING_TO_LOCATION_TYPE, params));
@@ -1452,7 +1457,19 @@ public abstract class RuntimeLibrary {
     params =
         List.of(
             namedParam("master", DataTypes.COINMASTER_TYPE),
+            namedParam("skill", DataTypes.SKILL_TYPE));
+    functions.add(new LibraryFunction("sells_skill", DataTypes.BOOLEAN_TYPE, params));
+
+    params =
+        List.of(
+            namedParam("master", DataTypes.COINMASTER_TYPE),
             namedParam("item", DataTypes.ITEM_TYPE));
+    functions.add(new LibraryFunction("sell_price", DataTypes.INT_TYPE, params));
+
+    params =
+        List.of(
+            namedParam("master", DataTypes.COINMASTER_TYPE),
+            namedParam("skill", DataTypes.SKILL_TYPE));
     functions.add(new LibraryFunction("sell_price", DataTypes.INT_TYPE, params));
 
     params = List.of(namedParam("item", DataTypes.ITEM_TYPE));
@@ -1782,6 +1799,9 @@ public abstract class RuntimeLibrary {
 
     params = List.of(namedParam("skill", DataTypes.SKILL_TYPE));
     functions.add(new LibraryFunction("combat_skill_available", DataTypes.BOOLEAN_TYPE, params));
+
+    params = List.of();
+    functions.add(new LibraryFunction("my_ram", DataTypes.INT_TYPE, params));
 
     params = List.of(namedParam("skill", DataTypes.SKILL_TYPE));
     functions.add(new LibraryFunction("mp_cost", DataTypes.INT_TYPE, params));
@@ -2876,6 +2896,9 @@ public abstract class RuntimeLibrary {
     params = List.of(namedParam("monster", DataTypes.MONSTER_TYPE));
     functions.add(new LibraryFunction("is_banished", DataTypes.BOOLEAN_TYPE, params));
 
+    params = List.of(namedParam("phylum", DataTypes.PHYLUM_TYPE));
+    functions.add(new LibraryFunction("is_banished", DataTypes.BOOLEAN_TYPE, params));
+
     params = List.of(namedParam("monster", DataTypes.MONSTER_TYPE));
     functions.add(
         new LibraryFunction("banished_by", new AggregateType(DataTypes.STRING_TYPE, 0), params));
@@ -3691,6 +3714,25 @@ public abstract class RuntimeLibrary {
 
     params = List.of(namedParam("location", DataTypes.LOCATION_TYPE));
     functions.add(new LibraryFunction("turns_until_forced_noncombat", DataTypes.INT_TYPE, params));
+
+    params = List.of();
+    functions.add(
+        new LibraryFunction("get_avatar", new AggregateType(DataTypes.STRING_TYPE, 0), params));
+
+    params = List.of();
+    functions.add(new LibraryFunction("get_title", DataTypes.STRING_TYPE, params));
+
+    params = List.of();
+    functions.add(new LibraryFunction("free_crafts", DataTypes.INT_TYPE, params));
+
+    params = List.of();
+    functions.add(new LibraryFunction("free_cooks", DataTypes.INT_TYPE, params));
+
+    params = List.of();
+    functions.add(new LibraryFunction("free_mixes", DataTypes.INT_TYPE, params));
+
+    params = List.of();
+    functions.add(new LibraryFunction("free_smiths", DataTypes.INT_TYPE, params));
   }
 
   public static Method findMethod(final String name, final Class<?>[] args)
@@ -5962,7 +6004,7 @@ public abstract class RuntimeLibrary {
 
     FaxBotDatabase.configure();
 
-    String actualName = monster.getName();
+    int monsterId = monster.getId();
     for (FaxBot bot : FaxBotDatabase.faxbots) {
       if (bot == null) {
         continue;
@@ -5973,7 +6015,7 @@ public abstract class RuntimeLibrary {
         continue;
       }
 
-      Monster monsterObject = bot.getMonsterByActualName(actualName);
+      Monster monsterObject = bot.getMonsterByMonsterId(monsterId);
       if (monsterObject == null) {
         continue;
       }
@@ -6144,6 +6186,65 @@ public abstract class RuntimeLibrary {
     }
 
     return value;
+  }
+
+  private static final long FNV_INIT = 0xcbf29ce484222325L;
+  private static final long FNV_PRIME = 0x00000100000001b3L;
+
+  // https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function
+  private static long fnvHash(long init, int n) {
+    long hash = init;
+    for (int i = 0; i < 4; i++) {
+      hash ^= n & 0xFF;
+      hash *= RuntimeLibrary.FNV_PRIME;
+      n >>= 8;
+    }
+    return hash;
+  }
+
+  /**
+   * Quickly get a hash of the contents of inventory, closet, storage, display, or shop. Useful for
+   * relay scripts that want to poll for changes to inventory via the JSON API.
+   *
+   * @param controller Script runtime controller
+   * @param itemsSource One of "inventory", "closet", "storage", "display", or "shop", specifying
+   *     which item list to hash.
+   * @return Long of hashed value.
+   */
+  public static Value get_items_hash(ScriptRuntime controller, Value itemsSource) {
+    long hash = RuntimeLibrary.FNV_INIT;
+
+    List<AdventureResult> itemsList =
+        switch (itemsSource.toString()) {
+          case "shop" -> {
+            for (var soldItem : StoreManager.getSoldItemList()) {
+              hash = RuntimeLibrary.fnvHash(hash, soldItem.getItemId());
+              hash = RuntimeLibrary.fnvHash(hash, soldItem.getQuantity());
+              hash = RuntimeLibrary.fnvHash(hash, (int) soldItem.getPrice());
+              hash = RuntimeLibrary.fnvHash(hash, (int) (soldItem.getPrice() >> 32));
+              hash = RuntimeLibrary.fnvHash(hash, soldItem.getLimit());
+            }
+
+            yield List.of();
+          }
+          case "inventory" -> KoLConstants.inventory;
+          case "closet" -> KoLConstants.closet;
+          case "storage" -> KoLConstants.storage;
+          case "display" -> KoLConstants.collection;
+          default -> {
+            KoLmafia.updateDisplay(
+                MafiaState.ERROR,
+                "get_items_hash: Invalid items source. Valid are inventory, closet, storage, display, shop.");
+            yield List.of();
+          }
+        };
+
+    for (var itemCount : itemsList) {
+      hash = RuntimeLibrary.fnvHash(hash, itemCount.getItemId());
+      hash = RuntimeLibrary.fnvHash(hash, itemCount.getCount());
+    }
+
+    return DataTypes.makeIntValue(hash);
   }
 
   public static Value get_fishing_locations(ScriptRuntime controller) {
@@ -6482,9 +6583,25 @@ public abstract class RuntimeLibrary {
     return DataTypes.makeBooleanValue(data != null && data.canBuyItem((int) item.intValue()));
   }
 
-  public static Value sell_price(ScriptRuntime controller, final Value master, final Value item) {
+  public static Value sells_skill(ScriptRuntime controller, final Value master, final Value skill) {
     CoinmasterData data = (CoinmasterData) master.rawValue();
-    return DataTypes.makeIntValue(data != null ? data.getBuyPrice((int) item.intValue()) : 0);
+    int skillId = (int) skill.intValue();
+    return DataTypes.makeBooleanValue(data != null && data.skillBuyPrice(skillId) != null);
+  }
+
+  public static Value sell_price(ScriptRuntime controller, final Value master, final Value thing) {
+    CoinmasterData data = (CoinmasterData) master.rawValue();
+    int id = (int) thing.intValue();
+    AdventureResult value =
+        (data == null)
+            ? null
+            : switch (thing.getType().getType()) {
+              case TypeSpec.ITEM -> data.itemBuyPrice(id);
+              case TypeSpec.SKILL -> data.skillBuyPrice(id);
+              default -> null;
+            };
+
+    return DataTypes.makeIntValue(value == null ? 0 : value.getCount());
   }
 
   public static Value historical_price(ScriptRuntime controller, final Value item) {
@@ -7127,6 +7244,10 @@ public abstract class RuntimeLibrary {
   public static Value combat_skill_available(ScriptRuntime controller, final Value arg) {
     int skillId = (int) arg.intValue();
     return DataTypes.makeBooleanValue(KoLCharacter.hasCombatSkill(skillId));
+  }
+
+  public static Value my_ram(ScriptRuntime controller) {
+    return DataTypes.makeIntValue(FightRequest.getCurrentRAM());
   }
 
   public static Value mp_cost(ScriptRuntime controller, final Value skill) {
@@ -9784,11 +9905,21 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value is_banished(ScriptRuntime controller, final Value arg) {
-    MonsterData monster = (MonsterData) arg.rawValue();
-    if (monster == null) {
+    if (arg.getType().equals(TypeSpec.MONSTER)) {
+      MonsterData monster = (MonsterData) arg.rawValue();
+      if (monster == null) {
+        return DataTypes.FALSE_VALUE;
+      }
+      return DataTypes.makeBooleanValue(BanishManager.isBanished(monster.getName()));
+    } else if (arg.getType().equals(TypeSpec.PHYLUM)) {
+      Phylum phylum = (Phylum) arg.rawValue();
+      if (phylum == null) {
+        return DataTypes.FALSE_VALUE;
+      }
+      return DataTypes.makeBooleanValue(BanishManager.isBanishedPhylum(phylum));
+    } else {
       return DataTypes.FALSE_VALUE;
     }
-    return DataTypes.makeBooleanValue(BanishManager.isBanished(monster.getName()));
   }
 
   public static Value banished_by(ScriptRuntime controller, final Value arg) {
@@ -10388,7 +10519,7 @@ public abstract class RuntimeLibrary {
 
     for (ModifierValue mVal : ModifierDatabase.splitModifiers(arg.toString())) {
       var modifierName = mVal.getName();
-      var modifier = ModifierDatabase.byCaselessName(modifierName);
+      var modifier = ModifierDatabase.getModifierByName(modifierName);
       if (modifier == null) {
         // splitModifiers doesn't validate the passed-in string, so just drop it
         continue;
@@ -11112,9 +11243,7 @@ public abstract class RuntimeLibrary {
     ArrayValue value = new ArrayValue(type);
 
     int i = 0;
-    for (var id : locs) {
-      var adv = AdventureDatabase.getAdventure(id);
-      if (adv == null) continue;
+    for (var adv : locs) {
       Value location = DataTypes.makeLocationValue(adv);
       value.aset(DataTypes.makeIntValue(i++), location);
     }
@@ -11393,5 +11522,29 @@ public abstract class RuntimeLibrary {
             location.getForceNoncombat()
                 - (AdventureSpentDatabase.getTurns(location)
                     - Preferences.getInteger(preference))));
+  }
+
+  public static Value get_avatar(ScriptRuntime controller) {
+    return DataTypes.makeStringArrayValue(KoLCharacter.getAvatar());
+  }
+
+  public static Value get_title(ScriptRuntime controller) {
+    return DataTypes.makeStringValue(KoLCharacter.getTitle());
+  }
+
+  public static Value free_crafts(ScriptRuntime controller) {
+    return DataTypes.makeIntValue(ConcoctionDatabase.getFreeCraftingTurns());
+  }
+
+  public static Value free_cooks(ScriptRuntime controller) {
+    return DataTypes.makeIntValue(ConcoctionDatabase.getFreeCookingTurns());
+  }
+
+  public static Value free_mixes(ScriptRuntime controller) {
+    return DataTypes.makeIntValue(ConcoctionDatabase.getFreeCocktailcraftingTurns());
+  }
+
+  public static Value free_smiths(ScriptRuntime controller) {
+    return DataTypes.makeIntValue(ConcoctionDatabase.getFreeSmithingTurns());
   }
 }

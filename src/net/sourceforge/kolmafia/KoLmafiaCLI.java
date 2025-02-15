@@ -632,6 +632,7 @@ public class KoLmafiaCLI {
     new DebugCreateCommand().register("debugcreate");
     new DebugRequestCommand().register("debug");
     new DemonNamesCommand().register("demons");
+    new DevilCandyEggCommand().register("devilcandyegg");
     new DisplayCaseCommand().register("display");
     new DreadscrollCommand().register("dreadscroll");
     new DustyBottlesCommand().register("dusty");
@@ -738,6 +739,7 @@ public class KoLmafiaCLI {
     new OutfitCommand().register("outfit");
     new PandaCommand().register("panda");
     new PastaThrallCommand().register("thralls");
+    new PhotoBoothCommand().register("photobooth");
     new PillKeeperCommand().register("pillkeeper");
     new PingCommand().register("ping");
     new PingPongCommand().register("pingpong");
@@ -836,6 +838,7 @@ public class KoLmafiaCLI {
         .register("robo");
     new UseSkillCommand().register("cast").register("skill");
     new VersionCommand().register("version");
+    new ViseCommand().register("vise");
     new VisitURLCommand()
         .register("text")
         .registerPrefix("http://")

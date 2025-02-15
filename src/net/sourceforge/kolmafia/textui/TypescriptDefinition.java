@@ -172,6 +172,11 @@ public class TypescriptDefinition {
             tsType = combatFilterType;
           }
         }
+        case "get_items_hash" -> {
+          if (paramIndex == 0) {
+            tsType = "\"inventory\" | \"closet\" | \"storage\" | \"display\" | \"shop\"";
+          }
+        }
       }
 
       return new TypescriptFunctionParameter(paramName, tsType, isVariadic);

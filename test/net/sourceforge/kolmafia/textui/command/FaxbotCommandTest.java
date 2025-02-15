@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.textui.command;
 
 import static internal.helpers.HttpClientWrapper.getRequests;
 import static internal.helpers.Networking.assertGetRequest;
+import static internal.helpers.Player.withDataFile;
 import static internal.helpers.Player.withProperty;
 
 import internal.helpers.Cleanups;
@@ -12,6 +13,7 @@ import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.persistence.FaxBotDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ChoiceManager;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,6 +25,8 @@ public class FaxbotCommandTest extends AbstractCommandTestBase {
     this.command = "faxbot";
   }
 
+  public static Cleanups globalCleanup;
+
   @BeforeAll
   public static void beforeAll() {
     KoLCharacter.reset("testUser");
@@ -31,8 +35,21 @@ public class FaxbotCommandTest extends AbstractCommandTestBase {
     // Set to true so we make http requests
     ChatManager.setChatLiteracy(true);
 
+    // This needs to happen before database configuration.
+    // ignoring cleanup until testing complete
+    globalCleanup =
+        new Cleanups(
+            withDataFile("cheesefax.xml"),
+            withDataFile("easyfax.xml"),
+            withDataFile("onlyfax.xml"));
+
     // Configure
     FaxBotDatabase.configure();
+  }
+
+  @AfterAll
+  public static void afterAll() {
+    globalCleanup.close();
   }
 
   @BeforeEach

@@ -4,6 +4,8 @@ import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withMeat;
 import static internal.helpers.Player.withProperty;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -182,7 +184,7 @@ public class MallPriceManagerTest {
   }
 
   private void addCoinMasterItem(int itemId, List<PurchaseRequest> list) {
-    PurchaseRequest item = CoinmastersDatabase.getPurchaseRequest(itemId);
+    PurchaseRequest item = CoinmastersDatabase.getAccessiblePurchaseRequest(itemId);
     if (item != null) {
       list.add(item);
     }
@@ -785,7 +787,8 @@ public class MallPriceManagerTest {
       request.run();
 
       List<PurchaseRequest> results = request.getResults();
-      assertEquals(4065, results.size());
+      assertEquals(4264, results.size());
+      assertThat(results.get(0).getShopName(), equalTo("Clerk's"));
     }
   }
 

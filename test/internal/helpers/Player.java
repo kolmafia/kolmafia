@@ -3,7 +3,11 @@ package internal.helpers;
 import internal.helpers.Cleanups.OrderedRunnable;
 import internal.network.FakeHttpClientBuilder;
 import internal.network.FakeHttpResponse;
+import java.io.File;
+import java.io.IOException;
 import java.net.http.HttpClient;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Files;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.ArrayList;
@@ -33,6 +37,8 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.VYKEACompanionData;
 import net.sourceforge.kolmafia.VYKEACompanionData.VYKEACompanionType;
 import net.sourceforge.kolmafia.ZodiacSign;
+import net.sourceforge.kolmafia.chat.ChatManager;
+import net.sourceforge.kolmafia.chat.EnableMessage;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -50,9 +56,8 @@ import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.FloristRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.GenericRequest.TopMenuStyle;
-import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
-import net.sourceforge.kolmafia.session.BanishManager;
+import net.sourceforge.kolmafia.request.coinmaster.HermitRequest;
 import net.sourceforge.kolmafia.session.ChoiceControl;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ClanManager;
@@ -60,7 +65,7 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EquipmentRequirement;
 import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.session.ResultProcessor;
-import net.sourceforge.kolmafia.session.TrackManager;
+import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.utilities.HttpUtilities;
 import net.sourceforge.kolmafia.utilities.Statics;
@@ -413,6 +418,49 @@ public class Player {
   }
 
   /**
+   * Puts an amount of the given item into the player's display
+   *
+   * @param itemName Item to give
+   * @param count Quantity to give
+   * @return Restores the number of this item to the old value
+   */
+  public static Cleanups withItemInDisplay(final String itemName, final int count) {
+    int itemId = ItemDatabase.getItemId(itemName, count, false);
+    return withItemInDisplay(itemId, count);
+  }
+
+  /**
+   * Puts the given item into the player's display
+   *
+   * @param itemId Item to give
+   * @return Restores the number of this item to the old value
+   */
+  public static Cleanups withItemInDisplay(final int itemId) {
+    return withItemInDisplay(itemId, 1);
+  }
+
+  /**
+   * Puts an amount of the given item into the player's display
+   *
+   * @param itemId Item to give
+   * @param count Quantity to give
+   * @return Restores the number of this item to the old value
+   */
+  public static Cleanups withItemInDisplay(final int itemId, final int count) {
+    return withItemInDisplay(ItemPool.get(itemId, count));
+  }
+
+  /**
+   * Puts the given item into the player's display
+   *
+   * @param item Item to give
+   * @return Restores the number of this item to the old value
+   */
+  public static Cleanups withItemInDisplay(final AdventureResult item) {
+    return addToList(item, KoLConstants.collection);
+  }
+
+  /**
    * Puts the given item into the player's freepulls
    *
    * @param itemName Item to give
@@ -473,6 +521,61 @@ public class Player {
    */
   public static Cleanups withItemInStash(final String itemName) {
     return withItemInStash(itemName, 1);
+  }
+
+  /**
+   * Puts an amount of the given item into the player's shop
+   *
+   * @param itemName Item to give
+   * @param count Quantity to give
+   * @return Restores the number of this item to the old value
+   */
+  public static Cleanups withItemInShop(
+      final String itemName, final int count, long price, int limit) {
+    int itemId = ItemDatabase.getItemId(itemName, count, false);
+    return withItemInShop(itemId, count, price, limit);
+  }
+
+  /**
+   * Puts the given item into the player's shop
+   *
+   * @param itemId Item to give
+   * @return Restores the number of this item to the old value
+   */
+  public static Cleanups withItemInShop(final int itemId, long price, int limit) {
+    return withItemInShop(itemId, 1, price, limit);
+  }
+
+  /**
+   * Puts an amount of the given item into the player's shop
+   *
+   * @param itemId Item to give
+   * @param count Quantity to give
+   * @return Restores the number of this item to the old value
+   */
+  public static Cleanups withItemInShop(final int itemId, final int count, long price, int limit) {
+    return withItemInShop(ItemPool.get(itemId, count), price, limit);
+  }
+
+  /**
+   * Puts the given item into the player's shop
+   *
+   * @param item Item to give
+   * @return Restores the number of this item to the old value
+   */
+  public static Cleanups withItemInShop(final AdventureResult item, long price, int limit) {
+    int oldQuantity = StoreManager.shopAmount(item.getItemId());
+    long oldPrice = StoreManager.getPrice(item.getItemId());
+    int oldLimit = StoreManager.getLimit(item.getItemId());
+    StoreManager.addItem(item.getItemId(), item.getCount(), price, limit);
+    return new Cleanups(
+        () -> {
+          if (oldQuantity > 0) {
+            StoreManager.updateItem(item.getItemId(), oldQuantity, oldPrice, oldLimit);
+          } else {
+            StoreManager.removeItem(item.getItemId(), StoreManager.shopAmount(item.getItemId()));
+          }
+        });
   }
 
   /**
@@ -976,6 +1079,16 @@ public class Player {
   public static Cleanups withoutSkill(final int skillId) {
     KoLCharacter.removeAvailableSkill(skillId);
     return new Cleanups(() -> KoLCharacter.removeAvailableSkill(skillId));
+  }
+
+  /**
+   * Ensures player does not have a skill
+   *
+   * @param skillName Skill to ensure is removed
+   * @return Removes the skill if it was gained
+   */
+  public static Cleanups withoutSkill(final String skillName) {
+    return withoutSkill(SkillDatabase.getSkillId(skillName));
   }
 
   /**
@@ -2506,9 +2619,7 @@ public class Player {
    * @return Returns value to previous value
    */
   public static Cleanups withBanishedMonsters(String contents) {
-    var preference = withProperty("banishedMonsters", contents);
-    BanishManager.loadBanished();
-    return new Cleanups(preference, new Cleanups(BanishManager::loadBanished));
+    return withProperty("banishedMonsters", contents);
   }
 
   /**
@@ -2518,9 +2629,7 @@ public class Player {
    * @return Returns value to previous value
    */
   public static Cleanups withBanishedPhyla(String contents) {
-    var preference = withProperty("banishedPhyla", contents);
-    BanishManager.loadBanished();
-    return new Cleanups(preference, new Cleanups(BanishManager::loadBanished));
+    return withProperty("banishedPhyla", contents);
   }
 
   /**
@@ -2530,9 +2639,7 @@ public class Player {
    * @return Returns value to previous value
    */
   public static Cleanups withTrackedMonsters(String contents) {
-    var preference = withProperty("trackedMonsters", contents);
-    TrackManager.loadTracked();
-    return new Cleanups(preference, new Cleanups(TrackManager::loadTracked));
+    return withProperty("trackedMonsters", contents);
   }
 
   /**
@@ -2542,14 +2649,18 @@ public class Player {
    * @return Returns value to previous value
    */
   public static Cleanups withTrackedPhyla(String contents) {
-    var preference = withProperty("trackedPhyla", contents);
-    TrackManager.loadTracked();
-    return new Cleanups(preference, new Cleanups(TrackManager::loadTracked));
+    return withProperty("trackedPhyla", contents);
   }
 
   public static Cleanups withDisabledCoinmaster(CoinmasterData data) {
     data.setDisabled(true);
     return new Cleanups(() -> data.setDisabled(false));
+  }
+
+  public static Cleanups withZonelessCoinmaster(CoinmasterData data) {
+    String zone = data.getZone();
+    data.inZone(null).getRootZone();
+    return new Cleanups(() -> data.inZone(zone));
   }
 
   public static Cleanups withoutCoinmasterBuyItem(CoinmasterData data, AdventureResult item) {
@@ -2568,10 +2679,20 @@ public class Player {
       CoinmastersDatabase.removePurchaseRequest(item);
     }
 
+    var rows = data.getRows();
+    Integer itemId = item.getItemId();
+    Integer row = rows.get(itemId);
+    if (row != null) {
+      rows.remove(itemId);
+    }
+
     return new Cleanups(
         () -> {
           // Restore original list
           data.withBuyItems(buyItems);
+          if (row != null) {
+            rows.put(itemId, row);
+          }
           if (request != null) {
             CoinmastersDatabase.addPurchaseRequest(item, request);
           }
@@ -2589,10 +2710,86 @@ public class Player {
     newSellItems.remove(item);
     data.withSellItems(newSellItems);
 
+    var rows = data.getRows();
+    Integer itemId = item.getItemId();
+    Integer row = rows.get(itemId);
+    if (row != null) {
+      rows.remove(itemId);
+    }
+
     return new Cleanups(
         () -> {
           // Restore original list
           data.withSellItems(sellItems);
+          if (row != null) {
+            rows.put(itemId, row);
+          }
+        });
+  }
+
+  /**
+   * Copies the source file from root/provided_data to root/data giving it the destination name.
+   * Deletes the copied file as part of cleanup. No error checking, specifically that the source
+   * file is present or that the destination file was written successfully.
+   *
+   * @param sourceName the name of the source file in root/provided_data
+   * @param destinationName the name of the destination file in root/data.
+   * @return deletes the destination file
+   */
+  public static Cleanups withDataFile(String sourceName, String destinationName) {
+    File sourceFile = new File(KoLConstants.ROOT_LOCATION + "/provided_data", sourceName);
+    File destinationFile = new File(KoLConstants.DATA_LOCATION, destinationName);
+    try {
+      Files.copy(sourceFile.toPath(), destinationFile.toPath());
+    } catch (FileAlreadyExistsException e) {
+      // Do nothing.  No message needed.
+    } catch (IOException e) {
+      System.out.println(e + " while copying " + sourceName + " to " + destinationName + ".");
+    }
+    return new Cleanups(
+        () -> {
+          destinationFile.delete();
+        });
+  }
+
+  /**
+   * Copies the source file from root/provided_data to root/data giving it the same name. Deletes
+   * the copied file as part of cleanup. No error checking, specifically that the source file is
+   * present or that the destination file was written successfully.
+   *
+   * @param sourceName the name of the source file in root/provided_data and destination in data
+   * @return deletes the destination file
+   */
+  public static Cleanups withDataFile(String sourceName) {
+    return withDataFile(sourceName, sourceName);
+  }
+
+  /**
+   * Tells FightRequest to use PokeFam parsing
+   *
+   * @return stops using PokeFam parsing
+   */
+  public static Cleanups withFightRequestPokefam() {
+    FightRequest.pokefam = true;
+    return new Cleanups(() -> FightRequest.pokefam = false);
+  }
+
+  /**
+   * Sets the current chat channel
+   *
+   * @param channel Channel to use
+   * @return set the channel to the previous value
+   */
+  public static Cleanups withChatChannel(final String channel) {
+    var old = ChatManager.getCurrentChannel();
+    ChatManager.processChannelEnable(new EnableMessage(channel, true));
+    return new Cleanups(
+        () -> {
+          if (old == null) {
+            ChatManager.dispose();
+          } else {
+            ChatManager.processChannelEnable(new EnableMessage(old, true));
+          }
         });
   }
 }

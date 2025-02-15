@@ -80,6 +80,10 @@ public abstract class PurchaseRequest extends GenericRequest
     return new AdventureLongCountResult(AdventureResult.MEAT, this.getPrice());
   }
 
+  public AdventureResult[] getCosts() {
+    return new AdventureResult[] {this.getCost()};
+  }
+
   public String getCurrency(final long count) {
     return "Meat";
   }
@@ -330,9 +334,10 @@ public abstract class PurchaseRequest extends GenericRequest
 
   @Override
   public boolean equals(final Object o) {
-    return o instanceof PurchaseRequest
-        && this.shopName.equals(((PurchaseRequest) o).shopName)
-        && this.item.getItemId() == ((PurchaseRequest) o).item.getItemId();
+    // Assumption: a shop only has one instance of an item
+    return o instanceof PurchaseRequest opr
+        && this.shopName.equals(opr.shopName)
+        && this.item.getItemId() == opr.item.getItemId();
   }
 
   @Override
@@ -350,10 +355,6 @@ public abstract class PurchaseRequest extends GenericRequest
 
     if (urlString.startsWith("town_giftshop.php")) {
       return NPCPurchaseRequest.registerRequest(urlString);
-    }
-
-    if (urlString.startsWith("shop.php")) {
-      return NPCPurchaseRequest.registerShopRequest(urlString, false);
     }
 
     return false;

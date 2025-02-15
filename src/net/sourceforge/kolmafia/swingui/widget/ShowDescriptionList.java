@@ -31,13 +31,14 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.AutoMallRequest;
 import net.sourceforge.kolmafia.request.AutoSellRequest;
-import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.MallPurchaseRequest;
 import net.sourceforge.kolmafia.request.PulverizeRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
+import net.sourceforge.kolmafia.shop.ShopRow;
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
 import net.sourceforge.kolmafia.swingui.MallSearchFrame;
 import net.sourceforge.kolmafia.swingui.ProfileFrame;
@@ -163,6 +164,16 @@ public class ShowDescriptionList<E> extends JList<E> {
     return result;
   }
 
+  public ShopRow[] getSelectedShopRows() {
+    // Obviously, this only works if the model contains ShopRows
+    List<E> values = this.getSelectedValuesList();
+    ShopRow[] result = new ShopRow[values.size()];
+    for (int i = 0; i < values.size(); ++i) {
+      result[i] = (ShopRow) values.get(i);
+    }
+    return result;
+  }
+
   public PurchaseRequest[] getSelectedPurchases() {
     // Obviously, this only works if the model contains PurchaseRequests
     List<E> values = this.getSelectedValuesList();
@@ -191,6 +202,10 @@ public class ShowDescriptionList<E> extends JList<E> {
         String descId = EffectDatabase.getDescriptionId(EffectDatabase.getEffectId(ar.getName()));
         StaticEntity.openDescriptionFrame("desc_effect.php?whicheffect=" + descId);
       }
+    } else if (item instanceof ShopRow sr) {
+      int itemId = sr.getItem().getItemId();
+      String descId = ItemDatabase.getDescriptionId(itemId);
+      StaticEntity.openDescriptionFrame("desc_item.php?whichitem=" + descId);
     } else if (item instanceof Concoction c) {
       int itemId = c.getItemId();
       String descId =

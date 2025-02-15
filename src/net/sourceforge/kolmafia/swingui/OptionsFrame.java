@@ -395,8 +395,12 @@ public class OptionsFrame extends GenericFrame {
           "relayScriptButtonFirst",
           "If using custom buttons, put script button first rather than attack"
         },
+        {},
         {"arcadeGameHints", "Provide hints for Arcade games"},
         {"spelunkyHints", "Provide hints for Spelunky"},
+        {"suppressPowerPixellation", "Powerful Glove does not pixellate monster images"},
+        {"suppressCyberRealmDarkMode", "CyberRealm is not in dark mode"},
+        {"suppressCyberRealmGreenImages", "CyberRealm images are not green"},
       };
 
       this.setOptions(options);

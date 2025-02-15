@@ -675,6 +675,11 @@ public class AdventureRequest extends GenericRequest {
     // Pocket Familiars have Pokefam battles
     // <b><center>a fleet woodsman's Team:</b>
     Pattern.compile(">([^<]*?)'s Team:<"),
+    // Knob Goblin poseur has no closing </b> tag
+    Pattern.compile(
+        "<td id='fmsg' valign=center><Table>.*?<b>(Knob Goblin poseur)", Pattern.DOTALL),
+    // haiku dungeon attempt
+    Pattern.compile("<td id='fmsg' valign=center><Table>.*?<b>([^<]+)</b>", Pattern.DOTALL),
     // KoL sure generates a lot of bogus HTML
     Pattern.compile("<b>.*?(<b>.*?<(/b|/td)>.*?)<(br|/td|/tr)>", Pattern.DOTALL),
   };
@@ -1010,6 +1015,9 @@ public class AdventureRequest extends GenericRequest {
     return parseEncounter(responseText);
   }
 
+  private static final Pattern BOLD_ENCOUNTER =
+      Pattern.compile("<b(?:| [^>]*)>(.*?)</b>", Pattern.DOTALL);
+
   public static String parseEncounter(final String responseText) {
     // Look only in HTML body; the header can have scripts with
     // bold text.
@@ -1029,18 +1037,17 @@ public class AdventureRequest extends GenericRequest {
       }
     }
 
-    int boldIndex = responseText.indexOf("<b>", index);
-    if (boldIndex == -1) {
+    if (index == -1) {
+      // something has gone horribly wrong
       return "";
     }
 
-    int endBoldIndex = responseText.indexOf("</b>", boldIndex);
-
-    if (endBoldIndex == -1) {
+    Matcher boldMatch = BOLD_ENCOUNTER.matcher(responseText);
+    if (!boldMatch.find(index)) {
       return "";
     }
 
-    return ChoiceUtilities.stripDevReadout(responseText.substring(boldIndex + 3, endBoldIndex));
+    return ChoiceUtilities.stripDevReadout(boldMatch.group(1).trim());
   }
 
   public static int parseArea(final String urlString) {

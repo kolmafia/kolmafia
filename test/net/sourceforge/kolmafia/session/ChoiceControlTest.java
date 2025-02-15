@@ -24,18 +24,22 @@ import static internal.matchers.Quest.isStep;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 
 import internal.helpers.Cleanups;
 import internal.helpers.RequestLoggerOutput;
 import internal.network.FakeHttpClientBuilder;
 import java.util.List;
 import java.util.Map;
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionPath.Path;
+import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -925,6 +929,39 @@ class ChoiceControlTest {
         assertThat("_trickOrTreatBlock", isSetTo("DLdLLLDLLDDL"));
       }
     }
+
+    // Using this as an example of a pref that would be errantly incremented if the zone wasn't
+    // cleared
+    @Test
+    void doesntIncrementShadowRiftPrefsOnSelection() {
+      var cleanups =
+          new Cleanups(
+              withProperty("encountersUntilSRChoice", 10),
+              withProperty("_trickOrTreatBlock", "DLDLLLDLLDDL"),
+              withLastLocation(AdventureDatabase.getAdventureByName("Shadow Rift (Desert Beach)")),
+              withChoice(
+                  (url, req) -> ChoiceControl.preChoice(req),
+                  804,
+                  3,
+                  "whichhouse=2",
+                  html("request/test_halloween_starhouse.html")));
+
+      try (cleanups) {
+        assertThat("encountersUntilSRChoice", isSetTo(10));
+      }
+    }
+
+    @Test
+    void clearsZone() {
+      var cleanups =
+          new Cleanups(
+              withProperty("_trickOrTreatBlock", "DLDLLLDLLDDL"),
+              withChoice((url, req) -> ChoiceControl.preChoice(req), 804, 3, "whichhouse=2", ""));
+
+      try (cleanups) {
+        assertThat(KoLAdventure.lastVisitedLocation, nullValue());
+      }
+    }
   }
 
   @Nested
@@ -1115,6 +1152,217 @@ class ChoiceControlTest {
               withChoice(1532, 1, "bgid=1430", responseText))) {
         assertThat("bodyguardCharge", isSetTo(0));
         assertThat("bodyguardChatMonster", isSetTo("pygmy witch accountant"));
+      }
+    }
+  }
+
+  @Nested
+  class TakerSpace {
+    @ParameterizedTest
+    @CsvSource({
+      "first,3,15,26,26,7,1",
+      "parse,9,15,28,27,5,6",
+    })
+    void parsesIngredientsOnFirstVisit(
+        String frag, int spices, int rum, int anchor, int mast, int silk, int gold) {
+      var cleanups =
+          new Cleanups(
+              withProperty("takerSpaceSpice", 0),
+              withProperty("takerSpaceRum", 0),
+              withProperty("takerSpaceAnchor", 0),
+              withProperty("takerSpaceMast", 0),
+              withProperty("takerSpaceSilk", 0),
+              withProperty("takerSpaceGold", 0),
+              withChoice(1537, html("request/test_campground_takerspace_" + frag + ".html")));
+
+      try (cleanups) {
+        assertThat("_takerSpaceSuppliesDelivered", isSetTo(true));
+        assertThat("takerSpaceSpice", isSetTo(spices));
+        assertThat("takerSpaceRum", isSetTo(rum));
+        assertThat("takerSpaceAnchor", isSetTo(anchor));
+        assertThat("takerSpaceMast", isSetTo(mast));
+        assertThat("takerSpaceSilk", isSetTo(silk));
+        assertThat("takerSpaceGold", isSetTo(gold));
+      }
+    }
+  }
+
+  @Test
+  void devilsEgg() {
+    var cleanups =
+        new Cleanups(
+            withProperty("_candyEggsDeviled", 1),
+            withItem(ItemPool.BLACK_CANDY_HEART, 3),
+            withPostChoice2(1544, 1, "a=3054", html("request/test_choice_devilegg.html")));
+
+    try (cleanups) {
+      assertThat("_candyEggsDeviled", isSetTo(2));
+      assertThat(InventoryManager.getCount(ItemPool.BLACK_CANDY_HEART), is(2));
+    }
+  }
+
+  @Nested
+  class CyberRealm {
+    @ParameterizedTest
+    @CsvSource({"1, 1545", "2, 1547", "3, 1549"})
+    public void cyberRealmHalfWaySetsTurns(int securityLevel, int choice) {
+      String fileName = "request/test_cyber_zone" + securityLevel + "_choice1.html";
+      String property = "_cyberZone" + securityLevel + "Turns";
+      String html = html(fileName);
+      var cleanups =
+          new Cleanups(
+              withProperty("_cyberZone1Turns", 5),
+              withProperty("_cyberZone2Turns", 6),
+              withProperty("_cyberZone3Turns", 7),
+              withChoice(choice, html));
+      try (cleanups) {
+        assertThat("_cyberZone1Turns", isSetTo(securityLevel == 1 ? 10 : 5));
+        assertThat("_cyberZone2Turns", isSetTo(securityLevel == 2 ? 10 : 6));
+        assertThat("_cyberZone3Turns", isSetTo(securityLevel == 3 ? 10 : 7));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({"1, 1546", "2, 1548", "3, 1550"})
+    public void cyberRealmFinalSetsTurns(int securityLevel, int choice) {
+      String fileName = "request/test_cyber_zone" + securityLevel + "_choice1.html";
+      String property = "_cyberZone" + securityLevel + "Turns";
+      String html = html(fileName);
+      var cleanups =
+          new Cleanups(
+              withProperty("_cyberZone1Turns", 15),
+              withProperty("_cyberZone2Turns", 16),
+              withProperty("_cyberZone3Turns", 17),
+              withChoice(choice, html));
+      try (cleanups) {
+        assertThat("_cyberZone1Turns", isSetTo(securityLevel == 1 ? 20 : 15));
+        assertThat("_cyberZone2Turns", isSetTo(securityLevel == 2 ? 20 : 16));
+        assertThat("_cyberZone3Turns", isSetTo(securityLevel == 3 ? 20 : 17));
+      }
+    }
+  }
+
+  @Nested
+  class HashingVise {
+    AdventureResult cybeer = new AdventureResult("dedigitizer schematic: cybeer", 1, false);
+    AdventureResult one = ItemPool.get(ItemPool.ONE);
+    AdventureResult zero = ItemPool.get(ItemPool.ZERO);
+
+    @Test
+    void canSmashSchematicsIntoBits() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+
+      var cleanups =
+          new Cleanups(withHttpClientBuilder(builder), withItem(cybeer), withHandlingChoice(1551));
+
+      try (cleanups) {
+        client.addResponse(200, html("request/test_choice_hashing_vise_result.html"));
+
+        // choice.php?iid=11198&pwd&whichchoice=1551&option=1
+        var request = new GenericRequest("choice.php?iid=11198&whichchoice=1551&option=1", true);
+        request.run();
+
+        // You stay in the choice
+        assertThat(ChoiceManager.handlingChoice, is(true));
+        // The hashing vise smashed the schematic
+        assertThat(InventoryManager.getCount(cybeer), is(0));
+
+        int ones = InventoryManager.getCount(one);
+        int zeroes = InventoryManager.getCount(zero);
+
+        // This particular result has 0 (2) and 1 (14)
+        assertThat((ones + zeroes), is(16));
+
+        var requests = client.getRequests();
+
+        assertThat(requests, hasSize(1));
+        assertPostRequest(requests.get(0), "/choice.php", "iid=11198&whichchoice=1551&option=1");
+      }
+    }
+  }
+
+  @Nested
+  class BoxingDaycare {
+    @Test
+    void canParseInstructorItems() {
+      var cleanups =
+          new Cleanups(
+              withPostChoice1(0, 0),
+              withProperty("daycareInstructorItem", 0),
+              withProperty("daycareInstructorItemQuantity", 0));
+      try (cleanups) {
+        var req = new GenericRequest("choice.php?whichchoice=1336");
+        req.responseText = html("request/test_choice_boxing_daycare.html");
+
+        ChoiceManager.visitChoice(req);
+        assertThat("daycareInstructorItem", isSetTo(5816));
+        assertThat("daycareInstructorItemQuantity", isSetTo(11));
+      }
+    }
+
+    @Test
+    void canParseRecruits() {
+      var cleanups = new Cleanups(withPostChoice1(0, 0), withProperty("_daycareRecruits", 0));
+      try (cleanups) {
+        var req = new GenericRequest("choice.php?whichchoice=1336");
+        req.responseText = html("request/test_choice_boxing_daycare.html");
+
+        ChoiceManager.visitChoice(req);
+        assertThat("_daycareRecruits", isSetTo(1));
+      }
+    }
+
+    @Test
+    void canParseToddlersLate() {
+      var cleanups = new Cleanups(withPostChoice1(0, 0), withProperty("daycareToddlers", 0));
+      try (cleanups) {
+        var req = new GenericRequest("choice.php?whichchoice=1336");
+        req.responseText = html("request/test_choice_boxing_daycare.html");
+
+        ChoiceManager.visitChoice(req);
+        assertThat("daycareToddlers", isSetTo(2782));
+      }
+    }
+
+    @Test
+    void canParseGymEquipment() {
+      var cleanups = new Cleanups(withPostChoice1(0, 0), withProperty("daycareEquipment", 0));
+      try (cleanups) {
+        var req = new GenericRequest("choice.php?whichchoice=1336");
+        req.responseText = html("request/test_choice_boxing_daycare.html");
+
+        ChoiceManager.visitChoice(req);
+        assertThat("daycareEquipment", isSetTo(2875));
+      }
+    }
+
+    @Test
+    void handlesBrokenReturnRecruits() {
+      var cleanups = new Cleanups(withPostChoice1(0, 0), withProperty("_daycareRecruits", 11));
+      try (cleanups) {
+        var req = new GenericRequest("choice.php?whichchoice=1336");
+        req.responseText = "";
+
+        ChoiceManager.visitChoice(req);
+        assertThat("_daycareRecruits", isSetTo(11));
+      }
+    }
+
+    @Test
+    void handlesBrokenReturnInstructorCost() {
+      var cleanups =
+          new Cleanups(
+              withPostChoice1(0, 0),
+              withProperty("daycareInstructorItem", 11),
+              withProperty("daycareInstructorItemQuantity", 69));
+      try (cleanups) {
+        var req = new GenericRequest("choice.php?whichchoice=1336");
+        req.responseText = "";
+
+        ChoiceManager.visitChoice(req);
+        assertThat("daycareInstructorItem", isSetTo(11));
+        assertThat("daycareInstructorItemQuantity", isSetTo(69));
       }
     }
   }

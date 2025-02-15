@@ -3153,7 +3153,7 @@ public class QuestManagerTest {
     }
 
     @ParameterizedTest
-    @CsvSource({"frAlways, _frToday", "prAlways, _prToday"})
+    @CsvSource({"frAlways, _frToday", "prAlways, _prToday", "crAlways, _crToday"})
     public void checkDayPassesInMonorail(String always, String today) {
       var html = html("request/test_visit_monorail.html");
       // If we have always access, we don't have today access
@@ -3715,7 +3715,7 @@ public class QuestManagerTest {
   @Nested
   class FantasyRealm {
     @Test
-    public void cantrackBarrwWraith() {
+    public void canTrackBarrowWraith() {
       var cleanups =
           new Cleanups(
               withLastLocation("The Barrow Mounds"), withProperty("_frMonstersKilled", ""));
@@ -3723,6 +3723,65 @@ public class QuestManagerTest {
         String responseText = html("request/test_barrow_wraith_win.html");
         QuestManager.updateQuestData(responseText, "barrow wraith?");
         assertEquals(Preferences.getString("_frMonstersKilled"), "barrow wraith?:1,");
+      }
+    }
+  }
+
+  @Nested
+  class CyberRealm {
+    @ParameterizedTest
+    @ValueSource(ints = {1, 2, 3})
+    public void canDetectWhenZoneFinished(int level) {
+      var builder = new FakeHttpClientBuilder();
+      int snarfblat =
+          switch (level) {
+            case 1 -> AdventurePool.CYBER_ZONE_1;
+            case 2 -> AdventurePool.CYBER_ZONE_2;
+            case 3 -> AdventurePool.CYBER_ZONE_3;
+            default -> 0;
+          };
+      String property = "_cyberZone" + level + "Turns";
+      String html = html("request/test_adventure_hacked_cyberrealm_zone1.html");
+      var cleanups = new Cleanups(withHttpClientBuilder(builder), withProperty(property, 10));
+      try (cleanups) {
+        builder.client.addResponse(200, html);
+        var request = new GenericRequest("adventure.php?snarfblat=" + snarfblat, true);
+        request.run();
+        assertThat(property, isSetTo(20));
+      }
+    }
+  }
+
+  @Nested
+  class ServerRoom {
+    @Test
+    public void canParseFileDrawer() {
+      var builder = new FakeHttpClientBuilder();
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withProperty("_cyberZone1Owner", ""),
+              withProperty("_cyberZone1Defense", ""),
+              withProperty("_cyberZone1Hacker", ""),
+              withProperty("_cyberZone2Owner", ""),
+              withProperty("_cyberZone2Defense", ""),
+              withProperty("_cyberZone2Hacker", ""),
+              withProperty("_cyberZone3Owner", ""),
+              withProperty("_cyberZone3Defense", ""),
+              withProperty("_cyberZone3Hacker", ""));
+      try (cleanups) {
+        builder.client.addResponse(200, html("request/test_place_serverroom_filedrawer.html"));
+        var request = new PlaceRequest("serverroom", "serverroom_filedrawer");
+        request.run();
+        assertThat("_cyberZone1Owner", isSetTo("Century-Price Quasi-Marketing Companies"));
+        assertThat("_cyberZone1Defense", isSetTo("null container"));
+        assertThat("_cyberZone1Hacker", isSetTo("greyhat hacker"));
+        assertThat("_cyberZone2Owner", isSetTo("Taking Compu-Equipment"));
+        assertThat("_cyberZone2Defense", isSetTo("parental controls"));
+        assertThat("_cyberZone2Hacker", isSetTo("greyhat hacker"));
+        assertThat("_cyberZone3Owner", isSetTo("United Kingdom Compu-Industry"));
+        assertThat("_cyberZone3Defense", isSetTo("ICE barrier"));
+        assertThat("_cyberZone3Hacker", isSetTo("redhat hacker"));
       }
     }
   }

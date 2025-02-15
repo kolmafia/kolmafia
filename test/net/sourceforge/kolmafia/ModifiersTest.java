@@ -1186,6 +1186,25 @@ public class ModifiersTest {
         assertThat(current.getDouble(DoubleModifier.PVP_FIGHTS), equalTo(12.0));
       }
     }
+
+    @Test
+    public void doublesMcHugeLargeLeftPole() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(Slot.CONTAINER, ItemPool.MCHUGELARGE_DUFFEL_BAG),
+              withEquipped(Slot.WEAPON, ItemPool.MCHUGELARGE_RIGHT_POLE),
+              withEquipped(Slot.OFFHAND, ItemPool.MCHUGELARGE_LEFT_POLE),
+              withEquipped(Slot.ACCESSORY1, ItemPool.MCHUGELARGE_LEFT_SKI),
+              withEquipped(Slot.ACCESSORY2, ItemPool.MCHUGELARGE_RIGHT_SKI),
+              withEffect(EffectPool.OFFHAND_REMARKABLE));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments(false);
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+
+        assertThat(current.getDouble(DoubleModifier.COLD_RESISTANCE), equalTo(18.0));
+      }
+    }
   }
 
   @Nested

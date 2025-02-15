@@ -55,7 +55,11 @@ public class TypescriptDefinitionTest {
             "export function runCombat(filterFunction: string | ((round: number, monster: Monster, text: string) => string)): string;"),
         Arguments.of(
             "fact_type(class, path, monster)",
-            "export function factType(cls: Class, path: Path, monster: Monster): \"none\" | \"effect\" | \"item\" | \"stats\" | \"hp\" | \"mp\" | \"meat\" | \"modifier\";"));
+            "export function factType(cls: Class, path: Path, monster: Monster): \"none\" | \"effect\" | \"item\" | \"stats\" | \"hp\" | \"mp\" | \"meat\" | \"modifier\";"),
+        Arguments.of(
+            "get_items_hash(string)",
+            """
+export function getItemsHash(itemsSource: "inventory" | "closet" | "storage" | "display" | "shop"): number;"""));
   }
 
   @ParameterizedTest

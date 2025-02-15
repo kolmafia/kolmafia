@@ -440,6 +440,12 @@ Tammy's Offshore Platform	adventure=536	DiffLevel: unknown Env: underwater Stat:
 Tammy's Offshore Platform	adventure=537	DiffLevel: unknown Env: underwater Stat: 0	The Wreck of the H. M. S. Kringle
 Tammy's Offshore Platform	adventure=538	DiffLevel: unknown Env: underwater Stat: 0	The Impenetrable Kelp-Holly Forest
 
+Holiday Islands	adventure=588	DiffLevel: mid Env: outdoor Stat: 0 ForceNoncombat: 11	Easter Island
+Holiday Islands	adventure=589	DiffLevel: mid Env: outdoor Stat: 0 ForceNoncombat: 12	St. Patrick's Day Island
+Holiday Islands	adventure=590	DiffLevel: mid Env: outdoor Stat: 0 ForceNoncombat: 13	Veterans Day Island
+Holiday Islands	adventure=591	DiffLevel: mid Env: outdoor Stat: 0 ForceNoncombat: 14	Thanksgiving Island
+Holiday Islands	adventure=592	DiffLevel: mid Env: outdoor Stat: 0 ForceNoncombat: 15	Christmas Island
+
 Crimbo23	adventure=575	DiffLevel: mid Env: indoor Stat: 0	Abuela's Cottage (Contested)
 Crimbo23	adventure=576	DiffLevel: mid Env: indoor Stat: 0	The Embattled Factory
 Crimbo23	adventure=577	DiffLevel: mid Env: indoor Stat: 0	The Bar At War
@@ -597,7 +603,7 @@ Spaaace	adventure=267	DiffLevel: mid Env: indoor Stat: 0	Hamburglaris Shield Gen
 
 Landscaper	adventure=224	DiffLevel: mid Env: outdoor	The Landscaper's Lair	3 grass clippings
 Jacking	adventure=227	DiffLevel: unknown Env: indoor	Professor Jacking's Small-O-Fier	1 world's most unappetizing beverage|1 can-you-dig-it?
-Jacking	adventure=228	DiffLevel: unknown Env: indoor	Professor Jacking's Huge-A-Ma-tron	1 Crazyleg's razor, 1 squirmy violent party snack
+Jacking	adventure=228	DiffLevel: unknown Env: indoor	Professor Jacking's Huge-A-Ma-Tron	1 Crazyleg's razor, 1 squirmy violent party snack
 Vanya's Castle	adventure=229	DiffLevel: unknown Env: indoor	Vanya's Castle Foyer
 Vanya's Castle	adventure=230	DiffLevel: unknown Env: indoor	Vanya's Castle Chapel
 Kegger	adventure=231	DiffLevel: unknown Env: outdoor	Kegger in the Woods
@@ -760,6 +766,10 @@ PirateRealm Island	adventure=531	DiffLevel: mid Env: outdoor Stat: 0 nowander	Re
 PirateRealm Island	adventure=531	DiffLevel: mid Env: outdoor Stat: 0 nowander	Jack's Hideout
 PirateRealm Island	adventure=531	DiffLevel: mid Env: outdoor Stat: 0 nowander	The Temple
 
+Server Room	adventure=585	DiffLevel: unknown Env: indoor Stat: 0	Cyberzone 1
+Server Room	adventure=586	DiffLevel: unknown Env: indoor Stat: 0	Cyberzone 2
+Server Room	adventure=587	DiffLevel: unknown Env: indoor Stat: 0	Cyberzone 3
+
 # Obsolete areas that nevertheless are reported as possibilities for the autumnaton
 Obsolete	adventure=18	DiffLevel: unknown Env: unknown Stat: 10	Degrassi Knoll
 Obsolete	adventure=99	DiffLevel: unknown Env: unknown Stat: 20	The Road to White Citadel
@@ -776,7 +786,7 @@ Obsolete	adventure=123	DiffLevel: unknown Env: unknown Stat: 120	The Arid, Extra
 Obsolete	adventure=124	DiffLevel: unknown Env: unknown Stat: 150	OLD The Upper Chamber
 Obsolete	adventure=125	DiffLevel: unknown Env: unknown Stat: 140	OLD The Middle Chamber
 Obsolete	adventure=178	DiffLevel: unknown Env: unknown Stat: 104	The Haunted Wine Cellar (Northwest)
-Obsolete	adventure=179	DiffLevel: unknown Env: unknown Stat: 104	The Haunted Wine Cellar (Northeast
+Obsolete	adventure=179	DiffLevel: unknown Env: unknown Stat: 104	The Haunted Wine Cellar (Northeast)
 Obsolete	adventure=180	DiffLevel: unknown Env: unknown Stat: 104	The Haunted Wine Cellar (Southwest)
 Obsolete	adventure=181	DiffLevel: unknown Env: unknown Stat: 104	The Haunted Wine Cellar (Southeast)
 Obsolete	adventure=213	DiffLevel: unknown Env: unknown Stat: 0	Nemesis Cave

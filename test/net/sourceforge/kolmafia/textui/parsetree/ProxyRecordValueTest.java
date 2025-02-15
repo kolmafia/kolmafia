@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.textui.parsetree;
 
 import static internal.helpers.Player.withAdventuresSpent;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Utilities.deleteSerFiles;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
@@ -11,15 +12,23 @@ import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.textui.DataTypes;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 public class ProxyRecordValueTest {
+  private static final String TESTUSER = "ProxyRecordValueTestUser";
+
   @BeforeAll
   static void beforeAll() {
-    KoLCharacter.reset("ProxyRecordValueTest");
+    KoLCharacter.reset(TESTUSER);
     AdventureSpentDatabase.resetTurns();
+  }
+
+  @AfterAll
+  static void afterAll() {
+    deleteSerFiles(TESTUSER);
   }
 
   @Nested

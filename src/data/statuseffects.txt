@@ -2200,8 +2200,8 @@
 2197	Hagnk's Gratitude	happy.gif	12ab723a001e17699fcf41cc1ff55cc7	good	none	# given by Hangk for contributing eldritch ichor during Eldritch Incursion
 2198	Wings of the Grasshopper	locust1.gif	b87ab6a546097731791c4e2cbbd00a71	good	none	drink 1 literal grasshopper
 2199	Wings of the Dragonfly	dragonfly.gif	9a5f36faa5771f5aaf9a2ca3db7c64b7	good	none	drink 1 eighth plague
-2200
-2201
+2200	Honeypotted	pixelwhiskey.gif	2e9ff5e9f24f78e838189b5eae14e001	neutral	none	use 1 digital honeypot
+2201	Connected	pixheart.gif	9259fbf1d465faad90e41f4552f33302	neutral	none	eat 1 cyburger
 2202	Space Cadet	spacehelmet.gif	62361e332402328f9398ded1aa551bda	good	none	drink 1 double entendre
 2203	Pounded by the Actual Stars	tinystars.gif	3414fb4ec08f761d3b0ea241aaba270f	good	none	drink 1 single entendre
 2204
@@ -2879,8 +2879,8 @@
 2876	Groggipopped	neutronpop.gif	477dbdf51c06ae7c5460c3c1b7438607	neutral	none	use 1 groggipop
 2877	Flossed Blood	mossfloss.gif	e7c32f6a77e64426d5e3e8b5bdd8a8bc	neutral	none	use 1 moss floss
 2878	Clay-Coated Teeth	adobebrittle.gif	ed7b103d89c53316f0e6f2970c51a6e0	neutral	none	use 1 adobe brittle
-2879
-2880
+2879	Crepe Paper Pedestrian Cacophony	crepecandy.gif	478e82e4d8d15e16d1edad2d61092e9b	neutral	none	use 1 crepe paper peanut candy
+2880	Petrified Wood Wound Prevention	pwoodcandy.gif	6d4a5887902368d2c6eb4a1c0b440eee	neutral	none	use 1 petrified wood wafer praline
 2881	Everything Looks Green	eyes.gif	baf449fcc4f46537a491d4355129581f	neutral	noremove	# use green smoke bomb
 2882	Adobe Arsecover Subscription	adobepants.gif	46f7853d4dfeb10ea2dddbf6054f0be0	neutral	none
 2883	Adobe Adze Subscription	adobeadze.gif	e7a7b5461155ebf282e8af64613154f2	neutral	none
@@ -2929,6 +2929,38 @@
 2926	Burning Mouth	embercheese.gif	077bfdc23982be1c734fa7a8f47791a4	neutral	none	eat 1 wheel of camembert
 2927	Lettuce Rejoice	emberlettuce.gif	74fff3d37b73461779ee2a24ef4cf34b	neutral	none
 2928	Batty	batwing.gif	6fef7da0c7eb9763f63d3dcf002f9e8a	neutral	none
-2929	Wild and Westy!	cowboyboots.gif	b5f7e03c415eee2ee0cfd74105468c32	neutral	none
-2930	Towering Muscles	stronggnome.gif	ae32f8a8b0a2868710d497d6939e6ea7	neutral	none
-2931	Spaced Out	celesteyes.gif	67ec6215eff43af9f0373ff2c69cde99	neutral	none
+2929	Wild and Westy!	cowboyboots.gif	b5f7e03c415eee2ee0cfd74105468c32	neutral	none	photobooth effect wild
+2930	Towering Muscles	stronggnome.gif	ae32f8a8b0a2868710d497d6939e6ea7	neutral	none	photobooth effect tower
+2931	Spaced Out	celesteyes.gif	67ec6215eff43af9f0373ff2c69cde99	neutral	none	photobooth effect space
+2932	Spiced Out	spicecrystal.gif	d153b432e94f2f20896da4ea1a1d54c7	neutral	none	use 1 crystallized pumpkin spice
+2933	Brittled	pto_brittle.gif	169314abffcc7f5695decb01733520c9	neutral	none	use 1 pea brittle
+2934	Helping Fingers	pto.gif	4dd19b77677c06ff1d6fef76281c6a81	neutral	none
+2935	Peppermint Endoskeleton	pepperpeg.gif	92bf2d2fcf7ec4082c685df639677cf0	neutral	none	use 1 peppermint pegleg
+2936	Pirate's Currrse	ts_curse.gif	691dd7d62dcb27e6406e7959dbf6bbef	neutral	none
+2937	Curse of the Tamale	ts_tamale.gif	4e266c3ab86db9587b54fa54ae1adb04	neutral	none	eat 1 cursed Aztec tamale
+2938	Luck of St. Patrick	fourleafsprout.gif	a52f0ec8fa2f9cb2bca63739aa1099df	neutral	none	use 1 four-leaf potato sprout
+2939	Rummy	candy.gif	df0db5d253af5a2e71afd14cc6ed80d0	neutral	none	use 1 rum ball
+2940	LIDARed	lidarcandle.gif	b34429042b32da133c148957b526aafb	neutral	none	use 1 LIDAR candle
+2941	All Cut Up	fence.gif	f08f52dd911edcd4ef8a1cd952ced281	neutral	none
+2942	Jelly-Coated Insides	infinitejelly.gif	141eee7dc193eac1bccfd1d87398ea76	neutral	none
+2943	Candied Devil	candyegg.gif	8e5858ba1620c6ef09ee0a32ae5e13fe	neutral	none	use 1 deviled candy egg
+2944	Everything looks Beige	crepecape.gif	74ac5d5c07ca5501bcf196475e804fc8	neutral	noremove
+2945	Attracting Snakes	tinysnake.gif	09921a7a4230ada9a833ca92b1b453dd	neutral	none	cast 1 Attract Snakes
+2946	Hiding From Seekers	darkvision.gif	18b4a2010721b16d9e85da10fdaaa515	neutral	none	cast 1 Hide From Seekers
+2947	Resurrection of the Flesh	eggstripe.gif	08ec7462372b8ebe2450d19525415b22	neutral	none	eat 1 chocolate ostrich egg|drink 1 Easter grasshopper
+2948	Green-Blooded	clover.gif	9fe9e62146de9f83356ab168d864beb9	neutral	none	eat 1 candied beef and cabbage|drink 1 Irish eggnog
+2949	Toured of Duty	bountyrifle.gif	88f72e98917d2bf21d3dcdf0a8007570	neutral	none	eat 1 candy rations|drink 1 canteen of jungle juice
+2950	Grateful, But Spelled With a Dollar Sign	dollarsign.gif	d327b4c6b31dce1f0a7435f37da24878	neutral	none	eat 1 double-candied yams|drink 1 turchucken
+2951	Eyesies on the Pressies	darkgift.gif	1ee7baeab92f07b17d7619ea62b6d167	neutral	none	eat 1 Christmas ham|drink 1 mechanically-mulled cider
+2952	Herder, Bitter, Fester, Stranger	darkchocegg.gif	a8a929d23d6d0676bf31e4e3e2c25d1d	neutral	none	use 1 dark chocolate egg
+2953	Cyber Memory Boost	10101.gif	f72542d649b923278a96f0cb69b77e5d	neutral	none	chew 1 eXpand
+2954	Cyber Resist x2000	realbrain.gif	83a264ac03c91ac4b838ba651b42557e	neutral	none	chew 1 Synapse Blaster
+2955	Cyber Slicer	pixelsword.gif	b8edcc46ef07e4609c98eb13166cd3fa	neutral	none	chew 1 drenchrome 2.0
+2956	Null Afternoon	10101.gif	dbea84c6cfa3261e64bdd722d198d133	neutral	none	use 1 null-day exploit
+2957	Blinded by the Crepe	crepehat.gif	29f9b1704209badb3da4f3fa59adf969	neutral	none	cast 1 Pull down your crepe paper phrygian cap
+2958	Crepe Paper Rainbow	crepepin.gif	4d7567add20055f67759e4d8b8164802	neutral	none	cast 1 Look through your crepe paper pie clip
+2959	Crepe Paper Puzzled	crepecube.gif	e3c54d616d1f7739663774625a631061	neutral	none	cast 1 Play with your crepe paper puzzle
+2960	Leaving Nothing to the Imagination	crepecamisole.gif	e5fc3ff65d76d85fc9d3e0c370ffbd84	neutral	none	cast 1 Leave nothing to the imagination
+2961	Polka Dancing	crepecharm.gif	2b6b041e7fcca2a26a40682f1caf3156	neutral	none	cast 1 Embrace polka
+2962	Synthetic Buzz	coffeecup.gif	20528648bd6e3ac43c284af4efcd631f	neutral	none	use 1 synthetic coffee
+2963	Cybercrime Eyes	bigpupil.gif	94d178dfabaef344cc7591315e6bbb03	neutral	none	use 1 iDrops
