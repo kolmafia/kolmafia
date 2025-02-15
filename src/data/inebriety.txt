@@ -10,8 +10,8 @@
 a little sump'm sump'm	4	4	good	10-14	0	25-27	8-10
 acceptable vodka	3	1	decent	4-5	0	20-30	10-20
 accidental cider	3	1	decent	3-6	0	0	0
-Acqua Del Piatto Merlot	1	10	EPIC	3-10	60	60	60
-Acque Luride Grezze Cabernet	1	10	EPIC	6-10	60	60	60
+Acqua Del Piatto Merlot	1	10	super ultra mega turbo EPIC	3-10	60	60	60
+Acque Luride Grezze Cabernet	1	10	super ultra mega turbo EPIC	6-10	60	60	60
 adequate rum	3	1	decent	4-5	0	20-30	10-20
 Afternoon Delight	4	1	awesome	12-14	3-5	3-5	35-40
 Agitated Turkey	1	3	EPIC	5-6	10-20	10-20	10-20	25 Turkey-Agitated (+25 Item Drop)
@@ -34,7 +34,7 @@ backwoods screwdriver	3	4	good	7-8	20-25	0	0
 bad rum and good cola	1	1	awesome	3-5	5-10	5-10	5-10	Fanatical Fortune (+1 Rubee drop)
 banana daiquiri	3	3	good	6-10	10-26	10-26	17-43
 bark rootbeer	2	1	good	5-7	0	0	10-20	40 Bark of the Dog (+2 Moxie stats/fight, +50 Init), BEER
-barrel-aged eggnog	2	13	EPIC	16-20	32-57	26-45	20-58
+barrel-aged eggnog	2	13	super ultra EPIC	16-20	32-57	26-45	20-58
 barrel-aged martini	2	5	good	5-7	0	5-10	10-20	50 Just Aged Enough (+25 Mox), MARTINI
 Bartles and BRAAAINS wine cooler	1	6	awesome	3-4	5-10	5-10	5-10	30 Braaaains Over Braaaawwn (+50 dmg vs. Zombies), WINE
 Barulio's bottle	4	5	good	11-13	1-5	15-20	5-10
@@ -106,7 +106,7 @@ bottle of Rapier Witbier	2	6	EPIC	10-12	20-30	20-30	20-30	20 Jokin' Drunk (+50 M
 bottle of realpagne	2	2	awesome	5-8	0	0	12-18	10 The Real Deal (+20 HP/MP regen), WINE
 bottle of rum	3	1	crappy	3	0	0	0
 bottle of sake	3	1	crappy	3	0	0	0
-bottle of Sanguiovese	1	1	EPIC	11	5-10	5-10	5-10	Vampyre
+bottle of Sanguiovese	1	1	super ultra mega turbo EPIC	11	5-10	5-10	5-10	Vampyre
 bottle of sea wine	1	1	awesome	4-5	5-10	5-10	5-10	WINE
 bottle of sewage schnapps	3	1	crappy	0	0	0	0	20 Majorly Poisoned, lose 30 HP
 bottle of single-barrel whiskey	3	13	EPIC	13-20	40-50	40-50	40-50
@@ -166,7 +166,7 @@ clear Russian	3	1	decent	5-7	0	0	0
 Cobb's Knob Wurstbrau	1	4	good	2-3	4-6	0	0	5-10 MP, BEER
 Cobra Bowl	6	6	awesome	19-24	0	0	40-60	40 Tiki Temerity (+100% Moxie, +10% Moxie Gains)
 Cold One	1	1	???	6	0	0	0	BEER, CANNED
-Colera Peste Nebbiolo	1	13	EPIC	0	0	0	0	Unspaded
+Colera Peste Nebbiolo	1	13	super ultra EPIC	0	0	0	0	Unspaded
 complex mushroom wine	4	3	EPIC	22-24	0	100-150	0	80 Omphalotus Omnipresence (+40 Mys), WINE
 cool mushroom wine	3	6	awesome	10-14	0	8-10	0	WINE
 Corpse Island iced tea	6	5	awesome	19-23	25-30	25-30	25-30
@@ -185,7 +185,7 @@ CRIMBCO wine	3	1	decent	4-8	10-20	10-20	10-20	WINE
 Crimbo Saketini	3	1	decent	3-6	0	0	0
 Crimbojito	2	2	EPIC	10-13	10-20	25-50	10-20
 Crimboku Drop	4	1	decent	6-10	0	0	0
-Crimbosmopolitan	3	11	EPIC	23	80-12	80-12	80-12
+Crimbosmopolitan	3	11	super EPIC	23	80-12	80-12	80-12
 Crimbow Rainbo	4	1	awesome	15	0	0	0
 Crimbuccaneer mologrog cocktail	2	1	awesome	9	0	0	0	Lose 10 HP (hot damage)
 cruelty-free wine	1	10	good	2-4	0	10-15	0	5 Compensatory Cruelness (+5 weapon dmg), WINE
@@ -197,7 +197,7 @@ cup of primitive beer	1	12	good	2-4	50-65	0	0	12-15 MP, lose 10-18 HP, BEER
 cursed bottle of black-label rum	3	3	good	5-10	0	0	0	10 Curse Magnet
 cursed bottle of rum	1	1	crappy	1	0	0	0
 Cursed Punch	1	6	good	2-3	1-5	1-5	1-5	10 Once-Cursed (-10 all stats)
-cybeer	2	1	EPIC	0	0	0	0	Unspaded
+cybeer	2	1	super EPIC	0	0	0	0	Unspaded
 Cyder	3	5	decent	5	0	0	0
 Dad's brandy	1	1	awesome	4-5	10-20	10-20	10-20
 Dark & Starry	2	1	good	4-5	5-10	5-10	5-10	Restores MP
@@ -214,7 +214,7 @@ Disappointed Russian	4	1	decent	7-9	0	0	30-40
 discocktail	3	1	good	8-10	0	0	8-10	30 Disco Neuropathy (+15 DB Combat Damage, +30% DB Skill Weaken)
 distilled fortified wine	1	1	EPIC	5-6	5-6	5-6	5-6
 Divine	4	6	awesome	14-18	16-20	25-27	0
-Doc Clock's thyme cocktail	4	8	EPIC	26-30	20-40	20-40	20-40	-2 Fullness
+Doc Clock's thyme cocktail	4	8	super EPIC	26-30	20-40	20-40	20-40	-2 Fullness
 Doc's Fortifying Wine	1	1	awesome	4-5	45-60	5-15	5-15	WINE 40 Medically Fortified (+3 Mus stats/fight, +30% Mus)
 Doc's Limbering Wine	1	1	awesome	4-5	5-15	5-15	45-60	WINE 40 Medically Loosened (+3 Mox stats/fight, +30% Mox)
 Doc's Medical-Grade Wine	1	1	awesome	4-5	20-35	20-35	20-35	WINE 40 Fixed Up (+2 stats/fight, +10% Mus, +10% Mys, +10% Mox)
@@ -223,11 +223,11 @@ Doc's Special Reserve Wine	1	1	good	5	25-30	25-30	25-30	WINE 40 Fixed Right Up (
 double entendre	1	1	awesome	3-5	0	0	0	40 Space Cadet (+50% MP)
 Doublepunchplanter	2	4	awesome	6-7	10-15	10-15	10-15	10 Fishy
 Drac & Tan	2	1	good	4-5	10-20	0	0	5 Creepypasted (+50 Spooky Dam)
-Dreadsylvanian cold-fashioned	4	26	EPIC	36-40	30-50	30-50	30-50	200 Dreadful Chill (+5 Sleaze/Stench Res)
-Dreadsylvanian dank and stormy	4	26	EPIC	36-40	30-50	30-50	30-50	200 Dreadful Smell (+5 Hot/Spooky Res)
-Dreadsylvanian grimlet	4	26	EPIC	36-40	30-50	30-50	30-50	200 Dreadful Fear (+5 Cold/Sleaze Res)
-Dreadsylvanian hot toddy	4	26	EPIC	36-40	30-50	30-50	30-50	200 Dreadful Heat (+5 Cold/Spooky Res)
-Dreadsylvanian slithery nipple	4	26	EPIC	36-40	30-50	30-50	30-50	200 Dreadful Sheen (+5 Hot/Stench Res)
+Dreadsylvanian cold-fashioned	4	26	super ultra mega EPIC	36-40	30-50	30-50	30-50	200 Dreadful Chill (+5 Sleaze/Stench Res)
+Dreadsylvanian dank and stormy	4	26	super ultra mega EPIC	36-40	30-50	30-50	30-50	200 Dreadful Smell (+5 Hot/Spooky Res)
+Dreadsylvanian grimlet	4	26	super ultra mega EPIC	36-40	30-50	30-50	30-50	200 Dreadful Fear (+5 Cold/Sleaze Res)
+Dreadsylvanian hot toddy	4	26	super ultra mega EPIC	36-40	30-50	30-50	30-50	200 Dreadful Heat (+5 Cold/Spooky Res)
+Dreadsylvanian slithery nipple	4	26	super ultra mega EPIC	36-40	30-50	30-50	30-50	200 Dreadful Sheen (+5 Hot/Stench Res)
 dream of a dog	2	8	EPIC	10	20	20	20
 dregs of a Crimbo cocktail	4	1	decent	4-6	10-15	10-15	10-15
 drippy pilsner	5	1	drippy	5	0	0	0	5 µg of Drippy Juice
@@ -240,7 +240,7 @@ dry vodka martini	3	3	good	5-10	0	0	8-10	MARTINI
 ducha de oro	4	4	good	10-14	8-10	25-27	0
 DUFRESNE Suds	1	3	good	3	100	50	75	10 Favored by Lyle (+10% all stats)
 Dump Truck	2	8	awesome	8-9	30-40	0	0	15 Mortarfied (+100 DA)
-dusty bottle of blood	1	1	EPIC	20	20-25	20-25	20-25	Vampyre
+dusty bottle of blood	1	1	super ultra mega turbo EPIC	20	20-25	20-25	20-25	Vampyre
 dusty bottle of Marsala	2	1	good	6-8	5-10	5-10	5-10	lose 60-70% HP, WINE
 dusty bottle of Merlot	2	1	decent	3-4	5-10	5-10	5-10	WINE
 dusty bottle of Muscat	2	1	decent	3-5	0	0	0	lose 80-90% HP, WINE
@@ -249,7 +249,7 @@ dusty bottle of Port	1	1	decent	2	0	0	0	10 Full of Vinegar (+weapon damage), WIN
 dusty bottle of Zinfandel	2	1	good	5-7	10-15	10-15	10-15	WINE
 Earth and Firewater	2	4	awesome	6-7	0	20-30	0	10 Elemental Mastery (+5 Prismatic Dam)
 Earth, Wind and Firewater	2	8	awesome	8-9	0	30-40	0	15 Elemental Mastery (+5 Prismatic Dam)
-Easter eggnog	3	5	EPIC	24-30	20-60	20-60	20-60
+Easter eggnog	3	5	super ultra EPIC	24-30	20-60	20-60	20-60
 Easter grasshopper	3	1	awesome	0	0	0	0	Unspaded
 Ecto-Cooler	1	6	awesome	3-4	5-10	5-10	5-10	30 Booing Radly (+50 dmg vs. Ghosts)
 ecto-nog	3	1	decent	3-6	5-6	5-6	5-6
@@ -282,10 +282,10 @@ extremely slippery nipple	1	1	awesome	4-6	0	0	0	40 Slippery Tongue (+20 Sleaze D
 Eye and a Twist	1	1	EPIC	5-6	0	0	0	30 Twist and an Eye (+50 Maximum MP), MARTINI
 Falcon&trade; Maltese Liquor	1	1	awesome	3-4	0	0	0	50 Too Noir For Snoir (+50 ML)
 Fantasma en la M&aacute;quina	3	1	good	8-10	0	0	13	13 Sangre Brillante (+3 Moxie exp, +5-6 MP regen)
-FantasyRealm mead	1	1	EPIC	6-8	10-20	10-20	10-20
+FantasyRealm mead	1	1	super EPIC	6-8	10-20	10-20	10-20
 Fauna Libre	2	1	good	4-5	0	10-20	0	5 Transcendental Wind (+50 Myst)
 Feliz Navidad	1	3	awesome	3-5	10-20	0	0	40 Wassailing You (+5 Familiar Weight)
-Ferita Del Petto Zinfandel	1	10	EPIC	6-10	60	60	60
+Ferita Del Petto Zinfandel	1	10	super ultra mega turbo EPIC	6-10	60	60	60
 fermented honey	3	1	decent	3-6	5-6	5-6	5-6	10 Sugar Rush
 fine wine	1	1	decent	2	0	0	3-5
 firemilk	3	1	awesome	9-10	0	0	0	30 Cowrruption (+200% weapon dmg, +200% spell dmg, muscle limited to 30, moxie limited to 30)
@@ -350,7 +350,7 @@ Great Older Fashioned	2	1	good	4-5	0	10-20	0	5 Void Between the Stars (+50 Cold 
 green beer	1	1	decent	2	0	0	0	BEER
 Green Burlap	2	8	awesome	8-9	15-20	15-20	15-20	Restores MP
 green drunki-bear	4	6	EPIC	22-26	0	200-240	0	4 Fullness 80 Gummibrain (+100 Myst)
-green eggnog	3	12	EPIC	21	0	0	0	50 Just the Best Anapests
+green eggnog	3	12	super EPIC	21	0	0	0	50 Just the Best Anapests
 Green Giant	2	8	awesome	8-9	0	30-40	0	15 World's Shortest Giant (+2 Prismatic Res)
 Green Manalishi	3	4	good	6-8	0	5-15	10-20	20 The Two-Prong Crown (+30 Sleaze Damage)
 Green Muslin	2	4	awesome	6-7	10-15	10-15	10-15	Restores MP
@@ -376,7 +376,7 @@ Hi-Octane Peppermint Jet Fuel	5	5	good	10-15	0	0	0
 high-end ginger wine	2	1	EPIC	12-14	10-30	10-30	10-30	30 High-Falutin' (+50% Meat Drop, +25% Item Drop), WINE
 Highest Bitter	3	6	awesome	12-15	0	10-25	0	60 Mercenary (+40% Item Drop), BEER
 hipster cocktail	4	4	good	11-13	10-15	10-15	10-15	10 Artisanal Satiaton (+3 exp/fight)
-Hodgman's blanket	2	15	EPIC	14-18	300-800	300-800	300-800
+Hodgman's blanket	2	15	super ultra EPIC	14-18	300-800	300-800	300-800
 holiday trip around the world	6	5	awesome	0	0	0	0	Unspaded
 honey mead	2	1	decent	4-6	2-4	2-4	2-4	5 Sugar Rush
 horizontal tango	4	4	good	10-14	0	34-36	0
@@ -414,7 +414,7 @@ Jackhammer	2	4	awesome	6-7	20-30	0	0	10 Mortarfied (+100 DA)
 Jamaican coffee	3	1	awesome	10	0	0	0	50 Jamaican' Me Acquisitive (increase drops on Crimbo battlefields)
 jar of fermented pickle juice	5	13	EPIC	29-34	80-100	80-100	80-100	-5 spleen
 jar of squeeze	7	8	awesome	25-30	25-45	25-45	25-45
-Jeppson's Malort	3	1	EPIC	22-26	10-20	10-20	10-20
+Jeppson's Malort	3	1	super ultra EPIC	22-26	10-20	10-20	10-20
 Jerkitini	5	1	decent	12-13	0	0	0	15 Jerky, Boy (+25% Myst)
 jug of booze	1	1	awesome	3-5	0	0	20-30	30 Booze Goggles (+50 Mox, +25% Init, +25% Ranged Dam)
 Jungle Juice	1	4	awesome	3-5	3-5	3-5	3-5	30 Jungle Juiced (x2 stat gains in Deep Dark Jungle)
@@ -441,7 +441,7 @@ Mad Train wine	3	1	crappy	3-4	0	0	0
 Mae West	4	6	awesome	14-18	0	0	40-47
 Mae West with a fly in it	0	1	crappy	0	0	0	0	Undrinkable
 magnum of fancy champagne	6	6	awesome	22-26	10-20	10-20	10-20	20-40 MP, WINE
-Maiali Sifilitici Pinot Noir	1	10	EPIC	6-10	60	60	60
+Maiali Sifilitici Pinot Noir	1	10	super ultra mega turbo EPIC	6-10	60	60	60
 mandarina colada	4	6	awesome	14-18	0	16-20	25-27
 mandarina colada with a fly in it	0	1	crappy	0	0	0	0	Undrinkable
 margarita	3	1	decent	5-6	8-10	0	0
@@ -460,13 +460,13 @@ melted Jell-o shot	1	10	good	2-4	0-40	0-40	0-40
 mentholated wine	1	1	good	2-4	0	0	0	20 Christmessy (+5 Familiar Weight)
 mid-level medieval mead	1	7	awesome	4-6	20-30	20-30	20-30	20-30 MP, WINE
 Middle of the Road&trade; brand whiskey	2	1	good	4-5	5-10	5-10	5-10
-mime army wine	4	15	EPIC	30-34	40-50	40-50	40-50
+mime army wine	4	15	super ultra EPIC	30-34	40-50	40-50	40-50
 mimosette	3	3	good	5-10	16-20	0	0
 mini kiwi intoxicating spirits	1	1	awesome	3-5	0	0	0
 mini kiwitini	1	1	good	2-3	0	0	30-50	MARTINI
 mini-martini	1	11	crappy	1	0	0	0	11 It's Not Even Funny, MARTINI
 Mint Yulep	2	2	EPIC	10-13	25-50	10-20	10-20
-Miss Graves' vermouth	2	4	EPIC	15-17	10-20	10-20	10-20
+Miss Graves' vermouth	2	4	super ultra EPIC	15-17	10-20	10-20	10-20
 missing wine	2	5	good	4-8	0	0	31-50	WINE
 moai toai	1	5	good	0	0	0	0	Unspaded
 Mohobo	2	1	good	4-5	5-10	5-10	5-10	5 Mo' Hobo (+10 Hobo Power)
@@ -485,7 +485,7 @@ mostly-empty bottle of cookie wine	1	1	decent	1-2	1-5	1-5	1-5	WINE
 mourning wine	2	1	good	5-7	30-50	30-50	30-50
 Mt. Noob Pale Ale	2	1	good	3-6	0	0	0	BEER
 mulled berry wine	5	7	awesome	18-22	0	30-50	0	30 Sweet Nostalgia (+20 Candy Drop), WINE
-mulled blood	1	1	EPIC	14	10-15	10-15	10-15	Vampyre
+mulled blood	1	1	super ultra mega turbo EPIC	14	10-15	10-15	10-15	Vampyre
 mulled cider	3	5	awesome	8-12	25-40	25-40	25-40
 mulled hobo wine	1	1	awesome	4-5	5-15	5-15	5-15	20 Burnt 'n' Turnt (+100% MP)
 mulled wine	4	1	awesome	13	0	0	0	50 Mullin' for Bullion (more pieces of 12)
@@ -568,9 +568,9 @@ purple corpsel	3	1	good	5-10	29-34	0	0
 Quaatorade&trade;	1	6	EPIC	6-7	0	30-40	0	100 Quaaaaaaa (+50% mys, +50 MP, +10-20 MP regen)
 R'lyeh	1	3	EPIC	5-7	10-30	10-30	10-30	40 The Effect Man Was Not Meant to Have (+40 Spooky Damage & Spooky Spell Damage)
 rabbit punch	3	3	good	5-10	0	0	16-20
-Racisto Ruidoso	5	6	EPIC	33-37	100-300	100-300	100-300
+Racisto Ruidoso	5	6	super EPIC	33-37	100-300	100-300	100-300
 Radberry Rip wine cooler	2	1	good	6	7-8	0	0
-Ralph IX cognac	6	15	EPIC	55-59	228-300	228-300	228-300
+Ralph IX cognac	6	15	super ultra mega EPIC	55-59	228-300	228-300	228-300
 Ram's Face Lager	1	2	decent	2	8-10	0	0	4-8 MP, BEER
 red ale	2	1	good	5-7	0	0	10-20	40 Putting the Pro in Proletariat (+50% Moxie, +25 ranged damage), BEER
 red and white claret	2	1	awesome	8	0	0	0
@@ -578,8 +578,8 @@ red drunki-bear	4	6	EPIC	22-26	200-240	0	0	4 Fullness 80 Gummiheart (+100 Muscle
 Red Dwarf	2	1	good	4-5	0	10-20	0	5 World's Shortest Giant (+2 Prismatic Res)
 red red wine	2	4	decent	3-5	0	0	10-20	10-20 HP, WINE
 red rum	3	3	decent	4	0	0	0	20-30 HP
-Red Russian	1	1	EPIC	17	15-20	15-20	15-20	Vampyre
-red white and blue claret	3	1	EPIC	19	0	0	0
+Red Russian	1	1	super ultra mega turbo EPIC	17	15-20	15-20	15-20	Vampyre
+red white and blue claret	3	1	super EPIC	19	0	0	0
 red-headed corpse	3	1	good	6-10	0	31-35	0
 red-hot boilermaker	4	9	good	11-13	25-30	10-14	10-14	50 Boilermade (+5 Cold/Spooky Res)
 redrum	3	1	decent	5-6	0	15-30	0
@@ -669,7 +669,7 @@ soy cordial	5	6	EPIC	28-35	55-61	38-50	35-52	2 Electrolyte Fantastic (+10% mys e
 soyburger juice	2	3	crappy	2-4	0	0	0	gain Oversaturated Palate or lose Deadened Palate
 space port	2	5	good	5-6	10-20	10-20	10-20	WINE
 space wine	6	1	awesome	20-22	0	0	0
-Spasmi Dolorosi Del Rene Champagne	1	10	EPIC	6-10	60	60	60
+Spasmi Dolorosi Del Rene Champagne	1	10	super ultra mega turbo EPIC	6-10	60	60	60
 spiced rum	3	2	decent	4-8	0	0	17-30
 Spicy Hot Chocolate	5	1	good	10-15	0	0	0	30 Loaded Forwarbear (So-So Supercold Resistance)
 spiritual eggnog	3	3	good	6-10	0	30-60	0
@@ -682,7 +682,7 @@ Steamboat	3	1	awesome	12	15-30	15-30	15-30	20 Steamed (+3 Hot Resist, +20 Hot Da
 steel margarita	5	5	quest	0	0	0	0	Liver of Steel skill
 stepmom's booze	3	5	decent	4-6	0	5-10	5-10	KOLHS
 stillsuit distillate	1	1	???	0	0	0	0	Buzzed on Distillate
-stinkwater	3	24	EPIC	25-29	20-30	20-30	20-30
+stinkwater	3	24	super ultra EPIC	25-29	20-30	20-30	20-30
 stinky mushroom wine	3	6	awesome	10-14	0	0	12-15	WINE
 strawberry daiquiri	3	1	decent	5-6	0	0	8-10
 strawberry wine	3	1	decent	5-6	0	0	8-10	WINE
@@ -710,12 +710,12 @@ tequila sunset	3	3	good	5-10	0	16-20	0
 tequila with training wheels	3	3	good	5-10	8-9	0	0
 Tequiz Navidad	2	2	EPIC	10-13	10-20	10-20	25-50
 The Cooler Out of Space	2	12	awesome	8-9	20-50	20-50	20-50	30 You Can Taste the Darkness (+9 Spooky Res, +100 Spooky Dam)
-The Mad Liquor	3	6	EPIC	21-24	15-30	15-30	15-30	-1 Fullness
+The Mad Liquor	3	6	super EPIC	21-24	15-30	15-30	15-30	-1 Fullness
 thermos full of Knob coffee	1	1	EPIC	5-6	5-6	5-6	5-6	lose 1-2 HP
 thermos of &quot;whiskey&quot;	1	1	good	2-3	0	0	75-100
 Third Base	1	4	good	3	20-40	20-40	20-40	40 Third Based (+25% pickpocket chance)
 thistle wine	1	10	good	2-4	0	0	30-60	lose 50-75 HP, WINE
-Thriller Ice	2	22	EPIC	14-16	10-20	10-20	10-20	30-40 MP, BEER
+Thriller Ice	2	22	super EPIC	14-16	10-20	10-20	10-20	30-40 MP, BEER
 tobiko-infused sake	3	1	good	6-8	6-8	8-8	6-8	30 Pisces in the Skyces (+150% spell dmg)
 tomato daiquiri	3	2	decent	4-8	10-12	0	10-12
 Transylvania Sling	2	4	awesome	6-7	20-30	0	0	10 Creepypasted (+50 Spooky Dam)
@@ -730,11 +730,11 @@ unflavored wine cooler	2	1	decent	4	0	0	0
 unidentified drink	3	1	crappy	6-20	6	6	6	very random stat gain, average only
 unnamed cocktail	2	4	decent	4-6	5-10	0	10-20
 unquiet spirits	1	1	good	2-3	0	0	5-10	50 Hollow Inside (+6 Maximum Hooch)
-Uovo Marcio Shiraz	1	10	EPIC	6-10	60	60	60
+Uovo Marcio Shiraz	1	10	super ultra mega turbo EPIC	6-10	60	60	60
 used beer	2	1	crappy	0	0	0	0	+1 PvP fight
-vampagne	1	1	EPIC	23	25-30	25-30	25-30	Vampyre
+vampagne	1	1	super ultra mega turbo EPIC	23	25-30	25-30	25-30	Vampyre
 Velvet Veil	3	1	good	9	0	30-40	0
-very fancy whiskey	2	1	EPIC	13-15	5-20	5-20	5-20
+very fancy whiskey	2	1	super EPIC	13-15	5-20	5-20	5-20
 vesper	6	6	awesome	22-26	0	0	16-20	tiny plastic sword
 vintage smart drink	10	1	awesome	40	0	0	0	1 Smart Drunk (+120 HP, +20 Familiar Weight)
 vodka and cranberry	3	1	decent	5-6	0	15-20	0
@@ -762,7 +762,7 @@ whiskey in a broken glass	3	6	awesome	11-13	25-75	0	0	50 Bloody Grin
 whiskey sour	3	1	decent	5-6	8-10	0	0
 whiskey squeeze	1	1	awesome	3-5	0	0	0	20 Hobo Powers Activate! (+10 Hobo power)
 white Canadian	3	1	decent	5-6	10-12	0	0	3 Canadianity
-white Dreadsylvanian	1	20	EPIC	7-9	10-20	10-20	10-20	50 Whitesloshed (+500 Dreadsylvania Item Drops)
+white Dreadsylvanian	1	20	super ultra EPIC	7-9	10-20	10-20	10-20	50 Whitesloshed (+500 Dreadsylvania Item Drops)
 White Hyborian	3	2	decent	5-6	21-24	0	0
 white lightning	3	3	good	5-10	0	0	0	3 Temporary Blindness
 white wine	2	1	good	5-6	8-10	8-10	8-10	WINE
