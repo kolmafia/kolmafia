@@ -516,7 +516,9 @@ public class EquipmentManager {
       }
       case ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE -> ItemDatabase.setCapeSkills();
       case ItemPool.SHERIFF_BADGE, ItemPool.SHERIFF_PISTOL, ItemPool.SHERIFF_MOUSTACHE -> {
-        if (KoLCharacter.hasEquipped(ItemPool.SHERIFF_PISTOL) && KoLCharacter.hasEquipped(ItemPool.SHERIFF_BADGE) && KoLCharacter.hasEquipped(ItemPool.SHERIFF_MOUSTACHE)) {
+        if (KoLCharacter.hasEquipped(ItemPool.SHERIFF_PISTOL)
+            && KoLCharacter.hasEquipped(ItemPool.SHERIFF_BADGE)
+            && KoLCharacter.hasEquipped(ItemPool.SHERIFF_MOUSTACHE)) {
           cb.accept(SkillPool.ASSERT_YOUR_AUTHORITY);
         }
       }
