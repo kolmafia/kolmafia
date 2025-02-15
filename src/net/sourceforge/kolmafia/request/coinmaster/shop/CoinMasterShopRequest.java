@@ -24,8 +24,11 @@ public class CoinMasterShopRequest extends CoinMasterRequest {
     this.quantity = quantity;
     this.addFormField("whichrow", String.valueOf(row.getRow()));
     this.addFormField("quantity", String.valueOf(quantity));
+
     // We want to parse the balance for virtual currencies
-    if (data.getProperty() == null) {
+    // We want the full responseText if we are buying a skill
+    AdventureResult item = row.getItem();
+    if (data.getProperty() == null && !item.isSkill()) {
       this.addFormField("ajax", "1");
     }
   }

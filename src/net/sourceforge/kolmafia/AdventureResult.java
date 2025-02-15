@@ -511,6 +511,13 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
     return -1;
   }
 
+  public int getSkillId() {
+    if (this.priority == Priority.SKILL) {
+      return this.id;
+    }
+    return -1;
+  }
+
   /**
    * Accessor method to retrieve the total value associated with the result. In the event of substat
    * points, this returns the total subpoints within the <code>AdventureResult</code>; in the event

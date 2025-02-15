@@ -1939,4 +1939,51 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       assertThat(execute("is_banished($phylum[none])").trim(), is("Returned: false"));
     }
   }
+
+  @Nested
+  class SkillCoinmasters {
+    @Test
+    void sellsSkillWorks() {
+      assertThat(
+          execute("sells_skill($coinmaster[Genetic Fiddling], $skill[Boiling Tear Ducts])").trim(),
+          is("Returned: true"));
+      assertThat(
+          execute("sells_skill($coinmaster[Genetic Fiddling], $skill[Magic Sweat])").trim(),
+          is("Returned: true"));
+      assertThat(
+          execute("sells_skill($coinmaster[Genetic Fiddling], $skill[Extra Brain])").trim(),
+          is("Returned: true"));
+      assertThat(
+          execute("sells_skill($coinmaster[Genetic Fiddling], $skill[Sucker Fingers])").trim(),
+          is("Returned: true"));
+      assertThat(
+          execute("sells_skill($coinmaster[Genetic Fiddling], $skill[Stream of sauce])").trim(),
+          is("Returned: false"));
+      assertThat(
+          execute("sells_skill($coinmaster[Kiwi Kwiki Mart], $skill[Boiling Tear Ducts])").trim(),
+          is("Returned: false"));
+    }
+
+    @Test
+    void sellPriceWorks() {
+      assertThat(
+          execute("sell_price($coinmaster[Genetic Fiddling], $skill[Boiling Tear Ducts])").trim(),
+          is("Returned: 30"));
+      assertThat(
+          execute("sell_price($coinmaster[Genetic Fiddling], $skill[Magic Sweat])").trim(),
+          is("Returned: 60"));
+      assertThat(
+          execute("sell_price($coinmaster[Genetic Fiddling], $skill[Extra Brain])").trim(),
+          is("Returned: 90"));
+      assertThat(
+          execute("sell_price($coinmaster[Genetic Fiddling], $skill[Sucker Fingers])").trim(),
+          is("Returned: 120"));
+      assertThat(
+          execute("sell_price($coinmaster[Genetic Fiddling], $skill[Stream of sauce])").trim(),
+          is("Returned: 0"));
+      assertThat(
+          execute("sell_price($coinmaster[Kiwi Kwiki Mart], $skill[Boiling Tear Ducts])").trim(),
+          is("Returned: 0"));
+    }
+  }
 }
