@@ -28,6 +28,7 @@ import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
+import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -508,5 +509,16 @@ public class FamiliarDataTest {
         assertThat(KoLCharacter.currentFamiliar.waterBreathing(), is(true));
       }
     }
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    "Mosquito,true",
+    "Mu,false",
+  })
+  public void canTellIfFamiliarIsBjornable(final String name, final boolean expected) {
+    var id = FamiliarDatabase.getFamiliarId(name);
+    var fam = new FamiliarData(id);
+    assertThat(fam.canCarry(), is(expected));
   }
 }

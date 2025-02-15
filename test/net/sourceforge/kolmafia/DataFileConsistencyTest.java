@@ -22,10 +22,12 @@ import java.io.IOException;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.function.Function;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.AscensionPath.Path;
@@ -619,6 +621,42 @@ public class DataFileConsistencyTest {
       }
     } catch (IOException e) {
       fail("Couldn't read from monsters.txt");
+    }
+  }
+
+  @Test
+  public void everyFamiliarHasAThroneModifier() {
+    var allFamiliars =
+        FamiliarDatabase.entrySet().stream()
+            .map(Map.Entry::getKey)
+            // Ignore Pokefam-exclusive familiars
+            .filter(id -> !FamiliarDatabase.hasAttribute(id, "pokefam"))
+            // Ignore familiars with no hatchling (currently April Fools familiars, but may also
+            // catch future weirdos
+            .filter(id -> FamiliarDatabase.getFamiliarLarva(id) > 0)
+            .collect(Collectors.toSet());
+    String file = "modifiers.txt";
+    int version = 3;
+    String[] fields;
+    try (BufferedReader reader = FileUtilities.getVersionedReader(file, version)) {
+      while ((fields = FileUtilities.readData(reader)) != null) {
+        String identifier = fields[0];
+        if (!identifier.equals("Throne")) continue;
+        var name = fields[1];
+        var id = FamiliarDatabase.getFamiliarId(name, false);
+        allFamiliars.remove(id);
+      }
+    } catch (IOException e) {
+      fail("Couldn't read from " + file);
+    }
+
+    if (!allFamiliars.isEmpty()) {
+      fail(
+          "No throne data for "
+              + allFamiliars.stream()
+                  .map(FamiliarDatabase::getFamiliarName)
+                  .collect(Collectors.joining(", "))
+              + " found");
     }
   }
 }
