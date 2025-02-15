@@ -1990,6 +1990,9 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       assertThat(
           execute("sell_price($coinmaster[ChemiCorp], $item[ultracoagulator])").trim(),
           is("Returned: 1"));
+      assertThat(
+          execute("sell_price($coinmaster[the dedigitizer], $item[cyburger])").trim(),
+          is("Returned: 0"));
     }
   }
 }
