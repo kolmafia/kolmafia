@@ -872,7 +872,8 @@ public abstract class KoLmafia {
     ResultProcessor.updateEntauntauned();
     ResultProcessor.updateSavageBeast();
     CargoCultistShortsRequest.loadPockets();
-    if (!Preferences.getBoolean("_septEmberBalanceChecked")) {
+    if (SeptEmberCenserRequest.accessible() == null
+        && !Preferences.getBoolean("_septEmberBalanceChecked")) {
       RequestThread.postRequest(SeptEmberCenserRequest.getRequest());
     }
 
