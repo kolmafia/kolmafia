@@ -382,8 +382,9 @@ public class CharSheetRequest extends GenericRequest {
 
     int subPoints = 0;
 
-    // Grey Goo class does not have stat subpoints
-    if (KoLCharacter.getAscensionClass() != AscensionClass.GREY_GOO) {
+    // Grey Goo / Zootomist classes do not have stat subpoints
+    var cls = KoLCharacter.getAscensionClass();
+    if (cls != AscensionClass.GREY_GOO && cls != AscensionClass.ZOOTOMIST) {
       while (!tokens[pos].startsWith("(")) {
         pos++;
       }
