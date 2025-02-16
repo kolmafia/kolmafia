@@ -341,3 +341,13 @@
 309
 310	Profane Parrot	ts_parrot2.gif	block,combat1	sleeping profane parrot	profane eye patch	2	3	2	2
 311	Significant Bit	cr_sbit.gif	variable	insignificant bit	parity bit	1	1	1	3
+312
+313
+314
+315	Phantom Limb	phantomlimb.gif		phantom digit		0	0	0	0
+316	Foul Ball	foulball.gif		foul line	foul cozy	0	0	0	0
+317
+318
+319
+320
+321	Glover	glover.gif		plover's egg		0	0	0	0

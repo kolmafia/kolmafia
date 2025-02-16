@@ -11808,6 +11808,7 @@ Item	floaty stone sphere	Free Pull
 Item	Fly-By-Knight Heraldry form	Free Pull
 # food mailing list: Unlocks another row of houses for Crimbo activities
 # forest tears: Restores 5-10 HP
+Item	foul cozy	Stench Damage: +10, Stench Spell Damage: +10
 Item	four-leaf potato sprout	Effect: "Luck of St. Patrick", Effect Duration: 30
 Item	Fourth of May Cosplay Saber kit	Free Pull
 Item	fragment of Jarlsberg's soul	Free Pull
@@ -12659,6 +12660,7 @@ Item	spray paint	Effect: "Tagged", Effect Duration: 10
 Item	squamous polyp	Free Pull
 Item	Stabonic scroll	Effect: "Bone Homie", Effect Duration: 20
 # star throwing star: Deals 50-75 Physical Damage
+Item	STATS+++ rom chip	Skill: "STATS+++"
 # steam-powered model rocketship: Allows access to the Hole in the Sky
 # stench clusterbomb: Deals <font color=green>Stench Damage</font> based on your highest stat
 # stench clusterbomb: (more effective against groups)
@@ -12673,7 +12675,6 @@ Item	still grill	Free Pull
 # stuffed gray blob: Randomly becomes a different combat item when used
 # stuffed yam stinkbomb: Banish a monster for 15 turns
 Item	stuffed-shirt scarecrow	Free Pull
-Item	STATS+++ rom chip	Skill: "STATS+++"
 # sugar shard: Restores 10-20 HP and 5-10 MP
 Item	Summer Nights	Skill: "Grease Lightning"
 # super deluxe mushroom: Heals 100 HP
