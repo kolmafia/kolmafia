@@ -1212,7 +1212,6 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
         }
       } else if (this.buyItems != null) {
         for (AdventureResult item : this.buyItems) {
-          AdventureResult price = this.itemBuyPrice(item.getItemId());
           this.currencies.add(this.itemBuyPrice(item.getItemId()));
         }
       }
