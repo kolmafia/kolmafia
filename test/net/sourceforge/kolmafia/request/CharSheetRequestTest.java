@@ -391,4 +391,14 @@ public class CharSheetRequestTest {
 
     assertThat(KoLCharacter.getInebriety(), equalTo(3));
   }
+
+  @Test
+  public void parsesZootomistStats() {
+    String html = html("request/test_charsheet_zootomist.html");
+    CharSheetRequest.parseStatus(html);
+
+    assertThat(KoLCharacter.getAdjustedMuscle(), equalTo(82));
+    assertThat(KoLCharacter.getAdjustedMysticality(), equalTo(67));
+    assertThat(KoLCharacter.getAdjustedMoxie(), equalTo(70));
+  }
 }
