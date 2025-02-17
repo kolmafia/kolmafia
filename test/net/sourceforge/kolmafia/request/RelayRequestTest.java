@@ -175,8 +175,8 @@ public class RelayRequestTest {
       var cleanups = withPasswordHash("xxxx");
       try (cleanups) {
         var rr = makeCommandRequest(endpoint, "echo hi", null);
-        assertThat(rr.statusLine, is("HTTP/1.1 403 Forbidden"));
-        assertThat(rr.responseCode, is(403));
+        assertThat(rr.statusLine, is("HTTP/1.1 401 Unauthorized"));
+        assertThat(rr.responseCode, is(401));
       }
     }
 
@@ -194,8 +194,8 @@ public class RelayRequestTest {
       var cleanups = withPasswordHash("xxxx");
       try (cleanups) {
         var rr = makeCommandRequest(endpoint, "echo hi", "yyy");
-        assertThat(rr.statusLine, is("HTTP/1.1 403 Forbidden"));
-        assertThat(rr.responseCode, is(403));
+        assertThat(rr.statusLine, is("HTTP/1.1 401 Unauthorized"));
+        assertThat(rr.responseCode, is(401));
       }
     }
 
@@ -259,8 +259,8 @@ public class RelayRequestTest {
       var cleanups = withPasswordHash("xxxx");
       try (cleanups) {
         var rr = makeApiRequest("{}", null);
-        assertThat(rr.statusLine, is("HTTP/1.1 403 Forbidden"));
-        assertThat(rr.responseCode, is(403));
+        assertThat(rr.statusLine, is("HTTP/1.1 401 Unauthorized"));
+        assertThat(rr.responseCode, is(401));
       }
     }
 
@@ -269,8 +269,8 @@ public class RelayRequestTest {
       var cleanups = withPasswordHash("xxxx");
       try (cleanups) {
         var rr = makeApiRequest("{}", "yyy");
-        assertThat(rr.statusLine, is("HTTP/1.1 403 Forbidden"));
-        assertThat(rr.responseCode, is(403));
+        assertThat(rr.statusLine, is("HTTP/1.1 401 Unauthorized"));
+        assertThat(rr.responseCode, is(401));
       }
     }
 

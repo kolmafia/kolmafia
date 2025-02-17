@@ -3411,7 +3411,7 @@ public class RelayRequest extends PasswordHashRequest {
 
     String pwd = this.getFormField("pwd");
     if (pwd == null || !pwd.equals((GenericRequest.passwordHash))) {
-      this.pseudoResponse("HTTP/1.1 403 Forbidden", "");
+      this.pseudoResponse("HTTP/1.1 401 Unauthorized", "");
       return;
     }
 
