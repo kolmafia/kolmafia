@@ -5,11 +5,16 @@ import static internal.helpers.Player.withSkill;
 import static internal.helpers.Player.withoutSkill;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.AscensionPath.Path;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo24CafeRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.DinseyCompanyStoreRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.GeneticFiddlingRequest;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -53,6 +58,34 @@ class CoinmasterDataTest {
       try (cleanups) {
         assertThat(data.availableSkill(SkillPool.EXTRA_MUSCLES), is(false));
       }
+    }
+  }
+
+  @Nested
+  class ItemBuyPrice {
+    @Test
+    void withKnownItem() {
+      var data = DinseyCompanyStoreRequest.DINSEY_COMPANY_STORE;
+      var price = data.itemBuyPrice(ItemPool.DINSEY_TICKET);
+      assertNotNull(price);
+      assertThat(price.getCount(), is(20));
+    }
+
+    @Test
+    void withNonShopRowCoinmasterUnsoldItem() {
+      var data = DinseyCompanyStoreRequest.DINSEY_COMPANY_STORE;
+      var price = data.itemBuyPrice(ItemPool.SEAL_TOOTH);
+      assertNotNull(price);
+      assertThat(price.getCount(), is(0));
+    }
+
+    @Test
+    void withShopRowCoinmasterUnsoldItem() {
+      var data = Crimbo24CafeRequest.DATA;
+      var price = data.itemBuyPrice(ItemPool.DINSEY_TICKET);
+      // *** ShopRow coinmasters can have multiple currencies
+      // *** For an unknown item, what currency?
+      assertNull(price);
     }
   }
 }

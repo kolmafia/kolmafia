@@ -1177,9 +1177,9 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
 
   private AdventureResult itemBuyPriceInternal(final Integer itemId) {
     int price = this.getBuyPrice(itemId);
-    return this.item == null
-        ? this.getTokenItem().getInstance(price)
-        : this.item.getInstance(price);
+    return this.item != null
+        ? this.item.getInstance(price)
+        : this.token != null ? this.getTokenItem().getInstance(price) : null;
   }
 
   public AdventureResult skillBuyPrice(final Integer skillId) {
