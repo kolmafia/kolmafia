@@ -102,6 +102,8 @@ public class RelayRequest extends PasswordHashRequest {
   private static final HashMap<String, File> overrideMap = new HashMap<>();
   private static final Object lock = new Object(); // used to synch
 
+  private static final Pattern HTTP_STATUS_PATTERN = Pattern.compile("^HTTP/1.1 ([0-9]+)");
+
   private static final Pattern STORE_PATTERN =
       Pattern.compile(
           "<tr><td><input name=whichitem type=radio value=([\\d.]+).*?</tr>", Pattern.DOTALL);
@@ -557,14 +559,15 @@ public class RelayRequest extends PasswordHashRequest {
     this.headers.add("Date: " + StringUtilities.formatDate(new Date()));
     this.headers.add("Server: " + StaticEntity.getVersion());
 
-    if (status.contains("302")) {
+    Matcher m = HTTP_STATUS_PATTERN.matcher(status);
+    if (m.find()) {
+      this.responseCode = Integer.parseInt(m.group(1));
+    }
+
+    if (this.responseCode == 302) {
       this.headers.add("Location: " + responseText);
-
-      this.responseCode = 302;
       this.responseText = "";
-    } else if (status.contains("200")) {
-      this.responseCode = 200;
-
+    } else if (this.responseCode == 200) {
       if (responseText == null || responseText.length() == 0) {
         this.responseText = " ";
       } else {
@@ -3408,6 +3411,7 @@ public class RelayRequest extends PasswordHashRequest {
 
     String pwd = this.getFormField("pwd");
     if (pwd == null || !pwd.equals((GenericRequest.passwordHash))) {
+      this.pseudoResponse("HTTP/1.1 401 Unauthorized", "");
       return;
     }
 

@@ -8,6 +8,7 @@ import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withMeat;
+import static internal.helpers.Player.withPasswordHash;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withTurnsPlayed;
 import static internal.helpers.Utilities.deleteSerFiles;
@@ -25,6 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import internal.helpers.Cleanups;
+import internal.helpers.RequestLoggerOutput;
 import internal.network.FakeHttpClientBuilder;
 import java.io.File;
 import java.io.IOException;
@@ -150,14 +152,91 @@ public class RelayRequestTest {
   }
 
   @Nested
+  class Command {
+    private RelayRequest makeCommandRequest(String endpoint, String command, String hash) {
+      var rr = new RelayRequest(false);
+      rr.constructURLString(
+          "KoLmafia/" + endpoint + "?cmd=" + command + (hash == null ? "" : "&pwd=" + hash), false);
+      rr.run();
+      return rr;
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "submitCommand",
+      "redirectedCommand",
+      "polledredirectedCommand",
+      "sideCommand",
+      "specialCommand",
+      "waitSpecialCommand",
+      "parameterizedCommand"
+    })
+    public void failsWithNoHash(String endpoint) {
+      var cleanups = withPasswordHash("xxxx");
+      try (cleanups) {
+        var rr = makeCommandRequest(endpoint, "echo hi", null);
+        assertThat(rr.statusLine, is("HTTP/1.1 401 Unauthorized"));
+        assertThat(rr.responseCode, is(401));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "submitCommand",
+      "redirectedCommand",
+      "polledredirectedCommand",
+      "sideCommand",
+      "specialCommand",
+      "waitSpecialCommand",
+      "parameterizedCommand"
+    })
+    public void failsWithWrongHash(String endpoint) {
+      var cleanups = withPasswordHash("xxxx");
+      try (cleanups) {
+        var rr = makeCommandRequest(endpoint, "echo hi", "yyy");
+        assertThat(rr.statusLine, is("HTTP/1.1 401 Unauthorized"));
+        assertThat(rr.responseCode, is(401));
+      }
+    }
+
+    // TODO: Test polledredirectedCommand and specialCommand here with some asynchronous logic.
+    @ParameterizedTest
+    @CsvSource({
+      "submitCommand,200",
+      "redirectedCommand,302",
+      "sideCommand,302",
+      "waitSpecialCommand,200",
+      "parameterizedCommand,200"
+    })
+    public void succeedsWithRedirect(String endpoint, int statusCode) {
+      var cleanups = withPasswordHash("xxxx");
+      try (cleanups) {
+        RequestLoggerOutput.startStream();
+        var rr = makeCommandRequest(endpoint, "echo hi", "xxxx");
+        var output = RequestLoggerOutput.stopStream();
+
+        assertThat(rr.statusLine, is(statusCode == 200 ? "HTTP/1.1 200 OK" : "HTTP/1.1 302 Found"));
+        assertThat(rr.responseCode, is(statusCode));
+        assertThat(output, is("\n&gt; echo hi\n\nhi\n"));
+      }
+    }
+  }
+
+  @Nested
   class JsonApi {
-    private RelayRequest makeApiRequest(String bodyString) {
+    private RelayRequest makeApiRequest(String bodyString, String hash) {
       var rr = new RelayRequest(false);
       rr.constructURLString("KoLmafia/jsonApi", true);
-      rr.addFormField("pwd", GenericRequest.passwordHash);
+      if (hash != null) {
+        rr.addFormField("pwd", hash);
+      }
       rr.addFormField("body", bodyString);
       rr.run();
       return rr;
+    }
+
+    private RelayRequest makeApiRequest(String bodyString) {
+      return makeApiRequest(bodyString, GenericRequest.passwordHash);
     }
 
     @BeforeAll
@@ -173,6 +252,26 @@ public class RelayRequestTest {
       // has not been found and setting a logged in user breaks the test because the returned JSON
       // is different from what is expected.
       deleteSerFiles("GLOBAL");
+    }
+
+    @Test
+    public void failsWithNoHash() {
+      var cleanups = withPasswordHash("xxxx");
+      try (cleanups) {
+        var rr = makeApiRequest("{}", null);
+        assertThat(rr.statusLine, is("HTTP/1.1 401 Unauthorized"));
+        assertThat(rr.responseCode, is(401));
+      }
+    }
+
+    @Test
+    public void failsWithWrongHash() {
+      var cleanups = withPasswordHash("xxxx");
+      try (cleanups) {
+        var rr = makeApiRequest("{}", "yyy");
+        assertThat(rr.statusLine, is("HTTP/1.1 401 Unauthorized"));
+        assertThat(rr.responseCode, is(401));
+      }
     }
 
     @Test
