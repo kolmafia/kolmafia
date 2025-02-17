@@ -4883,6 +4883,7 @@ Throne	Fist Turkey	Weapon Damage: +20
 Throne	Flaming Face	Cold Resistance: +3
 Throne	Flaming Gravy Fairy	Hot Damage: +20, Drops Items
 Throne	Flaming Leafcutter Ant	Hot Damage: +5
+Throne	Foul Ball	
 Throne	Frozen Gravy Fairy	Cold Damage: +20, Drops Items
 Throne	Frumious Bandersnatch	Experience: +2
 Throne	Fuzzy Dice	Muscle: +10, Mysticality: +10, Moxie: +10
@@ -4894,6 +4895,7 @@ Throne	Ghost of Crimbo Cheer	Experience (Moxie): +2
 Throne	Ghost of Crimbo Commerce	Meat Drop: +20, Drops Meat
 Throne	Ghost Pickle on a Stick	Familiar Weight: +5, HP Regen Min: 8, HP Regen Max: 10
 Throne	Ghuol Whelp	HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8
+Throne	Glover	
 Throne	Gluttonous Green Ghost	Food Drop: +15, Drops Items
 Throne	God Lobster	none
 Throne	Golden Monkey	Meat Drop: +25, Drops Items
@@ -4980,6 +4982,7 @@ Throne	Pet Anchor	Damage Reduction: 10
 Throne	Pet Cheezling	Spell Damage Percent: +15, HP Regen Min: 5, HP Regen Max: 15, MP Regen Min: 2, MP Regen Max: 8
 Throne	Pet Coral	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Throne	Pet Rock	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
+Throne	Phantom Limb	
 Throne	Piano Cat	Meat Drop: +20, Drops Items
 Throne	Piranha Plant	MP Regen Min: 2, MP Regen Max: 3, Drops Items
 Throne	Pixel Rock	none
@@ -11808,6 +11811,7 @@ Item	floaty stone sphere	Free Pull
 Item	Fly-By-Knight Heraldry form	Free Pull
 # food mailing list: Unlocks another row of houses for Crimbo activities
 # forest tears: Restores 5-10 HP
+Item	foul cozy	Stench Damage: +10, Stench Spell Damage: +10
 Item	four-leaf potato sprout	Effect: "Luck of St. Patrick", Effect Duration: 30
 Item	Fourth of May Cosplay Saber kit	Free Pull
 Item	fragment of Jarlsberg's soul	Free Pull
@@ -12659,6 +12663,7 @@ Item	spray paint	Effect: "Tagged", Effect Duration: 10
 Item	squamous polyp	Free Pull
 Item	Stabonic scroll	Effect: "Bone Homie", Effect Duration: 20
 # star throwing star: Deals 50-75 Physical Damage
+Item	STATS+++ rom chip	Skill: "STATS+++"
 # steam-powered model rocketship: Allows access to the Hole in the Sky
 # stench clusterbomb: Deals <font color=green>Stench Damage</font> based on your highest stat
 # stench clusterbomb: (more effective against groups)
@@ -12673,7 +12678,6 @@ Item	still grill	Free Pull
 # stuffed gray blob: Randomly becomes a different combat item when used
 # stuffed yam stinkbomb: Banish a monster for 15 turns
 Item	stuffed-shirt scarecrow	Free Pull
-Item	STATS+++ rom chip	Skill: "STATS+++"
 # sugar shard: Restores 10-20 HP and 5-10 MP
 Item	Summer Nights	Skill: "Grease Lightning"
 # super deluxe mushroom: Heals 100 HP
