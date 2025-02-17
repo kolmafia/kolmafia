@@ -10071,6 +10071,7 @@ public abstract class ChoiceControl {
       case 1537: // TakerSpace
       case 1544: // Devil some Candy
       case 1551: // Hashing with your vice
+      case 1553: // Hybridization Chamber
         return true;
 
       default:
