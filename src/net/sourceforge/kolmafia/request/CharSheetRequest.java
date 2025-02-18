@@ -725,9 +725,6 @@ public class CharSheetRequest extends GenericRequest {
       rawmoxie = JSON.getLong("rawmoxie");
     }
 
-    // ~ rawmuscle = 155*155;
-    // ~ rawmysticality = 158*158;
-    // ~ rawmoxie = 129*129;
     KoLCharacter.setStatPoints(muscle, rawmuscle, mysticality, rawmysticality, moxie, rawmoxie);
   }
 }
