@@ -3386,7 +3386,7 @@ public abstract class KoLCharacter {
   public static final boolean inElevenThingIHateAboutU() {
     return KoLCharacter.ascensionPath == Path.ELEVEN_THINGS;
   }
-  
+
   public static final boolean inZootomist() {
     return KoLCharacter.ascensionPath == Path.Z_IS_FOR_ZOOTOMIST;
   }
