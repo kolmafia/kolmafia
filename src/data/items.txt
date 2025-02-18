@@ -11882,6 +11882,6 @@
 11854	grim cellophane	657876140	grimcellophane.gif	familiar	t,d	75
 11855	rift oculus	911959018	riftoculus.gif	familiar	t,d	75
 11856	sweaty egg	461425200	neweggs.gif	familiar	t,d	75
-11857	carton of extra-sharp, rusty staples	244766832	staplebox.gif	familiar	t,d	75
+11857	carton of extra-sharp, rusty staples	244766832	staplebox.gif	familiar	t,d	75	cartons of extra-sharp, rusty staples
 11858	glover liners	756658580	gloveliners.gif	familiar	t,d	75
 11859	mosquito speakers	909527695	mosquitobox.gif	familiar	t,d	75
