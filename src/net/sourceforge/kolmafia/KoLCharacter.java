@@ -3387,6 +3387,10 @@ public abstract class KoLCharacter {
     return KoLCharacter.ascensionPath == Path.ELEVEN_THINGS;
   }
 
+  public static final boolean inZootomist() {
+    return KoLCharacter.ascensionPath == Path.Z_IS_FOR_ZOOTOMIST;
+  }
+
   public static final boolean isUnarmed() {
     AdventureResult weapon = EquipmentManager.getEquipment(Slot.WEAPON);
     AdventureResult offhand = EquipmentManager.getEquipment(Slot.OFFHAND);

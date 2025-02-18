@@ -709,8 +709,8 @@ public class CharSheetRequest extends GenericRequest {
     long rawmuscle;
     long rawmysticality;
     long rawmoxie;
-    if (KoLCharacter.inGreyYou()) {
-      // Raw values are more precise, but they don't exist in Grey You
+    if (KoLCharacter.inGreyYou() || KoLCharacter.inZootomist()) {
+      // Raw values are more precise, but they don't exist in Grey You and are wrong in Zooto
       long basemuscle = JSON.getLong("basemuscle");
       rawmuscle = basemuscle * basemuscle;
 
