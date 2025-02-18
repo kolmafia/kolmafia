@@ -6988,6 +6988,11 @@ public abstract class ChoiceControl {
           }
         }
         break;
+
+      case 1554:
+        // We'll Return to Our Home, Bathed in Rays of Gold
+        handleAfterAvatar(ChoiceManager.lastDecision);
+        break;
     }
   }
 

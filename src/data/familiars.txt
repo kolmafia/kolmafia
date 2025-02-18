@@ -341,13 +341,14 @@
 309
 310	Profane Parrot	ts_parrot2.gif	block,combat1	sleeping profane parrot	profane eye patch	2	3	2	2
 311	Significant Bit	cr_sbit.gif	variable	insignificant bit	parity bit	1	1	1	3
-312
-313
-314
-315	Phantom Limb	phantomlimb.gif		phantom digit		0	0	0	0
+312	Heat Wave	heatwave.gif		heat arc	heat particle	0	0	0	0
+313	Cold Cut	coldcut.gif		cold scrape	cold sore	0	0	0	0
+314	Shame Spiral	shamespiral.gif		shame coil	stomach churner	0	0	0	0
+315	Phantom Limb	phantomlimb.gif		phantom digit	phantom brace	0	0	0	0
 316	Foul Ball	foulball.gif		foul line	foul cozy	0	0	0	0
-317
-318
-319
-320
-321	Glover	glover.gif		plover's egg		0	0	0	0
+317	Dire Cassava	direcasanim.gif		dark manioc	grim cellophane	0	0	0	0
+318	Observer	observer.gif		Observer source code	rift oculus	0	0	0	0
+319	Cool Cucumber	coolcuke.gif		chill gherkin	sweaty egg	0	0	0	0
+320	Defective Childrens' Stapler	kidstaplerbad.gif		childrens' stapler	carton of extra-sharp, rusty staples	0	0	0	0
+321	Glover	glover.gif		plover's egg	glover liners	0	0	0	0
+322	Zapper Bug	zapperbug.gif		electric flyswatter	mosquito speakers	0	0	0	0

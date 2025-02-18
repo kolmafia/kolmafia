@@ -11860,22 +11860,28 @@
 11832	ninja carabiner	128846387	carabiner.gif	none	q	0
 11833	synthetic coffee	348642138	coffeecup.gif	potion, usable	t,d	1
 11834	iDrops	129405226	blackdrops.gif	potion	t,d	1
-11835
+11835	shame coil	376481121	shamecoil.gif	grow	t	0
 11836	new-in-box toy Cupid bow	829241057	plungebow_box.gif	usable	t	0
 11837	toy Cupid bow	892523678	plungebow.gif	familiar		0
-11838
-11839
+11838	heat arc	910653266	heatarc.gif	grow	t	0
+11839	cold scrape	799808977	coldscrape.gif	grow	t	0
 11840	phantom digit	921653322	phantomdigit.gif	grow	t	0
 11841	foul line	454419574	foulline.gif	grow	t	0
-11842
-11843
-11844
-11845
+11842	dark manioc	375134103	darkmanioc.gif	grow	t	0
+11843	Observer source code	826469312	observercode.gif	grow	t	0
+11844	chill gherkin	389072404	gherkin.gif	grow	t	0
+11845	childrens' stapler	653974003	kidstapler.gif	grow	t	0
 11846	plover's egg	111657802	ploveregg.gif	grow	t	0
-11847
-11848
-11849
-11850
-11851
-11852
+11847	electric flyswatter	457935184	eswatter.gif	grow	t	0
+11848	Thwaitgold cordyceps ant statuette	415707623	thwaitcordyceps.gif	none		0
+11849	heat particle	690345203	heatparticle.gif	familiar	t,d	75
+11850	cold sore	909887560	coldsore.gif	familiar	t,d	75
+11851	stomach churner	145379634	stomachchurn.gif	familiar	t,d	75
+11852	phantom brace	294655613	phantombrace.gif	familiar	t,d	75
 11853	foul cozy	662473202	foulcozy.gif	familiar	t,d	75
+11854	grim cellophane	657876140	grimcellophane.gif	familiar	t,d	75
+11855	rift oculus	911959018	riftoculus.gif	familiar	t,d	75
+11856	sweaty egg	461425200	neweggs.gif	familiar	t,d	75
+11857	carton of extra-sharp, rusty staples	244766832	staplebox.gif	familiar	t,d	75	cartons of extra-sharp, rusty staples
+11858	glover liners	756658580	gloveliners.gif	familiar	t,d	75
+11859	mosquito speakers	909527695	mosquitobox.gif	familiar	t,d	75
