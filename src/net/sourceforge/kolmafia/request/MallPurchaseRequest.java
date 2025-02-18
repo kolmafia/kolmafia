@@ -536,6 +536,14 @@ public class MallPurchaseRequest extends PurchaseRequest {
       return;
     }
 
+    if (responseText.contains("You can't afford that item")) {
+      // This should not be possible via GUI or script, since those
+      // check available Meat before attempting a Mall Purchase.
+      // The Relay Browser has no such constraints, so don't
+      // bother trying to parse the response.
+      return;
+    }
+
     // Mall stores themselves can only contain processable results
     // when actually buying an item, and then only at the very top
     // of the page.
