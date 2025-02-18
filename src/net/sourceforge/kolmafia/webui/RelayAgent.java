@@ -97,11 +97,12 @@ public class RelayAgent extends Thread {
     this.writer = null;
 
     try {
-      if (!this.readBrowserRequest()) {
-        return;
+      // readBrowserRequest returns true if we should process the request further, and otherwise
+      // returns false with a pseudo-response.
+      if (this.readBrowserRequest()) {
+        this.readServerResponse();
       }
 
-      this.readServerResponse();
       this.sendServerResponse();
     } catch (IOException e) {
     } catch (Exception e) {
@@ -119,6 +120,7 @@ public class RelayAgent extends Thread {
     String requestLine = this.reader.readLine();
 
     if (requestLine == null) {
+      this.request.pseudoResponse("HTTP/1.1 400 Bad Request", "");
       return false;
     }
 
@@ -133,6 +135,7 @@ public class RelayAgent extends Thread {
 
     if (!requestLine.contains("HTTP/1.1")) {
       KoLmafia.updateDisplay("Malformed HTTP request from browser.");
+      this.request.pseudoResponse("HTTP/1.1 400 Bad Request", "");
       return false;
     }
 
@@ -203,6 +206,7 @@ public class RelayAgent extends Thread {
       RequestLogger.printLine("Host: \"" + host + "\"");
       RequestLogger.printLine("Referer: \"" + referer + "\"");
 
+      this.request.pseudoResponse("HTTP/1.1 400 Bad Request", "");
       return false;
     }
 
@@ -236,6 +240,7 @@ public class RelayAgent extends Thread {
       if (this.path.startsWith("/KoLmafia")) {
         RequestLogger.printLine("Missing password hash");
         RequestLogger.printLine("Path: \"" + this.path + "\"");
+        this.request.pseudoResponse("HTTP/1.1 401 Unauthorized", "");
         return false;
       }
       pwd = this.request.getFormField("phash");
@@ -246,6 +251,7 @@ public class RelayAgent extends Thread {
     if (pwd != null && !pwd.equals(GenericRequest.passwordHash)) {
       RequestLogger.printLine("Password hash mismatch");
       RequestLogger.printLine("Path: \"" + this.path + "\"");
+      this.request.pseudoResponse("HTTP/1.1 401 Unauthorized", "");
       return false;
     }
 
