@@ -115,6 +115,9 @@ class FactDatabaseTest {
     "SEAL_CLUBBER, NONE, Family Jewels, ITEM, line (3)",
     "SEAL_CLUBBER, NONE, angry mushroom guy, HP, 50% HP restore",
     "SEAL_CLUBBER, NONE, ancestral Spookyraven portrait, MP, 20% MP restore",
+    "TURTLE_TAMER, STANDARD, Mob Penguin hitman, STATS, +3 moxie substats",
+    "TURTLE_TAMER, STANDARD, Candied Yam Golem, STATS, +3 mysticality substats",
+    "TURTLE_TAMER, NONE, amateur elf, STATS, +10 moxie substats",
   })
   void picksCorrectFact(
       final AscensionClass ascensionClass,

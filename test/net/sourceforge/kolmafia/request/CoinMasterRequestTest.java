@@ -10,6 +10,7 @@ import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withZonelessCoinmaster;
 import static internal.helpers.Player.withoutCoinmasterBuyItem;
 import static internal.helpers.Player.withoutCoinmasterSellItem;
+import static internal.helpers.Player.withoutSkill;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -25,7 +26,10 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo23ElfArmoryRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.GeneticFiddlingRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.shop.ShopRow;
+import net.sourceforge.kolmafia.shop.ShopRowDatabase;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -453,6 +457,131 @@ public class CoinMasterRequestTest {
             requests.get(0),
             "/shop.php",
             "whichshop=crimbo23_elf_armory&action=buyitem&quantity=13&whichrow=1412");
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+      }
+    }
+  }
+
+  @Nested
+  class SkillCoinmasters {
+    @Test
+    void canVisitGeneticFiddlingUsingCoinMasterRequest() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      SessionLoggerOutput.startStream();
+
+      var cleanups = new Cleanups(withHttpClientBuilder(builder), withPath(Path.NUCLEAR_AUTUMN));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_shop_mutate_visit.html"));
+
+        var visit = GeneticFiddlingRequest.DATA.getRequest();
+        visit.run();
+
+        var text = SessionLoggerOutput.stopStream();
+        assertTrue(text.contains("Visiting Genetic Fiddling"));
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(1));
+        assertPostRequest(requests.get(0), "/shop.php", "whichshop=mutate");
+      }
+    }
+
+    @Test
+    void canVisitGeneticFiddlingUsingGenericRequest() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      SessionLoggerOutput.startStream();
+
+      var cleanups = new Cleanups(withHttpClientBuilder(builder), withPath(Path.NUCLEAR_AUTUMN));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_shop_mutate_visit.html"));
+
+        var visit = new GenericRequest("shop.php?whichshop=mutate");
+        visit.run();
+
+        var text = SessionLoggerOutput.stopStream();
+        assertTrue(text.contains("Visiting Genetic Fiddling"));
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(1));
+        assertPostRequest(requests.get(0), "/shop.php", "whichshop=mutate");
+      }
+    }
+
+    @Test
+    void canBuyFromGeneticFiddlingUsingCoinMasterRequest() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      SessionLoggerOutput.startStream();
+
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withPath(Path.NUCLEAR_AUTUMN),
+              withItem(ItemPool.RAD, 120),
+              withoutSkill("Extra Muscles"));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_shop_mutate_bought_skill.html"));
+        client.addResponse(200, "");
+
+        int row = 861;
+        ShopRow shopRow = ShopRowDatabase.getShopRow(row);
+
+        var buy = GeneticFiddlingRequest.DATA.getRequest(shopRow, 1);
+        buy.run();
+
+        var text = SessionLoggerOutput.stopStream();
+        assertTrue(text.contains("Trade 90 rads to learn Extra Muscles"));
+        assertTrue(text.contains("You learned a new skill: Extra Muscles"));
+
+        assertEquals(30, InventoryManager.getCount(ItemPool.RAD));
+        assertTrue(KoLCharacter.hasSkill("Extra Muscles"));
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(2));
+        assertPostRequest(
+            requests.get(0),
+            "/shop.php",
+            "whichshop=mutate&action=buyitem&whichrow=861&quantity=1");
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+      }
+    }
+
+    @Test
+    void canBuyFromGeneticFiddlingUsingGenericRequest() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      SessionLoggerOutput.startStream();
+
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withPath(Path.NUCLEAR_AUTUMN),
+              withItem(ItemPool.RAD, 120),
+              withoutSkill("Extra Muscles"));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_shop_mutate_bought_skill.html"));
+        client.addResponse(200, "");
+
+        assertEquals(120, InventoryManager.getCount(ItemPool.RAD));
+
+        var buy =
+            new GenericRequest("shop.php?whichshop=mutate&action=buyitem&quantity=1&whichrow=861");
+        buy.run();
+
+        var text = SessionLoggerOutput.stopStream();
+        assertTrue(text.contains("Trade 90 rads to learn Extra Muscles"));
+        assertTrue(text.contains("You learned a new skill: Extra Muscles"));
+
+        assertEquals(30, InventoryManager.getCount(ItemPool.RAD));
+        assertTrue(KoLCharacter.hasSkill("Extra Muscles"));
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(2));
+        assertPostRequest(
+            requests.get(0),
+            "/shop.php",
+            "whichshop=mutate&action=buyitem&quantity=1&whichrow=861");
         assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
       }
     }

@@ -1082,6 +1082,16 @@ public class Player {
   }
 
   /**
+   * Ensures player does not have a skill
+   *
+   * @param skillName Skill to ensure is removed
+   * @return Removes the skill if it was gained
+   */
+  public static Cleanups withoutSkill(final String skillName) {
+    return withoutSkill(SkillDatabase.getSkillId(skillName));
+  }
+
+  /**
    * Sets player's substats to given values.
    *
    * @param muscle Muscle substats

@@ -352,6 +352,7 @@ public class AfterLifeRequest extends GenericRequest {
           case 29 -> builder.append("Cheese Wizard");
           case 30 -> builder.append("Jazz Agent");
           case 31 -> builder.append("WereProfessor");
+          case 32 -> builder.append("Zootomist");
           default -> {
             builder.append("(Class ");
             builder.append(pclass);
