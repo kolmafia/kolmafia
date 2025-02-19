@@ -91,8 +91,10 @@ public class NemesisDecoratorTest {
         String after = text.toString();
         assertThat(
             after, containsString("<option picurl=tooth selected value=2>seal tooth (1)</option>"));
-        // assertThat(after, containsString("<option value=\"7514\" picurl=\"nicedart\" >Darts:
-        // Throw at leg (5 darts)</option>"));
+        assertThat(
+            after,
+            containsString(
+                "<option value=\"7514\" picurl=\"nicedart\" >Darts: Throw at leg (5 darts)</option>"));
         assertThat(
             after,
             containsString(
