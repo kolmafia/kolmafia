@@ -676,10 +676,10 @@ public class MallSearchRequest extends GenericRequest {
   public static boolean registerRequest(final String urlString) {
 
     // mallstore.php?whichstore=294980
-    // Without buying=1, this is a search, not a purchase
+    // Without buying=1 or buying=Yep., this is a search, not a purchase
     if (urlString.startsWith("mallstore.php")) {
       // It's a purchase. Defer to MallPurchaseRequest
-      if (urlString.contains("buying=1")) {
+      if (urlString.contains("buying=1") || urlString.contains("buying=Yep.")) {
         return false;
       }
 

@@ -536,16 +536,35 @@ public class MallPurchaseRequest extends PurchaseRequest {
       return;
     }
 
+    if (responseText.contains("You can't afford that item")) {
+      // This should not be possible via GUI or script, since those
+      // check available Meat before attempting a Mall Purchase.
+      // The Relay Browser has no such constraints, so don't
+      // bother trying to parse the response.
+      return;
+    }
+
     // Mall stores themselves can only contain processable results
     // when actually buying an item, and then only at the very top
     // of the page.
+    //
+    // Purchasing using ajax does not show the store inventory - which
+    // means the result is still at the top of the page.
 
     Matcher tableMatcher = MallPurchaseRequest.TABLE_PATTERN.matcher(responseText);
     if (!tableMatcher.find()) {
       return;
     }
 
-    AdventureResult result = MallPurchaseRequest.processItemFromMall(tableMatcher.group(0));
+    String tableText = tableMatcher.group(0);
+    AdventureResult result = MallPurchaseRequest.processItemFromMall(tableText);
+    if (result == null) {
+      // This should not happen. But, apparently it (very rarely) does,
+      // even though the mall purchase was actually successful.  Log the
+      // failure, put the text into debug log, and leave in error state.
+      logResultProcessingFailure(tableText);
+      return;
+    }
 
     Matcher meatMatcher = MallPurchaseRequest.MEAT_PATTERN.matcher(responseText);
     if (!meatMatcher.find()) {
@@ -612,6 +631,22 @@ public class MallPurchaseRequest extends PurchaseRequest {
     }
 
     return item;
+  }
+
+  private static void logResultProcessingFailure(String text) {
+    boolean shouldOpenStream = !RequestLogger.isDebugging();
+    try {
+      if (shouldOpenStream) {
+        RequestLogger.openDebugLog();
+      }
+      KoLmafia.updateDisplay(
+          MafiaState.ERROR, "Mall purchase parse failure. Refresh inventory and try again.");
+      RequestLogger.updateDebugLog(text);
+    } finally {
+      if (shouldOpenStream) {
+        RequestLogger.closeDebugLog();
+      }
+    }
   }
 
   public static boolean registerRequest(final String urlString) {
