@@ -565,7 +565,7 @@ public class MallPurchaseRequest extends PurchaseRequest {
       // This should not happen. But, apparently it (very rarely) does,
       // even though the mall purchase was actually successful.  Log the
       // failure, put the text into debug log, and leave in error state.
-      logResultProcessingFailure(tableText);
+      logResultProcessingFailure(responseText);
       return;
     }
 
