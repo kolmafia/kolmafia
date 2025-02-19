@@ -899,12 +899,13 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
     return this.shopRows;
   }
 
-  public final ShopRow getShopRow(int itemId) {
+  public final ShopRow getShopRow(int thingId) {
     if (this.shopRows == null) {
       return null;
     }
     for (ShopRow shopRow : this.shopRows) {
-      if (shopRow.getItem().getItemId() == itemId) {
+      var adventureResult = shopRow.getItem();
+      if (adventureResult.getItemId() == thingId || adventureResult.getSkillId() == thingId) {
         return shopRow;
       }
     }

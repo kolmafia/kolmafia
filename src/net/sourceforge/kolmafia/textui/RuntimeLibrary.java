@@ -1463,6 +1463,18 @@ public abstract class RuntimeLibrary {
         List.of(
             namedParam("master", DataTypes.COINMASTER_TYPE),
             namedParam("item", DataTypes.ITEM_TYPE));
+    functions.add(new LibraryFunction("sell_cost", DataTypes.ITEM_TO_INT_TYPE, params));
+
+    params =
+        List.of(
+            namedParam("master", DataTypes.COINMASTER_TYPE),
+            namedParam("skill", DataTypes.SKILL_TYPE));
+    functions.add(new LibraryFunction("sell_cost", DataTypes.ITEM_TO_INT_TYPE, params));
+
+    params =
+        List.of(
+            namedParam("master", DataTypes.COINMASTER_TYPE),
+            namedParam("item", DataTypes.ITEM_TYPE));
     functions.add(new LibraryFunction("sell_price", DataTypes.INT_TYPE, params));
 
     params =
@@ -6528,6 +6540,29 @@ public abstract class RuntimeLibrary {
     CoinmasterData data = (CoinmasterData) master.rawValue();
     int skillId = (int) skill.intValue();
     return DataTypes.makeBooleanValue(data != null && data.skillBuyPrice(skillId) != null);
+  }
+
+  public static Value sell_cost(ScriptRuntime controller, final Value master, final Value thing) {
+    MapValue value = new MapValue(DataTypes.ITEM_TO_INT_TYPE);
+
+    CoinmasterData data = (CoinmasterData) master.rawValue();
+    int id = (int) thing.intValue();
+
+    if (data.getShopRows() != null) {
+      var shopRow = data.getShopRow(id);
+
+      if (shopRow == null) return value;
+
+      for (var cost : shopRow.getCosts()) {
+        value.aset(DataTypes.makeItemValue(cost.getItemId(), true), new Value(cost.getCount()));
+      }
+
+      return value;
+    }
+
+    value.aset(DataTypes.makeItemValue(data.getItem()), sell_price(controller, master, thing));
+
+    return value;
   }
 
   public static Value sell_price(ScriptRuntime controller, final Value master, final Value thing) {
