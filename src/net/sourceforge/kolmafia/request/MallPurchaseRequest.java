@@ -553,6 +553,9 @@ public class MallPurchaseRequest extends PurchaseRequest {
 
     Matcher tableMatcher = MallPurchaseRequest.TABLE_PATTERN.matcher(responseText);
     if (!tableMatcher.find()) {
+      // Log and set ERROR state so we learn about the issue and the
+      // caller doesn't immediately go to the next PurchaseRequest.
+      logResultProcessingFailure(responseText);
       return;
     }
 
@@ -568,6 +571,8 @@ public class MallPurchaseRequest extends PurchaseRequest {
 
     Matcher meatMatcher = MallPurchaseRequest.MEAT_PATTERN.matcher(responseText);
     if (!meatMatcher.find()) {
+      // Considering that the item was successfully detected, hard to
+      // imagine we can't parse the Meat spent.
       return;
     }
 
