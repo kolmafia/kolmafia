@@ -828,12 +828,12 @@ public abstract class KoLCharacter {
   /** Set the level of this character. */
   public static final void setLevel(int newLevel) {
     int previousLevel = KoLCharacter.currentLevel;
+    KoLCharacter.currentLevel = newLevel;
     if (previousLevel != newLevel) {
       HPRestoreItemList.updateHealthRestored();
       MPRestoreItemList.updateManaRestored();
       ConsumablesDatabase.setLevelVariableConsumables();
     }
-    KoLCharacter.currentLevel = newLevel;
   }
 
   public static final int getFury() {
