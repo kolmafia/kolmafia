@@ -1251,6 +1251,7 @@ public class Player {
   public static Cleanups withLevel(final int level) {
     int substats = (int) Math.pow(level, 2) - level * 2 + 5;
     int previousLevel = KoLCharacter.getLevel();
+    KoLCharacter.setLevel(level);
     return new Cleanups(
         withStats(substats, substats, substats),
         new Cleanups(() -> KoLCharacter.setLevel(previousLevel)));
