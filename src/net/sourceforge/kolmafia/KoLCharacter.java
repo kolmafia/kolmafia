@@ -185,8 +185,6 @@ public abstract class KoLCharacter {
   public static int AWOLtattoo = 0;
 
   private static int currentLevel = 1;
-  private static long decrementPrime = 0;
-  private static long incrementPrime = 25;
 
   private static long currentHP, maximumHP, baseMaxHP;
   private static long currentMP, maximumMP, baseMaxMP;
@@ -354,8 +352,6 @@ public abstract class KoLCharacter {
 
     KoLCharacter.gender = Gender.UNKNOWN;
     KoLCharacter.currentLevel = 1;
-    KoLCharacter.decrementPrime = 0L;
-    KoLCharacter.incrementPrime = 25L;
 
     KoLCharacter.fury = 0;
     KoLCharacter.soulsauce = 0;
@@ -826,28 +822,18 @@ public abstract class KoLCharacter {
    * @return The level of this character
    */
   public static final int getLevel() {
-    long totalPrime = KoLCharacter.getTotalPrime();
-
-    if (totalPrime < KoLCharacter.decrementPrime || totalPrime >= KoLCharacter.incrementPrime) {
-      int previousLevel = KoLCharacter.currentLevel;
-
-      KoLCharacter.currentLevel = KoLCharacter.calculateSubpointLevels(totalPrime);
-      KoLCharacter.decrementPrime = KoLCharacter.calculateLastLevel();
-      KoLCharacter.incrementPrime = KoLCharacter.calculateNextLevel();
-
-      if (KoLCharacter.incrementPrime < 0) {
-        // this will overflow at level 216
-        KoLCharacter.incrementPrime = Long.MAX_VALUE;
-      }
-
-      if (previousLevel != KoLCharacter.currentLevel) {
-        HPRestoreItemList.updateHealthRestored();
-        MPRestoreItemList.updateManaRestored();
-        ConsumablesDatabase.setLevelVariableConsumables();
-      }
-    }
-
     return KoLCharacter.currentLevel;
+  }
+
+  /** Set the level of this character. */
+  public static final void setLevel(int newLevel) {
+    int previousLevel = KoLCharacter.currentLevel;
+    if (previousLevel != newLevel) {
+      HPRestoreItemList.updateHealthRestored();
+      MPRestoreItemList.updateManaRestored();
+      ConsumablesDatabase.setLevelVariableConsumables();
+    }
+    KoLCharacter.currentLevel = newLevel;
   }
 
   public static final int getFury() {

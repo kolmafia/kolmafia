@@ -726,5 +726,7 @@ public class CharSheetRequest extends GenericRequest {
     }
 
     KoLCharacter.setStatPoints(muscle, rawmuscle, mysticality, rawmysticality, moxie, rawmoxie);
+    int level = JSON.getIntValue("level");
+    KoLCharacter.setLevel(level);
   }
 }
