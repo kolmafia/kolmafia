@@ -1242,19 +1242,15 @@ public class Player {
   }
 
   /**
-   * Sets the player's level to the given value. This also sets all stats to the minimum required
-   * for that level.
+   * Sets the player's level to the given value.
    *
    * @param level Required level
    * @return Resets level to zero
    */
   public static Cleanups withLevel(final int level) {
-    int substats = (int) Math.pow(level, 2) - level * 2 + 5;
     int previousLevel = KoLCharacter.getLevel();
     KoLCharacter.setLevel(level);
-    return new Cleanups(
-        withStats(substats, substats, substats),
-        new Cleanups(() -> KoLCharacter.setLevel(previousLevel)));
+    return new Cleanups(() -> KoLCharacter.setLevel(previousLevel));
   }
 
   /**
