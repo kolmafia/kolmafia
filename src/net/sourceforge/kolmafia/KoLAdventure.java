@@ -983,10 +983,15 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     if (this.zone.equals("Campground")) {
-      return switch (this.adventureNumber) {
-        case AdventurePool.YOUR_MUSHROOM_GARDEN -> !KoLCharacter.isKingdomOfExploathing();
-        default -> true;
-      };
+      if (!KoLCharacter.hasCampground()) {
+        return false;
+      }
+      if (this.adventureNumber == AdventurePool.YOUR_MUSHROOM_GARDEN) {
+        AdventureResult crop = CampgroundRequest.getCrop();
+        return crop != null
+            && CampgroundRequest.getCropType(crop) == CampgroundRequest.CropType.MUSHROOM;
+      }
+      return true;
     }
 
     if (this.parentZone.equals("Manor")) {
