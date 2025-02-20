@@ -5940,4 +5940,11 @@ public abstract class KoLCharacter {
     mods.addDouble(DoubleModifier.HOT_DAMAGE, 5 * level, ModifierType.OUTFIT, "McHugeLarge");
     mods.addDouble(DoubleModifier.INITIATIVE, 10 * level, ModifierType.OUTFIT, "McHugeLarge");
   }
+
+  public static boolean hasCampground() {
+    return switch (KoLCharacter.ascensionPath) {
+      case ACTUALLY_ED_THE_UNDYING, YOU_ROBOT, NUCLEAR_AUTUMN, SMALL, WEREPROFESSOR -> false;
+      default -> true;
+    };
+  }
 }
