@@ -210,6 +210,10 @@ public class SpecialOutfit implements Comparable<SpecialOutfit> {
     return this.pieces.values().toArray(new AdventureResult[0]);
   }
 
+  public boolean containsPiece(Integer itemId) {
+    return this.pieces.values().stream().anyMatch(p -> p.getItemId() == itemId);
+  }
+
   public static int pieceHash(final AdventureResult piece) {
     if (piece == null || piece == EquipmentRequest.UNEQUIP) {
       return 0;

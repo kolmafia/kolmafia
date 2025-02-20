@@ -69,4 +69,8 @@ public class Lookup {
       default -> getStringKey();
     };
   }
+
+  public ModifierType getType() {
+    return this.type;
+  }
 }
