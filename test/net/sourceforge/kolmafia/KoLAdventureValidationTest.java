@@ -6,6 +6,7 @@ import static internal.helpers.Networking.assertGetRequest;
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withAscensions;
+import static internal.helpers.Player.withCampgroundItem;
 import static internal.helpers.Player.withContinuationState;
 import static internal.helpers.Player.withDay;
 import static internal.helpers.Player.withEffect;
@@ -7630,6 +7631,19 @@ public class KoLAdventureValidationTest {
         assertThat("crimbo23CottageAtWar", isSetTo(true));
         assertThat("crimbo23FoundryAtWar", isSetTo(false));
       }
+    }
+  }
+
+  @ParameterizedTest
+  @ValueSource(booleans = {true, false})
+  public void canOnlyAdventureInMushroomGardenWithGarden(boolean hasGarden) {
+    var cleanups =
+        new Cleanups(
+            withCampgroundItem(hasGarden ? ItemPool.MUSHROOM_SPORES : ItemPool.DRAGON_TEETH));
+
+    try (cleanups) {
+      var area = AdventureDatabase.getAdventureByName("Your Mushroom Garden");
+      assertThat(area.canAdventure(), is(hasGarden));
     }
   }
 }
