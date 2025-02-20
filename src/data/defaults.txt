@@ -1751,6 +1751,10 @@ user	youRobotTop	0
 user	zeppelinProtestors	0
 user	zigguratLianas	0
 user	zombiePoints	0
+user	zootGraftedMods
+user	zootMilkCrueltyMods
+user	zootMilkKindnessMods
+user	zootomistPoints	0
 user	_2002MrStoreCreditsCollected	false
 user	_absintheDrops	0
 user	_abstractionDropsCrown	0
