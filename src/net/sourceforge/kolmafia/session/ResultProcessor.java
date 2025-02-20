@@ -376,7 +376,8 @@ public class ResultProcessor {
             EffectPool.CITIZEN_OF_A_ZONE,
             EffectPool.GRAFTED,
             EffectPool.MILK_OF_FAMILIAR_CRUELTY,
-            EffectPool.MILK_OF_FAMILIAR_KINDNESS -> DebugDatabase.readEffectDescriptionText(effectId);
+            EffectPool.MILK_OF_FAMILIAR_KINDNESS -> DebugDatabase.readEffectDescriptionText(
+            effectId);
       }
 
       String acquisition = effectMatcher.group(2);
