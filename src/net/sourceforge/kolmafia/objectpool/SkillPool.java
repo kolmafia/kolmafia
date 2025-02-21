@@ -626,6 +626,12 @@ public class SkillPool {
   public static final int LAUNCH_LOGIC_GRENADE = 7547;
   public static final int DEPLOY_GLITCHED_MALWARE = 7548;
   public static final int THRUST_YOUR_GEOFENCING_RAPIER = 7554;
+  public static final int DRINK_THE_MILK_OF_KINDNESS = 7555;
+  public static final int DRINK_THE_MILK_OF_CRUELTY = 7556;
+  public static final int LEFT_PUNCH = 7557;
+  public static final int RIGHT_PUNCH = 7558;
+  public static final int LEFT_KICK = 7559;
+  public static final int RIGHT_KICK = 7560;
 
   public static final int GOOD_SINGING_VOICE = 11016;
   public static final int BANISHING_SHOUT = 11020;
