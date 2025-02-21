@@ -40,8 +40,8 @@ public class ClosetRequest extends TransferItemRequest {
     ApiRequest.updateCloset();
   }
 
-  public static final void parseCloset(final JSONObject JSON) {
-    if (JSON == null) {
+  public static final void parseCloset(final JSONObject json) {
+    if (json == null) {
       return;
     }
 
@@ -49,12 +49,12 @@ public class ClosetRequest extends TransferItemRequest {
 
     try {
       // {"1":"1","2":"1" ... }
-      Iterator<String> keys = JSON.keySet().iterator();
+      Iterator<String> keys = json.keySet().iterator();
 
       while (keys.hasNext()) {
         String key = keys.next();
         int itemId = StringUtilities.parseInt(key);
-        int count = JSON.getIntValue(key);
+        int count = json.getIntValue(key);
         String name = ItemDatabase.getItemDataName(itemId);
         if (name == null) {
           // Fetch descid from api.php?what=item
@@ -65,7 +65,7 @@ public class ClosetRequest extends TransferItemRequest {
         items.add(ItemPool.get(itemId, count));
       }
     } catch (JSONException e) {
-      ApiRequest.reportParseError("closet", JSON.toString(), e);
+      ApiRequest.reportParseError("closet", json.toString(), e);
       return;
     }
 

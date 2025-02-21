@@ -160,9 +160,9 @@ public class EquipmentManagerTest {
 
     try (cleanups) {
       String text = html("request/test_status.json");
-      JSONObject JSON = json(text);
+      JSONObject jsonObject = json(text);
 
-      EquipmentManager.parseStatus(JSON);
+      EquipmentManager.parseStatus(jsonObject);
 
       assertItem(Slot.HAT, "Daylight Shavings Helmet");
       assertItem(Slot.CONTAINER, "vampyric cloake");

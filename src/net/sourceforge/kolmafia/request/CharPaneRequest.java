@@ -1649,11 +1649,11 @@ public class CharPaneRequest extends GenericRequest {
     }
   }
 
-  public static final void parseStatus(final JSONObject JSON) throws JSONException {
-    int turnsThisRun = JSON.getIntValue("turnsthisrun");
+  public static final void parseStatus(final JSONObject json) throws JSONException {
+    int turnsThisRun = json.getIntValue("turnsthisrun");
     CharPaneRequest.turnsThisRun = turnsThisRun;
 
-    int turnsPlayed = JSON.getIntValue("turnsplayed");
+    int turnsPlayed = json.getIntValue("turnsplayed");
     KoLCharacter.setTurnsPlayed(turnsPlayed);
 
     if (KoLmafia.isRefreshing()) {
@@ -1667,9 +1667,9 @@ public class CharPaneRequest extends GenericRequest {
 
     // Refresh effects before we set LimitMode since our "pseudo" LimitModes
     // are derived from currently active effects.
-    CharPaneRequest.refreshEffects(JSON);
+    CharPaneRequest.refreshEffects(json);
 
-    Object lmo = JSON.get("limitmode");
+    Object lmo = json.get("limitmode");
     if (lmo instanceof Integer && lmo.equals(0)) {
       KoLCharacter.setLimitMode(LimitMode.NONE);
     } else if (lmo instanceof String s) {
@@ -1679,83 +1679,83 @@ public class CharPaneRequest extends GenericRequest {
       KoLCharacter.setLimitMode(LimitMode.UNKNOWN);
     }
 
-    JSONObject lastadv = JSON.getJSONObject("lastadv");
+    JSONObject lastadv = json.getJSONObject("lastadv");
     String adventureId = lastadv.getString("id");
     String adventureName = lastadv.getString("name");
     String adventureURL = lastadv.getString("link");
     String container = Optional.ofNullable(lastadv.getString("container")).orElse("");
     CharPaneRequest.setLastAdventure(adventureId, adventureName, adventureURL, container);
 
-    int fury = JSON.getIntValue("fury");
+    int fury = json.getIntValue("fury");
     KoLCharacter.setFuryNoCheck(fury);
 
-    int soulsauce = JSON.getIntValue("soulsauce");
+    int soulsauce = json.getIntValue("soulsauce");
     KoLCharacter.setSoulsauce(soulsauce);
 
     if (KoLCharacter.isSneakyPete()) {
       int audience = 0;
-      audience += JSON.getIntValue("petelove");
-      audience -= JSON.getIntValue("petehate");
+      audience += json.getIntValue("petelove");
+      audience -= json.getIntValue("petehate");
       KoLCharacter.setAudience(audience);
     }
 
-    long hp = JSON.getLong("hp");
-    long maxhp = JSON.getLong("maxhp");
+    long hp = json.getLong("hp");
+    long maxhp = json.getLong("maxhp");
     KoLCharacter.setHP(hp, maxhp, maxhp);
 
     if (KoLCharacter.inZombiecore()) {
-      int horde = JSON.getIntValue("horde");
+      int horde = json.getIntValue("horde");
       KoLCharacter.setMP(horde, horde, horde);
     } else {
-      long mp = JSON.getLong("mp");
-      long maxmp = JSON.getLong("maxmp");
+      long mp = json.getLong("mp");
+      long maxmp = json.getLong("maxmp");
       KoLCharacter.setMP(mp, maxmp, maxmp);
     }
 
-    long meat = JSON.getLong("meat");
+    long meat = json.getLong("meat");
     KoLCharacter.setAvailableMeat(meat);
 
-    int drunk = JSON.getIntValue("drunk");
+    int drunk = json.getIntValue("drunk");
     KoLCharacter.setInebriety(drunk);
 
-    int full = JSON.getIntValue("full");
+    int full = json.getIntValue("full");
     KoLCharacter.setFullness(full);
 
-    int spleen = JSON.getIntValue("spleen");
+    int spleen = json.getIntValue("spleen");
     KoLCharacter.setSpleenUse(spleen);
 
-    int adventures = JSON.getIntValue("adventures");
+    int adventures = json.getIntValue("adventures");
     KoLCharacter.setAdventuresLeft(adventures);
 
-    int mcd = JSON.getIntValue("mcd");
+    int mcd = json.getIntValue("mcd");
     KoLCharacter.setMindControlLevel(mcd);
 
-    int classType = JSON.getIntValue("class");
+    int classType = json.getIntValue("class");
     KoLCharacter.setAscensionClass(classType);
 
-    int pvpFights = JSON.getIntValue("pvpfights");
+    int pvpFights = json.getIntValue("pvpfights");
     KoLCharacter.setAttacksLeft(pvpFights);
 
-    boolean hardcore = JSON.getIntValue("hardcore") == 1;
+    boolean hardcore = json.getIntValue("hardcore") == 1;
     KoLCharacter.setHardcore(hardcore);
 
-    boolean casual = JSON.getIntValue("casual") == 1;
+    boolean casual = json.getIntValue("casual") == 1;
     KoLCharacter.setCasual(casual);
 
-    var noncombatForcers = JSON.getJSONArray("noncomforcers");
+    var noncombatForcers = json.getJSONArray("noncomforcers");
     Preferences.setBoolean("noncombatForcerActive", noncombatForcers.size() > 0);
     Preferences.setString(
         "noncombatForcers", String.join("|", noncombatForcers.toList(String.class)));
 
     // boolean casual = JSON.getIntValue( "casual" ) == 1;
-    int roninLeft = JSON.getIntValue("roninleft");
+    int roninLeft = json.getIntValue("roninleft");
 
     if (KoLCharacter.inRaincore()) {
-      int thunder = JSON.getIntValue("thunder");
+      int thunder = json.getIntValue("thunder");
       KoLCharacter.setThunder(thunder);
-      int rain = JSON.getIntValue("rain");
+      int rain = json.getIntValue("rain");
       KoLCharacter.setRain(rain);
-      int lightning = JSON.getIntValue("lightning");
+      int lightning = json.getIntValue("lightning");
       KoLCharacter.setLightning(lightning);
     }
 
@@ -1767,17 +1767,17 @@ public class CharPaneRequest extends GenericRequest {
     if (KoLCharacter.getLimitMode().limitFamiliars()) {
       // No familiar
     } else if (KoLCharacter.inAxecore()) {
-      int level = JSON.getIntValue("clancy_level");
-      int itype = JSON.getIntValue("clancy_instrument");
-      boolean att = JSON.getBoolean("clancy_wantsattention");
+      int level = json.getIntValue("clancy_level");
+      int itype = json.getIntValue("clancy_instrument");
+      boolean att = json.getBoolean("clancy_wantsattention");
       AdventureResult instrument =
           itype == 1
               ? CharPaneRequest.SACKBUT
               : itype == 2 ? CharPaneRequest.CRUMHORN : itype == 3 ? CharPaneRequest.LUTE : null;
       KoLCharacter.setClancy(level, instrument, att);
     } else if (KoLCharacter.isJarlsberg()) {
-      if (JSON.containsKey("jarlcompanion")) {
-        int companion = JSON.getIntValue("jarlcompanion");
+      if (json.containsKey("jarlcompanion")) {
+        int companion = json.getIntValue("jarlcompanion");
         switch (companion) {
           case 1 -> KoLCharacter.setCompanion(Companion.EGGMAN);
           case 2 -> KoLCharacter.setCompanion(Companion.RADISH);
@@ -1791,17 +1791,17 @@ public class CharPaneRequest extends GenericRequest {
       // No familiar, but may have a servant.  Unfortunately,
       // details of such are not in api.php
     } else if (KoLCharacter.getPath().canUseFamiliars()) {
-      int famId = JSON.getIntValue("familiar");
-      int famExp = JSON.getIntValue("familiarexp");
+      int famId = json.getIntValue("familiar");
+      int famExp = json.getIntValue("familiarexp");
       FamiliarData familiar = FamiliarData.registerFamiliar(famId, famExp);
       KoLCharacter.setFamiliar(familiar);
 
-      String image = JSON.getString("familiarpic");
+      String image = json.getString("familiarpic");
       if (famId != FamiliarPool.MELODRAMEDARY) {
         KoLCharacter.setFamiliarImage(image.equals("") ? null : image + ".gif");
       }
 
-      familiar.setFeasted(JSON.getIntValue("familiar_wellfed") == 1);
+      familiar.setFeasted(json.getIntValue("familiar_wellfed") == 1);
 
       // Set charges from the Medium's image
 
@@ -1812,8 +1812,8 @@ public class CharPaneRequest extends GenericRequest {
       }
     }
 
-    int thrallId = JSON.getIntValue("pastathrall");
-    int thrallLevel = JSON.getIntValue("pastathralllevel");
+    int thrallId = json.getIntValue("pastathrall");
+    int thrallLevel = json.getIntValue("pastathralllevel");
 
     PastaThrallData thrall = KoLCharacter.findPastaThrall(thrallId);
     if (thrall != null) {
@@ -1824,8 +1824,8 @@ public class CharPaneRequest extends GenericRequest {
     }
 
     if (KoLCharacter.inNuclearAutumn()) {
-      if (JSON.containsKey("radsickness")) {
-        int rads = JSON.getIntValue("radsickness");
+      if (json.containsKey("radsickness")) {
+        int rads = json.getIntValue("radsickness");
         KoLCharacter.setRadSickness(rads);
       } else {
         KoLCharacter.setRadSickness(0);
@@ -1833,15 +1833,15 @@ public class CharPaneRequest extends GenericRequest {
     }
   }
 
-  public static final void checkFamiliarWeight(final JSONObject JSON) throws JSONException {
+  public static final void checkFamiliarWeight(final JSONObject json) throws JSONException {
     KoLCharacter.recalculateAdjustments();
-    KoLCharacter.getFamiliar().checkWeight(JSON.getIntValue("famlevel"));
+    KoLCharacter.getFamiliar().checkWeight(json.getIntValue("famlevel"));
   }
 
-  private static void refreshEffects(final JSONObject JSON) throws JSONException {
+  private static void refreshEffects(final JSONObject json) throws JSONException {
     ArrayList<AdventureResult> visibleEffects = new ArrayList<>();
 
-    Object o = JSON.get("effects");
+    Object o = json.get("effects");
     if (o instanceof JSONObject effects) {
       // KoL returns an empty JSON array if there are no effects
       Iterator<String> keys = effects.keySet().iterator();
@@ -1858,7 +1858,7 @@ public class CharPaneRequest extends GenericRequest {
       }
     }
 
-    o = JSON.get("intrinsics");
+    o = json.get("intrinsics");
     if (o instanceof JSONObject intrinsics) {
       Iterator<String> keys = intrinsics.keySet().iterator();
       while (keys.hasNext()) {

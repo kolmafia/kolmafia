@@ -1751,7 +1751,18 @@ user	youRobotTop	0
 user	zeppelinProtestors	0
 user	zigguratLianas	0
 user	zombiePoints	0
+user	zootGraftButtCheekLeft	0
+user	zootGraftButtCheekRight	0
 user	zootGraftedMods
+user	zootGraftFootLeft	0
+user	zootGraftFootRight	0
+user	zootGraftHandLeft	0
+user	zootGraftHandRight	0
+user	zootGraftHead	0
+user	zootGraftNippleLeft	0
+user	zootGraftNippleRight	0
+user	zootGraftShoulderLeft	0
+user	zootGraftShoulderRight	0
 user	zootMilkCrueltyMods
 user	zootMilkKindnessMods
 user	zootSpecimensPrepared	0
