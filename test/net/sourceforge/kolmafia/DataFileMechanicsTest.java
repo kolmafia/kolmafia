@@ -39,7 +39,7 @@ public class DataFileMechanicsTest {
         Arguments.of("consequences.txt", 1, 2, 5),
         Arguments.of("cultshorts.txt", 1, 2, 8),
         Arguments.of("dailylimits.txt", 1, 3, 4),
-        Arguments.of("defaults.txt", 1, 2, 3),
+        Arguments.of("defaults.txt", 2, 2, 4),
         Arguments.of("encounters.txt", 1, 3, 3),
         Arguments.of("equipment.txt", 2, 3, 4),
         Arguments.of("fambattle.txt", 1, 8, 8),
