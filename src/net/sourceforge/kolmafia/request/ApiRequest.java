@@ -466,41 +466,41 @@ public class ApiRequest extends GenericRequest {
 
     if (grafts == null) return;
 
-    Preferences.setInteger("zootGraftHead", grafts.getIntValue("1", 0));
-    Preferences.setInteger("zootGraftShoulderLeft", grafts.getIntValue("2", 0));
-    Preferences.setInteger("zootGraftShoulderRight", grafts.getIntValue("3", 0));
+    Preferences.setInteger("zootGraftedHeadFamiliar", grafts.getIntValue("1", 0));
+    Preferences.setInteger("zootGraftedShoulderLeftFamiliar", grafts.getIntValue("2", 0));
+    Preferences.setInteger("zootGraftedShoulderRightFamiliar", grafts.getIntValue("3", 0));
     var leftHand = grafts.getIntValue("4", 0);
     if (leftHand != 0 && !KoLCharacter.hasCombatSkill(SkillPool.LEFT_PUNCH)) {
       KoLCharacter.addAvailableCombatSkill(SkillPool.LEFT_PUNCH);
     }
-    Preferences.setInteger("zootGraftHandLeft", leftHand);
+    Preferences.setInteger("zootGraftedHandLeftFamiliar", leftHand);
     var rightHand = grafts.getIntValue("5", 0);
     if (rightHand != 0 && !KoLCharacter.hasCombatSkill(SkillPool.RIGHT_PUNCH)) {
       KoLCharacter.addAvailableCombatSkill(SkillPool.RIGHT_PUNCH);
     }
-    Preferences.setInteger("zootGraftHandRight", rightHand);
+    Preferences.setInteger("zootGraftedHandRightFamiliar", rightHand);
     var rightNipple = grafts.getIntValue("6", 0);
     if (rightNipple != 0 && !KoLCharacter.hasSkill(SkillPool.DRINK_THE_MILK_OF_CRUELTY)) {
       KoLCharacter.addAvailableSkill(SkillPool.DRINK_THE_MILK_OF_CRUELTY);
     }
-    Preferences.setInteger("zootGraftNippleRight", rightNipple);
+    Preferences.setInteger("zootGraftedNippleRightFamiliar", rightNipple);
     var leftNipple = grafts.getIntValue("7", 0);
     if (leftNipple != 0 && !KoLCharacter.hasSkill(SkillPool.DRINK_THE_MILK_OF_KINDNESS)) {
       KoLCharacter.addAvailableSkill(SkillPool.DRINK_THE_MILK_OF_KINDNESS);
     }
-    Preferences.setInteger("zootGraftNippleLeft", leftNipple);
-    Preferences.setInteger("zootGraftButtCheekLeft", grafts.getIntValue("8", 0));
-    Preferences.setInteger("zootGraftButtCheekRight", grafts.getIntValue("9", 0));
+    Preferences.setInteger("zootGraftedNippleLeftFamiliar", leftNipple);
+    Preferences.setInteger("zootGraftedButtCheekLeftFamiliar", grafts.getIntValue("8", 0));
+    Preferences.setInteger("zootGraftedButtCheekRightFamiliar", grafts.getIntValue("9", 0));
     var leftFoot = grafts.getIntValue("10", 0);
     if (leftFoot != 0 && !KoLCharacter.hasCombatSkill(SkillPool.LEFT_KICK)) {
       KoLCharacter.addAvailableCombatSkill(SkillPool.LEFT_KICK);
     }
-    Preferences.setInteger("zootGraftFootLeft", leftFoot);
+    Preferences.setInteger("zootGraftedFootLeftFamiliar", leftFoot);
     var rightFoot = grafts.getIntValue("11", 0);
     if (rightFoot != 0 && !KoLCharacter.hasCombatSkill(SkillPool.RIGHT_KICK)) {
       KoLCharacter.addAvailableCombatSkill(SkillPool.RIGHT_KICK);
     }
-    Preferences.setInteger("zootGraftFootRight", rightFoot);
+    Preferences.setInteger("zootGraftedFootRightFamiliar", rightFoot);
   }
 
   public static final void parseInventory(final String responseText) {

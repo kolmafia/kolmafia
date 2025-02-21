@@ -1756,18 +1756,18 @@ user	youRobotTop	0	roa
 user	zeppelinProtestors	0	
 user	zigguratLianas	0	
 user	zombiePoints	0	
-user	zootGraftButtCheekLeft	0	roa
-user	zootGraftButtCheekRight	0	roa
+user	zootGraftedButtCheekLeftFamiliar	0	roa
+user	zootGraftedButtCheekRightFamiliar	0	roa
+user	zootGraftedFootLeftFamiliar	0	roa
+user	zootGraftedFootRightFamiliar	0	roa
+user	zootGraftedHandLeftFamiliar	0	roa
+user	zootGraftedHandRightFamiliar	0	roa
+user	zootGraftedHeadFamiliar	0	roa
 user	zootGraftedMods		roa
-user	zootGraftFootLeft	0	roa
-user	zootGraftFootRight	0	roa
-user	zootGraftHandLeft	0	roa
-user	zootGraftHandRight	0	roa
-user	zootGraftHead	0	roa
-user	zootGraftNippleLeft	0	roa
-user	zootGraftNippleRight	0	roa
-user	zootGraftShoulderLeft	0	roa
-user	zootGraftShoulderRight	0	roa
+user	zootGraftedNippleLeftFamiliar	0	roa
+user	zootGraftedNippleRightFamiliar	0	roa
+user	zootGraftedShoulderLeftFamiliar	0	roa
+user	zootGraftedShoulderRightFamiliar	0	roa
 user	zootMilkCrueltyMods		roa
 user	zootMilkKindnessMods		roa
 user	zootSpecimensPrepared	0	roa
