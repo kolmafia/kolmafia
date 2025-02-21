@@ -7006,8 +7006,10 @@ public abstract class ChoiceControl {
         // Hybridization Chamber
         if (ChoiceManager.lastDecision == 1 && text.contains("<span class='guts'>Grafting")) {
           var famId = request.getFormField("fam");
-          // if this is our current familiar, remove it
-          if (Integer.parseInt(famId) == KoLCharacter.getFamiliar().getId()) {
+          // if this is our current familiar, remove it and the item it holds
+          var familiar = KoLCharacter.getFamiliar();
+          if (Integer.parseInt(famId) == familiar.getId()) {
+            familiar.setItem(EquipmentRequest.UNEQUIP);
             KoLCharacter.setFamiliar(FamiliarData.NO_FAMILIAR);
           }
           // grab our graft info and our new level
