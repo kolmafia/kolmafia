@@ -702,31 +702,46 @@ public class CharSheetRequest extends GenericRequest {
     }
   }
 
-  public static void parseStatus(final JSONObject JSON) throws JSONException {
-    int muscle = JSON.getIntValue("muscle");
-    int mysticality = JSON.getIntValue("mysticality");
-    int moxie = JSON.getIntValue("moxie");
+  public static void parseStatus(final JSONObject json) throws JSONException {
+    int muscle = json.getIntValue("muscle");
+    int mysticality = json.getIntValue("mysticality");
+    int moxie = json.getIntValue("moxie");
     long rawmuscle;
     long rawmysticality;
     long rawmoxie;
     if (KoLCharacter.inGreyYou() || KoLCharacter.inZootomist()) {
       // Raw values are more precise, but they don't exist in Grey You and are wrong in Zooto
-      long basemuscle = JSON.getLong("basemuscle");
+      long basemuscle = json.getLong("basemuscle");
       rawmuscle = basemuscle * basemuscle;
 
-      long basemysticality = JSON.getLong("basemysticality");
+      long basemysticality = json.getLong("basemysticality");
       rawmysticality = basemysticality * basemysticality;
 
-      long basemoxie = JSON.getLong("basemoxie");
+      long basemoxie = json.getLong("basemoxie");
       rawmoxie = basemoxie * basemoxie;
+
+      var grafts = json.getJSONObject("grafts");
+      if (KoLCharacter.inZootomist() && grafts != null) {
+        Preferences.setInteger("zootGraftHead", grafts.getIntValue("1", 0));
+        Preferences.setInteger("zootGraftShoulderLeft", grafts.getIntValue("2", 0));
+        Preferences.setInteger("zootGraftShoulderRight", grafts.getIntValue("3", 0));
+        Preferences.setInteger("zootGraftHandLeft", grafts.getIntValue("4", 0));
+        Preferences.setInteger("zootGraftHandRight", grafts.getIntValue("5", 0));
+        Preferences.setInteger("zootGraftNippleRight", grafts.getIntValue("6", 0));
+        Preferences.setInteger("zootGraftNippleLeft", grafts.getIntValue("7", 0));
+        Preferences.setInteger("zootGraftButtCheekLeft", grafts.getIntValue("8", 0));
+        Preferences.setInteger("zootGraftButtCheekRight", grafts.getIntValue("9", 0));
+        Preferences.setInteger("zootGraftFootLeft", grafts.getIntValue("10", 0));
+        Preferences.setInteger("zootGraftFootRight", grafts.getIntValue("11", 0));
+      }
     } else {
-      rawmuscle = JSON.getLong("rawmuscle");
-      rawmysticality = JSON.getLong("rawmysticality");
-      rawmoxie = JSON.getLong("rawmoxie");
+      rawmuscle = json.getLong("rawmuscle");
+      rawmysticality = json.getLong("rawmysticality");
+      rawmoxie = json.getLong("rawmoxie");
     }
 
     KoLCharacter.setStatPoints(muscle, rawmuscle, mysticality, rawmysticality, moxie, rawmoxie);
-    int level = JSON.getIntValue("level");
+    int level = json.getIntValue("level");
     KoLCharacter.setLevel(level);
   }
 }

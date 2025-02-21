@@ -1,18 +1,25 @@
 package net.sourceforge.kolmafia.request;
 
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withPath;
+import static internal.helpers.Player.withProperty;
+import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.*;
 
+import com.alibaba.fastjson2.JSON;
+import internal.helpers.Cleanups;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import net.sourceforge.kolmafia.AscensionPath;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CharSheetRequest.ParsedSkillInfo;
 import net.sourceforge.kolmafia.request.CharSheetRequest.ParsedSkillInfo.PermStatus;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,6 +31,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 public class CharSheetRequestTest {
   @BeforeEach
   public void setUp() {
+    Preferences.reset("CharSheetRequestTest");
     KoLCharacter.reset(true);
   }
 
@@ -392,13 +400,61 @@ public class CharSheetRequestTest {
     assertThat(KoLCharacter.getInebriety(), equalTo(3));
   }
 
-  @Test
-  public void parsesZootomistStats() {
-    String html = html("request/test_charsheet_zootomist.html");
-    CharSheetRequest.parseStatus(html);
+  @Nested
+  class Zootomist {
+    @Test
+    public void parsesZootomistStats() {
+      String html = html("request/test_charsheet_zootomist.html");
+      CharSheetRequest.parseStatus(html);
 
-    assertThat(KoLCharacter.getAdjustedMuscle(), equalTo(82));
-    assertThat(KoLCharacter.getAdjustedMysticality(), equalTo(67));
-    assertThat(KoLCharacter.getAdjustedMoxie(), equalTo(70));
+      assertThat(KoLCharacter.getAdjustedMuscle(), equalTo(82));
+      assertThat(KoLCharacter.getAdjustedMysticality(), equalTo(67));
+      assertThat(KoLCharacter.getAdjustedMoxie(), equalTo(70));
+    }
+
+    @Test
+    public void parseZootomistGraftsFromApi() {
+      var cleanups =
+          new Cleanups(
+              withPath(AscensionPath.Path.Z_IS_FOR_ZOOTOMIST),
+              withProperty("zootGraftHead", 25),
+              withProperty("zootGraftShoulderLeft", 25),
+              withProperty("zootGraftShoulderRight", 25),
+              withProperty("zootGraftHandLeft", 25),
+              withProperty("zootGraftHandRight", 25),
+              withProperty("zootGraftNippleRight", 25),
+              withProperty("zootGraftNippleLeft", 25),
+              withProperty("zootGraftButtCheekLeft", 25),
+              withProperty("zootGraftButtCheekRight", 25),
+              withProperty("zootGraftFootLeft", 25),
+              withProperty("zootGraftFootRight", 25));
+
+      try (cleanups) {
+        var json =
+            JSON.parseObject(
+                """
+            {
+              "basemuscle": "70",
+              "basemysticality": "70",
+              "basemoxie": "70",
+              "level": "13",
+              "grafts":{"1":"175","2":"16","3":"55","6":"20","7":"71","8":"3","9":"142","10":"286"}
+            }
+          """);
+        CharSheetRequest.parseStatus(json);
+
+        assertThat("zootGraftHead", isSetTo(175));
+        assertThat("zootGraftShoulderLeft", isSetTo(16));
+        assertThat("zootGraftShoulderRight", isSetTo(55));
+        assertThat("zootGraftHandLeft", isSetTo(0));
+        assertThat("zootGraftHandRight", isSetTo(0));
+        assertThat("zootGraftNippleRight", isSetTo(20));
+        assertThat("zootGraftNippleLeft", isSetTo(71));
+        assertThat("zootGraftButtCheekLeft", isSetTo(3));
+        assertThat("zootGraftButtCheekRight", isSetTo(142));
+        assertThat("zootGraftFootLeft", isSetTo(286));
+        assertThat("zootGraftFootRight", isSetTo(0));
+      }
+    }
   }
 }
