@@ -1122,12 +1122,12 @@
 7552	Leave nothing to the imagination	crepecamisole.gif	nc,self	0	20
 7553	Embrace polka	crepecharm.gif	nc,self	0	20
 7554	Thrust your geofencing rapier	cr_rapier.gif	combat	0	0
-7555	Drink The Milk of  Kindness	.gif	nc,self	10	20
-7556	Drink The Milk of  Cruelty	.gif	nc,self	20	20
-7557	Left  Punch	.gif	combat	5	0
-7558	Right  Punch	.gif	combat	10	0
-7559	Left  Kick	.gif	combat	15	0
-7560	Right  Kick	.gif	combat	20	0
+7555	Drink The Milk of %n Kindness	.gif	nc,self	10	20
+7556	Drink The Milk of %n Cruelty	.gif	nc,self	20	20
+7557	Left %n Punch	.gif	combat	5	0
+7558	Right %n Punch	.gif	combat	10	0
+7559	Left %n Kick	.gif	combat	15	0
+7560	Right %n Kick	.gif	combat	20	0
 
 # Skills granted by books on your Mystical Bookshelf
 # These skills were renumbered.  This section kept for historical purposes only.

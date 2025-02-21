@@ -2965,5 +2965,5 @@
 2962	Synthetic Buzz	coffeecup.gif	20528648bd6e3ac43c284af4efcd631f	neutral	none	use 1 synthetic coffee
 2963	Cybercrime Eyes	bigpupil.gif	94d178dfabaef344cc7591315e6bbb03	neutral	none	use 1 iDrops
 2964	Grafted	zootomist.gif	003e2e2d7de4a3fb2982c7615b1cbcdc	neutral	none
-2965	Milk of Familiar Kindness	noart.gif	49aaf365d871570cbdead2dc7e35ff26	neutral	none	cast 1 Drink The Milk of  Kindness
-2966	Milk of Familiar Cruelty	noart.gif	ddf36c8e65632ba327f2a6e756a963c0	neutral	none	cast 1 Drink The Milk of  Cruelty
+2965	Milk of Familiar Kindness	noart.gif	49aaf365d871570cbdead2dc7e35ff26	neutral	none	cast 1 Drink The Milk of %n Kindness
+2966	Milk of Familiar Cruelty	noart.gif	ddf36c8e65632ba327f2a6e756a963c0	neutral	none	cast 1 Drink The Milk of %n Cruelty
