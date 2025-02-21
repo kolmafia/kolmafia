@@ -719,21 +719,6 @@ public class CharSheetRequest extends GenericRequest {
 
       long basemoxie = json.getLong("basemoxie");
       rawmoxie = basemoxie * basemoxie;
-
-      var grafts = json.getJSONObject("grafts");
-      if (KoLCharacter.inZootomist() && grafts != null) {
-        Preferences.setInteger("zootGraftHead", grafts.getIntValue("1", 0));
-        Preferences.setInteger("zootGraftShoulderLeft", grafts.getIntValue("2", 0));
-        Preferences.setInteger("zootGraftShoulderRight", grafts.getIntValue("3", 0));
-        Preferences.setInteger("zootGraftHandLeft", grafts.getIntValue("4", 0));
-        Preferences.setInteger("zootGraftHandRight", grafts.getIntValue("5", 0));
-        Preferences.setInteger("zootGraftNippleRight", grafts.getIntValue("6", 0));
-        Preferences.setInteger("zootGraftNippleLeft", grafts.getIntValue("7", 0));
-        Preferences.setInteger("zootGraftButtCheekLeft", grafts.getIntValue("8", 0));
-        Preferences.setInteger("zootGraftButtCheekRight", grafts.getIntValue("9", 0));
-        Preferences.setInteger("zootGraftFootLeft", grafts.getIntValue("10", 0));
-        Preferences.setInteger("zootGraftFootRight", grafts.getIntValue("11", 0));
-      }
     } else {
       rawmuscle = json.getLong("rawmuscle");
       rawmysticality = json.getLong("rawmysticality");

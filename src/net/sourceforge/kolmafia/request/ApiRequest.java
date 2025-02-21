@@ -27,7 +27,7 @@ public class ApiRequest extends GenericRequest {
 
   private final String what;
   private String id;
-  public JSONObject JSON;
+  public JSONObject json;
   private boolean silent = false;
 
   public ApiRequest() {
@@ -149,12 +149,12 @@ public class ApiRequest extends GenericRequest {
       KoLmafia.updateDisplay(message);
     }
 
-    this.JSON = null;
+    this.json = null;
 
     super.run();
 
     // Save the JSON object so caller can look further at it
-    this.JSON = ApiRequest.getJSON(this.responseText, this.what);
+    this.json = ApiRequest.getJSON(this.responseText, this.what);
   }
 
   @Override
@@ -332,8 +332,8 @@ public class ApiRequest extends GenericRequest {
     ApiRequest.parseStatus(ApiRequest.getJSON(responseText, "status"));
   }
 
-  public static final void parseStatus(final JSONObject JSON) {
-    if (JSON == null) {
+  public static final void parseStatus(final JSONObject json) {
+    if (json == null) {
       return;
     }
 
@@ -344,53 +344,56 @@ public class ApiRequest extends GenericRequest {
     try {
       // Pull out the current ascension count. Do this first.
       // Some later processing depends on this.
-      int ascensions = JSON.getIntValue("ascensions");
+      int ascensions = json.getIntValue("ascensions");
       KoLCharacter.setAscensions(ascensions);
 
       // Pull out the current password hash
-      String pwd = JSON.getString("pwd");
+      String pwd = json.getString("pwd");
       GenericRequest.setPasswordHash(pwd);
 
       // Many config options are available
-      AccountRequest.parseStatus(JSON);
+      AccountRequest.parseStatus(json);
 
       // Many things from the Char Sheet are available
-      CharSheetRequest.parseStatus(JSON);
+      CharSheetRequest.parseStatus(json);
 
       // It's not possible to tell if some IotMs are bound to
       // the player's account or if they've used a one-day ticket without coolitems
-      parseCoolItems(JSON.getString("coolitems"));
+      parseCoolItems(json.getString("coolitems"));
 
       // Many things from the Char Pane are available
-      CharPaneRequest.parseStatus(JSON);
+      CharPaneRequest.parseStatus(json);
 
       var limitmode = KoLCharacter.getLimitMode();
       switch (limitmode) {
         case SPELUNKY:
           // Parse Spelunky equipment
-          SpelunkyRequest.parseStatus(JSON);
+          SpelunkyRequest.parseStatus(json);
           break;
         case BATMAN:
           // Don't mess with equipment
           break;
         default:
           // Parse currently worn equipment
-          EquipmentManager.parseStatus(JSON);
+          EquipmentManager.parseStatus(json);
           break;
       }
 
       // Must be AFTER current familiar is set and equipment is processed
-      CharPaneRequest.checkFamiliarWeight(JSON);
+      CharPaneRequest.checkFamiliarWeight(json);
 
       // UNIX time of next rollover
-      long rollover = JSON.getLong("rollover");
+      long rollover = json.getLong("rollover");
       KoLCharacter.setRollover(rollover);
 
       // Add the global count of rollovers everyone shares
-      int daycount = JSON.getIntValue("daynumber");
+      int daycount = json.getIntValue("daynumber");
       KoLCharacter.setGlobalDays(daycount);
+
+      // The best place to parse our current graft status if we are a Zootomist
+      parseZootomistGrafts(json);
     } catch (JSONException e) {
-      ApiRequest.reportParseError("status", JSON.toString(), e);
+      ApiRequest.reportParseError("status", json.toString(), e);
     } finally {
       KoLCharacter.recalculateAdjustments();
       KoLCharacter.updateStatus();
@@ -453,6 +456,26 @@ public class ApiRequest extends GenericRequest {
             Preferences.setBoolean(alwaysPref, false);
           }
         });
+  }
+
+  protected static void parseZootomistGrafts(final JSONObject json) {
+    if (!KoLCharacter.inZootomist()) return;
+
+    var grafts = json.getJSONObject("grafts");
+
+    if (grafts == null) return;
+
+    Preferences.setInteger("zootGraftHead", grafts.getIntValue("1", 0));
+    Preferences.setInteger("zootGraftShoulderLeft", grafts.getIntValue("2", 0));
+    Preferences.setInteger("zootGraftShoulderRight", grafts.getIntValue("3", 0));
+    Preferences.setInteger("zootGraftHandLeft", grafts.getIntValue("4", 0));
+    Preferences.setInteger("zootGraftHandRight", grafts.getIntValue("5", 0));
+    Preferences.setInteger("zootGraftNippleRight", grafts.getIntValue("6", 0));
+    Preferences.setInteger("zootGraftNippleLeft", grafts.getIntValue("7", 0));
+    Preferences.setInteger("zootGraftButtCheekLeft", grafts.getIntValue("8", 0));
+    Preferences.setInteger("zootGraftButtCheekRight", grafts.getIntValue("9", 0));
+    Preferences.setInteger("zootGraftFootLeft", grafts.getIntValue("10", 0));
+    Preferences.setInteger("zootGraftFootRight", grafts.getIntValue("11", 0));
   }
 
   public static final void parseInventory(final String responseText) {
