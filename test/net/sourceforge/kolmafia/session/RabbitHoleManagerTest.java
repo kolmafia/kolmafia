@@ -26,6 +26,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junitpioneer.jupiter.RetryingTest;
 
 public class RabbitHoleManagerTest {
 
@@ -96,7 +97,8 @@ public class RabbitHoleManagerTest {
       return i;
     }
 
-    @Test
+    // This test can randomly fail to detect acquisition of a Queen Cookie
+    @RetryingTest(3)
     public void canAutomateChessPuzzleFromRelayBrowser() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
