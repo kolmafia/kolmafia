@@ -625,6 +625,7 @@ public class Preferences {
         "youRobotRight",
         "youRobotScavenged",
         "youRobotTop",
+        "zootSpecimensPrepared",
       };
 
   private static final Set<String> resetOnAscensionSet =
