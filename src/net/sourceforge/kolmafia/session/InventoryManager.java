@@ -84,8 +84,8 @@ public abstract class InventoryManager {
     ApiRequest.updateInventory();
   }
 
-  public static final void parseInventory(final JSONObject JSON) {
-    if (JSON == null) {
+  public static final void parseInventory(final JSONObject json) {
+    if (json == null) {
       return;
     }
 
@@ -94,9 +94,9 @@ public abstract class InventoryManager {
 
     try {
       // {"1":"1","2":"1" ... }
-      for (String key : JSON.keySet()) {
+      for (String key : json.keySet()) {
         int itemId = StringUtilities.parseInt(key);
-        int count = JSON.getIntValue(key);
+        int count = json.getIntValue(key);
         String name = ItemDatabase.getItemDataName(itemId);
         if (name == null) {
           // Fetch descid from api.php?what=item
@@ -118,7 +118,7 @@ public abstract class InventoryManager {
         }
       }
     } catch (JSONException e) {
-      ApiRequest.reportParseError("inventory", JSON.toString(), e);
+      ApiRequest.reportParseError("inventory", json.toString(), e);
       return;
     }
 
