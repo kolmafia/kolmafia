@@ -1,4 +1,10 @@
-1
+2
+#
+# Attributes
+# roa - Reset on ascension
+# ld - Legacy daily (from before a leading underscore was used to indicate preferences that reset at rollover
+#
+# map	pref name	[default value	[attributes]]
 global	abortOnChoiceWhenNotInChoice	true
 global	addChatCommandLine	false
 global	addCreationQueue	true
@@ -191,21 +197,20 @@ global	_g9Effect	0
 global	_gitUpdated	false
 global	_svnRepoFileFetched	false
 global	_svnUpdated	false
-
-user	8BitBonusTurns	0
-user	8BitScore	0
-user	8BitColor	
+user	8BitBonusTurns	0	roa
+user	8BitScore	0	roa
+user	8BitColor		roa
 user	addingScrolls	1
-user	affirmationCookiesEaten	0
+user	affirmationCookiesEaten	0	roa
 user	afterAdventureScript
-user	aminoAcidsUsed	0
+user	aminoAcidsUsed	0	roa
 user	antagonisticSnowmanKitAvailable	true
 user	antagonisticSnowmanKitCost	1000
-user	antiScientificMethod	
+user	antiScientificMethod		roa
 user	arcadeGameHints	false
 user	armoryUnlocked	false
 user	ascensionsToday	0
-user	asolDeferredPoints	0
+user	asolDeferredPoints	0	roa
 user	asolPointsPigSkinner	0
 user	asolPointsCheeseWizard	0
 user	asolPointsJazzAgent	0
@@ -235,29 +240,29 @@ user	autoSatisfyWithStorage	true
 user	autoSetConditions	true
 user	autoSteal	true
 user	autoTuxedo	false
-user	autopsyTweezersUsed	0
-user	autumnatonQuestLocation
-user	autumnatonQuestTurn	-1
-user	autumnatonUpgrades
+user	autopsyTweezersUsed	0	roa
+user	autumnatonQuestLocation		roa
+user	autumnatonQuestTurn	-1	roa
+user	autumnatonUpgrades		roa
 user	availableCandyCredits	0
 user	availableDimes	0
 user	availableFunPoints	0
-user	availableMrStore2002Credits	0
+user	availableMrStore2002Credits	0	roa
 user	availableQuarters	0
 user	availableSeptEmbers	0
 user	availableStoreCredits	0
 user	availableSwagger	0
 user	averageSwagger	0
-user	awolMedicine	0
+user	awolMedicine	0	roa
 user	awolPointsBeanslinger	0
 user	awolPointsCowpuncher	0
 user	awolPointsSnakeoiler	0
-user	awolDeferredPointsBeanslinger	0
-user	awolDeferredPointsCowpuncher	0
-user	awolDeferredPointsSnakeoiler	0
-user	awolVenom	0
-user	backupCameraMode	meat
-user	backupCameraReverserEnabled	false
+user	awolDeferredPointsBeanslinger	0	roa
+user	awolDeferredPointsCowpuncher	0	roa
+user	awolDeferredPointsSnakeoiler	0	roa
+user	awolVenom	0	roa
+user	backupCameraMode	meat	roa
+user	backupCameraReverserEnabled	false	roa
 user	badMoonEncounter01	false
 user	badMoonEncounter02	false
 user	badMoonEncounter03	false
@@ -306,11 +311,11 @@ user	badMoonEncounter45	false
 user	badMoonEncounter46	false
 user	badMoonEncounter47	false
 user	badMoonEncounter48	false
-user	bagOTricksCharges	0
+user	bagOTricksCharges	0	roa
 user	ballpitBonus	1
-user	banishedMonsters	
-user	banishedPhyla	
-user	banishingShoutMonsters
+user	banishedMonsters
+user	banishedPhyla
+user	banishingShoutMonsters		roa
 user	bankedKarma	0
 user	barrelShrineUnlocked	false
 user	bartenderTurnsUsed	0
@@ -323,21 +328,21 @@ user	batmanTimeLeft	0
 user	batmanZone	Gotpork City
 user	batmanUpgrades
 user	battleAction	attack with weapon
-user	batWingsBatHoleEntrance	false
-user	batWingsBatratBurrow	false
-user	batWingsBeanbatChamber	false
-user	batWingsGuanoJunction	false
+user	batWingsBatHoleEntrance	false	roa
+user	batWingsBatratBurrow	false	roa
+user	batWingsBeanbatChamber	false	roa
+user	batWingsGuanoJunction	false	roa
 user	beachHeadsUnlocked
 user	bearSwagger	0
-user	beastSkillsAvailable
-user	beastSkillsKnown
+user	beastSkillsAvailable		roa
+user	beastSkillsKnown		roa
 user	beeCounter	0
 user	beforePVPScript
 user	betweenBattleScript
-user	beGregariousCharges	0
-user	beGregariousMonster
-user	beGregariousFightsLeft	0
-user	bigBrotherRescued	false
+user	beGregariousCharges	0	roa
+user	beGregariousMonster		roa
+user	beGregariousFightsLeft	0	roa
+user	bigBrotherRescued	false	roa
 user	birdformCold	0
 user	birdformHot	0
 user	birdformRoc	0
@@ -348,55 +353,55 @@ user	blackBartsBootyAvailable	true
 user	blackBartsBootyCost	1000
 user	blackPuddingsDefeated	0
 user	blackForestProgress	0
-user	blankOutUsed	0
+user	blankOutUsed	0	roa
 user	bloodweiserDrunk	0
-user	bodyguardCharge	0
+user	bodyguardCharge	0	roa
 user	bodyguardChatMonster
-user	bondAdv	false
-user	bondBeach	false
-user	bondBeat	false
-user	bondBooze	false
-user	bondBridge	false
-user	bondDesert	false
-user	bondDR	false
-user	bondDrunk1	false
-user	bondDrunk2	false
-user	bondHoney	false
-user	bondHP	false
-user	bondInit	false
-user	bondItem1	false
-user	bondItem2	false
-user	bondItem3	false
-user	bondJetpack	false
-user	bondMartiniDelivery	false
-user	bondMartiniPlus	false
-user	bondMartiniTurn	false
-user	bondMeat	false
-user	bondMox1	false
-user	bondMox2	false
-user	bondMPregen	false
-user	bondMus1	false
-user	bondMus2	false
-user	bondMys1	false
-user	bondMys2	false
+user	bondAdv	false	roa
+user	bondBeach	false	roa
+user	bondBeat	false	roa
+user	bondBooze	false	roa
+user	bondBridge	false	roa
+user	bondDesert	false	roa
+user	bondDR	false	roa
+user	bondDrunk1	false	roa
+user	bondDrunk2	false	roa
+user	bondHoney	false	roa
+user	bondHP	false	roa
+user	bondInit	false	roa
+user	bondItem1	false	roa
+user	bondItem2	false	roa
+user	bondItem3	false	roa
+user	bondJetpack	false	roa
+user	bondMartiniDelivery	false	roa
+user	bondMartiniPlus	false	roa
+user	bondMartiniTurn	false	roa
+user	bondMeat	false	roa
+user	bondMox1	false	roa
+user	bondMox2	false	roa
+user	bondMPregen	false	roa
+user	bondMus1	false	roa
+user	bondMus2	false	roa
+user	bondMys1	false	roa
+user	bondMys2	false	roa
 user	bondPoints	0
-user	bondSpleen	false
-user	bondStat	false
-user	bondStat2	false
-user	bondStealth	false
-user	bondStealth2	false
-user	bondSymbols	false
+user	bondSpleen	false	roa
+user	bondStat	false	roa
+user	bondStat2	false	roa
+user	bondStealth	false	roa
+user	bondStealth2	false	roa
+user	bondSymbols	false	roa
 user	bondVillainsDefeated	0
-user	bondWar	false
-user	bondWeapon2	false
-user	bondWpn	false
+user	bondWar	false	roa
+user	bondWeapon2	false	roa
+user	bondWpn	false	roa
 user	boneAbacusVictories	0
-user	bookOfFactsGummi	0
-user	bookOfFactsPinata	0
-user	boomBoxSong
+user	bookOfFactsGummi	0	roa
+user	bookOfFactsPinata	0	roa
+user	boomBoxSong		roa
 user	booPeakProgress	100
 user	booPeakLit	false
-user	bootsCharged	false
+user	bootsCharged	false	ld
 user	borisPoints	0
 user	breakableHandling	1
 user	breakableHandling1964	2
@@ -406,8 +411,8 @@ user	breakableHandling9699	1
 user	breakfastAlways
 user	breakfastHardcore	Advanced Saucecrafting,Pastamastery,Advanced Cocktailcrafting
 user	breakfastSoftcore	Advanced Saucecrafting,Pastamastery,Advanced Cocktailcrafting
-user	breakfastCompleted	false
-user	breathitinCharges	0
+user	breakfastCompleted	false	ld
+user	breathitinCharges	0	roa
 user	brodenBacteria	0
 user	brodenSprinkles	0
 user	buffBotCasting
@@ -415,37 +420,37 @@ user	buffBotMessageDisposal	0
 user	buffBotPhilanthropyType	1
 user	buffJimmyIngredients	0
 user	burnoutsDefeated	0
-user	burrowgrubHiveUsed	false
-user	burrowgrubSummonsRemaining	0
+user	burrowgrubHiveUsed	false	ld
+user	burrowgrubSummonsRemaining	0	ld
 user	buyScript
 user	bwApronMealsEaten	-1
-user	calzoneOfLegendEaten	false
-user	camelSpit	0
-user	cameraMonster
+user	calzoneOfLegendEaten	false	roa
+user	camelSpit	0	roa
+user	cameraMonster		roa
 user	camerasUsed	0
-user	campAwayDecoration	0
-user	candyCaneSwordApartmentBuilding	false
-user	candyCaneSwordBlackForest	false
-user	candyCaneSwordBowlingAlley	false
-user	candyCaneSwordCopperheadClub	false
-user	candyCaneSwordDailyDungeon	false
-user	candyCaneSwordDefiledCranny	false
-user	candyCaneSwordFunHouse	false
-user	candyCaneSwordShore	false
-user	candyCaneSwordWarFratRoom	false
-user	candyCaneSwordWarFratZetas	false
-user	candyCaneSwordWarHippyBait	false
-user	candyCaneSwordWarHippyLine	false
-user	candyWitchTurnsUsed	0
-user	candyWitchCandyTotal	0
+user	campAwayDecoration	0	roa
+user	candyCaneSwordApartmentBuilding	false	roa
+user	candyCaneSwordBlackForest	false	roa
+user	candyCaneSwordBowlingAlley	false	roa
+user	candyCaneSwordCopperheadClub	false	roa
+user	candyCaneSwordDailyDungeon	false	roa
+user	candyCaneSwordDefiledCranny	false	roa
+user	candyCaneSwordFunHouse	false	roa
+user	candyCaneSwordShore	false	roa
+user	candyCaneSwordWarFratRoom	false	roa
+user	candyCaneSwordWarFratZetas	false	roa
+user	candyCaneSwordWarHippyBait	false	roa
+user	candyCaneSwordWarHippyLine	false	roa
+user	candyWitchTurnsUsed	0	roa
+user	candyWitchCandyTotal	0	roa
 user	canteenUnlocked	false
-user	carboLoading	0
-user	cargoPocketsEmptied
-user	cargoPocketScraps
-user	catBurglarBankHeists	0
+user	carboLoading	0	roa
+user	cargoPocketsEmptied		roa
+user	cargoPocketScraps		roa
+user	catBurglarBankHeists	0	roa
 user	cellarLayout	0
-user	chaosButterflyThrown	false
-user	charitableDonations	0
+user	chaosButterflyThrown	false	roa
+user	charitableDonations	0	roa
 user	chasmBridgeProgress	0
 user	chatbotScript
 user	chatbotScriptExecuted	false
@@ -458,19 +463,19 @@ user	checkJackassHardcore	true
 user	checkJackassSoftcore	true
 user	chefTurnsUsed	0
 user	chessboardsCleared	0
-user	chibiAlignment	0
-user	chibiBirthday	-1
-user	chibiFitness	0
+user	chibiAlignment	0	roa
+user	chibiBirthday	-1	roa
+user	chibiFitness	0	roa
 user	chibiIntelligence	0
-user	chibiLastVisit	-1
-user	chibiName
-user	chibiSocialization	0
+user	chibiLastVisit	-1	roa
+user	chibiName		roa
+user	chibiSocialization	0	roa
 user	chilledToTheBone	0
 user	choiceAdventureScript
 user	chosenTrip
-user	cinchoSaltAndLime	0
-user	cinderellaMinutesToMidnight	0
-user	cinderellaScore	0
+user	cinchoSaltAndLime	0	roa
+user	cinderellaMinutesToMidnight	0	roa
+user	cinderellaScore	0	roa
 user	clanFortuneReply1	beer
 user	clanFortuneReply2	robin
 user	clanFortuneReply3	thin
@@ -478,17 +483,17 @@ user	clanFortuneWord1	pizza
 user	clanFortuneWord2	batman
 user	clanFortuneWord3	thick
 user	clanAttacksEnabled	false
-user	clumsinessGroveBoss
-user	cocktailSummons	0
+user	clumsinessGroveBoss		roa
+user	cocktailSummons	0	ld
 user	coldAirportAlways	false
-user	commaFamiliar
-user	commerceGhostItem
-user	commerceGhostCombats	0
+user	commaFamiliar		roa
+user	commerceGhostItem		roa
+user	commerceGhostCombats	0	roa
 user	considerShadowNoodles	false
 user	controlRoomUnlock	false
-user	cookbookbatIngredientsCharge	0
+user	cookbookbatIngredientsCharge	0	roa
 user	counterScript
-user	concertVisited	false
+user	concertVisited	false	ld
 user	controlPanel1	false
 user	controlPanel2	false
 user	controlPanel3	false
@@ -499,18 +504,18 @@ user	controlPanel7	false
 user	controlPanel8	false
 user	controlPanel9	false
 user	controlPanelOmega	0
-user	copperheadClubHazard	none
-user	cornucopiasOpened	0
+user	copperheadClubHazard	none	roa
+user	cornucopiasOpened	0	roa
 user	corralUnlocked	false
-user	cosmicBowlingBallReturnCombats	-1
-user	cozyCounter6332	0
-user	cozyCounter6333	0
-user	cozyCounter6334	0
+user	cosmicBowlingBallReturnCombats	-1	roa
+user	cozyCounter6332	0	roa
+user	cozyCounter6333	0	roa
+user	cozyCounter6334	0	roa
 user	craftingClay	-1
 user	craftingLeather	-1
 user	craftingStraw	-1
 user	crAlways	false
-user	crappyCameraMonster
+user	crappyCameraMonster		roa
 user	crimbo16BeardChakraCleanliness	0
 user	crimbo16BootsChakraCleanliness	0
 user	crimbo16BungChakraCleanliness	0
@@ -534,59 +539,59 @@ user	crimbo23CottageControl	none
 user	crimbo23FoundryAtWar	false
 user	crimbo23FoundryControl	none
 user	crimboTrainingSkill	0
-user	crimboTreeDays	7
-user	crimbotChassis	
-user	crimbotArm
-user	crimbotPropulsion	
-user	crudeMonster
-user	crystalBallPredictions
-user	csServicesPerformed	
-user	cubelingProgress	0
-user	cupidBowFights	0
-user	cupidBowLastFamiliar	0
-user	currentAstralTrip
-user	currentDistillateMods
-user	currentEasyBountyItem	
+user	crimboTreeDays	7	roa
+user	crimbotChassis		roa
+user	crimbotArm		roa
+user	crimbotPropulsion		roa
+user	crudeMonster		roa
+user	crystalBallPredictions		roa
+user	csServicesPerformed		roa
+user	cubelingProgress	0	roa
+user	cupidBowFights	0	roa
+user	cupidBowLastFamiliar	0	roa
+user	currentAstralTrip		roa
+user	currentDistillateMods		roa
+user	currentEasyBountyItem		roa
 user	currentExtremity	0
-user	currentHardBountyItem	
-user	currentHedgeMazeRoom	0
-user	currentHippyStore	none
+user	currentHardBountyItem		roa
+user	currentHedgeMazeRoom	0	roa
+user	currentHippyStore	none	roa
 user	currentJunkyardTool
 user	currentJunkyardLocation
-user	currentLlamaForm
-user	currentMojoFilters	0
+user	currentLlamaForm		roa
+user	currentMojoFilters	0	ld
 user	currentMood	default
 user	currentNunneryMeat	0
-user	currentPortalEnergy	0
-user	currentReplicaStoreYear	2004
+user	currentPortalEnergy	0	roa
+user	currentReplicaStoreYear	2004	roa
 user	currentPVPSeason	none
-user	currentPvpVictories
-user	currentSpecialBountyItem
-user	currentSITSkill	none
-user	cursedMagnifyingGlassCount	0
+user	currentPvpVictories		ld
+user	currentSpecialBountyItem		roa
+user	currentSITSkill	none	roa
+user	cursedMagnifyingGlassCount	0	roa
 user	customCombatScript	default
-user	cyberDatastickCollected	false
+user	cyberDatastickCollected	false	roa
 user	cyrptAlcoveEvilness	0
 user	cyrptCrannyEvilness	0
 user	cyrptNicheEvilness	0
 user	cyrptNookEvilness	0
 user	cyrptTotalEvilness	0
-user	cyrusAdjectives
-user	dailyDungeonDone	false
-user	dampOldBootPurchased	false
+user	cyrusAdjectives		roa
+user	dailyDungeonDone	false	ld
+user	dampOldBootPurchased	false	roa
 user	darkGyfftePoints	0
-user	dartsThrown	0
-user	daycareEquipment	0
-user	daycareInstructorItem	0
-user	daycareInstructorItemQuantity	0
-user	daycareInstructors	0
+user	dartsThrown	0	roa
+user	daycareEquipment	0	roa
+user	daycareInstructorItem	0	roa
+user	daycareInstructorItemQuantity	0	roa
+user	daycareInstructors	0	roa
 user	daycareLastScavenge	0
 user	daycareOpen	false
-user	daycareToddlers	0
+user	daycareToddlers	0	roa
 user	dbNemesisSkill1	0
 user	dbNemesisSkill2	0
 user	dbNemesisSkill3	0
-user	deepDishOfLegendEaten	false
+user	deepDishOfLegendEaten	false	roa
 user	defaultFlowerLossMessage
 user	defaultFlowerWinMessage
 user	demonName1
@@ -600,9 +605,9 @@ user	demonName8
 user	demonName9
 user	demonName10
 user	demonName11
-user	demonName12
-user	demonName13
-user	demonSummoned	false
+user	demonName12		roa
+user	demonName13		roa
+user	demonSummoned	false	ld
 user	desertExploration	0
 user	desktopHeight	600
 user	desktopWidth	800
@@ -620,87 +625,87 @@ user	dinseySocialJusticeIProgress	0
 user	dinseySocialJusticeIIProgress	0
 user	dinseyTouristsFed	0
 user	dinseyToxicMultiplier	3
-user	dnaSyringe
-user	doctorBagQuestItem	
+user	dnaSyringe		roa
+user	doctorBagQuestItem
 user	doctorBagQuestLights	0
 user	doctorBagQuestLocation
 user	doctorBagUpgrades	0
 user	doghouseBoarded	false
-user	dolphinItem
+user	dolphinItem		roa
 user	dontStopForCounters	false
-user	dreadScroll1	0
-user	dreadScroll2	0
-user	dreadScroll3	0
-user	dreadScroll4	0
-user	dreadScroll5	0
-user	dreadScroll6	0
-user	dreadScroll7	0
-user	dreadScroll8	0
-user	dripAdventuresSinceAscension	0
-user	drippingHallAdventuresSinceAscension	0
+user	dreadScroll1	0	roa
+user	dreadScroll2	0	roa
+user	dreadScroll3	0	roa
+user	dreadScroll4	0	roa
+user	dreadScroll5	0	roa
+user	dreadScroll6	0	roa
+user	dreadScroll7	0	roa
+user	dreadScroll8	0	roa
+user	dripAdventuresSinceAscension	0	roa
+user	drippingHallAdventuresSinceAscension	0	roa
 user	drippingHallUnlocked	false
-user	drippingTreesAdventuresSinceAscension	0
+user	drippingTreesAdventuresSinceAscension	0	roa
 user	drippyBatsUnlocked	0
-user	drippyJuice	0
+user	drippyJuice	0	roa
 user	drippyOrbsClaimed	0
 user	drippyShieldUnlocked	false
-user	droneSelfDestructChipsUsed	0
+user	droneSelfDestructChipsUsed	0	roa
 user	drunkenSwagger	0
-user	duckAreasCleared	
-user	duckAreasSelected	
+user	duckAreasCleared		roa
+user	duckAreasSelected		roa
 user	edDefeatAbort	2
-user	edPiece	
+user	edPiece		roa
 user	edPoints	0
 user	edUsedLash	false
 user	eldritchFissureAvailable	false
 user	eldritchHorrorAvailable	false
-user	eldritchTentaclesFought	0
+user	eldritchTentaclesFought	0	roa
 user	electricKoolAidEaten	0
 user	elfGratitude	0
-user	encountersUntilDMTChoice	5
-user	encountersUntilYachtzeeChoice	20
-user	encountersUntilNEPChoice	7
-user	encountersUntilSRChoice	11
+user	encountersUntilDMTChoice	5	roa
+user	encountersUntilYachtzeeChoice	20	roa
+user	encountersUntilNEPChoice	7	roa
+user	encountersUntilSRChoice	11	roa
 user	enamorangMonster
 user	enamorangMonsterTurn
 user	enqueueForConsumption	true
-user	ensorcelee
-user	ensorceleeLevel	0
-user	entauntaunedColdRes	0
-user	envyfishMonster
+user	ensorcelee		roa
+user	ensorceleeLevel	0	roa
+user	entauntaunedColdRes	0	roa
+user	envyfishMonster		roa
 user	errorOnAmbiguousFold	true
 user	essenceOfAnnoyanceAvailable	true
 user	essenceOfAnnoyanceCost	5000
 user	essenceOfBearAvailable	true
 user	essenceOfBearCost	1000
 user	EVEDirections	LLRLR0
-user	everfullDartPerks
-user	expressCardUsed	false
-user	extraCosmeticModifiers	
-user	extraRolloverAdventures	0
-user	falloutShelterChronoUsed	false
-user	falloutShelterCoolingTankUsed	false
+user	everfullDartPerks		roa
+user	expressCardUsed	false	ld
+user	extraCosmeticModifiers
+user	extraRolloverAdventures	0	ld
+user	falloutShelterChronoUsed	false	roa
+user	falloutShelterCoolingTankUsed	false	roa
 user	falloutShelterLevel	0
 user	familiarScript
-user	familiarSweat	0
+user	familiarSweat	0	roa
 user	fingernailsClipped	0
-user	fireExtinguisherBatHoleUsed	false
-user	fireExtinguisherChasmUsed	false
-user	fireExtinguisherCyrptUsed	false
-user	fireExtinguisherDesertUsed	false
-user	fireExtinguisherHaremUsed	false
-user	fistSkillsKnown	0
-user	fistTeachingsHaikuDungeon	false
-user	fistTeachingsPokerRoom	false
-user	fistTeachingsBarroomBrawl	false
-user	fistTeachingsConservatory	false
-user	fistTeachingsBatHole	false
-user	fistTeachingsFunHouse	false
-user	fistTeachingsMenagerie	false
-user	fistTeachingsSlums	false
-user	fistTeachingsFratHouse	false
-user	fistTeachingsRoad	false
-user	fistTeachingsNinjaSnowmen	false
+user	fireExtinguisherBatHoleUsed	false	roa
+user	fireExtinguisherChasmUsed	false	roa
+user	fireExtinguisherCyrptUsed	false	roa
+user	fireExtinguisherDesertUsed	false	roa
+user	fireExtinguisherHaremUsed	false	roa
+user	fistSkillsKnown	0	roa
+user	fistTeachingsHaikuDungeon	false	roa
+user	fistTeachingsPokerRoom	false	roa
+user	fistTeachingsBarroomBrawl	false	roa
+user	fistTeachingsConservatory	false	roa
+user	fistTeachingsBatHole	false	roa
+user	fistTeachingsFunHouse	false	roa
+user	fistTeachingsMenagerie	false	roa
+user	fistTeachingsSlums	false	roa
+user	fistTeachingsFratHouse	false	roa
+user	fistTeachingsRoad	false	roa
+user	fistTeachingsNinjaSnowmen	false	roa
 user	flickeringPixel1	false
 user	flickeringPixel2	false
 user	flickeringPixel3	false
@@ -709,8 +714,8 @@ user	flickeringPixel5	false
 user	flickeringPixel6	false
 user	flickeringPixel7	false
 user	flickeringPixel8	false
-user	floristFriarAvailable	false
-user	floristFriarChecked	false
+user	floristFriarAvailable	false	roa
+user	floristFriarChecked	false	roa
 user	flyeredML	0
 user	forbiddenStores
 user	fossilB	0
@@ -722,22 +727,22 @@ user	fossilW	0
 user	frAlways	false
 user	fratboysDefeated	0
 user	frCemetaryUnlocked	false
-user	frenchGuardTurtlesFreed	0
-user	friarsBlessingReceived	false
+user	frenchGuardTurtlesFreed	0	roa
+user	friarsBlessingReceived	false	ld
 user	frMountainsUnlocked	false
 user	frSwampUnlocked	false
 user	frVillageUnlocked	false
 user	frWoodUnlocked	false
-user	funGuyMansionKills	0
+user	funGuyMansionKills	0	roa
 user	gameProBossSpecialPower	Unknown
-user	garbageChampagneCharge	0
-user	garbageFireProgress	25
-user	garbageShirtCharge	0
-user	garbageTreeCharge	0
+user	garbageChampagneCharge	0	roa
+user	garbageFireProgress	25	roa
+user	garbageShirtCharge	0	roa
+user	garbageTreeCharge	0	roa
 user	garlandUpgrades	0
 user	getawayCampsiteUnlocked	false
-user	getsYouDrunkTurnsLeft	0
-user	ghostLocation	
+user	getsYouDrunkTurnsLeft	0	roa
+user	ghostLocation
 user	ghostPencil1	false
 user	ghostPencil2	false
 user	ghostPencil3	false
@@ -747,97 +752,97 @@ user	ghostPencil6	false
 user	ghostPencil7	false
 user	ghostPencil8	false
 user	ghostPencil9	false
-user	ghostPepperTurnsLeft	0
+user	ghostPepperTurnsLeft	0	roa
 user	gingerAdvanceClockUnlocked	false
-user	gingerBlackmailAccomplished	false
+user	gingerBlackmailAccomplished	false	roa
 user	gingerbreadCityAvailable	false
-user	gingerDigCount	0
+user	gingerDigCount	0	roa
 user	gingerExtraAdventures	false
-user	gingerLawChoice	0
-user	gingerMuscleChoice	0
-user	gingerNegativesDropped	false
+user	gingerLawChoice	0	roa
+user	gingerMuscleChoice	0	roa
+user	gingerNegativesDropped	false	roa
 user	gingerSewersUnlocked	false
-user	gingerSubwayLineUnlocked	false
+user	gingerSubwayLineUnlocked	false	roa
 user	gingerRetailUnlocked	false
 user	gingerTrainScheduleStudies	0
-user	glacierOfJerksBoss
-user	gladiatorBallMovesKnown	0
-user	gladiatorBladeMovesKnown	0
-user	gladiatorNetMovesKnown	0
+user	glacierOfJerksBoss		roa
+user	gladiatorBallMovesKnown	0	roa
+user	gladiatorBladeMovesKnown	0	roa
+user	gladiatorNetMovesKnown	0	roa
 user	glitchItemAvailable	true
 user	glitchItemCost	1000
 user	glitchItemImplementationCount	0
 user	glitchItemImplementationLevel	0
 user	glitchSwagger	0
 user	gloverPoints	0
-user	gnasirProgress	0
+user	gnasirProgress	0	roa
 user	goldenMrAccessories	0
 user	gongPath	0
-user	gooseDronesRemaining	0
-user	gooseReprocessed	
+user	gooseDronesRemaining	0	roa
+user	gooseReprocessed		roa
 user	goreCollected	0
 user	gourdItemCount	5
 user	grabCloversHardcore	false
 user	grabCloversSoftcore	true
 user	greyYouPoints	0
-user	grimoire1Summons	0
-user	grimoire2Summons	0
-user	grimoire3Summons	0
+user	grimoire1Summons	0	ld
+user	grimoire2Summons	0	ld
+user	grimoire3Summons	0	ld
 user	grimoireSkillsHardcore	none
 user	grimoireSkillsSoftcore	Summon Hilarious Objects
-user	grimstoneCharge	0
-user	grimstoneMaskPath	
-user	guardTurtlesFreed	0
+user	grimstoneCharge	0	roa
+user	grimstoneMaskPath		roa
+user	guardTurtlesFreed	0	roa
 user	guideToSafariAvailable	true
 user	guideToSafariCost	1000
-user	guyMadeOfBeesCount	0
-user	guyMadeOfBeesDefeated	false
+user	guyMadeOfBeesCount	0	roa
+user	guyMadeOfBeesDefeated	false	roa
 user	guzzlrBronzeDeliveries	0
-user	guzzlrDeliveryProgress	0
+user	guzzlrDeliveryProgress	0	roa
 user	guzzlrGoldDeliveries	0
 user	guzzlrPlatinumDeliveries	0
-user	guzzlrQuestClient	
-user	guzzlrQuestBooze	
-user	guzzlrQuestLocation	
-user	guzzlrQuestTier	
+user	guzzlrQuestClient
+user	guzzlrQuestBooze
+user	guzzlrQuestLocation
+user	guzzlrQuestTier
 user	haciendaLayout	000000000000000000
-user	hallowiener8BitRealm	0
-user	hallowienerCoinspiracy	0
-user	hallowienerDefiledNook	false
-user	hallowienerGuanoJunction	false
-user	hallowienerKnollGym	false
-user	hallowienerMadnessBakery	false
-user	hallowienerMiddleChamber	false
-user	hallowienerOvergrownLot	false
-user	hallowienerSkeletonStore	false
-user	hallowienerSmutOrcs	false
-user	hallowienerSonofaBeach	false
-user	hallowienerVolcoino	false
+user	hallowiener8BitRealm	0	roa
+user	hallowienerCoinspiracy	0	roa
+user	hallowienerDefiledNook	false	roa
+user	hallowienerGuanoJunction	false	roa
+user	hallowienerKnollGym	false	roa
+user	hallowienerMadnessBakery	false	roa
+user	hallowienerMiddleChamber	false	roa
+user	hallowienerOvergrownLot	false	roa
+user	hallowienerSkeletonStore	false	roa
+user	hallowienerSmutOrcs	false	roa
+user	hallowienerSonofaBeach	false	roa
+user	hallowienerVolcoino	false	roa
 user	hardcorePVPWarning	false
-user	hareMillisecondsSaved	0
-user	hareTurnsUsed	0
+user	hareMillisecondsSaved	0	roa
+user	hareTurnsUsed	0	roa
 user	harvestBatteriesHardcore	true
 user	harvestBatteriesSoftcore	true
 user	harvestGardenHardcore	none
 user	harvestGardenSoftcore	none
 user	hasAutumnaton	false
-user	hasBartender	false
-user	hasChef	false
-user	hasCocktailKit	false
+user	hasBartender	false	roa
+user	hasChef	false	roa
+user	hasCocktailKit	false	roa
 user	hasCosmicBowlingBall	false
 user	hasDetectiveSchool	false
 user	hasMaydayContract	false
-user	hasOven	false
-user	hasRange	false
-user	hasShaker	false
-user	hasSushiMat	false
+user	hasOven	false	roa
+user	hasRange	false	roa
+user	hasShaker	false	roa
+user	hasSushiMat	false	roa
 user	hasTwinkleVision	false
 user	haveBoxingDaydreamHardcore	false
 user	haveBoxingDaydreamSoftcore	false
 user	heavyRainsStartingThunder	0
 user	heavyRainsStartingRain	0
 user	heavyRainsStartingLightning	0
-user	hermitHax0red	false
+user	hermitHax0red	false	roa
 user	heroDonationBoris	0
 user	heroDonationJarlsberg	0
 user	heroDonationSneakyPete	0
@@ -846,47 +851,47 @@ user	hiddenBowlingAlleyProgress	0
 user	hiddenHospitalProgress	0
 user	hiddenOfficeProgress	0
 user	hiddenTavernUnlock	-1
-user	highTopPumped	0
+user	highTopPumped	0	roa
 user	hippiesDefeated	0
 user	holidayHalsBookAvailable	true
 user	holidayHalsBookCost	1000
 user	holidaySwagger	0
-user	holdHandsMonster	
+user	holdHandsMonster		roa
 user	homemadeRobotUpgrades	0
-user	homebodylCharges	0
+user	homebodylCharges	0	roa
 user	horseryAvailable	false
 user	hotAirportAlways	false
 user	hpAutoRecovery	-0.05
 user	hpAutoRecoveryItems	cannelloni cocoon;scroll of drastic healing;tongue of the walrus;lasagna bandages;doc galaktik's ailment ointment
 user	hpAutoRecoveryTarget	1.0
-user	iceSculptureMonster
+user	iceSculptureMonster		roa
 user	iceSwagger	0
 user	implementGlitchItem	false
-user	intenseCurrents	false
+user	intenseCurrents	false	roa
 user	invalidBuffMessage	You sent an amount which does not correspond to a valid buff amount.
-user	itemBoughtPerAscension637	false
-user	itemBoughtPerAscension8266	false
-user	itemBoughtPerAscension10790	false
-user	itemBoughtPerAscension10794	false
-user	itemBoughtPerAscension10795	false
+user	itemBoughtPerAscension637	false	roa
+user	itemBoughtPerAscension8266	false	roa
+user	itemBoughtPerAscension10790	false	roa
+user	itemBoughtPerAscension10794	false	roa
+user	itemBoughtPerAscension10795	false	roa
 user	itemBoughtPerCharacter6423	false
 user	itemBoughtPerCharacter6428	false
 user	itemBoughtPerCharacter6429	false
 user	jarlsbergPoints	0
 user	jickSwordModifier
-user	juicyGarbageUsed	0
-user	juneCleaverQueue
-user	jungCharge	0
+user	juicyGarbageUsed	0	roa
+user	juneCleaverQueue		roa
+user	jungCharge	0	roa
 user	junglePuns	0
 user	kingLiberated	false
 user	kingLiberatedScript
 user	knownAscensions	-1
 user	kolhsTotalSchoolSpirited	0
-user	lassoTraining
+user	lassoTraining		roa
 user	lastAdventure
 user	lastAdventureContainer
 user	lastAdventureTrail
-user	lastAnticheeseDay	-5
+user	lastAnticheeseDay	-5	roa
 user	lastArcadeAscension	-1
 user	lastBadMoonReset	-1
 user	lastBangPotion819
@@ -900,7 +905,7 @@ user	lastBangPotion826
 user	lastBangPotion827
 user	lastBangPotionReset	-1
 user	lastBattlefieldReset	-1
-user	lastBeardBuff	0
+user	lastBeardBuff	0	roa
 user	lastBreakfast	-1
 user	lastCartographyBooPeak	-1
 user	lastCartographyCastleTop	-1
@@ -919,10 +924,10 @@ user	lastChanceBurn
 user	lastChanceThreshold	100
 user	lastChessboard
 user	lastChasmReset	-1
-user	lastColosseumRoundWon	0
-user	lastCombatEnvironments	xxxxxxxxxxxxxxxxxxxx
-user	lastCopyableMonster
-user	lastCouncilVisit	0
+user	lastColosseumRoundWon	0	roa
+user	lastCombatEnvironments	xxxxxxxxxxxxxxxxxxxx	roa
+user	lastCopyableMonster		roa
+user	lastCouncilVisit	0	roa
 user	lastCounterDay	-1
 user	lastDesertUnlock	-1
 user	lastDispensaryOpen	-1
@@ -964,9 +969,9 @@ user	lastGuildStoreOpen	-1
 user	lastGuyMadeOfBeesReset	-1
 user	lastFratboyCall	-1
 user	lastFriarCeremonyAscension	-1
-user	lastFriarsElbowNC	-1
-user	lastFriarsHeartNC	-1
-user	lastFriarsNeckNC	-1
+user	lastFriarsElbowNC	-1	roa
+user	lastFriarsHeartNC	-1	roa
+user	lastFriarsNeckNC	-1	roa
 user	lastHippyCall	-1
 user	lastIslandUnlock	-1
 user	lastKeyotronUse	-1
@@ -1004,7 +1009,7 @@ user	lastPorkoExpected
 user	lastQuartetAscension	-1
 user	lastQuartetRequest	0
 user	lastSecondFloorUnlock	-1
-user	lastShadowForgeUnlockAdventure	-1
+user	lastShadowForgeUnlockAdventure	-1	roa
 user	lastSkateParkReset	-1
 user	lastSlimeVial3885
 user	lastSlimeVial3886
@@ -1030,66 +1035,66 @@ user	lastTempleUnlock	-1
 user	lastThingWithNoNameDefeated	-1
 user	lastTowelAscension	-1
 user	lastTr4pz0rQuest	-1
-user	lastTrainsetConfiguration	-40
+user	lastTrainsetConfiguration	-40	roa
 user	lastVioletFogMap	0
 user	lastVoteMonsterTurn	0
 user	lastWartDinseyDefeated	-1
 user	lastWuTangDefeated	-1
 user	lastYearbookCameraAscension	-1
 user	lastZapperWand	0
-user	lastZapperWandExplosionDay	-3
-user	latteIngredients
-user	latteModifier	
-user	latteUnlocks	cinnamon,pumpkin,vanilla
+user	lastZapperWandExplosionDay	-3	roa
+user	latteIngredients		roa
+user	latteModifier		roa
+user	latteUnlocks	cinnamon,pumpkin,vanilla	roa
 user	lawOfAveragesAvailable	true
 user	lawOfAveragesCost	1000
-user	leafletCompleted	false
-user	ledCandleDropped	false
-user	ledCandleMode
+user	leafletCompleted	false	roa
+user	ledCandleDropped	false	roa
+user	ledCandleMode		roa
 user	legacyPoints	0
 user	libramSkillsHardcore	none
 user	libramSkillsSoftcore	none
-user	libramSummons	0
-user	libraryCardUsed	false
+user	libramSummons	0	ld
+user	libraryCardUsed	false	ld
 user	lightsOutAutomation	1
-user	locketPhylum	mer-kin
-user	lockPicked	false
+user	locketPhylum	mer-kin	roa
+user	lockPicked	false	roa
 user	logBastilleBattalionBattles	false
 user	loginRecoveryHardcore	false
 user	loginRecoverySoftcore	true
-user	longConMonster	
+user	longConMonster
 user	louvreDesiredGoal	7
 user	louvreGoal	0
 user	louvreOverride
-user	lovebugsAridDesert	0
-user	lovebugsBeachBuck	0
-user	lovebugsBooze	0
-user	lovebugsChroner	0
-user	lovebugsCoinspiracy	0
-user	lovebugsCyrpt	0
-user	lovebugsFreddy	0
-user	lovebugsFunFunds	0
-user	lovebugsHoboNickel	0
-user	lovebugsItemDrop	0
-user	lovebugsMeat	0
-user	lovebugsMeatDrop	0
-user	lovebugsMoxie	0
-user	lovebugsMuscle	0
-user	lovebugsMysticality	0
-user	lovebugsOilPeak	0
-user	lovebugsOrcChasm	0
-user	lovebugsPowder	0
+user	lovebugsAridDesert	0	roa
+user	lovebugsBeachBuck	0	roa
+user	lovebugsBooze	0	roa
+user	lovebugsChroner	0	roa
+user	lovebugsCoinspiracy	0	roa
+user	lovebugsCyrpt	0	roa
+user	lovebugsFreddy	0	roa
+user	lovebugsFunFunds	0	roa
+user	lovebugsHoboNickel	0	roa
+user	lovebugsItemDrop	0	roa
+user	lovebugsMeat	0	roa
+user	lovebugsMeatDrop	0	roa
+user	lovebugsMoxie	0	roa
+user	lovebugsMuscle	0	roa
+user	lovebugsMysticality	0	roa
+user	lovebugsOilPeak	0	roa
+user	lovebugsOrcChasm	0	roa
+user	lovebugsPowder	0	roa
 user	lovebugsUnlocked	false
-user	lovebugsWalmart	0
-user	lovePotion	
+user	lovebugsWalmart	0	roa
+user	lovePotion
 user	loveTunnelAvailable	false
 user	lowerChamberUnlock	false
 user	lttQuestDifficulty	0
-user	lttQuestName	
+user	lttQuestName
 user	lttQuestStageCount	0
-user	maelstromOfLoversBoss
-user	madnessBakeryAvailable	false
-user	makeFriendsMonster	
+user	maelstromOfLoversBoss		roa
+user	madnessBakeryAvailable	false	roa
+user	makeFriendsMonster
 user	makePocketWishesHardcore	false
 user	makePocketWishesSoftcore	false
 user	manaBurnSummonThreshold	10
@@ -1098,14 +1103,14 @@ user	manaBurningTrigger	-0.05
 user	manorDrawerCount	0
 user	manualOfNumberologyAvailable	true
 user	manualOfNumberologyCost	1000
-user	mappingMonsters	false
-user	mapToAnemoneMinePurchased	false
+user	mappingMonsters	false	roa
+user	mapToAnemoneMinePurchased	false	roa
 user	mapToKokomoAvailable	true
 user	mapToKokomoCost	1234
-user	mapToMadnessReefPurchased	false
-user	mapToTheDiveBarPurchased	false
-user	mapToTheMarinaraTrenchPurchased	false
-user	mapToTheSkateParkPurchased	false
+user	mapToMadnessReefPurchased	false	roa
+user	mapToTheDiveBarPurchased	false	roa
+user	mapToTheMarinaraTrenchPurchased	false	roa
+user	mapToTheSkateParkPurchased	false	roa
 user	maraisBeaverUnlock	false
 user	maraisCorpseUnlock	false
 user	maraisDarkUnlock	false
@@ -1128,56 +1133,56 @@ user	maximizerMaxPrice	0
 user	maximizerNoAdventures	false
 user	maximizerPriceLevel	0
 user	maxManaBurn	1000
-user	mayflyExperience	0
-user	mayoInMouth	
-user	mayoLevel	0
-user	mayoMinderSetting	
-user	meansuckerPrice	400
-user	merkinQuestPath	none
-user	merkinLockkeyMonster
-user	merkinVocabularyMastery	0
+user	mayflyExperience	0	roa
+user	mayoInMouth		roa
+user	mayoLevel	0	roa
+user	mayoMinderSetting		roa
+user	meansuckerPrice	400	roa
+user	merkinQuestPath	none	roa
+user	merkinLockkeyMonster		roa
+user	merkinVocabularyMastery	0	roa
 user	middleChamberUnlock	false
-user	milkOfMagnesiumActive	false
-user	mimicEggMonsters
+user	milkOfMagnesiumActive	false	roa
+user	mimicEggMonsters		roa
 user	mineLayout1
 user	mineLayout2
 user	mineLayout3
 user	mineLayout4
 user	mineLayout5
 user	mineLayout6
-user	miniAdvClass	0
-user	miniKiwiAiolisUsed	0
+user	miniAdvClass	0	roa
+user	miniKiwiAiolisUsed	0	roa
 user	miniMartinisDrunk	0
 user	moleTunnelLevel	0
-user	moonTuned	false
-user	monkeyPointMonster	
-user	motifMonster	
+user	moonTuned	false	roa
+user	monkeyPointMonster		roa
+user	motifMonster		roa
 user	mothershipProgress	0
 user	mpAutoRecovery	-0.5
 user	mpAutoRecoveryItems	phonics down;knob goblin superseltzer;mountain stream soda;magical mystery juice;knob goblin seltzer;cherry cloaca cola;soda water
 user	mpAutoRecoveryTarget	0.3
 user	muffinOnOrder	none
 user	munchiesPillsUsed	0
-user	mushroomGardenCropLevel	1
-user	nanopolymerSpiderWebsUsed	0
+user	mushroomGardenCropLevel	1	roa
+user	nanopolymerSpiderWebsUsed	0	roa
 user	neverendingPartyAlways	false
 user	nextAdventure
-user	nextAprilBandTurn	0
-user	nextDistillateMods
-user	nextParanormalActivity	1
-user	nextSpookyravenElizabethRoom	The Haunted Storage Room
-user	nextSpookyravenStephenRoom	The Haunted Bedroom
-user	nextQuantumFamiliar	none
-user	nextQuantumFamiliarName
-user	nextQuantumFamiliarOwner
-user	nextQuantumFamiliarOwnerId	0
-user	nextQuantumFamiliarTurn	0
-user	noncombatForcerActive	false
+user	nextAprilBandTurn	0	roa
+user	nextDistillateMods		roa
+user	nextParanormalActivity	1	roa
+user	nextSpookyravenElizabethRoom	The Haunted Storage Room	roa
+user	nextSpookyravenStephenRoom	The Haunted Bedroom	roa
+user	nextQuantumFamiliar	none	roa
+user	nextQuantumFamiliarName		roa
+user	nextQuantumFamiliarOwner		roa
+user	nextQuantumFamiliarOwnerId	0	roa
+user	nextQuantumFamiliarTurn	0	roa
+user	noncombatForcerActive	false	ld
 user	noncombatForcers
 user	noobPoints	0
-user	noobDeferredPoints	0
-user	noodleSummons	0
-user	nosyNoseMonster	
+user	noobDeferredPoints	0	roa
+user	noodleSummons	0	ld
+user	nosyNoseMonster		roa
 user	nsChallenge1	none
 user	nsChallenge2	none
 user	nsChallenge3	none
@@ -1189,8 +1194,8 @@ user	nsContestants3	-1
 user	nsTowerDoorKeysUsed
 user	nuclearAutumnPoints	0
 user	numericSwagger	0
-user	nunsVisits	0
-user	oasisAvailable	false
+user	nunsVisits	0	ld
+user	oasisAvailable	false	roa
 user	oceanAction	savecontinue
 user	oceanDestination	manual
 user	odeBuffbotCheck	false
@@ -1198,36 +1203,36 @@ user	oilPeakProgress	310.66
 user	oilPeakLit	false
 user	olfactedMonster	unknown
 user	optimalSwagger	0
-user	optimisticCandleProgress	25
-user	oscusSodaUsed	false
-user	outrageousSombreroUsed	false
-user	overgrownLotAvailable	false
+user	optimisticCandleProgress	25	roa
+user	oscusSodaUsed	false	ld
+user	outrageousSombreroUsed	false	ld
+user	overgrownLotAvailable	false	roa
 user	ownsFloristFriar	false
 user	ownsSpeakeasy	false
 user	palindomeDudesDefeated	0
-user	parasolUsed	0
-user	parkaMode
-user	pastaThrall1
-user	pastaThrall2
-user	pastaThrall3
-user	pastaThrall4
-user	pastaThrall5
-user	pastaThrall6
-user	pastaThrall7
-user	pastaThrall8
+user	parasolUsed	0	roa
+user	parkaMode		roa
+user	pastaThrall1		roa
+user	pastaThrall2		roa
+user	pastaThrall3		roa
+user	pastaThrall4		roa
+user	pastaThrall5		roa
+user	pastaThrall6		roa
+user	pastaThrall7		roa
+user	pastaThrall8		roa
 user	pathedSummonsHardcore	true
 user	pathedSummonsSoftcore	false
-user	peaceTurkeyIndex	0
-user	pendingMapReflections	0
+user	peaceTurkeyIndex	0	roa
+user	pendingMapReflections	0	roa
 user	peteMotorbikeTires
 user	peteMotorbikeGasTank
 user	peteMotorbikeHeadlight
 user	peteMotorbikeCowling
 user	peteMotorbikeMuffler
 user	peteMotorbikeSeat
-user	photocopyMonster
+user	photocopyMonster		roa
 user	pieStuffing
-user	pingpongSkill	0
+user	pingpongSkill	0	roa
 user	pirateRealmPlasticPiratesDefeated	0
 user	pirateRealmShipsDestroyed	0
 user	pirateRealmStormsEscaped	0
@@ -1250,36 +1255,36 @@ user	pirateRealmUnlockedTattoo	false
 user	pirateRealmUnlockedThirdCrewmate	false
 user	pirateRealmUnlockedTikiSkillbook	false
 user	pirateSwagger	0
-user	pizzaOfLegendEaten	false
-user	plantingDate
-user	plantingDay	-1
+user	pizzaOfLegendEaten	false	roa
+user	plantingDate		roa
+user	plantingDay	-1	roa
 user	plantingLength
 user	plantingScript
-user	plumberBadgeCost	50
-user	plumberCostumeCost	50
-user	plumberCostumeWorn	none
+user	plumberBadgeCost	50	roa
+user	plumberCostumeCost	50	roa
+user	plumberCostumeWorn	none	roa
 user	plumberPoints	0
-user	pokefamBoosts
+user	pokefamBoosts		roa
 user	poolSharkCount	0
 user	poolSkill	0
-user	popularTartUnlocked	false
+user	popularTartUnlocked	false	roa
 user	postAscensionScript
 user	potatoAlarmClockUsed	false
-user	powerPillProgress	0
+user	powerPillProgress	0	roa
 user	prAlways	false
-user	prayedForGlamour	false
-user	prayedForProtection	false
-user	prayedForVigor	false
+user	prayedForGlamour	false	roa
+user	prayedForProtection	false	roa
+user	prayedForVigor	false	roa
 user	preAscensionScript
 user	primaryLabGooIntensity	10
 user	primaryLabCheerCoreGrabbed	false
-user	prismaticSummons	0
-user	procrastinatorLanguageFluency	0
+user	prismaticSummons	0	ld
+user	procrastinatorLanguageFluency	0	roa
 user	promptAboutCrafting	1
 user	pumpkinSpiceWhorlUsed	false
 user	puzzleChampBonus	5
-user	pyramidPosition	1
-user	pyramidBombUsed	false
+user	pyramidPosition	1	roa
+user	pyramidBombUsed	false	roa
 user	quantumPoints	0
 user	questClumsinessGrove	unstarted
 user	questDoctorBag	unstarted
@@ -1385,8 +1390,8 @@ user	questPAGhost	unstarted
 user	questRufus	unstarted
 user	questS01OldGuy	unstarted
 user	questS02Monkees	unstarted
-user	rageGlandVented	false
-user	rainDohMonster
+user	rageGlandVented	false	ld
+user	rainDohMonster		roa
 user	raveCombo1
 user	raveCombo2
 user	raveCombo3
@@ -1395,7 +1400,7 @@ user	raveCombo5
 user	raveCombo6
 user	readManualHardcore	true
 user	readManualSoftcore	true
-user	reagentSummons	0
+user	reagentSummons	0	ld
 user	reanimatorArms	0
 user	reanimatorLegs	0
 user	reanimatorSkulls	0
@@ -1404,7 +1409,7 @@ user	reanimatorWings	0
 user	recentLocations	5
 user	recoveryScript
 user	redSnapperPhylum
-user	redSnapperProgress	0
+user	redSnapperProgress	0	roa
 user	relayCounters
 user	relayPort	0
 user	relayShowSpoilers	false
@@ -1419,52 +1424,52 @@ user	requireBoxServants	false
 user	requireSewerTestItems	false
 user	restUsingCampAwayTent	true
 user	restUsingChateau	true
-user	retroCapeSuperhero	vampire
-user	retroCapeWashingInstructions	hold
-user	rockinRobinProgress	25
+user	retroCapeSuperhero	vampire	roa
+user	retroCapeWashingInstructions	hold	roa
+user	rockinRobinProgress	25	roa
 user	romanCandelabraRedCasts	0
 user	romanCandelabraBlueCasts	0
 user	romanCandelabraYellowCasts	0
 user	romanCandelabraGreenCasts	0
 user	romanCandelabraPurpleCasts	0
-user	romanticTarget
+user	romanticTarget		ld
 user	ROMOfOptimalityAvailable	true
 user	ROMOfOptimalityCost	1000
 user	royalty
-user	rufusDesiredArtifact
-user	rufusDesiredEntity
-user	rufusDesiredItems
-user	rufusQuestTarget
-user	rufusQuestType
-user	rumpelstiltskinKidsRescued	0
-user	rumpelstiltskinTurnsUsed	0
-user	rwbLocation
-user	rwbMonster
-user	rwbMonsterCount	0
+user	rufusDesiredArtifact		roa
+user	rufusDesiredEntity		roa
+user	rufusDesiredItems		roa
+user	rufusQuestTarget		roa
+user	rufusQuestType		roa
+user	rumpelstiltskinKidsRescued	0	roa
+user	rumpelstiltskinTurnsUsed	0	roa
+user	rwbLocation		roa
+user	rwbMonster		roa
+user	rwbMonsterCount	0	roa
 user	safariSwagger	0
 user	safePickpocket	true
-user	sausageGrinderUnits	0
+user	sausageGrinderUnits	0	roa
 user	schoolOfHardKnocksDiplomaAvailable	true
 user	schoolOfHardKnocksDiplomaCost	1000
 user	schoolSwagger	0
-user	scrapbookCharges	0
-user	screencappedMonster	
-user	screechCombats	0
+user	scrapbookCharges	0	roa
+user	screencappedMonster		roa
+user	screechCombats	0	ld
 user	scriptCascadingMenus	true
 user	scriptMRULength	0
 user	scriptMRUList
-user	seahorseName
-user	seaodesFound	0
+user	seahorseName		roa
+user	seaodesFound	0	ld
 user	SeasoningSwagger	0
 user	serverAddsCustomCombat	false
 user	serverAddsBothCombat	false
 user	sexChanges	0
 user	shadowLabyrinthGoal	browser
-user	shadowRiftIngress
+user	shadowRiftIngress		roa
 user	SHAWARMAInitiativeUnlocked	false
-user	shenInitiationDay	0
+user	shenInitiationDay	0	roa
 user	shenQuestItem
-user	shockingLickCharges	0
+user	shockingLickCharges	0	roa
 user	showForbiddenStores	false
 user	showGainsPerUnit	false
 user	showIgnoringStorePrices	false
@@ -1481,9 +1486,9 @@ user	sidequestJunkyardCompleted	none
 user	sidequestLighthouseCompleted	none
 user	sidequestNunsCompleted	none
 user	sidequestOrchardCompleted	none
-user	singleFamiliarRun	0
+user	singleFamiliarRun	0	roa
 user	skateParkStatus	war
-user	skeletonStoreAvailable	false
+user	skeletonStoreAvailable	false	roa
 user	skillBurn3	-100
 user	skillBurn90	-100
 user	skillBurn153	-100
@@ -1533,29 +1538,29 @@ user	skillLevel188	0
 user	skillLevel227	0
 user	skillLevel7254	0
 user	sleazeAirportAlways	false
-user	slimelingFullness	0.0
-user	slimelingStacksDropped	0
-user	slimelingStacksDue	0
-user	smoresEaten	0
-user	smutOrcNoncombatProgress	0
+user	slimelingFullness	0.0	roa
+user	slimelingStacksDropped	0	roa
+user	slimelingStacksDue	0	roa
+user	smoresEaten	0	roa
+user	smutOrcNoncombatProgress	0	roa
 user	sneakyPetePoints	0
 user	snojoAvailable	false
-user	snojoMoxieWins	0
-user	snojoMuscleWins	0
-user	snojoMysticalityWins	0
-user	snojoSetting	NONE
-user	snowsuit
+user	snojoMoxieWins	0	roa
+user	snojoMuscleWins	0	roa
+user	snojoMysticalityWins	0	roa
+user	snojoSetting	NONE	roa
+user	snowsuit		roa
 user	sortByEffect	false
 user	sortByRoom	true
-user	sourceAgentsDefeated	0
-user	sourceEnlightenment	0
-user	sourceInterval	0
-user	sourceOracleTarget	
+user	sourceAgentsDefeated	0	roa
+user	sourceEnlightenment	0	roa
+user	sourceInterval	0	roa
+user	sourceOracleTarget		roa
 user	sourcePoints	0
 user	sourceTerminalChips
-user	sourceTerminalEducate1
-user	sourceTerminalEducate2
-user	sourceTerminalEnquiry
+user	sourceTerminalEducate1		roa
+user	sourceTerminalEducate2		roa
+user	sourceTerminalEnquiry		roa
 user	sourceTerminalGram	0
 user	sourceTerminalPram	0
 user	sourceTerminalSpam	0
@@ -1563,30 +1568,30 @@ user	sourceTerminalEducateKnown
 user	sourceTerminalEnhanceKnown
 user	sourceTerminalEnquiryKnown
 user	sourceTerminalExtrudeKnown
-user	spaceBabyLanguageFluency	0
-user	spacePirateLanguageFluency	0
+user	spaceBabyLanguageFluency	0	roa
+user	spacePirateLanguageFluency	0	roa
 user	spacegateAlways	false
 user	spacegateVaccine1	false
 user	spacegateVaccine2	false
 user	spacegateVaccine3	false
-user	spaceInvaderDefeated	false
+user	spaceInvaderDefeated	false	roa
 user	spadingData
 user	spadingScript
 user	speakeasyName	Oliver's Place
 user	spelunkyHints	false
 user	spelunkyNextNoncombat	1
 user	spelunkySacrifices	0
-user	spelunkyStatus	
+user	spelunkyStatus
 user	spelunkyUpgrades	NNNNNNNNN
 user	spelunkyWinCount	0
-user	spiceMelangeUsed	false
+user	spiceMelangeUsed	false	ld
 user	spookyAirportAlways	false
 user	spookyravenRecipeUsed	none
-user	spookyPuttyCopiesMade	0
-user	spookyPuttyMonster
-user	spookyVHSTapeMonster
-user	spookyVHSTapeMonsterTurn	-1
-user	statbotUses	0
+user	spookyPuttyCopiesMade	0	ld
+user	spookyPuttyMonster		roa
+user	spookyVHSTapeMonster		roa
+user	spookyVHSTapeMonsterTurn	-1	roa
+user	statbotUses	0	roa
 user	stationaryButton1
 user	stationaryButton2
 user	stationaryButton3
@@ -1602,71 +1607,71 @@ user	statusSonar	0
 user	statusSpecialOps	0
 user	statusWasteProcessing	0
 user	stenchAirportAlways	false
-user	stenchCursedMonster	
+user	stenchCursedMonster
 user	stillsuitFamiliar
 user	stopForFixedWanderer	false
 user	stopForUltraRare	true
 user	streamCrossDefaultTarget	ProtonicBot
-user	styxPixieVisited	false
-user	sugarCounter4178	0
-user	sugarCounter4179	0
-user	sugarCounter4180	0
-user	sugarCounter4181	0
-user	sugarCounter4182	0
-user	sugarCounter4183	0
-user	sugarCounter4191	0
+user	styxPixieVisited	false	ld
+user	sugarCounter4178	0	roa
+user	sugarCounter4179	0	roa
+user	sugarCounter4180	0	roa
+user	sugarCounter4181	0	roa
+user	sugarCounter4182	0	roa
+user	sugarCounter4183	0	roa
+user	sugarCounter4191	0	roa
 user	summonAnnoyanceCost	11
 user	superconductorDefeated	false
-user	superficiallyInterestedMonster
+user	superficiallyInterestedMonster		roa
 user	suppressCyberRealmDarkMode	false
 user	suppressCyberRealmGreenImages	false
 user	suppressInappropriateNags	false
 user	suppressPowerPixellation	false
 user	suppressMallPriceCacheMessages	true
-user	sweat	0
+user	sweat	0	roa
 user	sweetSynthesisBlacklist	chocolate cigar,fudge bunny,gummi ammonite,gummi belemnite,gummi trilobite,powdered candy sushi set,radio button candy,Ultra Mega Sour Ball,vitachoconutriment capsule
 user	tacoDanCocktailSauce	0
 user	tacoDanFishMeat	0
-user	takerSpaceAnchor	0
-user	takerSpaceGold	0
-user	takerSpaceMast	0
-user	takerSpaceRum	0
-user	takerSpaceSilk	0
-user	takerSpaceSpice	0
+user	takerSpaceAnchor	0	roa
+user	takerSpaceGold	0	roa
+user	takerSpaceMast	0	roa
+user	takerSpaceRum	0	roa
+user	takerSpaceSilk	0	roa
+user	takerSpaceSpice	0	roa
 user	tavernLayout	0000000000000000000000000
 user	telegraphOfficeAvailable	false
-user	telescope1
-user	telescope2
-user	telescope3
-user	telescope4
-user	telescope5
-user	telescopeLookedHigh	false
+user	telescope1		roa
+user	telescope2		roa
+user	telescope3		roa
+user	telescope4		roa
+user	telescope5		roa
+user	telescopeLookedHigh	false	ld
 user	telescopeUpgrades	0
-user	tempuraSummons	0
-user	testudinalTeachings
+user	tempuraSummons	0	ld
+user	testudinalTeachings		roa
 user	textColors	crappy:#999999|good:green|awesome:blue|epic:#8a2be2|junk:gray|memento:olive|notavailable:gray
 user	thanksMessage	Thank you for the donation!
 user	timeSpinnerMedals	0
-user	timesRested	0
+user	timesRested	0	ld
 user	timeTowerAvailable	false
 user	tomeSkillsHardcore	Summon Snowcone
 user	tomeSkillsSoftcore	all
-user	tomeSummons	0
+user	tomeSummons	0	ld
 user	totalCharitableDonations	0
 user	trackLightsOut	false
 user	trackVoteMonster	false
 user	trackedMonsters
 user	trackedPhyla
-user	trainsetConfiguration	
-user	trainsetPosition	0
-user	turtleBlessingTurns	0
-user	trapperOre
-user	twinPeakProgress	0
+user	trainsetConfiguration		roa
+user	trainsetPosition	0	roa
+user	turtleBlessingTurns	0	roa
+user	trapperOre		roa
+user	twinPeakProgress	0	roa
 user	twoCRSPoints	0
 user	umbrellaState	broken
-user	umdLastObtained	
+user	umdLastObtained
 user	uneffectWithHotTub	true
-user	unicornHornInflation	0
+user	unicornHornInflation	0	roa
 user	universalSeasoningActive	false
 user	universalSeasoningAvailable	true
 user	universalSeasoningCost	1000
@@ -1689,13 +1694,13 @@ user	valueOfInventory	1.8
 user	valueOfStill	0
 user	valueOfTome	0
 user	verboseMaximizer	false
-user	vintnerCharge	0
-user	vintnerWineEffect
-user	vintnerWineLevel	0
-user	vintnerWineName
-user	vintnerWineType
+user	vintnerCharge	0	roa
+user	vintnerWineEffect		roa
+user	vintnerWineLevel	0	roa
+user	vintnerWineName		roa
+user	vintnerWineType		roa
 user	violetFogGoal	0
-user	violetFogLayout
+user	violetFogLayout		roa
 user	visitLoungeHardcore	true
 user	visitLoungeSoftcore	true
 user	visitRumpusHardcore	true
@@ -1706,66 +1711,66 @@ user	volcanoMaze3
 user	volcanoMaze4
 user	volcanoMaze5
 user	voteAlways	false
-user	walfordBucketItem	
+user	walfordBucketItem
 user	walfordBucketProgress	0
 user	warProgress	unstarted
 user	warehouseProgress	0
 user	watchedPreferences
-user	waxMonster
+user	waxMonster		roa
 user	welcomeBackAdv	0
-user	wereProfessorAdvancedResearch
-user	wereProfessorBite	0
-user	wereProfessorKick	0
-user	wereProfessorLiver	0
+user	wereProfessorAdvancedResearch		roa
+user	wereProfessorBite	0	roa
+user	wereProfessorKick	0	roa
+user	wereProfessorLiver	0	roa
 user	wereProfessorPoints	0
-user	wereProfessorRend	0
-user	wereProfessorResearchPoints	0
-user	wereProfessorStomach	0
-user	wereProfessorTransformTurns	0
-user	whetstonesUsed	0
-user	wildfireBarrelCaulked	false
-user	wildfireDusted	false
-user	wildfireFracked	false
-user	wildfirePumpGreased	false
-user	wildfireSprinkled	false
-user	wolfPigsEvicted	0
-user	wolfTurnsUsed	0
-user	workteaClue
+user	wereProfessorRend	0	roa
+user	wereProfessorResearchPoints	0	roa
+user	wereProfessorStomach	0	roa
+user	wereProfessorTransformTurns	0	roa
+user	whetstonesUsed	0	roa
+user	wildfireBarrelCaulked	false	roa
+user	wildfireDusted	false	roa
+user	wildfireFracked	false	roa
+user	wildfirePumpGreased	false	roa
+user	wildfireSprinkled	false	roa
+user	wolfPigsEvicted	0	roa
+user	wolfTurnsUsed	0	roa
+user	workteaClue		roa
 user	writingDesksDefeated	0
-user	xoSkeleltonXProgress	8
-user	xoSkeleltonOProgress	3
+user	xoSkeleltonXProgress	8	roa
+user	xoSkeleltonOProgress	3	roa
 user	yearbookCameraAscensions	0
-user	yearbookCameraPending	false
-user	yearbookCameraTarget
+user	yearbookCameraPending	false	roa
+user	yearbookCameraTarget		roa
 user	yearbookCameraUpgrades	0
 user	yourFavoriteBird
 user	yourFavoriteBirdMods
-user	youRobotBody	0
-user	youRobotBottom	0
-user	youRobotCPUUpgrades
-user	youRobotLeft	0
+user	youRobotBody	0	roa
+user	youRobotBottom	0	roa
+user	youRobotCPUUpgrades		roa
+user	youRobotLeft	0	roa
 user	youRobotPoints	0
-user	youRobotRight	0
-user	youRobotScavenged	false
-user	youRobotTop	0
+user	youRobotRight	0	roa
+user	youRobotScavenged	false	roa
+user	youRobotTop	0	roa
 user	zeppelinProtestors	0
 user	zigguratLianas	0
 user	zombiePoints	0
-user	zootGraftedButtCheekLeftFamiliar	0
-user	zootGraftedButtCheekRightFamiliar	0
-user	zootGraftedFootLeftFamiliar	0
-user	zootGraftedFootRightFamiliar	0
-user	zootGraftedHandLeftFamiliar	0
-user	zootGraftedHandRightFamiliar	0
-user	zootGraftedHeadFamiliar	0
-user	zootGraftedMods
-user	zootGraftedNippleLeftFamiliar	0
-user	zootGraftedNippleRightFamiliar	0
-user	zootGraftedShoulderLeftFamiliar	0
-user	zootGraftedShoulderRightFamiliar	0
-user	zootMilkCrueltyMods
-user	zootMilkKindnessMods
-user	zootSpecimensPrepared	0
+user	zootGraftedButtCheekLeftFamiliar	0	roa
+user	zootGraftedButtCheekRightFamiliar	0	roa
+user	zootGraftedFootLeftFamiliar	0	roa
+user	zootGraftedFootRightFamiliar	0	roa
+user	zootGraftedHandLeftFamiliar	0	roa
+user	zootGraftedHandRightFamiliar	0	roa
+user	zootGraftedHeadFamiliar	0	roa
+user	zootGraftedMods		roa
+user	zootGraftedNippleLeftFamiliar	0	roa
+user	zootGraftedNippleRightFamiliar	0	roa
+user	zootGraftedShoulderLeftFamiliar	0	roa
+user	zootGraftedShoulderRightFamiliar	0	roa
+user	zootMilkCrueltyMods		roa
+user	zootMilkKindnessMods		roa
+user	zootSpecimensPrepared	0	roa
 user	zootomistPoints	0
 user	_2002MrStoreCreditsCollected	false
 user	_absintheDrops	0
@@ -1841,21 +1846,21 @@ user	_ballInACupUsed	false
 user	_ballpit	false
 user	_banderRunaways	0
 user	_barrelPrayer	false
-user	_bastilleBoosts	
+user	_bastilleBoosts
 user	_bastilleCheese	0
 user	_bastilleChoice1
 user	_bastilleChoice2
 user	_bastilleChoice3
-user	_bastilleCurrentStyles	
-user	_bastilleEnemyCastle	
-user	_bastilleEnemyName	
+user	_bastilleCurrentStyles
+user	_bastilleEnemyCastle
+user	_bastilleEnemyName
 user	_bastilleGames	0
 user	_bastilleGameTurn	0
 user	_bastilleLastBattleResults
 user	_bastilleLastBattleWon	false
 user	_bastilleLastCheese	0
-user	_bastilleLastEncounter	
-user	_bastilleStats	
+user	_bastilleLastEncounter
+user	_bastilleStats
 user	_batWingsCauldronUsed	0
 user	_batWingsFreeFights	0
 user	_batWingsRestUsed	0
@@ -1950,7 +1955,7 @@ user	_cloudTalkMessage
 user	_cloudTalkSmoker
 user	_cloversPurchased	0
 user	_coalPaperweightUsed	false
-user	_coatOfPaintModifier	
+user	_coatOfPaintModifier
 user	_cocoaDispenserUsed	false
 user	_cocktailShakerUsed	false
 user	_coldAirportToday	false
@@ -2333,7 +2338,7 @@ user	_molehillMountainUsed	false
 user	_momFoodReceived	false
 user	_monkeyPawWishesUsed	0
 user	_monsterHabitatsFightsLeft	0
-user	_monsterHabitatsMonster	
+user	_monsterHabitatsMonster
 user	_monsterHabitatsRecalled	0
 user	_monstersMapped	0
 user	_mrBurnsgerEaten	false
@@ -2427,7 +2432,7 @@ user	_powerfulGloveBatteryPowerUsed	0
 user	_powerPillDrops	0
 user	_powerPillUses	0
 user	_precisionCasts	0
-user	_prankCardMonster	
+user	_prankCardMonster
 user	_prToday	false
 user	_psychoJarFilled	false
 user	_psychoJarUsed	false
@@ -2460,7 +2465,7 @@ user	_roboDrinks
 user	_roboDrops	0
 user	_rogueProgramCharge	0
 user	_romanticFightsLeft	0
-user	_roninStoragePulls	
+user	_roninStoragePulls
 user	_saberForceMonster
 user	_saberForceMonsterCount	0
 user	_saberForceUses	0
@@ -2486,7 +2491,7 @@ user	_shadowBricksUsed	0
 user	_shadowForestLooted	false
 user	_shadowRiftCombats	0
 user	_shatteringPunchUsed	0
-user	_shortOrderCookCharge	0
+user	_shortOrderCookCharge	0	roa
 user	_shrubCharge	0
 user	_shrubDecorated	false
 user	_silverDreadFlaskUsed	false
@@ -2616,11 +2621,11 @@ user	_unconsciousCollectiveCharge	0
 user	_universalSeasoningsUsed	0
 user	_universeCalculated	0
 user	_universeImploded	0
-user	_unknownEasyBountyItem	
-user	_unknownHardBountyItem	
-user	_unknownSpecialBountyItem	
-user	_untakenEasyBountyItem	
-user	_untakenHardBountyItem	
+user	_unknownEasyBountyItem
+user	_unknownHardBountyItem
+user	_unknownSpecialBountyItem
+user	_untakenEasyBountyItem
+user	_untakenHardBountyItem
 user	_untakenSpecialBountyItem
 user	_usedReplicaBatoomerang	0
 user	_userMods
@@ -2650,14 +2655,14 @@ user	_volcanoItemRedeemed	false
 user	_volcanoSuperduperheatedMetal	false
 user	_voodooSnuffUsed	false
 user	_voteFreeFights	0
-user	_voteLocal1	
-user	_voteLocal2	
-user	_voteLocal3	
-user	_voteLocal4	
-user	_voteMonster1	
-user	_voteMonster2	
-user	_voteModifier	
-user	_voteMonster	
+user	_voteLocal1
+user	_voteLocal2
+user	_voteLocal3
+user	_voteLocal4
+user	_voteMonster1
+user	_voteMonster2
+user	_voteModifier
+user	_voteMonster
 user	_voteToday	false
 user	_VYKEACafeteriaRaided	false
 user	_VYKEACompanionType
@@ -3466,13 +3471,11 @@ user	choiceAdventure1547	1
 user	choiceAdventure1548	1
 user	choiceAdventure1549	1
 user	choiceAdventure1550	1
-
 user	lockedItem4637	true
 user	lockedItem4638	true
 user	lockedItem4639	true
 user	lockedItem4646	true
 user	lockedItem4647	true
-
 user	unknownRecipe3542	true
 user	unknownRecipe3543	true
 user	unknownRecipe3544	true
@@ -3536,33 +3539,32 @@ user	unknownRecipe10990	true
 user	unknownRecipe10991	true
 user	unknownRecipe10992	true
 user	unknownRecipe11000	true
-
-user	lastNoncombat15	0
-user	lastNoncombat257	0
-user	lastNoncombat270	0
-user	lastNoncombat273	0
-user	lastNoncombat280	0
-user	lastNoncombat297	0
-user	lastNoncombat322	0
-user	lastNoncombat323	0
-user	lastNoncombat324	0
-user	lastNoncombat341	0
-user	lastNoncombat343	0
-user	lastNoncombat384	0
-user	lastNoncombat386	0
-user	lastNoncombat391	0
-user	lastNoncombat405	0
-user	lastNoncombat406	0
-user	lastNoncombat439	0
-user	lastNoncombat440	0
-user	lastNoncombat441	0
-user	lastNoncombat450	0
-user	lastNoncombat533	0
-user	lastNoncombat539	0
-user	lastNoncombat540	0
-user	lastNoncombat541	0
-user	lastNoncombat588	0
-user	lastNoncombat589	0
-user	lastNoncombat590	0
-user	lastNoncombat591	0
-user	lastNoncombat592	0
+user	lastNoncombat15	0	roa
+user	lastNoncombat257	0	roa
+user	lastNoncombat270	0	roa
+user	lastNoncombat273	0	roa
+user	lastNoncombat280	0	roa
+user	lastNoncombat297	0	roa
+user	lastNoncombat322	0	roa
+user	lastNoncombat323	0	roa
+user	lastNoncombat324	0	roa
+user	lastNoncombat341	0	roa
+user	lastNoncombat343	0	roa
+user	lastNoncombat384	0	roa
+user	lastNoncombat386	0	roa
+user	lastNoncombat391	0	roa
+user	lastNoncombat405	0	roa
+user	lastNoncombat406	0	roa
+user	lastNoncombat439	0	roa
+user	lastNoncombat440	0	roa
+user	lastNoncombat441	0	roa
+user	lastNoncombat450	0	roa
+user	lastNoncombat533	0	roa
+user	lastNoncombat539	0	roa
+user	lastNoncombat540	0	roa
+user	lastNoncombat541	0	roa
+user	lastNoncombat588	0	roa
+user	lastNoncombat589	0	roa
+user	lastNoncombat590	0	roa
+user	lastNoncombat591	0	roa
+user	lastNoncombat592	0	roa
