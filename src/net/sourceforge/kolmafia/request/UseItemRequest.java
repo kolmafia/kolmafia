@@ -1689,6 +1689,11 @@ public class UseItemRequest extends GenericRequest {
           FightRequest.checkForMultiFight(true, responseText);
         }
       }
+      case ItemPool.APRIL_BAND_PICCOLO -> {
+        if (responseText.contains("You hand the piccolo")) {
+          KoLCharacter.getFamiliar().addNonCombatExperience(40);
+        }
+      }
     }
   }
 

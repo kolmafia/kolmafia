@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.EdServantData;
+import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLCharacter.Gender;
@@ -6954,6 +6955,9 @@ public abstract class ChoiceControl {
         if (text.contains("times without using an adventure")) {
           Preferences.increment("_mayamRests", 5);
         }
+        if (text.contains("looks more experienced")) {
+          KoLCharacter.getFamiliar().addNonCombatExperience(100);
+        }
         break;
 
       case 1532:
@@ -7001,6 +7005,19 @@ public abstract class ChoiceControl {
       case 1554:
         // We'll Return to Our Home, Bathed in Rays of Gold
         handleAfterAvatar(ChoiceManager.lastDecision);
+        break;
+
+      case 1556:
+        // Hybridization Chamber
+        if (ChoiceManager.lastDecision == 1 && text.contains("<span class='guts'>Grafting")) {
+          var famId = request.getFormField("fam");
+          // if this is our current familiar, remove it
+          if (Integer.parseInt(famId) == KoLCharacter.getFamiliar().getId()) {
+            KoLCharacter.setFamiliar(FamiliarData.NO_FAMILIAR);
+          }
+          // grab our graft info and our new level
+          ApiRequest.updateStatus();
+        }
         break;
     }
   }

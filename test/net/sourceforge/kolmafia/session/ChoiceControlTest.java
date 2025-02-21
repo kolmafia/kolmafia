@@ -897,6 +897,17 @@ class ChoiceControlTest {
         assertThat("_mayamRests", isSetTo(5));
       }
     }
+
+    @Test
+    void choosingFurGivesExperience() {
+      var cleanups =
+          new Cleanups(
+              withFamiliar(FamiliarPool.JILL_OF_ALL_TRADES),
+              withPostChoice2(1527, 1, html("request/test_choice_mayam_fur.html")));
+      try (cleanups) {
+        assertThat(KoLCharacter.getFamiliar().getTotalExperience(), equalTo(100));
+      }
+    }
   }
 
   @Nested
