@@ -1754,6 +1754,7 @@ user	zombiePoints	0
 user	zootGraftedMods
 user	zootMilkCrueltyMods
 user	zootMilkKindnessMods
+user	zootSpecimensPrepared	0
 user	zootomistPoints	0
 user	_2002MrStoreCreditsCollected	false
 user	_absintheDrops	0
