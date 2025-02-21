@@ -25,17 +25,17 @@ class ApiRequestTest {
     var cleanups =
         new Cleanups(
             withPath(AscensionPath.Path.Z_IS_FOR_ZOOTOMIST),
-            withProperty("zootGraftHead", 25),
-            withProperty("zootGraftShoulderLeft", 25),
-            withProperty("zootGraftShoulderRight", 25),
-            withProperty("zootGraftHandLeft", 25),
-            withProperty("zootGraftHandRight", 25),
-            withProperty("zootGraftNippleRight", 25),
-            withProperty("zootGraftNippleLeft", 25),
-            withProperty("zootGraftButtCheekLeft", 25),
-            withProperty("zootGraftButtCheekRight", 25),
-            withProperty("zootGraftFootLeft", 25),
-            withProperty("zootGraftFootRight", 25));
+            withProperty("zootGraftedHeadFamiliar", 25),
+            withProperty("zootGraftedShoulderLeftFamiliar", 25),
+            withProperty("zootGraftedShoulderRightFamiliar", 25),
+            withProperty("zootGraftedHandLeftFamiliar", 25),
+            withProperty("zootGraftedHandRightFamiliar", 25),
+            withProperty("zootGraftedNippleRightFamiliar", 25),
+            withProperty("zootGraftedNippleLeftFamiliar", 25),
+            withProperty("zootGraftedButtCheekLeftFamiliar", 25),
+            withProperty("zootGraftedButtCheekRightFamiliar", 25),
+            withProperty("zootGraftedFootLeftFamiliar", 25),
+            withProperty("zootGraftedFootRightFamiliar", 25));
 
     try (cleanups) {
       var json =
@@ -51,17 +51,17 @@ class ApiRequestTest {
       """);
       ApiRequest.parseZootomistGrafts(json);
 
-      assertThat("zootGraftHead", isSetTo(175));
-      assertThat("zootGraftShoulderLeft", isSetTo(16));
-      assertThat("zootGraftShoulderRight", isSetTo(55));
-      assertThat("zootGraftHandLeft", isSetTo(0));
-      assertThat("zootGraftHandRight", isSetTo(0));
-      assertThat("zootGraftNippleRight", isSetTo(20));
-      assertThat("zootGraftNippleLeft", isSetTo(71));
-      assertThat("zootGraftButtCheekLeft", isSetTo(3));
-      assertThat("zootGraftButtCheekRight", isSetTo(142));
-      assertThat("zootGraftFootLeft", isSetTo(286));
-      assertThat("zootGraftFootRight", isSetTo(0));
+      assertThat("zootGraftedHeadFamiliar", isSetTo(175));
+      assertThat("zootGraftedShoulderLeftFamiliar", isSetTo(16));
+      assertThat("zootGraftedShoulderRightFamiliar", isSetTo(55));
+      assertThat("zootGraftedHandLeftFamiliar", isSetTo(0));
+      assertThat("zootGraftedHandRightFamiliar", isSetTo(0));
+      assertThat("zootGraftedNippleRightFamiliar", isSetTo(20));
+      assertThat("zootGraftedNippleLeftFamiliar", isSetTo(71));
+      assertThat("zootGraftedButtCheekLeftFamiliar", isSetTo(3));
+      assertThat("zootGraftedButtCheekRightFamiliar", isSetTo(142));
+      assertThat("zootGraftedFootLeftFamiliar", isSetTo(286));
+      assertThat("zootGraftedFootRightFamiliar", isSetTo(0));
     }
   }
 }
