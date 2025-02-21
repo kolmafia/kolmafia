@@ -6955,7 +6955,7 @@ public abstract class ChoiceControl {
         if (text.contains("times without using an adventure")) {
           Preferences.increment("_mayamRests", 5);
         }
-        if (text.contains("100 familiar XP")) {
+        if (text.contains("looks more experienced")) {
           KoLCharacter.getFamiliar().addNonCombatExperience(100);
         }
         break;
