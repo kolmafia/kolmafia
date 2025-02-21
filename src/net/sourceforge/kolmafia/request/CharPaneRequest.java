@@ -245,6 +245,8 @@ public class CharPaneRequest extends GenericRequest {
       CharPaneRequest.checkClancy(responseText);
     } else if (KoLCharacter.isJarlsberg()) {
       CharPaneRequest.checkCompanion(responseText);
+    } else if (KoLCharacter.isSneakyPete()) {
+      // No familiar-type checking needed
     } else if (KoLCharacter.isEd()) {
       CharPaneRequest.checkServant(responseText);
     } else if (KoLCharacter.inPokefam()) {
@@ -444,8 +446,6 @@ public class CharPaneRequest extends GenericRequest {
     // in ronin. See if he still is.
     // Spending turns does not let you break Ronin in Pocket Familiars
     return KoLCharacter.getCurrentRun() >= KoLCharacter.initialRonin() && !KoLCharacter.inPokefam();
-
-    // Otherwise, no way.
   }
 
   private static void handleCompactMode(final String responseText) {
@@ -1742,50 +1742,7 @@ public class CharPaneRequest extends GenericRequest {
 
     CharPaneRequest.setInteraction();
 
-    if (!KoLCharacter.getLimitMode().limitFamiliars()) {
-      if (KoLCharacter.inAxecore()) {
-        int level = json.getIntValue("clancy_level");
-        int itype = json.getIntValue("clancy_instrument");
-        boolean att = json.getBoolean("clancy_wantsattention");
-        AdventureResult instrument =
-            itype == 1
-                ? CharPaneRequest.SACKBUT
-                : itype == 2 ? CharPaneRequest.CRUMHORN : itype == 3 ? CharPaneRequest.LUTE : null;
-        KoLCharacter.setClancy(level, instrument, att);
-      } else if (KoLCharacter.isJarlsberg()) {
-        if (json.containsKey("jarlcompanion")) {
-          int companion = json.getIntValue("jarlcompanion");
-          switch (companion) {
-            case 1 -> KoLCharacter.setCompanion(Companion.EGGMAN);
-            case 2 -> KoLCharacter.setCompanion(Companion.RADISH);
-            case 3 -> KoLCharacter.setCompanion(Companion.HIPPO);
-            case 4 -> KoLCharacter.setCompanion(Companion.CREAM);
-          }
-        } else {
-          KoLCharacter.setCompanion(null);
-        }
-      } else if (KoLCharacter.getPath().canUseFamiliars()) {
-        int famId = json.getIntValue("familiar");
-        int famExp = json.getIntValue("familiarexp");
-        FamiliarData familiar = FamiliarData.registerFamiliar(famId, famExp);
-        KoLCharacter.setFamiliar(familiar);
-
-        String image = json.getString("familiarpic");
-        if (famId != FamiliarPool.MELODRAMEDARY) {
-          KoLCharacter.setFamiliarImage(image.isEmpty() ? null : image + ".gif");
-        }
-
-        familiar.setFeasted(json.getIntValue("familiar_wellfed") == 1);
-
-        // Set charges from the Medium's image
-
-        if (famId == FamiliarPool.HAPPY_MEDIUM) {
-          int aura = StringUtilities.parseInt(image.substring(7, 8));
-          FamiliarData medium = KoLCharacter.usableFamiliar(FamiliarPool.HAPPY_MEDIUM);
-          medium.setCharges(aura);
-        }
-      }
-    }
+    parseFamiliarStatus(json);
 
     int thrallId = json.getIntValue("pastathrall");
     int thrallLevel = json.getIntValue("pastathralllevel");
@@ -1805,6 +1762,65 @@ public class CharPaneRequest extends GenericRequest {
       } else {
         KoLCharacter.setRadSickness(0);
       }
+    }
+  }
+
+  private static void parseFamiliarStatus(final JSONObject json) {
+    if (KoLCharacter.getLimitMode().limitFamiliars()) return;
+
+    if (KoLCharacter.inAxecore()) {
+      int level = json.getIntValue("clancy_level");
+      int itype = json.getIntValue("clancy_instrument");
+      boolean att = json.getBoolean("clancy_wantsattention");
+      AdventureResult instrument =
+          itype == 1
+              ? CharPaneRequest.SACKBUT
+              : itype == 2 ? CharPaneRequest.CRUMHORN : itype == 3 ? CharPaneRequest.LUTE : null;
+      KoLCharacter.setClancy(level, instrument, att);
+      return;
+    }
+
+    if (KoLCharacter.isJarlsberg()) {
+      if (json.containsKey("jarlcompanion")) {
+        int companion = json.getIntValue("jarlcompanion");
+        switch (companion) {
+          case 1 -> KoLCharacter.setCompanion(Companion.EGGMAN);
+          case 2 -> KoLCharacter.setCompanion(Companion.RADISH);
+          case 3 -> KoLCharacter.setCompanion(Companion.HIPPO);
+          case 4 -> KoLCharacter.setCompanion(Companion.CREAM);
+        }
+      } else {
+        KoLCharacter.setCompanion(null);
+      }
+      return;
+    }
+
+    if (KoLCharacter.isEd()) {
+      // No familiar, but may have a servant.  Unfortunately,
+      // details of such are not in api.php
+      return;
+    }
+
+    if (!KoLCharacter.getPath().canUseFamiliars()) return;
+
+    int famId = json.getIntValue("familiar");
+    int famExp = json.getIntValue("familiarexp");
+    FamiliarData familiar = FamiliarData.registerFamiliar(famId, famExp);
+    KoLCharacter.setFamiliar(familiar);
+
+    String image = json.getString("familiarpic");
+    if (famId != FamiliarPool.MELODRAMEDARY) {
+      KoLCharacter.setFamiliarImage(image.isEmpty() ? null : image + ".gif");
+    }
+
+    familiar.setFeasted(json.getIntValue("familiar_wellfed") == 1);
+
+    // Set charges from the Medium's image
+
+    if (famId == FamiliarPool.HAPPY_MEDIUM) {
+      int aura = StringUtilities.parseInt(image.substring(7, 8));
+      FamiliarData medium = KoLCharacter.usableFamiliar(FamiliarPool.HAPPY_MEDIUM);
+      medium.setCharges(aura);
     }
   }
 
