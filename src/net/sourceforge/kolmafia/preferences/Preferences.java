@@ -639,6 +639,7 @@ public class Preferences {
         "zootGraftShoulderRight",
         "zootMilkCrueltyMods",
         "zootMilkKindnessMods",
+        "zootSpecimensPrepared",
       };
 
   private static final Set<String> resetOnAscensionSet =

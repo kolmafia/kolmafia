@@ -1765,6 +1765,7 @@ user	zootGraftShoulderLeft	0
 user	zootGraftShoulderRight	0
 user	zootMilkCrueltyMods
 user	zootMilkKindnessMods
+user	zootSpecimensPrepared	0
 user	zootomistPoints	0
 user	_2002MrStoreCreditsCollected	false
 user	_absintheDrops	0
