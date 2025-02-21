@@ -423,7 +423,7 @@ user	burnoutsDefeated	0
 user	burrowgrubHiveUsed	false	ld
 user	burrowgrubSummonsRemaining	0	ld
 user	buyScript		
-user	bwApronMealsEaten	0	
+user	bwApronMealsEaten	-1
 user	calzoneOfLegendEaten	false	roa
 user	camelSpit	0	roa
 user	cameraMonster		roa
