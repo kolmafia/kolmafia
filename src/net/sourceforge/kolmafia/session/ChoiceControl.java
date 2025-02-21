@@ -7002,12 +7002,7 @@ public abstract class ChoiceControl {
         }
         break;
 
-      case 1554:
-        // We'll Return to Our Home, Bathed in Rays of Gold
-        handleAfterAvatar(ChoiceManager.lastDecision);
-        break;
-
-      case 1556:
+      case 1553:
         // Hybridization Chamber
         if (ChoiceManager.lastDecision == 1 && text.contains("<span class='guts'>Grafting")) {
           var famId = request.getFormField("fam");
@@ -7018,6 +7013,11 @@ public abstract class ChoiceControl {
           // grab our graft info and our new level
           ApiRequest.updateStatus();
         }
+        break;
+
+      case 1554:
+        // We'll Return to Our Home, Bathed in Rays of Gold
+        handleAfterAvatar(ChoiceManager.lastDecision);
         break;
     }
   }
