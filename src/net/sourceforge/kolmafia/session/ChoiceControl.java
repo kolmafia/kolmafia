@@ -4918,6 +4918,15 @@ public abstract class ChoiceControl {
           Preferences.increment("_photoBoothEquipment");
         }
         break;
+      case 1555:
+        // Specimen Preparation Bench
+        if (ChoiceManager.lastDecision == 1) {
+          if (text.contains("You inject the viscous liquid")) {
+            KoLCharacter.getFamiliar().addNonCombatExperience(20);
+            Preferences.increment("zootSpecimensPrepared", 1);
+          }
+        }
+        break;
     }
   }
 
@@ -8925,6 +8934,13 @@ public abstract class ChoiceControl {
       case 1550 -> { // Cyberzone 3 Final
         Preferences.setInteger("_cyberZone3Turns", 20);
       }
+      case 1555 -> { // Specimen Preparation Bench
+        Matcher benchUsed = Pattern.compile(" You have done so (\\d+) time").matcher(text);
+        if (benchUsed.find()) {
+          int spawned = Integer.parseInt(benchUsed.group(1));
+          Preferences.setInteger("zootSpecimensPrepared", spawned);
+        }
+      }
     }
   }
 
@@ -10077,6 +10093,7 @@ public abstract class ChoiceControl {
       case 1544: // Devil some Candy
       case 1551: // Hashing with your vice
       case 1553: // Hybridization Chamber
+      case 1555: // Specimen Preparation Bench
         return true;
 
       default:
