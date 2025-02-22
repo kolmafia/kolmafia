@@ -13,6 +13,7 @@ import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.AscensionPath.Path;
@@ -4436,13 +4437,32 @@ public abstract class KoLCharacter {
         .orElse(null);
   }
 
+  private static Stream<Integer> graftedFamiliars() {
+    return Stream.of(
+            "zootGraftedButtCheekLeftFamiliar",
+            "zootGraftedButtCheekRightFamiliar",
+            "zootGraftedFootLeftFamiliar",
+            "zootGraftedFootRightFamiliar",
+            "zootGraftedHandLeftFamiliar",
+            "zootGraftedHandRightFamiliar",
+            "zootGraftedHeadFamiliar",
+            "zootGraftedNippleLeftFamiliar",
+            "zootGraftedNippleRightFamiliar",
+            "zootGraftedShoulderLeftFamiliar",
+            "zootGraftedShoulderRightFamiliar")
+        .map(pref -> Preferences.getInteger(pref))
+        .filter(id -> id > 0);
+  }
+
   private static boolean isUsable(FamiliarData f) {
     if (f == FamiliarData.NO_FAMILIAR) return !KoLCharacter.inQuantum();
 
     return StandardRequest.isAllowed(f)
         && (!KoLCharacter.inZombiecore() || f.isUndead())
         && (!KoLCharacter.inBeecore() || !KoLCharacter.hasBeeosity(f.getRace()))
-        && (!KoLCharacter.inGLover() || KoLCharacter.hasGs(f.getRace()));
+        && (!KoLCharacter.inGLover() || KoLCharacter.hasGs(f.getRace()))
+        && (!KoLCharacter.inZootomist()
+            || !KoLCharacter.graftedFamiliars().anyMatch(id -> id == f.getId()));
   }
 
   /**
