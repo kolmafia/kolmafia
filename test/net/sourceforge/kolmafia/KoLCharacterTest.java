@@ -305,7 +305,7 @@ public class KoLCharacterTest {
   }
 
   @Test
-  public void graftedFamiliarsArentUsableInZootomist() {
+  public void graftedFamiliarsArentUsableAndAreOwnedInZootomist() {
     var cleanups =
         new Cleanups(
             withFamiliarInTerrarium(FamiliarPool.MOSQUITO),
@@ -313,22 +313,11 @@ public class KoLCharacterTest {
             withProperty("zootGraftedButtCheekLeftFamiliar", FamiliarPool.MOSQUITO));
 
     try (cleanups) {
-      var fam = KoLCharacter.usableFamiliar("mosquito");
-      assertThat(fam, nullValue());
-    }
-  }
-
-  @Test
-  public void graftedFamiliarsAreOwnedInZootomist() {
-    var cleanups =
-        new Cleanups(
-            withFamiliarInTerrarium(FamiliarPool.MOSQUITO),
-            withPath(Path.Z_IS_FOR_ZOOTOMIST),
-            withProperty("zootGraftedButtCheekLeftFamiliar", FamiliarPool.MOSQUITO));
-
-    try (cleanups) {
-      var fam = KoLCharacter.ownedFamiliar("mosquito");
-      assertTrue(fam.isPresent());
+      var famUsable = KoLCharacter.usableFamiliar("mosquito");
+      assertThat(famUsable, nullValue());
+      var famOwned = KoLCharacter.ownedFamiliar("mosquito");
+      assertTrue(famOwned.isPresent());
+      assertThat(famOwned.get().getId(), is(FamiliarPool.MOSQUITO));
     }
   }
 

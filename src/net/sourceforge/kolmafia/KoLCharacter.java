@@ -13,7 +13,6 @@ import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
@@ -4438,7 +4437,7 @@ public abstract class KoLCharacter {
         .orElse(null);
   }
 
-  private static Set<Integer> graftedFamiliars() {
+  private static Stream<Integer> graftedFamiliars() {
     return Stream.of(
             "zootGraftedButtCheekLeftFamiliar",
             "zootGraftedButtCheekRightFamiliar",
@@ -4452,8 +4451,7 @@ public abstract class KoLCharacter {
             "zootGraftedShoulderLeftFamiliar",
             "zootGraftedShoulderRightFamiliar")
         .map(pref -> Preferences.getInteger(pref))
-        .filter(id -> id > 0)
-        .collect(Collectors.toUnmodifiableSet());
+        .filter(id -> id > 0);
   }
 
   private static boolean isUsable(FamiliarData f) {
@@ -4463,7 +4461,8 @@ public abstract class KoLCharacter {
         && (!KoLCharacter.inZombiecore() || f.isUndead())
         && (!KoLCharacter.inBeecore() || !KoLCharacter.hasBeeosity(f.getRace()))
         && (!KoLCharacter.inGLover() || KoLCharacter.hasGs(f.getRace()))
-        && (!KoLCharacter.inZootomist() || !KoLCharacter.graftedFamiliars().contains(f.getId()));
+        && (!KoLCharacter.inZootomist()
+            || !KoLCharacter.graftedFamiliars().anyMatch(id -> id == f.getId()));
   }
 
   /**
