@@ -176,6 +176,47 @@ public class ShopRequestTest {
     }
 
     @Test
+    void canParseExistingTokenCoinmaster() {
+      String shopId = "september";
+      String responseText = html("request/test_shop_september.html");
+
+      SessionLoggerOutput.startStream();
+      var shopRows = ShopRequest.parseShopInventory(shopId, responseText, true);
+      var text = SessionLoggerOutput.stopStream();
+      System.out.println(text);
+
+      var expected =
+          """
+    --------------------
+    1510	september	blade of dismemberment	Ember
+    1511	september	miniature Embering Hulk	Ember (6)
+    1512	september	Mmm-brr! brand mouthwash	Ember (2)
+    1513	september	Septapus summoning charm	Ember (2)
+    1514	september	structural ember	Ember (4)
+    1515	september	embers-only jacket	Ember
+    1516	september	bembershoot	Ember
+    1517	september	wheel of camembert	Ember
+    1518	september	hat of remembering	Ember
+    1519	september	throwin' ember	Ember (2)
+    1520	september	head of emberg lettuce	Ember (2)
+    --------------------
+    Sept-Ember Censer	buy	1	bembershoot	ROW1516
+    Sept-Ember Censer	buy	1	blade of dismemberment	ROW1510
+    Sept-Ember Censer	buy	1	embers-only jacket	ROW1515
+    Sept-Ember Censer	buy	1	hat of remembering	ROW1518
+    Sept-Ember Censer	buy	1	wheel of camembert	ROW1517
+    Sept-Ember Censer	buy	2	Mmm-brr! brand mouthwash	ROW1512
+    Sept-Ember Censer	buy	2	head of emberg lettuce	ROW1520
+    Sept-Ember Censer	buy	2	Septapus summoning charm	ROW1513
+    Sept-Ember Censer	buy	2	throwin' ember	ROW1519
+    Sept-Ember Censer	buy	4	structural ember	ROW1514
+    Sept-Ember Censer	buy	6	miniature Embering Hulk	ROW1511
+    --------------------""";
+
+      assertThat(text, containsString(expected));
+    }
+
+    @Test
     void canParseExistingBuySellCoinmaster() {
       String shopId = "crimbo23_elf_armory";
       String responseText = html("request/test_armory_elf_visit.html");
