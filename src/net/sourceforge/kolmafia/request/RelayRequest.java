@@ -3575,6 +3575,14 @@ public class RelayRequest extends PasswordHashRequest {
    */
   private void handleJsonApi(String request) {
     this.contentType = "application/json";
+
+    if (!KoLmafia.permitsContinue()) {
+      this.statusLine = "HTTP/1.1 503 Service Unavailable";
+      this.responseCode = 503;
+      this.responseText = JSON.toJSONString(Map.of("error", "KoLmafia is in an error state."));
+      return;
+    }
+
     JSONObject json;
     try {
       json = JSON.parseObject(request);
