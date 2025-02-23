@@ -387,6 +387,21 @@ public class ShopRequest extends GenericRequest {
     RequestLogger.printLine(divider);
     RequestLogger.updateSessionLog(divider);
 
+    if (newMeatRows.size() > 0) {
+      // Log newMeatRows in npcstores.txt format
+      for (ShopRow shopRow : newMeatRows) {
+        AdventureResult item = shopRow.getItem();
+        int cost = shopRow.getCosts()[0].getCount();
+        String printMe =
+            shopName + "\t" + shopId + "\t" + item + "\t" + cost + "\tROW" + shopRow.getRow();
+        RequestLogger.printLine(printMe);
+        RequestLogger.updateSessionLog(printMe);
+      }
+      RequestLogger.printLine(divider);
+      RequestLogger.updateSessionLog(divider);
+      // An npcstore can also be a coinmaster - or even a concoction
+    }
+
     if (newConcoctionRows.size() > 0) {
       // Log newConcoctionRows in concoctions.txt format
       var craftingType = ShopDatabase.getCraftingType(shopId);
@@ -410,21 +425,6 @@ public class ShopRequest extends GenericRequest {
       RequestLogger.printLine(divider);
       RequestLogger.updateSessionLog(divider);
       return shopRows;
-    }
-
-    if (newMeatRows.size() > 0) {
-      // Log newMeatRows in npcstores.txt format
-      for (ShopRow shopRow : newMeatRows) {
-        AdventureResult item = shopRow.getItem();
-        int cost = shopRow.getCosts()[0].getCount();
-        String printMe =
-            shopName + "\t" + shopId + "\t" + item + "\t" + cost + "\tROW" + shopRow.getRow();
-        RequestLogger.printLine(printMe);
-        RequestLogger.updateSessionLog(printMe);
-      }
-      RequestLogger.printLine(divider);
-      RequestLogger.updateSessionLog(divider);
-      // A shop can be a coinmaster AND an npcStore
     }
 
     if (newCoinmasterRows.size() > 0) {

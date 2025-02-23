@@ -183,7 +183,6 @@ public class ShopRequestTest {
       SessionLoggerOutput.startStream();
       var shopRows = ShopRequest.parseShopInventory(shopId, responseText, true);
       var text = SessionLoggerOutput.stopStream();
-      System.out.println(text);
 
       var expected =
           """
