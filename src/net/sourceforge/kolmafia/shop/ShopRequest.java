@@ -255,6 +255,9 @@ public class ShopRequest extends GenericRequest {
       String printMe = "New shop: (" + shopId + ", \"" + shopName + "\")";
       RequestLogger.printLine(printMe);
       RequestLogger.updateSessionLog(printMe);
+    } else {
+      // Otherwise, use the name we assigned to it.
+      shopName = ShopDatabase.getShopName(shopId);
     }
 
     // If this is a coinmaster, give it a chance to make its own
