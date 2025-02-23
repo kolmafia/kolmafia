@@ -4,6 +4,7 @@ import static internal.helpers.Networking.bytes;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withAdventuresSpent;
 import static internal.helpers.Player.withChatChannel;
+import static internal.helpers.Player.withContinuationState;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
@@ -46,6 +47,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 public class RelayRequestTest {
@@ -322,14 +324,38 @@ public class RelayRequestTest {
         var rr =
             this.makeApiRequest(
                 """
-          { "functions": [{ "name": "totalTurnsPlayed", "args": [] }] }
-          """);
+      { "functions": [{ "name": "totalTurnsPlayed", "args": [] }] }
+      """);
 
         JSONObject expected = JSON.parseObject("""
           { "functions": [22] }
           """);
         assertThat(rr.statusLine, is("HTTP/1.1 200 OK"));
         assertThat(rr.responseCode, is(200));
+        assertThat(JSON.parse(rr.responseText), is(expected));
+      }
+    }
+
+    @ParameterizedTest
+    @EnumSource(
+        value = KoLConstants.MafiaState.class,
+        names = {"ENABLE", "ERROR", "ABORT", "PENDING"})
+    public void returnsErrorWithBadContinuationState(KoLConstants.MafiaState state) {
+      var cleanups = new Cleanups(withTurnsPlayed(22), withContinuationState(state));
+      try (cleanups) {
+        var rr =
+            this.makeApiRequest(
+                """
+      { "functions": [{ "name": "totalTurnsPlayed", "args": [] }] }
+      """);
+
+        JSONObject expected =
+            JSON.parseObject(
+                """
+          { "error": "KoLmafia is in an error state." }
+          """);
+        assertThat(rr.statusLine, is("HTTP/1.1 503 Service Unavailable"));
+        assertThat(rr.responseCode, is(503));
         assertThat(JSON.parse(rr.responseText), is(expected));
       }
     }
