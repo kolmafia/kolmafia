@@ -21,8 +21,6 @@ public abstract class ArmoryAndLeggeryRequest extends CoinMasterShopRequest {
   public static final String master = "Armory & Leggery";
   public static final String SHOPID = "armory";
 
-  private static final Pattern TOKEN_PATTERN = Pattern.compile("<td>([\\d,]+) FDKOL commendation");
-
   public static final CoinmasterData ARMORY_AND_LEGGERY =
       new CoinmasterData(master, "armory", ArmoryAndLeggeryRequest.class)
           .withShopRowFields(master, SHOPID)

@@ -17,7 +17,7 @@ public class TavernRequest extends GenericRequest {
       Pattern.compile("Buy some goofballs \\((\\d+),000 Meat\\)");
 
   // tavern.php?place=barkeep
-  //	store.php?whichstore=v&buying=Yep.&phash&whichitem=xxx&howmany=y
+  //	shop.php?whichshop=bartender
   // tavern.php?place=susguy
   //	action=buygoofballs
   // tavern.php?place=pooltable

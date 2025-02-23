@@ -67,6 +67,8 @@ import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
+import net.sourceforge.kolmafia.shop.ShopRowDatabase;
+import net.sourceforge.kolmafia.shop.ShopRowDatabase.ShopRowData;
 import net.sourceforge.kolmafia.utilities.HttpUtilities;
 import net.sourceforge.kolmafia.utilities.Statics;
 import net.sourceforge.kolmafia.utilities.TestStatics;
@@ -2682,6 +2684,7 @@ public class Player {
     var rows = data.getRows();
     Integer itemId = item.getItemId();
     Integer row = rows.get(itemId);
+    ShopRowData shopRowData = (row != null) ? ShopRowDatabase.removeShopRowData(row) : null;
     if (row != null) {
       rows.remove(itemId);
     }
@@ -2692,6 +2695,7 @@ public class Player {
           data.withBuyItems(buyItems);
           if (row != null) {
             rows.put(itemId, row);
+            ShopRowDatabase.putShopRowData(row, shopRowData);
           }
           if (request != null) {
             CoinmastersDatabase.addPurchaseRequest(item, request);
@@ -2713,6 +2717,7 @@ public class Player {
     var rows = data.getRows();
     Integer itemId = item.getItemId();
     Integer row = rows.get(itemId);
+    ShopRowData shopRowData = (row != null) ? ShopRowDatabase.removeShopRowData(row) : null;
     if (row != null) {
       rows.remove(itemId);
     }
@@ -2723,6 +2728,7 @@ public class Player {
           data.withSellItems(sellItems);
           if (row != null) {
             rows.put(itemId, row);
+            ShopRowDatabase.putShopRowData(row, shopRowData);
           }
         });
   }
