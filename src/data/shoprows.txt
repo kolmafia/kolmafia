@@ -1,6 +1,6 @@
 2
 1
-2
+2	fdkol	drop of water-37	1,000 Meat
 3	fdkol	FDKOL tattoo	FDKOL commendation (100)
 4	fdkol	fireman's helmet	FDKOL commendation (500)
 5
@@ -8,7 +8,7 @@
 7	fdkol	fire axe	FDKOL commendation (1,500)
 8	fdkol	enchanted fire extinguisher	FDKOL commendation (1,500)
 9	fdkol	Hjodor's Guide to Arctic Dalmatians	FDKOL commendation (3,500)
-10
+10	fdkol	FDKOL hotcakes	5,000 Meat
 11	fdkol	FDKOL fire hose	FDKOL commendation (1,500)
 12	fdkol	bottle of fire	FDKOL commendation (3)
 13	trapper	penguin skin	yeti fur (5)
@@ -622,7 +622,7 @@
 621	whitecitadel	Cherry Cloaca Cola	80 Meat
 622	whitecitadel	Regular Cloaca Cola	80 Meat
 623	whitecitadel	White Citadel burger	100 Meat
-624
+624	generalstore	sneaky wrapping paper	1,000 Meat
 625	generalstore	water wings for babies	50 Meat
 626	generalstore	miniature life preserver	100 Meat
 627	generalstore	heavy duty umbrella	300 Meat

@@ -64,6 +64,10 @@ public class ShopDatabase {
     return (shopId != null) ? shopIdToShopName.get(shopId) : craftingType.toString();
   }
 
+  public static CraftingType getCraftingType(final String shopId) {
+    return shopIdToCraftingType.get(shopId);
+  }
+
   // Coinmasters
   public static final Map<String, CoinmasterData> coinmasterData = new HashMap<>();
 
