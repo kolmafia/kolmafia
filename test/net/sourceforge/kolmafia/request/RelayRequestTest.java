@@ -234,8 +234,10 @@ public class RelayRequestTest {
     }
 
     @ParameterizedTest
-    @EnumSource(KoLConstants.MafiaState.class)
-    public void returnsFunctionsRegardlessOfContinuationState(KoLConstants.MafiaState state) {
+    @EnumSource(
+        value = KoLConstants.MafiaState.class,
+        names = {"ENABLE", "ERROR", "ABORT", "PENDING"})
+    public void returnsErrorWithBadContinuationState(KoLConstants.MafiaState state) {
       var cleanups = new Cleanups(withTurnsPlayed(22), withContinuationState(state));
       try (cleanups) {
         var rr =
@@ -244,11 +246,13 @@ public class RelayRequestTest {
       { "functions": [{ "name": "totalTurnsPlayed", "args": [] }] }
       """);
 
-        JSONObject expected = JSON.parseObject("""
-          { "functions": [22] }
+        JSONObject expected =
+            JSON.parseObject(
+                """
+          { "error": "KoLmafia is in an error state." }
           """);
-        assertThat(rr.statusLine, is("HTTP/1.1 200 OK"));
-        assertThat(rr.responseCode, is(200));
+        assertThat(rr.statusLine, is("HTTP/1.1 503 Service Unavailable"));
+        assertThat(rr.responseCode, is(503));
         assertThat(JSON.parse(rr.responseText), is(expected));
       }
     }

@@ -52,17 +52,4 @@ class LibraryFunctionTest {
       assertThat(result, nullValue());
     }
   }
-
-  @Test
-  void executeIgnoresContinuationStateIfSpecified() {
-    var cleanups =
-        new Cleanups(withTurnsPlayed(22), withContinuationState(KoLConstants.MafiaState.ERROR));
-    try (cleanups) {
-      var totalTurnsPlayed = allFunctions.findFunctions("total_turns_played")[0];
-      var result = totalTurnsPlayed.execute(runtime, new Object[] {runtime}, true);
-
-      assertThat(result.type, is(DataTypes.INT_TYPE));
-      assertThat(result.intValue(), is(22L));
-    }
-  }
 }
