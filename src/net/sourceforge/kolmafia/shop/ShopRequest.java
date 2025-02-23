@@ -282,7 +282,11 @@ public class ShopRequest extends GenericRequest {
 
       // Shops can sell skills
       if (item.isSkill()) {
-        newShopItems |= learnSkill(shopId, shopName, item, costs, row, newShopItems, force);
+        // If we know this row
+        ShopRow existing = ShopRowDatabase.getShopRow(row);
+        if (existing == null || force) {
+          newShopItems |= learnSkill(shopId, shopName, item, costs, row, newShopItems, force);
+        }
         continue;
       }
 
@@ -483,11 +487,16 @@ public class ShopRequest extends GenericRequest {
         buf.append(cost.getPluralName(price));
       }
     }
-    buf.append(" for ");
     AdventureResult item = shopRow.getItem();
-    buf.append(count * item.getCount());
-    buf.append(" ");
-    buf.append(item.getPluralName(count));
+    if (item.isItem()) {
+      buf.append(" for ");
+      buf.append(count * item.getCount());
+      buf.append(" ");
+      buf.append(item.getPluralName(count));
+    } else if (item.isSkill()) {
+      buf.append(" to learn ");
+      buf.append(item.getName());
+    }
 
     RequestLogger.updateSessionLog();
     RequestLogger.updateSessionLog(buf.toString());

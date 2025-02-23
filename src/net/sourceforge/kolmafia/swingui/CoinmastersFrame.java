@@ -93,6 +93,7 @@ import net.sourceforge.kolmafia.request.coinmaster.shop.FancyDanRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.FishboneryRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.FunALogRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.GMartRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.GeneticFiddlingRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.GotporkOrphanageRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.GotporkPDRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.GuzzlrRequest;
@@ -198,6 +199,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
   private CoinmasterPanel fudgeWandPanel = null;
   private CoinmasterPanel funALogPanel = null;
   private CoinmasterPanel gameShoppePanel = null;
+  private CoinmasterPanel geneticFiddlingPanel = null;
   private CoinmasterPanel gmartPanel = null;
   private CoinmasterPanel gotporkOrphanagePanel = null;
   private CoinmasterPanel gotporkPDPanel = null;
@@ -331,6 +333,11 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     edshopPanel = new EdShopPanel();
     panel.add(edshopPanel);
     this.selectorPanel.addPanel(edshopPanel.getPanelSelector(), panel);
+
+    panel = new JPanel(new BorderLayout());
+    geneticFiddlingPanel = new GeneticFiddlingPanel();
+    panel.add(geneticFiddlingPanel);
+    this.selectorPanel.addPanel(geneticFiddlingPanel.getPanelSelector(), panel);
 
     panel = new JPanel(new BorderLayout());
     pokemporiumPanel = new PokemporiumPanel();
@@ -1631,6 +1638,17 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     }
   }
 
+  private class GeneticFiddlingPanel extends CoinmasterPanel {
+    public GeneticFiddlingPanel() {
+      super(GeneticFiddlingRequest.DATA);
+    }
+
+    @Override
+    public int buyMax(final AdventureResult item, final int max) {
+      return 1;
+    }
+  }
+
   private class GMartPanel extends CoinmasterPanel {
     public GMartPanel() {
       super(GMartRequest.GMART);
@@ -2507,19 +2525,24 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     }
 
     public Component getRenderer(final Component defaultComponent, final AdventureResult ar) {
-      if (!ar.isItem()) {
+      boolean show = true;
+      AdventureResult cost = null;
+
+      if (ar.isSkill()) {
+        int skillId = ar.getSkillId();
+        cost = this.data.skillBuyPrice(skillId);
+        show = data.availableSkill(skillId);
+      } else if (ar.isItem()) {
+        int itemId = ar.getItemId();
+        cost = this.buying ? this.data.itemBuyPrice(itemId) : this.data.itemSellPrice(itemId);
+        show = !this.buying || data.availableItem(itemId);
+      } else {
         return defaultComponent;
       }
-
-      int itemId = ar.getItemId();
-      AdventureResult cost =
-          this.buying ? this.data.itemBuyPrice(itemId) : this.data.itemSellPrice(itemId);
 
       if (cost == null) {
         return defaultComponent;
       }
-
-      boolean show = !this.buying || data.availableItem(itemId);
 
       int price = cost.getCount();
 
@@ -2564,22 +2587,26 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     }
 
     public Component getRenderer(final Component defaultComponent, final ShopRow sr) {
-      AdventureResult ar = sr.getItem();
-
-      if (!ar.isItem()) {
-        return defaultComponent;
-      }
-
-      int itemId = ar.getItemId();
-
       AdventureResult[] costs = sr.getCosts();
 
       if (costs == null) {
         return defaultComponent;
       }
 
+      AdventureResult ar = sr.getItem();
+      boolean show = true;
+
+      if (ar.isSkill()) {
+        int skillId = ar.getSkillId();
+        show = data.availableSkill(skillId);
+      } else if (ar.isItem()) {
+        int itemId = ar.getItemId();
+        show = sr.getAffordableCount() > 0;
+      } else {
+        return defaultComponent;
+      }
+
       String costString = sr.costString();
-      boolean show = sr.getAffordableCount() > 0;
 
       StringBuilder stringForm = new StringBuilder();
       stringForm.append("<html>");

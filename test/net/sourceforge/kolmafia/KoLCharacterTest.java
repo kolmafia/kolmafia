@@ -299,7 +299,25 @@ public class KoLCharacterTest {
 
     try (cleanups) {
       var fam = KoLCharacter.ownedFamiliar("mosquito");
-      assertTrue(fam.isPresent());
+      assertThat(fam.isPresent(), is(true));
+      assertThat(fam.get().getId(), is(FamiliarPool.MOSQUITO));
+    }
+  }
+
+  @Test
+  public void graftedFamiliarsArentUsableAndAreOwnedInZootomist() {
+    var cleanups =
+        new Cleanups(
+            withFamiliarInTerrarium(FamiliarPool.MOSQUITO),
+            withPath(Path.Z_IS_FOR_ZOOTOMIST),
+            withProperty("zootGraftedButtCheekLeftFamiliar", FamiliarPool.MOSQUITO));
+
+    try (cleanups) {
+      var famUsable = KoLCharacter.usableFamiliar("mosquito");
+      assertThat(famUsable, nullValue());
+      var famOwned = KoLCharacter.ownedFamiliar("mosquito");
+      assertTrue(famOwned.isPresent());
+      assertThat(famOwned.get().getId(), is(FamiliarPool.MOSQUITO));
     }
   }
 

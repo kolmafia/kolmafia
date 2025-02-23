@@ -5,7 +5,6 @@ import com.alibaba.fastjson2.JSONException;
 import com.alibaba.fastjson2.JSONObject;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -58,7 +57,6 @@ import org.htmlcleaner.TagNode;
 import org.htmlcleaner.XPatherException;
 
 public class CharPaneRequest extends GenericRequest {
-  private static final AdventureResult ABSINTHE = EffectPool.get(EffectPool.ABSINTHE);
   private static final AdventureResult CHILLED_TO_THE_BONE =
       EffectPool.get(EffectPool.CHILLED_TO_THE_BONE);
 
@@ -79,7 +77,7 @@ public class CharPaneRequest extends GenericRequest {
     super("charpane.php");
   }
 
-  public static final void reset() {
+  public static void reset() {
     CharPaneRequest.lastResponseTimestamp = 0;
     CharPaneRequest.lastResponse = "";
     CharPaneRequest.canInteract = false;
@@ -97,29 +95,29 @@ public class CharPaneRequest extends GenericRequest {
     return null;
   }
 
-  public static final boolean canInteract() {
+  public static boolean canInteract() {
     return CharPaneRequest.canInteract;
   }
 
-  public static final boolean inValhalla() {
+  public static boolean inValhalla() {
     return CharPaneRequest.inValhalla;
   }
 
-  public static final void setInValhalla(final boolean inValhalla) {
+  public static void setInValhalla(final boolean inValhalla) {
     CharPaneRequest.inValhalla = inValhalla;
   }
 
-  public static final void liberateKing() {
+  public static void liberateKing() {
     // Set variables without making requests
     CharPaneRequest.setCanInteract(true);
     KoLCharacter.setRestricted(false);
   }
 
-  public static final void setInteraction() {
+  public static void setInteraction() {
     CharPaneRequest.setInteraction(CharPaneRequest.checkInteraction());
   }
 
-  public static final void setInteraction(final boolean interaction) {
+  public static void setInteraction(final boolean interaction) {
     if (CharPaneRequest.canInteract != interaction) {
       if (interaction && KoLCharacter.getRestricted()) {
         // Refresh skills & familiars when leaving
@@ -137,7 +135,7 @@ public class CharPaneRequest extends GenericRequest {
     }
   }
 
-  public static final void setCanInteract(final boolean interaction) {
+  public static void setCanInteract(final boolean interaction) {
     CharPaneRequest.canInteract = interaction;
   }
 
@@ -319,7 +317,7 @@ public class CharPaneRequest extends GenericRequest {
     }
   }
 
-  public static final String getLastResponse() {
+  public static String getLastResponse() {
     return CharPaneRequest.lastResponse;
   }
 
@@ -338,13 +336,11 @@ public class CharPaneRequest extends GenericRequest {
       Pattern.compile(
           "<img +(?:crossorigin=\"Anonymous\" +|)src=[^>]*?(?:cloudfront.net|images.kingdomofloathing.com|/images)/([^>'\"\\s]+)");
 
-  public static final void parseAvatar(final String responseText) {
-    if (!KoLCharacter.inRobocore()) {
-      Matcher avatarMatcher = CharPaneRequest.AVATAR_PATTERN.matcher(responseText);
-      if (avatarMatcher.find()) {
-        KoLCharacter.setAvatar(avatarMatcher.group(1));
-      }
-    }
+  public static void parseAvatar(final String responseText) {
+    if (KoLCharacter.inRobocore()) return;
+    Matcher avatarMatcher = CharPaneRequest.AVATAR_PATTERN.matcher(responseText);
+    if (!avatarMatcher.find()) return;
+    KoLCharacter.setAvatar(avatarMatcher.group(1));
   }
 
   public static final Pattern TITLE_PATTERN =
@@ -449,12 +445,7 @@ public class CharPaneRequest extends GenericRequest {
     // Last time we checked the char sheet or api.php, he was still
     // in ronin. See if he still is.
     // Spending turns does not let you break Ronin in Pocket Familiars
-    if (KoLCharacter.getCurrentRun() >= KoLCharacter.initialRonin() && !KoLCharacter.inPokefam()) {
-      return true;
-    }
-
-    // Otherwise, no way.
-    return false;
+    return KoLCharacter.getCurrentRun() >= KoLCharacter.initialRonin() && !KoLCharacter.inPokefam();
   }
 
   private static void handleCompactMode(final String responseText) {
@@ -538,8 +529,7 @@ public class CharPaneRequest extends GenericRequest {
   private static final Pattern modifiedPattern =
       Pattern.compile("<font color=(?:red|blue)>(\\d+)</font>&nbsp;\\((\\d+)\\)");
 
-  private static void handleStatPoints(final String responseText, final Pattern pattern)
-      throws Exception {
+  private static void handleStatPoints(final String responseText, final Pattern pattern) {
     if (KoLCharacter.inSmallcore()) {
       // trust api.php
       return;
@@ -562,15 +552,15 @@ public class CharPaneRequest extends GenericRequest {
         modified[i] =
             unmodified[i] =
                 StringUtilities.parseInt(
-                    statMatcher.group(i + 1).replaceAll("<[^>]*>", "").replaceAll("[^\\d]+", ""));
+                    statMatcher.group(i + 1).replaceAll("<[^>]*>", "").replaceAll("\\D+", ""));
       }
     }
 
     Modifiers mods = KoLCharacter.getCurrentModifiers();
-    boolean equalize = mods.getString(StringModifier.EQUALIZE).length() != 0;
-    boolean mus_equalize = mods.getString(StringModifier.EQUALIZE_MUSCLE).length() != 0;
-    boolean mys_equalize = mods.getString(StringModifier.EQUALIZE_MYST).length() != 0;
-    boolean mox_equalize = mods.getString(StringModifier.EQUALIZE_MOXIE).length() != 0;
+    boolean equalize = !mods.getString(StringModifier.EQUALIZE).isEmpty();
+    boolean mus_equalize = !mods.getString(StringModifier.EQUALIZE_MUSCLE).isEmpty();
+    boolean mys_equalize = !mods.getString(StringModifier.EQUALIZE_MYST).isEmpty();
+    boolean mox_equalize = !mods.getString(StringModifier.EQUALIZE_MOXIE).isEmpty();
     boolean mus_limit = (int) mods.getDouble(DoubleModifier.MUS_LIMIT) != 0;
     boolean mys_limit = (int) mods.getDouble(DoubleModifier.MYS_LIMIT) != 0;
     boolean mox_limit = (int) mods.getDouble(DoubleModifier.MOX_LIMIT) != 0;
@@ -656,7 +646,7 @@ public class CharPaneRequest extends GenericRequest {
     // Compact You, Robot
     {
       Pattern.compile("HP:.*?<b>(.*?)/(.*?)</b>"),
-      Pattern.compile("E:.*?<b>(\\d+) / (?:.*?)</b>"),
+      Pattern.compile("E:.*?<b>(\\d+) / .*?</b>"),
       Pattern.compile("Meat.*?<b>(.*?)</b>"),
       Pattern.compile("Adv.*?<b>(.*?)</b>"),
     },
@@ -675,8 +665,7 @@ public class CharPaneRequest extends GenericRequest {
   private static final int MEAT = 2;
   private static final int ADV = 3;
 
-  private static void handleMiscPoints(final String responseText, final Pattern[] patterns)
-      throws Exception {
+  private static void handleMiscPoints(final String responseText, final Pattern[] patterns) {
     // Health and all that good stuff is complicated, has nested
     // images, and lots of other weird stuff. Handle it in a
     // non-modular fashion.
@@ -686,10 +675,10 @@ public class CharPaneRequest extends GenericRequest {
     if (matcher != null && matcher.find()) {
       long currentHP =
           StringUtilities.parseLong(
-              matcher.group(1).replaceAll("<[^>]*>", "").replaceAll("[^\\d]+", ""));
+              matcher.group(1).replaceAll("<[^>]*>", "").replaceAll("\\D+", ""));
       long maximumHP =
           StringUtilities.parseLong(
-              matcher.group(2).replaceAll("<[^>]*>", "").replaceAll("[^\\d]+", ""));
+              matcher.group(2).replaceAll("<[^>]*>", "").replaceAll("\\D+", ""));
       KoLCharacter.setHP(currentHP, maximumHP, maximumHP);
     }
 
@@ -703,10 +692,10 @@ public class CharPaneRequest extends GenericRequest {
       } else if (KoLCharacter.isPlumber()) {
         int currentPP =
             StringUtilities.parseInt(
-                matcher.group(1).replaceAll("<[^>]*>", "").replaceAll("[^\\d]+", ""));
+                matcher.group(1).replaceAll("<[^>]*>", "").replaceAll("\\D+", ""));
         int maximumPP =
             StringUtilities.parseInt(
-                matcher.group(2).replaceAll("<[^>]*>", "").replaceAll("[^\\d]+", ""));
+                matcher.group(2).replaceAll("<[^>]*>", "").replaceAll("\\D+", ""));
         KoLCharacter.setPP(currentPP, maximumPP);
       } else if (KoLCharacter.inRobocore()) {
         int energy = StringUtilities.parseInt(matcher.group(1));
@@ -714,10 +703,10 @@ public class CharPaneRequest extends GenericRequest {
       } else {
         long currentMP =
             StringUtilities.parseLong(
-                matcher.group(1).replaceAll("<[^>]*>", "").replaceAll("[^\\d]+", ""));
+                matcher.group(1).replaceAll("<[^>]*>", "").replaceAll("\\D+", ""));
         long maximumMP =
             StringUtilities.parseLong(
-                matcher.group(2).replaceAll("<[^>]*>", "").replaceAll("[^\\d]+", ""));
+                matcher.group(2).replaceAll("<[^>]*>", "").replaceAll("\\D+", ""));
         KoLCharacter.setMP(currentMP, maximumMP, maximumMP);
       }
     }
@@ -727,7 +716,7 @@ public class CharPaneRequest extends GenericRequest {
     if (matcher != null && matcher.find()) {
       long availableMeat =
           StringUtilities.parseLong(
-              matcher.group(1).replaceAll("<[^>]*>", "").replaceAll("[^\\d]+", ""));
+              matcher.group(1).replaceAll("<[^>]*>", "").replaceAll("\\D+", ""));
       KoLCharacter.setAvailableMeat(availableMeat);
     }
 
@@ -737,14 +726,14 @@ public class CharPaneRequest extends GenericRequest {
       int oldAdventures = KoLCharacter.getAdventuresLeft();
       int newAdventures =
           StringUtilities.parseInt(
-              matcher.group(1).replaceAll("<[^>]*>", "").replaceAll("[^\\d]+", ""));
+              matcher.group(1).replaceAll("<[^>]*>", "").replaceAll("\\D+", ""));
       ResultProcessor.processAdventuresLeft(newAdventures - oldAdventures);
     }
 
     if (KoLCharacter.isSealClubber()) {
       pattern = Pattern.compile(">(\\d+) gal.</span>");
       matcher = pattern.matcher(responseText);
-      if (matcher != null && matcher.find()) {
+      if (matcher.find()) {
         int fury = StringUtilities.parseInt(matcher.group(1));
         KoLCharacter.setFuryNoCheck(fury);
       } else {
@@ -755,7 +744,7 @@ public class CharPaneRequest extends GenericRequest {
           Pattern.compile(
               "auce:(?:</small>)?</td><td align=left><b><font color=black>(?:<span>)?(\\d+)<");
       matcher = pattern.matcher(responseText);
-      if (matcher != null && matcher.find()) {
+      if (matcher.find()) {
         int soulsauce = StringUtilities.parseInt(matcher.group(1));
         KoLCharacter.setSoulsauce(soulsauce);
       } else {
@@ -764,7 +753,7 @@ public class CharPaneRequest extends GenericRequest {
     } else if (KoLCharacter.isSneakyPete()) {
       pattern = Pattern.compile("<b>(\\d+ )?(Love|Hate|Bored)</td>");
       matcher = pattern.matcher(responseText);
-      if (matcher != null && matcher.find()) {
+      if (matcher.find()) {
         switch (matcher.group(2)) {
           case "Love" -> KoLCharacter.setAudience(StringUtilities.parseInt(matcher.group(1)));
           case "Hate" -> KoLCharacter.setAudience(-StringUtilities.parseInt(matcher.group(1)));
@@ -776,7 +765,7 @@ public class CharPaneRequest extends GenericRequest {
     } else if (KoLCharacter.inNoobcore()) {
       pattern = Pattern.compile("<b>Absorptions:</b> (\\d+) / (\\d+)</span>");
       matcher = pattern.matcher(responseText);
-      if (matcher != null && matcher.find()) {
+      if (matcher.find()) {
         int absorbs = StringUtilities.parseInt(matcher.group(1));
         KoLCharacter.setAbsorbs(absorbs);
       }
@@ -786,7 +775,7 @@ public class CharPaneRequest extends GenericRequest {
     if (KoLCharacter.inRaincore()) {
       pattern = Pattern.compile("Thunder:</td><td align=left><b><font color=black>(\\d+) dBs");
       matcher = pattern.matcher(responseText);
-      if (matcher != null && matcher.find()) {
+      if (matcher.find()) {
         int thunder = StringUtilities.parseInt(matcher.group(1));
         KoLCharacter.setThunder(thunder);
       } else {
@@ -794,7 +783,7 @@ public class CharPaneRequest extends GenericRequest {
       }
       pattern = Pattern.compile("Rain:</td><td align=left><b><font color=black>(\\d+) drops");
       matcher = pattern.matcher(responseText);
-      if (matcher != null && matcher.find()) {
+      if (matcher.find()) {
         int rain = StringUtilities.parseInt(matcher.group(1));
         KoLCharacter.setRain(rain);
       } else {
@@ -802,7 +791,7 @@ public class CharPaneRequest extends GenericRequest {
       }
       pattern = Pattern.compile("Lightning:</td><td align=left><b><font color=black>(\\d+) bolts");
       matcher = pattern.matcher(responseText);
-      if (matcher != null && matcher.find()) {
+      if (matcher.find()) {
         int lightning = StringUtilities.parseInt(matcher.group(1));
         KoLCharacter.setLightning(lightning);
       } else {
@@ -821,8 +810,8 @@ public class CharPaneRequest extends GenericRequest {
   }
 
   private static void handleMindControl(final String text, final Pattern[] patterns) {
-    for (int i = 0; i < patterns.length; ++i) {
-      int level = CharPaneRequest.handleMindControl(text, patterns[i]);
+    for (Pattern pattern : patterns) {
+      int level = CharPaneRequest.handleMindControl(text, pattern);
       if (level > 0) {
         KoLCharacter.setMindControlLevel(level);
         return;
@@ -878,8 +867,8 @@ public class CharPaneRequest extends GenericRequest {
   }
 
   private static void handleInebriety(final String text, final Pattern[] patterns) {
-    for (int i = 0; i < patterns.length; ++i) {
-      int level = CharPaneRequest.handleConsumption(text, patterns[i]);
+    for (Pattern pattern : patterns) {
+      int level = CharPaneRequest.handleConsumption(text, pattern);
       if (level > 0) {
         KoLCharacter.setInebriety(level);
         return;
@@ -889,9 +878,9 @@ public class CharPaneRequest extends GenericRequest {
     KoLCharacter.setInebriety(0);
   }
 
-  public static final AdventureResult extractEffect(final String responseText, int searchIndex) {
-    String effectName = null;
-    int durationIndex = -1;
+  public static AdventureResult extractEffect(final String responseText, int searchIndex) {
+    String effectName;
+    int durationIndex;
 
     if (CharPaneRequest.compactCharacterPane) {
       int startIndex = responseText.indexOf("alt=\"", searchIndex) + 5;
@@ -902,9 +891,6 @@ public class CharPaneRequest extends GenericRequest {
       startIndex = responseText.indexOf(">", startIndex) + 1;
       durationIndex = responseText.indexOf("</font", startIndex);
       durationIndex = responseText.lastIndexOf("(", durationIndex) + 1;
-      if (durationIndex < 0) {
-        return null;
-      }
       effectName = responseText.substring(startIndex, durationIndex - 1).trim();
     }
 
@@ -919,7 +905,7 @@ public class CharPaneRequest extends GenericRequest {
     int duration;
     if (durationString.equals("&infin;") || durationString.equals("Today")) {
       duration = Integer.MAX_VALUE;
-    } else if (durationString.indexOf("&") != -1 || durationString.indexOf("<") != -1) {
+    } else if (durationString.contains("&") || durationString.contains("<")) {
       return null;
     } else {
       duration = StringUtilities.parseInt(durationString);
@@ -946,7 +932,7 @@ public class CharPaneRequest extends GenericRequest {
   }
 
   private static void refreshEffects(final String responseText) {
-    int searchIndex = 0;
+    int searchIndex;
     int onClickIndex = 0;
 
     ArrayList<AdventureResult> visibleEffects = new ArrayList<>();
@@ -1022,8 +1008,6 @@ public class CharPaneRequest extends GenericRequest {
       Pattern.compile(
           "<center><font.*?><b><a .*?href=\"(?<container>[^\"]*)\"[^>]*>Last Adventure:</a></b></font><br>"
               + "<table.*?><tr><td><font.*?><a .*?href=\"(?<link>[^\"]*)\">(?<name>[^<]*)</a><br></font></td></tr></table>(?<trail>.*?)</center>");
-  private static final Pattern expandedTrailElementPattern =
-      Pattern.compile("<font.*?><a [^>]*?href=\"(?<link>.*?)\">(?<name>[^<]*?)</a><br></font>");
 
   private static void setLastAdventure(final String responseText) {
     String adventureName = null;
@@ -1105,9 +1089,9 @@ public class CharPaneRequest extends GenericRequest {
     }
   }
 
-  private static final Pattern compactFamiliarWeightPattern = Pattern.compile("<br>([\\d]+) lb");
+  private static final Pattern compactFamiliarWeightPattern = Pattern.compile("<br>(\\d+) lb");
   private static final Pattern expandedFamiliarWeightPattern =
-      Pattern.compile("<b>([\\d]+)</b> pound");
+      Pattern.compile("<b>(\\d+)</b> pound");
   private static final Pattern familiarImagePattern =
       Pattern.compile(
           "<a.*?class=\"familiarpick\"><img.*?((?:item|other)images)/(.*?\\.(?:gif|png))");
@@ -1283,8 +1267,7 @@ public class CharPaneRequest extends GenericRequest {
       return;
     }
 
-    Pattern pattern = CharPaneRequest.VYKEACompanionPattern;
-    Matcher matcher = pattern.matcher(responseText);
+    Matcher matcher = CharPaneRequest.VYKEACompanionPattern.matcher(responseText);
     if (matcher.find()) {
       VYKEACompanionData.parseCharpaneCompanion(matcher.group(1));
     }
@@ -1299,8 +1282,7 @@ public class CharPaneRequest extends GenericRequest {
     if (!KoLCharacter.isPastamancer()) {
       return;
     }
-    Pattern pattern = CharPaneRequest.pastaThrallPattern;
-    Matcher matcher = pattern.matcher(responseText);
+    Matcher matcher = CharPaneRequest.pastaThrallPattern.matcher(responseText);
     if (matcher.find()) {
       // String image = matcher.group( 1 );
       String name = matcher.group(2);
@@ -1324,8 +1306,7 @@ public class CharPaneRequest extends GenericRequest {
     if (!KoLCharacter.inNuclearAutumn()) {
       return;
     }
-    Pattern pattern = CharPaneRequest.radSicknessPattern;
-    Matcher matcher = pattern.matcher(responseText);
+    Matcher matcher = CharPaneRequest.radSicknessPattern.matcher(responseText);
     if (matcher.find()) {
       KoLCharacter.setRadSickness(StringUtilities.parseInt(matcher.group(1)));
     } else {
@@ -1341,8 +1322,7 @@ public class CharPaneRequest extends GenericRequest {
       return;
     }
 
-    Pattern pattern = CharPaneRequest.fantasyRealmPattern;
-    Matcher matcher = pattern.matcher(responseText);
+    Matcher matcher = CharPaneRequest.fantasyRealmPattern.matcher(responseText);
     if (matcher.find()) {
       Preferences.setInteger("_frHoursLeft", StringUtilities.parseInt(matcher.group(1)));
     }
@@ -1432,8 +1412,7 @@ public class CharPaneRequest extends GenericRequest {
     }
 
     String mask = null;
-    Pattern pattern = CharPaneRequest.disguisePattern;
-    Matcher matcher = pattern.matcher(responseText);
+    Matcher matcher = CharPaneRequest.disguisePattern.matcher(responseText);
     if (matcher.find()) {
       switch (StringUtilities.parseInt(matcher.group(1))) {
         case 1 -> mask = "Mr. Mask";
@@ -1499,8 +1478,7 @@ public class CharPaneRequest extends GenericRequest {
       Pattern.compile("images/medium_([0123]).gif", Pattern.DOTALL);
 
   private static void checkMedium(final String responseText) {
-    Pattern pattern = CharPaneRequest.mediumPattern;
-    Matcher mediumMatcher = pattern.matcher(responseText);
+    Matcher mediumMatcher = CharPaneRequest.mediumPattern.matcher(responseText);
     if (mediumMatcher.find()) {
       int aura = StringUtilities.parseInt(mediumMatcher.group(1));
       FamiliarData fam = KoLCharacter.usableFamiliar(FamiliarPool.HAPPY_MEDIUM);
@@ -1579,7 +1557,7 @@ public class CharPaneRequest extends GenericRequest {
   // <td align=right>Sweatiness:</td><td align=left><b><font color=black><span alt=""
   // title="">69%</span></font></td>
   private static final Pattern SWEATINESS =
-      Pattern.compile("Sweatiness:</td><td.*?><b><font.*?><span.*?>([\\d]+)%</span></font></td>");
+      Pattern.compile("Sweatiness:</td><td.*?><b><font.*?><span.*?>(\\d+)%</span></font></td>");
 
   public static void checkSweatiness(final String responseText) {
     if (!KoLCharacter.hasEquipped(ItemPool.DESIGNER_SWEATPANTS)
@@ -1649,11 +1627,11 @@ public class CharPaneRequest extends GenericRequest {
     }
   }
 
-  public static final void parseStatus(final JSONObject JSON) throws JSONException {
-    int turnsThisRun = JSON.getIntValue("turnsthisrun");
+  public static void parseStatus(final JSONObject json) throws JSONException {
+    int turnsThisRun = json.getIntValue("turnsthisrun");
     CharPaneRequest.turnsThisRun = turnsThisRun;
 
-    int turnsPlayed = JSON.getIntValue("turnsplayed");
+    int turnsPlayed = json.getIntValue("turnsplayed");
     KoLCharacter.setTurnsPlayed(turnsPlayed);
 
     if (KoLmafia.isRefreshing()) {
@@ -1667,9 +1645,9 @@ public class CharPaneRequest extends GenericRequest {
 
     // Refresh effects before we set LimitMode since our "pseudo" LimitModes
     // are derived from currently active effects.
-    CharPaneRequest.refreshEffects(JSON);
+    CharPaneRequest.refreshEffects(json);
 
-    Object lmo = JSON.get("limitmode");
+    Object lmo = json.get("limitmode");
     if (lmo instanceof Integer && lmo.equals(0)) {
       KoLCharacter.setLimitMode(LimitMode.NONE);
     } else if (lmo instanceof String s) {
@@ -1679,83 +1657,83 @@ public class CharPaneRequest extends GenericRequest {
       KoLCharacter.setLimitMode(LimitMode.UNKNOWN);
     }
 
-    JSONObject lastadv = JSON.getJSONObject("lastadv");
+    JSONObject lastadv = json.getJSONObject("lastadv");
     String adventureId = lastadv.getString("id");
     String adventureName = lastadv.getString("name");
     String adventureURL = lastadv.getString("link");
     String container = Optional.ofNullable(lastadv.getString("container")).orElse("");
     CharPaneRequest.setLastAdventure(adventureId, adventureName, adventureURL, container);
 
-    int fury = JSON.getIntValue("fury");
+    int fury = json.getIntValue("fury");
     KoLCharacter.setFuryNoCheck(fury);
 
-    int soulsauce = JSON.getIntValue("soulsauce");
+    int soulsauce = json.getIntValue("soulsauce");
     KoLCharacter.setSoulsauce(soulsauce);
 
     if (KoLCharacter.isSneakyPete()) {
       int audience = 0;
-      audience += JSON.getIntValue("petelove");
-      audience -= JSON.getIntValue("petehate");
+      audience += json.getIntValue("petelove");
+      audience -= json.getIntValue("petehate");
       KoLCharacter.setAudience(audience);
     }
 
-    long hp = JSON.getLong("hp");
-    long maxhp = JSON.getLong("maxhp");
+    long hp = json.getLong("hp");
+    long maxhp = json.getLong("maxhp");
     KoLCharacter.setHP(hp, maxhp, maxhp);
 
     if (KoLCharacter.inZombiecore()) {
-      int horde = JSON.getIntValue("horde");
+      int horde = json.getIntValue("horde");
       KoLCharacter.setMP(horde, horde, horde);
     } else {
-      long mp = JSON.getLong("mp");
-      long maxmp = JSON.getLong("maxmp");
+      long mp = json.getLong("mp");
+      long maxmp = json.getLong("maxmp");
       KoLCharacter.setMP(mp, maxmp, maxmp);
     }
 
-    long meat = JSON.getLong("meat");
+    long meat = json.getLong("meat");
     KoLCharacter.setAvailableMeat(meat);
 
-    int drunk = JSON.getIntValue("drunk");
+    int drunk = json.getIntValue("drunk");
     KoLCharacter.setInebriety(drunk);
 
-    int full = JSON.getIntValue("full");
+    int full = json.getIntValue("full");
     KoLCharacter.setFullness(full);
 
-    int spleen = JSON.getIntValue("spleen");
+    int spleen = json.getIntValue("spleen");
     KoLCharacter.setSpleenUse(spleen);
 
-    int adventures = JSON.getIntValue("adventures");
+    int adventures = json.getIntValue("adventures");
     KoLCharacter.setAdventuresLeft(adventures);
 
-    int mcd = JSON.getIntValue("mcd");
+    int mcd = json.getIntValue("mcd");
     KoLCharacter.setMindControlLevel(mcd);
 
-    int classType = JSON.getIntValue("class");
+    int classType = json.getIntValue("class");
     KoLCharacter.setAscensionClass(classType);
 
-    int pvpFights = JSON.getIntValue("pvpfights");
+    int pvpFights = json.getIntValue("pvpfights");
     KoLCharacter.setAttacksLeft(pvpFights);
 
-    boolean hardcore = JSON.getIntValue("hardcore") == 1;
+    boolean hardcore = json.getIntValue("hardcore") == 1;
     KoLCharacter.setHardcore(hardcore);
 
-    boolean casual = JSON.getIntValue("casual") == 1;
+    boolean casual = json.getIntValue("casual") == 1;
     KoLCharacter.setCasual(casual);
 
-    var noncombatForcers = JSON.getJSONArray("noncomforcers");
-    Preferences.setBoolean("noncombatForcerActive", noncombatForcers.size() > 0);
+    var noncombatForcers = json.getJSONArray("noncomforcers");
+    Preferences.setBoolean("noncombatForcerActive", !noncombatForcers.isEmpty());
     Preferences.setString(
         "noncombatForcers", String.join("|", noncombatForcers.toList(String.class)));
 
     // boolean casual = JSON.getIntValue( "casual" ) == 1;
-    int roninLeft = JSON.getIntValue("roninleft");
+    int roninLeft = json.getIntValue("roninleft");
 
     if (KoLCharacter.inRaincore()) {
-      int thunder = JSON.getIntValue("thunder");
+      int thunder = json.getIntValue("thunder");
       KoLCharacter.setThunder(thunder);
-      int rain = JSON.getIntValue("rain");
+      int rain = json.getIntValue("rain");
       KoLCharacter.setRain(rain);
-      int lightning = JSON.getIntValue("lightning");
+      int lightning = json.getIntValue("lightning");
       KoLCharacter.setLightning(lightning);
     }
 
@@ -1764,56 +1742,10 @@ public class CharPaneRequest extends GenericRequest {
 
     CharPaneRequest.setInteraction();
 
-    if (KoLCharacter.getLimitMode().limitFamiliars()) {
-      // No familiar
-    } else if (KoLCharacter.inAxecore()) {
-      int level = JSON.getIntValue("clancy_level");
-      int itype = JSON.getIntValue("clancy_instrument");
-      boolean att = JSON.getBoolean("clancy_wantsattention");
-      AdventureResult instrument =
-          itype == 1
-              ? CharPaneRequest.SACKBUT
-              : itype == 2 ? CharPaneRequest.CRUMHORN : itype == 3 ? CharPaneRequest.LUTE : null;
-      KoLCharacter.setClancy(level, instrument, att);
-    } else if (KoLCharacter.isJarlsberg()) {
-      if (JSON.containsKey("jarlcompanion")) {
-        int companion = JSON.getIntValue("jarlcompanion");
-        switch (companion) {
-          case 1 -> KoLCharacter.setCompanion(Companion.EGGMAN);
-          case 2 -> KoLCharacter.setCompanion(Companion.RADISH);
-          case 3 -> KoLCharacter.setCompanion(Companion.HIPPO);
-          case 4 -> KoLCharacter.setCompanion(Companion.CREAM);
-        }
-      } else {
-        KoLCharacter.setCompanion(null);
-      }
-    } else if (KoLCharacter.isEd()) {
-      // No familiar, but may have a servant.  Unfortunately,
-      // details of such are not in api.php
-    } else if (KoLCharacter.getPath().canUseFamiliars()) {
-      int famId = JSON.getIntValue("familiar");
-      int famExp = JSON.getIntValue("familiarexp");
-      FamiliarData familiar = FamiliarData.registerFamiliar(famId, famExp);
-      KoLCharacter.setFamiliar(familiar);
+    parseFamiliarStatus(json);
 
-      String image = JSON.getString("familiarpic");
-      if (famId != FamiliarPool.MELODRAMEDARY) {
-        KoLCharacter.setFamiliarImage(image.equals("") ? null : image + ".gif");
-      }
-
-      familiar.setFeasted(JSON.getIntValue("familiar_wellfed") == 1);
-
-      // Set charges from the Medium's image
-
-      if (famId == FamiliarPool.HAPPY_MEDIUM) {
-        int aura = StringUtilities.parseInt(image.substring(7, 8));
-        FamiliarData medium = KoLCharacter.usableFamiliar(FamiliarPool.HAPPY_MEDIUM);
-        medium.setCharges(aura);
-      }
-    }
-
-    int thrallId = JSON.getIntValue("pastathrall");
-    int thrallLevel = JSON.getIntValue("pastathralllevel");
+    int thrallId = json.getIntValue("pastathrall");
+    int thrallLevel = json.getIntValue("pastathralllevel");
 
     PastaThrallData thrall = KoLCharacter.findPastaThrall(thrallId);
     if (thrall != null) {
@@ -1824,8 +1756,8 @@ public class CharPaneRequest extends GenericRequest {
     }
 
     if (KoLCharacter.inNuclearAutumn()) {
-      if (JSON.containsKey("radsickness")) {
-        int rads = JSON.getIntValue("radsickness");
+      if (json.containsKey("radsickness")) {
+        int rads = json.getIntValue("radsickness");
         KoLCharacter.setRadSickness(rads);
       } else {
         KoLCharacter.setRadSickness(0);
@@ -1833,44 +1765,95 @@ public class CharPaneRequest extends GenericRequest {
     }
   }
 
-  public static final void checkFamiliarWeight(final JSONObject JSON) throws JSONException {
-    KoLCharacter.recalculateAdjustments();
-    KoLCharacter.getFamiliar().checkWeight(JSON.getIntValue("famlevel"));
+  private static void parseFamiliarStatus(final JSONObject json) {
+    if (KoLCharacter.getLimitMode().limitFamiliars()) return;
+
+    if (KoLCharacter.inAxecore()) {
+      int level = json.getIntValue("clancy_level");
+      int itype = json.getIntValue("clancy_instrument");
+      boolean att = json.getBoolean("clancy_wantsattention");
+      AdventureResult instrument =
+          itype == 1
+              ? CharPaneRequest.SACKBUT
+              : itype == 2 ? CharPaneRequest.CRUMHORN : itype == 3 ? CharPaneRequest.LUTE : null;
+      KoLCharacter.setClancy(level, instrument, att);
+      return;
+    }
+
+    if (KoLCharacter.isJarlsberg()) {
+      if (json.containsKey("jarlcompanion")) {
+        int companion = json.getIntValue("jarlcompanion");
+        switch (companion) {
+          case 1 -> KoLCharacter.setCompanion(Companion.EGGMAN);
+          case 2 -> KoLCharacter.setCompanion(Companion.RADISH);
+          case 3 -> KoLCharacter.setCompanion(Companion.HIPPO);
+          case 4 -> KoLCharacter.setCompanion(Companion.CREAM);
+        }
+      } else {
+        KoLCharacter.setCompanion(null);
+      }
+      return;
+    }
+
+    if (KoLCharacter.isEd()) {
+      // No familiar, but may have a servant.  Unfortunately,
+      // details of such are not in api.php
+      return;
+    }
+
+    if (!KoLCharacter.getPath().canUseFamiliars()) return;
+
+    int famId = json.getIntValue("familiar");
+    int famExp = json.getIntValue("familiarexp");
+    FamiliarData familiar = FamiliarData.registerFamiliar(famId, famExp);
+    KoLCharacter.setFamiliar(familiar);
+
+    String image = json.getString("familiarpic");
+    if (famId != FamiliarPool.MELODRAMEDARY) {
+      KoLCharacter.setFamiliarImage(image.isEmpty() ? null : image + ".gif");
+    }
+
+    familiar.setFeasted(json.getIntValue("familiar_wellfed") == 1);
+
+    // Set charges from the Medium's image
+
+    if (famId == FamiliarPool.HAPPY_MEDIUM) {
+      int aura = StringUtilities.parseInt(image.substring(7, 8));
+      FamiliarData medium = KoLCharacter.usableFamiliar(FamiliarPool.HAPPY_MEDIUM);
+      medium.setCharges(aura);
+    }
   }
 
-  private static void refreshEffects(final JSONObject JSON) throws JSONException {
+  public static void checkFamiliarWeight(final JSONObject json) throws JSONException {
+    KoLCharacter.recalculateAdjustments();
+    KoLCharacter.getFamiliar().checkWeight(json.getIntValue("famlevel"));
+  }
+
+  private static void refreshEffects(final JSONObject json) throws JSONException {
     ArrayList<AdventureResult> visibleEffects = new ArrayList<>();
 
-    Object o = JSON.get("effects");
+    Object o = json.get("effects");
     if (o instanceof JSONObject effects) {
       // KoL returns an empty JSON array if there are no effects
-      Iterator<String> keys = effects.keySet().iterator();
-      while (keys.hasNext()) {
-        String descId = keys.next();
+      for (String descId : effects.keySet()) {
         JSONArray data = effects.getJSONArray(descId);
         String effectName = data.getString(0);
         int count = StringUtilities.parseInt(data.get(1).toString());
 
         AdventureResult effect = CharPaneRequest.extractEffect(descId, effectName, count);
-        if (effect != null) {
-          visibleEffects.add(effect);
-        }
+        visibleEffects.add(effect);
       }
     }
 
-    o = JSON.get("intrinsics");
+    o = json.get("intrinsics");
     if (o instanceof JSONObject intrinsics) {
-      Iterator<String> keys = intrinsics.keySet().iterator();
-      while (keys.hasNext()) {
-        String descId = keys.next();
+      for (String descId : intrinsics.keySet()) {
         JSONArray data = intrinsics.getJSONArray(descId);
         String effectName = data.getString(0);
 
         AdventureResult effect =
             CharPaneRequest.extractEffect(descId, effectName, Integer.MAX_VALUE);
-        if (effect != null) {
-          visibleEffects.add(effect);
-        }
+        visibleEffects.add(effect);
       }
     }
 

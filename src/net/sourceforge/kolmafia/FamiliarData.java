@@ -20,6 +20,7 @@ import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import net.sourceforge.kolmafia.modifiers.Lookup;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -1057,21 +1058,12 @@ public class FamiliarData implements Comparable<FamiliarData> {
   }
 
   public boolean canCarry() {
-    return switch (this.id) {
-      case FamiliarPool.DOPPEL,
-          FamiliarPool.CHAMELEON,
-          FamiliarPool.HATRACK,
-          FamiliarPool.HAND,
-          FamiliarPool.LEFT_HAND,
-          FamiliarPool.SCARECROW,
-          FamiliarPool.UNSPEAKACHU,
-          FamiliarPool.STOOPER,
-          FamiliarPool.DISGEIST,
-          FamiliarPool.BOWLET,
-          FamiliarPool.CORNBEEFADON,
-          FamiliarPool.MU -> false;
-      default -> true;
-    };
+    var lookup = new Lookup(ModifierType.THRONE, this.race);
+    var rawModifier = ModifierDatabase.getModifierString(lookup);
+    // Result will be null if the data file line looks like "Throne\tFamiliarName", which we treat
+    // as unspaded. Since ruling out carryability is trivially easy, assume that unspaded means
+    // bjornable.
+    return rawModifier == null || !rawModifier.equals("none");
   }
 
   public static class DropInfo {

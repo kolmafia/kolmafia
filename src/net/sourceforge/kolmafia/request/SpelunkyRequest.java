@@ -369,11 +369,11 @@ public class SpelunkyRequest extends GenericRequest {
     KoLCharacter.updateStatus();
   }
 
-  public static void parseStatus(final JSONObject JSON) throws JSONException {
+  public static void parseStatus(final JSONObject json) throws JSONException {
     // api.php is not a complete replacement for charpane.php in
     // Spelunky, but parse equipment, at least.
 
-    JSONObject equip = JSON.getJSONObject("equipment");
+    JSONObject equip = json.getJSONObject("equipment");
     for (String slotName : equip.keySet()) {
       if (slotName.equals("fakehands")) {
         continue;

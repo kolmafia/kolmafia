@@ -344,7 +344,7 @@ public class ModifierDatabase {
     return getModifiers(ModifierType.EFFECT, id);
   }
 
-  private static final String getModifierString(final Lookup lookup) {
+  public static String getModifierString(final Lookup lookup) {
     return modifierStringsByName.get(lookup.type, lookup.getKey());
   }
 

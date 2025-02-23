@@ -475,8 +475,8 @@ public class AccountRequest extends PasswordHashRequest {
     }
   }
 
-  public static final void parseStatus(final JSONObject JSON) throws JSONException {
-    JSONObject flags = JSON.getJSONObject("flag_config");
+  public static final void parseStatus(final JSONObject json) throws JSONException {
+    JSONObject flags = json.getJSONObject("flag_config");
 
     boolean checked;
 
@@ -523,28 +523,28 @@ public class AccountRequest extends PasswordHashRequest {
 
     // Account options
 
-    String sign = JSON.getString("sign");
+    String sign = json.getString("sign");
     KoLCharacter.setSign(sign);
 
-    int pathId = JSON.getIntValue("path");
+    int pathId = json.getIntValue("path");
     Path path = AscensionPath.idToPath(pathId);
     KoLCharacter.setPath(path);
 
-    boolean hardcore = JSON.getIntValue("hardcore") == 1 || sign.equals("Bad Moon");
+    boolean hardcore = json.getIntValue("hardcore") == 1 || sign.equals("Bad Moon");
     KoLCharacter.setHardcore(hardcore);
 
-    boolean casual = JSON.getIntValue("casual") == 1;
+    boolean casual = json.getIntValue("casual") == 1;
     KoLCharacter.setCasual(casual);
 
     // This isn't safe in Ed after defeating adventurer, but if we're Ed we haven't freed ralph!
     if (path != Path.ACTUALLY_ED_THE_UNDYING) {
-      boolean liberated = JSON.getIntValue("freedralph") == 1;
+      boolean liberated = json.getIntValue("freedralph") == 1;
       KoLCharacter.setKingLiberated(liberated);
     } else {
       KoLCharacter.setKingLiberated(false);
     }
 
-    boolean recalled = JSON.getIntValue("recalledskills") == 1;
+    boolean recalled = json.getIntValue("recalledskills") == 1;
     KoLCharacter.setSkillsRecalled(recalled);
 
     int eudora = flags.getIntValue("whichpenpal");

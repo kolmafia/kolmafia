@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.request.concoction;
 
+import java.util.List;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
@@ -26,5 +27,9 @@ public class MayamRequest extends CreateItemRequest {
     String name = conc.getName().toLowerCase();
 
     return mayamCommand.availableResonances().contains(name);
+  }
+
+  public static List<String> availableResonances() {
+    return mayamCommand.availableResonances();
   }
 }

@@ -23,6 +23,7 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.TransferItemRequest;
+import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.shop.ShopRequest;
 import net.sourceforge.kolmafia.shop.ShopRow;
@@ -251,6 +252,13 @@ public class CoinMasterRequest extends GenericRequest {
 
     if (this.responseText.contains("You don't have that many of that item")) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "You don't have that many of that item to turn in.");
+    }
+
+    if (KoLmafia.permitsContinue()) {
+      AdventureResult item = this.row.getItem();
+      if (item.isSkill()) {
+        ResponseTextParser.learnSkill(item.getSkillId());
+      }
     }
   }
 
@@ -636,7 +644,11 @@ public class CoinMasterRequest extends GenericRequest {
       ResultProcessor.processResult(cost.getInstance(-price));
     }
 
-    data.purchasedItem(ItemPool.get(shopRow.getItem().getItemId(), count), false);
+    AdventureResult item = shopRow.getItem();
+    // You can purchase skills, which are not items.
+    if (item.isItem()) {
+      data.purchasedItem(ItemPool.get(item.getItemId(), count), false);
+    }
   }
 
   public static final void sellStuff(final CoinmasterData data, final String urlString) {

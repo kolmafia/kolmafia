@@ -155,12 +155,13 @@ public class NemesisDecorator {
       return;
     }
 
-    // A raver's special move either hits or misses and may have a
-    // different message, depending
-    if (moves.length > 3) {
-      NemesisDecorator.decorateMove(buffer, moves[3]);
+    // A raver's special move either hits or misses and has a different
+    // message, depending
+    boolean special = false;
+    if (!special && moves.length > 3) {
+      special = NemesisDecorator.decorateMove(buffer, moves[3]);
     }
-    if (moves.length > 4) {
+    if (!special && moves.length > 4) {
       NemesisDecorator.decorateMove(buffer, moves[4]);
     }
   }
@@ -183,7 +184,17 @@ public class NemesisDecorator {
     return false;
   }
 
-  private static void decorateMove(final StringBuffer buffer, final String move) {
-    StringUtilities.singleStringReplace(buffer, move, "<font color=#DD00FF>" + move + "</font>");
+  private static boolean decorateMove(final StringBuffer buffer, final String move) {
+    if (buffer.indexOf(move) != -1) {
+      StringUtilities.singleStringReplace(buffer, move, "<font color=#DD00FF>" + move + "</font>");
+      // Unselect any already selected skill.
+      StringUtilities.globalStringReplace(buffer, "\" selected>", "\" >");
+      // Select Gothy Handwave
+      String search = "<option value=\"49\" picurl=\"loop\" >";
+      String select = "<option value=\"49\" picurl=\"loop\" selected>";
+      StringUtilities.singleStringReplace(buffer, search, select);
+      return true;
+    }
+    return false;
   }
 }

@@ -421,8 +421,7 @@ Item	party hat	MP Regen Min: [3*J], MP Regen Max: [5*J], Mysticality: +3, Famili
 Item	passable elf mask	Familiar Effect: "atk, cap 2"
 Item	pentacorn hat	Familiar Effect: "atk, cap 10"
 Item	pentagram bandana	Mysticality: +15, Maximum MP: +15
-# petrified wood whoopie panama: Headbutt attacking foes
-Item	petrified wood whoopie panama	Moxie Percent: +20, Critical Hit Percent: +10
+Item	petrified wood whoopie panama	Moxie Percent: +20, Critical Hit Percent: +10, Thorns: 1
 Item	pickelhaube	Weapon Damage: +5, Weapon Damage Percent: +10, Familiar Effect: "atk, 1xFairy, cap 18"
 Item	pig-iron helm	Muscle: +7, Weapon Damage: +10, Familiar Effect: "1xFairy, cap 22"
 Item	pimpin' meat hat	Muscle: +2, Moxie: +2, Familiar Effect: "sleaze atk, 1xVolley, cap 13"
@@ -3514,8 +3513,7 @@ Item	perfect Christmas scarf	Adventures: [+9*event(December)], Cold Resistance: 
 Item	perfume-soaked bandana	Stench Resistance: +4, Spooky Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Single Equip
 # Personal Ventilation Unit: Allows Safe Access to Secret Government Lab
 Item	Personal Ventilation Unit	Muscle Limit: 100, Mysticality Limit: 100, Moxie Limit: 100, Single Equip
-# petrified wood waist protector: Makes opponents miss their first attack
-Item	petrified wood waist protector	Experience (Muscle): +3, Adventures: +5, Single Equip
+Item	petrified wood waist protector	Experience (Muscle): +3, Adventures: +5, Avoid Attack: 1, Single Equip
 # petrified wood wizard's pouch: Adds hot and physical damage to spells
 Item	petrified wood wizard's pouch	Mysticality Percent: +20, Item Drop: +10, Single Equip
 # phase-tuned shield generator belt: +10 Damage Reduction vs. Bugbears
@@ -4810,29 +4808,17 @@ Familiar	Wizard Action Figure	Volleyball: 0.3333, Fairy: 0.3333
 Familiar	Xiblaxian Holo-Companion	Initiative: [2*W]
 
 # Enthroned familiars section of modifiers.txt
+# If a familiar cannot be enthroned, indicate with "none". If the effect is unspaded, leave blank.
 
-# Throne	Arachnelf
-# Throne	Comma Chameleon
-# Throne	Disembodied Hand
-# Throne	Doppelshifter
-# Throne	Elf Operative
-# Throne	Fancypants Scarecrow
-# Throne	God Lobster
-# Throne	Helix Fossil
-# Throne	Homemade Robot
-# Throne	Mad Hatrack
-# Throne	Miniature Sword & Martini Guy
-# Throne	Pixel Rock
-# Throne	Software Bug
-# Throne	Xiblaxian Holo-Companion
 Throne	Adorable Seal Larva	HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8, Drops Items
 Throne	Adorable Space Buddy	Maximum HP: 30, Maximum MP: 30, MP Regen Min: 10, MP Regen Max: 12
 Throne	Adventurous Spelunker	Item Drop: +15, Drops Items, Variable
 Throne	Ancient Yuletide Troll	HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8, Drops Items
 Throne	Angry Goat	Muscle Percent: +15, Drops Items
 Throne	Angry Jung Man	Maximum HP: 10, Maximum MP: 10
-Throne	Antique Nutcracker	Experience: +2, HP Regen Min: 5, HP Regen Max: 6, MP Regen Min: 3, MP Regen Max: 4
 Throne	Animated Macaroni Duck	Familiar Weight: +5
+Throne	Antique Nutcracker	Experience: +2, HP Regen Min: 5, HP Regen Max: 6, MP Regen Min: 3, MP Regen Max: 4
+Throne	Arachnelf	none
 Throne	Artistic Goth Kid	Muscle: +10, Mysticality: +10, Moxie: +10, HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 3, MP Regen Max: 4
 Throne	Astral Badger	Maximum HP: +10, Maximum MP: +10, Drops Items
 Throne	Attention-Deficit Demon	Meat Drop: +20, Drops Items
@@ -4851,18 +4837,25 @@ Throne	Black Cat	Muscle: -10, Mysticality: -10, Moxie: -10, Drops Meat
 Throne	Blavious Kloop	Maximum HP: +10, Maximum MP: +10
 Throne	Blood-Faced Volleyball	Experience (Moxie): +2
 Throne	Bloovian Groose	Maximum HP: +10, Maximum MP: +10
+Throne	Bowlet	none
 Throne	BRICKO chick	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Drops Items
 Throne	Bulky Buddy Box	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
+Throne	Burly Bodyguard	none
 Throne	Casagnova Gnome	Meat Drop: +20, HP Regen Min: 16, HP Regen Max: 20, MP Regen Min: 9, MP Regen Max: 11
 Throne	Cat Burglar	Item Drop: +10
 Throne	Chauvinist Pig	Experience (Muscle): +2
 Throne	Cheshire Bat	Experience (Mysticality): +2, HP Regen Min: 8, HP Regen Max: 10
+Throne	Chest Mimic	Maximum HP: +5
 Throne	Chocolate Lab	Weapon Damage: +15
 Throne	Choctopus	Maximum HP: 15, Maximum MP: 15, HP Regen Min: 3, HP Regen Max: 5, MP Regen Min: 3, MP Regen Max: 5
 Throne	Clockwork Grapefruit	Moxie Percent: +15
 Throne	Cocoabo	Muscle: +10, Mysticality: +10, Moxie: +10, Drops Items
 Throne	Coffee Pixie	Meat Drop: +20, MP Regen Min: 5, MP Regen Max: 6
+Throne	Cold Cut	
+Throne	Comma Chameleon	none
 Throne	Cookbookbat	Food Drop: +50, Drops Items
+Throne	Cool Cucumber	
+Throne	Cornbeefadon	none
 Throne	Cotton Candy Carnie	Initiative: +20, Drops Items
 Throne	Crimbo Elf	Weapon Damage: +10, Drops Items
 Throne	Crimbo P. R. E. S. S. I. E.	Muscle: +10, Mysticality: +10, Moxie: +10
@@ -4873,17 +4866,28 @@ Throne	Cymbal-Playing Monkey	Experience (Moxie): +2
 Throne	Dancing Frog	Meat Drop: +20
 Throne	Dandy Lion	HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8
 Throne	Dataspider	MP Regen Min: 3, MP Regen Max: 5, Spell Damage Percent: +10
+Throne	Defective Childrens' Stapler	
+Throne	Dire Cassava	
+Throne	Disembodied Hand	none
+Throne	Disgeist	none
+Throne	Doll Moll	Meat Drop: +10
+Throne	Doppelshifter	none
 Throne	Dramatic Hedgehog	Experience (Mysticality): +2, HP Regen Min: 2, HP Regen Max: 3
 Throne	El Vibrato Megadrone	Monster Level: +10, MP Regen Min: 10, MP Regen Max: 15
+Throne	Elf Operative	none
+Throne	Emberiza Aureola	Cold Resistance: +2
 Throne	Emo Squid	Initiative: +20
 Throne	Evil Teddy Bear	Initiative: +20
+Throne	Evolving Organism	none
 Throne	Exotic Parrot	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
+Throne	Fancypants Scarecrow	none
 Throne	Feather Boa Constrictor	Initiative: +20, HP Regen Min: 5, HP Regen Max: 6, MP Regen Min: 3, MP Regen Max: 4
 Throne	Feral Kobold	Item Drop: +15
 Throne	Fist Turkey	Weapon Damage: +20
 Throne	Flaming Face	Cold Resistance: +3
 Throne	Flaming Gravy Fairy	Hot Damage: +20, Drops Items
 Throne	Flaming Leafcutter Ant	Hot Damage: +5
+Throne	Foul Ball	
 Throne	Frozen Gravy Fairy	Cold Damage: +20, Drops Items
 Throne	Frumious Bandersnatch	Experience: +2
 Throne	Fuzzy Dice	Muscle: +10, Mysticality: +10, Moxie: +10
@@ -4895,8 +4899,11 @@ Throne	Ghost of Crimbo Cheer	Experience (Moxie): +2
 Throne	Ghost of Crimbo Commerce	Meat Drop: +20, Drops Meat
 Throne	Ghost Pickle on a Stick	Familiar Weight: +5, HP Regen Min: 8, HP Regen Max: 10
 Throne	Ghuol Whelp	HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8
+Throne	Glover	
 Throne	Gluttonous Green Ghost	Food Drop: +15, Drops Items
+Throne	God Lobster	none
 Throne	Golden Monkey	Meat Drop: +25, Drops Items
+Throne	Golden Pet Rock	none
 Throne	Green Pixie	Maximum HP: +10, Maximum MP: +10, Drops Items
 Throne	Grey Goose	Weapon Damage: +10
 Throne	Grim Brother	Combat Rate: +5, Drops Items, Variable
@@ -4908,10 +4915,13 @@ Throne	Hand Turkey	Meat Drop: +20, Drops Meat
 Throne	Hanukkimbo Dreidl	Muscle: +10, Mysticality: +10, Moxie: +10
 Throne	Happy Medium	Meat Drop: +25, Drops Meat
 Throne	He-Boulder	Muscle: +10, Mysticality: +10, Moxie: +10, Drops Meat
+Throne	Heat Wave	
+Throne	Helix Fossil	none
 Throne	Hippo Ballerina	Meat Drop: +20
-Throne	Hobo Monkey	Meat Drop: +25
 Throne	Hobo in Sheep's Clothing	Experience: +3, Drops Items
+Throne	Hobo Monkey	Meat Drop: +25
 Throne	Holiday Log	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
+Throne	Homemade Robot	none
 Throne	Hovering Skull	Experience (Moxie): +2
 Throne	Hovering Sombrero	Experience (Mysticality): +2
 Throne	Howling Balloon Monkey	Spell Damage Percent: +10
@@ -4929,25 +4939,29 @@ Throne	Knob Goblin Organ Grinder	Meat Drop: +25, Drops Meat
 Throne	Left-Hand Man	Muscle Percent: 10, Mysticality Percent: 10, Moxie Percent: 10
 Throne	Leprechaun	Meat Drop: +20, Drops Meat
 Throne	Levitating Potato	Initiative: +20, HP Regen Min: 5, HP Regen Max: 6, MP Regen Min: 3, MP Regen Max: 4
-Throne	Lil' Barrel Mimic	Experience: +2
 Throne	Li'l Xenomorph	Item Drop: +15, Drops Items
+Throne	Lil' Barrel Mimic	Experience: +2
 Throne	Llama Lama	Maximum HP: +10, Maximum MP: +10, MP Regen Min: 5, MP Regen Max: 6
 Throne	Machine Elf	Muscle: +7, Mysticality: +7, Moxie: +7, Drops Items, Variable
+Throne	Mad Hatrack	none
 Throne	Magic Dragonfish	Spell Damage Percent: +15, HP Regen Min: 10, HP Regen Max: 10
 Throne	MagiMechTech MicroMechaMech	Muscle Percent: +15
 Throne	Mariachi Chihuahua	Experience (Moxie): +2
 Throne	Mechanical Songbird	Spell Damage Percent: 20, HP Regen Min: 5, HP Regen Max: 10
 Throne	Melodramedary	Muscle: +10, Mysticality: +10, Moxie: +10
 Throne	Midget Clownfish	Spell Damage Percent: +10
+Throne	Mini Kiwi	Initiative: +30
 Throne	Mini-Adventurer	Muscle Percent: 10, Mysticality Percent: 10, Moxie Percent: 10, Drops Meat
 Throne	Mini-Crimbot	Cold Damage: +15
 Throne	Mini-Hipster	Muscle: +10, Mysticality: +10, Moxie: +10, HP Regen Min: 10, HP Regen Max: 15, MP Regen Min: 8, MP Regen Max: 10
 Throne	Mini-Skulldozer	Initiative: +20
 Throne	Mini-Trainbot	Maximum HP: +10, Maximum MP: +10
+Throne	Miniature Sword & Martini Guy	none
 Throne	MiniMechaElf	Muscle Percent: +15
 Throne	Misshapen Animal Skeleton	Familiar Weight: +5, Drops Meat
 Throne	Mosquito	Weapon Damage Percent: +20, MP Regen Min: 5, MP Regen Max: 6
 Throne	Ms. Puck Man	Muscle: +10, Mysticality: +10, Moxie: +10, Drops Items
+Throne	Mu	none
 Throne	Mutant Cactus Bud	Meat Drop: +20
 Throne	Mutant Fire Ant	Hot Damage: +20
 Throne	Mutant Gila Monster	HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8
@@ -4957,6 +4971,7 @@ Throne	Ninja Pirate Zombie Robot	Muscle: +10, Mysticality: +10, Moxie: +10, HP R
 Throne	Ninja Snowflake	Moxie Percent: +15, MP Regen Min: 5, MP Regen Max: 6
 Throne	Nosy Nose	Moxie Percent: 15
 Throne	O.A.F.	Muscle: -10, Mysticality: -10, Moxie: -10
+Throne	Observer	
 Throne	Obtuse Angel	Meat Drop: +20, MP Regen Min: 5, MP Regen Max: 6
 Throne	Oily Woim	Item Drop: +10, Drops Meat
 Throne	Optimistic Candle	Item Drop: +15, Drops Items, Variable
@@ -4965,22 +4980,29 @@ Throne	Pair of Ragged Claws	Familiar Weight: +5
 Throne	Pair of Stomping Boots	Weapon Damage Percent: +10
 Throne	Party Mouse	Booze Drop: +25, Drops Items
 Throne	Patriotic Eagle	Monster Level: +10
+Throne	Peace Turkey	Combat Rate: -5
 Throne	Penguin Goodfella	Familiar Weight: +5
 Throne	Peppermint Rhino	Weapon Damage Percent: +10, HP Regen Min: 5, HP Regen Max: 6, MP Regen Min: 3, MP Regen Max: 4
 Throne	Personal Raincloud	Muscle: +10, Mysticality: +10, Moxie: +10
+Throne	Pet Anchor	Damage Reduction: 10
 Throne	Pet Cheezling	Spell Damage Percent: +15, HP Regen Min: 5, HP Regen Max: 15, MP Regen Min: 2, MP Regen Max: 8
 Throne	Pet Coral	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Throne	Pet Rock	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
+Throne	Phantom Limb	
 Throne	Piano Cat	Meat Drop: +20, Drops Items
 Throne	Piranha Plant	MP Regen Min: 2, MP Regen Max: 3, Drops Items
+Throne	Pixel Rock	none
 Throne	Plastic Pirate Skull	Moxie: +11
 Throne	Pocket Professor	Experience: +1
 Throne	Pottery Barn Owl	Hot Damage: +10, Drops Items
+Throne	Profane Parrot	none
+Throne	Proto-Protozoa	none
 Throne	Psychedelic Bear	Meat Drop: +20
 Throne	Puck Man	Muscle: +10, Mysticality: +10, Moxie: +10, Drops Items
 Throne	Purse Rat	Experience: +2
 Throne	Putty Buddy	Weapon Damage Percent: +20, MP Regen Min: 5, MP Regen Max: 6
 Throne	Pygmy Bugbear Shaman	Experience (Mysticality): +2, HP Regen Min: 5, HP Regen Max: 6, MP Regen Min: 3, MP Regen Max: 4
+Throne	Quantum Entangler	none
 Throne	Ragamuffin Imp	Mysticality Percent: +15
 Throne	Reagnimated Gnome	Spooky Damage: +15
 Throne	Reanimated Reanimator	Experience (Mysticality): +2, Drops Items
@@ -4988,22 +5010,26 @@ Throne	Reassembled Blackbird	Item Drop: +10, Drops Items
 Throne	Reconstituted Crow	Item Drop: +10, Drops Items
 Throne	Red-Nosed Snapper	Experience: +1
 Throne	Restless Cow Skull	Spooky Damage: +15
+Throne	Rigging Snake	Maximum HP: +20
 Throne	RoboGoose	Muscle: +10, Mysticality: +10, Moxie: +10
-Throne	Robot Reindeer	Muscle: +10, Mysticality: +10, Moxie: +10, Drops Items
 Throne	Robortender	Meat Drop: +20
+Throne	Robot Reindeer	Muscle: +10, Mysticality: +10, Moxie: +10, Drops Items
 Throne	Rock Lobster	Spell Damage Percent: +15, MP Regen Min: 11, MP Regen Max: 15
 Throne	Rockin' Robin	Item Drop: +15, Drops Meat
 Throne	Rogue Program	Spell Damage Percent: +10
 Throne	Sabre-Toothed Lime	Moxie Percent: +15
 Throne	Sausage Golem	Sleaze Damage: +20
 Throne	Scary Death Orb	Mysticality Percent: +15, MP Regen Min: 5, MP Regen Max: 6
+Throne	Shame Spiral	
 Throne	Shorter-Order Cook	Maximum HP: +20, Maximum MP: +20
+Throne	Significant Bit	none
 Throne	Sleazy Gravy Fairy	Sleaze Damage: +20, Drops Items
 Throne	Slimeling	Weapon Drop: +15
 Throne	Sludgepuppy	Stench Damage: +15
 Throne	Smiling Rat	Experience: +3
 Throne	Snow Angel	Spell Damage Percent: +10
 Throne	Snowy Owl	Mysticality Percent: +15, HP Regen Min: 5, HP Regen Max: 6, MP Regen Min: 3, MP Regen Max: 4
+Throne	Software Bug	none
 Throne	Space Jellyfish	Weapon Damage Percent: +20, HP Regen Min: 3, HP Regen Max: 5, MP Regen Min: 3, MP Regen Max: 5
 Throne	Spirit Hobo	Booze Drop: +15, Drops Meat
 Throne	Spooky Gravy Fairy	Spooky Damage: +20, Drops Items
@@ -5014,6 +5040,7 @@ Throne	Star Starfish	Spell Damage Percent: +10
 Throne	Steam-Powered Cheerleader	Muscle: +10, Mysticality: +10, Moxie: +10
 Throne	Stinky Gravy Fairy	Stench Damage: +20, Drops Items
 Throne	Stocking Mimic	Muscle: +10, Mysticality: +10, Moxie: +10, Drops Items
+Throne	Stooper	none
 Throne	Sugar Fruit Fairy	Experience (Mysticality): +2
 Throne	Sweet Nutcracker	HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8, Drops Items
 Throne	Syncopated Turtle	Initiative: +20
@@ -5029,6 +5056,7 @@ Throne	Twitching Space Critter	Hot Resistance: +2, Cold Resistance: +2, Stench R
 Throne	Unconscious Collective	Maximum HP: 10, Maximum MP: 10
 Throne	Underworld Bonsai	Spell Damage Percent: +10
 Throne	Uniclops	Experience (Mysticality): +2
+Throne	Unspeakachu	none
 Throne	Untamed Turtle	Initiative: +20, Drops Items
 Throne	Urchin Urchin	Weapon Damage: +10
 Throne	Vampire Vintner	Maximum HP: +10, HP Regen Min: 10, HP Regen Max: 12
@@ -5038,8 +5066,10 @@ Throne	Whirling Maple Leaf	Spell Damage Percent: +10
 Throne	Wild Hare	Muscle: +10, Mysticality: +10, Moxie: +10, HP Regen Min: 5, HP Regen Max: 6, MP Regen Min: 3, MP Regen Max: 4
 Throne	Wind-up Chattering Teeth	Muscle Percent: +15
 Throne	Wizard Action Figure	Spell Damage Percent: +10, MP Regen Min: 5, MP Regen Max: 5
+Throne	Xiblaxian Holo-Companion	none
 Throne	XO Skeleton	Muscle: +10, Mysticality: +10, Moxie: +10
 Throne	Yule Hound	Candy Drop: +20, Drops Items
+Throne	Zapper Bug	
 
 # Sneaky Pete's Motorbike section
 
@@ -6755,7 +6785,7 @@ Effect	Larger	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +1
 Effect	Latency	Muscle: [-3*pref(sourceAgentsDefeated)], Mysticality: [-3*pref(sourceAgentsDefeated)], Moxie: [-3*pref(sourceAgentsDefeated)], Cold Resistance: [-pref(sourceAgentsDefeated)], Hot Resistance: [-pref(sourceAgentsDefeated)], Sleaze Resistance: [-pref(sourceAgentsDefeated)], Spooky Resistance: [-pref(sourceAgentsDefeated)], Stench Resistance: [-pref(sourceAgentsDefeated)]
 Effect	Latently Energized	MP Regen Min: 20, MP Regen Max: 30
 Effect	Leash of Linguini	Familiar Weight: +5
-# Leaving Nothing to the Imagination: Distract foes on the first round of combat
+Effect	Leaving Nothing to the Imagination	Avoid Attack: 1
 Effect	Leisurely Amblin'	Meat Drop: +100
 Effect	Lemon Enlightenment	Mysticality Percent: +10, Spell Damage Percent: +15
 Effect	Lemony Goodness	Muscle: +10, Mysticality: +10, Moxie: +10
@@ -11454,6 +11484,7 @@ Item	Carol of the Hells	Skill: "Carol of the Hells"
 Item	Carol of the Hells (used)	Skill: "Carol of the Hells"
 Item	Carol of the Thrills	Skill: "Carol of the Thrills"
 Item	Carol of the Thrills (used)	Skill: "Carol of the Thrills"
+Item	carton of extra-sharp, rusty staples	Weapon Damage: +10, Spell Damage: +10
 # carton of rotten eggs: Deals 12-15 <font color=green>Stench Damage</font>
 # carton of rotten eggs: (can be used 8-10 times before the carton is empty)
 # cartoon heart: Restores 40-60 HP
@@ -11513,6 +11544,7 @@ Item	coffee sprite	Free Pull
 # cold clusterbomb: Deals <font color=blue>Cold Damage</font> based on your highest stat
 # cold clusterbomb: (more effective against groups)
 Item	Cold Fang	Skill: "Frost Bite"
+Item	cold sore	Cold Damage: +10, Cold Spell Damage: +10
 # Colon Annihilation Hot Sauce: Deals 6-8 <font color=red>Hot Damage</font> per round for the rest of the fight
 # comfy pillow: Restores 20-30 HP
 Item	Comma Chameleon egg	Free Pull
@@ -11789,6 +11821,7 @@ Item	floaty stone sphere	Free Pull
 Item	Fly-By-Knight Heraldry form	Free Pull
 # food mailing list: Unlocks another row of houses for Crimbo activities
 # forest tears: Restores 5-10 HP
+Item	foul cozy	Stench Damage: +10, Stench Spell Damage: +10
 Item	four-leaf potato sprout	Effect: "Luck of St. Patrick", Effect Duration: 30
 Item	Fourth of May Cosplay Saber kit	Free Pull
 Item	fragment of Jarlsberg's soul	Free Pull
@@ -11832,6 +11865,7 @@ Item	glass of warm water	Free Pull
 # glob of melted wax: Can be fashioned into various wax objects
 # glob of melted wax: Stuns enemies for a few rounds, dealing <font color=red>Hot Damage</font> all the while
 # glob of undifferentiated tissue: You have no idea what will happen!
+Item	glover liners	Pickpocket Chance: +10
 Item	glowing frisbee	Free Pull
 # glowing New Age crystal: Restores 500 MP
 # glowing New Age crystal: (and briefly stuns your opponent)
@@ -11878,6 +11912,7 @@ Item	green face paint	Free Pull
 # green smoke bomb: Lets you escape from combat without spending an Adventure
 # green smoke bomb: (Probably)
 Item	grey gosling	Free Pull
+Item	grim cellophane	Combat Rate: -5
 # grizzled bearskin Adds +50% Muscle to your cowboy boots
 # grody jug: Deals a Buttload of <font color=green>Stench Damage</font>
 # grogpagne: Restores 30-50 MP
@@ -11909,6 +11944,7 @@ Item	heart necklace	Free Pull
 # heart of dark chocolate: Restores 40-50 HP
 # heart of dark chocolate: (doesn't go away when used)
 Item	heart-shaped crate	Free Pull
+Item	heat particle	Hot Damage: +10, Hot Spell Damage: +10
 # hedgeturtle: Causes Bleeding
 # hedgeturtle: Deals 30-60 Physical Damage
 Item	Hell and How I Bent It	Skill: "Bend Hell"
@@ -12179,6 +12215,7 @@ Item	mint-in-box Powerful Glove	Free Pull
 # Monstar energy beverage: Restores 70-80 MP
 Item	Monster Manuel	Free Pull
 Item	Moping Artistic Goth Kid	Free Pull
+Item	mosquito speakers	Monster Level: +5
 # mossy stone sphere: Mysterious, Deprecated
 Item	mother's secret recipe	Recipe: "white chocolate chip brownies"
 # mountain lion skin: Adds +50% Moxie to your cowboy boots
@@ -12305,6 +12342,7 @@ Item	personal raindrop	Free Pull
 Item	personalized coffee mug	Free Pull
 # personalized wassail stein: Produces a random booze item (1x/day)
 # petrified wood: Deals 50-60 Physical Damage and 50-60 <font color=gray>Spooky Damage</font>
+Item	phantom brace	Spooky Damage: +10, Spooky Spell Damage: +10
 # phonics down: Restores 46-50 HP and MP and also does other weird stuff
 Item	photo booth sized crate	Free Pull
 # photoprotoneutron torpedo: Deals 30-40 Physical Damage
@@ -12468,6 +12506,7 @@ Item	residual chitin paste	Skill: "Chitinous Soul"
 Item	Rethinking Candy	Skill: "Sweet Synthesis"
 Item	Retrospecs try-at-home kit	Free Pull
 # riboflavin: Increase a Pokefamiliar's maximum HP by 1
+Item	rift oculus	Combat Rate: +5
 Item	rigging knot	Familiar Weight: +5
 # Riker's Search History: Deals 900-1000 Sleaze Damage
 # robotronic egg: Crazy robotronic action!
@@ -12640,6 +12679,7 @@ Item	spray paint	Effect: "Tagged", Effect Duration: 10
 Item	squamous polyp	Free Pull
 Item	Stabonic scroll	Effect: "Bone Homie", Effect Duration: 20
 # star throwing star: Deals 50-75 Physical Damage
+Item	STATS+++ rom chip	Skill: "STATS+++"
 # steam-powered model rocketship: Allows access to the Hole in the Sky
 # stench clusterbomb: Deals <font color=green>Stench Damage</font> based on your highest stat
 # stench clusterbomb: (more effective against groups)
@@ -12647,6 +12687,7 @@ Item	Stabonic scroll	Effect: "Bone Homie", Effect Duration: 20
 # stick-on-a-string: Either Slightly Damages or Slight Weakens Foes
 # sticky clay homunculus: Makes a copy of a monster to fight later
 Item	still grill	Free Pull
+Item	stomach churner	Sleaze Damage: +10, Sleaze Spell Damage: +10
 # stone frisbee: Deals 80-100 Physical Damage
 # strange goggles: ???
 # stuffed alien blob: Randomly Becomes a Different Combat Item When Used
@@ -12654,7 +12695,6 @@ Item	still grill	Free Pull
 # stuffed gray blob: Randomly becomes a different combat item when used
 # stuffed yam stinkbomb: Banish a monster for 15 turns
 Item	stuffed-shirt scarecrow	Free Pull
-Item	STATS+++ rom chip	Skill: "STATS+++"
 # sugar shard: Restores 10-20 HP and 5-10 MP
 Item	Summer Nights	Skill: "Grease Lightning"
 # super deluxe mushroom: Heals 100 HP
@@ -12665,6 +12705,7 @@ Item	Summer Nights	Skill: "Grease Lightning"
 # surgical tape: Weakens enemies a little bit and restores 20-30 Hit Points
 Item	suspicious package	Free Pull
 Item	suspicious stocking	Free Pull
+Item	sweaty egg	HP Regen Min: 4, HP Regen Max: 8
 Item	sweet nutcracker	Free Pull
 Item	sweet tooth	Wiki Name: "sweet tooth"
 # synaptic soup: Add a pound and MP restore to your familiar

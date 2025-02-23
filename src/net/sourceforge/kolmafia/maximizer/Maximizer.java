@@ -58,6 +58,7 @@ import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
+import net.sourceforge.kolmafia.request.concoction.MayamRequest;
 import net.sourceforge.kolmafia.session.BeachManager;
 import net.sourceforge.kolmafia.session.BeachManager.BeachHead;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -1308,6 +1309,10 @@ public class Maximizer {
           item = ItemPool.get(ItemPool.APRILING_BAND_HELMET, 1);
         } else if (cmd.startsWith("mayam ")) {
           item = ItemPool.get(ItemPool.MAYAM_CALENDAR, 1);
+          if (cmd.startsWith("mayam resonance ")
+              && !MayamRequest.availableResonances().contains(cmd.substring(16))) {
+            cmd = "";
+          }
         } else if (cmd.startsWith("photobooth effect ")) {
           if (KoLCharacter.inBadMoon()) {
             continue;

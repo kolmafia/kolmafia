@@ -382,6 +382,9 @@ public class EffectPool {
   public static final int SAVAGE_BEAST = 2898;
   public static final int EVERYTHING_LOOKS_PURPLE = 2922;
   public static final int CYBER_MEMORY_BOOST = 2953;
+  public static final int GRAFTED = 2964;
+  public static final int MILK_OF_FAMILIAR_KINDNESS = 2965;
+  public static final int MILK_OF_FAMILIAR_CRUELTY = 2966;
 
   public static final AdventureResult CURSE1_EFFECT = EffectPool.get(EffectPool.ONCE_CURSED);
   public static final AdventureResult CURSE2_EFFECT = EffectPool.get(EffectPool.TWICE_CURSED);

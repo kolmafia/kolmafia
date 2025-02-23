@@ -10,6 +10,7 @@ import static internal.helpers.Player.withFullness;
 import static internal.helpers.Player.withInebriety;
 import static internal.helpers.Player.withInteractivity;
 import static internal.helpers.Player.withIntrinsicEffect;
+import static internal.helpers.Player.withLevel;
 import static internal.helpers.Player.withLocation;
 import static internal.helpers.Player.withMoxie;
 import static internal.helpers.Player.withMuscle;
@@ -419,7 +420,7 @@ public class ModifierExpressionTest {
 
   @Test
   public void canDetectLevel() {
-    var cleanups = new Cleanups(withMuscle(10, 100), withClass(AscensionClass.SEAL_CLUBBER));
+    var cleanups = new Cleanups(withLevel(3), withClass(AscensionClass.SEAL_CLUBBER));
     try (cleanups) {
       var exp = new ModifierExpression("L", "Level");
       assertThat(exp.eval(), is(3.0));
