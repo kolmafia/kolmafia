@@ -168,6 +168,8 @@ public abstract class KoLmafia {
           PREFERRED_IMAGE_SERVER_PATH,
           "https://s3.amazonaws.com/images.kingdomofloathing.com/",
           "http://images.kingdomofloathing.com/");
+  // Displays a warning in several areas when the JVM is running an older version
+  public static final int RECOMMENDED_JAVA_VERSION = 24;
 
   public static String imageServerPrefix() {
     return PREFERRED_IMAGE_SERVER;
@@ -366,6 +368,14 @@ public abstract class KoLmafia {
     // so as to allow for continued execution.
 
     RequestThread.runInParallel(new UpdateCheckRunnable(), false);
+
+    if (Runtime.version().feature() < RECOMMENDED_JAVA_VERSION) {
+      KoLmafia.updateDisplay(
+          MafiaState.ERROR, "You are currently on Java " + System.getProperty("java.version"));
+      KoLmafia.updateDisplay(MafiaState.ERROR, "Please update to Java " + RECOMMENDED_JAVA_VERSION);
+      KoLmafia.updateDisplay(
+          MafiaState.ERROR, "Java can be downloaded from https://adoptium.net/temurin/releases/");
+    }
 
     // Always read input from the command line when you're not
     // in GUI mode.
