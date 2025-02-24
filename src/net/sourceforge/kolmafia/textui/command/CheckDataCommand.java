@@ -93,7 +93,7 @@ public class CheckDataCommand extends AbstractCommand {
       RequestLogger.printLine("Checking familiar powers from terrarium.");
       DebugDatabase.checkFamiliarsInTerrarium(showVariable);
       RequestLogger.printLine("Checking familiar images.");
-      DebugDatabase.checkFamiliarImages();
+      DebugDatabase.checkFamiliars();
       RequestLogger.printLine("Familiars checked.");
       return;
     }

@@ -1287,6 +1287,7 @@ public class DebugDatabase {
     DebugDatabase.appendModifier(known, ModifierDatabase.parseEffectDuration(text));
     DebugDatabase.appendModifier(known, ModifierDatabase.parseSongDuration(text));
     DebugDatabase.appendModifier(known, ModifierDatabase.parseDropsItems(text));
+    DebugDatabase.appendModifier(known, ModifierDatabase.parseLastAvailable(text));
 
     if (type == ConsumptionType.FAMILIAR_EQUIPMENT) {
       String familiar = DebugDatabase.parseFamiliar(text);
@@ -3169,20 +3170,20 @@ public class DebugDatabase {
     }
   }
 
-  public static void checkFamiliarImages() {
-    // Get familiar images from the familiar description
+  public static boolean checkFamiliars() {
+    // Get familiar data from the familiar description
     boolean changed = false;
     for (int i = 1; i <= FamiliarDatabase.maxFamiliarId; ++i) {
-      changed |= DebugDatabase.checkFamiliarImage(i);
+      changed |= DebugDatabase.checkFamiliar(i);
     }
 
-    // FamiliarDatabase.saveDataOverride();
+    return changed;
   }
 
   private static final Pattern FAMILIAR_IMAGE_PATTERN =
       Pattern.compile("images\\.kingdomofloathing\\.com/itemimages/(.*?\\.gif)");
 
-  private static boolean checkFamiliarImage(final int id) {
+  private static boolean checkFamiliar(final int id) {
     String file = "desc_familiar.php?which=" + id;
     GenericRequest request = new GenericRequest(file);
     RequestThread.postRequest(request);
@@ -3192,15 +3193,45 @@ public class DebugDatabase {
       return false;
     }
 
+    var name = FamiliarDatabase.getFamiliarName(id);
+
     boolean changed = false;
+
+    // Check image
     Matcher matcher = FAMILIAR_IMAGE_PATTERN.matcher(text);
     if (matcher.find()) {
       String oldImage = FamiliarDatabase.getFamiliarImageLocation(id);
       String newImage = matcher.group(1);
       if (!oldImage.equals(newImage)) {
         RequestLogger.printLine(
-            "*** familiar #" + id + " has image " + oldImage + " but KoL says it is " + newImage);
+            "*** familiar #"
+                + id
+                + " ("
+                + name
+                + "): has image "
+                + oldImage
+                + " but KoL says it is "
+                + newImage);
         FamiliarDatabase.setFamiliarImageLocation(id, newImage);
+        changed = true;
+      }
+    }
+
+    // Check last updated
+    var lastAvailable = ModifierDatabase.parseLastAvailable(text);
+    if (lastAvailable != null) {
+      var lookup = new Lookup(ModifierType.FAMILIAR, FamiliarDatabase.getFamiliarName(id));
+      var old = ModifierDatabase.getStringModifier(lookup, StringModifier.LAST_AVAILABLE_DATE);
+      if (!old.equals(lastAvailable)) {
+        RequestLogger.printLine(
+            "*** familiar #"
+                + id
+                + " ("
+                + name
+                + "): has "
+                + (old.isBlank() ? "nothing" : "\"Last Available: " + old + "\"")
+                + " but KoL says it is "
+                + lastAvailable);
         changed = true;
       }
     }

@@ -4772,40 +4772,229 @@ Thrall	Vermincelli	Maximum MP: [floor(P/10)*30]
 # value of 1.
 
 Familiar	(none)	Underwater Familiar
-Familiar	Baby Mutant Rattlesnake	Volleyball Effectiveness: [1.3-0.15*G]
-Familiar	Chocolate Lab	Sprinkle Drop: [W]
-Familiar	Cookbookbat	Food Fairy Effectiveness: 1.5
-Familiar	Crimbo P. R. E. S. S. I. E.	Volleyball: 1
-Familiar	Crimbo Shrub	Familiar Tuning (Muscle): [75*pref(shrubTopper,Muscle)], Familiar Tuning (Mysticality): [75*pref(shrubTopper,Mysticality)], Familiar Tuning (Moxie): [75*pref(shrubTopper,Moxie)]
 # Initiative bonus is a guess for now
-Familiar	Cute Meteor	Initiative: [2*W]
-Familiar	Disgeist	Combat Rate: [-min(10,floor(W/7.5))]
+Familiar	Adventurous Spelunker	Last Available: "2015-12"
+Familiar	Aiolion	Last Available: "2018-03"
+Familiar	Amanitee	Last Available: "2018-03"
+Familiar	Ancient Yuletide Troll	Last Available: "2006-12"
+Familiar	Angry Jung Man	Last Available: "2013-12"
+Familiar	Antique Nutcracker	Last Available: "2019-12"
+Familiar	Arachnelf	Last Available: "2021-12"
+Familiar	Artistic Goth Kid	Last Available: "2012-05"
+Familiar	Astral Badger	Last Available: "2006-06"
+Familiar	Attention-Deficit Demon	Last Available: "2006-10"
+Familiar	BRICKO chick	Last Available: "2010-02"
+Familiar	Baby Bugged Bugbear	Last Available: "2010-04"
+Familiar	Baby Mayonnaise Wasp	Last Available: "2015-05"
+Familiar	Baby Mutant Rattlesnake	Last Available: "2016-02", Volleyball Effectiveness: [1.3-0.15*G]
+Familiar	Baby Sandworm	Last Available: "2009-06"
+Familiar	Baby Yeti	Last Available: "2005-01"
+Familiar	Bad Vibe	Last Available: "2016-12"
+Familiar	Bicycle	Last Available: "2018-03"
+Familiar	Blavious Kloop	Last Available: "2012-12"
+Familiar	Bloovian Groose	Last Available: "2012-12"
+Familiar	Bluzzard	Last Available: "2018-03"
+Familiar	Bowlet	Last Available: "2018-03"
+Familiar	Bulky Buddy Box	Last Available: "2007-12"
+Familiar	Cantelope	Last Available: "2018-03"
+Familiar	Caramel	Last Available: "2018-03"
+Familiar	Carpricorn	Last Available: "2018-03"
+Familiar	Casagnova Gnome	Last Available: "2008-10"
+Familiar	Cat Burglar	Last Available: "2018-07"
+Familiar	Chauvinist Pig	Last Available: "2010-10"
+Familiar	Ched	Last Available: "2018-03"
+Familiar	Cheshire Bat	Last Available: "2005-10"
+Familiar	Chest Mimic	Last Available: "2024-01"
+Familiar	Chocolate Lab	Last Available: "2016-12", Sprinkle Drop: [W]
+Familiar	Coffee Pixie	Last Available: "2005-10"
+Familiar	Comma Chameleon	Last Available: "2006-08"
+Familiar	Cookbookbat	Food Fairy Effectiveness: 1.5, Last Available: "2022-11"
+Familiar	Cornbeefadon	Last Available: "2018-03"
+Familiar	Cotton Candy Carnie	Last Available: "2008-08"
+Familiar	Crimbo Elf	Last Available: "2004-12"
+Familiar	Crimbo P. R. E. S. S. I. E.	Last Available: "2007-12", Volleyball: 1
+Familiar	Crimbo Shrub	Familiar Tuning (Muscle): [75*pref(shrubTopper,Muscle)], Familiar Tuning (Mysticality): [75*pref(shrubTopper,Mysticality)], Familiar Tuning (Moxie): [75*pref(shrubTopper,Moxie)], Last Available: "2014-12"
+Familiar	Cute Meteor	Initiative: [2*W], Last Available: "2017-08"
+Familiar	Cycloney	Last Available: "2018-03"
+Familiar	Cymbal-Playing Monkey	Last Available: "2006-10"
+Familiar	Dancing Frog	Last Available: "2010-10"
+Familiar	Dandy Lion	Last Available: "2007-03"
+Familiar	Dataspider	Last Available: "2011-07"
+Familiar	Disembodied Hand	Last Available: "2008-10"
+Familiar	Disgeist	Combat Rate: [-min(10,floor(W/7.5))], Last Available: "2018-03"
+Familiar	Doppelshifter	Last Available: "2005-10"
+Familiar	Dramatic Hedgehog	Last Available: "2011-12"
+Familiar	Dressage	Last Available: "2018-03"
+Familiar	Elf Operative	Last Available: "2019-12"
+Familiar	Emberiza Aureola	Last Available: "2024-09"
+Familiar	Emo Squid	Last Available: "2005-04"
+Familiar	Evil Teddy Bear	Last Available: "2006-12"
 Familiar	Exotic Parrot	Hot Resistance: [floor((W+19)/20)], Cold Resistance: [floor((W+15)/20)], Spooky Resistance: [floor((W+11)/20)], Stench Resistance: [floor((W+7)/20)], Sleaze Resistance: [floor((W+3)/20)]
-Familiar	Flaming Leafcutter Ant	Leaves: +0.5
-Familiar	Happy Medium	Initiative: [W]
+Familiar	Fancypants Scarecrow	Last Available: "2011-11"
+Familiar	Faux	Last Available: "2018-03"
+Familiar	Feather Boa Constrictor	Last Available: "2005-02"
+Familiar	Feral Kobold	Last Available: "2011-09"
+Familiar	Fist Turkey	Last Available: "2014-11"
+Familiar	Flaming Face	Last Available: "2012-07"
+Familiar	Flaming Leafcutter Ant	Last Available: "2023-11", Leaves: +0.5
+Familiar	Flan	Last Available: "2018-03"
+Familiar	Frumious Bandersnatch	Last Available: "2009-03"
+Familiar	Galloping Grill	Last Available: "2014-06"
+Familiar	Garbage Fire	Last Available: "2008-12"
+Familiar	Gazelleton	Last Available: "2018-03"
+Familiar	Ghosprey	Last Available: "2018-03"
+Familiar	Ghost of Crimbo Carols	Last Available: "2020-12"
+Familiar	Ghost of Crimbo Cheer	Last Available: "2020-12"
+Familiar	Ghost of Crimbo Commerce	Last Available: "2020-12"
+Familiar	Glamare	Last Available: "2018-03"
+Familiar	Globmule	Last Available: "2018-03"
+Familiar	Gluttonous Green Ghost	Last Available: "2007-10"
+Familiar	God Lobster	Last Available: "2018-05"
+Familiar	Golden Monkey	Last Available: "2015-12"
+Familiar	Golden Pet Rock	Last Available: "2024-12"
+Familiar	Gorillape	Last Available: "2018-03"
+Familiar	Green Pixie	Last Available: "2007-06"
+Familiar	Grey Goose	Last Available: "2022-03"
+Familiar	Grim Brother	Last Available: "2014-12"
+Familiar	Grimstone Golem	Last Available: "2014-12"
+Familiar	Hand Turkey	Last Available: "2004-11"
+Familiar	Hanukkimbo Dreidl	Last Available: "2004-12"
+Familiar	Happy Medium	Initiative: [W], Last Available: "2012-03"
+Familiar	He-Boulder	Last Available: "2009-08"
+Familiar	Hippo Ballerina	Last Available: "2011-09"
 Familiar	Hobo Monkey	Leprechaun: 1.25
-Familiar	Jill-of-All-Trades	Volleyball or Sombrero
+Familiar	Hobo in Sheep's Clothing	Last Available: "2023-01"
+Familiar	Holiday Log	Last Available: "2011-01"
+Familiar	Homemade Robot	Last Available: "2012-12"
+Familiar	Hunchbacked Minion	Last Available: "2008-10"
+Familiar	Inflatable Dodecapede	Last Available: "2005-06"
+Familiar	Intergnat	Last Available: "2016-05"
+Familiar	Jack-in-the-Box	Last Available: "2009-12"
+Familiar	Jill-O-Lantern	Last Available: "2004-10"
+Familiar	Jill-of-All-Trades	Last Available: "2023-10", Volleyball or Sombrero
+Familiar	Jitterbug	Last Available: "2007-10"
 Familiar	Jumpsuited Hound Dog	Fairy: 1.25, Combat Rate: [min(5,floor(W/6))]
-Familiar	Llama Lama	Volleyball: 0.5
+Familiar	Knob Goblin Organ Grinder	Last Available: "2010-10"
+Familiar	Left-Hand Man	Last Available: "2020-04"
+Familiar	Lepardner	Last Available: "2018-03"
+Familiar	Li'l Xenomorph	Last Available: "2011-06"
+Familiar	Lil' Barrel Mimic	Last Available: "2015-05"
+Familiar	Llama Lama	Last Available: "2008-06", Volleyball: 0.5
+Familiar	Machine Elf	Last Available: "2015-12"
+Familiar	Mad Hatrack	Last Available: "2008-03"
 Familiar	Magic Dragonfish	Spell Damage Percent: [min(2*W,100^env(underwater)*100)]
+Familiar	Mechamelion	Last Available: "2018-03"
 Familiar	Mechanical Songbird	Fairy Effectiveness: [1.0+0.5*zone(Dreadsylvania)]
-Familiar	Mini-Adventurer	Volleyball: [pref(miniAdvClass,1)*max(0,min(L-4,1))+pref(miniAdvClass,2)], Leprechaun: [pref(miniAdvClass,3)*max(0,min(L-9,1))+pref(miniAdvClass,4)], Fairy: [pref(miniAdvClass,5)*max(0,min(L-4,1))+pref(miniAdvClass,6)*max(0,min(L-9,1))], Sombrero: [pref(miniAdvClass,6)*max(0,min(L-14,1))]
-Familiar	Mini-Crimbot	Experience: [3*pref(crimbotChassis,Smile-O-Matic)], Initiative: [30*pref(crimbotPropulsion,V-TOP Frictionless Monocycle Wheel)], Item Drop: [20*pref(crimbotPropulsion,Lambada-Class Dancing Legs)]
-Familiar	Mu	Hot Resistance: [floor((W+19)/20)], Cold Resistance: [floor((W+15)/20)], Spooky Resistance: [floor((W+11)/20)], Stench Resistance: [floor((W+7)/20)], Sleaze Resistance: [floor((W+3)/20)]
-Familiar	Mutant Cactus Bud	Leprechaun Effectiveness: [1.3-0.15*G]
-Familiar	Mutant Fire Ant	Fairy Effectiveness: [1.3-0.15*G]
+Familiar	Melodramedary	Last Available: "2020-07"
+Familiar	Mini Kiwi	Last Available: "2024-06"
+Familiar	Mini-Adventurer	Last Available: "2013-06", Volleyball: [pref(miniAdvClass,1)*max(0,min(L-4,1))+pref(miniAdvClass,2)], Leprechaun: [pref(miniAdvClass,3)*max(0,min(L-9,1))+pref(miniAdvClass,4)], Fairy: [pref(miniAdvClass,5)*max(0,min(L-4,1))+pref(miniAdvClass,6)*max(0,min(L-9,1))], Sombrero: [pref(miniAdvClass,6)*max(0,min(L-14,1))]
+Familiar	Mini-Crimbot	Experience: [3*pref(crimbotChassis,Smile-O-Matic)], Initiative: [30*pref(crimbotPropulsion,V-TOP Frictionless Monocycle Wheel)], Item Drop: [20*pref(crimbotPropulsion,Lambada-Class Dancing Legs)], Last Available: "2014-12"
+Familiar	Mini-Hipster	Last Available: "2010-08"
+Familiar	Mini-Skulldozer	Last Available: "2012-10"
+Familiar	Mini-Trainbot	Last Available: "2022-12"
+Familiar	MiniMechaElf	Last Available: "2012-12"
+Familiar	Morphan	Last Available: "2018-03"
+Familiar	Ms. Puck Man	Last Available: "2015-06"
+Familiar	Mu	Hot Resistance: [floor((W+19)/20)], Cold Resistance: [floor((W+15)/20)], Spooky Resistance: [floor((W+11)/20)], Stench Resistance: [floor((W+7)/20)], Sleaze Resistance: [floor((W+3)/20)], Last Available: "2018-03"
+Familiar	Mustardigrade	Last Available: "2018-03"
+Familiar	Mutant Cactus Bud	Last Available: "2016-02", Leprechaun Effectiveness: [1.3-0.15*G]
+Familiar	Mutant Fire Ant	Fairy Effectiveness: [1.3-0.15*G], Last Available: "2015-02"
+Familiar	Mutant Gila Monster	Last Available: "2016-02"
+Familiar	Nanorhino	Last Available: "2012-11"
+Familiar	Nervous Tick	Last Available: "2007-10"
+Familiar	Ninja Pirate Zombie Robot	Last Available: "2005-11"
+Familiar	Nursine	Last Available: "2018-03"
+Familiar	O.A.F.	Last Available: "2007-04"
+Familiar	Obtuse Angel	Last Available: "2011-02"
 Familiar	Oily Woim	Initiative: [2*W]
-Familiar	Peace Turkey	Combat Rate: [-min(10,floor(W/5))]
+Familiar	Oppossum	Last Available: "2018-03"
+Familiar	Optimistic Candle	Last Available: "2017-12"
+Familiar	Pair of Ragged Claws	Last Available: "2008-12"
+Familiar	Pair of Stomping Boots	Last Available: "2011-08"
+Familiar	Party Mouse	Last Available: "2018-09"
+Familiar	Patriotic Eagle	Last Available: "2023-07"
+Familiar	Peace Turkey	Combat Rate: [-min(10,floor(W/5))], Last Available: "2024-11"
+Familiar	Peaclock	Last Available: "2018-03"
+Familiar	Penguin Goodfella	Last Available: "2007-04"
+Familiar	Peppermint Rhino	Last Available: "2011-11"
+Familiar	Personal Raincloud	Last Available: "2005-04"
+Familiar	Pet Coral	Last Available: "2019-07"
+Familiar	Pet Rock	Last Available: "2006-12"
+Familiar	Piano Cat	Last Available: "2011-12"
+Familiar	Pillowbug	Last Available: "2018-03"
+Familiar	Pimpsqueak	Last Available: "2018-03"
+Familiar	Plastic Pirate Skull	Last Available: "2019-04"
+Familiar	Pocket Professor	Last Available: "2019-09"
+Familiar	Pottery Barn Owl	Last Available: "2010-09"
+Familiar	Profane Parrot	Last Available: "2024-12"
+Familiar	Psychedelic Bear	Last Available: "2009-10"
+Familiar	Puck Man	Last Available: "2015-06"
 Familiar	Purse Rat	Monster Level: [floor(W/2)]
-Familiar	Reanimated Reanimator	Volleyball: 1, Meat Drop: [max(sqrt(220*pref(reanimatorSkulls))+2*pref(reanimatorSkulls)-6,0)], Item Drop: [max(sqrt(55*pref(reanimatorLegs))+pref(reanimatorLegs)-3,0)]
-Familiar	Red-Nosed Snapper	Fairy: [1+0.5*env(underwater)]
-Familiar	Robortender	Experience (Muscle): [max(3*pref(_roboDrinks,literal grasshopper),5*pref(_roboDrinks,eighth plague))], Fairy: [max(pref(_roboDrinks,single entendre),0.5*pref(_roboDrinks,double entendre))], Experience (Moxie): [max(3*pref(_roboDrinks,shroomtini),5*pref(_roboDrinks,moreltini))], Leprechaun: [1+max(0.5*pref(_roboDrinks,piscatini),pref(_roboDrinks,drive-by shooting))], Experience (Mysticality): [max(3*pref(_roboDrinks,soilzerac),5*pref(_roboDrinks,dirt julep))], Familiar Weight (hidden): [10*env(underwater)*pref(_roboDrinks,Bloody Nora)]
-Familiar	Space Jellyfish	Item Drop: [max(sqrt(55*W)+W-3,0)*env(underwater)], Experience: [max(2+W/5,2)*env(underwater)]
-Familiar	Steam-Powered Cheerleader	Fairy: [1+0.1*ceil(pref(_cheerleaderSteam)/50)]
-Familiar	Stooper	Liver Capacity: +1
-Familiar	Vampire Vintner	Booze Fairy Effectiveness: 1.5
-Familiar	Wizard Action Figure	Volleyball: 0.3333, Fairy: 0.3333
-Familiar	Xiblaxian Holo-Companion	Initiative: [2*W]
+Familiar	Pygmy Bugbear Shaman	Last Available: "2005-08"
+Familiar	Reagnimated Gnome	Last Available: "2012-08"
+Familiar	Reanimated Reanimator	Last Available: "2013-10", Volleyball: 1, Meat Drop: [max(sqrt(220*pref(reanimatorSkulls))+2*pref(reanimatorSkulls)-6,0)], Item Drop: [max(sqrt(55*pref(reanimatorLegs))+pref(reanimatorLegs)-3,0)]
+Familiar	Red-Nosed Snapper	Fairy: [1+0.5*env(underwater)], Last Available: "2019-12"
+Familiar	Restless Cow Skull	Last Available: "2016-02"
+Familiar	Rigging Snake	Last Available: "2023-12"
+Familiar	RoboGoose	Last Available: "2007-12"
+Familiar	Robortender	Experience (Muscle): [max(3*pref(_roboDrinks,literal grasshopper),5*pref(_roboDrinks,eighth plague))], Fairy: [max(pref(_roboDrinks,single entendre),0.5*pref(_roboDrinks,double entendre))], Experience (Moxie): [max(3*pref(_roboDrinks,shroomtini),5*pref(_roboDrinks,moreltini))], Leprechaun: [1+max(0.5*pref(_roboDrinks,piscatini),pref(_roboDrinks,drive-by shooting))], Experience (Mysticality): [max(3*pref(_roboDrinks,soilzerac),5*pref(_roboDrinks,dirt julep))], Familiar Weight (hidden): [10*env(underwater)*pref(_roboDrinks,Bloody Nora)], Last Available: "2017-03"
+Familiar	Robot Reindeer	Last Available: "2010-12"
+Familiar	Rock Lobster	Last Available: "2009-09"
+Familiar	Rockin' Robin	Last Available: "2016-12"
+Familiar	Rogue Program	Last Available: "2010-06"
+Familiar	Ruffalo	Last Available: "2018-03"
+Familiar	Sausage Golem	Last Available: "2019-01"
+Familiar	Sequestrian	Last Available: "2018-03"
+Familiar	Shorter-Order Cook	Last Available: "2021-05"
+Familiar	Shudder	Last Available: "2018-03"
+Familiar	Significant Bit	Last Available: "2025-12"
+Familiar	Sledgehamster	Last Available: "2018-03"
+Familiar	Slotter	Last Available: "2018-03"
+Familiar	Sludgepuppy	Last Available: "2015-04"
+Familiar	Smashmoth	Last Available: "2018-03"
+Familiar	Snoutlet	Last Available: "2018-03"
+Familiar	Snow Angel	Last Available: "2008-12"
+Familiar	Snowy Owl	Last Available: "2005-12"
+Familiar	Software Bug	Last Available: "2016-06"
+Familiar	Space Jellyfish	Item Drop: [max(sqrt(55*W)+W-3,0)*env(underwater)], Experience: [max(2+W/5,2)*env(underwater)], Last Available: "2017-01"
+Familiar	Spirit Hobo	Last Available: "2006-05"
+Familiar	Squamous Gibberer	Last Available: "2009-10"
+Familiar	Squib	Last Available: "2018-03"
+Familiar	Steam-Powered Cheerleader	Fairy: [1+0.1*ceil(pref(_cheerleaderSteam)/50)], Last Available: "2013-09"
+Familiar	Stocking Mimic	Last Available: "2009-12"
+Familiar	Stooper	Last Available: "2018-03", Liver Capacity: +1
+Familiar	Straypler	Last Available: "2018-03"
+Familiar	Sugar Fruit Fairy	Last Available: "2008-12"
+Familiar	Sweet Nutcracker	Last Available: "2005-12"
+Familiar	Teddy Bear	Last Available: "2005-12"
+Familiar	Teddy Borg	Last Available: "2007-12"
+Familiar	Temporal Riftlet	Last Available: "2005-11"
+Familiar	Tickle-Me Emilio	Last Available: "2011-11"
+Familiar	Toothsome Rock	Last Available: "2008-12"
+Familiar	Trafikoan	Last Available: "2018-03"
+Familiar	Trick-or-Treating Tot	Last Available: "2016-10"
+Familiar	Turpin	Last Available: "2018-03"
+Familiar	Turtive	Last Available: "2018-03"
+Familiar	Twitching Space Critter	Last Available: "2014-05"
+Familiar	Unconscious Collective	Last Available: "2013-12"
+Familiar	Underworld Bonsai	Last Available: "2009-10"
+Familiar	Ungulant	Last Available: "2018-03"
+Familiar	Uniclops	Last Available: "2009-10"
+Familiar	Unspeakachu	Last Available: "2018-03"
+Familiar	Vampire Vintner	Booze Fairy Effectiveness: 1.5, Last Available: "2021-10"
+Familiar	Vamprey	Last Available: "2018-03"
+Familiar	Vaporpoise	Last Available: "2018-03"
+Familiar	Vulgure	Last Available: "2018-03"
+Familiar	Waifuton	Last Available: "2018-03"
+Familiar	Warbear Drone	Last Available: "2013-12"
+Familiar	Wendtigo	Last Available: "2018-03"
+Familiar	Wild Hare	Last Available: "2006-03"
+Familiar	Wind-up Chattering Teeth	Last Available: "2006-04"
+Familiar	Wizard Action Figure	Last Available: "2007-08", Volleyball: 0.3333, Fairy: 0.3333
+Familiar	Wullabye	Last Available: "2018-03"
+Familiar	XO Skeleton	Last Available: "2017-10"
+Familiar	Xiblaxian Holo-Companion	Initiative: [2*W], Last Available: "2014-09"
+Familiar	Yule Hound	Last Available: "2018-12"
 
 # Enthroned familiars section of modifiers.txt
 # If a familiar cannot be enthroned, indicate with "none". If the effect is unspaded, leave blank.
@@ -5460,7 +5649,7 @@ Effect	Baja, Humbug	Item Drop: [50*env(underwater)]
 Effect	Balls of Ectoplasm	Spooky Resistance: +1
 Effect	Bananas!	Muscle: +40, Mysticality: +40, Moxie: +40
 Effect	Bandananit	Avatar: "dirty thieving brigand"
-Effect	Bandersnatched	Moxie: +5, Ranged Damage: +10 
+Effect	Bandersnatched	Moxie: +5, Ranged Damage: +10
 Effect	Banono	Stench Damage: +40, Stench Spell Damage: +40
 Effect	Barbecue Saucy	Muscle: +15, Moxie: +15
 Effect	Barbell Moustache	Muscle: +25, Gear Drop: +50
