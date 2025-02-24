@@ -822,6 +822,16 @@ public class ModifierDatabase {
     return null;
   }
 
+  private static final Pattern LAST_AVAILABLE_PATTERN =
+      Pattern.compile("<!-- Last Available Date: (\\d{4}-\\d{2}) -->");
+
+  public static String parseLastAvailable(final String text) {
+    var matcher = LAST_AVAILABLE_PATTERN.matcher(text);
+    if (!matcher.find()) return null;
+
+    return StringModifier.LAST_AVAILABLE_DATE.getTag() + ": \"" + matcher.group(1) + "\"";
+  }
+
   public static final String parseModifier(final String enchantment) {
     String result;
 
