@@ -65,6 +65,15 @@ public class ShopRowDatabase {
     return data != null ? new ShopRow(data.row(), data.item(), data.costs()) : null;
   }
 
+  // *** The following are only for testing
+  public static ShopRowData removeShopRowData(final int row) {
+    return shopRowData.remove(row);
+  }
+
+  public static void putShopRowData(final int row, ShopRowData data) {
+    shopRowData.put(row, data);
+  }
+
   private ShopRowDatabase() {}
 
   public static void registerShopRow(ShopRow shopRow, CraftingType craftingType) {

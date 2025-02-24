@@ -13,6 +13,7 @@ import java.util.Set;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CharSheetRequest.ParsedSkillInfo;
 import net.sourceforge.kolmafia.request.CharSheetRequest.ParsedSkillInfo.PermStatus;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,6 +25,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 public class CharSheetRequestTest {
   @BeforeEach
   public void setUp() {
+    Preferences.reset("CharSheetRequestTest");
     KoLCharacter.reset(true);
   }
 
@@ -392,13 +394,16 @@ public class CharSheetRequestTest {
     assertThat(KoLCharacter.getInebriety(), equalTo(3));
   }
 
-  @Test
-  public void parsesZootomistStats() {
-    String html = html("request/test_charsheet_zootomist.html");
-    CharSheetRequest.parseStatus(html);
+  @Nested
+  class Zootomist {
+    @Test
+    public void parsesZootomistStats() {
+      String html = html("request/test_charsheet_zootomist.html");
+      CharSheetRequest.parseStatus(html);
 
-    assertThat(KoLCharacter.getAdjustedMuscle(), equalTo(82));
-    assertThat(KoLCharacter.getAdjustedMysticality(), equalTo(67));
-    assertThat(KoLCharacter.getAdjustedMoxie(), equalTo(70));
+      assertThat(KoLCharacter.getAdjustedMuscle(), equalTo(82));
+      assertThat(KoLCharacter.getAdjustedMysticality(), equalTo(67));
+      assertThat(KoLCharacter.getAdjustedMoxie(), equalTo(70));
+    }
   }
 }

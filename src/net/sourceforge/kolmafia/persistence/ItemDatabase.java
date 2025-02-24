@@ -706,8 +706,8 @@ public class ItemDatabase {
     ApiRequest request = new ApiRequest("item", itemId);
     RequestThread.postRequest(request);
 
-    JSONObject JSON = request.JSON;
-    if (JSON == null) {
+    JSONObject json = request.json;
+    if (json == null) {
       return;
     }
 
@@ -732,9 +732,9 @@ public class ItemDatabase {
     // }
 
     try {
-      String name = JSON.getString("name");
-      String descid = JSON.getString("descid");
-      int power = JSON.getIntValue("power");
+      String name = json.getString("name");
+      String descid = json.getString("descid");
+      int power = json.getIntValue("power");
       ItemDatabase.registerItem(itemId, name, descid, null, power, false);
     } catch (JSONException e) {
       KoLmafia.updateDisplay("Error parsing JSON string!");

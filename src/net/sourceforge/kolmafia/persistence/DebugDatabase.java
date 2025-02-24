@@ -2562,6 +2562,14 @@ public class DebugDatabase {
     }
   }
 
+  private static String getItemLocation(final AdventureResult item) {
+    if (KoLConstants.inventory.contains(item)) return "inventory";
+    if (KoLConstants.closet.contains(item)) return "closet";
+    if (KoLConstants.collection.contains(item)) return "display case";
+    if (KoLConstants.storage.contains(item)) return "storage";
+    return "nowhere";
+  }
+
   private static void checkPower(final int itemId, final boolean force) {
     int current = EquipmentDatabase.getPower(itemId);
     if (!force && current != 0) {
@@ -2572,31 +2580,24 @@ public class DebugDatabase {
     ApiRequest request = new ApiRequest("item", itemId);
     RequestThread.postRequest(request);
 
-    JSONObject JSON = request.JSON;
-    if (JSON == null) {
-      AdventureResult item = ItemPool.get(itemId);
-      String location =
-          KoLConstants.inventory.contains(item)
-              ? "inventory"
-              : KoLConstants.closet.contains(item)
-                  ? "closet"
-                  : KoLConstants.collection.contains(item)
-                      ? "display case"
-                      : KoLConstants.storage.contains(item) ? "storage" : "nowhere";
+    JSONObject json = request.json;
+    if (json == null) {
+      var item = ItemPool.get(itemId);
+      var location = getItemLocation(item);
       KoLmafia.updateDisplay("Could not look up item " + item + " from " + location);
       return;
     }
 
     try {
-      int power = JSON.getIntValue("power");
+      int power = json.getIntValue("power");
 
       // Yes, some items really are power 0
       if (power == 0 || power == current) {
         return;
       }
 
-      String name = JSON.getString("name");
-      String descid = JSON.getString("descid");
+      String name = json.getString("name");
+      String descid = json.getString("descid");
       RequestLogger.printLine(
           "Item \"" + name + "\" power incorrect: " + current + " should be " + power);
       ItemDatabase.registerItem(itemId, name, descid, null, power, false);
@@ -2706,20 +2707,20 @@ public class DebugDatabase {
       ApiRequest request = new ApiRequest("item", itemId);
       RequestThread.postRequest(request);
 
-      JSONObject JSON = request.JSON;
-      if (JSON == null) {
+      JSONObject json = request.json;
+      if (json == null) {
         continue;
       }
 
       try {
         int oldPower = EquipmentDatabase.getPower(itemId);
-        int correctPower = JSON.getIntValue("power");
+        int correctPower = json.getIntValue("power");
         if (oldPower == correctPower) {
           continue;
         }
 
-        String name = JSON.getString("name");
-        String descid = JSON.getString("descid");
+        String name = json.getString("name");
+        String descid = json.getString("descid");
 
         RequestLogger.printLine(
             "Shield \"" + name + "\" power incorrect: " + oldPower + " should be " + correctPower);

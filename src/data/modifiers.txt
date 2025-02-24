@@ -4851,8 +4851,10 @@ Throne	Choctopus	Maximum HP: 15, Maximum MP: 15, HP Regen Min: 3, HP Regen Max: 
 Throne	Clockwork Grapefruit	Moxie Percent: +15
 Throne	Cocoabo	Muscle: +10, Mysticality: +10, Moxie: +10, Drops Items
 Throne	Coffee Pixie	Meat Drop: +20, MP Regen Min: 5, MP Regen Max: 6
+Throne	Cold Cut	
 Throne	Comma Chameleon	none
 Throne	Cookbookbat	Food Drop: +50, Drops Items
+Throne	Cool Cucumber	
 Throne	Cornbeefadon	none
 Throne	Cotton Candy Carnie	Initiative: +20, Drops Items
 Throne	Crimbo Elf	Weapon Damage: +10, Drops Items
@@ -4864,6 +4866,8 @@ Throne	Cymbal-Playing Monkey	Experience (Moxie): +2
 Throne	Dancing Frog	Meat Drop: +20
 Throne	Dandy Lion	HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8
 Throne	Dataspider	MP Regen Min: 3, MP Regen Max: 5, Spell Damage Percent: +10
+Throne	Defective Childrens' Stapler	
+Throne	Dire Cassava	
 Throne	Disembodied Hand	none
 Throne	Disgeist	none
 Throne	Doll Moll	Meat Drop: +10
@@ -4911,6 +4915,7 @@ Throne	Hand Turkey	Meat Drop: +20, Drops Meat
 Throne	Hanukkimbo Dreidl	Muscle: +10, Mysticality: +10, Moxie: +10
 Throne	Happy Medium	Meat Drop: +25, Drops Meat
 Throne	He-Boulder	Muscle: +10, Mysticality: +10, Moxie: +10, Drops Meat
+Throne	Heat Wave	
 Throne	Helix Fossil	none
 Throne	Hippo Ballerina	Meat Drop: +20
 Throne	Hobo in Sheep's Clothing	Experience: +3, Drops Items
@@ -4966,6 +4971,7 @@ Throne	Ninja Pirate Zombie Robot	Muscle: +10, Mysticality: +10, Moxie: +10, HP R
 Throne	Ninja Snowflake	Moxie Percent: +15, MP Regen Min: 5, MP Regen Max: 6
 Throne	Nosy Nose	Moxie Percent: 15
 Throne	O.A.F.	Muscle: -10, Mysticality: -10, Moxie: -10
+Throne	Observer	
 Throne	Obtuse Angel	Meat Drop: +20, MP Regen Min: 5, MP Regen Max: 6
 Throne	Oily Woim	Item Drop: +10, Drops Meat
 Throne	Optimistic Candle	Item Drop: +15, Drops Items, Variable
@@ -5014,6 +5020,7 @@ Throne	Rogue Program	Spell Damage Percent: +10
 Throne	Sabre-Toothed Lime	Moxie Percent: +15
 Throne	Sausage Golem	Sleaze Damage: +20
 Throne	Scary Death Orb	Mysticality Percent: +15, MP Regen Min: 5, MP Regen Max: 6
+Throne	Shame Spiral	
 Throne	Shorter-Order Cook	Maximum HP: +20, Maximum MP: +20
 Throne	Significant Bit	none
 Throne	Sleazy Gravy Fairy	Sleaze Damage: +20, Drops Items
@@ -5062,6 +5069,7 @@ Throne	Wizard Action Figure	Spell Damage Percent: +10, MP Regen Min: 5, MP Regen
 Throne	Xiblaxian Holo-Companion	none
 Throne	XO Skeleton	Muscle: +10, Mysticality: +10, Moxie: +10
 Throne	Yule Hound	Candy Drop: +20, Drops Items
+Throne	Zapper Bug	
 
 # Sneaky Pete's Motorbike section
 
@@ -11476,6 +11484,7 @@ Item	Carol of the Hells	Skill: "Carol of the Hells"
 Item	Carol of the Hells (used)	Skill: "Carol of the Hells"
 Item	Carol of the Thrills	Skill: "Carol of the Thrills"
 Item	Carol of the Thrills (used)	Skill: "Carol of the Thrills"
+Item	carton of extra-sharp, rusty staples	Weapon Damage: +10, Spell Damage: +10
 # carton of rotten eggs: Deals 12-15 <font color=green>Stench Damage</font>
 # carton of rotten eggs: (can be used 8-10 times before the carton is empty)
 # cartoon heart: Restores 40-60 HP
@@ -11535,6 +11544,7 @@ Item	coffee sprite	Free Pull
 # cold clusterbomb: Deals <font color=blue>Cold Damage</font> based on your highest stat
 # cold clusterbomb: (more effective against groups)
 Item	Cold Fang	Skill: "Frost Bite"
+Item	cold sore	Cold Damage: +10, Cold Spell Damage: +10
 # Colon Annihilation Hot Sauce: Deals 6-8 <font color=red>Hot Damage</font> per round for the rest of the fight
 # comfy pillow: Restores 20-30 HP
 Item	Comma Chameleon egg	Free Pull
@@ -11855,6 +11865,7 @@ Item	glass of warm water	Free Pull
 # glob of melted wax: Can be fashioned into various wax objects
 # glob of melted wax: Stuns enemies for a few rounds, dealing <font color=red>Hot Damage</font> all the while
 # glob of undifferentiated tissue: You have no idea what will happen!
+Item	glover liners	Pickpocket Chance: +10
 Item	glowing frisbee	Free Pull
 # glowing New Age crystal: Restores 500 MP
 # glowing New Age crystal: (and briefly stuns your opponent)
@@ -11901,6 +11912,7 @@ Item	green face paint	Free Pull
 # green smoke bomb: Lets you escape from combat without spending an Adventure
 # green smoke bomb: (Probably)
 Item	grey gosling	Free Pull
+Item	grim cellophane	Combat Rate: -5
 # grizzled bearskin Adds +50% Muscle to your cowboy boots
 # grody jug: Deals a Buttload of <font color=green>Stench Damage</font>
 # grogpagne: Restores 30-50 MP
@@ -11932,6 +11944,7 @@ Item	heart necklace	Free Pull
 # heart of dark chocolate: Restores 40-50 HP
 # heart of dark chocolate: (doesn't go away when used)
 Item	heart-shaped crate	Free Pull
+Item	heat particle	Hot Damage: +10, Hot Spell Damage: +10
 # hedgeturtle: Causes Bleeding
 # hedgeturtle: Deals 30-60 Physical Damage
 Item	Hell and How I Bent It	Skill: "Bend Hell"
@@ -12202,6 +12215,7 @@ Item	mint-in-box Powerful Glove	Free Pull
 # Monstar energy beverage: Restores 70-80 MP
 Item	Monster Manuel	Free Pull
 Item	Moping Artistic Goth Kid	Free Pull
+Item	mosquito speakers	Monster Level: +5
 # mossy stone sphere: Mysterious, Deprecated
 Item	mother's secret recipe	Recipe: "white chocolate chip brownies"
 # mountain lion skin: Adds +50% Moxie to your cowboy boots
@@ -12328,6 +12342,7 @@ Item	personal raindrop	Free Pull
 Item	personalized coffee mug	Free Pull
 # personalized wassail stein: Produces a random booze item (1x/day)
 # petrified wood: Deals 50-60 Physical Damage and 50-60 <font color=gray>Spooky Damage</font>
+Item	phantom brace	Spooky Damage: +10, Spooky Spell Damage: +10
 # phonics down: Restores 46-50 HP and MP and also does other weird stuff
 Item	photo booth sized crate	Free Pull
 # photoprotoneutron torpedo: Deals 30-40 Physical Damage
@@ -12491,6 +12506,7 @@ Item	residual chitin paste	Skill: "Chitinous Soul"
 Item	Rethinking Candy	Skill: "Sweet Synthesis"
 Item	Retrospecs try-at-home kit	Free Pull
 # riboflavin: Increase a Pokefamiliar's maximum HP by 1
+Item	rift oculus	Combat Rate: +5
 Item	rigging knot	Familiar Weight: +5
 # Riker's Search History: Deals 900-1000 Sleaze Damage
 # robotronic egg: Crazy robotronic action!
@@ -12671,6 +12687,7 @@ Item	STATS+++ rom chip	Skill: "STATS+++"
 # stick-on-a-string: Either Slightly Damages or Slight Weakens Foes
 # sticky clay homunculus: Makes a copy of a monster to fight later
 Item	still grill	Free Pull
+Item	stomach churner	Sleaze Damage: +10, Sleaze Spell Damage: +10
 # stone frisbee: Deals 80-100 Physical Damage
 # strange goggles: ???
 # stuffed alien blob: Randomly Becomes a Different Combat Item When Used
@@ -12688,6 +12705,7 @@ Item	Summer Nights	Skill: "Grease Lightning"
 # surgical tape: Weakens enemies a little bit and restores 20-30 Hit Points
 Item	suspicious package	Free Pull
 Item	suspicious stocking	Free Pull
+Item	sweaty egg	HP Regen Min: 4, HP Regen Max: 8
 Item	sweet nutcracker	Free Pull
 Item	sweet tooth	Wiki Name: "sweet tooth"
 # synaptic soup: Add a pound and MP restore to your familiar

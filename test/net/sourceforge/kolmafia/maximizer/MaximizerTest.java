@@ -36,6 +36,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.hasToString;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.startsWith;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -2261,6 +2262,42 @@ public class MaximizerTest {
       maximize("combat");
 
       assertThat(getBoosts(), not(hasItem(hasProperty("cmd", startsWith("aprilband effect c")))));
+    }
+  }
+
+  @Nested
+  class Mayam {
+    @Test
+    public void recommendsMayamResonanceWithItem() {
+      var cleanups =
+          new Cleanups(withItem(ItemPool.MAYAM_CALENDAR), withProperty("_mayamSymbolsUsed", ""));
+      try (cleanups) {
+        maximize("food drop");
+
+        assertThat(
+            getBoosts(),
+            hasItem(hasProperty("cmd", is("mayam resonance memories of cheesier age"))));
+      }
+    }
+
+    @Test
+    public void doesNotRecommendMayamWithoutItem() {
+      var cleanups = withProperty("_mayamSymbolsUsed", "");
+      try (cleanups) {
+        maximize("food drop");
+
+        assertThat(getBoosts(), not(hasItem(hasProperty("cmd", startsWith("mayam ")))));
+      }
+    }
+
+    @Test
+    public void doesNotRecommendMayamIfUsed() {
+      var cleanups = withProperty("_mayamSymbolsUsed", "yam1,yam2,cheese,clock");
+      try (cleanups) {
+        maximize("food drop");
+
+        assertThat(getBoosts(), not(hasItem(hasProperty("cmd", startsWith("mayam ")))));
+      }
     }
   }
 }

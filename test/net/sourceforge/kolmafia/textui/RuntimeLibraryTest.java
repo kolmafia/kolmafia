@@ -699,8 +699,8 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
     try (cleanups) {
       String text = html("request/test_status.json");
-      JSONObject JSON = json(text);
-      ApiRequest.parseStatus(JSON);
+      JSONObject jsonObject = json(text);
+      ApiRequest.parseStatus(jsonObject);
       String output = execute("daycount()");
       assertContinueState();
       assertThat(output, is("Returned: 7302\n"));

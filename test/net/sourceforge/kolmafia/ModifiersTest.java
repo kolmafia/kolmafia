@@ -7,6 +7,7 @@ import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withHP;
 import static internal.helpers.Player.withInteractivity;
+import static internal.helpers.Player.withLevel;
 import static internal.helpers.Player.withLocation;
 import static internal.helpers.Player.withMP;
 import static internal.helpers.Player.withOverrideModifiers;
@@ -134,8 +135,7 @@ public class ModifiersTest {
   @ParameterizedTest
   @ValueSource(ints = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11})
   public void intrinsicSpicinessModifiers(int level) {
-    int myst = (level == 1) ? 0 : (level - 1) * (level - 1) + 4;
-    var cleanups = new Cleanups(withClass(AscensionClass.SAUCEROR), withStats(0, myst, 0));
+    var cleanups = new Cleanups(withClass(AscensionClass.SAUCEROR), withLevel(level));
 
     try (cleanups) {
       Modifiers mods = ModifierDatabase.getModifiers(ModifierType.SKILL, "Intrinsic Spiciness");

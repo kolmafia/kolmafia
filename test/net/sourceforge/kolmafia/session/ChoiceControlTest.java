@@ -22,6 +22,7 @@ import static internal.helpers.Player.withTurnsPlayed;
 import static internal.matchers.Preference.isSetTo;
 import static internal.matchers.Quest.isStep;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
@@ -896,6 +897,17 @@ class ChoiceControlTest {
         assertThat("_mayamRests", isSetTo(5));
       }
     }
+
+    @Test
+    void choosingFurGivesExperience() {
+      var cleanups =
+          new Cleanups(
+              withFamiliar(FamiliarPool.JILL_OF_ALL_TRADES),
+              withPostChoice2(1527, 1, html("request/test_choice_mayam_fur.html")));
+      try (cleanups) {
+        assertThat(KoLCharacter.getFamiliar().getTotalExperience(), equalTo(100));
+      }
+    }
   }
 
   @Nested
@@ -1363,6 +1375,37 @@ class ChoiceControlTest {
         ChoiceManager.visitChoice(req);
         assertThat("daycareInstructorItem", isSetTo(11));
         assertThat("daycareInstructorItemQuantity", isSetTo(69));
+      }
+    }
+  }
+
+  @Nested
+  class Zootomist {
+    @ParameterizedTest
+    @ValueSource(ints = {0, 1})
+    void canDetectSpecimensPrepared(int numUsed) {
+      var cleanups = new Cleanups(withPostChoice1(0, 0), withProperty("zootSpecimensPrepared"));
+
+      try (cleanups) {
+        var req = new GenericRequest("choice.php?whichchoice=1555");
+        req.responseText = html("request/test_choice_zoot_specimen_bench_" + numUsed + ".html");
+
+        ChoiceManager.visitChoice(req);
+        assertThat("zootSpecimensPrepared", isSetTo(numUsed));
+      }
+    }
+
+    @Test
+    void addsFamiliarExperience() {
+      var cleanups =
+          new Cleanups(
+              withFamiliar(FamiliarPool.MECHANICAL_SONGBIRD),
+              withProperty("zootSpecimensPrepared"),
+              withPostChoice1(1555, 1, html("request/test_choice_zoot_specimen_bench_post.html")));
+
+      try (cleanups) {
+        assertThat("zootSpecimensPrepared", isSetTo(1));
+        assertThat(KoLCharacter.getFamiliar().getTotalExperience(), equalTo(20));
       }
     }
   }

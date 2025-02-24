@@ -1,16 +1,16 @@
 package net.sourceforge.kolmafia.shop;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
-import net.sourceforge.kolmafia.CoinmasterRegistry;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
-import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
-import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
@@ -236,6 +236,12 @@ public class ShopRequest extends GenericRequest {
    * Shop Inventory parsing
    */
 
+  static class SortByRow implements Comparator<ShopRow> {
+    public int compare(ShopRow a, ShopRow b) {
+      return a.getRow() - b.getRow();
+    }
+  }
+
   public static final List<ShopRow> parseShopInventory(
       final String shopId, final String responseText, boolean force) {
 
@@ -249,6 +255,9 @@ public class ShopRequest extends GenericRequest {
       String printMe = "New shop: (" + shopId + ", \"" + shopName + "\")";
       RequestLogger.printLine(printMe);
       RequestLogger.updateSessionLog(printMe);
+    } else {
+      // Otherwise, use the name we assigned to it.
+      shopName = ShopDatabase.getShopName(shopId);
     }
 
     // If this is a coinmaster, give it a chance to make its own
@@ -261,15 +270,47 @@ public class ShopRequest extends GenericRequest {
     // Find all the ShopRow objects. Register any new items seen.
     List<ShopRow> shopRows = ShopRow.parseShop(responseText, true);
 
-    // Certain existing shops are implemented as mixing methods.  Since
-    // KoL could add new items to such shops, detect them.
-    boolean concoction = ShopDatabase.getShopType(shopId) == SHOP.CONC;
-    boolean coinmaster = (cd != null);
+    // KoL can add new items to existing coinmasters, npc stores, or
+    // concoctions. We will log such items in the appropriate format.
 
-    boolean newShopItems = false;
+    SHOP shopType = ShopDatabase.getShopType(shopId);
+    boolean unknown = shopType == SHOP.NONE;
+    boolean concoction = shopType == SHOP.CONC;
+
+    boolean disabled = cd != null && cd.isDisabled();
+    boolean newStyle = unknown || disabled || (cd != null && cd.getShopRows() != null);
+    Set<AdventureResult> currencies = (cd == null) ? new HashSet<>() : cd.currencies();
+
+    // All new rows will be logged in shoprows.txt format
+    List<ShopRow> newShopRows = new ArrayList<>();
+
+    // All new meat purchases will be logged in npcstores.txt format
+    List<ShopRow> newMeatRows = new ArrayList<>();
+
+    // All new item concoctions will be logged in concoctions.txt format
+    List<ShopRow> newConcoctionRows = new ArrayList<>();
+
+    // All new buy/sell items will be logged in old coinmaster format
+    List<ShopRow> newBuyRows = new ArrayList<>();
+    List<ShopRow> newSellRows = new ArrayList<>();
+
+    // All new shoprow item coinmasters will be logged in new coinmaster format
+    List<ShopRow> newCoinmasterRows = new ArrayList<>();
 
     for (ShopRow shopRow : shopRows) {
       int row = shopRow.getRow();
+
+      // See if we know this row.
+      ShopRow existing = disabled ? null : ShopRowDatabase.getShopRow(row);
+
+      // If so, unless we are forcing all rows to be logged, skip it.
+      if (existing != null && !force) {
+        continue;
+      }
+
+      // All new rows get logged in shoprows.txt format
+      newShopRows.add(shopRow);
+
       AdventureResult item = shopRow.getItem();
       AdventureResult[] costs = shopRow.getCosts();
 
@@ -280,185 +321,154 @@ public class ShopRequest extends GenericRequest {
         continue;
       }
 
-      // Shops can sell skills
+      // Shops can sell skills. Assume all such are new-style coinmasters
       if (item.isSkill()) {
-        // If we know this row
-        ShopRow existing = ShopRowDatabase.getShopRow(row);
-        if (existing == null || force) {
-          newShopItems |= learnSkill(shopId, shopName, item, costs, row, newShopItems, force);
+        newCoinmasterRows.add(shopRow);
+        continue;
+      }
+
+      // If there is a single cost, the shop could be anything
+      if (costs.length == 1) {
+        AdventureResult cost = costs[0];
+
+        if (cost.isMeat()) {
+          // We'll handle this as an NPC store.
+          newMeatRows.add(shopRow);
+          continue;
         }
+
+        // Buy/Sell coinmaster
+        if (!disabled && cd != null && cd.getBuyItems() != null && currencies.contains(cost)) {
+          // If the price is a currency, this is a "buy" request.
+          newBuyRows.add(shopRow);
+          continue;
+        }
+
+        if (!disabled && cd != null && cd.getSellItems() != null && currencies.contains(item)) {
+          // If the item is a currency, this is a "sell" request.
+          newSellRows.add(shopRow);
+          continue;
+        }
+      }
+
+      // Existing concoction shop
+      if (concoction) {
+        newConcoctionRows.add(shopRow);
         continue;
       }
 
-      // Shops can yield more than one of an item
-      // Shops can yield the same item with multiple costs
-      // Shops can accept up to five currencies per item.
-
-      int id = item.getItemId();
-      int count = item.getCount();
-
-      // Current practice:
-      //
-      // A shop with a single currency which is Meat is an NPCStore
-      // A shop with a single currency per item which is not Meat is a Coinmaster
-      // A shop with multiple currencies per item is a Mixing method.
-
-      // New practice:
-      //
-      // A shop with multiple currencies per item can be a Coinmaster
-
-      // *** NPCStoreDatabase assumes that multiple stores can sell a particular item.
-      if (NPCStoreDatabase.contains(id, false) && !force) {
+      // Unknown shop or ShopRow coinmaster
+      if (newStyle) {
+        newCoinmasterRows.add(shopRow);
         continue;
       }
-
-      // *** CoinmastersDatabase assumes that multiple stores can sell a particular item.
-      // The following does not account for "disabled" coinmasters - a testing feature.
-      //    if (CoinmastersDatabase.contains(id, false) && !force) {
-      if (CoinmastersDatabase.getAllPurchaseRequests(id).size() > 0 && !force) {
-        continue;
-      }
-
-      // *** If an existing mixing method makes this item, skip it
-      if (ConcoctionDatabase.hasNonCoinmasterMixingMethod(id) && !force) {
-        continue;
-      }
-
-      // If this shop is implemented as a mixing method, we've detected
-      // a new item for sale.
-      if (concoction && !force) {
-        continue;
-      }
-
-      if (costs.length == 1 && costs[0].isMeat()) {
-        int cost = costs[0].getCount();
-        newShopItems |= learnNPCStoreItem(shopId, shopName, item, cost, row, newShopItems, force);
-        continue;
-      }
-
-      newShopItems |= learnCoinmasterItem(shopId, shopName, item, costs, row, newShopItems, force);
     }
 
-    if (newShopItems) {
-      String printMe = "--------------------";
+    // We have now categorized all the rows.
+    // If we detected nothing new (and are not forcing), we're done.
+    if (newShopRows.size() == 0) {
+      return shopRows;
+    }
+
+    String divider = "--------------------";
+    RequestLogger.printLine(divider);
+    RequestLogger.updateSessionLog(divider);
+
+    Collections.sort(newShopRows, new SortByRow());
+    for (ShopRow shopRow : newShopRows) {
+      // Log in shoprows.txt format
+      ShopRowData data =
+          new ShopRowData(shopRow.getRow(), shopId, shopRow.getItem(), shopRow.getCosts());
+      String printMe = data.dataString();
       RequestLogger.printLine(printMe);
       RequestLogger.updateSessionLog(printMe);
+    }
+
+    RequestLogger.printLine(divider);
+    RequestLogger.updateSessionLog(divider);
+
+    if (newMeatRows.size() > 0) {
+      // Log newMeatRows in npcstores.txt format
+      for (ShopRow shopRow : newMeatRows) {
+        AdventureResult item = shopRow.getItem();
+        int cost = shopRow.getCosts()[0].getCount();
+        String printMe =
+            shopName + "\t" + shopId + "\t" + item + "\t" + cost + "\tROW" + shopRow.getRow();
+        RequestLogger.printLine(printMe);
+        RequestLogger.updateSessionLog(printMe);
+      }
+      RequestLogger.printLine(divider);
+      RequestLogger.updateSessionLog(divider);
+      // An npcstore can also be a coinmaster - or even a concoction
+    }
+
+    if (newConcoctionRows.size() > 0) {
+      // Log newConcoctionRows in concoctions.txt format
+      var craftingType = ShopDatabase.getCraftingType(shopId);
+      String type = craftingType != null ? craftingType.name() : "UNKNOWN";
+      for (ShopRow shopRow : newConcoctionRows) {
+        // star boomerang	STARCHART, ROW144	star chart	star (4)	line (5)
+        StringBuilder buffer = new StringBuilder();
+        buffer.append(shopRow.getItem());
+        buffer.append("\t");
+        buffer.append(type);
+        buffer.append(", ROW");
+        buffer.append(String.valueOf(shopRow.getRow()));
+        for (AdventureResult cost : shopRow.getCosts()) {
+          buffer.append("\t");
+          buffer.append(cost);
+        }
+        String printMe = buffer.toString();
+        RequestLogger.printLine(printMe);
+        RequestLogger.updateSessionLog(printMe);
+      }
+      RequestLogger.printLine(divider);
+      RequestLogger.updateSessionLog(divider);
+      return shopRows;
+    }
+
+    if (newCoinmasterRows.size() > 0) {
+      // Log newCoinmasterRows in coinmasters.txt ShopRow format
+      for (ShopRow shopRow : newCoinmasterRows) {
+        String printMe = shopRow.toData(shopName);
+        RequestLogger.printLine(printMe);
+        RequestLogger.updateSessionLog(printMe);
+      }
+      RequestLogger.printLine(divider);
+      RequestLogger.updateSessionLog(divider);
+      // Currently, a new style coinmaster cannot also have buy/sell rows
+      return shopRows;
+    }
+
+    if (newBuyRows.size() > 0) {
+      // Log newBuyRows in coinmasters.txt "buy" format
+      for (ShopRow shopRow : newBuyRows) {
+        AdventureResult item = shopRow.getItem();
+        AdventureResult price = shopRow.getCosts()[0];
+        String printMe =
+            shopName + "\tbuy\t" + price.getCount() + "\t" + item + "\tROW" + shopRow.getRow();
+        RequestLogger.printLine(printMe);
+        RequestLogger.updateSessionLog(printMe);
+      }
+      RequestLogger.printLine(divider);
+      RequestLogger.updateSessionLog(divider);
+    }
+
+    if (newSellRows.size() > 0) {
+      // Log newSellRows in coinmasters.txt "sell" format
+      for (ShopRow shopRow : newSellRows) {
+        AdventureResult item = shopRow.getItem();
+        AdventureResult price = shopRow.getCosts()[0];
+        String printMe =
+            shopName + "\tsell\t" + item.getCount() + "\t" + price + "\tROW" + shopRow.getRow();
+        RequestLogger.printLine(printMe);
+        RequestLogger.updateSessionLog(printMe);
+      }
+      RequestLogger.printLine(divider);
+      RequestLogger.updateSessionLog(divider);
     }
 
     return shopRows;
-  }
-
-  public static final boolean learnSkill(
-      final String shopId,
-      final String shopName,
-      final AdventureResult item,
-      final AdventureResult[] costs,
-      final int row,
-      final boolean newShopItems,
-      boolean force) {
-    String printMe;
-    if (!newShopItems) {
-      printMe = "--------------------";
-      RequestLogger.printLine(printMe);
-      RequestLogger.updateSessionLog(printMe);
-    }
-    // Assume this will be a coinmaster
-    ShopRow shopRow = new ShopRow(row, item, costs);
-    printMe = shopRow.toData(shopName);
-    RequestLogger.printLine(printMe);
-    RequestLogger.updateSessionLog(printMe);
-    return true;
-  }
-
-  public static final boolean learnNPCStoreItem(
-      final String shopId,
-      final String shopName,
-      final AdventureResult item,
-      final int cost,
-      final int row,
-      final boolean newShopItems,
-      boolean force) {
-    String printMe;
-    // Print what goes in npcstores.txt
-    if (!newShopItems) {
-      printMe = "--------------------";
-      RequestLogger.printLine(printMe);
-      RequestLogger.updateSessionLog(printMe);
-    }
-    printMe = shopName + "\t" + shopId + "\t" + item + "\t" + cost + "\tROW" + row;
-    RequestLogger.printLine(printMe);
-    RequestLogger.updateSessionLog(printMe);
-    return true;
-  }
-
-  public static final boolean learnCoinmasterItem(
-      final String shopId,
-      String shopName,
-      final AdventureResult item,
-      final AdventureResult[] costs,
-      final int row,
-      final boolean newShopItems,
-      boolean force) {
-
-    // Sanity check: must be at least one cost
-    if (costs.length == 0) {
-      return false;
-    }
-
-    // See if this is a known Coinmaster
-    CoinmasterData data = CoinmasterRegistry.findCoinmaster(shopId, shopName);
-    String rowShop = CoinmastersDatabase.getRowShop(row);
-    String type = "unknown";
-
-    if (data != null && !data.isDisabled()) {
-      // If we already know this row, nothing to learn.
-      if ((data.getMaster().equals(rowShop) || data.hasRow(row)) && !force) {
-        return false;
-      }
-
-      shopName = data.getMaster();
-
-      if (costs.length == 1) {
-        // we can categorize this as a buy or a sell
-        AdventureResult price = costs[0];
-        Set<AdventureResult> currencies = data.currencies();
-        if (data.getBuyItems() != null && currencies.contains(price)) {
-          // If the price is a currency, this is a "buy" request.
-          type = "buy";
-        } else if (data.getSellItems() != null && currencies.contains(item)) {
-          // If the item is a currency, this is a "sell" request.
-          type = "sell";
-        } else {
-          // Neither price nor item is a known currency.
-          type = "unknown";
-        }
-      }
-    }
-
-    String printMe;
-    // Print what goes in coinmasters.txt
-    if (!newShopItems) {
-      printMe = "--------------------";
-      RequestLogger.printLine(printMe);
-      RequestLogger.updateSessionLog(printMe);
-    }
-    switch (type) {
-      case "buy" -> {
-        AdventureResult price = costs[0];
-        printMe = shopName + "\tbuy\t" + price.getCount() + "\t" + item + "\tROW" + row;
-      }
-      case "sell" -> {
-        AdventureResult price = costs[0];
-        printMe = shopName + "\tsell\t" + item.getCount() + "\t" + price + "\tROW" + row;
-      }
-      default -> {
-        ShopRow shopRow = new ShopRow(row, item, costs);
-        printMe = shopRow.toData(shopName);
-      }
-    }
-    RequestLogger.printLine(printMe);
-    RequestLogger.updateSessionLog(printMe);
-    return true;
   }
 
   /*

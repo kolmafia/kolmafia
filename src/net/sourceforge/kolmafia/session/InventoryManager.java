@@ -35,6 +35,7 @@ import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.DebugDatabase;
+import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase.Attribute;
@@ -83,8 +84,8 @@ public abstract class InventoryManager {
     ApiRequest.updateInventory();
   }
 
-  public static final void parseInventory(final JSONObject JSON) {
-    if (JSON == null) {
+  public static final void parseInventory(final JSONObject json) {
+    if (json == null) {
       return;
     }
 
@@ -93,9 +94,9 @@ public abstract class InventoryManager {
 
     try {
       // {"1":"1","2":"1" ... }
-      for (String key : JSON.keySet()) {
+      for (String key : json.keySet()) {
         int itemId = StringUtilities.parseInt(key);
-        int count = JSON.getIntValue(key);
+        int count = json.getIntValue(key);
         String name = ItemDatabase.getItemDataName(itemId);
         if (name == null) {
           // Fetch descid from api.php?what=item
@@ -117,7 +118,7 @@ public abstract class InventoryManager {
         }
       }
     } catch (JSONException e) {
-      ApiRequest.reportParseError("inventory", JSON.toString(), e);
+      ApiRequest.reportParseError("inventory", json.toString(), e);
       return;
     }
 
@@ -1578,6 +1579,12 @@ public abstract class InventoryManager {
     RequestThread.postRequest(req);
   }
 
+  public static final void checkEffectDescription(final int effectId) {
+    String descId = EffectDatabase.getDescriptionId(effectId);
+    GenericRequest req = new GenericRequest("desc_effect.php?whicheffect=" + descId);
+    RequestThread.postRequest(req);
+  }
+
   public static final void checkCrownOfThrones() {
     // If we are wearing the Crown of Thrones, we've already seen
     // which familiar is riding in it
@@ -1639,6 +1646,7 @@ public abstract class InventoryManager {
     checkCrimboTrainingManual();
     checkRing();
     checkFuturistic();
+    checkZootomistMods();
   }
 
   public static void checkNoHat() {
@@ -1806,6 +1814,16 @@ public abstract class InventoryManager {
     checkItem(ItemPool.FUTURISTIC_HAT, "_futuristicHatModifier");
     checkItem(ItemPool.FUTURISTIC_SHIRT, "_futuristicShirtModifier");
     checkItem(ItemPool.FUTURISTIC_COLLAR, "_futuristicCollarModifier");
+  }
+
+  public static void checkZootomistMods() {
+    if (!KoLCharacter.inZootomist()) {
+      // don't bother checking
+      return;
+    }
+    checkEffectDescription(EffectPool.GRAFTED);
+    checkEffectDescription(EffectPool.MILK_OF_FAMILIAR_KINDNESS);
+    checkEffectDescription(EffectPool.MILK_OF_FAMILIAR_CRUELTY);
   }
 
   private static void checkItem(int id, String preference) {

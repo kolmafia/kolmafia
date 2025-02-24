@@ -2140,7 +2140,7 @@ public class EquipmentManager {
     return count;
   }
 
-  public static final void parseStatus(final JSONObject JSON) throws JSONException {
+  public static final void parseStatus(final JSONObject json) throws JSONException {
     // "equipment":{
     //    "hat":"1323",
     //    "shirt":"2586",
@@ -2162,7 +2162,7 @@ public class EquipmentManager {
     EnumMap<Slot, AdventureResult> equipment = EquipmentManager.emptyEquipmentArray(true);
     int fakeHands = 0;
 
-    JSONObject equip = JSON.getJSONObject("equipment");
+    JSONObject equip = json.getJSONObject("equipment");
     for (String slotName : equip.keySet()) {
       if (slotName.equals("fakehands")) {
         fakeHands = equip.getIntValue(slotName);
@@ -2178,7 +2178,7 @@ public class EquipmentManager {
     }
 
     // Read stickers
-    JSONArray stickers = JSON.getJSONArray("stickers");
+    JSONArray stickers = json.getJSONArray("stickers");
     int i = 0;
     for (var slot : SlotSet.STICKER_SLOTS) {
       AdventureResult item = EquipmentManager.equippedItem(stickers.getIntValue(i++));
@@ -2186,7 +2186,7 @@ public class EquipmentManager {
     }
 
     // Read folders
-    JSONArray folders = JSON.getJSONArray("folder_holder");
+    JSONArray folders = json.getJSONArray("folder_holder");
     i = 0;
     for (var slot : SlotSet.FOLDER_SLOTS) {
       int folder = folders.getIntValue(i++);
