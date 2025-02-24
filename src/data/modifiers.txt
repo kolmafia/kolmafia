@@ -191,7 +191,7 @@ Item	draggin' ball hat	Moxie: +6, Muscle: -3, Familiar Effect: "atk, 1xVolley, c
 Item	dreadful fedora	Spooky Damage: +25, Spooky Spell Damage: +25, Kruegerand Drop: 5, Familiar Effect: "spooky atk, 1xLep"
 Item	driftwood hat	Moxie: +5, Moxie Percent: +1, Damage Absorption: +1, Damage Reduction: 1, Ranged Damage: +1, Ranged Damage Percent: +1, Initiative: +1, Experience (Moxie): +2, Experience Percent (Moxie): +1, Lasts Until Rollover
 # drippy diadem: Significant protection from damage in The Drip
-Item	drippy diadem		Drippy Resistance: +15
+Item	drippy diadem	Drippy Resistance: +15
 Item	duct tape fedora	Mysticality: +12, Maximum MP: +40, Familiar Effect: "1xBarrr, 1xLep, cap 48"
 # dwarvish war helmet: Heads Up!
 Item	dwarvish war helmet	Familiar Effect: "atk, 1xFairy, cap 41"
@@ -3882,7 +3882,7 @@ Item	tiny plastic 7-foot dwarf	Monster Level: +1
 Item	tiny plastic 11 Dealer	Meat Drop: +4
 Item	tiny plastic abominable fudgeman	Weapon Damage: +10
 Item	tiny plastic Abuela Crimbo	Spooky Resistance: +1
-Item	tiny plastic Abuela's Cottage	Muscle: +3, Mysticality: +3, Moxie: +3
+Item	tiny plastic Abuela's cottage	Muscle: +3, Mysticality: +3, Moxie: +3
 Item	tiny plastic accordion thief	Moxie: +2, Mysticality: +1
 Item	tiny plastic ambulatory robo-minecart	Moxie: +1
 Item	tiny plastic Ancient Unspeakable Bugbear	Monster Level: +1
