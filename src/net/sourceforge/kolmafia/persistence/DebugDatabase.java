@@ -194,6 +194,9 @@ public class DebugDatabase {
     }
   }
 
+  private static final ItemMap UNKNOWN_ITEM_MAP =
+      new ItemMap("Everything Else", ConsumptionType.UNKNOWN);
+
   private static final ItemMap[] ITEM_MAPS = {
     new ItemMap("Food", ConsumptionType.EAT),
     new ItemMap("Booze", ConsumptionType.DRINK),
@@ -208,23 +211,14 @@ public class DebugDatabase {
     new ItemMap("Familiar Items", ConsumptionType.FAMILIAR_EQUIPMENT),
     new ItemMap("Potions", ConsumptionType.POTION),
     new ItemMap("Avatar Potions", ConsumptionType.AVATAR_POTION),
-    new ItemMap("Everything Else", ConsumptionType.UNKNOWN),
+    UNKNOWN_ITEM_MAP,
   };
 
   private static ItemMap findItemMap(final ConsumptionType type) {
-    ItemMap other = null;
-    for (int i = 0; i < DebugDatabase.ITEM_MAPS.length; ++i) {
-      ItemMap map = DebugDatabase.ITEM_MAPS[i];
-      ConsumptionType mapType = map.getType();
-      if (mapType == type) {
-        return map;
-      }
-      if (mapType == ConsumptionType.UNKNOWN) {
-        other = map;
-      }
-    }
-
-    return other;
+    return Arrays.stream(ITEM_MAPS)
+        .filter(m -> m.getType() == type)
+        .findFirst()
+        .orElse(UNKNOWN_ITEM_MAP);
   }
 
   public static void checkItems(final int itemId) {
@@ -235,10 +229,7 @@ public class DebugDatabase {
 
     PrintStream report = DebugDatabase.openReport(ITEM_DATA);
 
-    for (int i = 0; i < DebugDatabase.ITEM_MAPS.length; ++i) {
-      ItemMap map = DebugDatabase.ITEM_MAPS[i];
-      map.clear();
-    }
+    Arrays.stream(DebugDatabase.ITEM_MAPS).forEach(ItemMap::clear);
 
     // Check item names, desc ID, consumption type
 
@@ -412,7 +403,7 @@ public class DebugDatabase {
     }
 
     ItemMap map = DebugDatabase.findItemMap(type);
-    map.put(name, text);
+    map.put(name, rawText);
 
     String descId = ItemDatabase.getDescriptionId(id);
 

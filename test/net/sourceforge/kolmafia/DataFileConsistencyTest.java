@@ -39,6 +39,7 @@ import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase.Attribute;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -46,6 +47,7 @@ import net.sourceforge.kolmafia.request.FloristRequest;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -306,144 +308,6 @@ public class DataFileConsistencyTest {
   }
 
   @Test
-  public void modifiersShouldApplyToValidItems() {
-    String file = "modifiers.txt";
-    int version = 3;
-    String[] fields;
-    try (BufferedReader reader = FileUtilities.getVersionedReader(file, version)) {
-      while ((fields = FileUtilities.readData(reader)) != null) {
-        String identifier = fields[0];
-        String name = fields[1];
-        switch (identifier) {
-          case "Item", "Clancy" -> {
-            var id = ItemDatabase.getExactItemId(name);
-            if (id == -1) {
-              if (!CafeDatabase.isCafeConsumable(name)) {
-                fail("unrecognised item " + name);
-              }
-            }
-          }
-          case "Effect" -> {
-            var id = EffectDatabase.getEffectId(name, true);
-            if (id < 0) {
-              fail("unrecognised effect " + name);
-            }
-          }
-          case "Skill" -> {
-            var id = SkillDatabase.getSkillId(name, true);
-            if (id < 0) {
-              fail("unrecognised skill " + name);
-            }
-            assertTrue(SkillDatabase.isPassive(id), "Skill " + name + " should be passive");
-          }
-          case "Familiar", "Throne" -> {
-            if (!"(none)".equals(name)) {
-              var id = FamiliarDatabase.getFamiliarId(name, false);
-              if (id < 0) {
-                fail("unrecognised familiar " + name);
-              }
-            }
-          }
-          case "Thrall" -> {
-            var thrall = PastaThrallData.typeToData(name);
-            if (thrall == null) {
-              fail("unrecognised thrall " + name);
-            }
-          }
-          case "Outfit" -> {
-            var outfit =
-                EquipmentDatabase.normalOutfits.values().stream()
-                    .anyMatch(x -> x.getName().equals(name));
-            if (!outfit) {
-              fail("unrecognised outfit " + name);
-            }
-          }
-          case "Sign" -> {
-            var sign = ZodiacSign.find(name);
-            if (sign == ZodiacSign.NONE) {
-              fail("unrecognised sign " + name);
-            }
-          }
-          case "Zone" -> {
-            var zone = AdventureDatabase.PARENT_LIST.stream().anyMatch(x -> x.equals(name));
-            if (!zone) {
-              fail("unrecognised zone " + name);
-            }
-          }
-          case "Loc" -> {
-            var loc = AdventureDatabase.validateAdventureArea(name);
-            if (!loc) {
-              fail("unrecognised location " + name);
-            }
-          }
-          case "Synergy", "MutexI" -> {
-            assertThat(name, containsString("/"));
-            for (var item : name.split("/")) {
-              var id = ItemDatabase.getExactItemId(item);
-              if (id < 0) {
-                fail("unrecognised item " + item);
-              }
-            }
-          }
-          case "MutexE" -> {
-            assertThat(name, containsString("/"));
-            for (var effect : name.split("/")) {
-              var id = EffectDatabase.getEffectId(effect, true);
-              if (id < 0) {
-                fail("unrecognised effect " + effect);
-              }
-            }
-          }
-          case "Florist" -> {
-            var flower = FloristRequest.Florist.getFlower(name);
-            if (flower == null) {
-              fail("unrecognised flower " + name);
-            }
-          }
-          case "Path" -> {
-            var path = AscensionPath.nameToPath(name);
-            if (path == Path.NONE) {
-              fail("unrecognised path " + name);
-            }
-          }
-          case "Class" -> {
-            var ascensionClass = AscensionClass.find(name);
-            if (ascensionClass == null) {
-              fail("unrecognised class " + name);
-            }
-          }
-          case "Motorbike",
-              "Snowsuit",
-              "Edpiece",
-              "Rumpus",
-              "Event",
-              "MaxCat",
-              "Horsery",
-              "BoomBox",
-              "RetroCape",
-              "BackupCamera",
-              "UnbreakableUmbrella",
-              "JurassicParka",
-              "LedCandle",
-              "Mask",
-              "Ensorcel",
-              "Robot",
-              "RobotTop",
-              "RobotRight",
-              "RobotBottom",
-              "RobotLeft",
-              "RobotCPU" -> {
-            // all fine
-          }
-          default -> fail("unrecognised identifier " + identifier);
-        }
-      }
-    } catch (IOException e) {
-      fail("Couldn't read from " + file);
-    }
-  }
-
-  @Test
   public void dailyLimitsShouldApplyToValidItems() {
     String file = "dailylimits.txt";
     int version = 1;
@@ -624,39 +488,186 @@ public class DataFileConsistencyTest {
     }
   }
 
-  @Test
-  public void everyFamiliarHasAThroneModifier() {
-    var allFamiliars =
-        FamiliarDatabase.entrySet().stream()
-            .map(Map.Entry::getKey)
-            // Ignore Pokefam-exclusive familiars
-            .filter(id -> !FamiliarDatabase.hasAttribute(id, "pokefam"))
-            // Ignore familiars with no hatchling (currently April Fools familiars, but may also
-            // catch future weirdos
-            .filter(id -> FamiliarDatabase.getFamiliarLarva(id) > 0)
-            .collect(Collectors.toSet());
-    String file = "modifiers.txt";
-    int version = 3;
-    String[] fields;
-    try (BufferedReader reader = FileUtilities.getVersionedReader(file, version)) {
-      while ((fields = FileUtilities.readData(reader)) != null) {
-        String identifier = fields[0];
-        if (!identifier.equals("Throne")) continue;
-        var name = fields[1];
-        var id = FamiliarDatabase.getFamiliarId(name, false);
-        allFamiliars.remove(id);
+  @Nested
+  class Modifiers {
+    @Test
+    public void everyFamiliarHasAThroneModifier() {
+      var allFamiliars =
+          FamiliarDatabase.entrySet().stream()
+              .map(Map.Entry::getKey)
+              // Ignore Pokefam-exclusive familiars
+              .filter(id -> !FamiliarDatabase.hasAttribute(id, "pokefam"))
+              // Ignore familiars with no hatchling (currently April Fools familiars, but may also
+              // catch future weirdos
+              .filter(id -> FamiliarDatabase.getFamiliarLarva(id) > 0)
+              .collect(Collectors.toSet());
+      String file = "modifiers.txt";
+      int version = 3;
+      String[] fields;
+      try (BufferedReader reader = FileUtilities.getVersionedReader(file, version)) {
+        while ((fields = FileUtilities.readData(reader)) != null) {
+          String identifier = fields[0];
+          if (!identifier.equals("Throne")) continue;
+          var name = fields[1];
+          var id = FamiliarDatabase.getFamiliarId(name, false);
+          allFamiliars.remove(id);
+        }
+      } catch (IOException e) {
+        fail("Couldn't read from " + file);
       }
-    } catch (IOException e) {
-      fail("Couldn't read from " + file);
+
+      if (!allFamiliars.isEmpty()) {
+        fail(
+            "No throne data for "
+                + allFamiliars.stream()
+                    .map(FamiliarDatabase::getFamiliarName)
+                    .collect(Collectors.joining(", "))
+                + " found");
+      }
     }
 
-    if (!allFamiliars.isEmpty()) {
-      fail(
-          "No throne data for "
-              + allFamiliars.stream()
-                  .map(FamiliarDatabase::getFamiliarName)
-                  .collect(Collectors.joining(", "))
-              + " found");
+    @Test
+    public void modifiersShouldApplyToValidItems() {
+      String file = "modifiers.txt";
+      int version = 3;
+      String[] fields;
+      try (BufferedReader reader = FileUtilities.getVersionedReader(file, version)) {
+        while ((fields = FileUtilities.readData(reader)) != null) {
+          String identifier = fields[0];
+          String name = fields[1];
+          switch (identifier) {
+            case "Item", "Clancy" -> {
+              var id = ItemDatabase.getExactItemId(name);
+              if (id == -1) {
+                if (!CafeDatabase.isCafeConsumable(name)) {
+                  fail("unrecognised item " + name);
+                }
+              }
+            }
+            case "Effect" -> {
+              var id = EffectDatabase.getEffectId(name, true);
+              if (id < 0) {
+                fail("unrecognised effect " + name);
+              }
+            }
+            case "Skill" -> {
+              var id = SkillDatabase.getSkillId(name, true);
+              if (id < 0) {
+                fail("unrecognised skill " + name);
+              }
+              assertTrue(SkillDatabase.isPassive(id), "Skill " + name + " should be passive");
+            }
+            case "Familiar", "Throne" -> {
+              if (!"(none)".equals(name)) {
+                var id = FamiliarDatabase.getFamiliarId(name, false);
+                if (id < 0) {
+                  fail("unrecognised familiar " + name);
+                }
+              }
+            }
+            case "Thrall" -> {
+              var thrall = PastaThrallData.typeToData(name);
+              if (thrall == null) {
+                fail("unrecognised thrall " + name);
+              }
+            }
+            case "Outfit" -> {
+              var outfit =
+                  EquipmentDatabase.normalOutfits.values().stream()
+                      .anyMatch(x -> x.getName().equals(name));
+              if (!outfit) {
+                fail("unrecognised outfit " + name);
+              }
+            }
+            case "Sign" -> {
+              var sign = ZodiacSign.find(name);
+              if (sign == ZodiacSign.NONE) {
+                fail("unrecognised sign " + name);
+              }
+            }
+            case "Zone" -> {
+              var zone = AdventureDatabase.PARENT_LIST.stream().anyMatch(x -> x.equals(name));
+              if (!zone) {
+                fail("unrecognised zone " + name);
+              }
+            }
+            case "Loc" -> {
+              var loc = AdventureDatabase.validateAdventureArea(name);
+              if (!loc) {
+                fail("unrecognised location " + name);
+              }
+            }
+            case "Synergy", "MutexI" -> {
+              assertThat(name, containsString("/"));
+              for (var item : name.split("/")) {
+                var id = ItemDatabase.getExactItemId(item);
+                if (id < 0) {
+                  fail("unrecognised item " + item);
+                }
+              }
+            }
+            case "MutexE" -> {
+              assertThat(name, containsString("/"));
+              for (var effect : name.split("/")) {
+                var id = EffectDatabase.getEffectId(effect, true);
+                if (id < 0) {
+                  fail("unrecognised effect " + effect);
+                }
+              }
+            }
+            case "Florist" -> {
+              var flower = FloristRequest.Florist.getFlower(name);
+              if (flower == null) {
+                fail("unrecognised flower " + name);
+              }
+            }
+            case "Path" -> {
+              var path = AscensionPath.nameToPath(name);
+              if (path == Path.NONE) {
+                fail("unrecognised path " + name);
+              }
+            }
+            case "Class" -> {
+              var ascensionClass = AscensionClass.find(name);
+              if (ascensionClass == null) {
+                fail("unrecognised class " + name);
+              }
+            }
+            case "Motorbike",
+                "Snowsuit",
+                "Edpiece",
+                "Rumpus",
+                "Event",
+                "MaxCat",
+                "Horsery",
+                "BoomBox",
+                "RetroCape",
+                "BackupCamera",
+                "UnbreakableUmbrella",
+                "JurassicParka",
+                "LedCandle",
+                "Mask",
+                "Ensorcel",
+                "Robot",
+                "RobotTop",
+                "RobotRight",
+                "RobotBottom",
+                "RobotLeft",
+                "RobotCPU" -> {
+              // all fine
+            }
+            default -> fail("unrecognised identifier " + identifier);
+          }
+        }
+      } catch (IOException e) {
+        fail("Couldn't read from " + file);
+      }
+    }
+
+    @Test
+    void modifiersAreAllValid() {
+      var issues = ModifierDatabase.checkModifiers();
+      assertThat(issues, hasSize(0));
     }
   }
 }
