@@ -194,7 +194,8 @@ public class DebugDatabase {
     }
   }
 
-  private static final ItemMap UNKNOWN_ITEM_MAP = new ItemMap("Everything Else", ConsumptionType.UNKNOWN);
+  private static final ItemMap UNKNOWN_ITEM_MAP =
+      new ItemMap("Everything Else", ConsumptionType.UNKNOWN);
 
   private static final ItemMap[] ITEM_MAPS = {
     new ItemMap("Food", ConsumptionType.EAT),
@@ -214,7 +215,10 @@ public class DebugDatabase {
   };
 
   private static ItemMap findItemMap(final ConsumptionType type) {
-    return Arrays.stream(ITEM_MAPS).filter(m -> m.getType() == type).findFirst().orElse(UNKNOWN_ITEM_MAP);
+    return Arrays.stream(ITEM_MAPS)
+        .filter(m -> m.getType() == type)
+        .findFirst()
+        .orElse(UNKNOWN_ITEM_MAP);
   }
 
   public static void checkItems(final int itemId) {
