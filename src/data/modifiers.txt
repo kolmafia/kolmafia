@@ -118,8 +118,8 @@ Item	black cowboy hat	Muscle: +8, Weapon Damage: +8, Familiar Effect: "1xBarrr, 
 Item	black helmet	Maximum HP: +30, Familiar Effect: "1xFairy, cap 40"
 Item	blue traffic cone	Moxie: +3, Hot Resistance: +2, Last Available: "2006-03", Familiar Effect: "2xLep, 2xFairy, cap 15"
 Item	bonedanna	Spooky Resistance: +3, Weapon Damage: +20, Last Available: "2010-10", Familiar Effect: "atk, cap 30"
-Item	Boris's Helm	Initiative: +25, Weapon Damage Percent: +50, Familiar Weight: +5, Softcore Only: [1-path(Avatar of Boris)], Free Pull: [1-path(Avatar of Boris)], Last Available: "2012-04", MP Regen Min: [floor(L/2)+1], MP Regen Max: [floor(L/2)+3], Minstrel Level: +1, Familiar Effect: "atk, MP regen, cap 25"
-Item	Boris's Helm (askew)	Initiative: +25, Monster Level: +15, Weapon Damage Percent: +50, Familiar Weight: +5, Softcore Only: [1-path(Avatar of Boris)], Free Pull: [1-path(Avatar of Boris)], Last Available: "2012-04", MP Regen Min: [floor(L/2)+1], MP Regen Max: [floor(L/2)+3], Minstrel Level: +1, Familiar Effect: "atk, MP regen, cap 25"
+Item	Boris's Helm	Initiative: +25, Weapon Damage Percent: +50, Familiar Weight: +5, Softcore Only: [1-path(Avatar of Boris)], Free Pull: [path(Avatar of Boris)], Last Available: "2012-04", MP Regen Min: [floor(L/2)+1], MP Regen Max: [floor(L/2)+3], Minstrel Level: +1, Familiar Effect: "atk, MP regen, cap 25"
+Item	Boris's Helm (askew)	Initiative: +25, Monster Level: +15, Weapon Damage Percent: +50, Familiar Weight: +5, Softcore Only: [1-path(Avatar of Boris)], Free Pull: [path(Avatar of Boris)], Last Available: "2012-04", MP Regen Min: [floor(L/2)+1], MP Regen Max: [floor(L/2)+3], Minstrel Level: +1, Familiar Effect: "atk, MP regen, cap 25"
 Item	bounty-hunting helmet	Item Drop: +20, Familiar Effect: "1.5xFairy, cap 25"
 Item	bowler	Muscle: +5, Last Available: "2004-12", Familiar Effect: "1.5xVolley, 1.5xLep, cap 25"
 # brainwave-controlled unicorn horn: Enables Friendship.  And Goring.
@@ -1105,9 +1105,9 @@ Item	smooth velvet shirt	Disco Style: +1, Last Available: "2015-08"
 Item	snailmail hauberk	Damage Absorption: +60, HP Regen Min: 6, HP Regen Max: 14, MP Regen Min: 6, MP Regen Max: 14
 Item	snakeskin jacket	Moxie: +15, HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10, Last Available: "2018-11"
 # Sneaky Pete's leather jacket: The Audience Loves/Hates You Even More!
-Item	Sneaky Pete's leather jacket	Moxie: +10, Meat Drop: +20, Pickpocket Chance: +30, Adventures: +4, Softcore Only: [1-path(Avatar of Sneaky Pete)], Free Pull: [1-path(Avatar of Sneaky Pete)], Last Available: "2014-03"
+Item	Sneaky Pete's leather jacket	Moxie: +10, Meat Drop: +20, Pickpocket Chance: +30, Adventures: +4, Softcore Only: [1-path(Avatar of Sneaky Pete)], Free Pull: [path(Avatar of Sneaky Pete)], Last Available: "2014-03"
 # Sneaky Pete's leather jacket (collar popped): The Audience Loves/Hates You Even More!
-Item	Sneaky Pete's leather jacket (collar popped)	Moxie: +10, Initiative: +20, Monster Level: +30, PvP Fights: +4, Softcore Only: [1-path(Avatar of Sneaky Pete)], Free Pull: [1-path(Avatar of Sneaky Pete)], Last Available: "2014-03"
+Item	Sneaky Pete's leather jacket (collar popped)	Moxie: +10, Initiative: +20, Monster Level: +30, PvP Fights: +4, Softcore Only: [1-path(Avatar of Sneaky Pete)], Free Pull: [path(Avatar of Sneaky Pete)], Last Available: "2014-03"
 Item	soggy wofl t-shirt	Muscle: +3
 Item	souvenir ski t-shirt	Moxie: +5
 Item	spangly mariachi vest	Moxie Percent: +10, Initiative: -25
@@ -2448,10 +2448,10 @@ Item	iShield	Hot Resistance: +3, Damage Reduction: 16, Moxie Percent: +15
 Item	ivory cue ball	Item Drop: +5
 Item	jar of frostigkraut	Cold Damage: +10, Damage Aura: 1
 # Jarlsberg's pan: +1 Food Conjuration for Jarlsberg
-Item	Jarlsberg's pan	Spell Damage Percent: +50, MP Regen Min: 8, MP Regen Max: 10, Food Drop: +50, Experience (Mysticality): +2, Damage Reduction: 30, Softcore Only: [1-path(Avatar of Jarlsberg)], Free Pull: [1-path(Avatar of Jarlsberg)], Last Available: "2013-03"
+Item	Jarlsberg's pan	Spell Damage Percent: +50, MP Regen Min: 8, MP Regen Max: 10, Food Drop: +50, Experience (Mysticality): +2, Damage Reduction: 30, Softcore Only: [1-path(Avatar of Jarlsberg)], Free Pull: [path(Avatar of Jarlsberg)], Last Available: "2013-03"
 # Jarlsberg's pan (Cosmic portal mode): +1 Food Conjuration for Jarlsberg
 # Jarlsberg's pan (Cosmic portal mode): Converts dropped food and booze into Cosmic Calories
-Item	Jarlsberg's pan (Cosmic portal mode)	Spell Damage Percent: +50, MP Regen Min: 8, MP Regen Max: 10, Food Drop: +50, Experience (Mysticality): +2, Damage Reduction: 30, Softcore Only: [1-path(Avatar of Jarlsberg)], Free Pull: [1-path(Avatar of Jarlsberg)], Last Available: "2013-03"
+Item	Jarlsberg's pan (Cosmic portal mode)	Spell Damage Percent: +50, MP Regen Min: 8, MP Regen Max: 10, Food Drop: +50, Experience (Mysticality): +2, Damage Reduction: 30, Softcore Only: [1-path(Avatar of Jarlsberg)], Free Pull: [path(Avatar of Jarlsberg)], Last Available: "2013-03"
 Item	jet bennie marble	Spooky Spell Damage: +55
 # joybuzzer: Grants &quot;Shake Hands&quot; Combat Skill
 # joybuzzer: (31-50 damage per successful handshake)
@@ -3904,8 +3904,7 @@ Item	time halo	Adventures: +5, Unarmed, Single Equip, Last Available: "2011-09"
 Item	Time Lord Badge of Honor	Muscle Limit: 50, Mysticality Limit: 50, Moxie Limit: 50
 # time-twitching toolbelt: Reveals various Time-Forgotten Secrets
 # time-twitching toolbelt: (also in the Time-Twitching Tower)
-# time-twitching toolbelt	Muscle: +15, Mysticality: +15, Moxie: +15, Single Equip, Item Drop: [60*zone(Twitch)], Free Pull: [pref(timeTowerAvailable,true)]
-Item	time-twitching toolbelt	Muscle: +15, Mysticality: +15, Moxie: +15, Item Drop: [60*zone(Twitch)], Single Equip
+Item	time-twitching toolbelt	Muscle: +15, Mysticality: +15, Moxie: +15, Item Drop: [60*zone(Twitch)], Single Equip, Free Pull: [pref(timeTowerAvailable,true)]
 Item	tin star	Monster Level: +5, Moxie: +3, Last Available: "2007-05"
 Item	tiny die-cast arc-welding Elfborg	Meat Drop: +10, Last Available: "2013-12"
 Item	tiny die-cast Bashful the Reindeer	Sleaze Damage: +1, Last Available: "2013-12"

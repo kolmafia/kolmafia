@@ -78,6 +78,7 @@ public class ModifierDatabase {
   // constant fields
 
   public static final String EXPR = "(?:([-+]?[\\d.]+)|\\[([^]]+)\\])";
+  public static final String BOOLEAN_EXPR = "(?:: \\[([^]]+)])?";
 
   private static final Pattern FAMILIAR_EFFECT_PATTERN =
       Pattern.compile("Familiar Effect: \"(.*?)\"");
@@ -680,7 +681,12 @@ public class ModifierDatabase {
           continue;
         }
 
-        newMods.setBoolean(mod, true);
+        if (matcher.groupCount() == 0 || matcher.group(1) == null) {
+          newMods.setBoolean(mod, true);
+        } else {
+          newMods.addExpression(
+              new Indexed<>(mod, ModifierExpression.getInstance(matcher.group(1), lookup)));
+        }
         continue modLoop;
       }
 
