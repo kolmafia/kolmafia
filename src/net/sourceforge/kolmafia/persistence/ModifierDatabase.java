@@ -823,7 +823,7 @@ public class ModifierDatabase {
   }
 
   private static final Pattern LAST_AVAILABLE_PATTERN =
-      Pattern.compile("<!-- Last Available Date: (\\d{4}-\\d{2}) -->");
+      Pattern.compile("<![-—]+ Last Available Date: (\\d{4}-\\d{2}) [-—]+>");
 
   public static String parseLastAvailable(final String text) {
     var matcher = LAST_AVAILABLE_PATTERN.matcher(text);
