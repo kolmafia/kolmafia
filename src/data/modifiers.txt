@@ -543,8 +543,7 @@ Item	Tropical Crimbo Hat	Spooky Resistance: +1, Last Available: "2006-12", Famil
 Item	turtle wax helmet	Hot Resistance: +1, Familiar Effect: "0.5xPotato, 0.5xFairy, cap 10"
 Item	turtlemail coif	Muscle: +5, Damage Reduction: 4, Familiar Effect: "1xPotato, cap 20"
 Item	two-gallon hat	Muscle: +2, Mysticality: +2, Moxie: +2, Experience: +3
-Item	Uncle Crimbo's hat	Adventures: +4, Rollover Effect: "The Spirit of Crimbo", Rollover Effect Duration: 100, Rollover Effect: "Crimbo Nostalgia", Rollover Effect Duration: 100
-Item	Uncle Crimbo's hat	Adventures: +4, Rollover Effect: "The Spirit of Crimbo", Rollover Effect Duration: 200, Last Available: "2016-12", Rollover Effect: "Crimbo Nostalgia", Rollover Effect Duration: 100
+Item	Uncle Crimbo's hat	Adventures: +4, Rollover Effect: "The Spirit of Crimbo", Rollover Effect Duration: 100, Rollover Effect: "Crimbo Nostalgia", Rollover Effect Duration: 100, Last Available: "2016-12"
 Item	Uncle Hobo's stocking cap	Mysticality Percent: +20, Monster Level: +20, Last Available: "2010-12", Familiar Effect: "atk"
 Item	Unfortunato's foolscap	Spooky Damage: +10, Stench Damage: +10, Hot Damage: +10, Cold Damage: +10, Sleaze Damage: +10, Mysticality Percent: +10, Mana Cost (combat): -2, Last Available: "2016-08"
 Item	Unkillable Skeleton's skullcap	Muscle Percent: +50, Maximum HP: +500, HP Regen Min: 40, HP Regen Max: 80, Class: "Turtle Tamer", Familiar Effect: "1xPotato, 1xFairy"
@@ -2297,7 +2296,6 @@ Item	crumbling rabbit's foot	Meat Drop: +30, Last Available: "2020-04"
 Item	cuddly teddy bear	Monster Level: +10, Last Available: "2014-10"
 Item	cup of infinite pencils	Meat Drop: +15, Damage Aura: 1
 Item	cursed arcane orb	Spooky Damage: +13, Stench Damage: +13, Hot Damage: +13, Cold Damage: +13, Sleaze Damage: +13, Item Drop: -50
-Item	cursed compass	Item Drop: [100*zone(PirateRealm)], Lasts Until Rollover
 Item	cursed compass	Lasts Until Rollover, Last Available: "2019-04", Item Drop: [100*zone(PirateRealm)]
 # cursed magnifying glass: Reveals things you weren't meant to see
 Item	cursed magnifying glass	Item Drop: +13, Spooky Damage: +13, Initiative: +13, Last Available: "2022-12"
@@ -3141,7 +3139,6 @@ Item	eerie fetish	Spooky Resistance: +4, Single Equip
 Item	Eight Days a Week Pill Keeper	Maximum HP: +20, HP Regen Min: 10, HP Regen Max: 15, MP Regen Min: 10, MP Regen Max: 15, Muscle: +10, Mysticality: +10, Moxie: +10, Last Available: "2019-10", Avoid Attack: 1
 # El Vibrato translator
 Item	elevennis shoes	Muscle: +11, Mysticality: +11, Moxie: +11, Maximum HP: +11, Maximum MP: +11, Last Available: "2014-03"
-Item	Elf Guard commandeering gloves	Item Drop: +3, Piece of Twelve Drop: 0.5, Single Equip
 Item	Elf Guard commandeering gloves	Item Drop: +3, Single Equip, Last Available: "2023-12", Piece of Twelve Drop: 0.5
 Item	Elf Guard insignia (general)	Elf Warfare Effectiveness: +10, Adventures: +9, Single Equip, Last Available: "2023-12"
 Item	Elf Guard insignia (private)	Elf Warfare Effectiveness: +1, Last Available: "2023-12"
@@ -3574,7 +3571,6 @@ Item	perfect Christmas scarf	Adventures: [+9*event(December)], Cold Resistance: 
 Item	perfume-soaked bandana	Spooky Resistance: +2, Stench Resistance: +4, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Single Equip, Last Available: "2015-04"
 # Personal Ventilation Unit: Allows Safe Access to Secret Government Lab
 Item	Personal Ventilation Unit	Muscle Limit: 100, Mysticality Limit: 100, Moxie Limit: 100, Single Equip, Last Available: "2014-10"
-Item	petrified wood waist protector	Experience (Muscle): +3, Adventures: +5, Avoid Attack: 1, Single Equip
 Item	petrified wood waist protector	Experience (Muscle): +3, Adventures: +5, Single Equip, Last Available: "2025-12", Avoid Attack: 1
 # petrified wood wizard's pouch: Adds hot and physical damage to spells
 Item	petrified wood wizard's pouch	Mysticality Percent: +20, Item Drop: +10, Single Equip, Last Available: "2025-12"
@@ -5439,15 +5435,16 @@ Item	Alice's Army Foil Wallman	Last Available: "2011-03", Damage Reduction: 9
 # Folder section of modifiers.txt
 
 # folder (barbarian): Increased physical damage as you take damage
+Item	folder (barbarian)	Last Available: "2013-08"
 Item	folder (blue)	Mysticality: +20, Last Available: "2013-08"
-Item	folder (catfish)	Familiar Weight (hidden): [15*env(underwater)]
+Item	folder (catfish)	Last Available: "2013-08", Familiar Weight (hidden): [15*env(underwater)]
 Item	folder (cyan)	Mysticality: +15, Moxie: +15, Last Available: "2013-08"
 Item	folder (D-Team)	Last Available: "2013-08", Experience (Muscle): +1, Experience (Mysticality): +1, Experience (Moxie): +1
 Item	folder (dancing dolphins)	Last Available: "2013-08", Item Drop: [50*env(underwater)]
 Item	folder (Ex-Files)	Combat Rate: +5, Last Available: "2013-08"
 Item	folder (green)	Moxie: +20, Last Available: "2013-08"
 Item	folder (heavy metal)	Familiar Weight: +5, Last Available: "2013-08"
-Item	folder (holographic fractal)	Cold Resistance: +4, Hot Resistance: +4, Sleaze Resistance: +4, Spooky Resistance: +4, Stench Resistance: +4
+Item	folder (holographic fractal)	Spooky Resistance: +4, Stench Resistance: +4, Hot Resistance: +4, Cold Resistance: +4, Sleaze Resistance: +4, Last Available: "2013-08"
 Item	folder (Jackass Plumber)	Monster Level: +25, Last Available: "2013-08"
 Item	folder (Knight Writer)	Initiative: +40, Last Available: "2013-08"
 Item	folder (KOLHS)	Last Available: "2013-08", Item Drop: [50*zone(KOL High School)]
@@ -10333,8 +10330,7 @@ Item	Rompedores de Fantasmas	Effect: "Desenfantasmada", Effect Duration: 13
 Item	runny fermented egg	Last Available: "2018-12"
 # Russian Ice: Weakens enemies somewhat when used as a combat item
 Item	Russian Ice	Last Available: "2011-04"
-Item	Sacramento wine	Effect: "Sacr&eacute; Mental", Effect Duration: 50
-Item	Sacramento wine	Effect: "Sacré Mental", Effect Duration: 50, Last Available: "2016-03"
+Item	Sacramento wine	Effect: "Sacr&eacute; Mental", Effect Duration: 50, Last Available: "2016-03"
 Item	Saison du Lune	Last Available: "2011-06"
 Item	salacious lychee chuhai	Effect: "Brined Liver", Effect Duration: 30
 Item	salacious screwdiver	Effect: "Brined Liver", Effect Duration: 30
@@ -13071,9 +13067,6 @@ Item	floaty stone sphere	Free Pull, Last Available: "2009-09"
 # floorboard cruft: Weakens Enemies Somewhat
 Item	Fly-By-Knight Heraldry form	Free Pull
 Item	foam dart	Last Available: "2008-04"
-Item	folder (barbarian)	Last Available: "2013-08"
-Item	folder (catfish)	Familiar Weight: +15, Last Available: "2013-08", Familiar Weight (hidden): [15*env(underwater)]
-Item	folder (holographic fractal)	Spooky Resistance: +4, Stench Resistance: +4, Hot Resistance: +4, Cold Resistance: +4, Sleaze Resistance: +4, Last Available: "2013-08"
 Item	Folder Holder	Last Available: "2013-08"
 # food mailing list: Unlocks another row of houses for Crimbo activities
 Item	food mailing list	Last Available: "2020-12"
