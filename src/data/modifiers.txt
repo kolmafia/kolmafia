@@ -3571,8 +3571,7 @@ Item	Pendant of Fire	Muscle: +3, Mysticality: +3, Moxie: +3, Hot Spell Damage: +
 Item	Pendant of Gargalesis	MP Regen Min: 6, MP Regen Max: 10
 Item	peppermint-scented socks	MP Regen Min: 8, MP Regen Max: 16, Last Available: "2021-12"
 Item	perfect Christmas scarf	Adventures: [+9*event(December)], Cold Resistance: [+7*event(December)], HP Regen Min: [4*event(December)], HP Regen Max: [6*event(December)], MP Regen Min: [4*event(December)], MP Regen Max: [6*event(December)], Single Equip, Last Available: "2024-12"
-Item	perfume-soaked bandana	Spooky Resistance: +2, Stench Resistance: 4, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Single Equip, Last Available: "2015-04"
-Item	perfume-soaked bandana	Stench Resistance: +4, Spooky Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Single Equip
+Item	perfume-soaked bandana	Spooky Resistance: +2, Stench Resistance: +4, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Single Equip, Last Available: "2015-04"
 # Personal Ventilation Unit: Allows Safe Access to Secret Government Lab
 Item	Personal Ventilation Unit	Muscle Limit: 100, Mysticality Limit: 100, Moxie Limit: 100, Single Equip, Last Available: "2014-10"
 Item	petrified wood waist protector	Experience (Muscle): +3, Adventures: +5, Avoid Attack: 1, Single Equip
@@ -3855,7 +3854,6 @@ Item	steel knuckles	Last Available: "2016-02"
 Item	stick-on eyebrow piercing	Muscle: +1, Last Available: "2008-04"
 Item	sticky gloves	Pickpocket Chance: +20, Single Equip, Last Available: "2011-05"
 Item	stinky cheese eye	Item Drop: [max(1,min(20,floor(pref(_stinkyCheeseCount)/5)))], Softcore Only, Last Available: "2010-01", Meat Drop: [max(1,min(20,floor(pref(_stinkyCheeseCount)/5)))]
-Item	stinky cheese eye	Softcore Only, Meat Drop: [max(1,min(20,floor(pref(_stinkyCheeseCount)/5)))], Item Drop: [max(1,min(20,floor(pref(_stinkyCheeseCount)/5)))]
 # stinky fannypack: +40% Item Drops while on Vacation
 # stinky fannypack: (in any Elemental Airport area)
 Item	stinky fannypack	Stench Damage: +25, Stench Spell Damage: +25, Last Available: "2015-04", Item Drop: [40*zone(Elemental International Airport)]
@@ -4420,8 +4418,7 @@ Item	spant backplate	Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent:
 Item	spiky back shell	Thorns: 1
 Item	stained glass serape	Experience (Moxie): +3, Sleaze Resistance: +3, Sleaze Damage: +5, Last Available: "2021-12"
 Item	super-absorbent tarp	Maximum Hooch: +2
-Item	T&Icirc;&curren;&loz;lisman of Bai&oslash;&Dagger;	Combat Rate: 0, Last Available: "2010-04", Wiki Name: "Bugged baio"
-Item	T&Icirc;&curren;&loz;lisman of Bai&oslash;&Dagger;	Wiki Name: "Bugged baio"
+Item	T&Icirc;&curren;&loz;lisman of Bai&oslash;&Dagger;	Wiki Name: "Bugged baio", Last Available: "2010-04"
 Item	teddybear backpack	Meat Drop: +10, Raveosity: +1
 # terra cotta train: Lets you unleash a terra cotta army on your foes
 Item	terra cotta train	Mysticality Percent: +20, Item Drop: +10, Last Available: "2020-12"
@@ -5483,7 +5480,7 @@ Item	nicksilver spurs	Last Available: "2016-02", Item Drop: +20
 Item	quicksilver spurs	Initiative: +30, Last Available: "2016-02"
 # sicksilver spurs: Adds Stench Damage to kicks with your cowboy boots
 # slicksilver spurs: Adds Sleaze Damage to kicks with your cowboy boots
-Item	thicksilver spurs	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2
+Item	thicksilver spurs	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Last Available: "2016-02"
 Item	ticksilver spurs	Last Available: "2016-02", Adventures: +5
 # wicksilver spurs: Adds Hot Damage to kicks with your cowboy boots
 
@@ -9302,7 +9299,7 @@ Event	April Fool's Day	Alters Page Text
 # -100% is the most common penalty in The Sea; use it as the default
 
 Zone	The Sea	Initiative Penalty: -100, Item Drop Penalty: -100, Meat Drop Penalty: -100
-Zone	Shadow Rift	Item Drop: [-0.8*mod(Item Drop))
+Zone	Shadow Rift	Item Drop: [-0.8*mod(Item Drop)]
 Zone	Suburbs	Alters Page Text
 
 # Location-specific section of modifiers.txt
@@ -9975,11 +9972,10 @@ Item	AutumnFest ale	Last Available: "2022-10"
 Item	Aye Aye	Effect: "Arresistible", Effect Duration: 5, Last Available: "2012-03"
 Item	Aye Aye, Captain	Effect: "Arresistible", Effect Duration: 10, Last Available: "2012-03"
 Item	Aye Aye, Tooth Tooth	Effect: "Arresistible", Effect Duration: 15, Last Available: "2012-03"
-Item	bad rum and good cola	Effect: "Faerie Fortune", Effect Duration: 30, Last Available: "2018-04"
 # *** KoL bug: bad rum and good cola grants Faerie Fortune, no item grants Fanatical Fortune.
 # *** Bug reported and acknowledged. bad rum and good cola DOES give Fanatical Fortune, but
 # *** the description is wrong for unknown reasons. Maybe the description will eventually be fixed..
-Item	bad rum and good cola	Effect: "Fanatical Fortune", Effect Duration: 30
+Item	bad rum and good cola	Effect: "Faerie Fortune", Effect Duration: 30, Last Available: "2018-04"
 Item	bark rootbeer	Effect: "Bark of the Dog", Effect Duration: 40, Last Available: "2015-12"
 Item	barrel-aged eggnog	Last Available: "2020-12"
 Item	barrel-aged martini	Effect: "Just Aged Enough", Effect Duration: 50, Last Available: "2015-09"
@@ -14986,7 +14982,6 @@ Item	They'll Love You In Rhinestones	Skill: "Acquire Rhinestones", Last Availabl
 # thick walrus blubber: Weakens foes
 # thick walrus blubber: (much more effective in the Canadian Wildlife Preserve)
 Item	thick walrus blubber	Last Available: "2018-12"
-Item	thicksilver spurs	Spooky Resistance: , Stench Resistance: , Hot Resistance: , Cold Resistance: , Sleaze Resistance: , Last Available: "2016-02"
 Item	thin gold wire	Last Available: "2015-08"
 Item	Thinknerd T-shirt grab bag	Last Available: "2012-12"
 Item	Thinknerd's Grimoire of Geeky Gifts	Free Pull, Last Available: "2012-12", Skill: "Summon Geeky Gifts"

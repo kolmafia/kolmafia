@@ -1448,6 +1448,9 @@ public class ModifierDatabase {
           if (type == ModifierType.FAM_EQ) {
             continue; // these may contain freeform text
           }
+          if (type == ModifierType.THRONE && mod.isEmpty()) {
+            continue; // these may be empty during spading
+          }
           RequestLogger.printLine(
               "Key \"" + type + ":" + key + "\" has unknown modifier: \"" + mod + "\"");
         }
