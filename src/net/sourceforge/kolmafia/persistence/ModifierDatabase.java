@@ -1416,7 +1416,8 @@ public class ModifierDatabase {
 
   // region: verify modifiers.txt
 
-  public static final void checkModifiers() {
+  public static final ArrayList<String> checkModifiers() {
+    var issues = new ArrayList<String>();
     for (Entry<ModifierType, Map<IntOrString, String>> typeEntry :
         modifierStringsByName.entrySet()) {
       ModifierType type = typeEntry.getKey();
@@ -1425,7 +1426,9 @@ public class ModifierDatabase {
         String modifierString = entry.getValue();
 
         if (modifierString == null) {
-          RequestLogger.printLine("Key \"" + type + ":" + key + "\" has no modifiers");
+          var issue = "Key \"" + type + ":" + key + "\" has no modifiers";
+          RequestLogger.printLine(issue);
+          issues.add(issue);
           continue;
         }
 
@@ -1457,11 +1460,14 @@ public class ModifierDatabase {
           if (type == ModifierType.THRONE && mod.isEmpty()) {
             continue; // these may be empty during spading
           }
-          RequestLogger.printLine(
-              "Key \"" + type + ":" + key + "\" has unknown modifier: \"" + mod + "\"");
+          var issue = "Key \"" + type + ":" + key + "\" has unknown modifier: \"" + mod + "\"";
+          issues.add(issue);
+          RequestLogger.printLine(issue);
         }
       }
     }
+
+    return issues;
   }
 
   // region: initial load of modifiers.txt
