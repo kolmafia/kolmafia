@@ -252,6 +252,7 @@ user	availableQuarters	0
 user	availableSeptEmbers	0
 user	availableStoreCredits	0
 user	availableSwagger	0
+user	avantGuardPoints	0
 user	averageSwagger	0
 user	awolMedicine	0	roa
 user	awolPointsBeanslinger	0
