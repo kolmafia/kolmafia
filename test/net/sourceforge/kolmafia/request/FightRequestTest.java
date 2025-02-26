@@ -3025,10 +3025,10 @@ public class FightRequestTest {
     @Test
     void recordsBonusApplied() {
       var cleanups =
-        new Cleanups(
-          withProperty("burlyBodyguardReceivedBonus", false),
-          withFamiliar(FamiliarPool.BURLY_BODYGUARD),
-          withFight());
+          new Cleanups(
+              withProperty("burlyBodyguardReceivedBonus", false),
+              withFamiliar(FamiliarPool.BURLY_BODYGUARD),
+              withFight());
       try (cleanups) {
         parseCombatData("request/test_fight_burly_bodyguard_bonus.html");
         assertThat("burlyBodyguardReceivedBonus", isSetTo(true));
@@ -3036,14 +3036,14 @@ public class FightRequestTest {
     }
 
     @ParameterizedTest
-    @ValueSource(ints = { 0, 6, 11 })
+    @ValueSource(ints = {0, 6, 11})
     void addsExperienceFromBonus(final int points) {
       var cleanups =
-        new Cleanups(
-          withProperty("avantGuardPoints", points),
-          withProperty("burlyBodyguardReceivedBonus", false),
-          withFamiliar(FamiliarPool.BURLY_BODYGUARD, 0),
-          withFight());
+          new Cleanups(
+              withProperty("avantGuardPoints", points),
+              withProperty("burlyBodyguardReceivedBonus", false),
+              withFamiliar(FamiliarPool.BURLY_BODYGUARD, 0),
+              withFight());
       try (cleanups) {
         parseCombatData("request/test_fight_burly_bodyguard_bonus.html");
         var fam = KoLCharacter.getEffectiveFamiliar();
