@@ -213,6 +213,7 @@ public class CharPaneRequest extends GenericRequest {
 
     CharPaneRequest.parseAvatar(responseText);
     CharPaneRequest.parseTitle(responseText);
+    CharPaneRequest.parseLevel(responseText);
 
     if (KoLCharacter.inDisguise()) {
       CharPaneRequest.checkMask(responseText);
@@ -351,6 +352,19 @@ public class CharPaneRequest extends GenericRequest {
     Matcher titleMatcher = CharPaneRequest.TITLE_PATTERN.matcher(responseText);
     if (titleMatcher.find()) {
       KoLCharacter.setTitle(titleMatcher.group("title"));
+    }
+  }
+
+  // href="charsheet.php"><b>gausie</b></a><br>NO PEEKING<br>(Level 255)<table
+  // href="charsheet.php">gausie</a></b><br>Lvl. 255<table
+
+  public static final Pattern LEVEL_PATTERN =
+      Pattern.compile("(?:\\(Level |Lvl. )(\\d+)\\)?<table");
+
+  public static void parseLevel(final String responseText) {
+    Matcher levelMatcher = CharPaneRequest.LEVEL_PATTERN.matcher(responseText);
+    if (levelMatcher.find()) {
+      KoLCharacter.setLevel(Integer.valueOf(levelMatcher.group(1)));
     }
   }
 
