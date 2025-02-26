@@ -355,9 +355,8 @@ public class CharPaneRequest extends GenericRequest {
     }
   }
 
-  // <a class=nounder target=mainpane href="charsheet.php"><b>gausie</b></a><br>NO PEEKING<br>(Level
-  // 255)<table
-  // <a class=nounder target=mainpane href="charsheet.php">gausie</a></b><br>Lvl. 255<table
+  // href="charsheet.php"><b>gausie</b></a><br>NO PEEKING<br>(Level 255)<table
+  // href="charsheet.php">gausie</a></b><br>Lvl. 255<table
 
   public static final Pattern LEVEL_PATTERN =
       Pattern.compile("(?:\\(Level |Lvl. )(\\d+)\\)?<table");
