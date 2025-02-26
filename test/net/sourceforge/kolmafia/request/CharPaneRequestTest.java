@@ -74,6 +74,23 @@ class CharPaneRequestTest {
     assertThat(KoLCharacter.getTitle(), is("NO PEEKING"));
   }
 
+  @Nested
+  class Level {
+    @Test
+    void canFindBasicLevel() {
+      KoLCharacter.setLevel(0);
+      CharPaneRequest.processResults(html("request/test_charpane_basic.html"));
+      assertThat(KoLCharacter.getLevel(), is(255));
+    }
+
+    @Test
+    void canFindCompactLevel() {
+      KoLCharacter.setLevel(0);
+      CharPaneRequest.processResults(html("request/test_charpane_compact.html"));
+      assertThat(KoLCharacter.getLevel(), is(255));
+    }
+  }
+
   @Test
   void canParseSnowsuit() {
     var cleanups = new Cleanups(withProperty("snowsuit", ""));
