@@ -2972,6 +2972,13 @@ public class FightRequest extends GenericRequest {
           Preferences.increment("_turkeyMoxie");
         }
       }
+      case FamiliarPool.BURLY_BODYGUARD -> {
+        if (responseText.contains("remembers some ancestral bodyguard skills")) {
+          Preferences.setBoolean("burlyBodyguardReceivedBonus", true);
+          var exp = (int) Math.pow(Preferences.getInteger("avantGuardPoints"), 2.0);
+          familiar.addNonCombatExperience(exp);
+        }
+      }
       case FamiliarPool.PEACE_TURKEY -> {
         if (responseText.contains("Uncharacteristically violent")) {
           Preferences.setInteger("peaceTurkeyIndex", 1);

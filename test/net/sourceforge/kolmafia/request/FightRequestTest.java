@@ -2977,7 +2977,7 @@ public class FightRequestTest {
   }
 
   @Nested
-  class BodyguardChat {
+  class BurlyBodyguard {
     @ParameterizedTest
     @CsvSource({
       "request/test_fight_win.html",
@@ -3019,6 +3019,35 @@ public class FightRequestTest {
               withFight(0))) {
         parseCombatData("request/test_fight_bodyguard_pwa.html");
         assertThat("bodyguardChatMonster", isSetTo(""));
+      }
+    }
+
+    @Test
+    void recordsBonusApplied() {
+      var cleanups =
+          new Cleanups(
+              withProperty("burlyBodyguardReceivedBonus", false),
+              withFamiliar(FamiliarPool.BURLY_BODYGUARD),
+              withFight());
+      try (cleanups) {
+        parseCombatData("request/test_fight_burly_bodyguard_bonus.html");
+        assertThat("burlyBodyguardReceivedBonus", isSetTo(true));
+      }
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {0, 6, 11})
+    void addsExperienceFromBonus(final int points) {
+      var cleanups =
+          new Cleanups(
+              withProperty("avantGuardPoints", points),
+              withProperty("burlyBodyguardReceivedBonus", false),
+              withFamiliar(FamiliarPool.BURLY_BODYGUARD, 0),
+              withFight());
+      try (cleanups) {
+        parseCombatData("request/test_fight_burly_bodyguard_bonus.html");
+        var fam = KoLCharacter.getEffectiveFamiliar();
+        assertThat(fam.getTotalExperience(), is((int) Math.pow(points, 2) + 1));
       }
     }
   }
