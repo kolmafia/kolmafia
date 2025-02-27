@@ -453,7 +453,9 @@ public class MallSearchRequest extends GenericRequest {
           previousItemId = itemId;
           this.addNPCStoreItem(itemId);
           this.addCoinMasterItem(itemId);
-          itemNames.remove(itemName);
+          // itemName is a data name
+          // itemNames contains canonicalized names
+          itemNames.remove(StringUtilities.getCanonicalName(itemName));
         }
 
         // Only add mall store results if the NPC store option
