@@ -829,9 +829,9 @@
 828	bacon	infinite BACON machine	BACON (5,000)
 829	bacon	First Post shirt package	BACON (150,000)
 830	detective	detective roscoe	cop dollar (50)
-831
-832
-833
+831	detective	silver detective badge	bronze detective badge	detective roscoe	cop dollar (200)
+832	detective	bronze detective badge	plastic detective badge	detective roscoe	cop dollar (50)
+833	detective	gold detective badge	silver detective badge	detective roscoe	cop dollar (400)
 834	detective	shoe gum	cop dollar (10)
 835	detective	Falcon&trade; Maltese Liquor	cop dollar (4)
 836	detective	noir fedora	cop dollar (200)
