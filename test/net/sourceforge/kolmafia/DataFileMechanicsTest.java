@@ -47,7 +47,7 @@ public class DataFileMechanicsTest {
         Arguments.of("faxbots.txt", 1, 2, 2),
         // foldgroups.txt is too complex
         Arguments.of("fullness.txt", 2, 8, 9),
-        Arguments.of("inebriety.txt", 2, 8, 10),
+        Arguments.of("inebriety.txt", 2, 8, 9),
         Arguments.of("items.txt", 1, 7, 8),
         Arguments.of("journeyman.txt", 0, 4, 4),
         // modifiers.txt is too complex
