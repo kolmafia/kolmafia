@@ -1595,4 +1595,27 @@ public class ModifiersTest {
       KoLCharacter.removeFamiliar(familiar);
     }
   }
+
+  @Nested
+  class DoubleExpressions {
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
+    public void helmOnlyFreePullInAxecore(final boolean axecore) {
+      var cleanups = axecore ? withPath(Path.AVATAR_OF_BORIS) : new Cleanups();
+      try (cleanups) {
+        Modifiers mods = ModifierDatabase.getModifiers(ModifierType.ITEM, ItemPool.BORIS_HELM);
+        assertThat(mods.getBoolean(BooleanModifier.FREE_PULL), is(axecore));
+      }
+    }
+
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
+    public void helmOnlySoftcoreOnlyNotInAxecore(final boolean axecore) {
+      var cleanups = axecore ? withPath(Path.AVATAR_OF_BORIS) : new Cleanups();
+      try (cleanups) {
+        Modifiers mods = ModifierDatabase.getModifiers(ModifierType.ITEM, ItemPool.BORIS_HELM);
+        assertThat(mods.getBoolean(BooleanModifier.SOFTCORE), is(!axecore));
+      }
+    }
+  }
 }

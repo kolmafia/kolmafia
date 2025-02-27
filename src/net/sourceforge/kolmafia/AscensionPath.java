@@ -79,7 +79,7 @@ public class AscensionPath {
         4,
         15),
     ELEVEN_THINGS("11 Things I Hate About U", 51, false, "ihatesu", "an"),
-    AVANT_GUARD("Avant Guard", 52, false, "radshield", "an"),
+    AVANT_GUARD("Avant Guard", 52, false, "radshield", "an", "avantGuardPoints", 11, false),
     Z_IS_FOR_ZOOTOMIST(
         "Z is for Zootomist", 53, true, "zootomist", "a", "zootomistPoints", 100, false),
     // A "sign" rather than a "path" for some reason

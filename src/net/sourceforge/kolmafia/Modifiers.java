@@ -77,7 +77,7 @@ public class Modifiers {
   private final BooleanModifierCollection booleans = new BooleanModifierCollection();
   private final BitmapModifierCollection bitmaps = new BitmapModifierCollection();
   private final StringModifierCollection strings = new StringModifierCollection();
-  private ArrayList<Indexed<DoubleModifier, ModifierExpression>> expressions = null;
+  private ArrayList<Indexed<Modifier, ModifierExpression>> expressions = null;
   // These are used for Steely-Eyed Squint and so on
   private final DoubleModifierCollection accumulators = new DoubleModifierCollection();
 
@@ -812,8 +812,12 @@ public class Modifiers {
   // TODO: what does this do? what is expressions? Something to do with the [X] strings?
   public boolean override(final Lookup lookup) {
     if (this.expressions != null) {
-      for (Indexed<DoubleModifier, ModifierExpression> entry : this.expressions) {
-        this.setDouble(entry.index, entry.value.eval());
+      for (Indexed<Modifier, ModifierExpression> entry : this.expressions) {
+        if (entry.index instanceof DoubleModifier m) {
+          this.setDouble(m, entry.value.eval());
+        } else if (entry.index instanceof BooleanModifier m) {
+          this.setBoolean(m, entry.value.eval() != 0.0);
+        }
       }
     }
 
@@ -834,14 +838,14 @@ public class Modifiers {
     availableSkillsChanged = true;
   }
 
-  public void addExpression(Indexed<DoubleModifier, ModifierExpression> entry) {
+  public void addExpression(Indexed<Modifier, ModifierExpression> entry) {
     int index = -1;
 
     if (this.expressions == null) {
       this.expressions = new ArrayList<>();
     } else {
       for (int i = 0; i < this.expressions.size(); i++) {
-        Indexed<DoubleModifier, ModifierExpression> e = this.expressions.get(i);
+        Indexed<Modifier, ModifierExpression> e = this.expressions.get(i);
         if (e != null && e.index == entry.index) {
           index = i;
           break;

@@ -878,6 +878,11 @@ Internet Meme Shop	buy	5000	infinite BACON machine	ROW828
 
 # Things you can buy with cop dollars
 
+# These are conditionally available (must have previous lesser badge) and require a ShopRow coinmaster
+# Precinct Materiel Division	ROW832	bronze detective badge	plastic detective badge	detective roscoe	cop dollar (50)
+# Precinct Materiel Division	ROW831	silver detective badge	bronze detective badge	detective roscoe	cop dollar (200)
+# Precinct Materiel Division	ROW833	gold detective badge	silver detective badge	detective roscoe	cop dollar (400)
+
 Precinct Materiel Division	buy	4	hardboiled egg	ROW839
 Precinct Materiel Division	buy	4	Falcon&trade; Maltese Liquor	ROW835
 Precinct Materiel Division	buy	10	shoe gum	ROW834
