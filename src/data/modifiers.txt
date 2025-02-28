@@ -5121,10 +5121,10 @@ Throne	Choctopus	Maximum HP: 15, Maximum MP: 15, HP Regen Min: 3, HP Regen Max: 
 Throne	Clockwork Grapefruit	Moxie Percent: +15
 Throne	Cocoabo	Muscle: +10, Mysticality: +10, Moxie: +10, Drops Items
 Throne	Coffee Pixie	Meat Drop: +20, MP Regen Min: 5, MP Regen Max: 6
-Throne	Cold Cut	
+Throne	Cold Cut	Cold Damage: +33
 Throne	Comma Chameleon	none
 Throne	Cookbookbat	Food Drop: +50, Drops Items
-Throne	Cool Cucumber	
+Throne	Cool Cucumber	HP Regen Min: 15, HP Regen Max: 20
 Throne	Cornbeefadon	none
 Throne	Cotton Candy Carnie	Initiative: +20, Drops Items
 Throne	Crimbo Elf	Weapon Damage: +10, Drops Items
@@ -5136,8 +5136,8 @@ Throne	Cymbal-Playing Monkey	Experience (Moxie): +2
 Throne	Dancing Frog	Meat Drop: +20
 Throne	Dandy Lion	HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8
 Throne	Dataspider	MP Regen Min: 3, MP Regen Max: 5, Spell Damage Percent: +10
-Throne	Defective Childrens' Stapler	
-Throne	Dire Cassava	
+Throne	Defective Childrens' Stapler	Weapon Damage Percent: +20
+Throne	Dire Cassava	Damage Reduction: 11
 Throne	Disembodied Hand	none
 Throne	Disgeist	none
 Throne	Doll Moll	Meat Drop: +10
@@ -5157,7 +5157,7 @@ Throne	Fist Turkey	Weapon Damage: +20
 Throne	Flaming Face	Cold Resistance: +3
 Throne	Flaming Gravy Fairy	Hot Damage: +20, Drops Items
 Throne	Flaming Leafcutter Ant	Hot Damage: +5
-Throne	Foul Ball	
+Throne	Foul Ball	Stench Damage: +33
 Throne	Frozen Gravy Fairy	Cold Damage: +20, Drops Items
 Throne	Frumious Bandersnatch	Experience: +2
 Throne	Fuzzy Dice	Muscle: +10, Mysticality: +10, Moxie: +10
@@ -5169,7 +5169,7 @@ Throne	Ghost of Crimbo Cheer	Experience (Moxie): +2
 Throne	Ghost of Crimbo Commerce	Meat Drop: +20, Drops Meat
 Throne	Ghost Pickle on a Stick	Familiar Weight: +5, HP Regen Min: 8, HP Regen Max: 10
 Throne	Ghuol Whelp	HP Regen Min: 2, HP Regen Max: 8, MP Regen Min: 2, MP Regen Max: 8
-Throne	Glover	
+Throne	Glover	none
 Throne	Gluttonous Green Ghost	Food Drop: +15, Drops Items
 Throne	God Lobster	none
 Throne	Golden Monkey	Meat Drop: +25, Drops Items
@@ -5185,7 +5185,7 @@ Throne	Hand Turkey	Meat Drop: +20, Drops Meat
 Throne	Hanukkimbo Dreidl	Muscle: +10, Mysticality: +10, Moxie: +10
 Throne	Happy Medium	Meat Drop: +25, Drops Meat
 Throne	He-Boulder	Muscle: +10, Mysticality: +10, Moxie: +10, Drops Meat
-Throne	Heat Wave	
+Throne	Heat Wave	Hot Damage: +33
 Throne	Helix Fossil	none
 Throne	Hippo Ballerina	Meat Drop: +20
 Throne	Hobo in Sheep's Clothing	Experience: +3, Drops Items
@@ -5241,7 +5241,7 @@ Throne	Ninja Pirate Zombie Robot	Muscle: +10, Mysticality: +10, Moxie: +10, HP R
 Throne	Ninja Snowflake	Moxie Percent: +15, MP Regen Min: 5, MP Regen Max: 6
 Throne	Nosy Nose	Moxie Percent: 15
 Throne	O.A.F.	Muscle: -10, Mysticality: -10, Moxie: -10
-Throne	Observer	
+Throne	Observer	Item Drop: 10
 Throne	Obtuse Angel	Meat Drop: +20, MP Regen Min: 5, MP Regen Max: 6
 Throne	Oily Woim	Item Drop: +10, Drops Meat
 Throne	Optimistic Candle	Item Drop: +15, Drops Items, Variable
@@ -5258,7 +5258,7 @@ Throne	Pet Anchor	Damage Reduction: 10
 Throne	Pet Cheezling	Spell Damage Percent: +15, HP Regen Min: 5, HP Regen Max: 15, MP Regen Min: 2, MP Regen Max: 8
 Throne	Pet Coral	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Throne	Pet Rock	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
-Throne	Phantom Limb	
+Throne	Phantom Limb	Spooky Damage: +33
 Throne	Piano Cat	Meat Drop: +20, Drops Items
 Throne	Piranha Plant	MP Regen Min: 2, MP Regen Max: 3, Drops Items
 Throne	Pixel Rock	none
@@ -5290,7 +5290,7 @@ Throne	Rogue Program	Spell Damage Percent: +10
 Throne	Sabre-Toothed Lime	Moxie Percent: +15
 Throne	Sausage Golem	Sleaze Damage: +20
 Throne	Scary Death Orb	Mysticality Percent: +15, MP Regen Min: 5, MP Regen Max: 6
-Throne	Shame Spiral	
+Throne	Shame Spiral	none
 Throne	Shorter-Order Cook	Maximum HP: +20, Maximum MP: +20
 Throne	Significant Bit	none
 Throne	Sleazy Gravy Fairy	Sleaze Damage: +20, Drops Items
@@ -5339,7 +5339,7 @@ Throne	Wizard Action Figure	Spell Damage Percent: +10, MP Regen Min: 5, MP Regen
 Throne	Xiblaxian Holo-Companion	none
 Throne	XO Skeleton	Muscle: +10, Mysticality: +10, Moxie: +10
 Throne	Yule Hound	Candy Drop: +20, Drops Items
-Throne	Zapper Bug	
+Throne	Zapper Bug	MP Regen Min: 15, MP Regen Max: 20
 
 # Sneaky Pete's Motorbike section
 
