@@ -2551,7 +2551,8 @@ public class DebugDatabase {
 
         mismatch.compare("potion", ItemDatabase.isPotion(id), type.equals("potion"));
         mismatch.compare("craft", attrs.contains(Attribute.CRAFT), type.equals("craft"));
-        // we want to include some items that technically aren't curses as curses (e.g. candy hearts)
+        // we want to include some items that technically aren't curses as curses (e.g. candy
+        // hearts)
 
         mismatch.compare("gift", ItemDatabase.isGiftPackage(id), type.equals("gift"));
 
@@ -2567,6 +2568,25 @@ public class DebugDatabase {
 
         // itemclass
         var itemclass = entry.getString("itemclass");
+        if (food) {
+          mismatch.compare("beverage", ConsumablesDatabase.isBeverage(id), type.equals("drink"));
+          mismatch.compare("pizza", ConsumablesDatabase.isPizza(id), itemclass.equals("pizza"));
+          mismatch.compare("salad", ConsumablesDatabase.isSalad(id), itemclass.equals("salad"));
+          mismatch.compare(
+              "beans", ConsumablesDatabase.isBeans(id), itemclass.equals("plateofbeans"));
+        }
+        if (type.equals("booze")) {
+          mismatch.compare("beer", ConsumablesDatabase.isBeer(id), itemclass.equals("beer"));
+          mismatch.compare("wine", ConsumablesDatabase.isWine(id), itemclass.equals("wine"));
+        }
+        if (type.equals("offhand")) {
+          mismatch.compare("shield", EquipmentDatabase.isShield(id), itemclass.equals("shield"));
+        }
+        if (type.equals("weapon")) {
+          var weapon = EquipmentDatabase.getItemType(id);
+          weapon = weapon.equals("weapon") ? "" : weapon;
+          mismatch.compare("weapontype", weapon, itemclass);
+        }
 
         // multiple
         var multiple = entry.getBooleanValue("multiple");
