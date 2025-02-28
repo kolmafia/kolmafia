@@ -2545,13 +2545,13 @@ public class DebugDatabase {
         // mafia and kol's perception of "none" are too different for this check to be meaningful
         // TODO: determine how to compare use / usecombat / useboth
         var food = type.equals("food") || type.equals("drink");
-        mismatch.compare("food", ItemDatabase.isFood(id), food);
+        mismatch.compare("food", ItemDatabase.isFood(id) && id != ItemPool.GLITCH_ITEM, food);
         mismatch.compare("booze", ItemDatabase.isBooze(id), type.equals("booze"));
         mismatch.compare("spleen", ItemDatabase.isSpleen(id), type.equals("spleen"));
 
         mismatch.compare("potion", ItemDatabase.isPotion(id), type.equals("potion"));
         mismatch.compare("craft", attrs.contains(Attribute.CRAFT), type.equals("craft"));
-        mismatch.compare("curse", attrs.contains(Attribute.CURSE), type.equals("curse"));
+        // we want to include some items that technically aren't curses as curses (e.g. candy hearts)
 
         mismatch.compare("gift", ItemDatabase.isGiftPackage(id), type.equals("gift"));
 

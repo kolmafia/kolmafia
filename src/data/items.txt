@@ -2852,7 +2852,7 @@
 2824	Grimacite girdle	170497569	g2girdle.gif	accessory	t	0
 2825	Grimacite gown	528443762	g2gown.gif	shirt	t	0
 2826	Staff of the Kitchen Floor	716016442	chefstaff5.gif	weapon	d	25	Staves of the Kitchen Floor
-2827	anniversary gift box	277422118	pressie.gif	usable	g	0	anniversary gift boxes
+2827	anniversary gift box	277422118	pressie.gif	usable, package	g	0	anniversary gift boxes
 2828	loaded dice	448561043	dice.gif	none	q	0
 2829	really dense meat stack	714527088	meatstack.gif	none	t,d	5000
 2830	digital key lime	608726347	lime.gif	none, fancy, cook	t,d	98
@@ -4140,7 +4140,7 @@
 4112	bitter bowtie	604555910	futurebowtie.gif	accessory	d	250
 4113	bewitching boots	288369149	futureboots.gif	accessory	d	250	pairs of bewitching boots
 4114	secret from the future	502821529	futurebox.gif	usable		0	secrets from the future
-4115	moist sack	552855217	sack1.gif	usable	g	0
+4115	moist sack	552855217	sack1.gif	usable, package	g	0
 4116	rickety old unicycle	453371698	unicycle2.gif	accessory, combat	d	2000
 4117	crusty hula hoop	832063847	hulahoop.gif	accessory, combat	d	1600
 4118	Coily&trade;	998607445	coily.gif	weapon, combat	d	1200	Coilies&trade;
@@ -4430,7 +4430,7 @@
 4402	stinky cheese eye	548672093	sc_eye.gif	accessory, usable	t	0
 4403	Staff of Queso Escusado	399631690	sc_staff.gif	weapon, usable	t	0	Staves of Queso Escusado
 4404
-4405	foreign box	800942495	puzzlebox.gif	usable	g	0	foreign boxes
+4405	foreign box	800942495	puzzlebox.gif	usable, package	g	0	foreign boxes
 4406	The Art of Slapfighting	949615276	book4.gif	usable, paste	t	0	copies of the Art of Slapfighting
 4407	Uncle Romulus	478200390	book4.gif	usable, paste	t	0	copies of Uncle Romulus
 4408	A Beginner's Guide to Charming Snakes	245745289	book4.gif	usable, paste	t	0	copies of A Beginner's Guide to Charming Snakes
@@ -4954,7 +4954,7 @@
 4926	Loathing Legion universal screwdriver	837680142	llscrewdriver.gif	reusable		0
 4927	Loathing Legion jackhammer	769193415	lljackhammer.gif	none, reusable		0
 4928	Loathing Legion hammer	361576572	llhammer.gif	weapon, reusable		0
-4929	Uncle Crimbo's Sack	421141114	sack1.gif	usable		0
+4929	Uncle Crimbo's Sack	421141114	sack1.gif	usable, package		0
 4930	Folder Holder	281209058	folderholder.gif	usable	t	0
 4931
 4932
@@ -5459,7 +5459,7 @@
 5431	cinnamon troll doll	178314347	trolldoll.gif	none, combat reusable	t	0
 5432	grape troll doll	258398178	trolldoll.gif	none, combat reusable	t	0
 5433	blue raspberry troll doll	497420048	trolldoll.gif	none, combat reusable	t	0
-5434	DNOTC Box	639788880	pressie.gif	usable		0	DNOTC Boxes
+5434	DNOTC Box	639788880	pressie.gif	usable, package		0	DNOTC Boxes
 5435	fudgecule	800138400	fudgecule.gif	none, candy1	t	0
 5436	fudge lily	643283242	fudgelily.gif	potion	t	0	fudge lilies
 5437	superheated fudge	177390730	hotfudge.gif	none, cook	t	0	blasts of superheated fudge
@@ -6606,7 +6606,7 @@
 6578	sleaze clusterbomb	747352227	clusterbomb.gif	none, combat	t	0
 6579	Dreadsylvanian Almanac page	481489808	dv_recipe.gif	usable	t,d	3
 6580	length of old fuse	786902545	dv_oldfuse.gif	none, paste	t	0	lengths of old fuse
-6581	dreadful box	269247615	dreadbox.gif	usable		0	dreadful boxes
+6581	dreadful box	269247615	dreadbox.gif	usable, package		0	dreadful boxes
 6582	Clan hot dog stand	346032932	crate.gif	usable	t	0
 6583	vicious spiked collar	981852802	spikycollar.gif	familiar	t,d	75
 6584	ancient hot dog wrapper	111886283	wrapper.gif	offhand	t	0
@@ -11369,7 +11369,7 @@
 11341	inflammable leaf	169088498	al_leaf.gif	none		0	inflammable leaves
 11342	tiny rake	831675602	al_tinyrake.gif	familiar	q	0
 11343	rake	169376473	al_rake.gif	offhand	q	0
-11344	autumnic bomb	487664689	al_bomb.gif	potion, combat	t,d	100
+11344	autumnic bomb	487664689	al_bomb.gif	multiple, combat	t,d	100
 11345	forest canopy bed	549159252	al_bed.gif	usable	t,d	74
 11346	day shortener	235488166	al_dayshorter.gif	usable	t,d	123
 11347	extra time	172436016	al_daylonger.gif	usable	t,d	1
