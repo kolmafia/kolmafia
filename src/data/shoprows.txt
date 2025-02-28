@@ -34,7 +34,7 @@
 33	mystic	pixel hat	white pixel (10)	green pixel (15)
 34	mystic	pixel pants	black pixel (10)	red pixel (20)
 35	mystic	pixel sword	white pixel (20)	black pixel (10)	blue pixel (10)
-36
+36	mystic	digital key	white pixel (30)
 37	mystic	pixel boomerang	black pixel (10)	white pixel (10)	blue pixel (20)
 38	mystic	pixel whip	brown pixel (10)
 39	mystic	pixel pill	red pixel (20)	white pixel (20)
@@ -510,7 +510,7 @@
 509	unclep	fancy tuxedo pants	1,000,000 Meat
 510
 511	unclep	Clancy's crumhorn	2,500 Meat
-512
+512	unclep	Just a lump of inert eldritch matter	5,000,000 Meat
 513	knobdisp	Knob Goblin nasal spray	150 Meat
 514	knobdisp	Knob Goblin eyedrops	200 Meat
 515	knobdisp	Knob Goblin learning pill	300 Meat
@@ -615,7 +615,7 @@
 614	bartlebys	pirate tract	300 Meat
 615	bartlebys	The Big Book of Pirate Insults	500 Meat
 616	bartlebys	Massive Manual of Marauder Mockery	500 Meat
-617
+617	bartlebys	abridged dictionary	1,000 Meat
 618	whitecitadel	White Citadel fries	80 Meat
 619	whitecitadel	onion shurikens	80 Meat
 620	whitecitadel	Diet Cloaca Cola	80 Meat
@@ -935,8 +935,8 @@
 934	armory	bakelite brooch	wrought-iron flakes
 935	armory	bakelite breeches	wrought-iron flakes
 936	armory	bakelite backpack	wrought-iron flakes
-937
-938
+937	armory	eldritch scanner	50,000 Meat
+938	generalstore	eldritch alignment spray	1,000 Meat
 939	spant	spants	spant chitin (7)	spant tendon (3)
 940	spant	spant shield	spant chitin (6)	spant tendon (4)
 941	spant	spant shoulderpads	spant chitin (3)	spant tendon (7)
@@ -977,7 +977,7 @@
 976	crimbo17	The Journal of Mime Science Vol. 4	crystalline cheer (1,000)
 977	crimbo17	The Journal of Mime Science Vol. 5	crystalline cheer (1,000)
 978	crimbo17	The Journal of Mime Science Vol. 6	crystalline cheer (1,000)
-979
+979	crimbo17	warehouse key	crystalline cheer (100)
 980	armory	aerogel anvil	gabardine smithereens
 981	armory	aerogel akubra	gabardine smithereens
 982	armory	aerogel apron	gabardine smithereens
@@ -1412,7 +1412,7 @@
 1411	crimbo23_elf_armory	Elf Guard honor present	Elf Army machine parts (200)
 1412	crimbo23_elf_armory	Elf Army machine parts (3)	Elf Guard commandeering gloves
 1413	crimbo23_elf_armory	Elf Army machine parts (3)	Elf Guard officer's sidearm
-1414
+1414	crimbo23_elf_armory	Elf Army machine parts (3)	Elf Guard broom
 1415	crimbo23_elf_armory	Elf Army machine parts (3)	Kelflar vest
 1416	crimbo23_elf_armory	Elf Army machine parts (3)	Elf Guard mouthknife
 1417	crimbo23_pirate_armory	Crimbuccaneer premium booty sack	Crimbuccaneer flotsam (200)
