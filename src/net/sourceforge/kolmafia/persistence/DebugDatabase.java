@@ -2530,16 +2530,17 @@ public class DebugDatabase {
           report.println("Unrecognised item " + id + ": \"" + name + "\"");
           continue;
         }
+        var compare = new MismatchLogger(report, id, name);
         // assume name + plural are okay, as checkmuseumplurals should sort
         var descid = String.valueOf(entry.getIntValue("descid"));
         var mDescid = ItemDatabase.getDescriptionId(id);
         if (!descid.equals(mDescid)) {
-          logMismatch(report, id, name, "descid", mDescid, descid);
+          compare.logMismatch("descid", mDescid, descid);
         }
         var image = entry.getString("image") + ".gif";
         var mImage = ItemDatabase.getSmallImage(id);
         if (!image.equals(mImage)) {
-          logMismatch(report, id, name, "image", mImage, image);
+          compare.logMismatch("image", mImage, image);
         }
         // type + multiple
         // itemclass
@@ -2555,13 +2556,13 @@ public class DebugDatabase {
         var mCook = attrs.contains(Attribute.COOK);
         var mMix = attrs.contains(Attribute.MIX);
         if (smith != mSmith) {
-          logMismatch(report, id, name, "smith", mSmith, smith);
+          compare.logMismatch("smith", mSmith, smith);
         }
         if (cook != mCook) {
-          logMismatch(report, id, name, "cook", mCook, cook);
+          compare.logMismatch("cook", mCook, cook);
         }
         if (mix != mMix) {
-          logMismatch(report, id, name, "mix", mMix, mix);
+          compare.logMismatch("mix", mMix, mix);
         }
 
         // d / t / q / g
@@ -2576,21 +2577,21 @@ public class DebugDatabase {
         var mQuest = attrs.contains(Attribute.QUEST);
         var mGift = attrs.contains(Attribute.GIFT);
         if (discard != mDiscard) {
-          logMismatch(report, id, name, "discard", mDiscard, discard);
+          compare.logMismatch("discard", mDiscard, discard);
         }
         if (trade != mTrade) {
-          logMismatch(report, id, name, "trade", mTrade, trade);
+          compare.logMismatch("trade", mTrade, trade);
         }
         if (quest != mQuest) {
-          logMismatch(report, id, name, "quest", mQuest, quest);
+          compare.logMismatch("quest", mQuest, quest);
         }
         if (gift != mGift) {
-          logMismatch(report, id, name, "gift", mGift, gift);
+          compare.logMismatch("gift", mGift, gift);
         }
         var autosell = entry.getIntValue("autosell");
         var mAutosell = ItemDatabase.getPriceById(id);
         if ((discard || mDiscard) && autosell != mAutosell) {
-          logMismatch(report, id, name, "autosell", mAutosell, autosell);
+          compare.logMismatch("autosell", mAutosell, autosell);
         }
       }
     }
@@ -2600,29 +2601,28 @@ public class DebugDatabase {
     return getMuseumApiArray("itemdata");
   }
 
-  private static void logMismatch(
-      PrintStream report, int id, String itemName, String field, String mafia, String museum) {
-    report.println(
-        "Mismatch - "
-            + id
-            + ":"
-            + itemName
-            + " - "
-            + field
-            + " - Mafia: "
-            + mafia
-            + " - Museum: "
-            + museum);
-  }
+  private record MismatchLogger(PrintStream report, int id, String itemName) {
+    private void logMismatch(String field, String mafia, String museum) {
+      report.println(
+          "Mismatch - "
+              + id
+              + ":"
+              + itemName
+              + " - "
+              + field
+              + " - Mafia: "
+              + mafia
+              + " - Museum: "
+              + museum);
+    }
 
-  private static void logMismatch(
-      PrintStream report, int id, String itemName, String field, int mafia, int museum) {
-    logMismatch(report, id, itemName, field, String.valueOf(mafia), String.valueOf(museum));
-  }
+    private void logMismatch(String field, int mafia, int museum) {
+      logMismatch(field, String.valueOf(mafia), String.valueOf(museum));
+    }
 
-  private static void logMismatch(
-      PrintStream report, int id, String itemName, String field, boolean mafia, boolean museum) {
-    logMismatch(report, id, itemName, field, String.valueOf(mafia), String.valueOf(museum));
+    private void logMismatch(String field, boolean mafia, boolean museum) {
+      logMismatch(field, String.valueOf(mafia), String.valueOf(museum));
+    }
   }
 
   // **********************************************************
