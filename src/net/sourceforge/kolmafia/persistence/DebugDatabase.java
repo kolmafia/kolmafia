@@ -2588,6 +2588,11 @@ public class DebugDatabase {
           mismatch.compare("weapontype", weapon, itemclass);
         }
 
+        // power
+        if (ItemDatabase.isEquipment(id)) {
+          mismatch.compare("power", EquipmentDatabase.getPower(id), entry.getIntValue("power"));
+        }
+
         // multiple
         var multiple = entry.getBooleanValue("multiple");
         mismatch.compare("multiple", ItemDatabase.isMultiUsable(id), multiple);
