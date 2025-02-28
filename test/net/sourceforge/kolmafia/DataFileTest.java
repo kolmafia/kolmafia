@@ -26,7 +26,7 @@ public class DataFileTest {
                   + "hat|weapon|sixgun|offhand|container|shirt|pants|accessory|familiar|sticker|"
                   + "card|folder|bootspur|bootskin|food helper|drink helper|zap|sphere|guardian|"
                   + "avatar|potion)(\\s*,\\s*(usable|multiple|reusable|combat|combat reusable|single|message|"
-                  + "solo|curse|bounty|package|candy1|candy2|candy|chocolate|matchable|fancy|paste|smith|cook|mix))*"), // use
+                  + "solo|craft|curse|bounty|package|candy1|candy2|candy|chocolate|matchable|fancy|paste|smith|cook|mix))*"), // use
               "([qgtd](,[qgtd])*)?", // access
               "\\d+", // autosell
             }),
