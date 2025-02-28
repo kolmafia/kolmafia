@@ -2393,8 +2393,7 @@ public class DebugDatabase {
 
   // **********************************************************
 
-  public static void checkMuseumPlurals(final String parameters) {
-
+  public static void checkMuseumPlurals() {
     PrintStream report =
         LogStream.openStream(new File(KoLConstants.DATA_LOCATION, "plurals.txt"), true);
 
@@ -2451,8 +2450,12 @@ public class DebugDatabase {
   }
 
   private static JSONArray getMuseumPluralArray() {
+    return getMuseumApiArray("plurals");
+  }
+
+  private static JSONArray getMuseumApiArray(String api) {
     var client = HttpUtilities.getClientBuilder().build();
-    String url = "https://museum.loathers.net/api/plurals";
+    String url = "https://museum.loathers.net/api/" + api;
 
     URI uri;
     try {
@@ -2476,6 +2479,202 @@ public class DebugDatabase {
       return JSON.parseArray(body);
     } else {
       return new JSONArray();
+    }
+  }
+
+  // **********************************************************
+
+  // {"id":1,"name":"seal-clubbing
+  // club","descid":868780591,"image":"club","type":"weapon","itemclass":"club","power":10,"multiple":false,"smith":true,"cook":false,"mix":false,"jewelry":false,"d":true,"t":true,"q":false,"g":false,"autosell":1}
+  // "type" is one of:
+  //  Set(21) {
+  //  'use', -> usable or reusable
+  //  'usecombat', -> combat usable
+  //  'useboth', -> message, usable, combat usable
+  //  'hat', -> hat
+  //  'container', -> container
+  //  'shirt', -> shirt
+  //  'weapon', -> weapon
+  //  'offhand', -> offhand
+  //  'pants', -> pants
+  //  'acc', -> accessory
+  //  'famequip', -> familiar
+  //  'fam', -> grow
+  //  '', -> none
+  //  'food', -> food
+  //  'drink', -> food with BEVERAGE
+  //  'booze', -> drink
+  //  'spleen', -> spleen
+  //  'potion', -> potion
+  //  'craft', -> none
+  //  'curse', -> none, curse
+  //  'gift' -> usable
+  //  }
+  // itemclass is the weapon type for weapons, "shield" for shields, and tells us "beer", "wine",
+  // "pizza", "salad". "martini" is present sometimes but coded elsewhere. "taco" is present but
+  // unused.
+  public static void checkMuseumItems() {
+    PrintStream report =
+        LogStream.openStream(new File(KoLConstants.DATA_LOCATION, "museum_items.txt"), true);
+
+    try (report) {
+      var array = getMuseumItemArray();
+      var length = array.size();
+      for (int i = 0; i < length; i++) {
+        var entry = array.getJSONObject(i);
+        // simple checks
+        var id = entry.getIntValue("id");
+        var name = entry.getString("name");
+        String mafiaName = ItemDatabase.getItemDataName(id);
+        if (mafiaName == null) {
+          report.println("Unrecognised item " + id + ": \"" + name + "\"");
+          continue;
+        }
+        var mismatch = new MismatchLogger(report, id, name);
+        // assume name + plural are okay, as checkmuseumplurals should sort
+        var descid = String.valueOf(entry.getIntValue("descid"));
+        var mDescid = ItemDatabase.getDescriptionId(id);
+        mismatch.compare("descid", mDescid, descid);
+        var image = entry.getString("image") + ".gif";
+        var mImage = ItemDatabase.getSmallImage(id);
+        mismatch.compare("image", mImage, image);
+        // type
+        var type = entry.getString("type");
+        var attrs = ItemDatabase.getAttributes(id);
+
+        // mafia and kol's perception of "none" are too different for this check to be meaningful
+        // TODO: determine how to compare use / usecombat / useboth
+        var food = type.equals("food") || type.equals("drink");
+        mismatch.compare("food", ItemDatabase.isFood(id) && id != ItemPool.GLITCH_ITEM, food);
+        mismatch.compare("booze", ItemDatabase.isBooze(id), type.equals("booze"));
+        mismatch.compare("spleen", ItemDatabase.isSpleen(id), type.equals("spleen"));
+
+        mismatch.compare("potion", ItemDatabase.isPotion(id), type.equals("potion"));
+        mismatch.compare("craft", attrs.contains(Attribute.CRAFT), type.equals("craft"));
+        // we want to include some items that technically aren't curses as curses (e.g. candy
+        // hearts)
+
+        mismatch.compare("gift", ItemDatabase.isGiftPackage(id), type.equals("gift"));
+
+        mismatch.compare("hat", ItemDatabase.isHat(id), type.equals("hat"));
+        mismatch.compare("container", ItemDatabase.isContainer(id), type.equals("container"));
+        mismatch.compare("shirt", ItemDatabase.isShirt(id), type.equals("shirt"));
+        mismatch.compare("weapon", ItemDatabase.isWeapon(id), type.equals("weapon"));
+        mismatch.compare("offhand", ItemDatabase.isOffHand(id), type.equals("offhand"));
+        mismatch.compare("pants", ItemDatabase.isPants(id), type.equals("pants"));
+        mismatch.compare("acc", ItemDatabase.isAccessory(id), type.equals("acc"));
+        mismatch.compare("famequip", ItemDatabase.isFamiliarEquipment(id), type.equals("famequip"));
+        mismatch.compare("fam", ItemDatabase.isFamiliarHatchling(id), type.equals("fam"));
+
+        // itemclass
+        var itemclass = entry.getString("itemclass");
+        if (food) {
+          mismatch.compare("beverage", ConsumablesDatabase.isBeverage(id), type.equals("drink"));
+          mismatch.compare("pizza", ConsumablesDatabase.isPizza(id), itemclass.equals("pizza"));
+          mismatch.compare("salad", ConsumablesDatabase.isSalad(id), itemclass.equals("salad"));
+          mismatch.compare(
+              "beans", ConsumablesDatabase.isBeans(id), itemclass.equals("plateofbeans"));
+        }
+        if (type.equals("booze")) {
+          mismatch.compare("beer", ConsumablesDatabase.isBeer(id), itemclass.equals("beer"));
+          mismatch.compare("wine", ConsumablesDatabase.isWine(id), itemclass.equals("wine"));
+        }
+        if (type.equals("offhand")) {
+          mismatch.compare("shield", EquipmentDatabase.isShield(id), itemclass.equals("shield"));
+        }
+        if (type.equals("weapon")) {
+          var weapon = EquipmentDatabase.getItemType(id);
+          weapon = weapon.equals("weapon") ? "" : weapon;
+          mismatch.compare("weapontype", weapon, itemclass);
+        }
+
+        // power
+        if (ItemDatabase.isEquipment(id)) {
+          mismatch.compare("power", EquipmentDatabase.getPower(id), entry.getIntValue("power"));
+        }
+
+        // multiple
+        var multiple = entry.getBooleanValue("multiple");
+        mismatch.compare("multiple", ItemDatabase.isMultiUsable(id), multiple);
+
+        // smith / cook / mix
+        var smith = entry.getBooleanValue("smith");
+        var cook = entry.getBooleanValue("cook");
+        var mix = entry.getBooleanValue("mix");
+        var mSmith = attrs.contains(Attribute.SMITH);
+        var mCook = attrs.contains(Attribute.COOK);
+        var mMix = attrs.contains(Attribute.MIX);
+        mismatch.compare("smith", mSmith, smith);
+        mismatch.compare("cook", mCook, cook);
+        mismatch.compare("mix", mMix, mix);
+
+        // d / t / q / g
+        var discard = entry.getBooleanValue("d");
+        var quest = entry.getBooleanValue("q");
+        var gift = entry.getBooleanValue("g");
+        // quest items e.g. diabolic pizza are not tradeable even though they're not marked
+        // gift items are tradeable but we use 'tradeable' to mean 'mallable'
+        var trade = entry.getBooleanValue("t") && !quest && !gift;
+        var mDiscard = attrs.contains(Attribute.DISCARDABLE);
+        var mTrade = attrs.contains(Attribute.TRADEABLE);
+        var mQuest = attrs.contains(Attribute.QUEST);
+        var mGift = attrs.contains(Attribute.GIFT);
+        mismatch.compare("discard", mDiscard, discard);
+        mismatch.compare("trade", mTrade, trade);
+        mismatch.compare("quest", mQuest, quest);
+        mismatch.compare("gift", mGift, gift);
+        var autosell = entry.getIntValue("autosell");
+        var mAutosell = ItemDatabase.getPriceById(id);
+        if (discard || mDiscard) {
+          mismatch.compare("autosell", mAutosell, autosell);
+        }
+      }
+    }
+  }
+
+  private static JSONArray getMuseumItemArray() {
+    return getMuseumApiArray("itemdata");
+  }
+
+  private record MismatchLogger(PrintStream report, int id, String itemName) {
+    private void compare(String field, String mafia, String museum) {
+      if (!museum.equals(mafia)) {
+        logMismatch(field, mafia, museum);
+      }
+    }
+
+    private void compare(String field, int mafia, int museum) {
+      if (museum != mafia) {
+        logMismatch(field, mafia, museum);
+      }
+    }
+
+    private void compare(String field, boolean mafia, boolean museum) {
+      if (museum != mafia) {
+        logMismatch(field, mafia, museum);
+      }
+    }
+
+    private void logMismatch(String field, String mafia, String museum) {
+      report.println(
+          "Mismatch - "
+              + id
+              + ":"
+              + itemName
+              + " - "
+              + field
+              + " - Mafia: "
+              + mafia
+              + " - Museum: "
+              + museum);
+    }
+
+    private void logMismatch(String field, int mafia, int museum) {
+      logMismatch(field, String.valueOf(mafia), String.valueOf(museum));
+    }
+
+    private void logMismatch(String field, boolean mafia, boolean museum) {
+      logMismatch(field, String.valueOf(mafia), String.valueOf(museum));
     }
   }
 

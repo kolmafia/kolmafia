@@ -175,6 +175,7 @@ public class ItemDatabase {
     SINGLE("single"),
     SOLO("solo"),
 
+    CRAFT("craft"),
     CURSE("curse"),
     BOUNTY("bounty"),
     PACKAGE("package"),
@@ -1894,6 +1895,11 @@ public class ItemDatabase {
     return useType == ConsumptionType.DRINK;
   }
 
+  public static final boolean isSpleen(final int itemId) {
+    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
+    return useType == ConsumptionType.SPLEEN;
+  }
+
   public static final boolean isHat(final int itemId) {
     ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
     return useType == ConsumptionType.HAT;
@@ -1907,6 +1913,11 @@ public class ItemDatabase {
   public static final boolean isOffHand(final int itemId) {
     ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
     return useType == ConsumptionType.OFFHAND;
+  }
+
+  public static final boolean isContainer(final int itemId) {
+    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
+    return useType == ConsumptionType.CONTAINER;
   }
 
   public static final boolean isShirt(final int itemId) {
@@ -1927,6 +1938,11 @@ public class ItemDatabase {
   public static final boolean isFamiliarEquipment(final int itemId) {
     ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
     return useType == ConsumptionType.FAMILIAR_EQUIPMENT;
+  }
+
+  public static final boolean isFamiliarHatchling(final int itemId) {
+    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
+    return useType == ConsumptionType.FAMILIAR_HATCHLING;
   }
 
   public static final boolean isMultiUsable(final int itemId) {
