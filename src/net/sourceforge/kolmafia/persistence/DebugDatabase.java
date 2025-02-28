@@ -2530,18 +2530,14 @@ public class DebugDatabase {
           report.println("Unrecognised item " + id + ": \"" + name + "\"");
           continue;
         }
-        var compare = new MismatchLogger(report, id, name);
+        var mismatch = new MismatchLogger(report, id, name);
         // assume name + plural are okay, as checkmuseumplurals should sort
         var descid = String.valueOf(entry.getIntValue("descid"));
         var mDescid = ItemDatabase.getDescriptionId(id);
-        if (!descid.equals(mDescid)) {
-          compare.logMismatch("descid", mDescid, descid);
-        }
+        mismatch.compare("descid", mDescid, descid);
         var image = entry.getString("image") + ".gif";
         var mImage = ItemDatabase.getSmallImage(id);
-        if (!image.equals(mImage)) {
-          compare.logMismatch("image", mImage, image);
-        }
+        mismatch.compare("image", mImage, image);
         // type + multiple
         // itemclass
         var type = entry.getString("type");
@@ -2555,15 +2551,9 @@ public class DebugDatabase {
         var mSmith = attrs.contains(Attribute.SMITH);
         var mCook = attrs.contains(Attribute.COOK);
         var mMix = attrs.contains(Attribute.MIX);
-        if (smith != mSmith) {
-          compare.logMismatch("smith", mSmith, smith);
-        }
-        if (cook != mCook) {
-          compare.logMismatch("cook", mCook, cook);
-        }
-        if (mix != mMix) {
-          compare.logMismatch("mix", mMix, mix);
-        }
+        mismatch.compare("smith", mSmith, smith);
+        mismatch.compare("cook", mCook, cook);
+        mismatch.compare("mix", mMix, mix);
 
         // d / t / q / g
         var discard = entry.getBooleanValue("d");
@@ -2576,22 +2566,14 @@ public class DebugDatabase {
         var mTrade = attrs.contains(Attribute.TRADEABLE);
         var mQuest = attrs.contains(Attribute.QUEST);
         var mGift = attrs.contains(Attribute.GIFT);
-        if (discard != mDiscard) {
-          compare.logMismatch("discard", mDiscard, discard);
-        }
-        if (trade != mTrade) {
-          compare.logMismatch("trade", mTrade, trade);
-        }
-        if (quest != mQuest) {
-          compare.logMismatch("quest", mQuest, quest);
-        }
-        if (gift != mGift) {
-          compare.logMismatch("gift", mGift, gift);
-        }
+        mismatch.compare("discard", mDiscard, discard);
+        mismatch.compare("trade", mTrade, trade);
+        mismatch.compare("quest", mQuest, quest);
+        mismatch.compare("gift", mGift, gift);
         var autosell = entry.getIntValue("autosell");
         var mAutosell = ItemDatabase.getPriceById(id);
-        if ((discard || mDiscard) && autosell != mAutosell) {
-          compare.logMismatch("autosell", mAutosell, autosell);
+        if (discard || mDiscard) {
+          mismatch.compare("autosell", mAutosell, autosell);
         }
       }
     }
@@ -2602,6 +2584,24 @@ public class DebugDatabase {
   }
 
   private record MismatchLogger(PrintStream report, int id, String itemName) {
+    private void compare(String field, String mafia, String museum) {
+      if (!museum.equals(mafia)) {
+        logMismatch(field, mafia, museum);
+      }
+    }
+
+    private void compare(String field, int mafia, int museum) {
+      if (museum != mafia) {
+        logMismatch(field, mafia, museum);
+      }
+    }
+
+    private void compare(String field, boolean mafia, boolean museum) {
+      if (museum != mafia) {
+        logMismatch(field, mafia, museum);
+      }
+    }
+
     private void logMismatch(String field, String mafia, String museum) {
       report.println(
           "Mismatch - "
