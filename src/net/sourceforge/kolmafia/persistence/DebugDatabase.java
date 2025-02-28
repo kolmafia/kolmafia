@@ -2484,7 +2484,8 @@ public class DebugDatabase {
 
   // **********************************************************
 
-  // {"id":1,"name":"seal-clubbing club","descid":868780591,"image":"club","type":"weapon","itemclass":"club","power":10,"multiple":false,"smith":true,"cook":false,"mix":false,"jewelry":false,"d":true,"t":true,"q":false,"g":false,"autosell":1}
+  // {"id":1,"name":"seal-clubbing
+  // club","descid":868780591,"image":"club","type":"weapon","itemclass":"club","power":10,"multiple":false,"smith":true,"cook":false,"mix":false,"jewelry":false,"d":true,"t":true,"q":false,"g":false,"autosell":1}
   // "type" is one of:
   //  Set(21) {
   //  'use', -> usable or reusable
@@ -2509,7 +2510,9 @@ public class DebugDatabase {
   //  'curse', -> none, curse
   //  'gift' -> usable
   //  }
-  // itemclass is the weapon type for weapons, "shield" for shields, and tells us "beer", "wine", "pizza", "salad". "martini" is present sometimes but coded elsewhere. "taco" is present but unused.
+  // itemclass is the weapon type for weapons, "shield" for shields, and tells us "beer", "wine",
+  // "pizza", "salad". "martini" is present sometimes but coded elsewhere. "taco" is present but
+  // unused.
   public static void checkMuseumItems() {
     PrintStream report =
         LogStream.openStream(new File(KoLConstants.DATA_LOCATION, "items.txt"), true);
@@ -2597,15 +2600,28 @@ public class DebugDatabase {
     return getMuseumApiArray("itemdata");
   }
 
-  private static void logMismatch(PrintStream report, int id, String itemName, String field, String mafia, String museum) {
-    report.println("Mismatch - " + id + ":" + itemName + " - " + field + " - Mafia: " + mafia + " - Museum: " + museum);
+  private static void logMismatch(
+      PrintStream report, int id, String itemName, String field, String mafia, String museum) {
+    report.println(
+        "Mismatch - "
+            + id
+            + ":"
+            + itemName
+            + " - "
+            + field
+            + " - Mafia: "
+            + mafia
+            + " - Museum: "
+            + museum);
   }
 
-  private static void logMismatch(PrintStream report, int id, String itemName, String field, int mafia, int museum) {
+  private static void logMismatch(
+      PrintStream report, int id, String itemName, String field, int mafia, int museum) {
     logMismatch(report, id, itemName, field, String.valueOf(mafia), String.valueOf(museum));
   }
 
-  private static void logMismatch(PrintStream report, int id, String itemName, String field, boolean mafia, boolean museum) {
+  private static void logMismatch(
+      PrintStream report, int id, String itemName, String field, boolean mafia, boolean museum) {
     logMismatch(report, id, itemName, field, String.valueOf(mafia), String.valueOf(museum));
   }
 
