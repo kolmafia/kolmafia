@@ -60,7 +60,7 @@ public class DebugDatabaseTest {
     File plurals = new File(KoLConstants.DATA_LOCATION, "plurals.txt");
     try (var cleanups =
         new Cleanups(withNextResponse(200, fakeMuseumJson), new Cleanups(plurals::delete))) {
-      DebugDatabase.checkMuseumPlurals("");
+      DebugDatabase.checkMuseumPlurals();
       assertTrue(plurals.exists());
       assertEquals(
           Files.readString(plurals.toPath()),
@@ -71,7 +71,7 @@ public class DebugDatabaseTest {
           Item 3: "helmet turtle" has plural unknown to Mafia: "bad plural for helmet turtle"
           Item 8: "spices" has plural "spiceses" but Mafia says "spices"
           """);
-      DebugDatabase.checkMuseumPlurals("");
+      DebugDatabase.checkMuseumPlurals();
     } catch (IOException e) {
       fail("unexpected exception: ", e);
     }

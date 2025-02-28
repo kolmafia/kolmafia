@@ -2393,8 +2393,7 @@ public class DebugDatabase {
 
   // **********************************************************
 
-  public static void checkMuseumPlurals(final String parameters) {
-
+  public static void checkMuseumPlurals() {
     PrintStream report =
         LogStream.openStream(new File(KoLConstants.DATA_LOCATION, "plurals.txt"), true);
 
@@ -2451,8 +2450,12 @@ public class DebugDatabase {
   }
 
   private static JSONArray getMuseumPluralArray() {
+    return getMuseumApiArray("plurals");
+  }
+
+  private static JSONArray getMuseumApiArray(String api) {
     var client = HttpUtilities.getClientBuilder().build();
-    String url = "https://museum.loathers.net/api/plurals";
+    String url = "https://museum.loathers.net/api/" + api;
 
     URI uri;
     try {
@@ -2477,6 +2480,133 @@ public class DebugDatabase {
     } else {
       return new JSONArray();
     }
+  }
+
+  // **********************************************************
+
+  // {"id":1,"name":"seal-clubbing club","descid":868780591,"image":"club","type":"weapon","itemclass":"club","power":10,"multiple":false,"smith":true,"cook":false,"mix":false,"jewelry":false,"d":true,"t":true,"q":false,"g":false,"autosell":1}
+  // "type" is one of:
+  //  Set(21) {
+  //  'use', -> usable or reusable
+  //  'usecombat', -> combat usable
+  //  'useboth', -> message, usable, combat usable
+  //  'hat', -> hat
+  //  'container', -> container
+  //  'shirt', -> shirt
+  //  'weapon', -> weapon
+  //  'offhand', -> offhand
+  //  'pants', -> pants
+  //  'acc', -> accessory
+  //  'famequip', -> familiar
+  //  'fam', -> grow
+  //  '', -> none
+  //  'food', -> food
+  //  'drink', -> food with BEVERAGE
+  //  'booze', -> drink
+  //  'spleen', -> spleen
+  //  'potion', -> potion
+  //  'craft', -> none
+  //  'curse', -> none, curse
+  //  'gift' -> usable
+  //  }
+  // itemclass is the weapon type for weapons, "shield" for shields, and tells us "beer", "wine", "pizza", "salad". "martini" is present sometimes but coded elsewhere. "taco" is present but unused.
+  public static void checkMuseumItems() {
+    PrintStream report =
+        LogStream.openStream(new File(KoLConstants.DATA_LOCATION, "items.txt"), true);
+
+    try (report) {
+      var array = getMuseumItemArray();
+      var length = array.size();
+      for (int i = 0; i < length; i++) {
+        var entry = array.getJSONObject(i);
+        // simple checks
+        var id = entry.getIntValue("id");
+        var name = entry.getString("name");
+        String mafiaName = ItemDatabase.getItemDataName(id);
+        if (mafiaName == null) {
+          report.println("Unrecognised item " + id + ": \"" + name + "\"");
+          continue;
+        }
+        // assume name + plural are okay, as checkmuseumplurals should sort
+        var descid = String.valueOf(entry.getIntValue("descid"));
+        var mDescid = ItemDatabase.getDescriptionId(id);
+        if (!descid.equals(mDescid)) {
+          logMismatch(report, id, name, "descid", mDescid, descid);
+        }
+        var image = entry.getString("image") + ".gif";
+        var mImage = ItemDatabase.getImage(id);
+        if (!image.equals(mImage)) {
+          logMismatch(report, id, name, "image", mImage, image);
+        }
+        // type + multiple
+        // itemclass
+        var type = entry.getString("type");
+        var itemclass = entry.getString("itemclass");
+
+        // smith / cook / mix
+        var smith = entry.getBooleanValue("smith");
+        var cook = entry.getBooleanValue("cook");
+        var mix = entry.getBooleanValue("mix");
+        var attrs = ItemDatabase.getAttributes(id);
+        var mSmith = attrs.contains(Attribute.SMITH);
+        var mCook = attrs.contains(Attribute.COOK);
+        var mMix = attrs.contains(Attribute.MIX);
+        if (smith != mSmith) {
+          logMismatch(report, id, name, "smith", mSmith, smith);
+        }
+        if (cook != mCook) {
+          logMismatch(report, id, name, "cook", mCook, cook);
+        }
+        if (mix != mMix) {
+          logMismatch(report, id, name, "mix", mMix, mix);
+        }
+
+        // d / t / q / g
+        var discard = entry.getBooleanValue("d");
+        var quest = entry.getBooleanValue("q");
+        var gift = entry.getBooleanValue("g");
+        // quest items e.g. diabolic pizza are not tradeable even though they're not marked
+        // gift items are tradeable but we use 'tradeable' to mean 'mallable'
+        var trade = entry.getBooleanValue("t") && !quest && !gift;
+        var mDiscard = attrs.contains(Attribute.DISCARDABLE);
+        var mTrade = attrs.contains(Attribute.TRADEABLE);
+        var mQuest = attrs.contains(Attribute.QUEST);
+        var mGift = attrs.contains(Attribute.GIFT);
+        if (discard != mDiscard) {
+          logMismatch(report, id, name, "discard", mDiscard, discard);
+        }
+        if (trade != mTrade) {
+          logMismatch(report, id, name, "trade", mTrade, trade);
+        }
+        if (quest != mQuest) {
+          logMismatch(report, id, name, "quest", mQuest, quest);
+        }
+        if (gift != mGift) {
+          logMismatch(report, id, name, "gift", mGift, gift);
+        }
+        var autosell = entry.getIntValue("autosell");
+        var mAutosell = ItemDatabase.getPriceById(id);
+        if ((discard || mDiscard) && autosell != mAutosell) {
+          logMismatch(report, id, name, "autosell", mAutosell, autosell);
+        }
+      }
+    }
+  }
+
+  private static JSONArray getMuseumItemArray() {
+    return getMuseumApiArray("itemdata");
+  }
+
+  private static void logMismatch(PrintStream report, int id, String itemName, String field, String mafia, String museum) {
+    report.println("Mismatch - " + id + ":" + itemName + " - " + field + " - Mafia: " + mafia + " - Museum: " + museum);
+  }
+
+  private static void logMismatch(PrintStream report, int id, String itemName, String field, int mafia, int museum) {
+    logMismatch(report, id, itemName, field, String.valueOf(mafia), String.valueOf(museum));
+  }
+
+  private static void logMismatch(PrintStream report, int id, String itemName, String field, boolean mafia, boolean museum) {
+    logMismatch(report, id, itemName, field, String.valueOf(mafia), String.valueOf(museum));
   }
 
   // **********************************************************
