@@ -363,7 +363,7 @@
 335	sabre-toothed lime cub	875749189	limecub.gif	grow	t,d	91
 336	consolation ribbon	447554129	ribbon.gif	accessory		0
 337	big ol' trophy	575900836	trophy.gif	none	d	0	big ol' trophies
-338	tenderizing hammer	814957844	hammer.gif	none, smith	t,d	250
+338	tenderizing hammer	814957844	hammer.gif	none, craft, smith	t,d	250
 339	Cobb's Knob lab key	929970195	labkey.gif	none	q	0
 340	Knob Goblin steroids	195322551	syringe.gif	potion	t,d	125	syringes of Knob Goblin steroids
 341	Knob Goblin love potion	354133589	lovepotion.gif	potion	t,d	85
@@ -734,7 +734,7 @@
 706	porquoise	142164644	porquoise.gif	none, paste, cook	t,d	500
 707	pork elf goodies sack	168181838	sack1.gif	usable		0
 708	ring setting	495202910	ringset.gif	none, paste	t,d	100
-709	jewelry-making pliers	199923803	pliers.gif	none	d	500	pairs of jewelry-making pliers
+709	jewelry-making pliers	199923803	pliers.gif	none, craft	d	500	pairs of jewelry-making pliers
 710
 711	hamethyst earring	986856176	jhear.gif	accessory	t,d	250
 712	hamethyst necklace	511684768	jhneck.gif	accessory	t,d	250
@@ -10992,9 +10992,9 @@
 10964	familiar-in-the-middle wrapper	889778025	cr_sweater.gif	familiar	t,d	75
 10965	Oopsie IPA	439261217	beerbottle.gif	drink	t	0
 10966	mummified entombed cookbookbat	898160116	bbat_larva.gif	grow	t	0
-10967	Yeast of Boris	872378372	bbat_yeast.gif	none, cook, mix	t,d	50	handfuls of the Yeast of Boris
-10968	St. Sneaky Pete's Whey	233475796	bbat_whey.gif	none, cook	t,d	50	tubs of St. Sneaky Pete's Whey
-10969	Vegetable of Jarlsberg	629550840	bbat_vegetable.gif	none, cook	t,d	50	Vegetables of Jarlsberg
+10967	Yeast of Boris	872378372	bbat_yeast.gif	none, craft, cook, mix	t,d	50	handfuls of the Yeast of Boris
+10968	St. Sneaky Pete's Whey	233475796	bbat_whey.gif	none, craft, cook	t,d	50	tubs of St. Sneaky Pete's Whey
+10969	Vegetable of Jarlsberg	629550840	bbat_vegetable.gif	none, craft, cook	t,d	50	Vegetables of Jarlsberg
 10970	ratatouille de Jarlsberg	238021108	bbat_casserole.gif	food	d	75	ratatouilles de Jarlsberg
 10971	Jarlsberg's vegetable soup	552577865	bbat_soup.gif	food	d	75	bowls of Jarlsberg's vegetable soup
 10972	roasted vegetable of Jarlsberg	236899776	bbat_roastveggie.gif	food, cook	d	100	roasted vegetables of Jarlsberg
