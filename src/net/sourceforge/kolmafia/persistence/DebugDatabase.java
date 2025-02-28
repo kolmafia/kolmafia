@@ -2515,7 +2515,7 @@ public class DebugDatabase {
   // unused.
   public static void checkMuseumItems() {
     PrintStream report =
-        LogStream.openStream(new File(KoLConstants.DATA_LOCATION, "items.txt"), true);
+        LogStream.openStream(new File(KoLConstants.DATA_LOCATION, "museum_items.txt"), true);
 
     try (report) {
       var array = getMuseumItemArray();
@@ -2537,7 +2537,7 @@ public class DebugDatabase {
           logMismatch(report, id, name, "descid", mDescid, descid);
         }
         var image = entry.getString("image") + ".gif";
-        var mImage = ItemDatabase.getImage(id);
+        var mImage = ItemDatabase.getSmallImage(id);
         if (!image.equals(mImage)) {
           logMismatch(report, id, name, "image", mImage, image);
         }
