@@ -2517,6 +2517,21 @@ public class DebugDatabase {
     PrintStream report =
         LogStream.openStream(new File(KoLConstants.DATA_LOCATION, "museum_items.txt"), true);
 
+    // these are used in inv_use.php but apparently in a non-standard way
+    // foldables, items with a custom use text, and shingle
+    var skipUsableCheck =
+        Set.of(
+            ItemPool.BLACK_LOTUS,
+            ItemPool.SHINGLE,
+            ItemPool.GREAT_BALL_OF_FROZEN_FIRE,
+            ItemPool.NAUGHTY_ORIGAMI_KIT,
+            ItemPool.CONTAINER_OF_SPOOKY_PUTTY,
+            ItemPool.SPOOKY_PUTTY_SHEET,
+            ItemPool.SPOOKY_PUTTY_MONSTER,
+            ItemPool.RAIN_DOH_MONSTER);
+    // both of these are usable, also usable in combat instead of useboth
+    var skipCombatCheck = Set.of(ItemPool.SHARD_OF_DOUBLE_ICE, ItemPool.CRAYON_SHAVINGS);
+
     try (report) {
       var array = getMuseumItemArray();
       var length = array.size();
@@ -2543,7 +2558,35 @@ public class DebugDatabase {
         var attrs = ItemDatabase.getAttributes(id);
 
         // mafia and kol's perception of "none" are too different for this check to be meaningful
-        // TODO: determine how to compare use / usecombat / useboth
+        var use = type.equals("use") || type.equals("useboth") || type.equals("gift");
+        ConsumptionType mConsumptionType = ItemDatabase.getConsumptionType(id);
+        var mUse =
+            switch (mConsumptionType) {
+              case USE,
+                  USE_MULTIPLE,
+                  USE_INFINITE,
+                  USE_MESSAGE_DISPLAY,
+                  STICKER,
+                  FOLDER,
+                  BOOTSKIN,
+                  BOOTSPUR,
+                  FOOD_HELPER,
+                  DRINK_HELPER,
+                  PASTA_GUARDIAN -> true;
+              default -> id == ItemPool.GLITCH_ITEM;
+            };
+        if (!skipUsableCheck.contains(id)) {
+          mismatch.compare("usable", mUse, use);
+        }
+        var usecombat = type.equals("usecombat") || type.equals("useboth");
+        var mUsecombat =
+            ItemDatabase.getAttribute(id, EnumSet.of(Attribute.COMBAT, Attribute.COMBAT_REUSABLE));
+        // non-usables may be "also usable in combat", but we can't tell from museum
+        // e.g. daily affirmations / abstractions / dinner roll / plastic cup of beer / red wagon
+        if ((usecombat || type.equals("use")) && !skipCombatCheck.contains(id)) {
+          mismatch.compare("combat", mUsecombat, usecombat);
+        }
+
         var food = type.equals("food") || type.equals("drink");
         mismatch.compare("food", ItemDatabase.isFood(id) && id != ItemPool.GLITCH_ITEM, food);
         mismatch.compare("booze", ItemDatabase.isBooze(id), type.equals("booze"));

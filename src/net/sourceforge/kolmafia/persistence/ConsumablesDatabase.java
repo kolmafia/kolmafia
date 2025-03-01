@@ -1071,7 +1071,7 @@ public class ConsumablesDatabase {
     String muscle = statGain;
     String mysticality = statGain;
     String moxie = statGain;
-    String note = "";
+    String note = ConsumablesDatabase.getNotes(name);
 
     ConsumablesDatabase.setConsumptionData(
         name,
@@ -1109,7 +1109,7 @@ public class ConsumablesDatabase {
     muscle = statGain;
     mysticality = statGain;
     moxie = statGain;
-    note = "";
+    note = ConsumablesDatabase.getNotes(name);
 
     ConsumablesDatabase.setConsumptionData(
         name,
@@ -1140,7 +1140,7 @@ public class ConsumablesDatabase {
     muscle = "0";
     mysticality = "0";
     moxie = "0";
-    note = "";
+    note = ConsumablesDatabase.getNotes(name);
     ConsumablesDatabase.setConsumptionData(
         name,
         null,
@@ -1167,7 +1167,7 @@ public class ConsumablesDatabase {
     muscle = "0";
     mysticality = "0";
     moxie = "0";
-    note = "";
+    note = ConsumablesDatabase.getNotes(name);
     ConsumablesDatabase.setConsumptionData(
         name,
         size,
@@ -1194,7 +1194,7 @@ public class ConsumablesDatabase {
     muscle = "0";
     mysticality = "0";
     moxie = "0";
-    note = "";
+    note = ConsumablesDatabase.getNotes(name);
     ConsumablesDatabase.setConsumptionData(
         name,
         null,
