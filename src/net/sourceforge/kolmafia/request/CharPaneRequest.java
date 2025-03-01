@@ -355,11 +355,12 @@ public class CharPaneRequest extends GenericRequest {
     }
   }
 
+  // href="charsheet.php"><b>Brianna</b></a><br>Level 85<br>
   // href="charsheet.php"><b>gausie</b></a><br>NO PEEKING<br>(Level 255)<table
   // href="charsheet.php">gausie</a></b><br>Lvl. 255<table
 
   public static final Pattern LEVEL_PATTERN =
-      Pattern.compile("(?:\\(Level |Lvl. )(\\d+)\\)?<table");
+      Pattern.compile("<br>(?:\\(?Level |Lvl. )(\\d+)\\)?<");
 
   public static void parseLevel(final String responseText) {
     Matcher levelMatcher = CharPaneRequest.LEVEL_PATTERN.matcher(responseText);
