@@ -7014,6 +7014,8 @@ public abstract class ChoiceControl {
           }
           // grab our graft info and our new level
           ApiRequest.updateStatus();
+          // refresh again because level is wrong the first time
+          ApiRequest.updateStatus(true);
         }
         break;
 
@@ -9200,8 +9202,6 @@ public abstract class ChoiceControl {
         RequestLogger.printLine(message);
         RequestLogger.updateSessionLog(message);
         // Refresh status manually since KoL doesn't trigger it
-        ApiRequest.updateStatus(true);
-        // refresh again because level is wrong the first time
         ApiRequest.updateStatus(true);
       }
 
