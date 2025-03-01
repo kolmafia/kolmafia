@@ -7014,6 +7014,8 @@ public abstract class ChoiceControl {
           }
           // grab our graft info and our new level
           ApiRequest.updateStatus();
+          // refresh again because level is wrong the first time
+          ApiRequest.updateStatus(true);
         }
         break;
 
