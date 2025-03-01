@@ -24,8 +24,8 @@ import org.junit.jupiter.params.provider.CsvSource;
 public class CampAwayCommandTest extends AbstractCommandTestBase {
   @BeforeAll
   public static void beforeAll() {
-    KoLCharacter.reset("MayamCommandTest");
-    Preferences.reset("MayamCommandTest");
+    KoLCharacter.reset("CampAwayCommandTest");
+    Preferences.reset("CampAwayCommandTest");
     ChoiceManager.handlingChoice = false;
     FightRequest.currentRound = 0;
   }
