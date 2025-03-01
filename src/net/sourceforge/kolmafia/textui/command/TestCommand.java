@@ -49,7 +49,6 @@ import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
-import net.sourceforge.kolmafia.persistence.StandardRewardDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.CampAwayRequest;
@@ -68,6 +67,7 @@ import net.sourceforge.kolmafia.request.PlaceRequest;
 import net.sourceforge.kolmafia.request.ScrapheapRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ArmoryAndLeggeryRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.ArmoryAndLeggeryRequest.CoinmasterReward;
 import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 import net.sourceforge.kolmafia.session.BastilleBattalionManager;
 import net.sourceforge.kolmafia.session.BeachManager;
@@ -1313,13 +1313,12 @@ public class TestCommand extends AbstractCommand {
       TestCommand.contents = null;
       int count = 0;
       while (matcher.find()) {
-        ArmoryAndLeggeryRequest.CoinmasterItem reward =
-            ArmoryAndLeggeryRequest.parseCoinmasterItem(matcher);
+        CoinmasterReward reward = ArmoryAndLeggeryRequest.parseCoinmasterReward(matcher);
         if (reward == null) {
           // Skip items purchased with Meat
           continue;
         }
-        String line = StandardRewardDatabase.coinmasterString(reward);
+        String line = ArmoryAndLeggeryRequest.toData(reward);
         RequestLogger.updateSessionLog(line);
         count++;
       }
