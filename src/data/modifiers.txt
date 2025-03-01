@@ -6668,6 +6668,7 @@ Effect	Goo Vibrations	Muscle Percent: -50, Mysticality Percent: -50, Moxie Perce
 Effect	Good Chance of Surviving Hell	Hot Resistance: +5
 Effect	Good Karma	Mysticality: +5
 Effect	Good Motivator	Initiative: +25
+Effect	Good Night's Sleep	Initiative: +25
 Effect	Good Things Are Coming, You Can Smell It	Meat Drop: +60
 Effect	Good with the Ladies	Experience: +3
 Effect	Gooed Enough For Government Work	Sleaze Resistance: +5
@@ -8383,6 +8384,7 @@ Effect	Wary	Initiative: +30
 Effect	Wasabi Sinuses	Experience: -1, Meat Drop: +40, Item Drop: -20
 Effect	Wasabi With You	Weapon Damage Percent: +150
 Effect	Wassailing You	Familiar Weight: +5
+Effect	Wasting Time	Experience (Moxie): +1, Moxie Percent: +20
 Effect	Watch Out!	Mysticality Percent: +100, Maximum MP Percent: +50, MP Regen Min: 20, MP Regen Max: 25
 Effect	Watched Over	Muscle Percent: +100, Mysticality Percent: +100, Moxie Percent: +100
 Effect	Water Balloon Champion	Experience: +5, Item Drop: +20, Meat Drop: +40
@@ -8407,6 +8409,7 @@ Effect	Weirdly Scientific	Avatar: "Sub-Assistant Knob Mad Scientist"
 Effect	Well Excuuuuse Me!	Avatar: "wacky pirate"
 Effect	Well Fed	Maximum HP: [+3*T]
 Effect	Well Owl Be!	Mysticality: +10, Spell Damage: +10
+Effect	Well Stimulated	Experience (Mysticality): +1, Mysticality Percent: +20
 Effect	Well-Lubed	Weapon Damage Percent: +10
 Effect	Well-Oiled	Damage Absorption: +30, Damage Reduction: 10, Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1
 Effect	Well-preserved	HP Regen Min: 150, HP Regen Max: 200
@@ -8514,6 +8517,7 @@ Effect	You've Got a Stew Going!	Item Drop: [500*zone(Dreadsylvania)]
 Effect	You've Got Questions	Avatar: "The Inquisitor"
 Effect	Your #1 Problem	Muscle: -20, Mysticality: -20, Moxie: -20, Item Drop: +100
 Effect	Your Cupcake Senses Are Tingling	Meat Drop: +30
+Effect	Your Days Are Numbed	Familiar Weight: +5, Experience (familiar): +5
 Effect	Your Eyes are Peeled!	Item Drop: +25
 Effect	Your Favorite Flavor	Hot Damage: +3, Cold Damage: +3, Stench Damage: +3, Spooky Damage: +3, Sleaze Damage: +3
 Effect	Your Fifteen Minutes	Hot Damage: +15, Hot Spell Damage: +15, Initiative: +15
@@ -12114,6 +12118,7 @@ Item	Artist's Whisk of Misery	Last Available: "2013-12"
 Item	Asdon Martin keyfob (on ring)	Last Available: "2017-07"
 Item	Asleep in the Cemetery	Skill: "Creepy Lullaby"
 Item	aspirin	Last Available: "2005-12"
+Item	assemble-it-yourself Leprecondo	Free Pull
 Item	astral badger	Free Pull, Last Available: "2006-06"
 Item	atomic vector plotter	Last Available: "2011-12"
 Item	Autobiography Of Dynamite Superman Jones (used)	Class: "Disco Bandit", Skill: "Kung Fu Hustler", Last Available: "2011-01"
@@ -12264,6 +12269,7 @@ Item	bone chips	Last Available: "2011-12"
 Item	bonsai tree	Last Available: "2013-12"
 Item	book of facts	Skill: "Just the Facts", Last Available: "2023-09"
 Item	book of facts (dog-eared)	Skill: "Just the Facts", Last Available: "2023-09"
+Item	Book of Irony	Skill: "Generate Irony"
 # book of matches: Deals 40-60 <font color=red>Hot Damage</font>
 # Booke of Vampyric Knowledge: Grants one of several Vampyric skills
 # booze mailing list: Unlocks another row of houses for Crimbo activities

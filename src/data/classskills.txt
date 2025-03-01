@@ -270,6 +270,7 @@
 242	SLEEP(5)	ss_restore.gif	passive	0	0
 243	OVERCLOCK(10)	ss_overclocked.gif	passive	0	0
 244	STATS+++	ss_codeblock.gif	passive	0	0
+245	Generate Irony	book5.gif	nc,self	10	0
 
 # Skills available to Clubbers
 

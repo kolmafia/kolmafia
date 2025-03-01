@@ -2300,4 +2300,33 @@ public class MaximizerTest {
       }
     }
   }
+
+  @Nested
+  class CampAway {
+    @Test
+    public void recommendsCampAwayCloud() {
+      var cleanups =
+          new Cleanups(
+              withProperty("getawayCampsiteUnlocked", true),
+              withProperty("_campAwayCloudBuffs", 0),
+              withProperty("_campAwaySmileBuffs", 0));
+      try (cleanups) {
+        maximize("Muscle Experience Percent");
+        assertThat(getBoosts(), hasItem(hasProperty("cmd", is("campaway cloud"))));
+      }
+    }
+
+    @Test
+    public void doesNotRecommendCampAwayCloudIfUsed() {
+      var cleanups =
+          new Cleanups(
+              withProperty("getawayCampsiteUnlocked", true),
+              withProperty("_campAwayCloudBuffs", 1),
+              withProperty("_campAwaySmileBuffs", 0));
+      try (cleanups) {
+        maximize("Muscle Experience Percent");
+        assertThat(getBoosts(), not(hasItem(hasProperty("cmd", is("campaway cloud")))));
+      }
+    }
+  }
 }
