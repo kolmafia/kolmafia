@@ -9201,6 +9201,8 @@ public abstract class ChoiceControl {
         RequestLogger.updateSessionLog(message);
         // Refresh status manually since KoL doesn't trigger it
         ApiRequest.updateStatus(true);
+        // refresh again because level is wrong the first time
+        ApiRequest.updateStatus(true);
       }
 
       Preferences.increment("_sourceTerminalEnhanceUses");
