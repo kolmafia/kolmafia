@@ -12015,7 +12015,6 @@ Item	absentee voter ballot	Last Available: "2018-11"
 # adder: Poisons your opponent
 Item	adventurer clone egg	Free Pull, Last Available: "2013-06"
 Item	Agent Mauve	Last Available: "2014-10"
-Item	Aggressive Carrot	Free Pull
 Item	Aiolion	Last Available: "2018-03"
 Item	airplane charter: Conspiracy Island	Free Pull, Last Available: "2014-10"
 Item	airplane charter: Dinseylandfill	Free Pull, Last Available: "2015-04"

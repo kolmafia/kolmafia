@@ -78,6 +78,35 @@ public class DebugDatabaseTest {
   }
 
   @Test
+  public void checkMuseumItems() {
+    // The output isn't normally pretty-printed, but this is easier for a human to interpret.
+    String fakeMuseumJson =
+        """
+        [
+            {"id":-999,"name":"non-existent item"},
+            {"id":8884,"name":"plate of Val-U Brand Every Bean Salad","descid":880233878,"image":"beans","type":"food","itemclass":"salad","power":0,"multiple":false,"smith":false,"cook":false,"mix":false,"jewelry":false,"d":true,"t":true,"q":false,"g":false,"autosell":25,"plural":"plates of Val-U Brand Every Bean Salad"}
+        ]
+        """;
+    File plurals = new File(KoLConstants.DATA_LOCATION, "museum_items.txt");
+    try (var cleanups =
+        new Cleanups(withNextResponse(200, fakeMuseumJson), new Cleanups(plurals::delete))) {
+      DebugDatabase.checkMuseumItems();
+      assertTrue(plurals.exists());
+      assertEquals(
+          Files.readString(plurals.toPath()),
+          """
+          Unrecognised item -999: "non-existent item"
+          Mismatch - 8884:plate of Val-U Brand Every Bean Salad - image - Mafia: franksbeans.gif - Museum: beans.gif
+          Mismatch - 8884:plate of Val-U Brand Every Bean Salad - salad - Mafia: false - Museum: true
+          Mismatch - 8884:plate of Val-U Brand Every Bean Salad - beans - Mafia: true - Museum: false
+          """);
+      DebugDatabase.checkMuseumItems();
+    } catch (IOException e) {
+      fail("unexpected exception: ", e);
+    }
+  }
+
+  @Test
   @Disabled("Accesses Coldfront which is returning malformed XML")
   public void checkPulverizationData() {
     String expectedOutput = "Checking pulverization data...\n";

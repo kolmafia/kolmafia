@@ -1886,63 +1886,56 @@ public class ItemDatabase {
   }
 
   public static final boolean isFood(final int itemId) {
-    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
-    return useType == ConsumptionType.EAT;
+    return useTypeIs(ConsumptionType.EAT, itemId);
   }
 
   public static final boolean isBooze(final int itemId) {
-    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
-    return useType == ConsumptionType.DRINK;
+    return useTypeIs(ConsumptionType.DRINK, itemId);
   }
 
   public static final boolean isSpleen(final int itemId) {
-    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
-    return useType == ConsumptionType.SPLEEN;
+    return useTypeIs(ConsumptionType.SPLEEN, itemId);
   }
 
   public static final boolean isHat(final int itemId) {
-    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
-    return useType == ConsumptionType.HAT;
+    return useTypeIs(ConsumptionType.HAT, itemId);
   }
 
   public static final boolean isWeapon(final int itemId) {
-    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
-    return useType == ConsumptionType.WEAPON;
+    return useTypeIs(ConsumptionType.WEAPON, itemId);
   }
 
   public static final boolean isOffHand(final int itemId) {
-    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
-    return useType == ConsumptionType.OFFHAND;
+    return useTypeIs(ConsumptionType.OFFHAND, itemId);
   }
 
   public static final boolean isContainer(final int itemId) {
-    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
-    return useType == ConsumptionType.CONTAINER;
+    return useTypeIs(ConsumptionType.CONTAINER, itemId);
   }
 
   public static final boolean isShirt(final int itemId) {
-    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
-    return useType == ConsumptionType.SHIRT;
+    return useTypeIs(ConsumptionType.SHIRT, itemId);
   }
 
   public static final boolean isPants(final int itemId) {
-    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
-    return useType == ConsumptionType.PANTS;
+    return useTypeIs(ConsumptionType.PANTS, itemId);
   }
 
   public static final boolean isAccessory(final int itemId) {
-    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
-    return useType == ConsumptionType.ACCESSORY;
+    return useTypeIs(ConsumptionType.ACCESSORY, itemId);
   }
 
   public static final boolean isFamiliarEquipment(final int itemId) {
-    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
-    return useType == ConsumptionType.FAMILIAR_EQUIPMENT;
+    return useTypeIs(ConsumptionType.FAMILIAR_EQUIPMENT, itemId);
   }
 
   public static final boolean isFamiliarHatchling(final int itemId) {
+    return useTypeIs(ConsumptionType.FAMILIAR_HATCHLING, itemId);
+  }
+
+  private static boolean useTypeIs(ConsumptionType ct, final int itemId) {
     ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
-    return useType == ConsumptionType.FAMILIAR_HATCHLING;
+    return useType == ct;
   }
 
   public static final boolean isMultiUsable(final int itemId) {
