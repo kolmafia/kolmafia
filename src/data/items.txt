@@ -11885,3 +11885,25 @@
 11857	carton of extra-sharp, rusty staples	244766832	staplebox.gif	familiar	t,d	75	cartons of extra-sharp, rusty staples
 11858	glover liners	756658580	gloveliners.gif	familiar	t,d	75
 11859	mosquito speakers	909527695	mosquitobox.gif	familiar	t,d	75
+11860	assemble-it-yourself Leprecondo	925526821	leprecondobox.gif	usable	t	0
+11861	Leprecondo	720402031	leprecondo.gif	usable		0
+11862
+11863
+11864
+11865
+11866
+11867	Book of Irony	671417795	book5.gif	usable		0
+11868
+11869
+11870
+11871
+11872
+11873
+11874
+11875
+11876
+11877
+11878
+11879
+11880
+11881	prussian cathouse sidecar	585508277	chamflute.gif	drink	t,d	20

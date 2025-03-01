@@ -559,6 +559,7 @@ pointy mushroom wine	3	6	awesome	10-14	0	0	8-10	WINE
 premium malt liquor	3	1	decent	5-6	1-2	1-2	1-2
 primitive alien booze	5	1	good	15-16	8-10	8-10	8-10	Extends the duration of up to 10 of your effects by 5 Adventures
 prussian cathouse	4	6	awesome	14-18	0	0	40-47
+prussian cathouse sidecar	1	4	awesome	0	0	0	0	Unspaded
 prussian cathouse with a fly in it	0	1	crappy	0	0	0	0	Undrinkable
 Psychotic Train wine	6	11	awesome	19-20	150-250	0	0	WINE
 pumpkin beer	1	2	EPIC	4-7	5-20	5-20	5-20	2-4 MP, BEER
