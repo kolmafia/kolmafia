@@ -2967,3 +2967,13 @@
 2964	Grafted	zootomist.gif	003e2e2d7de4a3fb2982c7615b1cbcdc	neutral	none
 2965	Milk of Familiar Kindness	noart.gif	49aaf365d871570cbdead2dc7e35ff26	neutral	none	cast 1 Drink The Milk of %n Kindness
 2966	Milk of Familiar Cruelty	noart.gif	ddf36c8e65632ba327f2a6e756a963c0	neutral	none	cast 1 Drink The Milk of %n Cruelty
+2967
+2968	Well Stimulated	realbrain.gif	81a7d2b1f43590476164adf91fa8a7dc	neutral	none
+2969	Wasting Time	neckclock.gif	ac3b66c9720f2a49ce5591ff7dce90d8	neutral	none
+2970	Good Night's Sleep	sleepy.gif	f976f835884c1f71ed28c5b9d8380c03	neutral	none
+2971
+2972
+2973
+2974
+2975
+2976	Your Days Are Numbed	tvscreen.gif	9538e8a3970b62c2d184c0517c1ab071	neutral	none
