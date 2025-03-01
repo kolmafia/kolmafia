@@ -2499,7 +2499,7 @@
 2496	The More You Eat	franksbeans.gif	e74b9deafaee13c8c35cfbf8b3d865ed	good	none	eat 1 campfire beans
 2497	Just Like Me, They Want to Be	soupbowl.gif	ace65aa58faa1e731ee0bfdb07fa3871	good	none	eat 1 campfire stew
 2498	Coffee Achiever	coffeecup.gif	df349ed07a74d9ff6e00d794d0ae9f50	good	none	eat 1 campfire coffee
-2499	That's Just Cloud-Talk, Man	puff.gif	0e4df48fbd74c17071e74bda5d337161	good	nohookah
+2499	That's Just Cloud-Talk, Man	puff.gif	0e4df48fbd74c17071e74bda5d337161	good	nohookah	campaway cloud
 2500	Smile of the Mongoose	const1.gif	53db113a18633034025164e78b76c510	good	none
 2501	Smile of the Wallaby	const2.gif	cddee20a242185001f832c863235619a	good	none
 2502	Smile of the Vole	const3.gif	3138897dbdb3fef8bdac982c8b146b2f	good	none	cargo effect Smile of the Vole
