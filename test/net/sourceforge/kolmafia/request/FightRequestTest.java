@@ -3924,10 +3924,53 @@ public class FightRequestTest {
     void parsesFurnitureDiscovery() {
       var cleanups =
           new Cleanups(
-              withItem("Leprecondo"), withProperty("leprecondoDiscovered", "1,21"), withFight(0));
+              withItem("Leprecondo"),
+              withProperty("leprecondoDiscovered", "1,21"),
+              withProperty("leprecondoCurrentNeed"),
+              withProperty("leprecondoNeedOrder"),
+              withFight(0));
       try (cleanups) {
         parseCombatData("request/test_fight_leprecondo_furniture_found.html");
         assertThat("leprecondoDiscovered", isSetTo("1,10,21"));
+      }
+    }
+
+    @Test
+    void parsesNeed() {
+      var cleanups =
+          new Cleanups(
+              withItem("Leprecondo"),
+              withProperty("leprecondoDiscovered"),
+              withProperty("leprecondoCurrentNeed"),
+              withProperty("leprecondoNeedOrder"),
+              withFight(0));
+      try (cleanups) {
+        parseCombatData("request/test_fight_leprecondo_furniture_found.html");
+        assertThat("leprecondoNeed", isSetTo("booze"));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource(
+        value = {
+          "booze|''|booze",
+          "food|sleep,exercise,mental stimulation|sleep,exercise,mental stimulation,food",
+          "food|sleep,food,booze,exercise|food",
+          "food|sleep,mental stimulation,food,dumb entertainment,booze,exercise,booze|food",
+          "exercise|sleep,mental stimulation,food,dumb entertainment,exercise,booze|sleep,mental stimulation,food,dumb entertainment,exercise,booze",
+        },
+        delimiter = '|')
+    void calculatesNeedOrder(final String need, final String order, final String expected) {
+      var cleanups =
+          new Cleanups(
+              withItem("Leprecondo"),
+              withProperty("leprecondoDiscovered"),
+              withProperty("leprecondoCurrentNeed", ""),
+              withProperty("leprecondoNeedOrder", order),
+              withFight(0));
+      try (cleanups) {
+        FightRequest.processLeprecondoNeed(need);
+        assertThat("leprecondoNeedOrder", isSetTo(expected));
       }
     }
   }
