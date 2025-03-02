@@ -1,7 +1,9 @@
 package net.sourceforge.kolmafia.request.coinmaster.shop;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -28,10 +30,15 @@ public abstract class ArmoryAndLeggeryRequest extends CoinMasterShopRequest {
           .withVisitShopRows(ArmoryAndLeggeryRequest::visitShopRows);
 
   static {
-    initializeCoinMasterInventory();
+    initializeShopRows();
   }
 
-  public static void initializeCoinMasterInventory() {
+  public static void reset() {
+    // Nothing to do, but calling this will run the static
+    // initialization the first time this class is accessed.
+  }
+
+  public static void initializeShopRows() {
     CoinmasterData data = ARMORY_AND_LEGGERY;
 
     List<ShopRow> shopRows = new ArrayList<>();
@@ -66,13 +73,14 @@ public abstract class ArmoryAndLeggeryRequest extends CoinMasterShopRequest {
   }
 
   // We can learn new rows from visiting this shop with new pulverized items.
-  public static void visitShopRows(final List<ShopRow> shopRows) {
+  public static void visitShopRows(final List<ShopRow> shopRows, final Boolean force) {
     CoinmasterData data = ARMORY_AND_LEGGERY;
 
+    Set<Integer> pulverizedSeen = new HashSet<>();
     List<String> pulverizeLines = new ArrayList<>();
     List<String> rewardLines = new ArrayList<>();
 
-    // ShopRequest.parseInventory will parse the rows and register new items.
+    // ShopRequest.parseInventory parses the rows and registers new items.
     for (ShopRow shopRow : shopRows) {
       AdventureResult[] costs = shopRow.getCosts();
 
@@ -110,27 +118,37 @@ public abstract class ArmoryAndLeggeryRequest extends CoinMasterShopRequest {
 
       AdventureResult item = shopRow.getItem();
 
-      // We can learn new rows, but in order to register them, the current year's pulverized
-      // standard reward must be known and registered. We can do that here, if the reward item is
-      // known, step 3 of our protocol.
-
+      // We can learn new rows, but in order to register them, the previous year's standard reward
+      // must be known - presumably with row = UNKNOWN, per step 3 of the protocol.
       var reward = StandardRewardDatabase.findStandardReward(item.getItemId());
-      var pulverized = StandardRewardDatabase.findStandardPulverized(currency.getItemId());
-
-      if (pulverized == null) {
-        // id	year	type	name
-        int itemId = currency.getItemId();
-        int year = reward == null ? 0 : reward.year() + 1;
-        boolean type = reward.type();
-        String name = currency.getName();
-        StandardPulverized toRegister = new StandardPulverized(itemId, year, type, name);
-        StandardRewardDatabase.registerStandardPulverized(itemId, toRegister);
-
-        String line = StandardRewardDatabase.toData(toRegister);
-        pulverizeLines.add(line);
+      if (reward == null) {
+        continue;
       }
 
-      if (reward != null && reward.row().equals("UNKNOWN")) {
+      // Given the reward, we can derive standard pulverized items.
+      var pulverized = StandardRewardDatabase.findStandardPulverized(currency.getItemId());
+
+      if (force || pulverized == null) {
+        // id	year	type	name
+        int itemId = currency.getItemId();
+
+        // Each pulverized item is used as the currency for six rewards.
+        // We don't want to generate six lines for standard_pulverized.txt
+        if (!pulverizedSeen.contains(itemId)) {
+          int year = reward.year() + 1;
+          boolean type = reward.type();
+          String name = currency.getName();
+          StandardPulverized toRegister = new StandardPulverized(itemId, year, type, name);
+          StandardRewardDatabase.registerStandardPulverized(itemId, toRegister);
+
+          String line = StandardRewardDatabase.toData(toRegister);
+          pulverizeLines.add(line);
+
+          pulverizedSeen.add(itemId);
+        }
+      }
+
+      if (force || reward.row().equals("UNKNOWN")) {
         // id	year	type	class	row	name
         int itemId = item.getItemId();
         int year = reward.year();

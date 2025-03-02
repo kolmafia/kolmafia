@@ -267,8 +267,8 @@ public class ShopRequest extends GenericRequest {
     // observations of the inventory
     CoinmasterData cd = ShopDatabase.getCoinmasterData(shopId);
     if (cd != null) {
+      cd.visitShopRows(shopRows, force);
       cd.visitShop(responseText);
-      cd.visitShopRows(shopRows);
     }
 
     // KoL can add new items to existing coinmasters, npc stores, or

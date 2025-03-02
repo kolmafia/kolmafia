@@ -111,7 +111,7 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   private Function<Integer, Boolean> availableSkill = this::availableSkillInternal;
   private BiConsumer<AdventureResult, Boolean> purchasedItem = this::purchasedItemInternal;
   private Consumer<String> visitShop = this::visitShopInternal;
-  private Consumer<List<ShopRow>> visitShopRows = this::visitShopRowsInternal;
+  private BiConsumer<List<ShopRow>, Boolean> visitShopRows = this::visitShopRowsInternal;
   private Supplier<String> canBuy = this::canBuyInternal;
   private Supplier<String> canSell = this::canSellInternal;
   private Supplier<String> accessible = this::accessibleInternal;
@@ -723,7 +723,7 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
    * @param consumer - a Consumer object to be called by visitShopRows
    * @return this - Allows fluid chaining of fields
    */
-  public CoinmasterData withVisitShopRows(Consumer<List<ShopRow>> consumer) {
+  public CoinmasterData withVisitShopRows(BiConsumer<List<ShopRow>, Boolean> consumer) {
     this.visitShopRows = consumer;
     return this;
   }
@@ -1511,11 +1511,11 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
 
   private void visitShopInternal(String responseText) {}
 
-  public void visitShopRows(final List<ShopRow> shopRows) {
-    this.visitShopRows.accept(shopRows);
+  public void visitShopRows(final List<ShopRow> shopRows, Boolean force) {
+    this.visitShopRows.accept(shopRows, force);
   }
 
-  private void visitShopRowsInternal(List<ShopRow> shopRows) {}
+  private void visitShopRowsInternal(List<ShopRow> shopRows, Boolean force) {}
 
   public Boolean equip() {
     return this.equip.get();
