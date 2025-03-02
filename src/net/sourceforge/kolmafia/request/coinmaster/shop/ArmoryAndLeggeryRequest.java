@@ -4,14 +4,10 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.StandardRewardDatabase;
 import net.sourceforge.kolmafia.persistence.StandardRewardDatabase.StandardPulverized;
 import net.sourceforge.kolmafia.persistence.StandardRewardDatabase.StandardReward;
@@ -192,70 +188,5 @@ public abstract class ArmoryAndLeggeryRequest extends CoinMasterShopRequest {
 
     RequestLogger.printLine(divider);
     RequestLogger.updateSessionLog(divider);
-  }
-
-  // *** Obsolete: used in "test standard-rewards", which should be
-  // *** subsumed by our shop.php inventory parsing
-
-  public static record CoinmasterReward(
-      int itemId, String itemName, String currency, int price, int row) {}
-
-  // <tr rel="7985"><td valign=center></td><td><img
-  // src="https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/polyparachute.gif"
-  // class=hand onClick='javascript:descitem(973760204)'></td><td valign=center><a
-  // onClick='javascript:descitem(973760204)'><b>polyester
-  // parachute</b>&nbsp;&nbsp;&nbsp;&nbsp;</a></td><td><img
-  // src=https://s3.amazonaws.com/images.kingdomofloathing.com/itemimages/wickerbits.gif width=30
-  // height=30 onClick='javascript:descitem(134381888)' alt="wickerbits"
-  // title="wickerbits"></td><td><b>1</b>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td></td><td>&nbsp;&nbsp;</td><td valign=center><input class="button doit multibuy "  type=button rel='shop.php?whichshop=armory&action=buyitem&quantity=1&whichrow=804&pwd=' value='Buy'></td></tr>
-
-  public static final Pattern ITEM_PATTERN =
-      Pattern.compile(
-          "<tr rel=\"(\\d+)\">.*?onClick='javascript:descitem\\((\\d+)\\)'>.*?<b>(.*?)</b>.*?title=\"(.*?)\".*?<b>([\\d,]+)</b>.*?whichrow=(\\d+)",
-          Pattern.DOTALL);
-
-  public static CoinmasterReward parseCoinmasterReward(Matcher matcher) {
-    int itemId = StringUtilities.parseInt(matcher.group(1));
-    String itemName = matcher.group(3).trim();
-    String currency = matcher.group(4);
-    int price = StringUtilities.parseInt(matcher.group(5));
-    int row = StringUtilities.parseInt(matcher.group(6));
-
-    // The currency must be an item
-    if (currency.equals("Meat")) {
-      return null;
-    }
-
-    return new CoinmasterReward(itemId, itemName, currency, price, row);
-  }
-
-  public static String toData(CoinmasterReward creward) {
-    if (creward == null) {
-      return null;
-    }
-
-    int currency = ItemDatabase.getItemId(creward.currency());
-    if (currency == -1) {
-      RequestLogger.printLine("currency '" + creward.currency() + "' is unknown.");
-      return null;
-    }
-
-    StandardPulverized pulverized = StandardRewardDatabase.findStandardPulverized(currency);
-    if (pulverized == null) {
-      RequestLogger.printLine(
-          "currency '" + creward.currency() + "' is not registered yet as a currency.");
-      return null;
-    }
-
-    int itemId = creward.itemId();
-    String itemName = creward.itemName();
-    int year = pulverized.year() - 1;
-    boolean type = pulverized.type();
-    StandardReward current = StandardRewardDatabase.findStandardReward(itemId);
-    AscensionClass cl = current == null ? null : current.cl();
-    String row = "ROW" + creward.row();
-
-    StandardReward sreward = new StandardReward(itemId, year, type, cl, row, itemName);
-    return StandardRewardDatabase.toData(sreward);
   }
 }
