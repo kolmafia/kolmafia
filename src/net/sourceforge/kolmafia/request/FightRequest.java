@@ -17,6 +17,8 @@ import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
 import net.sourceforge.kolmafia.AreaCombatData;
@@ -7750,6 +7752,11 @@ public class FightRequest extends GenericRequest {
       return;
     }
 
+    // Leprecondo actions are tagged this way
+    if (FightRequest.handleLeprecondo(str, image)) {
+      return;
+    }
+
     if (FightRequest.handleBellydancerPickpocket(str)) {
       return;
     }
@@ -8665,6 +8672,56 @@ public class FightRequest extends GenericRequest {
         Preferences.setString("_cookbookbatQuestIngredient", "");
         return true;
       }
+    }
+
+    return false;
+  }
+
+  private static String[] LEPRECONDO_FURNITURE =
+      new String[] {
+        "buckets of concrete",
+        "thrift store oil painting",
+        "boxes of old comic books",
+        "second-hand hot plate",
+        "free mattress",
+        "beer cooler",
+        "UltraDance karaoke machine",
+        "cupcake treadmill",
+        "internet-connected laptop",
+        "sous vide laboratory",
+        "whiskeybed",
+        "complete classics library",
+        "ultimate retro game console",
+        "four-poster bed",
+      };
+
+  static final Pattern LEPRECONDO_FURNITURE_DISCOVERY =
+      Pattern.compile("spots a (.*?) and runs out of his condo\\.  He drags it back");
+
+  private static boolean handleLeprecondo(final String text, final String image) {
+    if (!image.equals("familiar2.gif")) return false;
+    // Check for new furniture discovery
+    var discovery = LEPRECONDO_FURNITURE_DISCOVERY.matcher(text);
+    if (discovery.find()) {
+      var discovered =
+          IntStream.range(1, LEPRECONDO_FURNITURE.length)
+              .filter((i) -> discovery.group(1).startsWith(LEPRECONDO_FURNITURE[i - 1]))
+              .findAny()
+              .orElse(0);
+
+      if (discovered == 0) return false;
+
+      Preferences.setString(
+          "leprecondoDiscovered",
+          Stream.concat(
+                  Arrays.stream(Preferences.getString("leprecondoDiscovered").split(","))
+                      .map(Integer::parseInt),
+                  Stream.of(discovered))
+              .sorted()
+              .map(String::valueOf)
+              .collect(Collectors.joining(",")));
+
+      return true;
     }
 
     return false;

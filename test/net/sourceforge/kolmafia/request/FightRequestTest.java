@@ -3917,4 +3917,18 @@ public class FightRequestTest {
       }
     }
   }
+
+  @Nested
+  class Leprecondo {
+    @Test
+    void parsesFurnitureDiscovery() {
+      var cleanups =
+          new Cleanups(
+              withItem("Leprecondo"), withProperty("leprecondoDiscovered", "1,21"), withFight(0));
+      try (cleanups) {
+        parseCombatData("request/test_fight_leprecondo_furniture_found.html");
+        assertThat("leprecondoDiscovered", isSetTo("1,10,21"));
+      }
+    }
+  }
 }
