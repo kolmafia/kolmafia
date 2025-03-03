@@ -14,6 +14,7 @@ import java.util.TimeZone;
 import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -8747,16 +8748,21 @@ public class FightRequest extends GenericRequest {
 
       if (discovered == 0) return false;
 
-      Preferences.setString(
+      try {
+        Preferences.setString(
           "leprecondoDiscovered",
           Stream.concat(
-                  Arrays.stream(Preferences.getString("leprecondoDiscovered").split(","))
-                      .map(Integer::parseInt),
-                  Stream.of(discovered))
-              .sorted()
-              .distinct()
-              .map(String::valueOf)
-              .collect(Collectors.joining(",")));
+              Arrays.stream(Preferences.getString("leprecondoDiscovered").split(","))
+                .filter(Predicate.not(String::isBlank))
+                .map(Integer::parseInt),
+              Stream.of(discovered))
+            .sorted()
+            .distinct()
+            .map(String::valueOf)
+            .collect(Collectors.joining(",")));
+      } catch (NumberFormatException e) {
+        // If the leprecondoDiscovered pref is malformed, just do nothing. It can be fixed visiting the condo
+      }
 
       return true;
     }

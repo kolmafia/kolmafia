@@ -3946,7 +3946,7 @@ public class FightRequestTest {
               withFight(0));
       try (cleanups) {
         parseCombatData("request/test_fight_leprecondo_furniture_found.html");
-        assertThat("leprecondoNeed", isSetTo("booze"));
+        assertThat("leprecondoCurrentNeed", isSetTo("booze"));
       }
     }
 
