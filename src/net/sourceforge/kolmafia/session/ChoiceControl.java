@@ -8962,6 +8962,32 @@ public abstract class ChoiceControl {
           Preferences.setInteger("zootSpecimensPrepared", spawned);
         }
       }
+      case 1556 -> { // Leprecondo
+        var discoveryOptions =
+            Pattern.compile("<select id=\"r1\" name=\"r1\">(.*?)</select>").matcher(text);
+        if (discoveryOptions.find()) {
+          var discoveries =
+              Pattern.compile("<option (?:selected)? value='(\\d+)'")
+                  .matcher(discoveryOptions.group(1))
+                  .results()
+                  .map(r -> r.group(1))
+                  .distinct()
+                  .collect(Collectors.joining(","));
+
+          Preferences.setString("leprecondoDiscovered", discoveries);
+        }
+
+        var installed =
+            Pattern.compile("<select id=\"r(\\d)\".*?selected value='(\\d+)'")
+                .matcher(text)
+                .results()
+                .map(r -> Map.entry(Integer.parseInt(r.group(1)), r.group(2)))
+                .sorted(Entry.comparingByKey())
+                .map(Entry::getValue)
+                .collect(Collectors.joining(","));
+
+        Preferences.setString("leprecondoInstalled", installed);
+      }
     }
   }
 

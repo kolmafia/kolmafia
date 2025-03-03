@@ -1409,4 +1409,37 @@ class ChoiceControlTest {
       }
     }
   }
+
+  @Nested
+  class Leprecondo {
+    @ParameterizedTest
+    @CsvSource(
+        value = {"1|1,2,3,4,5,6,8,9,12,13,21,24"},
+        delimiter = '|')
+    void canDetectFurnitureDiscovered(final String version, final String discoveries) {
+      var cleanups = new Cleanups(withProperty("leprecondoDiscovered", ""));
+
+      try (cleanups) {
+        var req = new GenericRequest("choice.php?whichchoice=1556");
+        req.responseText = html("request/test_choice_leprecondo_" + version + ".html");
+        ChoiceManager.visitChoice(req);
+        assertThat("leprecondoDiscovered", isSetTo(discoveries));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource(
+        value = {"1|21,12,8,9"},
+        delimiter = '|')
+    void canDetectFurnitureInstalled(final String version, final String discoveries) {
+      var cleanups = new Cleanups(withProperty("leprecondoDiscovered", ""));
+
+      try (cleanups) {
+        var req = new GenericRequest("choice.php?whichchoice=1556");
+        req.responseText = html("request/test_choice_leprecondo_" + version + ".html");
+        ChoiceManager.visitChoice(req);
+        assertThat("leprecondoInstalled", isSetTo(discoveries));
+      }
+    }
+  }
 }
