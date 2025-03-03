@@ -4,11 +4,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.request.coinmaster.shop.ArmoryAndLeggeryRequest.CoinmasterItem;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -18,28 +18,52 @@ public class StandardRewardDatabase {
   public static record StandardReward(
       int itemId, int year, boolean type, AscensionClass cl, String row, String itemName) {}
 
-  // id	year	type	name
-  public static record StandardPulverized(int itemId, int year, boolean type, String itemName) {}
-
-  public static Map<Integer, StandardReward> rewardByItemid = new HashMap<>();
-  public static Map<Integer, StandardPulverized> pulverizedByItemid = new HashMap<>();
-
-  // Map from year -> map from type -> StandardPulverized
-  public static Map<Integer, Map<Boolean, StandardPulverized>> pulverizedByYearAndType =
-      new HashMap<>();
-
-  static {
-    StandardRewardDatabase.reset();
-  }
+  public static Map<Integer, StandardReward> rewardByItemid = new TreeMap<>();
 
   public static Map<Integer, StandardReward> allStandardRewards() {
     return rewardByItemid;
   }
 
+  public static StandardReward findStandardReward(final int itemId) {
+    return rewardByItemid.get(itemId);
+  }
+
+  public static void registerStandardReward(int itemId, StandardReward standardReward) {
+    rewardByItemid.put(itemId, standardReward);
+  }
+
+  // id	year	type	name
+  public static record StandardPulverized(int itemId, int year, boolean type, String itemName) {}
+
+  public static Map<Integer, StandardPulverized> pulverizedByItemid = new HashMap<>();
+
+  public static StandardPulverized findStandardPulverized(int itemId) {
+    return pulverizedByItemid.get(itemId);
+  }
+
+  // Map from year -> map from type -> StandardPulverized
+  public static Map<Integer, Map<Boolean, StandardPulverized>> pulverizedByYearAndType =
+      new HashMap<>();
+
+  public static void registerStandardPulverized(int itemId, StandardPulverized pulverized) {
+    pulverizedByItemid.put(itemId, pulverized);
+    int year = pulverized.year;
+    boolean type = pulverized.type;
+    Map<Boolean, StandardPulverized> map = pulverizedByYearAndType.get(year);
+    if (map == null) {
+      map = new HashMap<>();
+      pulverizedByYearAndType.put(year, map);
+    }
+    map.put(type, pulverized);
+  }
+
+  static {
+    StandardRewardDatabase.reset();
+  }
+
   public static void reset() {
     StandardRewardDatabase.readEquipment();
     StandardRewardDatabase.readPulverized();
-    StandardRewardDatabase.createPulverizedMap();
   }
 
   private static void readEquipment() {
@@ -107,14 +131,45 @@ public class StandardRewardDatabase {
         // Defined by itemId, so, for human use only
         String name = data[5];
 
-        rewardByItemid.put(itemId, new StandardReward(itemId, year, type, cl, row, name));
+        StandardReward toRegister = new StandardReward(itemId, year, type, cl, row, name);
+        registerStandardReward(itemId, toRegister);
       }
     } catch (IOException e) {
       StaticEntity.printStackTrace(e);
     }
+  }
 
-    // System.out.println("There are " + rewardByItemid.size() + " kinds of standard reward
-    // equipment");
+  public static String toData(StandardReward reward) {
+    int itemId = reward.itemId();
+    String itemName = reward.itemName();
+    int year = reward.year();
+    boolean type = reward.type();
+    AscensionClass cl = reward.cl();
+    String row = reward.row();
+
+    StringBuilder buf = new StringBuilder();
+    buf.append(itemId);
+    buf.append("\t");
+    buf.append(year);
+    buf.append("\t");
+    buf.append(type ? "hard" : "norm");
+    buf.append("\t");
+    buf.append(
+        switch (cl) {
+          case SEAL_CLUBBER -> "SC";
+          case TURTLE_TAMER -> "TT";
+          case PASTAMANCER -> "PA";
+          case SAUCEROR -> "SA";
+          case DISCO_BANDIT -> "DB";
+          case ACCORDION_THIEF -> "AT";
+          default -> "NONE";
+        });
+    buf.append("\t");
+    buf.append(row);
+    buf.append("\t");
+    buf.append(itemName);
+
+    return buf.toString();
   }
 
   private static void readPulverized() {
@@ -152,29 +207,29 @@ public class StandardRewardDatabase {
         // Defined by itemId, so, for human use only
         String name = data[3];
 
-        pulverizedByItemid.put(itemId, new StandardPulverized(itemId, year, type, name));
+        StandardPulverized toRegister = new StandardPulverized(itemId, year, type, name);
+        registerStandardPulverized(itemId, toRegister);
       }
     } catch (IOException e) {
       StaticEntity.printStackTrace(e);
     }
-
-    // System.out.println("There are " + pulverizedByItemid.size() + " kinds of pulverized standard
-    // reward equipment");
   }
 
-  private static void createPulverizedMap() {
-    for (var entry : pulverizedByItemid.entrySet()) {
-      int itemId = entry.getKey();
-      var pulverized = entry.getValue();
-      int year = pulverized.year;
-      boolean type = pulverized.type;
-      Map<Boolean, StandardPulverized> map = pulverizedByYearAndType.get(year);
-      if (map == null) {
-        map = new HashMap<>();
-        pulverizedByYearAndType.put(year, map);
-      }
-      map.put(type, pulverized);
-    }
+  public static String toData(StandardPulverized pulverized) {
+    int itemId = pulverized.itemId();
+    String itemName = pulverized.itemName();
+    int year = pulverized.year();
+    boolean type = pulverized.type();
+
+    StringBuilder buf = new StringBuilder();
+    buf.append(itemId);
+    buf.append("\t");
+    buf.append(year);
+    buf.append("\t");
+    buf.append(type ? "hard" : "norm");
+    buf.append("\t");
+    buf.append(itemName);
+    return buf.toString();
   }
 
   public static int findPulverization(StandardReward item) {
@@ -206,60 +261,5 @@ public class StandardRewardDatabase {
       int result = findPulverization(item);
       EquipmentDatabase.addPulverization(itemId, result);
     }
-  }
-
-  public static String coinmasterString(CoinmasterItem reward) {
-    if (reward == null) {
-      return null;
-    }
-
-    int currency = ItemDatabase.getItemId(reward.currency());
-    if (currency == -1) {
-      RequestLogger.printLine("currency '" + reward.currency() + "' is unknown.");
-      return null;
-    }
-
-    StandardPulverized pulverized = pulverizedByItemid.get(currency);
-    if (pulverized == null) {
-      RequestLogger.printLine(
-          "currency '" + reward.currency() + "' is not registered yet as a currency.");
-      return null;
-    }
-
-    int itemId = reward.itemId();
-    String itemName = reward.itemName();
-    int year = pulverized.year() - 1;
-    boolean type = pulverized.type();
-    StandardReward current = rewardByItemid.get(itemId);
-    AscensionClass cl = current == null ? null : current.cl();
-    String row = "ROW" + reward.row();
-
-    StringBuilder buf = new StringBuilder();
-    buf.append(itemId);
-    buf.append("\t");
-    buf.append(year);
-    buf.append("\t");
-    buf.append(type ? "hard" : "norm");
-    buf.append("\t");
-    if (cl == null) {
-      buf.append("NONE");
-    } else {
-      buf.append(
-          switch (cl) {
-            case SEAL_CLUBBER -> "SC";
-            case TURTLE_TAMER -> "TT";
-            case PASTAMANCER -> "PA";
-            case SAUCEROR -> "SA";
-            case DISCO_BANDIT -> "DB";
-            case ACCORDION_THIEF -> "AT";
-            default -> "";
-          });
-    }
-    buf.append("\t");
-    buf.append(row);
-    buf.append("\t");
-    buf.append(itemName);
-
-    return buf.toString();
   }
 }
