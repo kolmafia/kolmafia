@@ -260,15 +260,16 @@ public class ShopRequest extends GenericRequest {
       shopName = ShopDatabase.getShopName(shopId);
     }
 
+    // Find all the ShopRow objects. Register any new items seen.
+    List<ShopRow> shopRows = ShopRow.parseShop(responseText, true);
+
     // If this is a coinmaster, give it a chance to make its own
     // observations of the inventory
     CoinmasterData cd = ShopDatabase.getCoinmasterData(shopId);
     if (cd != null) {
+      cd.visitShopRows(shopRows, force);
       cd.visitShop(responseText);
     }
-
-    // Find all the ShopRow objects. Register any new items seen.
-    List<ShopRow> shopRows = ShopRow.parseShop(responseText, true);
 
     // KoL can add new items to existing coinmasters, npc stores, or
     // concoctions. We will log such items in the appropriate format.
