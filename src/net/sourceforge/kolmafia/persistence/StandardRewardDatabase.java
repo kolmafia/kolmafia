@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -17,7 +18,7 @@ public class StandardRewardDatabase {
   public static record StandardReward(
       int itemId, int year, boolean type, AscensionClass cl, String row, String itemName) {}
 
-  public static Map<Integer, StandardReward> rewardByItemid = new HashMap<>();
+  public static Map<Integer, StandardReward> rewardByItemid = new TreeMap<>();
 
   public static Map<Integer, StandardReward> allStandardRewards() {
     return rewardByItemid;
