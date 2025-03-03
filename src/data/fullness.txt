@@ -515,7 +515,7 @@ insanely spicy bean burrito	3	4	awesome	7-14	27-32	0	0
 insanely spicy enchanted bean burrito	3	5	awesome	8-15	0	28-32	0	Chronic Indigestion skill
 insanely spicy jumping bean burrito	3	4	awesome	7-14	0	0	33
 irradiated candy cane	1	1	good	1-5	10-20	10-20	10-20	10 Festive Radiation (+5% all stats)
-it came from beyond dessert	4	1	decent	6-12	7-8	7-8	7-8	10 Sugar Rush
+It Came From Beyond Dessert	4	1	decent	6-12	7-8	7-8	7-8	10 Sugar Rush
 Jack LaLanne roll	3	1	sushi	9-14	28-46	20-30	20-30	45/55 Fishy
 jacked Santa roll	3	1	sushi	10-15	8-16	0	0	20 Dreaming of a Wet Crimbo (better diver, +50 (underwater) Item Drop) 45/55 Fishy
 Jarlsberg's key lime pie	4	6	awesome	14-16	0	28-33	0	Jarlsberg's key
