@@ -981,7 +981,7 @@ Apriling band quad tom	200	Mus: 0	2-handed drum
 Apriling band saxophone	100	Mox: 0	1-handed woodwind
 Apriling band tuba	200	Mus: 0	2-handed brass
 archaeologing shovel	10	Mus: 0	2-handed polearm
-armgun	140	Mox: 55	2-handed machine gun
+armgun	140	Mox: 55	2-handed machinegun
 arse-shooting crossbow	160	Mox: 65	2-handed crossbow
 asbestos crossbow	110	Mox: 40	2-handed crossbow
 asbestos staff	100	Mus: 35	2-handed staff
@@ -1300,7 +1300,7 @@ goatskin umbrella	180	Mus: 75	1-handed umbrella
 goblin autoblowgun	80	Mox: 25	2-handed blowgun
 goblin hunting spear	80	Mus: 25	2-handed spear
 goulauncher	100	Mox: 35	2-handed crossbow
-Granny Hackleton's Gatling gun	300	Mox: 70	1-handed machine gun
+Granny Hackleton's Gatling gun	300	Mox: 70	1-handed machinegun
 grass blade	80	Mus: 25	1-handed sword
 grass whistle	90	Mox: 35	1-handed whistle
 grassy cutlass	150	Mus: 60	1-handed sword

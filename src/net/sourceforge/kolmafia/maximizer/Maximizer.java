@@ -1330,6 +1330,13 @@ public class Maximizer {
           }
           duration = 50;
           usesRemaining = 3 - Preferences.getInteger("_photoBoothEffects");
+        } else if (cmd.equals("campaway cloud")) {
+          var used = Preferences.getInteger("_campAwayCloudBuffs");
+          if (used > 0) {
+            cmd = "";
+          }
+          duration = 100;
+          usesRemaining = 1 - used;
         }
 
         if (item != null) {

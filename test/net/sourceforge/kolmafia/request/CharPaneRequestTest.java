@@ -77,7 +77,14 @@ class CharPaneRequestTest {
   @Nested
   class Level {
     @Test
-    void canFindBasicLevel() {
+    void canFindBasicLevelWithOutTitle() {
+      KoLCharacter.setLevel(0);
+      CharPaneRequest.processResults(html("request/test_charpane_no_title.txt"));
+      assertThat(KoLCharacter.getLevel(), is(85));
+    }
+
+    @Test
+    void canFindBasicLevelWithTitle() {
       KoLCharacter.setLevel(0);
       CharPaneRequest.processResults(html("request/test_charpane_basic.html"));
       assertThat(KoLCharacter.getLevel(), is(255));

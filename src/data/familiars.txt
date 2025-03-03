@@ -176,7 +176,7 @@
 144	Holiday Log	holidaylog.gif	none	holiday log		0	0	0	0	vegetable,object,hard,phallic,hot,good
 145
 146	Obtuse Angel	obtuseangel.gif	other0,item0,drop	a cute angel	quake of arrows	2	0	3	1	sentient,humanoid,person,haseyes,hashands,haslegs,haswings,flies,good
-147	Reconstituted Crow	blackbird1.gif	other1	reconstituted crow		0	0	0	0	haswings,animal,haseyes,undead,flies
+147	Reconstituted Crow	blackbird1.gif	other1	reconstituted crow		0	0	0	0	sentient,organic,undead,hasbones,haseyes,hasclaws,haslegs,haswings,flies,spooky,hasbeak,animal
 148	Li'l Xenomorph	lilxeno.gif	stat0,drop,variable	mysterious chest	tiny top hat and cane	3	2	1	3	sentient,organic,hasbones,haseyes,bite,hashands,hasclaws,haslegs,cute,evil,animal
 149	Dataspider	dataspider.gif	combat0,mp0	squirming egg sac	solid state loom	2	1	2	3	insect,software,haseyes,haslegs,fast,technological,animal
 150	Pair of Stomping Boots	stompboots.gif	combat0,item0,drop	fairy-worn boots	stomp box	3	0	2	2	object,haseyes,isclothes

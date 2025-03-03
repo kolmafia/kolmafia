@@ -555,6 +555,7 @@ public class ItemPool {
   public static final int BUBBLEWRAP_ORE = 1677;
   public static final int GROUCHO_DISGUISE = 1678;
   public static final int EXPRESS_CARD = 1687;
+  public static final int SHINGLE = 1704;
   public static final int FLAMING_CARDBOARD_SWORD = 1706;
   public static final int MUCULENT_MACHETE = 1721;
   public static final int SWORD_PREPOSITIONS = 1734;
@@ -646,6 +647,7 @@ public class ItemPool {
   public static final int SHEET_MUSIC = 2192;
   public static final int FANCY_EVIL_CHOCOLATE = 2197;
   public static final int CRIMBO_UKELELE = 2209;
+  public static final int GREAT_BALL_OF_FROZEN_FIRE = 2221;
   public static final int LIARS_PANTS = 2222;
   public static final int JUGGLERS_BALLS = 2223;
   public static final int PINK_SHIRT = 2224;
@@ -960,6 +962,7 @@ public class ItemPool {
   public static final int BROKEN_DRONE = 3165;
   public static final int REPAIRED_DRONE = 3166;
   public static final int AUGMENTED_DRONE = 3167;
+  public static final int NAUGHTY_ORIGAMI_KIT = 3192;
   public static final int FORTUNE_TELLER = 3193;
   public static final int ORIGAMI_MAGAZINE = 3194;
   public static final int PAPER_SHURIKEN = 3195;
@@ -1151,6 +1154,7 @@ public class ItemPool {
   public static final int CANTEEN_OF_WINE = 3645;
   public static final int MADNESS_REEF_MAP = 3649;
   public static final int MINIATURE_ANTLERS = 3651;
+  public static final int CONTAINER_OF_SPOOKY_PUTTY = 3661;
   public static final int SPOOKY_PUTTY_MITRE = 3662;
   public static final int SPOOKY_PUTTY_LEOTARD = 3663;
   public static final int SPOOKY_PUTTY_BALL = 3664;
@@ -1660,6 +1664,7 @@ public class ItemPool {
   public static final int ASTRAL_HOT_DOG = 5043;
   public static final int ASTRAL_PILSNER = 5044;
   public static final int CLAN_SHOWER = 5047;
+  public static final int SHARD_OF_DOUBLE_ICE = 5048;
   public static final int LARS_THE_CYBERIAN = 5053;
   public static final int CREEPY_VOODOO_DOLL = 5062;
   public static final int SPAGHETTI_CON_CALAVERAS = 5065;

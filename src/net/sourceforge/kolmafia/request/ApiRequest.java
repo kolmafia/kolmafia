@@ -480,13 +480,13 @@ public class ApiRequest extends GenericRequest {
     }
     Preferences.setInteger("zootGraftedHandRightFamiliar", rightHand);
     var rightNipple = grafts.getIntValue("6", 0);
-    if (rightNipple != 0 && !KoLCharacter.hasSkill(SkillPool.DRINK_THE_MILK_OF_CRUELTY)) {
-      KoLCharacter.addAvailableSkill(SkillPool.DRINK_THE_MILK_OF_CRUELTY);
+    if (rightNipple != 0 && !KoLCharacter.hasSkill(SkillPool.DRINK_THE_MILK_OF_KINDNESS)) {
+      KoLCharacter.addAvailableSkill(SkillPool.DRINK_THE_MILK_OF_KINDNESS);
     }
     Preferences.setInteger("zootGraftedNippleRightFamiliar", rightNipple);
     var leftNipple = grafts.getIntValue("7", 0);
-    if (leftNipple != 0 && !KoLCharacter.hasSkill(SkillPool.DRINK_THE_MILK_OF_KINDNESS)) {
-      KoLCharacter.addAvailableSkill(SkillPool.DRINK_THE_MILK_OF_KINDNESS);
+    if (leftNipple != 0 && !KoLCharacter.hasSkill(SkillPool.DRINK_THE_MILK_OF_CRUELTY)) {
+      KoLCharacter.addAvailableSkill(SkillPool.DRINK_THE_MILK_OF_CRUELTY);
     }
     Preferences.setInteger("zootGraftedNippleLeftFamiliar", leftNipple);
     Preferences.setInteger("zootGraftedButtCheekLeftFamiliar", grafts.getIntValue("8", 0));
