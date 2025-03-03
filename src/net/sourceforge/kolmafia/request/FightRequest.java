@@ -8793,6 +8793,7 @@ public class FightRequest extends GenericRequest {
   protected static void processLeprecondoNeed(final String need) {
     if (Preferences.getString("leprecondoCurrentNeed").equals(need)) return;
     Preferences.setString("leprecondoCurrentNeed", need);
+    Preferences.setInteger("leprecondoLastNeedChange", KoLCharacter.getCurrentRun());
     var history = Preferences.getString("leprecondoNeedOrder");
 
     // Already seen this need

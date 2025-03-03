@@ -3942,11 +3942,32 @@ public class FightRequestTest {
               withItem("Leprecondo"),
               withProperty("leprecondoDiscovered"),
               withProperty("leprecondoCurrentNeed"),
+              withProperty("leprecondoLastNeedChange", 0),
               withProperty("leprecondoNeedOrder"),
+              withCurrentRun(45),
               withFight(0));
       try (cleanups) {
         parseCombatData("request/test_fight_leprecondo_furniture_found.html");
         assertThat("leprecondoCurrentNeed", isSetTo("booze"));
+        assertThat("leprecondoLastNeedChange", isSetTo(45));
+      }
+    }
+
+    @Test
+    void ignoresKnownNeed() {
+      var cleanups =
+          new Cleanups(
+              withItem("Leprecondo"),
+              withProperty("leprecondoDiscovered"),
+              withProperty("leprecondoCurrentNeed", "booze"),
+              withProperty("leprecondoLastNeedChange", 42),
+              withProperty("leprecondoNeedOrder"),
+              withCurrentRun(45),
+              withFight(0));
+      try (cleanups) {
+        parseCombatData("request/test_fight_leprecondo_furniture_found.html");
+        assertThat("leprecondoCurrentNeed", isSetTo("booze"));
+        assertThat("leprecondoLastNeedChange", isSetTo(42));
       }
     }
 
