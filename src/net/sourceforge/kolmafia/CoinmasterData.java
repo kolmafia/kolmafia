@@ -27,6 +27,7 @@ import net.sourceforge.kolmafia.shop.ShopDatabase;
 import net.sourceforge.kolmafia.shop.ShopDatabase.SHOP;
 import net.sourceforge.kolmafia.shop.ShopRow;
 import net.sourceforge.kolmafia.shop.ShopRowDatabase;
+import net.sourceforge.kolmafia.utilities.LockableListFactory;
 
 public class CoinmasterData implements Comparable<CoinmasterData> {
 
@@ -110,6 +111,7 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   private Function<Integer, Boolean> availableSkill = this::availableSkillInternal;
   private BiConsumer<AdventureResult, Boolean> purchasedItem = this::purchasedItemInternal;
   private Consumer<String> visitShop = this::visitShopInternal;
+  private BiConsumer<List<ShopRow>, Boolean> visitShopRows = this::visitShopRowsInternal;
   private Supplier<String> canBuy = this::canBuyInternal;
   private Supplier<String> canSell = this::canSellInternal;
   private Supplier<String> accessible = this::accessibleInternal;
@@ -269,6 +271,10 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
    */
   public CoinmasterData withShopRows(String master) {
     this.shopRows = CoinmastersDatabase.getShopRows(master);
+    if (this.shopRows == null) {
+      // None are configured in coinmasters.txt, yet.
+      this.shopRows = LockableListFactory.getInstance(ShopRow.class);
+    }
     return this;
   }
 
@@ -709,6 +715,20 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   }
 
   /**
+   * Specifies a static method that will be invoked by <code>void
+   * visitShopRows(List<ShopRows> shopRows)</code>
+   *
+   * <p>Use this if you want to, for example, check for unlocked items.
+   *
+   * @param consumer - a Consumer object to be called by visitShopRows
+   * @return this - Allows fluid chaining of fields
+   */
+  public CoinmasterData withVisitShopRows(BiConsumer<List<ShopRow>, Boolean> consumer) {
+    this.visitShopRows = consumer;
+    return this;
+  }
+
+  /**
    * Specifies a static method that will be invoked by <code>Boolean
    * canBuy()</code>
    *
@@ -910,6 +930,19 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
       }
     }
     return null;
+  }
+
+  public void setShopRows(List<ShopRow> shopRows) {
+    if (this.shopRows != null) {
+      this.shopRows.clear();
+      this.shopRows.addAll(shopRows);
+    }
+  }
+
+  public final void addShopRow(ShopRow shopRow) {
+    if (this.shopRows != null) {
+      this.shopRows.add(shopRow);
+    }
   }
 
   public Map<Integer, Integer> getRows() {
@@ -1477,6 +1510,12 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   }
 
   private void visitShopInternal(String responseText) {}
+
+  public void visitShopRows(final List<ShopRow> shopRows, Boolean force) {
+    this.visitShopRows.accept(shopRows, force);
+  }
+
+  private void visitShopRowsInternal(List<ShopRow> shopRows, Boolean force) {}
 
   public Boolean equip() {
     return this.equip.get();
