@@ -8981,12 +8981,19 @@ public abstract class ChoiceControl {
             Pattern.compile("<select id=\"r(\\d)\".*?selected value='(\\d+)'")
                 .matcher(text)
                 .results()
-                .map(r -> Map.entry(Integer.parseInt(r.group(1)), r.group(2)))
+                .map(r -> Map.entry(StringUtilities.parseInt(r.group(1)), r.group(2)))
                 .sorted(Entry.comparingByKey())
                 .map(Entry::getValue)
                 .collect(Collectors.joining(","));
 
         Preferences.setString("leprecondoInstalled", installed);
+
+        var rearrangements =
+            Pattern.compile("You can rearrange the furnishings (\\d) more").matcher(text);
+        if (rearrangements.find()) {
+          Preferences.setInteger(
+              "_leprecondoRearrangements", 3 - StringUtilities.parseInt(rearrangements.group(1)));
+        }
       }
     }
   }

@@ -2284,6 +2284,7 @@ user	_leavesBurned	0
 user	_leavesJumped	false
 user	_legendaryBeat	false
 user	_legionJackhammerCrafting	0
+user	_leprecondoRearrangements	0
 user	_licenseToChillUsed	false
 user	_llamaCharge	0
 user	_locketMonstersFought

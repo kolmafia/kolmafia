@@ -1431,14 +1431,29 @@ class ChoiceControlTest {
     @CsvSource(
         value = {"1|21,12,8,9"},
         delimiter = '|')
-    void canDetectFurnitureInstalled(final String version, final String discoveries) {
+    void canDetectFurnitureInstalled(final String version, final String installed) {
       var cleanups = new Cleanups(withProperty("leprecondoDiscovered", ""));
 
       try (cleanups) {
         var req = new GenericRequest("choice.php?whichchoice=1556");
         req.responseText = html("request/test_choice_leprecondo_" + version + ".html");
         ChoiceManager.visitChoice(req);
-        assertThat("leprecondoInstalled", isSetTo(discoveries));
+        assertThat("leprecondoInstalled", isSetTo(installed));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource(
+        value = {"1|0"},
+        delimiter = '|')
+    void canDetectRearrangements(final String version, final String rearrangements) {
+      var cleanups = new Cleanups(withProperty("_leprecondoRearrangements", "1"));
+
+      try (cleanups) {
+        var req = new GenericRequest("choice.php?whichchoice=1556");
+        req.responseText = html("request/test_choice_leprecondo_" + version + ".html");
+        ChoiceManager.visitChoice(req);
+        assertThat("_leprecondoRearrangements", isSetTo(rearrangements));
       }
     }
   }

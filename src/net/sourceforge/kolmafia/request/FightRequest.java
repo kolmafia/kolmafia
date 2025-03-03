@@ -8748,23 +8748,17 @@ public class FightRequest extends GenericRequest {
 
       if (discovered == 0) return false;
 
-      try {
-        Preferences.setString(
-            "leprecondoDiscovered",
-            Stream.concat(
-                    Arrays.stream(Preferences.getString("leprecondoDiscovered").split(","))
-                        .filter(Predicate.not(String::isBlank))
-                        .map(Integer::parseInt),
-                    Stream.of(discovered))
-                .sorted()
-                .distinct()
-                .map(String::valueOf)
-                .collect(Collectors.joining(",")));
-      } catch (NumberFormatException e) {
-        // If the leprecondoDiscovered pref is malformed, just do nothing. It can be fixed visiting
-        // the condo
-      }
-
+      Preferences.setString(
+          "leprecondoDiscovered",
+          Stream.concat(
+                  Arrays.stream(Preferences.getString("leprecondoDiscovered").split(","))
+                      .filter(Predicate.not(String::isBlank))
+                      .map(StringUtilities::parseInt),
+                  Stream.of(discovered))
+              .sorted()
+              .distinct()
+              .map(String::valueOf)
+              .collect(Collectors.joining(",")));
       return true;
     }
 
