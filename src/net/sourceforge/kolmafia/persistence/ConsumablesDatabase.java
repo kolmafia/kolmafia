@@ -71,7 +71,7 @@ public class ConsumablesDatabase {
     QUEST("quest"),
     CHANGING("???"),
     DRIPPY("drippy", "#964B00"),
-    SUSHI("sushi");
+    PSEUDO("pseudoitem");
 
     static final Map<String, ConsumableQuality> nameToQuality = new HashMap<>();
 
