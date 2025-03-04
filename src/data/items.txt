@@ -11887,23 +11887,23 @@
 11859	mosquito speakers	909527695	mosquitobox.gif	familiar	t,d	75
 11860	assemble-it-yourself Leprecondo	925526821	leprecondobox.gif	usable	t	0
 11861	Leprecondo	720402031	leprecondo.gif	usable		0
-11862
-11863
-11864
-11865
-11866
+11862	scoop of pre-workout powder	966952650	powderscoop.gif	spleen, usable	t,d	50
+11863	table tennis ball	555563290	pingpongball.gif	none, combat	t,d	11
+11864	pint of Leprechaun Stout	326629476	juice.gif	drink	t,d	100
+11865	phosphor traces	945485037	disease.gif	spleen, usable	t,d	100
+11866	crafting plans	218471243	boatplan.gif	usable	t,d	100
 11867	Book of Irony	671417795	book5.gif	usable		0
-11868
+11868	spoon	262321030	spoooon.gif	usable, combat	t,d	11
 11869
-11870
-11871
-11872
-11873
-11874
-11875
-11876
-11877
-11878
+11870	bar dart	979911176	nicedart.gif	none, combat	t,d	20
+11871	leprechaun antidepressant pill	798135927	pill3.gif	spleen, usable	t,d	50
+11872	Heck ramen	412904552	bowl.gif	food	t,d	25
+11873	tiny burrito	337192933	burrito.gif	food	t,d	90
+11874	small beer brat	250555589	brat.gif	food	t,d	20
+11875	tiny peach pie	905850738	pie.gif	food	t,d	20
+11876	incredible mini-pizza	927589892	pizza.gif	food	t,d	20
+11877	Divine sidecar	725930155	fruity.gif	drink	t,d	20
+11878	tangarita sidecar	527495853	daquiri.gif	drink	t,d	20
 11879
 11880
 11881	prussian cathouse sidecar	585508277	chamflute.gif	drink	t,d	20
