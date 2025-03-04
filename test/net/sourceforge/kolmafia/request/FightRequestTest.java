@@ -3931,7 +3931,7 @@ public class FightRequestTest {
               withFight(0));
       try (cleanups) {
         parseCombatData("request/test_fight_leprecondo_furniture_found.html");
-        assertThat("leprecondoDiscovered", isSetTo("1,10,21"));
+        assertThat("leprecondoDiscovered", isSetTo("1,13,21"));
       }
     }
 
