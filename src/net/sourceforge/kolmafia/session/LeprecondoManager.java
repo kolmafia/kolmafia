@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.session;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
@@ -165,7 +166,15 @@ public class LeprecondoManager {
             Map.entry(Need.DUMB_ENTERTAINMENT, "plays darts for a while in his sports bar"),
             Map.entry(Need.BOOZE, "has a few beers at the sports bar")),
         "A Barroom Brawl"),
-    UNKNOWN("<unknown furniture>", 18, Map.ofEntries(), ""),
+    COUCH_AND_FLATSCREEN(
+        "couch and flatscreen",
+        18,
+        Map.ofEntries(
+            Map.entry(
+                Need.DUMB_ENTERTAINMENT,
+                "sits on his couch and watches some reruns of old reality shows"),
+            Map.entry(Need.SLEEP, "falls asleep on his comfy couch")),
+        "Frat House"),
     KEGERATOR(
         "kegerator",
         19,
@@ -242,21 +251,18 @@ public class LeprecondoManager {
           .orElse(null);
     }
 
-    public static Furniture byLocation(final String location) {
-      return Arrays.stream(Furniture.values())
-          .filter(f -> f.location.equals(location))
-          .findAny()
-          .orElse(null);
+    public static List<Furniture> byLocation(final String location) {
+      return Arrays.stream(Furniture.values()).filter(f -> f.location.equals(location)).toList();
     }
 
     private final String name;
-    private final int index;
+    private final int id;
     private final Map<Need, String> needs;
     private final String location;
 
-    Furniture(String name, int order, Map<Need, String> needByFulfilment, String location) {
+    Furniture(String name, int id, Map<Need, String> needByFulfilment, String location) {
       this.name = name;
-      this.index = order;
+      this.id = id;
       this.needs = needByFulfilment;
       this.location = location;
     }
@@ -265,8 +271,8 @@ public class LeprecondoManager {
       return name;
     }
 
-    public int getIndex() {
-      return index;
+    public int getId() {
+      return id;
     }
 
     public String getLocation() {
@@ -293,7 +299,7 @@ public class LeprecondoManager {
                   Arrays.stream(Preferences.getString("leprecondoDiscovered").split(","))
                       .filter(Predicate.not(String::isBlank))
                       .map(StringUtilities::parseInt),
-                  Stream.of(discovered.getIndex()))
+                  Stream.of(discovered.getId()))
               .sorted()
               .distinct()
               .map(String::valueOf)
@@ -357,7 +363,7 @@ public class LeprecondoManager {
                   var f = Furniture.byName(r.group(2));
                   return Map.entry(
                       StringUtilities.parseInt(r.group(1)),
-                      String.valueOf(f == null ? 0 : f.getIndex()));
+                      String.valueOf(f == null ? 0 : f.getId()));
                 })
             .sorted(Map.Entry.comparingByKey())
             .map(Map.Entry::getValue)
@@ -395,9 +401,11 @@ public class LeprecondoManager {
   public static String getUndiscoveredFurnitureForLocation(final String zone) {
     if (zone.isBlank()) return null;
     var furniture = Furniture.byLocation(zone);
-    if (furniture == null) return null;
-    if (Arrays.asList(Preferences.getString("leprecondoDiscovered").split(","))
-        .contains(String.valueOf(furniture.getIndex()))) return null;
-    return furniture.getName();
+    if (furniture.isEmpty()) return null;
+    var discovered = Arrays.asList(Preferences.getString("leprecondoDiscovered").split(","));
+    return furniture.stream()
+        .filter(f -> !discovered.contains(String.valueOf(f.getId())))
+        .map(Furniture::getName)
+        .collect(Collectors.joining(", "));
   }
 }
