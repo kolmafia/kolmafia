@@ -1820,6 +1820,11 @@ public class RelayRequest extends PasswordHashRequest {
       return false;
     }
 
+    // If you're a Zootimist, you can't get stats
+    if (KoLCharacter.inZootomist()) {
+      return false;
+    }
+
     // If it's already confirmed, then proceed
     if (this.getFormField(Confirm.SPRING_SHOES) != null) {
       return false;

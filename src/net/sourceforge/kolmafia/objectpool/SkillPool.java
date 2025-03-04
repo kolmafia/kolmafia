@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.objectpool;
 
 public class SkillPool {
   public static final int STEEL_LIVER = 1;
+  public static final int CHRONIC_INDIGESTION = 2;
   public static final int OLD_OLD_SMILE = 3;
   public static final int ARSE_SHOOT = 4;
   public static final int STEEL_STOMACH = 5;
@@ -131,6 +132,9 @@ public class SkillPool {
   public static final int OLD_SCHOOL_COCKTAILCRAFTING = 230;
   public static final int HOLIDAY_MULTITASKING = 240;
   public static final int OVERCLOCK10 = 243;
+  public static final int THRUST_SMACK = 1003;
+  public static final int LUNGE_SMACK = 1004;
+  public static final int LUNGING_THRUST_SMACK = 1005;
   public static final int SUPER_ADVANCED_MEATSMITHING = 1006;
   public static final int WALRUS_TONGUE = 1010;
   public static final int BATTER_UP = 1014;
@@ -197,8 +201,10 @@ public class SkillPool {
   public static final int BIND_SPAGHETTI_ELEMENTAL = 3041;
   public static final int INSCRUTABLE_GAZE = 3043;
   public static final int BLOOD_BUCATINI = 3044;
+  public static final int STREAM_OF_SAUCE = 4003;
   public static final int ADVANCED_SAUCECRAFTING = 4006;
   public static final int JALAPENO_SAUCESPHERE = 4008;
+  public static final int WAVE_OF_SAUCE = 4009;
   public static final int IMPETUOUS_SAUCINESS = 4015;
   public static final int THE_WAY_OF_SAUCE = 4018;
   public static final int SCARYSAUCE = 4019;
@@ -226,6 +232,7 @@ public class SkillPool {
   public static final int SALACIOUS_COCKTAILCRAFTING = 5022;
   public static final int THATS_NOT_A_KNIFE = 5028;
   public static final int TRICKY_KNIFEWORK = 5029;
+  public static final int DISCO_DANCE_3 = 5036;
   public static final int ACQUIRE_RHINESTONES = 5041;
   public static final int BLOOD_BLADE = 5042;
   public static final int ANTIPHON = 6003;
@@ -250,6 +257,11 @@ public class SkillPool {
   public static final int BRAMS_BLOODY_BAGATELLE = 6046;
   public static final int GIVE_IN_TO_YOUR_VAMPIRIC_URGES = 7001;
   public static final int SHAKE_HANDS = 7002;
+  public static final int HOT_BREATH = 7003;
+  public static final int COLD_BREATH = 7004;
+  public static final int SPOOKY_BREATH = 7005;
+  public static final int STINKY_BREATH = 7006;
+  public static final int SLEAZY_BREATH = 7007;
   public static final int MAGIC_MISSILE = 7009;
   public static final int FIRE_RED_BOTTLE_ROCKET = 7010;
   public static final int FIRE_BLUE_BOTTLE_ROCKET = 7011;

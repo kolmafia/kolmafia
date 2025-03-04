@@ -11520,7 +11520,7 @@ public class FightRequest extends GenericRequest {
         }
 
         int skillNumber = StringUtilities.parseInt(skillId);
-        String skill = SkillDatabase.getSkillName(skillNumber);
+        String skill = SkillDatabase.getPrettySkillName(skillNumber);
         if (skill == null) {
           if (shouldLogAction) {
             action.append("casts CHANCE!");
