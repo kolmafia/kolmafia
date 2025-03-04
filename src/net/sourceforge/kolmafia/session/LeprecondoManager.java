@@ -1,113 +1,282 @@
 package net.sourceforge.kolmafia.session;
 
 import java.util.Arrays;
-import java.util.List;
+import java.util.Collection;
 import java.util.Map;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class LeprecondoManager {
-  private static final List<String> FURNITURE =
-      List.of(
-          "buckets of concrete",
-          "thrift store oil painting",
-          "boxes of old comic books",
-          "second-hand hot plate",
-          "beer cooler",
-          "free mattress",
-          "gigantic chess set",
-          "UltraDance karaoke machine",
-          "cupcake treadmill",
-          "beer pong table",
-          "padded weight bench",
-          "internet-connected laptop",
-          "sous vide laboratory",
-          "programmable blender",
-          "sensory deprivation tank",
-          "fruit-smashing robot",
-          "ManCave™ sports bar set",
-          "<unknown furniture>",
-          "kegerator",
-          "fine upholstered dining table set",
-          "whiskeybed",
-          "high-end home workout system",
-          "complete classics library",
-          "ultimate retro game console",
-          "Omnipot",
-          "fully-stocked wet bar",
-          "four-poster bed");
+  private enum Need {
+    MENTAL_STIMULATION("mental stimulation"),
+    EXERCISE("exercise"),
+    DUMB_ENTERTAINMENT("dumb entertainment"),
+    FOOD("food"),
+    BOOZE("booze"),
+    SLEEP("sleep");
 
-  private static final Map<String, String> FURNITURE_LOCATIONS =
-      Map.ofEntries(
-          Map.entry("buckets of concrete", ""),
-          Map.entry("thrift store oil painting", ""),
-          Map.entry("boxes of old comic books", ""),
-          Map.entry("second-hand hot plate", ""),
-          Map.entry("beer cooler", ""),
-          Map.entry("free mattress", ""),
-          Map.entry("gigantic chess set", "An Octopus's Garden"),
-          Map.entry("UltraDance karaoke machine", "Infernal Rackets Backstage"),
-          Map.entry("cupcake treadmill", "Madness Bakery"),
-          Map.entry("beer pong table", "Frat House"),
-          Map.entry("padded weight bench", "The Degrassi Knoll Garage"),
-          Map.entry("internet-connected laptop", "The Hidden Office Building"),
-          Map.entry("sous vide laboratory", "The Haunted Kitchen"),
-          Map.entry("programmable blender", "Cobb's Knob Kitchens"),
-          Map.entry("sensory deprivation tank", "The Marinara Trench"),
-          Map.entry("fruit-smashing robot", "Wartime Hippy Camp (Frat Disguise)"),
-          Map.entry("ManCave™ sports bar set", "A Barroom Brawl"),
-          Map.entry("<unknown furniture>", ""),
-          Map.entry("kegerator", "The Orcish Frat House (Bombed Back to the Stone Age)"),
-          Map.entry("fine upholstered dining table set", "The Hidden Apartment Building"),
-          Map.entry("whiskeybed", "The Castle in the Clouds in the Sky (Ground Floor)"),
-          Map.entry("high-end home workout system", "The Degrassi Knoll Gym"),
-          Map.entry("complete classics library", "The Haunted Library"),
-          Map.entry("ultimate retro game console", "Megalo-City"),
-          Map.entry("Omnipot", "Cobb's Knob Laboratory"),
-          Map.entry("fully-stocked wet bar", "The Purple Light District"),
-          Map.entry("four-poster bed", "Dreadsylvanian Castle"));
+    private final String name;
 
-  private static final Map<String, String> FULFILMENT_TO_NEED =
-      Map.ofEntries(
-          Map.entry("spends a few minutes swinging around his buckets of concrete", "exercise"),
-          Map.entry(
-              "wanders over and spends some time studying his painting", "mental stimulation"),
-          Map.entry("plops down and reads some old comics", "dumb entertainment"),
-          Map.entry("fires up his second-hand hot plate", "food"),
-          Map.entry("heads to his filthy mattress for a nap", "sleep"),
-          Map.entry("grabs a beer from the beer cooler", "booze"),
-          Map.entry(
-              "wanders over to the karaoke machines and sings a few popular songs",
-              "dumb entertainment"),
-          Map.entry(
-              "sets his karaoke machine to dance mode and careens around the room", "exercise"),
-          Map.entry("spends a while running on his cupcake treadmill", "exericse"),
-          Map.entry("grabs a cupcake from his treadmill, and tosses you one as well", "food"),
-          Map.entry(
-              "plays beer pong for a while, but stops drinking before he finishes the whole table's worth",
-              "booze"),
-          Map.entry(
-              "spends some time arguing with people about politics on social media",
-              "dumb entertainment"),
-          Map.entry(
-              "watches some home improvement videos and takes some notes", "mental stimulation"),
-          Map.entry(
-              "whips up a giant meal in the sous vide machine and shares it with you", "food"),
-          Map.entry("reads the manual for his sous vide machine", "mental stimulation"),
-          Map.entry("extracts some of the whiskey from his bed", "booze"),
-          Map.entry("takes a long nap in his whiskeybed", "sleep"),
-          Map.entry("reads some books about military history", "mental stimulation"),
-          Map.entry("play old video games for a few hours", "dumb entertainment"),
-          Map.entry("takes a long nap in his nice bed", "sleep"));
+    Need(String name) {
+      this.name = name;
+    }
 
-  static final Pattern FURNITURE_DISCOVERY_PATTERN =
-      Pattern.compile("spots (?:an?|some) (.*?) and runs out of his condo\\.");
+    @Override
+    public String toString() {
+      return this.name;
+    }
+  }
+
+  private enum Furniture {
+    CONCRETE(
+        "buckets of concrete",
+        1,
+        Map.ofEntries(
+            Map.entry(
+                Need.EXERCISE, "spends a few minutes swinging around his buckets of concrete")),
+        ""),
+    PAINTING(
+        "thrift store oil painting",
+        2,
+        Map.ofEntries(
+            Map.entry(
+                Need.MENTAL_STIMULATION,
+                "wanders over and spends some time studying his painting")),
+        ""),
+    COMICS(
+        "boxes of old comic books",
+        3,
+        Map.ofEntries(Map.entry(Need.DUMB_ENTERTAINMENT, "plops down and reads some old comics")),
+        ""),
+    HOT_PLATE(
+        "second-hand hot plate",
+        4,
+        Map.ofEntries(Map.entry(Need.FOOD, "fires up his second-hand hot plate")),
+        ""),
+    BEER_COOLER(
+        "beer cooler",
+        5,
+        Map.ofEntries(Map.entry(Need.BOOZE, "grabs a beer from the beer cooler")),
+        ""),
+    MATTRESS(
+        "free mattress",
+        6,
+        Map.ofEntries(Map.entry(Need.SLEEP, "heads to his filthy mattress for a nap")),
+        ""),
+    CHESS_SET(
+        "gigantic chess set",
+        7,
+        Map.ofEntries(
+            Map.entry(
+                Need.EXERCISE,
+                "spends a few minutes laboriously resetting his big heavy chessboard"),
+            Map.entry(
+                Need.MENTAL_STIMULATION,
+                "plays a game of chess against himself on his giant board")),
+        "An Octopus's Garden"),
+    KARAOKE(
+        "UltraDance karaoke machine",
+        8,
+        Map.ofEntries(
+            Map.entry(
+                Need.DUMB_ENTERTAINMENT,
+                "wanders over to the karaoke machines and sings a few popular songs"),
+            Map.entry(
+                Need.EXERCISE,
+                "sets his karaoke machine to dance mode and careens around the room")),
+        "Infernal Rackets Backstage"),
+    TREADMILL(
+        "cupcake treadmill",
+        9,
+        Map.ofEntries(
+            Map.entry(Need.EXERCISE, "spends a while running on his cupcake treadmill"),
+            Map.entry(Need.FOOD, "grabs a cupcake from his treadmill, and tosses you one as well")),
+        "Madness Bakery"),
+    BEER_PONG(
+        "beer pong table",
+        10,
+        Map.ofEntries(
+            Map.entry(
+                Need.BOOZE,
+                "plays beer pong for a while, but stops drinking before he finishes the whole table's worth"),
+            Map.entry(Need.EXERCISE, "plays beer pong until he gets tired")),
+        "Frat House"),
+    WEIGHT_BENCH(
+        "padded weight bench",
+        11,
+        Map.ofEntries(
+            Map.entry(Need.EXERCISE, "does some benchpresses on his nice weight bench"),
+            Map.entry(Need.SLEEP, "takes a nap on his padded weight bench")),
+        "The Degrassi Knoll Garage"),
+    LAPTOP(
+        "internet-connected laptop",
+        12,
+        Map.ofEntries(
+            Map.entry(
+                Need.DUMB_ENTERTAINMENT,
+                "spends some time arguing with people about politics on social media"),
+            Map.entry(
+                Need.MENTAL_STIMULATION,
+                "watches some home improvement videos and takes some notes")),
+        "The Hidden Office Building"),
+    SOUS_VIDE(
+        "sous vide laboratory",
+        13,
+        Map.ofEntries(
+            Map.entry(
+                Need.FOOD, "whips up a giant meal in the sous vide machine and shares it with you"),
+            Map.entry(Need.MENTAL_STIMULATION, "reads the manual for his sous vide machine")),
+        "The Haunted Kitchen"),
+    BLENDER(
+        "programmable blender",
+        14,
+        Map.ofEntries(
+            Map.entry(
+                Need.MENTAL_STIMULATION,
+                "spends a few minutes adjusting the settings on his fancy blender"),
+            Map.entry(Need.BOOZE, "makes a huge blended cocktail for himself, and one for you")),
+        "Cobb's Knob Kitchens"),
+    DEPRIVATION_TANK(
+        "sensory deprivation tank",
+        15,
+        Map.ofEntries(
+            Map.entry(Need.MENTAL_STIMULATION, "meditates in his tank for a while"),
+            Map.entry(Need.SLEEP, "sleeps in his sensory deprivation tank for a long time")),
+        "The Marinara Trench"),
+    ROBOT(
+        "fruit-smashing robot",
+        16,
+        Map.ofEntries(
+            Map.entry(
+                Need.DUMB_ENTERTAINMENT, "watches his fruit-smashing robot for a while, giggling"),
+            Map.entry(
+                Need.FOOD,
+                "grabs some of the fruit from his fruit-smashing robot's storage cache")),
+        "Wartime Hippy Camp (Frat Disguise)"),
+    SPORTS_BAR(
+        "ManCave™ sports bar set",
+        17,
+        Map.ofEntries(
+            Map.entry(Need.DUMB_ENTERTAINMENT, "plays darts for a while in his sports bar"),
+            Map.entry(Need.BOOZE, "has a few beers at the sports bar")),
+        "A Barroom Brawl"),
+    UNKNOWN("<unknown furniture>", 18, Map.ofEntries(), ""),
+    KEGERATOR(
+        "kegerator",
+        19,
+        Map.ofEntries(
+            Map.entry(Need.FOOD, "grabs some leftovers from the fridge"),
+            Map.entry(Need.BOOZE, "grabs a homebrew from his kegerator")),
+        "The Orcish Frat House (Bombed Back to the Stone Age)"),
+    DINING_SET(
+        "fine upholstered dining table set",
+        20,
+        Map.ofEntries(
+            Map.entry(
+                Need.FOOD,
+                "heads to his dinette set for a nice meal, and tosses you a little something for yourself"),
+            Map.entry(
+                Need.SLEEP,
+                "stretches out on his upholstered dining table and takes a little snooze")),
+        "The Hidden Apartment Building"),
+    WHISKEYBED(
+        "whiskeybed",
+        21,
+        Map.ofEntries(
+            Map.entry(Need.BOOZE, "extracts some of the whiskey from his bed"),
+            Map.entry(Need.SLEEP, "takes a long nap in his whiskeybed")),
+        "The Castle in the Clouds in the Sky (Ground Floor)"),
+    WORKOUT_SYSTEM(
+        "high-end home workout system",
+        22,
+        Map.ofEntries(Map.entry(Need.EXERCISE, "avails himself of his fancy home gym")),
+        "The Degrassi Knoll Gym"),
+    CLASSICS_LIBRARY(
+        "complete classics library",
+        23,
+        Map.ofEntries(
+            Map.entry(Need.MENTAL_STIMULATION, "reads some books about military history")),
+        "The Haunted Library"),
+    RETRO_CONSOLE(
+        "ultimate retro game console",
+        24,
+        Map.ofEntries(Map.entry(Need.DUMB_ENTERTAINMENT, "play old video games for a few hours")),
+        "Megalo-City"),
+    OMNIPOT(
+        "Omnipot",
+        25,
+        Map.ofEntries(Map.entry(Need.FOOD, "makes a small but delicious meal in his Omnipot")),
+        "Cobb's Knob Laboratory"),
+    WET_BAR(
+        "fully-stocked wet bar",
+        26,
+        Map.ofEntries(Map.entry(Need.BOOZE, "whips up a cocktail in his nice bar")),
+        "The Purple Light District"),
+    POSTER_BED(
+        "four-poster bed",
+        27,
+        Map.ofEntries(Map.entry(Need.SLEEP, "takes a long nap in his nice bed")),
+        "Dreadsylvanian Castle");
+
+    private static final Pattern FURNITURE_DISCOVERY_PATTERN =
+        Pattern.compile("spots (?:an?|some) (.*?) and runs out of his condo\\.");
+
+    public static Furniture byDiscovery(final String text) {
+      var discovery = FURNITURE_DISCOVERY_PATTERN.matcher(text);
+      if (!discovery.find()) return null;
+      return Arrays.stream(Furniture.values())
+          .filter(f -> discovery.group(1).startsWith(f.name))
+          .findAny()
+          .orElse(null);
+    }
+
+    public static Furniture byName(final String name) {
+      return Arrays.stream(Furniture.values())
+          .filter(f -> f.name.equals(name))
+          .findAny()
+          .orElse(null);
+    }
+
+    public static Furniture byLocation(final String location) {
+      return Arrays.stream(Furniture.values())
+          .filter(f -> f.location.equals(location))
+          .findAny()
+          .orElse(null);
+    }
+
+    private final String name;
+    private final int index;
+    private final Map<Need, String> needs;
+    private final String location;
+
+    Furniture(String name, int order, Map<Need, String> needByFulfilment, String location) {
+      this.name = name;
+      this.index = order;
+      this.needs = needByFulfilment;
+      this.location = location;
+    }
+
+    public String getName() {
+      return name;
+    }
+
+    public int getIndex() {
+      return index;
+    }
+
+    public String getLocation() {
+      return location;
+    }
+
+    public Map<Need, String> getNeeds() {
+      return needs;
+    }
+  }
 
   static final Pattern UNMET_NEED_PATTERN =
       Pattern.compile("is upset that his (.*?) need wasn't met");
@@ -116,23 +285,15 @@ public class LeprecondoManager {
     if (!image.equals("familiar2.gif")) return false;
 
     // Check for new furniture discovery
-    var discovery = FURNITURE_DISCOVERY_PATTERN.matcher(text);
-    if (discovery.find()) {
-      var discovered =
-          IntStream.range(1, FURNITURE.size())
-              .filter((i) -> discovery.group(1).startsWith(FURNITURE.get(i - 1)))
-              .findAny()
-              .orElse(0);
-
-      if (discovered == 0) return false;
-
+    var discovered = Furniture.byDiscovery(text);
+    if (discovered != null) {
       Preferences.setString(
           "leprecondoDiscovered",
           Stream.concat(
                   Arrays.stream(Preferences.getString("leprecondoDiscovered").split(","))
                       .filter(Predicate.not(String::isBlank))
                       .map(StringUtilities::parseInt),
-                  Stream.of(discovered))
+                  Stream.of(discovered.getIndex()))
               .sorted()
               .distinct()
               .map(String::valueOf)
@@ -149,9 +310,13 @@ public class LeprecondoManager {
 
     // Check for met need
     var metNeed =
-        FULFILMENT_TO_NEED.entrySet().stream()
-            .filter(e -> text.contains(e.getKey()))
-            .map(Map.Entry::getValue)
+        Arrays.stream(Furniture.values())
+            .map(Furniture::getNeeds)
+            .map(Map::entrySet)
+            .flatMap(Collection::stream)
+            .filter(e -> text.contains(e.getValue()))
+            .map(Map.Entry::getKey)
+            .map(Need::toString)
             .findAny()
             .orElse(null);
     if (metNeed != null) {
@@ -187,12 +352,10 @@ public class LeprecondoManager {
         Pattern.compile("<img id=\"i(\\d)\" alt=\"(.*?) in (?:top|bottom) (?:left|right)\"")
             .matcher(text)
             .results()
-            .map(
-                r ->
-                    Map.entry(
-                        StringUtilities.parseInt(r.group(1)), FURNITURE.indexOf(r.group(2)) + 1))
+            .map(r -> Map.entry(StringUtilities.parseInt(r.group(1)), Furniture.byName(r.group(2))))
             .sorted(Map.Entry.comparingByKey())
             .map(Map.Entry::getValue)
+            .map(f -> f == null ? 0 : f.getIndex())
             .map(String::valueOf)
             .collect(Collectors.joining(","));
 
@@ -227,16 +390,10 @@ public class LeprecondoManager {
 
   public static String getUndiscoveredFurnitureForLocation(final String zone) {
     if (zone.isBlank()) return null;
-    var furniture =
-        FURNITURE_LOCATIONS.entrySet().stream()
-            .filter(e -> e.getValue().equals(zone))
-            .map(Map.Entry::getKey)
-            .findFirst()
-            .orElse(null);
+    var furniture = Furniture.byLocation(zone);
     if (furniture == null) return null;
-    var idx = FURNITURE.indexOf(furniture);
     if (Arrays.asList(Preferences.getString("leprecondoDiscovered").split(","))
-        .contains(String.valueOf(idx))) return null;
-    return furniture;
+        .contains(String.valueOf(furniture.getIndex()))) return null;
+    return furniture.getName();
   }
 }
