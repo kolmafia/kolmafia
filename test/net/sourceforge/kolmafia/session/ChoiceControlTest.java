@@ -1456,7 +1456,7 @@ class ChoiceControlTest {
         // Discoveries left alone
         assertThat("leprecondoDiscovered", isSetTo("1,2,3,4,5,6,8,9,13,21"));
         // Installed items detected
-        assertThat("leprecondoInstalled", isSetTo("8,7,12,20"));
+        assertThat("leprecondoInstalled", isSetTo("9,8,13,21"));
       }
     }
 
