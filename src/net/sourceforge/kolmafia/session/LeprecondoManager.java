@@ -19,16 +19,59 @@ public class LeprecondoManager {
           "thrift store oil painting",
           "boxes of old comic books",
           "second-hand hot plate",
-          "free mattress",
           "beer cooler",
+          "free mattress",
+          "gigantic chess set",
           "UltraDance karaoke machine",
           "cupcake treadmill",
+          "beer pong table",
+          "padded weight bench",
           "internet-connected laptop",
           "sous vide laboratory",
+          "programmable blender",
+          "sensory deprivation tank",
+          "fruit-smashing robot",
+          "ManCave™ sports bar set",
+          "<unknown furniture>",
+          "kegerator",
+          "fine upholstered dining table set",
           "whiskeybed",
+          "high-end home workout system",
           "complete classics library",
           "ultimate retro game console",
+          "Omnipot",
+          "fully-stocked wet bar",
           "four-poster bed");
+
+  private static final Map<String, String> FURNITURE_LOCATIONS =
+      Map.ofEntries(
+          Map.entry("buckets of concrete", ""),
+          Map.entry("thrift store oil painting", ""),
+          Map.entry("boxes of old comic books", ""),
+          Map.entry("second-hand hot plate", ""),
+          Map.entry("beer cooler", ""),
+          Map.entry("free mattress", ""),
+          Map.entry("gigantic chess set", "An Octopus's Garden"),
+          Map.entry("UltraDance karaoke machine", "Infernal Rackets Backstage"),
+          Map.entry("cupcake treadmill", "Madness Bakery"),
+          Map.entry("beer pong table", "Frat House"),
+          Map.entry("padded weight bench", "The Degrassi Knoll Garage"),
+          Map.entry("internet-connected laptop", "The Hidden Office Building"),
+          Map.entry("sous vide laboratory", "The Haunted Kitchen"),
+          Map.entry("programmable blender", "Cobb's Knob Kitchens"),
+          Map.entry("sensory deprivation tank", "The Marinara Trench"),
+          Map.entry("fruit-smashing robot", "Wartime Hippy Camp"),
+          Map.entry("ManCave™ sports bar set", "A Barroom Brawl"),
+          Map.entry("<unknown furniture>", ""),
+          Map.entry("kegerator", "The Orcish Frat House (Bombed Back to the Stone Age)"),
+          Map.entry("fine upholstered dining table set", "The Hidden Apartment Building"),
+          Map.entry("whiskeybed", "The Castle in the Clouds in the Sky (Ground Floor)"),
+          Map.entry("high-end home workout system", "The Degrassi Knoll Gym"),
+          Map.entry("complete classics library", "The Haunted Library"),
+          Map.entry("ultimate retro game console", "Megalo-City"),
+          Map.entry("Omnipot", "Cobb's Knob Laboratory"),
+          Map.entry("fully-stocked wet bar", "The Purple Light District"),
+          Map.entry("four-poster bed", "Dreadsylvanian Castle"));
 
   private static final Map<String, String> FULFILMENT_TO_NEED =
       Map.ofEntries(
@@ -178,5 +221,20 @@ public class LeprecondoManager {
         Preferences.setString("leprecondoDiscovered", discoveries);
       }
     }
+  }
+
+  public static String getUndiscoveredFurnitureForLocation(final String zone) {
+    if (zone.isBlank()) return null;
+    var furniture =
+        FURNITURE_LOCATIONS.entrySet().stream()
+            .filter(e -> e.getValue().equals(zone))
+            .map(Map.Entry::getKey)
+            .findFirst()
+            .orElse(null);
+    if (furniture == null) return null;
+    var idx = FURNITURE.indexOf(furniture);
+    if (Arrays.asList(Preferences.getString("leprecondoDiscovered").split(","))
+        .contains(String.valueOf(idx))) return null;
+    return furniture;
   }
 }
