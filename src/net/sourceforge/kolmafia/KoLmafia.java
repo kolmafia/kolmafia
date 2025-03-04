@@ -169,7 +169,7 @@ public abstract class KoLmafia {
           "https://s3.amazonaws.com/images.kingdomofloathing.com/",
           "http://images.kingdomofloathing.com/");
   // Displays a warning in several areas when the JVM is running an older version
-  public static final int RECOMMENDED_JAVA_VERSION = 24;
+  public static final int MINIMUM_JAVA_VERSION = 21;
 
   public static String imageServerPrefix() {
     return PREFERRED_IMAGE_SERVER;
@@ -369,13 +369,8 @@ public abstract class KoLmafia {
 
     RequestThread.runInParallel(new UpdateCheckRunnable(), false);
 
-    if (Runtime.version().feature() < RECOMMENDED_JAVA_VERSION) {
-      KoLmafia.updateDisplay(
-          MafiaState.ERROR, "You are currently on Java " + System.getProperty("java.version"));
-      KoLmafia.updateDisplay(MafiaState.ERROR, "Please update to Java " + RECOMMENDED_JAVA_VERSION);
-      KoLmafia.updateDisplay(
-          MafiaState.ERROR, "Java can be downloaded from https://adoptium.net/temurin/releases/");
-    }
+    // Warn for impending bump of minimum supported Java version
+    minimumJavaVersionWarning().forEach(line -> KoLmafia.updateDisplay(MafiaState.ERROR, line));
 
     // Always read input from the command line when you're not
     // in GUI mode.
@@ -383,6 +378,15 @@ public abstract class KoLmafia {
     if (!StaticEntity.isGUIRequired()) {
       KoLmafiaCLI.DEFAULT_SHELL.listenForCommands();
     }
+  }
+
+  public static List<String> minimumJavaVersionWarning() {
+    if (Runtime.version().feature() >= MINIMUM_JAVA_VERSION) return List.of();
+
+    return List.of(
+        "You are currently on Java " + System.getProperty("java.version"),
+        "Please update to Java " + MINIMUM_JAVA_VERSION,
+        "https://adoptium.net/installation/");
   }
 
   private static void initLookAndFeel() {
