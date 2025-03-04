@@ -97,6 +97,7 @@ import net.sourceforge.kolmafia.session.GrimstoneManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.IslandManager;
 import net.sourceforge.kolmafia.session.JuneCleaverManager;
+import net.sourceforge.kolmafia.session.LeprecondoManager;
 import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.session.LocketManager;
 import net.sourceforge.kolmafia.session.LoginManager;
@@ -7747,6 +7748,11 @@ public class FightRequest extends GenericRequest {
     }
 
     if (FightRequest.handleFamiliarScrapbook(str, status)) {
+      return;
+    }
+
+    // Leprecondo actions are tagged this way
+    if (LeprecondoManager.handlePostCombatMessage(str, image)) {
       return;
     }
 

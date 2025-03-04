@@ -3899,6 +3899,7 @@ public class ItemPool {
   public static final int HASHING_VISE = 11826;
   public static final int GEOFENCING_RAPIER = 11827;
   public static final int TOY_CUPID_BOW = 11837;
+  public static final int LEPRECONDO = 11861;
 
   private ItemPool() {}
 
