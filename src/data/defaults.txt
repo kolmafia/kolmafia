@@ -1057,7 +1057,7 @@ user	legacyPoints	0
 user	leprecondoLastNeedChange	0	roa
 user	leprecondoCurrentNeed		roa
 user	leprecondoDiscovered
-user	leprecondoInstalled		roa
+user	leprecondoInstalled	0,0,0,0	roa
 user	leprecondoNeedOrder		roa
 user	libramSkillsHardcore	none
 user	libramSkillsSoftcore	none

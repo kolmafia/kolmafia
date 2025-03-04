@@ -188,7 +188,9 @@ public class LeprecondoManager {
             .matcher(text)
             .results()
             .map(
-                r -> Map.entry(StringUtilities.parseInt(r.group(1)), FURNITURE.indexOf(r.group(2))))
+                r ->
+                    Map.entry(
+                        StringUtilities.parseInt(r.group(1)), FURNITURE.indexOf(r.group(2)) + 1))
             .sorted(Map.Entry.comparingByKey())
             .map(Map.Entry::getValue)
             .map(String::valueOf)
