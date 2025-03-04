@@ -60,7 +60,7 @@ public class LeprecondoManager {
           Map.entry("sous vide laboratory", "The Haunted Kitchen"),
           Map.entry("programmable blender", "Cobb's Knob Kitchens"),
           Map.entry("sensory deprivation tank", "The Marinara Trench"),
-          Map.entry("fruit-smashing robot", "Wartime Hippy Camp"),
+          Map.entry("fruit-smashing robot", "Wartime Hippy Camp (Frat Disguise)"),
           Map.entry("ManCave™ sports bar set", "A Barroom Brawl"),
           Map.entry("<unknown furniture>", ""),
           Map.entry("kegerator", "The Orcish Frat House (Bombed Back to the Stone Age)"),
