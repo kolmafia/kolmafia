@@ -8963,43 +8963,7 @@ public abstract class ChoiceControl {
         }
       }
       case 1556 -> { // Leprecondo
-        var rearrangementsMatcher =
-            Pattern.compile("You can rearrange the furnishings (\\d) more").matcher(text);
-
-        int rearrangements = 0;
-        if (rearrangementsMatcher.find()) {
-          rearrangements = StringUtilities.parseInt(rearrangementsMatcher.group(1));
-          Preferences.setInteger("_leprecondoRearrangements", 3 - rearrangements);
-        }
-
-        // Parsing the state is very easy if there are remaining rearrangements.
-        // In fact, we don't currently do it otherwise
-        if (rearrangements > 0) {
-          var discoveryOptions =
-              Pattern.compile("<select id=\"r1\" name=\"r1\">(.*?)</select>").matcher(text);
-          if (discoveryOptions.find()) {
-            var discoveries =
-                Pattern.compile("<option (?:selected)? value='(\\d+)'")
-                    .matcher(discoveryOptions.group(1))
-                    .results()
-                    .map(r -> r.group(1))
-                    .distinct()
-                    .collect(Collectors.joining(","));
-
-            Preferences.setString("leprecondoDiscovered", discoveries);
-          }
-
-          var installed =
-              Pattern.compile("<select id=\"r(\\d)\".*?selected value='(\\d+)'")
-                  .matcher(text)
-                  .results()
-                  .map(r -> Map.entry(StringUtilities.parseInt(r.group(1)), r.group(2)))
-                  .sorted(Entry.comparingByKey())
-                  .map(Entry::getValue)
-                  .collect(Collectors.joining(","));
-
-          Preferences.setString("leprecondoInstalled", installed);
-        }
+        LeprecondoManager.visit(text);
       }
     }
   }

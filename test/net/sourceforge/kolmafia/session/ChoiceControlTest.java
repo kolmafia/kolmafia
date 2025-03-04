@@ -1447,14 +1447,16 @@ class ChoiceControlTest {
       var cleanups =
           new Cleanups(
               withProperty("leprecondoDiscovered", "1,2,3,4,5,6,8,9,13,21"),
-              withProperty("leprecondoInstalled", "9,8,13,21"));
+              withProperty("leprecondoInstalled", ""));
 
       try (cleanups) {
         var req = new GenericRequest("choice.php?whichchoice=1556");
         req.responseText = html("request/test_choice_leprecondo_cannot_rearrange.html");
         ChoiceManager.visitChoice(req);
+        // Discoveries left alone
         assertThat("leprecondoDiscovered", isSetTo("1,2,3,4,5,6,8,9,13,21"));
-        assertThat("leprecondoInstalled", isSetTo("9,8,13,21"));
+        // Installed items detected
+        assertThat("leprecondoInstalled", isSetTo("7,6,9,10"));
       }
     }
 
