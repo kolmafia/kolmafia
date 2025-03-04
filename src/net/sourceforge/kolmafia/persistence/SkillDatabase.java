@@ -323,6 +323,52 @@ public class SkillDatabase {
     return skillName;
   }
 
+  public static final String getPrettySkillName(final int skillId) {
+    String name = SkillDatabase.nameById.get(skillId);
+    switch (skillId) {
+      case SkillPool.DART_PART1,
+          SkillPool.DART_PART2,
+          SkillPool.DART_PART3,
+          SkillPool.DART_PART4,
+          SkillPool.DART_PART5,
+          SkillPool.DART_PART6,
+          SkillPool.DART_PART7,
+          SkillPool.DART_PART8 -> {
+        // Darts: Throw at %part1
+        String part = FightRequest.dartSkillToPart.get(skillId);
+        if (part != null) {
+          name = "Darts: Throw at " + part;
+        }
+        return name;
+      }
+      case SkillPool.LEFT_PUNCH -> {
+        return zootCombatSkillName(name, "zootGraftedHandLeftFamiliar");
+      }
+      case SkillPool.RIGHT_PUNCH -> {
+        return zootCombatSkillName(name, "zootGraftedHandRightFamiliar");
+      }
+      case SkillPool.LEFT_KICK -> {
+        return zootCombatSkillName(name, "zootGraftedFootLeftFamiliar");
+      }
+      case SkillPool.RIGHT_KICK -> {
+        return zootCombatSkillName(name, "zootGraftedFootRightFamiliar");
+      }
+    }
+    return name;
+  }
+
+  private static String zootCombatSkillName(String name, String pref) {
+    int familiarId = Preferences.getInteger(pref);
+    if (familiarId == 0) {
+      return name;
+    }
+    String fam = FamiliarDatabase.getFamiliarName(familiarId);
+    if (fam != null) {
+      return StringUtilities.singleStringReplace(name, "%n", fam);
+    }
+    return name;
+  }
+
   static final Set<Integer> idKeySet() {
     return SkillDatabase.nameById.keySet();
   }
