@@ -352,11 +352,15 @@ public class LeprecondoManager {
         Pattern.compile("<img id=\"i(\\d)\" alt=\"(.*?) in (?:top|bottom) (?:left|right)\"")
             .matcher(text)
             .results()
-            .map(r -> Map.entry(StringUtilities.parseInt(r.group(1)), Furniture.byName(r.group(2))))
+            .map(
+                r -> {
+                  var f = Furniture.byName(r.group(2));
+                  return Map.entry(
+                      StringUtilities.parseInt(r.group(1)),
+                      String.valueOf(f == null ? 0 : f.getIndex()));
+                })
             .sorted(Map.Entry.comparingByKey())
             .map(Map.Entry::getValue)
-            .map(f -> f == null ? 0 : f.getIndex())
-            .map(String::valueOf)
             .collect(Collectors.joining(","));
 
     Preferences.setString("leprecondoInstalled", installed);
