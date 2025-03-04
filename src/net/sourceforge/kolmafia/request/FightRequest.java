@@ -4673,7 +4673,7 @@ public class FightRequest extends GenericRequest {
   public static Map<Integer, String> dartSkillToPart = new TreeMap<>();
   public static int dartsLeft = 0;
 
-  private static void parseDartboard(final String responseText) {
+  public static void parseDartboard(final String responseText) {
     // Assume no dart skills are available
     dartSkillToPart.clear();
     dartsLeft = 0;

@@ -847,7 +847,7 @@ public class StationaryButtonDecorator {
     return "main.php";
   }
 
-  private static String getActionName(final String action) {
+  public static String getActionName(final String action) {
     if (action.equals("attack")) {
       return FightRequest.getCurrentRound() == 0 ? "again" : "attack";
     }
