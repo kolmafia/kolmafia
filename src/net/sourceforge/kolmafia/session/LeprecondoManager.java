@@ -33,7 +33,7 @@ public class LeprecondoManager {
     }
   }
 
-  private enum Furniture {
+  protected enum Furniture {
     CONCRETE(
         "buckets of concrete",
         1,
@@ -399,12 +399,15 @@ public class LeprecondoManager {
   }
 
   public static String getUndiscoveredFurnitureForLocation(final String zone) {
-    if (zone.isBlank()) return null;
+    if (zone.isBlank()) return "";
     var furniture = Furniture.byLocation(zone);
-    if (furniture.isEmpty()) return null;
-    var discovered = Arrays.asList(Preferences.getString("leprecondoDiscovered").split(","));
+    if (furniture.isEmpty()) return "";
+    var discovered =
+        Arrays.stream(Preferences.getString("leprecondoDiscovered").split(","))
+            .map(StringUtilities::parseInt)
+            .toList();
     return furniture.stream()
-        .filter(f -> !discovered.contains(String.valueOf(f.getId())))
+        .filter(f -> !discovered.contains(f.getId()))
         .map(Furniture::getName)
         .collect(Collectors.joining(", "));
   }

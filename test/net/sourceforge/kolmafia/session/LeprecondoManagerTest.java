@@ -46,7 +46,7 @@ class LeprecondoManagerTest {
   }
 
   @ParameterizedTest
-  @CsvSource(value = {"The Marinara Trench,sensory deprivation tank", "An Octopus's Garden,"})
+  @CsvSource(value = {"The Marinara Trench,sensory deprivation tank", "An Octopus's Garden,''"})
   void getsUndiscoveredFurnitureForLocation(final String zone, final String expected) {
     var cleanups =
         new Cleanups(withItem("Leprecondo"), withProperty("leprecondoDiscovered", "1,2,3,4,5,6,7"));
