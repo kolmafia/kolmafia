@@ -30,7 +30,8 @@ public class AWOLQuartermasterRequest extends CoinMasterRequest {
           .withItemField("tobuy")
           .withItemPattern(TOBUY_PATTERN)
           .withCountField("howmany")
-          .withCountPattern(GenericRequest.HOWMANY_PATTERN);
+          .withCountPattern(GenericRequest.HOWMANY_PATTERN)
+          .withAccessible(AWOLQuartermasterRequest::accessible);
 
   private static String lastURL = null;
 
@@ -40,14 +41,6 @@ public class AWOLQuartermasterRequest extends CoinMasterRequest {
 
   public AWOLQuartermasterRequest(final boolean buying, final AdventureResult[] attachments) {
     super(AWOL, buying, attachments);
-  }
-
-  public AWOLQuartermasterRequest(final boolean buying, final AdventureResult attachment) {
-    super(AWOL, buying, attachment);
-  }
-
-  public AWOLQuartermasterRequest(final boolean buying, final int itemId, final int quantity) {
-    super(AWOL, buying, itemId, quantity);
   }
 
   @Override

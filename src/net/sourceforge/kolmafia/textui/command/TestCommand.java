@@ -9,7 +9,7 @@ import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -48,7 +48,6 @@ import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
-import net.sourceforge.kolmafia.persistence.StandardRewardDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.CampAwayRequest;
@@ -63,7 +62,6 @@ import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.GenericRequest.ServerCookie;
 import net.sourceforge.kolmafia.request.MonsterManuelRequest;
-import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.PlaceRequest;
 import net.sourceforge.kolmafia.request.ScrapheapRequest;
 import net.sourceforge.kolmafia.request.SpaaaceRequest;
@@ -82,14 +80,18 @@ import net.sourceforge.kolmafia.session.NumberologyManager;
 import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.RumpleManager;
+import net.sourceforge.kolmafia.shop.ShopDatabase;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 import net.sourceforge.kolmafia.shop.ShopRow;
 import net.sourceforge.kolmafia.shop.ShopRowDatabase;
+import net.sourceforge.kolmafia.shop.ShopRowDatabase.ShopRowData;
 import net.sourceforge.kolmafia.swingui.ShowHTMLFrame;
 import net.sourceforge.kolmafia.swingui.SkillBuffFrame;
 import net.sourceforge.kolmafia.utilities.ByteBufferUtilities;
 import net.sourceforge.kolmafia.utilities.CharacterEntities;
 import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.HTMLParserUtils;
+import net.sourceforge.kolmafia.utilities.HashMultimap;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.utilities.WikiUtilities;
 import net.sourceforge.kolmafia.utilities.WikiUtilities.WikiType;
@@ -698,6 +700,46 @@ public class TestCommand extends AbstractCommand {
       return;
     }
 
+    if (command.equals("row-duplicate-items")) {
+      ShopRowDatabase.readShopRowDataFile();
+
+      HashMultimap<ShopRowData> items = new HashMultimap<>();
+      for (Entry<Integer, ShopRowData> entry : ShopRowDatabase.shopRowData.entrySet()) {
+        ShopRowData shopRowData = entry.getValue();
+        AdventureResult item = shopRowData.item();
+        int itemId = item.getItemId();
+        if (itemId > 0) {
+          items.put(itemId, shopRowData);
+        }
+      }
+      for (List<ShopRowData> list : items.values()) {
+        if (list.size() > 1) {
+          RequestLogger.updateSessionLog("------");
+          for (var data : list) {
+            String shopName = ShopDatabase.getShopName(data.shopId());
+            ShopRow shopRow = ShopRowDatabase.getShopRow(data);
+            RequestLogger.updateSessionLog(shopRow.toData(shopName));
+          }
+        }
+      }
+      return;
+    }
+
+    if (command.equals("shoprow")) {
+      if (split.length < 2) {
+        RequestLogger.printLine("What row?");
+        return;
+      }
+      int row = StringUtilities.parseInt(split[1].trim());
+      var data = ShopRowDatabase.getShopRowData(row);
+      if (data == null) {
+        RequestLogger.printLine("No row data!");
+        return;
+      }
+      RequestLogger.printLine(data.dataString());
+      return;
+    }
+
     if (command.equals("showhtml")) {
       if (split.length < 2) {
         KoLmafia.updateDisplay(MafiaState.ERROR, "Load what?");
@@ -875,12 +917,13 @@ public class TestCommand extends AbstractCommand {
     }
 
     if (command.equals("write-shoprows")) {
-      // Ensure that the three databases that register ShopRowData entries are loaded
+
+      // Ensure that the three databases that register ShopRow entries are loaded
       ConcoctionDatabase.singleUseCreation(0);
       CoinmasterRegistry.reset();
       NPCStoreDatabase.contains(0);
       // Ditto for the Armory & Leggery, which registers standard rewards.
-      ArmoryAndLeggeryRequest.parseResponse("", "");
+      ArmoryAndLeggeryRequest.reset();
 
       // Certain items include a "mode" in their string representation.
       // We don't want that.
@@ -888,10 +931,21 @@ public class TestCommand extends AbstractCommand {
       try {
         Preferences.setString("parkaMode", "");
         ShopRowDatabase.writeShopRowDataFile();
-        ShopRowDatabase.writeShopRowFile();
       } finally {
         Preferences.setString("parkaMode", parkaMode);
       }
+      return;
+    }
+
+    if (command.equals("write-shops")) {
+      // Ensure that the two databases that register ShopRow entries are loaded
+      CoinmasterRegistry.reset();
+      NPCStoreDatabase.contains(0);
+      // Ditto for the Armory & Leggery, which registers standard rewards.
+      ArmoryAndLeggeryRequest.reset();
+
+      // Write a new shop.txt file
+      ShopDatabase.writeShopFile();
       return;
     }
 
@@ -1146,14 +1200,6 @@ public class TestCommand extends AbstractCommand {
       return;
     }
 
-    if (command.equals("shoprows")) {
-      String shop = ShopRow.parseShopName(TestCommand.contents);
-      String shopId = ShopRow.parseShopId(TestCommand.contents);
-      NPCPurchaseRequest.parseShopInventory(shopId, TestCommand.contents, true);
-      TestCommand.contents = null;
-      return;
-    }
-
     if (command.equals("location")) {
       StringBuffer buffer = new StringBuffer(TestCommand.contents);
       TestCommand.contents = null;
@@ -1231,16 +1277,20 @@ public class TestCommand extends AbstractCommand {
       }
       String name = split[1].trim();
       String urlString = "shop.php?whichshop=" + name;
-      NPCPurchaseRequest.parseShopResponse(urlString, TestCommand.contents);
+      ShopRequest.parseResponse(urlString, TestCommand.contents);
       TestCommand.contents = null;
       return;
     }
 
     if (command.equals("shoprows")) {
-      String shop = ShopRow.parseShopName(TestCommand.contents);
-      List<ShopRow> rows = ShopRow.parseShop(TestCommand.contents, true);
+      boolean force = (split.length < 2) ? false : split[1].trim().equals("true");
+      String shop = ShopRequest.parseShopNameInResponse(TestCommand.contents);
+      String shopId = ShopRequest.parseShopIdInResponse(TestCommand.contents);
+      List<ShopRow> rows = ShopRequest.parseShopInventory(shopId, TestCommand.contents, force);
       TestCommand.contents = null;
-      RequestLogger.printLine("shop '" + shop + "' offers " + rows.size() + " items.");
+
+      RequestLogger.printLine(
+          "shop " + shopId + " (" + shop + ") offers " + rows.size() + " items.");
       for (ShopRow row : rows) {
         RequestLogger.printLine("row = " + row.getRow() + " item = " + row.getItem());
         for (AdventureResult cost : row.getCosts()) {
@@ -1253,25 +1303,6 @@ public class TestCommand extends AbstractCommand {
     if (command.equals("speakeasy")) {
       ClanLoungeRequest.parseSpeakeasy(TestCommand.contents, true);
       TestCommand.contents = null;
-      return;
-    }
-
-    if (command.equals("standard-rewards")) {
-      Matcher matcher = ArmoryAndLeggeryRequest.ITEM_PATTERN.matcher(TestCommand.contents);
-      TestCommand.contents = null;
-      int count = 0;
-      while (matcher.find()) {
-        ArmoryAndLeggeryRequest.CoinmasterItem reward =
-            ArmoryAndLeggeryRequest.parseCoinmasterItem(matcher);
-        if (reward == null) {
-          // Skip items purchased with Meat
-          continue;
-        }
-        String line = StandardRewardDatabase.coinmasterString(reward);
-        RequestLogger.updateSessionLog(line);
-        count++;
-      }
-      RequestLogger.printLine(String.valueOf(count) + " items printed to session log.");
       return;
     }
 

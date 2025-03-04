@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia.modifiers;
 
+import static net.sourceforge.kolmafia.persistence.ModifierDatabase.BOOLEAN_EXPR;
+
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Map;
@@ -13,7 +15,7 @@ public enum BooleanModifier implements Modifier {
   SOFTCORE(
       "Softcore Only",
       Pattern.compile("This item cannot be equipped while in Hardcore"),
-      Pattern.compile("Softcore Only")),
+      Pattern.compile("Softcore Only" + BOOLEAN_EXPR)),
   SINGLE("Single Equip", Pattern.compile("Single Equip")),
   ALWAYS_FUMBLE("Always Fumble", Pattern.compile("Always Fumble")),
   NEVER_FUMBLE("Never Fumble", Pattern.compile("Never Fumble"), Pattern.compile("Never Fumble")),
@@ -21,7 +23,7 @@ public enum BooleanModifier implements Modifier {
       "Weakens Monster",
       Pattern.compile("Successful hit weakens opponent"),
       Pattern.compile("Weakens Monster")),
-  FREE_PULL("Free Pull", Pattern.compile("Free Pull")),
+  FREE_PULL("Free Pull", Pattern.compile("Free Pull" + BOOLEAN_EXPR)),
   VARIABLE("Variable", Pattern.compile("Variable")),
   NONSTACKABLE_WATCH("Nonstackable Watch", Pattern.compile("Nonstackable Watch")),
   COLD_IMMUNITY("Cold Immunity", Pattern.compile("Cold Immunity")),
@@ -81,6 +83,7 @@ public enum BooleanModifier implements Modifier {
       "Negative Status Resist",
       Pattern.compile("75% Chance of Preventing Negative Status Attacks"),
       Pattern.compile("Negative Status Resist"));
+
   private final String name;
   private final Pattern[] descPatterns;
   private final Pattern tagPattern;

@@ -25,7 +25,6 @@ public class DataFileMechanicsTest {
     return Stream.of(
         // file name, version number, low field count, high field count
         Arguments.of("adventures.txt", 6, 4, 5),
-        Arguments.of("allshoprows.txt", 1, 3, 8),
         Arguments.of("bastille.txt", 1, 11, 11),
         Arguments.of("bookoffacts.txt", 1, 3, 9),
         Arguments.of("bounty.txt", 2, 7, 7),
@@ -40,7 +39,7 @@ public class DataFileMechanicsTest {
         Arguments.of("consequences.txt", 1, 2, 5),
         Arguments.of("cultshorts.txt", 1, 2, 8),
         Arguments.of("dailylimits.txt", 1, 3, 4),
-        Arguments.of("defaults.txt", 1, 2, 3),
+        Arguments.of("defaults.txt", 2, 2, 4),
         Arguments.of("encounters.txt", 1, 3, 3),
         Arguments.of("equipment.txt", 2, 3, 4),
         Arguments.of("fambattle.txt", 1, 8, 8),
@@ -48,7 +47,7 @@ public class DataFileMechanicsTest {
         Arguments.of("faxbots.txt", 1, 2, 2),
         // foldgroups.txt is too complex
         Arguments.of("fullness.txt", 2, 8, 9),
-        Arguments.of("inebriety.txt", 2, 8, 10),
+        Arguments.of("inebriety.txt", 2, 8, 9),
         Arguments.of("items.txt", 1, 7, 8),
         Arguments.of("journeyman.txt", 0, 4, 4),
         // modifiers.txt is too complex
@@ -64,7 +63,7 @@ public class DataFileMechanicsTest {
         Arguments.of("questscouncil.txt", 1, 3, 5),
         // questslogs.txt is too complex
         Arguments.of("restores.txt", 2, 7, 8),
-        Arguments.of("shoprows.txt", 1, 4, 4),
+        Arguments.of("shoprows.txt", 2, 3, 8),
         Arguments.of("spleenhit.txt", 3, 8, 9),
         Arguments.of("standard-pulverized.txt", 1, 4, 4),
         Arguments.of("standard-rewards.txt", 1, 6, 6),

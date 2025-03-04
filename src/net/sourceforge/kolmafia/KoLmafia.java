@@ -886,8 +886,9 @@ public abstract class KoLmafia {
     ResultProcessor.updateEntauntauned();
     ResultProcessor.updateSavageBeast();
     CargoCultistShortsRequest.loadPockets();
-    if (!Preferences.getBoolean("_septEmberBalanceChecked")) {
-      RequestThread.postRequest(new SeptEmberCenserRequest());
+    if (SeptEmberCenserRequest.accessible() == null
+        && !Preferences.getBoolean("_septEmberBalanceChecked")) {
+      RequestThread.postRequest(SeptEmberCenserRequest.getRequest());
     }
 
     // This needs to be checked once, to set the property.

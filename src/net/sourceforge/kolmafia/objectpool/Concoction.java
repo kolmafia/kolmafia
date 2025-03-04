@@ -1126,13 +1126,6 @@ public class Concoction implements Comparable<Concoction> {
       case MAYAM -> {
         return alreadyHave + (MayamRequest.canMake(this) ? 1 : 0);
       }
-      case KIWI -> {
-        if (this.name.equals("mini kiwi intoxicating spirits")) {
-          if (Preferences.getBoolean("_miniKiwiIntoxicatingSpiritsBought")) {
-            return alreadyHave;
-          }
-        }
-      }
       case PHOTO_BOOTH -> {
         return alreadyHave + PhotoBoothRequest.canMake(this);
       }

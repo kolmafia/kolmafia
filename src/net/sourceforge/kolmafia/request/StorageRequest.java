@@ -121,8 +121,8 @@ public class StorageRequest extends TransferItemRequest {
     RequestThread.postRequest(new StorageRequest(StorageRequestType.EMPTY_STORAGE));
   }
 
-  public static final void parseStorage(final JSONObject JSON) {
-    if (JSON == null) {
+  public static final void parseStorage(final JSONObject json) {
+    if (json == null) {
       return;
     }
 
@@ -132,9 +132,9 @@ public class StorageRequest extends TransferItemRequest {
 
     try {
       // {"1":"1","2":"1" ... }
-      for (String key : JSON.keySet()) {
+      for (String key : json.keySet()) {
         int itemId = StringUtilities.parseInt(key);
-        int count = JSON.getIntValue(key);
+        int count = json.getIntValue(key);
         String name = ItemDatabase.getItemDataName(itemId);
         if (name == null) {
           // api.php?what=item does not work for
@@ -154,7 +154,7 @@ public class StorageRequest extends TransferItemRequest {
         list.add(item);
       }
     } catch (JSONException e) {
-      ApiRequest.reportParseError("storage", JSON.toString(), e);
+      ApiRequest.reportParseError("storage", json.toString(), e);
       return;
     }
 

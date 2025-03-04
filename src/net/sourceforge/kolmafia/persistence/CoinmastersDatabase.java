@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -13,6 +14,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
+import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
@@ -20,8 +22,8 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.request.CoinMasterPurchaseRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.shop.ShopRow;
-import net.sourceforge.kolmafia.shop.ShopRowDatabase;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
+import net.sourceforge.kolmafia.utilities.HashMultimap;
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -37,7 +39,7 @@ public class CoinmastersDatabase {
 
   // Map from Integer to ShopRow
 
-  // *** Since I believe ROW numbers are unique, it would be nice to also
+  // *** Since ROW numbers are unique, it would be nice to
   // *** also register items in NPCstores and Concoctions
   // *** Put this into ShopRow.java?
   public static final Map<Integer, ShopRow> rowData = new TreeMap<>();
@@ -79,7 +81,8 @@ public class CoinmastersDatabase {
   // sell using sellItems and sellPrices.
 
   // Map from Integer( itemId ) -> CoinMasterPurchaseRequest
-  public static final Map<Integer, CoinMasterPurchaseRequest> COINMASTER_ITEMS = new HashMap<>();
+  public static final HashMultimap<CoinMasterPurchaseRequest> COINMASTER_ITEMS =
+      new HashMultimap<>();
 
   // Map from Integer( row ) -> CoinMasterPurchaseRequest
   public static final Map<Integer, CoinMasterPurchaseRequest> COINMASTER_ROWS = new HashMap<>();
@@ -181,9 +184,12 @@ public class CoinmastersDatabase {
             // *** error
             continue;
           }
-          ShopRowDatabase.registerShopRow(shopRow, "row", master);
           int row = shopRow.getRow();
           List<ShopRow> rows = shopRows.get(master);
+          if (rowShop.containsKey(row)) {
+            RequestLogger.printLine("Duplicate ROW" + row + " in " + master);
+            continue;
+          }
           if (rows == null) {
             // Get a LockableListModel if we are running in a Swing environment,
             // since these lists will be the models for GUI elements
@@ -236,7 +242,8 @@ public class CoinmastersDatabase {
       case ItemPool.ZEPPELIN_TICKET,
           ItemPool.TALES_OF_DREAD,
           ItemPool.BRASS_DREAD_FLASK,
-          ItemPool.SILVER_DREAD_FLASK -> 1;
+          ItemPool.SILVER_DREAD_FLASK,
+          ItemPool.MINI_KIWI_INTOXICATING_SPIRITS -> 1;
       default -> PurchaseRequest.MAX_QUANTITY;
     };
   }
@@ -251,7 +258,9 @@ public class CoinmastersDatabase {
 
   public static final void clearPurchaseRequests(CoinmasterData data) {
     // Clear all purchase requests for a particular Coin Master
-    COINMASTER_ITEMS.values().removeIf(request -> request.getData() == data);
+    for (List<CoinMasterPurchaseRequest> list : COINMASTER_ITEMS.values()) {
+      list.removeIf(request -> request.getData() == data);
+    }
     COINMASTER_ROWS.values().removeIf(request -> request.getData() == data);
   }
 
@@ -290,11 +299,22 @@ public class CoinmastersDatabase {
 
   public static final void registerPurchaseRequest(
       final CoinmasterData data, final ShopRow shopRow) {
+    // "Manual" rows are visible in CoinmastersFrame, but do not get a
+    // Concoction or PurchaseRequest - as is used by acquire and such.
+    if (data.manualOnlyRow(shopRow)) {
+      return;
+    }
+
+    // Coinmasters can sell items OR skills.
+    AdventureResult item = shopRow.getItem();
+    if (!item.isItem()) {
+      return;
+    }
+
     // Register a purchase request
     CoinMasterPurchaseRequest request = new CoinMasterPurchaseRequest(data, shopRow);
     COINMASTER_ROWS.put(shopRow.getRow(), request);
 
-    AdventureResult item = shopRow.getItem();
     int itemId = item.getItemId();
     int count = item.getCount();
     COINMASTER_ITEMS.put(itemId, request);
@@ -321,28 +341,51 @@ public class CoinmastersDatabase {
     }
   }
 
-  public static final CoinMasterPurchaseRequest getPurchaseRequest(final int itemId) {
-    return getPurchaseRequest(COINMASTER_ITEMS.get(itemId));
+  public static final List<CoinMasterPurchaseRequest> getAllPurchaseRequests(final int itemId) {
+    List<CoinMasterPurchaseRequest> result = new ArrayList<>();
+
+    List<CoinMasterPurchaseRequest> items = COINMASTER_ITEMS.get(itemId);
+    if (items == null || items.size() == 0) {
+      return result;
+    }
+
+    for (var request : items) {
+      // *** For testing
+      if (request.getData().isDisabled()) {
+        continue;
+      }
+
+      request.setLimit(request.affordableCount());
+      request.setCanPurchase();
+      result.add(request);
+    }
+
+    return result;
+  }
+
+  public static final CoinMasterPurchaseRequest getAccessiblePurchaseRequest(final int itemId) {
+    List<CoinMasterPurchaseRequest> items = getAllPurchaseRequests(itemId);
+
+    for (var request : items) {
+      if (request.getData().isAccessible()) {
+        return request;
+      }
+    }
+
+    return null;
   }
 
   public static final CoinMasterPurchaseRequest getPurchaseRequest(final ShopRow shopRow) {
-    return getPurchaseRequest(COINMASTER_ROWS.get(shopRow));
-  }
+    var request = COINMASTER_ROWS.get(shopRow);
+    if (request != null) {
+      // *** For testing
+      if (request.getData().isDisabled()) {
+        return null;
+      }
 
-  public static final CoinMasterPurchaseRequest getPurchaseRequest(
-      CoinMasterPurchaseRequest request) {
-    if (request == null) {
-      return null;
+      request.setLimit(request.affordableCount());
+      request.setCanPurchase();
     }
-
-    // *** For testing
-    if (request.getData().isDisabled()) {
-      return null;
-    }
-
-    request.setLimit(request.affordableCount());
-    request.setCanPurchase();
-
     return request;
   }
 
@@ -351,13 +394,26 @@ public class CoinmastersDatabase {
   }
 
   public static final boolean contains(final int itemId, boolean validate) {
-    CoinMasterPurchaseRequest item = getPurchaseRequest(itemId);
-    return item != null && (!validate || item.availableItem());
+    if (!validate) {
+      return COINMASTER_ITEMS.containsKey(itemId) && COINMASTER_ITEMS.get(itemId).size() > 0;
+    }
+
+    List<CoinMasterPurchaseRequest> items = getAllPurchaseRequests(itemId);
+    for (var item : items) {
+      if (item.availableItem()) {
+        return true;
+      }
+    }
+    return false;
   }
 
   // *** For testing
   public static final CoinMasterPurchaseRequest findPurchaseRequest(final AdventureResult item) {
-    return COINMASTER_ITEMS.get(item.getItemId());
+    List<CoinMasterPurchaseRequest> items = COINMASTER_ITEMS.get(item.getItemId());
+    if (items == null || items.size() == 0) {
+      return null;
+    }
+    return items.get(0);
   }
 
   public static final void addPurchaseRequest(

@@ -52,14 +52,6 @@ public class BountyHunterHunterRequest extends CoinMasterRequest {
     super(BHH, buying, attachments);
   }
 
-  public BountyHunterHunterRequest(final boolean buying, final AdventureResult attachment) {
-    super(BHH, buying, attachment);
-  }
-
-  public BountyHunterHunterRequest(final boolean buying, final int itemId, final int quantity) {
-    super(BHH, buying, itemId, quantity);
-  }
-
   @Override
   public void processResults() {
     parseResponse(this.getURLString(), this.responseText);
@@ -379,10 +371,6 @@ public class BountyHunterHunterRequest extends CoinMasterRequest {
       RequestLogger.updateSessionLog(updateMessage);
       KoLmafia.updateDisplay(updateMessage);
     }
-  }
-
-  public static String accessible() {
-    return null;
   }
 
   public static final boolean registerRequest(final String urlString) {

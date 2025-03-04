@@ -1,18 +1,18 @@
 package net.sourceforge.kolmafia.request.coinmaster.shop;
 
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.CoinmasterData;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
-import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
-public class BlackMarketRequest extends CoinMasterRequest {
+public abstract class BlackMarketRequest extends CoinMasterShopRequest {
   public static final String master = "The Black Market";
+  public static final String SHOPID = "blackmarket";
 
   public static final AdventureResult TOKEN = ItemPool.get(ItemPool.PRICELESS_DIAMOND, 1);
   private static final Pattern TOKEN_PATTERN = Pattern.compile("<td>([\\d,]+) priceless diamond");
@@ -22,8 +22,10 @@ public class BlackMarketRequest extends CoinMasterRequest {
           .withToken("priceless diamond")
           .withTokenPattern(TOKEN_PATTERN)
           .withItem(TOKEN)
-          .withShopRowFields(master, "blackmarket")
-          .withCanBuyItem(BlackMarketRequest::canBuyItem);
+          .withShopRowFields(master, SHOPID)
+          .withCanBuyItem(BlackMarketRequest::canBuyItem)
+          .withVisitShop(BlackMarketRequest::visitShop)
+          .withAccessible(BlackMarketRequest::accessible);
 
   private static Boolean canBuyItem(final Integer itemId) {
     AdventureResult item = ItemPool.get(itemId);
@@ -33,42 +35,12 @@ public class BlackMarketRequest extends CoinMasterRequest {
     };
   }
 
-  public BlackMarketRequest() {
-    super(BLACK_MARKET);
-  }
-
-  public BlackMarketRequest(final boolean buying, final AdventureResult[] attachments) {
-    super(BLACK_MARKET, buying, attachments);
-  }
-
-  public BlackMarketRequest(final boolean buying, final AdventureResult attachment) {
-    super(BLACK_MARKET, buying, attachment);
-  }
-
-  public BlackMarketRequest(final boolean buying, final int itemId, final int quantity) {
-    super(BLACK_MARKET, buying, itemId, quantity);
-  }
-
-  @Override
-  public void processResults() {
-    parseResponse(this.getURLString(), responseText);
-  }
-
-  public static void parseResponse(final String location, final String responseText) {
-    if (!location.contains("whichshop=blackmarket")) {
-      return;
+  public static void visitShop(final String responseText) {
+    // If Black Market not already unlocked, unlock it
+    if (!QuestLogRequest.isBlackMarketAvailable()) {
+      QuestDatabase.setQuestProgress(Quest.MACGUFFIN, "step1");
+      ConcoctionDatabase.setRefreshNeeded(true);
     }
-
-    CoinmasterData data = BLACK_MARKET;
-    int itemId = CoinMasterRequest.extractItemId(data, location);
-
-    if (itemId == -1) {
-      // Purchase for Meat or a simple visit
-      CoinMasterRequest.parseBalance(data, responseText);
-      return;
-    }
-
-    CoinMasterRequest.parseResponse(data, location, responseText);
   }
 
   public static String accessible() {
@@ -76,31 +48,5 @@ public class BlackMarketRequest extends CoinMasterRequest {
       return "The Black Market is not currently available";
     }
     return null;
-  }
-
-  public static final boolean registerRequest(final String urlString, final boolean noMeat) {
-    if (!urlString.startsWith("shop.php") || !urlString.contains("whichshop=blackmarket")) {
-      return false;
-    }
-
-    Matcher m = GenericRequest.WHICHROW_PATTERN.matcher(urlString);
-    if (!m.find()) {
-      // Just a visit
-      return true;
-    }
-
-    CoinmasterData data = BLACK_MARKET;
-    int itemId = CoinMasterRequest.extractItemId(data, urlString);
-
-    if (itemId == -1) {
-      // Presumably this is a purchase for Meat.
-      // If we've already checked Meat, this is an unknown item
-      if (noMeat) {
-        return false;
-      }
-      return NPCPurchaseRequest.registerShopRequest(urlString, true);
-    }
-
-    return CoinMasterRequest.registerRequest(data, urlString, true);
   }
 }

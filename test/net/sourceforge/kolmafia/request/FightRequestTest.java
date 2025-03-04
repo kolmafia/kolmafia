@@ -727,6 +727,38 @@ public class FightRequestTest {
     }
   }
 
+  @Nested
+  class EvolvingOrganism {
+    @Test
+    public void resetsFamiliarExperienceWhenEvolves() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              // I trained this familiar from 100 experience to 501 experience
+              // in the Cake Shaped Arena. Apparently, it does not evolve there.
+              withFamiliar(FamiliarPool.EVOLVING_ORGANISM, 501));
+      try (cleanups) {
+        client.addResponse(
+            302, Map.of("location", List.of("fight.php?ireallymeanit=1677340903")), "");
+        client.addResponse(200, html("request/test_fight_evolving_organism_0.html"));
+        client.addResponse(200, ""); // api.php
+        client.addResponse(200, html("request/test_fight_evolving_organism_1.html"));
+        client.addResponse(200, ""); // api.php
+
+        var request = new GenericRequest("adventure.php?snarfblat=443");
+        request.run();
+        // Honathan has evolved a rather noxious odor.
+
+        var fight = new GenericRequest("fight.php?action=attack");
+        fight.run();
+        // Honathan expends all their experience and evolves some sort of exothermic process.
+        assertThat(KoLCharacter.getFamiliar().getTotalExperience(), is(0));
+      }
+    }
+  }
+
   @Test
   public void canFindItemsAfterSlayTheDead() {
     var cleanups =
@@ -2379,6 +2411,7 @@ public class FightRequestTest {
 
   @Test
   public void canDetectEagleScreech() {
+    RequestLoggerOutput.startStream();
     var cleanups =
         new Cleanups(
             withFight(),
@@ -2392,6 +2425,9 @@ public class FightRequestTest {
 
       assertThat("screechCombats", isSetTo(11));
       assertThat("banishedPhyla", hasStringValue(startsWith("beast:Patriotic Screech:")));
+
+      var text = RequestLoggerOutput.stopStream();
+      assertThat(text, not(containsString("fire a Red, White and Blue Blast (0 Mojo Points)")));
     }
   }
 
@@ -2941,7 +2977,7 @@ public class FightRequestTest {
   }
 
   @Nested
-  class BodyguardChat {
+  class BurlyBodyguard {
     @ParameterizedTest
     @CsvSource({
       "request/test_fight_win.html",
@@ -2983,6 +3019,35 @@ public class FightRequestTest {
               withFight(0))) {
         parseCombatData("request/test_fight_bodyguard_pwa.html");
         assertThat("bodyguardChatMonster", isSetTo(""));
+      }
+    }
+
+    @Test
+    void recordsBonusApplied() {
+      var cleanups =
+          new Cleanups(
+              withProperty("burlyBodyguardReceivedBonus", false),
+              withFamiliar(FamiliarPool.BURLY_BODYGUARD),
+              withFight());
+      try (cleanups) {
+        parseCombatData("request/test_fight_burly_bodyguard_bonus.html");
+        assertThat("burlyBodyguardReceivedBonus", isSetTo(true));
+      }
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {0, 6, 11})
+    void addsExperienceFromBonus(final int points) {
+      var cleanups =
+          new Cleanups(
+              withProperty("avantGuardPoints", points),
+              withProperty("burlyBodyguardReceivedBonus", false),
+              withFamiliar(FamiliarPool.BURLY_BODYGUARD, 0),
+              withFight());
+      try (cleanups) {
+        parseCombatData("request/test_fight_burly_bodyguard_bonus.html");
+        var fam = KoLCharacter.getEffectiveFamiliar();
+        assertThat(fam.getTotalExperience(), is((int) Math.pow(points, 2) + 1));
       }
     }
   }
@@ -3670,6 +3735,76 @@ public class FightRequestTest {
   }
 
   @Nested
+  class CupidBow {
+    @Test
+    void canDetectCupidBow() {
+      RequestLoggerOutput.startStream();
+      var cleanups =
+          new Cleanups(
+              withFamiliar(FamiliarPool.MINI_KIWI),
+              withEquipped(Slot.FAMILIAR, ItemPool.TOY_CUPID_BOW),
+              withFight());
+      try (cleanups) {
+        parseCombatData("request/test_cupid_bow.html");
+        var text = RequestLoggerOutput.stopStream();
+        assertThat(text, containsString("looks askance at the toy bow"));
+        assertThat("_cupidBowFamiliars", isSetTo("300"));
+      }
+    }
+
+    @Test
+    void canIncrementCupidBowOnFight() {
+      var cleanups =
+          new Cleanups(
+              withFamiliar(FamiliarPool.MINI_KIWI),
+              withEquipped(Slot.FAMILIAR, ItemPool.TOY_CUPID_BOW),
+              withProperty("cupidBowFights", 1),
+              withProperty("cupidBowLastFamiliar", 300),
+              withFight());
+      try (cleanups) {
+        // Need a test that DOESN'T have the askance language
+        parseCombatData("request/test_fight_haiku_serendipity.html");
+        assertThat("cupidBowLastFamiliar", isSetTo("300"));
+        assertThat("cupidBowFights", isSetTo("2"));
+      }
+    }
+
+    @Test
+    void canChangeCupidBowOnFight() {
+      var cleanups =
+          new Cleanups(
+              withFamiliar(FamiliarPool.MINI_KIWI),
+              withEquipped(Slot.FAMILIAR, ItemPool.TOY_CUPID_BOW),
+              withProperty("cupidBowFights", 0),
+              withProperty("cupidBowLastFamiliar", 1),
+              withFight());
+      try (cleanups) {
+        // Need a test that DOESN'T have the askance language
+        parseCombatData("request/test_fight_haiku_serendipity.html");
+        assertThat("cupidBowLastFamiliar", isSetTo("300"));
+        assertThat("cupidBowFights", isSetTo("1"));
+      }
+    }
+
+    @Test
+    void canIncrementCupidBowOnRun() {
+      var cleanups =
+          new Cleanups(
+              withFamiliar(FamiliarPool.MINI_KIWI),
+              withEquipped(Slot.FAMILIAR, ItemPool.TOY_CUPID_BOW),
+              withProperty("cupidBowFights", 1),
+              withProperty("cupidBowLastFamiliar", 300),
+              withFight(0));
+      try (cleanups) {
+        // Need a test that DOESN'T have the askance language
+        parseCombatData("request/test_fight_run.html");
+        assertThat("cupidBowLastFamiliar", isSetTo("300"));
+        assertThat("cupidBowFights", isSetTo("2"));
+      }
+    }
+  }
+
+  @Nested
   class Haiku {
     @Test
     public void canDetectSerendipity() {
@@ -3727,6 +3862,58 @@ public class FightRequestTest {
         parseCombatData(page, "fight.php?ireallymeanit=1737125012");
         var text = RequestLoggerOutput.stopStream();
         assertThat(text, containsString("Encounter: Knob Goblin poseur"));
+      }
+    }
+  }
+
+  @Nested
+  class StillInBattle {
+    @Test
+    public void doNotThinkFightEndsEarlyWithBothCombatForms() {
+      // check that we do not mistakenly set last combat won to "false" on round 0
+      var cleanups =
+          new Cleanups(
+              withProperty("_lastCombatWon", true),
+              withProperty("serverAddsCustomCombat", true),
+              withProperty("serverAddsBothCombat", true));
+      try (cleanups) {
+        parseCombatData("request/test_fight_battle_end_both_combat_bars.html");
+        assertThat("_lastCombatWon", isSetTo(true));
+      }
+    }
+
+    @Test
+    public void runAwayEndsCombatWithBothCombatForms() {
+      var cleanups =
+          new Cleanups(
+              withProperty("_lastCombatWon", true),
+              withProperty("serverAddsCustomCombat", true),
+              withProperty("serverAddsBothCombat", true));
+      try (cleanups) {
+        parseCombatData("request/test_fight_battle_end_both_combat_bars_runaway.html");
+        assertThat("_lastCombatWon", isSetTo(false));
+      }
+    }
+
+    @Test
+    public void runAwayEndsCombatWithOldCombatForm() {
+      var cleanups =
+          new Cleanups(
+              withProperty("_lastCombatWon", true), withProperty("serverAddsCustomCombat", false));
+      try (cleanups) {
+        parseCombatData("request/test_fight_battle_end_old_combat_bar_only_runaway.html");
+        assertThat("_lastCombatWon", isSetTo(false));
+      }
+    }
+
+    @Test
+    public void runAwayEndsCombatWithNewCombatForm() {
+      var cleanups =
+          new Cleanups(
+              withProperty("_lastCombatWon", true), withProperty("serverAddsCustomCombat", true));
+      try (cleanups) {
+        parseCombatData("request/test_fight_battle_end_new_combat_bar_only_runaway.html");
+        assertThat("_lastCombatWon", isSetTo(false));
       }
     }
   }

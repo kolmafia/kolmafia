@@ -373,7 +373,11 @@ public class ResultProcessor {
             EffectPool.WINE_FRIENDLY,
             EffectPool.WINE_DARK,
             EffectPool.WINE_BEFOULED,
-            EffectPool.CITIZEN_OF_A_ZONE -> DebugDatabase.readEffectDescriptionText(effectId);
+            EffectPool.CITIZEN_OF_A_ZONE,
+            EffectPool.GRAFTED,
+            EffectPool.MILK_OF_FAMILIAR_CRUELTY,
+            EffectPool.MILK_OF_FAMILIAR_KINDNESS -> DebugDatabase.readEffectDescriptionText(
+            effectId);
       }
 
       String acquisition = effectMatcher.group(2);
@@ -1113,11 +1117,11 @@ public class ResultProcessor {
 
     if (result.isItem()) {
       // Do special processing when you get certain items
-      ResultProcessor.gainItem(adventureResults, result);
-
       if (HermitRequest.isWorthlessItem(result.getItemId())) {
         result = HermitRequest.WORTHLESS_ITEM.getInstance(result.getCount());
       }
+
+      ResultProcessor.gainItem(adventureResults, result);
 
       return false;
     }

@@ -50,14 +50,6 @@ public class CrimboCartelRequest extends CoinMasterRequest {
     super(CRIMBO_CARTEL, buying, attachments);
   }
 
-  public CrimboCartelRequest(final boolean buying, final AdventureResult attachment) {
-    super(CRIMBO_CARTEL, buying, attachment);
-  }
-
-  public CrimboCartelRequest(final boolean buying, final int itemId, final int quantity) {
-    super(CRIMBO_CARTEL, buying, itemId, quantity);
-  }
-
   @Override
   public void processResults() {
     parseResponse(this.getURLString(), this.responseText);

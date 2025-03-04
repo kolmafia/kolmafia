@@ -56,7 +56,8 @@ public enum StringModifier implements Modifier {
   FLOOR_BUFFED_MOXIE("Floor Buffed Moxie", Pattern.compile("Floor Buffed Moxie: \"(.*?)\"")),
   PLUMBER_STAT("Plumber Stat", Pattern.compile("Plumber Stat: \"(.*?)\"")),
   RECIPE("Recipe", Pattern.compile("Recipe: \"(.*?)\"")),
-  EVALUATED_MODIFIERS("Evaluated Modifiers");
+  EVALUATED_MODIFIERS("Evaluated Modifiers"),
+  LAST_AVAILABLE_DATE("Last Available", Pattern.compile("Last Available: \"(.*?)\""));
   private final String name;
   private final Pattern[] descPatterns;
   private final Pattern tagPattern;

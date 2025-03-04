@@ -93,7 +93,7 @@ public class CheckDataCommand extends AbstractCommand {
       RequestLogger.printLine("Checking familiar powers from terrarium.");
       DebugDatabase.checkFamiliarsInTerrarium(showVariable);
       RequestLogger.printLine("Checking familiar images.");
-      DebugDatabase.checkFamiliarImages();
+      DebugDatabase.checkFamiliars();
       RequestLogger.printLine("Familiars checked.");
       return;
     }
@@ -136,8 +136,14 @@ public class CheckDataCommand extends AbstractCommand {
     }
 
     if (command.equals("checkmuseumplurals")) {
-      DebugDatabase.checkMuseumPlurals(parameters);
+      DebugDatabase.checkMuseumPlurals();
       RequestLogger.printLine("Plurals checked.");
+      return;
+    }
+
+    if (command.equals("checkmuseumitems")) {
+      DebugDatabase.checkMuseumItems();
+      RequestLogger.printLine("Items checked.");
       return;
     }
 

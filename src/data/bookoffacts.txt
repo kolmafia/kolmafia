@@ -68,8 +68,8 @@ Weird	MP	25
 Weird	Item	flaming feather	frozen feather	frightful feather	fetid feather	flirtatious feather
 
 None	Stats	3	muscle
-None	Stats	3	mysticality
 None	Stats	3	moxie
+None	Stats	3	mysticality
 None	HP	10
 None	MP	10
 None	Modifier	Experience (familiar): +1

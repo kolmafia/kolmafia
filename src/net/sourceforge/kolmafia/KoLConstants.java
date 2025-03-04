@@ -201,7 +201,7 @@ public interface KoLConstants extends UtilityConstants {
   int CONSEQUENCES_VERSION = 1;
   int CULTSHORTS_VERSION = 1;
   int DAILYLIMITS_VERSION = 1;
-  int DEFAULTS_VERSION = 1;
+  int DEFAULTS_VERSION = 2;
   int ENCOUNTERS_VERSION = 1;
   int EQUIPMENT_VERSION = 2;
   int FAMBATTLE_VERSION = 1;
@@ -222,7 +222,8 @@ public interface KoLConstants extends UtilityConstants {
   int RESTORES_VERSION = 2;
   int QUESTSCOUNCIL_VERSION = 1;
   int QUESTSLOG_VERSION = 1;
-  int SHOPROWS_VERSION = 1;
+  int SHOPS_VERSION = 2;
+  int SHOPROWS_VERSION = 2;
   int SPLEENHIT_VERSION = 3;
   int STANDARD_REWARDS_VERSION = 1;
   int STANDARD_PULVERIZED_VERSION = 1;
@@ -525,7 +526,6 @@ public interface KoLConstants extends UtilityConstants {
     BURNING_LEAVES, // Items made at the Pile of Burning Leaves
     TINKERING_BENCH, // Items made at the Tinkering Bench
     MAYAM, // Items made at the Mayam Calendar
-    KIWI, // Items bought at Kiwi Kwiki Mart
     PHOTO_BOOTH, // Items made at the Clan Photo Booth
     TAKERSPACE, // Items made at the TakerSpace
   }

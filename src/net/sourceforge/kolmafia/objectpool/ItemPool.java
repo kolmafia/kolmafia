@@ -555,6 +555,7 @@ public class ItemPool {
   public static final int BUBBLEWRAP_ORE = 1677;
   public static final int GROUCHO_DISGUISE = 1678;
   public static final int EXPRESS_CARD = 1687;
+  public static final int SHINGLE = 1704;
   public static final int FLAMING_CARDBOARD_SWORD = 1706;
   public static final int MUCULENT_MACHETE = 1721;
   public static final int SWORD_PREPOSITIONS = 1734;
@@ -646,6 +647,7 @@ public class ItemPool {
   public static final int SHEET_MUSIC = 2192;
   public static final int FANCY_EVIL_CHOCOLATE = 2197;
   public static final int CRIMBO_UKELELE = 2209;
+  public static final int GREAT_BALL_OF_FROZEN_FIRE = 2221;
   public static final int LIARS_PANTS = 2222;
   public static final int JUGGLERS_BALLS = 2223;
   public static final int PINK_SHIRT = 2224;
@@ -829,6 +831,7 @@ public class ItemPool {
   public static final int HAND_CARVED_BOKKEN = 2719;
   public static final int HAND_CARVED_BOW = 2720;
   public static final int HAND_CARVED_STAFF = 2721;
+  public static final int STAFF_OF_THE_GRAND_FLAMBE = 2723;
   public static final int JUNIPER_BERRIES = 2726;
   public static final int PLUM_WINE = 2730;
   public static final int BUNCH_OF_SQUARE_GRAPES = 2733;
@@ -959,6 +962,7 @@ public class ItemPool {
   public static final int BROKEN_DRONE = 3165;
   public static final int REPAIRED_DRONE = 3166;
   public static final int AUGMENTED_DRONE = 3167;
+  public static final int NAUGHTY_ORIGAMI_KIT = 3192;
   public static final int FORTUNE_TELLER = 3193;
   public static final int ORIGAMI_MAGAZINE = 3194;
   public static final int PAPER_SHURIKEN = 3195;
@@ -1150,6 +1154,7 @@ public class ItemPool {
   public static final int CANTEEN_OF_WINE = 3645;
   public static final int MADNESS_REEF_MAP = 3649;
   public static final int MINIATURE_ANTLERS = 3651;
+  public static final int CONTAINER_OF_SPOOKY_PUTTY = 3661;
   public static final int SPOOKY_PUTTY_MITRE = 3662;
   public static final int SPOOKY_PUTTY_LEOTARD = 3663;
   public static final int SPOOKY_PUTTY_BALL = 3664;
@@ -1659,6 +1664,7 @@ public class ItemPool {
   public static final int ASTRAL_HOT_DOG = 5043;
   public static final int ASTRAL_PILSNER = 5044;
   public static final int CLAN_SHOWER = 5047;
+  public static final int SHARD_OF_DOUBLE_ICE = 5048;
   public static final int LARS_THE_CYBERIAN = 5053;
   public static final int CREEPY_VOODOO_DOLL = 5062;
   public static final int SPAGHETTI_CON_CALAVERAS = 5065;
@@ -3712,6 +3718,7 @@ public class ItemPool {
   public static final int MEAT_BUTLER = 11262;
   public static final int LOATHING_IDOL_MICROPHONE = 11263;
   public static final int CHARTER_NELLYVILLE = 11264;
+  public static final int MANUAL_OF_SECRET_DOOR_AWARENESS = 11265;
   public static final int FLASH_LIQUIDIZER_ULTRA_DOUSING_ACCESSORY = 11266;
   public static final int GIANT_BLACK_MONOLITH = 11268;
   public static final int SPOOKY_VHS_TAPE = 11270;
@@ -3771,13 +3778,23 @@ public class ItemPool {
   public static final int ELF_GUARD_HONOR_PRESENT = 11413;
   public static final int ELF_GUARD_OFFICERS_SIDEARM = 11414;
   public static final int PEPPERMINT_BOMB = 11426;
+  public static final int ELF_GUARD_FIELD_MANUAL_CULINARY_ARTS = 11429;
+  public static final int COCKTAILS_OF_THE_AGE_OF_SAIL = 11432;
   public static final int KELFLAR_VEST = 11440;
   public static final int ELF_GUARD_MOUTHKNIFE = 11444;
+  public static final int ELF_GUARD_FIELD_MANUAL_EXTORTION = 11449;
+  public static final int THE_ENCYCLOPEDIA_OF_FRUIT = 11450;
   public static final int PUNCHING_MIRROR = 11451;
+  public static final int ELF_GUARD_FIELD_MANUAL_WILDERNESS_SLEEPING = 11454;
   public static final int BLACK_AND_WHITE_APRON_MEAL_KIT = 11472;
   public static final int TRICK_COIN = 11480;
   public static final int LIL_SNOWBALL_FACTORY = 11485;
   public static final int PRANK_CRIMBO_CARD = 11487;
+  public static final int ELF_GUARD_FIELD_MANUAL_CULINARY_ARTS_USED = 11497;
+  public static final int COCKTAILS_OF_THE_AGE_OF_SAIL_USED = 11498;
+  public static final int ELF_GUARD_FIELD_MANUAL_EXTORTION_USED = 11499;
+  public static final int THE_ENCYCLOPEDIA_OF_FRUIT_USED = 11500;
+  public static final int ELF_GUARD_FIELD_MANUAL_WILDERNESS_SLEEPING_USED = 11501;
   public static final int WIRED_UNDERWEAR = 11538;
   public static final int ENCRYPTED_SHURIKEN = 11539;
   public static final int MIMIC_EGG = 11542;
@@ -3816,6 +3833,8 @@ public class ItemPool {
   public static final int ELBOW_SOUP = 11624;
   public static final int LIP_SOUP = 11625;
   public static final int TEARAWAY_PANTS = 11630;
+  public static final int TOO_COLD_TO_HOLD = 11631;
+  public static final int TOO_COLD_TO_HOLD_USED = 11632;
   public static final int SEPTEMBER_CENSER = 11642;
   public static final int MINIATURE_EMBERING_HULK = 11644;
   public static final int STRUCTURAL_EMBER = 11647;
@@ -3849,6 +3868,16 @@ public class ItemPool {
   public static final int PUMPKIN_SPICE_WHORL = 11746;
   public static final int EGG_GUN = 11772;
   public static final int CANDY_EGG_DEVILER = 11774;
+  public static final int SECRETS_OF_THE_MASTER_EGG_HUNTERS = 11761;
+  public static final int SECRETS_OF_THE_MASTER_EGG_HUNTERS_USED = 11762;
+  public static final int HOW_TO_LOSE_FRIENDS_AND_ATTRACT_SNAKES = 11763;
+  public static final int HOW_TO_LOSE_FRIENDS_AND_ATTRACT_SNAKES_USED = 11764;
+  public static final int COVERT_OPS_FOR_KIDS = 11765;
+  public static final int COVERT_OPS_FOR_KIDS_USED = 11766;
+  public static final int HOLIDAY_MULTITASKING = 11767;
+  public static final int HOLIDAY_MULTITASKING_USED = 11768;
+  public static final int HOYLES_GUIDE_TO_REINDEER_GAMES = 11769;
+  public static final int HOYLES_GUIDE_TO_REINDEER_GAMES_USED = 11770;
   public static final int MCHUGELARGE_DUFFEL_BAG = 11783;
   public static final int MCHUGELARGE_LEFT_POLE = 11784;
   public static final int MCHUGELARGE_RIGHT_POLE = 11785;
@@ -3864,8 +3893,12 @@ public class ItemPool {
   public static final int SERVER_KEY = 11808;
   public static final int LOGIC_GRENADE = 11811;
   public static final int PRINTED_SERVER_KEY = 11809;
+  public static final int SLEEP_ROM_CHIP = 11821;
+  public static final int OVERCLOCK_ROM_CHIP = 11822;
+  public static final int STATS_ROM_CHIP = 11823;
   public static final int HASHING_VISE = 11826;
   public static final int GEOFENCING_RAPIER = 11827;
+  public static final int TOY_CUPID_BOW = 11837;
 
   private ItemPool() {}
 

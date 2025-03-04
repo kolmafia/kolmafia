@@ -28,14 +28,15 @@ import static internal.helpers.Player.withRestricted;
 import static internal.helpers.Player.withSign;
 import static internal.helpers.Player.withSkill;
 import static internal.helpers.Player.withStats;
-import static internal.matchers.Maximizer.*;
 import static internal.matchers.Maximizer.recommends;
+import static internal.matchers.Maximizer.recommendsSlot;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.hasToString;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.startsWith;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -898,6 +899,32 @@ public class MaximizerTest {
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "eldritch hat")));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.WEAPON, "bounty-hunting rifle")));
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.PANTS, "eldritch pants")));
+      }
+    }
+
+    @Test
+    public void itShouldKeepSlimeOutfit() {
+      final var cleanups =
+          new Cleanups(
+              withItem("Bonestabber"),
+              withItem("Scepter of Loathing"),
+              withItem("marble medallion"),
+              withItem("white earbuds"),
+              withEquippableItem("hardened slime hat"),
+              withEquippableItem(ItemPool.STAFF_OF_THE_GRAND_FLAMBE),
+              withEquippableItem("Stick-Knife of Loathing"),
+              withEquippableItem("unwrapped knock-off retro superhero cape"),
+              withEquippableItem("Hodgman's disgusting technicolor overcoat"),
+              withEquippableItem("hardened slime pants"),
+              withEquippableItem("Pocket Square of Loathing"),
+              withEquippableItem("perfect Christmas scarf"),
+              withEquippableItem("hardened slime belt"));
+
+      try (cleanups) {
+        maximizeAny("spooky resistance");
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "hardened slime hat")));
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.PANTS, "hardened slime pants")));
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.ACCESSORY3, "hardened slime belt")));
       }
     }
   }
@@ -2235,6 +2262,71 @@ public class MaximizerTest {
       maximize("combat");
 
       assertThat(getBoosts(), not(hasItem(hasProperty("cmd", startsWith("aprilband effect c")))));
+    }
+  }
+
+  @Nested
+  class Mayam {
+    @Test
+    public void recommendsMayamResonanceWithItem() {
+      var cleanups =
+          new Cleanups(withItem(ItemPool.MAYAM_CALENDAR), withProperty("_mayamSymbolsUsed", ""));
+      try (cleanups) {
+        maximize("food drop");
+
+        assertThat(
+            getBoosts(),
+            hasItem(hasProperty("cmd", is("mayam resonance memories of cheesier age"))));
+      }
+    }
+
+    @Test
+    public void doesNotRecommendMayamWithoutItem() {
+      var cleanups = withProperty("_mayamSymbolsUsed", "");
+      try (cleanups) {
+        maximize("food drop");
+
+        assertThat(getBoosts(), not(hasItem(hasProperty("cmd", startsWith("mayam ")))));
+      }
+    }
+
+    @Test
+    public void doesNotRecommendMayamIfUsed() {
+      var cleanups = withProperty("_mayamSymbolsUsed", "yam1,yam2,cheese,clock");
+      try (cleanups) {
+        maximize("food drop");
+
+        assertThat(getBoosts(), not(hasItem(hasProperty("cmd", startsWith("mayam ")))));
+      }
+    }
+  }
+
+  @Nested
+  class CampAway {
+    @Test
+    public void recommendsCampAwayCloud() {
+      var cleanups =
+          new Cleanups(
+              withProperty("getawayCampsiteUnlocked", true),
+              withProperty("_campAwayCloudBuffs", 0),
+              withProperty("_campAwaySmileBuffs", 0));
+      try (cleanups) {
+        maximize("Muscle Experience Percent");
+        assertThat(getBoosts(), hasItem(hasProperty("cmd", is("campaway cloud"))));
+      }
+    }
+
+    @Test
+    public void doesNotRecommendCampAwayCloudIfUsed() {
+      var cleanups =
+          new Cleanups(
+              withProperty("getawayCampsiteUnlocked", true),
+              withProperty("_campAwayCloudBuffs", 1),
+              withProperty("_campAwaySmileBuffs", 0));
+      try (cleanups) {
+        maximize("Muscle Experience Percent");
+        assertThat(getBoosts(), not(hasItem(hasProperty("cmd", is("campaway cloud")))));
+      }
     }
   }
 }

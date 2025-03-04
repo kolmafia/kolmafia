@@ -17,7 +17,7 @@ import net.sourceforge.kolmafia.request.coinmaster.GameShoppeRequest;
 import net.sourceforge.kolmafia.request.coinmaster.HermitRequest;
 import net.sourceforge.kolmafia.request.coinmaster.MrStoreRequest;
 import net.sourceforge.kolmafia.request.coinmaster.QuartersmasterRequest;
-import net.sourceforge.kolmafia.request.coinmaster.TicketCounterRequest;
+import net.sourceforge.kolmafia.request.coinmaster.SwaggerShopRequest;
 import net.sourceforge.kolmafia.request.coinmaster.TravelingTraderRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.AppleStoreRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ArmoryAndLeggeryRequest;
@@ -58,10 +58,12 @@ import net.sourceforge.kolmafia.request.coinmaster.shop.FancyDanRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.FishboneryRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.FunALogRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.GMartRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.GeneticFiddlingRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.GotporkOrphanageRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.GotporkPDRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.GuzzlrRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.IsotopeSmitheryRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.KiwiKwikiMartRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.LTTRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.LunarLunchRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.MemeShopRequest;
@@ -74,6 +76,7 @@ import net.sourceforge.kolmafia.request.coinmaster.shop.PlumberGearRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.PlumberItemRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.PokemporiumRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.PrecinctRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.PrimordialSoupKitchenRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ReplicaMrStoreRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.RubeeRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.SHAWARMARequest;
@@ -82,10 +85,10 @@ import net.sourceforge.kolmafia.request.coinmaster.shop.ShoeRepairRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ShoreGiftShopRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.SpacegateFabricationRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.SpinMasterLatheRequest;
-import net.sourceforge.kolmafia.request.coinmaster.shop.SwaggerShopRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.TacoDanRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.TerrifiedEagleInnRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ThankShopRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.TicketCounterRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ToxicChemistryRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.TrapperRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.VendingMachineRequest;
@@ -149,11 +152,13 @@ public abstract class CoinmasterRegistry {
         FunALogRequest.FUN_A_LOG,
         GameShoppeRequest.GAMESHOPPE,
         GMartRequest.GMART,
+        GeneticFiddlingRequest.DATA,
         GotporkOrphanageRequest.GOTPORK_ORPHANAGE,
         GotporkPDRequest.GOTPORK_PD,
         GuzzlrRequest.GUZZLR,
         HermitRequest.HERMIT,
         IsotopeSmitheryRequest.ISOTOPE_SMITHERY,
+        KiwiKwikiMartRequest.DATA,
         LTTRequest.LTT,
         LunarLunchRequest.LUNAR_LUNCH,
         MemeShopRequest.BACON_STORE,
@@ -167,6 +172,7 @@ public abstract class CoinmasterRegistry {
         PlumberItemRequest.PLUMBER_ITEMS,
         PokemporiumRequest.POKEMPORIUM,
         PrecinctRequest.PRECINCT,
+        PrimordialSoupKitchenRequest.DATA,
         QuartersmasterRequest.FRATBOY,
         ReplicaMrStoreRequest.REPLICA_MR_STORE,
         RubeeRequest.RUBEE,
@@ -199,6 +205,7 @@ public abstract class CoinmasterRegistry {
       CoinmasterData cm = COINMASTERS[i];
       MASTERS[i] = StringUtilities.getCanonicalName(cm.getMaster());
       NICKNAMES[i] = StringUtilities.getCanonicalName(cm.getNickname());
+      cm.registerShop();
       cm.registerCurrencies();
       cm.registerShopRows();
       cm.registerPurchaseRequests();

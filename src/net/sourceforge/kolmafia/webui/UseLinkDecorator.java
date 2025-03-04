@@ -955,6 +955,12 @@ public abstract class UseLinkDecorator {
 
             return new UseLink(ItemPool.SPOOKY_MAP, 1, "map", "inv_use.php?which=3&whichitem=");
 
+            // Soft green echo eyedrop antidote gets an uneffect link
+
+          case ItemPool.REMEDY:
+          case ItemPool.ANCIENT_CURE_ALL:
+            return new UseLink(itemId, 1, "use", "uneffect.php");
+
           case ItemPool.FRATHOUSE_BLUEPRINTS:
           case ItemPool.RONALD_SHELTER_MAP:
           case ItemPool.GRIMACE_SHELTER_MAP:
@@ -1119,6 +1125,27 @@ public abstract class UseLinkDecorator {
             }
 
             break;
+
+          case ItemPool.TOPIARY_NUGGLET:
+            return new UseLink(itemId, 1, "sculpt", "shop.php?whichshop=topiary");
+
+          case ItemPool.TOXIC_GLOBULE:
+            return new UseLink(itemId, 1, "do science", "shop.php?whichshop=toxic");
+
+          case ItemPool.ROSE:
+          case ItemPool.WHITE_TULIP:
+          case ItemPool.RED_TULIP:
+          case ItemPool.BLUE_TULIP:
+            return new UseLink(itemId, 1, "trade in", "shop.php?whichshop=flowertradein");
+
+          case ItemPool.GUZZLRBUCK:
+            {
+              ArrayList<UseLink> uses = new ArrayList<>();
+              uses.add(new UseLink(itemId, 1, "Let's Guzzle", "shop.php?whichshop=guzzlr"));
+              uses.add(new UseLink(itemId, 1, "tap", "inventory.php?tap=guzzlr", false));
+              return new UsesLink(uses.toArray(new UseLink[uses.size()]));
+            }
+
           case ItemPool.BARLEY:
           case ItemPool.HOPS:
           case ItemPool.FANCY_BEER_BOTTLE:
@@ -1128,11 +1155,27 @@ public abstract class UseLinkDecorator {
           case ItemPool.WORSE_HOMES_GARDENS:
             return new UseLink(itemId, 1, "read", "shop.php?whichshop=junkmagazine");
 
-          case ItemPool.ODD_SILVER_COIN:
-            return new UseLink(itemId, 1, "spend", "shop.php?whichshop=cindy");
+          case ItemPool.BACON:
+            int baconcount = InventoryManager.getCount(itemId);
+            return new UseLink(itemId, 1, "spend (" + baconcount + ")", "shop.php?whichshop=bacon");
+
+          case ItemPool.X:
+            int xcount = InventoryManager.getCount(itemId);
+            return new UseLink(itemId, 1, "eXpend (" + xcount + ")", "shop.php?whichshop=xo");
+
+          case ItemPool.O:
+            int ocount = InventoryManager.getCount(itemId);
+            return new UseLink(itemId, 1, "blOw (" + ocount + ")", "shop.php?whichshop=xo");
+
+          case ItemPool.RAD:
+            int radcount = InventoryManager.getCount(itemId);
+            return new UseLink(itemId, 1, "mutate (" + radcount + ")", "shop.php?whichshop=mutate");
 
           case ItemPool.CASHEW:
             return new UseLink(itemId, 1, "trade", "shop.php?whichshop=thankshop");
+
+          case ItemPool.EMPTY_AGUA_DE_VIDA_BOTTLE:
+            return new UseLink(itemId, 1, "gaze", "place.php?whichplace=memories");
 
           case ItemPool.LITTLE_FIRKIN:
           case ItemPool.NORMAL_BARREL:
@@ -1643,24 +1686,6 @@ public abstract class UseLinkDecorator {
         useLocation = "shop.php?whichshop=fishbones";
         break;
 
-      case ItemPool.TOPIARY_NUGGLET:
-        useType = "sculpt";
-        useLocation = "shop.php?whichshop=topiary";
-        break;
-
-      case ItemPool.TOXIC_GLOBULE:
-        useType = "do science";
-        useLocation = "shop.php?whichshop=toxic";
-        break;
-
-      case ItemPool.ROSE:
-      case ItemPool.WHITE_TULIP:
-      case ItemPool.RED_TULIP:
-      case ItemPool.BLUE_TULIP:
-        useType = "trade in";
-        useLocation = "shop.php?whichshop=flowertradein";
-        break;
-
       case ItemPool.FAT_LOOT_TOKEN:
         useType = String.valueOf(InventoryManager.getCount(ItemPool.FAT_LOOT_TOKEN));
         useLocation =
@@ -1668,14 +1693,6 @@ public abstract class UseLinkDecorator {
                 ? "shop.php?whichshop=exploathing"
                 : "shop.php?whichshop=damachine";
         break;
-
-      case ItemPool.GUZZLRBUCK:
-        {
-          ArrayList<UseLink> uses = new ArrayList<>();
-          uses.add(new UseLink(itemId, 1, "Let's Guzzle", "shop.php?whichshop=guzzlr"));
-          uses.add(new UseLink(itemId, 1, "tap", "inventory.php?tap=guzzlr", false));
-          return new UsesLink(uses.toArray(new UseLink[uses.size()]));
-        }
 
       case ItemPool.REPLICA_MR_ACCESSORY:
         useType = "shop";
@@ -1712,14 +1729,6 @@ public abstract class UseLinkDecorator {
       case ItemPool.GG_TICKET:
         useType = "redeem";
         useLocation = "shop.php?whichshop=arcade";
-        break;
-
-        // Soft green echo eyedrop antidote gets an uneffect link
-
-      case ItemPool.REMEDY:
-      case ItemPool.ANCIENT_CURE_ALL:
-        useType = "use";
-        useLocation = "uneffect.php";
         break;
 
         // Strange leaflet gets a quick 'read' link which sends you
@@ -1985,11 +1994,6 @@ public abstract class UseLinkDecorator {
         useLocation = "bigisland.php?place=orchard&action=stand";
         break;
 
-      case ItemPool.EMPTY_AGUA_DE_VIDA_BOTTLE:
-        useType = "gaze";
-        useLocation = "place.php?whichplace=memories";
-        break;
-
       case ItemPool.SUGAR_SHEET:
         useType = "fold";
         useLocation = "shop.php?whichshop=sugarsheets";
@@ -2162,34 +2166,8 @@ public abstract class UseLinkDecorator {
       case ItemPool.NO_HANDED_PIE:
         return new UseLink(itemId, 1, "visit armorer", "shop.php?whichshop=armory");
 
-      case ItemPool.BACON:
-        int baconcount = InventoryManager.getCount(itemId);
-        useType = "spend (" + baconcount + ")";
-        useLocation = "shop.php?whichshop=bacon";
-        break;
-
-      case ItemPool.X:
-        int xcount = InventoryManager.getCount(itemId);
-        useType = "eXpend (" + xcount + ")";
-        useLocation = "shop.php?whichshop=xo";
-        break;
-
-      case ItemPool.O:
-        int ocount = InventoryManager.getCount(itemId);
-        useType = "blOw (" + ocount + ")";
-        useLocation = "shop.php?whichshop=xo";
-        break;
-
-      case ItemPool.RAD:
-        int radcount = InventoryManager.getCount(itemId);
-        useType = "mutate (" + radcount + ")";
-        useLocation = "shop.php?whichshop=mutate";
-        break;
-
-      case ItemPool.CASHEW:
-        useType = "thanksgiving";
-        useLocation = "shop.php?whichshop=thankshop";
-        break;
+      case ItemPool.ODD_SILVER_COIN:
+        return new UseLink(itemId, 1, "spend", "shop.php?whichshop=cindy");
 
       case ItemPool.SPANT_CHITIN:
       case ItemPool.SPANT_TENDON:

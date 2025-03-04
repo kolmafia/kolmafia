@@ -380,14 +380,17 @@ public class MallSearchRequest extends GenericRequest {
 
   private static final Pattern ITEMDETAIL_PATTERN =
       Pattern.compile(
-          "<table class=\"itemtable\".*?item_(\\d+).*?descitem\\((\\d+)\\).*?<a[^>]*>(.*?)</a>(.*?)</table>");
+          "<table class=\"itemtable\".*?item_(\\d+).*?descitem\\((\\d+)\\).*?<a[^>]*>(.*?)</a>(.*?)</table>",
+          Pattern.DOTALL);
   private static final Pattern STOREDETAIL_PATTERN =
-      Pattern.compile("<tr class=\"graybelow.+?</tr>");
+      Pattern.compile("<tr class=\"graybelow.+?</tr>", Pattern.DOTALL);
   private static final Pattern LISTQUANTITY_PATTERN = Pattern.compile("stock\">([\\d,]+)<");
   private static final Pattern LISTLIMIT_PATTERN =
       Pattern.compile("([\\d,]+)\\&nbsp;\\/\\&nbsp;day");
   private static final Pattern LISTDETAIL_PATTERN =
-      Pattern.compile("whichstore=(\\d+)\\&searchitem=(\\d+)\\&searchprice=(\\d+)\"><b>(.*?)</b>");
+      Pattern.compile(
+          "whichstore=(\\d+)\\&searchitem=(\\d+)\\&searchprice=(\\d+)\"><b>(.*?)</b>",
+          Pattern.DOTALL);
 
   private void searchMall() {
     List<String> itemNames =
@@ -450,7 +453,9 @@ public class MallSearchRequest extends GenericRequest {
           previousItemId = itemId;
           this.addNPCStoreItem(itemId);
           this.addCoinMasterItem(itemId);
-          itemNames.remove(itemName);
+          // itemName is a data name
+          // itemNames contains canonicalized names
+          itemNames.remove(StringUtilities.getCanonicalName(itemName));
         }
 
         // Only add mall store results if the NPC store option
@@ -504,19 +509,15 @@ public class MallSearchRequest extends GenericRequest {
 
   private void addNPCStoreItem(final int itemId) {
     if (NPCStoreDatabase.contains(itemId, false)) {
-      PurchaseRequest item = NPCStoreDatabase.getPurchaseRequest(itemId);
-      if (!this.results.contains(item)) {
-        this.results.add(item);
-      }
+      var items = NPCStoreDatabase.getAvailablePurchaseRequests(itemId);
+      this.results.addAll(items);
     }
   }
 
   private void addCoinMasterItem(final int itemId) {
-    PurchaseRequest item = CoinmastersDatabase.getPurchaseRequest(itemId);
-    if (item != null) {
-      if (!this.results.contains(item)) {
-        this.results.add(item);
-      }
+    if (CoinmastersDatabase.contains(itemId, false)) {
+      var items = CoinmastersDatabase.getAllPurchaseRequests(itemId);
+      this.results.addAll(items);
     }
   }
 
@@ -677,10 +678,10 @@ public class MallSearchRequest extends GenericRequest {
   public static boolean registerRequest(final String urlString) {
 
     // mallstore.php?whichstore=294980
-    // Without buying=1, this is a search, not a purchase
+    // Without buying=1 or buying=Yep., this is a search, not a purchase
     if (urlString.startsWith("mallstore.php")) {
       // It's a purchase. Defer to MallPurchaseRequest
-      if (urlString.contains("buying=1")) {
+      if (urlString.contains("buying=1") || urlString.contains("buying=Yep.")) {
         return false;
       }
 

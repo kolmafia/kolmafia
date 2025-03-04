@@ -23,12 +23,18 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.TransferItemRequest;
+import net.sourceforge.kolmafia.session.ResponseTextParser;
 import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 import net.sourceforge.kolmafia.shop.ShopRow;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CoinMasterRequest extends GenericRequest {
   protected final CoinmasterData data;
+
+  public CoinMasterRequest() {
+    this.data = null;
+  }
 
   protected String action = null;
   protected AdventureResult[] attachments;
@@ -47,13 +53,6 @@ public class CoinMasterRequest extends GenericRequest {
     this.action = action;
   }
 
-  public CoinMasterRequest(final CoinmasterData data, final ShopRow row, final int quantity) {
-    this(data, data.getBuyAction());
-    this.row = row;
-    this.addFormField("whichrow", String.valueOf(row.getRow()));
-    this.quantity = quantity;
-  }
-
   public CoinMasterRequest(
       final CoinmasterData data, final boolean buying, final AdventureResult[] attachments) {
     super(buying ? data.getBuyURL() : data.getSellURL());
@@ -65,6 +64,8 @@ public class CoinMasterRequest extends GenericRequest {
 
     this.attachments = attachments;
   }
+
+  // Convenience constructors, overridden by the handful of subclasses that need them.
 
   public CoinMasterRequest(
       final CoinmasterData data, final boolean buying, final AdventureResult attachment) {
@@ -211,7 +212,9 @@ public class CoinMasterRequest extends GenericRequest {
 
     try (Checkpoint checkpoint = new Checkpoint()) {
       // Suit up for a visit
-      this.equip();
+      if (!data.equip()) {
+        return;
+      }
 
       String master = data.getMaster();
 
@@ -228,7 +231,7 @@ public class CoinMasterRequest extends GenericRequest {
         KoLmafia.updateDisplay(master + " successfully looted!");
       }
     } finally {
-      this.unequip();
+      data.unequip();
     }
   }
 
@@ -249,6 +252,13 @@ public class CoinMasterRequest extends GenericRequest {
 
     if (this.responseText.contains("You don't have that many of that item")) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "You don't have that many of that item to turn in.");
+    }
+
+    if (KoLmafia.permitsContinue()) {
+      AdventureResult item = this.row.getItem();
+      if (item.isSkill()) {
+        ResponseTextParser.learnSkill(item.getSkillId());
+      }
     }
   }
 
@@ -300,10 +310,6 @@ public class CoinMasterRequest extends GenericRequest {
       }
     }
   }
-
-  public void equip() {}
-
-  public void unequip() {}
 
   @Override
   public void processResults() {
@@ -559,40 +565,6 @@ public class CoinMasterRequest extends GenericRequest {
             + (storage ? " from storage" : ""));
   }
 
-  public static final void buyStuff(
-      final CoinmasterData data, final ShopRow shopRow, final int count) {
-
-    StringBuilder buf = new StringBuilder();
-    buf.append("trading ");
-
-    AdventureResult[] costs = shopRow.getCosts();
-    for (int i = 0; i < costs.length; ++i) {
-      AdventureResult cost = costs[i];
-      if (i > 0) {
-        buf.append(", ");
-      }
-      int price = cost.getCount() * count;
-      if (cost.isMeat()) {
-        price = NPCPurchaseRequest.currentDiscountedPrice(price);
-      }
-      buf.append(price);
-      buf.append(" ");
-      if (cost.isMeat()) {
-        buf.append("Meat");
-      } else {
-        buf.append(cost.getPluralName(price));
-      }
-    }
-    buf.append(" for ");
-    AdventureResult item = shopRow.getItem();
-    buf.append(count * item.getCount());
-    buf.append(" ");
-    buf.append(item.getPluralName(count));
-
-    RequestLogger.updateSessionLog();
-    RequestLogger.updateSessionLog(buf.toString());
-  }
-
   public static final void completePurchase(final CoinmasterData data, final String urlString) {
     if (data == null) {
       return;
@@ -672,7 +644,11 @@ public class CoinMasterRequest extends GenericRequest {
       ResultProcessor.processResult(cost.getInstance(-price));
     }
 
-    data.purchasedItem(ItemPool.get(shopRow.getItem().getItemId(), count), false);
+    AdventureResult item = shopRow.getItem();
+    // You can purchase skills, which are not items.
+    if (item.isItem()) {
+      data.purchasedItem(ItemPool.get(item.getItemId(), count), false);
+    }
   }
 
   public static final void sellStuff(final CoinmasterData data, final String urlString) {
@@ -767,7 +743,7 @@ public class CoinMasterRequest extends GenericRequest {
       if (shopRow == null) {
         return false;
       }
-      buyStuff(data, shopRow, count);
+      ShopRequest.buyStuff(shopRow, count);
       return true;
     }
 

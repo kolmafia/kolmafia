@@ -1,11 +1,16 @@
 package net.sourceforge.kolmafia.shop;
 
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withSkill;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
 
+import internal.helpers.Cleanups;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AdventureResult.MeatResult;
 import org.junit.jupiter.api.Nested;
@@ -87,7 +92,7 @@ public class ShopRowTest {
       String html = html("request/test_shop_grandma.html");
       var inventory = ShopRow.parseShop(html, true);
       var currencies = currencies(inventory);
-      assertEquals(15, inventory.size());
+      assertEquals(17, inventory.size());
       assertEquals(1, currencies.get(helmet));
       assertEquals(2, currencies.get(mask));
       assertEquals(2, currencies.get(tailpiece));
@@ -205,10 +210,10 @@ public class ShopRowTest {
     @Test
     public void canParsePrimordialSoupKitchen() {
       String html = html("request/test_shop_twitchsoup.html");
-      var shopName = ShopRow.parseShopName(html);
+      var shopName = ShopRequest.parseShopNameInResponse(html);
       assertEquals("The Primordial Soup Kitchen", shopName);
 
-      var shopId = ShopRow.parseShopId(html);
+      var shopId = ShopRequest.parseShopId(html);
       assertEquals("twitchsoup", shopId);
 
       var shopRows = ShopRow.parseShop(html, true);
@@ -231,6 +236,43 @@ public class ShopRowTest {
       assertTrue(derivedCurrencies.contains(synapse));
 
       assertEquals(derivedCurrencies, parsedCurrencies);
+    }
+  }
+
+  @Nested
+  class NPCStores {
+    // shop.php?whichshop=madeline
+    // test_shop_madeline.html
+
+    @Test
+    public void canParseMadelineAtDiscountedPrice() {
+      // I visited Madeline with the Five Fingered Discount skill.
+      var cleanups = new Cleanups(withSkill("Five Finger Discount"));
+      try (cleanups) {
+        String html = html("request/test_shop_madeline.html");
+        var inventory = ShopRow.parseShop(html, true);
+        String prices =
+            inventory.stream()
+                .map((ShopRow sr) -> sr.getCosts()[0].getCount())
+                .map(String::valueOf)
+                .collect(Collectors.joining(","));
+        // These are the actual prices Madeline charges.
+        assertThat(prices, is("25,40,60,60,100,400,400"));
+      }
+    }
+
+    @Test
+    public void canParseMadelineAtFullPrice() {
+      // I visited Madeline with the Five Fingered Discount skill.
+      String html = html("request/test_shop_madeline.html");
+      var inventory = ShopRow.parseShop(html, true);
+      String prices =
+          inventory.stream()
+              .map((ShopRow sr) -> sr.getCosts()[0].getCount())
+              .map(String::valueOf)
+              .collect(Collectors.joining(","));
+      // These are the discounted prices Madeline quoted.
+      assertThat(prices, is("23,38,57,57,95,380,380"));
     }
   }
 }

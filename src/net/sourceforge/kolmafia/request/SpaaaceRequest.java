@@ -23,42 +23,55 @@ import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class SpaaaceRequest extends GenericRequest {
+
+  // Coinmaster support:
+
   public static final Pattern TOKEN_PATTERN = Pattern.compile("You have ([\\d,]+) lunar isotope");
   public static final AdventureResult ISOTOPE = ItemPool.get(ItemPool.LUNAR_ISOTOPE, 1);
+
   public static final AdventureResult TRANSPONDER =
       ItemPool.get(ItemPool.TRANSPORTER_TRANSPONDER, 1);
   public static final AdventureResult TRANSPONDENT = EffectPool.get(EffectPool.TRANSPONDENT, 1);
 
-  public static boolean isTranspondent = false;
-  public static boolean hasTransponders = false;
+  private static boolean isTranspondent = false;
+  private static boolean hasTransponders = false;
 
-  public static void update() {
-    SpaaaceRequest.isTranspondent =
-        KoLConstants.activeEffects.contains(SpaaaceRequest.TRANSPONDENT);
-    SpaaaceRequest.hasTransponders =
-        SpaaaceRequest.TRANSPONDER.getCount(KoLConstants.inventory) > 0;
+  private static void update() {
+    isTranspondent = KoLConstants.activeEffects.contains(TRANSPONDENT);
+    hasTransponders = TRANSPONDER.getCount(KoLConstants.inventory) > 0;
   }
 
   public static boolean immediatelyAccessible() {
-    SpaaaceRequest.update();
-    return SpaaaceRequest.isTranspondent;
+    update();
+    return isTranspondent;
   }
 
   public static String accessible() {
-    SpaaaceRequest.update();
-    if (SpaaaceRequest.isTranspondent || SpaaaceRequest.hasTransponders) {
+    if (!QuestDatabase.isQuestFinished(Quest.GENERATOR)) {
+      return "You need to repair the Elves' Shield Generator to go there.";
+    }
+
+    update();
+    if (isTranspondent || hasTransponders) {
       return null;
     }
     return "You need a transporter transponder to go there.";
   }
 
-  public static void equip() {
-    SpaaaceRequest.update();
-    if (!SpaaaceRequest.isTranspondent && SpaaaceRequest.hasTransponders) {
+  public static void visitShop(final String responseText) {
+    QuestDatabase.setQuestIfBetter(Quest.GENERATOR, QuestDatabase.STARTED);
+  }
+
+  public static Boolean equip() {
+    update();
+    if (!isTranspondent && hasTransponders) {
       UseItemRequest request = UseItemRequest.getInstance(SpaaaceRequest.TRANSPONDER);
       RequestThread.postRequest(request);
     }
+    return true;
   }
+
+  // Porko support
 
   public SpaaaceRequest() {
     super("spaaace.php");
@@ -74,17 +87,11 @@ public class SpaaaceRequest extends GenericRequest {
           "name=whichrow value=(\\d*).*?<a onClick='javascript:descitem\\((\\d+)\\)'><b>(.*?)</b>.*?</a>.*?<b>([,\\d]*)</b>");
 
   public static void parseResponse(final String urlString, final String responseText) {
-    if (!urlString.startsWith("spaaace.php")
-        && !(urlString.startsWith("shop.php") && urlString.indexOf("elvishp") != -1)) {
+    if (!urlString.startsWith("spaaace.php")) {
       return;
     }
 
     QuestDatabase.setQuestIfBetter(Quest.GENERATOR, QuestDatabase.STARTED);
-
-    if (urlString.indexOf("elvishp") != -1) {
-      SpaaaceRequest.parseShopVisit(urlString, responseText);
-      return;
-    }
   }
 
   private static void parseShopVisit(final String location, final String responseText) {

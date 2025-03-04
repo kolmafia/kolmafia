@@ -41,7 +41,9 @@ public class BigBrotherRequest extends CoinMasterRequest {
           .withItemPattern(GenericRequest.WHICHITEM_PATTERN)
           .withCountField("quantity")
           .withCountPattern(GenericRequest.QUANTITY_PATTERN)
-          .withCanBuyItem(BigBrotherRequest::canBuyItem);
+          .withCanBuyItem(BigBrotherRequest::canBuyItem)
+          .withEquip(BigBrotherRequest::equip)
+          .withAccessible(BigBrotherRequest::accessible);
 
   private static Boolean canBuyItem(final Integer itemId) {
     return switch (itemId) {
@@ -84,14 +86,6 @@ public class BigBrotherRequest extends CoinMasterRequest {
 
   public BigBrotherRequest(final boolean buying, final AdventureResult[] attachments) {
     super(BIG_BROTHER, buying, attachments);
-  }
-
-  public BigBrotherRequest(final boolean buying, final AdventureResult attachment) {
-    super(BIG_BROTHER, buying, attachment);
-  }
-
-  public BigBrotherRequest(final boolean buying, final int itemId, final int quantity) {
-    super(BIG_BROTHER, buying, itemId, quantity);
   }
 
   @Override
@@ -227,8 +221,7 @@ public class BigBrotherRequest extends CoinMasterRequest {
     return null;
   }
 
-  @Override
-  public void equip() {
+  public static Boolean equip() {
     update();
     if (!KoLCharacter.currentBooleanModifier(BooleanModifier.ADVENTURE_UNDERWATER)) {
       EquipmentRequest request = new EquipmentRequest(self);
@@ -239,6 +232,8 @@ public class BigBrotherRequest extends CoinMasterRequest {
       EquipmentRequest request = new EquipmentRequest(familiar);
       RequestThread.postRequest(request);
     }
+
+    return true;
   }
 
   public static final boolean registerRequest(final String urlString) {

@@ -292,7 +292,7 @@ public class ConcoctionDatabase {
 
       if (row != 0) {
         ShopRow shopRow = new ShopRow(row, item, concoction.getIngredients());
-        ShopRowDatabase.registerShopRow(shopRow, "conc", mixingMethod.toString());
+        ShopRowDatabase.registerShopRow(shopRow, mixingMethod);
       }
 
       Concoction existing = ConcoctionPool.get(item);
@@ -2059,9 +2059,6 @@ public class ConcoctionDatabase {
           "Only a mild-mannered professor can work at their Tinkering Bench.");
     }
 
-    // Making stuff with mini kiwis is always allowed
-    permitNoCost(CraftingType.KIWI);
-
     // Other creatability flags
 
     if (KoLCharacter.isTorsoAware()) {
@@ -2392,11 +2389,6 @@ public class ConcoctionDatabase {
     return getMixingMethod(itemId) != CraftingType.NOCREATE;
   }
 
-  public static final boolean hasNonCoinmasterMixingMethod(final int itemId) {
-    CraftingType mixingMethod = getMixingMethod(itemId);
-    return mixingMethod != CraftingType.NOCREATE && mixingMethod != CraftingType.COINMASTER;
-  }
-
   public static final EnumSet<CraftingRequirements> getRequirements(final int itemId) {
     Concoction item = ConcoctionPool.get(itemId);
     return item == null ? EnumSet.noneOf(CraftingRequirements.class) : item.getRequirements();
@@ -2478,7 +2470,6 @@ public class ConcoctionDatabase {
       case BURNING_LEAVES -> result.append("Pile of Burning Leaves");
       case TINKERING_BENCH -> result.append("Tinkering Bench");
       case MAYAM -> result.append("Mayam Calendar");
-      case KIWI -> result.append("Kiwi Kwiki Mart");
       case PHOTO_BOOTH -> result.append("Clan Photo Booth");
       case TAKERSPACE -> result.append("TakerSpace");
     }
@@ -2917,7 +2908,6 @@ public class ConcoctionDatabase {
       case "BURNING_LEAVES" -> ConcoctionDatabase.mixingMethod = CraftingType.BURNING_LEAVES;
       case "TINKERING_BENCH" -> ConcoctionDatabase.mixingMethod = CraftingType.TINKERING_BENCH;
       case "MAYAM" -> ConcoctionDatabase.mixingMethod = CraftingType.MAYAM;
-      case "KIWI" -> ConcoctionDatabase.mixingMethod = CraftingType.KIWI;
       case "PHOTO_BOOTH" -> ConcoctionDatabase.mixingMethod = CraftingType.PHOTO_BOOTH;
       case "TAKERSPACE" -> ConcoctionDatabase.mixingMethod = CraftingType.TAKERSPACE;
       default -> {

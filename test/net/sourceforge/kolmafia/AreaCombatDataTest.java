@@ -96,6 +96,7 @@ public class AreaCombatDataTest {
   public void beforeEach() {
     KoLCharacter.reset(TESTUSERNAME);
     Preferences.reset(TESTUSERNAME);
+    AdventureQueueDatabase.allowSerializationWrite = false;
   }
 
   @AfterAll
@@ -104,6 +105,7 @@ public class AreaCombatDataTest {
     if (queueF.exists()) {
       queueF.delete();
     }
+    AdventureQueueDatabase.allowSerializationWrite = true;
   }
 
   @Test

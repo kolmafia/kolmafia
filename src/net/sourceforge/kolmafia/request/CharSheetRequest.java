@@ -382,8 +382,9 @@ public class CharSheetRequest extends GenericRequest {
 
     int subPoints = 0;
 
-    // Grey Goo class does not have stat subpoints
-    if (KoLCharacter.getAscensionClass() != AscensionClass.GREY_GOO) {
+    // Grey Goo / Zootomist classes do not have stat subpoints
+    var cls = KoLCharacter.getAscensionClass();
+    if (cls != AscensionClass.GREY_GOO && cls != AscensionClass.ZOOTOMIST) {
       while (!tokens[pos].startsWith("(")) {
         pos++;
       }
@@ -701,29 +702,31 @@ public class CharSheetRequest extends GenericRequest {
     }
   }
 
-  public static void parseStatus(final JSONObject JSON) throws JSONException {
-    int muscle = JSON.getIntValue("muscle");
-    int mysticality = JSON.getIntValue("mysticality");
-    int moxie = JSON.getIntValue("moxie");
+  public static void parseStatus(final JSONObject json) throws JSONException {
+    int muscle = json.getIntValue("muscle");
+    int mysticality = json.getIntValue("mysticality");
+    int moxie = json.getIntValue("moxie");
     long rawmuscle;
     long rawmysticality;
     long rawmoxie;
-    if (KoLCharacter.inGreyYou()) {
-      // Raw values are more precise, but they don't exist in Grey You
-      long basemuscle = JSON.getLong("basemuscle");
+    if (KoLCharacter.inGreyYou() || KoLCharacter.inZootomist()) {
+      // Raw values are more precise, but they don't exist in Grey You and are wrong in Zooto
+      long basemuscle = json.getLong("basemuscle");
       rawmuscle = basemuscle * basemuscle;
 
-      long basemysticality = JSON.getLong("basemysticality");
+      long basemysticality = json.getLong("basemysticality");
       rawmysticality = basemysticality * basemysticality;
 
-      long basemoxie = JSON.getLong("basemoxie");
+      long basemoxie = json.getLong("basemoxie");
       rawmoxie = basemoxie * basemoxie;
     } else {
-      rawmuscle = JSON.getLong("rawmuscle");
-      rawmysticality = JSON.getLong("rawmysticality");
-      rawmoxie = JSON.getLong("rawmoxie");
+      rawmuscle = json.getLong("rawmuscle");
+      rawmysticality = json.getLong("rawmysticality");
+      rawmoxie = json.getLong("rawmoxie");
     }
 
     KoLCharacter.setStatPoints(muscle, rawmuscle, mysticality, rawmysticality, moxie, rawmoxie);
+    int level = json.getIntValue("level");
+    KoLCharacter.setLevel(level);
   }
 }

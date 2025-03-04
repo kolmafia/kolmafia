@@ -27,7 +27,8 @@ public class BURTRequest extends CoinMasterRequest {
           .withBuyItems(master)
           .withBuyPrices(master)
           .withItemField("itemquantity")
-          .withItemPattern(TOBUY_PATTERN);
+          .withItemPattern(TOBUY_PATTERN)
+          .withAccessible(BURTRequest::accessible);
 
   private static final Map<Integer, Integer> itemByPrice =
       CoinmastersDatabase.invert(BURT.getBuyPrices());
@@ -48,14 +49,6 @@ public class BURTRequest extends CoinMasterRequest {
 
   public BURTRequest(final boolean buying, final AdventureResult[] attachments) {
     super(BURT, buying, attachments);
-  }
-
-  public BURTRequest(final boolean buying, final AdventureResult attachment) {
-    super(BURT, buying, attachment);
-  }
-
-  public BURTRequest(final boolean buying, final int itemId, final int quantity) {
-    super(BURT, buying, itemId, quantity);
   }
 
   @Override

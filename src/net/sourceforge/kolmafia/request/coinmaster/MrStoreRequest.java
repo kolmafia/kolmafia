@@ -62,14 +62,6 @@ public class MrStoreRequest extends CoinMasterRequest {
     super(MR_STORE, buying, attachments);
   }
 
-  public MrStoreRequest(final boolean buying, final AdventureResult attachment) {
-    super(MR_STORE, buying, attachment);
-  }
-
-  public MrStoreRequest(final boolean buying, final int itemId, final int quantity) {
-    super(MR_STORE, buying, itemId, quantity);
-  }
-
   @Override
   public void processResults() {
     String responseText = this.responseText;
@@ -169,10 +161,6 @@ public class MrStoreRequest extends CoinMasterRequest {
 
     // If we bought a Golden Mr. Accessory, it is now in inventory
     InventoryManager.countGoldenMrAccesories();
-  }
-
-  public static String accessible() {
-    return null;
   }
 
   public static boolean registerRequest(final String urlString) {

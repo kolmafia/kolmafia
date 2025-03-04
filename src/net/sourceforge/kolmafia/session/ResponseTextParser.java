@@ -67,7 +67,6 @@ import net.sourceforge.kolmafia.request.MicroBreweryRequest;
 import net.sourceforge.kolmafia.request.MomRequest;
 import net.sourceforge.kolmafia.request.MonsterManuelRequest;
 import net.sourceforge.kolmafia.request.MushroomRequest;
-import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.NemesisRequest;
 import net.sourceforge.kolmafia.request.PandamoniumRequest;
 import net.sourceforge.kolmafia.request.PeeVPeeRequest;
@@ -110,6 +109,7 @@ import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 import net.sourceforge.kolmafia.request.concoction.GnomeTinkerRequest;
 import net.sourceforge.kolmafia.request.concoction.PhineasRequest;
 import net.sourceforge.kolmafia.request.concoction.SushiRequest;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.DiscoCombatHelper;
@@ -506,53 +506,46 @@ public class ResponseTextParser {
             UseItemRequest.parseConsumption(responseText, false);
             SpadingManager.processConsumeItem(item, responseText);
           }
-        }
-
-        // If there is a consumption message, parse it
-        else if (location.contains("action=message")) {
-          AdventureResult item = UseItemRequest.getLastItemUsed();
-          UseItemRequest.parseConsumption(responseText, false);
-          AWOLQuartermasterRequest.parseResponse(responseText);
-          BURTRequest.parseResponse(responseText);
-          SpadingManager.processConsumeItem(item, responseText);
-        }
-
-        // If there is a bricko message, parse it
-        else if (location.contains("action=breakbricko")) {
-          UseItemRequest.parseBricko(responseText);
-        }
-
-        // If there is a binge message, parse it
-        else if (location.contains("action=ghost")
-            || location.contains("action=hobo")
-            || location.contains("action=slime")
-            || location.contains("action=candy")) {
-          UseItemRequest.parseBinge(location, responseText);
-        }
-
-        // Robortender consumption
-        else if (location.contains("action=robooze")) {
-          UseItemRequest.parseRobortenderBinge(location, responseText);
-        }
-
-        // If there is an absorb message, parse it
-        else if (location.contains("absorb=")) {
+        } else if (location.contains("absorb=")) {
+          // If there is an absorb message, parse it
           UseItemRequest.parseAbsorb(location, responseText);
-        }
-
-        // Closet transfers can come via inventory.php
-        else if (location.contains("action=closetpush") || location.contains("action=closetpull")) {
-          ClosetRequest.parseTransfer(location, responseText);
-        }
-
-        // Emptying storage can come via inventory.php
-        else if (location.contains("action=pullall")) {
-          StorageRequest.parseTransfer(location, responseText);
-        }
-
-        // If there is an aprilplay message, parse it
-        else if (location.contains("action=aprilplay")) {
-          UseItemRequest.parseAprilPlay(location, responseText);
+        } else {
+          String action = GenericRequest.getAction(location);
+          if (action != null) {
+            switch (action) {
+              case "message" -> {
+                // If there is a consumption message, parse it
+                AdventureResult item = UseItemRequest.getLastItemUsed();
+                UseItemRequest.parseConsumption(responseText, false);
+                AWOLQuartermasterRequest.parseResponse(responseText);
+                BURTRequest.parseResponse(responseText);
+                SpadingManager.processConsumeItem(item, responseText);
+              }
+              case "breakbricko" -> {
+                // If there is a bricko message, parse it
+                UseItemRequest.parseBricko(responseText);
+              }
+              case "ghost", "hobo", "slime", "candy" -> {
+                // If there is a binge message, parse it
+                UseItemRequest.parseBinge(location, responseText);
+              }
+              case "robooze" -> {
+                UseItemRequest.parseRobortenderBinge(location, responseText);
+              }
+              case "closetpush", "closetpull" -> {
+                // Closet transfers can come via inventory.php
+                ClosetRequest.parseTransfer(location, responseText);
+              }
+              case "pullall" -> {
+                // Emptying storage can come via inventory.php
+                StorageRequest.parseTransfer(location, responseText);
+              }
+              case "aprilplay" -> {
+                // If there is an aprilplay message, parse it
+                UseItemRequest.parseAprilPlay(location, responseText);
+              }
+            }
+          }
         }
       }
       case "inv_equip.php" -> {
@@ -647,7 +640,7 @@ public class ResponseTextParser {
         SendMailRequest.parseTransfer(location, responseText);
       }
       case "shop.php" -> {
-        NPCPurchaseRequest.parseShopResponse(location, responseText);
+        ShopRequest.parseResponse(location, responseText);
       }
       case "showclan.php" -> {
         ShowClanRequest.parseResponse(location, responseText);
@@ -934,40 +927,6 @@ public class ResponseTextParser {
           Preferences.increment(levelPref, 1, maxLevel, false);
         }
       }
-    }
-
-    if (KoLCharacter.inNuclearAutumn()) {
-      int cost =
-          switch (skillId) {
-            case SkillPool.BOILING_TEAR_DUCTS,
-                SkillPool.PROJECTILE_SALIVARY_GLANDS,
-                SkillPool.TRANSLUCENT_SKIN,
-                SkillPool.SKUNK_GLANDS,
-                SkillPool.THROAT_REFRIDGERANT,
-                SkillPool.INTERNAL_SODA_MACHINE -> 30;
-            case SkillPool.STEROID_BLADDER,
-                SkillPool.MAGIC_SWEAT,
-                SkillPool.FLAPPY_EARS,
-                SkillPool.SELF_COMBING_HAIR,
-                SkillPool.INTRACRANIAL_EYE,
-                SkillPool.MIND_BULLETS,
-                SkillPool.EXTRA_KIDNEY,
-                SkillPool.EXTRA_GALL_BLADDER -> 60;
-            case SkillPool.EXTRA_MUSCLES,
-                SkillPool.ADIPOSE_POLYMERS,
-                SkillPool.METALLIC_SKIN,
-                SkillPool.HYPNO_EYES,
-                SkillPool.EXTRA_BRAIN,
-                SkillPool.MAGNETIC_EARS,
-                SkillPool.EXTREMELY_PUNCHABLE_FACE,
-                SkillPool.FIREFLY_ABDOMEN,
-                SkillPool.BONE_SPRINGS,
-                SkillPool.SQUID_GLANDS -> 90;
-            case SkillPool.SUCKER_FINGERS, SkillPool.BACKWARDS_KNEES -> 120;
-            default -> 0;
-          };
-
-      ResultProcessor.processResult(ItemPool.get(ItemPool.RAD, -cost));
     }
 
     UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance(skillId);

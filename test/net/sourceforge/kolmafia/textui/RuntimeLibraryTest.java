@@ -20,7 +20,9 @@ import static internal.helpers.Player.withFamiliarInTerrarium;
 import static internal.helpers.Player.withFamiliarInTerrariumWithItem;
 import static internal.helpers.Player.withFight;
 import static internal.helpers.Player.withHandlingChoice;
+import static internal.helpers.Player.withHardcore;
 import static internal.helpers.Player.withHttpClientBuilder;
+import static internal.helpers.Player.withInteractivity;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withItemInCloset;
 import static internal.helpers.Player.withItemInDisplay;
@@ -28,13 +30,16 @@ import static internal.helpers.Player.withItemInShop;
 import static internal.helpers.Player.withItemInStorage;
 import static internal.helpers.Player.withNextMonster;
 import static internal.helpers.Player.withNextResponse;
+import static internal.helpers.Player.withNoEffects;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withSign;
 import static internal.helpers.Player.withSkill;
 import static internal.helpers.Player.withStats;
 import static internal.helpers.Player.withTrackedMonsters;
 import static internal.helpers.Player.withTrackedPhyla;
 import static internal.helpers.Player.withTurnsPlayed;
+import static internal.helpers.Player.withUnequipped;
 import static internal.helpers.Player.withValueOfAdventure;
 import static internal.helpers.Utilities.deleteSerFiles;
 import static org.hamcrest.CoreMatchers.both;
@@ -65,6 +70,7 @@ import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -693,8 +699,8 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
     try (cleanups) {
       String text = html("request/test_status.json");
-      JSONObject JSON = json(text);
-      ApiRequest.parseStatus(JSON);
+      JSONObject jsonObject = json(text);
+      ApiRequest.parseStatus(jsonObject);
       String output = execute("daycount()");
       assertContinueState();
       assertThat(output, is("Returned: 7302\n"));
@@ -1287,7 +1293,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
   class BookOfFacts {
     @ParameterizedTest
     @CsvSource({
-      "ACCORDION_THIEF, CRAZY_RANDOM_SUMMER, topiary golem, stats, +1 all",
+      "ACCORDION_THIEF, CRAZY_RANDOM_SUMMER, topiary golem, stats, +1 all substats",
       "TURTLE_TAMER, OXYGENARIAN, Blooper, meat, 10 Meat",
       "PASTAMANCER, COMMUNITY_SERVICE, bookbat, modifier, Experience (familiar): +1",
       "SEAL_CLUBBER, KINGDOM_OF_EXPLOATHING, Jefferson pilot, item, foon"
@@ -1481,6 +1487,85 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     } else {
       fail("Could not find expected equipment request.");
     }
+  }
+
+  @Test
+  public void itShouldEquipCleaver() {
+    String maxStr =
+        "5item,meat,0.5initiative,0.1da 1000max,dr,0.5all res,1.5mainstat,-fumble,mox,0.4hp,0.2mp 1000max,3mp regen,0.25spell damage,1.75spell damage percent,2familiar weight,5familiar exp,10exp,5Mysticality experience percent,+200bonus spring shoes,+200bonus June cleaver,+200bonus designer sweatpants,2 dump";
+    HttpClientWrapper.setupFakeClient();
+    var cleanups =
+        new Cleanups(
+            withClass(AscensionClass.PASTAMANCER),
+            withHardcore(),
+            withPath(Path.AVANT_GUARD),
+            withSign(ZodiacSign.OPOSSUM),
+            withInteractivity(false),
+            withNoEffects(),
+            withProperty("umbrellaState", "broken"),
+            withEquipped(Slot.HAT, "Apriling band helmet"),
+            withUnequipped(Slot.WEAPON),
+            withUnequipped(Slot.OFFHAND),
+            withEquipped(Slot.SHIRT, "Jurassic Parka"),
+            withProperty("parkaMode", "kachungasaur"),
+            withEquipped(Slot.PANTS, "designer sweapants"),
+            withEquipped(Slot.CONTAINER, "bat wings"),
+            withEquipped(Slot.ACCESSORY1, "Cincho de Mayo"),
+            withEquipped(Slot.ACCESSORY2, "combat lover's locket"),
+            withEquipped(Slot.ACCESSORY3, "spring shoes"),
+            withEquippableItem("seal-skull helmet"), // 2283
+            withEquippableItem("ravioli hat"),
+            withEquippableItem("Hollandaise helmet"),
+            withEquippableItem("disco mask"),
+            withEquippableItem("mariachi hat"),
+            withEquippableItem("helmet turtle"),
+            withEquippableItem("coconut shell"),
+            withEquippableItem("Apriling band helmet"),
+            withEquippableItem("toy accordion"),
+            withEquippableItem("hobo code binder"),
+            withEquippableItem("stuffed spooky gravy fairy "),
+            withEquippableItem("stuffed astral badger"),
+            withEquippableItem("magical ice cubes"),
+            withEquippableItem("Roman Candelabra"),
+            withEquippableItem("unbreakable umbrella (broken)"),
+            withEquippableItem("august scepter"),
+            withEquippableItem("bat wings"),
+            withEquippableItem("Jurassic Parka (kachungasaur mode)"),
+            withEquippableItem("old sweatpants"),
+            withEquippableItem("tearaway pants"),
+            withEquippableItem("designer sweatpants"),
+            withEquippableItem("Everfull Dart Holster"),
+            withEquippableItem("cursed monkey's paw"),
+            withEquippableItem("astral mask"),
+            withEquippableItem("Cincho de Mayo"),
+            withEquippableItem("combat lover's locket"),
+            withEquippableItem("spring shoes"),
+            withEquippableItem("turtle totem"),
+            withEquippableItem("pasta spoon"),
+            withEquippableItem("saucepan"),
+            withEquippableItem("disco ball"),
+            withEquippableItem("little paper umbrella"),
+            withEquippableItem("candy cane sword cane"),
+            withEquippableItem("June cleaver"), // 10920
+            withEquippableItem("seal-clubbing club")); // 1
+    String out;
+    String cmd = "maximize(\"" + maxStr + "\", false)";
+    try (cleanups) {
+      out = execute(cmd);
+    }
+    assertFalse(out.isEmpty());
+    assertTrue(out.contains("Wielding June cleaver"));
+    assertTrue(out.contains("Putting on designer sweatpants..."));
+    assertContinueState();
+    var requests = getRequests();
+    assertFalse(requests.isEmpty());
+    boolean passed = false;
+    for (var req : requests) {
+      if (req.method().contains("POST")) {
+        passed = passed || getPostRequestBody(req).contains("whichitem=10920");
+      }
+    }
+    assertTrue(passed, "Did not find expected equip request.");
   }
 
   @Nested
@@ -1852,6 +1937,62 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       assertThat(execute("is_banished($phylum[construct])").trim(), is("Returned: false"));
       assertThat(execute("is_banished($monster[none])").trim(), is("Returned: false"));
       assertThat(execute("is_banished($phylum[none])").trim(), is("Returned: false"));
+    }
+  }
+
+  @Nested
+  class SkillCoinmasters {
+    @Test
+    void sellsSkillWorks() {
+      assertThat(
+          execute("sells_skill($coinmaster[Genetic Fiddling], $skill[Boiling Tear Ducts])").trim(),
+          is("Returned: true"));
+      assertThat(
+          execute("sells_skill($coinmaster[Genetic Fiddling], $skill[Magic Sweat])").trim(),
+          is("Returned: true"));
+      assertThat(
+          execute("sells_skill($coinmaster[Genetic Fiddling], $skill[Extra Brain])").trim(),
+          is("Returned: true"));
+      assertThat(
+          execute("sells_skill($coinmaster[Genetic Fiddling], $skill[Sucker Fingers])").trim(),
+          is("Returned: true"));
+      assertThat(
+          execute("sells_skill($coinmaster[Genetic Fiddling], $skill[Stream of sauce])").trim(),
+          is("Returned: false"));
+      assertThat(
+          execute("sells_skill($coinmaster[Kiwi Kwiki Mart], $skill[Boiling Tear Ducts])").trim(),
+          is("Returned: false"));
+    }
+
+    @Test
+    void sellPriceWorks() {
+      assertThat(
+          execute("sell_price($coinmaster[Genetic Fiddling], $skill[Boiling Tear Ducts])").trim(),
+          is("Returned: 30"));
+      assertThat(
+          execute("sell_price($coinmaster[Genetic Fiddling], $skill[Magic Sweat])").trim(),
+          is("Returned: 60"));
+      assertThat(
+          execute("sell_price($coinmaster[Genetic Fiddling], $skill[Extra Brain])").trim(),
+          is("Returned: 90"));
+      assertThat(
+          execute("sell_price($coinmaster[Genetic Fiddling], $skill[Sucker Fingers])").trim(),
+          is("Returned: 120"));
+      assertThat(
+          execute("sell_price($coinmaster[Genetic Fiddling], $skill[Stream of sauce])").trim(),
+          is("Returned: 0"));
+      assertThat(
+          execute("sell_price($coinmaster[Kiwi Kwiki Mart], $skill[Boiling Tear Ducts])").trim(),
+          is("Returned: 0"));
+      assertThat(
+          execute("sell_price($coinmaster[ChemiCorp], $item[seal-clubbing club])").trim(),
+          is("Returned: 0"));
+      assertThat(
+          execute("sell_price($coinmaster[ChemiCorp], $item[ultracoagulator])").trim(),
+          is("Returned: 1"));
+      assertThat(
+          execute("sell_price($coinmaster[the dedigitizer], $item[cyburger])").trim(),
+          is("Returned: 0"));
     }
   }
 }

@@ -1456,7 +1456,31 @@ public abstract class RuntimeLibrary {
     params =
         List.of(
             namedParam("master", DataTypes.COINMASTER_TYPE),
+            namedParam("skill", DataTypes.SKILL_TYPE));
+    functions.add(new LibraryFunction("sells_skill", DataTypes.BOOLEAN_TYPE, params));
+
+    params =
+        List.of(
+            namedParam("master", DataTypes.COINMASTER_TYPE),
             namedParam("item", DataTypes.ITEM_TYPE));
+    functions.add(new LibraryFunction("sell_cost", DataTypes.ITEM_TO_INT_TYPE, params));
+
+    params =
+        List.of(
+            namedParam("master", DataTypes.COINMASTER_TYPE),
+            namedParam("skill", DataTypes.SKILL_TYPE));
+    functions.add(new LibraryFunction("sell_cost", DataTypes.ITEM_TO_INT_TYPE, params));
+
+    params =
+        List.of(
+            namedParam("master", DataTypes.COINMASTER_TYPE),
+            namedParam("item", DataTypes.ITEM_TYPE));
+    functions.add(new LibraryFunction("sell_price", DataTypes.INT_TYPE, params));
+
+    params =
+        List.of(
+            namedParam("master", DataTypes.COINMASTER_TYPE),
+            namedParam("skill", DataTypes.SKILL_TYPE));
     functions.add(new LibraryFunction("sell_price", DataTypes.INT_TYPE, params));
 
     params = List.of(namedParam("item", DataTypes.ITEM_TYPE));
@@ -5933,7 +5957,7 @@ public abstract class RuntimeLibrary {
 
     FaxBotDatabase.configure();
 
-    String actualName = monster.getName();
+    int monsterId = monster.getId();
     for (FaxBot bot : FaxBotDatabase.faxbots) {
       if (bot == null) {
         continue;
@@ -5944,7 +5968,7 @@ public abstract class RuntimeLibrary {
         continue;
       }
 
-      Monster monsterObject = bot.getMonsterByActualName(actualName);
+      Monster monsterObject = bot.getMonsterByMonsterId(monsterId);
       if (monsterObject == null) {
         continue;
       }
@@ -6512,9 +6536,48 @@ public abstract class RuntimeLibrary {
     return DataTypes.makeBooleanValue(data != null && data.canBuyItem((int) item.intValue()));
   }
 
-  public static Value sell_price(ScriptRuntime controller, final Value master, final Value item) {
+  public static Value sells_skill(ScriptRuntime controller, final Value master, final Value skill) {
     CoinmasterData data = (CoinmasterData) master.rawValue();
-    return DataTypes.makeIntValue(data != null ? data.getBuyPrice((int) item.intValue()) : 0);
+    int skillId = (int) skill.intValue();
+    return DataTypes.makeBooleanValue(data != null && data.skillBuyPrice(skillId) != null);
+  }
+
+  public static Value sell_cost(ScriptRuntime controller, final Value master, final Value thing) {
+    MapValue value = new MapValue(DataTypes.ITEM_TO_INT_TYPE);
+
+    CoinmasterData data = (CoinmasterData) master.rawValue();
+    int id = (int) thing.intValue();
+
+    if (data.getShopRows() != null) {
+      var shopRow = data.getShopRow(id);
+
+      if (shopRow == null) return value;
+
+      for (var cost : shopRow.getCosts()) {
+        value.aset(DataTypes.makeItemValue(cost.getItemId(), true), new Value(cost.getCount()));
+      }
+
+      return value;
+    }
+
+    value.aset(DataTypes.makeItemValue(data.getItem()), sell_price(controller, master, thing));
+
+    return value;
+  }
+
+  public static Value sell_price(ScriptRuntime controller, final Value master, final Value thing) {
+    CoinmasterData data = (CoinmasterData) master.rawValue();
+    int id = (int) thing.intValue();
+    AdventureResult value =
+        (data == null)
+            ? null
+            : switch (thing.getType().getType()) {
+              case TypeSpec.ITEM -> data.itemBuyPrice(id);
+              case TypeSpec.SKILL -> data.skillBuyPrice(id);
+              default -> null;
+            };
+
+    return DataTypes.makeIntValue(value == null ? 0 : value.getCount());
   }
 
   public static Value historical_price(ScriptRuntime controller, final Value item) {
@@ -11101,9 +11164,7 @@ public abstract class RuntimeLibrary {
     ArrayValue value = new ArrayValue(type);
 
     int i = 0;
-    for (var id : locs) {
-      var adv = AdventureDatabase.getAdventure(id);
-      if (adv == null) continue;
+    for (var adv : locs) {
       Value location = DataTypes.makeLocationValue(adv);
       value.aset(DataTypes.makeIntValue(i++), location);
     }
