@@ -4673,7 +4673,7 @@ public class FightRequest extends GenericRequest {
   public static Map<Integer, String> dartSkillToPart = new TreeMap<>();
   public static int dartsLeft = 0;
 
-  private static void parseDartboard(final String responseText) {
+  public static void parseDartboard(final String responseText) {
     // Assume no dart skills are available
     dartSkillToPart.clear();
     dartsLeft = 0;
@@ -11520,7 +11520,7 @@ public class FightRequest extends GenericRequest {
         }
 
         int skillNumber = StringUtilities.parseInt(skillId);
-        String skill = SkillDatabase.getSkillName(skillNumber);
+        String skill = SkillDatabase.getPrettySkillName(skillNumber);
         if (skill == null) {
           if (shouldLogAction) {
             action.append("casts CHANCE!");

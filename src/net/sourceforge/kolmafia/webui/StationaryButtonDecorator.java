@@ -847,7 +847,7 @@ public class StationaryButtonDecorator {
     return "main.php";
   }
 
-  private static String getActionName(final String action) {
+  public static String getActionName(final String action) {
     if (action.equals("attack")) {
       return FightRequest.getCurrentRound() == 0 ? "again" : "attack";
     }
@@ -871,104 +871,89 @@ public class StationaryButtonDecorator {
     String name = SkillDatabase.getSkillName(skillId).toLowerCase();
 
     switch (skillId) {
-      case 15: // CLEESH
-      case 7002: // Shake Hands
-      case 7003: // Hot Breath
-      case 7004: // Cold Breath
-      case 7005: // Spooky Breath
-      case 7006: // Stinky Breath
-      case 7007: // Sleazy Breath
+      case SkillPool.SHAKE_HANDS,
+          SkillPool.HOT_BREATH,
+          SkillPool.COLD_BREATH,
+          SkillPool.SPOOKY_BREATH,
+          SkillPool.STINKY_BREATH,
+          SkillPool.SLEAZY_BREATH -> {
         name = StringUtilities.globalStringDelete(name, " ");
-        break;
-
-      case 7001: // Give In To Your Vampiric Urges
+      }
+      case SkillPool.GIVE_IN_TO_YOUR_VAMPIRIC_URGES -> {
         name = "bakula";
-        break;
-
-      case 7010: // red bottle-rocket
-      case 7011: // blue bottle-rocket
-      case 7012: // orange bottle-rocket
-      case 7013: // purple bottle-rocket
-      case 7014: // black bottle-rocket
-        name =
-            StringUtilities.globalStringDelete(
-                StringUtilities.globalStringDelete(name, "fire "), "bottle-");
-        break;
-
-      case 1003: // thrust-smack
+      }
+      case SkillPool.FIRE_RED_BOTTLE_ROCKET,
+          SkillPool.FIRE_BLUE_BOTTLE_ROCKET,
+          SkillPool.FIRE_ORANGE_BOTTLE_ROCKET,
+          SkillPool.FIRE_PURPLE_BOTTLE_ROCKET,
+          SkillPool.FIRE_BLACK_BOTTLE_ROCKET -> {
+        name = StringUtilities.globalStringDelete(name, "fire ");
+        name = StringUtilities.globalStringDelete(name, "bottle-");
+      }
+      case SkillPool.THRUST_SMACK -> {
         name = "thrust";
-        break;
-
-      case 1004: // lunge-smack
+      }
+      case SkillPool.LUNGE_SMACK -> {
         name = "lunge";
-        break;
-
-      case 1005: // lunging thrust-smack
+      }
+      case SkillPool.LUNGING_THRUST_SMACK -> {
         name = "lunging";
-        break;
-
-      case 2: // Chronic Indigestion
-      case 7009: // Magic Missile
-      case 3004: // Entangling Noodles
-      case 3009: // Lasagna Bandages
-      case 3019: // Fearful Fettucini
-      case 19: // Transcendent Olfaction
-      case 7063: // Falling Leaf Whirlwind
+      }
+      case SkillPool.CHRONIC_INDIGESTION,
+          SkillPool.MAGIC_MISSILE,
+          SkillPool.ENTANGLING_NOODLES,
+          SkillPool.BANDAGES,
+          SkillPool.FEARFUL_FETTUCINI,
+          SkillPool.OLFACTION,
+          SkillPool.FALLING_LEAF_WHIRLWIND -> {
         name = name.substring(name.lastIndexOf(" ") + 1);
-        break;
-
-      case 50: // Break It On Down
-      case 51: // Pop and Lock It
-      case 52: // Run Like the WInd
-      case 3003: // Minor Ray of Something
-      case 3005: // eXtreme Ray of Something
-      case 3007: // Cone of Whatever
-      case 3008: // Weapon of the Pastalord
-      case 3020: // Spaghetti Spear
-      case 4003: // Stream of Sauce
-      case 4009: // Wave of Sauce
-      case 5019: // Tango of Terror
-      case 7061: // Spring Raindrop Attack
-      case 7062: // Summer Siesta
-      case 7064: // Winter's Bite Technique
-      case 7201: // Mug for the Audience
+      }
+      case SkillPool.BREAK_IT_ON_DOWN,
+          SkillPool.POP_AND_LOCK,
+          SkillPool.RUN_LIKE_THE_WIND,
+          SkillPool.RAVIOLI_SHURIKENS,
+          SkillPool.CANNELLONI_CANNON,
+          SkillPool.STUFFED_MORTAR_SHELL,
+          SkillPool.WEAPON_PASTALORD,
+          SkillPool.SPAGHETTI_SPEAR,
+          SkillPool.STREAM_OF_SAUCE,
+          SkillPool.WAVE_OF_SAUCE,
+          SkillPool.TANGO_OF_TERROR,
+          SkillPool.SPRING_RAINDROP_ATTACK,
+          SkillPool.SUMMER_SIESTA,
+          SkillPool.WINTERS_BITE_TECHNIQUE,
+          SkillPool.MUG_FOR_THE_AUDIENCE -> {
         name = name.substring(0, name.indexOf(" "));
-        break;
-
-      case 5003: // Disco Eye-Poke
+      }
+      case SkillPool.DISCO_EYE_POKE -> {
         name = "eyepoke";
-        break;
-
-      case 5005: // Disco Dance of Doom
+      }
+      case SkillPool.DISCO_DANCE_OF_DOOM -> {
         name = "dance1";
-        break;
-
-      case 5008: // Disco Dance II: Electric Boogaloo
+      }
+      case SkillPool.DISCO_DANCE_II_ELECTRIC_BOOGALOO -> {
         name = "dance2";
-        break;
-
-      case 5036: // Disco Dance 3: Back in the Habit
+      }
+      case SkillPool.DISCO_DANCE_3 -> {
         name = "dance3";
-        break;
-
-      case 5012: // Disco Face Stab
+      }
+      case SkillPool.DISCO_FACE_STAB -> {
         name = "facestab";
-        break;
-
-      case SkillPool.DART_PART1:
-      case SkillPool.DART_PART2:
-      case SkillPool.DART_PART3:
-      case SkillPool.DART_PART4:
-      case SkillPool.DART_PART5:
-      case SkillPool.DART_PART6:
-      case SkillPool.DART_PART7:
-      case SkillPool.DART_PART8:
-        // Darts: Throw at %part1
-        String part = FightRequest.dartSkillToPart.get(skillId);
-        if (part != null) {
-          name = "darts: throw at " + part;
-        }
-        break;
+      }
+      case SkillPool.DART_PART1,
+          SkillPool.DART_PART2,
+          SkillPool.DART_PART3,
+          SkillPool.DART_PART4,
+          SkillPool.DART_PART5,
+          SkillPool.DART_PART6,
+          SkillPool.DART_PART7,
+          SkillPool.DART_PART8,
+          SkillPool.LEFT_PUNCH,
+          SkillPool.RIGHT_PUNCH,
+          SkillPool.LEFT_KICK,
+          SkillPool.RIGHT_KICK -> {
+        name = SkillDatabase.getPrettySkillName(skillId).toLowerCase();
+      }
     }
 
     return name;
