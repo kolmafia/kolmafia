@@ -38,6 +38,7 @@ import net.sourceforge.kolmafia.session.EncounterManager;
 import net.sourceforge.kolmafia.session.EncounterManager.EncounterType;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.LeprecondoManager;
 import net.sourceforge.kolmafia.session.TrackManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -746,6 +747,15 @@ public class AreaCombatData {
         buffer.append("<br>");
         buffer.append("<b>Badmoon:</b> ");
         buffer.append(encounter);
+      }
+    }
+
+    if (InventoryManager.hasItem(ItemPool.LEPRECONDO)) {
+      var furniture = LeprecondoManager.getUndiscoveredFurnitureForLocation(this.zone);
+      if (furniture.isBlank()) {
+        buffer.append("<br>");
+        buffer.append("<b>Leprecondo:</b> ");
+        buffer.append(furniture);
       }
     }
   }

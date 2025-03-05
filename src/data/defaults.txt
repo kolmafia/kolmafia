@@ -1054,6 +1054,11 @@ user	leafletCompleted	false	roa
 user	ledCandleDropped	false	roa
 user	ledCandleMode		roa
 user	legacyPoints	0
+user	leprecondoLastNeedChange	0	roa
+user	leprecondoCurrentNeed		roa
+user	leprecondoDiscovered
+user	leprecondoInstalled	0,0,0,0	roa
+user	leprecondoNeedOrder		roa
 user	libramSkillsHardcore	none
 user	libramSkillsSoftcore	none
 user	libramSummons	0	ld
@@ -2279,6 +2284,7 @@ user	_leavesBurned	0
 user	_leavesJumped	false
 user	_legendaryBeat	false
 user	_legionJackhammerCrafting	0
+user	_leprecondoRearrangements	0
 user	_licenseToChillUsed	false
 user	_llamaCharge	0
 user	_locketMonstersFought

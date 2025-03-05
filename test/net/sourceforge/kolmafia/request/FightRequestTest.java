@@ -23,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
 import internal.helpers.RequestLoggerOutput;
+import internal.helpers.SessionLoggerOutput;
 import internal.network.FakeHttpClientBuilder;
 import java.util.HashMap;
 import java.util.List;
@@ -3914,6 +3915,65 @@ public class FightRequestTest {
       try (cleanups) {
         parseCombatData("request/test_fight_battle_end_new_combat_bar_only_runaway.html");
         assertThat("_lastCombatWon", isSetTo(false));
+      }
+    }
+  }
+
+  @Nested
+  class Leprecondo {
+    @Test
+    void parsesFurnitureDiscovery() {
+      var cleanups =
+          new Cleanups(
+              withItem("Leprecondo"),
+              withProperty("leprecondoDiscovered", "1,21"),
+              withProperty("leprecondoCurrentNeed"),
+              withProperty("leprecondoNeedOrder"),
+              withFight(0));
+      try (cleanups) {
+        SessionLoggerOutput.startStream();
+        parseCombatData("request/test_fight_leprecondo_furniture_found.html");
+        var text = SessionLoggerOutput.stopStream();
+        String expected =
+            "Round 2: Gog spots a sous vide laboratory inside the garbage disposal and runs out of his condo. He drags it back to the condo and stores it in the attic.";
+        assertThat(text, containsString(expected));
+        assertThat("leprecondoDiscovered", isSetTo("1,13,21"));
+      }
+    }
+
+    @Test
+    void parsesNeed() {
+      var cleanups =
+          new Cleanups(
+              withItem("Leprecondo"),
+              withProperty("leprecondoDiscovered"),
+              withProperty("leprecondoCurrentNeed"),
+              withProperty("leprecondoLastNeedChange", 0),
+              withProperty("leprecondoNeedOrder"),
+              withCurrentRun(45),
+              withFight(0));
+      try (cleanups) {
+        parseCombatData("request/test_fight_leprecondo_furniture_found.html");
+        assertThat("leprecondoCurrentNeed", isSetTo("booze"));
+        assertThat("leprecondoLastNeedChange", isSetTo(45));
+      }
+    }
+
+    @Test
+    void ignoresKnownNeed() {
+      var cleanups =
+          new Cleanups(
+              withItem("Leprecondo"),
+              withProperty("leprecondoDiscovered"),
+              withProperty("leprecondoCurrentNeed", "booze"),
+              withProperty("leprecondoLastNeedChange", 42),
+              withProperty("leprecondoNeedOrder"),
+              withCurrentRun(45),
+              withFight(0));
+      try (cleanups) {
+        parseCombatData("request/test_fight_leprecondo_furniture_found.html");
+        assertThat("leprecondoCurrentNeed", isSetTo("booze"));
+        assertThat("leprecondoLastNeedChange", isSetTo(42));
       }
     }
   }
