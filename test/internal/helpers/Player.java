@@ -63,6 +63,7 @@ import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EquipmentRequirement;
+import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.StoreManager;
@@ -2796,6 +2797,21 @@ public class Player {
           } else {
             ChatManager.processChannelEnable(new EnableMessage(old, true));
           }
+        });
+  }
+
+  /**
+   * Add a goal to fulfill via adventuring
+   *
+   * @param
+   * @return Restores items previously equipped to slots
+   */
+  public static Cleanups withGoal(final AdventureResult goal) {
+    var goals = GoalManager.getGoals();
+    GoalManager.addGoal(goal);
+    return new Cleanups(
+        () -> {
+          GoalManager.addGoal(goal.getNegation());
         });
   }
 }

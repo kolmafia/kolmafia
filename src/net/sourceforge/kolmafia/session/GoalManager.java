@@ -22,6 +22,8 @@ public class GoalManager {
       new AdventureResult(AdventureResult.FACTOID, 1);
   public static final AdventureResult GOAL_FLOUNDRY =
       new AdventureResult(AdventureResult.FLOUNDRY, 1);
+  public static final AdventureResult GOAL_LEPRECONDO =
+      new AdventureResult(AdventureResult.LEPRECONDO, 1);
 
   public static final int[] GOAL_SUBSTATS_COUNTS = new int[3];
   public static final AdventureResult GOAL_SUBSTATS =
