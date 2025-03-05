@@ -325,6 +325,7 @@ ghost beer	1	1	awesome	4-5	0	10-20	0	50 Booooooze (+100% Myst, 11 DR), BEER
 giant glass of brandy	3	5	awesome	8-11	25-40	25-40	25-40	LARP membership card (1 time)
 gibson	3	3	good	5-10	0	0	16-20	MARTINI
 gimlet	4	6	awesome	14-18	0	40-47	0
+gimlet sidecar	1	4	awesome	0	0	0	0	Unspaded
 gin	5	6	decent	10-15	9-10	9-10	9-10
 gin and ginger	2	1	EPIC	10-12	0	0	0
 Gin and Herring	3	1	good	7-11	0	0	0
@@ -472,6 +473,7 @@ missing wine	2	5	good	4-8	0	0	31-50	WINE
 moai toai	1	5	good	0	0	0	0	Unspaded
 Mohobo	2	1	good	4-5	5-10	5-10	5-10	5 Mo' Hobo (+10 Hobo Power)
 Mon Tiki	4	6	awesome	14-18	40-47	0	0
+Mon Tiki sidecar	1	4	awesome	0	0	0	0	Unspaded
 monkey wrench	3	1	decent	5-6	0	8-10	0
 moonberry wine cooler	3	3	decent	4-6	0	5-10	0	WINE
 moons-shine	4	1	decent	6-10	7-8	7-8	7-8
@@ -750,6 +752,7 @@ vodka martini	3	1	decent	5-6	0	0	8-10	MARTINI
 Vodka Matryoshka	2	2	EPIC	10-13	25-50	10-20	10-20
 vodka stinger	1	1	awesome	3-5	0	0	0	40 Mer-kindliness (+2 Prismatic res)
 vodka stratocaster	4	6	awesome	14-18	25-27	0	16-20
+vodka stratocaster sidecar	2	4	awesome	0	0	0	0	Unspaded
 void lager	1	1	awesome	3-4	0	0	0	BEER
 VYKEA mead	2	7	awesome	8-10	5-10	5-10	20-40
 warbear bearserker mead	3	1	awesome	12-15	5-10	5-10	5-10	40 Warbear Warlust (+60 WarBear Armor Penetration), WINE

@@ -11904,6 +11904,7 @@
 11876	incredible mini-pizza	927589892	pizza.gif	food	t,d	20
 11877	Divine sidecar	725930155	fruity.gif	drink	t,d	20
 11878	tangarita sidecar	527495853	daquiri.gif	drink	t,d	20
-11879
-11880
+11879	gimlet sidecar	731302350	fruitym.gif	drink	t,d	20
+11880	vodka stratocaster sidecar	245676677	cocostraw.gif	drink	t,d	20
 11881	prussian cathouse sidecar	585508277	chamflute.gif	drink	t,d	20
+11882	Mon Tiki sidecar	919533230	cocostraw.gif	drink	t,d	20
