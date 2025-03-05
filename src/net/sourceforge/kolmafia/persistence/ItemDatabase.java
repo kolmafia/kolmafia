@@ -966,7 +966,7 @@ public class ItemDatabase {
     }
 
     // Let modifiers database do what it wishes with this item
-    ModifierDatabase.registerItem(itemName, text, usage);
+    ModifierDatabase.registerItem(itemName, rawText, usage);
 
     // Done generating data
     printMe = "--------------------";
