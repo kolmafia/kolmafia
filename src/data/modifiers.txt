@@ -5633,6 +5633,7 @@ Effect	All Revved Up	Muscle: +10, Mysticality: +10, Moxie: +10
 Effect	All Wound Up	Spell Damage Percent: [max(0,202-2*T)], Weapon Damage Percent: [max(0,202-2*T)]
 Effect	Almond Allemande	Moxie: +5
 Effect	Almost Cool	Moxie: +5, Experience (Moxie): +1
+Effect	Alone with Your Thoughts	Mysticality: +20, Spell Damage: +20, Maximum MP Percent: +50
 Effect	Aloofah	Damage Absorption: +100, Damage Reduction: 10
 # Aloysius' Antiphon of Aptitude: +1 Muscle, Mysticality and Moxie Stat Per Fight
 Effect	Aloysius' Antiphon of Aptitude	Experience (Muscle): +1, Experience (Mysticality): +1, Experience (Moxie): +1
@@ -6140,6 +6141,7 @@ Effect	Corruption of Wretched Wally	Muscle: +3, Weapon Damage: +3, HP Regen Min:
 Effect	Cosmic Ball in the Air	Item Drop: +25, Meat Drop: +50
 Effect	Cosmic Flavor	Spell Critical Percent: +10
 # Cotton Mouthed: So dry!  It's from yesterday!
+Effect	Counter Intelligence	Maximum MP: +30, Meat Drop: +30
 Effect	Covered in the Rainbow	Hot Resistance: +2, Cold Resistance: +2, Spooky Resistance: +2, Stench Resistance: +2, Sleaze Resistance: +2
 Effect	Covetin' Drunk	Meat Drop: +200
 # Covetous Robbery: Increases meat drops from stingy monsters
@@ -6726,6 +6728,7 @@ Effect	Gunther Than Thou	Experience (Muscle): +5, Muscle Percent: +100, Maximum 
 Effect	Gutballed	Muscle Percent: -300
 Effect	Guts Feeling	Meat Drop: +50
 Effect	Gutterminded	Sleaze Damage: +50
+Effect	Gym Bros	Experience (Muscle): +1, Muscle Percent: +20
 Effect	Gyromitra Gymnastics	Moxie: +40
 # Habituated: Lets you exercise your habit in combat.
 Effect	Haemolymphatic	Muscle: +20, Mysticality: +20, Moxie: +20
@@ -7213,6 +7216,7 @@ Effect	Mitre Cut	Mysticality Percent: [100+2*min(50,pref(chessboardsCleared))]
 Effect	Mixed Nutrients	Muscle: +15, Mysticality: +15, Moxie: +15
 Effect	Mmmmmelon	Item Drop: +30
 Effect	Mo' Hobo	Hobo Power: +10
+Effect	Moist Night's Sleep	Initiative: +50, Hot Resistance: +2, Cold Damage: +10
 # Molasses Flooded: Makes you a better diver
 Effect	Molasses Flooded	Initiative Penalty: [10*env(underwater)], Item Drop Penalty: [10*env(underwater)], Meat Drop Penalty: [10*env(underwater)]
 Effect	Monkeymask	Avatar: "damned dirty ape"
@@ -7554,6 +7558,7 @@ Effect	Quiet 'n' Good	Initiative: +30
 Effect	Quiet Desperation	Moxie Percent: +25
 Effect	Quiet Determination	Muscle Percent: +25
 Effect	Quiet Judgement	Mysticality Percent: +25
+Effect	Quiet Night's Sleep	Initiative: +50, MP Regen Min: 5, MP Regen Max: 10
 Effect	Quivering with Rage	Muscle Percent: -10, Damage Aura: 1
 Effect	QWOPped Up	Initiative: -100, Always Fumble
 Effect	Racing!	Initiative: +200
@@ -7583,6 +7588,7 @@ Effect	Rave Nirvana	Meat Drop: +50
 Effect	Raving Lunatic	Weapon Damage: +20
 Effect	Ravonovichy	Avatar: "Father Nikolai Ravonovich"
 Effect	Re-Possessed	Weapon Damage: +10, Damage Reduction: -2
+Effect	Ready for War	Combat Rate: +10, Weapon Damage Percent: +50, Spell Damage Percent: +50, Ranged Damage Percent: +50
 # Ready to Eat: Your next meal is going to be SOOO satisfying
 Effect	Ready to Roll	Booze Drop: +100, Cold Damage: +25, Cold Spell Damage: +25
 Effect	Ready to Snap	Mysticality: +5, Experience (Mysticality): +1
@@ -7894,6 +7900,7 @@ Effect	Space Cowboy	Experience: +2
 Effect	Space Tripping	Experience (Muscle): +4, Experience (Mysticality): +4, Experience (Moxie): +4
 Effect	Space Warlord's Beard	Weapon Damage: +25, Critical Hit Percent: +10
 Effect	Spaced Out	Mysticality: +10, Maximum MP: +50, Experience (Mysticality): +3, MP Regen Min: 10, MP Regen Max: 30
+Effect	Spacious Night's Sleep	Initiative: +100, Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 Effect	Spangled Star	Monster Level: +10
 Effect	Sparkling Consciousness	Mysticality Percent: +100
 Effect	Sparkly!	Moxie Percent: +200, Spell Damage Percent: +200, Damage vs. Undead: +50
@@ -8053,6 +8060,7 @@ Effect	Superhuman Sarcasm	Moxie Percent: +100
 Effect	Superioreo	Experience: +5, Maximum HP Percent: +100
 # SuperStar: You earned a gold star
 Effect	Superveiny 9000	Maximum HP: +300
+Effect	Sur La Table	MP Regen Min: 5, MP Regen Max: 10, HP Regen Min: 5, HP Regen Max: 10
 Effect	Surrealist's Moustache	Mysticality: +25, Food Drop: +50
 Effect	Surreally Buff	Muscle Percent: +20
 Effect	Suspicious Gaze	Initiative: +20
@@ -8255,6 +8263,7 @@ Effect	Tingly Wrists	Mysticality: +5
 # Tiny Bubbles in the Cupcake: Recover HP and MP after battle
 Effect	Tiny Bubbles in the Cupcake	HP Regen Min: 20, HP Regen Max: 20, MP Regen Min: 20, MP Regen Max: 20
 Effect	Tiny Pirate Inside	Maximum HP Percent: +50, Damage Reduction: 10, Damage Absorption: +100
+Effect	Tired Muscles	Combat Rate: -5
 Effect	To Protect and Servo	Avatar: "cyborg policeman"
 # Toad In The Hole: Continually take damage
 Effect	Toast Tea	Cold Resistance: +3
@@ -8344,6 +8353,7 @@ Effect	Very Attractive	Combat Rate: +10
 Effect	Very Clean Guns	Ranged Damage: +20
 Effect	Very Clean Teeth	Moxie: +1
 Effect	Vessel of Magic	Maximum MP: +100, MP Regen Min: 8, MP Regen Max: 12
+Effect	Vicarious Sweat	Maximum HP: +30, Item Drop: +15
 Effect	Video Game Hot Dog	Item Drop: +25, Meat Drop: +25
 Effect	Video... Games?	Muscle: +5, Mysticality: +5, Moxie: +5, Muscle Percent: +5, Mysticality Percent: +5, Moxie Percent: +5, Maximum HP: +5, Maximum MP: +5, Maximum HP Percent: +5, Maximum MP Percent: +5, Damage Absorption: +5, Damage Reduction: 5, Hot Resistance: +5, Cold Resistance: +5, Stench Resistance: +5, Spooky Resistance: +5, Sleaze Resistance: +5, Hot Damage: +5, Cold Damage: +5, Stench Damage: +5, Spooky Damage: +5, Sleaze Damage: +5, Hot Spell Damage: +5, Cold Spell Damage: +5, Stench Spell Damage: +5, Spooky Spell Damage: +5, Sleaze Spell Damage: +5, Damage vs. Bugbears: +5, Damage vs. Werewolves: +5, Damage vs. Zombies: +5, Damage vs. Ghosts: +5, Damage vs. Vampires: +5, Damage vs. Skeletons: +5, Damage vs. Undead: +5, Weapon Damage: +5, Spell Damage: +5, Ranged Damage: +5, Weapon Damage Percent: +5, Spell Damage Percent: +5, Ranged Damage Percent: +5, Critical Hit Percent: +5, Spell Critical Percent: +5, Initiative: +5, Experience: +5, Experience (Muscle): +5, Experience (Mysticality): +5, Experience (Moxie): +5, Experience Percent (Muscle): +5, Experience Percent (Mysticality): +5, Experience Percent (Moxie): +5, Meat Drop: +5, Item Drop: +5, Gear Drop: +5, Food Drop: +5, Booze Drop: +5, Candy Drop: +5, Pickpocket Chance: +5, Familiar Weight: +5, Familiar Damage: +5, Experience (familiar): +5, Monster Level: +5, Pool Skill: +5, Hobo Power: +5, Smithsness: +5, Fishing Skill: +5
 Effect	Vinegavotte	Item Drop: +20
@@ -8472,6 +8482,7 @@ Effect	Wolf Form	Muscle Percent: +150, Meat Drop: +150
 Effect	Wolf's Bane	Damage vs. Werewolves: +50
 Effect	Wolfish Form	Muscle Percent: +50, Meat Drop: +50
 Effect	Work For Hours a Week	Familiar Weight: +5, HP Regen Min: 10, HP Regen Max: 20
+Effect	Work Out Smarter, Not Harder	Muscle: +20, Weapon Damage: +20, Maximum HP Percent: +50
 Effect	World's Shortest Giant	Hot Resistance: +2, Cold Resistance: +2, Stench Resistance: +2, Spooky Resistance: +2, Sleaze Resistance: +2
 Effect	Worst Willy	Spooky Resistance: +1
 Effect	Worth Your Salt	Maximum HP: +25, Meat Drop: +25
@@ -8504,6 +8515,7 @@ Effect	You Know Where to Go	Muscle Percent: +10, Mysticality Percent: +10, Moxie
 Effect	You Know Who to Call	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 Effect	You Learned Something Maybe!	Experience: +5
 Effect	You Liver	Maximum HP: +200, HP Regen Min: 20, HP Regen Max: 40
+Effect	You Might Have Gotten Wet	Moxie: +20, Ranged Damage: +20, Damage Reduction: 10
 # You Pray To Yeg Your Soul To Keep: Now Lay You Down To Sleep
 Effect	You Read The Manual	Experience (Mysticality): +4
 Effect	You're a Brick . . . Ooze	Avatar: "BRICKO ooze"
@@ -9646,6 +9658,7 @@ Item	haunted Hell ramen	Effect: "Haunted Stomach", Effect Duration: 20, Last Ava
 Item	haunted orange	Effect: "Haunted Stomach", Effect Duration: 20, Last Available: "2018-11"
 Item	haunted pizza	Effect: "Haunted Stomach", Effect Duration: 20, Last Available: "2018-11"
 Item	heart-shaped candy whetstone	Effect: "Sharpened Sweet Tooth", Effect Duration: 40, Last Available: "2018-02"
+Item	Heck ramen	Last Available: "2025-03"
 Item	herb brownies	Effect: "Confused", Effect Duration: 5
 Item	hibiscus petal	Last Available: "2019-04"
 Item	Hide-rox&trade; cookie	Effect: "Broken Bone Nubs", Effect Duration: 30, Last Available: "2017-10"
@@ -9665,6 +9678,7 @@ Item	ice harvest	Effect: "Icy Demeanor", Effect Duration: 30, Last Available: "2
 Item	ice rice	Last Available: "2016-01"
 Item	iceberg lettuce	Effect: "Headstrong", Effect Duration: 50, Last Available: "2015-11"
 Item	igloo pie	Last Available: "2010-10"
+Item	incredible mini-pizza	Last Available: "2025-03"
 Item	initiative shawarma	Effect: "Shawarma Initiative", Effect Duration: 30, Last Available: "2014-10"
 Item	irradiated candy cane	Effect: "Festive Radiation", Effect Duration: 10, Last Available: "2008-12"
 Item	Jarlsberg's vegetable soup	Effect: "Souped Up", Effect Duration: 30, Last Available: "2022-11"
@@ -9836,6 +9850,7 @@ Item	slick fish meat	Effect: "Fishy", Effect Duration: 5
 Item	slimy sweetbreads	Effect: "Grimace", Effect Duration: 20
 Item	sly dog	Effect: "Top Dog", Effect Duration: 50
 Item	smashed danish	Effect: "Danish Cunning", Effect Duration: 30, Last Available: "2011-09"
+Item	small beer brat	Last Available: "2025-03"
 Item	smelted roe	Effect: "Sizzling with Fury", Effect Duration: 50, Last Available: "2015-08"
 Item	SMOOCH soda	Last Available: "2015-08"
 Item	snow berries	Effect: "Berry Berry Cold", Effect Duration: 30, Last Available: "2014-01"
@@ -9884,7 +9899,9 @@ Item	throbbing organ pie	Last Available: "2010-10"
 Item	thyme jelly donut	Last Available: "2011-09", Effect Duration: 5
 Item	Tiger-lily's milk	Effect: "Grrrrrrreat!", Effect Duration: 5, Last Available: "2010-03"
 Item	tin of submardines	Effect: "Appeteyes", Effect Duration: 50, Last Available: "2015-11", Wiki Name: "tin of submardines"
+Item	tiny burrito	Last Available: "2025-03"
 Item	tiny frozen prehistoric meteorite jawbreaker	Last Available: "2010-04"
+Item	tiny peach pie	Last Available: "2025-03"
 # toast with cold jelly: Freezes your liver
 Item	toast with cold jelly	Effect: "Cold Jellied", Effect Duration: 25, Last Available: "2017-01"
 # toast with hot jelly: Lets you breathe on a monster
@@ -10083,6 +10100,7 @@ Item	Dinsey Whinskey	Effect: "The Dinsey Spirit", Effect Duration: 30, Last Avai
 Item	dirt julep	Effect: "Here's Some More Mud in Your Eye", Effect Duration: 40, Last Available: "2017-03"
 Item	dirty martini	Last Available: "2004-12"
 Item	discocktail	Effect: "Disco Neuropathy", Effect Duration: 30
+Item	Divine sidecar	Last Available: "2025-03"
 # Doc Clock's thyme cocktail: Reduces your Fullness by 2
 Item	Doc Clock's thyme cocktail	Last Available: "2016-12"
 Item	Doc's Fortifying Wine	Effect: "Medically Fortified", Effect Duration: 40, Last Available: "2021-12"
@@ -10160,6 +10178,7 @@ Item	gamma nog	Last Available: "2014-12"
 Item	Ghiaccio Colada	Effect: "On the Rocks", Effect Duration: 20, Last Available: "2020-05"
 Item	ghost beer	Damage Reduction: 11, Effect: "Booooooze", Effect Duration: 50
 Item	giant glass of brandy	Last Available: "2011-12"
+Item	gimlet sidecar	Last Available: "2025-03"
 Item	Gin Mint	Last Available: "2011-12"
 Item	ginger beer	Last Available: "2016-12"
 Item	gingerbread wine	Effect: "Sprinkle in Your Eye", Effect Duration: 30, Last Available: "2016-12"
@@ -10258,6 +10277,7 @@ Item	missing wine	Last Available: "2010-03"
 Item	Mohobo	Effect: "Mo' Hobo", Effect Duration: 5, Last Available: "2012-03"
 Item	Moonshine Mohobo	Effect: "Mo' Hobo", Effect Duration: 10, Last Available: "2012-03"
 Item	Moonthril Schnapps	Last Available: "2011-06"
+Item	Mon Tiki sidecar	Last Available: "2025-03"
 Item	More Humanitini than Humanitini	Last Available: "2012-03"
 Item	moreltini	Effect: "Truffle Tango", Effect Duration: 40, Last Available: "2017-03"
 Item	Morlock's Mark Bourbon	Last Available: "2008-06"
@@ -10303,6 +10323,7 @@ Item	perpendicular hula with a fly in it	Last Available: "2006-04"
 Item	Phil Collins	Effect: "Hello, I Must Be Going", Effect Duration: 40, Last Available: "2017-03"
 Item	Phlegethon	Effect: "Flambé-a-thon", Effect Duration: 40, Last Available: "2017-03"
 Item	Phonus Balonus	Last Available: "2014-07"
+Item	pint of Leprechaun Stout	Last Available: "2025-03"
 Item	piscatini	Effect: "You Drank Fish Wine", Effect Duration: 40, Last Available: "2017-03"
 Item	pixel beer	Effect: "Analog Drunk", Effect Duration: 40, Last Available: "2015-06"
 Item	pixel daiquiri	Last Available: "2015-06"
@@ -10312,6 +10333,7 @@ Item	Plague of Locusts	Effect: "Cockroach Scurry", Effect Duration: 15, Last Ava
 Item	plastic cup of beer	Last Available: "2010-06"
 # primitive alien booze: Extends the duration of up to 10 of your effects by 5 Adventures
 Item	primitive alien booze	Last Available: "2017-04"
+Item	prussian cathouse sidecar	Last Available: "2025-03"
 Item	pumpkin beer	Last Available: "2010-11"
 Item	punch-drunk punch	Effect: "Boxing Day Drinking", Effect Duration: 50, Last Available: "2018-12"
 Item	Punchplanter	Effect: "Fishy", Effect Duration: 5, Last Available: "2012-03"
@@ -10403,6 +10425,7 @@ Item	sweet potato o' mine	Last Available: "2024-05"
 Item	sweet potato punch	Last Available: "2024-05"
 Item	swirling mushroom wine	Effect: "Tremella Tremens", Effect Duration: 80, Last Available: "2014-05"
 Item	Taco Dan's Taco Stand Chimichangarita	Effect: "Margaritish", Effect Duration: 10, Last Available: "2012-12"
+Item	tangarita sidecar	Last Available: "2025-03"
 Item	tankard of ale	Last Available: "2013-02"
 Item	tankard of spiced Goldschlepper	Last Available: "2024-12"
 Item	tankard of spiced rum	Last Available: "2024-12"
@@ -10427,6 +10450,7 @@ Item	vintage smart drink	Effect: "Smart Drunk", Effect Duration: 1
 Item	vodka barracuda	Effect: "Mer-kinkiness", Effect Duration: 40, Last Available: "2017-03"
 Item	Vodka Matryoshka	Last Available: "2011-12"
 Item	vodka stinger	Effect: "Mer-kindliness", Effect Duration: 40, Last Available: "2017-03"
+Item	vodka stratocaster sidecar	Last Available: "2025-03"
 Item	void lager	Last Available: "2022-12"
 Item	VYKEA mead	Last Available: "2015-11"
 Item	warbear bearserker mead	Effect: "Warbear Warlust", Effect Duration: 40, Last Available: "2013-12"
@@ -10567,6 +10591,7 @@ Item	Knob Goblin eyedrops	Effect: "Peeled Eyeballs", Effect Duration: 30
 Item	Knob Goblin learning pill	Effect: "Big Veiny Brain", Effect Duration: 30
 Item	Knob Goblin nasal spray	Effect: "Wasabi Sinuses", Effect Duration: 30
 Item	Knob Goblin pet-buffing spray	Effect: "Heavy Petting", Effect Duration: 30
+Item	leprechaun antidepressant pill	Effect: "Ready for War", Effect Duration: 40, Last Available: "2025-03"
 Item	liquid shifting time weirdness	Effect: "Liquid Luck", Effect Duration: 10
 Item	livid energy	Effect: "Lividly Energized", Effect Duration: 60, Last Available: "2019-12"
 Item	loofah lumps	Last Available: "2022-12"
@@ -10603,6 +10628,8 @@ Item	pearlescent oyster egg	Effect: "Pearly Vision", Effect Duration: 50
 Item	penguin paste	Effect: "Penguinny Flavor", Effect Duration: 10, Last Available: "2011-08"
 Item	petrified wood waste parts	Last Available: "2025-12"
 Item	pewter shavings	Effect: "Pewtershot", Effect Duration: 100, Last Available: "2019-04"
+# phosphor traces: Create an afterimage of a foe
+Item	phosphor traces	Last Available: "2025-03"
 Item	pirate paste	Effect: "Piratey Flavor", Effect Duration: 10, Last Available: "2011-08"
 Item	polyesterene powder	Last Available: "2015-12"
 Item	pool shark hair oil	Effect: "Sharky", Effect Duration: 20
@@ -10619,6 +10646,8 @@ Item	Purple Beast energy drink	Last Available: "2018-09"
 Item	residual zeal	Last Available: "2014-09"
 Item	sachet of strange powder	Effect: "Powder Power", Effect Duration: 40, Last Available: "2018-04"
 Item	scintillating oyster egg	Effect: "Eggscitingly Colorful", Effect Duration: 20
+# scoop of pre-workout powder: Allows you to Punch a Foe Out
+Item	scoop of pre-workout powder	Last Available: "2025-03"
 Item	sea jelly	Effect: "Fishy", Effect Duration: 10, Last Available: "2017-01"
 Item	shadow nectar	Last Available: "2023-03"
 Item	shadow pill	Effect: "Shadow Medicine", Effect Duration: 30
@@ -12118,7 +12147,7 @@ Item	Artist's Whisk of Misery	Last Available: "2013-12"
 Item	Asdon Martin keyfob (on ring)	Last Available: "2017-07"
 Item	Asleep in the Cemetery	Skill: "Creepy Lullaby"
 Item	aspirin	Last Available: "2005-12"
-Item	assemble-it-yourself Leprecondo	Free Pull
+Item	assemble-it-yourself Leprecondo	Free Pull, Last Available: "2025-03"
 Item	astral badger	Free Pull, Last Available: "2006-06"
 Item	atomic vector plotter	Last Available: "2011-12"
 Item	Autobiography Of Dynamite Superman Jones (used)	Class: "Disco Bandit", Skill: "Kung Fu Hustler", Last Available: "2011-01"
@@ -12155,6 +12184,8 @@ Item	ballpark hot daub	Last Available: "2012-07"
 # banana spritzer: Restores 40-100 MP
 Item	bananagate	Last Available: "2011-11"
 Item	Banfoy's Boutique Order Form	Last Available: "2011-07"
+# bar dart: Damage a foe and increase booze drops
+Item	bar dart	Last Available: "2025-03"
 # barbed-wire fence: Weakens enemies a little bit
 # bargain flash powder: Lets you escape from combat
 Item	barnacled barrel	Last Available: "2015-09"
@@ -12591,6 +12622,8 @@ Item	Covert Ops for Kids	Last Available: "2024-12", Skill: "Hide From Seekers"
 Item	Covert Ops for Kids (used)	Last Available: "2024-12", Skill: "Hide From Seekers"
 Item	cow poker	Last Available: "2016-02"
 # cracked stone sphere: Mysterious, Deprecated
+# crafting plans: One free turn of crafting
+Item	crafting plans	Last Available: "2025-03"
 # crappy camera: Makes a copy of a monster to fight later
 # crappy camera: (when it works)
 Item	crappy camera	Last Available: "2014-12"
@@ -13564,6 +13597,7 @@ Item	leftover Crimbo rations	Last Available: "2009-12"
 # leftovers of indeterminate origin: Deals 8-10 <font color=green>Stench Damage</font>
 Item	lemony scales	Last Available: "2014-12"
 Item	Lepardner	Last Available: "2018-03"
+Item	Leprecondo	Last Available: "2025-03"
 Item	Let Me Be!	Skill: "Raise Backup Dancer"
 Item	Letter from Carrie Bradshaw	Last Available: "2023-06"
 # lewd playing card: Deals 100-150 Physical Damage and 100-150 <font color=blueviolet>Sleaze Damage</font>
@@ -14863,6 +14897,8 @@ Item	synthetic rock	Last Available: "2021-12"
 Item	synthetic stuffing	Last Available: "2007-12"
 # T.U.R.D.S. Key: Lets you escape from combat without spending an Adventure
 # T.U.R.D.S. Key: (Maybe)
+# table tennis ball: Delevel a monster by 25%
+Item	table tennis ball	Last Available: "2025-03"
 # tabletop candy dispenser: Produces some random candy items (1x/day, costs 10 Meat)
 Item	tabletop candy dispenser	Last Available: "2020-12"
 Item	Taco Dan's Super Taco-Riffic Taco Sauce!	Last Available: "2014-05"

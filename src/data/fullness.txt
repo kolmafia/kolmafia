@@ -476,6 +476,7 @@ haunted Hell ramen	4	6	awesome	13-16	37	37	37	20-24 Meat, 20 Haunted Stomach (+5
 haunted orange	1	1	crappy	1-2	0	0	0	20 Haunted Stomach (+50% Meat drop, +25% Item drop)
 haunted pizza	2	1	good	4-6	0	0	0	20 Haunted Stomach (+50% Meat drop, +25% Item drop), PIZZA
 heart-shaped candy whetstone	1	4	good	3	20-40	20-40	20-40	40 Sharpened Sweet Tooth (+25 Candy drop)
+Heck ramen	2	4	awesome	0	0	0	0	Unspaded
 Hell broth	4	3	good	7-14	-5-9	0	-5-9
 Hell ramen	4	6	awesome	11-14	13	13	13	SAUCY
 herb brownies	2	1	decent	2-5	0	0	8-9	5 Confused (-30% mys)
@@ -509,6 +510,7 @@ immaculate egg salad sandwich	4	1	decent	7-9	5-10	30-40	5-10
 immaculate grilled cheese	4	1	decent	7-9	0	30-40	10-20
 immaculate hot dog	4	1	decent	7-9	5-10	30-40	5-10
 immaculate ice cream sandwich	4	1	decent	7-9	5-10	30-40	5-10
+incredible mini-pizza	2	4	awesome	0	0	0	0	Unspaded, PIZZA
 incredible pizza	4	9	awesome	12-16	20-30	20-30	20-30	PIZZA
 initiative shawarma	1	5	awesome	4-6	0	0	10-20	30 Shawarma Initiative (+150 Init)
 insanely spicy bean burrito	3	4	awesome	7-14	27-32	0	0
@@ -864,6 +866,7 @@ slick nigiri	2	1	pseudoitem	4-8	0	0	8-16	20/30 Fishy
 slimy sweetbreads	1	6	good	2-3	0	0	0	20 Grimace (+25 ML, slime res)
 slippery snake roll	3	1	pseudoitem	9-14	0	0	28-46	45/55 Fishy
 sly dog	2	1	awesome	6-8	0	0	10-15	50 Top Dog (+50% Mox, +10% Crit Chance, +50 Dam vs Skeletons/Vampires)
+small beer brat	1	4	awesome	0	0	0	0	Unspaded
 smashed danish	1	4	awesome	3-5	45-75	0	0	30 Danish Cunning (+25% pickpocket)
 smelted roe	1	4	good	3	10-20	0	0	50 Sizzling with Fury (+25 Hot Damage, +60 Init)
 SMOOCH soda	1	1	good	3-3	0	0	0	BEVERAGE, Gain 20-35 MP and SMOOCH bottlecap
@@ -1009,7 +1012,9 @@ Tiger-lily's milk	1	1	crappy	1	5-10	0	0	BEVERAGE, 5 Grrrrrrreat! (+10 mus exp)
 tin cup of mulligan stew	2	15	super ultra EPIC	15-19	300-800	300-800	300-800
 tin of submardines	1	4	awesome	4-5	30-40	0	0	50 Appeteyes (+50% Food drop)
 tin rations	3	1	good	8-10	3-5	3-5	3-5
+tiny burrito	2	4	awesome	0	0	0	0	Unspaded
 tiny frozen prehistoric meteorite jawbreaker	1	1	good	2	0	0	0
+tiny peach pie	1	4	awesome	0	0	0	0	Unspaded
 toast	1	1	crappy	1	0	0	0
 toast with cold jelly	1	1	good	2-4	5-10	5-10	5-10	25 Cold Jellied (+3 myst exp, +30% myst, +5 cold damage)
 toast with hot jelly	1	1	good	2-4	5-10	5-10	5-10	25 Cold Jellied (+3 mus exp, +30% mus, +5 hot damage)
