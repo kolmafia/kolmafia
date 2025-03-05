@@ -47,6 +47,7 @@ import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.session.EncounterManager.RegisteredEncounter;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.GoalManager;
+import net.sourceforge.kolmafia.session.LeprecondoManager;
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
 import net.sourceforge.kolmafia.swingui.button.ThreadedButton;
@@ -441,12 +442,29 @@ public class AdventureSelectPanel extends JPanel {
           if (!EquipmentManager.addOutfitConditions(request)) {
             return true;
           }
-        } else if (splitCondition.startsWith("+")) {
-          if (!ConditionsCommand.update("add", splitCondition.substring(1))) {
+        } else {
+          if (splitCondition.contains("leprecondo")) {
+            String location = request.getAdventureName();
+            String undiscovered = LeprecondoManager.getUndiscoveredFurnitureForLocation(location);
+            // No known zone contains more than 2 pieces of furniture.
+            // Assume you are seeking all that are not yet discovered.
+            if (undiscovered.equals("")) {
+              continue;
+            } else if (!undiscovered.contains(", ")) {
+              splitCondition = "1 leprecondo furniture";
+            } else {
+              splitCondition = "2 leprecondo furniture";
+            }
+          }
+
+          if (splitCondition.startsWith("+")) {
+            String command = splitCondition.substring(1);
+            if (!ConditionsCommand.update("add", command)) {
+              return false;
+            }
+          } else if (!ConditionsCommand.update("set", splitCondition)) {
             return false;
           }
-        } else if (!ConditionsCommand.update("set", splitCondition)) {
-          return false;
         }
       }
 
