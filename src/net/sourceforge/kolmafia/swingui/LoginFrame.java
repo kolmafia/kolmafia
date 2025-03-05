@@ -1,6 +1,10 @@
 package net.sourceforge.kolmafia.swingui;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Cursor;
+import java.awt.Desktop;
+import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
