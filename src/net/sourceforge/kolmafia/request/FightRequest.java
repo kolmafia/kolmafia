@@ -7753,6 +7753,9 @@ public class FightRequest extends GenericRequest {
 
     // Leprecondo actions are tagged this way
     if (LeprecondoManager.handlePostCombatMessage(str, image)) {
+      if (status.logFamiliar) {
+        FightRequest.logText(str, status);
+      }
       return;
     }
 
