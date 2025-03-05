@@ -4,7 +4,14 @@ import java.awt.*;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import javax.swing.*;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JCheckBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -65,13 +72,13 @@ public class LoginFrame extends GenericFrame {
     return false;
   }
 
-  public static final void hideInstance() {
+  public static void hideInstance() {
     if (LoginFrame.INSTANCE != null) {
       LoginFrame.INSTANCE.setVisible(false);
     }
   }
 
-  public static final void disposeInstance() {
+  public static void disposeInstance() {
     if (LoginFrame.INSTANCE != null) {
       LoginFrame.INSTANCE.dispose();
       LoginFrame.INSTANCE = null;
@@ -280,7 +287,7 @@ public class LoginFrame extends GenericFrame {
       String username = getUsername();
       String password = new String(this.passwordField.getPassword());
 
-      if (username == null || username.equals("") || password.equals("")) {
+      if (username == null || username.isEmpty() || password.isEmpty()) {
         this.setStatusMessage("Invalid login.");
         return;
       }
@@ -376,20 +383,21 @@ public class LoginFrame extends GenericFrame {
   }
 
   private static class ProxySetPanel extends OptionsPanel {
-    private final String[][] options = {
-      {"proxySet", "KoLmafia needs to connect through a proxy server"},
-    };
 
     public ProxySetPanel() {
       super(new Dimension(20, 20), new Dimension(250, 20));
 
-      this.setOptions(this.options);
+      String[][] options = {
+        {"proxySet", "KoLmafia needs to connect through a proxy server"},
+      };
+
+      this.setOptions(options);
 
       String httpHost = System.getProperty("http.proxyHost");
       String httpsHost = System.getProperty("https.proxyHost");
 
       boolean proxySet =
-          httpHost != null && httpHost.length() > 0 || httpsHost != null && httpsHost.length() > 0;
+          httpHost != null && !httpHost.isEmpty() || httpsHost != null && !httpsHost.isEmpty();
 
       if (System.getProperty("os.name").startsWith("Mac")) {
         this.optionBoxes[0].setSelected(proxySet);
@@ -470,7 +478,7 @@ public class LoginFrame extends GenericFrame {
     public void actionCancelled() {
       String proxyHost = System.getProperty(this.protocol + ".proxyHost");
 
-      if (proxyHost != null && proxyHost.length() != 0
+      if (proxyHost != null && !proxyHost.isEmpty()
           || System.getProperty("os.name").startsWith("Mac")) {
         this.proxyHost.setText(System.getProperty(this.protocol + ".proxyHost"));
         this.proxyPort.setText(System.getProperty(this.protocol + ".proxyPort"));
