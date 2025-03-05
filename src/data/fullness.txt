@@ -510,7 +510,7 @@ immaculate egg salad sandwich	4	1	decent	7-9	5-10	30-40	5-10
 immaculate grilled cheese	4	1	decent	7-9	0	30-40	10-20
 immaculate hot dog	4	1	decent	7-9	5-10	30-40	5-10
 immaculate ice cream sandwich	4	1	decent	7-9	5-10	30-40	5-10
-incredible mini-pizza	2	4	awesome	0	0	0	0	Unspaded
+incredible mini-pizza	2	4	awesome	0	0	0	0	Unspaded, PIZZA
 incredible pizza	4	9	awesome	12-16	20-30	20-30	20-30	PIZZA
 initiative shawarma	1	5	awesome	4-6	0	0	10-20	30 Shawarma Initiative (+150 Init)
 insanely spicy bean burrito	3	4	awesome	7-14	27-32	0	0
