@@ -8962,6 +8962,9 @@ public abstract class ChoiceControl {
           Preferences.setInteger("zootSpecimensPrepared", spawned);
         }
       }
+      case 1556 -> { // Leprecondo
+        LeprecondoManager.visit(text);
+      }
     }
   }
 
