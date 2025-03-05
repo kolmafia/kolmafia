@@ -1587,7 +1587,7 @@
 1559	tonic water	898021546	sodawater.gif	multiple, cook, mix	t,d	70	bottles of tonic water
 1560	cocktail onion	745814141	onion.gif	food, cook, mix	t,d	70
 1561	raspberry	544757027	raspberry.gif	food, smith, cook, mix	t,d	70	raspberries
-1562	kiwi	395663447	kiwi.gif	food, cook, mix	t,d	70	kiwus
+1562	kiwi	395663447	kiwi.gif	food, cook, mix	t,d	70
 1563	whiskey bittersweet	672455481	rocks.gif	drink, mix	t,d	130	whiskeys bittersweet
 1564	mimosette	782817773	chamflute.gif	drink, mix	t,d	130	marmosets
 1565	tequila sunset	255615817	rocks.gif	drink, mix	t,d	130
@@ -8178,7 +8178,7 @@
 8150	sugar sphere	120351532	cueball.gif	potion, candy2	t,d	5
 8151	Shrubble Bubble	551227147	nugglet.gif	potion, candy2	t,d	5	pieces of Shrubble Bubble
 8152	polyeaster egg	230673096	polyegg.gif	potion	t	0
-8153	porcelain candy dish	317824568	porcbowl.gif	potion	t	0
+8153	porcelain candy dish	317824568	porcbowl.gif	potion	t	0	porcelain candy dishes
 8154	Spechunky bar	114809341	sbar.gif	potion, candy2	t,d	5
 8155	talisman of Horus	800789609	tal_h.gif	potion, usable	q,d	25	talismen of Horus
 8156	check to the Meatsmith	899679045	check.gif	none	q	0
@@ -11856,10 +11856,10 @@
 11828	geofencing shield	517384017	cr_shield.gif	offhand	t	0
 11829	virtual cybertattoo	757337801	cr_tat.gif	usable	t	0
 11830	ninja rope	351796064	ninjarope.gif	none	q	0	coils of ninja rope
-11831	ninja crampons	876430936	crampons.gif	none	q	0
+11831	ninja crampons	876430936	crampons.gif	none	q	0	pairs of ninja crampons
 11832	ninja carabiner	128846387	carabiner.gif	none	q	0
-11833	synthetic coffee	348642138	coffeecup.gif	potion	t,d	1
-11834	iDrops	129405226	blackdrops.gif	potion	t,d	1
+11833	synthetic coffee	348642138	coffeecup.gif	potion	t,d	1	cups of synthetic coffee
+11834	iDrops	129405226	blackdrops.gif	potion	t,d	1	vials of iDrops
 11835	shame coil	376481121	shamecoil.gif	grow	t	0
 11836	new-in-box toy Cupid bow	829241057	plungebow_box.gif	usable	t	0
 11837	toy Cupid bow	892523678	plungebow.gif	familiar		0
@@ -11868,7 +11868,7 @@
 11840	phantom digit	921653322	phantomdigit.gif	grow	t	0
 11841	foul line	454419574	foulline.gif	grow	t	0
 11842	dark manioc	375134103	darkmanioc.gif	grow	t	0
-11843	Observer source code	826469312	observercode.gif	grow	t	0
+11843	Observer source code	826469312	observercode.gif	grow	t	0	pages of Observer source code
 11844	chill gherkin	389072404	gherkin.gif	grow	t	0
 11845	childrens' stapler	653974003	kidstapler.gif	grow	t	0
 11846	plover's egg	111657802	ploveregg.gif	grow	t	0
@@ -11878,32 +11878,33 @@
 11850	cold sore	909887560	coldsore.gif	familiar	t,d	75
 11851	stomach churner	145379634	stomachchurn.gif	familiar	t,d	75
 11852	phantom brace	294655613	phantombrace.gif	familiar	t,d	75
-11853	foul cozy	662473202	foulcozy.gif	familiar	t,d	75
-11854	grim cellophane	657876140	grimcellophane.gif	familiar	t,d	75
-11855	rift oculus	911959018	riftoculus.gif	familiar	t,d	75
+11853	foul cozy	662473202	foulcozy.gif	familiar	t,d	75	foul cozies
+11854	grim cellophane	657876140	grimcellophane.gif	familiar	t,d	75	sheets of grim cellophane
+11855	rift oculus	911959018	riftoculus.gif	familiar	t,d	75	rifts oculi
 11856	sweaty egg	461425200	neweggs.gif	familiar	t,d	75
 11857	carton of extra-sharp, rusty staples	244766832	staplebox.gif	familiar	t,d	75	cartons of extra-sharp, rusty staples
-11858	glover liners	756658580	gloveliners.gif	familiar	t,d	75
-11859	mosquito speakers	909527695	mosquitobox.gif	familiar	t,d	75
+11858	glover liners	756658580	gloveliners.gif	familiar	t,d	75	pairs of glover liners
+11859	mosquito speakers	909527695	mosquitobox.gif	familiar	t,d	75	pairs of mosquito speakers
 11860	assemble-it-yourself Leprecondo	925526821	leprecondobox.gif	usable	t	0
 11861	Leprecondo	720402031	leprecondo.gif	usable		0
-11862
-11863
-11864
-11865
-11866
+11862	scoop of pre-workout powder	966952650	powderscoop.gif	spleen, usable	t,d	50	scoops of pre-workout powder
+11863	table tennis ball	555563290	pingpongball.gif	none, combat	t,d	11
+11864	pint of Leprechaun Stout	326629476	juice.gif	drink	t,d	100	pints of Leprechaun Stout
+11865	phosphor traces	945485037	disease.gif	spleen, usable	t,d	100	handfuls of phosphor traces
+11866	crafting plans	218471243	boatplan.gif	usable	t,d	100	sets of crafting plans
 11867	Book of Irony	671417795	book5.gif	usable		0
-11868
+11868	spoon	262321030	spoooon.gif	usable, combat	t,d	11
 11869
-11870
-11871
-11872
-11873
-11874
-11875
-11876
-11877
-11878
-11879
-11880
+11870	bar dart	979911176	nicedart.gif	none, combat	t,d	20
+11871	leprechaun antidepressant pill	798135927	pill3.gif	spleen, usable	t,d	50
+11872	Heck ramen	412904552	bowl.gif	food	t,d	25	bowls of Heck ramen
+11873	tiny burrito	337192933	burrito.gif	food	t,d	90
+11874	small beer brat	250555589	brat.gif	food	t,d	20
+11875	tiny peach pie	905850738	pie.gif	food	t,d	20
+11876	incredible mini-pizza	927589892	pizza.gif	food	t,d	20
+11877	Divine sidecar	725930155	fruity.gif	drink	t,d	20
+11878	tangarita sidecar	527495853	daquiri.gif	drink	t,d	20
+11879	gimlet sidecar	731302350	fruitym.gif	drink	t,d	20
+11880	vodka stratocaster sidecar	245676677	cocostraw.gif	drink	t,d	20
 11881	prussian cathouse sidecar	585508277	chamflute.gif	drink	t,d	20
+11882	Mon Tiki sidecar	919533230	cocostraw.gif	drink	t,d	20

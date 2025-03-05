@@ -140,6 +140,7 @@ Knob Goblin pet-buffing spray	1	1	good	0	0	0	0	30 Heavy Petting (+5 familiar wei
 lavender paisley oyster egg	1	1	awesome	0	0	11-15	11-15
 lavender polka-dot oyster egg	1	1	awesome	0	0	0	22-30
 lavender striped oyster egg	1	1	awesome	0	11-15	0	11-15
+leprechaun antidepressant pill	3	1		0	0	0	0	40 Ready for War (+10% Combat Rate, +50% Weapon / Spell / Ranged Damage Percent)
 liquid shifting time weirdness	2	6	awesome	0	50-65	50-65	50-65	10 Liquid Luck (+10% critical, +10% spell critical)
 livid energy	1	1	awesome	0	0	0	0	60 Lividly Energized (+50% MP, +3-5 MP Regen)
 loofah lumps	2	12		0	0	0	0	Unspaded
@@ -184,6 +185,7 @@ pearlescent oyster egg	1	5	EPIC	0	0	0	0	50 Pearly Vision (+25% item drop)
 penguin paste	4	4	good	5-10	18-22	18-22	18-22	10 Penguinny Flavor (cold dmg/res)
 petrified wood waste parts	3	12		0	0	0	0	Unspaded
 pewter shavings	1	4	good	0	0	0	0	100 Pewtershot (+250 DA, +25 DR)
+phosphor traces	3	1		0	0	0	0	Gain skill that copies a monster
 pirate paste	4	4	good	5-10	18-22	18-22	18-22	10 Piratey Flavor (+5% critical)
 polyesterene powder	2	1	good	5	0	0	0
 pool shark hair oil	1	1		0	0	0	0	20 Sharky (+5 Pool Skill, +15 Moxie)
@@ -203,6 +205,7 @@ red striped oyster egg	1	1	good	0	11-15	0	0	31-35 HP
 residual zeal	5	20	EPIC	0	25000-35000	25000-35000	25000-35000
 sachet of strange powder	1	4	good	0	30-50	30-50	30-50	40 Powder Power (+5 prismatic damage)
 scintillating oyster egg	1	5	EPIC	0	0	0	0	20 Eggscitingly Colorful (+3 all res)
+scoop of pre-workout powder	3	1		0	0	0	0	Gain skill that banishes for 20 turns
 sea jelly	1	1	crappy	0	30-40	30-40	30-40	10 Fishy
 shadow nectar	13	13		0	999	999	999
 shadow pill	1	1		0	0	0	0	30 Shadow Medicine (+200% HP, +200% MP)
