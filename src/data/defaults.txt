@@ -399,6 +399,8 @@ user	bondWpn	false	roa
 user	boneAbacusVictories	0
 user	bookOfFactsGummi	0	roa
 user	bookOfFactsPinata	0	roa
+user	bookOfIronyAvailable	true
+user	bookOfIronyCost	1000
 user	boomBoxSong		roa
 user	booPeakProgress	100
 user	booPeakLit	false
@@ -871,6 +873,7 @@ user	iceSwagger	0
 user	implementGlitchItem	false
 user	intenseCurrents	false	roa
 user	invalidBuffMessage	You sent an amount which does not correspond to a valid buff amount.
+user	ironicSwagger	0
 user	itemBoughtPerAscension637	false	roa
 user	itemBoughtPerAscension8266	false	roa
 user	itemBoughtPerAscension10790	false	roa
