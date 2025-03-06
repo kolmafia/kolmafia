@@ -3976,5 +3976,18 @@ public class FightRequestTest {
         assertThat("leprecondoLastNeedChange", isSetTo(42));
       }
     }
+
+    @Test
+    public void canDetectPunchOutBanish() {
+      var cleanups = new Cleanups(withFight(), withBanishedMonsters(""));
+
+      try (cleanups) {
+        parseCombatData(
+            "request/test_fight_punch_out_banish.html", "fight.php?action=skill&whichskill=7561");
+
+        assertThat(
+            "banishedMonsters", hasStringValue(startsWith("dairy goat:Punch Out your Foe:")));
+      }
+    }
   }
 }

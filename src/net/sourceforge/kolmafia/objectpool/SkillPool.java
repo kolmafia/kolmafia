@@ -644,6 +644,7 @@ public class SkillPool {
   public static final int RIGHT_PUNCH = 7558;
   public static final int LEFT_KICK = 7559;
   public static final int RIGHT_KICK = 7560;
+  public static final int PUNCH_OUT_YOUR_FOE = 7561;
 
   public static final int GOOD_SINGING_VOICE = 11016;
   public static final int BANISHING_SHOUT = 11020;

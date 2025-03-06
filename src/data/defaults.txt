@@ -2397,6 +2397,7 @@ user	_peteJumpedShark	0
 user	_petePartyThrown	false
 user	_petePeeledOut	0
 user	_peteRiotIncited	false
+user	_phosphorTracesUses	0	roa
 user	_photoBoothEffects	0
 user	_photoBoothEquipment	0
 user	_photocopyUsed	false
@@ -2439,8 +2440,9 @@ user	_powderedMadnessUses	0
 user	_powerfulGloveBatteryPowerUsed	0
 user	_powerPillDrops	0
 user	_powerPillUses	0
-user	_precisionCasts	0
 user	_prankCardMonster
+user	_precisionCasts	0
+user	_preworkoutPowderUses	0	roa
 user	_prToday	false
 user	_psychoJarFilled	false
 user	_psychoJarUsed	false

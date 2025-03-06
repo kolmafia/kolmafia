@@ -315,6 +315,14 @@ public class SpleenItemRequest extends UseItemRequest {
           Preferences.increment("breathitinCharges", 5 * count);
         }
         break;
+
+      case ItemPool.SCOOP_OF_PREWORKOUT_POWDER:
+        Preferences.increment("_preworkoutPowderUses", count);
+        break;
+
+      case ItemPool.PHOSPHOR_TRACES:
+        Preferences.increment("_phosphorTracesUses", count);
+        break;
     }
   }
 
