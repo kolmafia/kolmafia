@@ -390,7 +390,7 @@ public class AdventureSelectPanel extends JPanel {
       boolean shouldAdventure = true;
 
       if (conditionsActive && conditionList.length() > 0 && !conditionList.equals("none")) {
-        shouldAdventure = this.handleConditions(conditionList, request);
+        shouldAdventure = AdventureSelectPanel.this.handleConditions(conditionList, request);
       }
 
       if (!shouldAdventure) {
@@ -411,74 +411,81 @@ public class AdventureSelectPanel extends JPanel {
         AdventureSelectPanel.this.countField.setValue(KoLCharacter.getAdventuresLeft());
       }
     }
+  }
 
-    private boolean handleConditions(final String conditionList, final KoLAdventure request) {
-      if (KoLmafia.isAdventuring()) {
-        return false;
+  public boolean handleConditions(final String conditionList, final KoLAdventure request) {
+    if (KoLmafia.isAdventuring()) {
+      return false;
+    }
+
+    GoalManager.clearGoals();
+
+    String[] splitConditions = conditionList.split("\\s*,\\s*");
+
+    // First, figure out whether or not you need to do a
+    // disjunction on the conditions, which changes how
+    // KoLmafia handles them.
+
+    for (String splitCondition : splitConditions) {
+      if (splitCondition == null) {
+        continue;
       }
 
-      GoalManager.clearGoals();
+      if (splitCondition.equals("check")) {
+        // Postpone verification of conditions
+        // until all other conditions added.
+      } else if (splitCondition.equals("outfit")) {
+        // Determine where you're adventuring
+        // and use that to determine which
+        // components make up the outfit pulled
+        // from that area.
 
-      String[] splitConditions = conditionList.split("\\s*,\\s*");
-
-      // First, figure out whether or not you need to do a
-      // disjunction on the conditions, which changes how
-      // KoLmafia handles them.
-
-      for (String splitCondition : splitConditions) {
-        if (splitCondition == null) {
+        if (!EquipmentManager.addOutfitConditions(request)) {
+          return true;
+        }
+      } else {
+        String condition = adjustCondition(splitCondition, request);
+        if (condition == null) {
           continue;
         }
-
-        if (splitCondition.equals("check")) {
-          // Postpone verification of conditions
-          // until all other conditions added.
-        } else if (splitCondition.equals("outfit")) {
-          // Determine where you're adventuring
-          // and use that to determine which
-          // components make up the outfit pulled
-          // from that area.
-
-          if (!EquipmentManager.addOutfitConditions(request)) {
-            return true;
-          }
-        } else {
-          if (splitCondition.contains("leprecondo")) {
-            String location = request.getAdventureName();
-            String undiscovered = LeprecondoManager.getUndiscoveredFurnitureForLocation(location);
-            // No known zone contains more than 2 pieces of furniture.
-            // Assume you are seeking all that are not yet discovered.
-            if (undiscovered.equals("")) {
-              continue;
-            } else if (!undiscovered.contains(", ")) {
-              splitCondition = "1 leprecondo furniture";
-            } else {
-              splitCondition = "2 leprecondo furniture";
-            }
-          }
-
-          if (splitCondition.startsWith("+")) {
-            String command = splitCondition.substring(1);
-            if (!ConditionsCommand.update("add", command)) {
-              return false;
-            }
-          } else if (!ConditionsCommand.update("set", splitCondition)) {
+        if (condition.startsWith("+")) {
+          String command = condition.substring(1);
+          if (!ConditionsCommand.update("add", command)) {
             return false;
           }
+        } else if (!ConditionsCommand.update("set", condition)) {
+          return false;
         }
       }
-
-      if (!GoalManager.hasGoals()) {
-        KoLmafia.updateDisplay("All conditions already satisfied.");
-        return false;
-      }
-
-      if (InputFieldUtilities.getValue(AdventureSelectPanel.this.countField) == 0) {
-        AdventureSelectPanel.this.countField.setValue(KoLCharacter.getAdventuresLeft());
-      }
-
-      return true;
     }
+
+    if (!GoalManager.hasGoals()) {
+      KoLmafia.updateDisplay("All conditions already satisfied.");
+      return false;
+    }
+
+    if (InputFieldUtilities.getValue(this.countField) == 0) {
+      this.countField.setValue(KoLCharacter.getAdventuresLeft());
+    }
+
+    return true;
+  }
+
+  private String adjustCondition(String condition, KoLAdventure request) {
+    if (condition.contains("leprecondo")) {
+      String location = request.getAdventureName();
+      String undiscovered = LeprecondoManager.getUndiscoveredFurnitureForLocation(location);
+      // No known zone contains more than 2 pieces of furniture.
+      // Assume you are seeking all that are not yet discovered.
+      if (undiscovered.equals("")) {
+        return null;
+      } else if (undiscovered.contains(", ")) {
+        return "2 leprecondo furniture";
+      } else {
+        return "1 leprecondo furniture";
+      }
+    }
+    return condition;
   }
 
   private String getDefaultConditions() {
