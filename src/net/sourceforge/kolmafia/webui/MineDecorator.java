@@ -91,9 +91,6 @@ public abstract class MineDecorator {
                         case "Rocky Wall" -> "X";
                         default -> "?";
                       };
-                  if (code.equals("?")) {
-                    System.out.println("Unknown mine state: " + m.group(1));
-                  }
                   return Map.entry(linear, code);
                 })
             .sorted(Map.Entry.comparingByKey())
