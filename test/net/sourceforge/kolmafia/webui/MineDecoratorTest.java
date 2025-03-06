@@ -11,6 +11,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -42,17 +43,34 @@ class MineDecoratorTest {
     }
   }
 
-  @ParameterizedTest
-  @CsvSource({
-    "volcano_mixed_results,XXXXXXXXXXXXXXXXXXXX**XXXXoo*XXXXoXX",
-    "volcano_deeply_explored,ooo*XX*oo**X*oo*o*oooooXooooooXooooX",
-  })
-  void canParseMineState(final String file, final String expected) {
-    var cleanups = new Cleanups(withProperty("mineLayout6", ""), withProperty("mineState6", ""));
+  @Test
+  void clearLayoutOnReset() {
+    var cleanups =
+        new Cleanups(
+            withProperty("mineLayout6", ""),
+            withProperty(
+                "mineState6",
+                "#9<img src=\"https://d2uyhvukfffg5a.cloudfront.net/itemimages/hp.gif\" height=30 width=30>"));
 
     try (cleanups) {
       MineDecorator.parseResponse(
-          "mining.php?mine=6", html("request/test_mining_" + file + ".html"));
+          "mining.php?mine=6&reset=1", html("request/test_mining_volcano_reset.html"));
+      assertThat("mineLayout6", isSetTo(""));
+    }
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    "volcano_mixed_results,mining.php?mine=6,XXXXXXXXXXXXXXXXXXXX**XXXXoo*XXXXoXX",
+    "volcano_deeply_explored,mining.php?mine=6,ooo*XX*oo**X*oo*o*oooooXooooooXooooX",
+    "volcano_object_detection,mining.php?mine=6,**XX*XX*XX*X*****XXXoXXXXXo*XXX*o*XX",
+    "volcano_reset,mining.php?mine=6&reset=1,*XX****XXX**XX*XX*X*X*X*XXX***XXXXXX",
+  })
+  void canParseMineState(final String file, final String url, final String expected) {
+    var cleanups = new Cleanups(withProperty("mineLayout6", ""), withProperty("mineState6", ""));
+
+    try (cleanups) {
+      MineDecorator.parseResponse(url, html("request/test_mining_" + file + ".html"));
       assertThat("mineState6", isSetTo(expected));
     }
   }

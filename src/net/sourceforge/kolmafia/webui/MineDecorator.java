@@ -154,13 +154,13 @@ public abstract class MineDecorator {
 
     var mine = StringUtilities.parseInt(m.group(1));
 
+    parseState(mine, responseText);
+
     if (location.contains("reset=1")) {
       Preferences.setString("mineLayout" + mine, "");
-      Preferences.setString("mineState" + mine, "");
       return;
     }
 
     parseResult(mine, location, responseText);
-    parseState(mine, responseText);
   }
 }
