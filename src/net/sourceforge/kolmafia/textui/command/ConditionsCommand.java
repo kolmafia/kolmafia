@@ -136,7 +136,7 @@ public class ConditionsCommand extends AbstractCommand {
       // parse the number of Leprecondo furnitures the user wishes to find
 
       String[] splitCondition = conditionString.split("\\s+");
-      int count = splitCondition.length > 1 ? StringUtilities.parseInt(splitCondition[0]) : 1;
+      int count = splitCondition.length > 2 ? StringUtilities.parseInt(splitCondition[0]) : 1;
       return GoalManager.GOAL_LEPRECONDO.getInstance(count);
     }
 
