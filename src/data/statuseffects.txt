@@ -2964,16 +2964,22 @@
 2961	Polka Dancing	crepecharm.gif	2b6b041e7fcca2a26a40682f1caf3156	neutral	none	cast 1 Embrace polka
 2962	Synthetic Buzz	coffeecup.gif	20528648bd6e3ac43c284af4efcd631f	neutral	none	use 1 synthetic coffee
 2963	Cybercrime Eyes	bigpupil.gif	94d178dfabaef344cc7591315e6bbb03	neutral	none	use 1 iDrops
-2964	Grafted	zootomist.gif	003e2e2d7de4a3fb2982c7615b1cbcdc	neutral	none
+2964	Grafted	zootomist.gif	003e2e2d7de4a3fb2982c7615b1cbcdc	neutral	nohookah
 2965	Milk of Familiar Kindness	noart.gif	49aaf365d871570cbdead2dc7e35ff26	neutral	none	cast 1 Drink The Milk of %n Kindness
 2966	Milk of Familiar Cruelty	noart.gif	ddf36c8e65632ba327f2a6e756a963c0	neutral	none	cast 1 Drink The Milk of %n Cruelty
-2967
+2967	Gym Bros	strboost.gif	5a923985bca2ac8ff398e97be083ff36	neutral	none
 2968	Well Stimulated	realbrain.gif	81a7d2b1f43590476164adf91fa8a7dc	neutral	none
 2969	Wasting Time	neckclock.gif	ac3b66c9720f2a49ce5591ff7dce90d8	neutral	none
 2970	Good Night's Sleep	sleepy.gif	f976f835884c1f71ed28c5b9d8380c03	neutral	none
-2971
-2972
-2973
-2974
-2975
+2971	Spacious Night's Sleep	sleepy.gif	87836a58f42824ba20cca7ad8b23ad28	neutral	none
+2972	Moist Night's Sleep	creepysleepy.gif	3170557c00342c8981a3d7468b9273da	neutral	none
+2973	Quiet Night's Sleep	sleepy.gif	1ae83397bc7c3f8bf0dd6a50c3a0645a	neutral	none
+2974	Work Out Smarter, Not Harder	chess4.gif	5666001c6504f8f213ba1f4994c36c38	neutral	none
+2975	Vicarious Sweat	sweaty.gif	9faa79975c99bb29d862affd9cb9d599	neutral	none
 2976	Your Days Are Numbed	tvscreen.gif	9538e8a3970b62c2d184c0517c1ab071	neutral	none
+2977	Tired Muscles	sad.gif	20ef0fcdc9feb2f460816e832ea222c4	neutral	none
+2978	Counter Intelligence	knifefork.gif	0f084d2ecdf703176f2fbddce2f5d0ef	neutral	none
+2979	Alone with Your Thoughts	shakeskull.gif	4610bcecad25a130ebdda47293db20fb	neutral	none
+2980	You Might Have Gotten Wet	watermelon.gif	1e66e3c47e8ed40930c6e846e32e2ef9	neutral	none
+2981	Sur La Table	portabletable.gif	1cf1e480f7ce07da51c613f6ad0d3a10	neutral	none
+2982	Ready for War	angry.gif	e62c60d23a0e76de9f6f09cd282ec8a3	neutral	none	chew 1 leprechaun antidepressant pill

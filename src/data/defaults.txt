@@ -399,6 +399,8 @@ user	bondWpn	false	roa
 user	boneAbacusVictories	0
 user	bookOfFactsGummi	0	roa
 user	bookOfFactsPinata	0	roa
+user	bookOfIronyAvailable	true
+user	bookOfIronyCost	1000
 user	boomBoxSong		roa
 user	booPeakProgress	100
 user	booPeakLit	false
@@ -871,6 +873,7 @@ user	iceSwagger	0
 user	implementGlitchItem	false
 user	intenseCurrents	false	roa
 user	invalidBuffMessage	You sent an amount which does not correspond to a valid buff amount.
+user	ironicSwagger	0
 user	itemBoughtPerAscension637	false	roa
 user	itemBoughtPerAscension8266	false	roa
 user	itemBoughtPerAscension10790	false	roa
@@ -1157,6 +1160,12 @@ user	mineLayout3
 user	mineLayout4
 user	mineLayout5
 user	mineLayout6
+user	mineState1
+user	mineState2
+user	mineState3
+user	mineState4
+user	mineState5
+user	mineState6
 user	miniAdvClass	0	roa
 user	miniKiwiAiolisUsed	0	roa
 user	miniMartinisDrunk	0
@@ -1237,6 +1246,7 @@ user	peteMotorbikeHeadlight
 user	peteMotorbikeCowling
 user	peteMotorbikeMuffler
 user	peteMotorbikeSeat
+user	phosphorTracesUses	0	roa
 user	photocopyMonster		roa
 user	pieStuffing
 user	pingpongSkill	0	roa
@@ -1283,6 +1293,7 @@ user	prayedForGlamour	false	roa
 user	prayedForProtection	false	roa
 user	prayedForVigor	false	roa
 user	preAscensionScript
+user	preworkoutPowderUses	0	roa
 user	primaryLabGooIntensity	10
 user	primaryLabCheerCoreGrabbed	false
 user	prismaticSummons	0	ld
@@ -2439,8 +2450,8 @@ user	_powderedMadnessUses	0
 user	_powerfulGloveBatteryPowerUsed	0
 user	_powerPillDrops	0
 user	_powerPillUses	0
-user	_precisionCasts	0
 user	_prankCardMonster
+user	_precisionCasts	0
 user	_prToday	false
 user	_psychoJarFilled	false
 user	_psychoJarUsed	false

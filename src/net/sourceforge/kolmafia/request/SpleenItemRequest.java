@@ -246,17 +246,13 @@ public class SpleenItemRequest extends UseItemRequest {
     // Perform item-specific processing
 
     switch (itemId) {
-      case ItemPool.STEEL_SPLEEN:
+      case ItemPool.STEEL_SPLEEN -> {
         if (responseText.contains("You acquire a skill")) {
           ResponseTextParser.learnSkill("Spleen of Steel");
         }
-        break;
-
-      case ItemPool.VOODOO_SNUFF:
-        Preferences.setBoolean("_voodooSnuffUsed", true);
-        break;
-
-      case ItemPool.TURKEY_BLASTER:
+      }
+      case ItemPool.VOODOO_SNUFF -> Preferences.setBoolean("_voodooSnuffUsed", true);
+      case ItemPool.TURKEY_BLASTER -> {
         if (responseText.contains("can't handle")) {
           Preferences.setInteger("_turkeyBlastersUsed", 3);
         } else {
@@ -268,53 +264,33 @@ public class SpleenItemRequest extends UseItemRequest {
 
           Preferences.increment("_turkeyBlastersUsed", count);
         }
-        break;
-
-      case ItemPool.MANSQUITO_SERUM:
-        Preferences.setBoolean("_mansquitoSerumUsed", true);
-        break;
-
-      case ItemPool.AUTHORS_INK:
-        Preferences.setBoolean("_authorsInkUsed", true);
-        break;
-
-      case ItemPool.INQUISITORS_UNIDENTIFIABLE_OBJECT:
-        Preferences.setBoolean("_inquisitorsUnidentifiableObjectUsed", true);
-        break;
-
-      case ItemPool.HOT_JELLY:
-        Preferences.increment("_hotJellyUses", count);
-        break;
-
-      case ItemPool.SPOOKY_JELLY:
-        Preferences.increment("_spookyJellyUses", count);
-        break;
-
-      case ItemPool.STENCH_JELLY:
-        Preferences.setBoolean("noncombatForcerActive", true);
-        break;
-
-      case ItemPool.NIGHTMARE_FUEL:
-        Preferences.increment("_nightmareFuelCharges", count);
-        break;
-
-      case ItemPool.HOMEBODYL:
+      }
+      case ItemPool.MANSQUITO_SERUM -> Preferences.setBoolean("_mansquitoSerumUsed", true);
+      case ItemPool.AUTHORS_INK -> Preferences.setBoolean("_authorsInkUsed", true);
+      case ItemPool.INQUISITORS_UNIDENTIFIABLE_OBJECT -> Preferences.setBoolean(
+          "_inquisitorsUnidentifiableObjectUsed", true);
+      case ItemPool.HOT_JELLY -> Preferences.increment("_hotJellyUses", count);
+      case ItemPool.SPOOKY_JELLY -> Preferences.increment("_spookyJellyUses", count);
+      case ItemPool.STENCH_JELLY -> Preferences.setBoolean("noncombatForcerActive", true);
+      case ItemPool.NIGHTMARE_FUEL -> Preferences.increment("_nightmareFuelCharges", count);
+      case ItemPool.HOMEBODYL -> {
         if (responseText.contains("You pop the pill and feel an immediate desire")) {
           Preferences.increment("homebodylCharges", 11 * count);
         }
-        break;
-
-      case ItemPool.EXTROVERMECTIN:
+      }
+      case ItemPool.EXTROVERMECTIN -> {
         if (responseText.contains("You pop the pill and are immediately overcome")) {
           Preferences.increment("beGregariousCharges", count);
         }
-        break;
-
-      case ItemPool.BREATHITIN:
+      }
+      case ItemPool.BREATHITIN -> {
         if (responseText.contains("You pop the pill in your mouth")) {
           Preferences.increment("breathitinCharges", 5 * count);
         }
-        break;
+      }
+      case ItemPool.SCOOP_OF_PREWORKOUT_POWDER -> Preferences.increment(
+          "preworkoutPowderUses", count);
+      case ItemPool.PHOSPHOR_TRACES -> Preferences.increment("phosphorTracesUses", count);
     }
   }
 

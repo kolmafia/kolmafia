@@ -7753,6 +7753,9 @@ public class FightRequest extends GenericRequest {
 
     // Leprecondo actions are tagged this way
     if (LeprecondoManager.handlePostCombatMessage(str, image)) {
+      if (status.logFamiliar) {
+        FightRequest.logText(str, status);
+      }
       return;
     }
 
@@ -9834,6 +9837,12 @@ public class FightRequest extends GenericRequest {
         if (responseText.contains("residual hot jelly heat") || skillSuccess) {
           BanishManager.banishMonster(monster, Banisher.BREATHE_OUT);
           Preferences.decrement("_hotJellyUses");
+        }
+      }
+      case SkillPool.PUNCH_OUT_YOUR_FOE -> {
+        if (responseText.contains("deliver an epic punch") || skillRunawaySuccess) {
+          BanishManager.banishMonster(monster, Banisher.PUNCH_OUT_YOUR_FOE);
+          Preferences.decrement("preworkoutPowderUses");
         }
       }
       case SkillPool.HUGS_KISSES -> {

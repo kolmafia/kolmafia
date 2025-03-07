@@ -105,6 +105,7 @@ public class BanishManager {
     PEEL_OUT("peel out", -1, 1, true, Reset.AVATAR_RESET),
     PEPPERMINT_BOMB("peppermint bomb", 100, 1, false, Reset.TURN_ROLLOVER_RESET),
     PULLED_INDIGO_TAFFY("pulled indigo taffy", 40, 1, true, Reset.TURN_RESET),
+    PUNCH_OUT_YOUR_FOE("Punch Out your Foe", 20, 1, true, Reset.TURN_RESET),
     PUNT_AOSOL("[28021]Punt", -1, 1, false, Reset.ROLLOVER_RESET),
     PUNT_WEREPROF("[7510]Punt", 40, 1, false, Reset.TURN_RESET),
     REFLEX_HAMMER("Reflex Hammer", 30, 1, true, Reset.TURN_ROLLOVER_RESET),
