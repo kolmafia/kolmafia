@@ -9839,6 +9839,12 @@ public class FightRequest extends GenericRequest {
           Preferences.decrement("_hotJellyUses");
         }
       }
+      case SkillPool.PUNCH_OUT_YOUR_FOE -> {
+        if (responseText.contains("deliver an epic punch") || skillRunawaySuccess) {
+          BanishManager.banishMonster(monster, Banisher.PUNCH_OUT_YOUR_FOE);
+          Preferences.decrement("preworkoutPowderUses");
+        }
+      }
       case SkillPool.HUGS_KISSES -> {
         if (responseText.contains("yoinks something") || skillSuccess) {
           skillSuccess = true;
