@@ -871,7 +871,9 @@ public class Evaluator {
           break;
       }
       if (val < min) this.failed = true;
-      score += weight * Math.min(val, max);
+      double effectiveValue = Math.min(val, max);
+      score += weight * effectiveValue;
+      if (val > max) this.exceeded = true;
     }
     if (!this.bonuses.isEmpty()) {
       for (AdventureResult item : equipment.values()) {
