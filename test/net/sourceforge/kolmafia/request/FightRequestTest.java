@@ -3929,6 +3929,7 @@ public class FightRequestTest {
               withProperty("leprecondoDiscovered", "1,21"),
               withProperty("leprecondoCurrentNeed"),
               withProperty("leprecondoNeedOrder"),
+              withProperty("_leprecondoFurniture", 1),
               withFight(0));
       try (cleanups) {
         SessionLoggerOutput.startStream();
@@ -3938,6 +3939,7 @@ public class FightRequestTest {
             "Round 2: Gog spots a sous vide laboratory inside the garbage disposal and runs out of his condo. He drags it back to the condo and stores it in the attic.";
         assertThat(text, containsString(expected));
         assertThat("leprecondoDiscovered", isSetTo("1,13,21"));
+        assertThat("_leprecondoFurniture", isSetTo(2));
       }
     }
 

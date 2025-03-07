@@ -293,6 +293,7 @@ public class LeprecondoManager {
     // Check for new furniture discovery
     var discovered = Furniture.byDiscovery(text);
     if (discovered != null) {
+      Preferences.increment("_leprecondoFurniture");
       Preferences.setString(
           "leprecondoDiscovered",
           Stream.concat(
