@@ -1240,6 +1240,7 @@ user	peteMotorbikeHeadlight
 user	peteMotorbikeCowling
 user	peteMotorbikeMuffler
 user	peteMotorbikeSeat
+user	phosphorTracesUses	0	roa
 user	photocopyMonster		roa
 user	pieStuffing
 user	pingpongSkill	0	roa
@@ -1286,6 +1287,7 @@ user	prayedForGlamour	false	roa
 user	prayedForProtection	false	roa
 user	prayedForVigor	false	roa
 user	preAscensionScript
+user	preworkoutPowderUses	0	roa
 user	primaryLabGooIntensity	10
 user	primaryLabCheerCoreGrabbed	false
 user	prismaticSummons	0	ld
@@ -2442,8 +2444,8 @@ user	_powderedMadnessUses	0
 user	_powerfulGloveBatteryPowerUsed	0
 user	_powerPillDrops	0
 user	_powerPillUses	0
-user	_precisionCasts	0
 user	_prankCardMonster
+user	_precisionCasts	0
 user	_prToday	false
 user	_psychoJarFilled	false
 user	_psychoJarUsed	false

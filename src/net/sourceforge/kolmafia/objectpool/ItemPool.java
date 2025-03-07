@@ -3900,6 +3900,8 @@ public class ItemPool {
   public static final int GEOFENCING_RAPIER = 11827;
   public static final int TOY_CUPID_BOW = 11837;
   public static final int LEPRECONDO = 11861;
+  public static final int SCOOP_OF_PREWORKOUT_POWDER = 11862;
+  public static final int PHOSPHOR_TRACES = 11865;
   public static final int BOOK_OF_IRONY = 11867;
 
   private ItemPool() {}
