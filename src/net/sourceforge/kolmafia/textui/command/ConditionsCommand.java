@@ -144,7 +144,7 @@ public class ConditionsCommand extends AbstractCommand {
       // parse the number of fish the user wishes to catch
 
       String[] splitCondition = conditionString.split("\\s+");
-      int count = splitCondition.length > 1 ? StringUtilities.parseInt(splitCondition[0]) : 1;
+      int count = splitCondition.length > 2 ? StringUtilities.parseInt(splitCondition[0]) : 1;
       return GoalManager.GOAL_FLOUNDRY.getInstance(count);
     }
 
