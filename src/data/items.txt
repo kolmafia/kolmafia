@@ -11150,7 +11150,7 @@
 11122	big hot pepper	635314684	sitpepper.gif	offhand	t,d	30
 11123	out-of-work circus flea	593697348	sitflea.gif	potion	t,d	10
 11124	extra-grubby grub	678177947	sitgrub.gif	none, combat	t,d	10
-11125	fire ant pheromones	852080396	sitvial.gif	potion	t,d	10	vials of fire ant pheromones 
+11125	fire ant pheromones	852080396	sitvial.gif	potion	t,d	10	vials of fire ant pheromones
 11126	flapper fly	718706223	sitfly.gif	potion	t,d	30	flapper flies
 11127	shot of wasp venom	134483080	sitshot.gif	drink	t,d	30	shots of wasp venom
 11128	filled mosquito	789078329	sitskeeter.gif	potion	t,d	30
@@ -11898,7 +11898,7 @@
 11870	bar dart	979911176	nicedart.gif	none, combat	t,d	20
 11871	leprechaun antidepressant pill	798135927	pill3.gif	spleen, usable	t,d	50
 11872	Heck ramen	412904552	bowl.gif	food	t,d	25	bowls of Heck ramen
-11873	tiny burrito	337192933	burrito.gif	food	t,d	90
+11873	tiny burrito	337192933	burrito.gif	food	t,d	20
 11874	small beer brat	250555589	brat.gif	food	t,d	20
 11875	tiny peach pie	905850738	pie.gif	food	t,d	20
 11876	incredible mini-pizza	927589892	pizza.gif	food	t,d	20
