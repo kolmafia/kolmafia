@@ -110,8 +110,7 @@ public class Evaluator {
   private final Map<AdventureResult, Double> bonuses = new HashMap<>();
   private final List<BonusFunction> bonusFunc = new ArrayList<>();
 
-  record BonusFunction(Function<AdventureResult, Double> bonusFunction, Double weight) {
-  }
+  record BonusFunction(Function<AdventureResult, Double> bonusFunction, Double weight) {}
 
   private static final Pattern MUS_EXP_PERC_PATTERN =
       Pattern.compile("^mus(cle)? exp(erience)? perc(ent(age)?)?");
@@ -329,10 +328,12 @@ public class Evaluator {
         case "empty" -> {
           for (var slot : SlotSet.ALL_SLOTS) {
             this.slots.merge(
-              slot,
-              ((int) weight)
-                * (EquipmentManager.getEquipment(slot).equals(EquipmentRequest.UNEQUIP) ? 1 : -1),
-              Integer::sum);
+                slot,
+                ((int) weight)
+                    * (EquipmentManager.getEquipment(slot).equals(EquipmentRequest.UNEQUIP)
+                        ? 1
+                        : -1),
+                Integer::sum);
           }
           continue;
         }
@@ -357,7 +358,7 @@ public class Evaluator {
         }
         case "sea" -> {
           var adventureUnderwater =
-            EnumSet.of(BooleanModifier.ADVENTURE_UNDERWATER, BooleanModifier.UNDERWATER_FAMILIAR);
+              EnumSet.of(BooleanModifier.ADVENTURE_UNDERWATER, BooleanModifier.UNDERWATER_FAMILIAR);
           this.booleanMask.addAll(adventureUnderwater);
           this.booleanValue.addAll(adventureUnderwater);
           index = null;
@@ -432,7 +433,8 @@ public class Evaluator {
           // Mysticality plumber item
           AdventureResult item1 = pickPlumberTool(1);
           if (item1 == null) {
-            KoLmafia.updateDisplay(MafiaState.ERROR, "You don't have an appropriate flower to wield");
+            KoLmafia.updateDisplay(
+                MafiaState.ERROR, "You don't have an appropriate flower to wield");
             return;
           }
           AdventureResult item2 = ItemPool.get(ItemPool.FROSTY_BUTTON);
@@ -1396,7 +1398,8 @@ public class Evaluator {
 
         boolean wrongClass = false;
         String classType = mods.getString(StringModifier.CLASS);
-        if (!Objects.equals(classType, "") && !classType.equals(KoLCharacter.getAscensionClassName())) {
+        if (!Objects.equals(classType, "")
+            && !classType.equals(KoLCharacter.getAscensionClassName())) {
           wrongClass = true;
         }
 
@@ -1839,7 +1842,7 @@ public class Evaluator {
           compareItemNo--;
         } else {
           compareSpec.equipment.put(
-            slot1, speculationList.get(slot1SpecLookup).get(compareItemNo).attachment);
+              slot1, speculationList.get(slot1SpecLookup).get(compareItemNo).attachment);
           break;
         }
         if (compareItemNo < 0) {
@@ -2121,7 +2124,8 @@ public class Evaluator {
               if (checkItemList != null) {
                 for (CheckedItem checkItem : checkItemList) {
                   FoldGroup checkGroup = ItemDatabase.getFoldGroup(checkItem.getName());
-                  if (checkGroup != null && group.names.getFirst().equals(checkGroup.names.getFirst())) {
+                  if (checkGroup != null
+                      && group.names.getFirst().equals(checkGroup.names.getFirst())) {
                     foldItemsNeeded += Math.max(checkItem.getCount(), this.maxUseful(checkSlot));
                   }
                 }
@@ -2139,7 +2143,8 @@ public class Evaluator {
                 while (checkIterator.hasPrevious()) {
                   CheckedItem checkItem = checkIterator.previous().attachment;
                   FoldGroup checkGroup = ItemDatabase.getFoldGroup(checkItem.getName());
-                  if (checkGroup != null && group.names.getFirst().equals(checkGroup.names.getFirst())) {
+                  if (checkGroup != null
+                      && group.names.getFirst().equals(checkGroup.names.getFirst())) {
                     if (usefulCheckCount > 0 || checkItem.requiredFlag) {
                       foldItemsNeeded += Math.max(checkItem.getCount(), this.maxUseful(checkSlot));
                     }
