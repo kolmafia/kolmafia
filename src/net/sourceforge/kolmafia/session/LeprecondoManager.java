@@ -293,6 +293,7 @@ public class LeprecondoManager {
     // Check for new furniture discovery
     var discovered = Furniture.byDiscovery(text);
     if (discovered != null) {
+      Preferences.increment("_leprecondoFurniture");
       Preferences.setString(
           "leprecondoDiscovered",
           Stream.concat(
@@ -304,6 +305,7 @@ public class LeprecondoManager {
               .distinct()
               .map(String::valueOf)
               .collect(Collectors.joining(",")));
+      GoalManager.updateProgress(GoalManager.GOAL_LEPRECONDO);
       return true;
     }
 

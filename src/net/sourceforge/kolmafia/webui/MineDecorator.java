@@ -1,7 +1,9 @@
 package net.sourceforge.kolmafia.webui;
 
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RestrictedItemType;
@@ -20,7 +22,7 @@ public abstract class MineDecorator {
       Pattern.compile(
           "<td.*?src=['\"](.*?)['\"].*?alt=['\"](.*?) \\(([\\d+]),([\\d+])\\)['\"].*?</td>");
 
-  public static final void decorate(final String location, final StringBuffer buffer) {
+  public static void decorate(final String location, final StringBuffer buffer) {
     // Replace difficult to see sparkles with more obvious images
     StringUtilities.globalStringReplace(
         buffer,
@@ -69,7 +71,58 @@ public abstract class MineDecorator {
     m.appendTail(buffer);
   }
 
-  public static final void parseResponse(final String location, final String responseText) {
+  private static final Pattern MINE_STATE =
+      Pattern.compile("alt='([^(]*?) \\(([123456]),([123456])\\)'");
+
+  private static void parseState(final int mine, final String responseText) {
+    var state =
+        MINE_STATE
+            .matcher(responseText)
+            .results()
+            .map(
+                m -> {
+                  var linear =
+                      ((StringUtilities.parseInt(m.group(3)) - 1) * 6)
+                          + (StringUtilities.parseInt(m.group(2)) - 1);
+                  var code =
+                      switch (m.group(1)) {
+                        case "Open Cavern" -> "o";
+                        case "Promising Chunk of Wall" -> "*";
+                        case "Rocky Wall" -> "X";
+                        default -> "?";
+                      };
+                  return Map.entry(linear, code);
+                })
+            .sorted(Map.Entry.comparingByKey())
+            .map(Map.Entry::getValue)
+            .collect(Collectors.joining());
+
+    Preferences.setString("mineState" + mine, state);
+  }
+
+  private static void parseResult(
+      final int mine, final String location, final String responseText) {
+    var m = WHICH_PATTERN.matcher(location);
+    if (!m.find()
+        || (!responseText.contains("You acquire")
+            && !responseText.contains(
+                "/itemimages/hp.gif\" height=30 width=30></td><td valign=center class=effect>"))) {
+      return;
+    }
+
+    var which = m.group(1);
+    m = IMG_PATTERN.matcher(responseText);
+
+    if (!m.find()) {
+      return;
+    }
+
+    var pref = "mineLayout" + mine;
+
+    Preferences.setString(pref, Preferences.getString(pref) + "#" + which + m.group(0));
+  }
+
+  public static void parseResponse(final String location, final String responseText) {
     if (KoLCharacter.hasSkill(SkillPool.UNACCOMPANIED_MINER)
         && StandardRequest.isAllowed(RestrictedItemType.SKILLS, "Unaccompanied Miner")
         && Preferences.getInteger("_unaccompaniedMinerUsed") < 5) {
@@ -83,9 +136,8 @@ public abstract class MineDecorator {
 
     if (Preferences.getInteger("lastMiningReset") != KoLCharacter.getAscensions()) {
       for (int i = 1; i < 10; ++i) {
-        if (Preferences.getString("mineLayout" + i).length() > 0) {
-          Preferences.setString("mineLayout" + i, "");
-        }
+        Preferences.setString("mineLayout" + i, "");
+        Preferences.setString("mineState" + i, "");
       }
       Preferences.setInteger("lastMiningReset", KoLCharacter.getAscensions());
     }
@@ -99,23 +151,16 @@ public abstract class MineDecorator {
     if (!m.find()) {
       return;
     }
-    String pref = "mineLayout" + m.group(1);
-    if (location.indexOf("reset=1") != -1) {
-      Preferences.setString(pref, "");
+
+    var mine = StringUtilities.parseInt(m.group(1));
+
+    parseState(mine, responseText);
+
+    if (location.contains("reset=1")) {
+      Preferences.setString("mineLayout" + mine, "");
       return;
     }
-    m = WHICH_PATTERN.matcher(location);
-    if (!m.find()
-        || (!responseText.contains("You acquire")
-            && !responseText.contains(
-                "/itemimages/hp.gif\" height=30 width=30></td><td valign=center class=effect>"))) {
-      return;
-    }
-    String which = m.group(1);
-    m = IMG_PATTERN.matcher(responseText);
-    if (!m.find()) {
-      return;
-    }
-    Preferences.setString(pref, Preferences.getString(pref) + "#" + which + m.group(0));
+
+    parseResult(mine, location, responseText);
   }
 }
