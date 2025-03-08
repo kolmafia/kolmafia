@@ -2297,6 +2297,23 @@ public class QuestManager {
           "shadow matrix" -> {
         QuestDatabase.setQuestProgress(Quest.RUFUS, "step1");
       }
+      case "man with the red buttons", "red butler", "red skeleton", "Red Fox" -> {
+        if (responseText.contains("you do get a slightly better sense of the ship")) {
+          Preferences.setInteger("zeppelinProgress", 1);
+        } else if (responseText.contains("looking for a clue as to the leader")) {
+          Preferences.setInteger("zeppelinProgress", 2);
+        } else if (responseText.contains("cabin is probably one of the best ones")) {
+          Preferences.setInteger("zeppelinProgress", 3);
+        } else if (responseText.contains("unlock every door on the zeppelin")) {
+          Preferences.setInteger("zeppelinProgress", 4);
+        } else if (responseText.contains(
+            "you finally manage to figure out where the nicer cabins are")) {
+          Preferences.setInteger("zeppelinProgress", 5);
+        } else if (responseText.contains("inevitable confrontation with Ron Copperhead")) {
+          Preferences.setInteger("zeppelinProgress", 6);
+          QuestDatabase.setQuestProgress(Quest.RON, "step4");
+        }
+      }
     }
 
     int adventure = KoLAdventure.lastAdventureId();
@@ -2376,12 +2393,6 @@ public class QuestManager {
           RequestLogger.printLine("Set fire to " + flamingProtesters + " protesters");
         } else {
           Preferences.increment("zeppelinProtestors", 1);
-        }
-        break;
-
-      case AdventurePool.RED_ZEPPELIN:
-        if (responseText.contains("inevitable confrontation with Ron Copperhead")) {
-          QuestDatabase.setQuestProgress(Quest.RON, "step4");
         }
         break;
 
