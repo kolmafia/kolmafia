@@ -721,13 +721,11 @@ public class Evaluator {
     // Find the best plumber tool
     return switch (primeIndex) {
       case 0 -> // Muscle
-      false ? heavyHammer : haveHeavyHammer ? heavyHammer : haveHammer ? hammer : null;
+      haveHeavyHammer ? heavyHammer : haveHammer ? hammer : null;
       case 1 -> // Mysticality
-      false
-          ? bonfireFlower
-          : haveBonfireFlower ? bonfireFlower : haveFireFlower ? fireFlower : null;
+      haveBonfireFlower ? bonfireFlower : haveFireFlower ? fireFlower : null;
       case 2 -> // Moxie
-      false ? fancyBoots : haveFancyBoots ? fancyBoots : haveWorkBoots ? workBoots : null;
+      haveFancyBoots ? fancyBoots : haveWorkBoots ? workBoots : null;
       default ->
       // If you don't care about stat, pick the best item you own.
       haveHeavyHammer
