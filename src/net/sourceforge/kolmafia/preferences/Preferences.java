@@ -226,95 +226,100 @@ public class Preferences {
         new File(KoLConstants.SETTINGS_LOCATION, Preferences.baseUserName(username) + "_prefs.txt");
     File backupFile =
         new File(KoLConstants.SETTINGS_LOCATION, Preferences.baseUserName(username) + "_prefs.bak");
-    Preferences.userPropertiesFile = userPrefsFile;
 
-    Properties p = Preferences.loadPreferences(userPrefsFile);
+    synchronized (lock) {
+      Properties p = Preferences.loadPreferences(userPrefsFile);
 
-    if (p.size() == 0) {
-      // Something went wrong reading the preferences.
-      if (backupFile.exists()) {
-        KoLmafia.updateDisplay(
-            userPrefsFile
-                + " could not be read, loading backup. "
-                + "This will restore the last successfully opened preferences");
-        // also tell system out, in case things are really fubar
-        System.out.println("Prefs could not be read and backup exists, trying backup. ");
+      if (p.size() == 0) {
+        // Something went wrong reading the preferences.
+        if (backupFile.exists()) {
+          KoLmafia.updateDisplay(
+              userPrefsFile
+                  + " could not be read, loading backup. "
+                  + "This will restore the last successfully opened preferences");
+          // also tell system out, in case things are really fubar
+          System.out.println("Prefs could not be read and backup exists, trying backup. ");
 
-        p = Preferences.loadPreferences(backupFile);
+          p = Preferences.loadPreferences(backupFile);
 
-        if (p.size() > 0) {
-          try {
-            Files.copy(
-                backupFile.toPath(), userPrefsFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+          if (p.size() > 0) {
+            try {
+              Files.copy(
+                  backupFile.toPath(), userPrefsFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
-          } catch (IOException ex) {
+            } catch (IOException ex) {
 
-            KoLmafia.updateDisplay(
-                "Error when restoring preferences from backup,  see session log for details");
-            RequestLogger.updateSessionLog(
-                userPrefsFile
-                    + " could not be read and backup was used. KoLmafia was unable to copy your backup file to "
-                    + "your preferences file and received error message:"
-                    + ex.getMessage()
-                    + "\nIf this is unexpected, please manually review your preferences and backup and repair any problems."
-                    + " If you have a damaged preferences file, "
-                    + "please consider creating a bug report on the forum, noting any special circumstances around "
-                    + "the failure, and attaching the preferences.");
+              KoLmafia.updateDisplay(
+                  "Error when restoring preferences from backup,  see session log for details");
+              RequestLogger.updateSessionLog(
+                  userPrefsFile
+                      + " could not be read and backup was used. KoLmafia was unable to copy your backup file to "
+                      + "your preferences file and received error message:"
+                      + ex.getMessage()
+                      + "\nIf this is unexpected, please manually review your preferences and backup and repair any problems."
+                      + " If you have a damaged preferences file, "
+                      + "please consider creating a bug report on the forum, noting any special circumstances around "
+                      + "the failure, and attaching the preferences.");
+            }
           }
+        } else {
+          KoLmafia.updateDisplay("Preferences could not be read and no backup exists.");
+          RequestLogger.updateSessionLog(
+              userPrefsFile
+                  + " could not be read and backup there is no backup file found. "
+                  + "If this is unexpected, please manually inspect "
+                  + "your preferences file and repair any problems.  If you have a damaged preferences file, "
+                  + "please consider creating a bug report on the forum, noting any special circumstances around "
+                  + "the failure, and attaching the preferences.");
         }
       } else {
-        KoLmafia.updateDisplay("Preferences could not be read and no backup exists.");
-        RequestLogger.updateSessionLog(
-            userPrefsFile
-                + " could not be read and backup there is no backup file found. "
-                + "If this is unexpected, please manually inspect "
-                + "your preferences file and repair any problems.  If you have a damaged preferences file, "
-                + "please consider creating a bug report on the forum, noting any special circumstances around "
-                + "the failure, and attaching the preferences.");
-      }
-    } else {
-      try {
-        Files.copy(
-            userPrefsFile.toPath(), backupFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-      } catch (IOException ex) {
-        System.out.println("I/O Error when creating backup preferences file: " + ex.getMessage());
-        RequestLogger.updateSessionLog(
-            userPrefsFile
-                + " backup creation failed. Please manually inspect "
-                + "your preferences and backup files and repair any problems.  If you have a damaged preferences file, "
-                + "please consider creating a bug report on the forum, noting any special circumstances around "
-                + "the failure, and attaching the preferences.");
-      }
-    }
-    Preferences.userValues.clear();
-    Preferences.userEncodedValues.clear();
-
-    for (Entry<Object, Object> currentEntry : p.entrySet()) {
-      String key = (String) currentEntry.getKey();
-      String value = (String) currentEntry.getValue();
-
-      Preferences.putUser(key, value);
-    }
-
-    for (Entry<String, String> entry : Preferences.userNames.entrySet()) {
-      String key = entry.getKey();
-      if (Preferences.userValues.containsKey(key)) {
-        continue;
+        try {
+          Files.copy(
+              userPrefsFile.toPath(), backupFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException ex) {
+          System.out.println("I/O Error when creating backup preferences file: " + ex.getMessage());
+          RequestLogger.updateSessionLog(
+              userPrefsFile
+                  + " backup creation failed. Please manually inspect "
+                  + "your preferences and backup files and repair any problems.  If you have a damaged preferences file, "
+                  + "please consider creating a bug report on the forum, noting any special circumstances around "
+                  + "the failure, and attaching the preferences.");
+        }
       }
 
-      // If a user property in defaults.txt was not in
-      // NAME_prefs.txt, add to user map with default value
-      // (this is how we add a new user property)
-      //
-      // If it had a value in the GLOBAL map, use that (this
-      // is how we migrate a preference from GLOBAL to user)
-      String value =
-          Preferences.globalValues.containsKey(key)
-              ? (String) Preferences.globalValues.get(key)
-              : entry.getValue();
+      Preferences.userPropertiesFile = null;
+      Preferences.userValues.clear();
+      Preferences.userEncodedValues.clear();
 
-      // System.out.println( "Adding new built-in user setting: " + key );
-      Preferences.putUser(key, value);
+      for (Entry<Object, Object> currentEntry : p.entrySet()) {
+        String key = (String) currentEntry.getKey();
+        String value = (String) currentEntry.getValue();
+
+        Preferences.putUser(key, value);
+      }
+
+      for (Entry<String, String> entry : Preferences.userNames.entrySet()) {
+        String key = entry.getKey();
+        if (Preferences.userValues.containsKey(key)) {
+          continue;
+        }
+
+        // If a user property in defaults.txt was not in
+        // NAME_prefs.txt, add to user map with default value
+        // (this is how we add a new user property)
+        //
+        // If it had a value in the GLOBAL map, use that (this
+        // is how we migrate a preference from GLOBAL to user)
+        String value =
+            Preferences.globalValues.containsKey(key)
+                ? (String) Preferences.globalValues.get(key)
+                : entry.getValue();
+
+        // System.out.println( "Adding new built-in user setting: " + key );
+        Preferences.putUser(key, value);
+      }
+
+      Preferences.userPropertiesFile = userPrefsFile;
     }
   }
 
