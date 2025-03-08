@@ -71,8 +71,8 @@ public class Evaluator {
   private int raveosity = 0;
   private int surgeonosity = 0;
   private int beeosity = 2;
-  private EnumSet<BooleanModifier> booleanMask = EnumSet.noneOf(BooleanModifier.class);
-  private Set<BooleanModifier> booleanValue = EnumSet.noneOf(BooleanModifier.class);
+  private final EnumSet<BooleanModifier> booleanMask = EnumSet.noneOf(BooleanModifier.class);
+  private final Set<BooleanModifier> booleanValue = EnumSet.noneOf(BooleanModifier.class);
   private final List<FamiliarData> familiars = new ArrayList<>();
   private final List<FamiliarData> carriedFamiliars = new ArrayList<>();
   private int carriedFamiliarsNeeded = 0;
@@ -109,14 +109,7 @@ public class Evaluator {
   private final Map<AdventureResult, Double> bonuses = new HashMap<>();
   private final List<BonusFunction> bonusFunc = new ArrayList<>();
 
-  static class BonusFunction {
-    public final Function<AdventureResult, Double> bonusFunction;
-    public final Double weight;
-
-    public BonusFunction(Function<AdventureResult, Double> bonusFunction, Double weight) {
-      this.bonusFunction = bonusFunction;
-      this.weight = weight;
-    }
+  record BonusFunction(Function<AdventureResult, Double> bonusFunction, Double weight) {
   }
 
   private static final Pattern MUS_EXP_PERC_PATTERN =
@@ -191,14 +184,15 @@ public class Evaluator {
   }
 
   private static Slot toUseSlot(Slot slot) {
-    Slot useSlot =
-        switch (slot) {
-          case /* Evaluator.OFFHAND_MELEE */ ACCESSORY2, /* Evaluator.OFFHAND_RANGED */
-              ACCESSORY3 -> Slot.OFFHAND;
-          case /* Evaluator.WEAPON_1H */ STICKER3 -> Slot.WEAPON;
-          default -> slot;
-        };
-    return useSlot;
+    /* Evaluator.OFFHAND_MELEE */
+    /* Evaluator.OFFHAND_RANGED */
+    /* Evaluator.WEAPON_1H */
+    return switch (slot) {
+      case /* Evaluator.OFFHAND_MELEE */ ACCESSORY2, /* Evaluator.OFFHAND_RANGED */
+          ACCESSORY3 -> Slot.OFFHAND;
+      case /* Evaluator.WEAPON_1H */ STICKER3 -> Slot.WEAPON;
+      default -> slot;
+    };
   }
 
   private Evaluator() {
@@ -249,27 +243,27 @@ public class Evaluator {
       if (keyword.startsWith("\"") && keyword.endsWith("\"")) {
         keyword = keyword.substring(1, keyword.length() - 1).trim();
       }
-      if (keyword.equals("min")) {
-        if (index != null) {
-          this.min.put(index, weight);
-        } else {
-          this.totalMin = weight;
+      switch (keyword) {
+        case "min" -> {
+          if (index != null) {
+            this.min.put(index, weight);
+          } else {
+            this.totalMin = weight;
+          }
+          continue;
         }
-        continue;
-      }
-
-      if (keyword.equals("max")) {
-        if (index != null) {
-          this.max.put(index, weight);
-        } else {
-          this.totalMax = weight;
+        case "max" -> {
+          if (index != null) {
+            this.max.put(index, weight);
+          } else {
+            this.totalMax = weight;
+          }
+          continue;
         }
-        continue;
-      }
-
-      if (keyword.equals("dump")) {
-        this.dump = (int) weight;
-        continue;
+        case "dump" -> {
+          this.dump = (int) weight;
+          continue;
+        }
       }
 
       if (keyword.startsWith("hand")) {
@@ -296,90 +290,80 @@ public class Evaluator {
         continue;
       }
 
-      if (keyword.equals("club")) {
-        this.requireClub = weight > 0.0;
-        continue;
-      }
-
-      if (keyword.equals("shield")) {
-        this.requireShield = weight > 0.0;
-        forcedModeables.put(Modeable.UMBRELLA, "forward-facing");
-        this.hands = 1;
-        continue;
-      }
-
-      if (keyword.equals("utensil")) {
-        this.requireUtensil = weight > 0.0;
-        continue;
-      }
-      if (keyword.equals("sword")) {
-        this.requireSword = weight > 0.0;
-        continue;
-      }
-
-      if (keyword.equals("knife")) {
-        this.requireKnife = weight > 0.0;
-        continue;
-      }
-
-      if (keyword.equals("accordion")) {
-        this.requireAccordion = weight > 0.0;
-        continue;
-      }
-
-      if (keyword.equals("melee")) {
-        this.melee = (int) (weight * 2.0);
-        continue;
-      }
-
-      if (keyword.equals("effective")) {
-        this.effective = weight > 0.0;
-        continue;
-      }
-
-      if (keyword.equals("empty")) {
-        for (var slot : SlotSet.ALL_SLOTS) {
-          this.slots.merge(
+      switch (keyword) {
+        case "club" -> {
+          this.requireClub = weight > 0.0;
+          continue;
+        }
+        case "shield" -> {
+          this.requireShield = weight > 0.0;
+          forcedModeables.put(Modeable.UMBRELLA, "forward-facing");
+          this.hands = 1;
+          continue;
+        }
+        case "utensil" -> {
+          this.requireUtensil = weight > 0.0;
+          continue;
+        }
+        case "sword" -> {
+          this.requireSword = weight > 0.0;
+          continue;
+        }
+        case "knife" -> {
+          this.requireKnife = weight > 0.0;
+          continue;
+        }
+        case "accordion" -> {
+          this.requireAccordion = weight > 0.0;
+          continue;
+        }
+        case "melee" -> {
+          this.melee = (int) (weight * 2.0);
+          continue;
+        }
+        case "effective" -> {
+          this.effective = weight > 0.0;
+          continue;
+        }
+        case "empty" -> {
+          for (var slot : SlotSet.ALL_SLOTS) {
+            this.slots.merge(
               slot,
               ((int) weight)
-                  * (EquipmentManager.getEquipment(slot).equals(EquipmentRequest.UNEQUIP) ? 1 : -1),
+                * (EquipmentManager.getEquipment(slot).equals(EquipmentRequest.UNEQUIP) ? 1 : -1),
               Integer::sum);
+          }
+          continue;
         }
-        continue;
-      }
-
-      if (keyword.equals("clownosity")) {
-        // If no weight specified, assume 100%
-        this.clownosity = (m.end(2) == m.start(2)) ? 100 : (int) weight * 25;
-        continue;
-      }
-
-      if (keyword.equals("raveosity")) {
-        // If no weight specified, assume 7
-        this.raveosity = (m.end(2) == m.start(2)) ? 7 : (int) weight;
-        continue;
-      }
-
-      if (keyword.equals("surgeonosity")) {
-        // If no weight specified, assume 5
-        this.surgeonosity = (m.end(2) == m.start(2)) ? 5 : (int) weight;
-        continue;
-      }
-
-      if (keyword.equals("beeosity")) {
-        this.beeosity = (int) weight;
-        continue;
-      }
-
-      if (keyword.equals("sea")) {
-        var adventureUnderwater =
+        case "clownosity" -> {
+          // If no weight specified, assume 100%
+          this.clownosity = (m.end(2) == m.start(2)) ? 100 : (int) weight * 25;
+          continue;
+        }
+        case "raveosity" -> {
+          // If no weight specified, assume 7
+          this.raveosity = (m.end(2) == m.start(2)) ? 7 : (int) weight;
+          continue;
+        }
+        case "surgeonosity" -> {
+          // If no weight specified, assume 5
+          this.surgeonosity = (m.end(2) == m.start(2)) ? 5 : (int) weight;
+          continue;
+        }
+        case "beeosity" -> {
+          this.beeosity = (int) weight;
+          continue;
+        }
+        case "sea" -> {
+          var adventureUnderwater =
             EnumSet.of(BooleanModifier.ADVENTURE_UNDERWATER, BooleanModifier.UNDERWATER_FAMILIAR);
-        this.booleanMask.addAll(adventureUnderwater);
-        this.booleanValue.addAll(adventureUnderwater);
-        index = null;
-        // Force Crown of Ed to Fish
-        forcedModeables.put(Modeable.EDPIECE, "fish");
-        continue;
+          this.booleanMask.addAll(adventureUnderwater);
+          this.booleanValue.addAll(adventureUnderwater);
+          index = null;
+          // Force Crown of Ed to Fish
+          forcedModeables.put(Modeable.EDPIECE, "fish");
+          continue;
+        }
       }
 
       if (keyword.startsWith("equip ")) {
@@ -409,7 +393,7 @@ public class Evaluator {
 
       if (keyword.startsWith("letter")) {
         keyword = keyword.substring(6).trim();
-        if (keyword.equals("")) { // no keyword counts letters
+        if (keyword.isEmpty()) { // no keyword counts letters
           this.bonusFunc.add(new BonusFunction(LetterBonus::letterBonus, weight));
         } else {
           String finalKeyword = keyword;
@@ -419,47 +403,47 @@ public class Evaluator {
         continue;
       }
 
-      if (keyword.equals("number")) {
-        this.bonusFunc.add(new BonusFunction(LetterBonus::numberBonus, weight));
-        continue;
-      }
-
-      if (keyword.equals("plumber")) {
-        if (!KoLCharacter.isPlumber()) {
-          KoLmafia.updateDisplay(MafiaState.ERROR, "You are not a Plumber");
-          return;
+      switch (keyword) {
+        case "number" -> {
+          this.bonusFunc.add(new BonusFunction(LetterBonus::numberBonus, weight));
+          continue;
         }
-        // Pick a tool that matches your prime stat
-        AdventureResult item = pickPlumberTool(KoLCharacter.getPrimeIndex(), true);
-        if (item == null) {
-          // Otherwise, pick best available tool
-          // You are guaranteed to have work boots, at least
-          item = pickPlumberTool(-1, true);
+        case "plumber" -> {
+          if (!KoLCharacter.isPlumber()) {
+            KoLmafia.updateDisplay(MafiaState.ERROR, "You are not a Plumber");
+            return;
+          }
+          // Pick a tool that matches your prime stat
+          AdventureResult item = pickPlumberTool(KoLCharacter.getPrimeIndex(), true);
+          if (item == null) {
+            // Otherwise, pick best available tool
+            // You are guaranteed to have work boots, at least
+            item = pickPlumberTool(-1, true);
+          }
+          this.posEquip.add(item);
+          continue;
         }
-        this.posEquip.add(item);
-        continue;
-      }
-
-      if (keyword.equals("cold plumber")) {
-        if (!KoLCharacter.isPlumber()) {
-          KoLmafia.updateDisplay(MafiaState.ERROR, "You are not a Plumber");
-          return;
+        case "cold plumber" -> {
+          if (!KoLCharacter.isPlumber()) {
+            KoLmafia.updateDisplay(MafiaState.ERROR, "You are not a Plumber");
+            return;
+          }
+          // Mysticality plumber item
+          AdventureResult item1 = pickPlumberTool(1, true);
+          if (item1 == null) {
+            KoLmafia.updateDisplay(MafiaState.ERROR, "You don't have an appropriate flower to wield");
+            return;
+          }
+          AdventureResult item2 = ItemPool.get(ItemPool.FROSTY_BUTTON);
+          this.posEquip.add(item1);
+          this.posEquip.add(item2);
+          continue;
         }
-        // Mysticality plumber item
-        AdventureResult item1 = pickPlumberTool(1, true);
-        if (item1 == null) {
-          KoLmafia.updateDisplay(MafiaState.ERROR, "You don't have an appropriate flower to wield");
-          return;
-        }
-        AdventureResult item2 = ItemPool.get(ItemPool.FROSTY_BUTTON);
-        this.posEquip.add(item1);
-        this.posEquip.add(item2);
-        continue;
       }
 
       if (keyword.startsWith("outfit")) {
         keyword = keyword.substring(6).trim();
-        if (keyword.equals("")) { // allow "+outfit" to mean "keep the current outfit on"
+        if (keyword.isEmpty()) { // allow "+outfit" to mean "keep the current outfit on"
           keyword = KoLCharacter.currentStringModifier(StringModifier.OUTFIT);
         }
         SpecialOutfit outfit = EquipmentManager.getMatchingOutfit(keyword);
@@ -542,36 +526,38 @@ public class Evaluator {
 
       // Match keyword with multiple modifiers
       if (index == null) {
-        if (keyword.equals("all resistance")) {
-          this.weight.set(DoubleModifier.COLD_RESISTANCE, weight);
-          this.weight.set(DoubleModifier.HOT_RESISTANCE, weight);
-          this.weight.set(DoubleModifier.SLEAZE_RESISTANCE, weight);
-          this.weight.set(DoubleModifier.SPOOKY_RESISTANCE, weight);
-          this.weight.set(DoubleModifier.STENCH_RESISTANCE, weight);
-          continue;
-        }
-        if (keyword.equals("elemental damage")) {
-          this.weight.set(DoubleModifier.COLD_DAMAGE, weight);
-          this.weight.set(DoubleModifier.HOT_DAMAGE, weight);
-          this.weight.set(DoubleModifier.SLEAZE_DAMAGE, weight);
-          this.weight.set(DoubleModifier.SPOOKY_DAMAGE, weight);
-          this.weight.set(DoubleModifier.STENCH_DAMAGE, weight);
-          continue;
-        }
-        if (keyword.equals("hp regen")) {
-          this.weight.set(DoubleModifier.HP_REGEN_MIN, weight / 2);
-          this.weight.set(DoubleModifier.HP_REGEN_MAX, weight / 2);
-          continue;
-        }
-        if (keyword.equals("mp regen")) {
-          this.weight.set(DoubleModifier.MP_REGEN_MIN, weight / 2);
-          this.weight.set(DoubleModifier.MP_REGEN_MAX, weight / 2);
-          continue;
-        }
-        if (keyword.equals("passive damage")) {
-          this.weight.set(DoubleModifier.DAMAGE_AURA, weight);
-          this.weight.set(DoubleModifier.THORNS, weight);
-          continue;
+        switch (keyword) {
+          case "all resistance" -> {
+            this.weight.set(DoubleModifier.COLD_RESISTANCE, weight);
+            this.weight.set(DoubleModifier.HOT_RESISTANCE, weight);
+            this.weight.set(DoubleModifier.SLEAZE_RESISTANCE, weight);
+            this.weight.set(DoubleModifier.SPOOKY_RESISTANCE, weight);
+            this.weight.set(DoubleModifier.STENCH_RESISTANCE, weight);
+            continue;
+          }
+          case "elemental damage" -> {
+            this.weight.set(DoubleModifier.COLD_DAMAGE, weight);
+            this.weight.set(DoubleModifier.HOT_DAMAGE, weight);
+            this.weight.set(DoubleModifier.SLEAZE_DAMAGE, weight);
+            this.weight.set(DoubleModifier.SPOOKY_DAMAGE, weight);
+            this.weight.set(DoubleModifier.STENCH_DAMAGE, weight);
+            continue;
+          }
+          case "hp regen" -> {
+            this.weight.set(DoubleModifier.HP_REGEN_MIN, weight / 2);
+            this.weight.set(DoubleModifier.HP_REGEN_MAX, weight / 2);
+            continue;
+          }
+          case "mp regen" -> {
+            this.weight.set(DoubleModifier.MP_REGEN_MIN, weight / 2);
+            this.weight.set(DoubleModifier.MP_REGEN_MAX, weight / 2);
+            continue;
+          }
+          case "passive damage" -> {
+            this.weight.set(DoubleModifier.DAMAGE_AURA, weight);
+            this.weight.set(DoubleModifier.THORNS, weight);
+            continue;
+          }
         }
       }
 
@@ -888,7 +874,7 @@ public class Evaluator {
       }
     }
     // Add fudge factor for Rollover Effect
-    if (mods.getString(StringModifier.ROLLOVER_EFFECT).length() > 0) {
+    if (!mods.getString(StringModifier.ROLLOVER_EFFECT).isEmpty()) {
       score += 0.01f;
     }
     if (score < this.totalMin) this.failed = true;
@@ -913,7 +899,7 @@ public class Evaluator {
       if (osity < this.surgeonosity) this.failed = true;
     }
     if (!this.failed
-        && this.booleanMask.size() != 0
+        && !this.booleanMask.isEmpty()
         && !mods.getBooleans(this.booleanMask).equals(this.booleanValue)) {
       this.failed = true;
     }
@@ -976,7 +962,7 @@ public class Evaluator {
     if (mods == null) return Constraint.IRRELEVANT;
     EnumSet<BooleanModifier> bools = mods.getBooleans(this.booleanMask);
     if (!this.booleanValue.containsAll(bools)) return Constraint.VIOLATES;
-    if (bools.size() != 0) return Constraint.MEETS;
+    if (!bools.isEmpty()) return Constraint.MEETS;
     return Constraint.IRRELEVANT;
   }
 
@@ -1084,7 +1070,7 @@ public class Evaluator {
     int usefulSynergies = 0;
     for (Entry<String, Integer> entry : ModifierDatabase.getSynergies()) {
       Modifiers mods = ModifierDatabase.getModifiers(ModifierType.SYNERGY, entry.getKey());
-      int value = entry.getValue().intValue();
+      int value = entry.getValue();
       if (mods == null) continue;
       double delta = this.getScore(mods) - nullScore;
       if (delta > 0.0) usefulSynergies |= value;
@@ -1158,7 +1144,7 @@ public class Evaluator {
         }
 
         if (item.getCount() != 0
-            && (this.getScore(familiarMods) - nullScore > 0.0 || item.automaticFlag == true)) {
+            && (this.getScore(familiarMods) - nullScore > 0.0 || item.automaticFlag)) {
           ranked.get(Slot.FAMILIAR).add(item);
         }
       }
@@ -1194,7 +1180,7 @@ public class Evaluator {
         }
 
         if (item.getCount() != 0
-            && (this.getScore(familiarMods) - nullScore > 0.0 || item.automaticFlag == true)) {
+            && (this.getScore(familiarMods) - nullScore > 0.0 || item.automaticFlag)) {
           ranked.getFamiliar(f).add(item);
         }
       }
@@ -1232,7 +1218,7 @@ public class Evaluator {
               continue;
             }
             String type = EquipmentDatabase.getItemType(id);
-            if (this.weaponType != null && type.indexOf(this.weaponType) == -1) {
+            if (this.weaponType != null && !type.contains(this.weaponType)) {
               continue;
             }
             if (hands == 1) {
@@ -1503,7 +1489,7 @@ public class Evaluator {
         }
 
         String intrinsic = mods.getString(StringModifier.INTRINSIC_EFFECT);
-        if (intrinsic.length() > 0) {
+        if (!intrinsic.isEmpty()) {
           Modifiers newMods = new Modifiers();
           newMods.add(mods);
           newMods.add(ModifierDatabase.getModifiers(ModifierType.EFFECT, intrinsic));
@@ -1785,7 +1771,7 @@ public class Evaluator {
     // Compare synergies with best items in the same spots, and remove automatic flag if not better
     for (Entry<String, Integer> entry : ModifierDatabase.getSynergies()) {
       String synergy = entry.getKey();
-      int mask = entry.getValue().intValue();
+      int mask = entry.getValue();
       int index = synergy.indexOf("/");
       String itemName1 = synergy.substring(0, index);
       String itemName2 = synergy.substring(index + 1);
@@ -1843,7 +1829,6 @@ public class Evaluator {
       MaximizerSpeculation synergySpec = new MaximizerSpeculation();
       MaximizerSpeculation compareSpec = new MaximizerSpeculation();
 
-      Slot newSlot1 = slot1;
       int compareItemNo =
           slot1 == Slot.ACCESSORY1
               ? speculationList.get(slot1SpecLookup).size() - 3
@@ -1855,18 +1840,18 @@ public class Evaluator {
           compareItemNo--;
         } else {
           compareSpec.equipment.put(
-              newSlot1, speculationList.get(slot1SpecLookup).get(compareItemNo).attachment);
+            slot1, speculationList.get(slot1SpecLookup).get(compareItemNo).attachment);
           break;
         }
         if (compareItemNo < 0) {
-          compareSpec.equipment.put(newSlot1, EquipmentRequest.UNEQUIP);
+          compareSpec.equipment.put(slot1, EquipmentRequest.UNEQUIP);
           break;
         }
       } while (compareItemNo >= 0);
       if (slot1 == Slot.ACCESSORY1) {
         accCompared++;
       }
-      synergySpec.equipment.put(newSlot1, item1);
+      synergySpec.equipment.put(slot1, item1);
 
       Slot newSlot2 = jumpAccessories(slot2, accCompared);
       compareItemNo =
@@ -1876,7 +1861,7 @@ public class Evaluator {
       do {
         CheckedItem compareItem = speculationList.get(slot2).get(compareItemNo).attachment;
         if (compareItem.conditionalFlag
-            || compareItem.getName().equals(compareSpec.equipment.get(newSlot1).getName())) {
+            || compareItem.getName().equals(compareSpec.equipment.get(slot1).getName())) {
           compareItemNo--;
         } else {
           compareSpec.equipment.put(
@@ -1939,13 +1924,12 @@ public class Evaluator {
         itemId1 = ItemPool.MONSTROUS_MONOCLE;
         itemId2 = ItemPool.MUSTY_MOCCASINS;
         itemId3 = ItemPool.MOLTEN_MEDALLION;
-        count++;
       } else {
         itemId1 = ItemPool.BRAZEN_BRACELET;
         itemId2 = ItemPool.BITTER_BOWTIE;
         itemId3 = ItemPool.BEWITCHING_BOOTS;
-        count++;
       }
+      count++;
 
       ListIterator<MaximizerSpeculation> sI =
           speculationList.get(slot).listIterator(speculationList.get(slot).size());
@@ -2138,7 +2122,7 @@ public class Evaluator {
               if (checkItemList != null) {
                 for (CheckedItem checkItem : checkItemList) {
                   FoldGroup checkGroup = ItemDatabase.getFoldGroup(checkItem.getName());
-                  if (checkGroup != null && group.names.get(0).equals(checkGroup.names.get(0))) {
+                  if (checkGroup != null && group.names.getFirst().equals(checkGroup.names.getFirst())) {
                     foldItemsNeeded += Math.max(checkItem.getCount(), this.maxUseful(checkSlot));
                   }
                 }
@@ -2156,7 +2140,7 @@ public class Evaluator {
                 while (checkIterator.hasPrevious()) {
                   CheckedItem checkItem = checkIterator.previous().attachment;
                   FoldGroup checkGroup = ItemDatabase.getFoldGroup(checkItem.getName());
-                  if (checkGroup != null && group.names.get(0).equals(checkGroup.names.get(0))) {
+                  if (checkGroup != null && group.names.getFirst().equals(checkGroup.names.getFirst())) {
                     if (usefulCheckCount > 0 || checkItem.requiredFlag) {
                       foldItemsNeeded += Math.max(checkItem.getCount(), this.maxUseful(checkSlot));
                     }
@@ -2211,7 +2195,7 @@ public class Evaluator {
 
       // Blunt object fix for only having a foldable that might be needed elsewhere
       if (automaticEntry.size() == 1
-          && ItemDatabase.getFoldGroup(automaticEntry.get(0).getName()) != null) {
+          && ItemDatabase.getFoldGroup(automaticEntry.getFirst().getName()) != null) {
         automaticEntry.add(new CheckedItem(-1, equipScope, maxPrice, priceLevel));
       }
 
