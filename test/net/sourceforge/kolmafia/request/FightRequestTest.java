@@ -54,6 +54,7 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.CrystalBallManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.GreyYouManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LocketManager;
@@ -3923,15 +3924,18 @@ public class FightRequestTest {
   class Leprecondo {
     @Test
     void parsesFurnitureDiscovery() {
+      var goal = GoalManager.GOAL_LEPRECONDO.getInstance(1);
       var cleanups =
           new Cleanups(
               withItem("Leprecondo"),
+              withGoal(goal),
               withProperty("leprecondoDiscovered", "1,21"),
               withProperty("leprecondoCurrentNeed"),
               withProperty("leprecondoNeedOrder"),
               withProperty("_leprecondoFurniture", 1),
               withFight(0));
       try (cleanups) {
+        assertTrue(GoalManager.hasGoal(goal));
         SessionLoggerOutput.startStream();
         parseCombatData("request/test_fight_leprecondo_furniture_found.html");
         var text = SessionLoggerOutput.stopStream();
@@ -3940,6 +3944,7 @@ public class FightRequestTest {
         assertThat(text, containsString(expected));
         assertThat("leprecondoDiscovered", isSetTo("1,13,21"));
         assertThat("_leprecondoFurniture", isSetTo(2));
+        assertFalse(GoalManager.hasGoal(goal));
       }
     }
 

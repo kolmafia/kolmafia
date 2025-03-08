@@ -305,6 +305,7 @@ public class LeprecondoManager {
               .distinct()
               .map(String::valueOf)
               .collect(Collectors.joining(",")));
+      GoalManager.updateProgress(GoalManager.GOAL_LEPRECONDO);
       return true;
     }
 
