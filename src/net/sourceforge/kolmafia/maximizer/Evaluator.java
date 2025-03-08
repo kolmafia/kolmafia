@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.regex.Matcher;
@@ -414,11 +415,11 @@ public class Evaluator {
             return;
           }
           // Pick a tool that matches your prime stat
-          AdventureResult item = pickPlumberTool(KoLCharacter.getPrimeIndex(), true);
+          AdventureResult item = pickPlumberTool(KoLCharacter.getPrimeIndex());
           if (item == null) {
             // Otherwise, pick best available tool
             // You are guaranteed to have work boots, at least
-            item = pickPlumberTool(-1, true);
+            item = pickPlumberTool(-1);
           }
           this.posEquip.add(item);
           continue;
@@ -429,7 +430,7 @@ public class Evaluator {
             return;
           }
           // Mysticality plumber item
-          AdventureResult item1 = pickPlumberTool(1, true);
+          AdventureResult item1 = pickPlumberTool(1);
           if (item1 == null) {
             KoLmafia.updateDisplay(MafiaState.ERROR, "You don't have an appropriate flower to wield");
             return;
@@ -703,7 +704,7 @@ public class Evaluator {
     }
   }
 
-  private AdventureResult pickPlumberTool(int primeIndex, boolean have) {
+  private AdventureResult pickPlumberTool(int primeIndex) {
     AdventureResult hammer = ItemPool.get(ItemPool.HAMMER);
     boolean haveHammer = InventoryManager.hasItem(hammer);
     AdventureResult heavyHammer = ItemPool.get(ItemPool.HEAVY_HAMMER);
@@ -720,13 +721,13 @@ public class Evaluator {
     // Find the best plumber tool
     return switch (primeIndex) {
       case 0 -> // Muscle
-      !have ? heavyHammer : haveHeavyHammer ? heavyHammer : haveHammer ? hammer : null;
+      false ? heavyHammer : haveHeavyHammer ? heavyHammer : haveHammer ? hammer : null;
       case 1 -> // Mysticality
-      !have
+      false
           ? bonfireFlower
           : haveBonfireFlower ? bonfireFlower : haveFireFlower ? fireFlower : null;
       case 2 -> // Moxie
-      !have ? fancyBoots : haveFancyBoots ? fancyBoots : haveWorkBoots ? workBoots : null;
+      false ? fancyBoots : haveFancyBoots ? fancyBoots : haveWorkBoots ? workBoots : null;
       default ->
       // If you don't care about stat, pick the best item you own.
       haveHeavyHammer
@@ -1397,7 +1398,7 @@ public class Evaluator {
 
         boolean wrongClass = false;
         String classType = mods.getString(StringModifier.CLASS);
-        if (classType != "" && !classType.equals(KoLCharacter.getAscensionClassName())) {
+        if (!Objects.equals(classType, "") && !classType.equals(KoLCharacter.getAscensionClassName())) {
           wrongClass = true;
         }
 
@@ -1912,9 +1913,9 @@ public class Evaluator {
     // things.
     int count = 0;
     while (count < 2) {
-      int itemId1 = -1;
-      int itemId2 = -1;
-      int itemId3 = -1;
+      int itemId1;
+      int itemId2;
+      int itemId3;
       CheckedItem item1 = null;
       CheckedItem item2 = null;
       CheckedItem item3 = null;
