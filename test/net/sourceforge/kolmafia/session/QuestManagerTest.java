@@ -60,6 +60,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.AdventureRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.PlaceRequest;
@@ -513,6 +514,30 @@ public class QuestManagerTest {
       request.responseText = html("request/test_adventure_zeppelin_zeppelintro.html");
       QuestManager.handleQuestChange(request);
       assertThat(Quest.RON, isStep(3));
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "test_adventure_zeppelin_progress_1.html,1",
+      "test_adventure_zeppelin_progress_2.html,2",
+      "test_adventure_zeppelin_progress_3.html,3",
+      "test_adventure_zeppelin_progress_4.html,4",
+      "test_adventure_zeppelin_progress_5.html,5",
+      "test_adventure_zeppelin_progress_6.html,6",
+    })
+    public void canDetectZeppelinProgress(String htmlFile, int expectedProgress) {
+      // Can get progress in any location, so set to Noob Cabe.
+      var cleanups = withLastLocation(AdventureDatabase.getAdventure(AdventurePool.NOOB_CAVE));
+      try (cleanups) {
+        var request = new GenericRequest("fight.php");
+        request.responseText = html("request/" + htmlFile);
+        String encounter = AdventureRequest.registerEncounter(request);
+        QuestManager.updateQuestData(request.responseText, encounter);
+        assertThat("zeppelinProgress", isSetTo(expectedProgress));
+        if (expectedProgress == 6) {
+          assertThat(Quest.RON, isStep(4));
+        }
+      }
     }
   }
 
