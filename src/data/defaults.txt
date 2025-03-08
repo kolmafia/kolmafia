@@ -1771,7 +1771,8 @@ user	youRobotPoints	0
 user	youRobotRight	0	roa
 user	youRobotScavenged	false	roa
 user	youRobotTop	0	roa
-user	zeppelinProtestors	0
+user	zeppelinProgress	0	roa
+user	zeppelinProtestors	0	roa
 user	zigguratLianas	0
 user	zombiePoints	0
 user	zootGraftedButtCheekLeftFamiliar	0	roa
