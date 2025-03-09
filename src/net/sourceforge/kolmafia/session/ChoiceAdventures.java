@@ -4771,7 +4771,8 @@ public abstract class ChoiceAdventures {
         new ChoiceOption("bagel machine", 2),
         new ChoiceOption("popular machine", 3),
         new ChoiceOption("learn recipe", 4),
-        new ChoiceOption("gain mysticality stats", 5));
+        new ChoiceOption("gain mysticality stats", 5),
+        new ChoiceOption("skip adventure", 6));
 
     // Choice 1062 is Lots of Options
     new ChoiceAdventure(

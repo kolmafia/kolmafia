@@ -964,6 +964,7 @@ public class QuestDatabase {
         "booPeakLit",
         "desertExploration",
         "zeppelinProtestors",
+        "zeppelinProgress",
         "middleChamberUnlock",
         "lowerChamberUnlock",
         "controlRoomUnlock",

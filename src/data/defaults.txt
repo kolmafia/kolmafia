@@ -1160,6 +1160,12 @@ user	mineLayout3
 user	mineLayout4
 user	mineLayout5
 user	mineLayout6
+user	mineState1
+user	mineState2
+user	mineState3
+user	mineState4
+user	mineState5
+user	mineState6
 user	miniAdvClass	0	roa
 user	miniKiwiAiolisUsed	0	roa
 user	miniMartinisDrunk	0
@@ -1240,6 +1246,7 @@ user	peteMotorbikeHeadlight
 user	peteMotorbikeCowling
 user	peteMotorbikeMuffler
 user	peteMotorbikeSeat
+user	phosphorTracesUses	0	roa
 user	photocopyMonster		roa
 user	pieStuffing
 user	pingpongSkill	0	roa
@@ -1286,6 +1293,7 @@ user	prayedForGlamour	false	roa
 user	prayedForProtection	false	roa
 user	prayedForVigor	false	roa
 user	preAscensionScript
+user	preworkoutPowderUses	0	roa
 user	primaryLabGooIntensity	10
 user	primaryLabCheerCoreGrabbed	false
 user	prismaticSummons	0	ld
@@ -1763,7 +1771,8 @@ user	youRobotPoints	0
 user	youRobotRight	0	roa
 user	youRobotScavenged	false	roa
 user	youRobotTop	0	roa
-user	zeppelinProtestors	0
+user	zeppelinProgress	0	roa
+user	zeppelinProtestors	0	roa
 user	zigguratLianas	0
 user	zombiePoints	0
 user	zootGraftedButtCheekLeftFamiliar	0	roa
@@ -2288,6 +2297,7 @@ user	_leavesJumped	false
 user	_legendaryBeat	false
 user	_legionJackhammerCrafting	0
 user	_leprecondoRearrangements	0
+user	_leprecondoFurniture	0
 user	_licenseToChillUsed	false
 user	_llamaCharge	0
 user	_locketMonstersFought
@@ -2442,8 +2452,8 @@ user	_powderedMadnessUses	0
 user	_powerfulGloveBatteryPowerUsed	0
 user	_powerPillDrops	0
 user	_powerPillUses	0
-user	_precisionCasts	0
 user	_prankCardMonster
+user	_precisionCasts	0
 user	_prToday	false
 user	_psychoJarFilled	false
 user	_psychoJarUsed	false
