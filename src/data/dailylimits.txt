@@ -102,6 +102,7 @@ Cast	Fire a fingertrap arrow	_fingertrapArrows	10
 Cast	Fire a poison arrow	_poisonArrows	10
 Cast	Fire the Jokester's Gun	_firedJokestersGun
 Cast	Fix Jukebox	_peteJukeboxFixed	3
+Cast	Generate Irony	_generateIronyUsed
 Cast	Gingerbread Mob Hit	_gingerbreadMobHitUsed
 Cast	Give Your Opponent the Stinkeye	_stinkyCheeseBanisherUsed
 Cast	Grab a Cold One	_coldOne
