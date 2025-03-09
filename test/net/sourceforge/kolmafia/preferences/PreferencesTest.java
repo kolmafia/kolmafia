@@ -604,7 +604,6 @@ class PreferencesTest {
       }
 
       public void run() {
-
         Preferences.increment("counter", 1);
       }
     }
@@ -657,7 +656,7 @@ class PreferencesTest {
                     incrementThreads[j].join(4000);
                   } catch (InterruptedException e) {
                     System.out.println(
-                        "Exception incrementing thread " + j + ": " + e.getMessage());
+                        "Exception joining increment thread " + j + ": " + e.getMessage());
                   }
                   assertFalse(
                       incrementThreads[j].isAlive(),
