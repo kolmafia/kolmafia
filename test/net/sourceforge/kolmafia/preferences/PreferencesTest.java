@@ -445,21 +445,21 @@ class PreferencesTest {
     Preferences.setInteger(notARealDaily, notARealDailyValue);
     assertEquals(legacyValue, Preferences.getInteger(legacyDaily), legacyDaily + "value not set");
     assertEquals(
-      newStyleValue, Preferences.getInteger(newStyleDaily), newStyleDaily + "value not set");
+        newStyleValue, Preferences.getInteger(newStyleDaily), newStyleDaily + "value not set");
     assertEquals(notADailyValue, Preferences.getInteger(notADaily), notADaily + "value not set");
     assertEquals(
-      notARealDailyValue, Preferences.getInteger(notARealDaily), notADaily + "value not set");
+        notARealDailyValue, Preferences.getInteger(notARealDaily), notADaily + "value not set");
 
     Preferences.resetDailies();
     assertNotEquals(
-      legacyValue, Preferences.getInteger(legacyDaily), legacyDaily + "value not reset");
+        legacyValue, Preferences.getInteger(legacyDaily), legacyDaily + "value not reset");
     assertNotEquals(
-      newStyleValue, Preferences.getInteger(newStyleDaily), newStyleDaily + "value not reset");
+        newStyleValue, Preferences.getInteger(newStyleDaily), newStyleDaily + "value not reset");
     assertEquals(
-      notADailyValue, Preferences.getInteger(notADaily), notADaily + "value unexpectedly reset");
+        notADailyValue, Preferences.getInteger(notADaily), notADaily + "value unexpectedly reset");
     assertEquals(
-      notARealDailyValue,
-      Preferences.getInteger(notARealDaily),
+        notARealDailyValue,
+        Preferences.getInteger(notARealDaily),
         notARealDaily + "value unexpectedly reset");
   }
 
@@ -656,7 +656,8 @@ class PreferencesTest {
                   try {
                     incrementThreads[j].join(4000);
                   } catch (InterruptedException e) {
-                    System.out.println("Exception incrementing thread " + j + ": " + e.getMessage());
+                    System.out.println(
+                        "Exception incrementing thread " + j + ": " + e.getMessage());
                   }
                   assertFalse(
                       incrementThreads[j].isAlive(),
