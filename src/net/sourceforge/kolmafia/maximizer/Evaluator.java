@@ -1401,7 +1401,7 @@ public class Evaluator {
 
         boolean wrongClass = false;
         String classType = mods.getString(StringModifier.CLASS);
-        if (!(classType.isEmpty()) && !classType.equals(KoLCharacter.getAscensionClassName())) {
+        if (!classType.isEmpty() && !classType.equals(KoLCharacter.getAscensionClassName())) {
           wrongClass = true;
         }
 
