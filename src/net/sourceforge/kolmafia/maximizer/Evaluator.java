@@ -1866,7 +1866,7 @@ public class Evaluator {
       do {
         CheckedItem compareItem = speculationList.get(slot2).get(compareItemNo).attachment;
         if (compareItem.conditionalFlag
-            || compareItem.getName().equals(compareSpec.equipment.get(slot1).getName())) {
+            || compareItem.getName().equals(compareSpec.equipment.get(newSlot1).getName())) {
           compareItemNo--;
         } else {
           compareSpec.equipment.put(
