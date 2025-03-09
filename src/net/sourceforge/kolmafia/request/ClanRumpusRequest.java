@@ -101,14 +101,14 @@ public class ClanRumpusRequest extends GenericRequest {
   public enum Equipment {
     NONE("", 0, 0, 0),
 
-    GIRL_CALENDAR("Girls of Loathing Calendar", 1, 1, 0),
-    BOY_CALENDAR("Boys of Loathing Calendar", 1, 2, 0),
-    PAINTING("Infuriating Painting", 1, 3, 0),
+    GIRL_CALENDAR("Girls of Loathing Calendar", 1, 1, 1),
+    BOY_CALENDAR("Boys of Loathing Calendar", 1, 2, 1),
+    PAINTING("Infuriating Painting", 1, 3, 1),
     MEAT_ORCHID("Exotic Hanging Meat Orchid", 1, 4, 1),
 
     ARCANE_TOMES("Collection of Arcane Tomes and Whatnot", 2, 1, 0),
-    SPORTS_MEMORABILIA("Collection of Sports Memorabilia", 2, 2, 0),
-    SELF_HELP_BOOKS("Collection of Self-Help Books", 2, 3, 0),
+    SPORTS_MEMORABILIA("Collection of Sports Memorabilia", 2, 2, 1),
+    SELF_HELP_BOOKS("Collection of Self-Help Books", 2, 3, 1),
 
     SODA_MACHINE("Soda Machine", 3, 1, 3),
     JUKEBOX("Jukebox", 3, 2, 0),
@@ -116,9 +116,9 @@ public class ClanRumpusRequest extends GenericRequest {
 
     RADIO("Old-Timey Radio", 4, 1, 1),
     POTTED_MEAT_BUSH("Potted Meat Bush", 4, 2, 1),
-    DESK_CALENDAR("Inspirational Desk Calendar", 4, 3, 0),
+    DESK_CALENDAR("Inspirational Desk Calendar", 4, 3, 1),
 
-    WRESTLING_MAT("Wrestling Mat", 5, 1, 0),
+    WRESTLING_MAT("Wrestling Mat", 5, 1, 1),
     TANNING_BED("Tan-U-Lots Tanning Bed", 5, 2, 0),
     COMFY_SOFA("Comfy Sofa", 5, 3, 0),
 
