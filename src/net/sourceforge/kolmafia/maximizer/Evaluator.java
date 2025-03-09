@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.regex.Matcher;
@@ -1402,8 +1401,7 @@ public class Evaluator {
 
         boolean wrongClass = false;
         String classType = mods.getString(StringModifier.CLASS);
-        if (!Objects.equals(classType, "")
-            && !classType.equals(KoLCharacter.getAscensionClassName())) {
+        if (!(classType.isEmpty()) && !classType.equals(KoLCharacter.getAscensionClassName())) {
           wrongClass = true;
         }
 
