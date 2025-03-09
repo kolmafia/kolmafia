@@ -184,9 +184,6 @@ public class Evaluator {
   }
 
   private static Slot toUseSlot(Slot slot) {
-    /* Evaluator.OFFHAND_MELEE */
-    /* Evaluator.OFFHAND_RANGED */
-    /* Evaluator.WEAPON_1H */
     return switch (slot) {
       case /* Evaluator.OFFHAND_MELEE */ ACCESSORY2, /* Evaluator.OFFHAND_RANGED */
           ACCESSORY3 -> Slot.OFFHAND;
@@ -424,11 +421,11 @@ public class Evaluator {
           return;
         }
         // Pick a tool that matches your prime stat
-        AdventureResult item = pickPlumberTool(KoLCharacter.getPrimeIndex(), true);
+        AdventureResult item = pickPlumberTool(KoLCharacter.getPrimeIndex());
         if (item == null) {
           // Otherwise, pick best available tool
           // You are guaranteed to have work boots, at least
-          item = pickPlumberTool(-1, true);
+          item = pickPlumberTool(-1);
         }
         this.posEquip.add(item);
         continue;
@@ -440,7 +437,7 @@ public class Evaluator {
           return;
         }
         // Mysticality plumber item
-        AdventureResult item1 = pickPlumberTool(1, true);
+        AdventureResult item1 = pickPlumberTool(1);
         if (item1 == null) {
           KoLmafia.updateDisplay(MafiaState.ERROR, "You don't have an appropriate flower to wield");
           return;
