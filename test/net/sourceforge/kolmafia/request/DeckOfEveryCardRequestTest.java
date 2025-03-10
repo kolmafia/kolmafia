@@ -56,7 +56,7 @@ class DeckOfEveryCardRequestTest {
       String fName = "X of Spades";
       List<String> results = getMatchingNames(fName);
       assertEquals(1, results.size());
-      DeckOfEveryCardRequest.EveryCard card = canonicalNameToCard(results.get(0));
+      DeckOfEveryCardRequest.EveryCard card = canonicalNameToCard(results.getFirst());
       assertEquals(card, getCardById(4));
     }
 
@@ -89,7 +89,7 @@ class DeckOfEveryCardRequestTest {
       DeckOfEveryCardRequest req = new DeckOfEveryCardRequest();
       assertNull(req.getRequestCard());
       req = new DeckOfEveryCardRequest(getCardById(58));
-      assertEquals(req.getRequestCard().id, 58);
+      assertEquals(58, req.getRequestCard().id);
     }
 
     @Test
@@ -104,7 +104,7 @@ class DeckOfEveryCardRequestTest {
       assertFalse(mickey.equals(notMickey));
       assertTrue(mickey.equals(mickey));
       assertTrue(mickey.equals(copyMickey));
-      assertEquals(mickey.toString(), "1952 Mickey Mantle (58)");
+      assertEquals("1952 Mickey Mantle (58)", mickey.toString());
     }
 
     @Test
@@ -116,11 +116,11 @@ class DeckOfEveryCardRequestTest {
     @Test
     public void testGetAdventuresUsed() {
       DeckOfEveryCardRequest noCard = new DeckOfEveryCardRequest();
-      assertEquals(noCard.getAdventuresUsed(), 1);
+      assertEquals(1, noCard.getAdventuresUsed());
       DeckOfEveryCardRequest notMonster = new DeckOfEveryCardRequest(getCardById(58));
-      assertEquals(notMonster.getAdventuresUsed(), 0);
+      assertEquals(0, notMonster.getAdventuresUsed());
       DeckOfEveryCardRequest monster = new DeckOfEveryCardRequest(getCardById(27));
-      assertEquals(monster.getAdventuresUsed(), 1);
+      assertEquals(1, monster.getAdventuresUsed());
     }
   }
 }
