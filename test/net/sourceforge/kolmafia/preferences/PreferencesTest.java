@@ -19,10 +19,16 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.Date;
 import java.util.TreeMap;
+import java.util.stream.IntStream;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.session.LoginManager;
+import net.sourceforge.kolmafia.session.LogoutManager;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -132,12 +138,12 @@ class PreferencesTest {
     Preferences.setString(PrefName, "");
 
     String checkPref = Preferences.getString(PrefName);
-    assertEquals(checkPref, "", "Pref not cleared");
+    assertEquals("", checkPref, "Pref not cleared");
 
     String PrefValue = "ANewValue";
     Preferences.setString(PrefName, PrefValue);
     checkPref = Preferences.getString(PrefName);
-    assertEquals(checkPref, PrefValue, "String not stored in Prefs");
+    assertEquals(PrefValue, checkPref, "String not stored in Prefs");
   }
 
   @Test
@@ -437,23 +443,23 @@ class PreferencesTest {
     Preferences.setInteger(newStyleDaily, newStyleValue);
     Preferences.setInteger(notADaily, notADailyValue);
     Preferences.setInteger(notARealDaily, notARealDailyValue);
-    assertEquals(Preferences.getInteger(legacyDaily), legacyValue, legacyDaily + "value not set");
+    assertEquals(legacyValue, Preferences.getInteger(legacyDaily), legacyDaily + "value not set");
     assertEquals(
-        Preferences.getInteger(newStyleDaily), newStyleValue, newStyleDaily + "value not set");
-    assertEquals(Preferences.getInteger(notADaily), notADailyValue, notADaily + "value not set");
+        newStyleValue, Preferences.getInteger(newStyleDaily), newStyleDaily + "value not set");
+    assertEquals(notADailyValue, Preferences.getInteger(notADaily), notADaily + "value not set");
     assertEquals(
-        Preferences.getInteger(notARealDaily), notARealDailyValue, notADaily + "value not set");
+        notARealDailyValue, Preferences.getInteger(notARealDaily), notADaily + "value not set");
 
     Preferences.resetDailies();
     assertNotEquals(
-        Preferences.getInteger(legacyDaily), legacyValue, legacyDaily + "value not reset");
+        legacyValue, Preferences.getInteger(legacyDaily), legacyDaily + "value not reset");
     assertNotEquals(
-        Preferences.getInteger(newStyleDaily), newStyleValue, newStyleDaily + "value not reset");
+        newStyleValue, Preferences.getInteger(newStyleDaily), newStyleDaily + "value not reset");
     assertEquals(
-        Preferences.getInteger(notADaily), notADailyValue, notADaily + "value unexpectedly reset");
+        notADailyValue, Preferences.getInteger(notADaily), notADaily + "value unexpectedly reset");
     assertEquals(
-        Preferences.getInteger(notARealDaily),
         notARealDailyValue,
+        Preferences.getInteger(notARealDaily),
         notARealDaily + "value unexpectedly reset");
   }
 
@@ -495,7 +501,7 @@ class PreferencesTest {
     "nonExistentPref, false"
   })
   void isResetOnAscension(String name, boolean expected) {
-    assertEquals(Preferences.isResetOnAscension(name), expected);
+    assertEquals(expected, Preferences.isResetOnAscension(name));
   }
 
   @Test
@@ -581,6 +587,95 @@ class PreferencesTest {
 
   @Nested
   class preferenceWriteAcrossThreads {
+
+    public class timeinThread extends Thread {
+      public timeinThread(String s) {
+        super(s);
+      }
+
+      public void run() {
+        LoginManager.timein(USER_NAME);
+      }
+    }
+
+    public static class incrementThread extends Thread {
+      public incrementThread(String s) {
+        super(s);
+      }
+
+      public void run() {
+        Preferences.increment("counter", 1);
+      }
+    }
+
+    @Test
+    public void timeinDoesNotCauseRaceCondition() {
+      File sessonFile =
+          new File(
+              KoLConstants.SESSIONS_DIRECTORY
+                  + StringUtilities.globalStringReplace(KoLCharacter.getUserName(), " ", "_")
+                  + "_"
+                  + KoLConstants.DAILY_FORMAT.format(new Date())
+                  + ".txt");
+
+      String unrelatedPref = "coalmine";
+      String unrelatedValue = "canary";
+      String incrementedPref = "counter";
+      int threadCount = 100;
+
+      var cleanups =
+          new Cleanups(
+              withSavePreferencesToFile(),
+              withProperty(unrelatedPref, unrelatedValue),
+              withProperty(incrementedPref, 0));
+      try (cleanups) {
+        Thread[] incrementThreads = new Thread[threadCount];
+        Thread timein = new timeinThread("Timein");
+        timein.start();
+
+        IntStream.range(0, threadCount)
+            .forEach(
+                i -> {
+                  incrementThreads[i] = new incrementThread("Increment-" + i);
+                  incrementThreads[i].start();
+                });
+        try {
+          if (timein.isAlive()) {
+            timein.join(4000);
+          }
+        } catch (InterruptedException ex) {
+          System.out.println("Exception joining thread: " + ex.getMessage());
+        }
+        if (timein.isAlive()) {
+          System.out.println("Undead thread: " + timein.getName());
+        }
+        IntStream.range(0, threadCount)
+            .forEach(
+                j -> {
+                  try {
+                    incrementThreads[j].join(4000);
+                  } catch (InterruptedException e) {
+                    System.out.println(
+                        "Exception joining increment thread " + j + ": " + e.getMessage());
+                  }
+                  assertFalse(
+                      incrementThreads[j].isAlive(),
+                      "Undead thread: " + incrementThreads[j].getName());
+                });
+
+        assertEquals(
+            unrelatedValue,
+            Preferences.getString(unrelatedPref, false),
+            "unrelated pref does not match");
+        assertEquals(
+            threadCount,
+            Preferences.getInteger(incrementedPref),
+            "Incremented preference does not match");
+      }
+      LogoutManager.logout();
+      verboseDelete(sessonFile);
+    }
+
     public class resetThread extends Thread {
       public resetThread(String s) {
         super(s);
