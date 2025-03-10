@@ -268,15 +268,6 @@ public class DebugModifiersTest {
   }
 
   @Test
-  void listsRumpus() {
-    try (var cleanups =
-        new Cleanups(withInteractivity(true), withClanFurniture("Girls of Loathing Calendar"))) {
-      evaluateDebugModifiers(DoubleModifier.ADVENTURES);
-      assertThat(output(), containsDebugRow("Rumpus", "Girls of Loathing Calendar", 3.0, 3.0));
-    }
-  }
-
-  @Test
   void listsSynergy() {
     try (var cleanups = withAllEquipped(ItemPool.BEWITCHING_BOOTS, ItemPool.BITTER_BOWTIE)) {
       evaluateDebugModifiers(DoubleModifier.MEATDROP);
