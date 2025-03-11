@@ -1120,7 +1120,7 @@ public class ClanLoungeRequest extends GenericRequest {
         break;
 
       case SWIMMING_POOL:
-        if (this.redirectLocation != null && this.redirectLocation.startsWith("choice.php")) {
+        if (this.responseText.contains("Screwing Around!")) {
           RequestLogger.printLine("You start screwing around in the swimming pool.");
         } else if (responseText.contains("manage to swim")) {
           // the message is printed by parseResponse()
@@ -1972,7 +1972,15 @@ public class ClanLoungeRequest extends GenericRequest {
     if (VISIT_REQUEST.responseText.contains("vippool.gif")
         && !Preferences.getBoolean("_olympicSwimmingPoolItemFound")) {
       try {
-        RequestThread.postRequest(new ClanLoungeRequest(Action.SWIMMING_POOL, CANNONBALL));
+        // We do not want ChoiceManager to automate the redirection
+        request =
+            new ClanLoungeRequest(Action.SWIMMING_POOL, CANNONBALL) {
+              @Override
+              protected boolean shouldFollowRedirect() {
+                return true;
+              }
+            };
+        RequestThread.postRequest(request);
         RequestThread.postRequest(
             new ClanLoungeSwimmingPoolRequest(ClanLoungeSwimmingPoolRequest.HANDSTAND));
         RequestThread.postRequest(

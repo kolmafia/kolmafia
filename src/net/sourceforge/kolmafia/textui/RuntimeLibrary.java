@@ -7348,9 +7348,18 @@ public abstract class RuntimeLibrary {
     // Just in case someone assumed that use_skill would also work
     // in combat, go ahead and allow it here.
 
-    if (SkillDatabase.isCombat(skillId) && FightRequest.getCurrentRound() > 0) {
-      return RuntimeLibrary.visit_url(
-          controller, "fight.php?action=skill&whichskill=" + (int) skill.intValue());
+    if (SkillDatabase.isCombat(skillId)) {
+      // If we are in combat, go ahead and cast using fight.php
+
+      if (FightRequest.getCurrentRound() > 0) {
+        return RuntimeLibrary.visit_url(controller, "fight.php?action=skill&whichskill=" + skillId);
+      }
+
+      // If we are not in combat, bail if the skill can't be cast
+
+      if (!SkillDatabase.isNonCombat(skillId)) {
+        return DataTypes.STRING_INIT;
+      }
     }
 
     KoLmafiaCLI.DEFAULT_SHELL.executeCommand("cast", "1 " + SkillDatabase.getSkillName(skillId));
