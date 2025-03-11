@@ -737,6 +737,17 @@ public class ClanLoungeRequest extends GenericRequest {
     this.option = option;
   }
 
+  @Override
+  protected boolean shouldFollowRedirect() {
+    // We do not want ChoiceManager to automate redirection.
+    // I think that Cannonballing into the Swimming Pool is the
+    // only redirection to choice.php.
+    if (this.action == Action.SWIMMING_POOL && this.option == CANNONBALL) {
+      return true;
+    }
+    return false;
+  }
+
   public static final ClanLoungeRequest buyHotDogRequest(final String name) {
     int index = ClanLoungeRequest.hotdogNameToIndex(name);
     if (index < 0) {
@@ -1972,15 +1983,7 @@ public class ClanLoungeRequest extends GenericRequest {
     if (VISIT_REQUEST.responseText.contains("vippool.gif")
         && !Preferences.getBoolean("_olympicSwimmingPoolItemFound")) {
       try {
-        // We do not want ChoiceManager to automate the redirection
-        request =
-            new ClanLoungeRequest(Action.SWIMMING_POOL, CANNONBALL) {
-              @Override
-              protected boolean shouldFollowRedirect() {
-                return true;
-              }
-            };
-        RequestThread.postRequest(request);
+        RequestThread.postRequest(new ClanLoungeRequest(Action.SWIMMING_POOL, CANNONBALL));
         RequestThread.postRequest(
             new ClanLoungeSwimmingPoolRequest(ClanLoungeSwimmingPoolRequest.HANDSTAND));
         RequestThread.postRequest(
