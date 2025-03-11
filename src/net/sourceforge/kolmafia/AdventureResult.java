@@ -58,6 +58,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
   public static final String FLOUNDRY = "Floundry Fish";
   public static final String FREE_CRAFT = "Free Craft";
   public static final String FULL = "Fullness";
+  public static final String LEPRECONDO = "Leprecondo Furniture";
   public static final String PIRATE_INSULT = "pirate insult";
   public static final String PULL = "Pull";
   public static final String PVP = "PvP";
@@ -169,6 +170,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
         || name.equals(AdventureResult.CHOICE)
         || name.equals(AdventureResult.AUTOSTOP)
         || name.equals(AdventureResult.FACTOID)
+        || name.equals(AdventureResult.LEPRECONDO)
         || name.equals(AdventureResult.PULL)
         || name.equals(AdventureResult.STILL)
         || name.equals(AdventureResult.TOME)
@@ -369,19 +371,19 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
   }
 
   public boolean isHP() {
-    return this.name.equals(AdventureResult.HP);
+    return AdventureResult.HP.equals(this.name);
   }
 
   public boolean isMP() {
-    return this.name.equals(AdventureResult.MP);
+    return AdventureResult.MP.equals(this.name);
   }
 
   public boolean isEnergy() {
-    return this.name.equals(AdventureResult.ENERGY);
+    return AdventureResult.ENERGY.equals(this.name);
   }
 
   public boolean isScrap() {
-    return this.name.equals(AdventureResult.SCRAP);
+    return AdventureResult.SCRAP.equals(this.name);
   }
 
   public boolean isMonster() {
@@ -843,6 +845,10 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
       return "floundry fish";
     }
 
+    if (this.name.equals(AdventureResult.LEPRECONDO)) {
+      return "leprecondo furniture";
+    }
+
     if (this.name.equals(AdventureResult.PIRATE_INSULT)) {
       return "pirate insult";
     }
@@ -864,6 +870,10 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
     }
 
     String conditionType = this.getConditionType();
+
+    if (conditionType.equals("leprecondo furniture")) {
+      return "+" + this.getLongCount() + " " + this.name;
+    }
 
     if (conditionType.equals("pirate insult")) {
       return "+" + this.getLongCount() + " " + this.name;

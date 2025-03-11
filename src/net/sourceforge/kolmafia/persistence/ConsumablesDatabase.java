@@ -64,10 +64,14 @@ public class ConsumablesDatabase {
     GOOD("good", "green"),
     AWESOME("awesome", "blue"),
     EPIC("EPIC", "#8a2be2"),
+    SUPER_EPIC("super EPIC", "#8a2be2"),
+    SUPER_ULTRA_EPIC("super ultra EPIC", "#8a2be2"),
+    SUPER_ULTRA_MEGA_EPIC("super ultra mega EPIC", "#8a2be2"),
+    SUPER_ULTRA_MEGA_TURBO_EPIC("super ultra mega turbo EPIC", "#8a2be2"),
     QUEST("quest"),
     CHANGING("???"),
     DRIPPY("drippy", "#964B00"),
-    SUSHI("sushi");
+    PSEUDO("pseudoitem");
 
     static final Map<String, ConsumableQuality> nameToQuality = new HashMap<>();
 
@@ -1067,7 +1071,7 @@ public class ConsumablesDatabase {
     String muscle = statGain;
     String mysticality = statGain;
     String moxie = statGain;
-    String note = "";
+    String note = ConsumablesDatabase.getNotes(name);
 
     ConsumablesDatabase.setConsumptionData(
         name,
@@ -1105,7 +1109,7 @@ public class ConsumablesDatabase {
     muscle = statGain;
     mysticality = statGain;
     moxie = statGain;
-    note = "";
+    note = ConsumablesDatabase.getNotes(name);
 
     ConsumablesDatabase.setConsumptionData(
         name,
@@ -1136,7 +1140,7 @@ public class ConsumablesDatabase {
     muscle = "0";
     mysticality = "0";
     moxie = "0";
-    note = "";
+    note = ConsumablesDatabase.getNotes(name);
     ConsumablesDatabase.setConsumptionData(
         name,
         null,
@@ -1163,7 +1167,7 @@ public class ConsumablesDatabase {
     muscle = "0";
     mysticality = "0";
     moxie = "0";
-    note = "";
+    note = ConsumablesDatabase.getNotes(name);
     ConsumablesDatabase.setConsumptionData(
         name,
         size,
@@ -1190,7 +1194,7 @@ public class ConsumablesDatabase {
     muscle = "0";
     mysticality = "0";
     moxie = "0";
-    note = "";
+    note = ConsumablesDatabase.getNotes(name);
     ConsumablesDatabase.setConsumptionData(
         name,
         null,

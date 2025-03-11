@@ -48,6 +48,7 @@ public class SwaggerShopRequest extends CoinMasterRequest {
     GLITCH("glitch", ItemPool.GLITCH_ITEM, "glitchItem"),
     AVERAGE("average", ItemPool.LAW_OF_AVERAGES, "lawOfAverages"),
     SEASONING("Seasoning", ItemPool.UNIVERSAL_SEASONING, "universalSeasoning"),
+    IRONIC("ironic", ItemPool.BOOK_OF_IRONY, "bookOfIrony"),
     // Pseudo-season to handle Essence of Annoyance
     NONE("none", ItemPool.ESSENCE_OF_ANNOYANCE, "essenceOfAnnoyance");
 
@@ -181,10 +182,11 @@ public class SwaggerShopRequest extends CoinMasterRequest {
   // You've earned -61 swagger during a glitch season!
   // You've earned -0 swagger during an average season.
   // You've earned 600 swagger during a Seasoning!
+  // You've earned 0 swagger during an ironic season.
 
   private static final Pattern SEASON_PATTERN =
       Pattern.compile(
-          "You've earned -?([\\d,]+) swagger during (?:a |an |)(pirate|holiday|ice|drunken|bear|numeric|optimal|school|safari|glitch|average|Seasoning)(?: season)?");
+          "You've earned -?([\\d,]+) swagger during (?:a |an |)(pirate|holiday|ice|drunken|bear|numeric|optimal|school|safari|glitch|average|Seasoning|ironic)(?: season)?");
 
   // <tr><td><img style='vertical-align: middle' class=hand
   // src='http://images.kingdomofloathing.com/itemimages/radio.gif'

@@ -554,6 +554,7 @@ public class KoLmafiaCLI {
         .register("load")
         .register("start")
         .register("profile");
+    new CampAwayCommand().register("campaway");
     new CampgroundCommand().register("camp").register("campground");
     new ChangeCombatScriptCommand().register("ccs");
     new ChibiBuddyCommand().register("chibi");
@@ -573,6 +574,7 @@ public class KoLmafiaCLI {
         .register("checkoutfits")
         .register("checkplurals")
         .register("checkmuseumplurals")
+        .register("checkmuseumitems")
         .register("checkpotions")
         .register("checkpowers")
         .register("checkprofile")

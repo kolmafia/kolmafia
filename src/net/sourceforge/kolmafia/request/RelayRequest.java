@@ -102,6 +102,8 @@ public class RelayRequest extends PasswordHashRequest {
   private static final HashMap<String, File> overrideMap = new HashMap<>();
   private static final Object lock = new Object(); // used to synch
 
+  private static final Pattern HTTP_STATUS_PATTERN = Pattern.compile("^HTTP/1.1 ([0-9]+)");
+
   private static final Pattern STORE_PATTERN =
       Pattern.compile(
           "<tr><td><input name=whichitem type=radio value=([\\d.]+).*?</tr>", Pattern.DOTALL);
@@ -557,14 +559,15 @@ public class RelayRequest extends PasswordHashRequest {
     this.headers.add("Date: " + StringUtilities.formatDate(new Date()));
     this.headers.add("Server: " + StaticEntity.getVersion());
 
-    if (status.contains("302")) {
+    Matcher m = HTTP_STATUS_PATTERN.matcher(status);
+    if (m.find()) {
+      this.responseCode = Integer.parseInt(m.group(1));
+    }
+
+    if (this.responseCode == 302) {
       this.headers.add("Location: " + responseText);
-
-      this.responseCode = 302;
       this.responseText = "";
-    } else if (status.contains("200")) {
-      this.responseCode = 200;
-
+    } else if (this.responseCode == 200) {
       if (responseText == null || responseText.length() == 0) {
         this.responseText = " ";
       } else {
@@ -1814,6 +1817,11 @@ public class RelayRequest extends PasswordHashRequest {
     if (!urlString.startsWith("place.php")
         || !urlString.contains("whichplace=plains")
         || !urlString.contains("garbage_grounds")) {
+      return false;
+    }
+
+    // If you're a Zootimist, you can't get stats
+    if (KoLCharacter.inZootomist()) {
       return false;
     }
 
@@ -3408,6 +3416,7 @@ public class RelayRequest extends PasswordHashRequest {
 
     String pwd = this.getFormField("pwd");
     if (pwd == null || !pwd.equals((GenericRequest.passwordHash))) {
+      this.pseudoResponse("HTTP/1.1 401 Unauthorized", "");
       return;
     }
 
@@ -3571,6 +3580,14 @@ public class RelayRequest extends PasswordHashRequest {
    */
   private void handleJsonApi(String request) {
     this.contentType = "application/json";
+
+    if (!KoLmafia.permitsContinue()) {
+      this.statusLine = "HTTP/1.1 503 Service Unavailable";
+      this.responseCode = 503;
+      this.responseText = JSON.toJSONString(Map.of("error", "KoLmafia is in an error state."));
+      return;
+    }
+
     JSONObject json;
     try {
       json = JSON.parseObject(request);
@@ -3709,22 +3726,11 @@ public class RelayRequest extends PasswordHashRequest {
     }
   }
 
-  private static final Pattern GO_CMD =
-      Pattern.compile("\"<font color=green>Sending you to (.*?)\\.<!--js\\((.*?)\\)-->");
+  private static final Pattern JS_COMMAND =
+      Pattern.compile("\"<font color=green>(.*?)\\.<!--js\\((.*?)\\)-->");
 
-  private static String decorateGoCommands(String chatText) {
-    var matcher = GO_CMD.matcher(chatText);
-
-    if (!matcher.find()) return chatText;
-
-    return makeLink(chatText, matcher);
-  }
-
-  private static final Pattern GOTO_CMD =
-      Pattern.compile("\"<font color=green>Loading (.*?)\\.<!--js\\((.*?)\\)-->");
-
-  private static String decorateGoToCommands(String chatText) {
-    var matcher = GOTO_CMD.matcher(chatText);
+  private static String decorateJsCommands(String chatText) {
+    var matcher = JS_COMMAND.matcher(chatText);
 
     if (!matcher.find()) return chatText;
 
@@ -3761,8 +3767,7 @@ public class RelayRequest extends PasswordHashRequest {
         ChatPoller.handleNewChat(chatText, this.getFormField("graf"), ChatPoller.localLastSeen);
       }
 
-      chatText = decorateGoCommands(chatText);
-      chatText = decorateGoToCommands(chatText);
+      chatText = decorateJsCommands(chatText);
     }
 
     if (Preferences.getBoolean("relayFormatsChatText")) {

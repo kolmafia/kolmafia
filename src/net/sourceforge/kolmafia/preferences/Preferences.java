@@ -9,7 +9,6 @@ import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -66,569 +65,8 @@ public class Preferences {
       new TreeSet<>(List.of("ascensionsToday", "potatoAlarmClockUsed"));
   private static final Set<String> legacyNonDailies =
       new TreeSet<>(List.of("_shortOrderCookCharge"));
-  private static final Set<String> legacyDailies =
-      new TreeSet<>(
-          List.of(
-              "bootsCharged",
-              "breakfastCompleted",
-              "burrowgrubHiveUsed",
-              "burrowgrubSummonsRemaining",
-              "cocktailSummons",
-              "concertVisited",
-              "currentMojoFilters",
-              "currentPvpVictories",
-              "dailyDungeonDone",
-              "demonSummoned",
-              "expressCardUsed",
-              "extraRolloverAdventures",
-              "friarsBlessingReceived",
-              "grimoire1Summons",
-              "grimoire2Summons",
-              "grimoire3Summons",
-              "libramSummons",
-              "libraryCardUsed",
-              "noncombatForcerActive",
-              "noodleSummons",
-              "nunsVisits",
-              "oscusSodaUsed",
-              "outrageousSombreroUsed",
-              "prismaticSummons",
-              "rageGlandVented",
-              "reagentSummons",
-              "romanticTarget",
-              "screechCombats",
-              "seaodesFound",
-              "spiceMelangeUsed",
-              "spookyPuttyCopiesMade",
-              "styxPixieVisited",
-              "telescopeLookedHigh",
-              "tempuraSummons",
-              "timesRested",
-              "tomeSummons"));
-
-  private static final String[] resetOnAscension =
-      new String[] {
-        "_shortOrderCookCharge",
-        "8BitBonusTurns",
-        "8BitColor",
-        "8BitScore",
-        "affirmationCookiesEaten",
-        "aminoAcidsUsed",
-        "antiScientificMethod",
-        "asolDeferredPoints",
-        "autopsyTweezersUsed",
-        "autumnatonQuestLocation",
-        "autumnatonQuestTurn",
-        "autumnatonUpgrades",
-        "availableMrStore2002Credits",
-        "awolDeferredPointsBeanslinger",
-        "awolDeferredPointsCowpuncher",
-        "awolDeferredPointsSnakeoiler",
-        "awolMedicine",
-        "awolVenom",
-        "backupCameraMode",
-        "backupCameraReverserEnabled",
-        "bagOTricksCharges",
-        "batWingsBatHoleEntrance",
-        "batWingsBatratBurrow",
-        "batWingsBeanbatChamber",
-        "batWingsGuanoJunction",
-        "banishingShoutMonsters",
-        "beastSkillsAvailable",
-        "beastSkillsKnown",
-        "beGregariousCharges",
-        "beGregariousMonster",
-        "beGregariousFightsLeft",
-        "bigBrotherRescued",
-        "blankOutUsed",
-        "bodyguardCharge",
-        "bondAdv",
-        "bondBeach",
-        "bondBeat",
-        "bondBooze",
-        "bondBridge",
-        "bondDesert",
-        "bondDR",
-        "bondDrunk1",
-        "bondDrunk2",
-        "bondHoney",
-        "bondHP",
-        "bondInit",
-        "bondItem1",
-        "bondItem2",
-        "bondItem3",
-        "bondJetpack",
-        "bondMartiniDelivery",
-        "bondMartiniPlus",
-        "bondMartiniTurn",
-        "bondMeat",
-        "bondMox1",
-        "bondMox2",
-        "bondMPregen",
-        "bondMus1",
-        "bondMus2",
-        "bondMys1",
-        "bondMys2",
-        "bondSpleen",
-        "bondStat",
-        "bondStat2",
-        "bondStealth",
-        "bondStealth2",
-        "bondSymbols",
-        "bondWar",
-        "bondWeapon2",
-        "bondWpn",
-        "bookOfFactsGummi",
-        "bookOfFactsPinata",
-        "boomBoxSong",
-        "breathitinCharges",
-        "calzoneOfLegendEaten",
-        "camelSpit",
-        "cameraMonster",
-        "campAwayDecoration",
-        "candyWitchCandyTotal",
-        "candyWitchTurnsUsed",
-        "candyCaneSwordApartmentBuilding",
-        "candyCaneSwordBlackForest",
-        "candyCaneSwordBowlingAlley",
-        "candyCaneSwordCopperheadClub",
-        "candyCaneSwordDailyDungeon",
-        "candyCaneSwordDefiledCranny",
-        "candyCaneSwordFunHouse",
-        "candyCaneSwordShore",
-        "candyCaneSwordWarFratRoom",
-        "candyCaneSwordWarFratZetas",
-        "candyCaneSwordWarHippyBait",
-        "candyCaneSwordWarHippyLine",
-        "carboLoading",
-        "cargoPocketScraps",
-        "cargoPocketsEmptied",
-        "catBurglarBankHeists",
-        "chaosButterflyThrown",
-        "charitableDonations",
-        "chibiAlignment",
-        "chibiBirthday",
-        "chibiEntertain",
-        "chibiFitness",
-        "chibiLastVisit",
-        "chibiName",
-        "chibiSocialization",
-        "cinchoSaltAndLime",
-        "cinderellaMinutesToMidnight",
-        "cinderellaScore",
-        "clumsinessGroveBoss",
-        "commaFamiliar",
-        "commerceGhostCombats",
-        "commerceGhostItem",
-        "cookbookbatIngredientsCharge",
-        "copperheadClubHazard",
-        "cornucopiasOpened",
-        "cosmicBowlingBallReturnCombats",
-        "cozyCounter6332",
-        "cozyCounter6333",
-        "cozyCounter6334",
-        "crappyCameraMonster",
-        "crimbotArm",
-        "crimbotChassis",
-        "crimbotPropulsion",
-        "crimboTreeDays",
-        "crudeMonster",
-        "crystalBallPredictions",
-        "csServicesPerformed",
-        "cubelingProgress",
-        "cupidBowLastFamiliar",
-        "cupidBowFights",
-        "currentAstralTrip",
-        "currentDistillateMods",
-        "currentEasyBountyItem",
-        "currentHardBountyItem",
-        "currentHedgeMazeRoom",
-        "currentHippyStore",
-        "currentLlamaForm",
-        "currentPortalEnergy",
-        "currentReplicaStoreYear",
-        "currentSpecialBountyItem",
-        "currentSITSkill",
-        "cursedMagnifyingGlassCount",
-        "cyberDatastickCollected",
-        "cyrusAdjectives",
-        "dampOldBootPurchased",
-        "dartsThrown",
-        "daycareEquipment",
-        "daycareInstructorItem",
-        "daycareInstructorItemQuantity",
-        "daycareInstructors",
-        "daycareToddlers",
-        "deepDishOfLegendEaten",
-        "demonName12",
-        "demonName13",
-        "dnaSyringe",
-        "dolphinItem",
-        "dreadScroll1",
-        "dreadScroll2",
-        "dreadScroll3",
-        "dreadScroll4",
-        "dreadScroll5",
-        "dreadScroll6",
-        "dreadScroll7",
-        "dreadScroll8",
-        "dripAdventuresSinceAscension",
-        "drippingHallAdventuresSinceAscension",
-        "drippingTreesAdventuresSinceAscension",
-        "drippyJuice",
-        "droneSelfDestructChipsUsed",
-        "duckAreasCleared",
-        "duckAreasSelected",
-        "edPiece",
-        "eldritchTentaclesFought",
-        "encountersUntilDMTChoice",
-        "encountersUntilNEPChoice",
-        "encountersUntilYachtzeeChoice",
-        "encountersUntilSRChoice",
-        "ensorcelee",
-        "ensorceleeLevel",
-        "entauntaunedColdRes",
-        "envyfishMonster",
-        "everfullDartPerks",
-        "falloutShelterChronoUsed",
-        "falloutShelterCoolingTankUsed",
-        "familiarSweat",
-        "fireExtinguisherBatHoleUsed",
-        "fireExtinguisherChasmUsed",
-        "fireExtinguisherCyrptUsed",
-        "fireExtinguisherDesertUsed",
-        "fireExtinguisherHaremUsed",
-        "fistSkillsKnown",
-        "fistTeachingsBarroomBrawl",
-        "fistTeachingsBatHole",
-        "fistTeachingsConservatory",
-        "fistTeachingsFratHouse",
-        "fistTeachingsFunHouse",
-        "fistTeachingsHaikuDungeon",
-        "fistTeachingsMenagerie",
-        "fistTeachingsNinjaSnowmen",
-        "fistTeachingsPokerRoom",
-        "fistTeachingsRoad",
-        "fistTeachingsSlums",
-        "floristFriarAvailable",
-        "floristFriarChecked",
-        "funGuyMansionKills",
-        "frenchGuardTurtlesFreed",
-        "garbageChampagneCharge",
-        "garbageFireProgress",
-        "garbageShirtCharge",
-        "garbageTreeCharge",
-        "getsYouDrunkTurnsLeft",
-        "ghostPepperTurnsLeft",
-        "gingerBlackmailAccomplished",
-        "gingerDigCount",
-        "gingerLawChoice",
-        "gingerMuscleChoice",
-        "gingerNegativesDropped",
-        "gingerSubwayLineUnlocked",
-        "glacierOfJerksBoss",
-        "gladiatorBallMovesKnown",
-        "gladiatorBladeMovesKnown",
-        "gladiatorNetMovesKnown",
-        "gnasirProgress",
-        "gooseDronesRemaining",
-        "gooseReprocessed",
-        "grimstoneCharge",
-        "grimstoneMaskPath",
-        "guardTurtlesFreed",
-        "guyMadeOfBeesCount",
-        "guyMadeOfBeesDefeated",
-        "guzzlrDeliveryProgress",
-        "hallowiener8BitRealm",
-        "hallowienerCoinspiracy",
-        "hallowienerDefiledNook",
-        "hallowienerGuanoJunction",
-        "hallowienerKnollGym",
-        "hallowienerMadnessBakery",
-        "hallowienerMiddleChamber",
-        "hallowienerOvergrownLot",
-        "hallowienerSkeletonStore",
-        "hallowienerSmutOrcs",
-        "hallowienerSonofaBeach",
-        "hallowienerVolcoino",
-        "hareMillisecondsSaved",
-        "hareTurnsUsed",
-        "hasBartender",
-        "hasChef",
-        "hasCocktailKit",
-        "hasOven",
-        "hasRange",
-        "hasShaker",
-        "hasSushiMat",
-        "hermitHax0red",
-        "highTopPumped",
-        "holdHandsMonster",
-        "homebodylCharges",
-        "iceSculptureMonster",
-        "intenseCurrents",
-        "itemBoughtPerAscension10790",
-        "itemBoughtPerAscension10794",
-        "itemBoughtPerAscension10795",
-        "itemBoughtPerAscension637",
-        "itemBoughtPerAscension8266",
-        "juicyGarbageUsed",
-        "juneCleaverQueue",
-        "jungCharge",
-        "lassoTraining",
-        "lastAnticheeseDay",
-        "lastBeardBuff",
-        "lastColosseumRoundWon",
-        "lastCombatEnvironments",
-        "lastCopyableMonster",
-        "lastCouncilVisit",
-        "lastFriarsElbowNC",
-        "lastFriarsHeartNC",
-        "lastFriarsNeckNC",
-        "lastNoncombat15",
-        "lastNoncombat257",
-        "lastNoncombat270",
-        "lastNoncombat273",
-        "lastNoncombat280",
-        "lastNoncombat297",
-        "lastNoncombat322",
-        "lastNoncombat323",
-        "lastNoncombat324",
-        "lastNoncombat341",
-        "lastNoncombat343",
-        "lastNoncombat384",
-        "lastNoncombat386",
-        "lastNoncombat391",
-        "lastNoncombat405",
-        "lastNoncombat406",
-        "lastNoncombat439",
-        "lastNoncombat440",
-        "lastNoncombat441",
-        "lastNoncombat450",
-        "lastNoncombat533",
-        "lastNoncombat539",
-        "lastNoncombat540",
-        "lastNoncombat541",
-        "lastNoncombat588",
-        "lastNoncombat589",
-        "lastNoncombat590",
-        "lastNoncombat591",
-        "lastNoncombat592",
-        "lastShadowForgeUnlockAdventure",
-        "lastTrainsetConfiguration",
-        "lastZapperWandExplosionDay",
-        "latteIngredients",
-        "latteModifier",
-        "latteUnlocks",
-        "leafletCompleted",
-        "ledCandleDropped",
-        "ledCandleMode",
-        "locketPhylum",
-        "lockPicked",
-        "louvreLayout",
-        "lovebugsAridDesert",
-        "lovebugsBeachBuck",
-        "lovebugsBooze",
-        "lovebugsChroner",
-        "lovebugsCoinspiracy",
-        "lovebugsCyrpt",
-        "lovebugsFreddy",
-        "lovebugsFunFunds",
-        "lovebugsHoboNickel",
-        "lovebugsItemDrop",
-        "lovebugsMeat",
-        "lovebugsMeatDrop",
-        "lovebugsMoxie",
-        "lovebugsMuscle",
-        "lovebugsMysticality",
-        "lovebugsOilPeak",
-        "lovebugsOrcChasm",
-        "lovebugsPowder",
-        "lovebugsWalmart",
-        "maelstromOfLoversBoss",
-        "madnessBakeryAvailable",
-        "mappingMonsters",
-        "mapToAnemoneMinePurchased",
-        "mapToMadnessReefPurchased",
-        "mapToTheDiveBarPurchased",
-        "mapToTheMarinaraTrenchPurchased",
-        "mapToTheSkateParkPurchased",
-        "mayflyExperience",
-        "mayoInMouth",
-        "mayoLevel",
-        "mayoMinderSetting",
-        "meansuckerPrice",
-        "merkinLockkeyMonster",
-        "merkinQuestPath",
-        "merkinVocabularyMastery",
-        "milkOfMagnesiumActive",
-        "mimicEggMonsters",
-        "miniAdvClass",
-        "miniKiwiAiolisUsed",
-        "moonTuned",
-        "motifMonster",
-        "monkeyPointMonster",
-        "mushroomGardenCropLevel",
-        "nanopolymerSpiderWebsUsed",
-        "nextAprilBandTurn",
-        "nextDistillateMods",
-        "nextParanormalActivity",
-        "nextQuantumFamiliar",
-        "nextQuantumFamiliarName",
-        "nextQuantumFamiliarOwner",
-        "nextQuantumFamiliarOwnerId",
-        "nextQuantumFamiliarTurn",
-        "nextSpookyravenElizabethRoom",
-        "nextSpookyravenStephenRoom",
-        "noobDeferredPoints",
-        "nosyNoseMonster",
-        "oasisAvailable",
-        "optimisticCandleProgress",
-        "overgrownLotAvailable",
-        "parasolUsed",
-        "parkaMode",
-        "pastaThrall1",
-        "pastaThrall2",
-        "pastaThrall3",
-        "pastaThrall4",
-        "pastaThrall5",
-        "pastaThrall6",
-        "pastaThrall7",
-        "pastaThrall8",
-        "peaceTurkeyIndex",
-        "pendingMapReflections",
-        "photocopyMonster",
-        "pingpongSkill",
-        "pizzaOfLegendEaten",
-        "plantingDate",
-        "plantingDay",
-        "plumberBadgeCost",
-        "plumberCostumeCost",
-        "plumberCostumeWorn",
-        "pokefamBoosts",
-        "popularTartUnlocked",
-        "powerPillProgress",
-        "prayedForGlamour",
-        "prayedForProtection",
-        "prayedForVigor",
-        "procrastinatorLanguageFluency",
-        "pyramidBombUsed",
-        "pyramidPosition",
-        "rainDohMonster",
-        "redSnapperProgress",
-        "retroCapeSuperhero",
-        "retroCapeWashingInstructions",
-        "rockinRobinProgress",
-        "rufusDesiredArtifact",
-        "rufusDesiredEntity",
-        "rufusDesiredItems",
-        "rufusQuestTarget",
-        "rufusQuestType",
-        "rumpelstiltskinKidsRescued",
-        "rumpelstiltskinTurnsUsed",
-        "rwbLocation",
-        "rwbMonster",
-        "rwbMonsterCount",
-        "sausageGrinderUnits",
-        "scrapbookCharges",
-        "screencappedMonster",
-        "seahorseName",
-        "shadowRiftIngress",
-        "shenInitiationDay",
-        "shockingLickCharges",
-        "singleFamiliarRun",
-        "skeletonStoreAvailable",
-        "slimelingFullness",
-        "slimelingStacksDropped",
-        "slimelingStacksDue",
-        "smoresEaten",
-        "smutOrcNoncombatProgress",
-        "snojoMoxieWins",
-        "snojoMuscleWins",
-        "snojoMysticalityWins",
-        "snojoSetting",
-        "snowsuit",
-        "sourceAgentsDefeated",
-        "sourceEnlightenment",
-        "sourceInterval",
-        "sourceOracleTarget",
-        "sourceTerminalEducate1",
-        "sourceTerminalEducate2",
-        "sourceTerminalEnquiry",
-        "spaceBabyLanguageFluency",
-        "spaceInvaderDefeated",
-        "spacePirateLanguageFluency",
-        "spookyPuttyMonster",
-        "spookyVHSTapeMonster",
-        "spookyVHSTapeMonsterTurn",
-        "statbotUses",
-        "sugarCounter4178",
-        "sugarCounter4179",
-        "sugarCounter4180",
-        "sugarCounter4181",
-        "sugarCounter4182",
-        "sugarCounter4183",
-        "sugarCounter4191",
-        "superficiallyInterestedMonster",
-        "sweat",
-        "takerSpaceAnchor",
-        "takerSpaceGold",
-        "takerSpaceMast",
-        "takerSpaceRum",
-        "takerSpaceSilk",
-        "takerSpaceSpice",
-        "telescope1",
-        "telescope2",
-        "telescope3",
-        "telescope4",
-        "telescope5",
-        "telescope6",
-        "telescope7",
-        "testudinalTeachings",
-        "trainsetConfiguration",
-        "trainsetPosition",
-        "trapperOre",
-        "turtleBlessingTurns",
-        "twinPeakProgress",
-        "unicornHornInflation",
-        "vintnerCharge",
-        "vintnerWineEffect",
-        "vintnerWineLevel",
-        "vintnerWineName",
-        "vintnerWineType",
-        "violetFogLayout",
-        "waxMonster",
-        "wereProfessorAdvancedResearch",
-        "wereProfessorBite",
-        "wereProfessorKick",
-        "wereProfessorLiver",
-        "wereProfessorRend",
-        "wereProfessorResearchPoints",
-        "wereProfessorStomach",
-        "wereProfessorTransformTurns",
-        "whetstonesUsed",
-        "wildfireBarrelCaulked",
-        "wildfireDusted",
-        "wildfireFracked",
-        "wildfirePumpGreased",
-        "wildfireSprinkled",
-        "wolfPigsEvicted",
-        "wolfTurnsUsed",
-        "workteaClue",
-        "xoSkeleltonOProgress",
-        "xoSkeleltonXProgress",
-        "yearbookCameraPending",
-        "yearbookCameraTarget",
-        "youRobotBody",
-        "youRobotBottom",
-        "youRobotCPUUpgrades",
-        "youRobotLeft",
-        "youRobotRight",
-        "youRobotScavenged",
-        "youRobotTop",
-      };
-
-  private static final Set<String> resetOnAscensionSet =
-      new HashSet<>(Arrays.asList(resetOnAscension));
+  private static final Set<String> legacyDailies = new TreeSet<>();
+  private static final Set<String> resetOnAscension = new TreeSet<>();
 
   // Obsolete properties.
   private static final String[] obsoleteProperties =
@@ -663,7 +101,8 @@ public class Preferences {
       if (current.length >= 2) {
         String map = current[0];
         String name = current[1];
-        String value = current.length == 2 ? "" : current[2];
+        String defaultValue = current.length < 3 ? "" : current[2];
+        String attributeString = current.length < 4 ? "" : current[3];
 
         HashMap<String, String> desiredMap =
             map.equals("global") ? Preferences.globalNames : Preferences.userNames;
@@ -680,10 +119,19 @@ public class Preferences {
           continue;
         }
 
-        desiredMap.put(name, value);
+        desiredMap.put(name, defaultValue);
 
         // Maintain a set of prefs that exist in defaults.txt
         defaultsSet.add(name);
+
+        // Parse attributes string to learn more about the pref
+        var attributes = attributeString.split(",");
+        for (var attr : attributes) {
+          switch (attr) {
+            case "roa" -> resetOnAscension.add(name);
+            case "ld" -> legacyDailies.add(name);
+          }
+        }
       }
     }
 
@@ -778,95 +226,100 @@ public class Preferences {
         new File(KoLConstants.SETTINGS_LOCATION, Preferences.baseUserName(username) + "_prefs.txt");
     File backupFile =
         new File(KoLConstants.SETTINGS_LOCATION, Preferences.baseUserName(username) + "_prefs.bak");
-    Preferences.userPropertiesFile = userPrefsFile;
 
-    Properties p = Preferences.loadPreferences(userPrefsFile);
+    synchronized (lock) {
+      Properties p = Preferences.loadPreferences(userPrefsFile);
 
-    if (p.size() == 0) {
-      // Something went wrong reading the preferences.
-      if (backupFile.exists()) {
-        KoLmafia.updateDisplay(
-            userPrefsFile
-                + " could not be read, loading backup. "
-                + "This will restore the last successfully opened preferences");
-        // also tell system out, in case things are really fubar
-        System.out.println("Prefs could not be read and backup exists, trying backup. ");
+      if (p.size() == 0) {
+        // Something went wrong reading the preferences.
+        if (backupFile.exists()) {
+          KoLmafia.updateDisplay(
+              userPrefsFile
+                  + " could not be read, loading backup. "
+                  + "This will restore the last successfully opened preferences");
+          // also tell system out, in case things are really fubar
+          System.out.println("Prefs could not be read and backup exists, trying backup. ");
 
-        p = Preferences.loadPreferences(backupFile);
+          p = Preferences.loadPreferences(backupFile);
 
-        if (p.size() > 0) {
-          try {
-            Files.copy(
-                backupFile.toPath(), userPrefsFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+          if (p.size() > 0) {
+            try {
+              Files.copy(
+                  backupFile.toPath(), userPrefsFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
-          } catch (IOException ex) {
+            } catch (IOException ex) {
 
-            KoLmafia.updateDisplay(
-                "Error when restoring preferences from backup,  see session log for details");
-            RequestLogger.updateSessionLog(
-                userPrefsFile
-                    + " could not be read and backup was used. KoLmafia was unable to copy your backup file to "
-                    + "your preferences file and received error message:"
-                    + ex.getMessage()
-                    + "\nIf this is unexpected, please manually review your preferences and backup and repair any problems."
-                    + " If you have a damaged preferences file, "
-                    + "please consider creating a bug report on the forum, noting any special circumstances around "
-                    + "the failure, and attaching the preferences.");
+              KoLmafia.updateDisplay(
+                  "Error when restoring preferences from backup,  see session log for details");
+              RequestLogger.updateSessionLog(
+                  userPrefsFile
+                      + " could not be read and backup was used. KoLmafia was unable to copy your backup file to "
+                      + "your preferences file and received error message:"
+                      + ex.getMessage()
+                      + "\nIf this is unexpected, please manually review your preferences and backup and repair any problems."
+                      + " If you have a damaged preferences file, "
+                      + "please consider creating a bug report on the forum, noting any special circumstances around "
+                      + "the failure, and attaching the preferences.");
+            }
           }
+        } else {
+          KoLmafia.updateDisplay("Preferences could not be read and no backup exists.");
+          RequestLogger.updateSessionLog(
+              userPrefsFile
+                  + " could not be read and backup there is no backup file found. "
+                  + "If this is unexpected, please manually inspect "
+                  + "your preferences file and repair any problems.  If you have a damaged preferences file, "
+                  + "please consider creating a bug report on the forum, noting any special circumstances around "
+                  + "the failure, and attaching the preferences.");
         }
       } else {
-        KoLmafia.updateDisplay("Preferences could not be read and no backup exists.");
-        RequestLogger.updateSessionLog(
-            userPrefsFile
-                + " could not be read and backup there is no backup file found. "
-                + "If this is unexpected, please manually inspect "
-                + "your preferences file and repair any problems.  If you have a damaged preferences file, "
-                + "please consider creating a bug report on the forum, noting any special circumstances around "
-                + "the failure, and attaching the preferences.");
-      }
-    } else {
-      try {
-        Files.copy(
-            userPrefsFile.toPath(), backupFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-      } catch (IOException ex) {
-        System.out.println("I/O Error when creating backup preferences file: " + ex.getMessage());
-        RequestLogger.updateSessionLog(
-            userPrefsFile
-                + " backup creation failed. Please manually inspect "
-                + "your preferences and backup files and repair any problems.  If you have a damaged preferences file, "
-                + "please consider creating a bug report on the forum, noting any special circumstances around "
-                + "the failure, and attaching the preferences.");
-      }
-    }
-    Preferences.userValues.clear();
-    Preferences.userEncodedValues.clear();
-
-    for (Entry<Object, Object> currentEntry : p.entrySet()) {
-      String key = (String) currentEntry.getKey();
-      String value = (String) currentEntry.getValue();
-
-      Preferences.putUser(key, value);
-    }
-
-    for (Entry<String, String> entry : Preferences.userNames.entrySet()) {
-      String key = entry.getKey();
-      if (Preferences.userValues.containsKey(key)) {
-        continue;
+        try {
+          Files.copy(
+              userPrefsFile.toPath(), backupFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException ex) {
+          System.out.println("I/O Error when creating backup preferences file: " + ex.getMessage());
+          RequestLogger.updateSessionLog(
+              userPrefsFile
+                  + " backup creation failed. Please manually inspect "
+                  + "your preferences and backup files and repair any problems.  If you have a damaged preferences file, "
+                  + "please consider creating a bug report on the forum, noting any special circumstances around "
+                  + "the failure, and attaching the preferences.");
+        }
       }
 
-      // If a user property in defaults.txt was not in
-      // NAME_prefs.txt, add to user map with default value
-      // (this is how we add a new user property)
-      //
-      // If it had a value in the GLOBAL map, use that (this
-      // is how we migrate a preference from GLOBAL to user)
-      String value =
-          Preferences.globalValues.containsKey(key)
-              ? (String) Preferences.globalValues.get(key)
-              : entry.getValue();
+      Preferences.userPropertiesFile = null;
+      Preferences.userValues.clear();
+      Preferences.userEncodedValues.clear();
 
-      // System.out.println( "Adding new built-in user setting: " + key );
-      Preferences.putUser(key, value);
+      for (Entry<Object, Object> currentEntry : p.entrySet()) {
+        String key = (String) currentEntry.getKey();
+        String value = (String) currentEntry.getValue();
+
+        Preferences.putUser(key, value);
+      }
+
+      for (Entry<String, String> entry : Preferences.userNames.entrySet()) {
+        String key = entry.getKey();
+        if (Preferences.userValues.containsKey(key)) {
+          continue;
+        }
+
+        // If a user property in defaults.txt was not in
+        // NAME_prefs.txt, add to user map with default value
+        // (this is how we add a new user property)
+        //
+        // If it had a value in the GLOBAL map, use that (this
+        // is how we migrate a preference from GLOBAL to user)
+        String value =
+            Preferences.globalValues.containsKey(key)
+                ? (String) Preferences.globalValues.get(key)
+                : entry.getValue();
+
+        // System.out.println( "Adding new built-in user setting: " + key );
+        Preferences.putUser(key, value);
+      }
+
+      Preferences.userPropertiesFile = userPrefsFile;
     }
   }
 
@@ -1459,7 +912,7 @@ public class Preferences {
     // incremented.
     return name.equals("muffinOnOrder")
         || name.equals("bwApronMealsEaten")
-        || resetOnAscensionSet.contains(name);
+        || resetOnAscension.contains(name);
   }
 
   private static void deferredPoints(String prop, String defprop, int max) {

@@ -13,6 +13,7 @@ import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.AscensionPath.Path;
@@ -185,8 +186,6 @@ public abstract class KoLCharacter {
   public static int AWOLtattoo = 0;
 
   private static int currentLevel = 1;
-  private static long decrementPrime = 0;
-  private static long incrementPrime = 25;
 
   private static long currentHP, maximumHP, baseMaxHP;
   private static long currentMP, maximumMP, baseMaxMP;
@@ -354,8 +353,6 @@ public abstract class KoLCharacter {
 
     KoLCharacter.gender = Gender.UNKNOWN;
     KoLCharacter.currentLevel = 1;
-    KoLCharacter.decrementPrime = 0L;
-    KoLCharacter.incrementPrime = 25L;
 
     KoLCharacter.fury = 0;
     KoLCharacter.soulsauce = 0;
@@ -826,28 +823,18 @@ public abstract class KoLCharacter {
    * @return The level of this character
    */
   public static final int getLevel() {
-    long totalPrime = KoLCharacter.getTotalPrime();
-
-    if (totalPrime < KoLCharacter.decrementPrime || totalPrime >= KoLCharacter.incrementPrime) {
-      int previousLevel = KoLCharacter.currentLevel;
-
-      KoLCharacter.currentLevel = KoLCharacter.calculateSubpointLevels(totalPrime);
-      KoLCharacter.decrementPrime = KoLCharacter.calculateLastLevel();
-      KoLCharacter.incrementPrime = KoLCharacter.calculateNextLevel();
-
-      if (KoLCharacter.incrementPrime < 0) {
-        // this will overflow at level 216
-        KoLCharacter.incrementPrime = Long.MAX_VALUE;
-      }
-
-      if (previousLevel != KoLCharacter.currentLevel) {
-        HPRestoreItemList.updateHealthRestored();
-        MPRestoreItemList.updateManaRestored();
-        ConsumablesDatabase.setLevelVariableConsumables();
-      }
-    }
-
     return KoLCharacter.currentLevel;
+  }
+
+  /** Set the level of this character. */
+  public static final void setLevel(int newLevel) {
+    int previousLevel = KoLCharacter.currentLevel;
+    KoLCharacter.currentLevel = newLevel;
+    if (previousLevel != newLevel) {
+      HPRestoreItemList.updateHealthRestored();
+      MPRestoreItemList.updateManaRestored();
+      ConsumablesDatabase.setLevelVariableConsumables();
+    }
   }
 
   public static final int getFury() {
@@ -3387,6 +3374,10 @@ public abstract class KoLCharacter {
     return KoLCharacter.ascensionPath == Path.ELEVEN_THINGS;
   }
 
+  public static final boolean inZootomist() {
+    return KoLCharacter.ascensionPath == Path.Z_IS_FOR_ZOOTOMIST;
+  }
+
   public static final boolean isUnarmed() {
     AdventureResult weapon = EquipmentManager.getEquipment(Slot.WEAPON);
     AdventureResult offhand = EquipmentManager.getEquipment(Slot.OFFHAND);
@@ -4446,13 +4437,32 @@ public abstract class KoLCharacter {
         .orElse(null);
   }
 
+  private static Stream<Integer> graftedFamiliars() {
+    return Stream.of(
+            "zootGraftedButtCheekLeftFamiliar",
+            "zootGraftedButtCheekRightFamiliar",
+            "zootGraftedFootLeftFamiliar",
+            "zootGraftedFootRightFamiliar",
+            "zootGraftedHandLeftFamiliar",
+            "zootGraftedHandRightFamiliar",
+            "zootGraftedHeadFamiliar",
+            "zootGraftedNippleLeftFamiliar",
+            "zootGraftedNippleRightFamiliar",
+            "zootGraftedShoulderLeftFamiliar",
+            "zootGraftedShoulderRightFamiliar")
+        .map(pref -> Preferences.getInteger(pref))
+        .filter(id -> id > 0);
+  }
+
   private static boolean isUsable(FamiliarData f) {
     if (f == FamiliarData.NO_FAMILIAR) return !KoLCharacter.inQuantum();
 
     return StandardRequest.isAllowed(f)
         && (!KoLCharacter.inZombiecore() || f.isUndead())
         && (!KoLCharacter.inBeecore() || !KoLCharacter.hasBeeosity(f.getRace()))
-        && (!KoLCharacter.inGLover() || KoLCharacter.hasGs(f.getRace()));
+        && (!KoLCharacter.inGLover() || KoLCharacter.hasGs(f.getRace()))
+        && (!KoLCharacter.inZootomist()
+            || !KoLCharacter.graftedFamiliars().anyMatch(id -> id == f.getId()));
   }
 
   /**
@@ -5935,5 +5945,12 @@ public abstract class KoLCharacter {
     mods.addDouble(DoubleModifier.COLD_RESISTANCE, level, ModifierType.OUTFIT, "McHugeLarge");
     mods.addDouble(DoubleModifier.HOT_DAMAGE, 5 * level, ModifierType.OUTFIT, "McHugeLarge");
     mods.addDouble(DoubleModifier.INITIATIVE, 10 * level, ModifierType.OUTFIT, "McHugeLarge");
+  }
+
+  public static boolean hasCampground() {
+    return switch (KoLCharacter.ascensionPath) {
+      case ACTUALLY_ED_THE_UNDYING, YOU_ROBOT, NUCLEAR_AUTUMN, SMALL, WEREPROFESSOR -> false;
+      default -> true;
+    };
   }
 }

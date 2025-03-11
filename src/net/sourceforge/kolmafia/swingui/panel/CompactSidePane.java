@@ -64,7 +64,7 @@ import net.sourceforge.kolmafia.webui.CharPaneDecorator;
 
 public class CompactSidePane extends JPanel implements Runnable {
   private final JPanel levelPanel;
-  private final JProgressBar levelMeter;
+  protected final JProgressBar levelMeter;
   private final JLabel levelLabel, roninLabel, mcdLabel;
   private final int STAT_LABELS = 3;
   private final JLabel[] statLabel = new JLabel[STAT_LABELS];
@@ -110,6 +110,7 @@ public class CompactSidePane extends JPanel implements Runnable {
     panels[panelCount].add(this.levelLabel = new JLabel(" ", JLabel.CENTER), BorderLayout.NORTH);
 
     panels[panelCount].add(this.levelMeter = new JProgressBar(), BorderLayout.CENTER);
+    this.levelMeter.setVisible(!KoLCharacter.inZootomist());
     this.levelMeter.setOpaque(true);
     this.levelMeter.setStringPainted(true);
     JComponentUtilities.setComponentSize(this.levelMeter, 40, 6);

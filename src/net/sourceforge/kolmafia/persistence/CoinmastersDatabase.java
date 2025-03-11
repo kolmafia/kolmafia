@@ -39,7 +39,7 @@ public class CoinmastersDatabase {
 
   // Map from Integer to ShopRow
 
-  // *** Since I believe ROW numbers are unique, it would be nice to also
+  // *** Since ROW numbers are unique, it would be nice to
   // *** also register items in NPCstores and Concoctions
   // *** Put this into ShopRow.java?
   public static final Map<Integer, ShopRow> rowData = new TreeMap<>();

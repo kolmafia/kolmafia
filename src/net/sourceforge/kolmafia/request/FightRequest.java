@@ -97,6 +97,7 @@ import net.sourceforge.kolmafia.session.GrimstoneManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.IslandManager;
 import net.sourceforge.kolmafia.session.JuneCleaverManager;
+import net.sourceforge.kolmafia.session.LeprecondoManager;
 import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.session.LocketManager;
 import net.sourceforge.kolmafia.session.LoginManager;
@@ -2972,6 +2973,13 @@ public class FightRequest extends GenericRequest {
           Preferences.increment("_turkeyMoxie");
         }
       }
+      case FamiliarPool.BURLY_BODYGUARD -> {
+        if (responseText.contains("remembers some ancestral bodyguard skills")) {
+          Preferences.setBoolean("burlyBodyguardReceivedBonus", true);
+          var exp = (int) Math.pow(Preferences.getInteger("avantGuardPoints"), 2.0);
+          familiar.addNonCombatExperience(exp);
+        }
+      }
       case FamiliarPool.PEACE_TURKEY -> {
         if (responseText.contains("Uncharacteristically violent")) {
           Preferences.setInteger("peaceTurkeyIndex", 1);
@@ -4666,7 +4674,7 @@ public class FightRequest extends GenericRequest {
   public static Map<Integer, String> dartSkillToPart = new TreeMap<>();
   public static int dartsLeft = 0;
 
-  private static void parseDartboard(final String responseText) {
+  public static void parseDartboard(final String responseText) {
     // Assume no dart skills are available
     dartSkillToPart.clear();
     dartsLeft = 0;
@@ -6044,7 +6052,7 @@ public class FightRequest extends GenericRequest {
       switch (td++) {
         case 1 -> {
           // Familiar Image:
-          Element inode = tdnode.children().select("img").first();
+          Element inode = tdnode.children().selectFirst("img");
           image = imgToString(inode);
         }
         case 2 -> {
@@ -6126,7 +6134,7 @@ public class FightRequest extends GenericRequest {
           if (span.attr("title").isEmpty()) {
             // Next action is nested
             // *** remember that this is the designated enemy move?
-            span = span.children().select("span").first();
+            span = span.children().selectFirst("span");
           }
           String str = span.wholeText();
           if (str.startsWith("[")) {
@@ -6404,7 +6412,7 @@ public class FightRequest extends GenericRequest {
       }
 
       if (status.famaction) {
-        Element inode = node.children().select("img").first();
+        Element inode = node.children().selectFirst("img");
         FightRequest.processFamiliarAction(node, inode, status);
         return;
       }
@@ -6507,7 +6515,7 @@ public class FightRequest extends GenericRequest {
         }
 
         if (str.startsWith("You acquire a skill")) {
-          Element bnode = node.children().select("b").first();
+          Element bnode = node.children().selectFirst("b");
           if (bnode != null) {
             String skill = bnode.wholeText();
             FightRequest.logSkillAcquisition(skill, status);
@@ -6538,7 +6546,7 @@ public class FightRequest extends GenericRequest {
 
   private static boolean processTable(Element node, TagStatus status) {
     // Tables often appear in fight results to hold images.
-    Element inode = node.children().select("img").first();
+    Element inode = node.children().selectFirst("img");
     String onclick = "";
 
     if (inode != null) {
@@ -6682,7 +6690,7 @@ public class FightRequest extends GenericRequest {
 
       if (onclick.contains("desc_skill.php")) {
         if (str.startsWith("You acquire a skill")) {
-          Element bnode = node.children().select("b").first();
+          Element bnode = node.children().selectFirst("b");
           if (bnode != null) {
             String skill = bnode.wholeText();
             FightRequest.logSkillAcquisition(skill, status);
@@ -7409,7 +7417,7 @@ public class FightRequest extends GenericRequest {
       Pattern.compile("(\\d+) kiss(?:es)? for winning(?: \\+(\\d+) for difficulty)?");
 
   private static boolean handleKisses(Element node, TagStatus status) {
-    Element span = node.children().select("span").first();
+    Element span = node.children().selectFirst("span");
     if (span == null) {
       return false;
     }
@@ -7701,7 +7709,7 @@ public class FightRequest extends GenericRequest {
 
     // For some unknown reason, gladiator moves are tagged as <!--familiarmessage-->
     if (str.startsWith("New Special Move Unlocked")) {
-      Element bnode = node.children().select("b").first();
+      Element bnode = node.children().selectFirst("b");
       if (bnode != null) {
         FightRequest.logText(text, status);
         String skill = bnode.wholeText();
@@ -7740,6 +7748,14 @@ public class FightRequest extends GenericRequest {
     }
 
     if (FightRequest.handleFamiliarScrapbook(str, status)) {
+      return;
+    }
+
+    // Leprecondo actions are tagged this way
+    if (LeprecondoManager.handlePostCombatMessage(str, image)) {
+      if (status.logFamiliar) {
+        FightRequest.logText(str, status);
+      }
       return;
     }
 
@@ -9823,6 +9839,12 @@ public class FightRequest extends GenericRequest {
           Preferences.decrement("_hotJellyUses");
         }
       }
+      case SkillPool.PUNCH_OUT_YOUR_FOE -> {
+        if (responseText.contains("deliver an epic punch") || skillRunawaySuccess) {
+          BanishManager.banishMonster(monster, Banisher.PUNCH_OUT_YOUR_FOE);
+          Preferences.decrement("preworkoutPowderUses");
+        }
+      }
       case SkillPool.HUGS_KISSES -> {
         if (responseText.contains("yoinks something") || skillSuccess) {
           skillSuccess = true;
@@ -11513,7 +11535,7 @@ public class FightRequest extends GenericRequest {
         }
 
         int skillNumber = StringUtilities.parseInt(skillId);
-        String skill = SkillDatabase.getSkillName(skillNumber);
+        String skill = SkillDatabase.getPrettySkillName(skillNumber);
         if (skill == null) {
           if (shouldLogAction) {
             action.append("casts CHANCE!");

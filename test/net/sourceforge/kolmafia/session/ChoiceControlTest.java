@@ -22,6 +22,7 @@ import static internal.helpers.Player.withTurnsPlayed;
 import static internal.matchers.Preference.isSetTo;
 import static internal.matchers.Quest.isStep;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
@@ -896,6 +897,17 @@ class ChoiceControlTest {
         assertThat("_mayamRests", isSetTo(5));
       }
     }
+
+    @Test
+    void choosingFurGivesExperience() {
+      var cleanups =
+          new Cleanups(
+              withFamiliar(FamiliarPool.JILL_OF_ALL_TRADES),
+              withPostChoice2(1527, 1, html("request/test_choice_mayam_fur.html")));
+      try (cleanups) {
+        assertThat(KoLCharacter.getFamiliar().getTotalExperience(), equalTo(100));
+      }
+    }
   }
 
   @Nested
@@ -1363,6 +1375,101 @@ class ChoiceControlTest {
         ChoiceManager.visitChoice(req);
         assertThat("daycareInstructorItem", isSetTo(11));
         assertThat("daycareInstructorItemQuantity", isSetTo(69));
+      }
+    }
+  }
+
+  @Nested
+  class Zootomist {
+    @ParameterizedTest
+    @ValueSource(ints = {0, 1})
+    void canDetectSpecimensPrepared(int numUsed) {
+      var cleanups = new Cleanups(withPostChoice1(0, 0), withProperty("zootSpecimensPrepared"));
+
+      try (cleanups) {
+        var req = new GenericRequest("choice.php?whichchoice=1555");
+        req.responseText = html("request/test_choice_zoot_specimen_bench_" + numUsed + ".html");
+
+        ChoiceManager.visitChoice(req);
+        assertThat("zootSpecimensPrepared", isSetTo(numUsed));
+      }
+    }
+
+    @Test
+    void addsFamiliarExperience() {
+      var cleanups =
+          new Cleanups(
+              withFamiliar(FamiliarPool.MECHANICAL_SONGBIRD),
+              withProperty("zootSpecimensPrepared"),
+              withPostChoice1(1555, 1, html("request/test_choice_zoot_specimen_bench_post.html")));
+
+      try (cleanups) {
+        assertThat("zootSpecimensPrepared", isSetTo(1));
+        assertThat(KoLCharacter.getFamiliar().getTotalExperience(), equalTo(20));
+      }
+    }
+  }
+
+  @Nested
+  class Leprecondo {
+    @ParameterizedTest
+    @CsvSource(
+        value = {"1|1,2,3,4,5,6,8,9,12,13,21,24"},
+        delimiter = '|')
+    void canDetectFurnitureDiscovered(final String version, final String discoveries) {
+      var cleanups = new Cleanups(withProperty("leprecondoDiscovered", ""));
+
+      try (cleanups) {
+        var req = new GenericRequest("choice.php?whichchoice=1556");
+        req.responseText = html("request/test_choice_leprecondo_" + version + ".html");
+        ChoiceManager.visitChoice(req);
+        assertThat("leprecondoDiscovered", isSetTo(discoveries));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource(
+        value = {"1|21,12,8,9", "empty_spots|2,0,0,5"},
+        delimiter = '|')
+    void canDetectFurnitureInstalled(final String version, final String installed) {
+      var cleanups = new Cleanups(withProperty("leprecondoDiscovered", ""));
+
+      try (cleanups) {
+        var req = new GenericRequest("choice.php?whichchoice=1556");
+        req.responseText = html("request/test_choice_leprecondo_" + version + ".html");
+        ChoiceManager.visitChoice(req);
+        assertThat("leprecondoInstalled", isSetTo(installed));
+      }
+    }
+
+    @Test
+    void handleNoMoreRearrangements() {
+      var cleanups =
+          new Cleanups(
+              withProperty("leprecondoDiscovered", "1,2,3,4,5,6,8,9,13,21"),
+              withProperty("leprecondoInstalled", ""));
+
+      try (cleanups) {
+        var req = new GenericRequest("choice.php?whichchoice=1556");
+        req.responseText = html("request/test_choice_leprecondo_cannot_rearrange.html");
+        ChoiceManager.visitChoice(req);
+        // Discoveries left alone
+        assertThat("leprecondoDiscovered", isSetTo("1,2,3,4,5,6,8,9,13,21"));
+        // Installed items detected
+        assertThat("leprecondoInstalled", isSetTo("9,8,13,21"));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource(value = {"1,0", "cannot_rearrange,3"})
+    void canDetectRearrangements(final String version, final String rearrangements) {
+      var cleanups = new Cleanups(withProperty("_leprecondoRearrangements", "1"));
+
+      try (cleanups) {
+        var req = new GenericRequest("choice.php?whichchoice=1556");
+        req.responseText = html("request/test_choice_leprecondo_" + version + ".html");
+        ChoiceManager.visitChoice(req);
+        assertThat("_leprecondoRearrangements", isSetTo(rearrangements));
       }
     }
   }

@@ -53,6 +53,7 @@ public class ChoiceManagerTest {
     KoLConstants.encounterList.clear();
     ChoiceManager.lastChoice = 0;
     ChoiceManager.lastDecision = 0;
+    ChoiceManager.lastResponseText = "";
   }
 
   @Test
@@ -497,35 +498,36 @@ public class ChoiceManagerTest {
                   + (onDevServer ? "dev" : "regular")
                   + ".html");
       assertThat(ChoiceManager.stillInChoice(), is(false));
-      ChoiceManager.lastResponseText = "";
     }
 
     @Test
     void parsesNowWhat() {
       ChoiceManager.lastResponseText = html("request/test_automation_temple_0.html");
       assertThat(ChoiceManager.stillInChoice(), is(true));
-      ChoiceManager.lastResponseText = "";
     }
 
     @Test
     void parseNightstand() {
       ChoiceManager.lastResponseText = html("request/test_adventures_spent_fight_1_1.html");
       assertThat(ChoiceManager.stillInChoice(), is(true));
-      ChoiceManager.lastResponseText = "";
     }
 
     @Test
     void parsesDoingTheMaths() {
       ChoiceManager.lastResponseText = html("request/test_choice_doing_the_maths.html");
       assertThat(ChoiceManager.stillInChoice(), is(true));
-      ChoiceManager.lastResponseText = "";
     }
 
     @Test
     void parsesTheBatSedan() {
       ChoiceManager.lastResponseText = html("request/test_choice_the_bat_sedan_result.html");
       assertThat(ChoiceManager.stillInChoice(), is(true));
-      ChoiceManager.lastResponseText = "";
+    }
+
+    @Test
+    void parsesLeprecondo() {
+      ChoiceManager.lastResponseText = html("request/test_choice_leprecondo_1.html");
+      assertThat(ChoiceManager.stillInChoice(), is(true));
     }
   }
 }

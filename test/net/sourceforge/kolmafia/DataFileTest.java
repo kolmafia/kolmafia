@@ -26,7 +26,7 @@ public class DataFileTest {
                   + "hat|weapon|sixgun|offhand|container|shirt|pants|accessory|familiar|sticker|"
                   + "card|folder|bootspur|bootskin|food helper|drink helper|zap|sphere|guardian|"
                   + "avatar|potion)(\\s*,\\s*(usable|multiple|reusable|combat|combat reusable|single|message|"
-                  + "solo|curse|bounty|package|candy1|candy2|candy|chocolate|matchable|fancy|paste|smith|cook|mix))*"), // use
+                  + "solo|craft|curse|bounty|package|candy1|candy2|candy|chocolate|matchable|fancy|paste|smith|cook|mix))*"), // use
               "([qgtd](,[qgtd])*)?", // access
               "\\d+", // autosell
             }),
@@ -49,7 +49,7 @@ public class DataFileTest {
               "\\d+", // fullness
               "\\d+", // level
               // Missing quality is only for fake food "[glitch season reward name]"
-              "(crappy|decent|good|awesome|EPIC|\\?\\?\\?|drippy|sushi|quest|)", // quality
+              "(crappy|decent|good|awesome|(super (ultra (mega (turbo )?)?)?)?EPIC|\\?\\?\\?|drippy|pseudoitem|quest|)", // quality
               "-?\\d+(-\\d+)?", // adv
               "-?\\d+(-\\d+)?", // mus
               "-?\\d+(-\\d+)?", // mys
@@ -63,7 +63,7 @@ public class DataFileTest {
               "\\d+", // fullness
               "\\d+", // level
               // Missing quality is only for fake drink "ice stein"
-              "(crappy|decent|good|awesome|EPIC|\\?\\?\\?|drippy|quest|)", // quality
+              "(crappy|decent|good|awesome|(super (ultra (mega (turbo )?)?)?)?EPIC|\\?\\?\\?|drippy|pseudoitem|quest|)", // quality
               "-?\\d+(-\\d+)?", // adv
               "-?\\d+(-\\d+)?", // mus
               "-?\\d+(-\\d+)?", // mys
@@ -76,7 +76,7 @@ public class DataFileTest {
               ".+", // name
               "\\d+", // fullness
               "\\d+", // level
-              "(|crappy|decent|good|awesome|EPIC)", // quality
+              "(|crappy|decent|good|awesome|(super (ultra (mega (turbo )?)?)?)?EPIC)", // quality
               "-?\\d+(-\\d+)?", // adv
               "-?\\d+(-\\d+)?", // mus
               "-?\\d+(-\\d+)?", // mys

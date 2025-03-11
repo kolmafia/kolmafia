@@ -23,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
 import internal.helpers.RequestLoggerOutput;
+import internal.helpers.SessionLoggerOutput;
 import internal.network.FakeHttpClientBuilder;
 import java.util.HashMap;
 import java.util.List;
@@ -53,6 +54,7 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.CrystalBallManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
+import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.GreyYouManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LocketManager;
@@ -2977,7 +2979,7 @@ public class FightRequestTest {
   }
 
   @Nested
-  class BodyguardChat {
+  class BurlyBodyguard {
     @ParameterizedTest
     @CsvSource({
       "request/test_fight_win.html",
@@ -3019,6 +3021,35 @@ public class FightRequestTest {
               withFight(0))) {
         parseCombatData("request/test_fight_bodyguard_pwa.html");
         assertThat("bodyguardChatMonster", isSetTo(""));
+      }
+    }
+
+    @Test
+    void recordsBonusApplied() {
+      var cleanups =
+          new Cleanups(
+              withProperty("burlyBodyguardReceivedBonus", false),
+              withFamiliar(FamiliarPool.BURLY_BODYGUARD),
+              withFight());
+      try (cleanups) {
+        parseCombatData("request/test_fight_burly_bodyguard_bonus.html");
+        assertThat("burlyBodyguardReceivedBonus", isSetTo(true));
+      }
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {0, 6, 11})
+    void addsExperienceFromBonus(final int points) {
+      var cleanups =
+          new Cleanups(
+              withProperty("avantGuardPoints", points),
+              withProperty("burlyBodyguardReceivedBonus", false),
+              withFamiliar(FamiliarPool.BURLY_BODYGUARD, 0),
+              withFight());
+      try (cleanups) {
+        parseCombatData("request/test_fight_burly_bodyguard_bonus.html");
+        var fam = KoLCharacter.getEffectiveFamiliar();
+        assertThat(fam.getTotalExperience(), is((int) Math.pow(points, 2) + 1));
       }
     }
   }
@@ -3885,6 +3916,84 @@ public class FightRequestTest {
       try (cleanups) {
         parseCombatData("request/test_fight_battle_end_new_combat_bar_only_runaway.html");
         assertThat("_lastCombatWon", isSetTo(false));
+      }
+    }
+  }
+
+  @Nested
+  class Leprecondo {
+    @Test
+    void parsesFurnitureDiscovery() {
+      var goal = GoalManager.GOAL_LEPRECONDO.getInstance(1);
+      var cleanups =
+          new Cleanups(
+              withItem("Leprecondo"),
+              withGoal(goal),
+              withProperty("leprecondoDiscovered", "1,21"),
+              withProperty("leprecondoCurrentNeed"),
+              withProperty("leprecondoNeedOrder"),
+              withProperty("_leprecondoFurniture", 1),
+              withFight(0));
+      try (cleanups) {
+        assertTrue(GoalManager.hasGoal(goal));
+        SessionLoggerOutput.startStream();
+        parseCombatData("request/test_fight_leprecondo_furniture_found.html");
+        var text = SessionLoggerOutput.stopStream();
+        String expected =
+            "Round 2: Gog spots a sous vide laboratory inside the garbage disposal and runs out of his condo. He drags it back to the condo and stores it in the attic.";
+        assertThat(text, containsString(expected));
+        assertThat("leprecondoDiscovered", isSetTo("1,13,21"));
+        assertThat("_leprecondoFurniture", isSetTo(2));
+        assertFalse(GoalManager.hasGoal(goal));
+      }
+    }
+
+    @Test
+    void parsesNeed() {
+      var cleanups =
+          new Cleanups(
+              withItem("Leprecondo"),
+              withProperty("leprecondoDiscovered"),
+              withProperty("leprecondoCurrentNeed"),
+              withProperty("leprecondoLastNeedChange", 0),
+              withProperty("leprecondoNeedOrder"),
+              withCurrentRun(45),
+              withFight(0));
+      try (cleanups) {
+        parseCombatData("request/test_fight_leprecondo_furniture_found.html");
+        assertThat("leprecondoCurrentNeed", isSetTo("booze"));
+        assertThat("leprecondoLastNeedChange", isSetTo(45));
+      }
+    }
+
+    @Test
+    void ignoresKnownNeed() {
+      var cleanups =
+          new Cleanups(
+              withItem("Leprecondo"),
+              withProperty("leprecondoDiscovered"),
+              withProperty("leprecondoCurrentNeed", "booze"),
+              withProperty("leprecondoLastNeedChange", 42),
+              withProperty("leprecondoNeedOrder"),
+              withCurrentRun(45),
+              withFight(0));
+      try (cleanups) {
+        parseCombatData("request/test_fight_leprecondo_furniture_found.html");
+        assertThat("leprecondoCurrentNeed", isSetTo("booze"));
+        assertThat("leprecondoLastNeedChange", isSetTo(42));
+      }
+    }
+
+    @Test
+    public void canDetectPunchOutBanish() {
+      var cleanups = new Cleanups(withFight(), withBanishedMonsters(""));
+
+      try (cleanups) {
+        parseCombatData(
+            "request/test_fight_punch_out_banish.html", "fight.php?action=skill&whichskill=7561");
+
+        assertThat(
+            "banishedMonsters", hasStringValue(startsWith("dairy goat:Punch Out your Foe:")));
       }
     }
   }

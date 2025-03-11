@@ -81,6 +81,7 @@ public class ModifierDatabase {
   // constant fields
 
   public static final String EXPR = "(?:([-+]?[\\d.]+)|\\[([^]]+)\\])";
+  public static final String BOOLEAN_EXPR = "(?:: \\[([^]]+)])?";
 
   private static final Pattern FAMILIAR_EFFECT_TRANSLATE_PATTERN =
       Pattern.compile("([\\d.]+)\\s*x\\s*(Volley|Somb|Lep|Fairy)");
@@ -733,7 +734,12 @@ public class ModifierDatabase {
           continue;
         }
 
-        newMods.setBoolean(mod, true);
+        if (matcher.groupCount() == 0 || matcher.group(1) == null) {
+          newMods.setBoolean(mod, true);
+        } else {
+          newMods.addExpression(
+              new Indexed<>(mod, ModifierExpression.getInstance(matcher.group(1), lookup)));
+        }
         continue modLoop;
       }
 
@@ -890,6 +896,16 @@ public class ModifierDatabase {
     }
 
     return null;
+  }
+
+  private static final Pattern LAST_AVAILABLE_PATTERN =
+      Pattern.compile("<![-—]+ Last Available Date: (\\d{4}-\\d{2}) [-—]+>");
+
+  public static String parseLastAvailable(final String text) {
+    var matcher = LAST_AVAILABLE_PATTERN.matcher(text);
+    if (!matcher.find()) return null;
+
+    return StringModifier.LAST_AVAILABLE_DATE.getTag() + ": \"" + matcher.group(1) + "\"";
   }
 
   public static final String parseModifier(final String enchantment) {
@@ -1470,7 +1486,8 @@ public class ModifierDatabase {
 
   // region: verify modifiers.txt
 
-  public static final void checkModifiers() {
+  public static final ArrayList<String> checkModifiers() {
+    var issues = new ArrayList<String>();
     for (Entry<ModifierType, Map<IntOrString, String>> typeEntry :
         modifierStringsByName.entrySet()) {
       ModifierType type = typeEntry.getKey();
@@ -1479,7 +1496,9 @@ public class ModifierDatabase {
         String modifierString = entry.getValue();
 
         if (modifierString == null) {
-          RequestLogger.printLine("Key \"" + type + ":" + key + "\" has no modifiers");
+          var issue = "Key \"" + type + ":" + key + "\" has no modifiers";
+          RequestLogger.printLine(issue);
+          issues.add(issue);
           continue;
         }
 
@@ -1508,11 +1527,17 @@ public class ModifierDatabase {
           if (type == ModifierType.FAM_EQ) {
             continue; // these may contain freeform text
           }
-          RequestLogger.printLine(
-              "Key \"" + type + ":" + key + "\" has unknown modifier: \"" + mod + "\"");
+          if (type == ModifierType.THRONE && mod.isEmpty()) {
+            continue; // these may be empty during spading
+          }
+          var issue = "Key \"" + type + ":" + key + "\" has unknown modifier: \"" + mod + "\"";
+          issues.add(issue);
+          RequestLogger.printLine(issue);
         }
       }
     }
+
+    return issues;
   }
 
   // region: initial load of modifiers.txt

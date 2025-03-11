@@ -1545,6 +1545,7 @@ star shirt	STAR, TORSO, ROW142	star chart	star (15)	line (15)
 # mystic after collecting enough pixels.
 
 monster bait	PIXEL, ROW31	red pixel (20)	white pixel (15)
+# digital key	PIXEL, ROW36	white pixel (30)
 
 white pixel	PIXEL, ROW26	red pixel	green pixel	blue pixel
 red pixel potion	PIXEL, ROW27	black pixel (3)	red pixel (2)

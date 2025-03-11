@@ -25,7 +25,6 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.shop.ShopRequest;
 import net.sourceforge.kolmafia.shop.ShopRow;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -94,25 +93,16 @@ public class NPCPurchaseRequest extends PurchaseRequest {
       return;
     }
 
-    this.addFormField("whichitem", String.valueOf(itemId));
-
+    // This is the only remaining NPC store which is not shop.php
     if (storeId.equals("town_giftshop.php")) {
       this.addFormField("action", "buy");
       this.hashField = "pwd";
+      this.addFormField("whichitem", String.valueOf(itemId));
       this.quantityField = "howmany";
-    } else if (storeId.equals("fdkol")) {
-      this.addFormField("whichshop", storeId);
-      this.addFormField("action", "buyitem");
-      this.addFormField("ajax", "1");
-      this.hashField = "pwd";
-      this.quantityField = "quantity";
-    } else {
-      this.addFormField("whichstore", storeId);
-      this.addFormField("buying", "1");
-      this.addFormField("ajax", "1");
-      this.hashField = "phash";
-      this.quantityField = "howmany";
+      return;
     }
+
+    this.quantityField = "bogus";
   }
 
   @Override
@@ -359,43 +349,14 @@ public class NPCPurchaseRequest extends PurchaseRequest {
       return;
     }
 
-    int quantityAcquired = this.item.getCount(KoLConstants.inventory) - this.initialCount;
+    // The only other NPC store is the Town Gift Shop.
 
-    if (quantityAcquired > 0) {
-      ResultProcessor.processMeat(-1 * this.getPrice() * quantityAcquired);
-      KoLCharacter.updateStatus();
-    }
-  }
+    // town_giftshop.php?whichitem=1178&action=buy&pwd&howmany=1
+    // You acquire an item: <b>potted cactus</b>
+    // You spent 18 Meat.
 
-  public static final boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("town_giftshop.php")) {
-      return false;
-    }
+    // That is also already parsed
 
-    Matcher itemMatcher = TransferItemRequest.ITEMID_PATTERN.matcher(urlString);
-    if (!itemMatcher.find()) {
-      return true;
-    }
-
-    Matcher quantityMatcher = TransferItemRequest.HOWMANY_PATTERN.matcher(urlString);
-    if (!quantityMatcher.find()) {
-      return true;
-    }
-
-    int itemId = StringUtilities.parseInt(itemMatcher.group(1));
-    String itemName = ItemDatabase.getItemName(itemId);
-    int quantity = StringUtilities.parseInt(quantityMatcher.group(1));
-    long priceVal = NPCStoreDatabase.price(itemId);
-
-    Matcher m = NPCPurchaseRequest.NPCSHOPID_PATTERN.matcher(urlString);
-    String shopId = m.find() ? NPCStoreDatabase.getStoreName(m.group(1)) : null;
-    String shopName = shopId != null ? shopId : "an NPC Store";
-
-    RequestLogger.updateSessionLog();
-    RequestLogger.updateSessionLog(
-        "buy " + quantity + " " + itemName + " for " + priceVal + " each from " + shopName);
-
-    return true;
   }
 
   private static final Pattern BLOOD_MAYO_PATTERN =
@@ -542,5 +503,34 @@ public class NPCPurchaseRequest extends PurchaseRequest {
       }
       return;
     }
+  }
+
+  public static final boolean registerRequest(final String urlString) {
+    // All other NPC shops use shop.php and are handled in ShopRequest.java
+    if (!urlString.startsWith("town_giftshop.php")) {
+      return false;
+    }
+
+    Matcher itemMatcher = TransferItemRequest.ITEMID_PATTERN.matcher(urlString);
+    if (!itemMatcher.find()) {
+      return true;
+    }
+
+    Matcher quantityMatcher = TransferItemRequest.HOWMANY_PATTERN.matcher(urlString);
+    if (!quantityMatcher.find()) {
+      return true;
+    }
+
+    int itemId = StringUtilities.parseInt(itemMatcher.group(1));
+    String itemName = ItemDatabase.getItemName(itemId);
+    int quantity = StringUtilities.parseInt(quantityMatcher.group(1));
+    long priceVal = NPCStoreDatabase.price(itemId);
+    String shopName = "The Town Gift Shop";
+
+    RequestLogger.updateSessionLog();
+    RequestLogger.updateSessionLog(
+        "buy " + quantity + " " + itemName + " for " + priceVal + " each from " + shopName);
+
+    return true;
   }
 }

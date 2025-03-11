@@ -958,7 +958,7 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
 
     switch (this.riseSelect.getSelectedIndex()) {
       case 0 -> // Ignore this adventure
-      Preferences.setString("choiceAdventure888", "4");
+      Preferences.setString("choiceAdventure888", "5");
       case 1 -> { // Mysticality
         Preferences.setString("choiceAdventure888", "3");
         Preferences.setString("choiceAdventure88", "1");

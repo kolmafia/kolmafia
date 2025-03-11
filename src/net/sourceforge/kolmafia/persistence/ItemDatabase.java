@@ -176,6 +176,7 @@ public class ItemDatabase {
     SINGLE("single"),
     SOLO("solo"),
 
+    CRAFT("craft"),
     CURSE("curse"),
     BOUNTY("bounty"),
     PACKAGE("package"),
@@ -707,8 +708,8 @@ public class ItemDatabase {
     ApiRequest request = new ApiRequest("item", itemId);
     RequestThread.postRequest(request);
 
-    JSONObject JSON = request.JSON;
-    if (JSON == null) {
+    JSONObject json = request.json;
+    if (json == null) {
       return;
     }
 
@@ -733,9 +734,9 @@ public class ItemDatabase {
     // }
 
     try {
-      String name = JSON.getString("name");
-      String descid = JSON.getString("descid");
-      int power = JSON.getIntValue("power");
+      String name = json.getString("name");
+      String descid = json.getString("descid");
+      int power = json.getIntValue("power");
       ItemDatabase.registerItem(itemId, name, descid, null, power, false);
     } catch (JSONException e) {
       KoLmafia.updateDisplay("Error parsing JSON string!");
@@ -966,7 +967,7 @@ public class ItemDatabase {
     }
 
     // Let modifiers database do what it wishes with this item
-    ModifierDatabase.registerItem(itemName, text, usage);
+    ModifierDatabase.registerItem(itemName, rawText, usage);
 
     // Done generating data
     printMe = "--------------------";
@@ -1892,48 +1893,56 @@ public class ItemDatabase {
   }
 
   public static final boolean isFood(final int itemId) {
-    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
-    return useType == ConsumptionType.EAT;
+    return useTypeIs(ConsumptionType.EAT, itemId);
   }
 
   public static final boolean isBooze(final int itemId) {
-    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
-    return useType == ConsumptionType.DRINK;
+    return useTypeIs(ConsumptionType.DRINK, itemId);
+  }
+
+  public static final boolean isSpleen(final int itemId) {
+    return useTypeIs(ConsumptionType.SPLEEN, itemId);
   }
 
   public static final boolean isHat(final int itemId) {
-    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
-    return useType == ConsumptionType.HAT;
+    return useTypeIs(ConsumptionType.HAT, itemId);
   }
 
   public static final boolean isWeapon(final int itemId) {
-    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
-    return useType == ConsumptionType.WEAPON;
+    return useTypeIs(ConsumptionType.WEAPON, itemId);
   }
 
   public static final boolean isOffHand(final int itemId) {
-    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
-    return useType == ConsumptionType.OFFHAND;
+    return useTypeIs(ConsumptionType.OFFHAND, itemId);
+  }
+
+  public static final boolean isContainer(final int itemId) {
+    return useTypeIs(ConsumptionType.CONTAINER, itemId);
   }
 
   public static final boolean isShirt(final int itemId) {
-    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
-    return useType == ConsumptionType.SHIRT;
+    return useTypeIs(ConsumptionType.SHIRT, itemId);
   }
 
   public static final boolean isPants(final int itemId) {
-    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
-    return useType == ConsumptionType.PANTS;
+    return useTypeIs(ConsumptionType.PANTS, itemId);
   }
 
   public static final boolean isAccessory(final int itemId) {
-    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
-    return useType == ConsumptionType.ACCESSORY;
+    return useTypeIs(ConsumptionType.ACCESSORY, itemId);
   }
 
   public static final boolean isFamiliarEquipment(final int itemId) {
+    return useTypeIs(ConsumptionType.FAMILIAR_EQUIPMENT, itemId);
+  }
+
+  public static final boolean isFamiliarHatchling(final int itemId) {
+    return useTypeIs(ConsumptionType.FAMILIAR_HATCHLING, itemId);
+  }
+
+  private static boolean useTypeIs(ConsumptionType ct, final int itemId) {
     ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
-    return useType == ConsumptionType.FAMILIAR_EQUIPMENT;
+    return useType == ct;
   }
 
   public static final boolean isMultiUsable(final int itemId) {
