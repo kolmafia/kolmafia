@@ -68,7 +68,7 @@ class DeckOfEveryCardRequestTest {
       String fName = "X of Spades";
       List<String> results = getMatchingNames(fName);
       assertEquals(1, results.size());
-      DeckOfEveryCardRequest.EveryCard card = canonicalNameToCard(results.get(0));
+      DeckOfEveryCardRequest.EveryCard card = canonicalNameToCard(results.getFirst());
       assertEquals(card, getCardById(4));
     }
 
@@ -101,7 +101,7 @@ class DeckOfEveryCardRequestTest {
       DeckOfEveryCardRequest req = new DeckOfEveryCardRequest();
       assertNull(req.getRequestCard());
       req = new DeckOfEveryCardRequest(getCardById(58));
-      assertEquals(req.getRequestCard().id, 58);
+      assertEquals(58, req.getRequestCard().id);
     }
 
     @Test
@@ -116,7 +116,7 @@ class DeckOfEveryCardRequestTest {
       assertFalse(mickey.equals(notMickey));
       assertTrue(mickey.equals(mickey));
       assertTrue(mickey.equals(copyMickey));
-      assertEquals(mickey.toString(), "1952 Mickey Mantle (58)");
+      assertEquals("1952 Mickey Mantle (58)", mickey.toString());
     }
 
     @Test
@@ -128,11 +128,11 @@ class DeckOfEveryCardRequestTest {
     @Test
     public void testGetAdventuresUsed() {
       DeckOfEveryCardRequest noCard = new DeckOfEveryCardRequest();
-      assertEquals(noCard.getAdventuresUsed(), 1);
+      assertEquals(1, noCard.getAdventuresUsed());
       DeckOfEveryCardRequest notMonster = new DeckOfEveryCardRequest(getCardById(58));
-      assertEquals(notMonster.getAdventuresUsed(), 0);
+      assertEquals(0, notMonster.getAdventuresUsed());
       DeckOfEveryCardRequest monster = new DeckOfEveryCardRequest(getCardById(27));
-      assertEquals(monster.getAdventuresUsed(), 1);
+      assertEquals(1, monster.getAdventuresUsed());
     }
   }
 
@@ -157,7 +157,8 @@ class DeckOfEveryCardRequestTest {
       assertThat(requests, hasSize(10));
       assertPostRequest(requests.get(0), "/inv_use.php", "whichitem=8382&cheat=1");
       assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
-      assertPostRequest(requests.get(8), "/choice.php", "whichchoice=1086&option=1&which=58");
+      assertPostRequest(
+          requests.get(8), "/choice.php", "whichchoice=1086&option=1&which=58&pwd=cafebabe");
       assertThat("_deckCardsDrawn", isSetTo(5));
       assertThat("_deckCardsSeen", isSetTo(5));
     }
