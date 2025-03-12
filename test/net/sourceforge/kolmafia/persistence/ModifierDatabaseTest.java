@@ -108,6 +108,7 @@ public class ModifierDatabaseTest {
   void canParseMultiStringModifier() {
     String enchantment = "Rollover Effect: \"Sleepy\", Rollover Effect: \"Light!\"";
     var mods = ModifierDatabase.parseModifiers(new Lookup(ModifierType.ITEM, "1"), enchantment);
-    assertThat(mods.getStrings(MultiStringModifier.ROLLOVER_EFFECT), is(List.of("Sleepy", "Light!")));
+    assertThat(
+        mods.getStrings(MultiStringModifier.ROLLOVER_EFFECT), is(List.of("Sleepy", "Light!")));
   }
 }
