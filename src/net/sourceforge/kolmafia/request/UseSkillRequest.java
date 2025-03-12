@@ -82,6 +82,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
     "Summon Holiday Fun!",
     "Summon Carrot",
     "Summon Kokomo Resort Pass",
+    "Generate Irony",
     "Perfect Freeze",
     "Acquire Rhinestones",
     "Prevent Scurvy and Sobriety",
