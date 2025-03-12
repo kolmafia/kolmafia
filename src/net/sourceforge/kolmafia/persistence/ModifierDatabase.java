@@ -777,7 +777,7 @@ public class ModifierDatabase {
 
         String value = matcher.group(1);
 
-        newMods.addMuiltiString(mod, value);
+        newMods.addMultiString(mod, value);
         continue modLoop;
       }
     }
