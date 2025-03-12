@@ -115,7 +115,7 @@ public class JavascriptRuntime extends AbstractRuntime {
       for (VariableReference variableReference : libraryFunction.getVariableReferences()) {
         allTypes.add(variableReference.getType());
       }
-      if (allTypes.contains(DataTypes.MATCHER_TYPE)) {
+      if (allTypes.contains(DataTypes.MATCHER_TYPE) || allTypes.contains(DataTypes.RNG_TYPE)) {
         continue;
       }
 
