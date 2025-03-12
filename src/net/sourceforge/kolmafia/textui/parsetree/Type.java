@@ -28,6 +28,7 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.DataTypes.TypeSpec;
+import net.sourceforge.kolmafia.textui.Rng;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import org.eclipse.lsp4j.Location;
@@ -176,6 +177,7 @@ public class Type extends Symbol {
       case STRING -> DataTypes.STRING_INIT;
       case BUFFER -> new Value(DataTypes.BUFFER_TYPE, "", new StringBuffer());
       case MATCHER -> new Value(DataTypes.MATCHER_TYPE, "", Pattern.compile("").matcher(""));
+      case RNG -> new Value(DataTypes.RNG_TYPE, "", new Rng());
       case ITEM -> DataTypes.ITEM_INIT;
       case LOCATION -> DataTypes.LOCATION_INIT;
       case CLASS -> DataTypes.CLASS_INIT;

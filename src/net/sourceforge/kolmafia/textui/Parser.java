@@ -333,6 +333,7 @@ public class Parser {
     reservedWords.add("string");
     reservedWords.add("buffer");
     reservedWords.add("matcher");
+    reservedWords.add("rng");
     reservedWords.add("aggregate");
 
     reservedWords.add("item");

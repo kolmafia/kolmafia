@@ -132,6 +132,8 @@ public class SkillPool {
   public static final int OLD_SCHOOL_COCKTAILCRAFTING = 230;
   public static final int HOLIDAY_MULTITASKING = 240;
   public static final int OVERCLOCK10 = 243;
+  public static final int GENERATE_IRONY = 245;
+
   public static final int THRUST_SMACK = 1003;
   public static final int LUNGE_SMACK = 1004;
   public static final int LUNGING_THRUST_SMACK = 1005;
