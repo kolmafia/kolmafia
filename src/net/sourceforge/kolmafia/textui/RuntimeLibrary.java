@@ -2475,13 +2475,13 @@ public abstract class RuntimeLibrary {
     functions.add(new LibraryFunction("group_string", DataTypes.REGEX_GROUP_TYPE, params));
 
     // PHP RNG functions
-    params = new Type[] {DataTypes.INT_TYPE};
+    params = List.of(namedParam("seed", DataTypes.INT_TYPE));
     functions.add(new LibraryFunction("php_seed", DataTypes.RNG_TYPE, params));
 
-    params = new Type[] {DataTypes.RNG_TYPE};
+    params = List.of(namedParam("rng", DataTypes.RNG_TYPE));
     functions.add(new LibraryFunction("php_rand", DataTypes.INT_TYPE, params));
 
-    params = new Type[] {DataTypes.RNG_TYPE};
+    params = List.of(namedParam("rng", DataTypes.RNG_TYPE));
     functions.add(new LibraryFunction("php_mt_rand", DataTypes.INT_TYPE, params));
 
     // Assorted functions
