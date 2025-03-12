@@ -7,9 +7,11 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -27,6 +29,8 @@ import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.listener.ItemListenerRegistry;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
+import net.sourceforge.kolmafia.modifiers.Lookup;
+import net.sourceforge.kolmafia.modifiers.MultiStringModifier;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -42,6 +46,7 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase.Attribute;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.persistence.RestoresDatabase;
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.ClanStashRequest;
@@ -55,7 +60,6 @@ import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.StorageRequest.StorageRequestType;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
-import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.request.coinmaster.HermitRequest;
 import net.sourceforge.kolmafia.request.concoction.CombineMeatRequest;
 import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
@@ -1880,102 +1884,33 @@ public abstract class InventoryManager {
   }
 
   public static void checkSkillGrantingEquipment() {
-    checkAndAddSkills(
-        UseSkillRequest.POWERFUL_GLOVE,
-        UseSkillRequest.REPLICA_POWERFUL_GLOVE,
-        InventoryManager::addPowerfulGloveSkills);
-    checkAndAddSkills(
-        UseSkillRequest.DESIGNER_SWEATPANTS,
-        UseSkillRequest.REPLICA_DESIGNER_SWEATPANTS,
-        InventoryManager::addDesignerSweatpantsSkills);
-    checkAndAddSkills(
-        UseSkillRequest.CINCHO_DE_MAYO,
-        UseSkillRequest.REPLICA_CINCHO_DE_MAYO,
-        InventoryManager::addCinchoDeMayoSkills);
-    checkAndAddSkills(
-        UseSkillRequest.AUGUST_SCEPTER,
-        UseSkillRequest.REPLICA_AUGUST_SCEPTER,
-        InventoryManager::addAugustScepterSkills);
-    checkAndAddSkills(UseSkillRequest.BAT_WINGS, InventoryManager::addBatWingsSkills);
+    checkSkillGrantingEquipment(null);
   }
 
-  private static void checkAndAddSkills(AdventureResult item, Runnable addSkills) {
-    checkAndAddSkills(item, null, addSkills);
-  }
-
-  private static void checkAndAddSkills(
-      AdventureResult item, AdventureResult replicaItem, Runnable addSkills) {
-    if (!KoLCharacter.hasEquipped(item) && !InventoryManager.hasItem(item, false)) {
-      if (replicaItem == null) return;
-      if (!KoLCharacter.inLegacyOfLoathing()
-          || (!KoLCharacter.hasEquipped(replicaItem)
-              && !InventoryManager.hasItem(replicaItem, false))) {
-        return;
-      }
-    }
-    addSkills.run();
-  }
-
-  public static void addPowerfulGloveSkills() {
-    // *** Special case: the buffs are always available
-    KoLCharacter.addAvailableSkill(SkillPool.INVISIBLE_AVATAR);
-    KoLCharacter.addAvailableSkill(SkillPool.TRIPLE_SIZE);
-  }
-
-  public static void addDesignerSweatpantsSkills() {
-    // *** Special case: the buffs are always available
-    KoLCharacter.addAvailableSkill(SkillPool.MAKE_SWEATADE);
-    KoLCharacter.addAvailableSkill(SkillPool.DRENCH_YOURSELF_IN_SWEAT);
-    KoLCharacter.addAvailableSkill(SkillPool.SWEAT_OUT_BOOZE);
-    KoLCharacter.addAvailableSkill(SkillPool.SIP_SOME_SWEAT);
-  }
-
-  public static void addCinchoDeMayoSkills() {
-    KoLCharacter.addAvailableSkill(SkillPool.CINCHO_DISPENSE_SALT_AND_LIME);
-    KoLCharacter.addAvailableSkill(SkillPool.CINCHO_PARTY_SOUNDTRACK);
-    KoLCharacter.addAvailableSkill(SkillPool.CINCHO_FIESTA_EXIT);
-    KoLCharacter.addAvailableSkill(SkillPool.CINCHO_PROJECTILE_PINATA);
-    KoLCharacter.addAvailableSkill(SkillPool.CINCHO_PARTY_FOUL);
-    KoLCharacter.addAvailableSkill(SkillPool.CINCHO_CONFETTI_EXTRAVAGANZA);
-  }
-
-  public static void addAugustScepterSkills() {
-    KoLCharacter.addAvailableSkill(SkillPool.AUG_1ST_MOUNTAIN_CLIMBING_DAY);
-    KoLCharacter.addAvailableSkill(SkillPool.AUG_2ND_FIND_AN_ELEVENLEAF_CLOVER_DAY);
-    KoLCharacter.addAvailableSkill(SkillPool.AUG_3RD_WATERMELON_DAY);
-    KoLCharacter.addAvailableSkill(SkillPool.AUG_4TH_WATER_BALLOON_DAY);
-    KoLCharacter.addAvailableSkill(SkillPool.AUG_5TH_OYSTER_DAY);
-    KoLCharacter.addAvailableSkill(SkillPool.AUG_6TH_FRESH_BREATH_DAY);
-    KoLCharacter.addAvailableSkill(SkillPool.AUG_7TH_LIGHTHOUSE_DAY);
-    KoLCharacter.addAvailableSkill(SkillPool.AUG_8TH_CAT_DAY);
-    KoLCharacter.addAvailableSkill(SkillPool.AUG_9TH_HAND_HOLDING_DAY);
-    KoLCharacter.addAvailableSkill(SkillPool.AUG_10TH_WORLD_LION_DAY);
-    KoLCharacter.addAvailableSkill(SkillPool.AUG_11TH_PRESIDENTIAL_JOKE_DAY);
-    KoLCharacter.addAvailableSkill(SkillPool.AUG_12TH_ELEPHANT_DAY);
-    KoLCharacter.addAvailableSkill(SkillPool.AUG_13TH_LEFTOFF_HANDERS_DAY);
-    KoLCharacter.addAvailableSkill(SkillPool.AUG_14TH_FINANCIAL_AWARENESS_DAY);
-    KoLCharacter.addAvailableSkill(SkillPool.AUG_15TH_RELAXATION_DAY);
-    KoLCharacter.addAvailableSkill(SkillPool.AUG_16TH_ROLLER_COASTER_DAY);
-    KoLCharacter.addAvailableSkill(SkillPool.AUG_17TH_THRIFTSHOP_DAY);
-    KoLCharacter.addAvailableSkill(SkillPool.AUG_18TH_SERENDIPITY_DAY);
-    KoLCharacter.addAvailableSkill(SkillPool.AUG_19TH_HONEY_BEE_AWARENESS_DAY);
-    KoLCharacter.addAvailableSkill(SkillPool.AUG_20TH_MOSQUITO_DAY);
-    KoLCharacter.addAvailableSkill(SkillPool.AUG_21ST_SPUMONI_DAY);
-    KoLCharacter.addAvailableSkill(SkillPool.AUG_22ND_TOOTH_FAIRY_DAY);
-    KoLCharacter.addAvailableSkill(SkillPool.AUG_23RD_RIDE_THE_WIND_DAY);
-    KoLCharacter.addAvailableSkill(SkillPool.AUG_24TH_WAFFLE_DAY);
-    KoLCharacter.addAvailableSkill(SkillPool.AUG_25TH_BANANA_SPLIT_DAY);
-    KoLCharacter.addAvailableSkill(SkillPool.AUG_26TH_TOILET_PAPER_DAY);
-    KoLCharacter.addAvailableSkill(SkillPool.AUG_27TH_JUST_BECAUSE_DAY);
-    KoLCharacter.addAvailableSkill(SkillPool.AUG_28TH_RACE_YOUR_MOUSE_DAY);
-    KoLCharacter.addAvailableSkill(SkillPool.AUG_29TH_MORE_HERBS_LESS_SALT_DAY);
-    KoLCharacter.addAvailableSkill(SkillPool.AUG_30TH_BEACH_DAY);
-    KoLCharacter.addAvailableSkill(SkillPool.AUG_31ST_CABERNET_SAUVIGNON_DAY);
-  }
-
-  public static void addBatWingsSkills() {
-    // *** Special case: the buffs are always available
-    KoLCharacter.addAvailableSkill(SkillPool.REST_UPSIDE_DOWN);
+  public static void checkSkillGrantingEquipment(final Integer itemId) {
+    ModifierDatabase.getInventorySkillProviders().stream()
+        .filter(l -> l.getType() == ModifierType.ITEM)
+        .map(Lookup::getIntKey)
+        .filter(i -> itemId == null || i.equals(itemId))
+        .filter(id -> KoLCharacter.hasEquipped(id) || InventoryManager.hasItem(id))
+        .flatMap(
+            id -> {
+              var mods = ModifierDatabase.getItemModifiers(id);
+              if (mods == null) return Stream.empty();
+              return Stream.concat(
+                  mods.getStrings(MultiStringModifier.CONDITIONAL_SKILL_INVENTORY).stream()
+                      .map(s -> Map.entry(true, s)),
+                  mods.getStrings(MultiStringModifier.CONDITIONAL_SKILL_EQUIPPED).stream()
+                      .map(s -> Map.entry(false, s)));
+            })
+        .map(e -> Map.entry(e.getKey(), SkillDatabase.getSkillId(e.getValue())))
+        .filter(
+            e ->
+                e.getKey()
+                    || SkillDatabase.getSkillTags(e.getValue())
+                        .contains(SkillDatabase.SkillTag.NONCOMBAT))
+        .map(Map.Entry::getValue)
+        .forEach(KoLCharacter::addAvailableSkill);
   }
 
   public static void checkRing() {

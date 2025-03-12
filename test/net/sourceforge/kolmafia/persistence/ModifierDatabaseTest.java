@@ -17,6 +17,8 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.modifiers.BitmapModifier;
+import net.sourceforge.kolmafia.modifiers.Lookup;
+import net.sourceforge.kolmafia.modifiers.MultiStringModifier;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -100,5 +102,13 @@ public class ModifierDatabaseTest {
     }
     message.append("unmatched line: [" + writeModifiersLine + "]");
     assertThat(message.toString(), writeModifiersIterator.hasNext(), is(false));
+  }
+
+  @Test
+  void canParseMultiStringModifier() {
+    String enchantment = "Rollover Effect: \"Sleepy\", Rollover Effect: \"Light!\"";
+    var mods = ModifierDatabase.parseModifiers(new Lookup(ModifierType.ITEM, "1"), enchantment);
+    assertThat(
+        mods.getStrings(MultiStringModifier.ROLLOVER_EFFECT), is(List.of("Sleepy", "Light!")));
   }
 }
