@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.request;
 
+import static internal.helpers.Networking.assertGetRequest;
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withClan;
@@ -13,14 +14,18 @@ import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.hasToString;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
+import internal.helpers.SessionLoggerOutput;
 import internal.network.FakeHttpClientBuilder;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -33,6 +38,7 @@ import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest.Action;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest.SpeakeasyDrink;
+import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ClanManager;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -141,6 +147,37 @@ public class ClanLoungeRequestTest {
 
         assertThat("_olympicSwimmingPool", isSetTo(true));
         assertThat(outputStream, hasToString(containsString("You did 234 submarine sprints")));
+      }
+    }
+
+    @Test
+    void canCannonballIntoPool() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+
+      String responseText = html("request/test_clan_cannonball.html");
+
+      var cleanups =
+          new Cleanups(withHttpClientBuilder(builder), withProperty("_olympicSwimmingPool", false));
+
+      try (cleanups) {
+        client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
+        client.addResponse(200, responseText);
+
+        SessionLoggerOutput.startStream();
+        new ClanLoungeRequest(Action.SWIMMING_POOL, ClanLoungeRequest.CANNONBALL).run();
+        var text = SessionLoggerOutput.stopStream();
+
+        assertThat(ChoiceManager.handlingChoice, is(true));
+
+        var requests = client.getRequests();
+
+        assertThat(requests, hasSize(greaterThanOrEqualTo(2)));
+        assertPostRequest(
+            requests.get(0),
+            "/clan_viplounge.php",
+            "preaction=goswimming&subaction=screwaround&whichfloor=2");
+        assertGetRequest(requests.get(1), "/choice.php", "forceoption=0");
       }
     }
   }

@@ -2474,6 +2474,16 @@ public abstract class RuntimeLibrary {
             namedParam("regex", DataTypes.STRING_TYPE));
     functions.add(new LibraryFunction("group_string", DataTypes.REGEX_GROUP_TYPE, params));
 
+    // PHP RNG functions
+    params = List.of(namedParam("seed", DataTypes.INT_TYPE));
+    functions.add(new LibraryFunction("php_seed", DataTypes.RNG_TYPE, params));
+
+    params = List.of(namedParam("rng", DataTypes.RNG_TYPE));
+    functions.add(new LibraryFunction("php_rand", DataTypes.INT_TYPE, params));
+
+    params = List.of(namedParam("rng", DataTypes.RNG_TYPE));
+    functions.add(new LibraryFunction("php_mt_rand", DataTypes.INT_TYPE, params));
+
     // Assorted functions
 
     params = List.of(namedParam("expr", DataTypes.STRING_TYPE));
@@ -7348,9 +7358,18 @@ public abstract class RuntimeLibrary {
     // Just in case someone assumed that use_skill would also work
     // in combat, go ahead and allow it here.
 
-    if (SkillDatabase.isCombat(skillId) && FightRequest.getCurrentRound() > 0) {
-      return RuntimeLibrary.visit_url(
-          controller, "fight.php?action=skill&whichskill=" + (int) skill.intValue());
+    if (SkillDatabase.isCombat(skillId)) {
+      // If we are in combat, go ahead and cast using fight.php
+
+      if (FightRequest.getCurrentRound() > 0) {
+        return RuntimeLibrary.visit_url(controller, "fight.php?action=skill&whichskill=" + skillId);
+      }
+
+      // If we are not in combat, bail if the skill can't be cast
+
+      if (!SkillDatabase.isNonCombat(skillId)) {
+        return DataTypes.STRING_INIT;
+      }
     }
 
     KoLmafiaCLI.DEFAULT_SHELL.executeCommand("cast", "1 " + SkillDatabase.getSkillName(skillId));
@@ -8670,6 +8689,20 @@ public abstract class RuntimeLibrary {
     }
 
     return value;
+  }
+
+  public static Value php_seed(ScriptRuntime controller, final Value seed) {
+    return new Value(DataTypes.RNG_TYPE, "", new Rng(seed.intValue()));
+  }
+
+  public static Value php_rand(ScriptRuntime controller, final Value rng) {
+    Rng r = (Rng) rng.rawValue();
+    return new Value(r.nextRandInt());
+  }
+
+  public static Value php_mt_rand(ScriptRuntime controller, final Value rng) {
+    Rng r = (Rng) rng.rawValue();
+    return new Value(r.nextMtRandInt());
   }
 
   public static Value expression_eval(ScriptRuntime controller, final Value expr) {

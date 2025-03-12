@@ -493,6 +493,17 @@ public class TestCommand extends AbstractCommand {
       return;
     }
 
+    if (command.equals("lounge")) {
+      boolean old = Preferences.getBoolean("_olympicSwimmingPoolItemFound");
+      try {
+        Preferences.setBoolean("_olympicSwimmingPoolItemFound", false);
+        ClanLoungeRequest.getBreakfast();
+      } finally {
+        Preferences.setBoolean("_olympicSwimmingPoolItemFound", old);
+      }
+      return;
+    }
+
     if (command.equals("neweffect")) {
       if (split.length < 2) {
         KoLmafia.updateDisplay(MafiaState.ERROR, "test neweffect descId");
