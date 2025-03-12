@@ -5,6 +5,7 @@ import static net.sourceforge.kolmafia.utilities.Statics.DateTimeManager;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
 import net.sourceforge.kolmafia.AscensionClass;
@@ -863,17 +864,32 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
     }
 
     if (SkillDatabase.getSkillTags(skillId).contains(SkillDatabase.SkillTag.NONCOMBAT)) {
-      ModifierDatabase.getNonCombatSkillProviders().stream()
-          .filter(l -> l.getType() == ModifierType.ITEM)
-          .filter(
-              l ->
-                  ModifierDatabase.getMultiStringModifier(
-                          l, MultiStringModifier.CONDITIONAL_SKILL_EQUIPPED)
-                      .stream()
-                      .mapToInt(SkillDatabase::getSkillId)
-                      .anyMatch(i -> i == skillId))
-          .map(l -> ItemPool.get(l.getIntKey()))
-          .forEach(i -> equipForSkill(skillId, i));
+      var possibleEquipment =
+          ModifierDatabase.getNonCombatSkillProviders().stream()
+              .filter(l -> l.getType() == ModifierType.ITEM)
+              .filter(
+                  l ->
+                      ModifierDatabase.getMultiStringModifier(
+                              l, MultiStringModifier.CONDITIONAL_SKILL_EQUIPPED)
+                          .stream()
+                          .mapToInt(SkillDatabase::getSkillId)
+                          .anyMatch(i -> i == skillId))
+              .map(l -> ItemPool.get(l.getIntKey()))
+              .toList();
+
+      possibleEquipment.stream()
+          .filter(i -> canSwitchToItem(i) || KoLCharacter.hasEquipped(i))
+          .findFirst()
+          .ifPresentOrElse(
+              i -> equipForSkill(skillId, i),
+              () ->
+                  KoLmafia.updateDisplay(
+                      MafiaState.ERROR,
+                      "Cannot acquire: "
+                          + possibleEquipment.stream()
+                              .map(AdventureResult::getName)
+                              .collect(Collectors.joining(", "))
+                          + "."));
     }
 
     if (Preferences.getBoolean("switchEquipmentForBuffs")) {
