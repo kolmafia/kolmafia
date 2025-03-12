@@ -101,14 +101,14 @@ public class ClanRumpusRequest extends GenericRequest {
   public enum Equipment {
     NONE("", 0, 0, 0),
 
-    GIRL_CALENDAR("Girls of Loathing Calendar", 1, 1, 0),
-    BOY_CALENDAR("Boys of Loathing Calendar", 1, 2, 0),
-    PAINTING("Infuriating Painting", 1, 3, 0),
+    GIRL_CALENDAR("Girls of Loathing Calendar", 1, 1, 1),
+    BOY_CALENDAR("Boys of Loathing Calendar", 1, 2, 1),
+    PAINTING("Infuriating Painting", 1, 3, 1),
     MEAT_ORCHID("Exotic Hanging Meat Orchid", 1, 4, 1),
 
     ARCANE_TOMES("Collection of Arcane Tomes and Whatnot", 2, 1, 0),
-    SPORTS_MEMORABILIA("Collection of Sports Memorabilia", 2, 2, 0),
-    SELF_HELP_BOOKS("Collection of Self-Help Books", 2, 3, 0),
+    SPORTS_MEMORABILIA("Collection of Sports Memorabilia", 2, 2, 1),
+    SELF_HELP_BOOKS("Collection of Self-Help Books", 2, 3, 1),
 
     SODA_MACHINE("Soda Machine", 3, 1, 3),
     JUKEBOX("Jukebox", 3, 2, 0),
@@ -116,9 +116,9 @@ public class ClanRumpusRequest extends GenericRequest {
 
     RADIO("Old-Timey Radio", 4, 1, 1),
     POTTED_MEAT_BUSH("Potted Meat Bush", 4, 2, 1),
-    DESK_CALENDAR("Inspirational Desk Calendar", 4, 3, 0),
+    DESK_CALENDAR("Inspirational Desk Calendar", 4, 3, 1),
 
-    WRESTLING_MAT("Wrestling Mat", 5, 1, 0),
+    WRESTLING_MAT("Wrestling Mat", 5, 1, 1),
     TANNING_BED("Tan-U-Lots Tanning Bed", 5, 2, 0),
     COMFY_SOFA("Comfy Sofa", 5, 3, 0),
 
@@ -159,7 +159,7 @@ public class ClanRumpusRequest extends GenericRequest {
     }
 
     public static Equipment toEquip(String name) {
-      if (name == null || name.equals("")) {
+      if (name == null || name.isEmpty()) {
         return NONE;
       }
       for (Equipment equipment : Equipment.values()) {
@@ -386,7 +386,7 @@ public class ClanRumpusRequest extends GenericRequest {
 
     String ballpit = null;
     if (!ClanManager.getClanRumpus().isEmpty()) {
-      String last = ClanManager.getClanRumpus().get(ClanManager.getClanRumpus().size() - 1);
+      String last = ClanManager.getClanRumpus().getLast();
       if (last.startsWith("Awesome Ball Pit")) {
         ballpit = last;
       }
@@ -398,7 +398,7 @@ public class ClanRumpusRequest extends GenericRequest {
       int spot = StringUtilities.parseInt(matcher.group(1));
       int furni = StringUtilities.parseInt(matcher.group(2));
       String equipmentName = ClanRumpusRequest.Equipment.equipmentName(spot, furni);
-      if (!equipmentName.equals("")) {
+      if (!equipmentName.isEmpty()) {
         ClanManager.addToRumpus(equipmentName);
       }
     }
@@ -482,12 +482,11 @@ public class ClanRumpusRequest extends GenericRequest {
           Preferences.setInteger("_chipBags", 3);
         }
       }
-      case "jukebox" -> {
-        // Whether we get a song or not, we are done for the
-        // day with the Jukebox, unless we ascend, which will
-        // reset the preference.
-        Preferences.setBoolean("_jukebox", true);
-      }
+      case "jukebox" ->
+      // Whether we get a song or not, we are done for the
+      // day with the Jukebox, unless we ascend, which will
+      // reset the preference.
+      Preferences.setBoolean("_jukebox", true);
     }
   }
 
@@ -544,34 +543,12 @@ public class ClanRumpusRequest extends GenericRequest {
   }
 
   public static boolean registerRequest(final String urlString) {
-    String action = null;
+    String turnTakingAction = getTurnTakingAction(urlString);
 
-    if (urlString.startsWith("clan_rumpus.php")) {
-      if (urlString.contains("whichgym=3")) {
-        action = "Pump Up Muscle";
-      } else if (urlString.contains("whichgym=1")) {
-        action = "Pump Up Mysticality";
-      } else if (urlString.contains("whichgym=2")) {
-        action = "Pump Up Moxie";
-      } else if (urlString.contains("preaction=nap")) {
-        action = "Rest in Clan Sofa";
-      }
-    } else if (urlString.startsWith("place.php")) {
-      if (urlString.contains("action=dk_gym")) {
-        action = "Pump Up Muscle";
-      } else if (urlString.contains("action=lc_institute")) {
-        action = "Pump Up Mysticality";
-      }
-    } else if (urlString.startsWith("gnomes.php")) {
-      if (urlString.contains("action=train")) {
-        action = "Pump Up Moxie";
-      }
-    }
-
-    if (action != null) {
+    if (turnTakingAction != null) {
       Matcher matcher = ClanRumpusRequest.TURN_PATTERN.matcher(urlString);
       if (!matcher.find()) {
-        String message = "[" + KoLAdventure.getAdventureCount() + "] " + action;
+        String message = "[" + KoLAdventure.getAdventureCount() + "] " + turnTakingAction;
 
         RequestLogger.printLine();
         RequestLogger.updateSessionLog();
@@ -589,7 +566,13 @@ public class ClanRumpusRequest extends GenericRequest {
       }
 
       String message =
-          "[" + KoLAdventure.getAdventureCount() + "] " + action + " (" + turns + " turns)";
+          "["
+              + KoLAdventure.getAdventureCount()
+              + "] "
+              + turnTakingAction
+              + " ("
+              + turns
+              + " turns)";
 
       RequestLogger.printLine();
       RequestLogger.updateSessionLog();
@@ -656,5 +639,21 @@ public class ClanRumpusRequest extends GenericRequest {
     RequestLogger.updateSessionLog(message);
 
     return true;
+  }
+
+  private static String getTurnTakingAction(String urlString) {
+    if (urlString.startsWith("clan_rumpus.php")) {
+      if (urlString.contains("whichgym=3")) return "Pump Up Muscle";
+      if (urlString.contains("whichgym=1")) return "Pump Up Mysticality";
+      if (urlString.contains("whichgym=2")) return "Pump Up Moxie";
+      if (urlString.contains("preaction=nap")) return "Rest in Clan Sofa";
+    } else if (urlString.startsWith("place.php")) {
+      if (urlString.contains("action=dk_gym")) return "Pump Up Muscle";
+      if (urlString.contains("action=lc_institute")) return "Pump Up Mysticality";
+    } else if (urlString.startsWith("gnomes.php")) {
+      if (urlString.contains("action=train")) return "Pump Up Moxie";
+    }
+
+    return null;
   }
 }
