@@ -685,6 +685,7 @@ Item	eelskin pants	Mysticality Percent: +5, Familiar Effect: "1xPotato, MP regen
 Item	El Vibrato leg guards	Familiar Effect: "1xBarrr, 1xGhuol"
 Item	eldritch pants	Mysticality Percent: +20, Maximum MP: +40, MP Regen Min: 6, MP Regen Max: 10, Last Available: "2016-11"
 Item	electric pants	Spooky Damage: +10, Stench Damage: +10, Hot Damage: +10, Cold Damage: +10, Sleaze Damage: +10, Last Available: "2021-12"
+Item	Elf Guard hotpants	Last Available: "2023-12"
 Item	electronic dulcimer pants	Adventures: +2, Initiative: +25, Last Available: "2012-12", Familiar Effect: "8xPotato, cap 2", Conditional Skill (Equipped): "Play Hog Fiddle"
 # exo-servo leg braces: Allows you to move normally in high gravity environments (Spacegate)
 Item	exo-servo leg braces	Lasts Until Rollover, Last Available: "2017-04"
