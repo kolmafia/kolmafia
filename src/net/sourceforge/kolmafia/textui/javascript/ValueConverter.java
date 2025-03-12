@@ -44,20 +44,20 @@ public abstract class ValueConverter<ObjectType> {
 
   public Object asJava(Value value) {
     if (value == null) return null;
-    else if (value.getType().equals(DataTypes.VOID_TYPE)) {
+    var type = value.getType();
+    if (type.equals(DataTypes.VOID_TYPE)) {
       return null;
-    } else if (value.getType().equals(DataTypes.BOOLEAN_TYPE)) {
+    } else if (type.equals(DataTypes.BOOLEAN_TYPE)) {
       return value.contentLong != 0;
-    } else if (value.getType().equals(DataTypes.INT_TYPE)) {
+    } else if (type.equals(DataTypes.INT_TYPE)) {
       return value.contentLong;
-    } else if (value.getType().equals(DataTypes.FLOAT_TYPE)) {
+    } else if (type.equals(DataTypes.FLOAT_TYPE)) {
       return value.floatValue();
-    } else if (value.getType().equals(DataTypes.STRING_TYPE)
-        || value.getType().equals(DataTypes.STRICT_STRING_TYPE)) {
+    } else if (type.equals(DataTypes.STRING_TYPE) || type.equals(DataTypes.STRICT_STRING_TYPE)) {
       return value.contentString;
-    } else if (value.getType().equals(DataTypes.BUFFER_TYPE)) {
+    } else if (type.equals(DataTypes.BUFFER_TYPE)) {
       return value.content.toString();
-    } else if (value.getType().equals(DataTypes.MATCHER_TYPE)) {
+    } else if (type.equals(DataTypes.MATCHER_TYPE) || type.equals(DataTypes.RNG_TYPE)) {
       // This should not happen.
       return null;
     } else if (value instanceof MapValue mapValue) {
@@ -72,7 +72,7 @@ public abstract class ValueConverter<ObjectType> {
       return asJavaObject(proxyValue);
     } else {
       // record type, ...?
-      throw new ValueConverterException("Unrecognized Value of type " + value.getType().toString());
+      throw new ValueConverterException("Unrecognized Value of type " + type.toString());
     }
   }
 
