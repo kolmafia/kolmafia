@@ -608,7 +608,7 @@ public class Modifiers {
     this.bitmaps.add(modifier, bit);
   }
 
-  public boolean addMuiltiString(final MultiStringModifier modifier, String mod) {
+  public boolean addMultiString(final MultiStringModifier modifier, String mod) {
     if (modifier == null || mod == null) {
       return false;
     }
