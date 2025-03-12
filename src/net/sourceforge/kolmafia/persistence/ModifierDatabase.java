@@ -1524,6 +1524,9 @@ public class ModifierDatabase {
           if (StringModifier.byTagPattern(mod) != null) {
             continue;
           }
+          if (MultiStringModifier.byTagPattern(mod) != null) {
+            continue;
+          }
           if (type == ModifierType.FAM_EQ) {
             continue; // these may contain freeform text
           }
