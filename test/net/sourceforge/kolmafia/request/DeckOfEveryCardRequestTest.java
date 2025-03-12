@@ -1,5 +1,12 @@
 package net.sourceforge.kolmafia.request;
 
+import static internal.helpers.Networking.assertPostRequest;
+import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withAdventuresLeft;
+import static internal.helpers.Player.withHttpClientBuilder;
+import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withProperty;
+import static internal.matchers.Preference.isSetTo;
 import static net.sourceforge.kolmafia.request.DeckOfEveryCardRequest.RACING;
 import static net.sourceforge.kolmafia.request.DeckOfEveryCardRequest.buffToCard;
 import static net.sourceforge.kolmafia.request.DeckOfEveryCardRequest.canonicalNameToCard;
@@ -7,14 +14,19 @@ import static net.sourceforge.kolmafia.request.DeckOfEveryCardRequest.getCardByI
 import static net.sourceforge.kolmafia.request.DeckOfEveryCardRequest.getMatchingNames;
 import static net.sourceforge.kolmafia.request.DeckOfEveryCardRequest.phylumToCard;
 import static net.sourceforge.kolmafia.request.DeckOfEveryCardRequest.statToCard;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import internal.helpers.Cleanups;
+import internal.network.FakeHttpClientBuilder;
 import java.util.List;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
@@ -121,6 +133,33 @@ class DeckOfEveryCardRequestTest {
       assertEquals(notMonster.getAdventuresUsed(), 0);
       DeckOfEveryCardRequest monster = new DeckOfEveryCardRequest(getCardById(27));
       assertEquals(monster.getAdventuresUsed(), 1);
+    }
+  }
+
+  @Test
+  public void itShouldRunAndUpdatePreferences() {
+    DeckOfEveryCardRequest.EveryCard mickey = getCardById(58);
+    var builder = new FakeHttpClientBuilder();
+    builder.client.addResponse(200, html("request/use_deck_first.html"));
+    builder.client.addResponse(200, html("request/use_deck_second.html"));
+    builder.client.addResponse(200, html("request/use_deck_third.html"));
+    builder.client.addResponse(200, html("request/use_deck_fourth.html"));
+    var cleanups =
+        new Cleanups(
+            withHttpClientBuilder(builder),
+            withItem(ItemPool.DECK_OF_EVERY_CARD),
+            withProperty("_deckCardsDrawn", 0),
+            withProperty("_deckCardsSeen", ""),
+            withAdventuresLeft(100));
+    try (cleanups) {
+      new DeckOfEveryCardRequest(mickey).run();
+      var requests = builder.client.getRequests();
+      assertThat(requests, hasSize(10));
+      assertPostRequest(requests.get(0), "/inv_use.php", "whichitem=8382&cheat=1");
+      assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+      assertPostRequest(requests.get(8), "/choice.php", "whichchoice=1086&option=1&which=58");
+      assertThat("_deckCardsDrawn", isSetTo(5));
+      assertThat("_deckCardsSeen", isSetTo(5));
     }
   }
 }
