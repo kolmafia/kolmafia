@@ -316,8 +316,7 @@ Item	intimidating coiffure	Muscle Percent: +25, Mysticality Percent: +25, Moxie 
 Item	invisible bag	Last Available: "2011-12", Familiar Effect: "8xVolley, 8xLep, cap 2"
 Item	irate sombrero	Weapon Damage: +3, Familiar Effect: "1xPotato, 3xLep, cap 11"
 Item	iron helmet	Cold Resistance: +2, MP Regen Min: 1, MP Regen Max: 2, Initiative: +10, Last Available: "2013-02", Familiar Effect: "atk, 1xFairy, cap 25"
-# iron tricorn hat: Allows you to headbutt your foes
-Item	iron tricorn hat	Maximum HP: +40, Damage Reduction: 10, Lasts Until Rollover, Last Available: "2024-12"
+Item	iron tricorn hat	Maximum HP: +40, Damage Reduction: 10, Lasts Until Rollover, Last Available: "2024-12", Conditional Skill (Equipped): "Iron Tricorn Headbutt"
 Item	ironic knit cap	Maximum MP: +20, Mysticality: +1, Familiar Effect: "1xVolley, 2xPotato, cap 10"
 Item	isotophat	Stench Damage: +10, Stench Spell Damage: +20, Last Available: "2015-04", Familiar Effect: "stench atk, cap 25"
 # Iunion Crown: Becomes more powerful as you adventure each day
@@ -484,8 +483,7 @@ Item	snakeskin cowboy hat	Moxie: +5, Ranged Damage Percent: +50, Last Available:
 Item	snorkel	Familiar Effect: "atk, cap 2"
 Item	snow hat	Damage Reduction: 3, Last Available: "2009-12", Familiar Effect: "cold atk, cap 12"
 Item	Snow Queen Crown	Cold Damage: +5, Cold Resistance: +3, Familiar Effect: "cold atk, 1xGhuol, cap 28"
-# snowman-enchanting tophat: Can turn enemies into snowmen
-Item	snowman-enchanting tophat	Moxie Percent: +25, Spell Damage Percent: +50, Last Available: "2024-12"
+Item	snowman-enchanting tophat	Moxie Percent: +25, Spell Damage Percent: +50, Last Available: "2024-12", Conditional Skill (Equipped): "Place your hat on their head"
 Item	soft cap of diminishing returns	Experience (Muscle): [-1*floor(basemus/100)], Experience (Mysticality): [-1*floor(basemys/100)], Experience (Moxie): [-1*floor(basemox/100)]
 Item	Sombrero De Vida	Four Songs, Familiar Effect: "1xVolley, 1xPotato, 1xLep, cap 12"
 Item	sombrero-mounted sparkler	Combat Rate: +5, Hot Damage: +10, Hot Spell Damage: +20, Lasts Until Rollover, Last Available: "2021-07"
@@ -1410,7 +1408,7 @@ Item	dueling banjo	Moxie: +4, Monster Level: +5
 # dwarvish war mattock: Magical Blue Glow
 # ebony epee: Lets you disarm your foes
 Item	ebony epee	Weapon Damage Percent: +100, Muscle: +25, Experience (Muscle): +5, Lasts Until Rollover, Last Available: "2020-08"
-Item	egg gun	Stench Damage: +25, Familiar Weight: +5, Food Drop: +75, HP Regen Min: 15, HP Regen Max: 20, Last Available: "2024-12"
+Item	egg gun	Stench Damage: +25, Familiar Weight: +5, Food Drop: +75, HP Regen Min: 15, HP Regen Max: 20, Last Available: "2024-12", Conditional Skill (Equipped): "Egg the face"
 Item	eggbeater	Spell Damage: +7
 # El Vibrato energy spear
 Item	eldritch hammer	Maximum MP: +40, Monster Level: +10, Weapon Damage Percent: +50, Last Available: "2017-01"
@@ -1662,8 +1660,7 @@ Item	massive sitar	Mysticality: +12, Spell Damage: +20
 Item	massive wrench	Elf Warfare Effectiveness: +10, Critical Hit Percent: +20, Weapon Damage Percent: +50, Last Available: "2023-12"
 Item	Maxwell's Silver Hammer	Mysticality: +10, Weapon Damage: +10
 Item	Mayor Ghost's gavel	Critical Hit Percent: +10, Weapon Damage: +30, Damage vs. Ghosts: +50, Conditional Skill (Equipped): "Hammer Ghost"
-# McHugeLarge right pole: Stab your foe to hurt them
-Item	McHugeLarge right pole	Critical Hit Percent: +10, Weapon Damage: +10, Weapon Damage Percent: +25, Single Equip, Last Available: "2025-01", McHugeLarge
+Item	McHugeLarge right pole	Critical Hit Percent: +10, Weapon Damage: +10, Weapon Damage Percent: +25, Single Equip, Last Available: "2025-01", McHugeLarge, Conditional Skill (Equipped): "McHugeLarge Stab"
 # Meat Tenderizer is Murder: 25% chance to gain an extra gallon of Fury when you gain a gallon of Fury.
 Item	Meat Tenderizer is Murder	Weapon Damage Percent: +20, Smithsness: +5, Class: "Seal Clubber", Last Available: "2013-12", Muscle Percent: [2*K]
 Item	Meatcleaver	Meat Drop: +35, Weapon Damage Percent: +100, Last Available: "2013-12"
@@ -2470,8 +2467,7 @@ Item	marinara jug	Spell Damage: +30, Class: "Sauceror"
 Item	marionette	Mysticality: +3, Last Available: "2005-12"
 Item	marionette collective	Mysticality: +3, Last Available: "2007-12"
 Item	martini dregs	Moxie Percent: +50, Last Available: "2020-04"
-# McHugeLarge left pole: Slash an enemy to make them easier to track
-Item	McHugeLarge left pole	Mysticality: +10, Spell Damage: +10, Spell Damage Percent: +25, Last Available: "2025-01", McHugeLarge
+Item	McHugeLarge left pole	Mysticality: +10, Spell Damage: +10, Spell Damage Percent: +25, Last Available: "2025-01", McHugeLarge, Conditional Skill (Equipped): "McHugeLarge Slash"
 Item	meat shield	Meat Drop: +3, Damage Reduction: 3
 Item	Medallion of the Ventrilo Prince	Moxie Percent: +12, Last Available: "2011-10"
 Item	Mer-kin begsign	Weakens Monster, Meat Drop: [40*env(underwater)]
@@ -2494,8 +2490,7 @@ Item	Microplushie: Hobomosome	Stench Resistance: +1, Last Available: "2012-12"
 Item	Microplushie: Otakulone	Maximum MP: +4, Last Available: "2012-12"
 Item	Microplushie: Raverdrine	Maximum HP: +8, Last Available: "2012-12"
 Item	Microplushie: Sororitrate	Sleaze Damage: +2, Last Available: "2012-12"
-# military orb: Detonate to destroy a monster
-Item	military orb	MP Regen Min: 10, MP Regen Max: 15, Mysticality: +15, Last Available: "2024-12"
+Item	military orb	MP Regen Min: 10, MP Regen Max: 15, Mysticality: +15, Last Available: "2024-12", Conditional Skill (Equipped): "Throw Military Orb"
 Item	mime pocket probe	Last Available: "2017-12"
 Item	mini kiwi whipping stick	Sleaze Damage: +5, Experience: +2
 # mini-zeppelin
@@ -2568,8 +2563,7 @@ Item	penguin skin buckler	Moxie: +5, Damage Reduction: 5
 Item	penguin thesaurus	Mysticality: +1, Maximum HP: +5, Maximum MP: +5, Last Available: "2008-12"
 # petrified wood water purifier: Adds cold and sleaze damage to spells
 Item	petrified wood water purifier	Experience (Mysticality): +3, Meat Drop: +20, Last Available: "2025-12"
-# photo booth supply list: Lets you find photo booth supplies
-Item	photo booth supply list	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Damage Reduction: 20, Lasts Until Rollover, Last Available: "2024-10"
+Item	photo booth supply list	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Damage Reduction: 20, Lasts Until Rollover, Last Available: "2024-10", Conditional Skill (Equipped): "Check for photo booth supplies"
 Item	pilgrim shield	Maximum HP: +30, Weapon Damage: +15, Experience: +3, HP Regen Min: 10, HP Regen Max: 12, Weapon Drop: +50, Damage Reduction: [L], Softcore Only, Last Available: "2006-11"
 Item	pirate hook	Weapon Damage: +3
 Item	pixel grappling hook	Initiative: +40, Item Drop: +10
@@ -3391,10 +3385,8 @@ Item	Marvelous Unitard	Muscle: +5, Mysticality: +5, Moxie: +5, Softcore Only, La
 Item	Master Thief's utility belt	Moxie: +15, Moxie Percent: +25, Experience (Moxie): +5, Single Equip, Last Available: "2018-04"
 Item	mayfly bait necklace	Meat Drop: +10, Item Drop: +10, Single Equip, Softcore Only, Last Available: "2008-05", Conditional Skill (Equipped): "Summon Mayfly Swarm"
 Item	Mayor Ghost's sash	Item Drop: +30, Meat Drop: -30, Experience: -10, Single Equip
-# McHugeLarge left ski: Clear the area of monsters
-Item	McHugeLarge left ski	Combat Rate: -5, Muscle: +10, Last Available: "2025-01", McHugeLarge
-# McHugeLarge right ski: Cover your foe in snow and embarass them
-Item	McHugeLarge right ski	Combat Rate: +5, Moxie: +10, Last Available: "2025-01", McHugeLarge
+Item	McHugeLarge left ski	Combat Rate: -5, Muscle: +10, Last Available: "2025-01", McHugeLarge, Conditional Skill (Equipped): "McHugeLarge Avalanche"
+Item	McHugeLarge right ski	Combat Rate: +5, Moxie: +10, Last Available: "2025-01", McHugeLarge, Conditional Skill (Equipped): "McHugeLarge Ski Plow"
 # Mega Gem
 Item	memory of a cultist's robe	Single Equip, Last Available: "2009-06"
 Item	Mer-kin dragbelt	Initiative: -25, Experience (Muscle): [20*env(underwater)], Single Equip
