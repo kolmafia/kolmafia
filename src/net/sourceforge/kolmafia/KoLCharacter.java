@@ -5162,10 +5162,6 @@ public abstract class KoLCharacter {
           DoubleModifier.RESTING_HP_PCT, 100, ModifierType.EVENT, "Moons (Grimace full)");
     }
 
-    for (String equip : ClanManager.getClanRumpus()) {
-      newModifiers.add(ModifierDatabase.getModifiers(ModifierType.RUMPUS, equip));
-    }
-
     // Add other oddball interactions
     newModifiers.applySynergies();
 
