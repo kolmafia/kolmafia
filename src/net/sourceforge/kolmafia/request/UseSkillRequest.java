@@ -2,9 +2,7 @@ package net.sourceforge.kolmafia.request;
 
 import static net.sourceforge.kolmafia.utilities.Statics.DateTimeManager;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -17,6 +15,7 @@ import net.sourceforge.kolmafia.KoLCharacter.TurtleBlessingLevel;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.PastaThrallData;
 import net.sourceforge.kolmafia.RequestLogger;
@@ -27,6 +26,7 @@ import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.DerivedModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import net.sourceforge.kolmafia.modifiers.MultiStringModifier;
 import net.sourceforge.kolmafia.moods.HPRestoreItemList;
 import net.sourceforge.kolmafia.moods.MoodManager;
 import net.sourceforge.kolmafia.moods.RecoveryManager;
@@ -809,43 +809,13 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
         && InventoryManager.hasItem(item, false);
   }
 
-  private static void equipForSkill(final int skillId, final AdventureResult regularItem) {
-    equipForSkill(skillId, regularItem, null);
-  }
-
-  private static void equipForSkill(
-      final int skillId, final AdventureResult regularItem, final AdventureResult replicaItem) {
-    if (KoLCharacter.hasEquipped(regularItem)) {
+  private static void equipForSkill(final int skillId, final AdventureResult item) {
+    if (KoLCharacter.hasEquipped(item)) {
       return;
     }
 
-    var inLegacy = KoLCharacter.inLegacyOfLoathing() && replicaItem != null;
-
-    if (inLegacy && KoLCharacter.hasEquipped(replicaItem)) {
-      return;
-    }
-
-    AdventureResult item = null;
-
-    if (InventoryManager.retrieveItem(regularItem)) {
-      item = regularItem;
-    } else {
-      if (inLegacy && InventoryManager.retrieveItem(replicaItem)) {
-        item = replicaItem;
-      }
-    }
-
-    if (item == null) {
-      List<AdventureResult> items = new ArrayList<>();
-      items.add(regularItem);
-      if (inLegacy) {
-        items.add(replicaItem);
-      }
-      KoLmafia.updateDisplay(
-          MafiaState.ERROR,
-          "Cannot acquire any of: "
-              + items.stream().map(AdventureResult::getName).collect(Collectors.joining(", "))
-              + ".");
+    if (!InventoryManager.retrieveItem(item)) {
+      KoLmafia.updateDisplay(MafiaState.ERROR, "Cannot acquire: " + item.getName() + ".");
       return;
     }
 
@@ -894,20 +864,35 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
       }
     }
 
-    switch (skillId) {
-      case SkillPool.INVISIBLE_AVATAR, SkillPool.TRIPLE_SIZE -> equipForSkill(
-          skillId, UseSkillRequest.POWERFUL_GLOVE, UseSkillRequest.REPLICA_POWERFUL_GLOVE);
-      case SkillPool.MAKE_SWEATADE,
-          SkillPool.DRENCH_YOURSELF_IN_SWEAT,
-          SkillPool.SIP_SOME_SWEAT -> equipForSkill(
-          skillId,
-          UseSkillRequest.DESIGNER_SWEATPANTS,
-          UseSkillRequest.REPLICA_DESIGNER_SWEATPANTS);
-      case SkillPool.CINCHO_DISPENSE_SALT_AND_LIME,
-          SkillPool.CINCHO_PARTY_SOUNDTRACK,
-          SkillPool.CINCHO_FIESTA_EXIT -> equipForSkill(
-          skillId, UseSkillRequest.CINCHO_DE_MAYO, UseSkillRequest.REPLICA_CINCHO_DE_MAYO);
-      case SkillPool.REST_UPSIDE_DOWN -> equipForSkill(skillId, UseSkillRequest.BAT_WINGS);
+    if (SkillDatabase.getSkillTags(skillId).contains(SkillDatabase.SkillTag.NONCOMBAT)) {
+      var possibleEquipment =
+          ModifierDatabase.getNonCombatSkillProviders().stream()
+              .filter(l -> l.getType() == ModifierType.ITEM)
+              .filter(
+                  l ->
+                      ModifierDatabase.getMultiStringModifier(
+                              l, MultiStringModifier.CONDITIONAL_SKILL_EQUIPPED)
+                          .stream()
+                          .mapToInt(SkillDatabase::getSkillId)
+                          .anyMatch(i -> i == skillId))
+              .map(l -> ItemPool.get(l.getIntKey()))
+              .toList();
+
+      if (!possibleEquipment.isEmpty()) {
+        possibleEquipment.stream()
+            .filter(i -> canSwitchToItem(i) || KoLCharacter.hasEquipped(i))
+            .findFirst()
+            .ifPresentOrElse(
+                i -> equipForSkill(skillId, i),
+                () ->
+                    KoLmafia.updateDisplay(
+                        MafiaState.ERROR,
+                        "Cannot acquire: "
+                            + possibleEquipment.stream()
+                                .map(AdventureResult::getName)
+                                .collect(Collectors.joining(", "))
+                            + "."));
+      }
     }
 
     if (Preferences.getBoolean("switchEquipmentForBuffs")) {

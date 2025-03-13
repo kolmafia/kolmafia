@@ -37,6 +37,7 @@ import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.DerivedModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifierCollection;
+import net.sourceforge.kolmafia.modifiers.MultiStringModifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -878,7 +879,7 @@ public class Evaluator {
       }
     }
     // Add fudge factor for Rollover Effect
-    if (!mods.getString(StringModifier.ROLLOVER_EFFECT).isEmpty()) {
+    if (!mods.getStrings(MultiStringModifier.ROLLOVER_EFFECT).isEmpty()) {
       score += 0.01f;
     }
     if (score < this.totalMin) this.failed = true;

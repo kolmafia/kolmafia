@@ -16,7 +16,7 @@ import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.Speculation;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
-import net.sourceforge.kolmafia.modifiers.StringModifier;
+import net.sourceforge.kolmafia.modifiers.MultiStringModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
@@ -1638,14 +1638,14 @@ public abstract class UseLinkDecorator {
   private static String getPotionSpeculation(String label, int itemId) {
     Modifiers mods = ModifierDatabase.getItemModifiers(itemId);
     if (mods == null) return label;
-    String effect = mods.getString(StringModifier.EFFECT);
+    String effect = mods.getString(MultiStringModifier.EFFECT);
     if (effect.equals("")) return label;
     int duration = (int) mods.getDouble(DoubleModifier.EFFECT_DURATION);
     int effectId = EffectDatabase.getEffectId(effect);
     Speculation spec = new Speculation();
     spec.addEffect(EffectPool.get(effectId, Math.max(1, duration)));
     mods = spec.calculate();
-    mods.setString(StringModifier.EFFECT, effect);
+    mods.setString(MultiStringModifier.EFFECT, effect);
     if (duration > 0) {
       mods.setDouble(DoubleModifier.EFFECT_DURATION, (float) duration);
     }
