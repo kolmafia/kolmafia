@@ -9,6 +9,7 @@ import java.util.TreeMap;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.DataTypes.TypeSpec;
+import net.sourceforge.kolmafia.textui.Rng;
 import net.sourceforge.kolmafia.textui.parsetree.AggregateType;
 import net.sourceforge.kolmafia.textui.parsetree.ArrayValue;
 import net.sourceforge.kolmafia.textui.parsetree.Function;
@@ -57,7 +58,9 @@ public abstract class ValueConverter<ObjectType> {
       return value.contentString;
     } else if (type.equals(DataTypes.BUFFER_TYPE)) {
       return value.content.toString();
-    } else if (type.equals(DataTypes.MATCHER_TYPE) || type.equals(DataTypes.RNG_TYPE)) {
+    } else if (type.equals(DataTypes.RNG_TYPE)) {
+      return value.content;
+    } else if (type.equals(DataTypes.MATCHER_TYPE)) {
       // This should not happen.
       return null;
     } else if (value instanceof MapValue mapValue) {
@@ -103,8 +106,7 @@ public abstract class ValueConverter<ObjectType> {
 
     Type dataType = null;
     Type indexType = null;
-    for (Object entryObject : javaMap.entrySet()) {
-      var entry = (Entry<?, ?>) entryObject;
+    for (Entry<?, ?> entry : javaMap.entrySet()) {
       Value key = fromJava(entry.getKey());
       Value value = fromJava(entry.getValue());
 
@@ -124,8 +126,7 @@ public abstract class ValueConverter<ObjectType> {
     }
 
     Map<Value, Value> underlyingMap = new TreeMap<>();
-    for (Object entryObject : javaMap.entrySet()) {
-      var entry = (Entry<?, ?>) entryObject;
+    for (Entry<?, ?> entry : javaMap.entrySet()) {
       Value key = fromJava(entry.getKey());
       Value value = fromJava(entry.getValue());
       if (key == null) {
@@ -147,7 +148,7 @@ public abstract class ValueConverter<ObjectType> {
   }
 
   private ArrayValue convertJavaArray(List<?> javaArray, Type typeHint) {
-    if (javaArray.size() == 0) {
+    if (javaArray.isEmpty()) {
       if (typeHint instanceof AggregateType aggregateTypeHint && aggregateTypeHint.getSize() >= 0) {
         return new ArrayValue(new AggregateType(aggregateTypeHint.getDataType(), 0));
       } else {
@@ -155,7 +156,7 @@ public abstract class ValueConverter<ObjectType> {
       }
     }
 
-    Value firstElement = fromJava(javaArray.get(0));
+    Value firstElement = fromJava(javaArray.getFirst());
     Type elementType = firstElement == null ? DataTypes.ANY_TYPE : firstElement.getType();
     List<Value> result = new ArrayList<>();
     for (Object element : javaArray) {
@@ -196,6 +197,8 @@ public abstract class ValueConverter<ObjectType> {
       return convertJavaArray((List<?>) object, typeHint);
     } else if (object instanceof Value value) {
       return value;
+    } else if (object instanceof Rng rng) {
+      return new Value(rng);
     } else {
       throw new ValueConverterException(
           "Unrecognized Java object of class " + object.getClass().getName() + ".");

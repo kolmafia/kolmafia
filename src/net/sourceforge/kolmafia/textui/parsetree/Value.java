@@ -17,6 +17,7 @@ import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.DataTypes.TypeSpec;
 import net.sourceforge.kolmafia.textui.Parser;
+import net.sourceforge.kolmafia.textui.Rng;
 import net.sourceforge.kolmafia.textui.parsetree.ParseTreeNode.TypedNode;
 import org.eclipse.lsp4j.Location;
 
@@ -102,6 +103,10 @@ public class Value implements TypedNode, Comparable<Value> {
 
   public Value(final Modifier modifier) {
     this(DataTypes.MODIFIER_TYPE, modifier.getName(), modifier);
+  }
+
+  public Value(final Rng rng) {
+    this(DataTypes.RNG_TYPE, "", rng);
   }
 
   public Value toFloatValue() {

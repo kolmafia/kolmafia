@@ -8808,7 +8808,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value php_seed(ScriptRuntime controller, final Value seed) {
-    return new Value(DataTypes.RNG_TYPE, "", new Rng(seed.intValue()));
+    return new Value(new Rng(seed.intValue()));
   }
 
   public static Value php_rand(ScriptRuntime controller, final Value rng) {

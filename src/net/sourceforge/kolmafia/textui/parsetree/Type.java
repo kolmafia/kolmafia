@@ -177,7 +177,7 @@ public class Type extends Symbol {
       case STRING -> DataTypes.STRING_INIT;
       case BUFFER -> new Value(DataTypes.BUFFER_TYPE, "", new StringBuffer());
       case MATCHER -> new Value(DataTypes.MATCHER_TYPE, "", Pattern.compile("").matcher(""));
-      case RNG -> new Value(DataTypes.RNG_TYPE, "", new Rng());
+      case RNG -> new Value(new Rng());
       case ITEM -> DataTypes.ITEM_INIT;
       case LOCATION -> DataTypes.LOCATION_INIT;
       case CLASS -> DataTypes.CLASS_INIT;
