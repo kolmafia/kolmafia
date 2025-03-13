@@ -621,6 +621,7 @@ public class AdventureRequest extends GenericRequest {
                 && !EncounterManager.isRainManEncounter(responseText)
                 && !EncounterManager.isSpookyVHSTapeMonster(responseText, false)
                 && !EncounterManager.isMimeographEncounter(responseText)
+                && !EncounterManager.isBodyguardEncounter(responseText)
                 && !FightRequest.edFightInProgress())) {
           AdventureQueueDatabase.enqueue(location, encounter);
         }

@@ -214,7 +214,7 @@ Disappointed Russian	4	1	decent	7-9	0	0	30-40
 discocktail	3	1	good	8-10	0	0	8-10	30 Disco Neuropathy (+15 DB Combat Damage, +30% DB Skill Weaken)
 distilled fortified wine	1	1	EPIC	5-6	5-6	5-6	5-6
 Divine	4	6	awesome	14-18	16-20	25-27	0
-Divine sidecar	2	4	awesome	0	0	0	0	Unspaded
+Divine sidecar	2	4	awesome	8-9	16-20	25-27	0
 Doc Clock's thyme cocktail	4	8	super EPIC	26-30	20-40	20-40	20-40	-2 Fullness
 Doc's Fortifying Wine	1	1	awesome	4-5	45-60	5-15	5-15	WINE 40 Medically Fortified (+3 Mus stats/fight, +30% Mus)
 Doc's Limbering Wine	1	1	awesome	4-5	5-15	5-15	45-60	WINE 40 Medically Loosened (+3 Mox stats/fight, +30% Mox)
@@ -325,7 +325,7 @@ ghost beer	1	1	awesome	4-5	0	10-20	0	50 Booooooze (+100% Myst, 11 DR), BEER
 giant glass of brandy	3	5	awesome	8-11	25-40	25-40	25-40	LARP membership card (1 time)
 gibson	3	3	good	5-10	0	0	16-20	MARTINI
 gimlet	4	6	awesome	14-18	0	40-47	0
-gimlet sidecar	1	4	awesome	0	0	0	0	Unspaded
+gimlet sidecar	1	4	awesome	4-5	0	41-47	0
 gin	5	6	decent	10-15	9-10	9-10	9-10
 gin and ginger	2	1	EPIC	10-12	0	0	0
 Gin and Herring	3	1	good	7-11	0	0	0
@@ -473,7 +473,7 @@ missing wine	2	5	good	4-8	0	0	31-50	WINE
 moai toai	1	5	good	0	0	0	0	Unspaded
 Mohobo	2	1	good	4-5	5-10	5-10	5-10	5 Mo' Hobo (+10 Hobo Power)
 Mon Tiki	4	6	awesome	14-18	40-47	0	0
-Mon Tiki sidecar	1	4	awesome	0	0	0	0	Unspaded
+Mon Tiki sidecar	1	4	awesome	4-5	41-47	0	0
 monkey wrench	3	1	decent	5-6	0	8-10	0
 moonberry wine cooler	3	3	decent	4-6	0	5-10	0	WINE
 moons-shine	4	1	decent	6-10	7-8	7-8	7-8
@@ -563,7 +563,7 @@ pointy mushroom wine	3	6	awesome	10-14	0	0	8-10	WINE
 premium malt liquor	3	1	decent	5-6	1-2	1-2	1-2
 primitive alien booze	5	1	good	15-16	8-10	8-10	8-10	Extends the duration of up to 10 of your effects by 5 Adventures
 prussian cathouse	4	6	awesome	14-18	0	0	40-47
-prussian cathouse sidecar	1	4	awesome	0	0	0	0	Unspaded
+prussian cathouse sidecar	1	4	awesome	4-5	0	0	41-47
 prussian cathouse with a fly in it	0	1	crappy	0	0	0	0	Undrinkable
 Psychotic Train wine	6	11	awesome	19-20	150-250	0	0	WINE
 pumpkin beer	1	2	EPIC	4-7	5-20	5-20	5-20	2-4 MP, BEER
@@ -703,7 +703,7 @@ sweet potato punch	2	4	EPIC	10-12	54-56	0	0
 swirling mushroom wine	4	3	EPIC	22-26	0	0	50-100	80 Tremella Tremens (+40 Item Drop), WINE
 Taco Dan's Taco Stand Chimichangarita	1	4	good	2-3	0	0	15-30	5 Margaritish (+moxie)
 tangarita	4	6	awesome	14-18	0	16-20	25-27
-tangarita sidecar	2	4	awesome	0	0	0	0	Unspaded
+tangarita sidecar	2	4	awesome	8-9	0	16-20	25-27
 tangarita with a fly in it	0	1	crappy	0	0	0	0	Undrinkable
 tankard of ale	1	1	good	3	12-15	12-15	12-15	BEER
 tankard of spiced Goldschlepper	1	1	EPIC	6-7	40-50	0	0
@@ -752,7 +752,7 @@ vodka martini	3	1	decent	5-6	0	0	8-10	MARTINI
 Vodka Matryoshka	2	2	EPIC	10-13	25-50	10-20	10-20
 vodka stinger	1	1	awesome	3-5	0	0	0	40 Mer-kindliness (+2 Prismatic res)
 vodka stratocaster	4	6	awesome	14-18	25-27	0	16-20
-vodka stratocaster sidecar	2	4	awesome	0	0	0	0	Unspaded
+vodka stratocaster sidecar	2	4	awesome	8-9	25-27	0	16-20
 void lager	1	1	awesome	3-4	0	0	0	BEER
 VYKEA mead	2	7	awesome	8-10	5-10	5-10	20-40
 warbear bearserker mead	3	1	awesome	12-15	5-10	5-10	5-10	40 Warbear Warlust (+60 WarBear Armor Penetration), WINE
