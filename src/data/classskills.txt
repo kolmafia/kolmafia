@@ -668,7 +668,7 @@
 7091	Blade Sling	switchblade.gif	combat	0	0
 7092	Blade Roller	switchblade.gif	combat	0	0
 7093	Blade Runner	switchblade.gif	combat	0	0
-7094	Static Shock	hate_pants.gif	combat	0	0
+7094	Static Shock	jigawatts.gif	combat	0	0
 7095	Give Your Opponent the Stinkeye	sc_eye.gif	combat	0	0
 7096	Bashing Slam Smash	sledge.gif	combat	15	0
 7097	Turtle of Seven Tails	7aspects.gif	combat	15	0

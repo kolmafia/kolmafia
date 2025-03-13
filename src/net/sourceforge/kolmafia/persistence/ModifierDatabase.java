@@ -43,6 +43,7 @@ import net.sourceforge.kolmafia.modifiers.Lookup;
 import net.sourceforge.kolmafia.modifiers.Modifier;
 import net.sourceforge.kolmafia.modifiers.ModifierList;
 import net.sourceforge.kolmafia.modifiers.ModifierList.ModifierValue;
+import net.sourceforge.kolmafia.modifiers.MultiStringModifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -63,6 +64,8 @@ public class ModifierDatabase {
       new TwoLevelEnumHashMap<>(ModifierType.class);
   private static final Map<String, Modifier> modifierTypesByName = new HashMap<>();
   private static final Map<String, String> familiarEffectByName = new HashMap<>();
+  private static final Set<Lookup> inventorySkillProviders = new HashSet<>();
+  private static final Set<Lookup> noncombatSkillProviders = new HashSet<>();
 
   /** Map of synergetic item name to bitmap mask of all items in set */
   private static final Map<String, Integer> synergies = new HashMap<>();
@@ -80,15 +83,12 @@ public class ModifierDatabase {
   public static final String EXPR = "(?:([-+]?[\\d.]+)|\\[([^]]+)\\])";
   public static final String BOOLEAN_EXPR = "(?:: \\[([^]]+)])?";
 
-  private static final Pattern FAMILIAR_EFFECT_PATTERN =
-      Pattern.compile("Familiar Effect: \"(.*?)\"");
   private static final Pattern FAMILIAR_EFFECT_TRANSLATE_PATTERN =
       Pattern.compile("([\\d.]+)\\s*x\\s*(Volley|Somb|Lep|Fairy)");
   private static final String FAMILIAR_EFFECT_TRANSLATE_REPLACEMENT = "$2: $1 ";
   private static final Pattern FAMILIAR_EFFECT_TRANSLATE_PATTERN2 =
       Pattern.compile("cap ([\\d.]+)");
   private static final String FAMILIAR_EFFECT_TRANSLATE_REPLACEMENT2 = "Familiar Weight Cap: $1 ";
-
   private static final String COLD = DoubleModifier.COLD_RESISTANCE.getTag() + ": ";
   private static final String HOT = DoubleModifier.HOT_RESISTANCE.getTag() + ": ";
   private static final String SLEAZE = DoubleModifier.SLEAZE_RESISTANCE.getTag() + ": ";
@@ -237,6 +237,18 @@ public class ModifierDatabase {
     return familiarEffectByName.get(itemName);
   }
 
+  /**
+   * @return All sources of a conditional skills that don't require active use (e.g. equipping the
+   *     item)
+   */
+  public static Set<Lookup> getInventorySkillProviders() {
+    return inventorySkillProviders;
+  }
+
+  public static Set<Lookup> getNonCombatSkillProviders() {
+    return noncombatSkillProviders;
+  }
+
   // Returned set yields bitmaps keyed by names
   public static Set<Entry<String, Integer>> getSynergies() {
     return Collections.unmodifiableSet(synergies.entrySet());
@@ -300,6 +312,10 @@ public class ModifierDatabase {
     var str = StringModifier.byCaselessName(name);
     if (str != null) {
       return str;
+    }
+    var mStr = MultiStringModifier.byCaselessName(name);
+    if (mStr != null) {
+      return mStr;
     }
     return BooleanModifier.byCaselessName(name);
   }
@@ -479,22 +495,59 @@ public class ModifierDatabase {
     return mods.getBoolean(mod);
   }
 
-  public static final String getStringModifier(
-      final ModifierType type, final int id, final StringModifier mod) {
+  public static String getStringModifier(
+      final ModifierType type, final int id, final Modifier mod) {
     return getStringModifier(new Lookup(type, id), mod);
   }
 
-  public static final String getStringModifier(
-      final ModifierType type, final String name, final StringModifier mod) {
+  public static String getStringModifier(
+      final ModifierType type, final int id, final MultiStringModifier mod) {
+    return getStringModifier(new Lookup(type, id), mod);
+  }
+
+  public static String getStringModifier(
+      final ModifierType type, final String name, final Modifier mod) {
     return getStringModifier(new Lookup(type, name), mod);
   }
 
-  public static final String getStringModifier(final Lookup lookup, final StringModifier mod) {
+  public static String getStringModifier(
+      final ModifierType type, final String name, final MultiStringModifier mod) {
+    return getStringModifier(new Lookup(type, name), mod);
+  }
+
+  public static String getStringModifier(final Lookup lookup, final Modifier mod) {
     Modifiers mods = getModifiers(lookup);
     if (mods == null) {
       return "";
     }
     return mods.getString(mod);
+  }
+
+  public static String getStringModifier(final Lookup lookup, final MultiStringModifier mod) {
+    Modifiers mods = getModifiers(lookup);
+    if (mods == null) {
+      return "";
+    }
+    return mods.getString(mod);
+  }
+
+  public static List<String> getMultiStringModifier(
+      final ModifierType type, final int id, final MultiStringModifier mod) {
+    return getMultiStringModifier(new Lookup(type, id), mod);
+  }
+
+  public static List<String> getMultiStringModifier(
+      final ModifierType type, final String name, final MultiStringModifier mod) {
+    return getMultiStringModifier(new Lookup(type, name), mod);
+  }
+
+  public static List<String> getMultiStringModifier(
+      final Lookup lookup, final MultiStringModifier mod) {
+    Modifiers mods = getModifiers(lookup);
+    if (mods == null) {
+      return List.of();
+    }
+    return mods.getStrings(mod);
   }
 
   // sub-region: parse modifiers.txt expressions to Modifiers / ModifierList
@@ -710,6 +763,23 @@ public class ModifierDatabase {
         newMods.setString(mod, value);
         continue modLoop;
       }
+
+      for (var mod : MultiStringModifier.MULTISTRING_MODIFIERS) {
+        Pattern pattern = mod.getTagPattern();
+        if (pattern == null) {
+          continue;
+        }
+
+        Matcher matcher = pattern.matcher(string);
+        if (!matcher.matches()) {
+          continue;
+        }
+
+        String value = matcher.group(1);
+
+        newMods.addMultiString(mod, value);
+        continue modLoop;
+      }
     }
     newMods.setString(StringModifier.MODIFIERS, list.toString());
 
@@ -804,7 +874,7 @@ public class ModifierDatabase {
           name = "[" + effectId + "]" + name;
         }
       }
-      return StringModifier.EFFECT.getTag() + ": \"" + name + "\"";
+      return MultiStringModifier.EFFECT.getTag() + ": \"" + name + "\"";
     }
 
     return null;
@@ -1171,7 +1241,7 @@ public class ModifierDatabase {
           if (mods == null) {
             break;
           }
-          if (!mods.getString(StringModifier.EFFECT).isEmpty()) {
+          if (!mods.getString(MultiStringModifier.EFFECT).isEmpty()) {
             potions.add(name);
           } else if (mods.getBoolean(BooleanModifier.FREE_PULL)) {
             freepulls.add(name);
@@ -1454,6 +1524,9 @@ public class ModifierDatabase {
           if (StringModifier.byTagPattern(mod) != null) {
             continue;
           }
+          if (MultiStringModifier.byTagPattern(mod) != null) {
+            continue;
+          }
           if (type == ModifierType.FAM_EQ) {
             continue; // these may contain freeform text
           }
@@ -1498,7 +1571,7 @@ public class ModifierDatabase {
           KoLmafia.updateDisplay("Duplicate modifiers for: " + type + ":" + name);
         }
 
-        Matcher matcher = FAMILIAR_EFFECT_PATTERN.matcher(modifiers);
+        Matcher matcher = StringModifier.FAMILIAR_EFFECT.getTagPattern().matcher(modifiers);
         if (matcher.find()) {
           String effect = matcher.group(1);
           familiarEffectByName.put(name, effect);
@@ -1511,6 +1584,23 @@ public class ModifierDatabase {
             effect = matcher.replaceAll(FAMILIAR_EFFECT_TRANSLATE_REPLACEMENT2);
           }
           modifierStringsByName.put(ModifierType.FAM_EQ, new IntOrString(name), effect);
+        }
+
+        matcher =
+            MultiStringModifier.CONDITIONAL_SKILL_INVENTORY.getTagPattern().matcher(modifiers);
+        if (matcher.find()) {
+          inventorySkillProviders.add(lookup);
+        }
+
+        matcher = MultiStringModifier.CONDITIONAL_SKILL_EQUIPPED.getTagPattern().matcher(modifiers);
+        while (matcher.find()) {
+          var skill = matcher.group(1);
+          var id = SkillDatabase.getSkillId(skill, true);
+          if (SkillDatabase.getSkillTags(id).contains(SkillDatabase.SkillTag.NONCOMBAT)) {
+            noncombatSkillProviders.add(lookup);
+            inventorySkillProviders.add(lookup);
+            break;
+          }
         }
       }
     } catch (IOException e) {

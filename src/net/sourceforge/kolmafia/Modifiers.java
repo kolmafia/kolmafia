@@ -25,6 +25,8 @@ import net.sourceforge.kolmafia.modifiers.Lookup;
 import net.sourceforge.kolmafia.modifiers.Modifier;
 import net.sourceforge.kolmafia.modifiers.ModifierList;
 import net.sourceforge.kolmafia.modifiers.ModifierList.ModifierValue;
+import net.sourceforge.kolmafia.modifiers.MultiStringModifier;
+import net.sourceforge.kolmafia.modifiers.MultiStringModifierCollection;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.modifiers.StringModifierCollection;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -77,6 +79,7 @@ public class Modifiers {
   private final BooleanModifierCollection booleans = new BooleanModifierCollection();
   private final BitmapModifierCollection bitmaps = new BitmapModifierCollection();
   private final StringModifierCollection strings = new StringModifierCollection();
+  private final MultiStringModifierCollection multiStrings = new MultiStringModifierCollection();
   private ArrayList<Indexed<Modifier, ModifierExpression>> expressions = null;
   // These are used for Steely-Eyed Squint and so on
   private final DoubleModifierCollection accumulators = new DoubleModifierCollection();
@@ -283,6 +286,7 @@ public class Modifiers {
   public final void reset() {
     this.doubles.reset();
     this.strings.reset();
+    this.multiStrings.reset();
     this.booleans.reset();
     this.bitmaps.reset();
     this.expressions = null;
@@ -388,7 +392,7 @@ public class Modifiers {
     return bools;
   }
 
-  public String getString(final StringModifier modifier) {
+  public String getString(final Modifier modifier) {
     if (modifier == null) {
       return "";
     }
@@ -401,7 +405,21 @@ public class Modifiers {
           .toString();
     }
 
-    return this.strings.get(modifier);
+    if (modifier instanceof StringModifier sm) {
+      return this.strings.get(sm);
+    }
+
+    if (modifier instanceof MultiStringModifier msm) {
+      return this.multiStrings.getOne(msm);
+    }
+
+    return "";
+  }
+
+  public List<String> getStrings(final MultiStringModifier modifier) {
+    if (modifier == null) return List.of();
+
+    return this.multiStrings.get(modifier);
   }
 
   public double getAccumulator(final DoubleModifier modifier) {
@@ -448,6 +466,14 @@ public class Modifiers {
     return this.strings.set(modifier, mod);
   }
 
+  public boolean setString(final MultiStringModifier modifier, String mod) {
+    if (modifier == null) {
+      return false;
+    }
+
+    return this.multiStrings.set(modifier, mod == null ? List.of() : List.of(mod));
+  }
+
   public boolean set(final Modifiers mods) {
     if (mods == null) {
       return false;
@@ -470,6 +496,10 @@ public class Modifiers {
 
     for (var mod : StringModifier.STRING_MODIFIERS) {
       changed |= this.setString(mod, mods.strings.get(mod));
+    }
+
+    for (var mod : MultiStringModifier.MULTISTRING_MODIFIERS) {
+      changed |= this.multiStrings.set(mod, mods.multiStrings.get(mod));
     }
 
     return changed;
@@ -576,6 +606,14 @@ public class Modifiers {
 
   public void addBitmap(BitmapModifier modifier, int bit) {
     this.bitmaps.add(modifier, bit);
+  }
+
+  public boolean addMultiString(final MultiStringModifier modifier, String mod) {
+    if (modifier == null || mod == null) {
+      return false;
+    }
+
+    return this.multiStrings.add(modifier, mod);
   }
 
   public void add(final Modifiers mods) {

@@ -36,6 +36,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.VYKEACompanionData;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.modifiers.ModifierList;
+import net.sourceforge.kolmafia.modifiers.MultiStringModifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
@@ -914,10 +915,10 @@ public class ItemDatabase {
 
     // Parse use type, access, and price from description
     String type = DebugDatabase.parseType(text);
-    ConsumptionType usage = DebugDatabase.typeToPrimary(type, multi);
-    if (text.contains("blue\">Makes you look like")) {
-      usage = ConsumptionType.AVATAR_POTION;
-    }
+    final ConsumptionType usage =
+        (text.contains("blue\">Makes you look like"))
+            ? ConsumptionType.AVATAR_POTION
+            : DebugDatabase.typeToPrimary(type, multi);
     ItemDatabase.useTypeById.put(itemId, usage);
 
     String access = DebugDatabase.parseAccess(text);
@@ -985,28 +986,34 @@ public class ItemDatabase {
     }
 
     // Potions grant an effect. Check for a new effect.
-    String effectName =
-        ModifierDatabase.getStringModifier(ModifierType.ITEM, itemId, StringModifier.EFFECT);
-    if (!effectName.equals("") && EffectDatabase.getEffectId(effectName, true) == -1) {
-      String effectDescid = DebugDatabase.parseEffectDescid(rawText);
-      String command =
-          switch (usage) {
-            case EAT -> "eat 1 ";
-            case DRINK -> "drink 1 ";
-            case SPLEEN -> "chew 1 ";
-            default -> "use 1 ";
-          };
-      EffectDatabase.registerEffect(effectName, effectDescid, command + itemName);
-    }
+    ModifierDatabase.getMultiStringModifier(ModifierType.ITEM, itemId, MultiStringModifier.EFFECT)
+        .stream()
+        .filter(e -> !e.isEmpty())
+        .filter(e -> EffectDatabase.getEffectId(e, true) == -1)
+        .forEach(
+            e -> {
+              String effectDescid = DebugDatabase.parseEffectDescid(rawText);
+              String command =
+                  switch (usage) {
+                    case EAT -> "eat 1 ";
+                    case DRINK -> "drink 1 ";
+                    case SPLEEN -> "chew 1 ";
+                    default -> "use 1 ";
+                  };
+              EffectDatabase.registerEffect(e, effectDescid, command + itemName);
+            });
 
-    // Equipment can have a Rollover Effect. Check for new effect.
-    effectName =
-        ModifierDatabase.getStringModifier(
-            ModifierType.ITEM, itemId, StringModifier.ROLLOVER_EFFECT);
-    if (!effectName.equals("") && EffectDatabase.getEffectId(effectName, true) == -1) {
-      String effectDescid = DebugDatabase.parseEffectDescid(rawText);
-      EffectDatabase.registerEffect(effectName, effectDescid, null);
-    }
+    // Equipment can have Rollover Effects. Check for new effect.
+    ModifierDatabase.getMultiStringModifier(
+            ModifierType.ITEM, itemId, MultiStringModifier.ROLLOVER_EFFECT)
+        .stream()
+        .filter(e -> !e.isEmpty())
+        .filter(e -> EffectDatabase.getEffectId(e, true) == -1)
+        .forEach(
+            e -> {
+              String effectDescid = DebugDatabase.parseEffectDescid(rawText);
+              EffectDatabase.registerEffect(e, effectDescid, null);
+            });
 
     // Familiar larva mature into familiars.
     if (type.equals("familiar")) {
@@ -2206,7 +2213,7 @@ public class ItemDatabase {
             ModifierType.ITEM, ItemPool.VAMPIRE_VINTNER_WINE, iEnchantments);
 
     // Validate this by seeing what effect this wine grants.
-    String effectName = imods.getString(StringModifier.EFFECT);
+    String effectName = imods.getString(MultiStringModifier.EFFECT);
     int effectId = EffectDatabase.getEffectId(effectName);
 
     // If it doesn't grant one, this is the generic 1950 Vampire Vintner wine
