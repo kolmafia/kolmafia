@@ -737,6 +737,17 @@ public class ClanLoungeRequest extends GenericRequest {
     this.option = option;
   }
 
+  @Override
+  protected boolean shouldFollowRedirect() {
+    // We do not want ChoiceManager to automate redirection.
+    // I think that Cannonballing into the Swimming Pool is the
+    // only redirection to choice.php.
+    if (this.action == Action.SWIMMING_POOL && this.option == CANNONBALL) {
+      return true;
+    }
+    return false;
+  }
+
   public static final ClanLoungeRequest buyHotDogRequest(final String name) {
     int index = ClanLoungeRequest.hotdogNameToIndex(name);
     if (index < 0) {
@@ -1120,7 +1131,7 @@ public class ClanLoungeRequest extends GenericRequest {
         break;
 
       case SWIMMING_POOL:
-        if (this.redirectLocation != null && this.redirectLocation.startsWith("choice.php")) {
+        if (this.responseText.contains("Screwing Around!")) {
           RequestLogger.printLine("You start screwing around in the swimming pool.");
         } else if (responseText.contains("manage to swim")) {
           // the message is printed by parseResponse()
