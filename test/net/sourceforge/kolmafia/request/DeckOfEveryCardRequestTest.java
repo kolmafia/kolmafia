@@ -142,8 +142,14 @@ class DeckOfEveryCardRequestTest {
     var builder = new FakeHttpClientBuilder();
     builder.client.addResponse(200, html("request/use_deck_first.html"));
     builder.client.addResponse(200, html("request/use_deck_second.html"));
+    builder.client.addResponse(200, html("request/empty.html"));
+    builder.client.addResponse(200, html("request/empty.html"));
+    builder.client.addResponse(200, html("request/empty.html"));
     builder.client.addResponse(200, html("request/use_deck_third.html"));
-    builder.client.addResponse(200, html("request/use_deck_fourth.html"));
+    builder.client.addResponse(200, html("request/empty.html"));
+    builder.client.addResponse(200, html("request/empty.html"));
+    builder.client.addResponse(200, html("request/empty.html"));
+    builder.client.addResponse(200, html("request/empty.html"));
     var cleanups =
         new Cleanups(
             withHttpClientBuilder(builder),
