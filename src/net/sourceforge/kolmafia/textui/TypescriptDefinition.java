@@ -451,7 +451,7 @@ public class TypescriptDefinition {
             }
             export const sessionStorage: Storage;
             """,
-            """
+        """
             declare class Rng {}
             """);
   }
