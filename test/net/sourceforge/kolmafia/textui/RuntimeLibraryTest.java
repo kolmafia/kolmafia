@@ -1274,6 +1274,13 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       String output = execute(input);
       assertThat(output, startsWith("Returned: Blackberry Politeness"));
     }
+
+    @Test
+    void monsterReadsStringAndMultistringModifiers() {
+      String input = "monster_modifier($effect[A Lovely Day for a Beatnik], \"Avatar\")";
+      String output = execute(input);
+      assertThat(output, startsWith("Returned: Savage Beatnik"));
+    }
   }
 
   @Nested
