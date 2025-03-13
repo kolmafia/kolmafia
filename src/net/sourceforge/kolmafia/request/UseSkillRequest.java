@@ -880,18 +880,18 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
 
       if (!possibleEquipment.isEmpty()) {
         possibleEquipment.stream()
-          .filter(i -> canSwitchToItem(i) || KoLCharacter.hasEquipped(i))
-          .findFirst()
-          .ifPresentOrElse(
-            i -> equipForSkill(skillId, i),
-            () ->
-              KoLmafia.updateDisplay(
-                MafiaState.ERROR,
-                "Cannot acquire: "
-                  + possibleEquipment.stream()
-                  .map(AdventureResult::getName)
-                  .collect(Collectors.joining(", "))
-                  + "."));
+            .filter(i -> canSwitchToItem(i) || KoLCharacter.hasEquipped(i))
+            .findFirst()
+            .ifPresentOrElse(
+                i -> equipForSkill(skillId, i),
+                () ->
+                    KoLmafia.updateDisplay(
+                        MafiaState.ERROR,
+                        "Cannot acquire: "
+                            + possibleEquipment.stream()
+                                .map(AdventureResult::getName)
+                                .collect(Collectors.joining(", "))
+                            + "."));
       }
     }
 
