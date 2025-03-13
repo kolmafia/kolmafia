@@ -2931,6 +2931,7 @@ public class UseItemRequest extends GenericRequest {
       case ItemPool.SLEEP_ROM_CHIP:
       case ItemPool.OVERCLOCK_ROM_CHIP:
       case ItemPool.STATS_ROM_CHIP:
+      case ItemPool.BOOK_OF_IRONY:
         {
           // You insert the ROM in to your... ROM receptacle and
           // absorb the knowledge of optimality. You suspect you

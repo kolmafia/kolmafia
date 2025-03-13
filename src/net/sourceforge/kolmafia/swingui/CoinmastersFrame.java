@@ -946,6 +946,8 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
       PreferenceListenerRegistry.registerPreferenceListener("guideToSafariAvailable", this);
       PreferenceListenerRegistry.registerPreferenceListener("glitchItemAvailable", this);
       PreferenceListenerRegistry.registerPreferenceListener("lawOfAveragesAvailable", this);
+      PreferenceListenerRegistry.registerPreferenceListener("universalSeasoningAvailable", this);
+      PreferenceListenerRegistry.registerPreferenceListener("bookOfIronyAvailable", this);
       PreferenceListenerRegistry.registerPreferenceListener("essenceOfAnnoyanceAvailable", this);
     }
   }
