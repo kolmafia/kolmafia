@@ -1386,6 +1386,14 @@ public class ResultProcessor {
       case ItemPool.LAW_OF_AVERAGES:
         Preferences.setBoolean("lawOfAveragesAvailable", false);
         break;
+
+      case ItemPool.UNIVERSAL_SEASONING:
+        Preferences.setBoolean("universalSeasoningAvailable", false);
+        break;
+
+      case ItemPool.BOOK_OF_IRONY:
+        Preferences.setBoolean("bookOfIronyAvailable", false);
+        break;
       case ItemPool.MAGNIFICENT_OYSTER_EGG:
       case ItemPool.BRILLIANT_OYSTER_EGG:
       case ItemPool.GLISTENING_OYSTER_EGG:
