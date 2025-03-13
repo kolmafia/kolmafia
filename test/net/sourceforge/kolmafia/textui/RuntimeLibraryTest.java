@@ -1260,6 +1260,20 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
                  Mysticality Experience => +9
                  """));
     }
+
+    @Test
+    void stringReadsStringAndMultistringModifiers() {
+      String input = "string_modifier($item[blackberry polite], \"Effect\")";
+      String output = execute(input);
+      assertThat(output, startsWith("Returned: Blackberry Politeness"));
+    }
+
+    @Test
+    void effectReadsStringAndMultistringModifiers() {
+      String input = "effect_modifier($item[blackberry polite], \"Effect\")";
+      String output = execute(input);
+      assertThat(output, startsWith("Returned: Blackberry Politeness"));
+    }
   }
 
   @Nested

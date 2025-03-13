@@ -10486,7 +10486,11 @@ public abstract class RuntimeLibrary {
       throw controller.runtimeException("string modifier required");
     }
     String mod = modifier.toString();
-    return StringModifier.byCaselessName(mod);
+    var str = StringModifier.byCaselessName(mod);
+    if (str != null) {
+      return str;
+    }
+    return MultiStringModifier.byCaselessName(mod);
   }
 
   private static MultiStringModifier getMultiStringModifier(
