@@ -419,7 +419,6 @@ public class DataFileConsistencyTest {
             case "Motorbike",
                 "Snowsuit",
                 "Edpiece",
-                "Rumpus",
                 "Event",
                 "MaxCat",
                 "Horsery",
