@@ -20,7 +20,6 @@ public enum ModifierType {
   MCD,
   BALLROOM,
   EVENT,
-  RUMPUS,
   PSEUDO_ITEM,
   PSEUDO_EFFECT,
   PSEUDO_SKILL,
