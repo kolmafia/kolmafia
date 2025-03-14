@@ -110,7 +110,6 @@ public class CompactSidePane extends JPanel implements Runnable {
     panels[panelCount].add(this.levelLabel = new JLabel(" ", JLabel.CENTER), BorderLayout.NORTH);
 
     panels[panelCount].add(this.levelMeter = new JProgressBar(), BorderLayout.CENTER);
-    this.levelMeter.setVisible(!KoLCharacter.inZootomist());
     this.levelMeter.setOpaque(true);
     this.levelMeter.setStringPainted(true);
     JComponentUtilities.setComponentSize(this.levelMeter, 40, 6);
@@ -1129,6 +1128,7 @@ public class CompactSidePane extends JPanel implements Runnable {
 
     this.familiarAnnotationLabel.setVisible(annotated);
     quantumFamiliarPanel.setVisible(KoLCharacter.inQuantum());
+    levelMeter.setVisible(!KoLCharacter.inZootomist());
   }
 
   private class FamiliarLabel extends JLabel implements Listener {
