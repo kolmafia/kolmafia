@@ -163,7 +163,7 @@ class DeckOfEveryCardRequestTest {
       assertPostRequest(requests.get(1), "/choice.php", "whichchoice=1086&option=2");
       assertPostRequest(requests.get(2), "/api.php", "what=status&for=KoLmafia");
       assertThat("_deckCardsDrawn", isSetTo(5));
-      assertThat("_deckCardsSeen", isSetTo(5));
+      assertThat("_deckCardsSeen", isSetTo("1952 Mickey Mantle"));
     }
   }
 }
