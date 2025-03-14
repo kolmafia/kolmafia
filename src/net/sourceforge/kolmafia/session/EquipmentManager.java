@@ -11,6 +11,7 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
@@ -487,6 +488,7 @@ public class EquipmentManager {
     if (mods != null) {
       mods.getStrings(MultiStringModifier.CONDITIONAL_SKILL_EQUIPPED).stream()
           .map(SkillDatabase::getSkillId)
+          .filter(Predicate.not(SkillDatabase::isNonCombat))
           .forEach(cb);
     }
 
