@@ -140,10 +140,10 @@ class DeckOfEveryCardRequestTest {
   public void itShouldRunAndUpdatePreferences() {
     DeckOfEveryCardRequest.EveryCard mickey = getCardById(58);
     var builder = new FakeHttpClientBuilder();
-    builder.client.addResponse(200, html("request/empty.html"));
+    builder.client.addResponse(302, html("request/empty.html"));
     builder.client.addResponse(200, html("request/use_deck_one.html"));
     builder.client.addResponse(200, html("request/use_deck_two.html"));
-    builder.client.addResponse(200, html("request/empty.html"));
+    builder.client.addResponse(302, html("request/empty.html"));
     builder.client.addResponse(200, html("request/use_deck_three.html"));
     builder.client.addResponse(200, html("request/use_deck_four.html"));
     builder.client.addResponse(200, html("request/use_deck_five.html"));
@@ -158,11 +158,11 @@ class DeckOfEveryCardRequestTest {
     try (cleanups) {
       new DeckOfEveryCardRequest(mickey).run();
       var requests = builder.client.getRequests();
-      assertThat(requests, hasSize(10));
+      assertThat(requests, hasSize(6));
       assertPostRequest(requests.get(0), "/inv_use.php", "whichitem=8382&cheat=1");
-      assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
       assertPostRequest(
-          requests.get(8), "/choice.php", "whichchoice=1086&option=1&which=58&pwd=cafebabe");
+        requests.get(1), "/choice.php", "whichchoice=1086&option=2");
+      assertPostRequest(requests.get(2), "/api.php", "what=status&for=KoLmafia");
       assertThat("_deckCardsDrawn", isSetTo(5));
       assertThat("_deckCardsSeen", isSetTo(5));
     }
