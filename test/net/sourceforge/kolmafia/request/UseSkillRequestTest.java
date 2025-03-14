@@ -409,7 +409,9 @@ class UseSkillRequestTest {
         var requests = getRequests();
         assertThat(requests, hasSize(2));
         assertGetRequest(
-            requests.getFirst(), "/runskillz.php", "action=Skillz&whichskill=7439&ajax=1&quantity=1");
+            requests.getFirst(),
+            "/runskillz.php",
+            "action=Skillz&whichskill=7439&ajax=1&quantity=1");
       }
     }
 
