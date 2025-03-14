@@ -415,7 +415,7 @@ public class TypescriptDefinition {
         "type ModifierValueType = " + getModifierValueTypeUnion() + ";");
   }
 
-  protected static List<String> getSessionStorageTyping() {
+  protected static List<String> getOtherClassTypings() {
     return List.of(
         """
             declare class Storage {
@@ -450,6 +450,9 @@ public class TypescriptDefinition {
                 setItem(key: string, value: string): void;
             }
             export const sessionStorage: Storage;
+            """,
+        """
+            declare class Rng {}
             """);
   }
 
@@ -487,7 +490,7 @@ public class TypescriptDefinition {
             getMafiaClassDefs(),
             getMafiaClassArray(),
             getScriptFunctionDefs(),
-            getSessionStorageTyping())
+            getOtherClassTypings())
         .flatMap(Collection::stream)
         .collect(Collectors.joining("\n"));
   }

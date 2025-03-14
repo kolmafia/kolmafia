@@ -5,6 +5,7 @@ import java.util.List;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.textui.DataTypes;
 import net.sourceforge.kolmafia.textui.Parser;
+import net.sourceforge.kolmafia.textui.Rng;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 import net.sourceforge.kolmafia.textui.parsetree.Function;
 import net.sourceforge.kolmafia.textui.parsetree.FunctionList;
@@ -88,7 +89,11 @@ public abstract class AshStub extends BaseFunction {
       returnValue = Context.javaToJS(returnValue, scope);
     }
 
-    if (returnValue instanceof NativeJavaObject) {
+    if (returnValue instanceof NativeJavaObject njo) {
+      if (njo.unwrap() instanceof Rng rng) {
+        return rng;
+      }
+
       throw controller.runtimeException("ASH function returned native Java object.");
     }
 

@@ -8808,7 +8808,7 @@ public abstract class RuntimeLibrary {
   }
 
   public static Value php_seed(ScriptRuntime controller, final Value seed) {
-    return new Value(DataTypes.RNG_TYPE, "", new Rng(seed.intValue()));
+    return new Value(new Rng(seed.intValue()));
   }
 
   public static Value php_rand(ScriptRuntime controller, final Value rng) {
@@ -10486,7 +10486,11 @@ public abstract class RuntimeLibrary {
       throw controller.runtimeException("string modifier required");
     }
     String mod = modifier.toString();
-    return StringModifier.byCaselessName(mod);
+    var str = StringModifier.byCaselessName(mod);
+    if (str != null) {
+      return str;
+    }
+    return MultiStringModifier.byCaselessName(mod);
   }
 
   private static MultiStringModifier getMultiStringModifier(

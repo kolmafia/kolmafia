@@ -400,7 +400,7 @@ class UseSkillRequestTest {
     void doNotEquipCinchoDeMayoForSkillIfAlreadyWearing(final int itemId) {
       var cleanups =
           new Cleanups(withPath(Path.LEGACY_OF_LOATHING), withEquipped(Slot.ACCESSORY2, itemId));
-      InventoryManager.checkSkillGrantingEquipment(ItemPool.REPLICA_CINCHO_DE_MAYO);
+      InventoryManager.checkSkillGrantingEquipment(itemId);
 
       try (cleanups) {
         var req = UseSkillRequest.getInstance(SkillPool.CINCHO_DISPENSE_SALT_AND_LIME, 1);
@@ -409,7 +409,9 @@ class UseSkillRequestTest {
         var requests = getRequests();
         assertThat(requests, hasSize(2));
         assertGetRequest(
-            requests.get(0), "/runskillz.php", "action=Skillz&whichskill=7439&ajax=1&quantity=1");
+            requests.getFirst(),
+            "/runskillz.php",
+            "action=Skillz&whichskill=7439&ajax=1&quantity=1");
       }
     }
 
