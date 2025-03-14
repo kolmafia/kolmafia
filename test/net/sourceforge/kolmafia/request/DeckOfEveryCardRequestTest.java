@@ -160,8 +160,7 @@ class DeckOfEveryCardRequestTest {
       var requests = builder.client.getRequests();
       assertThat(requests, hasSize(6));
       assertPostRequest(requests.get(0), "/inv_use.php", "whichitem=8382&cheat=1");
-      assertPostRequest(
-        requests.get(1), "/choice.php", "whichchoice=1086&option=2");
+      assertPostRequest(requests.get(1), "/choice.php", "whichchoice=1086&option=2");
       assertPostRequest(requests.get(2), "/api.php", "what=status&for=KoLmafia");
       assertThat("_deckCardsDrawn", isSetTo(5));
       assertThat("_deckCardsSeen", isSetTo(5));
