@@ -1817,10 +1817,11 @@ public class FightRequest extends GenericRequest {
       final String urlString, final String encounter, String responseText) {
     responseText = FightRequest.removeGothy(responseText);
     responseText = FightRequest.removeWordReplacements(responseText);
+    // Update the dartboard before parsing combat text
+    FightRequest.parseDartboard(responseText);
     FightRequest.updateCombatData(urlString, encounter, responseText);
     FightRequest.parseCombatItems(responseText);
     FightRequest.parseAvailableCombatSkills(responseText);
-    FightRequest.parseDartboard(responseText);
 
     // Now that we have processed the page, generated the decorated HTML
     FightRequest.lastDecoratedResponseText =
