@@ -3385,3 +3385,10 @@ gravyskin hat	ASMITH	basic meat helmet	gravy skin
 gravyskin pants	ASMITH	pants kit	gravy skin
 gravyskin skirt	ASMITH	skirt / kilt kit	gravy skin
 perfect Christmas scarf	SUSE	ragged wool yarn (50)
+
+# Reagnimated Gnome Parts
+gnomish swimmer's ears	GNOME_PART
+gnomish coal miner's lung	GNOME_PART
+gnomish tennis elbow	GNOME_PART
+gnomish housemaid's kgnee	GNOME_PART
+gnomish athlete's foot	GNOME_PART
