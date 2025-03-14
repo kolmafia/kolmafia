@@ -160,7 +160,7 @@ public class LeprecondoManager {
                 "grabs some of the fruit from his fruit-smashing robot's storage cache")),
         "Wartime Hippy Camp (Frat Disguise)"),
     SPORTS_BAR(
-        "ManCave™ sports bar set",
+        "ManCave&trade; sports bar set",
         17,
         Map.ofEntries(
             Map.entry(Need.DUMB_ENTERTAINMENT, "plays darts for a while in his sports bar"),
