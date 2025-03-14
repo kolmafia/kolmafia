@@ -140,16 +140,14 @@ class DeckOfEveryCardRequestTest {
   public void itShouldRunAndUpdatePreferences() {
     DeckOfEveryCardRequest.EveryCard mickey = getCardById(58);
     var builder = new FakeHttpClientBuilder();
-    builder.client.addResponse(200, html("request/use_deck_first.html"));
-    builder.client.addResponse(200, html("request/use_deck_second.html"));
     builder.client.addResponse(200, html("request/empty.html"));
+    builder.client.addResponse(200, html("request/use_deck_one.html"));
+    builder.client.addResponse(200, html("request/use_deck_two.html"));
     builder.client.addResponse(200, html("request/empty.html"));
-    builder.client.addResponse(200, html("request/empty.html"));
-    builder.client.addResponse(200, html("request/use_deck_third.html"));
-    builder.client.addResponse(200, html("request/empty.html"));
-    builder.client.addResponse(200, html("request/empty.html"));
-    builder.client.addResponse(200, html("request/empty.html"));
-    builder.client.addResponse(200, html("request/empty.html"));
+    builder.client.addResponse(200, html("request/use_deck_three.html"));
+    builder.client.addResponse(200, html("request/use_deck_four.html"));
+    builder.client.addResponse(200, html("request/use_deck_five.html"));
+    builder.client.addResponse(200, html("request/use_deck_six.html"));
     var cleanups =
         new Cleanups(
             withHttpClientBuilder(builder),
