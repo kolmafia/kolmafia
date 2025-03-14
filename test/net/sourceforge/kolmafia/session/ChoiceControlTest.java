@@ -1429,7 +1429,7 @@ class ChoiceControlTest {
 
     @ParameterizedTest
     @CsvSource(
-        value = {"1|21,12,8,9", "empty_spots|2,0,0,5"},
+        value = {"1|21,12,8,9", "empty_spots|2,0,0,5", "mancave|17,10,19,25"},
         delimiter = '|')
     void canDetectFurnitureInstalled(final String version, final String installed) {
       var cleanups = new Cleanups(withProperty("leprecondoDiscovered", ""));
