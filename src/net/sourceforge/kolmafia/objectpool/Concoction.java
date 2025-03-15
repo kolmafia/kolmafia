@@ -27,6 +27,7 @@ import net.sourceforge.kolmafia.request.concoction.BarrelShrineRequest;
 import net.sourceforge.kolmafia.request.concoction.BurningLeavesRequest;
 import net.sourceforge.kolmafia.request.concoction.CombineMeatRequest;
 import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
+import net.sourceforge.kolmafia.request.concoction.GnomePartRequest;
 import net.sourceforge.kolmafia.request.concoction.MayamRequest;
 import net.sourceforge.kolmafia.request.concoction.PhotoBoothRequest;
 import net.sourceforge.kolmafia.request.concoction.StillSuitRequest;
@@ -1132,6 +1133,9 @@ public class Concoction implements Comparable<Concoction> {
       }
       case TAKERSPACE -> {
         return alreadyHave + TakerSpaceRequest.canMake(this);
+      }
+      case GNOME_PART -> {
+        return alreadyHave + GnomePartRequest.canMake(this);
       }
     }
 

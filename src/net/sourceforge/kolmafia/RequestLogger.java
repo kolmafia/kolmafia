@@ -32,6 +32,7 @@ import net.sourceforge.kolmafia.request.concoction.BurningNewspaperRequest;
 import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 import net.sourceforge.kolmafia.request.concoction.Crimbo07Request;
 import net.sourceforge.kolmafia.request.concoction.FantasyRealmRequest;
+import net.sourceforge.kolmafia.request.concoction.GnomePartRequest;
 import net.sourceforge.kolmafia.request.concoction.GrubbyWoolRequest;
 import net.sourceforge.kolmafia.request.concoction.MeteoroidRequest;
 import net.sourceforge.kolmafia.request.concoction.SausageOMaticRequest;
@@ -1130,6 +1131,12 @@ public class RequestLogger extends NullStream {
 
     if ((isExternal || request instanceof RaffleRequest)
         && RaffleRequest.registerRequest(urlString)) {
+      RequestLogger.wasLastRequestSimple = false;
+      return;
+    }
+
+    if ((isExternal || request instanceof GnomePartRequest)
+        && GnomePartRequest.registerRequest(urlString)) {
       RequestLogger.wasLastRequestSimple = false;
       return;
     }

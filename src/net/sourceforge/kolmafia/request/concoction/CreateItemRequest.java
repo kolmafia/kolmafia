@@ -280,6 +280,7 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
       case MAYAM -> new MayamRequest(conc);
       case PHOTO_BOOTH -> new PhotoBoothRequest(conc);
       case TAKERSPACE -> new TakerSpaceRequest(conc);
+      case GNOME_PART -> new GnomePartRequest(conc);
       default -> new CreateItemRequest(conc);
     };
   }
@@ -302,13 +303,21 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
     return o == null ? -1 : this.getName().compareToIgnoreCase(o.getName());
   }
 
+  /*
+   * Some create requests operate during a choice away from which the player cannot walk.
+   */
+  protected boolean shouldAbortIfInChoice() {
+    return true;
+  }
+
   /**
    * Runs the item creation request. Note that if another item needs to be created for the request
    * to succeed, this method will fail.
    */
   @Override
   public void run() {
-    if (GenericRequest.abortIfInFightOrChoice()) {
+    if (GenericRequest.abortIfInFight(false)
+        || (shouldAbortIfInChoice() && GenericRequest.abortIfInChoice(false))) {
       return;
     }
 

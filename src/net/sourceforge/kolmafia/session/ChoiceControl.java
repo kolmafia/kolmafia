@@ -5536,6 +5536,12 @@ public abstract class ChoiceControl {
         Preferences.setBoolean("_fireStartingKitUsed", true);
         break;
 
+      case 597:
+        // Pick a Part
+        Preferences.setBoolean("_gnomePart", true);
+        ConcoctionDatabase.refreshConcoctionsNow();
+        break;
+
       case 602:
         // Behind the Gash
         // This is a multi-part choice adventure, and we only want to handle the last choice

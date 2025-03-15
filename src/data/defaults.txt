@@ -2154,6 +2154,7 @@ user	_glitchItemImplemented	false
 user	_glitchMonsterFights	0
 user	_gnollEyeUsed	false
 user	_gnomeAdv	0
+user	_gnomePart	false
 user	_godLobsterFights	0
 user	_goldenMoneyCharge	0
 user	_gongDrops	0

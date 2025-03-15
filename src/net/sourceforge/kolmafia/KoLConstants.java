@@ -528,6 +528,7 @@ public interface KoLConstants extends UtilityConstants {
     MAYAM, // Items made at the Mayam Calendar
     PHOTO_BOOTH, // Items made at the Clan Photo Booth
     TAKERSPACE, // Items made at the TakerSpace
+    GNOME_PART, // Parts for your Reagnimated Gnome, made at the Cake-Shaped Arena
   }
 
   enum CraftingRequirements {
