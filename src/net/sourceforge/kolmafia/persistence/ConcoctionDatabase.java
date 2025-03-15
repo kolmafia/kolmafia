@@ -2032,6 +2032,16 @@ public class ConcoctionDatabase {
           CraftingType.SHADOW_FORGE, "You need to be at The Shadow Forge to make that.");
     }
 
+    // You need a gnome to pick a gnome part and can only do so once per day.
+    if (Preferences.getBoolean("_gnomePart")) {
+      ConcoctionDatabase.EXCUSE.put(CraftingType.GNOME_PART, "You have already picked a part.");
+    } else if (!KoLCharacter.canUseFamiliar(FamiliarPool.REAGNIMATED_GNOME)) {
+      ConcoctionDatabase.EXCUSE.put(
+          CraftingType.GNOME_PART, "You need a Reagnimated Gnome to pick its parts.");
+    } else {
+      permitNoCost(CraftingType.GNOME_PART);
+    }
+
     // Making stuff with fixodent is always allowed
     permitNoCost(CraftingType.FIXODENT);
 
@@ -2910,6 +2920,7 @@ public class ConcoctionDatabase {
       case "MAYAM" -> ConcoctionDatabase.mixingMethod = CraftingType.MAYAM;
       case "PHOTO_BOOTH" -> ConcoctionDatabase.mixingMethod = CraftingType.PHOTO_BOOTH;
       case "TAKERSPACE" -> ConcoctionDatabase.mixingMethod = CraftingType.TAKERSPACE;
+      case "GNOME_PART" -> ConcoctionDatabase.mixingMethod = CraftingType.GNOME_PART;
       default -> {
         if (mix.startsWith("ROW")) {
           ConcoctionDatabase.row = StringUtilities.parseInt(mix.substring(3));
