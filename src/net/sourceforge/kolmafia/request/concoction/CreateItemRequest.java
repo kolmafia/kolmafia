@@ -717,6 +717,12 @@ public class CreateItemRequest extends GenericRequest implements Comparable<Crea
         Preferences.decrement("homebodylCharges", created - turnsSaved, 0);
         turnsSaved += homebodylTurnsSaved;
       }
+      if (craftSection.contains("knock the job out in record time")) {
+        int craftingPlansTurnsSaved =
+            Math.min(Preferences.getInteger("craftingPlansCharges"), created - turnsSaved);
+        Preferences.decrement("craftingPlansCharges", created - turnsSaved, 0);
+        turnsSaved += craftingPlansTurnsSaved;
+      }
       if (craftSection.contains("The advice from your cookbookbat is really saving time")) {
         int cookBookBatTurnsSaved =
             Math.min(5 - Preferences.getInteger("_cookbookbatCrafting"), created - turnsSaved);
