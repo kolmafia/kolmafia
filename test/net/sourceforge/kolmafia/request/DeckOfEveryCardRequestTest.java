@@ -1,5 +1,12 @@
 package net.sourceforge.kolmafia.request;
 
+import static internal.helpers.Networking.assertPostRequest;
+import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withAdventuresLeft;
+import static internal.helpers.Player.withHttpClientBuilder;
+import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withProperty;
+import static internal.matchers.Preference.isSetTo;
 import static net.sourceforge.kolmafia.request.DeckOfEveryCardRequest.RACING;
 import static net.sourceforge.kolmafia.request.DeckOfEveryCardRequest.buffToCard;
 import static net.sourceforge.kolmafia.request.DeckOfEveryCardRequest.canonicalNameToCard;
@@ -7,14 +14,19 @@ import static net.sourceforge.kolmafia.request.DeckOfEveryCardRequest.getCardByI
 import static net.sourceforge.kolmafia.request.DeckOfEveryCardRequest.getMatchingNames;
 import static net.sourceforge.kolmafia.request.DeckOfEveryCardRequest.phylumToCard;
 import static net.sourceforge.kolmafia.request.DeckOfEveryCardRequest.statToCard;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import internal.helpers.Cleanups;
+import internal.network.FakeHttpClientBuilder;
 import java.util.List;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
@@ -56,7 +68,7 @@ class DeckOfEveryCardRequestTest {
       String fName = "X of Spades";
       List<String> results = getMatchingNames(fName);
       assertEquals(1, results.size());
-      DeckOfEveryCardRequest.EveryCard card = canonicalNameToCard(results.get(0));
+      DeckOfEveryCardRequest.EveryCard card = canonicalNameToCard(results.getFirst());
       assertEquals(card, getCardById(4));
     }
 
@@ -89,7 +101,7 @@ class DeckOfEveryCardRequestTest {
       DeckOfEveryCardRequest req = new DeckOfEveryCardRequest();
       assertNull(req.getRequestCard());
       req = new DeckOfEveryCardRequest(getCardById(58));
-      assertEquals(req.getRequestCard().id, 58);
+      assertEquals(58, req.getRequestCard().id);
     }
 
     @Test
@@ -104,7 +116,7 @@ class DeckOfEveryCardRequestTest {
       assertFalse(mickey.equals(notMickey));
       assertTrue(mickey.equals(mickey));
       assertTrue(mickey.equals(copyMickey));
-      assertEquals(mickey.toString(), "1952 Mickey Mantle (58)");
+      assertEquals("1952 Mickey Mantle (58)", mickey.toString());
     }
 
     @Test
@@ -116,11 +128,42 @@ class DeckOfEveryCardRequestTest {
     @Test
     public void testGetAdventuresUsed() {
       DeckOfEveryCardRequest noCard = new DeckOfEveryCardRequest();
-      assertEquals(noCard.getAdventuresUsed(), 1);
+      assertEquals(1, noCard.getAdventuresUsed());
       DeckOfEveryCardRequest notMonster = new DeckOfEveryCardRequest(getCardById(58));
-      assertEquals(notMonster.getAdventuresUsed(), 0);
+      assertEquals(0, notMonster.getAdventuresUsed());
       DeckOfEveryCardRequest monster = new DeckOfEveryCardRequest(getCardById(27));
-      assertEquals(monster.getAdventuresUsed(), 1);
+      assertEquals(1, monster.getAdventuresUsed());
+    }
+  }
+
+  @Test
+  public void itShouldRunAndUpdatePreferences() {
+    DeckOfEveryCardRequest.EveryCard mickey = getCardById(58);
+    var builder = new FakeHttpClientBuilder();
+    builder.client.addResponse(302, html("request/empty.html"));
+    builder.client.addResponse(200, html("request/use_deck_one.html"));
+    builder.client.addResponse(200, html("request/use_deck_two.html"));
+    builder.client.addResponse(302, html("request/empty.html"));
+    builder.client.addResponse(200, html("request/use_deck_three.html"));
+    builder.client.addResponse(200, html("request/use_deck_four.html"));
+    builder.client.addResponse(200, html("request/use_deck_five.html"));
+    builder.client.addResponse(200, html("request/use_deck_six.html"));
+    var cleanups =
+        new Cleanups(
+            withHttpClientBuilder(builder),
+            withItem(ItemPool.DECK_OF_EVERY_CARD),
+            withProperty("_deckCardsDrawn", 0),
+            withProperty("_deckCardsSeen", ""),
+            withAdventuresLeft(100));
+    try (cleanups) {
+      new DeckOfEveryCardRequest(mickey).run();
+      var requests = builder.client.getRequests();
+      assertThat(requests, hasSize(6));
+      assertPostRequest(requests.get(0), "/inv_use.php", "whichitem=8382&cheat=1");
+      assertPostRequest(requests.get(1), "/choice.php", "whichchoice=1086&option=2");
+      assertPostRequest(requests.get(2), "/api.php", "what=status&for=KoLmafia");
+      assertThat("_deckCardsDrawn", isSetTo(5));
+      assertThat("_deckCardsSeen", isSetTo("1952 Mickey Mantle"));
     }
   }
 }
