@@ -6,7 +6,6 @@ import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.FamiliarManager;
