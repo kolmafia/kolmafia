@@ -5539,6 +5539,7 @@ public abstract class ChoiceControl {
       case 597:
         // Pick a Part
         Preferences.setBoolean("_gnomePart", true);
+        ConcoctionDatabase.refreshConcoctionsNow();
         break;
 
       case 602:

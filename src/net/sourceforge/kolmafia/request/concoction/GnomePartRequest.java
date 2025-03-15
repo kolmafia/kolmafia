@@ -57,7 +57,6 @@ public class GnomePartRequest extends CreateItemRequest {
     super.run();
 
     FamiliarManager.changeFamiliar(currentFam);
-    ConcoctionDatabase.refreshConcoctionsNow();
   }
 
   public static boolean registerRequest(final String urlString) {
