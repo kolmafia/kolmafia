@@ -2331,6 +2331,9 @@ public class ConcoctionDatabase {
         + (KoLCharacter.hasSkill(SkillPool.HOLIDAY_MULTITASKING)
                 && StandardRequest.isAllowed(RestrictedItemType.SKILLS, "Holiday Multitasking")
             ? 3 - Preferences.getInteger("_holidayMultitaskingUsed")
+            : 0)
+        + (StandardRequest.isAllowed(RestrictedItemType.ITEMS, "Leprecondo")
+            ? Preferences.getInteger("craftingPlansCharges")
             : 0);
   }
 
