@@ -97,6 +97,7 @@ public class FamiliarPool {
   public static final int NANORHINO = 167;
   public static final int WOIM = 168;
   public static final int HOMEMADE_ROBOT = 169;
+  public static final int MINIMECHAELF = 170;
   public static final int NOSY_NOSE = 173;
   public static final int CUBELING = 171;
   public static final int MECHANICAL_SONGBIRD = 175;

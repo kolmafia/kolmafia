@@ -410,6 +410,7 @@ public class Expression {
                   FamiliarPool.MAGIMECHTECH_MICROMECHAMECH,
                   FamiliarPool.MECHANICAL_SONGBIRD,
                   FamiliarPool.MINI_CRIMBOT,
+                  FamiliarPool.MINIMECHAELF,
                   FamiliarPool.NANORHINO,
                   FamiliarPool.NINJA_PIRATE_ZOMBIE_ROBOT,
                   FamiliarPool.OAF,
