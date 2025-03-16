@@ -2804,7 +2804,7 @@ public class Player {
    * Add a goal to fulfill via adventuring
    *
    * @param
-   * @return Restores items previously equipped to slots
+   * @return clears added goal
    */
   public static Cleanups withGoal(final AdventureResult goal) {
     var goals = GoalManager.getGoals();
@@ -2813,5 +2813,17 @@ public class Player {
         () -> {
           GoalManager.addGoal(goal.getNegation());
         });
+  }
+
+  /**
+   * Set the GuildStore as open or closed.
+   *
+   * @param storeOpen - true if store is to be open, else false
+   * @return - restores previous state of store
+   */
+  public static Cleanups withGuildStoreOpen(final boolean storeOpen) {
+    boolean oldKnown = KoLCharacter.getGuildStoreOpen();
+    KoLCharacter.setGuildStoreOpen(storeOpen);
+    return new Cleanups(() -> KoLCharacter.setGuildStoreOpen(oldKnown));
   }
 }

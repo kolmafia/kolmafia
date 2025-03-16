@@ -4,6 +4,7 @@ import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withAdventuresLeft;
 import static internal.helpers.Player.withGender;
+import static internal.helpers.Player.withGuildStoreOpen;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withProperty;
@@ -154,9 +155,8 @@ class DeckOfEveryCardRequestTest {
             withProperty("_deckCardsDrawn", 0),
             withProperty("_deckCardsSeen", ""),
             withGender(KoLCharacter.Gender.FEMALE),
+            withGuildStoreOpen(false),
             withAdventuresLeft(100));
-    // Candidate for a cleanup if it actually needs to be done in this case
-    KoLCharacter.setGuildStoreOpen(false);
     try (cleanups) {
       new DeckOfEveryCardRequest(mickey).run();
       var requests = builder.client.getRequests();
