@@ -3902,6 +3902,7 @@ public class ItemPool {
   public static final int LEPRECONDO = 11861;
   public static final int SCOOP_OF_PREWORKOUT_POWDER = 11862;
   public static final int PHOSPHOR_TRACES = 11865;
+  public static final int CRAFTING_PLANS = 11866;
   public static final int BOOK_OF_IRONY = 11867;
 
   private ItemPool() {}

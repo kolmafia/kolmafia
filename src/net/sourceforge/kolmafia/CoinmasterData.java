@@ -1469,15 +1469,14 @@ public class CoinmasterData implements Comparable<CoinmasterData> {
   }
 
   public String accessible() {
-    // Returns an error reason or null
-    if ("Removed".equals(this.getRootZone())) {
-      return "Zone is no longer accessible";
-    }
-
     return this.accessible.get();
   }
 
   public String accessibleInternal() {
+    // Returns an error reason or null
+    if ("Removed".equals(this.getRootZone())) {
+      return "Zone is no longer accessible";
+    }
     return null;
   }
 

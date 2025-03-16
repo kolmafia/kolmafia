@@ -551,6 +551,10 @@ public class GenericRequest implements Runnable {
     this.addFormField(name, value, false);
   }
 
+  public void addFormField(final String name, final Integer value) {
+    this.addFormField(name, value.toString());
+  }
+
   /**
    * Adds the given form field to the GenericRequest.
    *

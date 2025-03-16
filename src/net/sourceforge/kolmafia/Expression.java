@@ -6,6 +6,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
@@ -396,6 +397,35 @@ public class Expression {
           String arg = (String) this.literals.get((int) s[--sp]);
           v = StringUtilities.parseRomanNumerals(arg);
         }
+          // Valid with Modifier Expression:
+        case '\u008b' -> v =
+            switch (FamiliarDatabase.getFamiliarId(Modifiers.currentFamiliar)) {
+              case FamiliarPool.AUTONOMOUS_DISCO_BALL,
+                  FamiliarPool.CLOCKWORK_GRAPEFRUIT,
+                  FamiliarPool.PRESSIE,
+                  FamiliarPool.CYMBAL_PLAYING_MONKEY,
+                  FamiliarPool.DATASPIDER,
+                  FamiliarPool.MEGADRONE,
+                  FamiliarPool.HOMEMADE_ROBOT,
+                  FamiliarPool.MAGIMECHTECH_MICROMECHAMECH,
+                  FamiliarPool.MECHANICAL_SONGBIRD,
+                  FamiliarPool.MINI_CRIMBOT,
+                  FamiliarPool.MINIMECHAELF,
+                  FamiliarPool.NANORHINO,
+                  FamiliarPool.NINJA_PIRATE_ZOMBIE_ROBOT,
+                  FamiliarPool.OAF,
+                  FamiliarPool.POCKET_PROFESSOR,
+                  FamiliarPool.ROBOGOOSE,
+                  FamiliarPool.ROBORTENDER,
+                  FamiliarPool.ROBOT_REINDEER,
+                  FamiliarPool.ORB,
+                  FamiliarPool.STEAM_CHEERLEADER,
+                  FamiliarPool.SWEET_NUTCRACKER,
+                  FamiliarPool.TEDDY_BORG,
+                  FamiliarPool.WARBEAR_DRONE,
+                  FamiliarPool.WIND_UP_CHATTERING_TEETH -> 1;
+              default -> 0;
+            };
           // Valid with Modifier Expression:
         case '\u0097' -> v = KoLCharacter.getBaseMuscle();
 

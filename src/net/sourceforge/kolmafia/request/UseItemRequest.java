@@ -6336,6 +6336,10 @@ public class UseItemRequest extends GenericRequest {
         Preferences.setBoolean("_crToday", true);
         NamedListenerRegistry.fireChange("(coinmaster)");
         break;
+
+      case ItemPool.CRAFTING_PLANS:
+        Preferences.increment("craftingPlansCharges");
+        break;
     }
 
     if (CampgroundRequest.isWorkshedItem(itemId)) {
