@@ -533,6 +533,15 @@ public class ModifierExpressionTest {
   }
 
   @Test
+  public void canDetectWarbearFoilHatRobots() {
+    var cleanups = new Cleanups(withFamiliar(FamiliarPool.DATASPIDER));
+    try (cleanups) {
+      var exp = new ModifierExpression("warbearfoilhat", "Warbear Foil Hat");
+      assertThat(exp.eval(), is(1.0));
+    }
+  }
+
+  @Test
   public void canDetectBaseMuscle() {
     var cleanups = new Cleanups(withMuscle(4, 60));
     try (cleanups) {

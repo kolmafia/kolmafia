@@ -552,7 +552,7 @@ Item	warbear fancy fedora	Initiative: -25, Maximum HP: -50, Maximum MP: -50, Las
 # warbear feathered fedora: +10% Item Drops from WarBears
 Item	warbear feathered fedora	Last Available: "2013-12", Familiar Effect: "atk, 1xLep, cap 37"
 # warbear foil hat: (additional +10 lbs. to Robotic Familiars)
-Item	warbear foil hat	Familiar Weight: [5+10*famattr(robot)], Class: "Turtle Tamer", Last Available: "2013-12", Familiar Effect: "1xVolley, 2xPotato, cap 25"
+Item	warbear foil hat	Familiar Weight: [5+10*warbearfoilhat], Class: "Turtle Tamer", Last Available: "2013-12", Familiar Effect: "1xVolley, 2xPotato, cap 25"
 Item	warbear heated ushanka	Supercold Resistance: +3, Weapon Damage Percent: -25, Spell Damage Percent: -50, Last Available: "2013-12", Familiar Effect: "1xatk, 1xLep"
 Item	warbear lined ushanka	Supercold Resistance: +2, Last Available: "2013-12", Familiar Effect: "1.5xBarrr, 1xLep, cap 37"
 # warbear plain fedora: +5% Item Drops from WarBears

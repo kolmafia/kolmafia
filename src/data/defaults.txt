@@ -517,6 +517,7 @@ user	cozyCounter6333	0	roa
 user	cozyCounter6334	0	roa
 user	craftingClay	-1
 user	craftingLeather	-1
+user	craftingPlansCharges	0	roa
 user	craftingStraw	-1
 user	crAlways	false
 user	crappyCameraMonster		roa
