@@ -399,7 +399,7 @@ public class Expression {
         }
           // Valid with Modifier Expression:
         case '\u008b' -> v =
-            switch (KoLCharacter.getFamiliar().getId()) {
+            switch (FamiliarDatabase.getFamiliarId(Modifiers.currentFamiliar)) {
               case FamiliarPool.AUTONOMOUS_DISCO_BALL,
                   FamiliarPool.CLOCKWORK_GRAPEFRUIT,
                   FamiliarPool.PRESSIE,
