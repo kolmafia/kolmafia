@@ -28,9 +28,12 @@ import static internal.helpers.Player.withItemInCloset;
 import static internal.helpers.Player.withItemInDisplay;
 import static internal.helpers.Player.withItemInShop;
 import static internal.helpers.Player.withItemInStorage;
+import static internal.helpers.Player.withMallPrice;
+import static internal.helpers.Player.withMeat;
 import static internal.helpers.Player.withNextMonster;
 import static internal.helpers.Player.withNextResponse;
 import static internal.helpers.Player.withNoEffects;
+import static internal.helpers.Player.withNpcPrice;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withSign;
@@ -64,7 +67,6 @@ import java.time.Month;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -78,21 +80,16 @@ import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
-import net.sourceforge.kolmafia.persistence.MallPriceDatabase;
+import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
-import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.MallPurchaseRequest;
-import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.session.GreyYouManager;
-import net.sourceforge.kolmafia.session.MallPriceManager;
 import net.sourceforge.kolmafia.textui.command.AbstractCommandTestBase;
 import net.sourceforge.kolmafia.utilities.NullStream;
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -612,25 +609,6 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
   @Nested
   class ConcoctionPrice {
-    @BeforeAll
-    public static void setupPrices() {
-      MallPriceDatabase.savePricesToFile = false;
-      addSearchResults(ItemPool.VYKEA_INSTRUCTIONS, 1);
-      addSearchResults(ItemPool.VYKEA_RAIL, 10);
-      addSearchResults(ItemPool.VYKEA_PLANK, 100);
-      addSearchResults(ItemPool.VYKEA_DOWEL, 1000);
-      addSearchResults(ItemPool.VYKEA_BRACKET, 10000);
-
-      addSearchResults(ItemPool.LUMP_OF_BRITUMINOUS_COAL, 2);
-      addNpcResults(ItemPool.LOOSE_PURSE_STRINGS);
-    }
-
-    @AfterAll
-    public static void tearDown() {
-      MallPriceDatabase.savePricesToFile = true;
-      MallPriceManager.reset();
-    }
-
     @ParameterizedTest
     @CsvSource({
       "level 1 couch, 551",
@@ -639,15 +617,30 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       "level 1 ceiling fan, 50501",
     })
     public void getConcoctionVykeaPrice(String vykea, int price) {
-      String output = execute("concoction_price($vykea[" + vykea + "])");
-      assertThat(output, endsWith("Returned: " + price + "\n"));
+      var cleanups =
+          new Cleanups(
+              withMallPrice(ItemPool.VYKEA_INSTRUCTIONS, 1),
+              withMallPrice(ItemPool.VYKEA_RAIL, 10),
+              withMallPrice(ItemPool.VYKEA_PLANK, 100),
+              withMallPrice(ItemPool.VYKEA_DOWEL, 1000),
+              withMallPrice(ItemPool.VYKEA_BRACKET, 10000));
+
+      try (cleanups) {
+        String output = execute("concoction_price($vykea[" + vykea + "])");
+        assertThat(output, endsWith("Returned: " + price + "\n"));
+      }
     }
 
     @Test
     public void getConcoctionHalfPurse() {
       var cleanups =
           new Cleanups(
-              withItem(ItemPool.TENDER_HAMMER), withAdventuresLeft(2), withValueOfAdventure(0));
+              withMeat(1000),
+              withItem(ItemPool.TENDER_HAMMER),
+              withAdventuresLeft(2),
+              withValueOfAdventure(0),
+              withMallPrice(ItemPool.LUMP_OF_BRITUMINOUS_COAL, 2),
+              withNpcPrice(ItemPool.LOOSE_PURSE_STRINGS));
 
       try (cleanups) {
         String output = execute("concoction_price($item[Half a Purse])");
@@ -659,38 +652,55 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     public void getConcoctionHalfPurseWhenSmithingExpensive() {
       var cleanups =
           new Cleanups(
-              withItem(ItemPool.TENDER_HAMMER), withAdventuresLeft(2), withValueOfAdventure(10000));
+              withMeat(1000),
+              withItem(ItemPool.TENDER_HAMMER),
+              withAdventuresLeft(2),
+              withValueOfAdventure(10000),
+              withMallPrice(ItemPool.LUMP_OF_BRITUMINOUS_COAL, 2),
+              withNpcPrice(ItemPool.LOOSE_PURSE_STRINGS));
 
       try (cleanups) {
         String output = execute("concoction_price($item[Half a Purse])");
         assertThat(output, endsWith("Returned: 10102\n"));
       }
     }
+  }
 
-    @Test
-    public void setCcs() {
-      String output = execute("set_ccs(\"default\");");
-      assertThat(output, endsWith("Returned: true\n"));
-      output = execute("set_ccs(\"fhghqwgads\");");
-      assertThat(output, endsWith("Returned: false\n"));
-    }
+  @Nested
+  class RetrievePrice {
+    @CsvSource(
+        value = {
+          "''|0|0",
+          "''|1|1000",
+          "sword,yam,eyepatch,explosion|0|1000",
+          "sword,yam,eyepatch,explosion|1|1000",
+        },
+        delimiter = '|')
+    @ParameterizedTest
+    public void yamStinkbombPriced(
+        final String symbolsUsed, final int existingQuantity, final int expectedPrice) {
+      var cleanups =
+          new Cleanups(
+              withProperty("valueOfInventory", "2.0"),
+              withItem(ItemPool.MAYAM_CALENDAR),
+              withItem(ItemPool.STUFFED_YAM_STINKBOMB, existingQuantity),
+              withProperty("_mayamSymbolsUsed", symbolsUsed),
+              withMallPrice(ItemPool.STUFFED_YAM_STINKBOMB, 1000));
 
-    private static void addNpcResults(int itemId) {
-      List<PurchaseRequest> results =
-          List.of(Objects.requireNonNull(NPCStoreDatabase.getPurchaseRequest(itemId)));
-      updateResults(itemId, results);
+      try (cleanups) {
+        ConcoctionDatabase.refreshConcoctions();
+        String output = execute("retrieve_price($item[stuffed yam stinkbomb])");
+        assertThat(output, endsWith("Returned: " + expectedPrice + "\n"));
+      }
     }
+  }
 
-    private static void addSearchResults(int itemId, int price) {
-      List<PurchaseRequest> results =
-          List.of(new MallPurchaseRequest(itemId, 100, 1, "Test Shop", price, 100, true));
-      updateResults(itemId, results);
-    }
-
-    private static void updateResults(int itemId, List<PurchaseRequest> results) {
-      MallPriceManager.saveMallSearch(itemId, results);
-      MallPriceManager.updateMallPrice(ItemPool.get(itemId), results);
-    }
+  @Test
+  public void setCcs() {
+    String output = execute("set_ccs(\"default\");");
+    assertThat(output, endsWith("Returned: true\n"));
+    output = execute("set_ccs(\"fhghqwgads\");");
+    assertThat(output, endsWith("Returned: false\n"));
   }
 
   @Test
