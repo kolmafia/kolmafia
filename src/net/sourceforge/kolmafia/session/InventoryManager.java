@@ -1316,7 +1316,8 @@ public abstract class InventoryManager {
 
     AdventureResult[] ingredients = ConcoctionDatabase.getIngredients(itemId);
 
-    // This is a concoction with no ingredients, so if canMake is zero, we cannot concoct it.
+    // This is a concoction with no ingredients, so if creatable = 0, we can be sure that we cannot
+    // concoct it right now.
     if (ingredients.length == 0) {
       var conc = ConcoctionPool.get(itemId);
       if (conc != null && conc.creatable == 0) {
