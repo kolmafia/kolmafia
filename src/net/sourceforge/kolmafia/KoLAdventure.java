@@ -1819,11 +1819,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         case AdventurePool.DRUNKEN_STUPOR -> KoLCharacter.isFallingDown();
         case AdventurePool.SSPD_STUPOR -> {
           if (!today.contains(holiday)) yield false;
-          if (KoLCharacter.getInebriety() < 26) {
-            KoLmafia.updateDisplay(MafiaState.ERROR, "You are not drunk enough to continue.");
-            yield false;
-          }
-          yield true;
+          yield KoLCharacter.getInebriety() >= 26;
         }
         default -> holiday == null || today.contains(holiday);
       };
@@ -3108,6 +3104,15 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       }
 
       return Preferences.getBoolean("overgrownLotAvailable");
+    }
+
+    // Holiday zones
+    if (this.adventureNumber == AdventurePool.SSPD_STUPOR) {
+      if (KoLCharacter.getInebriety() < 26) {
+        // canAdventure checks this, but let's print a reason now.
+        KoLmafia.updateDisplay(MafiaState.ERROR, "You are not drunk enough to continue.");
+        return false;
+      }
     }
 
     return true;
