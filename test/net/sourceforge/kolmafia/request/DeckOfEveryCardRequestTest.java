@@ -8,6 +8,7 @@ import static internal.helpers.Player.withGender;
 import static internal.helpers.Player.withGuildStoreOpen;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withPasswordHash;
 import static internal.helpers.Player.withProperty;
 import static internal.matchers.Preference.isSetTo;
 import static net.sourceforge.kolmafia.request.DeckOfEveryCardRequest.RACING;
@@ -144,14 +145,15 @@ class DeckOfEveryCardRequestTest {
   public void itShouldRunAndUpdatePreferences() {
     DeckOfEveryCardRequest.EveryCard mickey = getCardById(58);
     var builder = new FakeHttpClientBuilder();
-    builder.client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
-    builder.client.addResponse(200, html("request/use_deck_one.html"));
-    builder.client.addResponse(200, html("request/use_deck_two.json"));
-    builder.client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
-    builder.client.addResponse(200, html("request/use_deck_three.html"));
-    builder.client.addResponse(200, html("request/use_deck_four.json"));
-    builder.client.addResponse(200, html("request/use_deck_five.html"));
-    builder.client.addResponse(200, html("request/use_deck_six.json"));
+    var client = builder.client;
+    client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
+    client.addResponse(200, html("request/use_deck_one.html"));
+    client.addResponse(200, html("request/use_deck_two.json"));
+    client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
+    client.addResponse(200, html("request/use_deck_three.html"));
+    client.addResponse(200, html("request/use_deck_four.json"));
+    client.addResponse(200, html("request/use_deck_five.html"));
+    client.addResponse(200, html("request/use_deck_six.json"));
     var cleanups =
         new Cleanups(
             withHttpClientBuilder(builder),
@@ -160,12 +162,13 @@ class DeckOfEveryCardRequestTest {
             withProperty("_deckCardsSeen", ""),
             withGender(KoLCharacter.Gender.FEMALE),
             withGuildStoreOpen(false),
+            withPasswordHash("cafebabe"),
             withAdventuresLeft(100));
     try (cleanups) {
       new DeckOfEveryCardRequest(mickey).run();
       var requests = builder.client.getRequests();
       assertThat(requests, hasSize(8));
-      assertPostRequest(requests.get(0), "/inv_use.php", "whichitem=8382&cheat=1");
+      assertPostRequest(requests.get(0), "/inv_use.php", "whichitem=8382&cheat=1&pwd=cafebabe");
       assertGetRequest(requests.get(1), "/choice.php", "forceoption=0");
       assertPostRequest(requests.get(2), "/api.php", "what=status&for=KoLmafia");
       assertPostRequest(
