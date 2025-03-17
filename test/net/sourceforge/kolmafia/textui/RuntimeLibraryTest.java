@@ -664,31 +664,43 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
         assertThat(output, endsWith("Returned: 10102\n"));
       }
     }
+  }
 
-    @Test
-    public void setCcs() {
-      String output = execute("set_ccs(\"default\");");
-      assertThat(output, endsWith("Returned: true\n"));
-      output = execute("set_ccs(\"fhghqwgads\");");
-      assertThat(output, endsWith("Returned: false\n"));
-    }
+  @Nested
+  class RetrievePrice {
+    @CsvSource(
+        value = {
+          "''|0|0",
+          "''|1|1000",
+          "sword,yam,eyepatch,explosion|0|1000",
+          "sword,yam,eyepatch,explosion|1|1000",
+        },
+        delimiter = '|')
+    @ParameterizedTest
+    public void yamStinkbombPriced(
+        final String symbolsUsed, final int existingQuantity, final int expectedPrice) {
+      var cleanups =
+          new Cleanups(
+              withProperty("valueOfInventory", "2.0"),
+              withItem(ItemPool.MAYAM_CALENDAR),
+              withItem(ItemPool.STUFFED_YAM_STINKBOMB, existingQuantity),
+              withProperty("_mayamSymbolsUsed", symbolsUsed),
+              withMallPrice(ItemPool.STUFFED_YAM_STINKBOMB, 1000));
 
-    private static void addNpcResults(int itemId) {
-      List<PurchaseRequest> results =
-          List.of(Objects.requireNonNull(NPCStoreDatabase.getPurchaseRequest(itemId)));
-      updateResults(itemId, results);
+      try (cleanups) {
+        ConcoctionDatabase.refreshConcoctions();
+        String output = execute("retrieve_price($item[stuffed yam stinkbomb])");
+        assertThat(output, endsWith("Returned: " + expectedPrice + "\n"));
+      }
     }
+  }
 
-    private static void addSearchResults(int itemId, int price) {
-      List<PurchaseRequest> results =
-          List.of(new MallPurchaseRequest(itemId, 100, 1, "Test Shop", price, 100, true));
-      updateResults(itemId, results);
-    }
-
-    private static void updateResults(int itemId, List<PurchaseRequest> results) {
-      MallPriceManager.saveMallSearch(itemId, results);
-      MallPriceManager.updateMallPrice(ItemPool.get(itemId), results);
-    }
+  @Test
+  public void setCcs() {
+    String output = execute("set_ccs(\"default\");");
+    assertThat(output, endsWith("Returned: true\n"));
+    output = execute("set_ccs(\"fhghqwgads\");");
+    assertThat(output, endsWith("Returned: false\n"));
   }
 
   @Test
