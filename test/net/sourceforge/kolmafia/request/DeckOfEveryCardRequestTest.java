@@ -3,7 +3,6 @@ package net.sourceforge.kolmafia.request;
 import static internal.helpers.Networking.assertGetRequest;
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
-import static internal.helpers.Networking.printRequests;
 import static internal.helpers.Player.withAdventuresLeft;
 import static internal.helpers.Player.withGender;
 import static internal.helpers.Player.withGuildStoreOpen;
@@ -165,7 +164,6 @@ class DeckOfEveryCardRequestTest {
     try (cleanups) {
       new DeckOfEveryCardRequest(mickey).run();
       var requests = builder.client.getRequests();
-      printRequests(requests);
       assertThat(requests, hasSize(8));
       assertPostRequest(requests.get(0), "/inv_use.php", "whichitem=8382&cheat=1");
       assertGetRequest(requests.get(1), "/choice.php", "forceoption=0");
