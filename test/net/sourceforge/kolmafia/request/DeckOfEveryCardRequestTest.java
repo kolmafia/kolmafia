@@ -1,7 +1,9 @@
 package net.sourceforge.kolmafia.request;
 
+import static internal.helpers.Networking.assertGetRequest;
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
+import static internal.helpers.Networking.printRequests;
 import static internal.helpers.Player.withAdventuresLeft;
 import static internal.helpers.Player.withGender;
 import static internal.helpers.Player.withGuildStoreOpen;
@@ -26,6 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
 import java.util.List;
+import java.util.Map;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -142,12 +145,14 @@ class DeckOfEveryCardRequestTest {
   public void itShouldRunAndUpdatePreferences() {
     DeckOfEveryCardRequest.EveryCard mickey = getCardById(58);
     var builder = new FakeHttpClientBuilder();
+    builder.client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
     builder.client.addResponse(200, html("request/use_deck_one.html"));
-    builder.client.addResponse(200, html("request/use_deck_two.html"));
+    builder.client.addResponse(200, html("request/use_deck_two.json"));
+    builder.client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
     builder.client.addResponse(200, html("request/use_deck_three.html"));
-    builder.client.addResponse(200, html("request/use_deck_four.html"));
+    builder.client.addResponse(200, html("request/use_deck_four.json"));
     builder.client.addResponse(200, html("request/use_deck_five.html"));
-    builder.client.addResponse(200, html("request/use_deck_six.html"));
+    builder.client.addResponse(200, html("request/use_deck_six.json"));
     var cleanups =
         new Cleanups(
             withHttpClientBuilder(builder),
@@ -160,14 +165,17 @@ class DeckOfEveryCardRequestTest {
     try (cleanups) {
       new DeckOfEveryCardRequest(mickey).run();
       var requests = builder.client.getRequests();
-      assertThat(requests, hasSize(6));
+      printRequests(requests);
+      assertThat(requests, hasSize(8));
       assertPostRequest(requests.get(0), "/inv_use.php", "whichitem=8382&cheat=1");
-      assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+      assertGetRequest(requests.get(1), "/choice.php", "forceoption=0");
+      assertPostRequest(requests.get(2), "/api.php", "what=status&for=KoLmafia");
       assertPostRequest(
-          requests.get(2), "/choice.php", "whichchoice=1086&option=1&which=58&pwd=cafebabe");
-      assertPostRequest(requests.get(3), "/api.php", "what=status&for=KoLmafia");
-      assertPostRequest(requests.get(4), "/choice.php", "whichchoice=1085&option=1&pwd=cafebabe");
+          requests.get(3), "/choice.php", "whichchoice=1086&option=1&which=58&pwd=cafebabe");
+      assertGetRequest(requests.get(4), "/choice.php", "forceoption=0");
       assertPostRequest(requests.get(5), "/api.php", "what=status&for=KoLmafia");
+      assertPostRequest(requests.get(6), "/choice.php", "whichchoice=1085&option=1&pwd=cafebabe");
+      assertPostRequest(requests.get(7), "/api.php", "what=status&for=KoLmafia");
       assertThat("_deckCardsDrawn", isSetTo(5));
       assertThat("_deckCardsSeen", isSetTo("1952 Mickey Mantle"));
     }
