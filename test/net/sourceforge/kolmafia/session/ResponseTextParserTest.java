@@ -4,6 +4,7 @@ import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withCurrentRun;
 import static internal.helpers.Player.withGender;
+import static internal.helpers.Player.withGuildStoreOpen;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withLastLocation;
@@ -79,7 +80,7 @@ class ResponseTextParserTest {
       var request = new GenericRequest("desc_item.php?whichitem=294224337");
       request.responseText = html("request/test_latte_description.html");
       ResponseTextParser.externalUpdate(request);
-      assertEquals(Preferences.getString("latteIngredients"), "pumpkin,carrot,cinnamon");
+      assertEquals("pumpkin,carrot,cinnamon", Preferences.getString("latteIngredients"));
     }
   }
 
@@ -286,6 +287,7 @@ class ResponseTextParserTest {
                 withProperty("_aprilBandTomTomUses", "0"),
                 withCurrentRun(700),
                 withLastLocation("Cyberzone 1"),
+                withGuildStoreOpen(false),
                 // Stupid stuff to match the api.php I included.
                 // Without this, extra requests are generated
                 withGender(Gender.FEMALE));
@@ -297,7 +299,6 @@ class ResponseTextParserTest {
           client.addResponse(200, html("request/test_play_april_tomtom_3.html"));
           client.addResponse(200, ""); // api.php
 
-          KoLCharacter.setGuildStoreOpen(false);
           assertThat("lastAdventure", isSetTo("Cyberzone 1"));
           var request1 = new GenericRequest("inventory.php?iid=11567&action=aprilplay");
           request1.run();
