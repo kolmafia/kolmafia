@@ -3559,7 +3559,7 @@ public class FightRequest extends GenericRequest {
       KoLCharacter.getFamiliar().addCombatExperience(responseText);
       EdServantData.currentServant().addCombatExperience(responseText);
 
-      switch (familiar.getId()) {
+      switch (familiar.getEffectiveId()) {
         case FamiliarPool.RIFTLET -> {
           if (responseText.contains("shimmers briefly, and you feel it getting earlier.")) {
             Preferences.increment("_riftletAdv", 1);
