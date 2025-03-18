@@ -4837,6 +4837,7 @@ Familiar	Cymbal-Playing Monkey	Last Available: "2006-10"
 Familiar	Dancing Frog	Last Available: "2010-10"
 Familiar	Dandy Lion	Last Available: "2007-03"
 Familiar	Dataspider	Last Available: "2011-07"
+Familiar	Dire Cassava	Thorns: 1
 Familiar	Disembodied Hand	Last Available: "2008-10"
 Familiar	Disgeist	Combat Rate: [-min(10,floor(W/7.5))], Last Available: "2018-03"
 Familiar	Doppelshifter	Last Available: "2005-10"
