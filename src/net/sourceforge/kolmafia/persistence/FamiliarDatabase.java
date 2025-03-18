@@ -57,7 +57,8 @@ public class FamiliarDatabase {
   private static final Set<Integer> combat0ById = new HashSet<>();
   private static final Set<Integer> combat1ById = new HashSet<>();
   private static final Set<Integer> blockById = new HashSet<>();
-  private static final Set<Integer> delevelById = new HashSet<>();
+  private static final Set<Integer> delevel0ById = new HashSet<>();
+  private static final Set<Integer> delevel1ById = new HashSet<>();
   private static final Set<Integer> meat1ById = new HashSet<>();
   private static final Set<Integer> stat2ById = new HashSet<>();
   private static final Set<Integer> hp0ById = new HashSet<>();
@@ -191,7 +192,7 @@ public class FamiliarDatabase {
     FamiliarDatabase.updateType(type, "combat0", id, combat0ById);
     FamiliarDatabase.updateType(type, "combat1", id, combat1ById);
     FamiliarDatabase.updateType(type, "block", id, blockById);
-    FamiliarDatabase.updateType(type, "delevel", id, delevelById);
+    FamiliarDatabase.updateType(type, "delevel0", id, delevel0ById);
     FamiliarDatabase.updateType(type, "hp0", id, hp0ById);
     FamiliarDatabase.updateType(type, "mp0", id, mp0ById);
     FamiliarDatabase.updateType(type, "meat1", id, meat1ById);
@@ -203,6 +204,7 @@ public class FamiliarDatabase {
     FamiliarDatabase.updateType(type, "mp1", id, mp1ById);
     FamiliarDatabase.updateType(type, "stat3", id, stat3ById);
     FamiliarDatabase.updateType(type, "other1", id, other1ById);
+    FamiliarDatabase.updateType(type, "delevel1", id, delevel1ById);
 
     // The following are other abilities that deserve their own category
     FamiliarDatabase.updateType(type, "passive", id, passiveById);
@@ -459,7 +461,8 @@ public class FamiliarDatabase {
     return FamiliarDatabase.combat0ById.contains(familiarId)
         || FamiliarDatabase.combat1ById.contains(familiarId)
         || FamiliarDatabase.blockById.contains(familiarId)
-        || FamiliarDatabase.delevelById.contains(familiarId)
+        || FamiliarDatabase.delevel0ById.contains(familiarId)
+        || FamiliarDatabase.delevel1ById.contains(familiarId)
         || FamiliarDatabase.hp0ById.contains(familiarId)
         || FamiliarDatabase.mp0ById.contains(familiarId)
         || FamiliarDatabase.other0ById.contains(familiarId);
@@ -482,7 +485,8 @@ public class FamiliarDatabase {
   }
 
   public static final boolean isDelevelType(final Integer familiarId) {
-    return FamiliarDatabase.delevelById.contains(familiarId);
+    return FamiliarDatabase.delevel0ById.contains(familiarId)
+        || FamiliarDatabase.delevel1ById.contains(familiarId);
   }
 
   public static final boolean isHp0Type(final Integer familiarId) {
@@ -603,10 +607,15 @@ public class FamiliarDatabase {
       sep = ",";
       buffer.append("block");
     }
-    if (FamiliarDatabase.delevelById.contains(familiarId)) {
+    if (FamiliarDatabase.delevel0ById.contains(familiarId)) {
       buffer.append(sep);
       sep = ",";
-      buffer.append("delevel");
+      buffer.append("delevel0");
+    }
+    if (FamiliarDatabase.delevel1ById.contains(familiarId)) {
+      buffer.append(sep);
+      sep = ",";
+      buffer.append("delevel1");
     }
     if (FamiliarDatabase.hp0ById.contains(familiarId)) {
       buffer.append(sep);
