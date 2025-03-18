@@ -2510,8 +2510,7 @@ public class RelayRequest extends PasswordHashRequest {
 
     if (!KoLCharacter.getPath().canUseFamiliars()
         || KoLCharacter.inPokefam()
-        || KoLCharacter.inQuantum()
-        || KoLCharacter.inZootomist()) {
+        || KoLCharacter.inQuantum()) {
       return false;
     }
 
