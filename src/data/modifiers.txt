@@ -2185,7 +2185,7 @@ Item	beach ball marble	Spell Damage: +35, Hot Spell Damage: +35, Cold Spell Dama
 Item	beetle antenna	Maximum MP: +30, Mysticality: [5*L]
 Item	beige clambroth marble	Spell Damage: +30, Hot Spell Damage: +30
 Item	big bumboozer marble	Spell Damage: +80
-Item	big hot pepper	Spell Damage: +10, Hot Damage: +10, Last Available: "2023-02"
+Item	big hot pepper	Spell Damage: +10, Hot Damage: +10, Last Available: "2023-02", Lantern: 1, Lantern Element: "Hot"
 Item	birdybug antenna	Maximum MP: +20, Mysticality: [4*L]
 Item	black catseye marble	Spooky Spell Damage: +75
 Item	black shield	Muscle: +5, Maximum HP: +20, Damage Reduction: 10
@@ -2476,8 +2476,7 @@ Item	Mer-kin stopwatch	Adventures: +3, Initiative: [50*env(underwater)]
 # Mer-kin takebag: (+15% Underwater)
 Item	Mer-kin takebag	Item Drop: [5+10*env(underwater)]
 Item	mesquito proboscis	Maximum MP: +5, Mysticality: [3*L]
-# meteorb: Contributes Hot Damage to your spells
-Item	meteorb	Mysticality: +5, Maximum MP: +10, Last Available: "2017-08"
+Item	meteorb	Mysticality: +5, Maximum MP: +10, Last Available: "2017-08", Lantern: 1, Lantern Element: "Hot"
 Item	meteorite guard	Stench Resistance: +3, Hot Resistance: +3, Negative Status Resist, Damage Reduction: 9, Last Available: "2017-08"
 Item	Microplushie: Bropane	Weapon Damage: +3, Last Available: "2012-12"
 Item	Microplushie: Dorkonide	Muscle: +1, Mysticality: +1, Moxie: +1, Last Available: "2012-12"
@@ -2561,8 +2560,7 @@ Item	party crasher	Initiative: +25, Spooky Resistance: +2, Stench Resistance: +2
 Item	peanut brittle shield	Candy Drop: +100, Damage Reduction: 3, Last Available: "2009-12"
 Item	penguin skin buckler	Moxie: +5, Damage Reduction: 5
 Item	penguin thesaurus	Mysticality: +1, Maximum HP: +5, Maximum MP: +5, Last Available: "2008-12"
-# petrified wood water purifier: Adds cold and sleaze damage to spells
-Item	petrified wood water purifier	Experience (Mysticality): +3, Meat Drop: +20, Last Available: "2025-12"
+Item	petrified wood water purifier	Experience (Mysticality): +3, Meat Drop: +20, Last Available: "2025-12", Lantern: 2, Lantern Element: "Cold", Lantern Element: "Sleaze"
 Item	photo booth supply list	Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Damage Reduction: 20, Lasts Until Rollover, Last Available: "2024-10", Conditional Skill (Equipped): "Check for photo booth supplies"
 Item	pilgrim shield	Maximum HP: +30, Weapon Damage: +15, Experience: +3, HP Regen Min: 10, HP Regen Max: 12, Weapon Drop: +50, Damage Reduction: [L], Softcore Only, Last Available: "2006-11"
 Item	pirate hook	Weapon Damage: +3
@@ -2594,8 +2592,7 @@ Item	pumpkin spice candle	Item Drop: +40, Lasts Until Rollover, Last Available: 
 Item	radiator heater shield	Cold Resistance: +3, Damage Reduction: 6
 Item	rag doll	Muscle: +3, Last Available: "2005-12"
 # Raggedy Hippy doll
-# Rain-Doh green lantern: Makes Spells Smell Worse
-Item	Rain-Doh green lantern	Maximum MP: +20, Softcore Only, Last Available: "2012-02"
+Item	Rain-Doh green lantern	Maximum MP: +20, Softcore Only, Last Available: "2012-02", Lantern: 1, Lantern Element: "Stench"
 Item	Rainbow Jello Mould	Moxie Percent: +25
 Item	rake	Meat Drop: +3, Leaves: +1.5
 # recursed compass: Now it's even more cursed
@@ -2655,8 +2652,7 @@ Item	snake shield	Muscle: +6, Damage Reduction: 7, Synergetic
 # snapdragon pistil: All Spells Cast Are Hot
 Item	snapdragon pistil	Spell Critical Percent: +5, Last Available: "2010-03"
 Item	snarling wolf shield	Maximum HP: +40, Damage Reduction: 7, Synergetic
-# snow mobile: Makes Spells Way Cooler
-Item	snow mobile	Maximum MP: +20, Lasts Until Rollover, Last Available: "2014-01"
+Item	snow mobile	Maximum MP: +20, Lasts Until Rollover, Last Available: "2014-01", Lantern: 1, Lantern Element: "Cold"
 Item	snowstick	Cold Spell Damage: +80
 Item	sock monkey	Moxie: +3, Last Available: "2005-12"
 Item	Solstice Shield	Muscle Percent: [5*G], Mysticality Percent: [5*G], Moxie Percent: [5*G], Damage Absorption: +20
@@ -3011,7 +3007,7 @@ Item	Codpiece of the Goblin King	Moxie: +7, Single Equip
 Item	colored-light &quot;necklace&quot;	Maximum MP: +15, Last Available: "2005-12"
 Item	combat lover's locket	HP Regen Min: 8, HP Regen Max: 10, MP Regen Min: 8, MP Regen Max: 10, Single Equip, Critical Hit Percent: [pref(locketPhylum,beast)*10], Muscle: [pref(locketPhylum,beast)*20], Weapon Damage Percent: [pref(locketPhylum,bug)*25], Maximum MP Percent: [pref(locketPhylum,bug)*25], Spell Critical Percent: [pref(locketPhylum,constellation)*10], Mysticality: [pref(locketPhylum,constellation)*20], Experience (Moxie): [pref(locketPhylum,construct)*3], Spell Damage: [pref(locketPhylum,construct)*25], Hot Damage: [pref(locketPhylum,demon)*25], Gear Drop: [pref(locketPhylum,demon)*50], Cold Damage: [pref(locketPhylum,dude)*25], Moxie Percent: [pref(locketPhylum,dude)*50], Hot Resistance: [pref(locketPhylum,elemental)*3], Stench Spell Damage: [pref(locketPhylum,elemental)*25], Experience: [pref(locketPhylum,elf)*5], Candy Drop: [pref(locketPhylum,elf)*75], Meat Drop: [pref(locketPhylum,fish)*50], Spooky Spell Damage: [pref(locketPhylum,fish)*25], Stench Damage: [pref(locketPhylum,goblin)*25], Mysticality Percent: [pref(locketPhylum,goblin)*50], Stench Resistance: [pref(locketPhylum,hippy)*3], Damage Reduction: [pref(locketPhylum,hippy)*10], Experience (Mysticality): [pref(locketPhylum,hobo)*3], Hot Spell Damage: [pref(locketPhylum,hobo)*25], Spooky Resistance: [pref(locketPhylum,horror)*3], Maximum HP: [pref(locketPhylum,horror)*50], Spell Damage Percent: [pref(locketPhylum,humanoid)*25], Moxie: [pref(locketPhylum,humanoid)*20], Item Drop: [pref(locketPhylum,mer-kin)*25], Sleaze Spell Damage: [pref(locketPhylum,mer-kin)*25], Sleaze Resistance: [pref(locketPhylum,orc)*3], Maximum MP: [pref(locketPhylum,orc)*25], Experience (Muscle): [pref(locketPhylum,penguin)*3], Cold Spell Damage: [pref(locketPhylum,penguin)*25], Booze Drop: [pref(locketPhylum,pirate)*50], Sleaze Damage: [pref(locketPhylum,pirate)*25], Initiative: [pref(locketPhylum,plant)*50], Maximum HP Percent: [pref(locketPhylum,plant)*50], Cold Resistance: [pref(locketPhylum,slime)*3], Damage Absorption: [pref(locketPhylum,slime)*50], Spooky Damage: [pref(locketPhylum,undead)*25], Muscle Percent: [pref(locketPhylum,undead)*50], Food Drop: [pref(locketPhylum,weird)*50], Weapon Damage: [pref(locketPhylum,weird)*25], Last Available: "2022-02"
 Item	compression stocking	Maximum MP: +30, MP Regen Min: 3, MP Regen Max: 5
-Item	Congressional Medal of Insanity	Mysticality Percent: +25, Spell Damage Percent: +50, MP Regen Min: 8, MP Regen Max: 12, Last Available: "2024-12"
+Item	Congressional Medal of Insanity	Mysticality Percent: +25, Spell Damage Percent: +50, MP Regen Min: 8, MP Regen Max: 12, Last Available: "2024-12", Lantern: 3
 Item	consolation ribbon	Muscle: +1, Mysticality: +1, Moxie: +1
 # continuum transfunctioner
 Item	Copper Alpha of Sincerity	Muscle: +11, Mysticality: +11, Moxie: +11, Item Drop: +5, Single Equip
@@ -3522,8 +3518,7 @@ Item	perfume-soaked bandana	Spooky Resistance: +2, Stench Resistance: +4, Hot Re
 # Personal Ventilation Unit: Allows Safe Access to Secret Government Lab
 Item	Personal Ventilation Unit	Muscle Limit: 100, Mysticality Limit: 100, Moxie Limit: 100, Single Equip, Last Available: "2014-10"
 Item	petrified wood waist protector	Experience (Muscle): +3, Adventures: +5, Single Equip, Last Available: "2025-12", Avoid Attack: 1
-# petrified wood wizard's pouch: Adds hot and physical damage to spells
-Item	petrified wood wizard's pouch	Mysticality Percent: +20, Item Drop: +10, Single Equip, Last Available: "2025-12"
+Item	petrified wood wizard's pouch	Mysticality Percent: +20, Item Drop: +10, Single Equip, Last Available: "2025-12", Lantern: 2, Lantern Element: "Hot", Lantern Element: "None"
 # phase-tuned shield generator belt: +10 Damage Reduction vs. Bugbears
 Item	phase-tuned shield generator belt	Single Equip
 Item	phat turquoise bracelet	Mysticality: +5
@@ -4856,6 +4851,7 @@ Familiar	Fist Turkey	Last Available: "2014-11"
 Familiar	Flaming Face	Last Available: "2012-07"
 Familiar	Flaming Leafcutter Ant	Last Available: "2023-11", Leaves: +0.5
 Familiar	Flan	Last Available: "2018-03"
+Familiar	Foul Ball	Lantern: 1
 Familiar	Frumious Bandersnatch	Last Available: "2009-03"
 Familiar	Galloping Grill	Last Available: "2014-06"
 Familiar	Garbage Fire	Last Available: "2008-12"
@@ -15395,7 +15391,7 @@ RetroCape	vampire kill	Muscle Percent: 30, Maximum HP: +50
 RetroCape	heck hold	Mysticality Percent: 30, Maximum MP: +50
 RetroCape	heck thrill	Mysticality Percent: 30, Maximum MP: +50, Experience (Mysticality): 3
 RetroCape	heck kiss	Mysticality Percent: 30, Maximum MP: +50
-RetroCape	heck kill	Mysticality Percent: 30, Maximum MP: +50
+RetroCape	heck kill	Mysticality Percent: 30, Maximum MP: +50, Lantern: 1, Lantern Element: "Spooky"
 RetroCape	robot hold	Moxie Percent: 30, Maximum HP: +25, Maximum MP: +25
 RetroCape	robot thrill	Moxie Percent: 30, Maximum HP: +25, Maximum MP: +25, Experience (Moxie): 3
 RetroCape	robot kiss	Moxie Percent: 30, Maximum HP: +25, Maximum MP: +25
