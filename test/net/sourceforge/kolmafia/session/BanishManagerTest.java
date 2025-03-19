@@ -24,6 +24,7 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -773,6 +774,49 @@ class BanishManagerTest {
         var data = BanishManager.getBanishedPhylaData();
 
         assertEquals(0, data.length);
+      }
+    }
+  }
+
+  @Nested
+  class Zootomist {
+    @Test
+    void banishDuration() {
+      var cleanups =
+          new Cleanups(
+              withBanishedMonsters("spooky vampire:Left %n Kick:0"),
+              withProperty("zootGraftedFootLeftFamiliar", FamiliarPool.DIRE_CASSAVA));
+
+      try (cleanups) {
+        assertThat(Banisher.LEFT_ZOOT_KICK.getDuration(), equalTo(100));
+      }
+    }
+
+    @Test
+    void rightKickClearsLeftKick() {
+      var cleanups =
+          new Cleanups(
+              withBanishedMonsters("spooky vampire:Left %n Kick:0"),
+              withProperty("zootGraftedFootLeftFamiliar", FamiliarPool.DIRE_CASSAVA),
+              withProperty("zootGraftedFootRightFamiliar", FamiliarPool.PHANTOM_LIMB));
+
+      try (cleanups) {
+        BanishManager.banishMonster(CRATE, Banisher.RIGHT_ZOOT_KICK);
+        assertThat("banishedMonsters", isSetTo("crate:Right %n Kick:0"));
+      }
+    }
+
+    @Test
+    void leftKickClearsRightKick() {
+      var cleanups =
+          new Cleanups(
+              withBanishedMonsters("spooky vampire:Right %n Kick:0"),
+              withProperty("zootGraftedFootLeftFamiliar", FamiliarPool.DIRE_CASSAVA),
+              withProperty("zootGraftedFootRightFamiliar", FamiliarPool.PHANTOM_LIMB));
+
+      try (cleanups) {
+        BanishManager.banishMonster(CRATE, Banisher.LEFT_ZOOT_KICK);
+        assertThat("banishedMonsters", isSetTo("crate:Left %n Kick:0"));
       }
     }
   }

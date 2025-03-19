@@ -396,6 +396,12 @@ public class BanishManager {
       BanishManager.removeOldestBanish(banisher);
     }
 
+    if (banisher == Banisher.LEFT_ZOOT_KICK) {
+      BanishManager.removeOldestBanish(Banisher.RIGHT_ZOOT_KICK);
+    } else if (banisher == Banisher.RIGHT_ZOOT_KICK) {
+      BanishManager.removeOldestBanish(Banisher.LEFT_ZOOT_KICK);
+    }
+
     // Banishes fail in some areas, monsters in them cannot be banished
 
     if (banisher.getBanishType() == BanishType.MONSTER) {

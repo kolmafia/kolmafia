@@ -4000,8 +4000,6 @@ public class FightRequestTest {
 
   @Nested
   class ZootomistKicks {
-    // TODO: left kick should clear right kick of same type (banish / track) and vice versa
-    // TODO: actually test copies / banish duration
     @Test
     public void canDetectKickTrack() {
       var cleanups =

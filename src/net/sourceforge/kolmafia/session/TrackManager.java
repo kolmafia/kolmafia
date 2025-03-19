@@ -300,6 +300,11 @@ public class TrackManager {
 
   public static void track(final String tracked, final Tracker tracker) {
     TrackManager.removeTrack(tracker);
+    if (tracker == Tracker.LEFT_ZOOT_KICK) {
+      TrackManager.removeTrack(Tracker.RIGHT_ZOOT_KICK);
+    } else if (tracker == Tracker.RIGHT_ZOOT_KICK) {
+      TrackManager.removeTrack(Tracker.LEFT_ZOOT_KICK);
+    }
 
     KoLmafia.updateDisplay(tracked + " tracked by " + tracker.getName() + ".");
 
