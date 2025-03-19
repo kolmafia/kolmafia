@@ -4000,27 +4000,40 @@ public class FightRequestTest {
 
   @Nested
   class ZootomistKicks {
+    // TODO: left kick should clear right kick of same type (banish / track) and vice versa
+    // TODO: actually test copies / banish duration
     @Test
     public void canDetectKickTrack() {
-      var cleanups = new Cleanups(withFight(), withTrackedMonsters(""));
+      var cleanups =
+          new Cleanups(
+              withFight(),
+              withTrackedMonsters(""),
+              withProperty("zootGraftedFootLeftFamiliar", FamiliarPool.OBSERVER));
 
       try (cleanups) {
         parseCombatData(
             "request/test_fight_zoot_kick_track.html", "fight.php?action=skill&whichskill=7559");
 
-        assertThat("trackedMonsters", hasStringValue(startsWith("completely different spider:Zootomist Kick:")));
+        assertThat(
+            "trackedMonsters",
+            hasStringValue(startsWith("completely different spider:Left %n Kick:")));
       }
     }
 
     @Test
     public void canDetectKickBanish() {
-      var cleanups = new Cleanups(withFight(), withBanishedMonsters(""));
+      var cleanups =
+          new Cleanups(
+              withFight(),
+              withBanishedMonsters(""),
+              withProperty("zootGraftedFootRightFamiliar", FamiliarPool.DIRE_CASSAVA));
 
       try (cleanups) {
         parseCombatData(
             "request/test_fight_zoot_kick_banish.html", "fight.php?action=skill&whichskill=7560");
 
-        assertThat("banishedMonsters", hasStringValue(startsWith("big creepy spider:Zootomist Kick:")));
+        assertThat(
+            "banishedMonsters", hasStringValue(startsWith("big creepy spider:Right %n Kick:")));
       }
     }
   }

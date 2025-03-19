@@ -17,6 +17,7 @@ import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -135,11 +136,11 @@ public class BanishManager {
     V_FOR_VIVALA_MASK("v for vivala mask", 10, 1, true, Reset.TURN_RESET),
     WALK_AWAY_FROM_EXPLOSION("walk away from explosion", 30, 1, false, Reset.TURN_RESET),
     // turncount is at most 100, but is given in a combat message, or is derivable from fam tags
-    ZOOTOMIST_KICK("Zootomist Kick", 100, 1, true, Reset.TURN_RESET);
+    LEFT_ZOOT_KICK("Left %n Kick", 100, 1, true, Reset.TURN_RESET),
+    RIGHT_ZOOT_KICK("Right %n Kick", 100, 1, true, Reset.TURN_RESET);
 
     final String name;
     final int duration;
-    int durationOverride;
     final int queueSize;
     final boolean isTurnFree;
     final Reset resetType;
@@ -181,17 +182,17 @@ public class BanishManager {
     }
 
     public final int getDuration() {
-      if (this == Banisher.ZOOTOMIST_KICK) {
-        return durationOverride;
+      if (this == LEFT_ZOOT_KICK) {
+        return FamiliarDatabase.zootomistBanishDuration(
+            Preferences.getInteger("zootGraftedFootLeftFamiliar"));
+      } else if (this == RIGHT_ZOOT_KICK) {
+        return FamiliarDatabase.zootomistBanishDuration(
+            Preferences.getInteger("zootGraftedFootRightFamiliar"));
       }
       // returns actual duration of banish after the turn used, which varies depending on if that
       // turn is free
       int turnCost = this.isTurnFree ? 0 : 1;
       return this.duration - turnCost;
-    }
-
-    public void setDurationOverride(int duration) {
-      durationOverride = duration;
     }
 
     public final int getQueueSize() {

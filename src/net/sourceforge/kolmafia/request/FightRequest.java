@@ -9329,9 +9329,6 @@ public class FightRequest extends GenericRequest {
   // 1 bit of goo emerge from <name> and begin hovering about, moving probingly around various
   // objects.
   private static final Pattern GOOSE_DRONE_PATTERN = Pattern.compile("(\\d+) bits? of goo emerge");
-  private static final Pattern ZOOT_KICK_BANISH_PATTERN =
-      Pattern.compile(
-          "Your kick is so fast, that your foe flies off into the distance and likely won't return for (\\d+) adventure");
 
   private static final AdventureResult METEOR_SHOWERED =
       EffectPool.get(EffectPool.METEOR_SHOWERED, 1);
@@ -9692,25 +9689,15 @@ public class FightRequest extends GenericRequest {
         }
       }
       case SkillPool.LEFT_KICK, SkillPool.RIGHT_KICK -> {
-        // need to parse the text to find out whether this is banish / track and for how long
-        Matcher matcher = ZOOT_KICK_BANISH_PATTERN.matcher(responseText);
-        if (matcher.find()) {
-          var duration = Integer.parseInt(matcher.group(1));
-          if (!responseText.contains(
-              "Your kick was so fast that your fight doesn't take any time.")) {
-            duration -= 1;
-          }
-          Banisher.ZOOTOMIST_KICK.setDurationOverride(duration);
-          BanishManager.banishMonster(monster, Banisher.ZOOTOMIST_KICK);
+        if (responseText.contains("off into the distance and likely won't return")) {
+          BanishManager.banishMonster(
+              monster,
+              skillId == SkillPool.LEFT_KICK ? Banisher.LEFT_ZOOT_KICK : Banisher.RIGHT_ZOOT_KICK);
         }
         if (responseText.contains("starts trailing bodily ichor that you can track")) {
-          String famPref =
-              skillId == SkillPool.LEFT_KICK
-                  ? "zootGraftedFootLeftFamiliar"
-                  : "zootGraftedFootRightFamiliar";
-          var copies = FamiliarDatabase.zootomistTrackCopies(Preferences.getInteger(famPref));
-          Tracker.ZOOTOMIST_KICK.setCopiesOverride(copies);
-          TrackManager.trackMonster(monster, Tracker.ZOOTOMIST_KICK);
+          TrackManager.trackMonster(
+              monster,
+              skillId == SkillPool.LEFT_KICK ? Tracker.LEFT_ZOOT_KICK : Tracker.RIGHT_ZOOT_KICK);
         }
       }
 

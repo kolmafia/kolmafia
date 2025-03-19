@@ -1041,14 +1041,42 @@ public class FamiliarDatabase {
     return 5;
   }
 
-  private static float zootomistTrackIntensity(int id) {
+  public static int zootomistBanishDuration(int id) {
+    var intensity = zootomistBanishIntensity(id);
+    var isFree = intensity == 1;
+    var duration = (int) Math.floor(intensity * 100); // based on one data point
+    if (!isFree) {
+      duration -= 1;
+    }
+    return duration;
+  }
+
+  private static double zootomistBanishIntensity(int id) {
+    return zootomistIntensity(
+        id,
+        Set.of(
+            "animatedart",
+            "hard",
+            "hasbones",
+            "haslegs",
+            "haswings",
+            "spooky",
+            "swims",
+            "vegetable"));
+  }
+
+  private static double zootomistTrackIntensity(int id) {
+    return zootomistIntensity(
+        id,
+        Set.of("animal", "haseyes", "hot", "humanoid", "mineral", "orb", "sentient", "software"));
+  }
+
+  private static double zootomistIntensity(int id, Set<String> skillAttrs) {
     List<String> attrs = FamiliarDatabase.getFamiliarAttributes(id);
     if (attrs == null) {
       return 0;
     }
-    var trackAttrs =
-        Set.of("animal", "haseyes", "hot", "humanoid", "mineral", "orb", "sentient", "software");
-    var relevantAttrs = attrs.stream().filter(trackAttrs::contains).count();
-    return (float) relevantAttrs / attrs.size();
+    var relevantAttrs = attrs.stream().filter(skillAttrs::contains).count();
+    return (double) relevantAttrs / attrs.size();
   }
 }
