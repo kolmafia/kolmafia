@@ -21,7 +21,8 @@ public enum MultiStringModifier implements Modifier {
       Pattern.compile("Conditional Skill \\(Equipped\\): \"(.*?)\"")),
   CONDITIONAL_SKILL_INVENTORY(
       "Conditional Skill (Inventory)",
-      Pattern.compile("Conditional Skill \\(Inventory\\): \"(.*?)\""));
+      Pattern.compile("Conditional Skill \\(Inventory\\): \"(.*?)\"")),
+  LANTERN_ELEMENT("Lantern Element", Pattern.compile("Lantern Element: \"(.*?)\""));
   private final String name;
   private final Pattern[] descPatterns;
   private final Pattern tagPattern;
