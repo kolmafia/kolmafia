@@ -10,6 +10,7 @@ import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.in;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
 import static org.hamcrest.Matchers.notNullValue;
@@ -70,7 +71,7 @@ public class DataFileConsistencyTest {
     try (BufferedReader reader = FileUtilities.getVersionedReader(file, version)) {
       String[] fields;
       while ((fields = FileUtilities.readData(reader)) != null) {
-        if (fields.length == 1) {
+        if (fields.length <= index) {
           continue;
         }
         var thing = fields[index];
@@ -209,6 +210,76 @@ public class DataFileConsistencyTest {
           String.format("%s is in familiars.txt but not in items.txt", name),
           ItemDatabase.getItemId(name),
           greaterThan(0));
+    }
+  }
+
+  @Test
+  public void testFamiliarAttributes() throws IOException {
+    var attributes = datafileItems("familiars.txt", 4, 10);
+    var validAttrs =
+        Set.of(
+            "pokefam",
+            "animal",
+            "animatedart",
+            "aquatic",
+            "bite",
+            "cantalk",
+            "cold",
+            "cute",
+            "edible",
+            "evil",
+            "fast",
+            "flies",
+            "food",
+            "good",
+            "hard",
+            "hasbeak",
+            "hasbones",
+            "hasclaws",
+            "haseyes",
+            "hashands",
+            "haslegs",
+            "hasshell",
+            "hasstinger",
+            "haswings",
+            "hot",
+            "hovers",
+            "humanoid",
+            "insect",
+            "isclothes",
+            "mineral",
+            "object",
+            "orb",
+            "organic",
+            "person",
+            "phallic",
+            "polygonal",
+            "reallyevil",
+            "robot",
+            "sentient",
+            "sleaze",
+            "software",
+            "spooky",
+            "stench",
+            "swims",
+            "technological",
+            "undead",
+            "vegetable",
+            "wearsclothes",
+            "ult_bearhug",
+            "ult_sticktreats",
+            "ult_owlstare",
+            "ult_bloodbath",
+            "ult_pepperscorn",
+            "ult_rainbowstorm");
+
+    for (var attrs : attributes) {
+      for (var tag : attrs.split(",")) {
+        assertThat(
+            String.format("%s is in familiars.txt but not a valid attribute", tag),
+            tag,
+            in(validAttrs));
+      }
     }
   }
 

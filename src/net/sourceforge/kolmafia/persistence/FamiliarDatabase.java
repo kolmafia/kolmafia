@@ -1032,4 +1032,23 @@ public class FamiliarDatabase {
             + data.getAttribute();
     return buffer;
   }
+
+  public static int zootomistTrackCopies(int id) {
+    var intensity = zootomistTrackIntensity(id);
+    if (intensity < 0.3) return 2;
+    if (intensity < 0.6) return 3;
+    if (intensity < 0.9) return 4;
+    return 5;
+  }
+
+  private static float zootomistTrackIntensity(int id) {
+    List<String> attrs = FamiliarDatabase.getFamiliarAttributes(id);
+    if (attrs == null) {
+      return 0;
+    }
+    var trackAttrs =
+        Set.of("animal", "haseyes", "hot", "humanoid", "mineral", "orb", "sentient", "software");
+    var relevantAttrs = attrs.stream().filter(trackAttrs::contains).count();
+    return (float) relevantAttrs / attrs.size();
+  }
 }

@@ -133,10 +133,13 @@ public class BanishManager {
     TRYPTOPHAN_DART("tryptophan dart", -1, 1, false, Reset.ROLLOVER_RESET),
     ULTRA_HAMMER("Ultra Hammer", -1, 1, false, Reset.ROLLOVER_RESET),
     V_FOR_VIVALA_MASK("v for vivala mask", 10, 1, true, Reset.TURN_RESET),
-    WALK_AWAY_FROM_EXPLOSION("walk away from explosion", 30, 1, false, Reset.TURN_RESET);
+    WALK_AWAY_FROM_EXPLOSION("walk away from explosion", 30, 1, false, Reset.TURN_RESET),
+    // turncount is at most 100, but is given in a combat message, or is derivable from fam tags
+    ZOOTOMIST_KICK("Zootomist Kick", 100, 1, true, Reset.TURN_RESET);
 
     final String name;
     final int duration;
+    int durationOverride;
     final int queueSize;
     final boolean isTurnFree;
     final Reset resetType;
@@ -178,10 +181,17 @@ public class BanishManager {
     }
 
     public final int getDuration() {
+      if (this == Banisher.ZOOTOMIST_KICK) {
+        return durationOverride;
+      }
       // returns actual duration of banish after the turn used, which varies depending on if that
       // turn is free
       int turnCost = this.isTurnFree ? 0 : 1;
       return this.duration - turnCost;
+    }
+
+    public void setDurationOverride(int duration) {
+      durationOverride = duration;
     }
 
     public final int getQueueSize() {

@@ -88,6 +88,8 @@ public class TrackManager {
     TRICK_COIN("trick coin", 3, true, 100, Reset.TURN_ROLLOVER_RESET),
     HUNT("Hunt", 3, true, -1, Reset.AVATAR_RESET),
     MCHUGELARGE_SLASH("McHugeLarge Slash", 3, true, -1, Reset.ROLLOVER_RESET),
+    // copies depends on the familiar attributes, but is at most 6
+    ZOOTOMIST_KICK("Zootomist Kick", 6, true, -1, Reset.ASCENSION_RESET),
     RED_SNAPPER("Red-Nosed Snapper", 2, false, -1, Reset.ASCENSION_RESET, TrackType.PHYLUM),
     A_BEASTLY_ODOR("A Beastly Odor", 2, false, -1, Reset.EFFECT_RESET, TrackType.PHYLUM),
     EW_THE_HUMANITY("Ew, The Humanity", 2, false, -1, Reset.EFFECT_RESET, TrackType.PHYLUM),
@@ -95,6 +97,7 @@ public class TrackManager {
 
     final String name;
     final int copies;
+    int copiesOverride;
     final boolean ignoreQueue;
     final int duration;
     final Reset resetType;
@@ -137,6 +140,10 @@ public class TrackManager {
 
     public final int getCopies() {
       return this.copies;
+    }
+
+    public void setCopiesOverride(int copiesOverride) {
+      this.copiesOverride = copiesOverride;
     }
 
     public final boolean isIgnoreQueue() {

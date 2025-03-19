@@ -3997,4 +3997,31 @@ public class FightRequestTest {
       }
     }
   }
+
+  @Nested
+  class ZootomistKicks {
+    @Test
+    public void canDetectKickTrack() {
+      var cleanups = new Cleanups(withFight(), withTrackedMonsters(""));
+
+      try (cleanups) {
+        parseCombatData(
+            "request/test_fight_zoot_kick_track.html", "fight.php?action=skill&whichskill=7559");
+
+        assertThat("trackedMonsters", hasStringValue(startsWith("completely different spider:Zootomist Kick:")));
+      }
+    }
+
+    @Test
+    public void canDetectKickBanish() {
+      var cleanups = new Cleanups(withFight(), withBanishedMonsters(""));
+
+      try (cleanups) {
+        parseCombatData(
+            "request/test_fight_zoot_kick_banish.html", "fight.php?action=skill&whichskill=7560");
+
+        assertThat("banishedMonsters", hasStringValue(startsWith("big creepy spider:Zootomist Kick:")));
+      }
+    }
+  }
 }
