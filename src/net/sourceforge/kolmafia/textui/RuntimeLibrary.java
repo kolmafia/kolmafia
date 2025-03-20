@@ -4481,7 +4481,7 @@ public abstract class RuntimeLibrary {
     if (value.getType().equals(TypeSpec.STRING)) {
       String string = value.toString();
       try {
-        return new Value(StringUtilities.parseFloat(string));
+        return new Value(StringUtilities.parseDouble(string));
       } catch (NumberFormatException e) {
         Exception ex =
             controller.runtimeException(
