@@ -1044,7 +1044,7 @@ public class FamiliarDatabase {
   public static int zootomistBanishDuration(int id) {
     var intensity = zootomistBanishIntensity(id);
     var isFree = intensity == 1;
-    var duration = (int) Math.floor(intensity * 100); // based on one data point
+    var duration = (int) Math.floor(intensity * 90) + 10; // based on two data points
     if (!isFree) {
       duration -= 1;
     }
