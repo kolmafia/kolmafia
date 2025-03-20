@@ -573,4 +573,47 @@ class TrackManagerTest {
       }
     }
   }
+
+  @Nested
+  class Zootomist {
+    @Test
+    void trackDuration() {
+      var cleanups =
+          new Cleanups(
+              withTrackedMonsters("spooky vampire:Left %n Kick:0"),
+              withProperty("zootGraftedFootLeftFamiliar", FamiliarPool.OBSERVER));
+
+      try (cleanups) {
+        assertThat(Tracker.LEFT_ZOOT_KICK.getCopies(), equalTo(5));
+      }
+    }
+
+    @Test
+    void rightKickClearsLeftKick() {
+      var cleanups =
+          new Cleanups(
+              withTrackedMonsters("spooky vampire:Left %n Kick:0"),
+              withProperty("zootGraftedFootLeftFamiliar", FamiliarPool.OBSERVER),
+              withProperty("zootGraftedFootRightFamiliar", FamiliarPool.HEAT_WAVE));
+
+      try (cleanups) {
+        TrackManager.trackMonster(CRATE, Tracker.RIGHT_ZOOT_KICK);
+        assertThat("trackedMonsters", isSetTo("crate:Right %n Kick:0"));
+      }
+    }
+
+    @Test
+    void leftKickClearsRightKick() {
+      var cleanups =
+          new Cleanups(
+              withTrackedMonsters("spooky vampire:Right %n Kick:0"),
+              withProperty("zootGraftedFootLeftFamiliar", FamiliarPool.OBSERVER),
+              withProperty("zootGraftedFootRightFamiliar", FamiliarPool.HEAT_WAVE));
+
+      try (cleanups) {
+        TrackManager.trackMonster(CRATE, Tracker.LEFT_ZOOT_KICK);
+        assertThat("trackedMonsters", isSetTo("crate:Left %n Kick:0"));
+      }
+    }
+  }
 }

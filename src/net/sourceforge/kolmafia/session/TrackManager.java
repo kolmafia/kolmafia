@@ -15,6 +15,7 @@ import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
+import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -88,6 +89,9 @@ public class TrackManager {
     TRICK_COIN("trick coin", 3, true, 100, Reset.TURN_ROLLOVER_RESET),
     HUNT("Hunt", 3, true, -1, Reset.AVATAR_RESET),
     MCHUGELARGE_SLASH("McHugeLarge Slash", 3, true, -1, Reset.ROLLOVER_RESET),
+    // copies depends on the familiar attributes, but is at most 6
+    LEFT_ZOOT_KICK("Left %n Kick", 6, true, -1, Reset.ASCENSION_RESET),
+    RIGHT_ZOOT_KICK("Right %n Kick", 6, true, -1, Reset.ASCENSION_RESET),
     RED_SNAPPER("Red-Nosed Snapper", 2, false, -1, Reset.ASCENSION_RESET, TrackType.PHYLUM),
     A_BEASTLY_ODOR("A Beastly Odor", 2, false, -1, Reset.EFFECT_RESET, TrackType.PHYLUM),
     EW_THE_HUMANITY("Ew, The Humanity", 2, false, -1, Reset.EFFECT_RESET, TrackType.PHYLUM),
@@ -136,6 +140,13 @@ public class TrackManager {
     }
 
     public final int getCopies() {
+      if (this == LEFT_ZOOT_KICK) {
+        return FamiliarDatabase.zootomistTrackCopies(
+            Preferences.getInteger("zootGraftedFootLeftFamiliar"));
+      } else if (this == RIGHT_ZOOT_KICK) {
+        return FamiliarDatabase.zootomistTrackCopies(
+            Preferences.getInteger("zootGraftedFootRightFamiliar"));
+      }
       return this.copies;
     }
 
@@ -289,6 +300,11 @@ public class TrackManager {
 
   public static void track(final String tracked, final Tracker tracker) {
     TrackManager.removeTrack(tracker);
+    if (tracker == Tracker.LEFT_ZOOT_KICK) {
+      TrackManager.removeTrack(Tracker.RIGHT_ZOOT_KICK);
+    } else if (tracker == Tracker.RIGHT_ZOOT_KICK) {
+      TrackManager.removeTrack(Tracker.LEFT_ZOOT_KICK);
+    }
 
     KoLmafia.updateDisplay(tracked + " tracked by " + tracker.getName() + ".");
 
