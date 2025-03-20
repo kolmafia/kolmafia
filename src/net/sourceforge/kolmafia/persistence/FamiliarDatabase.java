@@ -73,6 +73,7 @@ public class FamiliarDatabase {
   private static final Set<Integer> passiveById = new HashSet<>();
   private static final Set<Integer> dropById = new HashSet<>();
   private static final Set<Integer> underwaterById = new HashSet<>();
+  private static final Set<Integer> pokefamOnlyById = new HashSet<>();
 
   private static final Set<Integer> noneById = new HashSet<>();
   private static final Set<Integer> variableById = new HashSet<>();
@@ -210,6 +211,7 @@ public class FamiliarDatabase {
     FamiliarDatabase.updateType(type, "passive", id, passiveById);
     FamiliarDatabase.updateType(type, "drop", id, dropById);
     FamiliarDatabase.updateType(type, "underwater", id, underwaterById);
+    FamiliarDatabase.updateType(type, "pokefam", id, pokefamOnlyById);
 
     FamiliarDatabase.updateType(type, "none", id, noneById);
     FamiliarDatabase.updateType(type, "variable", id, variableById);
@@ -542,6 +544,10 @@ public class FamiliarDatabase {
     return FamiliarDatabase.underwaterById.contains(familiarId);
   }
 
+  public static final boolean isPokefamType(final Integer familiarId) {
+    return FamiliarDatabase.pokefamOnlyById.contains(familiarId);
+  }
+
   public static final boolean isVariableType(final Integer familiarId) {
     return FamiliarDatabase.variableById.contains(familiarId);
   }
@@ -669,6 +675,11 @@ public class FamiliarDatabase {
       buffer.append(sep);
       sep = ",";
       buffer.append("underwater");
+    }
+    if (FamiliarDatabase.pokefamOnlyById.contains(familiarId)) {
+      buffer.append(sep);
+      sep = ",";
+      buffer.append("pokefam");
     }
 
     if (FamiliarDatabase.variableById.contains(familiarId)) {

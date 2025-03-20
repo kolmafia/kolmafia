@@ -218,7 +218,6 @@ public class DataFileConsistencyTest {
     var attributes = datafileItems("familiars.txt", 4, 10);
     var validAttrs =
         Set.of(
-            "pokefam",
             "animal",
             "animatedart",
             "aquatic",
@@ -557,7 +556,7 @@ public class DataFileConsistencyTest {
           FamiliarDatabase.entrySet().stream()
               .map(Map.Entry::getKey)
               // Ignore Pokefam-exclusive familiars
-              .filter(id -> !FamiliarDatabase.hasAttribute(id, "pokefam"))
+              .filter(id -> !FamiliarDatabase.isPokefamType(id))
               // Ignore familiars with no hatchling (currently April Fools familiars, but may also
               // catch future weirdos
               .filter(id -> FamiliarDatabase.getFamiliarLarva(id) > 0)
