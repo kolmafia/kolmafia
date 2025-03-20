@@ -27,6 +27,7 @@
 # other1 - does other things after combat
 # passive - passive effect
 # underwater - breaths underwater
+# pokefam - is a pokefam-only familiar
 # variable - varies according to equipment or other factors.
 #
 # no.	name	image	type	larva	item	CM	SH	OC	H&S	attributes (optional)
@@ -245,57 +246,57 @@
 212	Cute Meteor	cutemeteor.gif	passive,combat1	cute meteoroid	meteor shower cap	1	1	1	1	mineral,object,haseyes,flies,fast,hard,orb,hot
 213	XO Skeleton	xoskeleton.gif	item0,hp1,mp1,drop	xo-skeleton-in-a-box	exo-xo-skeleton-skeleton	1	3	2	2	sentient,organic,humanoid,person,undead,mineral,hasbones,haseyes,hashands,haslegs,hard,spooky,good
 214	Garbage Fire	dumpsterfire.gif	item0,hp1,mp1,drop	kerosene-soaked skip	fireproof skip lid	1	2	1	1	object,hard,hot,animatedart
-215	Globmule	pokefam1.gif	none	Globmule		0	0	0	0	pokefam,sentient,organic,haseyes,haslegs,sleaze
-216	Bluzzard	pokefam2.gif	none	Bluzzard		0	0	0	0	pokefam,sentient,organic,hasbones,haseyes,bite,hasclaws,haslegs,haswings,flies,fast,cold,evil,hasbeak,animal
-217	Faux	pokefam3.gif	none	Faux		0	0	0	0	pokefam,object,bite,haslegs,cute,animal
-218	Sledgehamster	pokefam4.gif	none	Sledgehamster		0	0	0	0	pokefam,sentient,organic,hasbones,haseyes,haslegs,cute,animal
-219	Pimpsqueak	pokefam5.gif	none	Pimpsqueak		0	0	0	0	pokefam,sentient,organic,hasbones,haseyes,haslegs,cute,sleaze,wearsclothes,animal
-220	Pillowbug	pokefam6.gif	none	Pillowbug		0	0	0	0	pokefam,sentient,organic,insect,object,haseyes,haslegs
-221	Dressage	pokefam7.gif	none	Dressage		0	0	0	0	pokefam,sentient,organic,hasbones,haseyes,haslegs,fast,animal
-222	Sequestrian	pokefam8.gif	none	Sequestrian		0	0	0	0	pokefam,sentient,organic,hasbones,haseyes,haslegs,fast,animal
-223	Carpricorn	pokefam9.gif	none	Carpricorn		0	0	0	0	pokefam,sentient,organic,hasbones,haseyes,swims,aquatic,animal
-224	Turpin	pokefam10.gif	none	Turpin		0	0	0	0	pokefam,sentient,organic,hasbones,haseyes,haslegs,swims,hard,hasshell,animal
-225	Morphan	pokefam11.gif	none	Morphan		0	0	0	0	pokefam,sentient,organic,person,haseyes,edible,food,cute
-226	Cycloney	pokefam12.gif	none	Cycloney		0	0	0	0	pokefam,organic,flies,hovers,fast,food,edible
-227	Peaclock	pokefam13.gif	none	Peaclock		0	0	0	0	pokefam,sentient,organic,object,haseyes,haslegs,haswings,flies,hasbeak,technological,animal
-228	Turtive	pokefam14.gif	none	Turtive		0	0	0	0	pokefam,sentient,organic,hasbones,haseyes,haslegs,swims,hard,hasshell,animal
-229	Lepardner	pokefam15.gif	none	Lepardner		0	0	0	0	pokefam,sentient,organic,hasbones,haseyes,bite,hasclaws,haslegs,stench,animal
-230	Aiolion	pokefam16.gif	none	Aiolion		0	0	0	0	pokefam,sentient,organic,hasbones,haseyes,bite,hasclaws,haslegs,edible,food,sleaze,animal
-231	Waifuton	pokefam17.gif	none	Waifuton		0	0	0	0	pokefam,organic,object,cute,sleaze
-232	Gorillape	pokefam18.gif	none	Gorillape		0	0	0	0	pokefam,sentient,organic,humanoid,hasbones,haseyes,bite,hashands,haslegs,animal
-233	Wendtigo	pokefam19.gif	none	Wendtigo		0	0	0	0	pokefam,sentient,organic,humanoid,person,hasbones,haseyes,bite,hashands,hasclaws,haslegs,cold,spooky,evil,animal
-234	Snoutlet	pokefam20.gif	none	Snoutlet		0	0	0	0	pokefam,sentient,organic,hasbones,haseyes,haslegs,cute,technological,animal
-235	Ruffalo	pokefam21.gif	none	Ruffalo		0	0	0	0	pokefam,sentient,organic,person,hasbones,haseyes,haslegs,animal
-236	Vaporpoise	pokefam22.gif	none	Vaporpoise		0	0	0	0	pokefam,sentient,haseyes,flies,animal
-237	Ghosprey	pokefam23.gif	none	Ghosprey		0	0	0	0	pokefam,sentient,undead,haseyes,hasclaws,haslegs,haswings,flies,fast,spooky,hasbeak,animal
-238	Straypler	pokefam24.gif	none	Straypler		0	0	0	0	pokefam,object,bite,technological
-239	Flan	pokefam25.gif	none	Flan		0	0	0	0	pokefam,organic,object,edible,food,cute
-240	Mustardigrade	pokefam26.gif	none	Mustardigrade		0	0	0	0	pokefam,organic,bite,haslegs,food,animal
-241	Ched	pokefam27.gif	none	Ched		0	0	0	0	pokefam,sentient,organic,object,edible,food,cute
-242	Gazelleton	pokefam28.gif	none	Gazelleton		0	0	0	0	pokefam,sentient,organic,hasbones,bite,haslegs,fast,spooky,animal
-243	Mechamelion	pokefam29.gif	none	Mechamelion		0	0	0	0	pokefam,mineral,robot,haseyes,bite,hasclaws,haslegs,fast,hard,technological,animal
-244	Bicycle	pokefam30.gif	none	Bicycle		0	0	0	0	pokefam,object,phallic,cold
-245	Vamprey	pokefam31.gif	none	Vamprey		0	0	0	0	pokefam,sentient,organic,bite,swims,aquatic,evil,animal
-246	Wullabye	pokefam32.gif	none	Wullabye		0	0	0	0	pokefam,sentient,organic,hasbones,haseyes,bite,haslegs,cute,good,animal
-247	Nursine	pokefam33.gif	none	Nursine		0	0	0	0	pokefam,sentient,organic,hasbones,haseyes,bite,hasclaws,haslegs,good,animal
-248	Cantelope	pokefam34.gif	none	Cantelope		0	0	0	0	pokefam,sentient,organic,vegetable,object,edible,food,orb,animal
-249	Ungulant	pokefam35.gif	none	Ungulant		0	0	0	0	pokefam,sentient,organic,hasbones,haseyes,haslegs,sleaze,animal
-250	Caramel	pokefam36.gif	none	Caramel		0	0	0	0	pokefam,sentient,organic,hasbones,haseyes,bite,haslegs,edible,food,animal
-251	Oppossum	pokefam37.gif	none	Oppossum		0	0	0	0	pokefam,sentient,organic,hasbones,haseyes,bite,hasclaws,haslegs,cute,animal
-252	Amanitee	pokefam38.gif	none	Amanitee		0	0	0	0	pokefam,sentient,organic,vegetable,haseyes,bite,swims,aquatic
-253	Smashmoth	pokefam39.gif	none	Smashmoth		0	0	0	0	pokefam,sentient,organic,insect,haseyes,haslegs,haswings,flies
-254	Vulgure	pokefam40.gif	none	Vulgure		0	0	0	0	pokefam,sentient,organic,hasbones,haseyes,hasclaws,haslegs,haswings,flies,stench,sleaze,hasbeak,animal
-255	Squib	pokefam41.gif	none	Squib		0	0	0	0	pokefam,sentient,organic,haseyes,bite,haslegs,swims,aquatic,animal
-256	Trafikoan	pokefam42.gif	none	Trafikoan		0	0	0	0	pokefam,mineral,object,phallic
-257	Slotter	pokefam43.gif	none	Slotter		0	0	0	0	pokefam,sentient,organic,hasbones,haseyes,bite,hashands,hasclaws,haslegs,swims,fast,cute,evil,animal
-258	Shudder	pokefam44.gif	none	Shudder		0	0	0	0	pokefam,sentient,undead,haseyes,haslegs,hovers,spooky,evil,animal
-259	Glamare	pokefam45.gif	none	Glamare		0	0	0	0	pokefam,sentient,organic,hasbones,haseyes,haslegs,fast,animal
+215	Globmule	pokefam1.gif	pokefam	Globmule		0	0	0	0	sentient,organic,haseyes,haslegs,sleaze
+216	Bluzzard	pokefam2.gif	pokefam	Bluzzard		0	0	0	0	sentient,organic,hasbones,haseyes,bite,hasclaws,haslegs,haswings,flies,fast,cold,evil,hasbeak,animal
+217	Faux	pokefam3.gif	pokefam	Faux		0	0	0	0	object,bite,haslegs,cute,animal
+218	Sledgehamster	pokefam4.gif	pokefam	Sledgehamster		0	0	0	0	sentient,organic,hasbones,haseyes,haslegs,cute,animal
+219	Pimpsqueak	pokefam5.gif	pokefam	Pimpsqueak		0	0	0	0	sentient,organic,hasbones,haseyes,haslegs,cute,sleaze,wearsclothes,animal
+220	Pillowbug	pokefam6.gif	pokefam	Pillowbug		0	0	0	0	sentient,organic,insect,object,haseyes,haslegs
+221	Dressage	pokefam7.gif	pokefam	Dressage		0	0	0	0	sentient,organic,hasbones,haseyes,haslegs,fast,animal
+222	Sequestrian	pokefam8.gif	pokefam	Sequestrian		0	0	0	0	sentient,organic,hasbones,haseyes,haslegs,fast,animal
+223	Carpricorn	pokefam9.gif	pokefam	Carpricorn		0	0	0	0	sentient,organic,hasbones,haseyes,swims,aquatic,animal
+224	Turpin	pokefam10.gif	pokefam	Turpin		0	0	0	0	sentient,organic,hasbones,haseyes,haslegs,swims,hard,hasshell,animal
+225	Morphan	pokefam11.gif	pokefam	Morphan		0	0	0	0	sentient,organic,person,haseyes,edible,food,cute
+226	Cycloney	pokefam12.gif	pokefam	Cycloney		0	0	0	0	organic,flies,hovers,fast,food,edible
+227	Peaclock	pokefam13.gif	pokefam	Peaclock		0	0	0	0	sentient,organic,object,haseyes,haslegs,haswings,flies,hasbeak,technological,animal
+228	Turtive	pokefam14.gif	pokefam	Turtive		0	0	0	0	sentient,organic,hasbones,haseyes,haslegs,swims,hard,hasshell,animal
+229	Lepardner	pokefam15.gif	pokefam	Lepardner		0	0	0	0	sentient,organic,hasbones,haseyes,bite,hasclaws,haslegs,stench,animal
+230	Aiolion	pokefam16.gif	pokefam	Aiolion		0	0	0	0	sentient,organic,hasbones,haseyes,bite,hasclaws,haslegs,edible,food,sleaze,animal
+231	Waifuton	pokefam17.gif	pokefam	Waifuton		0	0	0	0	organic,object,cute,sleaze
+232	Gorillape	pokefam18.gif	pokefam	Gorillape		0	0	0	0	sentient,organic,humanoid,hasbones,haseyes,bite,hashands,haslegs,animal
+233	Wendtigo	pokefam19.gif	pokefam	Wendtigo		0	0	0	0	sentient,organic,humanoid,person,hasbones,haseyes,bite,hashands,hasclaws,haslegs,cold,spooky,evil,animal
+234	Snoutlet	pokefam20.gif	pokefam	Snoutlet		0	0	0	0	sentient,organic,hasbones,haseyes,haslegs,cute,technological,animal
+235	Ruffalo	pokefam21.gif	pokefam	Ruffalo		0	0	0	0	sentient,organic,person,hasbones,haseyes,haslegs,animal
+236	Vaporpoise	pokefam22.gif	pokefam	Vaporpoise		0	0	0	0	sentient,haseyes,flies,animal
+237	Ghosprey	pokefam23.gif	pokefam	Ghosprey		0	0	0	0	sentient,undead,haseyes,hasclaws,haslegs,haswings,flies,fast,spooky,hasbeak,animal
+238	Straypler	pokefam24.gif	pokefam	Straypler		0	0	0	0	object,bite,technological
+239	Flan	pokefam25.gif	pokefam	Flan		0	0	0	0	organic,object,edible,food,cute
+240	Mustardigrade	pokefam26.gif	pokefam	Mustardigrade		0	0	0	0	organic,bite,haslegs,food,animal
+241	Ched	pokefam27.gif	pokefam	Ched		0	0	0	0	sentient,organic,object,edible,food,cute
+242	Gazelleton	pokefam28.gif	pokefam	Gazelleton		0	0	0	0	sentient,organic,hasbones,bite,haslegs,fast,spooky,animal
+243	Mechamelion	pokefam29.gif	pokefam	Mechamelion		0	0	0	0	mineral,robot,haseyes,bite,hasclaws,haslegs,fast,hard,technological,animal
+244	Bicycle	pokefam30.gif	pokefam	Bicycle		0	0	0	0	object,phallic,cold
+245	Vamprey	pokefam31.gif	pokefam	Vamprey		0	0	0	0	sentient,organic,bite,swims,aquatic,evil,animal
+246	Wullabye	pokefam32.gif	pokefam	Wullabye		0	0	0	0	sentient,organic,hasbones,haseyes,bite,haslegs,cute,good,animal
+247	Nursine	pokefam33.gif	pokefam	Nursine		0	0	0	0	sentient,organic,hasbones,haseyes,bite,hasclaws,haslegs,good,animal,ult_bearhug
+248	Cantelope	pokefam34.gif	pokefam	Cantelope		0	0	0	0	sentient,organic,vegetable,object,edible,food,orb,animal
+249	Ungulant	pokefam35.gif	pokefam	Ungulant		0	0	0	0	sentient,organic,hasbones,haseyes,haslegs,sleaze,animal
+250	Caramel	pokefam36.gif	pokefam	Caramel		0	0	0	0	sentient,organic,hasbones,haseyes,bite,haslegs,edible,food,animal,ult_sticktreats
+251	Oppossum	pokefam37.gif	pokefam	Oppossum		0	0	0	0	sentient,organic,hasbones,haseyes,bite,hasclaws,haslegs,cute,animal
+252	Amanitee	pokefam38.gif	pokefam	Amanitee		0	0	0	0	sentient,organic,vegetable,haseyes,bite,swims,aquatic
+253	Smashmoth	pokefam39.gif	pokefam	Smashmoth		0	0	0	0	sentient,organic,insect,haseyes,haslegs,haswings,flies,ult_owlstare
+254	Vulgure	pokefam40.gif	pokefam	Vulgure		0	0	0	0	sentient,organic,hasbones,haseyes,hasclaws,haslegs,haswings,flies,stench,sleaze,hasbeak,animal
+255	Squib	pokefam41.gif	pokefam	Squib		0	0	0	0	sentient,organic,haseyes,bite,haslegs,swims,aquatic,animal
+256	Trafikoan	pokefam42.gif	pokefam	Trafikoan		0	0	0	0	mineral,object,phallic
+257	Slotter	pokefam43.gif	pokefam	Slotter		0	0	0	0	sentient,organic,hasbones,haseyes,bite,hashands,hasclaws,haslegs,swims,fast,cute,evil,animal,ult_bloodbath
+258	Shudder	pokefam44.gif	pokefam	Shudder		0	0	0	0	sentient,undead,haseyes,haslegs,hovers,spooky,evil,animal
+259	Glamare	pokefam45.gif	pokefam	Glamare		0	0	0	0	sentient,organic,hasbones,haseyes,haslegs,fast,animal
 260	Unspeakachu	pokefam46.gif	combat0,mp0	Unspeakachu		3	3	1	3	sentient,hasclaws,haslegs,fast,cute,spooky,evil,reallyevil,animal
 261	Stooper	pokefam47.gif	none	Stooper		1	3	2	1	sentient,organic,hasbones,haseyes,bite,haslegs,swims,aquatic,cute,good,animal
 262	Disgeist	pokefam48.gif	passive	Disgeist		2	2	2	3	sentient,undead,haseyes,hasclaws,hovers,wearsclothes,cute,spooky
 263	Bowlet	pokefam49.gif	combat0,item0	Bowlet		2	1	2	2	sentient,organic,object,hasclaws,haslegs,haswings,flies,fast,hard,orb,animal
-264	Cornbeefadon	pokefam50.gif	item0,meat0	Cornbeefadon		2	2	2	2	sentient,organic,hasbones,haseyes,bite,haslegs,edible,food,animal
-265	Mu	pokefam8675309.gif	combat1,passive	Mu		3	2	3	2	sentient,organic,hasbones,haseyes,haslegs,hovers,fast,cute,good,animal
+264	Cornbeefadon	pokefam50.gif	item0,meat0	Cornbeefadon		2	2	2	2	sentient,organic,hasbones,haseyes,bite,haslegs,edible,food,animal,ult_pepperscorn
+265	Mu	pokefam8675309.gif	combat1,passive	Mu		3	2	3	2	sentient,organic,hasbones,haseyes,haslegs,hovers,fast,cute,good,animal,ult_rainbowstorm
 266	God Lobster	godlob.gif	stat0,variable,underwater	God Lobster Egg		0	0	0	0	sentient,organic,haseyes,hasclaws,haslegs,hovers,aquatic,hard,phallic,edible,food,spooky,evil,reallyevil,hasshell,animal
 267	Cat Burglar	catburglar.gif	item0,meat0	kitten burglar	burglar/sleep mask	1	3	2	3	sentient,organic,hasbones,haseyes,bite,hasclaws,haslegs,fast,cute,sleaze,wearsclothes,animal
 268	Party Mouse	partymouse.gif	stat0,drop	party pup	party mouse hat	1	1	2	1	sentient,organic,bite,haslegs,cute,animal
