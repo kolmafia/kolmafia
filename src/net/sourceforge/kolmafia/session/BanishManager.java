@@ -17,6 +17,7 @@ import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Phylum;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -133,7 +134,10 @@ public class BanishManager {
     TRYPTOPHAN_DART("tryptophan dart", -1, 1, false, Reset.ROLLOVER_RESET),
     ULTRA_HAMMER("Ultra Hammer", -1, 1, false, Reset.ROLLOVER_RESET),
     V_FOR_VIVALA_MASK("v for vivala mask", 10, 1, true, Reset.TURN_RESET),
-    WALK_AWAY_FROM_EXPLOSION("walk away from explosion", 30, 1, false, Reset.TURN_RESET);
+    WALK_AWAY_FROM_EXPLOSION("walk away from explosion", 30, 1, false, Reset.TURN_RESET),
+    // turncount is at most 100, but is given in a combat message, or is derivable from fam tags
+    LEFT_ZOOT_KICK("Left %n Kick", 100, 1, true, Reset.TURN_RESET),
+    RIGHT_ZOOT_KICK("Right %n Kick", 100, 1, true, Reset.TURN_RESET);
 
     final String name;
     final int duration;
@@ -178,6 +182,13 @@ public class BanishManager {
     }
 
     public final int getDuration() {
+      if (this == LEFT_ZOOT_KICK) {
+        return FamiliarDatabase.zootomistBanishDuration(
+            Preferences.getInteger("zootGraftedFootLeftFamiliar"));
+      } else if (this == RIGHT_ZOOT_KICK) {
+        return FamiliarDatabase.zootomistBanishDuration(
+            Preferences.getInteger("zootGraftedFootRightFamiliar"));
+      }
       // returns actual duration of banish after the turn used, which varies depending on if that
       // turn is free
       int turnCost = this.isTurnFree ? 0 : 1;
@@ -383,6 +394,12 @@ public class BanishManager {
       }
 
       BanishManager.removeOldestBanish(banisher);
+    }
+
+    if (banisher == Banisher.LEFT_ZOOT_KICK) {
+      BanishManager.removeOldestBanish(Banisher.RIGHT_ZOOT_KICK);
+    } else if (banisher == Banisher.RIGHT_ZOOT_KICK) {
+      BanishManager.removeOldestBanish(Banisher.LEFT_ZOOT_KICK);
     }
 
     // Banishes fail in some areas, monsters in them cannot be banished

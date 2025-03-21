@@ -9688,6 +9688,18 @@ public class FightRequest extends GenericRequest {
           skillSuccess = true;
         }
       }
+      case SkillPool.LEFT_KICK, SkillPool.RIGHT_KICK -> {
+        if (responseText.contains("off into the distance and likely won't return")) {
+          BanishManager.banishMonster(
+              monster,
+              skillId == SkillPool.LEFT_KICK ? Banisher.LEFT_ZOOT_KICK : Banisher.RIGHT_ZOOT_KICK);
+        }
+        if (responseText.contains("starts trailing bodily ichor that you can track")) {
+          TrackManager.trackMonster(
+              monster,
+              skillId == SkillPool.LEFT_KICK ? Tracker.LEFT_ZOOT_KICK : Tracker.RIGHT_ZOOT_KICK);
+        }
+      }
 
         // Banishing Shout has lots of success messages.  Check for the failure message instead
       case SkillPool.BANISHING_SHOUT -> {

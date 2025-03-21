@@ -73,6 +73,7 @@ public class FamiliarDatabase {
   private static final Set<Integer> passiveById = new HashSet<>();
   private static final Set<Integer> dropById = new HashSet<>();
   private static final Set<Integer> underwaterById = new HashSet<>();
+  private static final Set<Integer> pokefamOnlyById = new HashSet<>();
 
   private static final Set<Integer> noneById = new HashSet<>();
   private static final Set<Integer> variableById = new HashSet<>();
@@ -210,6 +211,7 @@ public class FamiliarDatabase {
     FamiliarDatabase.updateType(type, "passive", id, passiveById);
     FamiliarDatabase.updateType(type, "drop", id, dropById);
     FamiliarDatabase.updateType(type, "underwater", id, underwaterById);
+    FamiliarDatabase.updateType(type, "pokefam", id, pokefamOnlyById);
 
     FamiliarDatabase.updateType(type, "none", id, noneById);
     FamiliarDatabase.updateType(type, "variable", id, variableById);
@@ -542,6 +544,10 @@ public class FamiliarDatabase {
     return FamiliarDatabase.underwaterById.contains(familiarId);
   }
 
+  public static final boolean isPokefamType(final Integer familiarId) {
+    return FamiliarDatabase.pokefamOnlyById.contains(familiarId);
+  }
+
   public static final boolean isVariableType(final Integer familiarId) {
     return FamiliarDatabase.variableById.contains(familiarId);
   }
@@ -669,6 +675,11 @@ public class FamiliarDatabase {
       buffer.append(sep);
       sep = ",";
       buffer.append("underwater");
+    }
+    if (FamiliarDatabase.pokefamOnlyById.contains(familiarId)) {
+      buffer.append(sep);
+      sep = ",";
+      buffer.append("pokefam");
     }
 
     if (FamiliarDatabase.variableById.contains(familiarId)) {
@@ -1031,5 +1042,52 @@ public class FamiliarDatabase {
             + "\t"
             + data.getAttribute();
     return buffer;
+  }
+
+  public static int zootomistTrackCopies(int id) {
+    var intensity = zootomistTrackIntensity(id);
+    if (intensity < 0.3) return 2;
+    if (intensity < 0.6) return 3;
+    if (intensity < 0.9) return 4;
+    return 5;
+  }
+
+  public static int zootomistBanishDuration(int id) {
+    var intensity = zootomistBanishIntensity(id);
+    var isFree = intensity == 1;
+    var duration = (int) Math.floor(intensity * 90) + 10; // based on two data points
+    if (!isFree) {
+      duration -= 1;
+    }
+    return duration;
+  }
+
+  private static double zootomistBanishIntensity(int id) {
+    return zootomistIntensity(
+        id,
+        Set.of(
+            "animatedart",
+            "hard",
+            "hasbones",
+            "haslegs",
+            "haswings",
+            "spooky",
+            "swims",
+            "vegetable"));
+  }
+
+  private static double zootomistTrackIntensity(int id) {
+    return zootomistIntensity(
+        id,
+        Set.of("animal", "haseyes", "hot", "humanoid", "mineral", "orb", "sentient", "software"));
+  }
+
+  private static double zootomistIntensity(int id, Set<String> skillAttrs) {
+    List<String> attrs = FamiliarDatabase.getFamiliarAttributes(id);
+    if (attrs == null) {
+      return 0;
+    }
+    var relevantAttrs = attrs.stream().filter(skillAttrs::contains).count();
+    return (double) relevantAttrs / attrs.size();
   }
 }
