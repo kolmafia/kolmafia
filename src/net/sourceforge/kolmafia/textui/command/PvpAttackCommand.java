@@ -92,7 +92,7 @@ public class PvpAttackCommand extends AbstractCommand {
       targets[i].run();
     }
 
-    String mission = KoLCharacter.canInteract() ? "lootwhatever" : "fame";
+    String mission = KoLCharacter.canInteract() ? "lootwhatever" : "flowers";
     PeeVPeeRequest request = new PeeVPeeRequest("", 0, mission);
     PvpManager.executePvpRequest(targets, request, stance);
   }

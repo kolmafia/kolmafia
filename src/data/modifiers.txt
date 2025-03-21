@@ -10657,6 +10657,7 @@ Item	Atomic Comic	Effect: "Single-Eyed Vision", Effect Duration: 20, Last Availa
 Item	Atomic Pop	Effect: "Cinnamouth", Effect Duration: 10, Last Available: "2020-09"
 Item	augmented-reality shades	Effect: "Glasshole", Effect Duration: 50, Last Available: "2014-12"
 Item	autumnic balm	Effect: "Autumnically Balmy", Effect Duration: 30
+Item	autumnic bomb	Effect: "Explosion of Color", Effect Duration: 25
 Item	bacon bath ball	Effect: "Pork Power", Effect Duration: 10, Last Available: "2011-01"
 Item	bag of Cheat-Os	Effect: "Sticky Fingers", Effect Duration: 10
 Item	bag of grain	Effect: "Nearly All-Natural", Effect Duration: 1
