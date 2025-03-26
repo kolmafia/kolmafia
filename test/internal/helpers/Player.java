@@ -1359,6 +1359,18 @@ public class Player {
   }
 
   /**
+   * Sets the player's pvp attacks left
+   *
+   * @param fullness Desired fullness
+   * @return Resets fullness to previous value
+   */
+  public static Cleanups withAttacksLeft(final int attacks) {
+    var old = KoLCharacter.getAttacksLeft();
+    KoLCharacter.setAttacksLeft(attacks);
+    return new Cleanups(() -> KoLCharacter.setAttacksLeft(old));
+  }
+
+  /**
    * Sets the player's fullness
    *
    * @param fullness Desired fullness

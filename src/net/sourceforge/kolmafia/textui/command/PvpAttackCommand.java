@@ -6,7 +6,6 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.request.PeeVPeeRequest;
 import net.sourceforge.kolmafia.request.ProfileRequest;
 import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.session.PvpManager;
@@ -92,8 +91,11 @@ public class PvpAttackCommand extends AbstractCommand {
       targets[i].run();
     }
 
+    // You can no longer make a direct attack for fame; the only choices are loot or flowers.
+    // If you can interact, go for loot. Otherwise, go for flowers.
+    // Note that if the target cannot interact, you can't ask for loot.
+    // That will be detected and adjusted for in PvpManager.executePvpRequest
     String mission = KoLCharacter.canInteract() ? "lootwhatever" : "flowers";
-    PeeVPeeRequest request = new PeeVPeeRequest("", 0, mission);
-    PvpManager.executePvpRequest(targets, request, stance);
+    PvpManager.executePvpRequest(targets, mission, stance);
   }
 }
