@@ -77,7 +77,6 @@ public class PvpManagerTest {
         client.addResponse(200, "");
 
         var target = targetInRonin ? profileInRonin : profileCanInteract;
-        ;
         String targetName = target.getPlayerName();
 
         var targets = new ProfileRequest[1];
