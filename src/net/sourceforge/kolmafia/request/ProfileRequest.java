@@ -390,6 +390,10 @@ public class ProfileRequest extends GenericRequest implements Comparable<Profile
     return this.inRonin;
   }
 
+  public boolean canInteract() {
+    return !this.isHardcore && !this.inRonin;
+  }
+
   public String getRestriction() {
     this.initialize();
     return this.restriction;

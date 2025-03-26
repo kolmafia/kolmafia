@@ -188,11 +188,11 @@ public class PvpManager {
         continue;
       }
 
-      if (Preferences.getString("currentPvpVictories").contains(targets[i].getPlayerName())) {
+      String targetName = target.getPlayerName();
+      if (Preferences.getString("currentPvpVictories").contains(targetName)) {
         continue;
       }
 
-      String targetName = target.getPlayerName();
       if (targetName.toLowerCase().startsWith("devster")) {
         continue;
       }
@@ -202,8 +202,7 @@ public class PvpManager {
 
       // If you can interact and the target is in hardcore or Ronin, the
       // only available mission is "flowers";
-      boolean targetCanInteract = !target.isHardcore() && !target.inRonin();
-      String realMission = (canInteract && !targetCanInteract) ? "flowers" : mission;
+      String realMission = (canInteract && !target.canInteract()) ? "flowers" : mission;
 
       PeeVPeeRequest request = new PeeVPeeRequest("", 0, realMission);
 
