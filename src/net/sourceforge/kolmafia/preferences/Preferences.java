@@ -67,6 +67,7 @@ public class Preferences {
       new TreeSet<>(List.of("_shortOrderCookCharge"));
   private static final Set<String> legacyDailies = new TreeSet<>();
   private static final Set<String> resetOnAscension = new TreeSet<>();
+  private static final Set<String> resetOnFight = new TreeSet<>();
 
   // Obsolete properties.
   private static final String[] obsoleteProperties =
@@ -130,6 +131,7 @@ public class Preferences {
           switch (attr) {
             case "roa" -> resetOnAscension.add(name);
             case "ld" -> legacyDailies.add(name);
+            case "rof" -> resetOnFight.add(name);
           }
         }
       }
@@ -994,6 +996,12 @@ public class Preferences {
       }
 
       Preferences.setLong("lastGlobalCounterDay", KoLCharacter.getRollover());
+    }
+  }
+
+  public static void resetStartOfFight() {
+    for (String pref : resetOnFight) {
+      resetToDefault(pref);
     }
   }
 

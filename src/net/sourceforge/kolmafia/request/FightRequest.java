@@ -2148,7 +2148,7 @@ public class FightRequest extends GenericRequest {
 
     if (FightRequest.currentRound == 0) {
       Preferences.setString("_lastCombatStarted", FightRequest.COMBAT_START.format(new Date()));
-      Preferences.setString("_lastCombatActions", "");
+      Preferences.resetStartOfFight();
       int adventure = KoLAdventure.lastAdventureId();
 
       // Pocket Familiars changes everything
@@ -10509,6 +10509,7 @@ public class FightRequest extends GenericRequest {
       }
       case SkillPool.DOUSE_FOE -> {
         if (responseText.contains("One of the three indicator lights goes dim")) {
+          Preferences.setBoolean("_douseFoeSuccess", true);
           skillSuccess = true;
         }
       }
