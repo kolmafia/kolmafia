@@ -155,35 +155,63 @@ public class PvpManager {
   }
 
   public static final void executePvpRequest(
-      final ProfileRequest[] targets, final PeeVPeeRequest request, final int stance) {
+      final ProfileRequest[] targets, final String mission, final int stance) {
     if (!PvpManager.checkHippyStone()) {
       return;
+    }
+
+    // A directed PVP attack cannot attack for fame.
+    // If you are in Hardcore or Ronin, you can only attack for flowers.
+    // If you are out of Hardcore or Ronin, you can attack for loot or flowers.
+    boolean canInteract = KoLCharacter.canInteract();
+    switch (mission) {
+      case "lootwhatever" -> {
+        if (!canInteract) {
+          KoLmafia.updateDisplay(MafiaState.ERROR, "Cannot attack for loot if you can't interact");
+          return;
+        }
+      }
+      case "flowers", "fame" -> {
+        // Fame and flowers are always allowed
+      }
+      default -> {
+        KoLmafia.updateDisplay(MafiaState.ERROR, "Unknown mission: '" + mission + "'");
+        return;
+      }
     }
 
     for (int i = 0;
         i < targets.length && KoLmafia.permitsContinue() && KoLCharacter.getAttacksLeft() > 0;
         ++i) {
-      if (targets[i] == null) {
+      var target = targets[i];
+      if (targets == null) {
         continue;
       }
 
-      if (Preferences.getString("currentPvpVictories").contains(targets[i].getPlayerName())) {
+      String targetName = target.getPlayerName();
+      if (Preferences.getString("currentPvpVictories").contains(targetName)) {
         continue;
       }
 
-      if (targets[i].getPlayerName().toLowerCase().startsWith("devster")) {
+      if (targetName.toLowerCase().startsWith("devster")) {
         continue;
       }
 
       // Execute the beforePVPScript to change equipment, get buffs, whatever.
       KoLmafia.executeBeforePVPScript();
 
+      // If you can interact and the target is in hardcore or Ronin, the
+      // only available mission is "flowers";
+      String realMission = (canInteract && !target.canInteract()) ? "flowers" : mission;
+
+      PeeVPeeRequest request = new PeeVPeeRequest("", 0, realMission);
+
       // Choose current "best" stance
       // *** this is broken, as of Season 19
       request.addFormField("stance", String.valueOf(stance));
 
-      KoLmafia.updateDisplay("Attacking " + targets[i].getPlayerName() + "...");
-      request.setTarget(targets[i].getPlayerName());
+      KoLmafia.updateDisplay("Attacking " + targetName + "...");
+      request.setTarget(targetName);
       request.setTargetType("0");
       RequestThread.postRequest(request);
 
