@@ -332,37 +332,38 @@ public class GuildRequest extends GenericRequest {
       // Quest.DARK	questG05Dark		old Nemesis Quest
       // Quest.NEMESIS	questG04Nemesis		new Nemesis Quest
       //
-      // started	"scg" offers quest; Misspelled Cemetary is open
-      // step1		Tomb of the Unknown Your Class Here (1049 - meet ghost)
-      // step2		Fight The Unknown <class>
-      // step3		Tomb of the Unknown Your Class Here (1049 - defeated ghost)
-      // step4		Tomb of the Unknown Your Class Here (1049 - claimed Epic Weapon)
-      // step5		"scg" sends to Beelzebozo; The "Fun" House is open
-      // step6		Fight The Clownlord Beelzebozo
-      // step7		"scg" directs you to craft legendary Epic Weapon
-      // step8		Crafted Legendary Epic Weapon
-      // step9		"scg" sees Legendary Epic Weapon
-      // step10		"scg" sends to cave; Dark and Dank and Sinister Cave is open
-      // step11		The Dark and Dank and Sinister Cave Entrance (1087 - see puzzle)
-      // step12		The Dark and Dank and Sinister Cave Entrance (1087 - passed)
-      // step13		Rubble, Rubble, Toil and Trouble (1088 - see pile of rubble)
-      // step14		Acquired 6 or more fizzing spore pods
-      // step15		Rubble, Rubble, Toil and Trouble (1088 - blew up rubble)
-      // step16		Defeated Nemesis (Inner Sanctum) and acquire Epic Hat
-      // step17		Second visit; unlocks nemesis assassins
-      // step18		Lose to menacing thug
-      // step19		Defeat menacing thug
-      // step20		Lose to Mob Penguin hitman
-      // step21		Defeat Mob Penguin hitman
-      // step22		Lose to third Nemesis assassin
-      // step23		Defeat third Nemesis assassin
-      // step24		Lose to fourth Nemesis assassin
-      // step25		Defeat 4th Nemesis assassin (gain volcano map)
-      // step26		(Obsolete; unlocks volcano lair via navigator on the Poop Deck)
-      // step27		Defeat Nemesis (The Nemesis; Lair) and obtain Legendary Pants
-      // step28		Start fight with Nemesis (Volcanic Cave)
-      // step29		Defeat Nemesis (Volcanic Cave)
-      // finished	Defeat Demonic Nemesis and obtain final quest rewards
+      // started        "scg" offers quest; Misspelled Cemetary is open
+      // step1          Tomb of the Unknown Your Class Here (1049 - meet ghost)
+      // step2          Fight The Unknown <class>
+      // step3          Tomb of the Unknown Your Class Here (1049 - defeated ghost)
+      // step4          Tomb of the Unknown Your Class Here (1049 - claimed Epic Weapon)
+      // step5          "scg" sends to Beelzebozo; The "Fun" House is open
+      // step6          Fight The Clownlord Beelzebozo
+      // step7          "scg" directs you to craft legendary Epic Weapon
+      // step8          Crafted Legendary Epic Weapon
+      // step9          "scg" sees Legendary Epic Weapon
+      // step10         "scg" sends to cave; Dark and Dank and Sinister Cave is open
+      // step11         The Dark and Dank and Sinister Cave Entrance (1087 - see puzzle)
+      // step12         The Dark and Dank and Sinister Cave Entrance (1087 - passed)
+      // step13         Rubble, Rubble, Toil and Trouble (1088 - see pile of rubble)
+      // step14         Acquired 6 or more fizzing spore pods
+      // step15         Rubble, Rubble, Toil and Trouble (1088 - blew up rubble)
+      // step16         Defeated Nemesis (Inner Sanctum) and acquire Epic Hat
+      // step16.5       "scg" sees Epic Hat
+      // step17         Second visit to scg" unlocks nemesis assassins
+      // step18         Lose to menacing thug
+      // step19         Defeat menacing thug
+      // step20         Lose to Mob Penguin hitman
+      // step21         Defeat Mob Penguin hitman
+      // step22         Lose to third Nemesis assassin
+      // step23         Defeat third Nemesis assassin
+      // step24         Lose to fourth Nemesis assassin
+      // step25         Defeat 4th Nemesis assassin (gain volcano map)
+      // step26         (Obsolete; unlocks volcano lair via navigator on the Poop Deck)
+      // step27         Defeat Nemesis (The Nemesis; Lair) and obtain Legendary Pants
+      // step28         Start fight with Nemesis (Volcanic Cave)
+      // step29         Defeat Nemesis (Volcanic Cave)
+      // finished       Defeat Demonic Nemesis and obtain final quest rewards
 
       if (
       // Muscle classes
@@ -406,6 +407,8 @@ public class GuildRequest extends GenericRequest {
       }
 
       if (QuestDatabase.isQuestStep(Quest.NEMESIS, "step16")) {
+        QuestDatabase.setQuestProgress(Quest.NEMESIS, "step16.5");
+      } else if (QuestDatabase.isQuestStep(Quest.NEMESIS, "step16.5")) {
         QuestDatabase.setQuestProgress(Quest.NEMESIS, "step17");
       }
 

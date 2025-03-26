@@ -2047,6 +2047,7 @@ user	_dnaPotionsMade	0
 user	_docClocksThymeCocktailDrunk	false
 user	_donhosCasts	0
 user	_douseFoeUses	0
+user	_douseFoeSuccess	false	rof
 user	_dreamJarDrops	0
 user	_drippingHallDoor1	false
 user	_drippingHallDoor2	false
@@ -2276,7 +2277,7 @@ user	_kolhsPoeticallyLicenced	false
 user	_kolhsSavedByTheBell	0
 user	_kolhsSchoolSpirited	false
 user	_kudzuSaladEaten	false
-user	_lastCombatActions
+user	_lastCombatActions		rof
 user	_lastCombatLost	false
 user	_lastCombatStarted
 user	_lastCombatWon	true
