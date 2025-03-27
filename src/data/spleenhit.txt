@@ -76,7 +76,7 @@ cuppa Cruel tea	4	1	crappy	0	0	0	0	+5 PvP fights
 cute mushroom	4	6	decent	7-9	5-10	5-10	5-10	50 Cute Vision (+5 familiar weight)
 demonic paste	4	4	good	5-10	18-22	18-22	18-22	10 Demonic Flavor (hot dmg/res)
 dieting pill	3	7	good	0	0	0	0	2x fullness, stats and adventures for next food
-drenchrome 2.0	1	1		0	0	0	0	Unspaded
+drenchrome 2.0	1	1		0	0	0	0	30 Cyber Slicer (+dmg to Cyber attacks)
 ectoplasmic paste	4	4	good	5-10	18-22	18-22	18-22	10 Spooky Flavor (spooky dmg/res)
 eldritch essence	1	4	crappy	0	66	66	66
 elemental paste	4	4	good	5-10	18-22	18-22	18-22	10 Elemental Flavor (+5 prismatic dmg)
@@ -86,7 +86,7 @@ energized spores	1	1		0	0	0	0	40 Energized (+100 initiative)
 epic cluster	1	20	EPIC	6	170-200	170-200	170-200
 epic wad	1	15	EPIC	5	140-150	140-150	140-150
 excitement pill	1	5	decent	0	11-13	11-13	24-26	Get random effect
-eXpand	1	1		0	0	0	0	Unspaded
+eXpand	1	1		0	0	0	0	30 Cyber Memory Boost (+3 RAM)
 expensive cigar	1	7	decent	0	40-50	0	0
 extra-strength strongness elixir	1	3	good	0	8-10	0	0
 Extrovermectin&trade;	2	1	crappy	0	0	0	0	Gain skill that gives 3 copies of a monster
@@ -228,7 +228,7 @@ strongness elixir	1	1	crappy	0	1-3	0	0
 suntan lotion of moxiousness	1	3	good	0	0	0	8-10
 super-sweet fish goo (spoiled)	5	1	decent	0	0	0	0
 sweat-ade	4	1	crappy	0	0	0	0	+5 PvP fights
-Synapse Blaster	1	1		0	0	0	0	Unspaded
+Synapse Blaster	1	1		0	0	0	0	30 Cyber Resist x2000 (+5 all resistance)
 synthetic marrow	1	1	EPIC	0	30-40	0	0
 terra cotta tidbits	3	8	awesome	0	0	0	0	Unspaded
 The Author's ink	1	4	awesome	0	0	0	0	200 It's a Good Life! (+10 stat gain, +200% all)
