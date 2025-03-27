@@ -45,7 +45,8 @@ public class LeprecondoCommand extends AbstractCommand {
     Arrays.stream(Preferences.getString("leprecondoInstalled").split(","))
         .map(StringUtilities::parseInt)
         .map(Furniture::byId)
-        .forEachOrdered(f -> output.append("<li>").append(f.getName()).append("</li>"));
+        .forEachOrdered(
+            f -> output.append("<li>").append(f == null ? "nothing" : f.getName()).append("</li>"));
     output.append("</ul>");
 
     RequestLogger.printHtml(output.toString());
