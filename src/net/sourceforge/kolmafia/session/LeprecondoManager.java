@@ -9,7 +9,10 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class LeprecondoManager {
@@ -33,7 +36,7 @@ public class LeprecondoManager {
     }
   }
 
-  protected enum Furniture {
+  public enum Furniture {
     CONCRETE(
         "buckets of concrete",
         1,
@@ -244,9 +247,13 @@ public class LeprecondoManager {
           .orElse(null);
     }
 
+    public static Furniture byId(final int id) {
+      return Arrays.stream(Furniture.values()).filter(f -> f.id == id).findAny().orElse(null);
+    }
+
     public static Furniture byName(final String name) {
       return Arrays.stream(Furniture.values())
-          .filter(f -> f.name.equals(name))
+          .filter(f -> f.name.equalsIgnoreCase(name))
           .findAny()
           .orElse(null);
     }
@@ -412,5 +419,12 @@ public class LeprecondoManager {
         .filter(f -> !discovered.contains(f.getId()))
         .map(Furniture::getName)
         .collect(Collectors.joining(", "));
+  }
+
+  public static String useLeprecondo() {
+    GenericRequest request =
+        new GenericRequest("inv_use.php?which=3&whichitem=" + ItemPool.LEPRECONDO);
+    RequestThread.postRequest(request);
+    return request.responseText;
   }
 }
