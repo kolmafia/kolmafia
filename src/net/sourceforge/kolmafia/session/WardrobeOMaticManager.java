@@ -11,6 +11,9 @@ import net.sourceforge.kolmafia.utilities.PHPRandom;
 public class WardrobeOMaticManager {
   private WardrobeOMaticManager() {}
 
+  public record FuturisticEquip(
+      int itemId, String name, String image, List<ModifierValue> modifiers) {}
+
   public static int calculateSeed(final int itemId, final int gameday) {
     return (itemId * gameday) + 2063;
   }
@@ -143,7 +146,7 @@ public class WardrobeOMaticManager {
           "wool",
           "linen");
 
-  public static List<ModifierValue> getShirtModifiers(final int gameday, final int level) {
+  public static FuturisticEquip getShirtModifiers(final int gameday, final int level) {
     var seed = calculateSeed(ItemPool.FUTURISTIC_SHIRT, gameday);
     var rng = new PHPRandom(seed);
     var mtRng = new PHPMTRandom(seed);
@@ -151,8 +154,8 @@ public class WardrobeOMaticManager {
 
     var modifiers = prepareModifierList(SHIRT_MODIFIERS, rng, tier);
 
-    // Select image and one other unknown roll
-    mtRng.nextInt();
+    var image = mtRng.nextInt(9);
+    // Unknown roll
     mtRng.nextInt();
 
     var adjective = mtRng.pick(SHIRT_ADJECTIVES);
@@ -171,7 +174,9 @@ public class WardrobeOMaticManager {
     for (var modifier : modifiers) {
       modifierValues.addAll(rollModifierStrength(mtRng, tier, modifier));
     }
-    return modifierValues;
+
+    return new FuturisticEquip(
+        ItemPool.FUTURISTIC_SHIRT, name, "jw_shirt" + (image + 1), modifierValues);
   }
 
   private static final List<DoubleModifier> HAT_MODIFIERS =
@@ -219,7 +224,7 @@ public class WardrobeOMaticManager {
           "transforming",
           "meta-fashionable");
 
-  public static List<ModifierValue> getHatModifiers(final int gameday, final int level) {
+  public static FuturisticEquip getHatModifiers(final int gameday, final int level) {
     var seed = calculateSeed(ItemPool.FUTURISTIC_HAT, gameday);
     var rng = new PHPRandom(seed);
     var mtRng = new PHPMTRandom(seed);
@@ -227,8 +232,9 @@ public class WardrobeOMaticManager {
 
     var modifiers = prepareModifierList(HAT_MODIFIERS, rng, tier);
 
-    // Select image and three other unknown rolls
-    mtRng.nextInt();
+    var image = mtRng.nextInt(9);
+
+    // 3 unknown rolls
     mtRng.nextInt();
     mtRng.nextInt();
     mtRng.nextInt();
@@ -250,7 +256,9 @@ public class WardrobeOMaticManager {
     for (var modifier : modifiers) {
       modifierValues.addAll(rollModifierStrength(mtRng, tier, modifier));
     }
-    return modifierValues;
+
+    return new FuturisticEquip(
+        ItemPool.FUTURISTIC_HAT, name, "jw_hat" + (image + 1), modifierValues);
   }
 
   private static final List<DoubleModifier> COLLAR_MODIFIERS =
@@ -283,7 +291,7 @@ public class WardrobeOMaticManager {
           "psychedelic",
           "kaleidoscopic");
 
-  public static List<ModifierValue> getCollarModifiers(final int gameday, final int level) {
+  public static FuturisticEquip getCollarModifiers(final int gameday, final int level) {
     var seed = calculateSeed(ItemPool.FUTURISTIC_COLLAR, gameday);
     var rng = new PHPRandom(seed);
     var mtRng = new PHPMTRandom(seed);
@@ -319,11 +327,13 @@ public class WardrobeOMaticManager {
           case FAMILIAR_EXP -> tier;
           case FAMILIAR_WEIGHT -> tier * 2 + 5 - mtRng.nextInt(2);
           case FAMILIAR_DAMAGE -> tier * 15 + mtRng.nextInt(tier * 10);
-          default -> null;
+          default -> 0;
         };
 
-    if (value == null) return List.of();
-
-    return List.of(new ModifierValue(modifier, value));
+    return new FuturisticEquip(
+        ItemPool.FUTURISTIC_COLLAR,
+        name,
+        "jw_pet" + (image + 1),
+        List.of(new ModifierValue(modifier, value)));
   }
 }
