@@ -9,118 +9,6 @@ import net.sourceforge.kolmafia.utilities.PHPMTRandom;
 import net.sourceforge.kolmafia.utilities.PHPRandom;
 
 public class WardrobeOMaticManager {
-  // Familiar Equip wordbuckets
-  private static final List<String> COLLAR_NOUNS = List.of("pet tag", "collar", "pet sweater");
-  private static final List<String> COLLAR_ADJECTIVES =
-      List.of(
-          "hyperchromatic",
-          "pearlescent",
-          "bright",
-          "day-glo",
-          "luminescent",
-          "vibrant",
-          "earthy",
-          "oversaturated",
-          "partially transparent",
-          "opaque",
-          "faded",
-          "metallic",
-          "shiny",
-          "glow-in-the-dark",
-          "neon",
-          "prismatic",
-          "incandescent",
-          "polychromatic",
-          "opalescent",
-          "psychedelic",
-          "kaleidoscopic");
-
-  // Shirt
-  private static final List<DoubleModifier> SHIRT_MODIFIERS =
-      List.of(
-          DoubleModifier.MUS,
-          DoubleModifier.MYS,
-          DoubleModifier.MOX,
-          DoubleModifier.HOT_RESISTANCE,
-          DoubleModifier.COLD_RESISTANCE,
-          DoubleModifier.STENCH_RESISTANCE,
-          DoubleModifier.SLEAZE_RESISTANCE,
-          DoubleModifier.SPOOKY_RESISTANCE,
-          DoubleModifier.HP,
-          DoubleModifier.MP,
-          DoubleModifier.HP_REGEN_MIN,
-          DoubleModifier.MP_REGEN_MIN,
-          DoubleModifier.DAMAGE_REDUCTION,
-          DoubleModifier.DAMAGE_ABSORPTION,
-          DoubleModifier.ITEMDROP,
-          DoubleModifier.MEATDROP,
-          DoubleModifier.MONSTER_LEVEL);
-
-  private static final List<String> SHIRT_NOUNS =
-      List.of("jersey", "Neo-Hawaiian shirt", "t-shirt", "dress shirt", "sweater", "sweatshirt");
-
-  private static final List<String> SHIRT_ADJECTIVES =
-      List.of(
-          "galvanized",
-          "double-creased",
-          "double-breasted",
-          "foil-clad",
-          "aluminum-threaded",
-          "electroplated",
-          "carbon-coated",
-          "phase-changing",
-          "liquid cooled",
-          "conductive",
-          "radation-shielded",
-          "nanotube-threaded",
-          "moisture-wicking",
-          "shape-memory",
-          "antimicrobial",
-          "liquid-cooled");
-
-  private static final List<String> SHIRT_MATERIALS =
-      List.of(
-          "gabardine",
-          "mylar",
-          "polyester",
-          "double-polyester",
-          "triple-polyester",
-          "rayon",
-          "wax paper",
-          "aluminum foil",
-          "synthetic silk",
-          "xylon",
-          "gore-tex",
-          "kapton",
-          "flannel",
-          "silk",
-          "cotton",
-          "wool",
-          "linen");
-
-  private static final List<String> SHIRT_QUALITIES = List.of("super", "ultra", "mega", "hyper");
-
-  // Hat wordbuckets
-  private static final List<String> HAT_ADJECTIVES =
-      List.of(
-          "nanoplated",
-          "self-replicating",
-          "autonomous",
-          "fusion-powered",
-          "fision-powered",
-          "hyperefficient",
-          "quantum",
-          "nuclear",
-          "magnetic",
-          "laser-guided",
-          "solar-powered",
-          "psionic",
-          "gravitronic",
-          "biotronic",
-          "neurolinked",
-          "transforming",
-          "meta-fashionable");
-
   private WardrobeOMaticManager() {}
 
   public static int calculateSeed(final int itemId, final int gameday) {
@@ -177,17 +65,91 @@ public class WardrobeOMaticManager {
     };
   }
 
+  private static List<DoubleModifier> prepareModifierList(
+      final List<DoubleModifier> mods, final PHPRandom rng, final int tier) {
+    return prepareModifierList(mods, rng, tier, 0, mods.size() - Math.max(0, tier - 3));
+  }
+
+  private static List<DoubleModifier> prepareModifierList(
+      final List<DoubleModifier> mods,
+      final PHPRandom rng,
+      final int tier,
+      final int start,
+      final int end) {
+    return rng.shuffle(new ArrayList<>(mods.subList(start, end))).subList(0, tier);
+  }
+
+  private static final List<DoubleModifier> SHIRT_MODIFIERS =
+      List.of(
+          DoubleModifier.MUS,
+          DoubleModifier.MYS,
+          DoubleModifier.MOX,
+          DoubleModifier.HOT_RESISTANCE,
+          DoubleModifier.COLD_RESISTANCE,
+          DoubleModifier.STENCH_RESISTANCE,
+          DoubleModifier.SLEAZE_RESISTANCE,
+          DoubleModifier.SPOOKY_RESISTANCE,
+          DoubleModifier.HP,
+          DoubleModifier.MP,
+          DoubleModifier.HP_REGEN_MIN,
+          DoubleModifier.MP_REGEN_MIN,
+          DoubleModifier.DAMAGE_REDUCTION,
+          DoubleModifier.DAMAGE_ABSORPTION,
+          DoubleModifier.ITEMDROP,
+          DoubleModifier.MEATDROP,
+          DoubleModifier.MONSTER_LEVEL);
+
+  private static final List<String> SHIRT_NOUNS =
+      List.of("jersey", "Neo-Hawaiian shirt", "t-shirt", "dress shirt", "sweater", "sweatshirt");
+
+  private static final List<String> SHIRT_ADJECTIVES =
+      List.of(
+          "galvanized",
+          "double-creased",
+          "double-breasted",
+          "foil-clad",
+          "aluminum-threaded",
+          "electroplated",
+          "carbon-coated",
+          "phase-changing",
+          "liquid cooled",
+          "conductive",
+          "radation-shielded",
+          "nanotube-threaded",
+          "moisture-wicking",
+          "shape-memory",
+          "antimicrobial",
+          "liquid-cooled");
+
+  private static final List<String> SHIRT_QUALITIES = List.of("super", "ultra", "mega", "hyper");
+
+  private static final List<String> SHIRT_MATERIALS =
+      List.of(
+          "gabardine",
+          "mylar",
+          "polyester",
+          "double-polyester",
+          "triple-polyester",
+          "rayon",
+          "wax paper",
+          "aluminum foil",
+          "synthetic silk",
+          "xylon",
+          "gore-tex",
+          "kapton",
+          "flannel",
+          "silk",
+          "cotton",
+          "wool",
+          "linen");
+
   public static List<ModifierValue> getShirtModifiers(final int gameday, final int level) {
     var seed = calculateSeed(ItemPool.FUTURISTIC_SHIRT, gameday);
     var rng = new PHPRandom(seed);
     var mtRng = new PHPMTRandom(seed);
     var tier = calculateTier(level);
 
-    var possibleModifiers =
-        rng.shuffle(
-            new ArrayList<>(
-                SHIRT_MODIFIERS.subList(0, SHIRT_MODIFIERS.size() - Math.max(0, tier - 3))));
-    var modifiers = possibleModifiers.subList(0, tier);
+    var modifiers = prepareModifierList(SHIRT_MODIFIERS, rng, tier);
 
     // Select image and one other unknown roll
     mtRng.nextInt();
@@ -210,5 +172,158 @@ public class WardrobeOMaticManager {
       modifierValues.addAll(rollModifierStrength(mtRng, tier, modifier));
     }
     return modifierValues;
+  }
+
+  private static final List<DoubleModifier> HAT_MODIFIERS =
+      List.of(
+          DoubleModifier.MUS,
+          DoubleModifier.MYS,
+          DoubleModifier.MOX,
+          DoubleModifier.HP,
+          DoubleModifier.MP,
+          DoubleModifier.HP_REGEN_MIN,
+          DoubleModifier.MP_REGEN_MIN,
+          DoubleModifier.HOT_DAMAGE,
+          DoubleModifier.COLD_DAMAGE,
+          DoubleModifier.STENCH_DAMAGE,
+          DoubleModifier.SLEAZE_DAMAGE,
+          DoubleModifier.SPOOKY_DAMAGE,
+          DoubleModifier.HOT_SPELL_DAMAGE,
+          DoubleModifier.COLD_SPELL_DAMAGE,
+          DoubleModifier.STENCH_SPELL_DAMAGE,
+          DoubleModifier.SLEAZE_SPELL_DAMAGE,
+          DoubleModifier.SPOOKY_SPELL_DAMAGE,
+          DoubleModifier.DAMAGE_REDUCTION,
+          DoubleModifier.DAMAGE_ABSORPTION,
+          DoubleModifier.ITEMDROP,
+          DoubleModifier.MEATDROP,
+          DoubleModifier.MONSTER_LEVEL);
+
+  private static final List<String> HAT_ADJECTIVES =
+      List.of(
+          "nanoplated",
+          "self-replicating",
+          "autonomous",
+          "fusion-powered",
+          "fision-powered",
+          "hyperefficient",
+          "quantum",
+          "nuclear",
+          "magnetic",
+          "laser-guided",
+          "solar-powered",
+          "psionic",
+          "gravitronic",
+          "biotronic",
+          "neurolinked",
+          "transforming",
+          "meta-fashionable");
+
+  public static List<ModifierValue> getHatModifiers(final int gameday, final int level) {
+    var seed = calculateSeed(ItemPool.FUTURISTIC_HAT, gameday);
+    var rng = new PHPRandom(seed);
+    var mtRng = new PHPMTRandom(seed);
+    var tier = calculateTier(level);
+
+    var modifiers = prepareModifierList(HAT_MODIFIERS, rng, tier);
+
+    // Select image and three other unknown rolls
+    mtRng.nextInt();
+    mtRng.nextInt();
+    mtRng.nextInt();
+    mtRng.nextInt();
+
+    var adjective = mtRng.pick(HAT_ADJECTIVES);
+
+    // 6 unknown rolls
+    mtRng.nextInt();
+    mtRng.nextInt();
+    mtRng.nextInt();
+    mtRng.nextInt();
+    mtRng.nextInt();
+    mtRng.nextInt();
+
+    // Not quite got the name spaded yet
+    var name = String.join(" ", adjective, "metal-metal", "hat");
+
+    var modifierValues = new ArrayList<ModifierValue>();
+    for (var modifier : modifiers) {
+      modifierValues.addAll(rollModifierStrength(mtRng, tier, modifier));
+    }
+    return modifierValues;
+  }
+
+  private static final List<DoubleModifier> COLLAR_MODIFIERS =
+      List.of(
+          DoubleModifier.FAMILIAR_WEIGHT,
+          DoubleModifier.FAMILIAR_DAMAGE,
+          DoubleModifier.FAMILIAR_EXP);
+  private static final List<String> COLLAR_NOUNS = List.of("pet tag", "collar", "pet sweater");
+  private static final List<String> COLLAR_ADJECTIVES =
+      List.of(
+          "hyperchromatic",
+          "pearlescent",
+          "bright",
+          "day-glo",
+          "luminescent",
+          "vibrant",
+          "earthy",
+          "oversaturated",
+          "partially transparent",
+          "opaque",
+          "faded",
+          "metallic",
+          "shiny",
+          "glow-in-the-dark",
+          "neon",
+          "prismatic",
+          "incandescent",
+          "polychromatic",
+          "opalescent",
+          "psychedelic",
+          "kaleidoscopic");
+
+  public static List<ModifierValue> getCollarModifiers(final int gameday, final int level) {
+    var seed = calculateSeed(ItemPool.FUTURISTIC_COLLAR, gameday);
+    var rng = new PHPRandom(seed);
+    var mtRng = new PHPMTRandom(seed);
+    var tier = calculateTier(level);
+
+    var padding = Math.max(1, 4 - tier);
+    var modifiers =
+        prepareModifierList(
+            COLLAR_MODIFIERS, rng, tier, padding, COLLAR_MODIFIERS.size() - padding);
+
+    // Select image and three other unknown rolls
+    var image = mtRng.nextInt(9);
+    var noun = COLLAR_NOUNS.get((image - 2) / 3);
+
+    // Something in madlib
+    mtRng.nextInt();
+
+    var adjective = mtRng.pick(COLLAR_ADJECTIVES);
+
+    // 5 unknown rolls
+    mtRng.nextInt();
+    mtRng.nextInt();
+    mtRng.nextInt();
+    mtRng.nextInt();
+    mtRng.nextInt();
+
+    // Not quite got the name spaded yet
+    var name = String.join(" ", adjective, "colour", "and", "colour", noun);
+
+    var modifier = modifiers.getFirst();
+    var value =
+        switch (modifier) {
+          case FAMILIAR_EXP -> tier;
+          case FAMILIAR_WEIGHT -> tier * 2 + 5 - mtRng.nextInt(2);
+          case FAMILIAR_DAMAGE -> tier * 15 + mtRng.nextInt(tier * 10);
+          default -> null;
+        };
+
+    if (value == null) return List.of();
+
+    return List.of(new ModifierValue(modifier, value));
   }
 }
