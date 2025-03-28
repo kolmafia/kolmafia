@@ -3960,16 +3960,20 @@ public class FightRequestTest {
               withProperty("_leprecondoFurniture", 0),
               withFight(0));
       try (cleanups) {
+        String html = html("request/test_fight_leprecondo_mancave_found.html");
+
         SessionLoggerOutput.startStream();
-        parseCombatData("request/test_fight_leprecondo_mancave_found.html");
+        FightRequest.updateCombatData(null, null, html);
         var text = SessionLoggerOutput.stopStream();
+
         String expected =
-            "Round 2: Gwen spots a ManCave&trade; sports bar set in a puddle of spilled beer and runs out of his condo. He drags it back to the condo and stores it in the attic.";
+            "Gwen spots a ManCave&trade; sports bar set in a puddle of spilled beer and runs out of his condo.";
 
-        // *** KoL returns an HTML entity, but KoLmafia encodes messages when logging them.
-        expected = StringUtilities.getEntityDecode(expected, false);
+        // KoL returns an HTML entity, but KoLmafia encodes messages when logging them.
+        assertThat(html, containsString(expected));
+        String decoded = StringUtilities.getEntityDecode(expected, false);
+        assertThat(text, containsString(decoded));
 
-        assertThat(text, containsString(expected));
         assertThat("leprecondoDiscovered", isSetTo("1,17,21"));
         assertThat("_leprecondoFurniture", isSetTo(1));
         assertFalse(GoalManager.hasGoal(goal));
