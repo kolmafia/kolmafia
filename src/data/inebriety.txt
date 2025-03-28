@@ -550,7 +550,7 @@ Phil Collins	1	3	awesome	3-5	0	10-20	0	40 Hello, I Must Be Going (+40 Monster Le
 Phlegethon	1	1	awesome	4-6	0	0	0	40 Flambé-a-thon (+20 Hot Damage & Hot Spell Damage)
 Phonus Balonus	3	1	awesome	10-14	0	0	0	+5 PvP fights
 pink pony	4	4	good	10-14	25-27	0	8-10
-pint of Leprechaun Stout	2	1	awesome	0	0	0	0	Unspaded, BEER
+pint of Leprechaun Stout	2	1	awesome	6-7	10-15	5-6	5-6	BEER
 piscatini	1	1	awesome	4-6	0	0	0	40 You Drank Fish Wine (+20 Cold Damage & Cold Spell Damage), MARTINI
 pixel beer	2	4	awesome	9-11	0	0	0	40 Analog Drunk (+3 stats/fight)
 pixel daiquiri	2	1	awesome	9-11	0	0	0

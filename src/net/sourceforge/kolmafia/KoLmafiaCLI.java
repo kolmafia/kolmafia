@@ -700,6 +700,7 @@ public class KoLmafiaCLI {
     new LeafletCommand().register("leaflet");
     new LeavesCommand().register("leaves");
     new LedCandleCommand().register("ledcandle").register("jillcandle");
+    new LeprecondoCommand().register("leprecondo");
     new LoathingIdolCommand().register("loathingidol");
     new LogEchoCommand().register("logecho").register("logprint");
     new LoginCommand().register("login");
