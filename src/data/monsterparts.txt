@@ -582,7 +582,7 @@
 614	gritty pirate	arm	head	leg	torso
 615	grassy pirate	arm	head	leg	torso
 616	grungy pirate	arm	head	leg	torso
-617	Knott Slanding
+617	Knott Slanding	arm	head	leg	torso
 618	tipsy pirate	arm	head	leg	torso
 619	tetchy pirate	arm	head	leg	torso
 620	toothy pirate	arm	head	leg	torso
