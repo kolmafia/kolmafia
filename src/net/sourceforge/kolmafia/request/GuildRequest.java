@@ -4,6 +4,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.moods.HPRestoreItemList;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
@@ -408,6 +409,15 @@ public class GuildRequest extends GenericRequest {
 
       if (QuestDatabase.isQuestStep(Quest.NEMESIS, "step16")) {
         QuestDatabase.setQuestProgress(Quest.NEMESIS, "step16.5");
+        // Get around KoL bug by automatically submitting another visit
+        GuildRequest scg =
+            new GuildRequest("scg") {
+              @Override
+              protected boolean shouldSuppressUpdate() {
+                return true;
+              }
+            };
+        RequestThread.postRequest(scg);
       } else if (QuestDatabase.isQuestStep(Quest.NEMESIS, "step16.5")) {
         QuestDatabase.setQuestProgress(Quest.NEMESIS, "step17");
       }
