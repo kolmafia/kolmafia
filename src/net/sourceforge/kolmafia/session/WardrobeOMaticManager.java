@@ -69,17 +69,9 @@ public class WardrobeOMaticManager {
   }
 
   private static List<DoubleModifier> prepareModifierList(
-      final List<DoubleModifier> mods, final PHPRandom rng, final int tier) {
-    return prepareModifierList(mods, rng, tier, 0, mods.size() - Math.max(0, tier - 3));
-  }
-
-  private static List<DoubleModifier> prepareModifierList(
-      final List<DoubleModifier> mods,
-      final PHPRandom rng,
-      final int tier,
-      final int start,
-      final int end) {
-    return rng.shuffle(new ArrayList<>(mods.subList(start, end))).subList(0, tier);
+      final List<DoubleModifier> mods, final PHPRandom rng, final int tier, final int chop) {
+    var end = tier < 3 ? chop : 0;
+    return rng.shuffle(new ArrayList<>(mods.subList(0, end))).subList(0, tier);
   }
 
   private static final List<DoubleModifier> SHIRT_MODIFIERS =
@@ -152,7 +144,7 @@ public class WardrobeOMaticManager {
     var mtRng = new PHPMTRandom(seed);
     var tier = calculateTier(level);
 
-    var modifiers = prepareModifierList(SHIRT_MODIFIERS, rng, tier);
+    var modifiers = prepareModifierList(SHIRT_MODIFIERS, rng, tier, 3);
 
     var image = mtRng.nextInt(9);
     // Unknown roll
@@ -230,7 +222,7 @@ public class WardrobeOMaticManager {
     var mtRng = new PHPMTRandom(seed);
     var tier = calculateTier(level);
 
-    var modifiers = prepareModifierList(HAT_MODIFIERS, rng, tier);
+    var modifiers = prepareModifierList(HAT_MODIFIERS, rng, tier, 3);
 
     var image = mtRng.nextInt(9);
 
@@ -258,7 +250,10 @@ public class WardrobeOMaticManager {
     }
 
     return new FuturisticEquip(
-        ItemPool.FUTURISTIC_HAT, name, "jw_hat" + (image + 1), modifierValues);
+        ItemPool.FUTURISTIC_HAT,
+        name,
+        (image > 7 ? "h" : "j") + "w_hat" + (image + 1),
+        modifierValues);
   }
 
   private static final List<DoubleModifier> COLLAR_MODIFIERS =
@@ -297,10 +292,7 @@ public class WardrobeOMaticManager {
     var mtRng = new PHPMTRandom(seed);
     var tier = calculateTier(level);
 
-    var padding = Math.max(1, 4 - tier);
-    var modifiers =
-        prepareModifierList(
-            COLLAR_MODIFIERS, rng, tier, padding, COLLAR_MODIFIERS.size() - padding);
+    var modifiers = prepareModifierList(COLLAR_MODIFIERS, rng, tier, 1);
 
     // Select image and three other unknown rolls
     var image = mtRng.nextInt(9);
