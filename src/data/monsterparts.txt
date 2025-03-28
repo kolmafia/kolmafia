@@ -1917,7 +1917,7 @@
 2022	Murderbot soldier	arm	head	leg	torso
 2023	hostile intelligent alien	arm	head	leg	torso
 2024	Villainous Minion	arm	head	leg	torso
-2025	Villainous Henchperson	arm	head	loyalty
+2025	Villainous Henchperson	arm	foot	head	loyalty
 2026	Villainous Villain	arm	ego	foot	head	leg
 2027	Blofeld	arm	cat	face	hand
 2028	"Blofeld"	arm	cat	face	hand
