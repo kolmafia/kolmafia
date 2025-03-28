@@ -236,7 +236,8 @@ public class LeprecondoManager {
         Pattern.compile("spots (?:an?|some) (.*?) and runs out of his condo\\.");
 
     public static Furniture byDiscovery(final String text) {
-      var discovery = FURNITURE_DISCOVERY_PATTERN.matcher(text);
+      String encoded = StringUtilities.getEntityEncode(text, false);
+      var discovery = FURNITURE_DISCOVERY_PATTERN.matcher(encoded);
       if (!discovery.find()) return null;
       return Arrays.stream(Furniture.values())
           .filter(f -> discovery.group(1).startsWith(f.name))
