@@ -660,7 +660,7 @@
 695	Frosty	arm	head	leg	torso
 696	Oscus	arm	head	leg	torso
 697	Zombo	arm	head	leg	torso
-698	Chester
+698	Chester	arm	head	leg	torso
 699	flock of seagulls	head	leg	torso	wing
 700	mariachi bandolero	arm	head	leg	torso
 701	Argarggagarg the Dire Hellseal	flipper	head	tail
