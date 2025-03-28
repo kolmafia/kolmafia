@@ -123,8 +123,8 @@ public class WardrobeOMaticManager {
 
   private WardrobeOMaticManager() {}
 
-  public static final int calculateSeed(final int itemId, final int gameday) {
-    return (11391 * gameday) + 2063;
+  public static int calculateSeed(final int itemId, final int gameday) {
+    return (itemId * gameday) + 2063;
   }
 
   public static int calculateTier(final int level) {
