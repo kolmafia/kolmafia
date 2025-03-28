@@ -59,6 +59,7 @@ import net.sourceforge.kolmafia.session.GreyYouManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LocketManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
+import net.sourceforge.kolmafia.utilities.StringUtilities;
 import org.hamcrest.core.Is;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -3944,6 +3945,37 @@ public class FightRequestTest {
         assertThat(text, containsString(expected));
         assertThat("leprecondoDiscovered", isSetTo("1,13,21"));
         assertThat("_leprecondoFurniture", isSetTo(2));
+        assertFalse(GoalManager.hasGoal(goal));
+      }
+    }
+
+    @Test
+    void parsesManCaveDiscovery() {
+      var goal = GoalManager.GOAL_LEPRECONDO.getInstance(1);
+      var cleanups =
+          new Cleanups(
+              withItem("Leprecondo"),
+              withGoal(goal),
+              withProperty("leprecondoDiscovered", "1,21"),
+              withProperty("_leprecondoFurniture", 0),
+              withFight(0));
+      try (cleanups) {
+        String html = html("request/test_fight_leprecondo_mancave_found.html");
+
+        SessionLoggerOutput.startStream();
+        FightRequest.updateCombatData(null, null, html);
+        var text = SessionLoggerOutput.stopStream();
+
+        String expected =
+            "Gwen spots a ManCave&trade; sports bar set in a puddle of spilled beer and runs out of his condo.";
+
+        // KoL returns an HTML entity, but KoLmafia encodes messages when logging them.
+        assertThat(html, containsString(expected));
+        String decoded = StringUtilities.getEntityDecode(expected, false);
+        assertThat(text, containsString(decoded));
+
+        assertThat("leprecondoDiscovered", isSetTo("1,17,21"));
+        assertThat("_leprecondoFurniture", isSetTo(1));
         assertFalse(GoalManager.hasGoal(goal));
       }
     }
