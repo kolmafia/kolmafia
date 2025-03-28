@@ -242,7 +242,7 @@ public class GuildRequestTest {
     }
 
     @Test
-    public void talkToGuildOnceIsStep16A() {
+    public void talkToGuildAutoAdvancesToStep17() {
       var builder = new FakeHttpClientBuilder();
       var client = builder.client;
 
@@ -251,31 +251,6 @@ public class GuildRequestTest {
 
       try (cleanups) {
         client.addResponse(200, html("request/test_nemesis_caveboss_guild_1.html"));
-        client.addResponse(200, ""); // api.php
-
-        GenericRequest visit = new GenericRequest("guild.php?place=scg");
-        visit.run();
-
-        assertThat(Quest.NEMESIS, isStep("step16.5"));
-
-        var requests = client.getRequests();
-        assertThat(requests, hasSize(2));
-
-        assertPostRequest(requests.get(0), "/guild.php", "place=scg");
-        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
-      }
-    }
-
-    @Test
-    public void talkToGuildAgainIsStep17() {
-      var builder = new FakeHttpClientBuilder();
-      var client = builder.client;
-
-      var cleanups =
-          new Cleanups(
-              withHttpClientBuilder(builder), withQuestProgress(Quest.NEMESIS, "step16.5"));
-
-      try (cleanups) {
         client.addResponse(200, html("request/test_nemesis_caveboss_guild_2.html"));
         client.addResponse(200, ""); // api.php
 
@@ -285,10 +260,11 @@ public class GuildRequestTest {
         assertThat(Quest.NEMESIS, isStep("step17"));
 
         var requests = client.getRequests();
-        assertThat(requests, hasSize(2));
+        assertThat(requests, hasSize(3));
 
         assertPostRequest(requests.get(0), "/guild.php", "place=scg");
-        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+        assertPostRequest(requests.get(1), "/guild.php", "place=scg");
+        assertPostRequest(requests.get(2), "/api.php", "what=status&for=KoLmafia");
       }
     }
   }
