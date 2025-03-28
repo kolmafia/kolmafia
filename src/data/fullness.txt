@@ -196,7 +196,7 @@ cocktail onion	1	2	decent	2	0	0	0
 cocoa eggshell fragment	1	1	crappy	1	0	0	0
 cold hi mein	5	12	EPIC	24-27	70-75	30-35	15-20	5 Cold Breath (combat skill), SAUCY
 cold mashed potatoes	1	4	awesome	4-5	0	0	0
-coney haunch	1	5	good	0	0	0	0	Unspaded
+coney haunch	1	5	good	2-3	5-15	0	5-15
 congratulatory cake	3	1	crappy	3	0	0	0
 consummate bacon	3	1	decent	4-5	10-20	20-30	0
 consummate bagel	4	1	decent	5-7	10-20	20-30	0
@@ -800,7 +800,7 @@ rum-soaked fruitcake	5	1	awesome	20	0	0	0	100 Rum of Darkness (+5 Elf Warfare Ef
 S.T.L.T.	4	4	awesome	10-15	10-30	10-30	13-27
 s'more	1	1	crappy	1	0	0	0
 salacious crumbs	3	1	decent	5-7	0	0	15-20
-salmagumdi	1	1	awesome	0	0	0	0	Unspaded
+salmagumdi	1	1	awesome	3-5	8-10	8-10	8-10
 salt plum	2	1	good	6	0	0	0
 salted mutton	1	1	good	3	0	0	8-10	pirate encryption key
 salty ancient serpent roll	3	1	pseudoitem	9-14	0	8-16	20-30	45/55 Fishy, 10 Salty Dogs
