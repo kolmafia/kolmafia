@@ -128,6 +128,10 @@ public class ModifierList implements Iterable<ModifierValue> {
       this.value = value;
     }
 
+    public ModifierValue(final DoubleModifier modifier, final double value) {
+      this(modifier.getName(), String.valueOf(value));
+    }
+
     public String getName() {
       return this.name;
     }

@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.utilities;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -111,6 +112,10 @@ public class PHPMTRandom extends Random {
 
     initialize(seed);
     reload();
+  }
+
+  public <T> T pick(List<T> array) {
+    return array.get(nextInt(array.size()));
   }
 
   public PHPMTRandom(long s) {

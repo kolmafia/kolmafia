@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.utilities;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -76,6 +77,28 @@ public class PHPRandom extends Random {
     }
 
     return result;
+  }
+
+  public <T> T[] shuffle(T[] array) {
+    for (int i = array.length - 1; i > 0; i--) {
+      int r = nextInt(0, i);
+      if (r == i) continue;
+      T temp = array[i];
+      array[i] = array[r];
+      array[r] = temp;
+    }
+    return array;
+  }
+
+  public <T> List<T> shuffle(List<T> list) {
+    for (int i = list.size() - 1; i > 0; i--) {
+      int r = nextInt(0, i);
+      if (r == i) continue;
+      T temp = list.get(i);
+      list.set(i, list.get(r));
+      list.set(r, temp);
+    }
+    return list;
   }
 
   public PHPRandom(long s) {
