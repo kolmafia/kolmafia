@@ -1837,7 +1837,7 @@
 1941	Witchess Witch	arm	head	leg	torso
 1942	Witchess Bishop	arm	head	leg	mitre	torso
 1943	Cinco de Mayo reveler	arm	head	leg	torso
-1944	One Thousand Source Agents
+1944	One Thousand Source Agents	
 1945	Source Agent	arm	head	leg	torso
 1946	the ghost of Oily McBindle	arm	head	leg	torso
 1947	boneless blobghost	blob
@@ -1846,7 +1846,7 @@
 1950	The Icewoman	arm	head	leg	torso
 1951	The ghost of Ebenoozer Screege	arm	head	leg	torso
 1952	The ghost of Lord Montague Spookyraven	arm	head	leg	torso
-1953	The ghost of Vanillica "Trashblossom" Gorton
+1953	The ghost of Vanillica "Trashblossom" Gorton	
 1954	The ghost of Sam McGee	arm	head	leg	torso
 1955	The ghost of Richard Cockingham	arm	head	leg	torso
 1956	The ghost of Waldo the Carpathian	arm	head
@@ -1858,6 +1858,7 @@
 1962	Ancient Skeleton with Skin still on it	arm	head	leg	skin	torso
 1963	Wooly Duck	head	leg	wing
 1964	Krakrox the Barbarian	arm	head	leg	torso
+1965	time-spinner prank	
 1966	Remarkable Elba Kramer
 1967	board games elemental	board	card	pawn	token
 1968	nerd rapper	arm	head	leg	torso
@@ -2176,7 +2177,7 @@
 2288	corruptor shadow	abyss	darkness	nothingness	shadow	void
 2289	shadow of Groar	abyss	darkness	nothingness	shadow	void
 2290	shadow of the 1960s	abyss	darkness	nothingness	shadow	void
-2291	shadow of the 1980s
+2291	shadow of the 1980s	abyss	darkness	nothingness	shadow	void
 2292	General Bruise	arm	head	leg	torso
 2293	General Bruise (true form)	arm	head	leg	torso
 2294	Dark Noël	arm	hat	head	leg	torso
