@@ -1902,6 +1902,9 @@ user	_birdsSoughtToday	0
 user	_bittycar
 user	_blackMonolithUsed	false
 user	_blankoutUsed	false
+user	_bloodBagDoctorBag	false
+user	_bloodBankIntimidated	false
+user	_bloodBankVisited	false
 user	_bonersSummoned	false
 user	_bookOfEverySkillUsed	false
 user	_bookOfFactsWishes	0
