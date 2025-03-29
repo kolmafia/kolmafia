@@ -582,7 +582,7 @@
 614	gritty pirate	arm	head	leg	torso
 615	grassy pirate	arm	head	leg	torso
 616	grungy pirate	arm	head	leg	torso
-617	Knott Slanding
+617	Knott Slanding	arm	head	leg	torso
 618	tipsy pirate	arm	head	leg	torso
 619	tetchy pirate	arm	head	leg	torso
 620	toothy pirate	arm	head	leg	torso
@@ -660,7 +660,7 @@
 695	Frosty	arm	head	leg	torso
 696	Oscus	arm	head	leg	torso
 697	Zombo	arm	head	leg	torso
-698	Chester
+698	Chester	arm	head	leg	torso
 699	flock of seagulls	head	leg	torso	wing
 700	mariachi bandolero	arm	head	leg	torso
 701	Argarggagarg the Dire Hellseal	flipper	head	tail
@@ -1917,7 +1917,7 @@
 2022	Murderbot soldier	arm	head	leg	torso
 2023	hostile intelligent alien	arm	head	leg	torso
 2024	Villainous Minion	arm	head	leg	torso
-2025	Villainous Henchperson	arm	head	loyalty
+2025	Villainous Henchperson	arm	foot	head	loyalty
 2026	Villainous Villain	arm	ego	foot	head	leg
 2027	Blofeld	arm	cat	face	hand
 2028	"Blofeld"	arm	cat	face	hand
