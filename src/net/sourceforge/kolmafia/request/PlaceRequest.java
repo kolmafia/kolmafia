@@ -383,6 +383,11 @@ public class PlaceRequest extends GenericRequest {
       case "town_right" -> {
         if ("townright_vote".equals(action)) {
           VoteMonsterManager.parseBooth(responseText);
+        } else if ("town_bloodbank".equals(action)) {
+          Preferences.setBoolean("_bloodBankVisited", true);
+          if (responseText.contains("rough up")) {
+            Preferences.setBoolean("_bloodBankIntimidated", true);
+          }
         }
       }
       case "town_wrong" -> {
