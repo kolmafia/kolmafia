@@ -221,8 +221,6 @@ public class SkillBuffFrame extends GenericFrame {
       if (targets.length == 0) {
         RequestThread.checkpointedPostRequest(
             UseSkillRequest.getInstance(buffName, KoLCharacter.getUserName(), buffCount));
-        // If we've cast the daily limit, the skill is now disabled
-        SkillBuffFrame.this.skillSelect.update();
         return;
       }
 
