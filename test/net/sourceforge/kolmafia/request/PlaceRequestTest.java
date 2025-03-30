@@ -318,4 +318,18 @@ class PlaceRequestTest {
       }
     }
   }
+
+  @Test
+  public void recordsBloodBankVisit() {
+    var cleanups =
+        new Cleanups(
+            withProperty("_bloodBankVisited", false), withProperty("_bloodBankIntimidated", false));
+    try (cleanups) {
+      String responseText = html("request/test_visit_blood_bank.html");
+      PlaceRequest.parseResponse(
+          "place.php?whichplace=town_right&action=town_bloodbank", responseText);
+      assertThat("_bloodBankVisited", isSetTo(true));
+      assertThat("_bloodBankIntimidated", isSetTo(true));
+    }
+  }
 }
