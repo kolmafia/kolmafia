@@ -6530,6 +6530,12 @@ public class FightRequest extends GenericRequest {
           continue;
         }
 
+        if (str.startsWith("You notice a button on your doctor bag that you hadn't seen before")) {
+          Preferences.setBoolean("_bloodBagDoctorBag", true);
+          FightRequest.logText(str);
+          continue;
+        }
+
         if (str.startsWith("You can has")) {
           // Adjust for Can Has Cyborger
           str = StringUtilities.singleStringReplace(str, "can has", "gain");
