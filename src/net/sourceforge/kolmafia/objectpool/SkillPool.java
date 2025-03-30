@@ -783,6 +783,7 @@ public class SkillPool {
   public static final int FROWN_MUSCLES = 23304;
   public static final int ANGER_GLANDS = 23305;
   public static final int POWERFUL_VOCAL_CHORDS = 23306;
+  public static final int DARK_FEAST = 24000;
   public static final int SAVAGE_BITE = 24010;
   public static final int CRUSH = 24011;
   public static final int BALEFUL_HOWL = 24012;

@@ -4084,4 +4084,17 @@ public class FightRequestTest {
           containsString("You notice a button on your doctor bag that you hadn't seen before."));
     }
   }
+
+  @Test
+  public void canDetectBloodBagFromCloake() {
+    var cleanups = new Cleanups(withFight(), withProperty("_bloodBagCloake", false));
+
+    try (cleanups) {
+      parseCombatData(
+          "request/test_fight_dark_feast_blood_bag.html",
+          "fight.php?action=skill&whichskill=24000");
+
+      assertThat("_bloodBagCloake", isSetTo(true));
+    }
+  }
 }
