@@ -2436,6 +2436,7 @@ user	_pirateRealmCrewmate2
 user	_pirateRealmCrewmate3
 user	_pirateRealmCurio
 user	_pirateRealmGold	0
+user	_pirateRealmGlue	0
 user	_pirateRealmGrog	0
 user	_pirateRealmGrub	0
 user	_pirateRealmGuns	0
