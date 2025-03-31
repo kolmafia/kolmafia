@@ -10242,6 +10242,11 @@ public class FightRequest extends GenericRequest {
         increment = 5;
         skillSuccess = true;
       }
+      case SkillPool.DARK_FEAST -> {
+        if (responseText.contains("blood soaked into your cloake")) {
+          Preferences.setBoolean("_bloodBagCloake", true);
+        }
+      }
       case SkillPool.HAMMER_THROW_COMBAT,
           SkillPool.JUGGLE_FIREBALLS_COMBAT,
           SkillPool.SPIN_JUMP_COMBAT -> KoLCharacter.spendPP(1);
