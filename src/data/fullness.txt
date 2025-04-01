@@ -713,6 +713,7 @@ pie man was not meant to eat	100	15	EPIC	100-200	100-200	100-200	100-200
 piece of cake	1	1	awesome	4-5	80-90	80-90	80-90
 piece of wedding cake	2	1	decent	2-5	0	0	0
 pigeon egg	1	1	decent	2	0	0	0
+pile of wet dates	1	1	awesome	0	0	0	0	Unspaded
 pineapple slab	1	1	decent	1-3	5-10	0	0
 pink slime	2	1	decent	3-4	8-10	8-10	8-10
 piping organ pie	2	2	awesome	7-9	20-40	5-10	5-10
