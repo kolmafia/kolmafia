@@ -185,7 +185,8 @@ public class DataFileConsistencyTest {
       if (ItemDatabase.getConsumptionType(id) == ConsumptionType.FAMILIAR_HATCHLING) {
         var name = ItemDatabase.getItemDataName(id);
         // replica familiars from Legacy of Loathing are special
-        if (!name.startsWith("replica ")) {
+        // wet paper tiger familiar is not public at the moment
+        if (!name.startsWith("replica ") && !name.equals("wet paper tiger")) {
           assertThat(
               String.format("%s is in items.txt but not in familiars.txt", name),
               hatchlings,
