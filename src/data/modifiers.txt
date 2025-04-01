@@ -563,6 +563,7 @@ Item	warbear spiked helm	WarBear Armor Penetration: +40, Last Available: "2013-1
 Item	water-polo cap	Weapon Damage: +30, Familiar Effect: "1xVolley, 1xBarrr"
 Item	wax hat	Moxie: +7, Maximum HP: +10, Last Available: "2012-06", Familiar Effect: "1xPotato, 1xFairy"
 Item	webbed comic mask	Muscle: +5, Mysticality: +5, Moxie: +5, Softcore Only, Familiar Effect: "1xVolley, 1xLep, cap 2"
+Item	wet shower cap	Hot Resistance: +3, Last Available: "2025-04"
 Item	whittled tiara	Muscle: +10, Mysticality: +10, Moxie: +10, Spooky Damage: +5, Stench Damage: +5, Hot Damage: +5, Cold Damage: +5, Sleaze Damage: +5, Experience: +3, Last Available: "2019-08"
 Item	willowy bonnet	Maximum MP: +40, Familiar Effect: "1xFairy, cap 18", Conditional Skill (Equipped): "Rouse Sapling"
 Item	witch hat	Last Available: "2011-12", Familiar Effect: "8xVolley, 8xLep, cap 2"
@@ -683,8 +684,8 @@ Item	eelskin pants	Mysticality Percent: +5, Familiar Effect: "1xPotato, MP regen
 Item	El Vibrato leg guards	Familiar Effect: "1xBarrr, 1xGhuol"
 Item	eldritch pants	Mysticality Percent: +20, Maximum MP: +40, MP Regen Min: 6, MP Regen Max: 10, Last Available: "2016-11"
 Item	electric pants	Spooky Damage: +10, Stench Damage: +10, Hot Damage: +10, Cold Damage: +10, Sleaze Damage: +10, Last Available: "2021-12"
-Item	Elf Guard hotpants	Last Available: "2023-12"
 Item	electronic dulcimer pants	Adventures: +2, Initiative: +25, Last Available: "2012-12", Familiar Effect: "8xPotato, cap 2", Conditional Skill (Equipped): "Play Hog Fiddle"
+Item	Elf Guard hotpants	Last Available: "2023-12"
 # exo-servo leg braces: Allows you to move normally in high gravity environments (Spacegate)
 Item	exo-servo leg braces	Lasts Until Rollover, Last Available: "2017-04"
 Item	extremely skinny jeans	Muscle Percent: -10, Mysticality Percent: -10, Moxie Percent: -10, Critical Hit Percent: +5, Last Available: "2011-10", Familiar Effect: "1xPotato, 1xFairy"
@@ -935,6 +936,7 @@ Item	Warms-Your-Tush	Hot Damage: +50, Cold Resistance: +5, Spooky Resistance: +1
 Item	wax pants	Moxie: +7, Initiative: +10, Last Available: "2012-06", Familiar Effect: "atk, 3xBarrr, cap 12"
 Item	weasel stomping pants	Initiative: +25, Candy Drop: +25, Last Available: "2014-12", Familiar Effect: "1xGhoul, cap 20"
 Item	weedy skirt	Maximum HP: +400, HP Regen Min: 25, HP Regen Max: 50, Initiative: +25, Familiar Effect: "atk, 1xFairy"
+Item	wet shower shorts	Cold Spell Damage: +20, Last Available: "2025-04"
 Item	white satin pants	Sleaze Resistance: +2, Familiar Effect: "atk, 2xPotato, cap 10"
 Item	whittled shorts	Muscle: +10, Mysticality: +10, Moxie: +10, Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Damage Reduction: 10, Last Available: "2019-08"
 Item	Whoompa Fur Pants	Stench Damage: +10, Stench Resistance: +2, Familiar Effect: "atk, cap 27"
@@ -2159,6 +2161,8 @@ Item	antique candy bucket	Candy Drop: +50, Lasts Until Rollover, Last Available:
 Item	antique nutcracker drumstick	MP Regen Min: 4, MP Regen Max: 8, Mysticality Percent: +15, Last Available: "2019-12"
 Item	antique shield	Initiative: -10, Damage Reduction: 11, Breakable
 Item	antique spyglass	Reduce Enemy Defense: 15, Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
+# April Shower Thoughts shield: Improves some of your class skills!
+Item	April Shower Thoughts shield	Muscle: +10, Mysticality: +10, Moxie: +10, Maximum HP: +25, Maximum MP: +25, Damage Reduction: 6, Last Available: "2025-04"
 Item	Apriling band staff	Mysticality: +10, Mysticality Percent: +10, Spell Damage: +20, Spooky Resistance: +2, Sleaze Resistance: +2, Spell Damage Percent: +10, Lasts Until Rollover
 Item	arm buzzer	Maximum MP: +25, Damage Reduction: 6
 # arrow'd heart balloon
@@ -2432,8 +2436,8 @@ Item	KoL Con Six Pack	Muscle: +5, Mysticality: +5, Moxie: +5, Booze Drop: +25
 Item	KoL Con X Treasure Map	Item Drop: +5, Meat Drop: +10
 # Kramco Sausage-o-Matic&trade;: Shows you how the sausage is made
 Item	Kramco Sausage-o-Matic&trade;	Item Drop: +10, Food Drop: +10, Maximum HP: +5, Maximum MP: +5, Critical Hit Percent: +20, Last Available: "2019-01"
-Item	latte lovers member's mug	Conditional Skill (Equipped): "Throw Latte on Opponent", Conditional Skill (Equipped): "Offer Latte to Opponent", Conditional Skill (Equipped): "Gulp Latte"
 Item	LARP carp	Muscle: +10, Mysticality: +10, Moxie: +10
+Item	latte lovers member's mug	Conditional Skill (Equipped): "Throw Latte on Opponent", Conditional Skill (Equipped): "Offer Latte to Opponent", Conditional Skill (Equipped): "Gulp Latte"
 Item	left bear arm	Muscle Percent: +10, Maximum HP: +30, Damage Reduction: 10, Softcore Only: [1-path(Zombie Slayer)], Last Available: "2012-09", Conditional Skill (Equipped): "Bear-Backrub", Conditional Skill (Equipped): "Bear-ly Legal"
 Item	Left-Hand Man action figure	Familiar Weight: +7, Last Available: "2020-04"
 Item	left-handed melodica	Ranged Damage: +25, Class: "Accordion Thief"
@@ -4181,6 +4185,8 @@ Item	water-polo mitt	Weapon Damage: +30, Single Equip
 Item	wax face	Maximum MP: +20, Spell Damage Percent: +25, Last Available: "2017-01"
 Item	wax hand	Maximum HP: +40, Weapon Damage Percent: +25, Last Available: "2017-01"
 Item	weremoose key	Spooky Resistance: +3, Spooky Damage: +15, Spooky Spell Damage: +30, Last Available: "2020-08"
+Item	wet shower radio	Item Drop: +25, Single Equip, Lasts Until Rollover, Last Available: "2025-04"
+Item	wet shower shoes	Cold Damage: +10, Last Available: "2025-04"
 Item	whalebone corset	Maximum HP: -10, Damage Reduction: 5, Single Equip
 Item	wheel	Initiative: +10, Last Available: "2006-12"
 Item	white belt	Muscle: +3, Weapon Damage: +3, Single Equip
@@ -4361,6 +4367,8 @@ Item	uncursed blanket	Hot Resistance: +1, Cold Resistance: +1, Spooky Resistance
 Item	uncursed goblin cape	Combat Rate: -5
 # vampyric cloake: Improves the effectiveness of various Dark Gyffte skills
 Item	vampyric cloake	Item Drop: +15, Maximum HP: [min(10*L,1300)], Initiative: +25, Adventures: +4, Experience: +3, Last Available: "2019-03"
+# wet shower curtain: Reduces Hot Damage by 100,000
+Item	wet shower curtain	Last Available: "2025-04"
 Item	whatsit-covered turtle shell	Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1, Class: "Turtle Tamer"
 # wicker slicker: Lets you use Shell Up multiple times per fight
 Item	wicker slicker	Experience (Muscle): +2, Sleaze Resistance: +3, Last Available: "2016-12"
@@ -5496,6 +5504,7 @@ Effect	1337p4n7Z	Muscle: +6, Moxie: -3
 Effect	A Brush with Grossness	Stench Resistance: +3, Stench Damage: +15, Stench Spell Damage: +15
 Effect	A Bug's Life	Maximum HP Percent: +100, HP Regen Min: 8, HP Regen Max: 10
 Effect	A Contender	Muscle Percent: +200, Mysticality Percent: +200, Moxie Percent: +200
+Effect	A Date With Tomorrow	Adventures: +10
 Effect	A Few Extra Pounds	Maximum HP: [5*min(L,11)]
 Effect	A Girl Named Sue	Familiar Weight: +5, Experience (familiar): +5, Familiar Damage: +10
 # A Hole in the World: Time destroys everything
@@ -6193,6 +6202,7 @@ Effect	Disco Leer	Meat Drop: +10
 # Disco Neuropathy: Disco Bandit Combat Skills weaken enemies by an additional 30%
 Effect	Disco Neuropathy	DB Combat Damage: +15
 Effect	Disco Nirvana	Meat Drop: +30
+Effect	Disco over Matter	Muscle: +10, HP Regen Min: 20, HP Regen Max: 30
 Effect	Disco Smirk	Moxie: +10
 Effect	Disco State of Mind	Moxie: +2
 Effect	Discomfited	Initiative: +30
@@ -6840,6 +6850,7 @@ Effect	In the Slimelight	Stench Damage: +50
 Effect	In Tuna	MP Regen Min: 3, MP Regen Max: 5
 Effect	In Vino Vires	Muscle Percent: +50, Mysticality Percent: +50, Moxie Percent: +50
 # In Your Cups: Whoah...
+Effect	[2994]In Your Cups	Moxie: +15, Experience Percent (Moxie): +20
 Effect	Inappropriate Spirit	Sleaze Damage: +20, Sleaze Spell Damage: +20
 Effect	Incensed	Mysticality: +10
 Effect	Incredibly Healthy	Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3, Stench Resistance: +3, Spooky Resistance: +3
@@ -6999,6 +7010,7 @@ Effect	Libra Rising	Experience (Muscle): +1, Experience (Mysticality): +1, Exper
 Effect	License to Punch	Muscle Percent: +100
 # LIDARed: Helps you keep your distance from enemies.
 Effect	Lifted Spirits	Initiative: +25, Experience: +5
+Effect	Lifting Wets	Muscle: +15, Experience Percent (Muscle): +20
 # Light!
 # Light-Headed: Increased chance of fumbling
 Effect	Light-Headed	Mysticality Percent: -30
@@ -7039,6 +7051,7 @@ Effect	Low on the Hog	Meat Drop: +100
 Effect	Loyal as a Rock	Familiar Weight: +5, Familiar Damage: +10
 Effect	Loyal Tea	Familiar Weight: +5
 Effect	Lubed	Sleaze Damage: +25, Moxie Percent: +10
+Effect	Lubricating Sauce	Item Drop: +15, Moxie: +10
 # Luck of St. Patrick: Additional Holiday Spirits can drop
 Effect	Lucky Cat Is Lucky	Item Drop: +5
 Effect	Lucky Struck	Item Drop: +20
@@ -7071,6 +7084,7 @@ Effect	Marbles in Your Mouth	Moxie: +50
 Effect	Marco Polarity	Experience (Mysticality): [L]
 Effect	Margamergency	Weapon Damage Percent: +200, Spell Damage Percent: +200
 Effect	Margaritish	Moxie Percent: [min(200,5*T)]
+Effect	Mariachi Moisture	Critical Hit Percent: +10, Mysticality: +10
 Effect	Mariachi Mood	Maximum HP: +3, Moxie: +1
 Effect	Marinated	Muscle: +15, Mysticality: +15
 Effect	Mark of Candy Cain	Critical Hit Percent: +20, Spell Critical Percent: +20
@@ -7140,6 +7154,7 @@ Effect	Mixed Nutrients	Muscle: +15, Mysticality: +15, Moxie: +15
 Effect	Mmmmmelon	Item Drop: +30
 Effect	Mo' Hobo	Hobo Power: +10
 Effect	Moist Night's Sleep	Initiative: +50, Hot Resistance: +2, Cold Damage: +10
+Effect	Moisticality	Mysticality: +15, Experience Percent (Mysticality): +20
 # Molasses Flooded: Makes you a better diver
 Effect	Molasses Flooded	Initiative Penalty: [10*env(underwater)], Item Drop Penalty: [10*env(underwater)], Meat Drop Penalty: [10*env(underwater)]
 Effect	Monkeymask	Avatar: "damned dirty ape"
@@ -7743,6 +7758,7 @@ Effect	Slimy Flavor	Sleaze Damage: +10, Sleaze Resistance: +2
 Effect	Slimy Hands	Sleaze Damage: +10
 Effect	Slinking Noodle Glob	Maximum MP: +15
 Effect	Slippery and Speedy	Initiative: +100
+Effect	Slippery as a Seal	Initiative: +50, Moxie: +10
 # Slippery Oiliness: Makes your Muscle and Mysticality equal to your Moxie
 Effect	Slippery Oiliness	Equalize: "Moxie"
 Effect	Slippery Tongue	Sleaze Damage: +20, Sleaze Spell Damage: +20
@@ -7941,6 +7957,7 @@ Effect	Strawberry Alarm	Initiative: +50
 Effect	Stregngth of the Gnome	Muscle: +20
 Effect	Strength of Ten Ettins	Muscle Percent: +25
 Effect	Strength of the Gnoll	Muscle: +40
+Effect	Strength of the Tortoise	Muscle: +10, MP Regen Min: 10, MP Regen Max: 20
 Effect	Stretched	Initiative: +75
 Effect	Strong Grip	Muscle: +20
 Effect	Strong Resolve	Experience (Muscle): +2
@@ -8152,6 +8169,7 @@ Effect	Third Eye Blind	Moxie Percent: +50, Mysticality Percent: -50
 Effect	This Is Where You're a Viking	Cold Damage: +25, Weapon Damage Percent: +25
 Effect	Thou Shant Not Sing	Experience Percent (Moxie): +50
 Effect	Thought	Mysticality Percent: +100
+Effect	Thoughtful Empathy	Familiar Weight: +8
 Effect	Three Days Slow	Experience (familiar): +3
 Effect	Three King-sized Sheets to the Wind	Avatar: "Booze Giant"
 Effect	Thrice-Cursed	Muscle: -30, Mysticality: -30, Moxie: -30
@@ -8232,6 +8250,7 @@ Effect	Truffle Tango	Item Drop: +50
 Effect	Trufflin'	Meat Drop: +100
 Effect	Truly Gritty	Weapon Damage: +20, Muscle: +20
 Effect	Truthful	Monster Level: +40
+Effect	Tubes of Universal Meat	Meat Drop: +30, Mysticality: +10
 Effect	Tundra Mouth	Cold Damage: [min(100,T)]
 Effect	Turbocharged	Maximum MP Percent: +100
 Effect	Turkey-Agitated	Item Drop: +25
@@ -8353,6 +8372,7 @@ Effect	Wet and Greedy	Item Drop: +25
 Effect	Wet Rub	HP Regen Min: 16, HP Regen Max: 20
 # Wet Willied: Your familiar can breathe underwater
 Effect	Wet Willied	Underwater Familiar
+Effect	Wetted Whistle	Adventures: +10
 Effect	Whalethoughts	Elf Warfare Effectiveness: +10, Pirate Warfare Effectiveness: +10
 # What Are The Odds!?: All item drop rolls will be 50%
 Effect	What's That Smell?	Stench Damage: +3
@@ -9693,6 +9713,7 @@ Item	petit fortran	Effect: "Petit Forbearance", Effect Duration: 10, Last Availa
 Item	phish stick	Last Available: "2011-09"
 Item	pickled bread	Last Available: "2023-12"
 Item	piece of cake	Last Available: "2024-11"
+Item	pile of wet dates	Effect: "A Date With Tomorrow", Effect Duration: 1, Last Available: "2025-04"
 Item	pineapple slab	Last Available: "2019-04"
 Item	piping organ pie	Last Available: "2010-10"
 # pirate fork: Only one may be consumed per day<p><center><b><font color=blue>Usable once each day to steal some food!
@@ -9772,8 +9793,8 @@ Item	slice of pizza	Last Available: "2013-02"
 Item	slick fish meat	Effect: "Fishy", Effect Duration: 5
 Item	slimy sweetbreads	Effect: "Grimace", Effect Duration: 20
 Item	sly dog	Effect: "Top Dog", Effect Duration: 50
-Item	smashed danish	Effect: "Danish Cunning", Effect Duration: 30, Last Available: "2011-09"
 Item	small beer brat	Last Available: "2025-03"
+Item	smashed danish	Effect: "Danish Cunning", Effect Duration: 30, Last Available: "2011-09"
 Item	smelted roe	Effect: "Sizzling with Fury", Effect Duration: 50, Last Available: "2015-08"
 Item	SMOOCH soda	Last Available: "2015-08"
 Item	snow berries	Effect: "Berry Berry Cold", Effect Duration: 30, Last Available: "2014-01"
@@ -10198,9 +10219,9 @@ Item	Mint Yulep	Last Available: "2011-12"
 Item	Miss Graves' vermouth	Last Available: "2016-12"
 Item	missing wine	Last Available: "2010-03"
 Item	Mohobo	Effect: "Mo' Hobo", Effect Duration: 5, Last Available: "2012-03"
+Item	Mon Tiki sidecar	Last Available: "2025-03"
 Item	Moonshine Mohobo	Effect: "Mo' Hobo", Effect Duration: 10, Last Available: "2012-03"
 Item	Moonthril Schnapps	Last Available: "2011-06"
-Item	Mon Tiki sidecar	Last Available: "2025-03"
 Item	More Humanitini than Humanitini	Last Available: "2012-03"
 Item	moreltini	Effect: "Truffle Tango", Effect Duration: 40, Last Available: "2017-03"
 Item	Morlock's Mark Bourbon	Last Available: "2008-06"
@@ -10359,6 +10380,7 @@ Item	The Cooler Out of Space	Effect: "You Can Taste the Darkness", Effect Durati
 Item	The Mad Liquor	Last Available: "2016-12"
 Item	thermos of &quot;whiskey&quot;	Last Available: "2014-07"
 Item	Third Base	Effect: "Third Based", Effect Duration: 40, Last Available: "2018-02"
+Item	Three Sheets to the Wind	Effect: "Wetted Whistle", Effect Duration: 1, Last Available: "2025-04"
 Item	tobiko-infused sake	Effect: "Pisces in the Skyces", Effect Duration: 30, Last Available: "2011-03"
 Item	Transylvania Sling	Effect: "Creepypasted", Effect Duration: 10, Last Available: "2012-03"
 Item	TRIO cup of beer	Last Available: "2018-09"
@@ -11691,6 +11713,9 @@ Item	warm El Vibrato drone	Effect: "Well-preserved", Effect Duration: 10
 Item	wasabi marble soda	Effect: "Wasabi With You", Effect Duration: 15, Last Available: "2011-03"
 Item	Wax Flask	Effect: "Over the Ocean", Effect Duration: 1
 Item	weremoose spit	Effect: "Lycanthropy, Eh?", Effect Duration: 20
+Item	wet paper cup	Effect: "[2994]In Your Cups", Effect Duration: 20, Last Available: "2025-04"
+Item	wet paper weights	Effect: "Lifting Wets", Effect Duration: 20, Last Available: "2025-04"
+Item	wet paperback	Effect: "Moisticality", Effect Duration: 20, Last Available: "2025-04"
 Item	wet venom duct	Effect: "Duct Out of Water", Effect Duration: 10, Last Available: "2010-09"
 Item	whale cerebrospinal fluid	Effect: "Whalethoughts", Effect Duration: 50, Last Available: "2023-12"
 Item	Whenchamacallit bar	Effect: "Spooky Blur", Effect Duration: 20
@@ -13146,6 +13171,7 @@ Item	glob of Blank-Out	Last Available: "2011-01"
 Item	glob of melted wax	Last Available: "2017-01"
 # glob of undifferentiated tissue: You have no idea what will happen!
 Item	glob of undifferentiated tissue	Last Available: "2018-11"
+Item	glob of wet paper	Last Available: "2025-04"
 Item	Globmule	Last Available: "2018-03"
 Item	glover liners	Pickpocket Chance: +10
 Item	glowing frisbee	Free Pull, Last Available: "2011-12"
@@ -13981,6 +14007,7 @@ Item	Pack of Alice's Army Foil Cards	Last Available: "2011-03"
 Item	Pack of Every Card	Free Pull, Last Available: "2015-07"
 Item	pack of pogs	Last Available: "2011-11"
 Item	pack of smokes	Last Available: "2014-10"
+Item	Packaged April Shower Thoughts Calendar	Free Pull, Last Available: "2025-04"
 Item	packaged backup camera	Free Pull, Last Available: "2021-04"
 Item	packaged cold medicine cabinet	Free Pull, Last Available: "2021-12"
 Item	packaged Daylight Shavings Helmet	Free Pull, Last Available: "2021-11"
@@ -14022,6 +14049,7 @@ Item	pantogram	Free Pull, Last Available: "2017-11"
 Item	paperclip	Last Available: "2011-01"
 # paperclip sproinger: Stuns your opponent for a couple of rounds and deals 10-15 Physical Damage
 Item	paperclip sproinger	Last Available: "2011-01"
+Item	papier Mach 1 airplane	Last Available: "2025-04"
 Item	papier-m&acirc;ch&eacute; base	Last Available: "2012-09"
 Item	papier-m&acirc;ch&eacute; bowl	Last Available: "2012-09"
 Item	papier-m&acirc;ch&eacute; glob	Last Available: "2012-09"
@@ -14726,6 +14754,8 @@ Item	Spirit of Easter	Last Available: "2024-12"
 Item	Spirit of St. Patrick's Day	Last Available: "2024-12"
 Item	Spirit of Thanksgiving	Last Available: "2024-12"
 Item	Spirit of Veteran's Day	Last Available: "2024-12"
+# spitball: Gross out your foe, drive them away, and get their stuff
+Item	spitball	Last Available: "2025-04"
 # spooky alphabet block: Mysterious and spooky
 Item	spooky bark	Last Available: "2009-10"
 # spooky clusterbomb: Deals <font color=gray>Spooky Damage</font> based on your highest stat
@@ -15202,6 +15232,10 @@ Item	Western Slang Vol. 1: Violence	Free Pull, Last Available: "2016-02"
 Item	Western Slang Vol. 2: Cooking	Free Pull, Last Available: "2016-02"
 # Western Slang Vol. 3: Fraud: Unlocks advanced Snake Oiler skills in the Avatar of West of Loathing Challenge Path
 Item	Western Slang Vol. 3: Fraud	Free Pull, Last Available: "2016-02"
+# wet blanket: Gain substats when resting after installed
+Item	wet blanket	Last Available: "2025-04"
+Item	wet paper tiger	Last Available: "2025-04"
+Item	wet shower stamp	Last Available: "2025-04"
 Item	whet stone	Last Available: "2023-01"
 # whimpering willow bark: Restores up to 25% of your Maximum HP
 Item	whimpering willow bark	Last Available: "2012-12"

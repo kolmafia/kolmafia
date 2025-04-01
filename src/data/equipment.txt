@@ -439,6 +439,7 @@ warbear spiked helm	150	Mus: 60
 water-polo cap	200	Mox: 85
 wax hat	50	Mus: 10
 webbed comic mask	10	none
+wet shower cap	50	none
 whittled tiara	100	none
 willowy bonnet	75	Mox: 22
 witch hat	10	none
@@ -773,6 +774,7 @@ Warms-Your-Tush	300	Mox: 250
 wax pants	50	Mox: 10
 weasel stomping pants	80	Mys: 25
 weedy skirt	250	Mox: 200
+wet shower shorts	50	none
 white satin pants	40	Mox: 5
 whittled shorts	100	none
 Whoompa Fur Pants	110	Mox: 40
@@ -1864,6 +1866,7 @@ antique candy bucket	10	none
 antique nutcracker drumstick	150	Mys: 30
 antique shield	180	Mus: 60	shield
 antique spyglass	225	Mys: 200
+April Shower Thoughts shield	0	none	shield
 Apriling band staff	100	none
 arm buzzer	100	Mus: 25	shield
 arrow'd heart balloon	10	none
@@ -3618,6 +3621,8 @@ water-polo mitt	200	Mys: 85
 wax face	50	none
 wax hand	50	none
 weremoose key	10	none
+wet shower radio	0	none
+wet shower shoes	0	none
 whalebone corset	55	Mys: 12
 wheel	30	none
 white belt	40	Mys: 5
@@ -3759,6 +3764,7 @@ uncursed blanket	0	none
 uncursed goblin cape	0	none
 unwrapped knock-off retro superhero cape	100	none
 vampyric cloake	100	none
+wet shower curtain	0	none
 whatsit-covered turtle shell	50	Mus: 20
 wicker slicker	50	none
 wings of fire	100	Mys: 100
