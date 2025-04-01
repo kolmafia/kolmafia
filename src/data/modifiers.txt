@@ -8169,6 +8169,7 @@ Effect	Third Eye Blind	Moxie Percent: +50, Mysticality Percent: -50
 Effect	This Is Where You're a Viking	Cold Damage: +25, Weapon Damage Percent: +25
 Effect	Thou Shant Not Sing	Experience Percent (Moxie): +50
 Effect	Thought	Mysticality Percent: +100
+Effect	Thoughtful Empathy	Familiar Weight: +8
 Effect	Three Days Slow	Experience (familiar): +3
 Effect	Three King-sized Sheets to the Wind	Avatar: "Booze Giant"
 Effect	Thrice-Cursed	Muscle: -30, Mysticality: -30, Moxie: -30
