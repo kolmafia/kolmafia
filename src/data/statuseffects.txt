@@ -2983,3 +2983,16 @@
 2980	You Might Have Gotten Wet	watermelon.gif	1e66e3c47e8ed40930c6e846e32e2ef9	neutral	none
 2981	Sur La Table	portabletable.gif	1cf1e480f7ce07da51c613f6ad0d3a10	neutral	none
 2982	Ready for War	angry.gif	e62c60d23a0e76de9f6f09cd282ec8a3	neutral	none	chew 1 leprechaun antidepressant pill
+2983	Slippery as a Seal	wetpaper.gif	ae2845bf2dcdda691e98705c760f3765	neutral	none
+2984	Strength of the Tortoise	wetpaper.gif	3434e3b32cfaa9f7249d43e0ee1b42f4	neutral	none
+2985	Tubes of Universal Meat	wetpaper.gif	9b1a11e2ba8152c72d3bf6391371ac7f	neutral	none
+2986	Lubricating Sauce	wetpaper.gif	5aeff1779ef0ad97fbed13fd5bdb0968	neutral	none
+2987	Disco over Matter	wetpaper.gif	cc2d75a34ae14d132450bf8eee905a4f	neutral	none
+2988	Mariachi Moisture	wetpaper.gif	31192bed8fc75482f9f7c8486964d35f	neutral	none
+2989	Thoughtful Empathy	blackheart.gif	772532594322e2260a767bb71fe0d7fc	neutral	none
+2990	Lifting Wets	wetpaperweight.gif	0d92d7086d0bd97090dc51d252f8b7b0	neutral	none	use 1 wet paper weights
+2991	Wetted Whistle	wetpaperdrink.gif	4c844da112766b6a6d262f86eb724701	neutral	none	drink 1 Three Sheets to the Wind
+2992	A Date With Tomorrow	wetpaperdates.gif	daed8a7f8faf412fd2b27b8cec36e7e3	neutral	none	eat 1 pile of wet dates
+2993
+2994	In Your Cups	wetpapercup.gif	c9cc9a1ed9892e908fedefbd66365b6c	neutral	none	use 1 wet paper cup
+2995	Moisticality	wetpaperback.gif	d691b7e2b735ddc8a2fdfa0b7fe07150	neutral	none	use 1 wet paperback

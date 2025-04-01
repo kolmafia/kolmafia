@@ -721,6 +721,7 @@ thermos full of Knob coffee	1	1	EPIC	5-6	5-6	5-6	5-6	lose 1-2 HP
 thermos of &quot;whiskey&quot;	1	1	good	2-3	0	0	75-100
 Third Base	1	4	good	3	20-40	20-40	20-40	40 Third Based (+25% pickpocket chance)
 thistle wine	1	10	good	2-4	0	0	30-60	lose 50-75 HP, WINE
+Three Sheets to the Wind	1	1	awesome	0	0	0	0	Unspaded
 Thriller Ice	2	22	super EPIC	14-16	10-20	10-20	10-20	30-40 MP, BEER
 tobiko-infused sake	3	1	good	6-8	6-8	8-8	6-8	30 Pisces in the Skyces (+150% spell dmg), WINE
 tomato daiquiri	3	2	decent	4-8	10-12	0	10-12
