@@ -1385,3 +1385,21 @@ Grandma Sea Monkey	ROW120	sea mantle	pristine fish scale (5)
 Grandma Sea Monkey	ROW121	sea shawl	pristine fish scale (5)
 Grandma Sea Monkey	ROW122	sea cape	pristine fish scale (5)
 Grandma Sea Monkey	ROW123	saltwaterbed	sea leather (15)
+
+# April Shower Thoughts
+
+Using your Shower Thoughts	ROW1580	spitball	glob of wet paper
+Using your Shower Thoughts	ROW1585	papier Mach 1 airplane	glob of wet paper (2)
+Using your Shower Thoughts	ROW1582	Three Sheets to the Wind	glob of wet paper (3)
+Using your Shower Thoughts	ROW1584	pile of wet dates	glob of wet paper (3)
+Using your Shower Thoughts	ROW1586	wet blanket	glob of wet paper (11)
+Using your Shower Thoughts	ROW1592	wet paper cup	glob of wet paper (2)
+Using your Shower Thoughts	ROW1581	wet paper weights	glob of wet paper (2)
+Using your Shower Thoughts	ROW1593	wet paperback	glob of wet paper (2)
+Using your Shower Thoughts	ROW1595	wet shower radio	glob of wet paper
+Using your Shower Thoughts	ROW1591	wet shower curtain	glob of wet paper (7)
+Using your Shower Thoughts	ROW1587	wet shower cap	glob of wet paper (10)
+Using your Shower Thoughts	ROW1588	wet shower shoes	glob of wet paper (15)
+Using your Shower Thoughts	ROW1589	wet shower shorts	glob of wet paper (20)
+Using your Shower Thoughts	ROW1590	wet paper tiger	glob of wet paper (1,000)
+Using your Shower Thoughts	ROW1594	wet shower stamp	glob of wet paper (1,000)
