@@ -11713,7 +11713,7 @@ Item	warm El Vibrato drone	Effect: "Well-preserved", Effect Duration: 10
 Item	wasabi marble soda	Effect: "Wasabi With You", Effect Duration: 15, Last Available: "2011-03"
 Item	Wax Flask	Effect: "Over the Ocean", Effect Duration: 1
 Item	weremoose spit	Effect: "Lycanthropy, Eh?", Effect Duration: 20
-Item	wet paper cup	Effect: "In Your Cups", Effect Duration: 20, Last Available: "2025-04"
+Item	wet paper cup	Effect: "[2994]In Your Cups", Effect Duration: 20, Last Available: "2025-04"
 Item	wet paper weights	Effect: "Lifting Wets", Effect Duration: 20, Last Available: "2025-04"
 Item	wet paperback	Effect: "Moisticality", Effect Duration: 20, Last Available: "2025-04"
 Item	wet venom duct	Effect: "Duct Out of Water", Effect Duration: 10, Last Available: "2010-09"
