@@ -1207,8 +1207,6 @@ public abstract class UseLinkDecorator {
                 getPotionSpeculation("use", itemId),
                 "inv_use.php?which=3&whichitem=");
         }
-        // How is there a "fallthrough"?
-        return null;
       }
       case PASTA_GUARDIAN -> {
         if (KoLCharacter.inBeecore() && ItemDatabase.unusableInBeecore(itemId)) {
