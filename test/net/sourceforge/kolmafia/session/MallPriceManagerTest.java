@@ -56,7 +56,7 @@ public class MallPriceManagerTest {
   // We will mock a Clock object and direct MallPriceManager to use our
   // clock, over which we have complete control.
 
-  private static Clock clock = Mockito.mock(Clock.class);
+  private static final Clock clock = Mockito.mock(Clock.class);
 
   private static Cleanups mockClock() {
     var mocked = mockStatic(MallPriceManager.class, Mockito.CALLS_REAL_METHODS);
@@ -200,7 +200,7 @@ public class MallPriceManagerTest {
 
   private PurchaseRequest makeMallItem(
       int itemId, int quantity, long price, int limit, int shopId) {
-    String shopName = "shop " + String.valueOf(shopId);
+    String shopName = "shop " + shopId;
 
     return makeMallItem(itemId, quantity, price, limit, shopId, shopName);
   }
@@ -583,7 +583,7 @@ public class MallPriceManagerTest {
       assertNotNull(search);
 
       // Advance time such that the timestamp is now 5 seconds stale :)
-      long now = timestamp + (MallPriceManager.MALL_SEARCH_FRESHNESS + 5) * 1000;
+      long now = timestamp + (MallPriceManager.MALL_SEARCH_FRESHNESS + 5) * 1000L;
       Mockito.when(clock.millis()).thenReturn(now);
 
       // Verify that there is no longer a saved mall search
@@ -659,10 +659,10 @@ public class MallPriceManagerTest {
       boolean forbid = true;
       for (var shopId : shopIds) {
         if (forbid) {
-          if (buf.length() > 0) {
+          if (!buf.isEmpty()) {
             buf.append(",");
           }
-          buf.append(String.valueOf(shopId));
+          buf.append(shopId);
         }
         forbid = !forbid;
       }
@@ -788,7 +788,7 @@ public class MallPriceManagerTest {
 
       List<PurchaseRequest> results = request.getResults();
       assertEquals(4264, results.size());
-      assertThat(results.get(0).getShopName(), equalTo("Clerk's"));
+      assertThat(results.getFirst().getShopName(), equalTo("Clerk's"));
     }
   }
 
