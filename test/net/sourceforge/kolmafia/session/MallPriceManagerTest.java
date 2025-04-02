@@ -368,7 +368,7 @@ public class MallPriceManagerTest {
 
       // This item is a NPC item available for the 5th cheapest price
       long mallPrice = MallPriceManager.getMallPrice(item);
-      assertEquals(mallPrice, 400);
+      assertEquals(400, mallPrice);
     }
   }
 
@@ -402,14 +402,14 @@ public class MallPriceManagerTest {
 
       // Find the fifth cheapest price
       long mallPrice = MallPriceManager.getMallPrice(item);
-      assertEquals(mallPrice, 400);
+      assertEquals(400, mallPrice);
 
       // Flush the first shop's PurchaseRequest
       MallPriceManager.flushCache(itemId, shopId);
 
       // Find the fifth cheapest price
       mallPrice = MallPriceManager.getMallPrice(item);
-      assertEquals(mallPrice, 500);
+      assertEquals(500, mallPrice);
     }
   }
 
@@ -639,7 +639,7 @@ public class MallPriceManagerTest {
       List<PurchaseRequest> results = MallPriceManager.searchMall(item);
 
       // The MallSearchRequest found a bunch of PurchaseRequests from the responseText
-      assertEquals(results.size(), 60);
+      assertEquals(60, results.size());
     }
   }
 
@@ -679,7 +679,7 @@ public class MallPriceManagerTest {
       // Get the shopIds from the responseText
       List<Integer> shopIds = extractShopIds(item, responseText);
       int count = shopIds.size();
-      assertEquals(count, 60);
+      assertEquals(60, count);
 
       // Forbid half the stores
       String setting = getForbiddenStores(shopIds);
@@ -696,7 +696,7 @@ public class MallPriceManagerTest {
 
         // MallPriceManager can search the mall and return a filtered list of results
         List<PurchaseRequest> results = MallPriceManager.searchMall(item);
-        assertEquals(results.size(), 30);
+        assertEquals(30, results.size());
 
         // Verify that none of the forbidden stores are in the resulta
         Set<Integer> forbidden = MallPurchaseRequest.getForbiddenStores();
@@ -720,7 +720,7 @@ public class MallPriceManagerTest {
       // Get the shopIds from the responseText
       List<Integer> shopIds = extractShopIds(item, responseText);
       int count = shopIds.size();
-      assertEquals(count, 60);
+      assertEquals(60, count);
 
       // Forbid half the stores
       String setting = getForbiddenStores(shopIds);
@@ -737,7 +737,7 @@ public class MallPriceManagerTest {
         // MallSearchRequest will give MallPriceManager a full set of results.
         // MallPriceManager will filter them.
         List<PurchaseRequest> results = MallPriceManager.getSavedSearch(item.getItemId(), 5);
-        assertEquals(results.size(), 30);
+        assertEquals(30, results.size());
 
         // Verify that none of the forbidden stores are in the resulta
         Set<Integer> forbidden = MallPurchaseRequest.getForbiddenStores();
@@ -766,7 +766,7 @@ public class MallPriceManagerTest {
       // all responseTexts into the "results" field of the request.
       // It will then update prices and return how many
       int count = MallPriceManager.getMallPrices("unlockers", "");
-      assertEquals(count, 32);
+      assertEquals(32, count);
     }
   }
 
