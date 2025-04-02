@@ -10,6 +10,7 @@ import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withPasswordHash;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withSavePreferencesToFile;
 import static internal.matchers.Preference.isSetTo;
 import static net.sourceforge.kolmafia.request.DeckOfEveryCardRequest.RACING;
 import static net.sourceforge.kolmafia.request.DeckOfEveryCardRequest.buffToCard;
@@ -163,6 +164,7 @@ class DeckOfEveryCardRequestTest {
             withGender(KoLCharacter.Gender.FEMALE),
             withGuildStoreOpen(false),
             withPasswordHash("cafebabe"),
+            withSavePreferencesToFile(),
             withAdventuresLeft(100));
     try (cleanups) {
       new DeckOfEveryCardRequest(mickey).run();
