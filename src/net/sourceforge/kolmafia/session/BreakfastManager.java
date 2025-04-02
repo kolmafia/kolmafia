@@ -100,6 +100,7 @@ public class BreakfastManager {
           BreakfastManager::harvestGarden,
           BreakfastManager::collectHardwood,
           BreakfastManager::collect2002MrStoreCredits,
+          BreakfastManager::collectAprilShowerGlobs,
           BreakfastManager::useSpinningWheel,
           BreakfastManager::visitBigIsland,
           BreakfastManager::visitVolcanoIsland,
@@ -415,6 +416,19 @@ public class BreakfastManager {
 
     KoLmafia.updateDisplay("Getting 2002 Mr Store Credits...");
     MrStore2002Request.equip();
+  }
+
+  public static void collectAprilShowerGlobs() {
+    if (!InventoryManager.equippedOrInInventory(ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD)) {
+      return;
+    }
+
+    if (Preferences.getBoolean("_aprilShowerGlobsCollected")) {
+      return;
+    }
+
+    KoLmafia.updateDisplay("Getting April Shower thoughts...");
+    RequestThread.postRequest(new GenericRequest("inventory.php?action=shower"));
   }
 
   public static void useSpinningWheel() {

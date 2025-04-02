@@ -1578,3 +1578,19 @@
 1577	cyber_dedigitizer	synthetic coffee	1 (8)	0 (8)
 1578	cyber_dedigitizer	iDrops	1 (16)	0 (16)
 1579	cyber_dedigitizer	3d printed server room key	1 (128)	0 (32)	dedigitizer schematic: 3d printed server room key
+1580	showerthoughts	spitball	glob of wet paper
+1581	showerthoughts	wet paper weights	glob of wet paper (2)
+1582	showerthoughts	Three Sheets to the Wind	glob of wet paper (3)
+1583
+1584	showerthoughts	pile of wet dates	glob of wet paper (3)
+1585	showerthoughts	papier Mach 1 airplane	glob of wet paper (2)
+1586	showerthoughts	wet blanket	glob of wet paper (11)
+1587	showerthoughts	wet shower cap	glob of wet paper (10)
+1588	showerthoughts	wet shower shoes	glob of wet paper (15)
+1589	showerthoughts	wet shower shorts	glob of wet paper (20)
+1590	showerthoughts	wet paper tiger	glob of wet paper (1,000)
+1591	showerthoughts	wet shower curtain	glob of wet paper (7)
+1592	showerthoughts	wet paper cup	glob of wet paper (2)
+1593	showerthoughts	wet paperback	glob of wet paper (2)
+1594	showerthoughts	wet shower stamp	glob of wet paper (1,000)
+1595	showerthoughts	wet shower radio	glob of wet paper

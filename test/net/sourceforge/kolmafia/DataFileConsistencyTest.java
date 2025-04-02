@@ -287,7 +287,7 @@ public class DataFileConsistencyTest {
   public void testCoinmasterBuyables() throws IOException {
     var buyables = datafileItems("coinmasters.txt", 3, 3);
 
-    Pattern withNum = Pattern.compile("(.*) \\(\\d+\\)");
+    Pattern withNum = Pattern.compile("(.*) \\([\\d,]+\\)");
 
     for (var name : buyables) {
       var match = withNum.matcher(name);

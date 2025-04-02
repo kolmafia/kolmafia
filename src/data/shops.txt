@@ -112,6 +112,7 @@ shadowforge	The Shadow Forge	CONC	SHADOW_FORGE
 shakeshop	Ye Newe Souvenir Shoppe	COIN
 shoeshop	Legitimate Shoe Repair, Inc.	COIN
 shore	The Shore, Inc. Gift Shop	COIN
+showerthoughts	Using your Shower Thoughts	COIN
 si_shop1	The SHAWARMA Initiative	COIN
 si_shop2	The Canteen	COIN
 snackbar	Huggler Memorial Colosseum Snack Bar	NPC

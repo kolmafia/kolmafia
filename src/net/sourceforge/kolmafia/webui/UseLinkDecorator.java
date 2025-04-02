@@ -618,7 +618,7 @@ public abstract class UseLinkDecorator {
             || location.startsWith("choice.php");
 
     switch (consumeMethod) {
-      case FAMILIAR_HATCHLING:
+      case FAMILIAR_HATCHLING -> {
         if (itemId == ItemPool.MOSQUITO_LARVA) {
           return getCouncilLink(itemId);
         }
@@ -636,8 +636,8 @@ public abstract class UseLinkDecorator {
         }
 
         return new UseLink(itemId, "grow", "inv_familiar.php?whichitem=");
-
-      case EAT:
+      }
+      case EAT -> {
         switch (itemId) {
           case ItemPool.GOAT_CHEESE:
             return new UseLink(
@@ -731,8 +731,8 @@ public abstract class UseLinkDecorator {
         }
 
         return new UseLink(itemId, itemCount, "eat", "inv_eat.php?which=1&whichitem=");
-
-      case DRINK:
+      }
+      case DRINK -> {
         if (!KoLCharacter.canDrink()) {
           return null;
         }
@@ -766,141 +766,132 @@ public abstract class UseLinkDecorator {
             return null;
         }
         return new UseLink(itemId, itemCount, "drink", "inv_booze.php?which=1&whichitem=");
-
-      case FOOD_HELPER:
+      }
+      case FOOD_HELPER -> {
         if (!KoLCharacter.canEat()) {
           return null;
         }
         return new UseLink(itemId, 1, "eat with", "inv_use.php?which=1&whichitem=");
-
-      case DRINK_HELPER:
+      }
+      case DRINK_HELPER -> {
         if (!KoLCharacter.canDrink()) {
           return null;
         }
         return new UseLink(itemId, 1, "drink with", "inv_use.php?which=1&whichitem=");
+      }
+      case POTION, AVATAR_POTION -> {
+        int count = InventoryManager.getCount(itemId);
+        int useCount = Math.min(UseItemRequest.maximumUses(itemId), count);
 
-      case POTION:
-      case AVATAR_POTION:
-        {
-          int count = InventoryManager.getCount(itemId);
-          int useCount = Math.min(UseItemRequest.maximumUses(itemId), count);
-
-          // If we are limited to 0 uses, no use link needed
-          if (useCount == 0) {
-            return null;
-          }
-
-          if (KoLCharacter.inBeecore() && ItemDatabase.unusableInBeecore(itemId)) {
-            return null;
-          }
-
-          if (KoLCharacter.inGLover() && ItemDatabase.unusableInGLover(itemId)) {
-            return null;
-          }
-
-          if (useCount == 1 || !ItemDatabase.isMultiUsable(itemId)) {
-            String use = getPotionSpeculation("use", itemId);
-            return new UseLink(itemId, 1, use, "inv_use.php?which=3&whichitem=");
-          }
-
-          String use = getPotionSpeculation("use multiple", itemId);
-          if (Preferences.getBoolean("relayUsesInlineLinks")) {
-            return new UseLink(itemId, useCount, use, "#");
-          }
-
-          return new UseLink(itemId, useCount, use, "multiuse.php?passitem=");
+        // If we are limited to 0 uses, no use link needed
+        if (useCount == 0) {
+          return null;
         }
 
-      case USE_MULTIPLE:
-        {
-          int count = InventoryManager.getCount(itemId);
-          int useCount = Math.min(UseItemRequest.maximumUses(itemId), count);
-
-          // If we are limited to 0 uses, no use link needed
-          if (useCount == 0) {
-            return null;
-          }
-
-          if (KoLCharacter.inBeecore() && ItemDatabase.unusableInBeecore(itemId)) {
-            return null;
-          }
-
-          if (KoLCharacter.inGLover() && ItemDatabase.unusableInGLover(itemId)) {
-            return null;
-          }
-
-          switch (itemId) {
-            case ItemPool.RUSTY_HEDGE_TRIMMERS:
-
-              // Not inline, since the redirection to a fight
-              // doesn't work ajaxified.
-
-              return new UseLink(itemId, 1, "use", "inv_use.php?which=3&whichitem=", false);
-
-            case ItemPool.DANCE_CARD:
-              // No use link for a dance card if one is already active or another will expire in 3
-              // turns.
-              if (TurnCounter.isCounting("Dance Card")
-                  || TurnCounter.getCounters("", 3, 3).length() > 0) {
-                return null;
-              }
-              break;
-          }
-
-          if (useCount == 1) {
-            String page = (consumeMethod == ConsumptionType.USE_MULTIPLE) ? "3" : "1";
-            return new UseLink(
-                itemId,
-                useCount,
-                getPotionSpeculation("use", itemId),
-                "inv_use.php?which=" + page + "&whichitem=");
-          }
-
-          String use = getPotionSpeculation("use multiple", itemId);
-          if (Preferences.getBoolean("relayUsesInlineLinks")) {
-            return new UseLink(itemId, useCount, use, "#");
-          }
-
-          return new UseLink(itemId, useCount, use, "multiuse.php?passitem=");
+        if (KoLCharacter.inBeecore() && ItemDatabase.unusableInBeecore(itemId)) {
+          return null;
         }
 
-      case FOLDER:
+        if (KoLCharacter.inGLover() && ItemDatabase.unusableInGLover(itemId)) {
+          return null;
+        }
+
+        if (useCount == 1 || !ItemDatabase.isMultiUsable(itemId)) {
+          String use = getPotionSpeculation("use", itemId);
+          return new UseLink(itemId, 1, use, "inv_use.php?which=3&whichitem=");
+        }
+
+        String use = getPotionSpeculation("use multiple", itemId);
+        if (Preferences.getBoolean("relayUsesInlineLinks")) {
+          return new UseLink(itemId, useCount, use, "#");
+        }
+
+        return new UseLink(itemId, useCount, use, "multiuse.php?passitem=");
+      }
+      case USE_MULTIPLE -> {
+        int count = InventoryManager.getCount(itemId);
+        int useCount = Math.min(UseItemRequest.maximumUses(itemId), count);
+
+        // If we are limited to 0 uses, no use link needed
+        if (useCount == 0) {
+          return null;
+        }
+
+        if (KoLCharacter.inBeecore() && ItemDatabase.unusableInBeecore(itemId)) {
+          return null;
+        }
+
+        if (KoLCharacter.inGLover() && ItemDatabase.unusableInGLover(itemId)) {
+          return null;
+        }
+
+        switch (itemId) {
+          case ItemPool.RUSTY_HEDGE_TRIMMERS:
+
+            // Not inline, since the redirection to a fight
+            // doesn't work ajaxified.
+
+            return new UseLink(itemId, 1, "use", "inv_use.php?which=3&whichitem=", false);
+
+          case ItemPool.DANCE_CARD:
+            // No use link for a dance card if one is already active or another will expire in 3
+            // turns.
+            if (TurnCounter.isCounting("Dance Card")
+                || TurnCounter.getCounters("", 3, 3).length() > 0) {
+              return null;
+            }
+            break;
+        }
+
+        if (useCount == 1) {
+          String page = (consumeMethod == ConsumptionType.USE_MULTIPLE) ? "3" : "1";
+          return new UseLink(
+              itemId,
+              useCount,
+              getPotionSpeculation("use", itemId),
+              "inv_use.php?which=" + page + "&whichitem=");
+        }
+
+        String use = getPotionSpeculation("use multiple", itemId);
+        if (Preferences.getBoolean("relayUsesInlineLinks")) {
+          return new UseLink(itemId, useCount, use, "#");
+        }
+
+        return new UseLink(itemId, useCount, use, "multiuse.php?passitem=");
+      }
+      case FOLDER -> {
 
         // Not inline, since the redirection to a choice
         // doesn't work ajaxified.
 
         return new UseLink(itemId, 1, "use", "inv_use.php?which=3&whichitem=", false);
+      }
+      case SPLEEN -> {
+        int count = InventoryManager.getCount(itemId);
+        int useCount = Math.min(UseItemRequest.maximumUses(itemId), count);
 
-      case SPLEEN:
-        {
-          int count = InventoryManager.getCount(itemId);
-          int useCount = Math.min(UseItemRequest.maximumUses(itemId), count);
-
-          // If we are limited to 0 uses, no use link needed
-          if (useCount == 0) {
-            return null;
-          }
-
-          if (KoLCharacter.inBeecore() && ItemDatabase.unusableInBeecore(itemId)) {
-            return null;
-          }
-
-          if (KoLCharacter.inGLover() && ItemDatabase.unusableInGLover(itemId)) {
-            return null;
-          }
-
-          if (KoLCharacter.inNuclearAutumn()
-              && ConsumablesDatabase.getSpleenHit(ItemDatabase.getCanonicalName(itemId)) > 1) {
-            return null;
-          }
-
-          return new UseLink(
-              itemId, useCount, getPotionSpeculation("chew", itemId), "inv_spleen.php?whichitem=");
+        // If we are limited to 0 uses, no use link needed
+        if (useCount == 0) {
+          return null;
         }
 
-      case USE:
-      case USE_MESSAGE_DISPLAY:
-      case USE_INFINITE:
+        if (KoLCharacter.inBeecore() && ItemDatabase.unusableInBeecore(itemId)) {
+          return null;
+        }
+
+        if (KoLCharacter.inGLover() && ItemDatabase.unusableInGLover(itemId)) {
+          return null;
+        }
+
+        if (KoLCharacter.inNuclearAutumn()
+            && ConsumablesDatabase.getSpleenHit(ItemDatabase.getCanonicalName(itemId)) > 1) {
+          return null;
+        }
+
+        return new UseLink(
+            itemId, useCount, getPotionSpeculation("chew", itemId), "inv_spleen.php?whichitem=");
+      }
+      case USE, USE_MESSAGE_DISPLAY, USE_INFINITE -> {
         if (KoLCharacter.inBeecore() && ItemDatabase.unusableInBeecore(itemId)) {
           return null;
         }
@@ -1216,10 +1207,8 @@ public abstract class UseLinkDecorator {
                 getPotionSpeculation("use", itemId),
                 "inv_use.php?which=3&whichitem=");
         }
-        // How is there a "fallthrough"?
-        return null;
-
-      case PASTA_GUARDIAN:
+      }
+      case PASTA_GUARDIAN -> {
         if (KoLCharacter.inBeecore() && ItemDatabase.unusableInBeecore(itemId)) {
           return null;
         }
@@ -1228,16 +1217,8 @@ public abstract class UseLinkDecorator {
           return null;
         }
         return new UseLink(itemId, 1, "use", "inv_use.php?which=3&whichitem=");
-
-      case HAT:
-      case WEAPON:
-      case SIXGUN:
-      case OFFHAND:
-      case SHIRT:
-      case PANTS:
-      case CONTAINER:
-      case ACCESSORY:
-      case FAMILIAR_EQUIPMENT:
+      }
+      case HAT, WEAPON, SIXGUN, OFFHAND, SHIRT, PANTS, CONTAINER, ACCESSORY, FAMILIAR_EQUIPMENT -> {
         switch (itemId) {
           case ItemPool.BATSKIN_BELT:
           case ItemPool.BONERDAGON_SKULL:
@@ -1589,6 +1570,9 @@ public abstract class UseLinkDecorator {
           case ItemPool.MCHUGELARGE_DUFFEL_BAG -> {
             uses.add(new UseLink(itemId, 1, "open", "inventory.php?action=skiduffel"));
           }
+          case ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD -> {
+            uses.add(new UseLink(itemId, 1, "shower", "inventory.php?action=shower"));
+          }
         }
 
         if (uses.size() == 1) {
@@ -1596,9 +1580,10 @@ public abstract class UseLinkDecorator {
         } else {
           return new UsesLink(uses.toArray(new UseLink[uses.size()]));
         }
-
-      case ZAP:
+      }
+      case ZAP -> {
         return new UseLink(itemId, itemCount, "zap", "wand.php?whichwand=");
+      }
     }
 
     return null;
