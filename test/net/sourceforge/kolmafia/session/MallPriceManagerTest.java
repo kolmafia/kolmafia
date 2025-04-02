@@ -125,6 +125,7 @@ public class MallPriceManagerTest {
               Object[] arguments = invocation.getArguments();
               String searchString = (String) arguments[0];
               int cheapestCount = (int) arguments[1];
+              @SuppressWarnings("unchecked")
               List<PurchaseRequest> results = (List<PurchaseRequest>) arguments[2];
               // Caller will supply empty results. If mocked request has
               // preloaded results, hand them over.
@@ -737,6 +738,7 @@ public class MallPriceManagerTest {
         // MallSearchRequest will give MallPriceManager a full set of results.
         // MallPriceManager will filter them.
         List<PurchaseRequest> results = MallPriceManager.getSavedSearch(item.getItemId(), 5);
+        assert (results != null);
         assertEquals(30, results.size());
 
         // Verify that none of the forbidden stores are in the resulta
