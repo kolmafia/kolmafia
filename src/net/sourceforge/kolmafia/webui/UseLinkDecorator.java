@@ -1589,6 +1589,9 @@ public abstract class UseLinkDecorator {
           case ItemPool.MCHUGELARGE_DUFFEL_BAG -> {
             uses.add(new UseLink(itemId, 1, "open", "inventory.php?action=skiduffel"));
           }
+          case ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD -> {
+            uses.add(new UseLink(itemId, 1, "shower", "inventory.php?action=shower"));
+          }
         }
 
         if (uses.size() == 1) {
