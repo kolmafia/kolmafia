@@ -126,6 +126,7 @@ import net.sourceforge.kolmafia.request.coinmaster.shop.ThankShopRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.TicketCounterRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ToxicChemistryRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.TrapperRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.UsingYourShowerThoughtsRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.VendingMachineRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.WalMartRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.WarbearBoxRequest;
@@ -226,6 +227,7 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
   private CoinmasterPanel shakeShopPanel = null;
   private CoinmasterPanel shoeRepairPanel = null;
   private CoinmasterPanel shoreGiftShopPanel = null;
+  private CoinmasterPanel showerThoughtsPanel = null;
   private CoinmasterPanel spacegateFabricationPanel = null;
   private CoinmasterPanel spinMasterLathePanel = null;
   private CoinmasterPanel swaggerShopPanel = null;
@@ -571,6 +573,11 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
     septEmberPanel = new SeptEmberPanel();
     panel.add(septEmberPanel);
     this.selectorPanel.addPanel(septEmberPanel.getPanelSelector(), panel);
+
+    panel = new JPanel(new BorderLayout());
+    showerThoughtsPanel = new ShowerThoughtsPanel();
+    panel.add(showerThoughtsPanel);
+    this.selectorPanel.addPanel(showerThoughtsPanel.getPanelSelector(), panel);
 
     // Twitch coinmasters
     this.selectorPanel.addSeparator();
@@ -1842,6 +1849,12 @@ public class CoinmastersFrame extends GenericFrame implements ChangeListener {
   private class SeptEmberPanel extends CoinmasterPanel {
     public SeptEmberPanel() {
       super(SeptEmberCenserRequest.SEPTEMBER_CENSER);
+    }
+  }
+
+  private class ShowerThoughtsPanel extends CoinmasterPanel {
+    public ShowerThoughtsPanel() {
+      super(UsingYourShowerThoughtsRequest.DATA);
     }
   }
 

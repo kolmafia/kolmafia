@@ -91,6 +91,7 @@ import net.sourceforge.kolmafia.request.coinmaster.shop.ThankShopRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.TicketCounterRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.ToxicChemistryRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.TrapperRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.UsingYourShowerThoughtsRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.VendingMachineRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.WalMartRequest;
 import net.sourceforge.kolmafia.request.coinmaster.shop.WarbearBoxRequest;
@@ -190,6 +191,7 @@ public abstract class CoinmasterRegistry {
         ToxicChemistryRequest.TOXIC_CHEMISTRY,
         TrapperRequest.TRAPPER,
         TravelingTraderRequest.TRAVELER,
+        UsingYourShowerThoughtsRequest.DATA,
         VendingMachineRequest.VENDING_MACHINE,
         WalMartRequest.WALMART,
         WarbearBoxRequest.WARBEARBOX,
