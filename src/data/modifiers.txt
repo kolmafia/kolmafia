@@ -157,8 +157,7 @@ Item	corrosive cowl	Spooky Damage: +30, Spooky Resistance: +4, Slime Hates It: +
 Item	Covers-Your-Head	Moxie: +250, Maximum HP: +100, Maximum MP: +100, Initiative: +50, Class: "Disco Bandit", Familiar Effect: "atk, 2xVolley"
 Item	cr&ecirc;epy mask	Mysticality: +2, Maximum MP: +5, Familiar Effect: "spooky atk, cap 5"
 Item	crappy Mer-kin mask	Stench Resistance: +3, Item Drop: -25, Initiative: -50, Adventure Underwater, Familiar Effect: "hot atk, 1xBarrr"
-# crepe paper phrygian cap: Pull down to avoid monsters
-Item	crepe paper phrygian cap	Muscle: +10, Stench Damage: +10, Stench Spell Damage: +10, Last Available: "2025-12"
+Item	crepe paper phrygian cap	Muscle: +10, Stench Damage: +10, Stench Spell Damage: +10, Last Available: "2025-12", Conditional Skill (Equipped): "Pull down your crepe paper phrygian cap"
 Item	Crimbo hat	Spooky Resistance: +1, Last Available: "2004-10", Familiar Effect: "1.75xVolley, 1.75xLep, cap 25"
 Item	Crimbuccaneer tricorn	Last Available: "2023-12"
 Item	Crown of the Goblin King	Muscle: +10, Familiar Effect: "2xBarrr, 1xGhuol, cap 17"
@@ -237,8 +236,7 @@ Item	fire	Initiative: +10, Hot Damage: +7, Last Available: "2023-09", Familiar E
 Item	fireman's helmet	Hot Resistance: +3, Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Last Available: "2012-07", Familiar Effect: "cold atk"
 Item	fishin' hat	Fishing Skill: +5, Last Available: "2016-04"
 Item	five-gallon hat	Muscle: +5, Mysticality: +5, Moxie: +5, Experience: +3
-# flagstone fez: Unleash dark rituals on your unsuspecting foes
-Item	flagstone fez	Mysticality Percent: +20, Spooky Damage: +5, Stench Damage: +5, Hot Damage: +5, Cold Damage: +5, Sleaze Damage: +5, Last Available: "2022-12"
+Item	flagstone fez	Mysticality Percent: +20, Spooky Damage: +5, Stench Damage: +5, Hot Damage: +5, Cold Damage: +5, Sleaze Damage: +5, Last Available: "2022-12", Conditional Skill (Equipped): "Flagstone Fez Ritual"
 Item	flaming leaf crown	Cold Resistance: +5, Hot Damage: +10, Hot Spell Damage: +10, Experience: +3, PvP Fights: +3, Adventures: +3
 # flatusaur gasmask: Protects against flatusaurus emissions
 Item	floaty rock helmet	Spell Critical Percent: +10, Familiar Effect: "1xGhuol, cap 25"
@@ -342,8 +340,7 @@ Item	lihc face	Spooky Resistance: +2, Familiar Effect: "spooky atk, 1xBarrr, cap
 Item	linoleum helmet turtle	Maximum HP: +10, Maximum MP: +10, Familiar Effect: "stench atk, 1xFairy, cap 25"
 Item	literal bucket hat	Water: +5
 Item	longhaired hippy wig	Stench Damage: +20, Mysticality Percent: +5, Familiar Effect: "1xPotato, 1xGhuol"
-# loofah lumberjack's hat: Feels good on your head
-Item	loofah lumberjack's hat	Muscle: +10, HP Regen Min: 15, HP Regen Max: 25, Last Available: "2022-12"
+Item	loofah lumberjack's hat	Muscle: +10, HP Regen Min: 15, HP Regen Max: 25, Last Available: "2022-12", Conditional Skill (Equipped): "Loofah Head-Scratch"
 Item	lucky army helmet	Damage Absorption: +10, Maximum HP: +100, Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Never Fumble, Last Available: "2024-12"
 Item	lynyrdskin cap	Initiative: +25, Familiar Effect: "1xPotato, 1xVolley, cap 42"
 Item	MAHI fez	Moxie: +30, Familiar Effect: "0.5xVolley, 0.5xPotato, 0.5xLep, 0.5xFairy"
@@ -377,8 +374,7 @@ Item	Mohawk wig	Weapon Damage: +10, Familiar Effect: "1xPotato, 1xGhuol, cap 35"
 Item	moist sailor's cap	Muscle Percent: +10, Stench Damage: +20, Hot Resistance: +4, Familiar Effect: "stench atk"
 Item	Moonthril Circlet	Mysticality Percent: [15*G], Last Available: "2011-06", Familiar Effect: "2xVolley, cap 25"
 Item	moose antlers	Critical Hit Percent: +5, Familiar Effect: "atk, 1xLep, cap 27"
-# moss mitre: Lets you spend Soulsauce to heal
-Item	moss mitre	Mysticality: +10, Stench Resistance: +2, Last Available: "2024-12"
+Item	moss mitre	Mysticality: +10, Stench Resistance: +2, Last Available: "2024-12", Conditional Skill (Equipped): "Soul Genuflection"
 Item	Mu cap	Spooky Resistance: +4, Stench Resistance: +4, Hot Resistance: +4, Cold Resistance: +4, Sleaze Resistance: +4
 Item	muddy pirate hat	Item Drop: +5, Initiative: +20, Familiar Effect: "1xFairy, cap 31"
 Item	mullet wig	Sleaze Damage: +2, Familiar Effect: "3xPotato, 2xGhuol, cap 10"
@@ -412,8 +408,7 @@ Item	pail	Damage Absorption: +10, Familiar Effect: "2xFairy, cap 7"
 Item	panhandle panhandling hat	Food Drop: +30, Familiar Effect: "1xLep, cap 37"
 Item	paperclip turban	Muscle: +5, Mysticality: +5, Moxie: +5, Maximum HP: +5, Maximum MP: +5, Damage Reduction: 5, Last Available: "2011-01", Familiar Effect: "atk, cap 12"
 Item	papier-mitre	Familiar Weight: +5, PvP Fights: +2, Last Available: "2012-09", Familiar Effect: "1xVolley, cap 25", Alters Page Text
-# paraffin pith helmet: Lets you unleash a prismatic attack
-Item	paraffin pith helmet	Experience (Muscle): +2, Cold Damage: +10, Last Available: "2020-12"
+Item	paraffin pith helmet	Experience (Muscle): +2, Cold Damage: +10, Last Available: "2020-12", Conditional Skill (Equipped): "Paraffin Prism"
 Item	parasitic headgnawer	Last Available: "2008-12", Familiar Effect: "atk, cap 7", Thorns: 1
 # party hat: (On the Festival of Jarlsberg only)
 Item	party hat	MP Regen Min: [3*J], MP Regen Max: [5*J], Mysticality: +3, Familiar Effect: "4xLep, cap 7"
@@ -761,8 +756,7 @@ Item	lemon drop trousers	Candy Drop: +50, Lasts Until Rollover, Last Available: 
 Item	leotarrrd	Initiative: +15, Familiar Effect: "2xVolley, 2xPotato, cap 22"
 # liar's pants: +30 to All Attributes.  Yeah, +30.  That's the ticket.
 Item	liar's pants	Hot Damage: +10, Softcore Only, Last Available: "2007-01", Muscle: +5, Mysticality: +5, Moxie: +5, Familiar Effect: "hot atk, cold atk, cap 25"
-# loofah lederhosen: You often find loose Meat in them
-Item	loofah lederhosen	Mysticality: +10, MP Regen Min: 10, MP Regen Max: 20, Last Available: "2022-12"
+Item	loofah lederhosen	Mysticality: +10, MP Regen Min: 10, MP Regen Max: 20, Last Available: "2022-12", Conditional Skill (Equipped): "Loofah Hosenzittern"
 Item	los chinos	Damage Absorption: +20, Familiar Effect: "2xPotato, HP regen, cap 13"
 Item	lynyrdskin breeches	Initiative: +25, Familiar Effect: "1xPotato, 1.5xGhuol, cap 42"
 Item	makeshift skirt	Initiative: +15, Familiar Effect: "2xBarrr, 1xFairy, cap 25"
@@ -801,8 +795,7 @@ Item	Pantsgiving	Experience: +2, Spooky Resistance: +2, Stench Resistance: +2, H
 Item	paper-plate-mail pants	Familiar Effect: "hot atk, 2xBarrr, cap 20"
 Item	paperclip pants	Adventures: +2, Initiative: +15, Last Available: "2011-01", Familiar Effect: "atk, 3xBarrr, cap 12"
 Item	papier-m&acirc;churidars	Initiative: +25, Never Fumble, Last Available: "2012-09", Familiar Effect: "1xFairy, cap 25", Alters Page Text
-# paraffin palazzos: Lets you unleash a prismatic attack
-Item	paraffin palazzos	Moxie: +10, Stench Damage: +10, Last Available: "2020-12"
+Item	paraffin palazzos	Moxie: +10, Stench Damage: +10, Last Available: "2020-12", Conditional Skill (Equipped): "Paraffin Prism"
 Item	parasitic tentacles	Initiative: [min(2*L,30)], Last Available: "2008-12", Familiar Effect: "spooky atk, 5xBarrr, cap 7"
 Item	penguin shorts	Initiative: +20, Familiar Effect: "cold atk, 1xGhuol, cap 30"
 Item	penguinskin mini-kilt	Initiative: +20, Familiar Effect: "cold atk, 1xFairy, cap 30"
@@ -876,8 +869,7 @@ Item	sugar shorts	Muscle Percent: +25, Mysticality Percent: +25, Moxie Percent: 
 Item	swashbuckling pants	Moxie: +4, Familiar Effect: "3xPotato, 1.5xFairy, cap 20"
 # tearaway pants: Tear them away in combat!
 Item	tearaway pants	Sleaze Damage: [5*L], Damage Reduction: 10, Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Initiative: +50, Maximum HP: +50
-# terra cotta trousers: Lets you unleash a terra cotta army on your foes
-Item	terra cotta trousers	Muscle Percent: +20, Familiar Weight: +5, Last Available: "2020-12"
+Item	terra cotta trousers	Muscle Percent: +20, Familiar Weight: +5, Last Available: "2020-12", Conditional Skill (Equipped): "Unleash Terra Cotta Army"
 Item	the Archwizard's briefs	Mysticality: +15, Mysticality Percent: +25, Maximum MP: +100, Last Available: "2018-04"
 Item	The Emperor's new pants	Moxie: [L], Last Available: "2015-07"
 Item	The Ghoul King's ghoulottes	Muscle: +15, Muscle Percent: +25, Maximum HP: +100, Last Available: "2018-04"
@@ -980,8 +972,7 @@ Item	bronze breastplate	Damage Absorption: +20, Damage Reduction: 4
 Item	camouflage T-shirt	Mana Cost (combat): -3, Combat Rate: -5, Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10, Weapon Damage: +15, Last Available: "2014-10"
 Item	camouflage vest	Combat Rate: -10
 Item	cane-mail shirt	Candy Drop: +25, Monster Level: +20, Meat Drop: +15, Last Available: "2011-12"
-# ceramic cenobite's robe: Deal 30 damage and heal 30 HP
-Item	ceramic cenobite's robe	Experience (Moxie): +3, Maximum HP: +20, Maximum MP: +20, HP Regen Min: 4, HP Regen Max: 8, MP Regen Min: 4, MP Regen Max: 8, Last Available: "2023-12"
+Item	ceramic cenobite's robe	Experience (Moxie): +3, Maximum HP: +20, Maximum MP: +20, HP Regen Min: 4, HP Regen Max: 8, MP Regen Min: 4, MP Regen Max: 8, Last Available: "2023-12", Conditional Skill (Equipped): "Ceramic Cenobitize"
 Item	chamoisole	Slime Resistance: +3
 Item	cheerful Crimbo sweater	Cold Resistance: +2, Moxie: -15, Last Available: "2017-12"
 Item	chest barrel	Damage Reduction: 5, Damage Absorption: +50, Last Available: "2015-09"
@@ -994,8 +985,7 @@ Item	coconut bikini top	Mysticality: +5
 Item	conquistador's breastplate	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Meat Drop: +15, Last Available: "2019-04"
 Item	cool iron breastplate	Damage Reduction: 20, Maximum HP: +200
 Item	Corporal Fennel's Lonely Clubs Club Jacket	PvP Fights: +2
-# crepe paper plunge camisole: Leave nothing to the imagination and distract your foes
-Item	crepe paper plunge camisole	Moxie: +10, Sleaze Damage: +10, Sleaze Spell Damage: +10, Last Available: "2025-12"
+Item	crepe paper plunge camisole	Moxie: +10, Sleaze Damage: +10, Sleaze Spell Damage: +10, Last Available: "2025-12", Conditional Skill (Equipped): "Leave nothing to the imagination"
 Item	Crimbuccaneer bombjacket	Moxie Percent: +25, Ranged Damage: +25, Last Available: "2023-12", Combat Item Damage Percent: 100
 Item	Crimbuccaneer shirt	Familiar Weight: [+10*event(December)], Last Available: "2023-12"
 Item	demonskin jacket	Mysticality: +5, Hot Spell Damage: +5
@@ -1011,8 +1001,7 @@ Item	famous blue raincoat	Spooky Resistance: +2, Stench Resistance: +2, Hot Resi
 Item	filthy hippy poncho	Mysticality: +3
 Item	First Post shirt - Cir Senam	Spooky Damage: +1, Stench Damage: +1, Hot Damage: +1, Cold Damage: +1, Sleaze Damage: +1, Monster Level: +15, PvP Fights: +5, Last Available: "2016-05"
 # fishbone corset: Reduces the level of nearby water
-# flagstone fleece: Lets you flex your muscles
-Item	flagstone fleece	Experience (Moxie): +3, Adventures: +3, Last Available: "2022-12"
+Item	flagstone fleece	Experience (Moxie): +3, Adventures: +3, Last Available: "2022-12", Conditional Skill (Equipped): "Flagstone Fleece Flex"
 Item	flaming pink shirt	Item Drop: +15, Softcore Only, Last Available: "2007-01"
 # flatusaur gasmask: Protects against flatusaurus emissions
 Item	floral print shirt	Mysticality: +5
@@ -1202,8 +1191,7 @@ Item	bat whip	Spell Damage: +10, Monster Level: +5
 Item	batblade	Weapon Damage: +15
 Item	battery-powered drill	Spell Damage Percent: +100, Maximum HP: +50, Maximum MP: +50, Monster Level: +10, Meat Drop: +10, Last Available: "2014-10"
 Item	beaver spear	Muscle: +5, Weapon Damage: +10
-# beechwood blowgun: Lets you fire poison darts at your foes
-Item	beechwood blowgun	Ranged Damage Percent: +100, Moxie: +25, Experience (Moxie): +5, Lasts Until Rollover, Last Available: "2020-08"
+Item	beechwood blowgun	Ranged Damage Percent: +100, Moxie: +25, Experience (Moxie): +5, Lasts Until Rollover, Last Available: "2020-08", Conditional Skill (Equipped): "Poison Dart"
 Item	beer bong	Stench Damage: +15, Monster Level: +5
 Item	beer-a-pult	Stench Damage: +10, Sleaze Damage: +10
 Item	beer-battered accordion	Sleaze Damage: [2*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 6
@@ -1295,8 +1283,7 @@ Item	Carpathian longsword	Hot Damage: +20, Hot Spell Damage: +20, Monster Level:
 Item	carrot-on-a-stick	Moxie: +7, Candy Drop: +50, Last Available: "2014-12"
 Item	cast-iron legacy paddle	Muscle: +15, Weapon Damage: +10
 Item	cat o' nine teeth	Sleaze Damage: +10, Monster Level: +10
-# ceramic celery grater: Deal 30 damage and cause bleeding
-Item	ceramic celery grater	Mysticality Percent: +20, Spell Critical Percent: +20, Last Available: "2023-12"
+Item	ceramic celery grater	Mysticality Percent: +20, Spell Critical Percent: +20, Last Available: "2023-12", Conditional Skill (Equipped): "Ceramic Grate"
 Item	Cerebral Crossbow	Cold Damage: +3, Spooky Damage: +3, Sleaze Damage: +3, Last Available: "2006-06"
 # charming flute: +20 Damage vs. Snakes
 Item	charming flute	Moxie: +8
@@ -1398,8 +1385,7 @@ Item	dreadlock whip	Sleaze Damage: +5, Stench Damage: +5, Monster Level: +10
 Item	dripping meat crossbow	Moxie: +2
 Item	dripping meat staff	Mysticality: +2
 Item	dripping meat sword	Muscle: +2
-# drippy staff: Fires blasts of energy that can damage Drip creatures
-# drippy stake: +40 Damage vs. creatures of The Drip
+Item	drippy staff	Conditional Skill (Equipped): "Drip Blast"
 Item	drippy stake	Single Equip, Drippy Damage: +40
 Item	drippy truncheon	Single Equip, Drippy Damage: +30
 Item	Drowsy Sword	Weakens Monster, Monster Level: -10
@@ -1408,8 +1394,7 @@ Item	duck-on-a-string	Weapon Damage: +5, Item Drop: +5, Last Available: "2005-12
 Item	duct tape sword	Damage Absorption: +40, Item Drop: +5
 Item	dueling banjo	Moxie: +4, Monster Level: +5
 # dwarvish war mattock: Magical Blue Glow
-# ebony epee: Lets you disarm your foes
-Item	ebony epee	Weapon Damage Percent: +100, Muscle: +25, Experience (Muscle): +5, Lasts Until Rollover, Last Available: "2020-08"
+Item	ebony epee	Weapon Damage Percent: +100, Muscle: +25, Experience (Muscle): +5, Lasts Until Rollover, Last Available: "2020-08", Conditional Skill (Equipped): "Disarming Thrust"
 Item	egg gun	Stench Damage: +25, Familiar Weight: +5, Food Drop: +75, HP Regen Min: 15, HP Regen Max: 20, Last Available: "2024-12", Conditional Skill (Equipped): "Egg the face"
 Item	eggbeater	Spell Damage: +7
 # El Vibrato energy spear
@@ -1450,8 +1435,7 @@ Item	fish bazooka	Moxie Percent: +5, Meat Drop: +10
 Item	fish hatchet	Muscle Percent: +100, Weapon Damage: +50, Familiar Weight: +5, Combat Rate: -10, Lasts Until Rollover, Last Available: "2016-04"
 Item	fish scimitar	Muscle Percent: +5, Weapon Damage Percent: +10
 Item	fish stick	Mysticality Percent: +5, Spell Damage Percent: +15
-# flagstone flail: Lets you clobber your enemies
-Item	flagstone flail	Muscle Percent: +20, Meat Drop: +20, Last Available: "2022-12"
+Item	flagstone flail	Muscle Percent: +20, Meat Drop: +20, Last Available: "2022-12", Conditional Skill (Equipped): "Flagflog"
 # Flail of the Seven Aspects: Handle Doubles as a Turtling Rod
 Item	Flail of the Seven Aspects	Muscle: +15, Never Fumble, Class: "Turtle Tamer", Conditional Skill (Equipped): "Turtle of Seven Tails"
 # flamin' bindle: On Critical: Deals 70-100 <font color=red>Hot Damage</font>
@@ -1545,7 +1529,7 @@ Item	Grimacite glaive	Weapon Damage: +15, Muscle Percent: [10*G], Last Available
 Item	groping claw	Weakens Monster, Sleaze Damage: +30
 Item	guancertina	Stench Damage: [4*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 9
 Item	gummi sword	Muscle: +7, Candy Drop: +50, Last Available: "2014-12"
-Item	gunwale whalegun	Damage Absorption: +100, Weapon Damage Percent: +100, Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1, Last Available: "2023-12"
+Item	gunwale whalegun	Damage Absorption: +100, Weapon Damage Percent: +100, Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1, Last Available: "2023-12", Conditional Skill (Equipped): "Shoot, Gunwale Whalegun, Shoot!"
 Item	haiku katana	Muscle Percent: +15, Critical Hit Percent: +5, Weapon Damage Percent: +50, Softcore Only, Last Available: "2008-09", Conditional Skill (Equipped): "Spring Raindrop Attack", Conditional Skill (Equipped): "Summer Siesta", Conditional Skill (Equipped): "Falling Leaf Whirlwind", Conditional Skill (Equipped): "Winter's Bite Technique", Conditional Skill (Equipped): "The 17 Cuts"
 Item	hairy staff	Mysticality: +7, Spell Damage: +7, MP Regen Min: 5, MP Regen Max: 7
 Item	half-melted spoon	Spell Damage: +10, Hot Spell Damage: +10
@@ -1643,8 +1627,7 @@ Item	Loathing Legion flamethrower	Hot Damage: +20, Softcore Only, Last Available
 # Loathing Legion hammer: Gets the job done
 Item	Loathing Legion hammer	Softcore Only, Last Available: "2011-01"
 Item	logging hatchet	Weapon Damage: +5
-# loofah ladle: Lets you sling cold stew at your enemies
-Item	loofah ladle	Experience (Mysticality): +2, Maximum MP: +30, Last Available: "2022-12"
+Item	loofah ladle	Experience (Mysticality): +2, Maximum MP: +30, Last Available: "2022-12", Conditional Skill (Equipped): "Loofah Stew"
 Item	love	Pants Drop: +50, HP Regen Min: 8, HP Regen Max: 16, MP Regen Min: 8, MP Regen Max: 16, Familiar Weight: +5, Last Available: "2015-08"
 # lucky ball-and-chain
 Item	lupine sword	Spooky Damage: +9, Synergetic
@@ -1687,8 +1670,7 @@ Item	miracle whip	Initiative: +50, Weapon Damage: +50, Item Drop: +50, Meat Drop
 # Mjolnir Jr.
 Item	Moonthril Flamberge	Muscle Percent: [15*G], Last Available: "2011-06"
 Item	Moonthril Longbow	Moxie Percent: [15*G], Last Available: "2011-06"
-# moss mace: Lets you mug a foe
-Item	moss mace	Experience (Muscle): +2, Hot Resistance: +2, Last Available: "2024-12"
+Item	moss mace	Experience (Muscle): +2, Hot Resistance: +2, Last Available: "2024-12", Conditional Skill (Equipped): "Moss Mugging"
 Item	muculent machete	Muscle: +2, Meat Drop: +5
 # murderbot plasma rifle: Can be used to instantly kill Spants
 Item	murderbot plasma rifle	Hot Damage: +25, Reduce Enemy Defense: 10, Last Available: "2017-04"
@@ -1723,8 +1705,7 @@ Item	pair of bolt cutters	Weakens Monster, Last Available: "2009-12"
 Item	palm-frond whip	Weapon Damage: +30
 Item	papier-m&acirc;ch&eacute;te	Weapon Damage: +10, Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15, Last Available: "2012-09", Alters Page Text
 Item	papier-m&acirc;chine gun	Ranged Damage: +10, Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15, Last Available: "2012-09", Alters Page Text
-# paraffin pseudoaccordion: Lets you unleash a prismatic attack
-Item	paraffin pseudoaccordion	Experience (Moxie): +2, Spooky Damage: +10, Song Duration: 5, Last Available: "2020-12"
+Item	paraffin pseudoaccordion	Experience (Moxie): +2, Spooky Damage: +10, Song Duration: 5, Last Available: "2020-12", Conditional Skill (Equipped): "Paraffin Prism"
 Item	parasitic claw	Weapon Damage: [min(L,15)], Last Available: "2008-12"
 Item	party whip	Monster Level: +15, Item Drop: +10, Familiar Weight: +5, Last Available: "2018-09"
 # pasta spoon
@@ -2023,8 +2004,7 @@ Item	tail o' nine cats	Initiative: +15, Monster Level: +5
 Item	tambourine	Maximum HP: +20, Maximum MP: +20
 Item	teacher's pen	Experience: +3, Experience (familiar): +2, Last Available: "2022-06"
 Item	teflon spatula	Mysticality Percent: +10, Sleaze Resistance: +3, Spell Damage: +40
-# terra cotta tongs: Lets you unleash a terra cotta army on your foes
-Item	terra cotta tongs	Experience (Mysticality): +3, Spooky Damage: +5, Stench Damage: +5, Hot Damage: +5, Cold Damage: +5, Sleaze Damage: +5, Last Available: "2020-12"
+Item	terra cotta tongs	Experience (Mysticality): +3, Spooky Damage: +5, Stench Damage: +5, Hot Damage: +5, Cold Damage: +5, Sleaze Damage: +5, Last Available: "2020-12", Conditional Skill (Equipped): "Unleash Terra Cotta Army"
 # The Jokester's gun: Can be fired in a weird way once per day to instantly defeat an opponent
 Item	The Jokester's gun	Spooky Damage: +5, Stench Damage: +5, Hot Damage: +5, Cold Damage: +5, Sleaze Damage: +5, Initiative: +25, Pants Drop: +50, Last Available: "2016-12"
 Item	The Landscaper's leafblower	Last Available: "2010-04", Monster Level: [pref(_leafblowerML)]
@@ -2090,8 +2070,7 @@ Item	war tongs	Hot Damage: +10, Hot Spell Damage: +10
 Item	warbear exhaust manifold	Stench Damage: [10*(1+skill(Accordion Appreciation))], Class: "Accordion Thief", Song Duration: 10, Last Available: "2013-12"
 # warbear oil pan: Lets you sling hot grease!
 Item	warbear oil pan	Hot Spell Damage: +10, Sleaze Spell Damage: +10, Class: "Sauceror", Last Available: "2013-12"
-# weeping willow wand: Lets you blast your foes with tears
-Item	weeping willow wand	Spell Damage Percent: +100, Mysticality: +25, Experience (Mysticality): +5, Lasts Until Rollover, Last Available: "2020-08"
+Item	weeping willow wand	Spell Damage Percent: +100, Mysticality: +25, Experience (Mysticality): +5, Lasts Until Rollover, Last Available: "2020-08", Conditional Skill (Equipped): "Barrage of Tears"
 Item	weighted paperclip chain	Weapon Damage: +12, Last Available: "2013-12"
 Item	western-style skinning knife	Weapon Damage: +5, Hat Drop: +10, Last Available: "2016-02"
 Item	whalegun	Pirate Warfare Effectiveness: +10, Monster Level: +10, Weapon Damage: +100, Last Available: "2023-12"
@@ -2226,8 +2205,7 @@ Item	cardboard wine carrier	Booze Drop: +50, Lasts Until Rollover, Last Availabl
 # carnivorous potted plant: Occasionally swallows your enemy whole
 Item	carnivorous potted plant	Monster Level: +25, Last Available: "2021-12"
 Item	catskin buckler	Muscle: +10, Damage Absorption: +50, Damage Reduction: 11
-# ceramic centurion shield: Bash a foe, dealing 30 damage and weakening them
-Item	ceramic centurion shield	Experience (Muscle): +3, Maximum HP: +40, HP Regen Min: 8, HP Regen Max: 16, Damage Reduction: 9, Last Available: "2023-12"
+Item	ceramic centurion shield	Experience (Muscle): +3, Maximum HP: +40, HP Regen Min: 8, HP Regen Max: 16, Damage Reduction: 9, Last Available: "2023-12", Conditional Skill (Equipped): "Ceramic Bash"
 Item	Chalice of the Malkovich Prince	Muscle Percent: +4, Mysticality Percent: +4, Moxie Percent: +4, Last Available: "2011-10"
 # chalk chalice: Weakens enemies who hit you
 Item	chalk chalice	Maximum MP: +15, Hot Spell Damage: +20, Last Available: "2019-12"
@@ -2252,8 +2230,7 @@ Item	cosmetic football	Muscle: +10, Last Available: "2018-09"
 Item	creepy doll head	Spooky Damage: +15
 Item	creepy voice box	Conditional Skill (Equipped): "Pull Voice Box String"
 Item	creme brulee torch	Hot Damage: +30, Lasts Until Rollover, Last Available: "2016-12"
-# crepe paper puzzle cube: Play with it to get more stats after combat
-Item	crepe paper puzzle cube	Experience (Mysticality): +2, Spooky Damage: +10, Spooky Spell Damage: +10, Last Available: "2025-12"
+Item	crepe paper puzzle cube	Experience (Mysticality): +2, Spooky Damage: +10, Spooky Spell Damage: +10, Last Available: "2025-12", Conditional Skill (Equipped): "Play with your crepe paper puzzle"
 Item	Crimbo bottomless hot cocoa mug	Hot Spell Damage: +10, Last Available: "2012-12"
 Item	Crimbo Elf creepy bobble-head	Spooky Damage: +10, Last Available: "2012-12"
 Item	Crimbo light-up Rudolph doll	Sleaze Damage: +10, Last Available: "2012-12"
@@ -2329,8 +2306,7 @@ Item	fancy opera glasses	Meat Drop: +5, Item Drop: +5
 Item	fiberglass fetish	HP Regen Min: 6, HP Regen Max: 10, Stench Resistance: +5, Last Available: "2018-12"
 Item	fireproof megaphone	Monster Level: +10, Hot Resistance: +2, Last Available: "2015-08"
 # fishbone catcher's mitt: Prevents some items from washing away in the Heavy Rains
-# flagstone flag: Lets you hit your enemies with a big heavy flag
-Item	flagstone flag	Experience (Muscle): +3, Item Drop: +10, Last Available: "2022-12"
+Item	flagstone flag	Experience (Muscle): +3, Item Drop: +10, Last Available: "2022-12", Conditional Skill (Equipped): "Flagellate"
 Item	flaming talons	Weapon Damage: +5, Hot Damage: +5
 Item	fleshy lump	Maximum HP: +20, HP Regen Min: 2, HP Regen Max: 4, Damage Reduction: 3, Last Available: "2016-08"
 Item	flickering flashlight	Item Drop: +15, Last Available: "2020-04"
@@ -2505,8 +2481,7 @@ Item	misfit teddy bear	Mysticality: +5, Hot Damage: +5, Last Available: "2009-12
 Item	Mixed Garbanzos and Chickpeas	Maximum HP: [5*(1+skill(Beanweaver))], Maximum MP: [5*(1+skill(Beanweaver))], Spell Damage: [10*(1+skill(Beanweaver))], HP Regen Min: [(1+skill(Beanweaver))], HP Regen Max: [3*(1+skill(Beanweaver))], MP Regen Min: [(1+skill(Beanweaver))], MP Regen Max: [3*(1+skill(Beanweaver))], Last Available: "2016-02"
 Item	moaiball	Muscle Percent: +25, Item Drop: +10, Initiative: +50, Last Available: "2024-12"
 Item	mole skin notebook	Moxie: +1
-# moss megaphone: Whisper with the voice of the Great Turtle Spirits
-Item	moss megaphone	Muscle: +10, Cold Resistance: +2, Last Available: "2024-12"
+Item	moss megaphone	Muscle: +10, Cold Resistance: +2, Last Available: "2024-12", Conditional Skill (Equipped): "Megaphone Whisper"
 Item	moxie magnet	Moxie Controls MP
 Item	Mr. Balloon	Muscle: +3, Mysticality: +3, Moxie: +3
 # Mr. Haggis: Haggis!
@@ -2737,8 +2712,7 @@ Item	Taco Dan's Taco Stand Cocktail Sauce Bottle	Last Available: "2014-05"
 Item	tailbone shield	Stench Damage: +40, Damage Reduction: 16, Thorns: 1
 Item	teflon shield	Muscle Percent: +10, Damage Reduction: 24, Damage Absorption: +50
 Item	Temporal Tempera Tube	Muscle Percent: [5*G], Mysticality Percent: [5*G], Moxie Percent: [5*G]
-# terra cotta tambourine: Lets you unleash a terra cotta army on your foes
-Item	terra cotta tambourine	Moxie Percent: +20, Monster Level: +10, Last Available: "2020-12"
+Item	terra cotta tambourine	Moxie Percent: +20, Monster Level: +10, Last Available: "2020-12", Conditional Skill (Equipped): "Unleash Terra Cotta Army"
 Item	Tesla's Electroplated Beans	Maximum MP: [15*(1+skill(Beanweaver))], Spell Damage: [10*(1+skill(Beanweaver))], MP Regen Min: [4*(1+skill(Beanweaver))], MP Regen Max: [5*(1+skill(Beanweaver))], Last Available: "2016-02"
 # The Lot's engagement ring: Allows Noxious Proposals
 Item	The Lot's engagement ring	Stench Damage: +3, Conditional Skill (Equipped): "Propose To Your Opponent"
@@ -2962,13 +2936,9 @@ Item	Caveman Dan's favorite rock	Maximum HP: +60, Food Drop: +30, Experience (Mu
 Item	cement sandals	Initiative: -10, Experience (Muscle): +1, Single Equip, Last Available: "2009-12"
 # cement shoes: Makes you sleep like the dead
 Item	cement shoes	Mysticality: +20, Moxie: +20, Last Available: "2004-10"
-# ceramic celsiturometer: Deal 60 Hot Damage to a foe and briefly stun them,
-# ceramic celsiturometer: but also make them very angry
-Item	ceramic celsiturometer	Experience (Mysticality): +3, Maximum MP: +30, MP Regen Min: 6, MP Regen Max: 12, Single Equip, Last Available: "2023-12"
-# ceramic cerecloth belt: Deal 30 Spooky Damage to a target and weaken them
-Item	ceramic cerecloth belt	Moxie Percent: +20, Initiative: +40, Never Fumble, Single Equip, Last Available: "2023-12"
-# ceramic cestus: Punch a foe, dealing 30 damage and briefly stunning them
-Item	ceramic cestus	Muscle Percent: +20, Familiar Weight: +5, Single Equip, Last Available: "2023-12"
+Item	ceramic celsiturometer	Experience (Mysticality): +3, Maximum MP: +30, MP Regen Min: 6, MP Regen Max: 12, Single Equip, Last Available: "2023-12", Conditional Skill (Equipped): "Ceramic Boil"
+Item	ceramic cerecloth belt	Moxie Percent: +20, Initiative: +40, Never Fumble, Single Equip, Last Available: "2023-12", Conditional Skill (Equipped): "Ceramic Skullgaze"
+Item	ceramic cestus	Muscle Percent: +20, Familiar Weight: +5, Single Equip, Last Available: "2023-12", Conditional Skill (Equipped): "Ceramic Punch"
 # chalk chain: Weakens enemies who hit you
 Item	chalk chain	Experience (Muscle): +2, Experience (familiar): +1, Single Equip, Last Available: "2019-12"
 # chalk choker: Weakens enemies who hit you
@@ -3020,10 +2990,8 @@ Item	corncob pipe	Muscle Percent: +10, Single Equip
 Item	Counterclockwise Watch	Adventures: +10, Single Equip, Nonstackable Watch
 Item	cozy scarf	Cold Resistance: +5, Last Available: "2021-12"
 Item	crank-powered radio on a lanyard	Monster Level: +15, Lasts Until Rollover, Last Available: "2022-05"
-# crepe paper pie clip: Look through it to enhance your spells
-Item	crepe paper pie clip	Mysticality: +10, Hot Damage: +10, Hot Spell Damage: +10, Last Available: "2025-12"
-# crepe paper polka charm: Embrace polka and dance for more items
-Item	crepe paper polka charm	Experience (Moxie): +2, Weapon Damage: +10, Spell Damage: +10, Last Available: "2025-12"
+Item	crepe paper pie clip	Mysticality: +10, Hot Damage: +10, Hot Spell Damage: +10, Last Available: "2025-12", Conditional Skill (Equipped): "Look through your crepe paper pie clip"
+Item	crepe paper polka charm	Experience (Moxie): +2, Weapon Damage: +10, Spell Damage: +10, Last Available: "2025-12", Conditional Skill (Equipped): "Embrace polka"
 # CRIMBCO lanyard: Lets you work harder!
 Item	CRIMBCO lanyard	Single Equip, Last Available: "2011-01"
 Item	Crimbolex watch	Adventures: +5, PvP Fights: +5, Rollover Effect: "Watched Over", Rollover Effect Duration: 100, Single Equip, Last Available: "2018-12", Nonstackable Watch
@@ -3147,9 +3115,8 @@ Item	fishbone facemask	Monster Level: [-30*path(Heavy Rains)]
 Item	fishbone fins	Single Equip
 # fishbone kneepads: (Heavy Rains only)
 Item	fishbone kneepads	Initiative: [60*path(Heavy Rains)], Single Equip
-# flagstone flip-flops: Lets you kick your enemies
-Item	flagstone flip-flops	Experience (Mysticality): +3, Initiative: +40, Single Equip, Last Available: "2022-12"
-Item	flagstone fringe	Moxie Percent: +20, PvP Fights: +4, Single Equip, Last Available: "2022-12"
+Item	flagstone flip-flops	Experience (Mysticality): +3, Initiative: +40, Single Equip, Last Available: "2022-12", Conditional Skill (Equipped): "Flagstone Flap Flip"
+Item	flagstone fringe	Moxie Percent: +20, PvP Fights: +4, Single Equip, Last Available: "2022-12", Conditional Skill (Equipped): "Flagstone Foxtrot"
 Item	flapper floppers	Mysticality Percent: +25, Experience (Mysticality): +2, Single Equip
 Item	Flash Liquidizer Ultra Dousing Accessory	Item Drop: +20, Last Available: "2023-06", Conditional Skill (Equipped): "Douse Foe"
 Item	flashing novelty button	Maximum HP: +5, Moxie: -2
@@ -3340,12 +3307,9 @@ Item	Loathing Legion rollerblades	Initiative: +50, Single Equip, Softcore Only, 
 Item	Lockenstock&trade; sandals	Mysticality: +7, Stench Damage: +7, Single Equip
 Item	lollipop cufflinks	Mysticality: +5, Last Available: "2011-11"
 Item	long-forgotten necklace	Meat Drop: +15
-# loofah lavalier: Lets you unleash lava on your foes
-Item	loofah lavalier	Experience (Moxie): +2, Maximum HP: +20, Maximum MP: +20, Single Equip, Last Available: "2022-12"
-# loofah legwarmers: They keep your legs warm
-Item	loofah legwarmers	Moxie: +10, HP Regen Min: 5, HP Regen Max: 15, MP Regen Min: 5, MP Regen Max: 15, Single Equip, Last Available: "2022-12"
-# loofah lei: Lets you lasso your foes
-Item	loofah lei	Experience (Muscle): +2, Maximum HP: +40, Single Equip, Last Available: "2022-12"
+Item	loofah lavalier	Experience (Moxie): +2, Maximum HP: +20, Maximum MP: +20, Single Equip, Last Available: "2022-12", Conditional Skill (Equipped): "Loofah Lava"
+Item	loofah legwarmers	Moxie: +10, HP Regen Min: 5, HP Regen Max: 15, MP Regen Min: 5, MP Regen Max: 15, Single Equip, Last Available: "2022-12", Conditional Skill (Equipped): "Loofah Leglifts"
+Item	loofah lei	Experience (Muscle): +2, Maximum HP: +40, Single Equip, Last Available: "2022-12", Conditional Skill (Equipped): "Loofah Lei Lasso"
 Item	Lord Soggyraven's Slippers	Initiative: +20, Pickpocket Chance: +20, Maximum HP: +20, Maximum MP: +20, Single Equip
 Item	Lord Spookyraven's ear trumpet	Initiative: +25, Single Equip
 # Lord Spookyraven's spectacles
@@ -3432,8 +3396,7 @@ Item	monstrous monocle	Spooky Resistance: +1, Item Drop: +5, Last Available: "20
 Item	mood ring	Last Available: "2007-02"
 Item	moon-amber necklace	Spell Damage Percent: +50, Maximum MP: +200, Mysticality Percent: [5*G], Single Equip
 Item	moss marlinspike	Moxie: +10, Negative Status Resist, Extra Pickpocket, Single Equip, Last Available: "2024-12"
-# moss medal: Lets you impress your pasta thrall
-Item	moss medal	Experience (Mysticality): +2, Spooky Resistance: +2, Single Equip, Last Available: "2024-12"
+Item	moss medal	Experience (Mysticality): +2, Spooky Resistance: +2, Single Equip, Last Available: "2024-12", Conditional Skill (Equipped): "Brandish Moss Medal"
 Item	mother's necklace	Adventures: +3, Never Fumble, Last Available: "2022-06"
 Item	motion sensor	Initiative: +100, Single Equip
 Item	moustache sock	Moxie: +20, Muscle: -5, Mysticality: -5, Initiative: +20, Single Equip, Last Available: "2013-11"
@@ -3499,10 +3462,8 @@ Item	pair of government shades	Maximum HP: +10, Single Equip, Last Available: "2
 Item	pair of pearidot earrings	Item Drop: [100*zone(The Candy Diorama)], Single Equip, Last Available: "2011-11"
 Item	paperclip-on tie	Weapon Damage: +5, Spell Damage: +5, Experience: +1, Single Equip, Last Available: "2011-01"
 Item	papier-masque	Spell Damage: +10, HP Regen Min: 2, HP Regen Max: 4, MP Regen Min: 2, MP Regen Max: 4, Single Equip, Last Available: "2012-09", Alters Page Text
-# paraffin pendant: Lets you unleash a prismatic attack
-Item	paraffin pendant	Experience (Mysticality): +2, Maximum MP: +10, Single Equip, Last Available: "2020-12"
-# paraffin punching bag: Lets you unleash a prismatic attack
-Item	paraffin punching bag	Muscle: +10, Hot Damage: +10, Single Equip, Last Available: "2020-12"
+Item	paraffin pendant	Experience (Mysticality): +2, Maximum MP: +10, Single Equip, Last Available: "2020-12", Conditional Skill (Equipped): "Paraffin Prism"
+Item	paraffin punching bag	Muscle: +10, Hot Damage: +10, Single Equip, Last Available: "2020-12", Conditional Skill (Equipped): "Paraffin Prism"
 # pat-a-cake pendant: Regenerate 1 MP per adventure (sometimes)
 Item	pat-a-cake pendant	Mysticality: +1, MP Regen Min: 0, MP Regen Max: 1
 Item	patent leather shoes	Muscle: +1, Hot Resistance: +1, Last Available: "2008-12"
@@ -3643,8 +3604,7 @@ Item	replica V for Vivala mask	Muscle Percent: +30, Critical Hit Percent: +10, C
 # retro floppy disk: CyberRealm: Get one additional 1 after combat
 Item	retro floppy disk	Last Available: "2025-12"
 # Retrospecs: Gives you another chance on item drops you missed out on
-# Retrospecs: Reveals foes' weaknesses
-Item	Retrospecs	Muscle: +15, Mysticality: +15, Moxie: +15, Maximum HP: +25, Maximum MP: +25, HP Regen Min: 3, HP Regen Max: 5, MP Regen Min: 3, MP Regen Max: 5, Single Equip, Free Pull, Last Available: "2020-01"
+Item	Retrospecs	Muscle: +15, Mysticality: +15, Moxie: +15, Maximum HP: +25, Maximum MP: +25, HP Regen Min: 3, HP Regen Max: 5, MP Regen Min: 3, MP Regen Max: 5, Single Equip, Free Pull, Last Available: "2020-01", Conditional Skill (Equipped): "Detect Weakness"
 Item	ribbon candy ascot	Candy Drop: +100, HP Regen Min: 6, HP Regen Max: 10, MP Regen Min: 6, MP Regen Max: 10, Single Equip, Last Available: "2019-12"
 Item	rickety old unicycle	Moxie Percent: +15, Initiative: +50, MP Regen Min: 10, MP Regen Max: 25, Single Equip
 Item	ridiculous belt	Muscle: +11, Last Available: "2011-11"
@@ -3823,10 +3783,8 @@ Item	tarnished tastevin	Booze Drop: +25, Single Equip
 Item	tarrrnished charrrm bracelet	Stench Damage: +10, Stench Spell Damage: +10, Single Equip
 # teflon swim fins: Makes you a better diver
 Item	teflon swim fins	Moxie Percent: -5, Initiative: +25, Single Equip, Initiative Penalty: [10*env(underwater)], Item Drop Penalty: [10*env(underwater)], Meat Drop Penalty: [10*env(underwater)]
-# terra cotta tie tack: Lets you unleash a terra cotta army on your foes
-Item	terra cotta tie tack	Experience (Moxie): +3, Meat Drop: +20, Single Equip, Last Available: "2020-12"
-# terra cotta truss: Lets you unleash a terra cotta army on your foes
-Item	terra cotta truss	Experience (Muscle): +3, Initiative: +40, Single Equip, Last Available: "2020-12"
+Item	terra cotta tie tack	Experience (Moxie): +3, Meat Drop: +20, Single Equip, Last Available: "2020-12", Conditional Skill (Equipped): "Unleash Terra Cotta Army"
+Item	terra cotta truss	Experience (Muscle): +3, Initiative: +40, Single Equip, Last Available: "2020-12", Conditional Skill (Equipped): "Unleash Terra Cotta Army"
 Item	the Ley Incursion's waist	Mysticality: +15, Mysticality Percent: +25, Experience (Mysticality): +5, Single Equip, Last Available: "2018-04"
 Item	The Lost Glasses	Reduce Enemy Defense: 15, Hot Resistance: +2, Single Equip
 Item	The One Mood Ring	Muscle Percent: [5*G], Mysticality Percent: [5*G], Moxie Percent: [5*G], Monster Level: [25-5*G], Single Equip, Last Available: "2015-08"
@@ -4307,8 +4265,7 @@ Item	McHugeLarge duffel bag	Item Drop: +15, Maximum HP: +20, Last Available: "20
 Item	Misty Cape	Moxie: +5, HP Regen Min: 2, HP Regen Max: 4, MP Regen Min: 1, MP Regen Max: 2
 Item	Misty Cloak	Muscle: +5, HP Regen Min: 4, HP Regen Max: 8
 Item	Misty Robe	Mysticality: +5, MP Regen Min: 2, MP Regen Max: 4
-# moss mantle: Lets you delevel and stun a foe
-Item	moss mantle	Experience (Moxie): +2, Sleaze Resistance: +2, Last Available: "2024-12"
+Item	moss mantle	Experience (Moxie): +2, Sleaze Resistance: +2, Last Available: "2024-12", Conditional Skill (Equipped): "Drop Mantle"
 Item	Mr. Container	Item Drop: +3, Last Available: "2004-12"
 Item	Newbiesport&trade; backpack	Item Drop: +1, Last Available: "2004-12"
 Item	octolus-skin cloak	Adventures: +2, PvP Fights: +4, Rollover Effect: "Octolus Gift", Rollover Effect Duration: 30, Last Available: "2015-11"
@@ -4316,8 +4273,7 @@ Item	oil shell	Sleaze Damage: +15, Class: "Turtle Tamer"
 Item	old SCUBA tank	Item Drop: -50, Initiative: -100, Adventure Underwater
 Item	palm-frond cloak	Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1
 Item	paperclip cape	HP Regen Min: 5, HP Regen Max: 7, MP Regen Min: 5, MP Regen Max: 7, Last Available: "2011-01"
-# paraffin poncho: Lets you unleash a prismatic attack
-Item	paraffin poncho	Mysticality: +10, Sleaze Damage: +10, Last Available: "2020-12"
+Item	paraffin poncho	Mysticality: +10, Sleaze Damage: +10, Last Available: "2020-12", Conditional Skill (Equipped): "Paraffin Prism"
 Item	pillow shell	Damage Reduction: 3, Class: "Turtle Tamer"
 # polyester parachute: Fury Increases Your Initiative
 Item	polyester parachute	Experience (Muscle): +2, Weapon Drop: +10, Last Available: "2015-12", Initiative: [10*Y]
@@ -4352,8 +4308,7 @@ Item	stained glass serape	Experience (Moxie): +3, Sleaze Resistance: +3, Sleaze 
 Item	super-absorbent tarp	Maximum Hooch: +2
 Item	T&Icirc;&curren;&loz;lisman of Bai&oslash;&Dagger;	Wiki Name: "Bugged baio", Last Available: "2010-04"
 Item	teddybear backpack	Meat Drop: +10, Raveosity: +1
-# terra cotta train: Lets you unleash a terra cotta army on your foes
-Item	terra cotta train	Mysticality Percent: +20, Item Drop: +10, Last Available: "2020-12"
+Item	terra cotta train	Mysticality Percent: +20, Item Drop: +10, Last Available: "2020-12", Conditional Skill (Equipped): "Unleash Terra Cotta Army"
 Item	thermal blanket	Cold Resistance: +2, Spooky Resistance: +1, Combat Rate: +5, Lasts Until Rollover, Last Available: "2022-05"
 Item	Time Bandit Time Towel	Muscle: +5, Mysticality: +5, Moxie: +5, Adventures: +1
 Item	Time Cape	Last Available: "2014-11", Item Drop: [25*zone(Twitch)]
