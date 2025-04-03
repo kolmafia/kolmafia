@@ -9163,6 +9163,7 @@ Outfit	Violent Vestments	Muscle Percent: +15, Mysticality Percent: +15, Moxie Pe
 Outfit	War Hippy Fatigues	Stench Damage: +15
 Outfit	Warbear Dress Armor	Item Drop: +10
 Outfit	Wax Wardrobe	Moxie: +7
+Outfit	Wet Wear	Hot Resistance: +2
 Outfit	Whittled Wearables	Maximum HP Percent: +50, Maximum MP Percent: +25
 Outfit	Wicker Wear	Muscle Percent: +15, Mysticality Percent: +15, Moxie Percent: +15
 Outfit	Workoutfit	PvP Fights: +2
