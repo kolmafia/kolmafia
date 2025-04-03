@@ -11927,3 +11927,5 @@
 11899	wet paperback	793289806	wetpaperback.gif	potion, usable	t,d	11
 11900	wet shower radio	360902606	wetpaperradio.gif	accessory	q	0
 11901	wet shower stamp	834166843	wetpaperstamp.gif	usable	t	0
+11902
+11903	jawwetter	169174157	wetpaperball.gif	potion, usable	t,d	5
