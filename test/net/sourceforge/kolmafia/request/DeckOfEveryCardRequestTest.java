@@ -10,6 +10,7 @@ import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withPasswordHash;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withSavePreferencesToFile;
 import static internal.matchers.Preference.isSetTo;
 import static net.sourceforge.kolmafia.request.DeckOfEveryCardRequest.RACING;
 import static net.sourceforge.kolmafia.request.DeckOfEveryCardRequest.buffToCard;
@@ -36,6 +37,8 @@ import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 class DeckOfEveryCardRequestTest {
   private static final String USERNAME = "DeckOfEveryCardRequestTest";
@@ -141,8 +144,9 @@ class DeckOfEveryCardRequestTest {
     }
   }
 
-  @Test
-  public void itShouldRunAndUpdatePreferences() {
+  @ParameterizedTest
+  @CsvSource({"true, true", "true, false", "false, true", "false, false"})
+  public void itShouldRunAndUpdatePreferences(boolean useUpdate, boolean useWrite) {
     DeckOfEveryCardRequest.EveryCard mickey = getCardById(58);
     var builder = new FakeHttpClientBuilder();
     var client = builder.client;
@@ -163,7 +167,12 @@ class DeckOfEveryCardRequestTest {
             withGender(KoLCharacter.Gender.FEMALE),
             withGuildStoreOpen(false),
             withPasswordHash("cafebabe"),
+            withProperty("saveSettingsOnSet", useUpdate),
             withAdventuresLeft(100));
+    // Because this is a test the assumption is that saving preferences is disabled
+    if (useWrite) {
+      cleanups.add(withSavePreferencesToFile());
+    }
     try (cleanups) {
       new DeckOfEveryCardRequest(mickey).run();
       var requests = builder.client.getRequests();
