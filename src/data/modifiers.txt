@@ -6240,6 +6240,7 @@ Effect	Eau d' Clochard	Meat Drop: +100
 Effect	Eau D'enmity	Monster Level: +5
 # Eau de Tortue: Helps you tame turtles
 Effect	Ecce Wino	Avatar: "mad wino"
+# Echoes of Wetness: Monsters are stunned the first round of combat where you created the sonic boom
 Effect	Educated (Kinda)	Spooky Resistance: +5
 Effect	Educated (Sorta)	Sleaze Resistance: +5
 Effect	Egg Burps	Stench Spell Damage: +50, Spell Damage Percent: +100
@@ -8324,6 +8325,7 @@ Effect	Well-Rested	Experience: +3
 Effect	Well-Swabbed Ear	Initiative: +30
 Effect	Well-Ventilated	Muscle: +15, Mysticality: +15, Moxie: +15
 Effect	Wet and Greedy	Item Drop: +25
+Effect	Wet Jaw	Hot Resistance: +1
 Effect	Wet Rub	HP Regen Min: 16, HP Regen Max: 20
 # Wet Willied: Your familiar can breathe underwater
 Effect	Wet Willied	Underwater Familiar
@@ -11151,6 +11153,7 @@ Item	irritability potion	Effect: "Simply Irritable", Effect Duration: 20, Last A
 Item	jaba&ntilde;ero-flavored chewing gum	Effect: "Spicy Mouth", Effect Duration: 5
 Item	jagged tooth	Effect: "Horrid, Torrid", Effect Duration: 1
 Item	jar of &quot;Creole Lady&quot; marrrmalade	Effect: "Savage Beast Inside", Effect Duration: 10
+Item	jawwetter	Effect: "Wet Jaw", Effect Duration: 10
 Item	jazz soap	Free Pull, Effect: "Jazz Hands", Effect Duration: 20
 Item	jellyfish gel	Effect: "Old School Pompadour", Effect Duration: 10
 Item	Jokester makeup	Effect: "Why So Serious?", Effect Duration: 25, Last Available: "2016-12"
