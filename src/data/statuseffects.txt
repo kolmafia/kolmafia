@@ -2204,7 +2204,7 @@
 2201	Connected	pixheart.gif	9259fbf1d465faad90e41f4552f33302	neutral	none	eat 1 cyburger
 2202	Space Cadet	spacehelmet.gif	62361e332402328f9398ded1aa551bda	good	none	drink 1 double entendre
 2203	Pounded by the Actual Stars	tinystars.gif	3414fb4ec08f761d3b0ea241aaba270f	good	none	drink 1 single entendre
-2204
+2204	Wet Jaw	wetpaperball.gif	01e0696a648b07bea76b4639038e8d6a	neutral	none	use 1 jawwetter
 2205
 2206	Flambé-a-thon	hurricane_f.gif	04d1ad82de59c3fd9be3fe6e6688c3ef	good	none	drink 1 Phlegethon
 2207	It Is So Hot In Your Guts, So So Hot	batgut.gif	3744d667628625ce06a7bbd473acce37	good	none	drink 1 reverse Tantalus
@@ -2993,6 +2993,6 @@
 2990	Lifting Wets	wetpaperweight.gif	0d92d7086d0bd97090dc51d252f8b7b0	neutral	none	use 1 wet paper weights
 2991	Wetted Whistle	wetpaperdrink.gif	4c844da112766b6a6d262f86eb724701	neutral	none	drink 1 Three Sheets to the Wind
 2992	A Date With Tomorrow	wetpaperdates.gif	daed8a7f8faf412fd2b27b8cec36e7e3	neutral	none	eat 1 pile of wet dates
-2993
+2993	Echoes of Wetness	wetpaperplane.gif	302a1432c19ace1071272d0fe69fa2ab	neutral	none
 2994	In Your Cups	wetpapercup.gif	c9cc9a1ed9892e908fedefbd66365b6c	neutral	none	use 1 wet paper cup
 2995	Moisticality	wetpaperback.gif	d691b7e2b735ddc8a2fdfa0b7fe07150	neutral	none	use 1 wet paperback

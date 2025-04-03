@@ -56,7 +56,7 @@ public class MallPriceManagerTest {
   // We will mock a Clock object and direct MallPriceManager to use our
   // clock, over which we have complete control.
 
-  private static Clock clock = Mockito.mock(Clock.class);
+  private static final Clock clock = Mockito.mock(Clock.class);
 
   private static Cleanups mockClock() {
     var mocked = mockStatic(MallPriceManager.class, Mockito.CALLS_REAL_METHODS);
@@ -125,6 +125,7 @@ public class MallPriceManagerTest {
               Object[] arguments = invocation.getArguments();
               String searchString = (String) arguments[0];
               int cheapestCount = (int) arguments[1];
+              @SuppressWarnings("unchecked")
               List<PurchaseRequest> results = (List<PurchaseRequest>) arguments[2];
               // Caller will supply empty results. If mocked request has
               // preloaded results, hand them over.
@@ -200,7 +201,7 @@ public class MallPriceManagerTest {
 
   private PurchaseRequest makeMallItem(
       int itemId, int quantity, long price, int limit, int shopId) {
-    String shopName = "shop " + String.valueOf(shopId);
+    String shopName = "shop " + shopId;
 
     return makeMallItem(itemId, quantity, price, limit, shopId, shopName);
   }
@@ -368,7 +369,7 @@ public class MallPriceManagerTest {
 
       // This item is a NPC item available for the 5th cheapest price
       long mallPrice = MallPriceManager.getMallPrice(item);
-      assertEquals(mallPrice, 400);
+      assertEquals(400, mallPrice);
     }
   }
 
@@ -402,14 +403,14 @@ public class MallPriceManagerTest {
 
       // Find the fifth cheapest price
       long mallPrice = MallPriceManager.getMallPrice(item);
-      assertEquals(mallPrice, 400);
+      assertEquals(400, mallPrice);
 
       // Flush the first shop's PurchaseRequest
       MallPriceManager.flushCache(itemId, shopId);
 
       // Find the fifth cheapest price
       mallPrice = MallPriceManager.getMallPrice(item);
-      assertEquals(mallPrice, 500);
+      assertEquals(500, mallPrice);
     }
   }
 
@@ -583,7 +584,7 @@ public class MallPriceManagerTest {
       assertNotNull(search);
 
       // Advance time such that the timestamp is now 5 seconds stale :)
-      long now = timestamp + (MallPriceManager.MALL_SEARCH_FRESHNESS + 5) * 1000;
+      long now = timestamp + (MallPriceManager.MALL_SEARCH_FRESHNESS + 5) * 1000L;
       Mockito.when(clock.millis()).thenReturn(now);
 
       // Verify that there is no longer a saved mall search
@@ -639,7 +640,7 @@ public class MallPriceManagerTest {
       List<PurchaseRequest> results = MallPriceManager.searchMall(item);
 
       // The MallSearchRequest found a bunch of PurchaseRequests from the responseText
-      assertEquals(results.size(), 60);
+      assertEquals(60, results.size());
     }
   }
 
@@ -659,10 +660,10 @@ public class MallPriceManagerTest {
       boolean forbid = true;
       for (var shopId : shopIds) {
         if (forbid) {
-          if (buf.length() > 0) {
+          if (!buf.isEmpty()) {
             buf.append(",");
           }
-          buf.append(String.valueOf(shopId));
+          buf.append(shopId);
         }
         forbid = !forbid;
       }
@@ -679,7 +680,7 @@ public class MallPriceManagerTest {
       // Get the shopIds from the responseText
       List<Integer> shopIds = extractShopIds(item, responseText);
       int count = shopIds.size();
-      assertEquals(count, 60);
+      assertEquals(60, count);
 
       // Forbid half the stores
       String setting = getForbiddenStores(shopIds);
@@ -696,7 +697,7 @@ public class MallPriceManagerTest {
 
         // MallPriceManager can search the mall and return a filtered list of results
         List<PurchaseRequest> results = MallPriceManager.searchMall(item);
-        assertEquals(results.size(), 30);
+        assertEquals(30, results.size());
 
         // Verify that none of the forbidden stores are in the resulta
         Set<Integer> forbidden = MallPurchaseRequest.getForbiddenStores();
@@ -720,7 +721,7 @@ public class MallPriceManagerTest {
       // Get the shopIds from the responseText
       List<Integer> shopIds = extractShopIds(item, responseText);
       int count = shopIds.size();
-      assertEquals(count, 60);
+      assertEquals(60, count);
 
       // Forbid half the stores
       String setting = getForbiddenStores(shopIds);
@@ -737,7 +738,8 @@ public class MallPriceManagerTest {
         // MallSearchRequest will give MallPriceManager a full set of results.
         // MallPriceManager will filter them.
         List<PurchaseRequest> results = MallPriceManager.getSavedSearch(item.getItemId(), 5);
-        assertEquals(results.size(), 30);
+        assertNotNull(results);
+        assertEquals(30, results.size());
 
         // Verify that none of the forbidden stores are in the resulta
         Set<Integer> forbidden = MallPurchaseRequest.getForbiddenStores();
@@ -766,7 +768,7 @@ public class MallPriceManagerTest {
       // all responseTexts into the "results" field of the request.
       // It will then update prices and return how many
       int count = MallPriceManager.getMallPrices("unlockers", "");
-      assertEquals(count, 32);
+      assertEquals(32, count);
     }
   }
 
@@ -788,7 +790,7 @@ public class MallPriceManagerTest {
 
       List<PurchaseRequest> results = request.getResults();
       assertEquals(4264, results.size());
-      assertThat(results.get(0).getShopName(), equalTo("Clerk's"));
+      assertThat(results.getFirst().getShopName(), equalTo("Clerk's"));
     }
   }
 
