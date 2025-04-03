@@ -738,7 +738,7 @@ public class MallPriceManagerTest {
         // MallSearchRequest will give MallPriceManager a full set of results.
         // MallPriceManager will filter them.
         List<PurchaseRequest> results = MallPriceManager.getSavedSearch(item.getItemId(), 5);
-        assert (results != null);
+        assertNotNull(results);
         assertEquals(30, results.size());
 
         // Verify that none of the forbidden stores are in the resulta
