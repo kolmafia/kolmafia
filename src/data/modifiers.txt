@@ -5229,6 +5229,7 @@ Throne	Urchin Urchin	Weapon Damage: +10
 Throne	Vampire Vintner	Maximum HP: +10, HP Regen Min: 10, HP Regen Max: 12
 Throne	Warbear Drone	Maximum HP: +10, Maximum MP: +10, Drops Items
 Throne	Wereturtle	Muscle Percent: +15, Drops Meat
+Throne	Wet Paper Tiger	
 Throne	Whirling Maple Leaf	Spell Damage Percent: +10
 Throne	Wild Hare	Muscle: +10, Mysticality: +10, Moxie: +10, HP Regen Min: 5, HP Regen Max: 6, MP Regen Min: 3, MP Regen Max: 4
 Throne	Wind-up Chattering Teeth	Muscle Percent: +15
