@@ -3987,7 +3987,6 @@ public abstract class KoLCharacter {
     KoLConstants.availableSkillsSet.remove(skillId);
     KoLConstants.usableSkills.remove(skill);
     KoLConstants.summoningSkills.remove(skill);
-    KoLConstants.usableSkills.remove(skill);
     KoLConstants.remedySkills.remove(skill);
     KoLConstants.selfOnlySkills.remove(skill);
     KoLConstants.buffSkills.remove(skill);
