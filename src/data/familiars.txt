@@ -357,3 +357,4 @@
 320	Defective Childrens' Stapler	kidstaplerbad.gif	block,combat0	childrens' stapler	carton of extra-sharp, rusty staples	0	0	0	0	object,bite,cute,reallyevil,hasstinger
 321	Glover	glover.gif	combat0,delevel1	plover's egg	glover liners	0	0	0	0	hashands,hasclaws,wearsclothes,isclothes,hasbeak
 322	Zapper Bug	zapperbug.gif	combat0,mp0	electric flyswatter	mosquito speakers	0	0	0	0	cantalk,fast,flies,robot,insect
+323	Wet Paper Tiger	wetpapertiger2.gif	none	wet paper tiger	wet paper eye	0	0	0	0	

@@ -4683,6 +4683,7 @@ Item	warbear drone codes	Last Available: "2013-12"
 Item	wax lips	Experience: +3, Softcore Only, Last Available: "2005-07", Generic
 # weegee sqouija: Hobo's Booze Is More Effective
 Item	weegee sqouija	Last Available: "2011-12"
+Item	wet paper eye	Familiar Weight: +15
 # white arm towel: Your familiar will find extra food and booze on the Crimbo Train
 Item	white arm towel	Last Available: "2022-12", Generic
 Item	woimbook	Familiar Weight: +5
