@@ -16,6 +16,7 @@ import net.sourceforge.kolmafia.request.concoction.ChefStaffRequest;
 import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class GuildRequest extends GenericRequest {
@@ -420,6 +421,9 @@ public class GuildRequest extends GenericRequest {
         RequestThread.postRequest(scg);
       } else if (QuestDatabase.isQuestStep(Quest.NEMESIS, "step16.5")) {
         QuestDatabase.setQuestProgress(Quest.NEMESIS, "step17");
+        TurnCounter.startCounting(5, "Nemesis Assassin window begin loc=*", "lparen.gif");
+        TurnCounter.startCounting(
+            15, "Nemesis Assassin window end loc=* type=wander", "rparen.gif");
       }
 
       return true;
