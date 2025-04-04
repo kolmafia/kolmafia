@@ -7,7 +7,9 @@ import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withQuestProgress;
+import static internal.helpers.Player.withoutCounters;
 import static internal.helpers.Player.withoutItem;
+import static internal.matchers.Preference.isSetTo;
 import static internal.matchers.Quest.isStep;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
@@ -247,7 +249,11 @@ public class GuildRequestTest {
       var client = builder.client;
 
       var cleanups =
-          new Cleanups(withHttpClientBuilder(builder), withQuestProgress(Quest.NEMESIS, "step16"));
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withoutCounters(),
+              withProperty("relayCounters", ""),
+              withQuestProgress(Quest.NEMESIS, "step16"));
 
       try (cleanups) {
         client.addResponse(200, html("request/test_nemesis_caveboss_guild_1.html"));
@@ -258,6 +264,10 @@ public class GuildRequestTest {
         visit.run();
 
         assertThat(Quest.NEMESIS, isStep("step17"));
+        assertThat(
+            "relayCounters",
+            isSetTo(
+                "5:Nemesis Assassin window begin loc=*:lparen.gif:15:Nemesis Assassin window end loc=* type=wander:rparen.gif"));
 
         var requests = client.getRequests();
         assertThat(requests, hasSize(3));
