@@ -11912,20 +11912,20 @@
 11884	April Shower Thoughts shield	426981794	aprilcal.gif	offhand		0
 11885	glob of wet paper	697147549	wetpaper.gif	none	t,d	1	globs of wet paper
 11886	spitball	595789096	wetpaperball.gif	none, combat	t,d	1
-11887	wet paper weights	121896523	wetpaperweight.gif	potion, usable	t,d	11
-11888	Three Sheets to the Wind	666631105	wetpaperdrink.gif	drink	t,d	21
-11889	pile of wet dates	910881049	wetpaperdates.gif	food	t,d	21
+11887	wet paper weights	121896523	wetpaperweight.gif	potion	t,d	11	pairs of wet paper weights
+11888	Three Sheets to the Wind	666631105	wetpaperdrink.gif	drink	t,d	21	Three Sheets to the Wind cocktails
+11889	pile of wet dates	910881049	wetpaperdates.gif	food	t,d	21	piles of wet dates
 11890	papier Mach 1 airplane	152898749	wetpaperplane.gif	none, combat	t,d	21
 11891	wet blanket	585127500	wetpaperblanket.gif	usable	t,d	21
 11892	wet shower cap	322253816	wetpaperhat.gif	hat	t	0
-11893	wet shower shoes	478716787	wetpapershoes.gif	accessory	t	0
-11894	wet shower shorts	825860284	wetpapershorts.gif	pants	t	0
+11893	wet shower shoes	478716787	wetpapershoes.gif	accessory	t	0	pairs of wet shower shoes
+11894	wet shower shorts	825860284	wetpapershorts.gif	pants	t	0	pairs of wet shower shorts
 11895	wet paper tiger	828107569	wetpapertiger.gif	grow	t	0
-11896
+11896	wet paper eye	740334577	wetpaperball.gif	familiar	t,d	75
 11897	wet shower curtain	232800922	wetpapercurtain.gif	container	t,d	21
-11898	wet paper cup	819660539	wetpapercup.gif	potion, usable	t,d	11
-11899	wet paperback	793289806	wetpaperback.gif	potion, usable	t,d	11
+11898	wet paper cup	819660539	wetpapercup.gif	potion	t,d	11
+11899	wet paperback	793289806	wetpaperback.gif	potion	t,d	11
 11900	wet shower radio	360902606	wetpaperradio.gif	accessory	q	0
 11901	wet shower stamp	834166843	wetpaperstamp.gif	usable	t	0
 11902
-11903	jawwetter	169174157	wetpaperball.gif	potion, usable	t,d	5
+11903	jawwetter	169174157	wetpaperball.gif	potion	t,d	5
