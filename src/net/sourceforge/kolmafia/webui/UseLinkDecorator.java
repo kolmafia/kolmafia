@@ -2236,6 +2236,11 @@ public abstract class UseLinkDecorator {
           return new UseLink(
               itemId, "visit Melvign", "place.php?whichplace=mountains&action=mts_melvin");
         }
+
+      case ItemPool.GLOB_OF_WET_PAPER:
+        useType = "think";
+        useLocation = "shop.php?whichshop=showerthoughts";
+        break;
     }
 
     if (useType == null || useLocation == null) {
