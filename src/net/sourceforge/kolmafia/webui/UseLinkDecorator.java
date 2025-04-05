@@ -1810,7 +1810,9 @@ public abstract class UseLinkDecorator {
           useLocation = "fernruin.php";
           break;
         }
-        /*FALLTHRU*/
+        useType = "guild";
+        useLocation = "guild.php?place=ocg";
+        break;
       case ItemPool.DUSTY_BOOK:
         useType = "guild";
         useLocation = "guild.php?place=ocg";
@@ -1888,7 +1890,7 @@ public abstract class UseLinkDecorator {
       case ItemPool.REALLY_DENSE_MEAT_STACK:
       case ItemPool.SCARAB_BEETLE_STATUETTE:
         if (!adventureResults) break;
-        /*FALLTHRU*/
+        return getCouncilLink(itemId);
       case ItemPool.HOLY_MACGUFFIN:
       case ItemPool.ED_HOLY_MACGUFFIN:
         return getCouncilLink(itemId);
