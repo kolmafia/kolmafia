@@ -1143,6 +1143,7 @@ user	maximizerIncludeAll	false
 user	maximizerMaxPrice	0
 user	maximizerNoAdventures	false
 user	maximizerPriceLevel	0
+user	maximizerUseScope	false
 user	maxManaBurn	1000
 user	mayflyExperience	0	roa
 user	mayoInMouth		roa
@@ -1990,6 +1991,7 @@ user	_coldMedicineEquipmentTaken	0
 user	_coldOne	false
 user	_communismUsed	false
 user	_companionshipCasts	0
+user	_concoctionDatabaseRefreshes	0
 user	_confusingLEDClockUsed	false
 user	_controlPanelUsed	false
 user	_cookbookbatCrafting	0
