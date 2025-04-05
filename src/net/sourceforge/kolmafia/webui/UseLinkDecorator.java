@@ -379,43 +379,44 @@ public abstract class UseLinkDecorator {
 
     switch (itemId) {
         // If you find the wooden stakes, you want to equip them
-      case ItemPool.WOODEN_STAKES:
+      case ItemPool.WOODEN_STAKES -> {
         return CraftingType.NOCREATE;
+      }
 
         // If you find goat cheese, let the trapper link handle it.
-      case ItemPool.GOAT_CHEESE:
+      case ItemPool.GOAT_CHEESE -> {
         return CraftingType.NOCREATE;
+      }
 
         // If you find ore, let the trapper link handle it.
-      case ItemPool.LINOLEUM_ORE:
-      case ItemPool.ASBESTOS_ORE:
-      case ItemPool.CHROME_ORE:
+      case ItemPool.LINOLEUM_ORE, ItemPool.ASBESTOS_ORE, ItemPool.CHROME_ORE -> {
         return CraftingType.NOCREATE;
+      }
 
         // Dictionaries and bridges should link to the chasm quest.
-      case ItemPool.DICTIONARY:
-      case ItemPool.BRIDGE:
+      case ItemPool.DICTIONARY, ItemPool.BRIDGE -> {
         return CraftingType.NOCREATE;
+      }
 
         // The eyepatch can be combined, but is usually an outfit piece
         // The dreadsack can be combined, but is usually an outfit piece
         // The frilly skirt is usually used for the frathouse blueprints
-      case ItemPool.EYEPATCH:
-      case ItemPool.DREADSACK:
-      case ItemPool.FRILLY_SKIRT:
+      case ItemPool.EYEPATCH, ItemPool.DREADSACK, ItemPool.FRILLY_SKIRT -> {
         return CraftingType.NOCREATE;
+      }
 
         // Spooky Fertilizer CAN be cooked, but almost always is used
         // for with the spooky temple map.
-      case ItemPool.SPOOKY_FERTILIZER:
+      case ItemPool.SPOOKY_FERTILIZER -> {
         return CraftingType.NOCREATE;
+      }
 
         // Enchanted beans are primarily used for the beanstalk quest.
-      case ItemPool.ENCHANTED_BEAN:
+      case ItemPool.ENCHANTED_BEAN -> {
         if (KoLCharacter.getLevel() >= 10 && !InventoryManager.hasItem(ItemPool.SOCK)) {
           return CraftingType.NOCREATE;
         }
-        break;
+      }
     }
 
     for (AdventureResult creation : creations) {
@@ -430,16 +431,10 @@ public abstract class UseLinkDecorator {
       // editor kit currently understands and links.
 
       switch (mixingMethod) {
-        case COMBINE:
-        case ACOMBINE:
-        case MIX:
-        case MIX_FANCY:
-        case COOK:
-        case COOK_FANCY:
-        case JEWELRY:
-          break;
-        default:
+        case COMBINE, ACOMBINE, MIX, MIX_FANCY, COOK, COOK_FANCY, JEWELRY -> {}
+        default -> {
           continue;
+        }
       }
 
       CreateItemRequest irequest = CreateItemRequest.getInstance(creation);
@@ -474,35 +469,26 @@ public abstract class UseLinkDecorator {
     UseLink link = null;
 
     switch (effect.getEffectId()) {
-      case EffectPool.FILTHWORM_LARVA_STENCH:
-        link = new UseLink(0, "feeding chamber", "adventure.php?snarfblat=128");
-        break;
-      case EffectPool.FILTHWORM_DRONE_STENCH:
-        link = new UseLink(0, "guards' chamber", "adventure.php?snarfblat=129");
-        break;
-      case EffectPool.FILTHWORM_GUARD_STENCH:
-        link = new UseLink(0, "queen's chamber", "adventure.php?snarfblat=130");
-        break;
-      case EffectPool.KNOB_GOBLIN_PERFUME:
-        link = new UseLink(0, "throne room", "cobbsknob.php?action=throneroom");
-        break;
-      case EffectPool.DOWN_THE_RABBIT_HOLE:
-        link = new UseLink(0, "rabbit hole", "place.php?whichplace=rabbithole");
-        break;
-      case EffectPool.TRANSPONDENT:
-        link = new UseLink(0, "spaaace", "spaaace.php?arrive=1");
-        break;
-      case EffectPool.STONE_FACED:
-        link = new UseLink(0, "hidden temple", "adventure.php?snarfblat=280");
-        break;
-      case EffectPool.DIS_ABLED:
-        link = new UseLink(0, "portal to dis", "suburbandis.php");
-        break;
-      default:
+      case EffectPool.FILTHWORM_LARVA_STENCH -> link =
+          new UseLink(0, "feeding chamber", "adventure.php?snarfblat=128");
+      case EffectPool.FILTHWORM_DRONE_STENCH -> link =
+          new UseLink(0, "guards' chamber", "adventure.php?snarfblat=129");
+      case EffectPool.FILTHWORM_GUARD_STENCH -> link =
+          new UseLink(0, "queen's chamber", "adventure.php?snarfblat=130");
+      case EffectPool.KNOB_GOBLIN_PERFUME -> link =
+          new UseLink(0, "throne room", "cobbsknob.php?action=throneroom");
+      case EffectPool.DOWN_THE_RABBIT_HOLE -> link =
+          new UseLink(0, "rabbit hole", "place.php?whichplace=rabbithole");
+      case EffectPool.TRANSPONDENT -> link = new UseLink(0, "spaaace", "spaaace.php?arrive=1");
+      case EffectPool.STONE_FACED -> link =
+          new UseLink(0, "hidden temple", "adventure.php?snarfblat=280");
+      case EffectPool.DIS_ABLED -> link = new UseLink(0, "portal to dis", "suburbandis.php");
+      default -> {
         // There are several effect names which are also items.
         // We know that we're dealing with an effect here, so there's
         // no point in also checking for an item match.
         return true;
+      }
     }
 
     String useType = link.getUseType();
@@ -639,70 +625,63 @@ public abstract class UseLinkDecorator {
       }
       case EAT -> {
         switch (itemId) {
-          case ItemPool.GOAT_CHEESE:
+          case ItemPool.GOAT_CHEESE -> {
             return new UseLink(
                 itemId,
                 InventoryManager.getCount(itemId),
                 "place.php?whichplace=mclargehuge&action=trappercabin");
+          }
+          case ItemPool.FORTUNE_COOKIE -> {
+            ArrayList<UseLink> uses = new ArrayList<>();
 
-          case ItemPool.FORTUNE_COOKIE:
-            {
-              ArrayList<UseLink> uses = new ArrayList<>();
-
-              if (KoLCharacter.canEat() && !KoLCharacter.isVampyre()) {
-                uses.add(new UseLink(itemId, itemCount, "eat", "inv_eat.php?which=1&whichitem="));
-              }
-
-              uses.add(new UseLink(itemId, itemCount, "smash", "inv_use.php?which=1&whichitem="));
-
-              if (uses.size() == 1) {
-                return uses.get(0);
-              }
-
-              return new UsesLink(uses.toArray(new UseLink[uses.size()]));
+            if (KoLCharacter.canEat() && !KoLCharacter.isVampyre()) {
+              uses.add(new UseLink(itemId, itemCount, "eat", "inv_eat.php?which=1&whichitem="));
             }
 
-          case ItemPool.HOT_WING:
-            {
-              ArrayList<UseLink> uses = new ArrayList<>();
+            uses.add(new UseLink(itemId, itemCount, "smash", "inv_use.php?which=1&whichitem="));
 
-              if (KoLCharacter.canEat() && !KoLCharacter.isVampyre()) {
-                uses.add(new UseLink(itemId, itemCount, "eat", "inv_eat.php?which=1&whichitem="));
-              }
-
-              uses.add(new UseLink(itemId, InventoryManager.getCount(itemId)));
-
-              if (uses.size() == 1) {
-                return uses.get(0);
-              }
-
-              return new UsesLink(uses.toArray(new UseLink[uses.size()]));
+            if (uses.size() == 1) {
+              return uses.get(0);
             }
 
-          case ItemPool.SNOW_BERRIES:
-          case ItemPool.ICE_HARVEST:
-            {
-              ArrayList<UseLink> uses = new ArrayList<>();
+            return new UsesLink(uses.toArray(new UseLink[0]));
+          }
+          case ItemPool.HOT_WING -> {
+            ArrayList<UseLink> uses = new ArrayList<>();
 
-              if (KoLCharacter.canEat() && !KoLCharacter.isVampyre()) {
-                uses.add(new UseLink(itemId, itemCount, "eat", "inv_eat.php?which=1&whichitem="));
-              }
-
-              uses.add(new UseLink(itemId, 1, "make stuff", "shop.php?whichshop=snowgarden"));
-
-              if (uses.size() == 1) {
-                return uses.get(0);
-              }
-
-              return new UsesLink(uses.toArray(new UseLink[uses.size()]));
+            if (KoLCharacter.canEat() && !KoLCharacter.isVampyre()) {
+              uses.add(new UseLink(itemId, itemCount, "eat", "inv_eat.php?which=1&whichitem="));
             }
 
-          case ItemPool.GIANT_MARSHMALLOW:
-          case ItemPool.SPONGE_CAKE:
+            uses.add(new UseLink(itemId, InventoryManager.getCount(itemId)));
+
+            if (uses.size() == 1) {
+              return uses.get(0);
+            }
+
+            return new UsesLink(uses.toArray(new UseLink[0]));
+          }
+          case ItemPool.SNOW_BERRIES, ItemPool.ICE_HARVEST -> {
+            ArrayList<UseLink> uses = new ArrayList<>();
+
+            if (KoLCharacter.canEat() && !KoLCharacter.isVampyre()) {
+              uses.add(new UseLink(itemId, itemCount, "eat", "inv_eat.php?which=1&whichitem="));
+            }
+
+            uses.add(new UseLink(itemId, 1, "make stuff", "shop.php?whichshop=snowgarden"));
+
+            if (uses.size() == 1) {
+              return uses.get(0);
+            }
+
+            return new UsesLink(uses.toArray(new UseLink[0]));
+          }
+          case ItemPool.GIANT_MARSHMALLOW, ItemPool.SPONGE_CAKE -> {
             if (!QuestDatabase.isQuestFinished(Quest.AZAZEL)
                 && InventoryManager.getCount(ItemPool.AZAZELS_UNICORN) == 0) {
               return UseLinkDecorator.svenLink(itemId);
             }
+          }
         }
 
         if (!KoLCharacter.canEat()) {
@@ -755,15 +734,15 @@ public abstract class UseLinkDecorator {
         }
 
         switch (itemId) {
-          case ItemPool.BOOZE_SOAKED_CHERRY:
-          case ItemPool.GIN_SOAKED_BLOTTER_PAPER:
+          case ItemPool.BOOZE_SOAKED_CHERRY, ItemPool.GIN_SOAKED_BLOTTER_PAPER -> {
             if (!QuestDatabase.isQuestFinished(Quest.AZAZEL)
                 && InventoryManager.getCount(ItemPool.AZAZELS_UNICORN) == 0) {
               return UseLinkDecorator.svenLink(itemId);
             }
-            break;
-          case ItemPool.BOTTLE_OF_CHATEAU_DE_VINEGAR:
+          }
+          case ItemPool.BOTTLE_OF_CHATEAU_DE_VINEGAR -> {
             return null;
+          }
         }
         return new UseLink(itemId, itemCount, "drink", "inv_booze.php?which=1&whichitem=");
       }
@@ -826,21 +805,21 @@ public abstract class UseLinkDecorator {
         }
 
         switch (itemId) {
-          case ItemPool.RUSTY_HEDGE_TRIMMERS:
+          case ItemPool.RUSTY_HEDGE_TRIMMERS -> {
 
             // Not inline, since the redirection to a fight
             // doesn't work ajaxified.
 
             return new UseLink(itemId, 1, "use", "inv_use.php?which=3&whichitem=", false);
-
-          case ItemPool.DANCE_CARD:
+          }
+          case ItemPool.DANCE_CARD -> {
             // No use link for a dance card if one is already active or another will expire in 3
             // turns.
             if (TurnCounter.isCounting("Dance Card")
                 || TurnCounter.getCounters("", 3, 3).length() > 0) {
               return null;
             }
-            break;
+          }
         }
 
         if (useCount == 1) {
@@ -901,43 +880,38 @@ public abstract class UseLinkDecorator {
         }
 
         switch (itemId) {
-          case ItemPool.LOATHING_LEGION_KNIFE:
-          case ItemPool.LOATHING_LEGION_TATTOO_NEEDLE:
-          case ItemPool.LOATHING_LEGION_UNIVERSAL_SCREWDRIVER:
-            {
-              ArrayList<UseLink> uses = new ArrayList<>();
-              if (itemId == ItemPool.LOATHING_LEGION_TATTOO_NEEDLE) {
-                uses.add(new UseLink(itemId, 1, "use", "inv_use.php?which=3&whichitem="));
-              } else if (itemId == ItemPool.LOATHING_LEGION_UNIVERSAL_SCREWDRIVER) {
-                uses.add(new UseLink(itemId, 1, "untinker", "inv_use.php?which=3&whichitem="));
-              }
-              uses.add(new UseLink(itemId, 1, "switch", "inv_use.php?which=3&switch=1&whichitem="));
-
-              if (uses.size() == 1) {
-                return uses.get(0);
-              }
-              return new UsesLink(uses.toArray(new UseLink[uses.size()]));
+          case ItemPool.LOATHING_LEGION_KNIFE,
+              ItemPool.LOATHING_LEGION_TATTOO_NEEDLE,
+              ItemPool.LOATHING_LEGION_UNIVERSAL_SCREWDRIVER -> {
+            ArrayList<UseLink> uses = new ArrayList<>();
+            if (itemId == ItemPool.LOATHING_LEGION_TATTOO_NEEDLE) {
+              uses.add(new UseLink(itemId, 1, "use", "inv_use.php?which=3&whichitem="));
+            } else if (itemId == ItemPool.LOATHING_LEGION_UNIVERSAL_SCREWDRIVER) {
+              uses.add(new UseLink(itemId, 1, "untinker", "inv_use.php?which=3&whichitem="));
             }
+            uses.add(new UseLink(itemId, 1, "switch", "inv_use.php?which=3&switch=1&whichitem="));
 
-          case ItemPool.MACGUFFIN_DIARY:
-          case ItemPool.ED_DIARY:
+            if (uses.size() == 1) {
+              return uses.get(0);
+            }
+            return new UsesLink(uses.toArray(new UseLink[0]));
+          }
+          case ItemPool.MACGUFFIN_DIARY, ItemPool.ED_DIARY -> {
             return new UseLink(itemId, 1, "read", "diary.php?textversion=1");
-
-          case ItemPool.VOLCANO_MAP:
+          }
+          case ItemPool.VOLCANO_MAP -> {
             return new UseLink(itemId, 1, "read", "volcanoisland.php?intro=1");
-
-          case ItemPool.PIRATE_REALM_FUN_LOG:
+          }
+          case ItemPool.PIRATE_REALM_FUN_LOG -> {
             return new UseLink(itemId, 1, "order stuff", "shop.php?whichshop=piraterealm");
-
-          case ItemPool.ENCHANTED_BEAN:
+          }
+          case ItemPool.ENCHANTED_BEAN -> {
             return KoLCharacter.getLevel() < 10
                 ? null
                 : new UseLink(
                     itemId, "plant", "place.php?whichplace=plains&action=garbage_grounds");
-
-          case ItemPool.SPOOKY_SAPLING:
-          case ItemPool.SPOOKY_MAP:
-          case ItemPool.SPOOKY_FERTILIZER:
+          }
+          case ItemPool.SPOOKY_SAPLING, ItemPool.SPOOKY_MAP, ItemPool.SPOOKY_FERTILIZER -> {
             if (!InventoryManager.hasItem(ItemPool.SPOOKY_MAP)
                 || !InventoryManager.hasItem(ItemPool.SPOOKY_SAPLING)
                 || !InventoryManager.hasItem(ItemPool.SPOOKY_FERTILIZER)) {
@@ -945,129 +919,129 @@ public abstract class UseLinkDecorator {
             }
 
             return new UseLink(ItemPool.SPOOKY_MAP, 1, "map", "inv_use.php?which=3&whichitem=");
+          }
 
             // Soft green echo eyedrop antidote gets an uneffect link
 
-          case ItemPool.REMEDY:
-          case ItemPool.ANCIENT_CURE_ALL:
+          case ItemPool.REMEDY, ItemPool.ANCIENT_CURE_ALL -> {
             return new UseLink(itemId, 1, "use", "uneffect.php");
+          }
 
-          case ItemPool.FRATHOUSE_BLUEPRINTS:
-          case ItemPool.RONALD_SHELTER_MAP:
-          case ItemPool.GRIMACE_SHELTER_MAP:
-          case ItemPool.STAFF_GUIDE:
-          case ItemPool.FUDGE_WAND:
-          case ItemPool.REFLECTION_OF_MAP:
-          case ItemPool.CSA_FIRE_STARTING_KIT:
-          case ItemPool.CEO_OFFICE_CARD:
-          case ItemPool.DREADSCROLL:
-          case ItemPool.RUSTY_HEDGE_TRIMMERS:
-          case ItemPool.WALKIE_TALKIE:
-          case ItemPool.SUSPICIOUS_ADDRESS:
-          case ItemPool.CHEF_BOY_BUSINESS_CARD:
-          case ItemPool.GRIMSTONE_MASK:
-          case ItemPool.THUNDER_THIGH:
-          case ItemPool.AQUA_BRAIN:
-          case ItemPool.LIGHTNING_MILK:
-          case ItemPool.SNEAKY_WRAPPING_PAPER:
-          case ItemPool.BARREL_MAP:
-          case ItemPool.VYKEA_INSTRUCTIONS:
-          case ItemPool.TONIC_DJINN:
-          case ItemPool.COW_PUNCHING_TALES:
-          case ItemPool.BEAN_SLINGING_TALES:
-          case ItemPool.SNAKE_OILING_TALES:
-          case ItemPool.MAYO_MINDER:
-          case ItemPool.NO_SPOON:
-          case ItemPool.TIME_SPINNER:
-          case ItemPool.WAX_GLOB:
-          case ItemPool.GUMMY_MEMORY:
-          case ItemPool.METAL_METEOROID:
-          case ItemPool.GRUBBY_WOOL:
-          case ItemPool.CORKED_GENIE_BOTTLE:
-          case ItemPool.GENIE_BOTTLE:
-          case ItemPool.POCKET_WISH:
-          case ItemPool.REPLICA_GENIE_BOTTLE:
-          case ItemPool.WAREHOUSE_KEY:
-          case ItemPool.BOOMBOX:
-          case ItemPool.BURNING_NEWSPAPER:
-          case ItemPool.TALES_OF_SPELUNKING:
-          case ItemPool.PORTABLE_PANTOGRAM:
-          case ItemPool.VOTER_BALLOT:
-          case ItemPool.GOVERNMENT_REQUISITION_FORM:
-          case ItemPool.CAMPFIRE_SMOKE:
-          case ItemPool.BURNT_STICK:
-          case ItemPool.GOVERNMENT_FOOD_SHIPMENT:
-          case ItemPool.GOVERNMENT_BOOZE_SHIPMENT:
-          case ItemPool.GOVERNMENT_CANDY_SHIPMENT:
-          case ItemPool.ADVANCED_PIG_SKINNING:
-          case ItemPool.THE_CHEESE_WIZARDS_COMPANION:
-          case ItemPool.JAZZ_AGENT_SHEET_MUSIC:
-          case ItemPool.CLOSED_CIRCUIT_PAY_PHONE:
-          case ItemPool.AUTUMNATON:
-          case ItemPool.BLACK_AND_WHITE_APRON_MEAL_KIT:
-          case ItemPool.MAYAM_CALENDAR:
+          case ItemPool.FRATHOUSE_BLUEPRINTS,
+              ItemPool.RONALD_SHELTER_MAP,
+              ItemPool.GRIMACE_SHELTER_MAP,
+              ItemPool.STAFF_GUIDE,
+              ItemPool.FUDGE_WAND,
+              ItemPool.REFLECTION_OF_MAP,
+              ItemPool.CSA_FIRE_STARTING_KIT,
+              ItemPool.CEO_OFFICE_CARD,
+              ItemPool.DREADSCROLL,
+              ItemPool.RUSTY_HEDGE_TRIMMERS,
+              ItemPool.WALKIE_TALKIE,
+              ItemPool.SUSPICIOUS_ADDRESS,
+              ItemPool.CHEF_BOY_BUSINESS_CARD,
+              ItemPool.GRIMSTONE_MASK,
+              ItemPool.THUNDER_THIGH,
+              ItemPool.AQUA_BRAIN,
+              ItemPool.LIGHTNING_MILK,
+              ItemPool.SNEAKY_WRAPPING_PAPER,
+              ItemPool.BARREL_MAP,
+              ItemPool.VYKEA_INSTRUCTIONS,
+              ItemPool.TONIC_DJINN,
+              ItemPool.COW_PUNCHING_TALES,
+              ItemPool.BEAN_SLINGING_TALES,
+              ItemPool.SNAKE_OILING_TALES,
+              ItemPool.MAYO_MINDER,
+              ItemPool.NO_SPOON,
+              ItemPool.TIME_SPINNER,
+              ItemPool.WAX_GLOB,
+              ItemPool.GUMMY_MEMORY,
+              ItemPool.METAL_METEOROID,
+              ItemPool.GRUBBY_WOOL,
+              ItemPool.CORKED_GENIE_BOTTLE,
+              ItemPool.GENIE_BOTTLE,
+              ItemPool.POCKET_WISH,
+              ItemPool.REPLICA_GENIE_BOTTLE,
+              ItemPool.WAREHOUSE_KEY,
+              ItemPool.BOOMBOX,
+              ItemPool.BURNING_NEWSPAPER,
+              ItemPool.TALES_OF_SPELUNKING,
+              ItemPool.PORTABLE_PANTOGRAM,
+              ItemPool.VOTER_BALLOT,
+              ItemPool.GOVERNMENT_REQUISITION_FORM,
+              ItemPool.CAMPFIRE_SMOKE,
+              ItemPool.BURNT_STICK,
+              ItemPool.GOVERNMENT_FOOD_SHIPMENT,
+              ItemPool.GOVERNMENT_BOOZE_SHIPMENT,
+              ItemPool.GOVERNMENT_CANDY_SHIPMENT,
+              ItemPool.ADVANCED_PIG_SKINNING,
+              ItemPool.THE_CHEESE_WIZARDS_COMPANION,
+              ItemPool.JAZZ_AGENT_SHEET_MUSIC,
+              ItemPool.CLOSED_CIRCUIT_PAY_PHONE,
+              ItemPool.AUTUMNATON,
+              ItemPool.BLACK_AND_WHITE_APRON_MEAL_KIT,
+              ItemPool.MAYAM_CALENDAR,
 
-            // Not inline, since the redirection to a choice
-            // doesn't work ajaxified.
+              // Not inline, since the redirection to a choice
+              // doesn't work ajaxified.
 
-          case ItemPool.ABYSSAL_BATTLE_PLANS:
-          case ItemPool.CARONCH_MAP:
-          case ItemPool.CRUDE_SCULPTURE:
-          case ItemPool.CURSED_PIECE_OF_THIRTEEN:
-          case ItemPool.DOLPHIN_WHISTLE:
-          case ItemPool.ENVYFISH_EGG:
-          case ItemPool.ICE_SCULPTURE:
-          case ItemPool.PHOTOCOPIED_MONSTER:
-          case ItemPool.RAIN_DOH_MONSTER:
-          case ItemPool.SHAKING_CAMERA:
-          case ItemPool.SHAKING_CRAPPY_CAMERA:
-          case ItemPool.SHAKING_SKULL:
-          case ItemPool.SPOOKY_PUTTY_MONSTER:
-          case ItemPool.WAX_BUGBEAR:
-          case ItemPool.LYNYRD_SNARE:
-          case ItemPool.WHITE_PAGE:
-          case ItemPool.XIBLAXIAN_HOLOTRAINING_SIMCODE:
-          case ItemPool.XIBLAXIAN_POLITICAL_PRISONER:
-          case ItemPool.SCREENCAPPED_MONSTER:
-          case ItemPool.TIME_RESIDUE:
-          case ItemPool.MEME_GENERATOR:
-          case ItemPool.MEGACOPIA:
-          case ItemPool.AMORPHOUS_BLOB:
-          case ItemPool.GIANT_AMORPHOUS_BLOB:
-          case ItemPool.MINIATURE_EMBERING_HULK:
+              ItemPool.ABYSSAL_BATTLE_PLANS,
+              ItemPool.CARONCH_MAP,
+              ItemPool.CRUDE_SCULPTURE,
+              ItemPool.CURSED_PIECE_OF_THIRTEEN,
+              ItemPool.DOLPHIN_WHISTLE,
+              ItemPool.ENVYFISH_EGG,
+              ItemPool.ICE_SCULPTURE,
+              ItemPool.PHOTOCOPIED_MONSTER,
+              ItemPool.RAIN_DOH_MONSTER,
+              ItemPool.SHAKING_CAMERA,
+              ItemPool.SHAKING_CRAPPY_CAMERA,
+              ItemPool.SHAKING_SKULL,
+              ItemPool.SPOOKY_PUTTY_MONSTER,
+              ItemPool.WAX_BUGBEAR,
+              ItemPool.LYNYRD_SNARE,
+              ItemPool.WHITE_PAGE,
+              ItemPool.XIBLAXIAN_HOLOTRAINING_SIMCODE,
+              ItemPool.XIBLAXIAN_POLITICAL_PRISONER,
+              ItemPool.SCREENCAPPED_MONSTER,
+              ItemPool.TIME_RESIDUE,
+              ItemPool.MEME_GENERATOR,
+              ItemPool.MEGACOPIA,
+              ItemPool.AMORPHOUS_BLOB,
+              ItemPool.GIANT_AMORPHOUS_BLOB,
+              ItemPool.MINIATURE_EMBERING_HULK,
 
-            // Not inline, since the redirection to a fight
-            // doesn't work ajaxified.
+              // Not inline, since the redirection to a fight
+              // doesn't work ajaxified.
 
-          case ItemPool.PLAINTIVE_TELEGRAM:
+              ItemPool.PLAINTIVE_TELEGRAM -> {
 
             // Not inline, since the redirection to an
             // adventure doesn't work ajaxified.
 
             return new UseLink(itemId, 1, "use", "inv_use.php?which=3&whichitem=", false);
-
-          case ItemPool.MR_STORE_2002_CATALOG:
-          case ItemPool.REPLICA_MR_STORE_2002_CATALOG:
+          }
+          case ItemPool.MR_STORE_2002_CATALOG, ItemPool.REPLICA_MR_STORE_2002_CATALOG -> {
 
             // Not inline, since the redirection to a
             // shop doesn't work ajaxified.
 
             return new UseLink(itemId, 1, "order", "inv_use.php?which=3&whichitem=", false);
-
-          case ItemPool.SEPTEMBER_CENSER:
+          }
+          case ItemPool.SEPTEMBER_CENSER -> {
 
             // Not inline, and also just takes you to the shop directly
 
             return new UseLink(itemId, 1, "stoke", "shop.php?whichshop=september", false);
-
-          case ItemPool.LATTE_MUG:
+          }
+          case ItemPool.LATTE_MUG -> {
 
             // Not inline, since the redirection to a choice
             // doesn't work ajaxified.
 
             return new UseLink(itemId, 1, "use", "main.php?latte=1", false);
-
-          case ItemPool.DRUM_MACHINE:
+          }
+          case ItemPool.DRUM_MACHINE -> {
             if (Preferences.getInteger("desertExploration") == 100) {
               // This will redirect to a sandworm fight
               return new UseLink(itemId, 1, "use", "inv_use.php?which=3&whichitem=", false);
@@ -1078,9 +1052,8 @@ public abstract class UseLinkDecorator {
             }
             // *** what happens if you try to use a drum machine with no hooks?
             return null;
-
-          case ItemPool.ASTRAL_MUSHROOM:
-          case ItemPool.GONG:
+          }
+          case ItemPool.ASTRAL_MUSHROOM, ItemPool.GONG -> {
             // No use link if already under influence.
             if (KoLCharacter.getLimitMode().limitItem(itemId)) {
               return null;
@@ -1088,15 +1061,15 @@ public abstract class UseLinkDecorator {
 
             // In-line use link does not work.
             return new UseLink(itemId, itemCount, "use", "inv_use.php?which=3&whichitem=", false);
-
-          case ItemPool.COBBS_KNOB_MAP:
+          }
+          case ItemPool.COBBS_KNOB_MAP -> {
             if (!InventoryManager.hasItem(ItemPool.ENCRYPTION_KEY)) {
               return null;
             }
 
             return new UseLink(ItemPool.COBBS_KNOB_MAP, 1, "map", "inv_use.php?which=3&whichitem=");
-
-          case ItemPool.DINGHY_PLANS:
+          }
+          case ItemPool.DINGHY_PLANS -> {
             if (InventoryManager.hasItem(ItemPool.DINGY_PLANKS)) {
               return new UseLink(itemId, 1, "use", "inv_use.php?which=3&whichitem=");
             }
@@ -1107,105 +1080,94 @@ public abstract class UseLinkDecorator {
                 "buy planks",
                 "shop.php?&whichshop=generalstore&action=buyitem&quantity=1&whichrow=655",
                 true);
-
-          case ItemPool.BEER_SCENTED_TEDDY_BEAR:
-          case ItemPool.COMFY_PILLOW:
+          }
+          case ItemPool.BEER_SCENTED_TEDDY_BEAR, ItemPool.COMFY_PILLOW -> {
             if (!QuestDatabase.isQuestFinished(Quest.AZAZEL)
                 && InventoryManager.getCount(ItemPool.AZAZELS_UNICORN) == 0) {
               return UseLinkDecorator.svenLink(itemId);
             }
-
-            break;
-
-          case ItemPool.TOPIARY_NUGGLET:
+          }
+          case ItemPool.TOPIARY_NUGGLET -> {
             return new UseLink(itemId, 1, "sculpt", "shop.php?whichshop=topiary");
-
-          case ItemPool.TOXIC_GLOBULE:
+          }
+          case ItemPool.TOXIC_GLOBULE -> {
             return new UseLink(itemId, 1, "do science", "shop.php?whichshop=toxic");
-
-          case ItemPool.ROSE:
-          case ItemPool.WHITE_TULIP:
-          case ItemPool.RED_TULIP:
-          case ItemPool.BLUE_TULIP:
+          }
+          case ItemPool.ROSE, ItemPool.WHITE_TULIP, ItemPool.RED_TULIP, ItemPool.BLUE_TULIP -> {
             return new UseLink(itemId, 1, "trade in", "shop.php?whichshop=flowertradein");
-
-          case ItemPool.GUZZLRBUCK:
-            {
-              ArrayList<UseLink> uses = new ArrayList<>();
-              uses.add(new UseLink(itemId, 1, "Let's Guzzle", "shop.php?whichshop=guzzlr"));
-              uses.add(new UseLink(itemId, 1, "tap", "inventory.php?tap=guzzlr", false));
-              return new UsesLink(uses.toArray(new UseLink[uses.size()]));
-            }
-
-          case ItemPool.BARLEY:
-          case ItemPool.HOPS:
-          case ItemPool.FANCY_BEER_BOTTLE:
-          case ItemPool.FANCY_BEER_LABEL:
+          }
+          case ItemPool.GUZZLRBUCK -> {
+            ArrayList<UseLink> uses = new ArrayList<>();
+            uses.add(new UseLink(itemId, 1, "Let's Guzzle", "shop.php?whichshop=guzzlr"));
+            uses.add(new UseLink(itemId, 1, "tap", "inventory.php?tap=guzzlr", false));
+            return new UsesLink(uses.toArray(new UseLink[0]));
+          }
+          case ItemPool.BARLEY,
+              ItemPool.HOPS,
+              ItemPool.FANCY_BEER_BOTTLE,
+              ItemPool.FANCY_BEER_LABEL -> {
             return new UseLink(itemId, 1, "Let's Brew", "shop.php?whichshop=beergarden");
-
-          case ItemPool.WORSE_HOMES_GARDENS:
+          }
+          case ItemPool.WORSE_HOMES_GARDENS -> {
             return new UseLink(itemId, 1, "read", "shop.php?whichshop=junkmagazine");
-
-          case ItemPool.BACON:
+          }
+          case ItemPool.BACON -> {
             int baconcount = InventoryManager.getCount(itemId);
             return new UseLink(itemId, 1, "spend (" + baconcount + ")", "shop.php?whichshop=bacon");
-
-          case ItemPool.X:
+          }
+          case ItemPool.X -> {
             int xcount = InventoryManager.getCount(itemId);
             return new UseLink(itemId, 1, "eXpend (" + xcount + ")", "shop.php?whichshop=xo");
-
-          case ItemPool.O:
+          }
+          case ItemPool.O -> {
             int ocount = InventoryManager.getCount(itemId);
             return new UseLink(itemId, 1, "blOw (" + ocount + ")", "shop.php?whichshop=xo");
-
-          case ItemPool.RAD:
+          }
+          case ItemPool.RAD -> {
             int radcount = InventoryManager.getCount(itemId);
             return new UseLink(itemId, 1, "mutate (" + radcount + ")", "shop.php?whichshop=mutate");
-
-          case ItemPool.CASHEW:
+          }
+          case ItemPool.CASHEW -> {
             return new UseLink(itemId, 1, "trade", "shop.php?whichshop=thankshop");
-
-          case ItemPool.EMPTY_AGUA_DE_VIDA_BOTTLE:
+          }
+          case ItemPool.EMPTY_AGUA_DE_VIDA_BOTTLE -> {
             return new UseLink(itemId, 1, "gaze", "place.php?whichplace=memories");
-
-          case ItemPool.LITTLE_FIRKIN:
-          case ItemPool.NORMAL_BARREL:
-          case ItemPool.BIG_TUN:
-          case ItemPool.WEATHERED_BARREL:
-          case ItemPool.DUSTY_BARREL:
-          case ItemPool.DISINTEGRATING_BARREL:
-          case ItemPool.MOIST_BARREL:
-          case ItemPool.ROTTING_BARREL:
-          case ItemPool.MOULDERING_BARREL:
-          case ItemPool.BARNACLED_BARREL:
-            {
-              ArrayList<UseLink> uses = new ArrayList<>();
-              uses.add(new UseLink(itemId, 1, "use", "inv_use.php?whichitem="));
-              uses.add(
-                  new UseLink(itemId, 1, "smash party", "inv_use.php?choice=1&whichitem=", false));
-              return new UsesLink(uses.toArray(new UseLink[uses.size()]));
-            }
-
-          case ItemPool.GLITCH_ITEM:
-            {
-              ArrayList<UseLink> uses = new ArrayList<>();
-              uses.add(new UseLink(itemId, itemCount, "implement", "inv_use.php?whichitem="));
-              uses.add(new UseLink(itemId, itemCount, "eat", "inv_eat.php?whichitem=", false));
-              return new UsesLink(uses.toArray(new UseLink[uses.size()]));
-            }
-
-          case ItemPool.FIXODENT:
+          }
+          case ItemPool.LITTLE_FIRKIN,
+              ItemPool.NORMAL_BARREL,
+              ItemPool.BIG_TUN,
+              ItemPool.WEATHERED_BARREL,
+              ItemPool.DUSTY_BARREL,
+              ItemPool.DISINTEGRATING_BARREL,
+              ItemPool.MOIST_BARREL,
+              ItemPool.ROTTING_BARREL,
+              ItemPool.MOULDERING_BARREL,
+              ItemPool.BARNACLED_BARREL -> {
+            ArrayList<UseLink> uses = new ArrayList<>();
+            uses.add(new UseLink(itemId, 1, "use", "inv_use.php?whichitem="));
+            uses.add(
+                new UseLink(itemId, 1, "smash party", "inv_use.php?choice=1&whichitem=", false));
+            return new UsesLink(uses.toArray(new UseLink[0]));
+          }
+          case ItemPool.GLITCH_ITEM -> {
+            ArrayList<UseLink> uses = new ArrayList<>();
+            uses.add(new UseLink(itemId, itemCount, "implement", "inv_use.php?whichitem="));
+            uses.add(new UseLink(itemId, itemCount, "eat", "inv_eat.php?whichitem=", false));
+            return new UsesLink(uses.toArray(new UseLink[0]));
+          }
+          case ItemPool.FIXODENT -> {
             return new UseLink(itemId, 1, "fix", "shop.php?whichshop=fixodent");
-
-          case ItemPool.CANDY_EGG_DEVILER:
+          }
+          case ItemPool.CANDY_EGG_DEVILER -> {
             return new UseLink(itemId, 1, "devil", "inventory.php?action=eggdevil", false);
-
-          default:
+          }
+          default -> {
             return new UseLink(
                 itemId,
                 itemCount,
                 getPotionSpeculation("use", itemId),
                 "inv_use.php?which=3&whichitem=");
+          }
         }
       }
       case PASTA_GUARDIAN -> {
@@ -1220,16 +1182,14 @@ public abstract class UseLinkDecorator {
       }
       case HAT, WEAPON, SIXGUN, OFFHAND, SHIRT, PANTS, CONTAINER, ACCESSORY, FAMILIAR_EQUIPMENT -> {
         switch (itemId) {
-          case ItemPool.BATSKIN_BELT:
-          case ItemPool.BONERDAGON_SKULL:
+          case ItemPool.BATSKIN_BELT, ItemPool.BONERDAGON_SKULL -> {
             // If we found it in a battle, take it to the
             // council to complete the quest.
             if (adventureResults) {
               return getCouncilLink(itemId);
             }
-            break;
-
-          case ItemPool.WORM_RIDING_HOOKS:
+          }
+          case ItemPool.WORM_RIDING_HOOKS -> {
 
             // Can you even get the hooks if the desert is fully explored?
             if (Preferences.getInteger("desertExploration") == 100) {
@@ -1241,96 +1201,88 @@ public abstract class UseLinkDecorator {
             }
             return new UseLink(
                 ItemPool.DRUM_MACHINE, 1, "wormride", "inv_use.php?which=3&whichitem=");
-
-          case ItemPool.PIXEL_CHAIN_WHIP:
-          case ItemPool.PIXEL_MORNING_STAR:
+          }
+          case ItemPool.PIXEL_CHAIN_WHIP, ItemPool.PIXEL_MORNING_STAR -> {
             // If we "acquire" the pixel whip upgrades in
             // the Chapel, they are autoequipped
             if (location.startsWith("adventure.php")) {
               return null;
             }
-            break;
-
-          case ItemPool.BJORNS_HAMMER:
-          case ItemPool.MACE_OF_THE_TORTOISE:
-          case ItemPool.PASTA_SPOON_OF_PERIL:
-          case ItemPool.FIVE_ALARM_SAUCEPAN:
-          case ItemPool.DISCO_BANJO:
-          case ItemPool.ROCK_N_ROLL_LEGEND:
-            {
-              // If we "acquire" the Epic Weapon from
-              // a fight, give a link to the guild to collect
-              // the reward as well as "equip" link.
-              UseLink equipLink =
-                  new UseLink(
-                      itemId,
-                      itemCount,
-                      getEquipmentSpeculation("equip", itemId, Slot.NONE),
-                      "inv_equip.php?which=2&action=equip&whichitem=");
-              if (adventureResults) {
-                ArrayList<UseLink> uses = new ArrayList<>();
-                // scg = Same Class in Guild
-                uses.add(new UseLink(itemId, "guild", "guild.php?place=scg"));
-                uses.add(equipLink);
-                return new UsesLink(uses.toArray(new UseLink[uses.size()]));
-              }
-              return equipLink;
-            }
-
-          case ItemPool.HAMMER_OF_SMITING:
-          case ItemPool.CHELONIAN_MORNINGSTAR:
-          case ItemPool.GREEK_PASTA_OF_PERIL:
-          case ItemPool.SEVENTEEN_ALARM_SAUCEPAN:
-          case ItemPool.SHAGADELIC_DISCO_BANJO:
-          case ItemPool.SQUEEZEBOX_OF_THE_AGES:
-            {
-              // When we "craft" the Legendary_Epic Weapon, give a link to
-              // the guild to collect the reward as well as "equip" link.
-              UseLink equipLink =
-                  new UseLink(
-                      itemId,
-                      itemCount,
-                      getEquipmentSpeculation("equip", itemId, Slot.NONE),
-                      "inv_equip.php?which=2&action=equip&whichitem=");
+          }
+          case ItemPool.BJORNS_HAMMER,
+              ItemPool.MACE_OF_THE_TORTOISE,
+              ItemPool.PASTA_SPOON_OF_PERIL,
+              ItemPool.FIVE_ALARM_SAUCEPAN,
+              ItemPool.DISCO_BANJO,
+              ItemPool.ROCK_N_ROLL_LEGEND -> {
+            // If we "acquire" the Epic Weapon from
+            // a fight, give a link to the guild to collect
+            // the reward as well as "equip" link.
+            UseLink equipLink =
+                new UseLink(
+                    itemId,
+                    itemCount,
+                    getEquipmentSpeculation("equip", itemId, Slot.NONE),
+                    "inv_equip.php?which=2&action=equip&whichitem=");
+            if (adventureResults) {
               ArrayList<UseLink> uses = new ArrayList<>();
               // scg = Same Class in Guild
               uses.add(new UseLink(itemId, "guild", "guild.php?place=scg"));
               uses.add(equipLink);
-              return new UsesLink(uses.toArray(new UseLink[uses.size()]));
+              return new UsesLink(uses.toArray(new UseLink[0]));
             }
-
-          case ItemPool.SCALP_OF_GORGOLOK:
-          case ItemPool.ELDER_TURTLE_SHELL:
-          case ItemPool.COLANDER_OF_EMERIL:
-          case ItemPool.ANCIENT_SAUCEHELM:
-          case ItemPool.DISCO_FRO_PICK:
-          case ItemPool.EL_SOMBRERO_DE_LOPEZ:
-            {
-              // If we "acquire" the Nemesis hat from
-              // a fight, give a link to the guild to collect
-              // the reward as well as "equip" link.
-              UseLink equipLink =
-                  new UseLink(
-                      itemId,
-                      itemCount,
-                      getEquipmentSpeculation("equip", itemId, Slot.NONE),
-                      "inv_equip.php?which=2&action=equip&whichitem=");
-              if (adventureResults) {
-                ArrayList<UseLink> uses = new ArrayList<>();
-                // scg = Same Class in Guild
-                uses.add(new UseLink(itemId, "guild", "guild.php?place=scg"));
-                uses.add(equipLink);
-                return new UsesLink(uses.toArray(new UseLink[uses.size()]));
-              }
-              return equipLink;
+            return equipLink;
+          }
+          case ItemPool.HAMMER_OF_SMITING,
+              ItemPool.CHELONIAN_MORNINGSTAR,
+              ItemPool.GREEK_PASTA_OF_PERIL,
+              ItemPool.SEVENTEEN_ALARM_SAUCEPAN,
+              ItemPool.SHAGADELIC_DISCO_BANJO,
+              ItemPool.SQUEEZEBOX_OF_THE_AGES -> {
+            // When we "craft" the Legendary_Epic Weapon, give a link to
+            // the guild to collect the reward as well as "equip" link.
+            UseLink equipLink =
+                new UseLink(
+                    itemId,
+                    itemCount,
+                    getEquipmentSpeculation("equip", itemId, Slot.NONE),
+                    "inv_equip.php?which=2&action=equip&whichitem=");
+            ArrayList<UseLink> uses = new ArrayList<>();
+            // scg = Same Class in Guild
+            uses.add(new UseLink(itemId, "guild", "guild.php?place=scg"));
+            uses.add(equipLink);
+            return new UsesLink(uses.toArray(new UseLink[0]));
+          }
+          case ItemPool.SCALP_OF_GORGOLOK,
+              ItemPool.ELDER_TURTLE_SHELL,
+              ItemPool.COLANDER_OF_EMERIL,
+              ItemPool.ANCIENT_SAUCEHELM,
+              ItemPool.DISCO_FRO_PICK,
+              ItemPool.EL_SOMBRERO_DE_LOPEZ -> {
+            // If we "acquire" the Nemesis hat from
+            // a fight, give a link to the guild to collect
+            // the reward as well as "equip" link.
+            UseLink equipLink =
+                new UseLink(
+                    itemId,
+                    itemCount,
+                    getEquipmentSpeculation("equip", itemId, Slot.NONE),
+                    "inv_equip.php?which=2&action=equip&whichitem=");
+            if (adventureResults) {
+              ArrayList<UseLink> uses = new ArrayList<>();
+              // scg = Same Class in Guild
+              uses.add(new UseLink(itemId, "guild", "guild.php?place=scg"));
+              uses.add(equipLink);
+              return new UsesLink(uses.toArray(new UseLink[0]));
             }
-
-          case ItemPool.INFERNAL_SEAL_CLAW:
-          case ItemPool.TURTLE_POACHER_GARTER:
-          case ItemPool.SPAGHETTI_BANDOLIER:
-          case ItemPool.SAUCEBLOB_BELT:
-          case ItemPool.NEW_WAVE_BLING:
-          case ItemPool.BELT_BUCKLE_OF_LOPEZ:
+            return equipLink;
+          }
+          case ItemPool.INFERNAL_SEAL_CLAW,
+              ItemPool.TURTLE_POACHER_GARTER,
+              ItemPool.SPAGHETTI_BANDOLIER,
+              ItemPool.SAUCEBLOB_BELT,
+              ItemPool.NEW_WAVE_BLING,
+              ItemPool.BELT_BUCKLE_OF_LOPEZ -> {
             // If we "acquire" the Nemesis accessories from
             // a fight, give a link to the guild to collect
             // the reward as well as "outfit" link.
@@ -1345,92 +1297,83 @@ public abstract class UseLinkDecorator {
                       itemCount,
                       "outfit",
                       "inv_equip.php?action=outfit&which=2&whichoutfit=" + outfit));
-              return new UsesLink(uses.toArray(new UseLink[uses.size()]));
+              return new UsesLink(uses.toArray(new UseLink[0]));
             }
-            break;
-
-          case ItemPool.SPELUNKY_SPRING_BOOTS:
-          case ItemPool.SPELUNKY_SPIKED_BOOTS:
+          }
+          case ItemPool.SPELUNKY_SPRING_BOOTS, ItemPool.SPELUNKY_SPIKED_BOOTS -> {
             // Spelunky "accessories" need a single "equip"
             // link which goes to slot 1
             return new UseLink(
                 itemId, itemCount, "equip", "inv_equip.php?which=2&action=equip&slot=1&whichitem=");
-
-          case ItemPool.HEIMZ_BEANS:
-          case ItemPool.TESLA_BEANS:
-          case ItemPool.MIXED_BEANS:
-          case ItemPool.HELLFIRE_BEANS:
-          case ItemPool.FRIGID_BEANS:
-          case ItemPool.BLACKEST_EYED_PEAS:
-          case ItemPool.STINKBEANS:
-          case ItemPool.PORK_N_BEANS:
-          case ItemPool.PREMIUM_BEANS:
-            {
-              UseLink equipLink =
-                  new UseLink(
-                      itemId,
-                      itemCount,
-                      getEquipmentSpeculation("equip", itemId, Slot.NONE),
-                      "inv_equip.php?which=2&action=equip&whichitem=");
-              // inv_use.php?pwd&which=f-1&whichitem=xxx
-              UseLink plateLink =
-                  new UseLink(itemId, itemCount, "plate", "inv_use.php?which=f-1&whichitem=");
-              ArrayList<UseLink> uses = new ArrayList<>();
-              uses.add(equipLink);
-              uses.add(plateLink);
-              return new UsesLink(uses.toArray(new UseLink[uses.size()]));
-            }
-
-          case ItemPool.CODPIECE:
-            {
-              UseLink equipLink =
-                  new UseLink(
-                      itemId,
-                      itemCount,
-                      getEquipmentSpeculation("equip", itemId, Slot.NONE),
-                      "inv_equip.php?which=2&action=equip&whichitem=");
-              // inv_use.php?pwd&which=f-1&whichitem=xxx
-              UseLink wringOutLink =
-                  new UseLink(itemId, itemCount, "wring out", "inv_use.php?which=f-1&whichitem=");
-              ArrayList<UseLink> uses = new ArrayList<>();
-              uses.add(equipLink);
-              uses.add(wringOutLink);
-              return new UsesLink(uses.toArray(new UseLink[uses.size()]));
-            }
-
-          case ItemPool.BASS_CLARINET:
-            {
-              UseLink equipLink =
-                  new UseLink(
-                      itemId,
-                      itemCount,
-                      getEquipmentSpeculation("equip", itemId, Slot.NONE),
-                      "inv_equip.php?which=2&action=equip&whichitem=");
-              // inv_use.php?pwd&which=f-1&whichitem=xxx
-              UseLink drainLink =
-                  new UseLink(itemId, itemCount, "drain spit", "inv_use.php?which=f-1&whichitem=");
-              ArrayList<UseLink> uses = new ArrayList<>();
-              uses.add(equipLink);
-              uses.add(drainLink);
-              return new UsesLink(uses.toArray(new UseLink[uses.size()]));
-            }
-
-          case ItemPool.FISH_HATCHET:
-            {
-              UseLink equipLink =
-                  new UseLink(
-                      itemId,
-                      itemCount,
-                      getEquipmentSpeculation("equip", itemId, Slot.NONE),
-                      "inv_equip.php?which=2&action=equip&whichitem=");
-              // inv_use.php?pwd&which=f-1&whichitem=xxx
-              UseLink useLink =
-                  new UseLink(itemId, itemCount, "use", "inv_use.php?which=f-1&whichitem=");
-              ArrayList<UseLink> uses = new ArrayList<>();
-              uses.add(equipLink);
-              uses.add(useLink);
-              return new UsesLink(uses.toArray(new UseLink[uses.size()]));
-            }
+          }
+          case ItemPool.HEIMZ_BEANS,
+              ItemPool.TESLA_BEANS,
+              ItemPool.MIXED_BEANS,
+              ItemPool.HELLFIRE_BEANS,
+              ItemPool.FRIGID_BEANS,
+              ItemPool.BLACKEST_EYED_PEAS,
+              ItemPool.STINKBEANS,
+              ItemPool.PORK_N_BEANS,
+              ItemPool.PREMIUM_BEANS -> {
+            UseLink equipLink =
+                new UseLink(
+                    itemId,
+                    itemCount,
+                    getEquipmentSpeculation("equip", itemId, Slot.NONE),
+                    "inv_equip.php?which=2&action=equip&whichitem=");
+            // inv_use.php?pwd&which=f-1&whichitem=xxx
+            UseLink plateLink =
+                new UseLink(itemId, itemCount, "plate", "inv_use.php?which=f-1&whichitem=");
+            ArrayList<UseLink> uses = new ArrayList<>();
+            uses.add(equipLink);
+            uses.add(plateLink);
+            return new UsesLink(uses.toArray(new UseLink[0]));
+          }
+          case ItemPool.CODPIECE -> {
+            UseLink equipLink =
+                new UseLink(
+                    itemId,
+                    itemCount,
+                    getEquipmentSpeculation("equip", itemId, Slot.NONE),
+                    "inv_equip.php?which=2&action=equip&whichitem=");
+            // inv_use.php?pwd&which=f-1&whichitem=xxx
+            UseLink wringOutLink =
+                new UseLink(itemId, itemCount, "wring out", "inv_use.php?which=f-1&whichitem=");
+            ArrayList<UseLink> uses = new ArrayList<>();
+            uses.add(equipLink);
+            uses.add(wringOutLink);
+            return new UsesLink(uses.toArray(new UseLink[0]));
+          }
+          case ItemPool.BASS_CLARINET -> {
+            UseLink equipLink =
+                new UseLink(
+                    itemId,
+                    itemCount,
+                    getEquipmentSpeculation("equip", itemId, Slot.NONE),
+                    "inv_equip.php?which=2&action=equip&whichitem=");
+            // inv_use.php?pwd&which=f-1&whichitem=xxx
+            UseLink drainLink =
+                new UseLink(itemId, itemCount, "drain spit", "inv_use.php?which=f-1&whichitem=");
+            ArrayList<UseLink> uses = new ArrayList<>();
+            uses.add(equipLink);
+            uses.add(drainLink);
+            return new UsesLink(uses.toArray(new UseLink[0]));
+          }
+          case ItemPool.FISH_HATCHET -> {
+            UseLink equipLink =
+                new UseLink(
+                    itemId,
+                    itemCount,
+                    getEquipmentSpeculation("equip", itemId, Slot.NONE),
+                    "inv_equip.php?which=2&action=equip&whichitem=");
+            // inv_use.php?pwd&which=f-1&whichitem=xxx
+            UseLink useLink =
+                new UseLink(itemId, itemCount, "use", "inv_use.php?which=f-1&whichitem=");
+            ArrayList<UseLink> uses = new ArrayList<>();
+            uses.add(equipLink);
+            uses.add(useLink);
+            return new UsesLink(uses.toArray(new UseLink[0]));
+          }
         }
 
         // Don't offer an "equip" link for weapons or offhands
@@ -1578,7 +1521,7 @@ public abstract class UseLinkDecorator {
         if (uses.size() == 1) {
           return uses.get(0);
         } else {
-          return new UsesLink(uses.toArray(new UseLink[uses.size()]));
+          return new UsesLink(uses.toArray(new UseLink[0]));
         }
       }
       case ZAP -> {
@@ -1666,98 +1609,92 @@ public abstract class UseLinkDecorator {
 
     switch (itemId) {
         // Shops
-      case ItemPool.FRESHWATER_FISHBONE:
+      case ItemPool.FRESHWATER_FISHBONE -> {
         useType = "assemble";
         useLocation = "shop.php?whichshop=fishbones";
-        break;
-
-      case ItemPool.FAT_LOOT_TOKEN:
+      }
+      case ItemPool.FAT_LOOT_TOKEN -> {
         useType = String.valueOf(InventoryManager.getCount(ItemPool.FAT_LOOT_TOKEN));
         useLocation =
             KoLCharacter.isKingdomOfExploathing()
                 ? "shop.php?whichshop=exploathing"
                 : "shop.php?whichshop=damachine";
-        break;
-
-      case ItemPool.REPLICA_MR_ACCESSORY:
+      }
+      case ItemPool.REPLICA_MR_ACCESSORY -> {
         useType = "shop";
         useLocation = "shop.php?whichshop=mrreplica";
-        break;
+      }
 
         // Subject 37 File goes to Cell #37
-      case ItemPool.SUBJECT_37_FILE:
+      case ItemPool.SUBJECT_37_FILE -> {
         useType = "cell #37";
         useLocation = "cobbsknob.php?level=3&action=cell37";
-        break;
+      }
 
         // Guild quest items go to guild chief
-      case ItemPool.BIG_KNOB_SAUSAGE:
-      case ItemPool.EXORCISED_SANDWICH:
+      case ItemPool.BIG_KNOB_SAUSAGE, ItemPool.EXORCISED_SANDWICH -> {
         useType = "guild";
         useLocation = "guild.php?place=challenge";
-        break;
-
-      case ItemPool.LOATHING_LEGION_JACKHAMMER:
+      }
+      case ItemPool.LOATHING_LEGION_JACKHAMMER -> {
         useType = "switch";
         useLocation = "inv_use.php?which=3&switch=1&whichitem=";
-        break;
+      }
 
         // Game Grid tokens get a link to the arcade.
 
-      case ItemPool.GG_TOKEN:
+      case ItemPool.GG_TOKEN -> {
         useType = "arcade";
         useLocation = "place.php?whichplace=arcade";
-        break;
+      }
 
         // Game Grid tickets get a link to the arcade redemption counter.
 
-      case ItemPool.GG_TICKET:
+      case ItemPool.GG_TICKET -> {
         useType = "redeem";
         useLocation = "shop.php?whichshop=arcade";
-        break;
+      }
 
         // Strange leaflet gets a quick 'read' link which sends you
         // to the leaflet completion page.
 
-      case ItemPool.STRANGE_LEAFLET:
+      case ItemPool.STRANGE_LEAFLET -> {
         useType = "read";
         useLocation = "leaflet.php?action=auto";
-        break;
+      }
 
         // You want to give the rusty screwdriver to the Untinker, so
         // make it easy.
 
-      case ItemPool.RUSTY_SCREWDRIVER:
+      case ItemPool.RUSTY_SCREWDRIVER -> {
         useType = "visit untinker";
         useLocation = "place.php?whichplace=forestvillage&action=fv_untinker";
-        break;
+      }
 
         // Hedge maze puzzle and hedge maze key have a link to the maze
         // for easy access.
 
-      case ItemPool.HEDGE_KEY:
-      case ItemPool.PUZZLE_PIECE:
+      case ItemPool.HEDGE_KEY, ItemPool.PUZZLE_PIECE -> {
         useType = "maze";
         useLocation = "hedgepuzzle.php";
-        break;
+      }
 
         // Pixels have handy links indicating how many white pixels are
         // present in the player's inventory.
 
-      case ItemPool.WHITE_PIXEL:
+      case ItemPool.WHITE_PIXEL -> {
         if (KoLCharacter.isKingdomOfExploathing()) {
           useType = String.valueOf(InventoryManager.getCount(ItemPool.WHITE_PIXEL));
           useLocation = "shop.php?whichshop=exploathing";
           break;
         }
         return null;
+      }
 
         // Special handling for star charts, lines, and stars, where
         // KoLmafia shows you how many of each you have.
 
-      case ItemPool.STAR_CHART:
-      case ItemPool.STAR:
-      case ItemPool.LINE:
+      case ItemPool.STAR_CHART, ItemPool.STAR, ItemPool.LINE -> {
         useType =
             InventoryManager.getCount(ItemPool.STAR_CHART)
                 + ","
@@ -1765,25 +1702,25 @@ public abstract class UseLinkDecorator {
                 + ","
                 + InventoryManager.getCount(ItemPool.LINE);
         useLocation = "shop.php?whichshop=starchart";
-        break;
+      }
 
         // Worthless items and the hermit permit get a link to the hermit.
 
-      case ItemPool.WORTHLESS_TRINKET:
-      case ItemPool.WORTHLESS_GEWGAW:
-      case ItemPool.WORTHLESS_KNICK_KNACK:
-      case ItemPool.HERMIT_PERMIT:
+      case ItemPool.WORTHLESS_TRINKET,
+          ItemPool.WORTHLESS_GEWGAW,
+          ItemPool.WORTHLESS_KNICK_KNACK,
+          ItemPool.HERMIT_PERMIT -> {
         useType = "hermit";
         useLocation = "hermit.php";
-        break;
+      }
 
         // The different kinds of ores will only have a link if they're
         // the ones applicable to the trapper quest.
 
-      case ItemPool.LINOLEUM_ORE:
-      case ItemPool.ASBESTOS_ORE:
-      case ItemPool.CHROME_ORE:
-      case ItemPool.LUMP_OF_COAL:
+      case ItemPool.LINOLEUM_ORE,
+          ItemPool.ASBESTOS_ORE,
+          ItemPool.CHROME_ORE,
+          ItemPool.LUMP_OF_COAL -> {
         if (location.startsWith("dwarffactory.php")) {
           useType = String.valueOf(InventoryManager.getCount(itemId));
           useLocation = "dwarfcontraption.php";
@@ -1796,17 +1733,12 @@ public abstract class UseLinkDecorator {
 
         useType = String.valueOf(InventoryManager.getCount(itemId));
         useLocation = "place.php?whichplace=mclargehuge&action=trappercabin";
-        break;
-
-      case ItemPool.GROARS_FUR:
-      case ItemPool.WINGED_YETI_FUR:
+      }
+      case ItemPool.GROARS_FUR, ItemPool.WINGED_YETI_FUR -> {
         useType = "trapper";
         useLocation = "place.php?whichplace=mclargehuge&action=trappercabin";
-        break;
-
-      case ItemPool.FRAUDWORT:
-      case ItemPool.SHYSTERWEED:
-      case ItemPool.SWINDLEBLOSSOM:
+      }
+      case ItemPool.FRAUDWORT, ItemPool.SHYSTERWEED, ItemPool.SWINDLEBLOSSOM -> {
         if (InventoryManager.getCount(ItemPool.FRAUDWORT) < 3
             || InventoryManager.getCount(ItemPool.SHYSTERWEED) < 3
             || InventoryManager.getCount(ItemPool.SWINDLEBLOSSOM) < 3) {
@@ -1815,20 +1747,20 @@ public abstract class UseLinkDecorator {
 
         useType = "galaktik";
         useLocation = "shop.php?whichshop=doc";
-        break;
+      }
 
         // Disintegrating sheet music gets a link which lets you sing it
         // to yourself. We'll call it "sing" for now.
 
-      case ItemPool.SHEET_MUSIC:
+      case ItemPool.SHEET_MUSIC -> {
         useType = "sing";
         useLocation =
             "curse.php?action=use&targetplayer=" + KoLCharacter.getPlayerId() + "&whichitem=";
-        break;
+      }
 
         // Link which uses the plans when you acquire the planks.
 
-      case ItemPool.DINGY_PLANKS:
+      case ItemPool.DINGY_PLANKS -> {
         if (!InventoryManager.hasItem(ItemPool.DINGHY_PLANS)) {
           return null;
         }
@@ -1836,11 +1768,11 @@ public abstract class UseLinkDecorator {
         useType = "plans";
         useLocation = "inv_use.php?which=3&whichitem=";
         itemId = ItemPool.DINGHY_PLANS;
-        break;
+      }
 
         // Link which uses the Knob map when you get the encryption key.
 
-      case ItemPool.ENCRYPTION_KEY:
+      case ItemPool.ENCRYPTION_KEY -> {
         if (!InventoryManager.hasItem(ItemPool.COBBS_KNOB_MAP)) {
           return null;
         }
@@ -1848,59 +1780,60 @@ public abstract class UseLinkDecorator {
         useType = "use map";
         useLocation = "inv_use.php?which=3&whichitem=";
         itemId = ItemPool.COBBS_KNOB_MAP;
-        break;
+      }
 
         // Link to the guild upon completion of the Citadel quest.
 
-      case ItemPool.CITADEL_SATCHEL:
-      case ItemPool.THICK_PADDED_ENVELOPE:
+      case ItemPool.CITADEL_SATCHEL, ItemPool.THICK_PADDED_ENVELOPE -> {
         useType = "guild";
         useLocation = "guild.php?place=paco";
-        break;
+      }
 
         // Link to the guild when receiving guild quest items.
 
-      case ItemPool.FERNSWARTHYS_KEY:
+      case ItemPool.FERNSWARTHYS_KEY -> {
         // ...except that the guild gives you the key again
         if (location.startsWith("guild.php")) {
           useType = "ruins";
           useLocation = "fernruin.php";
           break;
         }
-        /*FALLTHRU*/
-      case ItemPool.DUSTY_BOOK:
         useType = "guild";
         useLocation = "guild.php?place=ocg";
-        break;
+      }
+      case ItemPool.DUSTY_BOOK -> {
+        useType = "guild";
+        useLocation = "guild.php?place=ocg";
+      }
 
         // Link to the impassable rubble when you have 6 fizzing spore pods
-      case ItemPool.FIZZING_SPORE_POD:
+      case ItemPool.FIZZING_SPORE_POD -> {
         if (InventoryManager.getCount(ItemPool.FIZZING_SPORE_POD) >= 6
             && QuestDatabase.isQuestBefore(Quest.NEMESIS, "step15")) {
           useType = "BOOOOOOM!";
           useLocation = "place.php?whichplace=nemesiscave&action=nmcave_rubble";
         }
-        break;
+      }
 
         // Link to the untinker if you find an abridged dictionary.
 
-      case ItemPool.ABRIDGED:
+      case ItemPool.ABRIDGED -> {
         useType = "untinker";
         useLocation = "place.php?whichplace=forestvillage&action=fv_untinker";
-        break;
+      }
 
         // Link to the chasm if you just untinkered a dictionary.
 
-      case ItemPool.BRIDGE:
-      case ItemPool.MORNINGWOOD_PLANK:
-      case ItemPool.HARDWOOD_PLANK:
-      case ItemPool.WEIRDWOOD_PLANK:
-      case ItemPool.THICK_CAULK:
-      case ItemPool.LONG_SCREW:
-      case ItemPool.BUTT_JOINT:
-      case ItemPool.SNOW_BOARDS:
-      case ItemPool.FANCY_OIL_PAINTING:
-      case ItemPool.BRIDGE_TRUSS:
+      case ItemPool.BRIDGE,
+          ItemPool.MORNINGWOOD_PLANK,
+          ItemPool.HARDWOOD_PLANK,
+          ItemPool.WEIRDWOOD_PLANK,
+          ItemPool.THICK_CAULK,
+          ItemPool.LONG_SCREW,
+          ItemPool.BUTT_JOINT,
+          ItemPool.SNOW_BOARDS,
+          ItemPool.FANCY_OIL_PAINTING,
+          ItemPool.BRIDGE_TRUSS -> {
         int urlEnd = OrcChasmRequest.getChasmProgress();
         if (urlEnd == 30) {
           break;
@@ -1908,53 +1841,51 @@ public abstract class UseLinkDecorator {
 
         useType = "chasm";
         useLocation = "place.php?whichplace=orc_chasm&action=bridge" + urlEnd;
-        break;
+      }
 
         // Link to the frat house if you acquired a Spanish Fly
 
-      case ItemPool.SPANISH_FLY:
+      case ItemPool.SPANISH_FLY -> {
         useType = String.valueOf(InventoryManager.getCount(itemId));
         useLocation = "adventure.php?snarfblat=27";
-        break;
+      }
 
         // Link to Big Brother if you pick up a sand dollar
 
-      case ItemPool.SAND_DOLLAR:
+      case ItemPool.SAND_DOLLAR -> {
         useType = String.valueOf(InventoryManager.getCount(itemId));
         useLocation = "monkeycastle.php?who=2";
-        break;
+      }
 
         // Link to the Old Man if you buy the damp old boot
 
-      case ItemPool.DAMP_OLD_BOOT:
+      case ItemPool.DAMP_OLD_BOOT -> {
         useType = "old man";
         useLocation = "place.php?whichplace=sea_oldman&action=oldman_oldman";
-        break;
-
-      case ItemPool.GUNPOWDER:
+      }
+      case ItemPool.GUNPOWDER -> {
         useType = String.valueOf(InventoryManager.getCount(itemId));
         useLocation = IslandRequest.getPyroURL();
-        break;
-
-      case ItemPool.TOWEL:
+      }
+      case ItemPool.TOWEL -> {
         useType = "fold";
         useLocation = "inv_use.php?which=3&whichitem=";
-        break;
-
-      case ItemPool.GOLD_BOWLING_BALL:
-      case ItemPool.REALLY_DENSE_MEAT_STACK:
-      case ItemPool.SCARAB_BEETLE_STATUETTE:
+      }
+      case ItemPool.GOLD_BOWLING_BALL,
+          ItemPool.REALLY_DENSE_MEAT_STACK,
+          ItemPool.SCARAB_BEETLE_STATUETTE -> {
         if (!adventureResults) break;
-        /*FALLTHRU*/
-      case ItemPool.HOLY_MACGUFFIN:
-      case ItemPool.ED_HOLY_MACGUFFIN:
         return getCouncilLink(itemId);
+      }
+      case ItemPool.HOLY_MACGUFFIN, ItemPool.ED_HOLY_MACGUFFIN -> {
+        return getCouncilLink(itemId);
+      }
 
         // Link to the Pretentious Artist when you find his last tool
 
-      case ItemPool.PRETENTIOUS_PAINTBRUSH:
-      case ItemPool.PRETENTIOUS_PALETTE:
-      case ItemPool.PRETENTIOUS_PAIL:
+      case ItemPool.PRETENTIOUS_PAINTBRUSH,
+          ItemPool.PRETENTIOUS_PALETTE,
+          ItemPool.PRETENTIOUS_PAIL -> {
         if (!InventoryManager.hasItem(ItemPool.PRETENTIOUS_PAINTBRUSH)
             || !InventoryManager.hasItem(ItemPool.PRETENTIOUS_PALETTE)
             || !InventoryManager.hasItem(ItemPool.PRETENTIOUS_PAIL)) {
@@ -1963,64 +1894,55 @@ public abstract class UseLinkDecorator {
 
         useType = "artist";
         useLocation = "place.php?whichplace=town_wrong&action=townwrong_artist_quest";
-        break;
-
-      case ItemPool.MOLYBDENUM_MAGNET:
-      case ItemPool.MOLYBDENUM_HAMMER:
-      case ItemPool.MOLYBDENUM_PLIERS:
-      case ItemPool.MOLYBDENUM_SCREWDRIVER:
-      case ItemPool.MOLYBDENUM_WRENCH:
+      }
+      case ItemPool.MOLYBDENUM_MAGNET,
+          ItemPool.MOLYBDENUM_HAMMER,
+          ItemPool.MOLYBDENUM_PLIERS,
+          ItemPool.MOLYBDENUM_SCREWDRIVER,
+          ItemPool.MOLYBDENUM_WRENCH -> {
         useType = "yossarian";
         useLocation = "bigisland.php?action=junkman";
-        break;
-
-      case ItemPool.FILTHWORM_QUEEN_HEART:
+      }
+      case ItemPool.FILTHWORM_QUEEN_HEART -> {
         useType = "stand";
         useLocation = "bigisland.php?place=orchard&action=stand";
-        break;
-
-      case ItemPool.SUGAR_SHEET:
+      }
+      case ItemPool.SUGAR_SHEET -> {
         useType = "fold";
         useLocation = "shop.php?whichshop=sugarsheets";
-        break;
+      }
 
         // Link to the kegger if you acquired a phone number. That's
         // not useful, but having the item count in the link is
 
-      case ItemPool.ORQUETTES_PHONE_NUMBER:
+      case ItemPool.ORQUETTES_PHONE_NUMBER -> {
         useType = String.valueOf(InventoryManager.getCount(itemId));
         useLocation = "adventure.php?snarfblat=231";
-        break;
-
-      case ItemPool.FORGED_ID_DOCUMENTS:
+      }
+      case ItemPool.FORGED_ID_DOCUMENTS -> {
         if (KoLCharacter.isKingdomOfExploathing()) {
           return getCouncilLink(itemId);
         }
 
         useType = "vacation";
         useLocation = "adventure.php?snarfblat=355";
-        break;
-
-      case ItemPool.ZEPPELIN_TICKET:
+      }
+      case ItemPool.ZEPPELIN_TICKET -> {
         useType = "zeppelin";
         useLocation = "adventure.php?snarfblat=385";
-        break;
-
-      case ItemPool.BUS_PASS:
-      case ItemPool.IMP_AIR:
+      }
+      case ItemPool.BUS_PASS, ItemPool.IMP_AIR -> {
         if (!QuestDatabase.isQuestFinished(Quest.AZAZEL)
             && InventoryManager.getCount(ItemPool.AZAZELS_TUTU) == 0) {
           useType = String.valueOf(InventoryManager.getCount(itemId));
           useLocation = "pandamonium.php?action=moan";
         }
-        break;
-
-      case ItemPool.HACIENDA_KEY:
+      }
+      case ItemPool.HACIENDA_KEY -> {
         useType = String.valueOf(InventoryManager.getCount(itemId));
         useLocation = "volcanoisland.php?action=tniat&pwd=" + GenericRequest.passwordHash;
-        break;
-
-      case ItemPool.NOSTRIL_OF_THE_SERPENT:
+      }
+      case ItemPool.NOSTRIL_OF_THE_SERPENT -> {
         if (!InventoryManager.hasItem(ItemPool.STONE_WOOL) || KoLCharacter.inGLover()) {
           return null;
         }
@@ -2028,62 +1950,50 @@ public abstract class UseLinkDecorator {
         itemId = ItemPool.STONE_WOOL;
         useType = "stone wool";
         useLocation = "inv_use.php?which=3&whichitem=";
-        break;
-
-      case ItemPool.MOSS_COVERED_STONE_SPHERE:
+      }
+      case ItemPool.MOSS_COVERED_STONE_SPHERE -> {
         useType = "use sphere";
         useLocation = "adventure.php?snarfblat=346";
-        break;
-
-      case ItemPool.DRIPPING_STONE_SPHERE:
+      }
+      case ItemPool.DRIPPING_STONE_SPHERE -> {
         useType = "use sphere";
         useLocation = "adventure.php?snarfblat=347";
-        break;
-
-      case ItemPool.CRACKLING_STONE_SPHERE:
+      }
+      case ItemPool.CRACKLING_STONE_SPHERE -> {
         useType = "use sphere";
         useLocation = "adventure.php?snarfblat=348";
-        break;
-
-      case ItemPool.SCORCHED_STONE_SPHERE:
+      }
+      case ItemPool.SCORCHED_STONE_SPHERE -> {
         useType = "use sphere";
         useLocation = "adventure.php?snarfblat=349";
-        break;
-
-      case ItemPool.STONE_ROSE:
+      }
+      case ItemPool.STONE_ROSE -> {
         useType = "gnasir";
         useLocation = UseLinkDecorator.gnasir();
-        break;
-
-      case ItemPool.WORM_RIDING_MANUAL_PAGE:
-        {
-          int count = InventoryManager.getCount(itemId);
-          return count < 15
-              ? new UseLink(itemId, count)
-              : new UseLink(itemId, count, "gnasir", UseLinkDecorator.gnasir());
-        }
-
-      case ItemPool.FIRST_PIZZA:
-      case ItemPool.LACROSSE_STICK:
-      case ItemPool.EYE_OF_THE_STARS:
-      case ItemPool.STANKARA_STONE:
-      case ItemPool.MURPHYS_FLAG:
-      case ItemPool.SHIELD_OF_BROOK:
+      }
+      case ItemPool.WORM_RIDING_MANUAL_PAGE -> {
+        int count = InventoryManager.getCount(itemId);
+        return count < 15
+            ? new UseLink(itemId, count)
+            : new UseLink(itemId, count, "gnasir", UseLinkDecorator.gnasir());
+      }
+      case ItemPool.FIRST_PIZZA,
+          ItemPool.LACROSSE_STICK,
+          ItemPool.EYE_OF_THE_STARS,
+          ItemPool.STANKARA_STONE,
+          ItemPool.MURPHYS_FLAG,
+          ItemPool.SHIELD_OF_BROOK -> {
         useType = "copperhead club";
         useLocation = "adventure.php?snarfblat=383";
-        break;
-
-      case ItemPool.GOLD_PIECE:
+      }
+      case ItemPool.GOLD_PIECE -> {
         return new UseLink(itemId, InventoryManager.getCount(itemId));
-
-      case ItemPool.SPOOKYRAVEN_NECKLACE:
+      }
+      case ItemPool.SPOOKYRAVEN_NECKLACE -> {
         useType = "talk to Lady Spookyraven";
         useLocation = "place.php?whichplace=manor1&action=manor1_ladys";
-        break;
-
-      case ItemPool.POWDER_PUFF:
-      case ItemPool.FINEST_GOWN:
-      case ItemPool.DANCING_SHOES:
+      }
+      case ItemPool.POWDER_PUFF, ItemPool.FINEST_GOWN, ItemPool.DANCING_SHOES -> {
         if (!InventoryManager.hasItem(ItemPool.POWDER_PUFF)
             || !InventoryManager.hasItem(ItemPool.FINEST_GOWN)
             || !InventoryManager.hasItem(ItemPool.DANCING_SHOES)) {
@@ -2092,150 +2002,130 @@ public abstract class UseLinkDecorator {
 
         useType = "talk to Lady Spookyraven";
         useLocation = "place.php?whichplace=manor2&action=manor2_ladys";
-        break;
-
-      case ItemPool.BABY_GHOSTS:
+      }
+      case ItemPool.BABY_GHOSTS -> {
         useType = "talk to Lady Spookyraven";
         useLocation = "place.php?whichplace=manor3&action=manor3_ladys";
-        break;
-
-      case ItemPool.CRUMBLING_WHEEL:
-        {
-          int count1 = InventoryManager.getCount(itemId);
-          int count2 = InventoryManager.getCount(ItemPool.TOMB_RATCHET);
-          useType = count1 + "+" + count2;
-          return !Preferences.getBoolean("controlRoomUnlock")
-              ? new UseLink(itemId, count1, useType, "javascript:return false;")
-              : new UseLink(
-                  itemId, count1, useType, "place.php?whichplace=pyramid&action=pyramid_control");
-        }
-
-      case ItemPool.TOMB_RATCHET:
-        {
-          int count1 = InventoryManager.getCount(itemId);
-          int count2 = InventoryManager.getCount(ItemPool.CRUMBLING_WHEEL);
-          useType = count2 + "+" + count1;
-          return !Preferences.getBoolean("controlRoomUnlock")
-              ? new UseLink(itemId, count1, useType, "javascript:return false;")
-              : new UseLink(
-                  itemId, count1, useType, "place.php?whichplace=pyramid&action=pyramid_control");
-        }
-
-      case ItemPool.PACK_OF_SMOKES:
-        {
-          int count = InventoryManager.getCount(itemId);
-          return count < 10
-              ? new UseLink(itemId, count)
-              : new UseLink(
-                  itemId,
-                  count,
-                  "radio",
-                  "place.php?whichplace=airport_spooky&action=airport2_radio");
-        }
-
-      case ItemPool.EXPERIMENTAL_SERUM_P00:
-        {
-          int count = InventoryManager.getCount(itemId);
-          return count < 5 && QuestDatabase.isQuestStarted(Quest.SERUM)
-              ? new UseLink(itemId, count)
-              : new UseLink(
-                  itemId,
-                  count,
-                  "radio",
-                  "place.php?whichplace=airport_spooky&action=airport2_radio");
-        }
-
-      case ItemPool.MEATSMITH_CHECK:
+      }
+      case ItemPool.CRUMBLING_WHEEL -> {
+        int count1 = InventoryManager.getCount(itemId);
+        int count2 = InventoryManager.getCount(ItemPool.TOMB_RATCHET);
+        useType = count1 + "+" + count2;
+        return !Preferences.getBoolean("controlRoomUnlock")
+            ? new UseLink(itemId, count1, useType, "javascript:return false;")
+            : new UseLink(
+                itemId, count1, useType, "place.php?whichplace=pyramid&action=pyramid_control");
+      }
+      case ItemPool.TOMB_RATCHET -> {
+        int count1 = InventoryManager.getCount(itemId);
+        int count2 = InventoryManager.getCount(ItemPool.CRUMBLING_WHEEL);
+        useType = count2 + "+" + count1;
+        return !Preferences.getBoolean("controlRoomUnlock")
+            ? new UseLink(itemId, count1, useType, "javascript:return false;")
+            : new UseLink(
+                itemId, count1, useType, "place.php?whichplace=pyramid&action=pyramid_control");
+      }
+      case ItemPool.PACK_OF_SMOKES -> {
+        int count = InventoryManager.getCount(itemId);
+        return count < 10
+            ? new UseLink(itemId, count)
+            : new UseLink(
+                itemId,
+                count,
+                "radio",
+                "place.php?whichplace=airport_spooky&action=airport2_radio");
+      }
+      case ItemPool.EXPERIMENTAL_SERUM_P00 -> {
+        int count = InventoryManager.getCount(itemId);
+        return count < 5 && QuestDatabase.isQuestStarted(Quest.SERUM)
+            ? new UseLink(itemId, count)
+            : new UseLink(
+                itemId,
+                count,
+                "radio",
+                "place.php?whichplace=airport_spooky&action=airport2_radio");
+      }
+      case ItemPool.MEATSMITH_CHECK -> {
         return new UseLink(itemId, 1, "visit meatsmith", "shop.php?whichshop=meatsmith");
-
-      case ItemPool.NO_HANDED_PIE:
+      }
+      case ItemPool.NO_HANDED_PIE -> {
         return new UseLink(itemId, 1, "visit armorer", "shop.php?whichshop=armory");
-
-      case ItemPool.ODD_SILVER_COIN:
+      }
+      case ItemPool.ODD_SILVER_COIN -> {
         return new UseLink(itemId, 1, "spend", "shop.php?whichshop=cindy");
-
-      case ItemPool.SPANT_CHITIN:
-      case ItemPool.SPANT_TENDON:
+      }
+      case ItemPool.SPANT_CHITIN, ItemPool.SPANT_TENDON -> {
         useType = "assemble";
         useLocation = "shop.php?whichshop=spant";
-        break;
-
-      case ItemPool.RUBEE:
+      }
+      case ItemPool.RUBEE -> {
         useType = "spend";
         if (KoLCharacter.hasEquipped(ItemPool.FANTASY_REALM_GEM)) {
           useLocation = "shop.php?whichshop=fantasyrealm";
         }
-        break;
-
-      case ItemPool.BLACK_SLIME_GLOB:
-      case ItemPool.GREEN_SLIME_GLOB:
-      case ItemPool.ORANGE_SLIME_GLOB:
+      }
+      case ItemPool.BLACK_SLIME_GLOB, ItemPool.GREEN_SLIME_GLOB, ItemPool.ORANGE_SLIME_GLOB -> {
         int slimeCount = InventoryManager.getCount(itemId);
         useType = "use (" + slimeCount + ")";
         useLocation = "shop.php?whichshop=voteslime";
-        break;
-
-      case ItemPool.SPINMASTER:
+      }
+      case ItemPool.SPINMASTER -> {
         useType = "lathe";
         useLocation = "shop.php?whichshop=lathe";
-        break;
-
-      case ItemPool.MILK_CAP:
-      case ItemPool.DRINK_CHIT:
+      }
+      case ItemPool.MILK_CAP, ItemPool.DRINK_CHIT -> {
         useType = "spend";
         useLocation = "shop.php?whichshop=olivers";
-        break;
-
-      case ItemPool.THE_SOTS_PARCEL:
+      }
+      case ItemPool.THE_SOTS_PARCEL -> {
         useType = "return to sot";
         useLocation = "place.php?whichplace=speakeasy&action=olivers_sot";
-        break;
-
-      case ItemPool.DINOSAUR_DROPPINGS:
+      }
+      case ItemPool.DINOSAUR_DROPPINGS -> {
         useType = "turn in";
         useLocation = "place.php?whichplace=dinorf&action=dinorf_owner";
-        break;
-
-      case ItemPool.DISTILLED_SEAL_BLOOD:
-      case ItemPool.TURTLE_CHAIN:
-      case ItemPool.HIGH_OCTANE_OLIVE_OIL:
-      case ItemPool.PEPPERCORNS_OF_POWER:
-      case ItemPool.VIAL_OF_MOJO:
-      case ItemPool.GOLDEN_REEDS:
-        {
-          // When we "acquire" the reward from Beelzebozo, provide a
-          // link to the guild and, if we already have a hammer and can
-          // smith the Legendary Epic Weapon, a link to do that.
-          Set<AdventureResult> creations = ConcoctionDatabase.getKnownUses(itemId);
-          // There should be exactly one creation.
-          CreateItemRequest creator = null;
-          for (AdventureResult creation : creations) {
-            creator = CreateItemRequest.getInstance(creation.getItemId());
-            // This returns null if not permitted.
-            // E.g., you don't have a hammer.
-            if (creator != null) {
-              // Create the URL
-              creator.reconstructFields();
-              creator.buildFullURL();
-              break;
-            }
-          }
-
-          ArrayList<UseLink> uses = new ArrayList<>();
-          // scg = Same Class in Guild
-          uses.add(new UseLink(itemId, "guild", "guild.php?place=scg"));
+      }
+      case ItemPool.DISTILLED_SEAL_BLOOD,
+          ItemPool.TURTLE_CHAIN,
+          ItemPool.HIGH_OCTANE_OLIVE_OIL,
+          ItemPool.PEPPERCORNS_OF_POWER,
+          ItemPool.VIAL_OF_MOJO,
+          ItemPool.GOLDEN_REEDS -> {
+        // When we "acquire" the reward from Beelzebozo, provide a
+        // link to the guild and, if we already have a hammer and can
+        // smith the Legendary Epic Weapon, a link to do that.
+        Set<AdventureResult> creations = ConcoctionDatabase.getKnownUses(itemId);
+        // There should be exactly one creation.
+        CreateItemRequest creator = null;
+        for (AdventureResult creation : creations) {
+          creator = CreateItemRequest.getInstance(creation.getItemId());
+          // This returns null if not permitted.
+          // E.g., you don't have a hammer.
           if (creator != null) {
-            UseLink createLink = new UseLink(itemId, 1, "smith", creator.getURLString());
-            uses.add(createLink);
+            // Create the URL
+            creator.reconstructFields();
+            creator.buildFullURL();
+            break;
           }
-          return new UsesLink(uses.toArray(new UseLink[uses.size()]));
         }
 
-      case ItemPool.PROFESSOR_WHAT_GARMENT:
-        {
-          return new UseLink(
-              itemId, "visit Melvign", "place.php?whichplace=mountains&action=mts_melvin");
+        ArrayList<UseLink> uses = new ArrayList<>();
+        // scg = Same Class in Guild
+        uses.add(new UseLink(itemId, "guild", "guild.php?place=scg"));
+        if (creator != null) {
+          UseLink createLink = new UseLink(itemId, 1, "smith", creator.getURLString());
+          uses.add(createLink);
         }
+        return new UsesLink(uses.toArray(new UseLink[0]));
+      }
+      case ItemPool.PROFESSOR_WHAT_GARMENT -> {
+        return new UseLink(
+            itemId, "visit Melvign", "place.php?whichplace=mountains&action=mts_melvin");
+      }
+      case ItemPool.GLOB_OF_WET_PAPER -> {
+        useType = "think";
+        useLocation = "shop.php?whichshop=showerthoughts";
+      }
     }
 
     if (useType == null || useLocation == null) {
