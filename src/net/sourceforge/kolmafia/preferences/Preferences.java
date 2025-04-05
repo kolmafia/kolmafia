@@ -22,6 +22,7 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
+import javax.swing.SwingUtilities;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -34,13 +35,16 @@ import net.sourceforge.kolmafia.session.MonorailManager;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+import net.sourceforge.kolmafia.utilities.SwinglessUIUtils;
 import net.sourceforge.kolmafia.webui.CharPaneDecorator;
 
 public class Preferences {
   // If false, blocks saving of all preferences. Do not modify outside of tests.
   public static boolean saveSettingsToFile = true;
 
-  private static final Object lock = new Object(); // used to synch io
+  public static final Object lock = new Object(); // used to synch io
+  public static final Object dataLock1 = new Object(); // used to synch io
+  public static final Object dataLock2 = new Object(); // used to synch io
 
   private static final String[] characterMap = new String[65536];
 
@@ -154,36 +158,53 @@ public class Preferences {
   }
 
   /** Resets all settings so that the given user is represented whenever settings are modified. */
-  public static synchronized void reset(String username) {
-    // We might not have been tracking encoded values here before this save. Fix that.
-    Preferences.reinitializeEncodedValues();
-    Preferences.saveToFile(Preferences.globalPropertiesFile, Preferences.globalEncodedValues);
-    // Prevent anybody from manipulating the user map until we are
-    // done bulk-loading it.
-    synchronized (Preferences.userValues) {
-      if (username == null || username.equals("")) {
-        if (Preferences.userPropertiesFile != null) {
-          Preferences.saveToFile(Preferences.userPropertiesFile, Preferences.userEncodedValues);
-          Preferences.userPropertiesFile = null;
-          Preferences.userValues.clear();
-          Preferences.userEncodedValues.clear();
+  public static void reset(String username) {
+    synchronized (lock) {
+      // We might not have been tracking encoded values here before this save. Fix that.
+      Preferences.reinitializeEncodedValues();
+      Preferences.saveToFile(Preferences.globalPropertiesFile, Preferences.globalEncodedValues);
+      // Prevent anybody from manipulating the user map until we are
+      // done bulk-loading it.
+      synchronized (Preferences.userValues) {
+        if (username == null || username.isEmpty()) {
+          if (Preferences.userPropertiesFile != null) {
+            Preferences.saveToFile(Preferences.userPropertiesFile, Preferences.userEncodedValues);
+            Preferences.userPropertiesFile = null;
+            Preferences.userValues.clear();
+            Preferences.userEncodedValues.clear();
+          }
+
+          return;
         }
 
-        return;
+        Preferences.loadUserPreferences(username);
       }
 
-      Preferences.loadUserPreferences(username);
+      if (SwinglessUIUtils.isSwingAvailable()) {
+        try {
+          SwingUtilities.invokeLater(
+              () -> {
+                AdventureFrame.updateFromPreferences();
+                MoodManager.updateFromPreferences();
+                CharPaneDecorator.updateFromPreferences();
+                CombatActionManager.updateFromPreferences();
+                PreferenceListenerRegistry.fireAllPreferencesChanged();
+              });
+        } catch (Exception e) {
+          // We don't really care about these exceptions.
+        }
+      } else {
+        AdventureFrame.updateFromPreferences();
+        MoodManager.updateFromPreferences();
+        CharPaneDecorator.updateFromPreferences();
+        CombatActionManager.updateFromPreferences();
+        PreferenceListenerRegistry.fireAllPreferencesChanged();
+      }
     }
-
-    AdventureFrame.updateFromPreferences();
-    CharPaneDecorator.updateFromPreferences();
-    CombatActionManager.updateFromPreferences();
-    MoodManager.updateFromPreferences();
-    PreferenceListenerRegistry.fireAllPreferencesChanged();
   }
 
   public static String baseUserName(final String name) {
-    return name == null || name.equals("")
+    return name == null || name.isEmpty()
         ? "GLOBAL"
         : StringUtilities.globalStringReplace(name.trim(), " ", "_").toLowerCase();
   }
@@ -232,7 +253,7 @@ public class Preferences {
     synchronized (lock) {
       Properties p = Preferences.loadPreferences(userPrefsFile);
 
-      if (p.size() == 0) {
+      if (p.isEmpty()) {
         // Something went wrong reading the preferences.
         if (backupFile.exists()) {
           KoLmafia.updateDisplay(
@@ -244,7 +265,7 @@ public class Preferences {
 
           p = Preferences.loadPreferences(backupFile);
 
-          if (p.size() > 0) {
+          if (!p.isEmpty()) {
             try {
               Files.copy(
                   backupFile.toPath(), userPrefsFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
@@ -326,22 +347,24 @@ public class Preferences {
   }
 
   private static Properties loadPreferences(File file) {
-    InputStream istream = DataUtilities.getInputStream(file);
+    synchronized (lock) {
+      InputStream istream = DataUtilities.getInputStream(file);
 
-    Properties p = new Properties();
-    try {
-      p.load(istream);
-    } catch (IOException e) {
-      System.out.println(e.getMessage() + " trying to load preferences from file.");
+      Properties p = new Properties();
+      try {
+        p.load(istream);
+      } catch (IOException e) {
+        System.out.println(e.getMessage() + " trying to load preferences from file.");
+      }
+
+      try {
+        istream.close();
+      } catch (IOException e) {
+        System.out.println(e.getMessage() + " trying to close preferences file.");
+      }
+
+      return p;
     }
-
-    try {
-      istream.close();
-    } catch (IOException e) {
-      System.out.println(e.getMessage() + " trying to close preferences file.");
-    }
-
-    return p;
   }
 
   private static String encodeProperty(String name, String value) {
@@ -349,7 +372,7 @@ public class Preferences {
 
     Preferences.encodeString(buffer, name);
 
-    if (value != null && value.length() > 0) {
+    if (value != null && !value.isEmpty()) {
       buffer.append("=");
       Preferences.encodeString(buffer, value);
     }
@@ -364,7 +387,7 @@ public class Preferences {
 
   private static void reinitializeEncodedValuesOn(
       Map<String, Object> valuesMap, Map<String, byte[]> encodedMap) {
-    synchronized (valuesMap) {
+    synchronized (dataLock1) {
       for (Entry<String, Object> entry : valuesMap.entrySet()) {
         encodedMap.put(
             entry.getKey(),
@@ -575,21 +598,23 @@ public class Preferences {
 
   public static int increment(
       final String name, final int delta, final int max, final boolean mod) {
-    int current = Preferences.getInteger(name);
-    if (delta != 0) {
-      current += delta;
+    synchronized (lock) {
+      int current = Preferences.getInteger(name);
+      if (delta != 0) {
+        current += delta;
 
-      if (max > 0 && current >= max) {
-        if (mod) {
-          current %= max;
-        } else {
-          current = max;
+        if (max > 0 && current >= max) {
+          if (mod) {
+            current %= max;
+          } else {
+            current = max;
+          }
         }
-      }
 
-      Preferences.setInteger(name, current);
+        Preferences.setInteger(name, current);
+      }
+      return current;
     }
-    return current;
   }
 
   public static int decrement(final String name) {
@@ -601,17 +626,19 @@ public class Preferences {
   }
 
   public static int decrement(final String name, final int delta, final int min) {
-    int current = Preferences.getInteger(name);
-    if (delta != 0) {
-      current -= delta;
+    synchronized (lock) {
+      int current = Preferences.getInteger(name);
+      if (delta != 0) {
+        current -= delta;
 
-      if (current < min) {
-        current = min;
+        if (current < min) {
+          current = min;
+        }
+
+        Preferences.setInteger(name, current);
       }
-
-      Preferences.setInteger(name, current);
+      return current;
     }
-    return current;
   }
 
   // Per-user global properties are stored in the global settings with
@@ -717,8 +744,10 @@ public class Preferences {
 
   private static Object getObject(
       final Map<String, Object> map, final String user, final String name) {
-    String key = Preferences.propertyName(user, name);
-    return map.get(key);
+    synchronized (lock) {
+      String key = Preferences.propertyName(user, name);
+      return map.get(key);
+    }
   }
 
   // Used only in ASH get_all_properties.
@@ -796,7 +825,7 @@ public class Preferences {
     // We stop tracking encoded values when saveSettingsOnSet is off. When it is turned back on,
     // many encoded values will be out of date, and we don't know which ones, so we have to
     // recompute all of them.
-    if (name == "saveSettingsOnSet" && (boolean) object) {
+    if (name.equals("saveSettingsOnSet") && (boolean) object) {
       Preferences.reinitializeEncodedValues();
       trackEncoded |= Preferences.saveSettingsToFile;
     }
@@ -877,7 +906,7 @@ public class Preferences {
       OutputStream fstream = new BufferedOutputStream(DataUtilities.getOutputStream(file));
 
       try {
-        synchronized (encodedData) {
+        synchronized (dataLock2) {
           for (Entry<String, byte[]> current : encodedData.entrySet()) {
             fstream.write(current.getValue());
           }
@@ -961,20 +990,22 @@ public class Preferences {
     // userValues is a synchronized map, but we are doing a mass
     // change to it.
 
-    synchronized (Preferences.userValues) {
-      Iterator<String> it = Preferences.userValues.keySet().iterator();
-      while (it.hasNext()) {
-        String name = it.next();
-        if (isDaily(name)) {
-          if (!Preferences.containsDefault(name)) {
-            // fully delete preferences that start with _ and aren't in defaults.txt
-            it.remove();
-            userEncodedValues.remove(name);
-            continue;
+    synchronized (Preferences.lock) {
+      synchronized (Preferences.userValues) {
+        Iterator<String> it = Preferences.userValues.keySet().iterator();
+        while (it.hasNext()) {
+          String name = it.next();
+          if (isDaily(name)) {
+            if (!Preferences.containsDefault(name)) {
+              // fully delete preferences that start with _ and aren't in defaults.txt
+              it.remove();
+              userEncodedValues.remove(name);
+              continue;
+            }
+            String val = Preferences.userNames.get(name);
+            if (val == null) val = "";
+            Preferences.setString(name, val);
           }
-          String val = Preferences.userNames.get(name);
-          if (val == null) val = "";
-          Preferences.setString(name, val);
         }
       }
     }
@@ -986,16 +1017,18 @@ public class Preferences {
     // globalValues is a synchronized map, but we are doing a mass
     // change to it.
 
-    synchronized (Preferences.globalValues) {
-      for (String name : Preferences.globalValues.keySet()) {
-        if (isDaily(name)) {
-          String val = Preferences.globalNames.get(name);
-          if (val == null) val = "";
-          Preferences.setString(name, val);
+    synchronized (Preferences.lock) {
+      synchronized (Preferences.globalValues) {
+        for (String name : Preferences.globalValues.keySet()) {
+          if (isDaily(name)) {
+            String val = Preferences.globalNames.get(name);
+            if (val == null) val = "";
+            Preferences.setString(name, val);
+          }
         }
-      }
 
-      Preferences.setLong("lastGlobalCounterDay", KoLCharacter.getRollover());
+        Preferences.setLong("lastGlobalCounterDay", KoLCharacter.getRollover());
+      }
     }
   }
 
