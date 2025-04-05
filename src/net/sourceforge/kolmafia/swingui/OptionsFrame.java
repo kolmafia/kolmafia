@@ -524,7 +524,7 @@ public class OptionsFrame extends GenericFrame {
         {"autoSatisfyWithStash", "Take items from the clan stash whenever needed"},
         {
           "autoSatisfyWithShop",
-          "Take items for sale from the mall shop whenever needed, if an item would be bought"
+          "Take items available in your mall shop whenever needed instead of buying them elsewhere"
         },
         {},
         {"autoGarish", "Use Potion of the Field Gar when appropriate (& include in adv gain)"},
