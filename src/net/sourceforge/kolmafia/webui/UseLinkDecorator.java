@@ -644,7 +644,7 @@ public abstract class UseLinkDecorator {
               return uses.get(0);
             }
 
-            return new UsesLink(uses.toArray(new UseLink[uses.size()]));
+            return new UsesLink(uses.toArray(new UseLink[0]));
           }
           case ItemPool.HOT_WING -> {
             ArrayList<UseLink> uses = new ArrayList<>();
@@ -659,7 +659,7 @@ public abstract class UseLinkDecorator {
               return uses.get(0);
             }
 
-            return new UsesLink(uses.toArray(new UseLink[uses.size()]));
+            return new UsesLink(uses.toArray(new UseLink[0]));
           }
           case ItemPool.SNOW_BERRIES, ItemPool.ICE_HARVEST -> {
             ArrayList<UseLink> uses = new ArrayList<>();
@@ -674,7 +674,7 @@ public abstract class UseLinkDecorator {
               return uses.get(0);
             }
 
-            return new UsesLink(uses.toArray(new UseLink[uses.size()]));
+            return new UsesLink(uses.toArray(new UseLink[0]));
           }
           case ItemPool.GIANT_MARSHMALLOW, ItemPool.SPONGE_CAKE -> {
             if (!QuestDatabase.isQuestFinished(Quest.AZAZEL)
@@ -894,7 +894,7 @@ public abstract class UseLinkDecorator {
             if (uses.size() == 1) {
               return uses.get(0);
             }
-            return new UsesLink(uses.toArray(new UseLink[uses.size()]));
+            return new UsesLink(uses.toArray(new UseLink[0]));
           }
           case ItemPool.MACGUFFIN_DIARY, ItemPool.ED_DIARY -> {
             return new UseLink(itemId, 1, "read", "diary.php?textversion=1");
@@ -1100,7 +1100,7 @@ public abstract class UseLinkDecorator {
             ArrayList<UseLink> uses = new ArrayList<>();
             uses.add(new UseLink(itemId, 1, "Let's Guzzle", "shop.php?whichshop=guzzlr"));
             uses.add(new UseLink(itemId, 1, "tap", "inventory.php?tap=guzzlr", false));
-            return new UsesLink(uses.toArray(new UseLink[uses.size()]));
+            return new UsesLink(uses.toArray(new UseLink[0]));
           }
           case ItemPool.BARLEY,
               ItemPool.HOPS,
@@ -1147,13 +1147,13 @@ public abstract class UseLinkDecorator {
             uses.add(new UseLink(itemId, 1, "use", "inv_use.php?whichitem="));
             uses.add(
                 new UseLink(itemId, 1, "smash party", "inv_use.php?choice=1&whichitem=", false));
-            return new UsesLink(uses.toArray(new UseLink[uses.size()]));
+            return new UsesLink(uses.toArray(new UseLink[0]));
           }
           case ItemPool.GLITCH_ITEM -> {
             ArrayList<UseLink> uses = new ArrayList<>();
             uses.add(new UseLink(itemId, itemCount, "implement", "inv_use.php?whichitem="));
             uses.add(new UseLink(itemId, itemCount, "eat", "inv_eat.php?whichitem=", false));
-            return new UsesLink(uses.toArray(new UseLink[uses.size()]));
+            return new UsesLink(uses.toArray(new UseLink[0]));
           }
           case ItemPool.FIXODENT -> {
             return new UseLink(itemId, 1, "fix", "shop.php?whichshop=fixodent");
@@ -1229,7 +1229,7 @@ public abstract class UseLinkDecorator {
               // scg = Same Class in Guild
               uses.add(new UseLink(itemId, "guild", "guild.php?place=scg"));
               uses.add(equipLink);
-              return new UsesLink(uses.toArray(new UseLink[uses.size()]));
+              return new UsesLink(uses.toArray(new UseLink[0]));
             }
             return equipLink;
           }
@@ -1251,7 +1251,7 @@ public abstract class UseLinkDecorator {
             // scg = Same Class in Guild
             uses.add(new UseLink(itemId, "guild", "guild.php?place=scg"));
             uses.add(equipLink);
-            return new UsesLink(uses.toArray(new UseLink[uses.size()]));
+            return new UsesLink(uses.toArray(new UseLink[0]));
           }
           case ItemPool.SCALP_OF_GORGOLOK,
               ItemPool.ELDER_TURTLE_SHELL,
@@ -1273,7 +1273,7 @@ public abstract class UseLinkDecorator {
               // scg = Same Class in Guild
               uses.add(new UseLink(itemId, "guild", "guild.php?place=scg"));
               uses.add(equipLink);
-              return new UsesLink(uses.toArray(new UseLink[uses.size()]));
+              return new UsesLink(uses.toArray(new UseLink[0]));
             }
             return equipLink;
           }
@@ -1297,7 +1297,7 @@ public abstract class UseLinkDecorator {
                       itemCount,
                       "outfit",
                       "inv_equip.php?action=outfit&which=2&whichoutfit=" + outfit));
-              return new UsesLink(uses.toArray(new UseLink[uses.size()]));
+              return new UsesLink(uses.toArray(new UseLink[0]));
             }
           }
           case ItemPool.SPELUNKY_SPRING_BOOTS, ItemPool.SPELUNKY_SPIKED_BOOTS -> {
@@ -1327,7 +1327,7 @@ public abstract class UseLinkDecorator {
             ArrayList<UseLink> uses = new ArrayList<>();
             uses.add(equipLink);
             uses.add(plateLink);
-            return new UsesLink(uses.toArray(new UseLink[uses.size()]));
+            return new UsesLink(uses.toArray(new UseLink[0]));
           }
           case ItemPool.CODPIECE -> {
             UseLink equipLink =
@@ -1342,7 +1342,7 @@ public abstract class UseLinkDecorator {
             ArrayList<UseLink> uses = new ArrayList<>();
             uses.add(equipLink);
             uses.add(wringOutLink);
-            return new UsesLink(uses.toArray(new UseLink[uses.size()]));
+            return new UsesLink(uses.toArray(new UseLink[0]));
           }
           case ItemPool.BASS_CLARINET -> {
             UseLink equipLink =
@@ -1357,7 +1357,7 @@ public abstract class UseLinkDecorator {
             ArrayList<UseLink> uses = new ArrayList<>();
             uses.add(equipLink);
             uses.add(drainLink);
-            return new UsesLink(uses.toArray(new UseLink[uses.size()]));
+            return new UsesLink(uses.toArray(new UseLink[0]));
           }
           case ItemPool.FISH_HATCHET -> {
             UseLink equipLink =
@@ -1372,7 +1372,7 @@ public abstract class UseLinkDecorator {
             ArrayList<UseLink> uses = new ArrayList<>();
             uses.add(equipLink);
             uses.add(useLink);
-            return new UsesLink(uses.toArray(new UseLink[uses.size()]));
+            return new UsesLink(uses.toArray(new UseLink[0]));
           }
         }
 
@@ -1521,7 +1521,7 @@ public abstract class UseLinkDecorator {
         if (uses.size() == 1) {
           return uses.get(0);
         } else {
-          return new UsesLink(uses.toArray(new UseLink[uses.size()]));
+          return new UsesLink(uses.toArray(new UseLink[0]));
         }
       }
       case ZAP -> {
@@ -2171,7 +2171,7 @@ public abstract class UseLinkDecorator {
             UseLink createLink = new UseLink(itemId, 1, "smith", creator.getURLString());
             uses.add(createLink);
           }
-          return new UsesLink(uses.toArray(new UseLink[uses.size()]));
+          return new UsesLink(uses.toArray(new UseLink[0]));
         }
 
       case ItemPool.PROFESSOR_WHAT_GARMENT:
