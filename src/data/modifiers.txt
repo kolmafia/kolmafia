@@ -4683,6 +4683,7 @@ Item	warbear drone codes	Last Available: "2013-12"
 Item	wax lips	Experience: +3, Softcore Only, Last Available: "2005-07", Generic
 # weegee sqouija: Hobo's Booze Is More Effective
 Item	weegee sqouija	Last Available: "2011-12"
+Item	wet paper eye	Familiar Weight: +15
 # white arm towel: Your familiar will find extra food and booze on the Crimbo Train
 Item	white arm towel	Last Available: "2022-12", Generic
 Item	woimbook	Familiar Weight: +5
@@ -5228,6 +5229,7 @@ Throne	Urchin Urchin	Weapon Damage: +10
 Throne	Vampire Vintner	Maximum HP: +10, HP Regen Min: 10, HP Regen Max: 12
 Throne	Warbear Drone	Maximum HP: +10, Maximum MP: +10, Drops Items
 Throne	Wereturtle	Muscle Percent: +15, Drops Meat
+Throne	Wet Paper Tiger	
 Throne	Whirling Maple Leaf	Spell Damage Percent: +10
 Throne	Wild Hare	Muscle: +10, Mysticality: +10, Moxie: +10, HP Regen Min: 5, HP Regen Max: 6, MP Regen Min: 3, MP Regen Max: 4
 Throne	Wind-up Chattering Teeth	Muscle Percent: +15

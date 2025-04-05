@@ -86,6 +86,9 @@ public abstract class InventoryManager {
   public static void refresh() {
     // Retrieve the contents of inventory via api.php
     ApiRequest.updateInventory();
+    // Items in inventory can grant modifiers.
+    // For example, Cincho de Mayo gives 3 free rests.
+    KoLCharacter.recalculateAdjustments();
   }
 
   public static final void parseInventory(final JSONObject json) {
