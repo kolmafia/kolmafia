@@ -1056,6 +1056,18 @@ public abstract class InventoryManager {
         return "buy";
       }
 
+      // If mall purchases are allowed, maybe take items from the mall shop first
+      if (shouldUseShop) {
+        ManageStoreRequest request = new ManageStoreRequest(itemId, missingCount);
+        RequestThread.postRequest(request);
+
+        missingCount = item.getCount() - item.getCount(KoLConstants.inventory);
+
+        if (missingCount <= 0) {
+          return "";
+        }
+      }
+
       AdventureResult instance = item.getInstance(missingCount);
       List<PurchaseRequest> results = MallPriceManager.searchMall(instance);
       KoLmafia.makePurchases(
