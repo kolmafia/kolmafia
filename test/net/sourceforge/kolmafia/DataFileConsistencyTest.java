@@ -531,17 +531,13 @@ public class DataFileConsistencyTest {
             if (val != null && val.startsWith("\"") && val.endsWith("\""))
               val = val.substring(1, val.length() - 1);
             switch (mod.getName()) {
-              case "Effect", "Rollover Effect", "Add Buff Effect", "Replace Buff Effect" -> {
+              case "Effect", "Rollover Effect" -> {
                 var effect = EffectDatabase.getEffectId(val, true);
                 if (effect < 0) {
                   fail("unrecognised effect " + mod.getValue());
                 }
               }
-              case "Skill",
-                  "Conditional Skill (Equipped)",
-                  "Conditional Skill (Inventory)",
-                  "Add Buff Skill",
-                  "Replace Buff Skill" -> {
+              case "Skill", "Conditional Skill (Equipped)", "Conditional Skill (Inventory)" -> {
                 var skill = SkillDatabase.getSkillId(val, true);
                 if (skill < 0) {
                   fail("unrecognised skill " + mod.getValue());
@@ -590,8 +586,6 @@ public class DataFileConsistencyTest {
           String element = fields[1];
           String modifierString = fields[2];
           var mods = ModifierDatabase.splitModifiers(modifierString);
-          assertModCountEqual(mods, element, "Add Buff Skill", "Add Buff Effect");
-          assertModCountEqual(mods, element, "Replace Buff Skill", "Replace Buff Effect");
           assertModCountEqual(mods, element, "Effect", "Effect Duration");
           assertModCountEqual(mods, element, "Rollover Effect", "Rollover Effect Duration");
         }

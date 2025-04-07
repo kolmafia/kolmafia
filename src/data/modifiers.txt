@@ -1,6 +1,4 @@
 3
-# Note that order matters for modifiers. For items with multiple "Replace Buff Skill", 
-# the corresponding "Replace Buff Effect" are expected to be ordered the same way.
 # Numeric modifiers can now be expressions, enclosed in square brackets.
 # No spaces are allowed within the expression, except as part of a zone/location name.
 # + - * / ( ) have their usual mathematical meaning and precedence.
@@ -905,7 +903,8 @@ Item	ultra-high-tension exoskeleton	Avoid Attack: 2
 Item	Uncle Hobo's gift baggy pants	Moxie Percent: +20, Critical Hit Percent: +5, Last Available: "2010-12", Familiar Effect: "1xPotato, 1xGhuol"
 Item	union scalemail pants	Familiar Effect: "2xBarrr, cap 12"
 Item	Unkillable Skeleton's shinguards	Sleaze Damage: +50, Hot Resistance: +5, Stench Resistance: +1, Class: "Turtle Tamer", Familiar Effect: "1xVolley, 1xBarrr"
-Item	velour vaqueros	Moxie: +10, Pants Drop: +30, Last Available: "2021-12", Replace Buff Skill: "Dirge of Dreadfulness", Replace Buff Effect: "Dirge of Dreadfulness (Remastered)"
+# velour vaqueros: Triples the effectiveness of the Dirge of Dreadfulness
+Item	velour vaqueros	Moxie: +10, Pants Drop: +30, Last Available: "2021-12"
 Item	Vicar's Tutu	Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1, PvP Fights: +3, Smithsness: +5, Last Available: "2013-12", Maximum HP: [2*K], Familiar Effect: "1.2xFairy, cap 25"
 Item	Volartta's bellbottoms	Moxie: +11, Ranged Damage: +11, Class: "Disco Bandit", Familiar Effect: "1xPotato, 1.5xFairy, cap 31"
 Item	Voluminous Radio Pants	HP Regen Min: 5, HP Regen Max: 10, Familiar Effect: "2xGhoul, cap 37"
@@ -2059,7 +2058,8 @@ Item	unsanitized scalpel	Sleaze Damage: +25
 Item	vampire duck-on-a-string	Weapon Damage: +5, Item Drop: +5, Last Available: "2006-12"
 Item	velcro broadsword	Muscle Percent: +5, MP Regen Min: 6, MP Regen Max: 12, Hat Drop: +20, Pants Drop: +20
 Item	velcro paddle ball	Moxie Percent: +5, MP Regen Min: 6, MP Regen Max: 12, Accessory Drop: +20
-Item	velour voulge	Experience (Muscle): +2, Weapon Drop: +30, Last Available: "2021-12", Replace Buff Skill: "Snarl of the Timberwolf", Replace Buff Effect: "Snarl of Three Timberwolves"
+# velour voulge: Triples the effect of Snarl of the Timberwolf
+Item	velour voulge	Experience (Muscle): +2, Weapon Drop: +30, Last Available: "2021-12"
 Item	vibrating cyborg knife	Weapon Damage: +20, Fumble: 3, Last Available: "2007-12"
 Item	villainous scythe	Weapon Damage Percent: +30, Critical Hit Percent: +20, Slime Hates It: +2
 Item	void shard	Muscle Percent: +13, Mysticality Percent: +13, Moxie Percent: +13, Item Drop: +13, Monster Level: +13, Spooky Damage: +13, Last Available: "2022-12"
@@ -2141,7 +2141,7 @@ Item	antique nutcracker drumstick	MP Regen Min: 4, MP Regen Max: 8, Mysticality 
 Item	antique shield	Initiative: -10, Damage Reduction: 11, Breakable
 Item	antique spyglass	Reduce Enemy Defense: 15, Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 # April Shower Thoughts shield: Improves some of your class skills!
-Item	April Shower Thoughts shield	Muscle: +10, Mysticality: +10, Moxie: +10, Maximum HP: +25, Maximum MP: +25, Damage Reduction: 6, Last Available: "2025-04", Add Buff Skill: "Seal Clubbing Frenzy", Add Buff Effect: "Slippery as a Seal", Add Buff Skill: "Patience of the Tortoise", Add Buff Effect: "Strength of the Tortoise", Add Buff Skill: "Manicotti Meditation", Add Buff Effect: "Tubes of Universal Meat", Add Buff Skill: "Sauce Contemplation", Add Buff Effect: "Lubricating Sauce", Add Buff Skill: "Disco Aerobics", Add Buff Effect: "Disco over Matter", Add Buff Skill: "Moxie of the Mariachi", Add Buff Effect: "Mariachi Moisture", Replace Buff Skill: "Empathy of the Newt", Replace Buff Effect: "Thoughtful Empathy"
+Item	April Shower Thoughts shield	Muscle: +10, Mysticality: +10, Moxie: +10, Maximum HP: +25, Maximum MP: +25, Damage Reduction: 6, Last Available: "2025-04"
 Item	Apriling band staff	Mysticality: +10, Mysticality Percent: +10, Spell Damage: +20, Spooky Resistance: +2, Sleaze Resistance: +2, Spell Damage Percent: +10, Lasts Until Rollover
 Item	arm buzzer	Maximum MP: +25, Damage Reduction: 6
 # arrow'd heart balloon
@@ -4105,7 +4105,8 @@ Item	velcro boots	Mysticality Percent: +10, MP Regen Min: 12, MP Regen Max: 24, 
 Item	velour vambraces	Muscle: +10, Candy Drop: +30, Single Equip, Last Available: "2021-12"
 # velour veil: Triples the damage of Fearful Fettucini
 Item	velour veil	Experience (Mysticality): +2, Accessory Drop: +30, Single Equip, Last Available: "2021-12"
-Item	velour viscometer	Mysticality: +10, Food Drop: +30, Single Equip, Last Available: "2021-12", Replace Buff Skill: "Scarysauce", Replace Buff Effect: "Scariersauce"
+# velour viscometer: Triples the effectiveness of Scarysauce
+Item	velour viscometer	Mysticality: +10, Food Drop: +30, Single Equip, Last Available: "2021-12"
 Item	vial of hot blood	Hot Resistance: +4, Single Equip
 Item	vinyl boots	Moxie Percent: [15*X], HP Regen Min: 15, HP Regen Max: 30, Weapon Damage Percent: +10, Single Equip
 Item	Voluminous Radio Sneakers	Muscle: +10, Mysticality: +10, Moxie: +10, Single Equip
