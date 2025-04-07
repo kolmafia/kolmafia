@@ -22,7 +22,11 @@ public enum MultiStringModifier implements Modifier {
   CONDITIONAL_SKILL_INVENTORY(
       "Conditional Skill (Inventory)",
       Pattern.compile("Conditional Skill \\(Inventory\\): \"(.*?)\"")),
-  LANTERN_ELEMENT("Lantern Element", Pattern.compile("Lantern Element: \"(.*?)\""));
+  LANTERN_ELEMENT("Lantern Element", Pattern.compile("Lantern Element: \"(.*?)\"")),
+  REPLACE_BUFF_SKILL("Replace Buff Skill", Pattern.compile("Replace Buff Skill: \"(.*?)\"")),
+  REPLACE_BUFF_EFFECT("Replace Buff Effect", Pattern.compile("Replace Buff Effect: \"(.*?)\"")),
+  ADD_BUFF_SKILL("Add Buff Skill", Pattern.compile("Add Buff Skill: \"(.*?)\"")),
+  ADD_BUFF_EFFECT("Add Buff Effect", Pattern.compile("Add Buff Effect: \"(.*?)\""));
   private final String name;
   private final Pattern[] descPatterns;
   private final Pattern tagPattern;

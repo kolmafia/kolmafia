@@ -903,8 +903,7 @@ Item	ultra-high-tension exoskeleton	Avoid Attack: 2
 Item	Uncle Hobo's gift baggy pants	Moxie Percent: +20, Critical Hit Percent: +5, Last Available: "2010-12", Familiar Effect: "1xPotato, 1xGhuol"
 Item	union scalemail pants	Familiar Effect: "2xBarrr, cap 12"
 Item	Unkillable Skeleton's shinguards	Sleaze Damage: +50, Hot Resistance: +5, Stench Resistance: +1, Class: "Turtle Tamer", Familiar Effect: "1xVolley, 1xBarrr"
-# velour vaqueros: Triples the effectiveness of the Dirge of Dreadfulness
-Item	velour vaqueros	Moxie: +10, Pants Drop: +30, Last Available: "2021-12"
+Item	velour vaqueros	Moxie: +10, Pants Drop: +30, Last Available: "2021-12", Replace Buff Skill: "Dirge of Dreadfulness", Replace Buff Effect: "Dirge of Dreadfulness (Remastered)"
 Item	Vicar's Tutu	Spooky Resistance: +1, Stench Resistance: +1, Hot Resistance: +1, Cold Resistance: +1, Sleaze Resistance: +1, PvP Fights: +3, Smithsness: +5, Last Available: "2013-12", Maximum HP: [2*K], Familiar Effect: "1.2xFairy, cap 25"
 Item	Volartta's bellbottoms	Moxie: +11, Ranged Damage: +11, Class: "Disco Bandit", Familiar Effect: "1xPotato, 1.5xFairy, cap 31"
 Item	Voluminous Radio Pants	HP Regen Min: 5, HP Regen Max: 10, Familiar Effect: "2xGhoul, cap 37"
@@ -2058,8 +2057,7 @@ Item	unsanitized scalpel	Sleaze Damage: +25
 Item	vampire duck-on-a-string	Weapon Damage: +5, Item Drop: +5, Last Available: "2006-12"
 Item	velcro broadsword	Muscle Percent: +5, MP Regen Min: 6, MP Regen Max: 12, Hat Drop: +20, Pants Drop: +20
 Item	velcro paddle ball	Moxie Percent: +5, MP Regen Min: 6, MP Regen Max: 12, Accessory Drop: +20
-# velour voulge: Triples the effect of Snarl of the Timberwolf
-Item	velour voulge	Experience (Muscle): +2, Weapon Drop: +30, Last Available: "2021-12"
+Item	velour voulge	Experience (Muscle): +2, Weapon Drop: +30, Last Available: "2021-12", Replace Buff Skill: "Snarl of the Timberwolf", Replace Buff Effect: "Snarl of Three Timberwolves"
 Item	vibrating cyborg knife	Weapon Damage: +20, Fumble: 3, Last Available: "2007-12"
 Item	villainous scythe	Weapon Damage Percent: +30, Critical Hit Percent: +20, Slime Hates It: +2
 Item	void shard	Muscle Percent: +13, Mysticality Percent: +13, Moxie Percent: +13, Item Drop: +13, Monster Level: +13, Spooky Damage: +13, Last Available: "2022-12"
@@ -2141,7 +2139,7 @@ Item	antique nutcracker drumstick	MP Regen Min: 4, MP Regen Max: 8, Mysticality 
 Item	antique shield	Initiative: -10, Damage Reduction: 11, Breakable
 Item	antique spyglass	Reduce Enemy Defense: 15, Muscle Percent: +10, Mysticality Percent: +10, Moxie Percent: +10
 # April Shower Thoughts shield: Improves some of your class skills!
-Item	April Shower Thoughts shield	Muscle: +10, Mysticality: +10, Moxie: +10, Maximum HP: +25, Maximum MP: +25, Damage Reduction: 6, Last Available: "2025-04"
+Item	April Shower Thoughts shield	Muscle: +10, Mysticality: +10, Moxie: +10, Maximum HP: +25, Maximum MP: +25, Damage Reduction: 6, Last Available: "2025-04", Add Buff Skill: "Seal Clubbing Frenzy", Add Buff Effect: "Slippery as a Seal", Add Buff Skill: "Patience of the Tortoise", Add Buff Effect: "Strength of the Tortoise", Add Buff Skill: "Manicotti Meditation", Add Buff Effect: "Tubes of Universal Meat", Add Buff Skill: "Sauce Contemplation", Add Buff Effect: "Lubricating Sauce", Add Buff Skill: "Disco Aerobics", Add Buff Effect: "Disco over Matter", Add Buff Skill: "Moxie of the Mariachi", Add Buff Effect: "Mariachi Moisture", Replace Buff Skill: "Empathy of the Newt", Replace Buff Effect: "Thoughtful Empathy"
 Item	Apriling band staff	Mysticality: +10, Mysticality Percent: +10, Spell Damage: +20, Spooky Resistance: +2, Sleaze Resistance: +2, Spell Damage Percent: +10, Lasts Until Rollover
 Item	arm buzzer	Maximum MP: +25, Damage Reduction: 6
 # arrow'd heart balloon
@@ -4105,8 +4103,7 @@ Item	velcro boots	Mysticality Percent: +10, MP Regen Min: 12, MP Regen Max: 24, 
 Item	velour vambraces	Muscle: +10, Candy Drop: +30, Single Equip, Last Available: "2021-12"
 # velour veil: Triples the damage of Fearful Fettucini
 Item	velour veil	Experience (Mysticality): +2, Accessory Drop: +30, Single Equip, Last Available: "2021-12"
-# velour viscometer: Triples the effectiveness of Scarysauce
-Item	velour viscometer	Mysticality: +10, Food Drop: +30, Single Equip, Last Available: "2021-12"
+Item	velour viscometer	Mysticality: +10, Food Drop: +30, Single Equip, Last Available: "2021-12", Replace Buff Skill: "Scarysauce", Replace Buff Effect: "Scariersauce"
 Item	vial of hot blood	Hot Resistance: +4, Single Equip
 Item	vinyl boots	Moxie Percent: [15*X], HP Regen Min: 15, HP Regen Max: 30, Weapon Damage Percent: +10, Single Equip
 Item	Voluminous Radio Sneakers	Muscle: +10, Mysticality: +10, Moxie: +10, Single Equip
@@ -9704,7 +9701,7 @@ Item	primitive candy cane	Last Available: "2018-12"
 Item	protein paste	Effect: "Pasty", Effect Duration: 10, Last Available: "2009-06"
 Item	pumpkin pie	Last Available: "2010-11"
 Item	quantum taco	Last Available: "2010-10"
-Item	queen cookie	Effect: "Towering Strength", Last Available: "2010-03"
+Item	queen cookie	Effect: "Towering Strength", Effect Duration: 30, Effect: "Mitre Cut", Effect Duration: 30, Effect: "Knightlife", Effect Duration: 30, Effect: "The Royal We", Effect Duration: 30, Last Available: "2010-03"
 Item	rack of dinosaur ribs	Effect: "Meat the Flintstones", Effect Duration: 30
 Item	raisin	Last Available: "2010-04"
 Item	ratatouille de Jarlsberg	Effect: "parfum d'herbes", Effect Duration: 30, Last Available: "2022-11"
@@ -11119,7 +11116,7 @@ Item	hoarded candy wad	Effect: "Not Sharing", Effect Duration: 10, Last Availabl
 Item	holly-flavored Hob-O	Effect: "Holiday Bliss", Effect Duration: 1, Last Available: "2020-09"
 Item	honey stick	Effect: "Stuck That Way", Effect Duration: 10
 Item	honeypot	Effect: "Float Like a Butterfly, Smell Like a Bee", Effect Duration: 100
-Item	Hot 'n' Scarys	Effect: "Sugar Rush", Effect Duration: 3, Effect: "Hot Breath", Effect: "Spooky Breath"
+Item	Hot 'n' Scarys	Effect: "Sugar Rush", Effect Duration: 3, Effect: "Hot Breath", Effect Duration: 3, Effect: "Spooky Breath", Effect Duration: 3
 Item	hot button candy	Effect: "Hot Buttoned", Effect Duration: 10
 Item	hot coal	Effect: "Fire Inside", Effect Duration: 15
 Item	hot cocoa au beurre	Effect: "Cocoa-Buttery", Effect Duration: 20, Last Available: "2020-12"
@@ -14026,7 +14023,7 @@ Item	Party Tattoo&trade; gift certificate	Last Available: "2018-09"
 Item	passed-out psychedelic bear	Free Pull, Last Available: "2009-10"
 Item	Pastaco shell	Last Available: "2014-05"
 # patchouli incense stick: Weakens enemies a little bit
-Item	patchouli incense stick	Effect: "Far Out", Effect: "Embarrassed", Effect Duration: 5
+Item	patchouli incense stick	Effect: "Far Out", Effect Duration: 5, Effect: "Embarrassed", Effect Duration: 5
 # patchouli oil bomb: Deals 65-80 <font color=green>Stench Damage</font>
 # peace shooter: Makes an opponent peaceful for 3 rounds
 Item	peace shooter	Last Available: "2024-11"
@@ -14488,7 +14485,7 @@ Item	shaving cream	Effect: "Clean-Shaven", Effect Duration: 5
 Item	SHAWARMA Initiative Keycard	Last Available: "2014-10"
 Item	shimmering tendrils	Class: "Pastamancer"
 # shingle: Stops Enemy From Attacking and Weakens it Slightly
-Item	shingle	Effect: "Confused", Effect: "Amorous", Effect Duration: 10
+Item	shingle	Effect: "Confused", Effect Duration: 10, Effect: "Amorous", Effect Duration: 10
 # short calculator: ???
 # short writ of habeas corpus: Lets you get away from pygmies without spending an Adventure
 Item	shortest-order cook	Free Pull, Last Available: "2021-05"
