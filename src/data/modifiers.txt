@@ -1,4 +1,6 @@
 3
+# Note that order matters for modifiers. For items with multiple "Replace Buff Skill", 
+# the corresponding "Replace Buff Effect" are expected to be ordered the same way.
 # Numeric modifiers can now be expressions, enclosed in square brackets.
 # No spaces are allowed within the expression, except as part of a zone/location name.
 # + - * / ( ) have their usual mathematical meaning and precedence.
