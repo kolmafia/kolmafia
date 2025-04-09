@@ -33,6 +33,7 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
+import net.sourceforge.kolmafia.modifiers.ModifierList;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.CafeDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
@@ -544,6 +545,49 @@ public class DataFileConsistencyTest {
               }
             }
           }
+        }
+      } catch (IOException e) {
+        fail("Couldn't read from " + file);
+      }
+    }
+
+    private void assertModCountEqual(ModifierList list, String element, String mod1, String mod2) {
+      var first = list.stream().filter(x -> mod1.equals(x.getName())).toList();
+      var second = list.stream().filter(x -> mod2.equals(x.getName())).toList();
+      if (first.size() != second.size()) {
+        switch (element) {
+          case "chaos popcorn", "thyme jelly donut" -> {
+            // some items give a randomly chosen effect
+          }
+          case "Temps Tempranillo" -> {
+            // this extends a current effect and maybe should have a different modifier
+          }
+          case "1950 Vampire Vintner wine",
+              "flask of mining oil",
+              "flask of tainted mining oil",
+              "half-baked potion",
+              "mysterious chemical residue",
+              "one pill" -> {
+            // some items give a non-deterministic effect
+          }
+          default -> fail(
+              "Expected " + mod1 + " and " + mod2 + " to appear in pairs on " + element);
+        }
+      }
+    }
+
+    @Test
+    public void modifiersShouldAppearInPairs() {
+      String file = "modifiers.txt";
+      int version = 3;
+      String[] fields;
+      try (BufferedReader reader = FileUtilities.getVersionedReader(file, version)) {
+        while ((fields = FileUtilities.readData(reader)) != null) {
+          String element = fields[1];
+          String modifierString = fields[2];
+          var mods = ModifierDatabase.splitModifiers(modifierString);
+          assertModCountEqual(mods, element, "Effect", "Effect Duration");
+          assertModCountEqual(mods, element, "Rollover Effect", "Rollover Effect Duration");
         }
       } catch (IOException e) {
         fail("Couldn't read from " + file);
