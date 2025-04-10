@@ -153,6 +153,10 @@ public class ModifiersTest {
     assertEquals(28, mod.getDouble(DoubleModifier.COMBAT_RATE));
     mod.addDouble(DoubleModifier.COMBAT_RATE, 9, ModifierType.NONE, "");
     assertEquals(30, mod.getDouble(DoubleModifier.COMBAT_RATE));
+    mod.addDouble(DoubleModifier.COMBAT_RATE, 50, ModifierType.NONE, "");
+    assertEquals(35, mod.getDouble(DoubleModifier.COMBAT_RATE));
+    mod.addDouble(DoubleModifier.COMBAT_RATE, 50, ModifierType.NONE, "");
+    assertEquals(35, mod.getDouble(DoubleModifier.COMBAT_RATE));
 
     mod = new Modifiers();
     mod.addDouble(DoubleModifier.COMBAT_RATE, -25, ModifierType.NONE, "");
@@ -162,6 +166,10 @@ public class ModifiersTest {
     assertEquals(-28, mod.getDouble(DoubleModifier.COMBAT_RATE));
     mod.addDouble(DoubleModifier.COMBAT_RATE, -9, ModifierType.NONE, "");
     assertEquals(-30, mod.getDouble(DoubleModifier.COMBAT_RATE));
+    mod.addDouble(DoubleModifier.COMBAT_RATE, -50, ModifierType.NONE, "");
+    assertEquals(-35, mod.getDouble(DoubleModifier.COMBAT_RATE));
+    mod.addDouble(DoubleModifier.COMBAT_RATE, -50, ModifierType.NONE, "");
+    assertEquals(-35, mod.getDouble(DoubleModifier.COMBAT_RATE));
   }
 
   @Test
