@@ -343,6 +343,9 @@ public class Modifiers {
     if (modifier == DoubleModifier.PRISMATIC_DAMAGE) {
       return this.derivePrismaticDamage();
     }
+    if (modifier == DoubleModifier.RAW_COMBAT_RATE) {
+      return this.doubles.get(DoubleModifier.COMBAT_RATE);
+    }
     if (modifier == DoubleModifier.COMBAT_RATE) {
       return this.cappedCombatRate();
     }
@@ -380,9 +383,6 @@ public class Modifiers {
   }
 
   public double getDerived(final DerivedModifier modifier) {
-    if (modifier == DerivedModifier.RAW_COMBAT_RATE) {
-      return this.doubles.get(DoubleModifier.COMBAT_RATE);
-    }
     return this.predict().get(modifier);
   }
 

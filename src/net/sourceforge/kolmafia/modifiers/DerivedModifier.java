@@ -13,8 +13,7 @@ public enum DerivedModifier implements Modifier {
   BUFFED_MYS("Buffed Mysticality"),
   BUFFED_MOX("Buffed Moxie"),
   BUFFED_HP("Buffed HP Maximum"),
-  BUFFED_MP("Buffed MP Maximum"),
-  RAW_COMBAT_RATE("Raw Combat Rate");
+  BUFFED_MP("Buffed MP Maximum");
 
   private final String name;
 

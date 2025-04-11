@@ -147,10 +147,10 @@ public class ModifiersTest {
   public void correctlyCalculatesCappedCombatRate() {
     Modifiers mod = new Modifiers();
     mod.addDouble(DoubleModifier.COMBAT_RATE, 25, ModifierType.NONE, "");
-    assertEquals(25, mod.getDerived(DerivedModifier.RAW_COMBAT_RATE));
+    assertEquals(25, mod.getDouble(DoubleModifier.RAW_COMBAT_RATE));
     mod.addDouble(DoubleModifier.COMBAT_RATE, 7, ModifierType.NONE, "");
     assertEquals(26, mod.getDouble(DoubleModifier.COMBAT_RATE));
-    assertEquals(32, mod.getDerived(DerivedModifier.RAW_COMBAT_RATE));
+    assertEquals(32, mod.getDouble(DoubleModifier.RAW_COMBAT_RATE));
     mod.addDouble(DoubleModifier.COMBAT_RATE, 9, ModifierType.NONE, "");
     assertEquals(28, mod.getDouble(DoubleModifier.COMBAT_RATE));
     mod.addDouble(DoubleModifier.COMBAT_RATE, 9, ModifierType.NONE, "");
@@ -159,14 +159,14 @@ public class ModifiersTest {
     assertEquals(35, mod.getDouble(DoubleModifier.COMBAT_RATE));
     mod.addDouble(DoubleModifier.COMBAT_RATE, 50, ModifierType.NONE, "");
     assertEquals(35, mod.getDouble(DoubleModifier.COMBAT_RATE));
-    assertEquals(150, mod.getDerived(DerivedModifier.RAW_COMBAT_RATE));
+    assertEquals(150, mod.getDouble(DoubleModifier.RAW_COMBAT_RATE));
 
     mod = new Modifiers();
     mod.addDouble(DoubleModifier.COMBAT_RATE, -25, ModifierType.NONE, "");
-    assertEquals(-25, mod.getDerived(DerivedModifier.RAW_COMBAT_RATE));
+    assertEquals(-25, mod.getDouble(DoubleModifier.RAW_COMBAT_RATE));
     mod.addDouble(DoubleModifier.COMBAT_RATE, -7, ModifierType.NONE, "");
     assertEquals(-26, mod.getDouble(DoubleModifier.COMBAT_RATE));
-    assertEquals(-32, mod.getDerived(DerivedModifier.RAW_COMBAT_RATE));
+    assertEquals(-32, mod.getDouble(DoubleModifier.RAW_COMBAT_RATE));
     mod.addDouble(DoubleModifier.COMBAT_RATE, -9, ModifierType.NONE, "");
     assertEquals(-28, mod.getDouble(DoubleModifier.COMBAT_RATE));
     mod.addDouble(DoubleModifier.COMBAT_RATE, -9, ModifierType.NONE, "");
@@ -175,7 +175,7 @@ public class ModifiersTest {
     assertEquals(-35, mod.getDouble(DoubleModifier.COMBAT_RATE));
     mod.addDouble(DoubleModifier.COMBAT_RATE, -50, ModifierType.NONE, "");
     assertEquals(-35, mod.getDouble(DoubleModifier.COMBAT_RATE));
-    assertEquals(-150, mod.getDerived(DerivedModifier.RAW_COMBAT_RATE));
+    assertEquals(-150, mod.getDouble(DoubleModifier.RAW_COMBAT_RATE));
   }
 
   @Test
