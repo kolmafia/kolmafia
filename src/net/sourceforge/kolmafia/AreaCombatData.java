@@ -122,6 +122,12 @@ public class AreaCombatData {
         currentWeighting = -3;
       } else {
         var copies = (int) TrackManager.countCopies(monsterName);
+        if (Preferences.getInteger("holdHandsMonsterCount") > 0
+            && Preferences.getString("holdHandsLocation").equals(this.zone)
+            && Preferences.getString("holdHandsMonster").equals(monsterName)) {
+          // hold hands
+          copies += 1;
+        }
         currentWeighting += copies * baseWeighting;
       }
 

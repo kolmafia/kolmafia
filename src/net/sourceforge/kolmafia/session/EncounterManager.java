@@ -302,6 +302,23 @@ public abstract class EncounterManager {
     return responseText.contains("still hanging around to watch the fireworks");
   }
 
+  public static final boolean isHoldHandsMonster() {
+    if (Preferences.getInteger("holdHandsMonsterCount") < 1) {
+      return false;
+    }
+
+    // There's no message to check for, so count if the zone + monster is right
+    KoLAdventure lastLocation = KoLAdventure.lastVisitedLocation();
+    if (lastLocation == null) {
+      return false;
+    }
+    String monsterName = MonsterStatusTracker.getLastMonsterName();
+    String locationName = lastLocation.getAdventureName();
+
+    return monsterName.equals(Preferences.getString("holdHandsMonster"))
+        && locationName.equals(Preferences.getString("holdHandsLocation"));
+  }
+
   public static final boolean isSaberForceZone(String monsterName, String zone) {
     MonsterData monster = MonsterDatabase.findMonster(monsterName);
     return AdventureDatabase.getAreaCombatData(zone).hasMonster(monster);
