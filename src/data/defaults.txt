@@ -863,6 +863,8 @@ user	holidayHalsBookAvailable	true
 user	holidayHalsBookCost	1000
 user	holidaySwagger	0
 user	holdHandsMonster		roa
+user	holdHandsMonsterCount		roa
+user	holdHandsLocation		roa
 user	homemadeRobotUpgrades	0
 user	homebodylCharges	0	roa
 user	horseryAvailable	false
