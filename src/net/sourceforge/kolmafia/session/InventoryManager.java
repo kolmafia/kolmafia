@@ -56,6 +56,7 @@ import net.sourceforge.kolmafia.request.ClosetRequest.ClosetRequestType;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
+import net.sourceforge.kolmafia.request.ManageStoreRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.StorageRequest.StorageRequestType;
@@ -763,6 +764,7 @@ public abstract class InventoryManager {
     }
 
     boolean shouldUseMall = !forceNoMall && InventoryManager.canUseMall(item);
+    boolean shouldUseShop = shouldUseMall && InventoryManager.canUseShop(item);
     boolean haveBuyScript = Preferences.getString("buyScript").trim().length() > 0;
     boolean scriptSaysBuy = false;
 
@@ -886,6 +888,19 @@ public abstract class InventoryManager {
       // If buying from the mall will leave the item in storage, use only NPCs
       AdventureResult instance = item.getInstance(missingCount);
       boolean onlyNPC = forceNoMall || !InventoryManager.canUseMall();
+
+      // If mall purchases are allowed, maybe take items from the mall shop first
+      if (shouldUseShop && !onlyNPC) {
+        ManageStoreRequest request = new ManageStoreRequest(itemId, missingCount);
+        RequestThread.postRequest(request);
+
+        missingCount = item.getCount() - item.getCount(KoLConstants.inventory);
+
+        if (missingCount <= 0) {
+          return "";
+        }
+      }
+
       List<PurchaseRequest> results =
           onlyNPC ? MallPriceManager.searchNPCs(item) : MallPriceManager.searchMall(instance);
       KoLmafia.makePurchases(
@@ -1039,6 +1054,18 @@ public abstract class InventoryManager {
     if (shouldUseMall) {
       if (sim) {
         return "buy";
+      }
+
+      // If mall purchases are allowed, maybe take items from the mall shop first
+      if (shouldUseShop) {
+        ManageStoreRequest request = new ManageStoreRequest(itemId, missingCount);
+        RequestThread.postRequest(request);
+
+        missingCount = item.getCount() - item.getCount(KoLConstants.inventory);
+
+        if (missingCount <= 0) {
+          return "";
+        }
       }
 
       AdventureResult instance = item.getInstance(missingCount);
@@ -1572,6 +1599,23 @@ public abstract class InventoryManager {
     return KoLCharacter.canInteract()
         && Preferences.getBoolean("autoSatisfyWithStorage")
         && !KoLCharacter.getLimitMode().limitStorage();
+  }
+
+  public static boolean canUseShop(final AdventureResult item) {
+    if (item == null) {
+      return false;
+    }
+    return InventoryManager.canUseShop(item.getItemId());
+  }
+
+  public static boolean canUseShop(final int itemId) {
+    return InventoryManager.canUseShop()
+        && ItemDatabase.isTradeable(itemId)
+        && StoreManager.shopAmount(itemId) > 0;
+  }
+
+  public static boolean canUseShop() {
+    return InventoryManager.canUseMall() && Preferences.getBoolean("autoSatisfyWithShop");
   }
 
   public static final void fireInventoryChanged(final int itemId) {
