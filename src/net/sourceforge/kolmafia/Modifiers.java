@@ -380,6 +380,9 @@ public class Modifiers {
   }
 
   public double getDerived(final DerivedModifier modifier) {
+    if (modifier == DerivedModifier.RAW_COMBAT_RATE) {
+      return this.doubles.get(DoubleModifier.COMBAT_RATE);
+    }
     return this.predict().get(modifier);
   }
 
