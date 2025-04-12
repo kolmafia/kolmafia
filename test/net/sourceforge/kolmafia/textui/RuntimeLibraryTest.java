@@ -1934,7 +1934,14 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
             withSkill("Summon Cauldron of Bats"),
             withSkill("McHugeLarge Stab"),
             withSkill("McHugeLarge Avalanche"),
-            withNoEffects());
+            withEffect("Spaced Out"),
+            withEquipped(Slot.HAT, 11565),
+            withEquipped(Slot.SHIRT, 5041),
+            withEquipped(Slot.PANTS, 11630),
+            withEquipped(Slot.ACCESSORY1, 11546),
+            withEquipped(Slot.ACCESSORY2, 11787),
+            withEquipped(Slot.ACCESSORY3, 11786),
+            withEquipped(Slot.CONTAINER, 11658));
     String out;
     String cmd = "maximize(\"" + maxStr + "\", false)";
     try (cleanups) {
