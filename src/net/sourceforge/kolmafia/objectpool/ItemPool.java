@@ -1661,6 +1661,7 @@ public class ItemPool {
   public static final int TOBIKO_POTION = 5020;
   public static final int NATTO_POTION = 5021;
   public static final int PET_SWEATER = 5040;
+  public static final int ASTRAL_SHIRT = 5041;
   public static final int ASTRAL_HOT_DOG = 5043;
   public static final int ASTRAL_PILSNER = 5044;
   public static final int CLAN_SHOWER = 5047;
@@ -2202,6 +2203,7 @@ public class ItemPool {
   public static final int TIN_ROOF = 6773;
   public static final int TIN_LIZZIE = 6775;
   public static final int ABYSSAL_BATTLE_PLANS = 6782;
+  public static final int BOOT_KNIFE = 6789;
   public static final int TOY_ACCORDION = 6808;
   public static final int ANTIQUE_ACCORDION = 6809;
   public static final int BEER_BATTERED_ACCORDION = 6810;
