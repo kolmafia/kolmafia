@@ -302,6 +302,7 @@ public class EffectPool {
   public static final int LUCKY_STRUCK = 2133;
   public static final int MINISTRATIONS_IN_THE_DARK = 2134;
   public static final int SUPERDRIFTING = 2135;
+  public static final int ELDRITCH_ATTUNEMENT = 2147;
   public static final int SPRINKLE_SENSE = 2154;
   public static final int SYNTHESIS_HOT = 2165;
   public static final int SYNTHESIS_COLD = 2166;
