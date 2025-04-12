@@ -322,9 +322,15 @@ public class Modifiers {
   private double cappedCombatRate() {
     // Combat Rate has diminishing returns beyond + or - 25%
     double rate = this.doubles.get(DoubleModifier.COMBAT_RATE);
+    if (rate > 75.0) {
+      return 35.0;
+    }
     if (rate > 25.0) {
       double extra = rate - 25.0;
       return 25.0 + Math.floor(extra / 5.0);
+    }
+    if (rate < -75.0) {
+      return -35.0;
     }
     if (rate < -25.0) {
       double extra = rate + 25.0;
@@ -374,6 +380,9 @@ public class Modifiers {
   }
 
   public double getDerived(final DerivedModifier modifier) {
+    if (modifier == DerivedModifier.RAW_COMBAT_RATE) {
+      return this.doubles.get(DoubleModifier.COMBAT_RATE);
+    }
     return this.predict().get(modifier);
   }
 
