@@ -1975,6 +1975,14 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     public void itShouldEquipWeaponAndOffhandScaledBack() {
       // Compared to TMI, removed all non-passive skills (except Knife) and all equipment not mentioned
       // in dump2.  same results from both.
+      // added equipped STOLEN_ACCORDION.  failed because it wanted to equip but could not because two handed
+      // equipped.
+      /*
+      Try and get cases with no weapon, 1 h weapon and 2h weapon equipped.  when does it pick the sceptre?
+      ih and work?
+      And why does candy cane appear twice in dump 2?
+       */
+
       String maxStr =
           "5item,meat,0.5initiative,0.1da 1000max,dr,0.5all res,1.5mainstat,-fumble,0.4hp,0.2mp 1000max,3mp regen,1.5weapon damage,0.75weapon damage percent,1.5elemental damage,2familiar weight,5familiar exp,15Moxie experience,5Moxie experience percent,+200bonus spring shoes,+200bonus bat wings,effective,2 dump";
       HttpClientWrapper.setupFakeClient();
@@ -1985,6 +1993,8 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
               withPath(Path.STANDARD),
               withSign(ZodiacSign.VOLE),
               withStats(18, 17, 20),
+              withEquipped(Slot.WEAPON, ItemPool.STOLEN_ACCORDION),
+              //withEquipped(Slot.OFFHAND, ItemPool.AUGUST_SCEPTER),
               withItem("astronaut helmet"),
               withItem("august scepter"),
               withItem("boot knife"),
