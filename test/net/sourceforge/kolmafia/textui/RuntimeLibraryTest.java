@@ -2149,7 +2149,8 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
     @ParameterizedTest
     @CsvSource({"none", "2h", "none-off", "1h", "1h-off"})
-    // Test fails without Tricky Knifework
+    // Test fails without Tricky Knifework.  Prefers disco ball
+    // consider cartesian knifework vs effectve present
     public void itShouldEquipWeaponAndOffhandMinimal(String whichCase) {
       boolean dontExpectEquipFail = true;
       String maxStr =
