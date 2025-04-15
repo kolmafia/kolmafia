@@ -2314,6 +2314,7 @@ public abstract class ChoiceControl {
           }
           // Serum quest finished
           else if (text.contains("drop the vials into it")) {
+            ResultProcessor.processItem(ItemPool.EXPERIMENTAL_SERUM_P00, -5);
             QuestDatabase.setQuestProgress(Quest.SERUM, QuestDatabase.FINISHED);
           }
           // Smokes quest started
