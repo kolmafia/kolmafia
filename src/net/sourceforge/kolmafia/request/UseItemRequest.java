@@ -5497,6 +5497,19 @@ public class UseItemRequest extends GenericRequest {
         Preferences.setBoolean("hasDetectiveSchool", true);
         break;
 
+      case ItemPool.ALMOST_DEAD_WALKIE_TALKIE:
+        if (InventoryManager.hasItem(ItemPool.get(ItemPool.PROTON_ACCELERATOR, 1), false)) {
+          // Does nothing if account owns the Protonic Accelerator Pack. Is not consumed on use.
+          return;
+        } else {
+          boolean success = QuestManager.parseProtonicGhost(responseText);
+          if (!success) {
+            // Do nothing if a new ghost wasn't located as it is not consumed in this case.
+            return;
+          }
+        }
+        break;
+
       case ItemPool.HOLORECORD_POWERGUY:
       case ItemPool.HOLORECORD_SHRIEKING_WEASEL:
       case ItemPool.HOLORECORD_SUPERDRIFTER:
