@@ -1852,7 +1852,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
               withSkill("Disco State of Mind"),
               withSkill("Frantic Gyrations"),
               withSkill("That's Not a Knife"),
-              withSkill("Tricky Knifework"),
+              withSkill(SkillPool.TRICKY_KNIFEWORK),
               withSkill("Flashy Dancer"),
               withSkill("Disco Smirk"),
               withSkill("Disco Greed"),
@@ -2119,7 +2119,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
               withSkill("Tolerance of the Kitchen"),
               withSkill("Torso Awareness"),
               withSkill("Transcendental Noodlecraft"),
-              withSkill("Tricky Knifework"),
+              withSkill(SkillPool.TRICKY_KNIFEWORK),
               withSkill("Wisdom of the Elder Tortoises"),
               withSkill("Wrath of the Wolverine"),
               withEffect("Spaced Out"));
@@ -2181,7 +2181,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
               withItem("seal-clubbing club"),
               withItem("stolen accordion"),
               withItem("turtle totem"),
-              withSkill("Tricky Knifework"));
+              withSkill(SkillPool.TRICKY_KNIFEWORK));
       switch (whichCase) {
         case "2h":
           cleanups.add(withEquipped(Slot.WEAPON, ItemPool.STOLEN_ACCORDION));
@@ -2205,6 +2205,90 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       try (cleanups) {
         out = execute(cmd);
       }
+      assertFalse(out.isEmpty());
+      assertTrue(out.contains("Putting on fake arrow-through-the-head..."));
+      assertTrue(out.contains("Wielding boot knife..."));
+      if (dontExpectEquipFail) {
+        assertTrue(out.contains("Holding august scepter..."));
+        assertTrue(out.contains("Putting on McHugeLarge duffel bag..."));
+        assertTrue(out.contains("Putting on old sweatpants..."));
+        assertTrue(out.contains("Putting on McHugeLarge duffel bag..."));
+        assertTrue(out.contains("Putting on Everfull Dart Holster..."));
+      }
+      assertContinueState();
+      var requests = getRequests();
+      assertFalse(requests.isEmpty());
+      boolean passed = false;
+      for (var req : requests) {
+        if (req.method().contains("POST")) {
+          passed = passed || getPostRequestBody(req).contains("whichitem=" + ItemPool.BOOT_KNIFE);
+        }
+      }
+      assertTrue(passed, "Did not find expected equip request.");
+    }
+    @ParameterizedTest
+    @CsvSource({"none", "2h", "none-off", "1h", "1h-off"})
+    public void itShouldEquipWeaponAndOffhandMinimalNoTrick(String whichCase) {
+      boolean dontExpectEquipFail = true;
+      String maxStr =
+        "5item,meat,0.5initiative,0.1da 1000max,dr,0.5all res,1.5mainstat,-fumble,0.4hp,0.2mp 1000max,3mp regen,1.5weapon damage,0.75weapon damage percent,1.5elemental damage,2familiar weight,5familiar exp,15Moxie experience,5Moxie experience percent,+200bonus spring shoes,+200bonus bat wings,effective,2 dump";
+      HttpClientWrapper.setupFakeClient();
+      var cleanups =
+        new Cleanups(
+          withClass(AscensionClass.ACCORDION_THIEF),
+          withHardcore(),
+          withPath(Path.STANDARD),
+          withSign(ZodiacSign.VOLE),
+          withStats(18, 17, 20),
+          withItem("astronaut helmet"),
+          withItem("august scepter"),
+          withItem("boot knife"),
+          withItem("candy cane sword cane"),
+          withItem("disco ball"),
+          withItem("Everfull Dart Holster"),
+          withItem("fake arrow-through-the-head"),
+          withItem("McHugeLarge duffel bag"),
+          withItem("McHugeLarge left pole"),
+          withItem("McHugeLarge right pole"),
+          withItem("old sweatpants"),
+          withItem("oversized monocle on a stick"),
+          withItem("pasta spoon"),
+          withItem("Roman Candelabra"),
+          withItem("saucepan"),
+          withItem("seal-clubbing club"),
+          withItem("stolen accordion"),
+          withItem("turtle totem"));
+          //withSkill(SkillPool.TRICKY_KNIFEWORK));
+      switch (whichCase) {
+        case "2h":
+          cleanups.add(withEquipped(Slot.WEAPON, ItemPool.STOLEN_ACCORDION));
+          dontExpectEquipFail = false;
+          break;
+        case "none-off":
+          cleanups.add(withEquipped(Slot.OFFHAND, ItemPool.ROMAN_CANDELABRA));
+          break;
+        case "1h":
+          cleanups.add(withEquipped(Slot.WEAPON, ItemPool.DISCO_BALL));
+          break;
+        case "1h-off":
+          cleanups.add(withEquipped(Slot.WEAPON, ItemPool.DISCO_BALL));
+          cleanups.add(withEquipped(Slot.OFFHAND, ItemPool.ROMAN_CANDELABRA));
+          break;
+        default:
+          break;
+      }
+      System.out.println("Adjusted moxie: " + KoLCharacter.getAdjustedMoxie() +
+        " Adjusted muscle: "+ KoLCharacter.getAdjustedMuscle());
+      KoLCharacter.recalculateAdjustments();
+      System.out.println("Adjusted moxie: " + KoLCharacter.getAdjustedMoxie() +
+        " Adjusted muscle: "+ KoLCharacter.getAdjustedMuscle());
+      String out;
+      String cmd = "maximize(\"" + maxStr + "\", false)";
+      try (cleanups) {
+        out = execute(cmd);
+      }
+      System.out.println(whichCase);
+      System.out.println(out);
       assertFalse(out.isEmpty());
       assertTrue(out.contains("Putting on fake arrow-through-the-head..."));
       assertTrue(out.contains("Wielding boot knife..."));
