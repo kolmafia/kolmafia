@@ -2226,39 +2226,40 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
       }
       assertTrue(passed, "Did not find expected equip request.");
     }
+
     @ParameterizedTest
     @CsvSource({"none", "2h", "none-off", "1h", "1h-off"})
     public void itShouldEquipWeaponAndOffhandMinimalNoTrick(String whichCase) {
       boolean dontExpectEquipFail = true;
       String maxStr =
-        "5item,meat,0.5initiative,0.1da 1000max,dr,0.5all res,1.5mainstat,-fumble,0.4hp,0.2mp 1000max,3mp regen,1.5weapon damage,0.75weapon damage percent,1.5elemental damage,2familiar weight,5familiar exp,15Moxie experience,5Moxie experience percent,+200bonus spring shoes,+200bonus bat wings,effective,2 dump";
+          "5item,meat,0.5initiative,0.1da 1000max,dr,0.5all res,1.5mainstat,-fumble,0.4hp,0.2mp 1000max,3mp regen,1.5weapon damage,0.75weapon damage percent,1.5elemental damage,2familiar weight,5familiar exp,15Moxie experience,5Moxie experience percent,+200bonus spring shoes,+200bonus bat wings,effective,2 dump";
       HttpClientWrapper.setupFakeClient();
       var cleanups =
-        new Cleanups(
-          withClass(AscensionClass.ACCORDION_THIEF),
-          withHardcore(),
-          withPath(Path.STANDARD),
-          withSign(ZodiacSign.VOLE),
-          withStats(18, 17, 20),
-          withItem("astronaut helmet"),
-          withItem("august scepter"),
-          withItem("boot knife"),
-          withItem("candy cane sword cane"),
-          withItem("disco ball"),
-          withItem("Everfull Dart Holster"),
-          withItem("fake arrow-through-the-head"),
-          withItem("McHugeLarge duffel bag"),
-          withItem("McHugeLarge left pole"),
-          withItem("McHugeLarge right pole"),
-          withItem("old sweatpants"),
-          withItem("oversized monocle on a stick"),
-          withItem("pasta spoon"),
-          withItem("Roman Candelabra"),
-          withItem("saucepan"),
-          withItem("seal-clubbing club"),
-          withItem("stolen accordion"),
-          withItem("turtle totem"));
-          //withSkill(SkillPool.TRICKY_KNIFEWORK));
+          new Cleanups(
+              withClass(AscensionClass.ACCORDION_THIEF),
+              withHardcore(),
+              withPath(Path.STANDARD),
+              withSign(ZodiacSign.VOLE),
+              withStats(18, 17, 20),
+              withItem("astronaut helmet"),
+              withItem("august scepter"),
+              withItem("boot knife"),
+              withItem("candy cane sword cane"),
+              withItem("disco ball"),
+              withItem("Everfull Dart Holster"),
+              withItem("fake arrow-through-the-head"),
+              withItem("McHugeLarge duffel bag"),
+              withItem("McHugeLarge left pole"),
+              withItem("McHugeLarge right pole"),
+              withItem("old sweatpants"),
+              withItem("oversized monocle on a stick"),
+              withItem("pasta spoon"),
+              withItem("Roman Candelabra"),
+              withItem("saucepan"),
+              withItem("seal-clubbing club"),
+              withItem("stolen accordion"),
+              withItem("turtle totem"));
+      // withSkill(SkillPool.TRICKY_KNIFEWORK));
       switch (whichCase) {
         case "2h":
           cleanups.add(withEquipped(Slot.WEAPON, ItemPool.STOLEN_ACCORDION));
@@ -2277,11 +2278,17 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
         default:
           break;
       }
-      System.out.println("Adjusted moxie: " + KoLCharacter.getAdjustedMoxie() +
-        " Adjusted muscle: "+ KoLCharacter.getAdjustedMuscle());
+      System.out.println(
+          "Adjusted moxie: "
+              + KoLCharacter.getAdjustedMoxie()
+              + " Adjusted muscle: "
+              + KoLCharacter.getAdjustedMuscle());
       KoLCharacter.recalculateAdjustments();
-      System.out.println("Adjusted moxie: " + KoLCharacter.getAdjustedMoxie() +
-        " Adjusted muscle: "+ KoLCharacter.getAdjustedMuscle());
+      System.out.println(
+          "Adjusted moxie: "
+              + KoLCharacter.getAdjustedMoxie()
+              + " Adjusted muscle: "
+              + KoLCharacter.getAdjustedMuscle());
       String out;
       String cmd = "maximize(\"" + maxStr + "\", false)";
       try (cleanups) {
