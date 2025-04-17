@@ -2532,55 +2532,7 @@ public class QuestManager {
     // but if you got on the turn you busted a ghost, it is a false alarm.
     //
     if (!ghostBusted && KoLCharacter.hasEquipped(ItemPool.get(ItemPool.PROTON_ACCELERATOR, 1))) {
-      Matcher ParanormalMatcher = QuestManager.PARANORMAL_PATTERN.matcher(responseText);
-      String ghostLocation = null;
-      while (ParanormalMatcher.find()) {
-        String location = ParanormalMatcher.group(1);
-        // Locations don't exactly match location name or quest log entries, so make them
-        if (location.contains("Overgrown Lot")) {
-          ghostLocation = "The Overgrown Lot";
-        } else if (location.contains("Skeleton Store")) {
-          ghostLocation = "The Skeleton Store";
-        } else if (location.contains("Madness Bakery")) {
-          ghostLocation = "Madness Bakery";
-        } else if (location.contains("Spooky Forest")) {
-          ghostLocation = "The Spooky Forest";
-        } else if (location.contains("Kitchen")) {
-          ghostLocation = "The Haunted Kitchen";
-        } else if (location.contains("Knob Treasury")) {
-          ghostLocation = "Cobb's Knob Treasury";
-        } else if (location.contains("Conservatory")) {
-          ghostLocation = "The Haunted Conservatory";
-        } else if (location.contains("Landfill")) {
-          ghostLocation = "The Old Landfill";
-        } else if (location.contains("Icy Peak")) {
-          ghostLocation = "The Icy Peak";
-        } else if (location.contains("Smut Orc Logging Camp")) {
-          ghostLocation = "The Smut Orc Logging Camp";
-        } else if (location.contains("Gallery")) {
-          ghostLocation = "The Haunted Gallery";
-        } else if (location.contains("Palindome")) {
-          ghostLocation = "Inside the Palindome";
-        } else if (location.contains("Wine Cellar")) {
-          ghostLocation = "The Haunted Wine Cellar";
-        }
-      }
-      if (ghostLocation == null) {
-        if (responseText.contains(
-            "The walkie-talkie on your proton accelerator crackles to life")) {
-          // Work around KoL bug. Fetch from quest log
-          (new GenericRequest("questlog.php?which=1")).run();
-          ghostLocation = Preferences.getString("ghostLocation");
-        }
-      }
-      if (ghostLocation != null) {
-        QuestDatabase.setQuestProgress(Quest.GHOST, QuestDatabase.STARTED);
-        Preferences.setString("ghostLocation", ghostLocation);
-        Preferences.setInteger("nextParanormalActivity", KoLCharacter.getTurnsPlayed() + 51);
-        String message = "Paranormal activity reported at " + ghostLocation + ".";
-        RequestLogger.printLine(message);
-        RequestLogger.updateSessionLog(message);
-      }
+      parseProtonicGhost(responseText);
     }
   }
 
@@ -2907,5 +2859,58 @@ public class QuestManager {
     if (print) {
       RequestLogger.updateSessionLog("Spacegate turns left: " + turns);
     }
+  }
+
+  public static boolean parseProtonicGhost(final String responseText) {
+    Matcher ParanormalMatcher = QuestManager.PARANORMAL_PATTERN.matcher(responseText);
+    String ghostLocation = null;
+    while (ParanormalMatcher.find()) {
+      String location = ParanormalMatcher.group(1);
+      // Locations don't exactly match location name or quest log entries, so make them
+      if (location.contains("Overgrown Lot")) {
+        ghostLocation = "The Overgrown Lot";
+      } else if (location.contains("Skeleton Store")) {
+        ghostLocation = "The Skeleton Store";
+      } else if (location.contains("Madness Bakery")) {
+        ghostLocation = "Madness Bakery";
+      } else if (location.contains("Spooky Forest")) {
+        ghostLocation = "The Spooky Forest";
+      } else if (location.contains("Kitchen")) {
+        ghostLocation = "The Haunted Kitchen";
+      } else if (location.contains("Knob Treasury")) {
+        ghostLocation = "Cobb's Knob Treasury";
+      } else if (location.contains("Conservatory")) {
+        ghostLocation = "The Haunted Conservatory";
+      } else if (location.contains("Landfill")) {
+        ghostLocation = "The Old Landfill";
+      } else if (location.contains("Icy Peak")) {
+        ghostLocation = "The Icy Peak";
+      } else if (location.contains("Smut Orc Logging Camp")) {
+        ghostLocation = "The Smut Orc Logging Camp";
+      } else if (location.contains("Gallery")) {
+        ghostLocation = "The Haunted Gallery";
+      } else if (location.contains("Palindome")) {
+        ghostLocation = "Inside the Palindome";
+      } else if (location.contains("Wine Cellar")) {
+        ghostLocation = "The Haunted Wine Cellar";
+      }
+    }
+    if (ghostLocation == null) {
+      if (responseText.contains("The walkie-talkie on your proton accelerator crackles to life")) {
+        // Work around KoL bug. Fetch from quest log
+        (new GenericRequest("questlog.php?which=1")).run();
+        ghostLocation = Preferences.getString("ghostLocation");
+      }
+    }
+    if (ghostLocation != null) {
+      QuestDatabase.setQuestProgress(Quest.GHOST, QuestDatabase.STARTED);
+      Preferences.setString("ghostLocation", ghostLocation);
+      Preferences.setInteger("nextParanormalActivity", KoLCharacter.getTurnsPlayed() + 51);
+      String message = "Paranormal activity reported at " + ghostLocation + ".";
+      RequestLogger.printLine(message);
+      RequestLogger.updateSessionLog(message);
+      return true;
+    }
+    return false;
   }
 }

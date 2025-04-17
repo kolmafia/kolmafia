@@ -2981,6 +2981,7 @@ public class ItemPool {
   public static final int COP_DOLLAR = 9072;
   public static final int DETECTIVE_APPLICATION = 9073;
   public static final int PROTON_ACCELERATOR = 9082;
+  public static final int ALMOST_DEAD_WALKIE_TALKIE = 9083;
   public static final int STANDARDS_AND_PRACTICES = 9095;
   public static final int RAD = 9100;
   public static final int WRIST_BOY = 9102;
