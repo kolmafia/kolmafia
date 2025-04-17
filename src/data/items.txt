@@ -4454,7 +4454,7 @@
 4426	black hymnal	266993166	book2.gif	usable	q	0
 4427
 4428	glowstick on a string	873692545	glowstickneckl.gif	offhand	q,d	30	glowsticks on strings
-4429	candy necklace	239314123	candynecklace.gif	accessory	q,d	25
+4429	candy necklace	239314123	candynecklace.gif	accessory, candy1	q,d	25
 4430	teddybear backpack	233616866	bearpack.gif	container	q,d	45
 4431	NPZR chemistry set	196867588	chemset.gif	multiple	t	0
 4432	invisibility potion	570172940	testtube.gif	potion	t	0
@@ -5762,7 +5762,7 @@
 5734	forbidden sausage	551619929	sausage.gif	food	t	0
 5735	Lord Flameface's cloak	153368305	ffcloak.gif	container		0
 5736	Drizzlers&trade; Black Licorice	676152829	drizzlers.gif	potion, candy2	t,d	5	packs of Drizzlers&trade;
-5737	daub-breaker	221662956	daubbreaker.gif	potion	t,d	5
+5737	daub-breaker	221662956	daubbreaker.gif	potion, candy2	t,d	5
 5738	Camp Scout backpack	506150298	csbackpack.gif	container	t	0
 5739	CSA fire-starting kit	572377360	briefcase.gif	usable	d	23
 5740	bag of GORP	237245113	baggie.gif	food	t,d	23
@@ -8177,8 +8177,8 @@
 8149	Glo-Pop	357068615	glopop.gif	potion, candy2	t,d	5
 8150	sugar sphere	120351532	cueball.gif	potion, candy2	t,d	5
 8151	Shrubble Bubble	551227147	nugglet.gif	potion, candy2	t,d	5	pieces of Shrubble Bubble
-8152	polyeaster egg	230673096	polyegg.gif	potion	t	0
-8153	porcelain candy dish	317824568	porcbowl.gif	potion	t	0	porcelain candy dishes
+8152	polyeaster egg	230673096	polyegg.gif	potion, candy2	t	0
+8153	porcelain candy dish	317824568	porcbowl.gif	potion, candy2	t	0	porcelain candy dishes
 8154	Spechunky bar	114809341	sbar.gif	potion, candy2	t,d	5
 8155	talisman of Horus	800789609	tal_h.gif	potion, usable	q,d	25	talismen of Horus
 8156	check to the Meatsmith	899679045	check.gif	none	q	0
@@ -9590,7 +9590,7 @@
 9562	protection stick	326730441	kneestick.gif	weapon	t,d	95
 9563	roll of meat	431527543	droll.gif	potion	t,d	0	rolls of meat
 9564	mafia thumb ring	422193168	mafiaring5.gif	accessory	t	0
-9565	cocoa chondrule	829908915	chocolump.gif	potion	t,d	50
+9565	cocoa chondrule	829908915	chocolump.gif	potion, candy1	t,d	50
 9566	mafia middle finger ring	146839198	mafiaring3.gif	accessory	t	0
 9567	steel drivin' hammer	147902407	sledgehammer.gif	weapon	t,d	195
 9568	little piece of steel	349631318	metalrod.gif	none, combat	t,d	100	little pieces of steel
@@ -10046,7 +10046,7 @@
 10018	haunted Hell ramen	112681925	bowl.gif	food	t,d	70	bowls of haunted Hell ramen
 10019	haunted gimlet	676845730	fruitym.gif	drink	t,d	180
 10020	twice-haunted screwdriver	187537355	rocks.gif	drink	d	100
-10021	primitive candy cane	545445592	tradcane.gif	food	t	0
+10021	primitive candy cane	545445592	tradcane.gif	food, candy1	t	0
 10022	runny fermented egg	960244587	hotegg.gif	drink	t	0
 10023	oldcake	668566752	blackcake.gif	food	t	0
 10024	traditional Crimbo cookie	750639857	c18cracker.gif	food	t	0
@@ -10601,9 +10601,9 @@
 10573	bag of Iunion stones	389793817	iunionbag.gif	usable	t	0
 10574	Iunion Crown	789074173	iunioncrown.gif	hat		0
 10575	drippy candy bar	937545686	dripcandybar.gif	none, candy, paste	t	0
-10576	salty drippy candy bar	538019890	dripcandybar.gif	potion	t	0
-10577	writhing drippy candy bar	488307339	dripcandybar.gif	potion	t	0
-10578	gooey drippy candy bar	983785368	dripcandybar.gif	potion	t	0
+10576	salty drippy candy bar	538019890	dripcandybar.gif	potion, candy	t	0
+10577	writhing drippy candy bar	488307339	dripcandybar.gif	potion, candy	t	0
+10578	gooey drippy candy bar	983785368	dripcandybar.gif	potion, candy	t	0
 10579	baby camelCalf	713270299	camelcalf.gif	grow	t	0	baby camelCalves
 10580	dromedary drinking helmet	715417602	camelhelmet.gif	familiar	t,d	75
 10581	packaged SpinMaster&trade; lathe	778319583	lathebox.gif	usable	t	0
@@ -10749,7 +10749,7 @@
 10721	hand-crafted candy cane	652206867	candycane.gif	food	t	0
 10722	drive-thru burger	235084046	hamburger.gif	food	t,d	10
 10723	Boulevardier cocktail	433917796	rocks.gif	drink	t,d	10
-10724	Hotwire&trade; brand candy rope	478154462	lasso.gif	potion	t,d	10
+10724	Hotwire&trade; brand candy rope	478154462	lasso.gif	potion, candy1	t,d	10
 10725	bowl full of jelly	410129132	soupbowl.gif	food	t	0	bowls full of jelly
 10726	Eye and a Twist	475434554	eyemartini.gif	drink	t	0
 10727	Chubby and Plump bar	452862469	chubbybar.gif	potion, candy1	t	0
@@ -11734,7 +11734,7 @@
 11706	anchor bomb	702120284	ts_bomb.gif	none, combat	t,d	11
 11707	silky pirate drawers	353264524	ts_pants.gif	pants	t,d	22	pairs of silky pirate drawers
 11708	profane eye patch	592191675	ts_eyepatch.gif	familiar	t,d	10	profane eye patches
-11709	peppermint pegleg	240958650	pepperpeg.gif	potion	t	0
+11709	peppermint pegleg	240958650	pepperpeg.gif	potion, candy1	t	0
 11710	hard cocoa	491706523	coffeecup.gif	drink	t	0	cups of hard cocoa
 11711	salmagumdi	784940421	salmagundi.gif	food	t	0	plates of salmagumdi
 11712	tiny plastic Easter Island Bunny	910030772	c24tpa.gif	accessory	t	0	tiny plastic Easter Island Bunnies
@@ -11748,7 +11748,7 @@
 11720	Spirit of Thanksgiving	166270423	spirit_thanks.gif	none		0	Spirits of Thanksgiving
 11721	Spirit of Christmas	903725390	spirit_xmas.gif	none		0	Spirits of Christmas
 11722	coney haunch	209073751	coneyhaunch.gif	food	t,d	25	coney haunches
-11723	dark chocolate egg	428655084	darkchocegg.gif	potion	t,d	15
+11723	dark chocolate egg	428655084	darkchocegg.gif	potion, candy1	t,d	15
 11724	moai toai	969792989	icedtea.gif	drink	t,d	29
 11725	moaiball	728604035	moaieye.gif	offhand	t	0
 11726	half-digested rat	445778415	halfdigrat.gif	none, combat	t,d	15
