@@ -1363,6 +1363,18 @@ public class Player {
   }
 
   /**
+   * Sets the player's pvp attacks left
+   *
+   * @param fullness Desired fullness
+   * @return Resets fullness to previous value
+   */
+  public static Cleanups withAttacksLeft(final int attacks) {
+    var old = KoLCharacter.getAttacksLeft();
+    KoLCharacter.setAttacksLeft(attacks);
+    return new Cleanups(() -> KoLCharacter.setAttacksLeft(old));
+  }
+
+  /**
    * Sets the player's fullness
    *
    * @param fullness Desired fullness
@@ -2807,8 +2819,8 @@ public class Player {
   /**
    * Add a goal to fulfill via adventuring
    *
-   * @param
-   * @return Restores items previously equipped to slots
+   * @param goal Goal to add
+   * @return clears added goal
    */
   public static Cleanups withGoal(final AdventureResult goal) {
     var goals = GoalManager.getGoals();
@@ -2852,13 +2864,25 @@ public class Player {
    */
   public static Cleanups withNpcPrice(final int itemId) {
     List<PurchaseRequest> results =
-        List.of(Objects.requireNonNull(NPCStoreDatabase.getPurchaseRequest(itemId)));
+      List.of(Objects.requireNonNull(NPCStoreDatabase.getPurchaseRequest(itemId)));
     updateMallResults(itemId, results);
 
     return new Cleanups(
-        () -> {
-          MallPriceManager.reset();
-          MallPriceDatabase.savePricesToFile = true;
-        });
+      () -> {
+        MallPriceManager.reset();
+        MallPriceDatabase.savePricesToFile = true;
+      });
+  }
+
+  /**
+   * Set the GuildStore as open or closed.
+   *
+   * @param storeOpen - true if store is to be open, else false
+   * @return - restores previous state of store
+   */
+  public static Cleanups withGuildStoreOpen(final boolean storeOpen) {
+    boolean oldKnown = KoLCharacter.getGuildStoreOpen();
+    KoLCharacter.setGuildStoreOpen(storeOpen);
+    return new Cleanups(() -> KoLCharacter.setGuildStoreOpen(oldKnown));
   }
 }

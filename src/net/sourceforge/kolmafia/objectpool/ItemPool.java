@@ -2981,6 +2981,7 @@ public class ItemPool {
   public static final int COP_DOLLAR = 9072;
   public static final int DETECTIVE_APPLICATION = 9073;
   public static final int PROTON_ACCELERATOR = 9082;
+  public static final int ALMOST_DEAD_WALKIE_TALKIE = 9083;
   public static final int STANDARDS_AND_PRACTICES = 9095;
   public static final int RAD = 9100;
   public static final int WRIST_BOY = 9102;
@@ -3904,6 +3905,9 @@ public class ItemPool {
   public static final int PHOSPHOR_TRACES = 11865;
   public static final int CRAFTING_PLANS = 11866;
   public static final int BOOK_OF_IRONY = 11867;
+  public static final int APRIL_SHOWER_THOUGHTS_SHIELD = 11884;
+  public static final int GLOB_OF_WET_PAPER = 11885;
+  public static final int WET_BLANKET = 11891;
 
   private ItemPool() {}
 

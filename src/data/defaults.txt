@@ -237,6 +237,7 @@ user	autoSatisfyWithMall	false
 user	autoSatisfyWithNPCs	false
 user	autoSatisfyWithStash	false
 user	autoSatisfyWithStorage	true
+user	autoSatisfyWithShop	false
 user	autoSetConditions	true
 user	autoSteal	true
 user	autoTuxedo	false
@@ -862,6 +863,8 @@ user	holidayHalsBookAvailable	true
 user	holidayHalsBookCost	1000
 user	holidaySwagger	0
 user	holdHandsMonster		roa
+user	holdHandsMonsterCount		roa
+user	holdHandsLocation		roa
 user	homemadeRobotUpgrades	0
 user	homebodylCharges	0	roa
 user	horseryAvailable	false
@@ -1143,6 +1146,7 @@ user	maximizerIncludeAll	false
 user	maximizerMaxPrice	0
 user	maximizerNoAdventures	false
 user	maximizerPriceLevel	0
+user	maximizerUseScope	false
 user	maxManaBurn	1000
 user	mayflyExperience	0	roa
 user	mayoInMouth		roa
@@ -1808,6 +1812,7 @@ user	_allYearSucker	false
 user	_ancestralRecallCasts	0
 user	_antihangoverBonus	5
 user	_aprilShower	false
+user	_aprilShowerGlobsCollected	false
 user	_aprilBandInstruments	0
 user	_aprilBandSaxophoneUses	0
 user	_aprilBandTomUses	0
@@ -1902,6 +1907,10 @@ user	_birdsSoughtToday	0
 user	_bittycar
 user	_blackMonolithUsed	false
 user	_blankoutUsed	false
+user	_bloodBagDoctorBag	false
+user	_bloodBagCloake	false
+user	_bloodBankIntimidated	false
+user	_bloodBankVisited	false
 user	_bonersSummoned	false
 user	_bookOfEverySkillUsed	false
 user	_bookOfFactsWishes	0
@@ -1985,6 +1994,7 @@ user	_coldMedicineEquipmentTaken	0
 user	_coldOne	false
 user	_communismUsed	false
 user	_companionshipCasts	0
+user	_concoctionDatabaseRefreshes	0
 user	_confusingLEDClockUsed	false
 user	_controlPanelUsed	false
 user	_cookbookbatCrafting	0
@@ -2047,6 +2057,7 @@ user	_dnaPotionsMade	0
 user	_docClocksThymeCocktailDrunk	false
 user	_donhosCasts	0
 user	_douseFoeUses	0
+user	_douseFoeSuccess	false	rof
 user	_dreamJarDrops	0
 user	_drippingHallDoor1	false
 user	_drippingHallDoor2	false
@@ -2276,7 +2287,7 @@ user	_kolhsPoeticallyLicenced	false
 user	_kolhsSavedByTheBell	0
 user	_kolhsSchoolSpirited	false
 user	_kudzuSaladEaten	false
-user	_lastCombatActions
+user	_lastCombatActions		rof
 user	_lastCombatLost	false
 user	_lastCombatStarted
 user	_lastCombatWon	true
@@ -2431,6 +2442,7 @@ user	_pirateRealmCrewmate2
 user	_pirateRealmCrewmate3
 user	_pirateRealmCurio
 user	_pirateRealmGold	0
+user	_pirateRealmGlue	0
 user	_pirateRealmGrog	0
 user	_pirateRealmGrub	0
 user	_pirateRealmGuns	0

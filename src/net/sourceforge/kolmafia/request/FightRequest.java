@@ -2148,7 +2148,7 @@ public class FightRequest extends GenericRequest {
 
     if (FightRequest.currentRound == 0) {
       Preferences.setString("_lastCombatStarted", FightRequest.COMBAT_START.format(new Date()));
-      Preferences.setString("_lastCombatActions", "");
+      Preferences.resetStartOfFight();
       int adventure = KoLAdventure.lastAdventureId();
 
       // Pocket Familiars changes everything
@@ -2298,6 +2298,9 @@ public class FightRequest extends GenericRequest {
       } else if (CrystalBallManager.isCrystalBallMonster()) {
         // This similarly has no message so can be checked at the end
         CrystalBallManager.clear();
+      } else if (EncounterManager.isHoldHandsMonster()) {
+        // there's no message for this one either
+        Preferences.decrement("holdHandsMonsterCount", 1, 0);
       } else if (EncounterManager.isRainManEncounter(responseText)) {
         EncounterManager.ignoreSpecialMonsters();
       } else if (EncounterManager.isSpookyVHSTapeMonster(responseText, true)) {
@@ -6530,6 +6533,12 @@ public class FightRequest extends GenericRequest {
           continue;
         }
 
+        if (str.startsWith("You notice a button on your doctor bag that you hadn't seen before")) {
+          Preferences.setBoolean("_bloodBagDoctorBag", true);
+          FightRequest.logText(str);
+          continue;
+        }
+
         if (str.startsWith("You can has")) {
           // Adjust for Can Has Cyborger
           str = StringUtilities.singleStringReplace(str, "can has", "gain");
@@ -9676,16 +9685,22 @@ public class FightRequest extends GenericRequest {
           skillSuccess = true;
         }
       }
-      case SkillPool.HOLD_HANDS -> {
-        if (responseText.contains("stop the battle for a moment and hold hands with you")) {
-          TrackManager.trackMonster(monster, Tracker.HOLD_HANDS);
-          skillSuccess = true;
-        }
-      }
       case SkillPool.HUNT -> {
         if (responseText.contains("You take a good sniff")) {
           TrackManager.trackMonster(monster, Tracker.HUNT);
           skillSuccess = true;
+        }
+      }
+      case SkillPool.LEFT_KICK, SkillPool.RIGHT_KICK -> {
+        if (responseText.contains("off into the distance and likely won't return")) {
+          BanishManager.banishMonster(
+              monster,
+              skillId == SkillPool.LEFT_KICK ? Banisher.LEFT_ZOOT_KICK : Banisher.RIGHT_ZOOT_KICK);
+        }
+        if (responseText.contains("starts trailing bodily ichor that you can track")) {
+          TrackManager.trackMonster(
+              monster,
+              skillId == SkillPool.LEFT_KICK ? Tracker.LEFT_ZOOT_KICK : Tracker.RIGHT_ZOOT_KICK);
         }
       }
 
@@ -10224,6 +10239,11 @@ public class FightRequest extends GenericRequest {
         increment = 5;
         skillSuccess = true;
       }
+      case SkillPool.DARK_FEAST -> {
+        if (responseText.contains("blood soaked into your cloake")) {
+          Preferences.setBoolean("_bloodBagCloake", true);
+        }
+      }
       case SkillPool.HAMMER_THROW_COMBAT,
           SkillPool.JUGGLE_FIREBALLS_COMBAT,
           SkillPool.SPIN_JUMP_COMBAT -> KoLCharacter.spendPP(1);
@@ -10497,6 +10517,7 @@ public class FightRequest extends GenericRequest {
       }
       case SkillPool.DOUSE_FOE -> {
         if (responseText.contains("One of the three indicator lights goes dim")) {
+          Preferences.setBoolean("_douseFoeSuccess", true);
           skillSuccess = true;
         }
       }
@@ -10504,6 +10525,17 @@ public class FightRequest extends GenericRequest {
         if (responseText.contains("degrees in the air while performing")) {
           skillSuccess = true;
           addFightModifiers("Do an epic McTwist!", DoubleModifier.ITEMDROP, 75);
+        }
+      }
+      case SkillPool.HOLD_HANDS -> {
+        if (responseText.contains("stop the battle for a moment and hold hands with you")) {
+          Preferences.setString("holdHandsMonster", MonsterStatusTracker.getLastMonsterName());
+          Preferences.setInteger("holdHandsMonsterCount", 3);
+          KoLAdventure lastLocation = KoLAdventure.lastVisitedLocation();
+          if (lastLocation != null) {
+            Preferences.setString("holdHandsLocation", lastLocation.getAdventureName());
+          }
+          skillSuccess = true;
         }
       }
       case SkillPool.RED_WHITE_BLUE_BLAST -> {

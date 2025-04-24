@@ -157,6 +157,7 @@ public class UneffectRequest extends GenericRequest {
       case EffectPool.LUCKY_STRUCK:
       case EffectPool.MINISTRATIONS_IN_THE_DARK:
       case EffectPool.SUPERDRIFTING:
+      case EffectPool.ELDRITCH_ATTUNEMENT:
       case EffectPool.CARTOGRAPHICALLY_CHARGED:
       case EffectPool.CARTOGRAPHICALLY_AWARE:
       case EffectPool.CARTOGRAPHICALLY_ROOTED:

@@ -544,6 +544,10 @@ public class ResponseTextParser {
                 // If there is an aprilplay message, parse it
                 UseItemRequest.parseAprilPlay(location, responseText);
               }
+              case "shower" -> {
+                // We have April Showered today
+                Preferences.setBoolean("_aprilShowerGlobsCollected", true);
+              }
             }
           }
         }

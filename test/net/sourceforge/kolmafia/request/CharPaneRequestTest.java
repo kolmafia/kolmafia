@@ -393,6 +393,7 @@ class CharPaneRequestTest {
               withLastLocation(PIRATEREALM),
               withProperty("availableFunPoints", 0),
               withProperty("_pirateRealmGold", 0),
+              withProperty("_pirateRealmGlue", 0),
               withProperty("_pirateRealmGrog", 0),
               withProperty("_pirateRealmGrub", 0),
               withProperty("_pirateRealmGuns", 0));
@@ -400,6 +401,7 @@ class CharPaneRequestTest {
         CharPaneRequest.processResults(html("request/test_charpane_piraterealm.html"));
         assertThat("availableFunPoints", isSetTo(139));
         assertThat("_pirateRealmGold", isSetTo(186));
+        assertThat("_pirateRealmGlue", isSetTo(1));
         assertThat("_pirateRealmGrog", isSetTo(2));
         assertThat("_pirateRealmGrub", isSetTo(2));
         assertThat("_pirateRealmGuns", isSetTo(2));

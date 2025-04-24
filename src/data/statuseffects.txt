@@ -2204,7 +2204,7 @@
 2201	Connected	pixheart.gif	9259fbf1d465faad90e41f4552f33302	neutral	none	eat 1 cyburger
 2202	Space Cadet	spacehelmet.gif	62361e332402328f9398ded1aa551bda	good	none	drink 1 double entendre
 2203	Pounded by the Actual Stars	tinystars.gif	3414fb4ec08f761d3b0ea241aaba270f	good	none	drink 1 single entendre
-2204
+2204	Wet Jaw	wetpaperball.gif	01e0696a648b07bea76b4639038e8d6a	neutral	none	use 1 jawwetter
 2205
 2206	Flambé-a-thon	hurricane_f.gif	04d1ad82de59c3fd9be3fe6e6688c3ef	good	none	drink 1 Phlegethon
 2207	It Is So Hot In Your Guts, So So Hot	batgut.gif	3744d667628625ce06a7bbd473acce37	good	none	drink 1 reverse Tantalus
@@ -2983,3 +2983,16 @@
 2980	You Might Have Gotten Wet	watermelon.gif	1e66e3c47e8ed40930c6e846e32e2ef9	neutral	none
 2981	Sur La Table	portabletable.gif	1cf1e480f7ce07da51c613f6ad0d3a10	neutral	none
 2982	Ready for War	angry.gif	e62c60d23a0e76de9f6f09cd282ec8a3	neutral	none	chew 1 leprechaun antidepressant pill
+2983	Slippery as a Seal	wetpaper.gif	ae2845bf2dcdda691e98705c760f3765	neutral	none
+2984	Strength of the Tortoise	wetpaper.gif	3434e3b32cfaa9f7249d43e0ee1b42f4	neutral	none
+2985	Tubes of Universal Meat	wetpaper.gif	9b1a11e2ba8152c72d3bf6391371ac7f	neutral	none
+2986	Lubricating Sauce	wetpaper.gif	5aeff1779ef0ad97fbed13fd5bdb0968	neutral	none
+2987	Disco over Matter	wetpaper.gif	cc2d75a34ae14d132450bf8eee905a4f	neutral	none
+2988	Mariachi Moisture	wetpaper.gif	31192bed8fc75482f9f7c8486964d35f	neutral	none
+2989	Thoughtful Empathy	blackheart.gif	772532594322e2260a767bb71fe0d7fc	neutral	none
+2990	Lifting Wets	wetpaperweight.gif	0d92d7086d0bd97090dc51d252f8b7b0	neutral	none	use 1 wet paper weights
+2991	Wetted Whistle	wetpaperdrink.gif	4c844da112766b6a6d262f86eb724701	neutral	none	drink 1 Three Sheets to the Wind
+2992	A Date With Tomorrow	wetpaperdates.gif	daed8a7f8faf412fd2b27b8cec36e7e3	neutral	none	eat 1 pile of wet dates
+2993	Echoes of Wetness	wetpaperplane.gif	302a1432c19ace1071272d0fe69fa2ab	neutral	none
+2994	In Your Cups	wetpapercup.gif	c9cc9a1ed9892e908fedefbd66365b6c	neutral	none	use 1 wet paper cup
+2995	Moisticality	wetpaperback.gif	d691b7e2b735ddc8a2fdfa0b7fe07150	neutral	none	use 1 wet paperback

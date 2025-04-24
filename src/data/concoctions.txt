@@ -2450,6 +2450,7 @@ liquid bread	BEER, ROW291	handful of barley	cluster of hops
 bottle of Old Pugilist	BEER, ROW217	handful of barley	cluster of hops	fancy beer bottle	fancy beer label
 bottle of Professor Beer	BEER, ROW218	handful of barley	cluster of hops	fancy beer bottle	fancy beer label
 bottle of Rapier Witbier	BEER, ROW219	handful of barley	cluster of hops	fancy beer bottle	fancy beer label
+bottle of Fishhead 900-Day IPA	BEER, ROW816	handful of barley	cluster of hops	fancy beer bottle	fancy beer label
 artisanal homebrew gift package	BEER, ROW220	handful of barley (3)	cluster of hops (3)	fancy beer bottle (3)	fancy beer label (3)
 
 # Junk Magazine

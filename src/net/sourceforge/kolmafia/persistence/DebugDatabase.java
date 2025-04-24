@@ -2422,6 +2422,10 @@ public class DebugDatabase {
               "item " + id + " has name \"" + name + "\" but Mafia says \"" + mafiaName + "\"");
         }
         String mafiaPlural = ItemDatabase.getPluralById(id);
+        if (mafiaName.startsWith("replica ") && id >= 11190 && id <= 11254) {
+          // replica items have the same plurals as the regular items, we don't want to do that
+          continue;
+        }
         if (plural.isEmpty() && !mafiaPlural.isEmpty()) {
           report.println(
               "Item "

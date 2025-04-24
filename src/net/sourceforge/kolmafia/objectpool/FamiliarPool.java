@@ -151,6 +151,10 @@ public class FamiliarPool {
   public static final int EVOLVING_ORGANISM = 302;
   public static final int BURLY_BODYGUARD = 303;
   public static final int PEACE_TURKEY = 306;
+  public static final int HEAT_WAVE = 312;
+  public static final int PHANTOM_LIMB = 315;
+  public static final int DIRE_CASSAVA = 317;
+  public static final int OBSERVER = 318;
 
   private FamiliarPool() {}
 }

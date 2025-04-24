@@ -1,5 +1,17 @@
 package net.sourceforge.kolmafia.request;
 
+import static internal.helpers.Networking.assertGetRequest;
+import static internal.helpers.Networking.assertPostRequest;
+import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withAdventuresLeft;
+import static internal.helpers.Player.withGender;
+import static internal.helpers.Player.withGuildStoreOpen;
+import static internal.helpers.Player.withHttpClientBuilder;
+import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withPasswordHash;
+import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withSavePreferencesToFile;
+import static internal.matchers.Preference.isSetTo;
 import static net.sourceforge.kolmafia.request.DeckOfEveryCardRequest.RACING;
 import static net.sourceforge.kolmafia.request.DeckOfEveryCardRequest.buffToCard;
 import static net.sourceforge.kolmafia.request.DeckOfEveryCardRequest.canonicalNameToCard;
@@ -7,18 +19,26 @@ import static net.sourceforge.kolmafia.request.DeckOfEveryCardRequest.getCardByI
 import static net.sourceforge.kolmafia.request.DeckOfEveryCardRequest.getMatchingNames;
 import static net.sourceforge.kolmafia.request.DeckOfEveryCardRequest.phylumToCard;
 import static net.sourceforge.kolmafia.request.DeckOfEveryCardRequest.statToCard;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import internal.helpers.Cleanups;
+import internal.network.FakeHttpClientBuilder;
 import java.util.List;
+import java.util.Map;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 class DeckOfEveryCardRequestTest {
   private static final String USERNAME = "DeckOfEveryCardRequestTest";
@@ -56,7 +76,7 @@ class DeckOfEveryCardRequestTest {
       String fName = "X of Spades";
       List<String> results = getMatchingNames(fName);
       assertEquals(1, results.size());
-      DeckOfEveryCardRequest.EveryCard card = canonicalNameToCard(results.get(0));
+      DeckOfEveryCardRequest.EveryCard card = canonicalNameToCard(results.getFirst());
       assertEquals(card, getCardById(4));
     }
 
@@ -89,7 +109,7 @@ class DeckOfEveryCardRequestTest {
       DeckOfEveryCardRequest req = new DeckOfEveryCardRequest();
       assertNull(req.getRequestCard());
       req = new DeckOfEveryCardRequest(getCardById(58));
-      assertEquals(req.getRequestCard().id, 58);
+      assertEquals(58, req.getRequestCard().id);
     }
 
     @Test
@@ -104,7 +124,7 @@ class DeckOfEveryCardRequestTest {
       assertFalse(mickey.equals(notMickey));
       assertTrue(mickey.equals(mickey));
       assertTrue(mickey.equals(copyMickey));
-      assertEquals(mickey.toString(), "1952 Mickey Mantle (58)");
+      assertEquals("1952 Mickey Mantle (58)", mickey.toString());
     }
 
     @Test
@@ -116,11 +136,58 @@ class DeckOfEveryCardRequestTest {
     @Test
     public void testGetAdventuresUsed() {
       DeckOfEveryCardRequest noCard = new DeckOfEveryCardRequest();
-      assertEquals(noCard.getAdventuresUsed(), 1);
+      assertEquals(1, noCard.getAdventuresUsed());
       DeckOfEveryCardRequest notMonster = new DeckOfEveryCardRequest(getCardById(58));
-      assertEquals(notMonster.getAdventuresUsed(), 0);
+      assertEquals(0, notMonster.getAdventuresUsed());
       DeckOfEveryCardRequest monster = new DeckOfEveryCardRequest(getCardById(27));
-      assertEquals(monster.getAdventuresUsed(), 1);
+      assertEquals(1, monster.getAdventuresUsed());
+    }
+  }
+
+  @ParameterizedTest
+  @CsvSource({"true, true", "true, false", "false, true", "false, false"})
+  public void itShouldRunAndUpdatePreferences(boolean useUpdate, boolean useWrite) {
+    DeckOfEveryCardRequest.EveryCard mickey = getCardById(58);
+    var builder = new FakeHttpClientBuilder();
+    var client = builder.client;
+    client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
+    client.addResponse(200, html("request/use_deck_one.html"));
+    client.addResponse(200, html("request/use_deck_two.json"));
+    client.addResponse(302, Map.of("location", List.of("choice.php?forceoption=0")), "");
+    client.addResponse(200, html("request/use_deck_three.html"));
+    client.addResponse(200, html("request/use_deck_four.json"));
+    client.addResponse(200, html("request/use_deck_five.html"));
+    client.addResponse(200, html("request/use_deck_six.json"));
+    var cleanups =
+        new Cleanups(
+            withHttpClientBuilder(builder),
+            withItem(ItemPool.DECK_OF_EVERY_CARD),
+            withProperty("_deckCardsDrawn", 0),
+            withProperty("_deckCardsSeen", ""),
+            withGender(KoLCharacter.Gender.FEMALE),
+            withGuildStoreOpen(false),
+            withPasswordHash("cafebabe"),
+            withProperty("saveSettingsOnSet", useUpdate),
+            withAdventuresLeft(100));
+    // Because this is a test the assumption is that saving preferences is disabled
+    if (useWrite) {
+      cleanups.add(withSavePreferencesToFile());
+    }
+    try (cleanups) {
+      new DeckOfEveryCardRequest(mickey).run();
+      var requests = builder.client.getRequests();
+      assertThat(requests, hasSize(8));
+      assertPostRequest(requests.get(0), "/inv_use.php", "whichitem=8382&cheat=1&pwd=cafebabe");
+      assertGetRequest(requests.get(1), "/choice.php", "forceoption=0");
+      assertPostRequest(requests.get(2), "/api.php", "what=status&for=KoLmafia");
+      assertPostRequest(
+          requests.get(3), "/choice.php", "whichchoice=1086&option=1&which=58&pwd=cafebabe");
+      assertGetRequest(requests.get(4), "/choice.php", "forceoption=0");
+      assertPostRequest(requests.get(5), "/api.php", "what=status&for=KoLmafia");
+      assertPostRequest(requests.get(6), "/choice.php", "whichchoice=1085&option=1&pwd=cafebabe");
+      assertPostRequest(requests.get(7), "/api.php", "what=status&for=KoLmafia");
+      assertThat("_deckCardsDrawn", isSetTo(5));
+      assertThat("_deckCardsSeen", isSetTo("1952 Mickey Mantle"));
     }
   }
 }

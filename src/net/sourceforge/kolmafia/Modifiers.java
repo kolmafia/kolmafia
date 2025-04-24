@@ -226,6 +226,10 @@ public class Modifiers {
       hpbase = KoLCharacter.getBaseMuscle();
       hp = hpbase + (int) this.getDouble(DoubleModifier.HP);
       buffedHP = Math.max(hp, mus);
+    } else if (KoLCharacter.inZootomist()) {
+      hpbase = rv.get(DerivedModifier.BUFFED_MUS) + 3;
+      hp = hpbase + (int) this.getDouble(DoubleModifier.HP);
+      buffedHP = Math.max(hp, mus);
     } else if (KoLCharacter.inRobocore()) {
       hpbase = 30;
       hp = hpbase + (int) this.getDouble(DoubleModifier.HP);
@@ -318,9 +322,15 @@ public class Modifiers {
   private double cappedCombatRate() {
     // Combat Rate has diminishing returns beyond + or - 25%
     double rate = this.doubles.get(DoubleModifier.COMBAT_RATE);
+    if (rate > 75.0) {
+      return 35.0;
+    }
     if (rate > 25.0) {
       double extra = rate - 25.0;
       return 25.0 + Math.floor(extra / 5.0);
+    }
+    if (rate < -75.0) {
+      return -35.0;
     }
     if (rate < -25.0) {
       double extra = rate + 25.0;
@@ -332,6 +342,9 @@ public class Modifiers {
   public double getDouble(final DoubleModifier modifier) {
     if (modifier == DoubleModifier.PRISMATIC_DAMAGE) {
       return this.derivePrismaticDamage();
+    }
+    if (modifier == DoubleModifier.RAW_COMBAT_RATE) {
+      return this.doubles.get(DoubleModifier.COMBAT_RATE);
     }
     if (modifier == DoubleModifier.COMBAT_RATE) {
       return this.cappedCombatRate();
@@ -555,6 +568,16 @@ public class Modifiers {
         }
         this.doubles.add(mod, value);
         break;
+      case MUS_EXPERIENCE:
+      case MYS_EXPERIENCE:
+      case MOX_EXPERIENCE:
+      case MUS_EXPERIENCE_PCT:
+      case MYS_EXPERIENCE_PCT:
+      case MOX_EXPERIENCE_PCT:
+        if (KoLCharacter.noExperience()) {
+          break;
+        }
+        //noinspection fallthrough
       case INITIATIVE:
       case HOT_DAMAGE:
       case COLD_DAMAGE:
@@ -567,12 +590,6 @@ public class Modifiers {
       case SPOOKY_SPELL_DAMAGE:
       case SLEAZE_SPELL_DAMAGE:
       case EXPERIENCE:
-      case MUS_EXPERIENCE:
-      case MYS_EXPERIENCE:
-      case MOX_EXPERIENCE:
-      case MUS_EXPERIENCE_PCT:
-      case MYS_EXPERIENCE_PCT:
-      case MOX_EXPERIENCE_PCT:
         // accumulators acts as an accumulator for modifiers that are possibly multiplied by
         // multipliers like makeshift garbage shirt, Bendin' Hell, Bow-Legged Swagger, or Dirty
         // Pear.

@@ -10,6 +10,7 @@ import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.in;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
 import static org.hamcrest.Matchers.notNullValue;
@@ -32,6 +33,7 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
+import net.sourceforge.kolmafia.modifiers.ModifierList;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.CafeDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
@@ -70,7 +72,7 @@ public class DataFileConsistencyTest {
     try (BufferedReader reader = FileUtilities.getVersionedReader(file, version)) {
       String[] fields;
       while ((fields = FileUtilities.readData(reader)) != null) {
-        if (fields.length == 1) {
+        if (fields.length <= index) {
           continue;
         }
         var thing = fields[index];
@@ -213,10 +215,79 @@ public class DataFileConsistencyTest {
   }
 
   @Test
+  public void testFamiliarAttributes() throws IOException {
+    var attributes = datafileItems("familiars.txt", 4, 10);
+    var validAttrs =
+        Set.of(
+            "animal",
+            "animatedart",
+            "aquatic",
+            "bite",
+            "cantalk",
+            "cold",
+            "cute",
+            "edible",
+            "evil",
+            "fast",
+            "flies",
+            "food",
+            "good",
+            "hard",
+            "hasbeak",
+            "hasbones",
+            "hasclaws",
+            "haseyes",
+            "hashands",
+            "haslegs",
+            "hasshell",
+            "hasstinger",
+            "haswings",
+            "hot",
+            "hovers",
+            "humanoid",
+            "insect",
+            "isclothes",
+            "mineral",
+            "object",
+            "orb",
+            "organic",
+            "person",
+            "phallic",
+            "polygonal",
+            "reallyevil",
+            "robot",
+            "sentient",
+            "sleaze",
+            "software",
+            "spooky",
+            "stench",
+            "swims",
+            "technological",
+            "undead",
+            "vegetable",
+            "wearsclothes",
+            "ult_bearhug",
+            "ult_sticktreats",
+            "ult_owlstare",
+            "ult_bloodbath",
+            "ult_pepperscorn",
+            "ult_rainbowstorm");
+
+    for (var attrs : attributes) {
+      for (var tag : attrs.split(",")) {
+        assertThat(
+            String.format("%s is in familiars.txt but not a valid attribute", tag),
+            tag,
+            in(validAttrs));
+      }
+    }
+  }
+
+  @Test
   public void testCoinmasterBuyables() throws IOException {
     var buyables = datafileItems("coinmasters.txt", 3, 3);
 
-    Pattern withNum = Pattern.compile("(.*) \\(\\d+\\)");
+    Pattern withNum = Pattern.compile("(.*) \\([\\d,]+\\)");
 
     for (var name : buyables) {
       var match = withNum.matcher(name);
@@ -480,13 +551,56 @@ public class DataFileConsistencyTest {
       }
     }
 
+    private void assertModCountEqual(ModifierList list, String element, String mod1, String mod2) {
+      var first = list.stream().filter(x -> mod1.equals(x.getName())).toList();
+      var second = list.stream().filter(x -> mod2.equals(x.getName())).toList();
+      if (first.size() != second.size()) {
+        switch (element) {
+          case "chaos popcorn", "thyme jelly donut" -> {
+            // some items give a randomly chosen effect
+          }
+          case "Temps Tempranillo" -> {
+            // this extends a current effect and maybe should have a different modifier
+          }
+          case "1950 Vampire Vintner wine",
+              "flask of mining oil",
+              "flask of tainted mining oil",
+              "half-baked potion",
+              "mysterious chemical residue",
+              "one pill" -> {
+            // some items give a non-deterministic effect
+          }
+          default -> fail(
+              "Expected " + mod1 + " and " + mod2 + " to appear in pairs on " + element);
+        }
+      }
+    }
+
+    @Test
+    public void modifiersShouldAppearInPairs() {
+      String file = "modifiers.txt";
+      int version = 3;
+      String[] fields;
+      try (BufferedReader reader = FileUtilities.getVersionedReader(file, version)) {
+        while ((fields = FileUtilities.readData(reader)) != null) {
+          String element = fields[1];
+          String modifierString = fields[2];
+          var mods = ModifierDatabase.splitModifiers(modifierString);
+          assertModCountEqual(mods, element, "Effect", "Effect Duration");
+          assertModCountEqual(mods, element, "Rollover Effect", "Rollover Effect Duration");
+        }
+      } catch (IOException e) {
+        fail("Couldn't read from " + file);
+      }
+    }
+
     @Test
     public void everyFamiliarHasAThroneModifier() {
       var allFamiliars =
           FamiliarDatabase.entrySet().stream()
               .map(Map.Entry::getKey)
               // Ignore Pokefam-exclusive familiars
-              .filter(id -> !FamiliarDatabase.hasAttribute(id, "pokefam"))
+              .filter(id -> !FamiliarDatabase.isPokefamType(id))
               // Ignore familiars with no hatchling (currently April Fools familiars, but may also
               // catch future weirdos
               .filter(id -> FamiliarDatabase.getFamiliarLarva(id) > 0)

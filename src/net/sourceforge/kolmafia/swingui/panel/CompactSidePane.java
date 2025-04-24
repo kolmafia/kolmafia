@@ -962,10 +962,13 @@ public class CompactSidePane extends JPanel implements Runnable {
           KoLConstants.ROUNDED_MODIFIER_FORMAT.format(KoLCharacter.getInitiativeAdjustment())
               + "%");
       count++;
-      this.bonusLabel[count].setText("   Exp: ");
-      this.bonusValueLabel[count].setText(
-          KoLConstants.ROUNDED_MODIFIER_FORMAT.format(KoLCharacter.getExperienceAdjustment()));
-      count++;
+      boolean experience = !KoLCharacter.noExperience();
+      if (experience && count < this.BONUS_LABELS) {
+        this.bonusLabel[count].setText("   Exp: ");
+        this.bonusValueLabel[count].setText(
+            KoLConstants.ROUNDED_MODIFIER_FORMAT.format(KoLCharacter.getExperienceAdjustment()));
+        count++;
+      }
       this.bonusLabel[count].setText("  Meat: ");
       this.bonusValueLabel[count].setText(
           KoLConstants.ROUNDED_MODIFIER_FORMAT.format(KoLCharacter.getMeatDropPercentAdjustment())

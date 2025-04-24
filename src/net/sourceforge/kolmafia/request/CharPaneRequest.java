@@ -1344,7 +1344,7 @@ public class CharPaneRequest extends GenericRequest {
   }
 
   private static final Pattern PIRATE_REALM_PATTERN =
-      Pattern.compile("<b>(Guns|Grub|Grog|Gold|Fun):</b></td><td class=small>(\\d+)</td>");
+      Pattern.compile("<b>(Guns|Grub|Grog|Glue|Gold|Fun):</b></td><td class=small>(\\d+)</td>");
 
   private static void checkPirateRealm(final String response) {
     // Only shows when we have a relevant last adventure

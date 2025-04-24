@@ -123,11 +123,11 @@ public class SkillBuffFrame extends GenericFrame {
 
     @Override
     public void update() {
-      super.update();
-      this.clearDisabledItems();
-
+      // Check if the current selection is now disabled
       int selected = this.getSelectedIndex();
 
+      // Recalculate disabled items
+      this.clearDisabledItems();
       for (int j = 0; j < this.getItemCount(); j++) {
         var disable = this.getItemAt(j).getMaximumCast() <= 0;
         this.setDisabledIndex(j, disable);
@@ -135,6 +135,13 @@ public class SkillBuffFrame extends GenericFrame {
           this.setSelectedIndex(-1);
         }
       }
+
+      // If previous selection is now disabled, refilter
+      if (selected != -1 && this.getSelectedIndex() == -1) {
+        this.currentName = "";
+      }
+
+      super.update();
     }
   }
 

@@ -4481,7 +4481,7 @@ public abstract class RuntimeLibrary {
     if (value.getType().equals(TypeSpec.STRING)) {
       String string = value.toString();
       try {
-        return new Value(StringUtilities.parseFloat(string));
+        return new Value(StringUtilities.parseDouble(string));
       } catch (NumberFormatException e) {
         Exception ex =
             controller.runtimeException(
@@ -6672,9 +6672,9 @@ public abstract class RuntimeLibrary {
     MapValue value = new MapValue(DataTypes.ITEM_TO_INT_TYPE);
 
     CoinmasterData data = (CoinmasterData) master.rawValue();
-    int id = (int) thing.intValue();
 
     if (data.getShopRows() != null) {
+      int id = (int) thing.intValue();
       var shopRow = data.getShopRow(id);
 
       if (shopRow == null) return value;
@@ -6686,24 +6686,28 @@ public abstract class RuntimeLibrary {
       return value;
     }
 
-    value.aset(DataTypes.makeItemValue(data.getItem()), sell_price(controller, master, thing));
+    AdventureResult cost = sell_price(data, thing);
+    if (cost == null) return value;
+    value.aset(DataTypes.makeItemValue(cost), DataTypes.makeIntValue(cost.getCount()));
 
     return value;
   }
 
   public static Value sell_price(ScriptRuntime controller, final Value master, final Value thing) {
     CoinmasterData data = (CoinmasterData) master.rawValue();
-    int id = (int) thing.intValue();
-    AdventureResult value =
-        (data == null)
-            ? null
-            : switch (thing.getType().getType()) {
-              case TypeSpec.ITEM -> data.itemBuyPrice(id);
-              case TypeSpec.SKILL -> data.skillBuyPrice(id);
-              default -> null;
-            };
-
+    AdventureResult value = sell_price(data, thing);
     return DataTypes.makeIntValue(value == null ? 0 : value.getCount());
+  }
+
+  private static AdventureResult sell_price(CoinmasterData data, Value thing) {
+    int id = (int) thing.intValue();
+    return (data == null)
+        ? null
+        : switch (thing.getType().getType()) {
+          case TypeSpec.ITEM -> data.itemBuyPrice(id);
+          case TypeSpec.SKILL -> data.skillBuyPrice(id);
+          default -> null;
+        };
   }
 
   public static Value historical_price(ScriptRuntime controller, final Value item) {
