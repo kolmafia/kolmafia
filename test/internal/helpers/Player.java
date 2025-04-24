@@ -2864,14 +2864,14 @@ public class Player {
    */
   public static Cleanups withNpcPrice(final int itemId) {
     List<PurchaseRequest> results =
-      List.of(Objects.requireNonNull(NPCStoreDatabase.getPurchaseRequest(itemId)));
+        List.of(Objects.requireNonNull(NPCStoreDatabase.getPurchaseRequest(itemId)));
     updateMallResults(itemId, results);
 
     return new Cleanups(
-      () -> {
-        MallPriceManager.reset();
-        MallPriceDatabase.savePricesToFile = true;
-      });
+        () -> {
+          MallPriceManager.reset();
+          MallPriceDatabase.savePricesToFile = true;
+        });
   }
 
   /**
