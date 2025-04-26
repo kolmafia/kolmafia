@@ -1287,6 +1287,7 @@ user	plumberCostumeCost	50	roa
 user	plumberCostumeWorn	none	roa
 user	plumberPoints	0
 user	pokefamBoosts		roa
+user	pokefamPoints	0
 user	poolSharkCount	0
 user	poolSkill	0
 user	popularTartUnlocked	false	roa

@@ -46,7 +46,7 @@ public class AscensionPath {
     LICENSE_TO_ADVENTURE(
         "License to Adventure", 30, false, "briefcase", "a", "bondPoints", 24, true, 0, 2, 15),
     LIVE_ASCEND_REPEAT("Live. Ascend. Repeat.", 31, false, "watch", "a"),
-    POKEFAM("Pocket Familiars", 32, false, "spiritorb", "a"),
+    POKEFAM("Pocket Familiars", 32, false, "spiritorb", "a", "pokefamPoints", 10, false),
     GLOVER("G-Lover", 33, false, "g-loveheart", "a", "gloverPoints", 10, false),
     DISGUISES_DELIMIT("Disguises Delimit", 34, false, "dd_icon", "a", "masksUnlocked", 25, false),
     DARK_GYFFTE("Dark Gyffte", 35, true, "darkgift", "a", "darkGyfftePoints", 23, true),
