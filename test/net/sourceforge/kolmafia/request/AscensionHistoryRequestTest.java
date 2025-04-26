@@ -49,5 +49,7 @@ public class AscensionHistoryRequestTest {
     assertEquals(22, Preferences.getInteger("plumberPoints"), "Plumber ascensions mismatch");
     assertEquals(3, Preferences.getInteger("youRobotPoints"), "You, Robot ascensions mismatch");
     assertEquals(0, Preferences.getInteger("quantumPoints"), "Quantum ascensions mismatch");
+    assertEquals(
+        10, Preferences.getInteger("twoCRSPoints"), "Two Crazy Random Summer ascensions mismatch");
   }
 }
