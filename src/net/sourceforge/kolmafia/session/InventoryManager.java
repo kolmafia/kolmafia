@@ -1339,15 +1339,27 @@ public abstract class InventoryManager {
     }
 
     CraftingType method = ConcoctionDatabase.getMixingMethod(item);
-    int yield = ConcoctionDatabase.getYield(itemId);
-    int madeQuantity = (quantity + yield - 1) / yield;
-    long price = ConcoctionDatabase.getCreationCost(method) * madeQuantity;
-
+    long price = ConcoctionDatabase.getCreationCost(method);
     AdventureResult[] ingredients = ConcoctionDatabase.getIngredients(itemId);
 
-    for (int i = 0; i < ingredients.length; ++i) {
-      AdventureResult ingredient = ingredients[i];
-      int needed = ingredient.getCount() * madeQuantity;
+    if (ingredients.length == 0) {
+      // This is a concoction with no ingredients, so if creatable == 0,
+      // we can be sure that we cannot concoct it right now.
+      var conc = ConcoctionPool.get(itemId);
+      if (conc == null || conc.creatable == 0) {
+        return Long.MAX_VALUE;
+      }
+      if (price == 0) {
+        return 0;
+      }
+    }
+
+    long yield = ConcoctionDatabase.getYield(itemId);
+    long madeQuantity = (quantity + yield - 1) / yield;
+    price *= madeQuantity;
+
+    for (AdventureResult ingredient : ingredients) {
+      long needed = ingredient.getCount() * madeQuantity;
 
       long ingredientPrice =
           ingredient.isMeat()

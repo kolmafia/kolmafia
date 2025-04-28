@@ -42,10 +42,14 @@ public class AscensionHistoryRequestTest {
     assertEquals(9, Preferences.getInteger("noobPoints"), "Gelatinous Noob ascensions mismatch");
     assertEquals(24, Preferences.getInteger("bondPoints"), "Bond ascensions mismatch");
     assertEquals(10, Preferences.getInteger("gloverPoints"), "G-Lover ascensions mismatch");
+    assertEquals(
+        8, Preferences.getInteger("pokefamPoints"), "Pocket Familiars ascensions mismatch");
     assertEquals(3, Preferences.getInteger("masksUnlocked"), "Masks Unlocked mismatch");
     assertEquals(23, Preferences.getInteger("darkGyfftePoints"), "Dark Gyffte ascensions mismatch");
     assertEquals(22, Preferences.getInteger("plumberPoints"), "Plumber ascensions mismatch");
     assertEquals(3, Preferences.getInteger("youRobotPoints"), "You, Robot ascensions mismatch");
     assertEquals(0, Preferences.getInteger("quantumPoints"), "Quantum ascensions mismatch");
+    assertEquals(
+        10, Preferences.getInteger("twoCRSPoints"), "Two Crazy Random Summer ascensions mismatch");
   }
 }
