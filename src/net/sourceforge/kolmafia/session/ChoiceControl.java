@@ -9724,54 +9724,47 @@ public abstract class ChoiceControl {
         }
 
         case 1063 -> { // Adjust your 'Edpiece
-          {
-            var state = EdPieceCommand.getStateFromDecision(decision);
+          var state = EdPieceCommand.getStateFromDecision(decision);
 
-            if (state != null) {
-              RequestLogger.updateSessionLog();
-              RequestLogger.updateSessionLog("edpiece " + state);
-            }
-
-            return true;
+          if (state != null) {
+            RequestLogger.updateSessionLog();
+            RequestLogger.updateSessionLog("edpiece " + state);
           }
+
+          return true;
         }
 
         case 1101 -> { // It's a Barrel Smashing Party!
-          {
-            if (decision == 2) {
-              // We're smashing 100 barrels
-              // The results don't say which barrels are being smashed, but it seems to happen in
-              // item order
-              int count = 100;
-              int itemId = ItemPool.LITTLE_FIRKIN;
-              RequestLogger.updateSessionLog("smashing 100 barrels");
-              while (count > 0 && itemId <= ItemPool.BARNACLED_BARREL) {
-                int smashNumber = Math.min(count, InventoryManager.getCount(itemId));
-                String name = ItemDatabase.getItemName(itemId);
-                if (smashNumber > 0 && name != null) {
-                  RequestLogger.updateSessionLog("smash " + smashNumber + " " + name);
-                  count -= smashNumber;
-                }
-                itemId++;
+          if (decision == 2) {
+            // We're smashing 100 barrels
+            // The results don't say which barrels are being smashed, but it seems to happen in
+            // item order
+            int count = 100;
+            int itemId = ItemPool.LITTLE_FIRKIN;
+            RequestLogger.updateSessionLog("smashing 100 barrels");
+            while (count > 0 && itemId <= ItemPool.BARNACLED_BARREL) {
+              int smashNumber = Math.min(count, InventoryManager.getCount(itemId));
+              String name = ItemDatabase.getItemName(itemId);
+              if (smashNumber > 0 && name != null) {
+                RequestLogger.updateSessionLog("smash " + smashNumber + " " + name);
+                count -= smashNumber;
               }
-              return true;
+              itemId++;
             }
-            int itemId = extractIidFromURL(urlString);
-            String name = ItemDatabase.getItemName(itemId);
-            if (name != null) {
-              RequestLogger.updateSessionLog("smash " + name);
-              return true;
-            }
-            break;
+            return true;
+          }
+          int itemId = extractIidFromURL(urlString);
+          String name = ItemDatabase.getItemName(itemId);
+          if (name != null) {
+            RequestLogger.updateSessionLog("smash " + name);
+            return true;
           }
         }
 
         case 1181 -> { // Your Witchess Set
-          {
-            String desc = ChoiceManager.choiceDescription(choice, decision);
-            RequestLogger.updateSessionLog("Took choice " + choice + "/" + decision + ": " + desc);
-            return true;
-          }
+          String desc = ChoiceManager.choiceDescription(choice, decision);
+          RequestLogger.updateSessionLog("Took choice " + choice + "/" + decision + ": " + desc);
+          return true;
         }
 
         case 1182 -> { // Play against the Witchess Pieces
@@ -9816,22 +9809,18 @@ public abstract class ChoiceControl {
         case 1352, //  Island #1, Who Are You?
             1353, //  What's Behind Island #2?
             1354 -> { //  Third Island's the Charm
-          {
-            // Get the island name here so that we can set the location name accordingly.
-            // Other choicey things should happen in postChoiceX
-            String desc = ChoiceManager.choiceDescription(choice, decision);
-            RequestLogger.updateSessionLog("Took choice " + choice + "/" + decision + ": " + desc);
-            if (desc != null && !desc.equals("Decide Later")) {
-              Preferences.setString("_lastPirateRealmIsland", desc);
-            }
-            return true;
+          // Get the island name here so that we can set the location name accordingly.
+          // Other choicey things should happen in postChoiceX
+          String desc = ChoiceManager.choiceDescription(choice, decision);
+          RequestLogger.updateSessionLog("Took choice " + choice + "/" + decision + ": " + desc);
+          if (desc != null && !desc.equals("Decide Later")) {
+            Preferences.setString("_lastPirateRealmIsland", desc);
           }
+          return true;
         }
 
         case 1388 -> { // Comb the Beach
-          {
-            return BeachCombRequest.registerRequest(urlString);
-          }
+          return BeachCombRequest.registerRequest(urlString);
         }
 
         case 1445, // Reassembly Station
