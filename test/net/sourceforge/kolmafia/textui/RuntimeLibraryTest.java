@@ -1604,9 +1604,9 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
 
     /*
     Each test case should end up with a disco ball and august scepter equipped.  The test cases
-    give the Maximizer the opportunity to keep something equipped or swap  an item.  In the absence
-    of the equip command results the expected test results have to vary with the case,  The 2-handed
-    case fails because the maximizer does not try and unequip the 2h weapon before equipping a 1h
+    give the Maximizer the opportunity to keep something equipped or swap an item.  In the absence
+    of the equip command results the expected test results have to vary with the case.  The 2-handed
+    case fails because the maximizer does not try and un-equip the 2h weapon before equipping a 1h
     and an offhand weapon.  In the event that behavior is ever changed this test will fail which is
     part of the justification for keeping it.
      */
