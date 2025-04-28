@@ -581,7 +581,7 @@ public class AscensionHistoryRequest extends GenericRequest
 
         this.path =
             Arrays.stream(Path.values())
-                .filter(p -> columns[8].contains(p.getImage()))
+                .filter(p -> columns[8].contains(String.format("/%s", p.getImage())))
                 .findAny()
                 .orElse(Path.NONE);
       } catch (Exception e) {
