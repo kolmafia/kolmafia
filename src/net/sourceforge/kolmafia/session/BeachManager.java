@@ -155,12 +155,15 @@ public class BeachManager {
     // <span class='guts'>You comb the area and find something kind of interesting, as well as some
     // sand, which is not particularly interesting unless you personally happen to be interested in
     // sand, in which case boy howdy are you in luck. That stuff is <i>everywhere.</i>...
+    //
     // <span class='guts'>You comb the area and under the sand you find a bottle. It looks like it
     // contains some sort of message? You pop the bottle open and look at the piece of paper inside.
     // It says:<br><br>LIFE ON A DESSERT ISLAND -- SHOULD BE HARD, BUT REALLY IT IS A PIECE OF
     // CAKE<br><br>Is that some sort of joke?</span>
+    //
     // <span class='guts'>You comb all of the meat off the whale carcass, just like barbers used to
     // do back when they were surgeons.
+    //
     // <span class='guts'>You comb the sand and hear a hollow <i>clonk</i> that can only mean one
     // thing: pirate treasure chest! Heck yeah baby!
 
@@ -190,6 +193,9 @@ public class BeachManager {
       // Replace the setting
       String value = BeachManager.layoutToString(layout);
       Preferences.setString("_beachLayout", value);
+
+      // Perhaps we need special logging
+      BeachCombRequest.parseCombUsage(text);
     }
     return BeachManager.parseCombUsage(text);
   }
@@ -200,11 +206,6 @@ public class BeachManager {
     if (!text.contains("to the start of the beach to find")) {
       return false;
     }
-
-    // <span class='guts'>You comb the area and under the sand you find a bottle. It looks like it
-    // contains some sort of message? You pop the bottle open and look at the piece of paper inside.
-    // It says:<br><br>LIFE ON A DESSERT ISLAND -- SHOULD BE HARD, BUT REALLY IT IS A PIECE OF
-    // CAKE<br><br>Is that some sort of joke?</span>
 
     Matcher matcher = BeachManager.FREE_WALK_PATTERN.matcher(text);
     int walksAvailable = matcher.find() ? StringUtilities.parseInt(matcher.group(1)) : 0;
