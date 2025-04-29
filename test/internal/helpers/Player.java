@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -56,6 +57,8 @@ import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.FloristRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.GenericRequest.TopMenuStyle;
+import net.sourceforge.kolmafia.request.MallPurchaseRequest;
+import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.coinmaster.HermitRequest;
 import net.sourceforge.kolmafia.session.ChoiceControl;
@@ -65,6 +68,7 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EquipmentRequirement;
 import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.LimitMode;
+import net.sourceforge.kolmafia.session.MallPriceManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
@@ -2815,7 +2819,7 @@ public class Player {
   /**
    * Add a goal to fulfill via adventuring
    *
-   * @param
+   * @param goal Goal to add
    * @return clears added goal
    */
   public static Cleanups withGoal(final AdventureResult goal) {
@@ -2824,6 +2828,49 @@ public class Player {
     return new Cleanups(
         () -> {
           GoalManager.addGoal(goal.getNegation());
+        });
+  }
+
+  private static void updateMallResults(int itemId, List<PurchaseRequest> results) {
+    MallPriceManager.saveMallSearch(itemId, results);
+    MallPriceManager.updateMallPrice(ItemPool.get(itemId), results);
+  }
+
+  /**
+   * Mall price for an item
+   *
+   * @param itemId Id of item
+   * @param price Price to return
+   * @return Totally reset price cache
+   */
+  public static Cleanups withMallPrice(final int itemId, final int price) {
+    MallPriceDatabase.savePricesToFile = false;
+    List<PurchaseRequest> results =
+        List.of(new MallPurchaseRequest(itemId, 100, 1, "Test Shop", price, 100, true));
+    updateMallResults(itemId, results);
+
+    return new Cleanups(
+        () -> {
+          MallPriceManager.reset();
+          MallPriceDatabase.savePricesToFile = true;
+        });
+  }
+
+  /**
+   * Load NPC price for an item into cache
+   *
+   * @param itemId Id of item
+   * @return Totally reset price cache
+   */
+  public static Cleanups withNpcPrice(final int itemId) {
+    List<PurchaseRequest> results =
+        List.of(Objects.requireNonNull(NPCStoreDatabase.getPurchaseRequest(itemId)));
+    updateMallResults(itemId, results);
+
+    return new Cleanups(
+        () -> {
+          MallPriceManager.reset();
+          MallPriceDatabase.savePricesToFile = true;
         });
   }
 
