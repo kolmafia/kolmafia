@@ -52,18 +52,19 @@ public class IterativeTest {
       System.out.println(boost);
     }
   }
-/*
-This test is to explore possibilities.  It does, however, take time to run.  The list below shows things
-that were chosen to be equipped.  It is the basis for some of the other tests.  There were no cases where
-a weapon was not picked but an off hand was.  There were also no cases where a weapon was not picked.
 
-    [equip weapon Granny Hackleton's Gatling gun (+200), equip off-hand 9-ball (+8)]
-    [equip weapon Granny Hackleton's Gatling gun (+200), equip off-hand left-handed melodica (+25)]
-    [equip weapon Granny Hackleton's Gatling gun (+200), equip off-hand replica Operation Patriot Shield (+20)]
-    [equip weapon Great Wolf's right paw (+145), equip off-hand replica august scepter (+50)]
-    [equip weapon Stick-Knife of Loathing (+130), equip off-hand replica august scepter (+50)]
-    [equip weapon triple barreled barrel gun (+130)]
- */
+  /*
+  This test is to explore possibilities.  It does, however, take time to run.  The list below shows things
+  that were chosen to be equipped.  It is the basis for some of the other tests.  There were no cases where
+  a weapon was not picked but an off hand was.  There were also no cases where a weapon was not picked.
+
+      [equip weapon Granny Hackleton's Gatling gun (+200), equip off-hand 9-ball (+8)]
+      [equip weapon Granny Hackleton's Gatling gun (+200), equip off-hand left-handed melodica (+25)]
+      [equip weapon Granny Hackleton's Gatling gun (+200), equip off-hand replica Operation Patriot Shield (+20)]
+      [equip weapon Great Wolf's right paw (+145), equip off-hand replica august scepter (+50)]
+      [equip weapon Stick-Knife of Loathing (+130), equip off-hand replica august scepter (+50)]
+      [equip weapon triple barreled barrel gun (+130)]
+   */
 
   @Disabled("This takes time to run and is intended as an exploratory tool.")
   @CartesianTest
@@ -113,10 +114,10 @@ a weapon was not picked but an off hand was.  There were also no cases where a w
 
   @CartesianTest
   public void theRefinedTest(
-    @CartesianTest.Values(ints = {1, 2, 3, 4, 5, 6}) int enumClassId,
-    @CartesianTest.Values(strings = {"weapon damage", "ranged damage"}) String maxStringPart,
-    @CartesianTest.Values(booleans = {true, false}) boolean withKnifeSkill,
-    @CartesianTest.Values(booleans = {true, false}) boolean withEffective) {
+      @CartesianTest.Values(ints = {1, 2, 3, 4, 5, 6}) int enumClassId,
+      @CartesianTest.Values(strings = {"weapon damage", "ranged damage"}) String maxStringPart,
+      @CartesianTest.Values(booleans = {true, false}) boolean withKnifeSkill,
+      @CartesianTest.Values(booleans = {true, false}) boolean withEffective) {
     var cleanups = new Cleanups();
     AscensionClass thisClass = AscensionClass.find(enumClassId);
     cleanups.add(withClass(thisClass));
@@ -125,14 +126,14 @@ a weapon was not picked but an off hand was.  There were also no cases where a w
       cleanups.add(withSkill("Tricky Knifework"));
     }
     Map<String, Integer> useThese = considerThese;
-   cleanups.add(withItem(ItemPool.GRANNY_HACKLETONS_GATLING_GUN));
+    cleanups.add(withItem(ItemPool.GRANNY_HACKLETONS_GATLING_GUN));
     cleanups.add(withItem(ItemPool.GREAT_WOLFS_RIGHT_PAW));
-    cleanups.add(withItem(ItemPool.STICK_KNIFE_OF_LOATHING);
-    cleanups.add(withItem(ItemPool.);
-
-    for (String it : useThese.keySet()) {
-      cleanups.add(withItem(it));
-    }
+    cleanups.add(withItem(ItemPool.STICK_KNIFE_OF_LOATHING));
+    cleanups.add(withItem(ItemPool.TRIPLE_BARRELLED_BARREL_GUN));
+    cleanups.add(withItem(ItemPool.NINE_BALL));
+    cleanups.add(withItem(ItemPool.LEFT_HANDED_MELODICA));
+    cleanups.add(withItem(ItemPool.REPLICA_PATRIOT_SHIELD));
+    cleanups.add(withItem(ItemPool.REPLICA_AUGUST_SCEPTER));
     String maxStr = maxStringPart;
     if (withEffective) {
       maxStr = maxStr + ",effective";
@@ -156,13 +157,12 @@ a weapon was not picked but an off hand was.  There were also no cases where a w
     }
   }
 
-
   /**
-   * This looks at all equipment in the game and produces a list of weapons and offhand items.  If a terse
-   * list is desired then an item is only added of it has a higher power than anything of the type (weapon
-   * or offhand) that has been previously added.  The contents of the terse list are dependent upon the order
-   * provided by ItemDatabase.dataNameEntrySet() but that really doesn't matter since the terse list is intended
-   * be some kind of sample.
+   * This looks at all equipment in the game and produces a list of weapons and offhand items. If a
+   * terse list is desired then an item is only added of it has a higher power than anything of the
+   * type (weapon or offhand) that has been previously added. The contents of the terse list are
+   * dependent upon the order provided by ItemDatabase.dataNameEntrySet() but that really doesn't
+   * matter since the terse list is intended be some kind of sample.
    *
    * @param terse - If true then the list of items is reduced.
    * @return A list of items to be made available for maximization.

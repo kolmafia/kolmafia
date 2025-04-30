@@ -587,6 +587,7 @@ public class ItemPool {
   public static final int ANTIQUE_HELMET = 1930;
   public static final int ANTIQUE_SPEAR = 1931;
   public static final int ANTIQUE_SHIELD = 1932;
+  public static final int NINE_BALL = 1940;
   public static final int CHINTZY_SEAL_PENDANT = 1941;
   public static final int CHINTZY_TURTLE_BROOCH = 1942;
   public static final int CHINTZY_NOODLE_RING = 1943;
@@ -931,6 +932,7 @@ public class ItemPool {
   public static final int MINIBORG_BEEPER = 3112;
   public static final int MINIBORG_HIVEMINDER = 3113;
   public static final int MINIBORG_DESTROYOBOT = 3114;
+  public static final int LEFT_HANDED_MELODICA = 3115;
   public static final int DIVINE_BOOK = 3117;
   public static final int DIVINE_NOISEMAKER = 3118;
   public static final int DIVINE_SILLY_STRING = 3119;
@@ -2742,6 +2744,7 @@ public class ItemPool {
   public static final int ROTTING_BARREL = 8575;
   public static final int MOULDERING_BARREL = 8576;
   public static final int BARNACLED_BARREL = 8577;
+  public static final int TRIPLE_BARRELLED_BARREL_GUN = 8595;
   public static final int BARREL_MAP = 8599;
   public static final int POTTED_TEA_TREE = 8600;
   public static final int FLAMIBILI_TEA = 8601;
