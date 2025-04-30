@@ -6,6 +6,8 @@ import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withoutItem;
+import static net.sourceforge.kolmafia.textui.command.AbstractCommandTestBase.assertContinueState;
+import static net.sourceforge.kolmafia.textui.command.AbstractCommandTestBase.assertErrorState;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasSize;
@@ -42,10 +44,11 @@ class ForeseeRequestTest {
 
       var request = new ForeseeRequest();
       request.run();
-      assertThat(client.getRequests(), hasSize(0));
 
       RequestLogger.closeCustom();
+      assertErrorState();
       assertThat(outputStream.toString(), containsString("You do not own a Peridot of Peril."));
+      assertThat(client.getRequests(), hasSize(0));
     }
   }
 
@@ -66,11 +69,12 @@ class ForeseeRequestTest {
 
       var request = new ForeseeRequest();
       request.run();
-      assertThat(client.getRequests(), hasSize(0));
 
       RequestLogger.closeCustom();
+      assertErrorState();
       assertThat(
           outputStream.toString(), containsString("You can only foresee peril thrice daily."));
+      assertThat(client.getRequests(), hasSize(0));
     }
   }
 
@@ -82,11 +86,14 @@ class ForeseeRequestTest {
         new Cleanups(
             withHttpClientBuilder(builder),
             withItem(ItemPool.PERIDOT_OF_PERIL),
-            withProperty("_perilsForseen", "1"));
+            withProperty("_perilsForseen", "1"),
+            withContinuationState());
 
     try (cleanups) {
       var request = new ForeseeRequest();
       request.run();
+      assertContinueState();
+
       var requests = client.getRequests();
       assertThat(requests, hasSize(1));
       assertGetRequest(requests.getFirst(), "/inventory.php", "action=foresee&pwd=");
