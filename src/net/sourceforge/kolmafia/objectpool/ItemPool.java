@@ -1407,6 +1407,7 @@ public class ItemPool {
   public static final int HATRED_PANTS = 4306;
   public static final int HATRED_SLIPPERS = 4307;
   public static final int HATRED_LENS = 4308;
+  public static final int STICK_KNIFE_OF_LOATHING = 4313;
   public static final int SLEDGEHAMMER_OF_THE_VAELKYR = 4316;
   public static final int FLAIL_OF_THE_SEVEN_ASPECTS = 4317;
   public static final int WRATH_OF_THE_PASTALORDS = 4318;
@@ -2886,6 +2887,7 @@ public class ItemPool {
   public static final int PREMIUM_BEANS_PLATE = 8885;
   public static final int GLENN_DICE = 8890;
   public static final int CLARA_BELL = 8893;
+  public static final int GRANNY_HACKLETONS_GATLING_GUN = 8894;
   public static final int BUFFALO_DIME = 8895;
   public static final int WESTERN_BOOK_BRAGGADOCCIO = 8916;
   public static final int WESTERN_BOOK_HELL = 8917;
