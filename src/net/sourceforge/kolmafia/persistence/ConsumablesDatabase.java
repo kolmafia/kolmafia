@@ -984,6 +984,7 @@ public class ConsumablesDatabase {
     BEER,
     CANNED,
     BEVERAGE,
+    TACO,
   }
 
   private static boolean hasAttribute(final int itemId, final Attribute attribute) {
@@ -1038,6 +1039,10 @@ public class ConsumablesDatabase {
 
   public static boolean isCannedBeer(final int itemId) {
     return hasAttribute(itemId, Attribute.CANNED);
+  }
+
+  public static boolean isTaco(final int itemId) {
+    return hasAttribute(itemId, Attribute.TACO);
   }
 
   // Support for astral consumables and other level dependant consumables
