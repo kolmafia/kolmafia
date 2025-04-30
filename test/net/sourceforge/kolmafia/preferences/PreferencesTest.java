@@ -800,5 +800,23 @@ class PreferencesTest {
         assertThat("example", isSetTo(2));
       }
     }
+
+    @Test
+    void canSetFloatWithFunction() {
+      var cleanups = withProperty("example", 10.0f);
+      try (cleanups) {
+        Preferences.setFloat("example", v -> v / 5.0f);
+        assertThat("example", isSetTo(2.0f));
+      }
+    }
+
+    @Test
+    void canSetLongWithFunction() {
+      var cleanups = withProperty("example", 10L);
+      try (cleanups) {
+        Preferences.setLong("example", v -> v / 5L);
+        assertThat("example", isSetTo(2L));
+      }
+    }
   }
 }
