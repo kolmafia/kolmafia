@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -9008,6 +9009,7 @@ public abstract class ChoiceControl {
                 Stream.concat(
                         Stream.of(KoLAdventure.lastVisitedLocation.getAdventureId()),
                         Arrays.stream(locations.split(",")))
+                    .filter(Predicate.not(String::isBlank))
                     .map(StringUtilities::parseInt)
                     .sorted()
                     .map(i -> Integer.toString(i))

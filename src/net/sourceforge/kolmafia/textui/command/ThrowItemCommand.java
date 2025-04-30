@@ -58,7 +58,7 @@ public class ThrowItemCommand extends AbstractCommand {
     if (isDailyLimited(item)) return;
 
     if (item.getItemId() == ItemPool.PERIDOT_OF_PERIL) {
-      RequestThread.postRequest(new ForeseeRequest(target));
+      ForeseeRequest.throwAt(target);
       return;
     }
 

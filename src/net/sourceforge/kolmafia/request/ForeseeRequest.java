@@ -3,12 +3,13 @@ package net.sourceforge.kolmafia.request;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.session.InventoryManager;
 
 public class ForeseeRequest extends GenericRequest {
   public ForeseeRequest() {
-    super("inventory.php?action=foresee", false);
+    super("inventory.php?action=foresee&pwd=" + GenericRequest.passwordHash, false);
   }
 
   public ForeseeRequest(final String target) {
@@ -16,6 +17,11 @@ public class ForeseeRequest extends GenericRequest {
     this.addFormField("whichchoice", "1558");
     this.addFormField("option", "1");
     this.addFormField("who", target);
+  }
+
+  public static void throwAt(final String target) {
+    RequestThread.postRequest(new ForeseeRequest());
+    RequestThread.postRequest(new ForeseeRequest(target));
   }
 
   @Override

@@ -1473,4 +1473,38 @@ class ChoiceControlTest {
       }
     }
   }
+
+  @Nested
+  class PeridotOfPeril {
+    @CsvSource({
+      "2_left,1",
+      "blank,0",
+    })
+    @ParameterizedTest
+    void canDetectForeseesLeft(final String file, final int expected) {
+      var cleanups = new Cleanups(withProperty("_perilsForeseen", "0"));
+
+      try (cleanups) {
+        var req = new GenericRequest("choice.php?whichchoice=1558");
+        req.responseText = html("request/test_choice_peridot_foresee_" + file + ".html");
+        ChoiceManager.visitChoice(req);
+        assertThat("_perilsForeseen", isSetTo(expected));
+      }
+    }
+
+    @Test
+    void marksLocationAsSeenWhenGivenPeridotChoice() {
+      var cleanups =
+          new Cleanups(
+              withProperty("_perilLocations", "113,115"),
+              withLastLocation("The Outskirts of Cobb's Knob"));
+
+      try (cleanups) {
+        var req = new GenericRequest("choice.php?whichchoice=1557");
+        req.responseText = html("request/test_choice_peridot_zone.html");
+        ChoiceManager.visitChoice(req);
+        assertThat("_perilLocations", isSetTo("113,114,115"));
+      }
+    }
+  }
 }
