@@ -1479,10 +1479,7 @@ class ChoiceControlTest {
 
   @Nested
   class PeridotOfPeril {
-    @CsvSource({
-      "2_left,1",
-      "blank,0",
-    })
+    @CsvSource({"2_left,1", "blank,0", "none_left,3"})
     @ParameterizedTest
     void canDetectForeseesLeft(final String file, final int expected) {
       var cleanups = new Cleanups(withProperty("_perilsForeseen", "0"));
