@@ -2622,6 +2622,7 @@ public class DebugDatabase {
           mismatch.compare("salad", ConsumablesDatabase.isSalad(id), itemclass.equals("salad"));
           mismatch.compare(
               "beans", ConsumablesDatabase.isBeans(id), itemclass.equals("plateofbeans"));
+          mismatch.compare("taco", ConsumablesDatabase.isTaco(id), itemclass.equals("taco"));
         }
         if (type.equals("booze")) {
           mismatch.compare("beer", ConsumablesDatabase.isBeer(id), itemclass.equals("beer"));

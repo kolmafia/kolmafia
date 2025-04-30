@@ -127,7 +127,7 @@ class ListCellRendererFactoryTest {
       assertThat(
           component.getText(),
           is(
-              "<html><nobr><b><font color=blue>Taco Dan's Taco Fish Fish Taco (2 Beach Bucks, 1 possible, 1 current)</font></b></nobr><br><nobr>&nbsp;2 full, +8.00 adv, +50.0 mus, +50.0 mys, +50.0 mox</nobr></html>"));
+              "<html><nobr><b><font color=blue>Taco Dan's Taco Fish Fish Taco (2 Beach Bucks, 1 possible, 1 current)</font></b></nobr><br><nobr>&nbsp;2 full, +8.00 adv, +50.0 mus, +50.0 mys, +50.0 mox, TACO</nobr></html>"));
     }
   }
 
