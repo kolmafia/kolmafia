@@ -117,15 +117,19 @@ public class IterativeTest {
       @CartesianTest.Values(ints = {1, 2, 3, 4, 5, 6}) int enumClassId,
       @CartesianTest.Values(strings = {"weapon damage", "ranged damage"}) String maxStringPart,
       @CartesianTest.Values(booleans = {true, false}) boolean withKnifeSkill,
+      @CartesianTest.Values(booleans = {true, false}) boolean adjustMuscle,
       @CartesianTest.Values(booleans = {true, false}) boolean withEffective) {
     var cleanups = new Cleanups();
     AscensionClass thisClass = AscensionClass.find(enumClassId);
     cleanups.add(withClass(thisClass));
-    cleanups.add(withStats(250, 250, 250));
+    if (adjustMuscle) {
+      cleanups.add(withStats(250, 250, 250));
+    } else {
+      cleanups.add(withStats(251, 250, 250));
+    }
     if (withKnifeSkill) {
       cleanups.add(withSkill("Tricky Knifework"));
     }
-    Map<String, Integer> useThese = considerThese;
     cleanups.add(withItem(ItemPool.GRANNY_HACKLETONS_GATLING_GUN));
     cleanups.add(withItem(ItemPool.GREAT_WOLFS_RIGHT_PAW));
     cleanups.add(withItem(ItemPool.STICK_KNIFE_OF_LOATHING));
@@ -143,7 +147,7 @@ public class IterativeTest {
     }
     double score = Maximizer.best.getScore();
     List<Boost> boosts = getBoosts();
-    String boostString = boosts.toString();
+    String boostString = score + " " +boosts.toString();
     usedBoosts.add(boostString);
     boolean weaponPicked = boostString.contains("equip weapon");
     boolean offPicked = boostString.contains("equip off-hand");
