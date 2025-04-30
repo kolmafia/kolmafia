@@ -811,6 +811,15 @@ class PreferencesTest {
     }
 
     @Test
+    void canSetDoubleWithFunction() {
+      var cleanups = withProperty("example", 10.0);
+      try (cleanups) {
+        Preferences.setDouble("example", v -> v / 5.0);
+        assertThat("example", isSetTo(2.0));
+      }
+    }
+
+    @Test
     void canSetLongWithFunction() {
       var cleanups = withProperty("example", 10L);
       try (cleanups) {
