@@ -5,6 +5,7 @@ import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withAscensions;
 import static internal.helpers.Player.withChoice;
+import static internal.helpers.Player.withContinuationState;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withHandlingChoice;
@@ -36,6 +37,8 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -1504,6 +1507,43 @@ class ChoiceControlTest {
         req.responseText = html("request/test_choice_peridot_zone.html");
         ChoiceManager.visitChoice(req);
         assertThat("_perilLocations", isSetTo("113,114,115"));
+      }
+    }
+
+    @Test
+    void cantPerceiveOwnPeril() {
+      var cleanups =
+          new Cleanups(
+              withContinuationState(),
+              withPostChoice1(1558, 1, html("request/test_choice_peridot_foresee_self.html")));
+
+      try (cleanups) {
+        assertThat(StaticEntity.getContinuationState(), is(KoLConstants.MafiaState.ERROR));
+      }
+    }
+
+    @Test
+    void cantPerceivePerilOfRonin() {
+      var cleanups =
+          new Cleanups(
+              withContinuationState(),
+              withPostChoice1(1558, 1, html("request/test_choice_peridot_foresee_ronin.html")));
+
+      try (cleanups) {
+        assertThat(StaticEntity.getContinuationState(), is(KoLConstants.MafiaState.ERROR));
+      }
+    }
+
+    @Test
+    void detectsMaxPeril() {
+      var cleanups =
+          new Cleanups(
+              withProperty("_perilsForeseen", "0"),
+              withContinuationState(),
+              withPostChoice1(1558, 1, html("request/test_choice_peridot_foresee_max.html")));
+
+      try (cleanups) {
+        assertThat("_perilsForeseen", isSetTo(3));
       }
     }
   }
