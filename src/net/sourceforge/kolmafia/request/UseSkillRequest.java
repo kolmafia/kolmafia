@@ -143,6 +143,9 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
   private int lastReduction = Integer.MAX_VALUE;
   private String lastStringForm = "";
 
+  // if the request we're running requires a certain item to be equipped, store it here
+  private AdventureResult forcedItem;
+
   // Tools for casting buffs. The lists are ordered from most bonus buff
   // turns provided by this tool to least.
 
@@ -234,26 +237,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
       ItemPool.get(ItemPool.SOLID_BACONSTONE_EARRING, 1);
   public static final AdventureResult EMBLEM_AKGYXOTH = ItemPool.get(ItemPool.EMBLEM_AKGYXOTH, 1);
 
-  public static final AdventureResult SAUCEBLOB_BELT = ItemPool.get(ItemPool.SAUCEBLOB_BELT, 1);
-  public static final AdventureResult JUJU_MOJO_MASK = ItemPool.get(ItemPool.JUJU_MOJO_MASK, 1);
-  public static final AdventureResult REPLICA_JUJU_MOJO_MASK =
-      ItemPool.get(ItemPool.REPLICA_JUJU_MOJO_MASK, 1);
-
-  public static final AdventureResult POWERFUL_GLOVE = ItemPool.get(ItemPool.POWERFUL_GLOVE, 1);
-  public static final AdventureResult REPLICA_POWERFUL_GLOVE =
-      ItemPool.get(ItemPool.REPLICA_POWERFUL_GLOVE, 1);
-  public static final AdventureResult DESIGNER_SWEATPANTS =
-      ItemPool.get(ItemPool.DESIGNER_SWEATPANTS, 1);
-  public static final AdventureResult REPLICA_DESIGNER_SWEATPANTS =
-      ItemPool.get(ItemPool.REPLICA_DESIGNER_SWEATPANTS, 1);
-  public static final AdventureResult CINCHO_DE_MAYO = ItemPool.get(ItemPool.CINCHO_DE_MAYO, 1);
-  public static final AdventureResult REPLICA_CINCHO_DE_MAYO =
-      ItemPool.get(ItemPool.REPLICA_CINCHO_DE_MAYO, 1);
-  public static final AdventureResult AUGUST_SCEPTER = ItemPool.get(ItemPool.AUGUST_SCEPTER, 1);
-  public static final AdventureResult REPLICA_AUGUST_SCEPTER =
-      ItemPool.get(ItemPool.REPLICA_AUGUST_SCEPTER, 1);
   public static final AdventureResult BAYWATCH = ItemPool.get(ItemPool.BAYWATCH, 1);
-  public static final AdventureResult BAT_WINGS = ItemPool.get(ItemPool.BAT_WINGS, 1);
 
   private static final AdventureResult[] AVOID_REMOVAL =
       new AdventureResult[] {
@@ -275,22 +259,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
         UseSkillRequest.BACON_EARRING, // -1
         UseSkillRequest.SOLID_EARRING, // -1
         UseSkillRequest.EMBLEM_AKGYXOTH, // -1
-        // Removing the following may lose a buff
-        UseSkillRequest.JUJU_MOJO_MASK,
-        UseSkillRequest.REPLICA_JUJU_MOJO_MASK,
-        // Removing the following may make some skills impossible to case
-        UseSkillRequest.POWERFUL_GLOVE,
-        UseSkillRequest.REPLICA_POWERFUL_GLOVE,
-        UseSkillRequest.DESIGNER_SWEATPANTS,
-        UseSkillRequest.REPLICA_DESIGNER_SWEATPANTS,
-        UseSkillRequest.BAT_WINGS,
       };
-
-  // The number of items at the end of AVOID_REMOVAL that are simply
-  // there to avoid removal - there's no point in equipping them
-  // temporarily during casting:
-
-  private static final int AVOID_REMOVAL_ONLY = 7;
 
   private enum SkillStatus {
     // The skill was used successfully.
@@ -809,7 +778,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
         && InventoryManager.hasItem(item, false);
   }
 
-  private static void equipForSkill(final int skillId, final AdventureResult item) {
+  private void equipForSkill(final int skillId, final AdventureResult item) {
     if (KoLCharacter.hasEquipped(item)) {
       return;
     }
@@ -826,7 +795,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
     if (slotType != Slot.ACCESSORY1) {
       if (skillId == SkillPool.REST_UPSIDE_DOWN) {
         // this is a HP restore, so we need to ensure that the current back item doesn't have +HP
-        if (!UseSkillRequest.isValidSwitch(Slot.CONTAINER, item, skillId)) {
+        if (!isValidSwitch(Slot.CONTAINER, item, skillId)) {
           KoLmafia.updateDisplay(
               MafiaState.ERROR,
               "Replacing back item with bat wings will reduce max HP and may loop.");
@@ -838,9 +807,9 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
     }
 
     // Find an accessory slot to equip the accessory
-    boolean slot1Allowed = UseSkillRequest.isValidSwitch(Slot.ACCESSORY1, item, skillId);
-    boolean slot2Allowed = UseSkillRequest.isValidSwitch(Slot.ACCESSORY2, item, skillId);
-    boolean slot3Allowed = UseSkillRequest.isValidSwitch(Slot.ACCESSORY3, item, skillId);
+    boolean slot1Allowed = isValidSwitch(Slot.ACCESSORY1, item, skillId);
+    boolean slot2Allowed = isValidSwitch(Slot.ACCESSORY2, item, skillId);
+    boolean slot3Allowed = isValidSwitch(Slot.ACCESSORY3, item, skillId);
 
     Slot slot =
         UseSkillRequest.attemptSwitch(skillId, item, slot1Allowed, slot2Allowed, slot3Allowed);
@@ -851,7 +820,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
     }
   }
 
-  public static final void optimizeEquipment(final int skillId) {
+  public final void optimizeEquipment() {
     boolean isBuff = SkillDatabase.isBuff(skillId);
 
     if (isBuff) {
@@ -883,7 +852,10 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
             .filter(i -> canSwitchToItem(i) || KoLCharacter.hasEquipped(i))
             .findFirst()
             .ifPresentOrElse(
-                i -> equipForSkill(skillId, i),
+                i -> {
+                  this.forcedItem = i;
+                  equipForSkill(skillId, i);
+                },
                 () ->
                     KoLmafia.updateDisplay(
                         MafiaState.ERROR,
@@ -896,19 +868,29 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
     }
 
     if (Preferences.getBoolean("switchEquipmentForBuffs")) {
-      UseSkillRequest.reduceManaConsumption(skillId);
+      reduceManaConsumption(skillId);
     }
   }
 
-  private static boolean isValidSwitch(
+  private boolean isValidSwitch(
       final Slot slotId, final AdventureResult newItem, final int skillId) {
     AdventureResult item = EquipmentManager.getEquipment(slotId);
     if (item.equals(EquipmentRequest.UNEQUIP)) return true;
+
+    if (item.equals(this.forcedItem)) {
+      return false;
+    }
 
     for (int i = 0; i < UseSkillRequest.AVOID_REMOVAL.length; ++i) {
       if (item.equals(UseSkillRequest.AVOID_REMOVAL[i])) {
         return false;
       }
+    }
+
+    var id = item.getItemId();
+    // don't lose the Juju mask buff
+    if (id == ItemPool.JUJU_MOJO_MASK || id == ItemPool.REPLICA_JUJU_MOJO_MASK) {
+      return false;
     }
 
     Speculation spec_old = new Speculation();
@@ -968,7 +950,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
     return Slot.NONE;
   }
 
-  private static void reduceManaConsumption(final int skillId) {
+  private void reduceManaConsumption(final int skillId) {
     // Never bother trying to reduce mana consumption when casting
     // expensive skills or a libram skill
 
@@ -985,7 +967,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
 
     // Try items
 
-    for (int i = 0; i < UseSkillRequest.AVOID_REMOVAL.length - AVOID_REMOVAL_ONLY; ++i) {
+    for (int i = 0; i < UseSkillRequest.AVOID_REMOVAL.length; ++i) {
       // If you can't reduce cost further, stop
       if (mpCost == 1 || KoLCharacter.currentNumericModifier(DoubleModifier.MANA_COST) <= -3) {
         return;
@@ -1023,13 +1005,13 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
         // MP reduction items.  This has do be done inside the loop now
         // that max HP/MP prediction is done, since two changes that are
         // individually harmless might add up to a loss of points.
-        boolean slot1Allowed = UseSkillRequest.isValidSwitch(Slot.ACCESSORY1, item, skillId);
-        boolean slot2Allowed = UseSkillRequest.isValidSwitch(Slot.ACCESSORY2, item, skillId);
-        boolean slot3Allowed = UseSkillRequest.isValidSwitch(Slot.ACCESSORY3, item, skillId);
+        boolean slot1Allowed = isValidSwitch(Slot.ACCESSORY1, item, skillId);
+        boolean slot2Allowed = isValidSwitch(Slot.ACCESSORY2, item, skillId);
+        boolean slot3Allowed = isValidSwitch(Slot.ACCESSORY3, item, skillId);
 
         UseSkillRequest.attemptSwitch(skillId, item, slot1Allowed, slot2Allowed, slot3Allowed);
       } else {
-        if (UseSkillRequest.isValidSwitch(slot, item, skillId)) {
+        if (isValidSwitch(slot, item, skillId)) {
           (new EquipmentRequest(item, slot)).run();
         }
       }
@@ -1131,7 +1113,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
     // Optimizing equipment can involve changing equipment.
     // Save a checkpoint so we can restore previous equipment.
     try (Checkpoint checkpoint = new Checkpoint()) {
-      UseSkillRequest.optimizeEquipment(this.skillId);
+      optimizeEquipment();
       if (KoLmafia.refusesContinue()) {
         UseSkillRequest.lastUpdate = "Unable to change equipment to cast skill.";
         return;
