@@ -118,6 +118,7 @@ public class IterativeTest {
       @CartesianTest.Values(strings = {"weapon damage", "ranged damage"}) String maxStringPart,
       @CartesianTest.Values(booleans = {true, false}) boolean withKnifeSkill,
       @CartesianTest.Values(booleans = {true, false}) boolean adjustMuscle,
+      @CartesianTest.Values(booleans = {true, false}) boolean limitWeapons,
       @CartesianTest.Values(booleans = {true, false}) boolean withEffective) {
     var cleanups = new Cleanups();
     AscensionClass thisClass = AscensionClass.find(enumClassId);
@@ -130,10 +131,17 @@ public class IterativeTest {
     if (withKnifeSkill) {
       cleanups.add(withSkill("Tricky Knifework"));
     }
-    cleanups.add(withItem(ItemPool.GRANNY_HACKLETONS_GATLING_GUN));
-    cleanups.add(withItem(ItemPool.GREAT_WOLFS_RIGHT_PAW));
-    cleanups.add(withItem(ItemPool.STICK_KNIFE_OF_LOATHING));
-    cleanups.add(withItem(ItemPool.TRIPLE_BARRELLED_BARREL_GUN));
+    if (limitWeapons) {
+      cleanups.add(withItem(ItemPool.SEAL_CLUB));
+      cleanups.add(withItem(ItemPool.DISCO_BALL));
+      cleanups.add(withItem(ItemPool.STOLEN_ACCORDION));
+      cleanups.add(withItem(ItemPool.BOOT_KNIFE));
+    } else {
+      cleanups.add(withItem(ItemPool.GRANNY_HACKLETONS_GATLING_GUN));
+      cleanups.add(withItem(ItemPool.GREAT_WOLFS_RIGHT_PAW));
+      cleanups.add(withItem(ItemPool.STICK_KNIFE_OF_LOATHING));
+      cleanups.add(withItem(ItemPool.TRIPLE_BARRELLED_BARREL_GUN));
+    }
     cleanups.add(withItem(ItemPool.NINE_BALL));
     cleanups.add(withItem(ItemPool.LEFT_HANDED_MELODICA));
     cleanups.add(withItem(ItemPool.REPLICA_PATRIOT_SHIELD));
@@ -147,10 +155,12 @@ public class IterativeTest {
     }
     double score = Maximizer.best.getScore();
     List<Boost> boosts = getBoosts();
-    String boostString = score + " " +boosts.toString();
+    String boostString = score + " " + boosts;
     usedBoosts.add(boostString);
     boolean weaponPicked = boostString.contains("equip weapon");
     boolean offPicked = boostString.contains("equip off-hand");
+    dumpCase(
+        score, thisClass, withKnifeSkill, adjustMuscle, limitWeapons, maxStr, boosts.toString());
     if (!weaponPicked) {
       System.out.println(score + " " + thisClass + " " + withKnifeSkill + " " + maxStr);
       System.out.println(boosts);
@@ -159,6 +169,38 @@ public class IterativeTest {
       System.out.println(score + " " + thisClass + " " + withKnifeSkill + " " + maxStr);
       System.out.println(boosts);
     }
+  }
+
+  private void dumpCase(
+      double score,
+      AscensionClass thisClass,
+      boolean withKnifeSkill,
+      boolean adjustMuscle,
+      boolean limitWeapons,
+      String maxStr,
+      String boostString) {
+    String outStr =
+        "Score: "
+            + score
+            + "\n"
+            + "Class: "
+            + thisClass
+            + "\n"
+            + "Tricky Knifework: "
+            + withKnifeSkill
+            + "\n"
+            + "Adjust Muscle: "
+            + adjustMuscle
+            + "\n"
+            + "Limit Weapons: "
+            + limitWeapons
+            + "\n"
+            + "Maximizer String: "
+            + maxStr
+            + "\n"
+            + "Boosts: "
+            + boostString;
+    System.out.println(outStr);
   }
 
   /**
