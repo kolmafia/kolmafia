@@ -237,7 +237,7 @@ public abstract class BuffBotManager {
     // Make sure that the buffbot is wearing the best
     // equipment they have available.
 
-    UseSkillRequest.optimizeEquipment(6003);
+    UseSkillRequest.getInstance(6003).optimizeEquipment();
 
     BuffBotHome.setBuffBotActive(true);
     BuffBotHome.timeStampedLogEntry(BuffBotHome.NOCOLOR, "Buffbot started.");
