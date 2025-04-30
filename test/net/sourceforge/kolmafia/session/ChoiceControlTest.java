@@ -1535,12 +1535,26 @@ class ChoiceControlTest {
     void detectsMaxPeril() {
       var cleanups =
           new Cleanups(
-              withProperty("_perilsForeseen", "0"),
+              withProperty("_perilsForeseen", 0),
               withContinuationState(),
               withPostChoice1(1558, 1, html("request/test_choice_peridot_foresee_max.html")));
 
       try (cleanups) {
         assertThat("_perilsForeseen", isSetTo(3));
+      }
+    }
+
+    @Test
+    void successfullyPerceivesPeril() {
+      var cleanups =
+          new Cleanups(
+              withContinuationState(),
+              withProperty("_perilsForeseen", 0),
+              withPostChoice1(1558, 1, html("request/test_choice_peridot_foresee_success.html")));
+
+      try (cleanups) {
+        assertThat(StaticEntity.getContinuationState(), is(KoLConstants.MafiaState.CONTINUE));
+        assertThat("_perilsForeseen", isSetTo(1));
       }
     }
   }
