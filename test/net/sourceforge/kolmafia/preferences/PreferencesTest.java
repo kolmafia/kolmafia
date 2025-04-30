@@ -771,4 +771,34 @@ class PreferencesTest {
       }
     }
   }
+
+  @Nested
+  class SetterFunctions {
+    @Test
+    void canSetStringWithFunction() {
+      var cleanups = withProperty("example", "a");
+      try (cleanups) {
+        Preferences.setString("example", v -> v + "b");
+        assertThat("example", isSetTo("ab"));
+      }
+    }
+
+    @Test
+    void canSetBooleanWithFunction() {
+      var cleanups = withProperty("example", "true");
+      try (cleanups) {
+        Preferences.setBoolean("example", v -> !v);
+        assertThat("example", isSetTo(false));
+      }
+    }
+
+    @Test
+    void canSetIntegerWithFunction() {
+      var cleanups = withProperty("example", 10);
+      try (cleanups) {
+        Preferences.setInteger("example", v -> v / 5);
+        assertThat("example", isSetTo(2));
+      }
+    }
+  }
 }
