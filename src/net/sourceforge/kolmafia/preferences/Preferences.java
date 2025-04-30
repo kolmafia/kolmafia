@@ -22,6 +22,7 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.UnaryOperator;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -521,12 +522,20 @@ public class Preferences {
     setString(null, name, value);
   }
 
+  public static void setString(final String name, final UnaryOperator<String> updater) {
+    setString(name, updater.apply(getString(name)));
+  }
+
   public static String getString(final String name) {
     return getString(null, name);
   }
 
   public static void setBoolean(final String name, final boolean value) {
     setBoolean(null, name, value);
+  }
+
+  public static void setBoolean(final String name, final UnaryOperator<Boolean> updater) {
+    setBoolean(name, updater.apply(getBoolean(name)));
   }
 
   public static boolean getBoolean(final String name) {
@@ -537,12 +546,20 @@ public class Preferences {
     setInteger(null, name, value);
   }
 
+  public static void setInteger(final String name, final UnaryOperator<Integer> updater) {
+    setInteger(name, updater.apply(getInteger(name)));
+  }
+
   public static int getInteger(final String name) {
     return getInteger(null, name);
   }
 
   public static void setFloat(final String name, final float value) {
     setFloat(null, name, value);
+  }
+
+  public static void setFloat(final String name, final UnaryOperator<Float> updater) {
+    setFloat(name, updater.apply(getFloat(name)));
   }
 
   public static float getFloat(final String name) {
@@ -553,12 +570,20 @@ public class Preferences {
     setLong(null, name, value);
   }
 
+  public static void setLong(final String name, final UnaryOperator<Long> updater) {
+    setLong(name, updater.apply(getLong(name)));
+  }
+
   public static long getLong(final String name) {
     return getLong(null, name);
   }
 
   public static void setDouble(final String name, final double value) {
     setDouble(null, name, value);
+  }
+
+  public static void setDouble(final String name, final UnaryOperator<Double> updater) {
+    setDouble(name, updater.apply(getDouble(name)));
   }
 
   public static double getDouble(final String name) {
