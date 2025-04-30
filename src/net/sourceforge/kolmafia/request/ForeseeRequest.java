@@ -52,6 +52,10 @@ public class ForeseeRequest extends GenericRequest {
       }
     }
 
+    if (this.getBasePath().equals("choice.php")) {
+      KoLmafia.updateDisplay("Foreseeing peril for " + this.getFormField("who") + "...");
+    }
+
     super.run();
   }
 }
