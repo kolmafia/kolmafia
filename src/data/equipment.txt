@@ -3021,6 +3021,7 @@ Pendant of Gargalesis	150	Mys: 60
 peppermint-scented socks	50	none
 perfect Christmas scarf	110	Mys: 25
 perfume-soaked bandana	75	Mys: 15
+Peridot of Peril	0	none
 Personal Ventilation Unit	100	none
 petrified wood waist protector	120	Mus: 40
 petrified wood wizard's pouch	120	Mys: 40

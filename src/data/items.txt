@@ -11929,3 +11929,5 @@
 11901	wet shower stamp	834166843	wetpaperstamp.gif	usable	t	0
 11902
 11903	jawwetter	169174157	wetpaperball.gif	potion	t,d	5
+11904	Unpeeled Peridot of Peril	147004779	peridot_box.gif	usable	t	0
+11905	Peridot of Peril	519151496	peridot.gif	accessory, curse		0

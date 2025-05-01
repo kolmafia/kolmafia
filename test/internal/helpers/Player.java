@@ -1791,6 +1791,72 @@ public class Player {
    * @param value Value to set
    * @return Restores the previous value of the property
    */
+  public static Cleanups withProperty(final String key, final float value) {
+    var global = Preferences.isGlobalProperty(key);
+    var exists = Preferences.propertyExists(key, global);
+    var oldValue = Preferences.getFloat(key);
+    Preferences.setFloat(key, value);
+    return new Cleanups(
+        () -> {
+          if (exists) {
+            Preferences.setFloat(key, oldValue);
+          } else {
+            Preferences.removeProperty(key, global);
+          }
+        });
+  }
+
+  /**
+   * Sets a property for the user
+   *
+   * @param key Key of property
+   * @param value Value to set
+   * @return Restores the previous value of the property
+   */
+  public static Cleanups withProperty(final String key, final double value) {
+    var global = Preferences.isGlobalProperty(key);
+    var exists = Preferences.propertyExists(key, global);
+    var oldValue = Preferences.getDouble(key);
+    Preferences.setDouble(key, value);
+    return new Cleanups(
+        () -> {
+          if (exists) {
+            Preferences.setDouble(key, oldValue);
+          } else {
+            Preferences.removeProperty(key, global);
+          }
+        });
+  }
+
+  /**
+   * Sets a property for the user
+   *
+   * @param key Key of property
+   * @param value Value to set
+   * @return Restores the previous value of the property
+   */
+  public static Cleanups withProperty(final String key, final long value) {
+    var global = Preferences.isGlobalProperty(key);
+    var exists = Preferences.propertyExists(key, global);
+    var oldValue = Preferences.getLong(key);
+    Preferences.setLong(key, value);
+    return new Cleanups(
+        () -> {
+          if (exists) {
+            Preferences.setLong(key, oldValue);
+          } else {
+            Preferences.removeProperty(key, global);
+          }
+        });
+  }
+
+  /**
+   * Sets a property for the user
+   *
+   * @param key Key of property
+   * @param value Value to set
+   * @return Restores the previous value of the property
+   */
   public static Cleanups withProperty(final String key, final String value) {
     var global = Preferences.isGlobalProperty(key);
     var exists = Preferences.propertyExists(key, global);
