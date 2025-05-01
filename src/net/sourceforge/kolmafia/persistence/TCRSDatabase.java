@@ -14,6 +14,9 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.StringJoiner;
 import java.util.TreeMap;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -26,6 +29,7 @@ import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import net.sourceforge.kolmafia.modifiers.Modifier;
 import net.sourceforge.kolmafia.modifiers.MultiStringModifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.Concoction;
@@ -72,7 +76,7 @@ public class TCRSDatabase {
         return;
       }
 
-      TCRS tcrs = deriveItem(text);
+        TCRS tcrs = deriveItem(itemId, text);
 
       if (tcrs == null) {
         return;
@@ -412,7 +416,8 @@ public class TCRSDatabase {
     if (text == null) {
       return null;
     }
-    return deriveItem(text);
+
+    return deriveItem(itemId, text);
   }
 
   public static TCRS deriveAndSaveItem(final int itemId) {
@@ -425,12 +430,12 @@ public class TCRSDatabase {
 
   public static TCRS deriveRing() {
     String text = DebugDatabase.itemDescriptionText(ItemPool.RING, false);
-    return deriveItem(text);
+    return deriveItem(ItemPool.RING, text);
   }
 
   public static TCRS deriveSpoon() {
     String text = DebugDatabase.itemDescriptionText(ItemPool.HEWN_MOON_RUNE_SPOON, false);
-    return deriveItem(text);
+    return deriveItem(ItemPool.HEWN_MOON_RUNE_SPOON, text);
   }
 
   public static void deriveApplyItem(final int id) {
@@ -438,17 +443,54 @@ public class TCRSDatabase {
 
     // should only be null in tests, but setting up the builder is hard
     if (text != null) {
-      applyModifiers(id, deriveItem(text));
+      applyModifiers(id, deriveItem(id, text));
     }
   }
 
-  private static TCRS deriveItem(final String text) {
+  private static final Set<Modifier> CARRIED_OVER = Set.of(
+    MultiStringModifier.CONDITIONAL_SKILL_EQUIPPED,
+    MultiStringModifier.CONDITIONAL_SKILL_INVENTORY,
+    StringModifier.WIKI_NAME,
+    StringModifier.LAST_AVAILABLE_DATE,
+    StringModifier.RECIPE,
+    StringModifier.CLASS,
+    StringModifier.SKILL,
+    StringModifier.EQUIPS_ON
+  );
+
+  private static String carriedOverModifiers(final int itemId) {
+    var modifiers = ModifierDatabase.getItemModifiers(itemId);
+    if (modifiers == null) {
+      return "";
+    }
+
+    return CARRIED_OVER.stream().map(mod -> {
+      var name = mod.getName();
+      if (mod instanceof MultiStringModifier m) {
+        return modifiers.getStrings(m).stream().map(s -> name + ": " + s).collect(Collectors.joining());
+      }
+      if (mod instanceof StringModifier s) {
+        return name + ": " + modifiers.getString(s);
+      }
+      return "";
+    }).filter(Predicate.not(String::isBlank)).collect(Collectors.joining(", "));
+  }
+
+  private static TCRS deriveItem(final int itemId, final String text) {
     // Parse the things that are changed in TCRS
     String name = DebugDatabase.parseName(text);
     int size = DebugDatabase.parseConsumableSize(text);
     var quality = DebugDatabase.parseQuality(text);
     ArrayList<String> unknown = new ArrayList<>();
     String modifiers = DebugDatabase.parseItemEnchantments(text, unknown, ConsumptionType.UNKNOWN);
+
+    var carriedOver = carriedOverModifiers(itemId);
+    if (!carriedOver.isBlank()) {
+      if (!modifiers.isBlank()) {
+        modifiers += ", ";
+      }
+      modifiers += carriedOver;
+    }
 
     // Create and return the TCRS object
     return new TCRS(name, size, quality, modifiers);
@@ -490,10 +532,7 @@ public class TCRSDatabase {
 
     String text = DebugDatabase.cafeItemDescriptionText(descId);
 
-    TCRS tcrs = deriveItem(text);
-    if (tcrs == null) {
-      return false;
-    }
+    TCRS tcrs = deriveItem(itemId, text);
 
     map.put(itemId, tcrs);
 
