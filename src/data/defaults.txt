@@ -2421,6 +2421,8 @@ user	_pastaAdditive	false
 user	_pasteDrops	0
 user	_perfectFreezeUsed	false
 user	_perfectlyFairCoinUsed	false
+user	_perilLocations
+user	_perilsForeseen	0
 user	_peteJukeboxFixed	0
 user	_peteJumpedShark	0
 user	_petePartyThrown	false

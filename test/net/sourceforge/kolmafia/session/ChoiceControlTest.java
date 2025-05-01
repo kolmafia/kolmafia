@@ -5,6 +5,7 @@ import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withAscensions;
 import static internal.helpers.Player.withChoice;
+import static internal.helpers.Player.withContinuationState;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withHandlingChoice;
@@ -36,6 +37,8 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
+import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -1470,6 +1473,88 @@ class ChoiceControlTest {
         req.responseText = html("request/test_choice_leprecondo_" + version + ".html");
         ChoiceManager.visitChoice(req);
         assertThat("_leprecondoRearrangements", isSetTo(rearrangements));
+      }
+    }
+  }
+
+  @Nested
+  class PeridotOfPeril {
+    @CsvSource({"2_left,1", "blank,0", "none_left,3"})
+    @ParameterizedTest
+    void canDetectForeseesLeft(final String file, final int expected) {
+      var cleanups = new Cleanups(withProperty("_perilsForeseen", "0"));
+
+      try (cleanups) {
+        var req = new GenericRequest("choice.php?whichchoice=1558");
+        req.responseText = html("request/test_choice_peridot_foresee_" + file + ".html");
+        ChoiceManager.visitChoice(req);
+        assertThat("_perilsForeseen", isSetTo(expected));
+      }
+    }
+
+    @Test
+    void marksLocationAsSeenWhenGivenPeridotChoice() {
+      var cleanups =
+          new Cleanups(
+              withProperty("_perilLocations", "113,115"),
+              withLastLocation("The Outskirts of Cobb's Knob"));
+
+      try (cleanups) {
+        var req = new GenericRequest("choice.php?whichchoice=1557");
+        req.responseText = html("request/test_choice_peridot_zone.html");
+        ChoiceManager.visitChoice(req);
+        assertThat("_perilLocations", isSetTo("113,114,115"));
+      }
+    }
+
+    @Test
+    void cantPerceiveOwnPeril() {
+      var cleanups =
+          new Cleanups(
+              withContinuationState(),
+              withPostChoice1(1558, 1, html("request/test_choice_peridot_foresee_self.html")));
+
+      try (cleanups) {
+        assertThat(StaticEntity.getContinuationState(), is(KoLConstants.MafiaState.ERROR));
+      }
+    }
+
+    @Test
+    void cantPerceivePerilOfRonin() {
+      var cleanups =
+          new Cleanups(
+              withContinuationState(),
+              withPostChoice1(1558, 1, html("request/test_choice_peridot_foresee_ronin.html")));
+
+      try (cleanups) {
+        assertThat(StaticEntity.getContinuationState(), is(KoLConstants.MafiaState.ERROR));
+      }
+    }
+
+    @Test
+    void detectsMaxPeril() {
+      var cleanups =
+          new Cleanups(
+              withProperty("_perilsForeseen", 0),
+              withContinuationState(),
+              withPostChoice1(1558, 1, html("request/test_choice_peridot_foresee_max.html")));
+
+      try (cleanups) {
+        assertThat("_perilsForeseen", isSetTo(3));
+      }
+    }
+
+    @Test
+    void successfullyPerceivesPeril() {
+      var cleanups =
+          new Cleanups(
+              withContinuationState(),
+              withProperty("_perilsForeseen", 0),
+              withPostChoice1(1558, 1, html("request/test_choice_peridot_foresee_success.html")));
+
+      try (cleanups) {
+        assertThat(StaticEntity.getContinuationState(), is(KoLConstants.MafiaState.CONTINUE));
+        assertThat("_perilsForeseen", isSetTo(1));
       }
     }
   }

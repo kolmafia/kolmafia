@@ -3908,6 +3908,7 @@ public class ItemPool {
   public static final int APRIL_SHOWER_THOUGHTS_SHIELD = 11884;
   public static final int GLOB_OF_WET_PAPER = 11885;
   public static final int WET_BLANKET = 11891;
+  public static final int PERIDOT_OF_PERIL = 11905;
 
   private ItemPool() {}
 
