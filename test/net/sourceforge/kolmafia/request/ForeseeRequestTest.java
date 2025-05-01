@@ -86,7 +86,7 @@ class ForeseeRequestTest {
         new Cleanups(
             withHttpClientBuilder(builder),
             withItem(ItemPool.PERIDOT_OF_PERIL),
-            withProperty("_perilsForseen", "1"),
+            withProperty("_perilsForeseen", "1"),
             withContinuationState());
 
     try (cleanups) {
