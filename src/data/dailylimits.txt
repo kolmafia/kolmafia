@@ -275,6 +275,7 @@ Use	Manual of Transmission	_guildManualUsed
 Use	Meteorite-Ade	_meteoriteAdesUsed	3
 Use	Oscus's neverending soda	oscusSodaUsed
 Use	Ol' Scratch's salad fork	_saladForkUsed
+Use	Peridot of Peril	_perilsForeseen	3
 Use	Platinum Yendorian Express Card	expressCardUsed
 Use	STYX deodorant body spray	_styxSprayUsed
 Use	School of Hard Knocks Diploma	_hardKnocksDiplomaUsed

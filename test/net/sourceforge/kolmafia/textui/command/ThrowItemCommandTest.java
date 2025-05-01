@@ -50,6 +50,18 @@ public class ThrowItemCommandTest extends AbstractCommandTestBase {
   }
 
   @Test
+  void canThrowPeridot() {
+    var cleanups = withItem(ItemPool.PERIDOT_OF_PERIL);
+
+    try (cleanups) {
+      String output = execute("peridot of peril at gausie");
+
+      assertContinueState();
+      assertThat(output, containsString("Foreseeing peril for gausie..."));
+    }
+  }
+
+  @Test
   void cannotThrowUnthrowables() {
     String output = execute("toast at gausie");
 

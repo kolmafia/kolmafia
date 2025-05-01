@@ -64,7 +64,7 @@ bat-shaped Crimboween cookie	2	7	awesome	6-12	0	0	0	10/20 Bells in the Batfry (+
 bean burrito	3	1	decent	3-8	10-14	0	0
 bear claw	2	1	good	4-8	20-30	0	0	30 Bear Clawed (+100% weapon dmg)
 beautiful soup	2	5	good	4-8	34-49	0	0
-Beefy Crunch Pastaco	2	3	EPIC	11-12	60-100	0	0	40 Boletus Swoletus (+40 Mus)
+Beefy Crunch Pastaco	2	3	EPIC	11-12	60-100	0	0	40 Boletus Swoletus (+40 Mus), TACO
 beefy fish meat	1	1	good	2-3	4-8	0	0	5/15 Fishy
 beefy maki	3	1	pseudoitem	7-12	8-16	0	0	45/55 Fishy
 beefy nigiri	2	1	pseudoitem	4-8	8-16	0	0	20/30 Fishy
@@ -112,7 +112,7 @@ bowl of rye sprouts	1	2	crappy	1	10-15	0	0
 bowl of Tastee-Wheet&trade;	1	5	EPIC	5	5	5	5	5 Video... Games? (+5 most modifiers)
 bowl of topioca	3	1	awesome	12	50-60	50-60	50-60
 bowl of unidentifiable goo	5	1	decent	9-16	9-10	9-10	9-10
-Brain Food Pastaco	2	3	EPIC	11-12	0	60-100	0	40 Omphalotus Omnipresence (+40 Mys)
+Brain Food Pastaco	2	3	EPIC	11-12	0	60-100	0	40 Omphalotus Omnipresence (+40 Mys), TACO
 brain-meltingly-hot chicken wings	1	10	good	2-4	15-30	15-30	0	lose 5-8 HP
 brains casserole	5	1	decent	6-14	0	8-10	0	Zombie Slayer
 bran muffin	1	1	awesome	4-5	150	150	150	25 All Branned Up (+40% Item Drop, 5-7 MP Regen)
@@ -164,7 +164,7 @@ carrot cake	3	3	decent	7	4-6	4-6	4-6	10 Pla-see-bo (+10 Item Drop)
 carrot cake precipice bar	1	1	good	3	5-10	5-10	5-10	30 On the Precipice of Carrots (20% Meat drop, 10% Item drop, 15% all stats)
 Carrot, Cabbage, and Kale Pizza	4	1	decent	7-9	0	0	0	20 Healthy, Elfy, and Wise (8-10 HP Regen), PIZZA
 carton of snake milk	3	1	decent	6	0	0	3	BEVERAGE
-catgut taco	2	1	decent	2-5	11-33	0	0
+catgut taco	2	1	decent	2-5	11-33	0	0	TACO
 catsup	1	1	crappy	1	0	0	0	BEVERAGE
 Caviar Carbonara	3	1	good	7-11	0	0	0
 centipede eggs	2	7	awesome	6-7	8-10	8-10	6-10	10 Somewhat Poisoned
@@ -184,7 +184,7 @@ chocolate-covered scarab beetle	2	5	awesome	7-10	25-40	25-40	25-40
 chocolate-frosted king cake	3	1	crappy	3	0	0	0	red plastic baby
 chocomotive	5	1	good	15	35	0	0	15-20 HP
 chorizo brownies	3	2	decent	3-9	0	0	0
-chorizo taco	1	1	decent	2	3-5	0	0
+chorizo taco	1	1	decent	2	3-5	0	0	TACO
 Christmas ham	3	1	awesome	0	0	0	0	Unspaded
 ciliophora chowder	1	1	awesome	3-4	0	80-90	0	50 Twitching Senses (+50 Item Drops in the Twitching Tower)
 cinnamon cannoli	1	4	awesome	4-5	15-25	15-25	15-25
@@ -226,7 +226,7 @@ consummate strawberries	3	1	decent	4-5	5-10	20-30	5-10
 consummate toast	2	1	decent	3	10-20	20-30	0
 consummate whipped cream	2	1	decent	3	5-10	20-30	5-10
 cookie cookie	2	1	awesome	7-11	0	0	0	10 Cookie Backup (automatically removes beaten up?)
-Cool Brunch Pastaco	2	3	EPIC	11-12	0	0	60-100	40 Gyromitra Gymnastics (+40 Mox)
+Cool Brunch Pastaco	2	3	EPIC	11-12	0	0	60-100	40 Gyromitra Gymnastics (+40 Mox), TACO
 cool cat claw	1	4	awesome	3-5	0	0	45-75	30 Feline Ferocity (+100% weapon dmg)
 cool jelly donut	1	4	awesome	3-5	0	0	40-60	30 Filled With Magic (+100% spell dmg)
 cool mint precipice bar	1	1	good	3	5-10	5-10	5-10	30 On the Minty Precipice (+10 stats/fight, +15% all stats)
@@ -333,7 +333,7 @@ Elfin shortbread	3	2	decent	3-9	4-6	4-6	4-6
 elven <i>limbos</i> gingerbread	3	5	good	5-8	22-40	22-40	22-40	20 Yuletide Industry (+50% all stats)
 elven hardtack	3	4	good	5-8	20-30	20-30	20-30
 enchanted bean burrito	3	2	decent	3-9	0	14-16	0
-Energy Buzz Pastaco	2	3	EPIC	12-14	0	30-50	0	40 Stemonitis Storm (+50 max MP, +5-10 MP regen)
+Energy Buzz Pastaco	2	3	EPIC	12-14	0	30-50	0	40 Stemonitis Storm (+50 max MP, +5-10 MP regen), TACO
 Ent cider	2	1	decent	2-5	0	0	30-45	BEVERAGE, 70-80 MP
 enticing mayolus	1	4	awesome	4-5	1-20	1-20	1-20
 escargotsicle	2	2	good	4-7	0	0	12-18	10 Extremely Poor Taste (+10 ML)
@@ -435,7 +435,7 @@ gnatloaf casserole	3	9	awesome	8-15	23-37	0	0
 gnocchetti di Nietzsche	6	6	awesome	22-27	0	47-52	0	SAUCY
 goat cheese	2	1	crappy	2-3	0	0	0
 goat cheese pizza	3	2	good	3-10	0	0	15-18	PIZZA
-goat cheese taco	2	1	decent	2-5	0	11-33	0
+goat cheese taco	2	1	decent	2-5	0	11-33	0	TACO
 good brain	1	1	good	3	5-7	5-7	5-7	Zombie Slayer
 good guava	2	1	EPIC	10-12	0	0	0
 gooey lava globs	2	6	awesome	7-9	0	20-40	0	100 Inner Warmth (+5 Cold resist)
@@ -529,7 +529,7 @@ jive turkey leg	1	1	good	2-3	5-10	0	0	50 Hollow Inside (+6 Maximum Hooch)
 Jumbo Dr. Lucifer	1	1	good	2-3	0	0	0	BEVERAGE, converts all HP to 9-10x MP
 jumbo olive	1	2	decent	2	0	0	2-5
 jumping bean burrito	3	1	decent	3-8	0	0	11-14
-jumping bean taco	1	1	decent	2	0	0	4-20
+jumping bean taco	1	1	decent	2	0	0	4-20	TACO
 jumping horseradish	1	1	EPIC	5-6	15-20	15-20	15-20	50 Kicked in the Sinuses (+100 Meat drop)
 jungle floor wax	2	6	good	5-7	5-10	5-10	10-20	20 Wax On Your Shoes (+15 Mox, +25 Init)
 juniper berries	1	2	crappy	1	0	0	10-15
@@ -590,7 +590,7 @@ long pork chop sandwiches	2	8	good	3-9	0	25-35	0
 long pork lasagna	3	10	awesome	12-16	0	46-55	0	LASAGNA
 Lord of the Flies-sized fries	3	1	decent	4-6	0	15-20	-15-20
 Lucky Surprise Egg	1	1	crappy	1	0	0	0	series 1 tiny plastic
-Ludovico Pastaco	2	3	EPIC	12-14	0	0	20-40	40 Tremella Tremens (+40 Item Drop)
+Ludovico Pastaco	2	3	EPIC	12-14	0	0	20-40	40 Tremella Tremens (+40 Item Drop), TACO
 magical ancient serpent roll	3	1	pseudoitem	9-14	0	8-16	20-30	50/60 Fishy
 magical baguette	2	1	decent	3-4	0	4-5	0
 magical beefy maki	3	1	pseudoitem	7-12	8-16	0	0	50/60 Fishy
@@ -621,7 +621,7 @@ maple syrup	1	1	crappy	1	0	0	0	BEVERAGE, 20-30 HP
 mashed potatoes	2	1	awesome	8-10	10-20	0	0	leftovers, 20 Thanksgetting (Variable +meat, +item, +familiar weight, +all res)
 Mayam spinach	1	1	awesome	4-5	200	0	0
 meatball	1	1	awesome	4-5	5-10	5-10	5-10
-Medical Pastaco	2	3	EPIC	12-14	30-50	0	0	40 Helvella Health (+100 HP, +10-20 HP Regen)
+Medical Pastaco	2	3	EPIC	12-14	30-50	0	0	40 Helvella Health (+100 HP, +10-20 HP Regen), TACO
 menudo	2	2	decent	2-7	14-18	0	0
 menudo ravioli	4	4	good	10-14	20-30	0	0
 meteoreo	1	1	EPIC	6-7	0	0	0	40 Superioreo (+5 stats/fight, +100% HP)
@@ -678,7 +678,7 @@ packet of beer nuts	1	2	crappy	1	0	0	0	1 Salty Mouth (+4-6 adv from Beers)
 packet of tofurkey gravy	2	1	good	2-8	31-34	0	0
 painful penne pasta	3	3	good	7-9	17-20	0	0	lose 20-23 HP
 papaya	1	1	crappy	1	0	0	0
-papaya taco	1	1	decent	2	8-12	0	8-12
+papaya taco	1	1	decent	2	8-12	0	8-12	TACO
 party platter for one	2	6	EPIC	12-14	20-40	20-40	20-40
 pat of butter	1	4	awesome	3-4	0	0	20-25
 pawn cookie	1	1	crappy	1-3	0	0	0	30 Pwnd (+1..10 all stats)
@@ -749,7 +749,7 @@ powdered donut	1	1	crappy	1	0	5-10	0	5 Powdered (+10 mys exp)
 pr0n cocktail	2	1	decent	2-5	8-12	8-12	8-12
 pr0n m4nic0tti	4	3	good	10-12	0	0	28-32
 pr0n stir-fry	2	4	awesome	5-8	7-12	0	8-12
-pr0n taco	2	1	decent	2-5	0	0	11-33
+pr0n taco	2	1	decent	2-5	0	0	11-33	TACO
 prescription noodles	5	11	awesome	20-23	0	0	40-45	SAUCY
 primitive alien salad	1	1	good	2-3	5-25	5-25	5-25	SALAD
 primitive candy cane	1	1	good	3-4	0	0	0
@@ -757,9 +757,9 @@ protein paste	2	7	good	4-8	38-60	0	0	10 Pasty (+50% mus)
 pumpkin pie	3	2	EPIC	16-18	12-24	12-24	12-24
 purple pixel pie	3	1	decent	3-6	12-18	12-18	12-18
 python roll	3	1	pseudoitem	9-14	8-16	0	20-30	45/55 Fishy
-quantum taco	0	1	???	0	0	0	0	random food
+quantum taco	0	1	???	0	0	0	0	random food, TACO
 queen cookie	1	13	EPIC	4-6	20-40	20-40	20-40	30 Towering Strength, Mitre Cut, Knightlife, The Royal We
-questionable taco	3	1	decent	4-5	0	0	0	lovecat tail
+questionable taco	3	1	decent	4-5	0	0	0	lovecat tail, TACO
 rack of dinosaur ribs	3	11	EPIC	15-18	10-20	10-20	10-20	30 Meat the Flintstones
 radio button candy	1	8	EPIC	2-9	30-50	33-49	30-50
 Rainbow Spider Fun Roll	4	1	decent	6-10	0	0	0	3-5 plastic ingots
@@ -796,7 +796,7 @@ room scale green bean casserole	11	11	decent	0	0	0	0	Unspaded
 root beer	1	1	awesome	4	5-10	5-10	5-10	BEVERAGE, 20-30 MP
 rotting beefsteak	3	1	awesome	9-10	0	0	0	30 Cowrruption (+200% weapon dmg, +200% spell dmg, muscle limited to 30, moxie limited to 30)
 royal jelly	1	1	crappy	1	10-15	0	0
-royal jelly taco	1	1	decent	2	4-20	0	0
+royal jelly taco	1	1	decent	2	4-20	0	0	TACO
 rum-soaked fruitcake	5	1	awesome	20	0	0	0	100 Rum of Darkness (+5 Elf Warfare Effectiveness)
 S.T.L.T.	4	4	awesome	10-15	10-30	10-30	13-27
 s'more	1	1	crappy	1	0	0	0
@@ -943,9 +943,9 @@ Swedish massage fish	1	4	good	3	20-40	20-40	20-40	40 Like a Fish to Walter (+5 F
 sweet party mix	1	4	EPIC	5-6	0	0	0	SALAD
 sweet roll Alabama	4	4	good	9-11	15-20	5-10	0	30 Helping Comes Second (+20 Meat Drop, +25 Food Drop, +25 Booze Drop, +25 Candy Drop)
 t8r tots	1	1	crappy	1-2	0	0	0
-Taco Dan's Basic Taco Dan Taco	1	2	decent	2	10-20	10-20	10-20
-Taco Dan's Taco Fish Fish Taco	2	3	awesome	7-9	40-60	40-60	40-60
-Taco Dan's Taco Stand Taco	1	4	good	2-3	15-30	0	0	5 Meaty and Cheesy (+muscle)
+Taco Dan's Basic Taco Dan Taco	1	2	decent	2	10-20	10-20	10-20	TACO
+Taco Dan's Taco Fish Fish Taco	2	3	awesome	7-9	40-60	40-60	40-60	TACO
+Taco Dan's Taco Stand Taco	1	4	good	2-3	15-30	0	0	5 Meaty and Cheesy (+muscle), TACO
 tainted milk	1	1	good	3	0	0	0	BEVERAGE, 30 Cowrruption (+200% weapon dmg, +200% spell dmg, muscle limited to 30, moxie limited to 30)
 tangerine	1	2	decent	2	0	0	0
 tasty tart	1	1	EPIC	5-6	5-6	5-6	5-6
@@ -1028,7 +1028,7 @@ tobiko pocky	3	1	good	6-8	6-8	8-8	6-8	30 Pisces in the Skyces (+150% spell dmg)
 toe jam toast	1	1	decent	1-3	0	0	50
 tofu casserole	3	1	decent	3-8	0	0	0
 tofu stir-fry	1	4	good	1-5	4-5	4-6	0
-tofu taco	1	1	decent	2	0	4-20	0
+tofu taco	1	1	decent	2	0	4-20	0	TACO
 tofu wonton	3	12	awesome	11-18	20-30	50-80	20-30
 tofurkey gravy	2	5	awesome	3-10	72-75	0	0
 tofurkey leg	3	5	awesome	7-14	70-74	0	0

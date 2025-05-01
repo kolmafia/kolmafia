@@ -3480,6 +3480,8 @@ Item	Pendant of Gargalesis	MP Regen Min: 6, MP Regen Max: 10
 Item	peppermint-scented socks	MP Regen Min: 8, MP Regen Max: 16, Last Available: "2021-12"
 Item	perfect Christmas scarf	Adventures: [+9*event(December)], Cold Resistance: [+7*event(December)], HP Regen Min: [4*event(December)], HP Regen Max: [6*event(December)], MP Regen Min: [4*event(December)], MP Regen Max: [6*event(December)], Single Equip, Last Available: "2024-12"
 Item	perfume-soaked bandana	Spooky Resistance: +2, Stench Resistance: +4, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Single Equip, Last Available: "2015-04"
+# Peridot of Peril: For your first Adventure in each zone per day, you can choose which monster you fight
+Item	Peridot of Peril	Maximum HP: +30, Maximum MP: +30, HP Regen Min: 12, HP Regen Max: 15, MP Regen Min: 12, MP Regen Max: 15, Item Drop: +15, Single Equip, Last Available: "2025-06"
 # Personal Ventilation Unit: Allows Safe Access to Secret Government Lab
 Item	Personal Ventilation Unit	Muscle Limit: 100, Mysticality Limit: 100, Moxie Limit: 100, Single Equip, Last Available: "2014-10"
 Item	petrified wood waist protector	Experience (Muscle): +3, Adventures: +5, Single Equip, Last Available: "2025-12", Avoid Attack: 1
@@ -15079,6 +15081,7 @@ Item	unopened Bird-a-Day calendar	Free Pull, Last Available: "2020-01"
 Item	unopened diabolic pizza cube box	Free Pull, Last Available: "2019-11"
 Item	Unopened Eight Days a Week Pill Keeper	Free Pull, Last Available: "2019-10"
 Item	unopened tiny stillsuit	Free Pull, Last Available: "2022-08"
+Item	Unpeeled Peridot of Peril	Free Pull, Last Available: "2025-06"
 Item	unpowered Robortender	Free Pull, Last Available: "2017-03"
 # unrefined Mountain Stream syrup: Restores 50-60 MP
 Item	unremarkable duffel bag	Last Available: "2018-09"

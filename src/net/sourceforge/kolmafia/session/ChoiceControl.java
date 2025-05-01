@@ -10,9 +10,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.EdServantData;
@@ -4925,8 +4927,36 @@ public abstract class ChoiceControl {
         if (ChoiceManager.lastDecision == 1) {
           if (text.contains("You inject the viscous liquid")) {
             KoLCharacter.getFamiliar().addNonCombatExperience(20);
-            Preferences.increment("zootSpecimensPrepared", 1);
+            Preferences.increment("zootSpecimensPrepared", 1, 11, false);
           }
+        }
+        break;
+      case 1558:
+        // Foreseeing Peril
+        // This choice shows items given to others but will never actually give you an item.
+        request.setHasResult(false);
+
+        if (text.contains("You've already seen too much peril.")) {
+          Preferences.setInteger("_perilsForeseen", 3);
+        }
+
+        if (text.contains("Sorry, you can't foresee your own peril.")) {
+          KoLmafia.updateDisplay(
+              KoLConstants.MafiaState.ERROR, "Sorry, you can't foresee your own peril.");
+          break;
+        }
+
+        if (text.contains(
+            "That player is already suffering the peril of hardcore or ronin, no need to add more.")) {
+          KoLmafia.updateDisplay(
+              KoLConstants.MafiaState.ERROR,
+              "That player is already suffering the peril of hardcore or ronin, no need to add more.");
+          break;
+        }
+
+        if (text.contains("You gaze into your Peridot and foresee a horrible future")) {
+          Preferences.increment("_perilsForeseen", 1, 3, false);
+          break;
         }
         break;
     }
@@ -8972,6 +9002,30 @@ public abstract class ChoiceControl {
       case 1556 -> { // Leprecondo
         LeprecondoManager.visit(text);
       }
+      case 1557 -> { // Peering Through Your Peridot
+        Preferences.setString(
+            "_perilLocations",
+            (locations) ->
+                Stream.concat(
+                        Stream.of(KoLAdventure.lastVisitedLocation.getAdventureId()),
+                        Arrays.stream(locations.split(",")))
+                    .filter(Predicate.not(String::isBlank))
+                    .map(StringUtilities::parseInt)
+                    .sorted()
+                    .map(i -> Integer.toString(i))
+                    .collect(Collectors.joining(",")));
+      }
+      case 1558 -> { // Foreseeing Peril
+        if (text.contains("You've already foreseen enough peril today.")) {
+          Preferences.setInteger("_perilsForeseen", 3);
+          break;
+        }
+        Matcher matcher =
+            Pattern.compile("You can foresee peril (\\d+) more times? today").matcher(text);
+        if (matcher.find()) {
+          Preferences.setInteger("_perilsForeseen", 3 - Integer.parseInt(matcher.group(1)));
+        }
+      }
     }
   }
 
@@ -10115,6 +10169,7 @@ public abstract class ChoiceControl {
       case 1553: // Hybridization Chamber
       case 1555: // Specimen Preparation Bench
       case 1556: // Leprechaun's Condo
+      case 1558: // Foreseeing Peril
         return true;
 
       default:
