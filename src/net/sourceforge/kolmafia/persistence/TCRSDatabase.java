@@ -458,12 +458,15 @@ public class TCRSDatabase {
             mod -> {
               var name = mod.getName();
               if (mod instanceof MultiStringModifier m) {
-                return modifiers.getStrings(m).stream()
-                    .map(s -> name + ": " + s)
-                    .collect(Collectors.joining());
+                var value = modifiers.getStrings(m);
+                if (!value.isEmpty())
+                  return value.stream()
+                      .map(s -> name + ": \"" + s + "\"")
+                      .collect(Collectors.joining(", "));
               }
               if (mod instanceof StringModifier s) {
-                return name + ": " + modifiers.getString(s);
+                var value = modifiers.getString(s);
+                if (!value.isBlank()) return name + ": \"" + value + "\"";
               }
               return "";
             })
