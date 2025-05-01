@@ -771,4 +771,61 @@ class PreferencesTest {
       }
     }
   }
+
+  @Nested
+  class SetterFunctions {
+    @Test
+    void canSetStringWithFunction() {
+      var cleanups = withProperty("example", "a");
+      try (cleanups) {
+        Preferences.setString("example", v -> v + "b");
+        assertThat("example", isSetTo("ab"));
+      }
+    }
+
+    @Test
+    void canSetBooleanWithFunction() {
+      var cleanups = withProperty("example", "true");
+      try (cleanups) {
+        Preferences.setBoolean("example", v -> !v);
+        assertThat("example", isSetTo(false));
+      }
+    }
+
+    @Test
+    void canSetIntegerWithFunction() {
+      var cleanups = withProperty("example", 10);
+      try (cleanups) {
+        Preferences.setInteger("example", v -> v / 5);
+        assertThat("example", isSetTo(2));
+      }
+    }
+
+    @Test
+    void canSetFloatWithFunction() {
+      var cleanups = withProperty("example", 10.0f);
+      try (cleanups) {
+        Preferences.setFloat("example", v -> v / 5.0f);
+        assertThat("example", isSetTo(2.0f));
+      }
+    }
+
+    @Test
+    void canSetDoubleWithFunction() {
+      var cleanups = withProperty("example", 10.0);
+      try (cleanups) {
+        Preferences.setDouble("example", v -> v / 5.0);
+        assertThat("example", isSetTo(2.0));
+      }
+    }
+
+    @Test
+    void canSetLongWithFunction() {
+      var cleanups = withProperty("example", 10L);
+      try (cleanups) {
+        Preferences.setLong("example", v -> v / 5L);
+        assertThat("example", isSetTo(2L));
+      }
+    }
+  }
 }
