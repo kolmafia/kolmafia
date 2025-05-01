@@ -90,7 +90,7 @@ public class ChoiceUtilities {
       case "What the Future Holds" -> 1462;
       case "Make a Wish" -> 1501;
       case "Research Bench" -> 1523;
-      case "Forseeing Peril" -> 1558;
+      case "Foreseeing Peril" -> 1558;
       default -> 0;
     };
   }

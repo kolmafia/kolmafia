@@ -4932,7 +4932,7 @@ public abstract class ChoiceControl {
         }
         break;
       case 1558:
-        // Forseeing Peril
+        // Foreseeing Peril
         // This choice shows items given to others but will never actually give you an item.
         request.setHasResult(false);
 
@@ -9015,7 +9015,7 @@ public abstract class ChoiceControl {
                     .map(i -> Integer.toString(i))
                     .collect(Collectors.joining(",")));
       }
-      case 1558 -> { // Forseeing Peril
+      case 1558 -> { // Foreseeing Peril
         if (text.contains("You've already foreseen enough peril today.")) {
           Preferences.setInteger("_perilsForeseen", 3);
           break;
@@ -10169,7 +10169,7 @@ public abstract class ChoiceControl {
       case 1553: // Hybridization Chamber
       case 1555: // Specimen Preparation Bench
       case 1556: // Leprechaun's Condo
-      case 1558: // Forseeing Peril
+      case 1558: // Foreseeing Peril
         return true;
 
       default:
