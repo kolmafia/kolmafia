@@ -108,6 +108,7 @@ public class TCRSDatabaseTest {
         200, html("request/test_desc_item_tcrs_ring_of_telling_skeletons_what_to_do.html"));
 
     try (cleanups) {
+      ModifierDatabase.resetModifiers();
       var ring = TCRSDatabase.deriveItem(ItemPool.RING_OF_TELLING_SKELETONS_WHAT_TO_DO);
       assertThat(ring, not(nullValue()));
       assertThat(
