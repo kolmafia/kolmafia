@@ -53,6 +53,7 @@ import static org.hamcrest.Matchers.endsWith;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.startsWith;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -1520,83 +1521,171 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     }
   }
 
-  @Test
-  public void itShouldEquipCleaver() {
-    String maxStr =
-        "5item,meat,0.5initiative,0.1da 1000max,dr,0.5all res,1.5mainstat,-fumble,mox,0.4hp,0.2mp 1000max,3mp regen,0.25spell damage,1.75spell damage percent,2familiar weight,5familiar exp,10exp,5Mysticality experience percent,+200bonus spring shoes,+200bonus June cleaver,+200bonus designer sweatpants,2 dump";
-    HttpClientWrapper.setupFakeClient();
-    var cleanups =
-        new Cleanups(
-            withClass(AscensionClass.PASTAMANCER),
-            withHardcore(),
-            withPath(Path.AVANT_GUARD),
-            withSign(ZodiacSign.OPOSSUM),
-            withInteractivity(false),
-            withNoEffects(),
-            withProperty("umbrellaState", "broken"),
-            withEquipped(Slot.HAT, "Apriling band helmet"),
-            withUnequipped(Slot.WEAPON),
-            withUnequipped(Slot.OFFHAND),
-            withEquipped(Slot.SHIRT, "Jurassic Parka"),
-            withProperty("parkaMode", "kachungasaur"),
-            withEquipped(Slot.PANTS, "designer sweapants"),
-            withEquipped(Slot.CONTAINER, "bat wings"),
-            withEquipped(Slot.ACCESSORY1, "Cincho de Mayo"),
-            withEquipped(Slot.ACCESSORY2, "combat lover's locket"),
-            withEquipped(Slot.ACCESSORY3, "spring shoes"),
-            withEquippableItem("seal-skull helmet"), // 2283
-            withEquippableItem("ravioli hat"),
-            withEquippableItem("Hollandaise helmet"),
-            withEquippableItem("disco mask"),
-            withEquippableItem("mariachi hat"),
-            withEquippableItem("helmet turtle"),
-            withEquippableItem("coconut shell"),
-            withEquippableItem("Apriling band helmet"),
-            withEquippableItem("toy accordion"),
-            withEquippableItem("hobo code binder"),
-            withEquippableItem("stuffed spooky gravy fairy "),
-            withEquippableItem("stuffed astral badger"),
-            withEquippableItem("magical ice cubes"),
-            withEquippableItem("Roman Candelabra"),
-            withEquippableItem("unbreakable umbrella (broken)"),
-            withEquippableItem("august scepter"),
-            withEquippableItem("bat wings"),
-            withEquippableItem("Jurassic Parka (kachungasaur mode)"),
-            withEquippableItem("old sweatpants"),
-            withEquippableItem("tearaway pants"),
-            withEquippableItem("designer sweatpants"),
-            withEquippableItem("Everfull Dart Holster"),
-            withEquippableItem("cursed monkey's paw"),
-            withEquippableItem("astral mask"),
-            withEquippableItem("Cincho de Mayo"),
-            withEquippableItem("combat lover's locket"),
-            withEquippableItem("spring shoes"),
-            withEquippableItem("turtle totem"),
-            withEquippableItem("pasta spoon"),
-            withEquippableItem("saucepan"),
-            withEquippableItem("disco ball"),
-            withEquippableItem("little paper umbrella"),
-            withEquippableItem("candy cane sword cane"),
-            withEquippableItem("June cleaver"), // 10920
-            withEquippableItem("seal-clubbing club")); // 1
-    String out;
-    String cmd = "maximize(\"" + maxStr + "\", false)";
-    try (cleanups) {
-      out = execute(cmd);
-    }
-    assertFalse(out.isEmpty());
-    assertTrue(out.contains("Wielding June cleaver"));
-    assertTrue(out.contains("Putting on designer sweatpants..."));
-    assertContinueState();
-    var requests = getRequests();
-    assertFalse(requests.isEmpty());
-    boolean passed = false;
-    for (var req : requests) {
-      if (req.method().contains("POST")) {
-        passed = passed || getPostRequestBody(req).contains("whichitem=10920");
+  @Nested
+  class Maximizer {
+    @Test
+    public void itShouldEquipCleaver() {
+      String maxStr =
+          "5item,meat,0.5initiative,0.1da 1000max,dr,0.5all res,1.5mainstat,-fumble,mox,0.4hp,0.2mp 1000max,3mp regen,0.25spell damage,1.75spell damage percent,2familiar weight,5familiar exp,10exp,5Mysticality experience percent,+200bonus spring shoes,+200bonus June cleaver,+200bonus designer sweatpants,2 dump";
+      HttpClientWrapper.setupFakeClient();
+      var cleanups =
+          new Cleanups(
+              withClass(AscensionClass.PASTAMANCER),
+              withHardcore(),
+              withPath(Path.AVANT_GUARD),
+              withSign(ZodiacSign.OPOSSUM),
+              withInteractivity(false),
+              withNoEffects(),
+              withProperty("umbrellaState", "broken"),
+              withEquipped(Slot.HAT, "Apriling band helmet"),
+              withUnequipped(Slot.WEAPON),
+              withUnequipped(Slot.OFFHAND),
+              withEquipped(Slot.SHIRT, "Jurassic Parka"),
+              withProperty("parkaMode", "kachungasaur"),
+              withEquipped(Slot.PANTS, "designer sweapants"),
+              withEquipped(Slot.CONTAINER, "bat wings"),
+              withEquipped(Slot.ACCESSORY1, "Cincho de Mayo"),
+              withEquipped(Slot.ACCESSORY2, "combat lover's locket"),
+              withEquipped(Slot.ACCESSORY3, "spring shoes"),
+              withEquippableItem("seal-skull helmet"), // 2283
+              withEquippableItem("ravioli hat"),
+              withEquippableItem("Hollandaise helmet"),
+              withEquippableItem("disco mask"),
+              withEquippableItem("mariachi hat"),
+              withEquippableItem("helmet turtle"),
+              withEquippableItem("coconut shell"),
+              withEquippableItem("Apriling band helmet"),
+              withEquippableItem("toy accordion"),
+              withEquippableItem("hobo code binder"),
+              withEquippableItem("stuffed spooky gravy fairy "),
+              withEquippableItem("stuffed astral badger"),
+              withEquippableItem("magical ice cubes"),
+              withEquippableItem("Roman Candelabra"),
+              withEquippableItem("unbreakable umbrella (broken)"),
+              withEquippableItem("august scepter"),
+              withEquippableItem("bat wings"),
+              withEquippableItem("Jurassic Parka (kachungasaur mode)"),
+              withEquippableItem("old sweatpants"),
+              withEquippableItem("tearaway pants"),
+              withEquippableItem("designer sweatpants"),
+              withEquippableItem("Everfull Dart Holster"),
+              withEquippableItem("cursed monkey's paw"),
+              withEquippableItem("astral mask"),
+              withEquippableItem("Cincho de Mayo"),
+              withEquippableItem("combat lover's locket"),
+              withEquippableItem("spring shoes"),
+              withEquippableItem("turtle totem"),
+              withEquippableItem("pasta spoon"),
+              withEquippableItem("saucepan"),
+              withEquippableItem("disco ball"),
+              withEquippableItem("little paper umbrella"),
+              withEquippableItem("candy cane sword cane"),
+              withEquippableItem("June cleaver"), // 10920
+              withEquippableItem("seal-clubbing club")); // 1
+      String out;
+      String cmd = "maximize(\"" + maxStr + "\", false)";
+      try (cleanups) {
+        out = execute(cmd);
       }
+      assertFalse(out.isEmpty());
+      assertTrue(out.contains("Wielding June cleaver"));
+      assertTrue(out.contains("Putting on designer sweatpants..."));
+      assertContinueState();
+      var requests = getRequests();
+      assertFalse(requests.isEmpty());
+      boolean passed = false;
+      for (var req : requests) {
+        if (req.method().contains("POST")) {
+          passed = passed || getPostRequestBody(req).contains("whichitem=10920");
+        }
+      }
+      assertTrue(passed, "Did not find expected equip request.");
     }
-    assertTrue(passed, "Did not find expected equip request.");
+
+    /*
+    Each test case should end up with a disco ball and august scepter equipped.  The test cases
+    give the Maximizer the opportunity to keep something equipped or swap an item.  In the absence
+    of the equip command results the expected test results have to vary with the case.  The 2-handed
+    case fails because the maximizer does not try and un-equip the 2h weapon before equipping a 1h
+    and an offhand weapon.  In the event that behavior is ever changed this test will fail which is
+    part of the justification for keeping it.
+     */
+    @ParameterizedTest
+    @CsvSource({"none", "none-off", "1h", "1h-off", "2h"})
+    public void itShouldUnequipThenEquip(String whichCase) {
+      String maxStr =
+          "5item,meat,0.5initiative,0.1da 1000max,dr,0.5all res,1.5mainstat,-fumble,0.4hp,0.2mp 1000max,3mp regen,1.5weapon damage,0.75weapon damage percent,1.5elemental damage,2familiar weight,5familiar exp,15Moxie experience,5Moxie experience percent,+200bonus spring shoes,+200bonus bat wings,effective,2 dump";
+      HttpClientWrapper.setupFakeClient();
+      int expectedEq = 2;
+      var cleanups =
+          new Cleanups(
+              withClass(AscensionClass.ACCORDION_THIEF),
+              withHardcore(),
+              withPath(Path.STANDARD),
+              withSign(ZodiacSign.VOLE),
+              withStats(18, 17, 20),
+              withItem(ItemPool.STOLEN_ACCORDION),
+              withItem(ItemPool.ROMAN_CANDELABRA),
+              withItem(ItemPool.AUGUST_SCEPTER),
+              withItem(ItemPool.DISCO_BALL));
+      switch (whichCase) {
+        case "2h":
+          cleanups.add(withEquipped(Slot.WEAPON, ItemPool.STOLEN_ACCORDION));
+          break;
+        case "none-off":
+          cleanups.add(withEquipped(Slot.OFFHAND, ItemPool.ROMAN_CANDELABRA));
+          break;
+        case "1h":
+          cleanups.add(withEquipped(Slot.WEAPON, ItemPool.DISCO_BALL));
+          break;
+        case "1h-off":
+          cleanups.add(withEquipped(Slot.WEAPON, ItemPool.DISCO_BALL));
+          cleanups.add(withEquipped(Slot.OFFHAND, ItemPool.ROMAN_CANDELABRA));
+          break;
+        default:
+          break;
+      }
+      String out;
+      String cmd = "maximize(\"" + maxStr + "\", false)";
+      try (cleanups) {
+        out = execute(cmd);
+      }
+      assertFalse(out.isEmpty());
+      switch (whichCase) {
+        case "2h":
+          assertTrue(out.contains("Wielding disco ball..."));
+          assertTrue(
+              out.contains(
+                  "You can't equip a august scepter in your off-hand while wielding a 2-handed weapon."));
+          expectedEq = 1;
+          break;
+        case "none-off":
+          assertTrue(out.contains("Wielding disco ball..."));
+          assertTrue(out.contains("Holding august scepter..."));
+          break;
+        case "1h", "1h-off":
+          assertTrue(out.contains("Holding august scepter..."));
+          expectedEq = 1;
+          break;
+        default:
+          break;
+      }
+      assertContinueState();
+      var requests = getRequests();
+      assertFalse(requests.isEmpty());
+      int passed = 0;
+      for (var req : requests) {
+        if (req.method().contains("POST")) {
+          if (getPostRequestBody(req).contains("whichitem=" + ItemPool.DISCO_BALL)) {
+            passed++;
+          }
+          if (getPostRequestBody(req).contains("whichitem=" + ItemPool.AUGUST_SCEPTER)) {
+            passed++;
+          }
+        }
+      }
+      assertEquals(expectedEq, passed, "Did not find expected equip request.");
+    }
   }
 
   @Nested
@@ -1656,7 +1745,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
         var requests = getRequests();
         assertThat(requests.size(), is(1));
         assertPostRequest(
-            requests.get(0), "/curse.php", "action=use&whichitem=1649&targetplayer=StuBorn");
+            requests.getFirst(), "/curse.php", "action=use&whichitem=1649&targetplayer=StuBorn");
       }
     }
 
@@ -1690,7 +1779,7 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
         var requests = getRequests();
         assertThat(requests.size(), is(1));
         assertPostRequest(
-            requests.get(0),
+            requests.getFirst(),
             "/curse.php",
             "action=use&whichitem=2309&targetplayer=StuBorn&texta=You&textb=rock!");
       }

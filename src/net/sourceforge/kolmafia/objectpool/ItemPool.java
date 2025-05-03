@@ -1664,6 +1664,7 @@ public class ItemPool {
   public static final int TOBIKO_POTION = 5020;
   public static final int NATTO_POTION = 5021;
   public static final int PET_SWEATER = 5040;
+  public static final int ASTRAL_SHIRT = 5041;
   public static final int ASTRAL_HOT_DOG = 5043;
   public static final int ASTRAL_PILSNER = 5044;
   public static final int CLAN_SHOWER = 5047;
