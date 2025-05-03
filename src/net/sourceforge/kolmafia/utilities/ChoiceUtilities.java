@@ -34,7 +34,7 @@ public class ChoiceUtilities {
   };
 
   private ChoiceUtilities() {}
-
+  
   private static boolean isNonChoiceForm(final String form) {
     // We are searching for a form that submits to choice.php. With the assumption that a choice.php
     // page has been supplied, it must either have a choice.php action or no action at all.
