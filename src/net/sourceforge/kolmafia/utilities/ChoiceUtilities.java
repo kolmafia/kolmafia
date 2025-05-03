@@ -35,6 +35,12 @@ public class ChoiceUtilities {
 
   private ChoiceUtilities() {}
 
+  private static boolean isChoiceForm(final String form) {
+    // We are searching for a form that submits to choice.php. With the assumption that a choice.php page has been
+    // supplied, it must either have a choice.php action or no action at all.
+    return form.contains("choice.php") || form.contains("<form method=\"post\">");
+  }
+
   // Extract choice number from URL
 
   public static final Pattern URL_CHOICE_PATTERN = Pattern.compile("whichchoice=(\\d+)");
@@ -258,9 +264,7 @@ public class ChoiceUtilities {
     Matcher m = FORM_PATTERN.matcher(responseText);
     while (m.find()) {
       String form = m.group();
-      if (!form.contains("choice.php")) {
-        continue;
-      }
+      if (!isChoiceForm(form)) continue;
       Matcher optMatcher = OPTION_PATTERN1.matcher(form);
       if (!optMatcher.find()) {
         continue;
@@ -306,9 +310,7 @@ public class ChoiceUtilities {
     Matcher m = FORM_PATTERN.matcher(responseText);
     while (m.find()) {
       String form = m.group();
-      if (!form.contains("choice.php")) {
-        continue;
-      }
+      if (!isChoiceForm(form)) continue;
       Matcher optMatcher = OPTION_PATTERN1.matcher(form);
       if (!optMatcher.find()) {
         continue;
@@ -360,9 +362,7 @@ public class ChoiceUtilities {
     Matcher m = FORM_PATTERN.matcher(responseText);
     while (m.find()) {
       String form = m.group();
-      if (!form.contains("choice.php")) {
-        continue;
-      }
+      if (!isChoiceForm(form)) continue;
       Matcher optMatcher = OPTION_PATTERN1.matcher(form);
       if (!optMatcher.find()) {
         continue;
