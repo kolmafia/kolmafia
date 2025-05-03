@@ -35,6 +35,13 @@ public class ChoiceUtilities {
 
   private ChoiceUtilities() {}
 
+  private static boolean isChoiceForm(final String form) {
+    // We are searching for a form that submits to choice.php. With the assumption that a choice.php
+    // page has been
+    // supplied, it must either have a choice.php action or no action at all.
+    return form.contains("choice.php") || form.contains("<form method=\"post\">");
+  }
+
   // Extract choice number from URL
 
   public static final Pattern URL_CHOICE_PATTERN = Pattern.compile("whichchoice=(\\d+)");
@@ -97,9 +104,9 @@ public class ChoiceUtilities {
 
   public static final Pattern DECISION_BUTTON_PATTERN =
       Pattern.compile(
-          "<input type=hidden name=option value=(\\d+)>(?:.*?)<input +class=button type=submit value=\"(.*?)\">");
+          "<input type=hidden name=option value=(\\d+)>.*?<input +class=button type=submit value=\"(.*?)\">");
 
-  public static final String findChoiceDecisionIndex(final String text, final String responseText) {
+  public static String findChoiceDecisionIndex(final String text, final String responseText) {
     Matcher matcher = DECISION_BUTTON_PATTERN.matcher(responseText);
     while (matcher.find()) {
       String decisionText = matcher.group(2);
@@ -112,7 +119,7 @@ public class ChoiceUtilities {
     return "0";
   }
 
-  public static final String findChoiceDecisionText(final int index, final String responseText) {
+  public static String findChoiceDecisionText(final int index, final String responseText) {
     Matcher matcher = DECISION_BUTTON_PATTERN.matcher(responseText);
     while (matcher.find()) {
       int decisionIndex = Integer.parseInt(matcher.group(1));
@@ -134,16 +141,13 @@ public class ChoiceUtilities {
     Matcher m = FORM_PATTERN.matcher(responseText);
     while (m.find()) {
       String form = m.group();
-      if (!form.contains("choice.php")) {
-        continue;
-      }
+      if (!isChoiceForm(form)) continue;
       Matcher optMatcher = OPTION_PATTERN1.matcher(form);
       if (!optMatcher.find()) {
         continue;
       }
-      int decision = Integer.parseInt(optMatcher.group(1));
-      Integer key = decision;
-      if (rv.get(key) != null) {
+      var decision = Integer.parseInt(optMatcher.group(1));
+      if (rv.get(decision) != null) {
         continue;
       }
       Matcher textMatcher = TEXT_PATTERN1.matcher(form);
@@ -155,22 +159,19 @@ public class ChoiceUtilities {
                   : textMatcher.group(2) != null
                       ? textMatcher.group(2)
                       : textMatcher.group(3) != null ? textMatcher.group(3) : "(secret choice)";
-      rv.put(key, text);
+      rv.put(decision, text);
     }
 
     m = LINK_PATTERN.matcher(responseText);
     while (m.find()) {
       String form = m.group();
-      if (!form.contains("choice.php")) {
-        continue;
-      }
+      if (!isChoiceForm(form)) continue;
       Matcher optMatcher = OPTION_PATTERN2.matcher(form);
       if (!optMatcher.find()) {
         continue;
       }
-      int decision = Integer.parseInt(optMatcher.group(1));
-      Integer key = decision;
-      if (rv.get(key) != null) {
+      var decision = Integer.parseInt(optMatcher.group(1));
+      if (rv.get(decision) != null) {
         continue;
       }
       Matcher textMatcher = TEXT_PATTERN2.matcher(form);
@@ -182,7 +183,7 @@ public class ChoiceUtilities {
                   : textMatcher.group(2) != null
                       ? textMatcher.group(2)
                       : textMatcher.group(3) != null ? textMatcher.group(3) : "(secret choice)";
-      rv.put(key, text);
+      rv.put(decision, text);
     }
 
     return rv;
@@ -212,7 +213,7 @@ public class ChoiceUtilities {
       Integer key = entry.getKey();
       ChoiceOption option = ChoiceAdventures.findOption(options, key);
       if (option != null) {
-        String text = entry.getValue() + " (" + option.toString() + ")";
+        String text = entry.getValue() + " (" + option + ")";
         rv.put(key, text);
       }
     }
@@ -258,9 +259,7 @@ public class ChoiceUtilities {
     Matcher m = FORM_PATTERN.matcher(responseText);
     while (m.find()) {
       String form = m.group();
-      if (!form.contains("choice.php")) {
-        continue;
-      }
+      if (!isChoiceForm(form)) continue;
       Matcher optMatcher = OPTION_PATTERN1.matcher(form);
       if (!optMatcher.find()) {
         continue;
@@ -285,7 +284,7 @@ public class ChoiceUtilities {
         choice.put(name, options);
       }
 
-      if (choice.size() > 0) {
+      if (!choice.isEmpty()) {
         rv.put(Integer.parseInt(optMatcher.group(1)), choice);
       }
     }
@@ -306,40 +305,43 @@ public class ChoiceUtilities {
     Matcher m = FORM_PATTERN.matcher(responseText);
     while (m.find()) {
       String form = m.group();
-      if (!form.contains("choice.php")) {
-        continue;
-      }
+      if (!isChoiceForm(form)) continue;
       Matcher optMatcher = OPTION_PATTERN1.matcher(form);
       if (!optMatcher.find()) {
         continue;
       }
 
       // Collect all the selects from this form
-      Map<String, Map<String, String>> choice = new TreeMap<>();
+      var choice = extractSelectInputChoices(form);
 
-      // Find all "select" tags within this form
-      Matcher s = SELECT_PATTERN.matcher(form);
-      while (s.find()) {
-        String name = s.group(1);
-
-        // For each, extract all the options into a map
-        Map<String, String> options = new TreeMap<>();
-
-        Matcher o = SELECT_OPTION_PATTERN.matcher(s.group(2));
-        while (o.find()) {
-          String option = o.group(1);
-          String tag = o.group(2);
-          options.put(option, tag);
-        }
-        choice.put(name, options);
-      }
-
-      if (choice.size() > 0) {
+      if (!choice.isEmpty()) {
         rv.put(Integer.parseInt(optMatcher.group(1)), choice);
       }
     }
 
     return rv;
+  }
+
+  private static Map<String, Map<String, String>> extractSelectInputChoices(String form) {
+    Map<String, Map<String, String>> choice = new TreeMap<>();
+
+    // Find all "select" tags within this form
+    var s = SELECT_PATTERN.matcher(form);
+    while (s.find()) {
+      var name = s.group(1);
+
+      // For each, extract all the options into a map
+      Map<String, String> options = new TreeMap<>();
+
+      var o = SELECT_OPTION_PATTERN.matcher(s.group(2));
+      while (o.find()) {
+        var option = o.group(1);
+        var tag = o.group(2);
+        options.put(option, tag);
+      }
+      choice.put(name, options);
+    }
+    return choice;
   }
 
   // Coordinates: <input name=word type=text size=15 maxlength=7><br>(a valid set of coordinates is
@@ -360,46 +362,50 @@ public class ChoiceUtilities {
     Matcher m = FORM_PATTERN.matcher(responseText);
     while (m.find()) {
       String form = m.group();
-      if (!form.contains("choice.php")) {
-        continue;
-      }
+      if (!isChoiceForm(form)) continue;
       Matcher optMatcher = OPTION_PATTERN1.matcher(form);
       if (!optMatcher.find()) {
         continue;
       }
 
       // Collect all the text inputs from this form
-      Set<String> choice = new TreeSet<>();
+      var choice = extractTextInputChoices(form);
 
-      // Find all "input" tags within this form
-      Matcher i = INPUT_PATTERN.matcher(form);
-      while (i.find()) {
-        String input = i.group(1);
-        Matcher t = TYPE_PATTERN.matcher(input);
-        if (!t.find()) {
-          continue;
-        }
-
-        String type = t.group(1);
-
-        if (!type.equals("text")) {
-          continue;
-        }
-
-        Matcher n = NAME_PATTERN.matcher(input);
-        if (!n.find()) {
-          continue;
-        }
-        String name = n.group(1);
-        choice.add(name);
-      }
-
-      if (choice.size() > 0) {
+      if (!choice.isEmpty()) {
         rv.put(Integer.parseInt(optMatcher.group(1)), choice);
       }
     }
 
     return rv;
+  }
+
+  private static Set<String> extractTextInputChoices(String form) {
+    Set<String> choice = new TreeSet<>();
+
+    // Find all "input" tags within this form
+    var i = INPUT_PATTERN.matcher(form);
+    while (i.find()) {
+      var input = i.group(1);
+      var t = TYPE_PATTERN.matcher(input);
+      if (!t.find()) {
+        continue;
+      }
+
+      var type = t.group(1);
+
+      if (!type.equals("text")) {
+        continue;
+      }
+
+      var n = NAME_PATTERN.matcher(input);
+      if (!n.find()) {
+        continue;
+      }
+      var name = n.group(1);
+      choice.add(name);
+    }
+
+    return choice;
   }
 
   public static String validateChoiceFields(
@@ -449,7 +455,8 @@ public class ChoiceUtilities {
     // Extract supplied extra fields
     Set<String> extras = new TreeSet<>();
     for (String field : extraFields.split("&")) {
-      if (field.equals("")) {
+      if (field.isEmpty()) {
+        // Ignore
       } else if (field.contains("=")) {
         extras.add(field);
       } else {
@@ -471,8 +478,8 @@ public class ChoiceUtilities {
 
     if (selects == null && texts == null) {
       // No. If the user supplied no extra fields, all is well
-      if (extras.size() == 0) {
-        return (errors.length() > 0) ? errors.toString() : null;
+      if (extras.isEmpty()) {
+        return (!errors.isEmpty()) ? errors.toString() : null;
       }
       // Otherwise, list all unexpected extra fields
       for (String extra : extras) {
@@ -556,7 +563,7 @@ public class ChoiceUtilities {
           .append("'.\n");
     }
 
-    return (errors.length() > 0) ? errors.toString() : null;
+    return (!errors.isEmpty()) ? errors.toString() : null;
   }
 
   public static void printChoices(final String responseText) {
