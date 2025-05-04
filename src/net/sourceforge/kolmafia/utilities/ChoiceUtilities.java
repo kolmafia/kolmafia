@@ -35,11 +35,10 @@ public class ChoiceUtilities {
 
   private ChoiceUtilities() {}
 
-  private static boolean isChoiceForm(final String form) {
+  private static boolean isNonChoiceForm(final String form) {
     // We are searching for a form that submits to choice.php. With the assumption that a choice.php
-    // page has been
-    // supplied, it must either have a choice.php action or no action at all.
-    return form.contains("choice.php") || form.contains("<form method=\"post\">");
+    // page has been supplied, it must either have a choice.php action or no action at all.
+    return !form.contains("choice.php") && !form.contains("<form method=\"post\">");
   }
 
   // Extract choice number from URL
@@ -141,7 +140,7 @@ public class ChoiceUtilities {
     Matcher m = FORM_PATTERN.matcher(responseText);
     while (m.find()) {
       String form = m.group();
-      if (!isChoiceForm(form)) continue;
+      if (isNonChoiceForm(form)) continue;
       Matcher optMatcher = OPTION_PATTERN1.matcher(form);
       if (!optMatcher.find()) {
         continue;
@@ -165,7 +164,7 @@ public class ChoiceUtilities {
     m = LINK_PATTERN.matcher(responseText);
     while (m.find()) {
       String form = m.group();
-      if (!isChoiceForm(form)) continue;
+      if (isNonChoiceForm(form)) continue;
       Matcher optMatcher = OPTION_PATTERN2.matcher(form);
       if (!optMatcher.find()) {
         continue;
@@ -259,7 +258,7 @@ public class ChoiceUtilities {
     Matcher m = FORM_PATTERN.matcher(responseText);
     while (m.find()) {
       String form = m.group();
-      if (!isChoiceForm(form)) continue;
+      if (isNonChoiceForm(form)) continue;
       Matcher optMatcher = OPTION_PATTERN1.matcher(form);
       if (!optMatcher.find()) {
         continue;
@@ -305,7 +304,7 @@ public class ChoiceUtilities {
     Matcher m = FORM_PATTERN.matcher(responseText);
     while (m.find()) {
       String form = m.group();
-      if (!isChoiceForm(form)) continue;
+      if (isNonChoiceForm(form)) continue;
       Matcher optMatcher = OPTION_PATTERN1.matcher(form);
       if (!optMatcher.find()) {
         continue;
@@ -362,7 +361,7 @@ public class ChoiceUtilities {
     Matcher m = FORM_PATTERN.matcher(responseText);
     while (m.find()) {
       String form = m.group();
-      if (!isChoiceForm(form)) continue;
+      if (isNonChoiceForm(form)) continue;
       Matcher optMatcher = OPTION_PATTERN1.matcher(form);
       if (!optMatcher.find()) {
         continue;
@@ -402,6 +401,71 @@ public class ChoiceUtilities {
         continue;
       }
       var name = n.group(1);
+      choice.add(name);
+    }
+
+    return choice;
+  }
+
+  public static Map<Integer, Set<String>> parseHiddenInputs(final String responseText) {
+    Map<Integer, Set<String>> hiddens = new TreeMap<>();
+
+    if (responseText == null) {
+      return hiddens;
+    }
+
+    // Find all choice forms
+    Matcher m = FORM_PATTERN.matcher(responseText);
+    while (m.find()) {
+      String form = m.group();
+      if (isNonChoiceForm(form)) continue;
+      Matcher optMatcher = OPTION_PATTERN1.matcher(form);
+      if (!optMatcher.find()) {
+        continue;
+      }
+
+      // Collect all the hidden inputs from this form
+      var extra = extractExtraHiddenFields(form);
+
+      if (!extra.isEmpty()) {
+        hiddens
+            .computeIfAbsent(Integer.parseInt(optMatcher.group(1)), (k) -> new TreeSet<>())
+            .addAll(extra);
+      }
+    }
+
+    return hiddens;
+  }
+
+  private static final Set<String> STANDARD_HIDDEN_INPUT_FIELDS =
+      Set.of("option", "pwd", "whichchoice");
+
+  private static Set<String> extractExtraHiddenFields(String form) {
+    Set<String> choice = new TreeSet<>();
+
+    // Find all hidden "input" tags that are non-standard within this form
+    var i = INPUT_PATTERN.matcher(form);
+    while (i.find()) {
+      var typeMatcher = TYPE_PATTERN.matcher(i.group(1));
+      if (!typeMatcher.find()) {
+        continue;
+      }
+
+      if (!typeMatcher.group(1).equals("hidden")) {
+        continue;
+      }
+
+      var input = i.group(1);
+      var n = NAME_PATTERN.matcher(input);
+      if (!n.find()) {
+        continue;
+      }
+      var name = n.group(1);
+
+      if (STANDARD_HIDDEN_INPUT_FIELDS.contains(name)) {
+        continue;
+      }
+
       choice.add(name);
     }
 
@@ -465,18 +529,21 @@ public class ChoiceUtilities {
     }
 
     // Selects: get a map from CHOICE => map from NAME => set of OPTIONS
-    Map<Integer, Map<String, Set<String>>> formSelects =
-        ChoiceUtilities.parseSelectInputs(responseText);
+    var formSelects = ChoiceUtilities.parseSelectInputs(responseText);
 
     // Texts: get a map from CHOICE => set of NAMES
-    Map<Integer, Set<String>> formTexts = ChoiceUtilities.parseTextInputs(responseText);
+    var formTexts = ChoiceUtilities.parseTextInputs(responseText);
+
+    // Hidden overloads: get a map from CHOICE => set of NAMES
+    var formHiddens = ChoiceUtilities.parseHiddenInputs(responseText);
 
     // Does the decision have extra select or text inputs?
-    Integer key = StringUtilities.parseInt(decision);
-    Map<String, Set<String>> selects = formSelects.get(key);
-    Set<String> texts = formTexts.get(key);
+    var key = StringUtilities.parseInt(decision);
+    var selects = formSelects.get(key);
+    var texts = formTexts.get(key);
+    var hiddens = formHiddens.get(key);
 
-    if (selects == null && texts == null) {
+    if (selects == null && texts == null && hiddens == null) {
       // No. If the user supplied no extra fields, all is well
       if (extras.isEmpty()) {
         return (!errors.isEmpty()) ? errors.toString() : null;
@@ -486,7 +553,7 @@ public class ChoiceUtilities {
         errors
             .append("Choice option ")
             .append(choiceOption)
-            .append("does not require '")
+            .append(" does not require '")
             .append(extra)
             .append("'.\n");
       }
@@ -552,13 +619,31 @@ public class ChoiceUtilities {
       }
     }
 
+    // All extra hidden inputs in the form must have a value supplied
+    if (hiddens != null) {
+      for (String name : hiddens) {
+        String supplied = suppliedFields.get(name);
+        if (supplied == null) {
+          // Did not supply a value for a field
+          errors
+              .append("Choice option ")
+              .append(choiceOption)
+              .append(" requires '")
+              .append(name)
+              .append("' but not supplied.\n");
+        } else {
+          suppliedFields.remove(name);
+        }
+      }
+    }
+
     // No unnecessary fields in the form can be supplied
     for (Map.Entry<String, String> supplied : suppliedFields.entrySet()) {
       String name = supplied.getKey();
       errors
           .append("Choice option ")
           .append(choiceOption)
-          .append("does not require '")
+          .append(" does not require '")
           .append(name)
           .append("'.\n");
     }
