@@ -14,7 +14,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class WildfireCampRequest extends PlaceRequest {
   // 5: Inferno, 4: Raging, 3: Burning, 2: Smouldering, 1: Smoking, 0: Clear
-  private static final Map<KoLAdventure, Integer> FIRE_LEVEL = new HashMap<>();
+  private static Map<KoLAdventure, Integer> FIRE_LEVEL = new HashMap<>();
 
   public WildfireCampRequest() {
     super("wildfire_camp");
@@ -72,7 +72,7 @@ public class WildfireCampRequest extends PlaceRequest {
   public static void parseCaptain(final String responseText) {
     Matcher zoneMatcher = CAPTAIN_ZONE.matcher(responseText);
 
-    FIRE_LEVEL.clear();
+    var fireLevel = new HashMap<KoLAdventure, Integer>();
 
     while (zoneMatcher.find()) {
       int locationId = StringUtilities.parseInt(zoneMatcher.group(1));
@@ -82,9 +82,10 @@ public class WildfireCampRequest extends PlaceRequest {
           AdventureDatabase.getAdventureByURL("adventure.php?snarfblat=" + locationId);
 
       if (location != null) {
-        FIRE_LEVEL.put(location, level);
+        fireLevel.put(location, level);
       }
     }
+    FIRE_LEVEL = fireLevel;
 
     Matcher refillMatcher = CAPTAIN_REFILL.matcher(responseText);
 

@@ -45,7 +45,7 @@ public class ForeseeRequest extends GenericRequest {
     // Ensure the Peridot is equipped or in inventory.
     if (InventoryManager.getCount(ItemPool.PERIDOT_OF_PERIL) == 0
         && !KoLCharacter.hasEquipped(ItemPool.PERIDOT_OF_PERIL)) {
-      if (!InventoryManager.retrieveItem(ItemPool.COMBAT_LOVERS_LOCKET, 1)) {
+      if (!InventoryManager.retrieveItem(ItemPool.PERIDOT_OF_PERIL, 1)) {
         KoLmafia.updateDisplay(
             KoLConstants.MafiaState.ERROR, "Internal error: failed to retrieve Peridot of Peril");
         return;
