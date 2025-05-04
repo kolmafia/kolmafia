@@ -424,7 +424,7 @@ public class ChoiceUtilities {
         continue;
       }
 
-      // Collect all the text inputs from this form
+      // Collect all the hidden inputs from this form
       var extra = extractExtraHiddenFields(form);
 
       if (!extra.isEmpty()) {
