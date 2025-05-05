@@ -10,7 +10,7 @@ public class LetterBonus {
 
   static double letterBonus(AdventureResult item) {
     if (item == null || item.getItemId() < 0) return 0;
-    return item.getName().length();
+    return item.getDataName().length();
   }
 
   static double letterBonus(AdventureResult item, String letter) {
@@ -18,12 +18,12 @@ public class LetterBonus {
 
     Pattern letterPattern = Pattern.compile(letter, Pattern.CASE_INSENSITIVE);
 
-    return letterPattern.matcher(item.getName()).results().count();
+    return letterPattern.matcher(item.getDataName()).results().count();
   }
 
   static double numberBonus(AdventureResult item) {
     if (item == null || item.getItemId() < 0) return 0;
 
-    return NUMBER_PATTERN.matcher(item.getName()).results().count();
+    return NUMBER_PATTERN.matcher(item.getDataName()).results().count();
   }
 }
