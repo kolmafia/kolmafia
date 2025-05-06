@@ -1908,11 +1908,13 @@ public class FightRequestTest {
           new Cleanups(
               withSkill(SkillPool.METEOR_SHOWER),
               withFamiliar(FamiliarPool.POCKET_PROFESSOR, 100),
-              withProperty("_pocketProfessorLectures", 4));
+              withProperty("_pocketProfessorLectures", 4),
+              withProperty("_relativityMonster", false));
 
       try (cleanups) {
         parseCombatData("request/test_fight_meteor_shower_lecture.html");
         assertThat("_pocketProfessorLectures", isSetTo(5));
+        assertThat("_relativityMonster", isSetTo(true));
       }
     }
   }
@@ -4026,6 +4028,16 @@ public class FightRequestTest {
 
         assertThat(
             "banishedMonsters", hasStringValue(startsWith("dairy goat:Punch Out your Foe:")));
+      }
+    }
+
+    @Test
+    public void detectsAfterimageChainedMonster() {
+      var cleanups = new Cleanups(withProperty("_afterimageMonster", false));
+
+      try (cleanups) {
+        parseCombatData("request/test_fight_afterimage_chain.html");
+        assertThat("_afterimageMonster", isSetTo(true));
       }
     }
   }
