@@ -55,6 +55,9 @@ public class UneffectRequest extends GenericRequest {
         if (skillName.contains("|")) {
           skillName = skillName.substring(0, skillName.indexOf("|"));
         }
+        if (skillName.contains(" @ ")) {
+          skillName = skillName.substring(0, skillName.indexOf(" @ "));
+        }
         UneffectRequest.EFFECT_SKILL.put(effectName, skillName);
       }
     }
@@ -292,6 +295,30 @@ public class UneffectRequest extends GenericRequest {
             KoLCharacter.isSealClubber()
                 ? EffectPool.SILENT_HUNTING
                 : EffectPool.NEARLY_SILENT_HUNTING);
+      }
+      case SkillPool.SNARL_OF_THE_TIMBERWOLF -> {
+        return EffectDatabase.getEffectName(
+            KoLCharacter.hasEquipped(ItemPool.VELOUR_VOULGE)
+                ? EffectPool.SNARL_OF_THREE_TIMBERWOLVES
+                : EffectPool.SNARL_OF_THE_TIMBERWOLF);
+      }
+      case SkillPool.SCARYSAUCE -> {
+        return EffectDatabase.getEffectName(
+            KoLCharacter.hasEquipped(ItemPool.VELOUR_VISCOMETER)
+                ? EffectPool.SCARIERSAUCE
+                : EffectPool.SCARYSAUCE);
+      }
+      case SkillPool.DIRGE_OF_DREADFULNESS -> {
+        return EffectDatabase.getEffectName(
+            KoLCharacter.hasEquipped(ItemPool.VELOUR_VAQUEROS)
+                ? EffectPool.DIRGE_OF_DREADFULNESS_REMASTERED
+                : EffectPool.DIRGE_OF_DREADFULNESS);
+      }
+      case SkillPool.EMPATHY_OF_THE_NEWT -> {
+        return EffectDatabase.getEffectName(
+            KoLCharacter.hasEquipped(ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD)
+                ? EffectPool.THOUGHTFUL_EMPATHY
+                : EffectPool.EMPATHY);
       }
     }
 

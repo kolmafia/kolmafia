@@ -1968,7 +1968,7 @@ public class MaximizerTest {
 
       try (cleanups) {
         assertTrue(maximize("cold res"));
-        assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("cast 1 Scarysauce"))));
+        assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("cast 1 Scarysauce @ Scarysauce"))));
       }
     }
 
