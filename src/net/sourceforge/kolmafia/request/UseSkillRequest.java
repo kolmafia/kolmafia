@@ -417,7 +417,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
         // Rainbow Gravitation can be cast 3 times per day.  Each
         // casting consumes five elemental wads and a twinkly wad
 
-      case SkillPool.RAINBOW_GRAVITATION:
+      case SkillPool.RAINBOW_GRAVITATION -> {
         var maximumCast = Math.max(3 - Preferences.getInteger("prismaticSummons"), 0);
         maximumCast = Math.min(InventoryManager.getAccessibleCount(ItemPool.COLD_WAD), maximumCast);
         maximumCast = Math.min(InventoryManager.getAccessibleCount(ItemPool.HOT_WAD), maximumCast);
@@ -428,66 +428,68 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
         maximumCast =
             Math.min(InventoryManager.getAccessibleCount(ItemPool.STENCH_WAD), maximumCast);
         return Math.min(InventoryManager.getAccessibleCount(ItemPool.TWINKLY_WAD), maximumCast);
+      }
 
         // Hobo skills
-      case SkillPool.THINGFINDER:
-      case SkillPool.BENETTONS:
-      case SkillPool.ELRONS:
-      case SkillPool.COMPANIONSHIP:
-      case SkillPool.PRECISION:
+      case SkillPool.THINGFINDER,
+          SkillPool.BENETTONS,
+          SkillPool.ELRONS,
+          SkillPool.COMPANIONSHIP,
+          SkillPool.PRECISION -> {
         // If you can't cast them, return zero
         if (!KoLCharacter.isAccordionThief() || KoLCharacter.getLevel() < 15) {
           return 0;
         }
         // Otherwise let daily limits database handle remaining casts
-        break;
+      }
 
         // Zombie Master skills
-      case SkillPool.SUMMON_MINION:
+      case SkillPool.SUMMON_MINION -> {
         return KoLCharacter.getAvailableMeat() / 100;
-
-      case SkillPool.SUMMON_HORDE:
+      }
+      case SkillPool.SUMMON_HORDE -> {
         return KoLCharacter.getAvailableMeat() / 1000;
+      }
 
         // Avatar of Jarlsberg skills
-      case SkillPool.EGGMAN:
+      case SkillPool.EGGMAN -> {
         boolean haveEgg = InventoryManager.getCount(ItemPool.COSMIC_EGG) > 0;
         boolean eggActive = KoLCharacter.getCompanion() == Companion.EGGMAN;
         return (haveEgg && !eggActive) ? 1 : 0;
-
-      case SkillPool.RADISH_HORSE:
+      }
+      case SkillPool.RADISH_HORSE -> {
         boolean haveVeggie = InventoryManager.getCount(ItemPool.COSMIC_VEGETABLE) > 0;
         boolean radishActive = KoLCharacter.getCompanion() == Companion.RADISH;
         return (haveVeggie && !radishActive) ? 1 : 0;
-
-      case SkillPool.HIPPOTATO:
+      }
+      case SkillPool.HIPPOTATO -> {
         boolean havePotato = InventoryManager.getCount(ItemPool.COSMIC_POTATO) > 0;
         boolean hippoActive = KoLCharacter.getCompanion() == Companion.HIPPO;
         return (havePotato && !hippoActive) ? 1 : 0;
-
-      case SkillPool.CREAMPUFF:
+      }
+      case SkillPool.CREAMPUFF -> {
         boolean haveCream = InventoryManager.getCount(ItemPool.COSMIC_CREAM) > 0;
         boolean creampuffActive = KoLCharacter.getCompanion() == Companion.CREAM;
         return (haveCream && !creampuffActive) ? 1 : 0;
-
-      case SkillPool.DEEP_VISIONS:
+      }
+      case SkillPool.DEEP_VISIONS -> {
         return KoLCharacter.getMaximumHP() >= 500 ? 1 : 0;
-
-      case SkillPool.WAR_BLESSING, SkillPool.SHE_WHO_WAS_BLESSING, SkillPool.STORM_BLESSING:
+      }
+      case SkillPool.WAR_BLESSING, SkillPool.SHE_WHO_WAS_BLESSING, SkillPool.STORM_BLESSING -> {
         return KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.SPIRIT_PARIAH))
             ? 0
             : 1;
-
-      case SkillPool.SPIRIT_BOON:
+      }
+      case SkillPool.SPIRIT_BOON -> {
         return KoLCharacter.getBlessingLevel().isBlessing() ? Integer.MAX_VALUE : 0;
-
-      case SkillPool.TURTLE_POWER:
+      }
+      case SkillPool.TURTLE_POWER -> {
         return KoLCharacter.getBlessingLevel() == TurtleBlessingLevel.GLORIOUS_BLESSING
                 && !Preferences.getBoolean("_turtlePowerCast")
             ? 1
             : 0;
-
-      case SkillPool.SUMMON_ANNOYANCE:
+      }
+      case SkillPool.SUMMON_ANNOYANCE -> {
         if (Preferences.getInteger("summonAnnoyanceCost") == 11) {
           // If we made it this far, you should have the skill.
           // Update its cost.
@@ -503,96 +505,92 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
           return 0;
         }
         return 1;
-
-      case SkillPool.CALCULATE_THE_UNIVERSE:
-        {
-          if (KoLCharacter.getAdventuresLeft() == 0) {
-            return 0;
-          }
-          int skillLevel = Preferences.getInteger("skillLevel144");
-          if (!KoLCharacter.canInteract()) {
-            skillLevel = Math.min(skillLevel, 3);
-          }
-          int casts = Preferences.getInteger("_universeCalculated");
-          return Math.max(skillLevel - casts, 0);
+      }
+      case SkillPool.CALCULATE_THE_UNIVERSE -> {
+        if (KoLCharacter.getAdventuresLeft() == 0) {
+          return 0;
         }
-
-      case SkillPool.ANCESTRAL_RECALL:
+        int skillLevel = Preferences.getInteger("skillLevel144");
+        if (!KoLCharacter.canInteract()) {
+          skillLevel = Math.min(skillLevel, 3);
+        }
+        int casts = Preferences.getInteger("_universeCalculated");
+        return Math.max(skillLevel - casts, 0);
+      }
+      case SkillPool.ANCESTRAL_RECALL -> {
         return Math.min(
             10 - Preferences.getInteger("_ancestralRecallCasts"),
             InventoryManager.getAccessibleCount(ItemPool.BLUE_MANA));
-
-      case SkillPool.DARK_RITUAL:
+      }
+      case SkillPool.DARK_RITUAL -> {
         return InventoryManager.getAccessibleCount(ItemPool.BLACK_MANA);
-
-      case SkillPool.INTERNAL_SODA_MACHINE:
+      }
+      case SkillPool.INTERNAL_SODA_MACHINE -> {
         long meatLimit = KoLCharacter.getAvailableMeat() / 20;
         long mpLimit =
             (int) Math.ceil((KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentMP()) / 10.0);
         return Math.min(meatLimit, mpLimit);
-
-      case SkillPool.STACK_LUMPS:
+      }
+      case SkillPool.STACK_LUMPS -> {
         return 1;
-
-      case SkillPool.LOVE_MIXOLOGY:
+      }
+      case SkillPool.LOVE_MIXOLOGY -> {
         return InventoryManager.getAccessibleCount(ItemPool.LOVE_POTION_XYZ) > 0
                 || KoLConstants.activeEffects.contains(UseSkillRequest.TAINTED_LOVE_POTION)
             ? 0
             : 1;
+      }
+      case SkillPool.SEEK_OUT_A_BIRD -> {
+        // On the seventh cast of the day, you are given the
+        // option to change your favorite bird.
+        //
+        // The choice adventure to select this is 1399.
+        // Option 1 changes the bird and the cast succeeds
+        // Option 2 does not change and the cast fails.
+        //
+        // Therefore:
+        //
+        // If you want option 1, casts are limited by MP
+        // If you want option 2, you get 6 casts per day
+        //
+        // If you have already summoned at least 7 birds today,
+        // you are past the choice and casts are unlimited
 
-      case SkillPool.SEEK_OUT_A_BIRD:
-        {
-          // On the seventh cast of the day, you are given the
-          // option to change your favorite bird.
-          //
-          // The choice adventure to select this is 1399.
-          // Option 1 changes the bird and the cast succeeds
-          // Option 2 does not change and the cast fails.
-          //
-          // Therefore:
-          //
-          // If you want option 1, casts are limited by MP
-          // If you want option 2, you get 6 casts per day
-          //
-          // If you have already summoned at least 7 birds today,
-          // you are past the choice and casts are unlimited
-
-          int option = Preferences.getInteger("choiceAdventure1399");
-          int birds = Preferences.getInteger("_birdsSoughtToday");
-          return (birds < 7 && option != 1) ? 6 - birds : Long.MAX_VALUE;
-        }
-
-      case SkillPool.AUG_1ST_MOUNTAIN_CLIMBING_DAY:
-      case SkillPool.AUG_2ND_FIND_AN_ELEVENLEAF_CLOVER_DAY:
-      case SkillPool.AUG_3RD_WATERMELON_DAY:
-      case SkillPool.AUG_4TH_WATER_BALLOON_DAY:
-      case SkillPool.AUG_5TH_OYSTER_DAY:
-      case SkillPool.AUG_6TH_FRESH_BREATH_DAY:
-      case SkillPool.AUG_7TH_LIGHTHOUSE_DAY:
-      case SkillPool.AUG_8TH_CAT_DAY:
-      case SkillPool.AUG_9TH_HAND_HOLDING_DAY:
-      case SkillPool.AUG_10TH_WORLD_LION_DAY:
-      case SkillPool.AUG_11TH_PRESIDENTIAL_JOKE_DAY:
-      case SkillPool.AUG_12TH_ELEPHANT_DAY:
-      case SkillPool.AUG_13TH_LEFTOFF_HANDERS_DAY:
-      case SkillPool.AUG_14TH_FINANCIAL_AWARENESS_DAY:
-      case SkillPool.AUG_15TH_RELAXATION_DAY:
-      case SkillPool.AUG_16TH_ROLLER_COASTER_DAY:
-      case SkillPool.AUG_17TH_THRIFTSHOP_DAY:
-      case SkillPool.AUG_18TH_SERENDIPITY_DAY:
-      case SkillPool.AUG_19TH_HONEY_BEE_AWARENESS_DAY:
-      case SkillPool.AUG_20TH_MOSQUITO_DAY:
-      case SkillPool.AUG_21ST_SPUMONI_DAY:
-      case SkillPool.AUG_22ND_TOOTH_FAIRY_DAY:
-      case SkillPool.AUG_23RD_RIDE_THE_WIND_DAY:
-      case SkillPool.AUG_24TH_WAFFLE_DAY:
-      case SkillPool.AUG_25TH_BANANA_SPLIT_DAY:
-      case SkillPool.AUG_26TH_TOILET_PAPER_DAY:
-      case SkillPool.AUG_27TH_JUST_BECAUSE_DAY:
-      case SkillPool.AUG_28TH_RACE_YOUR_MOUSE_DAY:
-      case SkillPool.AUG_29TH_MORE_HERBS_LESS_SALT_DAY:
-      case SkillPool.AUG_30TH_BEACH_DAY:
-      case SkillPool.AUG_31ST_CABERNET_SAUVIGNON_DAY:
+        int option = Preferences.getInteger("choiceAdventure1399");
+        int birds = Preferences.getInteger("_birdsSoughtToday");
+        return (birds < 7 && option != 1) ? 6 - birds : Long.MAX_VALUE;
+      }
+      case SkillPool.AUG_1ST_MOUNTAIN_CLIMBING_DAY,
+          SkillPool.AUG_2ND_FIND_AN_ELEVENLEAF_CLOVER_DAY,
+          SkillPool.AUG_3RD_WATERMELON_DAY,
+          SkillPool.AUG_4TH_WATER_BALLOON_DAY,
+          SkillPool.AUG_5TH_OYSTER_DAY,
+          SkillPool.AUG_6TH_FRESH_BREATH_DAY,
+          SkillPool.AUG_7TH_LIGHTHOUSE_DAY,
+          SkillPool.AUG_8TH_CAT_DAY,
+          SkillPool.AUG_9TH_HAND_HOLDING_DAY,
+          SkillPool.AUG_10TH_WORLD_LION_DAY,
+          SkillPool.AUG_11TH_PRESIDENTIAL_JOKE_DAY,
+          SkillPool.AUG_12TH_ELEPHANT_DAY,
+          SkillPool.AUG_13TH_LEFTOFF_HANDERS_DAY,
+          SkillPool.AUG_14TH_FINANCIAL_AWARENESS_DAY,
+          SkillPool.AUG_15TH_RELAXATION_DAY,
+          SkillPool.AUG_16TH_ROLLER_COASTER_DAY,
+          SkillPool.AUG_17TH_THRIFTSHOP_DAY,
+          SkillPool.AUG_18TH_SERENDIPITY_DAY,
+          SkillPool.AUG_19TH_HONEY_BEE_AWARENESS_DAY,
+          SkillPool.AUG_20TH_MOSQUITO_DAY,
+          SkillPool.AUG_21ST_SPUMONI_DAY,
+          SkillPool.AUG_22ND_TOOTH_FAIRY_DAY,
+          SkillPool.AUG_23RD_RIDE_THE_WIND_DAY,
+          SkillPool.AUG_24TH_WAFFLE_DAY,
+          SkillPool.AUG_25TH_BANANA_SPLIT_DAY,
+          SkillPool.AUG_26TH_TOILET_PAPER_DAY,
+          SkillPool.AUG_27TH_JUST_BECAUSE_DAY,
+          SkillPool.AUG_28TH_RACE_YOUR_MOUSE_DAY,
+          SkillPool.AUG_29TH_MORE_HERBS_LESS_SALT_DAY,
+          SkillPool.AUG_30TH_BEACH_DAY,
+          SkillPool.AUG_31ST_CABERNET_SAUVIGNON_DAY -> {
         // if we've already cast it, we can't cast it again
         if (!DailyLimitType.CAST.getDailyLimit(this.skillId).hasUsesRemaining()) {
           return 0;
@@ -610,6 +608,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
           }
         }
         return 0;
+      }
     }
 
     var dailyLimit = DailyLimitType.CAST.getDailyLimit(this.skillId);
@@ -1845,16 +1844,10 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
 
     // Deal with secondary effects from skill usage (not daily limitations)
     switch (skillId) {
-      case SkillPool.ODE_TO_BOOZE:
-        ConcoctionDatabase.getUsables().sort();
-        break;
-
-      case SkillPool.WALRUS_TONGUE:
-      case SkillPool.DISCO_NAP:
-        UneffectRequest.removeEffectsWithSkill(skillId);
-        break;
-
-      case SkillPool.RAINBOW_GRAVITATION:
+      case SkillPool.ODE_TO_BOOZE -> ConcoctionDatabase.getUsables().sort();
+      case SkillPool.WALRUS_TONGUE, SkillPool.DISCO_NAP -> UneffectRequest.removeEffectsWithSkill(
+          skillId);
+      case SkillPool.RAINBOW_GRAVITATION -> {
 
         // Each cast of Rainbow Gravitation consumes five
         // elemental wads and a twinkly wad
@@ -1865,154 +1858,100 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
         ResultProcessor.processResult(ItemPool.get(ItemPool.SPOOKY_WAD, -count));
         ResultProcessor.processResult(ItemPool.get(ItemPool.STENCH_WAD, -count));
         ResultProcessor.processResult(ItemPool.get(ItemPool.TWINKLY_WAD, -count));
-        break;
-
-      case SkillPool.TURTLE_POWER:
-      case SkillPool.WAR_BLESSING:
-      case SkillPool.SHE_WHO_WAS_BLESSING:
-      case SkillPool.STORM_BLESSING:
-        Preferences.setInteger("turtleBlessingTurns", 0);
-        break;
-
-      case SkillPool.CARBOLOADING:
-        Preferences.increment("carboLoading", 1);
-        break;
-
-      case SkillPool.SNOWCONE:
-      case SkillPool.STICKER:
-      case SkillPool.SUGAR:
-      case SkillPool.CLIP_ART:
-      case SkillPool.RAD_LIB:
-      case SkillPool.SMITHSNESS:
-        ConcoctionDatabase.setRefreshNeeded(false);
-        break;
-
-      case SkillPool.EGGMAN:
-        ResultProcessor.removeItem(ItemPool.COSMIC_EGG);
-        break;
-      case SkillPool.RADISH_HORSE:
-        ResultProcessor.removeItem(ItemPool.COSMIC_VEGETABLE);
-        break;
-      case SkillPool.HIPPOTATO:
-        ResultProcessor.removeItem(ItemPool.COSMIC_POTATO);
-        break;
-      case SkillPool.CREAMPUFF:
-        ResultProcessor.removeItem(ItemPool.COSMIC_CREAM);
-        break;
-
-      case SkillPool.DEEP_VISIONS:
-        DreadScrollManager.handleDeepDarkVisions(responseText);
-        break;
-
-      case SkillPool.BIND_VAMPIEROGHI:
-      case SkillPool.BIND_VERMINCELLI:
-      case SkillPool.BIND_ANGEL_HAIR_WISP:
-      case SkillPool.BIND_UNDEAD_ELBOW_MACARONI:
-      case SkillPool.BIND_PENNE_DREADFUL:
-      case SkillPool.BIND_LASAGMBIE:
-      case SkillPool.BIND_SPICE_GHOST:
-      case SkillPool.BIND_SPAGHETTI_ELEMENTAL:
-        PastaThrallData.handleBinding(skillId, responseText);
-        break;
-
-      case SkillPool.DISMISS_PASTA_THRALL:
-        PastaThrallData.handleDismissal(responseText);
-        break;
-
-      case SkillPool.SUMMON_ANNOYANCE:
-        Preferences.decrement("availableSwagger", Preferences.getInteger("summonAnnoyanceCost"));
-        break;
-
-      case SkillPool.ANCESTRAL_RECALL:
-        ResultProcessor.processResult(ItemPool.get(ItemPool.BLUE_MANA, -count));
-        break;
-
-      case SkillPool.DARK_RITUAL:
-        ResultProcessor.processResult(ItemPool.get(ItemPool.BLACK_MANA, -count));
-        break;
-
-      case SkillPool.STACK_LUMPS:
+      }
+      case SkillPool.TURTLE_POWER,
+          SkillPool.WAR_BLESSING,
+          SkillPool.SHE_WHO_WAS_BLESSING,
+          SkillPool.STORM_BLESSING -> Preferences.setInteger("turtleBlessingTurns", 0);
+      case SkillPool.CARBOLOADING -> Preferences.increment("carboLoading", 1);
+      case SkillPool.SNOWCONE,
+          SkillPool.STICKER,
+          SkillPool.SUGAR,
+          SkillPool.CLIP_ART,
+          SkillPool.RAD_LIB,
+          SkillPool.SMITHSNESS -> ConcoctionDatabase.setRefreshNeeded(false);
+      case SkillPool.EGGMAN -> ResultProcessor.removeItem(ItemPool.COSMIC_EGG);
+      case SkillPool.RADISH_HORSE -> ResultProcessor.removeItem(ItemPool.COSMIC_VEGETABLE);
+      case SkillPool.HIPPOTATO -> ResultProcessor.removeItem(ItemPool.COSMIC_POTATO);
+      case SkillPool.CREAMPUFF -> ResultProcessor.removeItem(ItemPool.COSMIC_CREAM);
+      case SkillPool.DEEP_VISIONS -> DreadScrollManager.handleDeepDarkVisions(responseText);
+      case SkillPool.BIND_VAMPIEROGHI,
+          SkillPool.BIND_VERMINCELLI,
+          SkillPool.BIND_ANGEL_HAIR_WISP,
+          SkillPool.BIND_UNDEAD_ELBOW_MACARONI,
+          SkillPool.BIND_PENNE_DREADFUL,
+          SkillPool.BIND_LASAGMBIE,
+          SkillPool.BIND_SPICE_GHOST,
+          SkillPool.BIND_SPAGHETTI_ELEMENTAL -> PastaThrallData.handleBinding(
+          skillId, responseText);
+      case SkillPool.DISMISS_PASTA_THRALL -> PastaThrallData.handleDismissal(responseText);
+      case SkillPool.SUMMON_ANNOYANCE -> Preferences.decrement(
+          "availableSwagger", Preferences.getInteger("summonAnnoyanceCost"));
+      case SkillPool.ANCESTRAL_RECALL -> ResultProcessor.processResult(
+          ItemPool.get(ItemPool.BLUE_MANA, -count));
+      case SkillPool.DARK_RITUAL -> ResultProcessor.processResult(
+          ItemPool.get(ItemPool.BLACK_MANA, -count));
+      case SkillPool.STACK_LUMPS -> {
         Preferences.increment("_stackLumpsUses");
         ResultProcessor.processResult(ItemPool.get(ItemPool.NEGATIVE_LUMP, -100));
-        break;
-
-      case SkillPool.LOVE_MIXOLOGY:
-        {
-          Matcher matcher = UseSkillRequest.LOVE_POTION_PATTERN.matcher(responseText);
-          if (matcher.find()) {
-            Preferences.setString("lovePotion", matcher.group(1).replaceAll(",", ""));
-          }
-          break;
+      }
+      case SkillPool.LOVE_MIXOLOGY -> {
+        Matcher matcher = UseSkillRequest.LOVE_POTION_PATTERN.matcher(responseText);
+        if (matcher.find()) {
+          Preferences.setString("lovePotion", matcher.group(1).replaceAll(",", ""));
         }
-
-      case SkillPool.CALCULATE_THE_UNIVERSE:
+      }
+      case SkillPool.CALCULATE_THE_UNIVERSE -> {
         if (Preferences.getInteger("skillLevel144") == 0) {
           // If the skill is being cast, then the limit must be at least 1
           Preferences.setInteger("skillLevel144", 1);
         }
-        break;
-
-      case SkillPool.SEEK_OUT_A_BIRD:
-        Preferences.increment("_birdsSoughtToday");
-        break;
-
-      case SkillPool.MAP_THE_MONSTERS:
-        Preferences.setBoolean("mappingMonsters", true);
-        break;
-
-      case SkillPool.MAKE_SWEATADE:
-      case SkillPool.DRENCH_YOURSELF_IN_SWEAT:
-      case SkillPool.SIP_SOME_SWEAT:
+      }
+      case SkillPool.SEEK_OUT_A_BIRD -> Preferences.increment("_birdsSoughtToday");
+      case SkillPool.MAP_THE_MONSTERS -> Preferences.setBoolean("mappingMonsters", true);
+      case SkillPool.MAKE_SWEATADE,
+          SkillPool.DRENCH_YOURSELF_IN_SWEAT,
+          SkillPool.SIP_SOME_SWEAT -> {
         Matcher sweatCheck = SWEAT_PATTERN.matcher(responseText);
         if (sweatCheck.find()) {
           int sweatCost = Integer.parseInt(sweatCheck.group(1));
           Preferences.decrement("sweat", sweatCost);
         }
-        break;
-
-      case SkillPool.SWEAT_OUT_BOOZE:
-        Preferences.decrement("sweat", count * 25);
-        break;
-
-      case SkillPool.CINCHO_DISPENSE_SALT_AND_LIME:
-        Preferences.increment("cinchoSaltAndLime");
-        break;
-
-      case SkillPool.CINCHO_FIESTA_EXIT:
-        Preferences.setBoolean("noncombatForcerActive", true);
-        break;
-
-      case SkillPool.AUG_1ST_MOUNTAIN_CLIMBING_DAY:
-      case SkillPool.AUG_2ND_FIND_AN_ELEVENLEAF_CLOVER_DAY:
-      case SkillPool.AUG_3RD_WATERMELON_DAY:
-      case SkillPool.AUG_4TH_WATER_BALLOON_DAY:
-      case SkillPool.AUG_5TH_OYSTER_DAY:
-      case SkillPool.AUG_6TH_FRESH_BREATH_DAY:
-      case SkillPool.AUG_7TH_LIGHTHOUSE_DAY:
-      case SkillPool.AUG_8TH_CAT_DAY:
-      case SkillPool.AUG_9TH_HAND_HOLDING_DAY:
-      case SkillPool.AUG_10TH_WORLD_LION_DAY:
-      case SkillPool.AUG_11TH_PRESIDENTIAL_JOKE_DAY:
-      case SkillPool.AUG_12TH_ELEPHANT_DAY:
-      case SkillPool.AUG_13TH_LEFTOFF_HANDERS_DAY:
-      case SkillPool.AUG_14TH_FINANCIAL_AWARENESS_DAY:
-      case SkillPool.AUG_15TH_RELAXATION_DAY:
-      case SkillPool.AUG_16TH_ROLLER_COASTER_DAY:
-      case SkillPool.AUG_17TH_THRIFTSHOP_DAY:
-      case SkillPool.AUG_18TH_SERENDIPITY_DAY:
-      case SkillPool.AUG_19TH_HONEY_BEE_AWARENESS_DAY:
-      case SkillPool.AUG_20TH_MOSQUITO_DAY:
-      case SkillPool.AUG_21ST_SPUMONI_DAY:
-      case SkillPool.AUG_22ND_TOOTH_FAIRY_DAY:
-      case SkillPool.AUG_23RD_RIDE_THE_WIND_DAY:
-      case SkillPool.AUG_24TH_WAFFLE_DAY:
-      case SkillPool.AUG_25TH_BANANA_SPLIT_DAY:
-      case SkillPool.AUG_26TH_TOILET_PAPER_DAY:
-      case SkillPool.AUG_27TH_JUST_BECAUSE_DAY:
-      case SkillPool.AUG_28TH_RACE_YOUR_MOUSE_DAY:
-      case SkillPool.AUG_29TH_MORE_HERBS_LESS_SALT_DAY:
-      case SkillPool.AUG_30TH_BEACH_DAY:
-      case SkillPool.AUG_31ST_CABERNET_SAUVIGNON_DAY:
+      }
+      case SkillPool.SWEAT_OUT_BOOZE -> Preferences.decrement("sweat", count * 25);
+      case SkillPool.CINCHO_DISPENSE_SALT_AND_LIME -> Preferences.increment("cinchoSaltAndLime");
+      case SkillPool.CINCHO_FIESTA_EXIT -> Preferences.setBoolean("noncombatForcerActive", true);
+      case SkillPool.AUG_1ST_MOUNTAIN_CLIMBING_DAY,
+          SkillPool.AUG_2ND_FIND_AN_ELEVENLEAF_CLOVER_DAY,
+          SkillPool.AUG_3RD_WATERMELON_DAY,
+          SkillPool.AUG_4TH_WATER_BALLOON_DAY,
+          SkillPool.AUG_5TH_OYSTER_DAY,
+          SkillPool.AUG_6TH_FRESH_BREATH_DAY,
+          SkillPool.AUG_7TH_LIGHTHOUSE_DAY,
+          SkillPool.AUG_8TH_CAT_DAY,
+          SkillPool.AUG_9TH_HAND_HOLDING_DAY,
+          SkillPool.AUG_10TH_WORLD_LION_DAY,
+          SkillPool.AUG_11TH_PRESIDENTIAL_JOKE_DAY,
+          SkillPool.AUG_12TH_ELEPHANT_DAY,
+          SkillPool.AUG_13TH_LEFTOFF_HANDERS_DAY,
+          SkillPool.AUG_14TH_FINANCIAL_AWARENESS_DAY,
+          SkillPool.AUG_15TH_RELAXATION_DAY,
+          SkillPool.AUG_16TH_ROLLER_COASTER_DAY,
+          SkillPool.AUG_17TH_THRIFTSHOP_DAY,
+          SkillPool.AUG_18TH_SERENDIPITY_DAY,
+          SkillPool.AUG_19TH_HONEY_BEE_AWARENESS_DAY,
+          SkillPool.AUG_20TH_MOSQUITO_DAY,
+          SkillPool.AUG_21ST_SPUMONI_DAY,
+          SkillPool.AUG_22ND_TOOTH_FAIRY_DAY,
+          SkillPool.AUG_23RD_RIDE_THE_WIND_DAY,
+          SkillPool.AUG_24TH_WAFFLE_DAY,
+          SkillPool.AUG_25TH_BANANA_SPLIT_DAY,
+          SkillPool.AUG_26TH_TOILET_PAPER_DAY,
+          SkillPool.AUG_27TH_JUST_BECAUSE_DAY,
+          SkillPool.AUG_28TH_RACE_YOUR_MOUSE_DAY,
+          SkillPool.AUG_29TH_MORE_HERBS_LESS_SALT_DAY,
+          SkillPool.AUG_30TH_BEACH_DAY,
+          SkillPool.AUG_31ST_CABERNET_SAUVIGNON_DAY -> {
         // is this our "today" skill?
         var date = DateTimeManager.getRolloverDateTime().getDayOfMonth();
         var isTodaySkill = skillId == date - 1 + SkillPool.AUG_1ST_MOUNTAIN_CLIMBING_DAY;
@@ -2022,7 +1961,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
         } else {
           Preferences.increment("_augSkillsCast", 1, 5, false);
         }
-        break;
+      }
     }
 
     // Now apply daily limits
