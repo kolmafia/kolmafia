@@ -287,31 +287,8 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
     this.addFormFields();
   }
 
-  private UseSkillRequest(final String skillName) {
-    super(UseSkillRequest.chooseURL(skillName));
-
-    this.skillId = SkillDatabase.getSkillId(skillName);
-    if (this.skillId == -1) {
-      RequestLogger.printLine("Unrecognized skill: " + skillName);
-      this.skillName = skillName;
-      this.isBuff = false;
-    } else {
-      this.skillName = SkillDatabase.getSkillName(this.skillId);
-      this.isBuff = SkillDatabase.isBuff(this.skillId);
-    }
-
-    this.canonical = StringUtilities.getCanonicalName(this.skillName);
-    this.target = null;
-    this.countFieldId = null;
-    this.addFormFields();
-  }
-
   private static String chooseURL(final int skillId) {
     return SkillDatabase.isBookshelfSkill(skillId) ? "campground.php" : "runskillz.php";
-  }
-
-  private static String chooseURL(final String skillName) {
-    return SkillDatabase.isBookshelfSkill(skillName) ? "campground.php" : "runskillz.php";
   }
 
   private void addFormFields() {
@@ -345,7 +322,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
   public void setTarget(final String target) {
     if (this.isBuff) {
       if (target == null
-          || target.trim().length() == 0
+          || target.trim().isEmpty()
           || target.equals(KoLCharacter.getPlayerId())
           || target.equals(KoLCharacter.getUserName())) {
         this.target = null;
@@ -1037,8 +1014,8 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
 
     AdventureResult[] effects = new AdventureResult[KoLConstants.activeEffects.size()];
     KoLConstants.activeEffects.toArray(effects);
-    for (int i = 0; i < effects.length; ++i) {
-      String skillName = UneffectRequest.effectToSkill(effects[i].getName());
+    for (AdventureResult effect : effects) {
+      String skillName = UneffectRequest.effectToSkill(effect.getName());
       if (SkillDatabase.contains(skillName)) {
         int skillId = SkillDatabase.getSkillId(skillName);
         if (SkillDatabase.isAccordionThiefSong(skillId)) {
@@ -1056,8 +1033,8 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
 
     AdventureResult[] effects = new AdventureResult[KoLConstants.activeEffects.size()];
     KoLConstants.activeEffects.toArray(effects);
-    for (int i = 0; i < effects.length; ++i) {
-      String skillName = UneffectRequest.effectToSkill(effects[i].getName());
+    for (AdventureResult effect : effects) {
+      String skillName = UneffectRequest.effectToSkill(effect.getName());
       if (SkillDatabase.contains(skillName)) {
         int effectSkillId = SkillDatabase.getSkillId(skillName);
         if (effectSkillId == skillId) {
@@ -1348,7 +1325,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
           this.addFormField(this.countFieldId, String.valueOf(currentCast), false);
         }
 
-        if (this.target == null || this.target.trim().length() == 0) {
+        if (this.target == null || this.target.trim().isEmpty()) {
           KoLmafia.updateDisplay("Casting " + this.skillName + " " + currentCast + " times...");
         } else {
           KoLmafia.updateDisplay(
@@ -1438,8 +1415,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
   }
 
   private static BuffTool findTool(BuffTool[] tools) {
-    for (int i = 0; i < tools.length; ++i) {
-      BuffTool tool = tools[i];
+    for (BuffTool tool : tools) {
       if (tool.hasItem(true)) {
         return tool;
       }
@@ -1555,7 +1531,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
 
     boolean shouldStop = UseSkillRequest.parseResponse(this.getURLString(), this.responseText);
 
-    if (!UseSkillRequest.lastUpdate.equals("")) {
+    if (!UseSkillRequest.lastUpdate.isEmpty()) {
       MafiaState state = shouldStop ? MafiaState.ERROR : MafiaState.CONTINUE;
       KoLmafia.updateDisplay(state, UseSkillRequest.lastUpdate);
 
@@ -1611,7 +1587,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
   public static final UseSkillRequest getInstance(
       final int skillId, final String target, final int buffCount) {
     UseSkillRequest request = new UseSkillRequest(skillId);
-    request.setTarget(target == null || target.equals("") ? KoLCharacter.getUserName() : target);
+    request.setTarget(target == null || target.isEmpty() ? KoLCharacter.getUserName() : target);
     request.setBuffCount(buffCount);
     return request;
   }
@@ -1669,7 +1645,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
   }
 
   private static SkillStatus responseStatus(final String responseText, int skillId, int count) {
-    if (responseText == null || responseText.trim().length() == 0) {
+    if (responseText == null || responseText.trim().isEmpty()) {
       long initialMP = KoLCharacter.getCurrentMP();
       ApiRequest.updateStatus();
 
@@ -2071,11 +2047,11 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
     } else if (SkillDatabase.isVampyreSkill(skillId)) {
       ResultProcessor.processResult(
           new AdventureLongCountResult(
-              AdventureResult.HP, 0 - SkillDatabase.getHPCost(skillId) * count));
+              AdventureResult.HP, (long) -SkillDatabase.getHPCost(skillId) * count));
     }
 
     if (mpCost > 0) {
-      ResultProcessor.processResult(new AdventureLongCountResult(AdventureResult.MP, 0 - mpCost));
+      ResultProcessor.processResult(new AdventureLongCountResult(AdventureResult.MP, -mpCost));
     }
 
     return SkillStatus.SUCCESS;
