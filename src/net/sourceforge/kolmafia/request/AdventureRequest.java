@@ -599,7 +599,7 @@ public class AdventureRequest extends GenericRequest {
         // to false after being
         // read, we can only detect it once. So let's do it here, and then rely on ignoring special
         // monsters later.
-        if (EncounterManager.isRelativityMonster()) {
+        if (EncounterManager.isRelativityMonster() || EncounterManager.isAfterimageMonster()) {
           EncounterManager.ignoreSpecialMonsters();
         }
 

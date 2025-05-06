@@ -488,6 +488,19 @@ class EncounterManagerTest {
     }
   }
 
+  @ParameterizedTest
+  @ValueSource(booleans = {true, false})
+  void isAfterimageMonster(boolean afterimageMonster) {
+    var cleanups = new Cleanups(withProperty("_afterimageMonster", afterimageMonster));
+
+    try (cleanups) {
+      boolean actual = EncounterManager.isAfterimageMonster();
+
+      assertThat(actual, equalTo(afterimageMonster));
+      assertThat("_afterimageMonster", isSetTo(false));
+    }
+  }
+
   @Test
   void isRainManEncounter() {
     String html = html("request/test_fight_rainman_monster.html");

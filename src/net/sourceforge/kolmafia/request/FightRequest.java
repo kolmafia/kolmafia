@@ -3332,10 +3332,12 @@ public class FightRequest extends GenericRequest {
       }
     }
 
-    // Check if a lecture on relativity is about to give you a copy
-    // of the monster you just fought.
+    // Check if you're about to get a chained copy of the monster you just fought
     if (responseText.contains("STEP INTO FOLD IN SPACETIME")) {
       Preferences.setBoolean("_relativityMonster", true);
+    }
+    if (responseText.contains("The afterimage burned into your eyes looks ready to fight")) {
+      Preferences.setBoolean("_afterimageMonster", true);
     }
 
     // Check for runaways. Only a free runaway decreases chance
@@ -10229,6 +10231,7 @@ public class FightRequest extends GenericRequest {
             || responseText.contains("FOLDING TIME AND SPACE")
             || skillSuccess) {
           skillSuccess = true;
+          Preferences.setString("_chainedRelativityMonster", monsterName);
         }
       }
       case SkillPool.REPLACE_ENEMY -> {
@@ -10633,6 +10636,7 @@ public class FightRequest extends GenericRequest {
       case SkillPool.BLOW_THE_PURPLE_CANDLE -> {
         if (responseText.contains("all the purple") || skillSuccess) {
           Preferences.increment("romanCandelabraPurpleCasts");
+          Preferences.setString("_chainedPurpleCandleMonster", monsterName);
         }
       }
       case SkillPool.TEAR_AWAY_YOUR_PANTS -> {
@@ -10683,6 +10687,12 @@ public class FightRequest extends GenericRequest {
       case SkillPool.MCHUGELARGE_SKI_PLOW -> {
         if (responseText.contains("You skid to an abrupt stop") || skillSuccess) {
           skillSuccess = true;
+        }
+      }
+      case SkillPool.CREATE_AN_AFTERIMAGE -> {
+        if (responseText.contains("absorb all the photons") || skillSuccess) {
+          Preferences.decrement("phosphorTracesUses");
+          Preferences.setString("_chainedAfterimageMonster", monsterName);
         }
       }
 
