@@ -145,6 +145,7 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
 
   // if the request we're running requires a certain item to be equipped, store it here
   private AdventureResult forcedItem;
+  private AdventureResult forcedNonItem;
 
   // Tools for casting buffs. The lists are ordered from most bonus buff
   // turns provided by this tool to least.
@@ -372,6 +373,77 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
     }
 
     this.buffCount = buffCount;
+  }
+
+  private void setDesiredEffect(int effId) {
+    if (effId == -1) return;
+
+    switch (skillId) {
+      case SkillPool.SNARL_OF_THE_TIMBERWOLF -> {
+        var item = ItemPool.get(ItemPool.VELOUR_VOULGE);
+        switch (effId) {
+          case EffectPool.SNARL_OF_THE_TIMBERWOLF -> this.forcedNonItem = item;
+          case EffectPool.SNARL_OF_THREE_TIMBERWOLVES -> this.forcedItem = item;
+        }
+      }
+      case SkillPool.SCARYSAUCE -> {
+        var item = ItemPool.get(ItemPool.VELOUR_VISCOMETER);
+        switch (effId) {
+          case EffectPool.SCARYSAUCE -> this.forcedNonItem = item;
+          case EffectPool.SCARIERSAUCE -> this.forcedItem = item;
+        }
+      }
+      case SkillPool.DIRGE_OF_DREADFULNESS -> {
+        var item = ItemPool.get(ItemPool.VELOUR_VAQUEROS);
+        switch (effId) {
+          case EffectPool.DIRGE_OF_DREADFULNESS -> this.forcedNonItem = item;
+          case EffectPool.DIRGE_OF_DREADFULNESS_REMASTERED -> this.forcedItem = item;
+        }
+      }
+      case SkillPool.EMPATHY_OF_THE_NEWT -> {
+        var item = ItemPool.get(ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD);
+        switch (effId) {
+          case EffectPool.EMPATHY -> this.forcedNonItem = item;
+          case EffectPool.THOUGHTFUL_EMPATHY -> this.forcedItem = item;
+        }
+      }
+      case SkillPool.SEAL_CLUBBING_FRENZY -> {
+        var item = ItemPool.get(ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD);
+        if (effId == EffectPool.SLIPPERY_AS_A_SEAL) {
+          this.forcedItem = item;
+        }
+      }
+      case SkillPool.PATIENCE_OF_THE_TORTOISE -> {
+        var item = ItemPool.get(ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD);
+        if (effId == EffectPool.STRENGTH_OF_THE_TORTOISE) {
+          this.forcedItem = item;
+        }
+      }
+      case SkillPool.MANICOTTI_MEDITATION -> {
+        var item = ItemPool.get(ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD);
+        if (effId == EffectPool.TUBES_OF_UNIVERSAL_MEAT) {
+          this.forcedItem = item;
+        }
+      }
+      case SkillPool.SAUCE_CONTEMPLATION -> {
+        var item = ItemPool.get(ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD);
+        if (effId == EffectPool.LUBRICATING_SAUCE) {
+          this.forcedItem = item;
+        }
+      }
+      case SkillPool.DISCO_AEROBICS -> {
+        var item = ItemPool.get(ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD);
+        if (effId == EffectPool.DISCO_OVER_MATTER) {
+          this.forcedItem = item;
+        }
+      }
+      case SkillPool.MOXIE_OF_THE_MARIACHI -> {
+        var item = ItemPool.get(ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD);
+        if (effId == EffectPool.MARIACHI_MOISTURE) {
+          this.forcedItem = item;
+        }
+      }
+    }
   }
 
   @Override
@@ -796,6 +868,16 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
     }
   }
 
+  private void unequipForSkill(final AdventureResult item) {
+    if (!KoLCharacter.hasEquipped(item)) {
+      return;
+    }
+
+    var slot = KoLCharacter.equipmentSlot(item);
+
+    (new EquipmentRequest(EquipmentRequest.UNEQUIP, slot)).run();
+  }
+
   public final void optimizeEquipment() {
     boolean isBuff = SkillDatabase.isBuff(skillId);
 
@@ -807,6 +889,14 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
       } else if (SkillDatabase.isAccordionThiefSong(skillId)) {
         UseSkillRequest.prepareTool(UseSkillRequest.THIEF_TOOLS, skillId);
       }
+    }
+
+    if (this.forcedItem != null) {
+      equipForSkill(skillId, this.forcedItem);
+    }
+
+    if (this.forcedNonItem != null) {
+      unequipForSkill(this.forcedNonItem);
     }
 
     if (SkillDatabase.getSkillTags(skillId).contains(SkillDatabase.SkillTag.NONCOMBAT)) {
@@ -850,6 +940,10 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
 
   private boolean isValidSwitch(
       final Slot slotId, final AdventureResult newItem, final int skillId) {
+    if (newItem.equals(this.forcedNonItem)) {
+      return false;
+    }
+
     AdventureResult item = EquipmentManager.getEquipment(slotId);
     if (item.equals(EquipmentRequest.UNEQUIP)) return true;
 
@@ -1584,11 +1678,17 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
   }
 
   public static final UseSkillRequest getInstance(
-      final int skillId, final String target, final int buffCount) {
+      final int skillId, final String target, final int buffCount, final int desiredEffect) {
     UseSkillRequest request = new UseSkillRequest(skillId);
     request.setTarget(target == null || target.isEmpty() ? KoLCharacter.getUserName() : target);
     request.setBuffCount(buffCount);
+    request.setDesiredEffect(desiredEffect);
     return request;
+  }
+
+  public static final UseSkillRequest getInstance(
+      final int skillId, final String target, final int buffCount) {
+    return UseSkillRequest.getInstance(skillId, target, buffCount, -1);
   }
 
   public static final UseSkillRequest getInstance(final int skillId) {
