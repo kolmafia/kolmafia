@@ -356,6 +356,17 @@ public abstract class EncounterManager {
     return false;
   }
 
+  public static final boolean isAfterimageMonster() {
+    // There's no message to check for, and the monster always
+    // shows up immediately following the fight as a chained
+    // encounter.
+    if (Preferences.getBoolean("_afterimageMonster")) {
+      Preferences.setBoolean("_afterimageMonster", false);
+      return true;
+    }
+    return false;
+  }
+
   public static boolean isMimeographEncounter(final String responseText) {
     return RequestEditorKit.parseCosmeticModifiers(responseText).contains("mimeo");
   }
