@@ -713,7 +713,7 @@ public class Maximizer {
             } else continue;
           }
 
-          if (cmd.contains(" @ ")) {
+          if (cmd.contains(" ^ ")) {
             var req = UseSkillRequest.requiredItemForSkillEffect(skillId, effectId);
             if (req != -1 && !InventoryManager.equippedOrInInventory(req)) {
               continue;

@@ -55,8 +55,8 @@ public class UneffectRequest extends GenericRequest {
         if (skillName.contains("|")) {
           skillName = skillName.substring(0, skillName.indexOf("|"));
         }
-        if (skillName.contains(" @ ")) {
-          skillName = skillName.substring(0, skillName.indexOf(" @ "));
+        if (skillName.contains(" ^ ")) {
+          skillName = skillName.substring(0, skillName.indexOf(" ^ "));
         }
         UneffectRequest.EFFECT_SKILL.put(effectName, skillName);
       }

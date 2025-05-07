@@ -13,7 +13,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class UseSkillCommand extends AbstractCommand {
   public UseSkillCommand() {
-    this.usage = "[?] [ [<count>] <skill> [@ effect] [on <player>] ] - list spells, or use one.";
+    this.usage = "[?] [ [<count>] <skill> [^ effect] [on <player>] ] - list spells, or use one.";
   }
 
   @Override
@@ -56,7 +56,7 @@ public class UseSkillCommand extends AbstractCommand {
       if (splitParameters.length > 1) {
         player = splitParameters[1];
       }
-      var skillEffect = splitParameters[0].split(" @ ");
+      var skillEffect = splitParameters[0].split(" ^ ");
       if (skillEffect.length > 1) {
         effect = skillEffect[1];
       }

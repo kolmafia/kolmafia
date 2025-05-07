@@ -79,8 +79,8 @@ public class MoodTrigger implements Comparable<MoodTrigger> {
           parameters = parameters.substring(spaceIndex).trim();
         }
 
-        if (parameters.contains(" @ ")) {
-          parameters = parameters.substring(0, parameters.indexOf(" @ "));
+        if (parameters.contains(" ^ ")) {
+          parameters = parameters.substring(0, parameters.indexOf(" ^ "));
         }
 
         if (!SkillDatabase.contains(parameters)) {
@@ -95,7 +95,7 @@ public class MoodTrigger implements Comparable<MoodTrigger> {
                   + this.count
                   + " "
                   + this.skill.getSkillName()
-                  + (this.effect == null ? "" : " @ " + this.effect.getName());
+                  + (this.effect == null ? "" : " ^ " + this.effect.getName());
         }
       }
     }

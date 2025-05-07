@@ -1969,10 +1969,10 @@ public class MaximizerTest {
       try (cleanups) {
         assertTrue(maximize("cold res"));
         assertThat(
-            getBoosts(), hasItem(hasProperty("cmd", startsWith("cast 1 Scarysauce @ Scarysauce"))));
+            getBoosts(), hasItem(hasProperty("cmd", startsWith("cast 1 Scarysauce ^ Scarysauce"))));
         assertThat(
             getBoosts(),
-            not(hasItem(hasProperty("cmd", startsWith("cast 1 Scarysauce @ Scariersauce")))));
+            not(hasItem(hasProperty("cmd", startsWith("cast 1 Scarysauce ^ Scariersauce")))));
       }
     }
 
@@ -1985,10 +1985,10 @@ public class MaximizerTest {
       try (cleanups) {
         assertTrue(maximize("cold res"));
         assertThat(
-            getBoosts(), hasItem(hasProperty("cmd", startsWith("cast 1 Scarysauce @ Scarysauce"))));
+            getBoosts(), hasItem(hasProperty("cmd", startsWith("cast 1 Scarysauce ^ Scarysauce"))));
         assertThat(
             getBoosts(),
-            hasItem(hasProperty("cmd", startsWith("cast 1 Scarysauce @ Scariersauce"))));
+            hasItem(hasProperty("cmd", startsWith("cast 1 Scarysauce ^ Scariersauce"))));
       }
     }
 

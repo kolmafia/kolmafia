@@ -319,8 +319,8 @@ class MoodManagerTest {
       var mood =
           """
           [ default ]
-          lose_effect empathy => cast 1 empathy of the newt @ empathy
-          lose_effect thoughtful empathy => cast 1 empathy of the newt @ thoughtful empathy
+          lose_effect empathy => cast 1 empathy of the newt ^ empathy
+          lose_effect thoughtful empathy => cast 1 empathy of the newt ^ thoughtful empathy
           lose_effect leash of linguini => cast 1 leash of linguini
           """;
       BufferedReader reader = new BufferedReader(new StringReader(mood));
