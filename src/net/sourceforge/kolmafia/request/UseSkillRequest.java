@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.request;
 import static net.sourceforge.kolmafia.utilities.Statics.DateTimeManager;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -375,72 +376,68 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
     this.buffCount = buffCount;
   }
 
+  private record ReplaceEffect(int skill, int item, int baseEffect, int newEffect) {}
+
+  private final static List<ReplaceEffect> replaceEffects = List.of(
+      new ReplaceEffect(SkillPool.SNARL_OF_THE_TIMBERWOLF, ItemPool.VELOUR_VOULGE, EffectPool.SNARL_OF_THE_TIMBERWOLF, EffectPool.SNARL_OF_THREE_TIMBERWOLVES),
+      new ReplaceEffect(SkillPool.SCARYSAUCE, ItemPool.VELOUR_VISCOMETER, EffectPool.SCARYSAUCE, EffectPool.SCARIERSAUCE),
+      new ReplaceEffect(SkillPool.DIRGE_OF_DREADFULNESS, ItemPool.VELOUR_VAQUEROS, EffectPool.DIRGE_OF_DREADFULNESS, EffectPool.DIRGE_OF_DREADFULNESS_REMASTERED),
+      new ReplaceEffect(SkillPool.EMPATHY_OF_THE_NEWT, ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD, EffectPool.EMPATHY, EffectPool.THOUGHTFUL_EMPATHY)
+  );
+
+  private record AdditionalEffect(int skill, int item, int newEffect) {}
+
+  private final static List<AdditionalEffect> additionalEffects = List.of(
+      new AdditionalEffect(SkillPool.SEAL_CLUBBING_FRENZY, ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD, EffectPool.SLIPPERY_AS_A_SEAL),
+      new AdditionalEffect(SkillPool.PATIENCE_OF_THE_TORTOISE, ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD, EffectPool.STRENGTH_OF_THE_TORTOISE),
+      new AdditionalEffect(SkillPool.MANICOTTI_MEDITATION, ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD, EffectPool.TUBES_OF_UNIVERSAL_MEAT),
+      new AdditionalEffect(SkillPool.SAUCE_CONTEMPLATION, ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD, EffectPool.LUBRICATING_SAUCE),
+      new AdditionalEffect(SkillPool.DISCO_AEROBICS, ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD, EffectPool.DISCO_OVER_MATTER),
+      new AdditionalEffect(SkillPool.MOXIE_OF_THE_MARIACHI, ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD, EffectPool.MARIACHI_MOISTURE)
+  );
+
+  public static int requiredItemForSkillEffect(int skillId, int effId) {
+    for (var replace : replaceEffects) {
+      if (skillId == replace.skill) {
+        if (effId == replace.baseEffect) {
+          return -1;
+        } else if (effId == replace.newEffect) {
+          return replace.item;
+        }
+      }
+    }
+
+    for (var add : additionalEffects) {
+      if (skillId == add.skill) {
+        if (effId == add.newEffect) {
+          return add.item;
+        }
+      }
+    }
+
+    return -1;
+  }
+
   private void setDesiredEffect(int effId) {
     if (effId == -1) return;
 
-    switch (skillId) {
-      case SkillPool.SNARL_OF_THE_TIMBERWOLF -> {
-        var item = ItemPool.get(ItemPool.VELOUR_VOULGE);
-        switch (effId) {
-          case EffectPool.SNARL_OF_THE_TIMBERWOLF -> this.forcedNonItem = item;
-          case EffectPool.SNARL_OF_THREE_TIMBERWOLVES -> this.forcedItem = item;
+    for (var replace : replaceEffects) {
+      if (skillId == replace.skill) {
+        if (effId == replace.baseEffect) {
+          this.forcedNonItem = ItemPool.get(replace.item);
+          return;
+        } else if (effId == replace.newEffect) {
+          this.forcedItem = ItemPool.get(replace.item);
+          return;
         }
       }
-      case SkillPool.SCARYSAUCE -> {
-        var item = ItemPool.get(ItemPool.VELOUR_VISCOMETER);
-        switch (effId) {
-          case EffectPool.SCARYSAUCE -> this.forcedNonItem = item;
-          case EffectPool.SCARIERSAUCE -> this.forcedItem = item;
-        }
-      }
-      case SkillPool.DIRGE_OF_DREADFULNESS -> {
-        var item = ItemPool.get(ItemPool.VELOUR_VAQUEROS);
-        switch (effId) {
-          case EffectPool.DIRGE_OF_DREADFULNESS -> this.forcedNonItem = item;
-          case EffectPool.DIRGE_OF_DREADFULNESS_REMASTERED -> this.forcedItem = item;
-        }
-      }
-      case SkillPool.EMPATHY_OF_THE_NEWT -> {
-        var item = ItemPool.get(ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD);
-        switch (effId) {
-          case EffectPool.EMPATHY -> this.forcedNonItem = item;
-          case EffectPool.THOUGHTFUL_EMPATHY -> this.forcedItem = item;
-        }
-      }
-      case SkillPool.SEAL_CLUBBING_FRENZY -> {
-        var item = ItemPool.get(ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD);
-        if (effId == EffectPool.SLIPPERY_AS_A_SEAL) {
-          this.forcedItem = item;
-        }
-      }
-      case SkillPool.PATIENCE_OF_THE_TORTOISE -> {
-        var item = ItemPool.get(ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD);
-        if (effId == EffectPool.STRENGTH_OF_THE_TORTOISE) {
-          this.forcedItem = item;
-        }
-      }
-      case SkillPool.MANICOTTI_MEDITATION -> {
-        var item = ItemPool.get(ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD);
-        if (effId == EffectPool.TUBES_OF_UNIVERSAL_MEAT) {
-          this.forcedItem = item;
-        }
-      }
-      case SkillPool.SAUCE_CONTEMPLATION -> {
-        var item = ItemPool.get(ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD);
-        if (effId == EffectPool.LUBRICATING_SAUCE) {
-          this.forcedItem = item;
-        }
-      }
-      case SkillPool.DISCO_AEROBICS -> {
-        var item = ItemPool.get(ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD);
-        if (effId == EffectPool.DISCO_OVER_MATTER) {
-          this.forcedItem = item;
-        }
-      }
-      case SkillPool.MOXIE_OF_THE_MARIACHI -> {
-        var item = ItemPool.get(ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD);
-        if (effId == EffectPool.MARIACHI_MOISTURE) {
-          this.forcedItem = item;
+    }
+
+    for (var add : additionalEffects) {
+      if (skillId == add.skill) {
+        if (effId == add.newEffect) {
+          this.forcedItem = ItemPool.get(add.item);
+          return;
         }
       }
     }
