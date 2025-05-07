@@ -378,23 +378,57 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
 
   private record ReplaceEffect(int skill, int item, int baseEffect, int newEffect) {}
 
-  private final static List<ReplaceEffect> replaceEffects = List.of(
-      new ReplaceEffect(SkillPool.SNARL_OF_THE_TIMBERWOLF, ItemPool.VELOUR_VOULGE, EffectPool.SNARL_OF_THE_TIMBERWOLF, EffectPool.SNARL_OF_THREE_TIMBERWOLVES),
-      new ReplaceEffect(SkillPool.SCARYSAUCE, ItemPool.VELOUR_VISCOMETER, EffectPool.SCARYSAUCE, EffectPool.SCARIERSAUCE),
-      new ReplaceEffect(SkillPool.DIRGE_OF_DREADFULNESS, ItemPool.VELOUR_VAQUEROS, EffectPool.DIRGE_OF_DREADFULNESS, EffectPool.DIRGE_OF_DREADFULNESS_REMASTERED),
-      new ReplaceEffect(SkillPool.EMPATHY_OF_THE_NEWT, ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD, EffectPool.EMPATHY, EffectPool.THOUGHTFUL_EMPATHY)
-  );
+  private static final List<ReplaceEffect> replaceEffects =
+      List.of(
+          new ReplaceEffect(
+              SkillPool.SNARL_OF_THE_TIMBERWOLF,
+              ItemPool.VELOUR_VOULGE,
+              EffectPool.SNARL_OF_THE_TIMBERWOLF,
+              EffectPool.SNARL_OF_THREE_TIMBERWOLVES),
+          new ReplaceEffect(
+              SkillPool.SCARYSAUCE,
+              ItemPool.VELOUR_VISCOMETER,
+              EffectPool.SCARYSAUCE,
+              EffectPool.SCARIERSAUCE),
+          new ReplaceEffect(
+              SkillPool.DIRGE_OF_DREADFULNESS,
+              ItemPool.VELOUR_VAQUEROS,
+              EffectPool.DIRGE_OF_DREADFULNESS,
+              EffectPool.DIRGE_OF_DREADFULNESS_REMASTERED),
+          new ReplaceEffect(
+              SkillPool.EMPATHY_OF_THE_NEWT,
+              ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD,
+              EffectPool.EMPATHY,
+              EffectPool.THOUGHTFUL_EMPATHY));
 
   private record AdditionalEffect(int skill, int item, int newEffect) {}
 
-  private final static List<AdditionalEffect> additionalEffects = List.of(
-      new AdditionalEffect(SkillPool.SEAL_CLUBBING_FRENZY, ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD, EffectPool.SLIPPERY_AS_A_SEAL),
-      new AdditionalEffect(SkillPool.PATIENCE_OF_THE_TORTOISE, ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD, EffectPool.STRENGTH_OF_THE_TORTOISE),
-      new AdditionalEffect(SkillPool.MANICOTTI_MEDITATION, ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD, EffectPool.TUBES_OF_UNIVERSAL_MEAT),
-      new AdditionalEffect(SkillPool.SAUCE_CONTEMPLATION, ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD, EffectPool.LUBRICATING_SAUCE),
-      new AdditionalEffect(SkillPool.DISCO_AEROBICS, ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD, EffectPool.DISCO_OVER_MATTER),
-      new AdditionalEffect(SkillPool.MOXIE_OF_THE_MARIACHI, ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD, EffectPool.MARIACHI_MOISTURE)
-  );
+  private static final List<AdditionalEffect> additionalEffects =
+      List.of(
+          new AdditionalEffect(
+              SkillPool.SEAL_CLUBBING_FRENZY,
+              ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD,
+              EffectPool.SLIPPERY_AS_A_SEAL),
+          new AdditionalEffect(
+              SkillPool.PATIENCE_OF_THE_TORTOISE,
+              ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD,
+              EffectPool.STRENGTH_OF_THE_TORTOISE),
+          new AdditionalEffect(
+              SkillPool.MANICOTTI_MEDITATION,
+              ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD,
+              EffectPool.TUBES_OF_UNIVERSAL_MEAT),
+          new AdditionalEffect(
+              SkillPool.SAUCE_CONTEMPLATION,
+              ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD,
+              EffectPool.LUBRICATING_SAUCE),
+          new AdditionalEffect(
+              SkillPool.DISCO_AEROBICS,
+              ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD,
+              EffectPool.DISCO_OVER_MATTER),
+          new AdditionalEffect(
+              SkillPool.MOXIE_OF_THE_MARIACHI,
+              ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD,
+              EffectPool.MARIACHI_MOISTURE));
 
   public static int requiredItemForSkillEffect(int skillId, int effId) {
     for (var replace : replaceEffects) {
