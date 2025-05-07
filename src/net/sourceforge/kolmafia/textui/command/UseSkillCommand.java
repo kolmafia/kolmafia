@@ -56,7 +56,7 @@ public class UseSkillCommand extends AbstractCommand {
       if (splitParameters.length > 1) {
         player = splitParameters[1];
       }
-      var skillEffect = splitParameters[0].split(" ^ ");
+      var skillEffect = splitParameters[0].split(" \\^ ");
       if (skillEffect.length > 1) {
         effect = skillEffect[1];
       }
