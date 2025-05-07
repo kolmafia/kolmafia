@@ -1803,6 +1803,7 @@ user	_absintheDrops	0
 user	_abstractionDropsCrown	0
 user	_affirmationCookieEaten	false
 user	_affirmationHateUsed	false
+user	_afterimageMonster	false
 user	_aguaDrops	0
 user	_airFryerUsed	false
 user	_akgyxothUsed	false
@@ -1954,6 +1955,9 @@ user	_carrotNoseDrops	0
 user	_catBurglarCharge	0
 user	_catBurglarHeistsComplete	0
 user	_ceciHatUsed	false
+user	_chainedRelativityMonster		rof
+user	_chainedPurpleCandleMonster		rof
+user	_chainedAfterimageMonster		rof
 user	_chateauDeskHarvested	false
 user	_chateauMonsterFought	false
 user	_cheerleaderSteam	200
