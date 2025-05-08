@@ -2052,6 +2052,10 @@ public abstract class InventoryManager {
   }
 
   public static boolean pullableInLoL(int itemId) {
+    // the Mayam Calendar is not pullable despite being a usable item & a free pull
+    if (itemId == ItemPool.MAYAM_CALENDAR) {
+      return false;
+    }
     // Only food, booze, potions, combat and usable items may be pulled on this path.
     return switch (ItemDatabase.getConsumptionType(itemId)) {
       case
