@@ -61,4 +61,16 @@ public class UseSkillCommandTest extends AbstractCommandTestBase {
       assertThat(output, containsString("Casting Disco Nap"));
     }
   }
+
+  @Test
+  void canCastSkillsForEffects() {
+    var cleanups = new Cleanups(withSkill(SkillPool.EMPATHY_OF_THE_NEWT), withMP(100, 100, 100));
+
+    try (cleanups) {
+      String output = execute("empathy ^ empathy");
+
+      assertContinueState();
+      assertThat(output, containsString("Casting Empathy of the Newt"));
+    }
+  }
 }

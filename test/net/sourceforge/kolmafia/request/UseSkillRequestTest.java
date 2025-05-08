@@ -32,6 +32,7 @@ import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
@@ -576,6 +577,74 @@ class UseSkillRequestTest {
             "runskillz.php?action=Skillz&whichskill=7463&ajax=1&quantity=1", "response ignored");
         assertThat("_augTodayCast", isSetTo(false));
         assertThat("_augSkillsCast", isSetTo(5));
+      }
+    }
+  }
+
+  @Nested
+  class AdditionalEffects {
+    @BeforeEach
+    public void initializeState() {
+      HttpClientWrapper.setupFakeClient();
+      KoLCharacter.reset("AdditionalEffects");
+      Preferences.reset("AdditionalEffects");
+    }
+
+    @AfterAll
+    public static void afterAll() {
+      UseSkillRequest.lastSkillUsed = -1;
+      UseSkillRequest.lastSkillCount = 0;
+    }
+
+    @Test
+    public void replaceEffects() {
+      var cleanups =
+          new Cleanups(
+              withEquippableItem(ItemPool.VELOUR_VOULGE),
+              withSkill(SkillPool.SNARL_OF_THE_TIMBERWOLF),
+              withMP(100, 100, 100));
+
+      try (cleanups) {
+        var req =
+            UseSkillRequest.getInstance(
+                SkillPool.SNARL_OF_THE_TIMBERWOLF, null, 1, EffectPool.SNARL_OF_THREE_TIMBERWOLVES);
+        req.run();
+
+        var requests = getRequests();
+        assertPostRequest(
+            requests.get(0),
+            "/inv_equip.php",
+            "which=2&ajax=1&action=equip&whichitem=" + ItemPool.VELOUR_VOULGE);
+        assertGetRequest(
+            requests.get(1),
+            "/runskillz.php",
+            "action=Skillz&whichskill=" + SkillPool.SNARL_OF_THE_TIMBERWOLF + "&ajax=1&quantity=1");
+      }
+    }
+
+    @Test
+    public void addEffects() {
+      var cleanups =
+          new Cleanups(
+              withEquippableItem(ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD),
+              withSkill(SkillPool.SEAL_CLUBBING_FRENZY),
+              withMP(100, 100, 100));
+
+      try (cleanups) {
+        var req =
+            UseSkillRequest.getInstance(
+                SkillPool.SEAL_CLUBBING_FRENZY, null, 1, EffectPool.SLIPPERY_AS_A_SEAL);
+        req.run();
+
+        var requests = getRequests();
+        assertPostRequest(
+            requests.get(0),
+            "/inv_equip.php",
+            "which=2&ajax=1&action=equip&whichitem=" + ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD);
+        assertGetRequest(
+            requests.get(1),
+            "/runskillz.php",
+            "action=Skillz&whichskill=" + SkillPool.SEAL_CLUBBING_FRENZY + "&ajax=1&quantity=1");
       }
     }
   }
