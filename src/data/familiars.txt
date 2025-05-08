@@ -338,7 +338,7 @@
 301	Proto-Protozoa	protoproto.gif	combat1	proto-proto-protozoa	extra ooze	0	0	0	3	organic,swims,sleaze
 302	Evolving Organism	bacteria.gif	combat1,hp1,mp1,block,variable	unevolved organism	extra DNA	3	1	2	0	organic,cute,animal
 303	Burly Bodyguard	bodyguard.gif	combat0,block	baby bodyguard	bodyguard badge	3	3	3	3	sentient,organic,person,hasbones,haseyes,hashands,haslegs,wearsclothes,good,cantalk
-304	Doll Moll	molldoll.gif	combat0,meat	Doll Moll violin case	tiny Tina gun	3	3	2	2	sentient,organic,person,hasbones,haseyes,hashands,wearsclothes,cute,evil,cantalk
+304	Doll Moll	molldoll.gif	combat0,meat0	Doll Moll violin case	tiny Tina gun	3	3	2	2	sentient,organic,person,hasbones,haseyes,hashands,wearsclothes,cute,evil,cantalk
 305	Emberiza Aureola	emberbird.gif	combat1	ember egg	tiny ember	0	1	2	3	sentient,organic,haseyes,hasbones,hasclaws,haswings,flies,hot,hasbeak,animal
 306	Peace Turkey	pto_fam.gif	drop,delevel0,block,passive,other1,hp1,mp1	peace turkey outline	tie-dye headband	0	3	1	3	sentient,object,animatedart,good,haseyes,hasbeak
 307	Quantum Entangler	qf.gif	block	quantized familiar	quantum watch	2	2	2	3	object

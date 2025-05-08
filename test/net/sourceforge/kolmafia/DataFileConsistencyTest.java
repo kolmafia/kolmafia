@@ -215,6 +215,47 @@ public class DataFileConsistencyTest {
   }
 
   @Test
+  public void testFamiliarTypes() throws IOException {
+    var types = datafileItems("familiars.txt", 4, 3);
+    var validTypes =
+        Set.of(
+            "none",
+            "stat0",
+            "stat1",
+            "item0",
+            "item1",
+            "item2",
+            "item3",
+            "meat0",
+            "combat0",
+            "combat1",
+            "drop",
+            "block",
+            "delevel0",
+            "delevel1",
+            "hp0",
+            "mp0",
+            "meat1",
+            "stat2",
+            "other0",
+            "hp1",
+            "mp1",
+            "stat3",
+            "other1",
+            "passive",
+            "underwater",
+            "pokefam",
+            "variable");
+
+    for (var type : types) {
+      for (var t : type.split(",")) {
+        assertThat(
+            String.format("%s is in familiars.txt but not a valid type", t), t, in(validTypes));
+      }
+    }
+  }
+
+  @Test
   public void testFamiliarAttributes() throws IOException {
     var attributes = datafileItems("familiars.txt", 4, 10);
     var validAttrs =
