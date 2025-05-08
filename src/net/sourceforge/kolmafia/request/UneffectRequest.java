@@ -55,6 +55,9 @@ public class UneffectRequest extends GenericRequest {
         if (skillName.contains("|")) {
           skillName = skillName.substring(0, skillName.indexOf("|"));
         }
+        if (skillName.contains(" ^ ")) {
+          skillName = skillName.substring(0, skillName.indexOf(" ^ "));
+        }
         UneffectRequest.EFFECT_SKILL.put(effectName, skillName);
       }
     }
@@ -137,31 +140,32 @@ public class UneffectRequest extends GenericRequest {
 
   public static final boolean isShruggable(final int effectId) {
     switch (effectId) {
-      case EffectPool.TIMER1:
-      case EffectPool.TIMER2:
-      case EffectPool.TIMER3:
-      case EffectPool.TIMER4:
-      case EffectPool.TIMER5:
-      case EffectPool.TIMER6:
-      case EffectPool.TIMER7:
-      case EffectPool.TIMER8:
-      case EffectPool.TIMER9:
-      case EffectPool.TIMER10:
-      case EffectPool.JUST_THE_BEST_ANAPESTS:
-      case EffectPool.REASSURED:
-      case EffectPool.HARE_BRAINED:
-      case EffectPool.RECORD_HUNGER:
-      case EffectPool.DRUNK_AVUNCULAR:
-      case EffectPool.SHRIEKING_WEASEL:
-      case EffectPool.POWER_MAN:
-      case EffectPool.LUCKY_STRUCK:
-      case EffectPool.MINISTRATIONS_IN_THE_DARK:
-      case EffectPool.SUPERDRIFTING:
-      case EffectPool.ELDRITCH_ATTUNEMENT:
-      case EffectPool.CARTOGRAPHICALLY_CHARGED:
-      case EffectPool.CARTOGRAPHICALLY_AWARE:
-      case EffectPool.CARTOGRAPHICALLY_ROOTED:
+      case EffectPool.TIMER1,
+          EffectPool.TIMER2,
+          EffectPool.TIMER3,
+          EffectPool.TIMER4,
+          EffectPool.TIMER5,
+          EffectPool.TIMER6,
+          EffectPool.TIMER7,
+          EffectPool.TIMER8,
+          EffectPool.TIMER9,
+          EffectPool.TIMER10,
+          EffectPool.JUST_THE_BEST_ANAPESTS,
+          EffectPool.REASSURED,
+          EffectPool.HARE_BRAINED,
+          EffectPool.RECORD_HUNGER,
+          EffectPool.DRUNK_AVUNCULAR,
+          EffectPool.SHRIEKING_WEASEL,
+          EffectPool.POWER_MAN,
+          EffectPool.LUCKY_STRUCK,
+          EffectPool.MINISTRATIONS_IN_THE_DARK,
+          EffectPool.SUPERDRIFTING,
+          EffectPool.ELDRITCH_ATTUNEMENT,
+          EffectPool.CARTOGRAPHICALLY_CHARGED,
+          EffectPool.CARTOGRAPHICALLY_AWARE,
+          EffectPool.CARTOGRAPHICALLY_ROOTED -> {
         return true;
+      }
     }
 
     // Some songs are not AT buffs but are still shruggable
@@ -238,56 +242,84 @@ public class UneffectRequest extends GenericRequest {
     int skillId = SkillDatabase.getSkillId(skillName);
 
     switch (skillId) {
-      case SkillPool.SPIRIT_BOON:
-        {
-          TurtleBlessing blessing = KoLCharacter.getBlessingType();
-          if (blessing == null) return "none";
-          return switch (blessing) {
-            case SHE_WHO_WAS -> EffectDatabase.getEffectName(EffectPool.BOON_OF_SHE_WHO_WAS);
-            case STORM -> EffectDatabase.getEffectName(EffectPool.BOON_OF_THE_STORM_TORTOISE);
-            case WAR -> EffectDatabase.getEffectName(EffectPool.BOON_OF_THE_WAR_SNAPPER);
-          };
-        }
-      case SkillPool.SHE_WHO_WAS_BLESSING:
+      case SkillPool.SPIRIT_BOON -> {
+        TurtleBlessing blessing = KoLCharacter.getBlessingType();
+        if (blessing == null) return "none";
+        return switch (blessing) {
+          case SHE_WHO_WAS -> EffectDatabase.getEffectName(EffectPool.BOON_OF_SHE_WHO_WAS);
+          case STORM -> EffectDatabase.getEffectName(EffectPool.BOON_OF_THE_STORM_TORTOISE);
+          case WAR -> EffectDatabase.getEffectName(EffectPool.BOON_OF_THE_WAR_SNAPPER);
+        };
+      }
+      case SkillPool.SHE_WHO_WAS_BLESSING -> {
         return EffectDatabase.getEffectName(
             KoLCharacter.isTurtleTamer()
                 ? EffectPool.BLESSING_OF_SHE_WHO_WAS
                 : EffectPool.DISDAIN_OF_SHE_WHO_WAS);
-      case SkillPool.STORM_BLESSING:
+      }
+      case SkillPool.STORM_BLESSING -> {
         return EffectDatabase.getEffectName(
             KoLCharacter.isTurtleTamer()
                 ? EffectPool.BLESSING_OF_THE_STORM_TORTOISE
                 : EffectPool.DISDAIN_OF_THE_STORM_TORTOISE);
-      case SkillPool.WAR_BLESSING:
+      }
+      case SkillPool.WAR_BLESSING -> {
         return EffectDatabase.getEffectName(
             KoLCharacter.isTurtleTamer()
                 ? EffectPool.BLESSING_OF_THE_WAR_SNAPPER
                 : EffectPool.DISDAIN_OF_THE_WAR_SNAPPER);
-      case SkillPool.TURTLE_POWER:
-        {
-          TurtleBlessing blessing = KoLCharacter.getBlessingType();
-          if (blessing == null) return "none";
-          return switch (blessing) {
-            case SHE_WHO_WAS -> EffectDatabase.getEffectName(EffectPool.AVATAR_OF_SHE_WHO_WAS);
-            case STORM -> EffectDatabase.getEffectName(EffectPool.AVATAR_OF_THE_STORM_TORTOISE);
-            case WAR -> EffectDatabase.getEffectName(EffectPool.AVATAR_OF_THE_WAR_SNAPPER);
-          };
-        }
-      case SkillPool.SHIELD_OF_THE_PASTALORD:
+      }
+      case SkillPool.TURTLE_POWER -> {
+        TurtleBlessing blessing = KoLCharacter.getBlessingType();
+        if (blessing == null) return "none";
+        return switch (blessing) {
+          case SHE_WHO_WAS -> EffectDatabase.getEffectName(EffectPool.AVATAR_OF_SHE_WHO_WAS);
+          case STORM -> EffectDatabase.getEffectName(EffectPool.AVATAR_OF_THE_STORM_TORTOISE);
+          case WAR -> EffectDatabase.getEffectName(EffectPool.AVATAR_OF_THE_WAR_SNAPPER);
+        };
+      }
+      case SkillPool.SHIELD_OF_THE_PASTALORD -> {
         return EffectDatabase.getEffectName(
             KoLCharacter.isPastamancer()
                 ? EffectPool.SHIELD_OF_THE_PASTALORD
                 : EffectPool.FLIMSY_SHIELD_OF_THE_PASTALORD);
-      case SkillPool.BLOOD_SUGAR_SAUCE_MAGIC:
+      }
+      case SkillPool.BLOOD_SUGAR_SAUCE_MAGIC -> {
         return EffectDatabase.getEffectName(
             KoLCharacter.isSauceror()
                 ? EffectPool.BLOOD_SUGAR_SAUCE_MAGIC
                 : EffectPool.BLOOD_SUGAR_SAUCE_MAGIC_LITE);
-      case SkillPool.SILENT_HUNTER:
+      }
+      case SkillPool.SILENT_HUNTER -> {
         return EffectDatabase.getEffectName(
             KoLCharacter.isSealClubber()
                 ? EffectPool.SILENT_HUNTING
                 : EffectPool.NEARLY_SILENT_HUNTING);
+      }
+      case SkillPool.SNARL_OF_THE_TIMBERWOLF -> {
+        return EffectDatabase.getEffectName(
+            KoLCharacter.hasEquipped(ItemPool.VELOUR_VOULGE)
+                ? EffectPool.SNARL_OF_THREE_TIMBERWOLVES
+                : EffectPool.SNARL_OF_THE_TIMBERWOLF);
+      }
+      case SkillPool.SCARYSAUCE -> {
+        return EffectDatabase.getEffectName(
+            KoLCharacter.hasEquipped(ItemPool.VELOUR_VISCOMETER)
+                ? EffectPool.SCARIERSAUCE
+                : EffectPool.SCARYSAUCE);
+      }
+      case SkillPool.DIRGE_OF_DREADFULNESS -> {
+        return EffectDatabase.getEffectName(
+            KoLCharacter.hasEquipped(ItemPool.VELOUR_VAQUEROS)
+                ? EffectPool.DIRGE_OF_DREADFULNESS_REMASTERED
+                : EffectPool.DIRGE_OF_DREADFULNESS);
+      }
+      case SkillPool.EMPATHY_OF_THE_NEWT -> {
+        return EffectDatabase.getEffectName(
+            KoLCharacter.hasEquipped(ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD)
+                ? EffectPool.THOUGHTFUL_EMPATHY
+                : EffectPool.EMPATHY);
+      }
     }
 
     // Handle remaining skills with a lookup
