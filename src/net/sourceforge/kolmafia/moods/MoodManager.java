@@ -555,6 +555,10 @@ public abstract class MoodManager {
         action = action.substring(spaceIndex + 1);
       }
 
+      if (action.contains(" ^ ")) {
+        action = action.substring(0, action.indexOf(" ^ "));
+      }
+
       String skillName = SkillDatabase.getSkillName(action);
       if (skillName != null) {
         runningTally +=

@@ -134,6 +134,7 @@ public class SkillPool {
   public static final int OVERCLOCK10 = 243;
   public static final int GENERATE_IRONY = 245;
 
+  public static final int SEAL_CLUBBING_FRENZY = 1000;
   public static final int THRUST_SMACK = 1003;
   public static final int LUNGE_SMACK = 1004;
   public static final int LUNGING_THRUST_SMACK = 1005;
@@ -153,6 +154,7 @@ public class SkillPool {
   public static final int SILENT_HUNTER = 1041;
   public static final int GET_BIG = 1042;
   public static final int BLOOD_FRENZY = 1043;
+  public static final int PATIENCE_OF_THE_TORTOISE = 2000;
   public static final int ARMORCRAFTINESS = 2006;
   public static final int EMPATHY_OF_THE_NEWT = 2009;
   public static final int WISDOM_OF_THE_ELDER_TORTOISES = 2011;
@@ -172,6 +174,7 @@ public class SkillPool {
   public static final int TURTLE_POWER = 2041;
   public static final int MATING_CALL = 2043;
   public static final int BLOOD_BOND = 2044;
+  public static final int MANICOTTI_MEDITATION = 3000;
   public static final int RAVIOLI_SHURIKENS = 3003;
   public static final int ENTANGLING_NOODLES = 3004;
   public static final int CANNELLONI_CANNON = 3005;
@@ -203,6 +206,7 @@ public class SkillPool {
   public static final int BIND_SPAGHETTI_ELEMENTAL = 3041;
   public static final int INSCRUTABLE_GAZE = 3043;
   public static final int BLOOD_BUCATINI = 3044;
+  public static final int SAUCE_CONTEMPLATION = 4000;
   public static final int STREAM_OF_SAUCE = 4003;
   public static final int ADVANCED_SAUCECRAFTING = 4006;
   public static final int JALAPENO_SAUCESPHERE = 4008;
@@ -219,6 +223,7 @@ public class SkillPool {
   public static final int SAUCEMAVEN = 4039;
   public static final int LOVE_MIXOLOGY = 4041;
   public static final int BLOOD_BUBBLE = 4042;
+  public static final int DISCO_AEROBICS = 5000;
   public static final int DISCO_EYE_POKE = 5003;
   public static final int DISCO_DANCE_OF_DOOM = 5005;
   public static final int DISCO_NAP = 5007;
@@ -237,6 +242,7 @@ public class SkillPool {
   public static final int DISCO_DANCE_3 = 5036;
   public static final int ACQUIRE_RHINESTONES = 5041;
   public static final int BLOOD_BLADE = 5042;
+  public static final int MOXIE_OF_THE_MARIACHI = 6000;
   public static final int ANTIPHON = 6003;
   public static final int POLKA_OF_PLENTY = 6006;
   public static final int PHAT_LOOT = 6010;

@@ -1968,7 +1968,27 @@ public class MaximizerTest {
 
       try (cleanups) {
         assertTrue(maximize("cold res"));
-        assertThat(getBoosts(), hasItem(hasProperty("cmd", startsWith("cast 1 Scarysauce"))));
+        assertThat(
+            getBoosts(), hasItem(hasProperty("cmd", startsWith("cast 1 Scarysauce ^ Scarysauce"))));
+        assertThat(
+            getBoosts(),
+            not(hasItem(hasProperty("cmd", startsWith("cast 1 Scarysauce ^ Scariersauce")))));
+      }
+    }
+
+    @Test
+    public void suggestsSpecialEffectsFromSkillsIfHaveEquipment() {
+      var cleanups =
+          new Cleanups(
+              withSkill(SkillPool.SCARYSAUCE), withEquippableItem(ItemPool.VELOUR_VISCOMETER));
+
+      try (cleanups) {
+        assertTrue(maximize("cold res"));
+        assertThat(
+            getBoosts(), hasItem(hasProperty("cmd", startsWith("cast 1 Scarysauce ^ Scarysauce"))));
+        assertThat(
+            getBoosts(),
+            hasItem(hasProperty("cmd", startsWith("cast 1 Scarysauce ^ Scariersauce"))));
       }
     }
 

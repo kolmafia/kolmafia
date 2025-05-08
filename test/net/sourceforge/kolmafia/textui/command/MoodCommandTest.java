@@ -112,11 +112,11 @@ class MoodCommandTest extends AbstractCommandTestBase {
     String expected =
         "When I get Beaten Up, uneffect Beaten Up"
             + LS
-            + "When I run low on Empathy, cast 1 Empathy of the Newt"
+            + "When I run low on Empathy, cast 1 Empathy of the Newt ^ Empathy"
             + LS
-            + "When I run low on Leash of Linguini, cast 1 Leash of Linguini"
+            + "When I run low on Leash of Linguini, cast 1 Leash of Linguini ^ Leash of Linguini"
             + LS
-            + "When I run low on Singer's Faithful Ocelot, cast 1 Singer's Faithful Ocelot"
+            + "When I run low on Singer's Faithful Ocelot, cast 1 Singer's Faithful Ocelot ^ Singer's Faithful Ocelot"
             + LS;
     assertEquals(expected, output, "Unexpected output");
   }
@@ -144,13 +144,13 @@ class MoodCommandTest extends AbstractCommandTestBase {
     KoLCharacter.addAvailableSkill(SkillPool.POLKA_OF_PLENTY);
     String output = execute("autofill");
     String expected =
-        "When I run low on Empathy, cast 1 Empathy of the Newt"
+        "When I run low on Empathy, cast 1 Empathy of the Newt ^ Empathy"
             + LS
-            + "When I run low on Fat Leon's Phat Loot Lyric, cast 1 Fat Leon's Phat Loot Lyric"
+            + "When I run low on Fat Leon's Phat Loot Lyric, cast 1 Fat Leon's Phat Loot Lyric ^ Fat Leon's Phat Loot Lyric"
             + LS
-            + "When I run low on Leash of Linguini, cast 1 Leash of Linguini"
+            + "When I run low on Leash of Linguini, cast 1 Leash of Linguini ^ Leash of Linguini"
             + LS
-            + "When I run low on Polka of Plenty, cast 1 The Polka of Plenty"
+            + "When I run low on Polka of Plenty, cast 1 The Polka of Plenty ^ Polka of Plenty"
             + LS;
     assertEquals(expected, output, "Unexpected output");
   }

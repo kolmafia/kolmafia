@@ -3311,6 +3311,9 @@ public class ItemPool {
   public static final int PARAFFIN_PSEUDOACCORDION = 10103;
   public static final int PARAFFIN_PIECES = 10104;
   public static final int TERRA_COTTA_TIDBITS = 10112;
+  public static final int VELOUR_VOULGE = 10114;
+  public static final int VELOUR_VISCOMETER = 10117;
+  public static final int VELOUR_VAQUEROS = 10119;
   public static final int TRYPTOPHAN_DART = 10159;
   public static final int DOCTOR_BAG = 10166;
   public static final int BLOOD_SNOWCONE = 10173;

@@ -54,7 +54,10 @@ public class EffectPool {
   public static final int SLEAZEFORM = 193;
   public static final int CURSED_BY_RNG = 217;
   public static final int CHALKY_HAND = 221;
+  public static final int SNARL_OF_THE_TIMBERWOLF = 222;
   public static final int DREAMS_AND_LIGHTS = 223;
+  public static final int SCARYSAUCE = 224;
+  public static final int DIRGE_OF_DREADFULNESS = 225;
   public static final int EAU_DE_TORTUE = 263;
   public static final int MAJORLY_POISONED = 264;
   public static final int TENUOUS_GRIP_ON_REALITY = 265;
@@ -346,6 +349,9 @@ public class EffectPool {
   public static final int FIDOXENE = 2520;
   public static final int BLESSING_OF_THE_BIRD = 2551;
   public static final int BLESSING_OF_YOUR_FAVORITE_BIRD = 2552;
+  public static final int SCARIERSAUCE = 2553;
+  public static final int DIRGE_OF_DREADFULNESS_REMASTERED = 2554;
+  public static final int SNARL_OF_THREE_TIMBERWOLVES = 2555;
   public static final int FIZZY_FIZZY = 2561;
   public static final int ENTAUNTAUNED = 2578;
   public static final int JOKE_MAD = 2582;
@@ -386,6 +392,13 @@ public class EffectPool {
   public static final int GRAFTED = 2964;
   public static final int MILK_OF_FAMILIAR_KINDNESS = 2965;
   public static final int MILK_OF_FAMILIAR_CRUELTY = 2966;
+  public static final int SLIPPERY_AS_A_SEAL = 2983;
+  public static final int STRENGTH_OF_THE_TORTOISE = 2984;
+  public static final int TUBES_OF_UNIVERSAL_MEAT = 2985;
+  public static final int LUBRICATING_SAUCE = 2986;
+  public static final int DISCO_OVER_MATTER = 2987;
+  public static final int MARIACHI_MOISTURE = 2988;
+  public static final int THOUGHTFUL_EMPATHY = 2989;
 
   public static final AdventureResult CURSE1_EFFECT = EffectPool.get(EffectPool.ONCE_CURSED);
   public static final AdventureResult CURSE2_EFFECT = EffectPool.get(EffectPool.TWICE_CURSED);

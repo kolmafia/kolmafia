@@ -713,6 +713,13 @@ public class Maximizer {
             } else continue;
           }
 
+          if (cmd.contains(" ^ ")) {
+            var req = UseSkillRequest.requiredItemForSkillEffect(skillId, effectId);
+            if (req != -1 && !InventoryManager.equippedOrInInventory(req)) {
+              continue;
+            }
+          }
+
           mpCost = SkillDatabase.getMPConsumptionById(skillId);
           advCost = SkillDatabase.getAdventureCost(skillId);
           soulsauceCost = SkillDatabase.getSoulsauceCost(skillId);

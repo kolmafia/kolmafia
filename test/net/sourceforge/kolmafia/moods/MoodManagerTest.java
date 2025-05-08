@@ -1,8 +1,12 @@
 package net.sourceforge.kolmafia.moods;
 
+import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withSkill;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.*;
 
+import internal.helpers.Cleanups;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
@@ -301,5 +305,29 @@ class MoodManagerTest {
     assertEquals(3, triggerList.size(), "External list not as expected");
     // only one trigger in both lists
     assertEquals(3, MoodManager.getTriggers().size(), "Wrong number of triggers");
+  }
+
+  @Test
+  public void maintenanceCostForCustomEffectedSkills() throws IOException {
+    var cleanups =
+        new Cleanups(
+            withProperty("currentMood", "default"),
+            withSkill(SkillPool.EMPATHY_OF_THE_NEWT),
+            withSkill(SkillPool.LEASH_OF_LINGUINI));
+
+    try (cleanups) {
+      var mood =
+          """
+          [ default ]
+          lose_effect empathy => cast 1 empathy of the newt ^ empathy
+          lose_effect thoughtful empathy => cast 1 empathy of the newt ^ thoughtful empathy
+          lose_effect leash of linguini => cast 1 leash of linguini
+          """;
+      BufferedReader reader = new BufferedReader(new StringReader(mood));
+      try (reader) {
+        MoodManager.loadSettings(reader);
+      }
+      assertThat(MoodManager.getMaintenanceCost(), equalTo(42L));
+    }
   }
 }

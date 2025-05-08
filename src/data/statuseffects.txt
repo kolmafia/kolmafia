@@ -49,7 +49,7 @@
 47	Complete Delusion	wolfmask.gif	b00a05823151fd7e6c8fe7697c0420ca	good	nohookah	# wearing wolf mask
 48	The Smile of Mr. A.	gma.gif	59e9f58e87d531b3ef613515a3417210	good	none	use 1 box of sunshine
 49	Macho Profundo	strboost.gif	a02c6fb27a3f9f4bf2c48d59584adc56	good	none	use 1 mafia aria
-50	Empathy	empathy.gif	ac32e95f470a7e0999863fa0db58d808	good	none	cast 1 Empathy of the Newt
+50	Empathy	empathy.gif	ac32e95f470a7e0999863fa0db58d808	good	none	cast 1 Empathy of the Newt ^ Empathy
 51	Tenacity of the Snapper	snapper.gif	c05dc4b01f6f2826be599f07620979f7	good	none	cast 1 Tenacity of the Snapper
 52	Astral Shell	blackshell.gif	4e66acac6b908fb6f70b49092dcff375	good	none	cast 1 Astral Shell
 53	Elemental Saucesphere	elesphere.gif	e3d1d1099648703e192a55a9aea17a1e	good	none	cast 1 Elemental Saucesphere
@@ -221,10 +221,10 @@
 219	Bubble, Bubble	sphere.gif	6ede1a75e47f82c98a429c9a50d067b4	neutral	none	use 1 alphabet gum
 220	Sticky Fingers	glove.gif	4becdf2ac82c2bf30dd433dd54465918	good	none	use 1 bag of Cheat-Os|cargo effect Sticky Fingers
 221	Chalky Hand	glove.gif	3e2eed0d70d0e023a11619655a3f48c0	good	none	use 1 handful of hand chalk
-222	Snarl of the Timberwolf	wolfmask.gif	2968e9397d3aa977b8cb3e9817ad8cdd	good	nohookah	cast 1 Snarl of the Timberwolf
+222	Snarl of the Timberwolf	wolfmask.gif	2968e9397d3aa977b8cb3e9817ad8cdd	good	nohookah	cast 1 Snarl of the Timberwolf ^ Snarl of the Timberwolf
 223	Dreams and Lights	snowflakes.gif	360467118bd69ef869a1af2002117e63	good	none	# adv in Haunted Gallery
-224	Scarysauce	skullshld.gif	f7551a889b9c61510fc3f73f96ecc98e	good	none	cast 1 Scarysauce
-225	Dirge of Dreadfulness	dirge.gif	6121ba486d7ad86165d117ea62794d09	good	song	cast 1 Dirge of Dreadfulness
+224	Scarysauce	skullshld.gif	f7551a889b9c61510fc3f73f96ecc98e	good	none	cast 1 Scarysauce ^ Scarysauce
+225	Dirge of Dreadfulness	dirge.gif	6121ba486d7ad86165d117ea62794d09	good	song	cast 1 Dirge of Dreadfulness ^ Dirge of Dreadfulness
 226	Talking Like a Pirate	piratehead.gif	defbfe64c65b2d495dc0133506223c1f	neutral	none	use 1 can of Binarrrca
 227	The 'Tussin	bseye.gif	295f414c903d22c44ec2f92f789cad71	neutral	none	use 1 bottle of Vangoghbitussin
 228	Pie in the Face	pieface.gif	9c9794f2ff9a0fcb1090c281c2c442f1	neutral	none	# being hit with cream pie
@@ -2553,9 +2553,9 @@
 2550	Panna Consideration	tc_pannacotta.gif	22fef32a9bc3af04af21439f1c09e68b	good	nohookah	use 1 terra panna cotta
 2551	Blessing of the Bird	findbird.gif	8de6fb855433dc4b90fb4dbc2a5c919d	neutral	none	cast 1 Seek out a Bird
 2552	Blessing of your favorite Bird	favoritebird.gif	e9c3b4f9a7f9b24166b835481f15c875	neutral	none	cast 1 Visit your Favorite Bird
-2553	Scariersauce	scarysauce.gif	33e4e82db2376879224ab4d8d406325a	good	nohookah
-2554	Dirge of Dreadfulness (Remastered)	dirge.gif	ec4766a15304fe13ca2334dfb41fd494	good	song,nohookah
-2555	Snarl of Three Timberwolves	wolfmask.gif	193ef2bbdde7fe95e51e5a527ae4f42e	good	nohookah
+2553	Scariersauce	scarysauce.gif	33e4e82db2376879224ab4d8d406325a	good	nohookah	cast 1 Scarysauce ^ Scariersauce
+2554	Dirge of Dreadfulness (Remastered)	dirge.gif	ec4766a15304fe13ca2334dfb41fd494	good	song,nohookah	cast 1 Dirge of Dreadfulness ^ Dirge of Dreadfulness (Remastered)
+2555	Snarl of Three Timberwolves	wolfmask.gif	193ef2bbdde7fe95e51e5a527ae4f42e	good	nohookah	cast 1 Snarl of the Timberwolf ^ Snarl of Three Timberwolves
 2556	Invisible Avatar	missingavatar.gif	da6f47ae655716b599e530128712c36c	neutral	none	cast 1 CHEAT CODE: Invisible Avatar
 2557	Triple-Sized	triplesize.gif	6be2d9af5964c3bc987c0696ea60eeeb	good	none	cast 1 CHEAT CODE: Triple Size
 2558	Warmed Up	mario_juggle.gif	9fea199e3a5fd92b82e46f9e0ecc203c	neutral	none
@@ -2983,13 +2983,13 @@
 2980	You Might Have Gotten Wet	watermelon.gif	1e66e3c47e8ed40930c6e846e32e2ef9	neutral	none
 2981	Sur La Table	portabletable.gif	1cf1e480f7ce07da51c613f6ad0d3a10	neutral	none
 2982	Ready for War	angry.gif	e62c60d23a0e76de9f6f09cd282ec8a3	neutral	none	chew 1 leprechaun antidepressant pill
-2983	Slippery as a Seal	wetpaper.gif	ae2845bf2dcdda691e98705c760f3765	neutral	none
-2984	Strength of the Tortoise	wetpaper.gif	3434e3b32cfaa9f7249d43e0ee1b42f4	neutral	none
-2985	Tubes of Universal Meat	wetpaper.gif	9b1a11e2ba8152c72d3bf6391371ac7f	neutral	none
-2986	Lubricating Sauce	wetpaper.gif	5aeff1779ef0ad97fbed13fd5bdb0968	neutral	none
-2987	Disco over Matter	wetpaper.gif	cc2d75a34ae14d132450bf8eee905a4f	neutral	none
-2988	Mariachi Moisture	wetpaper.gif	31192bed8fc75482f9f7c8486964d35f	neutral	none
-2989	Thoughtful Empathy	blackheart.gif	772532594322e2260a767bb71fe0d7fc	neutral	none
+2983	Slippery as a Seal	wetpaper.gif	ae2845bf2dcdda691e98705c760f3765	neutral	none	cast 1 Seal Clubbing Frenzy ^ Slippery as a Seal
+2984	Strength of the Tortoise	wetpaper.gif	3434e3b32cfaa9f7249d43e0ee1b42f4	neutral	none	cast 1 Patience of the Tortoise ^ Strength of the Tortoise
+2985	Tubes of Universal Meat	wetpaper.gif	9b1a11e2ba8152c72d3bf6391371ac7f	neutral	none	cast 1 Manicotti Meditation ^ Tubes of Universal Meat
+2986	Lubricating Sauce	wetpaper.gif	5aeff1779ef0ad97fbed13fd5bdb0968	neutral	none	cast 1 Sauce Contemplation ^ Lubricating Sauce
+2987	Disco over Matter	wetpaper.gif	cc2d75a34ae14d132450bf8eee905a4f	neutral	none	cast 1 Disco Aerobics ^ Disco over Matter
+2988	Mariachi Moisture	wetpaper.gif	31192bed8fc75482f9f7c8486964d35f	neutral	none	cast 1 Moxie of the Mariachi ^ Mariachi Moisture
+2989	Thoughtful Empathy	blackheart.gif	772532594322e2260a767bb71fe0d7fc	neutral	none	cast 1 Empathy of the Newt ^ Thoughtful Empathy
 2990	Lifting Wets	wetpaperweight.gif	0d92d7086d0bd97090dc51d252f8b7b0	neutral	none	use 1 wet paper weights
 2991	Wetted Whistle	wetpaperdrink.gif	4c844da112766b6a6d262f86eb724701	neutral	none	drink 1 Three Sheets to the Wind
 2992	A Date With Tomorrow	wetpaperdates.gif	daed8a7f8faf412fd2b27b8cec36e7e3	neutral	none	eat 1 pile of wet dates

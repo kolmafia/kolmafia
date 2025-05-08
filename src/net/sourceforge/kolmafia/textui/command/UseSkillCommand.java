@@ -6,13 +6,14 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
+import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class UseSkillCommand extends AbstractCommand {
   public UseSkillCommand() {
-    this.usage = "[?] [ [<count>] <skill> [on <player>] ] - list spells, or use one.";
+    this.usage = "[?] [ [<count>] <skill> [^ effect] [on <player>] ] - list spells, or use one.";
   }
 
   @Override
@@ -49,16 +50,19 @@ public class UseSkillCommand extends AbstractCommand {
   public static boolean cast(final String parameters, boolean sim) {
     String[] buffs = parameters.split("\\s*,\\s*");
 
-    for (int i = 0; i < buffs.length; ++i) {
-      String[] splitParameters = buffs[i].replaceFirst(" [oO][nN] ", " => ").split(" => ");
-
-      if (splitParameters.length == 1) {
-        splitParameters = new String[2];
-        splitParameters[0] = buffs[i];
-        splitParameters[1] = null;
+    for (String buff : buffs) {
+      String skill, effect = null, player = null;
+      String[] splitParameters = buff.replaceFirst(" [oO][nN] ", " => ").split(" => ");
+      if (splitParameters.length > 1) {
+        player = splitParameters[1];
       }
+      var skillEffect = splitParameters[0].split(" \\^ ");
+      if (skillEffect.length > 1) {
+        effect = skillEffect[1];
+      }
+      skill = skillEffect[0];
 
-      String[] buffParameters = AbstractCommand.splitCountAndName(splitParameters[0]);
+      String[] buffParameters = AbstractCommand.splitCountAndName(skill);
       String buffCountString = buffParameters[0];
       String skillNameString = buffParameters[1];
 
@@ -89,8 +93,14 @@ public class UseSkillCommand extends AbstractCommand {
         return true;
       }
 
+      var desiredEffect = -1;
+      if (effect != null) {
+        desiredEffect = EffectDatabase.getEffectId(effect);
+      }
+      var skillId = SkillDatabase.getSkillId(skillName);
+
       UseSkillRequest request =
-          UseSkillRequest.getInstance(skillName, splitParameters[1], buffCount);
+          UseSkillRequest.getInstance(skillId, player, buffCount, desiredEffect);
 
       if (sim) {
         return request.getMaximumCast() > 0;
