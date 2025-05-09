@@ -191,7 +191,7 @@ public class ManaBurnManager {
         continue;
       }
 
-      ManaBurn b = new ManaBurn(skillId, skillName, currentDuration, currentLimit);
+      ManaBurn b = new ManaBurn(skillId, skillName, effectName, currentDuration, currentLimit);
       if (chosen == null) {
         chosen = b;
       }
