@@ -4109,4 +4109,17 @@ public class FightRequestTest {
       assertThat("_bloodBagCloake", isSetTo(true));
     }
   }
+
+  @Test
+  public void canDetectYearbookCamera() {
+    RequestLoggerOutput.startStream();
+    var cleanups = new Cleanups(withFight(5), withPath(Path.KOLHS));
+    try (cleanups) {
+      var page = "request/test_fight_yearbook_camera.html";
+      parseCombatData(page);
+      var text = RequestLoggerOutput.stopStream();
+      assertThat(text, containsString("photographed for Yearbook Club"));
+      assertThat("yearbookCameraPending", isSetTo(true));
+    }
+  }
 }
