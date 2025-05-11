@@ -5880,7 +5880,7 @@ public class FightRequest extends GenericRequest {
     //
     // <center><b>a fleet woodsman's Team:</b>
 
-    for (Element bnode : node.children().select("b")) {
+    for (Element bnode : node.select("* b")) {
       var parent = bnode.parent();
       if (bnode.wholeText().contains(" Team:")) {
         return parent;
@@ -6042,7 +6042,7 @@ public class FightRequest extends GenericRequest {
 
   public static final void parsePokefam(final Element node, boolean myFamiliar, boolean moveSpans) {
     // Get all the rows from the table
-    Elements rows = node.children().select("tr");
+    Elements rows = node.select("* tr");
 
     // Row 1: familiar image, familiar name, power, attribute, hp
     String image = "";
@@ -6058,7 +6058,7 @@ public class FightRequest extends GenericRequest {
       switch (td++) {
         case 1 -> {
           // Familiar Image:
-          Element inode = tdnode.children().selectFirst("img");
+          Element inode = tdnode.selectFirst("* img");
           image = imgToString(inode);
         }
         case 2 -> {
@@ -6067,11 +6067,11 @@ public class FightRequest extends GenericRequest {
         }
         case 3 -> {
           // Familiar power: one image (blacksword.gif) per
-          power = tdnode.children().select("img").size();
+          power = tdnode.select("* img").size();
         }
         case 4 -> {
           // Familiar attribute: distinct images, can have two
-          Elements inodes = tdnode.children().select("img");
+          Elements inodes = tdnode.select("* img");
           for (Element inode : inodes) {
             String title = inode.attr("title");
             if (!title.isEmpty()) {
@@ -6083,7 +6083,7 @@ public class FightRequest extends GenericRequest {
         }
         case 5 -> {
           // Familiar HP: one image (blackheart.gif) per
-          hp = tdnode.children().select("img").size();
+          hp = tdnode.select("* img").size();
         }
       }
     }
@@ -6140,7 +6140,7 @@ public class FightRequest extends GenericRequest {
           if (span.attr("title").isEmpty()) {
             // Next action is nested
             // *** remember that this is the designated enemy move?
-            span = span.children().selectFirst("span");
+            span = span.selectFirst("* span");
           }
           String str = span.wholeText();
           if (str.startsWith("[")) {
@@ -6153,7 +6153,7 @@ public class FightRequest extends GenericRequest {
         // Your team
         // <input title="Knock the frontmost enemy to the back." class="button skb" type="submit"
         // value="Tackle" name="famaction[tackle-7]">
-        Elements inputs = rows.get(3).children().select("input");
+        Elements inputs = rows.get(3).select("* input");
         int move = 0;
         for (Element input : inputs) {
           String type = input.attr("class");
@@ -6232,7 +6232,7 @@ public class FightRequest extends GenericRequest {
     // We (probably) want the second <center> tag; the first one
     // holds the whole combat table
 
-    Elements nodes = node.children().select("center");
+    Elements nodes = node.select("* center");
     if (nodes.size() >= 2) {
       return nodes.get(1).parent();
     }
@@ -6418,12 +6418,12 @@ public class FightRequest extends GenericRequest {
       }
 
       if (status.famaction) {
-        Element inode = node.children().selectFirst("img");
+        Element inode = node.selectFirst("* img");
         FightRequest.processFamiliarAction(node, inode, status);
         return;
       }
 
-      Elements tables = node.children().select("table");
+      Elements tables = node.select("* table");
       for (Element table : tables) {
         table.remove();
       }
@@ -6521,7 +6521,7 @@ public class FightRequest extends GenericRequest {
         }
 
         if (str.startsWith("You acquire a skill")) {
-          Element bnode = node.children().selectFirst("b");
+          Element bnode = node.selectFirst("* b");
           if (bnode != null) {
             String skill = bnode.wholeText();
             FightRequest.logSkillAcquisition(skill, status);
@@ -6558,7 +6558,7 @@ public class FightRequest extends GenericRequest {
 
   private static boolean processTable(Element node, TagStatus status) {
     // Tables often appear in fight results to hold images.
-    Element inode = node.children().selectFirst("img");
+    Element inode = node.selectFirst("* img");
     String onclick = "";
 
     if (inode != null) {
@@ -6567,7 +6567,7 @@ public class FightRequest extends GenericRequest {
       if (alt.startsWith("Enemy's")) {
         // This is Monster Manuel stuff
         int attack = 0, defense = 0, hp = 0;
-        Elements cells = node.children().select("td");
+        Elements cells = node.select("* td");
         for (int i = 0; i < cells.size(); i++) {
           Element cell = cells.get(i);
           Element img = cell.selectFirst(">img");
@@ -6702,7 +6702,7 @@ public class FightRequest extends GenericRequest {
 
       if (onclick.contains("desc_skill.php")) {
         if (str.startsWith("You acquire a skill")) {
-          Element bnode = node.children().selectFirst("b");
+          Element bnode = node.selectFirst("* b");
           if (bnode != null) {
             String skill = bnode.wholeText();
             FightRequest.logSkillAcquisition(skill, status);
@@ -7429,7 +7429,7 @@ public class FightRequest extends GenericRequest {
       Pattern.compile("(\\d+) kiss(?:es)? for winning(?: \\+(\\d+) for difficulty)?");
 
   private static boolean handleKisses(Element node, TagStatus status) {
-    Element span = node.children().selectFirst("span");
+    Element span = node.selectFirst("* span");
     if (span == null) {
       return false;
     }
@@ -7704,7 +7704,7 @@ public class FightRequest extends GenericRequest {
     // This will also remove the table text from the node text and
     // thus improve the message we log.
 
-    Elements tables = node.children().select("table");
+    Elements tables = node.select("* table");
     for (Element table : tables) {
       table.remove();
     }
@@ -7721,7 +7721,7 @@ public class FightRequest extends GenericRequest {
 
     // For some unknown reason, gladiator moves are tagged as <!--familiarmessage-->
     if (str.startsWith("New Special Move Unlocked")) {
-      Element bnode = node.children().selectFirst("b");
+      Element bnode = node.selectFirst("* b");
       if (bnode != null) {
         FightRequest.logText(text, status);
         String skill = bnode.wholeText();
