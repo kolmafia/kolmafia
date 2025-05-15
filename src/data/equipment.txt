@@ -39,6 +39,7 @@ biker's hat	200	Mox: 85
 biomechanical crimborg helmet	150	Mox: 60
 biphasic molecular oculus	50	none
 birdseed hat	100	none
+bishop's mitre	30	none
 black cowboy hat	165	Mox: 67
 black helmet	160	Mus: 65
 blue traffic cone	60	Mox: 15
@@ -73,6 +74,7 @@ coconut shell	30	none
 Colander of Em-er'il	100	Mys: 15
 cold ninja mask	80	Mox: 25
 cold water bottle	160	Mox: 65
+construction hardhat	100	none
 cool iron helmet	250	Mox: 200
 cornuthaum	85	Mox: 27
 corrosive cowl	200	Mox: 150
@@ -83,6 +85,7 @@ crepe paper phrygian cap	50	none
 Crimbo hat	100	Mox: 35
 Crimbuccaneer tricorn	50	none
 Crown of the Goblin King	70	Mox: 20
+crown of thorns	10	none
 Crown of Thrones	100	none
 crown-shaped beanie	200	Mox: 200
 crumpled felt fedora	200	Mox: 200
@@ -123,6 +126,7 @@ Elf Guard red and white beret	100	none
 enchanted eyepatch	35	Mox: 2
 enchantlers	115	Mox: 42
 extra-large palm-frond toupee	150	Mox: 60
+extra-tight skullcap	55	none
 extra-wide head candle	100	none
 eXtreme scarf	100	Mox: 35
 eyepatch	25	none
@@ -208,6 +212,7 @@ honeycap	175	Mox: 72
 hot daub bun	85	Mys: 27
 ice crown	100	none
 ice pick	100	none
+imposing pilgrim's hat	45	none
 indie comic hipster glasses	10	none
 insane tophat	30	none
 insulting hat	10	none
@@ -221,6 +226,7 @@ isotophat	100	Mox: 35
 Iunion Crown	100	none
 Jarlsberg's hat	30	none
 jewel-eyed wizard hat	10	none
+jockey's hat	35	none
 Kentucky-style derby	20	none
 kilopede skull	100	Mus: 35
 Knob Goblin elite helm	60	Mox: 15
@@ -353,6 +359,7 @@ sequined fez	80	Mox: 25
 seven-gallon hat	140	none
 shadow chef's hat	100	none
 shapeless wide-brimmed hat	200	Mox: 200
+sharpshooter's hat	20	none
 shining star cap	100	none
 silent beret	13	none
 sinister demon mask	100	Mox: 35
@@ -386,6 +393,8 @@ stainless steel skullcap	90	Mox: 30
 star hat	165	Mox: 67
 stone baseball cap	195	Mox: 82
 straw hat	200	Mox: 85
+sturdy pith helmet	85	none
+stylish bycocket	30	none
 sucker kabuto	50	none
 sugar chapeau	100	none
 superhero mask	10	none
@@ -396,6 +405,7 @@ Team Avarice cap	0	none
 Team Sloth cap	0	none
 Team Wrath cap	0	none
 ten-gallon hat	200	none
+terrycloth turban	5	none
 The Clown Crown	0	none
 The Crown of Ed the Undying	100	none
 The Emperor's new hat	10	none
@@ -405,6 +415,7 @@ Third Eye	150	Mox: 40
 three-gallon hat	60	none
 Thunkula's drinking cap	300	Mys: 250
 time helmet	100	Mox: 35
+tin foil hat	10	none
 tin tam	100	none
 tooth cap	50	Mys: 10
 tope&eacute;	50	none

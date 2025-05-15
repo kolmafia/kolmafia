@@ -177,4 +177,4 @@
 170	Crepe Paper Participant's Clothes	crepetat.gif	crepe paper phrygian cap, crepe paper puzzle cube, crepe paper parachute cape, crepe paper plunge camisole, crepe paper pie clip, crepe paper polka charm	crepe paper peanut candy
 171	Petrified Wood Professional Wardrobe	pwoodtat.gif	petrified wood whoopie panama, petrified wood war pike, petrified wood water purifier, petrified wood walking pants, petrified wood waist protector, petrified wood wizard's pouch	petrified wood wafer praline
 172	Governor's Daughter's Fancy Finery	govtat.gif	governor's daughter's pearl hairpin, governor's daughter's petticoats, governor's daughter's lace collar	rum ball
-173	Wet Wear	wetoutfittat.gif	wet shower cap, wet shower shorts, wet shower shoes
+173	Wet Wear	wetoutfittat.gif	wet shower cap, wet shower shorts, wet shower shoes	jawwetter
