@@ -114,6 +114,7 @@ Item	biker's hat	Moxie Percent: +40, Booze Drop: +40, Pickpocket Chance: +20, La
 Item	biomechanical crimborg helmet	Hot Damage: +5, Stench Damage: +5, Last Available: "2007-12", Familiar Effect: "atk, 1xFairy, cap 37"
 # biphasic molecular oculus: Allows advanced monster research
 # birdseed hat: Attracts chickens
+Item	bishop's mitre	Spooky Damage: +2, Stench Damage: +2, Hot Damage: +2, Cold Damage: +2, Sleaze Damage: +2
 Item	black cowboy hat	Muscle: +8, Weapon Damage: +8, Familiar Effect: "1xBarrr, 1xLep, cap 41"
 Item	black helmet	Maximum HP: +30, Familiar Effect: "1xFairy, cap 40"
 Item	blue traffic cone	Moxie: +3, Hot Resistance: +2, Last Available: "2006-03", Familiar Effect: "2xLep, 2xFairy, cap 15"
@@ -151,6 +152,7 @@ Item	coconut shell	Damage Absorption: +1, Familiar Effect: "1xFairy, cap 7"
 Item	Colander of Em-er'il	Mysticality: +11, MP Regen Min: 2, MP Regen Max: 6, Class: "Pastamancer", Familiar Effect: "3xGhuol, cap 25"
 Item	cold ninja mask	Initiative: +15, Familiar Effect: "cold atk, 1xBarrr, cap 20"
 Item	cold water bottle	Cold Damage: +10, Cold Spell Damage: +20, Hot Resistance: +2, Familiar Effect: "atk, 1xFairy, cap 40"
+Item	construction hardhat	Damage Absorption: +50
 Item	cool iron helmet	Damage Reduction: 20, Hot Resistance: +3, Familiar Effect: "atk, 1xFairy"
 Item	cornuthaum	Mysticality: +3, Moxie: +3, Familiar Effect: "1.5xPotato, 1.25xFairy, cap 21"
 Item	corrosive cowl	Spooky Damage: +30, Spooky Resistance: +4, Slime Hates It: +1, Familiar Effect: "0.5xPotato, 0.5xFairy"
@@ -161,6 +163,7 @@ Item	crepe paper phrygian cap	Muscle: +10, Stench Damage: +10, Stench Spell Dama
 Item	Crimbo hat	Spooky Resistance: +1, Last Available: "2004-10", Familiar Effect: "1.75xVolley, 1.75xLep, cap 25"
 Item	Crimbuccaneer tricorn	Last Available: "2023-12"
 Item	Crown of the Goblin King	Muscle: +10, Familiar Effect: "2xBarrr, 1xGhuol, cap 17"
+# crown of thorns: Attacking foes are scratched and damaged
 # Crown of Thrones: Put a Familiar In It!
 # Crown of Thrones: That Familiar gains 1 Experience per Fight
 Item	Crown of Thrones	Softcore Only, Last Available: "2010-05"
@@ -212,6 +215,7 @@ Item	elf ploughshare	Maximum HP: +30, Maximum MP: +30, Last Available: "2015-12"
 Item	enchanted eyepatch	Mysticality: +5, Familiar Effect: "4xBarrr, cap 8"
 Item	enchantlers	Hot Spell Damage: +10, Familiar Effect: "hot atk, 1xLep, cap 28"
 Item	extra-large palm-frond toupee	Experience: +2, Familiar Effect: "1xVolley, 1xPotato, cap 37"
+Item	extra-tight skullcap	Weapon Damage Percent: +20
 Item	extra-wide head candle	Weapon Damage Percent: +100, HP Regen Min: 10, HP Regen Max: 20, Maximum HP Percent: +100, Lasts Until Rollover, Last Available: "2021-08"
 Item	eXtreme scarf	Mysticality: +5, Familiar Effect: "atk, 1xBarrr, cap 25"
 Item	eyepatch	Moxie: +2, Familiar Effect: "3xBarrr, cap 6"
@@ -306,6 +310,7 @@ Item	honeycap	Moxie Percent: +5, Item Drop: +10, Ranged Damage: +15, Familiar Ef
 Item	hot daub bun	Hot Damage: +9, Hot Spell Damage: +9, Last Available: "2012-07", Familiar Effect: "hot atk, cap 21"
 Item	ice crown	Maximum HP: +30, Maximum MP: +30, HP Regen Min: 10, HP Regen Max: 20, MP Regen Min: 10, MP Regen Max: 20, Spooky Resistance: +3, Stench Resistance: +3, Hot Resistance: +3, Cold Resistance: +3, Sleaze Resistance: +3, Lasts Until Rollover, Last Available: "2021-12"
 Item	ice pick	Item Drop: +15, Softcore Only, Last Available: "2006-02", Familiar Effect: "1.5xLep, 1.5xFairy, cap 25"
+Item	imposing pilgrim's hat	Monster Level: -20
 Item	indie comic hipster glasses	Muscle: +5, Mysticality: +5, Moxie: +5, Softcore Only, Familiar Effect: "1xVolley, 8xLep, cap 2"
 # insane tophat: We're All Mad Here!
 Item	insane tophat	Last Available: "2010-03", Familiar Effect: "1xVolley, 1xLep, cap 7"
@@ -322,6 +327,7 @@ Item	Iunion Crown	Muscle: +10, Mysticality: +10, Moxie: +10, Item Drop: +10, Ini
 Item	Jarlsberg's hat	Mysticality: +5, MP Regen Min: 4, MP Regen Max: 5, Experience (Mysticality): +1
 # jewel-eyed wizard hat: +5 Duration to Buffs You Cast
 Item	jewel-eyed wizard hat	Maximum MP: +30, Mana Cost: -1, Softcore Only, Last Available: "2006-07", MP Regen Min: [floor(L/2)+1], MP Regen Max: [floor(L/2)+3], Familiar Effect: "atk, 5xVolley, 5xLep, cap 2", Conditional Skill (Equipped): "Magic Missile"
+Item	jockey's hat	Initiative: +50
 Item	Kentucky-style derby	Familiar Effect: "atk, cap 5"
 Item	kilopede skull	Ranged Damage: +10, Moxie: [4*L]
 Item	Knob Goblin elite helm	Muscle: +3, Familiar Effect: "2xFairy, cap 15"
@@ -464,6 +470,7 @@ Item	sequined fez	Moxie: +3, Familiar Effect: "1.75xLep, cap 20"
 Item	seven-gallon hat	Muscle: +7, Mysticality: +7, Moxie: +7, Experience: +3
 Item	shadow chef's hat	Spooky Damage: +13, Muscle: +13, Mysticality: +13, Moxie: +13, Maximum MP: +13
 Item	shapeless wide-brimmed hat	HP Regen Min: 15, HP Regen Max: 20, MP Regen Min: 15, MP Regen Max: 20, Mysticality Percent: +5, Familiar Effect: "0.75xLep, 0.75xFairy"
+Item	sharpshooter's hat	Reduce Enemy Defense: 5
 Item	shining star cap	Familiar Weight: [+10*event(December)], Last Available: "2020-12"
 Item	silent beret	Muscle Percent: -30, Mysticality Percent: -30, Moxie Percent: -30, Initiative: -50, Combat Rate: -5, Familiar Effect: "1xVolley, cap 3"
 Item	sinister demon mask	Spooky Damage: +25, HP Regen Min: 10, HP Regen Max: 25, Food Drop: +25, Last Available: "2010-06", Familiar Effect: "atk, cap 25"
@@ -496,6 +503,8 @@ Item	stainless steel skullcap	Maximum HP: +30, Damage Absorption: +60, Muscle Pe
 Item	star hat	Maximum MP: +30, Familiar Effect: "0.5xVolley, 0.5xPotato, cap 41"
 Item	stone baseball cap	Damage Reduction: 10, Weapon Damage: +15, Muscle: -10, Familiar Effect: "1xVolley, cap 48"
 Item	straw hat	Item Drop: +10, Food Drop: +15, Booze Drop: +15, Familiar Effect: "1xFairy"
+Item	sturdy pith helmet	Damage Reduction: 25
+Item	stylish bycocket	Moxie Percent: +20
 Item	sucker kabuto	Damage Reduction: 5, Last Available: "2011-11", Familiar Effect: "Atk, cap 12"
 Item	sugar chapeau	Spell Damage Percent: +50, Spell Critical Percent: +10, MP Regen Min: 3, MP Regen Max: 5, Last Available: "2009-09", Breakable, Familiar Effect: "atk, 2xVolley, 2xLep, cap 25"
 Item	superhero mask	Muscle: +5, Mysticality: +5, Moxie: +5, Softcore Only, Familiar Effect: "1xLep, 1xFairy, cap 2"
@@ -506,6 +515,7 @@ Item	Team Avarice cap	Item Drop: +100
 Item	Team Sloth cap	Combat Rate: -15
 Item	Team Wrath cap	Monster Level: +30
 Item	ten-gallon hat	Muscle: +10, Mysticality: +10, Moxie: +10, Experience: +3
+Item	terrycloth turban	Maximum HP: +30
 # The Crown of Ed the Undying: Ed's servants will level up faster
 # The Crown of Ed the Undying: Allows you to read thoughts
 Item	The Crown of Ed the Undying	Maximum HP: +50, Maximum MP: +50, Initiative: +25, Softcore Only: [1-path(Actually Ed the Undying)], Last Available: "2015-03", Familiar Effect: "spooky atk, 1.5xVolley, cap 25"
@@ -517,6 +527,7 @@ Item	Third Eye	Initiative: +20, Muscle Percent: +15, Mysticality Percent: +15, M
 Item	three-gallon hat	Muscle: +3, Mysticality: +3, Moxie: +3, Experience: +3
 Item	Thunkula's drinking cap	Mysticality Percent: +50, Maximum MP: +250, MP Regen Min: 20, MP Regen Max: 40, Class: "Sauceror", Familiar Effect: "atk, 1xVolley"
 Item	time helmet	Adventures: +3, Last Available: "2005-10", Familiar Effect: "0.5xPotato, 1xFairy, cap 25"
+Item	tin foil hat	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2
 Item	tin tam	Spooky Resistance: +2, Stench Resistance: +2, Hot Resistance: +2, Cold Resistance: +2, Sleaze Resistance: +2, Damage Reduction: 5, Experience (Mysticality): +1, Last Available: "2013-09", Familiar Effect: "MP regen, cap 25"
 Item	tooth cap	Candy Drop: +25, Spell Damage: +5
 Item	tope&eacute;	Stench Resistance: +3, Hot Resistance: +3, Familiar Effect: "3xBarrr, cap 12"

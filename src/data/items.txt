@@ -11931,3 +11931,14 @@
 11903	jawwetter	169174157	wetpaperball.gif	potion	t,d	5
 11904	Unpeeled Peridot of Peril	147004779	peridot_box.gif	usable	t	0
 11905	Peridot of Peril	519151496	peridot.gif	accessory, curse		0
+11906	terrycloth turban	154732387	hat_turban.gif	hat	t,d	23
+11907	jockey's hat	256959926	hat_jockey.gif	hat	t,d	23
+11908	sharpshooter's hat	162066179	hat_cowboy.gif	hat	t,d	23
+11909	extra-tight skullcap	576452789	hat_skull.gif	hat	t,d	23
+11910	sturdy pith helmet	859310129	pithhelmet.gif	hat	t,d	23
+11911	bishop's mitre	265495257	hat_bishop.gif	hat	t,d	23
+11912	tin foil hat	150438895	hat_tinfoil.gif	hat	t,d	23
+11913	construction hardhat	787866861	hat_hard.gif	hat	t,d	23
+11914	imposing pilgrim's hat	589422935	pilghat.gif	hat	t,d	23
+11915	crown of thorns	150089161	hat_thorns.gif	hat	t,d	23
+11916	stylish bycocket	574057027	hat_bycocket.gif	hat	t,d	23
