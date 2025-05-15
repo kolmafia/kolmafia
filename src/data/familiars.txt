@@ -116,7 +116,7 @@
 79	Teddy Borg	teddyborg.gif	other0	teddy borg	teddy borg sewing kit	3	2	0	1	sentient,humanoid,mineral,object,robot,haseyes,bite,hasclaws,haslegs,cute,evil,technological
 80	RoboGoose	robogoose.gif	combat0,block,delevel1,hp0,drop	deactivated RoboGoose	overclocked avian microprocessor	2	3	1	0	mineral,robot,haseyes,haslegs,haswings,flies,hard,hasbeak,technological,animal
 81	El Vibrato Megadrone	megadrone.gif	variable	El Vibrato Megadrone		3	3	3	3	mineral,robot,hovers,hard,polygonal,animatedart,technological
-82	Mad Hatrack	hatrack.gif	variable	sane hatrack		3	0	1	2	wearsclothes,haseyes
+82	Mad Hatrack	hatrack.gif	variable	sane hatrack		3	0	1	2	mineral,object,haseyes,haslegs,hard,wearsclothes,cantalk
 83	Adorable Seal Larva	seallarva.gif	combat0,hp0,variable	adorable seal larva	pretty pink bow	3	2	1	2	sentient,organic,hasbones,haseyes,bite,haslegs,aquatic,cute,evil,reallyevil,animal
 84	Untamed Turtle	untamed.gif	block,variable	untamable turtle	smiley-face sticker	0	0	0	3	sentient,organic,hasbones,haseyes,bite,haslegs,aquatic,hasshell,animal
 85	Animated Macaroni Duck	macaroniduck.gif	combat0,mp0,variable	macaroni duck	farfalle bow tie	2	2	2	2	sentient,vegetable,object,hasbones,haseyes,haslegs,haswings,flies,hard,edible,food,hasbeak,animal
@@ -147,7 +147,7 @@
 110	Wereturtle	turtle.gif	combat1	sleeping wereturtle	bottle of moontan lotion	3	1	0	2	sentient,organic,hasbones,haseyes,bite,haslegs,aquatic,cute,hasshell,animal
 111	Baby Sandworm	babyworm.gif	stat1,drop	infant sandworm	string of dingle balls	1	2	2	3	sentient,organic,phallic,wearsclothes,cute,animal
 112	Slimeling	slimeling.gif	combat0,mp0,item0,other1,drop	squirming Slime larva	undissolvable contact lenses	3	3	2	2	sentient,vegetable,haseyes,cute,sleaze
-113	He-Boulder	heboulder.gif	other0,hp1,mp1,meat0	floaty stone sphere	quadroculars	3	3	2	1	haseyes
+113	He-Boulder	heboulder.gif	other0,hp1,mp1,meat0	floaty stone sphere	quadroculars	3	3	2	1	sentient,mineral,object,haseyes,hovers,hard,orb
 114	Rock Lobster	rocklobster.gif	combat1,mp0,underwater,drop	rock lobster	extra-strength rubber bands	3	2	2	1	sentient,organic,mineral,object,haseyes,hasclaws,haslegs,swims,aquatic,phallic,animal
 115	Urchin Urchin	urchin.gif	underwater,meat0	urchin roe	pet anemone	3	3	0	2	sentient,organic,hasbones,haseyes,swims,aquatic,hasstinger,animal
 116	Grouper Groupie	grouper2.gif	underwater,item0	grouper fangirl	gill rings	0	2	3	2	sentient,organic,hasbones,haseyes,swims,aquatic,sleaze,animal
@@ -322,7 +322,7 @@
 285	Arachnelf	arachnelf.gif	delevel0,combat1	festive egg sac	Site Alpha ID badge	3	1	3	1	sentient,organic,hasbones,haseyes,haslegs,fast,cold,spooky,evil,animal
 286	Synthetic Rock	synthrock.gif	none	synthetic rock		0	0	0	0	mineral,object,hard
 287	Grey Goose	greygoose.gif	item0	grey gosling	grey down vest	1	2	3	3	sentient,bite,haslegs,haswings,evil,hasbeak,organic,flies,animal
-288	Cookbookbat	bbat_fam.gif	item1,drop	mummified entombed cookbookbat	cookbookbat book	0	3	2	3	sentient,organic,robot,hasbones,haseyes,haswings,flies,wearsclothes,cantalk,undead,animal
+288	Cookbookbat	bbat_fam.gif	item1,drop	mummified entombed cookbookbat	cookbookbat book	0	3	2	3	sentient,organic,robot,hasbones,haseyes,haswings,flies,wearsclothes,spooky,cantalk,undead,animal
 289	Mini-Trainbot	tbot_on.gif	combat1,hp1,mp1	deactivated mini-Trainbot	overloaded Yule battery	3	2	3	1	sentient,robot,haseyes,hashands,haslegs,hard,wearsclothes,cute,good,technological
 290	Hobo in Sheep's Clothing	hobosheep.gif	stat0,item0,drop	unoccupied sheep suit	half-height cigar	1	3	3	2	sentient,organic,humanoid,person,hasbones,haseyes,haslegs,wearsclothes,cantalk
 291	Pixel Rock	pixelrock.gif	none	pixel rock		0	0	0	0	mineral,haseyes,hard,cute
