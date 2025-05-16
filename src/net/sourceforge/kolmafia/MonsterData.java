@@ -1065,6 +1065,7 @@ public class MonsterData extends AdventureResult {
     // Save the modifiers for use by scripts
     monster.randomModifiers = modifiers;
 
+    // TODO: hats
     // Iterate over them and modify the base values
     for (String modifier : modifiers) {
       switch (modifier) {

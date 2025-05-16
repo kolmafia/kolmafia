@@ -3383,6 +3383,10 @@ public abstract class KoLCharacter {
     return KoLCharacter.ascensionPath == Path.Z_IS_FOR_ZOOTOMIST;
   }
 
+  public static final boolean inHatTrick() {
+    return KoLCharacter.ascensionPath == Path.HAT_TRICK;
+  }
+
   public static final boolean noExperience() {
     return inZootomist();
   }

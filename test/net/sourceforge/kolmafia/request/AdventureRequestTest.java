@@ -544,4 +544,33 @@ public class AdventureRequestTest {
           arrayContainingInAnyOrder("dancin'", "floating", "haunted", "untouchable", "mimeo"));
     }
   }
+
+  @Test
+  public void recordsMonsterHats() {
+    var cleanups =
+        new Cleanups(
+            withFight(0),
+            withPath(Path.HAT_TRICK),
+            withProperty("lastEncounter"),
+            withLastLocation("The Black Forest"));
+
+    try (cleanups) {
+      AdventureQueueDatabase.resetQueue();
+      var req = new GenericRequest("fight.php?ireallymeanit=16");
+      req.responseText = html("request/test_fight_hat_trick.html");
+      String encounter = AdventureRequest.registerEncounter(req);
+
+      assertThat(encounter, is("black adder"));
+      var monster = MonsterStatusTracker.getLastMonster();
+      assertThat(
+          monster.getRandomModifiers(),
+          arrayContainingInAnyOrder(
+              "construction hardhat",
+              "terrycloth turban",
+              "jockey's hat",
+              "sturdy pith helmet",
+              "construction hardhat",
+              "imposing pilgrim's hat"));
+    }
+  }
 }
