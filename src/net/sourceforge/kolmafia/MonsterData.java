@@ -1065,7 +1065,6 @@ public class MonsterData extends AdventureResult {
     // Save the modifiers for use by scripts
     monster.randomModifiers = modifiers;
 
-    // TODO: hats
     // Iterate over them and modify the base values
     for (String modifier : modifiers) {
       switch (modifier) {
@@ -1197,6 +1196,41 @@ public class MonsterData extends AdventureResult {
         }
         case "velociraptor" -> {
           // Runs away if lose initiative, lots of +item when killed
+        }
+
+          // Hat Trick
+        case "terrycloth turban" -> monster.health = monster.getRawHP() * 5 / 4;
+        case "jockey's hat" -> {
+          // faster: unknown, probably init
+        }
+        case "sharpshooter's hat" -> {
+          // better at aiming
+        }
+        case "extra-tight skullcap" -> monster.attack = monster.getRawAttack() * 5 / 4;
+        case "sturdy pith helmet" -> {
+          // tougher
+        }
+        case "bishop's mitre" -> {
+          // more dangerous
+        }
+        case "tinfoil hat" -> {
+          if (monster.getElementalResistance() == 0) {
+            monster.elementalResistance = 20;
+          }
+        }
+        case "construction hardhat" -> {
+          if (monster.getPhysicalResistance() == 0) {
+            monster.physicalResistance = 20;
+          }
+        }
+        case "imposing pilgrim's hat" -> {
+          // distracting: blocks skills 20% of the time
+        }
+        case "crown of thorns" -> {
+          // spiky: thorn damage when melee
+        }
+        case "stylish bycocket" -> {
+          // good at dodging: attacks sometimes miss
         }
       }
     }
