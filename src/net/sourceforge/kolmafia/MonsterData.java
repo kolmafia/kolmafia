@@ -1068,180 +1068,170 @@ public class MonsterData extends AdventureResult {
     // Iterate over them and modify the base values
     for (String modifier : modifiers) {
       switch (modifier) {
-        case "askew":
-          monster.attack = monster.getRawAttack() * 11 / 10;
-          break;
-        case "bouncing":
-          monster.attack = monster.getRawAttack() * 3 / 2;
-          break;
-        case "broke":
-          monster.meat = 5;
-          break;
-        case "cloned":
-        case "huge":
+        case "askew" -> monster.attack = monster.getRawAttack() * 11 / 10;
+        case "bouncing" -> monster.attack = monster.getRawAttack() * 3 / 2;
+        case "broke" -> monster.meat = 5;
+        case "cloned", "huge" -> {
           monster.health = monster.getRawHP() * 2;
           monster.attack = monster.getRawAttack() * 2;
           monster.defense = monster.getRawDefense() * 2;
-          break;
-        case "dancin'":
-        case "floating":
-          monster.defense = monster.getRawDefense() * 3 / 2;
-          break;
-        case "filthy":
+        }
+        case "dancin'", "floating" -> monster.defense = monster.getRawDefense() * 3 / 2;
+        case "filthy" -> {
           // Stench Aura
-          break;
-        case "foul-mouthed":
+        }
+        case "foul-mouthed" -> {
           // Sleaze Aura
-          break;
-        case "fragile":
-          monster.health = 1;
-          break;
-        case "frozen":
-        case "ice-cold":
-        case "cold-blooded":
-        case "chilling":
-          monster.setElement(Element.COLD);
-          break;
-        case "ghostly":
+        }
+        case "fragile" -> monster.health = 1;
+        case "frozen", "ice-cold", "cold-blooded", "chilling" -> monster.setElement(Element.COLD);
+        case "ghostly" -> {
           if (monster.getPhysicalResistance() == 0) {
             monster.physicalResistance = 90;
           }
-          break;
-        case "haunted":
+        }
+        case "haunted" -> {
           // Spooky Aura
-          break;
-        case "hot":
+        }
+        case "hot" -> {
           // Hot Aura
-          break;
-        case "left-handed":
+        }
+        case "left-handed" -> {
           var temp = monster.attack;
           monster.attack = monster.defense;
           monster.defense = temp;
-          break;
-        case "red-hot":
-        case "hot-blooded":
-        case "steamy":
-          monster.setElement(Element.HOT);
-          break;
-        case "short":
+        }
+        case "red-hot", "hot-blooded", "steamy" -> monster.setElement(Element.HOT);
+        case "short" -> {
           monster.health = monster.getRawHP() / 2;
           monster.defense = monster.getRawDefense() * 2;
-          break;
-        case "skinny":
+        }
+        case "skinny" -> {
           monster.health = monster.getRawHP() / 2;
           monster.defense = monster.getRawDefense() / 2;
-          break;
-        case "sleazy":
-        case "slimy":
-        case "sweaty":
-          monster.setElement(Element.SLEAZE);
-          break;
-        case "solid gold":
-          monster.meat = 1000;
-          break;
-        case "spooky":
-        case "carrion-eating":
-        case "mist-shrouded":
-          monster.setElement(Element.SPOOKY);
-          break;
-        case "stinky":
-        case "swamp":
-        case "foul-smelling":
-          monster.setElement(Element.STENCH);
-          break;
-        case "throbbing":
-          monster.health = monster.getRawHP() * 2;
-          break;
-        case "tiny":
+        }
+        case "sleazy", "slimy", "sweaty" -> monster.setElement(Element.SLEAZE);
+        case "solid gold" -> monster.meat = 1000;
+        case "spooky", "carrion-eating", "mist-shrouded" -> monster.setElement(Element.SPOOKY);
+        case "stinky", "swamp", "foul-smelling" -> monster.setElement(Element.STENCH);
+        case "throbbing" -> monster.health = monster.getRawHP() * 2;
+        case "tiny" -> {
           monster.health = monster.getRawHP() / 10;
           monster.attack = monster.getRawAttack() / 10;
           monster.defense = monster.getRawDefense() / 10;
-          break;
-        case "turgid":
-          monster.health = monster.getRawHP() * 5;
-          break;
-        case "unlucky":
+        }
+        case "turgid" -> monster.health = monster.getRawHP() * 5;
+        case "unlucky" -> {
           monster.health = 13;
           monster.attack = 13;
           monster.defense = 13;
-          break;
-        case "wet":
+        }
+        case "wet" -> {
           // Cold Aura
-          break;
+        }
 
           // Nuclear Autumn
-        case "mutant":
+        case "mutant" -> {
           monster.health = monster.getRawHP() * 6 / 5;
           monster.attack = monster.getRawAttack() * 6 / 5;
           monster.defense = monster.getRawDefense() * 6 / 5;
-          break;
+        }
 
           // Masks
-        case "Mr. mask":
-        case "Bonerdagon mask":
+        case "Mr. mask", "Bonerdagon mask" -> {
           if (this.scale == null) {
             monster.health = monster.getRawHP() * 2;
             monster.attack = monster.getRawAttack() * 2;
             monster.defense = monster.getRawDefense() * 2;
           }
-          break;
-        case "ninja mask":
-          monster.initiative = 10000;
-          break;
-        case "opera mask":
+        }
+        case "ninja mask" -> monster.initiative = 10000;
+        case "opera mask" -> {
           if (this.scale == null) {
             monster.attack = monster.getRawAttack() * 2;
           }
-          break;
-        case "bandit mask":
+        }
+        case "bandit mask" -> {
           if (this.scale == null) {
             monster.defense = monster.getRawDefense() * 4;
           }
-          break;
-        case "fencing mask":
+        }
+        case "fencing mask" -> {
           if (monster.getPhysicalResistance() == 0) {
             monster.physicalResistance = 90;
           }
           if (monster.getElementalResistance() == 0) {
             monster.elementalResistance = 90;
           }
-          break;
-        case "Naughty Sorceress mask":
+        }
+        case "Naughty Sorceress mask" -> {
           if (this.scale == null) {
             monster.health = monster.getRawHP() * 3;
             monster.attack = monster.getRawAttack() * 3;
             monster.defense = monster.getRawDefense() * 3;
           }
-          break;
+        }
 
           // Fall of the Dinosaurs
-        case "archelon":
+        case "archelon" -> {
           // Reflects spells
-          break;
-        case "chicken":
+        }
+        case "chicken" -> {
           monster.health = 1;
           monster.attack = 1;
           monster.defense = 1;
-          break;
-        case "dilophosaur":
-        case "flatusaurus":
+        }
+        case "dilophosaur", "flatusaurus" -> {
           // Elemental damage each round?
-          break;
-        case "ghostasaurus":
-          monster.physicalResistance = 100;
-          break;
-        case "kachungasaur":
+        }
+        case "ghostasaurus" -> monster.physicalResistance = 100;
+        case "kachungasaur" -> {
           // Big slam attack, triple Meat drop
-          break;
-        case "pterodactyl":
+        }
+        case "pterodactyl" -> {
           // Melee damage always misses
-          break;
-        case "spikolodon":
+        }
+        case "spikolodon" -> {
           // Thorn damage when melee
-          break;
-        case "velociraptor":
+        }
+        case "velociraptor" -> {
           // Runs away if lose initiative, lots of +item when killed
-          break;
+        }
+
+          // Hat Trick
+        case "terrycloth turban" -> monster.health = monster.getRawHP() * 5 / 4;
+        case "jockey's hat" -> {
+          // faster: unknown, probably init
+        }
+        case "sharpshooter's hat" -> {
+          // better at aiming
+        }
+        case "extra-tight skullcap" -> monster.attack = monster.getRawAttack() * 5 / 4;
+        case "sturdy pith helmet" -> {
+          // tougher
+        }
+        case "bishop's mitre" -> {
+          // more dangerous
+        }
+        case "tinfoil hat" -> {
+          if (monster.getElementalResistance() == 0) {
+            monster.elementalResistance = 20;
+          }
+        }
+        case "construction hardhat" -> {
+          if (monster.getPhysicalResistance() == 0) {
+            monster.physicalResistance = 20;
+          }
+        }
+        case "imposing pilgrim's hat" -> {
+          // distracting: blocks skills 20% of the time
+        }
+        case "crown of thorns" -> {
+          // spiky: thorn damage when melee
+        }
+        case "stylish bycocket" -> {
+          // good at dodging: attacks sometimes miss
+        }
       }
     }
 

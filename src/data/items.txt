@@ -11929,8 +11929,8 @@
 11901	wet shower stamp	834166843	wetpaperstamp.gif	usable	t	0
 11902
 11903	jawwetter	169174157	wetpaperball.gif	potion	t,d	5
-11904	Unpeeled Peridot of Peril	147004779	peridot_box.gif	usable	t	0
-11905	Peridot of Peril	519151496	peridot.gif	accessory, curse		0
+11904	Unpeeled Peridot of Peril	147004779	peridot_box.gif	usable	t	0	Unpeeled Peridots of Peril
+11905	Peridot of Peril	519151496	peridot.gif	accessory, curse		0	Peridots of Peril
 11906	terrycloth turban	154732387	hat_turban.gif	hat	t,d	23
 11907	jockey's hat	256959926	hat_jockey.gif	hat	t,d	23
 11908	sharpshooter's hat	162066179	hat_cowboy.gif	hat	t,d	23
@@ -11940,5 +11940,5 @@
 11912	tin foil hat	150438895	hat_tinfoil.gif	hat	t,d	23
 11913	construction hardhat	787866861	hat_hard.gif	hat	t,d	23
 11914	imposing pilgrim's hat	589422935	pilghat.gif	hat	t,d	23
-11915	crown of thorns	150089161	hat_thorns.gif	hat	t,d	23
+11915	crown of thorns	150089161	hat_thorns.gif	hat	t,d	23	crowns of thorns
 11916	stylish bycocket	574057027	hat_bycocket.gif	hat	t,d	23

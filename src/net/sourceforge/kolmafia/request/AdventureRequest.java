@@ -752,6 +752,7 @@ public class AdventureRequest extends GenericRequest {
     encounter = AdventureRequest.handleNuclearAutumn(encounter);
     encounter = AdventureRequest.handleMask(encounter);
     encounter = AdventureRequest.handleDinosaurs(encounter);
+    encounter = AdventureRequest.handleHats(encounter);
 
     // KoL now provides MONSTERID in fight responseText.
     Matcher m = MONSTERID_PATTERN.matcher(responseText);
@@ -1595,6 +1596,35 @@ public class AdventureRequest extends GenericRequest {
       MonsterData.lastRandomModifiers.add(MonsterData.lastMask);
       return matcher.group(1);
     }
+    return monsterName;
+  }
+
+  // a black adder wearing a construction hardhat and a terrycloth turban and a jockey's hat and a
+  // sturdy pith helmet and a construction hardhat and an imposing pilgrim's hat
+  private static String handleHats(String monsterName) {
+    if (!KoLCharacter.inHatTrick()) {
+      return monsterName;
+    }
+
+    var wearing = monsterName.split(" wearing ", 2);
+    if (wearing.length == 1) {
+      return monsterName;
+    }
+    monsterName = wearing[0];
+    var hats = wearing[1];
+
+    var and = hats.split(" and ");
+
+    for (var hat : and) {
+      if (hat.startsWith("an ")) {
+        hat = hat.substring(3);
+      }
+      if (hat.startsWith("a ")) {
+        hat = hat.substring(2);
+      }
+      MonsterData.lastRandomModifiers.add(hat);
+    }
+
     return monsterName;
   }
 }
