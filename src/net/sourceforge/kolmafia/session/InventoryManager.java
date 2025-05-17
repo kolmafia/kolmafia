@@ -252,6 +252,13 @@ public abstract class InventoryManager {
         ++count;
       }
     }
+    if (KoLCharacter.inHatTrick()) {
+      for (var hat : EquipmentManager.getHatTrickHats()) {
+        if (hat == item.getItemId()) {
+          ++count;
+        }
+      }
+    }
     if (includeAllFamiliars) {
       for (FamiliarData current : KoLCharacter.ownedFamiliars()) {
         if (!current.equals(KoLCharacter.getFamiliar())

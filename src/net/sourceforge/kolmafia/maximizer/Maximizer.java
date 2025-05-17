@@ -1618,6 +1618,9 @@ public class Maximizer {
 
   private static EquipScope emitSlot(
       Slot slot, EquipScope equipScope, int maxPrice, PriceLevel priceLevel, double current) {
+    if (KoLCharacter.inHatTrick() && slot == Slot.HAT) {
+      return equipScope;
+    }
     if (slot == Slot.FAMILIAR) { // Insert any familiar switch at this point
       FamiliarData fam = Maximizer.best.getFamiliar();
       if (!fam.equals(KoLCharacter.getFamiliar())) {

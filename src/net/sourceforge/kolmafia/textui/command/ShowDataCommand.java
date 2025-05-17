@@ -225,10 +225,20 @@ public class ShowDataCommand extends AbstractCommand {
     }
 
     if (desiredData.startsWith("equip")) {
-      AdventureResult hat = EquipmentManager.getEquipment(Slot.HAT);
-      desiredStream.println("Hat: " + hat);
-      if (hat.getItemId() == ItemPool.HATSEAT) {
-        desiredStream.println("Carrying: " + KoLCharacter.getEnthroned());
+      if (KoLCharacter.inHatTrick()) {
+        for (var hat : EquipmentManager.getHatTrickHats()) {
+          AdventureResult item = ItemPool.get(hat);
+          desiredStream.println("Hat: " + item);
+          if (hat == ItemPool.HATSEAT) {
+            desiredStream.println("Carrying: " + KoLCharacter.getEnthroned());
+          }
+        }
+      } else {
+        AdventureResult hat = EquipmentManager.getEquipment(Slot.HAT);
+        desiredStream.println("Hat: " + hat);
+        if (hat.getItemId() == ItemPool.HATSEAT) {
+          desiredStream.println("Carrying: " + KoLCharacter.getEnthroned());
+        }
       }
       desiredStream.println("Weapon: " + EquipmentManager.getEquipment(Slot.WEAPON));
 

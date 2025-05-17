@@ -12,6 +12,7 @@ import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withStats;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,6 +20,7 @@ import com.alibaba.fastjson2.JSONObject;
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionPath;
+import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -186,6 +188,23 @@ public class EquipmentManagerTest {
       assertItem(Slot.FOLDER3, "folder (owl)");
       assertItemUnequip(Slot.FOLDER4);
       assertItemUnequip(Slot.FOLDER5);
+    }
+  }
+
+  @Test
+  public void canParseStatusHatTrick() {
+    var cleanups = withPath(Path.HAT_TRICK);
+
+    try (cleanups) {
+      String text = html("request/test_status_hattrick.json");
+      JSONObject jsonObject = json(text);
+
+      EquipmentManager.parseStatus(jsonObject);
+
+      assertItemUnequip(Slot.HAT);
+
+      var hats = EquipmentManager.getHatTrickHats();
+      assertThat(hats, contains(11565, 2283));
     }
   }
 

@@ -233,6 +233,35 @@ public class Player {
   }
 
   /**
+   * Equip the given slot with the given item
+   *
+   * @param slot Slot to equip
+   * @param item Item to equip to slot
+   * @return Restores item previously equipped to slot
+   */
+  public static Cleanups withHatTrickHat(final int item) {
+    var cleanups = new Cleanups();
+    // Do this first so that Equipment lists and outfits will update appropriately
+    cleanups.add(withStatsRequiredForEquipment(item));
+
+    var old = EquipmentManager.getHatTrickHats();
+    EquipmentManager.setHatTrickHats(new ArrayList<>(List.of(item)));
+    EquipmentManager.updateNormalOutfits();
+    KoLCharacter.recalculateAdjustments();
+    // may have access to a new item = may have access to a new concoction
+    ConcoctionDatabase.refreshConcoctions();
+    cleanups.add(
+        new Cleanups(
+            () -> {
+              EquipmentManager.setHatTrickHats(old);
+              EquipmentManager.updateNormalOutfits();
+              KoLCharacter.recalculateAdjustments();
+              ConcoctionDatabase.refreshConcoctions();
+            }));
+    return cleanups;
+  }
+
+  /**
    * Clears Inventory
    *
    * @return Clears inventory
