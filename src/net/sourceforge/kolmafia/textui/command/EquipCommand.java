@@ -81,7 +81,7 @@ public class EquipCommand extends AbstractCommand {
         return;
       }
     } else // See if desired item is already in selected slot
-    if (EquipmentManager.getEquipment(slot).equals(match)) {
+    if (KoLCharacter.hasEquipped(itemId, slot)) {
       return;
     }
 
