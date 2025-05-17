@@ -191,7 +191,7 @@
 154	Bloovian Groose	groose.gif	stat0,meat0,drop	The Groose in the Hoose	spruce juice	2	2	1	3	sleaze,animal,haseyes
 155	Blavious Kloop	kloop.gif	item0,meat0,drop	The Kloop in the Coop	miniscule beatbox	0	3	2	1	hashands,haseyes,evil
 156	Peppermint Rhino	pep_rhino.gif	item0,item3	peppermint rhino baby	licorice boa	1	3	1	0	sentient,hasbones,haseyes,haslegs,hard,edible,food,animal
-157	Tickle-Me Emilio	emiliofam.gif	combat0,combat1,delevel1,hp0,mp0,meat1,stat0	Tickle-Me Emilio	tiny do-rag	3	1	1	0	haseyes,sleaze
+157	Tickle-Me Emilio	emiliofam.gif	combat0,combat1,delevel1,hp0,mp0,meat1,stat0	Tickle-Me Emilio	tiny do-rag	3	1	1	0	humanoid,person,object,haseyes,haslegs,sleaze,cantalk
 158	Steam-Powered Cheerleader	cheerleader.gif	delevel0,item0	KoLHS Pep Squad Box	school spirit socket set	2	3	2	0	humanoid,person,mineral,robot,haseyes,hashands,haslegs,hard,wearsclothes,cute,cantalk,technological
 159	Happy Medium	medium_0.gif	other0,stat0,drop	Small Medium	crystal decanter	0	3	2	2	sentient,organic,humanoid,person,haseyes,hashands,haslegs,hovers,wearsclothes,spooky,cantalk
 160	Artistic Goth Kid	crayongoth.gif	other1,stat0	Moping Artistic Goth Kid	little wooden mannequin	0	2	2	3	sentient,organic,humanoid,person,hasbones,haseyes,hashands,haslegs,wearsclothes,spooky,cantalk

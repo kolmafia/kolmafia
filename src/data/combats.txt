@@ -149,7 +149,7 @@ Fudge Mountain	95	fudge monkey	fudge oyster	fudge weasel	fudge vulture	fudge poo
 Galley	100	angry cavebugbear	trendy bugbear chef
 Gingerbread Civic Center	100	gingerbread pigeon	gingerbread rat	gingerbread convict	gingerbread mad dog	gingerbread lawyer	Judge Fudge: 0
 Gingerbread Industrial Zone	100	gingerbread pigeon	gingerbread rat	gingerbread mugger	gingerbread welder robot	gingerbread mutant	GNG-3-R: 0
-Gingerbread Reef	100	gingerbread maw	nutmeg anemone	icingfish	Mer-kin baker	dolphin "orphan" 
+Gingerbread Reef	100	gingerbread maw	nutmeg anemone	icingfish	Mer-kin baker	dolphin "orphan"
 Gingerbread Sewers	100	gingerbread pigeon	gingerbread rat	gingerbread alligator	gingerbread vigilante: 0
 Gingerbread Train Station	100	gingerbread pigeon	gingerbread rat	gingerbread vagrant	animal cracker	gingerbread wino
 Gingerbread Upscale Retail District	100	gingerbread pigeon	gingerbread rat	gingerbread gentrifier	gingerbread finance bro	gingerbread tech bro
@@ -405,7 +405,7 @@ The Ice Hole	100	Norwhal	Tin of Submardines	Arctic Octolus
 The Ice Hotel	-1	ice bartender	ice clerk	ice concierge	ice housekeeper	ice porter
 The Icy Peak	85	Knott Yeti: 2	Snow Queen	upgraded ram: 2	Knott Slanding: -1	The ghost of Sam McGee: 0
 The Inner Wolf Gym	100	Abcrusher 4000&trade;	Escalatormaster&trade;	Legstrong&trade; stationary bicycle	rack of free weights	treadmill
-The Impenetrable Kelp-Holly Forest	100	kelpie (horse form)	kelpie (lady form)	Yuleviathan	dolphin "orphan" 
+The Impenetrable Kelp-Holly Forest	100	kelpie (horse form)	kelpie (lady form)	Yuleviathan	dolphin "orphan"
 The Island Barracks	-1	sleepy mariachi	surprised mariachi	alert mariachi
 The Jungle	100	bee	scorpion	skeleton	tikiman
 The Jungles of Ancient Loathing	85	ancient guardian statue	evil cultist	jungle baboon	tribal goblin	giant bird-creature: 0	giant jungle python: 0	giant octopus: 0	giant spider: 0	high priest of Ki'rhuss: 0	wumpus: 0
@@ -449,7 +449,7 @@ The Purple Light District	-1	Sleaze hobo	Chester: 0
 The Putrid Swamp	100	swamp monster
 The Red Queen's Garden	100	snapdragon	beelephant	Tiger-lily	wasp in a wig
 The Red Zeppelin	100	man with the red buttons	red butler	Red Herring	red skeleton	Red Snapper	Red Fox: 0	Ron "The Weasel" Copperhead: 0
-The Road to the White Citadel	100	pair of burnouts	biclops: 0	spider-legged witch's hut: 0	extremely annoyed witch: 0	surprised and annoyed witch: 0	Elpízo & Crosybdis: 0	business hippy: 0	decent lumberjack: 0	giant mob of baby spiders: 0	Knight in White Satin: 0	Knob Goblin Alchemist: 0	sticky mummy: 0	W imp: 0
+The Road to the White Citadel	100	pair of burnouts	biclops: 0	spider-legged witch's hut: 0	extremely annoyed witch: 0	surprised and annoyed witch: 0	Elp&iacute;zo & Crosybdis: 0	business hippy: 0	decent lumberjack: 0	giant mob of baby spiders: 0	Knight in White Satin: 0	Knob Goblin Alchemist: 0	sticky mummy: 0	W imp: 0
 The Rogue Windmill	70	can-can dancer	courtesan	sensitive poet-type	master of ceremonies	voyeuristic artist
 The Roman Forum	100	hypocritical medicus	cheap strix	Gladiator	Sadiator	Madiator	Radiator
 The Ruins of the Fully Automated Crimbo Factory	100	armored Crimbot	sparking Crimbot	unstable nuclear Crimbot
@@ -493,7 +493,7 @@ The VERY Unquiet Garves	100	corpulent zobmie	grave rober zmobie	senile lihc	slic
 The Weird Swamp Village	-1	mud turtle	swamp gator	swamp owl	swamp skunk: 0
 The Wildlife Sanctuarrrrrgh	-1	swamp beaver warrior	swamp entity	swamp gator
 The Wreck of the Edgar Fitzsimmons	100	cargo crab	drowned sailor	Mer-kin scavenger	mine crab	unholy diver
-The Wreck of the H. M. S. Kringle	95	Crimbylow	peppermint eel	sea-elf	dolphin "orphan" 
+The Wreck of the H. M. S. Kringle	95	Crimbylow	peppermint eel	sea-elf	dolphin "orphan"
 The X-32-F Combat Training Snowman	100	X-32-F Combat Training Snowman
 Throne Room	100	Knob Goblin King
 Through the Spacegate	-1	hostile plant	large hostile plant	exotic hostile plant	small hostile animal	large hostile animal	exotic hostile animal	Spant drone	Spant soldier	Murderbot drone	Murderbot soldier	hostile intelligent alien
