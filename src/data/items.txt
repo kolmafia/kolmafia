@@ -11942,3 +11942,4 @@
 11914	imposing pilgrim's hat	589422935	pilghat.gif	hat	t,d	23
 11915	crown of thorns	150089161	hat_thorns.gif	hat	t,d	23	crowns of thorns
 11916	stylish bycocket	574057027	hat_bycocket.gif	hat	t,d	23
+11917	Thwaitgold mat hatterpillar statuette	270247826	thwaithatter.gif	none		0
