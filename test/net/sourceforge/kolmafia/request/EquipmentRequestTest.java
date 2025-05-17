@@ -5,6 +5,7 @@ import static internal.helpers.Equipment.assertItemUnequip;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
+import static internal.helpers.Player.withHatTrickHat;
 import static internal.helpers.Player.withPath;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
@@ -71,6 +72,21 @@ public class EquipmentRequestTest {
 
       var hats = EquipmentManager.getHatTrickHats();
       assertThat(hats, contains(11565, 2283));
+    }
+  }
+
+  @Test
+  public void canParseHatsInHatTrickEquippedWithChatCommand() {
+    String location = "inv_equip.php?action=equip&whichitem=33&ajax=1&pwd";
+    String responseText = html("request/test_parse_equipment_changed_hattrick.html");
+
+    var cleanups = new Cleanups(withHatTrickHat(ItemPool.BUGGED_BEANIE), withPath(Path.HAT_TRICK));
+
+    try (cleanups) {
+      EquipmentRequest.parseEquipmentChange(location, responseText);
+
+      var hats = EquipmentManager.getHatTrickHats();
+      assertThat(hats, contains(ItemPool.BUGGED_BEANIE, 33));
     }
   }
 
