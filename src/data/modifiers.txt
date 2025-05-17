@@ -163,7 +163,7 @@ Item	crepe paper phrygian cap	Muscle: +10, Stench Damage: +10, Stench Spell Dama
 Item	Crimbo hat	Spooky Resistance: +1, Last Available: "2004-10", Familiar Effect: "1.75xVolley, 1.75xLep, cap 25"
 Item	Crimbuccaneer tricorn	Last Available: "2023-12"
 Item	Crown of the Goblin King	Muscle: +10, Familiar Effect: "2xBarrr, 1xGhuol, cap 17"
-# crown of thorns: Attacking foes are scratched and damaged
+Item	crown of thorns	Thorns: 1
 # Crown of Thrones: Put a Familiar In It!
 # Crown of Thrones: That Familiar gains 1 Experience per Fight
 Item	Crown of Thrones	Softcore Only, Last Available: "2010-05"
