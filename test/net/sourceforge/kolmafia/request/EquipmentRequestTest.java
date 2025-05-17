@@ -5,11 +5,15 @@ import static internal.helpers.Equipment.assertItemUnequip;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
+import static internal.helpers.Player.withPath;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
 import static org.junit.jupiter.api.Assertions.*;
 
 import internal.helpers.Cleanups;
 import java.util.Map;
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -50,6 +54,23 @@ public class EquipmentRequestTest {
       assertEquals(equipment.get(Slot.ACCESSORY2), makeItem("fudgecycle"));
       assertEquals(equipment.get(Slot.ACCESSORY3), makeItem("Counterclockwise Watch"));
       assertEquals(equipment.get(Slot.FAMILIAR), makeItem("li'l unicorn costume"));
+    }
+  }
+
+  @Test
+  public void canParseHatsInHatTrick() {
+    String location = "inventory.php?which=2";
+    String responseText = html("request/test_parse_equipment_hattrick.html");
+
+    var cleanups = new Cleanups(withPath(Path.HAT_TRICK));
+
+    try (cleanups) {
+      EquipmentRequest.parseEquipment(location, responseText);
+
+      assertItemUnequip(Slot.HAT);
+
+      var hats = EquipmentManager.getHatTrickHats();
+      assertThat(hats, contains(11565, 2283));
     }
   }
 

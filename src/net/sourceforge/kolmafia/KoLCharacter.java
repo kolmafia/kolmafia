@@ -5808,20 +5808,12 @@ public abstract class KoLCharacter {
       AdventureResult item = equipment.get(slot);
       if (item != null) {
         int itemId = item.getItemId();
-        // We know all items that give smithsness, and this code needs to be performant, so just
-        // check whether the id is between the first and last item.
-        if (itemId < ItemPool.WORK_IS_A_FOUR_LETTER_SWORD
-            || itemId > ItemPool.SHAKESPEARES_SISTERS_ACCORDION) continue;
-        Modifiers imod = ModifierDatabase.getItemModifiers(itemId);
-        if (imod != null) {
-          AscensionClass classType = AscensionClass.find(imod.getString(StringModifier.CLASS));
-          if (classType == null
-              || classType == ascensionClass
-                  && (slot != Slot.FAMILIAR
-                      || KoLCharacter.getFamiliar().getId() == FamiliarPool.HAND)) {
-            smithsness += imod.getDouble(DoubleModifier.SMITHSNESS);
-          }
-        }
+        smithsness += getSmithsnessModifier(itemId, slot);
+      }
+    }
+    if (KoLCharacter.inHatTrick()) {
+      for (var hat : EquipmentManager.getHatTrickHats()) {
+        smithsness += getSmithsnessModifier(hat, Slot.HAT);
       }
     }
 
@@ -5838,6 +5830,24 @@ public abstract class KoLCharacter {
       }
     }
     return smithsness;
+  }
+
+  private static double getSmithsnessModifier(int itemId, Slot slot) {
+    // We know all items that give smithsness, and this code needs to be performant, so just
+    // check whether the id is between the first and last item.
+    if (itemId < ItemPool.WORK_IS_A_FOUR_LETTER_SWORD
+        || itemId > ItemPool.SHAKESPEARES_SISTERS_ACCORDION) return 0;
+    Modifiers imod = ModifierDatabase.getItemModifiers(itemId);
+    if (imod != null) {
+      AscensionClass classType = AscensionClass.find(imod.getString(StringModifier.CLASS));
+      if (classType == null
+          || classType == ascensionClass
+              && (slot != Slot.FAMILIAR
+                  || KoLCharacter.getFamiliar().getId() == FamiliarPool.HAND)) {
+        return imod.getDouble(DoubleModifier.SMITHSNESS);
+      }
+    }
+    return 0;
   }
 
   // Per-character settings that change each ascension
