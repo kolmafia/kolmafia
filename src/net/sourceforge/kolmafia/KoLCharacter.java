@@ -4828,14 +4828,24 @@ public abstract class KoLCharacter {
   }
 
   public static boolean hasEquipped(final AdventureResult item, final Slot equipmentSlot) {
+    if (KoLCharacter.inHatTrick() && equipmentSlot == Slot.HAT) {
+      return EquipmentManager.hasHatTrickHat(item.getItemId());
+    }
     return EquipmentManager.getEquipment(equipmentSlot).getItemId() == item.getItemId();
   }
 
   public static boolean hasEquipped(final int itemId, final Slot equipmentSlot) {
+    if (KoLCharacter.inHatTrick() && equipmentSlot == Slot.HAT) {
+      return EquipmentManager.hasHatTrickHat(itemId);
+    }
     return EquipmentManager.getEquipment(equipmentSlot).getItemId() == itemId;
   }
 
   public static boolean hasEquipped(final AdventureResult item) {
+    if (KoLCharacter.inHatTrick()
+        && ItemDatabase.getConsumptionType(item.getItemId()) == ConsumptionType.HAT) {
+      return EquipmentManager.hasHatTrickHat(item.getItemId());
+    }
     return KoLCharacter.equipmentSlot(item) != Slot.NONE;
   }
 
@@ -5068,6 +5078,22 @@ public abstract class KoLCharacter {
       KoLCharacter.addItemAdjustment(
           newModifiers,
           slot,
+          item,
+          equipment,
+          enthroned,
+          bjorned,
+          modeables,
+          speculation,
+          taoFactor);
+    }
+    for (var hat : EquipmentManager.getHatTrickHats()) {
+      AdventureResult item = ItemPool.get(hat);
+      if (item == EquipmentRequest.UNEQUIP) {
+        continue;
+      }
+      KoLCharacter.addItemAdjustment(
+          newModifiers,
+          Slot.HAT,
           item,
           equipment,
           enthroned,

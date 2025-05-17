@@ -239,7 +239,7 @@ public class EquipmentRequest extends PasswordHashRequest {
   private static String chooseEquipmentLocation(final Slot slot) {
     return slot == Slot.HOLSTER
         ? "inventory.php"
-        : SlotSet.SLOTS.contains(slot)
+        : SlotSet.SLOTS.contains(slot) || slot == Slot.HATS
             ? "inv_equip.php"
             : slot == Slot.CROWNOFTHRONES || slot == Slot.BUDDYBJORN
                 ? "bogus.php"
@@ -496,7 +496,7 @@ public class EquipmentRequest extends PasswordHashRequest {
 
   private String getAction() {
     switch (this.equipmentSlot) {
-      case HAT -> {
+      case HAT, HATS -> {
         if (this.equipmentType == ConsumptionType.HAT) {
           return "equip";
         }
@@ -601,7 +601,7 @@ public class EquipmentRequest extends PasswordHashRequest {
 
     ConsumptionType equipmentType = ItemDatabase.getConsumptionType(itemId);
     return switch (equipmentType) {
-      case HAT -> Slot.HAT;
+      case HAT -> KoLCharacter.inHatTrick() ? Slot.HATS : Slot.HAT;
       case WEAPON -> Slot.WEAPON;
       case OFFHAND -> itemId == ItemPool.FAKE_HAND ? Slot.FAKEHAND : Slot.OFFHAND;
       case CONTAINER -> Slot.CONTAINER;
@@ -1139,6 +1139,7 @@ public class EquipmentRequest extends PasswordHashRequest {
     }
   }
 
+  // TODO: hats
   public static void parseEquipment(final String location, final String responseText) {
     if (location.contains("onlyitem=")
         || location.contains("ajax=1")
@@ -1273,6 +1274,7 @@ public class EquipmentRequest extends PasswordHashRequest {
     }
   }
 
+  // TODO: hats
   private static void parseEquipment(
       final String responseText,
       Map<Slot, AdventureResult> equipment,
@@ -1307,6 +1309,7 @@ public class EquipmentRequest extends PasswordHashRequest {
     }
   }
 
+  // TODO: hats
   public static boolean switchEquipment(
       final Map<Slot, AdventureResult> oldEquipment,
       final Map<Slot, AdventureResult> newEquipment) {
@@ -1334,6 +1337,7 @@ public class EquipmentRequest extends PasswordHashRequest {
     return refresh;
   }
 
+  // TODO: hats
   private static boolean switchItem(final Slot type, final AdventureResult newItem) {
     boolean refresh = false;
 
@@ -1373,6 +1377,7 @@ public class EquipmentRequest extends PasswordHashRequest {
     return refresh;
   }
 
+  // TODO: hats
   public static boolean parseEquipmentChange(final String location, final String responseText) {
     Matcher matcher = GenericRequest.ACTION_PATTERN.matcher(location);
 

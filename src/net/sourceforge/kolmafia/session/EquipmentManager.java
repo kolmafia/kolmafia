@@ -68,6 +68,9 @@ public class EquipmentManager {
   private static int fakeHandCount = 0;
   private static int stinkyCheeseLevel = 0;
 
+  /** In the Hat Trick path, all equipped hats */
+  private static List<Integer> hats = new ArrayList<>();
+
   private static final List<SpecialOutfit> normalOutfits =
       LockableListFactory.getInstance(SpecialOutfit.class);
   private static final List<SpecialOutfit> customOutfits =
@@ -1665,6 +1668,15 @@ public class EquipmentManager {
     return count;
   }
 
+  public static final List<Integer> getHatTrickHats() {
+    return new ArrayList<>(hats);
+  }
+
+  public static final boolean hasHatTrickHat(final int itemId) {
+    return hats.contains(itemId);
+  }
+
+  // TODO: hats
   public static final void parseStatus(final JSONObject json) throws JSONException {
     // "equipment":{
     //    "hat":"1323",
