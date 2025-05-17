@@ -125,6 +125,7 @@ public class EquipmentManager {
 
     EquipmentManager.fakeHandCount = 0;
     EquipmentManager.stinkyCheeseLevel = 0;
+    EquipmentManager.hats.clear();
     EquipmentManager.lockedFamiliarItem = EquipmentRequest.UNEQUIP;
     EquipmentManager.normalOutfits.clear();
   }
@@ -1744,8 +1745,10 @@ public class EquipmentManager {
       equipment.put(slot, EquipmentManager.equippedItem(equip.getIntValue(slotName)));
     }
     JSONArray hats = json.getJSONArray("hats");
-    for (int i = 0; i < hats.size(); i++) {
-      hatTrickHats.add(hats.getIntValue(i));
+    if (hats != null) {
+      for (int i = 0; i < hats.size(); i++) {
+        hatTrickHats.add(hats.getIntValue(i));
+      }
     }
 
     // Read stickers
