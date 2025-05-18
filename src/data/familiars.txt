@@ -173,7 +173,7 @@
 136	Mini-Hipster	minihipster.gif	combat0,delevel1,stat2,hp0,mp0,meat1,other1,variable	Schmalz's First Prize Beer	ironic moustache	0	3	2	1	sentient,humanoid,person,haseyes,hashands,haslegs,wearsclothes,cantalk
 137	Pottery Barn Owl	sp_owl.gif	combat1,hp1,mp1,drop	pottery barn owl figurine	affordable teak perch	3	1	2	0	sentient,mineral,object,hasbones,haseyes,hasclaws,haslegs,haswings,flies,hard,hasbeak,animal
 138	Hippo Ballerina	hippo.gif	combat1,block,delevel1,item0,meat0	hippo tutu	immense ballet shoes	3	2	3	0	wearsclothes,animal,haseyes
-139	Knob Goblin Organ Grinder	organgoblin.gif	combat1,meat0,other1,drop	organ grinder	microwave stogie	0	3	2	1	hashands,haseyes,evil
+139	Knob Goblin Organ Grinder	organgoblin.gif	combat1,meat0,other1,drop	organ grinder	microwave stogie	0	3	2	1	sentient,organic,humanoid,person,hasbones,haseyes,hashands,haslegs,evil,cantalk
 140	Piano Cat	pianocat.gif	item0,meat0	sleeping piano cat	kitty sheet music	2	3	2	0	hashands,animal,haseyes,bite
 141	Dramatic Hedgehog	dramahog.gif	stat0,meat0	rehearsing dramatic hedgehog	tiny prop sword	2	3	0	2	sentient,organic,hasbones,haseyes,hasclaws,haslegs,cute,animatedart,hasstinger,cantalk,animal
 142	Smiling Rat	smilerat.gif	stat0	smiling rat	rat tooth polish	1	3	1	0	sentient,organic,hasbones,haseyes,bite,hashands,hasclaws,haslegs,cute,animal
@@ -188,7 +188,7 @@
 151	Feral Kobold	kobold.gif	combat0	newborn kobold	slightly thicker filthy rags	3	1	1	1	sentient,organic,humanoid,person,hasbones,haseyes,hashands,hasclaws,haslegs,evil
 152	Fancypants Scarecrow	pantscrow2.gif	variable	stuffed-shirt scarecrow		0	0	0	0	sentient,humanoid,person,object,haseyes,haslegs,wearsclothes,cantalk
 153
-154	Bloovian Groose	groose.gif	stat0,meat0,drop	The Groose in the Hoose	spruce juice	2	2	1	3	sleaze,animal,haseyes
+154	Bloovian Groose	groose.gif	stat0,meat0,drop	The Groose in the Hoose	spruce juice	2	2	1	3	sentient,organic,animal,haseyes,haslegs,orb,cute,sleaze,good,animatedart
 155	Blavious Kloop	kloop.gif	item0,meat0,drop	The Kloop in the Coop	miniscule beatbox	0	3	2	1	hashands,haseyes,evil
 156	Peppermint Rhino	pep_rhino.gif	item0,item3	peppermint rhino baby	licorice boa	1	3	1	0	sentient,hasbones,haseyes,haslegs,hard,edible,food,animal
 157	Tickle-Me Emilio	emiliofam.gif	combat0,combat1,delevel1,hp0,mp0,meat1,stat0	Tickle-Me Emilio	tiny do-rag	3	1	1	0	humanoid,person,object,haseyes,haslegs,sleaze,cantalk

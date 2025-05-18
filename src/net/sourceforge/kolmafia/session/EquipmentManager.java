@@ -68,6 +68,9 @@ public class EquipmentManager {
   private static int fakeHandCount = 0;
   private static int stinkyCheeseLevel = 0;
 
+  /** In the Hat Trick path, all equipped hats */
+  private static List<Integer> hats = new ArrayList<>();
+
   private static final List<SpecialOutfit> normalOutfits =
       LockableListFactory.getInstance(SpecialOutfit.class);
   private static final List<SpecialOutfit> customOutfits =
@@ -122,6 +125,7 @@ public class EquipmentManager {
 
     EquipmentManager.fakeHandCount = 0;
     EquipmentManager.stinkyCheeseLevel = 0;
+    EquipmentManager.hats.clear();
     EquipmentManager.lockedFamiliarItem = EquipmentRequest.UNEQUIP;
     EquipmentManager.normalOutfits.clear();
   }
@@ -269,6 +273,11 @@ public class EquipmentManager {
   public static final void setEquipment(final Slot slot, AdventureResult item) {
     // Variable slots do not include the fake hand
     if (slot == Slot.FAKEHAND) {
+      return;
+    } else if (slot == Slot.HATS) {
+      // we want to add skills and nothing else
+      EquipmentManager.addHatTrickHat(item.getItemId());
+      EquipmentManager.addConditionalSkills(Slot.HAT, item);
       return;
     }
 
@@ -894,17 +903,26 @@ public class EquipmentManager {
   public static final void incrementEquipmentCounters() {
     for (var slot : SlotSet.SLOTS) {
       int itemId = EquipmentManager.getEquipment(slot).getItemId();
-      switch (itemId) {
-        case ItemPool.SUGAR_CHAPEAU,
-            ItemPool.SUGAR_SHANK,
-            ItemPool.SUGAR_SHIELD,
-            ItemPool.SUGAR_SHILLELAGH,
-            ItemPool.SUGAR_SHIRT,
-            ItemPool.SUGAR_SHOTGUN,
-            ItemPool.SUGAR_SHORTS -> Preferences.increment("sugarCounter" + itemId, 1);
-        case ItemPool.COZY_SCIMITAR, ItemPool.COZY_STAFF, ItemPool.COZY_BAZOOKA -> Preferences
-            .increment("cozyCounter" + itemId, 1);
+      incrementEquipmentCounters(itemId);
+    }
+    if (KoLCharacter.inHatTrick()) {
+      for (var hat : EquipmentManager.getHatTrickHats()) {
+        incrementEquipmentCounters(hat);
       }
+    }
+  }
+
+  private static final void incrementEquipmentCounters(int itemId) {
+    switch (itemId) {
+      case ItemPool.SUGAR_CHAPEAU,
+          ItemPool.SUGAR_SHANK,
+          ItemPool.SUGAR_SHIELD,
+          ItemPool.SUGAR_SHILLELAGH,
+          ItemPool.SUGAR_SHIRT,
+          ItemPool.SUGAR_SHOTGUN,
+          ItemPool.SUGAR_SHORTS -> Preferences.increment("sugarCounter" + itemId, 1);
+      case ItemPool.COZY_SCIMITAR, ItemPool.COZY_STAFF, ItemPool.COZY_BAZOOKA -> Preferences
+          .increment("cozyCounter" + itemId, 1);
     }
   }
 
@@ -1662,7 +1680,30 @@ public class EquipmentManager {
         count++;
       }
     }
+    if (KoLCharacter.inHatTrick()) {
+      for (var hat : EquipmentManager.getHatTrickHats()) {
+        if (hat == item.getItemId()) {
+          count++;
+        }
+      }
+    }
     return count;
+  }
+
+  public static final List<Integer> getHatTrickHats() {
+    return new ArrayList<>(hats);
+  }
+
+  public static final void setHatTrickHats(List<Integer> hats) {
+    EquipmentManager.hats = hats;
+  }
+
+  public static final void addHatTrickHat(int itemId) {
+    EquipmentManager.hats.add(itemId);
+  }
+
+  public static final boolean hasHatTrickHat(final int itemId) {
+    return hats.contains(itemId);
   }
 
   public static final void parseStatus(final JSONObject json) throws JSONException {
@@ -1680,12 +1721,14 @@ public class EquipmentManager {
     //    "fakehands":0,
     //    "card sleeve":"4968"
     // },
+    // "hats":["11565","2283"]
     // "stickers":[0,0,0],
     // "folder_holder":["01","22","12","00","00"]
 
     EnumMap<Slot, AdventureResult> current = EquipmentManager.allEquipment();
     EnumMap<Slot, AdventureResult> equipment = EquipmentManager.emptyEquipmentArray(true);
     int fakeHands = 0;
+    List<Integer> hatTrickHats = new ArrayList<>();
 
     JSONObject equip = json.getJSONObject("equipment");
     for (String slotName : equip.keySet()) {
@@ -1700,6 +1743,12 @@ public class EquipmentManager {
       }
 
       equipment.put(slot, EquipmentManager.equippedItem(equip.getIntValue(slotName)));
+    }
+    JSONArray hats = json.getJSONArray("hats");
+    if (hats != null) {
+      for (int i = 0; i < hats.size(); i++) {
+        hatTrickHats.add(hats.getIntValue(i));
+      }
     }
 
     // Read stickers
@@ -1759,5 +1808,6 @@ public class EquipmentManager {
 
     // Fake hands must be handled separately
     EquipmentManager.setFakeHands(fakeHands);
+    EquipmentManager.setHatTrickHats(hatTrickHats);
   }
 }
