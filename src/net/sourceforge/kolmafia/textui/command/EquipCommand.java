@@ -7,7 +7,6 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.equipment.Slot;
-import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
@@ -65,11 +64,12 @@ public class EquipCommand extends AbstractCommand {
     // If he didn't specify slot name, decide where this item goes.
     if (slot == Slot.NONE) {
       // If it's already equipped anywhere, give up
-      for (var s : SlotSet.SLOTS) {
-        AdventureResult item = EquipmentManager.getEquipment(s);
-        if (item != null && item.getName().toLowerCase().contains(parameters)) {
-          return;
-        }
+      if (KoLCharacter.hasEquipped(itemId)) {
+        return;
+      }
+      // consistency with previous behaviour: if we e.g. have this item on the Mad Hatrack, give up
+      if (EquipmentManager.getEquipment(Slot.FAMILIAR).getItemId() == itemId) {
+        return;
       }
 
       // It's not equipped. Choose a slot for it
@@ -81,7 +81,7 @@ public class EquipCommand extends AbstractCommand {
         return;
       }
     } else // See if desired item is already in selected slot
-    if (EquipmentManager.getEquipment(slot).equals(match)) {
+    if (KoLCharacter.hasEquipped(itemId, slot)) {
       return;
     }
 

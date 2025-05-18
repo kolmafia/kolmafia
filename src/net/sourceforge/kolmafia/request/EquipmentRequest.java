@@ -1,6 +1,8 @@
 package net.sourceforge.kolmafia.request;
 
+import java.util.ArrayList;
 import java.util.EnumMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -239,7 +241,7 @@ public class EquipmentRequest extends PasswordHashRequest {
   private static String chooseEquipmentLocation(final Slot slot) {
     return slot == Slot.HOLSTER
         ? "inventory.php"
-        : SlotSet.SLOTS.contains(slot)
+        : SlotSet.SLOTS.contains(slot) || slot == Slot.HATS
             ? "inv_equip.php"
             : slot == Slot.CROWNOFTHRONES || slot == Slot.BUDDYBJORN
                 ? "bogus.php"
@@ -279,6 +281,10 @@ public class EquipmentRequest extends PasswordHashRequest {
     this.equipmentSlot = equipmentSlot;
 
     if (changeItem.equals(EquipmentRequest.UNEQUIP)) {
+      if (this.equipmentSlot == Slot.HATS) {
+        this.error = "You cannot unequip hats";
+        return;
+      }
       this.requestType = EquipmentRequestType.REMOVE_ITEM;
       this.addFormField("action", "unequip");
       this.addFormField("type", equipmentSlot.phpName);
@@ -496,7 +502,7 @@ public class EquipmentRequest extends PasswordHashRequest {
 
   private String getAction() {
     switch (this.equipmentSlot) {
-      case HAT -> {
+      case HAT, HATS -> {
         if (this.equipmentType == ConsumptionType.HAT) {
           return "equip";
         }
@@ -601,7 +607,7 @@ public class EquipmentRequest extends PasswordHashRequest {
 
     ConsumptionType equipmentType = ItemDatabase.getConsumptionType(itemId);
     return switch (equipmentType) {
-      case HAT -> Slot.HAT;
+      case HAT -> KoLCharacter.inHatTrick() ? Slot.HATS : Slot.HAT;
       case WEAPON -> Slot.WEAPON;
       case OFFHAND -> itemId == ItemPool.FAKE_HAND ? Slot.FAKEHAND : Slot.OFFHAND;
       case CONTAINER -> Slot.CONTAINER;
@@ -973,6 +979,9 @@ public class EquipmentRequest extends PasswordHashRequest {
     }
   }
 
+  /**
+   * Update inventory when equipping newItem over oldItem, and return whether to refresh concoctions
+   */
   private static boolean switchItem(final AdventureResult oldItem, final AdventureResult newItem) {
     // If the items are not equivalent, make sure
     // the items should get switched out.
@@ -1147,6 +1156,7 @@ public class EquipmentRequest extends PasswordHashRequest {
     }
 
     EnumMap<Slot, AdventureResult> oldEquipment = EquipmentManager.currentEquipment();
+    var oldHats = new HashSet<>(EquipmentManager.getHatTrickHats());
     int oldFakeHands = EquipmentManager.getFakeHands();
     int newFakeHands = 0;
 
@@ -1243,6 +1253,14 @@ public class EquipmentRequest extends PasswordHashRequest {
     // like inventory shuffling and the like.
 
     boolean refresh = EquipmentRequest.switchEquipment(oldEquipment, equipment);
+    if (KoLCharacter.inHatTrick()) {
+      var newHats = EquipmentRequest.parseHatTrickHats(responseText);
+      for (var hat : newHats) {
+        if (!oldHats.contains(hat.getItemId())) {
+          refresh |= EquipmentRequest.switchItem(Slot.HATS, hat);
+        }
+      }
+    }
 
     // Adjust inventory of fake hands
 
@@ -1307,6 +1325,38 @@ public class EquipmentRequest extends PasswordHashRequest {
     }
   }
 
+  private static final Pattern HATS_PATTERN =
+      Pattern.compile(
+          "Hat</a>:</td>(<td><img[^']*'descitem\\((\\d+)[^>]*></td>)?<td><b[^>]*>(.*?)</b></td>");
+
+  private static List<AdventureResult> parseHatTrickHats(String responseText) {
+    var hats = new ArrayList<AdventureResult>();
+
+    Matcher matcher = HATS_PATTERN.matcher(responseText);
+    while (matcher.find()) {
+      String descId = matcher.group(1) != null ? matcher.group(2) : "";
+      String name = matcher.group(3).trim();
+      // This will register a new item from the descid, if needed
+      int itemId = ItemDatabase.lookupItemIdFromDescription(descId);
+
+      if (!EquipmentDatabase.contains(itemId)) {
+        RequestLogger.printLine("Found unknown equipped item: \"" + name + "\" descid = " + descId);
+      }
+
+      AdventureResult item = ItemPool.get(itemId);
+      hats.add(item);
+
+      if (RequestLogger.isDebugging()) {
+        RequestLogger.updateDebugLog("Hat: " + item);
+      }
+    }
+    return hats;
+  }
+
+  /**
+   * Update inventory when equipping newEquipment over oldEquipment, and return whether to refresh
+   * concoctions
+   */
   public static boolean switchEquipment(
       final Map<Slot, AdventureResult> oldEquipment,
       final Map<Slot, AdventureResult> newEquipment) {
@@ -1334,6 +1384,7 @@ public class EquipmentRequest extends PasswordHashRequest {
     return refresh;
   }
 
+  /** Sets item to be equipped in Slot, returns whether to refresh concoctions */
   private static boolean switchItem(final Slot type, final AdventureResult newItem) {
     boolean refresh = false;
 
@@ -1341,6 +1392,11 @@ public class EquipmentRequest extends PasswordHashRequest {
       case FAMILIAR:
       case HOLSTER:
         // Does not change inventory
+        break;
+
+      case HATS:
+        // does not unequip the previous hat
+        refresh |= EquipmentRequest.switchItem(EquipmentRequest.UNEQUIP, newItem);
         break;
 
       case WEAPON:
@@ -1409,6 +1465,9 @@ public class EquipmentRequest extends PasswordHashRequest {
       }
 
       Slot slot = EquipmentRequest.findEquipmentSlot(itemId, location);
+      if (KoLCharacter.inHatTrick() && slot == Slot.HAT) {
+        slot = Slot.HATS;
+      }
       if (EquipmentRequest.switchItem(slot, ItemPool.get(itemId, 1))) {
         ConcoctionDatabase.setRefreshNeeded(false);
       }

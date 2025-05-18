@@ -41,7 +41,8 @@ public enum Slot {
   BOOTSKIN("bootskin"),
   BOOTSPUR("bootspur"),
 
-  FAKEHAND("fakehand");
+  FAKEHAND("fakehand"),
+  HATS("hats"); // Hat slot in Hat Trick
 
   public final String name;
   public final String phpName;
