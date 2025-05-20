@@ -8624,18 +8624,19 @@ public class FightRequest extends GenericRequest {
 
   private static final Pattern[] COOKBOOKBAT_QUEST = {
     Pattern.compile(
-        "\"As I recall, (?<ingredient>.*?) was common in (?<location>.*?), back in my day\\. +Perhaps if you kill an? (?<monster>.*?), you'll find one\\.\""),
+        "\"As I recall, (?<ingredient>.*?) was common in (?<location>.*?), back in my day\\. +Perhaps if you kill +(?:an?|the|some)? (?<monster>.*?), you'll find one\\.\""),
     Pattern.compile(
-        "\"If memory serves, (?<ingredient>.*?) was very popular in (?<location>.*?), during my time\\. +Perhaps if you find an? (?<monster>.*?), you'll collect one,\""),
+        "\"If memory serves, (?<ingredient>.*?) was very popular in (?<location>.*?), during my time\\. +Perhaps if you find +(?:an?|the|some)? (?<monster>.*?), you'll collect one,\""),
     Pattern.compile(
-        "\"My recollection is that (?<ingredient>.*?) was often collected from an? (?<monster>.*?)\\. +If I recall correctly, you can hunt them in (?<location>.*?)\\.\"")
+        "\"My recollection is that (?<ingredient>.*?) was often collected from +(?:an?|the|some)? (?<monster>.*?)\\. +If I recall correctly, you can hunt them in (?<location>.*?)\\.\"")
   };
 
   private static final Pattern[] COOKBOOKBAT_QUEST_REMINDER = {
-    Pattern.compile("\"If I recall, I suggested that you look for an? (?<monster>.*?)\\.\""),
+    Pattern.compile(
+        "\"If I recall, I suggested that you look for +(?:an?|the|some)? (?<monster>.*?)\\.\""),
     Pattern.compile("\"If my ancient memory serves, I suggested looking in (?<location>.*?)\\.\""),
     Pattern.compile(
-        "\"According to my memories, an? (?<monster>.*?) at (?<location>.*?) may have what you're looking for\\.\""),
+        "\"According to my memories, +(?:an?|the|some)? (?<monster>.*?) at (?<location>.*?) may have what you're looking for\\.\""),
   };
 
   private static final Pattern[] COOKBOOKBAT_QUEST_COMPLETE = {
