@@ -1837,7 +1837,6 @@ public class QuestManager {
       return;
     }
 
-
     monsterName = monsterName.trim();
     switch (monsterName) {
       case "screambat" -> {
