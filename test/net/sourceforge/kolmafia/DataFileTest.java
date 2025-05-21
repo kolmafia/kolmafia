@@ -39,7 +39,7 @@ public class DataFileTest {
               "[a-zA-Z_0-9/\\-]+\\.gif", // img
               "([a-f0-9]+|)", // descid
               "(bad|neutral|good)", // quality
-              "(none|song|nohookah|nopvp|noremove|hottub)([ ,](none|song|nohookah|nopvp|noremove|hottub))*", // attributes
+              "(none|song|nohookah|nopvp|noremove|hottub|notcrs)([ ,](none|song|nohookah|nopvp|noremove|hottub|notcrs))*", // attributes
             }),
         Arguments.of(
             "fullness.txt",
