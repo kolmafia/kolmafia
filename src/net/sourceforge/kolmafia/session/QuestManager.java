@@ -1837,8 +1837,6 @@ public class QuestManager {
       return;
     }
 
-    boolean ghostBusted = false;
-
     monsterName = monsterName.trim();
     switch (monsterName) {
       case "screambat" -> {
@@ -2137,7 +2135,6 @@ public class QuestManager {
           "The ghost of Jim Unfortunato" -> {
         QuestDatabase.setQuestProgress(Quest.GHOST, QuestDatabase.UNSTARTED);
         Preferences.setString("ghostLocation", "");
-        ghostBusted = true;
       }
       case "Drab Bard", "Bob Racecar", "Racecar Bob" -> {
         if (QuestDatabase.isQuestStep(Quest.PALINDOME, QuestDatabase.STARTED)) {
@@ -2529,9 +2526,8 @@ public class QuestManager {
     }
 
     // Can get a message about a ghost if wearing a Proton Accelerator Pack,
-    // but if you got on the turn you busted a ghost, it is a false alarm.
     //
-    if (!ghostBusted && KoLCharacter.hasEquipped(ItemPool.get(ItemPool.PROTON_ACCELERATOR, 1))) {
+    if (KoLCharacter.hasEquipped(ItemPool.get(ItemPool.PROTON_ACCELERATOR, 1))) {
       parseProtonicGhost(responseText);
     }
   }
