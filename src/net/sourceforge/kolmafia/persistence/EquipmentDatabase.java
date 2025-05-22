@@ -26,7 +26,6 @@ import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
-import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
@@ -648,8 +647,6 @@ public class EquipmentDatabase {
   public static final boolean isCanOfBeans(final int itemId) {
     return EquipmentDatabase.getItemType(itemId).equals("can of beans");
   }
-
-  public static final AdventureResult IRON_PALMS = EffectPool.get(EffectPool.IRON_PALMS);
 
   public static final boolean isClub(final int itemId) {
     String type = EquipmentDatabase.getItemType(itemId);
