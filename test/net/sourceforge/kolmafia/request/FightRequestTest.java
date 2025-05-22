@@ -4122,4 +4122,22 @@ public class FightRequestTest {
       assertThat("yearbookCameraPending", isSetTo(true));
     }
   }
+
+  @Test
+  public void canDetectYearbookCameraHaiku() {
+    RequestLoggerOutput.startStream();
+    var cleanups =
+        new Cleanups(
+            withLastLocation("The Haiku Dungeon"),
+            withNextMonster("ancient insane monk"),
+            withFight(0),
+            withPath(Path.KOLHS));
+    try (cleanups) {
+      var page = "request/test_fight_yearbook_camera_haiku.html";
+      parseCombatData(page);
+      var text = RequestLoggerOutput.stopStream();
+      assertThat(text, containsString("photographed for Yearbook Club"));
+      assertThat("yearbookCameraPending", isSetTo(true));
+    }
+  }
 }
