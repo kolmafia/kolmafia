@@ -11943,3 +11943,5 @@
 11915	crown of thorns	150089161	hat_thorns.gif	hat	t,d	23	crowns of thorns
 11916	stylish bycocket	574057027	hat_bycocket.gif	hat	t,d	23
 11917	Thwaitgold mad hatterpillar statuette	270247826	thwaithatter.gif	none		0
+11918	packaged prismatic beret	615950047	prisberet_box.gif	usable	t	0
+11919	prismatic beret	370149661	prisberet.gif	hat		0
