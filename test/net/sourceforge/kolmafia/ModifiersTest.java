@@ -6,6 +6,7 @@ import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withHP;
+import static internal.helpers.Player.withHatTrickHats;
 import static internal.helpers.Player.withInteractivity;
 import static internal.helpers.Player.withLevel;
 import static internal.helpers.Player.withLocation;
@@ -25,6 +26,7 @@ import internal.helpers.Player;
 import java.time.DayOfWeek;
 import java.time.Month;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.equipment.Slot;
@@ -1630,6 +1632,20 @@ public class ModifiersTest {
         Modifiers mods = ModifierDatabase.getModifiers(ModifierType.ITEM, ItemPool.BORIS_HELM);
         assertThat(mods.getBoolean(BooleanModifier.SOFTCORE), is(!axecore));
       }
+    }
+  }
+
+  @Test
+  public void hatTrickHatsCountOnlyHighestPowerForDamageAbsorption() {
+    var cleanups =
+        new Cleanups(
+            withPath(Path.HAT_TRICK),
+            withHatTrickHats(List.of(ItemPool.SEAL_HELMET, ItemPool.LONGHAIRED_HIPPY_WIG)));
+    try (cleanups) {
+      Modifiers current = KoLCharacter.getCurrentModifiers();
+      assertThat(current.getDouble(DoubleModifier.DAMAGE_ABSORPTION), closeTo(200, 0.001));
+      assertThat(current.getDouble(DoubleModifier.STENCH_DAMAGE), closeTo(20, 0.001));
+      assertThat(current.getDouble(DoubleModifier.WEAPON_DAMAGE), closeTo(1, 0.001));
     }
   }
 }
