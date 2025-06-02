@@ -1605,11 +1605,11 @@ public class KoLAdventureValidationTest {
   @Nested
   class Cola {
     private static final KoLAdventure COLA_NONE =
-        AdventureDatabase.getAdventureByName("Battlefield (No Uniform)");
+        AdventureDatabase.getAdventureByName("The Cola Wars Battlefield");
     private static final KoLAdventure COLA_CLOACA =
-        AdventureDatabase.getAdventureByName("Battlefield (Cloaca Uniform)");
+        AdventureDatabase.getAdventureByName("Cola Wars Battlefield (Cloaca Uniform)");
     private static final KoLAdventure COLA_DYSPEPSI =
-        AdventureDatabase.getAdventureByName("Battlefield (Dyspepsi Uniform)");
+        AdventureDatabase.getAdventureByName("Cola Wars Battlefield (Dyspepsi Uniform)");
 
     @Test
     public void mustMeetZonePrerequesites() {
