@@ -373,6 +373,9 @@ public class AdventureDatabase {
     addSynonym("Hippy Camp (Hippy Disguise)", "Hippy Camp in Disguise");
     addSynonym("Frat House (Frat Disguise)", "Frat House in Disguise");
     addSynonym("The Junkyard", "Post-War Junkyard");
+    addSynonym("The Cola Wars Battlefield", "Battlefield (No Uniform)");
+    addSynonym("Cola Wars Battlefield (Cloaca Uniform)", "Battlefield (Cloaca Uniform)");
+    addSynonym("Cola Wars Battlefield (Dyspepsi Uniform)", "Battlefield (Dyspepsi Uniform)");
   }
 
   // For looking up adventures by legacy name
