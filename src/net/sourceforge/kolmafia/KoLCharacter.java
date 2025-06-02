@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia;
 import java.awt.Taskbar;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
@@ -5093,7 +5094,7 @@ public abstract class KoLCharacter {
       }
       KoLCharacter.addItemAdjustment(
           newModifiers,
-          Slot.HAT,
+          Slot.HATS,
           item,
           equipment,
           enthroned,
@@ -5101,6 +5102,11 @@ public abstract class KoLCharacter {
           modeables,
           speculation,
           taoFactor);
+    }
+    if (KoLCharacter.inHatTrick()) {
+      EquipmentManager.getHatTrickHats().stream()
+          .max(Comparator.comparingInt(EquipmentDatabase::getPower))
+          .ifPresent(h -> addHatPower(newModifiers, h, taoFactor));
     }
 
     // Consider fake hands
@@ -5556,11 +5562,7 @@ public abstract class KoLCharacter {
       imod = ModifierDatabase.getItemModifiersInFamiliarSlot(itemId);
 
       if (consume == ConsumptionType.WEAPON) {
-        newModifiers.addDouble(
-            DoubleModifier.WEAPON_DAMAGE,
-            EquipmentDatabase.getPower(itemId) * 0.15,
-            ModifierType.EQUIPMENT_POWER,
-            "15% weapon power");
+        addWeaponPower(newModifiers, itemId);
       }
     } else {
       imod = ModifierDatabase.getItemModifiers(itemId);
@@ -5659,35 +5661,19 @@ public abstract class KoLCharacter {
         }
         /*FALLTHRU*/
       case WEAPON:
-        newModifiers.addDouble(
-            DoubleModifier.WEAPON_DAMAGE,
-            EquipmentDatabase.getPower(itemId) * 0.15,
-            ModifierType.EQUIPMENT_POWER,
-            "15% weapon power");
+        addWeaponPower(newModifiers, itemId);
         break;
 
       case HAT:
-        newModifiers.addDouble(
-            DoubleModifier.DAMAGE_ABSORPTION,
-            taoFactor * EquipmentDatabase.getPower(itemId),
-            ModifierType.EQUIPMENT_POWER,
-            "hat power");
+        addHatPower(newModifiers, itemId, taoFactor);
         break;
 
       case PANTS:
-        newModifiers.addDouble(
-            DoubleModifier.DAMAGE_ABSORPTION,
-            taoFactor * EquipmentDatabase.getPower(itemId),
-            ModifierType.EQUIPMENT_POWER,
-            "pants power");
+        addPantsPower(newModifiers, itemId, taoFactor);
         break;
 
       case SHIRT:
-        newModifiers.addDouble(
-            DoubleModifier.DAMAGE_ABSORPTION,
-            EquipmentDatabase.getPower(itemId),
-            ModifierType.EQUIPMENT_POWER,
-            "shirt power");
+        addShirtPower(newModifiers, itemId);
         break;
     }
 
@@ -5743,6 +5729,35 @@ public abstract class KoLCharacter {
           break;
       }
     }
+  }
+
+  private static void addWeaponPower(Modifiers newModifiers, int itemId) {
+    newModifiers.addDouble(
+        DoubleModifier.WEAPON_DAMAGE,
+        EquipmentDatabase.getPower(itemId) * 0.15,
+        ModifierType.EQUIPMENT_POWER,
+        "15% weapon power");
+  }
+
+  private static void addHatPower(Modifiers newModifiers, int itemId, int taoFactor) {
+    addEquipPower("hat power", newModifiers, itemId, taoFactor);
+  }
+
+  private static void addPantsPower(Modifiers newModifiers, int itemId, int taoFactor) {
+    addEquipPower("pants power", newModifiers, itemId, taoFactor);
+  }
+
+  private static void addShirtPower(Modifiers newModifiers, int itemId) {
+    addEquipPower("shirt power", newModifiers, itemId, 1);
+  }
+
+  private static void addEquipPower(
+      String equip, Modifiers newModifiers, int itemId, int taoFactor) {
+    newModifiers.addDouble(
+        DoubleModifier.DAMAGE_ABSORPTION,
+        taoFactor * EquipmentDatabase.getPower(itemId),
+        ModifierType.EQUIPMENT_POWER,
+        equip);
   }
 
   private static void addOffhandRemarkable(
