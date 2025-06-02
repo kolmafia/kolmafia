@@ -68,9 +68,6 @@ A Mob of Zeppelin Protesters	LUCKY	Methinks the Protesters Doth Protest Too Litt
 A-Boo Peak	LUCKY	The "Journalist"
 An Octopus's Garden	LUCKY	moister oyster
 Art Class	LUCKY	Fran&ccedil;ois Verte, Art Teacher
-Battlefield (Cloaca Uniform)	LUCKY	Prior to Always
-Battlefield (Dyspepsi Uniform)	LUCKY	Prior to Always
-Battlefield (No Uniform)	LUCKY	Prior to Always
 Burnbarrel Blvd.	LUCKY	A Tight Squeeze
 Camp Logging Camp	LUCKY	Oot to Lunch
 Chemistry Class	LUCKY	Mrs. K, the Chemistry Teacher
@@ -80,6 +77,8 @@ Cobb's Knob Kitchens	LUCKY	Luck in the Kitchens
 Cobb's Knob Laboratory	LUCKY	You Can Top Our Desserts, But You Can't Beat Our Meats
 Cobb's Knob Menagerie, Level 2	LUCKY	Rokay, Raggy!
 Cobb's Knob Treasury	LUCKY	Knob Goblin Embezzler
+Cola Wars Battlefield (Cloaca Uniform)	LUCKY	Prior to Always
+Cola Wars Battlefield (Dyspepsi Uniform)	LUCKY	Prior to Always
 Elf Alley	LUCKY	What a Tosser
 Exposure Esplanade	LUCKY	Cold Comfort
 Frat House	LUCKY	Sand in the Vaseline
@@ -111,6 +110,7 @@ The Cheerless Spire (Level 2)	LUCKY	Lucky Breaktime
 The Cheerless Spire (Level 3)	LUCKY	Can't Serum
 The Cheerless Spire (Level 4)	LUCKY	Mime On, Mime In, Mime Out
 The Cheerless Spire (Level 5)	LUCKY	Always Be Miming
+The Cola Wars Battlefield	LUCKY	Prior to Always
 The Copperhead Club	LUCKY	Where There's Smoke...
 The Dark Elbow of the Woods	LUCKY	It's The Only Way To Be Sure
 The Dark Heart of the Woods	LUCKY	It's The Only Way To Be Sure
@@ -167,7 +167,6 @@ The Icy Peak	BORIS	Mercury Rising
 The Middle Chamber	BORIS	Don't You Know Who I Am?
 
 ### Hobo code binder glyph Adventures
-Battlefield (No Uniform)	GLYPH	A Funny Thing Happened On the Way
 Belowdecks	GLYPH	My Little Stowaway
 Camp Logging Camp	GLYPH	Stumped
 Cobb's Knob Menagerie, Level 3	GLYPH	He's a Melancholy Drunk
@@ -176,6 +175,7 @@ Lair of the Ninja Snowmen	GLYPH	Not So Much With the Corncob Pipes, Either.
 Noob Cave	GLYPH	How Do I Shot Web?
 The Battlefield (Frat Uniform)	GLYPH	God Bless, Bra
 The Bugbear Pen	GLYPH	Bacon Bacon Bacon
+The Cola Wars Battlefield	GLYPH	A Funny Thing Happened On the Way
 The Defiled Nook	GLYPH	They Gave at the Morgue
 The Enormous Greater-Than Sign	GLYPH	Elbereth? Who's Elbereth?
 The "Fun" House	GLYPH	They Hate Mimes, Too
@@ -212,9 +212,9 @@ Hero's Field	TURTLE	Blue Monday
 Megalo-City	TURTLE	Blue Monday
 The Fungus Plains	TURTLE	Blue Monday
 Vanya's Castle	TURTLE	Blue Monday
-Battlefield (No Uniform)	TURTLE	Capital!
-Battlefield (Cloaca Uniform)	TURTLE	Capital!
-Battlefield (Dyspepsi Uniform)	TURTLE	Capital!
+The Cola Wars Battlefield	TURTLE	Capital!
+Cola Wars Battlefield (Cloaca Uniform)	TURTLE	Capital!
+Cola Wars Battlefield (Dyspepsi Uniform)	TURTLE	Capital!
 A Maze of Sewer Tunnels	TURTLE	Training Day
 Hobopolis Town Square	TURTLE	Training Day
 Burnbarrel Blvd.	TURTLE	Training Day
