@@ -14238,6 +14238,7 @@ Item	Prelude of Precision	Skill: "Prelude of Precision"
 Item	present	Last Available: "2004-11"
 # print screen button: Copies a Monster
 Item	print screen button	Last Available: "2016-05"
+Item	packaged prismatic beret	Free Pull, Last Available: "2025-07"
 Item	pristine piranha seed	Last Available: "2020-03"
 # procrastination potion: Causes Enemy to Put Off Attacking You
 Item	Procrastinator locker key	Last Available: "2017-04"
