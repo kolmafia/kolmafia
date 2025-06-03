@@ -94,7 +94,12 @@ public class DataFileTest {
 
   public static Stream<Arguments> dataVariable() {
     return Stream.of(
-        Arguments.of("defaults.txt", 1, new String[] {"user|global", "[^\\s]+", "[^\\t]*"}, 2));
+        Arguments.of("defaults.txt", 1, new String[] {"user|global", "[^\\s]+", "[^\\t]*"}, 2),
+        Arguments.of(
+            "classskills.txt",
+            6,
+            new String[] {"\\d+", "[^\\t]+", "[^\\t]*", "[^\\t]*", "\\d+", "\\d+"},
+            6));
   }
 
   private static String join(String[] parts, String delimiter) {
@@ -127,13 +132,15 @@ public class DataFileTest {
       boolean bogus = false;
 
       while ((fields = FileUtilities.readData(reader)) != null) {
+        // Some files will have a placeholder line for entries to represent gaps in the ids
         if (fields.length == 1) {
           if (fields[0].matches("\\d+")
-              && (fname.equals("items.txt") || fname.equals("statuseffects.txt"))) {
-            // Placeholder.
+                  && (fname.equals("items.txt") || fname.equals("statuseffects.txt"))
+              || fname.equals("classskills.txt")) {
             continue;
           }
         }
+
         if (fields.length < minCheck) {
           System.out.println("Entry for " + fields[0] + " is missing fields");
           bogus = true;
