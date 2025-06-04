@@ -441,6 +441,7 @@ Item	pottery hat	Cold Resistance: +1, Hot Damage: +5, Last Available: "2010-09",
 Item	powdered wig	Moxie: +3, MP Regen Min: 2, MP Regen Max: 4, Last Available: "2010-03", Familiar Effect: "2xPotato, 1xGhuol, cap 17"
 # primitive alien mask: Reveals your inner alien
 Item	primitive alien mask	Mysticality: +10, Maximum MP: +20, Adventures: +2, Last Available: "2017-04"
+Item	prismatic beret	Conditional Skill (Equipped): "Beret Blast", Conditional Skill (Equipped): "Beret Boast", Conditional Skill (Equipped): "Beret Busking", Last Available: "2025-06"
 Item	prohie's hat	Booze Drop: +100
 Item	propeller beanie	Initiative: +10, Familiar Effect: "atk, cap 7"
 Item	psychic's circlet	Adventures: +3, MP Regen Min: 3, MP Regen Max: 6, Last Available: "2018-02"
@@ -13995,6 +13996,7 @@ Item	packaged luxury garment	Last Available: "2024-12"
 Item	packaged miniature crystal ball	Free Pull, Last Available: "2021-01"
 Item	packaged model train set	Free Pull, Last Available: "2022-12"
 Item	packaged Pocket Professor	Free Pull, Last Available: "2019-09"
+Item	packaged prismatic beret	Free Pull
 Item	packaged Roman Candelabra	Free Pull
 Item	packaged SpinMaster&trade; lathe	Free Pull, Last Available: "2020-08"
 Item	packet of beer seeds	Last Available: "2013-09"
