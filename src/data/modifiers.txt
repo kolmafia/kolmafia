@@ -441,6 +441,7 @@ Item	pottery hat	Cold Resistance: +1, Hot Damage: +5, Last Available: "2010-09",
 Item	powdered wig	Moxie: +3, MP Regen Min: 2, MP Regen Max: 4, Last Available: "2010-03", Familiar Effect: "2xPotato, 1xGhuol, cap 17"
 # primitive alien mask: Reveals your inner alien
 Item	primitive alien mask	Mysticality: +10, Maximum MP: +20, Adventures: +2, Last Available: "2017-04"
+Item	prismatic beret Conditional Skill (Equipped): "Beret Blast", Conditional Skill (Equipped): "Beret Boast", Conditional Skill (Equipped): "Beret Busking", Last Available: "2025-06"
 Item	prohie's hat	Booze Drop: +100
 Item	propeller beanie	Initiative: +10, Familiar Effect: "atk, cap 7"
 Item	psychic's circlet	Adventures: +3, MP Regen Min: 3, MP Regen Max: 6, Last Available: "2018-02"
@@ -3552,7 +3553,6 @@ Item	portable cassette player	Combat Rate: +5, Monster Level: +5, Single Equip, 
 Item	power sock	Muscle: +20, Mysticality: -5, Moxie: -5, Weapon Damage Percent: +20, Single Equip, Last Available: "2013-11"
 Item	Powerful Glove	Maximum MP: +10, Maximum HP: +20, Weapon Damage Percent: +25, Spell Damage Percent: +50, HP Regen Min: 5, HP Regen Max: 10, MP Regen Min: 5, MP Regen Max: 10, Single Equip, Last Available: "2020-02", Conditional Skill (Equipped): "CHEAT CODE: Replace Enemy", Conditional Skill (Equipped): "CHEAT CODE: Shrink Enemy", Conditional Skill (Equipped): "CHEAT CODE: Invisible Avatar", Conditional Skill (Equipped): "CHEAT CODE: Triple Size"
 Item	primitive alien necklace	Experience: +5, Cold Damage: +25, HP Regen Min: 2, HP Regen Max: 4, MP Regen Min: 2, MP Regen Max: 4, Last Available: "2017-04"
-Item	prismatic beret Last Available: "2025-06", Conditional Skill (Equipped): "Beret Blast", Conditional Skill (Equipped): "Beret Boast", Conditional Skill (Equipped): "Beret Busking"
 Item	pro skateboard	Weapon Damage: +10, Moxie Percent: +10, Last Available: "2023-06", Conditional Skill (Equipped): "Do a Kickflip", Conditional Skill (Equipped): "Do a Method!", Conditional Skill (Equipped): "Do an epic McTwist!"
 # Protects-Your-Junk: Grants Protection from Dreadsylvanian Curses
 Item	Protects-Your-Junk	Negative Status Resist, Damage Reduction: 20, Single Equip
@@ -13996,6 +13996,7 @@ Item	packaged luxury garment	Last Available: "2024-12"
 Item	packaged miniature crystal ball	Free Pull, Last Available: "2021-01"
 Item	packaged model train set	Free Pull, Last Available: "2022-12"
 Item	packaged Pocket Professor	Free Pull, Last Available: "2019-09"
+Item	packaged prismatic beret	Free Pull
 Item	packaged Roman Candelabra	Free Pull
 Item	packaged SpinMaster&trade; lathe	Free Pull, Last Available: "2020-08"
 Item	packet of beer seeds	Last Available: "2013-09"
@@ -14238,7 +14239,6 @@ Item	Prelude of Precision	Skill: "Prelude of Precision"
 Item	present	Last Available: "2004-11"
 # print screen button: Copies a Monster
 Item	print screen button	Last Available: "2016-05"
-Item	packaged prismatic beret	Free Pull
 Item	pristine piranha seed	Last Available: "2020-03"
 # procrastination potion: Causes Enemy to Put Off Attacking You
 Item	Procrastinator locker key	Last Available: "2017-04"
