@@ -333,6 +333,7 @@ porkpie-mounted popper	50	none
 pottery hat	45	none
 powdered wig	70	Mox: 20
 primitive alien mask	50	Mox: 10
+prismatic beret	10	none
 prohie's hat	100	Mox: 25
 propeller beanie	30	none
 psychic's circlet	100	Mox: 35
