@@ -1,19 +1,33 @@
 aggregate int [string]
-Hot Buttoned => 1
-none => 4
+Hammertime => 1
+none => 18
 aggregate int [string]
-Egg-stortionary Tactics => 1
-Empty Inside => 1
-Extra-Thick Blood => 1
-Eyes Wide Propped => 1
-Fiery Spirit => 1
-Magically Fingered => 1
-Neuromancy => 1
-Nightstalkin' => 1
-Nut-Rition => 1
-One Very Clear Eye => 1
-Pygmy Drinking Buddy => 1
-Stuck-Up Hair => 1
-Super-Charged => 1
-Sur La Table => 1
-none => 446
+Trufflin' => 1
+none => 18
+aggregate int [string]
+So You Can Work More... => 1
+none => 18
+aggregate int [string]
+Buggy Flavor => 1
+none => 18
+aggregate int [string]
+Uncaged Power => 1
+none => 18
+aggregate int [string]
+Adapt to Change Eventually => 1
+Bone Chilling => 1
+Cartographically Rooted => 1
+Charrrming => 1
+Cock of the Walk => 1
+Coldfinger => 1
+Ermine Eyes => 1
+Gyromitra Gymnastics => 1
+Heart of Yellow => 1
+Heavily Breathing => 1
+Human-Insect Hybrid => 1
+Macho Profundo => 1
+Moose Wisdom => 1
+Phairly Pheromonal => 1
+Strength of the Tortoise => 1
+You Know What's Up => 1
+none => 691

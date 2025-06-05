@@ -1903,9 +1903,9 @@ user	_beerLensDrops	0
 user	_bellydancerPickpockets	0
 user	_bendHellUsed	false
 user	_benettonsCasts	0
-user	_beretBlastCasts	0
-user	_beretBoastCasts	0
-user	_beretBuskingCasts	0
+user	_beretBlastUses	0
+user	_beretBoastUses	0
+user	_beretBuskingUses	0
 user	_birdOfTheDay
 user	_birdOfTheDayMods
 user	_birdsSoughtToday	0

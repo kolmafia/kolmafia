@@ -1,4 +1,10 @@
 const { dump, beretBuskingEffects } = require("kolmafia");
-dump(beretBuskingEffects(12, 0));
+// Before the soft cap
+dump(beretBuskingEffects(85, 0));
+dump(beretBuskingEffects(85, 1));
+dump(beretBuskingEffects(85, 2));
+dump(beretBuskingEffects(85, 3));
+dump(beretBuskingEffects(85, 4));
 
-dump(beretBuskingEffects(2222, 0));
+// After the soft cap
+dump(beretBuskingEffects(3450, 0));

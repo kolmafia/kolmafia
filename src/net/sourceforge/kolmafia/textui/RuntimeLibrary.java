@@ -11110,8 +11110,13 @@ public abstract class RuntimeLibrary {
       ScriptRuntime controller, final Value power, final Value cast) {
     MapValue value = new MapValue(DataTypes.EFFECT_TO_INT_TYPE);
 
-    // $effect[none] can tell us the meat that will be gained
-    var meat = Math.ceil(power.contentLong / 5.0) + 1;
+    // Calculate the capped power
+    var cappedPower =
+        Math.min(power.contentLong, 1100)
+            + (long) Math.floor(Math.pow(Math.max(0, power.contentLong - 1100), 0.8));
+
+    // $effect[none] will indicate the meat gained
+    var meat = Math.ceil(cappedPower / 5.0) + 1;
     value.aset(DataTypes.EFFECT_INIT, new Value(meat));
 
     // Grab list of valid effects
@@ -11128,13 +11133,7 @@ public abstract class RuntimeLibrary {
     // The last entry is duplicated
     validEffectIds.add(validEffectIds.getLast());
 
-    System.out.print(
-        validEffectIds.stream().map(Object::toString).collect(Collectors.joining(",")));
-
     // Roll the effects
-    var cappedPower =
-        Math.min(power.contentLong, 1100)
-            + (long) Math.floor(Math.pow(Math.max(0, power.contentLong - 1100), 0.8));
     var seed = cappedPower + cast.contentLong;
     var rng = new PHPMTRandom(seed);
     var total = Math.ceil(cappedPower / 100.0);
