@@ -11130,9 +11130,9 @@ public abstract class RuntimeLibrary {
 
     // Roll the effects
     var seed =
-        Math.min(power.contentLong + cast.contentLong, 1100)
-            + (long)
-                Math.floor(Math.pow(Math.max(0, power.contentLong + cast.contentLong - 1100), 0.8));
+        Math.min(power.contentLong, 1100)
+            + (long) Math.floor(Math.pow(Math.max(0, power.contentLong - 1100), 0.8))
+            + cast.contentLong;
     var rng = new PHPMTRandom(seed);
     var total = Math.ceil(power.contentLong / 100.0);
     for (int i = 0; i < total; i++) {
