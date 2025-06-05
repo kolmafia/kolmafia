@@ -8,3 +8,4 @@ dump(beretBuskingEffects(85, 4));
 
 // After the soft cap
 dump(beretBuskingEffects(3450, 0));
+dump(beretBuskingEffects(3450, 1));
