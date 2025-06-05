@@ -11121,20 +11121,23 @@ public abstract class RuntimeLibrary {
                 .filter(i -> EffectDatabase.getEffectName(i) != null)
                 .filter(i -> EffectDatabase.getQuality(i) == EffectDatabase.GOOD)
                 .filter(i -> !EffectDatabase.hasAttribute(i, "nohookah"))
-                .filter(i -> !EffectDatabase.hasAttribute(i, "notrcs"))
+                .filter(i -> !EffectDatabase.hasAttribute(i, "notcrs"))
                 .boxed()
                 .toList());
 
     // The last entry is duplicated
     validEffectIds.add(validEffectIds.getLast());
 
+    System.out.print(
+        validEffectIds.stream().map(Object::toString).collect(Collectors.joining(",")));
+
     // Roll the effects
-    var seed =
+    var cappedPower =
         Math.min(power.contentLong, 1100)
-            + (long) Math.floor(Math.pow(Math.max(0, power.contentLong - 1100), 0.8))
-            + cast.contentLong;
+            + (long) Math.floor(Math.pow(Math.max(0, power.contentLong - 1100), 0.8));
+    var seed = cappedPower + cast.contentLong;
     var rng = new PHPMTRandom(seed);
-    var total = Math.ceil(power.contentLong / 100.0);
+    var total = Math.ceil(cappedPower / 100.0);
     for (int i = 0; i < total; i++) {
       var effectId = rng.pickOne(validEffectIds);
       var effect = DataTypes.makeEffectValue(effectId, true);
