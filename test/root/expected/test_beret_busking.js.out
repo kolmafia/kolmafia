@@ -49,3 +49,7 @@ Yeah, It's Just Gasoline => 1
 You Can Taste the Darkness => 1
 You're Not Cooking => 1
 none => 321
+aggregate int [string]
+Angry like the Wolf => 1
+Egg-headedness => 2
+none => 60
