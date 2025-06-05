@@ -11102,7 +11102,7 @@ public abstract class RuntimeLibrary {
 
   public static Value beret_busking_effects(ScriptRuntime controller) {
     var power = KoLCharacter.getTotalPower();
-    var cast = Preferences.getInteger("_beretBuskingCasts");
+    var cast = Preferences.getInteger("_beretBuskingUses");
     return beret_busking_effects(controller, new Value(power), new Value(cast));
   }
 
