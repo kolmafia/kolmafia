@@ -5733,21 +5733,37 @@ public abstract class KoLCharacter {
 
   private static final AdventureResult HAMMERTIME = EffectPool.get(EffectPool.HAMMERTIME);
 
-  public static int getTotalPower() {
-    // These are the *extra* power supplied, so we can do the maths easier
-    var tao = KoLCharacter.hasSkill(SkillPool.TAO_OF_THE_TERRAPIN) ? 1 : 0;
-    var hammertime = KoLConstants.activeEffects.contains(HAMMERTIME) ? 3 : 0;
+  public static int getTotalPower(final boolean beretBusking) {
+    boolean inHT = KoLCharacter.inHatTrick();
+    boolean hasTao = KoLCharacter.hasSkill(SkillPool.TAO_OF_THE_TERRAPIN);
+    boolean hasHammertime = KoLConstants.activeEffects.contains(HAMMERTIME);
 
-    var hat =
-        (KoLCharacter.inHatTrick())
+    int tao = hasTao ? 1 : 0;
+    int hammertime = hasHammertime ? 3 : 0;
+
+    int hat =
+        inHT
             ? EquipmentManager.getHatTrickHats().stream()
                 .mapToInt(EquipmentDatabase::getPower)
                 .sum()
             : EquipmentDatabase.getPower(EquipmentManager.getEquipment(Slot.HAT).getItemId());
-    var pants = EquipmentDatabase.getPower(EquipmentManager.getEquipment(Slot.PANTS).getItemId());
-    var shirt = EquipmentDatabase.getPower(EquipmentManager.getEquipment(Slot.SHIRT).getItemId());
 
-    return hat + (hat * tao) + pants + (pants * tao) + (pants * hammertime) + shirt;
+    int multipliedHat =
+        inHT
+            ? EquipmentManager.getHatTrickHats().stream()
+                .mapToInt(EquipmentDatabase::getPower)
+                .max()
+                .orElse(0)
+            : hat;
+
+    int pants = EquipmentDatabase.getPower(EquipmentManager.getEquipment(Slot.PANTS).getItemId());
+    int shirt = EquipmentDatabase.getPower(EquipmentManager.getEquipment(Slot.SHIRT).getItemId());
+
+    return hat
+        + (multipliedHat * tao)
+        + hat * (inHT && beretBusking ? tao : 0)
+        + pants * (1 + tao + hammertime)
+        + shirt;
   }
 
   private static void addWeaponPower(Modifiers newModifiers, int itemId) {
