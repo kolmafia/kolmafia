@@ -11108,7 +11108,7 @@ public abstract class RuntimeLibrary {
 
   public static Value beret_busking_effects(
       ScriptRuntime controller, final Value power, final Value cast) {
-    MapValue value = new MapValue(DataTypes.EFFECT_TO_INT_TYPE);
+    var results = new ArrayList<AdventureResult>();
 
     // Calculate the capped power
     var cappedPower =
@@ -11116,8 +11116,8 @@ public abstract class RuntimeLibrary {
             + (long) Math.floor(Math.pow(Math.max(0, power.contentLong - 1100), 0.8));
 
     // $effect[none] will indicate the meat gained
-    var meat = Math.ceil(cappedPower / 5.0) + 1;
-    value.aset(DataTypes.EFFECT_INIT, new Value(meat));
+    AdventureResult.addResultToList(
+        results, new AdventureResult(AdventureResult.MEAT, (int) Math.ceil(cappedPower / 5.0) + 1));
 
     // Grab list of valid effects
     var validEffectIds =
@@ -11139,13 +11139,15 @@ public abstract class RuntimeLibrary {
     var total = Math.ceil(cappedPower / 100.0);
     for (int i = 0; i < total; i++) {
       var effectId = rng.pickOne(validEffectIds);
-      var effect = DataTypes.makeEffectValue(effectId, true);
-      // Track the number of times this effect is picked as there can be duplicates
-      var existing = value.aref(effect) == null ? new Value(0) : value.aref(effect);
-      existing.contentLong += 10;
-      value.aset(effect, existing);
+      var effect = new AdventureResult(EffectDatabase.getEffectName(effectId), 10, true);
+      AdventureResult.addResultToList(results, effect);
     }
 
+    var value = new MapValue(DataTypes.EFFECT_TO_INT_TYPE);
+    for (var effect : results) {
+      value.aset(
+          DataTypes.makeEffectValue(effect.getEffectId(), true), new Value(effect.getCount()));
+    }
     return value;
   }
 
