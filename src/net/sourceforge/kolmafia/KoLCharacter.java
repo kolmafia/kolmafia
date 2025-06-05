@@ -5731,6 +5731,25 @@ public abstract class KoLCharacter {
     }
   }
 
+  private static final AdventureResult HAMMERTIME = EffectPool.get(EffectPool.HAMMERTIME);
+
+  public static int getTotalPower() {
+    // These are the *extra* power supplied, so we can do the maths easier
+    var tao = KoLCharacter.hasSkill(SkillPool.TAO_OF_THE_TERRAPIN) ? 1 : 0;
+    var hammertime = KoLConstants.activeEffects.contains(HAMMERTIME) ? 3 : 0;
+
+    var hat =
+        (KoLCharacter.inHatTrick())
+            ? EquipmentManager.getHatTrickHats().stream()
+                .mapToInt(EquipmentDatabase::getPower)
+                .sum()
+            : EquipmentDatabase.getPower(EquipmentManager.getEquipment(Slot.HAT).getItemId());
+    var pants = EquipmentDatabase.getPower(EquipmentManager.getEquipment(Slot.PANTS).getItemId());
+    var shirt = EquipmentDatabase.getPower(EquipmentManager.getEquipment(Slot.SHIRT).getItemId());
+
+    return hat + (hat * tao) + pants + (pants * tao) + (pants * hammertime) + shirt;
+  }
+
   private static void addWeaponPower(Modifiers newModifiers, int itemId) {
     newModifiers.addDouble(
         DoubleModifier.WEAPON_DAMAGE,
