@@ -1,55 +1,55 @@
 aggregate int [string]
-Hammertime => 1
+Hammertime => 10
 none => 18
 aggregate int [string]
-Trufflin' => 1
+Trufflin' => 10
 none => 18
 aggregate int [string]
-So You Can Work More... => 1
+So You Can Work More... => 10
 none => 18
 aggregate int [string]
-Buggy Flavor => 1
+Buggy Flavor => 10
 none => 18
 aggregate int [string]
-Uncaged Power => 1
+Uncaged Power => 10
 none => 18
 aggregate int [string]
-Adapt to Change Eventually => 1
-Bone Chilling => 1
-Cartographically Rooted => 1
-Charrrming => 1
-Cock of the Walk => 1
-Coldfinger => 1
-Ermine Eyes => 1
-Gyromitra Gymnastics => 1
-Heart of Yellow => 1
-Heavily Breathing => 1
-Human-Insect Hybrid => 1
-Macho Profundo => 1
-Moose Wisdom => 1
-Phairly Pheromonal => 1
-Strength of the Tortoise => 1
-You Know What's Up => 1
+Adapt to Change Eventually => 10
+Bone Chilling => 10
+Cartographically Rooted => 10
+Charrrming => 10
+Cock of the Walk => 10
+Coldfinger => 10
+Ermine Eyes => 10
+Gyromitra Gymnastics => 10
+Heart of Yellow => 10
+Heavily Breathing => 10
+Human-Insect Hybrid => 10
+Macho Profundo => 10
+Moose Wisdom => 10
+Phairly Pheromonal => 10
+Strength of the Tortoise => 10
+You Know What's Up => 10
 none => 321
 aggregate int [string]
-Abominably Slippery => 1
-All Rainbow-y => 1
-Broberry Brotality => 1
-Brother Smothers's Blessing => 1
-Bulging Jaw Muscles => 1
-Cold Hard Skin => 1
-Favored by Lyle => 1
-Knob Goblin Lust Frenzy => 1
-Lit Up => 1
-Orchid Blood => 1
-Pisces in the Skyces => 1
-Sealed Brain => 1
-Spiky Frozen Hair => 1
-Yeah, It's Just Gasoline => 1
-You Can Taste the Darkness => 1
-You're Not Cooking => 1
+Abominably Slippery => 10
+All Rainbow-y => 10
+Broberry Brotality => 10
+Brother Smothers's Blessing => 10
+Bulging Jaw Muscles => 10
+Cold Hard Skin => 10
+Favored by Lyle => 10
+Knob Goblin Lust Frenzy => 10
+Lit Up => 10
+Orchid Blood => 10
+Pisces in the Skyces => 10
+Sealed Brain => 10
+Spiky Frozen Hair => 10
+Yeah, It's Just Gasoline => 10
+You Can Taste the Darkness => 10
+You're Not Cooking => 10
 none => 321
 aggregate int [string]
-Angry like the Wolf => 1
-Egg-headedness => 2
+Angry like the Wolf => 10
+Egg-headedness => 20
 none => 60

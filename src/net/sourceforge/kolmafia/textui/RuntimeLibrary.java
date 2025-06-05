@@ -11142,7 +11142,7 @@ public abstract class RuntimeLibrary {
       var effect = DataTypes.makeEffectValue(effectId, true);
       // Track the number of times this effect is picked as there can be duplicates
       var existing = value.aref(effect) == null ? new Value(0) : value.aref(effect);
-      existing.contentLong += 1;
+      existing.contentLong += 10;
       value.aset(effect, existing);
     }
 
