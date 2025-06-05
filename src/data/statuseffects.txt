@@ -1129,9 +1129,9 @@
 1126	Skeletal Buddy	skeleton_p.gif	406b7798950700127bf6cb13b19bcefa	good	nohookah	skeleton buddy
 1127	Aykrophobia	crystalskull.gif	93aa0fce5154508eca3a0bf4ab2c4e16	neutral	none	drink 1 crystal skeleton vodka
 1128	Bonelording	spikebone.gif	165c98cd2a9d3aaf405f419aa552a2c7	good	none	# rest with Lazybones™ recliner in dwelling
-1129	Nanobrawny	nanobrawny.gif	2996d91c753eb6cf2d93b159229d90e6	good	none	# use muscle ability with Nanorhino familiar at 100% charge
-1130	Nanobrainy	nanobrainy.gif	47e756959f85d403d1422bae39e7e456	good	none	# use mysticality ability with Nanorhino familiar at 100% charge
-1131	Nanoballsy	nanoballsy.gif	88a4a61ac68e862249f5be9d1f75a0fe	good	none	# use moxie ability with Nanorhino familiar at 100% charge
+1129	Nanobrawny	nanobrawny.gif	2996d91c753eb6cf2d93b159229d90e6	neutral	notcrs	# use muscle ability with Nanorhino familiar at 100% charge
+1130	Nanobrainy	nanobrainy.gif	47e756959f85d403d1422bae39e7e456	neutral	notcrs	# use mysticality ability with Nanorhino familiar at 100% charge
+1131	Nanoballsy	nanoballsy.gif	88a4a61ac68e862249f5be9d1f75a0fe	neutral	notcrs	# use moxie ability with Nanorhino familiar at 100% charge
 1132	Tea-hee	tea.gif	a82e57953743db053bdcfe1cb90032cc	good	none	# use 1 sweet mochi ball (sometimes)
 1133	Squid Squint	emosquid.gif	e1a4466574349c9dfa2e8150d6c733eb	good	none	# use 1 sweet mochi ball (sometimes)
 1134	Vinegavotte	vinegar.gif	620aba64002fbad6ab74e4595c6568b2	good	none	cargo effect Vinegavotte|# use 1 sweet mochi ball (sometimes)
@@ -2064,7 +2064,7 @@
 2061	Milk is Blood is Milk	blooddrops.gif	00662ad268709d76800df67f0daec5be	bad	none	# being hit by Daisy the Unclean
 2062	The Moomy's Curse	scarab.gif	0e125f8b36ad36e4959ad5b5d382289a	bad	none	# fighting Amoon-Ra Cowtep
 2063	Poker Faced	deuce.gif	cb201992ac7589203e0bc582d844f1a4	good	none	use 1 poker face paint
-2064	Cowrruption	cowskull.gif	806613cfee09c055a57d9dcbdd2dc5a2	good	notcrs	use either 1 demonic cow's blood, 1 corrupted marrow
+2064	Cowrruption	cowskull.gif	806613cfee09c055a57d9dcbdd2dc5a2	neutral	notcrs	use either 1 demonic cow's blood, 1 corrupted marrow
 2065	Itchy Trigger Finger	gunbone.gif	d8384b7c33340bbd87765cf79f0ed9a5	good	none	use 1 triggerfingerbone|cargo effect Itchy Trigger Finger
 2066	Partially Ghosted	ghostbit.gif	487f468a1e6674254309a9ecf8bd3823	good	none	use 1 ghost bit
 2067	Buzzard Breath	skull.gif	b38a499ed169fd92bc330c1c4a8188cc	good	none	use 1 buzzard feather
@@ -2230,7 +2230,7 @@
 2227	Hell ib a Hambasked	basket.gif	8579f68d6d1960a546622b23b74446a4	good	nohookah	drink 1 hell in a bucket
 2228
 2229
-2230	Hobo Powers Activate!	hobotophat.gif	321ca25d07b86ff037b592a843976567	good	none	drink 1 whiskey squeeze
+2230	Hobo Powers Activate!	hobotophat.gif	321ca25d07b86ff037b592a843976567	good	nohookah	drink 1 whiskey squeeze
 2231	Hobo Powering Up!	hobohead.gif	7f74b9c442eb2b189a7042d9333cd691	good	nohookah	drink 1 Newark
 2232
 2233
@@ -2266,7 +2266,7 @@
 2263	The Secret of the Ooze	sebashield.gif	02010e747d2a195f3908b9ddf3cd1cbb	good	nohookah	drink 1 Simepore slime
 2264
 2265
-2266	Nothing Happened	nontini.gif	4ea39859915bf5e160d3e3010d18f37b	good	none	drink 1 nothingtini
+2266	Nothing Happened	nontini.gif	4ea39859915bf5e160d3e3010d18f37b	neutral	none	drink 1 nothingtini
 2267	Hello, I Must Be Going	petejacket.gif	de2fd12e4cc01c737679abb75caf96dc	good	nohookah	drink 1 Phil Collins
 2268	Aloofah	loof_candy.gif	4e1b19f13f36d4e3d03aa14f51e55414	good	none	use 1 chocolate-covered loofah
 2269	One Foot Heavier	fs_candy.gif	5a26995fdbca9e91a81e788a76f7b4ba	good	none	use 1 Flag by the Foot&trade;
@@ -2469,7 +2469,7 @@
 2466	Tiki Toughness	pr_tiki1_1.gif	1478ae44e314cb5c9cbc5698378745d2	good	none	drink 1 Island Landslide|drink 1 Skull Punch|drink 1 Scorpion Bowl
 2467	Tiki Thoughtfulness	pr_tiki2_2.gif	f10b22f26778a43113677e601d1ac2c6	good	none	drink 1 Island Thunderstorm|drink 1 Electric Punch|drink 1 Turtle Bowl
 2468	Tiki Temerity	pr_tiki3_3.gif	5db844a5ad44119d0554d4cc68684d50	good	none	drink 1 Island Hurricane|drink 1 Smuggler's Punch|drink 1 Cobra Bowl
-2469	Spoon Boon	runespoon.gif	fa4374dcb3f6a5d3ff129b0be374fa1f	good	none
+2469	Spoon Boon	runespoon.gif	fa4374dcb3f6a5d3ff129b0be374fa1f	good	nohookah
 2470	Harpooned and Marooned	cartoonharpoon.gif	3361012dfe7619bb6efd524ac2ad93d6	neutral	none
 2471	Too Cool for (Fish) School	seashell1.gif	acf495cc3a380399b63057acb57da18c	good	none	use 1 magenta seashell
 2472	Shells of the Damned	seashell2.gif	30213b80dce5858b91e91183fe553be7	good	none	use 1 cyan seashell
@@ -2489,7 +2489,7 @@
 2486	Do I Know You From Somewhere?	beachface10.gif	e36e09682be5b280c810bf5a2dc53469	good	nohookah	beach head Do I Know You From Somewhere?
 2487	You Learned Something Maybe!	beachface11.gif	441324a54b655f39e6302afd9ab44cb6	good	nohookah	beach head You Learned Something Maybe!
 2488	Fishing For Knowledge	fishy2.gif	988d1f337b551101628604f9b74c571b	good	none	use 1 Finnish Fish
-2489	Sweet Pirate Curse	ccannonball.gif	ef9d5a4d0c0b5252d8fef89b20224d7b	good	none	use 1 cursed chocolate doubloon
+2489	Sweet Pirate Curse	ccannonball.gif	ef9d5a4d0c0b5252d8fef89b20224d7b	good	nohookah	use 1 cursed chocolate doubloon
 2490	Muscular Intentions	strboost.gif	6c52b947f9756c7f484b3c471a75427c	good	none
 2491	Mystical Intentions	snowflakes.gif	13b2d681db6135bb662c853a92979556	good	none
 2492	Moxious Intentions	wink.gif	2164ac3ff91c098fb65dde89c1d172c2	good	none
@@ -2524,7 +2524,7 @@
 2521	Funday!	calendar.gif	3d0ca8a1b066b7767469f733dddaadaa	neutral	none	pillkeeper random
 2522	Festively Brined	flan2.gif	fdfdb06b66794900575f6e192c6c2247	neutral	none	eat 1 flan del mar
 2523	Baja, Humbug	sopapilla.gif	28b561f29c7cbcf8ca361184a859ff6e	neutral	none
-2524	Mana-Blasted	snowflakes.gif	0eea810738136755db9016d1a3b9dab5	good	none	eat either 1 mana-coated yams, 1 mana-basted tofurkey leg, 1 mana-fortified cranberry sauce, 1 mana-stuffed herbal stuffing
+2524	Mana-Blasted	snowflakes.gif	0eea810738136755db9016d1a3b9dab5	good	nohookah	eat either 1 mana-coated yams, 1 mana-basted tofurkey leg, 1 mana-fortified cranberry sauce, 1 mana-stuffed herbal stuffing
 2525	Furrier Than Thou	spacefur.gif	32e5886efc29d83ed915e979ac4ad7f8	good	none	use 1 patch of extra-warm fur
 2526	Potpourri Committed	sachet.gif	1394a0b4d47903bc761b2243f4babf84	good	none	use 1 organic potpourri
 2527	Gooed Enough For Government Work	plantgoo.gif	c3aed4f4cf78c7fd3cb8912e470e76df	good	none	use 1 extra-strength goo
@@ -2536,18 +2536,18 @@
 2533	Different Way of Seeing Things	angle.gif	d983a3ac448e84f420b4c15d3fcf6f81	good	none	chew 1 non-Euclidean angle
 2534	Thou Shant Not Sing	notes.gif	2809cb3503d6b274b418832b485a8e26	good	none	chew 1 Shantix&trade;
 2535	Sea Seeing	blackdrops.gif	909be96379dbcd8eaaf6e18d57c5c3e3	good	none	use 1 Mer-kin eyedrops
-2536	Industrially Lubricated	saucedrops.gif	b950be382d75b4b6945fdb7422bd1b55	good	none	chew 1 industrial lubricant
+2536	Industrially Lubricated	saucedrops.gif	b950be382d75b4b6945fdb7422bd1b55	good	nohookah	chew 1 industrial lubricant
 2537	Eau d' Clochard	hobohead.gif	cfc0b96c6d374f5949bf67c0453ef9c0	good	none	chew 1 beggin' cologne
 2538	Candied Teeth	ghuoltooth.gif	0653e6882291fa70f4b6b27e519d2035	good	none	use 1 peppermint syrup
-2539	Molasses Flooded	molasses.gif	c1fa35608c6bd1a96b001ccc862f0772	good	none	use 1 glob of salty molasses
+2539	Molasses Flooded	molasses.gif	c1fa35608c6bd1a96b001ccc862f0772	good	nohookah	use 1 glob of salty molasses
 2540	PING...  PING...  PING...	echo.gif	056ebeb2b7ed8d897c083abd88cf99ad	neutral	none	use 1 liquid SONAR
 2541	The Spirit of Taking	sack1.gif	010bdf32849b82f3693cbc805095c417	good	nohookah	cast 1 The Spirit of Taking
-2542	Sea Guts	batgut.gif	bd9ea297968de5763128351293d2b612	good	none	eat 1 bowl of mernudo
-2543	Fish-Eye View	bigeyes.gif	0eded3f9cb2ff88cb88c80f89edd5e5b	good	none	eat 1 ojo de pez burrito
-2544	Salt Rush	saltdrop.gif	ee744539761afc35f335929227c50810	good	none	use 1 salty gumdrop
-2545	Possessive Pressure	potion10.gif	085cb05447143fccde1399447f0581c3	good	none	use 1 pressurized potion of possessiveness
-2546	Dreaming of a Wet Crimbo	waves.gif	6a973ad9f1e20d1c0edd618e9bf96938	good	none
-2547	Mixed Nutrients	mixednuts.gif	6970d24f7f32c78045428a46a54c93a4	good	none	use 1 tiny handful of mixed nuts
+2542	Sea Guts	batgut.gif	bd9ea297968de5763128351293d2b612	good	nohookah	eat 1 bowl of mernudo
+2543	Fish-Eye View	bigeyes.gif	0eded3f9cb2ff88cb88c80f89edd5e5b	good	nohookah	eat 1 ojo de pez burrito
+2544	Salt Rush	saltdrop.gif	ee744539761afc35f335929227c50810	good	nohookah	use 1 salty gumdrop
+2545	Possessive Pressure	potion10.gif	085cb05447143fccde1399447f0581c3	good	nohookah	use 1 pressurized potion of possessiveness
+2546	Dreaming of a Wet Crimbo	waves.gif	6a973ad9f1e20d1c0edd618e9bf96938	good	nohookah
+2547	Mixed Nutrients	mixednuts.gif	6970d24f7f32c78045428a46a54c93a4	good	nohookah	use 1 tiny handful of mixed nuts
 2548	Almond Allemande	candyalmond.gif	9370afc952907e7d4959a23c33bc954c	good	none	use 1 candied almond
 2549	Para-lyzed Jaw	para_pop.gif	bf2bcc1f7d2451b8ab11c24198c9a6ca	neutral	none	use 1 Para-Pop
 2550	Panna Consideration	tc_pannacotta.gif	22fef32a9bc3af04af21439f1c09e68b	good	nohookah	use 1 terra panna cotta
@@ -2557,16 +2557,16 @@
 2554	Dirge of Dreadfulness (Remastered)	dirge.gif	ec4766a15304fe13ca2334dfb41fd494	good	song,nohookah	cast 1 Dirge of Dreadfulness ^ Dirge of Dreadfulness (Remastered)
 2555	Snarl of Three Timberwolves	wolfmask.gif	193ef2bbdde7fe95e51e5a527ae4f42e	good	nohookah	cast 1 Snarl of the Timberwolf ^ Snarl of Three Timberwolves
 2556	Invisible Avatar	missingavatar.gif	da6f47ae655716b599e530128712c36c	neutral	none	cast 1 CHEAT CODE: Invisible Avatar
-2557	Triple-Sized	triplesize.gif	6be2d9af5964c3bc987c0696ea60eeeb	good	none	cast 1 CHEAT CODE: Triple Size
+2557	Triple-Sized	triplesize.gif	6be2d9af5964c3bc987c0696ea60eeeb	good	nohookah	cast 1 CHEAT CODE: Triple Size
 2558	Warmed Up	mario_juggle.gif	9fea199e3a5fd92b82e46f9e0ecc203c	neutral	none
 2559	Heated Up	mario_juggle.gif	7ff2479058ced96de968b27a32df19e1	good	nohookah
 2560	Half-Sized	mario_halfsize.gif	a2e799db00f83234a97fe1ab9d38ee88	bad	none
 2561	Fizzy Fizzy	mario_soda.gif	8e2c240a3b8a8330268136b316d334d4	good	none	use 1 fizzy soda
-2562	Juicy Health	mario_juice.gif	e2504ca258d4680a65dfd5e17a86585c	good	none	use 1 healthy juice
+2562	Juicy Health	mario_juice.gif	e2504ca258d4680a65dfd5e17a86585c	good	nohookah	use 1 healthy juice
 2563	Blooper Inked	mario_ink.gif	e63d22a94a7e60c5b1c4e4b5383b64cd	neutral	none	use 1 blooper ink
 2564	Velougated	velougat.gif	166ba9eec8b8c042c764827f1c7911ce	good	none	use 1 Velougats&trade;
 2565	Mushed	gmush4.gif	54a72761df9d08794b38a0692ba22e18	neutral	none
-2566	Piranha Power	piranhaplant.gif	3d155e040e97f6c33724872265b5d243	good	none	use 1 piranha pollen
+2566	Piranha Power	piranhaplant.gif	3d155e040e97f6c33724872265b5d243	good	nohookah	use 1 piranha pollen
 2567	Mush-Maw	gmush3.gif	4bc3e6784775746fae40f1f019dd0ec0	neutral	none	chew 1 mushroom tea
 2568	On the Rocks	iceorb.gif	b460c98d02897446bc487d69855dceb9	good	none	drink 1 Ghiaccio Colada
 2569	Touched	fingerdrink.gif	29c659a6ece1b7cf85432905b6b946b9	good	none	drink 1 Sourfinger
@@ -2625,7 +2625,7 @@
 2622	Grand Theft Candy	lasso.gif	5a17e3c490ce662c5eb3283e868e7081	neutral	none	use 1 Hotwire&trade; brand candy rope
 2623	Jowls Full, and Belly	soupbowl.gif	7a198c6aa6ce89f91144e39b05de5ebb	good	none	eat 1 bowl full of jelly
 2624	Twist and an Eye	bseye.gif	be003502a30404e3e2d43732876f6cbc	good	none	drink 1 Eye and a Twist
-2625	Plump and Chubby	chubbybar.gif	5bb46b48ec5a2449117845bff0c897d3	good	none	use 1 Chubby and Plump bar
+2625	Plump and Chubby	chubbybar.gif	5bb46b48ec5a2449117845bff0c897d3	good	nohookah	use 1 Chubby and Plump bar
 2626	Stained	sg_candy.gif	31bc709fdf929455aa7f0d1e10fe2614	good	none	use 1 stained hard candy
 2627	Feeling Excited	emochip1.gif	7b78b0e96a9d9e28de62d11931ccc389	good	none	cast 1 Feel Excitement
 2628	Feeling Lonely	emochip11.gif	26d83401d58117dd07f65c1a1466368f	neutral	none	cast 1 Feel Lonely
