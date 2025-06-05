@@ -35,6 +35,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.zip.GZIPInputStream;
 import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -206,6 +207,7 @@ import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.HTMLParserUtils;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.LogStream;
+import net.sourceforge.kolmafia.utilities.PHPMTRandom;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.utilities.WikiUtilities;
 import net.sourceforge.kolmafia.webui.RelayServer;
@@ -3590,6 +3592,17 @@ public abstract class RuntimeLibrary {
             "voting_booth_initiatives",
             new AggregateType(DataTypes.BOOLEAN_TYPE, DataTypes.STRING_TYPE),
             params));
+
+    // Busking Beret support
+
+    params = List.of();
+    functions.add(
+        new LibraryFunction("beret_busking_effects", DataTypes.EFFECT_TO_INT_TYPE, params));
+
+    params =
+        List.of(namedParam("power", DataTypes.INT_TYPE), namedParam("cast", DataTypes.INT_TYPE));
+    functions.add(
+        new LibraryFunction("beret_busking_effects", DataTypes.EFFECT_TO_INT_TYPE, params));
 
     // Cargo Cultist Shorts support
 
@@ -11084,6 +11097,57 @@ public abstract class RuntimeLibrary {
       value.aset(new Value(modifier.toString()), DataTypes.TRUE_VALUE);
     }
 
+    return value;
+  }
+
+  public static Value beret_busking_effects(ScriptRuntime controller) {
+    var power = KoLCharacter.getTotalPower();
+    var cast = Preferences.getInteger("_beretBuskingUses");
+    return beret_busking_effects(controller, new Value(power), new Value(cast));
+  }
+
+  public static Value beret_busking_effects(
+      ScriptRuntime controller, final Value power, final Value cast) {
+    var results = new ArrayList<AdventureResult>();
+
+    // Calculate the capped power
+    var cappedPower =
+        Math.min(power.contentLong, 1100)
+            + (long) Math.floor(Math.pow(Math.max(0, power.contentLong - 1100), 0.8));
+
+    // $effect[none] will indicate the meat gained
+    AdventureResult.addResultToList(
+        results, new AdventureResult(AdventureResult.MEAT, (int) Math.ceil(cappedPower / 5.0) + 1));
+
+    // Grab list of valid effects
+    var validEffectIds =
+        new ArrayList<>(
+            IntStream.range(1, 2991)
+                .filter(i -> EffectDatabase.getEffectName(i) != null)
+                .filter(i -> EffectDatabase.getQuality(i) == EffectDatabase.GOOD)
+                .filter(i -> !EffectDatabase.hasAttribute(i, "nohookah"))
+                .filter(i -> !EffectDatabase.hasAttribute(i, "notcrs"))
+                .boxed()
+                .toList());
+
+    // The last entry is duplicated
+    validEffectIds.add(validEffectIds.getLast());
+
+    // Roll the effects
+    var seed = cappedPower + cast.contentLong;
+    var rng = new PHPMTRandom(seed);
+    var total = Math.ceil(cappedPower / 100.0);
+    for (int i = 0; i < total; i++) {
+      var effectId = rng.pickOne(validEffectIds);
+      var effect = new AdventureResult(EffectDatabase.getEffectName(effectId), 10, true);
+      AdventureResult.addResultToList(results, effect);
+    }
+
+    var value = new MapValue(DataTypes.EFFECT_TO_INT_TYPE);
+    for (var effect : results) {
+      value.aset(
+          DataTypes.makeEffectValue(effect.getEffectId(), true), new Value(effect.getCount()));
+    }
     return value;
   }
 

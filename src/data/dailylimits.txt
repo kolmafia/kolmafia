@@ -48,6 +48,9 @@ Cast	Become a Cloud of Mist	_vampyreCloakeFormUses	10
 Cast	Become a Wolf	_vampyreCloakeFormUses	10
 Cast	Bend Hell	_bendHellUsed
 Cast	Benetton's Medley of Diversity	_benettonsCasts	10
+Cast	Beret Blast	_beretBlastUses	11
+Cast	Beret Boast	_beretBoastUses	11
+Cast	Beret Busking	_beretBuskingUses	5
 Cast	Bow-Legged Swagger	_bowleggedSwaggerUsed
 Cast	Bowl Full of Jelly	_bowlFullOfJellyUsed
 Cast	CHEAT CODE: Invisible Avatar	_powerfulGloveBatteryPowerUsed	100
