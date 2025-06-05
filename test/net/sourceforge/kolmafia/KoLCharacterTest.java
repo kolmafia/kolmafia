@@ -706,5 +706,17 @@ public class KoLCharacterTest {
         assertThat(KoLCharacter.getTotalPower(), is(expectedPower));
       }
     }
+
+    @Test
+    void countsHatTrickHats() {
+      var cleanups =
+          new Cleanups(
+              withPath(Path.HAT_TRICK),
+              withEquipped(Slot.HATS, ItemPool.BRICKO_HAT),
+              withEquipped(Slot.HATS, ItemPool.FUTURISTIC_HAT));
+      try (cleanups) {
+        assertThat(KoLCharacter.getTotalPower(), is(130));
+      }
+    }
   }
 }
