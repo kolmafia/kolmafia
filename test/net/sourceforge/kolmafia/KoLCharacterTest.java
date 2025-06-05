@@ -676,7 +676,7 @@ public class KoLCharacterTest {
               withEquipped(ItemPool.FUTURISTIC_HAT),
               withEquipped(ItemPool.TUNAC));
       try (cleanups) {
-        assertThat(KoLCharacter.getTotalPower(true), is(290));
+        assertThat(KoLCharacter.getTotalPower(), is(290));
       }
     }
 
@@ -690,7 +690,7 @@ public class KoLCharacterTest {
               withEquipped(ItemPool.FUTURISTIC_HAT),
               withEquipped(ItemPool.TUNAC));
       try (cleanups) {
-        assertThat(KoLCharacter.getTotalPower(true), is(480));
+        assertThat(KoLCharacter.getTotalPower(), is(480));
       }
     }
 
@@ -703,7 +703,7 @@ public class KoLCharacterTest {
         cleanups.add(withSkill(SkillPool.TAO_OF_THE_TERRAPIN));
       }
       try (cleanups) {
-        assertThat(KoLCharacter.getTotalPower(true), is(expectedPower));
+        assertThat(KoLCharacter.getTotalPower(), is(expectedPower));
       }
     }
 
@@ -715,7 +715,7 @@ public class KoLCharacterTest {
               withEquipped(Slot.HATS, ItemPool.BRICKO_HAT),
               withEquipped(Slot.HATS, ItemPool.FUTURISTIC_HAT));
       try (cleanups) {
-        assertThat(KoLCharacter.getTotalPower(true), is(130));
+        assertThat(KoLCharacter.getTotalPower(), is(130));
       }
     }
 
@@ -728,7 +728,7 @@ public class KoLCharacterTest {
               withEquipped(Slot.HATS, ItemPool.BRICKO_HAT),
               withEquipped(Slot.HATS, ItemPool.FUTURISTIC_HAT));
       try (cleanups) {
-        assertThat(KoLCharacter.getTotalPower(true), is(360));
+        assertThat(KoLCharacter.getTotalPower(), is(260));
       }
     }
   }

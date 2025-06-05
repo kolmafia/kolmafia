@@ -5733,37 +5733,21 @@ public abstract class KoLCharacter {
 
   private static final AdventureResult HAMMERTIME = EffectPool.get(EffectPool.HAMMERTIME);
 
-  public static int getTotalPower(final boolean beretBusking) {
-    boolean inHT = KoLCharacter.inHatTrick();
-    boolean hasTao = KoLCharacter.hasSkill(SkillPool.TAO_OF_THE_TERRAPIN);
-    boolean hasHammertime = KoLConstants.activeEffects.contains(HAMMERTIME);
-
-    int tao = hasTao ? 1 : 0;
-    int hammertime = hasHammertime ? 3 : 0;
+  public static int getTotalPower() {
+    int tao = KoLCharacter.hasSkill(SkillPool.TAO_OF_THE_TERRAPIN) ? 1 : 0;
+    int hammertime = KoLConstants.activeEffects.contains(HAMMERTIME) ? 3 : 0;
 
     int hat =
-        inHT
-            ? EquipmentManager.getHatTrickHats().stream()
-                .mapToInt(EquipmentDatabase::getPower)
-                .sum()
-            : EquipmentDatabase.getPower(EquipmentManager.getEquipment(Slot.HAT).getItemId());
-
-    int multipliedHat =
-        inHT
-            ? EquipmentManager.getHatTrickHats().stream()
-                .mapToInt(EquipmentDatabase::getPower)
-                .max()
-                .orElse(0)
-            : hat;
+        (KoLCharacter.inHatTrick()
+                ? EquipmentManager.getHatTrickHats().stream()
+                : Stream.of(EquipmentManager.getEquipment(Slot.HAT).getItemId()))
+            .mapToInt(EquipmentDatabase::getPower)
+            .sum();
 
     int pants = EquipmentDatabase.getPower(EquipmentManager.getEquipment(Slot.PANTS).getItemId());
     int shirt = EquipmentDatabase.getPower(EquipmentManager.getEquipment(Slot.SHIRT).getItemId());
 
-    return hat
-        + (multipliedHat * tao)
-        + hat * (inHT && beretBusking ? tao : 0)
-        + pants * (1 + tao + hammertime)
-        + shirt;
+    return hat * (1 + tao) + pants * (1 + tao + hammertime) + shirt;
   }
 
   private static void addWeaponPower(Modifiers newModifiers, int itemId) {
