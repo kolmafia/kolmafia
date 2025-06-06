@@ -2115,4 +2115,20 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
           is("Returned: 0"));
     }
   }
+
+  @Nested
+  class BeretBusking {
+    @Test
+    void statefulBusking() {
+      var cleanups =
+          new Cleanups(withProperty("_beretBuskingUses", 1), withEquipped(ItemPool.MOHAWK_WIG));
+
+      try (cleanups) {
+        assertThat(
+            execute("beret_busking_effects()").trim(),
+            is(
+                "Returned: aggregate int [effect]\nnone => 29\nNewt Gets In Your Eyes => 10\nGreasy Flavor => 10"));
+      }
+    }
+  }
 }

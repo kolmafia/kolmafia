@@ -192,6 +192,7 @@ public class EffectPool {
   public static final int EARTHEN_FIST = 907;
   public static final int REFINED_PALATE = 910;
   public static final int GARISH = 918;
+  public static final int HAMMERTIME = 919;
   public static final int NATURAL_1 = 930;
   public static final int HAUNTING_LOOKS = 937;
   public static final int DEAD_SEXY = 938;
