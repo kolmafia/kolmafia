@@ -994,13 +994,13 @@
 7423	Spit jurassic acid	jparka3.gif	combat	0	0
 7424	Launch spikolodon spikes	jparka2.gif	combat	0	0
 7425	Engage ultra-attractive parka mode	jparka7.gif	combat	0	0
-7426	Ceramic Punch	ceracestus.gif	passive	5	0
-7427	Ceramic Bash	cerashield.gif	passive	5	0
-7428	Ceramic Grate	ceragrater.gif	passive	5	0
-7429	Ceramic Boil	cerameter.gif	passive	5	0
-7430	Ceramic Skullgaze	cerabelt.gif	passive	5	0
-7431	Ceramic Cenobitize	cerarobe.gif	passive	5	0
-7432	Shadow Flame	shadowcandle.gif	passive	5	5
+7426	Ceramic Punch	ceracestus.gif	combat	5	0
+7427	Ceramic Bash	cerashield.gif	combat	5	0
+7428	Ceramic Grate	ceragrater.gif	combat	5	0
+7429	Ceramic Boil	cerameter.gif	combat	5	0
+7430	Ceramic Skullgaze	cerabelt.gif	combat	5	0
+7431	Ceramic Cenobitize	cerarobe.gif	combat	5	0
+7432	Shadow Flame	shadowcandle.gif	combat	5	5
 7433	Monkey Slap	monkeypaw0.gif	combat	0	0
 7434	Monkey Tickle	monkeypaw1.gif	combat	0	0
 7435	Evil Monkey Eye	monkeypaw2.gif	combat	0	0
