@@ -2039,6 +2039,41 @@ public class DebugDatabase {
     if (type.equals("Passive")) {
       DebugDatabase.passiveSkills.put(name, text);
     }
+
+    if (type.equals("Passive")) {
+      if (!SkillDatabase.isPassive(skillId)) {
+        report.println("# *** " + name + " (" + skillId + ") is passive but Mafia thinks not.");
+      }
+    } else if (type.equals("Combat")) {
+      if (!SkillDatabase.isCombat(skillId)) {
+        report.println("# *** " + name + " (" + skillId + ") is combat but Mafia thinks not.");
+      }
+      if (SkillDatabase.isSpell(skillId)) {
+        report.println("# *** " + name + " (" + skillId + ") is nonspell but Mafia thinks not.");
+      }
+    } else if (type.equals("Combat Spell")) {
+      if (!SkillDatabase.isCombat(skillId)) {
+        report.println("# *** " + name + " (" + skillId + ") is combat but Mafia thinks not.");
+      }
+      if (!SkillDatabase.isSpell(skillId)) {
+        report.println("# *** " + name + " (" + skillId + ") is spell but Mafia thinks not.");
+      }
+    } else if (type.equals("Noncombat")) {
+      if (!SkillDatabase.isNonCombat(skillId)) {
+        report.println("# *** " + name + " (" + skillId + ") is noncombat but Mafia thinks not.");
+      }
+    } else if (type.equals("Buff")) {
+      if (!SkillDatabase.isBuff(skillId)) {
+        report.println("# *** " + name + " (" + skillId + ") is buff but Mafia thinks not.");
+      }
+    } else if (type.equals("Combat / Noncombat")) {
+      if (!SkillDatabase.isNonCombat(skillId) || !SkillDatabase.isCombat(skillId)) {
+        report.println(
+            "# *** " + name + " (" + skillId + ") is combat / noncombat but Mafia thinks not.");
+      }
+    } else {
+      report.println("# *** " + name + " (" + skillId + ") has type unknown to skill debug logic.");
+    }
   }
 
   // Grants Skill: <a class=hand
