@@ -39,19 +39,19 @@ class TCRSDatabaseTest {
     // Tea Tree teas are useful because there are a lot of them, and they're all already in ItemPool
     return Stream.of(
         // Arguments.of(AscensionClass.SEAL_CLUBBER, ZodiacSign.MONGOOSE, 340, "nitrogenated wobbly
-        // Knob Goblin steroids", "Effect: \"Healthy Blue Glow\", Effect Duration: 23"),
+        // Knob Goblin steroids", "Effect: \"Protection from Bad Stuff\", Effect Duration: 23"),
         Arguments.of(
             AscensionClass.SEAL_CLUBBER,
             ZodiacSign.MONGOOSE,
             418,
             "enhanced quadruple-magnetized spinning maroon jittery Ferrigno's Elixir of Power",
-            "Effect: \"Orchid Blood\", Effect Duration: 12"),
+            "Effect: \"Dances with Tweedles\", Effect Duration: 12"),
         Arguments.of(
             AscensionClass.SEAL_CLUBBER,
             ZodiacSign.MONGOOSE,
             422,
             "altered galvanized twirling huge potion of potency",
-            "Effect: \"Sparkly!\", Effect Duration: 26"),
+            "Effect: \"Buttermilk Boogie\", Effect Duration: 26"),
         Arguments.of(
             AscensionClass.SAUCEROR,
             ZodiacSign.MARMOT,
@@ -69,7 +69,7 @@ class TCRSDatabaseTest {
             ZodiacSign.OPOSSUM,
             ItemPool.VITALI_TEA,
             "super-modified ghostly cuppa Vitali tea",
-            "Effect: \"Feline Ferocity\", Effect Duration: 14"),
+            "Effect: \"Yes, Can Haz\", Effect Duration: 14"),
         Arguments.of(
             AscensionClass.ACCORDION_THIEF,
             ZodiacSign.MARMOT,
@@ -113,7 +113,7 @@ class TCRSDatabaseTest {
             ZodiacSign.MONGOOSE,
             ItemPool.MEDIOCRI_TEA,
             "concentrated corrupted colloidal cuppa Mediocri tea",
-            "Effect: \"Spirit of Alph\", Effect Duration: 55"),
+            "Effect: \"Night Vision\", Effect Duration: 55"),
         Arguments.of(
             AscensionClass.TURTLE_TAMER,
             ZodiacSign.PACKRAT,
