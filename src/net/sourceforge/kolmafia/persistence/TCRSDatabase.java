@@ -768,7 +768,7 @@ public class TCRSDatabase {
     var effectName =
         (roll != TCRSEffectPool.size())
             ? EffectPool.get(TCRSEffectPool.get(roll)).getDisambiguatedName()
-            : ModifierDatabase.getStringModifier(ModifierType.ITEM, itemId, StringModifier.EFFECT);
+            : ModifierDatabase.getStringModifier(ModifierType.ITEM, itemId, MultiStringModifier.EFFECT);
     var duration = 5 * mtRng.nextInt(1, 10);
 
     return new Enchantment(effectName, duration);
@@ -816,7 +816,7 @@ public class TCRSDatabase {
             ?
             //   If we picked an overflow size, the item retains its original effect
             ModifierDatabase.getStringModifier(
-                ModifierType.ITEM, item.getDisambiguatedName(), StringModifier.EFFECT)
+                ModifierType.ITEM, item.getDisambiguatedName(), MultiStringModifier.EFFECT)
             :
             //   Otherwise use the roll we got
             EffectPool.get(TCRSEffectPool.get(roll)).getDisambiguatedName();
@@ -1022,7 +1022,7 @@ public class TCRSDatabase {
     if (HARDCODED_EFFECT.contains(id)) {
       enchanted = true;
       enchantment.effect =
-          ModifierDatabase.getStringModifier(ModifierType.ITEM, id, StringModifier.EFFECT);
+          ModifierDatabase.getStringModifier(ModifierType.ITEM, id, MultiStringModifier.EFFECT);
 
       if (!HARDCODED_EFFECT_DYNAMIC_DURATION.contains(id)) {
         enchantment.duration =
