@@ -1235,6 +1235,7 @@ public class ProxyRecordValue extends RecordValue {
             .add("passive", DataTypes.BOOLEAN_TYPE)
             .add("buff", DataTypes.BOOLEAN_TYPE)
             .add("combat", DataTypes.BOOLEAN_TYPE)
+            .add("spell", DataTypes.BOOLEAN_TYPE)
             .add("song", DataTypes.BOOLEAN_TYPE)
             .add("expression", DataTypes.BOOLEAN_TYPE)
             .add("walk", DataTypes.BOOLEAN_TYPE)
@@ -1292,6 +1293,10 @@ public class ProxyRecordValue extends RecordValue {
 
     public boolean get_combat() {
       return SkillDatabase.isCombat((int) this.contentLong);
+    }
+
+    public boolean get_spell() {
+      return SkillDatabase.isSpell((int) this.contentLong);
     }
 
     public boolean get_song() {

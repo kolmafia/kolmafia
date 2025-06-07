@@ -44,6 +44,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase.ConsumableQuality;
 import net.sourceforge.kolmafia.persistence.ItemDatabase.Attribute;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
+import net.sourceforge.kolmafia.persistence.SkillDatabase.Category;
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest.ClosetRequestType;
@@ -2039,6 +2040,43 @@ public class DebugDatabase {
     if (type.equals("Passive")) {
       DebugDatabase.passiveSkills.put(name, text);
     }
+
+    if (type.equals("Passive")) {
+      if (!SkillDatabase.isPassive(skillId)) {
+        report.println("# *** " + name + " (" + skillId + ") is passive but Mafia thinks not.");
+      }
+    } else if (type.equals("Combat")) {
+      if (!SkillDatabase.isCombat(skillId)) {
+        report.println("# *** " + name + " (" + skillId + ") is combat but Mafia thinks not.");
+      }
+      if (SkillDatabase.isSpell(skillId)) {
+        report.println("# *** " + name + " (" + skillId + ") is nonspell but Mafia thinks not.");
+      }
+    } else if (type.equals("Combat Spell")) {
+      if (!SkillDatabase.isCombat(skillId)) {
+        report.println("# *** " + name + " (" + skillId + ") is combat but Mafia thinks not.");
+      }
+      if (!SkillDatabase.isSpell(skillId)) {
+        report.println("# *** " + name + " (" + skillId + ") is spell but Mafia thinks not.");
+      }
+    } else if (type.equals("Noncombat")) {
+      if (!SkillDatabase.isNonCombat(skillId)) {
+        report.println("# *** " + name + " (" + skillId + ") is noncombat but Mafia thinks not.");
+      }
+    } else if (type.equals("Buff")) {
+      // Ed's self-buffs are "Buff" in KoL but cannot be cast on other players
+      if (!SkillDatabase.isBuff(skillId)
+          && SkillDatabase.getSkillCategory(skillId) != Category.ED) {
+        report.println("# *** " + name + " (" + skillId + ") is buff but Mafia thinks not.");
+      }
+    } else if (type.equals("Combat / Noncombat")) {
+      if (!SkillDatabase.isNonCombat(skillId) || !SkillDatabase.isCombat(skillId)) {
+        report.println(
+            "# *** " + name + " (" + skillId + ") is combat / noncombat but Mafia thinks not.");
+      }
+    } else {
+      report.println("# *** " + name + " (" + skillId + ") has type unknown to skill debug logic.");
+    }
   }
 
   // Grants Skill: <a class=hand
@@ -2093,7 +2131,7 @@ public class DebugDatabase {
   }
 
   public static String readSkillDescriptionText(final int skillId) {
-    GenericRequest request = new GenericRequest("desc_skill.php");
+    GenericRequest request = new GenericRequest("desc_skill.php", false);
     request.addFormField("whichskill", String.valueOf(skillId));
     request.addFormField("self", "true");
     RequestThread.postRequest(request);
