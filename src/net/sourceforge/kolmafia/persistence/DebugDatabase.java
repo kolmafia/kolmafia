@@ -2131,7 +2131,7 @@ public class DebugDatabase {
   }
 
   public static String readSkillDescriptionText(final int skillId) {
-    GenericRequest request = new GenericRequest("desc_skill.php");
+    GenericRequest request = new GenericRequest("desc_skill.php", false);
     request.addFormField("whichskill", String.valueOf(skillId));
     request.addFormField("self", "true");
     RequestThread.postRequest(request);
