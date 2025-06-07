@@ -44,6 +44,7 @@ import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase.ConsumableQuality;
 import net.sourceforge.kolmafia.persistence.ItemDatabase.Attribute;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
+import net.sourceforge.kolmafia.persistence.SkillDatabase.Category;
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest.ClosetRequestType;
@@ -2063,7 +2064,9 @@ public class DebugDatabase {
         report.println("# *** " + name + " (" + skillId + ") is noncombat but Mafia thinks not.");
       }
     } else if (type.equals("Buff")) {
-      if (!SkillDatabase.isBuff(skillId)) {
+      // Ed's self-buffs are "Buff" in KoL but cannot be cast on other players
+      if (!SkillDatabase.isBuff(skillId)
+          && SkillDatabase.getSkillCategory(skillId) != Category.ED) {
         report.println("# *** " + name + " (" + skillId + ") is buff but Mafia thinks not.");
       }
     } else if (type.equals("Combat / Noncombat")) {

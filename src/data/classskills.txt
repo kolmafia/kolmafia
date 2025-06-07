@@ -1374,13 +1374,13 @@
 
 # Invocations
 
-17000	Prayer of Seshat	seshat.gif	nc,effect,other	5	10
-17001	Wisdom of Thoth	thoth.gif	nc,effect,other	5	10
-17002	Power of Heka	heka.gif	nc,effect,other	10	10
-17003	Hide of Sobek	sobek.gif	nc,effect,other	10	10
-17004	Blessing of Serqet	serqet.gif	nc,effect,other	15	10
-17005	Shelter of Shed	shed.gif	nc,effect,other	15	10
-17006	Bounty of Renenutet	renenutet.gif	nc,effect,other	20	10
+17000	Prayer of Seshat	seshat.gif	nc,effect,self	5	10
+17001	Wisdom of Thoth	thoth.gif	nc,effect,self	5	10
+17002	Power of Heka	heka.gif	nc,effect,self	10	10
+17003	Hide of Sobek	sobek.gif	nc,effect,self	10	10
+17004	Blessing of Serqet	serqet.gif	nc,effect,self	15	10
+17005	Shelter of Shed	shed.gif	nc,effect,self	15	10
+17006	Bounty of Renenutet	renenutet.gif	nc,effect,self	20	10
 
 # Evocations
 
@@ -1388,7 +1388,7 @@
 17008	Howl of the Jackal	jackalhead.gif	combat	10	0
 17009	Roar of the Lion	lionface.gif	combat	15	0
 17010	Storm of the Scarab	scarab.gif	combat	8	0
-17011	Purr of the Feline	blackcat.gif	nc,effect,other	10	10
+17011	Purr of the Feline	blackcat.gif	nc,effect,self	10	10
 17012	Lash of the Cobra	cobrahead.gif	combat	12	0
 17013	Wrath of Ra	sun.gif	combat	40	0
 
