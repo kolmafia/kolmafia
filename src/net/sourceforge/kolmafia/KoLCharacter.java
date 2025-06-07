@@ -4900,7 +4900,7 @@ public abstract class KoLCharacter {
     return switch (ItemDatabase.getConsumptionType(item.getItemId())) {
       case WEAPON -> equipmentSlotFromSubset(item, EnumSet.of(Slot.WEAPON, Slot.OFFHAND));
       case OFFHAND -> equipmentSlotFromSubset(item, EnumSet.of(Slot.OFFHAND, Slot.FAMILIAR));
-      case HAT -> equipmentSlotFromSubset(item, Slot.HAT);
+      case HAT -> equipmentSlotFromSubset(item, EnumSet.of(Slot.HAT, Slot.FAMILIAR));
       case SHIRT -> equipmentSlotFromSubset(item, Slot.SHIRT);
       case PANTS -> equipmentSlotFromSubset(item, Slot.PANTS);
       case CONTAINER -> equipmentSlotFromSubset(item, Slot.CONTAINER);
