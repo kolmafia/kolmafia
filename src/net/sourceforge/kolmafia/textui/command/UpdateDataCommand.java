@@ -29,6 +29,6 @@ public class UpdateDataCommand extends AbstractCommand {
 
     KoLmafia.updateDisplay(
         MafiaState.ABORT,
-        "\"update\" doesn't do what you think it does.	Please visit kolmafia.us and download a daily build if you'd like to keep KoLmafia up-to-date between major releases.");
+        "\"update\" doesn't do what you think it does.	Please visit https://github.com/kolmafia/kolmafia/releases/ and download a daily build.");
   }
 }

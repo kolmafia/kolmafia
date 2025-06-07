@@ -64,7 +64,7 @@ import net.sourceforge.kolmafia.webui.CharPaneDecorator;
 
 public class CompactSidePane extends JPanel implements Runnable {
   private final JPanel levelPanel;
-  private final JProgressBar levelMeter;
+  protected final JProgressBar levelMeter;
   private final JLabel levelLabel, roninLabel, mcdLabel;
   private final int STAT_LABELS = 3;
   private final JLabel[] statLabel = new JLabel[STAT_LABELS];
@@ -962,10 +962,13 @@ public class CompactSidePane extends JPanel implements Runnable {
           KoLConstants.ROUNDED_MODIFIER_FORMAT.format(KoLCharacter.getInitiativeAdjustment())
               + "%");
       count++;
-      this.bonusLabel[count].setText("   Exp: ");
-      this.bonusValueLabel[count].setText(
-          KoLConstants.ROUNDED_MODIFIER_FORMAT.format(KoLCharacter.getExperienceAdjustment()));
-      count++;
+      boolean experience = !KoLCharacter.noExperience();
+      if (experience && count < this.BONUS_LABELS) {
+        this.bonusLabel[count].setText("   Exp: ");
+        this.bonusValueLabel[count].setText(
+            KoLConstants.ROUNDED_MODIFIER_FORMAT.format(KoLCharacter.getExperienceAdjustment()));
+        count++;
+      }
       this.bonusLabel[count].setText("  Meat: ");
       this.bonusValueLabel[count].setText(
           KoLConstants.ROUNDED_MODIFIER_FORMAT.format(KoLCharacter.getMeatDropPercentAdjustment())
@@ -1128,6 +1131,7 @@ public class CompactSidePane extends JPanel implements Runnable {
 
     this.familiarAnnotationLabel.setVisible(annotated);
     quantumFamiliarPanel.setVisible(KoLCharacter.inQuantum());
+    levelMeter.setVisible(!KoLCharacter.inZootomist());
   }
 
   private class FamiliarLabel extends JLabel implements Listener {
@@ -1240,7 +1244,7 @@ public class CompactSidePane extends JPanel implements Runnable {
   private class QuantumFamiliarLabel extends FamiliarLabel {
     public QuantumFamiliarLabel() {
       this.setHorizontalTextPosition(JLabel.CENTER);
-      this.setVerticalTextPosition(JLabel.CENTER);
+      this.setVerticalTextPosition(JLabel.BOTTOM);
     }
 
     private String familiar = "none";

@@ -1,7 +1,13 @@
 package net.sourceforge.kolmafia.swingui;
 
 import java.awt.BorderLayout;
+import java.awt.Cursor;
+import java.awt.Desktop;
 import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
@@ -9,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.KoLConstants;
@@ -69,13 +76,13 @@ public class LoginFrame extends GenericFrame {
     return false;
   }
 
-  public static final void hideInstance() {
+  public static void hideInstance() {
     if (LoginFrame.INSTANCE != null) {
       LoginFrame.INSTANCE.setVisible(false);
     }
   }
 
-  public static final void disposeInstance() {
+  public static void disposeInstance() {
     if (LoginFrame.INSTANCE != null) {
       LoginFrame.INSTANCE.dispose();
       LoginFrame.INSTANCE = null;
@@ -110,6 +117,46 @@ public class LoginFrame extends GenericFrame {
     }
   }
 
+  private JPanel constructMinimumVersionUpdateWarningPanel() {
+    var minimumJavaVersionWarning = KoLmafia.minimumJavaVersionWarning();
+
+    if (minimumJavaVersionWarning.isEmpty()) return null;
+
+    JPanel warningPanel = new JPanel(new GridLayout(minimumJavaVersionWarning.size() + 1, 1));
+    // Spacing
+    warningPanel.add(new JLabel());
+
+    var ui = UIManager.getLookAndFeelDefaults();
+    minimumJavaVersionWarning.forEach(
+        line -> {
+          var label = new JLabel(line);
+          label.setHorizontalAlignment(SwingConstants.CENTER);
+          label.setForeground(ui.getColor("Objects.Red"));
+
+          try {
+            var uri = new URI(line);
+            label.setForeground(ui.getColor("Objects.Blue"));
+            label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            label.addMouseListener(
+                new java.awt.event.MouseAdapter() {
+                  public void mouseClicked(java.awt.event.MouseEvent e) {
+                    try {
+                      Desktop.getDesktop().browse(uri);
+                    } catch (IOException clickError) {
+                      StaticEntity.printStackTrace(clickError, "Error clicking link");
+                    }
+                  }
+                });
+          } catch (URISyntaxException e) {
+            // wasn't a url line
+          }
+
+          warningPanel.add(label);
+        });
+
+    return warningPanel;
+  }
+
   public JPanel constructLoginPanel() {
     String logoName = Preferences.getString("loginWindowLogo");
 
@@ -126,7 +173,11 @@ public class LoginFrame extends GenericFrame {
 
     JPanel containerPanel = new JPanel(new BorderLayout());
     containerPanel.add(imagePanel, BorderLayout.NORTH);
-    containerPanel.add(this.loginPanel, BorderLayout.CENTER);
+
+    var warningPanel = constructMinimumVersionUpdateWarningPanel();
+    if (warningPanel != null) containerPanel.add(warningPanel, BorderLayout.CENTER);
+
+    containerPanel.add(this.loginPanel, BorderLayout.SOUTH);
     return containerPanel;
   }
 
@@ -240,7 +291,7 @@ public class LoginFrame extends GenericFrame {
       String username = getUsername();
       String password = new String(this.passwordField.getPassword());
 
-      if (username == null || username.equals("") || password.equals("")) {
+      if (username == null || username.isEmpty() || password.isEmpty()) {
         this.setStatusMessage("Invalid login.");
         return;
       }
@@ -336,20 +387,21 @@ public class LoginFrame extends GenericFrame {
   }
 
   private static class ProxySetPanel extends OptionsPanel {
-    private final String[][] options = {
-      {"proxySet", "KoLmafia needs to connect through a proxy server"},
-    };
 
     public ProxySetPanel() {
       super(new Dimension(20, 20), new Dimension(250, 20));
 
-      this.setOptions(this.options);
+      String[][] options = {
+        {"proxySet", "KoLmafia needs to connect through a proxy server"},
+      };
+
+      this.setOptions(options);
 
       String httpHost = System.getProperty("http.proxyHost");
       String httpsHost = System.getProperty("https.proxyHost");
 
       boolean proxySet =
-          httpHost != null && httpHost.length() > 0 || httpsHost != null && httpsHost.length() > 0;
+          httpHost != null && !httpHost.isEmpty() || httpsHost != null && !httpsHost.isEmpty();
 
       if (System.getProperty("os.name").startsWith("Mac")) {
         this.optionBoxes[0].setSelected(proxySet);
@@ -430,7 +482,7 @@ public class LoginFrame extends GenericFrame {
     public void actionCancelled() {
       String proxyHost = System.getProperty(this.protocol + ".proxyHost");
 
-      if (proxyHost != null && proxyHost.length() != 0
+      if (proxyHost != null && !proxyHost.isEmpty()
           || System.getProperty("os.name").startsWith("Mac")) {
         this.proxyHost.setText(System.getProperty(this.protocol + ".proxyHost"));
         this.proxyPort.setText(System.getProperty(this.protocol + ".proxyPort"));

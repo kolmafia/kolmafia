@@ -119,7 +119,7 @@ public class CargoCultistShortsRequest extends GenericRequest {
 
     // If we are requesting a pocket which leads to a free fight,
     // recover first.
-    if (this.pocket != 0 && this.getMonsterFight(this.pocket) != null) {
+    if (this.pocket != 0 && CargoCultistShortsRequest.getMonsterFight(this.pocket) != null) {
       // set location to "None" for the benefit of
       // betweenBattleScripts
       Preferences.setString("nextAdventure", "None");

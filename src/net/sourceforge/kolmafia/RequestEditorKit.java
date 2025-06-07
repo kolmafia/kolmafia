@@ -9,10 +9,15 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
+import java.util.function.Predicate;
 import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JRadioButton;
@@ -103,7 +108,8 @@ public class RequestEditorKit extends HTMLEditorKit {
   private static final Pattern NOLABEL_CUSTOM_OUTFITS_PATTERN =
       Pattern.compile("\\(select an outfit\\)</option>(<option.*?)<optgroup", Pattern.DOTALL);
 
-  private static final Pattern ROUND_SEP_PATTERN = Pattern.compile("<(?:b>Combat!</b>|hr.*?>)");
+  private static final Pattern ROUND_SEP_PATTERN =
+      Pattern.compile("<(?:b style=\"color: [^\"]+\">Combat!</b>|hr.*?>)");
   private static final Pattern RCM_JS_PATTERN = Pattern.compile("rcm\\.(\\d+\\.)?js");
 
   private static final RequestViewFactory DEFAULT_FACTORY = new RequestViewFactory();
@@ -296,6 +302,7 @@ public class RequestEditorKit extends HTMLEditorKit {
       // bug report form.
       RequestEditorKit.addBugReportWarning(buffer);
     } else if (location.startsWith("adventure.php")) {
+      RequestEditorKit.fixCyberRealm(buffer);
       RequestEditorKit.fixTavernCellar(buffer);
       RequestEditorKit.fixBallroom1(buffer);
       RequestEditorKit.fixDucks(buffer);
@@ -339,6 +346,7 @@ public class RequestEditorKit extends HTMLEditorKit {
     } else if (location.startsWith("cave.php")) {
       NemesisManager.decorate(location, buffer);
     } else if (location.startsWith("choice.php")) {
+      RequestEditorKit.fixCyberRealm(buffer);
       RequestEditorKit.fixTavernCellar(buffer);
       StationaryButtonDecorator.decorate(location, buffer);
       RequestEditorKit.addChoiceSpoilers(location, buffer, addComplexFeatures);
@@ -359,6 +367,7 @@ public class RequestEditorKit extends HTMLEditorKit {
 
       RequestEditorKit.suppressInappropriateNags(buffer);
       RequestEditorKit.suppressPowerPixellation(buffer);
+      RequestEditorKit.fixCyberRealm(buffer);
       RequestEditorKit.fixTavernCellar(buffer);
 
       // Decorate end of fight before stationary buttons
@@ -555,8 +564,8 @@ public class RequestEditorKit extends HTMLEditorKit {
       StringBuilder eventsTable = new StringBuilder();
 
       eventsTable.append("<center><table width=95% cellspacing=0 cellpadding=0>");
-      eventsTable.append("<tr><td style=\"color: white;\" align=center bgcolor=orange>");
-      eventsTable.append("<b>New Events:</b>");
+      eventsTable.append("<tr><td style=\"background-color: orange;\" align=center >");
+      eventsTable.append("<b style=\"color: white\">New Events:</b>");
       eventsTable.append("</td></tr>");
       eventsTable.append("<tr><td style=\"padding: 5px; border: 1px solid orange;\" align=center>");
 
@@ -590,6 +599,10 @@ public class RequestEditorKit extends HTMLEditorKit {
           buffer, "bgcolor=blue", "bgcolor=\"" + defaultColor + "\"");
       StringUtilities.globalStringReplace(
           buffer, "border: 1px solid blue", "border: 1px solid " + defaultColor);
+      StringUtilities.globalStringReplace(
+          buffer,
+          "<td style=\"background-color: blue\"",
+          "<td style=\"background-color: " + defaultColor + "\"");
     }
   }
 
@@ -781,14 +794,16 @@ public class RequestEditorKit extends HTMLEditorKit {
     buffer.insert(index + test.length(), link.getItemHTML());
   }
 
-  // <table  width=400  cellspacing=0 cellpadding=0><tr><td style="color: white;" align=center
-  // bgcolor=blue>f<b>New Area Unlocked</b></td></tr><tr><td style="padding: 5px; border: 1px solid
-  // blue;"><center><table><tr><td><center><table><tr><td valign=center><img
-  // src="http://images.kingdomofloathing.com/adventureimages/../otherimages/ocean/corrala.gif"></td><td valign=center class=small><b>The Coral Corral</b>, on <a class=nounder href=seafloor.php><b>The Sea Floor</b></a>.</td></tr></table></center></td></tr></table></center></td></tr><tr><td height=4></td></tr></table>
+  // <table  width=400  cellspacing=0 cellpadding=0><tr><td style="background-color: blue"
+  // align=center ><b style="color: white">New Area Unlocked</b></td></tr><tr><td style="padding:
+  // 5px; border: 1px solid blue;"><center><table><tr><td><center><table><tr><td valign=center><img
+  // src="https://d2uyhvukfffg5a.cloudfront.net/adventureimages/biggoat.gif"></td><td valign=center
+  // class=small><b>The Goatlet</b>, on <a href=place.php?whichplace=mclargehuge><b>Mt.
+  // McLargeHuge</b></a>.</td></tr></table>
 
   private static final Pattern NEW_LOCATION_PATTERN =
       Pattern.compile(
-          "<table.*?<b>New Area Unlocked</b>.*?(<img[^>]*>).*?(<b>(.*?)</b>)", Pattern.DOTALL);
+          "<table.*?<b.*?>New Area Unlocked</b>.*?(<img[^>]*>).*?(<b>(.*?)</b>)", Pattern.DOTALL);
 
   public static final void addNewLocationLinks(final StringBuffer buffer) {
     if (buffer.indexOf("New Area Unlocked") == -1) {
@@ -1010,9 +1025,24 @@ public class RequestEditorKit extends HTMLEditorKit {
   // <script>var ocrs =
   // ["flip","floating","broke","drunk","appendimg:adventureimages\/ol_drunk.gif:0:0","turgid","narcissistic"];</script>
   private static final Pattern OCRS_PATTERN =
-      Pattern.compile("<script>var ocrs = \\[(.*?)\\];</script>", Pattern.DOTALL);
+      Pattern.compile("<script>var ocrs = \\[(.*?)];</script>", Pattern.DOTALL);
 
-  private static void suppressPowerPixellation(final StringBuffer buffer) {
+  public static List<String> parseCosmeticModifiers(final String text) {
+    Matcher matcher = RequestEditorKit.OCRS_PATTERN.matcher(text);
+
+    if (!matcher.find()) return List.of();
+
+    return Arrays.stream(matcher.group(1).split(","))
+        .filter(Predicate.not(String::isBlank))
+        .map(v -> v.substring(1, v.length() - 1))
+        .toList();
+  }
+
+  public static String cosmeticModifiersToString(final List<String> modifiers) {
+    return modifiers.stream().map(m -> "\"" + m + "\"").collect(Collectors.joining(","));
+  }
+
+  protected static void suppressPowerPixellation(final StringBuffer buffer) {
     boolean suppressPowerPixellation = Preferences.getBoolean("suppressPowerPixellation");
     String extraCosmeticModifiers = Preferences.getString("extraCosmeticModifiers").trim();
     boolean haveExtraCosmeticModifiers = !extraCosmeticModifiers.isEmpty();
@@ -1030,62 +1060,97 @@ public class RequestEditorKit extends HTMLEditorKit {
 
     // Iterate over all ocrs modifiers. We should only manipulate
     // the cosmetic ones, but we can add or delete those at will.
+    var modifiers = parseCosmeticModifiers(buffer.toString());
 
-    StringBuilder ocrs = new StringBuilder();
-    String delimiter = "";
+    var filtered =
+        modifiers.stream().filter(m -> !suppressPowerPixellation || !m.equals("powerPixel"));
+    var added =
+        Arrays.stream(extraCosmeticModifiers.split(","))
+            .map(String::trim)
+            .filter(Predicate.not(String::isBlank))
+            .map(
+                m -> {
+                  var image = MonsterData.cosmeticModifierImages.get(m);
+                  return image != null ? "appendimg:adventureimages\\/" + image : m;
+                });
 
-    Matcher matcher = RequestEditorKit.OCRS_PATTERN.matcher(buffer);
-    boolean found = matcher.find();
-    String find = found ? matcher.group(1) : "";
+    var replacementModifiers = Stream.concat(filtered, added).toList();
 
-    if (found) {
-      String[] modifiers = find.split(",");
-      String powerPixel = "\"powerPixel\"";
+    var replacementModifierString = cosmeticModifiersToString(replacementModifiers);
 
-      for (String modifier : modifiers) {
-        if (suppressPowerPixellation && modifier.equals(powerPixel)) {
-          continue;
-        }
-        ocrs.append(delimiter);
-        ocrs.append(modifier);
-        delimiter = ",";
-      }
-    }
-
-    if (haveExtraCosmeticModifiers) {
-      String[] extraModifiers = extraCosmeticModifiers.split(" *, *");
-
-      for (String modifier : extraModifiers) {
-        String image = MonsterData.cosmeticModifierImages.get(modifier);
-        if (image != null) {
-          ocrs.append(delimiter);
-          ocrs.append("\"");
-          ocrs.append("appendimg:adventureimages\\/");
-          ocrs.append(image);
-          ocrs.append("\"");
-          delimiter = ",";
-        } else {
-          ocrs.append(delimiter);
-          ocrs.append("\"");
-          ocrs.append(modifier);
-          ocrs.append("\"");
-          delimiter = ",";
-        }
-      }
-    }
-
-    String replace = ocrs.toString();
-
-    if (found) {
+    if (!modifiers.isEmpty()) {
       // We had an "ocrs" var. Replace the value
-      StringUtilities.singleStringReplace(buffer, find, replace);
-    } else if (!replace.isEmpty()) {
+      StringUtilities.singleStringReplace(
+          buffer, cosmeticModifiersToString(modifiers), replacementModifierString);
+    } else if (!replacementModifiers.isEmpty()) {
       // We did not have an ocrs var but want to add some.
       // Include the appropriate scripts and insert a variable
       buffer.insert(buffer.indexOf("</head>"), OCRS_JS);
       buffer.insert(buffer.indexOf("</head>"), OCRS_CSS);
-      String ocrs_var = "<script>var ocrs = [" + replace + "];</script>";
-      buffer.insert(buffer.indexOf("</head>"), ocrs_var);
+      buffer.insert(
+          buffer.indexOf("</head>"),
+          "<script>var ocrs = [" + replacementModifierString + "];</script>");
+    }
+  }
+
+  /*
+  <link rel="stylesheet" href="https://unpkg.com/fixedsys-css/css/fixedsys.css">
+  <style>
+  	* { font-family: 'fixedsys', "Fixedsys", monospace !important; font-size: 1.05rem; }
+  	img { opacity: 0}
+  	img.cybered { opacity: 1}
+  	.actionbar img  { opacity: 1; filter: invert(0.8); }
+  	.actionbar img.cybered  { opacity: 1; filter: invert(0); }
+  	select, body{ background-color: black; color: green; }
+  	body { margin-top: 8px; }
+  	td{ background-color: black; color: green; }
+  	input.button, button.button, .button { background-color: black; color: green; border: 1px solid green; font-size: 1.05rem }
+  	a, a:link, a:visited, a:active {color: green; }
+  	b {color: green; }
+  	.spacer { background-color: black !important; }
+  	td.page { background-color: black !important; }
+  </style>
+   */
+
+  private static final Pattern CYBER_REALM_DARK_MODE_PATTERN =
+      Pattern.compile(
+          "<link rel=\"stylesheet\" href=\"https://unpkg.com/fixedsys-css/css/fixedsys.css\">.*?<style>.*?</style>",
+          Pattern.DOTALL);
+  private static final Pattern SCRIPT_PATTERN =
+      Pattern.compile("<script.*?</script>", Pattern.DOTALL);
+
+  protected static void fixCyberRealm(final StringBuffer buffer) {
+    boolean suppressDarkMode = Preferences.getBoolean("suppressCyberRealmDarkMode");
+    if (suppressDarkMode) {
+      Matcher darkMatcher = CYBER_REALM_DARK_MODE_PATTERN.matcher(buffer);
+      if (darkMatcher.find()) {
+        StringUtilities.singleStringReplace(buffer, darkMatcher.group(0), "");
+        StringUtilities.globalStringReplace(
+            buffer, "style=\"background-color: green\"", "style=\"background-color: blue\"");
+        StringUtilities.globalStringReplace(
+            buffer, "style=\"color: black\"", "style=\"color: white\"");
+      }
+    }
+
+    boolean suppressGreenImages = Preferences.getBoolean("suppressCyberRealmGreenImages");
+    if (suppressGreenImages) {
+      Matcher scriptMatcher = SCRIPT_PATTERN.matcher(buffer);
+      while (scriptMatcher.find()) {
+        String text = scriptMatcher.group(0);
+        if (text.contains("cyberit = function ()")) {
+          StringUtilities.singleStringReplace(buffer, text, "");
+          break;
+        }
+      }
+    }
+
+    // KoL does not currently provide a link back to the CyberRealm Map for zones 2 and 3
+    if (buffer.indexOf("You've already hacked this system.") != -1) {
+      // But if they fix it and it now adds one, cool.
+      String url = "place.php?whichplace=cyberrealm";
+      if (buffer.indexOf(url) == -1) {
+        RequestEditorKit.addAdventureAgainSection(buffer, url, "Back to the Network Map");
+      }
     }
   }
 
@@ -1374,11 +1439,51 @@ public class RequestEditorKit extends HTMLEditorKit {
         + "% of the necessary advertising.";
   }
 
+  // You're fighting <span id='monname'>the darkness</span>
+  private static final Pattern MONNAME_PATTERN = Pattern.compile("<span id='monname'>(.*?)</span>");
+
   private static void annotateMonster(final StringBuffer buffer) {
     MonsterData monster = MonsterStatusTracker.getLastMonster();
 
     if (monster == null) {
       return;
+    }
+
+    // KoL now annotates all monsters with an HTML comment with MONSTERID
+    // FightRequest extracts this and sets it in MonsterStatusTracker.
+
+    // KoL has some buggy situations (an army of toddlers killing
+    // the monster, for example) where there is no monster image.
+    // Don't bother annotating in such cases
+
+    Matcher matcher = MONNAME_PATTERN.matcher(buffer);
+    if (!matcher.find()) {
+      return;
+    }
+
+    int spanIndex = matcher.start();
+    int spanEnd = matcher.end();
+
+    // The name KoL is showing us
+    String name = matcher.group(1);
+
+    int nameIndex = matcher.start(1);
+    int nameEnd = matcher.end(1);
+
+    // The actual name of the monster
+    String monsterName = monster.getName();
+
+    if (name.equals("the darkness")) {
+      StringBuilder darkBuffer = new StringBuilder();
+      String article = monster.getArticle();
+      if (!article.isEmpty()) {
+        darkBuffer.append(article);
+        darkBuffer.append(" ");
+      }
+      darkBuffer.append(monsterName);
+      darkBuffer.append(" hiding in ");
+      buffer.insert(nameIndex, darkBuffer.toString());
+      spanEnd += darkBuffer.length();
     }
 
     // Don't show monster unless we know combat stats or items
@@ -1389,20 +1494,6 @@ public class RequestEditorKit extends HTMLEditorKit {
       return;
     }
 
-    // KoL has some buggy situations (an army of toddlers killing
-    // the monster, for example) where there is no monster image.
-    // Don't bother annotating in such cases
-    int nameIndex = buffer.indexOf("<span id='monname");
-    if (nameIndex == -1) {
-      return;
-    }
-
-    int combatIndex = buffer.indexOf("</span>", nameIndex);
-    if (combatIndex == -1) {
-      return;
-    }
-    int insertionPointForData = combatIndex + 7;
-
     StringBuilder monsterData = new StringBuilder("<font size=2 color=gray>");
     monsterData.append("<br />HP: ");
     monsterData.append(MonsterStatusTracker.getMonsterHealth());
@@ -1412,8 +1503,6 @@ public class RequestEditorKit extends HTMLEditorKit {
     monsterData.append(MonsterStatusTracker.getMonsterDefense());
     monsterData.append(", Type: ");
     monsterData.append(MonsterStatusTracker.getMonsterPhylum().toString());
-
-    String monsterName = monster.getName();
 
     if (FightRequest.isPirate(monster)) {
       int count = BeerPongRequest.countPirateInsults();
@@ -1442,6 +1531,8 @@ public class RequestEditorKit extends HTMLEditorKit {
 
     monster.appendItemDrops(monsterData);
 
+    monster.appendFact(monsterData);
+
     monster.appendMeat(monsterData, true);
 
     monster.appendSprinkles(monsterData, true);
@@ -1453,13 +1544,13 @@ public class RequestEditorKit extends HTMLEditorKit {
     }
 
     monsterData.append("</font>");
-    buffer.insert(insertionPointForData, monsterData);
+
+    buffer.insert(spanEnd, monsterData);
 
     // Insert color for monster element
     MonsterDatabase.Element monsterElement = monster.getDefenseElement();
     if (monsterElement != MonsterDatabase.Element.NONE) {
-      int insertionPointForElement = nameIndex + 6;
-      buffer.insert(insertionPointForElement, "class=\"element" + monsterElement + "\" ");
+      buffer.insert(spanIndex + 6, "class=\"element" + monsterElement + "\" ");
     }
   }
 
@@ -1723,7 +1814,7 @@ public class RequestEditorKit extends HTMLEditorKit {
     buffer.setLength(0);
     while (m.find()) {
       if (m.group().startsWith("<b")) { // Initial round - add # after "Combat"
-        m.appendReplacement(buffer, "<b>Combat: Round ");
+        m.appendReplacement(buffer, "<b style=\"color: white\">Combat: Round ");
         buffer.append(round++);
         if (KoLCharacter.isEd()) {
           int edfight = Preferences.getInteger("_edDefeats");
@@ -1955,9 +2046,8 @@ public class RequestEditorKit extends HTMLEditorKit {
       case 579:
         // Such Great Heights
         if (option == 3) {
-          int index =
-              buffer.indexOf(
-                  "<p><a href=\"adventure.php?snarfblat=280\">Adventure Again (The Hidden Temple)</a>");
+          String adventureAgain = adventureAgainSection(AdventurePool.HIDDEN_TEMPLE);
+          int index = buffer.indexOf(adventureAgain);
           if (index == -1) {
             break;
           }
@@ -1984,9 +2074,8 @@ public class RequestEditorKit extends HTMLEditorKit {
       case 611:
         {
           // The Horror...
-          int index =
-              buffer.indexOf(
-                  "<p><a href=\"adventure.php?snarfblat=296\">Adventure Again (A-Boo Peak)</a>");
+          String adventureAgain = adventureAgainSection(AdventurePool.ABOO_PEAK);
+          int index = buffer.indexOf(adventureAgain);
           if (index == -1) {
             break;
           }
@@ -2223,6 +2312,14 @@ public class RequestEditorKit extends HTMLEditorKit {
     RequestEditorKit.addAdventureAgainSection(buffer, url, "Go to your El Vibrato portal");
   }
 
+  public static String adventureAgainSection(final int snarfblat) {
+    StringBuilder buf = new StringBuilder();
+    buf.append("<p><a href=\"adventure.php?snarfblat=");
+    buf.append(snarfblat);
+    buf.append("\" id='againlink'>");
+    return buf.toString();
+  }
+
   public static final void addAdventureAgainSection(
       final StringBuffer buffer, final String link, final String tag) {
     int index = buffer.indexOf("</center></td></tr><tr><td height=4></td></tr></table>");
@@ -2241,8 +2338,7 @@ public class RequestEditorKit extends HTMLEditorKit {
       return;
     }
 
-    String adventureAgain =
-        "<p><a href=\"adventure.php?snarfblat=" + AdventurePool.HAUNTED_BALLROOM + "\">";
+    String adventureAgain = adventureAgainSection(AdventurePool.HAUNTED_BALLROOM);
     int index = buffer.indexOf(adventureAgain);
     if (index == -1) {
       return;
@@ -2272,7 +2368,8 @@ public class RequestEditorKit extends HTMLEditorKit {
       return;
     }
 
-    int index = buffer.indexOf("<p><a href=\"adventure.php?snarfblat=395\">");
+    String adventureAgain = adventureAgainSection(AdventurePool.HAUNTED_BALLROOM);
+    int index = buffer.indexOf(adventureAgain);
     if (index == -1) {
       return;
     }

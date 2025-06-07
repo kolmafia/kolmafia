@@ -80,9 +80,9 @@ Art Class	100	rulergheist	clay golem	misproportioned portrait	wire sculpture	Fra
 Atomic Crimbo Toy Factory	100	mutant circuit-soldering elf	mutant cookie-baking elf	mutant doll-dressing elf	mutant gift-wrapping elf	mutant whistle-carving elf
 Barf Mountain	100	angry tourist	garbage tourist	horrible tourist family
 Barrrney's Barrr	80	tetchy pirate	tipsy pirate	toothy pirate
-Battlefield (Cloaca Uniform)	95	Dyspepsi-Cola General	Dyspepsi-Cola Knight	Dyspepsi-Cola Soldier	The Temporal Bandit: -1
-Battlefield (Dyspepsi Uniform)	95	Cloaca-Cola Catapult Engineer	Cloaca-Cola Footsoldier	Cloaca-Cola Soldier	The Temporal Bandit: -1
-Battlefield (No Uniform)	0	The Temporal Bandit: -1
+Cola Wars Battlefield (Cloaca Uniform)	95	Dyspepsi-Cola General	Dyspepsi-Cola Knight	Dyspepsi-Cola Soldier	The Temporal Bandit: -1
+Cola Wars Battlefield (Dyspepsi Uniform)	95	Cloaca-Cola Catapult Engineer	Cloaca-Cola Footsoldier	Cloaca-Cola Soldier	The Temporal Bandit: -1
+The Cola Wars Battlefield	0	The Temporal Bandit: -1
 Belowdecks	100	gaudy pirate	grassy pirate	gritty pirate	groovy pirate	grungy pirate
 Boltsmann Bearings	95	Boltsmann security robot	automated bearing foundry	clerical robot
 Burnbarrel Blvd.	-1	Hot hobo	Ol' Scratch: 0
@@ -91,6 +91,7 @@ Center Park After Dark	100	common criminal
 Chemistry Class	100	dropped base	sodium golem	Bunsen burner and beaker	possessed eyewashing station	Mrs. K, the Chemistry Teacher: 0
 Chinatown Shops	-1	grinning pork bun	lucky cat statue	roasted duck golem	yakuza courier: 0
 Chinatown Tenement	-1	desperate gold farmer	rabid MMO addict	yakuza thug	The Server: 0	White Bone Demon: 0
+Christmas Island	100	Christmas treant	magically-animated snowman	self-driving sleigh
 Cobb's Knob Barracks	85	Knob Goblin Elite Guard	off-duty Knob Goblin Elite Guard	swarm of Knob lice
 Cobb's Knob Harem	100	Knob Goblin Harem Guard	Knob Goblin Harem Girl	Knob Goblin Madam
 Cobb's Knob Kitchens	100	Cobb's Knob oven	Knob Goblin Master Chef	Knob Goblin Sous Chef	Knob Goblin Elite Guard Captain: 0
@@ -119,6 +120,10 @@ Crimbo's Jelly	100	bottle of cheap whiskey	the abstract concept of poverty	pengu
 Crimbo's Reindeer	100	the Crimborg	the abstract concept of poverty	simple hobo
 Crimbo's Sack	100	endless winter	penguin mafioso	simple hobo
 Crimborg Collective Factory	100	<s>Killer</s> Festive Arc-Welding Elfbot	<s>Killer</s> Festive Decal-Applying Elfbot	<s>Killer</s> Festive Laser-Calibrating Elfbot	<s>Killer</s> Festive Weapons-Assembly Elfbot	Rudolphus of Crimborg
+# all the cyberzones have the common viruses, then one of the rare viruses and one hacker
+Cyberzone 1	100	zombie process	botfly	network worm	ICE man	rat (remote access trojan)
+Cyberzone 2	100	zombie process	botfly	network worm	ICE man	rat (remote access trojan)
+Cyberzone 3	100	zombie process	botfly	network worm	ICE man	rat (remote access trojan)
 Domed City of Grimacia	100	alielf	cat-alien	dog-alien	grizzled survivor	unhinged survivor	whiny survivor
 Domed City of Ronaldus	100	dogcat	ferrelf	hamsterpus	overarmed survivor	primitive survivor	unlikely survivor
 Doubt Man's Level	100	judgmental eye	reproachful heart	work hat	Doubt Man: 0
@@ -127,6 +132,7 @@ Dreadsylvanian Village	-1	cold ghost	cold zombie	hot ghost	hot zombie	sleaze gho
 Dreadsylvanian Woods	-1	cold bugbear	cold werewolf	hot bugbear	hot werewolf	sleaze bugbear	sleaze werewolf	spooky bugbear	spooky werewolf	stench bugbear	stench werewolf	Great Wolf of the Air: 0	Falls-From-Sky: 0
 Duke Vampire's Chateau	0	Duke Vampire: 0
 Eager Rice Burrows	100	chocolate hare	chocolate-cherry prairie dog	Rock Pop weasel
+Easter Island	100	chocolate chicken	feral bunny	moai	Easter Island Bunny: 0
 El Vibrato Island	100	bizarre construct	hulking construct	industrious construct	lonely construct	menacing construct	towering construct
 Elf Alley	100	Hobelf	Uncle Hobo: 0
 Engineering	100	Battlesuit Bugbear Type	bugbear drone	liquid metal bugbear
@@ -143,7 +149,7 @@ Fudge Mountain	95	fudge monkey	fudge oyster	fudge weasel	fudge vulture	fudge poo
 Galley	100	angry cavebugbear	trendy bugbear chef
 Gingerbread Civic Center	100	gingerbread pigeon	gingerbread rat	gingerbread convict	gingerbread mad dog	gingerbread lawyer	Judge Fudge: 0
 Gingerbread Industrial Zone	100	gingerbread pigeon	gingerbread rat	gingerbread mugger	gingerbread welder robot	gingerbread mutant	GNG-3-R: 0
-Gingerbread Reef	100	gingerbread maw	nutmeg anemone	icingfish	Mer-kin baker	dolphin "orphan" 
+Gingerbread Reef	100	gingerbread maw	nutmeg anemone	icingfish	Mer-kin baker	dolphin "orphan"
 Gingerbread Sewers	100	gingerbread pigeon	gingerbread rat	gingerbread alligator	gingerbread vigilante: 0
 Gingerbread Train Station	100	gingerbread pigeon	gingerbread rat	gingerbread vagrant	animal cracker	gingerbread wino
 Gingerbread Upscale Retail District	100	gingerbread pigeon	gingerbread rat	gingerbread gentrifier	gingerbread finance bro	gingerbread tech bro
@@ -160,7 +166,7 @@ Guano Junction	100	baseball bat	briefcase bat	perpendicular bat	screambat: 0	sku
 Gumdrop Forest	100	candied pecan tree	licorice snake	tricksy pixie
 Haert of the Cyrpt	100	Bonerdagon
 Hamburglaris Shield Generator	100	alien hamsterpus	mutated alielephant	mutated alielf
-Hell	100	devil	vampire
+Hell	100	devil	magma man	vampire
 Hero's Field	100	Keese	Octorok	Tektite	Zol
 Hippy Camp	100	crusty hippy	crusty hippy jewelry maker	crusty hippy Vegan chef	dirty hippy	dirty hippy jewelry maker	dirty hippy Vegan chef	filthy hippy	filthy hippy jewelry maker	filthy hippy Vegan chef
 Hobopolis Town Square	95	Normal hobo	Hodgman, The Hoboverlord: 0
@@ -215,7 +221,7 @@ Pandamonium Slums	95	Demoninja	Fallen Archfiend	G imp	Hellion	L imp	P imp	W imp	
 Pirates of the Garbage Barges	100	filthy pirate	fishy pirate	funky pirate	flashy pirate
 Porkham Asylum	100	mid-level mook	former inmate	former guard	The Author: 0
 The Junkyard	100	A.M.C. gremlin	batwinged gremlin	erudite gremlin	spider gremlin	vegetable gremlin
-Professor Jacking's Huge-A-Ma-tron	-1	Castle in the Clouds in the Sky	Fearsome Wacken: 0	loose coalition of yetis, snowmen, and goats	Spookyraven Manor	The Whole Kingdom: 0
+Professor Jacking's Huge-A-Ma-Tron	-1	Castle in the Clouds in the Sky	Fearsome Wacken: 0	loose coalition of yetis, snowmen, and goats	Spookyraven Manor	The Whole Kingdom: 0
 Professor Jacking's Small-O-Fier	-1	cruel dust mote	funk particle	jungle scabie: 0	malevolent magnetic field	smooth jazz scabie: 0
 Regret Man's Level	100	ancient ghost	contemplative ghost	lovesick ghost	Regret Man: 0
 Science Lab	100	bugbear scientist	spiderbugbear
@@ -254,12 +260,14 @@ Special Ops	-1	Black Ops Bugbear
 Spookiest Adventurer Contest	100	Ghostpuncher	Plague Chef	Batburglar	Arthur Frankenstein: 0
 Spooky Fright Factory	100	bow-making mummy	Cookie-baking Thing from Beyond Time	gift-wrapping vampire	skeletal reindeer	stocking-stuffing zombie	toy-making creature from the Gray Lagoon
 Spring Bros. Solenoids	95	Spring Bros. security robot	automated solenoid press	janitor robot
+St. Patrick's Day Island	100	giant snake	giant potato	giant potato snake
 Stinkiest Adventurer Contest	100	Granola Barbarian	Cheese Wizard	Assassin	Odorous Humongous: 0
 Strongest Adventurer Contest	100	Macho Man	Iron Chef	Entire Shoplifter	Mr. Loathing: 0
 Summoning Chamber	100	Lord Spookyraven
 Super Villain's Lair	-1	Villainous Henchperson	Villainous Minion	Villainous Villain
 Swamp Beaver Territory	-1	swamp beaver lumberjack	swamp beaver shaman	swamp beaver warrior	conservationist hippy: 0
 Sweet-Ade Lake	100	gummi plesiosaur	lemonhead minnow	school of gummi piranhas
+Thanksgiving Island	100	gravy slime	possessed can of cream of mushroom soup	possessed can of green beans	pumpkin spice wraith
 The "Fun" House	100	bugbear-in-the-box	disease-in-the-box	lemon-in-the-box	scary clown	shaky clown	creepy clown	The Clownlord Beelzebozo: 0
 The Ancient Burial Ground	100	skeleton	vampire
 The Ancient Hobo Burial Ground	-1	Spooky hobo	Zombo: 0
@@ -397,7 +405,7 @@ The Ice Hole	100	Norwhal	Tin of Submardines	Arctic Octolus
 The Ice Hotel	-1	ice bartender	ice clerk	ice concierge	ice housekeeper	ice porter
 The Icy Peak	85	Knott Yeti: 2	Snow Queen	upgraded ram: 2	Knott Slanding: -1	The ghost of Sam McGee: 0
 The Inner Wolf Gym	100	Abcrusher 4000&trade;	Escalatormaster&trade;	Legstrong&trade; stationary bicycle	rack of free weights	treadmill
-The Impenetrable Kelp-Holly Forest	100	kelpie (horse form)	kelpie (lady form)	Yuleviathan	dolphin "orphan" 
+The Impenetrable Kelp-Holly Forest	100	kelpie (horse form)	kelpie (lady form)	Yuleviathan	dolphin "orphan"
 The Island Barracks	-1	sleepy mariachi	surprised mariachi	alert mariachi
 The Jungle	100	bee	scorpion	skeleton	tikiman
 The Jungles of Ancient Loathing	85	ancient guardian statue	evil cultist	jungle baboon	tribal goblin	giant bird-creature: 0	giant jungle python: 0	giant octopus: 0	giant spider: 0	high priest of Ki'rhuss: 0	wumpus: 0
@@ -436,11 +444,12 @@ The Penultimate Fantasy Airship	80	Burly Sidekick	Irritating Series of Random En
 The Poop Deck	80	wacky pirate	warty pirate	wealthy pirate	whiny pirate	witty pirate
 The Post-Mall	100	T-9000	damned dirty ape	jet-ski bandit	Z-Rex	superdupervirus	sentient ATM: 0
 The Primordial Soup	100	cluster of angry bacteria	corrosive algae	hostile amoeba	mad flagellate	violent fungus	Cyrus the Virus: 0
+The Primordial Stew	100	flailing flagellate	herd of archaea	messenger RNA	proto-protozoa	yeast gang
 The Purple Light District	-1	Sleaze hobo	Chester: 0
 The Putrid Swamp	100	swamp monster
 The Red Queen's Garden	100	snapdragon	beelephant	Tiger-lily	wasp in a wig
 The Red Zeppelin	100	man with the red buttons	red butler	Red Herring	red skeleton	Red Snapper	Red Fox: 0	Ron "The Weasel" Copperhead: 0
-The Road to the White Citadel	100	pair of burnouts	biclops: 0	spider-legged witch's hut: 0	extremely annoyed witch: 0	surprised and annoyed witch: 0	Elpízo & Crosybdis: 0	business hippy: 0	decent lumberjack: 0	giant mob of baby spiders: 0	Knight in White Satin: 0	Knob Goblin Alchemist: 0	sticky mummy: 0	W imp: 0
+The Road to the White Citadel	100	pair of burnouts	biclops: 0	spider-legged witch's hut: 0	extremely annoyed witch: 0	surprised and annoyed witch: 0	Elp&iacute;zo & Crosybdis: 0	business hippy: 0	decent lumberjack: 0	giant mob of baby spiders: 0	Knight in White Satin: 0	Knob Goblin Alchemist: 0	sticky mummy: 0	W imp: 0
 The Rogue Windmill	70	can-can dancer	courtesan	sensitive poet-type	master of ceremonies	voyeuristic artist
 The Roman Forum	100	hypocritical medicus	cheap strix	Gladiator	Sadiator	Madiator	Radiator
 The Ruins of the Fully Automated Crimbo Factory	100	armored Crimbot	sparking Crimbot	unstable nuclear Crimbot
@@ -484,7 +493,7 @@ The VERY Unquiet Garves	100	corpulent zobmie	grave rober zmobie	senile lihc	slic
 The Weird Swamp Village	-1	mud turtle	swamp gator	swamp owl	swamp skunk: 0
 The Wildlife Sanctuarrrrrgh	-1	swamp beaver warrior	swamp entity	swamp gator
 The Wreck of the Edgar Fitzsimmons	100	cargo crab	drowned sailor	Mer-kin scavenger	mine crab	unholy diver
-The Wreck of the H. M. S. Kringle	95	Crimbylow	peppermint eel	sea-elf	dolphin "orphan" 
+The Wreck of the H. M. S. Kringle	95	Crimbylow	peppermint eel	sea-elf	dolphin "orphan"
 The X-32-F Combat Training Snowman	100	X-32-F Combat Training Snowman
 Throne Room	100	Knob Goblin King
 Through the Spacegate	-1	hostile plant	large hostile plant	exotic hostile plant	small hostile animal	large hostile animal	exotic hostile animal	Spant drone	Spant soldier	Murderbot drone	Murderbot soldier	hostile intelligent alien
@@ -502,6 +511,7 @@ Uncle Gator's Country Fun-Time Liquid Waste Sluice	100	C<i>bzzt</i>er the Grisly
 Unleash Your Inner Wolf	100	befouled straw house	brick (suggestive pause) house	brick icehouse	brick kiln	brick mausoleum	brick outhouse	cold ironwood house	Dutch Angle straw house	frosty straw house	glowing ash house	oily straw house	pitch pine house	quaking aspen house	slippery elm house	steaming straw house
 Vanya's Castle	100	fleaman	ghost	medusa
 Vanya's Castle Foyer	100	fleaman	ghost	medusa
+Veterans Day Island	100	Brandonian loyalist	Section 11	spectre of war
 Video Game Level 1	-1	Video Game Minion (weak)
 Video Game Level 2	-1	Video Game Minion (moderate)	Video Game Miniboss: 0
 Video Game Level 3	-1	Video Game Minion (strong)	Video Game Miniboss: 0	Video Game Boss: 0

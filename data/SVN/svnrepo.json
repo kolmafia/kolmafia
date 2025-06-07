@@ -1224,5 +1224,15 @@
    "shortDesc": "Locket Relay helper",
    "category": "information",
    "longDesc": "Show commonly used / recommended combats for the Combat Lover's Locket in the Relay Browser"
+ },
+ {
+   "repo": "https://github.com/HippoKingKoL/condo_is_lit",
+   "type": "git",
+   "author": "HippoKing",
+   "name": "Condo",
+   "forumThread": "https://kolmafia.us/threads/leprecondo-handling-script.30452/",
+   "shortDesc": "Condo gCLI interface",
+   "category": "information",
+   "longDesc": "For the Leprecondo, view unlocked / available furniture, change furniture, simulate changes to see which needs are filled by what"
  }
 ]

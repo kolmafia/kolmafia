@@ -1,15 +1,72 @@
 package net.sourceforge.kolmafia.request;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static internal.helpers.Networking.bytes;
+import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withAdventuresSpent;
+import static internal.helpers.Player.withChatChannel;
+import static internal.helpers.Player.withContinuationState;
+import static internal.helpers.Player.withEquipped;
+import static internal.helpers.Player.withHttpClientBuilder;
+import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withMeat;
+import static internal.helpers.Player.withPasswordHash;
+import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withTurnsPlayed;
+import static internal.helpers.Utilities.deleteSerFiles;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.emptyOrNullString;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.nullValue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
+import internal.helpers.Cleanups;
+import internal.helpers.RequestLoggerOutput;
+import internal.network.FakeHttpClientBuilder;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.objectpool.AdventurePool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
+import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.utilities.FileUtilities;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.EnumSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 public class RelayRequestTest {
 
+  /**
+   * The global clean up code will delete root/relay since relay is not under Git control. This is
+   * the only test that breaks when that happens. Duplicate the code that loads the relay directory
+   * here so that the directory will be present when the test is run.
+   */
+  public void initializeRelayFileDirectory() {
+    for (int i = 0; i < KoLConstants.RELAY_FILES.length; ++i) {
+      FileUtilities.loadLibrary(
+          KoLConstants.RELAY_LOCATION, KoLConstants.RELAY_DIRECTORY, KoLConstants.RELAY_FILES[i]);
+    }
+  }
+
   @Test
   public void findVariousRelayFilesOrNot() {
+    initializeRelayFileDirectory();
     File f;
     f = RelayRequest.findRelayFile("thisIsNotAPipe");
     assertNotNull(f, "Allowed to find a new file.");
@@ -38,5 +95,729 @@ public class RelayRequestTest {
     assertNull(rr.getHashField());
     assertFalse(rr.retryOnTimeout());
     rr.constructURLString("diary.php?textversion=1");
+  }
+
+  @Nested
+  class LocalFiles {
+    private RelayRequest makeFileRequest(String path) throws IOException {
+      Files.copy(Paths.get("request", path), Paths.get("relay", path));
+      var rr = new RelayRequest(true);
+      rr.constructURLString(path, true);
+      rr.run();
+      Files.deleteIfExists(Paths.get("relay", path));
+      return rr;
+    }
+
+    @BeforeAll
+    public static void beforeAll() throws IOException {
+      try {
+        Files.createDirectory(Paths.get("relay"));
+      } catch (FileAlreadyExistsException e) {
+      }
+    }
+
+    @Test
+    public void returnsNotFound() {
+      var rr = new RelayRequest(true);
+      rr.constructURLString("nonexistent.png", true);
+      rr.run();
+
+      assertThat(rr.statusLine, is("HTTP/1.1 404 Not Found"));
+      assertThat(rr.responseCode, is(404));
+    }
+
+    @ParameterizedTest
+    @ValueSource(
+        strings = {
+          "test_relay_request_text.txt",
+          "test_relay_request_identity_item_none.json",
+          "test_relay_request_html.html",
+        })
+    public void returnsTextFile(String filename) throws IOException {
+      var rr = makeFileRequest(filename);
+      assertThat(rr.statusLine, is("HTTP/1.1 200 OK"));
+      assertThat(rr.responseCode, is(200));
+      assertThat(rr.responseText.trim(), is(html("request/" + filename).trim()));
+    }
+
+    @Test
+    public void returnsPng() throws IOException {
+      var rr = makeFileRequest("test_relay_request_sample.png");
+      assertThat(rr.statusLine, is("HTTP/1.1 200 OK"));
+      assertThat(rr.responseCode, is(200));
+      assertThat(rr.rawByteBuffer, is(bytes("request/test_relay_request_sample.png")));
+
+      // Not testing value here, which would require it to complete the same second.
+      assertThat(rr.getHeaderField("Last-Modified"), not(emptyOrNullString()));
+      assertThat(rr.getHeaderField("Expires"), not(emptyOrNullString()));
+    }
+  }
+
+  @Nested
+  class Command {
+    private RelayRequest makeCommandRequest(String endpoint, String command, String hash) {
+      var rr = new RelayRequest(false);
+      rr.constructURLString(
+          "KoLmafia/" + endpoint + "?cmd=" + command + (hash == null ? "" : "&pwd=" + hash), false);
+      rr.run();
+      return rr;
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "submitCommand",
+      "redirectedCommand",
+      "polledredirectedCommand",
+      "sideCommand",
+      "specialCommand",
+      "waitSpecialCommand",
+      "parameterizedCommand"
+    })
+    public void failsWithNoHash(String endpoint) {
+      var cleanups = withPasswordHash("xxxx");
+      try (cleanups) {
+        var rr = makeCommandRequest(endpoint, "echo hi", null);
+        assertThat(rr.statusLine, is("HTTP/1.1 401 Unauthorized"));
+        assertThat(rr.responseCode, is(401));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "submitCommand",
+      "redirectedCommand",
+      "polledredirectedCommand",
+      "sideCommand",
+      "specialCommand",
+      "waitSpecialCommand",
+      "parameterizedCommand"
+    })
+    public void failsWithWrongHash(String endpoint) {
+      var cleanups = withPasswordHash("xxxx");
+      try (cleanups) {
+        var rr = makeCommandRequest(endpoint, "echo hi", "yyy");
+        assertThat(rr.statusLine, is("HTTP/1.1 401 Unauthorized"));
+        assertThat(rr.responseCode, is(401));
+      }
+    }
+
+    // TODO: Test polledredirectedCommand and specialCommand here with some asynchronous logic.
+    @ParameterizedTest
+    @CsvSource({
+      "submitCommand,200",
+      "redirectedCommand,302",
+      "sideCommand,302",
+      "waitSpecialCommand,200",
+      "parameterizedCommand,200"
+    })
+    public void succeedsWithRedirect(String endpoint, int statusCode) {
+      var cleanups = withPasswordHash("xxxx");
+      try (cleanups) {
+        RequestLoggerOutput.startStream();
+        var rr = makeCommandRequest(endpoint, "echo hi", "xxxx");
+        var output = RequestLoggerOutput.stopStream();
+
+        assertThat(rr.statusLine, is(statusCode == 200 ? "HTTP/1.1 200 OK" : "HTTP/1.1 302 Found"));
+        assertThat(rr.responseCode, is(statusCode));
+        assertThat(output, is("\n&gt; echo hi\n\nhi\n"));
+      }
+    }
+  }
+
+  @Nested
+  class JsonApi {
+    private RelayRequest makeApiRequest(String bodyString, String hash) {
+      var rr = new RelayRequest(false);
+      rr.constructURLString("KoLmafia/jsonApi", true);
+      if (hash != null) {
+        rr.addFormField("pwd", hash);
+      }
+      rr.addFormField("body", bodyString);
+      rr.run();
+      return rr;
+    }
+
+    private RelayRequest makeApiRequest(String bodyString) {
+      return makeApiRequest(bodyString, GenericRequest.passwordHash);
+    }
+
+    @BeforeAll
+    public static void beforeAll() {
+      Preferences.reset("RelayRequestTest.ApiRequest");
+      AdventureSpentDatabase.resetTurns();
+      AdventureQueueDatabase.resetQueue();
+    }
+
+    @AfterAll
+    public static void afterAll() {
+      // This test creates ser files as if the logged in user were "GLOBAL".   The reason why
+      // has not been found and setting a logged in user breaks the test because the returned JSON
+      // is different from what is expected.
+      deleteSerFiles("GLOBAL");
+    }
+
+    @Test
+    public void failsWithNoHash() {
+      var cleanups = withPasswordHash("xxxx");
+      try (cleanups) {
+        var rr = makeApiRequest("{}", null);
+        assertThat(rr.statusLine, is("HTTP/1.1 401 Unauthorized"));
+        assertThat(rr.responseCode, is(401));
+      }
+    }
+
+    @Test
+    public void failsWithWrongHash() {
+      var cleanups = withPasswordHash("xxxx");
+      try (cleanups) {
+        var rr = makeApiRequest("{}", "yyy");
+        assertThat(rr.statusLine, is("HTTP/1.1 401 Unauthorized"));
+        assertThat(rr.responseCode, is(401));
+      }
+    }
+
+    @Test
+    public void returnsProperties() {
+      var cleanups = withProperty("kingLiberated", true);
+      try (cleanups) {
+        var rr =
+            this.makeApiRequest("""
+          { "properties": ["kingLiberated"] }
+          """);
+
+        JSONObject expected =
+            JSON.parseObject("""
+          { "properties": ["true"] }
+          """);
+        assertThat(rr.statusLine, is("HTTP/1.1 200 OK"));
+        assertThat(rr.responseCode, is(200));
+        assertThat(JSON.parse(rr.responseText), is(expected));
+      }
+    }
+
+    @Test
+    public void returnsMultipleProperties() {
+      var cleanups =
+          new Cleanups(
+              withProperty("kingLiberated", true), withProperty("lastKingLiberation", 1000));
+      try (cleanups) {
+        var rr =
+            this.makeApiRequest(
+                """
+          { "properties": ["kingLiberated", "lastKingLiberation"] }
+          """);
+
+        JSONObject expected =
+            JSON.parseObject("""
+          { "properties": ["true", "1000"] }
+          """);
+        assertThat(rr.statusLine, is("HTTP/1.1 200 OK"));
+        assertThat(rr.responseCode, is(200));
+        assertThat(JSON.parse(rr.responseText), is(expected));
+      }
+    }
+
+    @Test
+    public void returnsFunctions() {
+      var cleanups = withTurnsPlayed(22);
+      try (cleanups) {
+        var rr =
+            this.makeApiRequest(
+                """
+      { "functions": [{ "name": "totalTurnsPlayed", "args": [] }] }
+      """);
+
+        JSONObject expected = JSON.parseObject("""
+          { "functions": [22] }
+          """);
+        assertThat(rr.statusLine, is("HTTP/1.1 200 OK"));
+        assertThat(rr.responseCode, is(200));
+        assertThat(JSON.parse(rr.responseText), is(expected));
+      }
+    }
+
+    @ParameterizedTest
+    @EnumSource(
+        value = KoLConstants.MafiaState.class,
+        names = {"ENABLE", "ERROR", "ABORT", "PENDING"})
+    public void returnsErrorWithBadContinuationState(KoLConstants.MafiaState state) {
+      var cleanups = new Cleanups(withTurnsPlayed(22), withContinuationState(state));
+      try (cleanups) {
+        var rr =
+            this.makeApiRequest(
+                """
+      { "functions": [{ "name": "totalTurnsPlayed", "args": [] }] }
+      """);
+
+        JSONObject expected =
+            JSON.parseObject(
+                """
+          { "error": "KoLmafia is in an error state." }
+          """);
+        assertThat(rr.statusLine, is("HTTP/1.1 503 Service Unavailable"));
+        assertThat(rr.responseCode, is(503));
+        assertThat(JSON.parse(rr.responseText), is(expected));
+      }
+    }
+
+    @Test
+    public void returnsMultipleFunctions() {
+      var cleanups = new Cleanups(withTurnsPlayed(22), withMeat(1000));
+      try (cleanups) {
+        var rr =
+            this.makeApiRequest(
+                """
+      { "functions": [
+        { "name": "totalTurnsPlayed", "args": [] },
+        { "name": "myMeat", "args": [] }
+      ] }
+      """);
+
+        JSONObject expected =
+            JSON.parseObject("""
+          { "functions": [22, 1000] }
+          """);
+        assertThat(rr.statusLine, is("HTTP/1.1 200 OK"));
+        assertThat(rr.responseCode, is(200));
+        assertThat(JSON.parse(rr.responseText), is(expected));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({"truncate,3.1,3", "urlDecode,\"%40\",\"@\""})
+    public void handlesPrimitiveArgument(String function, String input, String output) {
+      var rr =
+          this.makeApiRequest(
+              """
+  { "functions": [
+    { "name": "%s", "args": [%s] },
+  ] }
+  """
+                  .formatted(function, input));
+
+      JSONObject expected =
+          JSON.parseObject("""
+          { "functions": [%s] }
+          """.formatted(output));
+      assertThat(rr.statusLine, is("HTTP/1.1 200 OK"));
+      assertThat(rr.responseCode, is(200));
+      assertThat(JSON.parse(rr.responseText), is(expected));
+    }
+
+    @Test
+    public void handlesEnumeratedTypes() {
+      var cleanups = withItem(ItemPool.SEAL_CLUB);
+      try (cleanups) {
+        var rr =
+            this.makeApiRequest(
+                """
+      { "functions": [{ "name": "availableAmount", "args": [{
+        "objectType": "Item",
+        "identifierString": "seal-clubbing club"
+      }] }] }
+      """);
+
+        JSONObject expected = JSON.parseObject("""
+      { "functions": [1] }
+      """);
+        assertThat(rr.statusLine, is("HTTP/1.1 200 OK"));
+        assertThat(rr.responseCode, is(200));
+        assertThat(JSON.parse(rr.responseText), is(expected));
+      }
+    }
+
+    @ParameterizedTest
+    @ValueSource(
+        strings = {
+          """
+      {
+        "objectType": "Class",
+        "identifierString": "Seal Clubber"
+      }
+      """,
+          """
+      {
+        "objectType": "Class",
+        "identifierNumber": 1
+      }
+      """,
+          """
+      {
+        "objectType": "Class",
+        "identifierString": "Turtle Tamer",
+        "identifierNumber": 1
+      }
+      """
+        })
+    public void handlesIdentity(String json) {
+      var cleanups = withItem(ItemPool.SEAL_CLUB);
+      try (cleanups) {
+        var rr =
+            this.makeApiRequest(
+                """
+      { "functions": [{ "name": "identity", "args": [%s] }] }
+      """
+                    .formatted(json));
+
+        JSONObject expected =
+            JSON.parseObject(
+                """
+      { "functions": [{
+        "objectType": "Class",
+        "identifierString": "Seal Clubber",
+        "identifierNumber": 1,
+        "id": 1,
+        "primestat": {
+          "objectType": "Stat",
+          "identifierString": "Muscle"
+        },
+        "path": {
+          "objectType": "Path",
+          "identifierString": "none",
+          "identifierNumber": -1
+        }
+      }] }
+      """);
+        assertThat(rr.statusLine, is("HTTP/1.1 200 OK"));
+        assertThat(rr.responseCode, is(200));
+        assertThat(JSON.parse(rr.responseText), is(expected));
+      }
+    }
+
+    @ParameterizedTest
+    @ValueSource(
+        strings = {
+          """
+      {
+        "a": "b"
+      }
+            """,
+          "\"a\"",
+          "2",
+          """
+      {
+        "identifierString": "Seal Clubber"
+      }
+      """,
+          """
+      {
+        "objectType": "class",
+        "identifierString": "Seal Clubber"
+      }
+      """,
+          """
+      {
+        "objectType": "cLASS",
+        "identifierString": "Seal Clubber"
+      }
+      """
+        })
+    public void ignoresPartialIdentityOrOtherObject(String json) {
+      var rr =
+          this.makeApiRequest(
+              """
+{ "functions": [{ "name": "identity", "args": [%s] }] }
+""".formatted(json));
+
+      JSONObject expected = JSON.parseObject("""
+{ "functions": [%s] }
+""".formatted(json));
+      assertThat(rr.statusLine, is("HTTP/1.1 200 OK"));
+      assertThat(rr.responseCode, is(200));
+      assertThat(JSON.parse(rr.responseText), is(expected));
+    }
+
+    @Test
+    public void handlesBufferToFile() {
+      var rr =
+          this.makeApiRequest(
+              """
+        { "functions": [{ "name": "bufferToFile", "args": ["abcde", "data/x.txt"] }] }
+        """);
+      assertThat(rr.statusLine, is("HTTP/1.1 200 OK"));
+      assertThat(rr.responseCode, is(200));
+    }
+
+    @ParameterizedTest
+    @ValueSource(
+        strings = {
+          """
+    {
+      "objectType": "Class",
+      "identifierString": "xxxxxxx"
+    }
+    """,
+          """
+  {
+    "objectType": "Class",
+    "identifierString": null
+  }
+  """,
+          """
+  {
+    "objectType": "Class",
+    "identifierNumber": 9999999
+  }
+  """,
+          """
+    {
+      "objectType": "Class"
+    }
+    """
+        })
+    public void errorsOnInvalidIdentifiedObject(String json) {
+      var rr =
+          this.makeApiRequest(
+              """
+{ "functions": [{ "name": "identity", "args": [%s] }] }
+""".formatted(json));
+
+      JSONObject expected = new JSONObject();
+      expected.put("error", "Invalid argument to identity: " + JSON.toJSONString(JSON.parse(json)));
+      assertThat(rr.statusLine, is("HTTP/1.1 400 Bad Request"));
+      assertThat(rr.responseCode, is(400));
+      assertThat(JSON.parse(rr.responseText), is(expected));
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "Item,none,test_relay_request_identity_item_none.json",
+      "Location,The Haunted Kitchen,test_relay_request_identity_with_loops_location.json",
+      "Item,backup camera,test_relay_request_identity_with_loops_item.json"
+    })
+    public void handlesIdentityWithLoops(String type, String identifier, String expectedFile) {
+      var cleanups = withAdventuresSpent(AdventurePool.HAUNTED_KITCHEN, 5);
+      try (cleanups) {
+        var rr =
+            this.makeApiRequest(
+                """
+              { "functions": [{ "name": "identity", "args": [{
+                "objectType": "%s",
+                "identifierString": "%s"
+              }] }] }
+              """
+                    .formatted(type, identifier));
+
+        JSONObject expected = JSON.parseObject(html("request/" + expectedFile));
+        assertThat(rr.statusLine, is("HTTP/1.1 200 OK"));
+        assertThat(rr.responseCode, is(200));
+        assertThat(JSON.parse(rr.responseText), is(expected));
+      }
+    }
+
+    @Test
+    public void handlesPOJOArgument() {
+      var rr =
+          this.makeApiRequest(
+              """
+    { "functions": [{ "name": "count", "args": [{
+      "a": "z",
+      "b": 2
+    }] }] }
+    """);
+
+      JSONObject expected = JSON.parseObject("""
+       { "functions": [2] }
+        """);
+      assertThat(rr.statusLine, is("HTTP/1.1 200 OK"));
+      assertThat(rr.responseCode, is(200));
+      assertThat(JSON.parse(rr.responseText), is(expected));
+    }
+
+    @Test
+    public void handlesPOJOResult() {
+      var rr =
+          this.makeApiRequest(
+              """
+        { "functions": [{ "name": "itemDrops", "args": [{
+          "objectType": "Monster",
+          "identifierString": "Astronomer"
+        }] }] }
+        """);
+
+      JSONObject expected =
+          JSON.parseObject("""
+       { "functions": [{ "star chart": 100.0 }] }
+        """);
+      assertThat(rr.statusLine, is("HTTP/1.1 200 OK"));
+      assertThat(rr.responseCode, is(200));
+      assertThat(JSON.parse(rr.responseText), is(expected));
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "Element,spooky",
+      "Monster,Lord Spookyraven",
+    })
+    public void handlesOverloadedFunction(String type, String identifier) {
+      var cleanups = withEquipped(ItemPool.CURSED_MONKEY_PAW);
+      try (cleanups) {
+        var rr =
+            this.makeApiRequest(
+                """
+              { "functions": [{ "name": "elementalResistance", "args": [{
+                "objectType": "%s",
+                "identifierString": "%s"
+              }] }] }
+              """
+                    .formatted(type, identifier));
+
+        JSONObject expected = JSON.parseObject("""
+          { "functions": [20.0] }
+          """);
+        assertThat(rr.statusLine, is("HTTP/1.1 200 OK"));
+        assertThat(rr.responseCode, is(200));
+        assertThat(JSON.parse(rr.responseText), is(expected));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "Bounty,none,",
+      "Bounty,bean-shaped rock,",
+      "Class,none,-1",
+      "Class,Seal Clubber,1",
+      "Coinmaster,none,",
+      "Coinmaster,The Black Market,",
+      "Effect,none,-1",
+      "Effect,Confused,3",
+      "Element,none,",
+      "Element,cold,",
+      "Familiar,none,-1",
+      "Familiar,Mosquito,1",
+      "Item,none,-1",
+      "Item,seal-clubbing club,1",
+      "Location,none,0",
+      "Location,The Sleazy Back Alley,112",
+      "Modifier,none,",
+      "Modifier,Item Drop,",
+      "Monster,none,0",
+      "Monster,spooky vampire,1",
+      "Path,none,-1",
+      "Path,Standard,22",
+      "Phylum,none,",
+      "Phylum,construct,",
+      "Servant,none,",
+      "Servant,Assassin,",
+      "Skill,none,-1",
+      "Skill,Liver of Steel,1",
+      "Slot,none,",
+      "Slot,hat,",
+      "Stat,none,",
+      "Stat,Muscle,",
+      "Thrall,none,",
+      "Thrall,Lasagmbie,",
+      "Vykea,none,",
+      "Vykea,level 1 couch,",
+    })
+    public void identityReturnsSameIdentifier(
+        String type, String identifierString, Integer identifierNumber) {
+      var rr =
+          this.makeApiRequest(
+              """
+        { "functions": [{ "name": "identity", "args": [{
+          "objectType": "%s",
+          "identifierString": "%s"
+        }] }] }
+        """
+                  .formatted(type, identifierString));
+      assertThat(rr.statusLine, is("HTTP/1.1 200 OK"));
+      assertThat(rr.responseCode, is(200));
+      JSONObject allResults = JSON.parseObject(rr.responseText);
+      assertThat(allResults.get("error"), nullValue());
+      JSONObject result = allResults.getJSONArray("functions").getJSONObject(0);
+      assertThat(result.get("objectType"), is(type));
+      assertThat(result.get("identifierString"), is(identifierString));
+
+      if (identifierNumber != null) {
+        assertThat(result.get("identifierNumber"), is(identifierNumber));
+
+        if (!identifierString.equals("none")) {
+          rr =
+              this.makeApiRequest(
+                  """
+                { "functions": [{ "name": "identity", "args": [{
+                  "objectType": "%s",
+                  "identifierNumber": %d
+                }] }] }
+                """
+                      .formatted(type, identifierNumber));
+          assertThat(rr.statusLine, is("HTTP/1.1 200 OK"));
+          assertThat(rr.responseCode, is(200));
+          allResults = JSON.parseObject(rr.responseText);
+          assertThat(allResults.get("error"), nullValue());
+          result = allResults.getJSONArray("functions").getJSONObject(0);
+          assertThat(result.get("objectType"), is(type));
+          assertThat(result.get("identifierString"), is(identifierString));
+          assertThat(result.get("identifierNumber"), is(identifierNumber));
+        }
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource(
+        textBlock =
+            """
+    { invalid_json };Invalid JSON object in request.
+    { "properties": [123, true] };Invalid property names [123,true]
+    { "functions": [{ "args": [] }] };Invalid function calls [{\\"args\\":[]}]
+    { "functions": [{ "name": "abc" }] };Invalid function calls [{\\"name\\":\\"abc\\"}]
+    { "functions": [{ "name": "myTurncount", "args": [null] }] };Invalid function calls [{\\"name\\":\\"myTurncount\\",\\"args\\":[null]}]
+    { "functions": [{ "name": "nonExistentFunction", "args": [] }] };Unable to find method nonExistentFunction accepting arguments [].
+    { "functions": [{ "name": "itemDropsArray", "args": [{"objectType": "monster", "identifierString": "fluffy bunny"}] }] };Unable to find method itemDropsArray accepting arguments [{\\"objectType\\":\\"monster\\",\\"identifierString\\":\\"fluffy bunny\\"}].
+    { "functions": [{ "name": "availableAmount", "args": [{ "objectType": "Item", "identifierString": "nonexistent" }] }] };Failed to convert arguments to ASH: Unidentified object {\\"objectType\\":\\"Item\\",\\"identifierString\\":\\"nonexistent\\"}.
+    """,
+        delimiter = ';')
+    public void testInvalidRequest(String json, String errorMessage) {
+      var rr = this.makeApiRequest(json);
+
+      JSONObject expected =
+          JSON.parseObject(
+              """
+            { "error": "%s" }
+        """.formatted(errorMessage.trim()));
+
+      assertThat(rr.statusLine, is("HTTP/1.1 400 Bad Request"));
+      assertThat(rr.responseCode, is(400));
+      assertThat(JSON.parse(rr.responseText), is(expected));
+    }
+  }
+
+  @Nested
+  class ChatDecoration {
+    @BeforeAll
+    public static void beforeAll() {
+      Preferences.reset("RelayRequestTest.ChatDecoration");
+      ;
+    }
+
+    @ParameterizedTest
+    @CsvSource(
+        delimiter = '|',
+        value = {
+          "{\"output\":\"<font color=green>Sending you to Kremlin's Greatest Briefcase.<!--js(top.mainpane.location.href='/place.php?whichplace=kgb')--></font>\",\"msgs\":[]}|{\"output\":\"<font color=green><span style=\\\"cursor:pointer;\\\" onclick=\\\"top.mainpane.location.href='/place.php?whichplace=kgb';\\\">Sending you to Kremlin's Greatest Briefcase</span>.<!--js(top.mainpane.location.href='/place.php?whichplace=kgb')--></font>\",\"msgs\":[]}",
+          "{\"output\":\"<font color=green>Sorry, I don't know how to take you to 'ssdjhfjksdfhsd' (or Funkytown, for that matter.)</font>\",\"msgs\":[]}|{\"output\":\"<font color=green>Sorry, I don't know how to take you to 'ssdjhfjksdfhsd' (or Funkytown, for that matter.)</font>\",\"msgs\":[]}",
+          "{\"output\":\"<font color=green>Using 1 seal tooth.<!--js(dojax('inv_use.php?whichitem=2&ajax=1&pwd=686497ca4cc5a990992e2fd6cc0fac06');)--></font>\",\"msgs\":[]}|{\"output\":\"<font color=green><span style=\\\"cursor:pointer;\\\" onclick=\\\"dojax('inv_use.php?whichitem=2&ajax=1&pwd=686497ca4cc5a990992e2fd6cc0fac06');;\\\">Using 1 seal tooth</span>.<!--js(dojax('inv_use.php?whichitem=2&ajax=1&pwd=686497ca4cc5a990992e2fd6cc0fac06');)--></font>\",\"msgs\":[]}",
+          "{\"output\":\"<font color=green>Loading \"backoffice.php?which=3\".<!--js(top.mainpane.location='backoffice.php?which=3')--></font><br />\",\"msgs\":[]}|{\"output\":\"<font color=green><span style=\\\"cursor:pointer;\\\" onclick=\\\"top.mainpane.location='backoffice.php?which=3';\\\">Loading \"backoffice.php?which=3\"</span>.<!--js(top.mainpane.location='backoffice.php?which=3')--></font><br />\",\"msgs\":[]}"
+        })
+    public void decoratesGoCommands(final String input, final String expected) {
+      var builder = new FakeHttpClientBuilder();
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withChatChannel("clan"),
+              withProperty("chatLiterate", true));
+
+      builder.client.addResponse(200, input);
+
+      try (cleanups) {
+        var req = new RelayRequest(false);
+        req.constructURLString("submitnewchat.php", true);
+        req.addFormField("graf", "/go test");
+        req.run();
+
+        assertThat(req.responseText, equalTo(expected));
+      }
+    }
   }
 }

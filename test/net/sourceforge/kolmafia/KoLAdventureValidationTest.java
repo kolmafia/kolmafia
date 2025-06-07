@@ -6,6 +6,7 @@ import static internal.helpers.Networking.assertGetRequest;
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withAscensions;
+import static internal.helpers.Player.withCampgroundItem;
 import static internal.helpers.Player.withContinuationState;
 import static internal.helpers.Player.withDay;
 import static internal.helpers.Player.withEffect;
@@ -234,7 +235,7 @@ public class KoLAdventureValidationTest {
       var html = html("request/test_visit_" + place + ".html");
       // If we have always access, we don't have today access
       checkDayPasses(adventure, place, html, true, false, always, today);
-      // If we don't have always access, we might today access
+      // If we don't have always access, we might have today access
       if (!today.equals("none")) {
         checkDayPasses(adventure, place, html, false, true, always, today);
       }
@@ -265,7 +266,8 @@ public class KoLAdventureValidationTest {
     @ParameterizedTest
     @CsvSource({
       "The Bandit Crossroads, frAlways, _frToday",
-      "PirateRealm Island, prAlways, _prToday"
+      "PirateRealm Island, prAlways, _prToday",
+      "Cyberzone 1, crAlways, _crToday"
     })
     public void checkDayPassesInMonorail(String adventureName, String always, String today) {
       checkDayPasses(adventureName, "monorail", always, today);
@@ -780,6 +782,7 @@ public class KoLAdventureValidationTest {
       "The Neverending Party, neverendingPartyAlways, true",
       "The Bandit Crossroads, frAlways, true",
       "Sailing the PirateRealm Seas, prAlways, true",
+      "Cyberzone 1, crAlways, true",
       "The Tunnel of L.O.V.E., loveTunnelAvailable, true",
       "Through the Spacegate, spacegateAlways, false"
     })
@@ -1602,11 +1605,11 @@ public class KoLAdventureValidationTest {
   @Nested
   class Cola {
     private static final KoLAdventure COLA_NONE =
-        AdventureDatabase.getAdventureByName("Battlefield (No Uniform)");
+        AdventureDatabase.getAdventureByName("The Cola Wars Battlefield");
     private static final KoLAdventure COLA_CLOACA =
-        AdventureDatabase.getAdventureByName("Battlefield (Cloaca Uniform)");
+        AdventureDatabase.getAdventureByName("Cola Wars Battlefield (Cloaca Uniform)");
     private static final KoLAdventure COLA_DYSPEPSI =
-        AdventureDatabase.getAdventureByName("Battlefield (Dyspepsi Uniform)");
+        AdventureDatabase.getAdventureByName("Cola Wars Battlefield (Dyspepsi Uniform)");
 
     @Test
     public void mustMeetZonePrerequesites() {
@@ -3160,6 +3163,16 @@ public class KoLAdventureValidationTest {
             requests.get(1), "/inv_use.php", "whichitem=" + ItemPool.SONAR + "&ajax=1");
         assertPostRequest(
             requests.get(2), "/inv_use.php", "whichitem=" + ItemPool.SONAR + "&ajax=1");
+      }
+    }
+
+    @Test
+    public void cannotVisitBossBatLairAfterQuestFinished() {
+      var cleanups = new Cleanups(withQuestProgress(Quest.BAT, QuestDatabase.FINISHED));
+      try (cleanups) {
+        assertThat(BATRAT.canAdventure(), is(true));
+        assertThat(BEANBAT.canAdventure(), is(true));
+        assertThat(BOSSBAT.canAdventure(), is(false));
       }
     }
   }
@@ -6842,6 +6855,56 @@ public class KoLAdventureValidationTest {
   }
 
   @Nested
+  class CyberRealm {
+    private int levelToSnarfblat(int level) {
+      return switch (level) {
+        case 1 -> AdventurePool.CYBER_ZONE_1;
+        case 2 -> AdventurePool.CYBER_ZONE_2;
+        case 3 -> AdventurePool.CYBER_ZONE_3;
+        default -> 0;
+      };
+    }
+
+    public void canAdventure(int level, boolean always, boolean today, int turns) {
+      KoLAdventure adventure = AdventureDatabase.getAdventure(levelToSnarfblat(level));
+      String property = "_cyberZone" + level + "Turns";
+      var cleanups =
+          new Cleanups(
+              withProperty("crAlways", always),
+              withProperty("_crToday", today),
+              withProperty(property, turns));
+      try (cleanups) {
+        boolean expected = (always || today) && (turns < 20);
+        assertThat(adventure.canAdventure(), is(expected));
+      }
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {1, 2, 3})
+    public void canAdventureAlwaysWithTurnsLeft(int level) {
+      canAdventure(level, true, false, 5);
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {1, 2, 3})
+    public void canAdventureDailyWithTurnsLeft(int level) {
+      canAdventure(level, false, true, 5);
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {1, 2, 3})
+    public void cannotAdventureWithoutAccess(int level) {
+      canAdventure(level, false, false, 5);
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {1, 2, 3})
+    public void cannotAdventureWithoutTurnsLeft(int level) {
+      canAdventure(level, true, false, 20);
+    }
+  }
+
+  @Nested
   class TheDrip {
     private static final KoLAdventure DRIPPING_TREES =
         AdventureDatabase.getAdventureByName("The Dripping Trees");
@@ -7568,6 +7631,19 @@ public class KoLAdventureValidationTest {
         assertThat("crimbo23CottageAtWar", isSetTo(true));
         assertThat("crimbo23FoundryAtWar", isSetTo(false));
       }
+    }
+  }
+
+  @ParameterizedTest
+  @ValueSource(booleans = {true, false})
+  public void canOnlyAdventureInMushroomGardenWithGarden(boolean hasGarden) {
+    var cleanups =
+        new Cleanups(
+            withCampgroundItem(hasGarden ? ItemPool.MUSHROOM_SPORES : ItemPool.DRAGON_TEETH));
+
+    try (cleanups) {
+      var area = AdventureDatabase.getAdventureByName("Your Mushroom Garden");
+      assertThat(area.canAdventure(), is(hasGarden));
     }
   }
 }

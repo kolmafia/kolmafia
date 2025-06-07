@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia.request;
 
+import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withSign;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -7,7 +9,11 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mockStatic;
 
 import internal.helpers.Cleanups;
+import java.util.ArrayList;
+import java.util.List;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.ZodiacSign;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -114,6 +120,33 @@ public class MallSearchRequestTest {
       RequestLogger.registerRequest(request, request.getURLString());
       assertEquals(
           "mallsearch category booze [crappy, decent, good, awesome, EPIC]", lastSessionLogLine);
+    }
+  }
+
+  @Nested
+  class ParsingResults {
+    @Test
+    public void isNotNPCIfNotKnollSign() {
+      Cleanups cleanups = new Cleanups(withSign(ZodiacSign.WOMBAT));
+      try (cleanups) {
+        List<PurchaseRequest> results = new ArrayList<>();
+        MallSearchRequest request = new MallSearchRequest("sprocket", 100, results);
+        request.responseText = html("request/test_mall_search_sprocket.html");
+        request.processResults();
+        assertEquals(results.size(), 60);
+      }
+    }
+
+    @Test
+    public void isNPCIfKnollSign() {
+      Cleanups cleanups = new Cleanups(withSign(ZodiacSign.MONGOOSE));
+      try (cleanups) {
+        List<PurchaseRequest> results = new ArrayList<>();
+        MallSearchRequest request = new MallSearchRequest("sprocket", 100, results);
+        request.responseText = html("request/test_mall_search_sprocket.html");
+        request.processResults();
+        assertEquals(results.size(), 61);
+      }
     }
   }
 }

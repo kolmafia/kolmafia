@@ -307,8 +307,16 @@ public class HolidayDatabase {
         : HolidayDatabase.STAT_EFFECT[phaseStep];
   }
 
+  public static int getRonaldMoonlight() {
+    return getRonaldMoonlight(HolidayDatabase.RONALD_PHASE);
+  }
+
   public static int getRonaldMoonlight(final int ronaldPhase) {
     return ronaldPhase > 4 ? 8 - ronaldPhase : ronaldPhase;
+  }
+
+  public static int getGrimaceMoonlight() {
+    return getGrimaceMoonlight(HolidayDatabase.GRIMACE_PHASE);
   }
 
   public static int getGrimaceMoonlight(final int grimacePhase) {

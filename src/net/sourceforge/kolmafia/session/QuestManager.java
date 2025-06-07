@@ -29,9 +29,7 @@ import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.*;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.AWOLQuartermasterRequest;
 import net.sourceforge.kolmafia.request.AdventureRequest;
-import net.sourceforge.kolmafia.request.BURTRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
@@ -40,6 +38,8 @@ import net.sourceforge.kolmafia.request.QuestLogRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
 import net.sourceforge.kolmafia.request.UpdateSuppressedRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.request.coinmaster.AWOLQuartermasterRequest;
+import net.sourceforge.kolmafia.request.coinmaster.BURTRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class QuestManager {
@@ -236,6 +236,11 @@ public class QuestManager {
         case AdventurePool.DARK_HEART_OF_THE_WOODS:
         case AdventurePool.DARK_NECK_OF_THE_WOODS:
           handleFriarsCopseChange(locationId, responseText);
+          break;
+        case AdventurePool.CYBER_ZONE_1:
+        case AdventurePool.CYBER_ZONE_2:
+        case AdventurePool.CYBER_ZONE_3:
+          handleCyberRealmChange(locationId, responseText);
           break;
         default:
           if (KoLCharacter.getInebriety() > 25) {
@@ -529,6 +534,9 @@ public class QuestManager {
     if (responseText.contains("PirateRealm") && !Preferences.getBoolean("prAlways")) {
       Preferences.setBoolean("_prToday", true);
     }
+    if (responseText.contains("Server Room") && !Preferences.getBoolean("crAlways")) {
+      Preferences.setBoolean("_crToday", true);
+    }
   }
 
   private static void handleMountainsChange(
@@ -795,9 +803,127 @@ public class QuestManager {
     Preferences.setString("_frMonstersKilled", kills.toString());
   }
 
+  /**
+   * Determine PirateRealm island number from current quest step
+   *
+   * @return PirateRealm island number (zero-indexed)
+   */
+  public static int getPirateRealmIslandNumber() {
+    if (QuestDatabase.isQuestBefore(Quest.PIRATEREALM, "step7")) return 0;
+    if (QuestDatabase.isQuestBefore(Quest.PIRATEREALM, "step12")) return 1;
+    return 2;
+  }
+
+  public static void setPirateRealmIslandQuestProgress(final int progress) {
+    var island = getPirateRealmIslandNumber();
+    setPirateRealmIslandQuestProgress(island, progress);
+  }
+
+  public static void setPirateRealmIslandQuestProgress(final int island, final int progress) {
+    QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, (island * 5) + 2 + progress);
+  }
+
   private static void handlePirateRealmChange(final String location, final String responseText) {
     if (!Preferences.getBoolean("prAlways")) {
       Preferences.setBoolean("_prToday", true);
+    }
+
+    if (responseText.contains("You grab an eyepatch")) {
+      // Acquired your eyepatch
+      QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, QuestDatabase.STARTED);
+    } else if (responseText.contains("sail1.gif")) {
+      // Assembled your crew
+      QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, 1);
+    } else if (responseText.contains("sail2.gif")) {
+      // Cleared the first island
+      QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, 6);
+    } else if (responseText.contains("sail3.gif")) {
+      // Cleared the second island
+      QuestDatabase.setQuestIfBetter(Quest.PIRATEREALM, 11);
+    } else if (responseText.contains("an envelope with your name on it")) {
+      // Cleared the final island
+      QuestDatabase.setQuest(Quest.PIRATEREALM, QuestDatabase.FINISHED);
+
+      if (responseText.contains("piratical blunderbuss")) {
+        Preferences.setBoolean("pirateRealmUnlockedBlunderbuss", true);
+      }
+      if (responseText.contains("pirate fork")) {
+        Preferences.setBoolean("pirateRealmUnlockedFork", true);
+      }
+      if (responseText.contains("Scurvy and Sobriety Prevention")) {
+        Preferences.setBoolean("pirateRealmUnlockedScurvySkillbook", true);
+      }
+      if (responseText.contains("lucky gold ring")) {
+        Preferences.setBoolean("pirateRealmUnlockedGoldRing", true);
+      }
+      if (responseText.contains("Menacing Man o' War")) {
+        Preferences.setBoolean("pirateRealmUnlockedManOWar", true);
+      }
+      if (responseText.contains("Swift Clipper")) {
+        Preferences.setBoolean("pirateRealmUnlockedClipper", true);
+      }
+    }
+  }
+
+  private static void handleCyberRealmChange(final int locationId, final String responseText) {
+    // This called if adventuring does not redirect to a fight or a
+    // choice.  Adventuring within KoLmafia will keep the turn counter
+    // up-to-date, but if you've run turns elsewhere, update property.
+    if (responseText.contains("You've already hacked this system.")) {
+      String property =
+          switch (locationId) {
+            case AdventurePool.CYBER_ZONE_1 -> "_cyberZone1Turns";
+            case AdventurePool.CYBER_ZONE_2 -> "_cyberZone2Turns";
+            case AdventurePool.CYBER_ZONE_3 -> "_cyberZone3Turns";
+            default -> null;
+          };
+      if (property != null) {
+        Preferences.setInteger(property, 20);
+      }
+    }
+  }
+
+  // <b>Owner:</b> Century-Price Quasi-Marketing Companies<br>Security Level: 1<br>Countermeasures:
+  // null container<br>Active Intrusion: blackhat<br>
+  private static final Pattern FILE_DRAWER_PATTERN =
+      Pattern.compile(
+          "<b>Owner:</b> *(.*?)<br>Security Level: (\\d)<br>Countermeasures: (.*?)<br>Active Intrusion: (.*?)<br>",
+          Pattern.DOTALL);
+
+  public static void handleServerRoom(final String location, final String responseText) {
+    String action = GenericRequest.getAction(location);
+    if (action != null) {
+      switch (action) {
+        case "serverroom_drawer1" -> {}
+        case "serverroom_drawer2" -> {}
+        case "serverroom_drawer3" -> {}
+        case "serverroom_chipdrawer" -> {
+          Preferences.setBoolean("cyberDatastickCollected", true);
+        }
+        case "serverroom_filedrawer" -> {
+          Matcher matcher = FILE_DRAWER_PATTERN.matcher(responseText);
+          while (matcher.find()) {
+            String owner = matcher.group(1);
+            String defense = matcher.group(3);
+            String hacker =
+                switch (matcher.group(4)) {
+                  case "redhat" -> "redhat hacker";
+                  case "bluehat" -> "bluehat hacker";
+                  case "greenhat" -> "greenhat hacker";
+                  case "purplehat" -> "purplehat hacker";
+                  case "blackhat" -> "greyhat hacker";
+                  default -> matcher.group(4);
+                };
+            String prefix = "_cyberZone" + matcher.group(2);
+            Preferences.setString(prefix + "Owner", owner);
+            Preferences.setString(prefix + "Defense", defense);
+            Preferences.setString(prefix + "Hacker", hacker);
+          }
+        }
+        case "serverroom_trash1", "serverroom_trash2" -> {
+          Preferences.setBoolean("_cyberTrashCollected", true);
+        }
+      }
     }
   }
 
@@ -1711,8 +1837,6 @@ public class QuestManager {
       return;
     }
 
-    boolean ghostBusted = false;
-
     monsterName = monsterName.trim();
     switch (monsterName) {
       case "screambat" -> {
@@ -2011,7 +2135,6 @@ public class QuestManager {
           "The ghost of Jim Unfortunato" -> {
         QuestDatabase.setQuestProgress(Quest.GHOST, QuestDatabase.UNSTARTED);
         Preferences.setString("ghostLocation", "");
-        ghostBusted = true;
       }
       case "Drab Bard", "Bob Racecar", "Racecar Bob" -> {
         if (QuestDatabase.isQuestStep(Quest.PALINDOME, QuestDatabase.STARTED)) {
@@ -2171,6 +2294,23 @@ public class QuestManager {
           "shadow matrix" -> {
         QuestDatabase.setQuestProgress(Quest.RUFUS, "step1");
       }
+      case "man with the red buttons", "red butler", "red skeleton", "Red Fox" -> {
+        if (responseText.contains("you do get a slightly better sense of the ship")) {
+          Preferences.setInteger("zeppelinProgress", 1);
+        } else if (responseText.contains("looking for a clue as to the leader")) {
+          Preferences.setInteger("zeppelinProgress", 2);
+        } else if (responseText.contains("cabin is probably one of the best ones")) {
+          Preferences.setInteger("zeppelinProgress", 3);
+        } else if (responseText.contains("unlock every door on the zeppelin")) {
+          Preferences.setInteger("zeppelinProgress", 4);
+        } else if (responseText.contains(
+            "you finally manage to figure out where the nicer cabins are")) {
+          Preferences.setInteger("zeppelinProgress", 5);
+        } else if (responseText.contains("inevitable confrontation with Ron Copperhead")) {
+          Preferences.setInteger("zeppelinProgress", 6);
+          QuestDatabase.setQuestProgress(Quest.RON, "step4");
+        }
+      }
     }
 
     int adventure = KoLAdventure.lastAdventureId();
@@ -2217,8 +2357,11 @@ public class QuestManager {
           explored += 2;
         }
 
+        // Survival knife does not give exploration bonus the first adv in Arid Desert
+        // Oasis is always unlocked first adv. Don't count progress if Oasis was just unlocked
         if (KoLCharacter.hasEquipped(ItemPool.SURVIVAL_KNIFE)
-            && KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.ULTRAHYDRATED))) {
+            && KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.ULTRAHYDRATED))
+            && !responseText.contains("discover a verdant oasis")) {
           explored += 2;
         }
 
@@ -2247,12 +2390,6 @@ public class QuestManager {
           RequestLogger.printLine("Set fire to " + flamingProtesters + " protesters");
         } else {
           Preferences.increment("zeppelinProtestors", 1);
-        }
-        break;
-
-      case AdventurePool.RED_ZEPPELIN:
-        if (responseText.contains("inevitable confrontation with Ron Copperhead")) {
-          QuestDatabase.setQuestProgress(Quest.RON, "step4");
         }
         break;
 
@@ -2389,58 +2526,9 @@ public class QuestManager {
     }
 
     // Can get a message about a ghost if wearing a Proton Accelerator Pack,
-    // but if you got on the turn you busted a ghost, it is a false alarm.
     //
-    if (!ghostBusted && KoLCharacter.hasEquipped(ItemPool.get(ItemPool.PROTON_ACCELERATOR, 1))) {
-      Matcher ParanormalMatcher = QuestManager.PARANORMAL_PATTERN.matcher(responseText);
-      String ghostLocation = null;
-      while (ParanormalMatcher.find()) {
-        String location = ParanormalMatcher.group(1);
-        // Locations don't exactly match location name or quest log entries, so make them
-        if (location.contains("Overgrown Lot")) {
-          ghostLocation = "The Overgrown Lot";
-        } else if (location.contains("Skeleton Store")) {
-          ghostLocation = "The Skeleton Store";
-        } else if (location.contains("Madness Bakery")) {
-          ghostLocation = "Madness Bakery";
-        } else if (location.contains("Spooky Forest")) {
-          ghostLocation = "The Spooky Forest";
-        } else if (location.contains("Kitchen")) {
-          ghostLocation = "The Haunted Kitchen";
-        } else if (location.contains("Knob Treasury")) {
-          ghostLocation = "Cobb's Knob Treasury";
-        } else if (location.contains("Conservatory")) {
-          ghostLocation = "The Haunted Conservatory";
-        } else if (location.contains("Landfill")) {
-          ghostLocation = "The Old Landfill";
-        } else if (location.contains("Icy Peak")) {
-          ghostLocation = "The Icy Peak";
-        } else if (location.contains("Smut Orc Logging Camp")) {
-          ghostLocation = "The Smut Orc Logging Camp";
-        } else if (location.contains("Gallery")) {
-          ghostLocation = "The Haunted Gallery";
-        } else if (location.contains("Palindome")) {
-          ghostLocation = "Inside the Palindome";
-        } else if (location.contains("Wine Cellar")) {
-          ghostLocation = "The Haunted Wine Cellar";
-        }
-      }
-      if (ghostLocation == null) {
-        if (responseText.contains(
-            "The walkie-talkie on your proton accelerator crackles to life")) {
-          // Work around KoL bug. Fetch from quest log
-          (new GenericRequest("questlog.php?which=1")).run();
-          ghostLocation = Preferences.getString("ghostLocation");
-        }
-      }
-      if (ghostLocation != null) {
-        QuestDatabase.setQuestProgress(Quest.GHOST, QuestDatabase.STARTED);
-        Preferences.setString("ghostLocation", ghostLocation);
-        Preferences.setInteger("nextParanormalActivity", KoLCharacter.getTurnsPlayed() + 51);
-        String message = "Paranormal activity reported at " + ghostLocation + ".";
-        RequestLogger.printLine(message);
-        RequestLogger.updateSessionLog(message);
-      }
+    if (KoLCharacter.hasEquipped(ItemPool.get(ItemPool.PROTON_ACCELERATOR, 1))) {
+      parseProtonicGhost(responseText);
     }
   }
 
@@ -2767,5 +2855,58 @@ public class QuestManager {
     if (print) {
       RequestLogger.updateSessionLog("Spacegate turns left: " + turns);
     }
+  }
+
+  public static boolean parseProtonicGhost(final String responseText) {
+    Matcher ParanormalMatcher = QuestManager.PARANORMAL_PATTERN.matcher(responseText);
+    String ghostLocation = null;
+    while (ParanormalMatcher.find()) {
+      String location = ParanormalMatcher.group(1);
+      // Locations don't exactly match location name or quest log entries, so make them
+      if (location.contains("Overgrown Lot")) {
+        ghostLocation = "The Overgrown Lot";
+      } else if (location.contains("Skeleton Store")) {
+        ghostLocation = "The Skeleton Store";
+      } else if (location.contains("Madness Bakery")) {
+        ghostLocation = "Madness Bakery";
+      } else if (location.contains("Spooky Forest")) {
+        ghostLocation = "The Spooky Forest";
+      } else if (location.contains("Kitchen")) {
+        ghostLocation = "The Haunted Kitchen";
+      } else if (location.contains("Knob Treasury")) {
+        ghostLocation = "Cobb's Knob Treasury";
+      } else if (location.contains("Conservatory")) {
+        ghostLocation = "The Haunted Conservatory";
+      } else if (location.contains("Landfill")) {
+        ghostLocation = "The Old Landfill";
+      } else if (location.contains("Icy Peak")) {
+        ghostLocation = "The Icy Peak";
+      } else if (location.contains("Smut Orc Logging Camp")) {
+        ghostLocation = "The Smut Orc Logging Camp";
+      } else if (location.contains("Gallery")) {
+        ghostLocation = "The Haunted Gallery";
+      } else if (location.contains("Palindome")) {
+        ghostLocation = "Inside the Palindome";
+      } else if (location.contains("Wine Cellar")) {
+        ghostLocation = "The Haunted Wine Cellar";
+      }
+    }
+    if (ghostLocation == null) {
+      if (responseText.contains("The walkie-talkie on your proton accelerator crackles to life")) {
+        // Work around KoL bug. Fetch from quest log
+        (new GenericRequest("questlog.php?which=1")).run();
+        ghostLocation = Preferences.getString("ghostLocation");
+      }
+    }
+    if (ghostLocation != null) {
+      QuestDatabase.setQuestProgress(Quest.GHOST, QuestDatabase.STARTED);
+      Preferences.setString("ghostLocation", ghostLocation);
+      Preferences.setInteger("nextParanormalActivity", KoLCharacter.getTurnsPlayed() + 51);
+      String message = "Paranormal activity reported at " + ghostLocation + ".";
+      RequestLogger.printLine(message);
+      RequestLogger.updateSessionLog(message);
+      return true;
+    }
+    return false;
   }
 }

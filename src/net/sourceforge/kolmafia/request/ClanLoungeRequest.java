@@ -31,6 +31,7 @@ import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
+@SuppressWarnings("incomplete-switch")
 public class ClanLoungeRequest extends GenericRequest {
   public enum Action {
     SEARCH,
@@ -736,6 +737,17 @@ public class ClanLoungeRequest extends GenericRequest {
     this.option = option;
   }
 
+  @Override
+  protected boolean shouldFollowRedirect() {
+    // We do not want ChoiceManager to automate redirection.
+    // I think that Cannonballing into the Swimming Pool is the
+    // only redirection to choice.php.
+    if (this.action == Action.SWIMMING_POOL && this.option == CANNONBALL) {
+      return true;
+    }
+    return false;
+  }
+
   public static final ClanLoungeRequest buyHotDogRequest(final String name) {
     int index = ClanLoungeRequest.hotdogNameToIndex(name);
     if (index < 0) {
@@ -1119,7 +1131,7 @@ public class ClanLoungeRequest extends GenericRequest {
         break;
 
       case SWIMMING_POOL:
-        if (this.redirectLocation != null && this.redirectLocation.startsWith("choice.php")) {
+        if (this.responseText.contains("Screwing Around!")) {
           RequestLogger.printLine("You start screwing around in the swimming pool.");
         } else if (responseText.contains("manage to swim")) {
           // the message is printed by parseResponse()
@@ -1177,6 +1189,7 @@ public class ClanLoungeRequest extends GenericRequest {
       // We haven't visited it yet today so it is not unlocked yet.
       new ClanLoungeRequest(Action.FIREWORKS).run();
     }
+    findImage(responseText, "photobooth.gif", ItemPool.CLAN_PHOTO_BOOTH);
 
     Matcher hottubMatcher = HOTTUB_PATTERN.matcher(responseText);
     if (hottubMatcher.find()) {
@@ -1537,11 +1550,11 @@ public class ClanLoungeRequest extends GenericRequest {
 
   private static final Pattern LOUNGE_PATTERN =
       Pattern.compile(
-          "<table.*?<b>Clan VIP Lounge \\(Ground Floor\\)</b>.*?<center><b>(?:<a.*?>)?(.*?)(?:</a>)?</b>.*?</center>(<table.*?</table>)",
+          "<table.*?<b style=\"color: white\">Clan VIP Lounge \\(Ground Floor\\)</b>.*?<center><b>(?:<a.*?>)?(.*?)(?:</a>)?</b>.*?</center>(<table.*?</table>)",
           Pattern.DOTALL);
   private static final Pattern LOUNGE2_PATTERN =
       Pattern.compile(
-          "<table.*?<b>Clan VIP Lounge \\(Attic\\)</b>.*?<center><b>(?:<a.*?>)?(.*?)(?:</a>)?</b>.*?</center>(<table.*?</table>)",
+          "<table.*?<b style=\"color: white\">Clan VIP Lounge \\(Attic\\)</b>.*?<center><b>(?:<a.*?>)?(.*?)(?:</a>)?</b>.*?</center>(<table.*?</table>)",
           Pattern.DOTALL);
 
   public static void parseResponse(final String urlString, final String responseText) {

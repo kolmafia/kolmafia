@@ -55,6 +55,7 @@ import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
 import net.sourceforge.kolmafia.swingui.widget.DisabledItemsComboBox;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
+@SuppressWarnings("incomplete-switch")
 public class DailyDeedsPanel extends Box implements Listener {
   public static final AdventureResult GREAT_PANTS = ItemPool.get(ItemPool.GREAT_PANTS, 1);
   public static final AdventureResult REPLICA_GREAT_PANTS =
@@ -2852,63 +2853,62 @@ public class DailyDeedsPanel extends Box implements Listener {
       this.addListener("_gnomeAdv");
       this.addListener("_mafiaThumbRingAdvs");
       this.addListener("_carnivorousPottedPlantWins");
+      this.addListener("_juneCleaverAdvs");
+      this.addListener("_spiritOfTheMountainsAdvs");
+      this.addListener("_tearawayPantsAdvs");
+      this.addListener("_batWingsFreeFights");
       this.addListener("(character)");
       this.addLabel("");
     }
 
     @Override
     public void update() {
-      FamiliarData gibberer = KoLCharacter.usableFamiliar(FamiliarPool.GIBBERER);
-      FamiliarData hare = KoLCharacter.usableFamiliar(FamiliarPool.HARE);
-      FamiliarData riftlet = KoLCharacter.usableFamiliar(FamiliarPool.RIFTLET);
-      FamiliarData gnome = KoLCharacter.usableFamiliar(FamiliarPool.REAGNIMATED_GNOME);
       List<String> text = new ArrayList<>();
 
-      if (gibberer != null && gibberer.canEquip()) {
-        text.add(Preferences.getInteger("_gibbererAdv") + " gibberer");
-      }
+      addAdventureFamiliar(text, FamiliarPool.GIBBERER, "_gibbererAdv", "gibberer");
+      addAdventureFamiliar(text, FamiliarPool.HARE, "_hareAdv", "hare");
+      addAdventureFamiliar(text, FamiliarPool.RIFTLET, "_riftletAdv", "riftlet");
 
-      if (hare != null && hare.canEquip()) {
-        text.add(Preferences.getInteger("_hareAdv") + " hare");
-      }
-
-      if (riftlet != null && riftlet.canEquip()) {
-        text.add(Preferences.getInteger("_riftletAdv") + " riftlet");
-      }
-
-      if (Preferences.getInteger("_timeHelmetAdv") > 0
-          || KoLCharacter.hasEquipped(ItemPool.TIME_HELMET)
-          || InventoryManager.getCount(ItemPool.TIME_HELMET) > 0) {
-        text.add(Preferences.getInteger("_timeHelmetAdv") + " time helmet");
-      }
+      addFreeFightEquipment(text, ItemPool.TIME_HELMET, "_timeHelmetAdv", "time helmet");
 
       if (Preferences.getInteger("_vmaskAdv") > 0
-          || KoLCharacter.hasEquipped(ItemPool.V_MASK)
-          || InventoryManager.getCount(ItemPool.V_MASK) > 0
+          || InventoryManager.equippedOrInInventory(ItemPool.V_MASK)
           || (KoLCharacter.inLegacyOfLoathing()
-              && (KoLCharacter.hasEquipped(ItemPool.REPLICA_V_MASK)
-                  || InventoryManager.getCount(ItemPool.REPLICA_V_MASK) > 0))) {
+              && InventoryManager.equippedOrInInventory(ItemPool.REPLICA_V_MASK))) {
         text.add(Preferences.getInteger("_vmaskAdv") + " V mask");
       }
 
-      if (gnome != null && gnome.canEquip()) {
-        text.add(Preferences.getInteger("_gnomeAdv") + " gnome");
+      addAdventureFamiliar(text, FamiliarPool.REAGNIMATED_GNOME, "_gnomeAdv", "gnome");
+
+      addFreeFightEquipment(text, ItemPool.MAFIA_THUMB_RING, "_mafiaThumbRingAdvs", "thumb ring");
+      addFreeFightEquipment(
+          text, ItemPool.CARNIVOROUS_POTTED_PLANT, "_carnivorousPottedPlantWins", "potted plant");
+      addFreeFightEquipment(text, ItemPool.JUNE_CLEAVER, "_juneCleaverAdvs", "june cleaver");
+
+      if (Preferences.getInteger("_spiritOfTheMountainsAdvs") > 0
+          || KoLConstants.activeEffects.contains(
+              EffectPool.get(EffectPool.SPIRIT_OF_THE_MOUNTAINS))) {
+        text.add(Preferences.getInteger("_spiritOfTheMountainsAdvs") + " spirit of the mountains");
       }
 
-      if (Preferences.getInteger("_mafiaThumbRingAdvs") > 0
-          || KoLCharacter.hasEquipped(ItemPool.MAFIA_THUMB_RING)
-          || InventoryManager.getCount(ItemPool.MAFIA_THUMB_RING) > 0) {
-        text.add(Preferences.getInteger("_mafiaThumbRingAdvs") + " thumb ring");
-      }
-
-      if (Preferences.getInteger("_carnivorousPottedPlantWins") > 0
-          || KoLCharacter.hasEquipped(ItemPool.CARNIVOROUS_POTTED_PLANT)
-          || InventoryManager.getCount(ItemPool.CARNIVOROUS_POTTED_PLANT) > 0) {
-        text.add(Preferences.getInteger("_carnivorousPottedPlantWins") + " potted plant");
-      }
+      addFreeFightEquipment(text, ItemPool.TEARAWAY_PANTS, "_tearawayPantsAdvs", "tearaway pants");
+      addFreeFightEquipment(text, ItemPool.BAT_WINGS, "_batWingsFreeFights", "bat wings");
 
       this.setShown(!text.isEmpty());
       this.setText("Advs: " + String.join(", ", text));
+    }
+
+    private void addAdventureFamiliar(List<String> text, int fam, String pref, String spec) {
+      FamiliarData familiar = KoLCharacter.usableFamiliar(fam);
+      if (familiar != null && familiar.canEquip()) {
+        text.add(Preferences.getInteger(pref) + " " + spec);
+      }
+    }
+
+    private void addFreeFightEquipment(List<String> text, int item, String pref, String spec) {
+      if (Preferences.getInteger(pref) > 0 || InventoryManager.equippedOrInInventory(item)) {
+        text.add(Preferences.getInteger(pref) + " " + spec);
+      }
     }
   }
 
@@ -3365,7 +3365,7 @@ public class DailyDeedsPanel extends Box implements Listener {
 
     @Override
     public void update() {
-      List<String> list = BanishManager.getBanishedMonsters();
+      List<String> list = BanishManager.getBanishedMonsters(false);
       String text = "Banished monsters: " + String.join(",", list);
 
       this.setText(text);

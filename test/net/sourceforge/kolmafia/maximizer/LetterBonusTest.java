@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.maximizer;
 
+import static internal.helpers.Player.withProperty;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import net.sourceforge.kolmafia.AdventureResult;
@@ -17,6 +18,14 @@ public class LetterBonusTest {
   public void letterBonusCountsLettersInItem() {
     AdventureResult item = AdventureResult.tallyItem("spiked femur");
     assertEquals(12, LetterBonus.letterBonus(item));
+  }
+
+  @Test
+  public void letterBonusDoesNotCountMode() {
+    var cleanups = withProperty("backupCameraMode", "meat");
+
+    AdventureResult item = AdventureResult.tallyItem("backup camera");
+    assertEquals(13, LetterBonus.letterBonus(item));
   }
 
   @Test

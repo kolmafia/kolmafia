@@ -45,6 +45,10 @@ public class TypeList implements Iterable<Type> {
     return list.stream();
   }
 
+  public int size() {
+    return list.size();
+  }
+
   public boolean contains(final Type type) {
     return list.contains(type);
   }

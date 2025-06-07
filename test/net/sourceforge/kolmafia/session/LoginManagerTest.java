@@ -3,7 +3,6 @@ package net.sourceforge.kolmafia.session;
 import static internal.helpers.Player.withDay;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.Month;
 import org.junit.jupiter.params.ParameterizedTest;

@@ -1,4 +1,4 @@
-package net.sourceforge.kolmafia.textui;
+package net.sourceforge.kolmafia.session;
 
 import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withCurrentRun;
@@ -21,7 +21,6 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.session.ChoiceManager;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -155,6 +154,53 @@ public class BeachManagerTest {
           "4:rrrrrrrrrr,5:rrrrrcrrrr,6:rrrrrcrrrr,7:rrrrrrrrrr,8:rrrrrrrrrt,9:rrrrrrrrrr,10:rrrrrrrrrr",
           Preferences.getString("_beachLayout"));
       assertTrue(Preferences.getBoolean("hasTwinkleVision"));
+    }
+  }
+
+  @Test
+  void findingMessageInABottleLogsSomething() {
+    var builder = new FakeHttpClientBuilder();
+    var client = builder.client;
+    var cleanups =
+        new Cleanups(
+            withHttpClientBuilder(builder),
+            withMeat(0),
+            withHandlingChoice(1388),
+            withProperty("_beachCombing", true),
+            withProperty("_beachMinutes", 1521),
+            withProperty(
+                "_beachLayout",
+                "3:rrrrrrrrrr,4:rrrrrrrrrr,5:rrrrrrrrrr,6:rrrrrrrrrr,7:rrrrrrrrrr,8:rrrrrrrrrr,9:rrrrrrrrrr,10:rrrrrrrrrr"));
+
+    ByteArrayOutputStream ostream = new ByteArrayOutputStream();
+    try (cleanups;
+        PrintStream out = new PrintStream(ostream, true)) {
+      // Inject custom output stream.
+      RequestLogger.openCustom(out);
+      client.addResponse(200, html("request/test_beach_comb_bottle.html"));
+
+      String url = "choice.php?whichchoice=1388&pwd&option=4&coords=4,15205";
+      var request = new GenericRequest(url);
+      request.run();
+
+      RequestLogger.closeCustom();
+
+      String output = ostream.toString();
+      assertThat(
+          output,
+          is(
+              """
+              Combing square 4,6 (1521 minutes down the beach)
+              You found a message in a bottle!
+              """));
+      assertTrue(ChoiceManager.handlingChoice);
+      assertEquals(1388, ChoiceManager.lastChoice);
+      assertFalse(Preferences.getBoolean("_beachCombing"));
+      assertEquals(1521, Preferences.getInteger("_beachMinutes"));
+      // The "r" is now "c"
+      assertEquals(
+          "3:rrrrrrrrrr,4:rrrrrcrrrr,5:rrrrrrrrrr,6:rrrrrrrrrr,7:rrrrrrrrrr,8:rrrrrrrrrr,9:rrrrrrrrrr,10:rrrrrrrrrr",
+          Preferences.getString("_beachLayout"));
     }
   }
 }

@@ -9,6 +9,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import org.eclipse.lsp4j.Location;
 
+@SuppressWarnings("incomplete-switch")
 public abstract class Function extends Symbol {
   protected Type type;
   protected List<VariableReference> variableReferences;

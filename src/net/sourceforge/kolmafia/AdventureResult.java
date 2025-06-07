@@ -33,6 +33,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
 
   public enum Priority {
     MONSTER,
+    SKILL,
 
     NONE,
     ADV,
@@ -57,6 +58,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
   public static final String FLOUNDRY = "Floundry Fish";
   public static final String FREE_CRAFT = "Free Craft";
   public static final String FULL = "Fullness";
+  public static final String LEPRECONDO = "Leprecondo Furniture";
   public static final String PIRATE_INSULT = "pirate insult";
   public static final String PULL = "Pull";
   public static final String PVP = "PvP";
@@ -168,6 +170,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
         || name.equals(AdventureResult.CHOICE)
         || name.equals(AdventureResult.AUTOSTOP)
         || name.equals(AdventureResult.FACTOID)
+        || name.equals(AdventureResult.LEPRECONDO)
         || name.equals(AdventureResult.PULL)
         || name.equals(AdventureResult.STILL)
         || name.equals(AdventureResult.TOME)
@@ -368,23 +371,27 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
   }
 
   public boolean isHP() {
-    return this.name.equals(AdventureResult.HP);
+    return AdventureResult.HP.equals(this.name);
   }
 
   public boolean isMP() {
-    return this.name.equals(AdventureResult.MP);
+    return AdventureResult.MP.equals(this.name);
   }
 
   public boolean isEnergy() {
-    return this.name.equals(AdventureResult.ENERGY);
+    return AdventureResult.ENERGY.equals(this.name);
   }
 
   public boolean isScrap() {
-    return this.name.equals(AdventureResult.SCRAP);
+    return AdventureResult.SCRAP.equals(this.name);
   }
 
   public boolean isMonster() {
     return this.priority == Priority.MONSTER;
+  }
+
+  public boolean isSkill() {
+    return this.priority == Priority.SKILL;
   }
 
   /**
@@ -474,7 +481,7 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
     return this.getPluralName(this.getPluralCount());
   }
 
-  public String getPluralName(final int count) {
+  public String getPluralName(final long count) {
     return count == 1
         ? this.getName()
         : this.priority == Priority.BOUNTY_ITEM
@@ -501,6 +508,13 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
 
   public int getEffectId() {
     if (this.priority == Priority.EFFECT) {
+      return this.id;
+    }
+    return -1;
+  }
+
+  public int getSkillId() {
+    if (this.priority == Priority.SKILL) {
       return this.id;
     }
     return -1;
@@ -831,6 +845,10 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
       return "floundry fish";
     }
 
+    if (this.name.equals(AdventureResult.LEPRECONDO)) {
+      return "leprecondo furniture";
+    }
+
     if (this.name.equals(AdventureResult.PIRATE_INSULT)) {
       return "pirate insult";
     }
@@ -852,6 +870,10 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
     }
 
     String conditionType = this.getConditionType();
+
+    if (conditionType.equals("leprecondo furniture")) {
+      return "+" + this.getLongCount() + " " + this.name;
+    }
 
     if (conditionType.equals("pirate insult")) {
       return "+" + this.getLongCount() + " " + this.name;
@@ -1515,6 +1537,39 @@ public class AdventureResult implements Comparable<AdventureResult>, Cloneable {
         return new WildcardResult(text, count, text.substring(13), true);
       }
       return null;
+    }
+  }
+
+  // Custom AdventureResult for Meat values. The default one wants to
+  // print Priority.MEAT objects as " Meat gained"
+
+  public static class MeatResult extends AdventureResult {
+    public MeatResult(final int count) {
+      super("Meat", count);
+    }
+
+    public AdventureResult getInstance(final long count) {
+      if (this.getCount() == count) {
+        return this;
+      }
+      return new MeatResult((int) count);
+    }
+
+    @Override
+    public String toString() {
+      return KoLConstants.COMMA_FORMAT.format(this.count) + " Meat";
+    }
+  }
+
+  public static class SkillResult extends AdventureResult {
+    public SkillResult(String name, int id) {
+      super(Priority.SKILL, name, 1);
+      this.id = id;
+    }
+
+    @Override
+    public String toString() {
+      return this.name;
     }
   }
 

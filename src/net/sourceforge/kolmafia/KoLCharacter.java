@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia;
 import java.awt.Taskbar;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.AscensionPath.Path;
@@ -33,6 +35,7 @@ import net.sourceforge.kolmafia.modifiers.DerivedModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.Lookup;
 import net.sourceforge.kolmafia.modifiers.Modifier;
+import net.sourceforge.kolmafia.modifiers.MultiStringModifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.moods.HPRestoreItemList;
 import net.sourceforge.kolmafia.moods.MPRestoreItemList;
@@ -61,7 +64,6 @@ import net.sourceforge.kolmafia.request.FloristRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.GuildRequest;
 import net.sourceforge.kolmafia.request.HellKitchenRequest;
-import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.MicroBreweryRequest;
 import net.sourceforge.kolmafia.request.QuantumTerrariumRequest;
 import net.sourceforge.kolmafia.request.RelayRequest;
@@ -70,6 +72,7 @@ import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.TelescopeRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.request.coinmaster.HermitRequest;
 import net.sourceforge.kolmafia.session.BanishManager;
 import net.sourceforge.kolmafia.session.BatManager;
 import net.sourceforge.kolmafia.session.ChoiceManager;
@@ -91,6 +94,7 @@ import net.sourceforge.kolmafia.session.VioletFogManager;
 import net.sourceforge.kolmafia.session.VolcanoMazeManager;
 import net.sourceforge.kolmafia.session.WumpusManager;
 import net.sourceforge.kolmafia.session.YouRobotManager;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
 import net.sourceforge.kolmafia.swingui.MallSearchFrame;
 import net.sourceforge.kolmafia.swingui.SkillBuffFrame;
@@ -109,6 +113,7 @@ import net.sourceforge.kolmafia.webui.DiscoCombatHelper;
  * loosens the coupling between the various aspects of <code>KoLmafia</code>, leading to
  * extensibility.
  */
+@SuppressWarnings("incomplete-switch")
 public abstract class KoLCharacter {
   public enum TurtleBlessing {
     WAR,
@@ -177,13 +182,12 @@ public abstract class KoLCharacter {
   // Things which can change over the course of playing
 
   private static List<String> avatar = Collections.emptyList();
+  private static String title = "";
   private static AscensionClass ascensionClass = AscensionClass.UNKNOWN;
   private static Gender gender = Gender.UNKNOWN;
   public static int AWOLtattoo = 0;
 
   private static int currentLevel = 1;
-  private static long decrementPrime = 0;
-  private static long incrementPrime = 25;
 
   private static long currentHP, maximumHP, baseMaxHP;
   private static long currentMP, maximumMP, baseMaxMP;
@@ -288,7 +292,7 @@ public abstract class KoLCharacter {
   public static final LockableListModel<PastaThrallData> pastaThralls = new LockableListModel<>();
   public static PastaThrallData currentPastaThrall = PastaThrallData.NO_THRALL;
 
-  private static int stillsAvailable = 0;
+  public static int stillsAvailable = 0;
   private static boolean tripleReagent = false;
   private static boolean guildStoreStateKnown = false;
 
@@ -351,8 +355,6 @@ public abstract class KoLCharacter {
 
     KoLCharacter.gender = Gender.UNKNOWN;
     KoLCharacter.currentLevel = 1;
-    KoLCharacter.decrementPrime = 0L;
-    KoLCharacter.incrementPrime = 25L;
 
     KoLCharacter.fury = 0;
     KoLCharacter.soulsauce = 0;
@@ -701,7 +703,7 @@ public abstract class KoLCharacter {
   }
 
   /**
-   * Accessor method to get the avatar associated with this character.
+   * Setter method to set the avatar associated with this character.
    *
    * @param avatar The avatar for this character
    */
@@ -762,6 +764,24 @@ public abstract class KoLCharacter {
     return KoLCharacter.avatar;
   }
 
+  /**
+   * Setter method to set the title for this character.
+   *
+   * @param title The title for this character
+   */
+  public static void setTitle(final String title) {
+    KoLCharacter.title = title;
+  }
+
+  /**
+   * Accessor method to get the title for this character.
+   *
+   * @return The title for this character
+   */
+  public static String getTitle() {
+    return KoLCharacter.title;
+  }
+
   private static Gender setGender() {
     // If we already know our gender, are in Valhalla (where gender
     // is meaningless), or are not logged in (ditto), nothing to do
@@ -805,28 +825,18 @@ public abstract class KoLCharacter {
    * @return The level of this character
    */
   public static final int getLevel() {
-    long totalPrime = KoLCharacter.getTotalPrime();
-
-    if (totalPrime < KoLCharacter.decrementPrime || totalPrime >= KoLCharacter.incrementPrime) {
-      int previousLevel = KoLCharacter.currentLevel;
-
-      KoLCharacter.currentLevel = KoLCharacter.calculateSubpointLevels(totalPrime);
-      KoLCharacter.decrementPrime = KoLCharacter.calculateLastLevel();
-      KoLCharacter.incrementPrime = KoLCharacter.calculateNextLevel();
-
-      if (KoLCharacter.incrementPrime < 0) {
-        // this will overflow at level 216
-        KoLCharacter.incrementPrime = Long.MAX_VALUE;
-      }
-
-      if (previousLevel != KoLCharacter.currentLevel) {
-        HPRestoreItemList.updateHealthRestored();
-        MPRestoreItemList.updateManaRestored();
-        ConsumablesDatabase.setLevelVariableConsumables();
-      }
-    }
-
     return KoLCharacter.currentLevel;
+  }
+
+  /** Set the level of this character. */
+  public static final void setLevel(int newLevel) {
+    int previousLevel = KoLCharacter.currentLevel;
+    KoLCharacter.currentLevel = newLevel;
+    if (previousLevel != newLevel) {
+      HPRestoreItemList.updateHealthRestored();
+      MPRestoreItemList.updateManaRestored();
+      ConsumablesDatabase.setLevelVariableConsumables();
+    }
   }
 
   public static final int getFury() {
@@ -2092,8 +2102,12 @@ public abstract class KoLCharacter {
     return KoLCharacter.currentModifiers.getBoolean(mod);
   }
 
-  public static final String currentStringModifier(final StringModifier mod) {
+  public static final String currentStringModifier(final Modifier mod) {
     return KoLCharacter.currentModifiers.getString(mod);
+  }
+
+  public static List<String> currentMultiStringModifier(final MultiStringModifier mod) {
+    return KoLCharacter.currentModifiers.getStrings(mod);
   }
 
   /** Accessor method to retrieve the total current monster level adjustment */
@@ -3350,6 +3364,10 @@ public abstract class KoLCharacter {
     return KoLCharacter.ascensionPath == Path.WEREPROFESSOR;
   }
 
+  public static final boolean inAvantGuard() {
+    return KoLCharacter.ascensionPath == Path.AVANT_GUARD;
+  }
+
   public static final boolean isMildManneredProfessor() {
     return KoLConstants.activeEffects.contains(EffectPool.get(EffectPool.MILD_MANNERED_PROFESSOR));
   }
@@ -3360,6 +3378,18 @@ public abstract class KoLCharacter {
 
   public static final boolean inElevenThingIHateAboutU() {
     return KoLCharacter.ascensionPath == Path.ELEVEN_THINGS;
+  }
+
+  public static final boolean inZootomist() {
+    return KoLCharacter.ascensionPath == Path.Z_IS_FOR_ZOOTOMIST;
+  }
+
+  public static final boolean inHatTrick() {
+    return KoLCharacter.ascensionPath == Path.HAT_TRICK;
+  }
+
+  public static final boolean noExperience() {
+    return inZootomist();
   }
 
   public static final boolean isUnarmed() {
@@ -3962,7 +3992,6 @@ public abstract class KoLCharacter {
     KoLConstants.availableSkillsSet.remove(skillId);
     KoLConstants.usableSkills.remove(skill);
     KoLConstants.summoningSkills.remove(skill);
-    KoLConstants.usableSkills.remove(skill);
     KoLConstants.remedySkills.remove(skill);
     KoLConstants.selfOnlySkills.remove(skill);
     KoLConstants.buffSkills.remove(skill);
@@ -4267,7 +4296,7 @@ public abstract class KoLCharacter {
       // Avoid infinite recursion if this request fails, or indirectly
       // calls getStillsAvailable();
       KoLCharacter.stillsAvailable = 0;
-      RequestThread.postRequest(new GenericRequest("shop.php?whichshop=still"));
+      RequestThread.postRequest(new ShopRequest("still"));
     }
 
     return KoLCharacter.stillsAvailable;
@@ -4421,13 +4450,32 @@ public abstract class KoLCharacter {
         .orElse(null);
   }
 
+  private static Stream<Integer> graftedFamiliars() {
+    return Stream.of(
+            "zootGraftedButtCheekLeftFamiliar",
+            "zootGraftedButtCheekRightFamiliar",
+            "zootGraftedFootLeftFamiliar",
+            "zootGraftedFootRightFamiliar",
+            "zootGraftedHandLeftFamiliar",
+            "zootGraftedHandRightFamiliar",
+            "zootGraftedHeadFamiliar",
+            "zootGraftedNippleLeftFamiliar",
+            "zootGraftedNippleRightFamiliar",
+            "zootGraftedShoulderLeftFamiliar",
+            "zootGraftedShoulderRightFamiliar")
+        .map(pref -> Preferences.getInteger(pref))
+        .filter(id -> id > 0);
+  }
+
   private static boolean isUsable(FamiliarData f) {
     if (f == FamiliarData.NO_FAMILIAR) return !KoLCharacter.inQuantum();
 
     return StandardRequest.isAllowed(f)
         && (!KoLCharacter.inZombiecore() || f.isUndead())
         && (!KoLCharacter.inBeecore() || !KoLCharacter.hasBeeosity(f.getRace()))
-        && (!KoLCharacter.inGLover() || KoLCharacter.hasGs(f.getRace()));
+        && (!KoLCharacter.inGLover() || KoLCharacter.hasGs(f.getRace()))
+        && (!KoLCharacter.inZootomist()
+            || !KoLCharacter.graftedFamiliars().anyMatch(id -> id == f.getId()));
   }
 
   /**
@@ -4781,14 +4829,24 @@ public abstract class KoLCharacter {
   }
 
   public static boolean hasEquipped(final AdventureResult item, final Slot equipmentSlot) {
+    if (KoLCharacter.inHatTrick() && equipmentSlot == Slot.HAT) {
+      return EquipmentManager.hasHatTrickHat(item.getItemId());
+    }
     return EquipmentManager.getEquipment(equipmentSlot).getItemId() == item.getItemId();
   }
 
   public static boolean hasEquipped(final int itemId, final Slot equipmentSlot) {
+    if (KoLCharacter.inHatTrick() && equipmentSlot == Slot.HAT) {
+      return EquipmentManager.hasHatTrickHat(itemId);
+    }
     return EquipmentManager.getEquipment(equipmentSlot).getItemId() == itemId;
   }
 
   public static boolean hasEquipped(final AdventureResult item) {
+    if (KoLCharacter.inHatTrick()
+        && ItemDatabase.getConsumptionType(item.getItemId()) == ConsumptionType.HAT) {
+      return EquipmentManager.hasHatTrickHat(item.getItemId());
+    }
     return KoLCharacter.equipmentSlot(item) != Slot.NONE;
   }
 
@@ -5029,6 +5087,27 @@ public abstract class KoLCharacter {
           speculation,
           taoFactor);
     }
+    for (var hat : EquipmentManager.getHatTrickHats()) {
+      AdventureResult item = ItemPool.get(hat);
+      if (item == EquipmentRequest.UNEQUIP) {
+        continue;
+      }
+      KoLCharacter.addItemAdjustment(
+          newModifiers,
+          Slot.HATS,
+          item,
+          equipment,
+          enthroned,
+          bjorned,
+          modeables,
+          speculation,
+          taoFactor);
+    }
+    if (KoLCharacter.inHatTrick()) {
+      EquipmentManager.getHatTrickHats().stream()
+          .max(Comparator.comparingInt(EquipmentDatabase::getPower))
+          .ifPresent(h -> addHatPower(newModifiers, h, taoFactor));
+    }
 
     // Consider fake hands
     int fakeHands = EquipmentManager.getFakeHands();
@@ -5066,6 +5145,16 @@ public abstract class KoLCharacter {
           DoubleModifier.MEATDROP, cloathingLevel, ModifierType.OUTFIT, "Cloathing");
       newModifiers.addDouble(
           DoubleModifier.ITEMDROP, cloathingLevel / 2, ModifierType.OUTFIT, "Cloathing");
+    }
+
+    int mcHugeLargeLevel = getMcHugeLargeLevel(newModifiers);
+    if (mcHugeLargeLevel > 0) {
+      newModifiers.addDouble(
+          DoubleModifier.COLD_RESISTANCE, mcHugeLargeLevel, ModifierType.OUTFIT, "McHugeLarge");
+      newModifiers.addDouble(
+          DoubleModifier.HOT_DAMAGE, 5 * mcHugeLargeLevel, ModifierType.OUTFIT, "McHugeLarge");
+      newModifiers.addDouble(
+          DoubleModifier.INITIATIVE, 10 * mcHugeLargeLevel, ModifierType.OUTFIT, "McHugeLarge");
     }
 
     // Add modifiers from Passive Skills
@@ -5110,10 +5199,6 @@ public abstract class KoLCharacter {
     if (HolidayDatabase.getGrimacePhase() == 5) {
       newModifiers.addDouble(
           DoubleModifier.RESTING_HP_PCT, 100, ModifierType.EVENT, "Moons (Grimace full)");
-    }
-
-    for (String equip : ClanManager.getClanRumpus()) {
-      newModifiers.add(ModifierDatabase.getModifiers(ModifierType.RUMPUS, equip));
     }
 
     // Add other oddball interactions
@@ -5477,11 +5562,7 @@ public abstract class KoLCharacter {
       imod = ModifierDatabase.getItemModifiersInFamiliarSlot(itemId);
 
       if (consume == ConsumptionType.WEAPON) {
-        newModifiers.addDouble(
-            DoubleModifier.WEAPON_DAMAGE,
-            EquipmentDatabase.getPower(itemId) * 0.15,
-            ModifierType.EQUIPMENT_POWER,
-            "15% weapon power");
+        addWeaponPower(newModifiers, itemId);
       }
     } else {
       imod = ModifierDatabase.getItemModifiers(itemId);
@@ -5580,35 +5661,19 @@ public abstract class KoLCharacter {
         }
         /*FALLTHRU*/
       case WEAPON:
-        newModifiers.addDouble(
-            DoubleModifier.WEAPON_DAMAGE,
-            EquipmentDatabase.getPower(itemId) * 0.15,
-            ModifierType.EQUIPMENT_POWER,
-            "15% weapon power");
+        addWeaponPower(newModifiers, itemId);
         break;
 
       case HAT:
-        newModifiers.addDouble(
-            DoubleModifier.DAMAGE_ABSORPTION,
-            taoFactor * EquipmentDatabase.getPower(itemId),
-            ModifierType.EQUIPMENT_POWER,
-            "hat power");
+        addHatPower(newModifiers, itemId, taoFactor);
         break;
 
       case PANTS:
-        newModifiers.addDouble(
-            DoubleModifier.DAMAGE_ABSORPTION,
-            taoFactor * EquipmentDatabase.getPower(itemId),
-            ModifierType.EQUIPMENT_POWER,
-            "pants power");
+        addPantsPower(newModifiers, itemId, taoFactor);
         break;
 
       case SHIRT:
-        newModifiers.addDouble(
-            DoubleModifier.DAMAGE_ABSORPTION,
-            EquipmentDatabase.getPower(itemId),
-            ModifierType.EQUIPMENT_POWER,
-            "shirt power");
+        addShirtPower(newModifiers, itemId);
         break;
     }
 
@@ -5666,6 +5731,54 @@ public abstract class KoLCharacter {
     }
   }
 
+  private static final AdventureResult HAMMERTIME = EffectPool.get(EffectPool.HAMMERTIME);
+
+  public static int getTotalPower() {
+    int tao = KoLCharacter.hasSkill(SkillPool.TAO_OF_THE_TERRAPIN) ? 1 : 0;
+    int hammertime = KoLConstants.activeEffects.contains(HAMMERTIME) ? 3 : 0;
+
+    int hat =
+        (KoLCharacter.inHatTrick()
+                ? EquipmentManager.getHatTrickHats().stream()
+                : Stream.of(EquipmentManager.getEquipment(Slot.HAT).getItemId()))
+            .mapToInt(EquipmentDatabase::getPower)
+            .sum();
+
+    int pants = EquipmentDatabase.getPower(EquipmentManager.getEquipment(Slot.PANTS).getItemId());
+    int shirt = EquipmentDatabase.getPower(EquipmentManager.getEquipment(Slot.SHIRT).getItemId());
+
+    return hat * (1 + tao) + pants * (1 + tao + hammertime) + shirt;
+  }
+
+  private static void addWeaponPower(Modifiers newModifiers, int itemId) {
+    newModifiers.addDouble(
+        DoubleModifier.WEAPON_DAMAGE,
+        EquipmentDatabase.getPower(itemId) * 0.15,
+        ModifierType.EQUIPMENT_POWER,
+        "15% weapon power");
+  }
+
+  private static void addHatPower(Modifiers newModifiers, int itemId, int taoFactor) {
+    addEquipPower("hat power", newModifiers, itemId, taoFactor);
+  }
+
+  private static void addPantsPower(Modifiers newModifiers, int itemId, int taoFactor) {
+    addEquipPower("pants power", newModifiers, itemId, taoFactor);
+  }
+
+  private static void addShirtPower(Modifiers newModifiers, int itemId) {
+    addEquipPower("shirt power", newModifiers, itemId, 1);
+  }
+
+  private static void addEquipPower(
+      String equip, Modifiers newModifiers, int itemId, int taoFactor) {
+    newModifiers.addDouble(
+        DoubleModifier.DAMAGE_ABSORPTION,
+        taoFactor * EquipmentDatabase.getPower(itemId),
+        ModifierType.EQUIPMENT_POWER,
+        equip);
+  }
+
   private static void addOffhandRemarkable(
       Map<Slot, AdventureResult> equipment, Modifiers newModifiers) {
     var offhand = equipment.get(Slot.OFFHAND);
@@ -5682,6 +5795,15 @@ public abstract class KoLCharacter {
         || ItemDatabase.getConsumptionType(item.id) != ConsumptionType.OFFHAND
         || item.id == ItemPool.LATTE_MUG) {
       return;
+    }
+
+    if (item.id == ItemPool.MCHUGELARGE_LEFT_POLE) {
+      // we implement the bonus as though it were an outfit bonus, but it is properly on the item
+      int mcHugeLargeLevel = getMcHugeLargeLevel(newModifiers);
+      int totalItems = newModifiers.getBitmap(BitmapModifier.MCHUGELARGE);
+      var mods = new Modifiers();
+      addMcHugeLargeModifiers(mods, mcHugeLargeLevel / totalItems);
+      addModifiersWithOffHandRemarkable(newModifiers, mods);
     }
 
     // use sleeved card as source of modifiers if applicable
@@ -5720,20 +5842,12 @@ public abstract class KoLCharacter {
       AdventureResult item = equipment.get(slot);
       if (item != null) {
         int itemId = item.getItemId();
-        // We know all items that give smithsness, and this code needs to be performant, so just
-        // check whether the id is between the first and last item.
-        if (itemId < ItemPool.WORK_IS_A_FOUR_LETTER_SWORD
-            || itemId > ItemPool.SHAKESPEARES_SISTERS_ACCORDION) continue;
-        Modifiers imod = ModifierDatabase.getItemModifiers(itemId);
-        if (imod != null) {
-          AscensionClass classType = AscensionClass.find(imod.getString(StringModifier.CLASS));
-          if (classType == null
-              || classType == ascensionClass
-                  && (slot != Slot.FAMILIAR
-                      || KoLCharacter.getFamiliar().getId() == FamiliarPool.HAND)) {
-            smithsness += imod.getDouble(DoubleModifier.SMITHSNESS);
-          }
-        }
+        smithsness += getSmithsnessModifier(itemId, slot);
+      }
+    }
+    if (KoLCharacter.inHatTrick()) {
+      for (var hat : EquipmentManager.getHatTrickHats()) {
+        smithsness += getSmithsnessModifier(hat, Slot.HAT);
       }
     }
 
@@ -5750,6 +5864,24 @@ public abstract class KoLCharacter {
       }
     }
     return smithsness;
+  }
+
+  private static double getSmithsnessModifier(int itemId, Slot slot) {
+    // We know all items that give smithsness, and this code needs to be performant, so just
+    // check whether the id is between the first and last item.
+    if (itemId < ItemPool.WORK_IS_A_FOUR_LETTER_SWORD
+        || itemId > ItemPool.SHAKESPEARES_SISTERS_ACCORDION) return 0;
+    Modifiers imod = ModifierDatabase.getItemModifiers(itemId);
+    if (imod != null) {
+      AscensionClass classType = AscensionClass.find(imod.getString(StringModifier.CLASS));
+      if (classType == null
+          || classType == ascensionClass
+              && (slot != Slot.FAMILIAR
+                  || KoLCharacter.getFamiliar().getId() == FamiliarPool.HAND)) {
+        return imod.getDouble(DoubleModifier.SMITHSNESS);
+      }
+    }
+    return 0;
   }
 
   // Per-character settings that change each ascension
@@ -5872,5 +6004,31 @@ public abstract class KoLCharacter {
       Preferences.setInteger("lastCellarReset", KoLCharacter.getAscensions());
       Preferences.setInteger("cellarLayout", 0);
     }
+  }
+
+  private static int getMcHugeLargeLevel(Modifiers mods) {
+    int totalItems = mods.getBitmap(BitmapModifier.MCHUGELARGE);
+    var itemLevel =
+        switch (totalItems) {
+          case 0, 1 -> 0;
+          case 2, 3 -> 1;
+          case 4 -> 2;
+          case 5 -> 3;
+          default -> 0;
+        };
+    return itemLevel * totalItems;
+  }
+
+  private static void addMcHugeLargeModifiers(Modifiers mods, int level) {
+    mods.addDouble(DoubleModifier.COLD_RESISTANCE, level, ModifierType.OUTFIT, "McHugeLarge");
+    mods.addDouble(DoubleModifier.HOT_DAMAGE, 5 * level, ModifierType.OUTFIT, "McHugeLarge");
+    mods.addDouble(DoubleModifier.INITIATIVE, 10 * level, ModifierType.OUTFIT, "McHugeLarge");
+  }
+
+  public static boolean hasCampground() {
+    return switch (KoLCharacter.ascensionPath) {
+      case ACTUALLY_ED_THE_UNDYING, YOU_ROBOT, NUCLEAR_AUTUMN, SMALL, WEREPROFESSOR -> false;
+      default -> true;
+    };
   }
 }

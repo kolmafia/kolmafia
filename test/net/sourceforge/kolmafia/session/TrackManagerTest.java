@@ -21,7 +21,6 @@ import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.TrackManager.Tracker;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -34,12 +33,6 @@ class TrackManagerTest {
   public void beforeEach() {
     KoLCharacter.reset("TrackManagerTest");
     Preferences.reset("TrackManagerTest");
-    TrackManager.clearCache();
-  }
-
-  @AfterAll
-  public static void cleanup() {
-    TrackManager.clearCache();
   }
 
   private static final MonsterData CRATE = MonsterDatabase.findMonster("crate");
@@ -70,37 +63,6 @@ class TrackManagerTest {
 
   private boolean isTracked(String monster) {
     return TrackManager.countCopies(monster) > 0;
-  }
-
-  @Nested
-  class ClearCache {
-    @Test
-    void clearCache() {
-      var cleanups =
-          new Cleanups(
-              withCurrentRun(128), withTrackedMonsters("fluffy bunny:Transcendent Olfaction:119"));
-
-      try (cleanups) {
-        assertTrue(isTracked("fluffy bunny"));
-        TrackManager.clearCache();
-
-        assertFalse(isTracked("fluffy bunny"));
-      }
-    }
-
-    @Test
-    void clearCachePhyla() {
-      var cleanups =
-          new Cleanups(
-              withCurrentRun(128), withSnapper(), withTrackedPhyla("beast:Red-Nosed Snapper:119"));
-
-      try (cleanups) {
-        assertTrue(isTracked("fluffy bunny"));
-        TrackManager.clearCache();
-
-        assertFalse(isTracked("fluffy bunny"));
-      }
-    }
   }
 
   @Nested
@@ -595,6 +557,49 @@ class TrackManagerTest {
           assertTrue(isTracked("spooky mummy"));
           assertThat("redSnapperPhylum", isSetTo("undead"));
         }
+      }
+    }
+  }
+
+  @Nested
+  class Zootomist {
+    @Test
+    void trackDuration() {
+      var cleanups =
+          new Cleanups(
+              withTrackedMonsters("spooky vampire:Left %n Kick:0"),
+              withProperty("zootGraftedFootLeftFamiliar", FamiliarPool.OBSERVER));
+
+      try (cleanups) {
+        assertThat(Tracker.LEFT_ZOOT_KICK.getCopies(), equalTo(5));
+      }
+    }
+
+    @Test
+    void rightKickClearsLeftKick() {
+      var cleanups =
+          new Cleanups(
+              withTrackedMonsters("spooky vampire:Left %n Kick:0"),
+              withProperty("zootGraftedFootLeftFamiliar", FamiliarPool.OBSERVER),
+              withProperty("zootGraftedFootRightFamiliar", FamiliarPool.HEAT_WAVE));
+
+      try (cleanups) {
+        TrackManager.trackMonster(CRATE, Tracker.RIGHT_ZOOT_KICK);
+        assertThat("trackedMonsters", isSetTo("crate:Right %n Kick:0"));
+      }
+    }
+
+    @Test
+    void leftKickClearsRightKick() {
+      var cleanups =
+          new Cleanups(
+              withTrackedMonsters("spooky vampire:Right %n Kick:0"),
+              withProperty("zootGraftedFootLeftFamiliar", FamiliarPool.OBSERVER),
+              withProperty("zootGraftedFootRightFamiliar", FamiliarPool.HEAT_WAVE));
+
+      try (cleanups) {
+        TrackManager.trackMonster(CRATE, Tracker.LEFT_ZOOT_KICK);
+        assertThat("trackedMonsters", isSetTo("crate:Left %n Kick:0"));
       }
     }
   }

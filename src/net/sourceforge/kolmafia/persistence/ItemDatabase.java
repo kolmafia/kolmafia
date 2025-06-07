@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia.persistence;
 
+import com.alibaba.fastjson2.JSONException;
+import com.alibaba.fastjson2.JSONObject;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -34,6 +36,7 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.VYKEACompanionData;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.modifiers.ModifierList;
+import net.sourceforge.kolmafia.modifiers.MultiStringModifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
@@ -45,8 +48,8 @@ import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
-import net.sourceforge.kolmafia.request.SushiRequest;
 import net.sourceforge.kolmafia.request.UmbrellaRequest.UmbrellaMode;
+import net.sourceforge.kolmafia.request.concoction.SushiRequest;
 import net.sourceforge.kolmafia.session.ElVibratoManager;
 import net.sourceforge.kolmafia.session.ElVibratoManager.Punchcard;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -57,13 +60,12 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
 import org.htmlcleaner.HtmlCleaner;
 import org.htmlcleaner.TagNode;
 import org.htmlcleaner.XPatherException;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class ItemDatabase {
   private static int maxItemId = 0;
 
   private static String[] canonicalNames = new String[0];
+  private static final Map<String, String> uniqueInitialisms = new HashMap<>();
   private static final Map<Integer, ConsumptionType> useTypeById = new HashMap<>();
   private static final Map<Integer, EnumSet<Attribute>> attributesById = new HashMap<>();
   private static final Map<Integer, Integer> priceById = new HashMap<>();
@@ -174,6 +176,7 @@ public class ItemDatabase {
     SINGLE("single"),
     SOLO("solo"),
 
+    CRAFT("craft"),
     CURSE("curse"),
     BOUNTY("bounty"),
     PACKAGE("package"),
@@ -231,7 +234,7 @@ public class ItemDatabase {
     ItemDatabase.readItems();
     ItemDatabase.readFoldGroups();
     ItemDatabase.addPseudoItems();
-    ItemDatabase.saveCanonicalNames();
+    ItemDatabase.saveCanonicalNamesAndInitialisms();
   }
 
   private static void addIdToName(String canonicalName, int itemId) {
@@ -310,7 +313,7 @@ public class ItemDatabase {
 
     ItemDatabase.addPseudoItems();
 
-    ItemDatabase.saveCanonicalNames();
+    ItemDatabase.saveCanonicalNamesAndInitialisms();
   }
 
   private static void readItems() {
@@ -578,11 +581,27 @@ public class ItemDatabase {
     }
   }
 
-  private static void saveCanonicalNames() {
+  private static void saveCanonicalNamesAndInitialisms() {
     String[] newArray = new String[ItemDatabase.itemIdSetByName.size()];
     ItemDatabase.itemIdSetByName.keySet().toArray(newArray);
     Arrays.sort(newArray);
     ItemDatabase.canonicalNames = newArray;
+
+    ItemDatabase.uniqueInitialisms.clear();
+    Map<String, Integer> initialismCounts = new HashMap<>();
+    for (var itemName : ItemDatabase.itemIdSetByName.keySet()) {
+      var initialism =
+          Arrays.stream(itemName.toLowerCase().split("[ -]"))
+              .filter(word -> !word.isEmpty())
+              .map((word) -> word.substring(0, 1))
+              .collect(Collectors.joining(""));
+      var count = initialismCounts.compute(initialism, (k, v) -> v == null ? 1 : v + 1);
+      if (count == 1) {
+        ItemDatabase.uniqueInitialisms.put(initialism, itemName);
+      } else if (count > 1) {
+        ItemDatabase.uniqueInitialisms.remove(initialism);
+      }
+    }
   }
 
   /**
@@ -689,8 +708,8 @@ public class ItemDatabase {
     ApiRequest request = new ApiRequest("item", itemId);
     RequestThread.postRequest(request);
 
-    JSONObject JSON = request.JSON;
-    if (JSON == null) {
+    JSONObject json = request.json;
+    if (json == null) {
       return;
     }
 
@@ -715,9 +734,9 @@ public class ItemDatabase {
     // }
 
     try {
-      String name = JSON.getString("name");
-      String descid = JSON.getString("descid");
-      int power = JSON.getInt("power");
+      String name = json.getString("name");
+      String descid = json.getString("descid");
+      int power = json.getIntValue("power");
       ItemDatabase.registerItem(itemId, name, descid, null, power, false);
     } catch (JSONException e) {
       KoLmafia.updateDisplay("Error parsing JSON string!");
@@ -814,7 +833,7 @@ public class ItemDatabase {
     ItemDatabase.itemIdByDescription.put(descId, id);
 
     ItemDatabase.addIdToName(StringUtilities.getCanonicalName(itemName), id);
-    ItemDatabase.saveCanonicalNames();
+    ItemDatabase.saveCanonicalNamesAndInitialisms();
 
     if (plural != null) {
       ItemDatabase.registerPlural(itemId, plural);
@@ -896,10 +915,10 @@ public class ItemDatabase {
 
     // Parse use type, access, and price from description
     String type = DebugDatabase.parseType(text);
-    ConsumptionType usage = DebugDatabase.typeToPrimary(type, multi);
-    if (text.contains("blue\">Makes you look like")) {
-      usage = ConsumptionType.AVATAR_POTION;
-    }
+    final ConsumptionType usage =
+        (text.contains("blue\">Makes you look like"))
+            ? ConsumptionType.AVATAR_POTION
+            : DebugDatabase.typeToPrimary(type, multi);
     ItemDatabase.useTypeById.put(itemId, usage);
 
     String access = DebugDatabase.parseAccess(text);
@@ -948,7 +967,7 @@ public class ItemDatabase {
     }
 
     // Let modifiers database do what it wishes with this item
-    ModifierDatabase.registerItem(itemName, text, usage);
+    ModifierDatabase.registerItem(itemName, rawText, usage);
 
     // Done generating data
     printMe = "--------------------";
@@ -967,28 +986,34 @@ public class ItemDatabase {
     }
 
     // Potions grant an effect. Check for a new effect.
-    String effectName =
-        ModifierDatabase.getStringModifier(ModifierType.ITEM, itemId, StringModifier.EFFECT);
-    if (!effectName.equals("") && EffectDatabase.getEffectId(effectName, true) == -1) {
-      String effectDescid = DebugDatabase.parseEffectDescid(rawText);
-      String command =
-          switch (usage) {
-            case EAT -> "eat 1 ";
-            case DRINK -> "drink 1 ";
-            case SPLEEN -> "chew 1 ";
-            default -> "use 1 ";
-          };
-      EffectDatabase.registerEffect(effectName, effectDescid, command + itemName);
-    }
+    ModifierDatabase.getMultiStringModifier(ModifierType.ITEM, itemId, MultiStringModifier.EFFECT)
+        .stream()
+        .filter(e -> !e.isEmpty())
+        .filter(e -> EffectDatabase.getEffectId(e, true) == -1)
+        .forEach(
+            e -> {
+              String effectDescid = DebugDatabase.parseEffectDescid(rawText);
+              String command =
+                  switch (usage) {
+                    case EAT -> "eat 1 ";
+                    case DRINK -> "drink 1 ";
+                    case SPLEEN -> "chew 1 ";
+                    default -> "use 1 ";
+                  };
+              EffectDatabase.registerEffect(e, effectDescid, command + itemName);
+            });
 
-    // Equipment can have a Rollover Effect. Check for new effect.
-    effectName =
-        ModifierDatabase.getStringModifier(
-            ModifierType.ITEM, itemId, StringModifier.ROLLOVER_EFFECT);
-    if (!effectName.equals("") && EffectDatabase.getEffectId(effectName, true) == -1) {
-      String effectDescid = DebugDatabase.parseEffectDescid(rawText);
-      EffectDatabase.registerEffect(effectName, effectDescid, null);
-    }
+    // Equipment can have Rollover Effects. Check for new effect.
+    ModifierDatabase.getMultiStringModifier(
+            ModifierType.ITEM, itemId, MultiStringModifier.ROLLOVER_EFFECT)
+        .stream()
+        .filter(e -> !e.isEmpty())
+        .filter(e -> EffectDatabase.getEffectId(e, true) == -1)
+        .forEach(
+            e -> {
+              String effectDescid = DebugDatabase.parseEffectDescid(rawText);
+              EffectDatabase.registerEffect(e, effectDescid, null);
+            });
 
     // Familiar larva mature into familiars.
     if (type.equals("familiar")) {
@@ -1010,7 +1035,7 @@ public class ItemDatabase {
       ItemDatabase.pluralAliases.add(canonical);
     }
 
-    ItemDatabase.saveCanonicalNames();
+    ItemDatabase.saveCanonicalNamesAndInitialisms();
   }
 
   /**
@@ -1079,6 +1104,10 @@ public class ItemDatabase {
   }
 
   private static final int[] NO_ITEM_IDS = new int[0];
+
+  public static final int[] getItemIds(final String itemName) {
+    return getItemIds(itemName, 1, false);
+  }
 
   public static final int[] getItemIds(
       final String itemName, final int count, final boolean substringMatch) {
@@ -1381,6 +1410,10 @@ public class ItemDatabase {
     // Unknown item
 
     return null;
+  }
+
+  public static final String getNameByInitialismIfUnique(final String query) {
+    return ItemDatabase.uniqueInitialisms.get(query.toLowerCase());
   }
 
   public static final int getNameLength(final int itemId) {
@@ -1860,48 +1893,56 @@ public class ItemDatabase {
   }
 
   public static final boolean isFood(final int itemId) {
-    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
-    return useType == ConsumptionType.EAT;
+    return useTypeIs(ConsumptionType.EAT, itemId);
   }
 
   public static final boolean isBooze(final int itemId) {
-    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
-    return useType == ConsumptionType.DRINK;
+    return useTypeIs(ConsumptionType.DRINK, itemId);
+  }
+
+  public static final boolean isSpleen(final int itemId) {
+    return useTypeIs(ConsumptionType.SPLEEN, itemId);
   }
 
   public static final boolean isHat(final int itemId) {
-    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
-    return useType == ConsumptionType.HAT;
+    return useTypeIs(ConsumptionType.HAT, itemId);
   }
 
   public static final boolean isWeapon(final int itemId) {
-    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
-    return useType == ConsumptionType.WEAPON;
+    return useTypeIs(ConsumptionType.WEAPON, itemId);
   }
 
   public static final boolean isOffHand(final int itemId) {
-    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
-    return useType == ConsumptionType.OFFHAND;
+    return useTypeIs(ConsumptionType.OFFHAND, itemId);
+  }
+
+  public static final boolean isContainer(final int itemId) {
+    return useTypeIs(ConsumptionType.CONTAINER, itemId);
   }
 
   public static final boolean isShirt(final int itemId) {
-    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
-    return useType == ConsumptionType.SHIRT;
+    return useTypeIs(ConsumptionType.SHIRT, itemId);
   }
 
   public static final boolean isPants(final int itemId) {
-    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
-    return useType == ConsumptionType.PANTS;
+    return useTypeIs(ConsumptionType.PANTS, itemId);
   }
 
   public static final boolean isAccessory(final int itemId) {
-    ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
-    return useType == ConsumptionType.ACCESSORY;
+    return useTypeIs(ConsumptionType.ACCESSORY, itemId);
   }
 
   public static final boolean isFamiliarEquipment(final int itemId) {
+    return useTypeIs(ConsumptionType.FAMILIAR_EQUIPMENT, itemId);
+  }
+
+  public static final boolean isFamiliarHatchling(final int itemId) {
+    return useTypeIs(ConsumptionType.FAMILIAR_HATCHLING, itemId);
+  }
+
+  private static boolean useTypeIs(ConsumptionType ct, final int itemId) {
     ConsumptionType useType = ItemDatabase.useTypeById.getOrDefault(itemId, ConsumptionType.NONE);
-    return useType == ConsumptionType.FAMILIAR_EQUIPMENT;
+    return useType == ct;
   }
 
   public static final boolean isMultiUsable(final int itemId) {
@@ -2172,7 +2213,7 @@ public class ItemDatabase {
             ModifierType.ITEM, ItemPool.VAMPIRE_VINTNER_WINE, iEnchantments);
 
     // Validate this by seeing what effect this wine grants.
-    String effectName = imods.getString(StringModifier.EFFECT);
+    String effectName = imods.getString(MultiStringModifier.EFFECT);
     int effectId = EffectDatabase.getEffectId(effectName);
 
     // If it doesn't grant one, this is the generic 1950 Vampire Vintner wine
@@ -2369,6 +2410,20 @@ public class ItemDatabase {
       var perks = Arrays.stream(result).map(Object::toString).collect(Collectors.joining(","));
       Preferences.setString("everfullDartPerks", perks);
     }
+  }
+
+  private static final Pattern MIMIC_EGG_PATTERN =
+      Pattern.compile("<!-- monsterid:(\\d+) --> \\((\\d+)\\)");
+
+  public static void parseMimicEgg(final String desc) {
+    // Will return an empty string if the egg is empty
+    var pref =
+        MIMIC_EGG_PATTERN
+            .matcher(desc)
+            .results()
+            .map(m -> m.group(1) + ":" + m.group(2))
+            .collect(Collectors.joining(","));
+    Preferences.setString("mimicEggMonsters", pref);
   }
 
   public static boolean unusableInBeecore(final int itemId) {

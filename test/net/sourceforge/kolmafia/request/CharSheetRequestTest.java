@@ -13,6 +13,7 @@ import java.util.Set;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.CharSheetRequest.ParsedSkillInfo;
 import net.sourceforge.kolmafia.request.CharSheetRequest.ParsedSkillInfo.PermStatus;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,6 +25,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 public class CharSheetRequestTest {
   @BeforeEach
   public void setUp() {
+    Preferences.reset("CharSheetRequestTest");
     KoLCharacter.reset(true);
   }
 
@@ -242,7 +244,11 @@ public class CharSheetRequestTest {
   }
 
   @ParameterizedTest
-  @CsvSource({"normal, 394, 394, 394", "unbuffed_stats, 162, 243, 243", "grey_you, 25, 25, 25"})
+  @CsvSource({
+    "normal, 394, 394, 394",
+    "unbuffed_stats, 162, 243, 243",
+    "grey_you, 2345678901, 2600000000, 2600000000"
+  })
   public void parseHP(
       String page, String expectedCurrentHP, String expectedMaxHP, String expectedBaseMaxHP) {
     String html = html("request/test_charsheet_" + page + ".html");
@@ -254,7 +260,11 @@ public class CharSheetRequestTest {
   }
 
   @ParameterizedTest
-  @CsvSource({"normal, 359, 1221, 1221", "unbuffed_stats, 225, 225, 225", "grey_you, 5, 5, 5"})
+  @CsvSource({
+    "normal, 359, 1221, 1221",
+    "unbuffed_stats, 225, 225, 225",
+    "grey_you, 2345678903, 2600000002, 2600000002"
+  })
   public void parseMP(
       String page, String expectedCurrentMP, String expectedMaxMP, String expectedBaseMaxMP) {
     String html = html("request/test_charsheet_" + page + ".html");
@@ -314,7 +324,7 @@ public class CharSheetRequestTest {
   }
 
   @ParameterizedTest
-  @CsvSource({"normal, 8621947", "unbuffed_stats, 593", "grey_you, 0"})
+  @CsvSource({"normal, 8621947", "unbuffed_stats, 593", "grey_you, 5000000000"})
   public void parseAvailableMeat(String page, String expected) {
     String html = html("request/test_charsheet_" + page + ".html");
     CharSheetRequest.parseStatus(html);
@@ -382,5 +392,18 @@ public class CharSheetRequestTest {
     CharSheetRequest.parseStatus(html);
 
     assertThat(KoLCharacter.getInebriety(), equalTo(3));
+  }
+
+  @Nested
+  class Zootomist {
+    @Test
+    public void parsesZootomistStats() {
+      String html = html("request/test_charsheet_zootomist.html");
+      CharSheetRequest.parseStatus(html);
+
+      assertThat(KoLCharacter.getAdjustedMuscle(), equalTo(82));
+      assertThat(KoLCharacter.getAdjustedMysticality(), equalTo(67));
+      assertThat(KoLCharacter.getAdjustedMoxie(), equalTo(70));
+    }
   }
 }

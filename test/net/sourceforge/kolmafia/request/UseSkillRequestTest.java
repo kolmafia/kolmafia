@@ -32,6 +32,7 @@ import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
@@ -208,8 +209,8 @@ class UseSkillRequestTest {
 
     @Test
     void wearDesignerSweatpantsForCastingSweatSkills() {
-      var cleanups = new Cleanups(withEquippableItem("designer sweatpants"));
-      InventoryManager.checkDesignerSweatpants();
+      var cleanups = new Cleanups(withEquippableItem(ItemPool.DESIGNER_SWEATPANTS));
+      InventoryManager.checkSkillGrantingEquipment(ItemPool.DESIGNER_SWEATPANTS);
 
       try (cleanups) {
         var req = UseSkillRequest.getInstance(SkillPool.DRENCH_YOURSELF_IN_SWEAT, 1);
@@ -227,8 +228,8 @@ class UseSkillRequestTest {
 
     @Test
     void dontWearDesignerSweatpantsForSweatingOutBooze() {
-      var cleanups = new Cleanups(withEquippableItem("designer sweatpants"));
-      InventoryManager.checkDesignerSweatpants();
+      var cleanups = new Cleanups(withEquippableItem(ItemPool.DESIGNER_SWEATPANTS));
+      InventoryManager.checkSkillGrantingEquipment(ItemPool.DESIGNER_SWEATPANTS);
 
       try (cleanups) {
         var req = UseSkillRequest.getInstance(SkillPool.SWEAT_OUT_BOOZE, 1);
@@ -245,7 +246,7 @@ class UseSkillRequestTest {
     @Test
     void doNotEquipDesignerSweatpantsForSkillIfAlreadyWearing() {
       var cleanups = new Cleanups(withEquipped(Slot.PANTS, "designer sweatpants"));
-      InventoryManager.checkDesignerSweatpants();
+      InventoryManager.checkSkillGrantingEquipment(ItemPool.DESIGNER_SWEATPANTS);
 
       try (cleanups) {
         var req = UseSkillRequest.getInstance(SkillPool.DRENCH_YOURSELF_IN_SWEAT, 1);
@@ -342,7 +343,6 @@ class UseSkillRequestTest {
     public static void afterAll() {
       UseSkillRequest.lastSkillUsed = -1;
       UseSkillRequest.lastSkillCount = 0;
-      InventoryManager.checkCinchoDeMayo();
     }
 
     @ParameterizedTest
@@ -350,8 +350,8 @@ class UseSkillRequestTest {
         ints = {SkillPool.CINCHO_PARTY_SOUNDTRACK, SkillPool.CINCHO_DISPENSE_SALT_AND_LIME})
     void wearCinchoForCastingCinchSkills(final int skill) {
       var cleanups =
-          new Cleanups(withEquippableItem("Cincho de Mayo"), withProperty("_cinchUsed", 0));
-      InventoryManager.checkCinchoDeMayo();
+          new Cleanups(withEquippableItem(ItemPool.CINCHO_DE_MAYO), withProperty("_cinchUsed", 0));
+      InventoryManager.checkSkillGrantingEquipment(ItemPool.CINCHO_DE_MAYO);
 
       try (cleanups) {
         var req = UseSkillRequest.getInstance(skill, 1);
@@ -378,7 +378,7 @@ class UseSkillRequestTest {
               withPath(Path.LEGACY_OF_LOATHING),
               withEquippableItem(ItemPool.REPLICA_CINCHO_DE_MAYO),
               withProperty("_cinchUsed", 0));
-      InventoryManager.checkCinchoDeMayo();
+      InventoryManager.checkSkillGrantingEquipment(ItemPool.REPLICA_CINCHO_DE_MAYO);
 
       try (cleanups) {
         var req = UseSkillRequest.getInstance(SkillPool.CINCHO_PARTY_SOUNDTRACK, 1);
@@ -401,7 +401,7 @@ class UseSkillRequestTest {
     void doNotEquipCinchoDeMayoForSkillIfAlreadyWearing(final int itemId) {
       var cleanups =
           new Cleanups(withPath(Path.LEGACY_OF_LOATHING), withEquipped(Slot.ACCESSORY2, itemId));
-      InventoryManager.checkCinchoDeMayo();
+      InventoryManager.checkSkillGrantingEquipment(itemId);
 
       try (cleanups) {
         var req = UseSkillRequest.getInstance(SkillPool.CINCHO_DISPENSE_SALT_AND_LIME, 1);
@@ -410,7 +410,9 @@ class UseSkillRequestTest {
         var requests = getRequests();
         assertThat(requests, hasSize(2));
         assertGetRequest(
-            requests.get(0), "/runskillz.php", "action=Skillz&whichskill=7439&ajax=1&quantity=1");
+            requests.getFirst(),
+            "/runskillz.php",
+            "action=Skillz&whichskill=7439&ajax=1&quantity=1");
       }
     }
 
@@ -452,11 +454,6 @@ class UseSkillRequestTest {
       Preferences.reset("AugustScepter");
     }
 
-    @AfterAll
-    public static void afterAll() {
-      InventoryManager.checkAugustScepter();
-    }
-
     @Test
     public void canCastSkillNormally() {
       var cleanups =
@@ -464,7 +461,7 @@ class UseSkillRequestTest {
               withItem(ItemPool.AUGUST_SCEPTER),
               withProperty("_aug12Cast"),
               withProperty("_augSkillsCast"));
-      InventoryManager.checkAugustScepter();
+      InventoryManager.checkSkillGrantingEquipment(ItemPool.AUGUST_SCEPTER);
 
       try (cleanups) {
         var skill = UseSkillRequest.getInstance(SkillPool.AUG_12TH_ELEPHANT_DAY);
@@ -479,7 +476,7 @@ class UseSkillRequestTest {
               withItem(ItemPool.AUGUST_SCEPTER),
               withProperty("_aug12Cast", true),
               withProperty("_augSkillsCast"));
-      InventoryManager.checkAugustScepter();
+      InventoryManager.checkSkillGrantingEquipment(ItemPool.AUGUST_SCEPTER);
 
       try (cleanups) {
         var skill = UseSkillRequest.getInstance(SkillPool.AUG_12TH_ELEPHANT_DAY);
@@ -494,7 +491,7 @@ class UseSkillRequestTest {
               withItem(ItemPool.AUGUST_SCEPTER),
               withProperty("_aug12Cast"),
               withProperty("_augSkillsCast", 5));
-      InventoryManager.checkAugustScepter();
+      InventoryManager.checkSkillGrantingEquipment(ItemPool.AUGUST_SCEPTER);
 
       try (cleanups) {
         var skill = UseSkillRequest.getInstance(SkillPool.AUG_12TH_ELEPHANT_DAY);
@@ -511,7 +508,7 @@ class UseSkillRequestTest {
               withProperty("_augSkillsCast", 5),
               withInteractivity(false),
               withDay(2023, Month.AUGUST, 12));
-      InventoryManager.checkAugustScepter();
+      InventoryManager.checkSkillGrantingEquipment(ItemPool.AUGUST_SCEPTER);
 
       try (cleanups) {
         var skill = UseSkillRequest.getInstance(SkillPool.AUG_12TH_ELEPHANT_DAY);
@@ -529,7 +526,7 @@ class UseSkillRequestTest {
               withProperty("_augSkillsCast", 5),
               withInteractivity(true),
               withDay(2023, Month.AUGUST, 31));
-      InventoryManager.checkAugustScepter();
+      InventoryManager.checkSkillGrantingEquipment(ItemPool.AUGUST_SCEPTER);
 
       try (cleanups) {
         var skill = UseSkillRequest.getInstance(SkillPool.AUG_31ST_CABERNET_SAUVIGNON_DAY);
@@ -549,7 +546,7 @@ class UseSkillRequestTest {
               withProperty("_augTodayCast", false),
               withInteractivity(true),
               withDay(2023, Month.AUGUST, 12));
-      InventoryManager.checkAugustScepter();
+      InventoryManager.checkSkillGrantingEquipment(ItemPool.AUGUST_SCEPTER);
 
       try (cleanups) {
         UseSkillRequest.lastSkillUsed = SkillPool.AUG_12TH_ELEPHANT_DAY;
@@ -571,7 +568,7 @@ class UseSkillRequestTest {
               withProperty("_augTodayCast", false),
               withInteractivity(false),
               withDay(2023, Month.AUGUST, 12));
-      InventoryManager.checkAugustScepter();
+      InventoryManager.checkSkillGrantingEquipment(ItemPool.AUGUST_SCEPTER);
 
       try (cleanups) {
         UseSkillRequest.lastSkillUsed = SkillPool.AUG_12TH_ELEPHANT_DAY;
@@ -580,6 +577,74 @@ class UseSkillRequestTest {
             "runskillz.php?action=Skillz&whichskill=7463&ajax=1&quantity=1", "response ignored");
         assertThat("_augTodayCast", isSetTo(false));
         assertThat("_augSkillsCast", isSetTo(5));
+      }
+    }
+  }
+
+  @Nested
+  class AdditionalEffects {
+    @BeforeEach
+    public void initializeState() {
+      HttpClientWrapper.setupFakeClient();
+      KoLCharacter.reset("AdditionalEffects");
+      Preferences.reset("AdditionalEffects");
+    }
+
+    @AfterAll
+    public static void afterAll() {
+      UseSkillRequest.lastSkillUsed = -1;
+      UseSkillRequest.lastSkillCount = 0;
+    }
+
+    @Test
+    public void replaceEffects() {
+      var cleanups =
+          new Cleanups(
+              withEquippableItem(ItemPool.VELOUR_VOULGE),
+              withSkill(SkillPool.SNARL_OF_THE_TIMBERWOLF),
+              withMP(100, 100, 100));
+
+      try (cleanups) {
+        var req =
+            UseSkillRequest.getInstance(
+                SkillPool.SNARL_OF_THE_TIMBERWOLF, null, 1, EffectPool.SNARL_OF_THREE_TIMBERWOLVES);
+        req.run();
+
+        var requests = getRequests();
+        assertPostRequest(
+            requests.get(0),
+            "/inv_equip.php",
+            "which=2&ajax=1&action=equip&whichitem=" + ItemPool.VELOUR_VOULGE);
+        assertGetRequest(
+            requests.get(1),
+            "/runskillz.php",
+            "action=Skillz&whichskill=" + SkillPool.SNARL_OF_THE_TIMBERWOLF + "&ajax=1&quantity=1");
+      }
+    }
+
+    @Test
+    public void addEffects() {
+      var cleanups =
+          new Cleanups(
+              withEquippableItem(ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD),
+              withSkill(SkillPool.SEAL_CLUBBING_FRENZY),
+              withMP(100, 100, 100));
+
+      try (cleanups) {
+        var req =
+            UseSkillRequest.getInstance(
+                SkillPool.SEAL_CLUBBING_FRENZY, null, 1, EffectPool.SLIPPERY_AS_A_SEAL);
+        req.run();
+
+        var requests = getRequests();
+        assertPostRequest(
+            requests.get(0),
+            "/inv_equip.php",
+            "which=2&ajax=1&action=equip&whichitem=" + ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD);
+        assertGetRequest(
+            requests.get(1),
+            "/runskillz.php",
+            "action=Skillz&whichskill=" + SkillPool.SEAL_CLUBBING_FRENZY + "&ajax=1&quantity=1");
       }
     }
   }

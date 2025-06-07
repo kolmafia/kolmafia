@@ -15,6 +15,7 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
 import net.sourceforge.kolmafia.chat.ChatManager;
 import net.sourceforge.kolmafia.chat.InternalMessage;
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.swingui.SystemTrayFrame;
@@ -315,10 +316,15 @@ public abstract class RequestThread {
    */
   public static final void declareWorldPeace() {
     StaticEntity.userAborted = true;
-    KoLmafia.updateDisplay(MafiaState.ABORT, "KoLmafia declares world peace.");
+    var worldPeace =
+        (KoLCharacter.getFamiliar().getId() == FamiliarPool.PEACE_TURKEY)
+            ? "whirled peas"
+            : "world peace";
+    var messageText = "KoLmafia declares " + worldPeace + ".";
+    KoLmafia.updateDisplay(MafiaState.ABORT, messageText);
     KoLmafiaASH.stopAllRelayInterpreters();
     JavascriptRuntime.interruptAll();
-    InternalMessage message = new InternalMessage("KoLmafia declares world peace.", "red");
+    InternalMessage message = new InternalMessage(messageText, "red");
     ChatManager.broadcastEvent(message);
   }
 

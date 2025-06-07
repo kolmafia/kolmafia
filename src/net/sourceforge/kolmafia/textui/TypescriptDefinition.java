@@ -172,6 +172,11 @@ public class TypescriptDefinition {
             tsType = combatFilterType;
           }
         }
+        case "get_items_hash" -> {
+          if (paramIndex == 0) {
+            tsType = "\"inventory\" | \"closet\" | \"storage\" | \"display\" | \"shop\"";
+          }
+        }
       }
 
       return new TypescriptFunctionParameter(paramName, tsType, isVariadic);
@@ -303,8 +308,12 @@ public class TypescriptDefinition {
         String.format("    readonly %s: %s;", JavascriptRuntime.toCamelCase(name), type));
   }
 
+  private static String formatMafiaClassName(final Type t) {
+    return StringUtilities.capitalize(t.getName());
+  }
+
   private static List<String> formatMafiaClass(final Type t) {
-    var name = StringUtilities.capitalize(t.getName());
+    var name = formatMafiaClassName(t);
 
     List<String> values =
         t.allValues().count() < 30
@@ -373,6 +382,17 @@ public class TypescriptDefinition {
         .toList();
   }
 
+  public static List<String> getMafiaClassArray() {
+    return List.of(
+        "export const MafiaClasses: Readonly<["
+            + DataTypes.enumeratedTypes.stream()
+                .sorted(Type::compareTo)
+                .map(TypescriptDefinition::formatMafiaClassName)
+                .map(n -> "typeof " + n)
+                .collect(Collectors.joining(", "))
+            + "]>;");
+  }
+
   protected static String getEnvironmentUnion() {
     return Arrays.stream(Environment.values())
         .map(Environment::toString)
@@ -395,7 +415,7 @@ public class TypescriptDefinition {
         "type ModifierValueType = " + getModifierValueTypeUnion() + ";");
   }
 
-  protected static List<String> getSessionStorageTyping() {
+  protected static List<String> getOtherClassTypings() {
     return List.of(
         """
             declare class Storage {
@@ -430,6 +450,9 @@ public class TypescriptDefinition {
                 setItem(key: string, value: string): void;
             }
             export const sessionStorage: Storage;
+            """,
+        """
+            declare class Rng {}
             """);
   }
 
@@ -465,8 +488,9 @@ public class TypescriptDefinition {
             getFunctionDefinitions(),
             getAbstractMafiaClass(),
             getMafiaClassDefs(),
+            getMafiaClassArray(),
             getScriptFunctionDefs(),
-            getSessionStorageTyping())
+            getOtherClassTypings())
         .flatMap(Collection::stream)
         .collect(Collectors.joining("\n"));
   }

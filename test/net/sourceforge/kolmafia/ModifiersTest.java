@@ -6,7 +6,9 @@ import static internal.helpers.Player.withEffect;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withHP;
+import static internal.helpers.Player.withHatTrickHats;
 import static internal.helpers.Player.withInteractivity;
+import static internal.helpers.Player.withLevel;
 import static internal.helpers.Player.withLocation;
 import static internal.helpers.Player.withMP;
 import static internal.helpers.Player.withOverrideModifiers;
@@ -24,6 +26,7 @@ import internal.helpers.Player;
 import java.time.DayOfWeek;
 import java.time.Month;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.equipment.Slot;
@@ -134,8 +137,7 @@ public class ModifiersTest {
   @ParameterizedTest
   @ValueSource(ints = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11})
   public void intrinsicSpicinessModifiers(int level) {
-    int myst = (level == 1) ? 0 : (level - 1) * (level - 1) + 4;
-    var cleanups = new Cleanups(withClass(AscensionClass.SAUCEROR), withStats(0, myst, 0));
+    var cleanups = new Cleanups(withClass(AscensionClass.SAUCEROR), withLevel(level));
 
     try (cleanups) {
       Modifiers mods = ModifierDatabase.getModifiers(ModifierType.SKILL, "Intrinsic Spiciness");
@@ -147,21 +149,35 @@ public class ModifiersTest {
   public void correctlyCalculatesCappedCombatRate() {
     Modifiers mod = new Modifiers();
     mod.addDouble(DoubleModifier.COMBAT_RATE, 25, ModifierType.NONE, "");
+    assertEquals(25, mod.getDouble(DoubleModifier.RAW_COMBAT_RATE));
     mod.addDouble(DoubleModifier.COMBAT_RATE, 7, ModifierType.NONE, "");
     assertEquals(26, mod.getDouble(DoubleModifier.COMBAT_RATE));
+    assertEquals(32, mod.getDouble(DoubleModifier.RAW_COMBAT_RATE));
     mod.addDouble(DoubleModifier.COMBAT_RATE, 9, ModifierType.NONE, "");
     assertEquals(28, mod.getDouble(DoubleModifier.COMBAT_RATE));
     mod.addDouble(DoubleModifier.COMBAT_RATE, 9, ModifierType.NONE, "");
     assertEquals(30, mod.getDouble(DoubleModifier.COMBAT_RATE));
+    mod.addDouble(DoubleModifier.COMBAT_RATE, 50, ModifierType.NONE, "");
+    assertEquals(35, mod.getDouble(DoubleModifier.COMBAT_RATE));
+    mod.addDouble(DoubleModifier.COMBAT_RATE, 50, ModifierType.NONE, "");
+    assertEquals(35, mod.getDouble(DoubleModifier.COMBAT_RATE));
+    assertEquals(150, mod.getDouble(DoubleModifier.RAW_COMBAT_RATE));
 
     mod = new Modifiers();
     mod.addDouble(DoubleModifier.COMBAT_RATE, -25, ModifierType.NONE, "");
+    assertEquals(-25, mod.getDouble(DoubleModifier.RAW_COMBAT_RATE));
     mod.addDouble(DoubleModifier.COMBAT_RATE, -7, ModifierType.NONE, "");
     assertEquals(-26, mod.getDouble(DoubleModifier.COMBAT_RATE));
+    assertEquals(-32, mod.getDouble(DoubleModifier.RAW_COMBAT_RATE));
     mod.addDouble(DoubleModifier.COMBAT_RATE, -9, ModifierType.NONE, "");
     assertEquals(-28, mod.getDouble(DoubleModifier.COMBAT_RATE));
     mod.addDouble(DoubleModifier.COMBAT_RATE, -9, ModifierType.NONE, "");
     assertEquals(-30, mod.getDouble(DoubleModifier.COMBAT_RATE));
+    mod.addDouble(DoubleModifier.COMBAT_RATE, -50, ModifierType.NONE, "");
+    assertEquals(-35, mod.getDouble(DoubleModifier.COMBAT_RATE));
+    mod.addDouble(DoubleModifier.COMBAT_RATE, -50, ModifierType.NONE, "");
+    assertEquals(-35, mod.getDouble(DoubleModifier.COMBAT_RATE));
+    assertEquals(-150, mod.getDouble(DoubleModifier.RAW_COMBAT_RATE));
   }
 
   @Test
@@ -1186,6 +1202,25 @@ public class ModifiersTest {
         assertThat(current.getDouble(DoubleModifier.PVP_FIGHTS), equalTo(12.0));
       }
     }
+
+    @Test
+    public void doublesMcHugeLargeLeftPole() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(Slot.CONTAINER, ItemPool.MCHUGELARGE_DUFFEL_BAG),
+              withEquipped(Slot.WEAPON, ItemPool.MCHUGELARGE_RIGHT_POLE),
+              withEquipped(Slot.OFFHAND, ItemPool.MCHUGELARGE_LEFT_POLE),
+              withEquipped(Slot.ACCESSORY1, ItemPool.MCHUGELARGE_LEFT_SKI),
+              withEquipped(Slot.ACCESSORY2, ItemPool.MCHUGELARGE_RIGHT_SKI),
+              withEffect(EffectPool.OFFHAND_REMARKABLE));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments(false);
+        Modifiers current = KoLCharacter.getCurrentModifiers();
+
+        assertThat(current.getDouble(DoubleModifier.COLD_RESISTANCE), equalTo(18.0));
+      }
+    }
   }
 
   @Nested
@@ -1558,6 +1593,59 @@ public class ModifiersTest {
 
       Modifiers mods = ModifierDatabase.getModifiers(ModifierType.ITEM, item);
       assertThat(mods.getDouble(DoubleModifier.EFFECT_DURATION), closeTo(5, 0.001));
+    }
+  }
+
+  @Nested
+  class TimeTwitchingTowerSoup {
+    @Test
+    void protogeneticSoupConsideredInFamiliarWeight() {
+      Modifiers familiarMods = new Modifiers();
+      var familiar = FamiliarData.registerFamiliar(FamiliarPool.BABY_GRAVY_FAIRY, 0);
+      familiar.setSoupWeight(19);
+
+      familiarMods.applyFamiliarModifiers(familiar, null);
+
+      assertThat(familiarMods.getDouble(DoubleModifier.ITEMDROP), closeTo(50.166, 0.001));
+
+      KoLCharacter.removeFamiliar(familiar);
+    }
+  }
+
+  @Nested
+  class DoubleExpressions {
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
+    public void helmOnlyFreePullInAxecore(final boolean axecore) {
+      var cleanups = axecore ? withPath(Path.AVATAR_OF_BORIS) : new Cleanups();
+      try (cleanups) {
+        Modifiers mods = ModifierDatabase.getModifiers(ModifierType.ITEM, ItemPool.BORIS_HELM);
+        assertThat(mods.getBoolean(BooleanModifier.FREE_PULL), is(axecore));
+      }
+    }
+
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
+    public void helmOnlySoftcoreOnlyNotInAxecore(final boolean axecore) {
+      var cleanups = axecore ? withPath(Path.AVATAR_OF_BORIS) : new Cleanups();
+      try (cleanups) {
+        Modifiers mods = ModifierDatabase.getModifiers(ModifierType.ITEM, ItemPool.BORIS_HELM);
+        assertThat(mods.getBoolean(BooleanModifier.SOFTCORE), is(!axecore));
+      }
+    }
+  }
+
+  @Test
+  public void hatTrickHatsCountOnlyHighestPowerForDamageAbsorption() {
+    var cleanups =
+        new Cleanups(
+            withPath(Path.HAT_TRICK),
+            withHatTrickHats(List.of(ItemPool.SEAL_HELMET, ItemPool.LONGHAIRED_HIPPY_WIG)));
+    try (cleanups) {
+      Modifiers current = KoLCharacter.getCurrentModifiers();
+      assertThat(current.getDouble(DoubleModifier.DAMAGE_ABSORPTION), closeTo(200, 0.001));
+      assertThat(current.getDouble(DoubleModifier.STENCH_DAMAGE), closeTo(20, 0.001));
+      assertThat(current.getDouble(DoubleModifier.WEAPON_DAMAGE), closeTo(1, 0.001));
     }
   }
 }

@@ -1,6 +1,7 @@
 package internal.extensions;
 
 import static internal.extensions.CheckNested.isNested;
+import static internal.helpers.Utilities.verboseDelete;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -24,10 +25,12 @@ public class ClearSharedStateAfter implements AfterAllCallback {
     // pulvereport.txt comes from a disabled test of DebugDatabase
     // test_stringbuffer_function_with_consstring.txt comes from the CustomScript
     // stringbuffer_function_with_consstring.js
-    String[] filesToDelete = {"pulvereport.txt", "test_stringbuffer_function_with_consstring.txt"};
+    String[] filesToDelete = {
+      "mallprices.txt", "pulvereport.txt", "test_stringbuffer_function_with_consstring.txt"
+    };
     for (String s : filesToDelete) {
       Path dest = Paths.get(KoLConstants.ROOT_LOCATION + "/data/" + s);
-      dest.toFile().delete();
+      verboseDelete(dest);
     }
   }
 }

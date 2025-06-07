@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
+@SuppressWarnings("incomplete-switch")
 public class DadManager {
   // You shake your head and look above the tank, at the window into
   // space. <Clue 1> forms <Clue 2> in the darkness, each more <Clue 3>

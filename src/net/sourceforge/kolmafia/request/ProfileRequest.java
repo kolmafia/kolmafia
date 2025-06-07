@@ -21,6 +21,7 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
+@SuppressWarnings("incomplete-switch")
 public class ProfileRequest extends GenericRequest implements Comparable<ProfileRequest> {
   private static final Pattern DATA_PATTERN = Pattern.compile("<td.*?>(.*?)</td>");
   private static final Pattern NUMERIC_PATTERN = Pattern.compile("\\d+");
@@ -35,6 +36,7 @@ public class ProfileRequest extends GenericRequest implements Comparable<Profile
   private String playerId;
   private Integer playerLevel;
   private boolean isHardcore;
+  private boolean inRonin;
   private String restriction;
   private Integer currentMeat;
   private Integer turnsPlayed, currentRun;
@@ -86,6 +88,7 @@ public class ProfileRequest extends GenericRequest implements Comparable<Profile
     }
 
     this.isHardcore = this.responseText.contains("<b>(Hardcore)</b></td>");
+    this.inRonin = this.responseText.contains("<b>(In Ronin)</b>");
 
     // This is a massive replace which makes the profile easier to
     // parse and re-represent inside of editor panes.
@@ -380,6 +383,15 @@ public class ProfileRequest extends GenericRequest implements Comparable<Profile
   public boolean isHardcore() {
     this.initialize();
     return this.isHardcore;
+  }
+
+  public boolean inRonin() {
+    this.initialize();
+    return this.inRonin;
+  }
+
+  public boolean canInteract() {
+    return !this.isHardcore && !this.inRonin;
   }
 
   public String getRestriction() {

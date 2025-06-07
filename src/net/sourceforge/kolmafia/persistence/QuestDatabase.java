@@ -118,6 +118,7 @@ public class QuestDatabase {
     MAELSTROM("questMaelstromOfLovers"),
     GLACIER("questGlacierOfJerks"),
     RUFUS("questRufus"),
+    PIRATEREALM("_questPirateRealm"),
     ;
 
     private final String pref;
@@ -181,6 +182,8 @@ public class QuestDatabase {
       Pattern.compile("Acquire (a|an) (.*?) for your Guzzlr client\\.");
   public static final Pattern GUZZLR_LOCATION_PATTERN =
       Pattern.compile("Deliver the (.*?) to your Guzzlr client: (.*?) in (.*)\\.");
+  private static final Pattern HIPPY_FRAT_PATTERN =
+      Pattern.compile("Remaining soldiers: (\\d+) hippies, +(\\d+) frat boys\\.");
 
   private static String[][] questLogData = null;
   private static String[][] councilData = null;
@@ -360,6 +363,14 @@ public class QuestDatabase {
     // Special handling, as there are versions with one, two, or three paragraphs
     if (pref.equals(Quest.PRIMORDIAL.getPref())) {
       return handlePrimordialSoup(details);
+    }
+
+    if (pref.equals(Quest.HIPPY_FRAT.getPref())) {
+      Matcher matcher = QuestDatabase.HIPPY_FRAT_PATTERN.matcher(details);
+      if (matcher.find()) {
+        Preferences.setInteger("hippiesDefeated", 333 - Integer.parseInt(matcher.group(1)));
+        Preferences.setInteger("fratboysDefeated", 333 - Integer.parseInt(matcher.group(2)));
+      }
     }
 
     // First thing to do is find which quest we're talking about.
@@ -963,6 +974,7 @@ public class QuestDatabase {
         "booPeakLit",
         "desertExploration",
         "zeppelinProtestors",
+        "zeppelinProgress",
         "middleChamberUnlock",
         "lowerChamberUnlock",
         "controlRoomUnlock",
@@ -1073,6 +1085,12 @@ public class QuestDatabase {
     return Preferences.getString(quest.getPref());
   }
 
+  private static String stepToProgress(int step) {
+    if (step < 0) return QuestDatabase.UNSTARTED;
+    if (step == 0) return QuestDatabase.STARTED;
+    return "step" + step;
+  }
+
   public static void setQuest(Quest quest, String progress) {
     Preferences.setString(quest.getPref(), progress);
   }
@@ -1082,6 +1100,10 @@ public class QuestDatabase {
       return;
     }
     QuestDatabase.setQuestIfBetter(quest.getPref(), progress);
+  }
+
+  public static void setQuestIfBetter(Quest quest, int step) {
+    QuestDatabase.setQuestIfBetter(quest, stepToProgress(step));
   }
 
   private static void setQuestIfBetter(String pref, String status) {

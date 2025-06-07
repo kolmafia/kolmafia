@@ -1,4 +1,4 @@
-2
+3
 # Shop name	buy/sell	shop currency gained/lost	item bought/sold	ROWXXX
 # ROW and quantity sold are optional, if both are used they must be separated by a comma
 
@@ -643,6 +643,32 @@ Ye Newe Souvenir Shoppe	buy	100	portable Othello set	ROW755
 Ye Newe Souvenir Shoppe	buy	250	Twelve Night Energy	ROW757
 Ye Newe Souvenir Shoppe	buy	1000	Yorick	ROW758
 
+# The Central Loathing Floral Mercantile Exchange
+
+# The Central Loathing Floral Mercantile Exchange	buy	2	Chroner (1)	ROW759
+# The Central Loathing Floral Mercantile Exchange	buy	1	Chroner (16)	ROW760
+# The Central Loathing Floral Mercantile Exchange	buy	1	Chroner (21)	ROW761
+# The Central Loathing Floral Mercantile Exchange	buy	1	Chroner (11)	ROW762
+
+The Primordial Soup Kitchen	ROW1491	bacteria bisque	Chroner (10)
+The Primordial Soup Kitchen	ROW1492	ciliophora chowder	Chroner (10)
+The Primordial Soup Kitchen	ROW1493	cream of chloroplasts	Chroner (10)
+The Primordial Soup Kitchen	ROW1499	elbow soup	bacteria bisque	protogenetic chunklet (elbow)
+The Primordial Soup Kitchen	ROW1498	elbow soup	ciliophora chowder	protogenetic chunklet (elbow)
+The Primordial Soup Kitchen	ROW1497	elbow soup	cream of chloroplasts	protogenetic chunklet (elbow)
+The Primordial Soup Kitchen	ROW1502	flagellate soup	bacteria bisque	protogenetic chunklet (flagellum)
+The Primordial Soup Kitchen	ROW1500	flagellate soup	ciliophora chowder	protogenetic chunklet (flagellum)
+The Primordial Soup Kitchen	ROW1501	flagellate soup	cream of chloroplasts	protogenetic chunklet (flagellum)
+The Primordial Soup Kitchen	ROW1496	lip soup	bacteria bisque	protogenetic chunklet (lips)
+The Primordial Soup Kitchen	ROW1495	lip soup	ciliophora chowder	protogenetic chunklet (lips)
+The Primordial Soup Kitchen	ROW1494	lip soup	cream of chloroplasts	protogenetic chunklet (lips)
+The Primordial Soup Kitchen	ROW1505	muscular soup	bacteria bisque	protogenetic chunklet (muscle)
+The Primordial Soup Kitchen	ROW1504	muscular soup	ciliophora chowder	protogenetic chunklet (muscle)
+The Primordial Soup Kitchen	ROW1503	muscular soup	cream of chloroplasts	protogenetic chunklet (muscle)
+The Primordial Soup Kitchen	ROW1508	synaptic soup	bacteria bisque	protogenetic chunklet (synapse)
+The Primordial Soup Kitchen	ROW1507	synaptic soup	ciliophora chowder	protogenetic chunklet (synapse)
+The Primordial Soup Kitchen	ROW1506	synaptic soup	cream of chloroplasts	protogenetic chunklet (synapse)
+
 # Things you can buy with freshwater fishbones
 
 Freshwater Fishbonery	buy	5	fishbone belt	ROW326
@@ -803,6 +829,42 @@ LT&T Gift Shop	buy	15	Western Slang Vol. 1: Violence	ROW800
 LT&T Gift Shop	buy	15	Western Slang Vol. 2: Cooking	ROW801
 LT&T Gift Shop	buy	15	Western Slang Vol. 3: Fraud	ROW802
 
+# Things you can buy with rads
+
+# --- Strength ---
+Genetic Fiddling	ROW852	Boiling Tear Ducts	rad (30)
+Genetic Fiddling	ROW856	Projectile Salivary Glands	rad (30)
+Genetic Fiddling	ROW855	Translucent Skin	rad (30)
+Genetic Fiddling	ROW854	Skunk Glands	rad (30)
+Genetic Fiddling	ROW853	Throat Refrigerant	rad (30)
+Genetic Fiddling	ROW869	Steroid Bladder	rad (60)
+Genetic Fiddling	ROW861	Extra Muscles	rad (90)
+# --- Endurance ---
+Genetic Fiddling	ROW868	Magic Sweat	rad (60)
+Genetic Fiddling	ROW867	Flappy Ears	rad (60)
+Genetic Fiddling	ROW860	Adipose Polymers	rad (90)
+Genetic Fiddling	ROW859	Metallic Skin	rad (90)
+# --- Charisma ---
+Genetic Fiddling	ROW863	Hypno-Eyes	rad (90)
+Genetic Fiddling	ROW871	Self-Combing Hair	rad (60)
+Genetic Fiddling	ROW876	Extremely Punchable Face	rad (90)
+# --- Intelligence ---
+Genetic Fiddling	ROW870	Intracranial Eye	rad (60)
+Genetic Fiddling	ROW857	Mind Bullets	rad (60)
+Genetic Fiddling	ROW862	Extra Brain	rad (90)
+# --- Luck ---
+Genetic Fiddling	ROW879	Internal Soda Machine	rad (30)
+Genetic Fiddling	ROW878	Extra Kidney	rad (60)
+Genetic Fiddling	ROW877	Extra Gall Bladder	rad (60)
+# --- Perception ---
+Genetic Fiddling	ROW873	Magnetic Ears	rad (90)
+Genetic Fiddling	ROW865	Sucker Fingers	rad (120)
+# --- Agility ---
+Genetic Fiddling	ROW874	Firefly Abdomen	rad (90)
+Genetic Fiddling	ROW872	Bone Springs	rad (90)
+Genetic Fiddling	ROW875	Squid Glands	rad (90)
+Genetic Fiddling	ROW864	Backwards Knees	rad (120)
+
 # BACON
 Internet Meme Shop	buy	20	viral video	ROW821
 Internet Meme Shop	buy	74	plus one	ROW824
@@ -815,6 +877,11 @@ Internet Meme Shop	buy	150000	First Post shirt package	ROW829
 Internet Meme Shop	buy	5000	infinite BACON machine	ROW828
 
 # Things you can buy with cop dollars
+
+# These are conditionally available (must have previous lesser badge) and require a ShopRow coinmaster
+# Precinct Materiel Division	ROW832	bronze detective badge	plastic detective badge	detective roscoe	cop dollar (50)
+# Precinct Materiel Division	ROW831	silver detective badge	bronze detective badge	detective roscoe	cop dollar (200)
+# Precinct Materiel Division	ROW833	gold detective badge	silver detective badge	detective roscoe	cop dollar (400)
 
 Precinct Materiel Division	buy	4	hardboiled egg	ROW839
 Precinct Materiel Division	buy	4	Falcon&trade; Maltese Liquor	ROW835
@@ -860,7 +927,7 @@ Cheer-o-Vend 3000	buy	15	cheer-o-gram	ROW969
 Cheer-o-Vend 3000	buy	100	cheerful antler hat	ROW970
 Cheer-o-Vend 3000	buy	100	cheerful Crimbo sweater	ROW971
 Cheer-o-Vend 3000	buy	100	cheerful pajama pants	ROW972
-Cheer-o-Vend 3000	buy	150	warehouse key	ROW979
+# Cheer-o-Vend 3000	buy	150	warehouse key	ROW979
 Cheer-o-Vend 3000	buy	1000	The Journal of Mime Science Vol. 1	ROW973
 Cheer-o-Vend 3000	buy	1000	The Journal of Mime Science Vol. 2	ROW974
 Cheer-o-Vend 3000	buy	1000	The Journal of Mime Science Vol. 3	ROW975
@@ -1057,7 +1124,9 @@ Dino World Gift Shop (The Dinostaur)	buy	500	stuffed dinosaur	ROW1288
 
 # KoL Con 13 Merch Table
 
-KoL Con 13 Merch Table	buy	2	KoL Con 13 snowglobe	ROW883
+KoL Con 13 Merch Table	buy	1	unevolved organism	ROW1509
+KoL Con 13 Merch Table	buy	2	crated wardrobe-o-matic	ROW1397
+KoL Con 13 Merch Table	buy	3	KoL Con 13 snowglobe	ROW883
 KoL Con 13 Merch Table	buy	4	potted tea tree	ROW884
 KoL Con 13 Merch Table	buy	5	Xi Receiver Unit	ROW885
 KoL Con 13 Merch Table	buy	6	Gordon Beer's Beer Garden Catalog	ROW886
@@ -1065,13 +1134,6 @@ KoL Con 13 Merch Table	buy	7	Tome of Rad Libs	ROW887
 KoL Con 13 Merch Table	buy	8	Gygaxian Libram	ROW888
 KoL Con 13 Merch Table	buy	9	hippo tutu	ROW889
 KoL Con 13 Merch Table	buy	1111	Twitching Television Tattoo	ROW895
-
-# The Central Loathing Floral Mercantile Exchange
-
-# The Central Loathing Floral Mercantile Exchange	buy	2	Chroner (1)	ROW759
-# The Central Loathing Floral Mercantile Exchange	buy	1	Chroner (16)	ROW760
-# The Central Loathing Floral Mercantile Exchange	buy	1	Chroner (21)	ROW761
-# The Central Loathing Floral Mercantile Exchange	buy	1	Chroner (11)	ROW762
 
 # Fancy Dan the Cocktail Man
 
@@ -1211,17 +1273,133 @@ Elf Guard Toy and Munitions Factory	buy	400	Lil' Snowball Factory	ROW1429
 Elf Guard Toy and Munitions Factory	buy	1000	Elf Guard safety bear	ROW1440
 Elf Guard Toy and Munitions Factory	buy	2000	Elf Guard temporary (permanent) tattoo	ROW1430
 
-#Kiwi Kwiki Mart	unknown	mini kiwi bikini	mini kiwi (2)	ROW1477
-#Kiwi Kwiki Mart	unknown	mini kiwitini	mini kiwi	ROW1478
-#Kiwi Kwiki Mart	unknown	mini kiwitini	mini kiwi	ROW1479
-#Kiwi Kwiki Mart	unknown	mini kiwi invisible dirigible	mini kiwi (3)	ROW1480
-#Kiwi Kwiki Mart	unknown	mini kiwi aioli	mini kiwi (5)	ROW1481
-#Kiwi Kwiki Mart	unknown	mini kiwi silicon tiepin	mini kiwi (3)	ROW1482
-#Kiwi Kwiki Mart	unknown	mini kiwi tipi	mini kiwi	ROW1483
-#Kiwi Kwiki Mart	unknown	mini kiwi intoxicating spirits	mini kiwi (3)	ROW1484
-#Kiwi Kwiki Mart	unknown	mini kiwi illicit antibiotic	mini kiwi (3)	ROW1485
-#Kiwi Kwiki Mart	unknown	mini kiwi antimilitaristic hippy petition	mini kiwi (3)	ROW1486
-#Kiwi Kwiki Mart	unknown	mini kiwi whipping stick	mini kiwi (4)	ROW1487
-#Kiwi Kwiki Mart	unknown	mini kiwi icepick	mini kiwi (4)	ROW1488
-#Kiwi Kwiki Mart	unknown	mini kiwi-flavored aspirin-injecting lipstick	mini kiwi (3)	ROW1489
-#Kiwi Kwiki Mart	unknown	mini kiwi digitized cookies	mini kiwi (3)	ROW1490
+# Crimbo 2024
+
+Crimbo24 Cafe	ROW1527	chocolate ostrich egg	Spirit of Easter (15)
+Crimbo24 Cafe	ROW1528	candied beef and cabbage	Spirit of St. Patrick's Day (15)
+Crimbo24 Cafe	ROW1529	candy rations	Spirit of Veteran's Day (15)
+Crimbo24 Cafe	ROW1530	double-candied yams	Spirit of Thanksgiving (15)
+Crimbo24 Cafe	ROW1531	Christmas ham	Spirit of Christmas (15)
+Crimbo24 Cafe	ROW1532	holiday smorgasbord	Spirit of Easter (15)	Spirit of St. Patrick's Day (15)	Spirit of Veteran's Day (15)	Spirit of Thanksgiving (15)	Spirit of Christmas (15)
+
+Crimbo24 Bar	ROW1521	Easter grasshopper	Spirit of Easter (15)
+Crimbo24 Bar	ROW1522	Irish eggnog	Spirit of St. Patrick's Day (15)
+Crimbo24 Bar	ROW1523	canteen of jungle juice	Spirit of Veteran's Day (15)
+Crimbo24 Bar	ROW1524	turchucken	Spirit of Thanksgiving (15)
+Crimbo24 Bar	ROW1525	mechanically-mulled cider	Spirit of Christmas (15)
+Crimbo24 Bar	ROW1526	holiday trip around the world	Spirit of Easter (15)	Spirit of St. Patrick's Day (15)	Spirit of Veteran's Day (15)	Spirit of Thanksgiving (15)	Spirit of Christmas (15)
+
+Crimbo24 Factory	ROW1538	lucky moai statuette	Spirit of Easter (50)	Spirit of St. Patrick's Day (50)
+Crimbo24 Factory	ROW1537	egg gun	Spirit of Easter (200)	Spirit of Veteran's Day (200)
+Crimbo24 Factory	ROW1540	lucky army helmet	Spirit of St. Patrick's Day (350)	Spirit of Veteran's Day (75)
+Crimbo24 Factory	ROW1541	candy egg deviler	Spirit of Easter (200)	Spirit of Thanksgiving (125)
+Crimbo24 Factory	ROW1542	lucky napkin	Spirit of St. Patrick's Day (50)	Spirit of Thanksgiving (25)
+Crimbo24 Factory	ROW1543	Thanksgiving ration	Spirit of Veteran's Day (25)	Spirit of Thanksgiving (50)
+Crimbo24 Factory	ROW1544	Easter eggnog	Spirit of Easter (50)	Spirit of Christmas (25)
+Crimbo24 Factory	ROW1545	clovermint	Spirit of St. Patrick's Day (50)	Spirit of Christmas (25)
+Crimbo24 Factory	ROW1546	nylon Christmas stockings	Spirit of Veteran's Day (200)	Spirit of Christmas (150)
+Crimbo24 Factory	ROW1547	tattoo of two turkeys	Spirit of Thanksgiving (300)	Spirit of Christmas (300)
+Crimbo24 Factory	ROW1533	Secrets of the Master Egg Hunters	Spirit of Easter (500)
+Crimbo24 Factory	ROW1534	How to Lose Friends and Attract Snakes	Spirit of St. Patrick's Day (500)
+Crimbo24 Factory	ROW1535	Covert Ops for Kids	Spirit of Veteran's Day (500)
+Crimbo24 Factory	ROW1536	Holiday Multitasking	Spirit of Thanksgiving (500)
+Crimbo24 Factory	ROW1548	Hoyle's Guide to Reindeer Games	Spirit of Christmas (500)
+
+# Mini Kiwi
+
+Kiwi Kwiki Mart	ROW1477	mini kiwi bikini	mini kiwi (2)
+Kiwi Kwiki Mart	ROW1488	mini kiwi icepick	mini kiwi (4)
+Kiwi Kwiki Mart	ROW1487	mini kiwi whipping stick	mini kiwi (4)
+Kiwi Kwiki Mart	ROW1480	mini kiwi invisible dirigible	mini kiwi (3)
+Kiwi Kwiki Mart	ROW1482	mini kiwi silicon tiepin	mini kiwi (3)
+Kiwi Kwiki Mart	ROW1484	mini kiwi intoxicating spirits	mini kiwi (3)
+Kiwi Kwiki Mart	ROW1478	mini kiwitini	mini kiwi	bottle of vodka
+Kiwi Kwiki Mart	ROW1479	mini kiwitini	mini kiwi	bottle of gin
+Kiwi Kwiki Mart	ROW1486	mini kiwi antimilitaristic hippy petition	mini kiwi (3)
+Kiwi Kwiki Mart	ROW1485	mini kiwi illicit antibiotic	mini kiwi (3)
+Kiwi Kwiki Mart	ROW1483	mini kiwi tipi	mini kiwi
+Kiwi Kwiki Mart	ROW1489	mini kiwi-flavored aspirin-injecting lipstick	mini kiwi (3)
+Kiwi Kwiki Mart	ROW1481	mini kiwi aioli	mini kiwi (5)
+Kiwi Kwiki Mart	ROW1490	mini kiwi digitized cookies	mini kiwi (3)
+
+# Sept-Ember Censer
+
+Sept-Ember Censer	buy	1	bembershoot	ROW1516
+Sept-Ember Censer	buy	1	blade of dismemberment	ROW1510
+Sept-Ember Censer	buy	1	embers-only jacket	ROW1515
+Sept-Ember Censer	buy	1	hat of remembering	ROW1518
+Sept-Ember Censer	buy	1	wheel of camembert	ROW1517
+Sept-Ember Censer	buy	2	Mmm-brr! brand mouthwash 	ROW1512
+Sept-Ember Censer	buy	2	head of emberg lettuce	ROW1520
+Sept-Ember Censer	buy	2	Septapus summoning charm	ROW1513
+Sept-Ember Censer	buy	2	throwin' ember	ROW1519
+Sept-Ember Censer	buy	4	structural ember	ROW1514
+Sept-Ember Censer	buy	6	miniature Embering Hulk	ROW1511
+
+# CyberRealm
+
+The Dedigitizer	ROW1560	wired underwear	1 (8)
+The Dedigitizer	ROW1559	encrypted shuriken	1 (16)
+The Dedigitizer	ROW1558	visual packet sniffer	1 (16)
+The Dedigitizer	ROW1577	synthetic coffee	1 (8)	0 (8)
+The Dedigitizer	ROW1578	iDrops	1 (16)	0 (16)
+The Dedigitizer	ROW1567	cybeer	1 (32)	dedigitizer schematic: cybeer
+The Dedigitizer	ROW1566	cyburger	1 (32)	dedigitizer schematic: cyburger
+The Dedigitizer	ROW1568	psilocyber mushroom	1 (32)	dedigitizer schematic: psilocyber mushroom
+The Dedigitizer	ROW1550	brute force hammer	1 (32)	0 (8)	dedigitizer schematic: brute force hammer
+The Dedigitizer	ROW1561	digibritches	1 (32)	0 (16)	dedigitizer schematic: digibritches
+The Dedigitizer	ROW1554	pocket GPU	1 (32)	0 (16)	dedigitizer schematic: pocket GPU
+The Dedigitizer	ROW1563	zero-trust tanktop	1 (32)	0 (32)	dedigitizer schematic: zero-trust tanktop
+The Dedigitizer	ROW1565	familiar-in-the-middle wrapper	1 (64)	0 (16)	dedigitizer schematic: familiar-in-the-middle
+The Dedigitizer	ROW1562	cryptocloak	1 (64)	0 (32)	dedigitizer schematic: cryptocloak
+The Dedigitizer	ROW1552	cybervisor	1 (64)	0 (32)	dedigitizer schematic: cybervisor
+The Dedigitizer	ROW1555	malware injector	1 (64)	0 (32)	dedigitizer schematic: malware injector
+The Dedigitizer	ROW1564	trojan horseshoe	1 (128)	0 (32)	dedigitizer schematic: trojan horseshoe
+The Dedigitizer	ROW1579	3d printed server room key	1 (128)	0 (32)	dedigitizer schematic: 3d printed server room key
+The Dedigitizer	ROW1553	retro floppy disk	1 (128)	0 (64)	dedigitizer schematic: retro floppy disk
+The Dedigitizer	ROW1574	geofencing rapier	1 (256)	dedigitizer schematic: geofencing rapier
+The Dedigitizer	ROW1575	geofencing shield	1 (256)	dedigitizer schematic: geofencing shield
+The Dedigitizer	ROW1573	hashing vise	1 (256)	dedigitizer schematic: hashing vise
+The Dedigitizer	ROW1572	insignificant bit	1 (256)	dedigitizer schematic: insignificant bit
+The Dedigitizer	ROW1570	OVERCLOCK(10) rom chip	1 (256)	0 (64)	dedigitizer schematic: OVERCLOCK(10) rom chip
+The Dedigitizer	ROW1569	SLEEP(5) rom chip	1 (256)	0 (64)	dedigitizer schematic: SLEEP(5) rom chip
+The Dedigitizer	ROW1571	STATS+++ rom chip	1 (256)	0 (64)	dedigitizer schematic: STATS+++ rom chip
+The Dedigitizer	ROW1576	virtual cybertattoo	1 (512)	0 (128)	dedigitizer schematic: virtual cybertattoo
+
+# Mixing methods with multiple recipes for the same item
+
+Grandma Sea Monkey	ROW131	crappy Mer-kin mask	Mer-kin scholar mask
+Grandma Sea Monkey	ROW128	crappy Mer-kin mask	Mer-kin gladiator mask
+Grandma Sea Monkey	ROW124	crappy Mer-kin mask	aerated diving helmet	pristine fish scale (3)
+Grandma Sea Monkey	ROW125	crappy Mer-kin tailpiece	sea chaps	teflon swim fins	pristine fish scale (3)
+Grandma Sea Monkey	ROW126	Mer-kin gladiator mask	crappy Mer-kin mask	Mer-kin headguard
+Grandma Sea Monkey	ROW127	Mer-kin gladiator tailpiece	crappy Mer-kin tailpiece	Mer-kin thighguard
+Grandma Sea Monkey	ROW129	Mer-kin scholar mask	crappy Mer-kin mask	Mer-kin facecowl
+Grandma Sea Monkey	ROW130	Mer-kin scholar tailpiece	crappy Mer-kin tailpiece	Mer-kin waistrope
+Grandma Sea Monkey	ROW116	sushi doily	sea lace
+Grandma Sea Monkey	ROW117	scimitar cozy	sea lace (3)	pristine fish scale
+Grandma Sea Monkey	ROW118	fish stick cozy	sea lace (3)	pristine fish scale
+Grandma Sea Monkey	ROW119	bazooka cozy	sea lace (3)	pristine fish scale
+Grandma Sea Monkey	ROW132	scale-mail underwear	dull fish scale (25)	pristine fish scale
+Grandma Sea Monkey	ROW120	sea mantle	pristine fish scale (5)
+Grandma Sea Monkey	ROW121	sea shawl	pristine fish scale (5)
+Grandma Sea Monkey	ROW122	sea cape	pristine fish scale (5)
+Grandma Sea Monkey	ROW123	saltwaterbed	sea leather (15)
+
+# April Shower Thoughts
+
+Using your Shower Thoughts	ROW1580	spitball	glob of wet paper
+Using your Shower Thoughts	ROW1585	papier Mach 1 airplane	glob of wet paper (2)
+Using your Shower Thoughts	ROW1582	Three Sheets to the Wind	glob of wet paper (3)
+Using your Shower Thoughts	ROW1584	pile of wet dates	glob of wet paper (3)
+Using your Shower Thoughts	ROW1586	wet blanket	glob of wet paper (11)
+Using your Shower Thoughts	ROW1592	wet paper cup	glob of wet paper (2)
+Using your Shower Thoughts	ROW1581	wet paper weights	glob of wet paper (2)
+Using your Shower Thoughts	ROW1593	wet paperback	glob of wet paper (2)
+Using your Shower Thoughts	ROW1595	wet shower radio	glob of wet paper
+Using your Shower Thoughts	ROW1591	wet shower curtain	glob of wet paper (7)
+Using your Shower Thoughts	ROW1587	wet shower cap	glob of wet paper (10)
+Using your Shower Thoughts	ROW1588	wet shower shoes	glob of wet paper (15)
+Using your Shower Thoughts	ROW1589	wet shower shorts	glob of wet paper (20)
+Using your Shower Thoughts	ROW1590	wet paper tiger	glob of wet paper (1,000)
+Using your Shower Thoughts	ROW1594	wet shower stamp	glob of wet paper (1,000)

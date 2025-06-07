@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.textui.command;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.startsWith;
 
 import org.junit.jupiter.api.Nested;
@@ -30,6 +31,13 @@ public class JavaScriptCommandTest extends AbstractCommandTestBase {
     }
 
     @Test
+    public void printsFunction() {
+      String output = execute("availableAmount");
+
+      assertThat(output.trim(), is("Returned: [function availableAmount]"));
+    }
+
+    @Test
     public void emptyArray() {
       String output = execute("[]");
 
@@ -44,10 +52,9 @@ public class JavaScriptCommandTest extends AbstractCommandTestBase {
           output,
           equalTo(
               """
-          Returned: aggregate string [2]
-          0 => hello
-          1 => null
-          """));
+              JavaScript evaluator exception: Null / undefined values in JS arrays cannot be converted to ASH.
+              Returned: null
+              """));
     }
 
     @Test
@@ -58,10 +65,66 @@ public class JavaScriptCommandTest extends AbstractCommandTestBase {
           output,
           equalTo(
               """
-          Returned: aggregate null [2]
-          0 => null
-          1 => hello
-          """));
+              JavaScript evaluator exception: Null / undefined values in JS arrays cannot be converted to ASH.
+              Returned: null
+              """));
+    }
+
+    @Test
+    public void undefinedContainingArray() {
+      String output = execute("[\"hello\", undefined]");
+
+      assertThat(
+          output,
+          equalTo(
+              """
+              JavaScript evaluator exception: Null / undefined values in JS arrays cannot be converted to ASH.
+              Returned: null
+              """));
+    }
+
+    @Test
+    public void undefinedValueInObject() {
+      String output = execute("o = {\"hello\": undefined, \"2\": 1}");
+
+      assertThat(
+          output,
+          equalTo(
+              """
+              JavaScript evaluator exception: Null / undefined values in JS objects cannot be converted to ASH.
+              Returned: null
+              """));
+    }
+
+    @Test
+    public void nullValueInObject() {
+      String output = execute("o = {\"hello\": null}");
+
+      assertThat(
+          output,
+          equalTo(
+              """
+              JavaScript evaluator exception: Null / undefined values in JS objects cannot be converted to ASH.
+              Returned: null
+              """));
+    }
+
+    @Test
+    public void nullValueInStringifiedObject() {
+      String output = execute("JSON.stringify({\"hello\": null})");
+
+      assertThat(output, equalTo("""
+              Returned: {"hello":null}
+              """));
+    }
+
+    @Test
+    public void nullCoalescing() {
+      String output = execute("null ?? true");
+
+      assertThat(output, equalTo("""
+              Returned: true
+              """));
     }
   }
 }

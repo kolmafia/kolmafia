@@ -1,0 +1,21 @@
+[
+ {
+   "repo": "https://github.com/Rinn/kol-acquirebuff",
+   "type": "git",
+   "author": "Rinn",
+   "name": "acquireBuff",
+   "forumThread": "https://kolmafia.us/showthread.php?4048-acquireBuff-Get-a-buff-from-a-buffbot",
+   "shortDesc": "Get a buff from a buffbot",
+   "category": "action",
+   "longDesc": "This script will attempt to get you a buff from a buffbot without needing to know the price or even the bot's name."
+ },
+ {
+   "repo": "https://svn.code.sf.net/p/rlbond86-mafia-scripts/code/auto_mushroom/trunk/",
+   "author": "rlbond86",
+   "name": "Auto Mushroom",
+   "forumThread": "https://kolmafia.us/showthread.php?9854-auto_mushroom-the-perfect-mushroom-growing-script",
+   "shortDesc": "Automatically farms mushrooms from Degrassi Knoll",
+   "category": "action",
+   "longDesc": "Automatically farms mushrooms to produce 8 gloomy black mushrooms every 16 days, along with a lot of additional second and third generation mushrooms."
+ },
+]

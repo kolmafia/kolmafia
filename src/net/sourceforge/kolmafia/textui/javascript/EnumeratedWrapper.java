@@ -13,6 +13,7 @@ import net.sourceforge.kolmafia.textui.parsetree.Type;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
 import org.mozilla.javascript.ConsString;
 import org.mozilla.javascript.Context;
+import org.mozilla.javascript.EvaluatorException;
 import org.mozilla.javascript.Function;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
@@ -79,20 +80,24 @@ public class EnumeratedWrapper extends ScriptableObject {
 
   public static Object toJSON(Context cx, Scriptable thisObj, Object[] args, Function funObj) {
     Scriptable scope = ScriptableObject.getTopLevelScope(thisObj);
-    ValueConverter coercer = new ValueConverter(cx, scope);
+    ScriptableValueConverter coercer = new ScriptableValueConverter(cx, scope);
     var proxy = ((EnumeratedWrapper) thisObj).wrapped.asProxy();
 
-    if (!(proxy instanceof CompositeValue compValue)) return coercer.asJava(proxy);
+    try {
+      if (!(proxy instanceof CompositeValue compValue)) return coercer.asJava(proxy);
 
-    var result = cx.newObject(thisObj);
+      var result = cx.newObject(thisObj);
 
-    for (Value keyObject : compValue.keys()) {
-      var key = JavascriptRuntime.toCamelCase(keyObject.toString());
-      var value = compValue.aref(keyObject).toJSON();
-      ScriptableObject.putProperty(result, key, value);
+      for (Value keyObject : compValue.keys()) {
+        var key = JavascriptRuntime.toCamelCase(keyObject.toString());
+        var value = compValue.aref(keyObject).toJSON();
+        ScriptableObject.putProperty(result, key, value);
+      }
+
+      return result;
+    } catch (ValueConverter.ValueConverterException e) {
+      throw new EvaluatorException(e.getMessage());
     }
-
-    return result;
   }
 
   public static Object constructDefaultValue() {
@@ -170,9 +175,13 @@ public class EnumeratedWrapper extends ScriptableObject {
     Type type = DataTypes.simpleTypes.find(typeName);
 
     Scriptable scope = ScriptableObject.getTopLevelScope(thisObject);
-    ValueConverter coercer = new ValueConverter(cx, scope);
+    ScriptableValueConverter coercer = new ScriptableValueConverter(cx, scope);
 
-    return cx.newArray(
-        scope, Arrays.stream((Value[]) type.allValues().content).map(coercer::asJava).toArray());
+    try {
+      return cx.newArray(
+          scope, Arrays.stream((Value[]) type.allValues().content).map(coercer::asJava).toArray());
+    } catch (ValueConverter.ValueConverterException e) {
+      throw new EvaluatorException(e.getMessage());
+    }
   }
 }

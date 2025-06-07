@@ -17,7 +17,7 @@ public enum AscensionClass {
   ASTRAL_SPIRIT("Astral Spirit", -1),
   SEAL_CLUBBER("Seal Clubber", 1, "club", 0, Path.NONE, "Club Foot"),
   TURTLE_TAMER("Turtle Tamer", 2, "turtle", 0, Path.NONE, "Shell Up"),
-  PASTAMANCER("Pastamancer", 3, "pasta", 1, Path.NONE, "Entangling Noodles"),
+  PASTAMANCER("Pastamancer", 3, "pastaspoon", 1, Path.NONE, "Entangling Noodles"),
   SAUCEROR("Sauceror", 4, "saucepan", 1, Path.NONE, "Soul Bubble"),
   DISCO_BANDIT("Disco Bandit", 5, "discoball", 2),
   ACCORDION_THIEF("Accordion Thief", 6, "accordion", 2, Path.NONE, "Accordion Bash"),
@@ -58,7 +58,8 @@ public enum AscensionClass {
   PIG_SKINNER("Pig Skinner", 28, "football2", 0, Path.SHADOWS_OVER_LOATHING),
   CHEESE_WIZARD("Cheese Wizard", 29, "jarl_cheeseslice", 1, Path.SHADOWS_OVER_LOATHING),
   JAZZ_AGENT("Jazz Agent", 30, "motif", 2, Path.SHADOWS_OVER_LOATHING, "Drum Roll"),
-  WEREPROFESSOR("WereProfessor", 31, "intrinsic_prof", 0, Path.WEREPROFESSOR);
+  WEREPROFESSOR("Kindly Professor", 31, "intrinsic_prof", 0, Path.WEREPROFESSOR),
+  ZOOTOMIST("Zootomist", 32, "zootomist", 0, Path.Z_IS_FOR_ZOOTOMIST);
 
   public static final List<AscensionClass> standardClasses =
       Arrays.asList(

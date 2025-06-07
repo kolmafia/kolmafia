@@ -1,0 +1,257 @@
+<html><head>
+<script language=Javascript>
+<!--
+if (parent.frames.length == 0) location.href="game.php";
+//-->
+</script>
+<script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/keybinds.min.2.js"></script>
+<script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/window.20111231.js"></script>
+<script language="javascript">function chatFocus(){if(top.chatpane.document.chatform.graf) top.chatpane.document.chatform.graf.focus();}
+if (typeof defaultBind != 'undefined') { defaultBind(47, 2, chatFocus); defaultBind(190, 2, chatFocus);defaultBind(191, 2, chatFocus); defaultBind(47, 8, chatFocus);defaultBind(190, 8, chatFocus); defaultBind(191, 8, chatFocus); }</script><script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/core.js"></script>
+<script language=Javascript src="https://d2uyhvukfffg5a.cloudfront.net/scripts/jquery-1.3.1.min.js"></script>
+<script type="text/javascript" src="https://d2uyhvukfffg5a.cloudfront.net/scripts/pop_query.20230713.js"></script>
+<link rel="stylesheet" type="text/css" href="https://d2uyhvukfffg5a.cloudfront.net/styles.20230117d.css">
+<style type='text/css'>
+.faded {
+zoom: 1;
+filter: alpha(opacity=35);
+opacity: 0.35;
+-khtml-opacity: 0.35;
+-moz-opacity: 0.35;
+}
+</style>
+
+</head>
+
+<body>
+<style>
+.slot { width: 400px; height: 100px; border: 1px dashed black; margin-top: 1em; }
+.fambox { width: 400px; display: inline-block; border: 1px solid black; min-height:100px; margin-bottom: 5px; background-color: white; position: relative; }
+.handle { position: absolute; }
+.dropping { background-color: blue; padding:2px;}
+.pilling { background-color: green; padding:2px;}
+.slot.full { border: 0; }
+.pill {
+margin: 1%;
+padding: 3px;
+border: 1px solid black;
+display: inline-block;
+width: 140px;
+}
+#active {
+width: 400px;
+}
+#bullholder {
+left: 420px;
+}
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/interact.js/1.2.9/interact.min.js"></script>
+<script>
+var order = "name";
+var do_order = function () {
+var divs = $('#bullpen .fambox').get();
+divs = divs.sort(function (a, b) {
+var r = a.getAttribute('data-'+order).localeCompare(b.getAttribute('data-'+order));
+if (order == 'hp' || order == 'power') return -1 * r;
+else return r;
+});
+var b = $('#bullpen')[0];
+var p= b.parentNode;
+p.removeChild(b);
+for (var i=0; i<divs.length; i++) {
+b.appendChild(divs[i]);
+}
+p.appendChild(b);
+//$('#bullpen').show();
+};
+jQuery(function () {
+$('#order').change(function () {
+order = $(this).val();
+do_order();
+});
+
+$('#up').click(function (e) {
+var b = $('#bullpen')[0];
+var c = b.scrollTop
+var h = $(b).parent().height();
+b.scrollTo(0, Math.max(0,c - h));
+});
+$('#down').click(function (e) {
+var b = $('#bullpen')[0];
+var c = b.scrollTop
+var h = $(b).parent().height();
+b.scrollTo(0, c + h);
+});
+});
+var dragging =null;
+interact('#bullpen').dropzone({
+accept: ".fambox",
+overlap: 0.5,
+ondragenter: function (event) {
+event.target.classList.add('dropping');
+},
+ondragleave: function (event) {
+$('.dropping').removeClass('dropping');
+},
+ondrop: function (event) {
+$('.dropping').removeClass('dropping');
+$(dragging).parent().removeClass('full');
+$(dragging).remove();
+
+$.post('/famteam.php', {slot: 0, fam: $(dragging).attr('data-id'), pwd: "4ee17c5887d89c8a5987201c25a047a0", action: "slot"}, function (res) {
+alert(slot)
+$('#bullpen').empty().append($(res).find('#bullpen > *'));
+do_order();
+});
+if (document.selection) { document.selection.empty() }
+else { window.getSelection().removeAllRanges() }
+}
+});
+interact('.slot').dropzone({
+accept: ".fambox",
+overlap: 0.5,
+ondragenter: function (event) {
+event.target.classList.add('dropping');
+},
+ondragleave: function (event) {
+$('.dropping').removeClass('dropping');
+},
+ondrop: function (event) {
+var fam = $(dragging).attr('data-id');
+var slot = $(event.target).attr('data-pos');
+$('.dropping').removeClass('dropping');
+$(dragging).parent().removeClass('full');
+$(event.target).empty().append(dragging.cloneNode(true)).addClass('full');
+$(dragging).remove();
+
+$.post('/famteam.php', {slot: slot, fam: fam, pwd: "4ee17c5887d89c8a5987201c25a047a0", action: "slot"}, function (res) {
+$('#bullpen').empty().append($(res).find('#bullpen > *'));
+do_order();
+//console.log(res);
+});
+if (document.selection) { document.selection.empty() }
+else { window.getSelection().removeAllRanges() }
+}
+});
+interact('.fambox').dropzone({
+accept: ".pill",
+overlap: 0.5,
+ondragenter: function (event) {
+event.target.classList.add('pilling');
+},
+ondragleave: function (event) {
+$('.pilling').removeClass('pilling');
+},
+ondrop: function (event) {
+var iid = $(dragging).attr('data-id');
+var fam = $(event.target).attr('data-id');
+$('.pilling').removeClass('pilling');
+$(dragging).remove();
+
+$.post('/famteam.php', {iid: iid, fam: fam, pwd: "4ee17c5887d89c8a5987201c25a047a0", action: "feed"}, function (res) {
+$('#pillbox').replaceWith($(res).find('#pillbox'));
+$('.res').fadeIn();
+$('[data-id="'+fam+'"]').replaceWith($(res).find('[data-id="'+fam+'"]'));
+});
+if (document.selection) { document.selection.empty() }
+else { window.getSelection().removeAllRanges() }
+}
+});
+interact('.fambox')
+.draggable({
+manualStart: true,
+onmove: function (e) {
+var target = e.target,
+x = (parseFloat(target.getAttribute('data-x')) || 0) + e.dx,
+y = (parseFloat(target.getAttribute('data-y')) || 0) + e.dy;
+
+$(target).css('top', y);
+$(target).css('left', x);
+
+target.setAttribute('data-x', x);
+target.setAttribute('data-y', y);
+if (document.selection) { document.selection.empty() }
+else { window.getSelection().removeAllRanges() }
+},
+onend: function (e) {
+$(e.target).remove();
+}
+})
+.on('move', function (event) {
+var interaction = event.interaction;
+if (interaction.pointerIsDown && !interaction.interacting()) {
+var original = event.currentTarget,
+clone = event.currentTarget.cloneNode(true);
+
+dragging = original;
+document.body.appendChild(clone);
+var posX = $(original).offset().left,
+posY = $(original).offset().top;
+
+$(clone).addClass('handle');
+var xClick = Math.abs(event.pageX - posX);
+//el.attr('data-x', xClick - (w/2));
+var yoff = Math.abs(event.pageY - posY);
+//el.attr('data-y', yoff - (h/2));
+$(clone).css({'left': x = event.pageX - 100 , 'top': y=event.pageY -50 });
+clone.setAttribute('data-x', x);
+clone.setAttribute('data-y', y);
+// start a drag interaction targeting the clone
+interaction.start({ name: 'drag' },
+event.interactable,
+clone);
+}
+});
+interact('.pill')
+.draggable({
+manualStart: true,
+onmove: function (e) {
+var target = e.target,
+x = (parseFloat(target.getAttribute('data-x')) || 0) + e.dx,
+y = (parseFloat(target.getAttribute('data-y')) || 0) + e.dy;
+
+$(target).css('top', y);
+$(target).css('left', x);
+
+target.setAttribute('data-x', x);
+target.setAttribute('data-y', y);
+if (document.selection) { document.selection.empty() }
+else { window.getSelection().removeAllRanges() }
+},
+onend: function (e) {
+$(e.target).remove();
+}
+})
+.on('move', function (event) {
+var interaction = event.interaction;
+if (interaction.pointerIsDown && !interaction.interacting()) {
+var original = event.currentTarget,
+clone = event.currentTarget.cloneNode(true);
+
+dragging = original;
+document.body.appendChild(clone);
+var posX = $(original).offset().left,
+posY = $(original).offset().top;
+
+$(clone).addClass('handle');
+var xClick = Math.abs(event.pageX - posX);
+//el.attr('data-x', xClick - (w/2));
+var yoff = Math.abs(event.pageY - posY);
+//el.attr('data-y', yoff - (h/2));
+$(clone).css({'left': x = event.pageX - 30 , 'top': y=event.pageY -15 });
+clone.setAttribute('data-x', x);
+clone.setAttribute('data-y', y);
+// start a drag interaction targeting the clone
+interaction.start({ name: 'drag' },
+event.interactable,
+clone);
+}
+});
+jQuery(function ($) {
+$('.pill').click(function (e) {
+descitem($(this).attr('data-descid'));
+});
+});
+</script>
+<div style="position: relative; width: 95%; margin-left: 2.5%; border: 1px solid blue; height: 95vh; border-size: 0px 1px 1px 1px"><table width='100%' cellspacing=0 cellpadding=0><tr><td style="color: white;" align=center bgcolor=blue><b>Your Terrarium</b></td></tr></table><div style="position: absolute; top: 20px; left: 10px; overflow-y: auto; overflow-x: hidden;" id="active"><b>Active Team</b><div class="slot full " data-pos="1"><div class="fambox" data-id="110"><table class='' ><tr><td rowspan=2><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/turtle.gif></td><td class=tiny width=150>Tadolph </td><td rowspan=2 width=120><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/blacksword.gif></td><td rowspan=2 align=center width=60><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/whiteshield.gif alt="Armor: This familiar will take 1 less damage from attacks (minimum of 1)." title="Armor: This familiar will take 1 less damage from attacks (minimum of 1)."></td><td rowspan=2 width=150><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/blackheart.gif><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/blackheart.gif></td></tr><tr><Td class=tiny>Lv. 1 Wereturtle</td></tr><tr><td height=10></tr><!-- hi --><tr><td></td><td colspan=5 class=small valign=center><b>Skills:</b> <span title="Deal [power] damage to a random enemy.">[Bite]</span> <span title="Deal 1 damage to two random enemies.">[Splash]</span> </td></tr><!-- hi --></table></div></div><center>Front</center><div class="slot full " data-pos="2"><div class="fambox" data-id="8"><table class='' ><tr><td rowspan=2><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/familiar8.gif></td><td class=tiny width=150>Hobert </td><td rowspan=2 width=120><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/blacksword.gif></td><td rowspan=2 align=center width=60><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/whiteshield.gif alt="Armor: This familiar will take 1 less damage from attacks (minimum of 1)." title="Armor: This familiar will take 1 less damage from attacks (minimum of 1)."></td><td rowspan=2 width=150><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/blackheart.gif><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/blackheart.gif></td></tr><tr><Td class=tiny>Lv. 1 Barrrnacle</td></tr><tr><td height=10></tr><!-- hi --><tr><td></td><td colspan=5 class=small valign=center><b>Skills:</b> <span title="Deal [power] damage to the frontmost enemy.">[Bonk]</span> <span title="Deal 1 damage to two random enemies.">[Splash]</span> </td></tr><!-- hi --></table></div></div><center>Middle</center><div class="slot full " data-pos="3"><div class="fambox" data-id="20"><table class='' ><tr><td rowspan=2><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/familiar20.gif></td><td class=tiny width=150>Frabediah </td><td rowspan=2 width=120><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/blacksword.gif></td><td rowspan=2 align=center width=60><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/spikycollar.gif alt="Spiked: This familiar will deal 1 damage back when attacked." title="Spiked: This familiar will deal 1 damage back when attacked."></td><td rowspan=2 width=150><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/blackheart.gif><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/blackheart.gif></td></tr><tr><Td class=tiny>Lv. 1 Killer Bee</td></tr><tr><td height=10></tr><!-- hi --><tr><td></td><td colspan=5 class=small valign=center><b>Skills:</b> <span title="Deal [power] damage to the frontmost enemy and poison it.">[Sting]</span> <span title="Reduce 2 random enemies\' power by 1.">[Growl]</span> </td></tr><!-- hi --></table></div></div><center>Back</center><div id="pillbox"></div><div class="clear: both"></div></div><div style="position: absolute; top: 20px; height: 92vh;" id="bullholder"><b>Bullpen</b><br />Sort By: <select id="order"><option value="name">Name</option><option value="type">Type</option><option value="hp">HP</option><option value="power">Power</option></select><div id="bullpen" style="height: 100%; overflow: auto"><div class="fambox" data-id="12" data-power="1" data-hp="2" data-type="Blood-Faced Volleyball" data-name="Huncent"><table class='' ><tr><td rowspan=2><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/familiar12.gif></td><td class=tiny width=150>Huncent </td><td rowspan=2 width=120><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/blacksword.gif></td><td rowspan=2 align=center width=60></td><td rowspan=2 width=150><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/blackheart.gif><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/blackheart.gif></td></tr><tr><Td class=tiny>Lv. 1 Blood-Faced Volleyball</td></tr><tr><td height=10></tr><!-- hi --><tr><td></td><td colspan=5 class=small valign=center><b>Skills:</b> <span title="Deal [power] damage to the frontmost enemy.">[Bonk]</span> <span title="Reduce the frontmost enemy\'s power by 1.">[Frighten]</span> </td></tr><!-- hi --></table></div><div class="fambox" data-id="303" data-power="1" data-hp="2" data-type="Burly Bodyguard" data-name="Kevin Costner"><table class='' ><tr><td rowspan=2><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/bodyguard.gif></td><td class=tiny width=150>Kevin Costner </td><td rowspan=2 width=120><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/blacksword.gif></td><td rowspan=2 align=center width=60></td><td rowspan=2 width=150><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/blackheart.gif><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/blackheart.gif></td></tr><tr><Td class=tiny>Lv. 1 Burly Bodyguard</td></tr><tr><td height=10></tr><!-- hi --><tr><td></td><td colspan=5 class=small valign=center><b>Skills:</b> <span title="Deal [power] damage to the frontmost enemy and reduce its power by 1.">[Punch]</span> <span title="Heal the frontmost ally by [power].">[Hug]</span> </td></tr><!-- hi --></table></div><div class="fambox" data-id="1" data-power="1" data-hp="2" data-type="Mosquito" data-name="Vladimir"><table class='' ><tr><td rowspan=2><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/familiar1.gif></td><td class=tiny width=150>Vladimir </td><td rowspan=2 width=120><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/blacksword.gif></td><td rowspan=2 align=center width=60></td><td rowspan=2 width=150><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/blackheart.gif><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/blackheart.gif></td></tr><tr><Td class=tiny>Lv. 1 Mosquito</td></tr><tr><td height=10></tr><!-- hi --><tr><td></td><td colspan=5 class=small valign=center><b>Skills:</b> <span title="Deal [power] damage to a random enemy.">[Bite]</span> <span title="Heal all allies for 1.">[Lick]</span> </td></tr><!-- hi --></table></div></div></div></div></body></html>

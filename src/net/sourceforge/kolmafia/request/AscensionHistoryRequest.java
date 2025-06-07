@@ -28,6 +28,7 @@ import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
+@SuppressWarnings("incomplete-switch")
 public class AscensionHistoryRequest extends GenericRequest
     implements Comparable<AscensionHistoryRequest> {
   private static AscensionFilter typeComparator = AscensionFilter.NORMAL;
@@ -580,7 +581,7 @@ public class AscensionHistoryRequest extends GenericRequest
 
         this.path =
             Arrays.stream(Path.values())
-                .filter(p -> columns[8].contains(p.getImage()))
+                .filter(p -> columns[8].contains(String.format("/%s", p.getImage())))
                 .findAny()
                 .orElse(Path.NONE);
       } catch (Exception e) {

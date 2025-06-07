@@ -1,13 +1,17 @@
 package net.sourceforge.kolmafia.session;
 
+import com.alibaba.fastjson2.JSONException;
+import com.alibaba.fastjson2.JSONObject;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -25,6 +29,8 @@ import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.listener.ItemListenerRegistry;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
+import net.sourceforge.kolmafia.modifiers.Lookup;
+import net.sourceforge.kolmafia.modifiers.MultiStringModifier;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ConcoctionPool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -33,37 +39,39 @@ import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.DebugDatabase;
+import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
+import net.sourceforge.kolmafia.persistence.ItemDatabase.Attribute;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.NPCStoreDatabase;
 import net.sourceforge.kolmafia.persistence.RestoresDatabase;
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.ClanStashRequest;
 import net.sourceforge.kolmafia.request.ClanStashRequest.ClanStashRequestType;
 import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest.ClosetRequestType;
-import net.sourceforge.kolmafia.request.CombineMeatRequest;
-import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.HermitRequest;
+import net.sourceforge.kolmafia.request.ManageStoreRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
-import net.sourceforge.kolmafia.request.SewerRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.StorageRequest.StorageRequestType;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
-import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.request.coinmaster.HermitRequest;
+import net.sourceforge.kolmafia.request.concoction.CombineMeatRequest;
+import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
+import net.sourceforge.kolmafia.request.concoction.SewerRequest;
 import net.sourceforge.kolmafia.swingui.GenericFrame;
 import net.sourceforge.kolmafia.textui.ScriptRuntime;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
-import org.json.JSONException;
-import org.json.JSONObject;
 
+@SuppressWarnings("incomplete-switch")
 public abstract class InventoryManager {
   private static final int BULK_PURCHASE_AMOUNT = 30;
 
@@ -79,10 +87,13 @@ public abstract class InventoryManager {
   public static void refresh() {
     // Retrieve the contents of inventory via api.php
     ApiRequest.updateInventory();
+    // Items in inventory can grant modifiers.
+    // For example, Cincho de Mayo gives 3 free rests.
+    KoLCharacter.recalculateAdjustments();
   }
 
-  public static final void parseInventory(final JSONObject JSON) {
-    if (JSON == null) {
+  public static final void parseInventory(final JSONObject json) {
+    if (json == null) {
       return;
     }
 
@@ -91,11 +102,9 @@ public abstract class InventoryManager {
 
     try {
       // {"1":"1","2":"1" ... }
-      Iterator<String> keys = JSON.keys();
-      while (keys.hasNext()) {
-        String key = keys.next();
+      for (String key : json.keySet()) {
         int itemId = StringUtilities.parseInt(key);
-        int count = JSON.getInt(key);
+        int count = json.getIntValue(key);
         String name = ItemDatabase.getItemDataName(itemId);
         if (name == null) {
           // Fetch descid from api.php?what=item
@@ -117,7 +126,7 @@ public abstract class InventoryManager {
         }
       }
     } catch (JSONException e) {
-      ApiRequest.reportParseError("inventory", JSON.toString(), e);
+      ApiRequest.reportParseError("inventory", json.toString(), e);
       return;
     }
 
@@ -205,14 +214,16 @@ public abstract class InventoryManager {
       count += item.getCount(KoLConstants.closet);
     }
 
-    // Free Pulls from Hagnk's are always accessible
-    count += item.getCount(KoLConstants.freepulls);
+    if (!KoLCharacter.inLegacyOfLoathing() || pullableInLoL(itemId)) {
+      // Free Pulls from Hagnk's are always accessible
+      count += item.getCount(KoLConstants.freepulls);
 
-    // Storage and your clan stash are always accessible
-    // once you are out of Ronin or have freed the king,
-    // but the user can mark either as out-of-bounds
-    if (InventoryManager.canUseStorage()) {
-      count += item.getCount(KoLConstants.storage);
+      // Storage and your clan stash are always accessible
+      // once you are out of Ronin or have freed the king,
+      // but the user can mark either as out-of-bounds
+      if (InventoryManager.canUseStorage()) {
+        count += item.getCount(KoLConstants.storage);
+      }
     }
 
     if (InventoryManager.canUseClanStash() && includeStash) {
@@ -239,6 +250,13 @@ public abstract class InventoryManager {
       AdventureResult equipment = EquipmentManager.getEquipment(slot);
       if (equipment != null && equipment.getItemId() == item.getItemId()) {
         ++count;
+      }
+    }
+    if (KoLCharacter.inHatTrick()) {
+      for (var hat : EquipmentManager.getHatTrickHats()) {
+        if (hat == item.getItemId()) {
+          ++count;
+        }
       }
     }
     if (includeAllFamiliars) {
@@ -738,7 +756,7 @@ public abstract class InventoryManager {
     if (!forceNoMall) {
       if (shouldUseNPCStore) {
         // If Price from NPC store is 100 or below and available, never try mall.
-        int NPCPrice = NPCStoreDatabase.availablePrice(itemId);
+        long NPCPrice = NPCStoreDatabase.availablePrice(itemId);
         int autosellPrice = ItemDatabase.getPriceById(itemId);
         if (NPCPrice > 0 && NPCPrice <= Math.max(100, autosellPrice * 2)) {
           forceNoMall = true;
@@ -753,6 +771,7 @@ public abstract class InventoryManager {
     }
 
     boolean shouldUseMall = !forceNoMall && InventoryManager.canUseMall(item);
+    boolean shouldUseShop = shouldUseMall && InventoryManager.canUseShop(item);
     boolean haveBuyScript = Preferences.getString("buyScript").trim().length() > 0;
     boolean scriptSaysBuy = false;
 
@@ -876,6 +895,19 @@ public abstract class InventoryManager {
       // If buying from the mall will leave the item in storage, use only NPCs
       AdventureResult instance = item.getInstance(missingCount);
       boolean onlyNPC = forceNoMall || !InventoryManager.canUseMall();
+
+      // If mall purchases are allowed, maybe take items from the mall shop first
+      if (shouldUseShop && !onlyNPC) {
+        ManageStoreRequest request = new ManageStoreRequest(itemId, missingCount);
+        RequestThread.postRequest(request);
+
+        missingCount = item.getCount() - item.getCount(KoLConstants.inventory);
+
+        if (missingCount <= 0) {
+          return "";
+        }
+      }
+
       List<PurchaseRequest> results =
           onlyNPC ? MallPriceManager.searchNPCs(item) : MallPriceManager.searchMall(instance);
       KoLmafia.makePurchases(
@@ -1029,6 +1061,18 @@ public abstract class InventoryManager {
     if (shouldUseMall) {
       if (sim) {
         return "buy";
+      }
+
+      // If mall purchases are allowed, maybe take items from the mall shop first
+      if (shouldUseShop) {
+        ManageStoreRequest request = new ManageStoreRequest(itemId, missingCount);
+        RequestThread.postRequest(request);
+
+        missingCount = item.getCount() - item.getCount(KoLConstants.inventory);
+
+        if (missingCount <= 0) {
+          return "";
+        }
       }
 
       AdventureResult instance = item.getInstance(missingCount);
@@ -1302,15 +1346,27 @@ public abstract class InventoryManager {
     }
 
     CraftingType method = ConcoctionDatabase.getMixingMethod(item);
-    int yield = ConcoctionDatabase.getYield(itemId);
-    int madeQuantity = (quantity + yield - 1) / yield;
-    long price = ConcoctionDatabase.getCreationCost(method) * madeQuantity;
-
+    long price = ConcoctionDatabase.getCreationCost(method);
     AdventureResult[] ingredients = ConcoctionDatabase.getIngredients(itemId);
 
-    for (int i = 0; i < ingredients.length; ++i) {
-      AdventureResult ingredient = ingredients[i];
-      int needed = ingredient.getCount() * madeQuantity;
+    if (ingredients.length == 0) {
+      // This is a concoction with no ingredients, so if creatable == 0,
+      // we can be sure that we cannot concoct it right now.
+      var conc = ConcoctionPool.get(itemId);
+      if (conc == null || conc.creatable == 0) {
+        return Long.MAX_VALUE;
+      }
+      if (price == 0) {
+        return 0;
+      }
+    }
+
+    long yield = ConcoctionDatabase.getYield(itemId);
+    long madeQuantity = (quantity + yield - 1) / yield;
+    price *= madeQuantity;
+
+    for (AdventureResult ingredient : ingredients) {
+      long needed = ingredient.getCount() * madeQuantity;
 
       long ingredientPrice =
           ingredient.isMeat()
@@ -1564,6 +1620,23 @@ public abstract class InventoryManager {
         && !KoLCharacter.getLimitMode().limitStorage();
   }
 
+  public static boolean canUseShop(final AdventureResult item) {
+    if (item == null) {
+      return false;
+    }
+    return InventoryManager.canUseShop(item.getItemId());
+  }
+
+  public static boolean canUseShop(final int itemId) {
+    return InventoryManager.canUseShop()
+        && ItemDatabase.isTradeable(itemId)
+        && StoreManager.shopAmount(itemId) > 0;
+  }
+
+  public static boolean canUseShop() {
+    return InventoryManager.canUseMall() && Preferences.getBoolean("autoSatisfyWithShop");
+  }
+
   public static final void fireInventoryChanged(final int itemId) {
     ItemListenerRegistry.fireItemChanged(itemId);
   }
@@ -1573,6 +1646,12 @@ public abstract class InventoryManager {
   public static final void checkItemDescription(final int itemId) {
     String descId = ItemDatabase.getDescriptionId(itemId);
     GenericRequest req = new GenericRequest("desc_item.php?whichitem=" + descId);
+    RequestThread.postRequest(req);
+  }
+
+  public static final void checkEffectDescription(final int effectId) {
+    String descId = EffectDatabase.getDescriptionId(effectId);
+    GenericRequest req = new GenericRequest("desc_effect.php?whicheffect=" + descId);
     RequestThread.postRequest(req);
   }
 
@@ -1637,6 +1716,7 @@ public abstract class InventoryManager {
     checkCrimboTrainingManual();
     checkRing();
     checkFuturistic();
+    checkZootomistMods();
   }
 
   public static void checkNoHat() {
@@ -1806,6 +1886,16 @@ public abstract class InventoryManager {
     checkItem(ItemPool.FUTURISTIC_COLLAR, "_futuristicCollarModifier");
   }
 
+  public static void checkZootomistMods() {
+    if (!KoLCharacter.inZootomist()) {
+      // don't bother checking
+      return;
+    }
+    checkEffectDescription(EffectPool.GRAFTED);
+    checkEffectDescription(EffectPool.MILK_OF_FAMILIAR_KINDNESS);
+    checkEffectDescription(EffectPool.MILK_OF_FAMILIAR_CRUELTY);
+  }
+
   private static void checkItem(int id, String preference) {
     AdventureResult ITEM = ItemPool.get(id, 1);
     String mod = Preferences.getString(preference);
@@ -1821,12 +1911,19 @@ public abstract class InventoryManager {
   }
 
   public static void checkDartPerks() {
-    var dartHolster = ItemPool.EVERFULL_DART_HOLSTER;
-    if (!InventoryManager.equippedOrInInventory(ItemPool.get(dartHolster, 1))) {
+    if (!InventoryManager.equippedOrInInventory(ItemPool.get(ItemPool.EVERFULL_DART_HOLSTER, 1))) {
       return;
     }
 
-    checkItemDescription(dartHolster);
+    checkItemDescription(ItemPool.EVERFULL_DART_HOLSTER);
+  }
+
+  public static void checkMimicEgg() {
+    if (!InventoryManager.equippedOrInInventory(ItemPool.get(ItemPool.MIMIC_EGG, 1))) {
+      return;
+    }
+
+    checkItemDescription(ItemPool.MIMIC_EGG);
   }
 
   private static final AdventureResult GOLDEN_MR_ACCESSORY =
@@ -1853,107 +1950,33 @@ public abstract class InventoryManager {
   }
 
   public static void checkSkillGrantingEquipment() {
-    checkPowerfulGlove();
-    checkDesignerSweatpants();
-    checkCinchoDeMayo();
-    checkAugustScepter();
+    checkSkillGrantingEquipment(null);
   }
 
-  public static void checkPowerfulGlove() {
-    if (KoLCharacter.hasEquipped(UseSkillRequest.POWERFUL_GLOVE)
-        || InventoryManager.hasItem(UseSkillRequest.POWERFUL_GLOVE, false)
-        || (KoLCharacter.inLegacyOfLoathing()
-            && (KoLCharacter.hasEquipped(UseSkillRequest.REPLICA_POWERFUL_GLOVE)
-                || InventoryManager.hasItem(UseSkillRequest.REPLICA_POWERFUL_GLOVE, false)))) {
-      addPowerfulGloveSkills();
-    }
-  }
-
-  public static void addPowerfulGloveSkills() {
-    // *** Special case: the buffs are always available
-    KoLCharacter.addAvailableSkill(SkillPool.INVISIBLE_AVATAR);
-    KoLCharacter.addAvailableSkill(SkillPool.TRIPLE_SIZE);
-  }
-
-  public static void checkDesignerSweatpants() {
-    if (KoLCharacter.hasEquipped(UseSkillRequest.DESIGNER_SWEATPANTS)
-        || InventoryManager.hasItem(UseSkillRequest.DESIGNER_SWEATPANTS, false)
-        || (KoLCharacter.inLegacyOfLoathing()
-            && (KoLCharacter.hasEquipped(UseSkillRequest.REPLICA_DESIGNER_SWEATPANTS)
-                || InventoryManager.hasItem(UseSkillRequest.REPLICA_DESIGNER_SWEATPANTS, false)))) {
-      addDesignerSweatpantsSkills();
-    }
-  }
-
-  public static void addDesignerSweatpantsSkills() {
-    // *** Special case: the buffs are always available
-    KoLCharacter.addAvailableSkill(SkillPool.MAKE_SWEATADE);
-    KoLCharacter.addAvailableSkill(SkillPool.DRENCH_YOURSELF_IN_SWEAT);
-    KoLCharacter.addAvailableSkill(SkillPool.SWEAT_OUT_BOOZE);
-    KoLCharacter.addAvailableSkill(SkillPool.SIP_SOME_SWEAT);
-  }
-
-  public static void checkCinchoDeMayo() {
-    if (KoLCharacter.hasEquipped(UseSkillRequest.CINCHO_DE_MAYO)
-        || InventoryManager.hasItem(UseSkillRequest.CINCHO_DE_MAYO, false)
-        || (KoLCharacter.inLegacyOfLoathing()
-            && (KoLCharacter.hasEquipped(UseSkillRequest.REPLICA_CINCHO_DE_MAYO)
-                || InventoryManager.hasItem(UseSkillRequest.REPLICA_CINCHO_DE_MAYO, false)))) {
-      addCinchoDeMayoSkills();
-    }
-  }
-
-  public static void addCinchoDeMayoSkills() {
-    KoLCharacter.addAvailableSkill(SkillPool.CINCHO_DISPENSE_SALT_AND_LIME);
-    KoLCharacter.addAvailableSkill(SkillPool.CINCHO_PARTY_SOUNDTRACK);
-    KoLCharacter.addAvailableSkill(SkillPool.CINCHO_FIESTA_EXIT);
-    KoLCharacter.addAvailableSkill(SkillPool.CINCHO_PROJECTILE_PINATA);
-    KoLCharacter.addAvailableSkill(SkillPool.CINCHO_PARTY_FOUL);
-    KoLCharacter.addAvailableSkill(SkillPool.CINCHO_CONFETTI_EXTRAVAGANZA);
-  }
-
-  public static void checkAugustScepter() {
-    if (KoLCharacter.hasEquipped(UseSkillRequest.AUGUST_SCEPTER)
-        || InventoryManager.hasItem(UseSkillRequest.AUGUST_SCEPTER, false)
-        || (KoLCharacter.inLegacyOfLoathing()
-            && (KoLCharacter.hasEquipped(UseSkillRequest.REPLICA_AUGUST_SCEPTER)
-                || InventoryManager.hasItem(UseSkillRequest.REPLICA_AUGUST_SCEPTER, false)))) {
-      addAugustScepterSkills();
-    }
-  }
-
-  public static void addAugustScepterSkills() {
-    KoLCharacter.addAvailableSkill(SkillPool.AUG_1ST_MOUNTAIN_CLIMBING_DAY);
-    KoLCharacter.addAvailableSkill(SkillPool.AUG_2ND_FIND_AN_ELEVENLEAF_CLOVER_DAY);
-    KoLCharacter.addAvailableSkill(SkillPool.AUG_3RD_WATERMELON_DAY);
-    KoLCharacter.addAvailableSkill(SkillPool.AUG_4TH_WATER_BALLOON_DAY);
-    KoLCharacter.addAvailableSkill(SkillPool.AUG_5TH_OYSTER_DAY);
-    KoLCharacter.addAvailableSkill(SkillPool.AUG_6TH_FRESH_BREATH_DAY);
-    KoLCharacter.addAvailableSkill(SkillPool.AUG_7TH_LIGHTHOUSE_DAY);
-    KoLCharacter.addAvailableSkill(SkillPool.AUG_8TH_CAT_DAY);
-    KoLCharacter.addAvailableSkill(SkillPool.AUG_9TH_HAND_HOLDING_DAY);
-    KoLCharacter.addAvailableSkill(SkillPool.AUG_10TH_WORLD_LION_DAY);
-    KoLCharacter.addAvailableSkill(SkillPool.AUG_11TH_PRESIDENTIAL_JOKE_DAY);
-    KoLCharacter.addAvailableSkill(SkillPool.AUG_12TH_ELEPHANT_DAY);
-    KoLCharacter.addAvailableSkill(SkillPool.AUG_13TH_LEFTOFF_HANDERS_DAY);
-    KoLCharacter.addAvailableSkill(SkillPool.AUG_14TH_FINANCIAL_AWARENESS_DAY);
-    KoLCharacter.addAvailableSkill(SkillPool.AUG_15TH_RELAXATION_DAY);
-    KoLCharacter.addAvailableSkill(SkillPool.AUG_16TH_ROLLER_COASTER_DAY);
-    KoLCharacter.addAvailableSkill(SkillPool.AUG_17TH_THRIFTSHOP_DAY);
-    KoLCharacter.addAvailableSkill(SkillPool.AUG_18TH_SERENDIPITY_DAY);
-    KoLCharacter.addAvailableSkill(SkillPool.AUG_19TH_HONEY_BEE_AWARENESS_DAY);
-    KoLCharacter.addAvailableSkill(SkillPool.AUG_20TH_MOSQUITO_DAY);
-    KoLCharacter.addAvailableSkill(SkillPool.AUG_21ST_SPUMONI_DAY);
-    KoLCharacter.addAvailableSkill(SkillPool.AUG_22ND_TOOTH_FAIRY_DAY);
-    KoLCharacter.addAvailableSkill(SkillPool.AUG_23RD_RIDE_THE_WIND_DAY);
-    KoLCharacter.addAvailableSkill(SkillPool.AUG_24TH_WAFFLE_DAY);
-    KoLCharacter.addAvailableSkill(SkillPool.AUG_25TH_BANANA_SPLIT_DAY);
-    KoLCharacter.addAvailableSkill(SkillPool.AUG_26TH_TOILET_PAPER_DAY);
-    KoLCharacter.addAvailableSkill(SkillPool.AUG_27TH_JUST_BECAUSE_DAY);
-    KoLCharacter.addAvailableSkill(SkillPool.AUG_28TH_RACE_YOUR_MOUSE_DAY);
-    KoLCharacter.addAvailableSkill(SkillPool.AUG_29TH_MORE_HERBS_LESS_SALT_DAY);
-    KoLCharacter.addAvailableSkill(SkillPool.AUG_30TH_BEACH_DAY);
-    KoLCharacter.addAvailableSkill(SkillPool.AUG_31ST_CABERNET_SAUVIGNON_DAY);
+  public static void checkSkillGrantingEquipment(final Integer itemId) {
+    ModifierDatabase.getInventorySkillProviders().stream()
+        .filter(l -> l.getType() == ModifierType.ITEM)
+        .map(Lookup::getIntKey)
+        .filter(i -> itemId == null || i.equals(itemId))
+        .filter(id -> KoLCharacter.hasEquipped(id) || InventoryManager.hasItem(id))
+        .flatMap(
+            id -> {
+              var mods = ModifierDatabase.getItemModifiers(id);
+              if (mods == null) return Stream.empty();
+              return Stream.concat(
+                  mods.getStrings(MultiStringModifier.CONDITIONAL_SKILL_INVENTORY).stream()
+                      .map(s -> Map.entry(true, s)),
+                  mods.getStrings(MultiStringModifier.CONDITIONAL_SKILL_EQUIPPED).stream()
+                      .map(s -> Map.entry(false, s)));
+            })
+        .map(e -> Map.entry(e.getKey(), SkillDatabase.getSkillId(e.getValue())))
+        .filter(
+            e ->
+                e.getKey()
+                    || SkillDatabase.getSkillTags(e.getValue())
+                        .contains(SkillDatabase.SkillTag.NONCOMBAT))
+        .map(Map.Entry::getValue)
+        .forEach(KoLCharacter::addAvailableSkill);
   }
 
   public static void checkRing() {
@@ -1998,6 +2021,7 @@ public abstract class InventoryManager {
     switch (mixingMethod) {
       case SMITH, SSMITH -> freeCrafts += ConcoctionDatabase.getFreeSmithingTurns();
       case COOK_FANCY -> freeCrafts += ConcoctionDatabase.getFreeCookingTurns();
+      case MIX_FANCY -> freeCrafts += ConcoctionDatabase.getFreeCocktailcraftingTurns();
     }
 
     if (needed <= freeCrafts) {
@@ -2032,5 +2056,37 @@ public abstract class InventoryManager {
     InventoryManager.askedAboutCrafting = KoLCharacter.getUserId();
 
     return true;
+  }
+
+  public static boolean pullableInLoL(int itemId) {
+    // the Mayam Calendar is not pullable despite being a usable item & a free pull
+    if (itemId == ItemPool.MAYAM_CALENDAR) {
+      return false;
+    }
+    // Only food, booze, potions, combat and usable items may be pulled on this path.
+    return switch (ItemDatabase.getConsumptionType(itemId)) {
+      case
+          // food, booze
+          EAT,
+          DRINK,
+          // potions
+          POTION,
+          AVATAR_POTION,
+          // usable
+          USE,
+          USE_MULTIPLE,
+          USE_INFINITE,
+          USE_MESSAGE_DISPLAY,
+          FOOD_HELPER,
+          DRINK_HELPER,
+          CARD,
+          FOLDER,
+          BOOTSKIN,
+          BOOTSPUR -> true;
+        // combat
+      case NONE -> ItemDatabase.getAttribute(
+          itemId, EnumSet.of(Attribute.COMBAT, Attribute.COMBAT_REUSABLE));
+      default -> false;
+    };
   }
 }

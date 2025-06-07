@@ -1,8 +1,8 @@
 package internal.matchers;
 
-import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeMatcher;
 
 public class SignMatcher {
   public enum Sign {
@@ -22,16 +22,15 @@ public class SignMatcher {
   }
 
   public static Matcher<Integer> hasSign(Sign sign) {
-    return new BaseMatcher<>() {
+    return new TypeSafeMatcher<>() {
       @Override
       public void describeTo(Description description) {
         description.appendText("Expected an integer with the sign of: ").appendValue(sign);
       }
 
       @Override
-      public boolean matches(Object actual) {
-        if (!(actual instanceof Integer value)) return false;
-        return Integer.signum(value) == sign.getSignum();
+      public boolean matchesSafely(Integer actual) {
+        return Integer.signum(actual) == sign.getSignum();
       }
     };
   }

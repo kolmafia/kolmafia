@@ -1,0 +1,55 @@
+aggregate int [string]
+Hammertime => 10
+none => 18
+aggregate int [string]
+Trufflin' => 10
+none => 18
+aggregate int [string]
+So You Can Work More... => 10
+none => 18
+aggregate int [string]
+Buggy Flavor => 10
+none => 18
+aggregate int [string]
+Uncaged Power => 10
+none => 18
+aggregate int [string]
+Adapt to Change Eventually => 10
+Bone Chilling => 10
+Cartographically Rooted => 10
+Charrrming => 10
+Cock of the Walk => 10
+Coldfinger => 10
+Ermine Eyes => 10
+Gyromitra Gymnastics => 10
+Heart of Yellow => 10
+Heavily Breathing => 10
+Human-Insect Hybrid => 10
+Macho Profundo => 10
+Moose Wisdom => 10
+Phairly Pheromonal => 10
+Strength of the Tortoise => 10
+You Know What's Up => 10
+none => 321
+aggregate int [string]
+Abominably Slippery => 10
+All Rainbow-y => 10
+Broberry Brotality => 10
+Brother Smothers's Blessing => 10
+Bulging Jaw Muscles => 10
+Cold Hard Skin => 10
+Favored by Lyle => 10
+Knob Goblin Lust Frenzy => 10
+Lit Up => 10
+Orchid Blood => 10
+Pisces in the Skyces => 10
+Sealed Brain => 10
+Spiky Frozen Hair => 10
+Yeah, It's Just Gasoline => 10
+You Can Taste the Darkness => 10
+You're Not Cooking => 10
+none => 321
+aggregate int [string]
+Angry like the Wolf => 10
+Egg-headedness => 20
+none => 60

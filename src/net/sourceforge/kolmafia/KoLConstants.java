@@ -195,13 +195,13 @@ public interface KoLConstants extends UtilityConstants {
   int CAFE_BOOZE_VERSION = 1;
   int CAFE_FOOD_VERSION = 1;
   int CLASSSKILLS_VERSION = 6;
-  int COINMASTERS_VERSION = 2;
+  int COINMASTERS_VERSION = 3;
   int COMBATS_VERSION = 1;
   int CONCOCTIONS_VERSION = 3;
   int CONSEQUENCES_VERSION = 1;
   int CULTSHORTS_VERSION = 1;
   int DAILYLIMITS_VERSION = 1;
-  int DEFAULTS_VERSION = 1;
+  int DEFAULTS_VERSION = 2;
   int ENCOUNTERS_VERSION = 1;
   int EQUIPMENT_VERSION = 2;
   int FAMBATTLE_VERSION = 1;
@@ -222,6 +222,8 @@ public interface KoLConstants extends UtilityConstants {
   int RESTORES_VERSION = 2;
   int QUESTSCOUNCIL_VERSION = 1;
   int QUESTSLOG_VERSION = 1;
+  int SHOPS_VERSION = 2;
+  int SHOPROWS_VERSION = 2;
   int SPLEENHIT_VERSION = 3;
   int STANDARD_REWARDS_VERSION = 1;
   int STANDARD_PULVERIZED_VERSION = 1;
@@ -247,7 +249,7 @@ public interface KoLConstants extends UtilityConstants {
   String COMBATFILTER_JS = "combatfilter.1.js";
   String HOTKEYS_JS = "hotkeys.js";
   String IRCM_JS = "ircm_extend.3.js";
-  String MACROHELPER_JS = "macrohelper.5.js";
+  String MACROHELPER_JS = "macrohelper.6.js";
   String ONFOCUS_JS = "onfocus.1.js";
   String SORTTABLE_JS = "sorttable.2.js";
   String STATIONARYBUTTONS_CSS = "stationarybuttons.2.css";
@@ -524,7 +526,9 @@ public interface KoLConstants extends UtilityConstants {
     BURNING_LEAVES, // Items made at the Pile of Burning Leaves
     TINKERING_BENCH, // Items made at the Tinkering Bench
     MAYAM, // Items made at the Mayam Calendar
-    KIWI, // Items bought at Kiwi Kwiki Mart
+    PHOTO_BOOTH, // Items made at the Clan Photo Booth
+    TAKERSPACE, // Items made at the TakerSpace
+    GNOME_PART, // Parts for your Reagnimated Gnome, made at the Cake-Shaped Arena
   }
 
   enum CraftingRequirements {

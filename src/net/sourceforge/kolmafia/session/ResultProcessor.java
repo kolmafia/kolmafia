@@ -26,12 +26,14 @@ import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.listener.PreferenceListenerRegistry;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import net.sourceforge.kolmafia.modifiers.Lookup;
 import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.DebugDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
@@ -46,11 +48,11 @@ import net.sourceforge.kolmafia.persistence.StandardRewardDatabase;
 import net.sourceforge.kolmafia.persistence.TCRSDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ChateauRequest;
-import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
-import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.PlaceRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
+import net.sourceforge.kolmafia.request.coinmaster.HermitRequest;
+import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 import net.sourceforge.kolmafia.session.TrackManager.Tracker;
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -372,7 +374,11 @@ public class ResultProcessor {
             EffectPool.WINE_FRIENDLY,
             EffectPool.WINE_DARK,
             EffectPool.WINE_BEFOULED,
-            EffectPool.CITIZEN_OF_A_ZONE -> DebugDatabase.readEffectDescriptionText(effectId);
+            EffectPool.CITIZEN_OF_A_ZONE,
+            EffectPool.GRAFTED,
+            EffectPool.MILK_OF_FAMILIAR_CRUELTY,
+            EffectPool.MILK_OF_FAMILIAR_KINDNESS -> DebugDatabase.readEffectDescriptionText(
+            effectId);
       }
 
       String acquisition = effectMatcher.group(2);
@@ -1112,11 +1118,11 @@ public class ResultProcessor {
 
     if (result.isItem()) {
       // Do special processing when you get certain items
-      ResultProcessor.gainItem(adventureResults, result);
-
       if (HermitRequest.isWorthlessItem(result.getItemId())) {
         result = HermitRequest.WORTHLESS_ITEM.getInstance(result.getCount());
       }
+
+      ResultProcessor.gainItem(adventureResults, result);
 
       return false;
     }
@@ -1330,79 +1336,6 @@ public class ResultProcessor {
     // handled here.
 
     switch (itemId) {
-      case ItemPool.GG_TICKET:
-      case ItemPool.SNACK_VOUCHER:
-      case ItemPool.LUNAR_ISOTOPE:
-      case ItemPool.ODD_SILVER_COIN:
-      case ItemPool.BEACH_BUCK:
-      case ItemPool.WORTHLESS_TRINKET:
-      case ItemPool.WORTHLESS_GEWGAW:
-      case ItemPool.WORTHLESS_KNICK_KNACK:
-      case ItemPool.YETI_FUR:
-      case ItemPool.LUCRE:
-      case ItemPool.SAND_DOLLAR:
-      case ItemPool.CRIMBUCK:
-      case ItemPool.BONE_CHIPS:
-      case ItemPool.CRIMBCO_SCRIP:
-      case ItemPool.AWOL_COMMENDATION:
-      case ItemPool.MR_ACCESSORY:
-      case ItemPool.UNCLE_BUCK:
-      case ItemPool.FAT_LOOT_TOKEN:
-      case ItemPool.FUDGECULE:
-      case ItemPool.FDKOL_COMMENDATION:
-      case ItemPool.WARBEAR_WHOSIT:
-      case ItemPool.KRUEGERAND:
-      case ItemPool.SHIP_TRIP_SCRIP:
-      case ItemPool.CHRONER:
-      case ItemPool.BURT:
-      case ItemPool.FRESHWATER_FISHBONE:
-      case ItemPool.CRIMBO_CREDIT:
-      case ItemPool.TOPIARY_NUGGLET:
-      case ItemPool.FUNFUNDS:
-      case ItemPool.TOXIC_GLOBULE:
-      case ItemPool.VOLCOINO:
-      case ItemPool.BACON:
-      case ItemPool.COP_DOLLAR:
-      case ItemPool.PRICELESS_DIAMOND:
-      case ItemPool.CRYSTALLINE_CHEER:
-      case ItemPool.STICK_OF_FIREWOOD:
-      case ItemPool.RARE_MEAT_ISOTOPE:
-      case ItemPool.WHITE_PIXEL:
-      case ItemPool.DRIPLET:
-      case ItemPool.GUZZLRBUCK:
-        // BatFellow currencies
-      case ItemPool.INCRIMINATING_EVIDENCE:
-      case ItemPool.DANGEROUS_CHEMICALS:
-      case ItemPool.KIDNAPPED_ORPHAN:
-      case ItemPool.HIGH_GRADE_METAL:
-      case ItemPool.HIGH_TENSILE_STRENGTH_FIBERS:
-      case ItemPool.HIGH_GRADE_EXPLOSIVES:
-        // The Traveling Trader usually wants twinkly wads
-      case ItemPool.TWINKLY_WAD:
-        // You can trade tokens for tickets
-      case ItemPool.GG_TOKEN:
-        // You can go to spaaace with a transponder
-      case ItemPool.TRANSPORTER_TRANSPONDER:
-        // Lathe-worthy woods
-      case ItemPool.FLIMSY_HARDWOOD_SCRAPS:
-      case ItemPool.DREADSYLVANIAN_HEMLOCK:
-      case ItemPool.SWEATY_BALSAM:
-      case ItemPool.ANCIENT_REDWOOD:
-      case ItemPool.WORMWOOD_STICK:
-      case ItemPool.PURPLEHEART_LOGS:
-      case ItemPool.DRIPWOOD_SLAB:
-        // Speakeasy currencies
-      case ItemPool.MILK_CAP:
-      case ItemPool.DRINK_CHIT:
-      case ItemPool.REPLICA_MR_ACCESSORY:
-        // Crimbo23 currencies
-      case ItemPool.ELF_GUARD_MPC:
-      case ItemPool.ELF_ARMY_MACHINE_PARTS:
-      case ItemPool.CRIMBUCCANEER_PIECE_OF_12:
-      case ItemPool.CRIMBUCCANEER_FLOTSAM:
-        NamedListenerRegistry.fireChange("(coinmaster)");
-        break;
-
       case ItemPool.FAKE_HAND:
         NamedListenerRegistry.fireChange("(fakehands)");
         break;
@@ -1453,6 +1386,14 @@ public class ResultProcessor {
       case ItemPool.LAW_OF_AVERAGES:
         Preferences.setBoolean("lawOfAveragesAvailable", false);
         break;
+
+      case ItemPool.UNIVERSAL_SEASONING:
+        Preferences.setBoolean("universalSeasoningAvailable", false);
+        break;
+
+      case ItemPool.BOOK_OF_IRONY:
+        Preferences.setBoolean("bookOfIronyAvailable", false);
+        break;
       case ItemPool.MAGNIFICENT_OYSTER_EGG:
       case ItemPool.BRILLIANT_OYSTER_EGG:
       case ItemPool.GLISTENING_OYSTER_EGG:
@@ -1481,6 +1422,10 @@ public class ResultProcessor {
       case ItemPool.SHADOW_STICK:
         RufusManager.handleShadowItems(result.getName());
         break;
+    }
+
+    if (CoinmastersDatabase.isCurrency(result)) {
+      NamedListenerRegistry.fireChange("(coinmaster)");
     }
 
     if (StandardRewardDatabase.isPulverizedStandardReward(itemId)) {
@@ -1530,6 +1475,11 @@ public class ResultProcessor {
 
     if (EquipmentDatabase.isHat(result)) {
       PreferenceListenerRegistry.firePreferenceChanged("(hats)");
+    }
+
+    var lookup = new Lookup(ModifierType.ITEM, itemId);
+    if (ModifierDatabase.getInventorySkillProviders().contains(lookup)) {
+      InventoryManager.checkSkillGrantingEquipment(itemId);
     }
 
     switch (itemId) {
@@ -2454,6 +2404,7 @@ public class ResultProcessor {
         if (adventureResults
             && (KoLCharacter.currentFamiliar.getId() == FamiliarPool.PUCK_MAN
                 || KoLCharacter.currentFamiliar.getId() == FamiliarPool.MS_PUCK_MAN)) {
+          Preferences.setInteger("powerPillProgress", 0);
           Preferences.increment("_powerPillDrops", 1);
         }
         break;
@@ -3306,11 +3257,6 @@ public class ResultProcessor {
         }
         break;
 
-      case ItemPool.POWERFUL_GLOVE:
-      case ItemPool.REPLICA_POWERFUL_GLOVE:
-        InventoryManager.addPowerfulGloveSkills();
-        break;
-
       case ItemPool.POWDER_PUFF:
       case ItemPool.FINEST_GOWN:
       case ItemPool.DANCING_SHOES:
@@ -3355,11 +3301,6 @@ public class ResultProcessor {
         }
         break;
 
-      case ItemPool.DESIGNER_SWEATPANTS:
-      case ItemPool.REPLICA_DESIGNER_SWEATPANTS:
-        InventoryManager.addDesignerSweatpantsSkills();
-        break;
-
       case ItemPool.ROBY_BORIS_BEER:
       case ItemPool.ROBY_HONEY_BUN_OF_BORIS:
       case ItemPool.ROBY_RATATOUILLE_DE_JARLSBERG:
@@ -3394,11 +3335,6 @@ public class ResultProcessor {
       case ItemPool.SHADOW_BUCKET:
       case ItemPool.SHADOW_WAVE:
         QuestDatabase.setQuestProgress(Quest.RUFUS, "step1");
-        break;
-
-      case ItemPool.CINCHO_DE_MAYO:
-      case ItemPool.REPLICA_CINCHO_DE_MAYO:
-        InventoryManager.addCinchoDeMayoSkills();
         break;
 
       case ItemPool.LED_CANDLE:

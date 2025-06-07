@@ -21,17 +21,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.alibaba.fastjson2.JSONObject;
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
+import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.session.EquipmentManager;
-import org.json.JSONObject;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
@@ -179,9 +180,10 @@ public class FamiliarDataTest {
     var di =
         new FamiliarData.DropInfo(
             FamiliarPool.COOKBOOKBAT, -1, "cookbookbat recipe", "_cookbookbatRecipeDrops", 1);
-    new Cleanups(withProperty("_cookbookbatRecipeDrops", false));
-
-    assertThat(di.dropsToday(), equalTo(0));
+    var cleanups = new Cleanups(withProperty("_cookbookbatRecipeDrops", false));
+    try (cleanups) {
+      assertThat(di.dropsToday(), equalTo(0));
+    }
   }
 
   @Test
@@ -189,9 +191,10 @@ public class FamiliarDataTest {
     var di =
         new FamiliarData.DropInfo(
             FamiliarPool.COOKBOOKBAT, -1, "cookbookbat recipe", "_cookbookbatRecipeDrops", 1);
-    new Cleanups(withProperty("_cookbookbatRecipeDrops", true));
-
-    assertThat(di.dropsToday(), equalTo(1));
+    var cleanups = new Cleanups(withProperty("_cookbookbatRecipeDrops", true));
+    try (cleanups) {
+      assertThat(di.dropsToday(), equalTo(1));
+    }
   }
 
   @Test
@@ -204,9 +207,10 @@ public class FamiliarDataTest {
             "_powerPillDrops",
             Math.min(1 + KoLCharacter.getCurrentDays(), 11));
 
-    new Cleanups(withProperty("_powerPillDrops", 7));
-
-    assertThat(di.dropsToday(), equalTo(7));
+    var cleanups = new Cleanups(withProperty("_powerPillDrops", 7));
+    try (cleanups) {
+      assertThat(di.dropsToday(), equalTo(7));
+    }
   }
 
   @ParameterizedTest
@@ -295,19 +299,19 @@ public class FamiliarDataTest {
     @Test
     public void canSetQuantumFamiliarFromApi() {
       String text = html("request/test_quantum_terrarium_api.json");
-      JSONObject JSON = json(text);
+      JSONObject jsonObject = json(text);
 
       // Here are the attributes relevant to familiars
-      int famId = JSON.getInt("familiar");
-      int famExp = JSON.getInt("familiarexp");
-      String famPic = JSON.getString("familiarpic");
-      int famLevel = JSON.getInt("famlevel");
-      boolean feasted = JSON.getInt("familiar_wellfed") == 1;
+      int famId = jsonObject.getIntValue("familiar");
+      int famExp = jsonObject.getIntValue("familiarexp");
+      String famPic = jsonObject.getString("familiarpic");
+      int famLevel = jsonObject.getIntValue("famlevel");
+      boolean feasted = jsonObject.getIntValue("familiar_wellfed") == 1;
 
       // Stats affect Familiar Weight in Quantum Familiar
-      int basemuscle = JSON.getInt("basemuscle");
-      int basemysticality = JSON.getInt("basemysticality");
-      int basemoxie = JSON.getInt("basemoxie");
+      int basemuscle = jsonObject.getIntValue("basemuscle");
+      int basemysticality = jsonObject.getIntValue("basemysticality");
+      int basemoxie = jsonObject.getIntValue("basemoxie");
 
       Cleanups cleanups =
           new Cleanups(
@@ -317,7 +321,7 @@ public class FamiliarDataTest {
               withSkill("Amphibian Sympathy"));
 
       try (cleanups) {
-        ApiRequest.parseStatus(JSON);
+        ApiRequest.parseStatus(jsonObject);
         FamiliarData current = KoLCharacter.getFamiliar();
         assertEquals(famId, current.getId());
         assertEquals(famExp, current.getTotalExperience());
@@ -335,20 +339,20 @@ public class FamiliarDataTest {
     @Test
     public void canSetQuantumCrimboGhostFromApi() {
       String text = html("request/test_quantum_terrarium_api2.json");
-      JSONObject JSON = json(text);
+      JSONObject jsonObject = json(text);
 
       // Here are the attributes relevant to familiars
-      int famId = JSON.getInt("familiar");
+      int famId = jsonObject.getIntValue("familiar");
       assertEquals(famId, FamiliarPool.GHOST_CHEER);
-      int famExp = JSON.getInt("familiarexp");
-      String famPic = JSON.getString("familiarpic");
-      int famLevel = JSON.getInt("famlevel");
-      boolean feasted = JSON.getInt("familiar_wellfed") == 1;
+      int famExp = jsonObject.getIntValue("familiarexp");
+      String famPic = jsonObject.getString("familiarpic");
+      int famLevel = jsonObject.getIntValue("famlevel");
+      boolean feasted = jsonObject.getIntValue("familiar_wellfed") == 1;
 
       // Stats affect Familiar Weight in Quantum Familiar
-      int basemuscle = JSON.getInt("basemuscle");
-      int basemysticality = JSON.getInt("basemysticality");
-      int basemoxie = JSON.getInt("basemoxie");
+      int basemuscle = jsonObject.getIntValue("basemuscle");
+      int basemysticality = jsonObject.getIntValue("basemysticality");
+      int basemoxie = jsonObject.getIntValue("basemoxie");
 
       Cleanups cleanups =
           new Cleanups(
@@ -359,7 +363,7 @@ public class FamiliarDataTest {
               withEquipped(Slot.HAT, "Daylight Shavings Helmet"));
 
       try (cleanups) {
-        ApiRequest.parseStatus(JSON);
+        ApiRequest.parseStatus(jsonObject);
         FamiliarData current = KoLCharacter.getFamiliar();
         assertEquals(famId, current.getId());
         // *** KoL bug: exp for Crimbo Ghosts is not accurate
@@ -382,15 +386,15 @@ public class FamiliarDataTest {
     public void canSetPathlessCrimboGhostFromApi() {
       String terrarium = html("request/test_crimbo_ghost_terrarium.html");
       String text = html("request/test_crimbo_ghost_api.json");
-      JSONObject JSON = json(text);
+      JSONObject jsonObject = json(text);
 
       // Here are the attributes relevant to familiars
-      int famId = JSON.getInt("familiar");
+      int famId = jsonObject.getIntValue("familiar");
       assertEquals(famId, FamiliarPool.GHOST_CHEER);
-      int famExp = JSON.getInt("familiarexp");
-      String famPic = JSON.getString("familiarpic");
-      int famLevel = JSON.getInt("famlevel");
-      boolean feasted = JSON.getInt("familiar_wellfed") == 1;
+      int famExp = jsonObject.getIntValue("familiarexp");
+      String famPic = jsonObject.getString("familiarpic");
+      int famLevel = jsonObject.getIntValue("famlevel");
+      boolean feasted = jsonObject.getIntValue("familiar_wellfed") == 1;
 
       Cleanups cleanups =
           new Cleanups(
@@ -406,7 +410,7 @@ public class FamiliarDataTest {
         FamiliarData.registerFamiliarData(terrarium);
 
         // Parse the API response to handle current familiar
-        ApiRequest.parseStatus(JSON);
+        ApiRequest.parseStatus(jsonObject);
         FamiliarData current = KoLCharacter.getFamiliar();
         assertEquals(famId, current.getId());
         // *** KoL bug: exp for Crimbo Ghosts is not accurate
@@ -505,5 +509,16 @@ public class FamiliarDataTest {
         assertThat(KoLCharacter.currentFamiliar.waterBreathing(), is(true));
       }
     }
+  }
+
+  @ParameterizedTest
+  @CsvSource({
+    "Mosquito,true",
+    "Mu,false",
+  })
+  public void canTellIfFamiliarIsBjornable(final String name, final boolean expected) {
+    var id = FamiliarDatabase.getFamiliarId(name);
+    var fam = new FamiliarData(id);
+    assertThat(fam.canCarry(), is(expected));
   }
 }

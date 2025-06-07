@@ -300,6 +300,8 @@ public class ValhallaDecorator {
     ValhallaDecorator.checkCatHeists(buffer);
 
     ValhallaDecorator.check2002MrStoreCredit(buffer);
+    ValhallaDecorator.checkSeptEmbers(buffer);
+    ValhallaDecorator.checkTakerSpace(buffer);
 
     ValhallaDecorator.switchSeeds(buffer);
 
@@ -628,6 +630,55 @@ public class ValhallaDecorator {
           .append(credits)
           .append(")</a></nobr><br>");
       buffer.append(storeCreditBuffer);
+    }
+  }
+
+  private static void checkSeptEmbers(StringBuffer buffer) {
+    StringBuilder storeCreditBuffer = new StringBuilder();
+
+    int embers = Preferences.getInteger("availableSeptEmbers");
+
+    if (embers > 0) {
+      storeCreditBuffer
+          .append("<nobr><a href=\"shop.php?whichshop=september\">Spend remaining Sept Embers (")
+          .append(embers)
+          .append(")</a></nobr><br>");
+      buffer.append(storeCreditBuffer);
+    }
+  }
+
+  private static void checkTakerSpace(StringBuffer buffer) {
+    StringBuilder builder = new StringBuilder();
+
+    var workshed = CampgroundRequest.getCurrentWorkshedItem();
+    if (workshed == null || workshed.getItemId() != ItemPool.TAKERSPACE_LETTER_OF_MARQUE) {
+      return;
+    }
+
+    int spice = Preferences.getInteger("takerSpaceSpice");
+    int rum = Preferences.getInteger("takerSpaceRum");
+    int anchor = Preferences.getInteger("takerSpaceAnchor");
+    int mast = Preferences.getInteger("takerSpaceMast");
+    int silk = Preferences.getInteger("takerSpaceSilk");
+    int gold = Preferences.getInteger("takerSpaceGold");
+
+    if (spice > 0 || rum > 0 || anchor > 0 || mast > 0 || silk > 0 || gold > 0) {
+      builder
+          .append(
+              "<nobr><a href=\"campground.php?action=workshed\">Spend remaining TakerSpace ingredients (")
+          .append(spice)
+          .append(" spice / ")
+          .append(rum)
+          .append(" rum / ")
+          .append(anchor)
+          .append(" anchor / ")
+          .append(mast)
+          .append(" mast / ")
+          .append(silk)
+          .append(" silk / ")
+          .append(gold)
+          .append(" gold)</a></nobr><br>");
+      buffer.append(builder);
     }
   }
 

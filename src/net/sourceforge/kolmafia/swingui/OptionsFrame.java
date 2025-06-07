@@ -395,8 +395,12 @@ public class OptionsFrame extends GenericFrame {
           "relayScriptButtonFirst",
           "If using custom buttons, put script button first rather than attack"
         },
+        {},
         {"arcadeGameHints", "Provide hints for Arcade games"},
         {"spelunkyHints", "Provide hints for Spelunky"},
+        {"suppressPowerPixellation", "Powerful Glove does not pixellate monster images"},
+        {"suppressCyberRealmDarkMode", "CyberRealm is not in dark mode"},
+        {"suppressCyberRealmGreenImages", "CyberRealm images are not green"},
       };
 
       this.setOptions(options);
@@ -518,6 +522,10 @@ public class OptionsFrame extends GenericFrame {
         {"autoSatisfyWithMall", "Buy items from the mall whenever needed"},
         {"autoSatisfyWithCloset", "Take items from the closet whenever needed", "yes"},
         {"autoSatisfyWithStash", "Take items from the clan stash whenever needed"},
+        {
+          "autoSatisfyWithShop",
+          "Take items available in your mall shop whenever needed instead of buying them elsewhere"
+        },
         {},
         {"autoGarish", "Use Potion of the Field Gar when appropriate (& include in adv gain)"},
         {"autoTuxedo", "Wear Tuxedo when when appropriate (& include in adv gain)"},

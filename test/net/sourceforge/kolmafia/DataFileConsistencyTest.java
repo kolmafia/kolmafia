@@ -1,14 +1,19 @@
 package net.sourceforge.kolmafia;
 
+import static internal.matchers.Preference.isUserPreference;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.anyOf;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.everyItem;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.in;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -18,13 +23,17 @@ import java.io.IOException;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.StringTokenizer;
 import java.util.function.Function;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
+import net.sourceforge.kolmafia.modifiers.ModifierList;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.persistence.CafeDatabase;
 import net.sourceforge.kolmafia.persistence.EffectDatabase;
@@ -32,11 +41,15 @@ import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase.Attribute;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
+import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.FloristRequest;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -47,13 +60,19 @@ import org.junit.jupiter.params.provider.MethodSource;
   For instance, items marked as equipment in items.txt should also have
   corresponding entries in equipment.txt.
 */
+@SuppressWarnings("incomplete-switch")
 public class DataFileConsistencyTest {
+  @BeforeAll
+  public static void init() {
+    Preferences.reset("DataFileConsistencyTest");
+  }
+
   Set<String> datafileItems(String file, int version, int index) throws IOException {
     var items = new HashSet<String>();
     try (BufferedReader reader = FileUtilities.getVersionedReader(file, version)) {
       String[] fields;
       while ((fields = FileUtilities.readData(reader)) != null) {
-        if (fields.length == 1) {
+        if (fields.length <= index) {
           continue;
         }
         var thing = fields[index];
@@ -141,6 +160,25 @@ public class DataFileConsistencyTest {
   }
 
   @Test
+  void noDuplicateEquipmentEntries() throws IOException {
+    var items = new HashSet<String>();
+    try (BufferedReader reader = FileUtilities.getVersionedReader("equipment.txt", 2)) {
+      String[] fields;
+      while ((fields = FileUtilities.readData(reader)) != null) {
+        if (fields.length == 1) {
+          continue;
+        }
+        var thing = fields[0];
+
+        if (!thing.isBlank()) {
+          var inserted = items.add(thing);
+          assertThat(thing, inserted, is(true));
+        }
+      }
+    }
+  }
+
+  @Test
   public void testFamiliarHatchlings() throws IOException {
     var hatchlings = datafileItems("familiars.txt", 4, 4);
     var items = allItems();
@@ -177,10 +215,120 @@ public class DataFileConsistencyTest {
   }
 
   @Test
-  public void testCoinmasterBuyables() throws IOException {
-    var buyables = datafileItems("coinmasters.txt", 2, 3);
+  public void testFamiliarTypes() throws IOException {
+    var types = datafileItems("familiars.txt", 4, 3);
+    var validTypes =
+        Set.of(
+            "none",
+            "stat0",
+            "stat1",
+            "item0",
+            "item1",
+            "item2",
+            "item3",
+            "meat0",
+            "combat0",
+            "combat1",
+            "drop",
+            "block",
+            "delevel0",
+            "delevel1",
+            "hp0",
+            "mp0",
+            "meat1",
+            "stat2",
+            "other0",
+            "hp1",
+            "mp1",
+            "stat3",
+            "other1",
+            "passive",
+            "underwater",
+            "pokefam",
+            "variable");
 
-    Pattern withNum = Pattern.compile("(.*) \\(\\d+\\)");
+    for (var type : types) {
+      for (var t : type.split(",")) {
+        assertThat(
+            String.format("%s is in familiars.txt but not a valid type", t), t, in(validTypes));
+      }
+    }
+  }
+
+  @Test
+  public void testFamiliarAttributes() throws IOException {
+    var attributes = datafileItems("familiars.txt", 4, 10);
+    var validAttrs =
+        Set.of(
+            "animal",
+            "animatedart",
+            "aquatic",
+            "bite",
+            "cantalk",
+            "cold",
+            "cute",
+            "edible",
+            "evil",
+            "fast",
+            "flies",
+            "food",
+            "good",
+            "hard",
+            "hasbeak",
+            "hasbones",
+            "hasclaws",
+            "haseyes",
+            "hashands",
+            "haslegs",
+            "hasshell",
+            "hasstinger",
+            "haswings",
+            "hot",
+            "hovers",
+            "humanoid",
+            "insect",
+            "isclothes",
+            "mineral",
+            "object",
+            "orb",
+            "organic",
+            "person",
+            "phallic",
+            "polygonal",
+            "reallyevil",
+            "robot",
+            "sentient",
+            "sleaze",
+            "software",
+            "spooky",
+            "stench",
+            "swims",
+            "technological",
+            "undead",
+            "vegetable",
+            "wearsclothes",
+            "ult_bearhug",
+            "ult_sticktreats",
+            "ult_owlstare",
+            "ult_bloodbath",
+            "ult_pepperscorn",
+            "ult_rainbowstorm");
+
+    for (var attrs : attributes) {
+      for (var tag : attrs.split(",")) {
+        assertThat(
+            String.format("%s is in familiars.txt but not a valid attribute", tag),
+            tag,
+            in(validAttrs));
+      }
+    }
+  }
+
+  @Test
+  public void testCoinmasterBuyables() throws IOException {
+    var buyables = datafileItems("coinmasters.txt", 3, 3);
+
+    Pattern withNum = Pattern.compile("(.*) \\([\\d,]+\\)");
 
     for (var name : buyables) {
       var match = withNum.matcher(name);
@@ -271,141 +419,262 @@ public class DataFileConsistencyTest {
     }
   }
 
-  @Test
-  public void modifiersShouldApplyToValidItems() {
-    String file = "modifiers.txt";
-    int version = 3;
-    String[] fields;
-    try (BufferedReader reader = FileUtilities.getVersionedReader(file, version)) {
-      while ((fields = FileUtilities.readData(reader)) != null) {
-        String identifier = fields[0];
-        String name = fields[1];
-        switch (identifier) {
-          case "Item", "Clancy" -> {
-            var id = ItemDatabase.getExactItemId(name);
-            if (id == -1) {
-              if (!CafeDatabase.isCafeConsumable(name)) {
-                fail("unrecognised item " + name);
+  @Nested
+  class Modifiers {
+    @Test
+    public void modifiersShouldApplyToValidItems() {
+      String file = "modifiers.txt";
+      int version = 3;
+      String[] fields;
+      try (BufferedReader reader = FileUtilities.getVersionedReader(file, version)) {
+        while ((fields = FileUtilities.readData(reader)) != null) {
+          String identifier = fields[0];
+          String name = fields[1];
+          switch (identifier) {
+            case "Item", "Clancy" -> {
+              var id = ItemDatabase.getExactItemId(name);
+              if (id == -1) {
+                if (!CafeDatabase.isCafeConsumable(name)) {
+                  fail("unrecognised item " + name);
+                }
               }
             }
-          }
-          case "Effect" -> {
-            var id = EffectDatabase.getEffectId(name, true);
-            if (id < 0) {
-              fail("unrecognised effect " + name);
-            }
-          }
-          case "Skill" -> {
-            var id = SkillDatabase.getSkillId(name, true);
-            if (id < 0) {
-              fail("unrecognised skill " + name);
-            }
-            assertTrue(SkillDatabase.isPassive(id), "Skill " + name + " should be passive");
-          }
-          case "Familiar", "Throne" -> {
-            if (!"(none)".equals(name)) {
-              var id = FamiliarDatabase.getFamiliarId(name, false);
+            case "Effect" -> {
+              var id = EffectDatabase.getEffectId(name, true);
               if (id < 0) {
-                fail("unrecognised familiar " + name);
+                fail("unrecognised effect " + name);
               }
             }
-          }
-          case "Thrall" -> {
-            var thrall = PastaThrallData.typeToData(name);
-            if (thrall == null) {
-              fail("unrecognised thrall " + name);
-            }
-          }
-          case "Outfit" -> {
-            var outfit =
-                EquipmentDatabase.normalOutfits.values().stream()
-                    .anyMatch(x -> x.getName().equals(name));
-            if (!outfit) {
-              fail("unrecognised outfit " + name);
-            }
-          }
-          case "Sign" -> {
-            var sign = ZodiacSign.find(name);
-            if (sign == ZodiacSign.NONE) {
-              fail("unrecognised sign " + name);
-            }
-          }
-          case "Zone" -> {
-            var zone = AdventureDatabase.PARENT_LIST.stream().anyMatch(x -> x.equals(name));
-            if (!zone) {
-              fail("unrecognised zone " + name);
-            }
-          }
-          case "Loc" -> {
-            var loc = AdventureDatabase.validateAdventureArea(name);
-            if (!loc) {
-              fail("unrecognised location " + name);
-            }
-          }
-          case "Synergy", "MutexI" -> {
-            assertThat(name, containsString("/"));
-            for (var item : name.split("/")) {
-              var id = ItemDatabase.getExactItemId(item);
+            case "Skill" -> {
+              var id = SkillDatabase.getSkillId(name, true);
               if (id < 0) {
-                fail("unrecognised item " + item);
+                fail("unrecognised skill " + name);
+              }
+              assertTrue(SkillDatabase.isPassive(id), "Skill " + name + " should be passive");
+            }
+            case "Familiar", "Throne" -> {
+              if (!"(none)".equals(name)) {
+                var id = FamiliarDatabase.getFamiliarId(name, false);
+                if (id < 0) {
+                  fail("unrecognised familiar " + name);
+                }
+              }
+            }
+            case "Thrall" -> {
+              var thrall = PastaThrallData.typeToData(name);
+              if (thrall == null) {
+                fail("unrecognised thrall " + name);
+              }
+            }
+            case "Outfit" -> {
+              var outfit =
+                  EquipmentDatabase.normalOutfits.values().stream()
+                      .anyMatch(x -> x.getName().equals(name));
+              if (!outfit) {
+                fail("unrecognised outfit " + name);
+              }
+            }
+            case "Sign" -> {
+              var sign = ZodiacSign.find(name);
+              if (sign == ZodiacSign.NONE) {
+                fail("unrecognised sign " + name);
+              }
+            }
+            case "Zone" -> {
+              var zone = AdventureDatabase.PARENT_LIST.stream().anyMatch(x -> x.equals(name));
+              if (!zone) {
+                fail("unrecognised zone " + name);
+              }
+            }
+            case "Loc" -> {
+              var loc = AdventureDatabase.validateAdventureArea(name);
+              if (!loc) {
+                fail("unrecognised location " + name);
+              }
+            }
+            case "Synergy", "MutexI" -> {
+              assertThat(name, containsString("/"));
+              for (var item : name.split("/")) {
+                var id = ItemDatabase.getExactItemId(item);
+                if (id < 0) {
+                  fail("unrecognised item " + item);
+                }
+              }
+            }
+            case "MutexE" -> {
+              assertThat(name, containsString("/"));
+              for (var effect : name.split("/")) {
+                var id = EffectDatabase.getEffectId(effect, true);
+                if (id < 0) {
+                  fail("unrecognised effect " + effect);
+                }
+              }
+            }
+            case "Florist" -> {
+              var flower = FloristRequest.Florist.getFlower(name);
+              if (flower == null) {
+                fail("unrecognised flower " + name);
+              }
+            }
+            case "Path" -> {
+              var path = AscensionPath.nameToPath(name);
+              if (path == Path.NONE) {
+                fail("unrecognised path " + name);
+              }
+            }
+            case "Class" -> {
+              var ascensionClass = AscensionClass.find(name);
+              if (ascensionClass == null) {
+                fail("unrecognised class " + name);
+              }
+            }
+            case "Motorbike",
+                "Snowsuit",
+                "Edpiece",
+                "Event",
+                "MaxCat",
+                "Horsery",
+                "BoomBox",
+                "RetroCape",
+                "BackupCamera",
+                "UnbreakableUmbrella",
+                "JurassicParka",
+                "LedCandle",
+                "Mask",
+                "Ensorcel",
+                "Robot",
+                "RobotTop",
+                "RobotRight",
+                "RobotBottom",
+                "RobotLeft",
+                "RobotCPU" -> {
+              // all fine
+            }
+            default -> fail("unrecognised identifier " + identifier);
+          }
+        }
+      } catch (IOException e) {
+        fail("Couldn't read from " + file);
+      }
+    }
+
+    @Test
+    public void modifiersShouldReferToValidEntities() {
+      String file = "modifiers.txt";
+      int version = 3;
+      String[] fields;
+      try (BufferedReader reader = FileUtilities.getVersionedReader(file, version)) {
+        while ((fields = FileUtilities.readData(reader)) != null) {
+          String modifierString = fields[2];
+          var mods = ModifierDatabase.splitModifiers(modifierString);
+          for (var mod : mods) {
+            var val = mod.getValue();
+            if (val != null && val.startsWith("\"") && val.endsWith("\""))
+              val = val.substring(1, val.length() - 1);
+            switch (mod.getName()) {
+              case "Effect", "Rollover Effect" -> {
+                var effect = EffectDatabase.getEffectId(val, true);
+                if (effect < 0) {
+                  fail("unrecognised effect " + mod.getValue());
+                }
+              }
+              case "Skill", "Conditional Skill (Equipped)", "Conditional Skill (Inventory)" -> {
+                var skill = SkillDatabase.getSkillId(val, true);
+                if (skill < 0) {
+                  fail("unrecognised skill " + mod.getValue());
+                }
               }
             }
           }
-          case "MutexE" -> {
-            assertThat(name, containsString("/"));
-            for (var effect : name.split("/")) {
-              var id = EffectDatabase.getEffectId(effect, true);
-              if (id < 0) {
-                fail("unrecognised effect " + effect);
-              }
-            }
+        }
+      } catch (IOException e) {
+        fail("Couldn't read from " + file);
+      }
+    }
+
+    private void assertModCountEqual(ModifierList list, String element, String mod1, String mod2) {
+      var first = list.stream().filter(x -> mod1.equals(x.getName())).toList();
+      var second = list.stream().filter(x -> mod2.equals(x.getName())).toList();
+      if (first.size() != second.size()) {
+        switch (element) {
+          case "chaos popcorn", "thyme jelly donut" -> {
+            // some items give a randomly chosen effect
           }
-          case "Florist" -> {
-            var flower = FloristRequest.Florist.getFlower(name);
-            if (flower == null) {
-              fail("unrecognised flower " + name);
-            }
+          case "Temps Tempranillo" -> {
+            // this extends a current effect and maybe should have a different modifier
           }
-          case "Path" -> {
-            var path = AscensionPath.nameToPath(name);
-            if (path == Path.NONE) {
-              fail("unrecognised path " + name);
-            }
+          case "1950 Vampire Vintner wine",
+              "flask of mining oil",
+              "flask of tainted mining oil",
+              "half-baked potion",
+              "mysterious chemical residue",
+              "one pill" -> {
+            // some items give a non-deterministic effect
           }
-          case "Class" -> {
-            var ascensionClass = AscensionClass.find(name);
-            if (ascensionClass == null) {
-              fail("unrecognised class " + name);
-            }
-          }
-          case "Motorbike",
-              "Snowsuit",
-              "Edpiece",
-              "Rumpus",
-              "Event",
-              "MaxCat",
-              "Horsery",
-              "BoomBox",
-              "RetroCape",
-              "BackupCamera",
-              "UnbreakableUmbrella",
-              "JurassicParka",
-              "LedCandle",
-              "Mask",
-              "Ensorcel",
-              "Robot",
-              "RobotTop",
-              "RobotRight",
-              "RobotBottom",
-              "RobotLeft",
-              "RobotCPU" -> {
-            // all fine
-          }
-          default -> fail("unrecognised identifier " + identifier);
+          default -> fail(
+              "Expected " + mod1 + " and " + mod2 + " to appear in pairs on " + element);
         }
       }
-    } catch (IOException e) {
-      fail("Couldn't read from " + file);
+    }
+
+    @Test
+    public void modifiersShouldAppearInPairs() {
+      String file = "modifiers.txt";
+      int version = 3;
+      String[] fields;
+      try (BufferedReader reader = FileUtilities.getVersionedReader(file, version)) {
+        while ((fields = FileUtilities.readData(reader)) != null) {
+          String element = fields[1];
+          String modifierString = fields[2];
+          var mods = ModifierDatabase.splitModifiers(modifierString);
+          assertModCountEqual(mods, element, "Effect", "Effect Duration");
+          assertModCountEqual(mods, element, "Rollover Effect", "Rollover Effect Duration");
+        }
+      } catch (IOException e) {
+        fail("Couldn't read from " + file);
+      }
+    }
+
+    @Test
+    public void everyFamiliarHasAThroneModifier() {
+      var allFamiliars =
+          FamiliarDatabase.entrySet().stream()
+              .map(Map.Entry::getKey)
+              // Ignore Pokefam-exclusive familiars
+              .filter(id -> !FamiliarDatabase.isPokefamType(id))
+              // Ignore familiars with no hatchling (currently April Fools familiars, but may also
+              // catch future weirdos
+              .filter(id -> FamiliarDatabase.getFamiliarLarva(id) > 0)
+              .collect(Collectors.toSet());
+      String file = "modifiers.txt";
+      int version = 3;
+      String[] fields;
+      try (BufferedReader reader = FileUtilities.getVersionedReader(file, version)) {
+        while ((fields = FileUtilities.readData(reader)) != null) {
+          String identifier = fields[0];
+          if (!identifier.equals("Throne")) continue;
+          var name = fields[1];
+          var id = FamiliarDatabase.getFamiliarId(name, false);
+          allFamiliars.remove(id);
+        }
+      } catch (IOException e) {
+        fail("Couldn't read from " + file);
+      }
+
+      if (!allFamiliars.isEmpty()) {
+        fail(
+            "No throne data for "
+                + allFamiliars.stream()
+                    .map(FamiliarDatabase::getFamiliarName)
+                    .collect(Collectors.joining(", "))
+                + " found");
+      }
+    }
+
+    @Test
+    void modifiersAreAllValid() {
+      var issues = ModifierDatabase.checkModifiers();
+      assertThat(issues, hasSize(0));
     }
   }
 
@@ -437,6 +706,12 @@ public class DataFileConsistencyTest {
     } catch (IOException e) {
       fail("Couldn't read from " + file);
     }
+  }
+
+  @Test
+  public void dailyLimitsShouldUseValidPreferences() throws IOException {
+    var preferences = datafileItems("dailylimits.txt", 1, 2);
+    assertThat(preferences, everyItem(isUserPreference()));
   }
 
   @Test
@@ -521,6 +796,66 @@ public class DataFileConsistencyTest {
       }
     } catch (IOException e) {
       fail("Couldn't read from " + file);
+    }
+  }
+
+  @Test
+  public void everyForceNoncombatZoneHasDefaultAndResetsOnAscension() {
+    for (var adventure : AdventureDatabase.getAsLockableListModel()) {
+      if (adventure.getAdventureNumber() < 0) continue;
+
+      var pref = "lastNoncombat" + adventure.getAdventureNumber();
+      assertThat(Preferences.containsDefault(pref), is(adventure.getForceNoncombat() > 0));
+      assertThat(Preferences.isResetOnAscension(pref), is(adventure.getForceNoncombat() > 0));
+    }
+  }
+
+  @Test
+  public void everyEncounterIsInAZone() {
+    try (BufferedReader reader =
+        FileUtilities.getVersionedReader("encounters.txt", KoLConstants.ENCOUNTERS_VERSION)) {
+      String[] data;
+
+      while ((data = FileUtilities.readData(reader)) != null) {
+        assertThat(
+            "Couldn't validate zone " + data[0] + " for encounter " + data[2] + ".",
+            data[0].equals("*") || AdventureDatabase.validateAdventureArea(data[0]),
+            is(true));
+      }
+    } catch (IOException e) {
+      fail("Couldn't read from encounters.txt");
+    }
+  }
+
+  @Test
+  public void monsterElementsAreValid() {
+    try (BufferedReader reader =
+        FileUtilities.getVersionedReader("monsters.txt", KoLConstants.MONSTERS_VERSION)) {
+      String[] data;
+
+      while ((data = FileUtilities.readData(reader)) != null) {
+        StringTokenizer tokens = new StringTokenizer(data[3], " ");
+        while (tokens.hasMoreTokens()) {
+          var value = tokens.nextToken();
+          var attribute = MonsterData.Attribute.find(value);
+          var elemental =
+              value.equals("E:")
+                  || attribute == MonsterData.Attribute.EA
+                  || attribute == MonsterData.Attribute.ED;
+
+          if (!elemental) continue;
+          if (!tokens.hasMoreTokens()) continue;
+
+          String next = MonsterData.parseString(tokens.nextToken(), tokens);
+          var element = MonsterData.parseElement(next);
+          assertThat(
+              "Monster" + data[0] + " references an invalid element \"" + next + "\"",
+              element,
+              notNullValue());
+        }
+      }
+    } catch (IOException e) {
+      fail("Couldn't read from monsters.txt");
     }
   }
 }

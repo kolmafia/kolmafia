@@ -1,12 +1,9 @@
 package net.sourceforge.kolmafia.request;
 
 import java.util.List;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
-import net.sourceforge.kolmafia.CoinmasterData;
-import net.sourceforge.kolmafia.CoinmasterRegistry;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
@@ -19,7 +16,6 @@ import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.OutfitPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
-import net.sourceforge.kolmafia.persistence.CoinmastersDatabase;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
@@ -29,7 +25,8 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
-import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.shop.ShopRequest;
+import net.sourceforge.kolmafia.shop.ShopRow;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class NPCPurchaseRequest extends PurchaseRequest {
@@ -96,25 +93,16 @@ public class NPCPurchaseRequest extends PurchaseRequest {
       return;
     }
 
-    this.addFormField("whichitem", String.valueOf(itemId));
-
+    // This is the only remaining NPC store which is not shop.php
     if (storeId.equals("town_giftshop.php")) {
       this.addFormField("action", "buy");
       this.hashField = "pwd";
+      this.addFormField("whichitem", String.valueOf(itemId));
       this.quantityField = "howmany";
-    } else if (storeId.equals("fdkol")) {
-      this.addFormField("whichshop", storeId);
-      this.addFormField("action", "buyitem");
-      this.addFormField("ajax", "1");
-      this.hashField = "pwd";
-      this.quantityField = "quantity";
-    } else {
-      this.addFormField("whichstore", storeId);
-      this.addFormField("buying", "1");
-      this.addFormField("ajax", "1");
-      this.hashField = "phash";
-      this.quantityField = "howmany";
+      return;
     }
+
+    this.quantityField = "bogus";
   }
 
   @Override
@@ -150,7 +138,7 @@ public class NPCPurchaseRequest extends PurchaseRequest {
    * @return The price of the item being purchased
    */
   @Override
-  public int getPrice() {
+  public long getPrice() {
     long factor = 100;
     if (this.shopName.equals("Doc Galaktik's Medicine Show")
         && QuestDatabase.isQuestFinished(Quest.DOC)) {
@@ -162,18 +150,38 @@ public class NPCPurchaseRequest extends PurchaseRequest {
     }
     if (NPCPurchaseRequest.usingTrousers(this.npcStoreId)) factor -= 5;
     if (KoLCharacter.hasSkill(SkillPool.FIVE_FINGER_DISCOUNT)) factor -= 5;
-    return (int) ((this.price * factor) / 100);
+    return (this.price * factor) / 100;
   }
 
-  public static int currentDiscountedPrice(int price) {
+  public static int priceFactor(String npcStoreId) {
+    int factor = 100;
+    if (NPCPurchaseRequest.usingTrousers(npcStoreId)) factor -= 5;
+    if (KoLCharacter.hasSkill(SkillPool.FIVE_FINGER_DISCOUNT)) factor -= 5;
+    return factor;
+  }
+
+  public static int currentDiscountedPrice(long price) {
     return currentDiscountedPrice(null, price);
   }
 
-  public static int currentDiscountedPrice(String npcStoreId, int price) {
-    long factor = 100;
-    if (NPCPurchaseRequest.usingTrousers(npcStoreId)) factor -= 5;
-    if (KoLCharacter.hasSkill(SkillPool.FIVE_FINGER_DISCOUNT)) factor -= 5;
+  public static int currentDiscountedPrice(String npcStoreId, long price) {
+    int factor = priceFactor(npcStoreId);
+    if (factor == 100) {
+      return (int) price;
+    }
     return (int) ((price * factor) / 100);
+  }
+
+  public static int currentUnDiscountedPrice(long price) {
+    return currentUnDiscountedPrice(null, price);
+  }
+
+  public static int currentUnDiscountedPrice(String npcStoreId, long price) {
+    int factor = priceFactor(npcStoreId);
+    if (factor == 100) {
+      return (int) price;
+    }
+    return (int) Math.ceil(price / (factor / 100.0));
   }
 
   private static boolean usingTrousers(String npcStoreId) {
@@ -336,311 +344,34 @@ public class NPCPurchaseRequest extends PurchaseRequest {
     String urlString = this.getURLString();
 
     if (urlString.startsWith("shop.php")) {
-      NPCPurchaseRequest.parseShopResponse(urlString, this.responseText);
-    }
-
-    int quantityAcquired = this.item.getCount(KoLConstants.inventory) - this.initialCount;
-
-    if (quantityAcquired > 0) {
-      // Normal NPC stores say "You spent xxx Meat" and we
-      // have already parsed that.
-      if (!urlString.startsWith("shop.php")) {
-        ResultProcessor.processMeat(-1 * this.getPrice() * quantityAcquired);
-        KoLCharacter.updateStatus();
-      }
-
-      return;
-    }
-  }
-
-  public static final boolean registerRequest(final String urlString) {
-    if (!urlString.startsWith("town_giftshop.php")) {
-      return false;
-    }
-
-    Matcher itemMatcher = TransferItemRequest.ITEMID_PATTERN.matcher(urlString);
-    if (!itemMatcher.find()) {
-      return true;
-    }
-
-    Matcher quantityMatcher = TransferItemRequest.HOWMANY_PATTERN.matcher(urlString);
-    if (!quantityMatcher.find()) {
-      return true;
-    }
-
-    int itemId = StringUtilities.parseInt(itemMatcher.group(1));
-    String itemName = ItemDatabase.getItemName(itemId);
-    int quantity = StringUtilities.parseInt(quantityMatcher.group(1));
-    int priceVal = NPCStoreDatabase.price(itemId);
-
-    Matcher m = NPCPurchaseRequest.NPCSHOPID_PATTERN.matcher(urlString);
-    String shopId = m.find() ? NPCStoreDatabase.getStoreName(m.group(1)) : null;
-    String shopName = shopId != null ? shopId : "an NPC Store";
-
-    RequestLogger.updateSessionLog();
-    RequestLogger.updateSessionLog(
-        "buy " + quantity + " " + itemName + " for " + priceVal + " each from " + shopName);
-
-    return true;
-  }
-
-  public static final int parseWhichRow(final String urlString) {
-    String shopId = NPCPurchaseRequest.getShopId(urlString);
-    return parseWhichRow(shopId, urlString);
-  }
-
-  public static final int parseWhichRow(final String shopId, final String urlString) {
-    Matcher rowMatcher = GenericRequest.WHICHROW_PATTERN.matcher(urlString);
-    if (!rowMatcher.find()) {
-      return -1;
-    }
-
-    int row = StringUtilities.parseInt(rowMatcher.group(1));
-    return NPCStoreDatabase.itemIdByRow(shopId, row);
-  }
-
-  public static final void parseShopRowResponse(final String urlString, final String responseText) {
-    int itemId = parseWhichRow(urlString);
-
-    if (itemId == -1) {
+      ShopRequest.parseResponse(urlString, this.responseText);
+      // shop.php stores say "You spent xxx Meat" and that's already parsed.
       return;
     }
 
-    CreateItemRequest item = CreateItemRequest.getInstance(itemId, false);
-    if (item == null) {
-      return; // this is an unknown item
-    }
+    // The only other NPC store is the Town Gift Shop.
 
-    int quantity = 1;
-    if (urlString.contains("buymax=")) {
-      quantity = item.getQuantityPossible();
-    } else {
-      Matcher quantityMatcher = GenericRequest.QUANTITY_PATTERN.matcher(urlString);
-      if (quantityMatcher.find()) {
-        String quantityString = quantityMatcher.group(1).trim();
-        quantity = quantityString.length() == 0 ? 1 : StringUtilities.parseInt(quantityString);
-      }
-    }
+    // town_giftshop.php?whichitem=1178&action=buy&pwd&howmany=1
+    // You acquire an item: <b>potted cactus</b>
+    // You spent 18 Meat.
 
-    AdventureResult[] ingredients = ConcoctionDatabase.getIngredients(itemId);
-    for (AdventureResult ingredient : ingredients) {
-      ResultProcessor.processResult(ingredient.getInstance(-1 * ingredient.getCount() * quantity));
-    }
+    // That is also already parsed
+
   }
 
-  private static final Pattern SHOP_NAME_PATTERN =
-      Pattern.compile("bgcolor=blue><b>(.*?)</b>", Pattern.DOTALL);
   private static final Pattern BLOOD_MAYO_PATTERN =
       Pattern.compile("blood mayonnaise concentration: (\\d+) mayograms");
 
-  public static final void learnNPCStoreItem(
-      final String shopName,
+  public static final void parseShopResponse(
       final String shopId,
-      final AdventureResult item,
-      final String cost,
-      final String row) {
-    String printMe;
-    // Print what goes in npcstores.txt
-    printMe = "--------------------";
-    RequestLogger.printLine(printMe);
-    RequestLogger.updateSessionLog(printMe);
-    printMe = shopName + "\t" + shopId + "\t" + item + "\t" + cost + "\tROW" + row;
-    RequestLogger.printLine(printMe);
-    RequestLogger.updateSessionLog(printMe);
-    printMe = "--------------------";
-    RequestLogger.printLine(printMe);
-    RequestLogger.updateSessionLog(printMe);
-  }
+      final ShopRow shopRow,
+      final String urlString,
+      final String responseText) {
 
-  public static final void learnCoinmasterItem(
-      final String shopName,
-      final AdventureResult item,
-      final AdventureResult price,
-      final String row) {
-    // See if this is a known Coinmaster
-    CoinmasterData data = CoinmasterRegistry.findCoinmaster(shopName);
-    String type;
-    if (data != null && !data.isDisabled()) {
-      // It is.
-      Set<AdventureResult> currencies = data.currencies();
-      if (currencies.contains(price)) {
-        // If the price is a currency, this is a "buy" request.
-        // Punt if item is a known buy item.
-        if (data.getBuyItems().contains(item)) {
-          return;
-        }
-        type = "buy";
-      } else if (currencies.contains(item)) {
-        // If the item is a currency, this is a "sell" request.
-        // Punt if price is a known sell item.
-        if (data.getSellItems().contains(price)) {
-          return;
-        }
-        type = "sell";
-      } else {
-        // Neither price nor item is a currency.  This shop must use
-        // mixed currencies. We don't support that in the datafiles, but
-        // Coinmaster request classes can be coded to handle it. This is
-        // an unknown request type and coding will be needed.
-        type = "unknown";
-      }
-    } else {
-      // This is an unknown Coinmaster. Since we don't know what currencies it uses,
-      // this is an unknown request type.
-      type = "unknown";
-    }
+    // This is called from ShopRequest.parseResponse to handle things it can't.
+    // It has already validated the shopId and parsed the inventory.
 
-    String printMe;
-    // Print what goes in coinmasters.txt
-    printMe = "--------------------";
-    RequestLogger.printLine(printMe);
-    RequestLogger.updateSessionLog(printMe);
-    switch (type) {
-      case "buy" -> {
-        printMe = shopName + "\tbuy\t" + price.getCount() + "\t" + item + "\tROW" + row;
-      }
-      case "sell" -> {
-        printMe = shopName + "\tsell\t" + item.getCount() + "\t" + price + "\tROW" + row;
-      }
-      default -> {
-        printMe = shopName + "\tunknown\t" + item + "\t" + price + "\tROW" + row;
-      }
-    }
-    RequestLogger.printLine(printMe);
-    RequestLogger.updateSessionLog(printMe);
-    printMe = "--------------------";
-    RequestLogger.printLine(printMe);
-    RequestLogger.updateSessionLog(printMe);
-  }
-
-  public static boolean usesMixedCurrency(final String shopId) {
-    return shopId.equals("airport")
-        || shopId.equals("beergarden")
-        || shopId.equals("crimbo16")
-        || shopId.equals("crimbo19toys")
-        || shopId.equals("flowertradein")
-        || shopId.equals("grandma")
-        || shopId.equals("junkmagazine")
-        || shopId.startsWith("kolhs_")
-        || shopId.equals("mystic")
-        || shopId.equals("rumple")
-        || shopId.equals("shadowforge")
-        || shopId.equals("snowgarden")
-        || shopId.equals("spant")
-        || shopId.equals("starchart")
-        || shopId.equals("wereprofessor_tinker")
-        || shopId.equals("xo");
-  }
-
-  // <tr rel="7567"><td valign=center></td><td><img
-  // src="https://d2uyhvukfffg5a.cloudfront.net/itemimages/chroner.gif" class="hand pop"
-  // rel="desc_item.php?whichitem=783338147" onClick='javascript:descitem(783338147)'></td><td
-  // valign=center><a
-  // onClick='javascript:descitem(783338147)'><b>Chroner</b>&nbsp;<b>(15)</b>&nbsp;&nbsp;&nbsp;&nbsp;</a></td><td><img src=https://d2uyhvukfffg5a.cloudfront.net/itemimages/twitchtulip.gif width=30 height=30 onClick='javascript:descitem(973996072)' alt="red tulip" title="red tulip"></td><td><b>1</b></td><td valign=center class=tiny>red tulip</td><td></td><td></td><td valign=center class=tiny></td><td></td><td></td><td valign=center class=tiny></td><td></td><td></td><td valign=center class=tiny></td><td></td><td></td><td valign=center class=tiny></td><td valign=center><input class="button doit multibuy "  type=button rel='shop.php?whichshop=flowertradein&action=buyitem&quantity=1&whichrow=760&pwd=173b4446c2dd92d83eb3ce2af0de1289' value='Trade In'></td></tr>
-  //
-  // <b>Chroner</b>&nbsp;<b>(15)</b>&nbsp;
-  private static final Pattern ITEM_PATTERN =
-      Pattern.compile(
-          "<tr rel=\\\"(\\d+).*?descitem.(\\d+)\\)'><b>(.*?)(?:<font.*)?</b>(&nbsp;<b>\\((\\d+)\\)</b>&nbsp;)?.*?title=\\\"(.*?)\\\">.*?<b>(.*?)</b>.*?whichrow=(\\d+)",
-          Pattern.DOTALL);
-
-  public static final void parseShopResponse(final String urlString, final String responseText) {
-    if (!urlString.startsWith("shop.php")) {
-      return;
-    }
-
-    String shopId = NPCPurchaseRequest.getShopId(urlString);
-    if (shopId == null) {
-      return;
-    }
-
-    int boughtItemId = parseWhichRow(shopId, urlString);
-
-    // Learn new items by simply visiting a store
-    Matcher matcher = ITEM_PATTERN.matcher(responseText);
-    while (matcher.find()) {
-      int id = StringUtilities.parseInt(matcher.group(1));
-      String desc = matcher.group(2);
-      String name = matcher.group(3).trim();
-      String data = ItemDatabase.getItemDataName(id);
-      String countString = matcher.group(4);
-      int count = countString == null ? 1 : StringUtilities.parseInt(matcher.group(5));
-      AdventureResult item = new AdventureResult(name, count);
-
-      if (data == null || !data.equals(name)) {
-        // Unknown item
-        ItemDatabase.registerItem(id, name, desc);
-      }
-
-      // If there is no purchase request for this item, learn new NPCStore or CoinMaster item
-      if (NPCStoreDatabase.getPurchaseRequest(id) == null
-          // Not registered as a NPCStorePurchase
-          && CoinmastersDatabase.getPurchaseRequest(id) == null
-          // ... and not registered as a CoinMasterPurchaseRequest
-          && !usesMixedCurrency(shopId)
-          // ...and doesn't use mixed currency (we can't store this currently in our data files)
-          && !ConcoctionDatabase.hasNonCoinmasterMixingMethod(id)
-      // ...and doesn't have a mixing method (sometimes things are stored as concoctions
-      // instead of NPC items)
-      ) {
-        // Didn't know this was buyable
-        String currency = matcher.group(6);
-        String cost = matcher.group(7).replaceAll(",", "");
-        String row = matcher.group(8);
-        String shopName = "";
-        Matcher nameMatcher = SHOP_NAME_PATTERN.matcher(responseText);
-        if (nameMatcher.find()) {
-          shopName = nameMatcher.group(1);
-        }
-        if (shopName.equals("Results:") && nameMatcher.find()) {
-          shopName = nameMatcher.group(1);
-        }
-        AdventureResult price = new AdventureResult(currency, StringUtilities.parseInt(cost));
-
-        if (currency.equals("Meat")) {
-          // If the currency is Meat, assume this is an NPC Store
-          NPCPurchaseRequest.learnNPCStoreItem(shopName, shopId, item, cost, row);
-        } else {
-          // Otherwise, it is a Coinmaster
-          NPCPurchaseRequest.learnCoinmasterItem(shopName, item, price, row);
-        }
-      }
-    }
-
-    // Quest tracker update
-    if (shopId.equals("junkmagazine")) {
-      if (!QuestDatabase.isQuestLaterThan(Quest.HIPPY, "step1")) {
-        QuestDatabase.setQuestProgress(Quest.HIPPY, "step2");
-      }
-    }
-
-    // The following trade collections of ingredients for an item
-    if (usesMixedCurrency(shopId)) {
-      NPCPurchaseRequest.parseShopRowResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("sugarsheets")) {
-      SugarSheetRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    // The following does too, but is limited and needs extra parsing
-    if (shopId.equals("still")) {
-      StillRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("5dprinter")) {
-      FiveDPrinterRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    // The following does too, but wants a special message
-    if (shopId.equals("jarl")) {
-      JarlsbergRequest.parseResponse(urlString, responseText);
-      return;
-    }
+    // The following are normal NPC shops
 
     if (shopId.equals("chateau")) {
       ChateauRequest.parseShopResponse(urlString, responseText);
@@ -694,68 +425,6 @@ public class NPCPurchaseRequest extends PurchaseRequest {
       return;
     }
 
-    // The following are coinmasters
-
-    if (shopId.equals("arcade")) {
-      TicketCounterRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("armory")) {
-      ArmoryAndLeggeryRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("blackmarket")) {
-      // If Black Market not already unlocked, unlock it
-      if (!QuestLogRequest.isBlackMarketAvailable()) {
-        QuestDatabase.setQuestProgress(Quest.MACGUFFIN, "step1");
-        ConcoctionDatabase.setRefreshNeeded(true);
-      }
-      BlackMarketRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("damachine")) {
-      VendingMachineRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("driparmory")) {
-      DripArmoryRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("shore")) {
-      ShoreGiftShopRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("dv")) {
-      TerrifiedEagleInnRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("guzzlr")) {
-      GuzzlrRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("trapper")) {
-      TrapperRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("cindy")) {
-      BoutiqueRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("fdkol")) {
-      FDKOLRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
     if (shopId.equals("fwshop")) {
       if (responseText.contains("<b>Combat Explosives")) {
         Preferences.setBoolean("_fireworksShop", true);
@@ -767,270 +436,10 @@ public class NPCPurchaseRequest extends PurchaseRequest {
       return;
     }
 
-    if (shopId.equals("elvishp1") || shopId.equals("elvishp2") || shopId.equals("elvishp3")) {
-      SpaaaceRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    // Spring Break Beach shops
-
-    if (shopId.equals("sbb_jimmy")) {
-      BuffJimmyRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("sbb_taco")) {
-      TacoDanRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("sbb_brogurt")) {
-      BrogurtRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    // Conspiracy Island shops
-
-    if (shopId.equals("si_shop1")) {
-      SHAWARMARequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("si_shop2")) {
-      CanteenRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("si_shop3")) {
-      ArmoryRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    // That 70s Volcano shops
-
-    if (shopId.equals("infernodisco")) {
-      DiscoGiftCoRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    // Dinsey Landfill shops
-
-    if (shopId.equals("landfillstore")) {
-      DinseyCompanyStoreRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("toxic")) {
-      ToxicChemistryRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    // The Glaciest shops
-
-    if (shopId.equals("glaciest")) {
-      WalMartRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    // Twitch Shops
-
-    if (shopId.equals("caveshop")) {
-      NeandermallRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("shoeshop")) {
-      ShoeRepairRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("applestore")) {
-      AppleStoreRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("nina")) {
-      NinjaStoreRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("shakeshop")) {
-      YeNeweSouvenirShoppeRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("conmerch")) {
-      MerchTableRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("topiary")) {
-      NuggletCraftingRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("fishbones")) {
-      FishboneryRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.startsWith("crimbo14")) {
-      Crimbo14Request.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("crimbo17")) {
-      Crimbo17Request.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.startsWith("crimbo20booze")) {
-      Crimbo20BoozeRequest.parseResponse(urlString, responseText);
-    }
-
-    if (shopId.startsWith("crimbo20candy")) {
-      Crimbo20CandyRequest.parseResponse(urlString, responseText);
-    }
-
-    if (shopId.startsWith("crimbo20food")) {
-      Crimbo20FoodRequest.parseResponse(urlString, responseText);
-    }
-
-    if (shopId.equals("crimbo23_elf_armory")) {
-      Crimbo23ElfArmoryRequest.parseResponse(urlString, responseText);
-    }
-
-    if (shopId.equals("crimbo23_elf_bar")) {
-      Crimbo23ElfBarRequest.parseResponse(urlString, responseText);
-    }
-
-    if (shopId.equals("crimbo23_elf_cafe")) {
-      Crimbo23ElfCafeRequest.parseResponse(urlString, responseText);
-    }
-
-    if (shopId.equals("crimbo23_elf_factory")) {
-      Crimbo23ElfFactoryRequest.parseResponse(urlString, responseText);
-    }
-
-    if (shopId.equals("crimbo23_pirate_armory")) {
-      Crimbo23PirateArmoryRequest.parseResponse(urlString, responseText);
-    }
-
-    if (shopId.startsWith("crimbo23_pirate_bar")) {
-      Crimbo23PirateBarRequest.parseResponse(urlString, responseText);
-    }
-
-    if (shopId.startsWith("crimbo23_pirate_cafe")) {
-      Crimbo23PirateCafeRequest.parseResponse(urlString, responseText);
-    }
-
-    if (shopId.startsWith("crimbo23_pirate_factory")) {
-      Crimbo23PirateFactoryRequest.parseResponse(urlString, responseText);
-    }
-
-    if (shopId.equals("edunder_shopshop")) {
-      EdShopRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("batman_cave")) {
-      BatFabricatorRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("batman_chemicorp")) {
-      ChemiCorpRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("batman_orphanage")) {
-      GotporkOrphanageRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("batman_pd")) {
-      GotporkPDRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("ltt")) {
-      LTTRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("bacon")) {
-      MemeShopRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("pokefam")) {
-      PokemporiumRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("detective")) {
-      PrecinctRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("thankshop")) {
-      ThankShopRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("olivers")) {
-      FancyDanRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("spacegate")) {
-      SpacegateFabricationRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("fantasyrealm")) {
-      RubeeRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("glover")) {
-      GMartRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("piraterealm")) {
-      FunALogRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("lathe")) {
-      SpinMasterLatheRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("campfire")) {
-      YourCampfireRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("exploathing")) {
-      CosmicRaysBazaarRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("mariogear")) {
-      PlumberGearRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("marioitems")) {
-      PlumberItemRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
     if (shopId.equals("wildfire")) {
       if (responseText.contains("You acquire an item")) {
-        switch (boughtItemId) {
+        int itemId = shopRow.getItem().getItemId();
+        switch (itemId) {
           case ItemPool.BLART -> Preferences.setBoolean("itemBoughtPerAscension10790", true);
           case ItemPool.RAINPROOF_BARREL_CAULK -> Preferences.setBoolean(
               "itemBoughtPerAscension10794", true);
@@ -1050,26 +459,6 @@ public class NPCPurchaseRequest extends PurchaseRequest {
             "itemBoughtPerAscension10795", !responseText.contains("<tr rel=\"10795\">"));
         return;
       }
-    }
-
-    if (shopId.equals("dino")) {
-      DinostaurRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("mrreplica")) {
-      ReplicaMrStoreRequest.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("mrstore2002")) {
-      MrStore2002Request.parseResponse(urlString, responseText);
-      return;
-    }
-
-    if (shopId.equals("kiwi")) {
-      KiwiKwikiMartRequest.parseResponse(urlString, responseText);
-      return;
     }
 
     // When we purchase items from NPC stores using ajax, the
@@ -1116,387 +505,27 @@ public class NPCPurchaseRequest extends PurchaseRequest {
     }
   }
 
-  public static final boolean registerShopRowRequest(final String urlString) {
-    int itemId = parseWhichRow(urlString);
+  public static final boolean registerRequest(final String urlString) {
+    // All other NPC shops use shop.php and are handled in ShopRequest.java
+    if (!urlString.startsWith("town_giftshop.php")) {
+      return false;
+    }
 
-    if (itemId == -1) {
+    Matcher itemMatcher = TransferItemRequest.ITEMID_PATTERN.matcher(urlString);
+    if (!itemMatcher.find()) {
       return true;
     }
 
-    CreateItemRequest item = CreateItemRequest.getInstance(itemId, false);
-    if (item == null) {
-      return true; // this is an unknown item
-    }
-
-    int quantity = 1;
-    if (urlString.contains("buymax=")) {
-      quantity = item.getQuantityPossible();
-    } else {
-      Matcher quantityMatcher = GenericRequest.QUANTITY_PATTERN.matcher(urlString);
-      if (quantityMatcher.find()) {
-        String quantityString = quantityMatcher.group(1).trim();
-        quantity = quantityString.length() == 0 ? 1 : StringUtilities.parseInt(quantityString);
-      }
-    }
-
-    if (quantity > item.getQuantityPossible()) {
-      return true; // attempt will fail
-    }
-
-    StringBuilder buffer = new StringBuilder();
-    buffer.append("Trade ");
-
-    AdventureResult[] ingredients = ConcoctionDatabase.getIngredients(itemId);
-    for (int i = 0; i < ingredients.length; ++i) {
-      if (i > 0) {
-        buffer.append(", ");
-      }
-
-      buffer.append(ingredients[i].getCount() * quantity);
-      buffer.append(" ");
-      buffer.append(ingredients[i].getName());
-    }
-
-    RequestLogger.updateSessionLog();
-    RequestLogger.updateSessionLog(buffer.toString());
-
-    return true;
-  }
-
-  public static final boolean registerShopRequest(final String urlString, boolean meatOnly) {
-    if (!urlString.startsWith("shop.php")) {
-      return false;
-    }
-
-    String shopId = NPCPurchaseRequest.getShopId(urlString);
-    if (shopId == null) {
-      return false;
-    }
-
-    String shopName = NPCStoreDatabase.getStoreName(shopId);
-
-    int itemId = -1;
-
-    Matcher m = TransferItemRequest.ITEMID_PATTERN.matcher(urlString);
-    if (m.find()) {
-      itemId = StringUtilities.parseInt(m.group(1));
-    } else {
-      itemId = parseWhichRow(shopId, urlString);
-    }
-
-    if (itemId == -1) {
-      // Just visiting the shop
-      return true;
-    }
-
-    String itemName = ItemDatabase.getItemName(itemId);
-    int priceVal = NPCStoreDatabase.price(itemId);
-
-    // A "shop" can have items for Meat and also for tokens.
-    // If  there is no Meat price, let correct class claim it.
-    if (priceVal == 0) {
-      // If we've already checked tokens, this is an unknown item
-      if (meatOnly) {
-        return false;
-      }
-
-      // The following trade collections of ingredients for an item
-      if (shopId.equals("5dprinter")
-          || shopId.equals("airport")
-          || shopId.equals("beergarden")
-          || shopId.equals("crimbo16")
-          || shopId.equals("crimbo19toys")
-          || shopId.equals("grandma")
-          || shopId.equals("junkmagazine")
-          || shopId.startsWith("kolhs_")
-          || shopId.equals("mystic")
-          || shopId.equals("rumple")
-          || shopId.equals("shadowforge")
-          || shopId.equals("snowgarden")
-          || shopId.equals("spant")
-          || shopId.equals("wereprofessor_tinker")
-          || shopId.equals("xo")) {
-        return NPCPurchaseRequest.registerShopRowRequest(urlString);
-      }
-
-      // The following does too, but always makes a single item
-      if (shopId.equals("starchart")) {
-        return StarChartRequest.registerRequest(urlString);
-      }
-
-      if (shopId.equals("sugarsheets")) {
-        return SugarSheetRequest.registerRequest(urlString);
-      }
-
-      // The following does too, but may be limited
-      if (shopId.equals("still")) {
-        return StillRequest.registerRequest(urlString);
-      }
-
-      // The following does too, but wants a special message
-      if (shopId.equals("jarl")) {
-        return JarlsbergRequest.registerRequest(urlString);
-      }
-
-      // The following are coinmasters
-
-      if (shopId.equals("armory")) {
-        return ArmoryAndLeggeryRequest.registerRequest(urlString, true);
-      }
-
-      if (shopId.equals("blackmarket")) {
-        return BlackMarketRequest.registerRequest(urlString, true);
-      }
-
-      if (shopId.equals("damachine")) {
-        return VendingMachineRequest.registerRequest(urlString);
-      }
-
-      if (shopId.equals("driparmory")) {
-        return DripArmoryRequest.registerRequest(urlString, true);
-      }
-
-      if (shopId.equals("guzzlr")) {
-        return GuzzlrRequest.registerRequest(urlString);
-      }
-
-      if (shopId.equals("shore")) {
-        return ShoreGiftShopRequest.registerRequest(urlString);
-      }
-
-      if (shopId.equals("dv")) {
-        return TerrifiedEagleInnRequest.registerRequest(urlString);
-      }
-
-      if (shopId.equals("trapper")) {
-        return TrapperRequest.registerRequest(urlString);
-      }
-
-      if (shopId.equals("cindy")) {
-        return BoutiqueRequest.registerRequest(urlString);
-      }
-
-      if (shopId.equals("fdkol")) {
-        return FDKOLRequest.registerRequest(urlString, true);
-      }
-
-      // Spring Break Beach shops
-
-      if (shopId.equals("sbb_jimmy")) {
-        return BuffJimmyRequest.registerRequest(urlString);
-      }
-
-      if (shopId.equals("sbb_taco")) {
-        return TacoDanRequest.registerRequest(urlString);
-      }
-
-      if (shopId.equals("sbb_brogurt")) {
-        return BrogurtRequest.registerRequest(urlString);
-      }
-
-      // Conspiracy Island shops
-
-      if (shopId.equals("si_shop1")) {
-        return SHAWARMARequest.registerRequest(urlString);
-      }
-
-      if (shopId.equals("si_shop2")) {
-        return CanteenRequest.registerRequest(urlString);
-      }
-
-      if (shopId.equals("si_shop3")) {
-        return ArmoryRequest.registerRequest(urlString);
-      }
-
-      // That 70s Volcano shops
-
-      if (shopId.equals("infernodisco")) {
-        return DiscoGiftCoRequest.registerRequest(urlString);
-      }
-
-      // Dinsey Landfill shops
-
-      if (shopId.equals("landfillstore")) {
-        return DinseyCompanyStoreRequest.registerRequest(urlString);
-      }
-
-      if (shopId.equals("toxic")) {
-        return ToxicChemistryRequest.registerRequest(urlString);
-      }
-
-      // The Glaciest shops
-
-      if (shopId.equals("glaciest")) {
-        return WalMartRequest.registerRequest(urlString);
-      }
-
-      // Twitch Shops
-
-      if (shopId.equals("caveshop")) {
-        return NeandermallRequest.registerRequest(urlString);
-      }
-
-      if (shopId.equals("shoeshop")) {
-        return ShoeRepairRequest.registerRequest(urlString);
-      }
-
-      if (shopId.equals("applestore")) {
-        return AppleStoreRequest.registerRequest(urlString);
-      }
-
-      if (shopId.equals("nina")) {
-        return NinjaStoreRequest.registerRequest(urlString);
-      }
-
-      if (shopId.equals("shakeshop")) {
-        return YeNeweSouvenirShoppeRequest.registerRequest(urlString);
-      }
-
-      if (shopId.equals("conmerch")) {
-        return MerchTableRequest.registerRequest(urlString);
-      }
-
-      if (shopId.equals("arcade")) {
-        return TicketCounterRequest.registerRequest(urlString);
-      }
-
-      if (shopId.equals("fishbones")) {
-        return FishboneryRequest.registerRequest(urlString);
-      }
-
-      if (shopId.equals("topiary")) {
-        return NuggletCraftingRequest.registerRequest(urlString);
-      }
-
-      if (shopId.startsWith("crimbo14")) {
-        return Crimbo14Request.registerRequest(urlString);
-      }
-
-      if (shopId.equals("crimbo17")) {
-        return Crimbo17Request.registerRequest(urlString);
-      }
-
-      if (shopId.equals("crimbo20booze")) {
-        return Crimbo20BoozeRequest.registerRequest(urlString);
-      }
-
-      if (shopId.equals("crimbo20candy")) {
-        return Crimbo20CandyRequest.registerRequest(urlString);
-      }
-
-      if (shopId.equals("crimbo20food")) {
-        return Crimbo20FoodRequest.registerRequest(urlString);
-      }
-
-      if (shopId.startsWith("crimbo23_elf_armory")) {
-        Crimbo23ElfArmoryRequest.registerRequest(urlString);
-      }
-
-      if (shopId.equals("crimbo23_elf_bar")) {
-        Crimbo23ElfBarRequest.registerRequest(urlString);
-      }
-
-      if (shopId.equals("crimbo23_elf_cafe")) {
-        Crimbo23ElfCafeRequest.registerRequest(urlString);
-      }
-
-      if (shopId.equals("crimbo23_elf_factory")) {
-        Crimbo23ElfFactoryRequest.registerRequest(urlString);
-      }
-
-      if (shopId.startsWith("crimbo23_pirate_armory")) {
-        Crimbo23PirateArmoryRequest.registerRequest(urlString);
-      }
-
-      if (shopId.startsWith("crimbo23_pirate_bar")) {
-        Crimbo23PirateBarRequest.registerRequest(urlString);
-      }
-
-      if (shopId.startsWith("crimbo23_pirate_cafe")) {
-        Crimbo23PirateCafeRequest.registerRequest(urlString);
-      }
-
-      if (shopId.startsWith("crimbo23_pirate_factory")) {
-        Crimbo23PirateFactoryRequest.registerRequest(urlString);
-      }
-
-      if (shopId.equals("edunder_shopshop")) {
-        return EdShopRequest.registerRequest(urlString);
-      }
-
-      if (shopId.equals("batman_cave")) {
-        return BatFabricatorRequest.registerRequest(urlString);
-      }
-
-      if (shopId.equals("batman_chemicorp")) {
-        return ChemiCorpRequest.registerRequest(urlString);
-      }
-
-      if (shopId.equals("batman_orphanage")) {
-        return GotporkOrphanageRequest.registerRequest(urlString);
-      }
-
-      if (shopId.equals("batman_pd")) {
-        return GotporkPDRequest.registerRequest(urlString);
-      }
-
-      if (shopId.equals("ltt")) {
-        return LTTRequest.registerRequest(urlString);
-      }
-
-      if (shopId.equals("bacon")) {
-        return MemeShopRequest.registerRequest(urlString);
-      }
-
-      if (shopId.equals("pokefam")) {
-        return PokemporiumRequest.registerRequest(urlString);
-      }
-
-      if (shopId.equals("detective")) {
-        return PrecinctRequest.registerRequest(urlString);
-      }
-
-      if (shopId.equals("thankshop")) {
-        return ThankShopRequest.registerRequest(urlString);
-      }
-
-      if (shopId.equals("spacegate")) {
-        return SpacegateFabricationRequest.registerRequest(urlString);
-      }
-
-      if (shopId.equals("olivers")) {
-        return FancyDanRequest.registerRequest(urlString);
-      }
-
-      if (shopId.equals("fantasyrealm")) {
-        return RubeeRequest.registerRequest(urlString);
-      }
-
-      if (shopId.equals("glover")) {
-        return GMartRequest.registerRequest(urlString);
-      }
-
-      if (shopId.equals("dino")) {
-        return DinostaurRequest.registerRequest(urlString);
-      }
-
-      if (shopId.equals("mrreplica")) {
-        return ReplicaMrStoreRequest.registerRequest(urlString);
-      }
-
-      if (shopId.equals("mrstore2022")) {
-        return MrStore2002Request.registerRequest(urlString);
-      }
-
-      return false;
-    }
-
-    Matcher quantityMatcher = TransferItemRequest.QUANTITY_PATTERN.matcher(urlString);
+    Matcher quantityMatcher = TransferItemRequest.HOWMANY_PATTERN.matcher(urlString);
     if (!quantityMatcher.find()) {
       return true;
     }
 
+    int itemId = StringUtilities.parseInt(itemMatcher.group(1));
+    String itemName = ItemDatabase.getItemName(itemId);
     int quantity = StringUtilities.parseInt(quantityMatcher.group(1));
+    long priceVal = NPCStoreDatabase.price(itemId);
+    String shopName = "The Town Gift Shop";
 
     RequestLogger.updateSessionLog();
     RequestLogger.updateSessionLog(

@@ -24,11 +24,11 @@ import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
+import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.session.BanishManager.Banisher;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -42,12 +42,6 @@ class BanishManagerTest {
   public void beforeEach() {
     KoLCharacter.reset("BanishManagerTest");
     Preferences.reset("BanishManagerTest");
-    BanishManager.clearCache();
-  }
-
-  @AfterAll
-  public static void cleanup() {
-    BanishManager.clearCache();
   }
 
   private static final MonsterData CRATE = MonsterDatabase.findMonster("crate");
@@ -62,36 +56,6 @@ class BanishManagerTest {
   private static final MonsterData TACO_CAT = MonsterDatabase.findMonster("Taco Cat");
   private static final MonsterData MAGICAL_FRUIT_BAT =
       MonsterDatabase.findMonster("magical fruit bat");
-
-  @Nested
-  class ClearCache {
-    @Test
-    void clearCache() {
-      var cleanups =
-          new Cleanups(
-              withCurrentRun(128), withBanishedMonsters("fluffy bunny:Be a Mind Master:119"));
-
-      try (cleanups) {
-        assertTrue(BanishManager.isBanished("fluffy bunny"));
-        BanishManager.clearCache();
-
-        assertFalse(BanishManager.isBanished("fluffy bunny"));
-      }
-    }
-
-    @Test
-    void clearCachePhyla() {
-      var cleanups =
-          new Cleanups(withCurrentRun(128), withBanishedPhyla("beast:Patriotic Screech:119"));
-
-      try (cleanups) {
-        assertTrue(BanishManager.isBanished("fluffy bunny"));
-        BanishManager.clearCache();
-
-        assertFalse(BanishManager.isBanished("fluffy bunny"));
-      }
-    }
-  }
 
   @Nested
   class LoadBanished {
@@ -810,6 +774,49 @@ class BanishManagerTest {
         var data = BanishManager.getBanishedPhylaData();
 
         assertEquals(0, data.length);
+      }
+    }
+  }
+
+  @Nested
+  class Zootomist {
+    @Test
+    void banishDuration() {
+      var cleanups =
+          new Cleanups(
+              withBanishedMonsters("spooky vampire:Left %n Kick:0"),
+              withProperty("zootGraftedFootLeftFamiliar", FamiliarPool.DIRE_CASSAVA));
+
+      try (cleanups) {
+        assertThat(Banisher.LEFT_ZOOT_KICK.getDuration(), equalTo(100));
+      }
+    }
+
+    @Test
+    void rightKickClearsLeftKick() {
+      var cleanups =
+          new Cleanups(
+              withBanishedMonsters("spooky vampire:Left %n Kick:0"),
+              withProperty("zootGraftedFootLeftFamiliar", FamiliarPool.DIRE_CASSAVA),
+              withProperty("zootGraftedFootRightFamiliar", FamiliarPool.PHANTOM_LIMB));
+
+      try (cleanups) {
+        BanishManager.banishMonster(CRATE, Banisher.RIGHT_ZOOT_KICK);
+        assertThat("banishedMonsters", isSetTo("crate:Right %n Kick:0"));
+      }
+    }
+
+    @Test
+    void leftKickClearsRightKick() {
+      var cleanups =
+          new Cleanups(
+              withBanishedMonsters("spooky vampire:Right %n Kick:0"),
+              withProperty("zootGraftedFootLeftFamiliar", FamiliarPool.DIRE_CASSAVA),
+              withProperty("zootGraftedFootRightFamiliar", FamiliarPool.PHANTOM_LIMB));
+
+      try (cleanups) {
+        BanishManager.banishMonster(CRATE, Banisher.LEFT_ZOOT_KICK);
+        assertThat("banishedMonsters", isSetTo("crate:Left %n Kick:0"));
       }
     }
   }

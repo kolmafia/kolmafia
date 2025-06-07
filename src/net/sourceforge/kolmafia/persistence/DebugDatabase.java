@@ -1,5 +1,9 @@
 package net.sourceforge.kolmafia.persistence;
 
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONArray;
+import com.alibaba.fastjson2.JSONException;
+import com.alibaba.fastjson2.JSONObject;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -33,12 +37,14 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.modifiers.Lookup;
 import net.sourceforge.kolmafia.modifiers.ModifierList;
 import net.sourceforge.kolmafia.modifiers.ModifierList.ModifierValue;
+import net.sourceforge.kolmafia.modifiers.MultiStringModifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.Concoction;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase.ConsumableQuality;
 import net.sourceforge.kolmafia.persistence.ItemDatabase.Attribute;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
+import net.sourceforge.kolmafia.persistence.SkillDatabase.Category;
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest.ClosetRequestType;
@@ -60,9 +66,6 @@ import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.utilities.WikiUtilities;
 import net.sourceforge.kolmafia.utilities.WikiUtilities.WikiType;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.SVNURL;
 import org.w3c.dom.Document;
@@ -128,7 +131,7 @@ public class DebugDatabase {
     String plural = "";
     JSONObject json;
     try {
-      json = new JSONObject(request.responseText);
+      json = JSON.parseObject(request.responseText);
       plural = (String) json.get("plural");
     } catch (JSONException ex) {
       KoLmafia.updateDisplay("Exception reading API: " + ex.getMessage());
@@ -193,6 +196,9 @@ public class DebugDatabase {
     }
   }
 
+  private static final ItemMap UNKNOWN_ITEM_MAP =
+      new ItemMap("Everything Else", ConsumptionType.UNKNOWN);
+
   private static final ItemMap[] ITEM_MAPS = {
     new ItemMap("Food", ConsumptionType.EAT),
     new ItemMap("Booze", ConsumptionType.DRINK),
@@ -207,23 +213,14 @@ public class DebugDatabase {
     new ItemMap("Familiar Items", ConsumptionType.FAMILIAR_EQUIPMENT),
     new ItemMap("Potions", ConsumptionType.POTION),
     new ItemMap("Avatar Potions", ConsumptionType.AVATAR_POTION),
-    new ItemMap("Everything Else", ConsumptionType.UNKNOWN),
+    UNKNOWN_ITEM_MAP,
   };
 
   private static ItemMap findItemMap(final ConsumptionType type) {
-    ItemMap other = null;
-    for (int i = 0; i < DebugDatabase.ITEM_MAPS.length; ++i) {
-      ItemMap map = DebugDatabase.ITEM_MAPS[i];
-      ConsumptionType mapType = map.getType();
-      if (mapType == type) {
-        return map;
-      }
-      if (mapType == ConsumptionType.UNKNOWN) {
-        other = map;
-      }
-    }
-
-    return other;
+    return Arrays.stream(ITEM_MAPS)
+        .filter(m -> m.getType() == type)
+        .findFirst()
+        .orElse(UNKNOWN_ITEM_MAP);
   }
 
   public static void checkItems(final int itemId) {
@@ -234,10 +231,7 @@ public class DebugDatabase {
 
     PrintStream report = DebugDatabase.openReport(ITEM_DATA);
 
-    for (int i = 0; i < DebugDatabase.ITEM_MAPS.length; ++i) {
-      ItemMap map = DebugDatabase.ITEM_MAPS[i];
-      map.clear();
-    }
+    Arrays.stream(DebugDatabase.ITEM_MAPS).forEach(ItemMap::clear);
 
     // Check item names, desc ID, consumption type
 
@@ -411,7 +405,7 @@ public class DebugDatabase {
     }
 
     ItemMap map = DebugDatabase.findItemMap(type);
-    map.put(name, text);
+    map.put(name, rawText);
 
     String descId = ItemDatabase.getDescriptionId(id);
 
@@ -1286,6 +1280,7 @@ public class DebugDatabase {
     DebugDatabase.appendModifier(known, ModifierDatabase.parseEffectDuration(text));
     DebugDatabase.appendModifier(known, ModifierDatabase.parseSongDuration(text));
     DebugDatabase.appendModifier(known, ModifierDatabase.parseDropsItems(text));
+    DebugDatabase.appendModifier(known, ModifierDatabase.parseLastAvailable(text));
 
     if (type == ConsumptionType.FAMILIAR_EQUIPMENT) {
       String familiar = DebugDatabase.parseFamiliar(text);
@@ -2045,6 +2040,43 @@ public class DebugDatabase {
     if (type.equals("Passive")) {
       DebugDatabase.passiveSkills.put(name, text);
     }
+
+    if (type.equals("Passive")) {
+      if (!SkillDatabase.isPassive(skillId)) {
+        report.println("# *** " + name + " (" + skillId + ") is passive but Mafia thinks not.");
+      }
+    } else if (type.equals("Combat")) {
+      if (!SkillDatabase.isCombat(skillId)) {
+        report.println("# *** " + name + " (" + skillId + ") is combat but Mafia thinks not.");
+      }
+      if (SkillDatabase.isSpell(skillId)) {
+        report.println("# *** " + name + " (" + skillId + ") is nonspell but Mafia thinks not.");
+      }
+    } else if (type.equals("Combat Spell")) {
+      if (!SkillDatabase.isCombat(skillId)) {
+        report.println("# *** " + name + " (" + skillId + ") is combat but Mafia thinks not.");
+      }
+      if (!SkillDatabase.isSpell(skillId)) {
+        report.println("# *** " + name + " (" + skillId + ") is spell but Mafia thinks not.");
+      }
+    } else if (type.equals("Noncombat")) {
+      if (!SkillDatabase.isNonCombat(skillId)) {
+        report.println("# *** " + name + " (" + skillId + ") is noncombat but Mafia thinks not.");
+      }
+    } else if (type.equals("Buff")) {
+      // Ed's self-buffs are "Buff" in KoL but cannot be cast on other players
+      if (!SkillDatabase.isBuff(skillId)
+          && SkillDatabase.getSkillCategory(skillId) != Category.ED) {
+        report.println("# *** " + name + " (" + skillId + ") is buff but Mafia thinks not.");
+      }
+    } else if (type.equals("Combat / Noncombat")) {
+      if (!SkillDatabase.isNonCombat(skillId) || !SkillDatabase.isCombat(skillId)) {
+        report.println(
+            "# *** " + name + " (" + skillId + ") is combat / noncombat but Mafia thinks not.");
+      }
+    } else {
+      report.println("# *** " + name + " (" + skillId + ") has type unknown to skill debug logic.");
+    }
   }
 
   // Grants Skill: <a class=hand
@@ -2099,7 +2131,7 @@ public class DebugDatabase {
   }
 
   public static String readSkillDescriptionText(final int skillId) {
-    GenericRequest request = new GenericRequest("desc_skill.php");
+    GenericRequest request = new GenericRequest("desc_skill.php", false);
     request.addFormField("whichskill", String.valueOf(skillId));
     request.addFormField("self", "true");
     RequestThread.postRequest(request);
@@ -2400,19 +2432,18 @@ public class DebugDatabase {
 
   // **********************************************************
 
-  public static void checkMuseumPlurals(final String parameters) {
-
+  public static void checkMuseumPlurals() {
     PrintStream report =
         LogStream.openStream(new File(KoLConstants.DATA_LOCATION, "plurals.txt"), true);
 
     try (report) {
       var array = getMuseumPluralArray();
-      var length = array.length();
+      var length = array.size();
       for (int i = 0; i < length; i++) {
         var entry = array.getJSONObject(i);
-        var id = entry.getInt("itemid");
+        var id = entry.getIntValue("itemid");
         var name = entry.getString("name");
-        var plural = entry.optString("plural", "");
+        var plural = Optional.ofNullable(entry.getString("plural")).orElse("");
 
         if (plural.equals(name + "s")) {
           // make default
@@ -2429,6 +2460,10 @@ public class DebugDatabase {
               "item " + id + " has name \"" + name + "\" but Mafia says \"" + mafiaName + "\"");
         }
         String mafiaPlural = ItemDatabase.getPluralById(id);
+        if (mafiaName.startsWith("replica ") && id >= 11190 && id <= 11254) {
+          // replica items have the same plurals as the regular items, we don't want to do that
+          continue;
+        }
         if (plural.isEmpty() && !mafiaPlural.isEmpty()) {
           report.println(
               "Item "
@@ -2458,8 +2493,12 @@ public class DebugDatabase {
   }
 
   private static JSONArray getMuseumPluralArray() {
+    return getMuseumApiArray("plurals");
+  }
+
+  private static JSONArray getMuseumApiArray(String api) {
     var client = HttpUtilities.getClientBuilder().build();
-    String url = "https://museum.loathers.net/api/plurals";
+    String url = "https://museum.loathers.net/api/" + api;
 
     URI uri;
     try {
@@ -2480,9 +2519,249 @@ public class DebugDatabase {
 
     if (response.statusCode() == 200) {
       String body = response.body();
-      return new JSONArray(body);
+      return JSON.parseArray(body);
     } else {
       return new JSONArray();
+    }
+  }
+
+  // **********************************************************
+
+  // {"id":1,"name":"seal-clubbing
+  // club","descid":868780591,"image":"club","type":"weapon","itemclass":"club","power":10,"multiple":false,"smith":true,"cook":false,"mix":false,"jewelry":false,"d":true,"t":true,"q":false,"g":false,"autosell":1}
+  // "type" is one of:
+  //  Set(21) {
+  //  'use', -> usable or reusable
+  //  'usecombat', -> combat usable
+  //  'useboth', -> message, usable, combat usable
+  //  'hat', -> hat
+  //  'container', -> container
+  //  'shirt', -> shirt
+  //  'weapon', -> weapon
+  //  'offhand', -> offhand
+  //  'pants', -> pants
+  //  'acc', -> accessory
+  //  'famequip', -> familiar
+  //  'fam', -> grow
+  //  '', -> none
+  //  'food', -> food
+  //  'drink', -> food with BEVERAGE
+  //  'booze', -> drink
+  //  'spleen', -> spleen
+  //  'potion', -> potion
+  //  'craft', -> none
+  //  'curse', -> none, curse
+  //  'gift' -> usable
+  //  }
+  // itemclass is the weapon type for weapons, "shield" for shields, and tells us "beer", "wine",
+  // "pizza", "salad". "martini" is present sometimes but coded elsewhere. "taco" is present but
+  // unused.
+  public static void checkMuseumItems() {
+    PrintStream report =
+        LogStream.openStream(new File(KoLConstants.DATA_LOCATION, "museum_items.txt"), true);
+
+    // these are used in inv_use.php but apparently in a non-standard way
+    // foldables, items with a custom use text, and shingle
+    var skipUsableCheck =
+        Set.of(
+            ItemPool.BLACK_LOTUS,
+            ItemPool.SHINGLE,
+            ItemPool.GREAT_BALL_OF_FROZEN_FIRE,
+            ItemPool.NAUGHTY_ORIGAMI_KIT,
+            ItemPool.CONTAINER_OF_SPOOKY_PUTTY,
+            ItemPool.SPOOKY_PUTTY_SHEET,
+            ItemPool.SPOOKY_PUTTY_MONSTER,
+            ItemPool.RAIN_DOH_MONSTER);
+    // both of these are usable, also usable in combat instead of useboth
+    var skipCombatCheck = Set.of(ItemPool.SHARD_OF_DOUBLE_ICE, ItemPool.CRAYON_SHAVINGS);
+
+    try (report) {
+      var array = getMuseumItemArray();
+      var length = array.size();
+      for (int i = 0; i < length; i++) {
+        var entry = array.getJSONObject(i);
+        // simple checks
+        var id = entry.getIntValue("id");
+        var name = entry.getString("name");
+        String mafiaName = ItemDatabase.getItemDataName(id);
+        if (mafiaName == null) {
+          report.println("Unrecognised item " + id + ": \"" + name + "\"");
+          continue;
+        }
+        var mismatch = new MismatchLogger(report, id, name);
+        // assume name + plural are okay, as checkmuseumplurals should sort
+        var descid = String.valueOf(entry.getIntValue("descid"));
+        var mDescid = ItemDatabase.getDescriptionId(id);
+        mismatch.compare("descid", mDescid, descid);
+        var image = entry.getString("image") + ".gif";
+        var mImage = ItemDatabase.getSmallImage(id);
+        mismatch.compare("image", mImage, image);
+        // type
+        var type = entry.getString("type");
+        var attrs = ItemDatabase.getAttributes(id);
+
+        // mafia and kol's perception of "none" are too different for this check to be meaningful
+        var use = type.equals("use") || type.equals("useboth") || type.equals("gift");
+        ConsumptionType mConsumptionType = ItemDatabase.getConsumptionType(id);
+        var mUse =
+            switch (mConsumptionType) {
+              case USE,
+                  USE_MULTIPLE,
+                  USE_INFINITE,
+                  USE_MESSAGE_DISPLAY,
+                  STICKER,
+                  FOLDER,
+                  BOOTSKIN,
+                  BOOTSPUR,
+                  FOOD_HELPER,
+                  DRINK_HELPER,
+                  PASTA_GUARDIAN -> true;
+              default -> id == ItemPool.GLITCH_ITEM;
+            };
+        if (!skipUsableCheck.contains(id)) {
+          mismatch.compare("usable", mUse, use);
+        }
+        var usecombat = type.equals("usecombat") || type.equals("useboth");
+        var mUsecombat =
+            ItemDatabase.getAttribute(id, EnumSet.of(Attribute.COMBAT, Attribute.COMBAT_REUSABLE));
+        // non-usables may be "also usable in combat", but we can't tell from museum
+        // e.g. daily affirmations / abstractions / dinner roll / plastic cup of beer / red wagon
+        if ((usecombat || type.equals("use")) && !skipCombatCheck.contains(id)) {
+          mismatch.compare("combat", mUsecombat, usecombat);
+        }
+
+        var food = type.equals("food") || type.equals("drink");
+        mismatch.compare("food", ItemDatabase.isFood(id) && id != ItemPool.GLITCH_ITEM, food);
+        mismatch.compare("booze", ItemDatabase.isBooze(id), type.equals("booze"));
+        mismatch.compare("spleen", ItemDatabase.isSpleen(id), type.equals("spleen"));
+
+        mismatch.compare("potion", ItemDatabase.isPotion(id), type.equals("potion"));
+        mismatch.compare("craft", attrs.contains(Attribute.CRAFT), type.equals("craft"));
+        // we want to include some items that technically aren't curses as curses (e.g. candy
+        // hearts)
+
+        mismatch.compare("gift", ItemDatabase.isGiftPackage(id), type.equals("gift"));
+
+        mismatch.compare("hat", ItemDatabase.isHat(id), type.equals("hat"));
+        mismatch.compare("container", ItemDatabase.isContainer(id), type.equals("container"));
+        mismatch.compare("shirt", ItemDatabase.isShirt(id), type.equals("shirt"));
+        mismatch.compare("weapon", ItemDatabase.isWeapon(id), type.equals("weapon"));
+        mismatch.compare("offhand", ItemDatabase.isOffHand(id), type.equals("offhand"));
+        mismatch.compare("pants", ItemDatabase.isPants(id), type.equals("pants"));
+        mismatch.compare("acc", ItemDatabase.isAccessory(id), type.equals("acc"));
+        mismatch.compare("famequip", ItemDatabase.isFamiliarEquipment(id), type.equals("famequip"));
+        mismatch.compare("fam", ItemDatabase.isFamiliarHatchling(id), type.equals("fam"));
+
+        // itemclass
+        var itemclass = entry.getString("itemclass");
+        if (food) {
+          mismatch.compare("beverage", ConsumablesDatabase.isBeverage(id), type.equals("drink"));
+          mismatch.compare("pizza", ConsumablesDatabase.isPizza(id), itemclass.equals("pizza"));
+          mismatch.compare("salad", ConsumablesDatabase.isSalad(id), itemclass.equals("salad"));
+          mismatch.compare(
+              "beans", ConsumablesDatabase.isBeans(id), itemclass.equals("plateofbeans"));
+          mismatch.compare("taco", ConsumablesDatabase.isTaco(id), itemclass.equals("taco"));
+        }
+        if (type.equals("booze")) {
+          mismatch.compare("beer", ConsumablesDatabase.isBeer(id), itemclass.equals("beer"));
+          mismatch.compare("wine", ConsumablesDatabase.isWine(id), itemclass.equals("wine"));
+        }
+        if (type.equals("offhand")) {
+          mismatch.compare("shield", EquipmentDatabase.isShield(id), itemclass.equals("shield"));
+        }
+        if (type.equals("weapon")) {
+          var weapon = EquipmentDatabase.getItemType(id);
+          weapon = weapon.equals("weapon") ? "" : weapon;
+          mismatch.compare("weapontype", weapon, itemclass);
+        }
+
+        // power
+        if (ItemDatabase.isEquipment(id)) {
+          mismatch.compare("power", EquipmentDatabase.getPower(id), entry.getIntValue("power"));
+        }
+
+        // multiple
+        var multiple = entry.getBooleanValue("multiple");
+        mismatch.compare("multiple", ItemDatabase.isMultiUsable(id), multiple);
+
+        // smith / cook / mix
+        var smith = entry.getBooleanValue("smith");
+        var cook = entry.getBooleanValue("cook");
+        var mix = entry.getBooleanValue("mix");
+        var mSmith = attrs.contains(Attribute.SMITH);
+        var mCook = attrs.contains(Attribute.COOK);
+        var mMix = attrs.contains(Attribute.MIX);
+        mismatch.compare("smith", mSmith, smith);
+        mismatch.compare("cook", mCook, cook);
+        mismatch.compare("mix", mMix, mix);
+
+        // d / t / q / g
+        var discard = entry.getBooleanValue("d");
+        var quest = entry.getBooleanValue("q");
+        var gift = entry.getBooleanValue("g");
+        // quest items e.g. diabolic pizza are not tradeable even though they're not marked
+        // gift items are tradeable but we use 'tradeable' to mean 'mallable'
+        var trade = entry.getBooleanValue("t") && !quest && !gift;
+        var mDiscard = attrs.contains(Attribute.DISCARDABLE);
+        var mTrade = attrs.contains(Attribute.TRADEABLE);
+        var mQuest = attrs.contains(Attribute.QUEST);
+        var mGift = attrs.contains(Attribute.GIFT);
+        mismatch.compare("discard", mDiscard, discard);
+        mismatch.compare("trade", mTrade, trade);
+        mismatch.compare("quest", mQuest, quest);
+        mismatch.compare("gift", mGift, gift);
+        var autosell = entry.getIntValue("autosell");
+        var mAutosell = ItemDatabase.getPriceById(id);
+        if (discard || mDiscard) {
+          mismatch.compare("autosell", mAutosell, autosell);
+        }
+      }
+    }
+  }
+
+  private static JSONArray getMuseumItemArray() {
+    return getMuseumApiArray("itemdata");
+  }
+
+  private record MismatchLogger(PrintStream report, int id, String itemName) {
+    private void compare(String field, String mafia, String museum) {
+      if (!museum.equals(mafia)) {
+        logMismatch(field, mafia, museum);
+      }
+    }
+
+    private void compare(String field, int mafia, int museum) {
+      if (museum != mafia) {
+        logMismatch(field, mafia, museum);
+      }
+    }
+
+    private void compare(String field, boolean mafia, boolean museum) {
+      if (museum != mafia) {
+        logMismatch(field, mafia, museum);
+      }
+    }
+
+    private void logMismatch(String field, String mafia, String museum) {
+      report.println(
+          "Mismatch - "
+              + id
+              + ":"
+              + itemName
+              + " - "
+              + field
+              + " - Mafia: "
+              + mafia
+              + " - Museum: "
+              + museum);
+    }
+
+    private void logMismatch(String field, int mafia, int museum) {
+      logMismatch(field, String.valueOf(mafia), String.valueOf(museum));
+    }
+
+    private void logMismatch(String field, boolean mafia, boolean museum) {
+      logMismatch(field, String.valueOf(mafia), String.valueOf(museum));
     }
   }
 
@@ -2561,6 +2840,14 @@ public class DebugDatabase {
     }
   }
 
+  private static String getItemLocation(final AdventureResult item) {
+    if (KoLConstants.inventory.contains(item)) return "inventory";
+    if (KoLConstants.closet.contains(item)) return "closet";
+    if (KoLConstants.collection.contains(item)) return "display case";
+    if (KoLConstants.storage.contains(item)) return "storage";
+    return "nowhere";
+  }
+
   private static void checkPower(final int itemId, final boolean force) {
     int current = EquipmentDatabase.getPower(itemId);
     if (!force && current != 0) {
@@ -2571,31 +2858,24 @@ public class DebugDatabase {
     ApiRequest request = new ApiRequest("item", itemId);
     RequestThread.postRequest(request);
 
-    JSONObject JSON = request.JSON;
-    if (JSON == null) {
-      AdventureResult item = ItemPool.get(itemId);
-      String location =
-          KoLConstants.inventory.contains(item)
-              ? "inventory"
-              : KoLConstants.closet.contains(item)
-                  ? "closet"
-                  : KoLConstants.collection.contains(item)
-                      ? "display case"
-                      : KoLConstants.storage.contains(item) ? "storage" : "nowhere";
+    JSONObject json = request.json;
+    if (json == null) {
+      var item = ItemPool.get(itemId);
+      var location = getItemLocation(item);
       KoLmafia.updateDisplay("Could not look up item " + item + " from " + location);
       return;
     }
 
     try {
-      int power = JSON.getInt("power");
+      int power = json.getIntValue("power");
 
       // Yes, some items really are power 0
       if (power == 0 || power == current) {
         return;
       }
 
-      String name = JSON.getString("name");
-      String descid = JSON.getString("descid");
+      String name = json.getString("name");
+      String descid = json.getString("descid");
       RequestLogger.printLine(
           "Item \"" + name + "\" power incorrect: " + current + " should be " + power);
       ItemDatabase.registerItem(itemId, name, descid, null, power, false);
@@ -2705,20 +2985,20 @@ public class DebugDatabase {
       ApiRequest request = new ApiRequest("item", itemId);
       RequestThread.postRequest(request);
 
-      JSONObject JSON = request.JSON;
-      if (JSON == null) {
+      JSONObject json = request.json;
+      if (json == null) {
         continue;
       }
 
       try {
         int oldPower = EquipmentDatabase.getPower(itemId);
-        int correctPower = JSON.getInt("power");
+        int correctPower = json.getIntValue("power");
         if (oldPower == correctPower) {
           continue;
         }
 
-        String name = JSON.getString("name");
-        String descid = JSON.getString("descid");
+        String name = json.getString("name");
+        String descid = json.getString("descid");
 
         RequestLogger.printLine(
             "Shield \"" + name + "\" power incorrect: " + oldPower + " should be " + correctPower);
@@ -2745,7 +3025,7 @@ public class DebugDatabase {
       // Potions grant an effect. Check for a new effect.
       String itemName = ItemDatabase.getItemDataName(id);
       String effectName =
-          ModifierDatabase.getStringModifier(ModifierType.ITEM, itemId, StringModifier.EFFECT);
+          ModifierDatabase.getStringModifier(ModifierType.ITEM, itemId, MultiStringModifier.EFFECT);
       if (!effectName.isEmpty() && EffectDatabase.getEffectId(effectName, true) == -1) {
         String rawText = DebugDatabase.rawItemDescriptionText(itemId);
         String effectDescid = DebugDatabase.parseEffectDescid(rawText);
@@ -3167,20 +3447,20 @@ public class DebugDatabase {
     }
   }
 
-  public static void checkFamiliarImages() {
-    // Get familiar images from the familiar description
+  public static boolean checkFamiliars() {
+    // Get familiar data from the familiar description
     boolean changed = false;
     for (int i = 1; i <= FamiliarDatabase.maxFamiliarId; ++i) {
-      changed |= DebugDatabase.checkFamiliarImage(i);
+      changed |= DebugDatabase.checkFamiliar(i);
     }
 
-    // FamiliarDatabase.saveDataOverride();
+    return changed;
   }
 
   private static final Pattern FAMILIAR_IMAGE_PATTERN =
       Pattern.compile("images\\.kingdomofloathing\\.com/itemimages/(.*?\\.gif)");
 
-  private static boolean checkFamiliarImage(final int id) {
+  private static boolean checkFamiliar(final int id) {
     String file = "desc_familiar.php?which=" + id;
     GenericRequest request = new GenericRequest(file);
     RequestThread.postRequest(request);
@@ -3190,15 +3470,45 @@ public class DebugDatabase {
       return false;
     }
 
+    var name = FamiliarDatabase.getFamiliarName(id);
+
     boolean changed = false;
+
+    // Check image
     Matcher matcher = FAMILIAR_IMAGE_PATTERN.matcher(text);
     if (matcher.find()) {
       String oldImage = FamiliarDatabase.getFamiliarImageLocation(id);
       String newImage = matcher.group(1);
       if (!oldImage.equals(newImage)) {
         RequestLogger.printLine(
-            "*** familiar #" + id + " has image " + oldImage + " but KoL says it is " + newImage);
+            "*** familiar #"
+                + id
+                + " ("
+                + name
+                + "): has image "
+                + oldImage
+                + " but KoL says it is "
+                + newImage);
         FamiliarDatabase.setFamiliarImageLocation(id, newImage);
+        changed = true;
+      }
+    }
+
+    // Check last updated
+    var lastAvailable = ModifierDatabase.parseLastAvailable(text);
+    if (lastAvailable != null) {
+      var lookup = new Lookup(ModifierType.FAMILIAR, FamiliarDatabase.getFamiliarName(id));
+      var old = ModifierDatabase.getStringModifier(lookup, StringModifier.LAST_AVAILABLE_DATE);
+      if (!old.equals(lastAvailable)) {
+        RequestLogger.printLine(
+            "*** familiar #"
+                + id
+                + " ("
+                + name
+                + "): has "
+                + (old.isBlank() ? "nothing" : "\"Last Available: " + old + "\"")
+                + " but KoL says it is "
+                + lastAvailable);
         changed = true;
       }
     }

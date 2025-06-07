@@ -140,7 +140,7 @@ public class SynthesizeCommand extends AbstractCommand {
     if (!tradeable) {
       message.append(".");
     } else {
-      int cost = MallPriceManager.getMallPrice(itemId, AGE_LIMIT);
+      long cost = MallPriceManager.getMallPrice(itemId, AGE_LIMIT);
       message.append(" without using the mall, where it costs ");
       message.append(cost);
       message.append(" Meat.");

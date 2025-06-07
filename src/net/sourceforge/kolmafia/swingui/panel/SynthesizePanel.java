@@ -810,8 +810,8 @@ public class SynthesizePanel extends JPanel implements ActionListener, Listener 
           this.totalValue.setText("");
           this.perTurnValue.setText("");
         } else {
-          int total = candy1.getCost() + candy2.getCost();
-          int perTurn = Math.round(total / 30.0f);
+          long total = candy1.getCost() + candy2.getCost();
+          long perTurn = Math.round(total / 30.0f);
           this.totalValue.setText(String.valueOf(total));
           this.perTurnValue.setText(String.valueOf(perTurn));
         }

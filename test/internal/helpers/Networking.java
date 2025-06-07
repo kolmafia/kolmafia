@@ -3,6 +3,9 @@ package internal.helpers;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONException;
+import com.alibaba.fastjson2.JSONObject;
 import internal.network.RequestBodyReader;
 import java.io.IOException;
 import java.net.URLDecoder;
@@ -12,8 +15,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 import org.hamcrest.Matcher;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.junit.jupiter.api.Assertions;
 
 public class Networking {
@@ -28,9 +29,18 @@ public class Networking {
 
   public static JSONObject json(String str) {
     try {
-      return new JSONObject(str);
+      return JSON.parseObject(str);
     } catch (JSONException e) {
       Assertions.fail("Failed to parse JSON");
+      throw new AssertionError(e);
+    }
+  }
+
+  public static byte[] bytes(String path) {
+    try {
+      return Files.readAllBytes(Paths.get(path));
+    } catch (IOException e) {
+      Assertions.fail("Failed to load binary file: " + path);
       throw new AssertionError(e);
     }
   }

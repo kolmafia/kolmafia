@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.request;
 
 import java.util.Comparator;
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.AdventureResult.AdventureLongCountResult;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
@@ -21,7 +22,7 @@ public abstract class PurchaseRequest extends GenericRequest
 
   protected AdventureResult item;
   protected int quantity;
-  protected int price;
+  protected long price;
   protected int limit;
 
   protected boolean canPurchase;
@@ -67,7 +68,7 @@ public abstract class PurchaseRequest extends GenericRequest
    *
    * @return The price of the item being purchased
    */
-  public int getPrice() {
+  public long getPrice() {
     return this.price;
   }
 
@@ -76,7 +77,11 @@ public abstract class PurchaseRequest extends GenericRequest
   }
 
   public AdventureResult getCost() {
-    return new AdventureResult(AdventureResult.MEAT, this.getPrice());
+    return new AdventureLongCountResult(AdventureResult.MEAT, this.getPrice());
+  }
+
+  public AdventureResult[] getCosts() {
+    return new AdventureResult[] {this.getCost()};
   }
 
   public String getCurrency(final long count) {
@@ -264,10 +269,10 @@ public abstract class PurchaseRequest extends GenericRequest
       }
 
       // Order first by price, low to high.
-      int thisPrice = o1.getPrice();
-      int thatPrice = o2.getPrice();
+      long thisPrice = o1.getPrice();
+      long thatPrice = o2.getPrice();
       if (thisPrice != thatPrice) {
-        return thisPrice - thatPrice;
+        return Long.signum(thisPrice - thatPrice);
       }
 
       // limit is how many items you can actually buy
@@ -329,9 +334,10 @@ public abstract class PurchaseRequest extends GenericRequest
 
   @Override
   public boolean equals(final Object o) {
-    return o instanceof PurchaseRequest
-        && this.shopName.equals(((PurchaseRequest) o).shopName)
-        && this.item.getItemId() == ((PurchaseRequest) o).item.getItemId();
+    // Assumption: a shop only has one instance of an item
+    return o instanceof PurchaseRequest opr
+        && this.shopName.equals(opr.shopName)
+        && this.item.getItemId() == opr.item.getItemId();
   }
 
   @Override
@@ -349,10 +355,6 @@ public abstract class PurchaseRequest extends GenericRequest
 
     if (urlString.startsWith("town_giftshop.php")) {
       return NPCPurchaseRequest.registerRequest(urlString);
-    }
-
-    if (urlString.startsWith("shop.php")) {
-      return NPCPurchaseRequest.registerShopRequest(urlString, false);
     }
 
     return false;

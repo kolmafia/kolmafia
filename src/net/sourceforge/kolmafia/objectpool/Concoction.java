@@ -13,23 +13,26 @@ import net.sourceforge.kolmafia.KoLConstants.CraftingRequirements;
 import net.sourceforge.kolmafia.KoLConstants.CraftingType;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.RequestLogger;
-import net.sourceforge.kolmafia.modifiers.StringModifier;
+import net.sourceforge.kolmafia.modifiers.MultiStringModifier;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.Consumable;
 import net.sourceforge.kolmafia.persistence.ConsumablesDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.BarrelShrineRequest;
-import net.sourceforge.kolmafia.request.BurningLeavesRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest.SpeakeasyDrink;
-import net.sourceforge.kolmafia.request.CombineMeatRequest;
-import net.sourceforge.kolmafia.request.CreateItemRequest;
-import net.sourceforge.kolmafia.request.MayamRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
-import net.sourceforge.kolmafia.request.StillSuitRequest;
-import net.sourceforge.kolmafia.request.TinkeringBenchRequest;
+import net.sourceforge.kolmafia.request.concoction.BarrelShrineRequest;
+import net.sourceforge.kolmafia.request.concoction.BurningLeavesRequest;
+import net.sourceforge.kolmafia.request.concoction.CombineMeatRequest;
+import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
+import net.sourceforge.kolmafia.request.concoction.GnomePartRequest;
+import net.sourceforge.kolmafia.request.concoction.MayamRequest;
+import net.sourceforge.kolmafia.request.concoction.PhotoBoothRequest;
+import net.sourceforge.kolmafia.request.concoction.StillSuitRequest;
+import net.sourceforge.kolmafia.request.concoction.TakerSpaceRequest;
+import net.sourceforge.kolmafia.request.concoction.shop.TinkeringBenchRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -37,6 +40,7 @@ import net.sourceforge.kolmafia.utilities.StringUtilities;
  * Internal class used to represent a single concoction. It contains all the information needed to
  * actually make the item.
  */
+@SuppressWarnings("incomplete-switch")
 public class Concoction implements Comparable<Concoction> {
   private String name;
   private final int hashCode;
@@ -65,7 +69,7 @@ public class Concoction implements Comparable<Concoction> {
   public static boolean debug = false;
 
   public ConcoctionType type;
-  public int price;
+  public long price;
   public String property;
   public int creatable;
   public int queued;
@@ -227,7 +231,8 @@ public class Concoction implements Comparable<Concoction> {
 
   public void setEffectName() {
     this.effectName =
-        ModifierDatabase.getStringModifier(ModifierType.ITEM, this.name, StringModifier.EFFECT);
+        ModifierDatabase.getStringModifier(
+            ModifierType.ITEM, this.name, MultiStringModifier.EFFECT);
   }
 
   public void setStatGain() {
@@ -585,7 +590,7 @@ public class Concoction implements Comparable<Concoction> {
     return this.queued;
   }
 
-  public int getPrice() {
+  public long getPrice() {
     return this.price;
   }
 
@@ -801,7 +806,7 @@ public class Concoction implements Comparable<Concoction> {
 
     if (this.speakeasy != null) {
       boolean available = ClanLoungeRequest.availableSpeakeasyDrink(this.speakeasy);
-      int affordableNumber = Concoction.getAvailableMeat() / this.price;
+      int affordableNumber = (int) (Concoction.getAvailableMeat() / this.price);
       int drinkableNumber = 3 - Preferences.getInteger("_speakeasyDrinksDrunk");
       this.initial = available ? Math.min(affordableNumber, drinkableNumber) : 0;
       this.creatable = 0;
@@ -814,7 +819,7 @@ public class Concoction implements Comparable<Concoction> {
     if (this.concoction == null && this.name != null) {
       this.initial =
           this.price > 0
-              ? Concoction.getAvailableMeat() / this.price
+              ? (int) (Concoction.getAvailableMeat() / this.price)
               : this.property != null ? Preferences.getInteger(property) : this.special ? 1 : 0;
       this.creatable = 0;
       this.total = this.initial;
@@ -1025,7 +1030,13 @@ public class Concoction implements Comparable<Concoction> {
     int needToMake = requested - alreadyHave;
     if (needToMake > 0 && this.price > 0) {
       Concoction c = ConcoctionDatabase.meatLimit;
-      int buyable = c.canMake(needToMake * this.price, visited, turnFreeOnly) / this.price;
+      int buyable =
+          (int)
+              (c.canMake(
+                      (int) Math.min(needToMake * this.price, Integer.MAX_VALUE),
+                      visited,
+                      turnFreeOnly)
+                  / this.price);
       if (Concoction.debug) {
         RequestLogger.printLine(
             "- " + this.name + " limited to " + buyable + " by price " + this.price);
@@ -1069,11 +1080,13 @@ public class Concoction implements Comparable<Concoction> {
     }
 
     switch (this.mixingMethod) {
-      case FLOUNDRY:
+      case FLOUNDRY -> {
         return alreadyHave + (ClanLoungeRequest.availableFloundryItem(this.name) ? 1 : 0);
-      case BARREL:
+      }
+      case BARREL -> {
         return alreadyHave + (BarrelShrineRequest.availableBarrelItem(this.name) ? 1 : 0);
-      case TERMINAL:
+      }
+      case TERMINAL -> {
         // Check that we know the file for this
         String known = Preferences.getString("sourceTerminalExtrudeKnown");
         if (this.name.equals("Source terminal GRAM chip") && !known.contains("gram.ext")) {
@@ -1097,25 +1110,33 @@ public class Concoction implements Comparable<Concoction> {
         if (this.name.equals("software bug") && !known.contains("familiar.ext")) {
           return alreadyHave;
         }
-        break;
-      case SPACEGATE:
+      }
+      case SPACEGATE -> {
         // If you have one in inventory, you cannot get more
         return this.initial == 0 ? alreadyHave + 1 : alreadyHave;
-      case FANTASY_REALM:
+      }
+      case FANTASY_REALM -> {
         return alreadyHave
             + (StringUtilities.isNumeric(Preferences.getString("_frHoursLeft")) ? 0 : 1);
-      case STILLSUIT:
+      }
+      case STILLSUIT -> {
         return StillSuitRequest.canMake() ? 1 : 0;
-      case BURNING_LEAVES:
+      }
+      case BURNING_LEAVES -> {
         return BurningLeavesRequest.canMake(this);
-      case MAYAM:
+      }
+      case MAYAM -> {
         return alreadyHave + (MayamRequest.canMake(this) ? 1 : 0);
-      case KIWI:
-        if (this.name.equals("mini kiwi intoxicating spirits")) {
-          if (Preferences.getBoolean("_miniKiwiIntoxicatingSpiritsBought")) {
-            return alreadyHave;
-          }
-        }
+      }
+      case PHOTO_BOOTH -> {
+        return alreadyHave + PhotoBoothRequest.canMake(this);
+      }
+      case TAKERSPACE -> {
+        return alreadyHave + TakerSpaceRequest.canMake(this);
+      }
+      case GNOME_PART -> {
+        return alreadyHave + GnomePartRequest.canMake(this);
+      }
     }
 
     if (needToMake <= 0) { // Have enough on hand already.
@@ -1211,6 +1232,11 @@ public class Concoction implements Comparable<Concoction> {
             turnFreeOnly
                 ? ConcoctionDatabase.turnFreeCookingLimit
                 : ConcoctionDatabase.cookingLimit;
+      } else if (this.mixingMethod == CraftingType.MIX_FANCY) {
+        c =
+            turnFreeOnly
+                ? ConcoctionDatabase.turnFreeCocktailcraftingLimit
+                : ConcoctionDatabase.cocktailcraftingLimit;
       } else {
         c = (turnFreeOnly ? ConcoctionDatabase.turnFreeLimit : ConcoctionDatabase.adventureLimit);
       }
@@ -1385,6 +1411,9 @@ public class Concoction implements Comparable<Concoction> {
     }
     if (this.mixingMethod == CraftingType.COOK_FANCY) {
       freeCrafts += ConcoctionDatabase.getFreeCookingTurns();
+    }
+    if (this.mixingMethod == CraftingType.MIX_FANCY) {
+      freeCrafts += ConcoctionDatabase.getFreeCocktailcraftingTurns();
     }
     return Math.max(runningTotal - freeCrafts, 0);
   }

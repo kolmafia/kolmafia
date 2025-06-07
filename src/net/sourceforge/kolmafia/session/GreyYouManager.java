@@ -27,6 +27,7 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase.SkillTag;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
+@SuppressWarnings("incomplete-switch")
 public abstract class GreyYouManager {
 
   private GreyYouManager() {}

@@ -325,6 +325,17 @@ public class DailyDeedsPanelTest {
     }
 
     @Test
+    public void showsBatWings() {
+      advs.update();
+      assertFalse(advs.isVisible());
+      assertThat(advs.getText(), not(containsString(" bat wings")));
+      Preferences.setInteger("_batWingsFreeFights", 5);
+      advs.update();
+      assertThat(advs.getText(), containsString("Advs: 5 bat wings"));
+      assertTrue(advs.isVisible());
+    }
+
+    @Test
     public void showsTimeHelmetAndPottedPlant() {
       advs.update();
       assertFalse(advs.isVisible());

@@ -22,7 +22,7 @@ public class EnumeratedWrapperPrototype extends ScriptableObject {
     this.type = type;
   }
 
-  public void initToScope(Context cx, Scriptable scope, Scriptable runtimeLibrary) {
+  public ScriptableObject initToScope(Context cx, Scriptable scope, Scriptable runtimeLibrary) {
     setPrototype(ScriptableObject.getObjectPrototype(scope));
 
     if (recordValueClass != null) {
@@ -38,9 +38,11 @@ public class EnumeratedWrapperPrototype extends ScriptableObject {
       }
     }
 
+    FunctionObject constructor = null;
+
     try {
       Method constructorMethod = EnumeratedWrapper.class.getDeclaredMethod("constructDefaultValue");
-      FunctionObject constructor = new FunctionObject(getClassName(), constructorMethod, scope);
+      constructor = new FunctionObject(getClassName(), constructorMethod, scope);
       constructor.addAsConstructor(scope, this);
       if (runtimeLibrary != null) {
         ScriptableObject.defineProperty(
@@ -78,12 +80,15 @@ public class EnumeratedWrapperPrototype extends ScriptableObject {
         defineProperty(methodName, functionObject, DONTENUM | READONLY | PERMANENT);
         functionObject.sealObject();
       }
+
     } catch (NoSuchMethodException e) {
       KoLmafia.updateDisplay(
           KoLConstants.MafiaState.ERROR, "NoSuchMethodException: " + e.getMessage());
     }
 
     sealObject();
+
+    return constructor;
   }
 
   public static EnumeratedWrapperPrototype getPrototypeInstance(Scriptable scope, Type type) {

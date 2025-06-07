@@ -18,6 +18,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 public class MallPurchaseRequestTest {
 
@@ -108,6 +110,41 @@ public class MallPurchaseRequestTest {
         MallPurchaseRequest.addForbiddenStore(request.getShopId());
         assertEquals("red", request.color());
       }
+    }
+  }
+
+  @Nested
+  class StoreString {
+    @ParameterizedTest
+    @CsvSource({
+      "7924, 9950, 7924.9950",
+      "7924, 50000, 7924.50000",
+      "7924, 888888888888, 7924.888888888888",
+      "1, 100, 1.100",
+      "10951, 999999999998, 10951.999999999998",
+    })
+    public void whichItemIsCorrect(int itemId, long price, String whichitem) {
+      assertEquals(whichitem, MallPurchaseRequest.getStoreString(itemId, price));
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "7924, 7924.9950",
+      "1, 1.100",
+      "10951, 10951.999999999998",
+    })
+    public void canParseItem(int itemId, String whichitem) {
+      assertEquals(itemId, MallPurchaseRequest.itemFromStoreString(whichitem));
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+      "9950, 7924.9950",
+      "100, 1.100",
+      "999999999998, 10951.999999999998",
+    })
+    public void canParsePrice(long price, String whichitem) {
+      assertEquals(price, MallPurchaseRequest.priceFromStoreString(whichitem));
     }
   }
 }

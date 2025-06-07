@@ -17,19 +17,14 @@ import net.sourceforge.kolmafia.persistence.EffectDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.AWOLQuartermasterRequest;
 import net.sourceforge.kolmafia.request.AccountRequest;
-import net.sourceforge.kolmafia.request.AltarOfBonesRequest;
 import net.sourceforge.kolmafia.request.AltarOfLiteracyRequest;
 import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.AscensionHistoryRequest;
 import net.sourceforge.kolmafia.request.AutoMallRequest;
 import net.sourceforge.kolmafia.request.AutoSellRequest;
-import net.sourceforge.kolmafia.request.BURTRequest;
 import net.sourceforge.kolmafia.request.BasementRequest;
 import net.sourceforge.kolmafia.request.BeerPongRequest;
-import net.sourceforge.kolmafia.request.BigBrotherRequest;
-import net.sourceforge.kolmafia.request.BountyHunterHunterRequest;
 import net.sourceforge.kolmafia.request.CakeArenaRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CharSheetRequest;
@@ -42,10 +37,8 @@ import net.sourceforge.kolmafia.request.ClanRumpusRequest;
 import net.sourceforge.kolmafia.request.ClanStashRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
 import net.sourceforge.kolmafia.request.ContactListRequest;
-import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.Crimbo09Request;
 import net.sourceforge.kolmafia.request.Crimbo10Request;
-import net.sourceforge.kolmafia.request.Crimbo11Request;
 import net.sourceforge.kolmafia.request.Crimbo21TreeRequest;
 import net.sourceforge.kolmafia.request.CurseRequest;
 import net.sourceforge.kolmafia.request.CustomOutfitRequest;
@@ -60,14 +53,10 @@ import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.FleaMarketRequest;
 import net.sourceforge.kolmafia.request.FleaMarketSellRequest;
 import net.sourceforge.kolmafia.request.FriarRequest;
-import net.sourceforge.kolmafia.request.FudgeWandRequest;
-import net.sourceforge.kolmafia.request.GameShoppeRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.GnomeTinkerRequest;
 import net.sourceforge.kolmafia.request.GourdRequest;
 import net.sourceforge.kolmafia.request.GrandpaRequest;
 import net.sourceforge.kolmafia.request.GuildRequest;
-import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.HeyDezeRequest;
 import net.sourceforge.kolmafia.request.IslandRequest;
 import net.sourceforge.kolmafia.request.LatteRequest;
@@ -77,13 +66,10 @@ import net.sourceforge.kolmafia.request.ManageStoreRequest;
 import net.sourceforge.kolmafia.request.MicroBreweryRequest;
 import net.sourceforge.kolmafia.request.MomRequest;
 import net.sourceforge.kolmafia.request.MonsterManuelRequest;
-import net.sourceforge.kolmafia.request.MrStoreRequest;
 import net.sourceforge.kolmafia.request.MushroomRequest;
-import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
 import net.sourceforge.kolmafia.request.NemesisRequest;
 import net.sourceforge.kolmafia.request.PandamoniumRequest;
 import net.sourceforge.kolmafia.request.PeeVPeeRequest;
-import net.sourceforge.kolmafia.request.PhineasRequest;
 import net.sourceforge.kolmafia.request.PlaceRequest;
 import net.sourceforge.kolmafia.request.QuantumTerrariumRequest;
 import net.sourceforge.kolmafia.request.QuestLogRequest;
@@ -98,9 +84,7 @@ import net.sourceforge.kolmafia.request.SpaaaceRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.SuburbanDisRequest;
 import net.sourceforge.kolmafia.request.SummoningChamberRequest;
-import net.sourceforge.kolmafia.request.SushiRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
-import net.sourceforge.kolmafia.request.TravelingTraderRequest;
 import net.sourceforge.kolmafia.request.TrendyRequest;
 import net.sourceforge.kolmafia.request.TrophyHutRequest;
 import net.sourceforge.kolmafia.request.TutorialRequest;
@@ -110,6 +94,22 @@ import net.sourceforge.kolmafia.request.VolcanoIslandRequest;
 import net.sourceforge.kolmafia.request.VolcanoMazeRequest;
 import net.sourceforge.kolmafia.request.WitchessRequest;
 import net.sourceforge.kolmafia.request.ZapRequest;
+import net.sourceforge.kolmafia.request.coinmaster.AWOLQuartermasterRequest;
+import net.sourceforge.kolmafia.request.coinmaster.AltarOfBonesRequest;
+import net.sourceforge.kolmafia.request.coinmaster.BURTRequest;
+import net.sourceforge.kolmafia.request.coinmaster.BigBrotherRequest;
+import net.sourceforge.kolmafia.request.coinmaster.BountyHunterHunterRequest;
+import net.sourceforge.kolmafia.request.coinmaster.Crimbo11Request;
+import net.sourceforge.kolmafia.request.coinmaster.FudgeWandRequest;
+import net.sourceforge.kolmafia.request.coinmaster.GameShoppeRequest;
+import net.sourceforge.kolmafia.request.coinmaster.HermitRequest;
+import net.sourceforge.kolmafia.request.coinmaster.MrStoreRequest;
+import net.sourceforge.kolmafia.request.coinmaster.TravelingTraderRequest;
+import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
+import net.sourceforge.kolmafia.request.concoction.GnomeTinkerRequest;
+import net.sourceforge.kolmafia.request.concoction.PhineasRequest;
+import net.sourceforge.kolmafia.request.concoction.SushiRequest;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.DiscoCombatHelper;
@@ -416,6 +416,7 @@ public class ResponseTextParser {
               case ItemPool.RING -> ItemDatabase.parseRing(responseText);
               case ItemPool.LATTE_MUG -> LatteRequest.parseDescription(responseText);
               case ItemPool.EVERFULL_DART_HOLSTER -> ItemDatabase.parseDartPerks(responseText);
+              case ItemPool.MIMIC_EGG -> ItemDatabase.parseMimicEgg(responseText);
               default -> changesFromTimeToTime = hasConsequence;
             }
 
@@ -505,53 +506,50 @@ public class ResponseTextParser {
             UseItemRequest.parseConsumption(responseText, false);
             SpadingManager.processConsumeItem(item, responseText);
           }
-        }
-
-        // If there is a consumption message, parse it
-        else if (location.contains("action=message")) {
-          AdventureResult item = UseItemRequest.getLastItemUsed();
-          UseItemRequest.parseConsumption(responseText, false);
-          AWOLQuartermasterRequest.parseResponse(responseText);
-          BURTRequest.parseResponse(responseText);
-          SpadingManager.processConsumeItem(item, responseText);
-        }
-
-        // If there is a bricko message, parse it
-        else if (location.contains("action=breakbricko")) {
-          UseItemRequest.parseBricko(responseText);
-        }
-
-        // If there is a binge message, parse it
-        else if (location.contains("action=ghost")
-            || location.contains("action=hobo")
-            || location.contains("action=slime")
-            || location.contains("action=candy")) {
-          UseItemRequest.parseBinge(location, responseText);
-        }
-
-        // Robortender consumption
-        else if (location.contains("action=robooze")) {
-          UseItemRequest.parseRobortenderBinge(location, responseText);
-        }
-
-        // If there is an absorb message, parse it
-        else if (location.contains("absorb=")) {
+        } else if (location.contains("absorb=")) {
+          // If there is an absorb message, parse it
           UseItemRequest.parseAbsorb(location, responseText);
-        }
-
-        // Closet transfers can come via inventory.php
-        else if (location.contains("action=closetpush") || location.contains("action=closetpull")) {
-          ClosetRequest.parseTransfer(location, responseText);
-        }
-
-        // Emptying storage can come via inventory.php
-        else if (location.contains("action=pullall")) {
-          StorageRequest.parseTransfer(location, responseText);
-        }
-
-        // If there is an aprilplay message, parse it
-        else if (location.contains("action=aprilplay")) {
-          UseItemRequest.parseAprilPlay(location, responseText);
+        } else {
+          String action = GenericRequest.getAction(location);
+          if (action != null) {
+            switch (action) {
+              case "message" -> {
+                // If there is a consumption message, parse it
+                AdventureResult item = UseItemRequest.getLastItemUsed();
+                UseItemRequest.parseConsumption(responseText, false);
+                AWOLQuartermasterRequest.parseResponse(responseText);
+                BURTRequest.parseResponse(responseText);
+                SpadingManager.processConsumeItem(item, responseText);
+              }
+              case "breakbricko" -> {
+                // If there is a bricko message, parse it
+                UseItemRequest.parseBricko(responseText);
+              }
+              case "ghost", "hobo", "slime", "candy" -> {
+                // If there is a binge message, parse it
+                UseItemRequest.parseBinge(location, responseText);
+              }
+              case "robooze" -> {
+                UseItemRequest.parseRobortenderBinge(location, responseText);
+              }
+              case "closetpush", "closetpull" -> {
+                // Closet transfers can come via inventory.php
+                ClosetRequest.parseTransfer(location, responseText);
+              }
+              case "pullall" -> {
+                // Emptying storage can come via inventory.php
+                StorageRequest.parseTransfer(location, responseText);
+              }
+              case "aprilplay" -> {
+                // If there is an aprilplay message, parse it
+                UseItemRequest.parseAprilPlay(location, responseText);
+              }
+              case "shower" -> {
+                // We have April Showered today
+                Preferences.setBoolean("_aprilShowerGlobsCollected", true);
+              }
+            }
+          }
         }
       }
       case "inv_equip.php" -> {
@@ -646,7 +644,7 @@ public class ResponseTextParser {
         SendMailRequest.parseTransfer(location, responseText);
       }
       case "shop.php" -> {
-        NPCPurchaseRequest.parseShopResponse(location, responseText);
+        ShopRequest.parseResponse(location, responseText);
       }
       case "showclan.php" -> {
         ShowClanRequest.parseResponse(location, responseText);
@@ -926,47 +924,14 @@ public class ResponseTextParser {
           SkillPool.BEAR_ESSENCE,
           SkillPool.CALCULATE_THE_UNIVERSE,
           SkillPool.EXPERIENCE_SAFARI,
-          SkillPool.SUMMON_KOKOMO_RESORT_PASS -> Preferences.increment(levelPref);
+          SkillPool.SUMMON_KOKOMO_RESORT_PASS,
+          SkillPool.GENERATE_IRONY -> Preferences.increment(levelPref);
       default -> {
         var maxLevel = SkillDatabase.getMaxLevel(skillId);
         if (maxLevel > 0) {
           Preferences.increment(levelPref, 1, maxLevel, false);
         }
       }
-    }
-
-    if (KoLCharacter.inNuclearAutumn()) {
-      int cost =
-          switch (skillId) {
-            case SkillPool.BOILING_TEAR_DUCTS,
-                SkillPool.PROJECTILE_SALIVARY_GLANDS,
-                SkillPool.TRANSLUCENT_SKIN,
-                SkillPool.SKUNK_GLANDS,
-                SkillPool.THROAT_REFRIDGERANT,
-                SkillPool.INTERNAL_SODA_MACHINE -> 30;
-            case SkillPool.STEROID_BLADDER,
-                SkillPool.MAGIC_SWEAT,
-                SkillPool.FLAPPY_EARS,
-                SkillPool.SELF_COMBING_HAIR,
-                SkillPool.INTRACRANIAL_EYE,
-                SkillPool.MIND_BULLETS,
-                SkillPool.EXTRA_KIDNEY,
-                SkillPool.EXTRA_GALL_BLADDER -> 60;
-            case SkillPool.EXTRA_MUSCLES,
-                SkillPool.ADIPOSE_POLYMERS,
-                SkillPool.METALLIC_SKIN,
-                SkillPool.HYPNO_EYES,
-                SkillPool.EXTRA_BRAIN,
-                SkillPool.MAGNETIC_EARS,
-                SkillPool.EXTREMELY_PUNCHABLE_FACE,
-                SkillPool.FIREFLY_ABDOMEN,
-                SkillPool.BONE_SPRINGS,
-                SkillPool.SQUID_GLANDS -> 90;
-            case SkillPool.SUCKER_FINGERS, SkillPool.BACKWARDS_KNEES -> 120;
-            default -> 0;
-          };
-
-      ResultProcessor.processResult(ItemPool.get(ItemPool.RAD, -cost));
     }
 
     UseSkillRequest skill = UseSkillRequest.getUnmodifiedInstance(skillId);

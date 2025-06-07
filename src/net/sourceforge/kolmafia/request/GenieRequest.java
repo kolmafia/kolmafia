@@ -193,11 +193,7 @@ public class GenieRequest extends GenericRequest {
     if (responseText.contains(">Fight!<")) {
       Preferences.increment("_genieFightsUsed");
 
-      KoLAdventure.lastVisitedLocation = null;
-      KoLAdventure.lastLocationName = null;
-      KoLAdventure.lastLocationURL = "choice.php";
-      KoLAdventure.setLastAdventure("None");
-      KoLAdventure.setNextAdventure("None");
+      KoLAdventure.clearLocation();
 
       EncounterManager.ignoreSpecialMonsters();
 

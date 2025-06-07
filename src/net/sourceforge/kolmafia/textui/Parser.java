@@ -333,6 +333,7 @@ public class Parser {
     reservedWords.add("string");
     reservedWords.add("buffer");
     reservedWords.add("matcher");
+    reservedWords.add("rng");
     reservedWords.add("aggregate");
 
     reservedWords.add("item");
@@ -5560,7 +5561,7 @@ public class Parser {
   private AshDiagnostic sinceError(
       final String current, final String target, final Range directiveRange) {
     String template =
-        "'%s' requires revision r%s of kolmafia or higher (current: r%s).  Up-to-date builds can be found at https://ci.kolmafia.us/.";
+        "'%s' requires revision r%s of kolmafia or higher (current: r%s).  Up-to-date builds can be found at https://github.com/kolmafia/kolmafia/releases/.";
 
     return this.error(directiveRange, String.format(template, this.shortFileName, target, current));
   }

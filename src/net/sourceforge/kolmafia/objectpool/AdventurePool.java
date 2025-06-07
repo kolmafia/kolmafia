@@ -280,6 +280,8 @@ public class AdventurePool {
   public static final int CHEERLESS_SPIRE_2 = 498;
   public static final int CHEERLESS_SPIRE_3 = 499;
   public static final int NEVERENDING_PARTY = 528;
+  public static final int PIRATEREALM_SAILING = 530;
+  public static final int PIRATEREALM_ISLAND = 531;
   public static final int EXPLOADED_BATTLEFIELD = 533;
   public static final int DARK_ELBOW_OF_THE_WOODS = 539;
   public static final int DARK_HEART_OF_THE_WOODS = 540;
@@ -300,6 +302,9 @@ public class AdventurePool {
   public static final int CRIMBO23_BAR = 577;
   public static final int CRIMBO23_CAFE = 578;
   public static final int CRIMBO23_ARMORY = 579;
+  public static final int CYBER_ZONE_1 = 585;
+  public static final int CYBER_ZONE_2 = 586;
+  public static final int CYBER_ZONE_3 = 587;
 
   private AdventurePool() {}
 }

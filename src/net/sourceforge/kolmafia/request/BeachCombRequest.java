@@ -427,6 +427,24 @@ public class BeachCombRequest extends GenericRequest {
   @Override
   public void processResults() {}
 
+  public static void parseCombUsage(String text) {
+    // Called (indirectly) from postChoice1 after we combed a tile
+    // This is before results are processed and Meat or items are logged.
+    //
+    // <span class='guts'>You comb the area and under the sand you find a bottle. It looks like it
+    // contains some sort of message? You pop the bottle open and look at the piece of paper inside.
+    // It says:<br><br>LIFE ON A DESSERT ISLAND -- SHOULD BE HARD, BUT REALLY IT IS A PIECE OF
+    // CAKE<br><br>Is that some sort of joke?</span>
+    //
+    // If we find a message in a bottle, there are no items or Meat.
+    // Log something so that the user can see what happened.
+    if (text.contains("you find a bottle")) {
+      String message = "You found a message in a bottle!";
+      RequestLogger.printLine(message);
+      RequestLogger.updateSessionLog(message);
+    }
+  }
+
   @Override
   public int getAdventuresUsed() {
     return getAdventuresUsed(this.command);

@@ -21,8 +21,8 @@ import net.sourceforge.kolmafia.persistence.RestoresDatabase;
 import net.sourceforge.kolmafia.persistence.Script;
 import net.sourceforge.kolmafia.persistence.ScriptManager;
 import net.sourceforge.kolmafia.preferences.Preferences;
-import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.StorageRequest;
+import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 import net.sourceforge.kolmafia.swingui.DatabaseFrame;
 import net.sourceforge.kolmafia.utilities.LowerCaseEntry;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -134,7 +134,7 @@ public class TableCellFactory {
       case 2:
         return advresult.getCount();
       case 3:
-        Integer price = MallPriceDatabase.getPrice(advresult.getItemId());
+        long price = MallPriceDatabase.getPrice(advresult.getItemId());
         return (price > 0) ? price : null;
       case 4:
         int power = EquipmentDatabase.getPower(advresult.getItemId());
@@ -180,7 +180,7 @@ public class TableCellFactory {
       case 2:
         return advresult.getCount();
       case 3:
-        Integer price = MallPriceDatabase.getPrice(advresult.getItemId());
+        long price = MallPriceDatabase.getPrice(advresult.getItemId());
         return (price > 0) ? price : null;
       case 4:
         int power = EquipmentDatabase.getPower(advresult.getItemId());
@@ -224,7 +224,7 @@ public class TableCellFactory {
       case 2:
         return CIRresult.getQuantityPossible();
       case 3:
-        Integer price = MallPriceDatabase.getPrice(CIRresult.getItemId());
+        long price = MallPriceDatabase.getPrice(CIRresult.getItemId());
         return (price > 0) ? price : null;
       case 4:
         fill =
@@ -265,7 +265,7 @@ public class TableCellFactory {
       case 2:
         return advresult.getCount();
       case 3:
-        Integer price = MallPriceDatabase.getPrice(advresult.getItemId());
+        long price = MallPriceDatabase.getPrice(advresult.getItemId());
         return (price > 0) ? price : null;
       case 4:
         return getAutosellString(advresult.getItemId(), raw);
@@ -289,7 +289,7 @@ public class TableCellFactory {
       case 2:
         return advresult.getCount();
       case 3:
-        Integer price = MallPriceDatabase.getPrice(advresult.getItemId());
+        long price = MallPriceDatabase.getPrice(advresult.getItemId());
         return (price > 0) ? price : null;
       case 4:
         double hpRestore = RestoresDatabase.getHPAverage(advresult.getName());

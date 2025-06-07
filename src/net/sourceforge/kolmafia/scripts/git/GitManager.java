@@ -2,6 +2,9 @@ package net.sourceforge.kolmafia.scripts.git;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONException;
+import com.alibaba.fastjson2.JSONObject;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
@@ -38,8 +41,6 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.eclipse.jgit.treewalk.filter.PathFilter;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class GitManager extends ScriptManager {
 
@@ -184,7 +185,7 @@ public class GitManager extends ScriptManager {
         return false;
       }
 
-      if (diffs.size() == 0) {
+      if (diffs.isEmpty()) {
         RequestLogger.printLine("No changes");
         return false;
       }
@@ -205,7 +206,7 @@ public class GitManager extends ScriptManager {
           }
         }
 
-        if (DEPENDENCIES.equals(diff.getNewPath())) {
+        if (DEPENDENCIES.equals(newRelPath.toString())) {
           checkDependencies = true;
         }
       }
@@ -226,7 +227,7 @@ public class GitManager extends ScriptManager {
     var success = result.getRebaseResult().getStatus().isSuccessful();
     if (!success) {
       // the rebase failed. Does the user have any local changes?
-      var hasLocal = git.diff().call().size() != 0;
+      var hasLocal = !git.diff().call().isEmpty();
       if (!hasLocal) return false;
       KoLmafia.updateDisplay("Detected local changes in " + folder + ". Attempting to merge.");
       // add all files
@@ -498,12 +499,14 @@ public class GitManager extends ScriptManager {
 
       var lastCommitId = repo.resolve("HEAD");
       var rw = new RevWalk(repo);
-      var commit = rw.parseCommit(lastCommitId);
-      var author = commit.getAuthorIdent();
-      var datetime = getCommitDate(commit, author);
+      try (rw) {
+        var commit = rw.parseCommit(lastCommitId);
+        var author = commit.getAuthorIdent();
+        var datetime = getCommitDate(commit, author);
 
-      return Optional.of(
-          new GitInfo(url, branch, ObjectId.toString(lastCommitId), getAuthor(author), datetime));
+        return Optional.of(
+            new GitInfo(url, branch, ObjectId.toString(lastCommitId), getAuthor(author), datetime));
+      }
     } catch (IOException e) {
       // all or nothing
       return Optional.empty();
@@ -620,7 +623,7 @@ public class GitManager extends ScriptManager {
 
     JSONObject json;
     try {
-      json = new JSONObject(Files.readString(manifest));
+      json = JSON.parseObject(Files.readString(manifest));
     } catch (IOException | JSONException e) {
       return Optional.empty();
     }
@@ -631,8 +634,8 @@ public class GitManager extends ScriptManager {
     var json = readManifest(projectPath.resolve(MANIFEST));
     if (json.isEmpty()) return projectPath;
     var manifest = json.get();
-    var root = manifest.optString(MANIFEST_ROOTDIR, "");
-    if (root.length() == 0) return projectPath;
+    var root = Optional.ofNullable(manifest.getString(MANIFEST_ROOTDIR)).orElse("");
+    if (root.isEmpty()) return projectPath;
     // deny absolute paths or folder escapes
     if (root.startsWith("/") || root.startsWith("\\") || root.contains("..")) return projectPath;
     return projectPath.resolve(root);
@@ -662,6 +665,11 @@ public class GitManager extends ScriptManager {
     @Override
     public boolean isCancelled() {
       return false;
+    }
+
+    @Override
+    public void showDuration(boolean b) {
+      // say nothing
     }
   }
 

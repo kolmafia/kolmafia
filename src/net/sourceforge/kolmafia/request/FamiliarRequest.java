@@ -451,236 +451,228 @@ public class FamiliarRequest extends GenericRequest {
       return true;
     }
 
-    if (action.equals("message")) {
-      // EquipmentRequest did something for us and returned to the terrarium
-      return true;
-    }
-
-    if (action.equals("newfam")) {
-      // Failure:
-      //
-      // You don't have a familiar of that type in your Terrarium.
-      // You are too afraid of the Bs to adventure with that familiar.
-      // That familiar is way too outmoded.
-      // Boris has no need for familiars!
-      // That familiar seems to be dead.
-      // Jarlsberg didn't trust any companion that he didn't summon himself.
-      //
-      // Success:
-      //
-      // You put Hand Jive Grrl back in the Terrarium.
-      // You take Sucky Grrl with you.
-
-      if (!responseText.contains("You take")) {
-        return false;
-      }
-
-      FamiliarData changeTo = KoLCharacter.usableFamiliar(FamiliarRequest.getNewFam(urlString));
-
-      if (!handleFamiliarChange(changeTo)) {
-        return false;
-      }
-
-      KoLCharacter.setFamiliar(changeTo);
-      EquipmentManager.updateEquipmentList(Slot.FAMILIAR);
-
-      return true;
-    }
-
-    if (action.equals("putback")) {
-      // Failure:
-      //
-      // How can you put away your familiar, when you don't have a familiar out. Crazy much?
-      //
-      // Success:
-      //
-      // You put Lucky Grrl back in the Terrarium.
-
-      if (!responseText.contains("back in the Terrarium")) {
-        return false;
-      }
-
-      KoLCharacter.setFamiliar(FamiliarData.NO_FAMILIAR);
-      EquipmentManager.setEquipment(Slot.FAMILIAR, EquipmentRequest.UNEQUIP);
-      EquipmentManager.updateEquipmentList(Slot.FAMILIAR);
-      EquipmentManager.lockFamiliarItem(false);
-
-      return true;
-    }
-
-    if (action.equals("equip")) {
-      // Failure:
-      //
-      // You don't have a familiar of that type.
-      // You either don't have the item you selected, or the item you selected isn't familiar
-      // equipment. Hooray for vague error messages!
-      //
-      // Success:
-      //
-      // You equip Hand Jive Grrl with the time sword.
-
-      if (!responseText.contains("You equip")) {
-        return false;
-      }
-
-      var id = FamiliarRequest.getWhichFam(urlString);
-      // can equip items on familiars we can't use
-      var familiar = KoLCharacter.ownedFamiliar(id);
-      FamiliarData current = KoLCharacter.getFamiliar();
-      AdventureResult item = ItemPool.get(GenericRequest.getWhichItem(urlString), 1);
-
-      familiar.ifPresent(
-          f -> {
-            if (current.equals(f)) {
-              EquipmentManager.removeConditionalSkills(Slot.FAMILIAR, current.getItem());
-              EquipmentManager.addConditionalSkills(Slot.FAMILIAR, item);
-            }
-
-            FamiliarRequest.equipFamiliar(f, item);
-          });
-      EquipmentManager.updateEquipmentList(Slot.FAMILIAR);
-
-      return true;
-    }
-
-    if (action.equals("unequip")) {
-      // Success:
-      //
-      // Item unequipped.
-      //
-      // Failure:
-      //
-      // You either don't have a familiar of that type, or the familiar you selected isn't actually
-      // using any equipment right now. Hooray for vague error messages!
-
-      if (!responseText.contains("Item unequipped")) {
-        return false;
-      }
-
-      var id = FamiliarRequest.getFamId(urlString);
-      // can unequip items on familiars we can't use
-      var familiar = KoLCharacter.ownedFamiliar(id);
-      FamiliarData current = KoLCharacter.getFamiliar();
-
-      familiar.ifPresent(
-          f -> {
-            if (current.equals(f)) {
-              EquipmentManager.removeConditionalSkills(Slot.FAMILIAR, current.getItem());
-            }
-
-            FamiliarRequest.unequipFamiliar(f);
-          });
-      EquipmentManager.updateEquipmentList(Slot.FAMILIAR);
-
-      return true;
-    }
-
-    if (action.equals("lockequip")) {
-      // Success:
-      //
-      // Familiar equipment locked.
-      // Familiar equipment unlocked.
-      //
-      // Failure:
-      //
-      // You cannot lock familiar equipment, on account of not having any equipped.
-      // You cannot lock familiar equipment which can only be equipped by one kind of familiar.
-      // Strange, but true.
-
-      if (responseText.contains("You cannot")) {
-        return false;
-      }
-
-      EquipmentManager.lockFamiliarItem(!EquipmentManager.familiarItemLocked());
-      return true;
-    }
-
-    // See if we are putting the familiar into the Crown of Thrones
-    if (action.equals("hatseat")) {
-      // Failure:
-      //
-      // You're not wearing a hat seat.
-
-      if (responseText.contains("You're not wearing a hat seat")) {
-        return false;
-      }
-
-      int famid = FamiliarRequest.getFamId(urlString);
-      if (famid < 0) {
-        return false;
-      }
-
-      // Success:
-      //
-      // Crown of Thrones vacated.
-
-      if (famid == 0) {
-        KoLCharacter.setEnthroned(FamiliarData.NO_FAMILIAR);
+    switch (action) {
+      case "message" -> {
+        // EquipmentRequest did something for us and returned to the terrarium
         return true;
       }
+      case "newfam" -> {
+        // Failure:
+        //
+        // You don't have a familiar of that type in your Terrarium.
+        // You are too afraid of the Bs to adventure with that familiar.
+        // That familiar is way too outmoded.
+        // Boris has no need for familiars!
+        // That familiar seems to be dead.
+        // Jarlsberg didn't trust any companion that he didn't summon himself.
+        //
+        // Success:
+        //
+        // You put Hand Jive Grrl back in the Terrarium.
+        // You take Sucky Grrl with you.
 
-      // Success:
-      //
-      // Your Jumpsuited Hound Dog, Elvis Grrl, is now carried in the Crown of Thrones.
-
-      if (!responseText.contains("is now carried in the Crown of Thrones")) {
-        return false;
-      }
-
-      FamiliarData fam = KoLCharacter.usableFamiliar(famid);
-      if (fam == null || !fam.canEquip()) {
-        return false;
-      }
-
-      KoLCharacter.setEnthroned(fam);
-      EquipmentManager.updateEquipmentList(Slot.FAMILIAR);
-
-      return true;
-    }
-
-    // See if we are putting the familiar into the Bjorn Buddy
-    if (action.equals("backpack")) {
-      // Failure:
-      // You're not wearing a Bjorn Buddy.
-
-      if (responseText.contains("You're not wearing a Bjorn Buddy")) {
-        return false;
-      }
-
-      int famid = FamiliarRequest.getFamId(urlString);
-      if (famid < 0) {
-        return false;
-      }
-
-      // Success:
-      //
-      // Buddy Bjorn vacated.
-
-      if (famid == 0) {
-        KoLCharacter.setBjorned(FamiliarData.NO_FAMILIAR);
+        if (!responseText.contains("You take")) {
+          return false;
+        }
+        FamiliarData changeTo = KoLCharacter.usableFamiliar(FamiliarRequest.getNewFam(urlString));
+        if (!handleFamiliarChange(changeTo)) {
+          return false;
+        }
+        KoLCharacter.setFamiliar(changeTo);
+        EquipmentManager.updateEquipmentList(Slot.FAMILIAR);
         return true;
       }
+      case "putback" -> {
+        // Failure:
+        //
+        // How can you put away your familiar, when you don't have a familiar out. Crazy much?
+        //
+        // Success:
+        //
+        // You put Lucky Grrl back in the Terrarium.
 
-      // Success:
-      //
-      // Your Green Pixie, Al Coholic, is now safely in your Buddy Bjorn.
-
-      if (!responseText.contains("is now safely in your Buddy Bjorn")) {
-        return false;
+        if (!responseText.contains("back in the Terrarium")) {
+          return false;
+        }
+        KoLCharacter.setFamiliar(FamiliarData.NO_FAMILIAR);
+        EquipmentManager.setEquipment(Slot.FAMILIAR, EquipmentRequest.UNEQUIP);
+        EquipmentManager.updateEquipmentList(Slot.FAMILIAR);
+        EquipmentManager.lockFamiliarItem(false);
+        return true;
       }
+      case "equip" -> {
+        // Failure:
+        //
+        // You don't have a familiar of that type.
+        // You either don't have the item you selected, or the item you selected isn't familiar
+        // equipment. Hooray for vague error messages!
+        //
+        // Success:
+        //
+        // You equip Hand Jive Grrl with the time sword.
 
-      FamiliarData fam = KoLCharacter.usableFamiliar(famid);
-      if (fam == null || !fam.canEquip()) {
-        return false;
+        if (!responseText.contains("You equip")) {
+          return false;
+        }
+
+        var id = FamiliarRequest.getWhichFam(urlString);
+        // can equip items on familiars we can't use
+        var familiar = KoLCharacter.ownedFamiliar(id);
+        FamiliarData current = KoLCharacter.getFamiliar();
+        AdventureResult item = ItemPool.get(GenericRequest.getWhichItem(urlString), 1);
+
+        familiar.ifPresent(
+            f -> {
+              if (current.equals(f)) {
+                EquipmentManager.removeConditionalSkills(Slot.FAMILIAR, current.getItem());
+                EquipmentManager.addConditionalSkills(Slot.FAMILIAR, item);
+              }
+
+              FamiliarRequest.equipFamiliar(f, item);
+            });
+        EquipmentManager.updateEquipmentList(Slot.FAMILIAR);
+
+        return true;
       }
+      case "unequip" -> {
+        // Success:
+        //
+        // Item unequipped.
+        //
+        // Failure:
+        //
+        // You either don't have a familiar of that type, or the familiar you selected isn't
+        // actually
+        // using any equipment right now. Hooray for vague error messages!
 
-      KoLCharacter.setBjorned(fam);
-      EquipmentManager.updateEquipmentList(Slot.FAMILIAR);
+        if (!responseText.contains("Item unequipped")) {
+          return false;
+        }
 
-      return true;
+        var id = FamiliarRequest.getFamId(urlString);
+        // can unequip items on familiars we can't use
+        var familiar = KoLCharacter.ownedFamiliar(id);
+        FamiliarData current = KoLCharacter.getFamiliar();
+
+        familiar.ifPresent(
+            f -> {
+              if (current.equals(f)) {
+                EquipmentManager.removeConditionalSkills(Slot.FAMILIAR, current.getItem());
+              }
+
+              FamiliarRequest.unequipFamiliar(f);
+            });
+        EquipmentManager.updateEquipmentList(Slot.FAMILIAR);
+
+        return true;
+      }
+      case "lockequip" -> {
+        // Success:
+        //
+        // Familiar equipment locked.
+        // Familiar equipment unlocked.
+        //
+        // Failure:
+        //
+        // You cannot lock familiar equipment, on account of not having any equipped.
+        // You cannot lock familiar equipment which can only be equipped by one kind of familiar.
+        // Strange, but true.
+
+        if (responseText.contains("You cannot")) {
+          return false;
+        }
+        EquipmentManager.lockFamiliarItem(!EquipmentManager.familiarItemLocked());
+        return true;
+      }
+      case "hatseat" -> {
+        // See if we are putting the familiar into the Crown of Thrones
+
+        // Failure:
+        //
+        // You're not wearing a hat seat.
+
+        if (responseText.contains("You're not wearing a hat seat")) {
+          return false;
+        }
+
+        int famid = FamiliarRequest.getFamId(urlString);
+        if (famid < 0) {
+          return false;
+        }
+
+        // Success:
+        //
+        // Crown of Thrones vacated.
+
+        if (famid == 0) {
+          KoLCharacter.setEnthroned(FamiliarData.NO_FAMILIAR);
+          return true;
+        }
+
+        // Success:
+        //
+        // Your Jumpsuited Hound Dog, Elvis Grrl, is now carried in the Crown of Thrones.
+
+        if (!responseText.contains("is now carried in the Crown of Thrones")) {
+          return false;
+        }
+
+        FamiliarData fam = KoLCharacter.usableFamiliar(famid);
+        if (fam == null || !fam.canEquip()) {
+          return false;
+        }
+
+        KoLCharacter.setEnthroned(fam);
+        EquipmentManager.updateEquipmentList(Slot.FAMILIAR);
+
+        return true;
+      }
+      case "backpack" -> {
+        // See if we are putting the familiar into the Bjorn Buddy
+
+        // Failure:
+        // You're not wearing a Bjorn Buddy.
+
+        if (responseText.contains("You're not wearing a Bjorn Buddy")) {
+          return false;
+        }
+
+        int famid = FamiliarRequest.getFamId(urlString);
+        if (famid < 0) {
+          return false;
+        }
+
+        // Success:
+        //
+        // Buddy Bjorn vacated.
+
+        if (famid == 0) {
+          KoLCharacter.setBjorned(FamiliarData.NO_FAMILIAR);
+          return true;
+        }
+
+        // Success:
+        //
+        // Your Green Pixie, Al Coholic, is now safely in your Buddy Bjorn.
+
+        if (!responseText.contains("is now safely in your Buddy Bjorn")) {
+          return false;
+        }
+
+        FamiliarData fam = KoLCharacter.usableFamiliar(famid);
+        if (fam == null || !fam.canEquip()) {
+          return false;
+        }
+
+        KoLCharacter.setBjorned(fam);
+        EquipmentManager.updateEquipmentList(Slot.FAMILIAR);
+
+        return true;
+      }
+      default -> {
+        return true;
+      }
     }
-
-    return true;
   }
 
   public static final boolean registerRequest(final String urlString) {

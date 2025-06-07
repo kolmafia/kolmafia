@@ -43,6 +43,7 @@ import net.sourceforge.kolmafia.modifiers.Lookup;
 import net.sourceforge.kolmafia.modifiers.Modifier;
 import net.sourceforge.kolmafia.modifiers.ModifierList;
 import net.sourceforge.kolmafia.modifiers.ModifierList.ModifierValue;
+import net.sourceforge.kolmafia.modifiers.MultiStringModifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
@@ -63,6 +64,8 @@ public class ModifierDatabase {
       new TwoLevelEnumHashMap<>(ModifierType.class);
   private static final Map<String, Modifier> modifierTypesByName = new HashMap<>();
   private static final Map<String, String> familiarEffectByName = new HashMap<>();
+  private static final Set<Lookup> inventorySkillProviders = new HashSet<>();
+  private static final Set<Lookup> noncombatSkillProviders = new HashSet<>();
 
   /** Map of synergetic item name to bitmap mask of all items in set */
   private static final Map<String, Integer> synergies = new HashMap<>();
@@ -78,16 +81,14 @@ public class ModifierDatabase {
   // constant fields
 
   public static final String EXPR = "(?:([-+]?[\\d.]+)|\\[([^]]+)\\])";
+  public static final String BOOLEAN_EXPR = "(?:: \\[([^]]+)])?";
 
-  private static final Pattern FAMILIAR_EFFECT_PATTERN =
-      Pattern.compile("Familiar Effect: \"(.*?)\"");
   private static final Pattern FAMILIAR_EFFECT_TRANSLATE_PATTERN =
       Pattern.compile("([\\d.]+)\\s*x\\s*(Volley|Somb|Lep|Fairy)");
   private static final String FAMILIAR_EFFECT_TRANSLATE_REPLACEMENT = "$2: $1 ";
   private static final Pattern FAMILIAR_EFFECT_TRANSLATE_PATTERN2 =
       Pattern.compile("cap ([\\d.]+)");
   private static final String FAMILIAR_EFFECT_TRANSLATE_REPLACEMENT2 = "Familiar Weight Cap: $1 ";
-
   private static final String COLD = DoubleModifier.COLD_RESISTANCE.getTag() + ": ";
   private static final String HOT = DoubleModifier.HOT_RESISTANCE.getTag() + ": ";
   private static final String SLEAZE = DoubleModifier.SLEAZE_RESISTANCE.getTag() + ": ";
@@ -236,6 +237,18 @@ public class ModifierDatabase {
     return familiarEffectByName.get(itemName);
   }
 
+  /**
+   * @return All sources of a conditional skills that don't require active use (e.g. equipping the
+   *     item)
+   */
+  public static Set<Lookup> getInventorySkillProviders() {
+    return inventorySkillProviders;
+  }
+
+  public static Set<Lookup> getNonCombatSkillProviders() {
+    return noncombatSkillProviders;
+  }
+
   // Returned set yields bitmaps keyed by names
   public static Set<Entry<String, Integer>> getSynergies() {
     return Collections.unmodifiableSet(synergies.entrySet());
@@ -300,6 +313,10 @@ public class ModifierDatabase {
     if (str != null) {
       return str;
     }
+    var mStr = MultiStringModifier.byCaselessName(name);
+    if (mStr != null) {
+      return mStr;
+    }
     return BooleanModifier.byCaselessName(name);
   }
 
@@ -344,7 +361,7 @@ public class ModifierDatabase {
     return getModifiers(ModifierType.EFFECT, id);
   }
 
-  private static final String getModifierString(final Lookup lookup) {
+  public static String getModifierString(final Lookup lookup) {
     return modifierStringsByName.get(lookup.type, lookup.getKey());
   }
 
@@ -448,6 +465,7 @@ public class ModifierDatabase {
       weight += (int) tempMods.getDouble(DoubleModifier.FAMILIAR_WEIGHT);
       weight += (int) tempMods.getDouble(DoubleModifier.HIDDEN_FAMILIAR_WEIGHT);
       weight += (fam.getFeasted() ? 10 : 0);
+      weight += fam.getSoupWeight();
       double percent = tempMods.getDouble(DoubleModifier.FAMILIAR_WEIGHT_PCT) / 100.0;
       if (percent != 0.0) {
         weight = (int) Math.floor(weight + weight * percent);
@@ -477,22 +495,59 @@ public class ModifierDatabase {
     return mods.getBoolean(mod);
   }
 
-  public static final String getStringModifier(
-      final ModifierType type, final int id, final StringModifier mod) {
+  public static String getStringModifier(
+      final ModifierType type, final int id, final Modifier mod) {
     return getStringModifier(new Lookup(type, id), mod);
   }
 
-  public static final String getStringModifier(
-      final ModifierType type, final String name, final StringModifier mod) {
+  public static String getStringModifier(
+      final ModifierType type, final int id, final MultiStringModifier mod) {
+    return getStringModifier(new Lookup(type, id), mod);
+  }
+
+  public static String getStringModifier(
+      final ModifierType type, final String name, final Modifier mod) {
     return getStringModifier(new Lookup(type, name), mod);
   }
 
-  public static final String getStringModifier(final Lookup lookup, final StringModifier mod) {
+  public static String getStringModifier(
+      final ModifierType type, final String name, final MultiStringModifier mod) {
+    return getStringModifier(new Lookup(type, name), mod);
+  }
+
+  public static String getStringModifier(final Lookup lookup, final Modifier mod) {
     Modifiers mods = getModifiers(lookup);
     if (mods == null) {
       return "";
     }
     return mods.getString(mod);
+  }
+
+  public static String getStringModifier(final Lookup lookup, final MultiStringModifier mod) {
+    Modifiers mods = getModifiers(lookup);
+    if (mods == null) {
+      return "";
+    }
+    return mods.getString(mod);
+  }
+
+  public static List<String> getMultiStringModifier(
+      final ModifierType type, final int id, final MultiStringModifier mod) {
+    return getMultiStringModifier(new Lookup(type, id), mod);
+  }
+
+  public static List<String> getMultiStringModifier(
+      final ModifierType type, final String name, final MultiStringModifier mod) {
+    return getMultiStringModifier(new Lookup(type, name), mod);
+  }
+
+  public static List<String> getMultiStringModifier(
+      final Lookup lookup, final MultiStringModifier mod) {
+    Modifiers mods = getModifiers(lookup);
+    if (mods == null) {
+      return List.of();
+    }
+    return mods.getStrings(mod);
   }
 
   // sub-region: parse modifiers.txt expressions to Modifiers / ModifierList
@@ -679,7 +734,12 @@ public class ModifierDatabase {
           continue;
         }
 
-        newMods.setBoolean(mod, true);
+        if (matcher.groupCount() == 0 || matcher.group(1) == null) {
+          newMods.setBoolean(mod, true);
+        } else {
+          newMods.addExpression(
+              new Indexed<>(mod, ModifierExpression.getInstance(matcher.group(1), lookup)));
+        }
         continue modLoop;
       }
 
@@ -701,6 +761,23 @@ public class ModifierDatabase {
         }
 
         newMods.setString(mod, value);
+        continue modLoop;
+      }
+
+      for (var mod : MultiStringModifier.MULTISTRING_MODIFIERS) {
+        Pattern pattern = mod.getTagPattern();
+        if (pattern == null) {
+          continue;
+        }
+
+        Matcher matcher = pattern.matcher(string);
+        if (!matcher.matches()) {
+          continue;
+        }
+
+        String value = matcher.group(1);
+
+        newMods.addMultiString(mod, value);
         continue modLoop;
       }
     }
@@ -797,7 +874,7 @@ public class ModifierDatabase {
           name = "[" + effectId + "]" + name;
         }
       }
-      return StringModifier.EFFECT.getTag() + ": \"" + name + "\"";
+      return MultiStringModifier.EFFECT.getTag() + ": \"" + name + "\"";
     }
 
     return null;
@@ -819,6 +896,16 @@ public class ModifierDatabase {
     }
 
     return null;
+  }
+
+  private static final Pattern LAST_AVAILABLE_PATTERN =
+      Pattern.compile("<![-—]+ Last Available Date: (\\d{4}-\\d{2}) [-—]+>");
+
+  public static String parseLastAvailable(final String text) {
+    var matcher = LAST_AVAILABLE_PATTERN.matcher(text);
+    if (!matcher.find()) return null;
+
+    return StringModifier.LAST_AVAILABLE_DATE.getTag() + ": \"" + matcher.group(1) + "\"";
   }
 
   public static final String parseModifier(final String enchantment) {
@@ -994,31 +1081,34 @@ public class ModifierDatabase {
 
   // region: override / register / re-register modifiers
 
-  public static final void overrideModifier(
-      final ModifierType type, final int key, final String value) {
+  public static void overrideModifier(final ModifierType type, final int key, final String value) {
     overrideModifierInternal(new Lookup(type, key), value);
   }
 
-  public static final void overrideModifier(
+  public static void overrideModifier(
       final ModifierType type, final String key, final String value) {
     overrideModifierInternal(new Lookup(type, key), value);
   }
 
-  public static final void overrideModifier(
+  public static void overrideModifier(
       final ModifierType type, final int key, final Modifiers value) {
     overrideModifierInternal(new Lookup(type, key), value);
   }
 
-  public static final void overrideModifier(
+  public static void overrideModifier(
       final ModifierType type, final String key, final Modifiers value) {
     overrideModifierInternal(new Lookup(type, key), value);
   }
 
-  private static final void overrideModifierInternal(final Lookup lookup, final String value) {
+  public static void overrideModifier(final Lookup lookup, final Modifiers value) {
+    overrideModifierInternal(lookup, value);
+  }
+
+  private static void overrideModifierInternal(final Lookup lookup, final String value) {
     overrideModifierInternal(lookup, parseModifiers(lookup, value));
   }
 
-  private static final void overrideModifierInternal(final Lookup lookup, final Modifiers value) {
+  private static void overrideModifierInternal(final Lookup lookup, final Modifiers value) {
     if (!modifierStringsByName.containsKey(lookup.type, lookup.getKey())
         && !(lookup.type == ModifierType.GENERATED)) {
       RequestLogger.updateSessionLog("WARNING: updated modifier not in modifiers.txt: " + lookup);
@@ -1027,15 +1117,15 @@ public class ModifierDatabase {
     modifiersByName.put(lookup.type, lookup.getKey(), value);
   }
 
-  public static final void overrideRemoveModifier(final ModifierType type, final int key) {
+  public static void overrideRemoveModifier(final ModifierType type, final int key) {
     overrideRemoveModifierInternal(new Lookup(type, key));
   }
 
-  public static final void overrideRemoveModifier(final ModifierType type, final String key) {
+  public static void overrideRemoveModifier(final ModifierType type, final String key) {
     overrideRemoveModifierInternal(new Lookup(type, key));
   }
 
-  private static final void overrideRemoveModifierInternal(final Lookup lookup) {
+  private static void overrideRemoveModifierInternal(final Lookup lookup) {
     modifiersByName.remove(lookup.type, lookup.getKey());
   }
 
@@ -1151,7 +1241,7 @@ public class ModifierDatabase {
           if (mods == null) {
             break;
           }
-          if (!mods.getString(StringModifier.EFFECT).isEmpty()) {
+          if (!mods.getString(MultiStringModifier.EFFECT).isEmpty()) {
             potions.add(name);
           } else if (mods.getBoolean(BooleanModifier.FREE_PULL)) {
             freepulls.add(name);
@@ -1396,7 +1486,8 @@ public class ModifierDatabase {
 
   // region: verify modifiers.txt
 
-  public static final void checkModifiers() {
+  public static final ArrayList<String> checkModifiers() {
+    var issues = new ArrayList<String>();
     for (Entry<ModifierType, Map<IntOrString, String>> typeEntry :
         modifierStringsByName.entrySet()) {
       ModifierType type = typeEntry.getKey();
@@ -1405,7 +1496,9 @@ public class ModifierDatabase {
         String modifierString = entry.getValue();
 
         if (modifierString == null) {
-          RequestLogger.printLine("Key \"" + type + ":" + key + "\" has no modifiers");
+          var issue = "Key \"" + type + ":" + key + "\" has no modifiers";
+          RequestLogger.printLine(issue);
+          issues.add(issue);
           continue;
         }
 
@@ -1431,14 +1524,23 @@ public class ModifierDatabase {
           if (StringModifier.byTagPattern(mod) != null) {
             continue;
           }
+          if (MultiStringModifier.byTagPattern(mod) != null) {
+            continue;
+          }
           if (type == ModifierType.FAM_EQ) {
             continue; // these may contain freeform text
           }
-          RequestLogger.printLine(
-              "Key \"" + type + ":" + key + "\" has unknown modifier: \"" + mod + "\"");
+          if (type == ModifierType.THRONE && mod.isEmpty()) {
+            continue; // these may be empty during spading
+          }
+          var issue = "Key \"" + type + ":" + key + "\" has unknown modifier: \"" + mod + "\"";
+          issues.add(issue);
+          RequestLogger.printLine(issue);
         }
       }
     }
+
+    return issues;
   }
 
   // region: initial load of modifiers.txt
@@ -1469,7 +1571,7 @@ public class ModifierDatabase {
           KoLmafia.updateDisplay("Duplicate modifiers for: " + type + ":" + name);
         }
 
-        Matcher matcher = FAMILIAR_EFFECT_PATTERN.matcher(modifiers);
+        Matcher matcher = StringModifier.FAMILIAR_EFFECT.getTagPattern().matcher(modifiers);
         if (matcher.find()) {
           String effect = matcher.group(1);
           familiarEffectByName.put(name, effect);
@@ -1482,6 +1584,23 @@ public class ModifierDatabase {
             effect = matcher.replaceAll(FAMILIAR_EFFECT_TRANSLATE_REPLACEMENT2);
           }
           modifierStringsByName.put(ModifierType.FAM_EQ, new IntOrString(name), effect);
+        }
+
+        matcher =
+            MultiStringModifier.CONDITIONAL_SKILL_INVENTORY.getTagPattern().matcher(modifiers);
+        if (matcher.find()) {
+          inventorySkillProviders.add(lookup);
+        }
+
+        matcher = MultiStringModifier.CONDITIONAL_SKILL_EQUIPPED.getTagPattern().matcher(modifiers);
+        while (matcher.find()) {
+          var skill = matcher.group(1);
+          var id = SkillDatabase.getSkillId(skill, true);
+          if (SkillDatabase.getSkillTags(id).contains(SkillDatabase.SkillTag.NONCOMBAT)) {
+            noncombatSkillProviders.add(lookup);
+            inventorySkillProviders.add(lookup);
+            break;
+          }
         }
       }
     } catch (IOException e) {

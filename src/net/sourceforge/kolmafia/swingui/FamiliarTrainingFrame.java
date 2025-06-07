@@ -62,6 +62,7 @@ import net.sourceforge.kolmafia.swingui.widget.RequestPane;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.LogStream;
 
+@SuppressWarnings("incomplete-switch")
 public class FamiliarTrainingFrame extends GenericFrame {
   private static final Pattern PRIZE_PATTERN =
       Pattern.compile(

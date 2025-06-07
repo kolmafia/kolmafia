@@ -209,7 +209,7 @@
 228	forest spirit	arm	head	leg	torso
 229	crazy bastard
 230	infinite meat bug
-231	Baiowulf
+231	Baiowulf	arm	head	leg	torso
 232	Hypnotist of Hey Deze
 233	decent lumberjack	arm	head	leg	torso
 234	lumberjill	arm	head	leg	torso
@@ -425,7 +425,7 @@
 450	Protector Spectre	...wing?	arm	head	leg	torso
 451	caveman frat boy	arm	head	leg	torso
 452	caveman sorority girl	arm	head	leg	torso
-453	Dr. Awkward	arm	head	leg
+453	Dr. Awkward	arm	head	leg	torso
 454	possessed wine rack (obsolete)	leg	shelf
 455	skeletal sommelier (obsolete)	arm	head	leg	torso
 456	swarm of scarab beatles	head	leg
@@ -582,7 +582,7 @@
 614	gritty pirate	arm	head	leg	torso
 615	grassy pirate	arm	head	leg	torso
 616	grungy pirate	arm	head	leg	torso
-617	Knott Slanding
+617	Knott Slanding	arm	head	leg	torso
 618	tipsy pirate	arm	head	leg	torso
 619	tetchy pirate	arm	head	leg	torso
 620	toothy pirate	arm	head	leg	torso
@@ -660,7 +660,7 @@
 695	Frosty	arm	head	leg	torso
 696	Oscus	arm	head	leg	torso
 697	Zombo	arm	head	leg	torso
-698	Chester
+698	Chester	arm	head	leg	torso
 699	flock of seagulls	head	leg	torso	wing
 700	mariachi bandolero	arm	head	leg	torso
 701	Argarggagarg the Dire Hellseal	flipper	head	tail
@@ -1083,7 +1083,7 @@
 1154	eXtreme cross-country hippy	arm	dreadlock	head	leg	torso
 1155	eXtreme Orcish snowboarder	arm	head	leg	torso
 1156	sk8 gnome	arm	head	leg
-1157	Groar	arm	head	leg	torso	wing
+1157	Groar	arm	head	leg	wing
 1158	The Avatar of Sneaky Pete	arm	head	leg	torso
 1159	stone temple pirate	head
 1160	baa-relief sheep	head	leg	tail	torso
@@ -1344,7 +1344,7 @@
 1422	QuickBASIC elemental	arm	head	leg	torso
 1423	Fran&ccedil;ois Verte, Art Teacher	arm	head	leg	torso
 1424	Mrs. K, the Chemistry Teacher	arm	head	leg	torso
-1425	Principal Mooney
+1425	Principal Mooney	arm	head	leg	torso
 1426	dense liana	leaf	vine
 1427	pygmy janitor	arm	head	leg	torso
 1428	pygmy shaman	arm	head	leg	torso
@@ -1542,10 +1542,10 @@
 1620	banjoccultist	arm	bridge	frets	head	leg	neck	torso
 1621	Caveman Dan	arm	head	leg	torso
 1622	giant rubber spider	head	leg	torso
-1623	Gladiator	arm	head	leg	torso
-1624	Sadiator	arm	head	leg	torso
-1625	Madiator	arm	head	leg	torso
-1626	Radiator	arm	head	leg	torso
+1623	Gladiator	arm	body	head	leg
+1624	Sadiator	arm	body	head	leg
+1625	Madiator	arm	body	head	leg
+1626	Radiator	arm	body	head	leg
 1627	cheap strix	beak	torso	wing
 1628	hypocritical medicus	arm	head	leg	torso
 1629	holographic army	bomb	gun	tank
@@ -1837,7 +1837,7 @@
 1941	Witchess Witch	arm	head	leg	torso
 1942	Witchess Bishop	arm	head	leg	mitre	torso
 1943	Cinco de Mayo reveler	arm	head	leg	torso
-1944	One Thousand Source Agents
+1944	One Thousand Source Agents	
 1945	Source Agent	arm	head	leg	torso
 1946	the ghost of Oily McBindle	arm	head	leg	torso
 1947	boneless blobghost	blob
@@ -1846,7 +1846,7 @@
 1950	The Icewoman	arm	head	leg	torso
 1951	The ghost of Ebenoozer Screege	arm	head	leg	torso
 1952	The ghost of Lord Montague Spookyraven	arm	head	leg	torso
-1953	The ghost of Vanillica "Trashblossom" Gorton
+1953	The ghost of Vanillica "Trashblossom" Gorton	
 1954	The ghost of Sam McGee	arm	head	leg	torso
 1955	The ghost of Richard Cockingham	arm	head	leg	torso
 1956	The ghost of Waldo the Carpathian	arm	head
@@ -1858,6 +1858,7 @@
 1962	Ancient Skeleton with Skin still on it	arm	head	leg	skin	torso
 1963	Wooly Duck	head	leg	wing
 1964	Krakrox the Barbarian	arm	head	leg	torso
+1965	time-spinner prank	
 1966	Remarkable Elba Kramer
 1967	board games elemental	board	card	pawn	token
 1968	nerd rapper	arm	head	leg	torso
@@ -1917,7 +1918,7 @@
 2022	Murderbot soldier	arm	head	leg	torso
 2023	hostile intelligent alien	arm	head	leg	torso
 2024	Villainous Minion	arm	head	leg	torso
-2025	Villainous Henchperson	arm	head	loyalty
+2025	Villainous Henchperson	arm	foot	head	loyalty
 2026	Villainous Villain	arm	ego	foot	head	leg
 2027	Blofeld	arm	cat	face	hand
 2028	"Blofeld"	arm	cat	face	hand
@@ -1968,8 +1969,8 @@
 2074	regular thief	arm	head	leg	torso
 2075	swamp troll	arm	head	leg	torso
 2076	crypt creeper	arm	coffin	head	lef
-2077	"Phoenix"	nozzle	pipes
-2078	Sewage Treatment Dragon	head	spout	wing
+2077	"Phoenix"	nozzle	pipe
+2078	Sewage Treatment Dragon	head	pipe	spout	wing
 2079	Duke Vampire	head	torso
 2080	Spider Queen	abdomen	mandibles	thorax
 2081	Archwizard	arm	head	leg	torso
@@ -2004,7 +2005,7 @@
 2110	Sylvia Belgrande	arm	body	head	leg
 2111	Sharona	arm	body	head	leg
 2112	Jake Norris	arm	body	head	leg
-2113	Chad Alacarte
+2113	Chad Alacarte	arm	body	head	leg
 2114	%alucard%	arm	body	head	leg
 2115	Your Lack of Reflection	absence	missingness	nothereness
 2116	giant crab	claw	eyestalk	head	leg
@@ -2134,11 +2135,11 @@
 2246	Slackiosaurus	arm	head	leg	tail	torso
 2247	Oligarcheopteryx	arm	head	leg	tail	torso
 2248	Naughty Saursaurus	arm	head	leg	tail	torso
-2249	gator-human hybrid	arm	head	leg	torso
+2249	gator-human hybrid	arm	head	leg	tail	torso
 2250	gangster's moll	arm	head	leg	torso
 2251	traveling hobo	arm	head	leg	torso
-2252	goblin flapper	arms	head	leg	torso
-2253	undercover prohibition agent	arms	head	leg	torso
+2252	goblin flapper	arm	dress	hairdo	head	leg
+2253	undercover prohibition agent	arm	hat	head	leg	sunglasses	torso
 2254	Brake-Operating Trainbot	abdomen	brake line	claw	head
 2255	Track-Switching Trainbot	chassis	eye	flag	lever
 2256	Ping-Pong-Playing Trainbot	camera	chassis	net	paddle
@@ -2146,11 +2147,11 @@
 2258	Luggage-Handling Trainbot	arm	chassis	face	rack
 2259	Ticket-Checking Trainbot	chassis	claw	scanner
 2260	Table-Waiting Trainbot	housing	tray	wheels
-2261	Wine-Pairing Trainbot	arm	housing	leg
+2261	Wine-Pairing Trainbot	arm	housing	leg	tray
 2262	Table-Bussing Trainbot	chassis	servo-actuator	wheel
-2263	Coal-Shoveling Trainbot	arm	pedestal	shovel
-2264	Slag-Processing Trainbot	crucible	slagspout
-2265	Steam-Routing Trainbot	chassis	tube	vent
+2263	Coal-Shoveling Trainbot	arm	chassis	pedestal	shovel
+2264	Slag-Processing Trainbot	chassis	crucible	slagspout
+2265	Steam-Routing Trainbot	chassis	pipe	tube	vent
 2266	The Superconductor
 2267	Moleman	arm	butt	claw	leg	snout
 2268	Met	foot	helmet
@@ -2176,13 +2177,13 @@
 2288	corruptor shadow	abyss	darkness	nothingness	shadow	void
 2289	shadow of Groar	abyss	darkness	nothingness	shadow	void
 2290	shadow of the 1960s	abyss	darkness	nothingness	shadow	void
-2291	shadow of the 1980s
-2292	General Bruise
-2293	General Bruise (true form)
+2291	shadow of the 1980s	abyss	darkness	nothingness	shadow	void
+2292	General Bruise	arm	head	leg	torso
+2293	General Bruise (true form)	arm	head	leg	torso
 2294	Dark Noël	arm	hat	head	leg	torso
 2295	Dark Noël (true form)	hoof	mouth	tentacle
-2296	Terrence Poindexter
-2297	Terrence Poindexter (true form)
+2296	Terrence Poindexter	arm	hat	head	leg	torso
+2297	Terrence Poindexter (true form)	body	head	snoot	wing
 2298	shadow spire	base	tip	void
 2299	shadow orrery	moon	planet	ring
 2300	shadow tongue	nothing	tastebud
@@ -2194,7 +2195,7 @@
 2318	Orignial Bonerdagon	head	tail	torso	wing
 2319	Jr. Awkwarj	arm	head	leg	torso
 2320	Little Lord Spookyraven	arm	head	leg	torso
-2321	Protector Spectre Candidate
+2321	Protector Spectre Candidate	...wing?	arm	head	leg	torso
 2322	Flock of Groars?	arm	head	leg	wing
 2323	The Little Wisniewski	arm	head	leg	torso
 2324	The Boy	arm	head	leg	torso
@@ -2264,7 +2265,51 @@
 2441	Lord Beastlyraven	arm	head	leg	torso
 2442	Protector Beast	...wing?	arm	head	leg	torso
 2443	Just Groar	arm	head	leg	wing
-2444	The Beast Wisniewski
+2444	The Beast Wisniewski	arm	head	leg	torso
 2445	The Beastman	arm	head	leg	torso
 2446	The Naughty Wolferess	arm	head	leg	torso
 2447	ewe	butt	head	leg	tail
+2448	messenger RNA	adenine	cytosine	guanine	uracil
+2449	flailing flagellate	flagella	hot-dog-shaped part
+2450	proto-protozoa	glob	membrane	organelle
+2451	herd of archaea	another archaea	archaea	different archaea
+2452	yeast gang	nodule
+2453	Embering Hulk	arm	ember	flames	head	leg
+2454	redhat hacker	avatar	arm	head	leg	torso
+2455	bluehat hacker	avatar	arm	head	leg	torso
+2456	greenhat hacker	avatar	arm	head	leg	torso
+2457	purplehat hacker	avatar	arm	head	leg	torso
+2458	greyhat hacker	avatar	arm	head	leg	torso
+2459	firewall	fire
+2460	ICE barrier	barrier
+2461	corruption quarantine	fence
+2462	parental controls	brick
+2463	null container	
+2464	Easter Island Bunny	ear	head
+2465	St. Patrick	arm	body	head	leg
+2466	Colonel Brando	arm	body	head	leg
+2467	Jedediah	arm	body	hat	head	leg
+2468	Boiling Cloud	cloud	fog	steam	wisp
+2469	"Santa Claus"	arm	beard	belly	head	leg
+2470	zombie process	arm	head	leg	torso
+2471	botfly	body	eye	leg	proboscis	wing
+2472	network worm	head	leg	leg	leg	tail
+2473	ICE man	head	leg	shield	torso
+2474	rat (remote access trojan)	one	ones	zero	zeroes
+2475	feral bunny	ear	head	paw	tail
+2476	chocolate chicken	beak	breast	leg	thigh	wing
+2477	moai	brow	chin	eye	forehead
+2478	giant snake	head	tail
+2479	giant potato	eye	vine
+2480	giant potato snake	belly	bulge	head	tail
+2482	spectre of war	memory
+2483	Brandonian loyalist	arm	head	leg	torso
+2484	Section 11	arm	head	leg	torso
+2485	gravy slime	glob	pseudopod
+2486	pumpkin spice wraith	allspice	cinnamon	clove	ginger	nutmeg
+2487	possessed can of cream of mushroom soup	arm	can	leg
+2488	possessed can of green beans	arm	can	leg
+2489	magically-animated snowman	bottom	head	torso
+2490	Christmas treant	bough	branch	limb	trunk
+2491	self-driving sleigh	chassis	floorboards	rails	seat
+2492	some underbrush	branch	trunk

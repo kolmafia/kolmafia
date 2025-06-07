@@ -14,12 +14,14 @@ import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
-import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
+import net.sourceforge.kolmafia.shop.ShopRow;
 import net.sourceforge.kolmafia.webui.RelayLoader;
 
+@SuppressWarnings("incomplete-switch")
 public class WikiUtilities {
 
   public enum WikiType {
@@ -163,6 +165,9 @@ public class WikiUtilities {
           result.isItem()
               ? WikiType.ITEM
               : result.isStatusEffect() ? WikiType.EFFECT : WikiType.ANY;
+    } else if (item instanceof ShopRow sr) {
+      name = sr.getItem().getDataName();
+      type = WikiType.ITEM;
     } else if (item instanceof UseSkillRequest usr) {
       name = usr.getSkillName();
       type = WikiType.SKILL;

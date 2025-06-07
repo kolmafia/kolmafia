@@ -12,6 +12,7 @@ import net.sourceforge.kolmafia.request.GenericRequest.TopMenuStyle;
 import net.sourceforge.kolmafia.session.LimitMode;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
+@SuppressWarnings("incomplete-switch")
 public abstract class TopMenuDecorator {
   public static final void decorate(final StringBuffer buffer, final String location) {
     if (KoLCharacter.getLimitMode() == LimitMode.BATMAN) {

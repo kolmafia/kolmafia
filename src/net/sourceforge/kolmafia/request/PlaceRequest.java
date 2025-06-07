@@ -359,6 +359,9 @@ public class PlaceRequest extends GenericRequest {
       case "orc_chasm" -> OrcChasmRequest.parseResponse(urlString, responseText);
       case "rabbithole" -> RabbitHoleRequest.parseResponse(urlString, responseText);
       case "scrapheap" -> ScrapheapRequest.parseResponse(urlString, responseText);
+      case "serverroom" -> {
+        QuestManager.handleServerRoom(urlString, responseText);
+      }
       case "spacegate" -> {
         if (action.equals("sg_tech") && responseText.contains("You turn in")) {
           ResultProcessor.removeAllItems(ItemPool.ALIEN_ROCK_SAMPLE);
@@ -380,6 +383,11 @@ public class PlaceRequest extends GenericRequest {
       case "town_right" -> {
         if ("townright_vote".equals(action)) {
           VoteMonsterManager.parseBooth(responseText);
+        } else if ("town_bloodbank".equals(action)) {
+          Preferences.setBoolean("_bloodBankVisited", true);
+          if (responseText.contains("rough up")) {
+            Preferences.setBoolean("_bloodBankIntimidated", true);
+          }
         }
       }
       case "town_wrong" -> {

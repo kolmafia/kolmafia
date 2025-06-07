@@ -13,6 +13,7 @@ import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.MonsterData;
+import net.sourceforge.kolmafia.RequestEditorKit;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
@@ -41,6 +42,11 @@ public abstract class EncounterManager {
     BORIS(true),
     BADMOON(true),
     BUGBEAR,
+    MAYO,
+    CLEAVER,
+    HALLOWIENER,
+    VIOLET_FOG,
+    BAT_WINGS,
     WANDERER,
     SUPERLIKELY,
     ULTRARARE,
@@ -97,16 +103,23 @@ public abstract class EncounterManager {
     resetEncounters();
   }
 
-  private static void resetEncounters() {
+  /**
+   * Reset encounter database from encounters.txt
+   *
+   * @return Whether the reset was fully successful
+   */
+  public static boolean resetEncounters() {
     ArrayList<Encounter> encounters = new ArrayList<>();
+    boolean success = true;
 
     try (BufferedReader reader =
         FileUtilities.getVersionedReader("encounters.txt", KoLConstants.ENCOUNTERS_VERSION)) {
       String[] data;
 
       while ((data = FileUtilities.readData(reader)) != null) {
-        if (!AdventureDatabase.validateAdventureArea(data[0])) {
+        if (!data[0].equals("*") && !AdventureDatabase.validateAdventureArea(data[0])) {
           RequestLogger.printLine("Invalid adventure area: \"" + data[0] + "\"");
+          success = false;
           continue;
         }
 
@@ -114,9 +127,11 @@ public abstract class EncounterManager {
       }
     } catch (IOException e) {
       StaticEntity.printStackTrace(e);
+      success = false;
     }
 
     specialEncounters = encounters.toArray(new Encounter[encounters.size()]);
+    return success;
   }
 
   /** Utility method used to register a given adventure in the running adventure summary. */
@@ -159,7 +174,11 @@ public abstract class EncounterManager {
   public static final Encounter findEncounter(
       final String locationName, final String encounterName) {
     return Arrays.stream(specialEncounters)
-        .filter(e -> locationName == null || e.getLocation().equalsIgnoreCase(locationName))
+        .filter(
+            e ->
+                locationName == null
+                    || e.getLocation().equals("*")
+                    || e.getLocation().equalsIgnoreCase(locationName))
         .filter(e -> e.getEncounter().equalsIgnoreCase(encounterName))
         .findAny()
         .orElse(null);
@@ -283,6 +302,23 @@ public abstract class EncounterManager {
     return responseText.contains("still hanging around to watch the fireworks");
   }
 
+  public static final boolean isHoldHandsMonster() {
+    if (Preferences.getInteger("holdHandsMonsterCount") < 1) {
+      return false;
+    }
+
+    // There's no message to check for, so count if the zone + monster is right
+    KoLAdventure lastLocation = KoLAdventure.lastVisitedLocation();
+    if (lastLocation == null) {
+      return false;
+    }
+    String monsterName = MonsterStatusTracker.getLastMonsterName();
+    String locationName = lastLocation.getAdventureName();
+
+    return monsterName.equals(Preferences.getString("holdHandsMonster"))
+        && locationName.equals(Preferences.getString("holdHandsLocation"));
+  }
+
   public static final boolean isSaberForceZone(String monsterName, String zone) {
     MonsterData monster = MonsterDatabase.findMonster(monsterName);
     return AdventureDatabase.getAreaCombatData(zone).hasMonster(monster);
@@ -320,6 +356,21 @@ public abstract class EncounterManager {
     return false;
   }
 
+  public static final boolean isAfterimageMonster() {
+    // There's no message to check for, and the monster always
+    // shows up immediately following the fight as a chained
+    // encounter.
+    if (Preferences.getBoolean("_afterimageMonster")) {
+      Preferences.setBoolean("_afterimageMonster", false);
+      return true;
+    }
+    return false;
+  }
+
+  public static boolean isMimeographEncounter(final String responseText) {
+    return RequestEditorKit.parseCosmeticModifiers(responseText).contains("mimeo");
+  }
+
   public static boolean isRainManEncounter(final String responseText) {
     // Use of Rain Man skill fires two encounters, first is a non-combat, second a fight, which
     // could be a semi-rare
@@ -332,6 +383,10 @@ public abstract class EncounterManager {
 
   public static final boolean isHabitatFactEncounter(final String responseText) {
     return responseText.contains("Fun fact that you just remembered");
+  }
+
+  public static final boolean isBodyguardEncounter(final String responseText) {
+    return KoLCharacter.inAvantGuard() && responseText.contains("acting as the bodyguard to");
   }
 
   public static final boolean isWanderingMonster(String encounter) {
@@ -532,6 +587,22 @@ public abstract class EncounterManager {
       }
       case "it isn't a poodle" -> {
         Preferences.setBoolean("hallowienerKnollGym", true);
+        return;
+      }
+      case "you can never have enough" -> {
+        Preferences.setBoolean("batWingsBatHoleEntrance", true);
+        return;
+      }
+      case "bats of a feather" -> {
+        Preferences.setBoolean("batWingsGuanoJunction", true);
+        return;
+      }
+      case "one of us" -> {
+        Preferences.setBoolean("batWingsBatratBurrow", true);
+        return;
+      }
+      case "magical fruit" -> {
+        Preferences.setBoolean("batWingsBeanbatChamber", true);
         return;
       }
     }

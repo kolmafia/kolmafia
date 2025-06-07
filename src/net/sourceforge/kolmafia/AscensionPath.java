@@ -15,7 +15,7 @@ public class AscensionPath {
     NONE("none", 0, false, "blank", null),
     BOOZETAFARIAN("Boozetafarian", 1, false, "martini", "a", null, 0, false, 0, 14, 15),
     TEETOTALER("Teetotaler", 2, false, "bowl", "a", null, 0, false, 15, 0, 15),
-    OXYGENARIAN("Oxygenarian", 3, false, "oxy", "an", null, 0, false, 0, 0, 15),
+    OXYGENARIAN("Oxygenarian", 3, false, "smalloxy", "an", null, 0, false, 0, 0, 15),
     BEES_HATE_YOU("Bees Hate You", 4, false, "beeicon", "a"),
     SURPRISING_FIST("Way of the Surprising Fist", 6, false, "wosp_fist", "a"),
     TRENDY("Trendy", 7, false, "trendyicon", "a"),
@@ -46,7 +46,7 @@ public class AscensionPath {
     LICENSE_TO_ADVENTURE(
         "License to Adventure", 30, false, "briefcase", "a", "bondPoints", 24, true, 0, 2, 15),
     LIVE_ASCEND_REPEAT("Live. Ascend. Repeat.", 31, false, "watch", "a"),
-    POKEFAM("Pocket Familiars", 32, false, "spiritorb", "a"),
+    POKEFAM("Pocket Familiars", 32, false, "spiritorb", "a", "pokefamPoints", 10, false),
     GLOVER("G-Lover", 33, false, "g-loveheart", "a", "gloverPoints", 10, false),
     DISGUISES_DELIMIT("Disguises Delimit", 34, false, "dd_icon", "a", "masksUnlocked", 25, false),
     DARK_GYFFTE("Dark Gyffte", 35, true, "darkgift", "a", "darkGyfftePoints", 23, true),
@@ -79,6 +79,10 @@ public class AscensionPath {
         4,
         15),
     ELEVEN_THINGS("11 Things I Hate About U", 51, false, "ihatesu", "an"),
+    AVANT_GUARD("Avant Guard", 52, false, "radshield", "an", "avantGuardPoints", 11, false),
+    Z_IS_FOR_ZOOTOMIST(
+        "Z is for Zootomist", 53, true, "zootomist", "a", "zootomistPoints", 10, false),
+    HAT_TRICK("Hat Trick", 54, false, "hat_bycocket", "a"),
     // A "sign" rather than a "path" for some reason
     BAD_MOON("Bad Moon", 999, false, "badmoon", null),
     ;

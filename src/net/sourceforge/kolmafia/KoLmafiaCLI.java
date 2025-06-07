@@ -554,6 +554,7 @@ public class KoLmafiaCLI {
         .register("load")
         .register("start")
         .register("profile");
+    new CampAwayCommand().register("campaway");
     new CampgroundCommand().register("camp").register("campground");
     new ChangeCombatScriptCommand().register("ccs");
     new ChibiBuddyCommand().register("chibi");
@@ -573,6 +574,7 @@ public class KoLmafiaCLI {
         .register("checkoutfits")
         .register("checkplurals")
         .register("checkmuseumplurals")
+        .register("checkmuseumitems")
         .register("checkpotions")
         .register("checkpowers")
         .register("checkprofile")
@@ -632,6 +634,7 @@ public class KoLmafiaCLI {
     new DebugCreateCommand().register("debugcreate");
     new DebugRequestCommand().register("debug");
     new DemonNamesCommand().register("demons");
+    new DevilCandyEggCommand().register("devilcandyegg");
     new DisplayCaseCommand().register("display");
     new DreadscrollCommand().register("dreadscroll");
     new DustyBottlesCommand().register("dusty");
@@ -697,6 +700,7 @@ public class KoLmafiaCLI {
     new LeafletCommand().register("leaflet");
     new LeavesCommand().register("leaves");
     new LedCandleCommand().register("ledcandle").register("jillcandle");
+    new LeprecondoCommand().register("leprecondo");
     new LoathingIdolCommand().register("loathingidol");
     new LogEchoCommand().register("logecho").register("logprint");
     new LoginCommand().register("login");
@@ -738,6 +742,7 @@ public class KoLmafiaCLI {
     new OutfitCommand().register("outfit");
     new PandaCommand().register("panda");
     new PastaThrallCommand().register("thralls");
+    new PhotoBoothCommand().register("photobooth");
     new PillKeeperCommand().register("pillkeeper");
     new PingCommand().register("ping");
     new PingPongCommand().register("pingpong");
@@ -836,6 +841,7 @@ public class KoLmafiaCLI {
         .register("robo");
     new UseSkillCommand().register("cast").register("skill");
     new VersionCommand().register("version");
+    new ViseCommand().register("vise");
     new VisitURLCommand()
         .register("text")
         .registerPrefix("http://")

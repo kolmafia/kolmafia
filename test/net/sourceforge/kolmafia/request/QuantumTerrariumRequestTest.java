@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.Mockito.mockStatic;
 
+import com.alibaba.fastjson2.JSONObject;
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
@@ -17,7 +18,6 @@ import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.TurnCounter;
-import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -46,16 +46,16 @@ public class QuantumTerrariumRequestTest {
   @Test
   void canDetectCurrentAndNextFamiliar() {
     String text = html("request/test_quantum_terrarium_api.json");
-    JSONObject JSON = json(text);
+    JSONObject jsonObject = json(text);
 
     // Quantum Terrarium will call api.php to set up familiar in middle of processing.
     ApiRequest apiRequest = new ApiRequest("status");
     apiRequest.responseText = text;
 
     // Stats affect Familiar Weight in Quantum Familiar
-    int basemuscle = JSON.getInt("basemuscle");
-    int basemysticality = JSON.getInt("basemysticality");
-    int basemoxie = JSON.getInt("basemoxie");
+    int basemuscle = jsonObject.getIntValue("basemuscle");
+    int basemysticality = jsonObject.getIntValue("basemysticality");
+    int basemoxie = jsonObject.getIntValue("basemoxie");
 
     var cleanups =
         new Cleanups(

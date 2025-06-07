@@ -3,7 +3,11 @@ package internal.helpers;
 import internal.helpers.Cleanups.OrderedRunnable;
 import internal.network.FakeHttpClientBuilder;
 import internal.network.FakeHttpResponse;
+import java.io.File;
+import java.io.IOException;
 import java.net.http.HttpClient;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Files;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.ArrayList;
@@ -12,6 +16,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -33,6 +38,8 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.VYKEACompanionData;
 import net.sourceforge.kolmafia.VYKEACompanionData.VYKEACompanionType;
 import net.sourceforge.kolmafia.ZodiacSign;
+import net.sourceforge.kolmafia.chat.ChatManager;
+import net.sourceforge.kolmafia.chat.EnableMessage;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -50,18 +57,23 @@ import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.FloristRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import net.sourceforge.kolmafia.request.GenericRequest.TopMenuStyle;
-import net.sourceforge.kolmafia.request.HermitRequest;
+import net.sourceforge.kolmafia.request.MallPurchaseRequest;
+import net.sourceforge.kolmafia.request.PurchaseRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
-import net.sourceforge.kolmafia.session.BanishManager;
+import net.sourceforge.kolmafia.request.coinmaster.HermitRequest;
 import net.sourceforge.kolmafia.session.ChoiceControl;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.EquipmentRequirement;
+import net.sourceforge.kolmafia.session.GoalManager;
 import net.sourceforge.kolmafia.session.LimitMode;
+import net.sourceforge.kolmafia.session.MallPriceManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
-import net.sourceforge.kolmafia.session.TrackManager;
+import net.sourceforge.kolmafia.session.StoreManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
+import net.sourceforge.kolmafia.shop.ShopRowDatabase;
+import net.sourceforge.kolmafia.shop.ShopRowDatabase.ShopRowData;
 import net.sourceforge.kolmafia.utilities.HttpUtilities;
 import net.sourceforge.kolmafia.utilities.Statics;
 import net.sourceforge.kolmafia.utilities.TestStatics;
@@ -218,6 +230,46 @@ public class Player {
     final int oldCount = EquipmentManager.getFakeHands();
     EquipmentManager.setFakeHands(fakeHands);
     return new Cleanups(() -> EquipmentManager.setFakeHands(oldCount));
+  }
+
+  /**
+   * Equip the given slot with the given item
+   *
+   * @param item Item to equip to slot
+   * @return Restores item previously equipped to slot
+   */
+  public static Cleanups withHatTrickHat(final int item) {
+    return withHatTrickHats(List.of(item));
+  }
+
+  /**
+   * Equip the given slot with the given item
+   *
+   * @param items Items to equip to slot
+   * @return Restores item previously equipped to slot
+   */
+  public static Cleanups withHatTrickHats(final List<Integer> items) {
+    var cleanups = new Cleanups();
+    // Do this first so that Equipment lists and outfits will update appropriately
+    for (var item : items) {
+      cleanups.add(withStatsRequiredForEquipment(item));
+    }
+
+    var old = EquipmentManager.getHatTrickHats();
+    EquipmentManager.setHatTrickHats(new ArrayList<>(items));
+    EquipmentManager.updateNormalOutfits();
+    KoLCharacter.recalculateAdjustments();
+    // may have access to a new item = may have access to a new concoction
+    ConcoctionDatabase.refreshConcoctions();
+    cleanups.add(
+        new Cleanups(
+            () -> {
+              EquipmentManager.setHatTrickHats(old);
+              EquipmentManager.updateNormalOutfits();
+              KoLCharacter.recalculateAdjustments();
+              ConcoctionDatabase.refreshConcoctions();
+            }));
+    return cleanups;
   }
 
   /**
@@ -413,6 +465,49 @@ public class Player {
   }
 
   /**
+   * Puts an amount of the given item into the player's display
+   *
+   * @param itemName Item to give
+   * @param count Quantity to give
+   * @return Restores the number of this item to the old value
+   */
+  public static Cleanups withItemInDisplay(final String itemName, final int count) {
+    int itemId = ItemDatabase.getItemId(itemName, count, false);
+    return withItemInDisplay(itemId, count);
+  }
+
+  /**
+   * Puts the given item into the player's display
+   *
+   * @param itemId Item to give
+   * @return Restores the number of this item to the old value
+   */
+  public static Cleanups withItemInDisplay(final int itemId) {
+    return withItemInDisplay(itemId, 1);
+  }
+
+  /**
+   * Puts an amount of the given item into the player's display
+   *
+   * @param itemId Item to give
+   * @param count Quantity to give
+   * @return Restores the number of this item to the old value
+   */
+  public static Cleanups withItemInDisplay(final int itemId, final int count) {
+    return withItemInDisplay(ItemPool.get(itemId, count));
+  }
+
+  /**
+   * Puts the given item into the player's display
+   *
+   * @param item Item to give
+   * @return Restores the number of this item to the old value
+   */
+  public static Cleanups withItemInDisplay(final AdventureResult item) {
+    return addToList(item, KoLConstants.collection);
+  }
+
+  /**
    * Puts the given item into the player's freepulls
    *
    * @param itemName Item to give
@@ -473,6 +568,61 @@ public class Player {
    */
   public static Cleanups withItemInStash(final String itemName) {
     return withItemInStash(itemName, 1);
+  }
+
+  /**
+   * Puts an amount of the given item into the player's shop
+   *
+   * @param itemName Item to give
+   * @param count Quantity to give
+   * @return Restores the number of this item to the old value
+   */
+  public static Cleanups withItemInShop(
+      final String itemName, final int count, long price, int limit) {
+    int itemId = ItemDatabase.getItemId(itemName, count, false);
+    return withItemInShop(itemId, count, price, limit);
+  }
+
+  /**
+   * Puts the given item into the player's shop
+   *
+   * @param itemId Item to give
+   * @return Restores the number of this item to the old value
+   */
+  public static Cleanups withItemInShop(final int itemId, long price, int limit) {
+    return withItemInShop(itemId, 1, price, limit);
+  }
+
+  /**
+   * Puts an amount of the given item into the player's shop
+   *
+   * @param itemId Item to give
+   * @param count Quantity to give
+   * @return Restores the number of this item to the old value
+   */
+  public static Cleanups withItemInShop(final int itemId, final int count, long price, int limit) {
+    return withItemInShop(ItemPool.get(itemId, count), price, limit);
+  }
+
+  /**
+   * Puts the given item into the player's shop
+   *
+   * @param item Item to give
+   * @return Restores the number of this item to the old value
+   */
+  public static Cleanups withItemInShop(final AdventureResult item, long price, int limit) {
+    int oldQuantity = StoreManager.shopAmount(item.getItemId());
+    long oldPrice = StoreManager.getPrice(item.getItemId());
+    int oldLimit = StoreManager.getLimit(item.getItemId());
+    StoreManager.addItem(item.getItemId(), item.getCount(), price, limit);
+    return new Cleanups(
+        () -> {
+          if (oldQuantity > 0) {
+            StoreManager.updateItem(item.getItemId(), oldQuantity, oldPrice, oldLimit);
+          } else {
+            StoreManager.removeItem(item.getItemId(), StoreManager.shopAmount(item.getItemId()));
+          }
+        });
   }
 
   /**
@@ -979,6 +1129,16 @@ public class Player {
   }
 
   /**
+   * Ensures player does not have a skill
+   *
+   * @param skillName Skill to ensure is removed
+   * @return Removes the skill if it was gained
+   */
+  public static Cleanups withoutSkill(final String skillName) {
+    return withoutSkill(SkillDatabase.getSkillId(skillName));
+  }
+
+  /**
    * Sets player's substats to given values.
    *
    * @param muscle Muscle substats
@@ -1129,15 +1289,15 @@ public class Player {
   }
 
   /**
-   * Sets the player's level to the given value. This is done by setting all stats to the minimum
-   * required for that level.
+   * Sets the player's level to the given value.
    *
    * @param level Required level
    * @return Resets level to zero
    */
   public static Cleanups withLevel(final int level) {
-    int substats = (int) Math.pow(level, 2) - level * 2 + 5;
-    return withStats(substats, substats, substats);
+    int previousLevel = KoLCharacter.getLevel();
+    KoLCharacter.setLevel(level);
+    return new Cleanups(() -> KoLCharacter.setLevel(previousLevel));
   }
 
   /**
@@ -1240,6 +1400,18 @@ public class Player {
   public static Cleanups withHippyStoneBroken() {
     KoLCharacter.setHippyStoneBroken(true);
     return new Cleanups(() -> KoLCharacter.setHippyStoneBroken(false));
+  }
+
+  /**
+   * Sets the player's pvp attacks left
+   *
+   * @param fullness Desired fullness
+   * @return Resets fullness to previous value
+   */
+  public static Cleanups withAttacksLeft(final int attacks) {
+    var old = KoLCharacter.getAttacksLeft();
+    KoLCharacter.setAttacksLeft(attacks);
+    return new Cleanups(() -> KoLCharacter.setAttacksLeft(old));
   }
 
   /**
@@ -1646,6 +1818,72 @@ public class Player {
         () -> {
           if (exists) {
             Preferences.setInteger(key, oldValue);
+          } else {
+            Preferences.removeProperty(key, global);
+          }
+        });
+  }
+
+  /**
+   * Sets a property for the user
+   *
+   * @param key Key of property
+   * @param value Value to set
+   * @return Restores the previous value of the property
+   */
+  public static Cleanups withProperty(final String key, final float value) {
+    var global = Preferences.isGlobalProperty(key);
+    var exists = Preferences.propertyExists(key, global);
+    var oldValue = Preferences.getFloat(key);
+    Preferences.setFloat(key, value);
+    return new Cleanups(
+        () -> {
+          if (exists) {
+            Preferences.setFloat(key, oldValue);
+          } else {
+            Preferences.removeProperty(key, global);
+          }
+        });
+  }
+
+  /**
+   * Sets a property for the user
+   *
+   * @param key Key of property
+   * @param value Value to set
+   * @return Restores the previous value of the property
+   */
+  public static Cleanups withProperty(final String key, final double value) {
+    var global = Preferences.isGlobalProperty(key);
+    var exists = Preferences.propertyExists(key, global);
+    var oldValue = Preferences.getDouble(key);
+    Preferences.setDouble(key, value);
+    return new Cleanups(
+        () -> {
+          if (exists) {
+            Preferences.setDouble(key, oldValue);
+          } else {
+            Preferences.removeProperty(key, global);
+          }
+        });
+  }
+
+  /**
+   * Sets a property for the user
+   *
+   * @param key Key of property
+   * @param value Value to set
+   * @return Restores the previous value of the property
+   */
+  public static Cleanups withProperty(final String key, final long value) {
+    var global = Preferences.isGlobalProperty(key);
+    var exists = Preferences.propertyExists(key, global);
+    var oldValue = Preferences.getLong(key);
+    Preferences.setLong(key, value);
+    return new Cleanups(
+        () -> {
+          if (exists) {
+            Preferences.setLong(key, oldValue);
           } else {
             Preferences.removeProperty(key, global);
           }
@@ -2067,6 +2305,7 @@ public class Player {
   public static Cleanups withChoice(
       final int choice, final int decision, final String extra, final String responseText) {
     var cleanups = new Cleanups();
+    cleanups.add(withPostChoice0(choice, decision, extra, responseText));
     cleanups.add(withPostChoice1(choice, decision, extra, responseText));
     ResultProcessor.processResults(false, responseText);
     cleanups.add(withPostChoice2(choice, decision, extra, responseText));
@@ -2374,6 +2613,31 @@ public class Player {
   }
 
   /**
+   * Sets the adventures spent in a particular location
+   *
+   * @param location The name of the location, as a KoLAdventure
+   * @param adventuresSpent The number of adventures spent to set
+   * @return Returns adventures spent to previous value
+   */
+  public static Cleanups withAdventuresSpent(
+      final KoLAdventure location, final int adventuresSpent) {
+    int old = AdventureSpentDatabase.getTurns(location);
+    AdventureSpentDatabase.setTurns(location, adventuresSpent);
+    return new Cleanups(() -> AdventureSpentDatabase.setTurns(location, old));
+  }
+
+  /**
+   * Sets the adventures spent in a particular location
+   *
+   * @param location The name of the location, as an integer snarfblat
+   * @param adventuresSpent The number of adventures spent to set
+   * @return Returns adventures spent to previous value
+   */
+  public static Cleanups withAdventuresSpent(final int location, final int adventuresSpent) {
+    return withAdventuresSpent(AdventureDatabase.getAdventure(location), adventuresSpent);
+  }
+
+  /**
    * Sets the value of an adventure
    *
    * @param value The value in meat
@@ -2480,9 +2744,7 @@ public class Player {
    * @return Returns value to previous value
    */
   public static Cleanups withBanishedMonsters(String contents) {
-    var preference = withProperty("banishedMonsters", contents);
-    BanishManager.loadBanished();
-    return new Cleanups(preference, new Cleanups(BanishManager::loadBanished));
+    return withProperty("banishedMonsters", contents);
   }
 
   /**
@@ -2492,9 +2754,7 @@ public class Player {
    * @return Returns value to previous value
    */
   public static Cleanups withBanishedPhyla(String contents) {
-    var preference = withProperty("banishedPhyla", contents);
-    BanishManager.loadBanished();
-    return new Cleanups(preference, new Cleanups(BanishManager::loadBanished));
+    return withProperty("banishedPhyla", contents);
   }
 
   /**
@@ -2504,9 +2764,7 @@ public class Player {
    * @return Returns value to previous value
    */
   public static Cleanups withTrackedMonsters(String contents) {
-    var preference = withProperty("trackedMonsters", contents);
-    TrackManager.loadTracked();
-    return new Cleanups(preference, new Cleanups(TrackManager::loadTracked));
+    return withProperty("trackedMonsters", contents);
   }
 
   /**
@@ -2516,14 +2774,18 @@ public class Player {
    * @return Returns value to previous value
    */
   public static Cleanups withTrackedPhyla(String contents) {
-    var preference = withProperty("trackedPhyla", contents);
-    TrackManager.loadTracked();
-    return new Cleanups(preference, new Cleanups(TrackManager::loadTracked));
+    return withProperty("trackedPhyla", contents);
   }
 
   public static Cleanups withDisabledCoinmaster(CoinmasterData data) {
     data.setDisabled(true);
     return new Cleanups(() -> data.setDisabled(false));
+  }
+
+  public static Cleanups withZonelessCoinmaster(CoinmasterData data) {
+    String zone = data.getZone();
+    data.inZone(null).getRootZone();
+    return new Cleanups(() -> data.inZone(zone));
   }
 
   public static Cleanups withoutCoinmasterBuyItem(CoinmasterData data, AdventureResult item) {
@@ -2542,10 +2804,22 @@ public class Player {
       CoinmastersDatabase.removePurchaseRequest(item);
     }
 
+    var rows = data.getRows();
+    Integer itemId = item.getItemId();
+    Integer row = rows.get(itemId);
+    ShopRowData shopRowData = (row != null) ? ShopRowDatabase.removeShopRowData(row) : null;
+    if (row != null) {
+      rows.remove(itemId);
+    }
+
     return new Cleanups(
         () -> {
           // Restore original list
           data.withBuyItems(buyItems);
+          if (row != null) {
+            rows.put(itemId, row);
+            ShopRowDatabase.putShopRowData(row, shopRowData);
+          }
           if (request != null) {
             CoinmastersDatabase.addPurchaseRequest(item, request);
           }
@@ -2563,10 +2837,158 @@ public class Player {
     newSellItems.remove(item);
     data.withSellItems(newSellItems);
 
+    var rows = data.getRows();
+    Integer itemId = item.getItemId();
+    Integer row = rows.get(itemId);
+    ShopRowData shopRowData = (row != null) ? ShopRowDatabase.removeShopRowData(row) : null;
+    if (row != null) {
+      rows.remove(itemId);
+    }
+
     return new Cleanups(
         () -> {
           // Restore original list
           data.withSellItems(sellItems);
+          if (row != null) {
+            rows.put(itemId, row);
+            ShopRowDatabase.putShopRowData(row, shopRowData);
+          }
         });
+  }
+
+  /**
+   * Copies the source file from root/provided_data to root/data giving it the destination name.
+   * Deletes the copied file as part of cleanup. No error checking, specifically that the source
+   * file is present or that the destination file was written successfully.
+   *
+   * @param sourceName the name of the source file in root/provided_data
+   * @param destinationName the name of the destination file in root/data.
+   * @return deletes the destination file
+   */
+  public static Cleanups withDataFile(String sourceName, String destinationName) {
+    File sourceFile = new File(KoLConstants.ROOT_LOCATION + "/provided_data", sourceName);
+    File destinationFile = new File(KoLConstants.DATA_LOCATION, destinationName);
+    try {
+      Files.copy(sourceFile.toPath(), destinationFile.toPath());
+    } catch (FileAlreadyExistsException e) {
+      // Do nothing.  No message needed.
+    } catch (IOException e) {
+      System.out.println(e + " while copying " + sourceName + " to " + destinationName + ".");
+    }
+    return new Cleanups(
+        () -> {
+          destinationFile.delete();
+        });
+  }
+
+  /**
+   * Copies the source file from root/provided_data to root/data giving it the same name. Deletes
+   * the copied file as part of cleanup. No error checking, specifically that the source file is
+   * present or that the destination file was written successfully.
+   *
+   * @param sourceName the name of the source file in root/provided_data and destination in data
+   * @return deletes the destination file
+   */
+  public static Cleanups withDataFile(String sourceName) {
+    return withDataFile(sourceName, sourceName);
+  }
+
+  /**
+   * Tells FightRequest to use PokeFam parsing
+   *
+   * @return stops using PokeFam parsing
+   */
+  public static Cleanups withFightRequestPokefam() {
+    FightRequest.pokefam = true;
+    return new Cleanups(() -> FightRequest.pokefam = false);
+  }
+
+  /**
+   * Sets the current chat channel
+   *
+   * @param channel Channel to use
+   * @return set the channel to the previous value
+   */
+  public static Cleanups withChatChannel(final String channel) {
+    var old = ChatManager.getCurrentChannel();
+    ChatManager.processChannelEnable(new EnableMessage(channel, true));
+    return new Cleanups(
+        () -> {
+          if (old == null) {
+            ChatManager.dispose();
+          } else {
+            ChatManager.processChannelEnable(new EnableMessage(old, true));
+          }
+        });
+  }
+
+  /**
+   * Add a goal to fulfill via adventuring
+   *
+   * @param goal Goal to add
+   * @return clears added goal
+   */
+  public static Cleanups withGoal(final AdventureResult goal) {
+    var goals = GoalManager.getGoals();
+    GoalManager.addGoal(goal);
+    return new Cleanups(
+        () -> {
+          GoalManager.addGoal(goal.getNegation());
+        });
+  }
+
+  private static void updateMallResults(int itemId, List<PurchaseRequest> results) {
+    MallPriceManager.saveMallSearch(itemId, results);
+    MallPriceManager.updateMallPrice(ItemPool.get(itemId), results);
+  }
+
+  /**
+   * Mall price for an item
+   *
+   * @param itemId Id of item
+   * @param price Price to return
+   * @return Totally reset price cache
+   */
+  public static Cleanups withMallPrice(final int itemId, final int price) {
+    MallPriceDatabase.savePricesToFile = false;
+    List<PurchaseRequest> results =
+        List.of(new MallPurchaseRequest(itemId, 100, 1, "Test Shop", price, 100, true));
+    updateMallResults(itemId, results);
+
+    return new Cleanups(
+        () -> {
+          MallPriceManager.reset();
+          MallPriceDatabase.savePricesToFile = true;
+        });
+  }
+
+  /**
+   * Load NPC price for an item into cache
+   *
+   * @param itemId Id of item
+   * @return Totally reset price cache
+   */
+  public static Cleanups withNpcPrice(final int itemId) {
+    List<PurchaseRequest> results =
+        List.of(Objects.requireNonNull(NPCStoreDatabase.getPurchaseRequest(itemId)));
+    updateMallResults(itemId, results);
+
+    return new Cleanups(
+        () -> {
+          MallPriceManager.reset();
+          MallPriceDatabase.savePricesToFile = true;
+        });
+  }
+
+  /**
+   * Set the GuildStore as open or closed.
+   *
+   * @param storeOpen - true if store is to be open, else false
+   * @return - restores previous state of store
+   */
+  public static Cleanups withGuildStoreOpen(final boolean storeOpen) {
+    boolean oldKnown = KoLCharacter.getGuildStoreOpen();
+    KoLCharacter.setGuildStoreOpen(storeOpen);
+    return new Cleanups(() -> KoLCharacter.setGuildStoreOpen(oldKnown));
   }
 }

@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.StringTokenizer;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -14,14 +15,13 @@ import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.combat.MonsterStatusTracker;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
+import net.sourceforge.kolmafia.persistence.FamiliarDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
+@SuppressWarnings("incomplete-switch")
 public class TrackManager {
-  private static final Set<Tracked> trackedMonsters = new LinkedHashSet<>();
-  private static final Set<Tracked> trackedPhyla = new LinkedHashSet<>();
-
   private TrackManager() {}
 
   private enum TrackType {
@@ -84,9 +84,13 @@ public class TrackManager {
     PERCEIVE_SOUL("Perceive Soul", 2, false, 30, Reset.AVATAR_TURN_RESET),
     MOTIF("Motif", 2, true, -1, Reset.AVATAR_RESET),
     MONKEY_POINT("Monkey Point", 2, false, -1, Reset.ASCENSION_RESET),
-    // HOLD_HANDS, but we have no idea for the copies
     PRANK_CARD("prank Crimbo card", 3, true, 100, Reset.TURN_ROLLOVER_RESET),
     TRICK_COIN("trick coin", 3, true, 100, Reset.TURN_ROLLOVER_RESET),
+    HUNT("Hunt", 3, true, -1, Reset.AVATAR_RESET),
+    MCHUGELARGE_SLASH("McHugeLarge Slash", 3, true, -1, Reset.ROLLOVER_RESET),
+    // copies depends on the familiar attributes, but is at most 6
+    LEFT_ZOOT_KICK("Left %n Kick", 6, true, -1, Reset.ASCENSION_RESET),
+    RIGHT_ZOOT_KICK("Right %n Kick", 6, true, -1, Reset.ASCENSION_RESET),
     RED_SNAPPER("Red-Nosed Snapper", 2, false, -1, Reset.ASCENSION_RESET, TrackType.PHYLUM),
     A_BEASTLY_ODOR("A Beastly Odor", 2, false, -1, Reset.EFFECT_RESET, TrackType.PHYLUM),
     EW_THE_HUMANITY("Ew, The Humanity", 2, false, -1, Reset.EFFECT_RESET, TrackType.PHYLUM),
@@ -135,6 +139,13 @@ public class TrackManager {
     }
 
     public final int getCopies() {
+      if (this == LEFT_ZOOT_KICK) {
+        return FamiliarDatabase.zootomistTrackCopies(
+            Preferences.getInteger("zootGraftedFootLeftFamiliar"));
+      } else if (this == RIGHT_ZOOT_KICK) {
+        return FamiliarDatabase.zootomistTrackCopies(
+            Preferences.getInteger("zootGraftedFootRightFamiliar"));
+      }
       return this.copies;
     }
 
@@ -182,40 +193,14 @@ public class TrackManager {
     }
   }
 
-  private static Set<Tracked> getTrackedSet(Tracker tracker) {
-    return switch (tracker.getTrackType()) {
-      case MONSTER -> trackedMonsters;
-      case PHYLUM -> trackedPhyla;
-    };
-  }
-
-  public static void clearCache() {
-    TrackManager.trackedMonsters.clear();
-    TrackManager.trackedPhyla.clear();
-  }
-
-  public static void loadTracked() {
-    TrackManager.loadTrackedMonsters();
-    TrackManager.loadTrackedPhyla();
-  }
-
-  static void loadTrackedMonsters() {
-    loadTrackedX("trackedMonsters", TrackManager.trackedMonsters);
-  }
-
-  static void loadTrackedPhyla() {
-    loadTrackedX("trackedPhyla", TrackManager.trackedPhyla);
-  }
-
-  private static void loadTrackedX(String prefName, Set<Tracked> tracked) {
-    tracked.clear();
-
+  private static Set<Tracked> prefToSet(String prefName) {
     String tracks = Preferences.getString(prefName);
     if (tracks.isEmpty()) {
-      return;
+      return new LinkedHashSet<>();
     }
 
     StringTokenizer tokens = new StringTokenizer(tracks, ":");
+    var set = new LinkedHashSet<Tracked>();
 
     while (tokens.hasMoreTokens()) {
       String monsterName = tokens.nextToken();
@@ -231,26 +216,23 @@ public class TrackManager {
         continue;
       }
 
-      TrackManager.addTracked(monsterName, tracker, turnTracked);
+      var tracked = new Tracked(monsterName, tracker, turnTracked);
+      set.add(tracked);
     }
+    return set;
   }
 
-  private static void saveTrackedMonsters() {
-    Preferences.setString(
-        "trackedMonsters",
-        trackedMonsters.stream()
-            .flatMap(m -> Stream.of(m.tracked(), m.tracker().getName(), m.turnTracked()))
-            .map(Object::toString)
-            .collect(Collectors.joining(":")));
+  private static String setToPref(Set<Tracked> tracked) {
+    return tracked.stream()
+        .flatMap(m -> Stream.of(m.tracked(), m.tracker().getName(), m.turnTracked()))
+        .map(Object::toString)
+        .collect(Collectors.joining(":"));
   }
 
-  private static void saveTrackedPhyla() {
-    Preferences.setString(
-        "trackedPhyla",
-        trackedPhyla.stream()
-            .flatMap(m -> Stream.of(m.tracked(), m.tracker().getName(), m.turnTracked()))
-            .map(Object::toString)
-            .collect(Collectors.joining(":")));
+  private static void updatePref(String pref, Consumer<Set<Tracked>> func) {
+    var set = prefToSet(pref);
+    func.accept(set);
+    Preferences.setString(pref, setToPref(set));
   }
 
   /**
@@ -259,10 +241,8 @@ public class TrackManager {
    * @param predicate Predicate dictating removal
    */
   private static void resetIf(Predicate<Tracked> predicate) {
-    TrackManager.trackedMonsters.removeIf(predicate);
-    TrackManager.saveTrackedMonsters();
-    TrackManager.trackedPhyla.removeIf(predicate);
-    TrackManager.saveTrackedPhyla();
+    updatePref("trackedMonsters", m -> m.removeIf(predicate));
+    updatePref("trackedPhyla", m -> m.removeIf(predicate));
   }
 
   /**
@@ -319,6 +299,11 @@ public class TrackManager {
 
   public static void track(final String tracked, final Tracker tracker) {
     TrackManager.removeTrack(tracker);
+    if (tracker == Tracker.LEFT_ZOOT_KICK) {
+      TrackManager.removeTrack(Tracker.RIGHT_ZOOT_KICK);
+    } else if (tracker == Tracker.RIGHT_ZOOT_KICK) {
+      TrackManager.removeTrack(Tracker.LEFT_ZOOT_KICK);
+    }
 
     KoLmafia.updateDisplay(tracked + " tracked by " + tracker.getName() + ".");
 
@@ -355,7 +340,12 @@ public class TrackManager {
       return;
     }
 
-    getTrackedSet(tracker).add(tracked);
+    var pref =
+        switch (tracker.getTrackType()) {
+          case MONSTER -> "trackedMonsters";
+          case PHYLUM -> "trackedPhyla";
+        };
+    updatePref(pref, x -> x.add(tracked));
   }
 
   private static void removeTrack(final Tracker tracker) {
@@ -365,8 +355,10 @@ public class TrackManager {
   public static long countCopies(final String monster) {
     TrackManager.recalculate();
 
+    var monsters = prefToSet("trackedMonsters");
+
     var monsterCopies =
-        trackedMonsters.stream()
+        monsters.stream()
             .filter(m -> m.tracked().equalsIgnoreCase(monster) && m.tracker().isEffective())
             .mapToInt(t -> t.tracker().copies)
             .sum();
@@ -375,8 +367,11 @@ public class TrackManager {
     if (data == null) {
       return monsterCopies;
     }
+
+    var phyla = prefToSet("trackedPhyla");
+
     var phylaCopies =
-        trackedPhyla.stream()
+        phyla.stream()
             .filter(m -> m.tracker().isEffective())
             .filter(m -> m.tracked().equalsIgnoreCase(data.getPhylum().toString()))
             .mapToInt(t -> t.tracker().copies)
@@ -387,8 +382,10 @@ public class TrackManager {
   public static boolean isQueueIgnored(final String monster) {
     TrackManager.recalculate();
 
+    var monsters = prefToSet("trackedMonsters");
+
     // there is no way for a phyla copy to make the monster ignore queue
-    return trackedMonsters.stream()
+    return monsters.stream()
         .anyMatch(
             m ->
                 m.tracker().isIgnoreQueue()
@@ -397,18 +394,21 @@ public class TrackManager {
   }
 
   public static Tracker[] trackedBy(final MonsterData data) {
-    TrackManager.recalculate();
-
     if (data == null) {
       return new Tracker[0];
     }
 
+    TrackManager.recalculate();
+
+    var monsters = prefToSet("trackedMonsters");
+    var phyla = prefToSet("trackedPhyla");
+
     var monsterTracks =
-        trackedMonsters.stream()
+        monsters.stream()
             .filter(m -> m.tracked().equalsIgnoreCase(data.getName()))
             .filter(m -> m.tracker().isEffective());
     var phylaTracks =
-        trackedPhyla.stream()
+        phyla.stream()
             .filter(m -> m.tracked().equalsIgnoreCase(data.getPhylum().toString()))
             .filter(m -> m.tracker().isEffective());
     return Stream.concat(monsterTracks, phylaTracks).map(Tracked::tracker).toArray(Tracker[]::new);

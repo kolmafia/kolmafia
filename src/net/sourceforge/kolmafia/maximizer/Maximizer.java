@@ -12,6 +12,7 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.KoLConstants.ZodiacZone;
 import net.sourceforge.kolmafia.KoLConstants.filterType;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
@@ -19,6 +20,7 @@ import net.sourceforge.kolmafia.Modeable;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
+import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.RestrictedItemType;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.equipment.SlotSet;
@@ -45,15 +47,18 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.ApiRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
-import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
+import net.sourceforge.kolmafia.request.QuantumTerrariumRequest;
 import net.sourceforge.kolmafia.request.SkateParkRequest;
 import net.sourceforge.kolmafia.request.StandardRequest;
 import net.sourceforge.kolmafia.request.UneffectRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
+import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
+import net.sourceforge.kolmafia.request.concoction.MayamRequest;
 import net.sourceforge.kolmafia.session.BeachManager;
 import net.sourceforge.kolmafia.session.BeachManager.BeachHead;
 import net.sourceforge.kolmafia.session.EquipmentManager;
@@ -80,6 +85,7 @@ public class Maximizer {
     "_folderholder",
     "_cardsleeve",
     "_smithsness",
+    "_mcHugeLarge",
   };
 
   static MaximizerSpeculation best;
@@ -132,6 +138,12 @@ public class Maximizer {
       return;
     }
 
+    // ensure character state is updated
+    if (KoLCharacter.inQuantum()) {
+      RequestThread.postRequest(new QuantumTerrariumRequest());
+    }
+    // catch passive skills
+    ApiRequest.updateStatus();
     // ensure current modifiers are up-to-date
     KoLCharacter.recalculateAdjustments();
     double current =
@@ -394,6 +406,27 @@ public class Maximizer {
         }
         Maximizer.boosts.add(new Boost(cmd, text, (AdventureResult) null, delta));
       }
+
+      if (KoLCharacter.mcdAvailable() || includeAll) {
+        int max = KoLCharacter.getSignZone() == ZodiacZone.CANADIA ? 11 : 10;
+        // check only the ends
+        for (int i : new int[] {0, max}) {
+          MaximizerSpeculation spec = new MaximizerSpeculation();
+          spec.setMindControlLevel(i);
+          double delta = spec.getScore() - current;
+          if (delta <= 0.0) {
+            continue;
+          }
+          String text, cmd;
+          text = cmd = "mcd " + i;
+          if (!KoLCharacter.mcdAvailable()) {
+            cmd = "";
+            text = "(ascend into a non-Bad Moon sign and mcd " + i + ")";
+          }
+          text += " (" + KoLConstants.MODIFIER_FORMAT.format(delta) + ")";
+          Maximizer.boosts.add(new Boost(cmd, text, (AdventureResult) null, delta));
+        }
+      }
     }
 
     for (Map.Entry<IntOrString, String> entry :
@@ -470,7 +503,7 @@ public class Maximizer {
 
         String cmd, text;
 
-        int price = 0;
+        long price = 0L;
         int advCost = 0;
         long mpCost = 0;
         int fullCost = 0;
@@ -678,6 +711,13 @@ public class Maximizer {
               text = "(learn to " + cmd + (isBuff ? ", or get it from a buffbot)" : ")");
               cmd = "";
             } else continue;
+          }
+
+          if (cmd.contains(" ^ ")) {
+            var req = UseSkillRequest.requiredItemForSkillEffect(skillId, effectId);
+            if (req != -1 && !InventoryManager.equippedOrInInventory(req)) {
+              continue;
+            }
           }
 
           mpCost = SkillDatabase.getMPConsumptionById(skillId);
@@ -1272,6 +1312,38 @@ public class Maximizer {
             item = ItemPool.get(usableMicrophone, 1);
           }
           duration = 30;
+        } else if (cmd.startsWith("aprilband ")) {
+          item = ItemPool.get(ItemPool.APRILING_BAND_HELMET, 1);
+        } else if (cmd.startsWith("mayam ")) {
+          item = ItemPool.get(ItemPool.MAYAM_CALENDAR, 1);
+          if (cmd.startsWith("mayam resonance ")
+              && !MayamRequest.availableResonances().contains(cmd.substring(16))) {
+            cmd = "";
+          }
+        } else if (cmd.startsWith("photobooth effect ")) {
+          if (KoLCharacter.inBadMoon()) {
+            continue;
+          } else if (!StandardRequest.isAllowed(RestrictedItemType.CLAN_ITEMS, "Photo Booth")) {
+            continue;
+          } else if (limitMode.limitClan()) {
+            continue;
+          } else if (!haveVipKey) {
+            if (includeAll) {
+              text = "( get access to the VIP lounge )";
+              cmd = "";
+            } else continue;
+          } else if (Preferences.getInteger("_photoBoothEffects") >= 3) {
+            cmd = "";
+          }
+          duration = 50;
+          usesRemaining = 3 - Preferences.getInteger("_photoBoothEffects");
+        } else if (cmd.equals("campaway cloud")) {
+          var used = Preferences.getInteger("_campAwayCloudBuffs");
+          if (used > 0) {
+            cmd = "";
+          }
+          duration = 100;
+          usesRemaining = 1 - used;
         }
 
         if (item != null) {
@@ -1546,6 +1618,9 @@ public class Maximizer {
 
   private static EquipScope emitSlot(
       Slot slot, EquipScope equipScope, int maxPrice, PriceLevel priceLevel, double current) {
+    if (KoLCharacter.inHatTrick() && slot == Slot.HAT) {
+      return equipScope;
+    }
     if (slot == Slot.FAMILIAR) { // Insert any familiar switch at this point
       FamiliarData fam = Maximizer.best.getFamiliar();
       if (!fam.equals(KoLCharacter.getFamiliar())) {
@@ -1645,7 +1720,7 @@ public class Maximizer {
 
       CheckedItem checkedItem = new CheckedItem(itemId, equipScope, maxPrice, priceLevel);
 
-      int price = 0;
+      long price = 0L;
 
       // How many have been needed so far to make this maximization set?
       // We need 1 + that number to equip this item, not just 1
@@ -1814,7 +1889,7 @@ public class Maximizer {
     CheckedItem checkedItem = new CheckedItem(itemId, equipScope, maxPrice, priceLevel);
     // We won't include unavailable items, as this just gets far too large
     String cmd, text;
-    int price = 0;
+    long price = 0L;
     boolean canMake = true;
     AdventureResult item = ItemPool.get(itemId);
     cmd = "absorb \u00B6" + itemId;

@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia.modifiers;
 
+import static net.sourceforge.kolmafia.persistence.ModifierDatabase.BOOLEAN_EXPR;
+
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Map;
@@ -13,14 +15,15 @@ public enum BooleanModifier implements Modifier {
   SOFTCORE(
       "Softcore Only",
       Pattern.compile("This item cannot be equipped while in Hardcore"),
-      Pattern.compile("Softcore Only")),
+      Pattern.compile("Softcore Only" + BOOLEAN_EXPR)),
   SINGLE("Single Equip", Pattern.compile("Single Equip")),
+  ALWAYS_FUMBLE("Always Fumble", Pattern.compile("Always Fumble")),
   NEVER_FUMBLE("Never Fumble", Pattern.compile("Never Fumble"), Pattern.compile("Never Fumble")),
   WEAKENS(
       "Weakens Monster",
       Pattern.compile("Successful hit weakens opponent"),
       Pattern.compile("Weakens Monster")),
-  FREE_PULL("Free Pull", Pattern.compile("Free Pull")),
+  FREE_PULL("Free Pull", Pattern.compile("Free Pull" + BOOLEAN_EXPR)),
   VARIABLE("Variable", Pattern.compile("Variable")),
   NONSTACKABLE_WATCH("Nonstackable Watch", Pattern.compile("Nonstackable Watch")),
   COLD_IMMUNITY("Cold Immunity", Pattern.compile("Cold Immunity")),
@@ -39,6 +42,7 @@ public enum BooleanModifier implements Modifier {
       "Four Songs",
       Pattern.compile("Allows you to keep 4 songs in your head instead of 3"),
       Pattern.compile("Four Songs")),
+  ADVENTURE_RANDOMLY("Adventure Randomly", Pattern.compile("Adventure Randomly")),
   ADVENTURE_UNDERWATER(
       "Adventure Underwater",
       Pattern.compile("Lets you [bB]reathe [uU]nderwater"),
@@ -57,11 +61,13 @@ public enum BooleanModifier implements Modifier {
       "Lasts Until Rollover",
       Pattern.compile("This item will disappear at the end of the day"),
       Pattern.compile("Lasts Until Rollover")),
+  ALTERS_PAGE_TEXT("Alters Page Text", Pattern.compile("Alters Page Text")),
   ATTACKS_CANT_MISS(
       "Attacks Can't Miss",
       new Pattern[] {Pattern.compile("Regular Attacks Can't Miss"), Pattern.compile("Cannot miss")},
       Pattern.compile("Attacks Can't Miss")),
   LOOK_LIKE_A_PIRATE("Pirate", Pattern.compile("Look like a Pirate")),
+  BLIND("Blind", Pattern.compile("Blind")),
   BREAKABLE("Breakable", Pattern.compile("Breakable")),
   DROPS_ITEMS("Drops Items", Pattern.compile("Drops Items")),
   DROPS_MEAT("Drops Meat", Pattern.compile("Drops Meat")),
@@ -77,6 +83,7 @@ public enum BooleanModifier implements Modifier {
       "Negative Status Resist",
       Pattern.compile("75% Chance of Preventing Negative Status Attacks"),
       Pattern.compile("Negative Status Resist"));
+
   private final String name;
   private final Pattern[] descPatterns;
   private final Pattern tagPattern;

@@ -1,13 +1,13 @@
 package net.sourceforge.kolmafia.textui.parsetree;
 
+import com.alibaba.fastjson2.JSONException;
+import com.alibaba.fastjson2.JSONObject;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.ScriptException;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public abstract class CompositeValue extends Value {
   public CompositeValue(final CompositeType type) {

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.function.Function;
+import java.util.function.IntSupplier;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter.Gender;
@@ -20,6 +21,7 @@ import net.sourceforge.kolmafia.persistence.AdventureDatabase.Environment;
 import net.sourceforge.kolmafia.persistence.AdventureQueueDatabase;
 import net.sourceforge.kolmafia.persistence.AdventureSpentDatabase;
 import net.sourceforge.kolmafia.persistence.BountyDatabase;
+import net.sourceforge.kolmafia.persistence.HolidayDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase.Element;
@@ -36,6 +38,7 @@ import net.sourceforge.kolmafia.session.EncounterManager;
 import net.sourceforge.kolmafia.session.EncounterManager.EncounterType;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.session.LeprecondoManager;
 import net.sourceforge.kolmafia.session.TrackManager;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -119,6 +122,12 @@ public class AreaCombatData {
         currentWeighting = -3;
       } else {
         var copies = (int) TrackManager.countCopies(monsterName);
+        if (Preferences.getInteger("holdHandsMonsterCount") > 0
+            && Preferences.getString("holdHandsLocation").equals(this.zone)
+            && Preferences.getString("holdHandsMonster").equals(monsterName)) {
+          // hold hands
+          copies += 1;
+        }
         currentWeighting += copies * baseWeighting;
       }
 
@@ -333,8 +342,20 @@ public class AreaCombatData {
     return raw >> WEIGHT_SHIFT;
   }
 
+  private int getMoonlightRejection(final IntSupplier fn) {
+    // 0, 1 -> 8/8
+    // 2, 3, 4 -> 7/8, 6/8, 5/8 respectively
+    return (int) Math.round((Math.min(8, 9 - fn.getAsInt()) / 8.0) * 100);
+  }
+
   public int getRejection(final MonsterData monster) {
-    return this.rejection.get(monster);
+    return switch (monster.getName()) {
+      case "alielf", "cat-alien", "dog-alien" -> getMoonlightRejection(
+          HolidayDatabase::getGrimaceMoonlight);
+      case "dogcat", "ferrelf", "hamsterpus" -> getMoonlightRejection(
+          HolidayDatabase::getRonaldMoonlight);
+      default -> this.rejection.get(monster);
+    };
   }
 
   public double totalWeighting() {
@@ -734,6 +755,15 @@ public class AreaCombatData {
         buffer.append(encounter);
       }
     }
+
+    if (InventoryManager.hasItem(ItemPool.LEPRECONDO)) {
+      var furniture = LeprecondoManager.getUndiscoveredFurnitureForLocation(this.zone);
+      if (furniture.isBlank()) {
+        buffer.append("<br>");
+        buffer.append("<b>Leprecondo:</b> ");
+        buffer.append(furniture);
+      }
+    }
   }
 
   private String format(final double percentage) {
@@ -933,6 +963,8 @@ public class AreaCombatData {
 
     this.appendItemList(buffer, monster.getItems(), monster.getPocketRates(), fullString);
 
+    this.appendFact(buffer, monster, fullString);
+
     String bounty = BountyDatabase.getNameByMonster(monster.getName());
     if (bounty != null) {
       buffer.append("<br>").append(bounty).append(" (bounty)");
@@ -1104,6 +1136,16 @@ public class AreaCombatData {
         }
       }
     }
+  }
+
+  // Append facts from the book of facts if we have it.
+  private void appendFact(
+      final StringBuffer buffer, final MonsterData monster, boolean fullString) {
+    String fact = monster.getFact();
+    if (fact != null) {
+      buffer.append(fact);
+    }
+    return;
   }
 
   public static double getDropRateModifier() {

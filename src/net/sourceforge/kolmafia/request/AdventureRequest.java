@@ -502,21 +502,6 @@ public class AdventureRequest extends GenericRequest {
     }
   }
 
-  private static final Pattern DEV_READOUT = Pattern.compile("(.*?) \\(#\\d+\\)$");
-
-  /**
-   * On the dev server choice adventures have their choice numbers in brackets afterwards This needs
-   * to be stripped
-   *
-   * @param encounter Raw encounter name
-   * @return Encounter name without dev readout if it exists
-   */
-  private static String stripDevReadout(final String encounter) {
-    var m = DEV_READOUT.matcher(encounter);
-
-    return m.find() ? m.group(1) : encounter;
-  }
-
   public static final String registerEncounter(final GenericRequest request) {
     // No encounters in chat!
     if (request.isChatRequest) {
@@ -591,12 +576,14 @@ public class AdventureRequest extends GenericRequest {
     }
 
     String prettyEncounter = StringUtilities.getEntityDecode(encounter);
-    if (KoLmafia.usingDevServer()) prettyEncounter = stripDevReadout(prettyEncounter);
 
     Preferences.setString("lastEncounter", prettyEncounter);
     RequestLogger.printLine("Encounter: " + prettyEncounter);
     RequestLogger.updateSessionLog("Encounter: " + prettyEncounter);
     AdventureRequest.registerDemonName(encounter, responseText);
+
+    var location = KoLAdventure.lastVisitedLocation();
+    var encounterData = EncounterManager.findEncounter(location, encounter);
 
     // We are done registering the item's encounter.
     if (type != null) {
@@ -612,7 +599,7 @@ public class AdventureRequest extends GenericRequest {
         // to false after being
         // read, we can only detect it once. So let's do it here, and then rely on ignoring special
         // monsters later.
-        if (EncounterManager.isRelativityMonster()) {
+        if (EncounterManager.isRelativityMonster() || EncounterManager.isAfterimageMonster()) {
           EncounterManager.ignoreSpecialMonsters();
         }
 
@@ -633,14 +620,34 @@ public class AdventureRequest extends GenericRequest {
                 && !CrystalBallManager.isCrystalBallMonster()
                 && !EncounterManager.isRainManEncounter(responseText)
                 && !EncounterManager.isSpookyVHSTapeMonster(responseText, false)
+                && !EncounterManager.isMimeographEncounter(responseText)
+                && !EncounterManager.isBodyguardEncounter(responseText)
                 && !FightRequest.edFightInProgress())) {
-          AdventureQueueDatabase.enqueue(KoLAdventure.lastVisitedLocation(), encounter);
+          AdventureQueueDatabase.enqueue(location, encounter);
         }
-      } else if (type.equals("Noncombat")) {
+      } else if (type.equals("Noncombat")
+          // Don't enqueue Lucky, hallowiener, etc. adventures.
+          && (encounterData == null
+              || encounterData.getEncounterType() == EncounterManager.EncounterType.NONE
+              || encounterData.getEncounterType() == EncounterManager.EncounterType.STOP)
+          // Special-case first two NCs in the Upper Chamber, which are superlikely.
+          // In a perfect world, Mafia would have a list of all superlikelies, but this works for
+          // now.
+          && !(AdventureSpentDatabase.getTurns(
+                      AdventureDatabase.getAdventure(AdventurePool.UPPER_CHAMBER))
+                  == 2
+              && encounter.equals("A Wheel -- How Fortunate!"))
+          && !(encounter.equals("Down Dooby-Doo Down Down"))) {
         // only log the FIRST choice that we see in a choiceadventure chain.
         if ((!urlString.startsWith("choice.php") || ChoiceManager.getLastChoice() == 0)
             && !FightRequest.edFightInProgress()) {
-          AdventureQueueDatabase.enqueueNoncombat(KoLAdventure.lastVisitedLocation(), encounter);
+          AdventureQueueDatabase.enqueueNoncombat(location, encounter);
+          if (location != null) {
+            var preference = "lastNoncombat" + location.getAdventureId();
+            if (location.getForceNoncombat() > 0 && Preferences.containsDefault(preference)) {
+              Preferences.setInteger(preference, AdventureSpentDatabase.getTurns(location));
+            }
+          }
         }
       }
       EncounterManager.registerEncounter(encounter, type, responseText);
@@ -669,6 +676,11 @@ public class AdventureRequest extends GenericRequest {
     // Pocket Familiars have Pokefam battles
     // <b><center>a fleet woodsman's Team:</b>
     Pattern.compile(">([^<]*?)'s Team:<"),
+    // Knob Goblin poseur has no closing </b> tag
+    Pattern.compile(
+        "<td id='fmsg' valign=center><Table>.*?<b>(Knob Goblin poseur)", Pattern.DOTALL),
+    // haiku dungeon attempt
+    Pattern.compile("<td id='fmsg' valign=center><Table>.*?<b>([^<]+)</b>", Pattern.DOTALL),
     // KoL sure generates a lot of bogus HTML
     Pattern.compile("<b>.*?(<b>.*?<(/b|/td)>.*?)<(br|/td|/tr)>", Pattern.DOTALL),
   };
@@ -740,6 +752,7 @@ public class AdventureRequest extends GenericRequest {
     encounter = AdventureRequest.handleNuclearAutumn(encounter);
     encounter = AdventureRequest.handleMask(encounter);
     encounter = AdventureRequest.handleDinosaurs(encounter);
+    encounter = AdventureRequest.handleHats(encounter);
 
     // KoL now provides MONSTERID in fight responseText.
     Matcher m = MONSTERID_PATTERN.matcher(responseText);
@@ -1004,6 +1017,9 @@ public class AdventureRequest extends GenericRequest {
     return parseEncounter(responseText);
   }
 
+  private static final Pattern BOLD_ENCOUNTER =
+      Pattern.compile("<b(?:| [^>]*)>(.*?)</b>", Pattern.DOTALL);
+
   public static String parseEncounter(final String responseText) {
     // Look only in HTML body; the header can have scripts with
     // bold text.
@@ -1023,18 +1039,17 @@ public class AdventureRequest extends GenericRequest {
       }
     }
 
-    int boldIndex = responseText.indexOf("<b>", index);
-    if (boldIndex == -1) {
+    if (index == -1) {
+      // something has gone horribly wrong
       return "";
     }
 
-    int endBoldIndex = responseText.indexOf("</b>", boldIndex);
-
-    if (endBoldIndex == -1) {
+    Matcher boldMatch = BOLD_ENCOUNTER.matcher(responseText);
+    if (!boldMatch.find(index)) {
       return "";
     }
 
-    return responseText.substring(boldIndex + 3, endBoldIndex);
+    return ChoiceUtilities.stripDevReadout(boldMatch.group(1).trim());
   }
 
   public static int parseArea(final String urlString) {
@@ -1581,6 +1596,35 @@ public class AdventureRequest extends GenericRequest {
       MonsterData.lastRandomModifiers.add(MonsterData.lastMask);
       return matcher.group(1);
     }
+    return monsterName;
+  }
+
+  // a black adder wearing a construction hardhat and a terrycloth turban and a jockey's hat and a
+  // sturdy pith helmet and a construction hardhat and an imposing pilgrim's hat
+  private static String handleHats(String monsterName) {
+    if (!KoLCharacter.inHatTrick()) {
+      return monsterName;
+    }
+
+    var wearing = monsterName.split(" wearing ", 2);
+    if (wearing.length == 1) {
+      return monsterName;
+    }
+    monsterName = wearing[0];
+    var hats = wearing[1];
+
+    var and = hats.split(" and ");
+
+    for (var hat : and) {
+      if (hat.startsWith("an ")) {
+        hat = hat.substring(3);
+      }
+      if (hat.startsWith("a ")) {
+        hat = hat.substring(2);
+      }
+      MonsterData.lastRandomModifiers.add(hat);
+    }
+
     return monsterName;
   }
 }

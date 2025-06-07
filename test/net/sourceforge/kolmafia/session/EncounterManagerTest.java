@@ -107,6 +107,11 @@ class EncounterManagerTest {
   }
 
   @Test
+  void resetEncountersSucceeds() {
+    assertThat(EncounterManager.resetEncounters(), is(true));
+  }
+
+  @Test
   void findEncounterByName() {
     var enc = EncounterManager.findEncounter("With a Clatter");
 
@@ -483,6 +488,19 @@ class EncounterManagerTest {
     }
   }
 
+  @ParameterizedTest
+  @ValueSource(booleans = {true, false})
+  void isAfterimageMonster(boolean afterimageMonster) {
+    var cleanups = new Cleanups(withProperty("_afterimageMonster", afterimageMonster));
+
+    try (cleanups) {
+      boolean actual = EncounterManager.isAfterimageMonster();
+
+      assertThat(actual, equalTo(afterimageMonster));
+      assertThat("_afterimageMonster", isSetTo(false));
+    }
+  }
+
   @Test
   void isRainManEncounter() {
     String html = html("request/test_fight_rainman_monster.html");
@@ -493,6 +511,14 @@ class EncounterManagerTest {
 
       assertThat(actual, is(true));
     }
+  }
+
+  @ParameterizedTest
+  @ValueSource(strings = {"mimeograph", "mimeograph_in_ocrs"})
+  void isMimeographMonster(final String fixture) {
+    String html = html("request/test_fight_" + fixture + ".html");
+
+    assertThat(EncounterManager.isMimeographEncounter(html), is(true));
   }
 
   @ParameterizedTest

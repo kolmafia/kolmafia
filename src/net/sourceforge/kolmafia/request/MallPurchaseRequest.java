@@ -215,7 +215,7 @@ public class MallPurchaseRequest extends PurchaseRequest {
       final int quantity,
       final int shopId,
       final String shopName,
-      final int price,
+      final long price,
       final int limit,
       final boolean canPurchase) {
     this(ItemPool.get(itemId), quantity, shopId, shopName, price, limit, canPurchase);
@@ -226,7 +226,7 @@ public class MallPurchaseRequest extends PurchaseRequest {
       final int quantity,
       final int shopId,
       final String shopName,
-      final int price,
+      final long price,
       final int limit) {
     this(ItemPool.get(itemId), quantity, shopId, shopName, price, limit, true);
   }
@@ -236,7 +236,7 @@ public class MallPurchaseRequest extends PurchaseRequest {
       final int quantity,
       final int shopId,
       final String shopName,
-      final int price,
+      final long price,
       final int limit,
       final boolean canPurchase) {
     super("mallstore.php");
@@ -265,20 +265,19 @@ public class MallPurchaseRequest extends PurchaseRequest {
     return true;
   }
 
-  public static String getStoreString(final int itemId, final int price) {
-    // whichitem=2272000000246
+  public static String getStoreString(final int itemId, final long price) {
+    // whichitem=2272.246
+    return itemId + "." + price;
+  }
 
-    StringBuilder whichItem = new StringBuilder();
-    whichItem.append(itemId);
+  public static int itemFromStoreString(String storeString) {
+    int index = storeString.indexOf('.');
+    return StringUtilities.parseInt(storeString.substring(0, index));
+  }
 
-    int originalLength = whichItem.length();
-    whichItem.append(price);
-
-    while (whichItem.length() < originalLength + 9) {
-      whichItem.insert(originalLength, '0');
-    }
-
-    return whichItem.toString();
+  public static long priceFromStoreString(String storeString) {
+    int index = storeString.indexOf('.');
+    return StringUtilities.parseLong(storeString.substring(index + 1));
   }
 
   @Override
@@ -368,11 +367,11 @@ public class MallPurchaseRequest extends PurchaseRequest {
       return -1;
     }
 
-    // whichitem=2272000000246
-    // the last 9 characters of idString are the price, with leading zeros
+    // whichitem=2272.246
+    // the characters after the dot of idString are the price
 
     String idString = itemMatcher.group(1);
-    return StringUtilities.parseInt(idString.substring(0, idString.length() - 9));
+    return itemFromStoreString(idString);
   }
 
   private static final Pattern YIELD_PATTERN =
@@ -447,7 +446,7 @@ public class MallPurchaseRequest extends PurchaseRequest {
 
       if (itemChangedMatcher.find()) {
         int limit = StringUtilities.parseInt(itemChangedMatcher.group(1));
-        int newPrice = StringUtilities.parseInt(itemChangedMatcher.group(2));
+        long newPrice = StringUtilities.parseLong(itemChangedMatcher.group(2));
 
         // If the item exists at a lower or equivalent price, then you
         // should re-attempt the purchase of the item.
@@ -537,23 +536,47 @@ public class MallPurchaseRequest extends PurchaseRequest {
       return;
     }
 
+    if (responseText.contains("You can't afford that item")) {
+      // This should not be possible via GUI or script, since those
+      // check available Meat before attempting a Mall Purchase.
+      // The Relay Browser has no such constraints, so don't
+      // bother trying to parse the response.
+      return;
+    }
+
     // Mall stores themselves can only contain processable results
     // when actually buying an item, and then only at the very top
     // of the page.
+    //
+    // Purchasing using ajax does not show the store inventory - which
+    // means the result is still at the top of the page.
 
     Matcher tableMatcher = MallPurchaseRequest.TABLE_PATTERN.matcher(responseText);
     if (!tableMatcher.find()) {
+      // Log and set ERROR state so we learn about the issue and the
+      // caller doesn't immediately go to the next PurchaseRequest.
+      logResultProcessingFailure(responseText);
       return;
     }
 
-    AdventureResult result = MallPurchaseRequest.processItemFromMall(tableMatcher.group(0));
+    String tableText = tableMatcher.group(0);
+    AdventureResult result = MallPurchaseRequest.processItemFromMall(tableText);
+    if (result == null) {
+      // This should not happen. But, apparently it (very rarely) does,
+      // even though the mall purchase was actually successful.  Log the
+      // failure, put the text into debug log, and leave in error state.
+      logResultProcessingFailure(responseText);
+      return;
+    }
 
     Matcher meatMatcher = MallPurchaseRequest.MEAT_PATTERN.matcher(responseText);
     if (!meatMatcher.find()) {
+      // Considering that the item was successfully detected, hard to
+      // imagine we can't parse the Meat spent.
       return;
     }
 
-    int cost = StringUtilities.parseInt(meatMatcher.group(1));
+    long cost = StringUtilities.parseLong(meatMatcher.group(1));
     if (meatMatcher.group(2) != null) {
       long balance = StringUtilities.parseLong(meatMatcher.group(3));
       KoLCharacter.setStorageMeat(balance);
@@ -615,8 +638,24 @@ public class MallPurchaseRequest extends PurchaseRequest {
     return item;
   }
 
+  private static void logResultProcessingFailure(String text) {
+    boolean shouldOpenStream = !RequestLogger.isDebugging();
+    try {
+      if (shouldOpenStream) {
+        RequestLogger.openDebugLog();
+      }
+      KoLmafia.updateDisplay(
+          MafiaState.ERROR, "Mall purchase parse failure. Refresh inventory and try again.");
+      RequestLogger.updateDebugLog(text);
+    } finally {
+      if (shouldOpenStream) {
+        RequestLogger.closeDebugLog();
+      }
+    }
+  }
+
   public static boolean registerRequest(final String urlString) {
-    // mallstore.php?whichstore=294980&buying=1&ajax=1&whichitem=2272000000246&quantity=9
+    // mallstore.php?whichstore=294980&buying=1&ajax=1&whichitem=2272.246&quantity=9
 
     if (!urlString.startsWith("mallstore.php")) {
       return false;
@@ -634,19 +673,12 @@ public class MallPurchaseRequest extends PurchaseRequest {
 
     int quantity = StringUtilities.parseInt(quantityMatcher.group(1));
 
-    // whichitem=2272000000246
-    // the last 9 characters of idString are the price, with leading zeros
+    // whichitem=2272.246
+    // the characters after the dot of idString are the price
     String idString = itemMatcher.group(1);
-    int idStringLength = idString.length();
-    String priceString = idString.substring(idStringLength - 9, idStringLength);
-    idString = idString.substring(0, idStringLength - 9);
 
-    // In a perfect world where I was not so lazy, I'd verify that
-    // the price string was really an int and might find another
-    // way to effectively strip leading zeros from the display
-
-    int priceVal = StringUtilities.parseInt(priceString);
-    int itemId = StringUtilities.parseInt(idString);
+    long priceVal = priceFromStoreString(idString);
+    int itemId = itemFromStoreString(idString);
     String itemName = ItemDatabase.getItemName(itemId);
 
     // store ID is embedded in the URL.  Extract it and get

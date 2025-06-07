@@ -12,11 +12,15 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.AdventureDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.coinmaster.CoinMasterRequest;
+import net.sourceforge.kolmafia.request.coinmaster.DimemasterRequest;
+import net.sourceforge.kolmafia.request.coinmaster.QuartersmasterRequest;
 import net.sourceforge.kolmafia.session.IslandManager;
 import net.sourceforge.kolmafia.session.IslandManager.Quest;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
+@SuppressWarnings("incomplete-switch")
 public class IslandRequest extends GenericRequest {
   private static final Pattern OPTION_PATTERN = Pattern.compile("option=(\\d+)");
 

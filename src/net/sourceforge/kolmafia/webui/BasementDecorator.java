@@ -415,7 +415,7 @@ public class BasementDecorator {
       return item;
     }
 
-    public int getItemPrice() {
+    public long getItemPrice() {
       if (this.item == null) return 0;
       int itemId = this.item.getItemId();
       if (MallPriceDatabase.getAge(itemId) > 7.0) {

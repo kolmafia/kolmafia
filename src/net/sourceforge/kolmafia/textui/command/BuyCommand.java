@@ -64,7 +64,7 @@ public class BuyCommand extends AbstractCommand {
         return;
       }
 
-      int priceLimit = pieces.length < 2 ? 0 : StringUtilities.parseInt(pieces[1]);
+      long priceLimit = pieces.length < 2 ? 0 : StringUtilities.parseLong(pieces[1]);
 
       List<PurchaseRequest> results =
           // Cheapest from Mall or NPC stores

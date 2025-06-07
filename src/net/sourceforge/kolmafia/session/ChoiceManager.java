@@ -35,6 +35,7 @@ import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import net.sourceforge.kolmafia.webui.VillainLairDecorator;
 
+@SuppressWarnings("incomplete-switch")
 public abstract class ChoiceManager {
 
   public static boolean handlingChoice = false;
@@ -176,7 +177,7 @@ public abstract class ChoiceManager {
 
   private static Pattern STILL_IN_CHOICE =
       Pattern.compile(
-          "href=\"?choice\\.php(?!>refresh</a>)|action=choice\\.php|name=\"whichchoice\"");
+          "href=\"?choice\\.php(?!>refresh</a>)|action='?choice\\.php'?|name=['\"]whichchoice['\"]");
 
   private static boolean stillInChoice(final String responseText) {
     // Doing the Maths has a choice form but, somehow, does not specify choice.php
@@ -240,7 +241,7 @@ public abstract class ChoiceManager {
         //
         // <b>Now What?</b>
         // <a href=choice.php>Continue down the corridor...</a>
-        if (responseText.contains("<b>Now What?</b>")) {
+        if (responseText.contains(">Now What?</b>")) {
           request.constructURLString("choice.php");
           request.run();
           String redirectLocation = request.redirectLocation;
@@ -303,8 +304,15 @@ public abstract class ChoiceManager {
     }
 
     String scriptName = Preferences.getString("choiceAdventureScript").trim();
-    if (scriptName.length() == 0) {
+    if (scriptName.isEmpty()) {
       return false;
+    }
+
+    String functionName = "main";
+    int atsign = scriptName.indexOf("@");
+    if (atsign != -1) {
+      functionName = scriptName.substring(0, atsign);
+      scriptName = scriptName.substring(atsign + 1);
     }
 
     List<File> scriptFiles = KoLmafiaCLI.findScriptFile(scriptName);
@@ -317,8 +325,10 @@ public abstract class ChoiceManager {
     File scriptFile = scriptFiles.get(0);
 
     Object[] parameters = new Object[2];
-    parameters[0] = Integer.valueOf(choice);
+    parameters[0] = choice;
     parameters[1] = responseText;
+
+    boolean executeTopLevel = functionName.equals("main");
 
     KoLmafiaASH.logScriptExecution(
         "Starting choice adventure script: ", scriptFile.getName(), interpreter);
@@ -326,7 +336,7 @@ public abstract class ChoiceManager {
     // Since we are automating, let the script execute without interruption
     KoLmafia.forceContinue();
 
-    interpreter.execute("main", parameters);
+    interpreter.execute(functionName, parameters, executeTopLevel);
     KoLmafiaASH.logScriptExecution(
         "Finished choice adventure script: ", scriptFile.getName(), interpreter);
 

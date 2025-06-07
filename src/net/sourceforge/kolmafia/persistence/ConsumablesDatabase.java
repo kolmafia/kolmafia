@@ -64,10 +64,14 @@ public class ConsumablesDatabase {
     GOOD("good", "green", 3),
     AWESOME("awesome", "blue", 4),
     EPIC("EPIC", "#8a2be2", 5),
+    SUPER_EPIC("super EPIC", "#8a2be2", 5),
+    SUPER_ULTRA_EPIC("super ultra EPIC", "#8a2be2", 5),
+    SUPER_ULTRA_MEGA_EPIC("super ultra mega EPIC", "#8a2be2", 5),
+    SUPER_ULTRA_MEGA_TURBO_EPIC("super ultra mega turbo EPIC", "#8a2be2", 5),
     QUEST("quest"),
     CHANGING("???"),
     DRIPPY("drippy", "#964B00"),
-    SUSHI("sushi");
+    PSEUDO("pseudoitem");
 
     static final Map<String, ConsumableQuality> nameToQuality = new HashMap<>();
 
@@ -1025,6 +1029,7 @@ public class ConsumablesDatabase {
     BEER,
     CANNED,
     BEVERAGE,
+    TACO,
   }
 
   private static boolean hasAttribute(final int itemId, final Attribute attribute) {
@@ -1081,6 +1086,10 @@ public class ConsumablesDatabase {
     return hasAttribute(itemId, Attribute.CANNED);
   }
 
+  public static boolean isTaco(final int itemId) {
+    return hasAttribute(itemId, Attribute.TACO);
+  }
+
   // Support for astral consumables and other level dependant consumables
 
   private static String floatToRange(double average) {
@@ -1112,7 +1121,7 @@ public class ConsumablesDatabase {
     String muscle = statGain;
     String mysticality = statGain;
     String moxie = statGain;
-    String note = "";
+    String note = ConsumablesDatabase.getNotes(name);
 
     ConsumablesDatabase.setConsumptionData(
         name,
@@ -1150,7 +1159,7 @@ public class ConsumablesDatabase {
     muscle = statGain;
     mysticality = statGain;
     moxie = statGain;
-    note = "";
+    note = ConsumablesDatabase.getNotes(name);
 
     ConsumablesDatabase.setConsumptionData(
         name,
@@ -1181,7 +1190,7 @@ public class ConsumablesDatabase {
     muscle = "0";
     mysticality = "0";
     moxie = "0";
-    note = "";
+    note = ConsumablesDatabase.getNotes(name);
     ConsumablesDatabase.setConsumptionData(
         name,
         null,
@@ -1208,7 +1217,7 @@ public class ConsumablesDatabase {
     muscle = "0";
     mysticality = "0";
     moxie = "0";
-    note = "";
+    note = ConsumablesDatabase.getNotes(name);
     ConsumablesDatabase.setConsumptionData(
         name,
         size,
@@ -1235,7 +1244,7 @@ public class ConsumablesDatabase {
     muscle = "0";
     mysticality = "0";
     moxie = "0";
-    note = "";
+    note = ConsumablesDatabase.getNotes(name);
     ConsumablesDatabase.setConsumptionData(
         name,
         null,

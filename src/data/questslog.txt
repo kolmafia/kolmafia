@@ -130,3 +130,7 @@ questGuzzlr	Guzzlr.  Low Effort, High ABV.	(various messages)	Deliver the 	(no c
 
 # Rufus 
 questRufus	Rufus's Goofin'	Rufus wants	Call Rufus 	(no completion message)
+
+# PirateRealm
+# This is a fake quest, it is useful to treat like a quest but doesn't have an entry in the quest log.
+_questPirateRealm	PirateRealm	(no message)	(no message)	(no message)	(no message)	(no message)	(no message)	(no message)	(no message)	(no message)	(no message)	(no message)	(no message)	(no message)	(no message)	(no message)	(no message)	(no message)	(no message)

@@ -546,7 +546,48 @@ public enum DoubleModifier implements Modifier {
       Pattern.compile("([+-]\\d+) Pirate Warfare Effectiveness"),
       Pattern.compile("Pirate Warfare Effectiveness: " + EXPR)),
   MPC_DROP("MPC Drop", Pattern.compile("MPC Drop: " + EXPR)),
-  PIECE_OF_TWELVE_DROP("Piece of Twelve Drop", Pattern.compile("Piece of Twelve Drop: " + EXPR));
+  PIECE_OF_TWELVE_DROP("Piece of Twelve Drop", Pattern.compile("Piece of Twelve Drop: " + EXPR)),
+  COMBAT_ITEM_DAMAGE_PCT(
+      "Combat Item Damage Percent",
+      Pattern.compile("Combat items deal ([+-]\\d+)% more damage"),
+      Pattern.compile("Combat Item Damage Percent: " + EXPR)),
+  AVOID_ATTACK(
+      "Avoid Attack",
+      Pattern.compile("The first attack against you will always miss"),
+      Pattern.compile("Avoid Attack: " + EXPR)),
+  // the following do not distinguish between percentage / flat damage because the corresponding
+  // flat / percentage damage bonuses do not exist
+  BUGBEAR_DAMAGE(
+      "Damage vs. Bugbears",
+      Pattern.compile("([+-]\\d+)% Damage vs. Bugbears"),
+      Pattern.compile("Damage vs. Bugbears: " + EXPR)),
+  WEREWOLF_DAMAGE(
+      "Damage vs. Werewolves",
+      Pattern.compile("([+-]\\d+)% Damage vs. Werewolves"),
+      Pattern.compile("Damage vs. Werewolves: " + EXPR)),
+  ZOMBIE_DAMAGE(
+      "Damage vs. Zombies",
+      Pattern.compile("([+-]\\d+)% Damage vs. Zombies"),
+      Pattern.compile("Damage vs. Zombies: " + EXPR)),
+  GHOST_DAMAGE(
+      "Damage vs. Ghosts",
+      Pattern.compile("([+-]\\d+) Damage vs. Ghosts"),
+      Pattern.compile("Damage vs. Ghosts: " + EXPR)),
+  VAMPIRE_DAMAGE(
+      "Damage vs. Vampires",
+      Pattern.compile("([+-]\\d+)% Damage vs. Vampires"),
+      Pattern.compile("Damage vs. Vampires: " + EXPR)),
+  SKELETON_DAMAGE(
+      "Damage vs. Skeletons",
+      Pattern.compile("([+-]\\d+)% Damage vs. Skeletons"),
+      Pattern.compile("Damage vs. Skeletons: " + EXPR)),
+  UNDEAD_DAMAGE(
+      "Damage vs. Undead",
+      Pattern.compile("([+-]\\d+) Damage vs. Undead"),
+      Pattern.compile("Damage vs. Undead: " + EXPR)),
+  RAM("RAM", Pattern.compile("([+-]\\d+) RAM"), Pattern.compile("RAM: " + EXPR)),
+  LANTERN("Lantern", Pattern.compile("Lantern: " + EXPR)),
+  RAW_COMBAT_RATE("Raw Combat Rate", null);
 
   private final String name;
   private final Pattern[] descPatterns;
@@ -656,7 +697,7 @@ public enum DoubleModifier implements Modifier {
         String tag = mod.getTag();
 
         if (matcher.groupCount() == 0) {
-          return tag;
+          return tag + ": 1";
         }
 
         // Kludge for Slime (Really) Hates it

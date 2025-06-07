@@ -1,8 +1,9 @@
 package net.sourceforge.kolmafia.request;
 
+import com.alibaba.fastjson2.JSONException;
+import com.alibaba.fastjson2.JSONObject;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -28,9 +29,8 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
-import org.json.JSONException;
-import org.json.JSONObject;
 
+@SuppressWarnings("incomplete-switch")
 public class StorageRequest extends TransferItemRequest {
   private StorageRequestType moveType;
   private boolean bulkTransfer;
@@ -121,8 +121,8 @@ public class StorageRequest extends TransferItemRequest {
     RequestThread.postRequest(new StorageRequest(StorageRequestType.EMPTY_STORAGE));
   }
 
-  public static final void parseStorage(final JSONObject JSON) {
-    if (JSON == null) {
+  public static final void parseStorage(final JSONObject json) {
+    if (json == null) {
       return;
     }
 
@@ -132,12 +132,9 @@ public class StorageRequest extends TransferItemRequest {
 
     try {
       // {"1":"1","2":"1" ... }
-      Iterator<String> keys = JSON.keys();
-
-      while (keys.hasNext()) {
-        String key = keys.next();
+      for (String key : json.keySet()) {
         int itemId = StringUtilities.parseInt(key);
-        int count = JSON.getInt(key);
+        int count = json.getIntValue(key);
         String name = ItemDatabase.getItemDataName(itemId);
         if (name == null) {
           // api.php?what=item does not work for
@@ -157,7 +154,7 @@ public class StorageRequest extends TransferItemRequest {
         list.add(item);
       }
     } catch (JSONException e) {
-      ApiRequest.reportParseError("storage", JSON.toString(), e);
+      ApiRequest.reportParseError("storage", json.toString(), e);
       return;
     }
 

@@ -19,7 +19,7 @@ import net.sourceforge.kolmafia.session.ResultProcessor;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public abstract class TransferItemRequest extends GenericRequest {
-  public static final Pattern ITEMID_PATTERN = Pattern.compile("item[^=&]*\\d*=([-\\d]+)");
+  public static final Pattern ITEMID_PATTERN = Pattern.compile("item[^=&]*\\d*=([-\\d.]+)");
 
   public static final Pattern HOWMANY_PATTERN = Pattern.compile("howmany\\d*=(\\d+)");
   public static final Pattern QTY_PATTERN = Pattern.compile("qty\\d*=(\\d+)");
@@ -282,7 +282,7 @@ public abstract class TransferItemRequest extends GenericRequest {
       KoLmafia.updateDisplay(MafiaState.ERROR, "Transfer failed for " + item.toString());
     }
 
-    int totalMeat = StringUtilities.parseInt(this.getFormField(this.getMeatField()));
+    long totalMeat = StringUtilities.parseLong(this.getFormField(this.getMeatField()));
     if (totalMeat != 0) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "Transfer failed for " + totalMeat + " meat");
     }

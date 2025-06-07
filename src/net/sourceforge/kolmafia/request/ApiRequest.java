@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia.request;
 
+import com.alibaba.fastjson2.JSONException;
+import com.alibaba.fastjson2.JSONObject;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -11,12 +13,11 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class ApiRequest extends GenericRequest {
   private static final ApiRequest INSTANCE = new ApiRequest("status");
@@ -27,7 +28,7 @@ public class ApiRequest extends GenericRequest {
 
   private final String what;
   private String id;
-  public JSONObject JSON;
+  public JSONObject json;
   private boolean silent = false;
 
   public ApiRequest() {
@@ -149,12 +150,12 @@ public class ApiRequest extends GenericRequest {
       KoLmafia.updateDisplay(message);
     }
 
-    this.JSON = null;
+    this.json = null;
 
     super.run();
 
     // Save the JSON object so caller can look further at it
-    this.JSON = ApiRequest.getJSON(this.responseText, this.what);
+    this.json = ApiRequest.getJSON(this.responseText, this.what);
   }
 
   @Override
@@ -332,8 +333,8 @@ public class ApiRequest extends GenericRequest {
     ApiRequest.parseStatus(ApiRequest.getJSON(responseText, "status"));
   }
 
-  public static final void parseStatus(final JSONObject JSON) {
-    if (JSON == null) {
+  public static final void parseStatus(final JSONObject json) {
+    if (json == null) {
       return;
     }
 
@@ -344,53 +345,56 @@ public class ApiRequest extends GenericRequest {
     try {
       // Pull out the current ascension count. Do this first.
       // Some later processing depends on this.
-      int ascensions = JSON.getInt("ascensions");
+      int ascensions = json.getIntValue("ascensions");
       KoLCharacter.setAscensions(ascensions);
 
       // Pull out the current password hash
-      String pwd = JSON.getString("pwd");
+      String pwd = json.getString("pwd");
       GenericRequest.setPasswordHash(pwd);
 
       // Many config options are available
-      AccountRequest.parseStatus(JSON);
+      AccountRequest.parseStatus(json);
 
       // Many things from the Char Sheet are available
-      CharSheetRequest.parseStatus(JSON);
+      CharSheetRequest.parseStatus(json);
 
       // It's not possible to tell if some IotMs are bound to
       // the player's account or if they've used a one-day ticket without coolitems
-      parseCoolItems(JSON.getString("coolitems"));
+      parseCoolItems(json.getString("coolitems"));
 
       // Many things from the Char Pane are available
-      CharPaneRequest.parseStatus(JSON);
+      CharPaneRequest.parseStatus(json);
 
       var limitmode = KoLCharacter.getLimitMode();
       switch (limitmode) {
         case SPELUNKY:
           // Parse Spelunky equipment
-          SpelunkyRequest.parseStatus(JSON);
+          SpelunkyRequest.parseStatus(json);
           break;
         case BATMAN:
           // Don't mess with equipment
           break;
         default:
           // Parse currently worn equipment
-          EquipmentManager.parseStatus(JSON);
+          EquipmentManager.parseStatus(json);
           break;
       }
 
       // Must be AFTER current familiar is set and equipment is processed
-      CharPaneRequest.checkFamiliarWeight(JSON);
+      CharPaneRequest.checkFamiliarWeight(json);
 
       // UNIX time of next rollover
-      long rollover = JSON.getLong("rollover");
+      long rollover = json.getLong("rollover");
       KoLCharacter.setRollover(rollover);
 
       // Add the global count of rollovers everyone shares
-      int daycount = JSON.getInt("daynumber");
+      int daycount = json.getIntValue("daynumber");
       KoLCharacter.setGlobalDays(daycount);
+
+      // The best place to parse our current graft status if we are a Zootomist
+      parseZootomistGrafts(json);
     } catch (JSONException e) {
-      ApiRequest.reportParseError("status", JSON.toString(), e);
+      ApiRequest.reportParseError("status", json.toString(), e);
     } finally {
       KoLCharacter.recalculateAdjustments();
       KoLCharacter.updateStatus();
@@ -413,6 +417,7 @@ public class ApiRequest extends GenericRequest {
           Map.entry("spacegate", Map.entry("spacegateAlways", "_spacegateToday")),
           Map.entry("fantasyrealm", Map.entry("frAlways", "_frToday")),
           Map.entry("piraterealm", Map.entry("prAlways", "_prToday")),
+          Map.entry("cyberrealm", Map.entry("crAlways", "_crToday")),
           Map.entry(
               "neverendingparty", Map.entry("neverendingPartyAlways", "_neverendingPartyToday")),
           Map.entry("voterregistered", Map.entry("voteAlways", "_voteToday")),
@@ -454,6 +459,50 @@ public class ApiRequest extends GenericRequest {
         });
   }
 
+  protected static void parseZootomistGrafts(final JSONObject json) {
+    if (!KoLCharacter.inZootomist()) return;
+
+    var grafts = json.getJSONObject("grafts");
+
+    if (grafts == null) return;
+
+    Preferences.setInteger("zootGraftedHeadFamiliar", grafts.getIntValue("1", 0));
+    Preferences.setInteger("zootGraftedShoulderLeftFamiliar", grafts.getIntValue("2", 0));
+    Preferences.setInteger("zootGraftedShoulderRightFamiliar", grafts.getIntValue("3", 0));
+    var leftHand = grafts.getIntValue("4", 0);
+    if (leftHand != 0 && !KoLCharacter.hasCombatSkill(SkillPool.LEFT_PUNCH)) {
+      KoLCharacter.addAvailableCombatSkill(SkillPool.LEFT_PUNCH);
+    }
+    Preferences.setInteger("zootGraftedHandLeftFamiliar", leftHand);
+    var rightHand = grafts.getIntValue("5", 0);
+    if (rightHand != 0 && !KoLCharacter.hasCombatSkill(SkillPool.RIGHT_PUNCH)) {
+      KoLCharacter.addAvailableCombatSkill(SkillPool.RIGHT_PUNCH);
+    }
+    Preferences.setInteger("zootGraftedHandRightFamiliar", rightHand);
+    var rightNipple = grafts.getIntValue("6", 0);
+    if (rightNipple != 0 && !KoLCharacter.hasSkill(SkillPool.DRINK_THE_MILK_OF_KINDNESS)) {
+      KoLCharacter.addAvailableSkill(SkillPool.DRINK_THE_MILK_OF_KINDNESS);
+    }
+    Preferences.setInteger("zootGraftedNippleRightFamiliar", rightNipple);
+    var leftNipple = grafts.getIntValue("7", 0);
+    if (leftNipple != 0 && !KoLCharacter.hasSkill(SkillPool.DRINK_THE_MILK_OF_CRUELTY)) {
+      KoLCharacter.addAvailableSkill(SkillPool.DRINK_THE_MILK_OF_CRUELTY);
+    }
+    Preferences.setInteger("zootGraftedNippleLeftFamiliar", leftNipple);
+    Preferences.setInteger("zootGraftedButtCheekLeftFamiliar", grafts.getIntValue("8", 0));
+    Preferences.setInteger("zootGraftedButtCheekRightFamiliar", grafts.getIntValue("9", 0));
+    var leftFoot = grafts.getIntValue("10", 0);
+    if (leftFoot != 0 && !KoLCharacter.hasCombatSkill(SkillPool.LEFT_KICK)) {
+      KoLCharacter.addAvailableCombatSkill(SkillPool.LEFT_KICK);
+    }
+    Preferences.setInteger("zootGraftedFootLeftFamiliar", leftFoot);
+    var rightFoot = grafts.getIntValue("11", 0);
+    if (rightFoot != 0 && !KoLCharacter.hasCombatSkill(SkillPool.RIGHT_KICK)) {
+      KoLCharacter.addAvailableCombatSkill(SkillPool.RIGHT_KICK);
+    }
+    Preferences.setInteger("zootGraftedFootRightFamiliar", rightFoot);
+  }
+
   public static final void parseInventory(final String responseText) {
     InventoryManager.parseInventory(ApiRequest.getJSON(responseText, "inventory"));
   }
@@ -470,7 +519,7 @@ public class ApiRequest extends GenericRequest {
     // Parse the string into a JSON object
     try {
       String str = ApiRequest.getJSONString(text);
-      return str == null ? null : new JSONObject(str);
+      return str == null ? null : com.alibaba.fastjson2.JSON.parseObject(str);
     } catch (JSONException e) {
       ApiRequest.reportParseError(what, text, e);
     }

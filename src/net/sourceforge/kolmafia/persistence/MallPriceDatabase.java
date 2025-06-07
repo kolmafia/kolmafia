@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia.persistence;
 
+import static net.sourceforge.kolmafia.session.StoreManager.MALL_MAX;
+
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
@@ -76,11 +78,11 @@ public class MallPriceDatabase {
 
         int id = StringUtilities.parseInt(data[0]);
         long timestamp = Math.min(now, Long.parseLong(data[1]));
-        int price = StringUtilities.parseInt(data[2]);
+        long price = StringUtilities.parseLong(data[2]);
         if (id < 1
             || id > ItemDatabase.maxItemId()
             || price < 1
-            || price > 999999999
+            || price > MALL_MAX
             || timestamp <= 0) { // Something's fishy with this file...
           continue;
         }
@@ -142,7 +144,7 @@ public class MallPriceDatabase {
     }
   }
 
-  public static void recordPrice(int itemId, int price, boolean deferred) {
+  public static void recordPrice(int itemId, long price, boolean deferred) {
     long timestamp = MallPriceManager.currentTimeMillis() / 1000L;
     Price p = MallPriceDatabase.prices.get(itemId);
     if (p == null) {
@@ -252,7 +254,7 @@ public class MallPriceDatabase {
     return builder.toString();
   }
 
-  public static int getPrice(int itemId) {
+  public static long getPrice(int itemId) {
     Price p = MallPriceDatabase.prices.get(itemId);
     return p == null ? 0 : p.price;
   }
@@ -266,16 +268,16 @@ public class MallPriceDatabase {
 
   private static class Price {
     int id;
-    int price;
+    long price;
     long timestamp;
     byte[] encoded;
 
-    public Price(int id, int price, long timestamp) {
+    public Price(int id, long price, long timestamp) {
       this.id = id;
       this.update(price, timestamp);
     }
 
-    public void update(int price, long timestamp) {
+    public void update(long price, long timestamp) {
       this.price = price;
       this.timestamp = timestamp;
       this.encoded =

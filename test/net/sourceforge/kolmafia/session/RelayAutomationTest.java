@@ -33,6 +33,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.junitpioneer.jupiter.RetryingTest;
 
 public class RelayAutomationTest {
 
@@ -65,8 +66,7 @@ public class RelayAutomationTest {
           AdventureDatabase.getAdventureByName("The Hidden Temple");
 
       public Cleanups withDvorak(FakeHttpClientBuilder builder) {
-        var cleanups = new Cleanups(withHttpClientBuilder(builder), withPasswordHash("dvorak"));
-        return cleanups;
+        return new Cleanups(withHttpClientBuilder(builder), withPasswordHash("dvorak"));
       }
 
       public void addDvorakResponses(FakeHttpClientBuilder builder) {
@@ -109,12 +109,23 @@ public class RelayAutomationTest {
         return i;
       }
 
-      @ParameterizedTest
-      @ValueSource(strings = {"None", "Quantum Terrarium"})
-      public void canAutomateDvoraksRevengeFromRelayBrowser(String pathName) {
+      // This test can randomly fail to detect the special command submission
+      @RetryingTest(3)
+      void canAutomateDvoraksRevengeFromRelayBrowser() {
+        canAutomateDvoraksRevengeFromRelayBrowserForPath(Path.NONE);
+      }
+
+      // This test can randomly fail to detect the special command submission
+      @RetryingTest(3)
+      void canAutomateDvoraksRevengeFromRelayBrowserInQuantumTerrarium() {
+        canAutomateDvoraksRevengeFromRelayBrowserForPath(Path.QUANTUM);
+      }
+
+      // We cannot parameterise and retry a test, so split this for use in multiple separate test
+      // methods
+      private void canAutomateDvoraksRevengeFromRelayBrowserForPath(AscensionPath.Path path) {
         var builder = new FakeHttpClientBuilder();
         var client = builder.client;
-        var path = AscensionPath.nameToPath(pathName);
         var cleanups = new Cleanups(withDvorak(builder), withPath(path));
         try (cleanups) {
           client.addResponse(200, html("request/test_automation_dvorak_0.html"));

@@ -19,6 +19,7 @@ import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.StandardRequest;
@@ -299,7 +300,25 @@ public class KoLCharacterTest {
 
     try (cleanups) {
       var fam = KoLCharacter.ownedFamiliar("mosquito");
-      assertTrue(fam.isPresent());
+      assertThat(fam.isPresent(), is(true));
+      assertThat(fam.get().getId(), is(FamiliarPool.MOSQUITO));
+    }
+  }
+
+  @Test
+  public void graftedFamiliarsArentUsableAndAreOwnedInZootomist() {
+    var cleanups =
+        new Cleanups(
+            withFamiliarInTerrarium(FamiliarPool.MOSQUITO),
+            withPath(Path.Z_IS_FOR_ZOOTOMIST),
+            withProperty("zootGraftedButtCheekLeftFamiliar", FamiliarPool.MOSQUITO));
+
+    try (cleanups) {
+      var famUsable = KoLCharacter.usableFamiliar("mosquito");
+      assertThat(famUsable, nullValue());
+      var famOwned = KoLCharacter.ownedFamiliar("mosquito");
+      assertTrue(famOwned.isPresent());
+      assertThat(famOwned.get().getId(), is(FamiliarPool.MOSQUITO));
     }
   }
 
@@ -379,6 +398,16 @@ public class KoLCharacterTest {
       try (cleanups) {
         KoLCharacter.recalculateAdjustments();
         assertThat(KoLCharacter.getStomachCapacity(), is(11));
+      }
+    }
+
+    @Test
+    void teetotalersDoFeastWithBoris() {
+      var cleanups = new Cleanups(withDay(2023, Month.APRIL, 19), withPath(Path.TEETOTALER));
+
+      try (cleanups) {
+        KoLCharacter.recalculateAdjustments();
+        assertThat(KoLCharacter.getStomachCapacity(), is(30));
       }
     }
 
@@ -632,6 +661,74 @@ public class KoLCharacterTest {
       var cleanups = new Cleanups(withProperty("_mayamRests", 5), withAdjustmentsRecalculated());
       try (cleanups) {
         assertThat(KoLCharacter.freeRestsAvailable(), is(5));
+      }
+    }
+  }
+
+  @Nested
+  class TotalPower {
+    @Test
+    void canSumPower() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(ItemPool.PASTA_SPOON),
+              withEquipped(ItemPool.BRICKO_PANTS),
+              withEquipped(ItemPool.FUTURISTIC_HAT),
+              withEquipped(ItemPool.TUNAC));
+      try (cleanups) {
+        assertThat(KoLCharacter.getTotalPower(), is(290));
+      }
+    }
+
+    @Test
+    void countsTao() {
+      var cleanups =
+          new Cleanups(
+              withSkill(SkillPool.TAO_OF_THE_TERRAPIN),
+              withEquipped(ItemPool.PASTA_SPOON),
+              withEquipped(ItemPool.BRICKO_PANTS),
+              withEquipped(ItemPool.FUTURISTIC_HAT),
+              withEquipped(ItemPool.TUNAC));
+      try (cleanups) {
+        assertThat(KoLCharacter.getTotalPower(), is(480));
+      }
+    }
+
+    @ParameterizedTest
+    @CsvSource({"false, 360", "true, 450"})
+    void countsHammertime(final boolean tao, final int expectedPower) {
+      var cleanups =
+          new Cleanups(withEquipped(ItemPool.BRICKO_PANTS), withEffect(EffectPool.HAMMERTIME));
+      if (tao) {
+        cleanups.add(withSkill(SkillPool.TAO_OF_THE_TERRAPIN));
+      }
+      try (cleanups) {
+        assertThat(KoLCharacter.getTotalPower(), is(expectedPower));
+      }
+    }
+
+    @Test
+    void countsHatTrickHats() {
+      var cleanups =
+          new Cleanups(
+              withPath(Path.HAT_TRICK),
+              withEquipped(Slot.HATS, ItemPool.BRICKO_HAT),
+              withEquipped(Slot.HATS, ItemPool.FUTURISTIC_HAT));
+      try (cleanups) {
+        assertThat(KoLCharacter.getTotalPower(), is(130));
+      }
+    }
+
+    @Test
+    void hatTrickTao() {
+      var cleanups =
+          new Cleanups(
+              withPath(Path.HAT_TRICK),
+              withSkill(SkillPool.TAO_OF_THE_TERRAPIN),
+              withEquipped(Slot.HATS, ItemPool.BRICKO_HAT),
+              withEquipped(Slot.HATS, ItemPool.FUTURISTIC_HAT));
+      try (cleanups) {
+        assertThat(KoLCharacter.getTotalPower(), is(260));
       }
     }
   }

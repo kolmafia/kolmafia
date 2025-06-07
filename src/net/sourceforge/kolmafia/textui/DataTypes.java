@@ -52,6 +52,7 @@ public class DataTypes {
     STRING,
     BUFFER,
     MATCHER,
+    RNG,
 
     ITEM,
     LOCATION,
@@ -86,6 +87,7 @@ public class DataTypes {
   public static final Type STRING_TYPE = new Type("string", TypeSpec.STRING);
   public static final Type BUFFER_TYPE = new Type("buffer", TypeSpec.BUFFER);
   public static final Type MATCHER_TYPE = new Type("matcher", TypeSpec.MATCHER);
+  public static final Type RNG_TYPE = new Type("rng", TypeSpec.RNG);
 
   public static final Type ITEM_TYPE = new Type("item", TypeSpec.ITEM);
   public static final Type LOCATION_TYPE = new Type("location", TypeSpec.LOCATION);
@@ -152,6 +154,10 @@ public class DataTypes {
   // Map from SKILL -> STRING
   public static final AggregateType SKILL_TO_STRING_TYPE =
       new AggregateType(DataTypes.STRING_TYPE, DataTypes.SKILL_TYPE);
+
+  // Map from EFFECT -> INT
+  public static final AggregateType EFFECT_TO_INT_TYPE =
+      new AggregateType(DataTypes.INT_TYPE, DataTypes.EFFECT_TYPE);
 
   public static final AggregateType REGEX_GROUP_TYPE =
       new AggregateType(
@@ -248,6 +254,7 @@ public class DataTypes {
           STRING_TYPE,
           BUFFER_TYPE,
           MATCHER_TYPE,
+          RNG_TYPE,
           AGGREGATE_TYPE);
 
   static {
@@ -316,11 +323,18 @@ public class DataTypes {
       return DataTypes.ITEM_INIT;
     }
 
+    // If this is the name of an item exactly, return it
+    // We need to do this before checking numeric to match '1' and '0'
+    int itemId = ItemDatabase.getItemId(name, 1, false);
+    if (itemId != -1) {
+      return DataTypes.makeItemValue(itemId, true);
+    }
+
     // Allow for an item number to be specified
     // inside of the "item" construct.
 
     if (StringUtilities.isNumeric(name)) {
-      int itemId = StringUtilities.parseInt(name);
+      itemId = StringUtilities.parseInt(name);
       name = ItemDatabase.getItemDataName(itemId);
 
       if (name == null) {
@@ -331,7 +345,7 @@ public class DataTypes {
     }
 
     // Otherwise, let ItemDatabase parse the name using fuzzy matching.
-    int itemId = ItemDatabase.getItemId(name);
+    itemId = ItemDatabase.getItemId(name);
 
     if (itemId == -1 && resolveAliases) {
       AdventureResult item = new AdventureResult(name, itemId, 1, false);
@@ -379,7 +393,11 @@ public class DataTypes {
   }
 
   public static final Value makeLocationValue(final KoLAdventure adventure) {
-    return new Value(DataTypes.LOCATION_TYPE, adventure.getAdventureName(), adventure);
+    return new Value(
+        DataTypes.LOCATION_TYPE,
+        adventure.getAdventureNumber(),
+        adventure.getAdventureName(),
+        adventure);
   }
 
   public static final Value parseClassValue(final String name, final boolean returnDefault) {
@@ -853,7 +871,9 @@ public class DataTypes {
   }
 
   public static final Value makeClassValue(final int id, boolean returnDefault) {
-    return makeClassValue(AscensionClass.find(id), returnDefault);
+    AscensionClass ascensionClass = AscensionClass.find(id);
+    return makeClassValue(
+        ascensionClass.equals(AscensionClass.UNKNOWN) ? null : ascensionClass, returnDefault);
   }
 
   private static Value makeNormalizedSkill(final int num, String name) {

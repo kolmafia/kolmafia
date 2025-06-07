@@ -65,7 +65,7 @@ public class DirectiveTest {
         invalid(
             "since fails for high revision",
             "since r2000000000;",
-            "'null' requires revision r2000000000 of kolmafia or higher (current: r10000).  Up-to-date builds can be found at https://ci.kolmafia.us/.",
+            "'null' requires revision r2000000000 of kolmafia or higher (current: r10000).  Up-to-date builds can be found at https://github.com/kolmafia/kolmafia/releases/.",
             "char 1 to char 18"),
         invalid("Invalid since version", "since 10;", "invalid 'since' format", "char 1 to char 9"),
         valid(

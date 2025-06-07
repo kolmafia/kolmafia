@@ -1,5 +1,8 @@
 package net.sourceforge.kolmafia.session;
 
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONException;
+import com.alibaba.fastjson2.JSONObject;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,8 +28,6 @@ import net.sourceforge.kolmafia.request.ManageStoreRequest;
 import net.sourceforge.kolmafia.swingui.StoreManageFrame;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public abstract class StoreManager {
   private static final Pattern LOGSPAN_PATTERN = Pattern.compile("<span class=small>.*?</span>");
@@ -57,6 +58,8 @@ public abstract class StoreManager {
   private static final Pattern INVENTORY_PATTERN =
       Pattern.compile(
           ".*?>([\\d,]+<).*name=\"price\\[(.*?)\\]\" value=\"(.*?)\".*name=\"limit\\[.*?\\]\" value=\"(.*?)\"");
+
+  public static final long MALL_MAX = 999999999999L;
 
   // Different formats of inventory table
 
@@ -100,9 +103,9 @@ public abstract class StoreManager {
   public static void calculatePotentialEarnings() {
     long earnings = 0;
     for (SoldItem item : StoreManager.soldItemList) {
-      int price = item.getPrice();
+      long price = item.getPrice();
       if (price < REALISTIC_PRICE_THRESHOLD) {
-        earnings += (long) item.getQuantity() * (long) price;
+        earnings += (long) item.getQuantity() * price;
       }
     }
     StoreManager.potentialEarnings = earnings;
@@ -114,7 +117,7 @@ public abstract class StoreManager {
    * and the limit which is used to sell the item.
    */
   public static final SoldItem registerItem(
-      final int itemId, final int quantity, final int price, final int limit, final int lowest) {
+      final int itemId, final int quantity, final long price, final int limit, final long lowest) {
     if (price < REALISTIC_PRICE_THRESHOLD) {
       StoreManager.potentialEarnings += (long) price * (long) quantity;
     }
@@ -148,8 +151,8 @@ public abstract class StoreManager {
    * Returns the current price of the item with the given item Id. This is useful for auto-adding at
    * the existing price.
    */
-  public static final int getPrice(final int itemId) {
-    int currentPrice = 999999999;
+  public static final long getPrice(final int itemId) {
+    long currentPrice = MALL_MAX;
     for (int i = 0; i < StoreManager.soldItemList.size(); ++i) {
       if (StoreManager.soldItemList.get(i).getItemId() == itemId) {
         currentPrice = StoreManager.soldItemList.get(i).getPrice();
@@ -214,7 +217,8 @@ public abstract class StoreManager {
     switch (type) {
       case ADDER -> {
         AdventureResult item;
-        int itemId, price, limit;
+        int itemId, limit;
+        long price;
 
         // The item matcher here examines each row in the table
         // displayed in the standard item-addition page.
@@ -236,7 +240,7 @@ public abstract class StoreManager {
 
           // Register using item ID, since the name might have changed
           item = ItemPool.get(itemId, count);
-          price = StringUtilities.parseInt(itemMatcher.group(4));
+          price = StringUtilities.parseLong(itemMatcher.group(4));
 
           // In this case, the limit could appear as
           // "unlimited", which equates to a limit of 0.
@@ -250,11 +254,12 @@ public abstract class StoreManager {
           // register the item that was discovered.
 
           newItems.add(
-              StoreManager.registerItem(item.getItemId(), item.getCount(), price, limit, 0));
+              StoreManager.registerItem(item.getItemId(), item.getCount(), price, limit, 0L));
         }
       }
       case PRICER -> {
-        int itemId, quantity, price, limit, lowest;
+        int itemId, quantity, limit;
+        long price, lowest;
 
         // The item matcher here examines each row in the table
         // displayed in the price management page.
@@ -273,9 +278,9 @@ public abstract class StoreManager {
 
           quantity = StringUtilities.parseInt(priceMatcher.group(2));
 
-          price = StringUtilities.parseInt(priceMatcher.group(3));
+          price = StringUtilities.parseLong(priceMatcher.group(3));
           limit = StringUtilities.parseInt(priceMatcher.group(5));
-          lowest = StringUtilities.parseInt(priceMatcher.group(6));
+          lowest = StringUtilities.parseLong(priceMatcher.group(6));
 
           // Now that all the data has been retrieved, register
           // the item that was discovered.
@@ -293,10 +298,10 @@ public abstract class StoreManager {
 
           int itemId = StringUtilities.parseInt(matcher.group(2));
           int count = StringUtilities.parseInt(matcher.group(1));
-          int price = StringUtilities.parseInt(matcher.group(3));
+          long price = StringUtilities.parseLong(matcher.group(3));
           int limit = StringUtilities.parseInt(matcher.group(4));
 
-          newItems.add(StoreManager.registerItem(itemId, count, price, limit, 0));
+          newItems.add(StoreManager.registerItem(itemId, count, price, limit, 0L));
         }
       }
     }
@@ -384,12 +389,16 @@ public abstract class StoreManager {
     private final int itemId;
     private final String itemName;
     private final int quantity;
-    private final int price;
+    private final long price;
     private final int limit;
-    private final int lowest;
+    private final long lowest;
 
     public SoldItem(
-        final int itemId, final int quantity, final int price, final int limit, final int lowest) {
+        final int itemId,
+        final int quantity,
+        final long price,
+        final int limit,
+        final long lowest) {
       this.itemId = itemId;
       this.itemName = ItemDatabase.getItemDataName(itemId);
       this.quantity = quantity;
@@ -416,7 +425,7 @@ public abstract class StoreManager {
       return this.quantity;
     }
 
-    public int getPrice() {
+    public long getPrice() {
       return this.price;
     }
 
@@ -424,7 +433,7 @@ public abstract class StoreManager {
       return this.limit;
     }
 
-    public int getLowest() {
+    public long getLowest() {
       return this.lowest;
     }
 
@@ -440,25 +449,25 @@ public abstract class StoreManager {
 
     @Override
     public int compareTo(final Object o) {
-      if (!(o instanceof SoldItem)) {
+      if (!(o instanceof SoldItem s)) {
         return -1;
       }
 
-      if (this.price != 999999999 && ((SoldItem) o).price == 999999999) {
+      if (this.price != MALL_MAX && s.price == MALL_MAX) {
         return -1;
       }
 
-      if (this.price == 999999999 && ((SoldItem) o).price != 999999999) {
+      if (this.price == MALL_MAX && s.price != MALL_MAX) {
         return 1;
       }
 
-      if (this.price == 999999999 && ((SoldItem) o).price == 999999999) {
-        return this.itemName.compareToIgnoreCase(((SoldItem) o).itemName);
+      if (this.price == MALL_MAX && s.price == MALL_MAX) {
+        return this.itemName.compareToIgnoreCase(s.itemName);
       }
 
       return StoreManager.sortItemsByName
-          ? this.itemName.compareToIgnoreCase(((SoldItem) o).itemName)
-          : this.price - ((SoldItem) o).price;
+          ? this.itemName.compareToIgnoreCase(s.itemName)
+          : Long.signum(this.price - s.price);
     }
 
     @Override
@@ -506,7 +515,7 @@ public abstract class StoreManager {
     StoreManager.soldItemList.toArray(sold);
 
     int[] itemId = new int[sold.length];
-    int[] prices = new int[sold.length];
+    long[] prices = new long[sold.length];
     int[] limits = new int[sold.length];
 
     // Now determine the desired prices on items.
@@ -517,9 +526,9 @@ public abstract class StoreManager {
 
       int minimumPrice =
           Math.max(100, Math.abs(ItemDatabase.getPriceById(sold[i].getItemId())) * 2);
-      int desiredPrice = Math.max(minimumPrice, sold[i].getLowest() - sold[i].getLowest() % 100);
+      long desiredPrice = Math.max(minimumPrice, sold[i].getLowest() - sold[i].getLowest() % 100);
 
-      if (sold[i].getPrice() == 999999999 && (!avoidMinPrice || desiredPrice > minimumPrice)) {
+      if (sold[i].getPrice() == MALL_MAX && (!avoidMinPrice || desiredPrice > minimumPrice)) {
         prices[i] = desiredPrice;
       } else {
         prices[i] = sold[i].getPrice();
@@ -598,7 +607,7 @@ public abstract class StoreManager {
     KoLmafia.updateDisplay("Undercutting sale complete.");
   }
 
-  public static void addItems(AdventureResult[] items, int[] prices, int[] limits) {
+  public static void addItems(AdventureResult[] items, long[] prices, int[] limits) {
     for (int i = 0; i < items.length; ++i) {
       StoreManager.addItem(items[i], prices[i], limits[i]);
     }
@@ -609,7 +618,7 @@ public abstract class StoreManager {
     Collections.sort(StoreManager.sortedSoldItemList);
   }
 
-  public static void addItem(int itemId, int quantity, int price, int limit) {
+  public static void addItem(int itemId, int quantity, long price, int limit) {
     StoreManager.addItem(ItemPool.get(itemId, quantity), price, limit);
 
     StoreManager.sortItemsByName = true;
@@ -618,7 +627,7 @@ public abstract class StoreManager {
     Collections.sort(StoreManager.sortedSoldItemList);
   }
 
-  private static void addItem(AdventureResult item, int price, int limit) {
+  private static void addItem(AdventureResult item, long price, int limit) {
     int itemId = item.getItemId();
     int quantity = item.getCount();
 
@@ -633,7 +642,7 @@ public abstract class StoreManager {
       soldItem = soldItemList.get(index);
 
       int amount = soldItem.getQuantity() + quantity;
-      int lowest = soldItem.getLowest();
+      long lowest = soldItem.getLowest();
       // The new price and limit override existing price and limit
 
       soldItem = new SoldItem(itemId, amount, price, limit, lowest);
@@ -643,7 +652,7 @@ public abstract class StoreManager {
     }
   }
 
-  public static void updateItem(int itemId, int quantity, int price, int limit) {
+  public static void updateItem(int itemId, int quantity, long price, int limit) {
     StoreManager.updateItem(ItemPool.get(itemId, quantity), price, limit);
 
     StoreManager.sortItemsByName = true;
@@ -652,7 +661,7 @@ public abstract class StoreManager {
     Collections.sort(StoreManager.sortedSoldItemList);
   }
 
-  private static void updateItem(AdventureResult item, int price, int limit) {
+  private static void updateItem(AdventureResult item, long price, int limit) {
     int itemId = item.getItemId();
     int quantity = item.getCount();
 
@@ -687,9 +696,9 @@ public abstract class StoreManager {
       return;
     }
 
-    int price = item.getPrice();
+    long price = item.getPrice();
     int limit = item.getLimit();
-    int lowest = item.getLowest();
+    long lowest = item.getLowest();
 
     item = new SoldItem(itemId, amount, price, limit, lowest);
 
@@ -708,15 +717,15 @@ public abstract class StoreManager {
 
     JSONObject json;
     try {
-      json = new JSONObject(storeText);
+      json = JSON.parseObject(storeText);
 
-      String[] itemDescs = JSONObject.getNames(json);
+      String[] itemDescs = json.keySet().toArray(new String[json.keySet().size()]);
 
       for (String itemDesc : itemDescs) {
         int itemId = ItemDatabase.getItemIdFromDescription(itemDesc);
         JSONObject item = json.getJSONObject(itemDesc);
-        int newPrice = item.getInt("price");
-        int newLimit = item.getInt("lim");
+        int newPrice = item.getIntValue("price");
+        int newLimit = item.getIntValue("lim");
 
         StoreManager.SoldItem soldItem = new StoreManager.SoldItem(itemId, 0, 0, 0, 0);
         int index = StoreManager.soldItemList.indexOf(soldItem);
@@ -729,7 +738,7 @@ public abstract class StoreManager {
 
         soldItem = soldItemList.get(index);
         int quantity = soldItem.getQuantity();
-        int lowest = Math.min(soldItem.getLowest(), newPrice);
+        long lowest = Math.min(soldItem.getLowest(), newPrice);
         soldItem = new StoreManager.SoldItem(itemId, quantity, newPrice, newLimit, lowest);
         StoreManager.soldItemList.set(index, soldItem);
         StoreManager.sortedSoldItemList.set(sortedIndex, soldItem);

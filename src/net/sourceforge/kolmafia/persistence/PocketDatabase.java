@@ -22,6 +22,7 @@ import net.sourceforge.kolmafia.request.CargoCultistShortsRequest;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
+@SuppressWarnings("incomplete-switch")
 public class PocketDatabase {
   private PocketDatabase() {}
 

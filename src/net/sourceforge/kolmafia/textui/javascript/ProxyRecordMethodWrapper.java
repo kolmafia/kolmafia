@@ -7,6 +7,7 @@ import net.sourceforge.kolmafia.textui.parsetree.ProxyRecordValue;
 import net.sourceforge.kolmafia.textui.parsetree.Value;
 import org.mozilla.javascript.BaseFunction;
 import org.mozilla.javascript.Context;
+import org.mozilla.javascript.EvaluatorException;
 import org.mozilla.javascript.NativeJavaObject;
 import org.mozilla.javascript.Scriptable;
 
@@ -32,8 +33,12 @@ public class ProxyRecordMethodWrapper extends BaseFunction {
       // if the method returns a non-proxy Ash value (like Effect.all or Monster.attackElements),
       // we need to convert it to a java object first
       if (returnValue instanceof Value) {
-        ValueConverter coercer = new ValueConverter(cx, scope);
-        returnValue = coercer.asJava((Value) returnValue);
+        ScriptableValueConverter coercer = new ScriptableValueConverter(cx, scope);
+        try {
+          returnValue = coercer.asJava((Value) returnValue);
+        } catch (ValueConverter.ValueConverterException e) {
+          throw new EvaluatorException(e.getMessage());
+        }
       }
 
       if (returnValue instanceof Value

@@ -78,6 +78,8 @@ public class ChateauRequest extends PlaceRequest {
     Matcher paintingMatcher = ChateauRequest.PAINTING_PATTERN.matcher(responseText);
     if (paintingMatcher.find()) {
       Preferences.setString("chateauMonster", paintingMatcher.group(1));
+    } else if (responseText.contains("No Painting")) {
+      Preferences.setString("chateauMonster", "");
     }
 
     // nightstand

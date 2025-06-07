@@ -1,7 +1,8 @@
 package net.sourceforge.kolmafia.request;
 
+import com.alibaba.fastjson2.JSONException;
+import com.alibaba.fastjson2.JSONObject;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.sourceforge.kolmafia.AdventureResult;
@@ -28,9 +29,8 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
-import org.json.JSONException;
-import org.json.JSONObject;
 
+@SuppressWarnings("incomplete-switch")
 public class SpelunkyRequest extends GenericRequest {
   private static final Pattern MUSCLE_PATTERN =
       Pattern.compile("Mus:</td><td>(?:<font color=blue>|)<b>(\\d+)(?:</font> \\((\\d+)\\)|)</b>");
@@ -369,14 +369,12 @@ public class SpelunkyRequest extends GenericRequest {
     KoLCharacter.updateStatus();
   }
 
-  public static void parseStatus(final JSONObject JSON) throws JSONException {
+  public static void parseStatus(final JSONObject json) throws JSONException {
     // api.php is not a complete replacement for charpane.php in
     // Spelunky, but parse equipment, at least.
 
-    JSONObject equip = JSON.getJSONObject("equipment");
-    Iterator<String> keys = equip.keys();
-    while (keys.hasNext()) {
-      String slotName = keys.next();
+    JSONObject equip = json.getJSONObject("equipment");
+    for (String slotName : equip.keySet()) {
       if (slotName.equals("fakehands")) {
         continue;
       }
@@ -386,7 +384,7 @@ public class SpelunkyRequest extends GenericRequest {
         continue;
       }
 
-      int itemId = equip.getInt(slotName);
+      int itemId = equip.getIntValue(slotName);
       AdventureResult item = EquipmentManager.equippedItem(itemId);
 
       switch (slot) {

@@ -62,6 +62,7 @@ public class JsRefCommand extends AbstractCommand {
       case "int", "float" -> "number";
       case "buffer", "strict_string" -> "string";
       case "aggregate" -> "any";
+      case "rng" -> "Rng";
       default -> type.toString();
     };
   }

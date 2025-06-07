@@ -7,22 +7,29 @@ import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
+import static internal.helpers.Player.withZonelessCoinmaster;
 import static internal.helpers.Player.withoutCoinmasterBuyItem;
 import static internal.helpers.Player.withoutCoinmasterSellItem;
+import static internal.helpers.Player.withoutSkill;
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
 import internal.helpers.SessionLoggerOutput;
 import internal.network.FakeHttpClientBuilder;
+import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionPath.Path;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.preferences.Preferences;
+import net.sourceforge.kolmafia.request.coinmaster.shop.Crimbo23ElfArmoryRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.GeneticFiddlingRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
+import net.sourceforge.kolmafia.shop.ShopRow;
+import net.sourceforge.kolmafia.shop.ShopRowDatabase;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -97,6 +104,7 @@ public class CoinMasterRequestTest {
               withHttpClientBuilder(builder),
               withPath(Path.STANDARD),
               withDisabledCoinmaster(Crimbo23ElfArmoryRequest.DATA),
+              withZonelessCoinmaster(Crimbo23ElfArmoryRequest.DATA),
               withProperty("crimbo23ArmoryControl", "elf"));
       try (cleanups) {
         client.addResponse(200, html("request/test_armory_elf_visit.html"));
@@ -105,21 +113,25 @@ public class CoinMasterRequestTest {
         visit.run();
 
         var text = SessionLoggerOutput.stopStream();
-        assertTrue(
-            text.contains(
-                "Elf Guard Armory\tunknown\tElf Army machine parts (3)\tElf Guard commandeering gloves\tROW1412"));
-        assertTrue(
-            text.contains(
-                "Elf Guard Armory\tunknown\tElf Army machine parts (3)\tElf Guard officer's sidearm\tROW1413"));
-        assertTrue(
-            text.contains(
-                "Elf Guard Armory\tunknown\tElf Army machine parts (3)\tKelflar vest\tROW1415"));
-        assertTrue(
-            text.contains(
-                "Elf Guard Armory\tunknown\tElf Army machine parts (3)\tElf Guard mouthknife\tROW1416"));
-        assertTrue(
-            text.contains(
-                "Elf Guard Armory\tunknown\tElf Guard honor present\tElf Army machine parts (200)\tROW1411"));
+
+        var expected =
+            """
+    Visiting Elf Guard Armory
+    --------------------
+    1411	crimbo23_elf_armory	Elf Guard honor present	Elf Army machine parts (200)
+    1412	crimbo23_elf_armory	Elf Army machine parts (3)	Elf Guard commandeering gloves
+    1413	crimbo23_elf_armory	Elf Army machine parts (3)	Elf Guard officer's sidearm
+    1415	crimbo23_elf_armory	Elf Army machine parts (3)	Kelflar vest
+    1416	crimbo23_elf_armory	Elf Army machine parts (3)	Elf Guard mouthknife
+    --------------------
+    Elf Guard Armory	ROW1412	Elf Army machine parts (3)	Elf Guard commandeering gloves
+    Elf Guard Armory	ROW1415	Elf Army machine parts (3)	Kelflar vest
+    Elf Guard Armory	ROW1416	Elf Army machine parts (3)	Elf Guard mouthknife
+    Elf Guard Armory	ROW1413	Elf Army machine parts (3)	Elf Guard officer's sidearm
+    Elf Guard Armory	ROW1411	Elf Guard honor present	Elf Army machine parts (200)
+    --------------------""";
+
+        assertThat(text, containsString(expected));
 
         var requests = client.getRequests();
         assertThat(requests, hasSize(1));
@@ -141,6 +153,7 @@ public class CoinMasterRequestTest {
                   Crimbo23ElfArmoryRequest.DATA, ItemPool.get(ItemPool.KELFLAR_VEST)),
               withoutCoinmasterBuyItem(
                   Crimbo23ElfArmoryRequest.DATA, ItemPool.get(ItemPool.ELF_GUARD_HONOR_PRESENT)),
+              withZonelessCoinmaster(Crimbo23ElfArmoryRequest.DATA),
               withProperty("crimbo23ArmoryControl", "elf"));
       try (cleanups) {
         client.addResponse(200, html("request/test_armory_elf_visit.html"));
@@ -149,13 +162,20 @@ public class CoinMasterRequestTest {
         visit.run();
 
         var text = SessionLoggerOutput.stopStream();
-        assertFalse(
-            text.contains("Elf Guard Armory\tsell\t3\tElf Guard commandeering gloves\tROW1412"));
-        assertFalse(
-            text.contains("Elf Guard Armory\tsell\t3\tElf Guard officer's sidearm\tROW1413"));
-        assertTrue(text.contains("Elf Guard Armory\tsell\t3\tKelflar vest\tROW1415"));
-        assertFalse(text.contains("Elf Guard Armory\tsell\t3\tElf Guard mouthknife\tROW1416"));
-        assertTrue(text.contains("Elf Guard Armory\tbuy\t200\tElf Guard honor present\tROW1411"));
+
+        var expected =
+            """
+    Visiting Elf Guard Armory
+    --------------------
+    1411	crimbo23_elf_armory	Elf Guard honor present	Elf Army machine parts (200)
+    1415	crimbo23_elf_armory	Elf Army machine parts (3)	Kelflar vest
+    --------------------
+    Elf Guard Armory	buy	200	Elf Guard honor present	ROW1411
+    --------------------
+    Elf Guard Armory	sell	3	Kelflar vest	ROW1415
+    --------------------""";
+
+        assertThat(text, containsString(expected));
 
         var requests = client.getRequests();
         assertThat(requests, hasSize(1));
@@ -175,7 +195,7 @@ public class CoinMasterRequestTest {
     // use the same action - "buyitem" - for both cases.
     //
     // Perhaps KoL sees them both as buying - you can buy currency or
-    // another item - but KoLmafia can't model it that way.
+    // another item - but KoLmafia can't currently model it that way.
     //
     // For example here are the items available in the Elf Guard Armory:
     //
@@ -195,6 +215,7 @@ public class CoinMasterRequestTest {
           new Cleanups(
               withHttpClientBuilder(builder),
               withPath(Path.STANDARD),
+              withZonelessCoinmaster(Crimbo23ElfArmoryRequest.DATA),
               withProperty("crimbo23ArmoryControl", "elf"),
               withItem(ItemPool.ELF_GUARD_COMMANDEERING_GLOVES, 14),
               withItem(ItemPool.KELFLAR_VEST, 25),
@@ -204,17 +225,18 @@ public class CoinMasterRequestTest {
       try (cleanups) {
         client.addResponse(200, html("request/test_armory_elf_visit.html"));
 
-        var visit = new Crimbo23ElfArmoryRequest();
+        var visit = Crimbo23ElfArmoryRequest.DATA.getRequest();
         visit.run();
 
         var text = SessionLoggerOutput.stopStream();
-        assertFalse(
-            text.contains("Elf Guard Armory\tsell\t3\tElf Guard commandeering gloves\tROW1412"));
-        assertFalse(
-            text.contains("Elf Guard Armory\tsell\t3\tElf Guard officer's sidearm\tROW1413"));
-        assertFalse(text.contains("Elf Guard Armory\tsell\t3\tKelflar vest\tROW1415"));
-        assertFalse(text.contains("Elf Guard Armory\tsell\t3\tElf Guard mouthknife\tROW1416"));
-        assertFalse(text.contains("Elf Guard Armory\tbuy\t200\tElf Guard honor present\tROW1411"));
+
+        var expected = """
+    Created an empty checkpoint.
+
+    Visiting Elf Guard Armory""";
+
+        assertThat(text, containsString(expected));
+
         var requests = client.getRequests();
         assertThat(requests, hasSize(1));
         assertPostRequest(requests.get(0), "/shop.php", "whichshop=crimbo23_elf_armory");
@@ -231,6 +253,7 @@ public class CoinMasterRequestTest {
           new Cleanups(
               withHttpClientBuilder(builder),
               withPath(Path.STANDARD),
+              withZonelessCoinmaster(Crimbo23ElfArmoryRequest.DATA),
               withProperty("crimbo23ArmoryControl", "elf"),
               withItem(ItemPool.ELF_GUARD_COMMANDEERING_GLOVES, 14),
               withItem(ItemPool.KELFLAR_VEST, 25),
@@ -244,13 +267,10 @@ public class CoinMasterRequestTest {
         visit.run();
 
         var text = SessionLoggerOutput.stopStream();
-        assertFalse(
-            text.contains("Elf Guard Armory\tsell\t3\tElf Guard commandeering gloves\tROW1412"));
-        assertFalse(
-            text.contains("Elf Guard Armory\tsell\t3\tElf Guard officer's sidearm\tROW1413"));
-        assertFalse(text.contains("Elf Guard Armory\tsell\t3\tKelflar vest\tROW1415"));
-        assertFalse(text.contains("Elf Guard Armory\tsell\t3\tElf Guard mouthknife\tROW1416"));
-        assertFalse(text.contains("Elf Guard Armory\tbuy\t200\tElf Guard honor present\tROW1411"));
+        var expected = """
+    Visiting Elf Guard Armory""";
+
+        assertThat(text, containsString(expected));
 
         var requests = client.getRequests();
         assertThat(requests, hasSize(1));
@@ -268,6 +288,7 @@ public class CoinMasterRequestTest {
           new Cleanups(
               withHttpClientBuilder(builder),
               withPath(Path.STANDARD),
+              withZonelessCoinmaster(Crimbo23ElfArmoryRequest.DATA),
               withProperty("crimbo23ArmoryControl", "elf"),
               withItem(ItemPool.ELF_GUARD_HONOR_PRESENT, 0),
               withItem(ItemPool.ELF_ARMY_MACHINE_PARTS, 277));
@@ -276,20 +297,20 @@ public class CoinMasterRequestTest {
         client.addResponse(200, "");
 
         var buy =
-            new Crimbo23ElfArmoryRequest(true, ItemPool.get(ItemPool.ELF_GUARD_HONOR_PRESENT, 1));
+            Crimbo23ElfArmoryRequest.DATA.getRequest(
+                true, new AdventureResult[] {ItemPool.get(ItemPool.ELF_GUARD_HONOR_PRESENT, 1)});
         buy.run();
 
         var text = SessionLoggerOutput.stopStream();
-        assertTrue(
-            text.contains(
-                "trading 200 piles of Elf Army machine parts for 1 Elf Guard honor present"));
-        assertFalse(
-            text.contains("Elf Guard Armory\tsell\t3\tElf Guard commandeering gloves\tROW1412"));
-        assertFalse(
-            text.contains("Elf Guard Armory\tsell\t3\tElf Guard officer's sidearm\tROW1413"));
-        assertFalse(text.contains("Elf Guard Armory\tsell\t3\tKelflar vest\tROW1415"));
-        assertFalse(text.contains("Elf Guard Armory\tsell\t3\tElf Guard mouthknife\tROW1416"));
-        assertFalse(text.contains("Elf Guard Armory\tbuy\t200\tElf Guard honor present\tROW1411"));
+
+        var expected =
+            """
+    Created an empty checkpoint.
+
+    Trade 200 piles of Elf Army machine parts for 1 Elf Guard honor present
+    You acquire an item: Elf Guard honor present""";
+
+        assertThat(text, containsString(expected));
 
         assertEquals(1, InventoryManager.getCount(ItemPool.ELF_GUARD_HONOR_PRESENT));
         assertEquals(77, InventoryManager.getCount(ItemPool.ELF_ARMY_MACHINE_PARTS));
@@ -299,7 +320,7 @@ public class CoinMasterRequestTest {
         assertPostRequest(
             requests.get(0),
             "/shop.php",
-            "whichshop=crimbo23_elf_armory&action=buyitem&quantity=1&whichrow=1411");
+            "whichshop=crimbo23_elf_armory&action=buyitem&ajax=1&quantity=1&whichrow=1411");
         assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
       }
     }
@@ -314,6 +335,7 @@ public class CoinMasterRequestTest {
           new Cleanups(
               withHttpClientBuilder(builder),
               withPath(Path.STANDARD),
+              withZonelessCoinmaster(Crimbo23ElfArmoryRequest.DATA),
               withProperty("crimbo23ArmoryControl", "elf"),
               withItem(ItemPool.ELF_GUARD_HONOR_PRESENT, 0),
               withItem(ItemPool.ELF_ARMY_MACHINE_PARTS, 277));
@@ -327,16 +349,13 @@ public class CoinMasterRequestTest {
         buy.run();
 
         var text = SessionLoggerOutput.stopStream();
-        assertTrue(
-            text.contains(
-                "trading 200 piles of Elf Army machine parts for 1 Elf Guard honor present"));
-        assertFalse(
-            text.contains("Elf Guard Armory\tsell\t3\tElf Guard commandeering gloves\tROW1412"));
-        assertFalse(
-            text.contains("Elf Guard Armory\tsell\t3\tElf Guard officer's sidearm\tROW1413"));
-        assertFalse(text.contains("Elf Guard Armory\tsell\t3\tKelflar vest\tROW1415"));
-        assertFalse(text.contains("Elf Guard Armory\tsell\t3\tElf Guard mouthknife\tROW1416"));
-        assertFalse(text.contains("Elf Guard Armory\tbuy\t200\tElf Guard honor present\tROW1411"));
+
+        var expected =
+            """
+    Trade 200 piles of Elf Army machine parts for 1 Elf Guard honor present
+    You acquire an item: Elf Guard honor present""";
+
+        assertThat(text, containsString(expected));
 
         assertEquals(1, InventoryManager.getCount(ItemPool.ELF_GUARD_HONOR_PRESENT));
         assertEquals(77, InventoryManager.getCount(ItemPool.ELF_ARMY_MACHINE_PARTS));
@@ -361,6 +380,7 @@ public class CoinMasterRequestTest {
           new Cleanups(
               withHttpClientBuilder(builder),
               withPath(Path.STANDARD),
+              withZonelessCoinmaster(Crimbo23ElfArmoryRequest.DATA),
               withProperty("crimbo23ArmoryControl", "elf"),
               withItem(ItemPool.ELF_GUARD_COMMANDEERING_GLOVES, 14),
               withItem(ItemPool.ELF_ARMY_MACHINE_PARTS, 49));
@@ -369,21 +389,21 @@ public class CoinMasterRequestTest {
         client.addResponse(200, "");
 
         var buy =
-            new Crimbo23ElfArmoryRequest(
-                false, ItemPool.get(ItemPool.ELF_GUARD_COMMANDEERING_GLOVES, 13));
+            Crimbo23ElfArmoryRequest.DATA.getRequest(
+                false,
+                new AdventureResult[] {ItemPool.get(ItemPool.ELF_GUARD_COMMANDEERING_GLOVES, 13)});
         buy.run();
 
         var text = SessionLoggerOutput.stopStream();
-        assertTrue(
-            text.contains(
-                "trading 13 pairs of Elf Guard commandeering gloves for 39 piles of Elf Army machine parts"));
-        assertFalse(
-            text.contains("Elf Guard Armory\tsell\t3\tElf Guard commandeering gloves\tROW1412"));
-        assertFalse(
-            text.contains("Elf Guard Armory\tsell\t3\tElf Guard officer's sidearm\tROW1413"));
-        assertFalse(text.contains("Elf Guard Armory\tsell\t3\tKelflar vest\tROW1415"));
-        assertFalse(text.contains("Elf Guard Armory\tsell\t3\tElf Guard mouthknife\tROW1416"));
-        assertFalse(text.contains("Elf Guard Armory\tbuy\t200\tElf Guard honor present\tROW1411"));
+
+        var expected =
+            """
+    Created an empty checkpoint.
+
+    Trade 13 pairs of Elf Guard commandeering gloves for 39 piles of Elf Army machine parts
+    You acquire Elf Army machine parts (39)""";
+
+        assertThat(text, containsString(expected));
 
         assertEquals(1, InventoryManager.getCount(ItemPool.ELF_GUARD_COMMANDEERING_GLOVES));
         assertEquals(88, InventoryManager.getCount(ItemPool.ELF_ARMY_MACHINE_PARTS));
@@ -393,7 +413,7 @@ public class CoinMasterRequestTest {
         assertPostRequest(
             requests.get(0),
             "/shop.php",
-            "whichshop=crimbo23_elf_armory&action=buyitem&quantity=13&whichrow=1412");
+            "whichshop=crimbo23_elf_armory&action=buyitem&ajax=1&quantity=13&whichrow=1412");
         assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
       }
     }
@@ -408,6 +428,7 @@ public class CoinMasterRequestTest {
           new Cleanups(
               withHttpClientBuilder(builder),
               withPath(Path.STANDARD),
+              withZonelessCoinmaster(Crimbo23ElfArmoryRequest.DATA),
               withProperty("crimbo23ArmoryControl", "elf"),
               withItem(ItemPool.ELF_GUARD_COMMANDEERING_GLOVES, 14),
               withItem(ItemPool.ELF_ARMY_MACHINE_PARTS, 49));
@@ -421,16 +442,13 @@ public class CoinMasterRequestTest {
         buy.run();
 
         var text = SessionLoggerOutput.stopStream();
-        assertTrue(
-            text.contains(
-                "trading 13 pairs of Elf Guard commandeering gloves for 39 piles of Elf Army machine parts"));
-        assertFalse(
-            text.contains("Elf Guard Armory\tsell\t3\tElf Guard commandeering gloves\tROW1412"));
-        assertFalse(
-            text.contains("Elf Guard Armory\tsell\t3\tElf Guard officer's sidearm\tROW1413"));
-        assertFalse(text.contains("Elf Guard Armory\tsell\t3\tKelflar vest\tROW1415"));
-        assertFalse(text.contains("Elf Guard Armory\tsell\t3\tElf Guard mouthknife\tROW1416"));
-        assertFalse(text.contains("Elf Guard Armory\tbuy\t200\tElf Guard honor present\tROW1411"));
+
+        var expected =
+            """
+    Trade 13 pairs of Elf Guard commandeering gloves for 39 piles of Elf Army machine parts
+    You acquire Elf Army machine parts (39)""";
+
+        assertThat(text, containsString(expected));
 
         assertEquals(1, InventoryManager.getCount(ItemPool.ELF_GUARD_COMMANDEERING_GLOVES));
         assertEquals(88, InventoryManager.getCount(ItemPool.ELF_ARMY_MACHINE_PARTS));
@@ -441,6 +459,131 @@ public class CoinMasterRequestTest {
             requests.get(0),
             "/shop.php",
             "whichshop=crimbo23_elf_armory&action=buyitem&quantity=13&whichrow=1412");
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+      }
+    }
+  }
+
+  @Nested
+  class SkillCoinmasters {
+    @Test
+    void canVisitGeneticFiddlingUsingCoinMasterRequest() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      SessionLoggerOutput.startStream();
+
+      var cleanups = new Cleanups(withHttpClientBuilder(builder), withPath(Path.NUCLEAR_AUTUMN));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_shop_mutate_visit.html"));
+
+        var visit = GeneticFiddlingRequest.DATA.getRequest();
+        visit.run();
+
+        var text = SessionLoggerOutput.stopStream();
+        assertTrue(text.contains("Visiting Genetic Fiddling"));
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(1));
+        assertPostRequest(requests.get(0), "/shop.php", "whichshop=mutate");
+      }
+    }
+
+    @Test
+    void canVisitGeneticFiddlingUsingGenericRequest() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      SessionLoggerOutput.startStream();
+
+      var cleanups = new Cleanups(withHttpClientBuilder(builder), withPath(Path.NUCLEAR_AUTUMN));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_shop_mutate_visit.html"));
+
+        var visit = new GenericRequest("shop.php?whichshop=mutate");
+        visit.run();
+
+        var text = SessionLoggerOutput.stopStream();
+        assertTrue(text.contains("Visiting Genetic Fiddling"));
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(1));
+        assertPostRequest(requests.get(0), "/shop.php", "whichshop=mutate");
+      }
+    }
+
+    @Test
+    void canBuyFromGeneticFiddlingUsingCoinMasterRequest() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      SessionLoggerOutput.startStream();
+
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withPath(Path.NUCLEAR_AUTUMN),
+              withItem(ItemPool.RAD, 120),
+              withoutSkill("Extra Muscles"));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_shop_mutate_bought_skill.html"));
+        client.addResponse(200, "");
+
+        int row = 861;
+        ShopRow shopRow = ShopRowDatabase.getShopRow(row);
+
+        var buy = GeneticFiddlingRequest.DATA.getRequest(shopRow, 1);
+        buy.run();
+
+        var text = SessionLoggerOutput.stopStream();
+        assertTrue(text.contains("Trade 90 rads to learn Extra Muscles"));
+        assertTrue(text.contains("You learned a new skill: Extra Muscles"));
+
+        assertEquals(30, InventoryManager.getCount(ItemPool.RAD));
+        assertTrue(KoLCharacter.hasSkill("Extra Muscles"));
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(2));
+        assertPostRequest(
+            requests.get(0),
+            "/shop.php",
+            "whichshop=mutate&action=buyitem&whichrow=861&quantity=1");
+        assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
+      }
+    }
+
+    @Test
+    void canBuyFromGeneticFiddlingUsingGenericRequest() {
+      var builder = new FakeHttpClientBuilder();
+      var client = builder.client;
+      SessionLoggerOutput.startStream();
+
+      var cleanups =
+          new Cleanups(
+              withHttpClientBuilder(builder),
+              withPath(Path.NUCLEAR_AUTUMN),
+              withItem(ItemPool.RAD, 120),
+              withoutSkill("Extra Muscles"));
+      try (cleanups) {
+        client.addResponse(200, html("request/test_shop_mutate_bought_skill.html"));
+        client.addResponse(200, "");
+
+        assertEquals(120, InventoryManager.getCount(ItemPool.RAD));
+
+        var buy =
+            new GenericRequest("shop.php?whichshop=mutate&action=buyitem&quantity=1&whichrow=861");
+        buy.run();
+
+        var text = SessionLoggerOutput.stopStream();
+        assertTrue(text.contains("Trade 90 rads to learn Extra Muscles"));
+        assertTrue(text.contains("You learned a new skill: Extra Muscles"));
+
+        assertEquals(30, InventoryManager.getCount(ItemPool.RAD));
+        assertTrue(KoLCharacter.hasSkill("Extra Muscles"));
+
+        var requests = client.getRequests();
+        assertThat(requests, hasSize(2));
+        assertPostRequest(
+            requests.get(0),
+            "/shop.php",
+            "whichshop=mutate&action=buyitem&quantity=1&whichrow=861");
         assertPostRequest(requests.get(1), "/api.php", "what=status&for=KoLmafia");
       }
     }

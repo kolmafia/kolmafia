@@ -16,6 +16,7 @@ import net.sourceforge.kolmafia.request.AscensionHistoryRequest.AscensionDataFie
 import net.sourceforge.kolmafia.session.ClanManager;
 import net.sourceforge.kolmafia.session.ContactManager;
 
+@SuppressWarnings("incomplete-switch")
 public class AscensionSnapshot {
   public enum AscensionFilter {
     UNKNOWN_TYPE,

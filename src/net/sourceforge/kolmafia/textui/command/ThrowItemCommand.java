@@ -4,17 +4,28 @@ import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
+import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase.Attribute;
 import net.sourceforge.kolmafia.persistence.ItemFinder;
 import net.sourceforge.kolmafia.persistence.ItemFinder.Match;
 import net.sourceforge.kolmafia.request.CurseRequest;
+import net.sourceforge.kolmafia.request.ForeseeRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 
 public class ThrowItemCommand extends AbstractCommand {
   public ThrowItemCommand() {
     this.usage =
         "[?] <item> at <player> [ || <message part 1> | <message part 2> ... ] - use item on someone else";
+  }
+
+  private static boolean isDailyLimited(final AdventureResult item) {
+    if (UseItemRequest.maximumUses(item.getItemId()) < 1) {
+      KoLmafia.updateDisplay(
+          MafiaState.ERROR, "You cannot throw any more " + item.getPluralName(2) + " today.");
+      return true;
+    }
+    return false;
   }
 
   @Override
@@ -25,7 +36,9 @@ public class ThrowItemCommand extends AbstractCommand {
       msg = parameters.substring(splitPos + 2).trim();
       parameters = parameters.substring(0, splitPos).trim();
     }
+
     splitPos = parameters.indexOf(" at ");
+
     if (splitPos == -1) {
       KoLmafia.updateDisplay(MafiaState.ERROR, "No <s>victim</s>recipient specified.");
       return;
@@ -33,18 +46,22 @@ public class ThrowItemCommand extends AbstractCommand {
     String target = parameters.substring(splitPos + 4).trim();
     parameters = parameters.substring(0, splitPos).trim();
     AdventureResult item = ItemFinder.getFirstMatchingItem(parameters, Match.ANY);
-    if (item != null) {
-      if (!ItemDatabase.getAttribute(item.getItemId(), Attribute.CURSE)) {
-        KoLmafia.updateDisplay(
-            MafiaState.ERROR, "The " + item.getName() + " is not properly balanced for throwing.");
-        return;
-      }
-      if (UseItemRequest.maximumUses(item.getItemId()) < 1) {
-        KoLmafia.updateDisplay(
-            MafiaState.ERROR, "You cannot throw any more " + item.getPluralName(2) + " today.");
-        return;
-      }
-      RequestThread.postRequest(new CurseRequest(item, target, msg));
+
+    if (item == null) return;
+
+    if (!ItemDatabase.getAttribute(item.getItemId(), Attribute.CURSE)) {
+      KoLmafia.updateDisplay(
+          MafiaState.ERROR, "The " + item.getName() + " is not properly balanced for throwing.");
+      return;
     }
+
+    if (isDailyLimited(item)) return;
+
+    if (item.getItemId() == ItemPool.PERIDOT_OF_PERIL) {
+      ForeseeRequest.throwAt(target);
+      return;
+    }
+
+    RequestThread.postRequest(new CurseRequest(item, target, msg));
   }
 }

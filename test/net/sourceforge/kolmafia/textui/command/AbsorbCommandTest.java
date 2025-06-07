@@ -5,6 +5,7 @@ import static internal.helpers.Networking.html;
 import static internal.helpers.Player.withConcoctionRefresh;
 import static internal.helpers.Player.withHttpClientBuilder;
 import static internal.helpers.Player.withItem;
+import static internal.helpers.Player.withLevel;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withRange;
 import static internal.helpers.Player.withUsedAbsorbs;
@@ -112,6 +113,7 @@ public class AbsorbCommandTest extends AbstractCommandTestBase {
             withPath(Path.GELATINOUS_NOOB),
             withHttpClientBuilder(builder),
             withItem("A Light that Never Goes Out", 15),
+            withLevel(15),
             withUsedAbsorbs(0));
     try (cleanups) {
       for (int i = 0; i < 15; i++) {

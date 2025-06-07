@@ -1,5 +1,7 @@
 package net.sourceforge.kolmafia.request;
 
+import com.alibaba.fastjson2.JSONException;
+import com.alibaba.fastjson2.JSONObject;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -27,8 +29,6 @@ import net.sourceforge.kolmafia.utilities.HTMLParserUtils;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 import org.htmlcleaner.DomSerializer;
 import org.htmlcleaner.HtmlCleaner;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -109,12 +109,12 @@ public class CharSheetRequest extends GenericRequest {
       pos++;
     }
 
-    int currentHP = StringUtilities.parseInt(tokens[++pos]);
+    long currentHP = StringUtilities.parseLong(tokens[++pos]);
     while (!tokens[pos].startsWith("Maximum")) {
       pos++;
     }
 
-    int maximumHP = StringUtilities.parseInt(tokens[++pos]);
+    long maximumHP = StringUtilities.parseLong(tokens[++pos]);
     KoLCharacter.setHP(
         currentHP, maximumHP, CharSheetRequest.retrieveBase(tokens[++pos], maximumHP));
 
@@ -141,12 +141,12 @@ public class CharSheetRequest extends GenericRequest {
           pos++;
         }
 
-        int currentMP = StringUtilities.parseInt(tokens[++pos]);
+        long currentMP = StringUtilities.parseLong(tokens[++pos]);
         while (!tokens[pos].startsWith("Maximum")) {
           pos++;
         }
 
-        int maximumMP = StringUtilities.parseInt(tokens[++pos]);
+        long maximumMP = StringUtilities.parseLong(tokens[++pos]);
         KoLCharacter.setMP(
             currentMP, maximumMP, CharSheetRequest.retrieveBase(tokens[++pos], maximumMP));
         break;
@@ -212,7 +212,7 @@ public class CharSheetRequest extends GenericRequest {
     while (!tokens[pos].startsWith("Meat")) {
       pos++;
     }
-    KoLCharacter.setAvailableMeat(StringUtilities.parseInt(tokens[++pos]));
+    KoLCharacter.setAvailableMeat(StringUtilities.parseLong(tokens[++pos]));
 
     // Determine the player's ascension count, if any.
     // This is seen by whether or not the word "Ascensions"
@@ -378,12 +378,13 @@ public class CharSheetRequest extends GenericRequest {
     }
 
     stats[0] = StringUtilities.parseInt(tokens[++pos]);
-    int base = CharSheetRequest.retrieveBase(tokens[++pos], (int) stats[0]);
+    int base = (int) CharSheetRequest.retrieveBase(tokens[++pos], (int) stats[0]);
 
     int subPoints = 0;
 
-    // Grey Goo class does not have stat subpoints
-    if (KoLCharacter.getAscensionClass() != AscensionClass.GREY_GOO) {
+    // Grey Goo / Zootomist classes do not have stat subpoints
+    var cls = KoLCharacter.getAscensionClass();
+    if (cls != AscensionClass.GREY_GOO && cls != AscensionClass.ZOOTOMIST) {
       while (!tokens[pos].startsWith("(")) {
         pos++;
       }
@@ -411,9 +412,9 @@ public class CharSheetRequest extends GenericRequest {
    * @param defaultBase The value to return, if no base value is found
    * @return The parsed base value, or the default value if no base value is found
    */
-  private static int retrieveBase(final String token, final int defaultBase) {
+  private static long retrieveBase(final String token, final long defaultBase) {
     Matcher baseMatcher = CharSheetRequest.BASE_PATTERN.matcher(token);
-    return baseMatcher.find() ? StringUtilities.parseInt(baseMatcher.group(1)) : defaultBase;
+    return baseMatcher.find() ? StringUtilities.parseLong(baseMatcher.group(1)) : defaultBase;
   }
 
   /**
@@ -701,29 +702,31 @@ public class CharSheetRequest extends GenericRequest {
     }
   }
 
-  public static void parseStatus(final JSONObject JSON) throws JSONException {
-    int muscle = JSON.getInt("muscle");
-    int mysticality = JSON.getInt("mysticality");
-    int moxie = JSON.getInt("moxie");
+  public static void parseStatus(final JSONObject json) throws JSONException {
+    int muscle = json.getIntValue("muscle");
+    int mysticality = json.getIntValue("mysticality");
+    int moxie = json.getIntValue("moxie");
     long rawmuscle;
     long rawmysticality;
     long rawmoxie;
-    if (KoLCharacter.inGreyYou()) {
-      // Raw values are more precise, but they don't exist in Grey You
-      long basemuscle = JSON.getLong("basemuscle");
+    if (KoLCharacter.inGreyYou() || KoLCharacter.inZootomist()) {
+      // Raw values are more precise, but they don't exist in Grey You and are wrong in Zooto
+      long basemuscle = json.getLong("basemuscle");
       rawmuscle = basemuscle * basemuscle;
 
-      long basemysticality = JSON.getLong("basemysticality");
+      long basemysticality = json.getLong("basemysticality");
       rawmysticality = basemysticality * basemysticality;
 
-      long basemoxie = JSON.getLong("basemoxie");
+      long basemoxie = json.getLong("basemoxie");
       rawmoxie = basemoxie * basemoxie;
     } else {
-      rawmuscle = JSON.getLong("rawmuscle");
-      rawmysticality = JSON.getLong("rawmysticality");
-      rawmoxie = JSON.getLong("rawmoxie");
+      rawmuscle = json.getLong("rawmuscle");
+      rawmysticality = json.getLong("rawmysticality");
+      rawmoxie = json.getLong("rawmoxie");
     }
 
     KoLCharacter.setStatPoints(muscle, rawmuscle, mysticality, rawmysticality, moxie, rawmoxie);
+    int level = json.getIntValue("level");
+    KoLCharacter.setLevel(level);
   }
 }

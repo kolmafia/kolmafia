@@ -7,6 +7,8 @@ import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withSkill;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.KoLAdventure;
@@ -48,7 +50,9 @@ public class CharPaneDecoratorTest {
 
     try (cleanups) {
       String input = html("request/test_charpane_" + displayMode + ".html");
-      CharPaneRequest.processResults(input);
+      assertNotNull(input);
+      boolean ok = CharPaneRequest.processResults(input);
+      assertTrue(ok);
 
       var actual = new StringBuffer(input);
       CharPaneDecorator.decorate(actual);

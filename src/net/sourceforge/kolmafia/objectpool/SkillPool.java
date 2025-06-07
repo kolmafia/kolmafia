@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.objectpool;
 
 public class SkillPool {
   public static final int STEEL_LIVER = 1;
+  public static final int CHRONIC_INDIGESTION = 2;
   public static final int OLD_OLD_SMILE = 3;
   public static final int ARSE_SHOOT = 4;
   public static final int STEEL_STOMACH = 5;
@@ -127,6 +128,16 @@ public class SkillPool {
   public static final int PERPETRATE_MILD_EVIL = 226;
   public static final int CHITINOUS_SOUL = 227;
   public static final int JUST_THE_FACTS = 228;
+  public static final int ELF_GUARD_COOKING = 229;
+  public static final int OLD_SCHOOL_COCKTAILCRAFTING = 230;
+  public static final int HOLIDAY_MULTITASKING = 240;
+  public static final int OVERCLOCK10 = 243;
+  public static final int GENERATE_IRONY = 245;
+
+  public static final int SEAL_CLUBBING_FRENZY = 1000;
+  public static final int THRUST_SMACK = 1003;
+  public static final int LUNGE_SMACK = 1004;
+  public static final int LUNGING_THRUST_SMACK = 1005;
   public static final int SUPER_ADVANCED_MEATSMITHING = 1006;
   public static final int WALRUS_TONGUE = 1010;
   public static final int BATTER_UP = 1014;
@@ -143,6 +154,7 @@ public class SkillPool {
   public static final int SILENT_HUNTER = 1041;
   public static final int GET_BIG = 1042;
   public static final int BLOOD_FRENZY = 1043;
+  public static final int PATIENCE_OF_THE_TORTOISE = 2000;
   public static final int ARMORCRAFTINESS = 2006;
   public static final int EMPATHY_OF_THE_NEWT = 2009;
   public static final int WISDOM_OF_THE_ELDER_TORTOISES = 2011;
@@ -162,6 +174,7 @@ public class SkillPool {
   public static final int TURTLE_POWER = 2041;
   public static final int MATING_CALL = 2043;
   public static final int BLOOD_BOND = 2044;
+  public static final int MANICOTTI_MEDITATION = 3000;
   public static final int RAVIOLI_SHURIKENS = 3003;
   public static final int ENTANGLING_NOODLES = 3004;
   public static final int CANNELLONI_CANNON = 3005;
@@ -193,8 +206,11 @@ public class SkillPool {
   public static final int BIND_SPAGHETTI_ELEMENTAL = 3041;
   public static final int INSCRUTABLE_GAZE = 3043;
   public static final int BLOOD_BUCATINI = 3044;
+  public static final int SAUCE_CONTEMPLATION = 4000;
+  public static final int STREAM_OF_SAUCE = 4003;
   public static final int ADVANCED_SAUCECRAFTING = 4006;
   public static final int JALAPENO_SAUCESPHERE = 4008;
+  public static final int WAVE_OF_SAUCE = 4009;
   public static final int IMPETUOUS_SAUCINESS = 4015;
   public static final int THE_WAY_OF_SAUCE = 4018;
   public static final int SCARYSAUCE = 4019;
@@ -207,6 +223,7 @@ public class SkillPool {
   public static final int SAUCEMAVEN = 4039;
   public static final int LOVE_MIXOLOGY = 4041;
   public static final int BLOOD_BUBBLE = 4042;
+  public static final int DISCO_AEROBICS = 5000;
   public static final int DISCO_EYE_POKE = 5003;
   public static final int DISCO_DANCE_OF_DOOM = 5005;
   public static final int DISCO_NAP = 5007;
@@ -222,8 +239,10 @@ public class SkillPool {
   public static final int SALACIOUS_COCKTAILCRAFTING = 5022;
   public static final int THATS_NOT_A_KNIFE = 5028;
   public static final int TRICKY_KNIFEWORK = 5029;
+  public static final int DISCO_DANCE_3 = 5036;
   public static final int ACQUIRE_RHINESTONES = 5041;
   public static final int BLOOD_BLADE = 5042;
+  public static final int MOXIE_OF_THE_MARIACHI = 6000;
   public static final int ANTIPHON = 6003;
   public static final int POLKA_OF_PLENTY = 6006;
   public static final int PHAT_LOOT = 6010;
@@ -246,6 +265,11 @@ public class SkillPool {
   public static final int BRAMS_BLOODY_BAGATELLE = 6046;
   public static final int GIVE_IN_TO_YOUR_VAMPIRIC_URGES = 7001;
   public static final int SHAKE_HANDS = 7002;
+  public static final int HOT_BREATH = 7003;
+  public static final int COLD_BREATH = 7004;
+  public static final int SPOOKY_BREATH = 7005;
+  public static final int STINKY_BREATH = 7006;
+  public static final int SLEAZY_BREATH = 7007;
   public static final int MAGIC_MISSILE = 7009;
   public static final int FIRE_RED_BOTTLE_ROCKET = 7010;
   public static final int FIRE_BLUE_BOTTLE_ROCKET = 7011;
@@ -583,6 +607,8 @@ public class SkillPool {
   public static final int SURPRISINGLY_SWEET_STAB = 7489;
   public static final int LAY_AN_EGG = 7494;
   public static final int SPRING_KICK = 7501;
+  public static final int HUNT = 7509;
+  public static final int PUNT_WEREPROF = 7510;
   public static final int ADVANCED_RESEARCH = 7512;
   public static final int DART_PART1 = 7513;
   public static final int DART_PART2 = 7514;
@@ -593,6 +619,42 @@ public class SkillPool {
   public static final int DART_PART7 = 7519;
   public static final int DART_PART8 = 7520;
   public static final int DART_BULLSEYE = 7521;
+  public static final int BLOW_THE_RED_CANDLE = 7522;
+  public static final int BLOW_THE_YELLOW_CANDLE = 7523;
+  public static final int BLOW_THE_BLUE_CANDLE = 7524;
+  public static final int BLOW_THE_GREEN_CANDLE = 7525;
+  public static final int BLOW_THE_PURPLE_CANDLE = 7526;
+  public static final int TEAR_AWAY_YOUR_PANTS = 7527;
+  public static final int REST_UPSIDE_DOWN = 7528;
+  public static final int SWOOP_LIKE_A_BAT = 7530;
+  public static final int SUMMON_CAULDRON_OF_BATS = 7531;
+  public static final int ASSERT_YOUR_AUTHORITY = 7532;
+  public static final int CHECK_FOR_PHOTOBOOTH_SUPPLIES = 7533;
+  public static final int IRON_TRICORN_HEADBUTT = 7534;
+  public static final int THROW_MILITARY_ORB = 7535;
+  public static final int PLACE_YOUR_HAT_ON_THEIR_HEAD = 7536;
+  public static final int EGG_THE_FACE = 7537;
+  public static final int MCHUGELARGE_SLASH = 7538;
+  public static final int MCHUGELARGE_STAB = 7539;
+  public static final int MCHUGELARGE_AVALANCHE = 7540;
+  public static final int MCHUGELARGE_SKI_PLOW = 7539;
+  public static final int THROW_CYBER_ROCK = 7542;
+  public static final int BRUTE_FORCE_HAMMER = 7543;
+  public static final int INJECT_MALWARE = 7544;
+  public static final int ENCRYPTED_SHURIKEN = 7545;
+  public static final int REFRESH_HP = 7546;
+  public static final int LAUNCH_LOGIC_GRENADE = 7547;
+  public static final int DEPLOY_GLITCHED_MALWARE = 7548;
+  public static final int THRUST_YOUR_GEOFENCING_RAPIER = 7554;
+  public static final int DRINK_THE_MILK_OF_KINDNESS = 7555;
+  public static final int DRINK_THE_MILK_OF_CRUELTY = 7556;
+  public static final int LEFT_PUNCH = 7557;
+  public static final int RIGHT_PUNCH = 7558;
+  public static final int LEFT_KICK = 7559;
+  public static final int RIGHT_KICK = 7560;
+  public static final int PUNCH_OUT_YOUR_FOE = 7561;
+  public static final int CREATE_AN_AFTERIMAGE = 7562;
+
   public static final int GOOD_SINGING_VOICE = 11016;
   public static final int BANISHING_SHOUT = 11020;
   public static final int DEMAND_SANDWICH = 11021;
@@ -728,6 +790,7 @@ public class SkillPool {
   public static final int FROWN_MUSCLES = 23304;
   public static final int ANGER_GLANDS = 23305;
   public static final int POWERFUL_VOCAL_CHORDS = 23306;
+  public static final int DARK_FEAST = 24000;
   public static final int SAVAGE_BITE = 24010;
   public static final int CRUSH = 24011;
   public static final int BALEFUL_HOWL = 24012;
@@ -818,7 +881,7 @@ public class SkillPool {
   public static final int SECOND_WIND = 28016;
   public static final int STOP_HITTING_YOURSELF = 28017;
   public static final int FREE_FOR_ALL = 28019;
-  public static final int PUNT = 28021;
+  public static final int PUNT_AOSOL = 28021;
   public static final int EMMENTAL_ELEMENTAL = 29017;
   public static final int STILTON_SPLATTER = 29019;
   public static final int FONDELUGE = 29021;

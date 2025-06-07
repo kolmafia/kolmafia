@@ -8,6 +8,7 @@ Cast	Advanced Saucecrafting	reagentSummons
 Cast	Ancestral Recall	_ancestralRecallCasts	10
 Cast	Army of Toddlers	_armyToddlerCast
 Cast	Asdon Martin: Missile Launcher	_missileLauncherUsed
+Cast	Assert your Authority	_assertYourAuthorityCast	3
 Cast	Aug. 1st: Mountain Climbing Day!	_aug1Cast
 Cast	Aug. 2nd: Find an Eleven-Leaf Clover Day	_aug2Cast
 Cast	Aug. 3rd: Watermelon Day!	_aug3Cast
@@ -47,6 +48,9 @@ Cast	Become a Cloud of Mist	_vampyreCloakeFormUses	10
 Cast	Become a Wolf	_vampyreCloakeFormUses	10
 Cast	Bend Hell	_bendHellUsed
 Cast	Benetton's Medley of Diversity	_benettonsCasts	10
+Cast	Beret Blast	_beretBlastUses	11
+Cast	Beret Boast	_beretBoastUses	11
+Cast	Beret Busking	_beretBuskingUses	5
 Cast	Bow-Legged Swagger	_bowleggedSwaggerUsed
 Cast	Bowl Full of Jelly	_bowlFullOfJellyUsed
 Cast	CHEAT CODE: Invisible Avatar	_powerfulGloveBatteryPowerUsed	100
@@ -101,6 +105,7 @@ Cast	Fire a fingertrap arrow	_fingertrapArrows	10
 Cast	Fire a poison arrow	_poisonArrows	10
 Cast	Fire the Jokester's Gun	_firedJokestersGun
 Cast	Fix Jukebox	_peteJukeboxFixed	3
+Cast	Generate Irony	_generateIronyUsed
 Cast	Gingerbread Mob Hit	_gingerbreadMobHitUsed
 Cast	Give Your Opponent the Stinkeye	_stinkyCheeseBanisherUsed
 Cast	Grab a Cold One	_coldOne
@@ -110,6 +115,7 @@ Cast	Implode Universe	_universeImploded	[pref(skillLevel188)]
 Cast	Incite Riot	_peteRiotIncited
 Cast	Incredible Self-Esteem	_incredibleSelfEsteemCast
 Cast	Inigo's Incantation of Inspiration	_inigosCasts	5
+Cast	Iron Tricorn Headbutt	_ironTricornHeadbuttUsed	11
 Cast	Jump Shark	_peteJumpedShark	3
 Cast	KGB tranquilizer dart	_kgbTranquilizerDartUses	3
 Cast	Lash of the Cobra	_edLashCount	30
@@ -120,6 +126,9 @@ Cast	Lunch Break	_lunchBreak
 Cast	Macrometeorite	_macrometeoriteUses	10
 Cast	Managerial Manipulation	_managerialManipulationUsed
 Cast	Map the Monsters	_monstersMapped	3
+Cast	McHugeLarge Avalanche	_mcHugeLargeAvalancheUses	3
+Cast	McHugeLarge Ski Plow	_mcHugeLargeSkiPlowUses	11
+Cast	McHugeLarge Slash	_mcHugeLargeSlashUses	3
 Cast	Meatify Matter	_meatifyMatterUsed
 Cast	Meteor Shower	_meteorShowerUses	5
 Cast	Offer Latte to Opponent	_latteCopyUsed
@@ -129,6 +138,7 @@ Cast	Peel Out	_petePeeledOut	[10+(pref(peteMotorbikeTires,Racing Slicks)*20)]
 Cast	Perfect Freeze	_perfectFreezeUsed
 Cast	Perpetrate Mild Evil	_mildEvilPerpetrated	3
 Cast	Pirate Bellow	_pirateBellowUsed
+Cast	Place your hat on their head	_snowmanHatPlaceUsed	3
 Cast	Portscan	_sourceTerminalPortscanUses	3
 Cast	Prelude of Precision	_precisionCasts	10
 Cast	Prevent Scurvy and Sobriety	_preventScurvy
@@ -139,6 +149,7 @@ Cast	Recall Facts: Monster Habitats	_monsterHabitatsRecalled	3
 Cast	Reflex Hammer	_reflexHammerUsed	3
 Cast	Release the Boots	_bootStomps	7
 Cast	Request Sandwich	_requestSandwichSucceeded
+Cast	Rest upside down	_batWingsRestUsed	11
 Cast	Shattering Punch	_shatteringPunchUsed	3
 Cast	Show them your ring	_mafiaMiddleFingerRingUsed
 Cast	Smash & Graaagh	_zombieSmashPocketsUsed	30
@@ -151,6 +162,7 @@ Cast	Summon &quot;Boner Battalion&quot;	_bonersSummoned
 Cast	Summon Alice's Army Cards	grimoire3Summons
 Cast	Summon Annoyance	_summonAnnoyanceUsed
 Cast	Summon Carrot	_summonCarrotUsed
+Cast	Summon Cauldron of Bats	_batWingsCauldronUsed	11
 Cast	Summon Confiscated Things	_grimoireConfiscatorSummons
 Cast	Summon Crimbo Candy	_candySummons
 Cast	Summon Geeky Gifts	_grimoireGeekySummons
@@ -163,6 +175,7 @@ Cast	Summon Tasteful Items	grimoire2Summons
 Cast	Surprisingly Sweet Slash	_surprisinglySweetSlashUsed	11
 Cast	Surprisingly Sweet Stab	_surprisinglySweetStabUsed	11
 Cast	Sweat Out Some Booze	_sweatOutSomeBoozeUsed	3
+Cast	Swoop like a Bat	_batWingsSwoopUsed	11
 Cast	Talk About Politics	_pantsgivingBanish	5
 Cast	That's Not a Knife	_discoKnife
 Cast	The Ballad of Richie Thingfinder	_thingfinderCasts	10
@@ -265,6 +278,7 @@ Use	Manual of Transmission	_guildManualUsed
 Use	Meteorite-Ade	_meteoriteAdesUsed	3
 Use	Oscus's neverending soda	oscusSodaUsed
 Use	Ol' Scratch's salad fork	_saladForkUsed
+Use	Peridot of Peril	_perilsForeseen	3
 Use	Platinum Yendorian Express Card	expressCardUsed
 Use	STYX deodorant body spray	_styxSprayUsed
 Use	School of Hard Knocks Diploma	_hardKnocksDiplomaUsed
@@ -346,14 +360,18 @@ Use	jar of psychoses (The Suspicious-Looking Guy)	_psychoJarUsed
 Use	jingle bell	_jingleBellUsed
 Use	lodestone	_lodestoneUsed
 Use	lupine appetite hormones	_lupineHormonesUsed
+Use	lynyrd snare	_lynyrdSnareUses	3
+Use	map to a candy-rich block	_mapToACandyRichBlockUsed
 Use	meatball machine	_meatballMachineUsed
 Use	milk of magnesium	_milkOfMagnesiumUsed
+Use	miniature Embering Hulk	_emberingHulkFought
 Use	mojo filter	currentMojoFilters	3
 Use	molehill mountain	_molehillMountainUsed
 Use	moveable feast	_feastUsed	5
 Use	overflowing gift basket	_overflowingGiftBasketUsed
 Use	perfectly fair coin	_perfectlyFairCoinUsed
 Use	picky tweezers	_pickyTweezersUsed
+Use	pirate dinghy	_pirateDinghyUsed
 Use	pixel orb	_pixelOrbUsed
 Use	portable ping-pong table	_pingPongGame
 Use	portable steam unit	_portableSteamUnitUsed
@@ -371,15 +389,16 @@ Use	snake	_fireworkUsed
 Use	sparkler	_fireworkUsed
 Use	spice melange	spiceMelangeUsed
 Use	strange stalagmite	_strangeStalagmiteUsed
+Use	structural ember	_structuralEmberUsed
 Use	stuffed pocketwatch	_stuffedPocketwatchUsed
 Use	subscription cocoa dispenser	_cocoaDispenserUsed
 Use	sweet tooth	_sweetToothUsed
 Use	sweet-corn-flavored Mr. Mediocrebar	_chocolatesUsed	3
 Use	synthetic dog hair pill	_syntheticDogHairPillUsed
 Use	tempura air	_tempuraAirUsed
-Use	tied-up flaming leaflet	_tiedUpFlamingLeafletUsed
-Use	tied-up flaming monstera	_tiedUpFlamingMonsteraUsed
-Use	tied-up leaviathan	_tiedUpLeaviathanUsed
+Use	tied-up flaming leaflet	_tiedUpFlamingLeafletFought
+Use	tied-up flaming monstera	_tiedUpFlamingMonsteraFought
+Use	tied-up leaviathan	_tiedUpLeaviathanFought
 Use	tonic djinn	_tonicDjinn
 Use	vitachoconutriment capsule	_vitachocCapsulesUsed	3
 Use	warbear breakfast machine	_warbearBreakfastMachineUsed

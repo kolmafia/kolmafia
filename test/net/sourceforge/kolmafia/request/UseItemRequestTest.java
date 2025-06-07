@@ -468,7 +468,7 @@ class UseItemRequestTest {
     }
   }
 
-  // @Test
+  @Test
   void detectsMolehillMountainUse() {
     var cleanups =
         new Cleanups(

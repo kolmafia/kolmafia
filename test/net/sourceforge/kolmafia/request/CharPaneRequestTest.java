@@ -5,6 +5,7 @@ import static internal.helpers.Player.withClass;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withFamiliar;
 import static internal.helpers.Player.withInebriety;
+import static internal.helpers.Player.withLastLocation;
 import static internal.helpers.Player.withNoEffects;
 import static internal.helpers.Player.withPath;
 import static internal.helpers.Player.withProperty;
@@ -18,13 +19,19 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import internal.helpers.Cleanups;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
+import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.equipment.Slot;
+import net.sourceforge.kolmafia.modifiers.StringModifier;
+import net.sourceforge.kolmafia.objectpool.AdventurePool;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
+import net.sourceforge.kolmafia.persistence.AdventureDatabase;
+import net.sourceforge.kolmafia.persistence.ModifierDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.LimitMode;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,6 +39,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 class CharPaneRequestTest {
   @BeforeEach
@@ -57,6 +65,37 @@ class CharPaneRequestTest {
     CharPaneRequest.processResults(html("request/test_charpane_snowsuit.html"));
     var snowCharacterAvatar = KoLCharacter.getAvatar();
     assertTrue(snowCharacterAvatar.contains("itemimages/snowface5.gif"), "fails on no crossorigin");
+  }
+
+  @Test
+  void canFindTitle() {
+    KoLCharacter.setTitle("");
+    CharPaneRequest.processResults(html("request/test_charpane_basic.html"));
+    assertThat(KoLCharacter.getTitle(), is("NO PEEKING"));
+  }
+
+  @Nested
+  class Level {
+    @Test
+    void canFindBasicLevelWithOutTitle() {
+      KoLCharacter.setLevel(0);
+      CharPaneRequest.processResults(html("request/test_charpane_no_title.txt"));
+      assertThat(KoLCharacter.getLevel(), is(85));
+    }
+
+    @Test
+    void canFindBasicLevelWithTitle() {
+      KoLCharacter.setLevel(0);
+      CharPaneRequest.processResults(html("request/test_charpane_basic.html"));
+      assertThat(KoLCharacter.getLevel(), is(255));
+    }
+
+    @Test
+    void canFindCompactLevel() {
+      KoLCharacter.setLevel(0);
+      CharPaneRequest.processResults(html("request/test_charpane_compact.html"));
+      assertThat(KoLCharacter.getLevel(), is(255));
+    }
   }
 
   @Test
@@ -109,7 +148,9 @@ class CharPaneRequestTest {
   class NonCombatForcers {
     @Test
     void anyNoncombatForcerSetsFlagInApi() {
-      var cleanups = new Cleanups(withProperty("noncombatForcerActive", false));
+      var cleanups =
+          new Cleanups(
+              withProperty("noncombatForcerActive", false), withProperty("noncombatForcers", ""));
       try (cleanups) {
         var json =
             ApiRequest.getJSON(html("request/test_api_status_noncomforcers.json"), "testing");
@@ -118,12 +159,18 @@ class CharPaneRequestTest {
         CharPaneRequest.parseStatus(json);
 
         assertThat("noncombatForcerActive", isSetTo(true));
+        assertThat(
+            "noncombatForcers",
+            isSetTo("clara|spikolodon|stench jelly|cincho exit|sneakisol|band tuba"));
       }
     }
 
     @Test
     void absenceOfNoncombatForcerUnsetsFlagInApi() {
-      var cleanups = new Cleanups(withProperty("noncombatForcerActive", true));
+      var cleanups =
+          new Cleanups(
+              withProperty("noncombatForcerActive", true),
+              withProperty("noncombatForcers", "stench jelly"));
       try (cleanups) {
         var json =
             ApiRequest.getJSON(
@@ -134,24 +181,42 @@ class CharPaneRequestTest {
         CharPaneRequest.parseStatus(json);
 
         assertThat("noncombatForcerActive", isSetTo(false));
+        assertThat("noncombatForcers", isSetTo(""));
+      }
+    }
+
+    @ParameterizedTest
+    @ValueSource(
+        strings = {
+          "test_parse_charpane_for_noncombat_forcers.html",
+          "test_parse_charpane_for_noncombat_forcers_compact.html"
+        })
+    void canParseNoncombatModifiersInCharpane(String fileName) {
+      var cleanups =
+          new Cleanups(
+              withProperty("noncombatForcerActive", false), withProperty("noncombatForcers", ""));
+
+      try (cleanups) {
+        CharPaneRequest.processResults(html("request/" + fileName));
+        assertThat("noncombatForcerActive", isSetTo(true));
+        assertThat(
+            "noncombatForcers",
+            isSetTo("clara|spikolodon|stench jelly|cincho exit|sneakisol|band tuba"));
       }
     }
 
     @Test
-    void canParseNoncombatModifiersInCharpane() {
-      CharPaneRequest.processResults(
-          html("request/test_parse_charpane_for_noncombat_forcers.html"));
-      assertThat("noncombatForcerActive", isSetTo(true));
-    }
-
-    @Test
     void canParseAbsenceOfNoncombatModifiersInCharpane() {
-      var cleanups = new Cleanups(withProperty("noncombatForcerActive", true));
+      var cleanups =
+          new Cleanups(
+              withProperty("noncombatForcerActive", true),
+              withProperty("noncombatForcers", "stench jelly"));
 
       try (cleanups) {
         // This one doesn't hav eany noncombat modifiers
         CharPaneRequest.processResults(html("request/test_charpane_comma_as_homemade_robot.html"));
         assertThat("noncombatForcerActive", isSetTo(false));
+        assertThat("noncombatForcers", isSetTo(""));
       }
     }
   }
@@ -313,6 +378,64 @@ class CharPaneRequestTest {
         assertThat("wereProfessorResearchPoints", isSetTo(15));
         assertThat("wereProfessorTransformTurns", isSetTo(11));
       }
+    }
+  }
+
+  @Nested
+  class PirateRealm {
+    private static final KoLAdventure PIRATEREALM =
+        AdventureDatabase.getAdventure(AdventurePool.PIRATEREALM_ISLAND);
+
+    @Test
+    void canTrackPirateRealmStats() {
+      var cleanups =
+          new Cleanups(
+              withLastLocation(PIRATEREALM),
+              withProperty("availableFunPoints", 0),
+              withProperty("_pirateRealmGold", 0),
+              withProperty("_pirateRealmGlue", 0),
+              withProperty("_pirateRealmGrog", 0),
+              withProperty("_pirateRealmGrub", 0),
+              withProperty("_pirateRealmGuns", 0));
+      try (cleanups) {
+        CharPaneRequest.processResults(html("request/test_charpane_piraterealm.html"));
+        assertThat("availableFunPoints", isSetTo(139));
+        assertThat("_pirateRealmGold", isSetTo(186));
+        assertThat("_pirateRealmGlue", isSetTo(1));
+        assertThat("_pirateRealmGrog", isSetTo(2));
+        assertThat("_pirateRealmGrub", isSetTo(2));
+        assertThat("_pirateRealmGuns", isSetTo(2));
+      }
+    }
+  }
+
+  @ParameterizedTest
+  @CsvSource({"test_charpane_trail_basic.html,tutorial.php", "test_charpane_trail_compact.html,''"})
+  void tracksLastAdventureAndTrail(String fileName, String container) {
+    var cleanups =
+        new Cleanups(withLastLocation((KoLAdventure) null), withProperty("lastAdventureTrail", ""));
+    try (cleanups) {
+      CharPaneRequest.processResults(html("request/" + fileName));
+      assertThat("lastAdventure", isSetTo("Noob Cave"));
+      assertThat("lastAdventureContainer", isSetTo(container));
+      assertThat(
+          "lastAdventureTrail",
+          isSetTo("Noob Cave|The Dire Warren|The Haiku Dungeon|Shadow Rift|The Neverending Party"));
+      assertThat(KoLAdventure.lastVisitedLocation().getAdventureName(), is("Noob Cave"));
+      assertThat(KoLAdventure.lastAdventureId(), is(240));
+    }
+  }
+
+  @Test
+  void processAbsorbs() {
+    var cleanups = withPath(Path.GELATINOUS_NOOB);
+
+    try (cleanups) {
+      CharPaneRequest.processResults(html("request/test_gel_noob_charsheet.html"));
+      var mods =
+          ModifierDatabase.getStringModifier(
+              ModifierType.GENERATED, "Enchantments Absorbed", StringModifier.MODIFIERS);
+      assertThat(mods, is("Mysticality: 75, Smithsness: 75, Item Drop: 1125"));
     }
   }
 }

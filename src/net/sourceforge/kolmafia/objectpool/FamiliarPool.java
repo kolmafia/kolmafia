@@ -15,16 +15,23 @@ public class FamiliarPool {
   public static final int BABY_GRAVY_FAIRY = 15;
   public static final int STARFISH = 17;
   public static final int SOMBRERO = 18;
+  public static final int KILLER_BEE = 20;
   public static final int JILL_O_LANTERN = 24;
   public static final int HAND_TURKEY = 25;
   public static final int CRIMBO_ELF = 26;
   public static final int EMO_SQUID = 30;
+  public static final int CLOCKWORK_GRAPEFRUIT = 32;
+  public static final int MAGIMECHTECH_MICROMECHAMECH = 33;
   public static final int DODECAPEDE = 38;
   public static final int PYGMY_BUGBEAR_SHAMAN = 39;
   public static final int DOPPEL = 40;
+  public static final int CYMBAL_PLAYING_MONKEY = 42;
   public static final int RIFTLET = 43;
+  public static final int SWEET_NUTCRACKER = 44;
   public static final int PET_ROCK = 45;
+  public static final int NINJA_PIRATE_ZOMBIE_ROBOT = 48;
   public static final int HARE = 50;
+  public static final int WIND_UP_CHATTERING_TEETH = 51;
   public static final int HOBO = 52;
   public static final int BADGER = 53;
   public static final int CHAMELEON = 54;
@@ -40,9 +47,12 @@ public class FamiliarPool {
   public static final int GHOST = 74;
   public static final int PRESSIE = 77;
   public static final int BUDDY_BOX = 78;
+  public static final int TEDDY_BORG = 79;
+  public static final int ROBOGOOSE = 80;
   public static final int MEGADRONE = 81;
   public static final int HATRACK = 82;
   public static final int ADORABLE_SEAL_LARVA = 83;
+  public static final int AUTONOMOUS_DISCO_BALL = 87;
   public static final int LLAMA = 90;
   public static final int CARNIE = 91;
   public static final int HAND = 92;
@@ -53,6 +63,7 @@ public class FamiliarPool {
   public static final int BANDER = 105;
   public static final int CLOWNFISH = 106;
   public static final int PURSE_RAT = 109;
+  public static final int WERETURTLE = 110;
   public static final int SANDWORM = 111;
   public static final int SLIMELING = 112;
   public static final int HE_BOULDER = 113;
@@ -67,6 +78,7 @@ public class FamiliarPool {
   public static final int TRON = 135;
   public static final int HIPSTER = 136;
   public static final int GRINDER = 139;
+  public static final int ROBOT_REINDEER = 143;
   public static final int OBTUSE_ANGEL = 146;
   public static final int CROW = 147;
   public static final int ALIEN = 148;
@@ -85,9 +97,12 @@ public class FamiliarPool {
   public static final int NANORHINO = 167;
   public static final int WOIM = 168;
   public static final int HOMEMADE_ROBOT = 169;
+  public static final int MINIMECHAELF = 170;
   public static final int NOSY_NOSE = 173;
   public static final int CUBELING = 171;
+  public static final int MECHANICAL_SONGBIRD = 175;
   public static final int REANIMATOR = 176;
+  public static final int WARBEAR_DRONE = 177;
   public static final int GRIMSTONE_GOLEM = 178;
   public static final int GRIM_BROTHER = 179;
   public static final int SWORD_AND_MARTINI_GUY = 180;
@@ -95,6 +110,7 @@ public class FamiliarPool {
   public static final int GALLOPING_GRILL = 183;
   public static final int FIST_TURKEY = 188;
   public static final int CRIMBO_SHRUB = 189;
+  public static final int MINI_CRIMBOT = 190;
   public static final int GOLDEN_MONKEY = 192;
   public static final int ADVENTUROUS_SPELUNKER = 193;
   public static final int PUCK_MAN = 196;
@@ -132,6 +148,13 @@ public class FamiliarPool {
   public static final int PATRIOTIC_EAGLE = 293;
   public static final int JILL_OF_ALL_TRADES = 294;
   public static final int MINI_KIWI = 300;
+  public static final int EVOLVING_ORGANISM = 302;
+  public static final int BURLY_BODYGUARD = 303;
+  public static final int PEACE_TURKEY = 306;
+  public static final int HEAT_WAVE = 312;
+  public static final int PHANTOM_LIMB = 315;
+  public static final int DIRE_CASSAVA = 317;
+  public static final int OBSERVER = 318;
 
   private FamiliarPool() {}
 }

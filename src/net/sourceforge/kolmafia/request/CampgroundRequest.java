@@ -20,6 +20,7 @@ import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.ResultProcessor;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 import net.sourceforge.kolmafia.utilities.ChoiceUtilities;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -140,6 +141,7 @@ public class CampgroundRequest extends GenericRequest {
           ItemPool.DIABOLIC_PIZZA_CUBE,
           ItemPool.COLD_MEDICINE_CABINET,
           ItemPool.MODEL_TRAIN_SET,
+          ItemPool.TAKERSPACE_LETTER_OF_MARQUE,
 
           // Outside dwelling
           ItemPool.MEAT_GOLEM,
@@ -218,7 +220,7 @@ public class CampgroundRequest extends GenericRequest {
     }
 
     @Override
-    public String getPluralName(int count) {
+    public String getPluralName(long count) {
       return count == 1
           ? "patch of tall grass"
           : count < 8 ? "patches of tall grass" : "patch of very tall grass";
@@ -437,7 +439,8 @@ public class CampgroundRequest extends GenericRequest {
           ItemPool.ASDON_MARTIN,
           ItemPool.DIABOLIC_PIZZA_CUBE,
           ItemPool.COLD_MEDICINE_CABINET,
-          ItemPool.MODEL_TRAIN_SET);
+          ItemPool.MODEL_TRAIN_SET,
+          ItemPool.TAKERSPACE_LETTER_OF_MARQUE);
 
   public static final AdventureResult[] CROPS = {
     CampgroundRequest.PUMPKIN,
@@ -952,7 +955,7 @@ public class CampgroundRequest extends GenericRequest {
   public static void parseResponse(final String urlString, final String responseText) {
     // Workshed may redirect to shop.php
     if (urlString.startsWith("shop.php")) {
-      NPCPurchaseRequest.parseShopResponse(urlString, responseText);
+      ShopRequest.parseResponse(urlString, responseText);
       return;
     }
 
@@ -1564,7 +1567,7 @@ public class CampgroundRequest extends GenericRequest {
   private static void inspectDwelling(final String responseText) {
     // "Your dwelling has the following stuff" or "Your patch of ground has the following stuff"
     int startIndex = responseText.indexOf("has the following stuff");
-    int endIndex = responseText.indexOf("<b>Your Campsite</b>", startIndex + 1);
+    int endIndex = responseText.indexOf(">Your Campsite</b>", startIndex + 1);
     if (startIndex > 0 && endIndex > 0) {
       var relevantResponse = responseText.substring(startIndex, endIndex);
 
@@ -1676,6 +1679,7 @@ public class CampgroundRequest extends GenericRequest {
         Preferences.setInteger("_coldMedicineConsults", 5);
       }
     }
+    // takerspace is detected in choice control
   }
 
   private static boolean findImage(
@@ -1823,7 +1827,8 @@ public class CampgroundRequest extends GenericRequest {
           ItemPool.SLEEPING_STOCKING,
           ItemPool.SPIRIT_BED,
           ItemPool.SPOOKY_BEDDING,
-          ItemPool.STENCH_BEDDING -> true;
+          ItemPool.STENCH_BEDDING,
+          ItemPool.WET_BLANKET -> true;
       default -> false;
     };
   }
@@ -1970,11 +1975,7 @@ public class CampgroundRequest extends GenericRequest {
       case "dnainject" -> message = "Hybridizing yourself";
       case "rest" -> message = "[" + KoLAdventure.getAdventureCount() + "] Rest in your dwelling";
       case "witchess" -> {
-        KoLAdventure.lastVisitedLocation = null;
-        KoLAdventure.lastLocationName = null;
-        KoLAdventure.lastLocationURL = urlString;
-        KoLAdventure.setLastAdventure("None");
-        KoLAdventure.setNextAdventure("None");
+        KoLAdventure.clearLocation();
         message = "[" + KoLAdventure.getAdventureCount() + "] Your Witchess Set";
       }
       case "fuelconvertor" -> {

@@ -25,6 +25,8 @@ import net.sourceforge.kolmafia.modifiers.Lookup;
 import net.sourceforge.kolmafia.modifiers.Modifier;
 import net.sourceforge.kolmafia.modifiers.ModifierList;
 import net.sourceforge.kolmafia.modifiers.ModifierList.ModifierValue;
+import net.sourceforge.kolmafia.modifiers.MultiStringModifier;
+import net.sourceforge.kolmafia.modifiers.MultiStringModifierCollection;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.modifiers.StringModifierCollection;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -47,6 +49,7 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.Indexed;
 import net.sourceforge.kolmafia.utilities.IntOrString;
 
+@SuppressWarnings("incomplete-switch")
 public class Modifiers {
   // static fields used to compute current modifiers
 
@@ -76,7 +79,8 @@ public class Modifiers {
   private final BooleanModifierCollection booleans = new BooleanModifierCollection();
   private final BitmapModifierCollection bitmaps = new BitmapModifierCollection();
   private final StringModifierCollection strings = new StringModifierCollection();
-  private ArrayList<Indexed<DoubleModifier, ModifierExpression>> expressions = null;
+  private final MultiStringModifierCollection multiStrings = new MultiStringModifierCollection();
+  private ArrayList<Indexed<Modifier, ModifierExpression>> expressions = null;
   // These are used for Steely-Eyed Squint and so on
   private final DoubleModifierCollection accumulators = new DoubleModifierCollection();
 
@@ -222,6 +226,10 @@ public class Modifiers {
       hpbase = KoLCharacter.getBaseMuscle();
       hp = hpbase + (int) this.getDouble(DoubleModifier.HP);
       buffedHP = Math.max(hp, mus);
+    } else if (KoLCharacter.inZootomist()) {
+      hpbase = rv.get(DerivedModifier.BUFFED_MUS) + 3;
+      hp = hpbase + (int) this.getDouble(DoubleModifier.HP);
+      buffedHP = Math.max(hp, mus);
     } else if (KoLCharacter.inRobocore()) {
       hpbase = 30;
       hp = hpbase + (int) this.getDouble(DoubleModifier.HP);
@@ -282,6 +290,7 @@ public class Modifiers {
   public final void reset() {
     this.doubles.reset();
     this.strings.reset();
+    this.multiStrings.reset();
     this.booleans.reset();
     this.bitmaps.reset();
     this.expressions = null;
@@ -313,9 +322,15 @@ public class Modifiers {
   private double cappedCombatRate() {
     // Combat Rate has diminishing returns beyond + or - 25%
     double rate = this.doubles.get(DoubleModifier.COMBAT_RATE);
+    if (rate > 75.0) {
+      return 35.0;
+    }
     if (rate > 25.0) {
       double extra = rate - 25.0;
       return 25.0 + Math.floor(extra / 5.0);
+    }
+    if (rate < -75.0) {
+      return -35.0;
     }
     if (rate < -25.0) {
       double extra = rate + 25.0;
@@ -327,6 +342,9 @@ public class Modifiers {
   public double getDouble(final DoubleModifier modifier) {
     if (modifier == DoubleModifier.PRISMATIC_DAMAGE) {
       return this.derivePrismaticDamage();
+    }
+    if (modifier == DoubleModifier.RAW_COMBAT_RATE) {
+      return this.doubles.get(DoubleModifier.COMBAT_RATE);
     }
     if (modifier == DoubleModifier.COMBAT_RATE) {
       return this.cappedCombatRate();
@@ -387,7 +405,7 @@ public class Modifiers {
     return bools;
   }
 
-  public String getString(final StringModifier modifier) {
+  public String getString(final Modifier modifier) {
     if (modifier == null) {
       return "";
     }
@@ -400,7 +418,21 @@ public class Modifiers {
           .toString();
     }
 
-    return this.strings.get(modifier);
+    if (modifier instanceof StringModifier sm) {
+      return this.strings.get(sm);
+    }
+
+    if (modifier instanceof MultiStringModifier msm) {
+      return this.multiStrings.getOne(msm);
+    }
+
+    return "";
+  }
+
+  public List<String> getStrings(final MultiStringModifier modifier) {
+    if (modifier == null) return List.of();
+
+    return this.multiStrings.get(modifier);
   }
 
   public double getAccumulator(final DoubleModifier modifier) {
@@ -447,6 +479,14 @@ public class Modifiers {
     return this.strings.set(modifier, mod);
   }
 
+  public boolean setString(final MultiStringModifier modifier, String mod) {
+    if (modifier == null) {
+      return false;
+    }
+
+    return this.multiStrings.set(modifier, mod == null ? List.of() : List.of(mod));
+  }
+
   public boolean set(final Modifiers mods) {
     if (mods == null) {
       return false;
@@ -469,6 +509,10 @@ public class Modifiers {
 
     for (var mod : StringModifier.STRING_MODIFIERS) {
       changed |= this.setString(mod, mods.strings.get(mod));
+    }
+
+    for (var mod : MultiStringModifier.MULTISTRING_MODIFIERS) {
+      changed |= this.multiStrings.set(mod, mods.multiStrings.get(mod));
     }
 
     return changed;
@@ -524,6 +568,16 @@ public class Modifiers {
         }
         this.doubles.add(mod, value);
         break;
+      case MUS_EXPERIENCE:
+      case MYS_EXPERIENCE:
+      case MOX_EXPERIENCE:
+      case MUS_EXPERIENCE_PCT:
+      case MYS_EXPERIENCE_PCT:
+      case MOX_EXPERIENCE_PCT:
+        if (KoLCharacter.noExperience()) {
+          break;
+        }
+        //noinspection fallthrough
       case INITIATIVE:
       case HOT_DAMAGE:
       case COLD_DAMAGE:
@@ -536,12 +590,6 @@ public class Modifiers {
       case SPOOKY_SPELL_DAMAGE:
       case SLEAZE_SPELL_DAMAGE:
       case EXPERIENCE:
-      case MUS_EXPERIENCE:
-      case MYS_EXPERIENCE:
-      case MOX_EXPERIENCE:
-      case MUS_EXPERIENCE_PCT:
-      case MYS_EXPERIENCE_PCT:
-      case MOX_EXPERIENCE_PCT:
         // accumulators acts as an accumulator for modifiers that are possibly multiplied by
         // multipliers like makeshift garbage shirt, Bendin' Hell, Bow-Legged Swagger, or Dirty
         // Pear.
@@ -575,6 +623,14 @@ public class Modifiers {
 
   public void addBitmap(BitmapModifier modifier, int bit) {
     this.bitmaps.add(modifier, bit);
+  }
+
+  public boolean addMultiString(final MultiStringModifier modifier, String mod) {
+    if (modifier == null || mod == null) {
+      return false;
+    }
+
+    return this.multiStrings.add(modifier, mod);
   }
 
   public void add(final Modifiers mods) {
@@ -812,8 +868,12 @@ public class Modifiers {
   // TODO: what does this do? what is expressions? Something to do with the [X] strings?
   public boolean override(final Lookup lookup) {
     if (this.expressions != null) {
-      for (Indexed<DoubleModifier, ModifierExpression> entry : this.expressions) {
-        this.setDouble(entry.index, entry.value.eval());
+      for (Indexed<Modifier, ModifierExpression> entry : this.expressions) {
+        if (entry.index instanceof DoubleModifier m) {
+          this.setDouble(m, entry.value.eval());
+        } else if (entry.index instanceof BooleanModifier m) {
+          this.setBoolean(m, entry.value.eval() != 0.0);
+        }
       }
     }
 
@@ -834,14 +894,14 @@ public class Modifiers {
     availableSkillsChanged = true;
   }
 
-  public void addExpression(Indexed<DoubleModifier, ModifierExpression> entry) {
+  public void addExpression(Indexed<Modifier, ModifierExpression> entry) {
     int index = -1;
 
     if (this.expressions == null) {
       this.expressions = new ArrayList<>();
     } else {
       for (int i = 0; i < this.expressions.size(); i++) {
-        Indexed<DoubleModifier, ModifierExpression> e = this.expressions.get(i);
+        Indexed<Modifier, ModifierExpression> e = this.expressions.get(i);
         if (e != null && e.index == entry.index) {
           index = i;
           break;
@@ -1092,6 +1152,7 @@ public class Modifiers {
     weight += (int) this.getDouble(DoubleModifier.FAMILIAR_WEIGHT);
     weight += (int) this.getDouble(DoubleModifier.HIDDEN_FAMILIAR_WEIGHT);
     weight += (familiar.getFeasted() ? 10 : 0);
+    weight += familiar.getSoupWeight();
     // Comma Chameleons gain a passive 5lbs while they are imitating another familiar
     weight +=
         (familiar.getId() == FamiliarPool.CHAMELEON && familiar.getId() != familiar.getEffectiveId()

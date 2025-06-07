@@ -1,10 +1,13 @@
 package net.sourceforge.kolmafia;
 
+import com.alibaba.fastjson2.JSON;
 import java.awt.Component;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
@@ -17,6 +20,7 @@ import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
+import net.sourceforge.kolmafia.modifiers.Lookup;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
@@ -203,6 +207,8 @@ public class FamiliarData implements Comparable<FamiliarData> {
   private String owner;
   private int ownerId;
   private boolean active = false;
+  private int soupWeight = 0;
+  private Set<String> soupAttributes = new HashSet<>();
 
   public FamiliarData(final int id) {
     this(id, "", 1, EquipmentRequest.UNEQUIP);
@@ -551,6 +557,31 @@ public class FamiliarData implements Comparable<FamiliarData> {
     return ItemPool.get(itemName, 1);
   }
 
+  private static final Pattern SOUP_PATTERN =
+      Pattern.compile("<!-- some soup for you! \"(.*?)\" -->");
+
+  private static void parseSoup(final String responseText) {
+    var m = SOUP_PATTERN.matcher(responseText);
+    if (!m.find()) return;
+
+    // This replacement would not be sufficient for all forms of escaped JSON but in this case it's
+    // fine.
+    var soupJson = m.group(1).replace("\\\"", "\"");
+    var json = JSON.parseObject(soupJson);
+    for (var key : json.keySet()) {
+      var id = Integer.parseInt(key);
+      var fam = KoLCharacter.usableFamiliar(id);
+
+      // Shouldn't be possible to have souped a familiar we can't use, let's just move on.
+      if (fam == null) continue;
+
+      var data = json.getJSONObject(key);
+      fam.setSoupWeight(data.getIntValue("times"));
+      var attrs = data.getJSONArray("attr").stream().map(String.class::cast).toList();
+      fam.addSoupAttribute(attrs);
+    }
+  }
+
   public static final void registerFamiliarData(final String responseText) {
     // Assume he has no familiar
     FamiliarData current = FamiliarData.NO_FAMILIAR;
@@ -605,6 +636,7 @@ public class FamiliarData implements Comparable<FamiliarData> {
     KoLCharacter.setFamiliar(current);
     EquipmentManager.setEquipment(Slot.FAMILIAR, current.getItem());
     FamiliarData.checkLockedItem(responseText);
+    FamiliarData.parseSoup(responseText);
   }
 
   private static FamiliarData registerFamiliar(final Matcher matcher, boolean idFirst) {
@@ -695,6 +727,31 @@ public class FamiliarData implements Comparable<FamiliarData> {
 
   public void setFeasted(boolean feasted) {
     this.feasted = feasted;
+  }
+
+  public int getSoupWeight() {
+    return this.soupWeight;
+  }
+
+  public void setSoupWeight(int soupWeight) {
+    this.soupWeight = Math.min(111, soupWeight);
+  }
+
+  public void incrementSoupWeight() {
+    this.soupWeight++;
+  }
+
+  public Set<String> getSoupAttributes() {
+    return this.soupAttributes;
+  }
+
+  public void addSoupAttribute(String attribute) {
+    if (attribute == null) return;
+    this.soupAttributes.add(attribute);
+  }
+
+  public void addSoupAttribute(List<String> attributes) {
+    this.soupAttributes.addAll(attributes);
   }
 
   public void deactivate() {
@@ -896,6 +953,9 @@ public class FamiliarData implements Comparable<FamiliarData> {
       weight += 10;
     }
 
+    // If the familiar has been fed protogenetic soup, it could be up to 111 lbs. heavier
+    weight += this.soupWeight;
+
     // check if the familiar has a weight cap
     int cap = (int) current.getDouble(DoubleModifier.FAMILIAR_WEIGHT_CAP);
     int cappedWeight = (cap == 0) ? weight : Math.min(weight, cap);
@@ -998,21 +1058,12 @@ public class FamiliarData implements Comparable<FamiliarData> {
   }
 
   public boolean canCarry() {
-    return switch (this.id) {
-      case FamiliarPool.DOPPEL,
-          FamiliarPool.CHAMELEON,
-          FamiliarPool.HATRACK,
-          FamiliarPool.HAND,
-          FamiliarPool.LEFT_HAND,
-          FamiliarPool.SCARECROW,
-          FamiliarPool.UNSPEAKACHU,
-          FamiliarPool.STOOPER,
-          FamiliarPool.DISGEIST,
-          FamiliarPool.BOWLET,
-          FamiliarPool.CORNBEEFADON,
-          FamiliarPool.MU -> false;
-      default -> true;
-    };
+    var lookup = new Lookup(ModifierType.THRONE, this.race);
+    var rawModifier = ModifierDatabase.getModifierString(lookup);
+    // Result will be null if the data file line looks like "Throne\tFamiliarName", which we treat
+    // as unspaded. Since ruling out carryability is trivially easy, assume that unspaded means
+    // bjornable.
+    return rawModifier == null || !rawModifier.equals("none");
   }
 
   public static class DropInfo {

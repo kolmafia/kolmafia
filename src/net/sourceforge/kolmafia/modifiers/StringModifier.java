@@ -28,7 +28,6 @@ public enum StringModifier implements Modifier {
   MODIFIERS("Modifiers", Pattern.compile("^(none)$")),
   OUTFIT("Outfit", null),
   STAT_TUNING("Stat Tuning", Pattern.compile("Stat Tuning: \"(.*?)\"")),
-  EFFECT("Effect", Pattern.compile("Effect: \"(.*?)\"")),
   EQUIPS_ON("Equips On", Pattern.compile("Equips On: \"(.*?)\"")),
   FAMILIAR_EFFECT("Familiar Effect", Pattern.compile("Familiar Effect: \"(.*?)\"")),
   JIGGLE("Jiggle", Pattern.compile("Jiggle: *(.*?)$"), Pattern.compile("Jiggle: \"(.*?)\"")),
@@ -42,10 +41,6 @@ public enum StringModifier implements Modifier {
         Pattern.compile("Te hace ver como un (.++)"),
       },
       Pattern.compile("Avatar: \"(.*?)\"")),
-  ROLLOVER_EFFECT(
-      "Rollover Effect",
-      Pattern.compile("Adventures of <b><a.*?>(.*)</a></b> at Rollover"),
-      Pattern.compile("Rollover Effect: \"(.*?)\"")),
   SKILL(
       "Skill",
       Pattern.compile("Grants Skill:.*?<b>(.*?)</b>"),
@@ -56,7 +51,8 @@ public enum StringModifier implements Modifier {
   FLOOR_BUFFED_MOXIE("Floor Buffed Moxie", Pattern.compile("Floor Buffed Moxie: \"(.*?)\"")),
   PLUMBER_STAT("Plumber Stat", Pattern.compile("Plumber Stat: \"(.*?)\"")),
   RECIPE("Recipe", Pattern.compile("Recipe: \"(.*?)\"")),
-  EVALUATED_MODIFIERS("Evaluated Modifiers");
+  EVALUATED_MODIFIERS("Evaluated Modifiers"),
+  LAST_AVAILABLE_DATE("Last Available", Pattern.compile("Last Available: \"(.*?)\""));
   private final String name;
   private final Pattern[] descPatterns;
   private final Pattern tagPattern;

@@ -50,7 +50,6 @@ import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.persistence.TCRSDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.ApiRequest;
-import net.sourceforge.kolmafia.request.BountyHunterHunterRequest;
 import net.sourceforge.kolmafia.request.CafeRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.CargoCultistShortsRequest;
@@ -60,7 +59,6 @@ import net.sourceforge.kolmafia.request.ChateauRequest;
 import net.sourceforge.kolmafia.request.ClanLoungeRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
 import net.sourceforge.kolmafia.request.ClosetRequest;
-import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.CustomOutfitRequest;
 import net.sourceforge.kolmafia.request.EdBaseRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
@@ -70,7 +68,6 @@ import net.sourceforge.kolmafia.request.FamiliarRequest;
 import net.sourceforge.kolmafia.request.FightRequest;
 import net.sourceforge.kolmafia.request.FloristRequest;
 import net.sourceforge.kolmafia.request.GenericRequest;
-import net.sourceforge.kolmafia.request.HermitRequest;
 import net.sourceforge.kolmafia.request.InternalChatRequest;
 import net.sourceforge.kolmafia.request.MoonPhaseRequest;
 import net.sourceforge.kolmafia.request.NPCPurchaseRequest;
@@ -87,6 +84,10 @@ import net.sourceforge.kolmafia.request.StorageRequest;
 import net.sourceforge.kolmafia.request.TrendyRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.WildfireCampRequest;
+import net.sourceforge.kolmafia.request.coinmaster.BountyHunterHunterRequest;
+import net.sourceforge.kolmafia.request.coinmaster.HermitRequest;
+import net.sourceforge.kolmafia.request.coinmaster.shop.SeptEmberCenserRequest;
+import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 import net.sourceforge.kolmafia.session.BanishManager;
 import net.sourceforge.kolmafia.session.BatManager;
 import net.sourceforge.kolmafia.session.ChoiceManager;
@@ -167,6 +168,8 @@ public abstract class KoLmafia {
           PREFERRED_IMAGE_SERVER_PATH,
           "https://s3.amazonaws.com/images.kingdomofloathing.com/",
           "http://images.kingdomofloathing.com/");
+  // Displays a warning in several areas when the JVM is running an older version
+  public static final int MINIMUM_JAVA_VERSION = 21;
 
   public static String imageServerPrefix() {
     return PREFERRED_IMAGE_SERVER;
@@ -366,12 +369,24 @@ public abstract class KoLmafia {
 
     RequestThread.runInParallel(new UpdateCheckRunnable(), false);
 
+    // Warn for impending bump of minimum supported Java version
+    minimumJavaVersionWarning().forEach(line -> KoLmafia.updateDisplay(MafiaState.ERROR, line));
+
     // Always read input from the command line when you're not
     // in GUI mode.
 
     if (!StaticEntity.isGUIRequired()) {
       KoLmafiaCLI.DEFAULT_SHELL.listenForCommands();
     }
+  }
+
+  public static List<String> minimumJavaVersionWarning() {
+    if (Runtime.version().feature() >= MINIMUM_JAVA_VERSION) return List.of();
+
+    return List.of(
+        "You are currently on Java " + System.getProperty("java.version"),
+        "Please update to Java " + MINIMUM_JAVA_VERSION,
+        "https://adoptium.net/installation/");
   }
 
   private static void initLookAndFeel() {
@@ -592,12 +607,10 @@ public abstract class KoLmafia {
     VYKEACompanionData.initialize(false);
     ConsequenceManager.updateOneDesc();
 
-    // Make sure Banishes are loaded before removing them
-    BanishManager.loadBanished();
+    // Remove spent banishes
     BanishManager.resetRollover();
 
-    // Make sure Tracks are loaded before removing them
-    TrackManager.loadTracked();
+    // Remove spent tracks
     TrackManager.resetRollover();
 
     // Libram summoning skills now costs 1 MP again
@@ -756,9 +769,6 @@ public abstract class KoLmafia {
     // Retrieve the contents of the closet.
     ClosetRequest.refresh();
 
-    // Load Banished monsters
-    BanishManager.loadBanished();
-
     // Retrieve Custom Outfit list
     if (!KoLCharacter.getLimitMode().limitOutfits()) {
       RequestThread.postRequest(new CustomOutfitRequest());
@@ -871,9 +881,15 @@ public abstract class KoLmafia {
     InventoryManager.checkKGB();
     InventoryManager.checkVampireVintnerWine();
     InventoryManager.checkBirdOfTheDay();
+    InventoryManager.checkDartPerks();
+    InventoryManager.checkMimicEgg();
     ResultProcessor.updateEntauntauned();
     ResultProcessor.updateSavageBeast();
     CargoCultistShortsRequest.loadPockets();
+    if (SeptEmberCenserRequest.accessible() == null
+        && !Preferences.getBoolean("_septEmberBalanceChecked")) {
+      RequestThread.postRequest(SeptEmberCenserRequest.getRequest());
+    }
 
     // This needs to be checked once, to set the property.
     // Once it is set, no further requests will be issued.
@@ -886,9 +902,6 @@ public abstract class KoLmafia {
 
     // Items that conditionally grant skills
     InventoryManager.checkSkillGrantingEquipment();
-
-    // check dart perks on logon
-    InventoryManager.checkDartPerks();
 
     // Check Horsery if we haven't today
     if (Preferences.getBoolean("horseryAvailable")
@@ -1697,7 +1710,7 @@ public abstract class KoLmafia {
       final PurchaseRequest[] purchases,
       final int maxPurchases,
       final boolean isAutomated,
-      final int priceLimit) {
+      final long priceLimit) {
     // If we are searching for a limited item from an NPC store, the
     // NPCPurchaseRequest may have been filtered out before being added
     // to "purchases".
@@ -1765,7 +1778,7 @@ public abstract class KoLmafia {
       int desiredCount =
           remaining == Integer.MAX_VALUE ? Integer.MAX_VALUE : initialCount + remaining;
 
-      int currentPrice = currentRequest.getPrice();
+      long currentPrice = currentRequest.getPrice();
 
       if ((priceLimit > 0 && currentPrice > priceLimit)
           || (isAutomated && currentPrice > Preferences.getInteger("autoBuyPriceLimit"))) {

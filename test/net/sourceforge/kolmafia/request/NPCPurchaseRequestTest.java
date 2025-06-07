@@ -3,6 +3,7 @@ package net.sourceforge.kolmafia.request;
 import static internal.helpers.HttpClientWrapper.getRequests;
 import static internal.helpers.Networking.assertPostRequest;
 import static internal.helpers.Networking.html;
+import static internal.helpers.Player.withEmptyCampground;
 import static internal.helpers.Player.withEquippableItem;
 import static internal.helpers.Player.withEquipped;
 import static internal.helpers.Player.withInteractivity;
@@ -12,7 +13,9 @@ import static internal.helpers.Player.withMeat;
 import static internal.helpers.Player.withNPCStoreReset;
 import static internal.helpers.Player.withNextResponse;
 import static internal.helpers.Player.withPath;
+import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withQuestProgress;
+import static internal.matchers.Preference.isSetTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
@@ -55,7 +58,7 @@ class NPCPurchaseRequestTest {
   @Test
   public void canGetPrice() {
     var req = new NPCPurchaseRequest("Bugbear Bakery", "bugbear", 159, 678, 50, 1);
-    assertThat(req.getPrice(), equalTo(50));
+    assertThat(req.getPrice(), equalTo(50L));
   }
 
   @Nested
@@ -65,7 +68,7 @@ class NPCPurchaseRequestTest {
       var cleanups = new Cleanups(withEquipped(Slot.PANTS, "Travoltan trousers"));
       try (cleanups) {
         var req = new NPCPurchaseRequest("Hippy Store (Hippy)", "hippy", 242, 665, 70, 1);
-        assertThat(req.getPrice(), equalTo(66));
+        assertThat(req.getPrice(), equalTo(66L));
       }
     }
 
@@ -74,7 +77,7 @@ class NPCPurchaseRequestTest {
       var cleanups = new Cleanups(withEquipped(Slot.PANTS, "designer sweatpants"));
       try (cleanups) {
         var req = new NPCPurchaseRequest("Hippy Store (Hippy)", "hippy", 242, 665, 70, 1);
-        assertThat(req.getPrice(), equalTo(66));
+        assertThat(req.getPrice(), equalTo(66L));
       }
     }
 
@@ -83,7 +86,7 @@ class NPCPurchaseRequestTest {
       var cleanups = new Cleanups(withEquipped(Slot.PANTS, "Travoltan trousers"));
       try (cleanups) {
         var req = new NPCPurchaseRequest("Gift Shop", "town_giftshop.php", 1179, 0, 100, 1);
-        assertThat(req.getPrice(), equalTo(95));
+        assertThat(req.getPrice(), equalTo(95L));
       }
     }
 
@@ -97,7 +100,7 @@ class NPCPurchaseRequestTest {
         var req = new NPCPurchaseRequest("Gift Shop", "town_giftshop.php", 1179, 0, 100, 1);
 
         // The price is 100, as designer sweatpants do not have a discount
-        assertThat(req.getPrice(), equalTo(100));
+        assertThat(req.getPrice(), equalTo(100L));
 
         // Tell mafia to equip the trousers
         var result = req.ensureProperAttire();
@@ -115,7 +118,7 @@ class NPCPurchaseRequestTest {
       var cleanups = new Cleanups(withEquipped(Slot.PANTS, "designer sweatpants"));
       try (cleanups) {
         var req = new NPCPurchaseRequest("Gift Shop", "town_giftshop.php", 1179, 0, 100, 1);
-        assertThat(req.getPrice(), equalTo(100));
+        assertThat(req.getPrice(), equalTo(100L));
       }
     }
 
@@ -246,6 +249,54 @@ class NPCPurchaseRequestTest {
         var req = NPCStoreDatabase.getPurchaseRequest(ItemPool.CHEWING_GUM);
         assertNotNull(req);
         assertFalse(req.canPurchase());
+      }
+    }
+  }
+
+  @Nested
+  class FireWorksShop {
+    @Test
+    public void visitingFireworksShopSetsProperties() {
+      var cleanups =
+          new Cleanups(
+              withProperty("_fireworksShop", false),
+              withProperty("_fireworksShopHatBought", false),
+              withProperty("_fireworksShopEquipmentBought", false),
+              withNextResponse(200, html("request/test_shop_fwshop.html")));
+
+      try (cleanups) {
+        var request = new GenericRequest("shop.php?whichshop=fwshop", false);
+        request.run();
+        assertThat("_fireworksShop", isSetTo(true));
+        assertThat("_fireworksShopHatBought", isSetTo(true));
+        assertThat("_fireworksShopEquipmentBought", isSetTo(false));
+      }
+    }
+  }
+
+  @Nested
+  class MayoClinic {
+    @Test
+    public void visitingMayoClinicSetsProperties() {
+      var cleanups =
+          new Cleanups(
+              withEmptyCampground(),
+              withProperty("mayoLevel", 0),
+              withProperty("_mayoDeviceRented", false),
+              withProperty("itemBoughtPerAscension8266", false),
+              withProperty("_mayoTankSoaked", false),
+              withNextResponse(200, html("request/test_shop_mayoclinic.html")));
+
+      try (cleanups) {
+        var request = new GenericRequest("shop.php?whichshop=mayoclinic", false);
+        request.run();
+        var workshedItem = CampgroundRequest.getCurrentWorkshedItem();
+        assertNotNull(workshedItem);
+        assertEquals(workshedItem.getItemId(), ItemPool.MAYO_CLINIC);
+        assertThat("mayoLevel", isSetTo(2));
+        assertThat("_mayoDeviceRented", isSetTo(false));
+        assertThat("itemBoughtPerAscension8266", isSetTo(false));
+        assertThat("_mayoTankSoaked", isSetTo(false));
       }
     }
   }

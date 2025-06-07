@@ -36,7 +36,6 @@ import net.sourceforge.kolmafia.request.AdventureRequest.ShadowRift;
 import net.sourceforge.kolmafia.request.BasementRequest;
 import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.ClanRumpusRequest;
-import net.sourceforge.kolmafia.request.CreateItemRequest;
 import net.sourceforge.kolmafia.request.DwarfFactoryRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.FamiliarRequest;
@@ -50,6 +49,7 @@ import net.sourceforge.kolmafia.request.SpelunkyRequest;
 import net.sourceforge.kolmafia.request.TavernRequest;
 import net.sourceforge.kolmafia.request.UntinkerRequest;
 import net.sourceforge.kolmafia.request.UseItemRequest;
+import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 import net.sourceforge.kolmafia.session.BatManager;
 import net.sourceforge.kolmafia.session.ChoiceManager;
 import net.sourceforge.kolmafia.session.CryptManager;
@@ -57,8 +57,10 @@ import net.sourceforge.kolmafia.session.EncounterManager;
 import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LimitMode;
+import net.sourceforge.kolmafia.shop.ShopRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
+@SuppressWarnings("incomplete-switch")
 public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   public static final String[][] DEMON_TYPES = {
     {"Summoning Chamber", "Pies"},
@@ -91,7 +93,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
   private final DifficultyLevel difficultyLevel;
   private final Environment environment;
   private final int adventureNumber;
-  private final int recommendedStat, waterLevel;
+  private final int recommendedStat, waterLevel, forceNoncombat;
   private final String normalString, lowercaseString, parentZoneDescription;
 
   private final GenericRequest request;
@@ -136,6 +138,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     this.recommendedStat = AdventureDatabase.getRecommendedStat(adventureName);
 
     this.waterLevel = AdventureDatabase.getWaterLevel(adventureName);
+
+    this.forceNoncombat = AdventureDatabase.getForceNoncombat(adventureName);
 
     this.hasWanderers =
         AdventureDatabase.hasWanderers(adventureName, formSource.equals("adventure.php"));
@@ -204,6 +208,10 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
   public int getWaterLevel() {
     return this.waterLevel;
+  }
+
+  public int getForceNoncombat() {
+    return this.forceNoncombat;
   }
 
   public boolean hasWanderers() {
@@ -626,6 +634,9 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
       case "PirateRealm":
         // One daily visit if available
         return checkZone("prAlways", "_prToday", "monorail");
+      case "Server Room":
+        // One daily visit if available
+        return checkZone("crAlways", "_crToday", "monorail");
       case "Tunnel of L.O.V.E.":
         return checkZone("loveTunnelAvailable", "_loveTunnelToday", "town_wrong");
       case "Twitch":
@@ -972,10 +983,15 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     }
 
     if (this.zone.equals("Campground")) {
-      return switch (this.adventureNumber) {
-        case AdventurePool.YOUR_MUSHROOM_GARDEN -> !KoLCharacter.isKingdomOfExploathing();
-        default -> true;
-      };
+      if (!KoLCharacter.hasCampground()) {
+        return false;
+      }
+      if (this.adventureNumber == AdventurePool.YOUR_MUSHROOM_GARDEN) {
+        AdventureResult crop = CampgroundRequest.getCrop();
+        return crop != null
+            && CampgroundRequest.getCropType(crop) == CampgroundRequest.CropType.MUSHROOM;
+      }
+      return true;
     }
 
     if (this.parentZone.equals("Manor")) {
@@ -1267,6 +1283,12 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         case AdventurePool.BEANBAT:
         case AdventurePool.BOSSBAT:
           {
+            // Cannot adventure in the Boss Bat's Lair after completing the quest.
+            if (this.adventureNumber == AdventurePool.BOSSBAT
+                && QuestDatabase.isQuestFinished(Quest.BAT)) {
+              return false;
+            }
+
             int sonarsUsed =
                 switch (progress) {
                   case QuestDatabase.STARTED -> 0;
@@ -1797,11 +1819,7 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         case AdventurePool.DRUNKEN_STUPOR -> KoLCharacter.isFallingDown();
         case AdventurePool.SSPD_STUPOR -> {
           if (!today.contains(holiday)) yield false;
-          if (KoLCharacter.getInebriety() < 26) {
-            KoLmafia.updateDisplay(MafiaState.ERROR, "You are not drunk enough to continue.");
-            yield false;
-          }
-          yield true;
+          yield KoLCharacter.getInebriety() >= 26;
         }
         default -> holiday == null || today.contains(holiday);
       };
@@ -2189,6 +2207,22 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         return true;
       }
       return Preferences.getString("_lastPirateRealmIsland").equals(this.adventureName);
+    }
+
+    if (this.zone.equals("Server Room")) {
+      if (Preferences.getBoolean("crAlways") || Preferences.getBoolean("_crToday")) {
+        String property =
+            switch (this.adventureNumber) {
+              case AdventurePool.CYBER_ZONE_1 -> "_cyberZone1Turns";
+              case AdventurePool.CYBER_ZONE_2 -> "_cyberZone2Turns";
+              case AdventurePool.CYBER_ZONE_3 -> "_cyberZone3Turns";
+              default -> null;
+            };
+        if (property != null) {
+          return Preferences.getInteger(property) < 20;
+        }
+      }
+      return false;
     }
 
     if (this.zone.equals("Speakeasy")) {
@@ -3026,8 +3060,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         RequestThread.postRequest(UseItemRequest.getInstance(BONE_WITH_A_PRICE_TAG));
       } else {
         // Otherwise, visit the Meatsmith and start the quest.
-        RequestThread.postRequest(new GenericRequest("shop.php?whichshop=meatsmith"));
-        RequestThread.postRequest(new GenericRequest("shop.php?whichshop=meatsmith&action=talk"));
+        RequestThread.postRequest(new ShopRequest("meatsmith"));
+        RequestThread.postRequest(new ShopRequest("meatsmith", "talk"));
         RequestThread.postRequest(new GenericRequest("choice.php?whichchoice=1059&option=1"));
       }
 
@@ -3045,8 +3079,8 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         RequestThread.postRequest(UseItemRequest.getInstance(HYPNOTIC_BREADCRUMBS));
       } else {
         // Otherwise, visit the Armorer and start the quest.
-        RequestThread.postRequest(new GenericRequest("shop.php?whichshop=armory"));
-        RequestThread.postRequest(new GenericRequest("shop.php?whichshop=armory&action=talk"));
+        RequestThread.postRequest(new ShopRequest("armory"));
+        RequestThread.postRequest(new ShopRequest("armory", "talk"));
         RequestThread.postRequest(new GenericRequest("choice.php?whichchoice=1065&option=1"));
       }
 
@@ -3064,12 +3098,21 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
         RequestThread.postRequest(UseItemRequest.getInstance(BOOZE_MAP));
       } else {
         // Otherwise, visit Doc Galaktik and start the quest.
-        RequestThread.postRequest(new GenericRequest("shop.php?whichshop=doc"));
-        RequestThread.postRequest(new GenericRequest("shop.php?whichshop=doc&action=talk"));
+        RequestThread.postRequest(new ShopRequest("doc"));
+        RequestThread.postRequest(new ShopRequest("doc", "talk"));
         RequestThread.postRequest(new GenericRequest("choice.php?whichchoice=1064&option=1"));
       }
 
       return Preferences.getBoolean("overgrownLotAvailable");
+    }
+
+    // Holiday zones
+    if (this.adventureNumber == AdventurePool.SSPD_STUPOR) {
+      if (KoLCharacter.getInebriety() < 26) {
+        // canAdventure checks this, but let's print a reason now.
+        KoLmafia.updateDisplay(MafiaState.ERROR, "You are not drunk enough to continue.");
+        return false;
+      }
     }
 
     return true;
@@ -3268,6 +3311,10 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
 
   public static KoLAdventure setLastAdventure(
       String adventureId, final String adventureName, String adventureURL, final String container) {
+    if (container != null) {
+      Preferences.setString("lastAdventureContainer", container);
+    }
+
     KoLAdventure adventure = AdventureDatabase.getAdventureByURL(adventureURL);
     if (adventure == null) {
       int index = adventureURL.indexOf("?");
@@ -3387,6 +3434,11 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     Preferences.setString("nextAdventure", adventure.adventureName);
     KoLCharacter.updateSelectedLocation(adventure);
     NamedListenerRegistry.fireChange("(koladventure)");
+  }
+
+  public static void clearLocation() {
+    KoLAdventure.setLastAdventure("None");
+    KoLAdventure.setNextAdventure("None");
   }
 
   public static KoLAdventure lastVisitedLocation() {
@@ -4155,7 +4207,11 @@ public class KoLAdventure implements Comparable<KoLAdventure>, Runnable {
     new AdventureFailure(
         "Looks like peace has broken out in this area",
         "The balance of power has shifted, you can no longer fight here",
-        MafiaState.PENDING)
+        MafiaState.PENDING),
+
+    // CyberRealm zones
+    new AdventureFailure(
+        "You've already hacked this system.", "Nothing more to do here.", MafiaState.PENDING),
   };
 
   private static final Pattern CRIMBO21_COLD_RES =

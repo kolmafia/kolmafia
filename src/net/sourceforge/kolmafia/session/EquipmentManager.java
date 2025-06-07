@@ -1,13 +1,17 @@
 package net.sourceforge.kolmafia.session;
 
+import com.alibaba.fastjson2.JSONArray;
+import com.alibaba.fastjson2.JSONException;
+import com.alibaba.fastjson2.JSONObject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.EnumSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
@@ -18,6 +22,7 @@ import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLConstants.Stat;
 import net.sourceforge.kolmafia.KoLConstants.WeaponType;
 import net.sourceforge.kolmafia.KoLmafia;
+import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
@@ -26,15 +31,16 @@ import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
+import net.sourceforge.kolmafia.modifiers.MultiStringModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
 import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
-import net.sourceforge.kolmafia.objectpool.OutfitPool;
 import net.sourceforge.kolmafia.objectpool.SkillPool;
 import net.sourceforge.kolmafia.persistence.ConcoctionDatabase;
 import net.sourceforge.kolmafia.persistence.EquipmentDatabase;
 import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.persistence.ModifierDatabase;
+import net.sourceforge.kolmafia.persistence.SkillDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.EquipmentRequest;
 import net.sourceforge.kolmafia.request.EquipmentRequest.EquipmentRequestType;
@@ -42,10 +48,8 @@ import net.sourceforge.kolmafia.swingui.panel.GearChangePanel;
 import net.sourceforge.kolmafia.textui.command.ConditionsCommand;
 import net.sourceforge.kolmafia.utilities.LockableListFactory;
 import net.sourceforge.kolmafia.utilities.SortedList;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
+@SuppressWarnings("incomplete-switch")
 public class EquipmentManager {
   /** A list of all possible accessories. Is an interior list of equipmentLists for acc1, 2, 3 */
   private static final List<AdventureResult> accessories =
@@ -63,6 +67,9 @@ public class EquipmentManager {
 
   private static int fakeHandCount = 0;
   private static int stinkyCheeseLevel = 0;
+
+  /** In the Hat Trick path, all equipped hats */
+  private static List<Integer> hats = new ArrayList<>();
 
   private static final List<SpecialOutfit> normalOutfits =
       LockableListFactory.getInstance(SpecialOutfit.class);
@@ -118,6 +125,7 @@ public class EquipmentManager {
 
     EquipmentManager.fakeHandCount = 0;
     EquipmentManager.stinkyCheeseLevel = 0;
+    EquipmentManager.hats.clear();
     EquipmentManager.lockedFamiliarItem = EquipmentRequest.UNEQUIP;
     EquipmentManager.normalOutfits.clear();
   }
@@ -265,6 +273,11 @@ public class EquipmentManager {
   public static final void setEquipment(final Slot slot, AdventureResult item) {
     // Variable slots do not include the fake hand
     if (slot == Slot.FAKEHAND) {
+      return;
+    } else if (slot == Slot.HATS) {
+      // we want to add skills and nothing else
+      EquipmentManager.addHatTrickHat(item.getItemId());
+      EquipmentManager.addConditionalSkills(Slot.HAT, item);
       return;
     }
 
@@ -433,353 +446,33 @@ public class EquipmentManager {
     }
   }
 
-  public static final void removeConditionalSkills(final Slot slot, AdventureResult item) {
-    // Certain items can be equipped either in their normal slot or
-    // on a familiar. Granted skills may or may not be available.
-    //
-    // hat - Mad Hatrack - willowy bonnet - YES
-    // weapon - Disembodied Hand - bottle rocket crossbow - YES
-    // offhand - Left-Hand Man - latte lovers member's mug - YES
-    // pants - Fancypants Scarecrow - crotchety pants - YES
-
-    switch (item.getItemId()) {
-      case ItemPool.BOTTLE_ROCKET:
-      case ItemPool.REPLICA_BOTTLE_ROCKET:
-        KoLCharacter.removeAvailableSkill(SkillPool.FIRE_RED_BOTTLE_ROCKET);
-        KoLCharacter.removeAvailableSkill(SkillPool.FIRE_BLUE_BOTTLE_ROCKET);
-        KoLCharacter.removeAvailableSkill(SkillPool.FIRE_ORANGE_BOTTLE_ROCKET);
-        KoLCharacter.removeAvailableSkill(SkillPool.FIRE_PURPLE_BOTTLE_ROCKET);
-        KoLCharacter.removeAvailableSkill(SkillPool.FIRE_BLACK_BOTTLE_ROCKET);
-        break;
-      case ItemPool.JEWEL_EYED_WIZARD_HAT:
-      case ItemPool.REPLICA_JEWEL_EYED_WIZARD_HAT:
-        KoLCharacter.removeAvailableSkill(SkillPool.MAGIC_MISSILE);
-        break;
-      case ItemPool.BAKULA:
-        KoLCharacter.removeAvailableSkill(SkillPool.GIVE_IN_TO_YOUR_VAMPIRIC_URGES);
-        break;
-      case ItemPool.JOYBUZZER:
-        KoLCharacter.removeAvailableSkill(SkillPool.SHAKE_HANDS);
-        break;
-      case ItemPool.V_MASK:
-      case ItemPool.REPLICA_V_MASK:
-        KoLCharacter.removeAvailableSkill(SkillPool.CREEPY_GRIN);
-        break;
-      case ItemPool.MAYFLY_BAIT_NECKLACE:
-        KoLCharacter.removeAvailableSkill(SkillPool.MAYFLY_SWARM);
-        break;
-      case ItemPool.HODGMANS_PORKPIE_HAT:
-      case ItemPool.HODGMANS_LOBSTERSKIN_PANTS:
-      case ItemPool.HODGMANS_BOW_TIE:
-        KoLCharacter.removeAvailableSkill(SkillPool.SUMMON_HOBO);
-        break;
-      case ItemPool.WILLOWY_BONNET:
-        KoLCharacter.removeAvailableSkill(SkillPool.ROUSE_SAPLING);
-        break;
-      case ItemPool.SACCHARINE_MAPLE_PENDANT:
-        KoLCharacter.removeAvailableSkill(SkillPool.SPRAY_SAP);
-        break;
-      case ItemPool.CROTCHETY_PANTS:
-        KoLCharacter.removeAvailableSkill(SkillPool.PUT_DOWN_ROOTS);
-        break;
-      case ItemPool.FIREWORKS:
-      case ItemPool.REPLICA_FIREWORKS:
-        KoLCharacter.removeAvailableSkill(SkillPool.FIRE_OFF_A_ROMAN_CANDLE);
-        break;
-      case ItemPool.HAIKU_KATANA:
-      case ItemPool.REPLICA_HAIKU_KATANA:
-        KoLCharacter.removeAvailableSkill(SkillPool.SPRING_RAINDROP_ATTACK);
-        KoLCharacter.removeAvailableSkill(SkillPool.SUMMER_SIESTA);
-        KoLCharacter.removeAvailableSkill(SkillPool.FALLING_LEAF_WHIRLWIND);
-        KoLCharacter.removeAvailableSkill(SkillPool.WINTERS_BITE_TECHNIQUE);
-        KoLCharacter.removeAvailableSkill(SkillPool.THE_17_CUTS);
-        break;
-      case ItemPool.PARASITIC_CLAW:
-      case ItemPool.PARASITIC_TENTACLES:
-      case ItemPool.PARASITIC_HEADGNAWER:
-      case ItemPool.PARASITIC_STRANGLEWORM:
-        KoLCharacter.removeAvailableSkill(SkillPool.DISARM);
-        KoLCharacter.removeAvailableSkill(SkillPool.ENTANGLE);
-        KoLCharacter.removeAvailableSkill(SkillPool.STRANGLE);
-        break;
-      case ItemPool.ELVISH_SUNGLASSES:
-      case ItemPool.REPLICA_ELVISH_SUNGLASSES:
-        KoLCharacter.removeAvailableSkill(SkillPool.PLAY_AN_ACCORDION_SOLO);
-        KoLCharacter.removeAvailableSkill(SkillPool.PLAY_A_GUITAR_SOLO);
-        KoLCharacter.removeAvailableSkill(SkillPool.PLAY_A_DRUM_SOLO);
-        KoLCharacter.removeAvailableSkill(SkillPool.PLAY_A_FLUTE_SOLO);
-        break;
-      case ItemPool.BAG_O_TRICKS:
-        KoLCharacter.removeAvailableSkill(SkillPool.OPEN_THE_BAG_O_TRICKS);
-        break;
-      case ItemPool.FOUET_DE_TORTUE_DRESSAGE:
-        KoLCharacter.removeAvailableSkill(SkillPool.APPRIVOISEZ_LA_TORTUE);
-        break;
-      case ItemPool.RED_AND_GREEN_SWEATER:
-        KoLCharacter.removeAvailableSkill(SkillPool.STATIC_SHOCK__RED_AND_GREEN_SWEATER);
-        break;
-      case ItemPool.STINKY_CHEESE_EYE:
-        KoLCharacter.removeAvailableSkill(SkillPool.STINKEYE);
-        break;
-      case ItemPool.SLEDGEHAMMER_OF_THE_VAELKYR:
-        KoLCharacter.removeAvailableSkill(SkillPool.BASHING_SLAM_SMASH);
-        break;
-      case ItemPool.FLAIL_OF_THE_SEVEN_ASPECTS:
-        KoLCharacter.removeAvailableSkill(SkillPool.TURTLE_OF_SEVEN_TAILS);
-        break;
-      case ItemPool.WRATH_OF_THE_PASTALORDS:
-        KoLCharacter.removeAvailableSkill(SkillPool.NOODLES_OF_FIRE);
-        break;
-      case ItemPool.WINDSOR_PAN_OF_THE_SOURCE:
-        KoLCharacter.removeAvailableSkill(SkillPool.SAUCEMAGEDDON);
-        break;
-      case ItemPool.SEEGERS_BANJO:
-        KoLCharacter.removeAvailableSkill(SkillPool.FUNK_BLUEGRASS_FUSION);
-        break;
-      case ItemPool.TRICKSTER_TRIKITIXA:
-        KoLCharacter.removeAvailableSkill(SkillPool.EXTREME_HIGH_NOTE);
-        break;
-      case ItemPool.BOTTLE_OF_GOLDENSCHNOCKERED:
-        KoLCharacter.removeAvailableSkill(SkillPool.GOLDENSHOWER);
-        break;
-      case ItemPool.SPIDER_RING:
-        KoLCharacter.removeAvailableSkill(SkillPool.SHOOT_WEB);
-        break;
-      case ItemPool.STRESS_BALL:
-        KoLCharacter.removeAvailableSkill(SkillPool.SQUEEZE_STRESS_BALL);
-        break;
-      case ItemPool.PATRIOT_SHIELD:
-      case ItemPool.REPLICA_PATRIOT_SHIELD:
-        KoLCharacter.removeAvailableSkill(SkillPool.THROW_SHIELD);
-        break;
-      case ItemPool.PLASTIC_VAMPIRE_FANGS:
-      case ItemPool.REPLICA_PLASTIC_VAMPIRE_FANGS:
-        KoLCharacter.removeAvailableSkill(SkillPool.FEED);
-        break;
-      case ItemPool.LORD_FLAMEFACES_CLOAK:
-        KoLCharacter.removeAvailableSkill(SkillPool.SWIRL_CLOAK);
-        break;
-      case ItemPool.RIGHT_BEAR_ARM:
-        KoLCharacter.removeAvailableSkill(SkillPool.KODIAK_MOMENT);
-        KoLCharacter.removeAvailableSkill(SkillPool.GRIZZLY_SCENE);
-        KoLCharacter.removeAvailableSkill(SkillPool.BEAR_HUG);
-        KoLCharacter.removeAvailableSkill(SkillPool.I_CAN_BEARLY_HEAR_YOU_OVER_THE_APPLAUSE);
-        break;
-      case ItemPool.LEFT_BEAR_ARM:
-        KoLCharacter.removeAvailableSkill(SkillPool.BEAR_BACKRUB);
-        KoLCharacter.removeAvailableSkill(SkillPool.BEARLY_LEGAL);
-        KoLCharacter.removeAvailableSkill(SkillPool.BEAR_HUG);
-        KoLCharacter.removeAvailableSkill(SkillPool.I_CAN_BEARLY_HEAR_YOU_OVER_THE_APPLAUSE);
-        break;
-      case ItemPool.ELECTRONIC_DULCIMER_PANTS:
-        KoLCharacter.removeAvailableSkill(SkillPool.PLAY_HOG_FIDDLE);
-        break;
-      case ItemPool.HAGGIS_SOCKS:
-        KoLCharacter.removeAvailableSkill(SkillPool.HAGGIS_KICK);
-        break;
-      case ItemPool.MARK_V_STEAM_HAT:
-        KoLCharacter.removeAvailableSkill(SkillPool.FIRE_DEATH_RAY);
-        break;
-      case ItemPool.VIOLENCE_LENS:
-        KoLCharacter.removeAvailableSkill(SkillPool.VIOLENT_GAZE);
-        break;
-      case ItemPool.VIOLENCE_BRAND:
-        KoLCharacter.removeAvailableSkill(SkillPool.BRAND);
-        break;
-      case ItemPool.VIOLENCE_PANTS:
-        KoLCharacter.removeAvailableSkill(SkillPool.MOSH);
-        break;
-      case ItemPool.VIOLENCE_STOMPERS:
-        KoLCharacter.removeAvailableSkill(SkillPool.STOMP_ASS);
-        break;
-      case ItemPool.HATRED_LENS:
-        KoLCharacter.removeAvailableSkill(SkillPool.HATEFUL_GAZE);
-        break;
-      case ItemPool.HATRED_STONE:
-        KoLCharacter.removeAvailableSkill(SkillPool.CHILLING_GRIP);
-        break;
-      case ItemPool.HATRED_PANTS:
-        KoLCharacter.removeAvailableSkill(SkillPool.STATIC_SHOCK__PANTALOONS_OF_HATRED);
-        break;
-      case ItemPool.HATRED_GIRDLE:
-        KoLCharacter.removeAvailableSkill(SkillPool.TIGHTEN_GIRDLE);
-        break;
-      case ItemPool.ANGER_BLASTER:
-        KoLCharacter.removeAvailableSkill(SkillPool.RAGE_FLAME);
-        break;
-      case ItemPool.DOUBT_CANNON:
-        KoLCharacter.removeAvailableSkill(SkillPool.DOUBT_SHACKLES);
-        break;
-      case ItemPool.FEAR_CONDENSER:
-        KoLCharacter.removeAvailableSkill(SkillPool.FEAR_VAPOR);
-        break;
-      case ItemPool.REGRET_HOSE:
-        KoLCharacter.removeAvailableSkill(SkillPool.TEAR_WAVE);
-        break;
-      case ItemPool.GREAT_WOLFS_LEFT_PAW:
-      case ItemPool.GREAT_WOLFS_RIGHT_PAW:
-        KoLCharacter.removeAvailableSkill(SkillPool.GREAT_SLASH);
-        break;
-      case ItemPool.GREAT_WOLFS_ROCKET_LAUNCHER:
-        KoLCharacter.removeAvailableSkill(SkillPool.FIRE_ROCKET);
-        break;
-      case ItemPool.MAYOR_GHOSTS_GAVEL:
-        KoLCharacter.removeAvailableSkill(SkillPool.HAMMER_GHOST);
-        break;
-      case ItemPool.PANTSGIVING:
-        KoLCharacter.removeAvailableSkill(SkillPool.TALK_ABOUT_POLITICS);
-        KoLCharacter.removeAvailableSkill(SkillPool.POCKET_CRUMBS);
-        KoLCharacter.removeAvailableSkill(SkillPool.AIR_DIRTY_LAUNDRY);
-        break;
-      case ItemPool.WARBEAR_OIL_PAN:
-        if (KoLCharacter.isSauceror()) {
-          KoLCharacter.removeAvailableSkill(SkillPool.SPRAY_HOT_GREASE);
-        }
-        break;
-      case ItemPool.WOLF_WHISTLE:
-        KoLCharacter.removeAvailableSkill(SkillPool.BLOW_WOLF_WHISTLE);
-        break;
-      case ItemPool.TOMMY_GUN:
-        KoLCharacter.removeAvailableSkill(SkillPool.UNLOAD_TOMMY_GUN);
-        break;
-      case ItemPool.CREEPY_VOICE_BOX:
-        KoLCharacter.removeAvailableSkill(SkillPool.PULL_VOICE_BOX_STRING);
-        break;
-      case ItemPool.COAL_SHOVEL:
-        KoLCharacter.removeAvailableSkill(SkillPool.SHOVEL_HOT_COAL);
-        break;
-      case ItemPool.SPACE_HEATER:
-        KoLCharacter.removeAvailableSkill(SkillPool.HEAT_SPACE);
-        break;
-      case ItemPool.CAP_GUN:
-        KoLCharacter.removeAvailableSkill(SkillPool.BANG_BANG_BANG_BANG);
-        break;
-      case ItemPool.THORS_PLIERS:
-        KoLCharacter.removeAvailableSkill(SkillPool.PLY_REALITY);
-        break;
-      case ItemPool.CUDDLY_TEDDY_BEAR:
-        KoLCharacter.removeAvailableSkill(SkillPool.OVERLOAD_TEDDY_BEAR);
-        break;
-      case ItemPool.TOY_CRIMBOT_FACE:
-        KoLCharacter.removeAvailableSkill(SkillPool.LIGHT);
-        break;
-      case ItemPool.TOY_CRIMBOT_GLOVE:
-        KoLCharacter.removeAvailableSkill(SkillPool.ZAP);
-        break;
-      case ItemPool.TOY_CRIMBOT_FIST:
-        KoLCharacter.removeAvailableSkill(SkillPool.POW);
-        break;
-      case ItemPool.TOY_CRIMBOT_LEGS:
-        KoLCharacter.removeAvailableSkill(SkillPool.BURN);
-        break;
-      case ItemPool.RING_OF_TELLING_SKELETONS_WHAT_TO_DO:
-        KoLCharacter.removeAvailableSkill(SkillPool.TELL_A_SKELETON_WHAT_TO_DO);
-        KoLCharacter.removeAvailableSkill(SkillPool.TELL_THIS_SKELETON_WHAT_TO_DO);
-        break;
-      case ItemPool.SEWAGE_CLOGGED_PISTOL:
-        KoLCharacter.removeAvailableSkill(SkillPool.FIRE_SEWAGE_PISTOL);
-        break;
-      case ItemPool.LOTS_ENGAGEMENT_RING:
-        KoLCharacter.removeAvailableSkill(SkillPool.PROPOSE_TO_YOUR_OPPONENT);
-        break;
-      case ItemPool.PROTON_ACCELERATOR:
-        KoLCharacter.removeAvailableSkill(SkillPool.SHOOT_GHOST);
-        KoLCharacter.removeAvailableSkill(SkillPool.TRAP_GHOST);
-        break;
-      case ItemPool.STANDARDS_AND_PRACTICES:
-        KoLCharacter.removeAvailableSkill(SkillPool.CENSORIOUS_LECTURE);
-        break;
-      case ItemPool.KREMLIN_BRIEFCASE:
-        KoLCharacter.removeAvailableSkill(SkillPool.KGB_TRANQUILIZER_DART);
-        break;
-      case ItemPool.GABARDINE_GIRDLE:
-        KoLCharacter.removeAvailableSkill(SkillPool.UNLEASH_DISCO_PUDGE);
-        break;
-      case ItemPool.PAINT_PALETTE:
-        KoLCharacter.removeAvailableSkill(SkillPool.PAINT_JOB);
-        break;
-      case ItemPool.PARTYCRASHER:
-        KoLCharacter.removeAvailableSkill(SkillPool.PARTY_CRASH);
-        break;
-      case ItemPool.LATTE_MUG:
-        KoLCharacter.removeAvailableSkill(SkillPool.THROW_LATTE);
-        KoLCharacter.removeAvailableSkill(SkillPool.OFFER_LATTE);
-        KoLCharacter.removeAvailableSkill(SkillPool.GULP_LATTE);
-        break;
-      case ItemPool.DOCTOR_BAG:
-        KoLCharacter.removeAvailableSkill(SkillPool.OTOSCOPE);
-        KoLCharacter.removeAvailableSkill(SkillPool.REFLEX_HAMMER);
-        KoLCharacter.removeAvailableSkill(SkillPool.CHEST_X_RAY);
-        break;
-      case ItemPool.FOURTH_SABER:
-      case ItemPool.REPLICA_FOURTH_SABER:
-        KoLCharacter.removeAvailableSkill(SkillPool.USE_THE_FORCE);
-        break;
-      case ItemPool.HEWN_MOON_RUNE_SPOON:
-      case ItemPool.REPLICA_HEWN_MOON_RUNE_SPOON:
-        if (KoLCharacter.isMuscleClass()) {
-          KoLCharacter.removeAvailableSkill(SkillPool.DRAGOON_PLATOON);
-        } else if (KoLCharacter.isMysticalityClass()) {
-          KoLCharacter.removeAvailableSkill(SkillPool.SPITTOON_MONSOON);
-        } else if (KoLCharacter.isMoxieClass()) {
-          KoLCharacter.removeAvailableSkill(SkillPool.FESTOON_BUFFOON);
-        }
-        break;
-      case ItemPool.BEACH_COMB:
-        KoLCharacter.removeAvailableSkill(SkillPool.BEACH_COMBO);
-        break;
-      case ItemPool.POWERFUL_GLOVE:
-      case ItemPool.REPLICA_POWERFUL_GLOVE:
-        // These are only the combat skills, we make the noncombat skills always available
-        KoLCharacter.removeAvailableSkill(SkillPool.REPLACE_ENEMY);
-        KoLCharacter.removeAvailableSkill(SkillPool.SHRINK_ENEMY);
-        break;
-      case ItemPool.RED_PLUMBERS_BOOTS:
-        KoLCharacter.removeAvailableSkill(SkillPool.PLUMBER_JUMP);
-        break;
-      case ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE:
-        ItemDatabase.setCapeSkills();
-        break;
-      case ItemPool.BLART:
-        KoLCharacter.removeAvailableSkill(SkillPool.BLART_SPRAY_NARROW);
-        KoLCharacter.removeAvailableSkill(SkillPool.BLART_SPRAY_MEDIUM);
-        KoLCharacter.removeAvailableSkill(SkillPool.BLART_SPRAY_WIDE);
-        break;
-      case ItemPool.INDUSTRIAL_FIRE_EXTINGUISHER:
-      case ItemPool.REPLICA_INDUSTRIAL_FIRE_EXTINGUISHER:
-        KoLCharacter.removeAvailableSkill(SkillPool.FIRE_EXTINGUISHER__FOAM_EM_UP);
-        KoLCharacter.removeAvailableSkill(SkillPool.FIRE_EXTINGUISHER__POLAR_VORTEX);
-        KoLCharacter.removeAvailableSkill(SkillPool.FIRE_EXTINGUISHER__FOAM_YOURSELF);
-        KoLCharacter.removeAvailableSkill(SkillPool.FIRE_EXTINGUISHER__BLAST_THE_AREA);
-        KoLCharacter.removeAvailableSkill(SkillPool.FIRE_EXTINGUISHER__ZONE_SPECIFIC);
-        break;
-      case ItemPool.DESIGNER_SWEATPANTS:
-      case ItemPool.REPLICA_DESIGNER_SWEATPANTS:
-        // These are only the combat skills, we make the noncombat skills always available
-        KoLCharacter.removeAvailableSkill(SkillPool.SWEAT_FLICK);
-        KoLCharacter.removeAvailableSkill(SkillPool.SWEAT_FLOOD);
-        KoLCharacter.removeAvailableSkill(SkillPool.SWEAT_SPRAY);
-        KoLCharacter.removeAvailableSkill(SkillPool.SWEAT_SIP);
-        break;
-      case ItemPool.FLASH_LIQUIDIZER_ULTRA_DOUSING_ACCESSORY:
-        KoLCharacter.removeAvailableSkill(SkillPool.DOUSE_FOE);
-        break;
-      case ItemPool.PRO_SKATEBOARD:
-        KoLCharacter.removeAvailableSkill(SkillPool.DO_KICKFLIP);
-        KoLCharacter.removeAvailableSkill(SkillPool.DO_METHOD);
-        KoLCharacter.removeAvailableSkill(SkillPool.DO_EPIC_MCTWIST);
-        break;
-      case ItemPool.FRANKEN_STEIN:
-        KoLCharacter.removeAvailableSkill(SkillPool.TOAST_YOUR_ENEMY);
-        break;
-      case ItemPool.CANDY_CANE_SWORD:
-        KoLCharacter.removeAvailableSkill(SkillPool.SURPRISINGLY_SWEET_STAB);
-        KoLCharacter.removeAvailableSkill(SkillPool.SURPRISINGLY_SWEET_SLASH);
-        break;
-    }
+  public static void removeConditionalSkills(final Slot slot, AdventureResult item) {
+    manageConditionalSkills(false, slot, item);
   }
 
-  public static final void addConditionalSkills(final Slot slot, AdventureResult item) {
+  public static void addConditionalSkills(final Slot slot, AdventureResult item) {
+    manageConditionalSkills(true, slot, item);
+  }
+
+  private static void manageConditionalSkillsFromOutfit(
+      final boolean add, final int id, final Consumer<Integer> cb) {
+    var outfit = normalOutfits.stream().filter(o -> o.containsPiece(id)).findAny().orElse(null);
+
+    if (outfit == null) return;
+    var outfitMods = ModifierDatabase.getModifiers(ModifierType.OUTFIT, outfit.getName());
+    if (outfitMods == null) return;
+
+    if (add && !outfit.isWearing()) return;
+
+    outfitMods.getStrings(MultiStringModifier.CONDITIONAL_SKILL_EQUIPPED).stream()
+        .map(SkillDatabase::getSkillId)
+        .forEach(cb);
+  }
+
+  private static void manageConditionalSkills(
+      final boolean add, final Slot slot, AdventureResult item) {
+    Consumer<Integer> cb =
+        add ? KoLCharacter::addAvailableSkill : KoLCharacter::removeAvailableSkill;
     // Certain items can be equipped either in their normal slot or
     // on a familiar. Granted skills may or may not be available.
     //
@@ -800,350 +493,46 @@ public class EquipmentManager {
       }
     }
 
+    var mods = ModifierDatabase.getItemModifiers(id);
+    if (mods != null) {
+      mods.getStrings(MultiStringModifier.CONDITIONAL_SKILL_EQUIPPED).stream()
+          .map(SkillDatabase::getSkillId)
+          .filter(Predicate.not(SkillDatabase::isNonCombat))
+          .forEach(cb);
+    }
+
+    manageConditionalSkillsFromOutfit(add, id, cb);
+
     switch (id) {
-      case ItemPool.BOTTLE_ROCKET:
-      case ItemPool.REPLICA_BOTTLE_ROCKET:
-        KoLCharacter.addAvailableSkill(SkillPool.FIRE_RED_BOTTLE_ROCKET);
-        KoLCharacter.addAvailableSkill(SkillPool.FIRE_BLUE_BOTTLE_ROCKET);
-        KoLCharacter.addAvailableSkill(SkillPool.FIRE_ORANGE_BOTTLE_ROCKET);
-        KoLCharacter.addAvailableSkill(SkillPool.FIRE_PURPLE_BOTTLE_ROCKET);
-        KoLCharacter.addAvailableSkill(SkillPool.FIRE_BLACK_BOTTLE_ROCKET);
-        break;
-      case ItemPool.JEWEL_EYED_WIZARD_HAT:
-      case ItemPool.REPLICA_JEWEL_EYED_WIZARD_HAT:
-        KoLCharacter.addAvailableSkill(SkillPool.MAGIC_MISSILE);
-        break;
-      case ItemPool.BAKULA:
-        KoLCharacter.addAvailableSkill(SkillPool.GIVE_IN_TO_YOUR_VAMPIRIC_URGES);
-        break;
-      case ItemPool.JOYBUZZER:
-        KoLCharacter.addAvailableSkill(SkillPool.SHAKE_HANDS);
-        break;
-      case ItemPool.V_MASK:
-      case ItemPool.REPLICA_V_MASK:
-        KoLCharacter.addAvailableSkill(SkillPool.CREEPY_GRIN);
-        break;
-      case ItemPool.MAYFLY_BAIT_NECKLACE:
-        KoLCharacter.addAvailableSkill(SkillPool.MAYFLY_SWARM);
-        break;
-      case ItemPool.HODGMANS_PORKPIE_HAT:
-      case ItemPool.HODGMANS_LOBSTERSKIN_PANTS:
-      case ItemPool.HODGMANS_BOW_TIE:
-        if (EquipmentManager.isWearingOutfit(OutfitPool.HODGMANS_REGAL_FRIPPERY)) {
-          KoLCharacter.addAvailableSkill(SkillPool.SUMMON_HOBO);
+      case ItemPool.RIGHT_BEAR_ARM, ItemPool.LEFT_BEAR_ARM -> {
+        if (KoLCharacter.hasEquipped(ItemPool.get(ItemPool.RIGHT_BEAR_ARM, 1))
+            && KoLCharacter.hasEquipped(ItemPool.get(ItemPool.LEFT_BEAR_ARM, 1))) {
+          cb.accept(SkillPool.BEAR_HUG);
+          cb.accept(SkillPool.I_CAN_BEARLY_HEAR_YOU_OVER_THE_APPLAUSE);
         }
-        break;
-      case ItemPool.WILLOWY_BONNET:
-        KoLCharacter.addAvailableSkill(SkillPool.ROUSE_SAPLING);
-        break;
-      case ItemPool.SACCHARINE_MAPLE_PENDANT:
-        KoLCharacter.addAvailableSkill(SkillPool.SPRAY_SAP);
-        break;
-      case ItemPool.CROTCHETY_PANTS:
-        KoLCharacter.addAvailableSkill(SkillPool.PUT_DOWN_ROOTS);
-        break;
-      case ItemPool.FIREWORKS:
-      case ItemPool.REPLICA_FIREWORKS:
-        KoLCharacter.addAvailableSkill(SkillPool.FIRE_OFF_A_ROMAN_CANDLE);
-        break;
-      case ItemPool.HAIKU_KATANA:
-      case ItemPool.REPLICA_HAIKU_KATANA:
-        KoLCharacter.addAvailableSkill(SkillPool.SPRING_RAINDROP_ATTACK);
-        KoLCharacter.addAvailableSkill(SkillPool.SUMMER_SIESTA);
-        KoLCharacter.addAvailableSkill(SkillPool.FALLING_LEAF_WHIRLWIND);
-        KoLCharacter.addAvailableSkill(SkillPool.WINTERS_BITE_TECHNIQUE);
-        KoLCharacter.addAvailableSkill(SkillPool.THE_17_CUTS);
-        break;
-      case ItemPool.PARASITIC_CLAW:
-      case ItemPool.PARASITIC_TENTACLES:
-      case ItemPool.PARASITIC_HEADGNAWER:
-      case ItemPool.PARASITIC_STRANGLEWORM:
-        if (EquipmentManager.isWearingOutfit(OutfitPool.MUTANT_COUTURE)) {
-          KoLCharacter.addAvailableSkill(SkillPool.DISARM);
-          KoLCharacter.addAvailableSkill(SkillPool.ENTANGLE);
-          KoLCharacter.addAvailableSkill(SkillPool.STRANGLE);
-        }
-        break;
-      case ItemPool.ELVISH_SUNGLASSES:
-      case ItemPool.REPLICA_ELVISH_SUNGLASSES:
-        KoLCharacter.addAvailableSkill(SkillPool.PLAY_AN_ACCORDION_SOLO);
-        KoLCharacter.addAvailableSkill(SkillPool.PLAY_A_GUITAR_SOLO);
-        KoLCharacter.addAvailableSkill(SkillPool.PLAY_A_DRUM_SOLO);
-        KoLCharacter.addAvailableSkill(SkillPool.PLAY_A_FLUTE_SOLO);
-        break;
-      case ItemPool.BAG_O_TRICKS:
-        KoLCharacter.addAvailableSkill(SkillPool.OPEN_THE_BAG_O_TRICKS);
-        break;
-      case ItemPool.FOUET_DE_TORTUE_DRESSAGE:
-        KoLCharacter.addAvailableSkill(SkillPool.APPRIVOISEZ_LA_TORTUE);
-        break;
-      case ItemPool.RED_AND_GREEN_SWEATER:
-        KoLCharacter.addAvailableSkill(SkillPool.STATIC_SHOCK__RED_AND_GREEN_SWEATER);
-        break;
-      case ItemPool.STINKY_CHEESE_EYE:
-        KoLCharacter.addAvailableSkill(SkillPool.STINKEYE);
-        break;
-      case ItemPool.SLEDGEHAMMER_OF_THE_VAELKYR:
-        KoLCharacter.addAvailableSkill(SkillPool.BASHING_SLAM_SMASH);
-        break;
-      case ItemPool.FLAIL_OF_THE_SEVEN_ASPECTS:
-        KoLCharacter.addAvailableSkill(SkillPool.TURTLE_OF_SEVEN_TAILS);
-        break;
-      case ItemPool.WRATH_OF_THE_PASTALORDS:
-        KoLCharacter.addAvailableSkill(SkillPool.NOODLES_OF_FIRE);
-        break;
-      case ItemPool.WINDSOR_PAN_OF_THE_SOURCE:
-        KoLCharacter.addAvailableSkill(SkillPool.SAUCEMAGEDDON);
-        break;
-      case ItemPool.SEEGERS_BANJO:
-        KoLCharacter.addAvailableSkill(SkillPool.FUNK_BLUEGRASS_FUSION);
-        break;
-      case ItemPool.TRICKSTER_TRIKITIXA:
-        KoLCharacter.addAvailableSkill(SkillPool.EXTREME_HIGH_NOTE);
-        break;
-      case ItemPool.BOTTLE_OF_GOLDENSCHNOCKERED:
-        KoLCharacter.addAvailableSkill(SkillPool.GOLDENSHOWER);
-        break;
-      case ItemPool.SPIDER_RING:
-        KoLCharacter.addAvailableSkill(SkillPool.SHOOT_WEB);
-        break;
-      case ItemPool.STRESS_BALL:
-        KoLCharacter.addAvailableSkill(SkillPool.SQUEEZE_STRESS_BALL);
-        break;
-      case ItemPool.PATRIOT_SHIELD:
-      case ItemPool.REPLICA_PATRIOT_SHIELD:
-        KoLCharacter.addAvailableSkill(SkillPool.THROW_SHIELD);
-        break;
-      case ItemPool.PLASTIC_VAMPIRE_FANGS:
-      case ItemPool.REPLICA_PLASTIC_VAMPIRE_FANGS:
-        KoLCharacter.addAvailableSkill(SkillPool.FEED);
-        break;
-      case ItemPool.LORD_FLAMEFACES_CLOAK:
-        KoLCharacter.addAvailableSkill(SkillPool.SWIRL_CLOAK);
-        break;
-      case ItemPool.RIGHT_BEAR_ARM:
-        KoLCharacter.addAvailableSkill(SkillPool.KODIAK_MOMENT);
-        KoLCharacter.addAvailableSkill(SkillPool.GRIZZLY_SCENE);
-        if (KoLCharacter.hasEquipped(ItemPool.get(ItemPool.LEFT_BEAR_ARM, 1))) {
-          KoLCharacter.addAvailableSkill(SkillPool.BEAR_HUG);
-          KoLCharacter.addAvailableSkill(SkillPool.I_CAN_BEARLY_HEAR_YOU_OVER_THE_APPLAUSE);
-        }
-        break;
-      case ItemPool.LEFT_BEAR_ARM:
-        KoLCharacter.addAvailableSkill(SkillPool.BEAR_BACKRUB);
-        KoLCharacter.addAvailableSkill(SkillPool.BEARLY_LEGAL);
-        if (KoLCharacter.hasEquipped(ItemPool.get(ItemPool.RIGHT_BEAR_ARM, 1))) {
-          KoLCharacter.addAvailableSkill(SkillPool.BEAR_HUG);
-          KoLCharacter.addAvailableSkill(SkillPool.I_CAN_BEARLY_HEAR_YOU_OVER_THE_APPLAUSE);
-        }
-        break;
-      case ItemPool.ELECTRONIC_DULCIMER_PANTS:
-        KoLCharacter.addAvailableSkill(SkillPool.PLAY_HOG_FIDDLE);
-        break;
-      case ItemPool.HAGGIS_SOCKS:
-        KoLCharacter.addAvailableSkill(SkillPool.HAGGIS_KICK);
-        break;
-      case ItemPool.MARK_V_STEAM_HAT:
-        KoLCharacter.addAvailableSkill(SkillPool.FIRE_DEATH_RAY);
-        break;
-      case ItemPool.VIOLENCE_LENS:
-        KoLCharacter.addAvailableSkill(SkillPool.VIOLENT_GAZE);
-        break;
-      case ItemPool.VIOLENCE_BRAND:
-        KoLCharacter.addAvailableSkill(SkillPool.BRAND);
-        break;
-      case ItemPool.VIOLENCE_PANTS:
-        KoLCharacter.addAvailableSkill(SkillPool.MOSH);
-        break;
-      case ItemPool.VIOLENCE_STOMPERS:
-        KoLCharacter.addAvailableSkill(SkillPool.STOMP_ASS);
-        break;
-      case ItemPool.HATRED_LENS:
-        KoLCharacter.addAvailableSkill(SkillPool.HATEFUL_GAZE);
-        break;
-      case ItemPool.HATRED_STONE:
-        KoLCharacter.addAvailableSkill(SkillPool.CHILLING_GRIP);
-        break;
-      case ItemPool.HATRED_PANTS:
-        KoLCharacter.addAvailableSkill(SkillPool.STATIC_SHOCK__PANTALOONS_OF_HATRED);
-        break;
-      case ItemPool.HATRED_GIRDLE:
-        KoLCharacter.addAvailableSkill(SkillPool.TIGHTEN_GIRDLE);
-        break;
-      case ItemPool.ANGER_BLASTER:
-        KoLCharacter.addAvailableSkill(SkillPool.RAGE_FLAME);
-        break;
-      case ItemPool.DOUBT_CANNON:
-        KoLCharacter.addAvailableSkill(SkillPool.DOUBT_SHACKLES);
-        break;
-      case ItemPool.FEAR_CONDENSER:
-        KoLCharacter.addAvailableSkill(SkillPool.FEAR_VAPOR);
-        break;
-      case ItemPool.REGRET_HOSE:
-        KoLCharacter.addAvailableSkill(SkillPool.TEAR_WAVE);
-        break;
-      case ItemPool.GREAT_WOLFS_LEFT_PAW:
-      case ItemPool.GREAT_WOLFS_RIGHT_PAW:
-        KoLCharacter.addAvailableSkill(SkillPool.GREAT_SLASH);
-        break;
-      case ItemPool.GREAT_WOLFS_ROCKET_LAUNCHER:
-        KoLCharacter.addAvailableSkill(SkillPool.FIRE_ROCKET);
-        break;
-      case ItemPool.MAYOR_GHOSTS_GAVEL:
-        KoLCharacter.addAvailableSkill(SkillPool.HAMMER_GHOST);
-        break;
-      case ItemPool.PANTSGIVING:
-        KoLCharacter.addAvailableSkill(SkillPool.TALK_ABOUT_POLITICS);
-        KoLCharacter.addAvailableSkill(SkillPool.POCKET_CRUMBS);
-        KoLCharacter.addAvailableSkill(SkillPool.AIR_DIRTY_LAUNDRY);
-        break;
-      case ItemPool.WARBEAR_OIL_PAN:
+      }
+      case ItemPool.WARBEAR_OIL_PAN -> {
         if (KoLCharacter.isSauceror()) {
-          KoLCharacter.addAvailableSkill(SkillPool.SPRAY_HOT_GREASE);
+          cb.accept(SkillPool.SPRAY_HOT_GREASE);
         }
-        break;
-      case ItemPool.WOLF_WHISTLE:
-        KoLCharacter.addAvailableSkill(SkillPool.BLOW_WOLF_WHISTLE);
-        break;
-      case ItemPool.TOMMY_GUN:
-        KoLCharacter.addAvailableSkill(SkillPool.UNLOAD_TOMMY_GUN);
-        break;
-      case ItemPool.CREEPY_VOICE_BOX:
-        KoLCharacter.addAvailableSkill(SkillPool.PULL_VOICE_BOX_STRING);
-        break;
-      case ItemPool.COAL_SHOVEL:
-        KoLCharacter.addAvailableSkill(SkillPool.SHOVEL_HOT_COAL);
-        break;
-      case ItemPool.SPACE_HEATER:
-        KoLCharacter.addAvailableSkill(SkillPool.HEAT_SPACE);
-        break;
-      case ItemPool.CAP_GUN:
-        KoLCharacter.addAvailableSkill(SkillPool.BANG_BANG_BANG_BANG);
-        break;
-      case ItemPool.THORS_PLIERS:
-        KoLCharacter.addAvailableSkill(SkillPool.PLY_REALITY);
-        break;
-      case ItemPool.CUDDLY_TEDDY_BEAR:
-        KoLCharacter.addAvailableSkill(SkillPool.OVERLOAD_TEDDY_BEAR);
-        break;
-      case ItemPool.TOY_CRIMBOT_FACE:
-        KoLCharacter.addAvailableSkill(SkillPool.LIGHT);
-        break;
-      case ItemPool.TOY_CRIMBOT_GLOVE:
-        KoLCharacter.addAvailableSkill(SkillPool.ZAP);
-        break;
-      case ItemPool.TOY_CRIMBOT_FIST:
-        KoLCharacter.addAvailableSkill(SkillPool.POW);
-        break;
-      case ItemPool.TOY_CRIMBOT_LEGS:
-        KoLCharacter.addAvailableSkill(SkillPool.BURN);
-        break;
-      case ItemPool.RING_OF_TELLING_SKELETONS_WHAT_TO_DO:
-        KoLCharacter.addAvailableSkill(SkillPool.TELL_A_SKELETON_WHAT_TO_DO);
-        KoLCharacter.addAvailableSkill(SkillPool.TELL_THIS_SKELETON_WHAT_TO_DO);
-        break;
-      case ItemPool.SEWAGE_CLOGGED_PISTOL:
-        KoLCharacter.addAvailableSkill(SkillPool.FIRE_SEWAGE_PISTOL);
-        break;
-      case ItemPool.LOTS_ENGAGEMENT_RING:
-        KoLCharacter.addAvailableSkill(SkillPool.PROPOSE_TO_YOUR_OPPONENT);
-        break;
-      case ItemPool.PROTON_ACCELERATOR:
-        KoLCharacter.addAvailableSkill(SkillPool.SHOOT_GHOST);
-        KoLCharacter.addAvailableSkill(SkillPool.TRAP_GHOST);
-        break;
-      case ItemPool.STANDARDS_AND_PRACTICES:
-        KoLCharacter.addAvailableSkill(SkillPool.CENSORIOUS_LECTURE);
-        break;
-      case ItemPool.KREMLIN_BRIEFCASE:
-        KoLCharacter.addAvailableSkill(SkillPool.KGB_TRANQUILIZER_DART);
-        break;
-      case ItemPool.GABARDINE_GIRDLE:
-        KoLCharacter.addAvailableSkill(SkillPool.UNLEASH_DISCO_PUDGE);
-        break;
-      case ItemPool.PAINT_PALETTE:
-        KoLCharacter.addAvailableSkill(SkillPool.PAINT_JOB);
-        break;
-      case ItemPool.PARTYCRASHER:
-        KoLCharacter.addAvailableSkill(SkillPool.PARTY_CRASH);
-        break;
-      case ItemPool.LATTE_MUG:
-        KoLCharacter.addAvailableSkill(SkillPool.THROW_LATTE);
-        KoLCharacter.addAvailableSkill(SkillPool.OFFER_LATTE);
-        KoLCharacter.addAvailableSkill(SkillPool.GULP_LATTE);
-        break;
-      case ItemPool.DOCTOR_BAG:
-        KoLCharacter.addAvailableSkill(SkillPool.OTOSCOPE);
-        KoLCharacter.addAvailableSkill(SkillPool.REFLEX_HAMMER);
-        KoLCharacter.addAvailableSkill(SkillPool.CHEST_X_RAY);
-        break;
-      case ItemPool.FOURTH_SABER:
-      case ItemPool.REPLICA_FOURTH_SABER:
-        KoLCharacter.addAvailableSkill(SkillPool.USE_THE_FORCE);
-        break;
-      case ItemPool.HEWN_MOON_RUNE_SPOON:
-      case ItemPool.REPLICA_HEWN_MOON_RUNE_SPOON:
+      }
+      case ItemPool.HEWN_MOON_RUNE_SPOON, ItemPool.REPLICA_HEWN_MOON_RUNE_SPOON -> {
         if (KoLCharacter.isMuscleClass()) {
-          KoLCharacter.addAvailableSkill(SkillPool.DRAGOON_PLATOON);
+          cb.accept(SkillPool.DRAGOON_PLATOON);
         } else if (KoLCharacter.isMysticalityClass()) {
-          KoLCharacter.addAvailableSkill(SkillPool.SPITTOON_MONSOON);
+          cb.accept(SkillPool.SPITTOON_MONSOON);
         } else if (KoLCharacter.isMoxieClass()) {
-          KoLCharacter.addAvailableSkill(SkillPool.FESTOON_BUFFOON);
+          cb.accept(SkillPool.FESTOON_BUFFOON);
         }
-        break;
-      case ItemPool.BEACH_COMB:
-        KoLCharacter.addAvailableSkill(SkillPool.BEACH_COMBO);
-        break;
-      case ItemPool.POWERFUL_GLOVE:
-      case ItemPool.REPLICA_POWERFUL_GLOVE:
-        // *** Special case: the buffs are always available
-        // These are only the combat skills, we make the noncombat skills always available
-        KoLCharacter.addAvailableSkill(SkillPool.REPLACE_ENEMY);
-        KoLCharacter.addAvailableSkill(SkillPool.SHRINK_ENEMY);
-        break;
-      case ItemPool.RED_PLUMBERS_BOOTS:
-        KoLCharacter.addAvailableSkill(SkillPool.PLUMBER_JUMP);
-        break;
-      case ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE:
-        ItemDatabase.setCapeSkills();
-        break;
-      case ItemPool.BLART:
-        KoLCharacter.addAvailableSkill(SkillPool.BLART_SPRAY_NARROW);
-        KoLCharacter.addAvailableSkill(SkillPool.BLART_SPRAY_MEDIUM);
-        KoLCharacter.addAvailableSkill(SkillPool.BLART_SPRAY_WIDE);
-        break;
-      case ItemPool.INDUSTRIAL_FIRE_EXTINGUISHER:
-      case ItemPool.REPLICA_INDUSTRIAL_FIRE_EXTINGUISHER:
-        KoLCharacter.addAvailableSkill(SkillPool.FIRE_EXTINGUISHER__FOAM_EM_UP);
-        KoLCharacter.addAvailableSkill(SkillPool.FIRE_EXTINGUISHER__POLAR_VORTEX);
-        KoLCharacter.addAvailableSkill(SkillPool.FIRE_EXTINGUISHER__FOAM_YOURSELF);
-        KoLCharacter.addAvailableSkill(SkillPool.FIRE_EXTINGUISHER__BLAST_THE_AREA);
-        KoLCharacter.addAvailableSkill(SkillPool.FIRE_EXTINGUISHER__ZONE_SPECIFIC);
-        break;
-      case ItemPool.DESIGNER_SWEATPANTS:
-      case ItemPool.REPLICA_DESIGNER_SWEATPANTS:
-        // *** Special case: the buffs are always available
-        // These are only the combat skills, we make the noncombat skills always available
-        KoLCharacter.addAvailableSkill(SkillPool.SWEAT_FLICK);
-        KoLCharacter.addAvailableSkill(SkillPool.SWEAT_FLOOD);
-        KoLCharacter.addAvailableSkill(SkillPool.SWEAT_SPRAY);
-        KoLCharacter.addAvailableSkill(SkillPool.SWEAT_SIP);
-        break;
-      case ItemPool.FLASH_LIQUIDIZER_ULTRA_DOUSING_ACCESSORY:
-        KoLCharacter.addAvailableSkill(SkillPool.DOUSE_FOE);
-        break;
-      case ItemPool.PRO_SKATEBOARD:
-        KoLCharacter.addAvailableSkill(SkillPool.DO_KICKFLIP);
-        KoLCharacter.addAvailableSkill(SkillPool.DO_METHOD);
-        KoLCharacter.addAvailableSkill(SkillPool.DO_EPIC_MCTWIST);
-        break;
-      case ItemPool.FRANKEN_STEIN:
-        KoLCharacter.addAvailableSkill(SkillPool.TOAST_YOUR_ENEMY);
-        break;
-      case ItemPool.CANDY_CANE_SWORD:
-        KoLCharacter.addAvailableSkill(SkillPool.SURPRISINGLY_SWEET_STAB);
-        KoLCharacter.addAvailableSkill(SkillPool.SURPRISINGLY_SWEET_SLASH);
-        break;
+      }
+      case ItemPool.KNOCK_OFF_RETRO_SUPERHERO_CAPE -> ItemDatabase.setCapeSkills();
+      case ItemPool.SHERIFF_BADGE, ItemPool.SHERIFF_PISTOL, ItemPool.SHERIFF_MOUSTACHE -> {
+        if (KoLCharacter.hasEquipped(ItemPool.SHERIFF_PISTOL)
+            && KoLCharacter.hasEquipped(ItemPool.SHERIFF_BADGE)
+            && KoLCharacter.hasEquipped(ItemPool.SHERIFF_MOUSTACHE)) {
+          cb.accept(SkillPool.ASSERT_YOUR_AUTHORITY);
+        }
+      }
     }
   }
 
@@ -1514,17 +903,26 @@ public class EquipmentManager {
   public static final void incrementEquipmentCounters() {
     for (var slot : SlotSet.SLOTS) {
       int itemId = EquipmentManager.getEquipment(slot).getItemId();
-      switch (itemId) {
-        case ItemPool.SUGAR_CHAPEAU,
-            ItemPool.SUGAR_SHANK,
-            ItemPool.SUGAR_SHIELD,
-            ItemPool.SUGAR_SHILLELAGH,
-            ItemPool.SUGAR_SHIRT,
-            ItemPool.SUGAR_SHOTGUN,
-            ItemPool.SUGAR_SHORTS -> Preferences.increment("sugarCounter" + itemId, 1);
-        case ItemPool.COZY_SCIMITAR, ItemPool.COZY_STAFF, ItemPool.COZY_BAZOOKA -> Preferences
-            .increment("cozyCounter" + itemId, 1);
+      incrementEquipmentCounters(itemId);
+    }
+    if (KoLCharacter.inHatTrick()) {
+      for (var hat : EquipmentManager.getHatTrickHats()) {
+        incrementEquipmentCounters(hat);
       }
+    }
+  }
+
+  private static final void incrementEquipmentCounters(int itemId) {
+    switch (itemId) {
+      case ItemPool.SUGAR_CHAPEAU,
+          ItemPool.SUGAR_SHANK,
+          ItemPool.SUGAR_SHIELD,
+          ItemPool.SUGAR_SHILLELAGH,
+          ItemPool.SUGAR_SHIRT,
+          ItemPool.SUGAR_SHOTGUN,
+          ItemPool.SUGAR_SHORTS -> Preferences.increment("sugarCounter" + itemId, 1);
+      case ItemPool.COZY_SCIMITAR, ItemPool.COZY_STAFF, ItemPool.COZY_BAZOOKA -> Preferences
+          .increment("cozyCounter" + itemId, 1);
     }
   }
 
@@ -2282,10 +1680,33 @@ public class EquipmentManager {
         count++;
       }
     }
+    if (KoLCharacter.inHatTrick()) {
+      for (var hat : EquipmentManager.getHatTrickHats()) {
+        if (hat == item.getItemId()) {
+          count++;
+        }
+      }
+    }
     return count;
   }
 
-  public static final void parseStatus(final JSONObject JSON) throws JSONException {
+  public static final List<Integer> getHatTrickHats() {
+    return new ArrayList<>(hats);
+  }
+
+  public static final void setHatTrickHats(List<Integer> hats) {
+    EquipmentManager.hats = hats;
+  }
+
+  public static final void addHatTrickHat(int itemId) {
+    EquipmentManager.hats.add(itemId);
+  }
+
+  public static final boolean hasHatTrickHat(final int itemId) {
+    return hats.contains(itemId);
+  }
+
+  public static final void parseStatus(final JSONObject json) throws JSONException {
     // "equipment":{
     //    "hat":"1323",
     //    "shirt":"2586",
@@ -2300,19 +1721,19 @@ public class EquipmentManager {
     //    "fakehands":0,
     //    "card sleeve":"4968"
     // },
+    // "hats":["11565","2283"]
     // "stickers":[0,0,0],
     // "folder_holder":["01","22","12","00","00"]
 
     EnumMap<Slot, AdventureResult> current = EquipmentManager.allEquipment();
     EnumMap<Slot, AdventureResult> equipment = EquipmentManager.emptyEquipmentArray(true);
     int fakeHands = 0;
+    List<Integer> hatTrickHats = new ArrayList<>();
 
-    JSONObject equip = JSON.getJSONObject("equipment");
-    Iterator<String> keys = equip.keys();
-    while (keys.hasNext()) {
-      String slotName = keys.next();
+    JSONObject equip = json.getJSONObject("equipment");
+    for (String slotName : equip.keySet()) {
       if (slotName.equals("fakehands")) {
-        fakeHands = equip.getInt(slotName);
+        fakeHands = equip.getIntValue(slotName);
         continue;
       }
 
@@ -2321,22 +1742,28 @@ public class EquipmentManager {
         continue;
       }
 
-      equipment.put(slot, EquipmentManager.equippedItem(equip.getInt(slotName)));
+      equipment.put(slot, EquipmentManager.equippedItem(equip.getIntValue(slotName)));
+    }
+    JSONArray hats = json.getJSONArray("hats");
+    if (hats != null) {
+      for (int i = 0; i < hats.size(); i++) {
+        hatTrickHats.add(hats.getIntValue(i));
+      }
     }
 
     // Read stickers
-    JSONArray stickers = JSON.getJSONArray("stickers");
+    JSONArray stickers = json.getJSONArray("stickers");
     int i = 0;
     for (var slot : SlotSet.STICKER_SLOTS) {
-      AdventureResult item = EquipmentManager.equippedItem(stickers.getInt(i++));
+      AdventureResult item = EquipmentManager.equippedItem(stickers.getIntValue(i++));
       equipment.put(slot, item);
     }
 
     // Read folders
-    JSONArray folders = JSON.getJSONArray("folder_holder");
+    JSONArray folders = json.getJSONArray("folder_holder");
     i = 0;
     for (var slot : SlotSet.FOLDER_SLOTS) {
-      int folder = folders.getInt(i++);
+      int folder = folders.getIntValue(i++);
       AdventureResult item =
           folder == 0 ? EquipmentRequest.UNEQUIP : ItemPool.get(ItemPool.FOLDER_01 - 1 + folder, 1);
       equipment.put(slot, item);
@@ -2381,5 +1808,6 @@ public class EquipmentManager {
 
     // Fake hands must be handled separately
     EquipmentManager.setFakeHands(fakeHands);
+    EquipmentManager.setHatTrickHats(hatTrickHats);
   }
 }

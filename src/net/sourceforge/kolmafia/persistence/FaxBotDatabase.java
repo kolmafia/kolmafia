@@ -1,14 +1,21 @@
 package net.sourceforge.kolmafia.persistence;
 
+import static net.sourceforge.kolmafia.preferences.Preferences.setBoolean;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HexFormat;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -45,18 +52,23 @@ public class FaxBotDatabase {
 
   private FaxBotDatabase() {}
 
-  public static final void reconfigure() {
+  public static void reconfigure() {
     FaxBotDatabase.isInitialized = false;
     FaxBotDatabase.configure();
   }
 
-  public static final void configure() {
+  public static void configure() {
     if (FaxBotDatabase.isInitialized) {
       return;
     }
 
     FaxBotDatabase.readFaxbotConfig();
     FaxBotDatabase.configureFaxBots();
+  }
+
+  // visible for testing.  used to force download and read.
+  static void resetInitialization() {
+    isInitialized = false;
   }
 
   private static void readFaxbotConfig() {
@@ -101,15 +113,14 @@ public class FaxBotDatabase {
           MafiaState.ABORT,
           "Could not load " + data.name + " configuration from \"" + data.URL + "\"");
       RequestLogger.printLine(FaxBotDatabase.faxBotErrorMessage);
-      return;
     }
   }
 
-  public static final FaxBot getFaxbot(final int i) {
+  public static FaxBot getFaxbot(final int i) {
     return FaxBotDatabase.faxbots.get(Math.max(0, i % faxbots.size()));
   }
 
-  public static final FaxBot getFaxbot(final String botName) {
+  public static FaxBot getFaxbot(final String botName) {
     for (FaxBot bot : faxbots) {
       if (bot == null) {
         continue;
@@ -122,7 +133,7 @@ public class FaxBotDatabase {
     return null;
   }
 
-  public static final List<FaxBot> getSortedFaxbots() {
+  public static List<FaxBot> getSortedFaxbots() {
     // Get preferred faxbot or null
     FaxBot preferred = getFaxbot(Preferences.getString("lastSuccessfulFaxbot"));
     // Use original list
@@ -163,6 +174,7 @@ public class FaxBotDatabase {
     private final LockableListModel<String> categories = new LockableListModel<>();
     private List<LockableListModel<Monster>> monstersByCategory = new ArrayList<>(0);
 
+    private final Map<Integer, Monster> monsterByMonsterId = new HashMap<>();
     private final Map<String, Monster> monsterByActualName = new HashMap<>();
     private final Map<String, Monster> monsterByCommand = new HashMap<>();
     private String[] canonicalCommands;
@@ -199,9 +211,8 @@ public class FaxBotDatabase {
         return false;
       }
 
-      String monsterName = monster.getName();
-
-      Monster monsterObject = this.getMonsterByActualName(monsterName);
+      int monsterId = monster.getId();
+      Monster monsterObject = this.monsterByMonsterId.get(monsterId);
       if (monsterObject == null) {
         return false;
       }
@@ -211,6 +222,10 @@ public class FaxBotDatabase {
       }
 
       return FaxRequestFrame.requestFax(name, monsterObject, false);
+    }
+
+    public Monster getMonsterByMonsterId(final int monsterId) {
+      return this.monsterByMonsterId.get(monsterId);
     }
 
     public Monster getMonsterByActualName(final String actualName) {
@@ -224,20 +239,32 @@ public class FaxBotDatabase {
     public void addMonsters(final List<Monster> monsters) {
       // Build the list of monsters and derived mappings
       this.monsters.clear();
+      this.monsterByMonsterId.clear();
       this.monsterByActualName.clear();
       this.monsterByCommand.clear();
 
       SortedListModel<String> tempCategories = new SortedListModel<>();
       for (Monster monster : monsters) {
+        MonsterData data = monster.getMonster();
+        if (data == null) {
+          continue;
+        }
+
+        int monsterId = data.getId();
+        if (this.monsterByMonsterId.containsKey(monsterId)) {
+          continue;
+        }
+
         this.monsters.add(monster);
         String category = monster.category;
-        if (!category.equals("")
+        if (!category.isEmpty()
             && !category.equalsIgnoreCase("none")
             && !tempCategories.contains(category)) {
           tempCategories.add(category);
         }
 
-        // Build actual name / command lookup
+        // Build monsterId / actual name / command lookup
+        this.monsterByMonsterId.put(monsterId, monster);
         String canonicalName = StringUtilities.getCanonicalName(monster.actualName);
         this.monsterByActualName.put(canonicalName, monster);
         String canonicalCommand = StringUtilities.getCanonicalName(monster.command);
@@ -297,10 +324,24 @@ public class FaxBotDatabase {
     }
   }
 
+  private static final Pattern MONSTER_COMMENT_PATTERN =
+      Pattern.compile("<!-- monsterid: (\\d+) -->");
+  private static final Pattern MONSTER_ID_PATTERN = Pattern.compile("\\[(\\d+)\\]");
+
   public static class Monster implements Comparable<Monster> {
+    // The specific monster that is available from a FaxBot
+    private final MonsterData monster;
+
+    // The display name, presented to the user in the GUI
     private final String name;
+
+    // The Faxbot's idea of what the actual name is - to KoLmafia
     private final String actualName;
+
+    // The command that the FaxBot expects to request this monster
     private final String command;
+
+    // The Faxbot's categorization of this monster, if any
     private final String category;
 
     private final String stringForm;
@@ -308,12 +349,48 @@ public class FaxBotDatabase {
 
     public Monster(
         final String name, final String actualName, final String command, final String category) {
-      this.name = CharacterEntities.unescape(name);
-      this.actualName = CharacterEntities.unescape(actualName);
       this.command = command;
       this.category = category;
+      this.monster = this.deriveMonster(command, actualName);
+      if (monster != null) {
+        // Excellent. We know the monster - including monsterId.
+        String displayName = monster.getName();
+        this.name = displayName;
+        this.actualName = displayName;
+      } else {
+        // Rats. The FaxBot did not give us a usable monsterId.
+        this.name = CharacterEntities.unescape(name);
+        this.actualName = CharacterEntities.unescape(actualName);
+      }
       this.stringForm = this.name + " [" + command + "]";
       this.lowerCaseStringForm = this.stringForm.toLowerCase();
+    }
+
+    private MonsterData deriveMonster(String command, String actualName) {
+      // Since monster names in KoL can be ambiguous, FaxBots that want
+      // to offer several versions of a monster need to disambiguate.
+      //
+      // The best way is to include the monsterId in the command used to request it.
+
+      Matcher idMatcher = MONSTER_ID_PATTERN.matcher(command);
+      if (idMatcher.find()) {
+        int monsterId = Integer.valueOf(idMatcher.group(1));
+        return MonsterDatabase.findMonsterById(monsterId);
+      }
+
+      Matcher commentMatcher = MONSTER_COMMENT_PATTERN.matcher(CharacterEntities.unescape(command));
+      if (commentMatcher.find()) {
+        int monsterId = Integer.valueOf(commentMatcher.group(1));
+        return MonsterDatabase.findMonsterById(monsterId);
+      }
+
+      // An alternative is to use KoLmafia's disambiguated name as the actualName.
+      String name = CharacterEntities.unescape(actualName);
+      return MonsterDatabase.findMonster(name, false, true);
+    }
+
+    public MonsterData getMonster() {
+      return this.monster;
     }
 
     public String getName() {
@@ -384,7 +461,12 @@ public class FaxBotDatabase {
 
       try {
         File local = new File(KoLConstants.DATA_LOCATION, this.data.name + ".xml");
+        String beforeHash = computeHash(local);
         FileUtilities.downloadFile(this.data.URL, local, true);
+        String afterHash = computeHash(local);
+        if (!(beforeHash.equals(afterHash))) {
+          setBoolean("_faxDataChanged", true);
+        }
 
         // Get an instance of document builder
         DocumentBuilder db = dbf.newDocumentBuilder();
@@ -440,6 +522,20 @@ public class FaxBotDatabase {
       FaxBotDatabase.faxbots.addAll(bots);
     }
 
+    private static final String NOHASH = "Problem with hash";
+
+    private static String computeHash(File file) {
+      String checksum;
+      try {
+        byte[] data = Files.readAllBytes(file.toPath());
+        byte[] hash = MessageDigest.getInstance("SHA-256").digest(data);
+        checksum = HexFormat.of().formatHex(hash);
+      } catch (Exception e) {
+        checksum = NOHASH;
+      }
+      return checksum;
+    }
+
     private FaxBot getFaxBot(Element el) {
       String name = getTextValue(el, "name");
       String playerId = getTextValue(el, "playerid");
@@ -450,15 +546,15 @@ public class FaxBotDatabase {
 
     private Monster getMonster(Element el) {
       String monster = getTextValue(el, "name");
-      if (monster.equals("") || monster.equals("none")) {
+      if (monster.isEmpty() || monster.equals("none")) {
         return null;
       }
       String actualMonster = getTextValue(el, "actual_name");
-      if (actualMonster.equals("")) {
+      if (actualMonster.isEmpty()) {
         return null;
       }
       String command = getTextValue(el, "command");
-      if (command.equals("")) {
+      if (command.isEmpty()) {
         return null;
       }
       String category = getTextValue(el, "category");

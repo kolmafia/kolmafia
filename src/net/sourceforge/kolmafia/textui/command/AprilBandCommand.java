@@ -145,8 +145,6 @@ public class AprilBandCommand extends AbstractCommand {
       return;
     }
 
-    KoLmafia.updateDisplay("Playing " + item.getName());
-
     var request =
         new GenericRequest(
             "inventory.php?action=aprilplay&iid="

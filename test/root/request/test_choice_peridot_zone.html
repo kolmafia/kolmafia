@@ -1,0 +1,144 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<script language="Javascript">
+<!--
+if (parent.frames.length == -1) location.href="game.php";
+//-->
+</script>
+<script language="Javascript" src="peridot-knob_files/jquery-1.5.1.js"></script>
+<script language="Javascript" src="peridot-knob_files/keybinds.min.2.js"></script>
+<script language="Javascript" src="peridot-knob_files/window.20111231.js"></script>
+<script language="javascript">function chatFocus(){if(top.chatpane.document.chatform.graf) top.chatpane.document.chatform.graf.focus();}
+if (typeof defaultBind != 'undefined') { defaultBind(47, 2, chatFocus); defaultBind(190, 2, chatFocus);defaultBind(191, 2, chatFocus); defaultBind(47, 8, chatFocus);defaultBind(190, 8, chatFocus); defaultBind(191, 8, chatFocus); }</script><script>
+function switchFocus()
+{
+	if (top.chatpane.document.chatform.graf.focus) 
+		top.chatpane.document.chatform.graf.focus(); 
+	return false;
+}
+function repeat()
+{
+	var linx = document.getElementsByTagName("A");
+	for (var i = 0; i < linx.length; i++)
+	{
+		if (typeof timersfunc != 'undefined') {
+			if (!timersfunc()) { 
+				return; 
+			}
+			timersfunc = null;
+		}
+		var link = linx[i];
+		if (link.innerHTML.match(/Adventure Again/) || link.innerHTML.match(/Do it again/) || (link.getAttribute && link.getAttribute('id')=='againlink'))
+			location.href = link.href;
+	}
+}
+
+defaultBind(47, CTRL, switchFocus);
+defaultBind(191, CTRL, switchFocus);
+defaultBind(47, META, switchFocus);
+defaultBind(191, META, switchFocus);
+defaultBind(192, NONE, repeat);
+defaultBind(220, NONE, repeat);
+</script><script language="javascript">
+	function updateParseItem(iid, field, info) {
+		var tbl = $('#ic'+iid);
+		var data = parseItem(tbl);
+		if (!data) return;
+		data[field] = info;
+		var out = [];
+		for (i in data) {
+			if (!data.hasOwnProperty(i)) continue;
+			out.push(i+'='+data[i]);
+		}
+		tbl.attr('rel', out.join('&'));
+	}
+	function parseItem(tbl) {
+		tbl = $(tbl);
+		var rel = tbl.attr('rel');
+		var data = {};
+		if (!rel) return data;
+		var parts = rel.split('&');
+		for (i in parts) {
+			if (!parts.hasOwnProperty(i)) continue;
+			var kv = parts[i].split('=');
+			tbl.data(kv[0], kv[1]);
+			data[kv[0]] = kv[1];
+		}
+		return data;
+	}
+</script><script type="text/javascript" src="peridot-knob_files/pop_query.20230713.js"></script>
+<script type="text/javascript"> function pop_ircm(clicked) { return false; } </script><script>
+
+var currentkey = 49;
+$(document).ready(function () {
+	$('form').each(function () {
+		var form = this;
+		defaultBind(currentkey++, NONE, function () { form.submit(); });
+		return currentkey < 58;
+	});
+});
+
+</script>	<link rel="stylesheet" type="text/css" href="peridot-knob_files/styles.20230117d.css">
+<style type="text/css">
+.faded {
+	zoom: 1;
+	filter: alpha(opacity=35);
+	opacity: 0.35;
+	-khtml-opacity: 0.35; 
+    -moz-opacity: 0.35;
+}
+</style>
+
+<script src="peridot-knob_files/stationarybuttons.2.js"></script><link rel="stylesheet" type="text/css" href="peridot-knob_files/stationarybuttons.2.css"><script src="peridot-knob_files/hotkeys.js"></script><script language="Javascript" src="peridot-knob_files/basics.js"></script><link rel="stylesheet" href="peridot-knob_files/basics.1.css"></head>
+
+<body onkeyup="handleCombatHotkey(event,false);" onkeydown="handleCombatHotkey(event,true);"><div id="page"><div id="mafiabuttons"><center><table width="95%"><tbody><tr><td align="left"><div id="btnwrap"><input type="button" onclick="document.location.href='main.php';void(0);" value="again" id="defaultButton" disabled="disabled">&nbsp;</div></td><td align="right" valign="top"><select id="hotkeyViewer" onchange="updateCombatHotkey();"><option selected="selected">- update hotkeys -</option></select></td></tr></tbody></table></center></div><div class="content" id="content_" style="top: 28px;"><div id="effdiv" style="display: none;"></div><div>
+<center><div style="position: fixed; height: 100vh; width: 100vw; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none; background-color: rgba(199,234,70,0.4);"></div><table width="95%" cellspacing="0" cellpadding="0"><tbody><tr><td style="background-color: #ffcccc" align="center"><b style="color: white">Peering Through Your Peridot</b></td></tr><tr><td style="padding: 5px; border: 1px solid #ffcccc;"><center><table><tbody><tr><td><center>
+<img src="peridot-knob_files/peridot.gif">
+<p>
+You peer through the peridot, into your future.  Each facet reveals a 
+different possible pathway through time, on which you will be hassled by
+ a particular foe.
+</p><p>
+</p><center>
+Head towards:
+
+  <form method="post">
+     <input type="hidden" name="option" value="1">
+     <input type="hidden" name="pwd" value="732608e0c2e5ff946144e88f923fa9c4">
+     <input type="hidden" name="whichchoice" value="1557">
+     <input type="hidden" name="bandersnatch" value="152">
+     <input type="submit" class="button" value="a sleeping Knob Goblin Guard">
+  </form>
+  <form method="post">
+     <input type="hidden" name="option" value="1">
+     <input type="hidden" name="pwd" value="732608e0c2e5ff946144e88f923fa9c4">
+     <input type="hidden" name="whichchoice" value="1557">
+     <input type="hidden" name="bandersnatch" value="153">
+     <input type="submit" class="button" value="a Knob Goblin Assistant Chef">
+  </form>
+  <form method="post">
+     <input type="hidden" name="option" value="1">
+     <input type="hidden" name="pwd" value="732608e0c2e5ff946144e88f923fa9c4">
+     <input type="hidden" name="whichchoice" value="1557">
+     <input type="hidden" name="bandersnatch" value="154">
+     <input type="submit" class="button" value="a Sub-Assistant Knob Mad Scientist">
+  </form>
+  <form method="post">
+     <input type="hidden" name="option" value="1">
+     <input type="hidden" name="pwd" value="732608e0c2e5ff946144e88f923fa9c4">
+     <input type="hidden" name="whichchoice" value="1557">
+     <input type="hidden" name="bandersnatch" value="155">
+     <input type="submit" class="button" value="a Knob Goblin Barbecue Team">
+  </form>
+
+  <form method="post">
+     <input type="hidden" name="option" value="2">
+     <input type="hidden" name="pwd" value="732608e0c2e5ff946144e88f923fa9c4">
+     <input type="hidden" name="whichchoice" value="1557">
+     <input type="submit" class="button" value="I choose peace">
+  </form>
+
+</center>
+
+</center></td></tr></tbody></table></center></td></tr><tr><td height="4"></td></tr></tbody></table><script>top.charpane.location.href="charpane.php";</script>
+</center></div></div></div><script src="peridot-knob_files/onfocus.1.js"></script></body></html>
