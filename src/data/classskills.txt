@@ -31,7 +31,7 @@
 12	Torso Awareness	wtee2.gif	passive	0	0
 13	Gnomish Hardigness	stronggnome.gif	passive	0	0
 14	Cosmic Ugnderstanding	brainstars.gif	passive	0	0
-15	CLEESH	commacha.gif	combat	10	0
+15	CLEESH	commacha.gif	combat,spell	10	0
 
 # The following Mr. Skills used to have the listed skill ID on the Character Sheet
 # Skill names have changed, keeping this for historical reasons only
@@ -55,22 +55,22 @@
 
 # Available from hobopolis skill books
 
-28	Awesome Balls of Fire	fire.gif	combat	120	0
-29	Conjure Relaxing Campfire	campfire.gif	combat	30	0
-30	Snowclone	cyclone.gif	combat	120	0
-31	Maximum Chill	snowflake.gif	combat	30	0
-32	Eggsplosion	egg.gif	combat	120	0
-33	Mudbath	blooddrops.gif	combat	30	0
+28	Awesome Balls of Fire	fire.gif	combat,spell	120	0
+29	Conjure Relaxing Campfire	campfire.gif	combat,spell	30	0
+30	Snowclone	cyclone.gif	combat,spell	120	0
+31	Maximum Chill	snowflake.gif	combat,spell	30	0
+32	Eggsplosion	egg.gif	combat,spell	120	0
+33	Mudbath	blooddrops.gif	combat,spell	30	0
 34
 35
-36	Grease Lightning	greasebolt.gif	combat	120	0
-37	Inappropriate Backrub	wink.gif	combat	30	0
+36	Grease Lightning	greasebolt.gif	combat,spell	120	0
+37	Inappropriate Backrub	wink.gif	combat,spell	30	0
 38	Natural Born Scrabbler	nickel.gif	passive	0	0
 39	Thrift and Grift	dollarsign.gif	passive	0	0
 40	Abs of Tin	breastplate.gif	passive	0	0
 41	Marginally Insane	halfcrazy.gif	passive	0	0
-42	Raise Backup Dancer	tombstone.gif	combat	120	0
-43	Creepy Lullaby	creepysleepy.gif	combat	30	0
+42	Raise Backup Dancer	tombstone.gif	combat,spell	120	0
+43	Creepy Lullaby	creepysleepy.gif	combat,spell	30	0
 44	Rainbow Gravitation	prismwad.gif	nc,item	0	0
 45	Vent Rage Gland	ventrage.gif	nc,effect,self	15	5
 46	Slimy Sinews	slsinews.gif	passive	0	0	Max Level: 10
@@ -82,9 +82,9 @@
 52	Run Like the Wind	fast.gif	combat	2	0	Permable: false
 53	Summon Crimbo Candy	candypile.gif	nc,item	3	0
 54	Unaccompanied Miner	mattock.gif	passive	0	0
-55	Volcanometeor Showeruption	volcmeteor.gif	combat	0	0
-56	Wassail	coffeecup.gif	combat	30	0
-57	Toynado	vortex.gif	combat	120	0
+55	Volcanometeor Showeruption	volcmeteor.gif	combat,spell	0	0
+56	Wassail	coffeecup.gif	combat,spell	30	0
+57	Toynado	vortex.gif	combat,spell	120	0
 58	Fashionably Late	watch.gif	passive	0	0
 59	Executive Narcolepsy	boredeyes.gif	passive	0	0
 60	Lunch Break	mpe.gif	nc,item	10	0
@@ -136,7 +136,7 @@
 107	Summon Annoyance	angry.gif	nc,item	0	0	Max Level: 9
 108
 109
-110	Shrap	junkjagged.gif	combat	0	0
+110	Shrap	junkjagged.gif	combat,spell	0	0
 111	Psychokinetic Hug	reassured.gif	nc,effect,other	0	10
 112	Unoffendable	seenitall.gif	passive	0	0
 113	Grease Up	groosegrease.gif	nc,effect,self	15	10
@@ -261,8 +261,8 @@
 233	Elf Guard Relaxation Techniques	sleepy.gif	passive	0	0
 234
 235	Too Cool	ice.gif	passive	0	0
-236	Attract Snakes	tinysnake.gif	nc,self	50	10
-237	Hide From Seekers	darkvision.gif	nc,self	50	10
+236	Attract Snakes	tinysnake.gif	nc,effect,self	50	10
+237	Hide From Seekers	darkvision.gif	nc,effect,self	50	10
 238	Reindeer Games	dcreindeer.gif	passive	0	0
 239	Master Egg Hunter	eggdot.gif	passive	0	0
 240	Holiday Multitasking	addresslist.gif	passive	0	0
@@ -270,7 +270,7 @@
 242	SLEEP(5)	ss_restore.gif	passive	0	0
 243	OVERCLOCK(10)	ss_overclocked.gif	passive	0	0
 244	STATS+++	ss_codeblock.gif	passive	0	0
-245	Generate Irony	book5.gif	nc,self	10	0
+245	Generate Irony	book5.gif	nc,item	10	0
 
 # Skills available to Clubbers
 
@@ -378,12 +378,12 @@
 3000	Manicotti Meditation	mandala.gif	nc,effect,self	1	5	Level: 0
 3001
 3002
-3003	Ravioli Shurikens	ravshurikens.gif	combat	4	0	Level: 1
-3004	Entangling Noodles	entnoodles.gif	combat	3	0	Level: 2
-3005	Cannelloni Cannon	pastacannon.gif	combat	8	0	Level: 4
+3003	Ravioli Shurikens	ravshurikens.gif	combat,spell	4	0	Level: 1
+3004	Entangling Noodles	entnoodles.gif	combat,spell	3	0	Level: 2
+3005	Cannelloni Cannon	pastacannon.gif	combat,spell	8	0	Level: 4
 3006	Pastamastery	bowl.gif	nc,item	10	0	Level: 5
-3007	Stuffed Mortar Shell	stuffshell.gif	combat	8	0	Level: 8
-3008	Weapon of the Pastalord	ironspoon.gif	combat	32	0	Level: 10
+3007	Stuffed Mortar Shell	stuffshell.gif	combat,spell	8	0	Level: 8
+3008	Weapon of the Pastalord	ironspoon.gif	combat,spell	32	0	Level: 10
 3009	Lasagna Bandages	lasbandage.gif	combat,nc,heal	6	0	Level: 3
 3010	Leash of Linguini	string.gif	nc,effect,self	12	10	Level: 11
 3011	Spirit of Rigatoni	rigatoni.gif	passive	0	0	Level: 7
@@ -394,11 +394,11 @@
 3016	Tolerance of the Kitchen	blackfire.gif	passive	0	0	Level: 13
 3017	Flavour of Magic	flavorofmagic.gif	passive	0	0	Level: 14
 3018	Transcendental Noodlecraft	blacknoodles.gif	passive	0	0	Level: 15
-3019	Fearful Fettucini	fearfulfet.gif	combat	32	0
-3020	Spaghetti Spear	line.gif	combat	1	0	Level: 0
+3019	Fearful Fettucini	fearfulfet.gif	combat,spell	32	0
+3020	Spaghetti Spear	line.gif	combat,spell	1	0	Level: 0
 3021	Tempuramancy	batter.gif	passive	0	0
-3022	Candyblast	candypile.gif	combat	8	0
-3023	Stringozzi Serpent	scharm.gif	combat	16	0
+3022	Candyblast	candypile.gif	combat,spell	8	0
+3023	Stringozzi Serpent	scharm.gif	combat,spell	16	0
 3024	Canticle of Carboloading	carboloading.gif	nc,effect,self	10	0	Permable: false
 3025	Utensil Twist	pizzacut.gif	combat	1	0	Level: 1
 3026	Transcendent Al Dente	aldente.gif	nc,heal	0	10	Level: 2
@@ -435,27 +435,27 @@
 4000	Sauce Contemplation	contemplation.gif	nc,effect,self	1	5	Level: 0
 4001
 4002
-4003	Stream of Sauce	saucestream.gif	combat	2	0	Level: 2
+4003	Stream of Sauce	saucestream.gif	combat,spell	2	0	Level: 2
 4004	Expert Panhandling	saucepan.gif	passive	0	0	Level: 3
-4005	Saucestorm	raincloud.gif	combat	6	0	Level: 5
+4005	Saucestorm	raincloud.gif	combat,spell	6	0	Level: 5
 4006	Advanced Saucecrafting	lovepotion.gif	nc,item	10	0	Level: 5
 4007	Elemental Saucesphere	elesphere.gif	nc,effect,other	10	5	Level: 4
 4008	Jalape&ntilde;o Saucesphere	pepsphere.gif	nc,effect,other	5	5	Level: 7
-4009	Wave of Sauce	saucewave.gif	combat	10	0	Level: 7
+4009	Wave of Sauce	saucewave.gif	combat,spell	10	0	Level: 7
 4010	Intrinsic Spiciness	pepper.gif	passive	0	0	Level: 9
 4011	Master Saucier	mastersaucier.gif	passive	0	0	Level: 10
-4012	Saucegeyser	saucegeyser.gif	combat	24	0	Level: 11
+4012	Saucegeyser	saucegeyser.gif	combat,spell	24	0	Level: 11
 4013
-4014	Saucy Salve	saucysalve.gif	combat	4	0	Level: 2
+4014	Saucy Salve	saucysalve.gif	combat,spell	4	0	Level: 2
 4015	Impetuous Sauciness	5alarm.gif	passive	0	0	Level: 12
 4016	Diminished Gag Reflex	blackstench.gif	passive	0	0	Level: 13
 4017	Irrepressible Spunk	spunk.gif	passive	0	0	Level: 14
 4018	The Way of Sauce	potion9.gif	passive	0	0	Level: 15
 4019	Scarysauce	scarysauce.gif	nc,effect,other	10	5
-4020	Salsaball	salsaball.gif	combat	1	0	Level: 0
+4020	Salsaball	salsaball.gif	combat,spell	1	0	Level: 0
 4021	Deep Saucery	potion10.gif	passive	0	0
-4022	Surge of Icing	icingsurge.gif	combat	10	0
-4023	K&auml;seso&szlig;esturm	cheesestorm.gif	combat	10	0
+4022	Surge of Icing	icingsurge.gif	combat,spell	10	0
+4023	K&auml;seso&szlig;esturm	cheesestorm.gif	combat,spell	10	0
 4024	Curse of Vichyssoise	scurse1.gif	combat	2	0	Level: 1
 4025	Simmer	simmer.gif	nc,effect,self	0	10	Level: 1
 4026	Icy Glare	icyglare.gif	nc,effect,self,expression	10	10	Level: 3
@@ -464,7 +464,7 @@
 4029	Curse of Marinara	scurse3.gif	combat	4	0	Level: 6
 4030	Itchy Curse Finger	triggerfinger.gif	passive	0	0	Level: 8
 4031	Curse of the Thousand Islands	scurse2.gif	combat	6	0	Level: 8
-4032	Saucecicle	saucecicle.gif	combat	12	0	Level: 9
+4032	Saucecicle	saucecicle.gif	combat,spell	12	0	Level: 9
 4033	Antibiotic Saucesphere	antibiosphere.gif	nc,effect,other	15	5	Level: 10
 4034	Curse of Weaksauce	scurse4.gif	combat	8	0	Level: 12
 4035	Wry Smile	wrysmile.gif	nc,effect,self,expression	10	10	Level: 13
@@ -758,7 +758,7 @@
 7181	Spirit of Nothing	flavorofmagic.gif	nc,effect,self	0	0
 7182	Soul Bubble	soulbubble.gif	combat	0	0
 7183	Soul Finger	soulfinger.gif	combat	0	0
-7184	Soul Blaze	soulblaze.gif	combat	0	0
+7184	Soul Blaze	soulblaze.gif	combat,spell	0	0
 7185	Soul Food	soulfood.gif	nc,heal	0	0
 7186	Soul Rotation	soulskate.gif	nc,effect,self	0	10
 7187	Soul Funk	soulfunk.gif	nc,effect,self	0	10
@@ -1067,7 +1067,7 @@
 7496	Megaphone Whisper	mossmegaphone.gif	combat	0	0
 7497	Soul Genuflection	cardheart.gif	combat	0	0
 7498	Drop Mantle	mossmantle.gif	combat	10	0
-7499	Brandish Moss Medal	mossmedal.gif	nc,self	10	100
+7499	Brandish Moss Medal	mossmedal.gif	nc,effect,self	10	100
 7500	Spring Away	springjump.gif	combat	0	0
 7501	Spring Kick	springkick.gif	combat	0	0
 7502	Spring Growth Spurt	springplant.gif	combat	0	0
@@ -1096,7 +1096,7 @@
 7525	Blow the Green Candle!	blowcandle.gif	combat	0	0
 7526	Blow the Purple Candle!	blowcandle.gif	combat	0	0
 7527	Tear Away your Pants!	tearawaypants.gif	combat	0	0
-7528	Rest upside down	upsidebat.gif	nc,self	0	0
+7528	Rest upside down	upsidebat.gif	nc,heal	0	0
 7529	Ask %fn to go down in flames	emberbird.gif	combat	0	0
 7530	Swoop like a Bat	batswoop.gif	combat	0	0
 7531	Summon Cauldron of Bats	batcauldron.gif	combat	1	0
@@ -1117,14 +1117,14 @@
 7546	Refresh HP	cr_undies.gif	combat	0	0
 7547	Launch Logic Grenade	cr_grenade.gif	combat	0	0
 7548	Deploy Glitched Malware	cr_malware.gif	combat	0	0
-7549	Pull down your crepe paper phrygian cap	crepehat.gif	nc,self	0	20
-7550	Look through your crepe paper pie clip	crepepin.gif	nc,self	0	20
-7551	Play with your crepe paper puzzle	crepecube.gif	nc,self	0	20
-7552	Leave nothing to the imagination	crepecamisole.gif	nc,self	0	20
-7553	Embrace polka	crepecharm.gif	nc,self	0	20
+7549	Pull down your crepe paper phrygian cap	crepehat.gif	nc,effect,self	0	20
+7550	Look through your crepe paper pie clip	crepepin.gif	nc,effect,self	0	20
+7551	Play with your crepe paper puzzle	crepecube.gif	nc,effect,self	0	20
+7552	Leave nothing to the imagination	crepecamisole.gif	nc,effect,self	0	20
+7553	Embrace polka	crepecharm.gif	nc,effect,self	0	20
 7554	Thrust your geofencing rapier	cr_rapier.gif	combat	0	0
-7555	Drink The Milk of %n Kindness	.gif	nc,self	10	20
-7556	Drink The Milk of %n Cruelty	.gif	nc,self	20	20
+7555	Drink The Milk of %n Kindness	.gif	nc,effect,self	10	20
+7556	Drink The Milk of %n Cruelty	.gif	nc,effect,self	20	20
 7557	Left %n Punch	.gif	combat	5	0
 7558	Right %n Punch	.gif	combat	10	0
 7559	Left %n Kick	.gif	combat	15	0
@@ -1253,11 +1253,11 @@
 
 # Avatar of Jarlsberg
 
-14000	Curdle	curdle.gif	combat	0	0
+14000	Curdle	curdle.gif	combat,spell	0	0
 14001	Conjure Eggs	cosmic_egg.gif	nc,item	10	0
 14002	Conjure Dough	cosmic_dough.gif	nc,item	30	0
-14003	Boil	jarl_boil.gif	combat	5	0
-14004	Fry	jarl_fry.gif	combat	20	0
+14003	Boil	jarl_boil.gif	combat,spell	5	0
+14004	Fry	jarl_fry.gif	combat,spell	20	0
 14005	Egg Man	jarl_eggman.gif	nc,effect,self	15	999
 14006	Early Riser	clock.gif	passive	0	0
 14007	The Most Important Meal	numberone.gif	passive	0	0
@@ -1266,8 +1266,8 @@
 14010
 14011	Conjure Vegetables	cosmic_veg.gif	nc,item	10	0
 14012	Conjure Cheese	cosmic_cheese.gif	nc,item	30	0
-14013	Slice	jarl_chop.gif	combat	20	0
-14014	Chop	ginsu.gif	combat	5	0
+14013	Slice	jarl_chop.gif	combat,spell	20	0
+14014	Chop	ginsu.gif	combat,spell	5	0
 14015	Radish Horse	jarl_horse.gif	nc,effect,self	15	999
 14016	Working Lunch	knifefork.gif	passive	0	0
 14017	Lunch Like a King	goldcrown.gif	passive	0	0
@@ -1276,8 +1276,8 @@
 14020
 14021	Conjure Meat Product	cosmic_meat.gif	nc,item	30	0
 14022	Conjure Potato	cosmic_potato.gif	nc,item	10	0
-14023	Bake	oven.gif	combat	5	0
-14024	Grill	jarl_grill.gif	combat	30	0
+14023	Bake	oven.gif	combat,spell	5	0
+14024	Grill	jarl_grill.gif	combat,spell	30	0
 14025	Hippotatomous	jarl_hippo.gif	nc,effect,self	15	999
 14026	Food Coma	sleepy.gif	passive	0	0
 14027	Never Late for Dinner	jarl_neverlate.gif	passive	0	0
@@ -1286,8 +1286,8 @@
 14030
 14031	Conjure Cream	cosmic_cream.gif	nc,item	30	0
 14032	Conjure Fruit	cosmic_fruit.gif	nc,item	10	0
-14033	Freeze	snowflake.gif	combat	5	0
-14034	Blend	jarl_blend.gif	combat	7	0
+14033	Freeze	snowflake.gif	combat,spell	5	0
+14034	Blend	jarl_blend.gif	combat,spell	7	0
 14035	Cream Puff	jarl_creampuff.gif	nc,effect,self	15	999
 14036	Nightcap	martini.gif	passive	0	0
 14037	Best Served Cold	jarl_revenge.gif	passive	0	0
@@ -1316,7 +1316,7 @@
 15014	Rowdy Drinker	sixpack.gif	passive	0	0
 15015	Peel Out	peelout.gif	combat	10	0
 15016	Easy Riding	motorbike.gif	passive	0	0
-15017	Check Mirror	bikemirror.gif	passive	0	999
+15017	Check Mirror	bikemirror.gif	nc,effect,self	0	999
 15018	Riding Tall	tallguy.gif	passive	0	0
 15019	Biker Swagger	swagger.gif	nc,effect,self	30	10
 15020	Flash Headlight	headlight.gif	combat	15	0
@@ -1684,9 +1684,9 @@
 
 # Haemoturgy
 
-24020	Blood Spike	bloodspike.gif	combat	0	0
+24020	Blood Spike	bloodspike.gif	combat,spell	0	0
 24021	Blood Chains	fchain.gif	combat	0	0
-24022	Chill of the Tomb	snowflakes.gif	combat	0	0
+24022	Chill of the Tomb	snowflakes.gif	combat,spell	0	0
 24023	Blood Cloak	wtbcloak.gif	nc,effect,self	0	20
 24024	Mist Form	puff.gif	nc,effect,self	0	999
 24025	Madness of Untold Aeons	vampmadness.gif	passive	0	0
