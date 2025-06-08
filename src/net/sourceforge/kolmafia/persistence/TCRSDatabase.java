@@ -447,10 +447,10 @@ public class TCRSDatabase {
           StringModifier.SKILL,
           StringModifier.EQUIPS_ON);
 
-  private static String carriedOverModifiers(final int itemId) {
+  private static List<String> carriedOverModifiers(final int itemId) {
     var modifiers = ModifierDatabase.getItemModifiers(itemId);
     if (modifiers == null) {
-      return "";
+      return List.of();
     }
 
     return CARRIED_OVER.stream()
@@ -471,7 +471,7 @@ public class TCRSDatabase {
               return "";
             })
         .filter(Predicate.not(String::isBlank))
-        .collect(Collectors.joining(", "));
+        .toList();
   }
 
   private static TCRS deriveItem(final int itemId, final String text) {
@@ -480,18 +480,23 @@ public class TCRSDatabase {
     int size = DebugDatabase.parseConsumableSize(text);
     var quality = DebugDatabase.parseQuality(text);
     ArrayList<String> unknown = new ArrayList<>();
-    String modifiers = DebugDatabase.parseItemEnchantments(text, unknown, ConsumptionType.UNKNOWN);
+    StringBuilder modifiers =
+        new StringBuilder(
+            DebugDatabase.parseItemEnchantments(text, unknown, ConsumptionType.UNKNOWN));
 
     var carriedOver = carriedOverModifiers(itemId);
-    if (!carriedOver.isBlank()) {
-      if (!modifiers.isBlank()) {
-        modifiers += ", ";
+    for (var mod : carriedOver) {
+      if (modifiers.toString().contains(mod)) {
+        continue;
       }
-      modifiers += carriedOver;
+      if (!modifiers.toString().isBlank()) {
+        modifiers.append(", ");
+      }
+      modifiers.append(mod);
     }
 
     // Create and return the TCRS object
-    return new TCRS(name, size, quality, modifiers);
+    return new TCRS(name, size, quality, modifiers.toString());
   }
 
   private static boolean deriveCafe(final boolean verbose) {
