@@ -31,7 +31,8 @@ public class SkillDatabase {
     OTHER("other"),
     SONG("song"),
     EXPRESSION("expression"),
-    WALK("walk");
+    WALK("walk"),
+    SPELL("spell");
 
     public final String name;
     private static final Map<String, SkillTag> skillTagByName = new HashMap<>();
@@ -1121,6 +1122,15 @@ public class SkillDatabase {
         && !SkillDatabase.isType(skillId, SkillTag.OTHER);
   }
 
+  /**
+   * Returns whether or not the skill is a spell
+   *
+   * @return <code>true</code> if the skill is a spell
+   */
+  public static final boolean isSpell(final int skillId) {
+    return SkillDatabase.isType(skillId, SkillTag.SPELL);
+  }
+
   /** Utility method used to determine if the given skill is of the appropriate type. */
   private static boolean isType(final int skillId, final SkillTag type) {
     var tags = SkillDatabase.skillTagsById.get(skillId);
@@ -1632,13 +1642,15 @@ public class SkillDatabase {
 
     String typeString = DebugDatabase.parseSkillType(text);
     EnumSet<SkillTag> tags =
-        typeString.equals("Passive")
-            ? EnumSet.of(SkillTag.PASSIVE)
-            : typeString.equals("Noncombat")
-                ? EnumSet.of(SkillTag.NONCOMBAT, SkillTag.SELF)
-                : typeString.equals("Combat")
-                    ? EnumSet.of(SkillTag.COMBAT)
-                    : EnumSet.noneOf(SkillTag.class);
+        switch (typeString) {
+          case "Passive" -> EnumSet.of(SkillTag.PASSIVE);
+          case "Noncombat" -> EnumSet.of(SkillTag.NONCOMBAT, SkillTag.SELF);
+          case "Buff" -> EnumSet.of(SkillTag.NONCOMBAT, SkillTag.EFFECT, SkillTag.OTHER);
+          case "Combat" -> EnumSet.of(SkillTag.COMBAT);
+          case "Combat Spell" -> EnumSet.of(SkillTag.COMBAT, SkillTag.SPELL);
+          case "Combat / Noncombat" -> EnumSet.of(SkillTag.COMBAT, SkillTag.NONCOMBAT);
+          default -> EnumSet.noneOf(SkillTag.class);
+        };
     long mp = DebugDatabase.parseSkillMPCost(text);
     int duration = DebugDatabase.parseSkillEffectDuration(text);
 
