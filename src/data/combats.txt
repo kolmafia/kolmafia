@@ -485,7 +485,7 @@ The Toxic Teacups	100	toxic beastie
 The Troll Fortress	100	swamp troll
 The Tunnel of L.O.V.E.	100	LOV Enforcer	LOV Engineer	LOV Equivocator
 The Typical Tavern Cellar	80	drunken rat	Baron von Ratsworth: 0
-The Unquiet Garves	100	ghuol	grave rober	lihc	skleleton	Smart Skelton	zmobie	zobmie	Snakeleton: 0
+The Unquiet Garves	100	ghuol	grave rober	lihc	skleleton	Smart Skelton	zmobie	zobmie	Count Bakula: -1	Snakeleton: 0
 The Upper Chamber	85	Iiti Kitty	tomb bat	tomb servant
 The Valley of Rof L'm Fao	100	1335 HaXx0r	Anime Smiley	Flaming Troll	Lamz0r N00b	me4t begZ0r	rampaging adding machine	Spam Witch	XXX pr0n	Bad ASCII Art: 0
 The Velvet / Gold Mine	100	healing crystal golem	mine worker (female)	mine overseer (male)	mine worker (male)	mine overseer (female)	Mr. Choch: 0
