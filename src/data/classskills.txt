@@ -673,7 +673,7 @@
 7096	Bashing Slam Smash	sledge.gif	combat	15	0
 7097	Turtle of Seven Tails	7aspects.gif	combat	15	0
 7098	Noodles of Fire	capspoon.gif	combat	15	0
-7099	Saucemageddon	windsorpan.gif	combat	24	0
+7099	Saucemageddon	windsorpan.gif	combat,spell	24	0
 7100	Funk Bluegrass Fusion	seegerbanjo.gif	combat	10	0
 7101	Extreme High Note	trikitixa.gif	combat	15	0
 7102	Goldensh&ouml;wer	blackrum.gif	combat	0	0
@@ -763,7 +763,7 @@
 7186	Soul Rotation	soulskate.gif	nc,effect,self	0	10
 7187	Soul Funk	soulfunk.gif	nc,effect,self	0	10
 7188	Dismiss Pasta Thrall	leftarrow.gif	nc,effect,self	0	0
-7189	Spray Hot Grease	wboilpan.gif	combat	0	0
+7189	Spray Hot Grease	wboilpan.gif	combat,spell	0	0
 7190	Huff	huff.gif	combat	0	0
 7191	Puff	andpuff.gif	combat	0	0
 7192	Blow House Down	wind.gif	combat	0	0
@@ -994,13 +994,13 @@
 7423	Spit jurassic acid	jparka3.gif	combat	0	0
 7424	Launch spikolodon spikes	jparka2.gif	combat	0	0
 7425	Engage ultra-attractive parka mode	jparka7.gif	combat	0	0
-7426	Ceramic Punch	ceracestus.gif	passive	5	0
-7427	Ceramic Bash	cerashield.gif	passive	5	0
-7428	Ceramic Grate	ceragrater.gif	passive	5	0
-7429	Ceramic Boil	cerameter.gif	passive	5	0
-7430	Ceramic Skullgaze	cerabelt.gif	passive	5	0
-7431	Ceramic Cenobitize	cerarobe.gif	passive	5	0
-7432	Shadow Flame	shadowcandle.gif	passive	5	5
+7426	Ceramic Punch	ceracestus.gif	combat	5	0
+7427	Ceramic Bash	cerashield.gif	combat	5	0
+7428	Ceramic Grate	ceragrater.gif	combat	5	0
+7429	Ceramic Boil	cerameter.gif	combat	5	0
+7430	Ceramic Skullgaze	cerabelt.gif	combat	5	0
+7431	Ceramic Cenobitize	cerarobe.gif	combat	5	0
+7432	Shadow Flame	shadowcandle.gif	combat	5	5
 7433	Monkey Slap	monkeypaw0.gif	combat	0	0
 7434	Monkey Tickle	monkeypaw1.gif	combat	0	0
 7435	Evil Monkey Eye	monkeypaw2.gif	combat	0	0
