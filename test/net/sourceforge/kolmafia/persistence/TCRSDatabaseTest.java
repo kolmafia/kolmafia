@@ -117,4 +117,26 @@ public class TCRSDatabaseTest {
               "Hot Resistance: +1, Conditional Skill (Equipped): \"Tell a Skeleton What To Do\", Conditional Skill (Equipped): \"Tell This Skeleton What To Do\""));
     }
   }
+
+  @Test
+  void skillModifiersAreNotDuplicated() {
+    var builder = new FakeHttpClientBuilder();
+    var client = builder.client;
+    var cleanups =
+        new Cleanups(
+            withPath(Path.CRAZY_RANDOM_SUMMER_TWO),
+            withClass(AscensionClass.SEAL_CLUBBER),
+            withSign(ZodiacSign.MARMOT),
+            withHttpClientBuilder(builder));
+
+    client.addResponse(200, html("request/test_desc_item_crimbo_candy_cookbook.html"));
+
+    try (cleanups) {
+      ModifierDatabase.resetModifiers();
+      var book = TCRSDatabase.deriveItem(ItemPool.CRIMBO_CANDY_COOKBOOK);
+      assertThat(book, not(nullValue()));
+      assertThat(
+          book.modifiers, equalTo("Skill: \"Summon Crimbo Candy\", Last Available: \"2009-12\""));
+    }
+  }
 }
