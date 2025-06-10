@@ -871,6 +871,13 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
         EquipmentManager.consumeFilterToEquipmentType(
             ItemDatabase.getConsumptionType(item.getItemId()));
 
+    // if we have a 2/3-handed weapon equipped, we need to remove it
+    if (slotType == Slot.OFFHAND && EquipmentManager.getWeaponHandedness() > 1) {
+      (new EquipmentRequest(EquipmentRequest.UNEQUIP, Slot.WEAPON)).run();
+      (new EquipmentRequest(item, slotType)).run();
+      return;
+    }
+
     if (slotType != Slot.ACCESSORY1) {
       if (skillId == SkillPool.REST_UPSIDE_DOWN) {
         // this is a HP restore, so we need to ensure that the current back item doesn't have +HP
