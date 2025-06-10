@@ -292,5 +292,15 @@ public class MaximizerCreatableTest {
         assertThat(getBoosts(), hasItem(recommendsSlot(Slot.PANTS, "tinsel tights")));
       }
     }
+
+    @Test
+    public void willFoldForStinkyCheese() {
+      var cleanups = withItem(ItemPool.STINKY_CHEESE_STAFF);
+
+      try (cleanups) {
+        maximizeCreatable("stinky cheese");
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.WEAPON, "stinky cheese sword")));
+      }
+    }
   }
 }

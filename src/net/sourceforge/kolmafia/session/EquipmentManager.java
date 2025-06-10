@@ -30,6 +30,7 @@ import net.sourceforge.kolmafia.SpecialOutfit;
 import net.sourceforge.kolmafia.equipment.Slot;
 import net.sourceforge.kolmafia.equipment.SlotSet;
 import net.sourceforge.kolmafia.listener.NamedListenerRegistry;
+import net.sourceforge.kolmafia.modifiers.BitmapModifier;
 import net.sourceforge.kolmafia.modifiers.BooleanModifier;
 import net.sourceforge.kolmafia.modifiers.MultiStringModifier;
 import net.sourceforge.kolmafia.objectpool.EffectPool;
@@ -66,7 +67,6 @@ public class EquipmentManager {
   private static final Map<Slot, List<AdventureResult>> historyLists = new EnumMap<>(Slot.class);
 
   private static int fakeHandCount = 0;
-  private static int stinkyCheeseLevel = 0;
 
   /** In the Hat Trick path, all equipped hats */
   private static List<Integer> hats = new ArrayList<>();
@@ -124,7 +124,6 @@ public class EquipmentManager {
     }
 
     EquipmentManager.fakeHandCount = 0;
-    EquipmentManager.stinkyCheeseLevel = 0;
     EquipmentManager.hats.clear();
     EquipmentManager.lockedFamiliarItem = EquipmentRequest.UNEQUIP;
     EquipmentManager.normalOutfits.clear();
@@ -401,34 +400,6 @@ public class EquipmentManager {
 
     // Add skill if appropriate
     EquipmentManager.addConditionalSkills(slot, item);
-
-    // If we are either swapping out or in a stinky cheese item,
-    // recalculate stinky cheese level.
-    if (ItemDatabase.isStinkyCheeseItem(old.getItemId())
-        || ItemDatabase.isStinkyCheeseItem(item.getItemId())) {
-      AdventureResult weapon = EquipmentManager.getEquipment(Slot.WEAPON);
-      AdventureResult offhand = EquipmentManager.getEquipment(Slot.OFFHAND);
-      AdventureResult pants = EquipmentManager.getEquipment(Slot.PANTS);
-      AdventureResult acc1 = EquipmentManager.getEquipment(Slot.ACCESSORY1);
-      AdventureResult acc2 = EquipmentManager.getEquipment(Slot.ACCESSORY2);
-      AdventureResult acc3 = EquipmentManager.getEquipment(Slot.ACCESSORY3);
-      AdventureResult fam = EquipmentManager.getEquipment(Slot.FAMILIAR);
-
-      boolean sword =
-          weapon.getItemId() == ItemPool.STINKY_CHEESE_SWORD
-              || offhand.getItemId() == ItemPool.STINKY_CHEESE_SWORD
-              || fam.getItemId() == ItemPool.STINKY_CHEESE_SWORD;
-      boolean staff = weapon.getItemId() == ItemPool.STINKY_CHEESE_STAFF;
-      boolean diaper = pants.getItemId() == ItemPool.STINKY_CHEESE_DIAPER;
-      boolean wheel = offhand.getItemId() == ItemPool.STINKY_CHEESE_WHEEL;
-      boolean eye =
-          acc1.getItemId() == ItemPool.STINKY_CHEESE_EYE
-              || acc2.getItemId() == ItemPool.STINKY_CHEESE_EYE
-              || acc3.getItemId() == ItemPool.STINKY_CHEESE_EYE;
-
-      EquipmentManager.stinkyCheeseLevel =
-          (sword ? 1 : 0) + (staff ? 1 : 0) + (diaper ? 1 : 0) + (wheel ? 1 : 0) + (eye ? 1 : 0);
-    }
 
     // If Tuxedo Shirt put on or off, and autoTuxedo not set, several booze adventure gains change
     if (!Preferences.getBoolean("autoTuxedo")
@@ -844,7 +815,7 @@ public class EquipmentManager {
   }
 
   public static final int getStinkyCheeseLevel() {
-    return EquipmentManager.stinkyCheeseLevel;
+    return KoLCharacter.currentBitmapModifier(BitmapModifier.STINKYCHEESE);
   }
 
   /**
