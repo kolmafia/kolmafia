@@ -1273,6 +1273,22 @@ public class RuntimeLibraryTest extends AbstractCommandTestBase {
     }
 
     @Test
+    void parsesMultiStringModifiers() {
+      String input =
+          "split_modifiers(`Effect: \"Dances with Tweedles\", Effect Duration: 6, Class: \"Seal Clubber\"`)";
+      String output = execute(input);
+      assertThat(
+          output,
+          is(
+              """
+                 Returned: aggregate string [modifier]
+                 Class => &quot;Seal Clubber&quot;
+                 Effect => &quot;Dances with Tweedles&quot;
+                 Effect Duration => 6
+                 """));
+    }
+
+    @Test
     void stringReadsStringAndMultistringModifiers() {
       String input = "string_modifier($item[blackberry polite], \"Effect\")";
       String output = execute(input);
