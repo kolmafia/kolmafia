@@ -33,8 +33,8 @@ import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.Lookup;
-import net.sourceforge.kolmafia.modifiers.ModifierList;
 import net.sourceforge.kolmafia.modifiers.Modifier;
+import net.sourceforge.kolmafia.modifiers.ModifierList;
 import net.sourceforge.kolmafia.modifiers.MultiStringModifier;
 import net.sourceforge.kolmafia.modifiers.StringModifier;
 import net.sourceforge.kolmafia.objectpool.Concoction;
@@ -768,7 +768,8 @@ public class TCRSDatabase {
     var effectName =
         (roll != TCRSEffectPool.size())
             ? EffectPool.get(TCRSEffectPool.get(roll)).getDisambiguatedName()
-            : ModifierDatabase.getStringModifier(ModifierType.ITEM, itemId, MultiStringModifier.EFFECT);
+            : ModifierDatabase.getStringModifier(
+                ModifierType.ITEM, itemId, MultiStringModifier.EFFECT);
     var duration = 5 * mtRng.nextInt(1, 10);
 
     return new Enchantment(effectName, duration);

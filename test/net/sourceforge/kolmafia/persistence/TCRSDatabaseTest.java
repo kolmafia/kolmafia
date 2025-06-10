@@ -8,9 +8,9 @@ import static internal.helpers.Player.withSign;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
