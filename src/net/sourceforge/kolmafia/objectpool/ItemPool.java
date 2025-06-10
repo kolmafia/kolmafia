@@ -169,6 +169,8 @@ public class ItemPool {
   public static final int PIRATE_SKULL = 407;
   public static final int JOLLY_CHARRRM = 411;
   public static final int JOLLY_BRACELET = 413;
+  public static final int FERRIGNOS_ELIXIR_OF_POWER = 418;
+  public static final int POTION_OF_POTENCY = 422;
   public static final int BEANBAG_CHAIR = 429;
   public static final int LONG_SKINNY_BALLOON = 433;
   public static final int BALLOON_MONKEY = 436;
@@ -486,6 +488,7 @@ public class ItemPool {
   public static final int ICE_SKATES = 1427;
   public static final int OILY_GOLDEN_MUSHROOM = 1432;
   public static final int USELESS_POWDER = 1437;
+  public static final int SPOOKY_POWDER = 1441;
   public static final int TWINKLY_WAD = 1450;
   public static final int HOT_WAD = 1451;
   public static final int COLD_WAD = 1452;
