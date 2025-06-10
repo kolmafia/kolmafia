@@ -730,6 +730,8 @@ public class Modifiers {
         return this.setBitmap(b, Integer.parseInt(mod.getValue()));
       } else if (modifier instanceof BooleanModifier b) {
         return this.setBoolean(b, mod.getValue().equals("true"));
+      } else if (modifier instanceof MultiStringModifier s) {
+        return this.setString(s, mod.getValue());
       }
     }
     return false;

@@ -202,6 +202,10 @@ public class ModifierDatabase {
       modifierTypesByName.put(modifier.getName(), modifier);
       modifierTypesByName.put(modifier.getTag(), modifier);
     }
+    for (var modifier : MultiStringModifier.MULTISTRING_MODIFIERS) {
+      modifierTypesByName.put(modifier.getName(), modifier);
+      modifierTypesByName.put(modifier.getTag(), modifier);
+    }
     resetModifiers();
   }
 
