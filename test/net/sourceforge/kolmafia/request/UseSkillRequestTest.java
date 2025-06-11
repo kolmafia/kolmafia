@@ -647,5 +647,26 @@ class UseSkillRequestTest {
             "action=Skillz&whichskill=" + SkillPool.SEAL_CLUBBING_FRENZY + "&ajax=1&quantity=1");
       }
     }
+
+    @Test
+    public void addEffectsWith3HandedWeaponUnequips() {
+      var cleanups =
+          new Cleanups(
+              withEquipped(Slot.WEAPON, ItemPool.GIANT_TURKEY_LEG),
+              withEquippableItem(ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD),
+              withSkill(SkillPool.SEAL_CLUBBING_FRENZY),
+              withMP(100, 100, 100));
+
+      try (cleanups) {
+        var req =
+            UseSkillRequest.getInstance(
+                SkillPool.SEAL_CLUBBING_FRENZY, null, 1, EffectPool.SLIPPERY_AS_A_SEAL);
+        req.run();
+
+        var requests = getRequests();
+        assertPostRequest(
+            requests.get(0), "/inv_equip.php", "which=2&ajax=1&action=unequip&type=weapon");
+      }
+    }
   }
 }
