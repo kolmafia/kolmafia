@@ -2212,6 +2212,9 @@ public class FightRequest extends GenericRequest {
           Preferences.increment("_cyberZone3Turns");
           currentRAM = calculateInitialRAM();
         }
+        case AdventurePool.SMOOCH_ARMY_HQ -> {
+          Preferences.increment("_smoochArmyHQCombats", 1, 50, false);
+        }
       }
 
       // Wearing any piece of papier equipment really messes up the results
