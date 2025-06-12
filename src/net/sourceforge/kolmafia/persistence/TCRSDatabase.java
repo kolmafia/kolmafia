@@ -2,6 +2,7 @@ package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -1285,13 +1286,26 @@ public class TCRSDatabase {
     var cosmeticsString = rollCosmetics(mtRng, rng, 8);
 
     var name =
-        Stream.of(cosmeticsString, removeAdjectives(ItemDatabase.getItemName(id)))
-            .filter(Predicate.not(String::isBlank))
-            .collect(Collectors.joining(" "));
+        new ArrayList<>(Stream.of(cosmeticsString, removeAdjectives(ItemDatabase.getItemName(id)))
+            .filter(Predicate.not(String::isBlank)).toList());
 
+    var originalMods = ModifierDatabase.getModifierList(new Lookup(ModifierType.ITEM, id));
     var mods = getRetainedModifiers(id);
 
-    return new TCRS(name, 0, ConsumableQuality.NONE, mods.toString());
+    var shuffledMods = new ArrayList<>(EQUIPMENT_MODIFIERS);
+    rng.shuffle(shuffledMods);
+    var equipmentMods = rng.arrayPick(shuffledMods, originalMods.size());
+    for (var entry : equipmentMods) {
+      var descriptor = entry.getKey();
+      if (descriptor.startsWith("of ")) {
+        name.addLast(descriptor);
+      } else {
+        name.addFirst(descriptor);
+      }
+      DebugDatabase.appendModifier(mods, entry.getValue());
+    }
+
+    return new TCRS(String.join(" ", name), 0, ConsumableQuality.NONE, mods.toString());
   }
 
   private static TCRS guessGeneric(
