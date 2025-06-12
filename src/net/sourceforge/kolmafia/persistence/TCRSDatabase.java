@@ -1288,13 +1288,11 @@ public class TCRSDatabase {
     var name =
         new ArrayList<>(Stream.of(cosmeticsString, removeAdjectives(ItemDatabase.getItemName(id)))
             .filter(Predicate.not(String::isBlank)).toList());
-
-    var originalMods = ModifierDatabase.getModifierList(new Lookup(ModifierType.ITEM, id));
     var mods = getRetainedModifiers(id);
 
-    var shuffledMods = new ArrayList<>(EQUIPMENT_MODIFIERS);
-    rng.shuffle(shuffledMods);
-    var equipmentMods = rng.arrayPick(shuffledMods, originalMods.size());
+    // This is not right, but should be useful
+    var originalMods = ModifierDatabase.getModifierList(new Lookup(ModifierType.ITEM, id));
+    var equipmentMods = rng.arrayPick(EQUIPMENT_MODIFIERS, originalMods.size());
     for (var entry : equipmentMods) {
       var descriptor = entry.getKey();
       if (descriptor.startsWith("of ")) {
