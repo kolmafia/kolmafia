@@ -2553,6 +2553,7 @@ user	_sleazeAirportToday	false
 user	_sloppyDinerBeachBucks	0
 user	_smilesOfMrA	0
 user	_smithsnessSummons	0
+user	_smoochArmyHQCombats	0
 user	_snojoFreeFights	0
 user	_snojoParts	0
 user	_snokebombUsed	0
