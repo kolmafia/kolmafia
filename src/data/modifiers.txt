@@ -873,7 +873,7 @@ Item	star pants	Initiative: +20, Familiar Effect: "1xPotato, 2xGhuol, cap 41"
 Item	sticky meat kilt	Moxie: +3, Familiar Effect: "3xPotato, 3xFairy, cap 11"
 Item	sticky meat pants	Moxie: +3, Familiar Effect: "2xPotato, cap 11"
 Item	sticky meat skirt	Moxie: +3, Familiar Effect: "3xPotato, 3xFairy, cap 11"
-Item	stinky cheese diaper	Adventures: [max(1,min(10,floor(pref(_stinkyCheeseCount)/10)))], Softcore Only, Last Available: "2010-01", Familiar Effect: "stench atk, 1.5xVolley, cap 25"
+Item	stinky cheese diaper	Adventures: [max(1,min(10,floor(pref(_stinkyCheeseCount)/10)))], Stinky Cheese, Softcore Only, Last Available: "2010-01", Familiar Effect: "stench atk, 1.5xVolley, cap 25"
 Item	studded leather boxer shorts	Familiar Effect: "atk, 4xVolley, cap 5"
 Item	stylish swimsuit	Moxie: +5, Last Available: "2012-05", Sleaze Damage: [5-5*X], Familiar Effect: "1xPotato, cap 10"
 Item	sucker hakama	Damage Reduction: 5, Last Available: "2011-11", Familiar Effect: "afk, cap 12"
@@ -1930,7 +1930,7 @@ Item	Staff of Frozen Lard	Spell Damage Percent: +200, Cold Spell Damage: +20, Sl
 Item	Staff of Fruit Salad	Spell Damage: +10, Moxie: +10, MP Regen Min: 2, MP Regen Max: 3, Jiggle: "Deal Some Prismatic Damage"
 Item	Staff of Holiday Sensations	Spell Damage Percent: +75, Cold Spell Damage: +15, MP Regen Min: 5, MP Regen Max: 6, Last Available: "2011-11"
 Item	Staff of Kitchen Royalty	Spell Damage Percent: +200, MP Regen Min: 30, MP Regen Max: 40, Moxie Percent: +50, Adventures: +4, PvP Fights: +4, Last Available: "2018-04"
-Item	Staff of Queso Escusado	Spell Damage Percent: +50, Stench Spell Damage: +20, MP Regen Min: 6, MP Regen Max: 8, Softcore Only, Last Available: "2010-01"
+Item	Staff of Queso Escusado	Spell Damage Percent: +50, Stench Spell Damage: +20, MP Regen Min: 6, MP Regen Max: 8, Stinky Cheese, Softcore Only, Last Available: "2010-01"
 Item	Staff of Simmering Hatred	MP Regen Min: 20, MP Regen Max: 30, Reduce Enemy Defense: 10, Spell Damage Percent: +200
 # Staff of the All-Steak: (5 charges left today)
 Item	Staff of the All-Steak	Spell Damage Percent: +50, Damage Reduction: 15, MP Regen Min: 5, MP Regen Max: 6, Jiggle: "Massive Bonus to Item Drops"
@@ -1984,7 +1984,7 @@ Item	Stick-Knife of Loathing	Weapon Damage Percent: +100, Spell Damage Percent: 
 Item	sticky hand whip	Item Drop: +5, Pickpocket Chance: +10, Meat Drop: +15, Last Available: "2014-08"
 # stinkin' bindle: On Critical: Deals 70-100 <font color=green>Stench Damage</font>
 Item	stinkin' bindle	Item Drop: +10, Stench Damage: +25
-Item	stinky cheese sword	Stench Damage: [max(1,min(33,floor(pref(_stinkyCheeseCount)/3)))], Softcore Only, Last Available: "2010-01"
+Item	stinky cheese sword	Stench Damage: [max(1,min(33,floor(pref(_stinkyCheeseCount)/3)))], Stinky Cheese, Softcore Only, Last Available: "2010-01"
 Item	stolen accordion	Song Duration: 5
 Item	stone banjo	Moxie: +1
 # stuffed club
@@ -2669,7 +2669,7 @@ Item	stapler bear	Muscle: +5, Last Available: "2010-12", Damage Aura: 1
 Item	star buckler	Muscle: +2, Mysticality: +2, Moxie: +2, Damage Reduction: 10
 Item	steaming evil	Hot Damage: +6, Sleaze Damage: +6, Spooky Damage: +6
 Item	steely marble	Sleaze Spell Damage: +65
-Item	stinky cheese wheel	Damage Reduction: 6, Softcore Only, Last Available: "2010-01", Damage Absorption: [max(1,min(50,floor(pref(_stinkyCheeseCount)/2)))]
+Item	stinky cheese wheel	Damage Reduction: 6, Stinky Cheese, Softcore Only, Last Available: "2010-01", Damage Absorption: [max(1,min(50,floor(pref(_stinkyCheeseCount)/2)))]
 Item	stop shield	Damage Absorption: +10, Damage Reduction: 6, Last Available: "2009-12"
 Item	stress ball	Maximum HP: +100, Maximum MP: +100, Last Available: "2011-05", Conditional Skill (Equipped): "Squeeze Stress Ball"
 Item	studded sealhide shield	Muscle: +5, Maximum HP: +30, Damage Reduction: 7
@@ -3763,7 +3763,7 @@ Item	Star of Bravery	Maximum HP: +25, Maximum MP: +25, Single Equip
 Item	steel knuckles	Last Available: "2016-02"
 Item	stick-on eyebrow piercing	Muscle: +1, Last Available: "2008-04"
 Item	sticky gloves	Pickpocket Chance: +20, Single Equip, Last Available: "2011-05"
-Item	stinky cheese eye	Item Drop: [max(1,min(20,floor(pref(_stinkyCheeseCount)/5)))], Softcore Only, Last Available: "2010-01", Meat Drop: [max(1,min(20,floor(pref(_stinkyCheeseCount)/5)))], Conditional Skill (Equipped): "Give Your Opponent the Stinkeye"
+Item	stinky cheese eye	Item Drop: [max(1,min(20,floor(pref(_stinkyCheeseCount)/5)))], Stinky Cheese, Softcore Only, Last Available: "2010-01", Meat Drop: [max(1,min(20,floor(pref(_stinkyCheeseCount)/5)))], Conditional Skill (Equipped): "Give Your Opponent the Stinkeye"
 # stinky fannypack: +40% Item Drops while on Vacation
 # stinky fannypack: (in any Elemental Airport area)
 Item	stinky fannypack	Stench Damage: +25, Stench Spell Damage: +25, Last Available: "2015-04", Item Drop: [40*zone(Elemental International Airport)]

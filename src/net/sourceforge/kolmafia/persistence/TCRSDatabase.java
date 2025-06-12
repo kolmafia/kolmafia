@@ -31,6 +31,7 @@ import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.ZodiacSign;
+import net.sourceforge.kolmafia.modifiers.BitmapModifier;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.modifiers.Lookup;
 import net.sourceforge.kolmafia.modifiers.Modifier;
@@ -466,12 +467,18 @@ public class TCRSDatabase {
           StringModifier.RECIPE,
           StringModifier.CLASS,
           StringModifier.SKILL,
-          StringModifier.EQUIPS_ON);
+          StringModifier.EQUIPS_ON,
+          BitmapModifier.BRIMSTONE,
+          BitmapModifier.CLOATHING,
+          BitmapModifier.SYNERGETIC,
+          BitmapModifier.RAVEOSITY,
+          BitmapModifier.MCHUGELARGE,
+          BitmapModifier.STINKYCHEESE);
 
-  private static String carriedOverModifiers(final int itemId) {
+  private static List<String> carriedOverModifiers(final int itemId) {
     var modifiers = ModifierDatabase.getItemModifiers(itemId);
     if (modifiers == null) {
-      return "";
+      return List.of();
     }
 
     return CARRIED_OVER.stream()
@@ -492,7 +499,7 @@ public class TCRSDatabase {
               return "";
             })
         .filter(Predicate.not(String::isBlank))
-        .collect(Collectors.joining(", "));
+        .toList();
   }
 
   private static TCRS deriveItem(final int itemId, final String text) {
@@ -501,18 +508,23 @@ public class TCRSDatabase {
     int size = DebugDatabase.parseConsumableSize(text);
     var quality = DebugDatabase.parseQuality(text);
     ArrayList<String> unknown = new ArrayList<>();
-    String modifiers = DebugDatabase.parseItemEnchantments(text, unknown, ConsumptionType.UNKNOWN);
+    StringBuilder modifiers =
+        new StringBuilder(
+            DebugDatabase.parseItemEnchantments(text, unknown, ConsumptionType.UNKNOWN));
 
     var carriedOver = carriedOverModifiers(itemId);
-    if (!carriedOver.isBlank()) {
-      if (!modifiers.isBlank()) {
-        modifiers += ", ";
+    for (var mod : carriedOver) {
+      if (modifiers.toString().contains(mod)) {
+        continue;
       }
-      modifiers += carriedOver;
+      if (!modifiers.toString().isBlank()) {
+        modifiers.append(", ");
+      }
+      modifiers.append(mod);
     }
 
     // Create and return the TCRS object
-    return new TCRS(name, size, quality, modifiers);
+    return new TCRS(name, size, quality, modifiers.toString());
   }
 
   private static final List<String> COLOR_MODS =

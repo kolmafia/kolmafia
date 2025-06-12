@@ -71,6 +71,7 @@ public class Evaluator {
   private int clownosity = 0;
   private int raveosity = 0;
   private int surgeonosity = 0;
+  private int stinkycheese = 0;
   private int beeosity = 2;
   private final EnumSet<BooleanModifier> booleanMask = EnumSet.noneOf(BooleanModifier.class);
   private final Set<BooleanModifier> booleanValue = EnumSet.noneOf(BooleanModifier.class);
@@ -359,6 +360,11 @@ public class Evaluator {
 
       if (keyword.equals("beeosity")) {
         this.beeosity = (int) weight;
+        continue;
+      }
+
+      if (keyword.equals("stinkycheese") || keyword.equals("stinky cheese")) {
+        this.stinkycheese = (int) weight;
         continue;
       }
 
@@ -863,6 +869,10 @@ public class Evaluator {
       }
       if (val < min) this.failed = true;
       score += weight * Math.min(val, max);
+    }
+    if (this.stinkycheese > 0) {
+      int val = mods.getBitmap(BitmapModifier.STINKYCHEESE);
+      score += this.stinkycheese * val;
     }
     if (!this.bonuses.isEmpty()) {
       for (AdventureResult item : equipment.values()) {
@@ -1468,6 +1478,7 @@ public class Evaluator {
             || (this.clownosity > 0 && mods.getRawBitmap(BitmapModifier.CLOWNINESS) != 0)
             || (this.raveosity > 0 && mods.getRawBitmap(BitmapModifier.RAVEOSITY) != 0)
             || (this.surgeonosity > 0 && mods.getRawBitmap(BitmapModifier.SURGEONOSITY) != 0)
+            || (this.stinkycheese > 0 && mods.getRawBitmap(BitmapModifier.STINKYCHEESE) != 0)
             || ((mods.getRawBitmap(BitmapModifier.SYNERGETIC) & usefulSynergies) != 0)) {
           item.automaticFlag = true;
           break gotItem;
