@@ -1,11 +1,7 @@
 package net.sourceforge.kolmafia.persistence;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintStream;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -19,11 +15,9 @@ import java.util.TreeMap;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.KoLCharacter;
-import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.ConsumptionType;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.ModifierType;
@@ -47,8 +41,6 @@ import net.sourceforge.kolmafia.request.CampgroundRequest;
 import net.sourceforge.kolmafia.request.ChateauRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.utilities.FileUtilities;
-import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
-import net.sourceforge.kolmafia.utilities.LogStream;
 import net.sourceforge.kolmafia.utilities.PHPMTRandom;
 import net.sourceforge.kolmafia.utilities.PHPRandom;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -135,7 +127,7 @@ public class TCRSDatabase {
       return "";
     }
 
-    return "TCRS_"
+    return "TCRS/TCRS_"
         + StringUtilities.globalStringReplace(ascensionClass.getName(), " ", "_")
         + "_"
         + sign.getName()
@@ -203,75 +195,6 @@ public class TCRSDatabase {
 
     if (verbose) {
       RequestLogger.printLine("Read file " + fileName);
-    }
-
-    return true;
-  }
-
-  public static boolean save(final boolean verbose) {
-    if (!KoLCharacter.isCrazyRandomTwo()) {
-      return false;
-    }
-    boolean retval = true;
-    retval &= save(KoLCharacter.getAscensionClass(), KoLCharacter.getSign(), verbose);
-    retval &= saveCafe(KoLCharacter.getAscensionClass(), KoLCharacter.getSign(), verbose);
-    return retval;
-  }
-
-  public static boolean save(
-      AscensionClass ascensionClass, ZodiacSign csign, final boolean verbose) {
-    return save(filename(ascensionClass, csign, ""), TCRSMap, verbose);
-  }
-
-  public static boolean saveCafe(
-      AscensionClass ascensionClass, ZodiacSign csign, final boolean verbose) {
-    boolean retval = true;
-    retval &= save(filename(ascensionClass, csign, "_cafe_booze"), TCRSBoozeMap, verbose);
-    retval &= save(filename(ascensionClass, csign, "_cafe_food"), TCRSFoodMap, verbose);
-    return retval;
-  }
-
-  public static boolean saveCafeBooze(
-      AscensionClass ascensionClass, ZodiacSign csign, final boolean verbose) {
-    return save(filename(ascensionClass, csign, "_cafe_booze"), TCRSBoozeMap, verbose);
-  }
-
-  public static boolean saveCafeFood(
-      AscensionClass ascensionClass, ZodiacSign csign, final boolean verbose) {
-    return save(filename(ascensionClass, csign, "_cafe_food"), TCRSFoodMap, verbose);
-  }
-
-  private static boolean save(
-      final String fileName, final Map<Integer, TCRS> map, final boolean verbose) {
-    if (fileName == null) {
-      return false;
-    }
-
-    PrintStream writer = LogStream.openStream(new File(KoLConstants.DATA_LOCATION, fileName), true);
-
-    // No writer, no file
-    if (writer == null) {
-      if (verbose) {
-        RequestLogger.printLine("Could not write file " + fileName);
-      }
-      return false;
-    }
-
-    for (Entry<Integer, TCRS> entry : map.entrySet()) {
-      TCRS tcrs = entry.getValue();
-      Integer itemId = entry.getKey();
-      String name = tcrs.name;
-      Integer size = tcrs.size;
-      var quality = tcrs.quality;
-      String modifiers = tcrs.modifiers;
-      String line = itemId + "\t" + name + "\t" + size + "\t" + quality + "\t" + modifiers;
-      writer.println(line);
-    }
-
-    writer.close();
-
-    if (verbose) {
-      RequestLogger.printLine("Wrote file " + fileName);
     }
 
     return true;
@@ -1569,131 +1492,11 @@ public class TCRSDatabase {
     KoLCharacter.updateStatus();
   }
 
-  // *** Primitives for checking presence of local files
-
-  public static boolean localFileExists(
-      AscensionClass ascensionClass, ZodiacSign sign, final boolean verbose) {
-    return localFileExists(filename(ascensionClass, sign, ""), verbose);
-  }
-
-  public static boolean localCafeFileExists(
-      AscensionClass ascensionClass, ZodiacSign sign, final boolean verbose) {
-    return localFileExists(filename(ascensionClass, sign, "_cafe_booze"), verbose)
-        && localFileExists(filename(ascensionClass, sign, "_cafe_food"), verbose);
-  }
-
-  public static boolean anyLocalFileExists(
-      AscensionClass ascensionClass, ZodiacSign sign, final boolean verbose) {
-    return localFileExists(filename(ascensionClass, sign, ""), verbose)
-        || localFileExists(filename(ascensionClass, sign, "_cafe_booze"), verbose)
-        || localFileExists(filename(ascensionClass, sign, "_cafe_food"), verbose);
-  }
-
-  private static boolean localFileExists(String localFilename, final boolean verbose) {
-    if (localFilename == null) {
-      return false;
-    }
-    File localFile = new File(KoLConstants.DATA_LOCATION, localFilename);
-    return localFileExists(localFile, verbose);
-  }
-
-  private static boolean localFileExists(File localFile, final boolean verbose) {
-    boolean exists = localFile.exists() && localFile.length() > 0;
-    if (verbose) {
-      RequestLogger.printLine(
-          "Local file "
-              + localFile.getName()
-              + " "
-              + (exists ? "already exists" : "does not exist")
-              + ".");
-    }
-    return exists;
-  }
-
   // *** support for fetching TCRS files from KoLmafia's SVN repository
 
   // Remote files we have fetched this session
   private static final Set<String> remoteFetched =
       new HashSet<>(); // remote files fetched this session
-
-  // *** Fetching files from the SVN repository, in two parts, since the
-  // non-cafe code was released a week before the cafe code, and some
-  // class/signs have only the non-cafe file
-
-  public static boolean fetch(
-      final AscensionClass ascensionClass, final ZodiacSign sign, final boolean verbose) {
-    return fetchRemoteFile(filename(ascensionClass, sign, ""), verbose);
-  }
-
-  public static boolean fetchCafe(
-      final AscensionClass ascensionClass, final ZodiacSign sign, final boolean verbose) {
-    return fetchRemoteFile(filename(ascensionClass, sign, "_cafe_booze"), verbose)
-        && fetchRemoteFile(filename(ascensionClass, sign, "_cafe_food"), verbose);
-  }
-
-  // *** If we want to get all three files at once - and count it a
-  // success as long as the non-cafe file is present -use these.
-  // Not recommended.
-
-  public static boolean fetchRemoteFiles(final boolean verbose) {
-    return fetchRemoteFiles(KoLCharacter.getAscensionClass(), KoLCharacter.getSign(), verbose);
-  }
-
-  public static boolean fetchRemoteFiles(
-      AscensionClass ascensionClass, ZodiacSign sign, final boolean verbose) {
-    return fetchRemoteFile(filename(ascensionClass, sign, ""), verbose)
-        || fetchRemoteFile(filename(ascensionClass, sign, "_cafe_booze"), verbose)
-        || fetchRemoteFile(filename(ascensionClass, sign, "_cafe_food"), verbose);
-  }
-
-  // *** Primitives for fetching a file from the SVN repository, overwriting existing file, if any.
-
-  public static boolean fetchRemoteFile(String localFilename, final boolean verbose) {
-    String remoteFileName =
-        "https://raw.githubusercontent.com/kolmafia/kolmafia/main/data/TCRS/" + localFilename;
-    if (remoteFetched.contains(remoteFileName)) {
-      if (verbose) {
-        RequestLogger.printLine(
-            "Already fetched remote version of " + localFilename + " in this session.");
-      }
-      return true;
-    }
-
-    // Because we know we want a remote file the directory and override parameters will be ignored.
-    File output = new File(KoLConstants.DATA_LOCATION, localFilename);
-
-    try (BufferedReader remoteReader = DataUtilities.getReader("", remoteFileName, false);
-        PrintWriter writer = new PrintWriter(new FileWriter(output))) {
-      String aLine;
-      while ((aLine = remoteReader.readLine()) != null) {
-        // if the remote copy uses a different EOl than
-        // the local OS then this will implicitly convert
-        writer.println(aLine);
-      }
-      if (verbose) {
-        RequestLogger.printLine(
-            "Fetched remote version of " + localFilename + " from the repository.");
-      }
-    } catch (IOException exception) {
-      // The reader and writer should be closed but since
-      // that can throw an exception...
-      RequestLogger.printLine("IO Exception for " + localFilename + ": " + exception);
-      return false;
-    }
-
-    if (output.length() <= 0) {
-      // Do we care if we delete a file that is known to
-      // exist and is empty?  No.
-      if (verbose) {
-        RequestLogger.printLine("File " + localFilename + " is empty. Deleting.");
-      }
-      output.delete();
-      return false;
-    }
-
-    remoteFetched.add(remoteFileName);
-    return true;
-  }
 
   // *** support for loading up TCRS data appropriate to your current class/sign
 
@@ -1707,71 +1510,8 @@ public class TCRSDatabase {
 
   private static boolean loadTCRSData(
       final AscensionClass ascensionClass, final ZodiacSign sign, final boolean verbose) {
-    // If local TCRS data file is not present, fetch from repository
-    if (!localFileExists(ascensionClass, sign, verbose)) {
-      fetch(ascensionClass, sign, verbose);
-    }
-
-    boolean nonCafeLoaded = false;
-
-    // If local TCRS data file is not present, offer to derive it
-    if (!localFileExists(ascensionClass, sign, false)) {
-      String message =
-          "No TCRS data is available for "
-              + ascensionClass.getName()
-              + "/"
-              + sign
-              + ". Would you like to derive it? (This will take a long time, but you only have to do it once.)";
-      if (InputFieldUtilities.confirm(message) && derive(ascensionClass, sign, verbose)) {
-        save(ascensionClass, sign, verbose);
-        nonCafeLoaded = true;
-      }
-    } else {
-      // Otherwise, load it
-      nonCafeLoaded = load(ascensionClass, sign, verbose);
-    }
-
-    // Now do the same thing for cafe data.
-    if (!localCafeFileExists(ascensionClass, sign, verbose)) {
-      fetchCafe(ascensionClass, sign, verbose);
-    }
-
-    boolean cafeLoaded = false;
-
-    // If local TCRS data file is not present, offer to derive it
-    if (!localCafeFileExists(ascensionClass, sign, false)) {
-      String message =
-          "No TCRS cafe data is available for "
-              + ascensionClass.getName()
-              + "/"
-              + sign
-              + ". Would you like to derive it? (This will not take long, and you only have to do it once.)";
-      if (InputFieldUtilities.confirm(message) && deriveCafe(verbose)) {
-
-        saveCafe(ascensionClass, sign, verbose);
-        cafeLoaded = true;
-      }
-    } else {
-      // Otherwise, load it
-      cafeLoaded = loadCafe(ascensionClass, sign, verbose);
-    }
-
-    // If we loaded data files, update them.
-
-    if (nonCafeLoaded) {
-      if (update(verbose) > 0) {
-        save(ascensionClass, sign, verbose);
-      }
-    }
-
-    if (cafeLoaded) {
-      if (updateCafeBooze(verbose) > 0) {
-        saveCafeBooze(ascensionClass, sign, verbose);
-      }
-      if (updateCafeFood(verbose) > 0) {
-        saveCafeFood(ascensionClass, sign, verbose);
-      }
-    }
+    var nonCafeLoaded = load(ascensionClass, sign, verbose);
+    var cafeLoaded = loadCafe(ascensionClass, sign, verbose);
 
     if (nonCafeLoaded || cafeLoaded) {
       applyModifiers();

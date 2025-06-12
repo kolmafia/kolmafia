@@ -14,20 +14,15 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import internal.helpers.Cleanups;
 import internal.network.FakeHttpClientBuilder;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.util.stream.Stream;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
-import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.ModifierType;
 import net.sourceforge.kolmafia.Modifiers;
 import net.sourceforge.kolmafia.ZodiacSign;
 import net.sourceforge.kolmafia.modifiers.DoubleModifier;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -160,18 +155,6 @@ class TCRSDatabaseTest {
   @AfterEach
   void afterEach() {
     TCRSDatabase.resetModifiers();
-  }
-
-  @AfterAll
-  static void afterAll() throws IOException {
-    ConsumablesDatabase.clearAndRebuild();
-    try (var walker = Files.walk(KoLConstants.DATA_LOCATION.toPath())) {
-      walker
-          .map(java.nio.file.Path::toFile)
-          .filter(f -> f.getName().startsWith("TCRS_"))
-          .filter(f -> f.getName().endsWith(".txt"))
-          .forEach(File::delete);
-    }
   }
 
   @Test

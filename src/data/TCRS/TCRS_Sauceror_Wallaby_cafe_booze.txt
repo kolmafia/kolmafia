@@ -1,0 +1,33 @@
+-1	smooth Petite Porter	4	awesome	
+-2	smooth maroon Scrawny Stout	3	awesome	
+-3	artisanal wobbly Infinitesimal IPA	3	EPIC	
+-4	acceptable enchanted eggnogtini	3	good	
+-5	acceptable irresponsibly strong candycaine	9	good	
+-6	spirit-forward bad braincracker sweet	5	decent	
+-16	smooth teal fermented honey	3	awesome	
+-17	acceptable fancy watered-down moons-shine	2	good	
+-18	delicious watered-down gin	2	awesome	
+-19	perfectly mixed ecto-nog	3	EPIC	
+-20	acceptable hot toady	4	good	
+-21	perfectly mixed skewed hot choculate	3	EPIC	
+-49	acceptable squat Cyder	3	good	
+-50	hand-crafted spinning Oil Nog	4	EPIC	
+-51	mediocre irresponsibly strong Hi-Octane Peppermint Jet Fuel	7	decent	
+-58	watered-down artisanal Grimacider	2	EPIC	
+-59	tolerable Isotope Nog	3	good	
+-60	artisanal weak Mutagin 'n' Tonic	2	EPIC	
+-70	hand-crafted practically non-alcoholic Gin and Herring	1	EPIC	
+-71	perfectly mixed Black and Tan and Red All Over	3	EPIC	
+-72	tolerable watered-down Antarctic Ice Tea	2	good	
+-76	smooth CRIMBCO Ribbon Candy Schnapps	3	awesome	
+-77	drinkable CRIMBCO Egg Substitute Nog Substitute	4	good	
+-78	mediocre blue twirling CRIMBCO Extreme Braincracker Sour	3	decent	
+-82	hand-crafted Horseradish-infused Vodka	4	EPIC	
+-83	drinkable shaking Jerkitini	3	good	
+-84	spirit-forward acceptable special Desert Island Iced Tea	5	good	
+-88	mediocre Crimbo Saketini	3	decent	
+-89	drinkable Crimboku Drop	3	good	
+-90	tolerable Flaming Crimbo Log	3	good	
+-107	lousy Fortified Eggnog Slurry	4	decent	
+-108	hand-crafted enchanted Hot Buttered Rum	4	EPIC	
+-109	mediocre Spicy Hot Chocolate	4	decent	

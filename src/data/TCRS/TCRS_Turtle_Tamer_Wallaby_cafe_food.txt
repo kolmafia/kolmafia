@@ -1,0 +1,45 @@
+-1	normal Peche a la Frog	3	good	
+-2	rotten fancy As Jus Gezund Heit	3	crappy	
+-3	bite-sized adequate Bouillabaise Coucher Avec Moi	1	good	
+-7	bland teal pulsating gumdrop chow mein	4	decent	
+-8	fancy flavorless thick candy cane pizza	5	decent	
+-9	moldy half-sized gingerbread stir-fry	2	crappy	
+-10	bland twigs and gravel	3	decent	
+-11	spoiled shoots and leaves	4	crappy	
+-12	super-sized normal tumbling bowl of unidentifiable goo	5	good	
+-13	yummy snack-sized gingerbread massacre	2	awesome	
+-14	rotten It Came From Beyond Dessert	3	crappy	
+-15	spoiled vampire cake	3	crappy	
+-52	small adequate Soylent Red and Green	2	good	
+-53	decent big Disc-Shaped Nutrition Unit	5	good	
+-54	bland ghostly Gingerborg Hive	3	decent	
+-61	spoiled thick Candy Cane Surprise	5	crappy	
+-62	bite-sized flavorless Grimdrop Chow Mein	1	decent	
+-63	normal Grimgerbread House	3	good	
+-67	diet rotten maroon Caviar Carbonara	1	crappy	
+-68	flavorless huge Halibut Alfredo	3	decent	
+-69	decent gigantic Red Herring Velvet Cake	6	good	
+-73	stale CRIMBCO Reconstituted Gruel	4	decent	
+-74	rotten twirling narrow New and Improved CRIMBCO Reconstituted Gruel	3	crappy	
+-75	thick moldy CRIMBCO Deluxe Reconstituted Gruel with Simulated Raisins	5	crappy	
+-79	normal Brussels Sprout Stir-Fry	3	good	
+-80	rotten Carrot, Cabbage, and Kale Pizza	3	crappy	
+-81	decent thick huge Turnip and Rutabaga Pie	5	good	
+-85	big spoiled Rainbow Spider Fun Roll	5	crappy	
+-86	adequate tiny Vegas Volcano Lava Roll	1	good	
+-87	spoiled jumbo Crazy Dragon Shogun Buddha Roll	5	crappy	
+-92	stale basic hot dog	3	decent	
+-93	toothsome gray savage macho dog	3	awesome	
+-94	adequate one with everything	3	good	
+-95	snack-sized decent sly dog	2	good	
+-96	normal devil dog	3	good	
+-97	low-calorie moldy blurry chilly dog	1	crappy	
+-98	rotten small ghost dog	2	crappy	
+-99	spoiled junkyard dog	3	crappy	
+-100	stale huge skewed wet dog	6	decent	
+-101	adequate red sleeping dog	4	good	
+-102	spoiled tiny enchanted optimal dog	1	crappy	
+-103	stale video games hot dog	3	decent	
+-104	spoiled Peppermint Nutrition Block	3	crappy	
+-105	spoiled Gingerbread Nutrition Block	4	crappy	
+-106	spoiled tumbling Cinnamon Nutrition Block	3	crappy	

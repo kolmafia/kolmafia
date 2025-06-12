@@ -1,0 +1,45 @@
+-1	flavorless Peche a la Frog	3	decent	
+-2	normal As Jus Gezund Heit	3	good	
+-3	stale Bouillabaise Coucher Avec Moi	4	decent	
+-7	adequate gumdrop chow mein	4	good	
+-8	tiny bland candy cane pizza	1	decent	
+-9	rotten gingerbread stir-fry	4	crappy	
+-10	bland huge twigs and gravel	10	decent	
+-11	moldy shoots and leaves	4	crappy	
+-12	immense flavorless huge bowl of unidentifiable goo	6	decent	
+-13	tiny flavorless yellow gingerbread massacre	1	decent	
+-14	rotten It Came From Beyond Dessert	3	crappy	
+-15	moldy vampire cake	3	crappy	
+-52	decent Soylent Red and Green	3	good	
+-53	delicious Disc-Shaped Nutrition Unit	3	awesome	
+-54	flavorless upside-down Gingerborg Hive	3	decent	
+-61	rotten tumbling Candy Cane Surprise	3	crappy	
+-62	decent Grimdrop Chow Mein	3	good	
+-63	normal Grimgerbread House	3	good	
+-67	huge rotten mirror Caviar Carbonara	8	crappy	
+-68	normal fancy squat Halibut Alfredo	4	good	
+-69	bland half-sized olive Red Herring Velvet Cake	2	decent	
+-73	half-sized flavorless CRIMBCO Reconstituted Gruel	2	decent	
+-74	spoiled tiny New and Improved CRIMBCO Reconstituted Gruel	1	crappy	
+-75	special decent CRIMBCO Deluxe Reconstituted Gruel with Simulated Raisins	4	good	
+-79	spoiled Brussels Sprout Stir-Fry	3	crappy	
+-80	spoiled Carrot, Cabbage, and Kale Pizza	3	crappy	
+-81	spoiled jumbo Turnip and Rutabaga Pie	5	crappy	
+-85	adequate green Rainbow Spider Fun Roll	4	good	
+-86	normal immense Vegas Volcano Lava Roll	10	good	
+-87	stale Crazy Dragon Shogun Buddha Roll	4	decent	
+-92	gigantic stale wobbly basic hot dog	9	decent	
+-93	low-calorie normal savage macho dog	1	good	
+-94	decent one with everything	4	good	
+-95	stale sly dog	4	decent	
+-96	super-sized flavorless devil dog	5	decent	
+-97	delicious chilly dog	4	awesome	
+-98	moldy snack-sized cyan ghost dog	2	crappy	
+-99	miniature adequate fancy junkyard dog	2	good	
+-100	toothsome gigantic wet dog	6	awesome	
+-101	half-sized bland sleeping dog	2	decent	
+-102	snack-sized flavorless pulsating optimal dog	2	decent	
+-103	stale diet video games hot dog	1	decent	
+-104	flavorless yellow shaking Peppermint Nutrition Block	3	decent	
+-105	flavorless immense Gingerbread Nutrition Block	7	decent	
+-106	stale olive Cinnamon Nutrition Block	4	decent	
