@@ -1990,6 +1990,7 @@ public class ItemPool {
   public static final int STAFF_OF_STEAK = 6263;
   public static final int STAFF_OF_CREAM = 6265;
   public static final int GIANT_PENGUIN_KEYCHAIN = 6272;
+  public static final int GIANT_TURKEY_LEG = 6275;
   public static final int YE_OLDE_MEAD = 6276;
   public static final int MARK_III_STEAM_HAT = 6287;
   public static final int MARK_V_STEAM_HAT = 6289;
