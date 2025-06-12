@@ -1109,6 +1109,7 @@ public class TCRSDatabase {
     Map.entry("arcane researcher's", "Experience Percent (Mysticality): +10"),
     Map.entry("aromatic", "Stench Resistance: +1"),
     Map.entry("asbestos-lined", "Hot Resistance: +5"),
+    Map.entry("lucky", "Item Drop: +5"),
     Map.entry("auspicious", "Item Drop: +10"),
     Map.entry("avaricious", "Meat Drop: +30"),
     Map.entry("baleful", "Spell Damage: +25"),
