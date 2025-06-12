@@ -870,6 +870,10 @@ public class Evaluator {
       if (val < min) this.failed = true;
       score += weight * Math.min(val, max);
     }
+    if (this.stinkycheese > 0) {
+      int val = mods.getBitmap(BitmapModifier.STINKYCHEESE);
+      score += this.stinkycheese * val;
+    }
     if (!this.bonuses.isEmpty()) {
       for (AdventureResult item : equipment.values()) {
         if (this.bonuses.containsKey(item)) {
