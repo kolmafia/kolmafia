@@ -2349,4 +2349,42 @@ public class MaximizerTest {
       }
     }
   }
+
+  @Nested
+  class StinkyCheese {
+    @Test
+    public void weightsStinkyCheese() {
+      var cleanups =
+          new Cleanups(withItem(ItemPool.STINKY_CHEESE_SWORD), withItem(ItemPool.JUNE_CLEAVER));
+
+      try (cleanups) {
+        maximize("10stinky cheese, 5bonus June cleaver, -pants -offhand -acc1 -acc2 -acc3");
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.WEAPON, "stinky cheese sword")));
+        assertEquals(1, modFor(BitmapModifier.STINKYCHEESE), 0.01);
+      }
+    }
+
+    @Test
+    public void doesNotOvercountSameItem() {
+      var cleanups =
+          new Cleanups(
+              withItem(ItemPool.STINKY_CHEESE_SWORD, 7),
+              withEquippableItem(ItemPool.FLASH_LIQUIDIZER_ULTRA_DOUSING_ACCESSORY, 3));
+
+      try (cleanups) {
+        maximize("30stinky cheese, item");
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.WEAPON, "stinky cheese sword")));
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.OFFHAND, "stinky cheese wheel")));
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.PANTS, "stinky cheese diaper")));
+        assertThat(getBoosts(), hasItem(recommendsSlot(Slot.ACCESSORY1, "stinky cheese eye")));
+        assertThat(
+            getBoosts(),
+            hasItem(recommendsSlot(Slot.ACCESSORY2, "Flash Liquidizer Ultra Dousing Accessory")));
+        assertThat(
+            getBoosts(),
+            hasItem(recommendsSlot(Slot.ACCESSORY3, "Flash Liquidizer Ultra Dousing Accessory")));
+        assertEquals(4, modFor(BitmapModifier.STINKYCHEESE), 0.01);
+      }
+    }
+  }
 }
