@@ -109,7 +109,7 @@ public class LeprecondoManager {
                 Need.BOOZE,
                 "plays beer pong for a while, but stops drinking before he finishes the whole table's worth"),
             Map.entry(Need.EXERCISE, "plays beer pong until he gets tired")),
-        "Frat House"),
+        "The Orcish Frat House"),
     WEIGHT_BENCH(
         "padded weight bench",
         11,
@@ -177,7 +177,7 @@ public class LeprecondoManager {
                 Need.DUMB_ENTERTAINMENT,
                 "sits on his couch and watches some reruns of old reality shows"),
             Map.entry(Need.SLEEP, "falls asleep on his comfy couch")),
-        "Frat House"),
+        "The Orcish Frat House"),
     KEGERATOR(
         "kegerator",
         19,

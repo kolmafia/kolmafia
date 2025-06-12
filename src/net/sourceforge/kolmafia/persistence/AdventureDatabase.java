@@ -370,12 +370,19 @@ public class AdventureDatabase {
     }
 
     // Backwards compatibility for changed adventure names
-    addSynonym("Hippy Camp (Hippy Disguise)", "Hippy Camp in Disguise");
-    addSynonym("Frat House (Frat Disguise)", "Frat House in Disguise");
+    addSynonym("The Hippy Camp (In Disguise)", "Hippy Camp in Disguise");
+    addSynonym("The Orcish Frat House (In Disguise)", "Frat House in Disguise");
     addSynonym("The Junkyard", "Post-War Junkyard");
     addSynonym("The Cola Wars Battlefield", "Battlefield (No Uniform)");
     addSynonym("Cola Wars Battlefield (Cloaca Uniform)", "Battlefield (Cloaca Uniform)");
     addSynonym("Cola Wars Battlefield (Dyspepsi Uniform)", "Battlefield (Dyspepsi Uniform)");
+    addSynonym("The Hippy Camp", "Hippy Camp");
+    addSynonym("The Hippy Camp (In Disguise)", "Hippy Camp (Hippy Disguise)");
+    addSynonym("The Orcish Frat House", "Frat House");
+    addSynonym("The Orcish Frat House (In Disguise)", "Frat House (Frat Disguise)");
+    addSynonym("[DungeonFAQ - Level 1]", "Video Game Level 1");
+    addSynonym("[DungeonFAQ - Level 2]", "Video Game Level 2");
+    addSynonym("[DungeonFAQ - Level 3]", "Video Game Level 3");
   }
 
   // For looking up adventures by legacy name
