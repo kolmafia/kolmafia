@@ -1800,11 +1800,12 @@ public class AreaCombatData {
 
       case "The SMOOCH Army HQ" -> {
         var combats = Preferences.getInteger("_smoochArmyHQCombats");
-        var minimum = switch (monster) {
-          case "SMOOCH sergeant" -> 20;
-          case "SMOOCH general" -> 40;
-          default -> 0;
-        };
+        var minimum =
+            switch (monster) {
+              case "SMOOCH sergeant" -> 20;
+              case "SMOOCH general" -> 40;
+              default -> 0;
+            };
         return combats >= minimum ? weighting : 0;
       }
 
