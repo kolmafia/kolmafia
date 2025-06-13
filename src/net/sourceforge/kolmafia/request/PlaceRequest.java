@@ -38,18 +38,14 @@ public class PlaceRequest extends GenericRequest {
               "The Hippy Camp",
               List.of(
                   AdventurePool.HIPPY_CAMP,
-                  AdventurePool.HIPPY_CAMP_DISGUISED,
                   AdventurePool.WARTIME_HIPPY_CAMP,
-                  AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED,
-                  AdventurePool.BOMBED_HIPPY_CAMP)),
+                  AdventurePool.WARTIME_HIPPY_CAMP_DISGUISED)),
           Map.entry(
-              "The Frat House",
+              "The Orcish Frat House",
               List.of(
                   AdventurePool.FRAT_HOUSE,
-                  AdventurePool.FRAT_HOUSE_DISGUISED,
                   AdventurePool.WARTIME_FRAT_HOUSE,
-                  AdventurePool.WARTIME_FRAT_HOUSE_DISGUISED,
-                  AdventurePool.BOMBED_FRAT_HOUSE)));
+                  AdventurePool.WARTIME_FRAT_HOUSE_DISGUISED)));
 
   private static final Pattern firstSotVisit =
       Pattern.compile("something over in (.+?) and he'd like");
@@ -465,9 +461,11 @@ public class PlaceRequest extends GenericRequest {
    * @return - A KoLAdventure matching the unique and available location or null
    */
   protected static KoLAdventure getAdventurableLocation(String location) {
+    if (!nameAliases.containsKey(location)) {
+      return AdventureDatabase.getAdventureByName(location);
+    }
     KoLAdventure aMatch = null;
-    KoLAdventure candidate = AdventureDatabase.getAdventureByName(location);
-    if (candidate != null) return candidate;
+    KoLAdventure candidate;
     List<Integer> possible = nameAliases.getOrDefault(location, new ArrayList<>());
     int count = 0;
     for (Integer i : possible) {
