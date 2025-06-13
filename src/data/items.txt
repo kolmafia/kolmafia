@@ -2117,7 +2117,7 @@
 2089	Crimboween memo	785037568	scroll2.gif	message	t,d	10
 2090	pilgrim shield	299955309	pilshield.gif	offhand	t	0
 2091	fancy bath salts	990835255	potion4.gif	none, combat	t,d	200	bottles of fancy bath salts
-2092	antique hand mirror	443142276	handmirror.gif	none, combat	t,d	100
+2092	antique hand mirror	443142276	handmirror.gif	usable, combat	t,d	100
 2093	hors d'oeuvre tray	175828184	trayshield.gif	offhand	t,d	95
 2094	ballroom blintz	211405194	blintz.gif	food	t,d	33	ballroom blintzes
 2095	towel	295111879	towel.gif	none, usable	t,d	1000

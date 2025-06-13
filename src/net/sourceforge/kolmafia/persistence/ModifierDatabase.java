@@ -620,7 +620,9 @@ public class ModifierDatabase {
         value = string.substring(colon + 2);
       }
 
-      list.addModifier(key, value);
+      if (!(key.isEmpty() && value == null)) {
+        list.addModifier(key, value);
+      }
     }
 
     return list;
