@@ -460,7 +460,7 @@ The Secret Council Warehouse	100	warehouse clerk	warehouse guard	warehouse janit
 The Secret Government Laboratory	100	lab monkey	government scientist	creepy little girl	super-sized Cola Wars soldier	E.V.E., the robot zombie: 0
 The Skate Park	100	grouper groupie	ice skate	roller skate	Skate Board member	urchin urchin
 The Skeleton Store	100	factory-irregular skeleton	novelty tropical skeleton	remaindered skeleton	swarm of skulls	the former owner of the Skeleton Store: 0	boneless blobghost: 0
-The Sleazy Back Alley	50	big creepy spider	completely different spider	rushing bum	drunken half-orc hobo: 1o	hung-over half-orc hobo: 1e	crazy bastard: -1
+The Sleazy Back Alley	80	big creepy spider	completely different spider	rushing bum	drunken half-orc hobo: 1o	hung-over half-orc hobo: 1e	crazy bastard: -1
 The Slime Tube	95	Slime	Slime Hand	Slime Mouth	Slime Construct	Slime Colossus	Mother Slime: 0
 The SMOOCH Army HQ	100	SMOOCH private	SMOOCH sergeant	SMOOCH general	Geve Smimmons: 0	Raul Stamley: 0	Pener Crisp: 0	Deuce Freshly: 0
 The Smut Orc Logging Camp	100	smut orc jacker	smut orc nailer	smut orc pipelayer	smut orc screwer	smut orc pervert: 0	The ghost of Richard Cockingham: 0	The Frattlesnake: 0
