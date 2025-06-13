@@ -813,6 +813,10 @@ public class AreaCombatData {
           int advs = Preferences.getInteger("drippingTreesAdventuresSinceAscension");
           return (advs > 0 && (advs % 15) == 0) ? 0 : 100;
         }
+        case "The SMOOCH Army HQ" -> {
+          var combats = Preferences.getInteger("_smoochArmyHQCombats");
+          return (combats == 50) ? 0 : 100;
+        }
       }
     }
 
@@ -1793,6 +1797,18 @@ public class AreaCombatData {
           default -> weighting;
         };
       }
+
+      case "The SMOOCH Army HQ" -> {
+        var combats = Preferences.getInteger("_smoochArmyHQCombats");
+        var minimum =
+            switch (monster) {
+              case "SMOOCH sergeant" -> 20;
+              case "SMOOCH general" -> 40;
+              default -> 0;
+            };
+        return combats >= minimum ? weighting : 0;
+      }
+
       case "Shadow Rift" -> {
         var ingress = Preferences.getString("shadowRiftIngress");
         return switch (monster) {

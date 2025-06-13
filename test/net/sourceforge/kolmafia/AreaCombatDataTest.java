@@ -20,6 +20,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.hasEntry;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notANumber;
 import static org.hamcrest.core.Every.everyItem;
@@ -1040,6 +1041,47 @@ public class AreaCombatDataTest {
                 hasEntry(
                     equalTo(MonsterDatabase.findMonster("whiny survivor")),
                     closeTo(survivorChance, 0.001))));
+      }
+    }
+  }
+
+  @Nested
+  class SmoochArmyHq {
+    static final MonsterData SMOOCH_PRIVATE = MonsterDatabase.findMonster("SMOOCH private");
+    static final MonsterData SMOOCH_SERGEANT = MonsterDatabase.findMonster("SMOOCH sergeant");
+    static final MonsterData SMOOCH_GENERAL = MonsterDatabase.findMonster("SMOOCH general");
+
+    @ParameterizedTest
+    @CsvSource({
+      "0, 100, 0, 0",
+      "19, 100, 0, 0",
+      "20, 50, 50, 0",
+      "40, 33.3333, 33.3333, 33.3333",
+    })
+    public void monsterRateChanges(
+        final int combats,
+        final double smoochPrivate,
+        final double smoochSergeant,
+        final double smoochGeneral) {
+      var cleanups = withProperty("_smoochArmyHQCombats", combats);
+
+      try (cleanups) {
+        var appearanceRates =
+            AdventureDatabase.getAreaCombatData("The SMOOCH Army HQ").getMonsterData(true);
+        assertThat(appearanceRates.get(SMOOCH_PRIVATE), closeTo(smoochPrivate, 0.001));
+        assertThat(appearanceRates.get(SMOOCH_SERGEANT), closeTo(smoochSergeant, 0.001));
+        assertThat(appearanceRates.get(SMOOCH_GENERAL), closeTo(smoochGeneral, 0.001));
+      }
+    }
+
+    @Test
+    public void forcedNonCombat() {
+      var cleanups = withProperty("_smoochArmyHQCombats", 50);
+
+      try (cleanups) {
+        var combat =
+            AdventureDatabase.getAreaCombatData("The SMOOCH Army HQ").areaCombatPercent(true);
+        assertThat(combat, is(0.0));
       }
     }
   }
