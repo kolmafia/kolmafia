@@ -4594,9 +4594,9 @@ public class KoLAdventureValidationTest {
     // AdventurePool.BOMBED_HIPPY_CAMP
 
     private static final KoLAdventure HIPPY_CAMP =
-        AdventureDatabase.getAdventureByName("Hippy Camp");
+        AdventureDatabase.getAdventureByName("The Hippy Camp");
     private static final KoLAdventure HIPPY_CAMP_DISGUISED =
-        AdventureDatabase.getAdventureByName("Hippy Camp (Hippy Disguise)");
+        AdventureDatabase.getAdventureByName("The Hippy Camp (In Disguise)");
     private static final KoLAdventure WARTIME_HIPPY_CAMP =
         AdventureDatabase.getAdventureByName("Wartime Hippy Camp");
     private static final KoLAdventure WARTIME_HIPPY_CAMP_DISGUISED =
@@ -4976,9 +4976,9 @@ public class KoLAdventureValidationTest {
     // AdventurePool.BOMBED_FRAT_HOUSE
 
     private static final KoLAdventure FRAT_HOUSE =
-        AdventureDatabase.getAdventureByName("Frat House");
+        AdventureDatabase.getAdventureByName("The Orcish Frat House");
     private static final KoLAdventure FRAT_HOUSE_DISGUISED =
-        AdventureDatabase.getAdventureByName("Frat House (Frat Disguise)");
+        AdventureDatabase.getAdventureByName("The Orcish Frat House (In Disguise)");
     private static final KoLAdventure WARTIME_FRAT_HOUSE =
         AdventureDatabase.getAdventureByName("Wartime Frat House");
     private static final KoLAdventure WARTIME_FRAT_HOUSE_DISGUISED =

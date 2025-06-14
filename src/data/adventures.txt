@@ -220,11 +220,11 @@ The 8-Bit Realm	adventure=566	DiffLevel: mid Env: indoor	Megalo-City
 
 # Mysterious Island areas
 
-Island	adventure=27	DiffLevel: mid Env: indoor Stat: 30	Frat House	outfit|+1 bottle of rhinoceros hormones|+5 figurine of a slippery seal
-Island	adventure=29	DiffLevel: mid Env: indoor Stat: 30	Frat House (Frat Disguise)
+Island	adventure=27	DiffLevel: mid Env: indoor Stat: 30	The Orcish Frat House	outfit|+1 bottle of rhinoceros hormones|+5 figurine of a slippery seal
+Island	adventure=29	DiffLevel: mid Env: indoor Stat: 30	The Orcish Frat House (In Disguise)
 
-Island	adventure=26	DiffLevel: mid Env: outdoor Stat: 30	Hippy Camp	outfit|1 windchimes, 1 decorative fountain, 1 Feng Shui for Big Dumb Idiots|+1 teeny-tiny magic scroll|+5 figurine of a stinking seal
-Island	adventure=65	DiffLevel: mid Env: outdoor Stat: 30	Hippy Camp (Hippy Disguise)
+Island	adventure=26	DiffLevel: mid Env: outdoor Stat: 30	The Hippy Camp	outfit|1 windchimes, 1 decorative fountain, 1 Feng Shui for Big Dumb Idiots|+1 teeny-tiny magic scroll|+5 figurine of a stinking seal
+Island	adventure=65	DiffLevel: mid Env: outdoor Stat: 30	The Hippy Camp (In Disguise)
 
 Island	adventure=149	DiffLevel: high Env: outdoor Stat: 100	The Hippy Camp (Bombed Back to the Stone Age)	+5 figurine of a stinking seal
 Island	adventure=150	DiffLevel: high Env: outdoor Stat: 100	The Orcish Frat House (Bombed Back to the Stone Age)	+5 figurine of a slippery seal
@@ -575,9 +575,9 @@ Neverending Party	adventure=528	DiffLevel: mid Env: indoor Stat: 0	The Neverendi
 
 Shape of Mole	adventure=177	DiffLevel: low Env: underground Stat: 0	Mt. Molehill
 
-Video Game Dungeon	adventure=319	DiffLevel: mid Env: indoor Stat: 0	Video Game Level 1
-Video Game Dungeon	adventure=320	DiffLevel: mid Env: indoor Stat: 0	Video Game Level 2
-Video Game Dungeon	adventure=321	DiffLevel: mid Env: indoor Stat: 0	Video Game Level 3
+Video Game Dungeon	adventure=319	DiffLevel: mid Env: indoor Stat: 0	[DungeonFAQ - Level 1]
+Video Game Dungeon	adventure=320	DiffLevel: mid Env: indoor Stat: 0	[DungeonFAQ - Level 2]
+Video Game Dungeon	adventure=321	DiffLevel: mid Env: indoor Stat: 0	[DungeonFAQ - Level 3]
 
 Rabbit Hole	adventure=225	DiffLevel: mid Env: outdoor Stat: 0	The Red Queen's Garden	+1 reflection of a map
 

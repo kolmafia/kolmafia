@@ -71,8 +71,8 @@ public class AdventureDatabaseTest {
 
     @ParameterizedTest
     @CsvSource({
-      "Hippy Camp (Hippy Disguise), Hippy Camp in Disguise",
-      "Frat House (Frat Disguise), Frat House in Disguise",
+      "The Hippy Camp (In Disguise), Hippy Camp in Disguise",
+      "The Orcish Frat House (In Disguise), Frat House in Disguise",
       "The Junkyard, Post-War Junkyard",
     })
     public void getAdventureRecognizesLegacySynonyms(String name, String synonym) {
