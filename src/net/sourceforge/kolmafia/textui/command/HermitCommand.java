@@ -59,13 +59,13 @@ public class HermitCommand extends AbstractCommand {
       }
     } else {
       Set<String> names = new HashSet(ItemDatabase.getMatchingNames(parameters));
-
       for (var item : KoLConstants.hermitItems) {
         if (names.contains(item.getName())) {
           if (KoLmafiaCLI.isExecutingCheckOnlyCommand) {
             RequestLogger.printLine(item.getName());
             return;
           }
+
           itemId = item.getItemId();
           break;
         }
