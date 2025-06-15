@@ -144,7 +144,6 @@ Fightin' Fire	100	brushfire
 Fight in the Dirt	100	ncle	rutabaga bug	mesquito	senate fly
 Fight in the Tall Grass	100	daddy shortlegs	birdybug	kilopede
 Fight in the Very Tall Grass	100	flagellating mantis	beetle	terrorantula
-Frat House	100	Orcish Frat Boy (Music Lover)	Orcish Frat Boy (Paddler)	Orcish Frat Boy (Pledge)
 Fudge Mountain	95	fudge monkey	fudge oyster	fudge weasel	fudge vulture	fudge poodle	The Fudge Wizard	The Abominable Fudgeman
 Galley	100	angry cavebugbear	trendy bugbear chef
 Gingerbread Civic Center	100	gingerbread pigeon	gingerbread rat	gingerbread convict	gingerbread mad dog	gingerbread lawyer	Judge Fudge: 0
@@ -168,7 +167,6 @@ Haert of the Cyrpt	100	Bonerdagon
 Hamburglaris Shield Generator	100	alien hamsterpus	mutated alielephant	mutated alielf
 Hell	100	devil	magma man	vampire
 Hero's Field	100	Keese	Octorok	Tektite	Zol
-Hippy Camp	100	crusty hippy	crusty hippy jewelry maker	crusty hippy Vegan chef	dirty hippy	dirty hippy jewelry maker	dirty hippy Vegan chef	filthy hippy	filthy hippy jewelry maker	filthy hippy Vegan chef
 Hobopolis Town Square	95	Normal hobo	Hodgman, The Hoboverlord: 0
 Hottest Adventurer Contest	100	Fire Fighter	Cereal Arsonist	Burnglar	The Lavalier: 0
 Infernal Rackets Backstage	70	inkubus	serialbus	suckubus
@@ -397,6 +395,7 @@ The Hidden Hospital	100	pygmy janitor	pygmy orderlies	pygmy witch surgeon	pygmy 
 The Hidden Office Building	100	pygmy janitor	pygmy witch lawyer	pygmy witch accountant	pygmy headhunter	ancient protector spirit (The Hidden Office Building): 0
 The Hidden Park	85	boaraffe	pygmy blowgunner	pygmy assault squad	pygmy witch lawyer	pygmy janitor
 The Hidden Temple	90	baa-relief sheep	clan of cave bars: 0	craven carven raven	stone temple pirate	Baa'baa'bu'ran: 0
+The Hippy Camp	100	crusty hippy	crusty hippy jewelry maker	crusty hippy Vegan chef	dirty hippy	dirty hippy jewelry maker	dirty hippy Vegan chef	filthy hippy	filthy hippy jewelry maker	filthy hippy Vegan chef
 The Hippy Camp (Bombed Back to the Stone Age)	100	caveman hippy	cavewomyn hippy	sabre-toothed ferret
 The Hole in the Sky	100	Astronomer: 2r25	One-Eyed Willie: 1o	Burrowing Bishop: 1o	Family Jewels: 1o	Hooded Warrior: 1o	Junk: 1o	Pork Sword: 1o	Skinflute: 1o	Trouser Snake: 1o	Twig and Berries: 1o	Axe Wound: 1e	Beaver: 1e	Box: 1e	Bush: 1e	Camel's Toe: 1e	Flange: 1e	Honey Pot: 1e	Little Man in the Canoe: 1e	Muff: 1e	The Snake With Like Ten Heads: 0
 The Home of The Future	100	robot maid	wardrobe robot	exercise robot
@@ -436,6 +435,7 @@ The Old Gotpork Library	100	mid-level mook	very [adjective] henchwoman	very [adj
 The Old Landfill	100	junksprite bender	junksprite melter	junksprite sharpener	Doctor Oh, the Junksprite Boss: 0	The ghost of Vanillica "Trashblossom" Gorton: 0
 The Old Man's Bathtime Adventures	100	fearsome giant squid	ferocious roc	giant man-eating shark	Bristled Man-O-War	The Cray-Kin	Deadly Hydra
 The Old Rubee Mine	100	mining grobold
+The Orcish Frat House	100	Orcish Frat Boy (Music Lover)	Orcish Frat Boy (Paddler)	Orcish Frat Boy (Pledge)
 The Orcish Frat House (Bombed Back to the Stone Age)	100	caveman frat boy	caveman frat pledge	caveman sorority girl
 The Outer Compound	100	guard turtle
 The Outskirts of Cobb's Knob	80	Knob Goblin Assistant Chef	sleeping Knob Goblin Guard	Sub-Assistant Knob Mad Scientist	Knob Goblin Barbecue Team
@@ -460,7 +460,7 @@ The Secret Council Warehouse	100	warehouse clerk	warehouse guard	warehouse janit
 The Secret Government Laboratory	100	lab monkey	government scientist	creepy little girl	super-sized Cola Wars soldier	E.V.E., the robot zombie: 0
 The Skate Park	100	grouper groupie	ice skate	roller skate	Skate Board member	urchin urchin
 The Skeleton Store	100	factory-irregular skeleton	novelty tropical skeleton	remaindered skeleton	swarm of skulls	the former owner of the Skeleton Store: 0	boneless blobghost: 0
-The Sleazy Back Alley	50	big creepy spider	completely different spider	rushing bum	drunken half-orc hobo: 1o	hung-over half-orc hobo: 1e	crazy bastard: -1
+The Sleazy Back Alley	80	big creepy spider	completely different spider	rushing bum	drunken half-orc hobo: 1o	hung-over half-orc hobo: 1e	crazy bastard: -1
 The Slime Tube	95	Slime	Slime Hand	Slime Mouth	Slime Construct	Slime Colossus	Mother Slime: 0
 The SMOOCH Army HQ	100	SMOOCH private	SMOOCH sergeant	SMOOCH general	Geve Smimmons: 0	Raul Stamley: 0	Pener Crisp: 0	Deuce Freshly: 0
 The Smut Orc Logging Camp	100	smut orc jacker	smut orc nailer	smut orc pipelayer	smut orc screwer	smut orc pervert: 0	The ghost of Richard Cockingham: 0	The Frattlesnake: 0
@@ -512,9 +512,6 @@ Unleash Your Inner Wolf	100	befouled straw house	brick (suggestive pause) house	
 Vanya's Castle	100	fleaman	ghost	medusa
 Vanya's Castle Foyer	100	fleaman	ghost	medusa
 Veterans Day Island	100	Brandonian loyalist	Section 11	spectre of war
-Video Game Level 1	-1	Video Game Minion (weak)
-Video Game Level 2	-1	Video Game Minion (moderate)	Video Game Miniboss: 0
-Video Game Level 3	-1	Video Game Minion (strong)	Video Game Miniboss: 0	Video Game Boss: 0
 VYKEA	-1	VYKEA viking (female)	VYKEA viking (male)
 WarBear Fortress (First Level)	100	Warbear Foot Soldier
 WarBear Fortress (Second Level)	100	Warbear Officer
@@ -535,6 +532,9 @@ Your Mushroom Garden	100	piranha plant
 Your Nipple Chakra	100	that time you screwed everything up like a complete idiot	what you totally should have said that one time	the realization that everyone you love will die someday
 Your Nose Chakra	100	the most embarrassing moment in your entire life	imagining how your life would be better if you'd made different decisions	that time you screwed everything up like a complete idiot
 Your Hat Chakra	100	what you totally should have said that one time	fear of an uncertain future	imagining how your life would be better if you'd made different decisions	Your Brain: 0
+[DungeonFAQ - Level 1]	-1	Video Game Minion (weak)
+[DungeonFAQ - Level 2]	-1	Video Game Minion (moderate)	Video Game Miniboss: 0
+[DungeonFAQ - Level 3]	-1	Video Game Minion (strong)	Video Game Miniboss: 0	Video Game Boss: 0
 
 # PirateRealm Island
 # First Island - 4 combats and a boss or reward
@@ -568,10 +568,8 @@ Wrong Side of the Tracks, 28 Days Later	100	scary pirate	Zombie eXtreme Snowboar
 # Areas with no combats
 
 Anemone Mine (Mining)	0
-Frat House (Frat Disguise)	0
 Friar Ceremony Location	0
 Goat Party	0
-Hippy Camp (Hippy Disguise)	0
 Itznotyerzitz Mine (in Disguise)	0
 Lemon Party	0
 The Mine Foremens' Office	0
@@ -588,6 +586,8 @@ Sailing the PirateRealm Seas	0
 St. Sneaky Pete's Day Stupor	-1
 The Arrrboretum	0
 The Crimbonium Mine	0
+The Orcish Frat House (In Disguise)	0
+The Hippy Camp (In Disguise)	0
 The Knob Shaft (Mining)	0
 The Limerick Dungeon	0
 The Poker Room	0
