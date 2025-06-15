@@ -108,8 +108,6 @@ public class HermitRequest extends CoinMasterRequest {
       registerHermitItem(ItemPool.ANCIENT_SEAL, PurchaseRequest.MAX_QUANTITY);
     }
 
-    registerHermitItem(ItemPool.ELEVEN_LEAF_CLOVER, -1);
-
     resetPurchaseRequests();
   }
 

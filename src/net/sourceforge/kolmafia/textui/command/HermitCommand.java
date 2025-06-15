@@ -1,6 +1,7 @@
 package net.sourceforge.kolmafia.textui.command;
 
-import net.sourceforge.kolmafia.AdventureResult;
+import java.util.HashSet;
+import java.util.Set;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
@@ -9,6 +10,7 @@ import net.sourceforge.kolmafia.KoLmafiaCLI;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
+import net.sourceforge.kolmafia.persistence.ItemDatabase;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.coinmaster.HermitRequest;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
@@ -56,11 +58,11 @@ public class HermitCommand extends AbstractCommand {
         itemId = ItemPool.ELEVEN_LEAF_CLOVER;
       }
     } else {
-      for (AdventureResult item : KoLConstants.hermitItems) {
-        String name = item.getName();
-        if (name.toLowerCase().contains(parameters)) {
+      Set<String> names = new HashSet(ItemDatabase.getMatchingNames(parameters));
+      for (var item : KoLConstants.hermitItems) {
+        if (names.contains(item.getName())) {
           if (KoLmafiaCLI.isExecutingCheckOnlyCommand) {
-            RequestLogger.printLine(name);
+            RequestLogger.printLine(item.getName());
             return;
           }
 
