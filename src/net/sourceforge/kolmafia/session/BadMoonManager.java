@@ -100,7 +100,7 @@ public abstract class BadMoonManager {
     // Effects that adjust one stat by +50% and another by -50%
     new Encounter(
         "It's All The Rage",
-        "Frat House",
+        "The Orcish Frat House",
         null,
         EffectPool.get(EffectPool.THE_RAGE, 10),
         "Muscle +50%, Mysticality -50%",
@@ -108,7 +108,7 @@ public abstract class BadMoonManager {
         "badMoonEncounter07"),
     new Encounter(
         "Double-Secret Initiation",
-        "Frat House (Frat Disguise)",
+        "The Orcish Frat House (In Disguise)",
         null,
         EffectPool.get(EffectPool.SHAMED_AND_MANIPULATED, 10),
         "Muscle +50%, Moxie -50%",
@@ -116,7 +116,7 @@ public abstract class BadMoonManager {
         "badMoonEncounter08"),
     new Encounter(
         "Better Dread Than Dead",
-        "Hippy Camp",
+        "The Hippy Camp",
         null,
         EffectPool.get(EffectPool.DREADLOCKED, 10),
         "Mysticality +50%, Moxie -50%",
@@ -124,7 +124,7 @@ public abstract class BadMoonManager {
         "badMoonEncounter09"),
     new Encounter(
         "Drumroll, Please",
-        "Hippy Camp (Hippy Disguise)",
+        "The Hippy Camp (In Disguise)",
         null,
         EffectPool.get(EffectPool.DRUMMED_OUT, 10),
         "Mysticality +50%, Muscle -50%",

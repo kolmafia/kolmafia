@@ -657,7 +657,7 @@ public abstract class ChoiceAdventures {
     new ChoiceAdventure(
         72,
         "Island",
-        "Frat House",
+        "The Orcish Frat House",
         // Option...
         new ChoiceOption("around the world", "around the world"),
         new ChoiceOption("skip adventure", "Spanish fly"));
@@ -976,7 +976,7 @@ public abstract class ChoiceAdventures {
     new ChoiceAdventure(
         136,
         "Island",
-        "Hippy Camp",
+        "The Hippy Camp",
         // Option...
         new ChoiceOption("filthy corduroys", "filthy corduroys"),
         new ChoiceOption("filthy knitted dread sack", "filthy knitted dread sack"),
@@ -987,7 +987,7 @@ public abstract class ChoiceAdventures {
     new ChoiceAdventure(
         137,
         "Island",
-        "Hippy Camp",
+        "The Hippy Camp",
         // Option...
         new ChoiceOption("filthy knitted dread sack", "filthy knitted dread sack"),
         new ChoiceOption("filthy corduroys", "filthy corduroys"),
@@ -998,7 +998,7 @@ public abstract class ChoiceAdventures {
     new ChoiceAdventure(
         138,
         "Island",
-        "Frat House",
+        "The Orcish Frat House",
         // Option...
         new ChoiceOption("Orcish cargo shorts", "Orcish cargo shorts"),
         new ChoiceOption("Orcish baseball cap", "Orcish baseball cap"),
