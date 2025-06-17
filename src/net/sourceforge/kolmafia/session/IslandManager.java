@@ -871,15 +871,18 @@ public class IslandManager {
       return;
     }
 
-    String monsterName = monster.getName();
-    if (monsterName.equals("The Big Wisniewski") || monsterName.equals("Big Wisnaqua")) {
-      IslandManager.handleEndOfWar("hippies");
-      return;
-    }
-
-    if (monsterName.equals("The Man") || monsterName.equals("The Aquaman")) {
-      IslandManager.handleEndOfWar("fratboys");
-      return;
+    MonsterData boss = MonsterDatabase.getQuestBoss(monster);
+    if (boss != null) {
+      switch (boss.getName()) {
+        case "The Big Wisniewski" -> {
+          IslandManager.handleEndOfWar("hippies");
+          return;
+        }
+        case "The Man" -> {
+          IslandManager.handleEndOfWar("fratboys");
+          return;
+        }
+      }
     }
   }
 

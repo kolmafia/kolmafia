@@ -47,6 +47,7 @@ public class MonsterDatabase {
       new TreeMap<>();
   private static final Map<AscensionClass, Map<MonsterData, MonsterData>> MONSTER_CLASS_MAP =
       new EnumMap<>(AscensionClass.class);
+  private static final Map<MonsterData, MonsterData> BOSS_MAP = new HashMap<>();
 
   // For handling duplicate monster and substring match of monster names
   private static final Map<String, MonsterData[]> MONSTER_ID_SET = new HashMap<>();
@@ -236,6 +237,27 @@ public class MonsterDatabase {
     };
   }
 
+  private static Map<MonsterData, MonsterData> getMap(Path path) {
+    String pathName = path.getName();
+    Map<MonsterData, MonsterData> map = MONSTER_PATH_MAP.get(pathName);
+    if (map == null) {
+      map = new TreeMap<>();
+      MONSTER_PATH_MAP.put(pathName, map);
+    }
+
+    return map;
+  }
+
+  private static Map<MonsterData, MonsterData> getMap(final AscensionClass clazz) {
+    Map<MonsterData, MonsterData> map = MONSTER_CLASS_MAP.get(clazz);
+    if (map == null) {
+      map = new TreeMap<>();
+      MONSTER_CLASS_MAP.put(clazz, map);
+    }
+
+    return map;
+  }
+
   private static void addMapping(Map<MonsterData, MonsterData> map, String name1, String name2) {
     MonsterData mon1 = MONSTER_DATA.get(monsterKey(name1));
     MonsterData mon2 = name2 != null ? MONSTER_DATA.get(monsterKey(name2)) : MonsterData.NO_MONSTER;
@@ -250,16 +272,40 @@ public class MonsterDatabase {
 
   private static void addMapping(
       Map<MonsterData, MonsterData> map, MonsterData mon1, MonsterData mon2) {
-    if (mon1 != null && mon2 != null) {
-      map.put(mon1, mon2);
+    if (map == null || mon1 == null || mon2 == null) {
+      return;
     }
+    map.put(mon1, mon2);
+    BOSS_MAP.put(mon2, mon1);
+  }
+
+  private static void addQuestBoss(String bossName) {
+    MonsterData boss = MONSTER_DATA.get(monsterKey(bossName));
+    addQuestBoss(boss);
+  }
+
+  private static void addQuestBoss(MonsterData boss) {
+    BOSS_MAP.put(boss, boss);
   }
 
   static {
     MonsterDatabase.refreshMonsterTable();
     MonsterDatabase.readMonsterParts();
 
-    Map<MonsterData, MonsterData> youRobotMap = new TreeMap<>();
+    addQuestBoss("Boss Bat");
+    addQuestBoss("Knob Goblin King");
+    addQuestBoss("Bonerdagon");
+    addQuestBoss("Groar");
+    addQuestBoss("Dr. Awkward");
+    addQuestBoss("Lord Spookyraven");
+    addQuestBoss("Protector Spectre");
+    addQuestBoss("The Big Wisniewski");
+    addQuestBoss("The Man");
+    addQuestBoss("Naughty Sorceress");
+    addQuestBoss("Naughty Sorceress (2)");
+    addQuestBoss("Naughty Sorceress (3)");
+
+    Map<MonsterData, MonsterData> youRobotMap = getMap(Path.YOU_ROBOT);
     MonsterDatabase.addMapping(youRobotMap, "Boss Bat", "Boss Bot");
     MonsterDatabase.addMapping(youRobotMap, "Knob Goblin King", "Gobot King");
     MonsterDatabase.addMapping(youRobotMap, "Bonerdagon", "Robonerdagon");
@@ -272,9 +318,8 @@ public class MonsterDatabase {
     MonsterDatabase.addMapping(youRobotMap, "Naughty Sorceress", "Nautomatic Sorceress");
     MonsterDatabase.addMapping(youRobotMap, "Naughty Sorceress (2)", null);
     MonsterDatabase.addMapping(youRobotMap, "Naughty Sorceress (3)", null);
-    MonsterDatabase.MONSTER_PATH_MAP.put(Path.YOU_ROBOT.getName(), youRobotMap);
 
-    Map<MonsterData, MonsterData> plumberMap = new TreeMap<>();
+    Map<MonsterData, MonsterData> plumberMap = getMap(Path.PATH_OF_THE_PLUMBER);
     MonsterDatabase.addMapping(plumberMap, "Boss Bat", "Koopa Paratroopa");
     MonsterDatabase.addMapping(plumberMap, "Knob Goblin King", "Hammer Brother");
     MonsterDatabase.addMapping(plumberMap, "Bonerdagon", "Very Dry Bones");
@@ -287,9 +332,8 @@ public class MonsterDatabase {
     MonsterDatabase.addMapping(plumberMap, "Naughty Sorceress", "Wa%playername/lowercase%");
     MonsterDatabase.addMapping(plumberMap, "Naughty Sorceress (2)", null);
     MonsterDatabase.addMapping(plumberMap, "Naughty Sorceress (3)", null);
-    MonsterDatabase.MONSTER_PATH_MAP.put(Path.PATH_OF_THE_PLUMBER.getName(), plumberMap);
 
-    Map<MonsterData, MonsterData> darkGyffteMap = new TreeMap<>();
+    Map<MonsterData, MonsterData> darkGyffteMap = getMap(Path.DARK_GYFFTE);
     MonsterDatabase.addMapping(darkGyffteMap, "Boss Bat", "Steve Belmont");
     MonsterDatabase.addMapping(darkGyffteMap, "Knob Goblin King", "Ricardo Belmont");
     MonsterDatabase.addMapping(darkGyffteMap, "Bonerdagon", "Jayden Belmont");
@@ -303,9 +347,8 @@ public class MonsterDatabase {
     MonsterDatabase.addMapping(darkGyffteMap, "Naughty Sorceress", "%alucard%");
     MonsterDatabase.addMapping(darkGyffteMap, "Naughty Sorceress (2)", null);
     MonsterDatabase.addMapping(darkGyffteMap, "Naughty Sorceress (3)", null);
-    MonsterDatabase.MONSTER_PATH_MAP.put(Path.DARK_GYFFTE.getName(), darkGyffteMap);
 
-    Map<MonsterData, MonsterData> pocketFamiliarsMap = new TreeMap<>();
+    Map<MonsterData, MonsterData> pocketFamiliarsMap = getMap(Path.POKEFAM);
     // These are all "Jerry Bradford"
     MonsterDatabase.addMapping(pocketFamiliarsMap, "Boss Bat", 2050);
     MonsterDatabase.addMapping(pocketFamiliarsMap, "Knob Goblin King", 2051);
@@ -319,9 +362,8 @@ public class MonsterDatabase {
     MonsterDatabase.addMapping(pocketFamiliarsMap, "Naughty Sorceress", 2059);
     MonsterDatabase.addMapping(pocketFamiliarsMap, "Naughty Sorceress (2)", null);
     MonsterDatabase.addMapping(pocketFamiliarsMap, "Naughty Sorceress (3)", null);
-    MonsterDatabase.MONSTER_PATH_MAP.put(Path.POKEFAM.getName(), pocketFamiliarsMap);
 
-    Map<MonsterData, MonsterData> heavyRainsMap = new TreeMap<>();
+    Map<MonsterData, MonsterData> heavyRainsMap = getMap(Path.HEAVY_RAINS);
     MonsterDatabase.addMapping(heavyRainsMap, "Boss Bat", "Aquabat");
     MonsterDatabase.addMapping(heavyRainsMap, "Knob Goblin King", "Aquagoblin");
     MonsterDatabase.addMapping(heavyRainsMap, "Bonerdagon", "Auqadargon");
@@ -334,9 +376,8 @@ public class MonsterDatabase {
     MonsterDatabase.addMapping(heavyRainsMap, "Naughty Sorceress", "The Rain King");
     MonsterDatabase.addMapping(heavyRainsMap, "Naughty Sorceress (2)", null);
     MonsterDatabase.addMapping(heavyRainsMap, "Naughty Sorceress (3)", null);
-    MonsterDatabase.MONSTER_PATH_MAP.put(Path.HEAVY_RAINS.getName(), heavyRainsMap);
 
-    Map<MonsterData, MonsterData> actuallyEdMap = new TreeMap<>();
+    Map<MonsterData, MonsterData> actuallyEdMap = getMap(Path.ACTUALLY_ED_THE_UNDYING);
     MonsterDatabase.addMapping(actuallyEdMap, "Boss Bat", "Boss Bat?");
     MonsterDatabase.addMapping(actuallyEdMap, "Knob Goblin King", "new Knob Goblin King");
     MonsterDatabase.addMapping(actuallyEdMap, "Bonerdagon", "Donerbagon");
@@ -344,9 +385,8 @@ public class MonsterDatabase {
     MonsterDatabase.addMapping(actuallyEdMap, "Naughty Sorceress", "You the Adventurer");
     MonsterDatabase.addMapping(actuallyEdMap, "Naughty Sorceress (2)", null);
     MonsterDatabase.addMapping(actuallyEdMap, "Naughty Sorceress (3)", null);
-    MonsterDatabase.MONSTER_PATH_MAP.put(Path.ACTUALLY_ED_THE_UNDYING.getName(), actuallyEdMap);
 
-    Map<MonsterData, MonsterData> wildfireMap = new TreeMap<>();
+    Map<MonsterData, MonsterData> wildfireMap = getMap(Path.WILDFIRE);
     MonsterDatabase.addMapping(wildfireMap, "Boss Bat", "Blaze Bat");
     MonsterDatabase.addMapping(wildfireMap, "Knob Goblin King", "fired-up Knob Goblin King");
     MonsterDatabase.addMapping(wildfireMap, "Bonerdagon", "Burnerdagon");
@@ -359,9 +399,8 @@ public class MonsterDatabase {
     MonsterDatabase.addMapping(wildfireMap, "Naughty Sorceress", "The Naughty Scorcheress");
     MonsterDatabase.addMapping(wildfireMap, "Naughty Sorceress (2)", null);
     MonsterDatabase.addMapping(wildfireMap, "Naughty Sorceress (3)", null);
-    MonsterDatabase.MONSTER_PATH_MAP.put(Path.WILDFIRE.getName(), wildfireMap);
 
-    Map<MonsterData, MonsterData> dinoMap = new TreeMap<>();
+    Map<MonsterData, MonsterData> dinoMap = getMap(Path.DINOSAURS);
     MonsterDatabase.addMapping(
         dinoMap, "Boss Bat", "two-headed pteranodon with a two-headed bat inside it");
     MonsterDatabase.addMapping(dinoMap, "Knob Goblin King", "goblodocus");
@@ -375,9 +414,9 @@ public class MonsterDatabase {
     MonsterDatabase.addMapping(dinoMap, "Naughty Sorceress", "Naughty Saursaurus");
     MonsterDatabase.addMapping(dinoMap, "Naughty Sorceress (2)", null);
     MonsterDatabase.addMapping(dinoMap, "Naughty Sorceress (3)", null);
-    MonsterDatabase.MONSTER_PATH_MAP.put(Path.DINOSAURS.getName(), dinoMap);
 
-    Map<MonsterData, MonsterData> aosolMap = new TreeMap<>();
+    Map<MonsterData, MonsterData> aosolMap = getMap(Path.SHADOWS_OVER_LOATHING);
+    new TreeMap<>();
     MonsterDatabase.addMapping(aosolMap, "Boss Bat", "two-headed shadow bat");
     MonsterDatabase.addMapping(aosolMap, "Knob Goblin King", "goblin king's shadow");
     MonsterDatabase.addMapping(aosolMap, "Bonerdagon", "shadowboner shadowdagon");
@@ -387,29 +426,25 @@ public class MonsterDatabase {
     MonsterDatabase.addMapping(aosolMap, "Protector Spectre", "corruptor shadow");
     MonsterDatabase.addMapping(aosolMap, "The Big Wisniewski", "shadow of the 1960s");
     MonsterDatabase.addMapping(aosolMap, "The Man", "shadow of the 1980s");
-    MonsterDatabase.MONSTER_PATH_MAP.put(Path.SHADOWS_OVER_LOATHING.getName(), aosolMap);
 
-    Map<MonsterData, MonsterData> pigSkinnerMap = new TreeMap<>();
+    Map<MonsterData, MonsterData> pigSkinnerMap = getMap(AscensionClass.PIG_SKINNER);
     MonsterDatabase.addMapping(pigSkinnerMap, "Naughty Sorceress", "General Bruise");
     MonsterDatabase.addMapping(
         pigSkinnerMap, "Naughty Sorceress (2)", "General Bruise (true form)");
     MonsterDatabase.addMapping(pigSkinnerMap, "Naughty Sorceress (3)", null);
-    MonsterDatabase.MONSTER_CLASS_MAP.put(AscensionClass.PIG_SKINNER, pigSkinnerMap);
 
-    Map<MonsterData, MonsterData> cheeseWizardMap = new TreeMap<>();
+    Map<MonsterData, MonsterData> cheeseWizardMap = getMap(AscensionClass.CHEESE_WIZARD);
     MonsterDatabase.addMapping(cheeseWizardMap, "Naughty Sorceress", "Dark Noël");
     MonsterDatabase.addMapping(cheeseWizardMap, "Naughty Sorceress (2)", "Dark Noël (true form)");
     MonsterDatabase.addMapping(cheeseWizardMap, "Naughty Sorceress (3)", null);
-    MonsterDatabase.MONSTER_CLASS_MAP.put(AscensionClass.CHEESE_WIZARD, cheeseWizardMap);
 
-    Map<MonsterData, MonsterData> jazzAgentMap = new TreeMap<>();
+    Map<MonsterData, MonsterData> jazzAgentMap = getMap(AscensionClass.JAZZ_AGENT);
     MonsterDatabase.addMapping(jazzAgentMap, "Naughty Sorceress", "Terrence Poindexter");
     MonsterDatabase.addMapping(
         jazzAgentMap, "Naughty Sorceress (2)", "Terrence Poindexter (true form)");
     MonsterDatabase.addMapping(jazzAgentMap, "Naughty Sorceress (3)", null);
-    MonsterDatabase.MONSTER_CLASS_MAP.put(AscensionClass.JAZZ_AGENT, jazzAgentMap);
 
-    Map<MonsterData, MonsterData> lolMap = new TreeMap<>();
+    Map<MonsterData, MonsterData> lolMap = getMap(Path.LEGACY_OF_LOATHING);
     MonsterDatabase.addMapping(lolMap, "Boss Bat", "Classic Boss Bat");
     MonsterDatabase.addMapping(lolMap, "Knob Goblin King", "Weirdly Scrawny Knob Goblin King");
     MonsterDatabase.addMapping(lolMap, "Bonerdagon", "Orignial Bonerdagon");
@@ -419,9 +454,8 @@ public class MonsterDatabase {
     MonsterDatabase.addMapping(lolMap, "Protector Spectre", "Protector Spectre Candidate");
     MonsterDatabase.addMapping(lolMap, "The Big Wisniewski", "The Little Wisniewski");
     MonsterDatabase.addMapping(lolMap, "The Man", "The Boy");
-    MonsterDatabase.MONSTER_PATH_MAP.put(Path.LEGACY_OF_LOATHING.getName(), lolMap);
 
-    Map<MonsterData, MonsterData> wereProfMap = new TreeMap<>();
+    Map<MonsterData, MonsterData> wereProfMap = getMap(Path.WEREPROFESSOR);
     MonsterDatabase.addMapping(wereProfMap, "Boss Bat", "Boss Beast");
     MonsterDatabase.addMapping(wereProfMap, "Knob Goblin King", "Knob Goblin Beast");
     MonsterDatabase.addMapping(wereProfMap, "Bonerdagon", "Curséd Bonerdagon");
@@ -434,15 +468,18 @@ public class MonsterDatabase {
     MonsterDatabase.addMapping(wereProfMap, "Naughty Sorceress", "The Naughty Wolferess");
     MonsterDatabase.addMapping(wereProfMap, "Naughty Sorceress (2)", null);
     MonsterDatabase.addMapping(wereProfMap, "Naughty Sorceress (3)", null);
-    MonsterDatabase.MONSTER_PATH_MAP.put(Path.WEREPROFESSOR.getName(), wereProfMap);
   }
 
-  public static Map<MonsterData, MonsterData> getMonsterPathMap(final String path) {
-    return MonsterDatabase.MONSTER_PATH_MAP.get(path);
+  public static Map<MonsterData, MonsterData> getMonsterPathMap(final String pathName) {
+    return MONSTER_PATH_MAP.get(pathName);
   }
 
   public static Map<MonsterData, MonsterData> getMonsterClassMap(final AscensionClass clazz) {
-    return MonsterDatabase.MONSTER_CLASS_MAP.get(clazz);
+    return MONSTER_CLASS_MAP.get(clazz);
+  }
+
+  public static MonsterData getQuestBoss(MonsterData monster) {
+    return BOSS_MAP.get(monster);
   }
 
   public static final void refreshMonsterTable() {
