@@ -16,6 +16,7 @@ import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.ModifierType;
+import net.sourceforge.kolmafia.MonsterData;
 import net.sourceforge.kolmafia.RequestLogger;
 import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.SpecialOutfit.Checkpoint;
@@ -1815,7 +1816,62 @@ public class QuestManager {
    * @param responseText The text from (at least) the winning round of the fight
    * @param monsterName The monster which <s>died</s>got beaten up.
    */
-  public static void updateQuestData(String responseText, String monsterName) {
+  public static void updateQuestData(String responseText, MonsterData monster) {
+    if (monster == null) {
+      return;
+    }
+
+    // Handle bosses here
+    MonsterData boss = MonsterDatabase.getQuestBoss(monster);
+    if (boss != null) {
+      switch (boss.getName()) {
+        case "Boss Bat" -> {
+          QuestDatabase.setQuestProgress(Quest.BAT, "step4");
+          return;
+        }
+        case "Knob Goblin King" -> {
+          QuestDatabase.setQuestProgress(Quest.GOBLIN, QuestDatabase.FINISHED);
+          return;
+        }
+        case "Bonerdagon" -> {
+          CryptManager.defeatBoss("Bonerdagon");
+          return;
+        }
+        case "Groar" -> {
+          QuestDatabase.setQuestProgress(Quest.TRAPPER, "step5");
+          return;
+        }
+        case "Dr. Awkward" -> {
+          QuestDatabase.setQuestProgress(Quest.PALINDOME, QuestDatabase.FINISHED);
+          return;
+        }
+        case "Lord Spookyraven" -> {
+          QuestDatabase.setQuestProgress(Quest.MANOR, QuestDatabase.FINISHED);
+          return;
+        }
+        case "Protector Spectre" -> {
+          QuestDatabase.setQuestProgress(Quest.WORSHIP, QuestDatabase.FINISHED);
+          return;
+        }
+        case "The Big Wisniewski", "The Man" -> {
+          // Processed in IslandManager.handleBattlefield
+          return;
+        }
+        case "Naughty Sorceress" -> {}
+        case "Naughty Sorceress (2)" -> {}
+        case "Naughty Sorceress (3)" -> {
+          // We handle quest progress below but do not have a path map for all of them.
+          // Should fix that...
+          QuestDatabase.setQuestProgress(Quest.FINAL, "step13");
+          return;
+        }
+      }
+    }
+
+    updateQuestData(responseText, monster.getName());
+  }
+
+  private static void updateQuestData(String responseText, String monsterName) {
     String adventureId = KoLAdventure.lastAdventureIdString();
     String counter =
         adventureId.equals("ns_01_crowd1")
@@ -2227,20 +2283,8 @@ public class QuestManager {
           }
         }
       }
-      case "Steve Belmont", "Koopa Paratroopa", "Boss Bot" -> {
-        QuestDatabase.setQuestProgress(Quest.BAT, "step4");
-      }
-      case "Ricardo Belmont", "Hammer Brother", "Gobot King" -> {
-        QuestDatabase.setQuestProgress(Quest.GOBLIN, QuestDatabase.FINISHED);
-      }
-      case "Jayden Belmont", "Very Dry Bones", "Robonerdagon" -> {
-        CryptManager.defeatBoss("Bonerdagon");
-      }
       case "conjoined zmombie", "huge ghuol", "gargantulihc", "giant skeelton" -> {
         CryptManager.defeatBoss(monsterName);
-      }
-      case "Sharona", "Angry Sun", "Groarbot" -> {
-        QuestDatabase.setQuestProgress(Quest.TRAPPER, "step5");
       }
       case "smut orc jacker", "smut orc nailer", "smut orc pipelayer", "smut orc screwer" -> {
         // Out of the corner of your eye, you see another smut orc shiver and
@@ -2541,8 +2585,12 @@ public class QuestManager {
   private static final Pattern CYRUS_PATTERN =
       Pattern.compile("you remember him getting ([^.]*?)\\.");
 
-  public static void updateQuestFightLost(String responseText, String monsterName) {
-    switch (monsterName) {
+  public static void updateQuestFightLost(String responseText, MonsterData monster) {
+    if (monster == null) {
+      return;
+    }
+
+    switch (monster.getName()) {
       case "menacing thug" -> QuestDatabase.setQuestProgress(Quest.NEMESIS, "step18");
       case "Mob Penguin hitman" -> QuestDatabase.setQuestProgress(Quest.NEMESIS, "step20");
       case "Naughty Sorceress (3)" -> QuestDatabase.setQuestProgress(Quest.FINAL, "step12");
