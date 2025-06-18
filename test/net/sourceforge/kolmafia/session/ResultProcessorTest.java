@@ -147,7 +147,7 @@ public class ResultProcessorTest {
         // That does  advance the quest
         assertTrue(
             QuestDatabase.isQuestFinished(QuestDatabase.Quest.GOBLIN),
-            "Defeating Acquagoblin finishes the L05 Quest");
+            "Defeating Aquagoblin finishes the L05 Quest");
       }
     }
 
