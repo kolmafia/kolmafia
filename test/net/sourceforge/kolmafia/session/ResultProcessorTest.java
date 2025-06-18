@@ -15,6 +15,7 @@ import static internal.helpers.Player.withNoItems;
 import static internal.helpers.Player.withProperty;
 import static internal.helpers.Player.withQuestProgress;
 import static internal.helpers.Player.withSign;
+import static internal.helpers.Player.withoutItem;
 import static internal.matchers.Preference.isSetTo;
 import static internal.matchers.Quest.isFinished;
 import static internal.matchers.Quest.isStep;
@@ -43,6 +44,7 @@ import net.sourceforge.kolmafia.objectpool.FamiliarPool;
 import net.sourceforge.kolmafia.objectpool.ItemPool;
 import net.sourceforge.kolmafia.persistence.MonsterDatabase;
 import net.sourceforge.kolmafia.persistence.QuestDatabase;
+import net.sourceforge.kolmafia.persistence.QuestDatabase.Quest;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.GenericRequest;
 import org.junit.jupiter.api.BeforeEach;
@@ -121,27 +123,58 @@ public class ResultProcessorTest {
   @Nested
   class GoblinWater {
     private static final AdventureResult GOBLIN_WATER = ItemPool.get(ItemPool.GOBLIN_WATER);
+    private String acquisition = "You acquire an item: goblin water";
 
     @Test
     public void gettingGoblinWaterFromAquagoblinCompletesGoblinQuest() {
-      QuestDatabase.setQuestProgress(QuestDatabase.Quest.GOBLIN, QuestDatabase.STARTED);
-      MonsterData aquaGoblinMonster = MonsterDatabase.findMonster("Aquagoblin");
-      MonsterStatusTracker.setNextMonster(aquaGoblinMonster);
-      ResultProcessor.processResult(true, GOBLIN_WATER);
-      assertTrue(
-          QuestDatabase.isQuestFinished(QuestDatabase.Quest.GOBLIN),
-          "Getting Goblin water from AquaGoblin shoud finish the L05 Quest");
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.GOBLIN, QuestDatabase.STARTED),
+              withoutItem(ItemPool.GOBLIN_WATER));
+      try (cleanups) {
+        MonsterData testMonster = MonsterDatabase.findMonster("Aquagoblin");
+        MonsterStatusTracker.setNextMonster(testMonster);
+
+        // Acquire Goblin Water
+        ResultProcessor.processResult(true, GOBLIN_WATER);
+        assertTrue(InventoryManager.hasItem(GOBLIN_WATER));
+        assertFalse(
+            QuestDatabase.isQuestFinished(QuestDatabase.Quest.GOBLIN),
+            "Getting Goblin Water does not finish L05 Quest");
+
+        // Handle fight completion
+        QuestManager.updateQuestData(acquisition, testMonster);
+        // That does  advance the quest
+        assertTrue(
+            QuestDatabase.isQuestFinished(QuestDatabase.Quest.GOBLIN),
+            "Defeating Aquagoblin finishes the L05 Quest");
+      }
     }
 
     @Test
     public void gettingGoblinWaterFromCheengSpecsDoesNotCompleteGoblinQuest() {
-      QuestDatabase.setQuestProgress(QuestDatabase.Quest.GOBLIN, QuestDatabase.UNSTARTED);
-      MonsterData testMonster = MonsterDatabase.findMonster("zmobie");
-      MonsterStatusTracker.setNextMonster(testMonster);
-      ResultProcessor.processResult(true, GOBLIN_WATER);
-      assertFalse(
-          QuestDatabase.isQuestFinished(QuestDatabase.Quest.GOBLIN),
-          "Getting Goblin Water from anyone but Aquagoblin during heavy rains should not finish L05 Quest");
+      var cleanups =
+          new Cleanups(
+              withQuestProgress(Quest.GOBLIN, QuestDatabase.STARTED),
+              withoutItem(ItemPool.GOBLIN_WATER));
+      try (cleanups) {
+        QuestDatabase.setQuestProgress(QuestDatabase.Quest.GOBLIN, QuestDatabase.UNSTARTED);
+        MonsterData testMonster = MonsterDatabase.findMonster("zmobie");
+        MonsterStatusTracker.setNextMonster(testMonster);
+
+        // Acquire Goblin Water
+        ResultProcessor.processResult(true, GOBLIN_WATER);
+        assertTrue(InventoryManager.hasItem(GOBLIN_WATER));
+        assertFalse(
+            QuestDatabase.isQuestFinished(QuestDatabase.Quest.GOBLIN),
+            "Getting Goblin Water does not finish L05 Quest");
+
+        // Handle fight completion
+        QuestManager.updateQuestData(acquisition, testMonster);
+        assertFalse(
+            QuestDatabase.isQuestFinished(QuestDatabase.Quest.GOBLIN),
+            "Getting Goblin Water from anyone but Aquagoblin during heavy rains should not finish L05 Quest");
+      }
     }
   }
 

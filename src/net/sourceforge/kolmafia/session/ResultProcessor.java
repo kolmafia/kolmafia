@@ -1855,16 +1855,7 @@ public class ResultProcessor {
 
       case ItemPool.BATSKIN_BELT:
         if (adventureResults) {
-          QuestDatabase.setQuestProgress(Quest.BAT, "step4");
           ResultProcessor.autoCreate(ItemPool.BADASS_BELT);
-        }
-        break;
-
-      case ItemPool.KNOB_GOBLIN_CROWN:
-      case ItemPool.KNOB_GOBLIN_BALLS:
-      case ItemPool.KNOB_GOBLIN_CODPIECE:
-        if (adventureResults) {
-          QuestDatabase.setQuestProgress(Quest.GOBLIN, QuestDatabase.FINISHED);
         }
         break;
 
@@ -1887,10 +1878,6 @@ public class ResultProcessor {
             && InventoryManager.getCount(ItemPool.CANDLES) > 0) {
           QuestDatabase.setQuestProgress(Quest.FRIAR, "step2");
         }
-        break;
-
-      case ItemPool.BONERDAGON_CHEST:
-        CryptManager.defeatBoss("Bonerdagon");
         break;
 
       case ItemPool.BONERDAGON_SKULL:
@@ -2052,19 +2039,6 @@ public class ResultProcessor {
       case ItemPool.NEOPRENE_SKULLCAP:
         if (adventureResults) {
           QuestDatabase.setQuestProgress(Quest.BAT, "step4");
-        }
-        break;
-
-      case ItemPool.GOBLIN_WATER:
-        MonsterData lastMonster = MonsterStatusTracker.getLastMonster();
-        if (lastMonster == null) {
-          break;
-        }
-        String goblinWaterMonster = lastMonster.getName();
-        if (adventureResults
-            && goblinWaterMonster.equals(
-                "Aquagoblin")) { // because you can now get the Goblin Water other ways...
-          QuestDatabase.setQuestProgress(Quest.GOBLIN, QuestDatabase.FINISHED);
         }
         break;
 
