@@ -1264,13 +1264,6 @@ public abstract class ChoiceManager {
         // Tree's Last Stand
       case 504:
 
-        // If we have Bar Skins, sell them all
-        if (InventoryManager.getCount(ItemPool.BAR_SKIN) > 1) {
-          return "2";
-        } else if (InventoryManager.getCount(ItemPool.BAR_SKIN) > 0) {
-          return "1";
-        }
-
         // If we don't have a Spooky Sapling, buy one
         // unless we've already unlocked the Hidden Temple
         //
