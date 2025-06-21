@@ -734,6 +734,7 @@ public class Modifiers {
         return this.setString(s, mod.getValue());
       }
     }
+
     return false;
   }
 
