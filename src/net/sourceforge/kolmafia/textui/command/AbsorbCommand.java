@@ -16,7 +16,7 @@ import net.sourceforge.kolmafia.session.InventoryManager;
 
 public class AbsorbCommand extends AbstractCommand {
   public AbsorbCommand() {
-    this.usage = "[X] <item> - absorb item(s).";
+    this.usage = " [X] <item> - absorb item(s) in Gelatinous Noob";
   }
 
   @Override
