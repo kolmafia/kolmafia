@@ -4799,6 +4799,7 @@ Familiar	Chocolate Lab	Last Available: "2016-12", Sprinkle Drop: [W]
 Familiar	Coffee Pixie	Last Available: "2005-10"
 Familiar	Comma Chameleon	Last Available: "2006-08"
 Familiar	Cookbookbat	Food Fairy Effectiveness: 1.5, Last Available: "2022-11"
+Familiar	Cooler Yeti	Cold Resistance: [floor(W/11)], Last Available: "2025-07"
 Familiar	Cornbeefadon	Last Available: "2018-03"
 Familiar	Cotton Candy Carnie	Last Available: "2008-08"
 Familiar	Crimbo Elf	Last Available: "2004-12"
@@ -4980,6 +4981,7 @@ Familiar	Vulgure	Last Available: "2018-03"
 Familiar	Waifuton	Last Available: "2018-03"
 Familiar	Warbear Drone	Last Available: "2013-12"
 Familiar	Wendtigo	Last Available: "2018-03"
+Familiar	Wet Paper Tiger	Last Available: "2025-04"
 Familiar	Wild Hare	Last Available: "2006-03"
 Familiar	Wind-up Chattering Teeth	Last Available: "2006-04"
 Familiar	Wizard Action Figure	Last Available: "2007-08", Volleyball: 0.3333, Fairy: 0.3333
@@ -5036,6 +5038,7 @@ Throne	Cold Cut	Cold Damage: +33
 Throne	Comma Chameleon	none
 Throne	Cookbookbat	Food Drop: +50, Drops Items
 Throne	Cool Cucumber	HP Regen Min: 15, HP Regen Max: 20
+Throne	Cooler Yeti	Cold Damage: +25
 Throne	Cornbeefadon	none
 Throne	Cotton Candy Carnie	Initiative: +20, Drops Items
 Throne	Crimbo Elf	Weapon Damage: +10, Drops Items
@@ -7015,6 +7018,7 @@ Effect	Long Live GORF	Damage Aura: 1
 Effect	Long Winter's Napped	Weapon Damage Percent: +100, Spell Damage Percent: +100
 Effect	Lookin' at Some Burning Cereal	Avatar: "Cereal Arsonist"
 Effect	Looking at Fire	Avatar: "Burnglar"
+Effect	Looking Cool	Item Drop: +30, Meat Drop: +30
 Effect	Loose Joints	Item Drop: [50*loc(The Crimbonium Mining Camp)]
 Effect	Lord of Acid	Avatar: "acid blob"
 Effect	Lost Stomach	Food Drop: +100
@@ -12484,6 +12488,7 @@ Item	coffee sprite	Free Pull, Last Available: "2005-10"
 Item	Coinspiracy	Last Available: "2014-10"
 # cold clusterbomb: Deals <font color=blue>Cold Damage</font> based on your highest stat
 # cold clusterbomb: (more effective against groups)
+Item	cold exchanger	Cold Damage: +10, Cold Spell Damage: +10, Familiar Weight: +3, Last Available: "2025-07"
 Item	Cold Fang	Skill: "Frost Bite", Last Available: "2015-11"
 Item	cold medicine cabinet	Last Available: "2021-12"
 Item	cold sore	Cold Damage: +10, Cold Spell Damage: +10
@@ -15297,6 +15302,7 @@ Item	yellow rocket	Last Available: "2021-07"
 # yellow submarine: Allows Travel to The Mysterious Island of Mystery
 Item	yellow submarine	Last Available: "2015-06"
 # yellowcake bomb: Vaporizes an enemy and causes all of its items to drop
+Item	yeti in a travel cooler	Free Pull, Last Available: "2025-07"
 # yo: Deals 15-20 Physical Damage
 Item	yo	Last Available: "2006-12"
 # yo-yo: Deals 30-40 Physical Damage
