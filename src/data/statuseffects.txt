@@ -2996,3 +2996,5 @@
 2993	Echoes of Wetness	wetpaperplane.gif	302a1432c19ace1071272d0fe69fa2ab	neutral	none
 2994	In Your Cups	wetpapercup.gif	c9cc9a1ed9892e908fedefbd66365b6c	neutral	none	use 1 wet paper cup
 2995	Moisticality	wetpaperback.gif	d691b7e2b735ddc8a2fdfa0b7fe07150	neutral	none	use 1 wet paperback
+2996
+2997	Looking Cool	ice.gif	2c2021fad6001c6da810328dd53f033c	neutral	none
