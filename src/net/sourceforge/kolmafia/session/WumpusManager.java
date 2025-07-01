@@ -95,7 +95,7 @@ public abstract class WumpusManager {
         "", "no bats", "no pit", "", "no Wumpus", "", "", "",
       };
 
-  private static final Pattern ROOM_PATTERN = Pattern.compile("b>The (\\w+) Chamber");
+  private static final Pattern ROOM_PATTERN = Pattern.compile(">The (\\w+) Chamber");
   private static final Pattern LINK_PATTERN = Pattern.compile("Enter the (\\w+) chamber");
 
   public static void reset() {
