@@ -6007,6 +6007,9 @@ public abstract class KoLCharacter {
   }
 
   private static int getMcHugeLargeLevel(Modifiers mods) {
+    if (KoLCharacter.inNoobcore()) {
+      return 0;
+    }
     int totalItems = mods.getBitmap(BitmapModifier.MCHUGELARGE);
     var itemLevel =
         switch (totalItems) {
