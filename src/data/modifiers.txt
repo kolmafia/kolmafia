@@ -5036,6 +5036,7 @@ Throne	Cold Cut	Cold Damage: +33
 Throne	Comma Chameleon	none
 Throne	Cookbookbat	Food Drop: +50, Drops Items
 Throne	Cool Cucumber	HP Regen Min: 15, HP Regen Max: 20
+Throne	Cooler Yeti	Cold Damage: +25
 Throne	Cornbeefadon	none
 Throne	Cotton Candy Carnie	Initiative: +20, Drops Items
 Throne	Crimbo Elf	Weapon Damage: +10, Drops Items
