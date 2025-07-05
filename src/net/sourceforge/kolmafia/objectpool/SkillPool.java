@@ -151,6 +151,7 @@ public class SkillPool {
   public static final int FURIOUS_WALLOP = 1032;
   public static final int CLUBFOOT = 1033;
   public static final int IRE_OF_THE_ORCA = 1035;
+  public static final int NORTHERN_EXPLOSION = 1038;
   public static final int SILENT_HUNTER = 1041;
   public static final int GET_BIG = 1042;
   public static final int BLOOD_FRENZY = 1043;

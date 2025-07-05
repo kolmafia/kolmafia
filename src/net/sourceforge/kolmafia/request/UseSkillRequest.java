@@ -2102,6 +2102,13 @@ public class UseSkillRequest extends GenericRequest implements Comparable<UseSki
       }
     }
 
+    if (KoLCharacter.hasEquipped(ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD)) {
+      switch (skillId) {
+        case SkillPool.SIMMER -> Preferences.setBoolean("_aprilShowerSimmer", true);
+        case SkillPool.DISCO_NAP -> Preferences.increment("_aprilShowerDiscoNap", 1, 5, false);
+      }
+    }
+
     // Now apply daily limits
     if (limit != null) {
       limit.incrementByCost(count);
