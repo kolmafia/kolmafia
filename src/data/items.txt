@@ -11947,5 +11947,5 @@
 11919	prismatic beret	370149661	prisberet.gif	hat		0
 11920
 11921
-11922	yeti in a travel cooler	486921085	yeticooler.gif	grow	t	0
+11922	yeti in a travel cooler	486921085	yeticooler.gif	grow	t	0	yetis in travel coolers
 11923	cold exchanger	728269982	heatexchanger.gif	familiar	t,d	15
