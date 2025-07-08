@@ -9551,6 +9551,16 @@ public class FightRequest extends GenericRequest {
         singleCastsThisFight.add(SkillPool.ENTANGLING_NOODLES);
         return;
       }
+      case SkillPool.LUNGING_THRUST_SMACK -> {
+        if (KoLCharacter.hasEquipped(ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD)) {
+          Preferences.setBoolean("_aprilShowerLungingThrustSmack", true);
+        }
+      }
+      case SkillPool.NORTHERN_EXPLOSION -> {
+        if (KoLCharacter.hasEquipped(ItemPool.APRIL_SHOWER_THOUGHTS_SHIELD)) {
+          Preferences.setBoolean("_aprilShowerNorthernExplosion", true);
+        }
+      }
       case SkillPool.CLUBFOOT,
           SkillPool.SHELL_UP,
           SkillPool.TERRACOTTA_ARMY,

@@ -1814,7 +1814,11 @@ user	_allYearSucker	false
 user	_ancestralRecallCasts	0
 user	_antihangoverBonus	5
 user	_aprilShower	false
+user	_aprilShowerDiscoNap	0
 user	_aprilShowerGlobsCollected	false
+user	_aprilShowerLungingThrustSmack	false	rof
+user	_aprilShowerNorthernExplosion	false
+user	_aprilShowerSimmer	false
 user	_aprilBandInstruments	0
 user	_aprilBandSaxophoneUses	0
 user	_aprilBandTomUses	0
