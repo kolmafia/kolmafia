@@ -579,7 +579,8 @@ public abstract class YouRobotManager {
       case HAT -> hasEquipped(RobotUpgrade.MANNEQUIN_HEAD);
       case WEAPON -> hasEquipped(RobotUpgrade.VICE_GRIPS);
       case OFFHAND -> hasEquipped(RobotUpgrade.OMNI_CLAW);
-      case SHIRT -> hasEquipped(RobotUpgrade.TOPOLOGY_GRID);
+      case SHIRT -> KoLCharacter.hasSkill(SkillPool.TORSO)
+          || hasEquipped(RobotUpgrade.TOPOLOGY_GRID);
       case PANTS -> hasEquipped(RobotUpgrade.ROBO_LEGS);
         // Any other slot is allowed
       default -> true;
