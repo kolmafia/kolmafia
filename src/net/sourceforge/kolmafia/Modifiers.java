@@ -1491,6 +1491,108 @@ public class Modifiers {
     }
   }
 
+  public void applyPrismaticBeretModifiers(int totalPower) {
+    var fifth = totalPower / 5;
+    var tenth = totalPower / 10;
+    var fortieth = totalPower / 40;
+
+    this.addDouble(
+        DoubleModifier.DAMAGE_ABSORPTION, fifth, ModifierType.ITEM, ItemPool.PRISMATIC_BERET);
+
+    var statsBase = tenth / 3;
+    this.addDouble(
+        DoubleModifier.MUS,
+        statsBase + (tenth % 3 > 0 ? 1 : 0),
+        ModifierType.ITEM,
+        ItemPool.PRISMATIC_BERET);
+    this.addDouble(
+        DoubleModifier.MYS,
+        statsBase + (tenth % 3 > 1 ? 1 : 0),
+        ModifierType.ITEM,
+        ItemPool.PRISMATIC_BERET);
+    this.addDouble(DoubleModifier.MOX, statsBase, ModifierType.ITEM, ItemPool.PRISMATIC_BERET);
+
+    var hpBase = fifth / 2;
+    this.addDouble(
+        DoubleModifier.HP,
+        hpBase + (fifth % 2 > 0 ? 1 : 0),
+        ModifierType.ITEM,
+        ItemPool.PRISMATIC_BERET);
+    this.addDouble(DoubleModifier.MP, hpBase, ModifierType.ITEM, ItemPool.PRISMATIC_BERET);
+
+    this.addDouble(DoubleModifier.HATDROP, tenth, ModifierType.ITEM, ItemPool.PRISMATIC_BERET);
+
+    var res = fortieth / 5;
+    this.addDouble(
+        DoubleModifier.HOT_RESISTANCE,
+        res + (fortieth % 5 > 0 ? 1 : 0),
+        ModifierType.ITEM,
+        ItemPool.PRISMATIC_BERET);
+    this.addDouble(
+        DoubleModifier.COLD_RESISTANCE,
+        res + (fortieth % 5 > 1 ? 1 : 0),
+        ModifierType.ITEM,
+        ItemPool.PRISMATIC_BERET);
+    this.addDouble(
+        DoubleModifier.SPOOKY_RESISTANCE,
+        res + (fortieth % 5 > 2 ? 1 : 0),
+        ModifierType.ITEM,
+        ItemPool.PRISMATIC_BERET);
+    this.addDouble(
+        DoubleModifier.STENCH_RESISTANCE,
+        res + (fortieth % 5 > 3 ? 1 : 0),
+        ModifierType.ITEM,
+        ItemPool.PRISMATIC_BERET);
+    this.addDouble(
+        DoubleModifier.SLEAZE_RESISTANCE, res, ModifierType.ITEM, ItemPool.PRISMATIC_BERET);
+
+    var dmg = tenth / 5;
+    this.addDouble(
+        DoubleModifier.COLD_DAMAGE,
+        dmg + (tenth % 5 > 0 ? 1 : 0),
+        ModifierType.ITEM,
+        ItemPool.PRISMATIC_BERET);
+    this.addDouble(
+        DoubleModifier.SPOOKY_DAMAGE,
+        dmg + (tenth % 5 > 1 ? 1 : 0),
+        ModifierType.ITEM,
+        ItemPool.PRISMATIC_BERET);
+    this.addDouble(
+        DoubleModifier.STENCH_DAMAGE,
+        dmg + (tenth % 5 > 2 ? 1 : 0),
+        ModifierType.ITEM,
+        ItemPool.PRISMATIC_BERET);
+    this.addDouble(
+        DoubleModifier.SLEAZE_DAMAGE,
+        dmg + (tenth % 5 > 3 ? 1 : 0),
+        ModifierType.ITEM,
+        ItemPool.PRISMATIC_BERET);
+    this.addDouble(DoubleModifier.HOT_DAMAGE, dmg, ModifierType.ITEM, ItemPool.PRISMATIC_BERET);
+
+    this.addDouble(
+        DoubleModifier.SLEAZE_SPELL_DAMAGE,
+        dmg + (tenth % 5 > 0 ? 1 : 0),
+        ModifierType.ITEM,
+        ItemPool.PRISMATIC_BERET);
+    this.addDouble(
+        DoubleModifier.STENCH_SPELL_DAMAGE,
+        dmg + (tenth % 5 > 1 ? 1 : 0),
+        ModifierType.ITEM,
+        ItemPool.PRISMATIC_BERET);
+    this.addDouble(
+        DoubleModifier.SPOOKY_SPELL_DAMAGE,
+        dmg + (tenth % 5 > 2 ? 1 : 0),
+        ModifierType.ITEM,
+        ItemPool.PRISMATIC_BERET);
+    this.addDouble(
+        DoubleModifier.HOT_SPELL_DAMAGE,
+        dmg + (tenth % 5 > 3 ? 1 : 0),
+        ModifierType.ITEM,
+        ItemPool.PRISMATIC_BERET);
+    this.addDouble(
+        DoubleModifier.COLD_SPELL_DAMAGE, dmg, ModifierType.ITEM, ItemPool.PRISMATIC_BERET);
+  }
+
   public void applyPathModifiers() {
     if (KoLCharacter.inElevenThingIHateAboutU()) {
       if (originalLookup == null || originalLookup.type != ModifierType.ITEM) {

@@ -5643,6 +5643,8 @@ public abstract class KoLCharacter {
         // Apply bjorned familiar
         newModifiers.add(ModifierDatabase.getModifiers(ModifierType.BJORN, bjorned.getRace()));
         case ItemPool.VAMPYRIC_CLOAKE -> newModifiers.applyVampyricCloakeModifiers();
+        case ItemPool.PRISMATIC_BERET -> newModifiers.applyPrismaticBeretModifiers(
+            getTotalPower(equipment::get));
         default -> {
           var modeable = Modeable.find(itemId);
           if (modeable != null) {
@@ -5734,18 +5736,22 @@ public abstract class KoLCharacter {
   private static final AdventureResult HAMMERTIME = EffectPool.get(EffectPool.HAMMERTIME);
 
   public static int getTotalPower() {
+    return getTotalPower(EquipmentManager::getEquipment);
+  }
+
+  private static int getTotalPower(Function<Slot, AdventureResult> getEquipment) {
     int tao = KoLCharacter.hasSkill(SkillPool.TAO_OF_THE_TERRAPIN) ? 1 : 0;
     int hammertime = KoLConstants.activeEffects.contains(HAMMERTIME) ? 3 : 0;
 
     int hat =
         (KoLCharacter.inHatTrick()
                 ? EquipmentManager.getHatTrickHats().stream()
-                : Stream.of(EquipmentManager.getEquipment(Slot.HAT).getItemId()))
+                : Stream.of(getEquipment.apply(Slot.HAT).getItemId()))
             .mapToInt(EquipmentDatabase::getPower)
             .sum();
 
-    int pants = EquipmentDatabase.getPower(EquipmentManager.getEquipment(Slot.PANTS).getItemId());
-    int shirt = EquipmentDatabase.getPower(EquipmentManager.getEquipment(Slot.SHIRT).getItemId());
+    int pants = EquipmentDatabase.getPower(getEquipment.apply(Slot.PANTS).getItemId());
+    int shirt = EquipmentDatabase.getPower(getEquipment.apply(Slot.SHIRT).getItemId());
 
     return hat * (1 + tao) + pants * (1 + tao + hammertime) + shirt;
   }
