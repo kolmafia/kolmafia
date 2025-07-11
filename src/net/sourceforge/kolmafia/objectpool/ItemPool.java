@@ -2060,6 +2060,7 @@ public class ItemPool {
   public static final int GREAT_WOLFS_LEFT_PAW = 6448;
   public static final int GREAT_WOLFS_RIGHT_PAW = 6449;
   public static final int GREAT_WOLFS_ROCKET_LAUNCHER = 6450;
+  public static final int GREAT_WOLFS_BEASTLY_TROUSERS = 6451;
   public static final int HUNGER_SAUCE = 6453;
   public static final int ZOMBIE_ACCORDION = 6455;
   public static final int MAYOR_GHOSTS_GAVEL = 6465;
@@ -3027,6 +3028,7 @@ public class ItemPool {
   public static final int GINGERBREAD_RESTRAINING_ORDER = 9217;
   public static final int GINGERBREAD_WINE = 9220;
   public static final int GINGERBREAD_MUG = 9221;
+  public static final int GINGERBREAD_MASK = 9222;
   public static final int GINGERSERVO = 9223;
   public static final int GINGERBEARD = 9225;
   public static final int CREME_BRULEE_TORCH = 9230;
@@ -3915,6 +3917,7 @@ public class ItemPool {
   public static final int GLOB_OF_WET_PAPER = 11885;
   public static final int WET_BLANKET = 11891;
   public static final int PERIDOT_OF_PERIL = 11905;
+  public static final int PRISMATIC_BERET = 11919;
 
   private ItemPool() {}
 
