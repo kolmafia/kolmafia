@@ -1492,6 +1492,9 @@ public class Modifiers {
   }
 
   public void applyPrismaticBeretModifiers(int totalPower) {
+    if (totalPower > 1100) {
+      totalPower = (int) (1100 + Math.pow(totalPower - 1100, 0.8));
+    }
     var fifth = totalPower / 5;
     var tenth = totalPower / 10;
     var fortieth = totalPower / 40;
