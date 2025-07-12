@@ -1648,4 +1648,11 @@ public class ModifiersTest {
       assertThat(current.getDouble(DoubleModifier.WEAPON_DAMAGE), closeTo(1, 0.001));
     }
   }
+
+  @Test
+  public void prismaticBeretRespectsSoftCap() {
+    Modifiers mods = new Modifiers();
+    mods.applyPrismaticBeretModifiers(1370);
+    assertThat(mods.getDouble(DoubleModifier.DAMAGE_ABSORPTION), closeTo(237, 0.001));
+  }
 }
