@@ -22,7 +22,7 @@ public class DataFileTest {
               ".+", // name
               "\\d+", // descid
               "[a-zA-Z_0-9/\\-]+\\.gif", // img
-              ("(none|food|drink|spleen|usable|multiple|reusable|message|grow|pokepill|"
+              ("(none|food|drink|beverage|spleen|usable|multiple|reusable|message|grow|pokepill|"
                   + "hat|weapon|sixgun|offhand|container|shirt|pants|accessory|familiar|sticker|"
                   + "card|folder|bootspur|bootskin|food helper|drink helper|zap|sphere|guardian|"
                   + "avatar|potion)(\\s*,\\s*(usable|multiple|reusable|combat|combat reusable|single|message|"

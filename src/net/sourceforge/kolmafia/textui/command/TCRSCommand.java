@@ -48,31 +48,6 @@ public class TCRSCommand extends AbstractCommand {
       return;
     }
 
-    if (command.equals("fetch")) {
-      String[] split = parameters.split(" *, *");
-      if (split.length != 2) {
-        KoLmafia.updateDisplay(MafiaState.ERROR, "fetch CLASS SIGN");
-        return;
-      }
-      String className = split[0];
-      AscensionClass ascensionClass = AscensionClass.find(className);
-      String sign = split[1];
-      ZodiacSign zsign = ZodiacSign.find(sign);
-      if (!TCRSDatabase.validate(ascensionClass, zsign)) {
-        KoLmafia.updateDisplay(
-            MafiaState.ERROR,
-            className + " is not a valid class or " + sign + " is not a valid sign.");
-        return;
-      }
-      if (TCRSDatabase.anyLocalFileExists(ascensionClass, zsign, true)) {
-        KoLmafia.updateDisplay(MafiaState.ERROR, "Will not overwrite. Aborting.");
-        return;
-      }
-      TCRSDatabase.fetch(ascensionClass, zsign, true);
-      TCRSDatabase.fetchCafe(ascensionClass, zsign, true);
-      return;
-    }
-
     if (command.equals("ring")) {
       TCRS tcrs = TCRSDatabase.deriveRing();
       if (tcrs == null) {
@@ -134,19 +109,6 @@ public class TCRSCommand extends AbstractCommand {
 
     if (command.equals("load")) {
       TCRSDatabase.load(true);
-      return;
-    }
-
-    if (command.equals("save")) {
-      TCRSDatabase.save(true);
-    }
-
-    if (command.equals("derive")) {
-      if (parameters.equals("")) {
-        TCRSDatabase.derive(true);
-      } else {
-        TCRSDatabase.deriveAndSaveItem(StringUtilities.parseInt(parameters));
-      }
       return;
     }
 
