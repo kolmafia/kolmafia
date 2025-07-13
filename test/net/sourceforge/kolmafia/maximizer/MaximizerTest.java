@@ -2387,4 +2387,19 @@ public class MaximizerTest {
       }
     }
   }
+
+  @Test
+  public void prismaticBeretProvidesHatDrop() {
+    var cleanups =
+        new Cleanups(
+            withEquippableItem(ItemPool.PRISMATIC_BERET),
+            withEquippableItem(ItemPool.GINGERBREAD_MASK),
+            withEquipped(ItemPool.GREAT_WOLFS_BEASTLY_TROUSERS));
+
+    try (cleanups) {
+      maximize("hat drop");
+      assertThat(getBoosts(), hasItem(recommendsSlot(Slot.HAT, "prismatic beret")));
+      assertEquals(31, modFor(DoubleModifier.HATDROP), 0.01);
+    }
+  }
 }
