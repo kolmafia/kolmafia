@@ -265,6 +265,22 @@ class DailyLimitDatabaseTest {
           limit.getMaxMessage(),
           equalTo("You can only use [glitch season reward name] 1 times per day"));
     }
+
+    @Test
+    void incrementingSummonKokomoResortPassBackfillsDeprecatedPref() throws Exception {
+      var cleanups =
+          new Cleanups(
+              withProperty("_summonResortPassUsed", false),
+              withProperty("_summonResortPassesUsed", 0));
+
+      try (cleanups) {
+        var limit = DailyLimitType.CAST.getDailyLimit(SkillPool.SUMMON_KOKOMO_RESORT_PASS);
+        limit.increment();
+
+        assertThat("_summonResortPassUsed", isSetTo(true));
+        assertThat("_summonResortPassesUsed", isSetTo(1));
+      }
+    }
   }
 
   @Test
