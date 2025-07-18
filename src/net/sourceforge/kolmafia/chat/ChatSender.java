@@ -16,6 +16,8 @@ import net.sourceforge.kolmafia.session.ContactManager;
 import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
 import net.sourceforge.kolmafia.swingui.widget.ShowDescriptionList;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
+import net.sourceforge.kolmafia.preferences.Preferences;
+
 
 public class ChatSender {
   private static final Pattern PRIVATE_MESSAGE_PATTERN =
@@ -200,7 +202,7 @@ public class ChatSender {
   private static List<String> getGrafs(String contact, String message) {
     List<String> grafs = new LinkedList<>();
 
-    if (message.startsWith("/do ") || message.startsWith("/run ") || message.startsWith("/cli ")) {
+    if (message.startsWith("/do ") || message.startsWith("/run ") || message.startsWith("/" + Preferences.getString("relayChatCLITrigger") + " ")) {
       grafs.add(message);
 
       return grafs;
@@ -417,7 +419,7 @@ public class ChatSender {
       return false;
     }
 
-    if (!graf.startsWith("/do ") && !graf.startsWith("/run ") && !graf.startsWith("/cli ")) {
+    if (!graf.startsWith("/do ") && !graf.startsWith("/run ") && !graf.startsWith("/" + Preferences.getString("relayChatCLITrigger") + " ")) {
       return false;
     }
 
