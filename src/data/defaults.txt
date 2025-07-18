@@ -3,6 +3,7 @@
 # Attributes
 # roa - Reset on ascension
 # ld - Legacy daily (from before a leading underscore was used to indicate preferences that reset at rollover
+# deprecated - Warn that this pref is deprecated on read (format: `deprecated[:optional notice]`)
 #
 # map	pref name	[default value	[attributes]]
 global	abortOnChoiceWhenNotInChoice	true
