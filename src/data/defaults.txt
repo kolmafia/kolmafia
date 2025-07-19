@@ -1434,6 +1434,7 @@ user	recentLocations	5
 user	recoveryScript
 user	redSnapperPhylum
 user	redSnapperProgress	0	roa
+user	relayChatCLITrigger	cli
 user	relayCounters
 user	relayPort	0
 user	relayShowSpoilers	false
