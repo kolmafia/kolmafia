@@ -202,7 +202,7 @@ public class ChatSender {
   private static List<String> getGrafs(String contact, String message) {
     List<String> grafs = new LinkedList<>();
 
-    if (message.startsWith("/do ") || message.startsWith("/run ") || message.startsWith("/" + Preferences.getString("relayChatCLITrigger") + " ")) {
+    if (message.startsWith("/do ") || message.startsWith("/run ") || message.startsWith("/cli ") || message.startsWith("/" + Preferences.getString("relayChatCLITrigger") + " ")) {
       grafs.add(message);
 
       return grafs;
@@ -419,7 +419,7 @@ public class ChatSender {
       return false;
     }
 
-    if (!graf.startsWith("/do ") && !graf.startsWith("/run ") && !graf.startsWith("/" + Preferences.getString("relayChatCLITrigger") + " ")) {
+    if (!graf.startsWith("/do ") && !graf.startsWith("/run ") && !graf.startsWith("/cli ") && !graf.startsWith("/" + Preferences.getString("relayChatCLITrigger") + " ")) {
       return false;
     }
 
