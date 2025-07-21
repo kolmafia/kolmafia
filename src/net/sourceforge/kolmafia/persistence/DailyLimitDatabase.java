@@ -194,6 +194,11 @@ public class DailyLimitDatabase {
     }
 
     public int increment(final int delta) {
+      // Maintain deprecated behavior for pref for now
+      if (this.type == DailyLimitType.CAST && this.id == SkillPool.SUMMON_KOKOMO_RESORT_PASS) {
+        Preferences.setBoolean("_summonResortPassUsed", true);
+      }
+
       if (isBoolean()) {
         Preferences.setBoolean(this.uses, true);
         return 1;

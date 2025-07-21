@@ -76,6 +76,9 @@ public class Preferences {
         "shadowRiftLastNC", "shadowRiftTotalTurns",
       };
 
+  // Map to store deprecation notices for preferences
+  protected static final Map<String, String> deprecationNotices = new HashMap<>();
+
   static {
     // Initialize perUserGlobalSet and read defaults.txt into
     // defaultsSet, globalNames, and userNames
@@ -122,17 +125,20 @@ public class Preferences {
         }
 
         desiredMap.put(name, defaultValue);
-
-        // Maintain a set of prefs that exist in defaults.txt
         defaultsSet.add(name);
 
         // Parse attributes string to learn more about the pref
         var attributes = attributeString.split(",");
         for (var attr : attributes) {
-          switch (attr) {
-            case "roa" -> resetOnAscension.add(name);
-            case "ld" -> legacyDailies.add(name);
-            case "rof" -> resetOnFight.add(name);
+          String trimmed = attr.trim();
+          if (trimmed.equals("roa")) resetOnAscension.add(name);
+          else if (trimmed.equals("ld")) legacyDailies.add(name);
+          else if (trimmed.equals("rof")) resetOnFight.add(name);
+          else if (trimmed.startsWith("deprecated")) {
+            // Format: deprecated[:optional notice]
+            String[] parts = trimmed.split(":", 2);
+            String notice = parts.length > 1 ? parts[1].trim() : "";
+            deprecationNotices.put(name, notice);
           }
         }
       }
@@ -448,6 +454,7 @@ public class Preferences {
   }
 
   public static String getString(final String name, final boolean global) {
+    warnIfDeprecated(name);
     Object value = null;
 
     if (global) {
@@ -643,6 +650,7 @@ public class Preferences {
   // key "<name>.<user>"
 
   public static String getString(final String user, final String name) {
+    warnIfDeprecated(name);
     Object value = Preferences.getObject(user, name);
 
     if (value == null) {
@@ -653,6 +661,7 @@ public class Preferences {
   }
 
   public static boolean getBoolean(final String user, final String name) {
+    warnIfDeprecated(name);
     Map<String, Object> map = Preferences.getMap(name);
     Object value = Preferences.getObject(map, user, name);
 
@@ -669,6 +678,7 @@ public class Preferences {
   }
 
   public static int getInteger(final String user, final String name) {
+    warnIfDeprecated(name);
     Map<String, Object> map = Preferences.getMap(name);
     Object value = Preferences.getObject(map, user, name);
 
@@ -1032,5 +1042,12 @@ public class Preferences {
 
   public static boolean containsDefault(String key) {
     return defaultsSet.contains(key);
+  }
+
+  private static void warnIfDeprecated(String name) {
+    String notice = deprecationNotices.get(name);
+    if (notice == null) return;
+    if (notice.isBlank()) notice = "This preference is deprecated.";
+    RequestLogger.printLine("Warning: Preference '" + name + "' is deprecated. " + notice);
   }
 }
